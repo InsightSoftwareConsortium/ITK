@@ -111,11 +111,14 @@ int itkOrthogonalSwath2DPathFilterTest(int, char*[])
   filter2->SetNumberOfHarmonics(7); // make a nice, round, path for the swath
   
   // Setup the third filter; THIS IS THE MAIN FILTER TO BE TESTED
+  std::cerr << "Creating the test filter" << std::endl;
   Filter3Type::Pointer filter3 = Filter3Type::New();
+  std::cerr << "Setting up the test filter" << std::endl;
   filter3->SetPathInput(filter2->GetOutput());
   filter3->SetImageInput(inImage);
   
   // Setup the output
+  std::cerr << "Setting up the test filter's output" << std::endl;
   OutputPathType::Pointer            outPath;
   outPath=filter3->GetOutput();
   
