@@ -103,8 +103,7 @@ ScaleSkewVersor3DTransform<TScalarType>
   m_Skew[2] = parameters[11];
   m_Skew[3] = parameters[12];
   m_Skew[4] = parameters[13];
-  m_Skew[6] = parameters[14];
-  this->ComputeMatrix();
+  m_Skew[5] = parameters[14];
 
   // Transfer the translation part
   TranslationType newTranslation;
@@ -112,6 +111,7 @@ ScaleSkewVersor3DTransform<TScalarType>
   newTranslation[1] = parameters[4];
   newTranslation[2] = parameters[5];
   this->Set_M_Translation(newTranslation);
+  this->ComputeMatrix();
   this->ComputeOffset();
 
   itkDebugMacro(<<"After setting paramaters ");
@@ -224,7 +224,7 @@ ScaleSkewVersor3DTransform<TScalarType>
   newMatrix[1][2] = 2.0 * ( yz - xw )  + ( m_Skew[3] );
   newMatrix[2][0] = 2.0 * ( xz - yw )  + ( m_Skew[4] );
   newMatrix[2][1] = 2.0 * ( yz + xw )  + ( m_Skew[5] );
-  this->Set_M_Matrix(newMatrix);
+  this->Set_M_Matrix ( newMatrix );
 }
 
 template <class TScalarType>
@@ -248,6 +248,84 @@ PrintSelf(std::ostream &os, Indent indent) const
   os << indent << "Scale:       " << m_Scale        << std::endl;
   os << indent << "Skew:        " << m_Skew         << std::endl;
 }
+
+// Set parameters
+template<class TScalarType>
+const typename ScaleSkewVersor3DTransform<TScalarType>::JacobianType &
+ScaleSkewVersor3DTransform<TScalarType>::
+GetJacobian( const InputPointType & p ) const
+{
+  typedef typename VersorType::ValueType  ValueType;
+
+  // compute derivatives with respect to rotation
+  const ValueType vx = this->GetVersor().GetX();
+  const ValueType vy = this->GetVersor().GetY();
+  const ValueType vz = this->GetVersor().GetZ();
+  const ValueType vw = this->GetVersor().GetW();
+
+  this->m_Jacobian.Fill(0.0);
+
+  const double px = p[0] - this->GetCenter()[0];
+  const double py = p[1] - this->GetCenter()[1];
+  const double pz = p[2] - this->GetCenter()[2];
+
+  const double vxx = vx * vx;
+  const double vyy = vy * vy;
+  const double vzz = vz * vz;
+  const double vww = vw * vw;
+
+  const double vxy = vx * vy;
+  const double vxz = vx * vz;
+  const double vxw = vx * vw;
+
+  const double vyz = vy * vz;
+  const double vyw = vy * vw;
+
+  const double vzw = vz * vw;
+
+
+  // compute Jacobian with respect to quaternion parameters
+  this->m_Jacobian[0][0] = 2.0 * (               (vyw+vxz)*py + (vzw-vxy)*pz)
+                         / vw;
+  this->m_Jacobian[1][0] = 2.0 * ((vyw-vxz)*px   -2*vxw   *py + (vxx-vww)*pz) 
+                         / vw;
+  this->m_Jacobian[2][0] = 2.0 * ((vzw+vxy)*px + (vww-vxx)*py   -2*vxw   *pz) 
+                         / vw;
+
+  this->m_Jacobian[0][1] = 2.0 * ( -2*vyw  *px + (vxw+vyz)*py + (vww-vyy)*pz) 
+                         / vw;
+  this->m_Jacobian[1][1] = 2.0 * ((vxw-vyz)*px                + (vzw+vxy)*pz) 
+                         / vw;
+  this->m_Jacobian[2][1] = 2.0 * ((vyy-vww)*px + (vzw-vxy)*py   -2*vyw   *pz) 
+                         / vw;
+
+  this->m_Jacobian[0][2] = 2.0 * ( -2*vzw  *px + (vzz-vww)*py + (vxw-vyz)*pz) 
+                         / vw;
+  this->m_Jacobian[1][2] = 2.0 * ((vww-vzz)*px   -2*vzw   *py + (vyw+vxz)*pz) 
+                         / vw;
+  this->m_Jacobian[2][2] = 2.0 * ((vxw+vyz)*px + (vyw-vxz)*py               ) 
+                         / vw;
+
+  this->m_Jacobian[0][3] = 1.0;
+  this->m_Jacobian[1][4] = 1.0;
+  this->m_Jacobian[2][5] = 1.0;
+
+  this->m_Jacobian[0][6] = px;
+  this->m_Jacobian[1][7] = py;
+  this->m_Jacobian[2][8] = pz;
+
+  this->m_Jacobian[0][9]  = py;
+  this->m_Jacobian[0][10] = pz;
+  this->m_Jacobian[1][11] = px;
+  this->m_Jacobian[1][12] = pz;
+  this->m_Jacobian[2][13] = px;
+  this->m_Jacobian[2][14] = py;
+
+  return this->m_Jacobian;
+
+}
+
+
 
 } // namespace
 

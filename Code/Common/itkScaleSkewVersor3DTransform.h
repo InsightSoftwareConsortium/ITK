@@ -51,7 +51,6 @@ public:
   /** Dimension of parameters. */
   itkStaticConstMacro(InputSpaceDimension, unsigned int, 3);
   itkStaticConstMacro(OutputSpaceDimension, unsigned int, 3);
-  itkStaticConstMacro(SpaceDimension, unsigned int, 3);
   itkStaticConstMacro(ParametersDimension, unsigned int, 15);
 
   /** Parameters Type   */
@@ -79,7 +78,7 @@ public:
   typedef typename Superclass::AngleType              AngleType;
 
   /** Scale & Skew Vector Type. */
-  typedef Vector<TScalarType, itkGetStaticConstMacro(SpaceDimension)> 
+  typedef Vector<TScalarType, 3> 
                                                       ScaleVectorType;
   typedef Vector<TScalarType, 6 >                     SkewVectorType;
 
@@ -91,7 +90,7 @@ public:
    *   6-8   Scale
    *   9-14  Skew
    **  */
-  void SetParameters( const ParametersType & parameters );
+  virtual void SetParameters( const ParametersType & parameters );
   virtual const ParametersType& GetParameters(void) const;
 
   void SetScale( const ScaleVectorType & scale );
@@ -101,6 +100,12 @@ public:
   itkGetConstReferenceMacro( Skew, SkewVectorType );
 
   void SetIdentity();
+
+  /** This method computes the Jacobian matrix of the transformation.
+   * given point or vector, returning the transformed point or
+   * vector. The rank of the Jacobian will also indicate if the 
+   * transform is invertible at this point. */
+  const JacobianType & GetJacobian(const InputPointType  &point ) const;
 
 protected:
   ScaleSkewVersor3DTransform();
