@@ -323,6 +323,11 @@ PrintInfo(void) const
   std::cout << "Name = " << m_Name << std::endl;
   std::cout << "ID = " << m_ID << std::endl;
   std::cout << "ParentID = " << m_ParentID << std::endl;
+  if(m_CompressedData)
+    std::cout << "CompressedData = True" << std::endl;
+  else
+    std::cout << "CompressedData = False" << std::endl;
+  std::cout << "m_CompressedDataSize = " << m_CompressedDataSize << std::endl;
   if(m_BinaryData)
     std::cout << "BinaryData = True" << std::endl;
   else
@@ -838,6 +843,15 @@ int   MetaObject::ParentID(void) const
   return m_ParentID;
 }
 
+void MetaObject::CompressedData(bool _compressedData)
+{
+  m_CompressedData = _compressedData;
+}
+      
+bool MetaObject::CompressedData(void) const
+{
+  return m_CompressedData;
+}
 
 void  MetaObject::BinaryData(bool _binaryData)
 {
@@ -883,6 +897,8 @@ Clear(void)
   m_ParentID = -1;
   m_BinaryData = false;
   m_BinaryDataByteOrderMSB = MET_SystemByteOrderMSB();
+  m_CompressedDataSize = 0;
+  m_CompressedData = false;
 
   if(META_DEBUG) 
     {
@@ -983,6 +999,14 @@ M_SetupReadFields(void)
 
   mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "ParentID", MET_INT, false);
+  m_Fields.push_back(mF);
+ 
+  mF = new MET_FieldRecordType;
+  MET_InitReadField(mF, "CompressedData", MET_STRING, false);
+  m_Fields.push_back(mF);
+
+  mF = new MET_FieldRecordType;
+  MET_InitReadField(mF, "CompressedDataSize", MET_FLOAT, false);
   m_Fields.push_back(mF);
 
   mF = new MET_FieldRecordType;
@@ -1113,6 +1137,20 @@ M_SetupWriteFields(void)
     {
     mF = new MET_FieldRecordType;
     MET_InitWriteField(mF, "ParentID", MET_INT, m_ParentID);
+    m_Fields.push_back(mF);
+    }
+
+  if(m_CompressedData)
+    {
+    mF = new MET_FieldRecordType;
+    MET_InitWriteField(mF, "CompressedData", MET_STRING, strlen("True"), "True");
+    m_Fields.push_back(mF);
+    }
+
+  if(m_CompressedDataSize>0)
+    {
+    mF = new MET_FieldRecordType;
+    MET_InitWriteField(mF, "CompressedDataSize", MET_FLOAT, m_CompressedDataSize);
     m_Fields.push_back(mF);
     }
 
@@ -1323,6 +1361,26 @@ M_Read(void)
   if(mF && mF->defined)
     {
     m_ParentID = (int)mF->value[0];
+    }
+
+  mF = MET_GetFieldRecord("CompressedData",  &m_Fields);
+  if(mF && mF->defined)
+    {
+    if(((char *)(mF->value))[0] == 'T' || ((char *)(mF->value))[0] == 't' 
+       || ((char *)(mF->value))[0] == '1')
+      m_CompressedData = true;
+    else
+      m_CompressedData = false;
+    }
+  else
+    {
+    m_BinaryData = false;
+    }
+
+  mF = MET_GetFieldRecord("CompressedDataSize",  &m_Fields);
+  if(mF && mF->defined)
+    {
+    m_CompressedDataSize = (float)mF->value[0];
     }
 
   mF = MET_GetFieldRecord("BinaryData",  &m_Fields);

@@ -55,6 +55,10 @@ class MetaObject
       bool  m_BinaryData;           // "BinaryData = "      False
 
       bool  m_BinaryDataByteOrderMSB;
+
+      float m_CompressedDataSize;
+
+      bool m_CompressedData;
       
       virtual void M_Destroy(void);
 
@@ -192,7 +196,7 @@ class MetaObject
       //       Color of the current metaObject   
       const float * Color(void) const;
       void  Color(float _r, float _g, float _b, float _a);
-      void  Color(const float * _color);
+      void  Color(const float * _color);    
  
       //    ID(...)
       //       Optional Field
@@ -214,6 +218,11 @@ class MetaObject
 
       void  BinaryDataByteOrderMSB(bool _binaryDataByteOrderMSB);
       bool  BinaryDataByteOrderMSB(void) const;
+
+
+      void  CompressedData(bool _compressedData);
+      bool  CompressedData(void) const;
+
 
       virtual void Clear(void);
 
