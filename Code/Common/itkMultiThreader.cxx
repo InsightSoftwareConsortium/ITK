@@ -91,7 +91,7 @@ int MultiThreader::GetGlobalDefaultNumberOfThreads()
 #else
     num = 1;
 #endif
-#ifdef solaris
+#if defined(__SVR4) && defined(sun)
     pthread_setconcurrency(num);
 #endif
 #endif
