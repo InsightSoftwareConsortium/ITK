@@ -24,9 +24,6 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkConstNeighborhoodIterator.h"
 #include "itkCovariantVector.h"
 
-//#include <vnl/vnl_matrix_fixed.h>
-//#include <vnl/vnl_math.h>
-
 #include <set>
 
 namespace itk
