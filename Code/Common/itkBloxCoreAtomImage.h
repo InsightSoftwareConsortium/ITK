@@ -109,6 +109,10 @@ public:
   /** Core atom voting routine. */
   void DoCoreAtomVoting();
 
+
+ // ImageRegionIterator<Self> ReturnIterator();
+
+
 protected:
   BloxCoreAtomImage();
   virtual ~BloxCoreAtomImage();

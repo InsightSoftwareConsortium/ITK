@@ -21,6 +21,7 @@
 #include "itkBloxCoreAtomImage.h"
 
 #include "itkImageRegionIterator.h"
+#include "itkImageRegionConstIterator.h"
 #include "itkConicShellInteriorExteriorSpatialFunction.h"
 #include "itkEllipsoidInteriorExteriorSpatialFunction.h"
 #include "itkFloodFilledSpatialFunctionConditionalIterator.h"
@@ -72,6 +73,12 @@ BloxCoreAtomImage<dim>
   BloxCoreAtomPixel<NDimensions>::TEigenvalueType eigenvalues;
   BloxCoreAtomPixel<NDimensions>::TEigenvectorType eigenvectors;
 
+  //TESTING
+  // Results of eigenanalysis from each pixel
+  BloxCoreAtomPixel<NDimensions>::TEigenvalueType sf_eigenvalues;
+  BloxCoreAtomPixel<NDimensions>::TEigenvectorType sf_eigenvectors;
+
+  int voterCount = 0;
   for(bloxIt.GoToBegin(); !bloxIt.IsAtEnd(); ++bloxIt)
     {
     // Get a pointer to the pixel
@@ -81,9 +88,12 @@ BloxCoreAtomImage<dim>
     if( pPixel->empty() )
       continue;
 
+    voterCount++;
     // Get eigenanalysis results
     eigenvalues = pPixel->GetEigenvalues();
     eigenvectors = pPixel->GetEigenvectors();
+
+    //std::cerr << "eigen values: " << eigenvalues[0] << " " << eigenvalues[1] << " " << eigenvalues[2] << std::endl;
 
     // Ellipsoid axis length array
     Point<double, NDimensions> axisLengthArray;
@@ -103,27 +113,9 @@ BloxCoreAtomImage<dim>
     // Now compute the rest of the lengths
     for(int i = 1; i < NDimensions; i++)
       {
-      axisLengthArray[i] = ( (1 - eigenvalues[i]) / alphaOne) * axisLengthArray[0];
+      axisLengthArray[i] = ( (1 - eigenvalues[i]) / alphaOne) * axisLengthArray[0] ;
       }
 
-    // Dump the axis length vector
-    for(int i = 0; i < NDimensions; i++)
-      {
-      printf("Axis length %i is %f\n", i, axisLengthArray[i]);
-      }
-
-    // Dump the ellipsoid orientation
-    for(int i = 0; i < NDimensions; i++)
-      {
-      printf("Axis %i has orientation ", i);
-      for(int j = 0; j < NDimensions; j++)
-        {
-        printf("%f ", eigenvectors.get_column(i)[j]);
-        }
-      printf("\n");
-      }
-
- 
     // Build the ellipsoid voting region
     typedef EllipsoidInteriorExteriorSpatialFunction<NDimensions, TPositionType> TVoteFunctionType;
     TVoteFunctionType::Pointer ellipsoid = TVoteFunctionType::New();
@@ -170,6 +162,16 @@ BloxCoreAtomImage<dim>
     // Iterate through the ellipsoid and cast votes
     for( sfi.GoToBegin(); !( sfi.IsAtEnd() ); ++sfi)
       {
+      TPosition voteePosition;
+      Self::IndexType voteeIndex = sfi.GetIndex();
+      //std::cerr << "voteeIndex "<< voteeIndex << std::endl ;
+      
+      this->TransformIndexToPhysicalPoint(voteeIndex, voteePosition);
+
+      // vector from voting blox to current votee
+      TPosition::VectorType dbar = voterPosition - voteePosition;
+      voteeCount ++;
+
       // The voting process and variables are explained in
       // IEEE TRANSACTIONS ON MEDICAL IMAGING, VOL. 18, NO. 10, OCTOBER 1999
       // page 1029 
@@ -178,18 +180,9 @@ BloxCoreAtomImage<dim>
       if( sfi.Get().GetSize() == 0 )
         continue;
 
-      voteeCount ++;
-
-      // get the position of the current votee (the dereferenced sfi)
-      TPosition voteePosition;
-      Self::IndexType voteeIndex = sfi.GetIndex();
-      this->TransformIndexToPhysicalPoint(voteeIndex, voteePosition);
-
-      // vector from voting blox to current votee
-      TPosition::VectorType dbar = voterPosition - voteePosition;
-
       // form the ellipsoidal distance de
       double de = 0;
+      double sf_de_sqr = 0;
 
       for (int i = 0; i < NDimensions; i++)
         {
@@ -201,15 +194,40 @@ BloxCoreAtomImage<dim>
 
       printf("De = %f\n", de);
 
+      double weight_factor = exp(-1.0*de*de);
+
       // vote strength
-      double voteStrength = pPixel->size()*exp(-1.0*de*de);
+      double voteStrength = pPixel->size()*weight_factor;
       printf("Vote strength = %f\n", voteStrength);
+      printf("weight_factor = %f\n", weight_factor);
+
+      // Get eigenanalysis results
+      sf_eigenvalues = sfi.Get().GetEigenvalues();
+      sf_eigenvectors = sfi.Get().GetEigenvectors();
+
+      for (int i = 0; i < NDimensions; i++)
+        {
+        sf_de_sqr += pow((dot_product(sf_eigenvectors.get_column(i), dbar.Get_vnl_vector() ) /
+          axisLengthArray[i] ), 2);
+        }
+
+      printf("sf_de = %f\n", sqrt(sf_de_sqr));
+
+      //CALCULATE WEIGHT FACTOR FOR INDEX OF SPATIAL FUNCTION ITERATION
+      double sf_weight_factor = exp(-1.0*sf_de_sqr);
+
+      //HERE WE CALL CalcWeightedCoreAtomLocation using de to keep track of the weighted location of
+      //each voted medial node based on constituent core atom locations
+      // Reminder: sfi.Get() is the pixel being voted for
+      // and pPixel is doing the voting
+      sfi.Get().CalcWeightedCoreAtomLocation(sf_weight_factor, pPixel);
 
       // cast the vote
-      sfi.Get().CollectVote(pPixel->GetRawCMatrixPointer(), de, pPixel->size() );
+      sfi.Get().CollectVote(pPixel->GetRawCMatrixPointer(), voteStrength, pPixel->size() );
+      
       } // end cast votes from this pixel
 
-    printf("Blox voted for %i other pixels\n", voteeCount);
+    //printf("Blox voted for %i other pixels\n", voteeCount);
     } // end cast votes from all pixels
 
   // The final task is to normalize all of the voted blox
@@ -220,6 +238,15 @@ BloxCoreAtomImage<dim>
     (&bloxIt.Value())->DoVotedEigenanalysis();
     }
 }
+/*
+template <unsigned int dim>
+ImageRegionIterator<Self>
+BloxCoreAtomImage<dim>
+::ReturnIterator()
+{
+  // Iterator to access all pixels in the image
+  return ImageRegionIterator<Self>(this, this->GetLargestPossibleRegion() );
+}*/
 
 template <unsigned int dim>
 void
@@ -227,6 +254,42 @@ BloxCoreAtomImage<dim>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
+
+    // Iterator to access all pixels in the image
+  ImageRegionConstIterator<Self> bloxIt = 
+    ImageRegionConstIterator<Self>(this, this->GetLargestPossibleRegion() );
+
+  // Pointer for accessing pixels
+  BloxCoreAtomPixel<NDimensions> pPixel;
+
+  // Results of eigenanalysis from each pixel
+  BloxCoreAtomPixel<NDimensions>::TEigenvalueType eigenvalues;
+  BloxCoreAtomPixel<NDimensions>::TEigenvalueType veigenvalues;
+
+  int voterCount = 0;
+
+  std::cerr << "Index\t# Core Atoms\tEigen Values\t\t\tMean CA Length\tVoted Eigen Values\n" 
+            << "-----\t------------\t------------\t\t\t--------------\t------------------\n" << std::endl;
+
+  for(bloxIt.GoToBegin(); !bloxIt.IsAtEnd(); ++bloxIt)
+    {
+    // Get a pointer to the pixel
+    pPixel = bloxIt.Value();
+
+    eigenvalues = pPixel.GetEigenvalues();
+    veigenvalues = pPixel.GetVotedEigenvalues();
+
+
+    if(!pPixel.empty())
+      {
+      std::cerr << bloxIt.GetIndex() << "\t";
+      std::cerr << pPixel.GetSize() << "\t";
+      std::cerr << eigenvalues[0] << " " << eigenvalues[1] << " " << eigenvalues[2] << "\t";
+      std::cerr << pPixel.GetMeanCoreAtomDiameter() << "\t\t";
+      std::cerr << veigenvalues[0] << " " << veigenvalues[1] << " " << veigenvalues[2] << "\t" << std::endl;
+      }
+    }
+  std::cerr << "Print Self Done" << std::endl;
 }
 
 } // end namespace itk

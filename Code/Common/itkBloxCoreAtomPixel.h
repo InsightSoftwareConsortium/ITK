@@ -23,7 +23,7 @@
 
 #include "itkObject.h"
 #include "itkBloxCoreAtomItem.h"
-#include "itkBloxBoundaryPointItem.h"
+#include "itkBloxBoundaryPointItemBase.h"
 #include "itkPoint.h"
 #include "itkCovariantVector.h"
 #include "itkBloxPixel.h"
@@ -42,11 +42,15 @@ template <unsigned int NDimensions>
 class BloxCoreAtomPixel : public BloxPixel< BloxCoreAtomItem<NDimensions> >
 {
 public:
+
+  /** Self typedef */
+  typedef BloxCoreAtomPixel<NDimensions> Self;
+
   /** The type of core atom item we process. */
   typedef BloxCoreAtomItem<NDimensions> TCoreAtomItemType;
 
   /** The type of boundary point item we process. */
-  typedef BloxBoundaryPointItem<NDimensions> TBPItemType;
+  typedef BloxBoundaryPointItemBase<NDimensions> TBPItemType;
 
   /** The type used to store the position of the BoundaryPointItem. */
   typedef Point<double, NDimensions> TPositionType;
@@ -104,6 +108,13 @@ public:
   /** Re-normalizes the voted CMatrix after all votes are cast */
   void NormalizeVotedCMatrix();
 
+  /** Calculate location of the pixel based on core atoms voting for it*/
+  void CalcWeightedCoreAtomLocation(double weight_factor, Self * votingPixel);
+
+  TPositionType GetLocationSums(){return m_LocationSums;}
+
+  double GetWeightSum(){return m_WeightSum;}
+
   BloxCoreAtomPixel();
   ~BloxCoreAtomPixel();
 
@@ -136,6 +147,12 @@ private:
   /** The number of core atoms in all of the blox's that have voted for
    * this blox (its constituency) */
   double m_ConstituencySize;
+
+  /** Used to compute the voted location of the core atom population */
+  TPositionType m_LocationSums;
+
+  /** Total weights used to compute voted location */
+  double m_WeightSum;
 };
 
 

@@ -36,6 +36,12 @@ BloxCoreAtomPixel<NDimensions>
   
   m_MeanCoreAtomDiameter = 0;
   m_ConstituencySize = 0;
+
+  m_WeightSum = 0;
+
+  m_LocationSums[0] = 0;
+  m_LocationSums[1] = 0;
+  m_LocationSums[2] = 0;
 }
 
 template <unsigned int NDimensions>
@@ -43,6 +49,34 @@ BloxCoreAtomPixel<NDimensions>
 ::~BloxCoreAtomPixel()
 {
   // The default destructor walks the pixel and deletes all bloxitems
+}
+
+
+template <unsigned int NDimensions>
+void 
+BloxCoreAtomPixel<NDimensions>
+::CalcWeightedCoreAtomLocation(double weight_factor, Self * votingPixel)
+{
+  // The iterator for accessing linked list info
+  itk::BloxCoreAtomPixel<NDimensions>::iterator bpiterator;
+  
+  TPositionType center;
+
+  // Walk through all of the items in the voting pixel
+  for (bpiterator = votingPixel->begin(); bpiterator != votingPixel->end(); ++bpiterator)
+    {
+    // Get the pointer of the core atom
+    TCoreAtomItemType* pCoreAtom = *bpiterator;
+
+    // Get the center of the core atom
+    center = pCoreAtom->GetCenterPosition();
+
+    m_LocationSums[0] += (center[0]*weight_factor);
+    m_LocationSums[1] += (center[1]*weight_factor);
+    m_LocationSums[2] += (center[2]*weight_factor);
+
+    m_WeightSum += weight_factor;
+    }
 }
 
 template <unsigned int NDimensions>
@@ -212,19 +246,19 @@ BloxCoreAtomPixel<NDimensions>
 
   delete pEigenSys;
 
-  printf("VotedCMatrix\n");
+  //printf("VotedCMatrix\n");
   for(int i = 0; i < 3; i++)
   {
-    printf("%f %f %f\n", m_VotedCMatrix(i,0), m_VotedCMatrix(i,1), m_VotedCMatrix(i,2) );
+    //printf("%f %f %f\n", m_VotedCMatrix(i,0), m_VotedCMatrix(i,1), m_VotedCMatrix(i,2) );
   }
-  printf("\n");
+  //printf("\n");
 
-  printf("Voted eigenvectors\n");
+  //printf("Voted eigenvectors\n");
   for(int i = 0; i < 3; i++)
   {
-    printf("%f %f %f\n", m_VotedEigenvectors(i,0), m_VotedEigenvectors(i,1), m_VotedEigenvectors(i,2) );
+    //printf("%f %f %f\n", m_VotedEigenvectors(i,0), m_VotedEigenvectors(i,1), m_VotedEigenvectors(i,2) );
   }
-  printf("\n");
+  //printf("\n");
 }
 
 } // end namespace itk
