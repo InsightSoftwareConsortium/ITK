@@ -2,6 +2,7 @@ SET(ITK_JAVA_CLASSPATH ${ITK_BINARY_DIR}/Wrapping/CSwig/Java)
 SET(ITK_JAVA_OUTPATH ${ITK_BINARY_DIR}/Wrapping/CSwig/Java)
 IF(CMAKE_CONFIGURATION_TYPES)
   SET(ITK_JAVA_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/lib/InsightToolkit)
+  SET(ITK_BASE_JAVA_FILE ${ITK_BINARY_DIR}/Wrapping/CSwig/Java/${CMAKE_CFG_INTDIR}/InsightToolkit/itkbase.java)
   FOREACH(config ${CMAKE_CONFIGURATION_TYPES})
     SET(ITK_JAVA_BUILD_DIR ${LIBRARY_OUTPUT_PATH}/${config})
     CONFIGURE_FILE(
@@ -16,9 +17,10 @@ IF(CMAKE_CONFIGURATION_TYPES)
 ELSE(CMAKE_CONFIGURATION_TYPES)
   SET(ITK_JAVA_BUILD_DIR ${LIBRARY_OUTPUT_PATH})
   SET(ITK_JAVA_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/lib/InsightToolkit)
+  SET(ITK_BASE_JAVA_FILE ${ITK_BINARY_DIR}/Wrapping/CSwig/Java/InsightToolkit/itkbase.java)
   CONFIGURE_FILE(
     ${ITK_SOURCE_DIR}/Wrapping/CSwig/Java/itkbase.java.in
-    ${ITK_BINARY_DIR}/Wrapping/CSwig/Java/InsightToolkit/itkbase.java
+    ${ITK_BASE_JAVA_FILE}
     @ONLY IMMEDIATE
     )
 ENDIF(CMAKE_CONFIGURATION_TYPES)
@@ -38,7 +40,7 @@ FOREACH(Kit ${ITK_KITS})
   SET(KIT_FILE_NAME ${ITK_BINARY_DIR}/Wrapping/CSwig/Java/InsightToolkit/${KIT_JAVA_NAME}Java)
   ADD_CUSTOM_COMMAND(
     OUTPUT ${KIT_FILE_NAME}.class
-    DEPENDS ${KIT_FILE_NAME}.java ${FULL_DEP_FILES}
+    DEPENDS ${KIT_FILE_NAME}.java ${FULL_DEP_FILES} ${ITK_BASE_JAVA_FILE}
     COMMAND ${JAVA_COMPILE}
     ARGS -classpath "${ITK_JAVA_CLASSPATH}" -d "${ITK_JAVA_OUTPATH}"
     ${KIT_FILE_NAME}.java
@@ -51,7 +53,7 @@ IF(CMAKE_CONFIGURATION_TYPES)
     OUTPUT ${ITK_BINARY_DIR}/Wrapping/CSwig/Java/${CMAKE_CFG_INTDIR}/InsightToolkit.jar
     DEPENDS ${ITK_JAVA_KITS_FILES}
     COMMAND ${JAVA_ARCHIVE}
-    ARGS -cvf ${ITK_BINARY_DIR}/Wrapping/CSwig/Java/${CMAKE_CFG_INTDIR}/InsightToolkit.jar
+    ARGS -cf ${ITK_BINARY_DIR}/Wrapping/CSwig/Java/${CMAKE_CFG_INTDIR}/InsightToolkit.jar
     -C ${ITK_BINARY_DIR}/Wrapping/CSwig/Java/${CMAKE_CFG_INTDIR} InsightToolkit
     COMMENT "Java Archive"
     )
@@ -61,7 +63,7 @@ ELSE(CMAKE_CONFIGURATION_TYPES)
     OUTPUT ${ITK_BINARY_DIR}/Wrapping/CSwig/Java/InsightToolkit.jar
     DEPENDS ${ITK_JAVA_KITS_FILES}
     COMMAND ${JAVA_ARCHIVE}
-    ARGS -cvf ${ITK_BINARY_DIR}/Wrapping/CSwig/Java/InsightToolkit.jar
+    ARGS -cf ${ITK_BINARY_DIR}/Wrapping/CSwig/Java/InsightToolkit.jar
     -C ${ITK_BINARY_DIR}/Wrapping/CSwig/Java InsightToolkit
     COMMENT "Java Archive"
     )
