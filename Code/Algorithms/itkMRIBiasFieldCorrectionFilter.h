@@ -17,7 +17,7 @@
 #ifndef __itkMRIBiasFieldCorrectionFilter_h
 #define __itkMRIBiasFieldCorrectionFilter_h
 
-#include <ctime>
+#include <time.h>
 
 #include "itkImageToImageFilter.h"
 #include "itkImage.h"
