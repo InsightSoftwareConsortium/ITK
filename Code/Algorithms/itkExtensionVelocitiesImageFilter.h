@@ -72,6 +72,7 @@ public:
   typedef typename LevelSetType::LevelSetConstPointer  LevelSetConstPointer;
   typedef typename LevelSetType::PixelType  PixelType;
   typedef typename LevelSetType::NodeType NodeType;
+  typedef typename LevelSetType::NodeContainer NodeContainer;
   typedef typename LevelSetType::NodeContainerPointer NodeContainerPointer;
 
   /** The dimension of the level set. */

@@ -243,9 +243,9 @@ int itkExtensionVelocitiesImageFilterTest(int, char* [] )
   std::cout << "Max. abs. difference = " << maxAbsDifference;
   std::cout << " at " << maxAbsDifferenceIndex << std::endl;
 
-  if ( maxAbsDifference > 0.8 )
+  if ( maxAbsDifference > 0.6 )
     {
-    std::cout << "Difference above threshold of 0.8" << std::endl;
+    std::cout << "Difference above threshold of 0.6" << std::endl;
     std::cout << "Test failed" << std::endl;
     return EXIT_FAILURE;
     }
@@ -265,6 +265,29 @@ int itkExtensionVelocitiesImageFilterTest(int, char* [] )
   reinitializer->Update();
 
   // Check the output by iterating throught the output narrowband
+  typedef ReinitializerType::NodeContainerPointer NodeContainerPointer;
+  typedef ReinitializerType::NodeContainer        NodeContainerType;
+  typedef NodeContainerType::ConstIterator        ContainerIterator;
+
+  NodeContainerPointer nodes  = reinitializer->GetOutputNarrowBand();
+  ContainerIterator nodeIter = nodes->Begin();
+  ContainerIterator nodeEnd   = nodes->End();
+
+  while( nodeIter != nodeEnd )
+    {
+    ImageType::IndexType nodeIndex = nodeIter.Value().GetIndex();
+    double absDiff = vnl_math_abs( aux2->GetPixel( nodeIndex ) - 
+      reinitializer->GetOutputVelocityImage( 1 )->GetPixel( nodeIndex ) );
+    if ( absDiff > 0.6 )
+      {
+      std::cout << "Abs diff: " << absDiff;
+      std::cout << " at: " << nodeIndex << std::endl;
+      std::cout << "Difference above threshold of 0.6" << std::endl;
+      std::cout << "Test failed" << std::endl;
+      return EXIT_FAILURE;
+      }
+    nodeIter++;
+    }
 
   std::cout << "Test passed" << std::endl;
   return EXIT_SUCCESS;
