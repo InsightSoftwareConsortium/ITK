@@ -257,7 +257,7 @@ void FastChamferDistanceImageFilter<TInputImage,TOutputImage>
             }
         }
     }
-  delete neighbor_type[];
+  delete [] neighbor_type;
 }
 
 
