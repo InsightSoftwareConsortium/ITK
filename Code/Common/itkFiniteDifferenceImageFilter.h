@@ -126,6 +126,8 @@ public:
   /** Standard class typedefs. */
   typedef FiniteDifferenceImageFilter Self;
   typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
+  typedef SmartPointer<Self>  Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
   
   /** Run-time type information (and related methods) */
   itkTypeMacro(FiniteDifferenceImageFilter, ImageToImageFilter );
