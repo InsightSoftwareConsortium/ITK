@@ -116,7 +116,7 @@ SobelOperator<TPixel, VDimension, TAllocator>
   k[0] = 1;
   k[1] = 1;
 
-  int direction = this->GetDirection();
+  unsigned int direction = this->GetDirection();
   
   for ( i = 2; i < VDimension; i++)
     {
