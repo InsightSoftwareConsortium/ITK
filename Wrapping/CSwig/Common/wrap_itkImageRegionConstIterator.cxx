@@ -25,7 +25,7 @@ namespace _cable_
 {
   const char* const group = ITK_WRAP_GROUP(itkImageRegionConstIterator);
 
-#define ITK_WRAP_ITERATOR(name, arg1, wrapname)  typedef itk::name<arg1 >::name wrapname; 
+#define ITK_WRAP_ITERATOR(name, arg1, wrapname)  typedef itk::name<arg1 > wrapname; 
   
   namespace wrappers
   {
