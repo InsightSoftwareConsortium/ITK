@@ -137,4 +137,4 @@ vnl_powell::minimize(vnl_vector<double>& p)
     }
     report_iter();
   }
-}
+} // SGI CC warns here about no return value, but this is unreachable.
