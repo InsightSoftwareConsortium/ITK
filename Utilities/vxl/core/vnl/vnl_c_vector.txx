@@ -345,16 +345,11 @@ void vnl_c_vector_inf_norm(T const *p, unsigned n, S *out)
 
 //---------------------------------------------------------------------------
 
-#ifdef VNL_C_VECTOR_USE_VNL_ALLOC
-// if set in build environment, go with that.
+#include "vnl_config.h"
+#if VNL_CONFIG_THREAD_SAFE
+# define VNL_C_VECTOR_USE_VNL_ALLOC 0
 #else
-// else, see what vnl_config.h has to say about it.
-# include "vnl_config.h"
-# if VNL_CONFIG_THREAD_SAFE
-#  define VNL_C_VECTOR_USE_VNL_ALLOC 0
-# else
-#  define VNL_C_VECTOR_USE_VNL_ALLOC 1
-# endif
+# define VNL_C_VECTOR_USE_VNL_ALLOC 1
 #endif
 
 #if VNL_C_VECTOR_USE_VNL_ALLOC
