@@ -54,6 +54,10 @@
 #ifndef itk_emulation_hash_map_h
 #define itk_emulation_hash_map_h
 
+#if defined(_MSC_VER)
+#pragma warning ( disable : 4786 )
+#endif
+
 #include "itk_hashtable.h"
 #include "itk_alloc.h"
 

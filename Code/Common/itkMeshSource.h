@@ -20,6 +20,9 @@
 #ifndef __itkMeshSource_h
 #define __itkMeshSource_h
 
+#if defined(_MSC_VER)
+#pragma warning ( disable : 4786 )
+#endif
 #include "itkProcessObject.h"
 
 namespace itk
