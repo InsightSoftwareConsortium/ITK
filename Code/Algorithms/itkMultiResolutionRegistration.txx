@@ -155,25 +155,14 @@ MultiResolutionRegistration<TRegistrationMethod>
     m_CurrentLevel++ )
     {
     
-    this->OneLevelInitialize( m_CurrentLevel );
+    this->OneLevelPreRegistration( m_CurrentLevel );
     this->OneLevelRegistration( m_CurrentLevel );
+    this->OneLevelPostRegistration( m_CurrentLevel );
         
     }
 
 }
 
-
-/**
- * OneLevelInitialize
- */
-template <class TRegistrationMethod>
-void
-MultiResolutionRegistration<TRegistrationMethod>
-::OneLevelInitialize(
-unsigned int level )
-{
-
-}
 
 
 /**

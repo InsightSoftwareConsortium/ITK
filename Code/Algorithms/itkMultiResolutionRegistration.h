@@ -228,7 +228,14 @@ protected:
    * running the internal registration algorithm at this level.
    * Subclasses should override this method.
    */
-  virtual void OneLevelInitialize(unsigned int level);
+  virtual void OneLevelPreRegistration(unsigned int level){};
+
+  /**
+   * Peform the necessary operations after
+   * running the internal registration algorithm at this level.
+   * Subclasses should override this method.
+   */
+  virtual void OneLevelPostRegistration(unsigned int level){};
  
   /**
    * Run the internal registration algorithm at the
