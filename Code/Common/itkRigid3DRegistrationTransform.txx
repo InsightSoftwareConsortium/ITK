@@ -100,11 +100,11 @@ Rigid3DRegistrationTransform<TScalarType,TParameters>
     translation[i] = m_Parameters[counter++] * m_TranslationScale;
   }
 
-  m_RigidTransform.Rotate3D( axis, angle );
+  m_RigidTransform.Rotate( axis, angle );
   m_RigidTransform.SetOffset( translation );
 
-  std::cout << "SetParameters = " << std::endl;
-  std::cout << m_RigidTransform << std::endl;
+//  std::cout << "SetParameters = " << std::endl;
+//  std::cout << m_RigidTransform << std::endl;
 }
 
 
