@@ -56,6 +56,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkCellBoundary.txx"
 #include "itkCellInterface.txx"
 #include "itkCellInterfaceVisitor.h"
+#include "itkCenteredAffineTransform.txx"
 #include "itkCenteredRigid2DTransform.txx"
 #include "itkCenteredTransformInitializer.txx"
 #include "itkCentralDifferenceImageFunction.txx"
