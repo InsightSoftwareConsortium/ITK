@@ -1,0 +1,40 @@
+C
+C***********************************************************************
+C
+      SUBROUTINE SLAGER(N, NBAND, NSTART, A, TMIN, TMAX)
+C
+C  THIS SUBROUTINE COMPUTES BOUNDS ON THE SPECTRUM OF A BY
+C  EXAMINING THE GERSCHGORIN CIRCLES. ONLY THE NEWLY CREATED
+C  CIRCLES ARE EXAMINED
+C
+C  FORMAL PARAMETERS
+C
+      INTEGER N, NBAND, NSTART
+      REAL A(NBAND,1), TMIN, TMAX
+C
+C  LOCAL VARIABLES
+C
+      INTEGER I, K, L, M
+      REAL TEMP
+C
+C  FUNCTIONS CALLED
+C
+      INTEGER MIN0
+      REAL AMIN1, AMAX1
+C
+      DO 50 K = NSTART, N
+         TEMP = 0.0 
+         DO 10 I = 2, NBAND
+            TEMP = TEMP + ABS(A(I,K))
+   10    CONTINUE
+   20    L = MIN0(K,NBAND)
+         IF(L .EQ. 1) GO TO 40
+         DO 30 I = 2, L
+            M = K - I + 1
+            TEMP = TEMP + ABS(A(I,M))
+   30    CONTINUE
+   40    TMIN = AMIN1(TMIN, A(1,K)-TEMP)
+         TMAX = AMAX1(TMAX, A(1,K)+TEMP)
+   50 CONTINUE
+      RETURN
+      END
