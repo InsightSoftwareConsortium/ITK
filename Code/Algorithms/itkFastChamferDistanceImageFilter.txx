@@ -71,7 +71,8 @@ void FastChamferDistanceImageFilter<TInputImage,TOutputImage>
   const unsigned int  center_voxel = it.Size()/2;
   int *neighbor_type;
   neighbor_type = new int[ it.Size() ];
-  int i,n;
+  int i;
+  unsigned int n;
   register float val[ImageDimension];
   register PixelType  center_value;
   register int  neighbor_start,neighbor_end;
@@ -86,7 +87,7 @@ void FastChamferDistanceImageFilter<TInputImage,TOutputImage>
   for ( i = neighbor_start; i <= neighbor_end; i++)
     {
       neighbor_type[i] = -1;
-      for( n = 0; n < static_cast<int>(ImageDimension); n++ ) 
+      for( n = 0; n < ImageDimension; n++ ) 
         {
         neighbor_type[i] += (it.GetOffset(i)[n] != 0);
         }
