@@ -230,6 +230,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkRigid3DTransform.txx"
 #include "itkSTLConstContainerAdaptor.h"
 #include "itkSTLContainerAdaptor.h"
+#include "itkScalarToRGBPixelFunctor.txx"
 #include "itkScalarVector.h"
 #include "itkScaleTransform.txx"
 #include "itkSegmentationBorder.h"
