@@ -164,6 +164,13 @@ public:
   /** Get the output image origin. */
   itkGetConstReferenceMacro( OutputOrigin, PointType );
 
+  /** Helper method to set the output parameters based on this image */
+  void SetOutputParametersFromImage ( typename OutputImageType::Pointer Image ) {
+    this->SetOutputOrigin ( Image->GetOrigin() );
+    this->SetOutputSpacing ( Image->GetSpacing() );
+    this->SetSize ( Image->GetLargestPossibleRegion().GetSize() );
+  }
+
   /** Set the start index of the output largest possible region. 
    * The default is an index of all zeros. */
   itkSetMacro( OutputStartIndex, IndexType );
