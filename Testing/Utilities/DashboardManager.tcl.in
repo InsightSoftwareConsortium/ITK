@@ -101,8 +101,24 @@ foreach Command $Commands \
 	exit 1
       }
       cd [file join $BuildStampDir]
+
+      if { ![file exists [file join XML Build.xml]] } \
+      {
+	puts stderr "Could not find file [file join $BuildStampDir XML Build.xml]"
+	exit 1
+      }
+
+      foreach XML [list Error Warning] \
+      {
+	set Result ""
+	puts "Xalan on $XML: [catch { exec $JavaCommand -jar $Xalan -Q -IN [file join XML Build.xml] -OUT Build$XML.html -XSL [file join $XSLDir Build.xsl] -PARAM Type \"string('$XML')\"} Result]"
+	puts $Result
+      }
+      set XML Build
+      puts "Xalan on ${XML}Summary: [catch { exec $JavaCommand -jar $Xalan -Q -IN [file join XML $XML.xml] -OUT ${XML}Summary.xml -XSL [file join $XSLDir ${XML}Summary.xsl] } Result]"
+      puts $Result
       
-      foreach XML [list Build Test Coverage] \
+      foreach XML [list Test Coverage] \
       {
 	if { ![file exists [file join XML $XML.xml]] } \
 	{
@@ -138,6 +154,16 @@ foreach Command $Commands \
       set Dir [pwd]
       cd $SourceDirectory
 
+      if { ![info exists [file join $DashboardDir Doxygen.xml]] } \
+      {
+	# Sorry, actually create the Doxygen.xml file...
+	exec $TclshCommand [file join $UtilitiesDir Doxygen.tcl] > [file join $Dir $DashboardDir Doxygen.xml]
+	# 	set f [open [file join $Dir $DashboardDir Doxygen.xml] w]
+	# 	puts $f $XMLHeader
+	# 	puts $f "<Doxygen></Doxygen>"
+	# 	close $f
+      }
+      
       # If we don't have an existing update, make one
       if { ![info exists [file join $Dir $DashboardDir Update.xml]] } \
       {
@@ -205,16 +231,23 @@ foreach Command $Commands \
       
       # Get the nightly builds relevant to this Dashboard
       set NightlyBuilds ""
+      
       switch -glob $Model \
       {
 	Nig* \
 	{
 	  # Get both the nightlies and the experimentals...
-	  set NightlyBuilds [glob -nocomplain -- [file join $TestingBaseDir Sites * * ${NightlyDateStamp}-Nightly] [file join $TestingBaseDir Sites * * ${NightlyDateStamp}????] ]
-	  # lappend NightlyBuilds [glob -nocomplain -- [file join $TestingBaseDir Sites * * ${NightlyDateStamp}????] ]
+	  foreach f [glob -nocomplain -- [file join $TestingBaseDir Sites * * *]] \
+	  {
+	    if { [IsBuildStampInDay $NightlyDateStamp-Nightly [file tail $f]] } \
+	    {
+	      lappend NightlyBuilds $f
+	    }
+	  }
 	}
 	Exp* \
 	{
+	  # Just get the non-nightlies
 	  set NightlyBuilds [glob -nocomplain -- [file join $TestingBaseDir Sites * * [MakeDateStamp]*]]
 	}
       }
@@ -225,6 +258,9 @@ foreach Command $Commands \
 
       # Build the UpdateSummary
       catch { exec $JavaCommand -jar $Xalan -Q -IN Update.xml -OUT UpdateSummary.xml -XSL [file join $XSLDir UpdateSummary.xsl] } Result
+      # Build the DoxygenSummary
+      catch { exec $JavaCommand -jar $Xalan -Q -IN Doxygen.xml -OUT DoxygenSummary.xml -XSL [file join $XSLDir DoxygenSummary.xsl] } Result
+
       puts $Result
       
       set DashboardTargets [open DashboardTargets.txt w]
@@ -243,6 +279,7 @@ foreach Command $Commands \
       puts $DashboardFile "</Information>"
 
       XMLConcat $DashboardFile UpdateSummary.xml
+      XMLConcat $DashboardFile DoxygenSummary.xml
 
       set DashboardStamp [file tail $DashboardDir]
       foreach NightlyBuild $NightlyBuilds \
@@ -253,7 +290,23 @@ foreach Command $Commands \
 	set CurrentDir [pwd]
 	cd [file join $Dir $NightlyBuild]
 
-	foreach XML [list Build Test Coverage] \
+	if { ![file exists [file join XML Build.xml]] } \
+	{
+	  puts stderr "Could not find file [file join $BuildStampDir XML Build.xml]"
+	  exit 1
+	}
+	
+	foreach XML [list Error Warning] \
+	{
+	  set Result ""
+	  puts "Xalan on $XML: [catch { exec $JavaCommand -jar $Xalan -Q -IN [file join XML Build.xml] -OUT Build$XML.html -XSL [file join $XSLDir Build.xsl] -PARAM Type \"string('$XML')\"} Result]"
+	  puts $Result
+	}
+	set XML Build
+	puts "Xalan on ${XML}Summary: [catch { exec $JavaCommand -jar $Xalan -Q -IN [file join XML $XML.xml] -OUT ${XML}Summary.xml -XSL [file join $XSLDir ${XML}Summary.xsl] } Result]"
+	puts $Result
+      
+	foreach XML [list Test Coverage] \
 	{
 	  if { ![file exists [file join XML $XML.xml]] } \
 	  {
@@ -285,7 +338,7 @@ foreach Command $Commands \
       close $DashboardTargets
 
       # Now run xalan to build the dashboard
-      foreach XML [list Dashboard Update] \
+      foreach XML [list Dashboard Update Doxygen] \
       {
  	catch { exec $JavaCommand -jar $Xalan -Q -IN $XML.xml -OUT $XML.html -XSL [file join $XSLDir $XML.xsl] } Result
 	puts $Result

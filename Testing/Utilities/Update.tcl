@@ -119,7 +119,7 @@ if { $Model == "Nightly" } \
 {
   # For the moment, just get latest source
   # set UpdateCommand "$UpdateCommand -D \"$Year-$Month-$Day 23:00 GMT\""
-  set Today [clock format [expr [clock seconds]] -format "%Y-%m-%d 3:00:00"]
+  set Today [clock format [expr [clock seconds]] -format "%Y-%m-%d 3:00:00 EST"]
 
   set Yesterday [clock format [expr [clock seconds] - 24 * 60 * 60] -format "%Y-%m-%d 3:00:00"]
 

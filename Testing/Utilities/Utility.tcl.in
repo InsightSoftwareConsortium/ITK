@@ -1,3 +1,6 @@
+
+
+
 proc MakeDateTimeStamp {} \
 {
   return [clock format [clock seconds] -format %Y%m%d%H%M -gmt 1]
@@ -8,10 +11,56 @@ proc MakeDateStamp {} \
   return [clock format [clock seconds] -format %Y%m%d -gmt 1]
 }
 
+proc IsBuildStampInDay { NightlyDateStamp BuildStamp } \
+{
+
+  if { [string match *-Nightly $BuildStamp] } \
+  {
+    if { $NightlyDateStamp == $BuildStamp } \
+    {
+      return 1
+    }
+    return 0
+  }
+  
+  # Convert the BuildStamp into something recognizable
+  set NTS [ExpandStamp $NightlyDateStamp]
+
+  # From 7:00am on the morning of the NightlyDateStamp + 24 hours
+  set Start [expr $NTS + 7 * 60 * 60]
+  set End [expr $Start + 24 * 60 * 60]
+  
+  set BSTS [ExpandStamp $BuildStamp]
+  if { $BSTS >= $Start && $BSTS < $End } \
+  {
+    return 1
+  } \
+  else \
+  {
+    return 0
+  }
+}
+
+
 proc MakeNightlyDateStamp {} \
 {
-  # Return a DateStamp for yesterday...
-  return [clock format [expr [clock seconds]] -format %Y%m%d -gmt 1]
+  set ts [clock seconds]
+
+  # Get the hour in gmt
+  set hour [string trimleft [clock format $ts -format %H -gmt 1] 0]
+  set t 0
+  if { $hour == "" } \
+  {
+    set hour 0
+  }
+  if { $hour < 7 } \
+  {
+    # We still doing the previous day's work
+    # so subtract a day
+    set t [expr 60 * 60 * 24]
+  }
+  
+  return [clock format [expr [clock seconds] - $t] -format %Y%m%d -gmt 1]
 }
 
 proc ExpandStamp { Stamp } \
@@ -21,17 +70,15 @@ proc ExpandStamp { Stamp } \
   set Day [string range $Stamp 6 7]
   if { [string match "*Nightly" $Stamp] } \
   {
-    set Seconds [clock scan "$Month/$Day/$Year 00:00" -gmt 1]
-    set Format "%A, %B %d, %Y %Z"
+    set Seconds [clock scan "$Month/$Day/$Year" -gmt 1]
   } \
   else \
   {
     set Hour [string range $Stamp 8 9]
     set Minute [string range $Stamp 10 11]
     set Seconds [clock scan "$Month/$Day/$Year $Hour:$Minute" -gmt 1]
-    set Format "%A, %B, %H:%M %Y %Z"
   }
-  return [list [clock format $Seconds -format $Format -gmt 1] [clock format $Seconds -format $Format]]
+  return $Seconds
 }
 
 proc FileMap { Queue PatternList Map } \
