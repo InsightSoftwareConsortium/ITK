@@ -155,7 +155,7 @@ public:
       {
       if (size[i] > 0)
         {
-        ind[i] += (static_cast<IndexType::IndexValueType>(size[i]) - 1);
+        ind[i] += (static_cast<typename IndexType::IndexValueType>(size[i]) - 1);
         }
       else
         {
