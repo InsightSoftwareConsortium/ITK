@@ -8,6 +8,7 @@ itkEventObject
 itkExceptionObject 
 itkFastMutexLock 
 itkFileOutputWindow
+itkGaussianKernelFunction
 itkImageIOCommon
 itkImageIO
 itkIndent 

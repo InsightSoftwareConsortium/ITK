@@ -1,7 +1,7 @@
 /*==========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkKernelFunction.h
+  Module:    itkGaussianKernelFunction.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -37,70 +37,17 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef _itkKernelFunction_h
-#define _itkKernelFunction_h
-
+#include "itkGaussianKernelFunction.h"
 #include "vnl/vnl_math.h"
-#include "itkFunctionBase.h"
 
 namespace itk
 {
 
-/** \class KernelFunction
- * \brief Kernel used for kernel function/density estimation.
- * 
- * \ingroup Functions
+/**
+ * Initialize static const m_Factor
  */
-class ITK_EXPORT KernelFunction : public FunctionBase<double,double>
-{
-public:  
-  /** Standard class typedefs. */
-  typedef KernelFunction Self;
-  typedef FunctionBase<double,double> Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-
-  /** Evaluate the function. */
-  virtual double Evaluate (const double& u) const = 0;
-
-protected:  
-  KernelFunction(){};  
-  ~KernelFunction(){};
-
-};
-
-/** \class GaussianKernelFunction
- * \brief Gaussian kernel used for kernel function/density estimation.
- *
- * \ingroup Functions
- */
-class ITK_EXPORT GaussianKernelFunction : public KernelFunction
-{
-public:
-  /** Standard class typedefs. */
-  typedef GaussianKernelFunction Self;
-  typedef KernelFunction Superclass;
-  typedef SmartPointer<Self>  Pointer;
-
-  /** Method for creation through the object factory. */
-  itkNewMacro(Self);  
-
-  /** Evaluate the function. */
-  inline double Evaluate (const double& u) const
-    { return ( exp( -0.5 * vnl_math_sqr( u ) ) * m_Factor ); }
-
-protected:
-  GaussianKernelFunction()
-    { m_Factor = 1.0 / vnl_math_sqrt( 2.0 * vnl_math::pi ); }
-
-  ~GaussianKernelFunction(){};
-
-private:
-  double m_Factor;
-
-};
+const double GaussianKernelFunction::m_Factor =
+  1.0 / vnl_math_sqrt( 2.0 * vnl_math::pi );
 
 } // namespace itk
-
-#endif
 

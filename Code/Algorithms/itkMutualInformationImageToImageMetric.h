@@ -118,6 +118,9 @@ namespace itk
  * It should be removed once the feature has been implemented in
  * the mapper.
  *
+ * \sa KernelFunction
+ * \sa GaussianKernelFunction
+ *
  * \ingroup RegistrationMetrics
  */
 template <class TTarget,class TMapper >

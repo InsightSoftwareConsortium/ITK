@@ -45,6 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkCovariantVector.h"
 #include "vnl/vnl_sample.h"
 #include "vnl/vnl_math.h"
+#include "itkGaussianKernelFunction.h"
 
 namespace itk
 {
