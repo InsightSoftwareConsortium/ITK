@@ -55,6 +55,7 @@
 #endif
 #endif
 
+#include "math.h"
 
 
 
@@ -82,7 +83,6 @@ namespace itpack {
  * Functions that are called within itpack
  * They are all inline, to speed things up a bit.
  */
-#include "math.h"
 
 inline double pow_dd(doublereal *ap, doublereal *bp)
 {
