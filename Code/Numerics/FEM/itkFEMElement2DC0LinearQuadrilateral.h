@@ -36,6 +36,21 @@ typedef ElementStd<4,2> TemplatedParentClass;
 FEM_ABSTRACT_CLASS( Element2DC0LinearQuadrilateral, TemplatedParentClass )
 public:
 
+/**
+   * Compute and return element mass matrix (Me) in global coordinate system.
+   *
+   *     b   T
+   * int    N(x) (rho c) N(x) dx
+   *     a
+   *
+   * where (rho c) is constant.  Implementation is similar to GetStiffnessMatrix.
+   *
+   *
+   * \param Me Reference to the resulting stiffnes matrix.
+   *
+   */
+  void GetMassMatrix( MatrixType& Me ) const;
+
 
 //////////////////////////////////////////////////////////////////////////
   /*
