@@ -45,6 +45,9 @@ public:
   /** Create the appropriate ImageIO depending on the particulars of the file. */
   static ImageIOBasePointer CreateImageIO(const char* path);
 
+  /** Register Built-in factories */
+  static void RegisterBuiltInFactories();
+
 protected:
   ImageIOFactory();
   ~ImageIOFactory();

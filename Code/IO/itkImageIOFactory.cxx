@@ -16,6 +16,10 @@
 =========================================================================*/
 
 #include "itkImageIOFactory.h"
+#include "itkDicomImageIOFactory.h"
+#include "itkMetaImageIOFactory.h"
+#include "itkPNGImageIOFactory.h"
+#include "itkMutexLock.h"
 
 namespace itk
 {
@@ -25,6 +29,9 @@ namespace itk
 ImageIOBase::Pointer 
 ImageIOFactory::CreateImageIO(const char* path)
 {
+
+  RegisterBuiltInFactories();
+
   std::list<ImageIOBase::Pointer> possibleImageIO;
   std::list<LightObject::Pointer> allobjects = 
                   ObjectFactoryBase::CreateAllInstance("itkImageIOBase");
@@ -53,6 +60,31 @@ ImageIOFactory::CreateImageIO(const char* path)
     }
   return 0;
 }
+
+
+
+  
+void
+ImageIOFactory::RegisterBuiltInFactories()
+{
+  static bool firstTime = true;
+
+  SimpleMutexLock mutex;
+  mutex.Lock();
+
+  if( firstTime )
+    {
+    ObjectFactoryBase::RegisterFactory( DicomImageIOFactory::New() ); 
+    ObjectFactoryBase::RegisterFactory( MetaImageIOFactory::New() ); 
+    ObjectFactoryBase::RegisterFactory( PNGImageIOFactory::New() ); 
+    firstTime = false;
+    }
+
+  mutex.Unlock();
+
+}
+
+
 
 
 } // end namespace itk
