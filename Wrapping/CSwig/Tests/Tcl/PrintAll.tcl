@@ -10,6 +10,5 @@ foreach class $allClasses {
     catch {set a [$class]; $a Print [$b GetStream]; puts "[$b GetString]"}
 }
 
-
 exit
 
