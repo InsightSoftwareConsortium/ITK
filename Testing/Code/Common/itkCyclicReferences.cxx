@@ -41,11 +41,8 @@ public:
 class DeleteEvent
 {
 public:
-  DeleteEvent(itk::LightObject* o) 
-    {m_Object = o;}
-  void Delete() 
-    {std::cout << "Deleting: " << o->GetClassName() << std::endl;}
-  itk::LightObject::Pointer m_Object;
+  void Delete(itk::LightObject *caller, unsigned long event) 
+    {std::cout << "Deleting: " << caller->GetClassName() << std::endl;}
 };
 
 
@@ -59,12 +56,12 @@ int main()
 
   // Test the creation of an image with native type
   //
-  DeleteEvent deleteEvent;
-  itk::SimpleMemberCommand<DeleteEvent>::Pointer delete;
-  delete = itk::SimpleMemberCommand<DeleteEvent>::New();
-  delete->SetCallbackFunction(&deleteEvent, DeleteEvent::DeleteEvent);
   itk::Image<float,2>::Pointer if2 = itk::Image<float,2>::New();
-  if2->AddObserver(itk::Command::DeleteEvent, delete);
+  DeleteEvent deleteEvent;
+  itk::MemberCommand<DeleteEvent>::Pointer deleteCommand;
+  deleteCommand = itk::MemberCommand<DeleteEvent>::New();
+  deleteCommand->SetCallbackFunction(&deleteEvent, &DeleteEvent::Delete);
+  if2->AddObserver(itk::Command::DeleteEvent, deleteCommand);
   
   // Begin by creating a simple pipeline. Use the Scalar class as a pixel.
   //
