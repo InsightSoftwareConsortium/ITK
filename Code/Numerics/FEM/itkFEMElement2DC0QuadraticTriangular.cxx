@@ -81,12 +81,13 @@ Element2DC0QuadraticTriangular
   VectorType shapeF(6);
 
   // Shape functions are equal to coordinates
+  VectorType::element_type p2 = 1.0 - pt[0] - pt[1];
   shapeF[0]=pt[0]*(2*pt[0]-1);
   shapeF[1]=pt[1]*(2*pt[1]-1);
-  shapeF[2]=pt[2]*(2*pt[2]-1);
+  shapeF[2]=p2*(2*p2-1);
   shapeF[3]=4*pt[0]*pt[1];
-  shapeF[4]=4*pt[1]*pt[2];
-  shapeF[5]=4*pt[2]*pt[0];
+  shapeF[4]=4*pt[1]*p2;
+  shapeF[5]=4*p2*pt[0];
 
   return shapeF;
 }
@@ -98,18 +99,20 @@ void
 Element2DC0QuadraticTriangular
 ::ShapeFunctionDerivatives( const VectorType& pt, MatrixType& shapeD ) const
 {
+  VectorType::element_type p2 = 1.0 - pt[0] - pt[1];
+
   shapeD.resize(3,6);
   shapeD.fill(0.0);
 
   shapeD[0][0]=4*pt[0]-1;
   shapeD[0][3]=4*pt[1];
-  shapeD[0][5]=4*pt[2];
+  shapeD[0][5]=4*p2;
 
   shapeD[1][1]=4*pt[1]-1;
   shapeD[1][3]=4*pt[0];
-  shapeD[1][4]=4*pt[2];
+  shapeD[1][4]=4*p2;
 
-  shapeD[2][2]=4*pt[2]-1;
+  shapeD[2][2]=4*p2-1;
   shapeD[2][4]=4*pt[1];
   shapeD[2][5]=4*pt[0];
 
