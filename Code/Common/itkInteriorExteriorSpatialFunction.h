@@ -70,7 +70,7 @@ namespace itk
 
 template <unsigned int VImageDimension=3,typename TInput=Point<double,3> >
 class ITK_EXPORT InteriorExteriorSpatialFunction : public
-  SpatialFunction<bool, VImageDimension,TInput >
+  SpatialFunction<bool, VImageDimension, TInput >
 {
 public:
   /** Standard class typedefs. */
