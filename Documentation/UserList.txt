@@ -59,3 +59,4 @@ galeotti:John M. Galeotti:jgaleotti@cmu.edu
 padfield:Dirk Padfield:padfield@research.ge.com
 pauly:Paul A. Yushkevich:pauly@cognitica.com
 drueckert:Daniel Rueckert:dr@doc.ic.ac.uk
+hipwell:John Hipwell:john.hipwell@kcl.ac.uk
