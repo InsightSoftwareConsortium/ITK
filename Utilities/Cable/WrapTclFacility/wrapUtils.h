@@ -18,7 +18,7 @@
 
 // Include the C++ type representation classes.
 // This also includes cxxUtils.h which does some work for us.
-#include "cxxTypes.h"
+#include "cxxTypeSystem.h"
 
 // Get the DLL export definition from the CxxTypes package.
 #define _wrap_EXPORT _cxx_EXPORT
@@ -56,6 +56,9 @@ typedef ::_cxx_::ReferenceType        ReferenceType;
 
 typedef ::_cxx_::CvQualifiedType      CvQualifiedType;
 typedef ::_cxx_::TypeSystem           TypeSystem;
+
+typedef ::_cxx_::CvQualifiedTypes     CvQualifiedTypes;
+typedef ::_cxx_::ClassTypes           ClassTypes;
 //@}
 
   

@@ -44,7 +44,7 @@ public:
   String CreateTemporary(void* object, const CvQualifiedType&);
   void DeleteIfTemporary(const String& name);
   void DeleteCallBack(void* object);
-  void RegisterDeleteFunction(const Type*, DeleteFunction);
+  void SetDeleteFunction(const Type*, DeleteFunction);
   
 private:
   /**
@@ -85,7 +85,7 @@ private:
   void CheckExists(const String& name) const;
   
 public:
-  static InstanceTable* GetInterpreterInstanceTable(Tcl_Interp*);
+  static InstanceTable* GetForInterpreter(Tcl_Interp*);
   
 private:
   typedef std::map<const Tcl_Interp*, InstanceTable*,

@@ -56,7 +56,7 @@ private:
   void CheckExists(const Type*) const;
   
 public:
-  static WrapperTable* GetInterpreterWrapperTable(Tcl_Interp*);
+  static WrapperTable* GetForInterpreter(Tcl_Interp*);
   
 private:
   typedef std::map<const Tcl_Interp*, WrapperTable*,

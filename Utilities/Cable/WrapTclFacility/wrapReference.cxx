@@ -26,10 +26,10 @@ namespace _wrap_
  */
 String Reference::GetStringRep() const
 {
-  char addrBuf[(sizeof(m_Object)*2+sizeof(const Type*)*2)+7];
+  char addrBuf[(sizeof(m_Object)*2+2+sizeof(const Type*)*2+2)+8];
   const Type* type = m_Type.GetType();
   int ocv = (int(m_Type.IsConst()) << 1) | int(m_Type.IsVolatile());
-  sprintf(addrBuf, "_ref_%p_%p%d", m_Object, type, ocv);
+  sprintf(addrBuf, "_ref_%p_%d_%p", type, ocv, m_Object);
   return String(addrBuf);
 }
 
@@ -43,7 +43,7 @@ bool Reference::SetFromStringRep(const String& refStr)
   m_Object = NULL;
   Type* type = NULL;
   int ocv = 0; // cv-qualifier flags of object.
-  sscanf(refStr.c_str(), "_ref_%p_%p%d", &m_Object, &type, &ocv);
+  sscanf(refStr.c_str(), "_ref_%p_%d_%p", &type, &ocv, &m_Object);
   if(type)
     {
     bool isConst = ((ocv >> 1) & 1) == 1;

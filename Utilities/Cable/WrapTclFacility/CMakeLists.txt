@@ -5,6 +5,8 @@ wrapInit
 wrapInstanceTable
 wrapPointer
 wrapReference
+wrapTypeSystemTable
 wrapUtils
+wrapWrapperBase
 wrapWrapperTable
 )

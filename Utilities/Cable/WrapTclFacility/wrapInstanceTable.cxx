@@ -112,7 +112,7 @@ const CvQualifiedType& InstanceTable::GetType(const String& name)
 /**
  * Allow object type deletion functions to be added.
  */
-void InstanceTable::RegisterDeleteFunction(const Type* type,
+void InstanceTable::SetDeleteFunction(const Type* type,
                                            DeleteFunction func)
 {
   m_DeleteFunctionMap[type] = func;
@@ -180,7 +180,7 @@ void InstanceTable::CheckExists(const String& name) const
  * If one exists, it will be returned.  Otherwise, a new one will be
  * created.
  */
-InstanceTable* InstanceTable::GetInterpreterInstanceTable(Tcl_Interp* interp)
+InstanceTable* InstanceTable::GetForInterpreter(Tcl_Interp* interp)
 {
   // See if an InstanceTable exists for the given interpreter.
   if(interpreterInstanceTableMap.count(interp) == 0)

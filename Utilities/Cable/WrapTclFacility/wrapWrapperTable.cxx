@@ -77,7 +77,7 @@ void WrapperTable::CheckExists(const Type* type) const
  * If one exists, it will be returned.  Otherwise, a new one will be
  * created.
  */
-WrapperTable* WrapperTable::GetInterpreterWrapperTable(Tcl_Interp* interp)
+WrapperTable* WrapperTable::GetForInterpreter(Tcl_Interp* interp)
 {
   // See if an WrapperTable exists for the given interpreter.
   if(interpreterWrapperTableMap.count(interp) == 0)

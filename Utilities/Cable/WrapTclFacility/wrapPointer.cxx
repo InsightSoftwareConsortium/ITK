@@ -26,11 +26,11 @@ namespace _wrap_
  */
 String Pointer::GetStringRep() const
 {
-  char addrBuf[(sizeof(m_Object)*2+sizeof(const Type*)*2)+9];
+  char addrBuf[(sizeof(m_Object)*2+2+sizeof(const Type*)*2+2)+10];
   const Type* type = m_Type.GetType();
   int pcv = (int(m_Const) << 1) | int(m_Volatile);
   int ocv = (int(m_Type.IsConst()) << 1) | int(m_Type.IsVolatile());
-  sprintf(addrBuf, "_ptr%d_%p_%p%d", pcv, m_Object, type, ocv);
+  sprintf(addrBuf, "_ptr%d_%p_%d_%p", pcv, type, ocv, m_Object);
   return String(addrBuf);
 }
 
@@ -45,7 +45,7 @@ bool Pointer::SetFromStringRep(const String& ptrStr)
   Type* type = NULL;
   int pcv = 0; // cv-qualifier flags of pointer.
   int ocv = 0; // cv-qualifier flags of object.
-  sscanf(ptrStr.c_str(), "_ptr%d_%p_%p%d", &pcv, &m_Object, &type, &ocv);
+  sscanf(ptrStr.c_str(), "_ptr%d_%p_%d_%p", &pcv, &type, &ocv, &m_Object);
   m_Const =  ((pcv >> 1) & 1) == 1;
   m_Volatile = (pcv & 1) == 1;
   if(type)
