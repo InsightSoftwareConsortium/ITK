@@ -317,7 +317,7 @@ public:
    * dimensionality.  The radii of the iterators are ignored.
    */
   bool operator!=(const Self &it) const
-    {    return  it.GetCenterPointer != this->GetCenterPointer();  }
+    {    return  it.GetCenterPointer() != this->GetCenterPointer();  }
   
   /**
    * Returns a boolean < comparison of the memory addresses of the center
@@ -333,7 +333,7 @@ public:
    * dimensionality.  The radii of the iterators are ignored.
    */
   bool operator<=(const Self &it) const
-    {    return  this->GetCenterPointer() <= it.GetCenterPointer;  }
+    {    return  this->GetCenterPointer() <= it.GetCenterPointer();  }
   
   /**
    * Returns a boolean > comparison of the memory addresses of the center
