@@ -235,7 +235,11 @@ ImageSeriesWriter<TInputImage,TOutputImage>
     {
     os << m_ImageIO << "\n";
     }
-  
+
+  os << indent << "StartIndex: " << m_StartIndex << std::endl;
+  os << indent << "IncrementIndex: " << m_IncrementIndex << std::endl;
+  os << indent << "SeriesFormat: " << m_SeriesFormat << std::endl;
+
 }
 
 } // end namespace itk
