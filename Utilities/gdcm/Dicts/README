@@ -1,0 +1,18 @@
+Sources for dicom public dictionaries:
+ * the official source is the part 6 of the dicom standard (see
+   http://www.dclunie.com/dicom-status/status.html#BaseStandard2001).
+ * http://www.fpimage.com/Manuals/Imp/dicomdic.html
+   an html group based presentation.
+ * ftp://rsbweb.nih.gov/pub/nih-image/documents/dicom-dict.txt
+   a C syntax oriented version provided by NIH (Jim Nash)
+ * http://afni.nimh.nih.gov/afni/AFNI_Dist/afni_src.tgz
+   extract mri_dicom_hdr.c (tar zxvf afni_src.tgz afni_src/mri_dicom_hdr.c)
+   and look for the definitions of CMD_dictionary, META_dictionary,
+   ID_dictionary, PAT_dictionary...
+ * Actually, the *official* Dicom Data Dictionary 
+   is on http://medical.nema.org/dicom/2003/03_06PU.pdf
+   (check it every year, some tags are added, some names change)
+   All C syntax oriented stuff, or anything else -but gdcm one-
+   you can find on the net is very partial.
+   WARNING : The Dicom Tag is an identifier inside the Dicom Dictionary,
+             The Tag Name *is not*

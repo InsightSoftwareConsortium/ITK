@@ -1,0 +1,48 @@
+# Note that this is NOT a relocatable package
+%define  ver       @VERSION@
+%define  RELEASE  1
+%define  rel      %{?CUSTOM_RELEASE} %{!?CUSTOM_RELEASE:%RELEASE}
+%define prefix    /usr
+
+Summary: Dicom library
+Name: gdcm
+Version: %ver
+Release: %rel
+License: BSD 
+Group: Development/Tools
+URL: http://www.creatis.insa-lyon.fr/Public/Gdcm
+Source0: http://www.creatis.insa-lyon.fr/Public/Gdcm/gdcm-%{version}.tar.gz
+BuildRoot: %{_tmppath}/gdcm-root
+Requires: python2
+BuildRequires: doxygen, swig13, python2
+Packager: Fabrice Bellet <Fabrice.Bellet@creatis.insa-lyon.fr>
+
+%description
+gdcm is a library dedicated to read and write DICOM files.
+
+%prep
+%setup -q 
+
+%build
+%configure --enable-doxygen --enable-python
+make
+
+%install
+%makeinstall 
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+%files
+%defattr(-,root,root)
+%doc AUTHORS INSTALL NEWS README TODO
+%{_libdir}/libgdcm*
+%{_datadir}/gdcm
+%{_libdir}/python*/site-packages/gdcm
+%{_includedir}/*.h
+
+%changelog
+* Mon Mar 17 2003 Fabrice Bellet <Fabrice.Bellet@creatis.insa-lyon.fr> 0.1.0-1
+- Rebuild for Red Hat Linux 7.3
+- First packaging.
+

@@ -1,0 +1,2475 @@
+2004-11-05 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+  * Improve string manipulation. I now inforce the notion of 'DicomString'
+    A DicomString can contain as many \0 as they want
+    and it is *always* of even length.
+    We only support odd length for very rare case. 
+    And in the near future this should be removed.
+
+2004-11-03 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+  * /binary_write/ gdcm source. Now even on big endian we are writting
+    little endian. This should -heopfully- fix some tests
+
+2004-11-03 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+  * Now the dictionary is compiled into gdcm lib. This is a default 
+    behavior, thus any dic file specified is picked before failback to 
+    the one comiled into lib
+
+2004-10-27 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+  * Change internals for gdcmDict. Don't use any 'new' any more.
+    This should definitely solve any leak problem, and we should be
+    as fast as before, as long as don't modify too much the dictionary.
+
+2004-10-25 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+  * STYLE: ivars should start with a capital letter. 
+  * Accessors should be const to avoid people starting modifying stuff (since this is a ref). 
+  * remove 'virtual' as Style specify subclasses shouldn't reuse the keyword
+  
+2004-10-22 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+  * Doc/Dicom2004_Part5.pdf added (thanks to JPR).
+  * Dicts/dicomTS2004.dic, dicomV3VM2004.dic, groupNameAbbreviations2004.dic
+    new 2004 dictionaries added (thanks to JPR).
+  * FIX dashboard warning RLEFrame::NumberFragments is now of type unsigned int
+  * CLEANUP_ROUND (15) for gdcmPixelConvert
+    - RLEFrame::NumberFragments is now of type unsigned int
+    - gdcmFile::GetImageData(), GetImageDataIntoVector(), GetImageDataRaw()
+      are now all based on PixelConverter. ::GetImageDataIntoVectorRaw()
+      no longer exists.
+
+2004-10-21 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+  * Initial work in gathering all transfer syntax accessors. clearly 
+   IsDecompressed/IsJPEG2000/IsJPEGLossless/IsRLELossless shouldn't be all 
+   ivars, but only one transfersyntax (class) ivar with equivalent method on 
+   the class.
+  
+2004-10-21 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+  * Removed all FILE* ref and replace by ifstream/ofstream. For now I use a temp 
+    solution with the two files jdatadst.cxx and jdatasrc.cxx, this need to be 
+    discussed (plus I didn't like having a 2000 lines patch not commited)
+
+2004-10-21 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+  * src/gdcmDocument.cxx: wrong type on return fixed (thanks dashboard)
+  * CLEANUP_ROUND (14) for gdcmPixelConvert
+    - PixelConvert::GetLutRGBA(FILE*) is now GetLutRGBA() (no fp needed)
+    - PixelConvert::BuildRGBImage()(FILE*) is now BuildRGBImage() (no fp needed)
+    - File::GetImageDataIntoVector() doesn't need unnecessary OpenFile() and
+      CloseFile() anymore.
+    - File::GetImageDataRaw() doesn't call GetImageDataIntoVectorRaw()
+      anymore and hence avoids storing a copy of PixelConvert::Decompressed
+      into File::Pixel_Data.
+
+2004-10-20 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+  * src/gdcmDocument.cxx ftell() return properly stored in a long (i.e.
+    no longer depends on's programmers PMS = Preposterous Mood Swings ;).
+  * CLEANUP_ROUND (13) for gdcmPixelConvert
+    Substituted File::ParsePixelData() with PixelConvert::Print() new
+    method:
+    - src/gdcmParsePixels.cxx removed (only contained File::ParsePixelData())
+    - src/gdcmRLEFrame.cxx, gdcmJPEGFragment.cxx added. Added a ::Print()
+      method to those classes.
+    - src/gdcmFile.[cxx|h]:
+      -- Added a ::Print() method.
+      -- PixelConverter is now a reference instead of a member.
+      -- gdcmPython/gdcm.i: added "using namespace gdcm" in order for
+         gdcm_wrap.cxx to "understand" File::GetPixelConverter()
+
+2004-10-18 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+  * Doc/CMakeLists.txt, doxygen.config.in: when dot is present the
+    collaboration diagram and inheritance diagram should be generated with
+    doxygen.
+  * Doc/Website/Sidebar.html: Dashboard is now also in the sidebar.
+  * gdcmPython/gdcm.i: gdcmRLEFramesInfo.h gdcmJPEGFragmentsInfo.h are
+    pointlessly wrapped (see
+    http://www.creatis.insa-lyon.fr/pipermail/dcmlib/2004-October/000692.html )
+  * CLEANUP_ROUND (12) for gdcmPixelConvert (sugar is my friend stage)
+    - Header::GetLUTRGBA() moved to PixelConvert::GetLutRGBA()
+    - vtk/vtkGdcmReader.cxx: adapted to displacment of Header::GetLUTRGBA()
+    - Document::RLEInfo and JPEGInfo are now pointer members (Swig thing)
+    - src/gdcmFile.[cxx|h] and gdcmPixelConvert.[cxx|h]:
+      -- File::Initialise: PixelConverter setup moved away to
+           PixelConverter::GrabInformationsFromHeader()
+      -- File::GetImageDataIntoVector(): Lut R + Lut G + Lut B color table
+         interpretation moved away to PixelConverter::BuildRGBImage()
+
+2004-10-16 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+  * Remove GDCM_EXPORT keyword from gdcm::DirList due to :
+    http://support.microsoft.com/support/kb/articles/Q168/9/58.ASP
+
+2004-10-15 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+  * src/gdcmDebug.cxx last ditch attempt to get warning/error messages
+    displayed on Win32 when a brutal abort() occurs (because of uncatched
+    exception). See TODO new entry of this commit for more on this.
+  * TODO added new entry.
+  * CLEANUP_ROUND (12) for gdcmPixelConvert (nicotine is my friend stage)
+    src/gdcmFile.[cxx|h] and gdcmPixelConvert.[cxx|h]:
+    - HandleColor is no longer called from gdcmFile.cxx
+    - gdcmPixelConvert.cxx clean up on method arguments and internal
+      variable names for semantical coherence.
+
+2004-10-14 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+  * Finished lossless transition, not only do we now read all lossless jpeg
+  images, without the need of the Cornwell lib, but we do read them properly now
+  * To reduce code (well to avoid code duplication), I defined a common place
+  for jpeg read/write: gdcmJpeg.cxx. Now gdcmJpeg[8,12 16] include this file and
+  redefine symbols. This is not prefect but this the best solution I found for a
+  compilation time jpeg option.
+
+2004-10-13 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+  * Update jpeg ijg lib to support lossless jpeg implementation
+    For more info look in jpeg/libijg/README.GDCM.txt for necessary steps to
+    reproduce at home.
+  * Also added a special copyright for dcmtk since we use their bugfixes.
+  Thanks dcmtk crew !
+
+2004-10-13 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+  * Doc/Website/MailingList.html added (Sidebar.html changed accordingly).
+  * gdcmPython/gdcm.i: fix for compilation of wrappers (Note: %include order
+    matters, as stated in warning note at begining of %include section).
+  * src/gdcmDicomDir*.[cxx|h]: coding style
+  * src/gdcmDocument.h: doxygen \ref seems uncompatible with \todo.
+  * src/gdcmJpeg8.cxx: doxygen fix.
+  * CLEANUP_ROUND (12) for gdcmPixelConvert (seing the ligth stage)
+    src/gdcmFile.[cxx|h] and gdcmPixelConvert.[cxx|h]: color handling moved
+    from File:: to PixelConvert::.
+
+2004-10-12 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+  * CLEANUP_ROUND (11) for gdcmPixelConvert (cafeine is my friend stage)
+    src/gdcmFile.[cxx|h] and gdcmPixelConvert.[cxx|h]:
+     - more code moved away from File:: to PixelConvert::
+     - fat setup of PixelConverter set in place in File::Initialise.
+
+2004-10-12 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+  * Apply patch for namespace in gdcm. Didn't rename files for keeping a sort of
+  namespace at the file system level. So now you should convert your examples
+  like this:
+    gdcmHeader  ->   gdcm::Header
+  It would be nice if people keep in mind to no open the namespace, since it
+  allows compilation on broken plateform which were defining common symbol in
+  the standart namespace (like LP, Unknown ...)
+
+2004-10-10 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+  * CLEANUP_ROUND (10) for gdcmPixelConvert (Xanax is my friend stage)
+    The JPEG fragments are now parsed at the same stage than the RLE
+    information. All code related to JPEG is now in gdcmPixelConvert:
+    - src/gdcmJPEGFragment.h and gdcmJPEGFragmentsInfo.[h|cxx] added 
+    - src/gdcmJpeg12.cxx, gdcmJpeg2000.cxx and gdcmJpeg8.cxx no longer
+      export a gdcmFile:: method. Those are simply global functions
+      (for the time being this is better than having them attach to
+       either gdcmFile:: or gdcmPixelConvert::).
+    - src/gdcmDocument.[cxx|h], gdcmDocument:: now parser the JPEG fragments
+      and stores the result in a gdcmJPEGFragmentsInfo.
+    - src/gdcmFile.[cxx|h] and gdcmPixelConvert.[cxx|h]: all JPEG related
+      code (among other stuff) moved away from gdcmFile:; to 
+      gdcmPixelConvert::
+
+2004-10-08 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+  * src/gdcmCommon.h now declares int8_t for non stdint.h plateforms.
+  * CLEANUP_ROUND (7) for gdcmPixelConvert (lost at sea)
+    - src/gdcmFile.h gdcmPixelConvert.cxx gdcmPixelConvert.h gdcmRLE.cxx:
+      clean up of RLE related code. 
+  * CLEANUP_ROUND (8) for gdcmPixelConvert (end of RLE nigthmare)
+    - src/gdcmRLE.cxx removed
+    - src/gdcmPixelConvert.cxx all RLE code is now in PixelConvert::
+    - src/CMakeLists.txt gdcmFile.[cxx|h] changed accordingly
+    - src/gdcmRLEFrame*.h gdcmPixelConvert is now a friend class.
+  * CLEANUP_ROUND (9) for gdcmPixelConvert
+    - src/gdcmFile.[cxx|h} gdcmPixelConvert.[cxx|h], SwapZone(),
+      ConvertReorderEndianity(), ConvertDecmpres12BitsTo16Bits() moved
+      away from gdcmFile:: to gdcmPixelConvert::.
+
+2004-10-07 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+  * CLEANUP_ROUND (5) for gdcmPixelConvert (Upshit creek without a paddle)
+    - src/gdcmDocument.[cxx|h] Parse7Fe0 renamed to ComputeRLEInfo.
+      This is because Parse7Fe0 used to parse the pixels to compute the
+      length. This task was passed over to FindDocEntryLengthOB() a long
+      time ago, EXCEPT I had forgotten the OW case...
+      Hence Parse7Fe0 was no longer necessary. When renaming to ComputeRLEInfo
+      we just recylce the code for parsing RLE fragments and computing
+      offsets.
+  * CLEANUP_ROUND (6) for gdcmPixelConvert (man, I need a paddle bad)
+    - src/gdcmRLE.cxx: is now much simpler and avoids code replication
+        with the retired Parse7Fe0().
+    - src/gdcmRLEFrame.h: type fix for properly computing OffSet[]
+    - src/gdcmDocument.cxx: segments offset are now correct + clean up.
+
+2004-10-06 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+  * CLEANUP_ROUND (3) for gdcmPixelConvert (nightmare stage)
+    - src/gdcmRLEFramesInfo.[cxx|h], gdcmRLEFrame.h added
+    - src/gdcmDocument.[cxx|h] ::Parse7FE0 now sets up the RLEInfo.
+    - src/CMakeLists.txt: alphabetic order reodering + new entries.
+  * CLEANUP_ROUND (4) for gdcmPixelConvert
+    - src/gdcmDocument.[cxx|h] ::ParseDES and ::ParseSQ no longer bother
+      to return an unused length.
+
+2004-10-09 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+  * Remove all sprintf from the code to centralize in one spot in gdcmUtil
+    this should be cleanner from the plane view. The iostream are erally a pain
+    to use to do simple stuff.
+
+2004-10-04 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+  * Redo the compilation of the ijg jpeg library. Now only one source is
+    necesseray. No need to rename file by hand what so ever. CMake handle the
+    copying of the file within different directory, configure header file to
+    modify some symbol. The only addition made to ijg wasd a mangle table so
+    that symbol are different wether we are within 8bits or 12bits.
+
+2004-10-01 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+  * Added documentation of vtkgdcmReader on Website:
+     - testvtkGdcmReader.cxx renamed to vtkGdcmDemo.cxx (to be compatible
+       with it's binary name).
+     - vtk/vtkGdcmDemo.cxx and vtkgdcmViewer.cxx: added comments for
+       the Website to be more complete.
+     - Doc/doxygen.config.in: vtk/vtkGdcmReader.cxx now appears on 
+       doxygenated documentation.
+     - Doc/DoxyVtkGdcmReaderExamples.txt added
+       (see http://www.creatis.insa-lyon.fr/Public/Gdcm/html.developper/
+                  DoxyVtkGdmReaderExamples.html )
+  * src/win32, vtk/win32 manually maintained .dsp and .dsw removed.
+  * CLEANUP_ROUND (3) for gdcmPixelConvert
+   - src/gdcmFile.cxx, gdcmFile.h splitting GetImageDataIntoVectorRaw
+
+2004-09-29 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+  * CLEANUP_ROUND (2) for gdcmPixelConvert
+   - src/gdcmFile.cxx, gdcmFile.h splitting GetImageDataIntoVectorRaw
+
+2004-09-29 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+  * CLEANUP_ROUND for gdcmPixelConvert:
+    - src/gdcmFile.cxx, gdcmFile.h, gdcmHeader.cxx, gdcmHeader.h clean up
+    - src/gdcmPixelStuff[h|cxx] removed
+    - src/gdcmPixelConvert[h|cxx] added. Preparatory work included.
+    - src/CMakeLists.txt changed accordingly
+  * GDCMHOME clean up:
+    - MANIFEST.in, WrapSwig.py, WrapVTK.py, distutilsWrapping.py and
+      gdcmVersion.py moved to newly created ATTIC related
+      gdcmPython/SetupOldies/ directory.
+  * Autotools clean up:
+    - */*/Makefile.am removed AT EXCEPTION of gdcmPython/Makefile.am
+    - autogen.sh configure.in acinclude.m4 python.m4 removed 
+
+2004-09-27 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+  * src/*.cxx *.h Reference to License.htm fixed to License.html.
+  * Doc/CMakeLists.txt, doxygen.config.in: fix.
+  * Doc/Website/ConformanceSummary.html, minimal conformance statement added.
+
+2004-09-24 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+  * TODO updated with Mathieu suggestions. I proposed a template for
+    describing TODO entries and used it for new entries.
+  * Added Doc/Website/CodingStyle.html, Developpers.html,
+    DeveloppersPython.html, GdcmDataCvs.html and
+    DownloadVersion0_1.html, DownloadVersion0_3.html.
+  * Some Doc/*.txt Doxygen files (which do not really concern the
+    documentation itself, but the website) moved to html and
+    placed in directory Doc/Website:
+    - Doc/DoxyDevelInstal.txt moved to Doc/Website/Developpers.html
+    - Doc/DoxyInstallation.txt moved to Doc/Website/Installation.html
+    - Doc/DoxyIntroduction.txt included in Doc/Website/Main.html
+  * Doc/DoxyfileDeveloppers, DoxyfileUsers, Makefile.am oldies removed.
+  * CMakeLists.txt changed accordingly.
+  * DEVELOPPER spread out in Doc/Website/Developpers.html, CodingStyle.html,
+    DeveloppersPython.html
+  * INSTALL nows refers to Doc/Website/Installation.html
+
+2004-09-23 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+  * Added Doc/Website directory, that contains a first raw version
+    of gdcm Web site.
+
+2004-09-23 Jean-Pierre Roux
+  * FIX In order not to be poluted any longer by casting problems,
+    the member VoidArea of gdcmBinEntry is now uint8_t* (instead of void *)
+	 we can now delete[] it safely 	
+  * VoidArea is now called BinArea (less confusing name),
+    and all the methods called ...VoidArea... are now ... BinArea...
+  * class gdcmObject is now called gdcmDicomDirObject (less confusing name)
+
+2004-09-22 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+  * src/gdcmDocument.cxx: gdcmDocument::~gdcmDocument() doesn't clear (nor
+    clear) TagHT, which is an inherited member of gdcmElementSet. It is
+    up to the destructor of gdcmElementSet to clean up TagHt and it's
+    pointed content.
+
+2004-09-21 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+  * Test/CMakeLists.txt: update to follow gdcmData renamings.
+  * src/gdcmCommon.h, gdcmDocument.cxx: doxygen typos
+
+2004-09-17 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+  * ENH: added some utility method that builds a flat dictionnary
+    holding all the Dicom entries contained in the recursive structure
+    of a gdcmElementSet. Refer to add FlatHashTablePrint.cxx for 
+    an example of usage.
+    - src/gdcmDocument.[h|cxx] added BuildFlatHashTableRecurse() and
+      BuildFlatHashTable() that build a flat dictionary.
+    - src/gdcmElementSet.h: added a new private GetTag() accessor.
+      gdcmDocument is now a friend of gdcmElementSet.
+    - src/gdcmElementSet.cxx: clean up.
+    - Example/FlatHashTablePrint.cxx added.
+    - Example/CmakeLists.txt changed accordingly
+
+2004-09-16 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+  * gdcmDocEntrySet::SQDepthLevel and gdcmDocEntrySet::BaseTagKey attributes
+    moved away from gdcmDocEntrySet (since this class is an abstract class
+    acting like an interface). SQDepthLevel and BaseTagKey are now
+    in class 
+    - src/gdcmDocEntrySet.[h|cxx] removal of SQDepthLevel and BaseTagKey
+      and associated accessors. Doxygenation of the class.
+    - src/gdcmSQItem.[h|cxx] SQDepthLevel and BaseTagKey and associated
+      accessors added.
+    - src/gdcmSeqEntry.[h|cxx]: constructor doesn't handle depth anymore.
+      Use SQDepthLevel accessor instead. ::Print() adapted.
+    - src/gdcmElementSet.cxx changed according to changes in gdcmSeqEntry.
+    - src/gdcmDocument.cxx changed accordingly.
+
+2004-09-13 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+  * Preparation of writing a gdcmHeader iterator: generalisation of gdcmTagKey
+    - The following is the doxygen comment of the typedef declaration
+      of gdcmagKey in src/gdcmCommon.h:
+           gdcmTagKey is made to old an "universal" (as in URL, Universal
+           Ressource Locator)  key to a gdcmDocEntry i.e. a dicom tag.
+           A dicom tag allways has a group and an element, but a set of tags
+           embeded in various (optionally nested) sequences and sharing
+           the same group and element all share the same (group, element)
+           "identifier". Hence the (group, element) cannot be used as an
+           identifier (in gdcm we shall refer to a "TagKey") of a tag.
+           In order to construct a proper tag identifier (i.e. a key) we
+           consider the following definition of a TagKey:
+           - let Group, Element be the string representation of the
+             group and element dicom tag members,
+           - let ItemNumber be the string representation of the integer
+             index of the considered item number of a sequence,
+           Let the key of a tag embeded in a sequence, noted SeqTag, be
+           the form:
+              /ItemNumber#Group|Element
+           where "/", "#" and "|" are characters acting as separators.
+           Then the general form of a gdcmTagKey is given by:
+              Group|Element<SeqTag>
+           where <SeqTag> means NO or many instances of SeqTag.
+           Hence the gdcmTagKey of a tag not "leaving" in a sequence is the
+           string e.g.
+               0028|1201
+           but the gdcmTagKey of a tag "embeded" is the first item of
+           a sequence, itself nested in the third item of a sequence is the
+           string e.g.
+               0004|1220/2#0008|0082/0#0008|0090
+    - src/gdcmDocEntry.h: added a new Key (of type gdcmTagKey) member, in
+      order to hold the new sequence compatible key. Previously, the 
+      GetKey() method would look in the underlying gdcmDictEntry.
+    - src/gdcmDocEntry.cxx:
+      -- constructor now copies the underlying DictEntry key, in the local
+         Key member.
+      -- ::Print: displays the member Key, instead of the (group, element).
+    - src/gdcmCommon.h: added some comments on typedef gdcmTagKey.
+    - src/gdcmDocEntrySet.h:xi
+      -- ::ParseDES() now setups the gdcmTagKey of the sequence it is parsing.
+      -- now has a new BaseTagKey member.
+      -- STYLE.
+  * src/gdcmValEntry.[h|cxx], src/gdcmBinEntry.[h|cxx]: the member VoidArea,
+    previously a member of gdcmValEntry, moved to gdcmBinEntry were is
+    truly belongs.
+    This poses the problem with the semantics of the following lines
+       LoadEntryVoidArea(0x0028,0x1201);  // R    LUT
+       LoadEntryVoidArea(0x0028,0x1202);  // G    LUT
+       LoadEntryVoidArea(0x0028,0x1203);  // B    LUT
+    in gdcmDocument::gdcmDocument(std::string const & ). Please refer
+    to the long FIXME note for what the problem is. Nevertheless in
+    order to get things working the dicom dictionary was altered !
+    Please fix things urgently...
+  * Dicts/dicomV3.dic WRONGLY altered (this means we introduced a uncorrect
+    information), see above note on moving the member VoidArea. Nevertheless
+    the following entries previously correctly set as US are now inproperly
+    set to OW:
+      0028 1201 OW IMG Red Palette Color Lookup Table Data
+      0028 1202 OW IMG Green Palette Color Lookup Table Data
+      0028 1203 OW IMG Blue Palette Color Lookup Table Data
+  * src/gdcmDocEntry.[h|cxx], src/gdcmSeqEntry.h: SQDepthLevel member
+    of gdcmDocEntry moved to gdcmSeqEntry.
+  * src/gdcmSeqEntry.cxx: STYLE.
+
+2004-08-04 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+  * Test/TestAllEntryVerify.cxx minor fix and added comments.
+
+2004-08-03 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+  * gdcmPython/testSuite.py: all the test suite in python is now moved
+    to it's C++ version (see gdcmData/TestAllEntryVerifyReference.txt)
+  * Test/CMakeLists.txt adapted to renaming of files in gdcmData
+  * gdcm/TODO and src/gdcmDictSet.h cleaned up frow the "TODO Swig" oldies
+
+2004-08-02 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+  * gdcmPython/CMakeLists.txt: SWIG_FLAGS doesn't declare includeall
+    to avoid inclusion recursion until STL is reached.
+  * src/gdcmDocument.[h|cxx]: exceptions substituted to errno C-style
+    mecanism. errno.h is not included in gdcm anymore.
+  * src/gdcmException.h: introduced new gdcmFormatUnexpected class
+    (gdcmFormatError now inherits from gdcmFormatUnexpected).
+  * TODO updated
+  * gdcmPython/testSuite.py checks on CR-MONO1-10-chest.dcm moved to
+    gdcmData/TestAllEntryVerifyReference.txt
+  * Test/TestAllEntryVerify.cxx is now effective (used allways return true)
+  * src/gdcmDocument.[cxx|h]: constructors no longer use the bool
+    exception_on_error parameter.
+    - src/gdcmFile.[cxx|h], src/gdcmHeader.[cxx|h] changed accordingly,
+    - vtk/vtkGdcmReader.cxx changed accordingly,
+    - Example/*.cxx and Test/*.cxx changed accordingly.
+
+2004-07-06 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+  * src/gdcmDicomDir.cxx, gdcmDocEntrySet.cxx: removed inclusion of errno.h
+  * src/gdcmDocument.[h|cxx], gdcmFile.[h|cxx], gdcmHeader.[h|cxx]:
+    enable_sequences removed from gdcmHeader constructor and dependencies.
+  * Example/PrintHeader.cxx: fixed accordingly (enable_sequences removal).
+  * gdcmPython/demo/PrintHeader.py: dummy fix.
+  * src/gdcmDocument.[h|cxx], gdcmFile.[h|cxx], gdcmHeader.[h|cxx]:
+    skip_shadow removed from gdcmHeader constructor and dependencies.
+  * Example/*.cxx and Test/*.cxx changed accordingly.
+
+2004-07-27 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+  * Test/CMakeLists.txt: newly re-introduced SIEMENS_Sonata-12-MONO2-SQ.dcm
+    in gdcmData (previously known as E00001S03I0015.dcm) is blacklisted.
+
+2004-07-21 Jean-Pierre Roux
+  * FIX Now, Parsing and Printing a DICOMDIR do work!
+       ( troubles remain in makeDicomDir and BuildUpDicomDir :-(
+		 
+2004-07-20 Jean-Pierre Roux
+  * FIX Some brain damaged headers have Zero-Lenght fields 
+        for 'Transfert Syntax UID', or 'Media Stored SOP Class UID'.
+
+2004-07-19 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+   * src/gdcmCommon.h, gdcmDict.cxx, gdcmTS.cxx : bug fix for msvc6 compilation
+   * src/gdcmDebug.[h|cxx] : bug fix for msvc6 compilation. Replace the dbg
+     variable (instance of gdcmDebug) by a definition macro, and the instance
+     is now in static in the gdcmDebug class
+   * src/gdcmSQItem.h : (FIXME) remove an undefined method
+   * Test/PrintAllDocument.cxx : bug fix in the result of the test
+
+2004-07-06 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+   * WARNING: ctest now depends more tightly on gdcmData. You should
+     check out gdcmData properly for things to run smoothly...
+   * src/gdcmDocument.cxx MAX_SIZE_LOAD_ELEMENT_VALUE is set back to 0xfff
+     (4096) for "ctest -R TestAllEntryVerify" to be able to run (i.e.
+     we need the pixels not be loaded in order to use the ValEntry
+     that displays position and size).
+   * Test/TestAllEntryVerify.cxx a new low level test now seems fair.
+     This is a C++ based equivalent of gdcmPython/testSuite.py that should
+     be deprecated. If you have any doubts about the advantages of a
+     modern scripting language (read Python) versus grass root C++ (i.e.
+     without lex + yacc, because of gdcm commitement to MS-VC++, sighhh),
+     I suggest you compare TestAllEntryVerify.cxx (639 lines, without the
+     reference file gdcmData/TestAllEntryVerifyReference.txt) and testSuite.py.
+        Anyhow, consider documenting the gdcmData images in 
+     gdcmData/TestAllEntryVerifyReference.txt (and please run ctest before
+     commiting changes).
+   * Test/CMakeLists.txt:
+      - now uses TestAllEntryVerify.cxx
+      - specific comments on oldACR00001.ima (now renamed in gdcmData
+        to SIEMENS_GBS_III-16-ACR_NEMA_1.acr) moved away to
+        gdcmData/TestAllEntryVerifyReference.txt
+   * TODO updated.
+
+2004-07-02 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+   * src/*.[h|cxx] : typedef clean up
+     - guint16 and guint32 removed. Use ISO C uint16_t, uint32_t instead.
+     - TagKey renamed to gdcmTagKey (for external usage)
+     - VRKey renamed to gdcmVRKey (for external usage)
+     - removal of typedef duplication.
+     - Removed all unecessary inline keyword from class inline definitions.
+     - Some method|function(void) declarations replaced with method|function().
+   * src/jpeg/libijg12/jdhuff12.c:
+      - printf polluting ctest removed.
+      - TAB removal for comminting
+   * Test:
+     - TestAllReadCompareDicom.cxx: added a test that compares all the
+       images in gdcmDataImages.h with corresponding images in 
+       gdcmData/BaselineDicom/. When baseline images are not present
+       this test creates them.
+       Note: we need to validate each reference image, but before that
+             I'd like to rename them with a more explicit name...
+     - CMakeLists.txt: changed accordingly.
+   * Example/*.cxx: examples now only include gdcm.h (as opposed to 
+     including each header needed).
+
+2004-07-01 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+   * Test/*.cxx and Example/*.cxx: moved some examples away from the
+     test suite to the Example directory. Are concerned:
+     - PrintHeader.cxx
+     - TestDcm2Acr.cxx
+     - TestFindTags.cxx
+     - TestWrite.cxx was
+     - TestWriteSimple.cxx
+   * Test/CMakeLists.txt: added some comments on reasons for black listing
+     image gdcmData/oldACR00001.ima
+
+2004-06-30 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+   * Test/CmakeList.txt: removed the following from black list (to be coherent
+     with removal from gdcmData):
+      - gdcm-MR-PHILIPS-16-Multi-Seq.fixed.dcm
+      - gdcm-MR-PHILIPS-16.dcm
+      - US.3405.1.dcm
+     Added the following because after last cvs update, they cause
+       ctest -R TestReadWriteReadCompare 
+     to segfault:
+      - gdcm-MR-SIEMENS-16-1.acr
+      - oldACR00001.ima
+   * Test/TestReadWriteReadCompare.cxx was properly written (with a call
+     to gdcmFile::SetImageData()) BUT since gdcmFile is brain damaged (see
+     new comments in this file) we temporarily (sigh) move to a weaker
+     form of test...
+   * Test/CmakeList.txt: with the change to Test/TestReadWriteReadCompare.cxx
+     we don't need to black list the following images anymore:
+      - 8BitsUncompressedColor.dcm
+      - OT-PAL-8-face.dcm
+      - US-PAL-8-10x-echo.dcm
+   * src/gdcmDocument.[h|cxx]: RE-Reverting to version 1.42 with the proper
+     fixes and the beautified code ;-)
+     This fixes the bug introduced in version 1.42 (when beautifying)
+     that made the parsing of 8BitsRunLengthColor.dcm unproper.
+     Note: ctest was blind to this bug (this means we need to still
+           improve the test suite). The bug could be detected by using
+           gdcmbin/bin/PrintDocument $GDCM_DATA/8BitsRunLengthColor.dcm
+           or by using
+           gdcmbin/bin/ReadWrite $GDCM_DATA/8BitsRunLengthColor.dcm
+           and by displaying the (garbage) produced file temp.XDCM...
+
+2004-06-29 Jean-Pierre Roux
+   FIX : - remove Frog's beautified, but never checked 'Parse7FE0' code,
+         - replace by uggly but working old code :-(
+		A lot of things should be OK again.
+	It's really urgent to have a test suite that *tests*, 
+	to prevent Frog's beautifying sessions to break all the stuff
+	(twice, withing a fortnigh ...) 	
+
+2004-06-28 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+   * Test/TestWriteRead.cxx and TestReadWrite.cxx merged (because of
+     redundancy) to added Test/TestReadWriteReadCompare.cxx
+   * Test/CmakeList.txt: because the compare test of
+     Test/TestReadWriteReadCompare.cxx fails, the following images are
+     black listed: - 8BitsUncompressedColor.dcm
+                   - OT-PAL-8-face.dcm
+                   - US-PAL-8-10x-echo.dcm
+   * src/gdcmDocument.cxx: for broken (non DICOM V3 conformal) images
+     (e.g. gdcm-JPEG-LossLess3a.dcm see comments in
+     gdcm/gdcmPython/testSuite.py for details) ::FindDocLengthOB() had
+     and ad-hoc kludge. This kludge is now removed, and on encountering
+     such an image (OB field brain damaged) we set errno. Then in 
+     ::FindDocLength() we "fix" the length as being ALL what remains
+     in the file (until EOF). We then proceed, hoping for the best...
+     This fixes a SegFault in ShowDicom when trying to write such an
+     image.
+   * Test/CmakeList.txt: 8BitsRunLengthColor.dcm is now blacklisted
+     (because TestWriteRead breaks on it, after a non conformal commit?).
+     ctest now runs properly, except for MakeDicomDir (which was allways
+     broken) and the Python related stuff (still not fixed).
+   
+2004-06-24 Jean-Pierre Roux
+  ADD : Examples/WriteRead, that acts like the former Test/TestWriteRead
+  FIX : Test/TestReadWrite now iterates on all the file names 
+                          (instead of infinite loop)
+  ENH : Test/TestWriteRead now iterates on all the file names 
+
+2004-06-28 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+   * Test/TestReadWrite.cxx: now uses all the images of gdcmData.
+
+2004-06-24 Jean-Pierre Roux
+   FIX : - now Write drops LUT Descriptors and LUTs (if any)
+	            when SamplesPerPixel =3
+         - now Write is no longer confused by 
+			      'BitsAllocated = 12" and 'BitsStored=12"
+         - "UN" value representation Elements are now written correctly 
+               (their legth is stored on 4 bytes -just like OB, OW, and SQ-)									
+   ENH : - now gdcmHeader has its own Write methods 
+	            (in order to split the job that has not to be done 
+					for gdcmDicomDir)
+
+2004-06-23 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+   * Test/PrintAllDocument.cxx: looping on files is now effective. It used to
+     loop on the same image until memory went out. 
+     Note: this means we still have gobs of memory loss in PrintDocument
+   * src/gdcmDocument.cxx: fixes problem on parsing on file
+     gdcmData/16BitsJpegLosslessGrayScale.dcm.
+
+2004-06-24 Jean-Pierre Roux
+   FIX : Write - All the Sequences and Sequence Item are now written 
+            as 'no length' stuff, and a Sequence Delimitor aor an Item Delimitor
+				is added a the end, when necessary.
+            - A lot of brain-damaged images, that were read correctly are 
+		      now written correctly
+				- length compatible BinEntry are now loaded correctly 
+				(even for odd groups) 
+        Note : only Explicit Value Representation was checked.
+				(question : is implicit VR really necessary for gdcm ?)
+
+2004-06-23 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+   * DEVELOPPER: added a proposition of coding style.
+   * src/gdcmDocEntry.h: removed every inline declaration (for test of 
+     coding style).
+
+2004-06-23 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+   * gdcmDocEntry::PrintCommonPart() and ::WriteCommonPart() removed.
+     Use the gdcmDocEntry::Print() and Write() instead.
+   * src/gdcmDocument.cxx: bug fix.
+
+2004-06-22 Jean-Pierre Roux
+   FIX : gdcmDocument.cxx
+      - Now we do recognize the JpegLossLess format (there was a misstyping in
+        code 'beautyfication' :-(
+      - Now we automaticaticaly load the Luts, if any
+
+2004-06-22 Jean-Pierre Roux
+   In order : to write Sequences, whatever their imbrication level, 
+	         : to allow user to create his own Sequences
+	a lot of modif where necessary (adding, moving, or virtualising methods)
+
+WARNING : save your own sources *before* cvs up !
+	
+	- gdcmBinEntry
+	  ADD virtual void Write(FILE *fp, FileType filetype);
+	  
+   - gdcmDocEntry
+	  ADD virtual void Write(FILE *fp, FileType filetype);
+	  ADD void gdcmDocEntry::WriteCommonPart(FILE *fp, FileType filetype);
+	  
+	- gdcmDocEntrySet
+	  ADD virtual void Write (FILE *fp, FileType filetype)=0;
+	  ADD	virtual gdcmDocEntry *GetDocEntryByNumber(guint16 group,guint16 element) = 0;
+     ADD gdcmDocEntry *GetDocEntryByName(std::string name);
+     ADD virtual std::string GetEntryByNumber(guint16 group,guint16 element) = 0;
+     ADD std::string GetEntryByName(TagName name);		         
+     ADD gdcmDictEntry *NewVirtualDictEntry(guint16 group, 
+                                            guint16 element,
+                                            std::string vr     = "unkn",
+                                            std::string fourth = "unkn",
+                                            std::string name   = "unkn"); 
+	  ADD gdcmValEntry *NewValEntryByNumber(guint16 group, guint16 element); 												 
+     ADD gdcmBinEntry *NewBinEntryByNumber(guint16 group, guint16 element); 	
+     ADD gdcmDocEntry *NewDocEntryByNumber(guint16 group, guint16 element); 
+     ADD gdcmDocEntry *NewDocEntryByName  (std::string Name);   
+     ADD gdcmDictEntry *GetDictEntryByName   (std::string Name);
+     ADD gdcmDictEntry *GetDictEntryByNumber(guint16, guint16);
+	  REM virtual gdcmDocEntry *NewDocEntryByNumber(guint16 group, guint16 element)=0;
+     REM virtual gdcmDocEntry *NewDocEntryByName  (std::string Name)=0;
+	  
+	- gdcmDocument
+     ADD virtual bool WriteF(FileType type); // New stuff, with recursive exploration		
+     ADD virtual std::string GetEntryByName    (TagName tagName);
+     ADD virtual std::string GetEntryVRByName  (TagName tagName);
+     REM virtual bool Write(FILE *, FileType);
+     REM virtual void WriteEntryTagVRLength(gdcmDocEntry *tag,
+                                        FILE *_fp, FileType type);
+     REM virtual void WriteEntryValue(gdcmDocEntry *tag,FILE *_fp,FileType type);
+     REM virtual bool WriteEntry(gdcmDocEntry *tag,FILE *_fp,FileType type);
+     REM virtual bool WriteEntries(FILE *_fp,FileType type);
+     REM virtual std::string GetEntryByName    (std::string tagName);
+     REM virtual std::string GetEntryVRByName  (std::string tagName);
+     REM gdcmDictEntry *GetDictEntryByName  (std::string Name);
+     REM gdcmDictEntry *GetDictEntryByNumber(guint16, guint16);
+     REM gdcmDictEntry *NewVirtualDictEntry(guint16 group, 
+                                            guint16 element,
+                                            std::string vr     = "unkn",
+                                            std::string fourth = "unkn",
+                                            std::string name   = "unkn");
+     REM gdcmDocEntry *NewDocEntryByNumber(guint16 group, guint16 element);
+     REM gdcmDocEntry *NewDocEntryByName  (std::string Name);
+     REM gdcmValEntry *NewValEntryByNumber(guint16 group, guint16 element); 
+     REM gdcmBinEntry *NewBinEntryByNumber(guint16 group, guint16 element); 
+	  													 
+	- gdcmElementSet
+	  ADD virtual void Write(FILE *fp, FileType filetype);
+	  
+   - gdcmSeqEntry
+	  ADD virtual void Write(FILE *fp,FileType filetype);
+ 
+   - gdcmSQItem
+     ADD virtual void Write(FILE *fp, FileType filetype);
+     ADD virtual std::string GetEntryByNumber(guint16 group, guint16 element);	      
+     REM std::string GetEntryByNumber(guint16 group, guint16 element);
+     REM std::string GetEntryByName(TagName name);
+
+   - gdcmValEntry
+	 ADD virtual void gdcmValEntry::Write(FILE *fp, FileType filetype); 
+				  
+2004-06-21 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+    * Test/TestWriteSimple.cxx: fix to gdcmHeader-gdcmHeaderHelper revamping.
+      The default constructor invoked by the line
+         gdcmHeader *f1 = new gdcmHeader( header );
+      was gdcmHeader::gdcmHeader(bool) instead of the expected
+      gdcmHeader::gdcmHeader(std::string const &, bool = false, bool, bool).
+      Hence the parsing wasn't executed... See also below.
+    * src/gdcmHeader.h: the declaration of gdcmHeader::gdcmHeader(bool)
+      as explicit constructor didn't do the trick to fix the above problem.
+      Could anyone explain why ?
+    * src/gdcmBinEntry.cxx, gdcmValEntry.cxx: gdcmBinEntry::Print() now
+      properly calls gdcmValEntry::Print() (that was weed out from 
+      code related to gdcmBinEntry).
+
+2004-06-20 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+    * In order to fix memory leaks:
+     - Test/TestWriteSimple.cxx: added cleaning of free store through
+       some delete calls.
+     - src/gdcmBinEntry.cxx: fix to avoid SegFault.
+     - src/gdcmDicomDir.[cxx|h]: fixed initialisation in constructor
+       gdcmDicomDir::gdcmDicomDir(bool) [either the constructor itself
+       (through the call to ::AddDicomDirMeta()) or the destructor
+       would crash when deleting uninitialized ::metaElems].
+     - src/gdcmDictEntry.cxx: annotation of ununderstood memory leak.
+     - src/gdcmDocument.cxx:
+       -- ::~gdcmDocument() destructor now cleans up all dictionary entries
+          from dynamic stores.
+       -- ::ParseDES() misplaced deletion of temporary NewDocEntry
+          was causing memory leaks.
+     - src/gdcmSQItem.cxx:
+       -- ::~gdcmSQItem() dummy code cleaned (learned that deletion is
+          cleanly handled with polymophism: sorry but my milage is low).
+       -- ::SetEntryByNumber(string, guint16, guint16) now cleanly allocates
+          a gdcmValENtry, and makes no assumption on type (gdcmDocEntry,
+          gdcmSeqEntry vs gdcmValEntry) of existing entry (when present).
+          This avoids SegFaulting.
+     - src/gdcmSQItem.h: coding style.
+    * Conclusion:
+     - Test/TestWriteSimple still severely sucks. The output image content
+       (when $(GDCMDATA_HOME)/012345.002.050.dcm in input) is brain
+       damaged when displayed with vtkgdcmViewer.
+     - on memory leaks: TestWriteSimple leaks really less (see entry
+       of 2004-06-18 in Changelog file for the call to valgrind).
+     - on segfaults: ctest now passes all the tests but one (no more
+       segfaults).
+    * Erroneous leading white fix:
+     - src/gdcmDict.cxx: getline(from,xxx) doesn't remove the leading
+       white[s] (as opposed to from >> xxx, that removes it [them].
+     - src/gdcmTS.cxx: ditto.
+     - gdcmPython/testSuite.py: dirty related kludge removed.
+    * src/*: remaining references to gdcmParser removed.
+    * src/*[cxx|h]: added copy[way]left header.
+
+
+2004-06-18 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+    * In order to fix writing of dicom files:
+     - Test/TestWriteSimple.cxx: a simpler example of writing.
+     - Test/CMakeLists.txt changed accordingly.
+     - src/gdcmDocument.cxx:
+       -- The destructor now recursilvely removes potential sequences.
+       -- Bug fix in ::IsJPEG2000()
+       -- ::ReplaceOrCreateByNumber(std::string, guint16, guint16)
+          now handles promotion of gdcmDocEntry to gdcmValEntry in a cleaner
+          manner.
+       -- ::GetValEntryByNumber(guint16, guint16) now defined (as opposed
+          to only declared) and build on top of
+          ::GetDocEntryByNumber(guint16, guint16).
+       -- ::SetEntryByNumber() now uses GetValEntryByNumber(group, element)
+     - src/gdcmElementSet.[h|cxx]: added ::RemoveEntry(gdcmDocEntry *)
+       for usage in destructor and treatement of promotion in
+       ::ReplaceOrCreateByNumber().
+     - src/gdcmSQItem.cxx: destructor should better handle his job.
+      Test/TestWriteSimple now runs (or at least it DOES something).
+    * We can now start hutting memory links. A good starting point is:
+      valgrind -q --skin=memcheck --leak-check=yes --leak-resolution=high
+      --num-callers=100 --show-reachable=yes gdcmTests TestWriteSimple
+      $(GDCMDATA_HOME)/012345.002.050.dcm foo.dcm
+
+2004-06-18 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+    * Valgrind note: after Mathieu Malaterre teached me how to read
+      the valgrind FAQ ;-] (see http://valgrind.kde.org/faq.html), I
+      learned that:
+          Using gcc, you can force the STL to use malloc and to free memory as
+          soon as possible by globally disabling memory caching.
+          With 3.2.2 and later, you should export the environment variable
+          GLIBCPP_FORCE_NEW before running your program.
+      By setting GLIBCPP_FORCE_NEW, STL related memory leak messages of gdcm
+      simply vanish (it is still not clear to me, whether this means that
+      STL std::string leaks or if valgrind believes it leaks...).
+    * Fixing of SegFault of Test/makeDicomDir (as shown by ctest or by
+      running bin/gdcmTests makeDicomDir):
+      - src/gdcmDicomDir.cxx: dynamic casting used + clean up.
+      - Test/makeDicomDir.cxx now properly traps empty lists and returns
+        with 1.
+      NOW, makeDicomDir cleanly fails (in ctest terminology) instead of
+      SegFaulting (I drowned in DicomDir related code when trying to
+      understand why the list is empty...).
+    * src/gdcmDocument.h: first BSD license header try.
+    * Doc/License.txt added.
+
+2004-06-15 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+    * src/gdcmDocument.[h|cxx]:
+      - Clean up of the Transfer related predicates. They are now all based
+        on new method isGivenTransferSyntax, that (should) handle properly
+        the padding problem.
+      - general clean up, simplification, and coding style.
+      - Specific clean up of Parse7FE0() (umproperly named actually).
+    * gdcmPython/testSuite.py: an odd temporary kludge introduced.
+
+2004-06-14 Jean-Pierre Roux		
+   *  gdcmSeqEntry.cxx
+	   - fix the display of Sequence Delimitor (SQDepthLevel pb)
+		- fix the display of SQItem ordinal number
+      - add the GetSQItemByOrdinalNumber method
+		- remove some useless never written private methods	
+		
+2004-06-14 Jean-Pierre Roux
+   * gdcmBinEntry.cxx 
+      - adding a constructor taking a gdcmDocEntry as an input param
+	   - ReplaceOrCreateByNumber now returns :
+	      a gdcmBinEntry * if a Binary (void *) value is passed as a param
+		   a gdcmValEntry * if a string value is passed as a param
+   * dcmDocument.cxx
+      - SetEntryByNumber now allows setting gdcmValEntry or gdcmBinEntry, 
+	      according to the param type (no longer sets a gdcmDocEntry)
+	   - GetValEntryByNumber, GetBinEntryByNumber added
+      - NewValEntryByNumber and NewBinEntryByNumber added
+   * gdcmFile.cxx
+      - Pixel Data are now linked to the (7fe0,0010) elements, after reading
+   * gdcmSQItem.h
+      - GetSQItemNumber and SetSQItemNumber added, to provide 
+            a (relative) Item identier inside a given Sequence
+            \warning : some pb remaining around this number
+				will be solved asap
+      - AddEntry now takes the Item Number as a param 	
+   * gdcmValEntry.cxx 
+      - adding a constructor taking a gdcmDocEntry as an input param	
+
+2004-06-14 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+    * Memory leak hunt with the following command:
+      valgrind --leak-check=yes --leak-resolution=high --num-callers=40
+               --show-reachable=yes gdcmTests PrintDocument
+      It looks like many (all?) leaks are due to the STL (or a bad usage
+      of the STL. The lines producing the leaks now have a comment with
+      a "MEMORY LEAK" tag: you can retrieve them with 
+          grep "MEMORY LEAK" src/*
+      Here are two typical examples which I can't help fixing:
+      -----
+          #include <string>
+          int main() {
+             std::string name;
+             char * test = "babo";
+             name = test;    //// <--- valgrind detects 960 bytes lost in
+                             ////   call to std::string::operator=(char const*)
+             name.clear();   //// Doesn't help !
+             return 0;
+          }
+      -----
+          #include <string>
+          #include <iostream>
+          int main() {
+             std::string line;
+             std::cout << "Type a bunch of characters followed by RETURN: ";
+             getline(std::cin, line);   //// <--- valgrind dectects a loss
+                                        //// of 1320 bytes in call to
+                                        /// std::basic_istream<>& std::getline<>
+            return 0;
+          }
+      -----
+
+
+2004-06-10 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+    * src/gdcmHeader.[cxx|h]:
+      - Predicates on the Transfer syntax (of the form Is[JPEG|RLE]*)
+        and related, moved away to gdcmDocument.
+      - Accessors (on the form [Get|Set]Entry*) set up to expose publicly
+        the corresponding protected accessors of inherited class
+        gdcmDocument, removed ! As a consequence gdcmFile had to be 
+        declared friend of class gdcmDocument (see below).
+      - operator< moved to gdcmDocument (in fact it belongs to gdcmDicomDir).
+      - Clean up of undefined or unused methods.
+    * src/gdcmFile.[cxx|h]: added SetEntryByNumber (in order to take into
+      account the changes to gdcmHeader.h).
+    * src/gdcmDocument.h:
+      - gdcmFile is now a friend class (in order to take into account the
+        changes to gdcmHeader.h).
+      - Predicates on the Transfer syntax (of the form Is[JPEG|RLE]*) added
+        (see changes to gdcmHeader.h).
+      - Accessors (reading on the form GetEntry*) are now public.
+      - Clean up of undefined or unused methods.
+    * src/gdcmDocument.cxx:
+      - adaptation to changes to gdcmDocument.h
+      - ::OpenFile now writes a verbose message when file cannot be opened.
+      - some std::string properly set to VRKey
+    * src/gdcmDicomDir.h: historical references to gdcmHeader changed to
+      references to gdcmDocument. 
+    * Test/TestFindTags.cxx: changed accordingly to above changes.
+    * gdcmPython/testSuite.py: adapted to renaming of acr files in 
+      cvs repository gdcmData.
+
+2004-06-09 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+    * src/gdcmValEntry.h: member voidArea type changed from char* to void*.
+    * src/gdcmBinEntry.h: member voidArea commented out, since it potentially
+      conflicts with gdcmValEntry::voidArea.
+    * src/gdcmValEntry.cxx: unmatching comment wiped out.
+    * src/gdcmVR.[h|cxx]: added two predicates that partition the possible
+      Value representation between StringRepresentable and BinaryRepresentable.
+    * src/gdcmDocument.cxx: 
+      - method ParseDES: proper indentation restored and usage of
+        gdcmVR::IsVROfGdcmStringRepresentable wired in.
+      - method LoadDocEntry: the fingerprint left in the SetValue() of
+        unloaded entries (length > MaxSizeLoadEntry) had curiously been
+        removed. Reverting to previous code segment with the proper
+        dynamic_cast< gdcmValEntry* >.
+        Note: this was (partially) breaking the python test suite
+              (gdcmPython/testSuite.py) that made usage of the above
+              fingerprint to check presence of "Pixel Data".
+    * src/gdcmDocEntry.h: coding style.
+    * gdcmPython/__init__.py: environement variable GDCM_DATA_PATH is
+      now taken into account.
+    * gdcmPython/gdcm.i: adaptation to the new internal representation
+      of gdcm (exit gdcmParser, hello gdcmDocument).
+    * gdcmPython/testSuite.py: quick and dirty fix for loading vtkgdcmPython
+      on posix.
+    * gdcmPython/demo/PrintHeader.py: doesn't use the gdcmDocument::Print()
+      anymore, but instead prints the loaded Python dictionary.
+    * .... alas, the python testSuite is still broken.
+
+2004-05-18 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+    * gdcmPython/gdcm.i : remove useless lines concerning the gdcmGlobal
+      gdcmGlob
+    * gdcmPython/setup.py : replace the use of cvar.gdcmGlob to gdcmGlobal
+    * src/gdcmUtil.h : export methods
+
+2004-05-16  Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+    * Some more cleanup/enhancement in gdcmPython/CMakeLists.txt getting close
+      to right behavior
+    * Initial addition of automatic python testing
+    * Initial addition of automatic image comparison
+
+2004-05-04 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+    * src/gdcmCommon.h, gdcmDicomDir.cxx, gdcmFile.cxx, gdcmHeaderHelper.h,
+      gdcmParser.cxx, gdcmParser.h : bug fix for the Microsoft .Net compilation
+
+2004-05-04 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+     * src/gdcmFile.cxx, gdcmHeader.cxx : bug fix for the msvc compilation
+     * Test/ShowDicom.cxx : bug fix for msvc compilation
+     * vtk/vtkgdcmViewer.cxx : bug fix for msvc compilation
+
+2004-05-04 Jean-Pierre Roux
+     * ADD Taking into account the 'Dicom Sequences' leads up to introduce
+       new concepts (and new classes) :
+       a 'gdcmDocument' is composed of a set of Doc Entries, that are
+        - elementary gdcmDocEntries (former gdcmHeaderEntries)
+        - Sequence Doc Entries (gdcmSeqEntries)
+       a Sequence is composed of Items.
+       Each item is a set of Doc Entries (this is recursive)
+       The non uniqueness of the 'Dicom tag' is due to this recursivity
+       (never taken into account)
+       Our unability to add a new 'entry' in the header
+       at the proper location (neither in the H-Table (map or multimap),
+       nor in the Chained List is also due to this recursivity.
+       Don't try, right now, to use/modify/compile these new sources :
+       nothing is finished.
+       We just commit all the stuff, 'as is', in order not to loose it.
+
+2004-05-04 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+     * vtk/vtkGdcmReader.cxx : bug fix in the setting of file name
+     
+2004-05-03 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+     * vtk/vtkGdcmReader.cxx : bug fix when loading a list of files using the
+       file prefix (SetFilePrefix)
+
+2004-05-02  Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+     * Add a new test: ShowDicom, for now this is just the c++ version of
+       checkRead.sh, later it will be able to compare the image read against a
+       baseline.
+     * Replace the DEBUG on the stack with a global entry in cmake interface:
+       GDCM_DEBUG, so you can turn verbosity ON/OFF for debug statement.
+
+2004-04-30  Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+     * Add an example subdir, with a real example on how to read + write a 
+       dicom image
+
+2004-04-30  Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+     * Doc/gdcmUML.xmi added raw UML class view (umbrello format)
+     * Doc/CMakeLists.txt: the main page is now properly differentiated
+       between the developper and user version.
+     * Doc/doxygen.config.in: dropped search related obsolete flags
+     * src/gdcmParser.h, gdcmHeader.h: doxygenation
+
+2004-04-29  Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+     * DEVELOPPER: added some helpfull comments for compile/test/install
+       when using cmake.
+
+2004-04-29  Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+     * ENH: 1. Remove remp solution of gdcmTests.cxx+ gdcmMain directly in 
+               src directory, now generated in the build dir.
+            2. Tests as mentionned smarter
+            3. Some clean up
+            4. Add a new method in gdcmDict that return the PubDict by name 
+          this is interesting for 3rd party lib like ITK, 
+          where we could set the institution name / patient name...
+
+       * ENH: 1. Now the test suite is working for real
+              2. All binaries are now output in the gdcm-bin directory 
+                 (this was not true before)
+
+2004-04-28  Jean-Pierre Roux
+     * ENH add the provisional  gdcmHeader::SQDepthLevel to allow 
+           SeQuence indented printing of Dicom Header.
+     * ENH merge methods gdcmParser::Parse and gdcmParser::LoadHeaderEntries
+           into the single gdcmParser::LoadHeaderEntries for efficiency purpose.
+	   Computation of SQDepthLevel is now part of gdcmHeader constructor
+     * ENH add self defined param 'new' to PrintHeader to 'show' the SeQuence
+           tree-like structure of a Dicom Header.
+     * FIX Test code cleaning     
+           
+2004-04-25  Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+     * ENH: Adding automatic testing
+       1. Need a DartConfig.cmake to submit to public
+       2. Add a test driver gdcmTest.cxx
+       3. gdcmTestMain, an helper for the main test driver gdcmTest
+       4. Files in Test don't have a main anymore, this becomes interesting 
+          when we add more and more tests, thus dsw don't have to load 
+          too many projects
+     * ENH: Adding a GDCM_DATA_ROOT for testing
+     * ENH: Remove redundancie about GDCM_DICT stuff, now we only need to modify
+       one file instead of seven + some small cleanup
+
+2004-04-22  Jean-Pierre Roux
+     * ENH Minor changes to the Print() methods.
+     * ADD gdcmParser::PrintEntryNiceSQ() to allow SQ-indented
+           Header printing. Example given with :
+	   > PrintHeader fileName  2 new
+          (SQ based tree-like structure still to be done for the Header ...)
+	   
+2004-04-22  Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+     * ENH: Some cosmetic clean up for compilation with -W -Wall -Werror
+         1. I have added some unsigned where needed
+         2. Some function parameter not used -> (void)
+         3. In gdcmDicomDir.cxx, add GDCM_DICOMDIR_NONE case
+         4. g++ don't like character '\' in comment
+         5. #define jpeg_create_decompress  jCreaDecompress
+                    this really need to be fixed
+         6. virtualize destructor of gdcmObject ... leakage
+         7. sscanf(g->first.c_str(),"%x",&gr_bid); 
+                    this also really need to be fixed
+         8. gdcm/src/jpeg/libijg8/CMakeLists.txt, 
+                    remove compression file 
+                    (as we only do decompression, right ?)     
+     * ENH: Change malloc/calloc/free with c++ equivalent
+
+2004-04-21  Jean-Pierre Roux
+     * FIX gdcmHeaderHelper::GetXSpacing
+           when a single value is found (bug ?), xpacing is now 
+           defaulted to yspacing
+	   
+2004-04-19  Jean-Pierre Roux
+     * ADD gdcmData/Wrist.pap (PAPYRUS 3.0 -single frame-) for checking purpose
+     * ENH add parameters :
+               bool  exception_on_error = false, 
+               bool  enable_sequences   = false,
+	       bool  ignore_shadow      = false
+           to the gdcmFile constructors to be full gdcmParser compliant
+     * FIX vtk/vtkGdcmReader.cxx now uses  enable_sequences = true in gdcmFile
+           to allow reading of PAPYRUS 3.0 files 
+	      
+2004-04-06  Jean-Pierre Roux
+     * ADD gdcmData/E00001S03I0015.dcm for SQ checking purpose
+     
+2004-04-02  Jean-Pierre Roux
+     * ADD : Test/checksequence.sh, for a general recap on SQ pb
+     * FIX : gdcmParser::WriteEntryTagVRLength emprovement of special treatement
+             for Philips spurious Tag fffe|0000 while rewritting Dicom files
+	     
+2004-03-30  Jean-Pierre Roux
+     * FIX gdcmParser::ReplaceOrCreateByNumber shouldn't seg fault any more 
+         for ACR file, written out as DICOM files (hope so...)
+
+2004-03-30  Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+     * src/gdcmParser.[cxx|h] and gdcmHeader.[cxx.h]: gdcmHeader::Write split
+       in WriteEntryTagVRLength and WriteEntryValue. Those methods were
+       moved to base class gdcmParser and only the specialisation is kept
+       in gdcmHeader.
+     * src/gdcmParser.[cxx|h]: ReplaceOrCreateByNumber(char*, guint16, guint16)
+       trashed out (because ReplaceOrCreateByNumber(string, guint16, guint16)
+       already does the job.
+     * src/gdcmDicomDir.[cxx|h]: WriteDicomDirEntries renamed to WriteEntries
+       (to be consistent with gdcmParser::WriteEntries).
+
+2004-03-30 Benoit Regrain
+     * vtk/vtkGdcmReader.[h|cxx] : fix the read of 3 gdcmHeader when making an
+       upate of the object's instance. It's passed to 2 in the unfavorable
+       case : one in the ExecuteInformation, one in the ExecuteData
+
+2004-03-29  Jean-Pierre Roux
+     * ENH : Check on file type to be written moved
+             from gdcmParser::WriteEntry to gdcmParser::WriteEntries
+     * FIX : gdcmObject::ResetBoundaries now stops properly
+             when end-of-list is reached
+	   : gdcmVersion modified (as Benoit Regrain asked)
+
+2004-03-29  Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+     * src/gdcmParser.cxx: removal of all TAB character. Indentation fixed.
+     * src/gdcmUtil.cxx: added forgotten iostream include.
+     * src/gdcmCommon.h: FileType enum entry DICOMDIR removed (since
+       equivalent to ExplicitVR in existing code).
+
+2004-03-27  Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+     * src/gdcmUtil.[cxx|h] split in two. Additional file gdcmGlobal.[cxx|h]
+       now contains all the gdcmGlobal related code.
+     * minor coding style and doxygenation changes.
+
+2004-03-26  Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+     * src/gdcmUtil.[cxx|h] split in two. Additional file gdcmDebug.[cxx|h]
+       now contains all the Debug related code.
+     * minor clean-up of includes in src/*.cxx
+     * src/gdcmUtil.[cxx|h] _cleanString C style function (replaced with
+       CreateCleanString) removed.
+     * src/gdcmUtil.[cxx|h] _CreateCleanString renamed to CreateCleanString
+     * Doc/DoxyMainPageUser.txt added.
+     * Doc/Doc/DoxyfileUsers updated to version 1.3.4 of Doxygen.
+     * src/gdcmCommon.h now defines getcwd for Win32 (moved away from
+       src/gdcmDirList.cxx)
+
+2004-03-24  Jean-Pierre Roux
+     * FIX a lot of little surface modifications to be doxygen 1.3.6 compliant
+
+2004-03-23  Jean-Pierre Roux
+     * FIX Now gdcmFile::SwapZone doesn't seg faults any longer for
+           big endian made volumes
+     * ENH Now gdcmParser constructor and destructor are protected to forbid
+           end user to instanciate class gdcmParser
+          (only gdcmHeader and gdcmDicomDir are meaningfull)
+
+2004-03-22 Benoit Regrain
+     * FIX : src/gdcmDicomDir.cxx : make windows compilable
+     * FIX : gdcmPython/gdcm.i : change gdcmStudy to gdcmDicomDirStudy and
+             gdcmSerie to gdcmDicomDirSerie
+
+2004-03-19  Jean-Pierre Roux
+     * ENH Now the tree-like structure describing a DICOMDIR comming from
+           an already existing DICOMDIR file is consistent with
+           the home-made tree-like structure build ex-nihilo
+           or build from the files held (recursively) in a Directory
+           functions gdcmDicomDir::CheckBoundaries()
+           gdcmObject::SetBoundaries() added
+
+2004-03-17  Jean-Pierre Roux
+     * REM (Eric Boix bug) : removal of meaningless
+                             gdcmDicomDirImage::NewImage function.
+     * FIX now file names and directory name are written properly in the
+           DICOMDIR
+     * FIX now gdcmDicomDir constructor may be call without any trick
+           about the name
+
+2004-03-16  Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+     * FIX (JPR bug) : src/gdcmDicomDirImage.cxx added missing definition
+                       of gdcmDicomDirImage::NewImage as empty function.
+
+2004-02-28  Jean-Pierre Roux
+     * ENH add gdcmDicomDir:NewPatient
+           add gdcmDicomDirPatient:NewStudy
+           add gdcmDicomDirStudy:NewSerie
+           add gdcmDicomDirSerie:NewImage
+	   to allow making gdcDicomDir object.
+     * ADD PrintDicomDir executable that uses gdcmDicomDir tree-like structure
+          (as opposite to the gdcmHeader chained list)
+
+2004-02-11 Benoit Regrain
+     * FIX : memory leaks and the set of ArgDelete methods in gdcmDicomDir
+             when using from python
+
+2004-02-10 Benoit Regrain
+     * FIX : bug fix in the gdcmDirList for the recursivity in directories
+     * FIX : in gdcmDicomDir when the directory is empty
+     * ENH : add callback and methods to get the progression of dicomDir
+             directory parsing
+
+2004-02-06 Jean-Pierre Roux
+     * ENH : - now gdcmDicomDir::CreateDicomDir() returns also the meta elements
+             - GDCM_META added to gdcmDicomDirType
+             - class gdcmMeta created
+     * ENH : - A brief summary is now displayed at the beginning of
+             'testDicomDir' to help disaster magnitude estimation
+     * REM : Now useless Test/explDICOMDIR.cxx
+
+2004-02-05 Benoit Regrain
+     * ENH : add methods in gdcmObject to get the hash table or the list of
+             header entries
+     * FIX : wrapping python for ListPatient, ListStudy, ListSerie, ListImage
+     * FIX : wrapping python for TagHeaderEntryHT
+
+2004-02-04 Benoit Regrain
+     * FIX : even length for some strings when writting the dicom dir
+     * FIX : sort the images in the dicom dir
+     * FIX : Bug fix for python use of dicom dir
+     * ADD : a python demo
+
+2004-02-04 Jean-Pierre Roux
+     * FIX : Final solution (?) for icone embedded images
+     * FIX : dicomVR.dic Overlay group is not *only* 6000, but 60xxx
+             (see http://medical.nema.org/dicom/2003/03_06PU.PDF)
+             add groups 6002, 6004, 6006, to allow 'clean' parsing of
+             gdcmData/gdcm-MR-SIEMENS-16.acr1
+     * ENH add gdcmData/checkWriteExplicit.sh gdcmData/checkWriteImplicit.sh
+           to make full checking easier
+        
+2004-02-04 Benoit Regrain
+     * FIX : WriteEntries : coding style & logic in parameters
+     * FIX : Set the elements to create the DicomDir in a dictionary file
+
+2004-02-03 Benoit Regrain
+     * gdcmDirList : to parse a hard drive directory in recursive (or not)
+     * gdcmDicomDir : add the load of directory
+     * Bug fix and print add-on
+
+2004-02-03 Jean-Pierre Roux
+     * ENH gdcmParser : allows "DICM" files, with NO group '0002'
+     * FIX handling 'non string elements' unsecure area (LUT, overlays, etc)
+     * FIX Dicts/dicomV3.dic : Add a few missing 'group length' Elements 
+     * FIX gdcmParser.cxx : 'group length' elements are now considered 
+           as integers, even for shadow groups, when file is Implicit VR
+        
+2004-02-02 Jean-Pierre Roux
+     * FIX : gdcmWrite : equal_range() for multimap doesn't return a 'second' 
+             iterator on last
+             of the last synonym :-(
+     * FIX : gdcmWrite::WriteBase : method stops if Pixels not yet Read (except 
+             for DICOMDIR ;-)
+     * ENH gdcmData/checkWrite.sh :modif for full check of Explicit VR writting
+     * FIX taking into account the possible 7fe0,0010 multiplicity        
+     * FIX add GRPixel,NumPixel,countGrPixel (gdcmParser protected members)
+           to allow removal of references to 7fe0,0010, to deal with
+      ACR-NEMA images, when 0028,0200 is meaningfull
+
+2004-01-31 Jean-Pierre Roux
+     * FIX gdcmParser::WriteEntries : when a VR is tagged as 'Unknown'
+           no longer writes 'Un' on disk
+     * FIX SQ elements with actual length are now dealt with corectly
+     * FIX gdcmFile::WriteBase make the difference, for color images, between
+           the length (for Palette expanded images)
+           and Raw Length (non expanded image + Palette)
+     * FIX Dicts/dicomV3.dic : removal of 'CTX' (context dependant) VR
+           (that broke Write). Replaced by UL.
+           Aware user will reload the field if he 
+           thinks it's necesssary
+             
+2004-01-30 Jean-Pierre Roux
+     * gdcmParser::CheckSwap() now defaults the filetype to ACR 
+       when 'dirty Acr' is found, to be compliant with the new 
+       IsReadable() methods.
+       
+     * gdcmHeaderHelper :add Pixel Type 'FD', for dealing with 'double' images.
+      (no DOUBLE images in kosher DICOM, 
+      but so usefull for people that miss them ;-)
+      
+     * add Test/testDicomDir.cxx, Test/makeDicomDir.cxx , Test/explDICOMDIR.cxx
+       DICOMDIR related utilities (not checked as Windoze compliant)
+
+2004-01-28 Jean-Pierre Roux
+     * upgrade GdcmHeaderEntry Print Method for DICOMDIR
+
+2004-01-27 Jean-Pierre Roux
+     * gdcmParser constructor has a new boolean param,'ignore_shadow', 
+             to allow skipping the shadow elements, to save memory space.
+        The TRUE value for this param has to be used 
+        with a FALSE value for the 'enable_sequence' param.
+        ('public elements' may be embedded in 'shadow Sequences')
+     * gdcmHeader methods now deal with 'embedded icones images' in the header
+             (even when an 'icone image sequence' is announced by the 
+        element (0x0088,0x0200), but there is NO icone at all ...
+        
+     * gdcmHeader sometimes Image Location value doesn't follow  
+             the supposed processor endianity (see gdcmData/cr172241.dcm).
+             Fixed
+
+     * gdcmHeader add the method
+             IterHT  GetHeaderEntrySameNumber(grPixel,numPixel);
+        to get *all* the Header Entries with the same tag.
+        GetHeaderEntrySameName is probabely *useless* 
+        (no meaning : Name is *not* an identifier within the Dictionnary)
+
+2004-01-26 Benoit Regrain
+     * Bug fix in the print of hexadecimal representations. Remove long fields 
+       in the print and add a third level of print to print them
+
+2004-01-23 Benoit Regrain
+     * Bug fix on field having a VR = 'UI'. Assume that is a string field
+     * Bug fix on test suite after remove the strip made on not string fields
+     * Split the IsReadable method between gdcmParser which test that the file
+       is dicom and gdcmHeader which test that it's an image file
+
+2004-01-22 Benoit Regrain
+     * DicomDir : clean code, add methods, set variables in protected or private
+     * gdcmUtil : bug fix for the clean string method
+
+2004-01-19 Benoit Regrain
+     * Add the use of shadow dictionaries
+     * bug fix and coding style
+
+2004-01-19 Benoit Regrain
+     * src/gdcmFile.cxx : bug fix concerning the close of file
+     * src/gdcmParser.[h|cxx] : remove obvious Pub informations
+     * Add the update of header entries using the shadow library
+
+2004-01-19 Benoit Regrain
+     * removal of file gdcmHeader2.cxx
+     * split class gdcmHeader into gdcmParser and gdcmHeader, with gdcmHeader
+       inheriting from gdcmParser. This split is to prepare the integration
+       of dicom dir parsing
+     * bug fix under python
+
+2004-01-16 Jean-Pierre Roux
+    * REM removal of class gdcmHeaderEntrySet
+    * REM removal of files gdcmHeaderEntrySet.cxx, gdcmHeaderEntrySet.h
+    * ADD add file gdcmHeader2.cxx 
+    * ADD add method gdcmHeader::SetPrintLevel (for PrintHeader)
+
+2004-01-15 Benoit Regrain
+     * src/gdcmDicSet.[h|cxx] : add virtual entries to have a reference of
+       entries created while parsing the header. Thus, they will be destroyed
+       when the gdcmDictSet will be destroyed
+     * src/gdcmHeader.cxx, gdcmHeaderEntrySet.cxx : uses virtual entries of
+       gdcmDictSet
+
+2004-01-15 Benoit Regrain
+     * vtk/vtkGdcmReader.cxx : bug fix : before, with python only, the program
+       made a fatal error because of the memory release at the end of program.
+       The problem was in vtkGdcmReader::ExecuteData where we were allocate
+       some memory and vtk seems to have some problems with that.
+     * src/gdcmHeaderEntrySet.cxx : bug fix for std lib and cout
+
+2004-01-14 Benoit Regrain
+     * src/gdcmHeaderEntry.[h|cxx] : gdcmElValue -> gdcmHeaderEntry
+     * src/gdcmHeaderEntrySet.[h|cxx] : gdcmElValSet -> gdcmHeaderEntrySet
+     * src/*.[h|cxx] : make changes due to class name changes
+     * gdcmPython/demo/*.py : bug fix due to method names
+
+2004-01-13 Benoit Regrain
+     * src/*.[h|cxx] : coding style
+     * vtk/*.[h|cxx] : coding style
+
+2004-01-13 Benoit Regrain
+     * gdcmPython/testSuite.py : test the readable flag of file for tests
+     * src/gdcmDict.cxx, gdcmElValSet.cxx : bug fix under windows for prints.
+       It's lied to the stl compilation by MSVC (windows, always windows...)
+     * src/gdcmIdo.h, gdcmHeaderIdo.cxx : remove the Ido unused files
+
+2004-01-12 Benoit Regrain
+     * src/*.h : add comments
+     * src/gdcmDictSet.h : set the method BuildDictPath in public
+     * src/gdcmTS.cxx, gdcmVR.cxx : use now a dictionnary file other than to be
+       directly setted in the source code
+     * Dicts/dicomTS.dic, dicomVR.dic : 2 new dictionnary files loaded by
+       gdcmTS and gdcmVR
+
+2004-01-09 Benoit Regrain
+     * gdcmPython/gdcmVersion.py : add a gdcmVERSION variable information
+     * setup.py : use a reference to gdcmVERSION
+
+2004-01-07 Benoit Regrain
+     * Modification to compile with the distutils.
+     * Bug fix in code
+
+2003-12-10 Benoit Regrain
+     * gdcmHeader is now aggregating gdcmFile, and not derived into. Thus, we
+       can use a gdcmHeaderHelper to load datas
+     * gdcmPython/testSuite.py : make the testSuite compliant with modifications
+       made in the source code
+
+2003-12-10 Benoit Regrain
+     * Update Windows projects and .cvsignore files
+
+2003-11-12 Jean-Pierre Roux
+     * ENH gdcmHeader constructor has one more parameter (default value : false)
+           that allows the user to 'go inside' the SeQuences only
+           if he wants to.
+           gdcmElValSet:Print takes it into account
+
+2003-11-12  Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+     * ENH: Update gdcmPython/CMakeLists
+     * FIX: (gdcmHeaderHelper) GetRescale and GetSlope
+     * FIX: (gdcmElValSet) char 'tag' was overiding private members (VC++)
+
+2003-11-10 Jean-Pierre Roux
+      * FIX : gdcmHeader::LoadElements is now based
+             on the ListTag listElem member,
+             not longer on the TagElValueHT tagHt member
+      * ENH : PrintPubElVal shows (temporarily) both results,
+             with the tagHt member and the listElem member.
+	     (it's easier to 'see' the problems when using Printheader)
+
+      * FIX : old private member LgrElem is now splitted into
+             ReadLength   : Length actually found on disk (updated only
+	                    if bug fixing is necessary), for internal
+			    use only
+	     UsableLength : Updated by FixFoundLength, to fix a bug
+	                    or to allow Parser going on.
+	     Will allow to re-write a kosher header when a SeQuence
+	     with a length (not 0000) is found
+      Warning : gdcmFile::Write still uses the TagHt (not ListElem)
+	        because gdcmElValSet::Add does not update ListElem
+		(to be written)
+
+2003-11-07 Jean-Pierre Roux
+     * FIX misstyping in Transfert Syntax name table
+     * ENH gdcmHeader::FixFoundLength now allow to 'go inside' tge SeQuences
+          when they have an actual length (not 0000 nor FFFFF)
+     (Nobody should care of it, but DICOMDIR explorers)
+
+2003-11-06  Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+     * ENH: vtkgdcmViewer now works with LUT dicom (OT-PAL-face ...)
+
+2003-11-05  Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+     * ENH: vtkGdcmReader now supports LUT !
+          (vtkgdcmViewer for now is not able to use them though)
+
+2003-11-05 Jean-Pierre Roux
+     * in testSuite.py : new files names for checking the package
+     * FIX : Forgot to commit gdcmFile::GetImageDataSizeRaw();
+             that returns the pixel area size to the *aware* (vtk) user
+             that DOESN'T want to turn the PALETTE COLOR image into an RGB image
+
+2003-11-05 Benoit Regrain
+     * in testSuite.py : Modify the rules for checking the paths
+                       : Explicit error messages
+     * in __init__.py  : Related modif
+
+2003-11-03 Jean-Pierre Roux
+     * add gdcmHeaderHelper::GetNumberOfScalarComponentsRaw()
+           to be used by aware (vtk) users that want to manage
+           LUT (and no to turn the PALETTE image into an RGB pixels one)
+     * GetPixelType now returns 8U for 24 Bits images
+                    (vtkGdcmReader compliant)           
+      
+2003-10-31 Jean-Pierre Roux
+     * Removal of *all* gdcmData images and add them again
+       in order to loose the 'history' of un-anonymised images
+       
+2003-10-31 Jean-Pierre Roux
+     * RMV : removal of useless jBitsInJsample.h 
+           for both 8 and 12 Bits JPEG Lossy Libraries
+
+2003-10-31 Jean-Pierre Roux
+     * ENH : Add the functions gdcmFile::GetImageDataRaw 
+                               gdcmFile::GetImageDataIntoVectorRaw
+             that act as GetImageData and GetImageDataIntoVector
+             except the making of an RGB Plane from Gray Plane + LUT
+             Intended to aware (vtk) users who know how to manage
+             such an image :
+             After gdcmHeader :
+              GetLUTRGBA return a R,G,B,A LUT if any
+              lgrTotaleRaw gives the 'Raw' length
+              GetImageDataRaw returns the gray Plane
+     * FIX : no more dirty trick for 'Segmented xxx Palette Color Lookup' images
+             (They stay Grey, just like with other Dicom viewers :-(
+
+2003-10-30 Jean-Pierre Roux
+     * FIX : a VC++ intended syntax modif broke the 12/12 Bytes expanding
+             
+2003-10-29  Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+     * ENH: Can be used like this '$vtkgdcmViewer *.dcm' with *.dcm 
+	   being coherents dicom files.
+     
+2003-10-29  Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+     * FIX: DOH ! Forgot about windo$e users, they couldn't read lossless jpeg,
+           from medcon lib !
+     * ENH: Turn it into DOS file type to match libgdcmijpeg8.dsp file type 
+     * ENH: Two steps is necessary to please VC++ compiler...
+     * FIX: DOH ! libgdcmijpg8 -> libgdcmljpeg
+     * ENH: Add include dir to medcon lib
+     * FIX: only one function is being exported for now ! 
+           You should use GLOBAL(return type) see ljpg/jpeg.h for more info
+            
+2003-10-29 Jean-Pierre Roux
+      * adding  gdcmHeader::GetLUTRGBA
+        returns a 4 * 256 Bytes Reg/Green/Blue/Alpha vtk compliant LUT
+          --> Mathieu, the modif u're waiting for is not yet committed
+      * removal of now useless GetLUTRed,GetLUTGreen,GetLUTBlue,GetLUTRGB
+
+2003-10-27 Jean-Pierre Roux
+      * adding some xmedcon breaker files (courtesy of Loïc Boussel)
+        00191113.dcm DermaColorLossLess.dcm
+        MxTwinLossLess.dcm RadBWLossLess.dcm
+      * ENH: For version prior to vtkImageViewer2 -r 1.19
+      * FIX: avoid pb with xmedcon-breaker CT McTwin Elscint images
+
+2003-10-27  Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+      * Removal of ido stuff in CMakeLists.txt
+                                               
+2003-10-24  Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+      * ENH: vtkGdcmReader.cxx can now read multiframe dicom
+      * FIX: remove a call to ->Modified ... see comments
+      * FIX: vtkgdcmViewer.cxx was writting ASCII file...this is so slooooow !
+      
+2003-10-23  Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+      * FIX: Problem with path for libvtkgdcmPython
+      * ENH: Try adding a search script for python site-package
+      * RMV: Remove some file from medcon lib that are not necessary
+      * FIX: gdcm/Makefile.am fix for generating ljpg medcon
+      * ENH: CMakeLists.txt now generate 'pygdcm.so' instead of 'libpygdcm.so'
+      * FIX: More pragma disable fro VC++, 
+             I don't think I break something as it is also disable in VTK/ITK.
+        But it fasten debug compilation time.
+            
+2003-10-23 Jean-Pierre Roux
+      * gdcm now deals with 16 Bits Run Length Encoded images
+        (they are compressed as 2 planes images, 
+         one for the high Bytes, the other for low Bytes)
+
+2003-10-22 Jean-Pierre Roux
+      * Now CheckRead takes into account :
+         - the bugged 'Leonardo' Siemens images
+         - the XA images, sent thru the burning VPRO station
+      * add I9000001.dcm, a GE dlx XA image, thru the VEPRO burning station
+       (breaks DicomWorks)
+
+2003-10-22  Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+      * FIX: When copying a Makefile.am to CMakeLists.txt 
+             one should remove the '\'
+        
+2003-10-22 Jean-Pierre Roux
+      * in gdcmData adding a bugged 'Leonardo' Siemens image 
+        (wrong lengths in header)
+        OK with gdcm, KO with the other viewers :-)
+      * add a GE dlx XA image, thru the VEPRO burning station
+        (breaks DicomWorks)
+
+2003-10-21 Jean-Pierre Roux
+      * in gdcmData add the checkvtkgdcmViewer.sh shell script 
+        for a brutal checking of vtkgdcmViewer compliance
+
+2003-10-21 Jean-Pierre Roux
+      * add the files for 'xmedcon' Jpeg Lossless library
+      * call of 'xmedcom' Jpeg Lossles libray (instead of the old LibIDO one)
+
+2003-10-21 Jean-Pierre Roux
+      * 'Compacted Files' (12 Bits Allocate, 12 Bits Stored) are now dealt with
+     
+2003-10-21 Jean-Pierre Roux
+      * garbage Siemens 'Leonardo' images dealt with
+        (the patch is easy to remove)
+      * cosmetic changes to avoid warnings
+      
+2003-10-20  Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+      * ENH: vtkgdcmViewer now autoscale color/window level on start-up, 
+        no need to press 'r' now.
+   
+2003-10-20  Jean-Pierre Roux
+      * upgrade of checkRead.sh checkWrite.sh according
+        to new Jpeg Lossless decompressor
+      * add US.3405.1.dcm, a genuine RGB medical file ...
+      * add gdcm-ACR-LibIDO.acr, unnormalized Rectangular LibIDO format image
+      * add CLIP0001-Sequoia-U11.dcm, US 'Clip', from SEQUOIA machine,
+                                                  UNIT 11, Hop Cardio              
+2003-10-15  Jean-Pierre Roux
+      * general anonymisation in gdcmData
+      * adding the 'color files' from
+        http://www.leadtools.com/SDK/Medical/DICOM/ltdc19.htm
+      * adding some well knowed bugged-header images
+      * adding checkRead.sk, checkReadColor.sh, checkWrite.sh,
+        waiting for their inclusion in Python testsuite
+
+2003-10-15  Jean-Pierre Roux
+    * gdcmHeader::gdcmHeader(const char *InFilename, bool exception_on_error)
+      no longer seg faults when file is not found
+
+2003-10-14  Jean-Pierre Roux
+     * Emprovement of reading for Dicom encapsulated Jpeg LossLess 
+       MultiFrame images
+
+2003-10-14  Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+     * TODO: *.in file to genereate a UseGDCM later
+
+2003-10-14  Jean-Pierre Roux
+     * Some supposed-to-be Dicom Images have no preamble.
+        OpenFile takes it into account
+     * Jpeg LossLess 24 Bits images doesn't break any longer gdcm
+     * Missing elements added in dicomV3.dic
+      (just to be affraid : have a look at
+       ftp://medical.nema.org/medical/dicom/2003/01v03dif/01v03_06.pdf
+       and do it again next year ;->
+
+2003-10-13  Jean-Pierre Roux
+     * According to PS 3.3-2003 C.11.1.1.2 p 619, when each pixel of 
+       a PALETTE COLOR is stored on 2 Bytes, theese 2 Bytes must be equal.
+       But there are NOT. It's fixed !
+       
+2003-10-13  Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+     * FIX: "jpeglib.h" was not found on VC++
+     * FIX: vtkgdcm was not being installed 
+         
+2003-10-10  Jean-Pierre Roux
+     * ENH : OpenFile closes the file if it *really* doesn't look like
+             an ACR-NEMA / DICOM one.
+     * FIX : testWrite no longer writes an empty file if the source file     
+             is not gdcm Readable
+     * ENH : One more JPEG LossLess type "JPEG Baseline (Process 14)" 
+             is now decoded.
+        
+2003-10-10  Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+     * FIX: CMake generate now documentation
+     * ENH: out of source doc build !
+     * ENH: Generate both user and dev documentation
+     * ENH: Should work on windows too
+     * ENH: Only one doxygen config.in file is needed 
+     * FIX: make install should be ok now on ùnix plateform
+     * FIX: PATH to dictionary was wrong (missing /)
+     * ENH: OpenFile, return true if the file looks like an ACR or DICOM file 
+                     
+2003-10-09  Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+     * vtkGdcmReader is now able to read rgb dicom file.
+     * src/gdcmHeaderHelper : GetNumberOfScalarComponents()
+     * added a gdcmViewer to vtk test, use mouse to control 
+        window level & window width
+
+2003-10-09  Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+     * CMake-ification of gdcm, we have now two build system
+     * FIX: on cygwin Wsock32 doesn't exist
+     * FIX: force jpeg dir to the local one (gdcm/src/jpeg)
+     
+2003-10-06  Emanuel Ollart
+     * FIX : compilation process wad broken.
+             Changed gdcmViewer_sources to vtkgdcmViewer_sources
+        
+2003-10-06  Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+     * change gdcmViewer -> vtkgdcmViewer
+     * change GetXSpacing and GetYSpacing "%f\\%" is parsed backward
+     
+2003-10-06  Jean-Pierre Roux
+     * FIX :A few nasty patches to allow the reading of a lot of nasty images
+           ( e.g : well known GE images with a wrong elem length,
+                 : Philips MRI Images with a wrong Huffman table)
+      * still to be done : allow the reading of bugged LEONARDO Siemens images
+
+2003-10-03 Jean-Pierre Roux
+      * Odd length strings are padded with '\0' (not with spaces, 
+        to remain compliant with already defined strings, 
+        like Transfert Syntax UID and others)
+
+2003-10-03 Jean-Pierre Roux
+      * ENH :gdcmHeaderHelper::GetNumberOfScalarComponents() added, 
+             to allow displaying RGB images (not only by affim ;-)
+        
+2003-10-03  Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+      * vtkGdcmReader is now able to read rgb dicom file.
+      * src/gdcmHeaderHelper : GetNumberOfScalarComponents()
+
+2003-10-03 Jean-Pierre Roux
+      * A few nasty patches to allow the reading of a lot of nasty images
+        ( e.g : well known GE images with a wrong elem length,
+              : Philips MRI Images with a wrong Huffman table)
+      * still to be done : allow the reading of bugged LEONARDO Siemens images
+
+2003-10-03 Jean-Pierre Roux
+      * One more JPEG LossLess type "JPEG Baseline (Process 14)" is now decoded.
+
+2003-10-03 Jean-Pierre Roux
+      * gdcmHeaderHelper::GetNumberOfScalarComponents() added, 
+        to allow displaying RGB images (not only by affim ;-)
+
+2003-10-03 Jean-Pierre Roux
+      * gdcmFile::GetImageDataIntoVector now
+         - deals with MultiFrames MultiFragments Run Length Encoded files
+         - deals with YcBcR (YBR_FULL) files
+         - deals with YBR_YBR_FULL_422 files (they work as RBG files ?!?)
+          WARNING : nothing was checked for YBR_PARTIAL_422, YBR_ICT, 
+	                                    YBR_RCT files.
+          (no sample found :-(
+
+2003-10-02  Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+      * src/*.cxx removed pragma thingies to src/gdcmCommon.h
+        Two reasons: - clear things
+                     - third parties acces gdcm through header files, so won't
+                       suffer anymore VC++ complains
+
+2003-09-30  Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+      * add argv[1] in testvtkGdcmReader.cxx
+      * removed leaks
+
+2003-09-24 Jean-Pierre Roux
+      * The lines are now eigthy characters long.for 
+        gdcmHeader.cxx gdcmHeaderHelper.cxx gdcmParse.cxx 
+
+2003-09-22  Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+      * src/gdcmUtil.[cxx|h] : change the _CreateCleanString return value from
+        char* to std::string. Thus, the use of strdup becomes useless. (see
+        previous commis of Malaterre)
+      * src/gdcmElValSet.cxx : reuse commented call to _CreateCleanString like
+        before the last Malaterre's commit.
+
+2003-09-19  Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+      * This commit should fix the Debug building under VC++, the problem
+        was mainly a mixture of debug and release lib being loaded at startup.
+      * I also remove a depency to a specific C function: strdup. Because I had
+        to force the link to msvcrtd (whereas strdup is in libc).
+
+2003-09-16  Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+      * "gdcm::Unfound" string changed to a constant variable (GDCM_UNFOUND)
+        located in the gdcmCommon.h file. All use of reference of tha has been
+        changed to now use the variable GDCM_UNFOUND.
+
+2003-09-16  Eric Boix <Eric.Boix@creatis.insa-lyon.fr> with JPR
+      * Cosmetic changes:
+        - gdcmPython/testSuite.py adapted to the JPR updated Dicts/dicomV3.dic
+          Dicom dictionary. The test suite can now be run again. Note:
+          I'm note very happy with the " (RET)" changes. I believe this
+          RETAINED comment should be dropped when parsing the dictionary.
+        - PACKAGER corrected
+        - DEVELOPPER added.
+        - AUTHORS updated and now in alphabetical order
+      * Makefile.am now exports gdcm.dsw for Windoze users.
+
+2003-09-11  Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+      * cygwin complains about missing std:: in subdir Test/
+
+2003-09-10  Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+      * remove some methods that are now in gdcmHeaderHelper
+
+2003-09-10  Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+      * vtkGdcmReader set spacing and origin correctly
+
+2003-09-09  Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+      * Fix a few delete/delete[] mismatch
+
+2003-09-08  Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+      * src/gdcmHeaderHelper.[h cxx]: added new class that provide an
+        interpretation to data given by gdcmHeader. For instance there are
+        heuristics to get informations (look at different places).
+      * it also include a specific class: gdcmSerieHeaderHelper devoted to
+        sorting DICOM images based on different strategies.
+      * modified Makefiles accordingly.
+
+2003-09-05  Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+      * src/*.cxx : added pragma disable 4786/4251 to get rid of ~4300 warning
+        when building in debug mode
+      * vtk/win32/vtkgdcm.dsp : change /MT -> /MD and /MTd -> /MDd to match
+        src/win32/gdcmdll.dsp
+      * vtk/win32/vtkgdcm.dsp : added /nodefaultlib "mscvrt" for debug mode
+
+2003-08-29  Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+      * Corrected a leak in vtkGdcmREader.cxx, the pSource was find thanks
+            to valgrind.
+
+2003-07-29  Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+      * src/win32/libgdcmjpeg12.dsp was not dos format
+      * src/win32/libgdcmjpeg12.dsp : 
+                  libgdcmijpeg12_EXPORTS -> LIBGDCMIJPEG12_EXPORTS
+      * src/win32/gdcmdll.dsp: + /I "..\jpeg\libijg12"
+
+2003-07-29 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+      * src/gdcmHeader.h : add std:: prefix for stl elements... like others in
+        the file
+      * src/gdcmFile.cxx : bug fix in affectation type
+      * src/jpeg/libijpeg12/jmorecfg12.h : export for windows modified... like
+        in src/jpeg/libijpeg8/jmorecfg8.h (JPR : copy/paste exists !!!)
+      * Modifs of MVSC projects to compile them. Not concerning 2 identic
+        symbols... future problem ?
+
+2003-07-29  Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+      * src/win32/libgdcmijpeg12.dsp was missing
+      * modified gdcm.dsw accordingly
+
+2003-07-28  Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
+      * src/gdcmHeader.cxx : misplaced return 0.; for ACR/NEMA
+
+2003-07-24 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+      * src/jpeg/libijg12/.cvsignore, jconfig.* : ommited files while last
+        commit of JPR (before his hollidays to facilitate our work).
+      * setup.py : bug fix in code. Modifications made while the last commit
+        of JPR. The code hasn't been tested before the commit... it's so
+        useless to make that (for best programmer that is JPR) !!!
+
+2003-07-08  Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * tagged the current version as Version0_3 (i.e. version 0.3)
+
+2003-07-08  Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+      * vtk/testvtkGdcmReader.cxx : remove a symbol that is unused
+      * src/jpeg/libijg8/jmorecfg.h : adding export symbol for windows
+      * *.dsp : modifications to use new libgdcmijpeg8 library
+      * setup.py : bug fix on VTKPATH variable
+      * PACKAGER : adding all concerning windows
+
+2003-07-07  Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * src/gdcmElValSet.cxx, gdcmFile.cxx: JPR bug fix, removal of
+        garbage debug code.
+      * TODO, vtk/vtkGdcmReader.cxx: upcoming fixes comments.
+      * gdcmPython/testSuite.py: JPR bug fix, brutal erasement of
+        test suite reported error.
+      * PACKAGER file added (describes what a packager must do when
+        packaging a new release).
+      * MANIFEST.in, now declares jconfig.linux and jconfig.vc
+      * configure.in: upgraded version number to 0.3.0
+      * fixing build of rpm (through rpm -ta):
+        - Doc/Makefile.am exports proper doxygen files
+        - src/jpeg/libijg8/Makefile.am exports the include files.
+
+2003-07-07  Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+      * vtk/vtkGdcmReader.cxx : bug fix when loading only 1 file.
+      * src/gdcmHeader.h : formatting code
+
+2003-07-07  Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+      * vtk/vtkGdcmReader.[cxx|h] : bug fix when loading only one file.
+        We were obtaining error message from vtk. Now, creation of file list
+        is made in an internal list to prevent this problem.
+        Bug fix when output is empty.
+        Bug fix in update of progress value. Previous commit for this was a bad
+        correction.
+      * vtk/vtkGdcmReader.h : adding comments for InternalFileNaleList variable
+
+2003-07-04  Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+      * src/gdcmHeader.h : added method to get the file name
+      * vtk/vtkGdcmReader.[cxx|h] : bug fix concerning loading of bad dicom
+        files. Added method to remove all files on the input
+        Added FIXME comment concerning the bad parsing of header made by
+        ExecuteInformation method (in ExecuteData method)
+
+2003-07-03  Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * vtk/Makefile.am: vtkGdcmReader.h should now be cleany installed
+        when using make instal.
+      * src/gdcmFile.cxx : bug fix under Window after JPR commit
+        RQ : the JPR doesn't appear in the ChangeLog... normal for him
+
+2003-07-03  Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+      * setup.py : adding include dir of jpeg lib to compile all sources
+      * */Win32/*.dsp : JPR fix for windows compilation
+
+2003-07-02  Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+      * src/jpeg/libijg8/jconfig.* : JPR bug fix : now compile on both
+        linux and WINDOWS !
+      * src/gdcmJpeg.cxx : JPR bug fix : erroneous include
+      * src/win32/gdcmdll.dsp : JPR fix for windows compilation
+
+2003-07-02  Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * setup.py is again effective on un*x (takes into account the
+        addon of the jpeg library)
+      * Doc/DoxyDevelInstal.txt added (developper's raw documentation)
+      * Doc/Doxy* updated (includes above enhancements)
+      * INSTALL now points to web documentation
+
+2003-07-01  Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * src/gdcmHeader.h doesn't make unnecessary reference to
+        gdcmUtil.h anymore.
+      * gdcmPython/Makefile.am now avoids calling the wrappers for the
+        clean target.
+      * src/gdcm*.[cxx|h] :
+        - to allow compilation with gcc 3.x
+          -- clean up of STL usage (added explicit usage of std::)
+          -- small fixes on exceptions.
+          Note: linking not tested !
+        - clean of doxygen comments to avoid warnings at documentation
+          building stage.
+      * vtk/vtkGdcmReader.cxx: g++ warning message clean up (platform
+        dependent convertion).
+
+2003-06-20  Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * Clean up of previous JPR garbage commit (not even commented in the
+        Changelog):
+        - Test/Makefile.am removed the reference to unexisting testTS.cxx
+        - moved all jpeg related files from src to src/jpeg/libijg8, with
+          addition/modification of Makefile.am and configure.in.
+        - the testSuite is still brain damage (not guilty).
+
+2003-06-02  Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+      * WrapVTK.py : modifications to get correctly vtk source files to
+        compile
+      * vtk/vtkGdcmReader.cxx : modification for an already existing name
+        (FileName -> Filename)
+
+2003-06-11  Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * vtk/vtkGdcmReader.[cxx/h]:
+        - UpdateProgress method should now be effective
+        - removed the limitation on having only images loaded (as opposed
+          to volumes),
+        - when building a stack of images/volume, a lesser number of
+          gdcmHeader and gdcmFile instances should be used (hopefully
+          accelerating things).
+        - when building a stack of images/volumes, files which are not
+          loadable (wrong path-filename, wrong permissions on existing file,
+          or file not parsable by gdcm) are replaced with a black image
+          in the stack (for the caller to notice the problem).
+
+2003-06-03  Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * vtk/vtkGdcmReader.cxx: hopefully corrected Z extent.
+
+2003-06-02  Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+      * vtk/vtkGdcmReader[cxx|h] : makes correct code to remove conflicts
+        between standard library (std) and vtk library (problems are found
+        under Windows... thanks Windows !)
+
+2003-05-30  Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * vtk/vtkGdcmReader[cxx|h] should now be volume aware (read ready for
+        debug stage).
+      * gdcmPython/demo/vtkGdcmReader.py: commented lines for volume test
+
+2003-05-29  Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * vtk/vtkGdcmReader[cxx|h] preparation addons for loading volumes.
+
+2003-05-28  Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * When compiling with distutils (see setup.py) the C++ compiler is
+        called with different flags than the default ones (with automake).
+        In order to fix all those warning, I compiled gdcm with the command
+           make 'CXXFLAGS=-Wall -Wstrict-prototypes -D__STDC_LIMIT_MACROS'
+        and went for warning fixes:
+        - src/gdcmHeader.cxx, Test/dcm2acr.cxx, pourFindTaggs.cxx cleaned
+          up from unused variables.
+        - vtk/vtkGdcmReader.cxx: potential bug fix.
+      * src/gdcmHeader.h: Doxygen warning cleanup
+
+2003-05-27  Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * gdcmPython/gdcm.i:
+        - typemaps correction to take into account the systematic replacement
+          of "using namespace std" with std:: prefix e.g. std::list,
+          std::string... (cf changes of 2003-05-21).
+        - gdcmGlob global variable of type gdcmGlobal (defined in
+          src/gdcmUtil.cxx and declared in gdcmPython/gdcm.i) is now
+          exported to Python a as cvar.
+      * gdcmPython/__init__.py now defines two functions GetPubDictTagNames()
+        and GetPubDictTagNamesByCategory() as a replacement for deprecated
+        gdcmDictSet.GetPubDictTagNames() and
+        gdcmDictSet.GetPubDictTagNamesByCategory() class functions (i.e.
+        C++ static methods).
+      * gdcmPython/demo/printGroupedPublicDict.py is operational again,
+        with the above changes.
+
+2003-05-22  Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+      * setup.py, manifest.in : bug fix under linux
+
+2003-05-22  Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+      * Modification of setup.py to compile vtk part too. Then, we have 2
+        wrappers which must work with same distutils. For that, we have a
+        generic distutils in distusiltsWrapping.py ; with :
+         - build_extWrap class to wrap generically all extensions,
+         - ExtensionWrap base class for all wrapping extension that contains
+           a wrapper
+         - Wrapper interface which wrap sources
+        + In WrapSwig.py  we have extension and wrapper for Swig
+        + In WrapVTK.py  we have extension and wrapper for VTK
+      * MANIFEST.in : modifications to consider vtk directory and new python
+        files for compilation
+
+2003-05-21  Eric Boix <Eric.Boix@creatis.insa-lyon.fr> with Benoit Regrain
+      * Added python wrappers of vtkGdcmReader vtk class (see the
+        source in vtk/vtkGdcmReader.cxx) :
+        - vtk/Makefile.am now builds a library
+        - gdcmPython/Makefile.am now builds vtkgdcmPython a second import
+          python library (as opposed to _gdcm.so wich are the python
+          wrappers of gdcm). vtkgdcmPython.so uses the vtk python wrappers
+          (vtkWrapPython and vtkWrapPythonInit utility) to build vtkgdcmPython
+          import library.
+        - configure.in has an additional flag --enable-vtk that needs
+          to be set to enable compilation of vtk related code, that is:
+          + vtk/vtkGdcmReader.so and
+          + vtk/testvtkGdcmReader C++ demo of vtk wrappers of gdcm)
+          + gdcmPython/vtkgdcmPython.so (see above)
+        - gdcmPython/demo/vtkGdcmDemo.py corrected (some images cannot
+          be read when compressed or when HighBit + 1 != BitsStored),
+        - gdcmPython/demo/vtkGdcmReader.py added. This demo illustrates
+          the usage of the python wrapper of vtkGdcmReader vtk class.
+      * vtk/vtkGdcmReader.cxx: bug fixed (thanks to Benoit Regrain).
+      * src/*.[h] all occurences of stl classes are now prefixed with
+        std::, and all occurences of "using namespace std;" where removed.
+        This is to avoid pollution of global namespace in included files.
+        Apparently vtk does not avoid this pitfall: when using both
+        gdcm and vtk (as in vtk/vtkGdcmReader.cxx) this ended up in a
+        collision of various stl members (principally cout...).
+      * gdcmPython/testSuite.py now cleanly removes temprory generated
+        file.
+      * gdcmPython/gdcm.i now declares a typemap for std::string (to
+        comply with above changes)
+
+2003-05-12  Eric Boix <Eric.Boix@creatis.insa-lyon.fr> with JPR
+      * src/gdcmHeader>[h/cxx] added gdcmHeader::GetPixelSize()
+      * vtk/vtkGdcmReader.cxx now properly inports the image in the
+        vtk data structure (an image Flip was required).
+      * vtk/testvtkGdcmReader.cxx refers to gdcmData subdir instead of Data.
+      * cosmetic changes in documentation.
+
+2003-05-7  Eric Boix <Eric.Boix@creatis.insa-lyon.fr> with JPR
+      * src/gdcmHeader.cxx: the constructor no longer exits when an
+        unexisting file is given as argument.
+      * The subdirectory Data (containing all the images used for the
+        test suite) is not part of this repository anymore. A new module
+        containing those images is now available at
+          :pserver:xxx@cvs.creatis.insa-lyon.fr:2402/cvs/public
+        with the name gdcmData.
+        All the python scripts (including the package initialisation file
+        gdcmPython/__init__.py) were adapated to take this change into
+        account (basically GDCM_DATA_PATH is now GDCM_TEST_DATA_PATH).
+
+2003-05-5  Eric Boix <Eric.Boix@creatis.insa-lyon.fr> with JPR
+      * vtk subdir added. Contains vtkGdcmReader.[cxx|h] a vtk class
+        inherinting from vtkImageReader and testvtkGdcmReader.cxx a small
+        demo of the usage of this class.
+        Compilation of this vtk part is only done when using the --enable-vtk
+        at configure (or autogen.sh) stage.
+
+2003-04-16  Eric Boix <Eric.Boix@creatis.insa-lyon.fr> with JPR
+      * More memory link related corrections and documentation fixes.
+        Notes on valgrind:
+          - maximum info is obtained with a command of the form:
+            valgrind --leak-check=yes --leak-resolution=high --num-callers=40
+                     --show-reachable=yes PrintHeader
+          - the remaining reachable blocks seem to come from the STL
+            allocation scheme through the usage of map and list. It looks
+            like this memory cannot be freed but it is not a memory leak
+            (in fact further invocation to the STL would recollect the
+             unused memory allthough it cannot explicitely be freed).
+      * gdcmPython/demo/vtkGdcmDemo.py added: this is a small demo
+        of displaying an image parsed with gdcm and displayed with VTK.
+        Note: some images don't seem to work e.g.
+            python vtkGdcmDemo.py  ../../Data/US-RGB-8-esopecho.dcm
+      * src/gdcmHeader.x: dicom_vr and Dicts are not class members anymore.
+        Allthough this weakens the semantics, it is a ditch attempt to
+        make gdcm more thread friendly.
+
+2003-04-15  Eric Boix <Eric.Boix@creatis.insa-lyon.fr> with JPR
+      * Memory link hunt (by using valgrind through the command
+          valgrind --show-reachable=yes --leak-check=yes PrintHeader).
+        - added src/gdcmVR.cxx gdcmVR.h that objectify the previous
+          gdcmHeader::_dicom_vr.
+        - gdcmHeader::InitVRDict transfered as gdcmVR::gdcmVR().
+        - gdcmHeader::dicom_vr is now of type gdcmVR* as opposed to
+          VRHT*.
+        - gdcmGlobal global object contained class added (see src/gdcmUtil.x)
+
+2003-04-9  Eric Boix <Eric.Boix@creatis.insa-lyon.fr> with JPR
+      * src/Makefile.am now exports all the necessary include files at
+        make install stage.
+
+2003-04-9 JPR
+      * UpdateGroupLength replaced by new one
+
+2003-04-7 JPR
+      * UpdateGroupLength re-written using H-Table
+        (named UpdateGroupLengthNew untill checks are over)
+
+2003-04-7 Eric Boix <Eric.Boix@creatis.insa-lyon.fr> with JPR
+      * Data/im_00001 renamed to gdcm-MR-PHILIPS-16-Multi-Seq.dcm
+      * gdcmPython/testSuite.py now include a test of gdcmFile::Write.
+      * src:
+        - gdcmHeader::GetPubElValSet removed.
+        - gdcmElValSet::WriteDcm, WriteAcr, WriteExplVR, revamped to
+          UpdateGroupLength, WriteElements, Write.
+        - gdcmHeader::FileType moved to gdcmCommon.h. The enum FileType
+          doesn't contain TrueDicom anymore since ExplicitVR and ImplicitVR
+          carried the same semantics.
+          - src/gdcmHeaderIdo.cxx changed accordingly.
+        - gdcmFile::WriteBase now regroups all the codes from previous
+          versions of WriteDcm, WriteDcmImplVR, and WriteACR.
+        - enum FileType moved to gdcmCommon.h
+      * src/gdcmHeader.cxx AddDefault trashed
+      * gdcmGetXSize added
+      * getimageDataSize now calls gdcmGetXSize
+      * Test/*.cxx changed to agree with above changes
+
+2003-03-31 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * src/gdcmHeader.h: LoadElements() is not a public method anymore
+        (to avoid double call by end user).
+      * Test/*.cxx LoadElements() doesn't need to be called explicitely
+        by end user, since gdcmHeader::gdcmHeader now handles it.
+
+2003-03-29 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * gdcm/Doc many doxygen changes:
+        - Doxyfile now has two different versions, DoxyfileUsers that generates
+          the html.users end users oriented documentation and
+          DoxyfileDeveloppers that generates the html.developper developper
+          oriented documentation.
+        - README changed accordingly
+        - requirement.txt removed (old design info moved to TODO).
+        - Additional files DoxyInstallation.txt, DoxyIntroduction.txt,
+          DoxyMainPage.txt, DoxyPython.txt provide more information.
+        - Note: the website http://www.creatis.insa-lyon.fr/Public/Gdcm/ can now
+          be updated by simply regenerating the docs with doxygen and copying
+          html.developper and html.users to tux:/home/httpd/html/Public/Gdcm
+      * src/gdcmElValSet.cxx: stl <map>.count() can only return 0 or 1. Hence
+        all the tests in the form "if (<map>.count() >1)" were removed.
+      * src/gdcmFile.cxx: cosmetic changes to avoid messages of doxygen about
+        ill-formed documentation sections.
+      * src/gdcmHeader.cxx: ditto
+
+2003-03-27 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * setup.py fixed for un*x (needed macro for stdint.h)
+      * Test/test.cxx renamed to PrintHeader.cxx to avoid collision on
+        un*ces with sh-utils test utility.
+      * gdcmPython/demo/test.py renamed to PrintHeader.py
+      * gdcmPython/demo/ReorganiseFiles.py new demo script added.
+      * gdcmPython/win32/gdcmpycomplet.dsp renamed to gdcmpyembedded.dsp.
+      * gdcmPython/win32/gdcmpy.dsp trashed away (brain damaged).
+      * src/gdcm*.cxx JPR's bad inclusion fixed.
+
+2003-03-26 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * src/gdcmHeader[h, cxx] gdcmHeader now has an IsReadable predicate.
+      * gdcmPython/demo/test.py changed accordingly.
+
+2003-03-25 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * gdcmPython/Makefile.am fixed linking against libstdc++
+      * gdcmPython/_gdcm.so symbolic link to gdcmPython/.libs/pygdcm.so added.
+      * Swig subdir (historical tests of swig version 1.3.17++) removed
+      * Test/testChangeEntete.cxx some lines commented out in order to make
+        compilation work.
+      * src/gdcmHeader.cxx cleaned up wild JPR's dirty kludge.
+      * src/gdcmElValSet.cxx cleaned up frog's forgotten debug message
+
+2003-03-24 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * src/gdcmHeader.cxx gdcmHeader::gdcmHeader now calls LoadElements(),
+        hence the user doesn't need this explicit call.
+        - gdcmPython/testSuite.py, gdcmPython/demo/*.py changed accordingly
+          i.e. LoadElements() call removed.
+      * src/gdcmCommon.h now defines UINT32_MAX (see stdint.h).
+        - src/Makefile.am declares the proper flag for g++.
+      * src/gdcmElValSet.h added gdcmElValSet::GenerateFreeTagKeyInGroup
+        for adding user defined new tags.
+        - src/gdcmHeader.cxx gdcmHeader::NewManualElValToPubDict added.
+        - src/gdcmHeader.cxx gdcmHeader::AddAndDefaultElements now
+          cleanly adds some gdcm added tags (like gdcmXSize, gdcmYSize...)
+
+2003-03-17 Fabrice Bellet <Fabrice.Bellet@creatis.insa-lyon.fr>
+      * Makefile.am, acinclude.m4, configure.in, python.m4, Dicts/Makefile.am,
+        Doc/Makefile.am, Test/Makefile.am, gdcmPython/Makefile.am,
+        src/Makefile.am : the project should properly compile and install
+        with the autotools, included the python wrappers part.
+      * gdcm.spec.in : added a spec file for RPM packaging.
+
+2003-03-14 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+      * src/gdcmUtils.cxx : redifinition of defaults parameters in code
+
+2003-03-12 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * gdcmPython/__init__.py fix of GDCM_DICT_PATH which was not
+        to exported to the environement (see gdcmPython/testSuite.py
+        for usage).
+      * src/gdcmElValSet.[cxx/h], gdcmElValue.[cxx/h], gdcmFile.[cxx/h],
+        gdcmHeader.[cxx/h]: ElValSet class renamed to gdcmElValSet, and
+        ElValue class renamed to gdcmElValue for obvious consistency reasons.
+      * src/gdcmElValSet.cxx, src/gdcmUtil.[cxx-h] Tokenize utility function
+        moved away from gdcmElValSet.cxx to gdcmUtil.cxx.
+
+2003-03-10 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * gdcmPython/__init__.py doesn't crash anymore when running in
+        in InstallMode or PreInstallMode but with an environement given
+        value of GDCM_DICT_PATH.
+      * src/gdcmDictSet.[cxx/h] coding style.
+
+2003-03-06 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * src/gdcmHeader.h and gdcmHeader.cxx Coding style + doxigenation.
+      * src/gdcm.h general comments moved to TODO, and README
+      * src/gdcm.h should now be seen as a user commodity (including it
+        should suffice to fully use gdcm). It is nowhere including within
+        any of the kernel files src/*.cxx and src/*.h.
+
+2003-03-05 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * src/gdcm.h splitted in gdcmCommon.h, gdcmDict.h, gdcmDictEntry.h,
+        gdcmDictSet.h, gdcmElValSet.h, gdcmElValue.h, gdcmFile.h,
+        gdcmHeader.h
+      * src/gdcm*.cxx only include their corresponding include file
+        (as opposed to gdcm.h)
+      * gdcmPython/gdcm.i changed accordingly
+      * Test/Makefile.am corrected and added NEWS, AUTHORS in order for
+        the autogen.sh generated "make snapshot" command to work.
+      * autogen.sh removed history related references to crea package.
+
+2003-03-04 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * distutilsSwigCPlusPlus.py work around some swig portability
+        bug.
+
+2003-03-03 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * Eventually, python/gdcmPython was renamed to gdcmPython. This
+        was done in a last ditch attempt to get setup.py _really_
+        operationnal. The python/gdcmPython layaout add the advantage
+        of hidding away the python related distutils specific files
+        (MANIFEST.in, setup.py, distutils*.py...) from the main directory.
+        Alas, the src directory was out of scope (i.e. it's relative
+        position to setup.py was ../src) which made things impossible to
+        handle (see previous version of python/setup.py). Crossing fingers...
+
+2003-02-20 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * python/setup.py now works on Un*x. (harder than I thougth)
+      * python/distutilsSwigCPlusPlus.py can now have include files
+        among the list of sources.
+
+2003-02-20 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+      * src/gdcmHeader.cxx : bug fix - opening dicom file in binary !!!
+      * modifications in MSVC projects
+
+2003-02-19 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * As stated by the first lines of Test/ExceptionAndPython/README, it
+        looks like we can move back to original usage of exception within
+        src/gdcm* and hence remove the errno stuff that was introduced
+        as a quick and dirty fixture of this problem (added to the TODO).
+      * Doc/Doxyfile configuration file for Doxygen and corresponding
+        README file for usage added.
+      * Test/testWrite.cxx added. This new test comes from a split of
+        test.cxx that is now reverted to its original purpous i.e.
+        testing the proper parsing of a Dicom related file.
+        testWrite.cxx concentrates on testing the IO part of gdcm.
+      * Test/bug1.cxx (containing a bug on WIn32) added.
+      * src/gdcm.h, gdcmHeader.cxx, gdcmDictSet.cxx:
+        - gdcmHeader::GetPubTagNames and  gdcmHeader::GetPubTagNamesByCategory
+          whose purpose is to publish the content of the TagNames of the
+          Dicom public dictionnary were not accessible without an
+          instance of class gdcmHeader.
+        - those methods are now static methods of gdcmDictSet and hence
+          require no instances at all to be invocated.
+        - within gdcmDictSet this change required to change some method
+          to class methods (i.e. are now static) among which SetDictPath
+          (renamed to BuildDictPath) and LoadDefaultPubDict.
+      * python/gdcmPython/demo/printGroupedPublicDict.py changed to illustrate
+        the above changes by calling the new method classes of gdcmDictSet.
+      * python/gdcmPython/__init__.py now exposes gdcm.gdcmDictSet for
+        the above to be effective.
+      * python/gdcmPython: in order to wrap properly the above changes
+        for Python, swig version now needs to be > 1.3.17.
+      * python/gdcmPython/Makefile fixed to adapt itself to new
+        configure/make shema introduced by Johan Montagnat (thanks for the
+        contribution). Alas this Makefile cannot be turned into a proper
+        Makefile.am without some heavy changes in the configure.in
+        (for python dectection).
+      * python/gdcmPython/gdcm.i: the out typemap map<string, list<string>>*
+        now avoids publishing the empty entries.
+
+2003-02-13 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+      * python/setup.py : bug fix concerning install under windows
+        ExtraPath reused :-P
+      * gdcm.dsw : bug fix concerning path for libraries for python !!!
+
+2003-02-13 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
+      * Dicts/dicomV3.dic : remove double spaces !!!
+      * src/gdcmElValSet.cxx : bug fix concerning windows compiler
+      * python/gdcmPython/win32/gdcmpycomplet.dsp : bug fix concerning paths
+        and links
+
+2003-01-28 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * src/gdcmHeader.cxx added a post header parsing AddAndDefaultElements
+        method. Doxygenation.
+      * src/gdcm.h clean up of JPR spurious comments.
+
+2003-01-17 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * python/distutilsSwigCPlusPlus.py now properly collects the
+        shadow classes generated by "swig -c++" (gdcm.py in our case)
+        when using "python setup.py install".
+      * python/gdcmPython/__init__.py imports gdcm.py and only manually
+        reexports the working classes.
+      * src/gdcmHeader.cxx all the try/catch/throw calls were replaced
+        by the classical C errno scheme. This is to prevent an obscure
+        behavior of the python wrappers when importing wxPython.wx prior
+        to gdcmPython (which ended up in an abort call). An illustration
+        of this oddity can be found in the Test/ExceptionAndPython
+        subdir (see the README file). This problem probably due to
+        an combination of g++ and dynamic loading.
+      * added Test/ExceptionAndPython (see above)
+
+2003-01-17 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * Changed the layout of the python part to avoid bloating main
+        directory with setup.py, distutilsSwigCPlusPlus.py, MANIFEST.in
+        i.e. the distutils arsenal. All the python related stuff is
+        again in a python subdir, but the package itself is now in
+        python/gdcmPython.
+      * setup.py was cleaned up:
+        - pythonIncludePath removed
+        - python setup.py bdist target is now functional.
+      * gdcmPython/__init__.py doesn't export FileName any more (to avoid
+        collision with other packages). gdcmPython/demo/*.py changed
+        accordingly.
+
+2003-01-15 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * python subdir moved to gdcmPython (preparation of distutils packaging).
+      * gdcmPython/setup.py and distutilsSwigCPlusPlus.py added. The
+        distutils installer is operational.
+      * - gdcmPython/__init__.py now properly loads the swig generated
+          shadow classes (from gdcm.py).
+        - gdcmPython/demo/*.py changed to import the package gdcmPython
+          instead of gdcmPython/demo/load.py.
+        - gdcmPython/testSuite.py changed to import the package gdcmPython.
+
+2002-12-16 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * src/gdcm.h, src/gdcmHeader.cxx: added GetPubTagNames() resp.
+        GetPubTagNamesByCategory() to gdcmHeader that return a list of the
+        entries within the associated public Dicom dictionary resp. the same
+        information but sorted by the fourth field (PAT, IMG, DIR) of the
+        dictionary.
+        - Dicts/dicomV3.dic Entries which had and unspecified fourth field
+          are now in the "???" group.
+        - python/gdcm.i changed accordingly,
+        - python/demo/printGroupedPublicDict.py added, that gives an example
+          of the above new functionalities in Python.
+
+2002-12-11 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * src/gdcm.h, gdcmHeader.cxx:
+        - historic references to glib's g_malloc and g_free (#defined)
+          were definitively removed.
+        - gdcm.h: cosmetic changes (part of comments moved to Doc/requirements)
+      * src/gdcmElValSet.cxx:
+        - GetElement(guint32, guint32) renamed to GetElementByNumber.
+        - GetElValue(guint32, guint32) renamed to GetElValueByNumber.
+        - GetElValue(string) renamed to GetElValueByName.
+        - Added GetElementByName(string).
+      * src/gdcmHeader.cxx: added
+        - GetPubElValRepByNumber(guint16, guint16)
+        - GetPubElValRepByName(string)
+        - GetShaElValRepByNumber(guint16, guint16)
+        - GetShaElValRepByName(string)
+        - GetShaElValByNumber(guint16, guint16)
+        - GetShaElValRepByName(string)
+        - GetElValRepByNumber(guint16, guint16)
+        - GetElValRepByName(string)
+        - GetElValByNumber(guint16, guint16)
+        - GetElValRepByName(string)
+      * Doc/requirements.txt added.
+
+2002-12-9 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * Test/Makefile building now depends on the one of libgdcm.so
+      * src/gdcmHeader.cxx and gdcm.h are now OB (undefined length encoded
+        pixel data) aware which enables finding the address (offset) of
+        the pixel data of JPEG encoded DICOM files. This leaves only a single
+        file in the testSuite whose pixel data address (offset) is unknown.
+      * python/testSuite.py changed accordingly.
+
+2002-12-6 Christophe Odet + Hugues Benoit-Cattin + Eric.Boix
+      * VC++ has some strong limitations when working with the STL, as stated
+        in http://support.microsoft.com/support/kb/articles/Q168/9/58.ASP :
+             "Also note that some STL containers (map, set, queue, list, deque)
+              cannot be exported. [...]
+              Some STL classes contain nested classes. These classes can not
+              be exported. [...]
+              This is caused by a designed limitation that once a template
+              class is instantiated, it can not be re-instantiated and
+              exported."
+        Since our usage of map<> is ubiquitous in gdcm, this "designed
+        limitation" of VC++ is a pitfall.
+        Hence the Python wrappers of gdcm cannot be incrementally linked
+        against the c++ dynamic library. The dirty but only workaround is
+        to forget about incremental link of dynamic libraries and to generate
+        the Python wrappers library with the inclusions of the underlying C++
+        library.
+        The following modifications concern this matter on Win32/VC++:
+      - wrapping python correct with standalone wrapped dll (don't use separate
+         dll under windows !!!!)
+      - python21_d debug mode enabled (ask Frog how to use it :-)
+      - NO problem with having an STL member of class for example string in C++
+        WITH THE RESTRICTION OF FORGETING ABOUT INCREMENTAL LINK.
+      - Python test of dcmlib in Python is ok under windows on a large set
+        (one) of image(s).
+      * removed glib references
+      * typedef's inserted in gdcm.i for correct swig type management
+
+2002-11-27 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * python/demo/*.py load.py extracted from test.py. Added explore.py
+        that only displays required tags and testAll.py that parses all
+        the files of the testsuite without using unittest.
+      * python/testSuite.py other additional test on new files added.
+      * Data/* new test files added accordingly to the testSuite.
+      * src/gdcmHeader.cxx avoid overwriting of the dictionary when
+        the vr in the file differs from the one of the dictionary.
+
+2002-11-20 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * src/gdcm.h and gdcmHeader.cxx gdcm no longer loads all the elements
+        values, but limits itself to values which are below a user specified
+        size (by default 1024 bytes).
+      * python/gdcm.i : elements not loaded (because their size is above the
+        user specified treshold) are exported with their TagKey as key of the
+        python dictionary. This enables the testsuite to make some checks
+        on the unloaded elements (since we have their offset and size).
+      * python/testSuite.py
+        - now tests for the existence and proper value of the pixel data
+        - two new examples added.
+      * Data/gdcm-MR-SIEMENS-16.acr[12] added.
+
+2002-11-18 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * src/gdcm.h and gdcmHeader.cxx are now "Big Endian transfer syntax"
+        aware. See the strategy comments in gdcmHeader::FindeLength().
+      * Test/test.cxx now accepts a filename as first argument.
+      * Data/US-PAL-8-10x-echo.dcm and US-RGB-8-epicard.dcm added.
+      * python/testSuite.py changed to integrate test on above files.
+
+2002-11-15 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * Dicts/dicomV3.dic removed all the trailing (RET) when the
+        the vr was also RET.
+      * python/testSuite.py more tests added.
+
+2002-11-14 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * python/testSuite.py unittest test suite added (uses Data)
+      * Data/* dcm and acr files for the test suite.
+      * glib dependance removed from un*x version. We now use ISO C99
+        7.18 Integer types (see stdint.h)
+        - python/Makefile, src/Makefile src/gdcm.h
+      * src/ when an explicit vr (like dicom files) suddenly poped an
+        implicit element we use to mark the underlying DictEntry of the
+        concerned ElValue with "Implicit". This strategy was damageable
+        too the public or provite dictionaries, since some of their vr
+        would be changed. Since Header::FindLength heavily relies on the
+        detection by Header::FindVR of falsely explicit elements, I
+        added an extra ImplicitVr member to ElValue (boolean).
+        The rest of the changes we the necessary adaptations.
+
+2002-11-12 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * src/gdcmHeader::FindLength bug fix when trapping falsely explicit
+        VR files.
+      * src/gdcmHeader::FindVR: hard way fix of falsely explicit vr files.
+
+2002-11-8 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * Adaptation for porting to VC++:
+        - src/gdcm.h
+          o forced to use std namespace (for string to be known)
+          o all class use __declspec export style on WIN32
+        - src/gdcmUtil.cxx new Exit method that wraps the exit call
+          (in stdlib.h on Win32 but in std:: for gcc)
+      * src/gdcmDictSet::SetDictPath adds a trailing / to environement
+        variable GDCM_DICT_PATH.
+      * src/gdcmHeader.cxx verbose comments made discrete.
+
+2002-11-7 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * python/gdcm.i: added a typemap that converts a C++ hashing table
+        to native Python dictionary.
+      * python/demo/test.py:
+        - now uses the native dictionary for exploration of gdcmHeader.
+        - takes an optional filename argument (the file to parse).
+      * src/gdcm.h and gdcmHeader.cxx: gdcmHeader now has an accessor on
+        PubElVals hashing table.
+      * Dicts/dicomV3.dic removed error prone trailing spaces.
+
+2002-11-6 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * Python wrapping process moved away from src/Makefile to
+        newly created python/Makefile (as well as gdcm.i)
+      * python/demo/test.py (that mirrors Test/test.cxx) is effective.
+      * src/gdcmHeader::FindLength only looks for current vr when necessary.
+      * src/gdcmDictSet.cxx: the dictionnaries directory path is now imported
+        from the environement variable GDCM_DICT_PATH (when existing).
+      * src/gdcmDict::GetTag bug fix.
+
+2002-10-31 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * Straightforward temporary fixes for swig to build the python wrappers.
+        src/Makefile now has a python working entry [by working we mean
+        that we can import de shadow classes without errors].
+
+2002-10-29 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * hashtest.cxx removed (since allready in Test)
+      * src/gdcmlib.h renamed to src/gdcm.h
+      * src/dcm.i renamed to src/gdcm.i
+      * src/Makefile prepared for python wrapping
+
+2002-10-29 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * src/gdcmHeader.cxx :
+        - Parsing of header is now separated from loading of element values
+          (see gdcmHeader::LoadElements).
+        - general clean up of hopefully all file access (creation of
+          ReadInt16 and ReadInt32)
+
+2002-10-22 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * src/gdcmHeader.cxx :
+        - RecupLgr renamed to FindLength and cut off with new IsAnInteger
+          method.
+        - SetLgrElem renamed to SetLength
+        - GetLgrElem renamed to GetLength
+        - ~gdcmHeader() made virtual to pesky warning messages at compile.
+      * src/gdcmElValSet.cxx fixed both GetElValue methods
+      * Dicts/dicomV3.dic falacious entry [7fe0 0010 OT PXL Pixel Data]
+        due to IdoDude was cleaned out.
+
+2002-10-21 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * src/gdcmHeader.cxx RecupLgr split in FindVR and RecupLgr. FindVR
+        concentrates on finding the value representation (when it exists).
+        RecupLgr now only finds the element value length, and it avoids
+        returning the unecessary skL (skipped length).
+        Also, offsetCourant was simply removed (with taille_fich) since
+        it was redundant with the File position internals (by using
+        ftell and fseek). This also made skL (see above in RecupLgr) usage
+        jajun.
+      * src/gdcmHeaderIdo.cxx src/gdcmIdo.h added. Those files concentrate
+        on the libido specificities which are handled through class
+        inheritance.
+      * Test/implicit_vr.dcm dicom v3 in implicit value representation
+        added.
+
+2002-10-17 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * Truckload of changes. Parsing of header is barely functional
+        (see Test/test) with the standard dictionary (see Dicts/dicomV3.dic).
+
+2002-10-10 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * src/gdcmHeader.cxx many addons of low level methods
+
+2002-10-07 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * src/gdcmHeader now contains_IdDcmCheckSwap, _IdDcmRecupLgr,
+        and _IdDcmSWAP_LONG.
+
+2002-09-12 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
+      * This corresponds to all the changes decided at the meeting of
+        May 23 2002. Needless to say we are running late...
+

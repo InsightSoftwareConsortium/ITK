@@ -21,7 +21,7 @@
 #define __itkGDCMImageIO_h
 
 #include "itkImageIOBase.h"
-#include "gdcmHeader.h"
+#include "gdcm/src/gdcmHeader.h"
 
 namespace itk
 {

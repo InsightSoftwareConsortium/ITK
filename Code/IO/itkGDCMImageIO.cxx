@@ -18,11 +18,11 @@
 
 =========================================================================*/
 #include "itkGDCMImageIO.h"
-#include "gdcmFile.h"
-#include "gdcmHeader.h"
-#include "gdcmValEntry.h"
-#include "gdcmValEntry.h"
+
 #include "itkMetaDataObject.h"
+#include "gdcm/src/gdcmValEntry.h" //internal of gdcm
+#include "gdcm/src/gdcmFile.h"
+#include "gdcm/src/gdcmHeader.h"
 #include <fstream>
 
 namespace itk
@@ -280,7 +280,7 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
   m_RescaleIntercept = GdcmHeader.GetRescaleIntercept();
 
   //Now copying the gdcm dictionary to the itk dictionary:
-   MetaDataDictionary & dico = this->GetMetaDataDictionary();
+  MetaDataDictionary & dico = this->GetMetaDataDictionary();
 
 #if GDCM_MAJOR_VERSION == 0 && GDCM_MINOR_VERSION <= 5
   TagDocEntryHT & nameHt = GdcmHeader.GetEntry();

@@ -1,0 +1,19 @@
+###################################################
+The installation documentation entry point is Doc/Website/Installation.html
+###################################################
+As of May 2004, cmake has taken over the world^W autotools, therefore
+you'll need to grab a recent version from: http://cmake.org (later than 1.8.3)
+     
+ Then install instruction are:
+ * cvs -d:pserver:anonymous@cvs.creatis.insa-lyon.fr:2402/cvs/public login
+   answer anonymous
+ * cvs -d:pserver:anonymous@cvs.creatis.insa-lyon.fr:2402/cvs/public co gdcm
+ * mkdir gdcmbin
+ * cd gdcmbin
+ * ccmake ../gdcm
+   [select your configuration]
+ * Press 'c' (configure), Press 'g' (generate)
+ * make
+ * make install
+
+

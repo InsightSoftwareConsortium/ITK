@@ -1,0 +1,48 @@
+#ifndef __gdcmConfigure_h
+#define __gdcmConfigure_h
+
+/* This header is configured by GDCM's build process.  */
+
+/*--------------------------------------------------------------------------*/
+/* Platform Features                                                        */
+
+/* Byte order.  */
+#cmakedefine GDCM_WORDS_BIGENDIAN
+
+/* Allow access to UINT32_MAX , cf gdcmCommon.h */
+#define __STDC_LIMIT_MACROS
+
+/* Hard code the path to the public dictionary */
+#define PUB_DICT_PATH "@GDCM_PUB_DICT_PATH@"
+
+/* Hardcode the path to GDCM_DATA_ROOT */
+#define GDCM_DATA_ROOT "@GDCM_DATA_ROOT@"
+
+/* For older gcc / broken plateform */
+#cmakedefine GDCM_NO_ANSI_STRING_STREAM
+
+/* I guess something important */
+#cmakedefine HAVE_NO_STDINT_H 
+
+/* This variable allows you to have helpful debug statement */
+/* That are in between #ifdef / endif in the gdcm code */
+/* That means if GDCM_DEBUG is OFF there shouldn't be any 'cout' at all ! */
+/* only cerr, for instance 'invalid file' will be allowed */
+#cmakedefine GDCM_DEBUG
+
+/* Whether we are building shared libraries.  */
+/* This was important as long as GDCM is LGPL */
+#cmakedefine BUILD_SHARED_LIBS
+
+
+/*--------------------------------------------------------------------------*/
+/* GDCM Versioning                                                          */
+
+/* Version number.  */
+#define GDCM_MAJOR_VERSION @GDCM_MAJOR_VERSION@
+#define GDCM_MINOR_VERSION @GDCM_MINOR_VERSION@
+#define GDCM_BUILD_VERSION @GDCM_BUILD_VERSION@
+#define GDCM_VERSION "@GDCM_VERSION@"
+
+
+#endif

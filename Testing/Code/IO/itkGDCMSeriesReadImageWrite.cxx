@@ -31,7 +31,6 @@
 #include "itkGDCMImageIO.h"
 #include "itkGDCMSeriesFileNames.h"
 #include <vector>
-#include "gdcm.h"
 
 int main( int argc, char* argv[] )
 {

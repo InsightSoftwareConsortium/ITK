@@ -18,7 +18,7 @@
 #define _itkGDCMSeriesFileNames_h
 
 #include "itkGDCMSeriesFileNames.h"
-#include <gdcm.h>
+#include "gdcm/src/gdcm.h"
 #include <itksys/SystemTools.hxx>
 
 #include <vector>
