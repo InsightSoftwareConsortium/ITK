@@ -26,7 +26,6 @@
 
 #include "itkMesh.h"
 #include "itkAutomaticTopologyMeshSource.h"
-#include "PrintMesh.h"
 
 int
 itkAutomaticTopologyMeshSourceTest(int, char* [] )
@@ -242,8 +241,6 @@ itkAutomaticTopologyMeshSourceTest(int, char* [] )
 
   // Print out the resulting mesh data.
   std::cout << MeshType::Pointer(meshSource->GetOutput()) << std::endl;
-
-  PrintMesh( meshSource->GetOutput() );
 
   // Check that the right number of points has been added.
 
