@@ -652,5 +652,29 @@ IF(ITK_CSWIG_PYTHON)
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
            ${ITK_TEST_OUTPUT_DIR}/CastImageFilterPythonTest.png )
 
+  ADD_TEST(BinaryDilateImageFilterPython ${PYTHON_EXECUTABLE}
+           ${ITK_SOURCE_DIR}/Examples/Filtering/BinaryDilateImageFilter.py
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+           ${ITK_TEST_OUTPUT_DIR}/BinaryDilateImageFilterPythonTest.png )
+
+  ADD_TEST(BinaryErodeImageFilterPython ${PYTHON_EXECUTABLE}
+           ${ITK_SOURCE_DIR}/Examples/Filtering/BinaryErodeImageFilter.py
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+           ${ITK_TEST_OUTPUT_DIR}/BinaryErodeImageFilterPythonTest.png )
+
+  ADD_TEST(MeanImageFilterPython ${PYTHON_EXECUTABLE}
+           ${ITK_SOURCE_DIR}/Examples/Filtering/MeanImageFilter.py
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+           ${ITK_TEST_OUTPUT_DIR}/MeanImageFilterPythonTest.png
+           2 )
+
+  ADD_TEST(SigmoidImageFilterPython ${PYTHON_EXECUTABLE}
+           ${ITK_SOURCE_DIR}/Examples/Filtering/SigmoidImageFilter.py
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+           ${ITK_TEST_OUTPUT_DIR}/SigmoidImageFilterPythonTest.png
+           0 255  1.0  128  )
+
+
+
 ENDIF(ITK_CSWIG_PYTHON)
 
