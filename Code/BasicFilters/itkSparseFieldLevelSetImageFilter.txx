@@ -487,7 +487,6 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::Initialize()
 {
   unsigned int i;
-
   // Allocate the status image.
   m_StatusImage = StatusImageType::New();
   m_StatusImage->SetRegions(this->GetOutput()->GetRequestedRegion());
@@ -499,11 +498,25 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   for (statusIt = statusIt.Begin(); ! statusIt.IsAtEnd(); ++statusIt)
     { statusIt.Set( m_StatusNull ); }
 
+  // Erase all existing layer lists.
+  for (i = 0; i < m_Layers.size(); ++i)
+    {
+      while (! m_Layers[i]->Empty() )
+        {
+          m_LayerNodeStore->Return(m_Layers[i]->Front());
+          m_Layers[i]->PopFront();
+        }
+    }
+  
   // Allocate the layers for the sparse field.
+  m_Layers.clear;
   m_Layers.reserve(2*m_NumberOfLayers + 1);
-  for (i = 0; i< m_Layers.capacity(); ++i)
-    {      m_Layers.push_back( LayerType::New() );    }
 
+  while ( m_Layers.size() < (2*m_NumberOfLayers+1) )
+    {
+      m_Layers.push_back( LayerType::New() );
+    }
+  
   // Throw an exception if we don't have enough layers.
   if (m_Layers.size() < 3)
     {
