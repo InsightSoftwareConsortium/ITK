@@ -81,7 +81,11 @@ public:
   /**
    * Method for creation through the object factory.
    */
-  itkNewMacro(Self);
+  static Pointer New()
+    {
+      return new Directory;
+    }
+  
 
   /**
    * Return the class name as a string.

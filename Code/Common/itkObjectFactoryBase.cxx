@@ -126,6 +126,29 @@ ObjectFactoryBase
 }
 
 
+std::list<LightObject::Pointer>
+ObjectFactoryBase
+::CreateAllInstance(const char* itkclassname)
+{
+  if ( !ObjectFactoryBase::m_RegisteredFactories )
+    {
+    ObjectFactoryBase::Initialize();
+    }
+  std::list<LightObject::Pointer> created;
+  for ( std::list<ObjectFactoryBase*>::iterator 
+          i = m_RegisteredFactories->begin();
+        i != m_RegisteredFactories->end(); ++i )
+    {
+    LightObject::Pointer newobject = (*i)->CreateObject(itkclassname);
+    if(newobject)
+      {
+      created.push_back(newobject);
+      }
+    }
+  return created;
+}
+
+
 /**
  * A one time initialization method.
  */
@@ -196,8 +219,9 @@ ObjectFactoryBase
     /**
      * find PathSeparator in LoadPath
      */
-    EndSeparatorPosition = LoadPath.find(PathSeparator, EndSeparatorPosition);
-    if(EndSeparatorPosition != std::string::npos)
+    EndSeparatorPosition = LoadPath.find(PathSeparator, 
+                                         StartSeparatorPosition);
+    if(EndSeparatorPosition == std::string::npos)
       {
       EndSeparatorPosition = LoadPath.size();
       }
@@ -207,7 +231,14 @@ ObjectFactoryBase
     /**
      * move past separator
      */
-    EndSeparatorPosition++;
+    if(EndSeparatorPosition == LoadPath.size())
+      {
+      StartSeparatorPosition = std::string::npos;
+      }
+    else
+      {
+      EndSeparatorPosition++;
+      }
   }
 }
 

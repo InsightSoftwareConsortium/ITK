@@ -66,12 +66,11 @@ template <class T>
 class ObjectFactory : public ObjectFactoryBase
 {
 public:
-  static T* Create()
-    {
-    LightObject* ret = ObjectFactory::CreateInstance(typeid(T).name());
-    return dynamic_cast<T*>(ret);
+  static T::Pointer Create()
+  {
+    LightObject::Pointer ret = ObjectFactory::CreateInstance(typeid(T).name());
+    return dynamic_cast<T*>(ret.GetPointer());
   }
-
 };
 
 } // end namespace itk

@@ -103,6 +103,15 @@ public:
   static LightObject::Pointer CreateInstance(const char* itkclassname);
 
   /**
+   * Create and return all possible instances of the named itk object.
+   * Each loaded ObjectFactoryBase will be asked in the order
+   * the factory was in the ITK_AUTOLOAD_PATH.  All created objects
+   * will be returned in the list.
+   */
+  static std::list<LightObject::Pointer>
+  CreateAllInstance(const char* itkclassname);
+
+  /**
    * Re-check the ITK_AUTOLOAD_PATH for new factory libraries.
    * This calls UnRegisterAll before re-loading.
    */
