@@ -322,8 +322,8 @@ public:
   unsigned int GetNumberOfParameters(void) const  {return SpaceDimension;};
 
   /** Get the Derivatives of the Match Measure */
-  void GetDerivative( const ParametersType & parameters,
-                                    DerivativeType & derivative ) const
+  void GetDerivative( const ParametersType &,
+                                    DerivativeType & ) const
   {
     return;
   }
