@@ -27,4 +27,4 @@ KIT_OBJ = ${SRC_OBJ}
 
 ITK_LIB_FILE  = libITK${ME}${ITK_LIB_EXT}
 
-@MAKEINCLUDE@ @MAKEQUOTE@@fullSrcDir@/config/Insight.make@MAKEQUOTE@
+@MAKEINCLUDE@ @MAKEQUOTE@@ITK_OBJ@/config/Insight.make@MAKEQUOTE@
