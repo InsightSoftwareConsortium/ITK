@@ -245,19 +245,50 @@ public:
 
   typedef std::pair< InstanceIdentifier, double > NeighborType ;
 
-  struct CloserNeighbor
+  class NearestNeighbors
   {
-    bool operator()(NeighborType &n1, NeighborType &n2) const
+  public:
+    NearestNeighbors() {}
+    ~NearestNeighbors() {} 
+    
+    void resize(unsigned int k)
     {
-      if (n1.second < n2.second)
-        return true ;
-      else
-        return false ;
+      m_Identifiers.clear() ;
+      m_Identifiers.resize(k, NumericTraits< unsigned long >::max()) ;
+      m_Distances.clear() ;
+      m_Distances.resize(k, NumericTraits< double >::max()) ;
+      m_FarthestNeighborIndex = 0 ;
     }
-  };
 
-  typedef std::priority_queue< NeighborType, 
-    std::vector<NeighborType>, CloserNeighbor > SearchOutputType ;
+    double GetLargestDistance() 
+    { return m_Distances[m_FarthestNeighborIndex] ; }
+
+    void ReplaceFarthestNeighbor(InstanceIdentifier id, double distance) 
+    {
+      m_Identifiers[m_FarthestNeighborIndex] = id ;
+      m_Distances[m_FarthestNeighborIndex] = distance ;
+      double farthestDistance = NumericTraits< double >::min() ;
+      for ( unsigned int i = 0 ; i < m_Distances.size() ; i++ )
+        {
+          if ( m_Distances[i] > farthestDistance )
+            {
+              farthestDistance = m_Distances[i] ;
+              m_FarthestNeighborIndex = i ;
+            }
+        }
+    }
+
+    std::vector< InstanceIdentifier >& GetNeighbors()
+    { return m_Identifiers ; }
+
+    std::vector< double >& GetDistances()
+    { return m_Identifiers ; }
+
+  private:
+    unsigned int m_FarthestNeighborIndex ;
+    std::vector< InstanceIdentifier > m_Identifiers ;
+    std::vector< double > m_Distances ;
+  } ;
 
   void SetBucketSize(unsigned int size) ;
 
@@ -292,7 +323,7 @@ public:
   void Search(MeasurementVectorType &query, unsigned int k) ;
 
   
-  SearchOutputType& GetSearchResult()
+  NearestNeighbors& GetSearchResult()
   { return m_Neighbors ; } 
 
   int GetNumberOfVisits()
@@ -323,7 +354,7 @@ private:
   KdTreeNodeType* m_Root ;
   KdTreeNodeType* m_EmptyTerminalNode ;
   DistanceMetricPointer m_DistanceMetric ;
-  SearchOutputType m_Neighbors ;
+  NearestNeighbors m_Neighbors ;
   MeasurementVectorType m_LowerBound ;
   MeasurementVectorType m_UpperBound ;
   int m_NumberOfVisits ;

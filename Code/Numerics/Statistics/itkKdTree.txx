@@ -141,13 +141,7 @@ void
 KdTree< TSample >
 ::Search(MeasurementVectorType &query, unsigned int k)
 {
-  NeighborType tempNeighbor ;
-  m_TempNeighbor.first = 0 ;
-  m_TempNeighbor.second = NumericTraits< double >::max() ;
-  for (InstanceIdentifier i = 0 ; i < k ; i++)
-    {
-      m_Neighbors.push(m_TempNeighbor) ;
-    }
+  m_Neighbors.resize(k) ;
 
   MeasurementVectorType lowerBound ;
   MeasurementVectorType upperBound ;
@@ -190,12 +184,9 @@ KdTree< TSample >
             m_DistanceMetric->
             Evaluate(query, m_Sample->GetMeasurementVector(tempId)) ;
           m_NumberOfVisits++ ;
-          if (tempDistance < m_Neighbors.top().second )
+          if (tempDistance < m_Neighbors.GetLargestDistance() )
             {
-              m_TempNeighbor.first = tempId ;
-              m_TempNeighbor.second = tempDistance ;
-              m_Neighbors.pop() ;
-              m_Neighbors.push(m_TempNeighbor) ;
+              m_Neighbors.ReplaceFarthestNeighbor(tempId, tempDistance) ;
             }
         }
 
@@ -277,10 +268,10 @@ KdTree< TSample >
     {
       if ((m_DistanceMetric->Evaluate(query[dimension] ,
                                       lowerBound[dimension]) <= 
-           m_Neighbors.top().second) ||
+           m_Neighbors.GetLargestDistance()) ||
           (m_DistanceMetric->Evaluate(query[dimension] ,
                                       upperBound[dimension]) <= 
-           m_Neighbors.top().second))
+           m_Neighbors.GetLargestDistance()))
         {
           return false ;
         }
@@ -298,7 +289,7 @@ KdTree< TSample >
   double sum = NumericTraits< double >::Zero ;
   double temp ;
   unsigned int dimension ;
-  double squaredSearchRadius = m_Neighbors.top().second ;
+  double squaredSearchRadius = m_Neighbors.GetLargestDistance() ;
   squaredSearchRadius *= squaredSearchRadius ;
   for (dimension = 0  ; dimension < MeasurementVectorSize ; dimension++)
     {
