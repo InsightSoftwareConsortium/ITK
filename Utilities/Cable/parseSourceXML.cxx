@@ -1204,6 +1204,10 @@ static void end_Location(void)
  */
 static void begin_CV_Qualifiers(const Attributes& atts)
 {
+  CV_Qualifiers::Pointer cv = CV_Qualifiers::New(atts.GetAsInteger("const"),
+						 atts.GetAsInteger("volatile"),
+						 atts.GetAsInteger("restrict"));
+  CurrentType()->SetCV_Qualifiers(cv);
 }
 
 /**
