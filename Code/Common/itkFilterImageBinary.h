@@ -78,17 +78,17 @@ public:
   /**
    *  Iterator type for first input image
    */
-  typedef itk::ImageRegionSimpleIterator< typename TInputImage1::PixelType, TInputImage1::ImageDimension> Image1Iterator;
+  typedef itk::ImageRegionSimpleIterator< TInputImage1 > Image1Iterator;
 
   /**
    *  Iterator type for second input image
    */
-  typedef itk::ImageRegionSimpleIterator< typename TInputImage2::PixelType, TInputImage2::ImageDimension> Image2Iterator;
+  typedef itk::ImageRegionSimpleIterator< TInputImage2 > Image2Iterator;
 
   /**
    *  Iterator type for output image
    */
-  typedef itk::ImageRegionSimpleIterator< typename TOutputImage::PixelType, TOutputImage::ImageDimension> ImageOutputIterator;
+  typedef itk::ImageRegionSimpleIterator< TOutputImage > ImageOutputIterator;
 
 
   /**

@@ -334,7 +334,8 @@ FilterImageGaussian<TInputImage,TOutputImage, TComputation>
     unsigned int j=0; 
     while( !outputIterator.IsAtEndOfLine() )
     {
-      (*outputIterator).GetScalar()  = (TOutputType::ValueType)( outs[j++] );
+      (*outputIterator).GetScalar()  = 
+            (typename TOutputType::ValueType)( outs[j++] );
       ++outputIterator;
     }
 
