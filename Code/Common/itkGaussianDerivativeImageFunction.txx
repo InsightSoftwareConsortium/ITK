@@ -187,7 +187,7 @@ GaussianDerivativeImageFunction<TInputImage,TOutput>
     {  
     
     // Set the derivative of the gaussian first
-    NeighborhoodType dogNeighborhood;
+    OperatorNeighborhoodType dogNeighborhood;
     typename GaussianDerivativeFunctionType::InputType pt;
     typename NeighborhoodType::SizeType size;
     size.Fill(0);
@@ -198,7 +198,7 @@ GaussianDerivativeImageFunction<TInputImage,TOutput>
     s[0] = m_Sigma[direction];
     m_GaussianDerivativeFunction->SetSigma(s);
 
-    typename NeighborhoodType::Iterator it = dogNeighborhood.Begin();
+    typename OperatorNeighborhoodType::Iterator it = dogNeighborhood.Begin();
 
     unsigned int i=0;
     //float sum = 0;
@@ -228,7 +228,7 @@ GaussianDerivativeImageFunction<TInputImage,TOutput>
     // Set the gaussian operator
     m_GaussianFunction->SetSigma(s);
     op++;
-    NeighborhoodType gaussianNeighborhood;
+    OperatorNeighborhoodType gaussianNeighborhood;
     gaussianNeighborhood.SetRadius(size);
 
     it = gaussianNeighborhood.Begin();
@@ -324,9 +324,9 @@ GaussianDerivativeImageFunction<TInputImage,TOutput>
   for(unsigned int op = 0; op<itkGetStaticConstMacro(ImageDimension2)*2; op++)
     {    
     // Set the derivative of the gaussian first
-    NeighborhoodType dogNeighborhood;
+    OperatorNeighborhoodType dogNeighborhood;
     typename GaussianDerivativeFunctionType::InputType pt;
-    typename NeighborhoodType::SizeType size;
+    typename OperatorNeighborhoodType::SizeType size;
     size.Fill(0);
     size[direction] = (unsigned long)(m_Sigma[direction]*m_Extent[direction]);
     dogNeighborhood.SetRadius(size);
@@ -335,7 +335,7 @@ GaussianDerivativeImageFunction<TInputImage,TOutput>
     s[0] = m_Sigma[direction];
     m_GaussianDerivativeFunction->SetSigma(s);
 
-    typename NeighborhoodType::Iterator it = dogNeighborhood.Begin();
+    typename OperatorNeighborhoodType::Iterator it = dogNeighborhood.Begin();
 
     unsigned int i=0;
     //float sum = 0;
@@ -365,7 +365,7 @@ GaussianDerivativeImageFunction<TInputImage,TOutput>
     // Set the gaussian operator
     m_GaussianFunction->SetSigma(s);
     op++;
-    NeighborhoodType gaussianNeighborhood;
+    OperatorNeighborhoodType gaussianNeighborhood;
     gaussianNeighborhood.SetRadius(size);
 
     it = gaussianNeighborhood.Begin();

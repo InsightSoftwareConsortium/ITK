@@ -74,10 +74,11 @@ public:
 
 
   typedef Neighborhood<InputPixelType, itkGetStaticConstMacro(ImageDimension2)> NeighborhoodType;
+  typedef Neighborhood<TOutput, itkGetStaticConstMacro(ImageDimension2)> OperatorNeighborhoodType;
 
   typedef Vector<TOutput,itkGetStaticConstMacro(ImageDimension2)>  VectorType;
   typedef typename Superclass::OutputType  OutputType;
-  typedef FixedArray<NeighborhoodType,2*itkGetStaticConstMacro(ImageDimension2)> OperatorArrayType;
+  typedef FixedArray<OperatorNeighborhoodType,2*itkGetStaticConstMacro(ImageDimension2)> OperatorArrayType;
   typedef NeighborhoodOperatorImageFunction<InputImageType,
                                              TOutput> OperatorImageFunctionType;
   typedef typename OperatorImageFunctionType::Pointer OperatorImageFunctionPointer;
