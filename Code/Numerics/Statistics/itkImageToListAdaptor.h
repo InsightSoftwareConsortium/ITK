@@ -68,7 +68,7 @@ class ITK_EXPORT ImageToListAdaptor :
 public:
   /** Standard class typedefs */
   typedef ImageToListAdaptor Self;
-  typedef ListSampleBase< typename TImage::PixelType > Superclass;
+  typedef ListSampleBase< TMeasurementVector > Superclass;
   typedef SmartPointer< Self > Pointer;
   
   /** Run-time type information (and related methods). */
@@ -98,21 +98,22 @@ public:
    * Instance Identifier, frequency, size, size element value */
   typedef typename PixelTraitsType::ValueType MeasurementType ;
   typedef typename Superclass::FrequencyType FrequencyType ;
+
   typedef TMeasurementVector MeasurementVectorType ;
   typedef MeasurementVectorType ValueType ;
 
   /** Method to set the image */
-  void SetImage(ImagePointer image) ;
+  void SetImage(TImage* image) ;
 
   /** Method to get the image */
-  ImagePointer GetImage() ;
+  TImage* GetImage() ;
 
   /** returns the number of measurement vectors in this container*/
   unsigned int Size() const ;
 
-  virtual MeasurementVectorType GetMeasurementVector(const InstanceIdentifier &id) ;
+  inline virtual MeasurementVectorType GetMeasurementVector(const InstanceIdentifier &id) ;
 
-  FrequencyType GetFrequency(const InstanceIdentifier &id) const ;
+  inline FrequencyType GetFrequency(const InstanceIdentifier &id) const ;
 
   FrequencyType GetTotalFrequency() const ;
 
@@ -201,6 +202,8 @@ protected:
 
   PixelContainerPointer m_PixelContainer ;
   bool m_UseBuffer ;
+  typename TImage::IndexType m_ImageBeginIndex ;
+  typename TImage::IndexType m_ImageEndIndex ;
 
 private:
   ImageToListAdaptor(const Self&) ; //purposely not implemented
