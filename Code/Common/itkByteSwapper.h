@@ -76,6 +76,11 @@ public:
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** 
+   * Work around MSVC bug (including ByteSwapper.h in a templated class).
+   */
+  typedef std::ostream OStreamType;
+
+  /** 
    * Run-time type information (and related methods).
    */
   itkTypeMacro(ByteSwapper,Object);
@@ -86,12 +91,12 @@ public:
   itkNewMacro(Self);
 
   /**
-   * Query the machine Endian-ness
+   * Query the machine Endian-ness.
    */
   static bool IsBigEndian ();
-  static bool IsBE () { return IsBigEndian(); };
+  static bool IsBE () { return IsBigEndian(); }
   static bool IsLittleEndian ();
-  static bool IsLE () { return IsLittleEndian(); };
+  static bool IsLE () { return IsLittleEndian(); }
   
   /**
    * Generic swap method handles type T. The swapping is
@@ -120,7 +125,7 @@ public:
    * others raise an exception. The method is used to
    * swap to and from Big Endian.
    */
-  static void SwapWriteRangeBE(T *p, int num, std::ostream *fp);
+  static void SwapWriteRangeBE(T *p, int num, OStreamType *fp);
   
   /**
    * Generic swap method handles type T. The swapping is
@@ -149,7 +154,7 @@ public:
    * others raise an exception. The method is used to
    * swap to and from Little Endian.
    */
-  static void SwapWriteRangeLE(T *p, int num, std::ostream *fp);
+  static void SwapWriteRangeLE(T *p, int num, OStreamType *fp);
   
 protected:
   ByteSwapper() {};
@@ -172,7 +177,7 @@ protected:
    * Swap and write a range of two-byte words. Num is the number of two-byte 
    * words to swap and write.
    */
-  static void SwapWrite2Range(void *p, unsigned long num, std::ostream *fp);
+  static void SwapWrite2Range(void *p, unsigned long num, OStreamType *fp);
 
   /**
    * Swap four bytes.
@@ -189,7 +194,7 @@ protected:
    * Swap and write a range of four-byte words. Num is the number of four-byte 
    * words to swap and write.
    */
-  static void SwapWrite4Range(void *p, unsigned long num, std::ostream *fp);
+  static void SwapWrite4Range(void *p, unsigned long num, OStreamType *fp);
 
 };
 

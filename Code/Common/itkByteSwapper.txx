@@ -143,7 +143,7 @@ ByteSwapper<T>
 template <class T>
 void 
 ByteSwapper<T>
-::SwapWriteRangeBE(T *p, int num, std::ostream *fp)
+::SwapWriteRangeBE(T *p, int num, OStreamType *fp)
 {
   num *= sizeof(T);
   fp->write((char *)p, num);
@@ -152,7 +152,7 @@ ByteSwapper<T>
 template <class T>
 void 
 ByteSwapper<T>
-::SwapWriteRangeBE(T *p, int num, std::ostream *fp)
+::SwapWriteRangeBE(T *p, int num, OStreamType *fp)
 {
   switch ( sizeof(T) )
     {
@@ -240,7 +240,7 @@ ByteSwapper<T>
 template <class T>
 void 
 ByteSwapper<T>
-::SwapWriteRangeLE(T *p, int num, std::ostream *fp)
+::SwapWriteRangeLE(T *p, int num, OStreamType *fp)
 {
   switch ( sizeof(T) )
     {
@@ -263,7 +263,7 @@ ByteSwapper<T>
 template <class T>
 void 
 ByteSwapper<T>
-::SwapWriteRangeLE(T *p, int num, std::ostream *fp)
+::SwapWriteRangeLE(T *p, int num, OStreamType *fp)
 {
   num *= sizeof(T);
   fp->write((char *)p, num);
@@ -312,7 +312,7 @@ ByteSwapper<T>
 template <class T>
 void 
 ByteSwapper<T>
-::SwapWrite2Range(void *ptr, unsigned long num, std::ostream *fp)
+::SwapWrite2Range(void *ptr, unsigned long num, OStreamType *fp)
 {
   char one_byte;
   char *pos;
@@ -396,7 +396,7 @@ ByteSwapper<T>
 template <class T>
 void 
 ByteSwapper<T>
-::SwapWrite4Range(void *ptr, unsigned long num, std::ostream *fp)
+::SwapWrite4Range(void *ptr, unsigned long num, OStreamType *fp)
 {
   char one_byte;
   char *pos;

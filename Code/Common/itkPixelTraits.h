@@ -353,6 +353,30 @@ public:
   static void SetScalar( RGBPixel<unsigned short> & data, ScalarValueType const& v) {data = v;}
 };
 
+/** \class ScalarTraits<RGBPixel<unsigned char>>
+ * \brief Define (pixel) scalar traits for type <RGBPixel<unsigned char>.
+ */
+template <>
+class ScalarTraits< RGBPixel<unsigned char> > {
+public:
+  typedef  RGBPixel<unsigned char>  ValueType;
+  typedef  RGBPixel<unsigned char>  ScalarValueType;
+  static ScalarValueType& GetScalar( RGBPixel<unsigned char> & v) {return v;}
+  static void SetScalar( RGBPixel<unsigned char> & data, ScalarValueType const& v) {data = v;}
+};
+
+/** \class ScalarTraits<RGBPixel<char>>
+ * \brief Define (pixel) scalar traits for type <RGBPixel<char>.
+ */
+template <>
+class ScalarTraits< RGBPixel<char> > {
+public:
+  typedef  RGBPixel<char>  ValueType;
+  typedef  RGBPixel<char>  ScalarValueType;
+  static ScalarValueType& GetScalar( RGBPixel<char> & v) {return v;}
+  static void SetScalar( RGBPixel<char> & data, ScalarValueType const& v) {data = v;}
+};
+
 
 /**
  * The following are specializations of the VectorTraits for the native
@@ -585,6 +609,30 @@ public:
   typedef RGBPixel<unsigned short> VectorValueType;
   static VectorValueType& GetVector(RGBPixel<unsigned short>& v) {return v;}
   static void SetVector(RGBPixel<unsigned short>& data, VectorValueType const & v) {data = v;}
+};
+
+/** \class VectorTraits<RGBPixel<unsigned char>>
+ * \brief Define (pixel) vector traits for type RGBPixel<unsigned char>.
+ */
+template <>
+class VectorTraits< RGBPixel<unsigned char> > {
+public:
+  typedef RGBPixel<unsigned char> ValueType;
+  typedef RGBPixel<unsigned char> VectorValueType;
+  static VectorValueType& GetVector(RGBPixel<unsigned char>& v) {return v;}
+  static void SetVector(RGBPixel<unsigned char>& data, VectorValueType const & v) {data = v;}
+};
+
+/** \class VectorTraits<RGBPixel<char>>
+ * \brief Define (pixel) vector traits for type RGBPixel<char>.
+ */
+template <>
+class VectorTraits< RGBPixel<char> > {
+public:
+  typedef RGBPixel<char> ValueType;
+  typedef RGBPixel<char> VectorValueType;
+  static VectorValueType& GetVector(RGBPixel<char>& v) {return v;}
+  static void SetVector(RGBPixel<char>& data, VectorValueType const & v) {data = v;}
 };
 
 

@@ -39,7 +39,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
 #include "itkRawImageIO.h"
-
+#include "itkByteSwapper.h"
 
 namespace itk
 {
@@ -207,8 +207,6 @@ void RawImageIO<TPixel,VImageDimension>
   m_ManualHeaderSize = true;
 }
 
-//#include "itkByteSwapper.h"
-
 template <class TPixel, unsigned int VImageDimension>
 void RawImageIO<TPixel,VImageDimension>::Update()
 {
@@ -220,7 +218,7 @@ void RawImageIO<TPixel,VImageDimension>::Update()
   this->ComputeStrides();
   
   // Offset into file
-  m_FileData = (void*)0;
+  m_FileData = (void*)new char[m_Strides[3]];
   unsigned long streamStart = this->GetHeaderSize();
   m_File.seekg((long)streamStart, std::ios::beg);
   if ( m_File.fail() )
@@ -232,12 +230,17 @@ void RawImageIO<TPixel,VImageDimension>::Update()
   // Read the image
   m_File.read((char *)m_FileData, m_Strides[3]);
   
-  // Swap bytes
-  if ( m_ImageByteOrder == Superclass::LittleEndian )
+  // Swap bytes if necessary
+  if ( m_ImageByteOrder == Superclass::LittleEndian &&
+    ByteSwapper<PixelType>::IsBigEndian() )
     {
-//    ByteSwapper::SwapRangeLE(PixelType, m_Strides[3]);
+    ByteSwapper<PixelType>::SwapRangeBE((PixelType *)m_FileData, m_Strides[3]);
     }
-
+  else if ( m_ImageByteOrder == Superclass::BigEndian &&
+    ByteSwapper<PixelType>::IsLittleEndian() )
+    {
+    ByteSwapper<PixelType>::SwapRangeLE((PixelType *)m_FileData, m_Strides[3]);
+    }
 }
 
 

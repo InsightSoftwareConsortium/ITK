@@ -68,11 +68,14 @@ int main(int argc, char *argv[])
   // Uncomment the following if you want to see each message independently
   // itk::OutputWindow::GetInstance()->PromptUserOn();
 
+  // We are reading a RGB pixel
+  typedef itk::RGBPixel<unsigned char> RGBPixelType;
+
   // Create a source object (in this case a reader)
-  itk::RawImageIO<unsigned short>::Pointer io;
-  io = itk::RawImageIO<unsigned short>::New();
+  itk::RawImageIO<RGBPixelType>::Pointer io;
+  io = itk::RawImageIO<RGBPixelType>::New();
   io->SetFilePrefix(argv[1]);
-  unsigned int dim[3] = {256,256,1};
+  unsigned int dim[3] = {570,670,1};
   io->SetDimensions(dim);
   double spacing[3] = {0.8, 0.8, 1.5};
   io->SetSpacing(spacing);
@@ -81,11 +84,12 @@ int main(int argc, char *argv[])
   io->SetHeaderSize(0);
   io->SetImageMask(0x7fff);
   io->SetImageByteOrderToLittleEndian();
-  io->SetPixelType(itk::ITK_SHORT);
+  io->SetPixelType(itk::ITK_UCHAR);
+  io->SetNumberOfComponents(3);
 
-  typedef itk::PhysicalImage<unsigned short,2> FloatImage2DType;
-  itk::FileIOToImageFilter<FloatImage2DType>::Pointer reader;
-  reader = itk::FileIOToImageFilter<FloatImage2DType>::New();
+  typedef itk::PhysicalImage<RGBPixelType,2> RGBImage2DType;
+  itk::FileIOToImageFilter<RGBImage2DType>::Pointer reader;
+  reader = itk::FileIOToImageFilter<RGBImage2DType>::New();
   reader->SetFileName(argv[1]);
   reader->SetIO(io);
   reader->Update();
