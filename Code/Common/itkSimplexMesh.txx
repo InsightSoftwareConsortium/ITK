@@ -23,6 +23,14 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkProcessObject.h"
 #include <algorithm>
 
+#include <vxl_version.h>
+#if VXL_VERSION_DATE_FULL > 20040406
+# include <vnl/vnl_cross.h>
+# define itk_cross_3d vnl_cross_3d
+#else
+# define itk_cross_3d cross_3d
+#endif
+
 namespace itk
   {
 
@@ -429,7 +437,7 @@ namespace itk
     PointType normal;
     normal.Fill(0.0);
     VectorType z;
-    z.Set_vnl_vector( cross_3d((n2-n1).Get_vnl_vector() , (n3-n1).Get_vnl_vector()) );
+    z.Set_vnl_vector( itk_cross_3d((n2-n1).Get_vnl_vector() , (n3-n1).Get_vnl_vector()) );
     z.Normalize();
     normal += z;
 
