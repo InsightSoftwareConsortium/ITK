@@ -21,9 +21,9 @@
 template<class T> void CheckTraits(char *name, T)
 {
   std::cout << "itk::NumericTraits<" << name << ">" << std::endl;
-  std::cout << "\tmin(): " << static_cast<itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::min()) << std::endl;
-  std::cout << "\tmax(): " << static_cast<itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::max()) << std::endl;
-  std::cout << "\tNonpositiveMin(): " << static_cast<itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::NonpositiveMin()) << std::endl;
+  std::cout << "\tmin(): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::min()) << std::endl;
+  std::cout << "\tmax(): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::max()) << std::endl;
+  std::cout << "\tNonpositiveMin(): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::NonpositiveMin()) << std::endl;
 }
 
 int itkNumericTraitsTest(int, char* [] )
