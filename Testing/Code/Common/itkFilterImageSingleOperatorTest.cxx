@@ -17,7 +17,7 @@
 #include "itkImage.h"
 #include "itkFilterImageSingleOperator.h"
 #include "itkDerivativeOperator.h"
-#include "itkNullImageToImageFilterDriver.h"
+#include "itkNullImageToImageFilterDriver.txx"
 
 main(int argc, char *argv[])
 {

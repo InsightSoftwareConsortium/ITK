@@ -49,5 +49,5 @@ main(int argc, char *argv[])
       (&err)->Print(std::cerr);
       return 1;
     } 
-  return 0;   
+  return EXIT_SUCCESS;   
 }
