@@ -194,7 +194,7 @@ private:
  * Martin Styner, Prof. Dr. G. Gerig (IKT, BIWI, ETH Zuerich), TR-197
  * (http://www.cs.unc.edu/~styner/docs/StynerTR97.pdf)
  */
-template <class TInputImage, class TOutputImage>
+template <class TInputImage, class TOutputImage, class TMaskImage>
 class ITK_EXPORT MRIBiasFieldCorrectionFilter :
   public ImageToImageFilter< TInputImage, TOutputImage > 
 {
@@ -229,7 +229,7 @@ public:
   typedef typename TInputImage::RegionType InputImageRegionType;
 
   /** Mask image related type definitions. */
-  typedef Image<unsigned char, ImageDimension> ImageMaskType ;
+  typedef TMaskImage ImageMaskType ;
   typedef typename ImageMaskType::Pointer ImageMaskPointer ;
   typedef typename ImageMaskType::RegionType ImageMaskRegionType ;
 
@@ -320,13 +320,13 @@ public:
   /** Sets the initial 3D bias field estimate coefficients that will be
    * used for correcting each slab. */
   void SetInitialBiasFieldCoefficients
-  (const BiasFieldType::CoefficientVectorType &coefficients)
+  (const BiasFieldType::CoefficientArrayType &coefficients)
     { m_BiasFieldCoefficients = coefficients ; }
 
   /** Get the result bias field coefficients after the bias field
    * estimation (does not apply to the inter-slice intensity
    * correction) */
-  itkGetMacro( EstimatedBiasFieldCoefficients, BiasFieldType::CoefficientVectorType );
+  itkGetMacro( EstimatedBiasFieldCoefficients, BiasFieldType::CoefficientArrayType );
 
   /** Set the tissue class statistics for energy function initialization
    * If the numbers of elements in the means and the sigmas are not equal
@@ -336,8 +336,10 @@ public:
     throw (ExceptionObject) ;
 
   /** Set/Get the maximum iteration termination condition parameter. */
-  itkSetMacro( OptimizerMaximumIteration, int );
-  itkGetMacro( OptimizerMaximumIteration, int );
+  itkSetMacro( VolumeCorrectionMaximumIteration, int );
+  itkGetMacro( VolumeCorrectionMaximumIteration, int );
+  itkSetMacro( InterSliceCorrectionMaximumIteration, int );
+  itkGetMacro( InterSliceCorrectionMaximumIteration, int );
 
   /** Set/Get the initial search radius. */
   void SetOptimizerInitialRadius(double initRadius) 
@@ -460,14 +462,17 @@ private:
 
   /** Storage for the initial 3D bias field estimate coefficients that will be
    * used for correcting each slab. */
-  BiasFieldType::CoefficientVectorType m_BiasFieldCoefficients ;
+  BiasFieldType::CoefficientArrayType m_BiasFieldCoefficients ;
 
   /** Storage for the resulting 3D bias field estimate coefficients 
    * after optimization. */
-  BiasFieldType::CoefficientVectorType m_EstimatedBiasFieldCoefficients ;
+  BiasFieldType::CoefficientArrayType m_EstimatedBiasFieldCoefficients ;
 
   /** Storage for the optimizer's maximum iteration number. */
-  int m_OptimizerMaximumIteration ;
+  int m_VolumeCorrectionMaximumIteration ;
+  
+  /** Storage for the optimizer's maximum iteration number. */
+  int m_InterSliceCorrectionMaximumIteration ;
 
   /** Storage for the optimizer's initial search radius. */
   double m_OptimizerInitialRadius ;
@@ -509,6 +514,8 @@ void CopyAndConvertImage(const TSource * sourceInp,
   SourceIterator s_iter(source, requestedRegion) ;
   TargetIterator t_iter(target, requestedRegion) ;
 
+  s_iter.GoToBegin() ;
+  t_iter.GoToBegin() ;
   while (!s_iter.IsAtEnd())
     {
       t_iter.Set(static_cast<TargetPixelType>( s_iter.Get() ) ) ;
