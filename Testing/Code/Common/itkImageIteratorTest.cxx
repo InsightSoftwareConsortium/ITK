@@ -196,9 +196,24 @@ void TestConstPixelAccess(const itk::Image<T, VImageDimension> &in,
 int main()
 {
   std::cout << "Creating an image" << std::endl;
+  itk::Image<itk::Vector<unsigned short, 5>, 3>::Pointer
+    oo = itk::Image<itk::Vector<unsigned short, 5>, 3>::New();
+
+  std::cout << "Image spacing = "
+            << oo->GetSpacing()[0] << ", "
+            << oo->GetSpacing()[1] << ", "
+            << oo->GetSpacing()[2] << std::endl;
+    
+  std::cout << "Image origin = "
+            << oo->GetOrigin()[0] << ", "
+            << oo->GetOrigin()[1] << ", "
+            << oo->GetOrigin()[2] << std::endl;
+  
+
+  std::cout << "Creating a physical image" << std::endl;
   itk::PhysicalImage<itk::Vector<unsigned short, 5>, 3>::Pointer
     o3 = itk::PhysicalImage<itk::Vector<unsigned short, 5>, 3>::New();
-
+  
   float origin3D[3] = { 5, 2.1, 8.1};
   float spacing3D[3] = { 1.5, 2.1, 1};
 
