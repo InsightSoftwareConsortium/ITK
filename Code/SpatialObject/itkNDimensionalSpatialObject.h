@@ -51,7 +51,7 @@ public:
   
   typedef SmartPointer< Self > Pointer;
   typedef SmartPointer< const Self > ConstPointer;
-  typedef vnl_vector<double> VectorType;
+//  typedef vnl_vector<double> VectorType;
 
   /** Index typedef support. An index is used to access pixel values. */
   typedef Index<PipelineDimension>  IndexType;
@@ -90,12 +90,6 @@ public:
 
   /** Get the dimension of the SpatialObject */
   unsigned int GetDimension(void) const {return m_Dimension;}
-
-  /** Set the Spacing of the spatial object */
-  void SetSpacing(VectorType spacing){m_Spacing = spacing;}
-
-  /** Get the spacing of the spatial object */
-  VectorType GetSpacing(void) const  {return m_Spacing;}
 
   /** Set the region object that defines the size and starting index
    * for the largest possible region this image could represent.  This
@@ -273,7 +267,6 @@ protected:
 
   ConstPointer m_Parent; 
   char m_TypeName[255];
-  VectorType m_Spacing;
 
   unsigned int m_Dimension;
 
