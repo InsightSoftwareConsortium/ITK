@@ -417,8 +417,8 @@ void DICOMAppHelper::BitsAllocatedCallback(doublebyte,
 
 void DICOMAppHelper::ToggleSwapBytesCallback(doublebyte,
                                              doublebyte,
-                                             DICOMParser::VRTypes vrtype,
-                                             unsigned char* val,
+                                             DICOMParser::VRTypes,
+                                             unsigned char*,
                                              quadbyte len) 
 {
   std::cout << "ToggleSwapBytesCallback" << std::endl;

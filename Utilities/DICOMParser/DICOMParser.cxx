@@ -117,7 +117,7 @@ bool DICOMParser::IsDICOMFile(DICOMFile* file) {
       file->SkipToStart();
 
       doublebyte group = file->ReadDoubleByte();
-      bool dicom = false;
+      bool dicom;
       if (group == 0x0002 || group == 0x0008)
         {
         dicom = true;
@@ -482,7 +482,7 @@ bool DICOMParser::ParseExplicitRecord(doublebyte, doublebyte,
     }
   else
     {
-    representation = VR_UNKNOWN;
+    represent = VR_UNKNOWN;
     length = 0;
     return false;
     }
