@@ -83,7 +83,8 @@ SpatialSampleContainer& samples )
     // get reference image value
     for( unsigned int j = 0; j < TargetImageDimension; j++ )
       {
-      (*iter).TargetPointValue[j] = index[j];
+      (*iter).TargetPointValue[j] = double(index[j]) *
+        target->GetSpacing()[j];
       }
 
     if( mapper->IsInside( (*iter).TargetPointValue ) )
@@ -201,12 +202,12 @@ void
 MutualInformationImageToImageMetric<TTarget,TMapper>
 ::GetValueAndDerivative(
 const ParametersType& parameters,
-MeasureType& value, 
+MeasureType& value,
 DerivativeType& derivative)
 {
 
   std::cout << "GetValueAndDerivative( " << parameters << " ) = ";
-  
+
   // reset the derivatives all to zero
   m_MatchMeasureDerivatives.Fill(0);
   m_MatchMeasure = 0;
@@ -383,12 +384,14 @@ DerivativeType& derivatives )
   TargetIndexType refIndex;
 
   typename MapperType::Pointer mapper = GetMapper();
+  typename TargetType::Pointer target = GetTarget();
 
   refPoint = mapper->GetTransformation()->Transform( point );
 
   for( unsigned int j = 0; j < TargetImageDimension; j++ )
     {
-    refIndex[j] = vnl_math_rnd( refPoint[j] );
+    refIndex[j] = (long) vnl_math_rnd( refPoint[j] /
+      target->GetSpacing()[j] );
     }
 
   Vector<double, TargetImageDimension> imageDerivatives;
