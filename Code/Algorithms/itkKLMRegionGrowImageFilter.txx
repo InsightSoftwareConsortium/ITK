@@ -26,11 +26,11 @@ template<class TInputImage, class TOutputImage>
 KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 ::KLMRegionGrowImageFilter(void):
   m_MaximumLambda(1000),
-  m_NumberOfBorders(0),
   m_NumberOfRegions(0),
+  m_NumberOfBorders(0),
   m_InitialNumberOfRegions(0),
-  m_InitialRegionArea(0),
-  m_BordersCandidateDynamicPointer(NULL)
+  m_BordersCandidateDynamicPointer(NULL),
+  m_InitialRegionArea(0)
 {
   m_InitialRegionMean.set_size( InputImageVectorDimension );
   m_InitialRegionMean.fill(0);
@@ -127,7 +127,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   GridSizeType gridSize = this->GetGridSize();
 
   InputImageSizeType numRegionsAlongDim;
-  for ( int idim = 0; idim < InputImageDimension; idim++ )
+  for ( unsigned int idim = 0; idim < InputImageDimension; idim++ )
     numRegionsAlongDim[idim] = inputImageSize[idim] / gridSize[idim];
 
   // Walk through each atomic block and get the approximation image.
@@ -158,7 +158,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 
     tmpMeanValue = m_RegionsPointer[iregion]->GetMeanRegionIntensity();
 
-    for ( int ivecdim = 0; ivecdim < InputImageVectorDimension; ivecdim++ )
+    for ( unsigned int ivecdim = 0; ivecdim < InputImageVectorDimension; ivecdim++ )
       outMeanValue[ivecdim] =
         static_cast< OutputValueType >( tmpMeanValue[ivecdim] );
 
@@ -175,7 +175,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 
     // Calculate next grid index
     long tmpVal = 1;
-    for ( int idim = 0; idim < InputImageDimension; idim++ )
+    for ( unsigned int idim = 0; idim < InputImageDimension; idim++ )
       {
       tmpIndex[ idim ]++;
       tmpVal *= numRegionsAlongDim[idim];
@@ -198,13 +198,13 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 
   LabelImagePointer labelImagePtr = LabelImageType::New();
 
-  LabelImageType::SizeType labelImageSize =
+  typename LabelImageType::SizeType labelImageSize =
     this->GetInput()->GetBufferedRegion().GetSize();
 
   LabelImageIndexType labelImageIndex;
   labelImageIndex.Fill(0);
 
-  LabelImageType::RegionType labelImageRegion;
+  typename LabelImageType::RegionType labelImageRegion;
 
   labelImageRegion.SetSize( labelImageSize );
   labelImageRegion.SetIndex( labelImageIndex );
@@ -232,7 +232,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   GridSizeType gridSize = this->GetGridSize();
 
   InputImageSizeType     numRegionsAlongDim;
-  for ( int idim = 0; idim < InputImageDimension; idim++ )
+  for ( unsigned int idim = 0; idim < InputImageDimension; idim++ )
     numRegionsAlongDim[idim] = inputImageSize[idim] / gridSize[idim];
 
   // Walk through each atomic block and get the new unique labels
@@ -266,7 +266,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 
     // Calculate next grid index
     long tmpVal = 1;
-    for ( int idim = 0; idim < InputImageDimension; idim++ )
+    for ( unsigned int idim = 0; idim < InputImageDimension; idim++ )
       {
       tmpIndex[ idim ]++;
       tmpVal *= numRegionsAlongDim[idim];
@@ -337,7 +337,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   typename TInputImage::SpacingType
                          spacing        = inputImage->GetSpacing();
 
-  for ( int idim = 0; idim < InputImageDimension; idim++ )
+  for ( unsigned int idim = 0; idim < InputImageDimension; idim++ )
     {
     if( gridSize[idim] == 0 ||
         inputImageSize[idim] % gridSize[idim] != 0 )
@@ -349,13 +349,13 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   // Determine the regions first and intialize them
 
   InputImageSizeType numRegionsAlongDim;
-  for ( int idim = 0; idim < InputImageDimension; idim++ )
+  for ( unsigned int idim = 0; idim < InputImageDimension; idim++ )
     numRegionsAlongDim[idim] = inputImageSize[idim] / gridSize[idim];
 
   // Calculate the initial number of regions
 
   m_InitialNumberOfRegions = 1;
-  for ( int idim = 0; idim < InputImageDimension; idim++ )
+  for ( unsigned int idim = 0; idim < InputImageDimension; idim++ )
     {
     m_InitialNumberOfRegions *= numRegionsAlongDim[idim];
     }
@@ -396,7 +396,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 
     // Calculate next grid index
     long tmpVal = 1;
-    for ( int idim = 0; idim < InputImageDimension; idim++ )
+    for ( unsigned int idim = 0; idim < InputImageDimension; idim++ )
       {
       tmpIndex[ idim ]++;
       tmpVal *= numRegionsAlongDim[idim];
@@ -411,10 +411,10 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   // Allocate and intialize memory to the borders
 
   m_NumberOfBorders = 0;
-  for ( int idim = 0; idim < InputImageDimension; idim++ )
+  for ( unsigned int idim = 0; idim < InputImageDimension; idim++ )
     {
     long tmpVal = 1;
-    for ( int jdim = 0; jdim < InputImageDimension; jdim++ )
+    for ( unsigned int jdim = 0; jdim < InputImageDimension; jdim++ )
       {
       tmpVal *= ( jdim == idim ?
         numRegionsAlongDim[jdim] - 1 :
@@ -450,7 +450,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 
   // Along each dimension, visit every border between two regions
 
-  for ( int idim = 0; idim < InputImageDimension; idim++ )
+  for ( unsigned int idim = 0; idim < InputImageDimension; idim++ )
     {
 
     // along the dimension there is one less border than there are regions
@@ -461,7 +461,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
     // each border
     unsigned int numBorderThisDim = 1;
     double       borderLengthTmp  = 1;
-    for ( int jdim = 0; jdim < InputImageDimension; jdim++ )
+    for ( unsigned int jdim = 0; jdim < InputImageDimension; jdim++ )
       {
       numBorderThisDim *= numBordersAlongDim[jdim];
       borderLengthTmp  *= ( jdim == idim ? 1 : gridSize[ jdim ] * spacing[ jdim ] );
@@ -491,7 +491,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
       unsigned int intRegion1Index = 0;
       unsigned int intRegion2Index = 0;
       long tmpVal = 1;
-      for ( int jdim = 0; jdim < InputImageDimension; jdim++ )
+      for ( unsigned int jdim = 0; jdim < InputImageDimension; jdim++ )
         {
         intRegion1Index += indexRegion1[jdim] * tmpVal;
         intRegion2Index += indexRegion2[jdim] * tmpVal;
@@ -519,7 +519,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 
       // Calculate next indices to atomic region1 and atomic region2
       tmpVal = 1;
-      for ( int jdim = 0; jdim < InputImageDimension; jdim++ )
+      for ( unsigned int jdim = 0; jdim < InputImageDimension; jdim++ )
         {
         indexRegion1[ jdim ]++;
         tmpVal *= numBordersAlongDim[jdim];
@@ -543,10 +543,10 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   // Verification of the initialization process
 
   double actualBorderLength = 0;
-  for ( int idim = 0; idim < InputImageDimension; idim++ )
+  for ( unsigned int idim = 0; idim < InputImageDimension; idim++ )
     {
     double tmpDblVal = 1;
-    for ( int jdim = 0; jdim < InputImageDimension; jdim++ )
+    for ( unsigned int jdim = 0; jdim < InputImageDimension; jdim++ )
       {
       tmpDblVal *= ( jdim == idim ?
         numRegionsAlongDim[jdim] - 1 : inputImageSize[jdim] * spacing[jdim] );
@@ -616,7 +616,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
     {
     inputPixelVec = inputIt.Value();
 
-    for ( int ivecdim = 0; ivecdim < InputImageVectorDimension; ivecdim++ )
+    for ( unsigned int ivecdim = 0; ivecdim < InputImageVectorDimension; ivecdim++ )
       m_InitialRegionMean[ivecdim] += inputPixelVec[ivecdim];
 
     ++inputIt;

@@ -178,10 +178,6 @@ public:
   typedef typename TInputImage::Pointer         InputImagePointer;
   typedef typename TInputImage::ConstPointer    InputImageConstPointer;
 
-  /** InputImageDimension enumeration. */
-  itkStaticConstMacro(InputImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
-
   /** Type definition for the input image pixel type. */
   typedef typename TInputImage::PixelType       InputImagePixelType;
 
@@ -210,6 +206,10 @@ public:
   typedef TOutputImage                          OutputImageType;
   typedef typename TOutputImage::Pointer        OutputImagePointer;
 
+  /** InputImageDimension enumeration. */
+  itkStaticConstMacro(InputImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
+
   /** OutputImageDimension enumeration. */
   itkStaticConstMacro(OutputImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
@@ -233,12 +233,14 @@ public:
   /** The dimensions of the input image must equal those of the
       output image. */
   itkConceptMacro(SameDimension,
-    (Concept::SameDimension<InputImageDimension,OutputImageDimension>));
+    (Concept::SameDimension<itkGetStaticConstMacro(InputImageDimension),itkGetStaticConstMacro(OutputImageDimension)>));
 
-  /** The input image pixel type must be the same as that of the
-      output image. */
+#if THIS_CONCEPT_FAILS_ON_GCC
+  /** The input pixel type must be the same as that of the output
+      image. */
   itkConceptMacro(SameVectorDimension,
-    (Concept::SameDimension<InputImageVectorDimension,OutputImageVectorDimension>));
+    (Concept::SameDimension<itkGetStaticConstMacro(InputImageVectorDimension),itkGetStaticConstMacro(OutputImageVectorDimension)>));
+#endif
 
   /** type definition for the region label type. */
   typedef typename KLMSegmentationRegion::RegionLabelType RegionLabelType;
