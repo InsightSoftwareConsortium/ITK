@@ -373,11 +373,11 @@ void ItpackLinearSystemWrapper::Solve(void)
    * FIX ME: itpack does not allow for any non-zero diagonal elements
    * so "very small" numbers are inserted to allow for a solution
    */
-  unsigned int i;
+  int i;
   doublereal fakeZero = 1.0e-16;
 
   /* insert "fake" zeros */
-  for (i=0; i<m_Order; i++)
+  for (i=0; i<static_cast<int>(m_Order); i++)
   {
     if ( (*m_Matrices)[0].Get(i,i) == 0.0)
     {
