@@ -176,7 +176,7 @@ public:
 
   /** Set/Get the feature image to be used for speed function of the level set
    *  equation.  Equivalent to calling Set/GetInput(1, ..) */
-  virtual void SetFeatureImage(FeatureImageType *f)
+  virtual void SetFeatureImage(const FeatureImageType *f)
   {
     this->ProcessObject::SetNthInput( 1, const_cast< FeatureImageType * >(f) );
     m_SegmentationFunction->SetFeatureImage(f);
@@ -191,10 +191,10 @@ public:
     this->SetInput(f);
   }
   
-  virtual typename SegmentationFunctionType::ImageType *GetSpeedImage() const
+  virtual typename const SegmentationFunctionType::ImageType *GetSpeedImage() const
   { return m_SegmentationFunction->GetSpeedImage(); }
 
-  virtual typename SegmentationFunctionType::VectorImageType *GetAdvectionImage() const
+  virtual typename const SegmentationFunctionType::VectorImageType *GetAdvectionImage() const
   { return m_SegmentationFunction->GetAdvectionImage(); }
 
   /** This method reverses the speed function direction, effectively changing

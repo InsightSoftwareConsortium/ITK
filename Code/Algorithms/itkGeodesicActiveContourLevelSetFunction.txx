@@ -28,7 +28,7 @@ void GeodesicActiveContourLevelSetFunction<TImageType, TFeatureImageType>
 ::CalculateSpeedImage()
 {
   /* copy the feature image into the speed image */
-  ImageRegionIterator<FeatureImageType>
+  ImageRegionConstIterator<FeatureImageType>
     fit(this->GetFeatureImage(), this->GetFeatureImage()->GetRequestedRegion());
   ImageRegionIterator<ImageType>
     sit(this->GetSpeedImage(), this->GetFeatureImage()->GetRequestedRegion());

@@ -26,7 +26,7 @@ template <class TImageType, class TFeatureImageType>
 void ThresholdSegmentationLevelSetFunction<TImageType, TFeatureImageType>
 ::CalculateSpeedImage()
 {
-  ImageRegionIterator<FeatureImageType>
+  ImageRegionConstIterator<FeatureImageType>
     fit(this->GetFeatureImage(), this->GetFeatureImage()->GetRequestedRegion());
   ImageRegionIterator<ImageType>
     sit(this->GetSpeedImage(), this->GetFeatureImage()->GetRequestedRegion());

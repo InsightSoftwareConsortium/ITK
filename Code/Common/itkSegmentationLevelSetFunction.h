@@ -84,13 +84,13 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
 
   /** Set/Get the image which will be used to calculate the speed function. */
-  virtual FeatureImageType *GetFeatureImage() const
+  virtual const FeatureImageType *GetFeatureImage() const
   { return m_FeatureImage.GetPointer(); }
-  virtual void SetFeatureImage(FeatureImageType *f)
+  virtual void SetFeatureImage(const FeatureImageType *f)
   {    m_FeatureImage = f;  }
   
   /** Get the image used as the speed function in the level set equation */
-  virtual ImageType *GetSpeedImage() const
+  virtual ImageType *GetSpeedImage() 
   { return m_SpeedImage.GetPointer(); }
 
   /** Get the image used as the advection field in the level set equation */
@@ -124,7 +124,7 @@ public:
 
 protected:
   /** The image whose features will be used to create a speed image */
-  typename FeatureImageType::Pointer m_FeatureImage;
+  typename FeatureImageType::ConstPointer m_FeatureImage;
 
   /** The image holding the speed values for front propagation */
   typename ImageType::Pointer        m_SpeedImage;
