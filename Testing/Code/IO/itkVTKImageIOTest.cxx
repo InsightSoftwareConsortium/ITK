@@ -23,10 +23,76 @@
 #include "itkImageFileWriter.h"
 #include "itkImageFileReader.h"
 #include "itkVTKImageIO.h"
+#include "itkNumericTraits.h"
+
+template<class TScalar, unsigned int TDimension>
+int ReadWrite(TScalar low, TScalar hi, char *file1, char *file2, bool ascii)
+{
+  typedef itk::Image<TScalar,TDimension> ImageType;
+
+  // Create a source object (in this case a random image generator).
+  // The source object is templated on the output type.
+  //
+  unsigned long size[TDimension];
+  for (unsigned int i = 0; i < TDimension; i++)
+    {
+    size[i]= 2 << (i + 1);
+    }
+  itk::RandomImageSource<ImageType>::Pointer random;
+  random = itk::RandomImageSource<ImageType>::New();
+  random->SetMin(low);
+  random->SetMax(hi);
+  random->SetSize(size);
+
+  float spacing[3] = {5.0f, 10.0f, 15.0f};
+  float origin[3] = {-5.0f, -10.0f, -15.0f};
+  random->SetSpacing(spacing);
+  random->SetOrigin(origin);
+
+  // Create a mapper (in this case a writer). A mapper
+  // is templated on the input type.
+  //
+  itk::VTKImageIO::Pointer vtkIO;
+  vtkIO = itk::VTKImageIO::New();
+  if (ascii)
+    {
+    vtkIO->SetFileTypeToASCII();
+    }
+  else
+    {
+    vtkIO->SetFileTypeToBinary();
+    }
+
+  // Write out the image
+  itk::ImageFileWriter<ImageType>::Pointer writer;
+  writer = itk::ImageFileWriter<ImageType>::New();
+  writer->SetInput(random->GetOutput());
+  writer->SetFileName(file1);
+  writer->SetImageIO(vtkIO);
+  writer->Write();
+
+  if ( !vtkIO->CanReadFile(file1) )
+    {
+    return 1;
+    }
+
+  // Create a source object (in this case a reader)
+  itk::ImageFileReader<ImageType>::Pointer reader;
+  reader = itk::ImageFileReader<ImageType>::New();
+  reader->SetImageIO(vtkIO);
+  reader->SetFileName(file1);
+  reader->Update();
+
+  writer->SetInput(reader->GetOutput());
+  writer->SetFileName(file2);
+  writer->Write();
+
+  return 0;
+}
+
 
 int itkVTKImageIOTest(int argc, char* argv[] )
 {
-  typedef itk::Image<float,2> FloatImageType;
 
   if( argc < 3 )
     {
@@ -35,50 +101,126 @@ int itkVTKImageIOTest(int argc, char* argv[] )
     return 1;
     }
 
-  // Create a source object (in this case a random image generator).
-  // The source object is templated on the output type.
-  //
-  unsigned long size[2];
-  size[0]=128; size[1]=64;
+  int status = 0;
+
   
-  itk::RandomImageSource<FloatImageType>::Pointer random;
-  random = itk::RandomImageSource<FloatImageType>::New();
-  random->SetMin(0.0);
-  random->SetMax(1.0);
-  random->SetSize(size);
+  status += ReadWrite<float,2>(itk::NumericTraits<float>::NonpositiveMin(),
+                             itk::NumericTraits<float>::max(),
+                             argv[1], argv[2], false);
+  status += ReadWrite<float,2>(itk::NumericTraits<float>::NonpositiveMin(),
+                             itk::NumericTraits<float>::max(),
+                             argv[1], argv[2], true);
+  status += ReadWrite<float,3>(itk::NumericTraits<float>::NonpositiveMin(),
+                             itk::NumericTraits<float>::max(),
+                             argv[1], argv[2], false);
+  status += ReadWrite<float,3>(itk::NumericTraits<float>::NonpositiveMin(),
+                             itk::NumericTraits<float>::max(),
+                             argv[1], argv[2], true);
 
-  // Create a mapper (in this case a writer). A mapper
-  // is templated on the input type.
-  //
-  itk::VTKImageIO::Pointer vtkIO;
-  vtkIO = itk::VTKImageIO::New();
+  status += ReadWrite<double,2>(itk::NumericTraits<double>::NonpositiveMin(),
+                             itk::NumericTraits<double>::max(),
+                             argv[1], argv[2], false);
+  status += ReadWrite<double,2>(itk::NumericTraits<double>::NonpositiveMin(),
+                             itk::NumericTraits<double>::max(),
+                             argv[1], argv[2], true);
+  status += ReadWrite<double,3>(itk::NumericTraits<double>::NonpositiveMin(),
+                             itk::NumericTraits<double>::max(),
+                             argv[1], argv[2], false);
+  status += ReadWrite<double,3>(itk::NumericTraits<double>::NonpositiveMin(),
+                             itk::NumericTraits<double>::max(),
+                             argv[1], argv[2], true);
 
-  // Write out the image
-  itk::ImageFileWriter<FloatImageType>::Pointer writer;
-  writer = itk::ImageFileWriter<FloatImageType>::New();
-  writer->SetInput(random->GetOutput());
-  writer->SetFileName(argv[1]);
-  writer->SetImageIO(vtkIO);
-  writer->Write();
+  status += ReadWrite<unsigned char,2>(itk::NumericTraits<unsigned char>::NonpositiveMin(),
+                             itk::NumericTraits<unsigned char>::max(),
+                             argv[1], argv[2], false);
+  status += ReadWrite<unsigned char,2>(itk::NumericTraits<unsigned char>::NonpositiveMin(),
+                             itk::NumericTraits<unsigned char>::max(),
+                             argv[1], argv[2], true);
+  status += ReadWrite<unsigned char,3>(itk::NumericTraits<unsigned char>::NonpositiveMin(),
+                             itk::NumericTraits<unsigned char>::max(),
+                             argv[1], argv[2], false);
+  status += ReadWrite<unsigned char,3>(itk::NumericTraits<unsigned char>::NonpositiveMin(),
+                             itk::NumericTraits<unsigned char>::max(),
+                             argv[1], argv[2], true);
 
-  if ( !vtkIO->CanReadFile(argv[1]) )
-    {
-    return 1;
-    }
 
-  // Create a source object (in this case a reader)
-  itk::ImageFileReader<FloatImageType>::Pointer reader;
-  reader = itk::ImageFileReader<FloatImageType>::New();
-  reader->SetImageIO(vtkIO);
-  reader->SetFileName(argv[1]);
-  reader->Update();
+  status += ReadWrite<char,2>(itk::NumericTraits<char>::NonpositiveMin(),
+                             itk::NumericTraits<char>::max(),
+                             argv[1], argv[2], false);
+  status += ReadWrite<char,2>(itk::NumericTraits<char>::NonpositiveMin(),
+                             itk::NumericTraits<char>::max(),
+                             argv[1], argv[2], true);
+  status += ReadWrite<char,3>(itk::NumericTraits<char>::NonpositiveMin(),
+                             itk::NumericTraits<char>::max(),
+                             argv[1], argv[2], false);
+  status += ReadWrite<char,3>(itk::NumericTraits<char>::NonpositiveMin(),
+                             itk::NumericTraits<char>::max(),
+                             argv[1], argv[2], true);
 
-  writer->SetInput(reader->GetOutput());
-  writer->SetFileName(argv[2]);
-  writer->Write();
+  status += ReadWrite<unsigned short,2>(itk::NumericTraits<unsigned short>::NonpositiveMin(),
+                             itk::NumericTraits<unsigned short>::max(),
+                             argv[1], argv[2], false);
+  status += ReadWrite<unsigned short,2>(itk::NumericTraits<unsigned short>::NonpositiveMin(),
+                             itk::NumericTraits<unsigned short>::max(),
+                             argv[1], argv[2], true);
+  status += ReadWrite<unsigned short,3>(itk::NumericTraits<unsigned short>::NonpositiveMin(),
+                             itk::NumericTraits<unsigned short>::max(),
+                             argv[1], argv[2], false);
+  status += ReadWrite<unsigned short,3>(itk::NumericTraits<unsigned short>::NonpositiveMin(),
+                             itk::NumericTraits<unsigned short>::max(),
+                             argv[1], argv[2], true);
 
-  return EXIT_SUCCESS;
+  status += ReadWrite<short,2>(itk::NumericTraits<short>::NonpositiveMin(),
+                             itk::NumericTraits<short>::max(),
+                             argv[1], argv[2], false);
+  status += ReadWrite<short,2>(itk::NumericTraits<short>::NonpositiveMin(),
+                             itk::NumericTraits<short>::max(),
+                             argv[1], argv[2], true);
+  status += ReadWrite<short,3>(itk::NumericTraits<short>::NonpositiveMin(),
+                             itk::NumericTraits<short>::max(),
+                             argv[1], argv[2], false);
+  status += ReadWrite<short,3>(itk::NumericTraits<short>::NonpositiveMin(),
+                             itk::NumericTraits<short>::max(),
+                             argv[1], argv[2], true);
+
+  status += ReadWrite<int,2>(itk::NumericTraits<int>::NonpositiveMin(),
+                             itk::NumericTraits<int>::max(),
+                             argv[1], argv[2], false);
+  status += ReadWrite<int,2>(itk::NumericTraits<int>::NonpositiveMin(),
+                             itk::NumericTraits<int>::max(),
+                             argv[1], argv[2], true);
+  status += ReadWrite<int,3>(itk::NumericTraits<int>::NonpositiveMin(),
+                             itk::NumericTraits<int>::max(),
+                             argv[1], argv[2], false);
+  status += ReadWrite<int,3>(itk::NumericTraits<int>::NonpositiveMin(),
+                             itk::NumericTraits<int>::max(),
+                             argv[1], argv[2], true);
+
+  status += ReadWrite<unsigned long,2>(itk::NumericTraits<unsigned long>::NonpositiveMin(),
+                             itk::NumericTraits<unsigned long>::max(),
+                             argv[1], argv[2], false);
+  status += ReadWrite<unsigned long,2>(itk::NumericTraits<unsigned long>::NonpositiveMin(),
+                             itk::NumericTraits<unsigned long>::max(),
+                             argv[1], argv[2], true);
+  status += ReadWrite<unsigned long,3>(itk::NumericTraits<unsigned long>::NonpositiveMin(),
+                             itk::NumericTraits<unsigned long>::max(),
+                             argv[1], argv[2], false);
+  status += ReadWrite<unsigned long,3>(itk::NumericTraits<unsigned long>::NonpositiveMin(),
+                             itk::NumericTraits<unsigned long>::max(),
+                             argv[1], argv[2], true);
+
+  status += ReadWrite<long,2>(itk::NumericTraits<long>::NonpositiveMin(),
+                             itk::NumericTraits<long>::max(),
+                             argv[1], argv[2], false);
+  status += ReadWrite<long,2>(itk::NumericTraits<long>::NonpositiveMin(),
+                             itk::NumericTraits<long>::max(),
+                             argv[1], argv[2], true);
+  status += ReadWrite<long,3>(itk::NumericTraits<long>::NonpositiveMin(),
+                             itk::NumericTraits<long>::max(),
+                             argv[1], argv[2], false);
+  status += ReadWrite<long,3>(itk::NumericTraits<long>::NonpositiveMin(),
+                             itk::NumericTraits<long>::max(),
+                             argv[1], argv[2], true);
+
+  return status;
 }
-
-
-
