@@ -1078,8 +1078,10 @@ AnalyzeImageIO
 
   {
   itk::IOCommon::ValidOrientationFlags temporient;
-  itk::ExposeMetaData<itk::IOCommon::ValidOrientationFlags>(thisDic,ITK_Orientation, temporient);
-  this->m_hdr.hist.orient=static_cast<itk::IOCommon::ValidOrientationFlags>(temporient);
+  if ( itk::ExposeMetaData<itk::IOCommon::ValidOrientationFlags>(thisDic,ITK_Orientation, temporient) )
+    {
+    this->m_hdr.hist.orient=static_cast<itk::IOCommon::ValidOrientationFlags>(temporient);
+    }
   }
 
   if(itk::ExposeMetaData<std::string>(thisDic,ITK_FileOriginator,temp))
