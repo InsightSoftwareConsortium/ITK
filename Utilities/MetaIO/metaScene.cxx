@@ -370,10 +370,26 @@ M_SetupReadFields(void)
 void MetaScene::
 M_SetupWriteFields(void)
 {
-  strcpy(m_ObjectTypeName,"Scene");
-  MetaObject::M_SetupWriteFields();
+  this->ClearFields();
 
   MET_FieldRecordType * mF;
+
+  if(strlen(m_Comment)>0)
+    {
+    mF = new MET_FieldRecordType;
+    MET_InitWriteField(mF, "Comment", MET_STRING, strlen(m_Comment), m_Comment);
+    m_Fields.push_back(mF);
+    }
+
+  strcpy(m_ObjectTypeName,"Scene");
+  mF = new MET_FieldRecordType;
+  MET_InitWriteField(mF, "ObjectType", MET_STRING, strlen(m_ObjectTypeName),
+                    m_ObjectTypeName);
+  m_Fields.push_back(mF);
+
+  mF = new MET_FieldRecordType;
+  MET_InitWriteField(mF, "NDims", MET_INT, m_NDims);
+  m_Fields.push_back(mF);
 
   mF = new MET_FieldRecordType;
   MET_InitWriteField(mF, "NObjects", MET_INT, m_NObjects);
