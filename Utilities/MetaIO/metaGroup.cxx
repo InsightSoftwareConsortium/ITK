@@ -1,0 +1,126 @@
+#include <stdio.h>
+#include <ctype.h>
+#include <iostream>
+#include <fstream>
+#include <string>
+
+#include <metaUtils.h>
+#include <metaObject.h>
+#include <metaGroup.h>
+
+//
+// MedImage Constructors
+//
+MetaGroup::
+MetaGroup()
+:MetaObject()
+{
+  if(META_DEBUG) std::cout << "MetaGroup()" << std::endl;
+  Clear();
+
+}
+
+//
+MetaGroup::
+MetaGroup(const char *_headerName)
+:MetaObject()
+{
+  if(META_DEBUG)  std::cout << "MetaGroup()" << std::endl;
+  Clear();
+  Read(_headerName);
+}
+
+//
+MetaGroup::
+MetaGroup(const MetaGroup *_ellipse)
+:MetaObject()
+{
+  if(META_DEBUG)  std::cout << "MetaGroup()" << std::endl;
+  Clear();
+  CopyInfo(_ellipse);
+}
+
+MetaGroup::
+MetaGroup(unsigned int dim)
+:MetaObject(dim)
+{
+  if(META_DEBUG) std::cout << "MetaGroup()" << std::endl;
+  Clear();
+}
+
+//
+MetaGroup::
+~MetaGroup()
+{
+  M_Destroy();
+}
+
+//
+void MetaGroup::
+PrintInfo() const
+{
+  MetaObject::PrintInfo();
+}
+
+void MetaGroup::
+CopyInfo(const MetaGroup * _ellipse)
+{
+  MetaObject::CopyInfo(_ellipse);
+}
+
+/** Clear ellipse information */
+void MetaGroup::
+Clear(void)
+{
+  if(META_DEBUG) std::cout << "MetaGroup: Clear" << std::endl;
+  MetaObject::Clear();
+}
+        
+/** Destroy ellipse information */
+void MetaGroup::
+M_Destroy(void)
+{
+  MetaObject::M_Destroy();
+}
+
+/** Set Read fields */
+void MetaGroup::
+M_SetupReadFields(void)
+{
+  if(META_DEBUG) std::cout << "MetaGroup: M_SetupReadFields" << std::endl;
+
+  MetaObject::M_SetupReadFields();
+
+  MET_FieldRecordType * mF;
+
+  int nDimsRecNum = MET_GetFieldRecordNumber("NDims", &m_Fields);
+}
+
+void MetaGroup::
+M_SetupWriteFields(void)
+{
+  strcpy(m_ObjectTypeName,"Group");
+  MetaObject::M_SetupWriteFields();
+
+  MET_FieldRecordType * mF;
+}
+
+
+bool MetaGroup::
+M_Read(void)
+{
+  if(META_DEBUG) std::cout << "MetaGroup: M_Read: Loading Header" << std::endl;
+  
+  if(!MetaObject::M_Read())
+  {
+    std::cout << "MetaGroup: M_Read: Error parsing file" << std::endl;
+    return false;
+  }
+
+  if(META_DEBUG) std::cout << "MetaGroup: M_Read: Parsing Header" << std::endl;
+ 
+  MET_FieldRecordType * mF;
+ 
+  return true;
+}
+

@@ -6,6 +6,7 @@ ADD_LIBRARY(ITKMetaIO
   metaImageUtils.cxx
   metaTube.cxx
   metaEllipse.cxx
+  metaGroup.cxx
   metaScene.cxx
   metaBlob.cxx
   metaSurface.cxx
