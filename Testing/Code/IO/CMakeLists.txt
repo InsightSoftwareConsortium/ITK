@@ -5,6 +5,7 @@ SET(IOTest_SRCS
 itkAnalyzeImageIOTest.cxx
 itkConvertBufferTest.cxx
 itkDicomImageIOTest.cxx
+itkDICOMImageIO2Test.cxx
 itkGiplImageIOTest.cxx
 itkImageSeriesIOTest.cxx
 itkMetaImageIOTest.cxx
@@ -60,6 +61,12 @@ ADD_TEST(itkDicomImageIOTest ${IO_TESTS}
   itkDicomImageIOTest
             ${ITK_DATA_ROOT}/Input/dicom-sc_cs-1.dcm
             ${ITK_BINARY_DIR}/Testing/Temporary/itkDicomImageIOTest.png)
+ADD_TEST(itkDICOMImageIO2Test ${IO_TESTS} 
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/itkDICOMImageIO2Test.png
+            ${ITK_BINARY_DIR}/Testing/Temporary/itkDICOMImageIO2Test.png
+  itkDICOMImageIO2Test
+            ${ITK_DATA_ROOT}/Input/dicom-sc_cs-1.dcm
+            ${ITK_BINARY_DIR}/Testing/Temporary/itkDICOMImageIO2Test.png)
   ADD_TEST(itkDicomDifficultFile ${IO_TESTS} itkDicomImageIOTest
            ${ITK_DATA_ROOT}/Input/012345.002.050
            ${ITK_BINARY_DIR}/Testing/Temporary/itkDicomDifficultFile.png)
