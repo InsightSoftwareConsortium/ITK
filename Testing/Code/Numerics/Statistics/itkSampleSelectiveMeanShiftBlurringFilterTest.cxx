@@ -16,6 +16,7 @@
 =========================================================================*/
 
 #include "itkImageFileReader.h"
+#include "itkImageFileWriter.h"
 #include "itkImageRegionIterator.h"
 #include "itkJointDomainImageToListAdaptor.h"
 #include "itkSampleSelectiveMeanShiftBlurringFilter.h"
@@ -27,9 +28,9 @@ int itkSampleSelectiveMeanShiftBlurringFilterTest(int argc, char* argv[] )
 
   if (argc < 2)
     {
-      std::cout << "ERROR: data file name argument missing." 
-                << std::endl ;
-      return EXIT_FAILURE;
+    std::cout << "ERROR: data file name argument missing." 
+              << std::endl ;
+    return EXIT_FAILURE;
     }
 
   typedef itk::Image< unsigned char, 2 > ImageType ;
@@ -78,6 +79,42 @@ int itkSampleSelectiveMeanShiftBlurringFilterTest(int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
+  // if you want to see the blurred image, change the following
+  // variable value to true.
+  bool saveOutputImage = false ;
+  if ( saveOutputImage )
+    {
+    typedef ImageType OutputImageType ;
+    typedef itk::ImageRegionIterator< OutputImageType > ImageIteratorType ;
+    typedef ImageType::PixelType PixelType ;
+    typedef itk::ImageFileWriter< OutputImageType > ImageWriterType ;
+
+    OutputImageType::Pointer outputImage = OutputImageType::New() ;
+    outputImage->SetRegions( image->GetLargestPossibleRegion() ) ;
+    outputImage->Allocate() ;
+    
+    ImageIteratorType io_iter( outputImage,
+                               outputImage->GetLargestPossibleRegion() ) ;
+    io_iter.GoToBegin() ;
+    
+    FilterType::OutputType::Pointer output = filter->GetOutput() ;
+    FilterType::OutputType::Iterator fo_iter = output->Begin() ;
+    FilterType::OutputType::Iterator fo_end = output->End() ;
+    
+    while ( fo_iter != fo_end )
+      {
+      io_iter.Set
+        ((PixelType) (factors[2] * fo_iter.GetMeasurementVector()[2])) ;
+      ++fo_iter ;
+      ++io_iter ;
+      }
+    
+    ImageWriterType::Pointer writer = ImageWriterType::New() ;
+    writer->SetFileName("blurred_sf4.png") ;
+    writer->SetInput( outputImage ) ;
+    writer->Update() ;
+    }
+  
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
 }
