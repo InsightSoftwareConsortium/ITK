@@ -5,7 +5,6 @@
 
 import InsightToolkit.*;
 
-
 public class MeanImageFilter
 {
   public static void main( String argv[] )
@@ -20,15 +19,18 @@ public class MeanImageFilter
     filter.SetInput( reader.GetOutput() );
     writer.SetInput( filter.GetOutput() );
 
-    System.out.println("Reading input image"+argv[0]);
     reader.SetFileName( argv[0] );
-    reader.Update();
-
-    System.out.println("Running Mean filter");
-    filter.Update();
-
-    System.out.println("Writin output image"+argv[1]);
     writer.SetFileName( argv[1] );
+
+
+    int radius = Integer.parseInt( argv[2] );
+
+    itkSize2 sizeRadius = new itkSize2();
+
+    sizeRadius.SetElement( 0, radius );
+    sizeRadius.SetElement( 1, radius );
+
+    filter.SetRadius( sizeRadius );
 
     writer.Update();
   }
