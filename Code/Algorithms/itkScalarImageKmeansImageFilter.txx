@@ -65,9 +65,80 @@ ScalarImageKmeansImageFilter< TInputImage >
   typedef typename InputImageType::RegionType RegionType;
   typedef typename InputImageType::SizeType   SizeType;
 
-  // Add here the labeling of the pixels...
+
+  // Now classify the samples
   //
-  //
+  typedef itk::Statistics::EuclideanDistance< MeasurementVectorType > 
+                                                    MembershipFunctionType;
+
+  typedef itk::MinimumDecisionRule DecisionRuleType;
+  DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
+  
+  typedef itk::Statistics::SampleClassifier< AdaptorType > ClassifierType;
+  typename ClassifierType::Pointer classifier = ClassifierType::New();
+
+  classifier->SetDecisionRule( decisionRule.GetPointer() );
+  classifier->SetSample( adaptor );
+
+  classifier->SetNumberOfClasses( numberOfClasses  );
+
+  std::vector< unsigned int > classLabels;
+  classLabels.resize( numberOfClasses );
+
+  // Spread the labels over the intensity range [0:255]
+  const unsigned int labelInterval = ( 256 / numberOfClasses ) - 1;
+  unsigned int label = 0;
+
+  typedef typename MembershipFunctionType::Pointer     MembershipFunctionPointer;
+  typedef typename MembershipFunctionType::OriginType  MembershipFunctionOriginType;
+
+  for(unsigned int k=0; k<numberOfClasses; k++)
+    {
+    classLabels[k] = label;
+    label += labelInterval;
+    MembershipFunctionPointer membershipFunction = MembershipFunctionType::New();
+    MembershipFunctionOriginType origin;
+    origin[0] = this->m_FinalMeans[k]; // A scalar image has a MeasurementVector of dimension 1
+    membershipFunction->SetOrigin( origin );
+    classifier->AddMembershipFunction( membershipFunction.GetPointer() );
+    }
+
+  classifier->SetMembershipFunctionClassLabels( classLabels );
+
+  // Execute the actual classification
+  classifier->Update();
+
+
+  // Now classify the pixels
+  typename OutputImageType::Pointer outputPtr = this->GetOutput();
+
+  typedef ImageRegionIterator< OutputImageType >  ImageIterator;
+
+  outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
+  outputPtr->Allocate();
+
+  RegionType region = outputPtr->GetBufferedRegion();
+
+  ImageIterator pixel( outputPtr, region );
+  pixel.GoToBegin();
+
+  typedef typename ClassifierType::OutputType  ClassifierOutputType;
+    
+  ClassifierOutputType  * membershipSample = classifier->GetOutput();
+
+  typedef typename ClassifierOutputType::ConstIterator LabelIterator;
+  
+  LabelIterator iter = membershipSample->Begin();
+  LabelIterator end  = membershipSample->End();
+
+  while ( iter != end )
+    {
+    pixel.Set( iter.GetClassLabel() );
+    ++iter;
+    ++pixel;
+    }
+
+
 }
 
 /**
