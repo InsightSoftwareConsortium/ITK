@@ -165,7 +165,6 @@ template <class TScalarType, int NDimensions>
 void KernelTransform<TScalarType, NDimensions>
 ::ComputeWMatrix(void)
 {
-  int numLandmarks = m_SourceLandmarks->GetNumberOfPoints();
   typedef vnl_svd<TScalarType>  SVDSolverType;
 
   ComputeL();
