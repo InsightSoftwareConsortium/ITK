@@ -188,7 +188,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 ::GenerateOutputImage(unsigned int imgWidth, unsigned int imgHeight)
 {
   //Get the pointer to the output image
-  OutputImageType outputPtr = this->GetOutput(); 
+  OutputImageType outputImage = this->GetOutput(); 
 
   // Get the vector dimension from the TInputImage paramete
   unsigned int vecDim = OutputImagePixelType::GetVectorDimension();
@@ -197,12 +197,15 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   // Set the iterators for the output image
   //--------------------------------------------------------------------
   OutputImageIterator  
-    outputImageIt( outputPtr, outputPtr->GetBufferedRegion() );
+    outputImageIt( outputImage, outputImage->GetBufferedRegion() );
 
   OutputImageIterator  outputIt    = outputImageIt.Begin();
 
-  OutputImagePixelType *tempImgIt  = &(outputIt.Value()); // dangerous!
-  OutputImagePixelType *outImgIt   = &(outputIt.Value()); // dangerous!
+  //Set the variable to store the offset
+  OutputImageOffsetType offset2D;
+
+  //Set the variable to store the index
+  OutputImageIndexType index2D;
   
   //---------------------------------------------------------------------
   //Calculate the initial number of regions 
@@ -218,7 +221,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   int newRegionLabel     = 0;
 
   VecDblType tmpMeanValue;
-  unsigned int row_start, row_end, col_start, col_end, offset;
+  unsigned int row_start, row_end, col_start, col_end;
 
   //--------------------------------------------------------------------
   // walk through the entire region and get the mean approximations
@@ -260,9 +263,16 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
         {
         for (unsigned int ncol = col_start; ncol < col_end; ncol++ ) 
           {
-          offset      = nrow * m_ImgWidth + ncol;
-          tempImgIt   = outImgIt + offset;
-          *tempImgIt = outMeanValue;
+
+          //Set the offsets appropriately
+          offset2D[0] = ncol;
+          offset2D[1] = nrow;
+
+          index2D = outputImageIt.GetIndex();
+          index2D += offset2D;
+      
+          outputImage->SetPixel( index2D, outMeanValue );
+
           }
         }//end Loop through the region to fill approx image
                                                         
@@ -280,7 +290,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
                       unsigned int imgDepth)
 {
   //Get the pointer to the output image
-  OutputImageType outputPtr = this->GetOutput(); 
+  OutputImageType outputImage = this->GetOutput(); 
 
   // Get the vector dimension from the TInputImage paramete
   unsigned int vecDim = OutputImagePixelType::GetVectorDimension();
@@ -289,12 +299,15 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   // Set the iterators for the output image
   //--------------------------------------------------------------------
   OutputImageIterator  
-    outputImageIt( outputPtr, outputPtr->GetBufferedRegion() );
+    outputImageIt( outputImage, outputImage->GetBufferedRegion() );
 
   OutputImageIterator  outputIt    = outputImageIt.Begin();
 
-  OutputImagePixelType *tempImgIt  = &(outputIt.Value()); // dangerous!
-  OutputImagePixelType *outImgIt   = &(outputIt.Value()); // dangerous!
+  //Set the variable to store the offset
+  OutputImageOffsetType offset3D;
+
+  //Set the variable to store the index
+  OutputImageIndexType index3D;
   
   //---------------------------------------------------------------------
   //Calculate the initial number of regions 
@@ -317,8 +330,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   VecDblType tmpMeanValue;
   unsigned int row_start, row_end;
   unsigned int col_start, col_end;
-  unsigned int slice_start, slice_end, offset;
-  unsigned int imageSize = imgWidth * imgHeight;
+  unsigned int slice_start, slice_end;
 
   //--------------------------------------------------------------------
   // walk through the entire region and get the mean approximations
@@ -365,11 +377,17 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
             {
             for (unsigned int ncol = col_start; ncol < col_end; ncol++ ) 
               {
-              offset      = nslice * imageSize + 
-                            nrow * m_ImgWidth + ncol;
 
-              tempImgIt   = outImgIt + offset;
-              *tempImgIt = outMeanValue;
+              //Set the offsets appropriately
+              offset3D[0] = ncol;
+              offset3D[1] = nrow;
+              offset3D[2] = nslice;
+
+              index3D = outputImageIt.GetIndex();
+              index3D += offset3D;
+      
+              outputImage->SetPixel( index3D, outMeanValue );
+
               }
             }
           }//end Loop through the region to fill approx image
@@ -442,8 +460,12 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
     labelImageIt(labelImagePtr, labelImagePtr->GetBufferedRegion());
 
   LabelImageIterator  labelIt    = labelImageIt.Begin();
-  LabelImagePixelType *tempImgIt = &(labelIt.Value()); // dangerous!
-  LabelImagePixelType *outImgIt  = &(labelIt.Value()); // dangerous!
+
+  //Set the variable to store the offset
+  LabelImageOffsetType offset2D;
+
+  //Set the variable to store the index
+  LabelImageIndexType index2D;
 
   //---------------------------------------------------------------------
   // Loop through the regions and fill the regions with the labels
@@ -461,7 +483,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   int newRegionLabel     = 0;
 
   VecDblType tmpMeanValue;
-  unsigned int row_start, row_end, col_start, col_end, offset;
+  unsigned int row_start, row_end, col_start, col_end;
 
   //--------------------------------------------------------------------
   // walk through the entire region and get the new unique labels
@@ -492,9 +514,19 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
         {
         for (unsigned int ncol = col_start; ncol < col_end; ncol++ ) 
           {
-          offset = nrow * m_ImgWidth + ncol;
-          tempImgIt = outImgIt + offset;
-          *tempImgIt = newRegionLabel;
+
+          //Set the offsets appropriately
+          offset2D[0] = ncol;
+          offset2D[1] = nrow;
+
+          index2D = labelImageIt.GetIndex();
+          index2D += offset2D;
+      
+          labelImagePtr->SetPixel( index2D, newRegionLabel );
+
+          //offset = nrow * m_ImgWidth + ncol;
+          //tempImgIt = outImgIt + offset;
+          //*tempImgIt = newRegionLabel;
           }
         }
                                                         
@@ -518,8 +550,12 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
     labelImageIt(labelImagePtr, labelImagePtr->GetBufferedRegion());
 
   LabelImageIterator  labelIt    = labelImageIt.Begin();
-  LabelImagePixelType *tempImgIt = &(labelIt.Value()); // dangerous!
-  LabelImagePixelType *outImgIt  = &(labelIt.Value()); // dangerous!
+
+  //Set the variable to store the offset
+  LabelImageOffsetType offset3D;
+
+  //Set the variable to store the index
+  LabelImageIndexType index3D;
 
   //---------------------------------------------------------------------
   // Loop through the regions and fill the regions with the labels
@@ -537,12 +573,11 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   int sliceGridSize      = this->GetSliceGridSize();
   int labelValue         = 0;
   int newRegionLabel     = 0;
-  unsigned int imageSize = m_ImgWidth * m_ImgHeight;
 
   VecDblType tmpMeanValue;
   unsigned int row_start, row_end;
   unsigned int col_start, col_end;
-  unsigned int slice_start, slice_end, offset;
+  unsigned int slice_start, slice_end;
 
   //--------------------------------------------------------------------
   // walk through the entire region and get the new unique labels
@@ -579,10 +614,21 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
             {
             for (unsigned int ncol = col_start; ncol < col_end; ncol++ ) 
               {
-              offset     = nslice * imageSize + 
-                nrow * m_ImgWidth + ncol;
-              tempImgIt  = outImgIt + offset;
-              *tempImgIt = newRegionLabel;
+
+              //Set the offsets appropriately
+              offset3D[0] = ncol;
+              offset3D[1] = nrow;
+              offset3D[2] = nslice;
+
+              index3D = labelImageIt.GetIndex();
+              index3D += offset3D;
+
+
+              labelImagePtr->SetPixel( index3D, newRegionLabel );
+
+ 
+              //tempImgIt  = outImgIt + offset;
+              //*tempImgIt = newRegionLabel;
               }
             }
           }
@@ -695,15 +741,13 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
     {
     // subtract border length before removing it
     m_TotalBorderLength -= 
-      (m_BordersCandidateDynamicPointer->m_Pointer->GetBorderLength());
-
-    
+      (m_BordersCandidateDynamicPointer->m_Pointer->GetBorderLength());  
 
     itkDebugMacro( << "-------------------");
     itkDebugMacro( << "    Before merge   ");
     itkDebugMacro( << "-------------------");
 
-    /*
+/*
     std::cout << "-------------------" << std::endl;
     std::cout << "    Before merge   " << std::endl;
     std::cout << "-------------------" << std::endl;
@@ -712,7 +756,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
       {
       m_RegionsPointer[k]->PrintRegionInfo(); 
       }
-    */
+*/
 
     MergeRegions();
 
@@ -1501,9 +1545,11 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   //Varible to store the input pixel vector value
   InputImageVectorType inputPixelVec;
 
-  InputImagePixelType *tempImgIt   = &( inputIt.Value() ); // dangerous!
-  InputImagePixelType *inImgIt     = &( inputIt.Value() ); // dangerous!
+  //Set a variable to store the offset
+  InputImageOffsetType offset2D;
 
+  //Set a variable to store the index
+  InputImageIndexType index2D;
 
   //Calculate V[0] for the constant model facet for the Region Grow
   //algorithm
@@ -1515,9 +1561,12 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
     {
     for ( unsigned int ncol = col_start; ncol < col_end; ncol++ ) 
       {
-      int offset    = nrow * m_ImgWidth + ncol;
-      tempImgIt     = inImgIt + offset;
-      inputPixelVec = *tempImgIt;
+      offset2D[0] = ncol;
+      offset2D[1] = nrow;
+      index2D = inputImageIt.GetIndex();
+      index2D += offset2D;
+      
+      inputPixelVec = inputImage->GetPixel( index2D );
 
       for ( unsigned int j = 0; j < vecDim; j++ )
         m_InitRegionMean[j][0] += inputPixelVec[j];
@@ -1567,9 +1616,11 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   //Varible to store the input pixel vector value
   InputImageVectorType inputPixelVec;
 
-  InputImagePixelType *tempImgIt   = &( inputIt.Value() ); // dangerous!
-  InputImagePixelType *inImgIt     = &( inputIt.Value() ); // dangerous!
+  //Set a variable to store the offset
+  InputImageOffsetType offset3D;
 
+  //Set a variable to store the index
+  InputImageIndexType index3D;
 
   //Calculate V[0] for the constant model facet for the Region Grow
   //algorithm
@@ -1578,15 +1629,20 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   m_InitRegionMean.fill(NULL);
 
   unsigned int imgSize = m_ImgWidth * m_ImgHeight;
+
   for( unsigned int nslice = slice_start; nslice < slice_end; nslice++ )
     {
     for ( unsigned int nrow = row_start; nrow < row_end; nrow++ ) 
       {
       for ( unsigned int ncol = col_start; ncol < col_end; ncol++ ) 
         {
-        int offset    = nslice * imgSize + nrow * m_ImgWidth + ncol;
-        tempImgIt     = inImgIt + offset;
-        inputPixelVec = *tempImgIt;
+        offset3D[0] = ncol;
+        offset3D[1] = nrow;
+        offset3D[2] = nslice;
+        index3D = inputImageIt.GetIndex();
+        index3D += offset3D;
+      
+        inputPixelVec = inputImage->GetPixel( index3D );
 
         for ( unsigned int j = 0; j < vecDim; j++ )
           m_InitRegionMean[j][0] += inputPixelVec[j];
@@ -1776,9 +1832,6 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
       {
       throw ExceptionObject(__FILE__, __LINE__);
       }
-
-    // unused: int tmpReg1Label = ( *oldRegionBordersIt )->GetRegion1()->GetRegionLabel();
-    // unused: int tmpReg2Label = ( *oldRegionBordersIt )->GetRegion2()->GetRegionLabel();
 
     //For DEBUG purposes
     if ( this->GetDebug() )
@@ -2051,21 +2104,6 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   BordersDynamicPointerIterator 
     bordersDynamicPointerIt = m_BordersDynamicPointer.begin();
 
-/* 
-  BordersDynamicPointerIterator 
-    bordersDynamicPointerItEnd = m_BordersDynamicPointer.end();
-  while( bordersDynamicPointerIt != bordersDynamicPointerItEnd )
-    {
-    if( ( *(bordersDynamicPointerIt)->GetRegion1() == NULL ) ||
-        ( *(bordersDynamicPointerIt)->GetRegion2() == NULL ) )
-      {  
-        m_BordersDynamicPointer.erase( bordersDynamicPointerIt );
-        numberOfDeletedBorders++;  
-        bordersDynamicPointerIt++;             
-      }//end region printloop        
-
-    }// end looping through the list
-*/
   for( unsigned int k = 0; k < m_NumberOfBorders; k++)
     {
 

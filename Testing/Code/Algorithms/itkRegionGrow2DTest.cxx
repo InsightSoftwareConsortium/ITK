@@ -89,12 +89,11 @@ public:
 
 int main()
 {
-
-
-  test_regiongrowKLM3D();
-
+  //Test the KLM algorithm applied to 2D data
   test_regiongrowKLM2D();
-  
+
+  //Test the 3D extension of the KLM algorithm
+  test_regiongrowKLM3D();
   return( 0 );
 }
 
@@ -504,6 +503,8 @@ unsigned int test_regiongrowKLM3D()
 
   typedef itk::Image<itk::Vector<double,NUMBANDS>,NDIMENSION3D> OutputImageType; 
   OutputImageType::Pointer outImage = applyRegionGrowImageFilterKLM->GetOutput();
+
+  applyRegionGrowImageFilterKLM->Print(std::cout);
 
   //Make sure that the labelled image type is set to unsigned integer
   //as labels associated with different regions are always integers 

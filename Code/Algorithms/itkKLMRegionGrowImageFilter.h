@@ -193,10 +193,10 @@ public:
   itkTypeMacro(KLMRegionGrowImageFilter,RegionGrowImageFilter);
 
   /** Type definition for the input image. */
-  typedef typename TInputImage::Pointer   InputImageType;
+  typedef typename TInputImage::Pointer         InputImageType;
 
   /** Type definition for the input image pixel type. */
-  typedef typename TInputImage::PixelType InputImagePixelType;
+  typedef typename TInputImage::PixelType       InputImagePixelType;
 
   /** Type definition for the input image pixel vector type. */
   typedef typename TInputImage::PixelType::VectorType InputImageVectorType;
@@ -204,20 +204,26 @@ public:
   /** Type definition for the input image index type. */
   typedef typename TInputImage::IndexType       InputImageIndexType;
 
-  /** Type definition for the classified image offset type. */
+  /** Type definition for the input image offset type. */
   typedef typename TInputImage::OffsetType      InputImageOffsetType;
 
   /** Type definition for the image iterators to be used. */
-  typedef ImageRegionIterator< TInputImage > InputImageIterator;
+  typedef ImageRegionIterator< TInputImage >    InputImageIterator;
 
   /** Type definition for the output image. */
-  typedef typename TOutputImage::Pointer   OutputImageType;
+  typedef typename TOutputImage::Pointer        OutputImageType;
 
   /** Type definition for the output image pixel type. */
-  typedef typename TOutputImage::PixelType OutputImagePixelType;
+  typedef typename TOutputImage::PixelType      OutputImagePixelType;
+
+  /** Type definition for the output image index type. */
+  typedef typename TOutputImage::IndexType       OutputImageIndexType;
+
+  /** Type definition for the output image offset type. */
+  typedef typename TOutputImage::OffsetType      OutputImageOffsetType;
 
   /** Type definition for the output image iterators.  */
-  typedef ImageRegionIterator< TOutputImage > OutputImageIterator;
+  typedef ImageRegionIterator< TOutputImage >   OutputImageIterator;
 
   /** Type definition for the output image pixel vector type. */
   typedef typename TOutputImage::PixelType::VectorType OutputImageVectorType;
@@ -233,6 +239,12 @@ public:
 
    /** Type definition for the labelled image pixel type. */
   typedef typename LabelImageType::PixelType    LabelImagePixelType;
+
+  /** Type definition for the output image index type. */
+  typedef typename LabelImageType::IndexType       LabelImageIndexType;
+
+  /** Type definition for the output image offset type. */
+  typedef typename LabelImageType::OffsetType      LabelImageOffsetType;
 
   /** Type definition for the labelled image iterators.  */
   typedef ImageRegionIterator< LabelImageType >  LabelImageIterator;
