@@ -6,6 +6,7 @@
 
 void RegisterTests()
 {
+  REGISTER_TEST(itkSpatialObjectPrintTest);
   REGISTER_TEST(itkImageSpatialObjectTest);
   REGISTER_TEST(itkTubeSpatialObjectTest);
   REGISTER_TEST(itkBlobSpatialObjectTest);

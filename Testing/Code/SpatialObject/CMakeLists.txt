@@ -9,6 +9,7 @@ ENDIF(ITK_BINARY_DIR)
 SET(SPATIAL_OBJECT_TESTS        ${CXX_TEST_PATH}/itkSpatialObjectTests)
 SET(SPATIAL_OBJECT_HEADER_TEST  ${CXX_TEST_PATH}/itkSpatialObjectHeaderTest)
 
+ADD_TEST(itkSpatialObjectPrintTest ${SPATIAL_OBJECT_TESTS} itkSpatialObjectPrintTest)
 ADD_TEST( itkTubeSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkTubeSpatialObjectTest )
 ADD_TEST( itkImageSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkImageSpatialObjectTest )
 ADD_TEST( itkEllipseSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkEllipseSpatialObjectTest)
@@ -21,6 +22,7 @@ ADD_TEST( itkPolygonGroupSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkPolygonGro
 ADD_TEST(itkSpatialObjectHeaderTest ${SPATIAL_OBJECT_HEADER_TEST})
 
 SET(SpatialObject_SRCS
+  itkSpatialObjectPrintTest.cxx
   itkTubeSpatialObjectTest.cxx
   itkImageSpatialObjectTest.cxx
   itkEllipseSpatialObjectTest.cxx
