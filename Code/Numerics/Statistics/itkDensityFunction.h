@@ -20,17 +20,18 @@
 #include "itkMembershipFunctionBase.h"
 
 namespace itk{ 
-  namespace Statistics{
+namespace Statistics{
 
 /** \class DensityFunction
- * \brief DensityFunction class defines common interfaces for density functions.
+ * \brief DensityFunction class defines common interfaces for 
+ * density functions.
  *
  * The Evaluate method returns density value for the input measurement vector
  */
 
 template< class TMeasurementVector >
 class ITK_EXPORT DensityFunction :
-      public MembershipFunctionBase< TMeasurementVector >
+    public MembershipFunctionBase< TMeasurementVector >
 {
 public:
   /** Standard class typedefs */
@@ -53,7 +54,7 @@ protected:
   { Superclass::PrintSelf(os,indent) ; }
 } ; // end of class
 
-  } // end of namespace Statistics
+} // end of namespace Statistics
 } // end namespace itk
 
 #endif
