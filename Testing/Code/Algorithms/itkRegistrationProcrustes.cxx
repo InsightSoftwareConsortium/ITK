@@ -8,7 +8,7 @@
 #include <itkVectorContainer.h>
 #include <itkRegistrationTransform.h>
 #include <itkLBFGSOptimizer.h>
-#include <itkAffineTransform.h>
+#include <itkAffineRegistrationTransform.h>
 #include <itkProcrustesRegistrationMetric.h>
 
 
@@ -24,7 +24,7 @@ int main()
   typedef vnl_vector< double >                   MeasureType;
   typedef vnl_matrix< double >                   DerivativeType;
                                  
-  typedef itk::AffineTransform< 
+  typedef itk::AffineRegistrationTransform< 
                           Dimension      >       TransformationType;
   
 
