@@ -133,8 +133,10 @@ public:
       Superclass::PrintSelf( os, i.GetNextIndent() );
     }
 
+  typedef typename NumericTraits< TPixel >::RealType  PixelRealType;
+
   /** Multiplies all of the coefficients of the kernel by a single scalar value. */
-  void ScaleCoefficients( TPixel );
+  void ScaleCoefficients( PixelRealType );
   
 protected:
   /** Typedef support  for coefficient vector type.  Necessary

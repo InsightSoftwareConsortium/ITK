@@ -21,11 +21,11 @@ namespace itk
 template <class TPixel, unsigned int VDimension, class TAllocator>
 void
 NeighborhoodOperator<TPixel, VDimension, TAllocator>
-::ScaleCoefficients( TPixel s )
+::ScaleCoefficients( PixelRealType s )
 {
   for (unsigned i = 0; i < this->Size(); i++)
     {
-    this->operator[](i) = this->operator[](i) * s;
+    this->operator[](i) = static_cast< TPixel >( this->operator[](i) * s );
     }
 }
 
