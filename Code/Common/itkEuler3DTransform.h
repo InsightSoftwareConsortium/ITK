@@ -87,13 +87,12 @@ public:
   typedef typename Superclass::InputVnlVectorType   InputVnlVectorType;
   typedef typename Superclass::OutputVnlVectorType  OutputVnlVectorType;
   
-  /** Set the transformation from a container of parameters
+  /** Set/Get the transformation from a container of parameters
    * This is typically used by optimizers.
    * There are 6 parameters. The first three represent the
    * versor and the last three represents the offset. */
   void SetParameters( const ParametersType & parameters );
-
-  itkGetConstReferenceMacro( Parameters, ParametersType );
+  const ParametersType& GetParameters(void) const;
 
   /** Set the rotational part of the transform. */
   void SetRotation(TScalarType angleX,TScalarType angleY,TScalarType angleZ);

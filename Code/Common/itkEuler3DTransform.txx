@@ -68,6 +68,25 @@ Euler3DTransform<TScalarType>
 }
 
 
+// Get Parameters
+template <class TScalarType>
+const typename Euler3DTransform<TScalarType>::ParametersType &
+Euler3DTransform<TScalarType>
+::GetParameters( void ) const
+{
+
+  m_Parameters[0] = m_AngleX;
+  m_Parameters[1] = m_AngleY;
+  m_Parameters[2] = m_AngleZ;
+  for( unsigned int i=0; i < SpaceDimension; i++ )
+    {
+    m_Parameters[i+3] = this->GetOffset()[i];
+    }
+
+  return m_Parameters;
+
+}
+
 // Set Rotational Part
 template <class TScalarType>
 void
@@ -174,8 +193,7 @@ PrintSelf(std::ostream &os, Indent indent) const
 {
 
   Superclass::PrintSelf(os,indent);
-  
-  os << indent << "Parameters: " << m_Parameters << std::endl;
+
   os << indent << "Euler's angles: AngleX=" << m_AngleX  
      << " AngleY=" << m_AngleY  
      << " AngleZ=" << m_AngleZ  

@@ -111,6 +111,8 @@ int itkEuler3DTransformTest(int,char *[] )
 
   eulerTransform->SetOffset( ioffset );
   std::cout << "eulerTransform: " << eulerTransform;
+  
+  std::cout << "Parameters: " << eulerTransform->GetParameters() << std::endl;
 
   q = p + ioffset;
       
