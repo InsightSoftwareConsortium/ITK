@@ -506,8 +506,6 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   /* Run the Gaussian classifier algorithm. */
   m_ClassifierPtr->Update();
 
-  std::cout<<"Classify finished!"<<std::endl;
-
   SetLabelledImage( m_ClassifierPtr->GetClassifiedImage() );
 
   ApplyGPImageFilter();
@@ -563,8 +561,6 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   ApplyGibbsLabeller();
 
   RegionEraser();
-
-  std::cout<<"Region eraser finished! " <<std::endl; 
 
 #ifndef RGBGibbsPriorFilterNeedsDebugging 
   const unsigned int size = m_ImageWidth * m_ImageHeight * m_ImageDepth;

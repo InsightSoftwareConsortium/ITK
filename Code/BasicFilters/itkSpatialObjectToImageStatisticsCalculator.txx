@@ -49,9 +49,7 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
 {
   if(!m_Image || !m_SpatialObject)
     {
-    std::cout << "SpatialObjectToImageStatisticsCalculator: "; 
-    std::cout << "Please set the image AND the spatialb object first." << std::endl;
-    return;
+    itkExceptionMacro("SpatialObjectToImageStatisticsCalculator: Please set the image AND the spatialb object first.");
     }
 
   // Update only if the image or the spatial object has been modified

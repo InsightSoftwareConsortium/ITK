@@ -105,8 +105,7 @@ MeanSquareRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
   // setup moving image interpolator
   m_MovingImageInterpolator->SetInputImage( m_MovingImage );
-
-  std::cout << " Energy " << m_Energy << std::endl;
+  
   m_Energy=0.0;
 }
 

@@ -299,8 +299,6 @@ void
 GoodnessOfFitComponentBase< TInputHistogram >
 ::CreateHistograms()
 {
-  //  std::cout << "DEBUG: create histograms" << std::endl ;
-
   m_TotalObservedScale = this->GetCumulativeProbability(m_HistogramExtent) ;
   m_TotalObservedScale = m_TotalObservedScale - (1.0f - m_TotalObservedScale) ;
   m_HistogramMean = (double(m_HistogramNumberOfBins) - 1.0) / 2.0 ;
@@ -320,7 +318,6 @@ GoodnessOfFitComponentBase< TInputHistogram >
 
   m_Projector->SetHistogram(m_ObservedHistogram.GetPointer()) ;
 
-  //  std::cout << "DEBUG: create expected histograms" << std::endl ;
   if ( m_UseExpectedHistogram )
     {
     m_ExpectedHistogram = HistogramType::New() ;
@@ -337,13 +334,8 @@ void
 GoodnessOfFitComponentBase< TInputSample >
 ::Resample()
 {
-  //  std::cout << "DEBUG: resampling." << std::endl ;
-
   m_Resampler->SetCenter(this->GetCenter()) ;
   m_Resampler->SetRadius(this->GetRadius()) ;
-  //   std::cout << "DEBUG: resampler center  = " << (*m_Resampler->GetCenter())  
-  //             << " radius = " << (*m_Resampler->GetRadius())  
-  //             << std::endl ;
   m_Resampler->Update() ;
 
 }
@@ -373,9 +365,6 @@ void
 GoodnessOfFitComponentBase< TInputHistogram >
 ::UpdateExpectedHistogram()
 {
-  //  std::cout << "DEBUG: update expected histogram" << std::endl ;
-  // this->UpdateObservedHistogram() ;
-
   float totalObservedFrequency = m_ObservedHistogram->GetTotalFrequency() ;
   HistogramType::Iterator e_iter = m_ExpectedHistogram->Begin() ;
   HistogramType::Iterator e_last = m_ExpectedHistogram->End() ;

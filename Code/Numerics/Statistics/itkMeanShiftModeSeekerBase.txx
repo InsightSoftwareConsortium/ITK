@@ -103,15 +103,12 @@ MeanShiftModeSeekerBase< TSample >
 
   while ( true )
     {
-    if ( m_MaximumIteration > 0 && currentIteration > m_MaximumIteration )
+    if(m_MaximumIteration > 0 && currentIteration > m_MaximumIteration)
       {
-      if ( this->GetDebug() )
-        {
-        std::cout << "DEBUG: max exceeded." << std::endl ;
-        }
-
-      return queryPoint ;
+      itkDebugMacro("DEBUG: max exceeded.");
       }
+    return queryPoint;
+    }
 
     if ( m_CacheMethod != 0 )
       {

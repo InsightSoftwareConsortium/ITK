@@ -92,7 +92,6 @@ void SolverCrankNicolson::AssembleKandM()
   InitializeForSolution(); 
   
  
-std::cout << "Begin Assembly." << std::endl;
   /*
    * Step over all elements
    */
@@ -188,7 +187,6 @@ std::cout << "Begin Assembly." << std::endl;
 
   /* step over all types of BCs */
   this->ApplyBC();  // BUG  -- are BCs applied appropriately to the problem?
-  std::cout << "Done Assembling." << std::endl;
 }
 
 
@@ -198,7 +196,6 @@ std::cout << "Begin Assembly." << std::endl;
 void SolverCrankNicolson::AssembleFforTimeStep(int dim) {
 /* if no DOFs exist in a system, we have nothing to do */
   if (NGFN<=0) return;
-  std::cout << " begin assemble f ";
   AssembleF(dim); // assuming assemblef uses index 0 in vector!
 
   typedef std::map<Element::DegreeOfFreedomIDType,Float> BCTermType;
@@ -232,9 +229,6 @@ void SolverCrankNicolson::AssembleFforTimeStep(int dim) {
   { 
     m_ls->SetVectorValue(q->first,q->second,ForceTIndex); 
   }
-
-
-  std::cout << " end assemble f " << std::endl;
 }
 
 
@@ -255,12 +249,10 @@ void  SolverCrankNicolson::RecomputeForceVector(unsigned int index)
  */  
 void SolverCrankNicolson::Solve() 
 {
-  std::cout << " begin solve " << std::endl;
  /* FIXME - must verify that this is correct use of wrapper */
   /* FIXME Initialize the solution vector */
   m_ls->InitializeSolution(SolutionTIndex);
   m_ls->Solve();  
-  std::cout << " end solve " << std::endl;
 // call this externally    AddToDisplacements(); 
 }
 
@@ -403,7 +395,6 @@ Element::Float SolverCrankNicolson::BrentsMethod(Float tol,unsigned int MaxIters
       else{
         if (q == 0.0) q=q +ZEPS;
         d=p/q;
-//    std::cout << "  d " << d << std::endl;
         u=x+d;
         if (u-a < tol2 || b-u < tol2) d=GSSign(tol1,xm-x); 
       }
@@ -650,10 +641,6 @@ void SolverCrankNicolson::AddToDisplacements(Float optimum)
     
   }  
  
-  std::cout << " min cur solution val " << mins2 << std::endl;
-  std::cout << " max cur solution val " << maxs2 << std::endl;
-  std::cout << " scaled max sol val " << absmax * optimum << std::endl;
-  std::cout << " max tot solution val " << maxs << std::endl;
   m_CurrentMaxSolution=absmax;
 }
 
@@ -666,7 +653,6 @@ void SolverCrankNicolson::PrintMinMaxOfSolution()
    * Copy the resulting displacements from 
    * solution vector back to node objects.
    */
-  std::cout << " Printing min/max of total and current solutions " << std::endl;
   Float mins=0.0, maxs=0.0;
   Float mins2=0.0, maxs2=0.0;
   for(unsigned int i=0;i<NGFN;i++)
@@ -677,13 +663,7 @@ void SolverCrankNicolson::PrintMinMaxOfSolution()
     CurrentSolution=m_ls->GetSolutionValue(i,TotalSolutionIndex);
     if (CurrentSolution < mins )  mins=CurrentSolution;
     else if (CurrentSolution > maxs )  maxs=CurrentSolution;
-  }  
-  
-  std::cout << " min cur solution val " << mins2 << std::endl;
-  std::cout << " max cur solution val " << maxs2 << std::endl;
-  std::cout << " min tot solution val " << mins << std::endl;
-  std::cout << " max tot solution val " << maxs << std::endl;
-
+  }
 }
 
 /*
@@ -704,9 +684,6 @@ void SolverCrankNicolson::AverageLastTwoDisplacements(Float t)
     m_ls->SetSolutionValue(i,newsol,SolutionTIndex);    
     if ( newsol > maxs )  maxs=newsol;
   }  
-  
-  std::cout << " max cur solution val " << maxs << std::endl;
- 
 }
 
 void SolverCrankNicolson::ZeroVector(int which) 

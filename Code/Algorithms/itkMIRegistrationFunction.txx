@@ -124,12 +124,10 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
     {
     // setup gradient calculator
     m_MovingImageGradientCalculator->SetInputImage( m_MovingImage );
-    std::cout  << " Doing inverse metric " << std::endl;
     }
   // setup moving image interpolator
   m_MovingImageInterpolator->SetInputImage( m_MovingImage );
 
-  std::cout << " total metric " << m_MetricTotal << std::endl;
   m_MetricTotal=0.0;
 
 }

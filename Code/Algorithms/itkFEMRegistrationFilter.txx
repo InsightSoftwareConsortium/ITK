@@ -125,8 +125,6 @@ FEMRegistrationFilter<TMovingImage,TFixedImage>::FEMRegistrationFilter( )
 template<class TMovingImage,class TFixedImage>
 void FEMRegistrationFilter<TMovingImage,TFixedImage>::RunRegistration()
 {
-  std::cout << "beginning registration\n";  
-
   // Solve the system in time 
 
   if (!m_DoMultiRes && m_Maxiters[m_CurrentLevel] > 0) 
@@ -187,9 +185,6 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::SetMovingImage(MovingImage
   m_MovingImage=R;
 
   if (m_TotalIterations == 0) m_OriginalMovingImage=R;
-
-
-  std::cout << " moving image size " << m_MovingImage->GetLargestPossibleRegion().GetSize() << std::endl;
 }
 
 
@@ -200,8 +195,6 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::SetFixedImage(FixedImageTy
   m_FixedImage=T;
   m_FullImageSize = m_FixedImage->GetLargestPossibleRegion().GetSize();
   
-  std::cout << " fixed image size " << m_FullImageSize << std::endl;
-
   VectorType disp;
   for (unsigned int i=0; i < ImageDimension; i++) 
     {
@@ -263,38 +256,31 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::ChooseMetric(float which)
       m_Metric->SetScaleGradient(m_Temp); // this is the default(?) 
       //p=MetricType0::New();
       //m_Function->SetInverseMetric(p);
-      std::cout << " Mean Square " << std::endl;
       break;
     case 1:
       m_Metric=MetricType1::New();
       m_Metric->SetScaleGradient(m_Temp); 
-      std::cout << " Normalized Correlation " << std::endl;
       break;
     case 2:
       m_Metric=MetricType2::New();
       m_Metric->SetScaleGradient(m_Temp); 
-      std::cout << " Pattern Intensity " << std::endl;
       break;
     case 3:
       m_Metric=m;
       m_Metric->SetScaleGradient(m_Temp); 
-      std::cout << " Mutual Information " << std::endl;
       break;
     case 4:
       m_Metric=ma;
       m_Metric->SetScaleGradient(m_Temp); 
-      std::cout << " Mattes Mutual Information " << std::endl;
       break;
     case 5:
       m_Metric=MetricType5::New();
       m_Metric->SetScaleGradient(m_Temp); 
-      std::cout << " Demons " << std::endl;
       break;
     default:
       m_Metric=MetricType0::New();
       m_Metric->SetScaleGradient(m_Temp); 
 
-      std::cout << " Mean Square  " <<std::endl;
     }
 #else 
 
@@ -316,39 +302,30 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::ChooseMetric(float which)
     {
     case 0:
       m_Metric=MetricType0::New();
-      std::cout << " Mean Square " << std::endl;
       break;
     case 1:
       m_Metric=MetricType1::New();
-      std::cout << " Normalized Correlation " << std::endl;
       break;
     case 2:
       m_Metric=MetricType2::New();
-      std::cout << " NCC  " << std::endl;
       break;
     case 3:
       m_Metric=m;
-      std::cout << " Mutual Information " << std::endl;
       break;
     case 4:
       m_Metric=ma;
-      std::cout << " Mattes Mutual Information " << std::endl;
       break;
     case 5:
       m_Metric=MetricType5::New();
-      std::cout << " Demons " << std::endl;
       break;
     default:
       m_Metric=MetricType0::New();
-      std::cout << " Mean Square  " <<std::endl;
     }
 
 
   m_Metric->SetGradientStep( m_Gamma[m_CurrentLevel] );
   if ( m_Temp == 1.0 ) m_Metric->SetNormalizeGradient(true);
   else m_Metric->SetNormalizeGradient(false);
-
-  std::cout << " normalizing? " << m_Metric->GetNormalizeGradient() << std::endl;
 #endif
 }
  

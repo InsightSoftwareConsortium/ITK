@@ -179,7 +179,6 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   PixelType x = 0.0;
   PixelType* x_pt;
   x_pt = &x;
-  std::cout << "myCells size = " << myCells->Size() << std::endl;
   while( cells != myCells->End() ) {
   typename InputMeshType::CellType * cellPtr = cells.Value();
   tp = cellPtr->GetPointIds();

@@ -103,7 +103,6 @@ BinaryMask3DMeshSource<TOutputMesh>
 {
   this->InitializeLUT();
   this->CreateMesh();
-  std::cout << "end" << std::endl;
 //  this->GetOutput()->GetPoints()->Reserve(m_NumberOfNodes);
 //  this->GetOutput()->GetCells()->Reserve(m_NumberOfCells);
 }

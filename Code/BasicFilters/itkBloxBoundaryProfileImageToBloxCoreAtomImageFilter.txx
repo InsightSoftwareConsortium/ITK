@@ -119,8 +119,6 @@ BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TSourceImage, dim >
       }
     }
 
-  std::cout << "Core Atoms Created: " << m_CoreAtomsCreated << std::endl;
-
   // Compute mean core atom diameter
   ImageRegionIterator<TOutputImage> bloxIt = 
     ImageRegionIterator<TOutputImage>(m_OutputPtr, m_OutputPtr->GetRequestedRegion() );
@@ -251,11 +249,9 @@ BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TSourceImage, dim >
           double faceness2 = dot_product(G2.Get_vnl_vector(), C21.Get_vnl_vector() );
           double faceToFaceness = faceness1 * faceness2;
 
-          //std::cout << "faceToFaceness = " << faceToFaceness << std::endl;
-
           // If face-to-faceness meets threshold criteria
           if( faceToFaceness > (1.0 - m_Epsilon) )
-            {//std::cout << "0" << std::endl;
+            {
             // Figure out the center of the core atom
             PositionType coreAtomCenter = P1 + (P2 - P1) / 2;
             SourceImageIndexType centerIndex;
@@ -283,12 +279,10 @@ BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TSourceImage, dim >
 
             coreCenterIntensityAvg /= 7;
 
-            // std::cout << "coreCenterIntensityAvg = " << coreCenterIntensityAvg << std::endl;
-
             //homogeneous core profiles
 
             if(faceness1 <= 0 && faceness2 <= 0)
-              {  //std::cout << "1";
+              {
               float temp = ( pBPOne->GetLowerIntensity() + pBPTwo->GetLowerIntensity() ) * 0.5;
               if( (temp >= coreCenterIntensityAvg - m_IntensityThreshold) && 
                   (temp <= coreCenterIntensityAvg + m_IntensityThreshold) )
@@ -302,7 +296,7 @@ BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TSourceImage, dim >
                 m_CreateCoreAtom = false;
               }
             else if(faceness1 <= 0 && faceness2 > 0)
-              {//std::cout << "2";
+              {
               float temp = ( pBPOne->GetLowerIntensity() + pBPTwo->GetUpperIntensity() ) * 0.5;
               if( (temp >= coreCenterIntensityAvg - m_IntensityThreshold) && 
                   (temp <= coreCenterIntensityAvg + m_IntensityThreshold) )
@@ -316,7 +310,7 @@ BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TSourceImage, dim >
                 m_CreateCoreAtom = false;
               }
             else if(faceness1 > 0 && faceness2 <= 0)
-              {//std::cout << "3";
+              {
               float temp = ( pBPOne->GetUpperIntensity() + pBPTwo->GetLowerIntensity() ) * 0.5;
               if( (temp >= coreCenterIntensityAvg - m_IntensityThreshold) && 
                   (temp <= coreCenterIntensityAvg + m_IntensityThreshold) )
@@ -330,7 +324,7 @@ BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TSourceImage, dim >
                 m_CreateCoreAtom = false;
               }
             else if(faceness1 > 0 && faceness2 > 0)
-              {//std::cout << "4";
+              {
               float temp = ( pBPOne->GetUpperIntensity() + pBPTwo->GetUpperIntensity() ) * 0.5;
               if( (temp >= coreCenterIntensityAvg - m_IntensityThreshold) && 
                   (temp <= coreCenterIntensityAvg + m_IntensityThreshold) )

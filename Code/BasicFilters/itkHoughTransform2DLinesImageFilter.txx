@@ -118,8 +118,7 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
 
   if(!m_InputImage || !m_OutputImage)
     {
-    std::cout << "You should use Simplify after calling Update()" << std::endl;
-    return;
+    itkExceptionMacro("Update() must be called before Simplify().");
     } 
 
   Size<2> size;
@@ -259,8 +258,6 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
     minMaxCalculator->ComputeMaximum();
     InternalImageType::PixelType  max = minMaxCalculator->GetMaximum();
 
-    //std::cout << "max =  " << max << std::endl;
-    
     found = false;
     for(it_input.GoToBegin();!it_input.IsAtEnd();++it_input)
       {
@@ -351,21 +348,13 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
 {
   Superclass::PrintSelf(os,indent);
 
-  std::cout << "Threshold: "
-            << m_Threshold << std::endl;
-  std::cout << "Angle Resolution: "
-            << m_AngleResolution << std::endl;
-  std::cout << "Angle Axis size: "
-            << m_AngleAxisSize << std::endl;
-  std::cout << "Number Of Lines: " 
-            << m_NumberOfLines << std::endl;
-  std::cout << "Disc Radius: "
-            << m_DiscRadius << std::endl;
-  std::cout << "Accumulator blur variance: "
-            << m_Variance << std::endl;
-  std::cout << "Simplify Accumulator" 
-            << m_SimplifyAccumulator << std::endl;
-
+  os << "Threshold: " << m_Threshold << std::endl;
+  os << "Angle Resolution: " << m_AngleResolution << std::endl;
+  os << "Angle Axis size: " << m_AngleAxisSize << std::endl;
+  os << "Number Of Lines: " << m_NumberOfLines << std::endl;
+  os << "Disc Radius: " << m_DiscRadius << std::endl;
+  os << "Accumulator blur variance: " << m_Variance << std::endl;
+  os << "Simplify Accumulator" << m_SimplifyAccumulator << std::endl;
 }
 
 

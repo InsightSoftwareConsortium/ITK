@@ -297,33 +297,15 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType>
 {
   Superclass::PrintSelf(os,indent);
 
-  std::cout << "Threshold: "
-            << m_Threshold << std::endl;
-
-  std::cout << "Minimum Radius:  "
-            << m_MinimumRadius << std::endl;
-
-  std::cout << "Maximum Radius: "
-            << m_MaximumRadius << std::endl;
-
-  std::cout << "Derivative Scale : "
-            << m_SigmaGradient << std::endl;
-
-  std::cout << "Radius Image Information : " 
-            << m_RadiusImage << std::endl;
-
-  std::cout << "Number Of Circles: " 
-            << m_NumberOfCircles << std::endl;
-
-  std::cout << "Disc Radius: "
-            << m_DiscRadiusRatio << std::endl;
-
-  std::cout << "Accumulator blur variance: "
-            << m_Variance << std::endl;
-  
-  std::cout << "Sweep angle : "
-             << m_SweepAngle << std::endl;
-  
+  os << "Threshold: " << m_Threshold << std::endl;
+  os << "Minimum Radius:  " << m_MinimumRadius << std::endl;
+  os << "Maximum Radius: " << m_MaximumRadius << std::endl;
+  os << "Derivative Scale : " << m_SigmaGradient << std::endl;
+  os << "Radius Image Information : " << m_RadiusImage << std::endl;
+  os << "Number Of Circles: " << m_NumberOfCircles << std::endl;
+  os << "Disc Radius: " << m_DiscRadiusRatio << std::endl;
+  os << "Accumulator blur variance: " << m_Variance << std::endl;
+  os << "Sweep angle : " << m_SweepAngle << std::endl;
   }
 } // end namespace
 

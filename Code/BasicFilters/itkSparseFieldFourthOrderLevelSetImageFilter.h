@@ -252,9 +252,6 @@ class ITK_EXPORT SparseFieldFourthOrderLevelSetImageFilter
     Superclass::InitializeIteration();
     ValueType rmschange = this->GetRMSChange();
 
-    // debugging line -- will remove later
-    //std::cout<<"rmschange = "<<rmschange<<" ("<<(this->GetElapsedIterations())<<")\n";
-    
     if ( ( this->GetElapsedIterations()==0 ) ||
          ( m_RefitIteration == m_MaxRefitIteration ) ||
          ( rmschange <= m_RMSChangeNormalProcessTrigger ) ||
@@ -268,8 +265,6 @@ class ITK_EXPORT SparseFieldFourthOrderLevelSetImageFilter
         }
 
       m_RefitIteration = 0;
-      // debugging line 
-      //std::cout<<"calling ProcessNormals\n";
       ProcessNormals();
       }
     

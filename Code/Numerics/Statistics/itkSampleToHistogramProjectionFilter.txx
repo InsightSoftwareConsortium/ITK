@@ -312,9 +312,7 @@ SampleToHistogramProjectionFilter< TInputSample, THistogramMeasurement >
           {
           binId++ ;
           }
-        std::cout << "DEBUG:  bin id = " << binId << std::endl ;
         m_Histogram->IncreaseFrequency(binId, frequency) ;
-
         }
       }
     else

@@ -86,7 +86,7 @@ ImageModelEstimatorBase<TInputImage, TMembershipFunction>
   for (unsigned int classIndex = 0 ; classIndex < m_NumberOfModels ; classIndex++)
     {    
     os << indent << "Statistics for " << classIndex << std::endl;
-    (m_MembershipFunctions[classIndex])->Print(std::cout);    
+    (m_MembershipFunctions[classIndex])->Print(os);    
 
     os << indent <<"===================================="<<std::endl;
     }

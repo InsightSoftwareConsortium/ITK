@@ -1,4 +1,4 @@
-/*=========================================================================
+s/*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
   Module:    itkMidsagittalPlaneExtractionImageFilter.txx
@@ -426,7 +426,7 @@ FindAngle(typename Superclass::InputImageConstPointer image, int angleChoice, in
     correlator->SetTransform(rotationTransform);
     correlator->SetTransformParameters(rotationTransform->GetParameters());
     currentScore=correlator->GetValue(rotationTransform->GetParameters());
-    cout<<endl<<"For angle "<<angle<<" correlation is "<<currentScore<<endl;
+    //cout<<endl<<"For angle "<<angle<<" correlation is "<<currentScore<<endl;
     if(abs(currentScore)>maxScore)
     {
       maxScore=abs(currentScore);

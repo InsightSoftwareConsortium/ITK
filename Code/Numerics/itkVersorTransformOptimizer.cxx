@@ -51,8 +51,6 @@ VersorTransformOptimizer
   VersorType currentRotation;
   currentRotation.Set( rightPart );
 
-  std::cout << "Current rotation = " << currentRotation << std::endl;
-
   // The gradient indicate the contribution of each one 
   // of the axis to the direction of highest change in
   // the function
@@ -68,13 +66,9 @@ VersorTransformOptimizer
   // An additional Exponentiation produce a jump 
   // of a particular length along the versor gradient 
   // direction.
-  std::cout << "factor =  " << factor << std::endl;
-  std::cout << "axis.Norm =  " << axis.GetNorm() << std::endl;
 
   VersorType gradientRotation;
   gradientRotation.Set( axis, factor * axis.GetNorm() );
-
-  std::cout << "Gradient rotaion = " << gradientRotation << std::endl;
 
   //
   // Composing the currentRotation with the gradientRotation 
@@ -83,8 +77,6 @@ VersorTransformOptimizer
   VersorType newRotation = currentRotation * gradientRotation;
 
   ParametersType newParameters(SpaceDimension);
-
-  std::cout << "New rotaion = " << newRotation << std::endl;
 
   newParameters[0] = newRotation.GetX();
   newParameters[1] = newRotation.GetY();

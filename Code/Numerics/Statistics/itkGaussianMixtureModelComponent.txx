@@ -47,14 +47,11 @@ GaussianMixtureModelComponent< TSample >
 {
   Superclass::PrintSelf(os, indent) ;
 
-  std::cout << indent << "Mean: " << m_Mean << std::endl ;
-  std::cout << indent << "Covariance: " << m_Covariance 
-            << std::endl ;
-  std::cout << indent << "Mean Estimator: " << m_MeanEstimator << std::endl ;
-  std::cout << indent << "Covariance Estimator: " << m_CovarianceEstimator
-            << std::endl ;
-  std::cout << indent << "GaussianDensityFunction: " << m_GaussianDensityFunction
-            << std::endl ;
+  os << indent << "Mean: " << m_Mean << std::endl ;
+  os << indent << "Covariance: " << m_Covariance << std::endl ;
+  os << indent << "Mean Estimator: " << m_MeanEstimator << std::endl ;
+  os << indent << "Covariance Estimator: " << m_CovarianceEstimator << std::endl ;
+  os << indent << "GaussianDensityFunction: " << m_GaussianDensityFunction << std::endl ;
 }
 
 template< class TSample >

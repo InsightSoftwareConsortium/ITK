@@ -147,15 +147,12 @@ public:
 
   void ScalePointAndForce( double* spacing, double fwt)
     {
-
-      std::cout << " target " << m_target << std::endl;
-      for (unsigned int i=0; i<m_target.size(); i++)
+    for (unsigned int i=0; i<m_target.size(); i++)
       {
-  m_target[i]/=spacing[i];
-  m_source[i]/=spacing[i];
-  this->eta*=fwt;
+      m_target[i]/=spacing[i];
+      m_source[i]/=spacing[i];
+      this->eta*=fwt;
       }
-      std::cout << " new target " << m_target << std::endl;
     }
 
   /**

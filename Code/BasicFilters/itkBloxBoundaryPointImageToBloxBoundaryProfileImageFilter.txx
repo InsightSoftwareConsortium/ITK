@@ -438,9 +438,6 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
           }
         }
       }
-  std::cout << "# of boundary points = " << bpCount << std::endl
-            << "# of boundary profiles = " << m_NumBoundaryProfiles << std::endl;
-
   itkDebugMacro(<< "Finished constructing for boundary profiles\n"
                 << "I made " << m_NumBoundaryProfiles << " boundary profiles\n");
 }

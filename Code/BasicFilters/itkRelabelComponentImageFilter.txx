@@ -251,8 +251,8 @@ RelabelComponentImageFilter< TInputImage, TOutputImage >
          fit = m_SizeOfObjectsInPhysicalUnits.begin();
        it != m_SizeOfObjectsInPixels.end(); ++it, ++fit, ++i)
     {
-    std::cout << indent << "Object #" << i+1 << ": " << *it << " pixels, "
-              << *fit << " physical units" << std::endl;
+    os << indent << "Object #" << i+1 << ": " << *it << " pixels, "
+       << *fit << " physical units" << std::endl;
     }
 }
 
