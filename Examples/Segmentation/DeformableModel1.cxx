@@ -375,9 +375,20 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex 
 
+  try
+    {
   // Software Guide : BeginCodeSnippet
   gradientMapFilter->Update();
   // Software Guide : EndCodeSnippet
+    }
+  catch( itk::ExceptionObject & e )
+    {
+    std::cerr << "Exception caught when updating gradientMapFilter " << std::endl;
+    std::cerr << e << std::endl;
+    return -1;
+    }
+ 
+
 
   std::cout << "The gradient map created!" << std::endl;
 
