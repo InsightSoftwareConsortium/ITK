@@ -237,13 +237,13 @@ template <class T>
  */
 #define NATIVE_TYPE_METADATAPRINT(TYPE_NAME) \
 void \
-  itk::MetaDataObject<TYPE_NAME> \
+  itk::MetaDataObject< TYPE_NAME > \
   ::Print(std::ostream& os) const \
 { \
   os << this->m_MetaDataObjectValue << std::endl; \
 } \
 void \
-  itk::MetaDataObject<const TYPE_NAME> \
+  itk::MetaDataObject< const TYPE_NAME > \
   ::Print(std::ostream& os) const \
 { \
   os << this->m_MetaDataObjectValue << std::endl; \
@@ -252,20 +252,20 @@ void \
 /**
  * \macro ITK_OBJECT_TYPE_METADATAPRINT_1COMMA
  * An ungly macro to facilitate creating a simple implementation of
- * the MetaDataObject<Type>::Print() function for
+ * the MetaDataObject< Type >::Print() function for
  * itk::Objects that have 1 comma in their type definition
  * \param TYPE_NAME_PART1
  * \param TYPE_NAME_PART2
  */
-#define ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(TYPE_NAME_PART1,TYPE_NAME_PART2) \
+#define ITK_OBJECT_TYPE_METADATAPRINT_1COMMA( TYPE_NAME_PART1 , TYPE_NAME_PART2 ) \
 void \
-  itk::MetaDataObject<TYPE_NAME_PART1,TYPE_NAME_PART2> \
+  itk::MetaDataObject< TYPE_NAME_PART1 , TYPE_NAME_PART2 > \
   ::Print(std::ostream& os) const \
 { \
   this->m_MetaDataObjectValue->Print(os); \
 } \
 void \
-  itk::MetaDataObject<const TYPE_NAME_PART1,TYPE_NAME_PART2> \
+  itk::MetaDataObject< const TYPE_NAME_PART1 , TYPE_NAME_PART2 > \
   ::Print(std::ostream& os) const \
 { \
   this->m_MetaDataObjectValue->Print(os); \
@@ -279,14 +279,14 @@ void \
  * \param STORAGE_TYPE The storage type of the image type to print.
  */
 #define ITK_IMAGE_TYPE_METADATAPRINT(STORAGE_TYPE) \
-ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image<STORAGE_TYPE,1>::Pointer) \
-  ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image<STORAGE_TYPE,2>::Pointer) \
-  ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image<STORAGE_TYPE,3>::Pointer) \
-  ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image<STORAGE_TYPE,4>::Pointer) \
-  ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image<STORAGE_TYPE,5>::Pointer) \
-  ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image<STORAGE_TYPE,6>::Pointer) \
-  ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image<STORAGE_TYPE,7>::Pointer) \
-  ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image<STORAGE_TYPE,8>::Pointer) \
+  ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image< STORAGE_TYPE , 1 >::Pointer) \
+  ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image< STORAGE_TYPE , 2 >::Pointer) \
+  ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image< STORAGE_TYPE , 3 >::Pointer) \
+  ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image< STORAGE_TYPE , 4 >::Pointer) \
+  ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image< STORAGE_TYPE , 5 >::Pointer) \
+  ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image< STORAGE_TYPE , 6 >::Pointer) \
+  ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image< STORAGE_TYPE , 7 >::Pointer) \
+  ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image< STORAGE_TYPE , 8 >::Pointer) \
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkMetaDataObject.txx"
