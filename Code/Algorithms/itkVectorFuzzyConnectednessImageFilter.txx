@@ -689,8 +689,8 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 
 	m_FilterImage = InputImageType::New();
 	
-	index = InputImageType::IndexType::ZeroIndex;
-	InputImageType::RegionType region;
+	index.Fill(0);
+	typename InputImageType::RegionType region;
 
 	region.SetSize(m_Size);
 	region.SetIndex(index);
