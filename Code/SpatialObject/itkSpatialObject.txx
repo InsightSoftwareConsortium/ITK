@@ -48,7 +48,7 @@ SpatialObject< TDimension >
   m_WorldToIndexTransform = TransformType::New();
   m_WorldToIndexTransform->SetIdentity();
 
-  m_BoundingBoxChildrenDepth=0;
+  m_BoundingBoxChildrenDepth=MaximumDepth;
   SetParent(NULL);
   m_Id = -1;
   m_ParentId = -1;
@@ -522,9 +522,9 @@ SpatialObject< TDimension >
  * children, down to a specified depth.  After computation, the
  * resulting bounding box is stored in this->m_Bounds.  
  *
- * By default, the bounding box children depth is 0, meaning that only
- * the bounding box for the object itself is computed.  This depth can
- * be set (before calling ComputeBoundingBox) using
+ * By default, the bounding box children depth is maximum, meaning that
+ * the bounding box for the object and all its recursive children is computed. 
+ * This depth can be set (before calling ComputeBoundingBox) using
  * SetBoundingBoxChildrenDepth().
  *
  * By calling SetBoundingBoxChildrenName(), it is possible to restrict

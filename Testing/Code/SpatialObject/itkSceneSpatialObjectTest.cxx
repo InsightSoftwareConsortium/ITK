@@ -64,6 +64,7 @@ int itkSceneSpatialObjectTest(int, char* [])
   object->GetRequestedRegion();
   object->GetBufferedRegion();
   object->GetLargestPossibleRegion();
+  object->SetBoundingBoxChildrenDepth(0);
 
   std::cout << "Testing  BoundingBoxChildren depth: ";
   if(object->GetBoundingBoxChildrenDepth() != 0)
