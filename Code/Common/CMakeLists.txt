@@ -1,6 +1,7 @@
 LIBRARY = ITKCommon
 
 SOURCE_FILES =\
+itkCommand \
 itkByteSwap \
 itkDataObject \
 itkDirectory \
@@ -16,7 +17,6 @@ itkMutexLock \
 itkNumericTraits \
 itkObject \
 itkObjectFactoryBase \
-itkObserver \
 itkOutputWindow \
 itkProcessObject \
 itkRegion \

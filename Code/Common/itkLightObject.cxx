@@ -98,12 +98,15 @@ InvokeEvent(unsigned long event,
   for(std::list<Observer* >::iterator i = m_Observers.begin();
       i != m_Observers.end(); ++i)
     {
-    if( (*i)->m_Event == event)
+    unsigned long e =  (*i)->m_Event;
+    if( e == Command::AnyEvent || e == event)
       {
       (*i)->m_Command->Execute(self, event);
       }
     }
 }
+
+
 Command*
 SubjectImplementation::
 GetCommand(unsigned long tag)
@@ -126,7 +129,8 @@ HasObserver(unsigned long event)
   for(std::list<Observer* >::iterator i = m_Observers.begin();
       i != m_Observers.end(); ++i)
     {
-    if( (*i)->m_Event == event)
+    unsigned long e =  (*i)->m_Event;
+    if( e == Command::AnyEvent || e == event)
       {
       return true;
       }
@@ -352,7 +356,9 @@ operator<<(std::ostream& os, LightObject& o)
   return os;
 }
 
-unsigned long LightObject::AddObserver(unsigned long event, Command *cmd)
+unsigned long 
+LightObject
+::AddObserver(unsigned long event, Command *cmd)
 {
   if (!this->m_SubjectImplementation)
     {
@@ -361,12 +367,16 @@ unsigned long LightObject::AddObserver(unsigned long event, Command *cmd)
   return this->m_SubjectImplementation->AddObserver(event,cmd);
 }
 
-unsigned long LightObject::AddObserver(const char *event,Command *cmd)
+unsigned long
+LightObject
+::AddObserver(const char *event,Command *cmd)
 {
   return this->AddObserver(Command::GetEventIdFromString(event), cmd);
 }
 
-Command *LightObject::GetCommand(unsigned long tag)
+Command*
+LightObject
+::GetCommand(unsigned long tag)
 {
   if (this->m_SubjectImplementation)
     {
@@ -375,7 +385,9 @@ Command *LightObject::GetCommand(unsigned long tag)
   return NULL;
 }
 
-void LightObject::RemoveObserver(unsigned long tag)
+void 
+LightObject
+::RemoveObserver(unsigned long tag)
 {
   if (this->m_SubjectImplementation)
     {
@@ -383,7 +395,9 @@ void LightObject::RemoveObserver(unsigned long tag)
     }
 }
 
-void LightObject::InvokeEvent(unsigned long event)
+void 
+LightObject
+::InvokeEvent(unsigned long event)
 {
   if (this->m_SubjectImplementation)
     {
@@ -391,12 +405,16 @@ void LightObject::InvokeEvent(unsigned long event)
     }
 }
 
-void LightObject::InvokeEvent(const char *event)
+void 
+LightObject
+::InvokeEvent(const char *event)
 {
   this->InvokeEvent(Command::GetEventIdFromString(event));
 }
 
-int LightObject::HasObserver(unsigned long event)
+bool
+LightObject
+::HasObserver(unsigned long event)
 {
   if (this->m_SubjectImplementation)
     {
@@ -405,7 +423,9 @@ int LightObject::HasObserver(unsigned long event)
   return 0;
 }
 
-int LightObject::HasObserver(const char *event)
+bool
+LightObject
+::HasObserver(const char *event)
 {
   return this->HasObserver(Command::GetEventIdFromString(event));
 }

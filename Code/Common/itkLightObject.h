@@ -29,6 +29,7 @@ namespace itk
 {
 class SubjectImplementation;
 class Command;
+  
 /** \class LightObject
  * LightObject is the highest level base class for most itk objects. It
  * implements reference counting, call-backs, and API for object printing.
@@ -95,8 +96,8 @@ public:
    */
   virtual void UnRegister();
 
-  /** 
-   * Gets the reference count (use with care) 
+  /**
+   * Gets the reference count (use with care)
    */
   virtual int GetReferenceCount() const {return m_ReferenceCount;}
 
@@ -115,16 +116,25 @@ public:
    * instance of a command to two different objects
    */
   unsigned long AddObserver(unsigned long event, Command *);
+  /// Add observer based on the string name of the event.
   unsigned long AddObserver(const char *event, Command *);
-  // this can not return a smart pointer, but can be assigned to one.
-  // Command is a sub-class of this class (LightObject), so can not be used as an object
-  // until after this class is defined
-  Command *GetCommand(unsigned long tag);
+  /** Get the command associated with the given tag.  
+   *  NOTE: This returns a pointer to a Command, but it is safe to asign
+   *  this to a Command::Pointer.  Since Command inherits from LightObject,
+   *  at this point in the code, only a pointer or a reference
+   *  to the Command can be used.
+   */
+  Command* GetCommand(unsigned long tag);
+  /// Call Exectute on all the Commands observing this event id.
   void InvokeEvent(unsigned long event);
+  /// Call Exectute on all the Commands observing this event, convert the string to id first.
   void InvokeEvent(const char *event);
+  /// Remove the observer with this tag value.
   void RemoveObserver(unsigned long tag);
-  int HasObserver(unsigned long event);
-  int HasObserver(const char *event);
+  /// Return true if an objserver is registered for this event.
+  bool HasObserver(unsigned long event);
+  /// Return true if an objserver is registered for this event.
+  bool HasObserver(const char *event);
   
 protected:
   LightObject(); 
