@@ -18,6 +18,8 @@
 #define __itkDifferenceImageFilter_h
 
 #include "itkImageToImageFilter.h"
+#include "itkNumericTraits.h"
+#include "itkArray.h"
 
 namespace itk
 {
@@ -50,13 +52,25 @@ public:
   /** Some convenient typedefs. */
   typedef TInputImage InputImageType;
   typedef TOutputImage OutputImageType;
+  typedef typename OutputImageType::PixelType OutputPixelType;
   typedef typename OutputImageType::RegionType OutputImageRegionType;
+  typedef typename NumericTraits<OutputPixelType>::RealType RealType;
+  typedef typename NumericTraits<RealType>::AccumulateType AccumulateType;  
   
   /** Set the valid image input.  This will be input 0.  */
   virtual void SetValidInput(const InputImageType* validImage);
   
   /** Set the test image input.  This will be input 1.  */
   virtual void SetTestInput(const InputImageType* testImage);
+  
+  /** Set/Get the minimum threshold for pixels to be different.
+      Default is 0. */
+  itkSetMacro(DifferenceThreshold, OutputPixelType);
+  itkGetMacro(DifferenceThreshold, OutputPixelType);
+  
+  /** Get parameters of the difference image after execution.  */
+  itkGetMacro(MeanDifference, RealType);
+  itkGetMacro(TotalDifference, AccumulateType);
   
 protected:
   DifferenceImageFilter();
@@ -75,6 +89,15 @@ protected:
    *     ImageToImageFilter::GenerateData()  */
   void ThreadedGenerateData(const OutputImageRegionType& threadRegion,
                             int threadId);
+  
+  void BeforeThreadedGenerateData();
+  void AfterThreadedGenerateData();
+  
+  OutputPixelType m_DifferenceThreshold;
+  RealType m_MeanDifference;
+  AccumulateType m_TotalDifference;
+  
+  Array<AccumulateType> m_ThreadDifferenceSum;
   
 private:
   DifferenceImageFilter(const Self&); //purposely not implemented

@@ -23,7 +23,6 @@
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
 #include "itkNeighborhoodAlgorithm.h"
-#include "itkNumericTraits.h"
 #include "itkProgressReporter.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
 
@@ -37,6 +36,13 @@ DifferenceImageFilter<TInputImage, TOutputImage>
 {
   // We require two inputs to execute.
   this->SetNumberOfRequiredInputs(2);
+  
+  // Set the default DifferenceThreshold.
+  m_DifferenceThreshold = NumericTraits<OutputPixelType>::Zero;
+  
+  // Initialize statistics about difference image.
+  m_MeanDifference = NumericTraits<RealType>::Zero;
+  m_TotalDifference = NumericTraits<AccumulateType>::Zero;
 }
 
 //----------------------------------------------------------------------------
@@ -60,6 +66,25 @@ DifferenceImageFilter<TInputImage, TOutputImage>
 }
 
 //----------------------------------------------------------------------------
+template<class TInputImage, class TOutputImage>
+void
+DifferenceImageFilter<TInputImage, TOutputImage>
+::BeforeThreadedGenerateData()
+{
+  int numberOfThreads = this->GetNumberOfThreads();
+
+  // Initialize statistics about difference image.
+  m_MeanDifference = NumericTraits<RealType>::Zero;
+  m_TotalDifference = NumericTraits<AccumulateType>::Zero;
+  
+  // Resize the thread temporaries
+  m_ThreadDifferenceSum.resize(numberOfThreads);
+  
+  // Initialize the temporaries
+  m_ThreadDifferenceSum.Fill(NumericTraits<AccumulateType>::Zero);
+}
+
+//----------------------------------------------------------------------------
 template <class TInputImage, class TOutputImage>
 void
 DifferenceImageFilter<TInputImage, TOutputImage>
@@ -73,7 +98,6 @@ DifferenceImageFilter<TInputImage, TOutputImage>
   typedef typename FacesCalculator::FaceListType FaceListType;
   typedef typename FaceListType::iterator FaceListIterator;
   typedef typename InputImageType::PixelType InputPixelType;
-  typedef typename OutputImageType::PixelType OutputPixelType;
   
   // Prepare standard boundary condition.
   ZeroFluxNeumannBoundaryCondition<InputImageType> nbc;
@@ -126,11 +150,46 @@ DifferenceImageFilter<TInputImage, TOutputImage>
           }
         }
       
-      // Store the minimum difference value in the output image.
-      out.Set(minimumDifference);
+      // Check if difference is above threshold.
+      if(minimumDifference >= m_DifferenceThreshold)
+        {
+        // Store the minimum difference value in the output image.
+        out.Set(minimumDifference);
+        
+        // Update difference image statistics.
+        m_ThreadDifferenceSum[threadId] += minimumDifference;
+        }
+      else
+        {
+        // Difference is below threshold.
+        out.Set(NumericTraits<OutputPixelType>::Zero);
+        }
+      
+      // Update progress.
       progress.CompletedPixel();
       }
     }
+}
+
+//----------------------------------------------------------------------------
+template <class TInputImage, class TOutputImage>
+void
+DifferenceImageFilter<TInputImage, TOutputImage>
+::AfterThreadedGenerateData()
+{
+  // Set statistics about difference image.
+  int numberOfThreads = this->GetNumberOfThreads();
+  for(int i=0; i < numberOfThreads; ++i)
+    {
+    m_TotalDifference += m_ThreadDifferenceSum[i];
+    }
+  
+  // Get the total number of pixels processed.
+  OutputImageRegionType region = this->GetOutput()->GetRequestedRegion();
+  AccumulateType numberOfPixels = region.GetNumberOfPixels();
+  
+  // Calculate the mean difference.
+  m_MeanDifference = m_TotalDifference / numberOfPixels;
 }
 
 } // end namespace itk
