@@ -17,7 +17,7 @@
 #define __itkFuzzyConnectednessImageFilter_h
 
 #include "itkImage.h"
-#include "itkFilterImageToImage.h"
+#include "itkImageToImageFilter.h"
 #include "itkScalar.h"
 
 #include <queue>
@@ -60,7 +60,7 @@ namespace itk{
 
 template <class TInputImage, class TOutputImage>
 class FuzzyConnectednessImageFilter:
-  public FilterImageToImage<TInputImage,TOutputImage>
+  public ImageToImageFilter<TInputImage,TOutputImage>
 {
 public:
   /**
@@ -77,12 +77,12 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef FilterImageToImage<TInputImage,TOutputImage>   Superclass;
+  typedef ImageToImageFilter<TInputImage,TOutputImage>   Superclass;
 
   /**
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(FuzzyConnectednessImageFilter,FilterImageToImage);
+  itkTypeMacro(FuzzyConnectednessImageFilter,ImageToImageFilter);
 
   /**
    * Method for creation through the object factory.
