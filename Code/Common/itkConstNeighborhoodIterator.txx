@@ -180,7 +180,7 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
  // Check to see if the default boundary
   // conditions have been overridden.
   if ( orig.m_BoundaryCondition ==
-       (ImageBoundaryConditionPointerType)&orig.m_InternalBoundaryCondition )
+       static_cast<ImageBoundaryConditionConstPointerType>(&orig.m_InternalBoundaryCondition ))
     {
     this->ResetBoundaryCondition();
     }
@@ -372,13 +372,12 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>
   // Check to see if the default boundary conditions
   // have been overridden.
   if (orig.m_BoundaryCondition ==
-      (ImageBoundaryConditionPointerType) &orig.m_InternalBoundaryCondition ) 
+      static_cast<ImageBoundaryConditionConstPointerType>( &orig.m_InternalBoundaryCondition ) )
     {
       this->ResetBoundaryCondition();
     }
   else m_BoundaryCondition = orig.m_BoundaryCondition;
 
-  
   return *this;
 }
 

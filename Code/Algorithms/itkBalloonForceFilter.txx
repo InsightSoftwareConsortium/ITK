@@ -854,7 +854,6 @@ void
 BalloonForceFilter<TInputMesh, TOutputMesh>
 ::ComputeOutput() 
 {
-  int i;
   typename TriCell::CellAutoPointer insertCell;
   unsigned long tripoints[3];
   const unsigned long *tp;
@@ -871,31 +870,33 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 
   InputCellsContainerPointer     myCells = this->GetInput(0)->GetCells();
   InputCellsContainerIterator    cells = myCells->Begin(); 
-  
+
   InputCellDataContainerPointer  myCellData = this->GetInput(0)->GetCellData();
   InputCellDataContainerIterator celldata = myCellData->Begin(); 
 
-  i = 0;
-  for (; i<m_NumberOfNodes; i++) {
-    points.Value() = locations.Value();
-    ++locations;
-    ++points;
-  } 
-
-  for (int i=0; i<m_NumberOfCells; i++) {
-    tp = cells.Value()->GetPointIds();
-    tripoints[0] = tp[0];
-    tripoints[1] = tp[1];
-    tripoints[2] = tp[2];
-    insertCell.TakeOwnership( new TriCell );
-    insertCell->SetPointIds(tripoints);
-    m_Output->SetCell(i, insertCell );
-    x = celldata.Value();
-    m_Output->SetCellData(i, (PixelType)x);
-    ++cells;
-    ++celldata;
+  {
+    for (unsigned int i=0; i<m_NumberOfNodes; i++) {
+      points.Value() = locations.Value();
+      ++locations;
+      ++points;
+    }
   }
 
+  {
+    for (unsigned int i=0; i<m_NumberOfCells; i++) {
+      tp = cells.Value()->GetPointIds();
+      tripoints[0] = tp[0];
+      tripoints[1] = tp[1];
+      tripoints[2] = tp[2];
+      insertCell.TakeOwnership( new TriCell );
+      insertCell->SetPointIds(tripoints);
+      m_Output->SetCell(i, insertCell );
+      x = celldata.Value();
+      m_Output->SetCellData(i, (PixelType)x);
+      ++cells;
+      ++celldata;
+    }
+  }
 }
 
 /*
@@ -1433,22 +1434,24 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   displacements = myDisplacements->Begin();
   forces = myForces->Begin();
 
-  i = 0;
-  while ( i < m_NumberOfNodes - 2 ) {
-  v1 = normals.Value();
-//  v1 = forces.Value();
-  v2 = locations.Value();
-  v3 = displacements.Value();
-  v3[0] += v1[0] - v2[0];
-  v3[1] += v1[1] - v2[1];
-//  v3[2] += v1[2] - v2[2];
-  locations.Value() = v1;
-  if ( m_GradientBegin ) displacements.Value() = v3;
-  ++normals;
-//  ++forces;
-  ++locations;
-  ++displacements;
-  i++;
+  {
+    i = 0;
+    while ( i < m_NumberOfNodes - 2 ) {
+      v1 = normals.Value();
+      //  v1 = forces.Value();
+      v2 = locations.Value();
+      v3 = displacements.Value();
+      v3[0] += v1[0] - v2[0];
+      v3[1] += v1[1] - v2[1];
+      //  v3[2] += v1[2] - v2[2];
+      locations.Value() = v1;
+      if ( m_GradientBegin ) displacements.Value() = v3;
+      ++normals;
+      //  ++forces;
+      ++locations;
+      ++displacements;
+      i++;
+    }
   }
 
   locations = myLocations->Begin();

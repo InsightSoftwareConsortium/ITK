@@ -66,6 +66,7 @@ public:
   typedef typename InputImageType::SizeType   SizeType;
   typedef typename InputImageType::IndexType  IndexType;
   typedef typename InputImageType::Pointer    InputImagePointer;
+  typedef typename InputImageType::ConstPointer    InputImageConstPointer;
   typedef typename OutputImageType::Pointer   OutputImagePointer;
   
   /** Standard super class typedef support. */

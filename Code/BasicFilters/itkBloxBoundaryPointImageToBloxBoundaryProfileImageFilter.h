@@ -9,8 +9,8 @@
   Copyright (c) 2002 Insight Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -26,11 +26,11 @@ namespace itk
 {
 
 /** \class BloxBoundaryPointImageToBloxBoundaryProfileImageFilter
- * \brief Converts a BloxImage of BloxBoundaryPoints to a BloxImage of 
+ * \brief Converts a BloxImage of BloxBoundaryPoints to a BloxImage of
  * BloxBoundaryProfiles
  *
  * Samples the BloxBoundaryPointImage to form a BloxBoundaryProfileImage by
- * sampling voxels in an ellipsoidal region, where the center of the  
+ * sampling voxels in an ellipsoidal region, where the center of the
  * ellipoid is the location of each boundary point. Voxels within these
  * regions are splatted onto the major axis of the ellipsoid in bins
  * to form a profile of average intensity traversing blurred boundaries.
@@ -39,14 +39,14 @@ namespace itk
  * intensities on both sides of the boundary, and blurred boundary width.
  *
  * References:
- * Robert J. Tamburo, George D. Stetten: Gradient-Oriented Profiles 
- * for Boundary Parameterization and Their Application to Core Atoms 
- * Towards Shape Analysis. International Journal of Image and 
- * Graphics 1(4): 659-680 (2001) 
+ * Robert J. Tamburo, George D. Stetten: Gradient-Oriented Profiles
+ * for Boundary Parameterization and Their Application to Core Atoms
+ * Towards Shape Analysis. International Journal of Image and
+ * Graphics 1(4): 659-680 (2001)
  *
- * Robert J.Tamburo and George D.Stetten,M.D.,Ph.D.: Gradient-Oriented 
- * Profiles for Unsupervised Boundary Classification. Proceedings of 
- * the 29th Applied Imagery Pattern Recognition Workshop. October 2000: 
+ * Robert J.Tamburo and George D.Stetten,M.D.,Ph.D.: Gradient-Oriented
+ * Profiles for Unsupervised Boundary Classification. Proceedings of
+ * the 29th Applied Imagery Pattern Recognition Workshop. October 2000:
  * Washington, D.C.
  *
  * \ingroup ImageEnhancement
@@ -74,15 +74,15 @@ public:
   /** Typedef for boundary point image */
   typedef BloxBoundaryPointImage<itkGetStaticConstMacro(NDimensions)> BoundaryPointImageType;
   typedef typename BoundaryPointImageType::Pointer BoundaryPointImagePointer;
-  typedef typename BoundaryPointImageType::RegionType BoundaryPointImageRegionType; 
-  typedef typename BoundaryPointImageType::PixelType BoundaryPointImagePixelType; 
+  typedef typename BoundaryPointImageType::RegionType BoundaryPointImageRegionType;
+  typedef typename BoundaryPointImageType::PixelType BoundaryPointImagePixelType;
   typedef typename BoundaryPointImageType::ConstPointer BoundaryPointImageConstPointer;
 
   /** Typedef for blurred source image */
   typedef TSourceImage SourceImageType;
   typedef typename SourceImageType::Pointer SourceImagePointer;
-  typedef typename SourceImageType::RegionType SourceImageRegionType; 
-  typedef typename SourceImageType::PixelType SourceImagePixelType; 
+  typedef typename SourceImageType::RegionType SourceImageRegionType;
+  typedef typename SourceImageType::PixelType SourceImagePixelType;
   typedef typename SourceImageType::ConstPointer SourceImageConstPointer;
 
   /** Typedef for profile image */
@@ -111,7 +111,7 @@ public:
 
   /** Find maximum in accumulator */
   double FindAccumulatorMaximum();
-  
+
   /** Find minimum in accumulator */
   double FindAccumulatorMinimum();
 
@@ -160,7 +160,7 @@ protected:
 private:
   BloxBoundaryPointImageToBloxBoundaryProfileImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-    
+
   /** Length of major axis of ellipsoid */
   double m_UniqueAxis;
 
@@ -178,7 +178,7 @@ private:
 
   /** Weight pixel values */
   double * m_Accumulator;
-  
+
   /** Count of pixels added to accumulator */
   double * m_Normalizer;
 

@@ -42,13 +42,13 @@ public:
     inline friend std::ostream &operator << (std::ostream &os, 
                                              itkTestObject const& o) 
     {
-      os << "itkTestObject " << (void*)&o << " " << o.m_ReferenceCount; 
+      os << "itkTestObject " << (void const * )&o << " " << o.m_ReferenceCount; 
       return os;
     }
   
   std::ostream& Print(std::ostream& os) const
     {
-    os << "itkTestObject " << (void*)this << " " << this->m_ReferenceCount; 
+    os << "itkTestObject " << (void const * )this << " " << this->m_ReferenceCount; 
     return os;
     }   
 
