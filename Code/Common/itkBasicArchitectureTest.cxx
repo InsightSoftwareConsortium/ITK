@@ -18,6 +18,96 @@ See COPYRIGHT.txt for copyright details.
 #include "itkScalar.h"
 #include "itkVector.h"
 
+template <class T, unsigned int TImageDimension>
+int IterateOverImage( itkImage<T, TImageDimension>::Iterator it, int dim = 0)
+{
+  T value;
+  int i, j, ii;
+  
+  if (dim < TImageDimension - 1)
+    {
+    itkImage<T, TImageDimension>::Index basisIndex;
+
+    try
+      {
+      basisIndex = it.GetIndex().GetBasisIndex(dim);
+      }
+    catch (const int error)
+      {
+      if (error == itkInvalidDimension)
+	{
+	std::cout << "Exception: Invalid dimension" << std::endl;
+	}
+      }
+
+    // set "it" to the beginning of the dim projection
+    for (i=0; i < it.GetImageSize()[dim]; i++)
+      {
+      for (ii=0; ii < dim; ii++)
+	{ std::cout << "\t"; }
+      std::cout << "Looping over " << dim << std::endl;
+      
+      IterateOverImage(it, dim+1);
+      // increment the iterator
+      try
+	{
+	it += basisIndex;
+	}
+      catch (const int error)
+	{
+	if (error == itkBoundsError)
+	  {
+	  std::cout << "Exception: Exceeding image bounds." << std::endl;
+	  }
+	}
+      }
+    }
+  else
+    {
+    itkImage<T, TImageDimension>::Index basisIndex;
+
+    try
+      {
+      basisIndex = it.GetIndex().GetBasisIndex(dim);
+      }
+    catch (const int error)
+      {
+      if (error == itkInvalidDimension)
+	{
+	std::cout << "Exception: Invalid dimension" << std::endl;
+	}
+      }
+
+    // final dimension... do something
+    for (j=0; j < it.GetImageSize()[dim]; j++)
+      {
+      for (ii=0; ii < dim; ii++)
+	{ std::cout << "\t"; }
+      std::cout << "Looping over " << dim << ", "
+		<< it.GetIndex() << std::endl;
+  
+      // set the pixel using iterator notation
+      *it = value;
+
+      // increment the iterator
+      try
+	{
+	it += basisIndex;
+	//it.Increment( it.GetIndex().GetBasisIndex(dim) );
+	}
+      catch (const int error)
+	{
+	if (error == itkBoundsError)
+	  {
+	  std::cout << "Exception: Exceeding image bounds." << std::endl;
+	  }
+	}
+      }
+    }
+  
+  return 1;
+}
+
 int main()
 {
   itkImageBase::Pointer o1 = itkImageBase::New();
@@ -25,7 +115,7 @@ int main()
   itkImage<itkScalar<float>, 2>::Pointer
     o2 = itkImage<itkScalar<float>, 2>::New();
 
-  int size[2];
+  unsigned long size[2];
   float origin[2], spacing[2];
   size[0] = 12;
   size[1] = 6;
@@ -41,7 +131,7 @@ int main()
 
   o2->Allocate();
 
-  unsigned long index[2];
+  long index[2];
   index[0] = 5;
   index[1] = 4;
   itkImage<itkScalar<float>, 2>::Index ind;
@@ -56,18 +146,18 @@ int main()
 
   scalar = o2->GetPixel(ind);
 
-  std::cerr << "Scalar pixel value is: " << scalar.GetScalar() << std::endl;
+  std::cout << "Scalar pixel value is: " << scalar.GetScalar() << std::endl;
 
 
   itkImage<itkVector<unsigned short, 5>, 3>::Pointer
     o3 = itkImage<itkVector<unsigned short, 5>, 3>::New();
 
 
-  int size3D[3];
+  unsigned long size3D[3];
   float origin3D[3], spacing3D[3];
-  size3D[0] = 12;
-  size3D[1] = 6;
-  size3D[2] = 8;
+  size3D[0] = 2;
+  size3D[1] = 3;
+  size3D[2] = 4;
   origin3D[0] = 5;
   origin3D[1] = 2.1;
   origin3D[2] = 8.1;
@@ -82,10 +172,10 @@ int main()
 
   o3->Allocate();
 
-  unsigned long index3D[3];
-  index3D[0] = 5;
-  index3D[1] = 4;
-  index3D[2] = 6;
+  long index3D[3];
+  index3D[0] = 1;
+  index3D[1] = 2;
+  index3D[2] = 3;
   itkImage<itkVector<unsigned short, 5>, 3>::Index ind3D;
   ind3D.SetIndex( index3D );
 
@@ -93,6 +183,7 @@ int main()
   itkVector<unsigned short, 5> vec;
   vec.SetVector(vecValues);
 
+  // o3->SetPixel( itkIndex(1, 2, 3), vec);
   o3->SetPixel(ind3D, vec);
 
   vecValues[0] = vecValues[1] = vecValues[2] = vecValues[3] = vecValues[4] = 2;
@@ -100,7 +191,7 @@ int main()
 
   vec = o3->GetPixel(ind3D);
 
-  std::cerr << "Vector pixel value is: ["
+  std::cout << "Vector pixel value is: ["
 	    << vec.GetVector()[0] << ", "
 	    << vec.GetVector()[1] << ", "
 	    << vec.GetVector()[2] << ", "
@@ -109,6 +200,11 @@ int main()
 	    << std::endl;
   
   
-  return 0;
+  // return 0;
+
+  IterateOverImage( o3->Begin() );
+
+  return 1;
 }
+
 

@@ -21,26 +21,56 @@ See COPYRIGHT.txt for copyright details.
 #define __itkImage_h
 
 #include "itkImageBase.h"
-#include "itkIndex.h"
+#include "itkImageIterator.h"
 #include <vector>
 
 template <class T, unsigned int TImageDimension=2>
 class ITK_EXPORT itkImage : public itkImageBase
 {
-public:
-  /** 
-   * Smart pointer typedef support.
-   */
+ public:
+  /** Smart pointer typedef support */
   typedef itkSmartPointer< itkImage<T, TImageDimension> > Pointer;
 
-  /** 
-   * Index (iterator) typedef support.
-   */
-  typedef itkIndex<TImageDimension> Index;
+  /** Iterator typedef support */
+  typedef itkImageIterator<T, TImageDimension> Iterator;
 
-  /** 
-   * Create an empty image. 
+  /** Index typedef support */
+  typedef itkIndex<TImageDimension> Index;
+  
+  /**
+   * Return an Iterator for the beginning of the image. The index of this
+   * iterator is set to m_ImageIndexOrigin.
+   * \sa End(), RegionBegin(), RegionEnd()
    */
+  Iterator Begin();
+
+  /**
+   * Return an Iterator for the end of the image.  The iterator points to
+   * one pixel past the end of the image.  The index of this pixel is
+   * [m_ImageSize[0]-1, m_ImageSize[1]-1, ...,
+   * m_ImageSize[TImageDimension-2]-1, m_ImageSize[TImageDimension-1]]
+   * \sa Begin(), RegionBegin(), RegionEnd()
+   */
+  Iterator End();
+
+  /**
+   * Return an Iterator for the beginning of the region. The index of this
+   * iterator is set to m_RegionIndexOrigin.
+   * \sa RegionEnd(), Begin(), End()
+   */
+  Iterator RegionBegin();
+
+  /**
+   * Return an Iterator for the end of the region.  The iterator points to
+   * one pixel past the end of the region.  The index of this pixel is
+   * [m_RegionOrigin[0] + m_RegionSize[0] - 1, ...,
+   * m_RegionOrigin[TImageDimension-2] + m_RegionSize[TImageDimension-1] - 1,
+   * m_RegionOrigin[TImageDimension-1] + m_RegionSize[TImageDimension-1]]
+   * \sa RegionBegin(), Begin(), End()
+   */
+  Iterator RegionEnd();
+  
+  /** Create an empty image. */
   static itkImage<T, TImageDimension>::Pointer New();
 
   /**
@@ -51,12 +81,12 @@ public:
   /**
    * Set a pixel.
    */
-  void SetPixel(const itkImage<T, TImageDimension>::Index &index, const T& value);
+  void SetPixel(const Index &index, const T& value);
   
   /**
    * Get a pixel.
    */
-  const T& GetPixel(const itkImage<T, TImageDimension>::Index &index);
+  const T& GetPixel(const Index &index);
 
 
  private:
@@ -64,7 +94,6 @@ public:
   virtual ~itkImage();
 
   std::vector<T> *m_Data;
-
 };
 
 #include "itkImage.cxx"
