@@ -70,7 +70,7 @@
             <a>
               <xsl:attribute name="href">
                 <xsl:call-template name="TranslateTestName">
-                  <xsl:with-param name="Prefix"><xsl:value-of select="$TestDocDir"/>/Purify/</xsl:with-param>
+                  <xsl:with-param name="Prefix">Purify/</xsl:with-param>
                   <xsl:with-param name="TestName" select="FullName"/>
                   <xsl:with-param name="Postfix">.html</xsl:with-param>
                 </xsl:call-template>
