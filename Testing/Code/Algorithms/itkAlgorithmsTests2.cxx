@@ -15,6 +15,7 @@ void RegisterTests()
   REGISTER_TEST(itkKullbackLeiblerCompareHistogramImageToImageMetricTest );
   REGISTER_TEST(itkImagePCAShapeModelEstimatorTest);
   REGISTER_TEST(itkImagePCADecompositionCalculatorTest);
+  REGISTER_TEST(itkIsolatedWatershedImageFilterTest );
   REGISTER_TEST(itkMIRegistrationFunctionTest );
   REGISTER_TEST(itkOtsuMultipleThresholdsCalculatorTest );
   REGISTER_TEST(itkPointSetToPointSetRegistrationTest );

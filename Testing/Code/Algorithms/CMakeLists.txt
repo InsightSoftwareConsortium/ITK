@@ -238,6 +238,7 @@ itkCompareHistogramImageToImageMetricTest.cxx
 itkKullbackLeiblerCompareHistogramImageToImageMetricTest.cxx
 itkImagePCAShapeModelEstimatorTest.cxx
 itkImagePCADecompositionCalculatorTest.cxx
+itkIsolatedWatershedImageFilterTest.cxx
 itkMIRegistrationFunctionTest.cxx
 itkOtsuMultipleThresholdsCalculatorTest.cxx
 itkPointSetToPointSetRegistrationTest.cxx
@@ -275,6 +276,14 @@ IF(USE_SCSL)
 ENDIF(USE_SCSL)
 
 IF(ITK_DATA_ROOT)
+
+ADD_TEST(itkIsolatedWatershedImageFilterTest ${ALGORITHMS_TESTS2}
+   --compare ${ITK_DATA_ROOT}/Baseline/Algorithms/IsolatedWatershedImageFilterTest.png
+             ${ITK_TEST_OUTPUT_DIR}/IsolatedWatershedImageFilterTest.png
+  itkIsolatedWatershedImageFilterTest
+             ${ITK_DATA_ROOT}/Input/cthead1.png
+             ${ITK_TEST_OUTPUT_DIR}/IsolatedWatershedImageFilterTest.png
+             113 84 120 99)
 
 ADD_TEST(itkVoronoiPartitioningImageFilterTest1 ${ALGORITHMS_TESTS2}
   --compare ${ITK_DATA_ROOT}/Baseline/Algorithms/VoronoiPartioningImageFilterTest1.png
