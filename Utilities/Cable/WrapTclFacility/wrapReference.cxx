@@ -90,7 +90,7 @@ inline Reference& ToReference(Tcl_Obj* objPtr)
  */
 inline void SetReference(Reference* ptr, Tcl_Obj* objPtr)
 {
-  objPtr->internalRep.otherValuePtr = (VOID*)ptr;
+  objPtr->internalRep.otherValuePtr = static_cast<VOID*>(ptr);
   objPtr->typePtr = &TclReferenceType;
   UpdateStringOfReference(objPtr);
 }
@@ -194,7 +194,8 @@ int Tcl_GetReferenceFromObj(Tcl_Interp* interp, Tcl_Obj* objPtr, Reference* ptr)
   if(objPtr->typePtr != &TclReferenceType)
     {
     int error;
-    if((error = SetReferenceFromAny(interp, objPtr)) != TCL_OK) { return error; }
+    if((error = SetReferenceFromAny(interp, objPtr)) != TCL_OK)
+      { return error; }
     }
   
   /**

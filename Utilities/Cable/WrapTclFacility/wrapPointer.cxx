@@ -94,7 +94,7 @@ inline Pointer& ToPointer(Tcl_Obj* objPtr)
  */
 inline void SetPointer(Pointer* ptr, Tcl_Obj* objPtr)
 {
-  objPtr->internalRep.otherValuePtr = (VOID*)ptr;
+  objPtr->internalRep.otherValuePtr = static_cast<VOID*>(ptr);
   objPtr->typePtr = &TclPointerType;
   UpdateStringOfPointer(objPtr);
 }
@@ -201,7 +201,8 @@ int Tcl_GetPointerFromObj(Tcl_Interp* interp, Tcl_Obj* objPtr, Pointer* ptr)
   if(objPtr->typePtr != &TclPointerType)
     {
     int error;
-    if((error = SetPointerFromAny(interp, objPtr)) != TCL_OK) { return error; }
+    if((error = SetPointerFromAny(interp, objPtr)) != TCL_OK)
+      { return error; }
     }
   
   /**
