@@ -151,11 +151,6 @@ public:
         LAST_ITK_CELL, MAX_ITK_CELLS=255};
   static int GetNextUserCellId(); // never return > MAX_INTERFACE
 
-  /** 
-   *  Return the type of the cell (one of the CellType enums listed above).
-   */
-  virtual CellType GetType(void) const =0;
-
   /* 
    * A visitor that can visit different cell types in a mesh.
    * CellInterfaceVisitor instances can be registered for each
@@ -245,6 +240,11 @@ public:
    * Public interface routines.
    */
   
+  /** 
+   *  Return the type of the cell (one of the CellType enums listed above).
+   */
+  virtual CellType GetType(void) const =0;
+
   /**
    * Create a new copy of this cell.  This is provided so that a copy can
    * be made without knowing the cell type.
