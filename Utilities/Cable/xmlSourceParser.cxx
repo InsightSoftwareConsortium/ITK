@@ -1,101 +1,187 @@
-#include <stack>
-#include <map>
-#include <string>
+#include "xmlSourceParser.h"
 
-#include "parseSourceXML.h"
-
-/**
- * Map from element name to its beginning handler.
- */
-static std::map<String, void (*)(const Attributes&)>  beginHandlers;
-
-/**
- * Map from element name to its ending handler.
- */
-static std::map<String, void (*)(void)>  endHandlers;
-
-
-/**
- * A stack of XML elements used during parsing of the XML source.
- */
-static std::stack<InternalObject::Pointer>  elementStack;
-
-/**
- * Store the global namespace.  It will also be at the bottom of the
- * element stack if the XML source is correct.
- */
-static Namespace::Pointer  GlobalNamespace;
-
-
-static void Initialize(void);
-static void StartElement(void *, const char *, const char **);
-static void EndElement(void *, const char *);
-
-
-/**
- * Parse XML source from the given input.  Return a pointer to the
- * global namespace found during the parse.
- */
-Namespace::Pointer ParseSourceXML(FILE* inFile)
+namespace xml
 {
-  /**
-   * Prepare the XML parser.
-   */
-  char buf[BUFSIZ];
-  XML_Parser parser = XML_ParserCreate(NULL);
-  bool done = false;
+
+/**
+ * Passes call through to real parser object according to first argument.
+ */
+static void BeginElement(void* parser, const char *name, const char **atts)
+{
+  static_cast<SourceParser*>(parser)->BeginElement(name, atts);
+}
+
+
+/**
+ * Passes call through to real parser object according to first argument.
+ */
+static void EndElement(void* parser, const char *name)
+{
+  static_cast<SourceParser*>(parser)->EndElement(name);
+}
+
+/**
+ * Create a new SourceParser and return a pointer to it.
+ */
+SourceParser::Pointer
+SourceParser::New()
+{
+  return new Self;
+}
+
+
+/**
+ * Constructor sets up an XML_Parser to make call-backs into this
+ * SourceParser.
+ */
+SourceParser
+::SourceParser():
+  m_XML_Parser(XML_ParserCreate(NULL)),
+  m_ElementStack(),
+  m_GlobalNamespace(NULL)
+{
+  SourceParser::InitializeHandlers();
   
-  Initialize();
+  XML_SetElementHandler(m_XML_Parser,
+                        ::BeginElement,
+                        ::EndElement);
+  XML_SetUserData(m_XML_Parser,
+                  this);
+}
 
-  XML_SetElementHandler(parser, StartElement, EndElement);
+
+/**
+ * Cleanup the XML_Parser
+ */
+SourceParser
+::~SourceParser()
+{
+  XML_ParserFree(m_XML_Parser);
+}
+
+
+/**
+ * Parse the XML from the given input stream until end-of-input is reached.
+ */
+void
+SourceParser
+::Parse(std::istream& inStream)
+{
+  char buf[BUFSIZ];
+  bool done = false;  
 
   /**
-   * Parse the entire XML source.
+   * Parse until end of input stream is reached.
    */
   while(!done)
     {
-    size_t len = fread(buf, 1, sizeof(buf), inFile);
-    done = len < sizeof(buf);
-    if (!XML_Parse(parser, buf, len, done))
+    inStream.read(buf, sizeof(buf));
+    size_t len = inStream.gcount();
+    done = (len < sizeof(buf));
+    if(!XML_Parse(m_XML_Parser, buf, len, done))
       {
-      fprintf(stderr, "ParseSourceXML(): %s at line %d\n",
-              XML_ErrorString(XML_GetErrorCode(parser)),
-              XML_GetCurrentLineNumber(parser));
-      exit(1);
+      fprintf(stderr, "SourceParser::Parse(): %s at line %d\n",
+              XML_ErrorString(XML_GetErrorCode(m_XML_Parser)),
+              XML_GetCurrentLineNumber(m_XML_Parser));
       }
     }
+}
 
-  /**
-   * Done with the parser.
-   */
-  XML_ParserFree(parser);
-  
-  /**
-   * The element stack should now have just the global namespace left
-   * on top.
-   */
-  if(elementStack.size() > 1)
+
+/**
+ * Called when a new element is opened in the XML source.
+ * Checks the tag name, and calls the appropriate handler with an
+ * Attributes container.
+ */
+void
+SourceParser
+::BeginElement(const char *name, const char **atts)
+{
+  try {
+  // Try to look up the handler for this element.
+  BeginHandlers::iterator handler = beginHandlers.find(name);
+  if(handler != beginHandlers.end())
     {
-    fprintf(stderr,
-            "ParseSourceXML(): Input ends with unfinished elements!\n");
+    // Found one, call it.
+    Attributes attributes;
+    for(int i=0; atts[i] && atts[i+1] ; i += 2)
+      {
+      attributes.Set(atts[i], atts[i+1]);
+      }
+    (this->*(handler->second))(attributes);
+    }
+  else
+    {
+    throw UnknownElementTagException(__FILE__, __LINE__, name);
+    }
+  }
+  catch (const ParseException& e)
+    {
+    e.PrintLocation(stderr);
+    e.Print(stderr);
     exit(1);
     }
+  catch (const String& e)
+    {
+    fprintf(stderr, "Caught exceptoin in BeginElement():\n%s\n", e.c_str());
+    exit(1);
+    }
+  catch (...)
+    {
+    fprintf(stderr, "Caught unknown exception in BeginElement().\n");
+    exit(1);
+    }
+}
 
-  fclose(inFile);
-  
-  /**
-   * Return the global namespace.
-   */
-  return GlobalNamespace;
+
+/**
+ * Called at the end of an element in the XML source opened when
+ * BeginElement was called.
+ */
+void
+SourceParser
+::EndElement(const char *name)
+{
+  try {
+  // Try to look up the handler for this element.
+  EndHandlers::iterator handler = endHandlers.find(name);
+  if(handler != endHandlers.end())
+    {
+    // Found one, call it.
+    (this->*(handler->second))();
+    }
+  else
+    {
+    throw UnknownElementTagException(__FILE__, __LINE__, name);
+    }
+  }
+  catch (const ParseException& e)
+    {
+    e.PrintLocation(stderr);
+    e.Print(stderr);
+    exit(1);
+    }
+  catch (const String& e)
+    {
+    fprintf(stderr, "Caught exceptoin in EndElement():\n%s\n", e.c_str());
+    exit(1);
+    }
+  catch (...)
+    {
+    fprintf(stderr, "Caught unknown exception in EndElement().\n");
+    exit(1);
+    }
 }
 
 
 /**
  * Get the top of the element stack.
  */
-static InternalObject::Pointer CurrentElement(void)
+InternalObject::Pointer
+SourceParser
+::CurrentElement(void)
 {
-  return elementStack.top();
+  return m_ElementStack.top();
 }
 
 
@@ -122,53 +208,61 @@ private:
 /**
  * Get the top of the element stack as a context pointer.
  */
-static Context::Pointer CurrentContext(void)
+Context::Pointer
+SourceParser
+::CurrentContext(void)
 {
-  TypeOfObject t = elementStack.top()->GetTypeOfObject();
+  TypeOfObject t = m_ElementStack.top()->GetTypeOfObject();
   if((t != Namespace_id)
      && (t != Class_id)
      && (t != Struct_id)
      && (t != Union_id))
     throw ElementStackTypeException(__FILE__, __LINE__, "Any Context", t);
   
-  return (Context*)elementStack.top().RealPointer();
+  return (Context*)m_ElementStack.top().RealPointer();
 }
 
 
 /**
  * Get the top of the element stack cast as a Namespace.
  */
-static Namespace::Pointer CurrentNamespace(void)
+Namespace::Pointer
+SourceParser
+::CurrentNamespace(void)
 {
-  TypeOfObject t = elementStack.top()->GetTypeOfObject();
+  TypeOfObject t = m_ElementStack.top()->GetTypeOfObject();
   if((t != Namespace_id))
     throw ElementStackTypeException(__FILE__, __LINE__, "Namespace", t);
   
-  return (Namespace*)elementStack.top().RealPointer();
+  return (Namespace*)m_ElementStack.top().RealPointer();
 }
 
 
 /**
  * Get the top of the element stack cast as a Class.
  */
-static Class::Pointer CurrentClass(void)
+Class::Pointer
+SourceParser
+::CurrentClass(void)
 {
-  TypeOfObject t = elementStack.top()->GetTypeOfObject();
+  TypeOfObject t = m_ElementStack.top()->GetTypeOfObject();
   if((t != Class_id)
      && (t != Struct_id)
      && (t != Union_id))
     throw ElementStackTypeException(__FILE__, __LINE__, "Any Class", t);
   
-  return (Class*)elementStack.top().RealPointer();
+  return (Class*)m_ElementStack.top().RealPointer();
 }
 
 
 /**
  * Get the current type off the top of the element stack.
  */
-static Type::Pointer CurrentType(void)
+Type::Pointer
+SourceParser
+::CurrentType(void)
 {
-  TypeOfObject t = elementStack.top()->GetTypeOfObject();
+  TypeOfObject t = m_ElementStack.top()->GetTypeOfObject();
   if((t != NamedType_id)
      && (t != PointerType_id)
      && (t != ReferenceType_id)
@@ -178,16 +272,18 @@ static Type::Pointer CurrentType(void)
      && (t != ArrayType_id))
     throw ElementStackTypeException(__FILE__, __LINE__, "Any Type", t);
   
-  return (Type*)elementStack.top().RealPointer();
+  return (Type*)m_ElementStack.top().RealPointer();
 }
 
 
 /**
  * Get the current function off the top of the element stack.
  */
-static Function::Pointer CurrentFunction(void)
+Function::Pointer
+SourceParser
+::CurrentFunction(void)
 {
-  TypeOfObject t = elementStack.top()->GetTypeOfObject();
+  TypeOfObject t = m_ElementStack.top()->GetTypeOfObject();
   if((t != Function_id)
     && (t != Method_id)
     && (t != Constructor_id)
@@ -197,119 +293,137 @@ static Function::Pointer CurrentFunction(void)
     && (t != OperatorMethod_id))
     throw ElementStackTypeException(__FILE__, __LINE__, "Any Function", t);
 
-  return (Function*)elementStack.top().RealPointer();
+  return (Function*)m_ElementStack.top().RealPointer();
 }
 
 
 /**
  * Get the current argument off the top of the element stack.
  */
-static Argument::Pointer CurrentArgument(void)
+Argument::Pointer
+SourceParser
+::CurrentArgument(void)
 {
-  TypeOfObject t = elementStack.top()->GetTypeOfObject();
+  TypeOfObject t = m_ElementStack.top()->GetTypeOfObject();
   if((t != Argument_id))
     throw ElementStackTypeException(__FILE__, __LINE__, "Argument", t);
 
-  return (Argument*)elementStack.top().RealPointer();
+  return (Argument*)m_ElementStack.top().RealPointer();
 }
 
 
 /**
  * Get the current type off the top of the stack as a PointerType.
  */
-static PointerType::Pointer CurrentPointerType(void)
+PointerType::Pointer
+SourceParser
+::CurrentPointerType(void)
 {
-  TypeOfObject t = elementStack.top()->GetTypeOfObject();
+  TypeOfObject t = m_ElementStack.top()->GetTypeOfObject();
   if((t != PointerType_id))
     throw ElementStackTypeException(__FILE__, __LINE__, "PointerType", t);
   
-  return (PointerType*)elementStack.top().RealPointer();
+  return (PointerType*)m_ElementStack.top().RealPointer();
 }
 
 
 /**
  * Get the current type off the top of the stack as a ReferenceType.
  */
-static ReferenceType::Pointer CurrentReferenceType(void)
+ReferenceType::Pointer
+SourceParser
+::CurrentReferenceType(void)
 {
-  TypeOfObject t = elementStack.top()->GetTypeOfObject();
+  TypeOfObject t = m_ElementStack.top()->GetTypeOfObject();
   if((t != ReferenceType_id))
     throw ElementStackTypeException(__FILE__, __LINE__, "ReferenceType", t);
   
-  return (ReferenceType*)elementStack.top().RealPointer();
+  return (ReferenceType*)m_ElementStack.top().RealPointer();
 }
 
 
 /**
  * Get the current type off the top of the stack as a FunctionType.
  */
-static FunctionType::Pointer CurrentFunctionType(void)
+FunctionType::Pointer
+SourceParser
+::CurrentFunctionType(void)
 {
-  TypeOfObject t = elementStack.top()->GetTypeOfObject();
+  TypeOfObject t = m_ElementStack.top()->GetTypeOfObject();
   if((t != FunctionType_id)
      && (t != MethodType_id))
     throw ElementStackTypeException(__FILE__, __LINE__, "Any FunctionType", t);
   
-  return (FunctionType*)elementStack.top().RealPointer();
+  return (FunctionType*)m_ElementStack.top().RealPointer();
 }
 
 
 /**
  * Get the current type off the top of the stack as a MethodType.
  */
-static MethodType::Pointer CurrentMethodType(void)
+MethodType::Pointer
+SourceParser
+::CurrentMethodType(void)
 {
-  TypeOfObject t = elementStack.top()->GetTypeOfObject();
+  TypeOfObject t = m_ElementStack.top()->GetTypeOfObject();
   if(t != MethodType_id)
     throw ElementStackTypeException(__FILE__, __LINE__, "MethodType", t);
   
-  return (MethodType*)elementStack.top().RealPointer();
+  return (MethodType*)m_ElementStack.top().RealPointer();
 }
 
 
 /**
  * Get the current type off the top of the stack as a OffsetType.
  */
-static OffsetType::Pointer CurrentOffsetType(void)
+OffsetType::Pointer
+SourceParser
+::CurrentOffsetType(void)
 {
-  TypeOfObject t = elementStack.top()->GetTypeOfObject();
+  TypeOfObject t = m_ElementStack.top()->GetTypeOfObject();
   if((t != OffsetType_id))
     throw ElementStackTypeException(__FILE__, __LINE__, "OffsetType", t);
   
-  return (OffsetType*)elementStack.top().RealPointer();
+  return (OffsetType*)m_ElementStack.top().RealPointer();
 }
 
 
 /**
  * Get the current type off the top of the stack as a ArrayType.
  */
-static ArrayType::Pointer CurrentArrayType(void)
+ArrayType::Pointer
+SourceParser
+::CurrentArrayType(void)
 {
-  TypeOfObject t = elementStack.top()->GetTypeOfObject();
+  TypeOfObject t = m_ElementStack.top()->GetTypeOfObject();
   if((t != ArrayType_id))
     throw ElementStackTypeException(__FILE__, __LINE__, "ArrayType", t);
   
-  return (ArrayType*)elementStack.top().RealPointer();
+  return (ArrayType*)m_ElementStack.top().RealPointer();
 }
 
 
 /**
  * Push a new element onto the element stack.
  */
-static void PushElement(InternalObject* element)
+void
+SourceParser
+::PushElement(InternalObject* element)
 {
-  elementStack.push(element);
+  m_ElementStack.push(element);
 }
 
 /**
  * Pop the top off the element stack.
  */
-static void PopElement(void)
+void
+SourceParser
+::PopElement(void)
 {
-  elementStack.pop();
+  m_ElementStack.pop();
 
   // Sanity check.
-  if(elementStack.empty())
+  if(m_ElementStack.empty())
     {
     fprintf(stderr, "Global namespace popped from stack!\n");
     exit(1);
@@ -336,16 +450,20 @@ static const String access_private("private");
  * The global namespace is the beginning and ending of the document.
  * Push it onto the bottom of the stack.
  */
-static void begin_GlobalNamespace(const Attributes& atts)
+void
+SourceParser
+::begin_GlobalNamespace(const Attributes& atts)
 {
-  GlobalNamespace = Namespace::New("");
-  PushElement(GlobalNamespace);
+  m_GlobalNamespace = Namespace::New("");
+  PushElement(m_GlobalNamespace);
 }
 
 /**
  * End handler for GlobalNamespace element.
  */
-static void end_GlobalNamespace(void)
+void
+SourceParser
+::end_GlobalNamespace(void)
 {
   // We want the global namespace left on the stack.  Don't pop it off.
 }
@@ -355,7 +473,9 @@ static void end_GlobalNamespace(void)
  * Begin handler for Namespace element.
  * Add a new Namespace to the current context, which must be a Namespace.
  */
-static void begin_Namespace(const Attributes& atts)
+void
+SourceParser
+::begin_Namespace(const Attributes& atts)
 {
   String name = atts.Get("name");
   Namespace::Pointer newNamespace = Namespace::New(name);
@@ -367,7 +487,9 @@ static void begin_Namespace(const Attributes& atts)
 /**
  * End handler for Namespace element.
  */
-static void end_Namespace(void)
+void
+SourceParser
+::end_Namespace(void)
 {
   PopElement();
 }
@@ -376,7 +498,9 @@ static void end_Namespace(void)
 /**
  * Begin handler for NamespaceAlias element.
  */
-static void begin_NamespaceAlias(const Attributes& atts)
+void
+SourceParser
+::begin_NamespaceAlias(const Attributes& atts)
 {
   UnimplementedNameHolder::Pointer newUnimplementedNameHolder
     = UnimplementedNameHolder::New();
@@ -387,7 +511,9 @@ static void begin_NamespaceAlias(const Attributes& atts)
 /**
  * End handler for NamespaceAlias element.
  */
-static void end_NamespaceAlias(void)
+void
+SourceParser
+::end_NamespaceAlias(void)
 {
   PopElement();
 }
@@ -396,7 +522,9 @@ static void end_NamespaceAlias(void)
 /**
  * Begin handler for Typedef element.
  */
-static void begin_Typedef(const Attributes& atts)
+void
+SourceParser
+::begin_Typedef(const Attributes& atts)
 {
   UnimplementedTypeHolder::Pointer newUnimplementedTypeHolder =
     UnimplementedTypeHolder::New();
@@ -409,7 +537,9 @@ static void begin_Typedef(const Attributes& atts)
 /**
  * End handler for Typedef element.
  */
-static void end_Typedef(void)
+void
+SourceParser
+::end_Typedef(void)
 {
   PopElement();
 }
@@ -420,7 +550,9 @@ static void end_Typedef(void)
  * Add a new Class to the current context, which can be a Namespace, Class,
  * Struct, or Union.
  */
-static void begin_Class(const Attributes& atts)
+void
+SourceParser
+::begin_Class(const Attributes& atts)
 {
   String name = atts.Get("name");
   String accessStr = atts.Get("access");
@@ -439,7 +571,9 @@ static void begin_Class(const Attributes& atts)
 /**
  * End handler for Class element.
  */
-static void end_Class(void)
+void
+SourceParser
+::end_Class(void)
 {
   PopElement();
 }
@@ -450,7 +584,9 @@ static void end_Class(void)
  * Add a new Struct to the current context, which can be a Namespace, Class,
  * Struct, or Union.
  */
-static void begin_Struct(const Attributes& atts)
+void
+SourceParser
+::begin_Struct(const Attributes& atts)
 {
   String name = atts.Get("name");
   String accessStr = atts.Get("access");
@@ -469,7 +605,9 @@ static void begin_Struct(const Attributes& atts)
 /**
  * End handler for Struct element.
  */
-static void end_Struct(void)
+void
+SourceParser
+::end_Struct(void)
 {
   PopElement();
 }
@@ -480,7 +618,9 @@ static void end_Struct(void)
  * Add a new Union to the current context, which can be a Namespace, Class,
  * Struct, or Union.
  */
-static void begin_Union(const Attributes& atts)
+void
+SourceParser
+::begin_Union(const Attributes& atts)
 {
   String name = atts.Get("name");
   String accessStr = atts.Get("access");
@@ -499,7 +639,9 @@ static void begin_Union(const Attributes& atts)
 /**
  * End handler for Union element.
  */
-static void end_Union(void)
+void
+SourceParser
+::end_Union(void)
 {
   PopElement();
 }
@@ -509,7 +651,9 @@ static void end_Union(void)
  * Begin handler for Constructor element.
  * Add a Constructor the the current Class, Struct, or Union.
  */
-static void begin_Constructor(const Attributes& atts)
+void
+SourceParser
+::begin_Constructor(const Attributes& atts)
 {
   String accessStr = atts.Get("access");
   Access access;
@@ -527,7 +671,9 @@ static void begin_Constructor(const Attributes& atts)
 /**
  * End handler for Constructor element.
  */
-static void end_Constructor(void)
+void
+SourceParser
+::end_Constructor(void)
 {
   PopElement();
 }
@@ -537,7 +683,9 @@ static void end_Constructor(void)
  * Begin handler for Destructor element.
  * Add a Destructor the the current Class, Struct, or Union.
  */
-static void begin_Destructor(const Attributes& atts)
+void
+SourceParser
+::begin_Destructor(const Attributes& atts)
 {
   String accessStr = atts.Get("access");
   Access access;
@@ -555,7 +703,9 @@ static void begin_Destructor(const Attributes& atts)
 /**
  * End handler for Destructor element.
  */
-static void end_Destructor(void)
+void
+SourceParser
+::end_Destructor(void)
 {
   PopElement();
 }
@@ -565,7 +715,9 @@ static void end_Destructor(void)
  * Begin handler for Converter element.
  * Add a Converter to the current Class, Struct, or Union.
  */
-static void begin_Converter(const Attributes& atts)
+void
+SourceParser
+::begin_Converter(const Attributes& atts)
 {
   String accessStr = atts.Get("access");
   Access access;
@@ -583,7 +735,9 @@ static void begin_Converter(const Attributes& atts)
 /**
  * End handler for Converter element.
  */
-static void end_Converter(void)
+void
+SourceParser
+::end_Converter(void)
 {
   PopElement();
 }
@@ -593,7 +747,9 @@ static void end_Converter(void)
  * Begin handler for OperatorFunction element.
  * Add an OperatorFunction to the current Namespace.
  */
-static void begin_OperatorFunction(const Attributes& atts)
+void
+SourceParser
+::begin_OperatorFunction(const Attributes& atts)
 {
   String name = atts.Get("name");  
   OperatorFunction::Pointer newOperatorFunction = OperatorFunction::New(name);
@@ -605,7 +761,9 @@ static void begin_OperatorFunction(const Attributes& atts)
 /**
  * End handler for OperatorFunction element.
  */
-static void end_OperatorFunction(void)
+void
+SourceParser
+::end_OperatorFunction(void)
 {
   PopElement();
 }
@@ -615,7 +773,9 @@ static void end_OperatorFunction(void)
  * Begin handler for OperatorMethod element.
  * Add an OperatorMethod to the current Class, Struct, or Union.
  */
-static void begin_OperatorMethod(const Attributes& atts)
+void
+SourceParser
+::begin_OperatorMethod(const Attributes& atts)
 {
   String name = atts.Get("name");  
   String accessStr = atts.Get("access");
@@ -634,7 +794,9 @@ static void begin_OperatorMethod(const Attributes& atts)
 /**
  * End handler for OperatorMethod element.
  */
-static void end_OperatorMethod(void)
+void
+SourceParser
+::end_OperatorMethod(void)
 {
   PopElement();
 }
@@ -644,7 +806,9 @@ static void end_OperatorMethod(void)
  * Begin handler for Method element.
  * Add a Method to the current Class, Struct, or Union.
  */
-static void begin_Method(const Attributes& atts)
+void
+SourceParser
+::begin_Method(const Attributes& atts)
 {
   String name = atts.Get("name");  
   String accessStr = atts.Get("access");
@@ -664,7 +828,9 @@ static void begin_Method(const Attributes& atts)
 /**
  * End handler for Method element.
  */
-static void end_Method(void)
+void
+SourceParser
+::end_Method(void)
 {
   PopElement();
 }
@@ -674,7 +840,9 @@ static void end_Method(void)
  * Begin handler for Function element.
  * Add a Function to the current Namespace.
  */
-static void begin_Function(const Attributes& atts)
+void
+SourceParser
+::begin_Function(const Attributes& atts)
 {
   String name = atts.Get("name");  
   Function::Pointer newFunction = Function::New(name);
@@ -686,7 +854,9 @@ static void begin_Function(const Attributes& atts)
 /**
  * End handler for Function element.
  */
-static void end_Function(void)
+void
+SourceParser
+::end_Function(void)
 {
   PopElement();
 }
@@ -696,7 +866,9 @@ static void end_Function(void)
  * Begin handler for Argument element.
  * Add an argument to the function (or function type) currently being defined.
  */
-static void begin_Argument(const Attributes& atts)
+void
+SourceParser
+::begin_Argument(const Attributes& atts)
 {  
   String name = atts.Get("name");  
   Argument::Pointer newArgument = Argument::New(name);
@@ -719,7 +891,9 @@ static void begin_Argument(const Attributes& atts)
 /**
  * End handler for Argument element.
  */
-static void end_Argument(void)
+void
+SourceParser
+::end_Argument(void)
 {
   PopElement();
 }
@@ -728,7 +902,9 @@ static void end_Argument(void)
 /**
  * Begin handler for Returns element.
  */
-static void begin_Returns(const Attributes& atts)
+void
+SourceParser
+::begin_Returns(const Attributes& atts)
 {
   Returns::Pointer newReturns = Returns::New();
   
@@ -750,7 +926,9 @@ static void begin_Returns(const Attributes& atts)
 /**
  * End handler for Returns element.
  */
-static void end_Returns(void)
+void
+SourceParser
+::end_Returns(void)
 {
   PopElement();
 }
@@ -759,14 +937,18 @@ static void end_Returns(void)
 /**
  * Begin handler for DefaultArgument element.
  */
-static void begin_DefaultArgument(const Attributes& atts)
+void
+SourceParser
+::begin_DefaultArgument(const Attributes& atts)
 {
 }
 
 /**
  * End handler for DefaultArgument element.
  */
-static void end_DefaultArgument(void)
+void
+SourceParser
+::end_DefaultArgument(void)
 {
 }
 
@@ -775,7 +957,9 @@ static void end_DefaultArgument(void)
  * Begin handler for Ellipsis element.
  * Set the ellipsis flag of the current function.
  */
-static void begin_Ellipsis(const Attributes& atts)
+void
+SourceParser
+::begin_Ellipsis(const Attributes& atts)
 {
   TypeOfObject t = CurrentElement()->GetTypeOfObject();
 
@@ -793,7 +977,9 @@ static void begin_Ellipsis(const Attributes& atts)
 /**
  * End handler for Ellipsis element.
  */
-static void end_Ellipsis(void)
+void
+SourceParser
+::end_Ellipsis(void)
 {
 }
 
@@ -801,7 +987,9 @@ static void end_Ellipsis(void)
 /**
  * Begin handler for Variable element.
  */
-static void begin_Variable(const Attributes& atts)
+void
+SourceParser
+::begin_Variable(const Attributes& atts)
 {
   UnimplementedTypeHolder::Pointer newUnimplementedTypeHolder =
     UnimplementedTypeHolder::New();
@@ -814,7 +1002,9 @@ static void begin_Variable(const Attributes& atts)
 /**
  * End handler for Variable element.
  */
-static void end_Variable(void)
+void
+SourceParser
+::end_Variable(void)
 {
   PopElement();
 }
@@ -823,14 +1013,18 @@ static void end_Variable(void)
 /**
  * Begin handler for Initializer element.
  */
-static void begin_Initializer(const Attributes& atts)
+void
+SourceParser
+::begin_Initializer(const Attributes& atts)
 {
 }
 
 /**
  * End handler for Initializer element.
  */
-static void end_Initializer(void)
+void
+SourceParser
+::end_Initializer(void)
 {
 }
 
@@ -838,7 +1032,9 @@ static void end_Initializer(void)
 /**
  * Begin handler for Field element.
  */
-static void begin_Field(const Attributes& atts)
+void
+SourceParser
+::begin_Field(const Attributes& atts)
 {
   UnimplementedTypeHolder::Pointer newUnimplementedTypeHolder =
     UnimplementedTypeHolder::New();
@@ -851,7 +1047,9 @@ static void begin_Field(const Attributes& atts)
 /**
  * End handler for Field element.
  */
-static void end_Field(void)
+void
+SourceParser
+::end_Field(void)
 {
   PopElement();
 }
@@ -860,7 +1058,9 @@ static void end_Field(void)
 /**
  * Begin handler for Enum element.
  */
-static void begin_Enum(const Attributes& atts)
+void
+SourceParser
+::begin_Enum(const Attributes& atts)
 {
   UnimplementedTypeHolder::Pointer newUnimplementedTypeHolder =
     UnimplementedTypeHolder::New();
@@ -873,7 +1073,9 @@ static void begin_Enum(const Attributes& atts)
 /**
  * End handler for Enum element.
  */
-static void end_Enum(void)
+void
+SourceParser
+::end_Enum(void)
 {
   PopElement();
 }
@@ -882,7 +1084,9 @@ static void end_Enum(void)
 /**
  * Begin handler for NamedType element.
  */
-static void begin_NamedType(const Attributes& atts)
+void
+SourceParser
+::begin_NamedType(const Attributes& atts)
 {
   NamedType::Pointer newNamedType = NamedType::New();
 
@@ -893,7 +1097,9 @@ static void begin_NamedType(const Attributes& atts)
 /**
  * End handler for NamedType element.
  */
-static void end_NamedType(void)
+void
+SourceParser
+::end_NamedType(void)
 {
   PopElement();  
 }
@@ -902,7 +1108,9 @@ static void end_NamedType(void)
 /**
  * Begin handler for PointerType element.
  */
-static void begin_PointerType(const Attributes& atts)
+void
+SourceParser
+::begin_PointerType(const Attributes& atts)
 {
   PointerType::Pointer newPointerType = PointerType::New();
   
@@ -913,7 +1121,9 @@ static void begin_PointerType(const Attributes& atts)
 /**
  * End handler for PointerType element.
  */
-static void end_PointerType(void)
+void
+SourceParser
+::end_PointerType(void)
 {
   PopElement();
 }
@@ -922,7 +1132,9 @@ static void end_PointerType(void)
 /**
  * Begin handler for ReferenceType element.
  */
-static void begin_ReferenceType(const Attributes& atts)
+void
+SourceParser
+::begin_ReferenceType(const Attributes& atts)
 {
   ReferenceType::Pointer newReferenceType = ReferenceType::New();
   
@@ -933,7 +1145,9 @@ static void begin_ReferenceType(const Attributes& atts)
 /**
  * End handler for ReferenceType element.
  */
-static void end_ReferenceType(void)
+void
+SourceParser
+::end_ReferenceType(void)
 {
   PopElement();
 }
@@ -942,7 +1156,9 @@ static void end_ReferenceType(void)
 /**
  * Begin handler for FunctionType element.
  */
-static void begin_FunctionType(const Attributes& atts)
+void
+SourceParser
+::begin_FunctionType(const Attributes& atts)
 {
   FunctionType::Pointer newFunctionType = FunctionType::New();
   
@@ -953,7 +1169,9 @@ static void begin_FunctionType(const Attributes& atts)
 /**
  * End handler for FunctionType element.
  */
-static void end_FunctionType(void)
+void
+SourceParser
+::end_FunctionType(void)
 {
   PopElement();
 }
@@ -962,7 +1180,9 @@ static void end_FunctionType(void)
 /**
  * Begin handler for MethodType element.
  */
-static void begin_MethodType(const Attributes& atts)
+void
+SourceParser
+::begin_MethodType(const Attributes& atts)
 {
   MethodType::Pointer newMethodType = MethodType::New();
   
@@ -973,7 +1193,9 @@ static void begin_MethodType(const Attributes& atts)
 /**
  * End handler for MethodType element.
  */
-static void end_MethodType(void)
+void
+SourceParser
+::end_MethodType(void)
 {
   PopElement();
 }
@@ -982,7 +1204,9 @@ static void end_MethodType(void)
 /**
  * Begin handler for OffsetType element.
  */
-static void begin_OffsetType(const Attributes& atts)
+void
+SourceParser
+::begin_OffsetType(const Attributes& atts)
 {
   OffsetType::Pointer newOffsetType = OffsetType::New();
   
@@ -993,7 +1217,9 @@ static void begin_OffsetType(const Attributes& atts)
 /**
  * End handler for OffsetType element.
  */
-static void end_OffsetType(void)
+void
+SourceParser
+::end_OffsetType(void)
 {
   PopElement();
 }
@@ -1002,7 +1228,9 @@ static void end_OffsetType(void)
 /**
  * Begin handler for ArrayType element.
  */
-static void begin_ArrayType(const Attributes& atts)
+void
+SourceParser
+::begin_ArrayType(const Attributes& atts)
 {
   int min = atts.GetAsInteger("min");
   int max = atts.GetAsInteger("max");
@@ -1015,7 +1243,9 @@ static void begin_ArrayType(const Attributes& atts)
 /**
  * End handler for ArrayType element.
  */
-static void end_ArrayType(void)
+void
+SourceParser
+::end_ArrayType(void)
 {
   PopElement();
 }
@@ -1024,7 +1254,9 @@ static void end_ArrayType(void)
 /**
  * Begin handler for QualifiedName element.
  */
-static void begin_QualifiedName(const Attributes& atts)
+void
+SourceParser
+::begin_QualifiedName(const Attributes& atts)
 {
   String name = atts.Get("name");
   QualifiedName::Pointer newQualifiedName = QualifiedName::New(name);
@@ -1035,7 +1267,9 @@ static void begin_QualifiedName(const Attributes& atts)
 /**
  * End handler for QualifiedName element.
  */
-static void end_QualifiedName(void)
+void
+SourceParser
+::end_QualifiedName(void)
 {
 }
 
@@ -1043,7 +1277,9 @@ static void end_QualifiedName(void)
 /**
  * Begin handler for NameQualifier element.
  */
-static void begin_NameQualifier(const Attributes& atts)
+void
+SourceParser
+::begin_NameQualifier(const Attributes& atts)
 {
   String name = atts.Get("name");
   NameQualifier::Pointer newNameQualifier = NameQualifier::New(name);
@@ -1055,7 +1291,9 @@ static void begin_NameQualifier(const Attributes& atts)
 /**
  * End handler for NameQualifier element.
  */
-static void end_NameQualifier(void)
+void
+SourceParser
+::end_NameQualifier(void)
 {
   PopElement();
 }
@@ -1064,7 +1302,9 @@ static void end_NameQualifier(void)
 /**
  * Begin handler for BaseClass element.
  */
-static void begin_BaseClass(const Attributes& atts)
+void
+SourceParser
+::begin_BaseClass(const Attributes& atts)
 {
   String accessStr = atts.Get("access");
   Access access;
@@ -1082,7 +1322,9 @@ static void begin_BaseClass(const Attributes& atts)
 /**
  * End handler for BaseClass element.
  */
-static void end_BaseClass(void)
+void
+SourceParser
+::end_BaseClass(void)
 {
   PopElement();
 }
@@ -1091,7 +1333,9 @@ static void end_BaseClass(void)
 /**
  * Begin handler for BaseType element.
  */
-static void begin_BaseType(const Attributes& atts)
+void
+SourceParser
+::begin_BaseType(const Attributes& atts)
 {
   BaseType::Pointer newBaseType = BaseType::New();
 
@@ -1112,7 +1356,9 @@ static void begin_BaseType(const Attributes& atts)
 /**
  * End handler for BaseType element.
  */
-static void end_BaseType(void)
+void
+SourceParser
+::end_BaseType(void)
 {
   PopElement();
 }
@@ -1121,14 +1367,18 @@ static void end_BaseType(void)
 /**
  * Begin handler for Instantiation element.
  */
-static void begin_Instantiation(const Attributes& atts)
+void
+SourceParser
+::begin_Instantiation(const Attributes& atts)
 {
 }
 
 /**
  * End handler for Instantiation element.
  */
-static void end_Instantiation(void)
+void
+SourceParser
+::end_Instantiation(void)
 {
 }
 
@@ -1136,14 +1386,18 @@ static void end_Instantiation(void)
 /**
  * Begin handler for TemplateArgument element.
  */
-static void begin_TemplateArgument(const Attributes& atts)
+void
+SourceParser
+::begin_TemplateArgument(const Attributes& atts)
 {
 }
 
 /**
  * End handler for TemplateArgument element.
  */
-static void end_TemplateArgument(void)
+void
+SourceParser
+::end_TemplateArgument(void)
 {
 }
 
@@ -1151,14 +1405,18 @@ static void end_TemplateArgument(void)
 /**
  * Begin handler for External element.
  */
-static void begin_External(const Attributes& atts)
+void
+SourceParser
+::begin_External(const Attributes& atts)
 {
 }
 
 /**
  * End handler for External element.
  */
-static void end_External(void)
+void
+SourceParser
+::end_External(void)
 {
 }
 
@@ -1166,14 +1424,18 @@ static void end_External(void)
 /**
  * Begin handler for IncompleteType element.
  */
-static void begin_IncompleteType(const Attributes& atts)
+void
+SourceParser
+::begin_IncompleteType(const Attributes& atts)
 {
 }
 
 /**
  * End handler for IncompleteType element.
  */
-static void end_IncompleteType(void)
+void
+SourceParser
+::end_IncompleteType(void)
 {
 }
 
@@ -1181,7 +1443,9 @@ static void end_IncompleteType(void)
 /**
  * Begin handler for Location element.
  */
-static void begin_Location(const Attributes& atts)
+void
+SourceParser
+::begin_Location(const Attributes& atts)
 {
   String file = atts.Get("file");
   int line = atts.GetAsInteger("line");
@@ -1194,7 +1458,9 @@ static void begin_Location(const Attributes& atts)
 /**
  * End handler for Location element.
  */
-static void end_Location(void)
+void
+SourceParser
+::end_Location(void)
 {
 }
 
@@ -1202,7 +1468,9 @@ static void end_Location(void)
 /**
  * Begin handler for CV_Qualifiers element.
  */
-static void begin_CV_Qualifiers(const Attributes& atts)
+void
+SourceParser
+::begin_CV_Qualifiers(const Attributes& atts)
 {
   CV_Qualifiers::Pointer cv = CV_Qualifiers::New(atts.GetAsInteger("const"),
 						 atts.GetAsInteger("volatile"),
@@ -1213,7 +1481,9 @@ static void begin_CV_Qualifiers(const Attributes& atts)
 /**
  * End handler for CV_Qualifiers element.
  */
-static void end_CV_Qualifiers(void)
+void
+SourceParser
+::end_CV_Qualifiers(void)
 {
 }
 
@@ -1221,180 +1491,130 @@ static void end_CV_Qualifiers(void)
 /**
  * Begin handler for Unimplemented element.
  */
-static void begin_Unimplemented(const Attributes& atts)
+void
+SourceParser
+::begin_Unimplemented(const Attributes& atts)
 {
 }
 
 /**
  * End handler for Unimplemented element.
  */
-static void end_Unimplemented(void)
+void
+SourceParser
+::end_Unimplemented(void)
 {
 }
 
 
 /**
- * Setup the element handler mappings for each xml tag type.
- * Also initialize attribute information.
+ * Map of SourceParser element begin handlers.
  */
-void Initialize(void)
+SourceParser::BeginHandlers SourceParser::beginHandlers;
+
+/**
+ * Map of SourceParser element end handlers.
+ */
+SourceParser::EndHandlers SourceParser::endHandlers;
+
+
+/**
+ * This static method initializes the beginHandlers and endHandlers
+ * maps.  It is called by the SourceParser constructor every time, but
+ * only initializes the maps once.
+ */
+void
+SourceParser
+::InitializeHandlers(void)
 {
-  beginHandlers["GlobalNamespace"]         = begin_GlobalNamespace;
-  beginHandlers["Namespace"]               = begin_Namespace;
-  beginHandlers["NamespaceAlias"]          = begin_NamespaceAlias;
-  beginHandlers["Typedef"]                 = begin_Typedef;
-  beginHandlers["Class"]                   = begin_Class;
-  beginHandlers["Struct"]                  = begin_Struct;
-  beginHandlers["Union"]                   = begin_Union;
-  beginHandlers["Constructor"]             = begin_Constructor;
-  beginHandlers["Destructor"]              = begin_Destructor;
-  beginHandlers["Converter"]               = begin_Converter;
-  beginHandlers["OperatorFunction"]        = begin_OperatorFunction;
-  beginHandlers["OperatorMethod"]          = begin_OperatorMethod;
-  beginHandlers["Method"]                  = begin_Method;
-  beginHandlers["Function"]                = begin_Function;
-  beginHandlers["Argument"]                = begin_Argument;
-  beginHandlers["Returns"]                 = begin_Returns;
-  beginHandlers["DefaultArgument"]         = begin_DefaultArgument;
-  beginHandlers["Ellipsis"]                = begin_Ellipsis;
-  beginHandlers["Variable"]                = begin_Variable;
-  beginHandlers["Initializer"]             = begin_Initializer;
-  beginHandlers["Field"]                   = begin_Field;
-  beginHandlers["Enum"]                    = begin_Enum;
-  beginHandlers["NamedType"]               = begin_NamedType;
-  beginHandlers["PointerType"]             = begin_PointerType;
-  beginHandlers["ReferenceType"]           = begin_ReferenceType;
-  beginHandlers["FunctionType"]            = begin_FunctionType;
-  beginHandlers["MethodType"]              = begin_MethodType;
-  beginHandlers["OffsetType"]              = begin_OffsetType;
-  beginHandlers["ArrayType"]               = begin_ArrayType;
-  beginHandlers["QualifiedName"]           = begin_QualifiedName;
-  beginHandlers["NameQualifier"]           = begin_NameQualifier;
-  beginHandlers["BaseClass"]               = begin_BaseClass;
-  beginHandlers["BaseType"]                = begin_BaseType;
-  beginHandlers["Instantiation"]           = begin_Instantiation;
-  beginHandlers["TemplateArgument"]        = begin_TemplateArgument;
-  beginHandlers["External"]                = begin_External;
-  beginHandlers["IncompleteType"]          = begin_IncompleteType;
-  beginHandlers["Location"]                = begin_Location;
-  beginHandlers["CV_Qualifiers"]           = begin_CV_Qualifiers;
-  beginHandlers["Unimplemented"]           = begin_Unimplemented;
+  // Make sure we only initialize the maps once.
+  static bool initialized = false;
   
-  endHandlers["GlobalNamespace"]         = end_GlobalNamespace;
-  endHandlers["Namespace"]               = end_Namespace;
-  endHandlers["NamespaceAlias"]          = end_NamespaceAlias;
-  endHandlers["Typedef"]                 = end_Typedef;
-  endHandlers["Class"]                   = end_Class;
-  endHandlers["Struct"]                  = end_Struct;
-  endHandlers["Union"]                   = end_Union;
-  endHandlers["Constructor"]             = end_Constructor;
-  endHandlers["Destructor"]              = end_Destructor;
-  endHandlers["Converter"]               = end_Converter;
-  endHandlers["OperatorFunction"]        = end_OperatorFunction;
-  endHandlers["OperatorMethod"]          = end_OperatorMethod;
-  endHandlers["Method"]                  = end_Method;
-  endHandlers["Function"]                = end_Function;
-  endHandlers["Argument"]                = end_Argument;
-  endHandlers["Returns"]                 = end_Returns;
-  endHandlers["DefaultArgument"]         = end_DefaultArgument;
-  endHandlers["Ellipsis"]                = end_Ellipsis;
-  endHandlers["Variable"]                = end_Variable;
-  endHandlers["Initializer"]             = end_Initializer;
-  endHandlers["Field"]                   = end_Field;
-  endHandlers["Enum"]                    = end_Enum;
-  endHandlers["NamedType"]               = end_NamedType;
-  endHandlers["PointerType"]             = end_PointerType;
-  endHandlers["ReferenceType"]           = end_ReferenceType;
-  endHandlers["FunctionType"]            = end_FunctionType;
-  endHandlers["MethodType"]              = end_MethodType;
-  endHandlers["OffsetType"]              = end_OffsetType;
-  endHandlers["ArrayType"]               = end_ArrayType;
-  endHandlers["QualifiedName"]           = end_QualifiedName;
-  endHandlers["NameQualifier"]           = end_NameQualifier;
-  endHandlers["BaseClass"]               = end_BaseClass;
-  endHandlers["BaseType"]                = end_BaseType;
-  endHandlers["Instantiation"]           = end_Instantiation;
-  endHandlers["TemplateArgument"]        = end_TemplateArgument;
-  endHandlers["External"]                = end_External;
-  endHandlers["IncompleteType"]          = end_IncompleteType;
-  endHandlers["Location"]                = end_Location;
-  endHandlers["CV_Qualifiers"]           = end_CV_Qualifiers;
-  endHandlers["Unimplemented"]           = end_Unimplemented;
+  if(initialized) return;
+  
+  beginHandlers["GlobalNamespace"]  = &SourceParser::begin_GlobalNamespace;
+  beginHandlers["Namespace"]        = &SourceParser::begin_Namespace;
+  beginHandlers["NamespaceAlias"]   = &SourceParser::begin_NamespaceAlias;
+  beginHandlers["Typedef"]          = &SourceParser::begin_Typedef;
+  beginHandlers["Class"]            = &SourceParser::begin_Class;
+  beginHandlers["Struct"]           = &SourceParser::begin_Struct;
+  beginHandlers["Union"]            = &SourceParser::begin_Union;
+  beginHandlers["Constructor"]      = &SourceParser::begin_Constructor;
+  beginHandlers["Destructor"]       = &SourceParser::begin_Destructor;
+  beginHandlers["Converter"]        = &SourceParser::begin_Converter;
+  beginHandlers["OperatorFunction"] = &SourceParser::begin_OperatorFunction;
+  beginHandlers["OperatorMethod"]   = &SourceParser::begin_OperatorMethod;
+  beginHandlers["Method"]           = &SourceParser::begin_Method;
+  beginHandlers["Function"]         = &SourceParser::begin_Function;
+  beginHandlers["Argument"]         = &SourceParser::begin_Argument;
+  beginHandlers["Returns"]          = &SourceParser::begin_Returns;
+  beginHandlers["DefaultArgument"]  = &SourceParser::begin_DefaultArgument;
+  beginHandlers["Ellipsis"]         = &SourceParser::begin_Ellipsis;
+  beginHandlers["Variable"]         = &SourceParser::begin_Variable;
+  beginHandlers["Initializer"]      = &SourceParser::begin_Initializer;
+  beginHandlers["Field"]            = &SourceParser::begin_Field;
+  beginHandlers["Enum"]             = &SourceParser::begin_Enum;
+  beginHandlers["NamedType"]        = &SourceParser::begin_NamedType;
+  beginHandlers["PointerType"]      = &SourceParser::begin_PointerType;
+  beginHandlers["ReferenceType"]    = &SourceParser::begin_ReferenceType;
+  beginHandlers["FunctionType"]     = &SourceParser::begin_FunctionType;
+  beginHandlers["MethodType"]       = &SourceParser::begin_MethodType;
+  beginHandlers["OffsetType"]       = &SourceParser::begin_OffsetType;
+  beginHandlers["ArrayType"]        = &SourceParser::begin_ArrayType;
+  beginHandlers["QualifiedName"]    = &SourceParser::begin_QualifiedName;
+  beginHandlers["NameQualifier"]    = &SourceParser::begin_NameQualifier;
+  beginHandlers["BaseClass"]        = &SourceParser::begin_BaseClass;
+  beginHandlers["BaseType"]         = &SourceParser::begin_BaseType;
+  beginHandlers["Instantiation"]    = &SourceParser::begin_Instantiation;
+  beginHandlers["TemplateArgument"] = &SourceParser::begin_TemplateArgument;
+  beginHandlers["External"]         = &SourceParser::begin_External;
+  beginHandlers["IncompleteType"]   = &SourceParser::begin_IncompleteType;
+  beginHandlers["Location"]         = &SourceParser::begin_Location;
+  beginHandlers["CV_Qualifiers"]    = &SourceParser::begin_CV_Qualifiers;
+  beginHandlers["Unimplemented"]    = &SourceParser::begin_Unimplemented;
+  
+  endHandlers["GlobalNamespace"]  = &SourceParser::end_GlobalNamespace;
+  endHandlers["Namespace"]        = &SourceParser::end_Namespace;
+  endHandlers["NamespaceAlias"]   = &SourceParser::end_NamespaceAlias;
+  endHandlers["Typedef"]          = &SourceParser::end_Typedef;
+  endHandlers["Class"]            = &SourceParser::end_Class;
+  endHandlers["Struct"]           = &SourceParser::end_Struct;
+  endHandlers["Union"]            = &SourceParser::end_Union;
+  endHandlers["Constructor"]      = &SourceParser::end_Constructor;
+  endHandlers["Destructor"]       = &SourceParser::end_Destructor;
+  endHandlers["Converter"]        = &SourceParser::end_Converter;
+  endHandlers["OperatorFunction"] = &SourceParser::end_OperatorFunction;
+  endHandlers["OperatorMethod"]   = &SourceParser::end_OperatorMethod;
+  endHandlers["Method"]           = &SourceParser::end_Method;
+  endHandlers["Function"]         = &SourceParser::end_Function;
+  endHandlers["Argument"]         = &SourceParser::end_Argument;
+  endHandlers["Returns"]          = &SourceParser::end_Returns;
+  endHandlers["DefaultArgument"]  = &SourceParser::end_DefaultArgument;
+  endHandlers["Ellipsis"]         = &SourceParser::end_Ellipsis;
+  endHandlers["Variable"]         = &SourceParser::end_Variable;
+  endHandlers["Initializer"]      = &SourceParser::end_Initializer;
+  endHandlers["Field"]            = &SourceParser::end_Field;
+  endHandlers["Enum"]             = &SourceParser::end_Enum;
+  endHandlers["NamedType"]        = &SourceParser::end_NamedType;
+  endHandlers["PointerType"]      = &SourceParser::end_PointerType;
+  endHandlers["ReferenceType"]    = &SourceParser::end_ReferenceType;
+  endHandlers["FunctionType"]     = &SourceParser::end_FunctionType;
+  endHandlers["MethodType"]       = &SourceParser::end_MethodType;
+  endHandlers["OffsetType"]       = &SourceParser::end_OffsetType;
+  endHandlers["ArrayType"]        = &SourceParser::end_ArrayType;
+  endHandlers["QualifiedName"]    = &SourceParser::end_QualifiedName;
+  endHandlers["NameQualifier"]    = &SourceParser::end_NameQualifier;
+  endHandlers["BaseClass"]        = &SourceParser::end_BaseClass;
+  endHandlers["BaseType"]         = &SourceParser::end_BaseType;
+  endHandlers["Instantiation"]    = &SourceParser::end_Instantiation;
+  endHandlers["TemplateArgument"] = &SourceParser::end_TemplateArgument;
+  endHandlers["External"]         = &SourceParser::end_External;
+  endHandlers["IncompleteType"]   = &SourceParser::end_IncompleteType;
+  endHandlers["Location"]         = &SourceParser::end_Location;
+  endHandlers["CV_Qualifiers"]    = &SourceParser::end_CV_Qualifiers;
+  endHandlers["Unimplemented"]    = &SourceParser::end_Unimplemented;
+  
+  initialized = true;
 }
 
-
-
-/**
- * Called when a new element is opened in the XML source.
- * Checks the tag name, and calls the appropriate handler with an
- * Attributes container.
- */
-void StartElement(void *, const char *name, const char **atts)
-{
-  try{
-  if(beginHandlers.count(name) > 0)
-    {
-    Attributes attributes;
-    for(int i=0; atts[i] && atts[i+1] ; i += 2)
-      {
-      attributes.Set(atts[i], atts[i+1]);
-      }
-    beginHandlers[name](attributes);
-    }
-  else
-    {
-    throw UnknownElementTagException(__FILE__, __LINE__, name);
-    }
-  }
-  catch (const ParseException& e)
-    {
-    e.PrintLocation(stderr);
-    e.Print(stderr);
-    exit(1);
-    }
-  catch (const String& e)
-    {
-    fprintf(stderr, "Caught exceptoin in StartElement():\n%s\n", e.c_str());
-    exit(1);
-    }
-  catch (...)
-    {
-    fprintf(stderr, "Caught unknown exception in StartElement().\n");
-    exit(1);
-    }
-}
-
-
-/**
- * Called at the end of an element in the XML source opened when
- * StartElement was called.
- */
-void EndElement(void *, const char *name)
-{
-  try {
-  if(endHandlers.count(name) > 0)
-    {
-    endHandlers[name]();
-    }
-  else
-    {
-    throw UnknownElementTagException(__FILE__, __LINE__, name);
-    }
-  }
-  catch (const ParseException& e)
-    {
-    e.PrintLocation(stderr);
-    e.Print(stderr);
-    exit(1);
-    }
-  catch (const String& e)
-    {
-    fprintf(stderr, "Caught exceptoin in EndElement():\n%s\n", e.c_str());
-    exit(1);
-    }
-  catch (...)
-    {
-    fprintf(stderr, "Caught unknown exception in EndElement().\n");
-    exit(1);
-    }
-}
+} // namespace xml
