@@ -72,6 +72,11 @@ public:
    * ImageIterator::Index. */
   typedef typename TImage::RegionType RegionType;
 
+  /** Type of the Offset taken from the image.  These typedefs are
+   * duplicated from the superclass for gcc support. */
+  typedef typename TImage::OffsetType           OffsetType;
+  typedef typename OffsetType::OffsetValueType  OffsetValueType;
+
   /** Default constructor. Needed since we provide a cast constructor. */
   ReflectiveImageRegionConstIterator() ;
   
@@ -106,8 +111,12 @@ public:
   /** Move an iterator to the beginning of the region. */
   void GoToBegin(void);
 
+  /** Set the beginning offset.  */
+
 private:
   bool m_IsFirstPass[TImage::ImageDimension];
+  OffsetType m_BeginOffset;
+  OffsetType m_EndOffset;
   
 };
 

@@ -25,8 +25,11 @@ namespace itk
 
 template<class TImage>
 ReflectiveImageRegionConstIterator<TImage>
-::ReflectiveImageRegionConstIterator() : ImageConstIteratorWithIndex<TImage>() 
+::ReflectiveImageRegionConstIterator() : ImageConstIteratorWithIndex<TImage>()
 {
+  int i;
+  m_BeginOffset.Fill( 0 );
+  m_EndOffset.Fill( 0 );
   this->GoToBegin();
 }
 
@@ -91,7 +94,7 @@ ReflectiveImageRegionConstIterator<TImage>
         }
       else 
         {
-        m_PositionIndex[ in ] = m_EndIndex[ in ]-1; 
+        m_PositionIndex[ in ] = m_EndIndex[ in ]-m_EndOffset[ in ]-1; 
         m_IsFirstPass[ in ] = false;
         m_Remaining = true;
         break;
@@ -108,7 +111,7 @@ ReflectiveImageRegionConstIterator<TImage>
         }
       else 
         {
-        m_PositionIndex[ in ] = m_BeginIndex[ in ]; 
+        m_PositionIndex[ in ] = m_BeginIndex[ in ]+m_BeginOffset[ in ]; 
         m_IsFirstPass[ in ] = true;
         }
       }
