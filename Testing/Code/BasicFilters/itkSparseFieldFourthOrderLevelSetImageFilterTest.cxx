@@ -94,6 +94,8 @@ protected:
     this->SetMaxRefitIteration(40);
     m_Function->Initialize(radius);    
     this->SetNormalProcessType (0);
+
+    m_Function->Print(std::cout);
   }
   
   virtual bool Halt ()
@@ -129,6 +131,7 @@ int itkSparseFieldFourthOrderLevelSetImageFilterTest(int, char* [] )
   filter->SetInput(im_init);
   std::cout<<"Starting processing.\n";
   filter->Update();
+  filter->Print(std::cout);
   std::cout<<"Passed.\n";
   return 0;
 }
