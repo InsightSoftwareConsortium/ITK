@@ -167,7 +167,7 @@ public:
   /**
    * Check if a point inside the image buffer
    */
-  bool IsInsideBuffer( const PointType& point )
+  bool IsInsideBuffer( const PointType& point ) const
     {
       for( unsigned int j = 0; j < ImageDimension; j++ )
         {
