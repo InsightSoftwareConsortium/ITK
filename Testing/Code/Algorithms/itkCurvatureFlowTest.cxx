@@ -63,7 +63,7 @@ public:
   typedef typename Superclass::TimeStepType     TimeStepType;
 
   virtual PixelType ComputeUpdate( const NeighborhoodType &, void *, 
-    const FloatOffsetType & ) const
+    const FloatOffsetType & ) 
     { return 0; }
 
   virtual TimeStepType ComputeGlobalTimeStep( void * ) const

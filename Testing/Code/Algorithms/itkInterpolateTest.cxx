@@ -184,7 +184,9 @@ itkInterpolateTest(
 
     if( !passed ) flag = 1;
 
-    image->TransformPhysicalPointToIndex( point, index );
+    index[0] = 10;
+    index[1] = 20;
+    index[2] = 40;
     if ( interp->EvaluateAtIndex( index ) != 70 )
       {
       std::cout << "Index: " << index;
