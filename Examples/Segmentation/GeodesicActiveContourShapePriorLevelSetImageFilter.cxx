@@ -71,8 +71,8 @@
 // to produce the edge potential image.
 //
 // The \doxygen{FastMarchingImageFilter} creates an initial level set using two
-// user specified seed positions and initial contour radius. Two seeds are
-// use in this example to facilitate the segmentation of long narrow objects.
+// user specified seed positions and a initial contour radius. Two seeds are
+// used in this example to facilitate the segmentation of long narrow objects.
 // The output of the FastMarchingImageFilter is passed
 // as the input to the GeodesicActiveContourShapePriorLevelSetImageFilter.
 // At then end of the segmentation process, the output level set is passed
@@ -86,15 +86,15 @@
 // shape model defined by a mean signed distance and the first $K$ 
 // prinicpal components modes; while the \doxygen{Euler2DTransform} is used
 // to represent the pose of the shape. In this implementation, the
-// best-fit shape estimation problem is reformulated as minimization problem
+// best-fit shape estimation problem is reformulated as a minimization problem
 // where the \doxygen{ShapePriorMAPCostFunction} is the cost function to
 // to optimized using the \doxygen{OnePlusOneEvolutionaryOptimizer}.
 //
 // It should be noted that, although particular shape model, transform
 // cost function and optimizer are used in this example, the implementation
 // is generic allowing different instances of these components to be
-// plugged in. This flexible allows a user to talior the behavoir of the
-// segmentation to suit the circumstances of a targeted application. 
+// plugged in. This flexibility allows a user to talior the behavoir of the
+// segmentation process to suit the circumstances of the targeted application. 
 //  
 // Let's start the example by including the headers of the new filters 
 // involved in the segmentation. 
@@ -140,10 +140,10 @@
 
 // Software Guide : BeginLatex
 //
-// Given the numerous parameters involved in tuning this segmentation method for
-// a particular application, it is not uncommon for a segmentation process to
-// run for several minutes and still produce a useless result.  To avoid
-// this situation it is quite helpful to track the evolution of the
+// Given the numerous parameters involved in tuning this segmentation method 
+// it is not uncommon for a segmentation process to
+// run for several minutes and still produce an unsatisfactory result. For debugging
+// purposes it is quite helpful to track the evolution of the
 // segmentation as it progresses. The following defines a 
 // custom \doxygen{Command} class
 // for monitoring the RMS change and shape parameters each iteration.
@@ -298,7 +298,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  The following line instantiate a
-  //  GeodesicActiveContourShapePriorLevelSetImageFilter using the \code{New()} method.
+  //  \doxygen{GeodesicActiveContourShapePriorLevelSetImageFilter}
+  //  using the \code{New()} method.
   //
   //  Software Guide : EndLatex 
 
@@ -313,8 +314,10 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  // The ChangeInformationImageFilter is the first filter in the preprocessing
-  // stage and is use to force the image origin to the center of the image.
+  // The \doxygen{ChangeInformationImageFilter} is the first filter in the preprocessing
+  // stage and is used to force the image origin to the center of the image.
+  //
+  //  \index{itk::ChangeInformationImageFilter!CenterImageOn()}
   //
   //  Software Guide : EndLatex 
 
@@ -337,7 +340,6 @@ int main( int argc, char *argv[] )
   typedef   itk::BoundedReciprocalImageFilter<                               
                                InternalImageType, 
                                InternalImageType >  ReciprocalFilterType;
-
 
   ReciprocalFilterType::Pointer reciprocal = ReciprocalFilterType::New();
   // Software Guide : EndCodeSnippet
@@ -395,7 +397,7 @@ int main( int argc, char *argv[] )
   //  information within the sparse field layers of the current contour is used
   //  in the estimation. The default number of sparse field layers is same as
   //  the ImageDimension which does not contain enough information to get 
-  //  a reliable best-fit shape estimation. Thus, we override the default and
+  //  a reliable best-fit shape estimate. Thus, we override the default and
   //  set the number of layers to 4.
   //
   //  Software Guide : EndLatex 
@@ -586,9 +588,14 @@ int main( int argc, char *argv[] )
   //  \end{equation}
   //
   //  where $\mu(\mathbf{x})$ is the mean signed distance computed from training
-  //  set of segmented objects and $u_k(\mathbf{x})$ are the first $K$ principal components of the
-  //  offset (signed distance - mean). The coefficient $\{\alpha_k\}$ form the
+  //  set of segmented objects and $u_k(\mathbf{x})$ are the first $K$ principal 
+  //  components of the offset (signed distance - mean). 
+  //  The coefficient $\{\alpha_k\}$ form the
   //  set of \emph{shape} parameters. 
+  //
+  //  Given a set of training data, the \doxygen{ImagePCAShapeModelEstimator} 
+  //  can be used to obtained
+  //  the mean and principal mode shape images required by PCAShapeSignedDistanceFunction.
   //
   //  \index{itk::PCAShapeSignedDistanceFunction!New()}
   //  \index{itk::PCAShapeSignedDistanceFunction!SetNumberOfPrincipalComponents()}
@@ -650,8 +657,8 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginLatex
   //
-  // Further we assume that the shape mode have been normalized 
-  // by multiplying with the corresponding singular value. Hence
+  // Further we assume that the shape modes have been normalized 
+  // by multiplying with the corresponding singular value. Hence,
   // will can set the principal component standard deviations to all
   // ones.
   //
@@ -668,7 +675,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginLatex
   //
-  // Next we instantiated a Euler2DTransform and connect it to the
+  // Next we instantiated a \doxygen{Euler2DTransform} and connect it to the
   // PCASignedDistanceFunction. The transform represent 
   // the pose of the shape. The parameters of the transform
   // forms the set of \emph{pose} parameters.
@@ -689,9 +696,9 @@ int main( int argc, char *argv[] )
   //
   // Before updating the level set at each iteration, the parameters
   // of the current best-fit shape is estimated by minimizing the
-  // ShapePriorMAPCostFunction. The cost function is composed of
+  // \doxygen{ShapePriorMAPCostFunction}. The cost function is composed of
   // four terms: contour fit, image fit, shape prior and pose prior.
-  // The user can specify the weights applied to the term. 
+  // The user can specify the weights applied to each term. 
   //
   //  \index{itk::ShapePriorMAPCostFunction!SetWeights()}
   //
@@ -737,9 +744,9 @@ int main( int argc, char *argv[] )
   // The pose parameters are assumed to have an uniform distribution
   // and hence does not contribute to the cost function. 
   // The shape parameters are assumed to have a Gaussian distribution. 
-  // The parameter of the distribution is defined by the user. Since we
+  // The parameters of the distribution are user-specified. Since we
   // assumed the the principal modes have already been normalized, 
-  // the distribution has zero mean and unit-variance.
+  // we set the distribution to zero mean and unit variance.
   //
   //  \index{itk::ShapePriorMAPCostFunction!SetShapeParameterMeans()}
   //  \index{itk::ShapePriorMAPCostFunction!SetShapeParameterStandardDeviations()}
@@ -759,7 +766,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginLatex
   //
-  // In this example, we will use the OnePlusOneEvolutionaryOptimizer
+  // In this example, we will use the \doxygen{OnePlusOneEvolutionaryOptimizer}
   // to optimize the cost function.
   //
   // Software Guide : EndLatex
@@ -773,7 +780,7 @@ int main( int argc, char *argv[] )
   //
   // The evolutionary optimization algorithm is based on testing
   // random permutations of the parameters. As such, we need to provide
-  // the optimizer a random number generator. In the following lines,
+  // the optimizer with a random number generator. In the following lines,
   // we create a \doxygen{NormalVariateGenerator}, seed it and
   // connect it to the optimizer.
   //
@@ -799,7 +806,7 @@ int main( int argc, char *argv[] )
   // by the 2D rotation parameter (in radians) and the x- and
   // y- translation parameters (in mm).  We need to carefully
   // scale the different types of parameters to compensate
-  // for the different dynamic ranges of the parameters.
+  // for the differences in the dynamic ranges of the parameters.
   //
   //  \index{itk::OnePlusOneEvolutionaryOptimizer!SetScales()}
   //
@@ -821,7 +828,7 @@ int main( int argc, char *argv[] )
   // Next, we specify the initial radius, the shrink and
   // grow mutation factors and termination criteria of the optimizer. 
   // Since the best-fit shape is re-estimated each iteration of 
-  // the curve evolution, we do not need to spend time to find the true
+  // the curve evolution, we do not need to spend too much time finding the true
   // minimizing solution each time; we only need to head towards it. As such,
   // we only require a small number of optimizer iterations.
   //
@@ -844,8 +851,8 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginLatex
   //
-  // Before starting the algorithm we need to also supply the initial
-  // best-fit shape estimate. In this example, we start with an un-rotated mean shape
+  // Before starting the segmentation process we need to also supply the initial
+  // best-fit shape estimate. In this example, we start with the unrotated mean shape
   // with the initial x- and y- translation specified through command-line
   // arguments.
   //
@@ -956,10 +963,10 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   // Deviating from previous examples, we will demostrate this example using 
-  // the \code{BrainMidSagittalSlice.png} image 
+  // \code{BrainMidSagittalSlice.png} 
   // (left of Figure~\ref{fig:GeodesicActiveContourShapePriorImageFilterOutput})
   // from the \code{Examples/Data} directory.
-  // The aim is to segment the corpus callosum from the image using a shape model
+  // The aim here is to segment the corpus callosum from the image using a shape model
   // defined by \code{CorpusCallosumMeanShape.mha} and the first three prinicpal
   // components \code{CorpusCallosumMode0.mha}, \code{CorpusCallosumMode1.mha} and 
   // \code{CorpusCallosumMode1.mha}. Segmentation results with and without shape
@@ -981,23 +988,45 @@ int main( int argc, char *argv[] )
   // \begin{figure} \center
   // \includegraphics[width=0.30\textwidth]{BrainMidSagittalSlice.eps}
   // \includegraphics[width=0.30\textwidth]{GeodesicActiveContourShapePriorImageFilterOutput5.eps}
-  // \itkcaption[GeodesicActiveContourImageFilter segmentations]{Images generated by the
-  // segmentation process based on the GeodesicActiveContourImageFilter. From left to
-  // right: segmentation of the left ventricle, segmentation of the right
-  // ventricle, segmentation of the white matter, attempt of segmentation of
-  // the gray matter.}
+  // \itkcaption[GeodesicActiveContourShapePriorImageFilter input image and initial model]{ 
+  // The input image to the GeodesicActivContourShapePriorLevelSetImageFilter is a 
+  // synthesized MR-T1 mid-sagittal 
+  // slice of the brain (left) and the initial best-fit shape
+  // (right) choosen to roughly overlap the corpus callosum in the image to be segmented.}
+  //
   // \label{fig:GeodesicActiveContourShapePriorImageFilterOutput}
   // \end{figure}
+  //
+  // From Figure~\ref{fig:GeodesicActiveContourShapePriorImageFilterOutput2} it can be
+  // observed that without
+  // shape guidance (left), segmentation using geodesic active contour leaks in the 
+  // regions where the corpus callosum blends into the surrounding brain tissues. With
+  // shape guidance (center), the segmentation is constrained by the global shape model
+  // to prevent leaking.
+  //
+  // The final best-fit shape parameters after the segmentation process is:
+  //
+  // \begin{verbatim}
+  // Parameters: [-0.459218, -0.87562, 0.428443, 0.276688, 16.5634, 4.82481]
+  // \end{verbatim}
+  //
+  // and is shown on the right of
+  // Figure~\ref{fig:GeodesicActiveContourShapePriorImageFilterOutput2}. Note that a 
+  // $0.276688 radian (15.8 degree)$ rotation has been introduced to match the model to the
+  // the corpus callosum in the image. It can also be observed that the final segmentation is
+  // combination of the best-fit shape with additional local deformation. The combination
+  // of both global and local shape allows the segmentation to capture fine details not represented
+  // in the shape model. 
+  // 
   //
   // \begin{figure} \center
   // \includegraphics[width=0.30\textwidth]{GeodesicActiveContourShapePriorImageFilterOutput1.eps}
   // \includegraphics[width=0.30\textwidth]{GeodesicActiveContourShapePriorImageFilterOutput2.eps}
   // \includegraphics[width=0.30\textwidth]{GeodesicActiveContourShapePriorImageFilterOutput6.eps}
-  // \itkcaption[GeodesicActiveContourImageFilter segmentations]{Images generated by the
-  // segmentation process based on the GeodesicActiveContourImageFilter. From left to
-  // right: segmentation of the left ventricle, segmentation of the right
-  // ventricle, segmentation of the white matter, attempt of segmentation of
-  // the gray matter.}
+  // \itkcaption[GeodesicActiveContourShapePriorImageFilter segmentations]{Corpus callosum 
+  // segmentation using geodesic active contours without (left) and with (center) shape guidance.
+  // The image on the right represents the best-fit shape at the end of the segmentation process.}
+  //
   // \label{fig:GeodesicActiveContourShapePriorImageFilterOutput2}
   // \end{figure}
  
