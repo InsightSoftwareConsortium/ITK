@@ -129,6 +129,7 @@ ADD_TEST(itkVoronoiDiagram2DTest ${ALGORITHMS_TESTS2} itkVoronoiDiagram2DTest)
 ADD_TEST(itkVoronoiSegmentationImageFilterTest ${ALGORITHMS_TESTS2} itkVoronoiSegmentationImageFilterTest)
 ADD_TEST(itkWatershedImageFilterTest ${ALGORITHMS_TESTS2} itkWatershedImageFilterTest)
 ADD_TEST(itkPointSetToPointSetRegistrationTest ${ALGORITHMS_TESTS2}  itkPointSetToPointSetRegistrationTest)
+ADD_TEST(itkPointSetToSpatialObjectDemonsRegistrationTest ${ALGORITHMS_TESTS2}  itkPointSetToSpatialObjectDemonsRegistrationTest)
 
 
 SET(TEMP ${ITKTesting_BINARY_DIR}/Temporary)
@@ -240,6 +241,7 @@ itkKullbackLeiblerCompareHistogramImageToImageMetricTest.cxx
 itkMIRegistrationFunctionTest.cxx
 itkOtsuMultipleThresholdsCalculatorTest.cxx
 itkPointSetToPointSetRegistrationTest.cxx
+itkPointSetToSpatialObjectDemonsRegistrationTest.cxx
 itkRegularSphereMeshSourceTest.cxx
 itkSymmetricForcesDemonsRegistrationFilterTest.cxx
 itkSTAPLEImageFilterTest.cxx
