@@ -28,6 +28,12 @@ template <class TCostFunction>
 RegularStepGradientDescentOptimizer<TCostFunction>
 ::RegularStepGradientDescentOptimizer()
 {
+  for(unsigned int i=0; i<SpaceDimension; i++)
+  {
+    m_Gradient[i] = 0;
+    m_PreviousGradient[i] = 0;
+  }
+  
 }
 
 
@@ -66,8 +72,6 @@ RegularStepGradientDescentOptimizer<TCostFunction>
 
   while( !m_Stop ) 
   {
-    std::cout << "Current Position = ";
-    std::cout << GetCurrentPosition() << std::endl;
 
     m_Value = m_CostFunction->GetValue( GetCurrentPosition() );
 
@@ -76,7 +80,7 @@ RegularStepGradientDescentOptimizer<TCostFunction>
       break;
     }
 
-    m_PreviousRegularStepGradient = m_Gradient;
+    m_PreviousGradient = m_Gradient;
   
     typename CostFunctionType::DerivativeType derivative =
             m_CostFunction->GetDerivative( GetCurrentPosition() );
@@ -153,7 +157,7 @@ RegularStepGradientDescentOptimizer<TCostFunction>
   for(unsigned int i=0; i<SpaceDimension; i++)
   {
     const double weight1 = m_Gradient[i]         * m_Scale[i]; 
-    const double weight2 = m_PreviousRegularStepGradient[i] * m_Scale[i]; 
+    const double weight2 = m_PreviousGradient[i] * m_Scale[i]; 
     scalarProduct += weight1 * weight2;
   }
    

@@ -175,7 +175,7 @@ protected:
 private:
 
   ParametersType                m_Gradient; 
-  ParametersType                m_PreviousRegularStepGradient; 
+  ParametersType                m_PreviousGradient; 
   ParametersType                m_Scale;
 
   bool                          m_Stop;
