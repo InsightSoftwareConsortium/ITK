@@ -48,6 +48,7 @@ int itkIsotropicFourthOrderLevelSetImageFilterTest(int, char* [] )
   filter->SetMaxFilterIteration (250);
     
   filter->SetInput(im_init);
+  std::cout<<"max iteration = "<<(filter->GetMaxFilterIteration())<<"\n";
   std::cout<<"Starting processing.\n";
   filter->Update();
   std::cout<<"Passed.\n";

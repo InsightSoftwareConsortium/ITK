@@ -49,6 +49,7 @@ int itkAnisotropicFourthOrderLevelSetImageFilterTest(int, char* [] )
   filter->SetNormalProcessConductance(0.5);
                                       
   filter->SetInput(im_init);
+  std::cout<<"max iteration = "<<(filter->GetMaxFilterIteration())<<"\n";
   std::cout<<"Starting processing.\n";
   filter->Update();
   std::cout<<"Passed.\n";
