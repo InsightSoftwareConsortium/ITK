@@ -392,6 +392,18 @@ int main( int argc, char **argv )
   // Software Guide : EndCodeSnippet
 
 
+  //  Software Guide : BeginLatex
+  //  
+  // \begin{figure}
+  // \center
+  // \includegraphics[width=14cm]{ImageRegistration3Observer.eps}
+  // \caption{Interaction between the Command/Observer and the Registration Method.}
+  // \label{fig:ImageRegistration3Observer}
+  // \end{figure}
+  //
+  //
+  //  Software Guide : EndLatex 
+
 
 
   //  Software Guide : BeginLatex
@@ -401,7 +413,9 @@ int main( int argc, char **argv )
   //  provided as the first argument to this method. In order for the RTTI
   //  mechanism to work correctly a newly created event of the desired type can
   //  be passes as first argument. The second argument being simply the smart
-  //  pointer to the optimizer.
+  //  pointer to the optimizer. Figure \ref{fig:ImageRegistration3Observer}
+  //  illustrates the interaction between the Command/Observer class and the
+  //  registration method.
   //
   //  Software Guide : EndLatex 
 
