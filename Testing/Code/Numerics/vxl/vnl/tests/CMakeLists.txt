@@ -32,7 +32,7 @@ test_matrix_fixed.cxx
 )
 
 ADD_EXECUTABLE(vnlTests vnlTests.cxx ${vnl_test_SRCS})
-TARGET_LINK_LIBRARIES(vnlTests VXLNumerics ITKCommon)
+TARGET_LINK_LIBRARIES(vnlTests VXLNumerics ITKIO ITKCommon)
 
 ADD_TEST(test_fft1d ${VNL_TESTS} test_fft1d )
 ADD_TEST(test_fft2d ${VNL_TESTS} test_fft2d )
@@ -59,7 +59,7 @@ ADD_TEST(test_generalized_eigensystem ${VNL_TESTS}   test_generalized_eigensyste
 ADD_TEST(test_matrix_exp ${VNL_TESTS} test_matrix_exp )
 
 ADD_EXECUTABLE(vnlTests2 vnlTests2.cxx ${vnl_test2_SRCS})
-TARGET_LINK_LIBRARIES(vnlTests2 VXLNumerics ITKCommon)
+TARGET_LINK_LIBRARIES(vnlTests2 VXLNumerics ITKIO ITKCommon)
 
 ADD_TEST(test_matrix_fixed ${VNL_TESTS2} test_matrix_fixed )
 

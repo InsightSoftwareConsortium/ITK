@@ -27,7 +27,7 @@ int itkBilateralImageFilterTest2(int ac, char* av[] )
 {
   if(ac < 3)
     {
-    std::cerr << "Usage: " << av[0] << " InputImage BaselineImage\n";
+    std::cerr << "Usage: " << av[0] << " InputImage OutputImage\n";
     return -1;
     }
 
@@ -39,10 +39,6 @@ int itkBilateralImageFilterTest2(int ac, char* av[] )
   itk::ImageFileReader<myImage>::Pointer input 
     = itk::ImageFileReader<myImage>::New();
   input->SetFileName(av[1]);
-//     itk::PNGImageIO::Pointer io1;
-//       io1 = itk::PNGImageIO::New();
-//  input->SetImageIO(io1);
-    
   
   // Create a filter
   typedef itk::BilateralImageFilter<myImage,myImage> FilterType;
@@ -52,7 +48,7 @@ int itkBilateralImageFilterTest2(int ac, char* av[] )
 
     // these settings reduce the amount of noise by a factor of 10
     // when the original signal to noise level is 5
-    filter->SetDomainSigma( 4.0 );
+    filter->SetDomainSigma( 3.0 );
     filter->SetRangeSigma( 50.0 );
     
   try
@@ -71,58 +67,12 @@ int itkBilateralImageFilterTest2(int ac, char* av[] )
     return -2;
     }
 
-  // Code used to generate the baseline image, commented out when run in
-  // regression test mode.
-  // 
-  // itk::PNGImageIO::Pointer io;
-  // io = itk::PNGImageIO::New();
-  //
-  // itk::ImageFileWriter<myImage>::Pointer writer;
-  // writer = itk::ImageFileWriter<myImage>::New();
-  // writer->SetInput( filter->GetOutput() );
-  // writer->SetFileName( av[2] );
-  // writer->SetImageIO( io );
-  // writer->Update();
+  // Generate test image
+  itk::ImageFileWriter<myImage>::Pointer writer;
+    writer = itk::ImageFileWriter<myImage>::New();
+    writer->SetInput( filter->GetOutput() );
+    writer->SetFileName( av[2] );
+    writer->Update();
 
-  // now read the regression image
-  itk::ImageFileReader<myImage>::Pointer baseline 
-    = itk::ImageFileReader<myImage>::New();
-    baseline->SetFileName(av[2]);
-//     itk::PNGImageIO::Pointer io2;
-//       io2 = itk::PNGImageIO::New();
-//     baseline->SetImageIO(io2);
-    
-  try
-    {
-    baseline->Update();
-    }
-  catch (itk::ImageFileReaderException& e)
-    {
-    std::cerr << "Exception in file reader: "  << e.GetDescription() << std::endl;
-    return -3;
-    }
-  catch (...)
-    {
-    std::cerr << "Some other exception occurred" << std::endl;
-    return -4;
-    }
-
-  
-  // compare the two images
-  itk::ImageRegionIterator<myImage> it(filter->GetOutput(),filter->GetOutput()->GetBufferedRegion());
-  itk::ImageRegionIterator<myImage> rit(baseline->GetOutput(),baseline->GetOutput()->GetBufferedRegion());
-   unsigned long status = 0;
-   while (!it.IsAtEnd())
-     {
-     if (it.Get() != rit.Get())
-       {
-       status++;
-       } 
-     ++it;
-     ++rit;  
-     }
-
-  itk::ObjectFactoryBase::UnRegisterAllFactories();
-
-  return status;
+  return 0;
 }

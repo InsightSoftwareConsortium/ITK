@@ -32,5 +32,5 @@ SET(SpatialObject_SRCS
 ADD_EXECUTABLE(itkSpatialObjectTests itkSpatialObjectTests.cxx ${SpatialObject_SRCS})
 ADD_EXECUTABLE(itkSpatialObjectHeaderTest itkSpatialObjectHeaderTest.cxx)
 TARGET_LINK_LIBRARIES(itkSpatialObjectHeaderTest ITKCommon)
-TARGET_LINK_LIBRARIES(itkSpatialObjectTests ITKCommon)
+TARGET_LINK_LIBRARIES(itkSpatialObjectTests ITKIO ITKCommon)
 

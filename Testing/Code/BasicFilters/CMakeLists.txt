@@ -16,8 +16,6 @@ ADD_TEST(itkAdaptImageFilterTest ${BASIC_FILTERS_TESTS} itkAdaptImageFilterTest)
 ADD_TEST(itkAdaptImageFilterTest2 ${BASIC_FILTERS_TESTS} itkAdaptImageFilterTest2)
 ADD_TEST(itkBasicArchitectureTest ${BASIC_FILTERS_TESTS} itkBasicArchitectureTest)
 ADD_TEST(itkBilateralImageFilterTest ${BASIC_FILTERS_TESTS} itkBilateralImageFilterTest)
-ADD_TEST(itkBilateralImageFilterTest2 ${BASIC_FILTERS_TESTS} itkBilateralImageFilterTest2 ${ITK_DATA_ROOT}/Input/cake_easy.png ${ITK_DATA_ROOT}/Baseline/BasicFilters/BilateralImageFilterTest2.png)
-ADD_TEST(itkBilateralImageFilterTest3 ${BASIC_FILTERS_TESTS} itkBilateralImageFilterTest3 ${ITK_DATA_ROOT}/Input/cake_easy.png ${ITK_DATA_ROOT}/Baseline/BasicFilters/BilateralImageFilterTest3.png)
 ADD_TEST(itkBinaryDilateImageFilterTest ${BASIC_FILTERS_TESTS} itkBinaryDilateImageFilterTest)
 ADD_TEST(itkBinaryMagnitudeImageFilterTest ${BASIC_FILTERS_TESTS} itkBinaryMagnitudeImageFilterTest)
 ADD_TEST(itkBinaryMedianImageFilterTest ${BASIC_FILTERS_TESTS} itkBinaryMedianImageFilterTest)
@@ -127,6 +125,21 @@ ADD_TEST(itkTobogganImageFilterTest ${BASIC_FILTERS_TESTS} itkTobogganImageFilte
 ADD_TEST(itkObjectMorphologyImageFilterTest ${BASIC_FILTERS_TESTS} itkObjectMorphologyImageFilterTest)
 ADD_TEST(itkVectorGradientMagnitudeImageFilterTest1 ${BASIC_FILTERS_TESTS} itkVectorGradientMagnitudeImageFilterTest1 ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkVectorGradientMagnitudeImageFilterTest1.mha)
 ADD_TEST(itkVectorGradientMagnitudeImageFilterTest2 ${BASIC_FILTERS_TESTS} itkVectorGradientMagnitudeImageFilterTest2 ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkVectorGradientMagnitudeImageFilterTest2.mha)
+
+
+IF(ITK_DATA_ROOT)
+ADD_TEST(itkBilateralImageFilterTest2 ${BASIC_FILTERS_TESTS}
+  --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/BilateralImageFilterTest2.png
+            ${ITK_BINARY_DIR}/Testing/Temporary/BilateralImageFilterTest2.png
+  itkBilateralImageFilterTest2 ${ITK_DATA_ROOT}/Input/cake_easy.png
+    ${ITK_BINARY_DIR}/Testing/Temporary/BilateralImageFilterTest2.png)
+
+ADD_TEST(itkBilateralImageFilterTest3 ${BASIC_FILTERS_TESTS}
+  --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/BilateralImageFilterTest3.png
+            ${ITK_BINARY_DIR}/Testing/Temporary/BilateralImageFilterTest3.png
+  itkBilateralImageFilterTest3 ${ITK_DATA_ROOT}/Input/cake_easy.png
+    ${ITK_BINARY_DIR}/Testing/Temporary/BilateralImageFilterTest3.png)
+ENDIF(ITK_DATA_ROOT)
 
 SET(BasicFilters_SRCS
 itkChangeInformationImageFilterTest.cxx
