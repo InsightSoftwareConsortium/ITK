@@ -348,4 +348,31 @@ void LinearSystemWrapper::FollowConnectionsCuthillMckeeOrdering(unsigned int row
 }
 
 
+FEMExceptionLinearSystem::FEMExceptionLinearSystem(const char *file, unsigned int lineNumber, std::string location, std::string moreDescription) :
+  FEMException(file,lineNumber)
+{
+  SetDescription("Error in linear system: "+moreDescription);
+  SetLocation(location);
+}
+
+
+FEMExceptionLinearSystemBounds::FEMExceptionLinearSystemBounds(const char *file, unsigned int lineNumber, std::string location, std::string moreDescription, unsigned int index1) :
+  FEMException(file,lineNumber)
+{
+  std::ostrstream buf;
+  buf.clear();
+  buf << "Index of " << moreDescription << " out of bounds (" << index1 << ")" << '\0';
+  SetDescription(buf.str());
+}
+
+
+FEMExceptionLinearSystemBounds::FEMExceptionLinearSystemBounds(const char *file, unsigned int lineNumber, std::string location, std::string moreDescription, unsigned int index1, unsigned int index2) :
+  FEMException(file,lineNumber)
+{
+  std::ostrstream buf;
+  buf.clear();
+  buf << "Index out of bounds (" << index1 << "," << index2 << ")" << '\0';
+  SetDescription(buf.str());
+}
+
 }}

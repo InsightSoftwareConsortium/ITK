@@ -498,6 +498,26 @@ private:
 
 };
 
+class FEMExceptionItpackSolver : public FEMException
+{
+public:
+  /**
+   * Constructor. In order to construct this exception object, four parameters
+   * must be provided: file, lineNumber, location and a detailed description
+   * of the exception.
+   */
+  FEMExceptionItpackSolver(const char *file, unsigned int lineNumber, std::string location, itpack::integer errorCode);
+ 
+  /** Virtual destructor needed for subclasses. Has to have empty throw(). */
+  virtual ~FEMExceptionItpackSolver() throw() {}
+  
+  /** Type related information. */
+  itkTypeMacro(FEMExceptionItpackSolver,FEMException);
+  
+};
+
+
+
 }} // end namespace itk::fem
 
 #endif // #ifndef __itkFEMLinearSystemWrapperItpack_h

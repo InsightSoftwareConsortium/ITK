@@ -19,12 +19,15 @@
 #define __itkFEMLinearSystemWrapper_h 
 
 #include "itkFEMSolution.h"
+#include "itkMacro.h"
+#include "itkFEMException.h"
+
 #include <vector>
+#include <typeinfo>
+#include <string>
 
 namespace itk {
 namespace fem {
-
-
 
 
 /**
@@ -50,10 +53,13 @@ class LinearSystemWrapper : public Solution
 public:
   /** Standard "Self" typedef.*/
   typedef LinearSystemWrapper Self;
+
   /** Standard "Superclass" typedef. */
   typedef Solution Superclass;
+
   /**  Pointer to an object. */
   typedef Self* Pointer;
+
   /**  Const pointer to an object. */
   typedef const Self* ConstPointer;
 
@@ -449,6 +455,50 @@ private:
   /** Asignment operator is not allowed. */
   const LinearSystemWrapper& operator= (const LinearSystemWrapper&);
 
+};
+
+
+
+class FEMExceptionLinearSystem : public FEMException
+{
+public:
+  /**
+   * Constructor. In order to construct this exception object, four parameters
+   * must be provided: file, lineNumber, location and a detailed description
+   * of the exception.
+   */
+  FEMExceptionLinearSystem(const char *file, unsigned int lineNumber, std::string location, std::string moreDescription);
+ 
+  /** Virtual destructor needed for subclasses. Has to have empty throw(). */
+  virtual ~FEMExceptionLinearSystem() throw() {}
+  
+  /** Type related information. */
+  itkTypeMacro(FEMExceptionLinearSystem,FEMException);
+  
+};
+
+class FEMExceptionLinearSystemBounds : public FEMException
+{
+public:
+  /**
+   * Constructor. In order to construct this exception object, five parameters
+   * must be provided: file, lineNumber, location and a detailed description
+   * of the exception, and the invalid index
+   */
+  FEMExceptionLinearSystemBounds(const char *file, unsigned int lineNumber, std::string location, std::string moreDescription, unsigned int index1);
+ 
+  /**
+   * Constructor. In order to construct this exception object, six parameters
+   * must be provided: file, lineNumber, location and a detailed description
+   * of the exception, the first index, and the second index   */
+  FEMExceptionLinearSystemBounds(const char *file, unsigned int lineNumber, std::string location, std::string moreDescription, unsigned int index1, unsigned int index2);
+
+  /** Virtual destructor needed for subclasses. Has to have empty throw(). */
+  virtual ~FEMExceptionLinearSystemBounds() throw() {}
+  
+  /** Type related information. */
+  itkTypeMacro(FEMExceptionLinearSystem,FEMException);
+  
 };
 
 }} // end namespace itk::fem

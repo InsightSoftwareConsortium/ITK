@@ -20,6 +20,7 @@
 
 #include "itpack_f2c.h"
 #include "itpack.h"
+#include "itkFEMException.h"
 #include <vector>
 
 
@@ -242,7 +243,44 @@ private:
    *       = 701 - Improper value for i or j
    *       = 701 - m_NZ is too small - no room for new entry
    */
-  integer m_IER;
+  //integer m_IER;
+};
+
+
+class FEMExceptionItpackSparseMatrixSbagn : public FEMException
+{
+public:
+  /**
+   * Constructor. In order to construct this exception object, five parameters
+   * must be provided: file, lineNumber, location and a detailed description
+   * of the exception, and the invalid index
+   */
+  FEMExceptionItpackSparseMatrixSbagn(const char *file, unsigned int lineNumber, std::string location, itpack::integer errorCode);
+ 
+  /** Virtual destructor needed for subclasses. Has to have empty throw(). */
+  virtual ~FEMExceptionItpackSparseMatrixSbagn() throw() {}
+  
+  /** Type related information. */
+  itkTypeMacro(FEMExceptionItpackSparseMatrixSbagn,FEMException);
+  
+};
+
+class FEMExceptionItpackSparseMatrixSbsij : public FEMException
+{
+public:
+  /**
+   * Constructor. In order to construct this exception object, five parameters
+   * must be provided: file, lineNumber, location and a detailed description
+   * of the exception, and the invalid index
+   */
+  FEMExceptionItpackSparseMatrixSbsij(const char *file, unsigned int lineNumber, std::string location, itpack::integer errorCode);
+ 
+  /** Virtual destructor needed for subclasses. Has to have empty throw(). */
+  virtual ~FEMExceptionItpackSparseMatrixSbsij() throw() {}
+  
+  /** Type related information. */
+  itkTypeMacro(FEMExceptionItpackSparseMatrixSbsij,FEMException);
+  
 };
 
 }} // end namespace itk::fem

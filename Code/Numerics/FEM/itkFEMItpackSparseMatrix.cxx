@@ -33,7 +33,7 @@ ItpackSparseMatrix::ItpackSparseMatrix()
   m_MatrixInitialized = 0;
   m_NZ = 0;
   m_N = 0;
-  m_IER = 0;     /* initialize */
+  /* m_IER = 0; */     /* initialize */
   m_MODE = 1;    /* add to existing entries when building matrix */
   m_LEVEL = -1;  /* no error messages */
   m_NOUT = 0;    /* output unit number */
@@ -50,7 +50,7 @@ ItpackSparseMatrix::ItpackSparseMatrix(integer order)
   m_MatrixInitialized = 0;
   m_NZ = 0;
   m_N = order;
-  m_IER = 0;     /* initialize */
+  /* m_IER = 0; */     /* initialize */
   m_MODE = 1;    /* add to existing entries when building matrix */
   m_LEVEL = -1;  /* no error messages */
   m_NOUT = 0;    /* output unit number */
@@ -68,7 +68,7 @@ ItpackSparseMatrix::ItpackSparseMatrix(integer order, integer maxNonZeroValues)
    m_MatrixInitialized = 0;
    m_N = order;
    m_NZ = maxNonZeroValues;
-   m_IER = 0;      /* initialize */
+   /* m_IER = 0; */      /* initialize */
    m_MODE = 1;     /* add to existing entries when building matrix */
    m_LEVEL = -1;   /* no error messages */
    m_NOUT = 0;     /* output unit number */
@@ -166,7 +166,7 @@ void ItpackSparseMatrix::Clear()
   m_MatrixInitialized = 0;
   m_N = 0;
   m_NZ = 0;
-  m_IER = 0;   
+  /* m_IER = 0;   */
   m_MODE = 1;   
   m_LEVEL = -1;  
   m_NOUT = 0;    
@@ -215,17 +215,14 @@ void ItpackSparseMatrix::UnFinalize()
     return;
   }
 
-  /* return matrix to dynamic form */
-  //std::cout << "sbagn_ ..." << std::endl;
-  //this->PrintCompressedRow();
-  itpack::sbagn_(&m_N, &m_NZ, &(m_IA[0]), &(m_JA[0]), &(m_A[0]), &(m_IWORK[0]), &m_LEVEL, &m_NOUT, &m_IER);
-  //this->PrintCompressedRow();
-  //std::cout << "sbagn_ " << m_IER << std::endl;
+  integer IER = 0;
 
-  /*
-   * m_IER = 703 -> m_NZ is to small
-   */
-  if (m_IER >= 703) throw;
+  itpack::sbagn_(&m_N, &m_NZ, &(m_IA[0]), &(m_JA[0]), &(m_A[0]), &(m_IWORK[0]), &m_LEVEL, &m_NOUT, &IER);
+
+  if (IER > 0)
+  {
+    throw FEMExceptionItpackSparseMatrixSbagn(__FILE__, __LINE__, "ItpackSparseMatrix::UnFinalize", IER);
+  }
 
   /* set info flag */
   m_MatrixFinalized = 0;
@@ -263,15 +260,16 @@ void ItpackSparseMatrix::Set(integer i, integer j, doublereal value)
   m_MODE = 0;
 
   /* add entry (itpack expects 1-based indices */
+  integer IER;
   integer fortranI = i+1;
   integer fortranJ = j+1;
-  itpack::sbsij_(&m_N, &m_NZ, &(m_IA[0]), &(m_JA[0]), &(m_A[0]), &(m_IWORK[0]), &fortranI, &fortranJ, &value, &m_MODE, &m_LEVEL, &m_NOUT, &m_IER);
+  itpack::sbsij_(&m_N, &m_NZ, &(m_IA[0]), &(m_JA[0]), &(m_A[0]), &(m_IWORK[0]), &fortranI, &fortranJ, &value, &m_MODE, &m_LEVEL, &m_NOUT, &IER);
 
-  /* 
-   * m_IER = 701 -> invalid fortranI or fortranJ
-   *       = 702 -> m_NZ is to small
-   */
-  if (m_IER >= 701) throw;
+  if (IER > 700)
+  {
+    throw FEMExceptionItpackSparseMatrixSbsij(__FILE__, __LINE__, "ItpackSparseMatrix::Set", IER);
+  }
+
 
   return;
 }
@@ -311,9 +309,15 @@ void ItpackSparseMatrix::Add(integer i, integer j, doublereal value)
   m_MODE = 1;
 
   /* add entry (itpack expects 1-based indices */
+  integer IER;
   integer fortranI = i+1;
   integer fortranJ = j+1;
-  itpack::sbsij_(&m_N, &m_NZ, &(m_IA[0]), &(m_JA[0]), &(m_A[0]), &(m_IWORK[0]), &fortranI, &fortranJ, &value, &m_MODE, &m_LEVEL, &m_NOUT, &m_IER);
+  itpack::sbsij_(&m_N, &m_NZ, &(m_IA[0]), &(m_JA[0]), &(m_A[0]), &(m_IWORK[0]), &fortranI, &fortranJ, &value, &m_MODE, &m_LEVEL, &m_NOUT, &IER);
+  
+  if (IER > 700)
+  {
+    throw FEMExceptionItpackSparseMatrixSbsij(__FILE__, __LINE__, "ItpackSparseMatrix::Set", IER);
+  }
 
   return;
 }
@@ -521,6 +525,57 @@ ItpackSparseMatrix::~ItpackSparseMatrix()
   delete [] m_A;
   delete [] m_IWORK;
 }
+
+
+FEMExceptionItpackSparseMatrixSbagn::FEMExceptionItpackSparseMatrixSbagn(const char *file, unsigned int lineNumber, std::string location, itpack::integer errorCode) :
+  FEMException(file,lineNumber)
+{
+  std::string solverError;
+
+  if (errorCode == 703) 
+  {
+    solverError = "maximumNumberOfNonZeroValuesInMatrix is too small";
+  }
+  else
+  {
+    solverError = "Unknown error code returned";
+  }
+
+  std::ostrstream buf;
+  buf.clear();
+  buf << "Error: " << solverError << '\0';
+
+  SetDescription(buf.str());
+  SetLocation(location);
+}
+
+
+
+FEMExceptionItpackSparseMatrixSbsij::FEMExceptionItpackSparseMatrixSbsij(const char *file, unsigned int lineNumber, std::string location, itpack::integer errorCode) :
+  FEMException(file,lineNumber)
+{
+    std::string solverError;
+
+    switch (errorCode) 
+    {
+    case 701 :
+      solverError = "Improper index of matrix";
+      break;
+    case 702 :
+      solverError = "maximumNumberOfNonZeroValuesInMatrix is too small";
+      break;
+    default :
+      solverError = "Unknown error code returned";
+    }
+
+  std::ostrstream buf;
+  buf.clear();
+  buf << "Error: " << solverError << '\0';
+
+  SetDescription(buf.str());
+  SetLocation(location);
+}
+
 
 }}  // end namespace itk::fem
 
