@@ -187,7 +187,7 @@ public:
    * \sa Visit
    */
   template<class TVisitorClass>
-  inline static void RegisterVisitor(TVisitorClass* ptr, VisitFunctionPointerType visitor_function)
+  inline static bool RegisterVisitor(TVisitorClass* ptr, VisitFunctionPointerType visitor_function)
   {
     typedef TVisitorClass VisitorClass;
     if ( Instance().visitors.insert(VisitorsArrayType::value_type(&typeid(VisitorClass),visitor_function)).second )
@@ -195,12 +195,12 @@ public:
       // Visitor class was successfully registered
 //      std::cout<<"Visitor "<<typeid(VisitorClass).name()<<" ("<<typeid(VisitedClass).name()<<") registered.\n";
 //      std::cout<<"Debug info: "<<typeid(TVisitedClass).name()<<", "<<typeid(TVisitorBase).name()<<", "<<typeid(TReturnType).name()<<"\n";
-      return;
+      return true;
     }
     // The visitor function was already registered.
     // FIXME: implement the proper error handler if required
     std::cout<<"Warning: Visitor "<<typeid(VisitorClass).name()<<" that operates on objects of "<<typeid(VisitedClass).name()<<" was already registered! Ignoring the re-registration.\n";
-
+    return false;
   }
 
 private:

@@ -140,6 +140,10 @@ SOURCE_FILES(FEM_SRCS
   itkFEMLoadImagePairBase.h
   itkFEMLoadImageMetric.h
 
+  itkFEMLoadImplementationTestBar2D.h
+
+  itkFEMLoadTest.h
+
   itkFEMSolver.h
   itkFEMSolverCrankNicolson.h
 

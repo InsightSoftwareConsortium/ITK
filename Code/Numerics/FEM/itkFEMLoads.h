@@ -31,3 +31,5 @@
 #include "itkFEMLoadEdge.h"
 #include "itkFEMLoadImagePairBase.h"
 
+#include "itkFEMLoadTest.h"
+#include "itkFEMLoadImplementationTestBar2D.h"
