@@ -76,17 +76,15 @@ public:
   /** Get a pointer to the image currently attached to the object. */
   ImageType * GetImage( void );
 
-  /** Return true if the object is evaluable at the requested point, and else otherwise. */
+  /** Return true if the object is evaluable at the requested point, 
+   *  and else otherwise. */
   bool IsEvaluableAt( const PointType & point );
 
-  /** Returns the value of the image at the requested point. If the point is not inside
-  * the object, then an exception is thrown.
-  * \also ExceptionObject
-  */
+  /** Returns the value of the image at the requested point. 
+   *  If the point is not inside the object, then an exception is thrown.
+   * \also ExceptionObject */
   void ValueAt( const PointType & point, double & value );
   
-  //void DerivativeAt( const PointType & point, short unsigned int order, OutputVectorType & value );
-
   /** Returns true if the point is inside, false otherwise. */
   bool IsInside( const PointType & point );
  
