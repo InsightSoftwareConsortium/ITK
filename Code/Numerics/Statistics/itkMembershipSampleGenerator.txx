@@ -24,6 +24,39 @@ template< class TInputSample, class TClassMaskSample >
 MembershipSampleGenerator< TInputSample, TClassMaskSample >
 ::MembershipSampleGenerator()
 {
+  m_Input = 0 ;
+  m_ClassMask = 0 ;
+  m_Output = OutputType::New() ;
+}
+
+template< class TInputSample, class TClassMaskSample >
+void
+MembershipSampleGenerator< TInputSample, TClassMaskSample >
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+
+  os << indent << "Input: " ;
+  if ( m_Input != 0 )
+    {
+    os << m_Input << std::endl ;
+    }
+  else
+    {
+    os << "not set." << std::endl ;
+    }
+  
+  os << indent << "ClassMask: " ;
+  if ( m_ClassMask != 0 )
+    {
+    os << m_ClassMask << std::endl ;
+    }
+  else
+    {
+    os << "not set." << std::endl ;
+    }
+  
+  os << indent << "Output: " << m_Output << std::endl;
 }
 
 template< class TInputSample, class TClassMaskSample >
@@ -76,11 +109,11 @@ MembershipSampleGenerator< TInputSample, TClassMaskSample >
 
 
 template< class TInputSample, class TClassMaskSample >
-typename MembershipSampleGenerator< TInputSample, TClassMaskSample >::OutputType*
+typename MembershipSampleGenerator< TInputSample, TClassMaskSample >::OutputPointer
 MembershipSampleGenerator< TInputSample, TClassMaskSample >
 ::GetOutput()
 {
-  return m_Output.GetPointer() ;
+  return m_Output ;
 }
 
 template< class TInputSample, class TClassMaskSample >
@@ -89,7 +122,6 @@ MembershipSampleGenerator< TInputSample, TClassMaskSample >
 ::GenerateData()
 {
   unsigned int classLabel ;
-  m_Output = OutputType::New() ;
   m_Output->SetSample(m_Input) ;
   m_Output->SetNumberOfClasses(m_NumberOfClasses) ;
   typename TClassMaskSample::Iterator iter = m_ClassMask->Begin() ;
@@ -101,17 +133,6 @@ MembershipSampleGenerator< TInputSample, TClassMaskSample >
     }
 }
 
-template< class TInputSample, class TClassMaskSample >
-void
-MembershipSampleGenerator< TInputSample, TClassMaskSample >
-::PrintSelf(std::ostream& os, Indent indent) const
-{
-  Superclass::PrintSelf(os,indent);
-
-  os << indent << "Input: " << m_Input << std::endl;
-  os << indent << "Output: " << m_Output << std::endl;
-  os << indent << "ClassMask: " << m_ClassMask << std::endl ;
-}
 } // end namespace Statistics
 } // end namespace itk
 
