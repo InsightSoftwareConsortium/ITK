@@ -311,6 +311,8 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
 
     shrinker->GraftOutput( outputPtr );
 
+    // force to always update in case shrink factors are the same
+    shrinker->Modified();
     shrinker->Update();
 /*
     // ensure only the requested region is updated
