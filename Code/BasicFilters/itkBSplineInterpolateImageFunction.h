@@ -105,7 +105,9 @@ public:
 
   /** Internal Coefficient typedef support */
   typedef double CoefficientDataType;
-  typedef itk::Image<CoefficientDataType, ImageDimension> CoefficientImageType;
+  typedef itk::Image<CoefficientDataType, 
+                     itkGetStaticConstMacro(ImageDimension)
+                                                    > CoefficientImageType;
 
   /** Define filter for calculating the BSpline coefficients */
   typedef itk::BSplineDecompositionImageFilter<TImageType, CoefficientImageType> 
@@ -124,8 +126,9 @@ public:
       const ContinuousIndexType & index ) const; 
 
   /** Derivative typedef support */
-  typedef CovariantVector<OutputType,itkGetStaticConstMacro(ImageDimension)>
-      CovariantVectorType;
+  typedef CovariantVector<OutputType,
+                          itkGetStaticConstMacro(ImageDimension)
+                                                  > CovariantVectorType;
 
   CovariantVectorType EvaluateDerivative( const PointType & point ) const
     {    
