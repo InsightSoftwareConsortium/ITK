@@ -259,7 +259,7 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
     outIt.Set( tempIt2.Get() );
     }
 
-  vtkDebugMacro(<< "Binomial blur filter executed " << num_reps << " times");
+  itkDebugMacro(<< "Binomial blur filter executed " << num_reps << " times");
 }
 
 } // end namespace

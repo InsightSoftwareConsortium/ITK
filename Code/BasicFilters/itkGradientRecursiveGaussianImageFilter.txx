@@ -117,7 +117,7 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage, TComputation>
 ::GenerateData(void)
 {
 
-  vtkDebugMacro(<< "Hi, GradientRecursiveGaussianImageFilter generating data ");
+  itkDebugMacro(<< "Hi, GradientRecursiveGaussianImageFilter generating data ");
 
   const typename TInputImage::Pointer   inputImage( GetInput() );
 
