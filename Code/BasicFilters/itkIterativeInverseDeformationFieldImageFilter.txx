@@ -30,8 +30,7 @@ namespace itk{
   void IterativeInverseDeformationFieldImageFilter<TInputImage, TOutputImage>
   ::GenerateData(){
 
-    bool DataReleaseFlag = this->GetReleaseDataFlag();
-    const int ImageDimension = InputImageType::ImageDimension;
+    const unsigned int ImageDimension = InputImageType::ImageDimension;
     TimeType time;
     time.Start(); //time measurement
 
@@ -45,12 +44,14 @@ namespace itk{
     ///////////////////////////////
     // some checks
     ///////////////////////////////
-    if (inputPtr == 0){
+    if (inputPtr == 0)
+      {
       itkExceptionMacro("\n Input is missing.");
-    }
-    if (!TInputImage::ImageDimension == TOutputImage::ImageDimension){
+      }
+    if (!TInputImage::ImageDimension == TOutputImage::ImageDimension)
+      {
       itkExceptionMacro("\n Image Dimensions must be the same.");
-    }
+      }
 
 
     ///////////////////////////////
@@ -66,10 +67,11 @@ namespace itk{
     InputConstIterator InputIt = InputConstIterator(inputPtr, inputPtr->GetRequestedRegion());
     InputIterator negImageIt = InputIterator(negField, negField->GetRequestedRegion());
       
-    for (negImageIt.GoToBegin(); !negImageIt.IsAtEnd(); ++negImageIt){
-      negImageIt.Set(-InputIt.Get());
+    for (negImageIt.GoToBegin(); !negImageIt.IsAtEnd(); ++negImageIt)
+      {
+      negImageIt.Set( -InputIt.Get() );
       ++InputIt;
-    }
+      }
 
     outputPtr->SetRegions(inputPtr->GetRequestedRegion());
     outputPtr->SetSpacing(inputPtr->GetSpacing());
@@ -90,7 +92,7 @@ namespace itk{
     // (negative deformable field applied to itself)
     if(m_NumberOfIterations == 0)
       {
-      this->GraftOutput(vectorWarper->GetOutput());
+      this->GraftOutput( vectorWarper->GetOutput() );
       }
     else
       {
@@ -104,8 +106,6 @@ namespace itk{
       OutputImagePixelType displacement, outputValue;
       FieldInterpolatorOutputType forwardVector;
       double spacing = inputPtr->GetSpacing()[0];
-      double step = spacing;
-      double tmp = 0;
       double smallestError = 0;
       int stillSamePoint = 0;
       unsigned int counter = 0;
@@ -123,96 +123,117 @@ namespace itk{
 
       InputIt.GoToBegin();
       OutputIt.GoToBegin();
-      while( !OutputIt.IsAtEnd() ){
+      while( !OutputIt.IsAtEnd() )
+        {
         // get the output image index
         index = OutputIt.GetIndex();
         outputPtr->TransformIndexToPhysicalPoint( index, originalPoint );
 
         stillSamePoint = 0;
-        step = spacing;
+        double step = spacing;
 
         // get the required displacement
         displacement = OutputIt.Get();
 
         // compute the required input image point
-        for(unsigned int j = 0; j < ImageDimension; j++ ){
+        for(unsigned int j = 0; j < ImageDimension; j++ )
+          {
           mappedPoint[j] = originalPoint[j] + displacement[j];
           newPoint[j] = mappedPoint[j];
-        }
+          }
 
         // calculate the error of the last iteration
-        if( inputFieldInterpolator->IsInsideBuffer( mappedPoint ) ){
+        if( inputFieldInterpolator->IsInsideBuffer( mappedPoint ) )
+          {
           forwardVector = inputFieldInterpolator->Evaluate( mappedPoint );
 
           smallestError = 0;
-          for(unsigned int j = 0; j < ImageDimension; j++ ){
+          for(unsigned int j = 0; j < ImageDimension; j++ )
+            {
             smallestError += pow(mappedPoint[j] + forwardVector[j]-originalPoint[j],2);
-          }
+            }
           smallestError = sqrt(smallestError);
-        }
+          }
 
         // iteration loop
-        for (int i=0; i<m_NumberOfIterations; i++){
+        for (unsigned int i=0; i<m_NumberOfIterations; i++)
+          {
+          double tmp = 0;
 
-          if(stillSamePoint){
+          if( stillSamePoint )
+            {
             stillSamePoint = 0;
             step = step/2;
-          }
+            }
 
-          for(int k=0; k<ImageDimension; k++){
+          for(unsigned int k=0; k<ImageDimension; k++)
+            {
             mappedPoint[k] += step;
-            if( inputFieldInterpolator->IsInsideBuffer( mappedPoint ) ){
+            if( inputFieldInterpolator->IsInsideBuffer( mappedPoint ) )
+              {
               forwardVector = inputFieldInterpolator->Evaluate( mappedPoint );
               tmp = 0;
-              for (int l=0; l<ImageDimension; l++){
+              for (unsigned int l=0; l<ImageDimension; l++)
+                {
                 tmp += pow(mappedPoint[l] + forwardVector[l] - originalPoint[l], 2);
-              }
+                }
               tmp = sqrt(tmp);
-              if(tmp < smallestError){
+              if(tmp < smallestError)
+                {
                 smallestError = tmp;
-                for(int l=0; l<ImageDimension; l++){
+                for(unsigned int l=0; l<ImageDimension; l++)
+                  {
                   newPoint[l] = mappedPoint[l];
+                  }
                 }
               }
-            }
 
             mappedPoint[k] -= 2*step;
-            if( inputFieldInterpolator->IsInsideBuffer( mappedPoint ) ){
+            if( inputFieldInterpolator->IsInsideBuffer( mappedPoint ) )
+              {
               forwardVector = inputFieldInterpolator->Evaluate( mappedPoint );
               tmp = 0;
-              for (int l=0; l<ImageDimension; l++){
+              for (int l=0; l<ImageDimension; l++)
+                {
                 tmp += pow(mappedPoint[l] + forwardVector[l] - originalPoint[l], 2);
-              }
+                }
               tmp = sqrt(tmp);
-              if(tmp < smallestError){
+              if(tmp < smallestError)
+                {
                 smallestError = tmp;
-                for(int l=0; l<ImageDimension; l++){
+                for(unsigned int l=0; l<ImageDimension; l++)
+                  {
                   newPoint[l] = mappedPoint[l];
+                  }
                 }
               }
-            }
 
             mappedPoint[k] += step;
-          }//end for loop over image dimension
+            }//end for loop over image dimension
 
 
           stillSamePoint = 1;
-          for(unsigned int j = 0; j < ImageDimension; j++ ){
-            if(newPoint[j] != mappedPoint[j]){
+          for(unsigned int j = 0; j < ImageDimension; j++ )
+            {
+            if(newPoint[j] != mappedPoint[j])
+              {
               stillSamePoint = 0;
-            }
+              }
             mappedPoint[j] = newPoint[j];
-          }
+            }
 
           if(smallestError < m_StopValue)
+            {
             break;
+            }
 
-        } //end iteration loop
+          } //end iteration loop
 
 
-        for( unsigned int k = 0; k < ImageDimension; k++ ){
+        for( unsigned int k = 0; k < ImageDimension; k++ )
+          {
           outputValue[k] = static_cast<OutputImageValueType>( mappedPoint[k]-originalPoint[k] );
-        }
+          }
 
         OutputIt.Set( outputValue );
 
@@ -222,12 +243,13 @@ namespace itk{
         // show percentage
         counter++;
         tmp_counter++;
-        if (tmp_counter >= numberOfPoints/10){
+        if (tmp_counter >= numberOfPoints/10)
+          {
           std::cout << (int)(100*counter/numberOfPoints) << "%" << std::endl;
           tmp_counter = 0;
-        }
-      } //end while loop
-    }//end else
+          }
+        } //end while loop
+      }//end else
 
     time.Stop();
     m_Time = time.GetMeanTime();
