@@ -31,9 +31,6 @@ FloodFilledFunctionConditionalIterator<TImage, TFunction>
   m_Function = fnPtr;
   m_StartIndex = startIndex;
 
-  // Initialize the stack by adding the start index
-  m_IndexStack.push(m_StartIndex);
-
   // Get the origin and spacing from the image in simple arrays
   m_ImageOrigin = m_Image->GetOrigin();
   m_ImageSpacing = m_Image->GetSpacing();
@@ -51,6 +48,11 @@ FloodFilledFunctionConditionalIterator<TImage, TFunction>
   tempPtr->Allocate();
   tempPtr->FillBuffer(NumericTraits<TTempImage::PixelType>::Zero);
   m_IsAtEnd = false;
+
+  // Initialize the stack by adding the start index assuming startIndex
+  // is "inside"
+  m_IndexStack.push(m_StartIndex);
+  tempPtr->SetPixel(m_StartIndex, 2);
 }
 
 template<class TImage, class TFunction>
