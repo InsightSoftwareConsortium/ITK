@@ -99,6 +99,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkSobelEdgeDetectionImageFilter.h"
 #include "itkSpatialFunctionImageEvaluatorFilter.h"
 #include "itkSqrtImageFilter.h"
+#include "itkStatisticsImageFilter.h"
 #include "itkStreamingImageFilter.h"
 #include "itkSubtractImageFilter.h"
 #include "itkTanImageFilter.h"
