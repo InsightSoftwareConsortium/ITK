@@ -64,10 +64,11 @@ DeformationFieldInverseImageFilter<TInputImage, TOutputImage>
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Size:            " << m_Size << std::endl;
-  os << indent << "OutputSpacing:   " << m_OutputSpacing << std::endl;
-  os << indent << "OutputOrigin:    " << m_OutputOrigin << std::endl;
-  os << indent << "KernelTransform: " << m_KernelTransform.GetPointer() << std::endl;
+  os << indent << "Size:              " << m_Size << std::endl;
+  os << indent << "OutputSpacing:     " << m_OutputSpacing << std::endl;
+  os << indent << "OutputOrigin:      " << m_OutputOrigin << std::endl;
+  os << indent << "KernelTransform:   " << m_KernelTransform.GetPointer() << std::endl;
+  os << indent << "SubsamplingFactor: " << m_SubsamplingFactor << std::endl;
 
   return;
 }
