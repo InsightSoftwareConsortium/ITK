@@ -114,11 +114,11 @@ public:
       OutputPointsContainerPointer;
   typedef typename OutputMeshType::PointsContainer::Iterator
       OutputPointsContainerIterator;
-  typedef itk::Image<unsigned short, 3>   ImageType;
-  typedef itk::CovariantVector<float, 3> GradientType;
-  typedef itk::Image<GradientType, 3>  GradientImageType;
-  typedef itk::SimpleImageRegionIterator<ImageType> ImageIterator;
-  typedef itk::SimpleImageRegionIterator<GradientImageType> GradientIterator;
+  typedef Image<unsigned short, 3>   ImageType;
+  typedef CovariantVector<float, 3> GradientType;
+  typedef Image<GradientType, 3>  GradientImageType;
+  typedef SimpleImageRegionIterator<ImageType> ImageIterator;
+  typedef SimpleImageRegionIterator<GradientImageType> GradientIterator;
   typedef typename InputMeshType::Pointer InputMeshPointer;
   typedef typename OutputMeshType::Pointer  OutputMeshPointer;
   typedef typename ImageType::Pointer   ImagePointer;
@@ -126,13 +126,13 @@ public:
   typedef typename GradientImageType::Pointer   GradientPointer;
 
   /** Vector related typedefs. */
-  typedef itk::Vector<float, 3>       FloatVector;
-  typedef itk::Vector<int, 3>       IntVector;
+  typedef Vector<float, 3>       FloatVector;
+  typedef Vector<int, 3>       IntVector;
 
   /** Cell related typedefs. */
   typedef typename InputMeshType::Cell      Cell;
   typedef typename InputMeshType::CellTraits  CellTraits;
-  typedef itk::TriangleCell<float, CellTraits>  TriCell;
+  typedef TriangleCell<float, CellTraits>  TriCell;
   typedef typename InputMeshType::PointType   IPT;
   typedef typename InputMeshType::PixelType   PT;
 
