@@ -37,6 +37,9 @@ public:
   /** Constructor */
   ChildTreeIterator( TreeType* tree,const  TreeNodeType* start=NULL );
 
+  /** Constructor */
+  ChildTreeIterator( const TreeIteratorBase<TTreeType>& iterator );
+
   /** Get the type of the iterator */
   int GetType( ) const;
 
@@ -77,6 +80,15 @@ private:
 template <class TTreeType>
 ChildTreeIterator<TTreeType>::ChildTreeIterator(TTreeType* tree, const TreeNodeType* start)  
   :TreeIteratorBase<TTreeType>(tree, start)
+{
+  m_ListPosition = 0;
+  m_ParentNode = m_Position;
+  m_Position = m_ParentNode->GetChild( m_ListPosition );
+}
+
+template <class TTreeType>
+ChildTreeIterator<TTreeType>::ChildTreeIterator(const TreeIteratorBase<TTreeType>& iterator)
+  :TreeIteratorBase<TTreeType>(iterator.GetTree(), iterator.GetNode())
 {
   m_ListPosition = 0;
   m_ParentNode = m_Position;
