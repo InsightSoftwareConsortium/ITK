@@ -310,7 +310,6 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
       if ( pass == m_MaxSplitAttempts ) 
       {
         std::cout <<"Unable to fill all empty cells" <<std::endl;
-        nempty_cells = emptycells;
         m_OutNEmptyCells = emptycells;
         m_OutDist = distortion;
         return GLA_CONVERGED;
@@ -535,7 +534,7 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
                   int scale, 
                   double *newCodeword)
 {
-  int           i;
+  unsigned int  i;
   double        addoffset;
   double        muloffset;
   double        rand_num ;
@@ -543,7 +542,7 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
   addoffset = m_OffsetAdd / pow( 2.0, ( double ) scale );
   muloffset = m_OffsetMul / pow( 2.0, ( double ) scale );
 
-  for ( unsigned i = 0; i < m_VecDim; i++ ) 
+  for ( i = 0; i < m_VecDim; i++ ) 
   {
     srand( (unsigned)time( NULL ) );
     rand_num = (rand())/((double)RAND_MAX);
@@ -583,7 +582,7 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
 {
   //std::cout<<"Start local function lbg design()"<<std::endl;
 
-  int tmp_ncodewords, j;
+  unsigned int tmp_ncodewords, j;
 
   // do the LBG algorithm 
   // iterations begins here 
@@ -593,7 +592,7 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
   m_OutDist = m_DoubleMax;
 
   // Apply the generalize Lloyd algorithm on all codebook sizes 
-  for ( unsigned tmp_ncodewords = 1; tmp_ncodewords < m_Ncodewords; ) 
+  for ( tmp_ncodewords = 1; tmp_ncodewords < m_Ncodewords; ) 
   {
     // run the GLA for codebook of size i 
     // run gla 
