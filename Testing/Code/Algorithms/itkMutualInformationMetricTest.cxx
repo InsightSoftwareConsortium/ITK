@@ -42,7 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkImageRegionIterator.h"
 
 #include "itkImageMapper.h"
-#include "itkAffineRegistrationTransform.h"
+#include "itkAffineTransform.h"
 #include "itkMutualInformationImageToImageMetric.h"
 
 #include <iostream>
@@ -139,7 +139,7 @@ int main()
 //-----------------------------------------------------------
   enum{ ParametersDimension = ImageDimension * ( ImageDimension + 1 ) };
   typedef itk::Vector<double,ParametersDimension> ParametersType;
-  typedef itk::AffineRegistrationTransform<
+  typedef itk::AffineTransform<
     double, ImageDimension, ParametersType > TransformType;
 
   TransformType::Pointer transformer = TransformType::New();
