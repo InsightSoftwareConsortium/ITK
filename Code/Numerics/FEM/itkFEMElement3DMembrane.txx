@@ -53,7 +53,7 @@ Element3DMembrane<TBaseClass>
     p = i * 3;
 
     // Compute B elements   
-  // below are the dN/dx entries
+    // below are the dN/dx entries
     B[0][p]   = shapeDgl[0][i];
     B[0][p+1] = 0.0;
     B[0][p+2] = 0.0;
@@ -67,8 +67,8 @@ Element3DMembrane<TBaseClass>
     B[2][p+2] = shapeDgl[0][i];
 
   
-  // below are the dN/dy entries 
-  B[0][p]   = shapeDgl[1][i];
+    // below are the dN/dy entries 
+    B[3][p]   = shapeDgl[1][i];
     B[3][p+1] = 0.0;
     B[3][p+2] = 0.0;
 
@@ -81,8 +81,7 @@ Element3DMembrane<TBaseClass>
     B[5][p+2] = shapeDgl[1][i];
 
 
-
-   // below are the dN/dz entries
+    // below are the dN/dz entries
     B[6][p]   = shapeDgl[2][i];
     B[6][p+1] = 0.0;
     B[6][p+2] = 0.0;
