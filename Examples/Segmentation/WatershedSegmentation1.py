@@ -16,8 +16,8 @@ gradient.SetInput(diffusion.GetOutput())
 
 watershed = itk.itkWatershedImageFilterF2_New()
 watershed.SetInput(gradient.GetOutput())
-watershed.SetThreshold(0.1)
-watershed.SetLevel(0.6)
+watershed.SetThreshold(0.01)
+watershed.SetLevel(0.2)
 
 writer = itk.itkImageFileWriterUL2_New()
 writer.SetFileName( sys.argv[2] )
