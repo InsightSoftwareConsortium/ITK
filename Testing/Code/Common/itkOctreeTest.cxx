@@ -57,7 +57,7 @@ int itkOctreeTest(int, char *[])
     while(!ri.IsAtEnd())
       {
       unsigned int val = rand() % 16384;
-      if(counter & counter % 8 == 0)
+      if(counter && counter % 8 == 0)
         std::cerr << val << std::endl;
       else
         std::cerr << val << " ";
