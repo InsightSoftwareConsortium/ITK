@@ -192,12 +192,21 @@ AmoebaOptimizer
   ParametersType parameters( initialPosition );
 
   // If the user provides the scales then we set otherwise we don't
-  // for computation speed
+  // for computation speed.
+  // We also scale the initial parameters up if scales are defined.
+  // This compensates for later scaling them down in the cost function adaptor
+  // and at the end of this function.  
   if(m_ScalesInitialized)
     {
-    this->GetCostFunctionAdaptor()->SetScales(this->GetScales());
+    ScalesType scales = this->GetScales();
+    this->GetCostFunctionAdaptor()->SetScales(scales);
+    for(unsigned int i=0;i<parameters.size();i++)
+      {
+      parameters[i] *= scales[i]; 
+      }
     }
-
+  
+  
   // vnl optimizers return the solution by reference 
   // in the variable provided as initial position
   if (m_AutomaticInitialSimplex)
