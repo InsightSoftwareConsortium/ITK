@@ -135,7 +135,8 @@ PolygonCell< TPixelType , TCellTraits >
   if( m_PointIds.size() > 0 )
     {
     m_Edges.resize(m_PointIds.size());
-    for(unsigned int i = 1;i < m_PointIds.size(); i++)
+    const unsigned int numberOfPoints = m_PointIds.size();
+    for(unsigned int i = 1; i < numberOfPoints; i++)
       {
       m_Edges[i-1][0]=i-1;
       m_Edges[i-1][1]=i;
