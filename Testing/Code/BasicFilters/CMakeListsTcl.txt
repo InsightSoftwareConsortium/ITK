@@ -1,0 +1,135 @@
+CABLE_CLASS_SET(Float float)
+CABLE_CLASS_SET(Double double)
+CABLE_CLASS_SET(ULong "unsigned long")
+CABLE_CLASS_SET(Dimension 2)
+CABLE_CLASS_SET(Image "itk::Image<$Float,$Dimension>")
+CABLE_CLASS_SET(CovariantVector "itk::CovariantVector<$Float,$Dimension>")
+CABLE_CLASS_SET(Mesh "itk::Mesh<$Float>")
+CABLE_CLASS_SET(RGBPix "itk::RGBPixel<$Float>")
+CABLE_CLASS_SET(RGBImage "itk::Image<$RGBPix,$Dimension>")
+CABLE_CLASS_SET(Container "itk::ValarrayImageContainer<unsigned long, $Float>")
+CABLE_CLASS_SET(VecPix "itk::Vector<$Float>")
+CABLE_CLASS_SET(VecImage "itk::Image<$VecPix,$Dimension>")
+CABLE_CLASS_SET(BloxPix "itk::BloxPixel<$Float>")
+CABLE_CLASS_SET(BloxPixImage "itk::Image<$BloxPix, $Dimension>")
+CABLE_CLASS_SET(ComponentAccessor
+                "itk::BluePixelAccessor<$Float>"
+                "itk::GreenPixelAccessor<$Float>"
+                "itk::RedPixelAccessor<$Float>")
+CABLE_CLASS_SET(HexCell
+                "itk::HexahedronCell<$Float, $(Mesh)::CellTraits>")
+CABLE_CLASS_SET(EllipsoidFunc
+                "itk::EllipsoidInteriorExteriorSpatialFunction<$Float>")
+CABLE_CLASS_SET(Params "itk::Point<$Float, $Dimension>")
+CABLE_CLASS_SET(Jacobian "itk::Matrix<$Float, 3, 3>")
+CABLE_CLASS_SET(transform,"itk::AffineTransform<$Float>")
+ADD_LIBRARY(ITKBasicFiltersTestTcl)
+
+CABLE_WRAP_TCL(ITKBasicFiltersTestTcl
+AcosImageFilter<$Image,$Image>
+#AdaptImageFilter
+AddImageFilter<$Image,$Image,$Image>
+AnisotropicDiffusionFunction<$Image>
+AnisotropicDiffusionImageFilter<$Image,$Image>
+AsinImageFilter<$Image,$Image>
+Atan2ImageFilter<$Image,$Image,$Image>
+AtanImageFilter<$Image,$Image>
+BinaryDilateImageFilter<$Image,$Image,$Image>
+BinaryErodeImageFilter<$Image,$Image,$Image>
+#itkBinaryFunctorImageFilter
+itkBinaryMagnitudeImageFilter<$Image,$Image,$Image>
+itkBinomialBlurImageFilter<$Image,$Image>
+itkCannyEdgeDetectionImageFilter<$Image,$Image>
+itkCastImageFilter<$Image,$Image>
+itkConstantPadImageFilter<$Image,$Image>
+itkCosImageFilter<$Image,$Image>
+itkCurvatureAnisotropicDiffusionImageFilter<$Image,$Image>
+itkCurvatureNDAnisotropicDiffusionFunction<$Image>
+itkDanielssonDistanceMapImageFilter<$Image,$Image>
+itkDerivativeImageFilter<$Image,$Image>
+itkDifferenceOfGaussiansGradientImageFilter<$Image,$Float>
+itkDiscreteGaussianImageFilter<$Image,$Image>
+itkDivideImageFilter<$Image,$Image,$Image>
+itkEigenAnalysis2DImageFilter<$Image,$Image,$Image>
+itkExpImageFilter<$Image,$Image>
+itkExpandImageFilter<$Image,$Image>
+itkExtractImageFilter<$Image,$Image>
+itkFileIOToImageFilter<$Image>
+itkFirstDerivativeRecursiveGaussianImageFilter<$Image,$Image,$Float>
+itkGaussianImageSource<$Image>
+itkGradientAnisotropicDiffusionImageFilter<$Image,$Image>
+itkGradientImageFilter<$Image,$Float,$Float>
+itkGradientMagnitudeImageFilter<$Image,$Image>
+itkGradientNDAnisotropicDiffusionFunction<$Image>
+itkGradientRecursiveGaussianImageFilter<$Image,$Image.$Float>
+itkGradientToMagnitudeImageFilter<$Image,$Image>
+itkGrayscaleDilateImageFilter<$Image,$Image.$Image>
+itkGrayscaleErodeImageFilter<$Image,$Image,$Image>
+itkGrayscaleFunctionDilateImageFilter<$Image,$Image,$Image>
+itkGrayscaleFunctionErodeImageFilter<$Image,$Image,$Image>
+itkImageToMeshFilter<$Image,$Mesh>
+itkImageToParametricSpaceFilter<$Image,$Image>
+itkImportImageFilter<$Pixel,$Dimension>
+itkInteriorExteriorMeshFilter<$Mesh,$Mesh,$EllipsoidFunc>
+itkJoinImageFilter<$Image,$Image>
+itkLaplacianImageFilter<$Image,$Image>
+itkLog10ImageFilter<$Image,$Image>
+itkLogImageFilter<$Image,$Image>
+itkMinimumMaximumImageFilter<$Image>
+itkMirrorPadImageFilter<$Image,$Image>
+itkMorphologyImageFilter<$Image,$Image>
+itkMultiplyImageFilter<$Image,$Image,$Image>
+itkNaryAddImageFilter<$Image,$Image>
+#itkNaryFunctorImageFilter<$Image,$Image>
+itkNeighborhoodOperatorImageFilter<$Image,$Image>
+itkNonThreadedShrinkImageFilter<$Image,$Image>
+itkPadImageFilter<$Image,$Image>
+itkParametricSpaceToImageSpaceMeshFilter<$Mesh,$Mesh>
+itkPlaheImageFilter<$Pixel,$Dimension>
+itkRandomImageSource<$Image>
+itkRecursiveGaussianImageFilter<$Image,$Image,$Float>
+itkRecursiveSeparableImageFilter<$Image,$Image,$Float>
+itkReflectImageFilter<$Image,$Image>
+itkReflectiveImageRegionIterator<$Image>
+itkResampleImageFilter<$Image,$Image>
+itkScalarAnisotropicDiffusionFunction<$Image>
+itkSecondDerivativeRecursiveGaussianImageFilter<$Image,$Image,$Float>
+itkShrinkImageFilter<$Image,$Image>
+itkSinImageFilter<$Image,$Image>
+itkSobelEdgeDetectionImageFilter<$Image,$Image>
+itkSpatialFunctionImageEvaluatorFilter<$EllipsoidFunc,$Image,$Image>
+itkSqrtImageFilter<$Image,$Image>
+itkStreamingImageFilter<$Image,$Image>
+itkSubtractImageFilter<$Image,$Image,$Image>
+itkTanImageFilter<$Image,$Image>
+itkTernaryAddImageFilter<$Image,$Image,$Image,$Image>
+#itkTernaryFunctorImageFilter
+itkTernaryMagnitudeImageFilter<$Image,$Image,$Image,$Image>
+itkTernaryMagnitudeSquaredImageFilter<$Image,$Image,$Image,$Image>
+itkThresholdImageFilter<$Image>
+itkTransformMeshFilter<$Image,$Image,$Transform>
+itkTwoOutputExampleImageFilter<$Image>
+#itkUnaryFunctorImageFilter<$Image,$Image>
+itkVTKImageExport<$Image>
+itkVTKImageImport<$Image>
+itkVectorAnisotropicDiffusionFunction<$Image>
+itkVectorCastImageFilter<$Image,$Image>
+itkVectorCurvatureAnisotropicDiffusionImageFilter<$Image,$Image>
+itkVectorCurvatureNDAnisotropicDiffusionFunction<$Image>
+itkVectorExpandImageFilter<$Image,$Image>
+itkVectorGradientAnisotropicDiffusionImageFilter<$Image,$Image>
+itkVectorGradientNDAnisotropicDiffusionFunction<$Image>
+itkVectorNeighborhoodOperatorImageFilter<$Image,$Image>
+itkWarpImageFilter<$Image,$Image,$VecImage>
+itkWrapPadImageFilter<$Image,$Image>
+itkZeroCrossingBasedEdgeDetectionImageFilter<$Image,$Image>
+itkZeroCrossingImageFilter<$Image,$Image>
+)
+
+TARGET_LINK_LIBRARIES(ITKBasicFiltersTcl
+ITKCommon
+ITKBasicFilters
+VXLNumerics
+${CABLE_TCL_LIBRARY}
+${TCL_LIBRARY}
+)
