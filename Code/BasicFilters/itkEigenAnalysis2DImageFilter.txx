@@ -19,6 +19,7 @@
 
 #include "itkEigenAnalysis2DImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkImageRegionConstIteratorWithIndex.h"
 
 
 namespace itk
@@ -171,16 +172,16 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
 ::GenerateData()
 {
 
-  typename TInputImage::Pointer inputPtr1(
-                     dynamic_cast<TInputImage *>(
+  typename TInputImage::ConstPointer inputPtr1(
+                     dynamic_cast<const TInputImage *>(
                            (ProcessObject::GetInput(0)).GetPointer()));
 
-  typename TInputImage::Pointer inputPtr2(
-                     dynamic_cast<TInputImage *>(
+  typename TInputImage::ConstPointer inputPtr2(
+                     dynamic_cast<const TInputImage *>(
                            (ProcessObject::GetInput(1)).GetPointer()));
 
-  typename TInputImage::Pointer inputPtr3(
-                     dynamic_cast<TInputImage *>(
+  typename TInputImage::ConstPointer inputPtr3(
+                     dynamic_cast<const TInputImage *>(
                            (ProcessObject::GetInput(2)).GetPointer()));
 
   EigenValueImagePointer   outputPtr1 = this->GetMaxEigenValue();
@@ -197,9 +198,9 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
 
   EigenValueImageRegionType  region = outputPtr1->GetRequestedRegion();
 
-  ImageRegionIteratorWithIndex<TInputImage>   inputIt1( inputPtr1, region );
-  ImageRegionIteratorWithIndex<TInputImage>   inputIt2( inputPtr2, region );
-  ImageRegionIteratorWithIndex<TInputImage>   inputIt3( inputPtr3, region );
+  ImageRegionConstIteratorWithIndex<TInputImage>   inputIt1( inputPtr1, region );
+  ImageRegionConstIteratorWithIndex<TInputImage>   inputIt2( inputPtr2, region );
+  ImageRegionConstIteratorWithIndex<TInputImage>   inputIt3( inputPtr3, region );
 
   ImageRegionIteratorWithIndex<EigenValueImageType>   outputIt1(outputPtr1, region );
   ImageRegionIteratorWithIndex<EigenValueImageType>   outputIt2(outputPtr2, region );
