@@ -923,7 +923,7 @@ void TIFFImageIO::WriteSlice(std::string& fileName, const void* buffer)
     }
 
   TIFFClose(tif);
-
+  file->close();
 
 }
 
