@@ -50,6 +50,8 @@ public:
    * as a data element held in an Point.   */
   typedef TCoordRep ValueType;
   typedef TCoordRep CoordRepType;
+
+  typedef typename NumericTraits< ValueType >::RealType      RealType;
   
   /** Dimension of the Space */
   itkStaticConstMacro(PointDimension, unsigned int, NPointDimension);
@@ -209,14 +211,14 @@ public:
     * with a different representation type.  Casting is done with C-Like rules  */
 
   template < typename TCoordRepB >
-  TCoordRep SquaredEuclideanDistanceTo( const Point<TCoordRepB,NPointDimension> & pa )
+  RealType SquaredEuclideanDistanceTo( const Point<TCoordRepB,NPointDimension> & pa )
   {
-    TCoordRep sum = NumericTraits< TCoordRep >::Zero;
+    RealType sum = NumericTraits< RealType >::Zero;
     for(unsigned int i=0; i<NPointDimension; i++ )
       {
-      const TCoordRep component =  static_cast<TCoordRep>( pa[i] );
+      const RealType component =  static_cast< RealType >( pa[i] );
       const ValueType difference = (*this)[i] - component;
-      sum += component * component;
+      sum += difference * difference;
       }
   return sum;
   }
@@ -226,11 +228,11 @@ public:
   /** Compute the Euclidean Distance from this point to another point
     * with a different representation type.  Casting is done with C-Like rules  */
   template < typename TCoordRepB >
-  TCoordRep EuclideanDistanceTo( const Point<TCoordRepB,NPointDimension> & pa )
+  RealType EuclideanDistanceTo( const Point<TCoordRepB,NPointDimension> & pa )
   {
   const double distance = sqrt( 
     static_cast<double>( this->SquaredEuclideanDistanceTo( pa ) ) ) ;
-  return static_cast<TCoordRep>( distance );
+  return static_cast<RealType>( distance );
   }
 
 
