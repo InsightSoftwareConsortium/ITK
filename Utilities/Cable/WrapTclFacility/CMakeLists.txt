@@ -1,12 +1,16 @@
 SOURCE_FILES(WrapTclFacility_SRCS
+wrapArgument
 wrapCalls
+wrapConstructor
 wrapConversionTable
 wrapFunctionBase
 wrapFunctionSelector
 wrapInit
 wrapInstanceTable
+wrapMethod
 wrapPointer
 wrapReference
+wrapStaticMethod
 wrapTypeInfo
 wrapUtils
 wrapWrapperBase

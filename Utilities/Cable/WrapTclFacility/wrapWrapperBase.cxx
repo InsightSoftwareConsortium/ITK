@@ -6,14 +6,51 @@
   Date:      $Date$
   Version:   $Revision$
 
+Copyright (c) 2001 Insight Consortium
+All rights reserved.
 
-  Copyright (c) 2000 National Library of Medicine
-  All rights reserved.
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
 
-  See COPYRIGHT.txt for copyright details.
+ * Redistributions of source code must retain the above copyright notice,
+   this list of conditions and the following disclaimer.
+
+ * Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+ * The name of the Insight Consortium, nor the names of any consortium members,
+   nor of any contributors, may be used to endorse or promote products derived
+   from this software without specific prior written permission.
+
+  * Modified source versions must be plainly marked as such, and must not be
+    misrepresented as being the original software.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS ``AS IS''
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHORS OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
 #include "wrapWrapperBase.h"
+#include "wrapFunctionBase.h"
+#include "wrapConstructor.h"
+#include "wrapMethod.h"
+#include "wrapStaticMethod.h"
+#include "wrapFunctionSelector.h"
+#include "wrapTypeInfo.h"
+#include "wrapPointer.h"
+#include "wrapReference.h"
+#include "wrapConversionTable.h"
+#include "wrapInstanceTable.h"
+#include "wrapWrapperTable.h"
+#include "wrapException.h"
 
 #include <queue>
 
@@ -45,8 +82,8 @@ WrapperBase::WrapperBase(Tcl_Interp* interp, const String& wrappedTypeName):
 WrapperBase::~WrapperBase()
 {
   // Free all the wrapped functions.
-  for(FunctionMap::const_iterator i = m_FunctionMap.begin();
-      i != m_FunctionMap.end(); ++i)
+  for(MethodMap::const_iterator i = m_MethodMap.begin();
+      i != m_MethodMap.end(); ++i)
     {
     delete i->second;
     }
@@ -217,7 +254,7 @@ CvQualifiedType WrapperBase::GetObjectType(Tcl_Obj* obj) const
  * object.  If the object type cannot be determined, char* is assumed.
  * In either case, an Argument which refers to the object is returned.
  */
-WrapperBase::Argument WrapperBase::GetObjectArgument(Tcl_Obj* obj) const
+Argument WrapperBase::GetObjectArgument(Tcl_Obj* obj) const
 {
   // Need a location to hold the Argument until returned.
   Argument argument;
@@ -332,9 +369,17 @@ WrapperBase::GetConversionFunction(const CvQualifiedType& from,
 /**
  * A subclass calls this to add a wrapped function.
  */
-void WrapperBase::AddFunction(FunctionBase* function)
+void WrapperBase::AddFunction(Method* method)
 {
-  m_FunctionMap.insert(FunctionMap::value_type(function->GetName(), function));
+  m_MethodMap.insert(MethodMap::value_type(method->GetName(), method));
+}
+
+/**
+ * A subclass calls this to add a wrapped constructor.
+ */
+void WrapperBase::AddFunction(Constructor* constructor)
+{
+  m_Constructors.push_back(constructor);
 }
 
 
@@ -366,12 +411,10 @@ void WrapperBase::NoMethodSpecified() const
  * When an unknown constructor is encountered by the wrapper, this is called
  * to generate the error message.
  */
-void WrapperBase::UnknownConstructor(const String& methodName,
-                                     const CvQualifiedTypes& argumentTypes,
-                                     const CandidateFunctions& candidates) const
+void WrapperBase::UnknownConstructor(const CvQualifiedTypes& argumentTypes) const
 {
   String errorMessage = "No constructor matches ";
-  errorMessage += m_WrappedTypeName + "::" + methodName + "(";
+  errorMessage += m_WrappedTypeName + "::" + m_ConstructorName + "(";
   CvQualifiedTypes::const_iterator arg = argumentTypes.begin();
   while(arg != argumentTypes.end())
     {
@@ -382,11 +425,11 @@ void WrapperBase::UnknownConstructor(const String& methodName,
   errorMessage += ")";
   
   // If there are any candidates, list them.
-  if(!candidates.empty())
+  if(!m_Constructors.empty())
     {
     errorMessage += "\nCandidates are:";
-    for(CandidateFunctions::const_iterator i = candidates.begin();
-        i != candidates.end(); ++i)
+    for(Constructors::const_iterator i = m_Constructors.begin();
+        i != m_Constructors.end(); ++i)
       {
       String candidate = (*i)->GetPrototype();
       errorMessage += "\n  "+candidate;
@@ -522,33 +565,36 @@ WrapperBase
     }
   
   // We must select our own constructor.
-  FunctionSelector functionSelector(this, objc, objv);
+  ConstructorSelector constructorSelector(this, objc, objv);
   
-  // Prepare the set of candidate functions.
-  CandidateFunctions candidates;    
-  FunctionMap::const_iterator first = m_FunctionMap.lower_bound(m_ConstructorName);
-  FunctionMap::const_iterator last = m_FunctionMap.upper_bound(m_ConstructorName);
-  for(FunctionMap::const_iterator i = first; i != last; ++i)
+  for(Constructors::const_iterator i = m_Constructors.begin();
+      i != m_Constructors.end(); ++i)
     {
-    functionSelector.AddCandidateConstructor(i->second);
-    candidates.push_back(i->second);
+    constructorSelector.AddCandidate(*i);
     }
     
   // See if any candidates match the given arguments.
-  FunctionBase* constructor = functionSelector.SelectConstructor();
+  Constructor* constructor = constructorSelector.Select();
   
   // Make sure we have a matching candidate.
   if(constructor)
     {
-    constructor->Call(objc, objv);
+    void* object = constructor->Call(constructorSelector.GetArguments());
     Tcl_SetStringObj(Tcl_GetObjResult(m_Interpreter), "", -1);  
+  
+    // TODO: Make sure object != NULL
+  
+    // Get the name of the instance.
+    char* instanceName = Tcl_GetStringFromObj(objv[1], NULL);
+    
+    // Insert the object into the instance table.
+    this->AddInstance(instanceName, object);
+  
     return TCL_OK;
     }
   else
     {
-    this->UnknownConstructor(m_ConstructorName,
-                             functionSelector.GetArgumentTypes(),
-                             candidates);
+    this->UnknownConstructor(constructorSelector.GetArgumentTypes());
     return TCL_ERROR;
     }
 }
@@ -640,7 +686,7 @@ const WrapperBase* WrapperBase::FindMethodWrapper(const String& name) const
  */
 bool WrapperBase::HasMethod(const String& name) const
 {
-  return (m_FunctionMap.count(name) > 0);
+  return (m_MethodMap.count(name) > 0);
 }
 
 
@@ -652,29 +698,29 @@ bool WrapperBase::HasMethod(const String& name) const
 int WrapperBase::CallWrappedFunction(int objc, Tcl_Obj* CONST objv[],
                                      bool staticOnly) const
 {  
-  FunctionSelector functionSelector(this, objc, objv);
+  MethodSelector methodSelector(this, objc, objv);
   
   // Get the method name.
   String methodName = Tcl_GetStringFromObj(objv[1], NULL);
 
   // Prepare the set of candidate functions.
   CandidateFunctions candidates;    
-  FunctionMap::const_iterator first = m_FunctionMap.lower_bound(methodName);
-  FunctionMap::const_iterator last = m_FunctionMap.upper_bound(methodName);
-  for(FunctionMap::const_iterator i = first; i != last; ++i)
+  MethodMap::const_iterator first = m_MethodMap.lower_bound(methodName);
+  MethodMap::const_iterator last = m_MethodMap.upper_bound(methodName);
+  for(MethodMap::const_iterator i = first; i != last; ++i)
     {
-    functionSelector.AddCandidateMethod(i->second);
+    methodSelector.AddCandidate(i->second);
     candidates.push_back(i->second);
     }
   
   // See if any candidates match the given arguments.
-  FunctionBase* method = functionSelector.SelectMethod(staticOnly);
+  Method* method = methodSelector.Select(staticOnly);
   
   // Make sure we have a matching candidate.  If not, we do not chain
   // up the class hierarchy because of name hiding.
   if(!method)
     {
-    this->UnknownMethod(methodName, functionSelector.GetArgumentTypes(),
+    this->UnknownMethod(methodName, methodSelector.GetArgumentTypes(),
                         candidates);
     return TCL_ERROR;
     }
@@ -682,7 +728,7 @@ int WrapperBase::CallWrappedFunction(int objc, Tcl_Obj* CONST objv[],
   // Try to call the wrapped method.
   try
     {
-    method->Call(objc, objv);
+    method->Call(methodSelector.GetArguments());
     }
   catch (TclException e)
     {
@@ -698,393 +744,6 @@ int WrapperBase::CallWrappedFunction(int objc, Tcl_Obj* CONST objv[],
     }
   return TCL_OK;  
 }
-
-
-/**
- * Constructor just sets argument as uninitialized.
- */
-WrapperBase::Argument::Argument():
-  m_ArgumentId(Uninitialized_id)
-{
-}
-
-
-/**
- * Copy constructor ensures m_Anything still points to the right place.
- */
-WrapperBase::Argument::Argument(const Argument& a):
-  m_Anything(a.m_Anything),
-  m_Type(a.m_Type),
-  m_ArgumentId(a.m_ArgumentId),
-  m_Temp(a.m_Temp)
-{
-  // Make sure m_Anything points to the right place in the copy.
-  switch (m_ArgumentId)
-    {
-    case bool_id:    m_Anything.object = &m_Temp.m_bool; break;
-    case int_id:     m_Anything.object = &m_Temp.m_int; break;
-    case long_id:    m_Anything.object = &m_Temp.m_long; break;
-    case double_id:  m_Anything.object = &m_Temp.m_double; break;
-    case Object_id:
-    case Pointer_id:
-    case Function_id:
-    case Uninitialized_id:
-    default: break;
-    }
-}
-
-
-/**
- * Assignment operator just duplicates functionality of copy constructor.
- */
-WrapperBase::Argument& WrapperBase::Argument::operator=(const Argument& a)
-{
-  // Copy the values.
-  m_Anything = a.m_Anything;
-  m_Type = a.m_Type;
-  m_ArgumentId = a.m_ArgumentId;
-  m_Temp = a.m_Temp;
-  
-  // Make sure m_Anything points to the right place in the copy.
-  switch (m_ArgumentId)
-    {
-    case bool_id:    m_Anything.object = &m_Temp.m_bool; break;
-    case int_id:     m_Anything.object = &m_Temp.m_int; break;
-    case long_id:    m_Anything.object = &m_Temp.m_long; break;
-    case double_id:  m_Anything.object = &m_Temp.m_double; break;
-    case Object_id:
-    case Pointer_id:
-    case Function_id:
-    case Uninitialized_id:
-    default: break;
-    }
-  
-  return *this;
-}
-
-
-/**
- * Get the value of the Argument for passing to the conversion function.
- */
-Anything WrapperBase::Argument::GetValue() const
-{
-  // TODO: Throw exception for uninitalized argument.
-  return m_Anything;
-}
-
-
-/**
- * Get the type of the Argument for selecting a conversion function.
- */
-const CvQualifiedType& WrapperBase::Argument::GetType() const
-{
-  // TODO: Throw exception for uninitalized argument.
-  return m_Type;
-}
-
-
-/**
- * Set the type of the Argument for selecting a conversion function.
- * This should only be used to dereference the implicit object argument.
- */
-void WrapperBase::Argument::SetType(const CvQualifiedType& type)
-{
-  m_Type = type;
-}
-
-
-/**
- * Set the Argument to be the object pointed to by the given pointer.
- */
-void WrapperBase::Argument::SetToObject(ObjectType object,
-                                        const CvQualifiedType& type)
-{
-  m_Anything.object = object;
-  m_Type = type;
-  m_ArgumentId = Object_id;
-}
-
-
-/**
- * Set the Argument to be the given bool value.
- */
-void WrapperBase::Argument::SetToBool(bool b)
-{
-  m_Temp.m_bool = b;
-  m_Anything.object = &m_Temp.m_bool;
-  m_Type = CvPredefinedType<bool>::type;
-  m_ArgumentId = bool_id;
-}
-
-
-/**
- * Set the Argument to be the given int value.
- */
-void WrapperBase::Argument::SetToInt(int i)
-{
-  m_Temp.m_int = i;
-  m_Anything.object = &m_Temp.m_int;
-  m_Type = CvPredefinedType<int>::type;
-  m_ArgumentId = int_id;
-}
-
-
-/**
- * Set the Argument to be the given long value.
- */
-void WrapperBase::Argument::SetToLong(long l)
-{
-  m_Temp.m_long = l;
-  m_Anything.object = &m_Temp.m_long;
-  m_Type = CvPredefinedType<long>::type;
-  m_ArgumentId = long_id;
-}
-
-
-/**
- * Set the Argument to be the given double value.
- */
-void WrapperBase::Argument::SetToDouble(double d)
-{
-  m_Temp.m_double = d;
-  m_Anything.object = &m_Temp.m_double;
-  m_Type = CvPredefinedType<double>::type;
-  m_ArgumentId = double_id;
-}
-
-
-/**
- * Set the Argument to be the given pointer value.
- */
-void WrapperBase::Argument::SetToPointer(ObjectType v,
-                                         const CvQualifiedType& pointerType)
-{
-  m_Anything.object = v;
-  m_Type = pointerType;
-  m_ArgumentId = Pointer_id;
-}
-
-
-/**
- * Set the Argument to be the given function pointer value.
- */
-void WrapperBase::Argument::SetToFunction(FunctionType f,
-                                          const CvQualifiedType& functionPointerType)
-{
-  m_Anything.function = f;
-  m_Type = functionPointerType;
-  m_ArgumentId = Function_id;
-}
-
-
-/**
- * The constructor passes the function name and pararmeter types down to
- * the FunctionBase.
- */
-WrapperBase::Constructor::Constructor(WrapperBase* wrapper,
-                                      ConstructorWrapper constructorWrapper,
-                                      const String& name,
-                                      const ParameterTypes& parameterTypes):
-  FunctionBase(name, parameterTypes),
-  m_Wrapper(wrapper),
-  m_ConstructorWrapper(constructorWrapper)
-{
-}
-
-
-/**
- * Get a string representation of the constructor's function prototype.
- */
-String WrapperBase::Constructor::GetPrototype() const
-{
-  String prototype = m_Wrapper->GetWrappedTypeRepresentation()->Name() + "::" + m_Name + "(";
-  ParameterTypes::const_iterator arg = m_ParameterTypes.begin();
-  while(arg != m_ParameterTypes.end())
-    {
-    prototype += (*arg)->Name();
-    if(++arg != m_ParameterTypes.end())
-      { prototype += ", "; }
-    }
-  prototype += ")";
-  
-  return prototype;
-}
-
-
-/**
- * Invokes a wrapped constructor.  This actually extracts the C++ objects
- * from the Tcl objects given as arguments and calls the constructor wrapper.
- *
- * If construction succeeds, this also adds the object to the Wrapper's
- * instance table.
- */
-void WrapperBase::Constructor::Call(int objc, Tcl_Obj*CONST objv[]) const
-{
-  // Prepare the list of arguments for the method wrapper to convert and pass
-  // to the real method.
-  Arguments arguments;
-  for(int i=2; i < objc; ++i)
-    {
-    arguments.push_back(m_Wrapper->GetObjectArgument(objv[i]));
-    }
-  
-  // Call the constructor wrapper.
-  void* object = m_ConstructorWrapper(m_Wrapper, arguments);
-  
-  // TODO: Make sure object != NULL
-  
-  // Get the name of the instance.
-  char* instanceName = Tcl_GetStringFromObj(objv[1], NULL);
-  
-  // Insert the object into the instance table.
-  m_Wrapper->AddInstance(instanceName, object);
-}
-
-
-/**
- * The constructor passes the function name and pararmeter types down to
- * the FunctionBase.  It then adds the implicit object parameter to the
- * front of the parameter list.
- */
-WrapperBase::Method::Method(WrapperBase* wrapper,
-                            MethodWrapper methodWrapper,
-                            const String& name,
-                            bool isConst,
-                            const CvQualifiedType& returnType,
-                            const ParameterTypes& parameterTypes):
-  FunctionBase(name, parameterTypes),
-  m_Wrapper(wrapper),
-  m_MethodWrapper(methodWrapper),
-  m_ReturnType(returnType)
-{
-  // Add the implicit object parameter to the front of the parameter list.
-  CvQualifiedType wrappedType = wrapper->GetWrappedTypeRepresentation()
-    ->GetCvQualifiedType(isConst, false);
-  const Type* implicit = TypeInfo::GetReferenceType(wrappedType).GetType();
-  m_ParameterTypes.insert(m_ParameterTypes.begin(), implicit);
-}
-
-
-/**
- * Get a string representation of the method's function prototype.
- */
-String WrapperBase::Method::GetPrototype() const
-{
-  String prototype = m_ReturnType.GetName() + " ";
-  ParameterTypes::const_iterator arg = m_ParameterTypes.begin();
-  CvQualifiedType implicit = ReferenceType::SafeDownCast(*arg++)->GetReferencedType();
-  prototype += m_Wrapper->GetWrappedTypeRepresentation()->Name() + "::" + m_Name + "(";
-  while(arg != m_ParameterTypes.end())
-    {
-    prototype += (*arg)->Name();
-    if(++arg != m_ParameterTypes.end())
-      { prototype += ", "; }
-    }
-  prototype += ")";
-  
-  if(implicit.IsConst())
-    {
-    prototype += " const";
-    }
-  
-  return prototype;
-}
-
-
-/**
- * Invokes a wrapped method.  This actually extracts the C++ objects
- * from the Tcl objects given as arguments and calls the method wrapper.
- */
-void WrapperBase::Method::Call(int objc, Tcl_Obj*CONST objv[]) const
-{
-  // Prepare the implicit object argument for the method wrapper to use
-  // to call the real method.
-  Argument implicit = m_Wrapper->GetObjectArgument(objv[0]);
-  
-  if(implicit.GetType().IsPointerType())
-    {
-    implicit.SetType(PointerType::SafeDownCast(implicit.GetType().GetType())->GetPointedToType());
-    }
-  
-  // Prepare the list of arguments for the method wrapper to convert and pass
-  // to the real method.
-  Arguments arguments;
-  for(int i=2; i < objc; ++i)
-    {
-    arguments.push_back(m_Wrapper->GetObjectArgument(objv[i]));
-    }
-  
-  // Call the method wrapper.
-  m_MethodWrapper(m_Wrapper, implicit, arguments);
-}
-
-
-/**
- * The constructor passes the function name and pararmeter types down to
- * the FunctionBase.  It then adds the implicit object parameter to the
- * front of the parameter list.  This implicit object parameter for
- * a static method wrapper is of a special type that matches any object.
- */
-WrapperBase
-::StaticMethod::StaticMethod(WrapperBase* wrapper,
-                             StaticMethodWrapper staticMethodWrapper,
-                             const String& name,
-                             const CvQualifiedType& returnType,
-                             const ParameterTypes& parameterTypes):
-  FunctionBase(name, parameterTypes),
-  m_Wrapper(wrapper),
-  m_StaticMethodWrapper(staticMethodWrapper),
-  m_ReturnType(returnType)
-{
-  // Add the implicit object parameter to the front of the parameter list.
-  const Type* implicit = TypeInfo::GetFundamentalType(FundamentalType::Void, false, false).GetType();
-  m_ParameterTypes.insert(m_ParameterTypes.begin(), implicit);
-}
-
-
-/**
- * Get a string representation of the static method's function prototype.
- */
-String
-WrapperBase
-::StaticMethod::GetPrototype() const
-{
-  String prototype = m_ReturnType.GetName() + " ";
-  ParameterTypes::const_iterator arg = m_ParameterTypes.begin();
-  ++arg; // Skip past implicit object parameter.
-  prototype += m_Wrapper->GetWrappedTypeRepresentation()->Name() + "::" + m_Name + "(";
-  while(arg != m_ParameterTypes.end())
-    {
-    prototype += (*arg)->Name();
-    if(++arg != m_ParameterTypes.end())
-      { prototype += ", "; }
-    }
-  prototype += ")";
-  
-  return prototype;
-}
-
-
-/**
- * Invokes a wrapped static method.  This actually extracts the C++ objects
- * from the Tcl objects given as arguments and calls the static method wrapper.
- */
-void
-WrapperBase
-::StaticMethod::Call(int objc, Tcl_Obj*CONST objv[]) const
-{
-  // Prepare the list of arguments for the method wrapper to convert and pass
-  // to the real method.
-  Arguments arguments;
-  for(int i=2; i < objc; ++i)
-    {
-    arguments.push_back(m_Wrapper->GetObjectArgument(objv[i]));
-    }
-  
-  // Call the static method wrapper.
-  m_StaticMethodWrapper(m_Wrapper, arguments);
-}
-
 
 } // namespace _wrap_
 

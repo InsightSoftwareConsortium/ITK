@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    wrapFunctionBase.cxx
+  Module:    wrapAnything.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,79 +38,36 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-
-#include "wrapFunctionBase.h"
+#ifndef _wrapAnything_h
+#define _wrapAnything_h
 
 namespace _wrap_
 {
 
-/**
- * Constructor just initializes all members.  This is only called from
- * a subclass's constructor, which is only called by a member of a subclass
- * of WrapperBase.
- */
-FunctionBase::FunctionBase(const String& name,
-                           const ParameterTypes& parameterTypes):
-  m_Name(name),
-  m_ParameterTypes(parameterTypes)
-{
-}
-
 
 /**
- * Need a virtual destructor.
+ * The general argument to a conversion function.
+ * Casts between data and function pointers are not allowed.  Therfore,
+ * we need to represent a general object as a class type.  Since only one
+ * of the pointers is needed at a time, it can be a union.
  */
-FunctionBase::~FunctionBase()
+union Anything
 {
-}
+  typedef void* ObjectType;
+  typedef void (*FunctionType)();
+  ObjectType   object;
+  FunctionType function;
+};
 
 
 /**
- * Get the name of the wrapped method.
+ * The general type of a conversion function.  A real conversion function
+ * will return something, but they are all cast to this for storage
+ * in the table.
  */
-const String& FunctionBase::GetName() const
-{
-  return m_Name;
-}
-
-
-/**
- * Get the number of arguments that the method takes.
- */
-unsigned long FunctionBase::GetNumberOfParameters() const
-{
-  return m_ParameterTypes.size();
-}
-
-
-/**  
- * Get a reference to the vector holding the method's parameter types.
- */
-const FunctionBase::ParameterTypes&
-FunctionBase::GetParameterTypes() const
-{
-  return m_ParameterTypes;
-}
-
-
-/**  
- * Get a begin iterator to the method's parameter types.
- */
-FunctionBase::ParameterTypes::const_iterator
-FunctionBase::ParametersBegin() const
-{
-  return m_ParameterTypes.begin();
-}
-
-
-/**  
- * Get an end iterator to the method's parameter types.
- */
-FunctionBase::ParameterTypes::const_iterator
-FunctionBase::ParametersEnd() const
-{
-  return m_ParameterTypes.end();
-}
+typedef void (*ConversionFunction)(Anything);
 
 
 } // namespace _wrap_
+
+#endif

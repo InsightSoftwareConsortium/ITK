@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    wrapFunctionBase.cxx
+  Module:    wrapConstructor.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -39,77 +39,59 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
 
-#include "wrapFunctionBase.h"
+#include "wrapConstructor.h"
+#include "wrapTypeInfo.h"
+#include "wrapWrapperBase.h"
 
 namespace _wrap_
 {
 
-/**
- * Constructor just initializes all members.  This is only called from
- * a subclass's constructor, which is only called by a member of a subclass
- * of WrapperBase.
- */
-FunctionBase::FunctionBase(const String& name,
-                           const ParameterTypes& parameterTypes):
-  m_Name(name),
-  m_ParameterTypes(parameterTypes)
-{
-}
-
 
 /**
- * Need a virtual destructor.
+ * The constructor passes the function name and pararmeter types down to
+ * the FunctionBase.
  */
-FunctionBase::~FunctionBase()
+Constructor::Constructor(WrapperBase* wrapper,
+                         ConstructorWrapper constructorWrapper,
+                         const String& name,
+                         const ParameterTypes& parameterTypes):
+  FunctionBase(name, parameterTypes),
+  m_Wrapper(wrapper),
+  m_ConstructorWrapper(constructorWrapper)
 {
 }
 
 
 /**
- * Get the name of the wrapped method.
+ * Get a string representation of the constructor's function prototype.
  */
-const String& FunctionBase::GetName() const
+String Constructor::GetPrototype() const
 {
-  return m_Name;
+  String prototype = m_Wrapper->GetWrappedTypeRepresentation()->Name() + "::" + m_Name + "(";
+  ParameterTypes::const_iterator arg = m_ParameterTypes.begin();
+  while(arg != m_ParameterTypes.end())
+    {
+    prototype += (*arg)->Name();
+    if(++arg != m_ParameterTypes.end())
+      { prototype += ", "; }
+    }
+  prototype += ")";
+  
+  return prototype;
 }
 
 
 /**
- * Get the number of arguments that the method takes.
+ * Invokes a wrapped constructor.  This actually extracts the C++ objects
+ * from the Tcl objects given as arguments and calls the constructor wrapper.
+ *
+ * If construction succeeds, this also adds the object to the Wrapper's
+ * instance table.
  */
-unsigned long FunctionBase::GetNumberOfParameters() const
+void* Constructor::Call(const Arguments& arguments) const
 {
-  return m_ParameterTypes.size();
-}
-
-
-/**  
- * Get a reference to the vector holding the method's parameter types.
- */
-const FunctionBase::ParameterTypes&
-FunctionBase::GetParameterTypes() const
-{
-  return m_ParameterTypes;
-}
-
-
-/**  
- * Get a begin iterator to the method's parameter types.
- */
-FunctionBase::ParameterTypes::const_iterator
-FunctionBase::ParametersBegin() const
-{
-  return m_ParameterTypes.begin();
-}
-
-
-/**  
- * Get an end iterator to the method's parameter types.
- */
-FunctionBase::ParameterTypes::const_iterator
-FunctionBase::ParametersEnd() const
-{
-  return m_ParameterTypes.end();
+  // Call the constructor wrapper.
+  return m_ConstructorWrapper(m_Wrapper, arguments);
 }
 
 

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    wrapFunctionBase.cxx
+  Module:    wrapMethod.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -39,77 +39,71 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
 
-#include "wrapFunctionBase.h"
+#include "wrapMethod.h"
+#include "wrapTypeInfo.h"
+#include "wrapWrapperBase.h"
 
 namespace _wrap_
 {
 
 /**
- * Constructor just initializes all members.  This is only called from
- * a subclass's constructor, which is only called by a member of a subclass
- * of WrapperBase.
+ * The constructor passes the function name and pararmeter types down to
+ * the FunctionBase.  It then adds the implicit object parameter to the
+ * front of the parameter list.
  */
-FunctionBase::FunctionBase(const String& name,
-                           const ParameterTypes& parameterTypes):
-  m_Name(name),
-  m_ParameterTypes(parameterTypes)
+Method::Method(WrapperBase* wrapper,
+               MethodWrapper methodWrapper,
+               const String& name,
+               bool isConst,
+               const CvQualifiedType& returnType,
+               const ParameterTypes& parameterTypes):
+  FunctionBase(name, parameterTypes),
+  m_Wrapper(wrapper),
+  m_MethodWrapper(methodWrapper),
+  m_ReturnType(returnType)
 {
+  // Add the implicit object parameter to the front of the parameter list.
+  CvQualifiedType wrappedType = wrapper->GetWrappedTypeRepresentation()
+    ->GetCvQualifiedType(isConst, false);
+  const Type* implicit = TypeInfo::GetReferenceType(wrappedType).GetType();
+  m_ParameterTypes.insert(m_ParameterTypes.begin(), implicit);
 }
 
 
 /**
- * Need a virtual destructor.
+ * Get a string representation of the method's function prototype.
  */
-FunctionBase::~FunctionBase()
+String Method::GetPrototype() const
 {
+  String prototype = m_ReturnType.GetName() + " ";
+  ParameterTypes::const_iterator arg = m_ParameterTypes.begin();
+  CvQualifiedType implicit = ReferenceType::SafeDownCast(*arg++)->GetReferencedType();
+  prototype += m_Wrapper->GetWrappedTypeRepresentation()->Name() + "::" + m_Name + "(";
+  while(arg != m_ParameterTypes.end())
+    {
+    prototype += (*arg)->Name();
+    if(++arg != m_ParameterTypes.end())
+      { prototype += ", "; }
+    }
+  prototype += ")";
+  
+  if(implicit.IsConst())
+    {
+    prototype += " const";
+    }
+  
+  return prototype;
 }
 
 
 /**
- * Get the name of the wrapped method.
+ * Invokes a wrapped method.  This actually extracts the C++ objects
+ * from the Tcl objects given as arguments and calls the method wrapper.
  */
-const String& FunctionBase::GetName() const
+void Method::Call(const Arguments& arguments) const
 {
-  return m_Name;
-}
-
-
-/**
- * Get the number of arguments that the method takes.
- */
-unsigned long FunctionBase::GetNumberOfParameters() const
-{
-  return m_ParameterTypes.size();
-}
-
-
-/**  
- * Get a reference to the vector holding the method's parameter types.
- */
-const FunctionBase::ParameterTypes&
-FunctionBase::GetParameterTypes() const
-{
-  return m_ParameterTypes;
-}
-
-
-/**  
- * Get a begin iterator to the method's parameter types.
- */
-FunctionBase::ParameterTypes::const_iterator
-FunctionBase::ParametersBegin() const
-{
-  return m_ParameterTypes.begin();
-}
-
-
-/**  
- * Get an end iterator to the method's parameter types.
- */
-FunctionBase::ParameterTypes::const_iterator
-FunctionBase::ParametersEnd() const
-{
-  return m_ParameterTypes.end();
+  // Call the method wrapper.
+  m_MethodWrapper(m_Wrapper, arguments);
 }
 
 

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    wrapFunctionBase.cxx
+  Module:    wrapArgument.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,79 +38,82 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
+#ifndef _wrapArgument_h
+#define _wrapArgument_h
 
-#include "wrapFunctionBase.h"
+#include "wrapUtils.h"
+#include "wrapAnything.h"
+
+#include <vector>
 
 namespace _wrap_
 {
 
 /**
- * Constructor just initializes all members.  This is only called from
- * a subclass's constructor, which is only called by a member of a subclass
- * of WrapperBase.
+ * Holds an argument after extraction from a Tcl object, but before
+ * passing to the final conversion function.  This is necessary because
+ * the memory to which the argument refers may not be an InstanceTable
+ * object.  It may be a pointer or a fundamental type.
  */
-FunctionBase::FunctionBase(const String& name,
-                           const ParameterTypes& parameterTypes):
-  m_Name(name),
-  m_ParameterTypes(parameterTypes)
+class _wrap_EXPORT Argument
 {
-}
+public:
+  Argument();
+  Argument(const Argument&);
+  Argument& operator=(const Argument&);
 
+  typedef Anything::ObjectType   ObjectType;
+  typedef Anything::FunctionType FunctionType;
+  
+  Anything GetValue() const;
+  const CvQualifiedType& GetType() const;
+  void SetType(const CvQualifiedType&);
+  void SetToObject(ObjectType object, const CvQualifiedType& type);
+  void SetToBool(bool);
+  void SetToInt(int);
+  void SetToLong(long);
+  void SetToDouble(double);
+  void SetToPointer(ObjectType v, const CvQualifiedType& pointerType);
+  void SetToFunction(FunctionType f,
+                     const CvQualifiedType& functionPointerType);
+private:
+  enum ArgumentId { Uninitialized_id=0, Object_id, Pointer_id, Function_id,
+                    bool_id, int_id, long_id, double_id };
+  
+  /**
+   * The pointer to the actual object.
+   */
+  Anything m_Anything;
 
+  /**
+   * The type of the object.
+   */
+  CvQualifiedType m_Type;
+
+  /**
+   * Which type of Argument this is.
+   */
+  ArgumentId m_ArgumentId;
+  
+  /**
+   * If a temporary is needed to hold the value extracted from the
+   * Tcl object, this will hold it.
+   */
+  union
+  {
+    bool m_bool;
+    int m_int;
+    long m_long;
+    double m_double;
+  } m_Temp;
+};
+
+  
 /**
- * Need a virtual destructor.
+ * Represent function arguments.
  */
-FunctionBase::~FunctionBase()
-{
-}
-
-
-/**
- * Get the name of the wrapped method.
- */
-const String& FunctionBase::GetName() const
-{
-  return m_Name;
-}
-
-
-/**
- * Get the number of arguments that the method takes.
- */
-unsigned long FunctionBase::GetNumberOfParameters() const
-{
-  return m_ParameterTypes.size();
-}
-
-
-/**  
- * Get a reference to the vector holding the method's parameter types.
- */
-const FunctionBase::ParameterTypes&
-FunctionBase::GetParameterTypes() const
-{
-  return m_ParameterTypes;
-}
-
-
-/**  
- * Get a begin iterator to the method's parameter types.
- */
-FunctionBase::ParameterTypes::const_iterator
-FunctionBase::ParametersBegin() const
-{
-  return m_ParameterTypes.begin();
-}
-
-
-/**  
- * Get an end iterator to the method's parameter types.
- */
-FunctionBase::ParameterTypes::const_iterator
-FunctionBase::ParametersEnd() const
-{
-  return m_ParameterTypes.end();
-}
-
-
+typedef std::vector<Argument> Arguments;
+  
 } // namespace _wrap_
+
+#endif

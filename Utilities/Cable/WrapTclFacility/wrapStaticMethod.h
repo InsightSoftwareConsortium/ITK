@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    wrapFunctionBase.cxx
+  Module:    wrapStaticMethod.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,79 +38,32 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
+#ifndef _wrapStaticMethod_h
+#define _wrapStaticMethod_h
 
-#include "wrapFunctionBase.h"
+#include "wrapMethod.h"
 
 namespace _wrap_
 {
 
 /**
- * Constructor just initializes all members.  This is only called from
- * a subclass's constructor, which is only called by a member of a subclass
- * of WrapperBase.
+ * The subclass of FunctionBase which is used for static
+ * method wrappers.
  */
-FunctionBase::FunctionBase(const String& name,
-                           const ParameterTypes& parameterTypes):
-  m_Name(name),
-  m_ParameterTypes(parameterTypes)
+class _wrap_EXPORT StaticMethod: public Method
 {
-}
-
-
-/**
- * Need a virtual destructor.
- */
-FunctionBase::~FunctionBase()
-{
-}
-
-
-/**
- * Get the name of the wrapped method.
- */
-const String& FunctionBase::GetName() const
-{
-  return m_Name;
-}
-
-
-/**
- * Get the number of arguments that the method takes.
- */
-unsigned long FunctionBase::GetNumberOfParameters() const
-{
-  return m_ParameterTypes.size();
-}
-
-
-/**  
- * Get a reference to the vector holding the method's parameter types.
- */
-const FunctionBase::ParameterTypes&
-FunctionBase::GetParameterTypes() const
-{
-  return m_ParameterTypes;
-}
-
-
-/**  
- * Get a begin iterator to the method's parameter types.
- */
-FunctionBase::ParameterTypes::const_iterator
-FunctionBase::ParametersBegin() const
-{
-  return m_ParameterTypes.begin();
-}
-
-
-/**  
- * Get an end iterator to the method's parameter types.
- */
-FunctionBase::ParameterTypes::const_iterator
-FunctionBase::ParametersEnd() const
-{
-  return m_ParameterTypes.end();
-}
+public:
+  // Pull a typedef out of the superclass.
+  typedef FunctionBase::ParameterTypes ParameterTypes;
+  
+  StaticMethod(WrapperBase* wrapper,
+               MethodWrapper methodWrapper,
+               const String& name,
+               const CvQualifiedType& returnType,
+               const ParameterTypes& parameterTypes = ParameterTypes());
+};
 
 
 } // namespace _wrap_
+
+#endif

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    wrapFunctionBase.cxx
+  Module:    wrapConstructor.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,79 +38,43 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
+#ifndef _wrapConstructor_h
+#define _wrapConstructor_h
 
 #include "wrapFunctionBase.h"
+#include "wrapArgument.h"
 
 namespace _wrap_
 {
 
-/**
- * Constructor just initializes all members.  This is only called from
- * a subclass's constructor, which is only called by a member of a subclass
- * of WrapperBase.
- */
-FunctionBase::FunctionBase(const String& name,
-                           const ParameterTypes& parameterTypes):
-  m_Name(name),
-  m_ParameterTypes(parameterTypes)
-{
-}
-
+class WrapperBase;
 
 /**
- * Need a virtual destructor.
+ * Pointer to a function that implements a wrapped constructor.
  */
-FunctionBase::~FunctionBase()
-{
-}
-
+typedef void* (*ConstructorWrapper)(const WrapperBase*, const Arguments&);
 
 /**
- * Get the name of the wrapped method.
+ * The subclass of FunctionBase which is used for constructor
+ * wrappers.
  */
-const String& FunctionBase::GetName() const
+class _wrap_EXPORT Constructor: public FunctionBase
 {
-  return m_Name;
-}
-
-
-/**
- * Get the number of arguments that the method takes.
- */
-unsigned long FunctionBase::GetNumberOfParameters() const
-{
-  return m_ParameterTypes.size();
-}
-
-
-/**  
- * Get a reference to the vector holding the method's parameter types.
- */
-const FunctionBase::ParameterTypes&
-FunctionBase::GetParameterTypes() const
-{
-  return m_ParameterTypes;
-}
-
-
-/**  
- * Get a begin iterator to the method's parameter types.
- */
-FunctionBase::ParameterTypes::const_iterator
-FunctionBase::ParametersBegin() const
-{
-  return m_ParameterTypes.begin();
-}
-
-
-/**  
- * Get an end iterator to the method's parameter types.
- */
-FunctionBase::ParameterTypes::const_iterator
-FunctionBase::ParametersEnd() const
-{
-  return m_ParameterTypes.end();
-}
-
+public:
+  // Pull a typedef out of the superclass.
+  typedef FunctionBase::ParameterTypes ParameterTypes;
+  
+  Constructor(WrapperBase* wrapper,
+              ConstructorWrapper constructorWrapper,
+              const String& name,
+              const ParameterTypes& parameterTypes = ParameterTypes());
+  virtual String GetPrototype() const;
+  void* Call(const Arguments&) const;
+private:
+  const WrapperBase* m_Wrapper;
+  ConstructorWrapper m_ConstructorWrapper;
+};
 
 } // namespace _wrap_
+
+#endif

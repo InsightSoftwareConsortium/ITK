@@ -6,32 +6,57 @@
   Date:      $Date$
   Version:   $Revision$
 
+Copyright (c) 2001 Insight Consortium
+All rights reserved.
 
-  Copyright (c) 2000 National Library of Medicine
-  All rights reserved.
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
 
-  See COPYRIGHT.txt for copyright details.
+ * Redistributions of source code must retain the above copyright notice,
+   this list of conditions and the following disclaimer.
+
+ * Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+ * The name of the Insight Consortium, nor the names of any consortium members,
+   nor of any contributors, may be used to endorse or promote products derived
+   from this software without specific prior written permission.
+
+  * Modified source versions must be plainly marked as such, and must not be
+    misrepresented as being the original software.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS ``AS IS''
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHORS OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
 #ifndef _wrapWrapperBase_h
 #define _wrapWrapperBase_h
 
 #include "wrapUtils.h"
-#include "wrapFunctionBase.h"
-#include "wrapTypeInfo.h"
-#include "wrapFunctionSelector.h"
-#include "wrapConversionTable.h"
-#include "wrapPointer.h"
-#include "wrapReference.h"
-#include "wrapInstanceTable.h"
-#include "wrapWrapperTable.h"
-#include "wrapException.h"
+#include "wrapArgument.h"
 
 #include <vector>
 #include <map>
 
 namespace _wrap_
 {
+
+class FunctionBase;
+class Constructor;
+class Method;
+class StaticMethod;
+class ConversionTable;
+class WrapperTable;
+class InstanceTable;
 
 /**
  * An individual wrapper class is a specialization of this template.
@@ -55,9 +80,6 @@ public:
   void CreateResultCommand(const String& name, const Type* type) const;
   void AddInstance(const String& name, void* object) const;
   String CreateTemporary(void* object, const CvQualifiedType&) const;
-  
-  class Argument;
-  typedef std::vector<Argument> Arguments;
   
   CvQualifiedType GetObjectType(Tcl_Obj* obj) const;
   Argument GetObjectArgument(Tcl_Obj* obj) const;
@@ -86,16 +108,14 @@ public:
    * to instances, and pointers to instances of the type.
    */
   virtual WrapperFunction GetObjectWrapperFunction() const =0;
-
-  typedef FunctionSelector::CandidateFunctions CandidateFunctions;
   
 protected:
-  void AddFunction(FunctionBase*);
+  typedef std::vector<FunctionBase*> CandidateFunctions;
+  void AddFunction(Method*);
+  void AddFunction(Constructor*);
   void NoNameSpecified() const;
   void NoMethodSpecified() const;
-  void UnknownConstructor(const String& methodName,
-                          const CvQualifiedTypes& argumentTypes,
-                          const CandidateFunctions& = CandidateFunctions()) const;
+  void UnknownConstructor(const CvQualifiedTypes& argumentTypes) const;
   void UnknownMethod(const String& methodName,
                      const CvQualifiedTypes& argumentTypes,
                      const CandidateFunctions& = CandidateFunctions()) const;
@@ -140,174 +160,27 @@ protected:
   const ClassType*    m_WrappedTypeRepresentation;
   
   /**
-   * Map from method name to method wrapper.  Duplicate names are
-   * allowed.
-   */
-  typedef std::multimap<String, FunctionBase*> FunctionMap;
-  
-  /**
-   * The method dispatch function needs to know about all possible methods.
-   * This is defined here, but must be filled in by calls from a subclass
-   * to AddFunction.
-   */
-  FunctionMap m_FunctionMap;
-  
-  /**
    * The name of a constructor of the type.  This is the type name without
    * template arguments or namespace qualification.
    */
   String m_ConstructorName;
   
-protected:
-  /**
-   *
-   */
-  typedef void* (*ConstructorWrapper)(const WrapperBase*, const Arguments&);
+  typedef std::vector<Constructor*> Constructors;
   
   /**
-   *
+   * The constructors available to this wrapper.
    */
-  typedef void (*MethodWrapper)(const WrapperBase*, const Argument&, const Arguments&);
+  Constructors m_Constructors;
+  
+  typedef std::multimap<String, Method*> MethodMap;
   
   /**
-   *
+   * Map from method name to method wrapper.  Duplicate names are
+   * allowed.  The method dispatch function needs to know about all
+   * possible methods.  This is defined here, but must be filled in by
+   * calls from a subclass to AddFunction.
    */
-  typedef void (*StaticMethodWrapper)(const WrapperBase*, const Arguments&);
-  
-  class Constructor;
-  class Method;
-  class StaticMethod;
-};
-
-
-/**
- * Holds an argument after extraction from a Tcl object, but before
- * passing to the final conversion function.  This is necessary because
- * the memory to which the argument refers may not be an InstanceTable
- * object.  It may be a pointer or a fundamental type.
- */
-class _wrap_EXPORT WrapperBase::Argument
-{
-public:
-  Argument();
-  Argument(const Argument&);
-  Argument& operator=(const Argument&);
-
-  typedef Anything::ObjectType   ObjectType;
-  typedef Anything::FunctionType FunctionType;
-  
-  Anything GetValue() const;
-  const CvQualifiedType& GetType() const;
-  void SetType(const CvQualifiedType&);
-  void SetToObject(ObjectType object, const CvQualifiedType& type);
-  void SetToBool(bool);
-  void SetToInt(int);
-  void SetToLong(long);
-  void SetToDouble(double);
-  void SetToPointer(ObjectType v, const CvQualifiedType& pointerType);
-  void SetToFunction(FunctionType f,
-                     const CvQualifiedType& functionPointerType);
-private:
-  enum ArgumentId { Uninitialized_id=0, Object_id, Pointer_id, Function_id,
-                    bool_id, int_id, long_id, double_id };
-  
-  /**
-   * The pointer to the actual object.
-   */
-  Anything m_Anything;
-
-  /**
-   * The type of the object.
-   */
-  CvQualifiedType m_Type;
-
-  /**
-   * Which type of Argument this is.
-   */
-  ArgumentId m_ArgumentId;
-  
-  /**
-   * If a temporary is needed to hold the value extracted from the
-   * Tcl object, this will hold it.
-   */
-  union
-  {
-    bool m_bool;
-    int m_int;
-    long m_long;
-    double m_double;
-  } m_Temp;
-};
-
-
-/**
- * The subclass of FunctionBase which is used for constructor
- * wrappers.
- */
-class _wrap_EXPORT WrapperBase::Constructor: public FunctionBase
-{
-public:
-  // Pull a typedef out of the superclass.
-  typedef FunctionBase::ParameterTypes ParameterTypes;
-  
-  Constructor(WrapperBase* wrapper,
-              ConstructorWrapper constructorWrapper,
-              const String& name,
-              const ParameterTypes& parameterTypes = ParameterTypes());
-  virtual String GetPrototype() const;
-  virtual void Call(int objc, Tcl_Obj*CONST objv[]) const;
-private:
-  const WrapperBase* m_Wrapper;
-  ConstructorWrapper m_ConstructorWrapper;
-};
-
-  
-/**
- * The subclass of FunctionBase which is used for method
- * wrappers.
- */
-class _wrap_EXPORT WrapperBase::Method: public FunctionBase
-{
-public:
-  // Pull a typedef out of the superclass.
-  typedef FunctionBase::ParameterTypes ParameterTypes;
-  
-  Method(WrapperBase* wrapper,
-         MethodWrapper methodWrapper,
-         const String& name,
-         bool isConst,
-         const CvQualifiedType& returnType,
-         const ParameterTypes& parameterTypes = ParameterTypes());
-  virtual String GetPrototype() const;
-  virtual void Call(int objc, Tcl_Obj*CONST objv[]) const;
-private:
-  const WrapperBase* m_Wrapper;
-  MethodWrapper m_MethodWrapper;
-  CvQualifiedType m_ReturnType;
-};
-
-
-/**
- * The subclass of FunctionBase which is used for static
- * method wrappers.
- */
-class _wrap_EXPORT WrapperBase::StaticMethod: public FunctionBase
-{
-public:
-  // Pull a typedef out of the superclass.
-  typedef FunctionBase::ParameterTypes ParameterTypes;
-  
-  StaticMethod(WrapperBase* wrapper,
-               StaticMethodWrapper staticMethodWrapper,
-               const String& name,
-               const CvQualifiedType& returnType,
-               const ParameterTypes& parameterTypes = ParameterTypes());
-  virtual String GetPrototype() const;
-  virtual void Call(int objc, Tcl_Obj*CONST objv[]) const;
-private:
-  const WrapperBase* m_Wrapper;
-  StaticMethodWrapper m_StaticMethodWrapper;
-  CvQualifiedType m_ReturnType;
+  MethodMap m_MethodMap;
 };
 
 } // namespace _wrap_
