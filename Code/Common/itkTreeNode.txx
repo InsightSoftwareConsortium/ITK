@@ -26,7 +26,6 @@ namespace itk
 template <class TValueType>
 TreeNode<TValueType>::TreeNode()
 {
-  m_Children.reserve(3);
   m_Parent = NULL;
 }
 
