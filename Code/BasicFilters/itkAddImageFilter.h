@@ -84,7 +84,7 @@ namespace Functor {
   class Add2
   {
   public:
-    typedef NumericTraits< TInput1 >::AccumulateType AccumulatorType;
+    typedef typename NumericTraits< TInput1 >::AccumulateType AccumulatorType;
     Add2() {};
     ~Add2() {};
     inline TOutput operator()( const TInput1 & A, const TInput2 & B)
