@@ -27,6 +27,7 @@ namespace itk
 
 MetaImageIO::MetaImageIO()
 {
+  m_Compression = false;
   if(MET_SystemByteOrderMSB())
     m_ByteOrder = BigEndian;
   else
@@ -386,6 +387,7 @@ MetaImageIO
   m_MetaImage.Position(eOrigin);
   m_MetaImage.BinaryData(binaryData);
 
+  m_MetaImage.CompressedData(m_Compression);
   m_MetaImage.Write(m_FileName.c_str());
 
   delete dSize;

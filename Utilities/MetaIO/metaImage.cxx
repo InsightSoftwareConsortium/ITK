@@ -10,6 +10,7 @@
 #include <metaObject.h>
 #include <metaImage.h>
 
+
 //
 // MetaImage Constructors
 //
@@ -22,6 +23,7 @@ MetaImage()
   m_AutoFreeElementData = 0;
   m_ElementData = NULL;
   strcpy(m_ElementDataFileName, "");
+  m_CompressedElementData = NULL;
 }
 
 //
@@ -33,6 +35,7 @@ MetaImage(const char *_headerName)
   Clear();
   m_AutoFreeElementData = 0;
   m_ElementData = NULL;
+  m_CompressedElementData = NULL;
   MetaImage::Read(_headerName);
   }
 
@@ -45,6 +48,7 @@ MetaImage(MetaImage *_im)
   MetaImage::Clear();
   m_AutoFreeElementData = 0;
   m_ElementData = NULL;
+  m_CompressedElementData = NULL;
   InitializeEssential(_im->NDims(), 
                       _im->DimSize(),
                       _im->ElementSpacing(),
@@ -68,6 +72,7 @@ MetaImage(int _nDims,
   MetaImage::Clear();
   m_AutoFreeElementData = 0;
   m_ElementData = NULL;
+  m_CompressedElementData = NULL;
   InitializeEssential(_nDims, 
                       _dimSize, 
                       _elementSpacing,
@@ -87,6 +92,7 @@ MetaImage(int _x, int _y,
   if(META_DEBUG) std::cout << "MetaImage()" << std::endl;
   m_AutoFreeElementData = 0;
   m_ElementData = NULL;
+  m_CompressedElementData = NULL;
   int ds[2];
   ds[0] = _x;
   ds[1] = _y;
@@ -113,6 +119,7 @@ MetaImage(int _x, int _y, int _z,
   if(META_DEBUG) std::cout << "MetaImage()" << std::endl;
   m_AutoFreeElementData = 0;
   m_ElementData = NULL;
+  m_CompressedElementData = NULL;
   int ds[3];
   ds[0] = _x;
   ds[1] = _y;
@@ -500,7 +507,7 @@ ConvertElementDataTo(MET_ValueEnumType _elementType,
   {
   int eSize;
   MET_SizeOfType(_elementType, &eSize);
-  void * newElementData = new char[m_Quantity*m_ElementNumberOfChannels*eSize];//calloc(m_Quantity*m_ElementNumberOfChannels, eSize);
+  void * newElementData = new char[m_Quantity*m_ElementNumberOfChannels*eSize];
 
   ElementByteOrderFix();
   if(!ElementMinMaxValid())
@@ -858,8 +865,6 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
       }
     }
 
-  M_SetupWriteFields();
-
   if(!m_WriteStream)
     {
     m_WriteStream = new std::ofstream;
@@ -882,7 +887,80 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
     return false;
     }
 
-  M_Write();
+  if(!m_CompressedData)
+    {
+    M_SetupWriteFields();
+    M_Write();
+    }
+  else // perform compression
+    {
+    if(_writeElements)
+      {
+      int elementSize;
+      MET_SizeOfType(m_ElementType, &elementSize);
+      int elementNumberOfBytes = elementSize*m_ElementNumberOfChannels;
+
+    // Compression rate
+    // Choices are Z_BEST_SPEED,Z_BEST_COMPRESSION,Z_DEFAULT_COMPRESSION
+    int compression_rate =  Z_DEFAULT_COMPRESSION;
+
+    unsigned char *input_buffer   = (unsigned char *)m_ElementData;
+
+    // The buffer size is big
+    int buffer_size = m_Quantity * elementNumberOfBytes;
+   
+    m_CompressedElementData   = new unsigned char[m_Quantity * elementNumberOfBytes];
+
+    unsigned char *output_buffer = new unsigned char[buffer_size];
+
+   deflateInit(&z,compression_rate);
+
+    z.avail_in = m_Quantity * elementNumberOfBytes;
+    z.next_in = input_buffer;
+    z.next_out = output_buffer;
+    z.avail_out = buffer_size;
+   
+    int status;
+    int count;
+
+    unsigned long j=0;
+    // Perform the compression 
+    for ( ; ; ) 
+      {
+      if ( z.avail_in == 0 ) 
+        {
+        status = deflate( &z, Z_FINISH );
+        count = buffer_size - z.avail_out;
+        if ( count ) 
+          {
+          memcpy((char*)m_CompressedElementData+j,(char *)output_buffer,count);
+          }
+        break;
+        }
+        status = deflate( &z, Z_NO_FLUSH );
+        count = buffer_size - z.avail_out;
+        memcpy((char*)m_CompressedElementData+j,(char*)output_buffer,count);
+        j += count;
+        z.next_out = output_buffer;
+        z.avail_out = buffer_size; 
+    }
+     
+      m_CompressedDataSize = z.total_out;
+
+      // Print the result
+      fprintf(stderr, "Compressed data: raw data %lu, compressed %lu, factor %.2f, compression level (default = -1) %d, buffer size %d\n",
+      z.total_in, z.total_out,
+      z.total_in == 0 ? 0.0 :
+      (double)z.total_out / z.total_in,
+      compression_rate,
+      buffer_size);
+      deflateEnd(&z);
+
+      }
+    //Now that we know the size of the compresse stream we write the header
+    M_SetupWriteFields();
+    M_Write();
+    }
 
   if(_writeElements)
     {
@@ -891,8 +969,20 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
     int elementNumberOfBytes = elementSize*m_ElementNumberOfChannels;
     if(localData)
       {
-      m_WriteStream->write( (char *)m_ElementData,
-                            m_Quantity * elementNumberOfBytes ); 
+      std::cout << "Writing meta" << std::endl;
+
+
+      if(!m_CompressedData)
+        {
+        m_WriteStream->write( (char *)m_ElementData,
+                              m_Quantity * elementNumberOfBytes );  
+        } 
+      else
+        {
+        m_WriteStream->write( (char *)m_CompressedElementData,
+                             (int)m_CompressedDataSize);  
+        }
+      
       m_WriteStream->close();
       delete m_WriteStream;
       m_WriteStream = 0;
@@ -1265,14 +1355,50 @@ M_ReadElements(std::ifstream * _fstream, void * _data, int _dataQuantity)
     _fstream->seekg(-readSize, std::ios::end);
     }
 
-  _fstream->read((char *)_data, readSize);
-  int gc = _fstream->gcount();
-  if(gc != readSize)
+  // If compressed we inflate
+  if(m_CompressedData && (m_CompressedDataSize>0))
     {
-    std::cout << "MetaImage: M_ReadElements: data not read completely" 
-              << std::endl;
-    std::cout << "   ideal = " << readSize << " : actual = " << gc << std::endl;
-    return false;
+    unsigned char* compr = new unsigned char[(unsigned int)(m_CompressedDataSize)];
+    _fstream->read((char *)compr, (int)m_CompressedDataSize);
+
+    std::cout << "m_CompressedDataSize = " << m_CompressedDataSize << std::endl;
+    std::cout << "readSize =  " << readSize << std::endl;
+ 
+    int err = 0;
+    z_stream d_stream;
+ 
+    d_stream.zalloc = (alloc_func)0;
+    d_stream.zfree = (free_func)0;
+    d_stream.opaque = (voidpf)0;
+    
+    err = inflateInit(&d_stream);
+    d_stream.next_in  = compr;
+    d_stream.avail_in = (unsigned int)(m_CompressedDataSize);
+ 
+    for (;;) 
+      {
+      d_stream.next_out = (unsigned char *)_data; 
+      d_stream.avail_out = readSize;
+      err = inflate(&d_stream, Z_NO_FLUSH);
+      if((err == Z_STREAM_END))
+        {
+        break;
+        }
+      }
+    std::cout << "Done" << d_stream.total_out <<  std::endl;
+    err = inflateEnd(&d_stream);
+    }
+  else // if not compressed
+    {
+    _fstream->read((char *)_data, readSize);
+    int gc = _fstream->gcount();
+    if(gc != readSize)
+      {
+      std::cout << "MetaImage: M_ReadElements: data not read completely" 
+                << std::endl;
+      std::cout << "   ideal = " << readSize << " : actual = " << gc << std::endl;
+      return false;
+      }
     }
 
   return true;

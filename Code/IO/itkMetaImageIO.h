@@ -87,6 +87,9 @@ public:
       independent files */
   virtual void SetDataFileName( const char * filename );
 
+  /** Set if the data should be compressed */
+  void SetCompression(bool compression) {m_Compression = compression;}
+
 protected:
   MetaImageIO();
   ~MetaImageIO();
@@ -98,6 +101,7 @@ private:
 
   MetaImageIO(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
+  bool m_Compression; //Should we compress the data?
   
 };
 

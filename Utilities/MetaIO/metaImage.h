@@ -7,7 +7,7 @@
 
 #include <metaImageTypes.h>
 #include <metaImageUtils.h>
-
+#include <zlib.h>
 /*!    MetaImage (.h and .cpp)
  *
  * Description:
@@ -82,6 +82,8 @@ class MetaImage : public MetaObject
 
     bool  M_Read(void);
 
+    unsigned char *m_CompressedElementData;
+z_stream z;
 
   /////
   //
