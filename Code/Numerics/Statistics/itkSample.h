@@ -82,7 +82,7 @@ public:
   itkTypeMacro(Sample, Object);
 
   /** MeasurementVector typedef support */ 
-  typedef Point<TMeasurement, VMeasurementVectorSize> MeasurementVectorType ;
+  typedef Array<TMeasurement, VMeasurementVectorSize> MeasurementVectorType ;
 
   /** typedef for each element in a measurement vector*/ 
   typedef TMeasurement MeasurementType ;
@@ -102,12 +102,15 @@ public:
   typedef Size< VMeasurementVectorSize > SizeType ;
   typedef typename SizeType::SizeValueType SizeValueType ;
 
-  /** returns SizeType object whose each element is the number of* elements in each dimension*/
+  /** returns SizeType object whose each element is the number of
+   * elements in each dimension*/
   virtual SizeType GetSize() = 0 ;
   
-  /** returns SizeValueType value that is the number of elements in the* 'dimension' dimension.*/
+  /** returns SizeValueType value that is the number of elements in the
+   * 'dimension' dimension.*/
   virtual SizeValueType GetSize(unsigned int dimension) = 0 ;
 
+  virtual size_t GetNumberOfInstances() = 0 ;
 
   /** retunrs the measurement of the instance which is identified by the 'id'*/
   virtual MeasurementVectorType GetMeasurementVector(const InstanceIdentifier id)  = 0 ;
