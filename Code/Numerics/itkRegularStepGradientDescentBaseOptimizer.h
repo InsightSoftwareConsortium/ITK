@@ -91,6 +91,7 @@ public:
   itkGetConstMacro( CurrentIteration, unsigned int );
   itkGetConstMacro( StopCondition, StopConditionType );
   itkGetConstMacro( Value, MeasureType );
+  itkGetConstReferenceMacro( Gradient, DerivativeType );
   
   
 protected:

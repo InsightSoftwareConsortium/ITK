@@ -116,6 +116,9 @@ public:
   /** Get Stop condition. */
   itkGetConstMacro( StopCondition, StopConditionType );
 
+  /** Get Stop condition. */
+  itkGetConstReferenceMacro( Gradient, DerivativeType );
+
 
 protected:
   GradientDescentOptimizer();
