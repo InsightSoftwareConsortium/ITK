@@ -9,6 +9,7 @@ void RegisterTests()
 {
   vnl_sample_reseed(8775070);
   REGISTER_TEST(itk2DDeformableTest );
+  REGISTER_TEST(itkBinaryThinningImageFilterTest );
   REGISTER_TEST(itkDeformableTest );
   REGISTER_TEST(itkGibbsTest );
   REGISTER_TEST(itkMRFImageFilterTest );
