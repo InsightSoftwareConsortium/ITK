@@ -1,17 +1,15 @@
 //  Software Guide : BeginLatex
 //
-//  The following code is the minimal \code{Insight} program.
+//  The following code demonstrates a small \code{Insight} program.
 //
 //  Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
-
 #include "itkImage.h"
 #include <iostream>
 
 int main()
 {
-
   typedef itk::Image< unsigned short, 3 > ImageType;
 
   ImageType::Pointer image = ImageType::New();
@@ -19,18 +17,18 @@ int main()
   std::cout << "ITK Hello World !" << std::endl;
 
   return 0;
-
 }
-
 // Software Guide : EndCodeSnippet
-
 
 //  Software Guide : BeginLatex
 //
-//  This code instantiates a $3D$ image \footnote{Also known as a
-//  \emph{Volume}} whose pixels are represented with type \code{unsigned
+//  This code instantiates a $3D$ image\footnote{Also known as a
+//  \emph{volume}} whose pixels are represented with type \code{unsigned
 //  short}. The image is then constructed and assigned to a
-//  \code{SmartPointer}.
+//  \code{SmartPointer}. Although later in the text we will discuss
+//  \code{SmartPointer}'s in detail, for now think of it as a handle on
+//  an instance of an object (see Chaper \ref{chapter:Infrastructure} for
+//  more information).
 //
 //  Software Guide : EndLatex 
 
