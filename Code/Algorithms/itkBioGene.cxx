@@ -77,7 +77,76 @@ Gene
 }
 
 
+
+/**
+ *    Set the name of the gene
+ */ 
+void
+Gene
+::SetName( const NameType & name )
+{
+   m_Name = name;
+}
  
+
+
+/**
+ *    Set the name of the gene
+ */ 
+void
+Gene
+::SetName( const char * name )
+{
+   m_Name = name;
+}
+
+
+ 
+
+
+/**
+ *    Get the name of the gene
+ */ 
+const char *
+Gene
+::SetName() const
+{
+   return m_Name.str();
+}
+ 
+
+
+
+
+
+
+/**
+ *    Add a protein domain
+ */ 
+void
+Gene
+::AddProteinDomain( const DomainType & domain, AffinityType affinity )
+{
+   m_ProteinDomains[ domain ] = affinity;
+}
+ 
+
+
+
+/**
+ *    Add a protein domain
+ */ 
+void
+Gene
+::AddGeneControlDomain( const DomainType & domain, bool type )
+{
+   ControlDomainType controlDomain;
+   controlDomain.domain = domain;
+   controlDomain.type   = type;
+   m_ControlDomains.push_back( controlDomain );
+}
+ 
+
 }  // end namespace bio
 
 }  // end namespace itk
