@@ -18,6 +18,10 @@
 #define __itkMinimumMaximumImageFilter_h
 
 #include "itkImageToImageFilter.h"
+#include "itkSimpleDataObjectDecorator.h"
+
+#include <vector>
+
 #include "itkNumericTraits.h"
 
 namespace itk
@@ -51,6 +55,17 @@ public:
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
+  /** Image related typedefs. */
+  typedef typename TInputImage::Pointer InputImagePointer;
+
+  typedef typename TInputImage::RegionType RegionType ;
+  typedef typename TInputImage::SizeType SizeType ;
+  typedef typename TInputImage::IndexType IndexType ;
+  typedef typename TInputImage::PixelType PixelType ;
+
+  /** Smart Pointer type to a DataObject. */
+  typedef typename DataObject::Pointer DataObjectPointer;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
@@ -59,31 +74,57 @@ public:
   
   /** Image typedef support. */
   typedef TInputImage InputImageType;
-  typedef typename InputImageType::PixelType InputPixelType;
 
-  /** Return the minimum intensity value. */
-  itkGetMacro(Minimum,InputPixelType);
+  /** Type of DataObjects used for scalar outputs */
+  typedef SimpleDataObjectDecorator<PixelType> PixelObjectType;
+
+  /** Return the computed Minimum. */
+  PixelType GetMinimum() const
+    { return this->GetMinimumOutput()->Get(); }
+  PixelObjectType* GetMinimumOutput();
+  const PixelObjectType* GetMinimumOutput() const;
   
-  /** Return the maximum intensity value. */
-  itkGetMacro(Maximum,InputPixelType);
+  /** Return the computed Maximum. */
+  PixelType GetMaximum() const
+    { return this->GetMaximumOutput()->Get(); }
+  PixelObjectType* GetMaximumOutput();
+  const PixelObjectType* GetMaximumOutput() const;
+
+  /** Make a DataObject of the correct type to be used as the specified
+   * output. */
+  virtual DataObjectPointer MakeOutput(unsigned int idx);
 
 protected:
-  MinimumMaximumImageFilter()
-  {
-    m_Minimum = NumericTraits<InputPixelType>::NonpositiveMin();
-    m_Maximum = NumericTraits<InputPixelType>::max();
-  }
+  MinimumMaximumImageFilter();
   virtual ~MinimumMaximumImageFilter() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  void GenerateData();
+  /** Pass the input through unmodified. Do this by Grafting in the AllocateOutputs method. */
+  void AllocateOutputs();      
+
+  /** Initialize some accumulators before the threads run. */
+  void BeforeThreadedGenerateData ();
+  
+  /** Do final mean and variance computation from data accumulated in threads. */
+  void AfterThreadedGenerateData ();
+  
+  /** Multi-thread version GenerateData. */
+  void  ThreadedGenerateData (const RegionType& 
+                              outputRegionForThread,
+                              int threadId) ;
+
+  // Override since the filter needs all the data for the algorithm
+  void GenerateInputRequestedRegion();
+
+  // Override since the filter produces all of its output
+  void EnlargeOutputRequestedRegion(DataObject *data);
 
 private:
   MinimumMaximumImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-  InputPixelType    m_Minimum;
-  InputPixelType    m_Maximum;
+  std::vector<PixelType> m_ThreadMin;
+  std::vector<PixelType> m_ThreadMax;
 };
   
 } // end namespace itk

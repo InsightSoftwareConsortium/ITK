@@ -8,7 +8,7 @@
 
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
+eplace
      This software is distributed WITHOUT ANY WARRANTY; without even 
      the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
      PURPOSE.  See the above copyright notices for more information.
@@ -16,54 +16,217 @@
 =========================================================================*/
 #ifndef _itkMinimumMaximumImageFilter_txx
 #define _itkMinimumMaximumImageFilter_txx
-
 #include "itkMinimumMaximumImageFilter.h"
-#include "itkImageRegionConstIteratorWithIndex.h"
+
 #include "itkImageRegionIterator.h"
+#include "itkImageRegionConstIterator.h"
 #include "itkNumericTraits.h"
-#include "itkStatisticsImageFilter.h"
+#include "itkProgressReporter.h"
 
-#include "itkProgressAccumulator.h"
+namespace itk {
 
-namespace itk
-{
-
-
-template <class TInputImage>
-void
+template<class TInputImage>
 MinimumMaximumImageFilter<TInputImage>
-::GenerateData(void)
+::MinimumMaximumImageFilter()
 {
-  // Create a process accumulator for tracking the progress of this minipipeline
-  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
-  progress->SetMiniPipelineFilter(this);
+  this->SetNumberOfRequiredOutputs(3);
+  // first output is a copy of the image, DataObject created by
+  // superclass
+  //
+  // allocate the data objects for the remaining outputs which are
+  // just decorators around floating point types
+  for (int i=1; i < 3; ++i)
+    {
+    typename PixelObjectType::Pointer output
+      = static_cast<PixelObjectType*>(this->MakeOutput(i).GetPointer());
+    this->ProcessObject::SetNthOutput(i, output.GetPointer());
+    }
 
-  typename StatisticsImageFilter<TInputImage>::Pointer stats = StatisticsImageFilter<TInputImage>::New();
-
-  // Register the filter with the with progress accumulator using
-  // equal weight proportion
-  progress->RegisterInternalFilter(stats,1.0f);
-
-  stats->SetInput (this->GetInput());
-  stats->GraftOutput (this->GetOutput());
-  stats->Update();
-
-  m_Minimum = static_cast<InputPixelType>(stats->GetMinimum());
-  m_Maximum = static_cast<InputPixelType>(stats->GetMaximum());
-
-  this->GraftOutput(stats->GetOutput());
+  this->GetMinimumOutput()->Set( NumericTraits<PixelType>::max() );
+  this->GetMaximumOutput()->Set( NumericTraits<PixelType>::NonpositiveMin() );
 }
 
-template <class TInputImage>
+
+template<class TInputImage>
+DataObject::Pointer
+MinimumMaximumImageFilter<TInputImage>
+::MakeOutput(unsigned int output)
+{
+  switch (output)
+    {
+   case 0:
+      return static_cast<DataObject*>(TInputImage::New().GetPointer());
+      break;
+    case 1:
+    case 2:
+      return static_cast<DataObject*>(PixelObjectType::New().GetPointer());
+      break;
+    default:
+      // might as well make an image
+      return static_cast<DataObject*>(TInputImage::New().GetPointer());
+      break;
+    }
+}
+
+
+template<class TInputImage>
+typename MinimumMaximumImageFilter<TInputImage>::PixelObjectType*
+MinimumMaximumImageFilter<TInputImage>
+::GetMinimumOutput()
+{
+  return static_cast<PixelObjectType*>(this->ProcessObject::GetOutput(1));
+}
+
+template<class TInputImage>
+const typename MinimumMaximumImageFilter<TInputImage>::PixelObjectType*
+MinimumMaximumImageFilter<TInputImage>
+::GetMinimumOutput() const
+{
+  return static_cast<const PixelObjectType*>(this->ProcessObject::GetOutput(1));
+}
+
+
+template<class TInputImage>
+typename MinimumMaximumImageFilter<TInputImage>::PixelObjectType*
+MinimumMaximumImageFilter<TInputImage>
+::GetMaximumOutput()
+{
+  return static_cast<PixelObjectType*>(this->ProcessObject::GetOutput(2));
+}
+
+template<class TInputImage>
+const typename MinimumMaximumImageFilter<TInputImage>::PixelObjectType*
+MinimumMaximumImageFilter<TInputImage>
+::GetMaximumOutput() const
+{
+  return static_cast<const PixelObjectType*>(this->ProcessObject::GetOutput(2));
+}
+
+template<class TInputImage>
 void
 MinimumMaximumImageFilter<TInputImage>
+::GenerateInputRequestedRegion()
+{
+  Superclass::GenerateInputRequestedRegion();
+  if ( this->GetInput() )
+    {
+    InputImagePointer image =
+      const_cast< typename Superclass::InputImageType * >( this->GetInput() );
+    image->SetRequestedRegionToLargestPossibleRegion();
+    }
+}
+
+template<class TInputImage>
+void
+MinimumMaximumImageFilter<TInputImage>
+::EnlargeOutputRequestedRegion(DataObject *data)
+{
+  Superclass::EnlargeOutputRequestedRegion(data);
+  data->SetRequestedRegionToLargestPossibleRegion();
+}
+
+
+template<class TInputImage>
+void
+MinimumMaximumImageFilter<TInputImage>
+::AllocateOutputs()
+{
+  // Pass the input through as the output
+  InputImagePointer image =
+    const_cast< TInputImage * >( this->GetInput() );
+  this->GraftOutput( image );
+
+  // Nothing that needs to be allocated for the remaining outputs
+}
+
+template<class TInputImage>
+void
+MinimumMaximumImageFilter<TInputImage>
+::BeforeThreadedGenerateData()
+{
+  int numberOfThreads = this->GetNumberOfThreads();
+
+  // Resize the thread temporaries
+  m_ThreadMin.clear();
+  m_ThreadMin.resize(numberOfThreads,NumericTraits<PixelType>::max());
+  m_ThreadMax.clear();
+  m_ThreadMax.resize(numberOfThreads,NumericTraits<PixelType>::NonpositiveMin());
+}
+
+template<class TInputImage>
+void
+MinimumMaximumImageFilter<TInputImage>
+::AfterThreadedGenerateData()
+{
+  int i;
+  int numberOfThreads = this->GetNumberOfThreads();
+
+  PixelType minimum, maximum;
+  
+  // Find the min/max over all threads
+  minimum = NumericTraits<PixelType>::max();
+  maximum = NumericTraits<PixelType>::NonpositiveMin();
+  for( i = 0; i < numberOfThreads; i++)
+    {
+    if (m_ThreadMin[i] < minimum)
+      {
+      minimum = m_ThreadMin[i];
+      }
+    if (m_ThreadMax[i] > maximum)
+      {
+      maximum = m_ThreadMax[i];
+      }
+    }
+
+  // Set the outputs
+  this->GetMinimumOutput()->Set( minimum );
+  this->GetMaximumOutput()->Set( maximum );
+}
+
+template<class TInputImage>
+void
+MinimumMaximumImageFilter<TInputImage>
+::ThreadedGenerateData(const RegionType& outputRegionForThread,
+                       int threadId) 
+{
+  PixelType value;
+  ImageRegionConstIterator<TInputImage> it (this->GetInput(), outputRegionForThread);
+  
+  // support progress methods/callbacks
+  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
+
+  // do the work
+  while (!it.IsAtEnd())
+    {
+    value = static_cast<PixelType>(it.Get());
+    if (value < m_ThreadMin[threadId])
+      {
+      m_ThreadMin[threadId] = value;
+      }
+    if (value > m_ThreadMax[threadId])
+      {
+      m_ThreadMax[threadId] = value;
+      }
+    ++it;
+    progress.CompletedPixel();
+    }
+}
+
+template <class TImage>
+void 
+MinimumMaximumImageFilter<TImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
 
-  os << "Minimum: " << m_Minimum << std::endl;
-  os << "Maximum: " << m_Maximum << std::endl;
+  os << indent << "Minimum: "
+     << NumericTraits<PixelType>::PrintType(this->GetMinimum())
+     << std::endl;
+  os << indent << "Maximum: "
+     << NumericTraits<PixelType>::PrintType(this->GetMaximum())
+     << std::endl;
 }
-} // end namespace itk
 
+
+}// end namespace itk
 #endif
