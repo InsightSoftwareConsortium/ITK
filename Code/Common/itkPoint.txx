@@ -217,7 +217,7 @@ Point<T, TPointDimension>
 template<class T, unsigned int TPointDimension>
 typename Point<T, TPointDimension>::ValueType
 Point<T, TPointDimension>
-::SquaredEuclideanDistanceTo( const Point<T, TPointDimension> & pnt )  const
+::SquaredEuclideanDistanceTo( const Self & pnt )  const
 {
   ValueType sum = NumericTraits<ValueType>::Zero;
   for( unsigned int i=0; i<TPointDimension; i++) 
@@ -236,7 +236,7 @@ Point<T, TPointDimension>
 template<class T, unsigned int TPointDimension>
 typename Point<T, TPointDimension>::ValueType
 Point<T, TPointDimension>
-::EuclideanDistanceTo( const Point<T, TPointDimension> & pnt )  const
+::EuclideanDistanceTo( const Self & pnt )  const
 {
   const double distance = sqrt( 
                 static_cast<double>( SquaredEuclideanDistanceTo( pnt ) ) ) ;
@@ -251,8 +251,7 @@ Point<T, TPointDimension>
 template<class T, unsigned int TPointDimension>
 void
 Point<T, TPointDimension>
-::SetToMidPoint( const Point<T, TPointDimension> & A,
-               const Point<T, TPointDimension> & B )  
+::SetToMidPoint( const Self & A, const Self & B )  
 {
   for( unsigned int i=0; i<TPointDimension; i++) 
   {
@@ -270,8 +269,8 @@ Point<T, TPointDimension>
 template<class T, unsigned int TPointDimension>
 void
 Point<T, TPointDimension>
-::SetToBarycentricCombination( const Point<T, TPointDimension> & A,
-                               const Point<T, TPointDimension> & B,
+::SetToBarycentricCombination( const Self & A,
+                               const Self & B,
                                double alpha )  
 {
   const double wa = alpha;
@@ -290,9 +289,9 @@ Point<T, TPointDimension>
 template<class T, unsigned int TPointDimension>
 void
 Point<T, TPointDimension>
-::SetToBarycentricCombination( const Point<T, TPointDimension> & A,
-                               const Point<T, TPointDimension> & B,
-                               const Point<T, TPointDimension> & C,
+::SetToBarycentricCombination( const Self & A,
+                               const Self & B,
+                               const Self & C,
                                double weightForA, 
                                double weightForB  )
 {
@@ -311,7 +310,7 @@ Point<T, TPointDimension>
 template<class T, unsigned int TPointDimension>
 void
 Point<T, TPointDimension>
-::SetToBarycentricCombination( const Point<T, TPointDimension> * P,
+::SetToBarycentricCombination( const Self * P,
                                const double * weights, unsigned int N )
 {
   Fill( NumericTraits<T>::Zero ); // put this point to null

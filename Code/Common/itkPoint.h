@@ -145,10 +145,10 @@ public:
   VectorType GetVectorFromOrigin( void ) const;
 
   /** Returns Euclidean distance between two points */
-  TCoordRep EuclideanDistanceTo( const Point &  ) const;
+  TCoordRep EuclideanDistanceTo( const Self &  ) const;
   
   /** Returns Squared Euclidean distance between two points */
-  TCoordRep SquaredEuclideanDistanceTo( const Point &  ) const;
+  TCoordRep SquaredEuclideanDistanceTo( const Self &  ) const;
 
   /** Get a vnl_vector_ref referencing the same memory block */
   vnl_vector_ref<TCoordRep> Get_vnl_vector( void );
@@ -164,7 +164,7 @@ public:
    *
    * using the two Points given as arguments, and store the result in 
    * the Point on which the method is invoked. */
-  void SetToMidPoint( const Point &, const Point &  );
+  void SetToMidPoint( const Self &, const Self &  );
 
   /** Set the current point to a barycentric combination of the two points
    * given as arguments.
@@ -190,7 +190,7 @@ public:
    * the line segment   \f$ \overline{AB} \f$ on the side of \f$ \overrightarrow{B} \f$.
    *
    * \sa SetToMedian */
-  void SetToBarycentricCombination( const Point & A, const Point & B, double alpha   );
+  void SetToBarycentricCombination( const Self & A, const Self & B, double alpha   );
 
   /** Set the current point to a barycentric combination of three points
    * Two values are expected to weight the contribution of the first two points,
@@ -207,7 +207,7 @@ public:
    *
    * If the two weight are \f$ \in [0,1] \f$ , The resulting point will alway be placed 
    * inside the triangle formed by the three points given as arguments. */
-  void SetToBarycentricCombination( const Point & A, const Point & B, const Point & C, 
+  void SetToBarycentricCombination( const Self & A, const Self & B, const Self & C, 
                                     double weightA,  double weightB );
  
   /** Set the current point to a barycentric combination of an array of N points
@@ -222,7 +222,7 @@ public:
           +   \left(1- \sum_{i=1}^{N-1} w_i\right) * \overrightarrow{P}_N 
    * \f]
    */
-  void SetToBarycentricCombination( const Point * P, const double * weights, unsigned int N);
+  void SetToBarycentricCombination( const Self * P, const double * weights, unsigned int N);
 };
 
 template< class T, unsigned int TPointDimension >  
