@@ -17,86 +17,60 @@
 #ifndef __itkImageSliceIteratorWithIndex_h
 #define __itkImageSliceIteratorWithIndex_h
 
+#include "itkImageSliceConstIteratorWithIndex.h"
 #include "itkImageIteratorWithIndex.h"
 
 namespace itk
 {
 
 /** \class ImageSliceIteratorWithIndex
- * \brief Multi-dimensional image iterator which walks a region Slice by Slice.
- *
- * This is the typical use of this iterator in a loop:
- *
- * \code
- *  
- * ImageSliceIteratorWithIndex<ImageType> it( image, image->GetRequestedRegion() );
+ * \brief Multi-dimensional image iterator which only walks a region.
  * 
- * it.SetFirstDirection(2);
- * it.SetSecondDirection(0);
+ * ImageSliceIteratorWithIndex is a templated class to represent a multi-dimensional
+ * iterator. ImageSliceIteratorWithIndex is templated over the image type
+ * ImageSliceIteratorWithIndex is constrained to walk only within the 
+ * specified region and along a line parallel to one of the coordinate axis.
  *
- * it.GoToBegin();
- * while( !it.IsAtEnd() )
- * {
- *   while( !it.IsAtEndOfSlice() )
- *   {
- *     while( !it.IsAtEndOfLine() )
- *     {
- *        value = it.Get();  
- *        it.Set( value * 2 );
- *        ++it;
- *     }
- *     it.NextLine();
- *   }
- *   it.NextSlice();
- *  } 
+ * Most of the functionality is inherited from the ImageSliceConstIteratorWithIndex.
+ * The current class only adds write access to image pixels.
  *
- *  \endcode
- *
- * \example  Common/itkImageSliceIteratorWithIndex.cxx
+ * 
+ * \sa ImageSliceConstIteratorWithIndex
  *
  * \ingroup ImageIterators
+ *
+ *
  */
 template<typename TImage>
-class ImageSliceIteratorWithIndex : public ImageIteratorWithIndex<TImage>
+class ImageSliceIteratorWithIndex : public ImageSliceConstIteratorWithIndex<TImage>
 {
 public:
   /** Standard class typedefs. */
   typedef ImageSliceIteratorWithIndex Self;
-  typedef ImageIteratorWithIndex<TImage>  Superclass;
+  typedef ImageSliceConstIteratorWithIndex<TImage>  Superclass;
   
-  /** Index typedef support. While this was already typdef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc.
-   * Note that we have to rescope Index back to itk::Index to that is it not
-   * confused with ImageIterator::Index. */
-  typedef typename TImage::IndexType IndexType;
+   /** Types inherited from the Superclass */
+  typedef typename Superclass::IndexType              IndexType;
+  typedef typename Superclass::IndexValueType         IndexValueType;
+  typedef typename Superclass::SizeType               SizeType;
+  typedef typename Superclass::SizeValueType          SizeValueType;
+  typedef typename Superclass::OffsetType             OffsetType;
+  typedef typename Superclass::OffsetValueType        OffsetValueType;
+  typedef typename Superclass::RegionType             RegionType;
+  typedef typename Superclass::ImageType              ImageType;
+  typedef typename Superclass::PixelContainer         PixelContainer;
+  typedef typename Superclass::PixelContainerPointer  PixelContainerPointer;
+  typedef typename Superclass::InternalPixelType      InternalPixelType;
+  typedef typename Superclass::PixelType              PixelType;
+  typedef typename Superclass::AccessorType           AccessorType;
 
-  /** Image typedef support. While this was already typdef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc.
-   * Note that we have to rescope Index back to itk::Index to that is it not
-   * confused with ImageIterator::Index. */
-  typedef TImage ImageType;
 
-  /** Region typedef support. */
-  typedef typename TImage::RegionType   RegionType;
-
-  /** PixelContainer typedef support. Used to refer to the container for
-   * the pixel data. While this was already typdef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc. */
-  typedef typename TImage::PixelContainer PixelContainer;
-  typedef typename PixelContainer::Pointer PixelContainerPointer;
-  
   /** Default constructor. Needed since we provide a cast constructor. */
-  ImageSliceIteratorWithIndex() : ImageIteratorWithIndex<TImage>() {}
+  ImageSliceIteratorWithIndex();
   
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
-  ImageSliceIteratorWithIndex( ImageType *ptr,
-                      const RegionType & region)
-    : ImageIteratorWithIndex<TImage>(ptr, region) 
-    {
-      m_Direction_A = 0;
-      m_Direction_B = 1;
-    }
+  ImageSliceIteratorWithIndex(ImageType *ptr, const RegionType& region);
 
   /** Constructor that can be used to cast from an ImageIterator to an
    * ImageSliceIteratorWithIndex. Many routines return an ImageIterator but for a
@@ -104,58 +78,25 @@ public:
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageSliceIteratorWithIndex. */
-  ImageSliceIteratorWithIndex( const ImageIteratorWithIndex<TImage> &it)
-    { this->ImageIteratorWithIndex<TImage>::operator=(it); }
-
-  /** Go to the next line.
-   * \sa operator++ \sa operator-- \sa PreviousLine \sa EndOfLine \sa End \sa NextSlice */
-  void NextLine(void);
+  ImageSliceIteratorWithIndex( const ImageIteratorWithIndex<TImage> &it);
   
-  /** Go to the next slice.
-   * \sa operator++ \sa operator-- \sa PreviousSlice \sa EndOfLine \sa End */
-  void NextSlice(void);
+  /** Set the pixel value */
+  void Set( const PixelType & value) const  
+    { m_PixelAccessor.Set(*(const_cast<InternalPixelType *>(m_Position)),value); }
 
-  /** Go to the previous line.
-   * \sa operator++ \sa operator-- \sa NextLine \sa EndOfLine \sa End \sa NextSlice */
-  void PreviousLine(void);
-  
-  /** Go to the previous slice.
-   * \sa operator++ \sa operator-- \sa NextSlice \sa EndOfLine \sa End */
-  void PreviousSlice(void);
+  /** Return a reference to the pixel 
+   * This method will provide the fastest access to pixel
+   * data, but it will NOT support ImageAdaptors. */
+  PixelType & Value(void) 
+    { return *(const_cast<InternalPixelType *>(m_Position)); }
+ 
+protected:
+  /** the construction from a const iterator is declared protected
+      in order to enforce const correctness. */
+  ImageSliceIteratorWithIndex( const ImageSliceConstIteratorWithIndex<TImage> &it);
+  Self & operator=(const ImageSliceConstIteratorWithIndex<TImage> & it);
+ 
 
-  /** Test if the index is at the end of line. */
-  bool IsAtEndOfLine(void);
-
-  /** Test if the index is at the end of the slice. */
-  bool IsAtEndOfSlice(void);
-
-  /** Test if the index is at the begining of line. */
-  bool IsAtBeginOfLine(void);
-
-  /** Test if the index is at the begining of the slice. */
-  bool IsAtBeginOfSlice(void);
-
-  /** Set the fastest direction of movement. */
-  void SetFirstDirection(unsigned int direction);
-
-  /** Set the second fastest direction of movement. */
-  void SetSecondDirection(unsigned int direction);
-
-  /** Increment (prefix) the selected dimension.
-   * No bounds checking is performed. 
-   * \sa GetIndex \sa operator-- */
-  Self & operator++();
-
-  /** Decrement (prefix) the selected dimension.
-   * No bounds checking is performed. 
-   * \sa GetIndex \sa operator++ */
-  Self & operator--();
-
-private:
-  unsigned long  m_PixelJump;
-  unsigned long  m_LineJump;
-  unsigned int   m_Direction_A;
-  unsigned int   m_Direction_B;
 };
 
 } // end namespace itk
@@ -165,3 +106,6 @@ private:
 #endif
 
 #endif 
+
+
+

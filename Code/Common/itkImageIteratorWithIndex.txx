@@ -72,48 +72,38 @@ ImageIteratorWithIndex<TImage>
 //----------------------------------------------------------------------
 template<class TImage>
 ImageIteratorWithIndex<TImage>
-::ImageIteratorWithIndex(TImage *ptr,
-                         const RegionType & region )
+::ImageIteratorWithIndex(TImage *ptr, const RegionType & region ):
+                                  ImageConstIteratorWithIndex<TImage>( ptr, region )
 {
-  m_Image = ptr;
-
-  InternalPixelType * buffer   = m_Image->GetBufferPointer();
-
-  m_BeginIndex        = region.GetIndex();
-  m_PositionIndex     = m_BeginIndex;
-  m_Region            = region;
-
-  memcpy(m_OffsetTable, m_Image->GetOffsetTable(), 
-        (ImageIteratorDimension+1)*sizeof(unsigned long));
-
-  // Compute the start position
-  unsigned long offs =  static_cast<unsigned long>(m_Image->ComputeOffset( m_BeginIndex ));
-  m_Begin = buffer + offs;
-  m_Position = m_Begin;
-  
-  m_Remaining = false;
-
-  // Compute the end offset
-  IndexType pastEnd;
-  for (unsigned int i=0; i < ImageIteratorDimension; ++i)
-    {
-      typename RegionType::SizeValueType size = region.GetSize()[i];
-      if( size > 0 )
-      {
-        m_Remaining = true;
-      }
-      m_EndIndex[i] = m_BeginIndex[i] + static_cast<typename RegionType::IndexValueType>(size);
-      pastEnd[i]    = m_BeginIndex[i] + static_cast<typename RegionType::IndexValueType>(size-1);
-    }
-  m_End = buffer + m_Image->ComputeOffset( pastEnd );
-
-  m_PixelAccessor = m_Image->GetPixelAccessor();
-
-  GoToBegin();
-
 }
  
 
+//----------------------------------------------------------------------
+//  Constructor
+//----------------------------------------------------------------------
+template<class TImage>
+ImageIteratorWithIndex<TImage>
+::ImageIteratorWithIndex(const ImageConstIteratorWithIndex<TImage> & it):
+                                  ImageConstIteratorWithIndex<TImage>( it )
+{
+}
+
+
+   
+//----------------------------------------------------------------------
+//    Assignment Operator
+//----------------------------------------------------------------------
+template<class TImage>
+ImageIteratorWithIndex<TImage> &
+ImageIteratorWithIndex<TImage>
+::operator=(const ImageConstIteratorWithIndex<TImage> & it)
+{
+  this->ImageConstIteratorWithIndex<TImage>::operator=( it );
+  return *this;
+} 
+  
+
+ 
 //----------------------------------------------------------------------
 //    Assignment Operator
 //----------------------------------------------------------------------
@@ -122,111 +112,10 @@ ImageIteratorWithIndex<TImage> &
 ImageIteratorWithIndex<TImage>
 ::operator=(const Self& it)
 {
-  m_Image = it.m_Image;     // copy the smart pointer
-
-  m_BeginIndex        = it.m_BeginIndex;
-  m_EndIndex          = it.m_EndIndex;
-  m_PositionIndex     = it.m_PositionIndex;
-  m_Region            = it.m_Region;
-
-  memcpy(m_OffsetTable, it.m_OffsetTable, 
-        (ImageIteratorDimension+1)*sizeof(unsigned long));
-  
-  m_Position    = it.m_Position;
-  m_Begin       = it.m_Begin;
-  m_End         = it.m_End;
-  m_Remaining   = it.m_Remaining;
-
-  m_PixelAccessor = it.m_PixelAccessor;
-
+  this->ImageConstIteratorWithIndex<TImage>::operator=( it );
   return *this;
 } 
   
-
-
-//----------------------------------------------------------------------------
-// Begin() is the first pixel in the region.
-//----------------------------------------------------------------------------
-template<class TImage>
-ImageIteratorWithIndex<TImage>
-ImageIteratorWithIndex<TImage>
-::Begin(void) const
-{
-  Self it( *this );
-  it.GoToBegin();
-  return it;
-}
-
-
-//----------------------------------------------------------------------------
-// GoToBegin() is the first pixel in the region.
-//----------------------------------------------------------------------------
-template<class TImage>
-void
-ImageIteratorWithIndex<TImage>
-::GoToBegin()
-{
-  // Set the position at begin
-
-  m_Position       = m_Begin;
-  m_PositionIndex  = m_BeginIndex;
-  
-  m_Remaining = false;
-  for (unsigned int i=0; i < ImageIteratorDimension; ++i)
-  {
-    typename TImage::SizeValueType size = m_Region.GetSize()[i];
-    if( size > 0 )
-    {
-      m_Remaining = true;
-    }
-
-  }
-
-}
-
-
-
-//----------------------------------------------------------------------------
-// End() is the last pixel in the region.  DEPRECATED
-//----------------------------------------------------------------------------
-template<class TImage>
-ImageIteratorWithIndex<TImage>
-ImageIteratorWithIndex<TImage>
-::End(void) const
-{
-  Self it( *this );
-  it.GoToEnd();
-  return it;
-}
-
-
-//----------------------------------------------------------------------------
-// GoToEnd() is the last pixel in the region.
-//----------------------------------------------------------------------------
-template<class TImage>
-void
-ImageIteratorWithIndex<TImage>
-::GoToEnd()
-{
-  
-  m_Remaining = false;
-  for (unsigned int i=0; i < ImageIteratorDimension; ++i)
-  {
-    m_PositionIndex[i]  = m_EndIndex[i]-1;
-    typename TImage::SizeValueType size = m_Region.GetSize()[i];
-    if( size > 0 )
-    {
-      m_Remaining = true;
-    }
-
-  }
-
-  // Set the position at the end
-  InternalPixelType * buffer   = m_Image->GetBufferPointer();
-  m_Position = buffer + m_Image->ComputeOffset( m_PositionIndex );
-
-}
-
 
 
 
