@@ -91,6 +91,7 @@ ADD_TEST(itkSplineKernelTransformTest ${COMMON_TESTS} itkSplineKernelTransformTe
 ADD_TEST(itkEllipsoidInteriorExteriorSpatialFunctionTest ${COMMON_TESTS} itkEllipsoidInteriorExteriorSpatialFunctionTest)
 ADD_TEST(itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest ${COMMON_TESTS} itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest)
 ADD_TEST(itkSystemInformationTest ${COMMON_TESTS} itkSystemInformationTest "${ITK_BINARY_DIR}/Testing/HTML/TestingResults/Sites/${SITE}/${BUILDNAME}/BuildNameNotes.xml")
+ADD_TEST(itkMetaDataDictionaryTest ${COMMON_TESTS} itkMetaDataDictionaryTest)
 
 SET(BasicTests_SRCS
 itkModifiedTimeTest.cxx
@@ -175,6 +176,7 @@ itkVectorToRGBImageAdaptorTest.cxx
 itkEllipsoidInteriorExteriorSpatialFunctionTest.cxx
 itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest.cxx
 itkSystemInformationTest.cxx
+itkMetaDataDictionaryTest.cxx
 )
 
 CONFIGURE_FILE(${ITKTesting_SOURCE_DIR}/Code/Common/itkSystemInformationTest.h.in
