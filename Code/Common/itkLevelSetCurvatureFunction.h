@@ -10,7 +10,7 @@
   All rights reserved.
 
   See COPYRIGHT.txt for copyright details.
-  
+
 ==========================================================================*/
 #ifndef _itkLevelSetCurvatureFunction_h
 #define _itkLevelSetCurvatureFunction_h
@@ -24,7 +24,7 @@
 namespace itk
 {
 
-/** 
+/**
  * \class LevelSetCurvatureFunction
  * \brief Calculate the mean curvature of a level set at a specified index.
  *
@@ -41,8 +41,8 @@ namespace itk
  *
  */
 template <class TInputImage >
-class ITK_EXPORT LevelSetCurvatureFunction : 
-  public ImageFunction<TInputImage,double> 
+class ITK_EXPORT LevelSetCurvatureFunction :
+  public ImageFunction<TInputImage,double>
 {
 public:
   /**
@@ -61,11 +61,16 @@ public:
   typedef TInputImage InputImageType;
 
   /**
+   * Dimension of the underlying image.
+   */
+  enum { ImageDimension = InputImageType::ImageDimension };
+
+  /**
    * Index typedef support.
    */
-  typedef Index<InputImageType::ImageDimension> IndexType;
+  typedef Index<ImageDimension> IndexType;
 
-  /** 
+  /**
    * Smart pointer typedef support.
    */
   typedef SmartPointer<Self> Pointer;
@@ -73,9 +78,9 @@ public:
   /**
    * Method for creation through the object factory.
    */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
-  /** 
+  /**
    * Set the input image.
    */
   virtual void SetInputImage( InputImageType * ptr );
@@ -123,7 +128,7 @@ protected:
 
 private:
 
-  Size<InputImageType::ImageDimension>                      m_ImageSize;
+  Size<ImageDimension>                                      m_ImageSize;
   bool                                                      m_ImageSizeOK;
 
   double                                                    m_Curvature;
@@ -131,8 +136,8 @@ private:
   double                                                    m_EpsilonMagnitude;
   bool                                                      m_BorderPixel;
 
-  vnl_vector_fixed<double,InputImageType::ImageDimension>                   m_FirstDerivative;
-  vnl_matrix_fixed<double,InputImageType::ImageDimension,InputImageType::ImageDimension>
+  vnl_vector_fixed<double,ImageDimension>                   m_FirstDerivative;
+  vnl_matrix_fixed<double,ImageDimension,ImageDimension>
                                                             m_SecondDerivative;
 
   IndexType                                                 m_NeighIndex;
@@ -141,7 +146,7 @@ private:
   double                                                    m_CenterValue;
   double                                                    m_DiffValue;
 
-  vnl_matrix_fixed<unsigned int,InputImageType::ImageDimension,InputImageType::ImageDimension>
+  vnl_matrix_fixed<unsigned int,ImageDimension,ImageDimension>
                                                             m_Variable;
 
   void CalculateDerivatives( const IndexType& index );

@@ -10,7 +10,7 @@
   All rights reserved.
 
   See COPYRIGHT.txt for copyright details.
-  
+
 ==========================================================================*/
 #ifndef _itkEntropyDerivativeFunction_h
 #define _itkEntropyDerivativeFunction_h
@@ -25,8 +25,8 @@ namespace itk
  * \class EntropyDerivativeFunction
  * \brief Calculate an entropy satisfying gradient magnitude.
  *
- * EntropyDerivativeFunction calculates an entropy satisfying image 
- * gradient magnitude. This is class is templated over the 
+ * EntropyDerivativeFunction calculates an entropy satisfying image
+ * gradient magnitude. This is class is templated over the
  * input image type.
  *
  * In level set methods, the propagating front can form corners
@@ -65,7 +65,7 @@ public:
    */
   typedef ImageFunction<TInputImage, double> Superclass;
 
-  /** 
+  /**
    * Smart pointer typedef support.
    */
   typedef SmartPointer<Self> Pointer;
@@ -73,7 +73,7 @@ public:
   /**
    * Method for creation through the object factory.
    */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /**
    * InputImageType typedef support.
@@ -81,11 +81,16 @@ public:
   typedef TInputImage InputImageType;
 
   /**
+   * Dimension of the underlying image.
+   */
+  enum { ImageDimension = InputImageType::ImageDimension };
+
+  /**
    * Index typedef support.
    */
-  typedef Index<InputImageType::ImageDimension> IndexType;
+  typedef Index<ImageDimension> IndexType;
 
-  /** 
+  /**
    * Set the input image.
    */
   virtual void SetInputImage( InputImageType * ptr );
@@ -123,7 +128,7 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent);
 
 private:
-  Size<InputImageType::ImageDimension>    m_ImageSize;
+  Size<ImageDimension>    m_ImageSize;
   bool                    m_ImageSizeOK;
 
   double                  m_Speed;

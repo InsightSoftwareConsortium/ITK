@@ -10,7 +10,7 @@
   All rights reserved.
 
   See COPYRIGHT.txt for copyright details.
-  
+
 ==========================================================================*/
 #ifndef _itkUpwindDerivativeFunction_h
 #define _itkUpwindDerivativeFunction_h
@@ -24,7 +24,7 @@ namespace itk
  * \class UpwindDerivativeFunction
  * \brief Calculate the derivative using only upwind neighbors.
  *
- * UpwindDerivativeFunction calculates a derivative using only upwind 
+ * UpwindDerivativeFunction calculates a derivative using only upwind
  * neighbors. The flow direction can be specified by the sign of
  * the speed value set via the SetSpeed() method.
  *
@@ -56,7 +56,7 @@ public:
    */
   typedef ImageFunction<TInputImage, double> Superclass;
 
-  /** 
+  /**
    * Smart pointer typedef support.
    */
   typedef SmartPointer<Self> Pointer;
@@ -64,7 +64,7 @@ public:
   /**
    * Method for creation through the object factory.
    */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /**
    * InputImageType typedef support.
@@ -72,11 +72,16 @@ public:
   typedef TInputImage InputImageType;
 
   /**
+   * Dimension of the underlying image.
+   */
+  enum { ImageDimension = InputImageType::ImageDimension };
+
+  /**
    * Index typedef support.
    */
-  typedef Index<InputImageType::ImageDimension> IndexType;
+  typedef Index<ImageDimension> IndexType;
 
-  /** 
+  /**
    * Set the input image.
    */
   virtual void SetInputImage( InputImageType * ptr );
@@ -102,7 +107,7 @@ public:
     return ( this->Evaluate( index, 0 ) );
   }
 
-  /** 
+  /**
    * Evaluate the function at a non-integer position
    */
   virtual double Evaluate( double coord[], unsigned int dim = 0 )
@@ -134,7 +139,7 @@ protected:
   double                  m_Derivative;
 
 private:
-  Size<InputImageType::ImageDimension>    m_ImageSize;
+  Size<ImageDimension>    m_ImageSize;
   bool                    m_ImageSizeOK;
 
   IndexType               m_NeighIndex;
