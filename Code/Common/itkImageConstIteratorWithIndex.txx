@@ -112,6 +112,7 @@ ImageConstIteratorWithIndex<TImage>
   // Compute the start position
   long offs =  m_Image->ComputeOffset( m_BeginIndex );
   m_Begin = buffer + offs;
+  m_Position = m_Begin;
   
   // Compute the end offset
   m_Remaining = false;
