@@ -16,6 +16,7 @@
 =========================================================================*/
 
 #include "itkImage.h"
+#include "itkFilterWatcher.h"
 #include "itkGaussianImageSource.h"
 
 int itkGaussianImageSourceTest(int, char* [] )
@@ -29,6 +30,7 @@ int itkGaussianImageSourceTest(int, char* [] )
   // Create a gaussian image source
   typedef itk::GaussianImageSource< ImageType > GaussianSourceType;
   GaussianSourceType::Pointer pSource = GaussianSourceType::New();
+  FilterWatcher watcher(pSource, "pSource");
 
   float spacing[]       = { 1.2f, 1.3f, 1.4f };
   float origin[]        = { 1.0f, 4.0f, 2.0f };
