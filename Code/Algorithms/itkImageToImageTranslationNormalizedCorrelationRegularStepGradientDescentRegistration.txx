@@ -114,7 +114,7 @@ ImageToImageTranslationNormalizedCorrelationRegularStepGradientDescentRegistrati
  * Starts the Registration Process
  */
 template <class TReference, class TTarget>
-int
+void
 ImageToImageTranslationNormalizedCorrelationRegularStepGradientDescentRegistration<TReference, TTarget>
 ::StartRegistration( void )
 { 
@@ -151,7 +151,7 @@ ImageToImageTranslationNormalizedCorrelationRegularStepGradientDescentRegistrati
   std::cout << m_Parameters << std::endl;
   std::cout << std::endl;
 
-return 0;
+
 }
 
 

@@ -226,7 +226,7 @@ public:
   /**
    * Method that initiates the registration.
    */
-   int StartRegistration(void);
+   void StartRegistration(void);
 
 
 

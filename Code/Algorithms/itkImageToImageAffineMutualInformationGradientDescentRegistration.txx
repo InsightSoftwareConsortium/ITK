@@ -136,7 +136,7 @@ ImageToImageAffineMutualInformationGradientDescentRegistration< TReference, TTar
  * Starts the Registration Process
  */
 template <class TReference, class TTarget>
-int
+void
 ImageToImageAffineMutualInformationGradientDescentRegistration<TReference, TTarget>
 ::StartRegistration( void )
 {
@@ -161,7 +161,7 @@ ImageToImageAffineMutualInformationGradientDescentRegistration<TReference, TTarg
   // get the results
   m_Parameters = optimizer->GetCurrentPosition();
 
-  return 0;
+  
 
 }
 

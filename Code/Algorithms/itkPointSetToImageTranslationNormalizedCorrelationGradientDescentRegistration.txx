@@ -100,7 +100,7 @@ PointSetToImageTranslationNormalizedCorrelationGradientDescentRegistration< TRef
  * Starts the Registration Process
  */
 template <class TReference, class TTarget>
-int
+void
 PointSetToImageTranslationNormalizedCorrelationGradientDescentRegistration<TReference, TTarget>
 ::StartRegistration( void )
 { 
@@ -132,7 +132,7 @@ PointSetToImageTranslationNormalizedCorrelationGradientDescentRegistration<TRefe
   std::cout << m_Parameters << std::endl;
   std::cout << std::endl;
 
-return 0;
+
 }
 
 

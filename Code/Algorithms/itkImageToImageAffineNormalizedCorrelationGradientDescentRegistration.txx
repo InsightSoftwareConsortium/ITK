@@ -104,7 +104,7 @@ ImageToImageAffineNormalizedCorrelationGradientDescentRegistration< TReference, 
  * Starts the Registration Process
  */
 template <class TReference, class TTarget>
-int
+void
 ImageToImageAffineNormalizedCorrelationGradientDescentRegistration<TReference, TTarget>
 ::StartRegistration( void )
 { 
@@ -160,7 +160,7 @@ ImageToImageAffineNormalizedCorrelationGradientDescentRegistration<TReference, T
   std::cout << m_Parameters << std::endl;
   std::cout << std::endl;
 
-return 0;
+
 }
 
 

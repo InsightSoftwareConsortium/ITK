@@ -104,7 +104,7 @@ ImageToImageAffineMeanSquaresGradientDescentRegistration< TReference, TTarget>
  * Starts the Registration Process
  */
 template <class TReference, class TTarget>
-int
+void
 ImageToImageAffineMeanSquaresGradientDescentRegistration<TReference, TTarget>
 ::StartRegistration( void )
 { 
@@ -160,7 +160,6 @@ ImageToImageAffineMeanSquaresGradientDescentRegistration<TReference, TTarget>
   std::cout << m_Parameters << std::endl;
   std::cout << std::endl;
 
-return 0;
 }
 
 

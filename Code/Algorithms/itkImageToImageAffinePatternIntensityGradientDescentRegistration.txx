@@ -104,7 +104,7 @@ ImageToImageAffinePatternIntensityGradientDescentRegistration< TReference, TTarg
  * Starts the Registration Process
  */
 template <class TReference, class TTarget>
-int
+void
 ImageToImageAffinePatternIntensityGradientDescentRegistration<TReference, TTarget>
 ::StartRegistration( void )
 { 
@@ -160,7 +160,7 @@ ImageToImageAffinePatternIntensityGradientDescentRegistration<TReference, TTarge
   std::cout << m_Parameters << std::endl;
   std::cout << std::endl;
 
-return 0;
+
 }
 
 

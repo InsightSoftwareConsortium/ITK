@@ -100,7 +100,7 @@ PointSetToImageTranslationMeanSquaresRegularStepGradientDescentRegistration< TRe
  * Starts the Registration Process
  */
 template <class TReference, class TTarget>
-int
+void
 PointSetToImageTranslationMeanSquaresRegularStepGradientDescentRegistration<TReference, TTarget>
 ::StartRegistration( void )
 { 
@@ -135,7 +135,7 @@ PointSetToImageTranslationMeanSquaresRegularStepGradientDescentRegistration<TRef
   std::cout << m_Parameters << std::endl;
   std::cout << std::endl;
 
-return 0;
+
 }
 
 

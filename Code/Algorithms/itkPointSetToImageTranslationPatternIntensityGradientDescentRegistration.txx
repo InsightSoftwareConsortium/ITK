@@ -100,7 +100,7 @@ PointSetToImageTranslationPatternIntensityGradientDescentRegistration< TReferenc
  * Starts the Registration Process
  */
 template <class TReference, class TTarget>
-int
+void
 PointSetToImageTranslationPatternIntensityGradientDescentRegistration<TReference, TTarget>
 ::StartRegistration( void )
 { 
@@ -132,7 +132,7 @@ PointSetToImageTranslationPatternIntensityGradientDescentRegistration<TReference
   std::cout << m_Parameters << std::endl;
   std::cout << std::endl;
 
-return 0;
+
 }
 
 
