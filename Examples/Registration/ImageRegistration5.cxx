@@ -472,8 +472,8 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=6cm]{BrainProtonDensitySliceBorder20.eps}
-  // \includegraphics[width=6cm]{BrainProtonDensitySliceRotated10.eps}
+  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceBorder20.eps}
+  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceRotated10.eps}
   // \caption[Rigid2D Registration input images]{Fixed and Moving image
   // provided as input to the registration method using CenteredRigid2D
   // transform.}
@@ -483,9 +483,9 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=5cm]{ImageRegistration5Output.eps}
-  // \includegraphics[width=5cm]{ImageRegistration5DifferenceBefore.eps}
-  // \includegraphics[width=5cm]{ImageRegistration5DifferenceAfter.eps} 
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration5Output.eps}
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration5DifferenceBefore.eps}
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration5DifferenceAfter.eps} 
   // \caption[Rigid2D Registration output images]{Resampled moving image
   // (left). Differences between fixed and moving images, before (center) and
   // after (right) registration with the CenteredRigid2D transform.}
@@ -500,9 +500,9 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[height=5cm]{ImageRegistration5TraceMetric.eps}
-  // \includegraphics[height=5cm]{ImageRegistration5TraceAngle.eps}
-  // \includegraphics[height=5cm]{ImageRegistration5TraceTranslations.eps} 
+  // \includegraphics[height=0.32\textwidth]{ImageRegistration5TraceMetric.eps}
+  // \includegraphics[height=0.32\textwidth]{ImageRegistration5TraceAngle.eps}
+  // \includegraphics[height=0.32\textwidth]{ImageRegistration5TraceTranslations.eps} 
   // \caption[Rigid2D Registration output plots]{Plots of the Metric, rotation
   // angle and translations during the registration using CenteredRigid2D
   // transform.}
@@ -640,8 +640,8 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=6cm]{BrainProtonDensitySliceBorder20.eps}
-  // \includegraphics[width=6cm]{BrainProtonDensitySliceR10X13Y17.eps}
+  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceBorder20.eps}
+  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceR10X13Y17.eps}
   // \caption[Rigid2D Registration input images]{Fixed and Moving image
   // provided as input to the registration method using CenteredRigid2D
   // transform.}
@@ -651,9 +651,9 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=5cm]{ImageRegistration5Output2.eps}
-  // \includegraphics[width=5cm]{ImageRegistration5DifferenceBefore2.eps}
-  // \includegraphics[width=5cm]{ImageRegistration5DifferenceAfter2.eps} 
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration5Output2.eps}
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration5DifferenceBefore2.eps}
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration5DifferenceAfter2.eps} 
   // \caption[Rigid2D Registration output images]{Resampled moving image
   // (left). Differences between fixed and moving images, before (center) and
   // after (right) registration with the
@@ -668,9 +668,9 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[height=5cm]{ImageRegistration5TraceMetric2.eps}
-  // \includegraphics[height=5cm]{ImageRegistration5TraceAngle2.eps}
-  // \includegraphics[height=5cm]{ImageRegistration5TraceTranslations2.eps} 
+  // \includegraphics[height=0.32\textwidth]{ImageRegistration5TraceMetric2.eps}
+  // \includegraphics[height=0.32\textwidth]{ImageRegistration5TraceAngle2.eps}
+  // \includegraphics[height=0.32\textwidth]{ImageRegistration5TraceTranslations2.eps} 
   // \caption[Rigid2D Registration output plots]{Plots of the Metric, rotation
   // angle and translations during the registration using CenteredRigid2D
   // transform on an image with rotation and translation miss-registration.}

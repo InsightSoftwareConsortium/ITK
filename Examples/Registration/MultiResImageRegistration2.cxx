@@ -570,9 +570,9 @@ int main( int argc, char *argv[] )
   // 
   // \begin{figure}
   // \center
-  // \includegraphics[width=5cm]{MultiResImageRegistration2Output.eps}
-  // \includegraphics[width=5cm]{MultiResImageRegistration2CheckerboardBefore.eps}
-  // \includegraphics[width=5cm]{MultiResImageRegistration2CheckerboardAfter.eps}
+  // \includegraphics[width=0.32\textwidth]{MultiResImageRegistration2Output.eps}
+  // \includegraphics[width=0.32\textwidth]{MultiResImageRegistration2CheckerboardBefore.eps}
+  // \includegraphics[width=0.32\textwidth]{MultiResImageRegistration2CheckerboardAfter.eps}
   // \caption[Multi-Resolution Registration Input Images]{Mapped moving image
   // (left) and composition of fixed and moving images before (center) and
   // after (right) multi-resolution registration with AffineTransform.}
@@ -590,8 +590,8 @@ int main( int argc, char *argv[] )
   //  
   // \begin{figure}
   // \center
-  // \includegraphics[height=6cm]{MultiResImageRegistration2TraceTranslations.eps}
-  // \includegraphics[height=6cm]{MultiResImageRegistration2TraceMetric.eps}
+  // \includegraphics[height=0.44\textwidth]{MultiResImageRegistration2TraceTranslations.eps}
+  // \includegraphics[height=0.44\textwidth]{MultiResImageRegistration2TraceMetric.eps}
   // \caption[Multi-Resolution Registration output plots]{Sequence of
   // translations and metric values at each iteration of the optimizer for
   // Multi-resolution with AffineTransform.}

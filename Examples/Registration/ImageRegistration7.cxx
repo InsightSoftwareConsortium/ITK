@@ -432,8 +432,8 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=6cm]{BrainProtonDensitySliceBorder20.eps}
-  // \includegraphics[width=6cm]{BrainProtonDensitySliceR10X13Y17S12.eps}
+  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceBorder20.eps}
+  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceR10X13Y17S12.eps}
   // \caption{Fixed and Moving image provided as input to the registration
   // method using Similarity2D transform.}
   // \label{fig:FixedMovingImageRegistration7}
@@ -442,9 +442,9 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=5cm]{ImageRegistration7Output.eps}
-  // \includegraphics[width=5cm]{ImageRegistration7DifferenceBefore.eps}
-  // \includegraphics[width=5cm]{ImageRegistration7DifferenceAfter.eps} 
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration7Output.eps}
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration7DifferenceBefore.eps}
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration7DifferenceAfter.eps} 
   // \caption{Resampled moving image (left). Differences between fixed and
   // moving images, before (center) and after (right) registration with the
   // Similarity2D transform.}
@@ -458,9 +458,9 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[height=5cm]{ImageRegistration7TraceMetric.eps}
-  // \includegraphics[height=5cm]{ImageRegistration7TraceAngle.eps}
-  // \includegraphics[height=5cm]{ImageRegistration7TraceTranslations.eps} 
+  // \includegraphics[height=0.32\textwidth]{ImageRegistration7TraceMetric.eps}
+  // \includegraphics[height=0.32\textwidth]{ImageRegistration7TraceAngle.eps}
+  // \includegraphics[height=0.32\textwidth]{ImageRegistration7TraceTranslations.eps} 
   // \caption{Plots of the Metric, rotation angle and translations during the registration using 
   // Similarity2D transform.}
   // \label{fig:ImageRegistration7Plots}

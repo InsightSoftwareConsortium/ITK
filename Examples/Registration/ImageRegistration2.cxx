@@ -433,8 +433,8 @@ int main( int argc, char *argv[] )
   //
   //  \begin{figure}
   //  \center
-  //  \includegraphics[width=6cm]{BrainT1SliceBorder20.eps}
-  //  \includegraphics[width=6cm]{BrainProtonDensitySliceShifted13x17y.eps}
+  //  \includegraphics[width=0.44\textwidth]{BrainT1SliceBorder20.eps}
+  //  \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceShifted13x17y.eps}
   //  \caption[Multi-Modality Registration Inputs]{T1 MRI (fixed image) and Proton
   //  Density MRI (moving image) provided as input to the registration method.}
   //  \label{fig:FixedMovingImageRegistration2}
@@ -507,9 +507,9 @@ int main( int argc, char *argv[] )
   // 
   // \begin{figure}
   // \center
-  // \includegraphics[width=5cm]{ImageRegistration2Output.eps}
-  // \includegraphics[width=5cm]{ImageRegistration2CheckerboardBefore.eps}
-  // \includegraphics[width=5cm]{ImageRegistration2CheckerboardAfter.eps}
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration2Output.eps}
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration2CheckerboardBefore.eps}
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration2CheckerboardAfter.eps}
   // \caption[Multi-Modality Registration outputs]{Mapped moving image (left)
   // and composition of fixed and moving images before (center) and after
   // (right) registration.}
@@ -527,8 +527,8 @@ int main( int argc, char *argv[] )
   //  
   // \begin{figure}
   // \center
-  // \includegraphics[width=7cm]{ImageRegistration2TraceTranslations.eps}
-  // \includegraphics[width=7cm]{ImageRegistration2TraceTranslations2.eps}
+  // \includegraphics[width=0.44\textwidth]{ImageRegistration2TraceTranslations.eps}
+  // \includegraphics[width=0.44\textwidth]{ImageRegistration2TraceTranslations2.eps}
   // \caption[Multi-Modality Registration plot of translations]{Sequence of
   // translations during the registration process. Left, iterations form 0 to
   // 200. Right iterations from 150 to 200.}
@@ -550,8 +550,8 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=7cm]{ImageRegistration2TraceMetric.eps}
-  // \includegraphics[width=7cm]{ImageRegistration2TraceMetric2.eps}
+  // \includegraphics[width=0.44\textwidth]{ImageRegistration2TraceMetric.eps}
+  // \includegraphics[width=0.44\textwidth]{ImageRegistration2TraceMetric2.eps}
   // \caption[Multi-Modality Registration plot of metrics]{Sequence of metric
   // values during the registration process. Left, iterations form 0 to 200.
   // Right, iterations from 100 to 200.}

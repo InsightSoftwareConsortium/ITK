@@ -1041,8 +1041,8 @@ int main( int argc, char *argv[] )
   // 
   // \begin{figure}
   // \center
-  // \includegraphics[height=6cm]{ModelToImageRegistrationTraceAngle.eps}
-  // \includegraphics[height=6cm]{ModelToImageRegistrationTraceTranslations.eps}
+  // \includegraphics[height=0.44\textwidth]{ModelToImageRegistrationTraceAngle.eps}
+  // \includegraphics[height=0.44\textwidth]{ModelToImageRegistrationTraceTranslations.eps}
   // \caption[SpatialObject to Image Registration results]{Plots of the angle
   // and translation parameters for a registration process between an SpatialObject
   // and an image.}

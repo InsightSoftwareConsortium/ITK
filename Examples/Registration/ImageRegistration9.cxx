@@ -497,8 +497,8 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=6cm]{BrainProtonDensitySliceBorder20.eps}
-  // \includegraphics[width=6cm]{BrainProtonDensitySliceR10X13Y17S12.eps}
+  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceBorder20.eps}
+  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceR10X13Y17S12.eps}
   // \caption[CenteredAffineTransform registration]{Fixed and Moving image
   // provided as input to the registration method using CenteredAffineTransform
   // transform.}
@@ -508,9 +508,9 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=5cm]{ImageRegistration9Output.eps}
-  // \includegraphics[width=5cm]{ImageRegistration9DifferenceBefore.eps}
-  // \includegraphics[width=5cm]{ImageRegistration9DifferenceAfter.eps} 
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration9Output.eps}
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration9DifferenceBefore.eps}
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration9DifferenceAfter.eps} 
   // \caption[CenteredAffineTransform ouput images]{Resampled moving image
   // (left). Differences between fixed and moving images, before (center) and
   // after (right) registration with the
@@ -525,9 +525,9 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[height=5cm]{ImageRegistration9TraceMetric.eps}
-  // \includegraphics[height=5cm]{ImageRegistration9TraceAngle.eps}
-  // \includegraphics[height=5cm]{ImageRegistration9TraceTranslations.eps} 
+  // \includegraphics[height=0.32\textwidth]{ImageRegistration9TraceMetric.eps}
+  // \includegraphics[height=0.32\textwidth]{ImageRegistration9TraceAngle.eps}
+  // \includegraphics[height=0.32\textwidth]{ImageRegistration9TraceTranslations.eps} 
   // \caption[CenteredAffineTransform output plots]{Plots of the Metric,
   // rotation angle and translations during the registration using
   // CenteredAffineTransform transform.}

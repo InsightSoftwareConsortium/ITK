@@ -468,8 +468,8 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=6cm]{BrainProtonDensitySliceBorder20.eps}
-  // \includegraphics[width=6cm]{BrainProtonDensitySliceShifted13x17y.eps}
+  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceBorder20.eps}
+  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceShifted13x17y.eps}
   // \caption[Fixed and Moving images in registration framework]{Fixed and
   // Moving image provided as input to the registration method.}
   // \label{fig:FixedMovingImageRegistration1}
@@ -559,9 +559,9 @@ int main( int argc, char *argv[] )
   //  
   // \begin{figure}
   // \center
-  // \includegraphics[width=4.5cm]{ImageRegistration1Output.eps}
-  // \includegraphics[width=4.5cm]{ImageRegistration1DifferenceBefore.eps}
-  // \includegraphics[width=4.5cm]{ImageRegistration1DifferenceAfter.eps}
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration1Output.eps}
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration1DifferenceBefore.eps}
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration1DifferenceAfter.eps}
   // \caption[HelloWorld registration output images]{Mapped moving image and its
   // difference with the fixed image before and after registration}
   // \label{fig:ImageRegistration1Output}
@@ -635,7 +635,7 @@ int main( int argc, char *argv[] )
   //  
   // \begin{figure}
   // \center
-  // \includegraphics[width=14cm]{ImageRegistration1Pipeline.eps}
+  // \includegraphics[width=\textwidth]{ImageRegistration1Pipeline.eps}
   // \caption{Pipeline structure of the registration example.}
   // \label{fig:ImageRegistration1Pipeline}
   // \end{figure}
