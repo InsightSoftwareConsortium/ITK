@@ -67,8 +67,6 @@ class _wrap_EXPORT CxxObject
 public:
   typedef CxxObject Self;
   
-  static CxxObject* GetObjectFor(const Anything&, const Type*,
-                                 const WrapperFacility*);
   void Delete() const;
   
   void* GetObject() const;
@@ -107,17 +105,8 @@ private:
   ///! Count the number of Object instances referencing this.
   int m_ReferenceCount;
   
-public:
-  class CxxObjectMap;
-private:
-  friend class CxxObjectMap;
-  
-  static CxxObjectMap* GetCxxObjectMapFor(const WrapperFacility*);
-  static void DeleteObjectFor(const Anything&, const Type*,
-                              const WrapperFacility*);
-
-private:
-  static void ClassFinalize();
+  // Make sure that a WrapperFacility can create instances of
+  // CxxObject.
   friend class WrapperFacility;
 };
 

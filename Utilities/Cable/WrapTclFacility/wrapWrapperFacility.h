@@ -49,6 +49,7 @@ namespace _wrap_
 
 class ConversionTable;
 class WrapperBase;
+class CxxObject;
 
 /**
  * An instance of this class is associated with each interpreter.  It
@@ -80,11 +81,16 @@ public:
   typedef void (*DeleteFunction)(const void*);
   void SetDeleteFunction(const Type*, DeleteFunction);
   void DeleteObject(const void*, const Type*) const;
+  
+  CxxObject* GetCxxObjectFor(const Anything&, const Type*) const;
+  void DeleteCxxObjectFor(const Anything&, const Type*) const;
+  
 private:
   WrapperFacility(Tcl_Interp*);
   ~WrapperFacility();
 
   void InitializeForInterpreter();
+  static void InterpreterFreeCallback(ClientData, Tcl_Interp*);
   int ListMethodsCommand(int, Tcl_Obj*CONST[]) const;
   int TypeOfCommand(int, Tcl_Obj*CONST[]) const;
   int InterpreterCommand(int, Tcl_Obj*CONST[]) const;
@@ -119,11 +125,17 @@ private:
   ///! Table of registered delete functions.
   DeleteFunctionMap* m_DeleteFunctionMap;  
 
+  struct CxxObjectMap;
+  ///! Map from object location and type to the CxxObject instance for it.
+  CxxObjectMap* m_CxxObjectMap;
+
+  struct CxxFunctionMap;
+  ///! Map from function pointer value to CxxObject instance for it.
+  CxxFunctionMap* m_CxxFunctionMap;
+  
 public:
   static void ClassInitialize();
 private:
-  static void ClassFinalize();
-  static void TclExitCallBack(ClientData);
   
   // Include debugging-related code if debug support is on.
 #ifdef _wrap_DEBUG_SUPPORT

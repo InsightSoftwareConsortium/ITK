@@ -91,18 +91,16 @@ struct Return
     {
     Tcl_Interp* interp = wrapper->GetInterpreter();
     CxxObject* cxxObject =
-      CxxObject::GetObjectFor(Anything(new NoCvT(result)),
-                              CvType<T>::type.GetType(),
-                              wrapper->GetWrapperFacility());
+      wrapper->GetWrapperFacility()->GetCxxObjectFor(Anything(new NoCvT(result)),
+                                                     CvType<T>::type.GetType());
     Tcl_SetObjResult(interp, Tcl_NewCxxObjectObj(cxxObject));
     }
   static void FromConstructor(T* result, const WrapperBase* wrapper)
     {
     Tcl_Interp* interp = wrapper->GetInterpreter();
     CxxObject* cxxObject =
-      CxxObject::GetObjectFor(Anything(result),
-                              CvType<T>::type.GetType(),
-                              wrapper->GetWrapperFacility());
+      wrapper->GetWrapperFacility()->GetCxxObjectFor(Anything(result),
+                                                     CvType<T>::type.GetType());
     Tcl_SetObjResult(interp, Tcl_NewCxxObjectObj(cxxObject));
     }
 };
@@ -170,9 +168,8 @@ struct ReturnPointerTo
     {
     Tcl_Interp* interp = wrapper->GetInterpreter();
     CxxObject* cxxObject = 
-      CxxObject::GetObjectFor(Anything(result),
-                              CvType<T*>::type.GetType(),
-                              wrapper->GetWrapperFacility());
+      wrapper->GetWrapperFacility()->GetCxxObjectFor(Anything(result),
+                                                     CvType<T*>::type.GetType());
     Tcl_SetObjResult(interp, Tcl_NewCxxObjectObj(cxxObject));
     }
 };
@@ -208,9 +205,8 @@ struct ReturnReferenceTo
     {
     Tcl_Interp* interp = wrapper->GetInterpreter();
     CxxObject* cxxObject =
-      CxxObject::GetObjectFor(Anything(&result),
-                              CvType<T&>::type.GetType(),
-                              wrapper->GetWrapperFacility());
+      wrapper->GetWrapperFacility()->GetCxxObjectFor(Anything(&result),
+                                                     CvType<T&>::type.GetType());
     Tcl_SetObjResult(interp, Tcl_NewCxxObjectObj(cxxObject));
     }
 };

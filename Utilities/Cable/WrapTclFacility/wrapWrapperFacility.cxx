@@ -104,14 +104,27 @@ struct WrapperFacility::DeleteFunctionMap: public DeleteFunctionMapBase
   typedef DeleteFunctionMapBase::value_type value_type;
 };
 
-///! Map from Tcl interpreter to the corresponding WrapperFacility.
-typedef std::map<const Tcl_Interp*,
-                 WrapperFacility*> InterpreterWrapperFacilityMap;
-namespace
+
+// Map from object pointer and type to CxxObject instance.
+typedef std::pair<Anything::ObjectType, const Type*> CxxObjectMapKey;
+typedef std::map<CxxObjectMapKey, CxxObject*> CxxObjectMapBase;
+struct WrapperFacility::CxxObjectMap: public CxxObjectMapBase
 {
-///! The instance of the map from interpreter to wrapper facility.
-InterpreterWrapperFacilityMap interpreterWrapperFacilityMap;
-}
+  typedef CxxObjectMapBase::iterator iterator;
+  typedef CxxObjectMapBase::const_iterator const_iterator;
+  typedef CxxObjectMapBase::value_type value_type;
+};
+
+// Map from function pointer and type to CxxObject instance.
+typedef Anything::FunctionType CxxFunctionMapKey;
+typedef std::map<CxxFunctionMapKey, CxxObject*> CxxFunctionMapBase;
+struct WrapperFacility::CxxFunctionMap: public CxxFunctionMapBase
+{
+  typedef CxxFunctionMapBase::iterator iterator;
+  typedef CxxFunctionMapBase::const_iterator const_iterator;
+  typedef CxxFunctionMapBase::value_type value_type;
+};
+
 
 /**
  * Get a WrapperFacility object set up to deal with the given Tcl
@@ -120,15 +133,15 @@ InterpreterWrapperFacilityMap interpreterWrapperFacilityMap;
  */
 WrapperFacility* WrapperFacility::GetForInterpreter(Tcl_Interp* interp)
 {
-  // See if an WrapperFacility exists for the given interpreter.
-  if(interpreterWrapperFacilityMap.count(interp) == 0)
+  // See if the interpreter has already been given a WrapperFacility.
+  ClientData data = Tcl_GetAssocData(interp, "WrapTclFacility", 0);
+  if(data)
     {
-    // No, we must create a new WrapperFacility for this interpreter.
-    interpreterWrapperFacilityMap[interp] = new WrapperFacility(interp);
+    return static_cast<WrapperFacility*>(data);
     }
   
-  // Return the WrapperFacility.
-  return interpreterWrapperFacilityMap[interp];  
+  // No, we must create a new WrapperFacility for this interpreter.
+  return new WrapperFacility(interp);
 }
 
   
@@ -159,11 +172,16 @@ WrapperFacility::WrapperFacility(Tcl_Interp* interp):
   m_Interpreter(interp),
   m_EnumMap(new EnumMap),
   m_WrapperMap(new WrapperMap),
-  m_DeleteFunctionMap(new DeleteFunctionMap)
+  m_DeleteFunctionMap(new DeleteFunctionMap),
+  m_CxxObjectMap(new CxxObjectMap),
+  m_CxxFunctionMap(new CxxFunctionMap)
 {
   // Make sure the class has been initialized globally.
   WrapperFacility::ClassInitialize();
   
+  // Conversion table must be constructed after the global initialization.
+  m_ConversionTable = new ConversionTable;
+
   this->InitializeForInterpreter();
 #ifdef _wrap_DEBUG_SUPPORT
   m_Debug = false;
@@ -177,16 +195,34 @@ WrapperFacility::WrapperFacility(Tcl_Interp* interp):
  */
 WrapperFacility::~WrapperFacility()
 {
+  // Delete object instances first because they may want to use the
+  // facility for something.  Loop over the maps and explicitly delete
+  // every instance left.  Do not call CxxObject::Delete because that
+  // will try to remove its instance of from this map!
+  for(CxxFunctionMap::const_iterator f = m_CxxFunctionMap->begin();
+      f != m_CxxFunctionMap->end(); ++f)
+    {
+    delete f->second;
+    }
+  for(CxxObjectMap::const_iterator o = m_CxxObjectMap->begin();
+      o != m_CxxObjectMap->end(); ++o)
+    {
+    delete o->second;
+    }
+
+  // Delete enumeration object values.
   for(EnumMap::const_iterator e = m_EnumMap->begin();
       e != m_EnumMap->end(); ++e)
     {
     this->DeleteObject(e->second.m_Object, e->second.m_Type);
     }
   
-  if(m_ConversionTable) { delete m_ConversionTable; }
+  delete m_ConversionTable;
   delete m_WrapperMap;
   delete m_EnumMap;
   delete m_DeleteFunctionMap;
+  delete m_CxxObjectMap;
+  delete m_CxxFunctionMap;
 }
 
 
@@ -196,7 +232,8 @@ WrapperFacility::~WrapperFacility()
  */
 void WrapperFacility::InitializeForInterpreter()
 {
-  m_ConversionTable = new ConversionTable();
+  Tcl_SetAssocData(m_Interpreter, "WrapTclFacility",
+                   &InterpreterFreeCallback, this);
   
   Tcl_CreateObjCommand(m_Interpreter, "wrap::ListMethods",
                        &ListMethodsCommandFunction, 0, 0);
@@ -210,6 +247,17 @@ void WrapperFacility::InitializeForInterpreter()
                        &DebugOffCommandFunction, 0, 0);
   
   Tcl_PkgProvide(m_Interpreter, "WrapTclFacility", "1.0");
+}
+
+
+/**
+ * When a Tcl interpreter is deleted, this is called to free its
+ * WrapperFacility.
+ */
+void WrapperFacility::InterpreterFreeCallback(ClientData data,
+                                              Tcl_Interp* interp)
+{
+  delete static_cast<WrapperFacility*>(data);
 }
 
 
@@ -339,9 +387,8 @@ int WrapperFacility::TypeOfCommand(int objc, Tcl_Obj* CONST objv[]) const
 int WrapperFacility::InterpreterCommand(int, Tcl_Obj* CONST[]) const
 {
   CxxObject* cxxObject =
-    CxxObject::GetObjectFor(Anything(m_Interpreter),
-                            CvPredefinedType<Tcl_Interp*>::type.GetType(),
-                            this);
+    this->GetCxxObjectFor(Anything(m_Interpreter),
+                          CvPredefinedType<Tcl_Interp*>::type.GetType());
   Tcl_SetObjResult(m_Interpreter, Tcl_NewCxxObjectObj(cxxObject));
   return TCL_OK;
 }
@@ -680,6 +727,75 @@ void WrapperFacility::DeleteObject(const void* object, const Type* type) const
 
 
 /**
+ * Get a CxxObject instance for the given object and type.  If none
+ * exists, one will be created.
+ */
+CxxObject* WrapperFacility::GetCxxObjectFor(const Anything& anything,
+                                            const Type* type) const
+{
+  if(type->IsFunctionType())
+    {
+    CxxFunctionMapKey key = anything.function;
+    CxxFunctionMap::const_iterator f = m_CxxFunctionMap->find(key);
+    if(f != m_CxxFunctionMap->end())
+      {
+      return f->second;
+      }
+    else
+      {
+      CxxObject* cxxObject = new CxxObject(anything, type, this);
+      m_CxxFunctionMap->insert(CxxFunctionMap::value_type(key, cxxObject));
+      return cxxObject;
+      }
+    }
+  else
+    {
+    CxxObjectMapKey key(anything.object, type);
+    CxxObjectMap::const_iterator o = m_CxxObjectMap->find(key);
+    if(o != m_CxxObjectMap->end())
+      {
+      return o->second;
+      }
+    else
+      {
+      CxxObject* cxxObject = new CxxObject(anything, type, this);
+      m_CxxObjectMap->insert(CxxObjectMap::value_type(key, cxxObject));
+      return cxxObject;
+      }
+    }
+}
+
+
+/**
+ * Delete the CxxObject instance for the given object and type.
+ */
+void WrapperFacility::DeleteCxxObjectFor(const Anything& anything,
+                                         const Type* type) const
+{
+  if(type->IsFunctionType())
+    {
+    CxxFunctionMapKey key = anything.function;
+    CxxFunctionMap::const_iterator f = m_CxxFunctionMap->find(key);
+    if(f != m_CxxFunctionMap->end())
+      {
+      delete f->second;
+      m_CxxFunctionMap->erase(key);
+      }
+    }
+  else
+    {
+    CxxObjectMapKey key(anything.object, type);
+    CxxObjectMap::const_iterator o = m_CxxObjectMap->find(key);
+    if(o != m_CxxObjectMap->end())
+      {
+      delete o->second;
+      m_CxxObjectMap->erase(key);
+      }
+    }
+}
+  
+
+/**
  * This is called by the constructor of WrapperFacility to make sure
  * that the facility has been initialized.
  */
@@ -693,41 +809,7 @@ void WrapperFacility::ClassInitialize()
   TypeInfo::ClassInitialize();
   TclCxxObject::ClassInitialize();
 
-  // Register a call-back with Tcl to make sure
-  // WrapperFacility::ClassFinalize is called when the program ends.
-  Tcl_CreateExitHandler(&Self::TclExitCallBack, 0);
-  
   initialized = true;
-}
-
-
-/**
- * This function is called when the program ends or the shared library
- * is unloaded.  It will destroy all instances of the WrapperFacility.
- */
-void WrapperFacility::ClassFinalize()
-{  
-  // Call other class' finalization functions in a safe order.
-  CxxObject::ClassFinalize();
-
-  // Now do our own cleanup.
-  // Delete all the WrapperFacility instances.
-  for(InterpreterWrapperFacilityMap::const_iterator i =
-        interpreterWrapperFacilityMap.begin();
-      i != interpreterWrapperFacilityMap.end(); ++i)
-    {
-    delete i->second;
-    }
-}
-
-
-/**
- * This function is registered with Tcl to be called when the program
- * ends.
- */
-void WrapperFacility::TclExitCallBack(ClientData)
-{
-  WrapperFacility::ClassFinalize();
 }
 
 } // namespace _wrap_
