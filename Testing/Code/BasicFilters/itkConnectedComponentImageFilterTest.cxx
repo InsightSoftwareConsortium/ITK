@@ -18,16 +18,14 @@
 #pragma warning ( disable : 4786 )
 #endif
 #include "itkConnectedComponentImageFilter.h"
+#include "itkRelabelComponentImageFilter.h"
 #include "itkBinaryThresholdImageFilter.h"
-#include "itkRescaleIntensityImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkImageRegionIterator.h"
-#include "itkUnaryFunctorImageFilter.h"
-#include "itkScalarToRGBPixelFunctor.h"
-#include "itkPNGImageIO.h"
 #include "itkFilterWatcher.h"
-
+#include "itkImageRegionIterator.h"
+#include "vnl/vnl_sample.h"
 
 int itkConnectedComponentImageFilterTest(int argc, char* argv[] )
 {
@@ -35,7 +33,7 @@ int itkConnectedComponentImageFilterTest(int argc, char* argv[] )
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " inputImage  outputImage threshold_low threshold_hi" << std::endl;
+    std::cerr << " inputImage  outputImage threshold_low threshold_hi [fully_connected]" << std::endl;
     return 1;
     }
 
@@ -54,19 +52,14 @@ int itkConnectedComponentImageFilterTest(int argc, char* argv[] )
   
   typedef itk::BinaryThresholdImageFilter< InternalImageType, InternalImageType > ThresholdFilterType;
   typedef itk::ConnectedComponentImageFilter< InternalImageType, OutputImageType > FilterType;
-  typedef itk::Functor::ScalarToRGBPixelFunctor<unsigned short>
-    ColorMapFunctorType;
-  typedef itk::UnaryFunctorImageFilter<OutputImageType,
-    RGBImageType, ColorMapFunctorType> ColorMapFilterType;
+  typedef itk::RelabelComponentImageFilter< OutputImageType, OutputImageType > RelabelType;
 
-
-
+  
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
   ThresholdFilterType::Pointer threshold = ThresholdFilterType::New();
   FilterType::Pointer filter = FilterType::New();
-  ColorMapFilterType::Pointer colormapper = ColorMapFilterType::New();
-
+  RelabelType::Pointer relabel = RelabelType::New();
   
   FilterWatcher watcher(filter);
   watcher.QuietOn();
@@ -85,12 +78,68 @@ int itkConnectedComponentImageFilterTest(int argc, char* argv[] )
   threshold->Update();
   
   filter->SetInput (threshold->GetOutput());
-
-  colormapper->SetInput( filter->GetOutput() );
+  if (argc > 5)
+    {
+    int fullyConnected = atoi( argv[5] );
+    filter->SetFullyConnected( fullyConnected );
+    }
+  relabel->SetInput( filter->GetOutput() );
   
   try
     {
-    writer->SetInput (colormapper->GetOutput());
+    relabel->Update();
+    }
+  catch( itk::ExceptionObject & excep )
+    {
+    std::cerr << "Relabel: exception caught !" << std::endl;
+    std::cerr << excep << std::endl;
+    }
+
+  // Remap the labels to viewable colors
+  RGBImageType::Pointer colored = RGBImageType::New();
+  colored->SetRegions( filter->GetOutput()->GetBufferedRegion() );
+  colored->Allocate();
+
+  unsigned short numObjects = relabel->GetNumberOfObjects();
+  
+  std::vector<RGBPixelType> colormap;
+  RGBPixelType px;
+  colormap.resize( numObjects+1 );
+  vnl_sample_reseed( 1031571 );
+  for (unsigned short i=0; i < colormap.size(); ++i)
+    {
+    px.SetRed(
+      static_cast<unsigned char>(255*vnl_sample_uniform( 0.3333, 1.0 ) ));
+    px.SetGreen(
+      static_cast<unsigned char>(255*vnl_sample_uniform( 0.3333, 1.0 ) ));
+    px.SetBlue(
+      static_cast<unsigned char>(255*vnl_sample_uniform( 0.3333, 1.0 ) ));
+
+    colormap[i] = px;
+    }
+  
+  itk::ImageRegionIterator<OutputImageType>
+    it(relabel->GetOutput(), relabel->GetOutput()->GetBufferedRegion());
+  itk::ImageRegionIterator<RGBImageType> cit(colored,
+                                             colored->GetBufferedRegion());
+  
+  while( !it.IsAtEnd() )
+    {
+    if (it.Get() == 0)
+      {
+      cit.Set(RGBPixelType());
+      }
+    else
+      {
+      cit.Set( colormap[it.Get()] );
+      }
+    ++it;
+    ++cit;
+    }
+  
+  try
+    {
+    writer->SetInput (colored);
     writer->SetFileName( argv[2] );
     writer->Update();
     }
@@ -99,6 +148,7 @@ int itkConnectedComponentImageFilterTest(int argc, char* argv[] )
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
     }
+  
 
   return 0;
 }
