@@ -1,0 +1,44 @@
+#
+# Default rules for making dashboards from a site
+#
+
+XALAN = $(topdir)/Code/Insight3DParty/xalan/xalan.jar
+XMLHEADER = <?xml version="1.0" encoding="UTF-8"?>
+
+MAKEFILES = $(CMAKE_CONFIG_DIR)/CMake/CMakeVariables.make $(CMAKE_CONFIG_DIR)/Testing/Utilities/CMakeTestingRules.make 
+
+# For Dashboard/DashboardStamp directories
+
+include DashboardTargets.make
+
+DashboardDependancies = $(topdir)/Testing/Utilities/XSL/*.xsl
+
+RemakeDashboard: clean Dashboard
+
+clean:
+	$(shell rm -f Dashboard.xml Dashboard.html)
+	$(foreach dir, $(BuildStamps), \
+	@echo "sanoethusnaotehusnth"; \
+	$(MAKE) -C $(dir) clean; \
+	)
+
+Dashboard: $(BuildStamps) $(DashboardDependancies)
+	@echo '$(XMLHEADER)' > Dashboard.xml
+	@echo '$(XMLHEADER)' > DashboardByTest.xml
+	@echo '<Dashboard>' >> Dashboard.xml
+	@echo '<Dashboard>' >> DashboardByTest.xml
+	$(foreach dir,$(BuildStamps), \
+	$(MAKE) -C $(dir) all; \
+	echo '<Instance>' >> Dashboard.xml; \
+	grep -v "<?xml" $(dir)/BuildSummary.xml >> Dashboard.xml; \
+	grep -v "<?xml" $(dir)/TestSummary.xml >> Dashboard.xml; \
+	grep -v "<?xml" $(dir)/CoverageSummary.xml >> Dashboard.xml; \
+	grep -v "<?xml" $(dir)/SummaryByTest.xml >> DashboardByTest.xml; \
+	echo '</Instance>' >> Dashboard.xml; \
+	)
+	@echo '</Dashboard>' >> Dashboard.xml
+	@echo '</Dashboard>' >> DashboardByTest.xml
+	$(JAVA) -jar $(XALAN) -Q -OUT Dashboard.html -IN Dashboard.xml -XSL $(topdir)/Testing/Utilities/XSL/Dashboard.xsl	
+	$(JAVA) -jar $(XALAN) -Q -OUT DashboardByTest.html -IN DashboardByTest.xml -XSL $(topdir)/Testing/Utilities/XSL/DashboardByTest.xsl
+
+
