@@ -7,7 +7,6 @@
 #include <stdlib.h>
 #include <iostream>
 #include <fstream>
-#include <strstream>
 #include <string>
 
 #include "DICOMTypes.h"
@@ -140,12 +139,7 @@ class DICOMFile
   //
   static int ReturnAsInteger(unsigned char* data, bool)
   {
-    unsigned char* data2 = data;
-
-    std::istrstream in_string((char*) data2);
-    int val = 0;
-    in_string >> val;
-    return val;
+    return static_cast<int> (atoi((const char*) data));
   }
   
   static float ReturnAsFloat(unsigned char* data, bool)

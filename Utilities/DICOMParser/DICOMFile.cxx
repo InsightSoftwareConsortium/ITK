@@ -6,7 +6,11 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+#if 0
 #include <strstream>
+#else
+#include <stdio.h>
+#endif
 #include <string>
 
 #include "DICOMFile.h"
@@ -167,6 +171,7 @@ float DICOMFile::ReadAsciiFloat(int len)
   this->Read(val,len);
   val[len] = '\0';
 
+#if 0
   //
   // istrstream destroys the data during formatted input.
   //
@@ -176,15 +181,14 @@ float DICOMFile::ReadAsciiFloat(int len)
 
   std::istrstream data(val2);
   data >> ret;
+  delete [] val2;
+#else
+  sscanf(val,"%e",&ret);
+#endif
 
   std::cout << "Read ASCII float: " << ret << std::endl;
 
-  //
-  //sscanf(val,"%e",&ret);
-  //
-
   delete [] val;
-  delete [] val2;
   return (ret);
 }
 
@@ -196,6 +200,7 @@ int DICOMFile::ReadAsciiInt(int len)
   this->Read(val,len);
   val[len] = '\0';
 
+#if 0
   //
   // istrstream destroys the data during formatted input.
   //
@@ -205,15 +210,14 @@ int DICOMFile::ReadAsciiInt(int len)
 
   std::istrstream data(val2);
   data >> ret;
+  delete [] val2;
+#else
+  sscanf(val,"%d",&ret);
+#endif
 
   std::cout << "Read ASCII int: " << ret << std::endl;
 
-  //
-  //sscanf(val,"%d",&ret);
-  //
-
   delete [] val;
-  delete [] val2;
   return (ret);
 }
 
