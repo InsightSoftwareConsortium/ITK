@@ -96,7 +96,16 @@ foreach Directory $Directories \
       if {[file tail $File] == "itkWin32OutputWindow.h"} {
 	  continue;
       }
-    puts $f "#include \"[file tail $File]\""
+#
+# include the .h if there is no .txx
+# otherwise include the .txx
+#
+      set txxFile "[file rootname $File].txx"
+      if { [file exists $txxFile] } {
+          puts $f "#include \"[file tail $txxFile]\""
+      } else {
+        puts $f "#include \"[file tail $File]\""
+      }
   }
   puts $f $Trailer
   close $f
