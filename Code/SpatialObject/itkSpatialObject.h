@@ -82,7 +82,6 @@ public:
   typedef const TransformType*             TransformConstPointer;
   
   typedef std::list< TransformType * > TransformListType;
-  typedef TransformListType * TransformListPointer;
   
   typedef VectorContainer< unsigned long int, PointType > VectorContainerType;
   
@@ -137,17 +136,17 @@ public:
 
   /** Build the list of local to global transforms to applied to the SpatialObject.
    *  If init equals false, then the list will be initialized. */
-  void BuildLocalToGlobalTransformList( TransformListPointer list, bool init ) const;
+  void BuildLocalToGlobalTransformList( TransformListType & list, bool init ) const;
 
   /** Build the list of global to local transforms applied to the SpatialObject.
    * If init equals false, then the list will be initialized. */
-  void BuildGlobalToLocalTransformList( TransformListPointer list, bool init ) const;
+  void BuildGlobalToLocalTransformList( TransformListType & list, bool init ) const;
 
   /** Returns the list of local to global transforms. */
-  TransformListPointer GetLocalToGlobalTransformList( void );
+  TransformListType & GetLocalToGlobalTransformList( void );
 
   /** Returns the list of global to local transforms. */
-  TransformListPointer GetGlobalToLocalTransformList( void );
+  TransformListType & GetGlobalToLocalTransformList( void );
 
   /** This function has to be implemented in the deriving class. 
    *  It should provide a method to get the boundaries of 
@@ -161,15 +160,15 @@ public:
 
   /** Rebuild the list of transform applied to the object to switch 
    *  from the local coordinate system, to the real world coordinate system. */
-  virtual void RebuildLocalToGlobalTransformList( void ) const;
+  virtual void RebuildLocalToGlobalTransformList( void ) ;
 
   /** Rebuild the list of transforms applied to the object to switch from the real
    *  world coordinate systemn to the local coordinate system. */
-  virtual void RebuildGlobalToLocalTransformList( void ) const;
+  virtual void RebuildGlobalToLocalTransformList( void ) ;
 
   /** Rebuild all the transforms list. Basically, this function is performed every time
    * an object is plugged or unplugged to a hierarchy of objects. */
-  virtual void RebuildAllTransformLists( void ) const;
+  virtual void RebuildAllTransformLists( void ) ;
 
   /** Add an object to the list of children. */ 
   void AddSpatialObject( Self * pointer ); 
@@ -195,8 +194,8 @@ protected:
 //  ConstPointer m_Parent; 
   TimeStamp m_BoundsMTime;
 
-  TransformListPointer m_LocalToGlobalTransformList;
-  TransformListPointer m_GlobalToLocalTransformList;
+  TransformListType m_LocalToGlobalTransformList;
+  TransformListType m_GlobalToLocalTransformList;
 
   TransformPointer m_LocalToGlobalTransform; 
   TransformPointer m_GlobalToLocalTransform; 

@@ -34,9 +34,6 @@ SpatialObject< NDimensions, TTransform, PipelineDimension>
   m_Property = PropertyType::New();
   m_LocalToGlobalTransform = TransformType::New();
   m_GlobalToLocalTransform = TransformType::New();
-
-  m_LocalToGlobalTransformList = new TransformListType();
-  m_GlobalToLocalTransformList = new TransformListType();
   m_Spacing.resize(NDimensions);
   m_Spacing.fill(1);
   SetParent(NULL);
@@ -206,8 +203,8 @@ void
 SpatialObject< NDimensions, TTransform, PipelineDimension>
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
-  TransformListType::iterator it;
-  TransformListType::iterator end;
+  TransformListType::const_iterator it;
+  TransformListType::const_iterator end;
 
   Superclass::PrintSelf(os, indent);
   os << indent << "Parent: " << m_Parent.GetPointer() << std::endl << std::endl;
@@ -217,16 +214,16 @@ SpatialObject< NDimensions, TTransform, PipelineDimension>
   os << indent << "(local to global ) " << m_LocalToGlobalTransform << std::endl;
   os << indent << "(global to local ) " << m_GlobalToLocalTransform << std::endl;
   os << indent << "LocalToGlobalTransformList: ";
-  it = m_LocalToGlobalTransformList->begin();  
-  end = m_LocalToGlobalTransformList->end();
+  it = m_LocalToGlobalTransformList.begin();  
+  end = m_LocalToGlobalTransformList.end();
   for( ; it != end; it++ )
   {
     os<<"["<<(*it)<<"] ";
   }
   os << std::endl;
   os << indent << "GlobalToLocalTransformList size: ";
-  it = m_GlobalToLocalTransformList->begin();  
-  end = m_GlobalToLocalTransformList->end();
+  it = m_GlobalToLocalTransformList.begin();  
+  end = m_GlobalToLocalTransformList.end();
   for( ; it != end; it++ )
   {
     os<<"["<<(*it)<<"] ";
@@ -335,9 +332,9 @@ SpatialObject< NDimensions, TTransform, PipelineDimension>
 template< unsigned int NDimensions, typename TTransform, unsigned int PipelineDimension >
 void
 SpatialObject< NDimensions, TTransform, PipelineDimension>
-::BuildLocalToGlobalTransformList( TransformListPointer list, bool init ) const
+::BuildLocalToGlobalTransformList( TransformListType & list, bool init ) const
 {
-  list->push_back(m_LocalToGlobalTransform);
+  list.push_back(m_LocalToGlobalTransform);
 
   if( HasParent() )
   {
@@ -349,9 +346,9 @@ SpatialObject< NDimensions, TTransform, PipelineDimension>
 template< unsigned int NDimensions, typename TTransform, unsigned int PipelineDimension >
 void
 SpatialObject< NDimensions, TTransform, PipelineDimension>
-::BuildGlobalToLocalTransformList( TransformListPointer list, bool init ) const
+::BuildGlobalToLocalTransformList( TransformListType & list, bool init ) const
 {
-  list->push_back(m_GlobalToLocalTransform);
+  list.push_back(m_GlobalToLocalTransform);
 
   if( HasParent() )
   {
@@ -363,9 +360,9 @@ SpatialObject< NDimensions, TTransform, PipelineDimension>
 template< unsigned int NDimensions, typename TTransform, unsigned int PipelineDimension >
 void 
 SpatialObject< NDimensions, TTransform, PipelineDimension>
-::RebuildLocalToGlobalTransformList( void ) const
+::RebuildLocalToGlobalTransformList( void )
 {
-  m_LocalToGlobalTransformList->clear();
+  m_LocalToGlobalTransformList.clear();
   BuildLocalToGlobalTransformList(m_LocalToGlobalTransformList,false);
 
   ChildrenListType::const_iterator it = m_Children.begin();
@@ -381,9 +378,9 @@ SpatialObject< NDimensions, TTransform, PipelineDimension>
 template< unsigned int NDimensions, typename TTransform, unsigned int PipelineDimension >
 void 
 SpatialObject< NDimensions, TTransform, PipelineDimension>
-::RebuildGlobalToLocalTransformList( void ) const
+::RebuildGlobalToLocalTransformList( void )
 {
-  m_GlobalToLocalTransformList->clear();
+  m_GlobalToLocalTransformList.clear();
   BuildGlobalToLocalTransformList(m_GlobalToLocalTransformList,false);
 
   ChildrenListType::const_iterator it = m_Children.begin();
@@ -399,7 +396,7 @@ SpatialObject< NDimensions, TTransform, PipelineDimension>
 template< unsigned int NDimensions, typename TTransform, unsigned int PipelineDimension >
 void 
 SpatialObject< NDimensions, TTransform, PipelineDimension>
-::RebuildAllTransformLists( void ) const
+::RebuildAllTransformLists( void )
 {
   RebuildLocalToGlobalTransformList();
   RebuildGlobalToLocalTransformList();
@@ -445,7 +442,7 @@ SpatialObject< NDimensions, TTransform, PipelineDimension>
 
 /** Get the Local to Global transformation list */
 template< unsigned int NDimensions, typename TTransform, unsigned int PipelineDimension >
-SpatialObject< NDimensions, TTransform, PipelineDimension>::TransformListPointer
+SpatialObject< NDimensions, TTransform, PipelineDimension>::TransformListType &
 SpatialObject< NDimensions, TTransform, PipelineDimension>
 ::GetLocalToGlobalTransformList( void )
 {
@@ -454,7 +451,7 @@ SpatialObject< NDimensions, TTransform, PipelineDimension>
 
 /** Get the Global to Local transformation list */
 template< unsigned int NDimensions, typename TTransform, unsigned int PipelineDimension >
-SpatialObject< NDimensions, TTransform, PipelineDimension>::TransformListPointer
+SpatialObject< NDimensions, TTransform, PipelineDimension>::TransformListType &
 SpatialObject< NDimensions, TTransform, PipelineDimension>
 ::GetGlobalToLocalTransformList( void )
 {
@@ -467,8 +464,8 @@ void
 SpatialObject< NDimensions, TTransform, PipelineDimension>
 ::TransformPointToLocalCoordinate( PointType & p ) const
 {
-  TransformListType::reverse_iterator it = m_GlobalToLocalTransformList->rbegin();
-  TransformListType::reverse_iterator end = m_GlobalToLocalTransformList->rend();
+  TransformListType::const_reverse_iterator it = m_GlobalToLocalTransformList.rbegin();
+  TransformListType::const_reverse_iterator end = m_GlobalToLocalTransformList.rend();
   PointType p1,p2;
   p1 = p;
  
