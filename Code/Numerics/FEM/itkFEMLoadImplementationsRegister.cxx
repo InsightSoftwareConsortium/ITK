@@ -51,35 +51,31 @@ void LoadImplementationsRegister(void)
 {
 
   // Loads acting on Bar2D element
-  REGISTER_LOAD( Bar2D,        LoadGrav,         LoadGravImplementation    );
-  REGISTER_LOAD( Bar2D,        LoadGravConst,    LoadGravImplementation    );
-  REGISTER_LOAD( Bar2D,        LoadPoint,        LoadPointImplementation   );
+  REGISTER_LOAD( Bar2D,        LoadGrav,         LoadGravImplementation_Bar2D    );
+  REGISTER_LOAD( Bar2D,        LoadGravConst,    LoadGravImplementation_Bar2D    );
+  REGISTER_LOAD( Bar2D,        LoadPoint,        LoadPointImplementation_Bar2D   );
 
   // Loads acting on Beam2D element
-  REGISTER_LOAD( Beam2D,       LoadGrav,         LoadGravImplementation    );
-  REGISTER_LOAD( Beam2D,       LoadGravConst,    LoadGravImplementation    );
-  REGISTER_LOAD( Beam2D,       LoadPoint,        LoadPointImplementation   );
+  REGISTER_LOAD( Beam2D,       LoadGrav,         LoadGravImplementation_Beam2D   );
+  REGISTER_LOAD( Beam2D,       LoadGravConst,    LoadGravImplementation_Beam2D   );
+  REGISTER_LOAD( Beam2D,       LoadPoint,        LoadPointImplementation_Beam2D  );
 
   // Loads acting on TriC02D element
-#if !(defined(__SVR4) && defined(sun))
-  REGISTER_LOAD( TriC02D,      LoadGrav,         LoadGravImplementation    );
-  REGISTER_LOAD( TriC02D,      LoadGravConst,    LoadGravImplementation    );
-#endif
-  REGISTER_LOAD( TriC02D,      LoadEdge,         LoadEdgeImplementation    );
+  REGISTER_LOAD( TriC02D,      LoadGrav,         LoadGravImplementation_TriC02D  );
+  REGISTER_LOAD( TriC02D,      LoadGravConst,    LoadGravImplementation_TriC02D  );
+  REGISTER_LOAD( TriC02D,      LoadEdge,         LoadEdgeImplementation_TriC02D  );
 
   // Loads acting on QuadC02D element
-#if !(defined(__SVR4) && defined(sun))
-  REGISTER_LOAD( QuadC02D,     LoadGrav,         LoadGravImplementation    );
-  REGISTER_LOAD( QuadC02D,     LoadGravConst,    LoadGravImplementation    );
-#endif
-  REGISTER_LOAD( QuadC02D,     LoadEdge,         LoadEdgeImplementation    );
+  REGISTER_LOAD( QuadC02D,     LoadGrav,         LoadGravImplementation_QuadC02D );
+  REGISTER_LOAD( QuadC02D,     LoadGravConst,    LoadGravImplementation_QuadC02D );
+  REGISTER_LOAD( QuadC02D,     LoadEdge,         LoadEdgeImplementation_QuadC02D );
 
   // Loads acting on C1IsoCurve2D element
-  REGISTER_LOAD( C1IsoCurve2D, Load,             LoadImplementation        );
+  REGISTER_LOAD( C1IsoCurve2D, LoadElement,      LoadImplementation_C1IsoCurve2D );
 
 
   // Add any additional loads here in a similar fashion...
-  // Make sure that the pointer to visit function is the correct one!!!
+  // Make sure that the pointer to the visit function is the correct one!!!
 
 }
 

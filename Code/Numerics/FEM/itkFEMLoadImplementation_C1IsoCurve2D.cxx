@@ -32,7 +32,7 @@ namespace fem {
 /**
  * Handle gravity load in Bar2D element
  */
-Element::LoadVectorType LoadImplementation(C1IsoCurve2D::ConstPointer element, Element::LoadElementPointer load)
+Element::LoadVectorType LoadImplementation_C1IsoCurve2D(C1IsoCurve2D::ConstPointer element, Element::LoadElementPointer load)
 {
 
   typedef Element::Float Float;

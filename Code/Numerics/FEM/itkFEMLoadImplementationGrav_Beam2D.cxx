@@ -34,7 +34,7 @@ namespace fem {
 /**
  * Handle LoadGrav in Beam2D element
  */
-Element::LoadVectorType LoadGravImplementation(Beam2D::ConstPointer element, Element::LoadElementPointer load)
+Element::LoadVectorType LoadGravImplementation_Beam2D(Beam2D::ConstPointer element, Element::LoadElementPointer load)
 {
 
   typedef Element::Float Float;
