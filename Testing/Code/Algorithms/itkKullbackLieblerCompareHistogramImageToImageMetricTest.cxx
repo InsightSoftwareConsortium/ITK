@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkKullbackLieblerCompareHistogramImageToImageMetricText.cxx
+  Module:    itkKullbackLieblerCompareHistogramImageToImageMetricTest.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
