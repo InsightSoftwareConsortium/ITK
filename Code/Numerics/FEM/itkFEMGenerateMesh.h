@@ -69,7 +69,7 @@ public:
    * \param Nel  Vector specifying the number of elements in each dimension.
    */
   static void Rectangular(
-                          ElementType::ConstPointer e0,
+                          typename ElementType::ConstPointer e0,
                           Solver& S,
                           VectorType& orig,
                           VectorType& size,
