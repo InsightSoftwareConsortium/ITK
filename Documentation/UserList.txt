@@ -14,7 +14,7 @@ chenting:Ting Chen:chenting@graphics.cis.upenn.edu
 gee:Jim Gee:gee@rad.upenn.edu
 hoffman:Bill Hoffman:bill.hoffman@kitware.com
 hughett:Paul Hughett:hughett@mercur.uphs.upenn.edu
-ibanez:Luis Ibanez:ibanez@cs.unc.edu
+ibanez:Luis Ibanez:luis.ibanez@kitware.com
 jin:Yinpeng Jin:yj76@columbia.edu
 jjomier:Julien Jomier:jjomier@cs.unc.edu
 jrgold:Jill Goldschneider:jrgold@insightful.com
