@@ -90,6 +90,7 @@ int itkSTLThreadTest(int argc, char* argv[])
       }
     }
   
+  delete [] results;
   return result;
 }
 
