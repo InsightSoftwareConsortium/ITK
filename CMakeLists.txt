@@ -25,18 +25,18 @@ ENDIF (BUILD_TESTING)
 CONFIGURE_FILE(${ITK_SOURCE_DIR}/UseITK.cmake
                ${ITK_BINARY_DIR}/UseITK.cmake COPYONLY)
 
-# Add an option to build or not build the Examples
-OPTION(BUILD_EXAMPLES "Build the examples directory")
-IF(BUILD_EXAMPLES)
-  SUBDIRS(Examples)
-ENDIF(BUILD_EXAMPLES)
-
-
 # Add an option to build or not build the Auxiliary stuff
 OPTION(BUILD_AUXILIARY "Build the unsupported directory")
 IF(BUILD_AUXILIARY)
   SUBDIRS(Auxiliary)
 ENDIF(BUILD_AUXILIARY)
+
+
+# Add an option to build or not build the Examples
+OPTION(BUILD_EXAMPLES "Build the examples directory")
+IF(BUILD_EXAMPLES)
+  SUBDIRS(Examples)
+ENDIF(BUILD_EXAMPLES)
 
 # Configure files
 CONFIGURE_FILE(
