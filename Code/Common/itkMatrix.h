@@ -73,6 +73,12 @@ public:
   void operator*=(const T & value)
     { m_Matrix *= value; }
 
+  /** Matrix by scalar multiplication.  */
+  Self operator*(const T & value)
+    { Self result( *this );
+      result *= value;
+      return result; }
+
   /** Return a row of the matrix. */
   inline T * operator[]( unsigned int i )
     { return m_Matrix[i]; }
