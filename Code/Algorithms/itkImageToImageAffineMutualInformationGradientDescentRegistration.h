@@ -167,6 +167,7 @@ public:
  * \sa MutualInformationImageToImageMetric
  * \sa AffineRegistrationTransform
  *
+ *  \ingroup RegistrationAlgorithms
  */
 template <class TReference, class TTarget>
 class ITK_EXPORT 
