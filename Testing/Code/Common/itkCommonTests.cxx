@@ -16,6 +16,7 @@ REGISTER_TEST(itkAzimuthElevationToCartesianTransformTest );
 REGISTER_TEST(itkBinaryThresholdImageFunctionTest );
 REGISTER_TEST(itkBoundingBoxTest );
 REGISTER_TEST(itkBSplineInterpolateImageFunctionTest );
+REGISTER_TEST(itkBSplineKernelFunctionTest );
 REGISTER_TEST(itkByteSwapTest );
 REGISTER_TEST(itkConstNeighborhoodIteratorTest );
 REGISTER_TEST(itkConstSmartNeighborhoodIteratorTest );
