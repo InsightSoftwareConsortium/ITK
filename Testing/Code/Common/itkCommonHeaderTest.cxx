@@ -179,6 +179,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkValarrayImageContainer.h"
 #include "itkVector.h"
 #include "itkVectorContainer.h"
+#include "itkVectorInterpolateImageFunction.h"
 #include "itkVectorLinearInterpolateImageFunction.h"
 #include "itkVectorNeighborhoodInnerProduct.h"
 #include "itkVersion.h"
