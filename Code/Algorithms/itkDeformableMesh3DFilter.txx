@@ -31,6 +31,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 ::DeformableMesh3DFilter()
 {
   m_Step = 0;
+  m_PotentialOn = 0;
   typename TOutputMesh::Pointer output = TOutputMesh::New();
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput(0, output.GetPointer());
@@ -159,15 +160,15 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   double us = 0.5; 
   double vs = 0.5; 
   double a = us*us, b = vs*vs; 
-  double area = us*vs/2, k00, k01, k02, k11, k12, k22; 
-  
-  k00 = area * (m_Stiffness[1]/b + m_Stiffness[0]); 
-  k01 = area * (-m_Stiffness[1]/b + m_Stiffness[0]); 
-  k02 = area * m_Stiffness[0]; 
-  k11 = area * (m_Stiffness[1]/a + m_Stiffness[1]/b + m_Stiffness[0]); 
-  k12 = area * (-m_Stiffness[1]/a + m_Stiffness[0]); 
-  k22 = area * (m_Stiffness[1]/a + m_Stiffness[0]); 
- 
+  double area = us*vs/2, k00, k01, k02, k11, k12, k22;
+
+  k00 = area * (m_Stiffness[1]/a + m_Stiffness[1]/b + m_Stiffness[0]); 
+  k01 = area * (-m_Stiffness[1]/a + m_Stiffness[0] * 0.5);  
+  k11 = area * (m_Stiffness[1]/a + m_Stiffness[0]);
+  k02 = area * (-m_Stiffness[1]/b + m_Stiffness[0] * 0.5); 
+  k12 = area * m_Stiffness[0] * 0.5; 
+  k22 = area * (m_Stiffness[1]/b + m_Stiffness[0]);  
+
   Stiffness[0][0][0] = k00; 
   Stiffness[0][0][1] = k01; 
   Stiffness[0][0][2] = k02; 
@@ -385,7 +386,6 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     ++displacements;
   } 
 
-  s[0] = 0;
 }
 
 /* Copy the content of m_Location into the Output. */
@@ -455,12 +455,178 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   while (m_Step < m_StepThreshold) {
     this->ComputeNormals();
     this->GradientFit();
+    if ( m_PotentialOn ) this->PotentialFit();
     this->ComputeDt();
     this->Advance();
     m_Step++;
   }
 
   this->ComputeOutput();
+}
+
+/** compute the force given out by the binary mask. */
+template <typename TInputMesh, typename TOutputMesh>
+void
+DeformableMesh3DFilter<TInputMesh, TOutputMesh>
+::PotentialFit() 
+{
+
+  PixelType max, extends[3], t, xs, ys, zs;
+  typename TInputMesh::PointType vec_for, vec_nor, vec_p, vec_1, vec_2;
+  int i, p, label, l=0; 
+  ImageIndexType coord = {0, 0, 0};
+  ImageIndexType extend = {0, 0, 0};
+  int flag=0; 
+
+  InputPointsContainerPointer     Points = m_Locations->GetPoints();
+  InputPointsContainerIterator      points = Points->Begin();
+
+  InputPointsContainerPointer     myForces = m_Forces->GetPoints();
+  InputPointsContainerIterator      forces = myForces->Begin();
+
+  InputPointsContainerPointer     myNormals = m_Normals->GetPoints();
+  InputPointsContainerIterator      normals = myNormals->Begin();
+
+  double d=0.0, f1=0.0;
+
+  i = 0;
+
+  
+  while( i < m_NumberOfNodes )
+  {
+    xs = ys = zs = 1.0; 
+    vec_p = points.Value();
+
+    coord[0] = (int) vec_p[0];
+    coord[1] = (int) vec_p[1];
+    coord[2] = (int) vec_p[2];
+
+    if ( m_Potential->GetPixel(coord) != m_ObjectLabel )  {
+      xs = ys = zs = -1.0;
+      flag = 1;
+    }
+  //---------------------------------------------------------------------
+  // The following part should be added if the input potential are only 
+  // estimation of edges
+  //---------------------------------------------------------------------  
+/*
+  coord[0] = (int) (x[0]+1);
+  coord[1] = (int) (x[1]+1);
+  if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
+    xs = ys = zs = 0.0;
+  }
+
+  coord[0] = (int) (x[0]+1);
+  coord[1] = (int) (x[1]);
+  if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
+    xs = ys = zs = 0.0;
+  }
+
+  coord[0] = (int) (x[0]+1);
+  coord[1] = (int) (x[1]-1);
+  if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
+    xs = ys = zs = 0.0;
+  }
+
+  coord[0] = (int) (x[0]);
+  coord[1] = (int) (x[1]+1);
+  if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
+    xs = ys = zs = 0.0;
+  }
+
+  coord[0] = (int) (x[0]);
+  coord[1] = (int) (x[1]-1);
+  if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
+    xs = ys = zs = 0.0;
+  }
+
+  coord[0] = (int) (x[0]-1);
+  coord[1] = (int) (x[1]+1);
+  if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
+    xs = ys = zs = 0.0;
+  }
+
+  coord[0] = (int) (x[0]-1);
+  coord[1] = (int) (x[1]);
+  if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
+    xs = ys = zs = 0.0;
+  }
+
+  coord[0] = (int) (x[0]-1);
+  coord[1] = (int) (x[1]-1);
+  if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
+    xs = ys = zs = 0.0;
+  }
+*/
+  extends[0] = vec_p[0];
+  extends[1] = vec_p[1];
+  extends[2] = vec_p[2];
+  extend[0] = (int) vec_p[0];
+  extend[1] = (int) vec_p[1];
+  extend[2] = (int) vec_p[2];
+
+  vec_nor = normals.Value();
+
+  p = -1;
+  max = abs(vec_nor[0]);
+
+  //---------------------------------------------------------------------
+  // all the movement in z direction is now disabled for further test
+  //---------------------------------------------------------------------  
+  if ( abs(vec_nor[1]) > max ) max = abs(vec_nor[1]);
+  if ( abs(vec_nor[2]) > max ) max = abs(vec_nor[2]);
+  if ( flag ) {
+    vec_1[0] = -1*vec_nor[0]/max;
+    vec_1[1] = -1*vec_nor[1]/max;
+    vec_1[2] = -1*vec_nor[2]/max;
+  } else {
+    vec_1[0] = vec_nor[0]/max;
+    vec_1[1] = vec_nor[1]/max;
+    vec_1[2] = vec_nor[2]/max;
+  }
+
+  t = 0.0;
+
+  while (t < 5.0){
+    extends[0] += vec_1[0];
+    extends[1] += vec_1[1];
+    extends[2] += vec_1[2];
+    extend[0] = (int) (extends[0]+1);
+    extend[1] = (int) (extends[1]+1);
+    extend[2] = (int) (extends[2]+1);
+    if ((extend[0] <= 0) || (extend[1] <= 0) || (extend[2] <= 0)) break;
+
+    extend[0] = (int) (extends[0]);
+    extend[1] = (int) (extends[1]);
+    extend[2] = (int) (extends[2]);
+    if ((extend[0] >= m_ImageWidth) || (extend[1] >= m_ImageHeight) || 
+      (extend[2] >= m_ImageDepth)) break;
+
+    label = m_Potential->GetPixel(extend);
+    if ( !flag ) {
+      if ( label != m_ObjectLabel ) break;
+    }
+    else if ( label == m_ObjectLabel ) break;
+
+    t += 1.0;
+  }
+
+  vec_2[0] = t*m_PotentialMagnitude*vec_nor[0]*xs; 
+  vec_2[1] = t*m_PotentialMagnitude*vec_nor[1]*ys;
+  vec_2[2] = t*m_PotentialMagnitude*vec_nor[2]*zs;
+
+  vec_for = forces.Value();
+  vec_for[0] += vec_2[0];
+  vec_for[1] += vec_2[1];
+  vec_for[2] += vec_2[2];
+  forces.Value() = vec_for;
+
+  ++forces;
+  ++points;
+  ++normals;
+  ++i;
+  }
+
 }
 
 /** Fit the model using the gradient information. */
@@ -498,9 +664,9 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     coord[1] = static_cast<IndexValueType>(vec_loc[1]);
     coord[2] = static_cast<IndexValueType>(vec_loc[2]);
 
-    coord2[0] = static_cast<IndexValueType>( (ceil) (vec_loc[0]) );
-    coord2[1] = static_cast<IndexValueType>( (ceil) (vec_loc[1]) );
-    coord2[2] = static_cast<IndexValueType>( (ceil) (vec_loc[2]) );
+    coord2[0] = static_cast<IndexValueType>( ceil(vec_loc[0]) );
+    coord2[1] = static_cast<IndexValueType>( ceil(vec_loc[1]) );
+    coord2[2] = static_cast<IndexValueType>( ceil(vec_loc[2]) );
 
     tmp_co_1[0] = coord2[0];
     tmp_co_1[1] = coord[1];
@@ -530,9 +696,12 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
       tmp_vec_3[1] = m_Gradient->GetPixel(tmp_co_3)[1] - m_Gradient->GetPixel(coord)[1];
       tmp_vec_3[2] = m_Gradient->GetPixel(tmp_co_3)[2] - m_Gradient->GetPixel(coord)[2];
 
-      vec_for[0] = vec_for[0] + (vec_loc[0]-coord[0])*tmp_vec_1[0];
-      vec_for[1] = vec_for[1] + (vec_loc[1]-coord[1])*tmp_vec_2[1];
-      vec_for[2] = vec_for[2] + (vec_loc[2]-coord[2])*tmp_vec_3[2];
+      vec_for[0] = vec_for[0] + (vec_loc[0]-coord[0])*tmp_vec_1[0] 
+        + (vec_loc[1]-coord[1])*tmp_vec_2[0] + (vec_loc[2]-coord[2])*tmp_vec_3[0];
+      vec_for[1] = vec_for[1] + (vec_loc[1]-coord[1])*tmp_vec_2[1]
+        + (vec_loc[0]-coord[0])*tmp_vec_1[1] + (vec_loc[2]-coord[2])*tmp_vec_3[1];
+      vec_for[2] = vec_for[2] + (vec_loc[2]-coord[2])*tmp_vec_3[2]
+        + (vec_loc[1]-coord[1])*tmp_vec_2[2] + (vec_loc[0]-coord[0])*tmp_vec_1[2];
     } else {
       vec_for[0] = 0;
       vec_for[1] = 0;
@@ -540,9 +709,10 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     }
 
     mag = vec_for[0]*vec_nor[0] + vec_for[1]*vec_nor[1]+ vec_for[2]*vec_nor[2];
-    vec_for[0] = mag*vec_nor[0];
-    vec_for[1] = mag*vec_nor[1];
-    vec_for[2] = mag*vec_nor[2];
+
+    vec_for[0] = m_GradientMagnitude*mag*vec_nor[0]/*num_for*/;
+    vec_for[1] = m_GradientMagnitude*mag*vec_nor[1]/*num_for*/; 
+    vec_for[2] = m_GradientMagnitude*mag*vec_nor[2]/*num_for*/; 
 
     mag = sqrt (vec_for[0]*vec_for[0] + vec_for[1]*vec_for[1]+ vec_for[2]*vec_for[2]);
     if (mag > 0.5) 
