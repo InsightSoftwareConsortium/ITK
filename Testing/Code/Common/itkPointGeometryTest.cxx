@@ -111,9 +111,9 @@ int main()
   }
 
 
-  // Test for PointCast() function
+  // Test for CastFrom() method
   {
-  std::cout << "Test for CastFrom function... ";
+  std::cout << "Test for CastFrom() method... ";
 
   // Dimension & Type
   const     unsigned int    N = 3;
@@ -135,6 +135,7 @@ int main()
  
   fp.CastFrom( dp );  // Here is the call !
 
+  // Verification...
   for(unsigned int i=0; i<N; i++)
     {
     FloatPointType::ValueType val = 

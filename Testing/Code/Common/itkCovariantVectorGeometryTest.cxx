@@ -134,9 +134,9 @@ int main()
   }
 
 
-  // Test for CovariantVectorCast() function
+  // Test for CastFrom() method
   {
-  std::cout << "Test for CovariantVectorCast function " << std::endl;
+  std::cout << "Test for CastFrom() method... ";
 
   // Dimension & Type
   const     unsigned int    N = 3;
@@ -155,18 +155,8 @@ int main()
   fp[1] = 0.0;
   fp[2] = 0.0;
 
-
-  std::cout << "Initial values dp = ";
-  std::cout << dp << std::endl;
-
-  std::cout << "Initial values fp = ";
-  std::cout << fp << std::endl;
-
   
-  itk::CovariantVectorCast( dp, fp ); 
-
-  std::cout << "Final values fp = ";
-  std::cout << fp << std::endl;
+  fp.CastFrom( dp ); 
 
   
   for(unsigned int i=0; i<N; i++)

@@ -192,9 +192,9 @@ int main()
        
   }
 
-  // Test for VectorCast() function
+  // Test for CastFrom() method
   {
-  std::cout << "Test for VectorCast function " << std::endl;
+  std::cout << "Test for CastFrom() method... ";
 
   // Dimension & Type
   const     unsigned int    N = 3;
@@ -214,17 +214,7 @@ int main()
   fp[2] = 0.0;
 
 
-  std::cout << "Initial values dp = ";
-  std::cout << dp << std::endl;
-
-  std::cout << "Initial values fp = ";
-  std::cout << fp << std::endl;
-
-  
-  itk::VectorCast( dp, fp ); 
-
-  std::cout << "Final values fp = ";
-  std::cout << fp << std::endl;
+  fp.CastFrom( dp ); 
 
   
   for(unsigned int i=0; i<N; i++)
