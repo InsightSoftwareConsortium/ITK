@@ -351,7 +351,41 @@ public:
   virtual void SetSegmentationFunction(SegmentationFunctionType *s);
   virtual SegmentationFunctionType *GetSegmentationFunction()
   { return m_SegmentationFunction; }
+
   
+  /** Set/Get the maximum constraint for the curvature term factor in the time step
+      calculation.  Changing this value from the default is not recommended or
+      necessary but could be used to speed up the surface evolution at the risk
+      of creating an unstable solution.*/
+  void SetMaximumCurvatureTimeStep(double n)
+  {
+    if ( n != m_SegmentationFunction->GetMaximumCurvatureTimeStep() )
+      {
+      m_SegmentationFunction->SetMaximumCurvatureTimeStep(n);
+      this->Modified();
+      }
+  }
+  double GetMaximumCurvatureTimeStep() const
+  {
+    return m_SegmentationFunction->GetMaximumCurvatureTimeStep();
+  }
+
+  /** Set/Get the maximum constraint for the scalar/vector term factor of the time step
+      calculation.  Changing this value from the default is not recommended or
+      necessary but could be used to speed up the surface evolution at the risk
+      of creating an unstable solution.*/
+  void SetMaximumPropagationTimeStep(double n)
+  {
+    if (n != m_SegmentationFunction->GetMaximumPropagationTimeStep() )
+      {
+      m_SegmentationFunction->SetMaximumPropagationTimeStep(n);
+      this->Modified();
+      }
+  }
+  double GetMaximumPropagationTimeStep() const
+  {
+    return m_SegmentationFunction->GetMaximumPropagationTimeStep();
+  }
 protected:
   virtual ~SegmentationLevelSetImageFilter() {}
   SegmentationLevelSetImageFilter();
