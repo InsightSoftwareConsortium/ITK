@@ -39,6 +39,8 @@ SET(ITKIO_SRCS
   itkXMLFile.cxx
   itkStimulateImageIO.cxx
   itkStimulateImageIOFactory.cxx
+  itkTIFFImageIO.cxx
+  itkTIFFImageIOFactory.cxx
   itkVTKImageIO.cxx
   itkVTKImageIOFactory.cxx
 )
@@ -46,7 +48,8 @@ SET(ITKIO_SRCS
 # Add ITKIO library
 ADD_LIBRARY(ITKIO ${ITKIO_SRCS})
 TARGET_LINK_LIBRARIES(ITKIO ITKCommon ${ITK_PNG_LIBRARIES} ${ITK_JPEG_LIBRARIES}
-                      ${ITK_ZLIB_LIBRARIES} ITKMetaIO ITKDICOMParser ITKEXPAT)
+                      ${ITK_ZLIB_LIBRARIES} ${ITK_TIFF_LIBRARIES}
+ ITKMetaIO ITKDICOMParser ITKEXPAT)
 
 INSTALL_TARGETS(/lib/InsightToolkit ITKIO)
 INSTALL_FILES(/include/InsightToolkit/IO "(\\.h|\\.txx)$")

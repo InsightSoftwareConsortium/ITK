@@ -25,6 +25,7 @@
 #include "itkJPEGImageIOFactory.h"
 #include "itkMetaImageIOFactory.h"
 #include "itkPNGImageIOFactory.h"
+#include "itkTIFFImageIOFactory.h"
 #include "itkVTKImageIOFactory.h"
 #include "itkStimulateImageIOFactory.h"
 #include "itkMutexLock.h"
@@ -103,6 +104,7 @@ ImageIOFactory::RegisterBuiltInFactories()
     ObjectFactoryBase::RegisterFactory( AnalyzeImageIOFactory::New());
     ObjectFactoryBase::RegisterFactory( StimulateImageIOFactory::New());
     ObjectFactoryBase::RegisterFactory( JPEGImageIOFactory::New());
+    ObjectFactoryBase::RegisterFactory( TIFFImageIOFactory::New());
     ObjectFactoryBase::RegisterFactory( DICOMImageIO2Factory::New() ); 
     firstTime = false;
     }
