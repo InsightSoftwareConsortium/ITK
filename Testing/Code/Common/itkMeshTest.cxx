@@ -24,6 +24,7 @@
 #include "itkQuadraticEdgeCell.h"
 #include "itkQuadraticTriangleCell.h"
 #include "itkBoundingBox.h"
+#include "itkFileOutputWindow.h"
 
 #include <iostream>
 #include <string>
@@ -76,6 +77,9 @@ typedef MeshType::PointType  PointType;
 
 int itkMeshTest(int, char**)
 {
+  itk::FileOutputWindow::Pointer fow = itk::FileOutputWindow::New();
+  fow->SetInstance(fow);
+
   /**
    * Define the 3d geometric positions for 8 points in a cube.
    */
@@ -213,6 +217,8 @@ int itkMeshTest(int, char**)
   boundLine->AddUsingCell(1);
   boundLine->SetPointId(0,0);
   boundLine->SetPointId(1,1);
+
+  mesh->SetBoundariesAllocationMethod(MeshType::BoundariesAllocatedDynamicallyCellByCell);
   
   mesh->SetBoundary(1,            // Topological dimension of boundary.
         0,                        // Boundary identifier.
@@ -494,6 +500,7 @@ int itkMeshTest(int, char**)
   bbox->SetPoints(mesh->GetPoints());
   bbox->ComputeBoundingBox();
   std::cout << bbox << std::endl;
+
 
   return 0;  
 }
