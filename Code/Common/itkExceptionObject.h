@@ -161,7 +161,7 @@ public:
   /**
    * What line did the exception occur in?
    */
-  virtual const unsigned int GetLine() const 
+  virtual unsigned int GetLine() const 
     { return m_Line; }
   
   /**
