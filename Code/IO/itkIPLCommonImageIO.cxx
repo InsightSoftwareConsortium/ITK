@@ -167,12 +167,20 @@ namespace itk
 
     //
     // GE images are stored in separate files per slice.
-    char imagePath[IOCommon::ITK_MAXPATHLEN+1];
+    //char imagePath[IOCommon::ITK_MAXPATHLEN+1];
+    //TODO -- use std::string instead of C strings
     char imageMask[IOCommon::ITK_MAXPATHLEN+1];
-    if(itkkwsys::SystemTools::RealPath(FileNameToRead.c_str(),imagePath)
-       == NULL)
+    char imagePath[IOCommon::ITK_MAXPATHLEN+1];
+    std::string _imagePath =
+      itkkwsys::SystemTools::CollapseFullPath(FileNameToRead.c_str());
+
+    if(_imagePath == "")
       RAISE_EXCEPTION();
-    strcpy(imageMask,imagePath);
+    strncpy(imagePath,_imagePath.c_str(),sizeof(imagePath));
+    imagePath[IOCommon::ITK_MAXPATHLEN] = '\0';
+    strncpy(imageMask,imagePath,sizeof(imageMask));
+    imageMask[IOCommon::ITK_MAXPATHLEN] = '\0';
+
     char *lastslash = strrchr(imagePath,'/');
     if(lastslash == NULL)
       {
