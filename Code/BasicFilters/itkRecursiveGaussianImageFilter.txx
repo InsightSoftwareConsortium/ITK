@@ -190,6 +190,7 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
   Superclass::PrintSelf(os,indent);
 
   os << "Sigma: " << m_Sigma << std::endl; 
+  os << "Order: " << m_Order << std::endl; 
   os << "NormalizeAcrossScale: " << m_NormalizeAcrossScale << std::endl;
 }
 
