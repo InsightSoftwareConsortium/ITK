@@ -23,7 +23,7 @@
 #include "itkMRASlabIdentifier.h"
 #include "itkCompositeValleyFunction.h"
 #include "itkMultivariateLegendrePolynomial.h"
-#include "Statistics/itkFastRandomUnitNormalVariateGenerator.h"
+#include "Statistics/itkNormalVariateGenerator.h"
 #include "itkOnePlusOneEvolutionaryOptimizer.h"
 #include "itkArray.h"
 #include "itkImageRegionConstIterator.h"
@@ -253,9 +253,11 @@ public:
                                                           EnergyFunctionType;
   typedef typename EnergyFunctionType::Pointer            EnergyFunctionPointer;
 
+  /** Normal variate Generator Type */
+  typedef Statistics::NormalVariateGenerator NormalVariateGeneratorType ;
+
   /** Optimizer type definition. */
-  typedef OnePlusOneEvolutionaryOptimizer< 
-                      FastRandomUnitNormalVariateGenerator> OptimizerType ;
+  typedef OnePlusOneEvolutionaryOptimizer OptimizerType ;
 
   /** Set/Get the input mask image pointer
    * Without this mask, this filter calculates the energy value using
@@ -421,8 +423,11 @@ private:
   /** Energy function object pointer. */
   EnergyFunctionPointer  m_EnergyFunction ;
 
+  /** Normal variate generator smart pointer */
+  NormalVariateGeneratorType::Pointer m_NormalVariateGenerator ;
+
   /** Optimizer object smart pointer.  */
-  typename OptimizerType::Pointer m_Optimizer ;
+  OptimizerType::Pointer m_Optimizer ;
 
   /** Input mask image smart pointer. */
   ImageMaskPointer m_InputMask ;

@@ -144,8 +144,12 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
   m_OptimizerShrinkFactor = 0 ;
     
   m_EnergyFunction = 0 ;
+  m_NormalVariateGenerator = NormalVariateGeneratorType::New() ;
+  m_NormalVariateGenerator->Initialize(3024) ;
+
   m_Optimizer = OptimizerType::New() ;
-    
+  m_Optimizer->SetNormalVariateGenerator(m_NormalVariateGenerator.GetPointer()) ;
+
   if (ImageDimension == 3)
     m_UsingInterSliceIntensityCorrection = true ;
   else
@@ -233,6 +237,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
     
   // initialize the 1+1 optimizer
   m_Optimizer->SetDebug(this->GetDebug()) ;
+  
   m_Optimizer->SetCostFunction(m_EnergyFunction) ;
     
   if (m_OptimizerGrowthFactor > 0)
@@ -283,7 +288,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
       initialPosition[i] = coefficients[i];
     }
   m_Optimizer->SetInitialPosition( initialPosition );
-  m_Optimizer->Run();
+  m_Optimizer->StartOptimization();
   bias->SetCoefficients(m_Optimizer->GetCurrentPosition());
 }
 
