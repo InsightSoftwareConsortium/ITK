@@ -89,7 +89,8 @@ public:
   typedef Statistics::RandomVariateGeneratorBase NormalVariateGeneratorType ;
   
   /** Set if the Optimizer should Maximize the metric */
-  void MaximizeOn() {m_Maximize=true;}
+  itkSetMacro( Maximize, bool );
+  itkBooleanMacro( Maximize );
 
   /** Set/Get maximum iteration limit. */
   itkSetMacro( MaximumIteration, unsigned int );
@@ -123,10 +124,13 @@ public:
    * shrink: searhc radius shrink factor */
   void Initialize(double initialRadius, double grow = -1, double shrink = -1) ;
 
-  MeasureType GetValue()
-  { return m_CurrentCost ; }
+  /** Return Current Value */
+  itkGetConstMacro( CurrentCost, MeasureType );
+  MeasureType GetValue() const { this->GetCurrentCost(); }
 
+  /** Return Current Iteration */
   itkGetConstMacro( CurrentIteration, unsigned int) ;
+
   /** Start optimization.
    * Optimization will stop when it meets either of two termination conditions,
    * the maximum iteration limit or epsilon (minimal search radius)  */
