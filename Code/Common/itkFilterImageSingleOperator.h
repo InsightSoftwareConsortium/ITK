@@ -105,11 +105,6 @@ private:
    */
   Neighborhood<TPixel, VDimension> m_Operator;
 
-  /**
-   * Flag to indicate whether bounds checking will be necessary or
-   * not on the input.
-   */
-  bool m_CheckBounds;
 };
   
 } // end namespace itk
