@@ -17,12 +17,22 @@
 
 // Software Guide : BeginLatex
 //
+// The ``WithIndex'' family of iterators was designed for algorithms that rely
+// on knowing the image index location of values they work with.  Unlike
+// \code{itk::ImageRegionIterator}, which calculates an index only if and when
+// it is asked for, \code{itk::ImageRegionIteratorWithIndex} maintains its
+// index location as a member variable that is updated each time the iterator
+// is incremented or decremented.  A penalty is therefore introduced on the
+// iteration speed, but the iterator is more efficient when repeatedly querying
+// for the index.
+//
 // The following example illustrates the use of
-// \code{itk::ImageRegionIteratorWithIndex}.  The algorithm shown here
-// mirrors a 2D image across its x axis (see \code{itk::FlipImageAxis} for an
-// ND version).  The algorithm makes extensive use of the \code{GetIndex()}
-// method, calculating the mirrored index at each pixel to copy from the
-// original image.
+// \code{itk::ImageRegionIteratorWithIndex}.  This algorithm mirrors
+// a 2D image across its x axis (see \code{itk::FlipImageAxis} for an ND
+// version).  The algorithm makes extensive use of the \code{GetIndex()}
+// method as it calculates its mirrored indicies to copy across.
+//
+// Start by including the proper header file.
 //
 // Software Guide : EndLatex
 
@@ -49,14 +59,12 @@ int main( int argc, char ** argv )
 
 // Software Guide : BeginLatex
 //
-// Image and pixel types are defined as in the previous example
+// RGB Image and pixel types are defined as in the previous example
 // (section~\ref{sec:itkImageRegionIterator}). The
-// \code{itk::ImageRegionIteratorWithIndex} class has a single template
+// \code{itk::ImageRegionIteratorWithIndex} class has a single template 
 // parameter, the image type.
 //
 // Software Guide : EndLatex
-
-
   const unsigned int Dimension = 2;
   
   typedef itk::RGBPixel< unsigned char > RGBPixelType;
@@ -86,8 +94,9 @@ int main( int argc, char ** argv )
 
 // Software Guide : BeginLatex
 //
-// After reading the input image, we allocate an output image that of the same
-// size.
+// An \code{ImageType} smart pointer called \code{inputImage} points to the
+// output of the image reader.  After updating the image reader, we can
+// allocate an output image that of the same size as the input image.
 //
 // Software Guide : EndLatex
 
@@ -99,7 +108,9 @@ int main( int argc, char ** argv )
 
 // Software Guide : BeginLatex
 //
-// Next we create the iterator to walk the output image.
+// Next we create the iterator that walks the output image.  No iterator for
+// the input is needed in this case.  The input is sampled using the mirror
+// index values.
 //
 // Software Guide : EndLatex
 

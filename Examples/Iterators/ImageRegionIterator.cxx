@@ -17,15 +17,18 @@
 
 // Software Guide : BeginLatex
 //
-// The \code{itk::ImageRegionIterator} is the most commonly used and least
-// specialized of the ITK image iterator classes.  It has all of the
-// functionality described in the preceding section.
+// The \code{itk::ImageRegionIterator} has been optimized for iteration speed.
+// It is the first choice for iterative, pixel-wise operations where location
+// in the image is not important and no special iteration path through the
+// image is required.  \code{itk::ImageRegionIterator} is the most commonly
+// used and least specialized of the ITK image iterator classes.  It implements
+// all of the methods described in the preceding section.
 //
 // The following example illustrates the use of
-// \code{itk::ImageRegionConstIterator} and \code{itk::ImageRegionIterator}. It
-// is an application which crops a region from an image.  The iterators are
-// used to copy pixel values from a sub-region in an input image to a smaller output
-// image.
+// \code{itk::ImageRegionConstIterator} and \code{itk::ImageRegionIterator}.
+// Most of the code constructs introduced apply to other ITK iterators as
+// well. This simple application crops a sub-region from an image by copying
+// pixel values using iterators.
 //
 // We begin by including the appropriate header files.
 // Software Guide : EndLatex
@@ -38,7 +41,6 @@
 // Software Guide : EndCodeSnippet
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-
 
 int main( int argc, char ** argv )
 {
@@ -56,8 +58,8 @@ int main( int argc, char ** argv )
 // Software Guide : BeginLatex
 //
 // Next we define types for the ITK objects used.  This application will
-// process color images, so we use an RGB pixel type. The iterator classes
-// have a single template parameter, the image type.
+// process color images, so we use an RGB pixel type. ITK iterator classes
+// generally take a single template parameter, the image type.
 //
 // Software Guide : EndLatex
 
@@ -76,10 +78,9 @@ int main( int argc, char ** argv )
 
 // Software Guide : BeginLatex
 // 
-// Information about the region to copy to the output is read from the
-// command line.  Notice that the region object type can be defined by the
-// image type.  A region definition needs a size and a starting index
-// (section~\ref{}).
+// Information about the sub-region to copy is read from the command line.
+// Notice that the region object type is be defined in the image type.  A
+// region definition needs a size and a starting index (section~\ref{}).
 //
 // Software Guide : EndLatex
 
@@ -121,10 +122,12 @@ int main( int argc, char ** argv )
 
 // Software Guide : BeginLatex
 //
-// After reading the input image and checking that the desired region is, in
-// fact, contained in the input, we allocate an output image using the region
-// the that will be copied.  This might be an important detail later if the
-// cropped region requires registering against the original data.
+// After reading the input image and checking that the desired sub-region is,
+// in fact, contained in the input, we allocate an output image.  Allocating
+// using the region object we just created guarantees that the output image has
+// the same starting index and size as the extracted sub-region.  Preserving
+// the starting index may be an important detail later if the cropped image
+// requires registering against the original image..
 //
 // Software Guide : EndLatex
 
@@ -136,14 +139,14 @@ int main( int argc, char ** argv )
 
 // Software Guide : BeginLatex
 //
-// All the necessary images and region definitions are now in place.  All that
-// is left is to create the iterators and perform the copy.  Note that image
+// The necessary images and region definitions are now in place.  All that is
+// left is to create the iterators and perform the copy.  Note that image
 // iterators are not smart pointers, their constructors are called directly.
 // Also notice how the input and output iterators are defined over the
-// \emph{same region} even though they walk images of different sizes.
+// \emph{same region}.  Though the images are different sizes, they both
+// contain this same sub-region.
 //
 // Software Guide : EndLatex
-
 
 // Software Guide : BeginCodeSnippet
   ConstIteratorType inputIt( reader->GetOutput(), region );
@@ -158,11 +161,11 @@ int main( int argc, char ** argv )
 
 // Software Guide : BeginLatex
 //
-// The \code{for} loop above is a very common construct in ITK.  The beauty of
-// those four simple lines of code is that they are equally valid for one, two,
-// three, or even ten dimensional data.  Consider the ugly alternative of ten
-// nested \code{for} loops for traversing an image, which would also require
-// explicit knowledge of the size of each image dimension.
+// The \code{for} loop above is a common construct in ITK.  The beauty of these
+// four lines of code is that they are equally valid for one, two, three, or
+// even ten dimensional data.  Consider the ugly alternative of ten nested
+// \code{for} loops for traversing an image, which would also require explicit
+// knowledge of the size of each image dimension.
 //
 // Software Guide : EndLatex
   

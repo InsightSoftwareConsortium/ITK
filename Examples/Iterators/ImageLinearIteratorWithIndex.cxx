@@ -17,13 +17,54 @@
 
 // Software Guide : BeginLatex
 //
-// The next code example shows how to use the
+// The \code{itk::ImageLinearIteratorWithIndex} is designed for line-by-line
+// processing of an image.  It walks a linear path along a selected image
+// direction parallel to one of the coordinate axes of the image. The image is
+// effectively indexed as a set of parallel lines spanning the selected image
+// dimension.
+//
+// Like all other ITK image iterators, movement is constrained to within an
+// image region, $R$.  The line $\ell$ through which the iterator moves is
+// defined by a selected direction and an origin.  The origin itself can be
+// iterated, and is any of the pixels along the lower boundary of $R$.  $\ell$
+// extends from the origin to the upper boundary of $R$.
+//    
+// Several additional methods are defined for this iterator to control movement
+// along the line $\ell$, and movement of the line origin within the image.
+//
+// %Might need a figure here to describe this iterator.
+//
+// \begin{itemize}
+// \item \textbf{\code{NextLine()}} Moves the iterator to the beginning pixel
+// location of the next line in the image.  The origin of the next line is
+// determined by incrementing the current origin along the fastest increasing
+// dimension of the subspace of the image that excludes the selected dimension.
+//
+// \item \textbf{\code{PreviousLine()}} Moves the iterator to the \emph{last valid
+// pixel location} in the previous line. The origin of the previous line is
+// determined by decrementing the current origin along the fastest increasing
+// dimension of the subspace of the image that excludes the selected dimension.
+//
+// \item \textbf{\code{(GoToBeginOfLine())}} Moves the iterator to the beginning
+// pixel of the current line.
+//
+// \item \textbf{\code{(GoToEndOfLine())}}  Move the iterator to \emph{one past
+// the last valid} pixel of the current line.
+//
+// \item \textbf{\code{(IsAtBeginOfLine())}} Returns true if the iterator points
+// to the beginning pixel of the current line.
+//
+// \item \textbf{\code{(IsAtEndOfLine())}}  Returns true if the iterator points to
+// \emph{one position past the last valid} pixel of the current line.
+// \end{itemize}
+//
+// The following code example shows how to use the
 // \code{itk::ImageLinearIteratorWithIndex}.  It implements the same
 // algorithm as in the previous example, flipping an image across its x axis.
 // Two line iterators are used, moving in opposite directions on the x axis,
 // and iterating line by line down the y axis.
 //
-// We include headers for both the const and non-const versions.
+// Headers for both the const and non-const versions are needed.
 //
 // Software Guide : EndLatex
 
