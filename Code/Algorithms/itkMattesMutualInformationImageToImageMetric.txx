@@ -91,6 +91,8 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   os << m_NumberOfSpatialSamples << std::endl;
   os << indent << "NumberOfHistogramBins: ";
   os << m_NumberOfHistogramBins << std::endl;
+  os << indent << "UseAllPixels: ";
+  os << m_UseAllPixels << std::endl;
 
   // Debugging information
   os << indent << "NumberOfParameters: ";
