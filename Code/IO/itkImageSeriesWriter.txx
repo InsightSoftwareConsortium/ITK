@@ -180,6 +180,8 @@ ImageSeriesWriter<TInputImage,TOutputImage>
     numberOfFiles *= inRegion.GetSize(n);
     }
 
+  itkDebugMacro( <<"Number of files to write = " << numberOfFiles );
+
   ProgressReporter progress(this, 0, 
                             numberOfFiles,
                             numberOfFiles);
@@ -212,12 +214,15 @@ ImageSeriesWriter<TInputImage,TOutputImage>
       writer->SetImageIO(m_ImageIO);
       }
     sprintf (fileName, m_SeriesFormat.c_str(), fileNumber);
+
     writer->SetFileName(fileName);
     writer->Update();
+
     progress.CompletedPixel();
     fileNumber += m_IncrementIndex;
     offset += pixelsPerFile;
     }
+
 }
 
 //---------------------------------------------------------
