@@ -73,9 +73,16 @@ public:
   itkGetMacro(ExtractionMode,int);
   void SetExtractionModeToPointSeededRegions ()
     {this->SetExtractionMode(Self::PointSeededRegions);}
+  void SetExtractionModeToCellSeededRegions ()
+    {this->SetExtractionMode(Self::CellSeededRegions);}
+  void SetExtractionModeToSpecifiedRegions ()
+    {this->SetExtractionMode(Self::SpecifiedRegions);}
   void SetExtractionModeToLargestRegion ()
     {this->SetExtractionMode(Self::LargestRegion);}
-  
+  void SetExtractionModeToAllRegions ()
+    {this->SetExtractionMode(Self::AllRegions);}
+  void SetExtractionModeToClosestPointRegion ()
+    {this->SetExtractionMode(Self::ClosestPointRegion);}
 
 protected:
   ExtractMeshConnectedRegions();

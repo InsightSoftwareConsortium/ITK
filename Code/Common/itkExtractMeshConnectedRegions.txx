@@ -41,9 +41,29 @@ ExtractMeshConnectedRegions<TInputMesh,TOutputMesh>
   FilterMeshToMesh<TInputMesh,TOutputMesh>::PrintSelf(os,indent);
 
   os << indent << "Extraction Mode: ";
-  if ( m_ExtractionMode == Self::LargestRegion )
+  if ( m_ExtractionMode == Self::PointSeededRegions )
+    {
+    os << "Point Seeded Regions" << std::endl;
+    }
+  else if ( m_ExtractionMode == Self::CellSeededRegions )
+    {
+    os << "Cell Seeded Regions" << std::endl;
+    }
+  else if ( m_ExtractionMode == Self::SpecifiedRegions )
+    {
+    os << "Specified Regions" << std::endl;
+    }
+  else if ( m_ExtractionMode == Self::LargestRegion )
     {
     os << "Largest Region" << std::endl;
+    }
+  else if ( m_ExtractionMode == Self::AllRegions )
+    {
+    os << "All Regions" << std::endl;
+    }
+  else if ( m_ExtractionMode == Self::ClosestPointRegion )
+    {
+    os << "Closest Point Region" << std::endl;
     }
 }
 
