@@ -52,7 +52,7 @@ public:
   typedef SmartPointer<ChildrenType>                    ChildrenPointer;
   typedef std::list< ChildrenType * >                   ChildrenListType;
   typedef TubeSpatialObject<TDimension>                 TubeType;
-  typedef std::list< TubeType::Pointer >                TubeListType;
+  typedef std::list< typename TubeType::Pointer >       TubeListType;
 
   itkNewMacro( Self );
 
