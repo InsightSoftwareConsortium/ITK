@@ -80,12 +80,13 @@ struct CvType;
 template <typename T>
 struct Return
 {
+  typedef typename CvType<T>::NoCv NoCvT;
   static void From(const T& result, const WrapperBase* wrapper)
     {
     Tcl_Interp* interp = wrapper->GetInterpreter();
     
     // Create a temporary instance, and set its value to the result object.
-    String name = wrapper->CreateTemporary(new T(result), CvType<T>::type);
+    String name = wrapper->CreateTemporary(new NoCvT(result), CvType<T>::type);
 
     // The return object to the Tcl interpreter is just a string which
     // refers to an instance.
