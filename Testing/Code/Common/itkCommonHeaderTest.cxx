@@ -153,7 +153,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkRigid3DPerspectiveTransform.h"
 #include "itkRigid3DRegistrationTransform.h"
 #include "itkRigid3DTransform.h"
-#include "itkScalarImageRegionIterator.h"
 #include "itkScalarVector.h"
 #include "itkSimpleImageRegionConstIterator.h"
 #include "itkSimpleImageRegionIterator.h"
