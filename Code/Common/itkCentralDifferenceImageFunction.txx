@@ -48,9 +48,7 @@ CentralDifferenceImageFunction<TInputImage,TCoordRep>
  *
  */
 template <class TInputImage, class TCoordRep>
-typename
-CentralDifferenceImageFunction<TInputImage,TCoordRep>
-::OutputType
+typename CentralDifferenceImageFunction<TInputImage,TCoordRep>::OutputType
 CentralDifferenceImageFunction<TInputImage,TCoordRep>
 ::EvaluateAtIndex( const IndexType& index ) const
 {
