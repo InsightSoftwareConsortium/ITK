@@ -50,7 +50,7 @@ int main(int ac, char** av)
     filter->SetLower (0);
     filter->SetUpper (210);
     FilterType::InputImageSizeType radius;
-    radius.Fill(4);
+    radius.Fill(5);
 
     filter->SetRadius(radius);
     filter->SetReplaceValue(255);
