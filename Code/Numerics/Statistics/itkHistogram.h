@@ -61,7 +61,7 @@ namespace Statistics{
  */
 
 template < class TMeasurement = float, unsigned int VMeasurementVectorSize = 1,
-  class TFrequencyContainer = DenseFrequencyContainer< float > > 
+           class TFrequencyContainer = DenseFrequencyContainer< float > > 
 class ITK_EXPORT Histogram 
   : public Sample < FixedArray< TMeasurement, VMeasurementVectorSize > >
 {
@@ -135,7 +135,7 @@ public:
 
   /** returns true if the given index is out of bound meaning one of index
    * is not between [0, last index] */
-  bool IsIndexOutOfBound(const IndexType &index) const;
+  bool IsIndexOutOfBounds(const IndexType &index) const;
 
   /** returns the instance identifier of the cell that is indexed by the 
    * index. The corresponding instance identifier is the offset of the index 

@@ -48,73 +48,73 @@ int itkHistogramTest(int, char* [] )
   index.Fill(32) ;
   if (index != histogram->GetIndex(measurements))
     {
-      pass = false ;
-      whereFail = "GetIndex(MeasurementVectorType&)" ;
+    pass = false ;
+    whereFail = "GetIndex(MeasurementVectorType&)" ;
     }
   
   HistogramType::InstanceIdentifier id = 
     histogram->GetInstanceIdentifier(index);
   if (index != histogram->GetIndex(id))
     {
-      pass = false ;
-      whereFail = "GetIndex(InstanceIdentifier&)" ;
+    pass = false ;
+    whereFail = "GetIndex(InstanceIdentifier&)" ;
     }
 
   index.Fill(100) ;
   
-  if (!histogram->IsIndexOutOfBound(index))
+  if (!histogram->IsIndexOutOfBounds(index))
     {
-      pass = false ;
-      whereFail = "IsIndexOutOfBound(IndexType)" ;
+    pass = false ;
+    whereFail = "IsIndexOutOfBound(IndexType)" ;
     }
 
   if (totalSize != histogram->Size())
     {
-      pass = false ;
-      whereFail = "Size()" ;
+    pass = false ;
+    whereFail = "Size()" ;
     }
 
   if (size != histogram->GetSize())
     {
-      pass = false ;
-      whereFail = "GetSize()" ;
+    pass = false ;
+    whereFail = "GetSize()" ;
     }
 
   if ((lowerBound[0] + interval * 31) != histogram->GetBinMin(0,31))
     {
-      pass = false ;
-      whereFail = "GetBinMin(Dimension, nthBin)" ;
+    pass = false ;
+    whereFail = "GetBinMin(Dimension, nthBin)" ;
     }
 
   if ((lowerBound[0] + interval * 32) != histogram->GetBinMax(0,31))
     {
-      pass = false ;
-      whereFail = "GetBinMax(Dimension, nthBin)" ;
+    pass = false ;
+    whereFail = "GetBinMax(Dimension, nthBin)" ;
     }
 
   for (id = 0 ; 
        id < static_cast< HistogramType::InstanceIdentifier >(totalSize) ;
        id++)
     {
-      histogram->SetFrequency(id, 1) ;
-      histogram->IncreaseFrequency(id, 1) ;
-      if (histogram->GetFrequency(id) != 2)
-        {
-          pass = false ;
-          whereFail = 
-            "SetFrequency(InstanceIdentifier, 1) + IncreaseFrequency(InstanceIdentifier, 1) + GetFrequency(InstanceIdentifier)" ;
-        }
+    histogram->SetFrequency(id, 1) ;
+    histogram->IncreaseFrequency(id, 1) ;
+    if (histogram->GetFrequency(id) != 2)
+      {
+      pass = false ;
+      whereFail = 
+        "SetFrequency(InstanceIdentifier, 1) + IncreaseFrequency(InstanceIdentifier, 1) + GetFrequency(InstanceIdentifier)" ;
+      }
     }
 
   if (histogram->Quantile(0, 0.5) != 512.0)
     {
-      pass = false ;
-      whereFail = "Quantile(Dimension, percent)" ;
+    pass = false ;
+    whereFail = "Quantile(Dimension, percent)" ;
     }
 
   if( !pass )
     {
-      std::cout << "Test failed in" << whereFail << "." << std::endl;
+    std::cout << "Test failed in" << whereFail << "." << std::endl;
     return EXIT_FAILURE;
     }
 

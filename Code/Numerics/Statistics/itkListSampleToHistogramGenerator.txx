@@ -18,7 +18,7 @@
 #define __itkListSampleToHistogramGenerator_txx
 
 namespace itk{
-  namespace Statistics{
+namespace Statistics{
 
 template< class TListSample, 
           class THistogramMeasurement, 
@@ -56,23 +56,23 @@ ListSampleToHistogramGenerator< TListSample,
 
   for ( unsigned int i = 0 ; i < TListSample::MeasurementVectorSize ; i++ )
     {
-      // integer and char type has usually 0 for the epsilon
-      if ( NumericTraits< THistogramMeasurement >::epsilon() > 
-           NumericTraits< THistogramMeasurement >::Zero )
-        {
-          margin = 
-            ( (THistogramMeasurement)(upper[i] - lower[i]) / 
-              (THistogramMeasurement) m_Sizes[i] ) / 
-            (THistogramMeasurement) m_MarginalScale ;
-          h_upper[i] = (THistogramMeasurement) (upper[i]) + 
-            margin ;
-        }
-      else
-        {
-          h_upper[i] = ((THistogramMeasurement) upper[i]) + 
-            NumericTraits< THistogramMeasurement >::One ;
-        }
-      h_lower[i] = ( THistogramMeasurement) lower[i] ;
+    // integer and char type has usually 0 for the epsilon
+    if ( NumericTraits< THistogramMeasurement >::epsilon() > 
+         NumericTraits< THistogramMeasurement >::Zero )
+      {
+      margin = 
+        ( (THistogramMeasurement)(upper[i] - lower[i]) / 
+          (THistogramMeasurement) m_Sizes[i] ) / 
+        (THistogramMeasurement) m_MarginalScale ;
+      h_upper[i] = (THistogramMeasurement) (upper[i]) + 
+        margin ;
+      }
+    else
+      {
+      h_upper[i] = ((THistogramMeasurement) upper[i]) + 
+        NumericTraits< THistogramMeasurement >::One ;
+      }
+    h_lower[i] = ( THistogramMeasurement) lower[i] ;
     }
 
   // initialize the Histogram object using the sizes and
@@ -87,26 +87,26 @@ ListSampleToHistogramGenerator< TListSample,
   unsigned int i;
   while (iter != last)
     {
-      lvector = iter.GetMeasurementVector() ;
-      for ( i = 0 ; i < HistogramType::MeasurementVectorSize ; i++)
-        {
-          hvector[i] = (THistogramMeasurement) lvector[i] ;
-        }
+    lvector = iter.GetMeasurementVector() ;
+    for ( i = 0 ; i < HistogramType::MeasurementVectorSize ; i++)
+      {
+      hvector[i] = (THistogramMeasurement) lvector[i] ;
+      }
 
-      index = m_Histogram->GetIndex(hvector) ;
-      if (!m_Histogram->IsIndexOutOfBound(index))
-        {
-          // if the measurement vector is out of bound then
-          // the GetIndex method returns index with the sizes of each dimension
-          // and doesn't increase the frequency
-          //          id = m_Histogram->GetInstanceIdentifier(index) ;
-          m_Histogram->IncreaseFrequency(index, 1) ;
-        }
-      ++iter ;
+    index = m_Histogram->GetIndex(hvector) ;
+    if (!m_Histogram->IsIndexOutOfBounds(index))
+      {
+      // if the measurement vector is out of bound then
+      // the GetIndex method returns index with the sizes of each dimension
+      // and doesn't increase the frequency
+      //          id = m_Histogram->GetInstanceIdentifier(index) ;
+      m_Histogram->IncreaseFrequency(index, 1) ;
+      }
+    ++iter ;
     }
 }
 
-  } // end of namespace Statistics 
+} // end of namespace Statistics 
 } // end of namespace itk 
 
 #endif

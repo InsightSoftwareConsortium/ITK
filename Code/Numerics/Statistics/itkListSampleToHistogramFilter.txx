@@ -18,7 +18,7 @@
 #define __itkListSampleToHistogramFilter_txx
 
 namespace itk{
-  namespace Statistics{
+namespace Statistics{
 
 template< class TListSample, class THistogram >
 ListSampleToHistogramFilter< TListSample, THistogram >
@@ -39,27 +39,27 @@ ListSampleToHistogramFilter< TListSample, THistogram >
   int i ;
   while (iter != last)
     {
-      lvector = iter.GetMeasurementVector() ;
-      for ( i = 0 ; i < THistogram::MeasurementVectorSize ; i++)
-        {
-          hvector[i] = 
-            (typename THistogram::MeasurementType) lvector[i] ;
-        }
+    lvector = iter.GetMeasurementVector() ;
+    for ( i = 0 ; i < THistogram::MeasurementVectorSize ; i++)
+      {
+      hvector[i] = 
+        (typename THistogram::MeasurementType) lvector[i] ;
+      }
 
-      index = m_Histogram->GetIndex(hvector) ;
-      if (!m_Histogram->IsIndexOutOfBound(index))
-        {
-          // if the measurement vector is out of bound then
-          // the GetIndex method returns index with the sizes of each dimension
-          // and doesn't increase the frequency
-          //          id = m_Histogram->GetInstanceIdentifier(index) ;
-          m_Histogram->IncreaseFrequency(index, 1) ;
-        }
-      ++iter ;
+    index = m_Histogram->GetIndex(hvector) ;
+    if (!m_Histogram->IsIndexOutOfBounds(index))
+      {
+      // if the measurement vector is out of bound then
+      // the GetIndex method returns index with the sizes of each dimension
+      // and doesn't increase the frequency
+      //          id = m_Histogram->GetInstanceIdentifier(index) ;
+      m_Histogram->IncreaseFrequency(index, 1) ;
+      }
+    ++iter ;
     }
 }
 
-  } // end of namespace Statistics 
+} // end of namespace Statistics 
 } // end of namespace itk 
 
 #endif
