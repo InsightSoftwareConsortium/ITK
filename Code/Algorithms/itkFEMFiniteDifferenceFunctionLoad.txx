@@ -102,7 +102,10 @@ FiniteDifferenceFunctionLoad<TMoving , TFixed>::EvaluateMetricGivenSolution( Ele
   typename Element::MatrixType solmat;
   typename Element::Float w;
  
-  typename Element::ArrayType::iterator elt=el->begin();
+  typedef typename Element::ArrayType ArrayType;
+
+  ArrayType::iterator elt = el->begin();
+
   const unsigned int Nnodes=(*elt)->GetNumberOfNodes();
 
   FEMVectorType Gpos,Gsol;
