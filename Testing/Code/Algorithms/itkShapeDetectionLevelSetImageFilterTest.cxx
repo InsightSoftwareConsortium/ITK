@@ -146,7 +146,7 @@ int itkShapeDetectionLevelSetImageFilterTest(int, char**)
 
   // set the weights between the propagation and curvature terms
   shapeDetection->SetPropagationScaling( 1.0 );
-  shapeDetection->SetCurvatureScaling( 0.5 );
+  shapeDetection->SetCurvatureScaling( 0.1 );
 
   // set the convergence criteria
   shapeDetection->SetMaximumRMSError( 0.02 );
@@ -183,7 +183,7 @@ int itkShapeDetectionLevelSetImageFilterTest(int, char**)
   std::cout << "RMS change: " << shapeDetection->GetRMSChange() << std::endl;
   std::cout << "Overlap: " << overlap->GetSimilarityIndex() << std::endl;
 
-  if ( overlap->GetSimilarityIndex() > 0.9 )
+  if ( overlap->GetSimilarityIndex() > 0.90 )
     {
     std::cout << "Overlap exceed threshold." << std::endl;
     }
