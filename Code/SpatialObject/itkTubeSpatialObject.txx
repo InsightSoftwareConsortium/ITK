@@ -225,10 +225,17 @@ TubeSpatialObject< TDimension >
   
   previt = it;
   unsigned long size = m_Points.size();
+
+  if(size<=step)
+    {
+    return 0;
+    }
+
   for(unsigned int i=0;i<step;i++)
     {
     it++;
     }
+  
   for(unsigned int i=0;i<size-step;i++)
     {
     if((*previt).GetPosition() == (*it).GetPosition())
