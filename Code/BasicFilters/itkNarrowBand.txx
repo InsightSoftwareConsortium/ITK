@@ -34,7 +34,7 @@ namespace itk
 //}
 
 template <class NodeType >
-std::vector< typename NarrowBand<NodeType>::RegionType >
+std::vector< NarrowBand::RegionType>
 NarrowBand<NodeType>
 ::SplitBand( unsigned int n)
 {

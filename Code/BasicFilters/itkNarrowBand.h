@@ -76,7 +76,7 @@ public:
 
   /** Returns an array of RegionStructs which represent contiguous arrays
       of nodes within the narrow band. */
-  std::vector<RegionStruct> SplitBand( unsigned int );
+  std::vector<RegionType> SplitBand( unsigned int );
   
   Iterator Begin()
   {
@@ -161,10 +161,7 @@ private:
   
 };
 
-
-
 } // end namespace itk
-
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkNarrowBand.txx"
