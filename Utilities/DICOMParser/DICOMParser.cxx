@@ -394,6 +394,7 @@ void DICOMParser::ReadNextRecord(doublebyte& group, doublebyte& element, DICOMPa
                        length);  // length
       }
 
+    delete [] tempdata;
     }
   else
     {

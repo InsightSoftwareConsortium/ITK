@@ -398,7 +398,7 @@ void DICOMAppHelper::SliceNumberCallback(doublebyte,
 {
   char* newString = (char*) val;
   this->SliceNumber = atoi(newString);
-  delete [] newString;
+  // delete [] newString;
 
 #ifdef DEBUG_DICOM_APP_HELPER
   std::cout << "Slice number: " << this->SliceNumber << std::endl;
@@ -461,7 +461,7 @@ void DICOMAppHelper::BitsAllocatedCallback(doublebyte,
                                            quadbyte) 
 {
   this->BitsAllocated = this->DICOMDataFile->ReturnAsUnsignedShort(val, this->DICOMDataFile->GetByteSwap());
-  delete [] val;
+  // delete [] val;
 #ifdef DEBUG_DICOM_APP_HELPER
   std::cout << "Bits allocated: " << this->BitsAllocated << std::endl;
 #endif
@@ -474,7 +474,7 @@ void DICOMAppHelper::ToggleSwapBytesCallback(doublebyte,
                                              unsigned char* val,
                                              quadbyte len) 
 {
-  delete [] val;
+  // delete [] val;
 #ifdef DEBUG_DICOM_APP_HELPER
   std::cout << "ToggleSwapBytesCallback" << std::endl;
 #endif
@@ -510,7 +510,7 @@ void DICOMAppHelper::PixelSpacingCallback(doublebyte group,
     {
     this->PixelSpacing[2] = fval;
     }
-  delete [] val;
+  // delete [] val;
 }
 
 void DICOMAppHelper::WidthCallback(doublebyte,
@@ -526,7 +526,7 @@ void DICOMAppHelper::WidthCallback(doublebyte,
 
   this->Width = uival;
   this->Dimensions[0] = this->Width;
-  delete [] val;
+  // delete [] val;
 }
 
 void DICOMAppHelper::HeightCallback(doublebyte,
@@ -541,7 +541,7 @@ void DICOMAppHelper::HeightCallback(doublebyte,
 #endif
   this->Height = uival;
   this->Dimensions[1] = this->Height;
-  delete [] val;
+  // delete [] val;
 }
 
 
@@ -556,7 +556,7 @@ void DICOMAppHelper::PixelRepresentationCallback( doublebyte,
   std::cout << "Pixel Representation: " << (uival ? "Signed" : "Unsigned") << std::endl;
 #endif
   this->PixelRepresentation = uival;
-  delete [] val;
+  // delete [] val;
 }
 
 void DICOMAppHelper::PhotometricInterpretationCallback( doublebyte,
@@ -574,7 +574,10 @@ void DICOMAppHelper::PhotometricInterpretationCallback( doublebyte,
     }
 
   this->PhotometricInterpretation = new std::string((char*) val);
-  
+  //
+  // DIDN'T HAVE 
+  // delete [] val
+  //
 }
 
 void DICOMAppHelper::PixelDataCallback( doublebyte,
@@ -703,7 +706,7 @@ void DICOMAppHelper::PixelDataCallback( doublebyte,
 #endif
       }
     }
-  delete [] data;
+  // delete [] data;
 }
 
 void DICOMAppHelper::RegisterPixelDataCallback()
@@ -726,7 +729,7 @@ void DICOMAppHelper::RescaleOffsetCallback( doublebyte,
 #ifdef DEBUG_DICOM_APP_HELPER
   std::cout << "Pixel offset: " << this->RescaleOffset << std::endl;
 #endif
-  delete [] val;
+  // delete [] val;
 }
 
 const char* DICOMAppHelper::TransferSyntaxUIDDescription(const char* uid)
@@ -786,7 +789,7 @@ void DICOMAppHelper::RescaleSlopeCallback(doublebyte,
   std::cout << "Rescale slope: " << fval << std::endl;
 #endif
   this->RescaleSlope = fval;
-  delete [] val;
+  // delete [] val;
 }
 
 bool DICOMAppHelper::RescaledImageDataIsFloat()
