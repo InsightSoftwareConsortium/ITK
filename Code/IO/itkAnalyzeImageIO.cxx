@@ -1010,7 +1010,14 @@ namespace itk
     ::WriteImageInformation(void)
     {
       unsigned int dim;
-
+      if(this->GetNumberOfComponents() > 1) 
+        {
+        ExceptionObject exception(__FILE__, __LINE__);
+        std::string ErrorMessage=
+          "More than one component per pixel not supported";
+        exception.SetDescription(ErrorMessage.c_str());
+        throw exception;
+        }
       const std::string HeaderFileName = GetHeaderFileName( m_FileName );
       std::ofstream   local_OutputStream;
       local_OutputStream.open( HeaderFileName.c_str(),
