@@ -37,8 +37,14 @@ BinaryThresholdImageFilter<TInputImage, TOutputImage>
 
   // We are going to create the object with a few default inputs to
   // hold the threshold values.
-  this->ProcessObject::SetNthInput( 1, InputPixelObjectType::New() );
-  this->ProcessObject::SetNthInput( 2, InputPixelObjectType::New() );
+  
+  typename InputPixelObjectType::Pointer lower=InputPixelObjectType::New();
+  lower->Set( NumericTraits<InputPixelType>::NonpositiveMin() );
+  this->ProcessObject::SetNthInput( 1, lower );
+
+  typename InputPixelObjectType::Pointer upper=InputPixelObjectType::New();
+  upper->Set( NumericTraits<InputPixelType>::max() );
+  this->ProcessObject::SetNthInput( 2, upper );
 }
 
 
