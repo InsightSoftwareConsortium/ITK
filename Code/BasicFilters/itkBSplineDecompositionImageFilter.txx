@@ -22,7 +22,7 @@
 #include "itkBSplineDecompositionImageFilter.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"
-
+#include "itkProgressReporter.h"
 #include "itkVector.h"
 
 namespace itk
@@ -50,8 +50,8 @@ template <class TInputImage, class TOutputImage>
 void
 BSplineDecompositionImageFilter<TInputImage, TOutputImage>
 ::PrintSelf(
-std::ostream& os, 
-Indent indent) const
+  std::ostream& os, 
+  Indent indent) const
 {
   Superclass::PrintSelf( os, indent );
   os << indent << "Spline Order: " << m_SplineOrder << std::endl;
@@ -63,7 +63,7 @@ template <class TInputImage, class TOutputImage>
 bool
 BSplineDecompositionImageFilter<TInputImage, TOutputImage>
 ::DataToCoefficients1D()
-  { 
+{ 
 
   // See Unser, 1993, Part II, Equation 2.5, 
   //   or Unser, 1999, Box 2. for an explaination. 
@@ -205,17 +205,18 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>
     m_Scratch[0] = sum;
     }
   else {
-    /* full loop */
-    iz = 1.0 / z;
-    z2n = pow(z, (double)(m_DataLength[m_IteratorDirection] - 1L));
-    sum = m_Scratch[0] + z2n * m_Scratch[m_DataLength[m_IteratorDirection] - 1L];
-    z2n *= z2n * iz;
-    for (unsigned int n = 1; n <= (m_DataLength[m_IteratorDirection] - 2); n++) {
-      sum += (zn + z2n) * m_Scratch[n];
-      zn *= z;
-      z2n *= iz;
+  /* full loop */
+  iz = 1.0 / z;
+  z2n = pow(z, (double)(m_DataLength[m_IteratorDirection] - 1L));
+  sum = m_Scratch[0] + z2n * m_Scratch[m_DataLength[m_IteratorDirection] - 1L];
+  z2n *= z2n * iz;
+  for (unsigned int n = 1; n <= (m_DataLength[m_IteratorDirection] - 2); n++)
+    {
+    sum += (zn + z2n) * m_Scratch[n];
+    zn *= z;
+    z2n *= iz;
     }
-    m_Scratch[0] = sum / (1.0 - zn * zn);
+  m_Scratch[0] = sum / (1.0 - zn * zn);
   }
 }
 
@@ -239,17 +240,23 @@ void
 BSplineDecompositionImageFilter<TInputImage, TOutputImage>
 ::DataToCoefficientsND()
 {
+  OutputImagePointer output = this->GetOutput();
 
-  // Initilize coeffient array
+  Size<ImageDimension> size = output->GetBufferedRegion().GetSize();
+
+  unsigned int count = output->GetBufferedRegion().GetNumberOfPixels() / size[0] * ImageDimension;
+
+  ProgressReporter progress(this, 0, count, 10);
+
+  // Initialize coeffient array
   this->CopyImageToImage();   // Coefficients are initialized to the input data
 
-  OutputImagePointer output = this->GetOutput();
   for (unsigned int n=0; n < ImageDimension; n++)
     {
     m_IteratorDirection = n;
     // Loop through each dimension
 
-    // Inititilize iterators
+    // Initialize iterators
     OutputLinearIterator CIterator( output, output->GetBufferedRegion() );
     CIterator.SetDirection( m_IteratorDirection );
     // For each data vector
@@ -267,9 +274,9 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>
       CIterator.GoToBeginOfLine();
       this->CopyScratchToCoefficients( CIterator ); // m_Scratch = m_Image;
       CIterator.NextLine();
+      progress.CompletedPixel();
       }
     }
-
 }
 
 
@@ -293,11 +300,11 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>
   outIt = outIt.Begin();
 
   while ( !outIt.IsAtEnd() )
-  {
+    {
     outIt.Set( static_cast<OutputPixelType>( inIt.Get() ) );
     ++inIt;
     ++outIt;
-  }
+    }
  
 }
 
@@ -362,7 +369,7 @@ template <class TInputImage, class TOutputImage>
 void
 BSplineDecompositionImageFilter<TInputImage, TOutputImage>
 ::EnlargeOutputRequestedRegion(
-DataObject *output )
+  DataObject *output )
 {
 
   // this filter requires the all of the output image to be in
