@@ -15,7 +15,12 @@ namespace eval itk {
     set package [string tolower $libName]
     
     package ifneeded $package $version "
-      if {\[catch { load \"$libFile\" } errorMessage \]} { puts \$errorMessage }
+      namespace eval ::itk::loader {
+        set curDir \[pwd\]
+        cd {$libPath}
+        if {\[catch { load \"$libFile\" } errorMessage \]} { puts \$errorMessage }
+        cd \$curDir
+     }
     "
   }
   

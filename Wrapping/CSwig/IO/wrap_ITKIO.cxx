@@ -24,7 +24,9 @@ namespace _cable_
   {
     ITK_WRAP_GROUP(IOBase),
     ITK_WRAP_GROUP(itkImageFileReader),
+#ifdef ITK_TCL_WRAP
     ITK_WRAP_GROUP(itkTkImageViewer2D),
+#endif
     ITK_WRAP_GROUP(itkImageFileWriter)
   };
 }

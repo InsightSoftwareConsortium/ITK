@@ -1,9 +1,4 @@
-from VXLNumericsPython import *
-from ITKCommonPython import *
-from ITKNumericsPython import *
-from ITKBasicFiltersPython import *
-from ITKAlgorithmsPython import *
-from ITKIOPython import *
+from InsightToolkit import *
 
 reader = itkImageFileReaderF2_New()
 canny  = itkCannyEdgeDetectionImageFilterF2F2_New()
@@ -16,6 +11,6 @@ writer.SetInput(rescaler.GetOutput())
 rescaler.SetOutputMinimum(0)
 rescaler.SetOutputMaximum(65535)
 
-reader.SetFileName("/home3/hoffman/Insight/Testing/Data/Input/cthead1.png")
+reader.SetFileName("c:/Hoffman/InsightNew/Testing/Data/Input/cthead1.png")
 writer.SetFileName("./testout.png")
 writer.Update()

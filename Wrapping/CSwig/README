@@ -1,0 +1,54 @@
+To use tcl or python wrapping using cswig, you will have to build
+CableSwig.   CableSwig is a combination package that includes swig,
+cable, and gccxml.   When built CableSwig will have three execuables:
+
+   cswig    - the main cable swig executable, that takes an xml file from
+              gccxml as input.   The xml file should be created from a cable config
+              input file.
+
+   cableidx - a program to generate index files from gccxml xml files.   The
+              index files tell cswig what classes are wrapped in which libraries.
+
+   gccxml_cc1plus - A patched version of gcc that has the -fxml option to 
+                        convert c++ into xml.  
+
+   gccxml   - http://www.gccxml.org/HTML/Index.html, the front end program to gccxml_cc1plus
+
+
+To build ITK with the CSwig wrappers:
+
+        1. checkout a copy of CableSwig  
+                cvs -d:pserver:anonymous@public.kitware.com:/cvsroot/CableSwig login 
+                password: cmake
+                cvs -d:pserver:anonymous@public.kitware.com:/cvsroot/CableSwig co CableSwig
+
+        2. build CableSwig on your system.
+
+        3. run cmake on ITK (ccmake or CMakeSetup)
+                - turn on the show advanced values option  (t in ccmake)
+                - Turn on ITK_CSWIG_TCL and/or ITK_CSWIG_PYTHON
+                - run cmake configure (c for ccmake, Configure button for CMakeSetup)
+                - if not found already, Set the cache entry for CSWIG to the full path to the 
+                  cswig executable built in 1.  Run cmake configure again.
+                  Cmake should set CABLE_INDEX and GCCXML based on the path given for CSWIG.
+                  When running on windows, as long as CableSwig was configured first, cmake
+                  should automatically find all of them.
+                - generate the makefiles 
+
+To run scripts.
+        To make things easier to use, you have to set paths to the build tree of ITK.
+        If using msdev or devenv, you have to include the config directory 
+        (Release,Debug,MinSizeRel, RelWithDebInfo).
+
+        Python:
+                - set the PYTHONPATH variable to ITK-build/Wrapping/CSwig/Python/[Release].
+                - run python and run this python command:
+                         from InsightToolkit import *
+        Tcl:
+                - set the TCLLIBPATH variable to ITK-build/Wrapping/CSwig/Tcl/[Release|Debug]
+        
+
+KNOWN ISSUES:
+        - dependency information is not being computed for the wrappers correctly.
+          if you update ITK source, you may have to remove all the .xml files in the Wrapping/CSwig 
+          directory.
