@@ -58,6 +58,20 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>
 ::~SimplexMesh()
 {
   itkDebugMacro("Mesh Destructor ");
+
+  GeometryMapPointer  geometryMap = this->GetGeometryData();
+  GeometryMapIterator pointDataIterator = geometryMap->Begin();
+  GeometryMapIterator pointDataEnd = geometryMap->End();
+
+  while (pointDataIterator != pointDataEnd)
+    {
+    SimplexMeshGeometry* geometry = pointDataIterator->Value();
+    if( geometry )
+      {
+      delete geometry;
+      }
+    pointDataIterator++;
+    }
   this->ReleaseCellsMemory();
 }
 
@@ -259,7 +273,7 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>
     cellIt++;
     }
 
-  PointsContainerConstIterator pointsIt = GetPoints()->Begin();
+  PointsContainerConstIterator pointsIt = this->GetPoints()->Begin();
   os << indent << "Point locations:" << std::endl;
   while ( pointsIt != GetPoints()->End() )
     {
@@ -267,7 +281,7 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>
     pointsIt++;
     }
 
-  GeometryMapPointer geometryMap = GetGeometryData();
+  GeometryMapPointer geometryMap = this->GetGeometryData();
   GeometryMapIterator pointDataIterator = geometryMap->Begin();
   GeometryMapIterator pointDataEnd = geometryMap->End();
 
