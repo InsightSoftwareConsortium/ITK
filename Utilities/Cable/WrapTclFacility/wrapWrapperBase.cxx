@@ -34,6 +34,8 @@ WrapperBase::WrapperBase(Tcl_Interp* interp, const String& wrappedTypeName):
   m_WrapperTable(WrapperTable::GetForInterpreter(m_Interpreter)),
   m_WrappedTypeRepresentation(NULL)
 {
+  String noTemplate = m_WrappedTypeName.substr(0, m_WrappedTypeName.find_first_of("<"));
+  m_ConstructorName = noTemplate.substr(noTemplate.find_last_of(":") + 1);
 }
 
 
@@ -637,7 +639,7 @@ WrapperBase
     }
   
   // See if this wrapper knows about a constructor.
-  String methodName = m_WrappedTypeName;
+  String methodName = m_ConstructorName;  
   if(m_FunctionMap.count(methodName) > 0)
     {
     // Prepare the set of candidate functions.

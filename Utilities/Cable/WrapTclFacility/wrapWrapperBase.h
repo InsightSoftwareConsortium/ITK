@@ -150,6 +150,12 @@ protected:
    * to AddMethod.
    */
   FunctionMap m_FunctionMap;
+  
+  /**
+   * The name of a constructor of the type.  This is the type name without
+   * template arguments or namespace qualification.
+   */
+  String m_ConstructorName;
 };
 
 
