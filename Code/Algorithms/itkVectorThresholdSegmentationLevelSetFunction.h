@@ -124,8 +124,8 @@ protected:
     CovarianceMatrixType covariance(FeatureImageType::GetImageDimension(),
                    FeatureImageType::GetImageDimension());
     
-    mean.fill(NumericTraits<FeatureScalarType::ValueType>::Zero);
-    covariance.fill(NumericTraits<FeatureScalarType::ValueType>::Zero);
+    mean.fill(NumericTraits<typename FeatureScalarType::ValueType>::Zero);
+    covariance.fill(NumericTraits<typename FeatureScalarType::ValueType>::Zero);
   
     m_Mahalanobis = MahalanobisFunctionType::New();
     m_Mahalanobis->SetMean(mean);

@@ -97,7 +97,7 @@ public:
   typedef typename Superclass::FeatureImageType FeatureImageType;
   
   /** Type of the segmentation function */
-  typedef typename VectorThresholdSegmentationLevelSetFunction<OutputImageType,FeatureImageType> ThresholdFunctionType;
+  typedef VectorThresholdSegmentationLevelSetFunction<OutputImageType,FeatureImageType> ThresholdFunctionType;
   typedef typename ThresholdFunctionType::Pointer ThresholdFunctionPointer;
   typedef typename ThresholdFunctionType::MeanVectorType MeanVectorType;
   typedef typename ThresholdFunctionType::CovarianceMatrixType CovarianceMatrixType;
