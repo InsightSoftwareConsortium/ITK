@@ -330,6 +330,12 @@ public:
     { return m_Region; };
 
   /**
+   * Get the image that this iterator walks.
+   */
+  const SmartPointer<ImageType>& GetImage() const
+    { return m_Image; };
+
+  /**
    * Get the pixel value
    */
   PixelType Get(void) const  
