@@ -526,7 +526,7 @@ void TIFFImageIO::ReadTiles(void* buffer)
         return;
         }
 
-      int xx, yy;
+      unsigned int xx, yy;
       for ( yy = 0; yy < m_InternalImage->TileHeight; yy++ )
         {
         for ( xx = 0; xx <  m_InternalImage->TileWidth; xx++ )
