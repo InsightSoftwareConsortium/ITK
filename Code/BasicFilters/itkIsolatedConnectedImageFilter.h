@@ -154,11 +154,11 @@ public:
 
   /** Set/Get the limit on the lower threshold value. The default is the NonpositiveMin() for the InputPixelType. */
   itkSetMacro(Lower, InputImagePixelType);
-  itkGetMacro(Lower, InputImagePixelType);
+  itkGetConstReferenceMacro(Lower, InputImagePixelType);
 
   /** Set/Get the limit on the upper threshold value. The default is the max() for the InputPixelType. */
   itkSetMacro(Upper, InputImagePixelType);
-  itkGetMacro(Upper, InputImagePixelType);
+  itkGetConstReferenceMacro(Upper, InputImagePixelType);
 
   /** Set/Get the limit on the upper threshold value. The default is
       the max() for the InputPixelType.  These methods have been
@@ -174,26 +174,26 @@ public:
 
   /** Set/Get the precision required for the intensity threshold value. The default is 1. */
   itkSetMacro(IsolatedValueTolerance, InputImagePixelType);
-  itkGetMacro(IsolatedValueTolerance, InputImagePixelType);
+  itkGetConstReferenceMacro(IsolatedValueTolerance, InputImagePixelType);
 
   /** Set/Get value to replace thresholded pixels. Pixels that lie
    *  within the thresholds will be replaced with this value. The
    *  default is 1. */
   itkSetMacro(ReplaceValue, OutputImagePixelType);
-  itkGetMacro(ReplaceValue, OutputImagePixelType);
+  itkGetConstReferenceMacro(ReplaceValue, OutputImagePixelType);
 
   /** Get value that isolates the two seeds. */
-  itkGetMacro(IsolatedValue, InputImagePixelType);
+  itkGetConstReferenceMacro(IsolatedValue, InputImagePixelType);
 
   /** Set/Get whether to find an upper threshold (separating two dark
    * regions) or a lower threshold (separating two bright regions). */
   itkSetMacro(FindUpperThreshold,bool);
   itkBooleanMacro(FindUpperThreshold);
-  itkGetMacro(FindUpperThreshold,bool);
+  itkGetConstReferenceMacro(FindUpperThreshold,bool);
 
   /** Get the flag that tells whether the algorithm failed to find a
    * threshold. */
-  itkGetMacro(ThresholdingFailed, bool);
+  itkGetConstReferenceMacro(ThresholdingFailed, bool);
 
 protected:
   IsolatedConnectedImageFilter();
