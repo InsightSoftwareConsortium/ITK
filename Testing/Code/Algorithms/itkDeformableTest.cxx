@@ -178,7 +178,7 @@ int main(){
   typedef itk::GibbsPriorFilter<VecImageType,ClassImageType> GibbsPriorFilterType;
   GibbsPriorFilterType::Pointer applyGibbsImageFilter = GibbsPriorFilterType::New();
 
-  // Set the MRF labeller parameters
+  //Set the Gibbs Prior labeller parameters
   applyGibbsImageFilter->SetNumClasses(NUM_CLASSES);
   applyGibbsImageFilter->SetMaxNumIter(MAX_NUM_ITER);
   applyGibbsImageFilter->SetErrorTollerance(0.00);
@@ -193,12 +193,12 @@ int main(){
   //Since a suvervised classifier is used, it requires a training image
   applyGibbsImageFilter->SetTrainingImage(classImage);  
   
-  //Kick off the MRF labeller function
+  //Kick off the Gibbs Prior labeller function
   applyGibbsImageFilter->Update();
   
   ClassImageType::Pointer  outClassImage = applyGibbsImageFilter->GetOutput();
 
-  //Print the mrf labelled image
+  //Print the Gibbs Prior labelled image
   ClassImageIterator labeloutIt( outClassImage, outClassImage->GetBufferedRegion() );
   labeloutIt.Begin();
 
@@ -209,10 +209,12 @@ int main(){
 	++labeloutIt;
   }
 
+//disable all the file output, please enable it when you test the code locally
+/*
   FILE *middle=fopen("middle.raw", "wb");
   fwrite(TestImage1, 2, IMGWIDTH*IMGHEIGHT, middle);
   fclose(middle);
-
+*/
   //---------------------------------------------------------------------
   // Define the deformable Mesh
   //---------------------------------------------------------------------
@@ -295,11 +297,11 @@ int main(){
 	TestImage1[k] = 0;
 	p++;
   }
-
+/*
   FILE *output=fopen("new1.raw", "wb");
   fwrite(TestImage1, 2, IMGWIDTH*IMGHEIGHT, output);
   fclose(output);
-
+*/
   it.Begin();
   classoutIt.Begin();
   while( !it.IsAtEnd()) {	
@@ -330,10 +332,11 @@ int main(){
 	i++;
 	++labeloutIt;
   }
-
+/*
   middle=fopen("new2.raw", "wb");
   fwrite(TestImage1, 2, IMGWIDTH*IMGHEIGHT, middle);
   fclose(middle);
+*/
   return 0;
 
 }
