@@ -376,12 +376,12 @@ float Header::GetZSpacing()
          // we assume slices join together
          // (no overlapping, no interslice gap)
          // if they don't, we're fucked up
-         return atof( strSliceThickness.c_str() );
+         return (float)atof( strSliceThickness.c_str() );
       }
    }
    else
    {
-      return atof( strSpacingBSlices.c_str() );
+      return (float)atof( strSpacingBSlices.c_str() );
    }
 }
 
