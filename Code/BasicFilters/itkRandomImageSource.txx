@@ -70,8 +70,12 @@ RandomImageSource<TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-  std::cout << "Max: " << static_cast<NumericTraits<OutputImagePixelType>::PrintType>(m_Max) << std::endl;
-  std::cout << "Min: " << static_cast<NumericTraits<OutputImagePixelType>::PrintType>(m_Min) << std::endl;
+  std::cout << indent << "Max: "
+            << static_cast<NumericTraits<OutputImagePixelType>::PrintType>(m_Max)
+            << std::endl;
+  std::cout << indent << "Min: "
+            << static_cast<NumericTraits<OutputImagePixelType>::PrintType>(m_Min)
+            << std::endl;
   unsigned int i;
   os << indent << "Origin: [";
   for (i=0; i < TOutputImage::ImageDimension - 1; i++)
@@ -126,15 +130,28 @@ RandomImageSource<TOutputImage>
 {
   itkDebugMacro(<<"Generating a random image of scalars");
 
+  // support progress methods/callbacks
+  unsigned long updateVisits = 0, i=0;
+  if ( threadId == 0 )
+    {
+    updateVisits = outputRegionForThread.GetNumberOfPixels()/10;
+    if ( updateVisits < 1 ) updateVisits = 1;
+    }
+        
   typedef typename TOutputImage::PixelType scalarType;
   typename TOutputImage::Pointer image=this->GetOutput(0);
-  image->SetBufferedRegion( image->GetRequestedRegion() );
 
   ImageRegionIterator<TOutputImage> it(image, outputRegionForThread);
 
   for ( ; !it.IsAtEnd(); ++it)
     {
-    it.Set( (scalarType) vnl_sample_uniform( (double)m_Min,(double)m_Max) );
+    it.Set( (scalarType) vnl_sample_uniform(static_cast<double>(m_Min),static_cast<double>(m_Max)));
+    if ( threadId == 0 && !(i % updateVisits ) )
+      {
+      this->UpdateProgress( static_cast<float>(i) / 
+                            static_cast<float>(updateVisits * 10.0) );
+      }
+    ++i;
     }
 }
 
