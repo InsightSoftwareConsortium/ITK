@@ -52,7 +52,7 @@
 #include "itkSelectiveSubsampleGenerator.h"
 #include "itkSparseFrequencyContainer.h"
 #include "itkSubsample.h"
-#include "itkWeightedCenteroidKdTreeGenerator.h"
+#include "itkWeightedCentroidKdTreeGenerator.h"
 #include "itkWeightedCovarianceCalculator.h"
 #include "itkWeightedMeanCalculator.h"
 
@@ -206,9 +206,9 @@ int itkStatisticsPrintTest(int , char* [])
     itk::Statistics::TableLookupSampleClassifier<foo>::New();
   std::cout << "----------TableLookupSampleClassifier " << TableLookupSampleClassifierObj;
 
-  itk::Statistics::WeightedCenteroidKdTreeGenerator<foo>::Pointer WeightedCenteroidKdTreeGeneratorObj=
-    itk::Statistics::WeightedCenteroidKdTreeGenerator<foo>::New();
-  std::cout << "----------WeightedCenteroidKdTreeGenerator " << WeightedCenteroidKdTreeGeneratorObj;
+  itk::Statistics::WeightedCentroidKdTreeGenerator<foo>::Pointer WeightedCentroidKdTreeGeneratorObj=
+    itk::Statistics::WeightedCentroidKdTreeGenerator<foo>::New();
+  std::cout << "----------WeightedCentroidKdTreeGenerator " << WeightedCentroidKdTreeGeneratorObj;
 
   itk::Statistics::WeightedCovarianceCalculator<foo>::Pointer WeightedCovarianceCalculatorObj=
     itk::Statistics::WeightedCovarianceCalculator<foo>::New();

@@ -29,7 +29,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkSubsample.h"
 #include "itkKdTree.h"
 #include "itkEuclideanDistance.h"
-#include "itkWeightedCenteroidKdTreeGenerator.h"
+#include "itkWeightedCentroidKdTreeGenerator.h"
 #include "itkKdTreeBasedKmeansEstimator.h"
 
 int itkKdTreeBasedKmeansEstimatorTest(int argc, char* argv[] )
@@ -98,7 +98,7 @@ int itkKdTreeBasedKmeansEstimatorTest(int argc, char* argv[] )
   sample->SetPointSet(pointSet);
 
   /* Creating k-d tree */
-  typedef stat::WeightedCenteroidKdTreeGenerator< DataSampleType > Generator ;
+  typedef stat::WeightedCentroidKdTreeGenerator< DataSampleType > Generator ;
   Generator::Pointer generator = Generator::New() ;
   
   generator->SetSample(sample.GetPointer()) ;
@@ -112,7 +112,7 @@ int itkKdTreeBasedKmeansEstimatorTest(int argc, char* argv[] )
   estimator->SetParameters(initialMeans) ;
   estimator->SetMaximumIteration(maximumIteration) ;
   estimator->SetKdTree(generator->GetOutput()) ;
-  estimator->SetCenteroidPositionChangesThreshold(0.0) ;
+  estimator->SetCentroidPositionChangesThreshold(0.0) ;
   estimator->StartOptimization() ;
   Estimator::ParametersType estimatedMeans = estimator->GetParameters() ;
 
