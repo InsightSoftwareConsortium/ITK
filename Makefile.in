@@ -1,14 +1,6 @@
 srcdir        = @srcdir@
 VPATH         = @srcdir@
 
-SUBDIRS = \
-Code/tools \
-Code/Common \
-Code/Insight3DParty/vxl \
-Testing/Code/Common \
-Testing/Code/Insight3DParty/vxl/vnl/tests
-
-
 topall:
 	cd . ;  ${MAKE} -${MAKEFLAGS} CMakeTargets.make
 	cd . ;  ${MAKE} -${MAKEFLAGS} all
