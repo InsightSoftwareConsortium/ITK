@@ -8,12 +8,12 @@ CFG=basicArchitectureTest - Win32 Debug
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
 !MESSAGE 
-!MESSAGE NMAKE /f "basicArchitectureTest.mak".
+!MESSAGE NMAKE /f "BasicArchitectureTest.mak".
 !MESSAGE 
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE 
-!MESSAGE NMAKE /f "basicArchitectureTest.mak" CFG="basicArchitectureTest - Win32 Debug"
+!MESSAGE NMAKE /f "BasicArchitectureTest.mak" CFG="basicArchitectureTest - Win32 Debug"
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
 !MESSAGE 
@@ -41,7 +41,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /c
-# ADD CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /c /I ../../../Code/Common
+# ADD CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /I ../../../Code/Common /c
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
 # ADD RSC /l 0x409 /d "NDEBUG"
 BSC32=bscmake.exe
@@ -64,7 +64,7 @@ LINK32=link.exe
 # PROP Intermediate_Dir "Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /GZ /c
-# ADD CPP /nologo /MD /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /GZ /c  /I ../../../Code/Common
+# ADD CPP /nologo /MD /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /GZ /I ../../../Code/Common /c
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -93,6 +93,14 @@ SOURCE=..\..\..\Code\Common\itkDataObject.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\Code\Common\itkDirectory.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Code\Common\itkDynamicLoader.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\Code\Common\itkImageBase.cxx
 # End Source File
 # Begin Source File
@@ -102,6 +110,10 @@ SOURCE=..\..\..\Code\Common\itkIndent.cxx
 # Begin Source File
 
 SOURCE=..\..\..\Code\Common\itkObject.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Code\Common\itkObjectFactoryBase.cxx
 # End Source File
 # Begin Source File
 
@@ -134,6 +146,14 @@ SOURCE=..\..\..\Code\Common\itkWriter.cxx
 # Begin Source File
 
 SOURCE=..\..\..\Code\Common\itkDataObject.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Code\Common\itkDirectory.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Code\Common\itkDynamicLoader.h
 # End Source File
 # Begin Source File
 
@@ -174,6 +194,10 @@ SOURCE=..\..\..\Code\Common\itkMeshBase.h
 # Begin Source File
 
 SOURCE=..\..\..\Code\Common\itkObject.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\Code\Common\itkObjectFactoryBase.h
 # End Source File
 # Begin Source File
 
