@@ -33,6 +33,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkFileIteratorBase.h"
 #include "itkGiplImageIO.h"
 #include "itkGiplImageIOFactory.h"
+#include "itkIOCommon.h"
 #include "itkImageFileReader.txx"
 #include "itkImageFileWriter.txx"
 #include "itkImageIOBase.h"
