@@ -12,6 +12,8 @@ SET(ITKIO_SRCS
   itkGE5ImageIOFactory.cxx
   itkGEAdwImageIO.cxx
   itkGEAdwImageIOFactory.cxx
+  itkSiemensVisionImageIO.cxx
+  itkSiemensVisionImageIOFactory.cxx
   itkGiplImageIO.cxx
   itkGiplImageIOFactory.cxx
   itkIOCommon.cxx
