@@ -28,7 +28,6 @@ MRFImageFilter<TInputImage,TClassifiedImage>
       m_LabelStatus(0),
       m_ErrorTolerance(0),
       m_ClassProbability(0),
-      m_Beta3x3x3(0),
       m_ClassifierPtr(0),
       m_ErrorCounter(0),
       m_Offset(0),
@@ -37,7 +36,8 @@ MRFImageFilter<TInputImage,TClassifiedImage>
       m_KernelDepth(3)
 {
   m_KernelSize = m_KernelWidth * m_KernelHeight * m_KernelDepth;
-  SetBeta( 0 );
+  m_MRFNeighborhoodWeight.resize(0);
+  SetMRFNeighborhoodWeight( 0 );
 }
 
 template<class TInputImage, class TClassifiedImage>
@@ -251,7 +251,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
 template<class TInputImage, class TClassifiedImage>
 void
 MRFImageFilter<TInputImage, TClassifiedImage>
-::SetBeta( double* )
+::SetMRFNeighborhoodWeight( double* )
 {
 
   // Set the beta matrix of a 3x3x3 kernel
@@ -264,22 +264,22 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   m_HeightOffset.resize( m_KernelSize );
   m_DepthOffset.resize(  m_KernelSize );
 
-  m_Beta3x3x3.resize( m_KernelSize );
+  m_MRFNeighborhoodWeight.resize( m_KernelSize );
 
 
   for( int i = 0; i < 9; i++ ) 
-    m_Beta3x3x3[i] = 1.3;
+    m_MRFNeighborhoodWeight[i] = 1.3;
 
   for( int i = 9; i < 18; i++ )
-    m_Beta3x3x3[i] = 1.7;
+    m_MRFNeighborhoodWeight[i] = 1.7;
 
   for( int i = 18; i < 27; i++ )
-    m_Beta3x3x3[i] = 1.3;
+    m_MRFNeighborhoodWeight[i] = 1.3;
 
   // Change the center weights
-  m_Beta3x3x3[4]  = 1.5;
-  m_Beta3x3x3[13] = 0.0;
-  m_Beta3x3x3[22] = 1.5;
+  m_MRFNeighborhoodWeight[4]  = 1.5;
+  m_MRFNeighborhoodWeight[13] = 0.0;
+  m_MRFNeighborhoodWeight[22] = 1.5;
 
   // k prefix stands for the kernel
         
@@ -303,32 +303,12 @@ MRFImageFilter<TInputImage, TClassifiedImage>
       }// end for (height loop)
     }// end for (depth loop)
 
-}// SetBeta
-
-
-template<class TInputImage, class TClassifiedImage>
-void
-MRFImageFilter<TInputImage, TClassifiedImage>
-::SetBeta( double *betaMatrix, unsigned int kernelSize )
-{
-  m_KernelSize = kernelSize;
-  //Allocate memory for the weights of the 3D MRF algorithm
-  // and corresponding memory offsets.
-
-  m_WidthOffset.resize(  m_KernelSize );
-  m_HeightOffset.resize( m_KernelSize );
-  m_DepthOffset.resize(  m_KernelSize );
-
-  m_Beta3x3x3.resize( m_KernelSize );
-
-  for( unsigned int i = 0; i < m_KernelSize; i++ ) 
-    m_Beta3x3x3[i] = *betaMatrix++;
-}// end SetBeta
+}// SetMRFNeighborhoodWeight
 
 template<class TInputImage, class TClassifiedImage>
 void
 MRFImageFilter<TInputImage, TClassifiedImage>
-::SetBeta( vnl_vector<double> betaMatrix)
+::SetMRFNeighborhoodWeight( vnl_vector<double> betaMatrix)
 {
   m_KernelSize = betaMatrix.size();
   //Allocate memory for the weights of the 3D MRF algorithm
@@ -337,11 +317,11 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   m_WidthOffset.resize(  m_KernelSize );
   m_HeightOffset.resize( m_KernelSize );
   m_DepthOffset.resize(  m_KernelSize );
-  m_Beta3x3x3.resize( m_KernelSize );
+  m_MRFNeighborhoodWeight.resize( m_KernelSize );
 
   for( unsigned int i = 0; i < betaMatrix.size(); i++ ) 
-    m_Beta3x3x3[i] = betaMatrix[i];
-}// end SetBeta
+    m_MRFNeighborhoodWeight[i] = betaMatrix[i];
+}// end SetMRFNeighborhoodWeight
 
 
 template<class TInputImage, class TClassifiedImage>
@@ -478,7 +458,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
     
             //Do the prior probability calculations for each class
             //in the 3x3x3 neighborhood
-            neighborInfluence[index] += m_Beta3x3x3[k];       
+            neighborInfluence[index] += m_MRFNeighborhoodWeight[k];       
 
             }// end if
 

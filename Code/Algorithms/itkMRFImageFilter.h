@@ -185,17 +185,16 @@ public:
   /** Set/Get the weighting parameters (Beta Matrix). A default 3 x 3 x 3 
    * matrix is provided. However, the user is allowed to override it
    * with their choice of weights for a 3 x 3 x 3 matrix. */
-  virtual void SetBeta( double* );
-  double* GetBeta()
-    { return m_Beta3x3x3; }
+  virtual void SetMRFNeighborhoodWeight( double* );
+  double* GetMRFNeighborhoodWeight()
+    { return m_MRFNeighborhoodWeight; }
 
   /** Set the weighting parameters (Beta Matrix). This is an overloaded
    * function allowing the users to set the Beta Matrix by providing a 
    * a 1D array of weights. Current implementation supports only a 
    * 3 x 3 x 3 kernel. The labeler needs to be extended for a different
    * kernel size. */
-  virtual void SetBeta( double *BetaMatrix, unsigned int kernelSize );
-  virtual void SetBeta( vnl_vector<double> BetaMatrix );
+  virtual void SetMRFNeighborhoodWeight( vnl_vector<double> BetaMatrix );
       
 protected:
   MRFImageFilter();
@@ -233,24 +232,24 @@ private:
   double                    m_ErrorTolerance;
   double                    *m_ClassProbability; //Class liklihood
   std::vector<unsigned int> m_LabelStatus; 
-  std::vector<double>       m_Beta3x3x3;
+  std::vector<double>       m_MRFNeighborhoodWeight;
 
-  /** Pointer to the classifier to be used for the MRF lavbelling. */
+  /** Pointer to the classifier to be used for the MRF labelling. */
   typename ClassifierType::Pointer m_ClassifierPtr;
 
 
-  int                    m_ErrorCounter;
-  int                    *m_Offset;
-  int                    m_KernelWidth;
-  int                    m_KernelHeight;
-  int                    m_KernelDepth;
-  int                    m_ImageWidth;
-  int                    m_ImageHeight;
-  int                    m_ImageDepth;
+  int                       m_ErrorCounter;
+  int                       *m_Offset;
+  int                       m_KernelWidth;
+  int                       m_KernelHeight;
+  int                       m_KernelDepth;
+  int                       m_ImageWidth;
+  int                       m_ImageHeight;
+  int                       m_ImageDepth;
   
-  std::vector<int>       m_WidthOffset;
-  std::vector<int>       m_HeightOffset;
-  std::vector<int>       m_DepthOffset;
+  std::vector<int>          m_WidthOffset;
+  std::vector<int>          m_HeightOffset;
+  std::vector<int>          m_DepthOffset;
 
   //Function implementing the ICM algorithm to label the images
   void ApplyICMLabeller();
