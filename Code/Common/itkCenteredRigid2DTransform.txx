@@ -200,8 +200,8 @@ CenteredRigid2DTransform<TScalarType>
 
   OffsetType offset;
 
-  offset[0] = tx + cx + sa * cy + ( 1.0 - ca ) * cx;
-  offset[1] = ty + cy - sa * cx + ( 1.0 - ca ) * cy;
+  offset[0] = tx + sa * cy + ( 1.0 - ca ) * cx;
+  offset[1] = ty - sa * cx + ( 1.0 - ca ) * cy;
 
   this->SetOffset( offset );
 
