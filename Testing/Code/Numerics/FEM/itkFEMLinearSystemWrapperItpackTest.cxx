@@ -141,7 +141,6 @@ int itkFEMLinearSystemWrapperItpackTest( int argc, char **argv )
   }
   cout << endl;    
 
-
   /* Vector 0 = [1 2 3 4 5] */
   it.SetVectorValue(0,1,0);
   it.SetVectorValue(1,2,0);
@@ -291,6 +290,71 @@ int itkFEMLinearSystemWrapperItpackTest( int argc, char **argv )
   it.DestroyMatrix(0);
   it.DestroyVector(1);
   it.DestroySolution(0);
+
+  
+  
+  itpack::integer intRet;
+  itpack::doublereal dbRet;
+  itpack::integer integerPass = 1;
+  itpack::doublereal doublePass = 1.0;
+ 
+  cout << "Test itpack parameter setting..." << endl;
+
+  it.SetMaximumNumberIterations(integerPass);
+  intRet = it.GetMaximumNumberIterations();
+  intRet = it.GetErrorReportingLevel();
+  it.SetCommunicationSwitch(integerPass);
+  intRet = it.GetCommunicationSwitch();
+  intRet = it.GetOutputNumber();
+  it.SetSymmetricMatrixFlag(integerPass);
+  intRet = it.GetSymmetricMatrixFlag();
+  it.SetAdaptiveSwitch(integerPass);
+  intRet = it.GetAdaptiveSwitch();
+  it.SetAdaptiveCaseSwitch(integerPass);
+  intRet = it.GetAdaptiveCaseSwitch();
+  it.SetWorkspaceUsed(integerPass);
+  intRet = it.GetWorkspaceUsed();
+  it.SetRedBlackOrderingSwitch(integerPass);
+  intRet = it.GetRedBlackOrderingSwitch();
+  it.SetRemoveSwitch(integerPass);
+  intRet = it.GetRemoveSwitch();
+  it.SetTimingSwitch(integerPass);
+  intRet = it.GetTimingSwitch();
+  it.SetErrorAnalysisSwitch(integerPass);
+  intRet = it.GetErrorAnalysisSwitch();
+  it.SetAccuracy(doublePass);
+  dbRet = it.GetAccuracy();
+  it.SetLargestJacobiEigenvalueEstimate(doublePass);
+  dbRet = it.GetLargestJacobiEigenvalueEstimate();
+  it.SetSmallestJacobiEigenvalueEstimate(doublePass);
+  dbRet = it.GetSmallestJacobiEigenvalueEstimate();
+  it.SetDampingFactor(doublePass);
+  dbRet = it.GetDampingFactor()   ;
+  it.SetOverrelaxationParameter(doublePass) ;
+  dbRet = it.GetOverrelaxationParameter()    ;
+  it.SetEstimatedSpectralRadiusSSOR(doublePass);
+  dbRet = it.GetEstimatedSpectralRadiusSSOR()    ;
+  it.SetEstimatedSpectralRadiusLU(doublePass) ;
+  dbRet = it.GetEstimatedSpectralRadiusLU()   ; 
+  it.SetTolerance(doublePass) ;
+  dbRet = it.GetTolerance()    ;
+  it.SetTimeToConvergence(doublePass) ;
+  dbRet = it.GetTimeToConvergence()    ;
+  it.SetTimeForCall(doublePass) ;
+  dbRet = it.GetTimeForCall()   ;
+  it.SetDigitsInError(doublePass) ;
+  dbRet = it.GetDigitsInError()    ;
+  it.SetDigitsInResidual(doublePass) ;
+  dbRet = it.GetDigitsInResidual()   ;
+  it.JacobianConjugateGradient() ;
+  it.JacobianSemiIterative() ;
+  it.SuccessiveOverrelaxation() ;
+  it.SymmetricSuccessiveOverrelaxationConjugateGradient() ;
+  it.SymmetricSuccessiveOverrelaxationSuccessiveOverrelaxation() ;
+  it.ReducedSystemConjugateGradient() ;
+  it.ReducedSystemSemiIteration() ;
+  
+  cout << "Done." << endl;
 
 
   return EXIT_SUCCESS;
