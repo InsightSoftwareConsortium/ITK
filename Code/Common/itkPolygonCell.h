@@ -152,6 +152,7 @@ public:
   /**
    * Implement the standard CellInterface.
    */
+  virtual int GetType(void) const {return POLYGON_CELL;}
   virtual CellPointer MakeCopy(void);
   virtual int GetDimension(void) const;
   virtual int GetNumberOfPoints(void) const;

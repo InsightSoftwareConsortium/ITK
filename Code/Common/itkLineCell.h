@@ -135,6 +135,7 @@ public:
   /**
    * Implement the standard CellInterface.
    */
+  virtual CellType GetType(void) const {return LINE_CELL;}
   virtual CellPointer MakeCopy(void);
   virtual int GetDimension(void) const;
   virtual int GetNumberOfPoints(void) const;

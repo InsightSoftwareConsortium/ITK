@@ -146,10 +146,15 @@ public:
   /** 
    *  Cell Visitor interfaces
    */
-  enum {HEXAHEDRON_CELL=0, QUADRILATERAL_CELL, 
-        TRIANGLE_CELL, LINE_CELL, TETRAHEDRON_CELL, VERTEX_CELL,DYNAMICPOLYGON_CELL,
+  enum CellType {HEXAHEDRON_CELL=0, QUADRILATERAL_CELL, 
+        TRIANGLE_CELL, LINE_CELL, TETRAHEDRON_CELL, VERTEX_CELL, POLYGON_CELL,
         LAST_ITK_CELL, MAX_ITK_CELLS=255};
   static int GetNextUserCellId(); // never return > MAX_INTERFACE
+
+  /** 
+   *  Return the type of the cell (one of the CellType enums listed above).
+   */
+  virtual CellType GetType(void) const =0;
 
   /* 
    * A visitor that can visit different cell types in a mesh.
@@ -327,7 +332,8 @@ public:
    * topological dimension CellDimension-1.  If the "inside" pointer is not
    * NULL, the flag is set to indicate whether the point is inside the cell.
    */
-  virtual Pointer GetClosestBoundary(CoordRepType pCoords[], bool* inside) {return Pointer();}
+  virtual Pointer GetClosestBoundary(CoordRepType pCoords[], bool* inside) 
+    {return Pointer();}
 
   /**
    * Given the geometric coordinates of a point (coord[PointDimension]),
@@ -351,7 +357,8 @@ public:
 				CoordRepType closestPoint[PointDimension],
 				CoordRepType pCoords[],
 				CoordRepType* dist2,
-				InterpolationWeightType weights[]) {return bool();}
+				InterpolationWeightType weights[]) 
+    {return bool();}
   
   /**
    * Given the parametric coordinates of a point in the cell

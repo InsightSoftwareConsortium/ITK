@@ -127,6 +127,7 @@ public:
   /**
    * Implement the standard CellInterface.
    */
+  virtual CellType GetType(void) const {return VERTEX_CELL;}
   virtual CellPointer MakeCopy(void);
   virtual int GetDimension(void) const;
   virtual int GetNumberOfPoints(void) const;
