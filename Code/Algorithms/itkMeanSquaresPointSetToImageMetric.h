@@ -67,10 +67,14 @@ public SimilarityRegistrationMetric< TTarget, TMapper, double,
                                      CovariantVector<double, TMapper::SpaceDimension > >
 {
 public:
+  /** Space dimension is the dimension of parameters space. */
+  enum { SpaceDimension = TMapper::SpaceDimension };
+  enum { RangeDimension = 9};
+
   /** Standard class typedefs. */
   typedef MeanSquaresPointSetToImageMetric  Self;
   typedef double MeasureType;
-  typedef CovariantVector<MeasureType,TMapper::SpaceDimension >  DerivativeType;
+  typedef CovariantVector<MeasureType,SpaceDimension >  DerivativeType;
   typedef SimilarityRegistrationMetric< TTarget, TMapper,
                        MeasureType,DerivativeType >  Superclass;
   typedef SmartPointer<Self>   Pointer;
@@ -81,10 +85,6 @@ public:
  
   /** Run-time type information (and related methods). */
   itkTypeMacro(MeanSquaresPointSetToImageMetric, Object);
-
-  /** Space dimension is the dimension of parameters space. */
-  enum { SpaceDimension = TMapper::SpaceDimension };
-  enum { RangeDimension = 9};
 
   /**  Type of the mapper. */
   typedef TMapper MapperType;
