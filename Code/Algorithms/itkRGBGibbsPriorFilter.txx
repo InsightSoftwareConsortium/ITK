@@ -609,10 +609,6 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   /* Variable to store the modified pixel vector value. */
   InputImagePixelType ChangedPixelVec;
 
-  /* Variable to store the output pixel vector label after
-   *  the MRF classification. */
-  LabelledImagePixelType outLabelledPix;
-
   /* Set a variable to store the offset index. */
   LabelledImageIndexType offsetIndex3D; offsetIndex3D.Fill(0);
 
@@ -655,42 +651,9 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
 
     double    minDist;
     LabelType pixLabel;
-/*
-    pixLabel  = NumericTraits< LabelType >::max();
-    minDist   = NumericTraits<   double  >::max();
-    for( unsigned int index = 0; index < m_NumberOfClasses; index++ ) 
-      {
-      if ( dist[index] < minDist ) 
-        {
-        minDist = dist[index];
-        pixLabel = index;
-        }
-      }
-
-    /* Check if the label has changed then set the change flag in all the 
-     *  neighborhood of the current pixel. *
-    if( pixLabel != m_ObjectLabel ) 
-      {
-      outLabelledPix = 1-m_ObjectLabel;
-      labelledImageIt.Set( outLabelledPix );
-      m_LabelStatus[i] = outLabelledPix;
-      }
-    else
-      {
-      labelledImageIt.Set( m_ObjectLabel );
-      m_LabelStatus[i] = m_ObjectLabel; 
-      }
-*
-//===================================
-      if (dist[1] < m_ObjectThreshold) pixLabel = 255;
-      else pixLabel = 0;
-      labelledImageIt.Set( pixLabel );
-      
-//===================================
-*/
-      if (dist[1] > m_ObjectThreshold) pixLabel = 0;
-      else pixLabel = 1;
-      labelledImageIt.Set( pixLabel );
+    if (dist[1] > m_ObjectThreshold) pixLabel = 0;
+    else pixLabel = 1;
+    labelledImageIt.Set( pixLabel );
     
     i++;
     ++labelledImageIt;
