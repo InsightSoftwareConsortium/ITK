@@ -169,14 +169,11 @@ int main()
   if (passed)
     {
     std::cout << "Iterator tests passed" << std::endl;
-    exit(EXIT_SUCCESS);
+    return EXIT_SUCCESS;
     }
   else
     {
     std::cout << "Iterator tests failed" << std::endl;
-    exit(EXIT_FAILURE);
+    return EXIT_FAILURE;
     }
 }
-
-
-

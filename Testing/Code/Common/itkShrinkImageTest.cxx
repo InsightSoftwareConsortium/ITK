@@ -77,15 +77,12 @@ int main()
   if (passed)
     {
     std::cout << "ShrinkImage test passed." << std::endl;
-    exit(EXIT_SUCCESS);
+    return EXIT_SUCCESS;
     }
   else
     {
     std::cout << "ShrinkImage test failed." << std::endl;
-    exit(EXIT_FAILURE);
+    return EXIT_FAILURE;
     }
 
 }
-
-
-

@@ -79,15 +79,12 @@ int main()
   if (passed)
     {
     std::cout << "ImportImage test passed." << std::endl;
-    exit(EXIT_SUCCESS);
+    return EXIT_SUCCESS;
     }
   else
     {
     std::cout << "ImportImage test failed." << std::endl;
-    exit(EXIT_FAILURE);
+    return EXIT_FAILURE;
     }
 
 }
-
-
-
