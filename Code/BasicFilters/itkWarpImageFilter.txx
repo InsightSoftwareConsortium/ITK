@@ -236,11 +236,12 @@ int threadId )
   DeformationFieldPointer fieldPtr = this->GetDeformationField();
 
   // support progress methods/callbacks
-  unsigned long updateVisits = 0, i=0;
+  unsigned long updateVisits = 0, totalVisits = 0, i=0;
   if ( threadId == 0 )
     {
-    updateVisits = 
-      outputPtr->GetRequestedRegion().GetNumberOfPixels()/10;
+    totalVisits = 
+     outputRegionForThread.GetNumberOfPixels();
+    updateVisits = totalVisits / 10;
     if ( updateVisits < 1 ) updateVisits = 1;
     }
 
@@ -263,7 +264,7 @@ int threadId )
     // update progress
     if ( threadId == 0 && !(i % updateVisits ) )
       {
-      this->UpdateProgress((float)i/(float(updateVisits)*10.0));
+      this->UpdateProgress((float)i/(float)totalVisits);
       }
 
     // get the output image index
