@@ -569,10 +569,14 @@ AC_ARG_WITH(buildname,
 # Determine the site (domain) name
 AC_PATH_PROG(HOSTNAME, hostname, hostname)
 AC_PATH_PROG(NSLOOKUP, nslookup, nslookup, $PATH:/usr/bin:/usr/sbin:/usr/local/bin)
+# Fallback site
 myhostname=`$HOSTNAME`
 SITE=`$NSLOOKUP $myhostname | grep \^Name: | cut -d. -f2- | tr [A-Z] [a-z]`
 if test ! "$site_specified" = none; then
 	SITE=$site_specified
+fi
+if test -z "$SITE"; then
+	SITE=nosite
 fi
 AC_SUBST(SITE)
 
@@ -601,16 +605,18 @@ AC_PATH_PROGS(CVSCOMMAND, cvs )
 AC_PATH_PROGS(GREPCOMMAND, grep )
 AC_PATH_PROGS(COMPRESSIONCOMMAND, gzip compress zip )
 AC_PATH_PROGS(TCLSHCOMMAND, tclsh tclsh82 tclsh8.2 tclsh80 tclsh8.2 )
+AC_PATH_PROGS(GUNZIPCOMMAND, gunzip )
 
 AC_SUBST(MAKECOMMAND)
 AC_SUBST(CVSCOMMAND)
 AC_SUBST(GREPCOMMAND)
+AC_SUBST(GUNZIPCOMMAND)
 AC_SUBST(COMPRESSIONCOMMAND)
 AC_SUBST(TCLSHCOMMAND)
 
 # Make java optional
-AC_PATH_PROGS(JAVA, java, jre )
-AC_SUBST(JAVA)
+AC_PATH_PROGS(JAVACOMMAND, java, jre )
+AC_SUBST(JAVACOMMAND)
 
 # AC_PROG_JAVA
 # AC_PROG_JAVAC

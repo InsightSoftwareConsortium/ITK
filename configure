@@ -3122,10 +3122,14 @@ else
   echo "$ac_t""no" 1>&6
 fi
 
+# Fallback site
 myhostname=`$HOSTNAME`
 SITE=`$NSLOOKUP $myhostname | grep \^Name: | cut -d. -f2- | tr A-Z a-z`
 if test ! "$site_specified" = none; then
 	SITE=$site_specified
+fi
+if test -z "$SITE"; then
+	SITE=nosite
 fi
 
 
@@ -3154,7 +3158,7 @@ do
 # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:3158: checking for $ac_word" >&5
+echo "configure:3162: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_MAKECOMMAND'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -3194,7 +3198,7 @@ do
 # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:3198: checking for $ac_word" >&5
+echo "configure:3202: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_CVSCOMMAND'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -3234,7 +3238,7 @@ do
 # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:3238: checking for $ac_word" >&5
+echo "configure:3242: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_GREPCOMMAND'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -3274,7 +3278,7 @@ do
 # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:3278: checking for $ac_word" >&5
+echo "configure:3282: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_COMPRESSIONCOMMAND'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -3314,7 +3318,7 @@ do
 # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:3318: checking for $ac_word" >&5
+echo "configure:3322: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_TCLSHCOMMAND'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -3349,6 +3353,47 @@ fi
 test -n "$TCLSHCOMMAND" && break
 done
 
+for ac_prog in gunzip 
+do
+# Extract the first word of "$ac_prog", so it can be a program name with args.
+set dummy $ac_prog; ac_word=$2
+echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
+echo "configure:3362: checking for $ac_word" >&5
+if eval "test \"`echo '$''{'ac_cv_path_GUNZIPCOMMAND'+set}'`\" = set"; then
+  echo $ac_n "(cached) $ac_c" 1>&6
+else
+  case "$GUNZIPCOMMAND" in
+  /*)
+  ac_cv_path_GUNZIPCOMMAND="$GUNZIPCOMMAND" # Let the user override the test with a path.
+  ;;
+  ?:/*)			 
+  ac_cv_path_GUNZIPCOMMAND="$GUNZIPCOMMAND" # Let the user override the test with a dos path.
+  ;;
+  *)
+  IFS="${IFS= 	}"; ac_save_ifs="$IFS"; IFS=":"
+  ac_dummy="$PATH"
+  for ac_dir in $ac_dummy; do 
+    test -z "$ac_dir" && ac_dir=.
+    if test -f $ac_dir/$ac_word; then
+      ac_cv_path_GUNZIPCOMMAND="$ac_dir/$ac_word"
+      break
+    fi
+  done
+  IFS="$ac_save_ifs"
+  ;;
+esac
+fi
+GUNZIPCOMMAND="$ac_cv_path_GUNZIPCOMMAND"
+if test -n "$GUNZIPCOMMAND"; then
+  echo "$ac_t""$GUNZIPCOMMAND" 1>&6
+else
+  echo "$ac_t""no" 1>&6
+fi
+
+test -n "$GUNZIPCOMMAND" && break
+done
+
+
 
 
 
@@ -3362,16 +3407,16 @@ do
 # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:3366: checking for $ac_word" >&5
-if eval "test \"`echo '$''{'ac_cv_path_JAVA'+set}'`\" = set"; then
+echo "configure:3411: checking for $ac_word" >&5
+if eval "test \"`echo '$''{'ac_cv_path_JAVACOMMAND'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
-  case "$JAVA" in
+  case "$JAVACOMMAND" in
   /*)
-  ac_cv_path_JAVA="$JAVA" # Let the user override the test with a path.
+  ac_cv_path_JAVACOMMAND="$JAVACOMMAND" # Let the user override the test with a path.
   ;;
   ?:/*)			 
-  ac_cv_path_JAVA="$JAVA" # Let the user override the test with a dos path.
+  ac_cv_path_JAVACOMMAND="$JAVACOMMAND" # Let the user override the test with a dos path.
   ;;
   *)
   IFS="${IFS= 	}"; ac_save_ifs="$IFS"; IFS=":"
@@ -3379,7 +3424,7 @@ else
   for ac_dir in $ac_dummy; do 
     test -z "$ac_dir" && ac_dir=.
     if test -f $ac_dir/$ac_word; then
-      ac_cv_path_JAVA="$ac_dir/$ac_word"
+      ac_cv_path_JAVACOMMAND="$ac_dir/$ac_word"
       break
     fi
   done
@@ -3387,16 +3432,16 @@ else
   ;;
 esac
 fi
-JAVA="$ac_cv_path_JAVA"
-if test -n "$JAVA"; then
-  echo "$ac_t""$JAVA" 1>&6
+JAVACOMMAND="$ac_cv_path_JAVACOMMAND"
+if test -n "$JAVACOMMAND"; then
+  echo "$ac_t""$JAVACOMMAND" 1>&6
 else
   echo "$ac_t""no" 1>&6
 fi
 
-test -n "$JAVA" && break
+test -n "$JAVACOMMAND" && break
 done
-test -n "$JAVA" || JAVA="jre "
+test -n "$JAVACOMMAND" || JAVACOMMAND="jre "
 
 
 
@@ -3605,7 +3650,8 @@ s%@CVSCOMMAND@%$CVSCOMMAND%g
 s%@GREPCOMMAND@%$GREPCOMMAND%g
 s%@COMPRESSIONCOMMAND@%$COMPRESSIONCOMMAND%g
 s%@TCLSHCOMMAND@%$TCLSHCOMMAND%g
-s%@JAVA@%$JAVA%g
+s%@GUNZIPCOMMAND@%$GUNZIPCOMMAND%g
+s%@JAVACOMMAND@%$JAVACOMMAND%g
 
 CEOF
 EOF
