@@ -39,7 +39,7 @@ int itkSpatialObjectToImageFilterTest(int, char* [] )
   typedef itk::SpatialObjectToImageFilter<EllipseType,ImageType> SpatialObjectToImageFilterType;
   SpatialObjectToImageFilterType::Pointer imageFilter = SpatialObjectToImageFilterType::New();
   imageFilter->SetInput(ellipse);
-  imageFilter->SetInsideValue(1);
+  imageFilter->SetInsideValue(2);
   imageFilter->GetInsideValue();
   imageFilter->SetOutsideValue(0);
   imageFilter->GetOutsideValue();
@@ -121,6 +121,30 @@ int itkSpatialObjectToImageFilterTest(int, char* [] )
       index[0] = 25+i;
       index[1] = 25+j;
 
+      if(image->GetPixel(index) != 2.0)
+      {
+        std::cout << "[FAILURE]" << std::endl;
+        return EXIT_FAILURE;
+      }
+    }
+  }
+
+  std::cout << "[PASSED]" << std::endl;
+
+  // Test the UseObjectValue
+  imageFilter->SetUseObjectValue(true);
+  imageFilter->Update();
+
+  std::cout << "Testing SetUseObjectValue: ";
+
+  // Test only centered pixels
+  for(int i=-5;i<5;i++)
+  {
+    for(int j=-5;j<5;j++)
+    {
+      index[0] = 25+i;
+      index[1] = 25+j;
+
       if(image->GetPixel(index) != 1.0)
       {
         std::cout << "[FAILURE]" << std::endl;
@@ -128,10 +152,10 @@ int itkSpatialObjectToImageFilterTest(int, char* [] )
       }
     }
   }
- 
 
 
   std::cout << "[PASSED]" << std::endl;
+  std::cout << "Test [DONE]" << std::endl;
 
   return EXIT_SUCCESS;
 }
