@@ -136,6 +136,9 @@ TARGET_LINK_LIBRARIES(SubsampleVolume ITKCommon ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(LaplacianImageFilter LaplacianImageFilter.cxx )
 TARGET_LINK_LIBRARIES(LaplacianImageFilter ITKCommon ITKBasicFilters ITKIO)
 
+ADD_EXECUTABLE(LaplacianSharpeningImageFilter LaplacianSharpeningImageFilter.cxx )
+TARGET_LINK_LIBRARIES(LaplacianSharpeningImageFilter ITKCommon ITKBasicFilters ITKIO)
+
 ADD_EXECUTABLE(IsoSurfaceExtraction IsoSurfaceExtraction.cxx )
 TARGET_LINK_LIBRARIES(IsoSurfaceExtraction ITKCommon ITKBasicFilters ITKIO)
 
@@ -251,6 +254,13 @@ ADD_TEST( LaplacianImageFilterTest ${FILTERING_EXAMPLES}
   LaplacianImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/LaplacianImageFilter.png
+)
+ADD_TEST( LaplacianSharpeningImageFilterTest ${FILTERING_EXAMPLES2}
+  --compare ${BASELINE}/LaplacianSharpeningImageFilter.png
+            ${TEMP}/LaplacianSharpeningImageFilter.png
+  LaplacianSharpeningImageFilterTest
+        ${ITK_SOURCE_DIR}/Testing/Data/Input/cthead1.png
+        ${TEMP}/LaplacianSharpeningImageFilter.png
 )
 ADD_TEST( MathematicalMorphologyBinaryFiltersTest ${FILTERING_EXAMPLES}
   --compare ${BASELINE}/MathematicalMorphologyBinaryFiltersErode.png
