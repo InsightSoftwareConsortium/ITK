@@ -216,6 +216,7 @@ public:
   Superclass::operator>=;
   Superclass::operator<=;
   Superclass::operator[];
+  Superclass::GetElement;
   Superclass::SetLocation;
   Superclass::OverrideBoundaryCondition;
   Superclass::ResetBoundaryCondition;

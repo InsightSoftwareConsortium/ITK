@@ -157,6 +157,8 @@ public:
     { return m_DataBuffer[i]; }
   const TPixel &operator[](unsigned int i) const
   { return m_DataBuffer[i]; }
+  TPixel &GetElement(unsigned int i) 
+  { return m_DataBuffer[i]; }
 
   /** Returns the element at the center of the neighborhood. */
   TPixel GetCenterValue() const

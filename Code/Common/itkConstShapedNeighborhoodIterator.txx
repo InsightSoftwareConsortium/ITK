@@ -69,9 +69,9 @@ ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>
     { m_CenterIsActive = true; }
 
   // Set the pointer in the neighborhood location just activated.
-  this->operator[](n) = this->GetCenterPointer();
+  this->GetElement(n) = this->GetCenterPointer();
   for (unsigned i = 0; i < Dimension; ++i)
-    { this->operator[](n) += OffsetTable[i] * this->GetOffset(n)[i];  }
+    { this->GetElement(n) += OffsetTable[i] * this->GetOffset(n)[i];  }
 }
 
 template<class TImage, class TBoundaryCondition>
@@ -111,11 +111,15 @@ ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>
   IndexListType::const_iterator it;
 
   // Center pointer must be updated whether or not it is active.
-  if (! m_CenterIsActive) { this->operator[](this->GetCenterNeighborhoodIndex())++; }
+  if (! m_CenterIsActive) 
+    { 
+    this->GetElement(
+           this->GetCenterNeighborhoodIndex()
+           )++; }
   
   // Increment pointers for only the active pixels.
   for (it = m_ActiveIndexList.begin(); it != m_ActiveIndexList.end(); it++)
-    { (this->operator[](*it))++; }
+    { (this->GetElement(*it))++; }
   
   // Check loop bounds, wrap & add pointer offsets if needed.
   for (i=0; i<Dimension; ++i)
@@ -125,9 +129,9 @@ ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>
         {
           m_Loop[i] = m_BeginIndex[i];
           if (! m_CenterIsActive)
-            { this->operator[](this->GetCenterNeighborhoodIndex())+= m_WrapOffset[i]; }
+            { this->GetElement(this->GetCenterNeighborhoodIndex())+= m_WrapOffset[i]; }
           for (it = m_ActiveIndexList.begin(); it != m_ActiveIndexList.end(); it++)
-            { (this->operator[](*it))+= m_WrapOffset[i]; }
+            { (this->GetElement(*it))+= m_WrapOffset[i]; }
         }        
       else break;
     }
@@ -143,11 +147,11 @@ ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>
  IndexListType::const_iterator it;
 
  // Center pointer must be updated whether or not it is active.
-  if (! m_CenterIsActive) { this->operator[](this->GetCenterNeighborhoodIndex())--; }
+  if (! m_CenterIsActive) { this->GetElement(this->GetCenterNeighborhoodIndex())--; }
 
   // Decrement pointers for only the active pixels.
   for (it = m_ActiveIndexList.begin(); it != m_ActiveIndexList.end(); it++)
-    { (this->operator[](*it))--; }
+    { (this->GetElement(*it))--; }
   
   // Check loop bounds, wrap & add pointer offsets if needed.
   for (i=0; i<Dimension; ++i)
@@ -156,9 +160,9 @@ ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>
         {
           m_Loop[i]= m_Bound[i] - 1;
           if (! m_CenterIsActive)
-            { this->operator[](this->GetCenterNeighborhoodIndex())-= m_WrapOffset[i]; }
+            { this->GetElement(this->GetCenterNeighborhoodIndex())-= m_WrapOffset[i]; }
           for (it = m_ActiveIndexList.begin(); it != m_ActiveIndexList.end(); it++)
-            { (this->operator[](*it))-= m_WrapOffset[i]; }
+            { (this->GetElement(*it))-= m_WrapOffset[i]; }
         }        
       else
         {
@@ -194,11 +198,11 @@ ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>
 
   // Center pointer is always updated even if not active.
   if (! m_CenterIsActive)
-    { this->operator[](this->GetCenterNeighborhoodIndex())+= accumulator; }  
+    { this->GetElement(this->GetCenterNeighborhoodIndex())+= accumulator; }  
 
   // Increment pointers only for those active pixels
   for (it = m_ActiveIndexList.begin(); it != m_ActiveIndexList.end(); it++)
-    { (this->operator[](*it))+= accumulator ; }
+    { (this->GetElement(*it))+= accumulator ; }
 
   // Update loop counter values
   m_Loop += idx;
@@ -231,11 +235,11 @@ ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>
 
   // Center pointer is always updated even if not active.
   if (! m_CenterIsActive)
-    { this->operator[](this->GetCenterNeighborhoodIndex()) -= accumulator; }  
+    { this->GetElement(this->GetCenterNeighborhoodIndex()) -= accumulator; }  
 
   // Increment pointers only for those active pixels
   for (it = m_ActiveIndexList.begin(); it != m_ActiveIndexList.end(); it++)
-    { (this->operator[](*it)) -= accumulator ; }
+    { (this->GetElement(*it)) -= accumulator ; }
 
   // Update loop counter values
   m_Loop -= idx;
