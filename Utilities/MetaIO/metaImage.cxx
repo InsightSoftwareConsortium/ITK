@@ -1214,10 +1214,16 @@ M_Destroy(void)
   {
   if(m_AutoFreeElementData && m_ElementData != NULL)
     {
-       delete [] (char *)m_ElementData; //free((char *)m_ElementData);
+    delete [] (char *)m_ElementData; 
+    }
+
+  if(m_CompressedElementData != NULL)
+    {
+    delete [] (char *)m_CompressedElementData; 
     }
 
   m_ElementData = NULL;
+  m_CompressedElementData = NULL;
 
   MetaObject::M_Destroy();
   }
@@ -1435,6 +1441,7 @@ M_ReadElements(std::ifstream * _fstream, void * _data, int _dataQuantity)
         }
       }
     inflateEnd(&d_stream);
+    delete compr;
     }
   else // if not compressed
     {
