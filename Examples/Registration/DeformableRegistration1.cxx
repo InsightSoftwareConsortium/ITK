@@ -46,7 +46,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  Next, we use typedefs to instantiate all necessary classes.  We
+//  Next, we use \code{typedef}s to instantiate all necessary classes.  We
 //  define the image and element types we plan to use to solve a
 //  two-dimensional registration problem.  We define multiple element
 //  types so that they can be used without recompiling the code.
@@ -55,8 +55,8 @@
 
 
 //  Software Guide : BeginCodeSnippet
-typedef itk::Image< unsigned char, 2 >                     fileImageType;
-typedef itk::Image< float, 2 >                             ImageType;
+typedef itk::Image<unsigned char, 2>                       fileImageType;
+typedef itk::Image<float, 2>                               ImageType;
 typedef itk::fem::Element2DC0LinearQuadrilateralMembrane   ElementType;
 typedef itk::fem::Element2DC0LinearTriangularMembrane      ElementType2;
 //  Software Guide : EndCodeSnippet
@@ -73,8 +73,8 @@ typedef itk::fem::Element2DC0LinearTriangularMembrane      ElementType2;
 
 
 //  SoftwareGuide : BeginCodeSnippet
-typedef itk::Image< unsigned char, 3 >                  fileImage3DType;
-typedef itk::Image< float, 3 >                          Image3DType;
+typedef itk::Image<unsigned char, 3>                    fileImage3DType;
+typedef itk::Image<float, 3>                            Image3DType;
 typedef itk::fem::Element3DC0LinearHexahedronMembrane   Element3DType;
 typedef itk::fem::Element3DC0LinearTetrahedronMembrane  Element3DType2;
 //  Software Guide : EndCodeSnippet
@@ -91,7 +91,6 @@ typedef itk::fem::Element3DC0LinearTetrahedronMembrane  Element3DType2;
 
 //  Software Guide : BeginCodeSnippet
 typedef itk::fem::ImageMetricLoad<ImageType,ImageType>     ImageLoadType;
-
 template class itk::fem::ImageMetricLoadImplementation<ImageLoadType>;
 
 typedef ElementType::LoadImplementationFunctionPointer     LoadImpFP;
@@ -137,7 +136,9 @@ int main(int argc, char *argv[])
 //  Software Guide : BeginLatex
 //  
 //  The \code{itk::fem::ImageMetricLoad} must be registered before it
-//  can be used correctly with a particular element type (fixme?):
+//  can be used correctly with a particular element type.  An example
+//  of this is shown below for \code{ElementType}.  Similar
+//  definitions are required for all other defined element types.
 //
 //  Software Guide : EndLatex
   
@@ -173,8 +174,8 @@ int main(int argc, char *argv[])
 // 
 //  Next, we call \code{X->SetConfigFileName()} to read the parameter
 //  file containing information we need to set up the registration
-//  filter.  Each of the parameters is described elsewhere--where?
-//  (fixme!)
+//  filter.  A sample parameter file is shown at the end of this
+//  section, and the individual components are labeled.
 //
 //  Software Guide : EndLatex
 
@@ -269,8 +270,11 @@ int main(int argc, char *argv[])
 //  In order to initialize the mesh of elements, we must first create
 //  "dummy" material and element objects and assign them to the
 //  registration filter.  These objects are subsequently used to
-//  either read in a predefined mesh from a file or generate a mesh
-//  using the software.  More needed here...(fixme)
+//  either read a predefined mesh from a file or generate a mesh using
+//  the software.  The values assigned to the fields within the
+//  material object are arbitrary since they will be replaced with
+//  those specified in the parameter file.  Similarly, the element
+//  object will be replaced with those from the desired mesh.
 // 
 //  Software Guide : EndLatex
   
@@ -309,7 +313,8 @@ int main(int argc, char *argv[])
 //  Software Guide : BeginLatex
 //
 //  To output the image resulting from the registration, we can call
-//  \code{WriteWarpedImage()}:
+//  \code{WriteWarpedImage()}.  The image is written in floating point
+//  format.
 //
 //  Software Guide : EndLatex
 
@@ -320,7 +325,10 @@ int main(int argc, char *argv[])
 //  Software Guide : BeginLatex
 //
 //  We can also output the displacement fields resulting from the
-//  registration, we can call \code{WriteDisplacementField()}:
+//  registration, we can call \code{WriteDisplacementField()} with the
+//  desired vector component as an argument.  For a 2D registration,
+//  you would want to write out both the x and y displacements, and
+//  this requires two calls to the aforementioned function.
 //
 //  Software Guide : EndLatex
 
