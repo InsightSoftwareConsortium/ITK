@@ -271,7 +271,7 @@ bool
 CellBase
 ::CheckPointApoptosis(void) 
 {
-  bool executeApoptosis = false;
+  bool executeApoptosis;
   if(  m_Genome->GetExpressionLevel( Caspase ) > 0.8 )
     {
     executeApoptosis = true;
