@@ -21,6 +21,7 @@
 
 #include "itkMetaDataObject.h"
 #include "gdcm/src/gdcmValEntry.h" //internal of gdcm
+#include "gdcm/src/gdcmBinEntry.h" //internal of gdcm
 #include "gdcm/src/gdcmFile.h"
 #include "gdcm/src/gdcmHeader.h"
 #include <fstream>
@@ -404,7 +405,12 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
   // Copy of the header content
   while(d)
   {
-    if ( gdcm::ValEntry* v = dynamic_cast<gdcm::ValEntry*>(d) )
+    if ( dynamic_cast<gdcm::BinEntry*>(d) )
+    {
+       // Because BinEntry is a ValEntry...
+       // In our case we do not copy binary fields for now
+    }
+    else if ( gdcm::ValEntry* v = dynamic_cast<gdcm::ValEntry*>(d) )
     {   
       EncapsulateMetaData<std::string>(dico, v->GetName(), v->GetValue() );
     }
