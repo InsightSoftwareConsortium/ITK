@@ -10,6 +10,9 @@ TARGET_LINK_LIBRARIES(ImageRegistration2 ITKCommon ITKNumerics VXLNumerics ITKIO
 ADD_EXECUTABLE(ImageRegistration3 ImageRegistration3.cxx )
 TARGET_LINK_LIBRARIES(ImageRegistration3 ITKCommon ITKNumerics VXLNumerics ITKIO)
 
+ADD_EXECUTABLE(ImageRegistration4 ImageRegistration4.cxx )
+TARGET_LINK_LIBRARIES(ImageRegistration4 ITKCommon ITKNumerics VXLNumerics ITKIO)
+
 ADD_EXECUTABLE(DeformableRegistration1 DeformableRegistration1.cxx )
 TARGET_LINK_LIBRARIES(DeformableRegistration1 ITKCommon ITKNumerics ITKFEM VXLNumerics ITKIO)
 

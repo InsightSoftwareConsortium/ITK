@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    ImageRegistration2.cxx
+  Module:    ImageRegistration4.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -17,25 +17,26 @@
 
 // Software Guide : BeginLatex
 //
-// Some of the most challenging cases of image registration is when images of
-// different modalities are involved. In such cases, metrics based on direct
-// comparison of gray levels are not applicable. It has been extensively shown
-// that metrics based on the evaluation of mutual information provide
-// the best mechanisms to overcome the difficulties of multi-modality
-// registration.
+// In this example, we will solve the our simple multi-modality problem
+// using another implementation of mutual information. One of main 
+// difference between \code{MattesMutualInformationImageToImageMetric}
+// and \code{MutualInformationImageToImageMetric} is than only one
+// spatial sample set is used for the whole registration process instead
+// of using new samples every iteration. The use of a single sample
+// set results in a much smoother cost function and hence allows
+// the use of more intelligent optimizers. In this example, we
+// will use \code{RegularStepGradientDescentOptimizer}.
+// Another noticeable difference is that pre-normalization of the
+// images is not necessary as the metric rescales internally when
+// building up the discrete density functions. 
+// Other differences between
+// the two mutual information implementation is described in detail
+// in Section \ref{sec:MutualInformationMetric}.
 //
 // \index{itk::ImageRegistrationMethod!Multi-Modality|textbf}
 //
-// The following example illustrates in a minimal program how multiple imaging
-// modalities can be registered using Insight components. The first remarkable
-// difference is the use of \code{MutualInformationImageToImageMetric} as the
-// cost-function to be optimized and the second difference is the use
-// of \code{GradientDescentOptimizer}. Due to the stochastic nature of
-// the way the metric measure is computed, the values are too noisy to
-// work successfully with \code{RegularStepGradientDescentOptimizer}.
-// Therefore we will use the simpler \code{GradientDescentOptimizer} with
-// a user defined learning rate. The following headers declare the basic
-// components of the registration method.
+// The following headers declare the basic components of 
+// the registration method.
 //
 // Software Guide : EndLatex 
 
@@ -43,30 +44,11 @@
 // Software Guide : BeginCodeSnippet
 #include "itkImageRegistrationMethod.h"
 #include "itkTranslationTransform.h"
-#include "itkMutualInformationImageToImageMetric.h"
+#include "itkMattesMutualInformationImageToImageMetric.h"
 #include "itkLinearInterpolateImageFunction.h"
-#include "itkGradientDescentOptimizer.h"
+#include "itkRegularStepGradientDescentOptimizer.h"
 #include "itkImage.h"
 // Software Guide : EndCodeSnippet
-
-
-
-//  Software Guide : BeginLatex
-//  
-//  One way of simplifying the computation of the mutual information is
-//  to normalize the statistical distribution of the two input images. The
-//  filter \code{itk::NormalizeImageFilter} is the perfect tool for this task.
-//  It rescales the intensities of the input images in order to produce an
-//  output image with zero mean and unit variance. This filter has been
-//  discussed on section \ref{sec:CastingImageFilters}.
-//
-//  Software Guide : EndLatex 
-
-// Software Guide : BeginCodeSnippet
-#include "itkNormalizeImageFilter.h"
-// Software Guide : EndCodeSnippet
-
-
 
 
 #include "itkImageFileReader.h"
@@ -90,73 +72,42 @@ int main( int argc, char **argv )
     return 1;
     }
   
-  // Software Guide : BeginLatex
-  // 
-  // The types of images should be declared first. 
-  //
-  // Software Guide : EndLatex 
-  //
-  // Software Guide : BeginCodeSnippet 
   const    unsigned int    Dimension = 2;
   typedef  unsigned short  PixelType;
   
   typedef itk::Image< PixelType, Dimension >  FixedImageType;
   typedef itk::Image< PixelType, Dimension >  MovingImageType;
-  // Software Guide : EndCodeSnippet
-
-  //  Software Guide : BeginLatex
-  //  
-  //  It is convenient to declare an internal image type given that mutual
-  //  information will perform better on images with normalized statistical
-  //  distribution. The fixed and moving images will be normalized and
-  //  converted to this internal type.
-  //
-  //  Software Guide : EndLatex 
-  
-  // Software Guide : BeginCodeSnippet
-  typedef   float     InternalPixelType;
-
-  typedef itk::Image< InternalPixelType, Dimension > InternalImageType;
-  // Software Guide : EndCodeSnippet
-
-
 
 
   //  Software Guide : BeginLatex
   //  
-  //  The rest of the image registration components are instantiated as
-  //  illustrated in section \ref{sec:IntroductionImageRegistration} but
-  //  considering the new \code{InternalImageType}.
+  //  In this example the image types and all registration components
+  //  apart from the metric is declared as in section 
+  //  \ref{sec:IntroductionImageRegistration}.
   //
   //  Software Guide : EndLatex 
 
-
-  // Software Guide : BeginCodeSnippet
   typedef itk::TranslationTransform< double, Dimension > TransformType;
-  typedef itk::GradientDescentOptimizer                  OptimizerType;
+  typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
   typedef itk::LinearInterpolateImageFunction< 
-                                    InternalImageType,
+                                    MovingImageType,
                                     double             > InterpolatorType;
   typedef itk::ImageRegistrationMethod< 
-                                    InternalImageType, 
-                                    InternalImageType >  RegistrationType;
-  // Software Guide : EndCodeSnippet
-
-
+                                    FixedImageType, 
+                                    MovingImageType    > RegistrationType;
 
   //  Software Guide : BeginLatex
   //  
-  //  The mutual information metric type is instantiated using the image
-  //  types.
+  //  The Mattes mutual information metric type is 
+  //  instantiated using the image types.
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::MutualInformationImageToImageMetric< 
-                                          InternalImageType, 
-                                          InternalImageType >    MetricType;
+  typedef itk::MattesMutualInformationImageToImageMetric< 
+                                          FixedImageType, 
+                                          MovingImageType >    MetricType;
   // Software Guide : EndCodeSnippet
-
 
 
 
@@ -185,37 +136,28 @@ int main( int argc, char **argv )
   // Software Guide : EndCodeSnippet
 
 
-
-
-
   //  Software Guide : BeginLatex
   //  
-  //  The metric requires a number of parameters to be selected. Among them,
-  //  the standard deviation of the Gaussian kernel for the fixed image
-  //  density estimate, the standard deviation of the kernel for the moving
-  //  image density estimate and the number of samples use to compute the
-  //  density estimates and entropy. Details on the concept behind 
-  //  the computation of the metric can be found in section 
-  //  \ref{sec:MutualInformationMetric}. Our experience with the toolkit
-  //  has found that a kernel standard deviation of 0.4 works well for images 
-  //  which has normalized to intensity mean of zero and intensity 
-  //  standard deviation of one. We will follow this empricial rule in
-  //  this example.
+  //  The metric requires a two of parameters to be selected: the number
+  //  of bins used to compute the entropy and the number of spatial samples
+  //  used to compute the density estimates. In a typical scenario, 50 
+  //  histogram bins is sufficient and the metric is relatively insensitive
+  //  to changes in the number of bins. The number of spatial samples
+  //  to be used depends on the content of the image. If the images are
+  //  smooth and does not contain much detail, then using approximatedly
+  //  one percent of the pixels will do. On the other hand, if the images
+  //  are detailed, it may be necessary to use a much higher proportion,
+  //  say 20 percent.
   //
-  //  \index{itk::MutualInformationImageToImageMetric!SetFixedImageStandardDeviation()}
-  //  \index{itk::MutualInformationImageToImageMetric!SetMovingImageStandardDeviation()}
-  //  \index{itk::MutualInformationImageToImageMetric!SetNumberOfSpatialSamples()}
+  //  \index{itk::MattesMutualInformationImageToImageMetric!SetNumberOfHistogramBins()}
+  //  \index{itk::MattesMutualInformationImageToImageMetric!SetNumberOfSpatialSamples()}
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  metric->SetFixedImageStandardDeviation(  0.4 );
-  metric->SetMovingImageStandardDeviation( 0.4 );
-
-  metric->SetNumberOfSpatialSamples( 50 );
+  metric->SetNumberOfHistogramBins( 50 );
+  metric->SetNumberOfSpatialSamples( 1000 );
   // Software Guide : EndCodeSnippet
-
-
 
 
   typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
@@ -227,50 +169,13 @@ int main( int argc, char **argv )
   fixedImageReader->SetFileName(  argv[1] );
   movingImageReader->SetFileName( argv[2] );
 
+  registration->SetFixedImage(    fixedImageReader->GetOutput()    );
+  registration->SetMovingImage(   movingImageReader->GetOutput()   );
 
-
-
-  //  Software Guide : BeginLatex
-  //  
-  //  The normalization filters are declared using the fixed and moving image
-  //  types as input and the internal image type as output.
-  //
-  //  Software Guide : EndLatex 
-
-  // Software Guide : BeginCodeSnippet
-  typedef itk::NormalizeImageFilter< 
-                        FixedImageType, InternalImageType > FixedNormalizeFilterType;
-  
-  typedef itk::NormalizeImageFilter< 
-                        MovingImageType, InternalImageType > MovingNormalizeFilterType;
-
-  FixedNormalizeFilterType::Pointer fixedNormalizer = FixedNormalizeFilterType::New();
-
-  MovingNormalizeFilterType::Pointer movingNormalizer = MovingNormalizeFilterType::New();
-  // Software Guide : EndCodeSnippet
-
-
-  //  Software Guide : BeginLatex
-  //  
-  //  The output of the readers is connected as input to the normalization
-  //  filters. The inputs to the registration method are taken from the
-  //  normalization filters. 
-  //
-  //  Software Guide : EndLatex 
-
-  // Software Guide : BeginCodeSnippet
-  fixedNormalizer->SetInput(  fixedImageReader->GetOutput() );
-  movingNormalizer->SetInput( movingImageReader->GetOutput() );
-
-  registration->SetFixedImage(    fixedNormalizer->GetOutput()    );
-  registration->SetMovingImage(   movingNormalizer->GetOutput()   );
-  // Software Guide : EndCodeSnippet
-
-
-  fixedNormalizer->Update();
+  fixedImageReader->Update();
 
   registration->SetFixedImageRegion( 
-       fixedNormalizer->GetOutput()->GetBufferedRegion() );
+       fixedImageReader->GetOutput()->GetBufferedRegion() );
   
 
 
@@ -285,26 +190,19 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  Since larger values of mutual information indicates better matches
-  //  than smaller values, we need to maximize the cost function in this 
-  //  example.
-  //  By default the \code{GradientDescentOptimizer} is set to minimize the value
-  //  of the cost-function. It is henceforth necessary to modify its default
-  //  behavior by invoking the \code{MaximizeOn()} method.
-  //  Additionally, we need to define the optimizer's step size using
-  //  the \code{SetLearningRate()} method.
-  //
-  //  \index{itk::RegularStepGradientDescentOptimizer!MaximizeOn()}
-  //  \index{itk::ImageRegistrationMethod!Maximize vs Minimize}
+  //  Another significant difference in the metric is that it
+  //  computes the negative mutual information and hence we
+  //  need to minimize the cost function in this case. In this
+  //  example we will use the same optimizer parameters as in
+  //  section \ref{sec:sec:IntroductionImageRegistration}.
   //
   //  Software Guide : EndLatex 
 
-
   // Software Guide : BeginCodeSnippet
-  optimizer->SetLearningRate( 20.0 );
+  optimizer->SetMaximumStepLength( 4.00 );  
+  optimizer->SetMinimumStepLength( 0.01 );
   optimizer->SetNumberOfIterations( 200 );
 
-  optimizer->MaximizeOn();
   // Software Guide : EndCodeSnippet
 
 
@@ -341,39 +239,21 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  Let's execute this example over some of the images provided in
-  //  \code{Insight/Examples/Data}, for example:
-  //  
-  //  \begin{itemize}
-  //  \item \code{BrainT1SliceBorder20.png} 
-  //  \item \code{BrainProtonDensitySliceShifted13x17y.png}
-  //  \end{itemize}
-  //
-  //  \begin{figure}
-  //  \center
-  //  \includegraphics[width=6cm]{BrainT1SliceBorder20.eps}
-  //  \includegraphics[width=6cm]{BrainProtonDensitySliceShifted13x17y.eps}
-  //  \caption{T1 MRI (fixed image) and Proton Density MRI (moving image)
-  //  provided as input to the registration method.}
-  //  \label{fig:FixedMovingImageRegistration2}
-  //  \end{figure}
-  // 
-  //  The second image is the result of intentionally translating the image
-  //  \code{BrainProtonDensitySliceBorder20.png} by $(13,17)$ millimeters. Both
-  //  images having unit-spacing. These images are shown in Figure
-  //  \ref{fig:FixedMovingImageRegistration2}. The registration has been
-  //  stopped at 200 iterations and produce as result the
+  //  Let's execute this example using the same multi-modality images
+  //  as before.
+  //  The registration converged after 24 iterations and produce as result the
   //  parameters:
   //
   //  \begin{verbatim}
-  //  Translation X = 13.55
-  //  Translation Y = 17.3635
+  //  Translation X = 13.1719
+  //  Translation Y = 16.9006
   //  \end{verbatim}
   // 
-  //  These values are approximatedly within half pixel of 
+  //  These values are very close match to 
   //  the true misaligment introduced in the moving image.
   //
   //  Software Guide : EndLatex 
+
 
   typedef itk::ResampleImageFilter< 
                             MovingImageType, 
@@ -387,7 +267,7 @@ int main( int argc, char **argv )
 
   resample->SetTransform( finalTransform );
   resample->SetInput( movingImageReader->GetOutput() );
-  
+
   FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
   resample->SetSize(    fixedImage->GetLargestPossibleRegion().GetSize() );
@@ -425,16 +305,16 @@ int main( int argc, char **argv )
   // 
   // \begin{figure}
   // \center
-  // \includegraphics[width=5cm]{ImageRegistration2Output.eps}
-  // \includegraphics[width=5cm]{ImageRegistration2CheckerboardBefore.eps}
-  // \includegraphics[width=5cm]{ImageRegistration2CheckerboardAfter.eps}
+  // \includegraphics[width=5cm]{ImageRegistration4Output.eps}
+  // \includegraphics[width=5cm]{ImageRegistration4CheckerboardBefore.eps}
+  // \includegraphics[width=5cm]{ImageRegistration4CheckerboardAfter.eps}
   // \caption{Mapped moving image (left) and composition of fixed and moving
   // images before (center) and after (right) registration.}
-  // \label{fig:ImageRegistration2Output}
+  // \label{fig:ImageRegistration4Output}
   // \end{figure}
   //
   //  The result of the resampling the moving image is presented in the left
-  //  side of Figure \ref{fig:ImageRegistration2Output}. The center and right
+  //  side of Figure \ref{fig:ImageRegistration4Output}. The center and right
   //  parts of the figure present a checkerboard composite of the fixed and
   //  moving images before and after registration.
   //
@@ -483,7 +363,7 @@ int main( int argc, char **argv )
   //  taken from the image to compute the density and entrophy estimates.
   //  Even with the fluctuations, overall the measure initially increases
   //  with the number of iterations.
-  //  After about 150 iterations the metric value oscillates
+  //  After about 150 iterations the metric value oscilates
   //  without further noticeable convergence. 
   //  The trace plots in Figure \ref{fig:ImageRegistration2TraceMetric}
   //  highlights one of the difficulties with using this particular metric:
