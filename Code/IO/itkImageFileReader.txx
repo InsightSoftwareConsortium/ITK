@@ -145,6 +145,22 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
 }
 
 
+template <class TOutputImage, class ConvertPixelTraits>
+void
+ImageFileReader<TOutputImage, ConvertPixelTraits>
+::EnlargeOutputRequestedRegion(DataObject *output)
+{
+  typename TOutputImage::Pointer out = dynamic_cast<TOutputImage*>(output);
+
+  if (out)
+    {
+    out->SetRequestedRegion( out->GetLargestPossibleRegion() );
+    }
+  else
+    {
+    throw ImageFileReaderException(__FILE__, __LINE__, "Invalid output object type");
+    }
+}
 
 
 template <class TOutputImage, class ConvertPixelTraits>
