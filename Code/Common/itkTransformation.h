@@ -18,6 +18,9 @@
 
 #include "itkObject.h"
 #include "itkPoint.h"
+#include "itkVector.h"
+#include "itkCovariantVector.h"
+#include "vnl/vnl_vector_fixed.h"
 
 
 namespace itk
@@ -40,10 +43,17 @@ public:
    */
   typedef Transformation  Self;
 
+
   /**
    * Standard "Superclass" typedef.
    */
   typedef Object  Superclass;
+
+  
+  /**
+   * Dimension of the domain space
+   */
+  enum { SpaceDimension     = NDimensions };
 
 
   /** 
@@ -64,21 +74,57 @@ public:
    */
   itkNewMacro(Self);
   
-
+  
   /**
-   * Apply Transformation
+   * Standard vector type for this class
    */
-  typedef itk::Point<TScalarType, NDimensions> PointType;
-  virtual PointType Transform(PointType &) = 0;
-
+  typedef Vector<TScalarType, SpaceDimension> VectorType;
 
   
-   Transformation();
-   virtual ~Transformation() {};
+  /**
+   * Standard covariant vector type for this class
+   */
+  typedef CovariantVector<TScalarType, SpaceDimension> CovariantVectorType;
+
+  
+  /**
+   * Standard vnl_vector type for this class
+   */
+  typedef vnl_vector_fixed<TScalarType, SpaceDimension> VnlVectorType;
+
+  
+  /**
+   * Standard coordinate point type for this class
+   */
+  typedef Point<TScalarType, SpaceDimension> PointType;
+
+
+  /**
+   *  Method to transform a Point
+   */
+  virtual PointType     Transform(const PointType  &point ) const=0;
+
+  /**
+   *  Method to transform a vector
+   */
+  virtual VectorType    Transform(const VectorType &vector) const=0;
+
+  /**
+   *  Method to transform a vnl_vector
+   */
+  virtual VnlVectorType Transform(const VnlVectorType &vector) const=0;
+
+  /**
+   *  Method to transform a CovariantVector
+   */
+  virtual CovariantVectorType Transform(
+                           const CovariantVectorType &vector) const =0;
   
 
 protected:
   
+   Transformation();
+   virtual ~Transformation() {};
   Transformation(const Self&);
   const Self & operator=(const Self&);
 
