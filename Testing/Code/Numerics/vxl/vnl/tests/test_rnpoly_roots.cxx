@@ -4,7 +4,7 @@
 #include <vnl/algo/vnl_rnpoly_solve.h>
 #include <vnl/vnl_test.h>
 
-int testRNPolyRoots() {
+int test_rnpoly_roots() {
   // Intersection of two unit circles, centered in (0,0) and in (1,0):
 
   vnl_vector<double> f1(3);    f1(0) = 1;   f1(1) = 1;    f1(2) = -1;
@@ -86,4 +86,4 @@ int testRNPolyRoots() {
   return 0;
 }
 
-TESTMAIN(testRNPolyRoots);
+TESTMAIN(test_rnpoly_roots);

@@ -6,7 +6,7 @@
 #include <vnl/vnl_math.h>
 #include <vnl/vnl_sample.h>
 
-void testvnl_sample()
+int test_sample()
 {
   unsigned const N = 100000;
   double mu = 1.552;
@@ -33,6 +33,7 @@ void testvnl_sample()
   vcl_cout << "actual standard deviation : " << sigma << vcl_endl;
   vcl_cout << "sample standard deviation : " << sigma_bar << vcl_endl;
   TEST("sample stddev", sigma_bar-sigma < 0.1 && sigma-sigma_bar < 0.1, true);
+  return 0;
 }
 
-TESTMAIN(testvnl_sample);
+TESTMAIN(test_sample);
