@@ -275,7 +275,7 @@ ENDIF(ITK_CSWIG_CONFIGURATION_TYPES)
 #  3. Use Python's compileall to compile the copied files.
 #
 # *** Step 1 has to be done carefully to avoid missing out files ***
-IF(PYTHON_EXECUTABLE)
+IF(PYTHON_EXECUTABLE AND ITK_CSWIG_PYTHON)
   ADD_CUSTOM_TARGET(itkpython_pyc ALL echo "...")
 
   # Make the necessary directories.
@@ -361,7 +361,7 @@ IF(PYTHON_EXECUTABLE)
     TARGET itkpython_pyc
     )
 
-ENDIF(PYTHON_EXECUTABLE)
+ENDIF(PYTHON_EXECUTABLE AND ITK_CSWIG_PYTHON)
 
 IF(ITK_CSWIG_TCL)
   SUBDIRS(Tcl)
