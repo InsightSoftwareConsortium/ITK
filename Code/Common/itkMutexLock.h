@@ -52,7 +52,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <pthread.h>
 #endif
  
-#if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
+#ifdef ITK_USE_WIN32_THREADS
 #include "itkWindows.h"
 #endif
 
@@ -67,13 +67,13 @@ typedef abilock_t MutexType;
 typedef pthread_mutex_t MutexType;
 #endif
  
-#if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
+#ifdef ITK_USE_WIN32_THREADS
 typedef HANDLE MutexType;
 #endif
 
 #ifndef ITK_USE_SPROC
 #ifndef ITK_USE_PTHREADS
-#ifndef _WIN32
+#ifndef ITK_USE_WIN32_THREADS
 typedef int MutexType;
 #endif
 #endif
