@@ -23,7 +23,6 @@
 #include "itkObject.h"
 #include "itkMacro.h"
 #include "itkPixelTraits.h"
-#include "vcl/vcl_config_compiler.h"
 
 #include "itkListSampleBase.h"
 #include "itkImageToListAdaptor.h"
