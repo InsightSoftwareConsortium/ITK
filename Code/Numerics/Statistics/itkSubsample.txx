@@ -29,7 +29,7 @@ Subsample< TSample >
 }
 
 template< class TSample >
-int
+unsigned int
 Subsample< TSample >
 ::GetNumberOfInstances() const
 {

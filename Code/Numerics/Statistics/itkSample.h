@@ -110,9 +110,9 @@ public:
 //     * 'dimension' dimension.*/
 //    virtual SizeValueType GetSize(unsigned int dimension) = 0 ;
 
-  virtual int Size() const = 0 ;
-  virtual int Size(const unsigned int &dimension) const = 0 ;
-  virtual int GetNumberOfInstances() const = 0 ;
+  virtual unsigned int Size() const = 0 ;
+  virtual unsigned int Size(const unsigned int &dimension) const = 0 ;
+  virtual unsigned int GetNumberOfInstances() const = 0 ;
 
   /** retunrs the measurement of the instance which is identified by the 'id'*/
   virtual MeasurementVectorType& GetMeasurementVector(const InstanceIdentifier &id) = 0 ;

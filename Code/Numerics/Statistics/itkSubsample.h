@@ -73,17 +73,17 @@ public:
 
   /** returns SizeType object whose each element is the number of
    * elements in each dimension */
-  int Size() const
+  unsigned int Size() const
   { 
     return m_IdHolder.size() ;
   }
 
-  int Size(const unsigned int &dimension) const
+  unsigned int Size(const unsigned int &dimension) const
   {
     return m_IdHolder.size() ;
   }
 
-  int GetNumberOfInstances() const ;
+  unsigned int GetNumberOfInstances() const ;
 
   /** retunrs the measurement of the instance which is identified 
    * by the 'id' */
@@ -190,9 +190,9 @@ private:
   Subsample(const Self&) ; //purposely not implemented
   void operator=(const Self&) ; //purposely not implemented
 
-  SamplePointer m_Sample ;
-  InstanceIdentifierHolder m_IdHolder ;
-  unsigned int m_ActiveDimension ;
+  SamplePointer               m_Sample ;
+  InstanceIdentifierHolder    m_IdHolder ;
+  unsigned int                m_ActiveDimension ;
 } ; // end of class
 
 

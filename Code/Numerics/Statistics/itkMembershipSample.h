@@ -94,11 +94,11 @@ public:
   
   SamplePointer GetSample() ;
   
-  void SetNumberOfClasses(int numberOfClasses) ;
+  void SetNumberOfClasses(unsigned int numberOfClasses) ;
   
-  int GetNumberOfClasses() const ;
+  unsigned int GetNumberOfClasses() const ;
 
-  int GetNumberOfInstances() const ;
+  unsigned int GetNumberOfInstances() const ;
 
   void AddInstance(const unsigned int &classLabel, const InstanceIdentifier &id) ;
   
@@ -109,10 +109,10 @@ public:
   ClassSamplePointer GetClassSample(const unsigned int &classLabel) ;
   
   /** returns the number of elements in each dimension */
-  int Size() const ;
+  unsigned int Size() const ;
   
   /** returns the number of elements in the 'dimension' dimension. */
-  int Size(const unsigned int &dimension) const;
+  unsigned int Size(const unsigned int &dimension) const;
   
   /** retunrs the measurement of the instance which is identified 
    * by the 'id' */
@@ -140,7 +140,8 @@ public:
   
   Iterator  End()        
   {
-    Iterator iter(GetNumberOfInstances() - 1, this) ; 
+    const unsigned int position = this->GetNumberOfInstances() - 1;
+    Iterator iter(position, this) ; 
     return iter; 
   }
   
@@ -225,11 +226,11 @@ private:
   MembershipSample(const Self&) ; //purposely not implemented
   void operator=(const Self&) ; //purposely not implemented
 
-  SamplePointer m_Sample ;
-  unsigned int m_CurrentClassLabel ;
-  ClassLabelHolder m_ClassLabelHolder ;
-  int m_NumberOfClasses ;
-  std::vector< int > m_ClassSampleSizes ;
+  SamplePointer                   m_Sample ;
+  unsigned int                    m_CurrentClassLabel ;
+  ClassLabelHolder                m_ClassLabelHolder ;
+  unsigned int                    m_NumberOfClasses ;
+  std::vector< unsigned int >     m_ClassSampleSizes ;
   std::vector< ClassSamplePointer > m_ClassSamples ;
 } ; // end of class
 

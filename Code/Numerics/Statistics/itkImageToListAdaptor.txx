@@ -51,7 +51,7 @@ ImageToListAdaptor< TImage, TDataAccessor >
 
   /** returns the number of measurement vectors in this container*/
 template < class TImage, class TDataAccessor >
-inline int
+inline unsigned int
 ImageToListAdaptor< TImage, TDataAccessor >
 ::Size() const
 {
@@ -59,7 +59,7 @@ ImageToListAdaptor< TImage, TDataAccessor >
 }
 
 template < class TImage, class TDataAccessor >
-inline int
+inline unsigned int
 ImageToListAdaptor< TImage, TDataAccessor >
 ::Size(const unsigned int &dimension) const
 {
@@ -67,7 +67,7 @@ ImageToListAdaptor< TImage, TDataAccessor >
 }
 
 template < class TImage, class TDataAccessor >
-inline int
+inline unsigned int
 ImageToListAdaptor< TImage, TDataAccessor >
 ::GetNumberOfInstances() const
 {

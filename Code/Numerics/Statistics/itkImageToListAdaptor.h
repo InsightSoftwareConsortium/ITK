@@ -168,11 +168,11 @@ public:
   ImagePointer GetImage() ;
 
   /** returns the number of measurement vectors in this container*/
-  int Size() const ;
+  unsigned int Size() const ;
 
-  int Size(const unsigned int &dimension) const ;
+  unsigned int Size(const unsigned int &dimension) const ;
 
-  int GetNumberOfInstances() const ;
+  unsigned int GetNumberOfInstances() const ;
 
   void SetMeasurementVector(const InstanceIdentifier id,
                             const MeasurementVectorType &measurementVector) ;

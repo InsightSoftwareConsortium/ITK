@@ -57,13 +57,12 @@ void
 TableLookupSampleClassifier< TSample >
 ::PrepareLookupTable()
 {
-  int i ;
   RegionType region ;
   SizeType size ;
   m_LookupTable = LookupTableType::New() ;
-  for (i = 0 ; i < MeasurementVectorSize ; i++)
+  for (unsigned int i = 0 ; i < MeasurementVectorSize ; i++)
     {
-      size[i] = m_UpperBound[i] - m_LowerBound[i] + 1 ;
+    size[i] = m_UpperBound[i] - m_LowerBound[i] + 1 ;
     }
 
   region.SetIndex(m_LowerBound) ;
@@ -74,7 +73,7 @@ TableLookupSampleClassifier< TSample >
   m_LookupTable->Allocate() ;
 
   std::vector< double > discriminantScores ;
-  int numberOfClasses = GetNumberOfClasses() ;
+  unsigned int numberOfClasses = GetNumberOfClasses() ;
   discriminantScores.resize(numberOfClasses) ;
 
   CachedMeasurementVectorType cachedMeasurementVector ;
@@ -86,19 +85,19 @@ TableLookupSampleClassifier< TSample >
 
   while (!iter.IsAtEnd())
     {
-      cachedMeasurementVector = iter.GetIndex() ;
-      for (i = 0 ; i < MeasurementVectorSize ; i++)
-        {
-          measurementVector[i] = cachedMeasurementVector[i] ;
-        }
+    cachedMeasurementVector = iter.GetIndex() ;
+    for (unsigned int i = 0 ; i < MeasurementVectorSize ; i++)
+      {
+      measurementVector[i] = cachedMeasurementVector[i] ;
+      }
 
-      for (i = 0 ; i < numberOfClasses ; i++)
-        {
-          discriminantScores[i] = (mf[i])->Evaluate(measurementVector) ;
-        }
+    for (unsigned int i = 0 ; i < numberOfClasses ; i++)
+      {
+      discriminantScores[i] = (mf[i])->Evaluate(measurementVector) ;
+      }
 
-      iter.Set(rule->Evaluate(discriminantScores)) ;
-      ++iter ;
+    iter.Set(rule->Evaluate(discriminantScores)) ;
+    ++iter ;
     }
 }
 
@@ -123,7 +122,7 @@ TableLookupSampleClassifier< TSample >
   while (iter != end)
     {
       measurements = iter.GetMeasurementVector() ;
-      for (int i = 0 ; i < MeasurementVectorSize ; i++)
+      for (unsigned int i = 0 ; i < MeasurementVectorSize ; i++)
         {
           temp[i] = measurements[i] ;
         }
