@@ -1,5 +1,22 @@
 PROJECT(WrapITK)
 
+IF(ITK_CSWIG_TCL)
+  SET(ITK_INCLUDE_DIRS_SYSTEM ${ITK_INCLUDE_DIRS_SYSTEM} ${TCL_INCLUDE_PATH})
+ENDIF(ITK_CSWIG_TCL)
+
+IF(ITK_CSWIG_PYTHON)
+  # Python include directory.
+  SET(ITK_INCLUDE_DIRS_SYSTEM ${ITK_INCLUDE_DIRS_SYSTEM}
+    ${PYTHON_INCLUDE_PATH})
+ENDIF(ITK_CSWIG_PYTHON)
+
+IF(ITK_CSWIG_JAVA)
+  # Java include directories.
+  SET(ITK_INCLUDE_DIRS_SYSTEM ${ITK_INCLUDE_DIRS_SYSTEM}
+      ${JAVA_INCLUDE_PATH} ${JAVA_INCLUDE_PATH2} ${JAVA_AWT_INCLUDE_PATH})
+ENDIF(ITK_CSWIG_JAVA)
+
+
 # We have found CableSwig.  Use the settings.
 SET(CABLE_INDEX ${CableSwig_cableidx_EXE})
 SET(CSWIG ${CableSwig_cswig_EXE})
@@ -261,6 +278,7 @@ IF(ITK_CSWIG_JAVA)
 ENDIF(ITK_CSWIG_JAVA)
 
 SET(SWIG_INC
+  ${TCL_INCLUDE_PATH}
   ${ITK_INCLUDE_DIRS_BUILD_TREE}
   ${ITK_INCLUDE_DIRS_BUILD_TREE_CXX}
   ${ITK_INCLUDE_DIRS_SYSTEM}
@@ -423,10 +441,10 @@ IF(PYTHON_EXECUTABLE AND ITK_CSWIG_PYTHON)
         SET(src "${ITK_SOURCE_DIR}/Wrapping/CSwig/Python/${file}.py")
         SET(tgt "${ITK_BINARY_DIR}/Wrapping/CSwig/Python/${file}.py")
         ADD_CUSTOM_COMMAND(SOURCE ${src}
- 		         COMMAND ${CMAKE_COMMAND}
+              COMMAND ${CMAKE_COMMAND}
                           ARGS -E copy ${src} ${tgt}
                           OUTPUTS ${tgt}
- 			 TARGET itkpython_pyc
+        TARGET itkpython_pyc
                           COMMENT "source copy")
       ENDFOREACH(file)
     ENDIF(ITK_CSWIG_CONFIGURATION_TYPES)
@@ -436,8 +454,8 @@ IF(PYTHON_EXECUTABLE AND ITK_CSWIG_PYTHON)
   WRITE_FILE(${ITK_BINARY_DIR}/Wrapping/CSwig/Python/compile_all_itk
         "import compileall\n"
         "compileall.compile_dir('${ITK_BINARY_DIR}/Wrapping/CSwig/Python')\n"
-	"file = open('${ITK_BINARY_DIR}/Wrapping/CSwig/Python/itk_compile_complete', 'w')\n"
-	"file.write('Done')\n")
+  "file = open('${ITK_BINARY_DIR}/Wrapping/CSwig/Python/itk_compile_complete', 'w')\n"
+  "file.write('Done')\n")
 
   ADD_CUSTOM_COMMAND(
     SOURCE ${ITK_BINARY_DIR}/Wrapping/CSwig/Python/compile_all_itk
