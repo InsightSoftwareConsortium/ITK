@@ -27,6 +27,8 @@ element.CreateStructuringElement()
 
 filter.SetKernel( element )
 
+filter.SetDilateValue( 255 )
+
 writer.Update()
 
 

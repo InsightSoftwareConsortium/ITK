@@ -27,6 +27,8 @@ element.CreateStructuringElement()
 
 filter.SetKernel( element )
 
+filter.SetErodeValue( 255 )
+
 writer.Update()
 
 
