@@ -117,7 +117,7 @@ int main( int argc, char *argv[] )
 
 // Software Guide : BeginLatex
 //
-// We also create a image reader templated over the input image type and
+// We also create an image reader templated over the input image type and
 // read the input image from file.
 //
 // Software Guide : EndLatex 
