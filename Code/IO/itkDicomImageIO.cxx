@@ -739,8 +739,6 @@ void DicomImageIO::ReadImageInformation()
   }
   
   m_InputPosition = inFile.tellg();
-  itk::Indent* in = itk::Indent::New();
-  this->PrintSelf(std::cout, *in);
 }
 
 
