@@ -217,6 +217,18 @@ int main( int argc, char *argv[] )
 //
 // Software Guide : BeginLatex
 //
+// \begin{figure} \center
+// \includegraphics[width=0.32\textwidth]{VisibleWomanEyeSlice.eps}
+// \includegraphics[width=0.32\textwidth]{WatershedSegmentation1Output1.eps}
+// \includegraphics[width=0.32\textwidth]{WatershedSegmentation1Output2.eps}
+// \itkcaption[Watershed segmentation output]{Segmented section of Visible Human
+// female head and neck cryosection data.  At left is the original image.  The
+// image in the middle was generated with parameters: conductance = 2.0,
+// iterations = 10, threshold = 0.0, level = 0.05, principle components = on.
+// The image on the right was generated with parameters: conductance = 2.0,
+// iterations = 10, threshold = 0.001, level = 0.15, principle components =
+// off. } \label{fig:outputWatersheds} \end{figure}
+//
 //
 // Tuning the filter parameters for any particular application is a process of
 // trial and error.  The {\em threshold} parameter can be used to great
@@ -235,26 +247,14 @@ int main( int argc, char *argv[] )
 // right of the eyeball.  Note that a critical difference between the two
 // segmentations is the mode of the gradient magnitude calculation.
 //
-//
-// \begin{figure} \center
-// \includegraphics[width=0.32\textwidth]{VisibleWomanEyeSlice.eps}
-// \includegraphics[width=0.32\textwidth]{WatershedSegmentation1Output1.eps}
-// \includegraphics[width=0.32\textwidth]{WatershedSegmentation1Output2.eps}
-// \itkcaption[Watershed segmentation output]{Segmented section of Visible Human
-// female head and neck cryosection data.  At left is the original image.  The
-// image in the middle was generated with parameters: conductance = 2.0,
-// iterations = 10, threshold = 0.0, level = 0.05, principle components = on.
-// The image on the right was generated with parameters: conductance = 2.0,
-// iterations = 10, threshold = 0.001, level = 0.15, principle components =
-// off. } \label{fig:outputWatersheds} \end{figure}
-//
-// A note on the computational complexity of the watershed algorithm is warranted.  Most
-// of the complexity of the ITK implementation lies in generating the
-// hierarchy. Processing times for this stage are non-linear with respect to
-// the number of catchment basins in the initial segmentation.  This means that
-// the amount of information contained in an image is more significant than
-// the number of pixels in the image.  A very large, but very flat input take
-// less time to segment than a very small, but very detailed input.
+// A note on the computational complexity of the watershed algorithm is
+// warranted.  Most of the complexity of the ITK implementation lies in
+// generating the hierarchy. Processing times for this stage are non-linear
+// with respect to the number of catchment basins in the initial segmentation.
+// This means that the amount of information contained in an image is more
+// significant than the number of pixels in the image.  A very large, but very
+// flat input take less time to segment than a very small, but very detailed
+// input.
 // 
 // Software Guide : EndLatex
 
