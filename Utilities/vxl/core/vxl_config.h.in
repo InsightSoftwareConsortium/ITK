@@ -138,12 +138,8 @@
 /* true if <stdlib.h> declares srand48() */
 #define VXL_STDLIB_HAS_SRAND48    @VXL_STDLIB_HAS_SRAND48@
 
-/* true if <ieeefp.h> declares finitef() */
-#define VXL_IEEEFP_HAS_FINITEF     @VXL_IEEEFP_HAS_FINITEF@
 /* true if <ieeefp.h> declares finite() */
 #define VXL_IEEEFP_HAS_FINITE     @VXL_IEEEFP_HAS_FINITE@
-/* true if <ieeefp.h> declares finitel() */
-#define VXL_IEEEFP_HAS_FINITEL     @VXL_IEEEFP_HAS_FINITEL@
 
 /* true if <math.h> declares finite() */
 #define VXL_C_MATH_HAS_FINITE     @VXL_C_MATH_HAS_FINITE@
