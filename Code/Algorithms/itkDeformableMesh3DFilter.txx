@@ -450,7 +450,12 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 
   OutputMeshType * output = this->GetOutput();
 
+  typedef typename OutputMeshType::CellsContainer CellsContainer;
+    
+  output->SetCells(CellsContainer::New());
+
   output->GetCells()->Reserve( m_NumberOfCells );
+
   output->SetCellsAllocationMethod( OutputMeshType::CellsAllocatedDynamicallyCellByCell );
 
   OutputPointsContainerPointer   myPoints = output->GetPoints();
@@ -465,7 +470,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   
   InputCellDataContainerPointer  myCellData = this->GetInput(0)->GetCellData();
   InputCellDataContainerIterator celldata = myCellData->Begin(); 
-
+  
   i = 0;
   for (; i<m_NumberOfNodes; i++) {
   points.Value() = locations.Value();
