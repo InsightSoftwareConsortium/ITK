@@ -44,7 +44,7 @@ MinimumMaximumImageCalculator<TInputImage>
 ::Compute(void)
 {
   ImageRegionConstIteratorWithIndex< TInputImage >  it( m_Image,  m_Image->GetRequestedRegion() );
-  m_Maximum = NumericTraits<PixelType>::min() ;
+  m_Maximum = NumericTraits<PixelType>::NonpositiveMin() ;
   m_Minimum = NumericTraits<PixelType>::max() ;
 
 
@@ -99,7 +99,7 @@ MinimumMaximumImageCalculator<TInputImage>
 ::ComputeMaximum(void)
 {
   ImageRegionConstIteratorWithIndex< TInputImage >  it( m_Image,  m_Image->GetRequestedRegion() );
-  m_Maximum = NumericTraits<PixelType>::min() ;
+  m_Maximum = NumericTraits<PixelType>::NonpositiveMin() ;
 
   while( !it.IsAtEnd() )
   {
