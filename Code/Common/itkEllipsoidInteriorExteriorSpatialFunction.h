@@ -18,6 +18,7 @@
 #define __itkEllipsoidInteriorExteriorSpatialFunction_h
 
 #include "itkInteriorExteriorSpatialFunction.h"
+#include "vnl/vnl_matrix_fixed.h"
 
 namespace itk
 {
@@ -67,7 +68,7 @@ public:
   
   /** Set the orientation vectors (must be orthogonal) of the ellipsoid axes.
    * Must be normalized!!!!! */
-  void SetOrientations(vnl_matrix<double>);
+  void SetOrientations(const vnl_matrix_fixed<double,VDimension,VDimension> &);
 
   /** Evaluates the function at a given position. */
   OutputType Evaluate(const InputType& position) const;
