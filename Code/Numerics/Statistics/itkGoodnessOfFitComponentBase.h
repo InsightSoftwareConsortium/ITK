@@ -216,8 +216,8 @@ private:
   ParametersType m_Parameters ;
 
   /** helper classes */
-  ResamplerType::Pointer m_Resampler ;
-  ProjectorType::Pointer m_Projector ;
+  typename ResamplerType::Pointer m_Resampler ;
+  typename ProjectorType::Pointer m_Projector ;
 
   ProjectionAxisArrayType m_ProjectionAxes ;
 

@@ -77,7 +77,7 @@ public:
   typedef GaussianDensityFunction< MeasurementVectorType > 
   ProbabilityDensityFunctionType ;
 
-  typedef ProbabilityDensityFunctionType::CovarianceType CovarianceType ;
+  typedef typename ProbabilityDensityFunctionType::CovarianceType CovarianceType ;
 
   /** Covariance calculator type. the output of this calculator is
    * a covariance matrix that is used as the input of the Projection 
@@ -125,11 +125,11 @@ protected:
   virtual void CalculateProjectionAxes() ;
 
 private:
-  ProbabilityDensityFunctionType::Pointer m_ProbabilityDensityFunction ;
+  typename ProbabilityDensityFunctionType::Pointer m_ProbabilityDensityFunction ;
 
-  CovarianceCalculatorType::Pointer m_CovarianceCalculator ;
+  typename CovarianceCalculatorType::Pointer m_CovarianceCalculator ;
 
-  ProjectionAxisCalculatorType::Pointer m_ProjectionAxisCalculator ;
+  typename ProjectionAxisCalculatorType::Pointer m_ProjectionAxisCalculator ;
 
   MeanType m_Mean ;
   CenterType m_Center ;

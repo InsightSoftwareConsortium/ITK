@@ -83,11 +83,11 @@ protected:
   void GenerateData() ;
 
 private:
-  NativeMembershipFunctionType::Pointer m_GaussianDensityFunction ;
+  typename NativeMembershipFunctionType::Pointer m_GaussianDensityFunction ;
   MeanType m_Mean ;
   CovarianceType m_Covariance ;
-  MeanEstimatorType::Pointer m_MeanEstimator ;
-  CovarianceEstimatorType::Pointer m_CovarianceEstimator ;
+  typename MeanEstimatorType::Pointer m_MeanEstimator ;
+  typename CovarianceEstimatorType::Pointer m_CovarianceEstimator ;
 } ; // end of class
     
 } // end of namespace Statistics 

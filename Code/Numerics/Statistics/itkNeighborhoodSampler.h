@@ -122,7 +122,7 @@ private:
   
   CenterType* m_Center ;
   RadiusType* m_Radius ;
-  SubsampleType::Pointer m_Subsample ;
+  typename SubsampleType::Pointer m_Subsample ;
 } ; // end of class
 
 } // end of namespace Statistics 
