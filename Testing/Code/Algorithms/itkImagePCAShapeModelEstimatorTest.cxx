@@ -192,7 +192,7 @@ int itkImagePCAShapeModelEstimatorTest(int, char* [] )
 
   for(unsigned int i= 0; i< vnl_math_min( numEigVal, (unsigned int)NUMLARGESTPC ); i++ )
     {
-    std::cout << eigenValues[ i ] << std::ends; 
+    std::cout << eigenValues[ i ] << std::endl; 
     }  
   std::cout << "" << std::endl;
   std::cout << "" << std::endl;
@@ -206,7 +206,7 @@ int itkImagePCAShapeModelEstimatorTest(int, char* [] )
   std::cout << "The mean image is:" << std::endl;
   while(!outImageIt.IsAtEnd() )
     {
-    std::cout << (double)(outImageIt.Get()) << ";"  << std::ends;  
+    std::cout << (double)(outImageIt.Get()) << ";"  << std::endl;  
     ++outImageIt; 
     } 
   std::cout << "  " << std::endl;
@@ -222,7 +222,7 @@ int itkImagePCAShapeModelEstimatorTest(int, char* [] )
     std::cout << "The eigen vector number: " << j << " is:" << std::endl;
     while(!outImageIt.IsAtEnd() )
       {
-      std::cout << (double) (outImageIt.Get()) << ";"  << std::ends;  
+      std::cout << (double) (outImageIt.Get()) << ";"  << std::endl;  
       ++outImageIt; 
       } 
     std::cout << "  " << std::endl;
