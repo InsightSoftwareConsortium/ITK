@@ -67,6 +67,9 @@ TARGET_LINK_LIBRARIES(HoughTransform2DLinesImageFilter ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(VectorConfidenceConnected VectorConfidenceConnected.cxx )
 TARGET_LINK_LIBRARIES(VectorConfidenceConnected ITKNumerics ITKIO)
 
+ADD_EXECUTABLE(RelabelComponentImageFilter RelabelComponentImageFilter.cxx )
+TARGET_LINK_LIBRARIES(RelabelComponentImageFilter ITKNumerics ITKIO)
+
 SET(SEGMENTATION_EXAMPLES ${CXX_TEST_PATH}/SegmentationExamples)
 SET(SEGMENTATION_EXAMPLES2 ${CXX_TEST_PATH}/SegmentationExamples2)
 SET(SEGMENTATION_EXAMPLES3 ${CXX_TEST_PATH}/SegmentationExamples3)
