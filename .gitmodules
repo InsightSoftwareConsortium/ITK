@@ -4,3 +4,6 @@
 [submodule "Examples"]
 	path = Examples
 	url = git://itk.org/ITKApps.git
+[submodule "Testing/Data"]
+	path = Testing/Data
+	url = git://itk.org/ITKData.git
