@@ -291,7 +291,7 @@ bool MET_ValueToValue(MET_ValueEnumType _fromType, const void *_fromData,
 //
 bool MET_StringToWordArray(char *s, int *n, char ***val)
 {
-  int l = strlen(s);
+  long l = static_cast<long>( strlen(s) );
 
   int p = 0;
   while(p<l && s[p] == ' ')
@@ -329,7 +329,7 @@ bool MET_StringToWordArray(char *s, int *n, char ***val)
   
   *val = new char *[*n];
   
-  int i, j;
+  long i, j;
   for(i=0; i<*n; i++) 
   {
     if(p == l)
@@ -358,9 +358,9 @@ bool MET_StringToWordArray(char *s, int *n, char ***val)
 //
 bool MET_GetFilePath(const char *_fName, char *_fPath)
   {
-  int i;
+  long i;
   
-  int l = strlen(_fName);
+  long l = static_cast<long>( strlen(_fName) );
   
   for(i=l-1; i>=0; i--)
     if(_fName[i] == '\\' || _fName[i] == '/')
@@ -384,12 +384,18 @@ bool MET_GetFilePath(const char *_fName, char *_fPath)
 //
 bool MET_GetFileSuffixPtr(const char *_fName, int *i)
   {
-  *i = strlen(_fName);
+  *i = static_cast<int>( strlen(_fName) );
   while(*i>0)
+    {
     if(_fName[(*i)-1] == '.')
+      {
       return true;
+      }
     else
+      {
       (*i)--;
+      }
+    }
     return false;
   }
 
@@ -601,10 +607,10 @@ bool MET_Read(std::istream &fp, std::vector<MET_FieldRecordType *> * fields,
               }
             char * str = (char *)((*fieldIter)->value);
             fp.getline( str, 500 );
-            j = strlen(str)-1;
+            j = static_cast<long>( strlen(str) ) - 1;
             while(!isprint(str[j]) || isspace(str[j]))
               str[j--] = '\0';
-            (*fieldIter)->length = strlen( str );
+            (*fieldIter)->length = static_cast<int>( strlen( str ) );
             break;
             }
           case MET_CHAR_ARRAY:
