@@ -25,7 +25,7 @@
 int itkTIFFImageIOTest( int ac, char* av[] )
 {
 
-  if(ac < 4)
+  if(ac < 3)
     {
     std::cerr << "Usage: " << av[0] << " Input Output [dimensionality:default 2]\n";
     return EXIT_FAILURE;
