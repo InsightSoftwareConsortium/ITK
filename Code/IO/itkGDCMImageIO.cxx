@@ -383,7 +383,8 @@ void GDCMImageIO::Write(const void* buffer)
   std::string value;
   while( itr != end )
     {
-    ExposeMetaData<std::string>(dict, itr->first, value);
+    std::string key = itr->first;
+    ExposeMetaData<std::string>(dict, key, value);
 
     // Convert DICOM name to DICOM (group,element)
 #if GDCM_MAJOR_VERSION == 0 && GDCM_MINOR_VERSION <= 5
