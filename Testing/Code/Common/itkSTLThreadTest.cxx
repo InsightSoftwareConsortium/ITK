@@ -85,24 +85,6 @@ int itkSTLThreadTest(int argc, char* argv[])
   threader->SetNumberOfThreads(numThreads);
   threader->SingleMethodExecute();
   
-  // Test untested methods.
-  int val = 1;
-  threader->SetGlobalMaximumNumberOfThreads(val);
-  threader->SetGlobalDefaultNumberOfThreads(val);
-
-  int val2 = threader->GetGlobalMaximumNumberOfThreads();
-  std::cout << "threader->GetGlobalMaximumNumberOfThreads(): " << val2 << std::endl;
-
-  //int index = 0;
-  //threader->SetMultipleMethod(index,itkSTLThreadTestImpl::Runner, results);
-  //threader->MultipleMethodExecute();
-  int threadId = threader->SpawnThread(itkSTLThreadTestImpl::Runner, results);
-  std::cout << "SpawnThread(itkSTLThreadTestImpl::Runner, results): " << threadId << std::endl;
-  int threadId2 = 1;
-  threader->TerminateThread(threadId2);
-
-
-
   // Report results.
   int result = 0;
   for(i=0; i < numThreads; ++i)
@@ -113,8 +95,23 @@ int itkSTLThreadTest(int argc, char* argv[])
       result = 1;
       }
     }
-  
   delete [] results;
+
+  // Test other methods for coverage.
+  std::cout << "Done with primary test.  Testing more methods..."
+            << std::endl;
+  threader->SetGlobalMaximumNumberOfThreads(1);
+  threader->SetGlobalDefaultNumberOfThreads(1);
+  
+  std::cout << "threader->GetGlobalMaximumNumberOfThreads(): "
+            << threader->GetGlobalMaximumNumberOfThreads() << std::endl;
+  
+  int threadId = threader->SpawnThread(itkSTLThreadTestImpl::Runner, results);
+  std::cout << "SpawnThread(itkSTLThreadTestImpl::Runner, results): "
+            << threadId << std::endl;
+  threader->TerminateThread(threadId);
+  std::cout << "Spawned thread terminated." << std::endl;
+  
   return result;
 }
 
