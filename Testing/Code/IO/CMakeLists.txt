@@ -8,11 +8,11 @@ LINK_DIRECTORIES(${ITK_BINARY_DIR}/Utilities/png)
 LINK_DIRECTORIES(${ITK_BINARY_DIR}/Utilities/zlib)
 LINK_DIRECTORIES(${ITK_BINARY_DIR}/Code/IO)
 
-ADD_EXECUTABLE(itkTestConvertBuffer itkTestConvertBuffer)
-ADD_EXECUTABLE(itkTestLoadPNG itkTestLoadPNG)
-ADD_EXECUTABLE(itkTestLoadMeta itkTestLoadMeta)
-ADD_EXECUTABLE(itkTestLoadVOL itkTestLoadVOL)
-#ADD_EXECUTABLE(itkTestRawImageIO itkTestRawImageIO)
+ADD_EXECUTABLE(itkConvertBufferTest itkConvertBufferTest)
+ADD_EXECUTABLE(itkPNGImageIOTest itkPNGImageIOTest)
+ADD_EXECUTABLE(itkMetaImageIOTest itkMetaImageIOTest)
+ADD_EXECUTABLE(itkVOLImageIOTest itkVOLImageIOTest)
+#ADD_EXECUTABLE(itkRawImageIOTest itkRawImageIOTest)
 
 
 # Add VTK code if we found VTK

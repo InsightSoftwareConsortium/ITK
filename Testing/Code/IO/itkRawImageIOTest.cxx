@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit (ITK)
-  Module:    itkTestRawImageIO.cxx
+  Module:    itkRawImageIOTest.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$

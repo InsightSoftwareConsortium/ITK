@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkTestConvertBuffer.cxx
+  Module:    itkConvertBufferTest.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit (ITK)
-  Module:    itkTestLoadVOL.cxx
+  Module:    itkVOLImageIOTest.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
