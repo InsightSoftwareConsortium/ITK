@@ -122,6 +122,8 @@ int main()
 
   ReferenceIteratorType ri(imgReference,region);
   ReferenceIteratorType ti(imgTarget,region);
+  
+  ri.GoToBegin();
   while(!ri.IsAtEnd())
   {
     p[0] = ri.GetIndex()[0];
@@ -135,6 +137,7 @@ int main()
   }
 
 
+  ti.GoToBegin();
   while(!ti.IsAtEnd())
   {
     p[0] = ti.GetIndex()[0];
@@ -163,7 +166,7 @@ int main()
   unsigned int counter   = 0;
   unsigned int numPoints = 0;
 
-  ti.Begin();
+  ti.GoToBegin();
   while(!ti.IsAtEnd() && numPoints < numberOfSamples )
   {
     if( counter >= numPixelsToSkip ) 
