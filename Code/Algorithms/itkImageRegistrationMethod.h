@@ -180,6 +180,9 @@ public:
    * output. */
   virtual DataObjectPointer MakeOutput(unsigned int idx);
 
+  /** Method to return the latest modified time of this object or
+   * any of its cached ivars */
+  unsigned long GetMTime() const;  
     
 protected:
   ImageRegistrationMethod();

@@ -58,6 +58,63 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
 }
 
 
+/**
+ *
+ */
+template < typename TFixedImage, typename TMovingImage >
+unsigned long
+ImageRegistrationMethod<TFixedImage,TMovingImage>
+::GetMTime() const
+{
+  unsigned long mtime = Superclass::GetMTime();
+  unsigned long m = mtime;
+
+
+  // Some of the following should be removed once ivars are put in the
+  // input and output lists
+  
+  if (m_Transform)
+    {
+    m = m_Transform->GetMTime();
+    mtime = (m > mtime ? m : mtime);
+    }
+
+  if (m_Interpolator)
+    {
+    m = m_Interpolator->GetMTime();
+    mtime = (m > mtime ? m : mtime);
+    }
+
+  if (m_Metric)
+    {
+    m = m_Metric->GetMTime();
+    mtime = (m > mtime ? m : mtime);
+    }
+
+  if (m_Optimizer)
+    {
+    m = m_Optimizer->GetMTime();
+    mtime = (m > mtime ? m : mtime);
+    }
+
+  if (m_FixedImage)
+    {
+    m = m_FixedImage->GetMTime();
+    mtime = (m > mtime ? m : mtime);
+    }
+
+  if (m_MovingImage)
+    {
+    m = m_MovingImage->GetMTime();
+    mtime = (m > mtime ? m : mtime);
+    }
+
+  return mtime;
+  
+}
+
+
+
 /*
  * Set the initial transform parameters
  */

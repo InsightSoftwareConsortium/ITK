@@ -886,6 +886,11 @@ ProcessObject
       this->ResetPipeline();
       throw ProcessAborted(__FILE__,__LINE__);
       }
+    catch( ExceptionObject& excp )
+      {
+      this->ResetPipeline();
+      throw excp;
+      }
     }
 
   /**
