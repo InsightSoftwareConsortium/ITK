@@ -68,7 +68,7 @@ public:
   
   void Parse(std::istream&);
   
-  const CableConfiguration* GetCableConfiguration() const
+  CableConfiguration::ConstPointer GetCableConfiguration() const
     { return m_CableConfiguration.RealPointer(); }
   
   // Call-backs from the XML parser.
