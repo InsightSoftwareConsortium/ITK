@@ -29,8 +29,6 @@ template <class TReference, class TTarget>
 ImageToImageAffineMeanSquaresRegistration<TReference, TTarget>
 ::ImageToImageAffineMeanSquaresRegistration()
 { 
-  m_Parameters = ParametersType::New();
-  m_Parameters->Reserve(TransformationType::ParametersDimension);
   m_Metric = MetricType::New();
   m_Mapper = MapperType::New(); 
   m_Optimizer = OptimizerType::New();
@@ -116,25 +114,27 @@ int
 ImageToImageAffineMeanSquaresRegistration<TReference, TTarget>
 ::StartRegistration( void )
 { 
-  ParametersType::Iterator it = m_Parameters->Begin();
-
   /* Initialize Linear part*/ 
+  unsigned int k = 0;
   for (unsigned int i=0; i<TReference::ImageDimension; i++)
+  {
     for (unsigned int j=0; j<TReference::ImageDimension; j++)
     {
-      it.Value() = 0;
-      if(i == j) 
-	  {
-	    it.Value() = 1;
+      if(i != j) 
+      {
+		m_Parameters[ k++ ] = 0.0;
       }
-	  it++;
+      else 
+      {
+        m_Parameters[ k++ ] = 1.0;
+      }
     }
+  }
 
   /* Initialize the Offset */ 
   for (unsigned int i=0; i<TReference::ImageDimension; i++)
   { 
-    it.Value() = 0;
-    it++;
+    m_Parameters[ k++ ] = 0;
   }
 
   m_Mapper->SetTransformation(m_Transformation);
@@ -157,6 +157,7 @@ ImageToImageAffineMeanSquaresRegistration<TReference, TTarget>
   const int    Max_Iterations   =   100; // Maximum number of iterations
 
 
+/*
   vnlOptimizerType & vnlOptimizer = m_Optimizer->GetOptimizer();
 
   vnlOptimizer.set_f_tolerance( F_Tolerance );
@@ -169,34 +170,34 @@ ImageToImageAffineMeanSquaresRegistration<TReference, TTarget>
   vnlOptimizer.set_verbose( true ); // activate verbose mode
 
   vnlOptimizer.set_check_derivatives( 3 );
+*/
 
-  m_Optimizer->StartOptimization(m_Parameters);
+  m_Optimizer->SetInitialPosition( m_Parameters );
+  m_Optimizer->StartOptimization();
 
  /*
     ERROR_FAILURE              =-1,
     ERROR_DODGY_INPUT          = 0,
-    CONVERGED_FTOL     	       = 1,
-    CONVERGED_XTOL     	       = 2,
-    CONVERGED_XFTOL    	       = 3,
-    CONVERGED_GTOL     	       = 4,
+    CONVERGED_FTOL              = 1,
+    CONVERGED_XTOL              = 2,
+    CONVERGED_XFTOL             = 3,
+    CONVERGED_GTOL              = 4,
     FAILED_TOO_MANY_ITERATIONS = 5,
     FAILED_FTOL_TOO_SMALL      = 6,
     FAILED_XTOL_TOO_SMALL      = 7,
     FAILED_GTOL_TOO_SMALL      = 8
  */
-  
+
+/*  
   std::cout << "End condition   = " << vnlOptimizer.get_failure_code() << std::endl;
   std::cout << "Number of iters = " << vnlOptimizer.get_num_iterations() << std::endl;
   std::cout << "Number of evals = " << vnlOptimizer.get_num_evaluations() << std::endl;    
   std::cout << std::endl;
+  */
 
   std::cout << "The Solution is : " ;
-  it = m_Metric->GetParameters()->Begin();
-  while( it != m_Metric->GetParameters()->End())
-  {
-    std::cout << it.Value() << " ";
-	it++;
-  }
+  m_Parameters = m_Optimizer->GetCurrentPosition();
+  std::cout << m_Parameters << std::endl;
   std::cout << std::endl;
 
 return 0;
