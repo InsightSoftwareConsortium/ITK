@@ -29,9 +29,6 @@ itk::Mesh<double>* TheMesh;
 int itkAutomaticTopologyMeshSourceTest(int, char* [] )
 {
 
-  // Define the dimension of the mesh
-  const unsigned int Dimension = 3;
-
   // Declare the type of the Mesh
   typedef itk::Mesh<double>                         MeshType;
   typedef MeshType::PointType                       PointType;

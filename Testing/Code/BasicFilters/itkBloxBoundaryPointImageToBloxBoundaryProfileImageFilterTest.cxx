@@ -252,6 +252,7 @@ int itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest(int, char*[])
 
     // Get the index of the pixel
     bloxindex = bloxIt.GetIndex();
+    std::cout << "bloxindex: " << bloxindex << std::endl;
 
     // The iterator for accessing linked list info from profile pixel
     // Walk through all of the elements at the pixel

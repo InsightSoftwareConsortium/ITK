@@ -202,11 +202,12 @@ namespace itk
   {
     double perimeter = 0.0;
     int numpoints = this->NumberOfPoints();
-    int X, Y;
     if(numpoints < 3)
       {
       return 0;
       }
+#if 0
+    int X, Y;
     switch(this->Plane())
       {
       case Sagittal:
@@ -223,6 +224,8 @@ namespace itk
         exception.SetDescription("File cannot be read");
         throw exception;
       }
+#endif
+
     PointListType &points = this->GetPoints();
     typename PointListType::iterator it = points.begin();
     PointType start = (*it).GetPosition();
