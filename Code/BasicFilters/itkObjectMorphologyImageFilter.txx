@@ -34,7 +34,7 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
   : m_Kernel()
 {
   m_ObjectValue = NumericTraits<PixelType>::One;
-  this->SetNumberOfThreads(1);
+  //this->SetNumberOfThreads(1);
 }
   
 template <class TInputImage, class TOutputImage, class TKernel>
@@ -88,6 +88,22 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
     }
 }
 
+template<class TInputImage, class TOutputImage, class TKernel>
+void
+ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
+::BeforeThreadedGenerateData()
+{
+  if(m_ObjectValue == 0)
+    {
+    this->GetOutput()->FillBuffer(1);
+    }
+  else
+    {
+    this->GetOutput()->FillBuffer(0);
+    }
+}
+
+
 
 template<class TInputImage, class TOutputImage, class TKernel>
 void
@@ -95,6 +111,7 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 ::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                        int threadId) 
 {
+
   ImageRegionConstIterator<TInputImage> iRegIter;
   ImageRegionIterator<TOutputImage> oRegIter;
   iRegIter = ImageRegionConstIterator<InputImageType>(this->GetInput(),
@@ -107,7 +124,10 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
   oRegIter.GoToBegin();
   while(!oRegIter.IsAtEnd())
     {
-    oRegIter.Set(iRegIter.Get());
+    if(oRegIter.Get()!=m_ObjectValue)
+      {
+       oRegIter.Set(iRegIter.Get());
+      }
     ++oRegIter;
     ++iRegIter;
     }
@@ -154,7 +174,7 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
         {
         if(this->IsObjectPixelOnBoundary(iSNIter))
           {
-          this->Evaluate(oSNIter, m_Kernel);
+          this->Evaluate(oSNIter, m_Kernel);    
           }
         }
       ++iSNIter;
@@ -162,7 +182,6 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
       progress.CompletedPixel();
       }
     }
-  
 }
 
 // Use neighborhood iter to determine if pixel touches a non-object pixel
@@ -171,6 +190,7 @@ bool
 ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 ::IsObjectPixelOnBoundary(const InputNeighborhoodIteratorType &iNIter)
 {
+
   static const unsigned int s =
     (unsigned int)pow(static_cast<float>(3),
                       static_cast<float>(ImageDimension));

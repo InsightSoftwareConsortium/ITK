@@ -156,6 +156,8 @@ protected:
   /** Pixel value that indicates the object be operated upon */
   PixelType m_ObjectValue;
 
+  void BeforeThreadedGenerateData();
+
 private:
   ObjectMorphologyImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
