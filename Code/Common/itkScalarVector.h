@@ -84,7 +84,7 @@ public:
    * VectorType can be used to declare a variable that is the same type
    * as the internal vector.  
    */
-  typedef vnl_vector_fixed<T, TVectorDimension> VectorType;
+  typedef vnl_vector_fixed<TVector, TVectorDimension> VectorType;
 
   /**
    * Get the scalar value.
