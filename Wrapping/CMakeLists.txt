@@ -1,5 +1,10 @@
 INCLUDE_REGULAR_EXPRESSION("^(itk|vtk|vnl|vcl|f2c|ce|wrap_).*$")
 INCLUDE(${CMAKE_ROOT}/Modules/FindCABLE.cmake)
+INCLUDE(${CMAKE_ROOT}/Modules/FindGCCXML.cmake)
+
+IF(GCCXML)
+  SET(ITK_GCCXML_EXECUTABLE "${GCCXML}")
+ENDIF(GCCXML)
 
 IF(NOT CABLE)
   MESSAGE("Wrapping is enabled, but CABLE is not found!" "Error")
