@@ -73,18 +73,28 @@ PadImageFilter<TInputImage,TOutputImage>
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Output Pad Lower Bounds: ";
-  for( int j = 0; j < ImageDimension; j++ )
+  os << indent << "Output Pad Lower Bounds: [";
+
+  if (ImageDimension >= 1) 
     {
-    os << m_PadLowerBound[j] << " ";
-    } 
-  os << std::endl;
-  os << indent << "Output Pad Upper Bounds: ";
-  for( int j = 0; j < ImageDimension; j++ )
+      os << m_PadLowerBound[0];
+    }
+  for( int j = 1; j < ImageDimension; j++ )
     {
-    os << m_PadUpperBound[j] << " ";
+      os << ", " << m_PadLowerBound[j];
     } 
-  os << std::endl;
+  os << "]" << std::endl;
+
+  os << indent << "Output Pad Upper Bounds: [";
+  if (ImageDimension >= 1) 
+    {
+      os << m_PadUpperBound[0];
+    }
+  for( int j = 1; j < ImageDimension; j++ )
+    {
+      os << ", " << m_PadUpperBound[j];
+    } 
+  os << "]" << std::endl;
 }
 
 
