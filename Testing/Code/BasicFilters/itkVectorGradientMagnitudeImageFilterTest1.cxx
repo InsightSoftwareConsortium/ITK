@@ -19,20 +19,23 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkImageRegionIterator.h"
+#include "itkRescaleIntensityImageFilter.h"
 #include "itkRGBPixel.h"
 
 int itkVectorGradientMagnitudeImageFilterTest1(int ac, char* av[] )
 {
   typedef itk::RGBPixel<unsigned short> RGBPixelType;
+  typedef itk::Image<unsigned char, 2> CharImageType;
   typedef itk::Image<RGBPixelType, 2> RGBImageType;
   typedef itk::VectorGradientMagnitudeImageFilter<RGBImageType> FilterType;
   typedef itk::ImageFileReader<RGBImageType> ReaderType;
-  typedef itk::ImageFileWriter<FilterType::OutputImageType> WriterType;
-  typedef itk::ImageFileReader<FilterType::OutputImageType> ScalarReaderType;
-  
-  if(ac < 3)
+  typedef itk::RescaleIntensityImageFilter<FilterType::OutputImageType,
+    CharImageType> RescaleFilterType; 
+  typedef itk::ImageFileWriter<CharImageType> WriterType;
+
+  if(ac < 4)
     {
-    std::cerr << "Usage: " << av[0] << " InputImage BaselineImage\n";
+    std::cerr << "Usage: " << av[0] << " InputImage OutputImage Mode\n";
     return -1;
     }
 
@@ -42,11 +45,28 @@ int itkVectorGradientMagnitudeImageFilterTest1(int ac, char* av[] )
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput(reader->GetOutput());
 
-  filter->SetUsePrincipleComponentsOn();
-  
+  int mode = ::atoi( av[3] );
+  if ( mode == 1)
+    {
+      filter->SetUsePrincipleComponentsOn();
+    }
+  else
+    {
+      filter->SetUsePrincipleComponentsOff();
+    }
+
+  RescaleFilterType::Pointer rescale = RescaleFilterType::New();
+  rescale->SetOutputMinimum(0);
+  rescale->SetOutputMaximum(255);
+  rescale->SetInput( filter->GetOutput() );
+
+  WriterType::Pointer writer = WriterType::New();
+  writer->SetInput( rescale->GetOutput() );
+  writer->SetFileName( av[2] );
+
   try
     {
-      filter->Update();
+      writer->Update();
     }
   catch (itk::ExceptionObject& e)
     {
@@ -59,54 +79,11 @@ int itkVectorGradientMagnitudeImageFilterTest1(int ac, char* av[] )
       return -2;
     }
 
-  // Code used to generate the baseline image, commented out when run in
-  // regression test mode.
-  // 
-  //  WriterType::Pointer writer = WriterType::New();
-  //  writer->SetInput( filter->GetOutput() );
-  //  writer->SetFileName( av[2] );
-  //  writer->Update();
-  
-  // now read the regression image
-  ScalarReaderType::Pointer baseline = ScalarReaderType::New();
-  baseline->SetFileName(av[2]);
-    
-  try
-    {
-      baseline->Update();
-    }
-  catch (itk::ImageFileReaderException& e)
-    {
-      std::cerr << "Exception in file reader: "  << e.GetDescription() << std::endl;
-      return -3;
-    }
-  catch (...)
-    {
-      std::cerr << "Some other exception occurred" << std::endl;
-      return -4;
-    }
-  
-  // compare the two images
-  itk::ImageRegionIterator<FilterType::OutputImageType>
-    it(filter->GetOutput(),filter->GetOutput()->GetBufferedRegion());
-  itk::ImageRegionIterator<FilterType::OutputImageType>
-    rit(baseline->GetOutput(),baseline->GetOutput()->GetBufferedRegion());
-  unsigned long status = 0;
-  while (!it.IsAtEnd())
-    {
-      if (it.Get() != rit.Get())
-        {
-          // print out the mismatch location and values
-          std::cerr << "diff: " << it.GetIndex() << " " << it.Get()
-                    << " should be " << rit.Get() << std::endl;
-          
-          status++;
-        } 
-      ++it;
-      ++rit;  
-    }
-  
-  itk::ObjectFactoryBase::UnRegisterAllFactories();
-  
-  return status;
+  std::cout <<  "The gradient image range was (low, high) = ("
+            <<  rescale->GetInputMinimum() << ", " << rescale->GetInputMaximum()
+            << ")" << std::endl;
+  std::cout <<  "Output was scaled, shifted = " << rescale->GetScale() << ", "
+            << rescale->GetShift() << std::endl;
+ 
+  return 0;
 }

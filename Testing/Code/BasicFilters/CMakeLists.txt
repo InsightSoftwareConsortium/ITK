@@ -117,8 +117,6 @@ ADD_TEST(itkTobogganImageFilterTest ${BASIC_FILTERS_TESTS} itkTobogganImageFilte
 ADD_TEST(itkTransformMeshFilterTest ${BASIC_FILTERS_TESTS} itkTransformMeshFilterTest)
 ADD_TEST(itkVectorAnisotropicDiffusionImageFilterTest ${BASIC_FILTERS_TESTS} itkVectorAnisotropicDiffusionImageFilterTest)
 ADD_TEST(itkVectorExpandImageFilterTest ${BASIC_FILTERS_TESTS} itkVectorExpandImageFilterTest)
-ADD_TEST(itkVectorGradientMagnitudeImageFilterTest1 ${BASIC_FILTERS_TESTS} itkVectorGradientMagnitudeImageFilterTest1 ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkVectorGradientMagnitudeImageFilterTest1.mha)
-ADD_TEST(itkVectorGradientMagnitudeImageFilterTest2 ${BASIC_FILTERS_TESTS} itkVectorGradientMagnitudeImageFilterTest2 ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkVectorGradientMagnitudeImageFilterTest2.mha)
 ADD_TEST(itkVectorNeighborhoodOperatorImageFilterTest ${BASIC_FILTERS_TESTS} itkVectorNeighborhoodOperatorImageFilterTest)
 ADD_TEST(itkWarpImageFilterTest ${BASIC_FILTERS_TESTS} itkWarpImageFilterTest)
 ADD_TEST(itkWrapPadImageTest ${BASIC_FILTERS_TESTS} itkWrapPadImageTest)
@@ -197,6 +195,30 @@ ADD_TEST(itkPromoteDimensionImageTest ${BASIC_FILTERS_TESTS}
   itkPromoteDimensionImageTest
             ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png
             ${ITK_TEST_OUTPUT_DIR}/PromoteDimensionImageTest.mhd)
+
+ADD_TEST(itkVectorGradientMagnitudeImageFilterTest1a ${BASIC_FILTERS_TESTS}
+  --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkVectorGradientMagnitudeImageFilterTest1a.png
+            ${ITK_TEST_OUTPUT_DIR}/itkVectorGradientMagnitudeImageFilterTest1a.png
+  itkVectorGradientMagnitudeImageFilterTest1
+            ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png
+            ${ITK_TEST_OUTPUT_DIR}/itkVectorGradientMagnitudeImageFilterTest1a.png 
+            0)
+
+ADD_TEST(itkVectorGradientMagnitudeImageFilterTest1b ${BASIC_FILTERS_TESTS}
+  --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkVectorGradientMagnitudeImageFilterTest1b.png
+            ${ITK_TEST_OUTPUT_DIR}/itkVectorGradientMagnitudeImageFilterTest1b.png
+  itkVectorGradientMagnitudeImageFilterTest1
+            ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png
+            ${ITK_TEST_OUTPUT_DIR}/itkVectorGradientMagnitudeImageFilterTest1b.png
+            1)
+
+ADD_TEST(itkVectorGradientMagnitudeImageFilterTest2 ${BASIC_FILTERS_TESTS}
+  --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkVectorGradientMagnitudeImageFilterTest2.png
+            ${ITK_TEST_OUTPUT_DIR}/itkVectorGradientMagnitudeImageFilterTest2.png
+  itkVectorGradientMagnitudeImageFilterTest2
+            ${ITK_DATA_ROOT}/Input/VHFColor.mhd
+            ${ITK_TEST_OUTPUT_DIR}/itkVectorGradientMagnitudeImageFilterTest2.png
+            1)
 
 ENDIF(ITK_DATA_ROOT)
 
