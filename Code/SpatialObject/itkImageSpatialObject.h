@@ -51,7 +51,7 @@ public:
 
   typedef TPixelType                            PixelType;
   typedef Image< PixelType, TDimension >        ImageType;
-  typedef typename ImageType::Pointer           ImagePointer;
+  typedef typename ImageType::ConstPointer      ImagePointer;
   typedef typename ImageType::IndexType         IndexType;
   typedef typename ImageType::RegionType        RegionType;
   typedef typename Superclass::TransformType    TransformType;
@@ -68,10 +68,10 @@ public:
   itkTypeMacro( ImageSpatialObject, SpatialObject );
 
   /** Set the image. */
-  void SetImage( ImageType * image );
+  void SetImage( const ImageType * image );
 
   /** Get a pointer to the image currently attached to the object. */
-  ImageType * GetImage( void );
+  const ImageType * GetImage( void ) const;
 
   /** Return true if the object is evaluable at the requested point, 
    *  and else otherwise. */
