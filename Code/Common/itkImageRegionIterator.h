@@ -140,7 +140,8 @@ public:
   {
     this->ImageIterator<TPixel,VImageDimension,TPixelContainer>::operator=(it);
     Index ind = this->GetIndex();
-    m_SpanEndOffset = m_Offset + m_Region.GetSize()[0] - ind[0];
+    m_SpanEndOffset = m_Offset + m_Region.GetSize()[0] 
+      - (ind[0] - m_Region.GetIndex()[0]);
   }
 
 
@@ -151,7 +152,8 @@ public:
    */
   void SetIndex(const Index &ind)
   { Superclass::SetIndex(ind);
-    m_SpanEndOffset = m_Offset + m_Region.GetSize()[0] - ind[0]; }
+    m_SpanEndOffset = m_Offset + m_Region.GetSize()[0] 
+      - (ind[0] - m_Region.GetIndex()[0]); }
 
   
   /**
