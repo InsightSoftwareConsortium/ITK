@@ -42,6 +42,7 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>
   this->SetSplineOrder(SplineOrder);
 }
 
+
 /**
  * Standard "PrintSelf" method
  */
@@ -54,53 +55,6 @@ Indent indent) const
 {
   Superclass::PrintSelf( os, indent );
   os << indent << "Spline Order: " << m_SplineOrder << std::endl;
-
-}
-
-
-template <class TInputImage, class TOutputImage>
-void
-BSplineDecompositionImageFilter<TInputImage, TOutputImage>
-::SetInput(const TInputImage * inputData)
-{
-  Superclass::SetInput(inputData);
-
-  m_DataLength = inputData->GetLargestPossibleRegion().GetSize();
-  unsigned long maxLength = 0;
-  for ( int n = 0; n < ImageDimension; n++ )
-    {
-    if ( m_DataLength[n] > maxLength )
-      {
-      maxLength = m_DataLength[n];
-      }
-    }
-  m_Scratch.resize( maxLength );
-
-  // DataToCoefficientsND requires that the spline order and the input data be set.
-  // TODO:  We need to ensure that this is only run once and only after both input and
-  //        spline order have been set.  Should the user be required to explicitly run
-  //        this routine?  Or we need to figure out the "update" format.
-
-
-}
-
-template <class TInputImage, class TOutputImage>
-void
-BSplineDecompositionImageFilter<TInputImage, TOutputImage>
-::SetInput( unsigned int index, const TInputImage * inputData)
-{
-  Superclass::SetInput(index, inputData);
-
-  m_DataLength = inputData->GetLargestPossibleRegion().GetSize();
-  unsigned long maxLength = 0;
-  for ( int n = 0; n < ImageDimension; n++ )
-    {
-    if ( m_DataLength[n] > maxLength )
-      {
-      maxLength = m_DataLength[n];
-      }
-    }
-  m_Scratch.resize( maxLength );
 
 }
 
@@ -154,7 +108,9 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>
       }
     }
   return true;
+
 }
+
 
 template <class TInputImage, class TOutputImage>
 void
@@ -167,8 +123,10 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>
     }
   m_SplineOrder = SplineOrder;
   this->SetPoles();
+  this->Modified();
 
 }
+
 
 template <class TInputImage, class TOutputImage>
 void
@@ -216,6 +174,7 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>
     }
 }
 
+
 template <class TInputImage, class TOutputImage>
 void
 BSplineDecompositionImageFilter<TInputImage, TOutputImage>
@@ -260,6 +219,7 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>
   }
 }
 
+
 template <class TInputImage, class TOutputImage>
 void
 BSplineDecompositionImageFilter<TInputImage, TOutputImage>
@@ -273,20 +233,24 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>
     (z * m_Scratch[m_DataLength[m_IteratorDirection] - 2] + m_Scratch[m_DataLength[m_IteratorDirection] - 1]);
 }
 
+
 template <class TInputImage, class TOutputImage>
 void
 BSplineDecompositionImageFilter<TInputImage, TOutputImage>
-::DataToCoefficientsND( InputImagePointer inputPtr, OutputImagePointer outputPtr )
-  {
+::DataToCoefficientsND()
+{
+
   // Initilize coeffient array
-  this->CopyImageToImage( inputPtr, outputPtr );   // Coefficients are initialized to the input data
+  this->CopyImageToImage();   // Coefficients are initialized to the input data
+
+  OutputImagePointer output = this->GetOutput();
   for (int n=0; n < ImageDimension; n++)
     {
     m_IteratorDirection = n;
     // Loop through each dimension
 
     // Inititilize iterators
-    OutputLinearIterator CIterator( outputPtr, outputPtr->GetBufferedRegion() );
+    OutputLinearIterator CIterator( output, output->GetBufferedRegion() );
     CIterator.SetDirection( m_IteratorDirection );
     // For each data vector
     while ( !CIterator.IsAtEnd() )
@@ -306,57 +270,61 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>
       }
     }
 
-
 }
 
+
+/**
+ * Copy the input image into the output image
+ */
 template <class TInputImage, class TOutputImage>
 void
 BSplineDecompositionImageFilter<TInputImage, TOutputImage>
-::CopyImageToImage(const TInputImage * input, TOutputImage * output )
+::CopyImageToImage()
 {
 
-  // setup the output
-  // TODO:  Remove this when a system copy image to image function is available.
-  output->CopyInformation( input );
-  output->SetBufferedRegion( 
-    input->GetBufferedRegion() );
-  output->Allocate();
-
-  // setup the iterators
   typedef ImageRegionConstIteratorWithIndex< TInputImage > InputIterator;
   typedef ImageRegionIterator< TOutputImage > OutputIterator;
+  typedef typename TOutputImage::PixelType OutputPixelType;
 
-  InputIterator inIt( input, input->GetBufferedRegion() );
-
-  OutputIterator outIt( output, output->GetBufferedRegion() );
+  InputIterator inIt( this->GetInput(), this->GetInput()->GetBufferedRegion() );
+  OutputIterator outIt( this->GetOutput(), this->GetOutput()->GetBufferedRegion() );
 
   inIt = inIt.Begin();
   outIt = outIt.Begin();
 
   while ( !outIt.IsAtEnd() )
   {
-    outIt.Set( inIt.Get() );
+    outIt.Set( static_cast<OutputPixelType>( inIt.Get() ) );
     ++inIt;
     ++outIt;
   }
  
 }
 
+
+/**
+ * Copy the scratch to one line of the output image
+ */
 template <class TInputImage, class TOutputImage>
 void
 BSplineDecompositionImageFilter<TInputImage, TOutputImage>
 ::CopyScratchToCoefficients(OutputLinearIterator & Iter)
 {
+  typedef typename TOutputImage::PixelType OutputPixelType;
   unsigned long j = 0;
   while ( !Iter.IsAtEndOfLine() )
     {
-    Iter.Set(m_Scratch[j]);
+    Iter.Set( static_cast<OutputPixelType>( m_Scratch[j] ) );
     ++Iter;
     ++j;
     }
 
 }
 
+
+/**
+ * Copy one line of the output image to the scratch
+ */
 template <class TInputImage, class TOutputImage>
 void
 BSplineDecompositionImageFilter<TInputImage, TOutputImage>
@@ -365,14 +333,14 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>
   unsigned long j = 0;
   while ( !Iter.IsAtEndOfLine() )
     {
-    m_Scratch[j] = Iter.Get() ;
+    m_Scratch[j] = static_cast<double>( Iter.Get() ) ;
     ++Iter;
     ++j;
     }
 }
 
 
-/*
+/**
  * GenerateInputRequestedRegion method.
  */
 template <class TInputImage, class TOutputImage>
@@ -387,7 +355,7 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>
 }
 
 
-/*
+/**
  * EnlargeOutputRequestedRegion method.
  */
 template <class TInputImage, class TOutputImage>
@@ -405,43 +373,42 @@ DataObject *output )
 
 }
 
-/*
- * GenerateOutputInformation method.
+/**
+ * Generate data
  */
-template <class TInputImage, class TOutputImage>
-void
-BSplineDecompositionImageFilter<TInputImage, TOutputImage>
-::GenerateOutputInformation()
-{
-  //***TODO:  Do I need this function at all?
-  Superclass::GenerateOutputInformation();
-  InputImagePointer  inputPtr = const_cast< TInputImage * > ( this->GetInput() );
-  typename TOutputImage::Pointer outputPtr = this->GetOutput();
-  outputPtr->SetLargestPossibleRegion( inputPtr->GetLargestPossibleRegion() );
-
-}
-
-
 template <class TInputImage, class TOutputImage>
 void
 BSplineDecompositionImageFilter<TInputImage, TOutputImage>
 ::GenerateData()
 {
 
-  // Get the input and output pointers
-  InputImagePointer inputPtr = const_cast< TInputImage * > ( this->GetInput() );
+  // Allocate scratch memory
+  InputImageConstPointer inputPtr = this->GetInput();
+  m_DataLength = inputPtr->GetBufferedRegion().GetSize();
 
+  unsigned long maxLength = 0;
+  for ( int n = 0; n < ImageDimension; n++ )
+    {
+    if ( m_DataLength[n] > maxLength )
+      {
+      maxLength = m_DataLength[n];
+      }
+    }
+  m_Scratch.resize( maxLength );
+
+  // Allocate memory for output image
   OutputImagePointer outputPtr = this->GetOutput();
-
   outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
   outputPtr->Allocate();
 
-  // Set Coordinates
-
   // Calculate actual output
-  this->DataToCoefficientsND(inputPtr, outputPtr);
+  this->DataToCoefficientsND();
+
+  // Clean up
+  m_Scratch.clear();
 
 }
+
 
 } // namespace itk
 

@@ -75,37 +75,27 @@ public:
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(BSplineDecompositionImageFilter, ImageToImageFilter);
-
  
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro( Self );
 
-  /** Output and Input ImagePointer typedef support. */
-  typedef typename TOutputImage::Pointer OutputImagePointer;
-  typedef typename TInputImage::Pointer InputImagePointer;
-
-  /** InputImageType typedef support. */
+  /** Inherit input and output image types from Superclass. */
   typedef typename Superclass::InputImageType InputImageType;
+  typedef typename Superclass::InputImagePointer InputImagePointer;
+  typedef typename Superclass::InputImageConstPointer InputImageConstPointer;
+  typedef typename Superclass::OutputImagePointer OutputImagePointer;
 
   /** Dimension underlying input image. */
-  enum { ImageDimension = TInputImage::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int,TInputImage::ImageDimension);
 
   /** Iterator typedef support */
   typedef itk::ImageLinearIteratorWithIndex<TOutputImage> OutputLinearIterator;
 
-
   /** Get/Sets the Spline Order, supports 0th - 5th order splines. The default
    *  is a 3rd order spline. */
   void SetSplineOrder(unsigned int SplineOrder);
-
   itkGetMacro(SplineOrder, int);
 
-  /** Set the input image.  This must be set by the user. */
-  virtual void SetInput(const TInputImage * inputData);
-  virtual void SetInput( unsigned int, const TInputImage * image);
-
-  /** This filter requires all of the input image */
-  void GenerateInputRequestedRegion();
 
 protected:
   BSplineDecompositionImageFilter();
@@ -113,37 +103,14 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   void GenerateData( );
+
+  /** This filter requires all of the input image. */
+  void GenerateInputRequestedRegion();
+
+  /** This filter must produce all of its output at once. */
   void EnlargeOutputRequestedRegion( DataObject *output ); 
-  void GenerateOutputInformation();
-  
-private:
-  /** Determines the poles given the Spline Order. */
-  virtual void SetPoles();
 
-  /** Converts a vector of data to a vector of Spline coefficients. */
-  virtual bool DataToCoefficients1D();
-
-  /** Converts an N-dimension image of data to an equivalent sized image
-   *    of spline coefficients. */
-  void DataToCoefficientsND(InputImagePointer inPtr, OutputImagePointer outPtr);
-
-  /** Determines the first coefficient for the causal filtering of the data. */
-  virtual void SetInitialCausalCoefficient(double z);
-
-  /** Determines the first coefficient for the anti-causal filtering of the data. */
-  virtual void SetInitialAntiCausalCoefficient(double z);
-
-  /** Used to initialize the Coefficients image before calculation. */
-  void CopyImageToImage(const TInputImage * input, TOutputImage * output );
-
-  /** Copies a vector of data from the Coefficients image to the m_Scratch vector. */
-  void CopyCoefficientsToScratch( OutputLinearIterator & );
-
-  /** Copies a vector of data from m_Scratch to the Coefficients image. */
-  void CopyScratchToCoefficients( OutputLinearIterator & );
-
-  // These are needed by the smoothing spline routine.
-protected:
+  /** These are needed by the smoothing spline routine. */
   std::vector<double>       m_Scratch;       // temp storage for processing of Coefficients
   typename TInputImage::SizeType   m_DataLength;  // Image size
   unsigned int              m_SplineOrder;   // User specified spline order (3rd or cubic is the default)
@@ -152,11 +119,38 @@ protected:
   double                    m_Tolerance;     // Tolerance used for determining initial causal coefficient
   unsigned int              m_IteratorDirection; // Direction for iterator incrementing
 
+
 private:
   BSplineDecompositionImageFilter( const Self& ); //purposely not implemented
   void operator=( const Self& ); //purposely not implemented
+
+  /** Determines the poles given the Spline Order. */
+  virtual void SetPoles();
+
+  /** Converts a vector of data to a vector of Spline coefficients. */
+  virtual bool DataToCoefficients1D();
+
+  /** Converts an N-dimension image of data to an equivalent sized image
+   *    of spline coefficients. */
+  void DataToCoefficientsND();
+
+  /** Determines the first coefficient for the causal filtering of the data. */
+  virtual void SetInitialCausalCoefficient(double z);
+
+  /** Determines the first coefficient for the anti-causal filtering of the data. */
+  virtual void SetInitialAntiCausalCoefficient(double z);
+
+  /** Used to initialize the Coefficients image before calculation. */
+  void CopyImageToImage();
+
+  /** Copies a vector of data from the Coefficients image to the m_Scratch vector. */
+  void CopyCoefficientsToScratch( OutputLinearIterator & );
+
+  /** Copies a vector of data from m_Scratch to the Coefficients image. */
+  void CopyScratchToCoefficients( OutputLinearIterator & );
   
 };
+
 
 } // namespace itk
 
