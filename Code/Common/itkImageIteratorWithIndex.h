@@ -83,18 +83,23 @@ public:
    */
   typedef typename TImage::Region   Region;
 
-
   /**
    * Image typedef support.
    */
   typedef TImage   Image;
 
+  /** 
+   * PixelContainer typedef support. Used to refer to the container for
+   * the pixel data. While this was already typdef'ed in the superclass
+   * it needs to be redone here for this subclass to compile properly with gcc.
+   */
+  typedef typename Image::PixelContainer PixelContainer;
+  typedef typename PixelContainer::Pointer PixelContainerPointer;
 
   /**
    * Internal Pixel Type
    */
   typedef typename TImage::InternalPixelType   InternalPixelType;
-
 
   /**
    * External Pixel Type
@@ -106,7 +111,6 @@ public:
    *  representations.
    */
   typedef typename TImage::AccessorType     AccessorType;
-
 
   /**
    * Default Constructor. Need to provide a default constructor since we
@@ -124,7 +128,7 @@ public:
    * Constructor establishes an iterator to walk a particular image and a
    * particular region of that image.
    */
-  ImageIteratorWithIndex(const SmartPointer<TImage> &ptr,
+  ImageIteratorWithIndex(const TImage *ptr,
                          const Region& region);
 
   /**
@@ -136,7 +140,7 @@ public:
   /**
    * Get the dimension (size) of the index.
    */
-  static unsigned int GetImageIteratorWithIndexDimension() 
+  static unsigned int GetImageIteratorDimension() 
     {return ImageIteratorDimension;}
 
   /**
@@ -228,15 +232,8 @@ public:
    * \sa GetIndex
    */
   void SetIndex(const Index &ind)
-    { m_Position = m_Image->ComputeOffset( ind ); 
+    { m_Position = m_Begin + m_Image->ComputeOffset( ind ); 
       m_PositionIndex = ind;  }
-
-  /**
-   * Get the "array index" of the first pixel to iterate over.
-   * ImageIteratorWithIndexs know the beginning and end of the 
-   * region of the image to iterate over.
-   */
-  const Index &GetStartIndex() const  {return m_BeginIndex;} ;
 
   /**
    * Dereference the iterator, returns a reference to the pixel. Used to set
@@ -245,20 +242,17 @@ public:
   PixelType & operator*() const  
     { return AccessorType::Get(*m_Position); }
 
-
   /**
    * Get the pixel value
    */
   PixelType Get(void) const  
     { return AccessorType::Get(*m_Position); }
-
   
   /**
    * Set the pixel value
    */
   void Set( const PixelType & value) const  
     { return AccessorType::Set(*m_Position,value); }
-
 
   /**
    * Move an iterator to the beginning of the region.
@@ -279,7 +273,6 @@ public:
   bool IsAtEnd()
     {
       return !m_Remaining;
-//    return (m_Position >= m_End);
     }
   
    /**
@@ -295,7 +288,10 @@ protected: //made protected so other iterators can access
   
   Index          m_PositionIndex;             // Index where we currently are
   Index          m_BeginIndex;                // Index to start iterating over
-  Index          m_EndIndex;                  // Index to finish iterating 
+  Index          m_EndIndex;                  // Index to finish iterating:
+                                              // one pixel past the end of each
+                                              // row, col, slice, etc....
+                               
 
   Region         m_Region;                    // region to iterate over
 
