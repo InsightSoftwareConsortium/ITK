@@ -16,7 +16,6 @@
 #ifndef __itkRGB_h
 #define __itkRGB_h
 
-#include "itkMacro.h"
 
 namespace itk
 {
