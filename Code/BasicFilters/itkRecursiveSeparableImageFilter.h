@@ -27,12 +27,20 @@ namespace itk
  * \brief Base class for recursive convolution with a kernel.
  *
  * RecursiveSeparableImageFilter is the base class for recursive 
- * filters that are applied in each dimension separatedly.
- * 
+ * filters that are applied in each dimension separately.
+ *
  * This class implements the recursive filtering
  * method proposed by R.Deriche in IEEE-PAMI
  * Vol.12, No.1, January 1990, pp 78-87.
  * 
+ * Details of the implementation are described in the technical report:
+ * R. Deriche, "Recursively Implementing The Gaussian and Its Derivatives",
+ * INRIA, 1993, ftp://ftp.inria.fr/INRIA/tech-reports/RR/RR-1893.ps.gz
+ *
+ * Further improvements of the algorithm are described in:
+ * G. Farneback & C.-F. Westin, "On Implementation of Recursive Gaussian
+ * Filters", so far unpublished.
+ *
  * \ingroup ImageFilters
  */
 template <typename TInputImage, typename TOutputImage=TInputImage>
@@ -90,22 +98,14 @@ protected:
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
   virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
 
-  // Override since the filter produces the entire dataset
+  // Override since the filter produces the entire dataset.
   void EnlargeOutputRequestedRegion(DataObject *output);
 
   /** Set up the coefficients of the filter to approximate a specific kernel.
-   * typically it can be used to approximate a gaussian or one of its
+   * Typically it can be used to approximate a Gaussian or one of its
    * derivatives. Parameter is the spacing along the dimension to
    * filter. */
   virtual void SetUp(RealType spacing) = 0;
-
-  /** Compute Recursive Filter Coefficients this method prepares the values of
-   * the coefficients used for filtering the image. The symmetric flag is
-   * used to enforce that the filter will be symmetric or antisymmetric. For
-   * example, the Gaussian kernel is symmetric, while its first derivative is
-   * antisymmetric. The spacing parameter is the spacing of the pixels
-   * along the dimension to be filtered. */
-  virtual void ComputeFilterCoefficients(bool symmetric, RealType spacing) = 0;
 
   /** Apply the Recursive Filter to an array of data.  This method is called
    * for each line of the volume. Parameter "scratch" is a scratch
@@ -121,43 +121,32 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   /** Direction in which the filter is to be applied
-   * this shoul in the range [0,ImageDimension-1] */ 
+   * this should be in the range [0,ImageDimension-1]. */ 
   unsigned int m_Direction;
 
 protected:
-  /**  Normalization factor. */
-  RealType m_K;                       
-
-  /**  Parameter of exponential series. */
-  RealType m_A0;
-  RealType m_A1;
-  RealType m_B0;
-  RealType m_B1;
-  RealType m_C0;
-  RealType m_C1;
-  RealType m_W0;
-  RealType m_W1; 
-
   /** Causal coefficients that multiply the input data. */
-  RealType m_N00;
-  RealType m_N11;
-  RealType m_N22;
-  RealType m_N33; 
+  RealType m_N0;
+  RealType m_N1;
+  RealType m_N2;
+  RealType m_N3; 
   
-  /** Recursive coefficients that multiply previously computed values at the output.
-      In this case the Causal coefficients == Anticausal coefficients. */
-  RealType m_D11;
-  RealType m_D22;
-  RealType m_D33;
-  RealType m_D44; 
+  /** Recursive coefficients that multiply previously computed values
+   * at the output. These are the same for the causal and
+   * anti-causal parts of the filter. */
+  RealType m_D1;
+  RealType m_D2;
+  RealType m_D3;
+  RealType m_D4; 
   
-  /** Anti-Causal coefficients (symmetric case). that multiply the input data */
-  RealType m_M11;
-  RealType m_M22;
-  RealType m_M33;
-  RealType m_M44; 
+  /** Anti-causal coefficients that multiply the input data. */
+  RealType m_M1;
+  RealType m_M2;
+  RealType m_M3;
+  RealType m_M4; 
 
-  /** Recursive coefficients to be used at the boundaries to prevent border effects */
+  /** Recursive coefficients to be used at the boundaries to simulate
+   * edge extension boundary conditions. */
   RealType m_BN1;
   RealType m_BN2;
   RealType m_BN3;

@@ -23,7 +23,7 @@ namespace itk
 {
   
 /** \class RecursiveGaussianImageFilter
- * \brief Base class for computing IIR convolution with a Gaussian kernel.
+ * \brief Base class for computing IIR convolution with an approximation of a  Gaussian kernel.
  *
  *    \f[    
  *      \frac{ 1 }{ \sigma \sqrt{ 2 \pi } } \exp{ \left( - \frac{x^2}{ 2 \sigma^2 } \right) }
@@ -33,8 +33,17 @@ namespace itk
  * approximate convolution with the Gaussian kernel.
  * This class implements the recursive filtering
  * method proposed by R.Deriche in IEEE-PAMI
- * Vol.12, No.1, January 1990, pp 78-87.
- * 
+ * Vol.12, No.1, January 1990, pp 78-87,
+ * "Fast Algorithms for Low-Level Vision" 
+ *
+ * Details of the implementation are described in the technical report:
+ * R. Deriche, "Recursively Implementing The Gaussian and Its Derivatives",
+ * INRIA, 1993, ftp://ftp.inria.fr/INRIA/tech-reports/RR/RR-1893.ps.gz
+ *
+ * Further improvements of the algorithm are described in:
+ * G. Farneback & C.-F. Westin, "On Implementation of Recursive Gaussian
+ * Filters", so far unpublished.
+ *
  * As compared to itk::DiscreteGaussianImageFilter, this filter tends
  * to be faster for large kernels, and it can take the derivative
  * of the blurred image in one step.  Also, note that we have
@@ -76,7 +85,7 @@ public:
   typedef TOutputImage      OutputImageType;
 
 
-  /** Set/Get the flag for normalizing the gaussian over scale Space
+  /** Set/Get the flag for normalizing the gaussian over scale space.
       When this flag is ON the filter will be normalized in such a way 
       that larger sigmas will not result in the image fading away.
 
@@ -97,19 +106,19 @@ public:
   /** Set/Get the Order of the Gaussian to convolve with. 
       \li ZeroOrder is equivalent to convolving with a Gaussian.  This
       is the default.
-      \li FirstOrder is equivalet to convolving with the first derivative of a Gaussian
-      \li SecondOrder is equivalet to convolving with the second derivative of a Gaussian
+      \li FirstOrder is equivalent to convolving with the first derivative of a Gaussian.
+      \li SecondOrder is equivalent to convolving with the second derivative of a Gaussian.
     */
   itkSetMacro( Order, OrderEnumType );
   itkGetMacro( Order, OrderEnumType );
 
-  /** Explicitly set a zeroth order derivative */
+  /** Explicitly set a zeroth order derivative. */
   void SetZeroOrder();
 
-  /** Explicitly set a first order derivative */
+  /** Explicitly set a first order derivative. */
   void SetFirstOrder();
 
-  /** Explicitly set a second order derivative */
+  /** Explicitly set a second order derivative. */
   void SetSecondOrder();
   
    
@@ -119,22 +128,29 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Set up the coefficients of the filter to approximate a specific kernel.
-   * typically it can be used to approximate a gaussian or one of its
+   * Here it is used to approximate a Gaussian or one of its
    * derivatives. Parameter is the spacing along the dimension to
    * filter. */
   virtual void SetUp(RealType spacing);
 
-  /** Compute Recursive Filter Coefficients. This method prepares the values of
-   * the coefficients used for filtering the image. The symmetric flag is
-   * used to enforce that the filter will be symmetric or antisymmetric. For
-   * example, the Gaussian kernel is symmetric, while its first derivative is
-   * antisymmetric. The spacing parameter specifies the data spacing
-   * along the dimension to be filtered. */
-  void ComputeFilterCoefficients(bool symmetric, RealType spacing);
-
 private:  
   RecursiveGaussianImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
+
+  /** Compute the N coefficients in the recursive filter. */
+  void ComputeNCoefficients(RealType sigmad,
+          RealType A1, RealType B1, RealType W1, RealType L1,
+          RealType A2, RealType B2, RealType W2, RealType L2,
+          RealType& N0, RealType& N1,
+          RealType& N2, RealType& N3,
+          RealType& SN, RealType& DN, RealType& EN);
+  /** Compute the D coefficients in the recursive filter. */
+  void ComputeDCoefficients(RealType sigmad,
+          RealType W1, RealType L1, RealType W2, RealType L2,
+          RealType& SD, RealType& DD, RealType& ED);
+  /** Compute the M coefficients and the boundary coefficients in the
+   * recursive filter. */
+  void ComputeRemainingCoefficients(bool symmetric);
 
   /** Sigma of the gaussian kernel. */   
   RealType m_Sigma;
@@ -142,8 +158,7 @@ private:
   /** Normalize the image across scale space */
   bool m_NormalizeAcrossScale; 
 
-  OrderEnumType   m_Order;
-
+  OrderEnumType m_Order;
 };
 
 } // end namespace itk
