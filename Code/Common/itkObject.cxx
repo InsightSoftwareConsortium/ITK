@@ -85,7 +85,7 @@ Object
  */
 unsigned long 
 Object
-::GetMTime() 
+::GetMTime() const
 {
   return m_MTime.GetMTime();
 }

@@ -81,7 +81,7 @@ public:
   /** 
    * Return this objects modified time. 
    */
-  virtual unsigned long GetMTime();
+  virtual unsigned long GetMTime() const;
 
   /** 
    * Update the modification time for this object. Many filters rely on the
