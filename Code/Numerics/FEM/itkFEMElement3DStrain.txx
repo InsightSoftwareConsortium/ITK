@@ -43,7 +43,7 @@ void Element3DStrain<TBaseClass>
 ::GetStrainDisplacementMatrix(MatrixType& B, const MatrixType& shapeDgl) const
 {
   unsigned int p;
-  unsigned int Nn=2*this->GetNumberOfNodes();
+  unsigned int Nn=3*this->GetNumberOfNodes();
   B.resize(6,Nn);
 
   // Initialize the B matrix to zero - subsequently, only the nonzero
