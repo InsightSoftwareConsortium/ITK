@@ -167,18 +167,18 @@ ImageMetricLoad<TReference , TTarget>::Fe
   typename TargetType::IndexType tindex;
   typename ReferenceType::IndexType rindex;
   VectorType OutVec(ImageDimension,0.0); // gradient direction
-
+  int lobordercheck=0,hibordercheck=0;
   for( unsigned int k = 0; k < ImageDimension; k++ )
   { 
   //Set the size of the image region
     parameters[k]= Gsol[k]; // this gives the translation by the vector field 
     tindex[k] =(long)(Gpos[k]+Gsol[k]+0.5);  // where the piece of reference image currently lines up under the above translation
     rindex[k]= (long)(Gpos[k]);  // position in reference image
-    int hibordercheck=(int)tindex[k]+(int)m_MetricRadius[k]-(int)m_TarSize[k];
-  int lobordercheck=(int)tindex[k]-(int)m_MetricRadius[k];
-  if (hibordercheck >= 0) regionRadius[k]=m_MetricRadius[k]-(long)hibordercheck-1;
-  else if (lobordercheck < 0) regionRadius[k]=m_MetricRadius[k]+(long)lobordercheck;
-  else regionRadius[k]=m_MetricRadius[k];
+    hibordercheck=(int)tindex[k]+(int)m_MetricRadius[k]-(int)m_TarSize[k];
+    lobordercheck=(int)tindex[k]-(int)m_MetricRadius[k];
+    if (hibordercheck >= 0) regionRadius[k]=m_MetricRadius[k]-(long)hibordercheck-1;
+    else if (lobordercheck < 0) regionRadius[k]=m_MetricRadius[k]+(long)lobordercheck;
+    else regionRadius[k]=m_MetricRadius[k];
   }
 
 // Set the associated region
@@ -208,13 +208,14 @@ ImageMetricLoad<TReference , TTarget>::Fe
  
   for( unsigned int k = 0; k < ImageDimension; k++ )
   {
-    OutVec[k]= m_Sign*derivative[k];
+    if (lobordercheck < 0 || hibordercheck >=0) OutVec[k]=0.0; 
+      else OutVec[k]= m_Sign*derivative[k];
   }
  // NOTE : POSSIBLE THAT DERIVATIVE DIRECTION POINTS UP OR DOWN HILL!
  // IN FACT, IT SEEMS MEANSQRS AND NCC POINT IN DIFFT DIRS
   //std::cout   << " deriv " << derivative <<  " val " << measure << endl;
- 
-  return OutVec;
+  Float m_Temp=1.0;
+  return OutVec* exp(-1.*OutVec.magnitude()/m_Temp);
 }
 
 
