@@ -21,7 +21,7 @@
 #include "itkMutualInformationImageToImageMetric.h"
 #include "itkImage.h"
 #include "itkImageMapper.h"
-#include "itkAffineRegistrationTransform.h"
+#include "itkCenteredAffineRegistrationTransform.h"
 #include "itkVectorContainer.h"
 
 namespace itk
@@ -102,9 +102,25 @@ public:
    enum {ImageDimension = ReferenceType::ImageDimension};
 
   /**
+   * Parmeters Dimensions
+   */
+   enum { ParametersDimension = ImageDimension * ( ImageDimension + 1 ) };
+
+  /**
+   * Parameters Type
+   */
+   typedef Point<double,ParametersDimension> ParametersType;
+
+  /**
    *  Type of the Transformation
    */
-   typedef AffineRegistrationTransform<double,ImageDimension>  TransformationType;
+   typedef CenteredAffineRegistrationTransform<double,ImageDimension,ParametersType>  
+      TransformationType;
+
+  /**
+   * Point Type
+   */
+  typedef typename TransformationType::PointType  PointType;
 	  
   /**
    *  Type of the Mapper
@@ -143,25 +159,9 @@ public:
    typedef typename MapperType::Pointer  MapperPointer;
 
   /**
-   *  Type of the parameters
-   */
-   typedef typename MetricType::ParametersType  ParametersType;
-
-  /**
-   *  Pointer to the parameters
-   */
-   typedef typename ParametersType::Pointer ParametersPointer;
-
-  /**
    * Type of the scaling weights
    */
-   typedef itk::VectorContainer<unsigned int, double> ScalingWeightsType;
-
-  /**
-   * Pointer to the scaling weights
-   */
-   typedef typename ScalingWeightsType::Pointer ScalingWeightsPointer;
-
+   typedef Vector<double,ParametersDimension> ScalingWeightsType;
 
   /** 
    * Run-time type information (and related methods).
@@ -215,13 +215,37 @@ public:
   /**
    * Set the transform parameters
    */
-   void SetParameters( ParametersType * );
+   void SetParameters( const ParametersType&  params )
+    { m_Parameters = params; }
 
   /**
    * Get the transform parameters
    */
-  const ParametersPointer& GetParameters( void ) const 
+  const ParametersType& GetParameters( void ) const 
     { return m_Parameters; }
+
+  /**
+   * Set the target image transformation center
+   */
+   void SetTargetTransformationCenter( const PointType& center );
+
+  /**
+   * Get the target image transformation center
+   */
+   PointType& GetTargetTransformationCenter( void ) const
+    { return m_TargetTransformationCenter; }
+
+  /**
+   * Set the reference image transformation center
+   */
+   void SetReferenceTransformationCenter( const PointType& center );
+
+  /**
+   * Get the reference image transformation center
+   */
+   PointType& GetReferenceTransformationCenter( void ) const
+    { return m_ReferenceTransformationCenter; }
+   
  
   // -------------------------------
   // Optimization related methods
@@ -229,12 +253,13 @@ public:
   /**
    * Set the scaling weights
    */
-  void SetScalingWeights( ScalingWeightsType * );
+  void SetScalingWeights( const ScalingWeightsType& weights )
+   { m_ScalingWeights = weights; }
 
   /**
    * Get the scaling weights
    */
-  const ScalingWeightsType::Pointer & GetScalingWeights( void ) const
+  const ScalingWeightsType& GetScalingWeights( void ) const
    { return m_ScalingWegihts; }
 
   /** 
@@ -284,12 +309,15 @@ private:
   TransformationPointer      m_Transformation;
   MapperPointer              m_Mapper;  
   MetricPointer              m_Metric;
-  ParametersPointer          m_Parameters;
+  ParametersType             m_Parameters;
+
+  PointType                  m_TargetTransformationCenter;
+  PointType                  m_ReferenceTransformationCenter;
   
   // -------------------------------
   // Optimization related variables
   // -------------------------------
-  ScalingWeightsPointer      m_ScalingWeights;
+  ScalingWeightsType         m_ScalingWeights;
   double                     m_LearningRate;
   unsigned int               m_NumberOfIterations;
   bool                       m_ScreenDump;

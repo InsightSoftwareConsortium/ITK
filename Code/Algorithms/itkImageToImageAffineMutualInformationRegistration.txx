@@ -33,29 +33,23 @@ ImageToImageAffineMutualInformationRegistration<TReference, TTarget>
   m_Mapper = MapperType::New(); 
   m_Transformation = TransformationType::New();
 
-  m_Parameters = ParametersType::New();
-  m_Parameters->Reserve(TransformationType::ParametersDimension);
-
-  m_ScalingWeights = ScalingWeightsType::New();
-  m_ScalingWeights->Reserve(TransformationType::ParametersDimension);
-
   // initialize the parameter to be the identity transform
-  typename ParametersType::Iterator pit = m_Parameters->Begin();
-  typename ScalingWeightsType::Iterator sit = m_ScalingWeights->Begin();
+  typename ParametersType::Iterator pit = m_Parameters.Begin();
+  typename ScalingWeightsType::Iterator sit = m_ScalingWeights.Begin();
 
   // initialize the linear part 
   for (unsigned int i=0; i<TReference::ImageDimension; i++)
     {
     for (unsigned int j=0; j<TReference::ImageDimension; j++)
       {
-      pit.Value() = 0;
+      *pit = 0;
       if(i == j) 
 	      {
-	      pit.Value() = 1;
+	      *pit = 1;
         }
 	    ++pit;
 
-      sit.Value() = 0.001;
+      *sit = 0.001;
       ++sit;
       }
     }
@@ -63,10 +57,10 @@ ImageToImageAffineMutualInformationRegistration<TReference, TTarget>
   // initialize the offset part
   for (unsigned int i=0; i<TReference::ImageDimension; i++)
   { 
-    pit.Value() = 0;
+    *pit = 0;
     ++pit;
 
-    sit.Value() = 1.0;
+    *sit = 1.0;
     ++sit;
   }
 
@@ -147,43 +141,30 @@ ImageToImageAffineMutualInformationRegistration< TReference, TTarget>
 }
 
 /**
- * Set the parameters
+ * Set Target transformation center 
  */
 template <class TReference, class TTarget>
 void
 ImageToImageAffineMutualInformationRegistration< TReference, TTarget>
-::SetParameters( ParametersType * parameters ) 
+::SetTargetTransformationCenter( const PointType& center )
 {
-  typename ParametersType::ConstIterator inIt = parameters->Begin();
-  typename ParametersType::Iterator outIt = m_Parameters->Begin();
+  m_TargetTransformationCenter = center;
+  m_Transformation->SetDomainTransformationCenter( m_TargetTransformationCenter );
 
-  while( inIt != parameters->End() )
-    {
-    outIt.Value() = inIt.Value();
-    ++outIt;
-    ++inIt;
-    }
 }
 
 /**
- * Set the scaling weights
+ * Set Reference transformation center 
  */
 template <class TReference, class TTarget>
 void
 ImageToImageAffineMutualInformationRegistration< TReference, TTarget>
-::SetScalingWeights( ScalingWeightsType * weights ) 
+::SetReferenceTransformationCenter( const PointType& center )
 {
-  typename ScalingWeightsType::ConstIterator inIt = weights->Begin();
-  typename ScalingWeightsType::Iterator outIt = m_ScalingWeights->Begin();
+  m_ReferenceTransformationCenter = center;
+  m_Transformation->SetRangeTransformationCenter( m_ReferenceTransformationCenter );
 
-  while( inIt !=  weights->End() )
-    {
-    outIt.Value() = inIt.Value();
-    ++outIt;
-    ++inIt;
-    }
 }
-
 
 
 /**
@@ -203,16 +184,11 @@ ImageToImageAffineMutualInformationRegistration<TReference, TTarget>
   // 
   // FIXME: should separate this part out into an itkOptimizer
   //
-  typedef MetricType::DerivativeType  DerivativeType;
-
   double MIValue;
-  typename DerivativeType::Pointer MIDerivatives;
 
-  typename ParametersType::Iterator pit;
-  typename ParametersType::ConstIterator pend = m_Parameters->End();
-
-  typename ScalingWeightsType::ConstIterator sit;
-  typename DerivativeType::ConstIterator dit;
+  typedef MetricType::DerivativeType  DerivativeType;
+  DerivativeType MIDerivatives;
+  vnl_vector<double> increment;
 
   for( unsigned int k = 0; k < m_NumberOfIterations; k++ )
     {
@@ -224,29 +200,36 @@ ImageToImageAffineMutualInformationRegistration<TReference, TTarget>
     m_Metric->GetValueAndDerivative( MIValue, MIDerivatives );
 
     // compute the next set of parameters to visit
-    for( pit = m_Parameters->Begin(), sit = m_ScalingWeights->Begin(), 
-      dit = MIDerivatives->Begin(); 
-      pit != pend;
-      ++pit, ++sit, ++dit )
+    increment = m_LearningRate * element_product<double>( 
+        m_ScalingWeights.Get_vnl_vector(), MIDerivatives.Get_vnl_vector() );
+
+    for( unsigned int j = 0; j < ParametersDimension; j++ )
       {
-      pit.Value() += m_LearningRate * sit.Value() * dit.Value();
+      m_Parameters[j] += increment[j];
       }
+
 
     if( m_ScreenDump )
       {
       std::cout << k << " " << MIValue << std::endl;
       }
 
-    }
-
+/*
   if( m_ScreenDump )
     {
-    std::cout << "Last set of parameter visited: " << std::endl;
     for( pit = m_Parameters->Begin(); pit != pend; ++pit )
       {
       std::cout << pit.Value() << " ";
       }
     std::cout << std::endl;
+    }
+*/
+
+    }
+
+  if( m_ScreenDump )
+    {
+    std::cout << "Last set of parameter visited: " << m_Parameters << std::endl;
     }
     
   return 0;
