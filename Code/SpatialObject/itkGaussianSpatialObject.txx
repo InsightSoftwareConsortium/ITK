@@ -18,7 +18,6 @@
 #define __GaussianSpatialObject_txx
 
 #include <math.h>
-#include <limits>
 
 #include "itkGaussianSpatialObject.h" 
 
