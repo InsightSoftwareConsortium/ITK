@@ -239,7 +239,7 @@ public:
    * Get the pixel value
    */
   PixelType Get(void) const  
-    { return AccessorType::Get(*m_Position); }
+    { return m_DataAccessor.Get(*m_Position); }
   
    /**
    * Move an iterator to the beginning of the region.
@@ -288,6 +288,8 @@ protected: //made protected so other iterators can access
   const InternalPixelType     *m_End;
 
   bool                         m_Remaining;
+
+  AccessorType           m_DataAccessor;
 
 };
 
