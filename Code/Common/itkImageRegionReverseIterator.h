@@ -226,9 +226,9 @@ public:
     this->ImageReverseIterator<TImage>::operator=(it);
 
     IndexType ind = this->GetIndex();
-    m_SpanEndOffset = m_Offset + static_cast<long>(m_Region.GetSize()[0]) 
+    m_SpanBeginOffset = m_Offset + static_cast<long>(m_Region.GetSize()[0]) 
       - (ind[0] - m_Region.GetIndex()[0]);
-    m_SpanBeginOffset = m_SpanEndOffset - static_cast<long>(m_Region.GetSize()[0]);
+    m_SpanEndOffset = m_SpanBeginOffset - static_cast<long>(m_Region.GetSize()[0]);
   }
 
   
