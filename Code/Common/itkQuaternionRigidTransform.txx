@@ -31,6 +31,8 @@ QuaternionRigidTransform<TScalarType>
   m_Offset.Fill( 0 );
   m_Rotation = VnlQuaternionType(0,0,0,1); // axis * sin(t/2), cos(t/2)
   m_RotationMatrix = m_Rotation.rotation_matrix();
+  m_Parameters.Fill(0);
+  m_Parameters[3] = 1.0;
 }
 
 
