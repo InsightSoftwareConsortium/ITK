@@ -88,9 +88,10 @@ void VTKImageExport<TInputImage>::PrintSelf(std::ostream& os,
  * Set the input image for this filter.
  */
 template <class TInputImage>
-void VTKImageExport<TInputImage>::SetInput(InputImageType* input)
+void VTKImageExport<TInputImage>::SetInput(const InputImageType* input)
 {
-  this->ProcessObject::SetNthInput(0, input);
+  this->ProcessObject::SetNthInput(0, 
+                          const_cast<TInputImage*>(input) );
 }
 
 

@@ -68,7 +68,7 @@ public:
   typedef TInputImage InputImageType;
   
   /** Set the input image of this image exporter. */
-  void SetInput(InputImageType*);
+  void SetInput(const InputImageType*);
   
 protected:
   VTKImageExport();
