@@ -39,6 +39,7 @@ PointSet<TPixelType, VDimension, TMeshTraits>
   os << indent << "Requested Number Of Regions: " 
      << m_RequestedNumberOfRegions << std::endl;
   os << indent << "Requested Region: " << m_RequestedRegion << std::endl;
+  os << indent << "Buffered Region: " << m_BufferedRegion << std::endl;
   os << indent << "Maximum Number Of Regions: " 
      << m_MaximumNumberOfRegions << std::endl;
 
