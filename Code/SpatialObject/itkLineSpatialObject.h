@@ -38,7 +38,6 @@ namespace itk
 template < unsigned int TDimension = 3 , unsigned int PipelineDimension = 3 >
 class LineSpatialObject 
 :public SpatialObject<  TDimension, 
-                        AffineTransform<double, TDimension>, 
                         PipelineDimension
                      >
 {
@@ -47,15 +46,14 @@ public:
 
   typedef LineSpatialObject                           Self;
   typedef SpatialObject< TDimension, 
-                         AffineTransform< double, TDimension>,
                          PipelineDimension
                          >                            Superclass;
   typedef SmartPointer < Self >                       Pointer;
   typedef SmartPointer < const Self >                 ConstPointer;
   typedef double                                      ScalarType;
   typedef LineSpatialObjectPoint< TDimension >        LinePointType;
-  typedef typename LinePointType::Pointer             LinePointPointer; 
-  typedef std::list < LinePointPointer >              PointListType;
+  typedef typename LinePointType*                     LinePointPointer; 
+  typedef std::list < LinePointType >                 PointListType;
   typedef typename Superclass::PointType              PointType;
   typedef VectorContainer<unsigned long,PointType>    PointContainerType;
   typedef SmartPointer<PointContainerType>            PointContainerPointer;

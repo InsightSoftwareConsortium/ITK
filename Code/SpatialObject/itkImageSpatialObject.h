@@ -36,20 +36,18 @@ namespace itk
  */
 
 template < unsigned int NDimensions = 3,
-           class TransformType = AffineTransform< double,
-                                                  NDimensions>,
            class PixelType = RGBPixel< char > ,
            unsigned int PipelineDimension = 3
          >
 class ImageSpatialObject 
-: public SpatialObject< NDimensions, TransformType , PipelineDimension >
+: public SpatialObject< NDimensions , PipelineDimension >
 {
 
 public:
  
   typedef double ScalarType; 
-  typedef ImageSpatialObject< NDimensions, TransformType, PixelType , PipelineDimension > Self;
-  typedef SpatialObject< NDimensions, TransformType > Superclass;
+  typedef ImageSpatialObject< NDimensions, PixelType , PipelineDimension > Self;
+  typedef SpatialObject< NDimensions > Superclass;
   typedef SmartPointer< Self > Pointer;
   typedef SmartPointer< const Self > ConstPointer;
 

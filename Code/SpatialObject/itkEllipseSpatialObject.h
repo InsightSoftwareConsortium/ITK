@@ -32,7 +32,7 @@ namespace itk
 
 template < unsigned int NDimensions = 3 , unsigned int PipelineDimension = 3  >
 class EllipseSpatialObject 
-: public SpatialObject< NDimensions, AffineTransform< double, NDimensions>, PipelineDimension >
+: public SpatialObject< NDimensions, PipelineDimension >
 {
 
 public:
@@ -41,7 +41,7 @@ public:
   typedef double ScalarType;
   typedef SmartPointer < Self > Pointer;
   typedef SmartPointer < const Self > ConstPointer;
-  typedef SpatialObject< NDimensions, AffineTransform< double, NDimensions >, PipelineDimension > Superclass;
+  typedef SpatialObject< NDimensions, PipelineDimension > Superclass;
   typedef SmartPointer<Superclass> SuperclassPointer;
   typedef typename Superclass::PointType              PointType;
   typedef VectorContainer<unsigned long,PointType>    PointContainerType;

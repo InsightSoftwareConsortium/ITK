@@ -40,29 +40,23 @@ namespace itk
 
 template < unsigned int TDimension = 3 , unsigned int PipelineDimension = 3 >
 class TubeSpatialObject 
-:public SpatialObject<  TDimension, 
-                        AffineTransform<double, TDimension>, 
-                        PipelineDimension
-                     >
+:public SpatialObject< TDimension, PipelineDimension >
 {
 
 public:
 
-  typedef TubeSpatialObject                           Self;
-  typedef SpatialObject< TDimension, 
-                         AffineTransform< double, TDimension>,
-                         PipelineDimension
-                       >                              Superclass;
-  typedef SmartPointer < Self >                       Pointer;
-  typedef SmartPointer < const Self >                 ConstPointer;
-  typedef double                                      ScalarType;
-  typedef itk::TubeSpatialObjectPoint< TDimension >   TubePointType;
-  typedef typename TubePointType::Pointer             TubePointPointer; 
-  typedef std::list < TubePointPointer >              PointListType;
-  typedef PointListType *                             PointListPointer;
-  typedef typename Superclass::PointType              PointType;
-  typedef VectorContainer<unsigned long,PointType>    PointContainerType;
-  typedef SmartPointer<PointContainerType>            PointContainerPointer;
+  typedef TubeSpatialObject                            Self;
+  typedef SpatialObject< TDimension,PipelineDimension> Superclass;
+  typedef SmartPointer < Self >                        Pointer;
+  typedef SmartPointer < const Self >                  ConstPointer;
+  typedef double                                       ScalarType;
+  typedef itk::TubeSpatialObjectPoint< TDimension >    TubePointType;
+  typedef typename TubePointType*                      TubePointPointer; 
+  typedef std::list < TubePointType >                  PointListType;
+  typedef PointListType *                              PointListPointer;
+  typedef typename Superclass::PointType               PointType;
+  typedef VectorContainer<unsigned long,PointType>     PointContainerType;
+  typedef SmartPointer<PointContainerType>             PointContainerPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
@@ -71,10 +65,17 @@ public:
   itkTypeMacro( Self, Superclass );
     
   /** Returns a reference to the list of the tube points.*/
-  PointListPointer GetPoints( void ) const;
+  PointListType & GetPoints( void );
+
+  /** Returns a reference to the list of the tube points.*/
+  const PointListType & GetPoints( void ) const;
 
   /** Set the list of tube points.*/
-  void SetPoints( PointListPointer newPoints );
+  //void SetPoints( PointListPointer newPoints );
+  void SetPoints( PointListType & newPoints );
+
+  /** Remove the list of tube points */
+  void Clear(void);
 
   /** Calculate the normalized tangent, and orthogonal 
    *  vector of the tube.*/
@@ -102,7 +103,7 @@ public:
 
 protected:
 
-  PointListPointer  m_Points;
+  PointListType     m_Points;
   TimeStamp         m_BoundsMTime; 
 
   TubeSpatialObject();

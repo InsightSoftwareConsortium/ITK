@@ -37,7 +37,7 @@ TubeSpatialObject< TDimension, PipelineDimension >
   m_Property->SetGreen(0); 
   m_Property->SetBlue(0); 
   m_Property->SetAlpha(1); 
-  m_Points = new PointListType();
+  //m_Points = new PointListType();
   ComputeBounds();
 } 
  
@@ -46,44 +46,59 @@ template< unsigned int TDimension , unsigned int PipelineDimension >
 TubeSpatialObject< TDimension, PipelineDimension >  
 ::~TubeSpatialObject()
 { 
-  delete m_Points;
+  //delete m_Points;
 } 
  
+
 /** Get the list of points composing the tube */
 template< unsigned int TDimension , unsigned int PipelineDimension >
-typename TubeSpatialObject< TDimension, PipelineDimension > ::PointListPointer  
+typename TubeSpatialObject< TDimension, PipelineDimension >::PointListType &  
 TubeSpatialObject< TDimension, PipelineDimension > 
-::GetPoints() const 
+::GetPoints() 
 { 
   itkDebugMacro( "Getting TubePoint list" );
   return m_Points;
 } 
- 
+
+
+/** Get the list of points composing the tube */
+template< unsigned int TDimension , unsigned int PipelineDimension >
+const typename TubeSpatialObject< TDimension, PipelineDimension >::PointListType &  
+TubeSpatialObject< TDimension, PipelineDimension > 
+::GetPoints() const
+{ 
+  itkDebugMacro( "Getting TubePoint list" );
+  return m_Points;
+} 
+
 /** Set the list of points composing the tube */
 template< unsigned int TDimension , unsigned int PipelineDimension >
 void  
 TubeSpatialObject< TDimension, PipelineDimension >  
-::SetPoints( PointListPointer points )  
+::SetPoints( PointListType & points )  
 {
   // in this function, passing a null pointer as argument will
   // just clear the list...
-  itkDebugMacro( "Setting TubePoint list to " << points );
-
-  m_Points->clear();
+  m_Points.clear();
          
-  if( points )
+  typename PointListType::iterator it,end;
+  it = points.begin();    
+  end = points.end();
+  for(; it != end; it++ )
   {
-    typename PointListType::iterator it,end;
-    it = points->begin();    
-    end = points->end();
-
-    for(; it != end; it++ )
-    {
-      m_Points->push_back(*it);
-    }
-  }  
+    m_Points.push_back(*it);
+  }
       
   this->Modified();
+}
+
+/** Remove the list of tube points */
+template< unsigned int TDimension , unsigned int PipelineDimension >
+void  
+TubeSpatialObject< TDimension, PipelineDimension >  
+::Clear(void)
+{
+  m_Points.clear();
 }
 
 /** Print the object */ 
@@ -94,7 +109,7 @@ TubeSpatialObject< TDimension, PipelineDimension >
 { 
   os << indent << "TubeSpatialObject(" << this << ")" << std::endl; 
   os << indent << "ID: " << m_Id << std::endl; 
-  os << indent << "nb of points: "<< m_Points->size() << std::endl;
+  os << indent << "nb of points: "<< m_Points.size() << std::endl;
   Superclass::PrintSelf( os, indent ); 
 } 
  
@@ -109,15 +124,15 @@ TubeSpatialObject< TDimension, PipelineDimension >
   {
     PointType pointLow, pointHigh; 
     PointType tempPointLow, tempPointHigh;
-    typename PointListType::iterator it  = m_Points->begin();
-    typename PointListType::iterator end = m_Points->end();
+    typename PointListType::iterator it  = m_Points.begin();
+    typename PointListType::iterator end = m_Points.end();
 
     PointContainerPointer points = PointContainerType::New();
     points->Initialize();
 
     for(unsigned int i=0; it!= end; it++, i++ ) 
     {     
-      points->InsertElement(i,(*it)->GetPosition());
+      points->InsertElement(i,(*it).GetPosition());
     } 
 
     m_Bounds->SetPoints(points);
@@ -143,8 +158,8 @@ TubeSpatialObject< TDimension, PipelineDimension >
 
   double minSquareDist=999999.0;
   double tempSquareDist;
-  typename PointListType::iterator it = m_Points->begin();
-  typename PointListType::iterator end = m_Points->end(); 
+  typename PointListType::iterator it = m_Points.begin();
+  typename PointListType::iterator end = m_Points.end(); 
   typename PointListType::iterator min;  
   PointType transformedPoint = point;
   TransformPointToLocalCoordinate(transformedPoint);
@@ -158,14 +173,14 @@ TubeSpatialObject< TDimension, PipelineDimension >
   {
     for(unsigned int i=0; it!= end; it++,i++)
     {  
-      if( (tempSquareDist=transformedPoint.SquaredEuclideanDistanceTo((*it)->GetPosition())) < minSquareDist)
+      if( (tempSquareDist=transformedPoint.SquaredEuclideanDistanceTo((*it).GetPosition())) < minSquareDist)
       {
         minSquareDist = tempSquareDist;
         min = it; 
       }
     }
     double dist = sqrt(minSquareDist);
-    if( dist <= ((*min)->GetRadius()) )
+    if( dist <= ((*min).GetRadius()) )
     {
       return true;
     }
@@ -193,26 +208,25 @@ TubeSpatialObject< TDimension, PipelineDimension >
 { 
   itkDebugMacro( "Computing the tangent vectors of the tube" );
 
-  if( m_Points->size() == 0 ) 
+  if( m_Points.size() == 0 ) 
   return true; 
     
   PointType point; 
-  vnl_vector< double > t;
+  VectorType t;
   double l; 
 
-  t = point.Get_vnl_vector();
-  t.fill(0.0);
+  t.Fill(0.0);
  
-  if( m_Points->size() == 1 ) 
+  if( m_Points.size() == 1 ) 
   { 
-    ( * m_Points->begin() )->SetTangent(t); 
+    ( * m_Points.begin() ).SetTangent(t); 
     return true; 
   } 
      
   typename PointListType::iterator i, j, k, e; 
-  i = m_Points->begin(); 
+  i = m_Points.begin(); 
   i++; 
-  e = m_Points->end(); 
+  e = m_Points.end(); 
   e--; 
      
   for(;i!=e; i++) 
@@ -221,22 +235,22 @@ TubeSpatialObject< TDimension, PipelineDimension >
     j++; 
     k = i; 
     k--; 
-    t = ((*j)->GetPosition().Get_vnl_vector()) - ((*k)->GetPosition().Get_vnl_vector()); 
-    t(1) /= 2; 
-    t(2) /= 2; 
-    t(3) /= 2; 
-    l = sqrt(t(1)*t(1) + t(2)*t(2) + t(3)*t(3)); 
-    t(1) /= l; 
-    t(2) /= l; 
-    t(3) /= l; 
-    (*i)->SetTangent(t); 
+    t = ((*j).GetPosition()) - ((*k).GetPosition()); 
+    t[1] /= 2; 
+    t[2] /= 2; 
+    t[3] /= 2; 
+    l = sqrt(t[1]*t[1] + t[2]*t[2] + t[3]*t[3]); 
+    t[1] /= l; 
+    t[2] /= l; 
+    t[3] /= l; 
+    (*i).SetTangent(t); 
   } 
      
-  (*e)->SetTangent(t); 
-  i = m_Points->begin(); 
+  (*e).SetTangent(t); 
+  i = m_Points.begin(); 
   j = i; 
   j++; 
-  (*i)->SetTangent( *((*j)->GetTangent()) ); 
+  (*i).SetTangent( (*j).GetTangent() ); 
   return true; 
 } 
 

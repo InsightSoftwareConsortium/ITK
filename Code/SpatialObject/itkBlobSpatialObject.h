@@ -37,8 +37,7 @@ namespace itk
 
 template < unsigned int TDimension = 3 , unsigned int PipelineDimension = 3 >
 class BlobSpatialObject 
-:public SpatialObject<  TDimension, 
-                        AffineTransform<double, TDimension>, 
+:public SpatialObject<  TDimension,  
                         PipelineDimension
                      >
 {
@@ -46,16 +45,15 @@ class BlobSpatialObject
 public:
 
   typedef BlobSpatialObject                          Self;
-  typedef SpatialObject< TDimension, 
-                         AffineTransform< double, TDimension>,
+  typedef SpatialObject< TDimension,
                          PipelineDimension
                        >                              Superclass;
   typedef SmartPointer < Self >                       Pointer;
   typedef SmartPointer < const Self >                 ConstPointer;
   typedef double                                      ScalarType;
   typedef SpatialObjectPoint< TDimension >            BlobPointType;
-  typedef typename BlobPointType::Pointer             BlobPointPointer; 
-  typedef std::list < BlobPointPointer >              PointListType;
+  typedef typename BlobPointType*                     BlobPointPointer; 
+  typedef std::list < BlobPointType >                 PointListType;
   typedef typename Superclass::PointType              PointType;
   typedef VectorContainer<unsigned long,PointType>    PointContainerType;
   typedef SmartPointer<PointContainerType>            PointContainerPointer;

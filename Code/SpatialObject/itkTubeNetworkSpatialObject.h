@@ -37,31 +37,22 @@ namespace itk
 
 template < unsigned int TDimension , unsigned int PipelineDimension = 3 >
 class TubeNetworkSpatialObject 
-: public SpatialObject<  TDimension, 
-                         AffineTransform< double, TDimension >,
-                         PipelineDimension
-                      >
+: public SpatialObject<  TDimension, PipelineDimension >
 {
 
 public:
 
-  typedef TubeNetworkSpatialObject             Self;
-  typedef double                               ScalarType;
-  typedef SmartPointer < Self >                Pointer;
-  typedef SmartPointer < const Self >          ConstPointer;
-  typedef SpatialObject< TDimension, 
-                                  AffineTransform< double, TDimension >,
-                                  PipelineDimension
-                                >             Superclass;
-  typedef SmartPointer<Superclass>            SuperclassPointer;
-  typedef SpatialObject<  TDimension, 
-                          AffineTransform< double, TDimension > ,
-                          PipelineDimension
-                       >                      ChildrenType;
-  typedef SmartPointer<ChildrenType>          ChildrenPointer;
-  typedef std::list< ChildrenType * >         ChildrenListType;
-  typedef TubeSpatialObject<TDimension>       TubeType;
-  typedef std::list< TubeType * >             TubeListType;
+  typedef TubeNetworkSpatialObject                      Self;
+  typedef double                                        ScalarType;
+  typedef SmartPointer < Self >                         Pointer;
+  typedef SmartPointer < const Self >                   ConstPointer;
+  typedef SpatialObject< TDimension,PipelineDimension>  Superclass;
+  typedef SmartPointer<Superclass>                      SuperclassPointer;
+  typedef SpatialObject< TDimension,PipelineDimension>  ChildrenType;
+  typedef SmartPointer<ChildrenType>                    ChildrenPointer;
+  typedef std::list< ChildrenType * >                   ChildrenListType;
+  typedef TubeSpatialObject<TDimension>                 TubeType;
+  typedef std::list< TubeType * >                       TubeListType;
 
   itkNewMacro( Self );
 

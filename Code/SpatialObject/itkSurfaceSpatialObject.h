@@ -37,28 +37,22 @@ namespace itk
 
 template < unsigned int TDimension = 3 , unsigned int PipelineDimension = 3 >
 class SurfaceSpatialObject 
-:public SpatialObject<  TDimension, 
-            AffineTransform<double, TDimension>, 
-            PipelineDimension
-           >
+:public SpatialObject<  TDimension, PipelineDimension >
 {
 
 public:
 
-  typedef SurfaceSpatialObject                     Self;
-  typedef SpatialObject< TDimension, 
-               AffineTransform< double, TDimension>,
-               PipelineDimension
-               >                                   Superclass;
-  typedef SmartPointer < Self >                    Pointer;
-  typedef SmartPointer < const Self >              ConstPointer;
-  typedef double                                   ScalarType;
-  typedef SurfaceSpatialObjectPoint< TDimension >  SurfacePointType;
-  typedef typename SurfacePointType::Pointer       SurfacePointPointer; 
-  typedef std::list < SurfacePointPointer >        PointListType;
-  typedef typename Superclass::PointType           PointType;
-  typedef VectorContainer<unsigned long,PointType> PointContainerType;
-  typedef SmartPointer<PointContainerType>         PointContainerPointer;
+  typedef SurfaceSpatialObject                          Self;
+  typedef SpatialObject< TDimension,PipelineDimension>  Superclass;
+  typedef SmartPointer < Self >                         Pointer;
+  typedef SmartPointer < const Self >                   ConstPointer;
+  typedef double                                        ScalarType;
+  typedef SurfaceSpatialObjectPoint< TDimension >       SurfacePointType;
+  typedef typename SurfacePointType*                    SurfacePointPointer; 
+  typedef std::list < SurfacePointType >                PointListType;
+  typedef typename Superclass::PointType                PointType;
+  typedef VectorContainer<unsigned long,PointType>      PointContainerType;
+  typedef SmartPointer<PointContainerType>              PointContainerPointer;
 
   /** Method for creation through the object factory.*/
   itkNewMacro( Self );

@@ -103,16 +103,18 @@ EllipseSpatialObject<NDimensions, PipelineDimension >
     points->Initialize();
 
     PointType pnt;
+    pnt.Fill(0);
+    PointType pnt2;
+    pnt2.Fill(0);
     unsigned int j=0;
     for(unsigned int i=0; i<NDimensions;i++) 
     {   
-      pnt.Fill(0);
       pnt[i]=m_Radius[i];
-      points->InsertElement(j++,pnt);
-      pnt[i]=-m_Radius[i];
-      points->InsertElement(j++,pnt);
+      pnt2[i]=-m_Radius[i];
     } 
 
+    points->InsertElement(j++,pnt); 
+    points->InsertElement(j++,pnt2);
     m_Bounds->SetPoints(points);
     m_Bounds->ComputeBoundingBox();
     m_BoundsMTime.Modified();

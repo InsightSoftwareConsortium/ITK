@@ -118,7 +118,7 @@ BlobSpatialObject< TDimension, PipelineDimension >
 
     for(unsigned int i=0; it!= end; it++, i++ ) 
     {  
-      points->InsertElement(i,(*it)->GetPosition());
+      points->InsertElement(i,(*it).GetPosition());
     } 
 
     m_Bounds->SetPoints(points);
@@ -148,7 +148,7 @@ BlobSpatialObject< TDimension, PipelineDimension >
   {
     while(it != m_Points.end())
     {
-      if((*it)->GetPosition() == transformedPoint)
+      if((*it).GetPosition() == transformedPoint)
       {
         return true;
       }
