@@ -52,6 +52,8 @@ ADD_TEST(itkCompose2DCovariantVectorImageFilterTest ${BASIC_FILTERS_TESTS} itkCo
 ADD_TEST(itkCompose3DCovariantVectorImageFilterTest ${BASIC_FILTERS_TESTS} itkCompose3DCovariantVectorImageFilterTest)
 ADD_TEST(itkCompose2DVectorImageFilterTest ${BASIC_FILTERS_TESTS} itkCompose2DVectorImageFilterTest)
 ADD_TEST(itkCompose3DVectorImageFilterTest ${BASIC_FILTERS_TESTS} itkCompose3DVectorImageFilterTest)
+ADD_TEST(itkComplexToRealFilterAndAdaptorTest ${BASIC_FILTERS_TESTS2} itkComplexToRealFilterAndAdaptorTest)
+ADD_TEST(itkComplexToImaginaryFilterAndAdaptorTest ${BASIC_FILTERS_TESTS2} itkComplexToImaginaryFilterAndAdaptorTest)
 ADD_TEST(itkConstantPadImageTest ${BASIC_FILTERS_TESTS} itkConstantPadImageTest)
 ADD_TEST(itkCosImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkCosImageFilterAndAdaptorTest)
 ADD_TEST(itkCropImageFilterTest ${BASIC_FILTERS_TESTS} itkCropImageFilterTest)
@@ -655,6 +657,8 @@ itkNarrowBandImageFilterBaseTest.cxx
 )
 
 SET(BasicFilters2_SRCS
+itkComplexToRealFilterAndAdaptorTest.cxx
+itkComplexToImaginaryFilterAndAdaptorTest.cxx
 itkBasicFiltersPrintTest.cxx
 itkBasicFiltersPrintTest2.cxx
 itkTanImageFilterAndAdaptorTest.cxx
