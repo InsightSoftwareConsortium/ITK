@@ -46,7 +46,7 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
     DefaultInterpolatorType::New();
 
   m_Interpolator = 
-        static_cast<InterpolatorType*>( interp.GetPointer() );
+    static_cast<InterpolatorType*>( interp.GetPointer() );
 
   // Set default padding value to zero
   for( unsigned int k = 0; k < VectorDimension; k++ )
@@ -90,8 +90,7 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
 template <class TInputImage, class TOutputImage>
 void
 VectorExpandImageFilter<TInputImage,TOutputImage>
-::SetExpandFactors(
-const ExpandFactorsType factors[] )
+::SetExpandFactors( const ExpandFactorsType factors[] )
 {
 
   unsigned int j;
@@ -118,8 +117,7 @@ const ExpandFactorsType factors[] )
 template <class TInputImage, class TOutputImage>
 void
 VectorExpandImageFilter<TInputImage,TOutputImage>
-::SetExpandFactors(
-const ExpandFactorsType factor )
+::SetExpandFactors( const ExpandFactorsType factor )
 {
 
   unsigned int j;
@@ -145,8 +143,7 @@ const ExpandFactorsType factor )
 template <class TInputImage, class TOutputImage>
 void
 VectorExpandImageFilter<TInputImage,TOutputImage>
-::SetExpandFactors(
-const unsigned int factors[] )
+::SetExpandFactors( const unsigned int factors[] )
 {
 
   unsigned int j;
@@ -173,13 +170,15 @@ const unsigned int factors[] )
 template <class TInputImage, class TOutputImage>
 void
 VectorExpandImageFilter<TInputImage,TOutputImage>
-::SetEdgePaddingValue(
-const OutputPixelType& value )
+::SetEdgePaddingValue( const OutputPixelType& value )
 {
   unsigned int i;
   for( i = 0; i < OutputPixelType::Dimension; i++ )
     {
-    if( value[i] != m_EdgePaddingValue[i] ) { break; };
+    if( value[i] != m_EdgePaddingValue[i] )
+      {
+      break;
+      }
     }
 
   if( i < OutputPixelType::Dimension )
@@ -219,7 +218,7 @@ template <class TInputImage, class TOutputImage>
 void
 VectorExpandImageFilter<TInputImage,TOutputImage>
 ::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                         int threadId)
+                       int threadId)
 {
   // Get the input and output pointers
   OutputImagePointer outputPtr = this->GetOutput();
@@ -299,7 +298,7 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
 
   // Get pointers to the input and output
   InputImagePointer inputPtr = 
-      const_cast< TInputImage * >( this->GetInput() );
+    const_cast< TInputImage * >( this->GetInput() );
   OutputImagePointer outputPtr = this->GetOutput();
 
   if ( !inputPtr || !outputPtr )
@@ -325,11 +324,11 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
     {
     inputRequestedRegionSize[i]
       = (long) ceil( (double)outputRequestedRegionSize[i] / 
-          (double) m_ExpandFactors[i] ) + 1;
+                     (double) m_ExpandFactors[i] ) + 1;
 
     inputRequestedRegionStartIndex[i]
       = (long) floor( (double)outputRequestedRegionStartIndex[i] / 
-          (double)m_ExpandFactors[i] );
+                      (double)m_ExpandFactors[i] );
     }
 
 
@@ -360,7 +359,7 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
 
   // Get pointers to the input and output
   InputImagePointer inputPtr = 
-      const_cast< TInputImage * >( this->GetInput() );
+    const_cast< TInputImage * >( this->GetInput() );
   OutputImagePointer outputPtr = this->GetOutput();
 
   if ( !inputPtr || !outputPtr )

@@ -103,8 +103,7 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
   
   // Calculate iterator radius
   Size<ImageDimension> radius;
-  for (i = 0; i < ImageDimension; ++i)
-    { radius[i]  = 1; }
+  radius.Fill(1);
   
   // Find the data-set boundary "faces"
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>::
