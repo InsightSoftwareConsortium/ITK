@@ -122,7 +122,7 @@ namespace itk {
  * This filter is an Image to Image filter.  Depending on the specific
  * subclass implementation, finite difference image filters may process a
  * variety of image types.  The input to the filter is the initial
- * value of \$f u \f$ and the output of the filter is the solution to the
+ * value of \f$ u \f$ and the output of the filter is the solution to the
  * p.d.e.
  *
  * \par How to use this class
