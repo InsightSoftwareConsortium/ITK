@@ -75,13 +75,13 @@ Similarity2DTransform<TScalarType>
 
 
   // Transfer the translation part
-  OffsetType offset;
+  OffsetType translation;
   for(unsigned int i=0; i < SpaceDimension; i++) 
     {
-    offset[i] = parameters[i+4];
+    translation[i] = parameters[i+4];
     }
 
-  this->SetTranslation( offset );
+  this->SetTranslation( translation );
 
   this->ComputeMatrixAndOffset();
 
@@ -107,10 +107,10 @@ Similarity2DTransform<TScalarType>
     }
 
   // Transfer the translation part
-  OffsetType offset = this->GetOffset();
+  OffsetType translation = this->GetTranslation();
   for(unsigned int i=0; i < SpaceDimension; i++) 
     {
-    this->m_Parameters[i+4] = offset[i];
+    this->m_Parameters[i+4] = translation[i];
     }
 
   itkDebugMacro(<<"After getting parameters " << this->m_Parameters );
