@@ -119,6 +119,81 @@ CurvatureFlowImageFilter<TInputImage, TOutputImage>
 }
 
 
+/**
+ * GenerateInputRequestedRegion
+ */
+template <class TInputImage, class TOutputImage>
+void
+CurvatureFlowImageFilter<TInputImage, TOutputImage>
+::GenerateInputRequestedRegion()
+{
+  // call the superclass's implementation
+  Superclass::GenerateInputRequestedRegion();
+
+  // get pointers to the input and output
+  InputImagePointer  inputPtr  = this->GetInput();
+  OutputImagePointer outputPtr = this->GetOutput();
+
+  if ( !inputPtr || !outputPtr )
+    {
+    return;
+    }
+
+  // set the input requested region to be the same as
+  // the output requested region
+  inputPtr->SetRequestedRegion(
+    outputPtr->GetRequestedRegion() );
+
+}
+
+
+/**
+ * EnlargeOutputRequestedRegion
+ */
+template <class TInputImage, class TOutputImage>
+void
+CurvatureFlowImageFilter<TInputImage, TOutputImage>
+::EnlargeOutputRequestedRegion(
+DataObject * ptr )
+{
+
+  // convert DataObject pointer to OutputImageType pointer 
+  OutputImageType * outputPtr;
+  outputPtr = dynamic_cast<OutputImageType*>( ptr );
+
+  // get input image pointer
+  InputImagePointer  inputPtr  = this->GetInput();
+  if ( !inputPtr || !outputPtr )
+    {
+    return;
+    }
+
+  // Get the size of the neighborhood on which we are going to operate.  This
+  // radius is supplied by the difference function we are using.
+  typename FiniteDifferenceEquationType::RadiusType radius
+    = this->GetDifferenceEquation()->GetRadius();
+
+  for( int j = 0; j < ImageDimension; j++ )
+    {
+    radius[j] *= m_NumberOfIterations;
+    }
+
+  /**
+   * NewOutputRequestedRegion = OldOutputRequestedRegion +
+   * radius * m_Iterations padding on each edge
+   */
+  typename OutputImageType::RegionType outputRequestedRegion =
+    outputPtr->GetRequestedRegion();
+
+  outputRequestedRegion.PadByRadius( radius );
+  outputRequestedRegion.Crop( outputPtr->GetLargestPossibleRegion() );
+  
+  outputPtr->SetRequestedRegion( outputRequestedRegion );
+
+  
+}
+
+
 } // end namespace itk
 
 #endif

@@ -46,6 +46,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkVTKImageWriter.h"
 #include "itkOutputWindow.h"
 #include "itkCommand.h"
+#include "itkStreamingImageFilter.h"
+#include "itkImageRegionIterator.h"
 
 
 // this class is used to send output to stdout and not the itk window
@@ -82,13 +84,11 @@ int main()
    itk::OutputWindow::SetInstance(TextOutput::New().GetPointer());
 
 
-  /* -------------------------------------------------
-   * Create a random image of size 64 x 64
-   */
   typedef float PixelType;
   enum { ImageDimension = 2 };
   typedef itk::Image<PixelType, ImageDimension> ImageType;
 
+  std::cout << "Create input image using RandomImageSource" << std::endl;
   typedef itk::RandomImageSource<ImageType> SourceType;
 
   SourceType::Pointer source = SourceType::New();
@@ -97,17 +97,15 @@ int main()
   source->SetSize( size );
   source->SetMin(0.0);
   source->SetMax(1.0);
+  source->Update();
 
-  /* ---------------------------------------------
-   * Create a curvature flow object
-   */
+  std::cout << "Run CurvatureFlowImageFiler with progress cout's" << std::endl;
   typedef itk::CurvatureFlowImageFilter<ImageType,ImageType> DenoiserType;
   DenoiserType::Pointer denoiser = DenoiserType::New();
 
   denoiser->SetInput( source->GetOutput() );
   denoiser->SetTimeStep( 0.15 );
   denoiser->SetNumberOfIterations( 8 );
-  //denoiser->DebugOn();
 
   ShowProgressObject progressWatch(denoiser);
   itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
@@ -116,16 +114,53 @@ int main()
                                &ShowProgressObject::ShowProgress);
   denoiser->AddObserver(itk::Command::ProgressEvent, command);
 
-  /* ------------------------------------------
-   * Write output to file
-   */
+  denoiser->Update();
+
+
+  std::cout << "Run CurvatureFlowImageFilter using streamer" << std::endl;
+  DenoiserType::Pointer denoiser2 = DenoiserType::New();
+  denoiser2->SetInput( denoiser->GetInput() );
+  denoiser2->SetTimeStep( denoiser->GetTimeStep() );
+  denoiser2->SetNumberOfIterations( denoiser->GetNumberOfIterations() );
+
+  typedef itk::StreamingImageFilter<ImageType,ImageType> StreamerType;
+  StreamerType::Pointer streamer = StreamerType::New();
+  streamer->SetInput( denoiser2->GetOutput() );
+  streamer->SetNumberOfStreamDivisions( 3 );
+  streamer->Update();
+
+  std::cout << "Compare stand-alone and streamer outputs" << std::endl;
+  typedef itk::ImageRegionIterator<ImageType> IteratorType;
+  IteratorType it1( denoiser->GetOutput(),
+    denoiser->GetOutput()->GetBufferedRegion() );
+  IteratorType it2( streamer->GetOutput(),
+    streamer->GetOutput()->GetBufferedRegion() );
+
+  bool testPass = true;
+  while( !it1.IsAtEnd() )
+    {
+    if( it1.Get() != it2.Get() )
+      { testPass = false; }
+    ++it1;
+    ++it2;
+    }
+
+  if( !testPass )
+    {
+    std::cout << "Test failed." << std::endl;
+    return EXIT_FAILURE;
+    }
+ 
   typedef itk::VTKImageWriter<ImageType> WriterType;
   WriterType::Pointer writer = WriterType::New();
 
-  writer->SetInput( denoiser->GetOutput() );
+  writer->SetInput( streamer->GetOutput() );
   writer->SetFileName("CurvatureFlowImageFilterImage.vtk");
+//  writer->SetFileTypeToBinary();
   writer->Write();
 
+
+  std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
 
 }

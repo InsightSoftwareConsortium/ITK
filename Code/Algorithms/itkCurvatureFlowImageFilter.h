@@ -65,11 +65,17 @@ namespace itk {
   * This filter has two parameters: the number of update iterations to 
   * be performed and the timestep between each update.
   *
-  * This filter make use of the finite difference solver hierarchy
-  * and uses a zero flux Neumann boundary condition when computing derivatives
+  * This filter make use of the multi-threaded finite difference solver hierarchy. 
+  * Updates are computed using a CurvatureFlowEquation object. A zero 
+  * flux Neumann boundary condition when computing derivatives
   * near the data boundary.
   *
-  * Caveats: 
+  * This filter may be streamed. To support streaming this filter produces a 
+  * padded output which takes into account edge effects. The size of the padding
+  * is m_NumberOfIterations on each edge. Users of this filter should
+  * only make use of the center valid central region.
+  *
+  * \warning
   * This filter assumes that the input and output types have the same dimensions.
   *
   * Reference:
@@ -77,8 +83,7 @@ namespace itk {
   * Cambridge Press, Chapter 16, Second edition, 1999.
   *
   * \sa DenseFiniteDifferenceImageFilter
-  * \sa CurvatureFlow2DEquation
-  * \sa CurvatureFlow3DEquation
+  * \sa CurvatureFlowEquation
   *
   * \ingroup ImageEnhancement 
   *
@@ -199,6 +204,21 @@ protected:
    * Progress feeback is implemented as part of this method.
    */
   virtual void InitializeIteration();
+
+  /**
+   * To support streaming, this filter produces a output which is
+   * larger than the original requested region. The output is padding
+   * by m_NumberOfIterations pixels on edge.
+   */
+  virtual void EnlargeOutputRequestedRegion(DataObject *);
+  
+  /**
+   * Edge effects are taken care of by padding the output requested
+   * region. As such, the input requested region needs to at
+   * minimum the same size as the output requested region.
+   */
+  virtual void GenerateInputRequestedRegion();
+
   
 private:
 
