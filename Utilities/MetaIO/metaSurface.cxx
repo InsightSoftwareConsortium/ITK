@@ -216,7 +216,8 @@ bool MetaSurface
   }
 
   M_Write();
-      
+  
+  m_WriteStream->close();     
   return true;
 
 }

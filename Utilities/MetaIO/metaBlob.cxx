@@ -224,7 +224,8 @@ bool MetaBlob
   }
 
   M_Write();
-      
+  
+  m_WriteStream->close();
   return true;
 
 }

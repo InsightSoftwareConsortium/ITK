@@ -224,7 +224,8 @@ Append(const char *_headName)
   }
 
   M_Write();
-      
+  
+  m_WriteStream->close();    
   return true;
 }
 
