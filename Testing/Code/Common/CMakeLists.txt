@@ -17,6 +17,7 @@ ADD_TEST(itkAdaptorComparisonTest itkCommonTests itkAdaptorComparisonTest)
 ADD_TEST(itkAffineTransformTest itkCommonTests itkAffineTransformTest)
 ADD_TEST(itkArrayTest itkCommonTests itkArrayTest)
 ADD_TEST(itkArray2Test itkCommonTests itkArray2Test)
+ADD_TEST(itkAutoPointerTest itkCommonTests itkAutoPointerTest)
 ADD_TEST(itkAzimuthElevationToCartesianTransformTest itkCommonTests itkAzimuthElevationToCartesianTransformTest)
 ADD_TEST(itkBinaryThresholdImageFunctionTest itkCommonTests itkBinaryThresholdImageFunctionTest)
 ADD_TEST(itkBoundingBoxTest itkCommonTests itkBoundingBoxTest)
@@ -80,6 +81,7 @@ itkAdaptorComparisonTest
 itkAffineTransformTest 
 itkArrayTest 
 itkArray2Test 
+itkAutoPointerTest
 itkAzimuthElevationToCartesianTransformTest 
 itkBinaryThresholdImageFunctionTest 
 itkBoundingBoxTest 
