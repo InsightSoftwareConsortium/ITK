@@ -181,7 +181,7 @@ public:
 //
 // We then convert the input object pointer to a \code{RegistrationPointer}.
 // Note that no error checking is done here to check if the 
-// \code{dynamic_cast} was successful since we know the actual object
+// \code{dynamic\_cast} was successful since we know the actual object
 // is a multi-resolution registration method. 
 //
 // Software Guide : EndLatex
