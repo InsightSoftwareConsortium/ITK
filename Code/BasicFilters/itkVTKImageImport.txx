@@ -180,7 +180,7 @@ VTKImageImport<TOutputImage, TVTKRealType>
   if (m_SpacingCallback)
     {
     VTKSpacingType * inSpacing = (m_SpacingCallback)(m_CallbackUserData);
-    TOutputImage::SpacingType  outSpacing;
+    typename TOutputImage::SpacingType  outSpacing;
     for(unsigned int i=0;i < OutputImageDimension;++i)
       {
       outSpacing[i] = inSpacing[i];
@@ -190,7 +190,7 @@ VTKImageImport<TOutputImage, TVTKRealType>
   if (m_OriginCallback)
     {
     VTKOriginType * inOrigin = (m_OriginCallback)(m_CallbackUserData);
-    TOutputImage::PointType  outOrigin;
+    typename TOutputImage::PointType  outOrigin;
     for(unsigned int i=0;i < OutputImageDimension;++i)
       {
       outOrigin[i] = inOrigin[i];
