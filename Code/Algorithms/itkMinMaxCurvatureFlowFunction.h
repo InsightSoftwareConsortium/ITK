@@ -105,19 +105,24 @@ private:
 
   RadiusValueType  m_StencilRadius;
 
+  // To control overloaded versions of ComputeThreshold
+  struct DispatchBase {};
+  template<unsigned int VDimension>
+  struct Dispatch : DispatchBase {};
+  
   /** This method computes the threshold by averaging the intensity
    *  in direction perpendicular to the image gradient. */
-  virtual PixelType ComputeThreshold2D( 
+  virtual PixelType ComputeThreshold( const Dispatch<2> &,
     const NeighborhoodType & neighborhood ) const;
-  virtual PixelType ComputeThreshold2D( 
+  virtual PixelType ComputeThreshold( const Dispatch<2> &,
     const BoundaryNeighborhoodType & neighborhood ) const;
-  virtual PixelType ComputeThreshold3D( 
+  virtual PixelType ComputeThreshold( const Dispatch<3> &,
     const NeighborhoodType & neighborhood ) const;
-  virtual PixelType ComputeThreshold3D( 
+  virtual PixelType ComputeThreshold( const Dispatch<3> &,
     const BoundaryNeighborhoodType & neighborhood ) const;
-  virtual PixelType ComputeThresholdND( 
+  virtual PixelType ComputeThreshold( const DispatchBase &,
     const NeighborhoodType & neighborhood ) const;
-  virtual PixelType ComputeThresholdND( 
+  virtual PixelType ComputeThreshold( const DispatchBase &,
     const BoundaryNeighborhoodType & neighborhood ) const;
 
 

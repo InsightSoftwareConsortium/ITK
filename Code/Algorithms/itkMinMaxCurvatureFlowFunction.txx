@@ -138,7 +138,7 @@ MinMaxCurvatureFlowFunction<TImage>
 template<class TImage>
 MinMaxCurvatureFlowFunction<TImage>::PixelType
 MinMaxCurvatureFlowFunction<TImage>
-::ComputeThresholdND(const NeighborhoodType &it) const
+::ComputeThreshold(const DispatchBase &, const NeighborhoodType &it) const
 {
 
   PixelType threshold = NumericTraits<PixelType>::Zero;
@@ -240,7 +240,8 @@ MinMaxCurvatureFlowFunction<TImage>
 template<class TImage>
 MinMaxCurvatureFlowFunction<TImage>::PixelType
 MinMaxCurvatureFlowFunction<TImage>
-::ComputeThresholdND(const BoundaryNeighborhoodType &it) const
+::ComputeThreshold(const DispatchBase &,
+                   const BoundaryNeighborhoodType &it) const
 {
 
   PixelType threshold = NumericTraits<PixelType>::Zero;
@@ -343,19 +344,20 @@ MinMaxCurvatureFlowFunction<TImage>
 template<class TImage>
 MinMaxCurvatureFlowFunction<TImage>::PixelType
 MinMaxCurvatureFlowFunction<TImage>
-::ComputeThreshold2D(const NeighborhoodType &it) const
+::ComputeThreshold(const Dispatch<2> &, const NeighborhoodType &it) const
 {
-
+  const unsigned int imageDimension = 2;
+  
   if ( m_StencilRadius == 0 ) { return it.GetCenterPixel(); }
 
   PixelType threshold = NumericTraits<PixelType>::Zero;
 
   // Compute gradient
-  PixelType gradient[ImageDimension];
+  PixelType gradient[imageDimension];
   PixelType gradMagnitude;
   unsigned long stride;
   unsigned long center;
-  unsigned long position[ImageDimension];
+  unsigned long position[imageDimension];
   int j;
 
   center = it.Size()/2;
@@ -405,19 +407,20 @@ MinMaxCurvatureFlowFunction<TImage>
 template<class TImage>
 MinMaxCurvatureFlowFunction<TImage>::PixelType
 MinMaxCurvatureFlowFunction<TImage>
-::ComputeThreshold2D(const BoundaryNeighborhoodType &it) const
+::ComputeThreshold(const Dispatch<2> &, const BoundaryNeighborhoodType &it) const
 {
-
+  const unsigned int imageDimension = 2;
+  
   if ( m_StencilRadius == 0 ) { return it.GetCenterPixel(); }
 
   PixelType threshold = NumericTraits<PixelType>::Zero;
 
   // Compute gradient
-  PixelType gradient[ImageDimension];
+  PixelType gradient[imageDimension];
   PixelType gradMagnitude;
   unsigned long stride;
   unsigned long center;
-  unsigned long position[ImageDimension];
+  unsigned long position[imageDimension];
   int j;
 
   center = it.Size()/2;
@@ -436,7 +439,7 @@ MinMaxCurvatureFlowFunction<TImage>
   gradMagnitude = vnl_math_sqrt( gradMagnitude ) /
    static_cast<PixelType>( m_StencilRadius );
 
-  for ( j = 0; j < ImageDimension; j++ )
+  for ( j = 0; j < imageDimension; j++ )
     {
     gradient[j] /= gradMagnitude;
     }
@@ -467,19 +470,20 @@ MinMaxCurvatureFlowFunction<TImage>
 template<class TImage>
 MinMaxCurvatureFlowFunction<TImage>::PixelType
 MinMaxCurvatureFlowFunction<TImage>
-::ComputeThreshold3D(const NeighborhoodType &it) const
+::ComputeThreshold(const Dispatch<3> &, const NeighborhoodType &it) const
 {
-
+  const unsigned int imageDimension = 3;
+  
   if ( m_StencilRadius == 0 ) { return it.GetCenterPixel(); }
 
   PixelType threshold = NumericTraits<PixelType>::Zero;
 
   // Compute gradient
-  PixelType gradient[ImageDimension];
+  PixelType gradient[imageDimension];
   PixelType gradMagnitude;
   unsigned long strideY, strideZ;
   unsigned long center;
-  unsigned long position[ImageDimension];
+  unsigned long position[imageDimension];
   int j;
 
   center  = it.Size()/2;
@@ -503,7 +507,7 @@ MinMaxCurvatureFlowFunction<TImage>
   gradMagnitude = vnl_math_sqrt( gradMagnitude ) /
    static_cast<PixelType>( m_StencilRadius );
 
-  for ( j = 0; j < ImageDimension; j++ )
+  for ( j = 0; j < imageDimension; j++ )
     {
     gradient[j] /= gradMagnitude;
     }
@@ -575,19 +579,20 @@ MinMaxCurvatureFlowFunction<TImage>
 template<class TImage>
 MinMaxCurvatureFlowFunction<TImage>::PixelType
 MinMaxCurvatureFlowFunction<TImage>
-::ComputeThreshold3D(const BoundaryNeighborhoodType &it) const
+::ComputeThreshold(const Dispatch<3> &, const BoundaryNeighborhoodType &it) const
 {
-
+  const unsigned int imageDimension = 3;
+  
   if ( m_StencilRadius == 0 ) { return it.GetCenterPixel(); }
 
   PixelType threshold = NumericTraits<PixelType>::Zero;
 
   // Compute gradient
-  PixelType gradient[ImageDimension];
+  PixelType gradient[imageDimension];
   PixelType gradMagnitude;
   unsigned long strideY, strideZ;
   unsigned long center;
-  unsigned long position[ImageDimension];
+  unsigned long position[imageDimension];
   int j;
 
   center  = it.Size()/2;
@@ -611,7 +616,7 @@ MinMaxCurvatureFlowFunction<TImage>
   gradMagnitude = vnl_math_sqrt( gradMagnitude ) /
    static_cast<PixelType>( m_StencilRadius );
 
-  for ( j = 0; j < ImageDimension; j++ )
+  for ( j = 0; j < imageDimension; j++ )
     {
     gradient[j] /= gradMagnitude;
     }
@@ -695,18 +700,8 @@ MinMaxCurvatureFlowFunction<TImage>
     return update;
     }
 
-  PixelType threshold;  
-  switch (ImageDimension)
-    {
-    case 2:
-      threshold = this->ComputeThreshold2D( it );
-      break;
-    case 3:
-      threshold = this->ComputeThreshold3D( it );
-      break;
-    default:
-      threshold = this->ComputeThresholdND( it );
-    }
+  PixelType threshold;
+  threshold = this->ComputeThreshold( Dispatch<ImageDimension>(), it);
 
   NeighborhoodInnerProduct<ImageType> innerProduct;
   PixelType avgValue = innerProduct( it, m_StencilOperator );
@@ -741,18 +736,8 @@ MinMaxCurvatureFlowFunction<TImage>
     return update;
     }
 
-  PixelType threshold;  
-  switch (ImageDimension)
-    {
-    case 2:
-      threshold = this->ComputeThreshold2D( it );
-      break;
-    case 3:
-      threshold = this->ComputeThreshold3D( it );
-      break;
-    default:
-      threshold = this->ComputeThresholdND( it );
-    }
+  PixelType threshold;
+  threshold = this->ComputeThreshold( Dispatch<ImageDimension>(), it);
 
   SmartNeighborhoodInnerProduct<ImageType> innerProduct;
   PixelType avgValue = innerProduct( it, m_StencilOperator );
