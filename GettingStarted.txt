@@ -1,0 +1,50 @@
+
+
+Follow these steps to:
+1) Subscribe to the Insight users mailing list.
+http://www.itk.org/mailman/listinfo/insight-users
+
+
+2) Get a copy of cvs
+http://www.cvshome.org
+
+
+3) Download CMake
+cvs -d:pserver:anonymous@www.cmake.org:/cvsroot/CMake login
+(respond with password cmake)
+cvs -d:pserver:anonymous@www.cmake.org:/cvsroot/CMake co CMake
+
+
+4) Build CMake
+
+
+mkdir CMake-myarch
+cd CMake-myarch
+setenv CC your c-compiler
+setenv CXX your c++-compiler
+../CMake/configure
+gmake
+gmake
+
+
+4) Download Dart
+cvs -d:pserver:anonymous@public.kitware.com:/Dart/cvsroot login
+(respond with password dart)
+cvs -d:pserver:anonymous@public.kitware.com:/Dart/cvsroot co Dart
+
+
+5) Download Insight
+
+
+a) Download tarball
+b) Checkout a version from the cvs repository
+cvs -d:pserver:anonymous@www.itk.org:/insight/cvsroot login
+Password is insight
+cvs -d:pserver:anonymous@www.itk.org:/insight/cvsroot co Insight
+
+
+setenv CC your c-compiler
+setenv CXX your c++-compiler
+mkdir Insight-myarch
+cd Insight-myarch
+../CMake-myarch/Source/cmake  ../Insight
