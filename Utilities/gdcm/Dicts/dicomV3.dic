@@ -2200,7 +2200,7 @@
 600e 3000 OW OLY Overlay Data
 600e 4000 LO OLY Comments (RET)
 7fe0 0000 UL PXL Group Length
-7fe0 0010 OB PXL Pixel Data
+7fe0 0010 OW PXL Pixel Data
 fffa fffa SQ XX Digital Signatures Sequence
 fffc fffc OB XX Data Set Trailing Padding
 fffe e000 UL DL Item
