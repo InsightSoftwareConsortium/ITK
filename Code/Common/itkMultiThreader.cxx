@@ -318,7 +318,7 @@ void MultiThreader::SingleMethodExecute()
 #else
     int                threadError;
     threadError =
-      pthread_create( &(process_id[thread_loop]), &attr, this->SingleMethod,  
+      pthread_create( &(process_id[thread_loop]), &attr, this->m_SingleMethod,  
 		      ( (void *)(&m_ThreadInfoArray[thread_loop]) ) );
     if (threadError != 0)
       {
