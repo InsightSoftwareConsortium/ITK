@@ -39,12 +39,9 @@ template<class TImage>
 ConstNeighborhoodIterator<TImage>
 ::ConstNeighborhoodIterator()
 {
-  IndexType zeroIndex;
-  SizeType  zeroSize;
-  zeroIndex.Fill(0);
-  for (unsigned int j = 0; j < Dimension; ++j)
-    {  zeroSize[j] = 0; }
-  
+  IndexType zeroIndex; zeroIndex.Fill(0);
+  SizeType  zeroSize; zeroSize.Fill(0);
+
   m_Bound.Fill(0);
   m_Begin = 0;
   m_BeginIndex.Fill(0);
