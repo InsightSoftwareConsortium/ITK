@@ -34,7 +34,7 @@ namespace itk
 template <class TInputImage1, class TInputImage2, 
           class TInputImage3, class TOutputImage, class TFunction    >
 class ITK_EXPORT TernaryImageFilter :
-    public ImageToImage<TInputImage1,TOutputImage> 
+    public ImageToImageFilter<TInputImage1,TOutputImage> 
 
 {
 public:
