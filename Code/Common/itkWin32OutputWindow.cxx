@@ -95,7 +95,7 @@ Win32OutputWindow
   const char* NewLinePos = text;
   while ( NewLinePos )
     {
-    int len = 0;
+    int len;
     /**
      * Find the next new line in text
      */

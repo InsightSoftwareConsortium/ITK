@@ -183,7 +183,7 @@ void MultiThreader::SetMultipleMethod( int index,
 // Execute the method set as the SingleMethod on NumberOfThreads threads.
 void MultiThreader::SingleMethodExecute()
 {
-  int                thread_loop = 0;
+  int                thread_loop;
 
 #ifdef ITK_USE_WIN32_THREADS
   DWORD              threadId;

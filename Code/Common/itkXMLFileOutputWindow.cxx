@@ -126,7 +126,6 @@ XMLFileOutputWindow
     m_Stream->flush();
     }
   delete [] xmlText;
-  xmlText = 0;
 }
 
 void
