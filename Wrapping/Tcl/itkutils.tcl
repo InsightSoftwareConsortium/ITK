@@ -36,11 +36,11 @@ namespace eval itk {
   set _ObjectList_ {}
   
   # Create an image viewer in a given frame.
-  proc createImageViewer2D {frame image} {
+  proc createImageViewer2D {frame image args} {
     # Create the canvas.
-    canvas $frame.canvas -scrollregion "1 1 32 32" \
-                         -xscrollcommand "$frame.scrollx set" \
-                         -yscrollcommand "$frame.scrolly set"
+    eval canvas $frame.canvas {-scrollregion "1 1 32 32"} \
+                              {-xscrollcommand "$frame.scrollx set"} \
+                              {-yscrollcommand "$frame.scrolly set"} $args
     scrollbar $frame.scrollx -orient horizontal \
                              -command "$frame.canvas xview"
     scrollbar $frame.scrolly -orient vertical \
