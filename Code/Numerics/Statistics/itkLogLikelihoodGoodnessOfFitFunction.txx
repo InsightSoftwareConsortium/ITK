@@ -36,8 +36,6 @@ LogLikelihoodGoodnessOfFitFunction< TInputHistogram >
 ::GenerateData()
 {
   int i;
-  double minGoF = this->GetMinimumGoodnessOfFitValue() ;
-  float minFrequency = this->GetMinimumObservedBinFrequency() ;
 
   TInputHistogram* observedHistogram = this->GetObservedHistogram() ;
   TInputHistogram* expectedHistogram = this->GetExpectedHistogram() ;
