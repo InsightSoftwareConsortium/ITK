@@ -72,6 +72,7 @@ int itkGoodnessOfFitMixtureModelCostFunctionTest(int argc, char** argv)
   int maxIteration = 400 ;
   int dataSize = 2000 ;
   double histogramOverlap = 0.75 ;
+  double histogramExtent = 1.5 ;
   unsigned int numberOfClasses = 2 ;
 
   /* Loading point data */
