@@ -6,19 +6,22 @@
  *
  * \section intro Introduccion
  *
- * \section intall Installation
- * \subsection  download How to Download
- * \subsection  compile  How to Compile
- * 
+ * Welcome to the National Library of Medicine Insight Segmentation and
+ * Registration Toolkit (ITK). ITK is an open-source sofware system to 
+ * support the Visible Human Project. Currently under active development, ITK
+ * employs leading-edge segmentation and registration algorithms in two, three
+ * and more dimensions.
+ *
+ * \section homepage Home Page
+ *
+ * The Home Page of the Insight toolkit can be found at :
+ *
+ * http://public.kitware.com/Insight/Web/index.htm
  *
  * \section start Getting Started
  * \subsection hello Hello World
  * \subsection firstFilter My First itk Filter use
  * \subsection usingAlgorithms Using Algorithms
- *
- * \section resources Resources
- * \subsection mailingList The mailing list
- * \subsection faq The FAQ
  *
  */
 
