@@ -115,6 +115,8 @@ public:
   void InitializeDistributions( Array<double> classMeans, 
                                 Array<double> classSigmas );
 
+  unsigned int GetNumberOfParameters(void) const;
+
 private:
   /** Bias field object pointer. */
   BiasFieldType        * m_BiasField ;

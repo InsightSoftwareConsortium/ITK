@@ -51,6 +51,21 @@ namespace itk
 
 
   template<class TImage, class TImageMask, class TBiasField>
+  unsigned int
+  MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>
+  ::GetNumberOfParameters(void) const
+  {
+    if( !m_BiasField ) 
+      {
+      return 0;
+      }
+    return m_BiasField->GetNumberOfCoefficients();
+  }
+
+
+
+
+  template<class TImage, class TImageMask, class TBiasField>
   MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>::MeasureType
   MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>
   ::GetValue( const ParametersType & parameters ) 
@@ -634,6 +649,12 @@ namespace itk
         iter++ ;
       }
   }
+
+
+
+
+
+
 
 } // end namespace itk
 
