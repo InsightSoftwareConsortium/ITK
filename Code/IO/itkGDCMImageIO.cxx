@@ -395,6 +395,25 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
 
     d = header.GetNextEntry();
   }
+
+  // Now is a good time to fill in the class member:
+  char name[512];
+  this->GetPatientName(name);
+  this->GetPatientID(name);
+  this->GetPatientSex(name);
+  this->GetPatientAge(name);
+  this->GetStudyID(name);
+  this->GetPatientDOB(name);
+  this->GetStudyDescription(name);
+  this->GetBodyPart(name);
+  this->GetNumberOfSeriesInStudy(name);
+  this->GetNumberOfStudyRelatedSeries(name);
+  this->GetStudyDate(name);
+  this->GetModality(name);
+  this->GetManufacturer(name);
+  this->GetInstitution(name);
+  this->GetModel(name);
+  this->GetScanOptions(name);
 }
 
 void GDCMImageIO::ReadImageInformation()
@@ -665,6 +684,13 @@ void GDCMImageIO::GetModel( char *name)
   strcpy (name, m_Model.c_str());
 }
 
+void GDCMImageIO::GetScanOptions( char *name)
+{
+  MetaDataDictionary & dict = this->GetMetaDataDictionary();
+  ExposeMetaData<std::string>(dict, "Scan Options", m_ScanOptions);
+  strcpy (name, m_ScanOptions.c_str());
+}
+
 void GDCMImageIO::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -691,6 +717,7 @@ void GDCMImageIO::PrintSelf(std::ostream& os, Indent indent) const
   os << indent << "Manufacturer:" << m_Manufacturer << std::endl;
   os << indent << "Institution:" << m_Institution << std::endl;
   os << indent << "Model:" << m_Model << std::endl;
+  os << indent << "Scan Options:" << m_ScanOptions << std::endl;
 
 
 }
