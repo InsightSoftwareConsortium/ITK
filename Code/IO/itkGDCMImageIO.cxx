@@ -383,7 +383,7 @@ void GDCMImageIO::Write(const void* buffer)
   std::string value;
   while( itr != end )
     {
-    std::string key = itr->first;
+    const std::string &key = itr->first; //Needed for bcc32
     ExposeMetaData<std::string>(dict, key, value);
 
     // Convert DICOM name to DICOM (group,element)
@@ -392,13 +392,13 @@ void GDCMImageIO::Write(const void* buffer)
 #else
     gdcm::DictEntry *dictEntry =
 #endif
-       m_GdcmHeader->GetPubDict()->GetDictEntryByName(itr->first);
-     // Anything that has been change in the MetaData Dict will be pushed
-     // into the DICOM header:
-     m_GdcmHeader->ReplaceOrCreateByNumber( value, dictEntry->GetGroup(), 
-                                                   dictEntry->GetElement());
-     ++itr;
-     }
+      m_GdcmHeader->GetPubDict()->GetDictEntryByName(itr->first);
+    // Anything that has been change in the MetaData Dict will be pushed
+    // into the DICOM header:
+    m_GdcmHeader->ReplaceOrCreateByNumber( value, dictEntry->GetGroup(), 
+                                                  dictEntry->GetElement());
+    ++itr;
+    }
 
   // Handle the bitDepth:
   std::string bitsAllocated;
