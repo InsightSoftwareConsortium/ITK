@@ -15,7 +15,7 @@
 =========================================================================*/
 
 #include "itkVoronoi2DDiagram.h"
-#include <cstdio>
+#include <stdio.h>
 
 const double HEI=400;
 const double WID=400;
