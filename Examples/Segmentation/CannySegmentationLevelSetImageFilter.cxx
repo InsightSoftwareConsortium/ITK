@@ -149,7 +149,7 @@ int main( int argc, char *argv[] )
     InternalImageType> DiffusionFilterType;
   DiffusionFilterType::Pointer diffusion = DiffusionFilterType::New();
   diffusion->SetNumberOfIterations(5);
-  diffusion->SetTimeStep(0.20);
+  diffusion->SetTimeStep(0.125);
   diffusion->SetConductanceParameter(1.0);
   // Software Guide : EndCodeSnippet
   
