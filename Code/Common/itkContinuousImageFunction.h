@@ -42,6 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkObject.h"
 #include "itkPoint.h"
+#include "itkContinuousIndex.h"
 #include "itkVector.h"
 
 namespace itk
@@ -121,6 +122,11 @@ public:
   typedef Point<double,ImageDimension> PointType;
 
   /**
+   * ContinuousIndex Type
+   */
+  typedef ContinuousIndex<double,ImageDimension> ContinuousIndexType;
+
+  /**
    * Vector Type
    */
   typedef Vector<double,ImageDimension> VectorType;
@@ -160,9 +166,19 @@ public:
     { return m_ImageOrigin; } 
 
   /**
-   * Evaluate the function at a point position
+   * Evaluate the function at a geometric point position
    */
   virtual TOutput Evaluate( const PointType& point ) const = 0;
+
+  /**
+   * Evaluate the function at continuous index position
+   */
+  virtual TOutput Evaluate( const ContinuousIndexType& index )
+    {
+    PointType point;
+    this->ConvertContinuousIndexToPoint( index, point );
+    return( this->Evaluate( point ) );
+    }
 
   /**
    * Check if a point inside the image buffer
@@ -171,11 +187,22 @@ public:
     {
       for( unsigned int j = 0; j < ImageDimension; j++ )
         {
-        if( point[j] < m_BufferStart[j] ||
-            point[j] > m_BufferEnd[j] ) return false;
+        if( point[j] < m_GeometricStart[j] ||
+            point[j] > m_GeometricEnd[j] ) return false;
         }
       return true;
-    }                  
+    }
+
+  bool IsInsideBuffer( const ContinuousIndexType& index ) const
+    {
+      for( unsigned int j = 0; j < ImageDimension; j++ )
+        {
+        if( index[j] < m_BufferStart[j] ||
+            index[j] > m_BufferEnd[j] ) return false;
+        }
+      return true;
+    }
+
 
 protected:
 
@@ -187,8 +214,10 @@ protected:
 
   // made protected so subclass can access
   InputImageConstPointer  m_Image;
-  PointType               m_BufferStart;
-  PointType               m_BufferEnd;
+  PointType               m_GeometricStart;
+  PointType               m_GeometricEnd;
+  ContinuousIndexType     m_BufferStart;
+  ContinuousIndexType     m_BufferEnd;
 
   PointType               m_ImageOrigin;
   VectorType              m_ImageSpacing;
@@ -197,11 +226,24 @@ protected:
   /**
    * Convert from geometric coordinate to image coordinates
    */
-  void ConvertGeometricPointToImagePoint( const PointType& gpoint, PointType& ipoint  ) const
+  void ConvertPointToContinuousIndex( 
+    const PointType& point, ContinuousIndexType& index  ) const
     {
       for( unsigned int j = 0; j < ImageDimension; j++ )
         {
-        ipoint[j] = ( gpoint[j] - m_ImageOrigin[j] ) / m_ImageSpacing[j]; 
+        index[j] = ( point[j] - m_ImageOrigin[j] ) / m_ImageSpacing[j]; 
+        }
+    }
+
+  /**
+   * Convert image index to geometric coordinate
+   */
+  void ConvertContinuousIndexToPoint(
+    const ContinuousIndexType& index, PointType& point ) const
+    {
+      for( unsigned int j = 0; j < ImageDimension; j++ )
+        {
+        point[j] = index[j] * m_ImageSpacing[j] + m_ImageOrigin[j];
         }
     }
 

@@ -51,6 +51,8 @@ ContinuousImageFunction<TInputImage,TOutput>
 ::ContinuousImageFunction()
 {
   m_Image = NULL;
+  m_GeometricStart.Fill( 0.0 );
+  m_GeometricEnd.Fill( -1.0 );
   m_BufferStart.Fill( 0.0 );
   m_BufferEnd.Fill( -1.0 );
 
@@ -143,10 +145,13 @@ ContinuousImageFunction<TInputImage,TOutput>
 
   for( unsigned int j = 0; j < ImageDimension; j++ )
     {
-    m_BufferStart[j] = m_ImageSpacing[j] * double(start[j]) + 
+    m_GeometricStart[j] = m_ImageSpacing[j] * double(start[j]) + 
       m_ImageOrigin[j];
-    m_BufferEnd[j] = m_ImageSpacing[j] * double(size[j] - 1 ) + 
-      m_BufferStart[j];
+    m_GeometricEnd[j] = m_ImageSpacing[j] * double(size[j] - 1 ) + 
+      m_GeometricStart[j];
+
+    m_BufferStart[j] = double(start[j]);
+    m_BufferEnd[j] = double(size[j] - 1) + m_BufferStart[j];
     }
 
 }
