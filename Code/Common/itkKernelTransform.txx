@@ -101,7 +101,7 @@ template <class TScalarType, int NDimensions,
 void KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>
 ::ComputeD(void)
 {
-  int numLandmarks = m_SourceLandmarks->GetNumberOfPoints();
+  unsigned long numLandmarks = m_SourceLandmarks->GetNumberOfPoints();
   
   PointsIterator sp  = m_SourceLandmarks->GetPoints()->Begin();
   PointsIterator tp  = m_TargetLandmarks->GetPoints()->Begin();
@@ -143,7 +143,7 @@ template <class TScalarType, int NDimensions,
 void KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
 ComputeL(void)
 {
-  int numLandmarks = m_SourceLandmarks->GetNumberOfPoints();
+  unsigned long numLandmarks = m_SourceLandmarks->GetNumberOfPoints();
   vnl_matrix<TScalarType> O2(NDimensions*(NDimensions+1),
                              NDimensions*(NDimensions+1), 0);
 
@@ -170,7 +170,7 @@ template <class TScalarType, int NDimensions,
 void KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
 ComputeK(void)
 {
-  int numLandmarks = m_SourceLandmarks->GetNumberOfPoints();
+  unsigned long numLandmarks = m_SourceLandmarks->GetNumberOfPoints();
   GMatrixType G;
 
   ComputeD();
@@ -211,7 +211,7 @@ template <class TScalarType, int NDimensions,
 void KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
 ComputeP()
 {
-  int numLandmarks = m_SourceLandmarks->GetNumberOfPoints();
+  unsigned long numLandmarks = m_SourceLandmarks->GetNumberOfPoints();
   IMatrixType I;
   IMatrixType temp;
   int i, j;
@@ -244,7 +244,7 @@ void KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
 ComputeY(void)
 {
   int i, j;
-  int numLandmarks = m_SourceLandmarks->GetNumberOfPoints();
+  unsigned long numLandmarks = m_SourceLandmarks->GetNumberOfPoints();
 
   VectorSetType::ConstIterator displacement = m_Displacements->Begin();
 
@@ -277,7 +277,7 @@ KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>::OutputPoint
 KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>
 ::TransformPoint(const InputPointType& thisPoint) const
 {
-  int numLandmarks = m_SourceLandmarks->GetNumberOfPoints();
+  unsigned long numLandmarks = m_SourceLandmarks->GetNumberOfPoints();
   int i, j;
   ColumnMatrixType b, c, d, Ax;
   vnl_matrix_fixed<TScalarType, NDimensions, NDimensions> A;
