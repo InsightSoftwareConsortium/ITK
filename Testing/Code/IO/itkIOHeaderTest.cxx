@@ -32,6 +32,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkImageIOBase.h"
 #include "itkImageIOFactory.h"
 #include "itkImageIORegion.h"
+#include "itkImageViewer.txx"
+#include "itkImageViewerWindow.h"
 #include "itkImageWriter.txx"
 #include "itkMetaImageIO.h"
 #include "itkMetaImageIOFactory.h"
@@ -45,7 +47,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkVTKImageIOFactory.h"
 #include "itkWriter.h"
 
-int main ( int argc, char* argv )
+int main ( int , char*  )
 {
   
   return 0;
