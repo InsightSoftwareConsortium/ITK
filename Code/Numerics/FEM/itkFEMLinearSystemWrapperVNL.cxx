@@ -20,6 +20,7 @@
 #pragma warning(disable: 4786)
 #endif
 
+#include "itkMacro.h"
 #include "itkFEMLinearSystemWrapperVNL.h"
 
 namespace itk {
@@ -34,7 +35,10 @@ void LinearSystemWrapperVNL::InitializeMatrix(unsigned int matrixIndex)
   if (m_Matrices == 0)
   {
     m_Matrices = new MatrixHolder(m_NumberOfMatrices);
-    if (m_Matrices == NULL) throw;
+    if (m_Matrices == NULL)
+      {
+      itkGenericExceptionMacro(<< "LinearSystemWrapperVNL::InitializeMatrix(): m_Matrices allocation failed.");
+      }
   }
 
   // out with old, in with new
@@ -44,7 +48,11 @@ void LinearSystemWrapperVNL::InitializeMatrix(unsigned int matrixIndex)
   }
 
   (*m_Matrices)[matrixIndex] = new MatrixRepresentation(this->GetSystemOrder(), this->GetSystemOrder() );
-  if ( (*m_Matrices)[matrixIndex] == NULL) throw;
+  if ( (*m_Matrices)[matrixIndex] == NULL)
+    {
+    itkGenericExceptionMacro(<< "LinearSystemWrapperVNL::InitializeMatrix(): allocation of (*m_Matrices)[" << matrixIndex << "] failed.");
+
+    }
 
   return;
 
@@ -74,7 +82,10 @@ void LinearSystemWrapperVNL::InitializeVector(unsigned int vectorIndex)
   if (m_Vectors == 0)
   {
     m_Vectors = new std::vector< vnl_vector<Float>* >(m_NumberOfVectors);
-    if (m_Vectors == NULL) throw;
+    if (m_Vectors == NULL)
+      {
+      itkGenericExceptionMacro(<< "InitializeVector(): m_Vectors memory allocation failed.");
+      }
   }
 
   // out with old, in with new
@@ -84,7 +95,10 @@ void LinearSystemWrapperVNL::InitializeVector(unsigned int vectorIndex)
   }
 
   (*m_Vectors)[vectorIndex] = new vnl_vector<Float>(this->GetSystemOrder());
-  if ( (*m_Vectors)[vectorIndex] == NULL) throw;
+  if ( (*m_Vectors)[vectorIndex] == NULL)
+    {
+    itkGenericExceptionMacro(<< "InitializeVector(): allocation of (*m_Vectors)[" << vectorIndex << "] failed.");
+    }
   (*m_Vectors)[vectorIndex]->fill(0.0);
 
   return;
@@ -115,7 +129,10 @@ void LinearSystemWrapperVNL::InitializeSolution(unsigned int solutionIndex)
   if (m_Solutions == 0)
   {
     m_Solutions = new std::vector< vnl_vector<Float>* >(m_NumberOfSolutions);
-    if (m_Solutions == NULL) throw;
+    if (m_Solutions == NULL)
+      {
+      itkGenericExceptionMacro(<< "InitializeSolution(): m_Solutions memory allocation failed.");
+      }
   }
 
   // out with old, in with new
@@ -125,7 +142,10 @@ void LinearSystemWrapperVNL::InitializeSolution(unsigned int solutionIndex)
   }
 
   (*m_Solutions)[solutionIndex] = new vnl_vector<Float>(this->GetSystemOrder());
-  if ( (*m_Solutions)[solutionIndex] == NULL) throw;
+  if ( (*m_Solutions)[solutionIndex] == NULL)
+    {
+    itkGenericExceptionMacro(<< "InitializeSolution(): allocation of (*m_olutions)[" << solutionIndex << "] failed.");
+    }
   (*m_Solutions)[solutionIndex]->fill(0.0);
 
   return;
@@ -161,7 +181,10 @@ LinearSystemWrapperVNL::Float LinearSystemWrapperVNL::GetSolutionValue(unsigned 
 void LinearSystemWrapperVNL::Solve(void)
 {
 
-  if( (m_Matrices->size() == 0) || (m_Vectors->size() == 0) || (m_Solutions->size() == 0) ) throw;
+  if( (m_Matrices->size() == 0) || (m_Vectors->size() == 0) || (m_Solutions->size() == 0) )
+    {
+    itkGenericExceptionMacro(<< "LinearSystemWrapperVNL::Solve(): m_Matrices, m_Vectors and m_Solutions size's are all zero.");
+    }
 
   /* use functions to make sure that zero based matrix, vector, & index store final system to solve */
   /*
