@@ -19,6 +19,7 @@ See COPYRIGHT.txt for copyright details.
 
 #include "itkBalloonForce3DFilter.txx"
 #include "itkBalloonForceFilter.txx"
+#include "itkBinaryMask3DMeshSource.txx"
 #include "itkBinaryMinMaxCurvatureFlowFunction.txx"
 #include "itkBinaryMinMaxCurvatureFlowImageFilter.txx"
 #include "itkClassifier.txx"
