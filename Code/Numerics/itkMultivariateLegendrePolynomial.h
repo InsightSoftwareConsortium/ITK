@@ -227,8 +227,6 @@ public:
    */
   int GetNoOfCoefficients(int dimension, int degree) ;
 
-  class SimpleForwardIterator ;
-  friend SimpleForwardIterator ;
 
   /**
    * iterator which only supports forward iteration and Begin(), IsAtEnd()
