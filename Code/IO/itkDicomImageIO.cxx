@@ -177,10 +177,6 @@ bool DicomImageIO::GoToTag(std::ifstream & inputStream,int subtagref1,
   while(again)
   {
     unsigned int pos = inputStream.tellg();
-    if (pos > 03440 && pos < 03500) {
-      printf(" %o %02x%02x %02x%02x   ", pos, 
-             current[0], current[1], current[2], current[3]);
-    }
     //0xAAAA and 0xBBBB >> Subtag1 And Subtag2 
     if (!DicomImageIO::IfEqual(current,subtagref1,subtagref2))
     {
@@ -242,6 +238,21 @@ CheckTagTable(std::ifstream& inputStream, std::list<Tag>& TableOfTags) const
     i=0;
   }
 
+#if 0
+
+  ////0x0020 and 0x0032 >> tag before patient position
+  if(!DicomImageIO::GoToTag(inputStream,0x0020,0x0032,i,max,tagcurrent))
+  {
+    return false;
+  }
+  else
+  {
+    std::cout << "Tagcurrent: ";
+    TableOfTags.push_back(tagcurrent);
+  }
+
+#endif
+
   ////0x0028 and 0x0010 >> tag before the number of rows 
   if(!DicomImageIO::GoToTag(inputStream,0x0028,0x0010,i,max,tagcurrent))
   {
@@ -301,17 +312,6 @@ CheckTagTable(std::ifstream& inputStream, std::list<Tag>& TableOfTags) const
     TableOfTags.push_back(tagcurrent);
   }
 
-  /*
-  // DEBUGGING ONLY
-  typedef std::list<Tag>::iterator TagIterator;
-  for (TagIterator ii = TableOfTags.begin(); ii != TableOfTags.end(); ii++)
-  {
-    printf("%x %x; %d\n",
-           BytePairToUnsigned(ii->Subtag1),
-           BytePairToUnsigned(ii->Subtag2),
-           ii->count);
-  }
-  */
   return(true);
 
 }
@@ -470,6 +470,8 @@ void DicomImageIO::ReadImageInformation()
     i=0;
   }
 
+#if 0
+
   ////0x0020 and 0x0032 >> tag before value of Origin
   m_Origin.clear();
   m_Origin.insert(m_Origin.end(), 3, 0.0);  // Default for origin.
@@ -525,7 +527,8 @@ void DicomImageIO::ReadImageInformation()
     i=0;
   }
 
-  std::cout << "*** ROWS:" << endl;
+#endif // 0
+
   ////0x0028 and 0x0010 >> tag before the number of rows 
   if(DicomImageIO::GoToTag(inFile, 0x0028, 0x0010, i, max, tagcurrent))
   { 
@@ -552,7 +555,6 @@ void DicomImageIO::ReadImageInformation()
     throw exception;  
   }
 
-  std::cout << "*** COLUMNS:" << endl;
   ////0x0028 and 0x0011 >> tag before the number of columns 
   if(DicomImageIO::GoToTag(inFile,0x0028,0x0011,
                            i,max,tagcurrent))
@@ -580,7 +582,6 @@ void DicomImageIO::ReadImageInformation()
     throw exception;  
   }
 
-  std::cout << "*** SPACING:" << endl;
   ////0x0028 and 0x0030 >> tag before value of spacing
   m_Spacing[0]=1;  // Default values
   m_Spacing[1]=1;
