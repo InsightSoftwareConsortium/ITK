@@ -95,12 +95,18 @@ int main()
   // Test for vnl interface
   vnl_vector_ref< ValueType > vnlCovariantVector = va.Get_vnl_vector();
   {
-    std::cout << "vnl_vector = va ";
+    std::cout << "vnl_vector_ref = va ";
     for( unsigned int i=0; i<N; i++ )
     {
       std::cout << vnlCovariantVector[i] << ", ";
     }
     std::cout << std::endl;
+
+    std::cout << "vnl_vector_ref.begin() = va.Begin()";
+    std::cout << std::endl;
+    std::cout << vnlCovariantVector.begin() << " = ";
+    std::cout << va.Begin() << std::endl;
+
   }
 
 
