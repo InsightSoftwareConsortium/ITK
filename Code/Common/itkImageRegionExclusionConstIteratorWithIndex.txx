@@ -49,6 +49,34 @@ ImageRegionExclusionConstIteratorWithIndex<TImage>
 }
 
  
+//----------------------------------------------------------------------
+//  Set the region to exclude from the walk to a region that is inset
+//  one pixel from the boundary of the region
+//----------------------------------------------------------------------
+template<class TImage>
+void
+ImageRegionExclusionConstIteratorWithIndex<TImage>
+::SetExclusionRegionToInsetRegion()
+{
+  RegionType excludeRegion;
+  excludeRegion = this->m_Region;
+  for (unsigned int i=0; i < TImage::ImageDimension; ++i)
+    {
+    if ( excludeRegion.GetSize()[i] >= 2 )
+      {
+      // region is large enough to inset, adjust size and index
+      excludeRegion.SetSize( i, excludeRegion.GetSize()[i] - 2);
+      excludeRegion.SetIndex( i, excludeRegion.GetIndex()[i] + 1);
+      }
+    else
+      {
+      // region is not large enough to inset, set exclusion size to
+      // zero and keep the index the same.
+      excludeRegion.SetSize( i, 0 );
+      }
+    }
+  this->SetExclusionRegion( excludeRegion );
+}
 
 //----------------------------------------------------------------------
 //  Advance along the line
