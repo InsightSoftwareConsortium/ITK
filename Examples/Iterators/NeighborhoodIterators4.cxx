@@ -160,7 +160,8 @@ int main( int argc, char ** argv )
 // the image \code{Examples/Data/BrainT1Slice.png} using increasing
 // kernel widths.
 //
-// \begin{figure} \centering
+// \begin{figure}
+// \centering
 // \includegraphics[width=0.23\textwidth]{NeighborhoodIterators4a.eps}
 // \includegraphics[width=0.23\textwidth]{NeighborhoodIterators4b.eps}
 // \includegraphics[width=0.23\textwidth]{NeighborhoodIterators4c.eps}
@@ -168,7 +169,9 @@ int main( int argc, char ** argv )
 // \itkcaption[Gaussian blurring by convolution filtering]{Results of
 // convolution filtering with a Gaussian kernel of increasing standard
 // deviation $\sigma$.  From left to right, $\sigma = 0$, $\sigma = 1$, $\sigma
-// = 2$, $\sigma = 5$}
+// = 2$, $\sigma = 5$.  Increased blurring reduces contrast and changes the
+// average intensity value of the image, which causes the image to appear
+// brighter when rescaled.}
 // \protect\label{fig:NeighborhoodExample4}
 // \end{figure}
 //
