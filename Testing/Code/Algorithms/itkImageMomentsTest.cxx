@@ -71,7 +71,7 @@ main(
     tpm = 0.125, 0.5, 2.0;    // Principal moments
 
     MatrixType tpa;
-    tpa.set((double *)pad);
+    tpa.GetVnlMatrix().set((double *)pad);
 
     /* Allocate a simple test image */
     itk::PhysicalImage<unsigned short, 3>::Pointer
