@@ -138,11 +138,11 @@ itkWatershedImageFilterTest.cxx
 )
 
 ADD_EXECUTABLE(itkAlgorithmsHeaderTest itkAlgorithmsHeaderTest.cxx)
-TARGET_LINK_LIBRARIES(itkAlgorithmsHeaderTest ITKAlgorithms ITKIO ITKBasicFilters)
+TARGET_LINK_LIBRARIES(itkAlgorithmsHeaderTest ITKAlgorithms ITKIO ITKBasicFilters FEM)
 ADD_TEST(itkAlgorithmsHeaderTest ${ALGORITHMS_HEADER_TESTS})
 
 ADD_EXECUTABLE(itkAlgorithmsTests itkAlgorithmsTests.cxx ${AlgorithmsTest_SRCS})
-TARGET_LINK_LIBRARIES(itkAlgorithmsTests ITKAlgorithms ITKIO ITKBasicFilters)
+TARGET_LINK_LIBRARIES(itkAlgorithmsTests ITKAlgorithms ITKIO ITKBasicFilters FEM)
 
 
 IF(ITK_WRAP_TCL)
