@@ -55,12 +55,7 @@ public:
   /** Return the number of parameters required to compute 
    *  this cost function.     
    *  This method MUST be overloaded by derived classes */
-  virtual unsigned int GetNumberOfParameters(void) const  { 
-    ExceptionObject ex(__FILE__,__LINE__);
-    ex.SetLocation("CostFunction::GetNumberOfParameters");
-    ex.SetDescription("Method MUST be overloaded in derived classes");
-    throw ex;
-    return 0; }
+  virtual unsigned int GetNumberOfParameters(void) const  = 0;
 
 
   /** Return the parameters used in the last call to GetValue or GetDerivative 
