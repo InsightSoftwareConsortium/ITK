@@ -41,7 +41,6 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   m_TimeStep = 0.0;
   m_DistanceForGradient = 0.0;
   m_Resolution = 0;
-  m_NeighborRadius = 0;
   m_K = 0;
   typename TOutputMesh::Pointer output = TOutputMesh::New();
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
@@ -105,7 +104,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   os << indent << "GradientBegin = " << m_GradientBegin << std::endl;
   os << indent << "Resolution = " << m_Resolution << std::endl;
 
-  if (!m_ImageOutput.IsNull())
+  if (!m_ImageOutput)
     {
     os << indent << "ImageOutput = " << m_ImageOutput << std::endl;
     }
@@ -151,7 +150,6 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     {
     os << indent << "Normals = (None)" << std::endl;    
     }
-  os << indent << "NeighborRadius = " << m_NeighborRadius << std::endl;
 }// end PrintSelf
 
 /* Set default value of parameters and initialize local data container 
