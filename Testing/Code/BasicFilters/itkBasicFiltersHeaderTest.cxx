@@ -79,6 +79,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkLogImageFilter.h"
 #include "itkMeanImageFilter.txx"
 #include "itkMedianImageFilter.txx"
+#include "itkMinimumMaximumImageCalculator.txx"
 #include "itkMinimumMaximumImageFilter.txx"
 #include "itkMirrorPadImageFilter.txx"
 #include "itkMorphologyImageFilter.txx"

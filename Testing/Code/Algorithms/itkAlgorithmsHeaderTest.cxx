@@ -64,7 +64,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkMeanSquaresPointSetToImageMetric.txx"
 #include "itkMinMaxCurvatureFlowFunction.txx"
 #include "itkMinMaxCurvatureFlowImageFilter.txx"
-#include "itkMinimumMaximumImageCalculator.txx"
 #include "itkMultiResolutionImageRegistrationMethod.txx"
 #include "itkMultiResolutionPDEDeformableRegistration.txx"
 #include "itkMultiResolutionPyramidImageFilter.txx"
