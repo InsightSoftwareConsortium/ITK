@@ -18,25 +18,24 @@
 
 //  Software Guide : BeginLatex
 //
-//  The classes responsible for reading and writing images are typically set at
-//  the ends of the data processing pipeline. These classes can be seen as data
-//  sources and data sinks.  For practical purposes you may think of them as
-//  being yet another filter.
+//  In the cases where the user knows what file format to use and want to
+//  define it at compile time, it is possible to explicitly instantiate the
+//  \doxygen{ImageIO} class capable of managing this format. This prevents the
+//  \doxygen{ImageIOFactory} mechanism from trying to find an ImageIO object
+//  appropriate for this image type. It also facilitates that the user
+//  customize the read/write options to be used, since many of these options
+//  are file format specific and can only be selected directly in the
+//  corresponding ImageIO class.
 //
-//  Image reading is managed by the class \doxygen{ImageFileReader} while
-//  writing is done by the class \doxygen{ImageFileWriter}. These two classes
-//  are totally independent of any particular file format. The actual low level
-//  task of reading and writing specific file formats will be done behind the
-//  scenes by a family of objects called \doxygen{ImageIO}. 
+//  The following example illustrates this way of performing IO by explicitly
+//  instantiating an \doxygen{VTKImageIO} class, setting its parameters and then
+//  connecting it to the \doxygen{ImageFileWriter}.
 //
-//  The first step for performing reading and writing is to include the
-//  following headers.
+//  The following headers have to be included first.
 //
-//  \index{itk::ImageFileReader|textbf}
 //  \index{itk::ImageFileReader!header}
-//
-//  \index{itk::ImageFileWriter|textbf}
 //  \index{itk::ImageFileWriter!header}
+//  \index{itk::VTKImageIO!header}
 //
 //  Software Guide : EndLatex 
 
@@ -67,24 +66,10 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  Then, as usual, a decision should be made about the type of pixel used to
-  //  represent the images. Note that, when reading an image, this pixel type
-  //  \textbf{is not necessarily} the pixel type of the image stored in the file.
-  //  Instead, it is the type that will be used to store the image as soon as
-  //  it is read into memory. Your choice of the pixel type should be driven
-  //  mainly by two considerations
-  //
-  //  \begin{itemize}
-  //  \item It should be possible to cast the file pixel type  to the pixel
-  //  type you select. This casting will be performed using the standard
-  //  C-language rules, so you will have to make sure that the conversion does
-  //  not result in information being lost.
-  //  \item The pixel type in memory should be appropriate for the type of
-  //  processing you intended to apply on the images. 
-  //  \end{itemize}
-  //
-  //  A typical selection for medical images could be the one illustrated in
-  //  the following lines.
+  //  Then, as usual, we select the pixel types and the image dimension. Still
+  //  keeping in mind that if the file happens to contain an image in another
+  //  pixel type representation, casting will be performed with the simple
+  //  C-language rules.
   //
   //  Software Guide : EndLatex 
 
@@ -99,16 +84,15 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  Note that the dimension of the image in memory should match the one of
-  //  the image in file. There are a couple of special cases in which this
-  //  condition may be relaxed, but in general it is better to ensure that both
-  //  dimensions match.
   //
   //  We can now instantiate the types of the reader and writer. These two
-  //  classes are parameterized over the image type.
+  //  classes are parameterized over the image type. We instantiate the
+  //  \doxygen{VTKImageIO} class as well. Note that the ImageIO objects are not
+  //  templated.
   //
   //  \index{itk::ImageFileReader!Instantiation}
   //  \index{itk::ImageFileWriter!Instantiation}
+  //  \index{itk::VTKImageIO!Instantiation}
   //
   //  Software Guide : EndLatex 
 
@@ -131,6 +115,8 @@ int main( int argc, char ** argv )
   //  \index{itk::ImageFileWriter!New()}
   //  \index{itk::ImageFileReader!SmartPointer}
   //  \index{itk::ImageFileWriter!SmartPointer}
+  //  \index{itk::VTKImageIO!New()}
+  //  \index{itk::VTKImageIO!SmartPointer}
   //
   //  Software Guide : EndLatex 
 
@@ -138,7 +124,6 @@ int main( int argc, char ** argv )
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
   ImageIOType::Pointer vtkIO = ImageIOType::New();
-
   // Software Guide : EndCodeSnippet
 
 
@@ -183,24 +168,54 @@ int main( int argc, char ** argv )
   writer->SetInput( reader->GetOutput() );
   // Software Guide : EndCodeSnippet
 
+
+
   //  Software Guide : BeginLatex
   //
-  //  At first view, this may seem as a quite useless program, but it is
-  //  actually implementing a powerful file format conversion tool !. The
-  //  execution of the pipeline is triggered by the invokation of the
-  //  \code{Update()} methods in one of the final objects. In this case, the
-  //  final data pipeline object is the writer. It is a wise practice of
-  //  defensive programming to insert any \code{Update()} call inside a
-  //  \code{try/catch} block in case exceptions are thrown during the execution
-  //  of the pipeline. 
+  //  Explicitly declaring the specific \doxygen{VTKImageIO} allow users to
+  //  change the settings. For example, the following line force the writer to
+  //  use ASCII format when writing the pixel data.
+  // 
+  //  \index{itk::VTKImageIO!SetFileTypeToASCII()}
   //
   //  Software Guide : EndLatex 
 
-
-  //declaring a specific ImageIO allow user to change what he likes...
+  // Software Guide : BeginCodeSnippet
   vtkIO->SetFileTypeToASCII();
-  writer->SetImageIO(vtkIO);
+  // Software Guide : EndCodeSnippet
 
+
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  The \doxygen{VTKImageIO} object is then connected to the
+  //  \doxygen{ImageFileWriter}.  This will short-circuit the action of the
+  //  \doxygen{ImageIOFactory} mechanism. The \doxygen{ImageFileWriter} will
+  //  not attempt to look for other \doxygen{ImageIO} objects capable of
+  //  performing the writing tasks. It will simply invoke the one provided by
+  //  the user.
+  // 
+  //  \index{itk::ImageFileWriter!SetImageIO()}
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  writer->SetImageIO( vtkIO );
+  // Software Guide : EndCodeSnippet
+
+
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  Finally we invoke \code{Update()} on the \doxygen{ImageFileWriter} and
+  //  place this call inside a try/catch block in case any errors ocurr during
+  //  the writing process.
+  // 
+  //  \index{itk::ImageFileWriter!SetImageIO()}
+  //
+  //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
   try 
@@ -218,23 +233,18 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  Note that exceptions should only be caught by pieces of code that know
-  //  what to do with them. In a typical application this catch block should
-  //  probably reside on the GUI code. The action on the catch block could show
-  //  a message to inform the user that the IO operation have failed.
-  //
-  //  The IO architecture of the toolkit makes possible to avoid any mention of
-  //  the specific file format used to read or write the images. By default,
-  //  file formats are choosen based on the extension of the filenames. This
-  //  behavior can be overriden by providing the reader or writer with specific
-  //  \doxygen{ImageIO} objects.
-  //
-  //  For historical reasons, the \doxygen{ImageFileWriter} also has a
-  //  \code{Write()} method which performs the exact same action than the
-  //  \code{Update()} method. You could in principle use any of them but
-  //  \code{Update()} is the recommended one since \code{Write()} will likely
-  //  be deprecated in the future. 
-  //
+  //  Although in this example only illustrates how to use an explicit
+  //  \doxygen{ImageIO} class with the \doxygen{ImageFileWriter}, the same can
+  //  be done with the \doxygen{ImageFileReader}. The typical case in which
+  //  that is done is when reading raw image files with the
+  //  \doxygen{RawImageIO}. The drawback of this approach is that the
+  //  parameters of the image have to be explicitly written in the code.  The
+  //  direct use of raw file is strongly discouraged in medical imaging.  In
+  //  case you have a raw file, it is always better to create a header for it
+  //  using any of the file formats that use the combination of text header
+  //  file plus a raw binary file, like \doxygen{MetaImgaIO},
+  //  \doxygen{GiplImageIO} and \doxygen{VTKImageIO}.
+  // 
   //  Software Guide : EndLatex 
 
 
