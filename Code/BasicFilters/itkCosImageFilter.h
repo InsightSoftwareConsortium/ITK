@@ -50,12 +50,26 @@ namespace itk
 /** \class CosImageFilter
  * \brief Computes the cos(x) pixel-wise
  *
+ * This filter is templated over the pixel type of the input image
+ * and the pixel type of the output image. 
+ *
+ * The filter will walk over all the pixels in the input image, and for
+ * each one of them it will do the following: 
+ *
+ * - cast the pixel value to \c double, 
+ * - apply the \c cos() function to the \c double value
+ * - cast the \c double value resulting from \c cos() to the pixel type of the output image 
+ * - store the casted value into the output image.
+ * 
+ * The filter expect both images to have the same dimension (e.g. both 2D, or both 3D, or both ND)
+ *
+ **
  * 
  * \ingroup IntensityImageFilters
  *
  */
 
-namespace Function {  
+namespace Functor {  
   
   template< class TInput, class TOutput>
   class Cos
@@ -65,7 +79,11 @@ namespace Function {
     ~Cos() {};
     inline TOutput operator()( const TInput & A )
     {
-      return (TOutput)cos((double)A);
+      return static_cast<TOutput>(
+                     cos(
+                        static_cast<double>(A)
+                        ) 
+                  );
     }
   }; 
 
@@ -77,7 +95,7 @@ template <class TInputImage, class TOutputImage>
 class ITK_EXPORT CosImageFilter :
     public
     UnaryImageFilter<TInputImage,TOutputImage, 
-    Function::Cos< 
+    Functor::Cos< 
               typename TInputImage::PixelType, 
               typename TOutputImage::PixelType>   >
 
@@ -93,7 +111,7 @@ public:
    * Standard "Superclass" typedef.
    */
   typedef UnaryImageFilter<TInputImage,TOutputImage, 
-    Function::Cos< 
+    Functor::Cos< 
               typename TInputImage::PixelType, 
               typename TOutputImage::PixelType>   
                 >  Superclass;
