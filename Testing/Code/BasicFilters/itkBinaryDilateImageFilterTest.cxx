@@ -157,8 +157,7 @@ int main()
 
   // All objects should be automatically destroyed at this point
 
-  // test currently fails....
-  return 1;
+  return 0;
 
 }
 
