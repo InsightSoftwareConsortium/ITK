@@ -750,6 +750,28 @@ ProcessObject
  */
 void 
 ProcessObject
+::ReleaseInputs()
+{  
+  unsigned int idx;
+
+  for (idx = 0; idx < m_Inputs.size(); ++idx)
+    {
+    if (m_Inputs[idx])
+      {
+      if ( m_Inputs[idx]->ShouldIReleaseData() )
+        {
+        m_Inputs[idx]->ReleaseData();
+        }
+      }  
+    }
+}
+
+
+/**
+ *
+ */
+void 
+ProcessObject
 ::UpdateOutputData(DataObject *itkNotUsed(output))
 {
   std::vector<DataObjectPointer>::size_type idx;
@@ -845,16 +867,7 @@ ProcessObject
   /**
    * Release any inputs if marked for release
    */
-  for (idx = 0; idx < m_Inputs.size(); ++idx)
-    {
-    if (m_Inputs[idx])
-      {
-      if ( m_Inputs[idx]->ShouldIReleaseData() )
-        {
-        m_Inputs[idx]->ReleaseData();
-        }
-      }  
-    }
+  this->ReleaseInputs();
   
   /**
    * Information gets invalidated as soon as Update is called,

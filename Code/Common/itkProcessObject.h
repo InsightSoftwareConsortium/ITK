@@ -299,6 +299,18 @@ protected:
    */
   virtual void PrepareOutputs();
 
+  /** A filter may need to release it's inputs after it is finished.
+   * It may need to release the inputs because the user has turned on
+   * the ReleaseDataFlag or it may need to release the inputs because
+   * the filter is an "in place" filter and it has overwritten its
+   * input with its output data.  The implementation here simply
+   * checks the ReleaseDataFlag of the inputs.  InPlaceImageFilter
+   * overrides this method so release the input it has overwritten.
+   *
+   * \sa InPlaceImageFilter::ReleaseInputs()
+   */
+  virtual void ReleaseInputs();
+
   /** Generate the information decribing the output data. The default 
    * implementation of this method will copy information from the input to
    * the output.  A filter may override this method if its output will have
