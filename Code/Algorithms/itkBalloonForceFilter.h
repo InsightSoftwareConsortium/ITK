@@ -76,19 +76,19 @@ public:
   typedef TInputMesh InputMeshType;
   typedef typename InputMeshType::PointsContainerPointer
       InputPointsContainerPointer;
-  typedef typename typename InputMeshType::PointsContainer::Iterator
+  typedef typename InputMeshType::PointsContainer::Iterator
       InputPointsContainerIterator;
   typedef typename InputMeshType::PointDataContainerPointer
       InputPointDataContainerPointer;
-  typedef typename typename InputMeshType::PointDataContainer::Iterator
+  typedef typename InputMeshType::PointDataContainer::Iterator
       InputPointDataContainerIterator;
   typedef typename InputMeshType::CellsContainerPointer
       InputCellsContainerPointer;
-  typedef typename typename InputMeshType::CellsContainer::Iterator
+  typedef typename InputMeshType::CellsContainer::Iterator
       InputCellsContainerIterator;
   typedef typename InputMeshType::CellDataContainerPointer
       InputCellDataContainerPointer;
-  typedef typename typename InputMeshType::CellDataContainer::Iterator
+  typedef typename InputMeshType::CellDataContainer::Iterator
       InputCellDataContainerIterator;
 
   typedef itk::Image<unsigned short, 3> ImageType;
