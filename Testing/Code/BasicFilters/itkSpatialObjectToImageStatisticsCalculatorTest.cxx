@@ -150,6 +150,7 @@ int itkSpatialObjectToImageStatisticsCalculatorTest(int, char * [] )
   image3D->FillBuffer(255);
 
   // Fill the image
+  std::cout << "Allocating image." << std::endl;
   typedef itk::ImageSliceIteratorWithIndex< Image3DType > SliceIteratorType;
   SliceIteratorType it( image3D, region3D );
 
@@ -173,6 +174,7 @@ int itkSpatialObjectToImageStatisticsCalculatorTest(int, char * [] )
     value++;
   }
 
+  std::cout << "Allocating spatial object." << std::endl;
   typedef itk::EllipseSpatialObject<3> Ellipse3DType;
   Ellipse3DType::Pointer ellipse3D = Ellipse3DType::New();
   double radius[3];
@@ -188,6 +190,7 @@ int itkSpatialObjectToImageStatisticsCalculatorTest(int, char * [] )
   ellipse3D->ComputeObjectToParentTransform();
 
   // Create a new calculator with a sample size of 3
+  std::cout << "Updating calculator." << std::endl;
   typedef itk::SpatialObjectToImageStatisticsCalculator<Image3DType,Ellipse3DType,3> Calculator3DType;
   Calculator3DType::Pointer calculator3D = Calculator3DType::New();
   calculator3D->SetImage(image3D);
