@@ -155,9 +155,9 @@ ResampleImageFilter<TInputImage,TOutputImage>
 
 
 /**
- * Setup state of filter before multi-threading.
+ * Set up state of filter before multi-threading.
  * InterpolatorType::SetInputImage is not thread-safe and hence
- * has to be setup before ThreadedGenerateData
+ * has to be set up before ThreadedGenerateData
  */
 template <class TInputImage, class TOutputImage>
 void 

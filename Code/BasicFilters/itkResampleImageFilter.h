@@ -32,9 +32,18 @@ namespace itk
  *
  * ResampleImageFilter resamples an existing image through some coordinate
  * transform, interpolating via some image function.  The class is templated
- * over the type of the input image, the type of the output image, the
- * type of the coordinate transformation, and the type of the interpolation
- * method or image function.
+ * over the types of the input and output images.
+ *
+ * Note that the choice of interpolator function can be important.
+ * This function is set via SetInterpolator().  The default is
+ * itk::LinearInterpolateImageFunction<InputImageType, double>, which
+ * is reasonable for ordinary medical images.  However, some synthetic
+ * images have pixels drawn from a finite prescribed set.  An example
+ * would be a mask indicating the segmentation of a brain into a small
+ * number of tissue types.  For such an image, one does not want to
+ * interpolate between different pixel values, and so
+ * itk::NearestNeighborInterpolateImageFunction< InputImageType,
+ * TCoordRep > would be a better choice.
  *
  * Since this filter produces an image which is a different size than
  * its input, it needs to override several of the methods defined
@@ -104,13 +113,19 @@ public:
   /** Set the coordinate transformation.
    * Set the coordinate transform to use for resampling.  Note that this
    * must be in index coordinates and is the output-to-input transform,
-   * NOT the input-to-output transform that you might naively expect. */
+   * NOT the input-to-output transform that you might naively expect.
+   * The default is itk::AffineTransform<double, ImageDimension>. */
   itkSetObjectMacro( Transform, TransformType ); 
 
   /** Get a pointer to the coordinate transform. */
   itkGetObjectMacro( Transform, TransformType );
 
-  /** Set the interpolator function */
+  /** Set the interpolator function.  The default is
+   * itk::LinearInterpolateImageFunction<InputImageType, double>. Some
+   * other options are itk::NearestNeighborInterpolateImageFunction
+   * (useful for binary masks and other images with a small number of
+   * possible pixel values), and itk::BSplineInterpolateImageFunction
+   * (which provides a higher order of interpolation).  */
   itkSetObjectMacro( Interpolator, InterpolatorType );
 
   /** Get a pointer to the interpolator function. */
@@ -122,7 +137,8 @@ public:
   /** Get the size of the output image. */
   itkGetConstReferenceMacro( Size, SizeType );
      
-  /** Set the pixel value when a transformed pixel is outside of the image */
+  /** Set the pixel value when a transformed pixel is outside of the
+   * image.  The default default pixel value is 0. */
   itkSetMacro(DefaultPixelValue,PixelType);
 
   /** Get the pixel value when a transformed pixel is outside of the image */
