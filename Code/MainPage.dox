@@ -60,6 +60,18 @@
 
 */
 
+/**
+  \defgroup IntensityImageFilters Intensity Image Filters 
+  \ingroup ImageFilters
+
+  Intensity Image filters only alter the values stored in image pixels.
+  \sa Image
+  \sa PhysicalImage
+  \sa ImageRegion
+
+*/
+
+
 
 /**
 \defgroup Functions Functions
