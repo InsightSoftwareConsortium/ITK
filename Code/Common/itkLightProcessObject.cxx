@@ -40,6 +40,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 =========================================================================*/
 #include "itkLightProcessObject.h"
 #include "itkCommand.h"
+#include "itkEventObject.h"
 
 namespace itk
 {
@@ -74,7 +75,7 @@ namespace itk
   ::UpdateProgress(float amount)
   {
     m_Progress = amount;
-    this->InvokeEvent(Command::ProgressEvent);
+    this->InvokeEvent( ProgressEvent() );
   }
 
 
@@ -100,7 +101,7 @@ namespace itk
   ::UpdateOutputData()
   {
     
-    this->InvokeEvent(Command::StartEvent);
+    this->InvokeEvent( StartEvent() );
 
     /**
      * GenerateData this object - we have not aborted yet, and our progress
@@ -121,7 +122,7 @@ namespace itk
       }
 
     // Notify end event observers
-    this->InvokeEvent(Command::EndEvent);
+    this->InvokeEvent( EndEvent() );
   }
 
 } // end namespace itk

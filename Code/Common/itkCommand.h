@@ -44,6 +44,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkObject.h"
 #include "itkObjectFactory.h"
 
+
 namespace itk
 {
 
@@ -79,83 +80,18 @@ public:
   /**
    * Abstract method that defines the action to be taken by the command.
    */
-  virtual void Execute(Object *caller, unsigned long event) = 0;
+  virtual void Execute(Object *caller, const EventObject & event ) = 0;
 
   /**
    * Abstract method that defines the action to be taken by the command.
    * This variant is expected to be used when requests comes from a 
    * const Object
    */
-  virtual void Execute(const Object *caller, unsigned long event) = 0;
+  virtual void Execute(const Object *caller, const EventObject & event ) = 0;
 
-
-  /**
-   * All the currently defined events are enumerated here.  developers
-   * can use: "Command::UserEvent + int" to specify their own events.  
-   */
-  enum EventIds {
-    NoEvent = 0,
-    DeleteEvent,
-    StartEvent,
-    EndEvent,
-    ProgressEvent,
-    PickEvent,
-    StartPickEvent,
-    EndPickEvent,
-    AbortCheckEvent,
-    ExitEvent,
-    ModifiedEvent,
-    IterationEvent,
-    AnyEvent,
-    UserEvent = 1000
-  };
-    
-  static unsigned long GetEventIdFromString(const char *event)
-    {  
-    if (!strcmp("DeleteEvent",event))
-      {
-      return Command::DeleteEvent;
-      }
-    if (!strcmp("StartEvent",event))
-      {
-      return Command::StartEvent;
-      }
-    if (!strcmp("EndEvent",event))
-      {
-      return Command::EndEvent;
-      }
-    if (!strcmp("ProgressEvent",event))
-      {
-      return Command::ProgressEvent;
-      }
-    if (!strcmp("PickEvent",event))
-      {
-      return Command::PickEvent;
-      }
-    if (!strcmp("ExitEvent",event))
-      {
-      return Command::PickEvent;
-      }
-    if (!strcmp("StartPickEvent",event))
-      {
-      return Command::StartPickEvent;
-      }
-    if (!strcmp("EndPickEvent",event))
-      {
-      return Command::EndPickEvent;
-      }
-    if (!strcmp("AbortCheckEvent",event))
-      {
-      return Command::AbortCheckEvent;
-      }
-    if (!strcmp("UserEvent",event))
-      {
-      return Command::UserEvent;
-      }
-    return Command::NoEvent;
-    };
 };
-  
+
+ 
 // some implementations for several callback types
 
 /** \Class MemberCommand
@@ -173,8 +109,8 @@ public:
   /* 
    * pointer to a member function that takes a Object* and the event
    */
-  typedef  void (T::*TMemberFunctionPointer)(Object*, unsigned long);
-  typedef  void (T::*TConstMemberFunctionPointer)(const Object*, unsigned long);
+  typedef  void (T::*TMemberFunctionPointer)(Object*, const EventObject &);
+  typedef  void (T::*TConstMemberFunctionPointer)(const Object*, const EventObject &);
   
   /**
    * Standard "Self" typedef.
@@ -217,7 +153,7 @@ public:
   /**
    *  Invoke the member function.
    */
-  virtual void Execute(Object *caller, unsigned long event)
+  virtual void Execute(Object *caller, const EventObject & event )
     { 
       if( m_MemberFunction ) 
       {
@@ -228,7 +164,7 @@ public:
   /**
    *  Invoke the member function with a const object
    */
-  virtual void Execute( const Object *caller, unsigned long event)
+  virtual void Execute( const Object *caller, const EventObject & event )
     { 
       if( m_ConstMemberFunction ) 
       {
@@ -291,7 +227,7 @@ public:
       m_MemberFunction = memberFunction;
     }
   
-  virtual void Execute(Object *, unsigned long)
+  virtual void Execute(Object *,const EventObject & event ) 
     { 
       if( m_MemberFunction ) 
       {
@@ -299,7 +235,7 @@ public:
       }
     }
 
-  virtual void Execute(const Object *, unsigned long)
+  virtual void Execute(const Object *,const EventObject & event ) 
     { 
       if( m_MemberFunction ) 
       {
@@ -361,7 +297,7 @@ public:
       m_MemberFunction = memberFunction;
     }
   
-  virtual void Execute(Object *, unsigned long)
+  virtual void Execute(Object *,const EventObject & event ) 
     { 
       if( m_MemberFunction ) 
       {
@@ -369,7 +305,7 @@ public:
       }
     }
 
-  virtual void Execute(const Object *, unsigned long)
+  virtual void Execute(const Object *,const EventObject & event ) 
     { 
       if( m_MemberFunction ) 
       {
@@ -404,8 +340,8 @@ protected:
 class CStyleCommand : public Command
 {
 public:
-  typedef  void (*FunctionPointer)(Object*, unsigned long, void*);
-  typedef  void (*ConstFunctionPointer)(const Object*, unsigned long, void*);
+  typedef  void (*FunctionPointer)(Object*, const EventObject &, void*);
+  typedef  void (*ConstFunctionPointer)(const Object*, const EventObject &, void*);
   typedef  void (*DeleteDataFunctionPointer)(void*);
 
   /**
@@ -453,7 +389,7 @@ public:
   /**
    * Execute the callback function.
    */
-  void Execute(Object *caller, unsigned long event)
+  void Execute(Object *caller, const EventObject & event )
     {
     if (m_Callback)
       {
@@ -464,7 +400,7 @@ public:
   /**
    * Execute the callback function with a const Object
    */
-  void Execute(const Object *caller, unsigned long event)
+  void Execute(const Object *caller, const EventObject & event )
     {
     if (m_ConstCallback)
       {
