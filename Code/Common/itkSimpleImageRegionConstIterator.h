@@ -75,11 +75,43 @@ namespace itk
  * wraps to the next row, starting at the first pixel in the row that is
  * part of the region. This allows for simple processing loops of the form:
  *
- *      for (it = image->RegionBegin(); it != image->RegionEnd(); ++it)
- *         {
- *         *it += 100.0;
- *         }
- * */
+ *
+ * \example itkImageIteratorTest
+ * \example itkIteratorTests
+ * \example itkIteratorsForwardBackwardsTest
+ *
+ * \code
+ * 
+ *  IteratorType it( image, image->GetRequestedRegion() );
+ *
+ *  it.Begin();
+ *
+ *  while( it.IsNotAtEnd() ) 
+ *  {  
+ *    it.Set( 100.0 + it.Get() );
+ *    ++it;
+ *  }
+ *
+ * \endcode
+ *
+ *  It also can be used for walking in the reverse direction like
+ *
+ * \code
+ * 
+ *  IteratorType it( image, image->GetRequestedRegion() );
+ *
+ *  it.End();
+ *
+ *  while( !it.IsAtBegin() ) 
+ *  {  
+ *    it.Set( 100.0 );
+ *    --it;
+ *  }
+ *
+ * \endcode
+ *
+ *
+ */
 template<typename TImage>
 class SimpleImageRegionConstIterator : public ImageConstIteratorWithIndex<TImage>
 {
@@ -158,9 +190,20 @@ public:
    * to the beginning of the next row of the region) up until the iterator
    * tries to moves past the last pixel of the region.  Here, the iterator
    * will be set to be one pixel past the end of the region.
-   * \sa operator++(int)
+   * \sa operator--
    */
   Self & operator++();
+
+  /**
+   * Decrement (prefix) the fastest moving dimension of the iterator's index.
+   * This operator will constrain the iterator within the region (i.e. the
+   * iterator will automatically wrap from the beginning of the row of the 
+   * region to the end of the previous row of the region) up until the iterator
+   * tries to moves past the first pixel of the region.  Here, the iterator
+   * will be set to be one pixel past the beginning of the region.
+   * \sa operator++
+   */
+  Self & operator--();
 
 };
 

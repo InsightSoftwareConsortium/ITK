@@ -80,6 +80,44 @@ SimpleImageRegionConstIterator<TImage>
   return *this;
 }
 
+
+//----------------------------------------------------------------------
+//  Advance along the line in reverse direction
+//----------------------------------------------------------------------
+template<class TImage>
+SimpleImageRegionConstIterator<TImage> &
+SimpleImageRegionConstIterator<TImage>
+::operator--()
+{
+  
+  m_Remaining = false;
+  for( unsigned int in=0; in<TImage::ImageDimension; in++ )
+  {
+      
+      if( m_PositionIndex[ in ] > m_BeginIndex[ in ] )
+      {
+        m_PositionIndex[ in  ]--;
+        m_Position -= m_OffsetTable[in];
+        m_Remaining = true;
+        break;
+      }
+      else 
+      {
+        m_PositionIndex[ in  ]--;
+        m_Position += m_OffsetTable[ in ] * ( m_Region.GetSize()[in]-1 );
+        m_PositionIndex[ in ] = m_EndIndex[ in ] - 1; 
+      }
+
+  }
+
+  if( !m_Remaining ) // It will not advance here otherwise
+  {
+    m_Position = m_End;
+  }
+
+  return *this;
+}
+
 } // end namespace itk
 
 #endif

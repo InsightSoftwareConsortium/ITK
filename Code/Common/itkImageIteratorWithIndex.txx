@@ -129,7 +129,6 @@ ImageIteratorWithIndex<TImage>
       pastEnd[i]    = m_BeginIndex[i] + size-1;
     }
   m_End = m_Buffer + m_Image->ComputeOffset( pastEnd );
-  m_End++;
 
   m_DataAccessor = m_Image->GetDataAccessor();
 
@@ -165,7 +164,6 @@ ImageIteratorWithIndex<TImage>
   
 
 
-
 //----------------------------------------------------------------------------
 // Begin() is the first pixel in the region.
 //----------------------------------------------------------------------------
@@ -173,6 +171,18 @@ template<class TImage>
 void
 ImageIteratorWithIndex<TImage>
 ::Begin()
+{
+  GoToBegin();
+}
+
+
+//----------------------------------------------------------------------------
+// GoToBegin() is the first pixel in the region.
+//----------------------------------------------------------------------------
+template<class TImage>
+void
+ImageIteratorWithIndex<TImage>
+::GoToBegin()
 {
   // Set the position at begin
 
@@ -182,6 +192,46 @@ ImageIteratorWithIndex<TImage>
   m_Remaining = false;
   for (unsigned int i=0; i < ImageIteratorDimension; ++i)
   {
+    unsigned int size = m_Region.GetSize()[i];
+    if( size > 0 )
+    {
+      m_Remaining = true;
+    }
+
+  }
+
+}
+
+
+
+//----------------------------------------------------------------------------
+// End() is the last pixel in the region.  DEPRECATED
+//----------------------------------------------------------------------------
+template<class TImage>
+void
+ImageIteratorWithIndex<TImage>
+::End()
+{
+  GoToEnd();
+}
+
+
+//----------------------------------------------------------------------------
+// GoToEnd() is the last pixel in the region.
+//----------------------------------------------------------------------------
+template<class TImage>
+void
+ImageIteratorWithIndex<TImage>
+::GoToEnd()
+{
+  // Set the position at the end
+
+  m_Position       = m_End;
+  
+  m_Remaining = false;
+  for (unsigned int i=0; i < ImageIteratorDimension; ++i)
+  {
+    m_PositionIndex[i]  = m_EndIndex[i]-1;
     unsigned int size = m_Region.GetSize()[i];
     if( size > 0 )
     {

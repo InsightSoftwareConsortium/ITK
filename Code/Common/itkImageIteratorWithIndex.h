@@ -290,8 +290,30 @@ public:
  
   /**
    * Move an iterator to the beginning of the region.
+   * \deprecated Use GoToBegin() instead
    */
   void Begin();
+
+
+  /**
+   * Move an iterator to the beginning of the region.
+   */
+  void GoToBegin();
+
+
+
+  /**
+   * Move an iterator to the End of the region.
+   * \deprecated Use GoToEnd() instead
+   */
+  void End();
+
+
+  /**
+   * Move an iterator to the End of the region.
+   */
+  void GoToEnd();
+
 
   /**
    * Is the iterator at the beginning of the region?

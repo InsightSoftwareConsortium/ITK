@@ -75,10 +75,41 @@ namespace itk
  * wraps to the next row, starting at the first pixel in the row that is
  * part of the region. This allows for simple processing loops of the form:
  *
- *      for (it = image->RegionBegin(); it != image->RegionEnd(); ++it)
- *         {
- *         *it += 100.0;
- *         }
+ * \example itkImageIteratorTest
+ * \example itkIteratorTests
+ * \example itkIteratorsForwardBackwardsTest
+ *
+ * \code
+ * 
+ *  IteratorType it( image, image->GetRequestedRegion() );
+ *
+ *  it.Begin();
+ *
+ *  while( ! it.IsAtEnd() ) 
+ *  {  
+ *    it.Set( 100.0 + it.Get() );
+ *    ++it;
+ *  }
+ *
+ * \endcode
+ *
+ *  It also can be used for walking in the reverse direction like
+ *
+ * \code
+ * 
+ *  IteratorType it( image, image->GetRequestedRegion() );
+ *
+ *  it.End();
+ *
+ *  while( !it.IsAtBegin() ) 
+ *  {  
+ *    it.Set( 100.0 );
+ *    --it;
+ *  }
+ *
+ * \endcode
+ *
+ *
  * */
 template<typename TImage>
 class SimpleImageRegionIterator : public ImageIteratorWithIndex<TImage>

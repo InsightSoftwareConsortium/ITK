@@ -127,7 +127,6 @@ ImageConstIteratorWithIndex<TImage>
       pastEnd[i]    = m_BeginIndex[i] + size-1;
     }
   m_End = m_Buffer + m_Image->ComputeOffset( pastEnd );
-  m_End++;
 
   m_DataAccessor = m_Image->GetDataAccessor();
 
@@ -163,7 +162,6 @@ ImageConstIteratorWithIndex<TImage>
   
 
 
-
 //----------------------------------------------------------------------------
 // Begin() is the first pixel in the region.
 //----------------------------------------------------------------------------
@@ -171,6 +169,18 @@ template<class TImage>
 void
 ImageConstIteratorWithIndex<TImage>
 ::Begin()
+{
+  GoToBegin();
+}
+
+
+//----------------------------------------------------------------------------
+// GoToBegin() is the first pixel in the region.
+//----------------------------------------------------------------------------
+template<class TImage>
+void
+ImageConstIteratorWithIndex<TImage>
+::GoToBegin()
 {
   // Set the position at begin
 
@@ -188,6 +198,45 @@ ImageConstIteratorWithIndex<TImage>
 
   }
 
+
+}
+
+
+//----------------------------------------------------------------------------
+// End() is the last pixel in the region.  DEPRECATED
+//----------------------------------------------------------------------------
+template<class TImage>
+void
+ImageConstIteratorWithIndex<TImage>
+::End()
+{
+  GoToEnd();
+}
+
+
+//----------------------------------------------------------------------------
+// GoToEnd() is the last pixel in the region.
+//----------------------------------------------------------------------------
+template<class TImage>
+void
+ImageConstIteratorWithIndex<TImage>
+::GoToEnd()
+{
+  // Set the position at the end
+
+  m_Position       = m_End;
+  
+  m_Remaining = false;
+  for (unsigned int i=0; i < ImageDimension; ++i)
+  {
+    m_PositionIndex[i]  = m_EndIndex[i]-1;
+    unsigned int size = m_Region.GetSize()[i];
+    if( size > 0 )
+    {
+      m_Remaining = true;
+    }
+
+  }
 
 }
 
