@@ -21,12 +21,12 @@
 // The \doxygen{ImageRegionIterator} is optimized for
 // iteration speed and is the first choice for iterative, pixel-wise operations
 // when location in the image is not
-// important. \doxygen{ImageRegionIterator} is the least specialized of the ITK
+// important. ImageRegionIterator is the least specialized of the ITK
 // image iterator classes.  It implements all of the methods described in the
 // preceding section.
 //
 // The following example illustrates the use of
-// \doxygen{ImageRegionConstIterator} and \doxygen{ImageRegionIterator}.
+// \doxygen{ImageRegionConstIterator} and ImageRegionIterator.
 // Most of the code constructs introduced apply to other ITK iterators as
 // well. This simple application crops a subregion from an image by copying
 // its pixel values into to a second, smaller image.
@@ -149,12 +149,13 @@ int main( int argc, char *argv[] )
 //
 // After reading the input image and checking that the desired subregion is,
 // in fact, contained in the input, we allocate an output image.  It is
-// fundamental to correct some of the basic image information during the
-// copying process.  In particular, the starting index of the output region
+// fundamental to set valid values to some of the basic image information 
+// during the copying process.  
+// In particular, the starting index of the output region
 // is now filled up with zero values and the coordinates of the physical
 // origin are computed as a shift from the origin of the input image. This is
-// quite important since it will allow later to register the extracted region
-// against the original image.
+// quite important since it will allow us to later 
+// register the extracted region against the original image.
 //
 // Software Guide : EndLatex
 
@@ -183,7 +184,7 @@ int main( int argc, char *argv[] )
 // left to do is to create the iterators and perform the copy.  Note that image
 // iterators are not accessed via smart pointers so they are light-weight
 // objects that are instantiated on the stack.  Also notice how the input and
-// output iterators are defined over the \emph{same region}.  Though the
+// output iterators are defined over the \emph{same corresponding region}.  Though the
 // images are different sizes, they both contain the same target subregion.
 //
 // Software Guide : EndLatex

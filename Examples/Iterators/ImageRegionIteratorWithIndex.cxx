@@ -29,12 +29,12 @@
 // \index{itk::ImageRegionIteratorWithIndex!example of using|(}
 //
 // The following example illustrates the use of
-// \doxygen{ImageRegionIteratorWithIndex}.  The algorithm mirrors
+// ImageRegionIteratorWithIndex.  The algorithm mirrors
 // a 2D image across its $x$-axis (see \doxygen{FlipImageFilter} for an ND
 // version).  The algorithm makes extensive use of the \code{GetIndex()}
 // method.
 //
-// Start by including the proper header file.
+// We start by including the proper header file.
 //
 // Software Guide : EndLatex
 
@@ -63,7 +63,7 @@ int main( int argc, char *argv[] )
 //
 // For this example, we will use an RGB pixel type so that we can process color
 // images. Like most other ITK image iterator,
-// \doxygen{ImageRegionIteratorWithIndex} class expects the image type as its
+// ImageRegionIteratorWithIndex class expects the image type as its
 // single template parameter.
 //
 // Software Guide : EndLatex

@@ -30,7 +30,7 @@
 // \code{true} when the current sample number equals the sample size.
 // \code{IsAtBegin()} returns \code{true} when the current sample number equals
 // zero.  An important difference from other image iterators is that
-// \doxygen{ImageRandomConstIteratorWithIndex} may visit the same pixel
+// ImageRandomConstIteratorWithIndex may visit the same pixel
 //  more than once.
 //
 // \index{itk::Image\-Random\-Const\-Iterator\-With\-Index!example of using|(}

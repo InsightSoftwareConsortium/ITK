@@ -168,8 +168,8 @@ int main( int argc, char ** argv )
 // \includegraphics[width=0.23\textwidth]{NeighborhoodIterators4d.eps}
 // \itkcaption[Gaussian blurring by convolution filtering]{Results of
 // convolution filtering with a Gaussian kernel of increasing standard
-// deviation $\sigma$.  From left to right, $\sigma = 0$, $\sigma = 1$, $\sigma
-// = 2$, $\sigma = 5$.  Increased blurring reduces contrast and changes the
+// deviation $\sigma$ (from left to right, $\sigma = 0$, $\sigma = 1$, $\sigma
+// = 2$, $\sigma = 5$).  Increased blurring reduces contrast and changes the
 // average intensity value of the image, which causes the image to appear
 // brighter when rescaled.}
 // \protect\label{fig:NeighborhoodExample4}

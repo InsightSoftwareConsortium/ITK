@@ -29,8 +29,8 @@
 // Some image processing routines do not need to visit every pixel in an
 // image. Flood-fill and connected-component algorithms, for example, only
 // visit pixels that are locally connected to one another.  Algorithms
-// such as these can be efficiently written using the random access capabilities
-// of the neighborhood iterator.
+// such as these can be efficiently written using the random access 
+// capabilities of the neighborhood iterator.
 //
 // The following example finds local minima.  Given a seed point, we can search
 // the neighborhood of that point and pick the smallest value $m$.  While $m$
@@ -40,7 +40,7 @@
 // neighborhood iterator.
 //
 // To illustrate the process, we create an image that descends everywhere to a
-// single minimum, a positive distance transform to a point.  The details of
+// single minimum:  a positive distance transform to a point.  The details of
 // creating the distance transform are not relevant to the discussion of
 // neighborhood iterators, but can be found in the source code of this
 // example. Some noise has been added to the distance transform image for
@@ -149,7 +149,7 @@ int main( int argc, char ** argv )
 // 
 // Searching for the local minimum involves finding the minimum in the current
 // neighborhood, then shifting the neighborhood in the direction of that
-// minimum.  The \code{for} loop below records the \code{itk::Offset} of the
+// minimum.  The \code{for} loop below records the \doxygen{Offset} of the
 // minimum neighborhood pixel.  The neighborhood iterator is then moved using
 // that offset.  When a local minimum is detected, \code{flag} will remain
 // false and the \code{while} loop will exit.  Note that this code is
@@ -195,7 +195,8 @@ int main( int argc, char ** argv )
 // \includegraphics[width=0.3\textwidth]{NeighborhoodIterators6b.eps}
 // \includegraphics[width=0.3\textwidth]{NeighborhoodIterators6c.eps}
 // \itkcaption[Finding local minima]{Paths traversed by the neighborhood
-// iterator from a seed point to a local minimum. The minimum is at the center
+// iterator from different seed points to the local minimum. 
+// The true minimum is at the center
 // of the image.  The path of the iterator is shown in white. The effect of
 // noise in the image is seen as small perturbations in each path. }
 // \protect\label{fig:NeighborhoodExample6} \end{figure}

@@ -26,7 +26,7 @@
 // neighborhood processing algorithms follow this read-only model on their
 // inputs. 
 //
-// Begin by including the proper header files.  The
+// We begin by including the proper header files.  The
 // \doxygen{ImageRegionIterator} will be used to write the results of
 // computations to the output image.  A const version of the neighborhood
 // iterator is used because the input image is read-only.
@@ -57,11 +57,14 @@ int main( int argc, char ** argv )
 
 // Software Guide : BeginLatex
 //
-// Now declare the image and pixel types.  The finite difference calculations
-// in this algorithm require floating point values.  As declared, the file reader will
+// The finite difference calculations
+// in this algorithm require floating point values.  Hence, we define the image
+// pixel type to be \code{float} and the file reader will
 // automatically cast fixed-point data to \code{float}.
 //
-// The second template parameter of the neighborhood iterator, which specifies
+// We declare the iterator types using the image type as
+// the template parameter. The second template parameter of the 
+// neighborhood iterator, which specifies
 // the boundary condition, has been omitted because the default condition is
 // appropriate for this algorithm.
 //
@@ -79,7 +82,8 @@ int main( int argc, char ** argv )
 
 // Software Guide : BeginLatex
 //
-// The following code creates and executes ITK image reader. The \code{Update}
+// The following code creates and executes the ITK image reader. 
+// The \code{Update}
 // call on the reader object is surrounded by the standard \code{try/catch}
 // blocks to handle any exceptions that may be thrown by the reader.
 //
@@ -139,10 +143,10 @@ int main( int argc, char ** argv )
 // derivative image biased toward maximally vertical edges.
 //
 // The finite differences are computed from pixels at six locations in the
-// neighborhood.  In this example, we use the iterator \code{Set} method to
-// query the values from their offsets in the neighborhood.  The example in
-// Section~\ref{sec:NeighborhoodIterators2} uses convolution with a Sobel
-// kernel instead.
+// neighborhood.  In this example, we use the iterator \code{GetPixel()} 
+// method to query the values from their offsets in the neighborhood.  
+// The example in Section~\ref{sec:NeighborhoodExample2} uses convolution 
+// with a Sobel kernel instead.
 //
 // Six positions in the neighborhood are necessary for the finite difference
 // calculations. These positions are recorded in \code{offset1} through
@@ -187,7 +191,7 @@ int main( int argc, char ** argv )
 // The last step is to write the output buffer to an image file.  Writing is
 // done inside a \code{try/catch} block to handle any exceptions.  The output
 // is rescaled to intensity range $[0, 255]$ and cast to unsigned char so that
-// it can be saved and visualized as a \code{png} image.
+// it can be saved and visualized as a PNG image.
 //
 // Software Guide : EndLatex  
   
@@ -224,7 +228,7 @@ int main( int argc, char ** argv )
 // Software Guide : BeginLatex
 //
 // The center image of Figure~\ref{fig:NeighborhoodExamples1} shows the
-// output of the Sobel algorithm run on the image
+// output of the Sobel algorithm applied to
 // \code{Examples/Data/BrainT1Slice.png}.
 //
 // \begin{figure} \centering

@@ -21,18 +21,21 @@
 //
 // The \doxygen{ImageSliceIteratorWithIndex} is an extension of
 // \doxygen{ImageLinearIteratorWithIndex} from iteration along lines to
-// iteration along both lines \emph{and planes} in an image.  A \emph{slice} is a 2D
+// iteration along both lines \emph{and planes} in an image.  
+// A \emph{slice} is a 2D
 // plane spanned by two vectors pointing along orthogonal coordinate axes.  The
 // slice orientation of the slice iterator is defined by specifying its two
 // spanning axes.
 // 
 // \begin{itemize}
 // \index{itk::Image\-Slice\-Iterator\-With\-Index!SetFirstDirection()}
-// \item \textbf{\code{SetFirstDirection()}} Specifies the first coordinate axis
+// \item \textbf{\code{SetFirstDirection()}} 
+// Specifies the first coordinate axis
 // direction of the slice plane.
 //
 // \index{itk::Image\-Slice\-Iterator\-With\-Index!SetSecondDirection()}
-// \item \textbf{\code{SetSecondDirection()}} Specifies the second coordinate axis
+// \item \textbf{\code{SetSecondDirection()}} 
+// Specifies the second coordinate axis
 // direction of the slice plane.
 // \end{itemize}
 //
@@ -56,7 +59,8 @@
 //
 // \index{itk::Image\-Slice\-Iterator\-With\-Index!IsAtReverseEndOfSlice()}
 // \item \textbf{\code{IsAtReverseEndOfSlice()}} Returns true if the iterator
-// points to \emph{one position before} the beginning pixel of the current slice.
+// points to \emph{one position before} the beginning pixel of the current 
+// slice.
 //
 // \index{itk::Image\-Slice\-Iterator\-With\-Index!IsAtEndOfSlice()}
 // \item \textbf{\code{IsAtEndOfSlice()}} Returns true if the iterator points
@@ -72,7 +76,7 @@
 // \index{itk::Image\-Slice\-Iterator\-With\-Index!example of using|(}
 // The next code example calculates the maximum intensity projection along one
 // of the coordinate axes of an image volume.  The algorithm is straightforward
-// using \doxygen{ImageSliceIteratorWithIndex} because we can coordinate
+// using ImageSliceIteratorWithIndex because we can coordinate
 // movement through a slice of the 3D input image with movement through the 2D
 // planar output.
 //

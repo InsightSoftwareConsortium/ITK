@@ -117,7 +117,8 @@ int main( int argc, char ** argv )
 //
 // The neighborhood iterator is initialized as before, except that now it takes
 // its radius directly from the radius of the Sobel operator.  The inner
-// product function object is templated over image type and requires no initialization.
+// product function object is templated over image type and requires no 
+// initialization.
 //
 // Software Guide : EndLatex
 
@@ -154,7 +155,6 @@ int main( int argc, char ** argv )
 // 
 // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
   typedef unsigned char WritePixelType;
   typedef itk::Image< WritePixelType, 2 > WriteImageType;
   typedef itk::ImageFileWriter< WriteImageType > WriterType;
@@ -181,7 +181,6 @@ int main( int argc, char ** argv )
     std::cout << err << std::endl; 
     return -1;   
     }
-// Software Guide : EndCodeSnippet
 
   return 0;
 }

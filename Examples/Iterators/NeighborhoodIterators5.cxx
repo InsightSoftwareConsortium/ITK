@@ -38,7 +38,7 @@
 // position along the positive $x$ direction.  For a $3\times3$, 2D
 // neighborhood iterator, we can construct an \code{std::slice}, \code{(start =
 // 2, stride = 3, end = 8)}, that represents the neighborhood offsets $(1,
-// -1)$, $(1, 0)$, $(1, 1)$ (see Figure~\ref{fig:NeighborhoodArray}). If we
+// -1)$, $(1, 0)$, $(1, 1)$ (see Figure~\ref{fig:NeighborhoodIteratorFig2}). If we
 // pass this slice as an extra argument to the
 // \doxygen{NeighborhoodInnerProduct} function, then the inner product is taken
 // only along that slice.  This ``sliced'' inner product with a 1D
@@ -137,9 +137,9 @@ int main( int argc, char ** argv )
 // loop as before, but now the iterator is reinitialized each iteration with
 // the square \code{radius} instead of the radius of the operator.  The
 // inner product is taken using a slice along the axial direction corresponding
-// to the current iteration.  Note the use of \code{GetSlice} to return the
-// proper slice from the iterator itself.  \code{GetSlice} can only be used to
-// return the slice along the complete extent of the axial direction of a
+// to the current iteration.  Note the use of \code{GetSlice()} to return the
+// proper slice from the iterator itself.  \code{GetSlice()} can only be used 
+// to return the slice along the complete extent of the axial direction of a
 // neighborhood.
 //
 // Software Guide : EndLatex
@@ -183,7 +183,6 @@ int main( int argc, char ** argv )
 //
 // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
   typedef unsigned char WritePixelType;
   typedef itk::Image< WritePixelType, 2 > WriteImageType;
   typedef itk::ImageFileWriter< WriteImageType > WriterType;
@@ -210,7 +209,6 @@ int main( int argc, char ** argv )
     std::cout << err << std::endl;
     return -1;
     }
-// Software Guide : EndCodeSnippet
 
   return 0;
 }

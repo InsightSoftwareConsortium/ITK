@@ -34,8 +34,8 @@
 // trick can provide a significant speedup for simple algorithms such as our
 // Sobel edge detection, where iteration speed is a critical.
 //
-// Splitting the image into the necessary regions is easy thanks to a function
-// object called the \doxygen{ImageBoundaryFacesCalculator}.  The face
+// Splitting the image into the necessary regions is an easy task when you use
+// the \doxygen{ImageBoundaryFacesCalculator}.  The face
 // calculator is so named because it returns a list of the ``faces'' of the ND
 // dataset.  Faces are those regions whose pixels all lie within a distance $d$
 // from the boundary, where $d$ is the radius of the neighborhood stencil used
@@ -194,7 +194,6 @@ int main( int argc, char ** argv )
 //  
 // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
   typedef unsigned char WritePixelType;
   typedef itk::Image< WritePixelType, 2 > WriteImageType;
   typedef itk::ImageFileWriter< WriteImageType > WriterType;
@@ -221,7 +220,6 @@ int main( int argc, char ** argv )
     std::cout << err << std::endl;
     return -1;
     }
-// Software Guide : EndCodeSnippet
 
   return 0;
 }

@@ -26,7 +26,7 @@
 // \index{Iterators!and image lines}
 //
 // Like all image iterators, movement of the
-// \doxygen{ImageLinearIteratorWithIndex} is constrained within an
+// ImageLinearIteratorWithIndex is constrained within an
 // image region $R$.  The line $\ell$ through which the iterator moves is
 // defined by selecting a direction and an origin.   The line $\ell$
 // extends from the origin to the upper boundary of $R$. The origin can be
@@ -67,18 +67,21 @@
 // \index{itk::ImageLinearIteratorWithIndex!IsAtReverseEndOfLine()}
 // \index{itk::ImageLinearIteratorWithIndex!IsAtEndOfLine()}
 //
-// \item \textbf{\code{IsAtReverseEndOfLine()}} Returns true if the iterator points
+// \item \textbf{\code{IsAtReverseEndOfLine()}} 
+// Returns true if the iterator points
 // to \emph{one position before} the beginning pixel of the current line.
 //
-// \item \textbf{\code{IsAtEndOfLine()}}  Returns true if the iterator points to
+// \item \textbf{\code{IsAtEndOfLine()}}  
+// Returns true if the iterator points to
 // \emph{one position past} the last valid pixel of the current line.
 // \end{itemize}
 //
 // The following code example shows how to use the
-// \doxygen{ImageLinearIteratorWithIndex}.  It implements the same algorithm as
+// ImageLinearIteratorWithIndex.  It implements the same algorithm as
 // in the previous example, flipping an image across its $x$-axis.  Two line
-// iterators are iterated in opposite directions across the $x$-axis.  After each
-// line is traversed, the iterator origins are stepped down the $y$-axis to the
+// iterators are iterated in opposite directions across the $x$-axis.  
+// After each line is traversed, the iterator origins are stepped along 
+// the $y$-axis to the
 // next line.
 //
 // \index{itk::ImageLinearIteratorWithIndex!example of using|(}
@@ -112,7 +115,7 @@ int main( int argc, char *argv[] )
 // Software Guide : BeginLatex
 //
 // The RGB image and pixel types are defined as in the previous example.  The 
-// \doxygen{ImageLinearIteratorWithIndex} class and its const version each have
+// ImageLinearIteratorWithIndex class and its const version each have
 // single template parameters, the image type.
 //
 // Software Guide : EndLatex
