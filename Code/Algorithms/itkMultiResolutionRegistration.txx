@@ -202,9 +202,6 @@ unsigned int level )
 
 
 /**
- * 
-
-/**
  * PrintSelf method
  */
 template <class TRegistrationMethod>
