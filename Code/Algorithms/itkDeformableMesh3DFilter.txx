@@ -877,12 +877,12 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     d[0] += m_TimeStep*ds[0]; 
     d[1] += m_TimeStep*ds[1]; 
     d[2] += m_TimeStep*ds[2]; 
-    if ( m_ModelYDownLimit > s[1] ) m_ModelYDownLimit = s[1];
-    if ( m_ModelYUpLimit < s[1] ) m_ModelYUpLimit = s[1];
-    if ( m_ModelXDownLimit > s[0] ) m_ModelXDownLimit = s[0];
-    if ( m_ModelXUpLimit < s[0] ) m_ModelXUpLimit = s[0];
-    if ( m_ModelZDownLimit > s[2] ) m_ModelZDownLimit = s[2];
-    if ( m_ModelZUpLimit < s[2] ) m_ModelZUpLimit = s[2];
+    if ( m_ModelYDownLimit > s[1] ) m_ModelYDownLimit = static_cast<int>(s[1]);
+    if ( m_ModelYUpLimit < s[1] ) m_ModelYUpLimit = static_cast<int>(s[1]);
+    if ( m_ModelXDownLimit > s[0] ) m_ModelXDownLimit = static_cast<int>(s[0]);
+    if ( m_ModelXUpLimit < s[0] ) m_ModelXUpLimit = static_cast<int>(s[0]);
+    if ( m_ModelZDownLimit > s[2] ) m_ModelZDownLimit = static_cast<int>(s[2]);
+    if ( m_ModelZUpLimit < s[2] ) m_ModelZUpLimit = static_cast<int>(s[2]);
 
     /** disable for shrink test */
 
