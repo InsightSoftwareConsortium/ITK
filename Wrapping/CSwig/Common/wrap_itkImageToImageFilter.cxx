@@ -25,18 +25,19 @@ namespace _cable_
   const char* const group = ITK_WRAP_GROUP(itkImageToImageFilter);
   namespace wrappers
   {
-    ITK_WRAP_TEMPLATE2(ImageToImageFilter, image::F2, image::F2, 
-                       itkImageToImageFilterF2F2);
-    ITK_WRAP_TEMPLATE2(ImageToImageFilter, image::F3, image::F2, 
-                       itkImageToImageFilterF3F2);
-    ITK_WRAP_TEMPLATE2(ImageToImageFilter, image::F3, image::F3,
-                       itkImageToImageFilterF3F3);
-    ITK_WRAP_TEMPLATE2(ImageToImageFilter, image::US2, image::US2,
-                       itkImageToImageFilterUS2US2);
-    ITK_WRAP_TEMPLATE2(ImageToImageFilter, image::US3, image::US2,
-                       itkImageToImageFilterUS3US2);
-    ITK_WRAP_TEMPLATE2(ImageToImageFilter, image::US3, image::US3,
-                       itkImageToImageFilterUS3US3);
+    ITK_WRAP_OBJECT2(ImageToImageFilter, image::F2, image::F2, itkImageToImageFilterF2F2);
+    ITK_WRAP_OBJECT2(ImageToImageFilter, image::F2, image::UC2, itkImageToImageFilterF2UC2);
+    ITK_WRAP_OBJECT2(ImageToImageFilter, image::F2, image::US2, itkImageToImageFilterF2US2);
+    ITK_WRAP_OBJECT2(ImageToImageFilter, image::US2, image::F2, itkImageToImageFilterUS2F2);
+    ITK_WRAP_OBJECT2(ImageToImageFilter, image::US2, image::UC2, itkImageToImageFilterUS2UC2);
+    ITK_WRAP_OBJECT2(ImageToImageFilter, image::US2, image::US2, itkImageToImageFilterUS2US2);
+
+    ITK_WRAP_OBJECT2(ImageToImageFilter, image::F3, image::F3, itkImageToImageFilterF3F3);
+    ITK_WRAP_OBJECT2(ImageToImageFilter, image::F3, image::UC3, itkImageToImageFilterF3UC3);
+    ITK_WRAP_OBJECT2(ImageToImageFilter, image::F3, image::US3, itkImageToImageFilterF3US3);
+    ITK_WRAP_OBJECT2(ImageToImageFilter, image::US3, image::F3, itkImageToImageFilterUS3F3);
+    ITK_WRAP_OBJECT2(ImageToImageFilter, image::US3, image::UC3, itkImageToImageFilterUS3UC3);
+    ITK_WRAP_OBJECT2(ImageToImageFilter, image::US3, image::US3, itkImageToImageFilterUS3US3);
   }
 }
 #endif

@@ -1,7 +1,6 @@
 # create a list of cable config files for wrapping
 SET(WRAP_SOURCES
   wrap_ITKCommonBase
-  wrap_ITKFilterBase
   wrap_ITKInterpolators
   wrap_ITKKernelDeformableTransforms
   wrap_ITKRegions
@@ -18,7 +17,10 @@ SET(WRAP_SOURCES
   wrap_itkFiniteDifferenceImageFilter
   wrap_itkFixedArray
   wrap_itkIdentityTransform
-  wrap_itkImage
+  wrap_itkImage_2D
+  wrap_itkImage_3D
+  wrap_itkImageSource
+  wrap_itkImageToImageFilter
   wrap_itkIndex
   wrap_itkLevelSet
   wrap_itkPoint

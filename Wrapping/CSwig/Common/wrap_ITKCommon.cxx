@@ -22,7 +22,6 @@ namespace _cable_
   const char* const groups[] =
   {
     ITK_WRAP_GROUP(ITKCommonBase),
-    ITK_WRAP_GROUP(ITKFilterBase),
     ITK_WRAP_GROUP(ITKInterpolators),
     ITK_WRAP_GROUP(ITKKernelDeformableTransforms),
     ITK_WRAP_GROUP(ITKRegions),
@@ -39,7 +38,10 @@ namespace _cable_
     ITK_WRAP_GROUP(itkFiniteDifferenceImageFilter),
     ITK_WRAP_GROUP(itkFixedArray),
     ITK_WRAP_GROUP(itkIdentityTransform),
-    ITK_WRAP_GROUP(itkImage),
+    ITK_WRAP_GROUP(itkImage_2D),
+    ITK_WRAP_GROUP(itkImage_3D),
+    ITK_WRAP_GROUP(itkImageSource),
+    ITK_WRAP_GROUP(itkImageToImageFilter),
     ITK_WRAP_GROUP(itkIndex),
     ITK_WRAP_GROUP(itkPoint),
     ITK_WRAP_GROUP(itkSize),
