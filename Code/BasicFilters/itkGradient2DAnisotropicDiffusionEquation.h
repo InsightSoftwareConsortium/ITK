@@ -136,8 +136,6 @@ public:
 protected:
   Gradient2DAnisotropicDiffusionEquation();
   ~Gradient2DAnisotropicDiffusionEquation() {}
-  Gradient2DAnisotropicDiffusionEquation(const Self&) {}
-  void operator=(const Self&) {}
 
   /**
    * Inner product function.
@@ -173,6 +171,10 @@ protected:
    * Modified global average gradient magnitude term.
    */
   PixelType m_k;
+  
+private:
+  Gradient2DAnisotropicDiffusionEquation(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
   
 };
 

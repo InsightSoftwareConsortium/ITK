@@ -105,8 +105,6 @@ public:
 protected:
   RecursiveGaussianImageFilter();
   virtual ~RecursiveGaussianImageFilter() {};
-  RecursiveGaussianImageFilter(const Self&) {}
-  void operator=(const Self&) {}
 
   /**
    * Set up the coefficients of the filter to approximate a specific kernel.
@@ -126,6 +124,8 @@ protected:
 
 
 private:  
+  RecursiveGaussianImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
   /**
    * Sigma of the gaussian kernel

@@ -110,8 +110,10 @@ public:
 protected:
   MultiplyImageFilter() {}
   virtual ~MultiplyImageFilter() {}
-  MultiplyImageFilter(const Self&) {}
-  void operator=(const Self&) {}
+
+private:
+  MultiplyImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
 };
 

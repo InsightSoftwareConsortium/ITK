@@ -136,8 +136,10 @@ private:
 protected:
   PlaheImageFilter(){};
   virtual ~PlaheImageFilter(){};
-  PlaheImageFilter(const Self&){};
-  void operator=(const Self&){};
+
+private:
+  PlaheImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 };
 
 } // end namespace itk

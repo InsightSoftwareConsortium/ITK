@@ -125,10 +125,9 @@ protected:
   GradientToMagnitudeImageFilter();
   virtual ~GradientToMagnitudeImageFilter() {};
 
-  GradientToMagnitudeImageFilter(const Self&) {}
-  void operator=(const Self&) {}
-
 private:
+  GradientToMagnitudeImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
 };
 

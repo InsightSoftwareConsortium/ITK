@@ -111,11 +111,12 @@ public:
   itkNewMacro(Self);
   
 protected:
-
   SinImageFilter() {}
   virtual ~SinImageFilter() {}
-  SinImageFilter(const Self&) {}
-  void operator=(const Self&) {}
+
+private:
+  SinImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
 
 };

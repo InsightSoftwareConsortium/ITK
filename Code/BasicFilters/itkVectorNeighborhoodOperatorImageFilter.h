@@ -167,8 +167,6 @@ public:
 protected:
   VectorNeighborhoodOperatorImageFilter() {}
   virtual ~VectorNeighborhoodOperatorImageFilter() {}
-  VectorNeighborhoodOperatorImageFilter(const Self&) : m_Operator(0) {}
-  void operator=(const Self&) {}
     
   /**
    * VectorNeighborhoodOperatorImageFilter can be implemented as a
@@ -187,6 +185,9 @@ protected:
                             int threadId );
 
 private:
+  VectorNeighborhoodOperatorImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   /**
    * Pointer to the internal operator used to filter the image.
    */

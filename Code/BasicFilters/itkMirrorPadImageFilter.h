@@ -120,8 +120,6 @@ public:
 protected:
   MirrorPadImageFilter() {};
   ~MirrorPadImageFilter() {};
-  MirrorPadImageFilter(const Self&) {}
-  void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
   
   /**
@@ -244,6 +242,10 @@ int BuildPostRegions(std::vector<long>& inputRegionStart,
  */
 virtual void GenerateInputRequestedRegion();
 
+private:
+  MirrorPadImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
 };
   
 

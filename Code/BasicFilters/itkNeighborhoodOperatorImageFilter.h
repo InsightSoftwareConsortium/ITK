@@ -157,8 +157,6 @@ public:
 protected:
   NeighborhoodOperatorImageFilter() {}
   virtual ~NeighborhoodOperatorImageFilter() {}
-  NeighborhoodOperatorImageFilter(const Self&) : m_Operator(0) {}
-  void operator=(const Self&) {}
     
   /**
    * NeighborhoodOperatorImageFilter can be implemented as a
@@ -177,6 +175,9 @@ protected:
                             int threadId );
 
 private:
+  NeighborhoodOperatorImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   /**
    * Pointer to the internal operator used to filter the image.
    */

@@ -148,8 +148,6 @@ public:
 protected:
   GradientRecursiveGaussianImageFilter();
   virtual ~GradientRecursiveGaussianImageFilter() {};
-  GradientRecursiveGaussianImageFilter(const Self&) {}
-  void operator=(const Self&) {}
   
   /**
    * Generate Data
@@ -157,6 +155,8 @@ protected:
   void GenerateData( void );
 
 private:
+  GradientRecursiveGaussianImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
   
   SmoothingFilterPointer     m_SmoothingFilters[ImageDimension-1];
   DerivativeFilterPointer    m_DerivativeFilter;

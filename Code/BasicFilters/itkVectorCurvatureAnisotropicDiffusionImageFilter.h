@@ -93,9 +93,10 @@ protected:
         }
     }
   ~VectorCurvatureAnisotropicDiffusionImageFilter() {}
-  VectorCurvatureAnisotropicDiffusionImageFilter(const Self&) {}
-  
-  void operator=(const Self&) {}
+
+private:
+  VectorCurvatureAnisotropicDiffusionImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 };
 
 } // end namspace itk

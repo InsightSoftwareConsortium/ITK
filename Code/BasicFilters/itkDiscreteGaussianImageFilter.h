@@ -153,8 +153,6 @@ protected:
     this->SetMaximumError(0.01f);
   }
   virtual ~DiscreteGaussianImageFilter() {}
-  DiscreteGaussianImageFilter(const Self&) {}
-  void operator=(const Self&) {}
 
   /**
    * Standard pipeline method. While this class does not implement a
@@ -166,6 +164,9 @@ protected:
   void GenerateData();
 
 private:
+  DiscreteGaussianImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   /**
    * The variance of the gaussian blurring kernel in each dimensional direction.
    */

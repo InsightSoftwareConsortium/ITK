@@ -241,28 +241,22 @@ public:
 protected:
   DanielssonDistanceMapImageFilter();
   virtual ~DanielssonDistanceMapImageFilter() {};
-  DanielssonDistanceMapImageFilter(const Self&) {}
-  void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
-
 
   /**
    * Compute Danielsson distance map and Voronoi Map
    */
   void GenerateData();  
 
-
   /**
    * Prepare data
    */
   void PrepareData();  
 
-
   /**
    *  Compute Voronoi Map
    */
   void ComputeVoronoiMap();  
-
 
   /**
    * Update distance map locally
@@ -272,6 +266,8 @@ protected:
                            const OffsetType&);
 
 private:   
+  DanielssonDistanceMapImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
   bool                  m_SquaredDistance;
   bool                  m_InputIsBinary;

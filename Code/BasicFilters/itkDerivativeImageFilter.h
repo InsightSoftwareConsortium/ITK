@@ -126,8 +126,6 @@ public:
 protected:
   DerivativeImageFilter() {}
   virtual ~DerivativeImageFilter() {}
-  DerivativeImageFilter(const Self&) {}
-  void operator=(const Self&) {}
 
   /**
    * Standard pipeline method. While this class does not implement a
@@ -139,6 +137,9 @@ protected:
   void GenerateData();
 
 private:
+  DerivativeImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   /**
    * The order of the derivative.
    */

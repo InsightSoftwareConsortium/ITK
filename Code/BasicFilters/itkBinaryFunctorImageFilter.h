@@ -146,8 +146,6 @@ public:
 protected:
   BinaryFunctorImageFilter();
   virtual ~BinaryFunctorImageFilter() {};
-  BinaryFunctorImageFilter(const Self&) {}
-  void operator=(const Self&) {}
 
   /**
    * BinaryFunctorImageFilter can be implemented as a multithreaded filter.
@@ -164,7 +162,10 @@ protected:
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                             int threadId );
 
- private:
+private:
+  BinaryFunctorImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   FunctorType m_Functor;
 };
 

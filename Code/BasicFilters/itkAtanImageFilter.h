@@ -125,11 +125,12 @@ public:
   itkNewMacro(Self);
   
 protected:
-
   AtanImageFilter() {}
   virtual ~AtanImageFilter() {}
-  AtanImageFilter(const Self&) {}
-  void operator=(const Self&) {}
+
+private:
+  AtanImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
 
 };

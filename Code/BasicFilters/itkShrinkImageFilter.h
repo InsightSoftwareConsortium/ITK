@@ -149,8 +149,6 @@ public:
  protected:
   ShrinkImageFilter();
   ~ShrinkImageFilter() {};
-  ShrinkImageFilter(const Self&) {}
-  void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /**
@@ -168,6 +166,9 @@ public:
                             int threadId );
 
 private:
+  ShrinkImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   unsigned int m_ShrinkFactors[ImageDimension];
 };
 

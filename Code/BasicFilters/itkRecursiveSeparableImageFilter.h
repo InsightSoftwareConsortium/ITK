@@ -121,8 +121,6 @@ public:
 protected:
   RecursiveSeparableImageFilter();
   virtual ~RecursiveSeparableImageFilter() {};
-  RecursiveSeparableImageFilter(const Self&) {}
-  void operator=(const Self&) {}
 
   /**
    * GenerateData (apply) the filter
@@ -162,6 +160,8 @@ protected:
                        const TComputation *data, unsigned int ln);
 
 private:  
+  RecursiveSeparableImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
   /**
    * Direction in which the filter is to be applied

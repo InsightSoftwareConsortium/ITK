@@ -154,8 +154,6 @@ public:
 protected:
   RandomImageSource();
   ~RandomImageSource();
-  RandomImageSource(const RandomImageSource&) {};
-  void operator=(const RandomImageSource&) {};
   void PrintSelf(std::ostream& os, Indent indent) const;
   
   virtual void 
@@ -164,6 +162,9 @@ protected:
   virtual void GenerateOutputInformation();
 
 private:
+  RandomImageSource(const RandomImageSource&); //purposely not implemented
+  void operator=(const RandomImageSource&); //purposely not implemented
+
   unsigned long *m_Size;    //size of the output image
   float         *m_Spacing; //spacing
   float         *m_Origin;  //origin

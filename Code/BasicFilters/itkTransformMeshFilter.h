@@ -116,8 +116,6 @@ public:
 protected:
   TransformMeshFilter();
   ~TransformMeshFilter() {};
-  TransformMeshFilter(const TransformMeshFilter&) {};
-  void operator=(const TransformMeshFilter&) {};
   void PrintSelf(std::ostream& os, Indent indent) const;
   
   /** 
@@ -130,6 +128,10 @@ protected:
   */
   typename TransformType::Pointer   m_Transform;
 
+private:
+  TransformMeshFilter(const TransformMeshFilter&); //purposely not implemented
+  void operator=(const TransformMeshFilter&); //purposely not implemented
+  
 };
 
 } // end namespace itk

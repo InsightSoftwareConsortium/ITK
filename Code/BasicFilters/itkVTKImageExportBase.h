@@ -110,8 +110,6 @@ public:
 protected:
   VTKImageExportBase();
   ~VTKImageExportBase() {}
-  VTKImageExportBase(const Self&) {}
-  void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;  
 
   typedef DataObject::Pointer DataObjectPointer;
@@ -133,7 +131,11 @@ protected:
   virtual int* DataExtentCallback()=0;
   virtual void* BufferPointerCallback()=0;
   //@}
+
 private:
+  VTKImageExportBase(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   /*@{
    * Actual function sent to VTK as a callback.  Casts the user data
    * to a VTKImageExportBase pointer and invokes the corresponding

@@ -176,8 +176,10 @@ public:
 protected:
   AdaptImageFilter() {}
   virtual ~AdaptImageFilter() {}
-  AdaptImageFilter(const Self&) {}
-  void operator=(const Self&) {}
+
+private:
+  AdaptImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
 };
 

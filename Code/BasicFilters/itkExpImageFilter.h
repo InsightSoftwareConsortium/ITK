@@ -111,11 +111,12 @@ public:
   itkNewMacro(Self);
   
 protected:
-
   ExpImageFilter() {}
   virtual ~ExpImageFilter() {}
-  ExpImageFilter(const Self&) {}
-  void operator=(const Self&) {}
+
+private:
+  ExpImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
 
 };

@@ -142,10 +142,9 @@ protected:
   BinomialBlurImageFilter();
   virtual ~BinomialBlurImageFilter() {};
 
-  BinomialBlurImageFilter(const Self&) {}
-  void operator=(const Self&) {}
-
 private:
+  BinomialBlurImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
   /**
    * How many times should we apply the blur?

@@ -226,8 +226,6 @@ protected:
 
   VectorExpandImageFilter();
   ~VectorExpandImageFilter() {};
-  VectorExpandImageFilter(const Self&) {}
-  void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /**
@@ -253,6 +251,8 @@ protected:
 
 
 private:
+  VectorExpandImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
   unsigned int           m_ExpandFactors[ImageDimension];
   InterpolatorPointer    m_Interpolator;

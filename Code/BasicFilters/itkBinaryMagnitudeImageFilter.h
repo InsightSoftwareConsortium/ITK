@@ -132,11 +132,12 @@ public:
   itkNewMacro(Self);
   
 protected:
-
   BinaryMagnitudeImageFilter() {}
   virtual ~BinaryMagnitudeImageFilter() {}
-  BinaryMagnitudeImageFilter(const Self&) {}
-  void operator=(const Self&) {}
+
+private:
+  BinaryMagnitudeImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
 
 };

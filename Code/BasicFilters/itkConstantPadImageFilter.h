@@ -123,8 +123,6 @@ public:
 protected:
   ConstantPadImageFilter();
   ~ConstantPadImageFilter() {};
-  ConstantPadImageFilter(const Self&) {}
-  void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
   
   /**
@@ -152,6 +150,9 @@ protected:
        OutputImageRegionType& outputRegion);
   
 private:
+  ConstantPadImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   OutputImagePixelType m_Constant;
 };
 

@@ -109,8 +109,6 @@ public:
 protected:
   ParametricSpaceToImageSpaceMeshFilter();
   ~ParametricSpaceToImageSpaceMeshFilter() {};
-  ParametricSpaceToImageSpaceMeshFilter(const ParametricSpaceToImageSpaceMeshFilter&) {};
-  void operator=(const ParametricSpaceToImageSpaceMeshFilter&) {};
   void PrintSelf(std::ostream& os, Indent indent) const;
   
   /** 
@@ -118,6 +116,10 @@ protected:
    */
   virtual void GenerateData( void );
 
+private:
+  ParametricSpaceToImageSpaceMeshFilter(const ParametricSpaceToImageSpaceMeshFilter&); //purposely not implemented
+  void operator=(const ParametricSpaceToImageSpaceMeshFilter&); //purposely not implemented
+  
 };
 
 } // end namespace itk

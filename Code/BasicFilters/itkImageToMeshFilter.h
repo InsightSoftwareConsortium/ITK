@@ -132,12 +132,12 @@ public:
 protected:
   ImageToMeshFilter();
   ~ImageToMeshFilter();
-  ImageToMeshFilter(const ImageToMeshFilter&) {};
-  void operator=(const ImageToMeshFilter&) {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
  
 private:
+  ImageToMeshFilter(const ImageToMeshFilter&); //purposely not implemented
+  void operator=(const ImageToMeshFilter&); //purposely not implemented
 
 };
 

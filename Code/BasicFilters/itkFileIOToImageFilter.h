@@ -184,9 +184,11 @@ public:
 protected:
   void GenerateData();
   FileIOToImageFilter();
-  FileIOToImageFilter(const Self&) {}
-  void operator= (const Self&) {}
   ~FileIOToImageFilter() {}
+
+private:
+  FileIOToImageFilter(const Self&); //purposely not implemented
+  void operator= (const Self&); //purposely not implemented
 
   ImageIO::Pointer m_IO;
   LightObject::Pointer m_LightObjectIO;
@@ -194,6 +196,7 @@ protected:
   std::string m_FileName;
   std::string m_FilePrefix;
   std::string m_FilePattern;
+
 };
 
 } //namespace ITK

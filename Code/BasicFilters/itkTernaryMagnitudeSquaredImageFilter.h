@@ -117,11 +117,12 @@ public:
   itkNewMacro(Self);
   
 protected:
-
   TernaryMagnitudeSquaredImageFilter() {}
   virtual ~TernaryMagnitudeSquaredImageFilter() {}
-  TernaryMagnitudeSquaredImageFilter(const Self&) {}
-  void operator=(const Self&) {}
+
+private:
+  TernaryMagnitudeSquaredImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
 
 };

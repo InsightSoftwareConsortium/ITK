@@ -109,11 +109,8 @@ public:
   void GenerateData(void);
 
 protected:
-
   ReflectImageFilter();
   virtual ~ReflectImageFilter() {};
-  ReflectImageFilter(const Self&) {};
-  void operator=(const Self&) {};
 
   /**
    *
@@ -125,8 +122,10 @@ protected:
   //void GenerateData(void);
 
 private:
+  ReflectImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
-   unsigned int m_Direction;
+  unsigned int m_Direction;
 
 };
 

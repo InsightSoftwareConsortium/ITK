@@ -127,11 +127,12 @@ public:
   itkNewMacro(Self);
   
 protected:
-
   AsinImageFilter() {}
   virtual ~AsinImageFilter() {}
-  AsinImageFilter(const Self&) {}
-  void operator=(const Self&) {}
+
+private:
+  AsinImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
 
 };

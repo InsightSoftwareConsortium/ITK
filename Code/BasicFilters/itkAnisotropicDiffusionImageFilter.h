@@ -115,9 +115,6 @@ protected:
       m_TimeStep = 0.125f;
     }
   ~AnisotropicDiffusionImageFilter() {}
-  AnisotropicDiffusionImageFilter(const Self&) {}
-  
-  void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const
     {
       Superclass::PrintSelf(os, indent.GetNextIndent());
@@ -152,6 +149,9 @@ protected:
     }
   
 private:
+  AnisotropicDiffusionImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   double           m_ConductanceParameter;
   double           m_ConductanceScalingParameter;
   unsigned int     m_Iterations;

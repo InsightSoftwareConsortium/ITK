@@ -178,8 +178,6 @@ public:
 protected:
   MorphologyImageFilter();
   ~MorphologyImageFilter() {};
-  MorphologyImageFilter(const Self&) {}
-  void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /**
@@ -198,6 +196,9 @@ protected:
 
 
 private:
+  MorphologyImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   /**
    * kernel or structuring element to use
    */

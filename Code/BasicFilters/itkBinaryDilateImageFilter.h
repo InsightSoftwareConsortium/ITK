@@ -158,8 +158,6 @@ public:
 protected:
   BinaryDilateImageFilter();
   ~BinaryDilateImageFilter() {};
-  BinaryDilateImageFilter(const Self&) {}
-  void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /**
@@ -175,6 +173,9 @@ protected:
 
 
 private:
+  BinaryDilateImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   PixelType m_DilateValue;
   
 } ; // end of class

@@ -132,8 +132,6 @@ public:
 protected:
   GradientImageFilter() {}
   virtual ~GradientImageFilter() {}
-  GradientImageFilter(const Self&) {}
-  void operator=(const Self&) {}
 
   /**
    * GradientImageFilter can be implemented as a multithreaded filter.
@@ -151,6 +149,10 @@ protected:
                             int threadId );
 
 private:
+  GradientImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
+
 
 };
   

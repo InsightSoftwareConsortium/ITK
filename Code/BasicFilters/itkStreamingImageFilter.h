@@ -146,14 +146,14 @@ public:
 protected:
   StreamingImageFilter();
   ~StreamingImageFilter();
-  StreamingImageFilter(const StreamingImageFilter&) {};
-  void operator=(const StreamingImageFilter&) {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 
 private:
-  unsigned int m_NumberOfStreamDivisions;
+  StreamingImageFilter(const StreamingImageFilter&); //purposely not implemented
+  void operator=(const StreamingImageFilter&); //purposely not implemented
 
+  unsigned int m_NumberOfStreamDivisions;
   RegionSplitterPointer m_RegionSplitter;
 };
 

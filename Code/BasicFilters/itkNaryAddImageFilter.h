@@ -135,11 +135,12 @@ public:
   itkNewMacro(Self);
   
 protected:
-
   NaryAddImageFilter() {}
   virtual ~NaryAddImageFilter() {}
-  NaryAddImageFilter(const Self&) {}
-  void operator=(const Self&) {}
+
+private:
+  NaryAddImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
 
 };

@@ -121,8 +121,6 @@ public:
 protected:
   InteriorExteriorMeshFilter();
   ~InteriorExteriorMeshFilter() {};
-  InteriorExteriorMeshFilter(const InteriorExteriorMeshFilter&) {};
-  void operator=(const InteriorExteriorMeshFilter&) {};
   void PrintSelf(std::ostream& os, Indent indent) const;
   
   /** 
@@ -135,6 +133,10 @@ protected:
   */
   typename SpatialFunctionType::Pointer   m_SpatialFunction;
 
+private:
+  InteriorExteriorMeshFilter(const InteriorExteriorMeshFilter&); //purposely not implemented
+  void operator=(const InteriorExteriorMeshFilter&); //purposely not implemented
+  
 };
 
 } // end namespace itk

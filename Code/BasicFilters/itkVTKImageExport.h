@@ -101,8 +101,6 @@ public:
 protected:
   VTKImageExport();
   ~VTKImageExport() {}
-  VTKImageExport(const Self&) {}
-  void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;  
 
   typedef typename InputImageType::Pointer InputImagePointer;
@@ -123,6 +121,9 @@ protected:
   void* BufferPointerCallback();
   
 private:
+  VTKImageExport(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   std::string m_ScalarTypeName;
   int m_WholeExtent[6];
   int m_DataExtent[6];

@@ -123,11 +123,12 @@ public:
   itkNewMacro(Self);
   
 protected:
-
   VectorCastImageFilter() {}
   virtual ~VectorCastImageFilter() {}
-  VectorCastImageFilter(const Self&) {}
-  void operator=(const Self&) {}
+
+private:
+  VectorCastImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
 };
 

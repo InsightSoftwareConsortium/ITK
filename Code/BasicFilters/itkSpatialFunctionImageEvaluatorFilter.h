@@ -155,12 +155,8 @@ public:
   itkGetMacro( ExteriorValue, PixelType );
 
 protected:
-
   SpatialFunctionImageEvaluatorFilter();
   virtual ~SpatialFunctionImageEvaluatorFilter() {};
-
-  SpatialFunctionImageEvaluatorFilter(const Self&) {}
-  void operator=(const Self&) {}
 
   /**
    * Method for evaluating the implicit function over the image.
@@ -168,6 +164,8 @@ protected:
   void GenerateData();
 
 private:
+  SpatialFunctionImageEvaluatorFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
   /**
    * The function that will be evaluated over the image

@@ -263,11 +263,11 @@ protected:
 
   WarpImageFilter();
   ~WarpImageFilter() {};
-  WarpImageFilter(const Self&) {}
-  void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
+  WarpImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
   PixelType                  m_EdgePaddingValue;
   double                     m_OutputSpacing[ImageDimension];

@@ -111,11 +111,12 @@ public:
   itkNewMacro(Self);
   
 protected:
-
   TanImageFilter() {}
   virtual ~TanImageFilter() {}
-  TanImageFilter(const Self&) {}
-  void operator=(const Self&) {}
+
+private:
+  TanImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
 
 };

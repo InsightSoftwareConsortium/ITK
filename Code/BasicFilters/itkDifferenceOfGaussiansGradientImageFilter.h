@@ -133,14 +133,13 @@ public:
   itkSetMacro(Width, unsigned int);
 
 protected:
-
   DifferenceOfGaussiansGradientImageFilter();
   virtual ~DifferenceOfGaussiansGradientImageFilter() {};
 
-  DifferenceOfGaussiansGradientImageFilter(const Self&) {}
-  void operator=(const Self&) {}
 
 private:
+  DifferenceOfGaussiansGradientImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
   unsigned int m_Width;
 

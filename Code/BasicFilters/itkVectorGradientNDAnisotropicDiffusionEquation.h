@@ -130,8 +130,10 @@ public:
 protected:
   VectorGradientNDAnisotropicDiffusionEquation();
   ~VectorGradientNDAnisotropicDiffusionEquation() {}
-  VectorGradientNDAnisotropicDiffusionEquation(const Self&) {}
-  void operator=(const Self&) {}
+
+private:
+  VectorGradientNDAnisotropicDiffusionEquation(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
   /**
    * Inner product function.
@@ -161,11 +163,7 @@ protected:
    */
   ScalarValueType m_k;
 
-  /**
-   *
-   */
   unsigned long int m_Stride[ImageDimension];
-  
   unsigned long int m_Center;
   
 };

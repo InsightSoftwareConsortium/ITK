@@ -151,12 +151,12 @@ public:
 protected:
   ImageToParametricSpaceFilter();
   ~ImageToParametricSpaceFilter();
-  ImageToParametricSpaceFilter(const ImageToParametricSpaceFilter&) {};
-  void operator=(const ImageToParametricSpaceFilter&) {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
  
 private:
+  ImageToParametricSpaceFilter(const ImageToParametricSpaceFilter&); //purposely not implemented
+  void operator=(const ImageToParametricSpaceFilter&); //purposely not implemented
 
   /**
    * This variable defines if the indices of input image pixels 

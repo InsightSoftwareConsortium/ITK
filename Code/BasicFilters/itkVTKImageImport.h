@@ -146,8 +146,6 @@ public:
   
 protected:
   VTKImageImport();
-  VTKImageImport(const Self&) {}
-  void operator= (const Self&) {}
   ~VTKImageImport() {}
 
   virtual void PropagateRequestedRegion(DataObject*);  
@@ -155,8 +153,11 @@ protected:
   virtual void GenerateData();
   virtual void GenerateOutputInformation();
   
+private:
+  VTKImageImport(const Self&); //purposely not implemented
+  void operator= (const Self&); //purposely not implemented
+
   void* m_CallbackUserData;
-  
   UpdateInformationCallbackType     m_UpdateInformationCallback;
   PipelineModifiedCallbackType      m_PipelineModifiedCallback;
   WholeExtentCallbackType           m_WholeExtentCallback;

@@ -124,8 +124,6 @@ public:
 protected:
   Writer();
   ~Writer();
-  Writer(const Self&) {}
-  void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /**
@@ -143,6 +141,8 @@ private:
   std::string        m_FileName;
   FileType           m_FileType;
   
+  Writer(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 };
 
   

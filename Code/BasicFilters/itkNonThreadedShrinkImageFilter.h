@@ -129,13 +129,14 @@ public:
  protected:
   NonThreadedShrinkImageFilter();
   ~NonThreadedShrinkImageFilter() {};
-  NonThreadedShrinkImageFilter(const Self&) {}
-  void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
   
   void GenerateData();
 
 private:
+  NonThreadedShrinkImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   unsigned int m_ShrinkFactor;
 };
 

@@ -98,13 +98,14 @@ public:
 protected:
   VTKImageReader();
   ~VTKImageReader() {};
-  VTKImageReader(const Self&) {}
-  void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
   
   void GenerateData();
 
 private:
+  VTKImageReader(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   std::string m_FileName;
 
 };

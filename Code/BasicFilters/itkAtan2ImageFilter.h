@@ -126,8 +126,10 @@ public:
 protected:
   Atan2ImageFilter() {}
   virtual ~Atan2ImageFilter() {}
-  Atan2ImageFilter(const Self&) {}
-  void operator=(const Self&) {}
+
+private:
+  Atan2ImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
 
 };

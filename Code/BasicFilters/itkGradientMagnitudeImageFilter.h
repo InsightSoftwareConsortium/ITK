@@ -124,8 +124,6 @@ public:
 protected:
   GradientMagnitudeImageFilter() {}
   virtual ~GradientMagnitudeImageFilter() {}
-  GradientMagnitudeImageFilter(const Self&) {}
-  void operator=(const Self&) {}
 
   /**
    * GradientMagnitudeImageFilter can be implemented as a
@@ -142,6 +140,11 @@ protected:
    */
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                             int threadId );
+
+private:
+  GradientMagnitudeImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
 
 };
   

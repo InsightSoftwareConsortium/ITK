@@ -119,13 +119,14 @@ public:
 protected:
   RawImageWriter();
   ~RawImageWriter() {}
-  RawImageWriter(const Self&) {}
-  void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   void WriteData();
   
 private:
+  RawImageWriter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   ByteOrder m_ByteOrder;
 
 };

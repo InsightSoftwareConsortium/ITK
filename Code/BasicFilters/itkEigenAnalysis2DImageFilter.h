@@ -168,15 +168,12 @@ public:
 protected:
   EigenAnalysis2DImageFilter();
   virtual ~EigenAnalysis2DImageFilter() {};
-  EigenAnalysis2DImageFilter(const Self&) {}
-  void operator=(const Self&) {}
   
-  /**
-   * Generate Data 
-   */
-    void GenerateData( void );
+  void GenerateData( void );
 
 private:
+  EigenAnalysis2DImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
   
 
 };

@@ -146,14 +146,15 @@ public:
    */
   virtual void GenerateInputRequestedRegion();
 
- protected:
+protected:
   PadImageFilter();
   ~PadImageFilter() {};
-  PadImageFilter(const Self&) {}
-  void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
+  PadImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   unsigned long m_PadLowerBound[ImageDimension];
   unsigned long m_PadUpperBound[ImageDimension];
 };

@@ -132,8 +132,6 @@ public:
 protected:
   UnaryFunctorImageFilter();
   virtual ~UnaryFunctorImageFilter() {};
-  UnaryFunctorImageFilter(const Self&) {}
-  void operator=(const Self&) {}
 
   /**
    * UnaryFunctorImageFilter can be implemented as a multithreaded filter.
@@ -150,7 +148,10 @@ protected:
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                             int threadId );
 
- private:
+private:
+  UnaryFunctorImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   FunctorType m_Functor;
 };
 

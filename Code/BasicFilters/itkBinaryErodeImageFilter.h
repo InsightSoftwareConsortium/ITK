@@ -149,8 +149,6 @@ public:
 protected:
   BinaryErodeImageFilter();
   ~BinaryErodeImageFilter() {};
-  BinaryErodeImageFilter(const Self&) {}
-  void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /**
@@ -165,6 +163,9 @@ protected:
                      const KernelType &kernel);
 
 private:
+  BinaryErodeImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   PixelType m_ErodeValue;
   
 } ; // end of class

@@ -110,11 +110,12 @@ public:
   itkNewMacro(Self);
   
 protected:
-
   CastImageFilter() {}
   virtual ~CastImageFilter() {}
-  CastImageFilter(const Self&) {}
-  void operator=(const Self&) {}
+
+private:
+  CastImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
 };
 

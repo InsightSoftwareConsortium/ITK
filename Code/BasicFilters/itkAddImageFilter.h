@@ -138,11 +138,12 @@ public:
   itkNewMacro(Self);
   
 protected:
-
   AddImageFilter() {}
   virtual ~AddImageFilter() {}
-  AddImageFilter(const Self&) {}
-  void operator=(const Self&) {}
+
+private:
+  AddImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
 
 };

@@ -139,8 +139,6 @@ public:
 protected:
   NaryFunctorImageFilter();
   virtual ~NaryFunctorImageFilter() {};
-  NaryFunctorImageFilter(const Self&) {}
-  void operator=(const Self&) {}
 
   /**
    * NaryFunctorImageFilter can be implemented as a multithreaded filter.
@@ -157,7 +155,10 @@ protected:
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                             int threadId );
 
- private:
+private:
+  NaryFunctorImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   FunctorType m_Functor;
 };
 

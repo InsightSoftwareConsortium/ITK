@@ -138,8 +138,6 @@ public:
 protected:
   GradientNDAnisotropicDiffusionEquation();
   ~GradientNDAnisotropicDiffusionEquation() {}
-  GradientNDAnisotropicDiffusionEquation(const Self&) {}
-  void operator=(const Self&) {}
 
   /**
    * Inner product function.
@@ -178,6 +176,10 @@ protected:
    *
    */
   unsigned long m_Stride[ImageDimension];
+
+private:
+  GradientNDAnisotropicDiffusionEquation(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
 };
 

@@ -155,8 +155,6 @@ public:
 protected:
   TernaryFunctorImageFilter();
   virtual ~TernaryFunctorImageFilter() {};
-  TernaryFunctorImageFilter(const Self&) {}
-  void operator=(const Self&) {}
 
   /**
    * TernaryFunctorImageFilter can be implemented as a multithreaded filter.
@@ -173,7 +171,10 @@ protected:
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                             int threadId );
 
- private:
+private:
+  TernaryFunctorImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   FunctorType m_Functor;
 };
 

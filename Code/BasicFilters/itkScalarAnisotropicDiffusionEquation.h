@@ -97,8 +97,10 @@ public:
 protected:
   ScalarAnisotropicDiffusionEquation() {}
   ~ScalarAnisotropicDiffusionEquation() {}
-  ScalarAnisotropicDiffusionEquation(const Self&) {}
-  void operator=(const Self&) {}
+
+private:
+  ScalarAnisotropicDiffusionEquation(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 };
 
 }// end namespace itk

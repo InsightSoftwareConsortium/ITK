@@ -120,8 +120,6 @@ public:
 protected:
   WrapPadImageFilter() {};
   ~WrapPadImageFilter() {};
-  WrapPadImageFilter(const Self&) {}
-  void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
   
   /** 
@@ -228,6 +226,10 @@ int BuildPostRegions(std::vector<long>& inputRegionStart,
  */
 virtual void GenerateInputRequestedRegion();
 
+private:
+  WrapPadImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
 };
   
 

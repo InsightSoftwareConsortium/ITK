@@ -132,8 +132,6 @@ public:
 protected:
   ThresholdImageFilter();
   ~ThresholdImageFilter() {};
-  ThresholdImageFilter(const Self&) {}
-  void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /**
@@ -152,6 +150,9 @@ protected:
                             int threadId );
 
 private:
+  ThresholdImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   PixelType m_OutsideValue;
   PixelType m_Lower;
   PixelType m_Upper;

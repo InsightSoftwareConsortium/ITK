@@ -108,8 +108,10 @@ public:
 protected:
   VectorAnisotropicDiffusionEquation() {}
   ~VectorAnisotropicDiffusionEquation() {}
-  VectorAnisotropicDiffusionEquation(const Self&) {}
-  void operator=(const Self&) {}
+
+private:
+  VectorAnisotropicDiffusionEquation(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 };
 
 }// end namespace itk

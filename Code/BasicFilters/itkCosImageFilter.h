@@ -126,11 +126,12 @@ public:
   itkNewMacro(Self);
   
 protected:
-
   CosImageFilter() {}
   virtual ~CosImageFilter() {}
-  CosImageFilter(const Self&) {}
-  void operator=(const Self&) {}
+
+private:
+  CosImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
 
 };

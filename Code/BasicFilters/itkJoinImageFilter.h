@@ -235,8 +235,10 @@ public:
 protected:
   JoinImageFilter() {}
   virtual ~JoinImageFilter() {}
-  JoinImageFilter(const Self&) {}
-  void operator=(const Self&) {}
+
+private:
+  JoinImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
 };
 

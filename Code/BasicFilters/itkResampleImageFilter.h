@@ -213,11 +213,8 @@ public:
   virtual void GenerateInputRequestedRegion();
 
 protected:
-
   ResampleImageFilter();
   ~ResampleImageFilter() {};
-  ResampleImageFilter(const Self&) {}
-  void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /**
@@ -236,6 +233,8 @@ protected:
                             int threadId );
 
 private:
+  ResampleImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
   SizeType m_Size;                      // Size of the output image
   TransformPointerType    m_Transform;  // Coordinate transform to use

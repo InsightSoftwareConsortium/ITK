@@ -208,8 +208,10 @@ protected:
       m_TimeStep                 = 0.125f;  // default value
     }
   ~AnisotropicDiffusionEquation() {}
-  AnisotropicDiffusionEquation(const Self&) {}
-  void operator=(const Self&) {}
+
+private:
+  AnisotropicDiffusionEquation(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
   double m_AverageGradientMagnitudeSquared;
   double m_ConductanceParameter;

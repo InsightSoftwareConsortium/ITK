@@ -192,8 +192,6 @@ public:
 protected:
  ImportImageFilter();
   ~ImportImageFilter();
-  ImportImageFilter(const ImportImageFilter &) {};
-  void operator=(const ImportImageFilter&) {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /**
@@ -221,6 +219,9 @@ protected:
   virtual void EnlargeOutputRequestedRegion(DataObject *output);
 
 private:  
+  ImportImageFilter(const ImportImageFilter &); //purposely not implemented
+  void operator=(const ImportImageFilter&); //purposely not implemented
+
   RegionType  m_Region;
   double   m_Spacing[VImageDimension];
   double   m_Origin[VImageDimension];

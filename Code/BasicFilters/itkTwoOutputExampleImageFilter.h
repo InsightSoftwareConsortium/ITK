@@ -147,8 +147,6 @@ public:
 protected:
   TwoOutputExampleImageFilter();
   ~TwoOutputExampleImageFilter() {};
-  TwoOutputExampleImageFilter(const Self&) {}
-  void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /**
@@ -167,6 +165,9 @@ protected:
                             int threadId );
 
 private:
+  TwoOutputExampleImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   PixelType m_OutsideValue;
   PixelType m_Lower;
   PixelType m_Upper;

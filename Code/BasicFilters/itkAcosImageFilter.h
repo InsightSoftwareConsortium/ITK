@@ -122,11 +122,12 @@ public:
   itkNewMacro(Self);
   
 protected:
-
   AcosImageFilter() {}
   virtual ~AcosImageFilter() {}
-  AcosImageFilter(const Self&) {}
-  void operator=(const Self&) {}
+
+private:
+  AcosImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
 };
 

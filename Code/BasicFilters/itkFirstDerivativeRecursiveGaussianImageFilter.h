@@ -91,9 +91,6 @@ public:
 protected:
   FirstDerivativeRecursiveGaussianImageFilter() {};
   virtual ~FirstDerivativeRecursiveGaussianImageFilter() {};  
-  FirstDerivativeRecursiveGaussianImageFilter(const Self&) {}
-  void operator=(const Self&) {}
-  
 
   /**
    * Set up the coefficients of the filter to approximate a specific kernel.
@@ -101,6 +98,11 @@ protected:
    * derivatives.
    */
   virtual void SetUp(void);
+
+private:
+  FirstDerivativeRecursiveGaussianImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
 };
   
 } // end namespace itk

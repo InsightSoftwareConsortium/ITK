@@ -111,12 +111,12 @@ public:
   itkNewMacro(Self);
   
 protected:
-
   SqrtImageFilter() {}
   virtual ~SqrtImageFilter() {}
-  SqrtImageFilter(const Self&) {}
-  void operator=(const Self&) {}
 
+private:
+  SqrtImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
 };
 

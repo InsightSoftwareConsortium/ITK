@@ -126,8 +126,10 @@ public:
 protected:
   CurvatureNDAnisotropicDiffusionEquation();
   ~CurvatureNDAnisotropicDiffusionEquation() {}
-  CurvatureNDAnisotropicDiffusionEquation(const Self&) {}
-  void operator=(const Self&) {}
+
+private:
+  CurvatureNDAnisotropicDiffusionEquation(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
   /**
    * Inner product function.

@@ -111,11 +111,12 @@ public:
   itkNewMacro(Self);
   
 protected:
-
   Log10ImageFilter() {}
   virtual ~Log10ImageFilter() {}
-  Log10ImageFilter(const Self&) {}
-  void operator=(const Self&) {}
+
+private:
+  Log10ImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
 
 };
