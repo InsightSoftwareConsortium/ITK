@@ -103,12 +103,12 @@ void VOLImageIO::Load(void* buffer)
   // Read the image
 	unsigned char *tempImage = static_cast<unsigned char*>(buffer);
 	unsigned char * imgset = new unsigned char [256*512*4*4];
-	for (int timeCounter = 0; timeCounter < m_Dimensions[3]; timeCounter++)
+	for (unsigned int timeCounter = 0; timeCounter < m_Dimensions[3]; timeCounter++)
 		{
 		ReadData(fp, (char *)imgset, 
 						 sizeof(unsigned char) * 256*512*4*4, 
 						 grayImageOffset + timeCounter*256*512*4*4);
-		for(int i=0; i < m_Dimensions[2]; i++)
+		for(unsigned int i=0; i < m_Dimensions[2]; i++)
 			{
 			for(int j=0; j < 16; j++)
 				{
