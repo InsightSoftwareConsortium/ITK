@@ -253,10 +253,10 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
   os << indent << "Weight: " << m_Weight << std::endl;
   os << indent << "Threshold: " << m_Threshold << std::endl;
   os << indent << "Inside  value: " 
-     << NumericTraits<OutputPixelType>::PrintType(m_InsideValue)
+     << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_InsideValue)
      << std::endl;
   os << indent << "Outside value: "
-     << NumericTraits<OutputPixelType>::PrintType(m_OutsideValue)
+     << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_OutsideValue)
      << std::endl;
   os << indent << "Object seed : " << m_ObjectSeed << std::endl;
 }
