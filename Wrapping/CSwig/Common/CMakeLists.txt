@@ -40,24 +40,35 @@ ${WrapITK_BINARY_DIR}/Common/ITKCommonTcl.mdx
 # set the generated sources as generated
 SET_SOURCE_FILES_PROPERTIES(${WRAP_TCL_SOURCES} ${WRAP_PYTHON_SOURCES} GENERATED )
 
+
 IF(ITK_CSWIG_TCL)
   # add the library
-  SET_SOURCE_FILES_PROPERTIES(SwigGetTclInterp_wrap.cxx GENERATED)
-  ADD_LIBRARY(ITKCommonTcl SHARED ${WRAP_TCL_SOURCES} SwigGetTclInterp_wrap.cxx)
+  SET_SOURCE_FILES_PROPERTIES(SwigExtras_wrapTcl.cxx GENERATED)
+  ADD_LIBRARY(ITKCommonTcl SHARED ${WRAP_TCL_SOURCES} SwigExtras_wrapTcl.cxx)
   ADD_CUSTOM_COMMAND(
-    COMMENT "run native swig on SwigGetTclInterp.i"
-    SOURCE ${ITK_TOP}/Wrapping/CSwig/Common/SwigGetTclInterp.i
+    COMMENT "run native swig on SwigExtras.i"
+    SOURCE ${ITK_TOP}/Wrapping/CSwig/Common/SwigExtras.i
     COMMAND ${CSWIG} 
-    ARGS -nocable -c ${IGNORE_WARNINGS} -o ${WrapITK_BINARY_DIR}/Common/SwigGetTclInterp_wrap.cxx
-         -c++ ${ITK_TOP}/Wrapping/CSwig/Common/SwigGetTclInterp.i
+    ARGS -nocable -c ${IGNORE_WARNINGS} -o ${WrapITK_BINARY_DIR}/Common/SwigExtras_wrapTcl.cxx
+         -c++ ${ITK_TOP}/Wrapping/CSwig/Common/SwigExtras.i
     TARGET ITKCommonTcl
-    OUTPUTS ${WrapITK_BINARY_DIR}/Common/SwigGetTclInterp_wrap.cxx
-    DEPENDS ${ITK_TOP}/Wrapping/CSwig/Common/SwigGetTclInterp.i)
+    OUTPUTS ${WrapITK_BINARY_DIR}/Common/SwigExtras_wrapTcl.cxx
+    DEPENDS ${ITK_TOP}/Wrapping/CSwig/Common/SwigExtras.i)
   TARGET_LINK_LIBRARIES(ITKCommonTcl ${TCL_LIBRARY} ITKCommon VXLNumericsTcl SwigRuntimeTcl )
 ENDIF(ITK_CSWIG_TCL)
 
-IF(ITK_CSWIG_PYTHON)
-  ADD_LIBRARY(_ITKCommonPython MODULE ${WRAP_PYTHON_SOURCES})
+IF(ITK_CSWIG_PYTHON) 
+  SET_SOURCE_FILES_PROPERTIES(SwigExtras_wrapPython.cxx GENERATED)
+  ADD_LIBRARY(_ITKCommonPython MODULE ${WRAP_PYTHON_SOURCES} SwigExtras_wrapPython.cxx )
+  ADD_CUSTOM_COMMAND(
+    COMMENT "run native swig on SwigExtras.i"
+    SOURCE ${ITK_TOP}/Wrapping/CSwig/Common/SwigExtras.i
+    COMMAND ${CSWIG} 
+    ARGS -nocable -c ${IGNORE_WARNINGS} -o ${WrapITK_BINARY_DIR}/Common/SwigExtras_wrapPython.cxx
+         -c++ ${ITK_TOP}/Wrapping/CSwig/Common/SwigExtras.i
+    TARGET _ITKCommonPython
+    OUTPUTS ${WrapITK_BINARY_DIR}/Common/SwigExtras_wrapPython.cxx
+    DEPENDS ${ITK_TOP}/Wrapping/CSwig/Common/SwigExtras.i)
   SET_TARGET_PROPERTIES( _ITKCommonPython PROPERTIES PREFIX "")
   # link to ITKCommon
   TARGET_LINK_LIBRARIES(_ITKCommonPython ${PYTHON_LIBRARY} ITKCommon SwigRuntimePython)

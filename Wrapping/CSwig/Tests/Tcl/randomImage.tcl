@@ -37,7 +37,11 @@ set sigma 1
 set source [itkRandomImageSourceUS2_New]
 $source SetMin 0
 $source SetMax 255
-#$source SetSize [list 300 300]
+set a [new_ULArray 2]
+ULArray_setitem $a 0 300
+ULArray_setitem $a 1 300
+$source SetSize $a
+
 
 # Connect the smoothing filter.
 set filter [itkRecursiveGaussianImageFilterUS2US2_New]
