@@ -131,10 +131,8 @@ protected:
    * structuring element values whose corresponding element in the
    * structuring element is positive.
    */
-  PixelType Evaluate(ImageKernelIteratorType imageIt, 
-                     ImageKernelIteratorType imageLast, 
-                     KernelIteratorType kernelIt,
-                     PixelType centerValue);
+  PixelType Evaluate(const SmartNeighborhoodIteratorType &nit,
+                     const KernelType &kernel);
 
 } ; // end of class
 

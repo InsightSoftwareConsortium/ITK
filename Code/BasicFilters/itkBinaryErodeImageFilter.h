@@ -155,10 +155,8 @@ protected:
    * neighborhood have the ErodeValue and that pixel's corresponding
    * element in the structuring element is positive and
    */
-  PixelType Evaluate(ImageKernelIteratorType imageIt, 
-                     ImageKernelIteratorType imageLast, 
-                     KernelIteratorType kernelIt,
-                     PixelType centerValue);
+  PixelType Evaluate(const SmartNeighborhoodIteratorType &nit,
+                     const KernelType &kernel);
 
 private:
   PixelType m_ErodeValue;

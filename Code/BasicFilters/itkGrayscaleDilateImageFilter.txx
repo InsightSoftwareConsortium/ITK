@@ -38,37 +38,38 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef __itkBinaryDilateImageFilterFilter_txx
-#define __itkBinaryDilateImageFilterFilter_txx
+#ifndef __itkGrayscaleDilateImageFilter_txx
+#define __itkGrayscaleDilateImageFilter_txx
 
-#include "itkBinaryDilateImageFilterFilter.h"
+#include "itkGrayscaleDilateImageFilter.h"
 
 namespace itk {
 
 template<class TInputImage, class TOutputImage, class TKernel>
-BinaryDilateImageFilterFilter<TInputImage, TOutputImage, TKernel>::PixelType
-BinaryDilateImageFilterFilter<TInputImage, TOutputImage, TKernel>
-::Evaluate(ImageKernelIteratorType imageIt, 
-           ImageKernelIteratorType imageLast, 
-           KernelIteratorType kernelIt,
-           PixelType centerValue)
+GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>::PixelType
+GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>
+::Evaluate(const SmartNeighborhoodIteratorType &nit,
+           const KernelType &kernel)
 {
   PixelType max = NumericTraits<PixelType>::NonpositiveMin();
   PixelType temp = max ;
-  
-  while (imageIt != imageLast)
+
+  SmartNeighborhoodIteratorType::ConstIterator neigh_it;
+  KernelIteratorType kernel_it;
+  const KernelIteratorType kernelEnd = kernel.End();
+
+  neigh_it = nit.Begin();
+  for (kernel_it=kernel.Begin(); kernel_it<kernelEnd; ++kernel_it, ++neigh_it)
     {
     // if structuring element is positive, use the pixel under that element
     // in the image
-    if (*kernelIt > 0)
+    if (*kernel_it > 0)
       {
-      temp = *imageIt;
+      temp = *neigh_it;
 
       if (temp > max)
         max = temp ;
       }
-      ++imageIt ;
-      ++kernelIt ;
     }
   
   return max ;

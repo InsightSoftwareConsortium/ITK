@@ -38,37 +38,38 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef __itkGrayscaleErodeImageFilterFilter_txx
-#define __itkGrayscaleErodeImageFilterFilter_txx
+#ifndef __itkGrayscaleErodeImageFilter_txx
+#define __itkGrayscaleErodeImageFilter_txx
 
-#include "itkGrayscaleErodeImageFilterFilter.h"
+#include "itkGrayscaleErodeImageFilter.h"
 
 namespace itk {
 
 template<class TInputImage, class TOutputImage, class TKernel>
-GrayscaleErodeImageFilterFilter<TInputImage, TOutputImage, TKernel>::PixelType
-GrayscaleErodeImageFilterFilter<TInputImage, TOutputImage, TKernel>
-::Evaluate(ImageKernelIteratorType imageIt, 
-           ImageKernelIteratorType imageLast, 
-           KernelIteratorType kernelIt,
-           PixelType centerValue)
+GrayscaleErodeImageFilter<TInputImage, TOutputImage, TKernel>::PixelType
+GrayscaleErodeImageFilter<TInputImage, TOutputImage, TKernel>
+::Evaluate(const SmartNeighborhoodIteratorType &nit,
+           const KernelType &kernel)
 {
   PixelType min = NumericTraits<PixelType>::max() ;
   PixelType temp = min ;
-  
-  while (imageIt != imageLast)
+
+  SmartNeighborhoodIteratorType::ConstIterator neigh_it;
+  KernelIteratorType kernel_it;
+  const KernelIteratorType kernelEnd = kernel.End();
+
+  neigh_it = nit.Begin();
+  for (kernel_it=kernel.Begin(); kernel_it<kernelEnd; ++kernel_it, ++neigh_it)
     {
     // if structuring element is positive, use the pixel under that element
     // in the image
-    if (*kernelIt > 0)
+    if (*kernel_it > 0)
       {
-      temp = *imageIt;
+      temp = *neigh_it;
 
       if (temp < min)
         min = temp ;
       }
-      ++imageIt ;
-      ++kernelIt ;
     }
   
   return min ;

@@ -38,10 +38,10 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef __itkBinaryErodeImageFilterFilter_txx
-#define __itkBinaryErodeImageFilterFilter_txx
+#ifndef __itkBinaryErodeImageFilter_txx
+#define __itkBinaryErodeImageFilter_txx
 
-#include "itkBinaryErodeImageFilterFilter.h"
+#include "itkBinaryErodeImageFilter.h"
 
 namespace itk {
 
@@ -53,12 +53,10 @@ BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>
 }
 
 template<class TInputImage, class TOutputImage, class TKernel>
-BinaryErodeImageFilterFilter<TInputImage, TOutputImage, TKernel>::PixelType
-BinaryErodeImageFilterFilter<TInputImage, TOutputImage, TKernel>
-::Evaluate(ImageKernelIteratorType imageIt, 
-           ImageKernelIteratorType imageLast, 
-           KernelIteratorType kernelIt,
-           PixelType centerValue)
+BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>::PixelType
+BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>
+::Evaluate(const SmartNeighborhoodIteratorType &nit,
+           const KernelType &kernel)
 {
   PixelType min = NumericTraits<PixelType>::max();
 
@@ -66,21 +64,26 @@ BinaryErodeImageFilterFilter<TInputImage, TOutputImage, TKernel>
   bool completelyBackground = true; // structuring element is completely
                                     // over background pixels
   
-  while (imageIt != imageLast)
+  SmartNeighborhoodIteratorType::ConstIterator neigh_it;
+  KernelIteratorType kernel_it;
+  const KernelIteratorType kernelEnd = kernel.End();
+
+  neigh_it = nit.Begin();
+  for (kernel_it=kernel.Begin(); kernel_it<kernelEnd; ++kernel_it, ++neigh_it)
     {
     // if structuring element is positive, use the pixel under that element
     // in the image
-    if (*kernelIt > 0)
+    if (*kernel_it > 0)
       {
       // if the image pixel is not the erode value, 
-      if (*imageIt != m_ErodeValue)
+      if (*neigh_it != m_ErodeValue)
         {
         erode = true;
         
         // if the image pixel is less than current min
-        if (min > *imageIt)
+        if (min > *neigh_it)
           {
-          min = *imageIt;
+          min = *neigh_it;
           }
         }
       else
@@ -89,8 +92,6 @@ BinaryErodeImageFilterFilter<TInputImage, TOutputImage, TKernel>
         completelyBackground = false;
         }
       }
-    ++imageIt ;
-    ++kernelIt ;
     }
 
   // Four cases for the return value:
@@ -107,7 +108,7 @@ BinaryErodeImageFilterFilter<TInputImage, TOutputImage, TKernel>
   if (completelyBackground)
     {
     // case #1
-    return centerValue;
+    return nit.GetCenterPixel();
     }
   else
     {
@@ -118,7 +119,7 @@ BinaryErodeImageFilterFilter<TInputImage, TOutputImage, TKernel>
       }
     else
       {
-      if (kernelIt->GetCenterPixel() > 0)
+      if (kernel_it.GetCenterPixel() > 0)
         {
         // case #3, center pixel is "on"
         return min;
@@ -126,7 +127,7 @@ BinaryErodeImageFilterFilter<TInputImage, TOutputImage, TKernel>
       else
         {
         // case #4, center pixel is "off"
-        return centerValue;
+        return nit.GetCenterPixel();
       }
     }
 } 

@@ -139,29 +139,27 @@ public:
    * Neighborhood iterator type
    */
   typedef ConstSmartNeighborhoodIterator<TInputImage> 
-    NeighborhoodIteratorType ;
+    SmartNeighborhoodIteratorType ;
 
   /**
-   * Iterator type for the neighborhood that 
-   * NeighborhoodIteratorType::GetNeighborhood() will return 
+   * Kernel typedef
    */
-  typedef typename NeighborhoodIteratorType::NeighborhoodType::ConstIterator 
-    ImageKernelIteratorType ;
-
+  typedef TKernel KernelType;
+  
   /**
    * Kernel (structuring element) iterator
    */
-  typedef typename TKernel::ConstIterator KernelIteratorType ;
+  typedef typename KernelType::ConstIterator KernelIteratorType ;
   
   /**
    * n-dimensional Kernel radius
    */
-  typedef typename TKernel::SizeType RadiusType ;
+  typedef typename KernelType::SizeType RadiusType ;
 
   /**
    * Set kernel (structuring element)
    */
-  void SetKernel(TKernel* kernel) ;
+  void SetKernel(KernelType* kernel) ;
 
   /**
    * Make sure that the input requested region should include the output 
@@ -187,10 +185,8 @@ protected:
    * Evaluate image neighborhood with kernel to find the new value 
    * for the center pixel value
    */
-  virtual PixelType Evaluate(ImageKernelIteratorType imageIt, 
-                             ImageKernelIteratorType imageLast, 
-                             KernelIteratorType kernelIt,
-                             PixelType centerValue) = 0;
+  virtual PixelType Evaluate(const SmartNeighborhoodIteratorType &nit,
+                             const KernelType &kernel)=0;
 
   /**
    * Return the region that includes region (output requested region)
@@ -216,7 +212,7 @@ private:
   /**
    * the kernel pointer
    */
-  TKernel* m_Kernel ;
+  KernelType* m_Kernel ;
 
 } ; // end of class
 

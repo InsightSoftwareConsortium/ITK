@@ -105,11 +105,6 @@ public:
   typedef typename Superclass::PixelType PixelType;
 
   /**
-   * Declaration of ImageKernelIteratorType
-   */
-  typedef typename Superclass::ImageKernelIteratorType ImageKernelIteratorType;
-
-  /**
    * Kernel (structuring element) iterator
    */
   typedef typename Superclass::KernelIteratorType  KernelIteratorType;
@@ -126,11 +121,9 @@ protected:
    * It will return the maximum value of the image pixels whose corresponding
    * element in the structuring element is positive.
    */
-  PixelType Evaluate(ImageKernelIteratorType imageIt, 
-                     ImageKernelIteratorType imageLast, 
-                     KernelIteratorType kernelIt,
-                     PixelType centerValue);
-
+  PixelType Evaluate(const SmartNeighborhoodIteratorType &nit,
+                     const KernelType &kernel);
+  
 } ; // end of class
 
 } // end namespace itk

@@ -126,10 +126,8 @@ protected:
    * It will return the minimum value of the image pixels whose corresponding
    * element in the structuring element is positive.
    */
-  PixelType Evaluate(ImageKernelIteratorType imageIt, 
-                     ImageKernelIteratorType imageLast, 
-                     KernelIteratorType kernelIt,
-                     PixelType centerValue);
+  virtual PixelType Evaluate(const SmartNeighborhoodIteratorType &nit,
+                             const KernelType &kernel)=0;
 
 } ; // end of class
 
