@@ -21,7 +21,6 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -29,6 +28,11 @@
 #include <ctype.h>
 #include <stdarg.h>
 #include <float.h>
+
+/* THE FOLLOWING INCLUDE IS ONLY FOR THE ITK DISTRIBUTION.
+   This header mangles the symbols in the NrrdIO library, preventing
+   conflicts in applications linked against two versions of NrrdIO. */
+#include "itk_NrrdIO_mangle.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -482,12 +486,13 @@ TEEM_API void airMopDebug(airArray *arr);
 ** The reason for using airExists_d and not airExists_f is for
 ** doubles > FLT_MAX: airExists_f would say these are infinity.
 */
-#if defined(_WIN32) || defined(__ICC) || defined(__SGI_CC) 
+/* #if defined(_WIN32) || defined(__ICC) || defined(__SGI_CC) */
 #define AIR_EXISTS(x) (airExists_d(x))
-#else
+/* #else
 #define AIR_EXISTS(x) (!((x) - (x)))
 #endif
-
+*/
+ 
 /*
 ******** AIR_EXISTS_F(x)
 **
