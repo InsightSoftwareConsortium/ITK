@@ -145,8 +145,6 @@ int main()
 		++it;
 	}
 
-//	fclose(fin);
-//	delete data;
     	
 	testFuzzy->SetInput(inputimg);
 	testFuzzy->SetObjects(objects_num);
@@ -181,8 +179,6 @@ int main()
 
 	ot.Begin();
 
-	unsigned char* test = new unsigned char[LENGTH*HEIGHT*WIDTH];
-
 	for(int i = 0;i < LENGTH*HEIGHT*WIDTH; i++)
 	{
 		if((i%WIDTH) == 0)
@@ -190,8 +186,6 @@ int main()
 		std::cout<<ot.Get();
 		++ot;
 	}
-
-	delete test;
 
 	return 0;
 }
