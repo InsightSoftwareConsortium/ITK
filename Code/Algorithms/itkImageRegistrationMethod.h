@@ -110,6 +110,9 @@ public:
    *  represent the search space of the optimization algorithm */
   typedef  typename MetricType::TransformParametersType    ParametersType;
 
+  /** Smart Pointer type to a DataObject. */
+  typedef typename DataObject::Pointer DataObjectPointer;
+
   /** Method that initiates the registration. */
   void StartRegistration(void);
 
@@ -172,6 +175,10 @@ public:
 
   /** Returns the transform resulting from the registration process  */
   const TransformOutputType * GetOutput() const;
+
+  /** Make a DataObject of the correct type to be used as the specified
+   * output. */
+  virtual DataObjectPointer MakeOutput(unsigned int idx);
 
     
 protected:

@@ -251,6 +251,23 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
 
 
 
+template < typename TFixedImage, typename TMovingImage >
+DataObject::Pointer
+ImageRegistrationMethod<TFixedImage,TMovingImage>
+::MakeOutput(unsigned int output)
+{
+  switch (output)
+    {
+    case 0:
+      return static_cast<DataObject*>(TransformOutputType::New().GetPointer());
+      break;
+    default:
+      itkExceptionMacro("MakeOutput request for an output number larger than the expected number of outputs");
+    }
+}
+
+
+
 
 } // end namespace itk
 
