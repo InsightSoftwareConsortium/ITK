@@ -24,24 +24,20 @@
 namespace itk
 {
 /** \class IsoContourDistanceImageFilter
- *  \brief Reinitialize the level set to the signed distance function.
+ *  \brief Compute an approximate distance from an interpolated isocontour to the close grid points.
  *
- * IsoContourDistanceImageFilter reinitializes the input level set to
- * the approximated signed distance function from a particular 
- * level set. The output is a level set of the same type as the input.
- *
- * For some level set algorithms, it is useful to periodically
- * reinitialize the level set function to prevent numerical accuracy
- * problems in computing derivatives and curvature values where level
- * sets are densely bunched together.
- *
- * This class is templated over the image type which represents
- * the level set.
+ * For standard level set algorithms, it is useful to periodically
+ * reinitialize the evolving image to prevent numerical accuracy
+ * problems in computing derivatives.
+ * This reinitialization is done by computing a signed distance map
+ * to the current level set.
+ * This class provides the first step in this reinitialization by
+ * computing an estimate of the distance from the interpolated isocontour
+ * to the pixels (or voxels) that are close to it, i.e. for which the isocontour
+ * crosses a segment between them and one of their direct neighbors.
  *
  * This class supports narrowbanding. If the input narrowband is provided,
  * the algorithm will only locate the level set within the input narrowband.
- * For the output, the reinitialize level set is only valid for a distance
- * of OutputNarrowBandwidth / 2 of either side of the level set of interest.
  *
  * Implementation of this class is based on 
  * Fast and Accurate Redistancing for Level Set Methods
@@ -98,20 +94,6 @@ public:
   typedef typename NarrowBandType::ConstIterator ConstBandIterator;
   typedef typename NarrowBandType::Iterator BandIterator;
 
-
-  /** LevelSetType typedef support. */
-//  typedef LevelSetTypeDefault<TInputImage>  LevelSetType;
-//  typedef typename LevelSetType::LevelSetImageType  LevelSetImageType;
-//  typedef typename LevelSetType::LevelSetPointer  LevelSetPointer;
-//  typedef typename LevelSetType::LevelSetConstPointer  LevelSetConstPointer;
-//  typedef typename LevelSetType::NodeType NodeType;
-//  typedef typename LevelSetType::NodeContainer NodeContainer;
-//  typedef typename LevelSetType::NodeContainerPointer NodeContainerPointer;
-//  typedef typename LeveSetType::
-
-  /** SetDimension enumeration. */
-//  itkStaticConstMacro(SetDimension, unsigned int,
-//                      SuperClass::SetDimension);
 
  /** Set/Get the value of the level set to be located. The default value is
    *  0. */

@@ -25,14 +25,13 @@ namespace itk
 {
 
 /** \class FastChamferDistanceImageFilter
-*   \par OVERVIEW  
-*   This class is parametrized over the type of the input image,
-*   it inherits from ImageToImageFilter which modifies the input image
-*   as a result of the processing
+*   \brief This class compute the signed (positive and negative) chamfer distance in a narrow band
 * 
+*   \par OVERVIEW  
 *   This filter computes a Signed Chamfer Distance Map of the input image
 *   specialy designed to work within the Level Set framework,
-*   in the Narrow Band Reinitialization.
+*   in the Narrow Band Reinitialization (generally applied after
+*   IsoContourDistanceImageFilter ).
 *   It can however be used for other purposes.
 *
 *   The input is assumed to contain voxels with values higher than
