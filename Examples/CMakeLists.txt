@@ -3,6 +3,7 @@ SUBDIRS(
   DataRepresentation
   Filtering
   IO
+  Numerics
   Registration
   Segmentation
   SpatialObjects
