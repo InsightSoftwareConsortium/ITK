@@ -1,6 +1,12 @@
 
 PROJECT(MeshExamples)
 
+ADD_EXECUTABLE(PointSet1 PointSet1.cxx )
+TARGET_LINK_LIBRARIES(PointSet1 ITKCommon)
+
+ADD_EXECUTABLE(PointSet2 PointSet2.cxx )
+TARGET_LINK_LIBRARIES(PointSet2 ITKCommon)
+
 ADD_EXECUTABLE(Mesh1 Mesh1.cxx )
 TARGET_LINK_LIBRARIES(Mesh1 ITKCommon)
 
