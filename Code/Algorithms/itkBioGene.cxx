@@ -68,12 +68,14 @@ Gene
 
   m_ProteinDomains.clear();
 
-  ProteinDomainsType::value_type first = (*gene.m_ProteinDomains.begin());
-  ProteinDomainsType::value_type last = (*gene.m_ProteinDomains.end());
-  m_ProteinDomains.insert(
-                           &first,
-                           &last);
-  
+  ProteinDomainsType::const_iterator proteinDomain = gene.m_ProteinDomains.begin();
+  ProteinDomainsType::const_iterator last          = gene.m_ProteinDomains.end();
+ 
+  while( proteinDomain != last )
+    {
+    m_ProteinDomains[ (*proteinDomain).first ] = (*proteinDomain).second;
+    ++proteinDomain;
+    }  
 }
 
 
