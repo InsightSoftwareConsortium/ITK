@@ -107,6 +107,7 @@ HybridFilter<TInputImage,TOutputImage,TInputMesh,TOutputMesh>
 
   const typename TInputImage::Pointer   inputImage(    GetInput()   );
         typename TOutputImage::Pointer  outputImage(   GetOutput()  );
+		typename TOutputImage::Pointer	outputGp = m_GibbsPriorFilter->GetOutput();
 
   outputImage->SetLargestPossibleRegion( 
       inputImage->GetLargestPossibleRegion() );
@@ -121,19 +122,18 @@ HybridFilter<TInputImage,TOutputImage,TInputMesh,TOutputMesh>
   OutputImageIterator outit(outputImage,
 	  inputImage->GetRequestedRegion());
 
-  OutputImageIterator gpit(m_GibbsPriorFilter->GetOutput(),
-	  m_GibbsPriorFilter->GetOutput()->GetRequestedRegion());
-
   while (m_IterNum != 5) {
 	Advance();
 	m_IterNum++;
   }
 
+  OutputImageIterator gpit(outputGp, outputGp->GetBufferedRegion());
+
   outit.Begin();
   gpit.Begin();
 
   while( !gpit.IsAtEnd() ) {
-//	outit.Set(gpit.Get());
+	outit.Set(gpit.Get());
 	++outit;
 	++gpit;
   }
