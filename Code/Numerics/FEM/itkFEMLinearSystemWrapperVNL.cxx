@@ -22,6 +22,7 @@
 
 #include "itkMacro.h"
 #include "itkFEMLinearSystemWrapperVNL.h"
+#include <iostream>
 
 namespace itk {
 namespace fem {
