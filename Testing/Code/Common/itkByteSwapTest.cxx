@@ -108,7 +108,7 @@ int main ( int argc, char* argv[] )
       }
     std::cout << "Passed unsigned long: " << ul << std::endl;
     }
-  catch ( itk::ByteSwapperError &e )
+  catch ( itk::ByteSwapperError & )
     {
     std::cout << "Caught unsigned long exception size is: " << sizeof ( unsigned long ) << std::endl;
     }
@@ -131,7 +131,7 @@ int main ( int argc, char* argv[] )
       }
     std::cout << "Passed float: " << f << std::endl;
     }
-  catch ( itk::ByteSwapperError &e )
+  catch ( itk::ByteSwapperError & )
     {
     std::cout << "Caught float exception size is: " << sizeof ( float ) << std::endl;
     return 1;
@@ -155,7 +155,7 @@ int main ( int argc, char* argv[] )
       }
     std::cout << "Passed unsigned d: " << d << std::endl;
     }
-  catch ( itk::ByteSwapperError &e )
+  catch ( itk::ByteSwapperError &)
     {
     std::cout << "Good catch! Caught double exception size is: " << sizeof ( double ) << std::endl;
     return 0;
