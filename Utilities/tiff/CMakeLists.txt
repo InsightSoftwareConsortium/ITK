@@ -2,8 +2,8 @@ PROJECT(ITKTIFF)
 INCLUDE_REGULAR_EXPRESSION("^(tif|fax|port|uv|tconf|t4|mk|itkjpeg|jpeg|mangle|jconfig|jmorecfg).*$")
 
 
-INCLUDE_DIRECTORIES(${ITKTIFF_SOURCE_DIR})
-INCLUDE_DIRECTORIES(${ITKTIFF_BINARY_DIR})
+INCLUDE_DIRECTORIES(BEFORE ${ITKTIFF_SOURCE_DIR})
+INCLUDE_DIRECTORIES(BEFORE ${ITKTIFF_BINARY_DIR})
 
 # library object files common to compression and decompression
 SET(common_SRCS
