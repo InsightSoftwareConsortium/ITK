@@ -91,7 +91,7 @@ int itkSTLThreadTest(int argc, char* argv[])
     {
     if(!results[i])
       {
-      std::cerr << "Thread " << i << "failed." << std::endl;
+      std::cerr << "Thread " << i << " failed." << std::endl;
       result = 1;
       }
     }
