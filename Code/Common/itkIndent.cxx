@@ -81,7 +81,7 @@ Indent
  * Print out the indentation. Basically output a bunch of spaces.
  */
 std::ostream& 
-operator<<(std::ostream& os, Indent& ind)
+operator<<(std::ostream& os, const Indent& ind)
 {
   os << blanks + (ITK_NUMBER_OF_BLANKS-ind.m_Indent) ;
   return os;
