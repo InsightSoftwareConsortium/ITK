@@ -118,7 +118,7 @@ public:
    * VectorSet typedef
    */
   typedef itk::VectorContainer<unsigned long,VectorType> VectorSetType;
-  typedef VectorSetType::Pointer           VectorSetPointer;
+  typedef typename VectorSetType::Pointer           VectorSetPointer;
 
   /**
    * Get the source landmarks list, which we will denote \f$ p \f$
