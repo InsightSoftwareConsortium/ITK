@@ -33,7 +33,7 @@ itkMapContainer< TElementIdentifier , TElement >
 template <typename TElementIdentifier, typename TElement>
 itkMapContainer< TElementIdentifier , TElement >::Element&
 itkMapContainer< TElementIdentifier , TElement >
-::operator[](const ElementIdentifier& id)
+::operator[](ElementIdentifier id)
 {
   return Map::operator[](id);
 }
@@ -46,7 +46,7 @@ itkMapContainer< TElementIdentifier , TElement >
 template <typename TElementIdentifier, typename TElement>
 bool
 itkMapContainer< TElementIdentifier , TElement >
-::IndexExists(const ElementIdentifier& id)
+::IndexExists(ElementIdentifier id)
 {
   return (this->Map::count(id) > 0);
 }
@@ -60,7 +60,7 @@ itkMapContainer< TElementIdentifier , TElement >
 template <typename TElementIdentifier, typename TElement>
 void
 itkMapContainer< TElementIdentifier , TElement >
-::CreateIndex(const ElementIdentifier& id)
+::CreateIndex(ElementIdentifier id)
 {
   this->Map::operator[](id) = Element();
 }
@@ -73,7 +73,7 @@ itkMapContainer< TElementIdentifier , TElement >
 template <typename TElementIdentifier, typename TElement>
 void
 itkMapContainer< TElementIdentifier , TElement >
-::DeleteIndex(const ElementIdentifier& id)
+::DeleteIndex(ElementIdentifier id)
 {
   this->Map::erase(id);
 }

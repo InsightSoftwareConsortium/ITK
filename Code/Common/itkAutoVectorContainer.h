@@ -87,10 +87,10 @@ public:
    * Declare the public interface routines.
    */
   static Pointer New(void);
-  virtual Element& operator[](const ElementIdentifier&);
-  virtual bool IndexExists(const ElementIdentifier&);
-  virtual void CreateIndex(const ElementIdentifier&);
-  virtual void DeleteIndex(const ElementIdentifier&);
+  virtual Element& operator[](ElementIdentifier);
+  virtual bool IndexExists(ElementIdentifier);
+  virtual void CreateIndex(ElementIdentifier);
+  virtual void DeleteIndex(ElementIdentifier);
 };
 
 #ifndef ITK_MANUAL_INSTANTIATION

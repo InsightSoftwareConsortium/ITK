@@ -45,11 +45,6 @@ public:
   typedef itkSmartPointer<Self>  Pointer;
 
   /**
-   * The type of our cell base class.
-   */
-  typedef itkCell< TPixelType , TMeshType >        Cell;
-  
-  /**
    * The type of cells for this tetrahedron's vertices, edges, and faces.
    */
   typedef itkVertexCell< TPixelType , TMeshType >    Vertex;
@@ -62,13 +57,16 @@ public:
   enum { NumberOfPoints   = 4,
          NumberOfVertices = 4,
          NumberOfEdges    = 6,
-         NumberOfFaces    = 4 };
+         NumberOfFaces    = 4,
+         CellDimension    = 3 };
 
   /**
    * Implement the standard cell API.
    */
   static Pointer New(void);
-  virtual CellFeatureCount GetNumberOfBoundaryEntities(int dimension);
+  virtual int GetCellDimension(void);
+  virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension);
+  virtual Cell::Pointer GetBoundaryFeature(int dimension, CellFeatureId, Mesh*);
   virtual void SetCellPoints(PointIdentifier *ptList);
 
   /**
@@ -80,22 +78,22 @@ public:
   virtual CellFeatureCount GetNumberOfFaces(void);
 
   /**
-   * Get the cell vertex corresponding to the given ID.
-   * The ID can range from 0 to GetNumberOfVertices()-1.
+   * Get the cell vertex corresponding to the given Id.
+   * The Id can range from 0 to GetNumberOfVertices()-1.
    */  
-  virtual Vertex::Pointer GetCellVertex(CellFeatureID);
+  virtual Vertex::Pointer GetCellVertex(CellFeatureId, Mesh*);
 
   /**
-   * Get the cell edge corresponding to the given ID.
-   * The ID can range from 0 to GetNumberOfEdges()-1.
+   * Get the cell edge corresponding to the given Id.
+   * The Id can range from 0 to GetNumberOfEdges()-1.
    */  
-  virtual Edge::Pointer GetCellEdge(CellFeatureID);  
+  virtual Edge::Pointer GetCellEdge(CellFeatureId, Mesh*);  
 
   /**
-   * Get the cell face corresponding to the given ID.
-   * The ID can range from 0 to GetNumberOfFaces()-1.
+   * Get the cell face corresponding to the given Id.
+   * The Id can range from 0 to GetNumberOfFaces()-1.
    */  
-  virtual Face::Pointer GetCellFace(CellFeatureID);  
+  virtual Face::Pointer GetCellFace(CellFeatureId, Mesh*);  
 
   /**
    * Standard part of itkObject class.  Used for debugging output.

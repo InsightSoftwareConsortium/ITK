@@ -67,8 +67,13 @@ public:
   typedef typename MeshType::PointIdentifier  PointIdentifier;
   typedef typename MeshType::CellIdentifier   CellIdentifier;
   typedef typename MeshType::CoordRep         CoordRep;
-  typedef typename MeshType::CellFeatureID    CellFeatureID;
+  typedef typename MeshType::CellFeatureId    CellFeatureId;
   enum { PointDimension = MeshType::PointDimension };
+  
+  /**
+   * Let any derived cell type classes have easy access to their base type.
+   */
+  typedef itkCell Cell;
   
   /**
    * The type of point used by the cell.
@@ -78,14 +83,38 @@ public:
   /**
    * A useful rename.
    */
-  typedef CellFeatureID CellFeatureCount;  
+  typedef CellFeatureId CellFeatureCount;  
 
   /**
    * Public interface routines.
    */
-  virtual CellFeatureCount GetNumberOfBoundaryEntities(int dimension)=0;
+  
+  /**
+   * Get the topological dimension of this cell.
+   */
+  virtual int GetCellDimension(void)=0;
+  
+  /**
+   * Get the number of boundary features of a given dimension on this cell.
+   */
+  virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension)=0;
+  
+  /**
+   * Get the boundary feature corresponding to the given dimension and Id.
+   */
+  virtual Pointer GetBoundaryFeature(int dimension, CellFeatureId, Mesh*)=0;
+  
+  /**
+   * Set the point list used by the cell.  It is assumed that the argument
+   * ptList points to an array of PointIdentifier values of length equal to
+   * the number of points needed to define the cell.
+   */
   virtual void SetCellPoints(PointIdentifier *ptList)=0;
-  virtual void SetCellPoint(CellFeatureID, PointIdentifier ptId);
+  
+  /**
+   * Set the point identifier for a given spot in the point list for the cell.
+   */
+  virtual void SetCellPoint(int localId, PointIdentifier ptId);
 
   /**
    * Standard part of itkObject class.  Used for debugging output.
@@ -121,7 +150,7 @@ protected:
   /**
    * Get the geometrical position of a point.
    */
-  Point GetPointPosition(Mesh* mesh, int localID);
+  Point GetPointPosition(Mesh* mesh, int localId);
 };
 
 #ifndef ITK_MANUAL_INSTANTIATION

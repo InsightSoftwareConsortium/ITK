@@ -22,9 +22,9 @@
 template <typename TPixelType, typename TMeshType>
 void
 itkCell< TPixelType , TMeshType >
-::SetCellPoint(CellFeatureID featureId, PointIdentifier ptId)
+::SetCellPoint(int localId, PointIdentifier ptId)
 {
-  m_PointIds[featureId] = ptId;
+  m_PointIds[localId] = ptId;
 }
 
 
@@ -34,8 +34,8 @@ itkCell< TPixelType , TMeshType >
 template <typename TPixelType, typename TMeshType>
 itkCell< TPixelType , TMeshType >::Point
 itkCell< TPixelType , TMeshType >
-::GetPointPosition(Mesh* mesh, int localID)
+::GetPointPosition(Mesh* mesh, int localId)
 {
-  return (*(mesh->m_PointIds))[m_PointIds[localID]];
+  return (*(mesh->m_PointIds))[m_PointIds[localId]];
 }
 

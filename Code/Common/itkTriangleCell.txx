@@ -28,18 +28,48 @@ itkTriangleCell< TPixelType , TMeshType >
 
 
 /**
- * Get the number of boundary entities of the given dimension.
+ * Get the topological dimension of this cell.
+ */
+template <typename TPixelType, typename TMeshType>
+int
+itkTriangleCell< TPixelType , TMeshType >
+::GetCellDimension(void)
+{
+  return CellDimension;
+}
+
+
+/**
+ * Get the number of boundary features of the given dimension.
  */
 template <typename TPixelType, typename TMeshType>
 itkTriangleCell< TPixelType , TMeshType >::CellFeatureCount
 itkTriangleCell< TPixelType , TMeshType >
-::GetNumberOfBoundaryEntities(int dimension)
+::GetNumberOfBoundaryFeatures(int dimension)
 {
   switch (dimension)
     {
     case 0: return GetNumberOfVertices();
     case 1: return GetNumberOfEdges();
     default: return 0;
+    }
+}
+
+
+/**
+ * Get the boundary feature of the given dimension specified by the given
+ * cell feature Id.
+ */
+template <typename TPixelType, typename TMeshType>
+itkTriangleCell< TPixelType , TMeshType >::Cell::Pointer
+itkTriangleCell< TPixelType , TMeshType >
+::GetBoundaryFeature(int dimension, CellFeatureId featureId, Mesh* mesh)
+{
+  switch (dimension)
+    {
+    case 0: return Cell::Pointer(GetCellVertex(featureId, mesh));
+    case 1: return Cell::Pointer(GetCellEdge(featureId, mesh));
+    default: return Cell::Pointer(NULL);
     }
 }
 
@@ -86,12 +116,12 @@ itkTriangleCell< TPixelType , TMeshType >
 
 /**
  * Triangle-specific:
- * Get the vertex specified by the given cell feature ID.
+ * Get the vertex specified by the given cell feature Id.
  */
 template <typename TPixelType, typename TMeshType>
 itkTriangleCell< TPixelType , TMeshType >::Vertex::Pointer
 itkTriangleCell< TPixelType , TMeshType >
-::GetCellVertex(CellFeatureID vertexId)
+::GetCellVertex(CellFeatureId vertexId, Mesh*)
 {
   Vertex::Pointer vert(Vertex::New());
   vert->SetCellPoint(0, m_PointIds[vertexId]);
@@ -102,12 +132,12 @@ itkTriangleCell< TPixelType , TMeshType >
 
 /**
  * Triangle-specific:
- * Get the edge specified by the given cell feature ID.
+ * Get the edge specified by the given cell feature Id.
  */
 template <typename TPixelType, typename TMeshType>
 itkTriangleCell< TPixelType , TMeshType >::Edge::Pointer
 itkTriangleCell< TPixelType , TMeshType >
-::GetCellEdge(CellFeatureID edgeId)
+::GetCellEdge(CellFeatureId edgeId, Mesh*)
 {
   Edge::Pointer edge(Edge::New());
   

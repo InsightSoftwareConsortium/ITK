@@ -308,9 +308,7 @@ itkMesh< TPixelType , TMeshType >
    */
   if(m_Points == NULL)
     {
-    m_Points = ConstructDefaultPoints();
-    itkDebugMacro(<< this->GetClassName() << " (" << this
-                  << "): setting Points container to " << m_Points);
+    this->SetPointsContainer(this->ConstructDefaultPoints());
     }
 
   /**
@@ -324,6 +322,8 @@ itkMesh< TPixelType , TMeshType >
  * Check if a point exists for a given point identifier.  If a spot for
  * the point identifier exists, "point" is set, and true is returned.
  * Otherwise, false is returned, and "point" is not modified.
+ * If "point" is NULL, then it is never set, but the existence of the point
+ * is still returned.
  */
 template <typename TPixelType, typename TMeshType>
 bool
@@ -341,13 +341,80 @@ itkMesh< TPixelType , TMeshType >
    */
   if(m_Points->IndexExists(ptId))
     {
-    *point = (*m_Points)[ptId];
+    if(point != NULL)
+      {
+      *point = (*m_Points)[ptId];
+      }
+    
     return true;
     }
   else return false;
 }
 
 
+/**
+ * Assign data to a point identifier.  If a spot for the point identifier
+ * does not exist, it will be created automatically.  There is no check if
+ * a point with the same identifier exists.
+ */
+template <typename TPixelType, typename TMeshType>
+void
+itkMesh< TPixelType , TMeshType >
+::SetPointData(PointIdentifier ptId, PixelType data)
+{
+  /**
+   * Make sure a point data container exists.
+   */
+  if(m_PointData == NULL)
+    {
+    this->SetPointDataContainer(this->ConstructDefaultPointData());
+    }
+
+  /**
+   * Insert the point data into the container with the given identifier.
+   */
+  (*m_PointData)[ptId] = data;
+}
+
+
+/**
+ * Check if point data exists for a given point identifier.  If a spot for
+ * the point identifier exists, "data" is set, and true is returned.
+ * Otherwise, false is returned, and "data" is not modified.
+ * If "data" is NULL, then it is never set, but the existence of the point
+ * data is still returned.
+ */
+template <typename TPixelType, typename TMeshType>
+bool
+itkMesh< TPixelType , TMeshType >
+::GetPointData(PointIdentifier ptId, PixelType* data) const
+{
+  /**
+   * If the point data container doesn't exist, then the point data doesn't
+   * either.
+   */
+  if(m_PointData == NULL)
+    return false;
+  
+  /**
+   * Ask the container if the point identifier exists.
+   */
+  if(m_PointData->IndexExists(ptId))
+    {
+    if(data != NULL)
+      {
+      *data = (*m_PointData)[ptId];
+      }
+    return true;
+    }
+  else return false;
+}
+
+
+/**
+ * Assign a cell to a cell identifier.  If a spot for the cell identifier
+ * does not exist, it will be created automatically.
+ */
 template <typename TPixelType, typename TMeshType>
 void
 itkMesh< TPixelType , TMeshType >
@@ -358,9 +425,7 @@ itkMesh< TPixelType , TMeshType >
    */
   if(m_Cells == NULL)
     {
-    m_Cells = ConstructDefaultCells();
-    itkDebugMacro(<< this->GetClassName() << " (" << this
-                  << "): setting Cellss container to " << m_Cells);
+    this->SetCellsContainer(this->ConstructDefaultCells());
     }
   
   /**
@@ -370,6 +435,13 @@ itkMesh< TPixelType , TMeshType >
 }
 
 
+/**
+ * Check if a cell exists for a given cell identifier.  If a spot for
+ * the cell identifier exists, "cell" is set, and true is returned.
+ * Otherwise, false is returned, and "cell" is not modified.
+ * If "cell" is NULL, then it is never set, but the existence of the cell
+ * is still returned.
+ */
 template <typename TPixelType, typename TMeshType>
 bool
 itkMesh< TPixelType , TMeshType >
@@ -386,12 +458,323 @@ itkMesh< TPixelType , TMeshType >
    */
   if(m_Cells->IndexExists(cellId))
     {
-    *cell = (*m_Cells)[cellId];
+    if(cell != NULL)
+      {
+      *cell = (*m_Cells)[cellId];
+      }
     return true;
     }
   else return false;
 }
 
+
+/**
+ * Assign data to a cell identifier.  If a spot for the cell identifier
+ * does not exist, it will be created automatically.  There is no check if
+ * a cell with the same identifier exists.
+ */
+template <typename TPixelType, typename TMeshType>
+void
+itkMesh< TPixelType , TMeshType >
+::SetCellData(CellIdentifier cellId, PixelType data)
+{
+  /**
+   * Make sure a cell data container exists.
+   */
+  if(m_CellData == NULL)
+    {
+    this->SetCellDataContainer(this->ConstructDefaultCellData());
+    }
+
+  /**
+   * Insert the cell data into the container with the given identifier.
+   */
+  (*m_CellData)[cellId] = data;
+}
+
+
+/**
+ * Check if cell data exists for a given cell identifier.  If a spot for
+ * the cell identifier exists, "data" is set, and true is returned.
+ * Otherwise, false is returned, and "data" is not modified.
+ * If "data" is NULL, then it is never set, but the existence of the cell
+ * data is still returned.
+ */
+template <typename TPixelType, typename TMeshType>
+bool
+itkMesh< TPixelType , TMeshType >
+::GetCellData(CellIdentifier cellId, PixelType* data) const
+{
+  /**
+   * If the cell data container doesn't exist, then the cell data doesn't
+   * either.
+   */
+  if(m_CellData == NULL)
+    return false;
+  
+  /**
+   * Ask the container if the cell identifier exists.
+   */
+  if(m_CellData->IndexExists(cellId))
+    {
+    if(data != NULL)
+      {
+      *data = (*m_CellData)[cellId];
+      }
+    return true;
+    }
+  else return false;
+}
+
+
+/**
+ * Assign a boundary to a boundary identifier.  If a spot for the boundary
+ * identifier does not exist, it will be created automatically.
+ */
+template <typename TPixelType, typename TMeshType>
+void
+itkMesh< TPixelType , TMeshType >
+::SetBoundary(BoundaryIdentifier boundaryId, Boundary* boundary)
+{
+  /**
+   * Make sure a boundaries container exists.
+   */
+  if(m_Boundaries == NULL)
+    {
+    this->SetBoundariesContainer(this->ConstructDefaultBoundaries());
+    }
+  
+  /**
+   * Insert the boundary into the container with the given identifier.
+   */
+  (*m_Boundaries)[boundaryId] = boundary;
+}
+
+
+/**
+ * Check if a boundary exists for a given boundary identifier.  If a spot for
+ * the boundary identifier exists, "boundary" is set, and true is returned.
+ * Otherwise, false is returned, and "boundary" is not modified.
+ * If "boundary" is NULL, then it is never set, but the existence of the
+ * boundary is still returned.
+ */
+template <typename TPixelType, typename TMeshType>
+bool
+itkMesh< TPixelType , TMeshType >
+::GetBoundary(BoundaryIdentifier boundaryId, BoundaryPointer* boundary) const
+{
+  /**
+   * If the boundaries container doesn't exist, then the boundary
+   * doesn't exist.
+   */
+  if(m_Boundaries == NULL)
+    return false;
+  
+  /**
+   * Ask the container if the boundary identifier exists.
+   */
+  if(m_Boundaries->IndexExists(boundaryId))
+    {
+    if(boundary != NULL)
+      {
+      *boundary = (*m_Boundaries)[boundaryId];
+      }
+    return true;
+    }
+  else return false;
+}
+
+
+/**
+ * Assign data to a boundary identifier.  If a spot for the boundary identifier
+ * does not exist, it will be created automatically.  There is no check if
+ * a boundary with the same identifier exists.
+ */
+template <typename TPixelType, typename TMeshType>
+void
+itkMesh< TPixelType , TMeshType >
+::SetBoundaryData(BoundaryIdentifier boundaryId, PixelType data)
+{
+  /**
+   * Make sure a boundary data container exists.
+   */
+  if(m_BoundaryData == NULL)
+    {
+    this->SetBoundaryDataContainer(this->ConstructDefaultBoundaryData());
+    }
+
+  /**
+   * Insert the boundary data into the container with the given identifier.
+   */
+  (*m_BoundaryData)[boundaryId] = data;
+}
+
+
+/**
+ * Check if boundary data exists for a given boundary identifier.  If a spot
+ * for the boundary identifier exists, "data" is set, and true is returned.
+ * Otherwise, false is returned, and "data" is not modified.
+ * If "data" is NULL, then it is never set, but the existence of the boundary
+ * data is still returned.
+ */
+template <typename TPixelType, typename TMeshType>
+bool
+itkMesh< TPixelType , TMeshType >
+::GetBoundaryData(BoundaryIdentifier boundaryId, PixelType* data) const
+{
+  /**
+   * If the boundary data container doesn't exist, then the boundary data doesn't
+   * either.
+   */
+  if(m_BoundaryData == NULL)
+    return false;
+  
+  /**
+   * Ask the container if the boundary identifier exists.
+   */
+  if(m_BoundaryData->IndexExists(boundaryId))
+    {
+    if(data != NULL)
+      {
+      *data = (*m_BoundaryData)[boundaryId];
+      }
+    return true;
+    }
+  else return false;
+}
+
+
+/**
+ * Create an explicit boundary assignment.
+ */
+template <typename TPixelType, typename TMeshType>
+void
+itkMesh< TPixelType , TMeshType >
+::SetBoundaryAssignment(BoundaryAssignmentId assignId, int dimension,
+			BoundaryIdentifier boundaryId)
+{
+  /**
+   * Make sure a boundary assignment container exists for the given dimension.
+   */
+  if(m_BoundaryAssignemnts[dimension] == NULL)
+    {
+    this->SetBoundaryAssignmentsContainer(
+      dimension, this->ConstructDefaultBoundaryAssignments());
+    }
+
+  /**
+   * Insert the boundary assignment into the container with the given
+   * assignment identifier in the given dimension.
+   */
+  (*(m_BoundaryAssignments[dimension]))[assignId] = boundaryId;
+}
+
+
+/**
+ * Check if an explicit boundary assignment exists.
+ */
+template <typename TPixelType, typename TMeshType>
+bool
+itkMesh< TPixelType , TMeshType >
+::GetBoundaryAssignment(BoundaryAssignmentId assignId, int dimension,
+			BoundaryIdentifier* boundaryId) const
+{
+  /**
+   * If the boundary assignments container for the given dimension doesn't
+   * exist, then the boundary assignment doesn't either.
+   */
+  if(m_BoundaryAssignments[dimension] == NULL)
+    return false;
+  
+  /**
+   * Ask the container if the boundary assignment exists.
+   */
+  if(m_BoundaryAssignment->IndexExists(assignId))
+    {
+    if(boundaryId != NULL)
+      {
+      *boundaryId = (*(m_BoundaryAssignments[dimension]))[assignId];
+      }
+    return true;
+    }
+  else return false;
+}
+
+
+/**
+ * Define a front-end to the SetBoundaryAssignment() function that does not
+ * require a BoundaryAssignmentId, but instead takes its indivudal components
+ * as parameters.
+ */
+template <typename TPixelType, typename TMeshType>
+void
+itkMesh< TPixelType , TMeshType >
+::SetBoundaryAssignment(CellIdentifier cellId, CellFeatureId featureId,
+			int dimension, BoundaryIdentifier boundaryId)
+{
+  this->SetBoundaryAssignment(BoundaryAssignmentId(cellId, featureId),
+			      dimension, boundaryId);
+}
+
+
+/**
+ * Define a front-end to the GetBoundaryAssignment() function that does not
+ * require a BoundaryAssignmentId, but instead takes its indivudal components
+ * as parameters.
+ */
+template <typename TPixelType, typename TMeshType>
+bool
+itkMesh< TPixelType , TMeshType >
+::GetBoundaryAssignment(CellIdentifier cellId, CellFeatureId featureId,
+			int dimension, BoundaryIdentifier* boundaryId) const
+{
+  return this->GetBoundaryAssignment(BoundaryAssignmentId(cellId, featureId),
+				     dimension, boundaryId);
+}
+
+
+/**
+ * Remove an explicit boundary assignment if it exists.
+ * Returns whether the assignment was found at all.
+ */
+template <typename TPixelType, typename TMeshType>
+bool
+itkMesh< TPixelType , TMeshType >
+::RemoveBoundaryAssignment(BoundaryAssignmentId assignId, int dimension)
+{
+  /**
+   * If the boundary assignments container for the given dimension doesn't
+   * exist, then the boundary assignment doesn't either.
+   */
+  if(m_BoundaryAssignments[dimension] == NULL)
+    return false;
+  
+  /**
+   * Ask the container if the boundary assignment exists.
+   */
+  if(m_BoundaryAssignment->IndexExists(assignId))
+    {
+    m_BoundaryAssignments[dimension]->DeleteIndex(assignId);
+    return true;
+    }
+  else return false;  
+}
+
+
+/**
+ * Define a front-end to the RemoveBoundaryAssignment() function that does not
+ * require a BoundaryAssignmentId, but instead takes its indivudal components
+ * as parameters.
+ */
+template <typename TPixelType, typename TMeshType>
+bool
+itkMesh< TPixelType , TMeshType >
+::RemoveBoundaryAssignment(CellIdentifier cellId, CellFeatureId featureId,
+			   int dimension)
+{
+  return this->RemoveBoundaryAssignments(
+    BoundaryAssignmentId(cellId, featureId), dimension);
+}
 
 
 /******************************************************************************
@@ -433,7 +816,7 @@ itkMesh< TPixelType , TMeshType >
 #define DefaultBoundariesContainerForNonIntegralIdentifiers   itkMapContainer< BoundaryIdentifier , BoundaryPointer >
 #define DefaultBoundaryDataContainerForIntegralIdentifiers    itkAutoVectorContainer< BoundaryIdentifier , PixelType >
 #define DefaultBoundaryDataContainerForNonIntegralIdentifiers itkMapContainer< BoundaryIdentifier , PixelType >
-#define DefaultBoundaryAssignmentsContainer                   itkMapContainer< BoundaryAssignmentID , BoundaryIdentifier >
+#define DefaultBoundaryAssignmentsContainer                   itkMapContainer< BoundaryAssignmentId , BoundaryIdentifier >
 
 
 /**

@@ -65,7 +65,7 @@ public:
   typedef typename MeshType::CellIdentifier           CellIdentifier;
   typedef typename MeshType::PointIdentifier          PointIdentifier;
   typedef typename MeshType::BoundaryIdentifier       BoundaryIdentifier;
-  typedef typename MeshType::CellFeatureID            CellFeatureID;
+  typedef typename MeshType::CellFeatureId            CellFeatureId;
   typedef typename MeshType::PointCellLinksContainer  PointCellLinksContainer;
   
   /**
@@ -80,9 +80,11 @@ public:
   typedef Cell::Pointer                    CellPointer;
   
   /**
-   * Define a type that points to a cell boundary.  It happens to be
-   * that such boundaries are cells also.
+   * Define a type for cell boundaries and a type that points to a
+   * cell boundary.
+   * It happens to be that such boundaries are cells also.
    */
+  typedef Cell         Boundary;
   typedef CellPointer  BoundaryPointer;
   
   /**
@@ -94,27 +96,35 @@ public:
   
   /**
    * An explicit cell boundary assignment can be accessed through the cell
-   * identifier to which the assignment is made, and the feature ID of the
+   * identifier to which the assignment is made, and the feature Id of the
    * boundary feature within the cell that is being assigned.
    *
    * This class provides a pair of these identifiers with appropriate
-   * comparison operators available for use of the IDs in sorted container
+   * comparison operators available for use of the Ids in sorted container
    * classes.
    */
-  class BoundaryAssignmentID
+  class BoundaryAssignmentId
   {
   public:
-    typedef BoundaryAssignmentID Self;
-  
+    typedef BoundaryAssignmentId Self;
+
+    /**
+     * Constructor just takes the cell and feature identifiers, or
+     * defaults to their individual default values.
+     */
+    BoundaryAssignmentId() {}
+    BoundaryAssignmentId(CellIdentifier cellId, CellFeatureId featureId):
+      m_CellId(cellId), m_FeatureId(featureId) {}    
+    
     /**
      * The Cell's identification.
      */
-    CellIdentifier cellID;
+    CellIdentifier m_CellId;
   
     /**
      * The identification of the feature within the cell.
      */
-    CellFeatureID  featureID;
+    CellFeatureId  m_FeatureId;
   
     /**
      * Most containers require a "<" operator to be defined for their
@@ -122,8 +132,8 @@ public:
      */
     bool operator < (const Self& r)
       {
-	return ((cellID < r.cellID) ||
-		((cellID == r.cellID) && (featureID < r.featureID)));
+	return ((m_CellId < r.m_CellId) ||
+		((m_CellId == r.m_CellId) && (m_FeatureId < r.m_FeatureId)));
       }
   
     /**
@@ -132,9 +142,9 @@ public:
      */
     bool operator == (const Self& r)
       {
-	return ((cellID == r.cellID) && (featureID == r.featureID));
+	return ((m_CellId == r.m_CellId) && (m_FeatureId == r.m_FeatureId));
       }
-  }; // End Class: itkMesh::BoundaryAssignmentID
+  }; // End Class: itkMesh::BoundaryAssignmentId
 
 protected:
   /**
@@ -215,13 +225,13 @@ protected:
    * The vector is indexed by the topological dimension of the cell boundary.
    * The container for each topological dimension holds boundary identifiers
    * of the assigned boundaries.  The containers are keyed by
-   * BoundaryAssignmentID objects (see above).  The boundary identifiers
+   * BoundaryAssignmentId objects (see above).  The boundary identifiers
    * can be used to access the boundaries themselves in the containers
    * stored in the Boundaries vector.  They can also be used to access
    * the data stored by a particular boundary through the containers in
    * the BoundaryData vector.
    */
-  typedef itkIndexedContainer< BoundaryAssignmentID , BoundaryIdentifier >
+  typedef itkIndexedContainer< BoundaryAssignmentId , BoundaryIdentifier >
         BoundaryAssignmentsContainer;
   typedef std::vector< BoundaryAssignmentsContainer::Pointer >
         BoundaryAssignmentsContainerVector;
@@ -252,13 +262,13 @@ public:
   virtual void SetCellDataContainer(CellDataContainer*);
   virtual CellDataContainer::Pointer GetCellDataContainer(void);
 
-  virtual void SetBoundariesContainer(int, BoundariesContainer*);
+  virtual void SetBoundariesContainer(int dimension, BoundariesContainer*);
   virtual BoundariesContainer::Pointer GetBoundariesContainer(int);
 
-  virtual void SetBoundaryDataContainer(int, BoundaryDataContainer*);
+  virtual void SetBoundaryDataContainer(int dimension, BoundaryDataContainer*);
   virtual BoundaryDataContainer::Pointer GetBoundaryDataContainer(int);
   
-  virtual void SetBoundaryAssignmentsContainer(int, BoundaryAssignmentsContainer*);
+  virtual void SetBoundaryAssignmentsContainer(int dimension, BoundaryAssignmentsContainer*);
   virtual BoundaryAssignmentsContainer::Pointer GetBoundaryAssignmentsContainer(int);
 
   /**
@@ -269,11 +279,55 @@ public:
   bool GetPoint(PointIdentifier, Point*) const;
 
   /**
-   * Access routines to fill the Coints container, and get information
+   * Access routines to fill the PointData container, and get information
+   * from it.
+   */
+  void SetPointData(PointIdentifier, PixelType);
+  bool GetPointData(PointIdentifier, PixelType*) const;
+
+  /**
+   * Access routines to fill the Cells container, and get information
    * from it.
    */
   void SetCell(CellIdentifier, Cell*);
   bool GetCell(CellIdentifier, CellPointer*) const;
+
+  /**
+   * Access routines to fill the CellData container, and get information
+   * from it.
+   */
+  void SetCellData(CellIdentifier, PixelType);
+  bool GetCellData(CellIdentifier, PixelType*) const;
+  
+  /**
+   * Access routines to fill the Boundaries container, and get information
+   * from it.
+   */
+  void SetBoundary(BoundaryIdentifier, Boundary*);
+  bool GetBoundary(BoundaryIdentifier, BoundaryPointer*) const;
+
+  /**
+   * Access routines to fill the BoundaryData container, and get information
+   * from it.
+   */
+  void SetBoundaryData(BoundaryIdentifier, PixelType);
+  bool GetBoundaryData(BoundaryIdentifier, PixelType*) const;
+
+  /**
+   * Access routines to fill the BoundaryAssignments container, and get
+   * information from it.
+   */
+  void SetBoundaryAssignment(BoundaryAssignmentId, int dimension,
+			     BoundaryIdentifier);
+  bool GetBoundaryAssignment(BoundaryAssignmentId, int dimension,
+			     BoundaryIdentifier*) const;
+  void SetBoundaryAssignment(CellIdentifier cellId, CellFeatureId featureId,
+			     int dimension, BoundaryIdentifier);
+  bool GetBoundaryAssignment(CellIdentifier cellId, CellFeatureId featureId,
+			     int dimension, BoundaryIdentifier*) const;
+  bool RemoveBoundaryAssignment(BoundaryAssignmentId, int dimension);
+  bool RemoveBoundaryAssignment(CellIdentifier cellId, CellFeatureId featureId,
+				int dimension);
   
   /**
    * Standard part of itkObject class.  Used for debugging output.
@@ -299,7 +353,7 @@ protected:
    * are of integral type.  The choice is made based on the identifier's
    * traits.
    *
-   * Boundary assignment containers are always indexed by BoundaryAssignmentID.
+   * Boundary assignment containers are always indexed by BoundaryAssignmentId.
    * This is not an integral type.  Therefore, there is only one default
    * construction routine.
    */ 

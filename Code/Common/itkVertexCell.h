@@ -49,12 +49,7 @@ public:
   typedef typename MeshType::CoordRep         CoordRep;
   typedef typename MeshType::PointIdentifier  PointIdentifier;
   enum { PointDimension = MeshType::PointDimension };
-  
-  /**
-   * The type of our cell base class.
-   */
-  typedef itkCell< TPixelType , TMeshType >        Cell;
-  
+
   /**
    * The vertex has only a point as its boundary.
    */
@@ -63,13 +58,16 @@ public:
   /**
    * Vertex-specific topology numbers.
    */
-  enum { NumberOfPoints = 1 };
+  enum { NumberOfPoints = 1,
+         CellDimension  = 0 };
   
   /**
    * Implement the standard cell API.
    */
   static Pointer New(void);
-  virtual CellFeatureCount GetNumberOfBoundaryEntities(int dimension);
+  virtual int GetCellDimension(void);
+  virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension);
+  virtual Cell::Pointer GetBoundaryFeature(int dimension, CellFeatureId, Mesh*);
   virtual void SetCellPoints(PointIdentifier *ptList);
   
   /**

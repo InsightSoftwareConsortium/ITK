@@ -34,7 +34,7 @@ itkVectorContainer< TElementIdentifier , TElement >
 template <typename TElementIdentifier, typename TElement>
 itkVectorContainer< TElementIdentifier , TElement >::Element&
 itkVectorContainer< TElementIdentifier , TElement >
-::operator[](const ElementIdentifier& id)
+::operator[](ElementIdentifier id)
 {
   return this->Vector::operator[](id);
 }
@@ -47,7 +47,7 @@ itkVectorContainer< TElementIdentifier , TElement >
 template <typename TElementIdentifier, typename TElement>
 bool
 itkVectorContainer< TElementIdentifier , TElement >
-::IndexExists(const ElementIdentifier& id)
+::IndexExists(ElementIdentifier id)
 {
   return ((id >= 0) && (id < this->Vector::size()));
 }
@@ -61,7 +61,7 @@ itkVectorContainer< TElementIdentifier , TElement >
 template <typename TElementIdentifier, typename TElement>
 void
 itkVectorContainer< TElementIdentifier , TElement >
-::CreateIndex(const ElementIdentifier& id)
+::CreateIndex(ElementIdentifier id)
 {
   if(id >= this->Vector::size())
     {
@@ -93,7 +93,7 @@ itkVectorContainer< TElementIdentifier , TElement >
 template <typename TElementIdentifier, typename TElement>
 void
 itkVectorContainer< TElementIdentifier , TElement >
-::DeleteIndex(const ElementIdentifier& id)
+::DeleteIndex(ElementIdentifier id)
 {
   this->Vector::operator[](id) = Element();
 }

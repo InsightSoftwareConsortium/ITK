@@ -28,17 +28,46 @@ itkLineCell< TPixelType , TMeshType >
 
 
 /**
+ * Get the topological dimension of this cell.
+ */
+template <typename TPixelType, typename TMeshType>
+int
+itkLineCell< TPixelType , TMeshType >
+::GetCellDimension(void)
+{
+  return CellDimension;
+}
+
+
+/**
  * Get the number of boundary entities of the given dimension.
  */
 template <typename TPixelType, typename TMeshType>
 itkLineCell< TPixelType , TMeshType >::CellFeatureCount
 itkLineCell< TPixelType , TMeshType >
-::GetNumberOfBoundaryEntities(int dimension)
+::GetNumberOfBoundaryFeatures(int dimension)
 {
   switch (dimension)
     {
     case 0: return GetNumberOfVertices();
     default: return 0;
+    }
+}
+
+
+/**
+ * Get the boundary feature of the given dimension specified by the given
+ * cell feature Id.
+ */
+template <typename TPixelType, typename TMeshType>
+itkLineCell< TPixelType , TMeshType >::Cell::Pointer
+itkLineCell< TPixelType , TMeshType >
+::GetBoundaryFeature(int dimension, CellFeatureId featureId, Mesh* mesh)
+{
+  switch (dimension)
+    {
+    case 0: return Cell::Pointer(GetCellVertex(featureId, mesh));
+    default: return Cell::Pointer(NULL);
     }
 }
 
@@ -72,12 +101,12 @@ itkLineCell< TPixelType , TMeshType >
 
 /**
  * Line-specific:
- * Get the vertex specified by the given cell feature ID.
+ * Get the vertex specified by the given cell feature Id.
  */
 template <typename TPixelType, typename TMeshType>
 itkLineCell< TPixelType , TMeshType >::Vertex::Pointer
 itkLineCell< TPixelType , TMeshType >
-::GetCellVertex(CellFeatureID vertexId)
+::GetCellVertex(CellFeatureId vertexId, Mesh*)
 {
   Vertex::Pointer vert(Vertex::New());
   vert->SetCellPoint(0, m_PointIds[vertexId]);

@@ -45,11 +45,6 @@ public:
   typedef itkSmartPointer<Self>  Pointer;
 
   /**
-   * The type of our cell base class.
-   */
-  typedef itkCell< TPixelType , TMeshType >        Cell;
-
-  /**
    * The type of cells for this lines's vertices.
    */
   typedef itkVertexCell< TPixelType , TMeshType >  Vertex;
@@ -58,20 +53,23 @@ public:
    * Line-specific topology numbers.
    */
   enum { NumberOfPoints   = 2,
-         NumberOfVertices = 2 };
+         NumberOfVertices = 2,
+         CellDimension    = 1 };
   
   /**
    * Implement the standard cell API.
    */
   static Pointer New(void);
-  virtual CellFeatureCount GetNumberOfBoundaryEntities(int dimension);
+  virtual int GetCellDimension(void);
+  virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension);
+  virtual Cell::Pointer GetBoundaryFeature(int dimension, CellFeatureId, Mesh*);
   virtual void SetCellPoints(PointIdentifier *ptList);
 
   /**
    * Line-specific interface.
    */
   virtual CellFeatureCount GetNumberOfVertices(void);
-  virtual Vertex::Pointer GetCellVertex(CellFeatureID);
+  virtual Vertex::Pointer GetCellVertex(CellFeatureId, Mesh*);
 
   /**
    * Standard part of itkObject class.  Used for debugging output.

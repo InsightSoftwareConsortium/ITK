@@ -57,7 +57,7 @@ template <
    * the cells.  Since this will probably be an index into a static array,
    * this will probably never change from an integer setting.
    */
-  typename TCellFeatureID = unsigned long,
+  typename TCellFeatureId = unsigned long,
 
   /**
    * Max topological dimension of a cell that can be inserted into this mesh.
@@ -83,7 +83,7 @@ struct itkMeshType
   typedef TCellIdentifier      	    CellIdentifier;
   typedef TPointIdentifier     	    PointIdentifier;
   typedef TBoundaryIdentifier  	    BoundaryIdentifier;
-  typedef TCellFeatureID       	    CellFeatureID;
+  typedef TCellFeatureId       	    CellFeatureId;
   enum { MaxTopologicalDimension = VMaxTopologicalDimension };  
   typedef TPointCellLinksContainer  PointCellLinksContainer;
 };

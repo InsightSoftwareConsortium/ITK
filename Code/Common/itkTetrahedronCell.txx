@@ -29,12 +29,24 @@ itkTetrahedronCell< TPixelType , TMeshType >
 
 
 /**
- * Get the number of boundary entities of the given dimension.
+ * Get the topological dimension of this cell.
+ */
+template <typename TPixelType, typename TMeshType>
+int
+itkTetrahedronCell< TPixelType , TMeshType >
+::GetCellDimension(void)
+{
+  return CellDimension;
+}
+
+
+/**
+ * Get the number of boundary features of the given dimension.
  */
 template <typename TPixelType, typename TMeshType>
 itkTetrahedronCell< TPixelType , TMeshType >::CellFeatureCount
 itkTetrahedronCell< TPixelType , TMeshType >
-::GetNumberOfBoundaryEntities(int dimension)
+::GetNumberOfBoundaryFeatures(int dimension)
 {
   switch (dimension)
     {
@@ -42,6 +54,25 @@ itkTetrahedronCell< TPixelType , TMeshType >
     case 1: return GetNumberOfEdges();
     case 2: return GetNumberOfFaces();
     default: return 0;
+    }
+}
+
+
+/**
+ * Get the boundary feature of the given dimension specified by the given
+ * cell feature Id.
+ */
+template <typename TPixelType, typename TMeshType>
+itkTetrahedronCell< TPixelType , TMeshType >::Cell::Pointer
+itkTetrahedronCell< TPixelType , TMeshType >
+::GetBoundaryFeature(int dimension, CellFeatureId featureId, Mesh* mesh)
+{
+  switch (dimension)
+    {
+    case 0: return Cell::Pointer(GetCellVertex(featureId, mesh));
+    case 1: return Cell::Pointer(GetCellEdge(featureId, mesh));
+    case 2: return Cell::Pointer(GetCellFace(featureId, mesh));
+    default: return Cell::Pointer(NULL);
     }
 }
 
@@ -101,12 +132,12 @@ itkTetrahedronCell< TPixelType , TMeshType >
 
 /**
  * Tetrahedron-specific:
- * Get the vertex specified by the given cell feature ID.
+ * Get the vertex specified by the given cell feature Id.
  */
 template <typename TPixelType, typename TMeshType>
 itkTetrahedronCell< TPixelType , TMeshType >::Vertex::Pointer
 itkTetrahedronCell< TPixelType , TMeshType >
-::GetCellVertex(CellFeatureID vertexId)
+::GetCellVertex(CellFeatureId vertexId, Mesh*)
 {
   Vertex::Pointer vert(Vertex::New());
   vert->SetCellPoint(0, m_PointIds[vertexId]);
@@ -117,12 +148,12 @@ itkTetrahedronCell< TPixelType , TMeshType >
 
 /**
  * Tetrahedron-specific:
- * Get the edge specified by the given cell feature ID.
+ * Get the edge specified by the given cell feature Id.
  */
 template <typename TPixelType, typename TMeshType>
 itkTetrahedronCell< TPixelType , TMeshType >::Edge::Pointer
 itkTetrahedronCell< TPixelType , TMeshType >
-::GetCellEdge(CellFeatureID edgeId)
+::GetCellEdge(CellFeatureId edgeId, Mesh*)
 {
   Edge::Pointer edge(Edge::New());
 
@@ -135,12 +166,12 @@ itkTetrahedronCell< TPixelType , TMeshType >
 
 /**
  * Tetrahedron-specific:
- * Get the face specified by the given cell feature ID.
+ * Get the face specified by the given cell feature Id.
  */
 template <typename TPixelType, typename TMeshType>
 itkTetrahedronCell< TPixelType , TMeshType >::Face::Pointer
 itkTetrahedronCell< TPixelType , TMeshType >
-::GetCellFace(CellFeatureID faceId)
+::GetCellFace(CellFeatureId faceId, Mesh*)
 {
   Face::Pointer face(Face::New());
   

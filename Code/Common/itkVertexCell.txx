@@ -29,18 +29,38 @@ itkVertexCell< TPixelType , TMeshType >
 
 
 /**
- * Get the number of boundary entities of the given dimension.
+ * Get the topological dimension of this cell.
+ */
+template <typename TPixelType, typename TMeshType>
+int
+itkVertexCell< TPixelType , TMeshType >
+::GetCellDimension(void)
+{
+  return CellDimension;
+}
+
+
+/**
+ * A vertex has no boundary entities of any dimension.
  */
 template <typename TPixelType, typename TMeshType>
 itkVertexCell< TPixelType , TMeshType >::CellFeatureCount
 itkVertexCell< TPixelType , TMeshType >
-::GetNumberOfBoundaryEntities(int dimension)
+::GetNumberOfBoundaryFeatures(int)
 {
-  switch (dimension)
-    {
-    case 0: return NumberOfPoints;
-    default: return 0;
-    }
+  return 0;
+}
+
+
+/**
+ * A vertex has no boundary entities.  Just return null.
+ */
+template <typename TPixelType, typename TMeshType>
+itkVertexCell< TPixelType , TMeshType >::Cell::Pointer
+itkVertexCell< TPixelType , TMeshType >
+::GetBoundaryFeature(int, CellFeatureId, Mesh*)
+{
+  return Cell::Pointer(NULL);
 }
 
 
