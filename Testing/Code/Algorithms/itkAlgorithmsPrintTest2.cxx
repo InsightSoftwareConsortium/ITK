@@ -22,7 +22,6 @@
 #include "itkVector.h"
 #include "itkPoint.h"
 #include "itkMesh.h"
-#include "itkEllipseSpatialObject.h"
 
 #include "itkMattesMutualInformationImageToImageMetric.h"
 #include "itkMeanSquaresPointSetToImageMetric.h"
@@ -70,18 +69,6 @@ int itkAlgorithmsPrintTest2(int , char* [])
   // Used for GradientVectorFlowImageFilter
   typedef itk::CovariantVector<double,2> GradientType;
   typedef itk::Image<GradientType,2>   GradientImageType;
-
-  //Used for ImageKMeansModelEstimator
-  typedef itk::Statistics::DistanceToCentroidMembershipFunction<VectorType> KMeansMemFuncType;
-  
-  // Used for ImageGaussianModelEstimator
-  typedef itk::Statistics::MahalanobisDistanceMembershipFunction<VectorType> GaussianMemFuncType;
-  
-  // Used for ImageToSpatialObjectRegistrationMethod
-  typedef itk::GroupSpatialObject<2>   GroupType;
-
-  // Used for ImageToSpatialObjectMetric
-  typedef itk::EllipseSpatialObject<2> SpatialObjectType;
 
   itk::MattesMutualInformationImageToImageMetric<InputType,InputType>::Pointer MattesMutualInformationImageToImageMetricObj =
     itk::MattesMutualInformationImageToImageMetric<InputType,InputType>::New();
