@@ -20,6 +20,7 @@
 #include "itkGaussianImageSource.h"
 #include "itkGaussianSpatialFunction.h"
 #include "itkImageRegionIterator.h"
+#include "itkProgressReporter.h"
 #include "itkObjectFactory.h"
  
 namespace itk
@@ -154,6 +155,7 @@ GaussianImageSource<TOutputImage>
   // The position at which the function is evaluated
   Point<double, TOutputImage::ImageDimension> evalPoint;
 
+  ProgressReporter progress(this, 0, outputPtr->GetRequestedRegion().GetNumberOfPixels());
   // Walk the output image, evaluating the spatial function at each pixel
   for ( ; !outIt.IsAtEnd(); ++outIt)
     {
@@ -163,6 +165,7 @@ GaussianImageSource<TOutputImage>
 
     // Set the pixel value to the function value
     outIt.Set( (typename TOutputImage::PixelType) value);
+    progress.CompletedPixel();
     }
 }
 
