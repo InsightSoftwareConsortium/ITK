@@ -1,5 +1,27 @@
 <?xml version="1.0"?>
 <WrapperConfiguration source="itkDirectory.xml" dest="itkDirectory_wrap">
+  <WrapType name="itk::Object">
+  <Delete>
+   <![CDATA[ static_cast<itk::Object*>(object)->Delete(); ]]>
+  </Delete>
+  <Create>
+   <![CDATA[ 
+            itk::Object::Pointer ret = itk::Object::New();
+            ret->Register();
+	    return ret.GetPointer();
+	     ]]>
+  </Create>
+  </WrapType>
   <WrapType name="itk::Directory">
+  <Create>
+   <![CDATA[ 
+            itk::Directory::Pointer ret = itk::Directory::New();
+            ret->Register();
+	    return ret.GetPointer();
+]]>
+  </Create>
+  <Delete>
+   <![CDATA[ static_cast<itk::Directory*>(object)->Delete(); ]]>
+  </Delete>
   </WrapType>
 </WrapperConfiguration>
