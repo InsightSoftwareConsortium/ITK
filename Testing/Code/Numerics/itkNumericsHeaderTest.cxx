@@ -18,12 +18,15 @@ See COPYRIGHT.txt for copyright details.
 // Test to include each header file for Insight
 
 #include "itkAmoebaOptimizer.h"
+#include "itkCacheableScalarFunction.h"
+#include "itkCompositeValleyFunction.h"
 #include "itkConjugateGradientOptimizer.h"
 #include "itkGradientDescentOptimizer.h"
 #include "itkLBFGSOptimizer.h"
 #include "itkLevenbergMarquardtOptimizer.h"
 #include "itkMultipleValuedNonLinearOptimizer.h"
 #include "itkMultipleValuedNonLinearVnlOptimizer.h"
+#include "itkMultivariateLegendrePolynomial.h"
 #include "itkNonLinearOptimizer.h"
 #include "itkOnePlusOneEvolutionaryOptimizer.h"
 #include "itkOptimizer.h"

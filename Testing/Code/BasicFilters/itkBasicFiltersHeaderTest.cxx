@@ -47,6 +47,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkImportImageFilter.h"
 #include "itkLog10ImageFilter.h"
 #include "itkLogImageFilter.h"
+#include "itkMRIBiasFieldCorrectionFilter.h"
 #include "itkMeshSource.h"
 #include "itkMeshToMeshFilter.h"
 #include "itkMultiplyImageFilter.h"
