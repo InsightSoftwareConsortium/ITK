@@ -16,6 +16,7 @@
 #include "itkReadMetaImage.h"
 #include "itkObjectFactory.h"
 #include "itkImageRegionSimpleIterator.h"
+#include <MetaImageLib/MetaImageLib.h>
 
 namespace itk
 {
@@ -39,6 +40,8 @@ void
 ReadMetaImage<TOutputImage>
 ::Execute()
 {
+
+  MetaImage   m_MetaImage;
   
   m_MetaImage.OpenMetaFile(m_FileName.c_str(),true);
   if( m_MetaImage.Error() ) 
@@ -53,7 +56,7 @@ ReadMetaImage<TOutputImage>
   
   typename TOutputImage::Pointer m_OutputImage( GetOutput() );
 
-  m_OutputImage->SetSpacing( m_MetaImage.ElemSize() );
+  m_OutputImage->SetSpacing( m_MetaImage.ElemSpacing() );
 
   unsigned long dimSize[ TOutputImage::ImageDimension ];
 

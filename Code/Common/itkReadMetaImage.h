@@ -17,7 +17,6 @@
 #define __itkReadMetaImage_h
 
 #include "itkImageSource.h"
-#include <MetaImageLib/MetaImageLib.h>
 
 namespace itk
 {
@@ -76,7 +75,6 @@ protected:
 
 private:
   std::string m_FileName;
-  MetaImage   m_MetaImage;
 
 };
 
