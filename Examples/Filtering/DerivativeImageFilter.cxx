@@ -28,6 +28,7 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkRescaleIntensityImageFilter.h"
 
 
 
@@ -51,10 +52,11 @@ int main( int argc, char * argv[] )
 {
 
 
-  if( argc < 5 )
+  if( argc < 6 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile   outputImageFile  derivativeOrder direction" << std::endl;
+    std::cerr << argv[0] << "  inputImageFile   outputImageFile  normalizedOutputImageFile ";
+    std::cerr << " derivativeOrder direction" << std::endl;
     return 1;
     }
 
@@ -72,8 +74,10 @@ int main( int argc, char * argv[] )
   typedef   float  InputPixelType;
   typedef   float  OutputPixelType;
 
-  typedef itk::Image< InputPixelType,  2 >   InputImageType;
-  typedef itk::Image< OutputPixelType, 2 >   OutputImageType;
+  const unsigned int Dimension = 2;
+
+  typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
+  typedef itk::Image< OutputPixelType, Dimension >   OutputImageType;
   // Software Guide : EndCodeSnippet
 
 
@@ -117,8 +121,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  filter->SetOrder(     atoi( argv[3] ) );
-  filter->SetDirection( atoi( argv[4] ) );
+  filter->SetOrder(     atoi( argv[4] ) );
+  filter->SetDirection( atoi( argv[5] ) );
   // Software Guide : EndCodeSnippet
 
 
@@ -127,7 +131,7 @@ int main( int argc, char * argv[] )
   //  The input to the filter can be taken from any other filter, for example a
   //  reader. The output can be passed down the pipeline to other filters, for
   //  example a writer. An update call on any downstream filter will trigger
-  //  the execution of the mean filter.
+  //  the execution of the derivative filter.
   //
   //  \index{itk::DerivativeImageFilter!SetInput()}
   //  \index{itk::DerivativeImageFilter!GetOutput()}
@@ -159,6 +163,26 @@ int main( int argc, char * argv[] )
   //
   //  Software Guide : EndLatex 
 
+
+  typedef itk::Image< unsigned char, Dimension >  WriteImageType;
+
+  typedef itk::RescaleIntensityImageFilter< 
+                                  OutputImageType,
+                                  WriteImageType >    NormalizeFilterType;
+
+  typedef itk::ImageFileWriter< WriteImageType >       NormalizedWriterType;
+
+  NormalizeFilterType::Pointer normalizer = NormalizeFilterType::New();
+  NormalizedWriterType::Pointer normalizedWriter = NormalizedWriterType::New();
+
+  normalizer->SetInput( filter->GetOutput() );
+  normalizedWriter->SetInput( normalizer->GetOutput() );
+
+  normalizer->SetOutputMinimum(   0 );
+  normalizer->SetOutputMaximum( 255 );
+
+  normalizedWriter->SetFileName( argv[3] );
+  normalizedWriter->Update();
 
   return 0;
 
