@@ -75,6 +75,8 @@ public:
   static const ClassType* SafeDownCast(const Type*);
 
   bool IsAbstract() const;
+
+  void MergeClassInformation(bool, const ClassTypes&);
   
   String GetName() const;
   ClassTypes::const_iterator ParentsBegin() const;

@@ -89,6 +89,21 @@ bool ClassType::IsAbstract() const
 
 
 /**
+ * Merge the class information given with that already known.  This
+ * includes the abstract flag and parent classes.
+ */
+void ClassType::MergeClassInformation(bool isAbstract,
+                                      const ClassTypes& parents)
+{
+  m_Abstract = isAbstract | m_Abstract;
+  if(parents.size() > m_Parents.size())
+    {
+    m_Parents = parents;
+    }
+}
+
+
+/**
  * Get the name of the class.
  */
 String ClassType::GetName() const

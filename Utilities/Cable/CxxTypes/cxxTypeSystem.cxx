@@ -90,7 +90,9 @@ TypeSystem
   
   if(i != m_ClassTypeMap.end())
     {
-    // An existing copy was found, return it.
+    // An existing copy was found.  Merge in the new information we have
+    // and return it.
+    i->second->MergeClassInformation(isAbstract, parents);
     return i->second;
     }
   else
