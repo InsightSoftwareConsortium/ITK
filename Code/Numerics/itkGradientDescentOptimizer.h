@@ -24,9 +24,20 @@ namespace itk
 /** \class GradientDescentOptimizer
  * \brief Implement a gradient descent optimizer
  *
- */
-
-  
+ * GradientDescentOptimizer implements a simple gradient descent optimizer.
+ * At each iteration the current position is updated according to
+ *
+ * p(n+1) = p(n) + learningRate * d f(p(n)) / d p(n)
+ *
+ * The learning rate is a fixed scalar defined via SetLearningRate().
+ * The optimizer steps through a user defined number of iterations;
+ * no convergence checking is done.
+ *
+ * Additionally, user can scale each component of the df / dp
+ * but setting a scaling vector using method SetScale().
+ *
+ * \sa RegularStepGradientDescentOptimizer
+ */  
 template <class TCostFunction>
 class ITK_EXPORT GradientDescentOptimizer : 
         public SingleValuedNonLinearOptimizer< TCostFunction >
@@ -48,7 +59,6 @@ public:
    */
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
 
   /**
    * Cost Function  typedef.
@@ -83,7 +93,6 @@ public:
   typedef typename TCostFunction::DerivativeType DerivativeType;
 
 
-
  /** 
    * Run-time type information (and related methods).
    */
@@ -95,20 +104,15 @@ public:
    * Method for creation through the object factory.
    */
   itkNewMacro(Self);
-  
-
 
   /**
    * Codes of stopping conditions
    */
   typedef enum {
-    GradientMagnitudeTolerance,
-    StepTooSmall,
-    ImageNotAvailable,
-    SamplesNotAvailable,
     MaximumNumberOfIterations
   } StopConditionType;
 
+  
   /**
    * Select to Minimize the cost function
    */
@@ -127,11 +131,6 @@ public:
   void    AdvanceOneStep( void );
 
   /**
-   * Test a precondition
-   */
-  bool    Precondition( void );
-
-  /**
    * Start Optimization
    */
   void    StartOptimization( void );
@@ -148,16 +147,11 @@ public:
    */
   void    StopOptimization( void );
 
-  itkSetMacro( MaximumStepLength, double );
-  itkSetMacro( MinimumStepLength, double );
-  itkSetMacro( MaximumNumberOfIterations, unsigned long );
-  itkSetMacro( GradientMagnitudeTolerance, double );
+  itkSetMacro( LearningRate, double );
+  itkSetMacro( NumberOfIterations, unsigned long );
 
-  itkGetConstMacro( CurrentStepLength, double);
-  itkGetConstMacro( MaximumStepLength, double );
-  itkGetConstMacro( MinimumStepLength, double );
-  itkGetConstMacro( MaximumNumberOfIterations, unsigned long );
-  itkGetConstMacro( GradientMagnitudeTolerance, double );
+  itkGetConstMacro( LearningRate, double);
+  itkGetConstMacro( NumberOfIterations, unsigned long );
   itkGetConstMacro( CurrentNumberOfIterations, unsigned int );
 
   void SetScale( const ParametersType & scale )
@@ -174,19 +168,15 @@ protected:
 
 private:
 
-  ParametersType                m_Gradient; 
-  ParametersType                m_PreviousGradient; 
+  DerivativeType                m_Gradient; 
   ParametersType                m_Scale;
 
   bool                          m_Stop;
   bool                          m_Maximize;
   double                        m_Value;
-  double                        m_GradientMagnitudeTolerance;
-  double                        m_MaximumStepLength;
-  double                        m_MinimumStepLength;
-  double                        m_CurrentStepLength;
   StopConditionType             m_StopCondition;
-  unsigned long                 m_MaximumNumberOfIterations;
+  double                        m_LearningRate;
+  unsigned long                 m_NumberOfIterations;
   unsigned long                 m_CurrentNumberOfIterations;
 
   CostFunctionPointer           m_CostFunction;
