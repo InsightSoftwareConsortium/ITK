@@ -50,22 +50,21 @@ public:
    *  It defines a type used to return the cost function value. */
   typedef double                        MeasureType;
 
-  /**  GradientType typedef.
+  /** DerivativeType typedef.
    *  It defines a type used to return the cost function derivative.  */
   typedef Array<double>                 DerivativeType;
-
  
   /**  ParametersType typedef.
    *  It defines a position in the optimization search space. */
   typedef Superclass::ParametersType         ParametersType;
 
   /** This method returns the value of the cost function corresponding
-    * to the specified parameters    */ 
+    * to the specified parameters.    */ 
   virtual MeasureType GetValue( const ParametersType & parameters ) const
       { return NumericTraits< MeasureType >::Zero; }
 
   /** This method returns the derivative of the cost function corresponding
-    * to the specified parameters    */ 
+    * to the specified parameters.   */ 
   virtual DerivativeType GetDerivative( const ParametersType & parameters ) const
       { DerivativeType derivative( parameters.Size() );
         derivative.Fill( NumericTraits< MeasureType >::Zero );

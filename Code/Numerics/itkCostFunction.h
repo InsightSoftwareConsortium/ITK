@@ -52,15 +52,15 @@ public:
  
   /** Return the number of parameters required to compute 
    *  this cost function.     
-   *  This method MUST be overloaded by derived classes */
+   *  This method MUST be overloaded by derived classes. */
   virtual unsigned int GetNumberOfParameters(void) const  = 0;
 
 
-  /** Return the parameters used in the last call to GetValue or GetDerivative 
-   *  This is done by the ackward reason that vnl_optimizers do not return the
-   *  optimimal parameters of a search so the only way to have access to the 
+  /** Return the parameters used in the last call to GetValue or GetDerivative. 
+   *  This is done by the awkward reason that vnl_optimizers do not return the
+   *  optimal parameters of a search so the only way to have access to the 
    *  solution of an optimization problem is to keep track of the evaluation 
-   *  in the cost function itself                                          */
+   *  in the cost function itself.                                          */
   itkGetConstMacro( Parameters, ParametersType );
  
 protected:
