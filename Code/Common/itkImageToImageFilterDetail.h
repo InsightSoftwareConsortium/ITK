@@ -171,7 +171,7 @@ namespace ImageToImageFilterDetail
    * input of the filter is the destination region.
    */
   template <unsigned int D1, unsigned int D2>
-  void CopyRegion(const
+  void CopyRegion(const typename
                   BinaryUnsignedIntDispatch<D1, D2>::FirstEqualsSecondType &,
                   ImageRegion<D1> &destRegion,
                   const ImageRegion<D2> &srcRegion)
@@ -196,7 +196,7 @@ namespace ImageToImageFilterDetail
    * input of the filter is the destination.
    */
   template <unsigned int D1, unsigned int D2>
-  void CopyRegion(const
+  void CopyRegion(const typename
                   BinaryUnsignedIntDispatch<D1, D2>::FirstLessThanSecondType &,
                   ImageRegion<D1> &destRegion,
                   const ImageRegion<D2> &srcRegion)
@@ -237,7 +237,7 @@ namespace ImageToImageFilterDetail
    * input of the filter is the destination.
    */
   template <unsigned int D1, unsigned int D2>
-  void CopyRegion(const
+  void CopyRegion(const typename
                BinaryUnsignedIntDispatch<D1, D2>::FirstGreaterThanSecondType &,
                ImageRegion<D1> &destRegion,
                const ImageRegion<D2> &srcRegion)
