@@ -20,7 +20,6 @@
 #include "itkOnePlusOneEvolutionaryOptimizer.h"
 #include "vcl_cmath.h"
 #include "vnl/vnl_matrix.h"
-
 namespace itk
 {
 
@@ -215,7 +214,7 @@ OnePlusOneEvolutionaryOptimizer
       {        
       for (unsigned int r = 0 ; r < spaceDimension ; r++)
         {
-        A(c, r) += alpha * delta[r] * f_norm[c];
+        A(r, c) += alpha * delta[r] * f_norm[c];
         }
       }
 
