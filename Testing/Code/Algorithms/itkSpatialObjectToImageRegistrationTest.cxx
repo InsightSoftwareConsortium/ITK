@@ -118,7 +118,7 @@ public:
     {
       PointType transformedPoint = m_Transform->TransformPoint(*it);
       m_FixedImage->TransformPhysicalPointToIndex(transformedPoint,index);
-      if(index[0]>(unsigned int)(0) && index[1]>(unsigned int)(0)
+      if(index[0]>0L && index[1]>0L
         && index[0]<m_FixedImage->GetLargestPossibleRegion().GetSize()[0]
         && index[1]<m_FixedImage->GetLargestPossibleRegion().GetSize()[1]
         )
