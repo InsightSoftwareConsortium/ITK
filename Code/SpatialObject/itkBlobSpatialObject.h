@@ -62,7 +62,7 @@ public:
   itkNewMacro( Self );
 
   /** Method for creation through the object factory. */
-  itkTypeMacro( Self, Superclass );
+  itkTypeMacro( BlobSpatialObject, SpatialObject );
   
   /** Returns a reference to the list of the Blob points. */
   PointListType & GetPoints( void );

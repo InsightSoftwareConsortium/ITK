@@ -65,7 +65,7 @@ public:
   itkNewMacro( Self );
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( Self, Superclass );
+  itkTypeMacro( ImageSpatialObject, SpatialObject );
 
   /** Set the image. */
   void SetImage( ImageType * image );
