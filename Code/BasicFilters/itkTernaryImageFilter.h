@@ -16,7 +16,7 @@
 #ifndef __itkTernaryImageFilter_h
 #define __itkTernaryImageFilter_h
 
-#include "itkImageSource.h"
+#include "itkImageToImageFilter.h"
 #include "itkSimpleImageRegionIterator.h"
 
 namespace itk
@@ -34,7 +34,7 @@ namespace itk
 template <class TInputImage1, class TInputImage2, 
           class TInputImage3, class TOutputImage, class TFunction    >
 class ITK_EXPORT TernaryImageFilter :
-    public ImageSource<TOutputImage> 
+    public ImageToImage<TInputImage1,TOutputImage> 
 
 {
 public:
@@ -46,7 +46,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef ImageSource<TOutputImage>   Superclass;
+  typedef ImageToImageFilter<TInputImage1,TOutputImage>   Superclass;
 
   /** 
    * Smart pointer typedef support.
@@ -64,18 +64,6 @@ public:
    */
    void GenerateData(void);
 
-
-  /**
-   * Compute the input region needed to produce
-   * a requested output region
-   */
-   void GenerateInputRequestedRegion(void);
-
-  /**
-   * Prepare output image
-   */
-   void GenerateOutputInformation(void);
-    
   /**
    * Connect one of the operands for pixel-wise addition
    */

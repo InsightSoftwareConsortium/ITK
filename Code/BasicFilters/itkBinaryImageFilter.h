@@ -16,7 +16,7 @@
 #ifndef __itkBinaryImageFilter_h
 #define __itkBinaryImageFilter_h
 
-#include "itkImageSource.h"
+#include "itkImageToImageFilter.h"
 #include "itkSimpleImageRegionIterator.h"
 
 namespace itk
@@ -27,14 +27,14 @@ namespace itk
  *
  * This class is parametrized over the types of the two 
  * input images and the type of the output image. 
- * It is parametrized too by the operation to be applied. 
+ * It is also parametrized by the operation to be applied. 
  * A Functor style is used.
  */
 
 template <class TInputImage1, class TInputImage2, 
           class TOutputImage, class TFunction    >
 class ITK_EXPORT BinaryImageFilter :
-    public ImageSource<TOutputImage> 
+    public ImageToImageFilter<TInputImage1,TOutputImage> 
 
 {
 public:
@@ -46,7 +46,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef ImageSource<TOutputImage>  Superclass;
+  typedef ImageToImageFilter<TInputImage1,TOutputImage>  Superclass;
 
   /** 
    * Smart pointer typedef support 
@@ -65,17 +65,6 @@ public:
    */
    void GenerateData(void);
 
-  /**
-   * Compute the input region needed to produce
-   * a requested output region
-   */
-   void GenerateInputRequestedRegion(void);
-
-  /**
-   * Prepare output image
-   */
-   void GenerateOutputInformation(void);
- 
   /**
    * Connect one of the operands for pixel-wise addition
    */
