@@ -5,6 +5,9 @@
 int testMetaBlob(int , char * [])
 {
 
+  std::cout << "Testing default constructor ..." <<  std::endl;
+  MetaBlob blob1;
+
   std::cout << "Creating test file ..." << std::endl;
   MetaBlob blob(3);
   blob.ID(0);
@@ -28,7 +31,13 @@ int testMetaBlob(int , char * [])
   std::cout << "  done" << std::endl;
  
   std::cout << "Reading test file ..." << std::endl;
+  MetaBlob blobRead("myCNC.meta"); // coverage
   blob.Read("myCNC.meta"); 
+  MetaBlob blobCopy(&blob);
+
+  std::cout << "NPoints = " << blobCopy.NPoints() << std::endl;
+  std::cout << "PointDim = " << blobCopy.PointDim() << std::endl;
+  std::cout << "ElementType = " << blobCopy.ElementType() << std::endl;
 
   std::cout << "  done" << std::endl;
 
