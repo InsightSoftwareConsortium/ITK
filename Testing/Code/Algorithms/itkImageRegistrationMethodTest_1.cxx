@@ -53,7 +53,8 @@ int main()
 
   // Interpolation technique
   typedef itk:: LinearInterpolateImageFunction< 
-                                    MovingImageType >    InterpolatorType;
+                                    MovingImageType,
+                                    double >             InterpolatorType;
 
   // Registration Method
   typedef itk::ImageRegistrationMethod< 
