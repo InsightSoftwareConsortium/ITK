@@ -1252,7 +1252,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
 // Method to reinitialize the seed of the random number generator
 template < class TFixedImage, class TMovingImage  > void
-MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
+MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 ::ReinitializeSeed()
 {
   // This method should be the same used in the ImageRandomIterator
@@ -1261,7 +1261,7 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
 // Method to reinitialize the seed of the random number generator
 template < class TFixedImage, class TMovingImage  > void
-MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
+MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 ::ReinitializeSeed(int seed)
 {
   // This method should be the same used in the ImageRandomIterator
