@@ -16,9 +16,9 @@
 =========================================================================*/
 // Software Guide : BeginLatex
 //
-// \index{itk::ImageRegistrationMethod!Multi-Resolution|textbf}
-// \index{itk::ImageRegistrationMethod!Multi-Modality|textbf}
-// \index{itk::MultiResolutionImageRegistrationMethod|textbf}
+// \index{itk::ImageRegistrationMethod!Multi-Resolution}
+// \index{itk::ImageRegistrationMethod!Multi-Modality}
+// \index{itk::Multi\-Resolution\-Image\-Registration\-Method}
 //
 // This example illustrates the use of
 // \doxygen{MultiResolutionImageRegistrationMethod} to solve a simple
@@ -449,8 +449,8 @@ int main( int argc, char *argv[] )
   //  We set the number of multi-resolution levels to three and trigger the
   //  registration process by calling \code{StartRegistration()}.
   //
-  //  \index{itk::MultiResolutionImageRegistrationMethod!SetNumberOfLevels()}
-  //  \index{itk::MultiResolutionImageRegistrationMethod!StartRegistration()}
+  //  \index{itk::Multi\-Resolution\-Image\-Registration\-Method!SetNumberOfLevels()}
+  //  \index{itk::Multi\-Resolution\-Image\-Registration\-Method!StartRegistration()}
   //
   //  Software Guide : EndLatex 
 
