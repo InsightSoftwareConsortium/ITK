@@ -52,6 +52,55 @@ namespace itk
 // after use by filter
 bool DataObject::m_GlobalReleaseDataFlag = false;
 
+DataObjectError
+::DataObjectError()
+  : ExceptionObject(), m_DataObject(0)
+{
+}
+  
+DataObjectError
+::DataObjectError(const char *file, unsigned int lineNumber)
+  : ExceptionObject(file, lineNumber), m_DataObject(0)
+{
+}
+
+DataObjectError
+::DataObjectError(const std::string& file, unsigned int lineNumber)
+  : ExceptionObject(file, lineNumber), m_DataObject(0)
+{
+}  
+
+DataObjectError
+::DataObjectError(const DataObjectError &orig)
+  : ExceptionObject( orig )
+{
+  m_DataObject = orig.m_DataObject;
+}
+
+DataObjectError&
+DataObjectError
+::operator=( const DataObjectError& orig)
+{
+  ExceptionObject::operator= (orig);
+  m_DataObject = orig.m_DataObject;
+  return *this;
+}
+
+void
+DataObjectError
+::SetDataObject(DataObject *dobj)
+{
+  m_DataObject = dobj;
+}
+
+SmartPointer<DataObject>
+DataObjectError
+::GetDataObject()
+{
+  return m_DataObject;
+}
+
+
 void
 DataObjectError
 ::PrintSelf(std::ostream& os, Indent indent) const
@@ -69,6 +118,39 @@ DataObjectError
     os << "(None)" << std::endl;
     }
 }
+
+
+InvalidRequestedRegionError
+::InvalidRequestedRegionError()
+  : DataObjectError()
+{
+}
+
+InvalidRequestedRegionError
+::InvalidRequestedRegionError(const char *file, unsigned int lineNumber)
+  : DataObjectError(file, lineNumber)
+{
+}
+
+InvalidRequestedRegionError
+::InvalidRequestedRegionError(const std::string& file, unsigned int lineNumber)
+  : DataObjectError(file, lineNumber)
+{
+}  
+
+InvalidRequestedRegionError
+::InvalidRequestedRegionError(const InvalidRequestedRegionError &orig)
+  : DataObjectError( orig )
+{
+}
+
+InvalidRequestedRegionError&
+InvalidRequestedRegionError
+::operator=( const InvalidRequestedRegionError& orig)
+  {
+    DataObjectError::operator= (orig);
+    return *this;
+  }
 
 void
 InvalidRequestedRegionError
