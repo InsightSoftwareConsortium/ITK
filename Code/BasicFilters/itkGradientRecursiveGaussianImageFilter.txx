@@ -34,26 +34,32 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 
   m_NormalizeAcrossScale = false;
 
+  m_ProgressCommand = CommandType::New();
+  m_ProgressCommand->SetCallbackFunction( this, & Self::ReportProgress );
+  m_Progress  = 0.0f;
+
   for( unsigned int i = 0; i<ImageDimension-1; i++ )
   {
     m_SmoothingFilters[ i ] = GaussianFilterType::New();
     m_SmoothingFilters[ i ]->SetOrder( GaussianFilterType::ZeroOrder );
     m_SmoothingFilters[ i ]->SetNormalizeAcrossScale( m_NormalizeAcrossScale );
+    m_SmoothingFilters[ i ]->AddObserver( ProgressEvent(), m_ProgressCommand );
   }
 
-  m_DerivativeFilter = GaussianFilterType::New();
-  m_DerivativeFilter->SetOrder( GaussianFilterType::FirstOrder );
+  m_DerivativeFilter = DerivativeFilterType::New();
+  m_DerivativeFilter->SetOrder( DerivativeFilterType::FirstOrder );
   m_DerivativeFilter->SetNormalizeAcrossScale( m_NormalizeAcrossScale );
+  m_DerivativeFilter->AddObserver( ProgressEvent(), m_ProgressCommand );
   
+  m_DerivativeFilter->SetInput( this->GetInput() );
 
-  m_SmoothingFilters[0]->SetInput( this->GetInput() );
+  m_SmoothingFilters[0]->SetInput( m_DerivativeFilter->GetOutput() );
+
   for( unsigned int i = 1; i<ImageDimension-1; i++ )
   {
     m_SmoothingFilters[ i ]->SetInput( 
                               m_SmoothingFilters[i-1]->GetOutput() );
   }
-  m_DerivativeFilter->SetInput( 
-                       m_SmoothingFilters[ImageDimension-2]->GetOutput() );
   
   m_ImageAdaptor = OutputImageAdaptorType::New();
 
@@ -61,6 +67,27 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 
 }
 
+
+
+/**
+ *  Report progress by weigthing contributions of internal filters
+ */
+template <typename TInputImage, typename TOutputImage>
+void 
+GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage>
+::ReportProgress(const Object * object, const EventObject & event )
+{
+   const ProcessObject * internalFilter = 
+            dynamic_cast<const ProcessObject *>( object );
+
+   if( typeid( event ) == typeid( ProgressEvent() ) )
+     {
+     const float filterProgress    = internalFilter->GetProgress();
+     const float weightedProgress  = filterProgress / ImageDimension;
+     m_Progress += weightedProgress;
+     this->UpdateProgress( m_Progress );
+     }
+}
 
 
 /**
@@ -84,6 +111,28 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 
 
 
+/**
+ * Set Normalize Across Scale Space
+ */
+template <typename TInputImage, typename TOutputImage>
+void 
+GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage>
+::SetNormalizeAcrossScale( bool normalize )
+{
+
+  m_NormalizeAcrossScale = normalize;
+
+  for( unsigned int i = 0; i<ImageDimension-1; i++ )
+  {
+    m_SmoothingFilters[ i ]->SetNormalizeAcrossScale( normalize );
+  }
+  m_DerivativeFilter->SetNormalizeAcrossScale( normalize );
+
+  this->Modified();
+
+}
+
+
 
 /**
  * Compute filter for Gaussian kernel
@@ -95,6 +144,8 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage >
 {
 
   itkDebugMacro(<< "GradientRecursiveGaussianImageFilter generating data ");
+
+  m_Progress = 0.0f;
 
   const typename TInputImage::ConstPointer   inputImage( this->GetInput() );
 
@@ -111,34 +162,36 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage >
 
   m_ImageAdaptor->Allocate();
 
-  m_SmoothingFilters[0]->SetInput( inputImage );
+  m_DerivativeFilter->SetInput( inputImage );
 
   for( unsigned int dim=0; dim < ImageDimension; dim++ )
   {
     unsigned int i=0; 
     unsigned int j=0;
     while(  i< ImageDimension)
-    {
-      if( i == dim ) 
       {
+      if( i == dim ) 
+        {
         j++;
-      }
+        }
       m_SmoothingFilters[ i ]->SetDirection( j );
-    i++;
-    j++;
-    }
+      i++;
+      j++;
+      }
     m_DerivativeFilter->SetDirection( dim );
-    m_DerivativeFilter->Update();
     
+    GaussianFilterPointer lastFilter = m_SmoothingFilters[ImageDimension-2];
+
+    lastFilter->Update();
 
     // Copy the results to the corresponding component
     // on the output image of vectors
     m_ImageAdaptor->SelectNthElement( dim );
 
-    typename TInputImage::Pointer derivativeImage = 
+    typename RealImageType::Pointer derivativeImage = 
                                     m_DerivativeFilter->GetOutput(); 
 
-    ImageRegionIteratorWithIndex< TInputImage > it( 
+    ImageRegionIteratorWithIndex< RealImageType > it( 
                                       derivativeImage, 
                                       derivativeImage->GetRequestedRegion() );
 

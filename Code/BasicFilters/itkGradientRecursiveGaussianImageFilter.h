@@ -21,6 +21,7 @@
 #include "itkNthElementImageAdaptor.h"
 #include "itkImage.h"
 #include "itkPixelTraits.h"
+#include "itkCommand.h"
 
 
 namespace itk
@@ -57,8 +58,25 @@ public:
   
   
   /** Pixel Type of the input image */
+  typedef TInputImage                                    InputImageType;
   typedef typename TInputImage::PixelType                PixelType;
   typedef typename NumericTraits<PixelType>::RealType    RealType;
+
+
+  /** Image dimension. */
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
+
+  /** Define the image type for internal computations 
+      RealType is usually 'double' in NumericTraits. 
+      Here we prefer float in order to save memory.  */
+
+  typedef float                                            InternalRealType;
+  typedef Image<InternalRealType, 
+                itkGetStaticConstMacro(ImageDimension) >   RealImageType;
+
+
+
 
   /**  Output Image Nth Element Adaptor
    *  This adaptor allows to use conventional scalar 
@@ -70,22 +88,35 @@ public:
 
   /**  Smoothing filter type */
   typedef RecursiveGaussianImageFilter<
-                                  TInputImage,
-                                  TInputImage
+                                  RealImageType,
+                                  RealImageType
                                   >    GaussianFilterType;
 
+ /**  Derivative filter type, it will be the first in the pipeline  */
+  typedef RecursiveGaussianImageFilter<
+                                  InputImageType,
+                                  RealImageType
+                                  >    DerivativeFilterType;
+
+
   /**  Pointer to a gaussian filter.  */
-  typedef typename GaussianFilterType::Pointer   GaussianFilterPointer;
-  /**  Pointer to the Output Image */
+  typedef typename GaussianFilterType::Pointer    GaussianFilterPointer;
+
+  /**  Pointer to a derivative filter.  */
+  typedef typename DerivativeFilterType::Pointer  DerivativeFilterPointer;
+
+ /**  Pointer to the Output Image */
   typedef typename TOutputImage::Pointer          OutputImagePointer;                                  
-  /** Image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+
 
   /** Type of the output Image */
   typedef TOutputImage      OutputImageType;
   typedef typename          OutputImageType::PixelType      OutputPixelType;
   typedef typename PixelTraits<OutputPixelType>::ValueType  OutputComponentType;
+
+  /**  Command for observing progress of internal pipeline filters */
+  typedef          MemberCommand< Self >     CommandType;  
+  typedef typename CommandType::Pointer      CommandPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -94,7 +125,7 @@ public:
   void SetSigma( RealType sigma );
 
   /** Define which normalization factor will be used for the Gaussian */
-  itkSetMacro( NormalizeAcrossScale, bool );
+  void SetNormalizeAcrossScale( bool normalizeInScaleSpace );
   itkGetMacro( NormalizeAcrossScale, bool );
 
 protected:
@@ -105,13 +136,19 @@ protected:
   /** Generate Data */
   void GenerateData( void );
 
+  /** Compute progress by weighting the contributions of the internal filters */
+  void ReportProgress(const Object * object, const EventObject & event );
+
 private:
   GradientRecursiveGaussianImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   GaussianFilterPointer         m_SmoothingFilters[ImageDimension-1];
-  GaussianFilterPointer         m_DerivativeFilter;
+  DerivativeFilterPointer       m_DerivativeFilter;
   OutputImageAdaptorPointer     m_ImageAdaptor;
+
+  CommandPointer                m_ProgressCommand;
+  float                         m_Progress;
 
   /** Normalize the image across scale space */
   bool m_NormalizeAcrossScale; 
