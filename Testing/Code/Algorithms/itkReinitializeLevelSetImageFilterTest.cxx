@@ -39,7 +39,6 @@ public:
     {std::cout << "Progress " << m_Process->GetProgress() << std::endl;}
   itk::ProcessObject::Pointer m_Process;
 };
-}
 
 // simple signed distance function
 template <typename TPoint>
@@ -57,6 +56,8 @@ SimpleSignedDistance( const TPoint & p )
     }
   accum = vcl_sqrt( accum );
   return ( accum - radius );
+
+}
 
 }
 

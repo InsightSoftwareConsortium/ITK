@@ -35,18 +35,60 @@ int itkFastMarchingExtensionImageFilterTest(int, char* [] )
   typedef MarcherType::NodeType NodeType;
   typedef MarcherType::NodeContainer NodeContainer;
 
-  NodeContainer::Pointer trialPoints = NodeContainer::New();
+  // setup alive points
+  NodeContainer::Pointer alivePoints = NodeContainer::New();
 
   NodeType node;
 
   FloatImage::OffsetType offset0 = {{28,35}};
+
   itk::Index<2> index;
   index.Fill(0);
 
   node.SetValue( 0.0 );
   node.SetIndex( index + offset0 );
-  trialPoints->InsertElement(0, node);
+  alivePoints->InsertElement(0, node);
+
+  node.SetValue( 42.0 );
+  index.Fill( 200 );
+  node.SetIndex( index ); // this node is out of range
+  alivePoints->InsertElement(1, node);
   
+  marcher->SetAlivePoints( alivePoints );
+
+
+  // setup trial points
+  NodeContainer::Pointer trialPoints = NodeContainer::New();
+
+  node.SetValue( 1.0 );
+
+  index.Fill(0);
+  index += offset0;
+
+  index[0] += 1;
+  node.SetIndex( index );
+  trialPoints->InsertElement(0, node);
+
+  index[0] -= 1;
+  index[1] += 1;
+  node.SetIndex( index );
+  trialPoints->InsertElement(1, node);
+
+  index[0] -= 1;
+  index[1] -= 1;
+  node.SetIndex( index );
+  trialPoints->InsertElement(2, node);
+
+  index[0] += 1;
+  index[1] -= 1;
+  node.SetIndex( index );
+  trialPoints->InsertElement(3, node);
+
+  node.SetValue( 42.0 );
+  index.Fill( 300 ); // this node is out of ranage
+  node.SetIndex( index );
+  trialPoints->InsertElement(4, node);
+
   marcher->SetTrialPoints( trialPoints );
 
   // specify the size of the output image
@@ -70,7 +112,7 @@ int itkFastMarchingExtensionImageFilterTest(int, char* [] )
 
   marcher->SetInput( speedImage );
 
-  // deliberately cause an exception by not setting AuxTrialValues
+  // deliberately cause an exception by not setting AuxAliveValues
   passed = false;
   try
     {
@@ -86,6 +128,45 @@ int itkFastMarchingExtensionImageFilterTest(int, char* [] )
 
   typedef MarcherType::AuxValueVectorType VectorType;
   typedef MarcherType::AuxValueContainer AuxValueContainer;
+
+  AuxValueContainer::Pointer auxAliveValues = AuxValueContainer::New();
+
+  // deliberately cause an exception setting AuxAliveValues of the wrong size
+  marcher->SetAuxiliaryAliveValues( auxAliveValues );
+
+  passed = false;
+  try
+    {
+    marcher->Update();
+    }
+  catch ( itk::ExceptionObject & err )
+    {
+    passed = true;
+    marcher->ResetPipeline();
+    std::cout << err << std::endl;
+    }
+  if ( !passed ) { return EXIT_FAILURE; }
+
+
+  VectorType vector;
+  vector[0] = 48;
+
+  auxAliveValues->InsertElement(0,vector);
+  auxAliveValues->InsertElement(1,vector);
+
+  // deliberately cause an exception by not setting AuxTrialValues
+  passed = false;
+  try
+    {
+    marcher->Update();
+    }
+  catch ( itk::ExceptionObject & err )
+    {
+    passed = true;
+    marcher->ResetPipeline();
+    std::cout << err << std::endl;
+    }
+  if ( !passed ) { return EXIT_FAILURE; }
 
   AuxValueContainer::Pointer auxTrialValues = AuxValueContainer::New();
 
@@ -106,10 +187,12 @@ int itkFastMarchingExtensionImageFilterTest(int, char* [] )
   if ( !passed ) { return EXIT_FAILURE; }
 
 
-  VectorType vector;
-  vector[0] = 48;
-
   auxTrialValues->InsertElement(0,vector);
+  auxTrialValues->InsertElement(1,vector);
+  auxTrialValues->InsertElement(2,vector);
+  auxTrialValues->InsertElement(3,vector);
+  auxTrialValues->InsertElement(4,vector);
+ 
 
   // run the algorithm
   passed = true;

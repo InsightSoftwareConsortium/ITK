@@ -18,8 +18,24 @@
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"
 #include "itkTextOutput.h"
+#include "itkCommand.h"
 
 #include "vnl/vnl_math.h"
+
+namespace{
+// The following class is used to support callbacks
+// on the filter in the pipeline that follows later
+class ShowProgressObject
+{
+public:
+  ShowProgressObject(itk::ProcessObject* o)
+    {m_Process = o;}
+  void ShowProgress()
+    {std::cout << "Progress " << m_Process->GetProgress() << std::endl;}
+  itk::ProcessObject::Pointer m_Process;
+};
+}
+
 int itkFastMarchingTest(int, char* [] )
 {
 
@@ -31,6 +47,13 @@ int itkFastMarchingTest(int, char* [] )
   typedef itk::FastMarchingImageFilter<FloatImage,FloatImage> FloatFMType;
 
   FloatFMType::Pointer marcher = FloatFMType::New();
+
+  ShowProgressObject progressWatch(marcher);
+  itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
+  command = itk::SimpleMemberCommand<ShowProgressObject>::New();
+  command->SetCallbackFunction(&progressWatch,
+                               &ShowProgressObject::ShowProgress);
+  marcher->AddObserver( itk::ProgressEvent(), command);
   
   typedef FloatFMType::NodeType NodeType;
   typedef FloatFMType::NodeContainer NodeContainer;

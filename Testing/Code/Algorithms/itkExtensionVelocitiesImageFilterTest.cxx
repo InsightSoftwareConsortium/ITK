@@ -38,7 +38,6 @@ public:
     {std::cout << "Progress " << m_Process->GetProgress() << std::endl;}
   itk::ProcessObject::Pointer m_Process;
 };
-}
 
 // simple signed distance function
 template <typename TPoint>
@@ -111,6 +110,7 @@ SimpleVelocity( const TPoint & p )
 
 }
 
+}
 
 int itkExtensionVelocitiesImageFilterTest(int, char* [] )
 {
