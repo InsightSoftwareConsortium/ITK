@@ -22,7 +22,7 @@
 #include "itkPoint.h"
 #include "itkPixelTraits.h"
 #include "itkImageToListAdaptor.h"
-#include "itkImageRegionIteratorWithIndex.h"
+#include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkEuclideanDistance.h"
 #include "itkListSample.h"
 
@@ -129,7 +129,7 @@ public:
   typedef typename TImage::IndexType::IndexValueType ImageIndexValueType ;
   typedef typename TImage::SizeType ImageSizeType ;
   typedef typename TImage::RegionType ImageRegionType ;
-  typedef ImageRegionIteratorWithIndex< TImage > ImageIteratorType ;
+  typedef ImageRegionConstIteratorWithIndex< TImage > ImageIteratorType ;
 
   typedef MeasurementVectorType ValueType ;
  

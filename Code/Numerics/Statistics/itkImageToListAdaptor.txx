@@ -62,7 +62,7 @@ ImageToListAdaptor< TImage, TMeasurementVector >
 template < class TImage, class TMeasurementVector >
 void
 ImageToListAdaptor< TImage, TMeasurementVector >
-::SetImage(TImage* image) 
+::SetImage(const TImage* image) 
 { 
   m_Image = image ; 
   m_PixelContainer = image->GetPixelContainer() ;
@@ -85,9 +85,9 @@ ImageToListAdaptor< TImage, TMeasurementVector >
 }
 
 template < class TImage, class TMeasurementVector >
-TImage*
+const TImage*
 ImageToListAdaptor< TImage, TMeasurementVector >
-::GetImage() 
+::GetImage() const
 {
   return m_Image.GetPointer() ; 
 }  
@@ -108,11 +108,11 @@ ImageToListAdaptor< TImage, TMeasurementVector >
 {
   if ( m_UseBuffer )
     {
-    return *( reinterpret_cast< MeasurementVectorType* >(&(*m_PixelContainer)[id]) ) ;
+    return *( reinterpret_cast< const MeasurementVectorType* >(&(*m_PixelContainer)[id]) ) ;
     }
   else
     {
-    return *(reinterpret_cast< MeasurementVectorType* >
+    return *(reinterpret_cast< const MeasurementVectorType* >
              ( &(m_Image->GetPixel( m_Image->ComputeIndex( id ) ) ) ) ) ;
     }
 }

@@ -17,6 +17,8 @@
 #ifndef _itkJointDomainImageToListAdaptor_txx
 #define _itkJointDomainImageToListAdaptor_txx
 
+#include "itkJointDomainImageToListAdaptor.h"
+
 namespace itk{ 
 namespace Statistics{
 
@@ -64,13 +66,13 @@ JointDomainImageToListAdaptor< TImage >
   if( m_UseBuffer )
     {
     m_TempRangeVector =  
-      *(reinterpret_cast< RangeDomainMeasurementVectorType* >
+      *(reinterpret_cast<const RangeDomainMeasurementVectorType* >
         (&(*m_PixelContainer)[id]))  ;
     }
   else
     {
     m_TempRangeVector = 
-      *(reinterpret_cast< RangeDomainMeasurementVectorType* >
+      *(reinterpret_cast< const RangeDomainMeasurementVectorType* >
         (&(this->GetImage()->GetPixel( m_TempIndex ) ) ) ) ;
     }
   

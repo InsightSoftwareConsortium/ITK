@@ -33,7 +33,7 @@ namespace Statistics{
 /** \class ImageToListAdaptor
  *  \brief This class provides ListSampleBase interfaces to ITK Image
  *
- * After calling SetImage(Image*) method to plug in the image object,
+ * After calling SetImage( const Image * ) method to plug in the image object,
  * users can use Sample interfaces to access Image data.
  * However, the resulting data are a list of measurement vectors. The type of
  * data is measurement vector. For example, if the pixel type of Image object 
@@ -80,9 +80,10 @@ public:
   /** Image typedefs */
   typedef TImage ImageType;
   typedef typename ImageType::Pointer ImagePointer ;
+  typedef typename ImageType::ConstPointer ImageConstPointer ;
   typedef typename ImageType::IndexType IndexType ;
   typedef typename ImageType::PixelType PixelType ;
-  typedef typename ImageType::PixelContainerPointer PixelContainerPointer ;
+  typedef typename ImageType::PixelContainerConstPointer PixelContainerConstPointer ;
   typedef typename ImageType::PixelContainer::ElementIdentifier 
   InstanceIdentifier;
   
@@ -103,10 +104,10 @@ public:
   typedef MeasurementVectorType ValueType ;
 
   /** Method to set the image */
-  void SetImage(TImage* image) ;
+  void SetImage(const TImage* image) ;
 
   /** Method to get the image */
-  TImage* GetImage() ;
+  const TImage* GetImage() const;
 
   /** returns the number of measurement vectors in this container*/
   unsigned int Size() const ;
@@ -200,7 +201,7 @@ protected:
   virtual ~ImageToListAdaptor() {}
   void PrintSelf(std::ostream& os, Indent indent) const;  
 
-  PixelContainerPointer m_PixelContainer ;
+  PixelContainerConstPointer m_PixelContainer ;
   bool m_UseBuffer ;
   typename TImage::IndexType m_ImageBeginIndex ;
   typename TImage::IndexType m_ImageEndIndex ;
@@ -209,7 +210,7 @@ private:
   ImageToListAdaptor(const Self&) ; //purposely not implemented
   void operator=(const Self&) ; //purposely not implemented
 
-  ImagePointer m_Image ;
+  ImageConstPointer m_Image ;
 } ; // end of class ImageToListAdaptor
 
 } // end of namespace Statistics
