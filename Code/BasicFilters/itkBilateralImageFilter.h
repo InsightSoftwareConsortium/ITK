@@ -145,15 +145,13 @@ public:
     for (unsigned int i = 0; i<ImageDimension; ++i) { vArray[i] = static_cast<double>(v); }
     this->SetDomainSigma(vArray);
     }
-  
-  /** BilateralImageFilter needs a larger input requested region than
-   * the output requested region (larger by the size of the domain
-   * Gaussian kernel).  As such, BilateralImageFilter needs to provide
-   * an implementation for GenerateInputRequestedRegion() in order to
-   * inform the pipeline execution model.  
-   * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
 
+  /** Set/Get the number of samples in the approximation to the Gaussian
+   * used for the range smoothing. Samples are only generated in the
+   * range of [0, 4*m_RangeSigma]. Default is 100. */
+  itkSetMacro(NumberOfRangeGaussianSamples, long);
+  itkGetMacro(NumberOfRangeGaussianSamples, long);
+  
 protected:
   /** Constructor.  Default value for DomainSigma is 4. Default value
    * RangeSigma is 50. */
@@ -166,6 +164,12 @@ protected:
       }
     m_RangeSigma = 50.0f;
     m_FilterDimensionality = ImageDimension;
+    m_NumberOfRangeGaussianSamples = 100;
+    m_DynamicRange = 0.0;
+    m_DomainMu = 2.5;  // keep small to keep kernels small
+    m_RangeMu = 4.0;   // can be bigger then DomainMu since we only
+                       // index into a single table
+
     }
   virtual ~BilateralImageFilter() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
@@ -177,6 +181,14 @@ protected:
    * filter. */
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                             int threadId); 
+
+  /** BilateralImageFilter needs a larger input requested region than
+   * the output requested region (larger by the size of the domain
+   * Gaussian kernel).  As such, BilateralImageFilter needs to provide
+   * an implementation for GenerateInputRequestedRegion() in order to
+   * inform the pipeline execution model.  
+   * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
+  virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
 
   
 private:
@@ -191,11 +203,22 @@ private:
       dimensional direction. Units match image spacing units. */
   double m_DomainSigma[ImageDimension];
 
+  /** Multiplier used to define statistical thresholds.  Gaussians are
+   * only evaluated to m_DomainMu*m_DomainSigma or m_RangeMu*m_RangeSigma. */
+  double m_DomainMu;
+  double m_RangeMu;
+
   /** Number of dimensions to process. Default is all dimensions */
   unsigned int m_FilterDimensionality;
 
   /** Gaussian kernel used for smoothing in the spatial domain */
   KernelType m_GaussianKernel;
+
+  /** Variables for the lookup table of range gaussian values */
+  long m_NumberOfRangeGaussianSamples;
+  double m_DynamicRange;
+  double m_DynamicRangeUsed;
+  std::vector<double> m_RangeGaussianTable;
 };
   
 } // end namespace itk

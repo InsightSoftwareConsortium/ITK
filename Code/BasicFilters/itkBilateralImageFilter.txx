@@ -23,7 +23,29 @@
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
 #include "itkProgressReporter.h"
+#include "itkStatisticsImageFilter.h"
 
+
+// anonymous namespace
+namespace
+{
+//--------------------------------------------------------------------------
+// The 'floor' function on x86 and mips is many times slower than these
+// and is used a lot in this code, optimize for different CPU architectures
+inline int BilateralFloor(double x)
+{
+#if defined mips || defined sparc || defined __ppc__
+  return (int)((unsigned int)(x + 2147483648.0) - 2147483648U);
+#elif defined i386 || defined _M_IX86
+  unsigned int hilo[2];
+  *((double *)hilo) = x + 103079215104.0;  // (2**(52-16))*1.5
+  return (int)((hilo[1]<<16)|(hilo[0]>>16));
+#else
+  return int(floor(x));
+#endif
+}
+
+}
 
 
 namespace itk
@@ -47,14 +69,13 @@ BilateralImageFilter<TInputImage,TOutputImage>
     }
 
   // Pad the image by 2.5*sigma in all directions
-  const double mu = 2.5;
   typename TInputImage::SizeType radius;
   
   for (unsigned int i = 0; i < TInputImage::ImageDimension; i++)
     {
     radius[i] =
       (typename TInputImage::SizeType::SizeValueType)
-      ceil(mu*m_DomainSigma[i]/this->GetInput()->GetSpacing()[i]);
+      ceil(m_DomainMu*m_DomainSigma[i]/this->GetInput()->GetSpacing()[i]);
     }
 
   // get a copy of the input requested region (should equal the output
@@ -100,14 +121,13 @@ BilateralImageFilter<TInputImage, TOutputImage>
   //
   // Gaussian image size will be (2*ceil(2.5*sigma)+1) x (2*ceil(2.5*sigma)+1)
   unsigned int i;
-  const double mu = 2.5;
   typename TInputImage::SizeType radius, domainKernelSize;
 
   for (i = 0; i < ImageDimension; i++)
     {
     radius[i] =
       (typename TInputImage::SizeType::SizeValueType)
-      ceil(mu*m_DomainSigma[i]/this->GetInput()->GetSpacing()[i]);
+      ceil(m_DomainMu*m_DomainSigma[i]/this->GetInput()->GetSpacing()[i]);
     domainKernelSize[i] = 2*radius[i] + 1;
     }
 
@@ -145,6 +165,48 @@ BilateralImageFilter<TInputImage, TOutputImage>
     {
     *kernel_it = git.Get();
     }
+
+  // Build a lookup table for the range gaussian
+  //
+  //
+
+  // First, determine the min and max intensity range
+  StatisticsImageFilter<TInputImage>::Pointer statistics
+    = StatisticsImageFilter<TInputImage>::New();
+  statistics->SetInput( this->GetInput() );
+  statistics->GetOutput()
+    ->SetRequestedRegion( this->GetOutput()->GetRequestedRegion() );
+  statistics->Update();
+
+  // Now create the lookup table whose domain runs from 0.0 to
+  // (max-min) and range is gaussian evaluated at
+  // that point
+  //
+  double rangeVariance = m_RangeSigma * m_RangeSigma;
+  
+  // denominator (normalization factor) for Gaussian used for range
+  double rangeGaussianDenom;
+  rangeGaussianDenom = m_RangeSigma*sqrt(2.0*3.1415927);
+
+  // Maximum delta for the dynamic range
+  double tableDelta;
+  double v;
+
+  m_DynamicRange = (static_cast<double>(statistics->GetMaximum())
+                    - static_cast<double>(statistics->GetMinimum()));
+
+  m_DynamicRangeUsed = m_RangeMu * m_RangeSigma;
+  
+  tableDelta = m_DynamicRangeUsed
+    / static_cast<double>(m_NumberOfRangeGaussianSamples);
+
+  // Finally, build the table
+  m_RangeGaussianTable.reserve( m_NumberOfRangeGaussianSamples );
+  for (i = 0, v = 0.0; i < m_NumberOfRangeGaussianSamples;
+       ++i, v += tableDelta)
+    {
+    m_RangeGaussianTable[i] = exp(-0.5*v*v/rangeVariance)/rangeGaussianDenom;
+    }
 }
 
   
@@ -157,7 +219,8 @@ BilateralImageFilter<TInputImage, TOutputImage>
   typename TInputImage::ConstPointer input = this->GetInput();
   typename TOutputImage::Pointer output = this->GetOutput();
   unsigned long i;
-
+  const double rangeDistanceThreshold = m_DynamicRangeUsed;
+  
   // Now we are ready to bilateral filter!
   //
   //
@@ -175,14 +238,15 @@ BilateralImageFilter<TInputImage, TOutputImage>
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType::iterator fit;
 
   OutputPixelRealType centerPixel;
-  OutputPixelRealType val, exparg, normFactor, rangeGaussian, rangeDistanceSq,
+  OutputPixelRealType val, tableArg, normFactor, rangeGaussian, 
     rangeDistance, pixel, gaussianProduct;
-  double rangeGaussianDenom;
-  double rangeVariance = m_RangeSigma * m_RangeSigma;
 
-  // denominator (normalization factor) for Gaussian used for range
-  rangeGaussianDenom = sqrt(2.0*3.1415927*m_RangeSigma);
+  const double rangeVariance = m_RangeSigma * m_RangeSigma;
 
+  const double distanceToTableIndex
+    = static_cast<double>(m_NumberOfRangeGaussianSamples)/m_DynamicRangeUsed;
+
+  
   // Process all the faces, the NeighborhoodIterator will deteremine
   // whether a specified region needs to use the boundary conditions or
   // not.
@@ -204,7 +268,7 @@ BilateralImageFilter<TInputImage, TOutputImage>
     while ( ! b_iter.IsAtEnd() )
       {
       // Setup
-      centerPixel = b_iter.GetCenterPixel();
+      centerPixel = static_cast<OutputPixelRealType>(b_iter.GetCenterPixel());
       val = 0.0;
       normFactor = 0.0;
     
@@ -212,23 +276,27 @@ BilateralImageFilter<TInputImage, TOutputImage>
       for (i=0, k_it = m_GaussianKernel.Begin(); k_it < kernelEnd;
            ++k_it, ++i)
         {
-        // distance squared between neighborhood pixel and neighborhood center
+        // range distance between neighborhood pixel and neighborhood center
         pixel = static_cast<OutputPixelRealType>(b_iter.GetPixel(i));
         rangeDistance = pixel - centerPixel;
-        rangeDistanceSq = rangeDistance*rangeDistance;
-
-        // range Gaussian value
-        exparg = 0.5*rangeDistanceSq / rangeVariance;
-        // x^2/sigma^2 < 9 gets 99.9 % of the gaussian
-        if (exparg < 400000.5 )
+        // flip sign if needed
+        if (rangeDistance < 0.0)
           {
-          rangeGaussian = exp(-exparg) / rangeGaussianDenom;
+          rangeDistance *= -1.0;
+          }
+
+        // if the range distance is close enough, then use the pixel
+        if (rangeDistance < rangeDistanceThreshold)
+          {
+          // look up the range gaussian in a table
+          tableArg = rangeDistance * distanceToTableIndex;
+          rangeGaussian = m_RangeGaussianTable[BilateralFloor(tableArg)];
+          
           // normalization factor so filter integrates to one
           // (product of the domain and the range gaussian)
-
           gaussianProduct = (*k_it) * rangeGaussian;
           normFactor += gaussianProduct;
-      
+          
           // Input Image * Domain Gaussian * Range Gaussian 
           val += pixel * gaussianProduct;
           }
@@ -262,6 +330,9 @@ BilateralImageFilter<TInputImage, TOutputImage>
   os << std::endl;
   os << indent << "RangeSigma: " << m_RangeSigma << std::endl;
   os << indent << "FilterDimensionality: " << m_FilterDimensionality << std::endl;
+  os << indent << "NumberOfRangeGaussianSamples: " << m_NumberOfRangeGaussianSamples << std::endl;
+  os << indent << "Input dynamic range: " << m_DynamicRange << std::endl;
+  os << indent << "Amount of dynamic range used: " << m_DynamicRangeUsed << std::endl;
 }
 
 } // end namespace itk
