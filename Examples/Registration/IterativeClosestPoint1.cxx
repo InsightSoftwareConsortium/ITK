@@ -48,7 +48,7 @@ int main(int argc, char * argv[] )
     return 1;
     }
 
-  const unsigned int Dimension = 3;
+  const unsigned int Dimension = 2;
 
   typedef itk::PointSet< float, Dimension >   PointSetType;
 
@@ -155,10 +155,10 @@ int main(int argc, char * argv[] )
   scales.Fill( 0.01 );
 
   
-  unsigned long   numberOfIterations =  1000;
-  double          gradientTolerance  =  1e-6;   // convergence criterion
-  double          valueTolerance     =  1e-6;   // convergence criterion
-  double          epsilonFunction    =  1e-5;   // convergence criterion
+  unsigned long   numberOfIterations =  100;
+  double          gradientTolerance  =  1e-5;    // convergence criterion
+  double          valueTolerance     =  1e-5;    // convergence criterion
+  double          epsilonFunction    =  1e-6;   // convergence criterion
 
 
   optimizer->SetScales( scales );
