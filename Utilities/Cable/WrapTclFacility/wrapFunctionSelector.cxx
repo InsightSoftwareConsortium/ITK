@@ -71,6 +71,12 @@ FunctionSelector::FunctionSelector(const WrapperBase* wrapper,
  */
 FunctionSelector::~FunctionSelector()
 {
+  // Make sure all array arguments are freed.
+  for(std::vector<Argument*>::const_iterator i = m_ArrayArguments.begin();
+      i != m_ArrayArguments.end(); ++i)
+    {
+    delete *i;
+    }
 }
 
 CvQualifiedTypes FunctionSelector::GetArgumentTypes() const
@@ -265,6 +271,12 @@ bool FunctionSelector::CxxConversionPossible(const CvQualifiedType& from,
     {
     return true;
     }
+  else if(to->IsPointerType() && from.IsArrayType()
+          && (PointerType::SafeDownCast(to)->GetPointedToType()
+            == ArrayType::SafeDownCast(from.GetType())->GetElementType()))
+    {
+    return true;
+    }
   else if((to->IsArrayType() && from.GetType()->IsPointerType())
           && Conversions::IsValidQualificationConversion(
             PointerType::SafeDownCast(from.GetType()),
@@ -390,6 +402,44 @@ bool MethodSelector::TryMagic(int candidateIndex, int parameterIndex)
       {
       m_CandidateArguments[candidateIndex][parameterIndex].SetType(fromObj);
       return true;
+      }
+    }
+  if(to->IsPointerType())
+    {
+    CvQualifiedType pointedToType =
+      PointerType::SafeDownCast(to)->GetPointedToType();
+    if(pointedToType.IsPointerType()
+       || pointedToType.IsEnumerationType()
+       || (pointedToType.IsFundamentalType()
+           && !FundamentalType::SafeDownCast(pointedToType.GetType())->IsVoid()))
+      {
+      Tcl_Obj* obj = m_Objv[parameterIndex+(m_Objc-m_ArgumentCount)];
+      int length=0;
+      Tcl_Obj** elementObjs;
+      if((TCL_OK == Tcl_ListObjGetElements(m_Wrapper->GetInterpreter(),
+                                           obj, &length, &elementObjs))
+         && (length > 0))
+        {
+        Argument* elements = new Argument[length];
+        for(int i=0; i < length; ++i)
+          {
+          elements[i] = m_Wrapper->GetObjectArgument(elementObjs[i]);
+          if(!this->CxxConversionPossible(elements[i].GetType(),
+                                          pointedToType.GetType()))
+            {
+            delete [] elements;
+            elements = NULL;
+            break;
+            }
+          }  
+        if(elements)
+          {
+          m_ArrayArguments.push_back(elements);
+          CvQualifiedType arrayType = TypeInfo::GetArrayType(pointedToType, length);
+          m_CandidateArguments[candidateIndex][parameterIndex].SetToObject(elements, arrayType);
+          return true;
+          }
+        }
       }
     }
   

@@ -88,6 +88,7 @@ protected:
   std::vector< std::vector<bool> >  m_MatchedArguments;
   std::vector< Arguments >  m_CandidateArguments;
   Arguments m_Arguments;
+  std::vector< Argument* > m_ArrayArguments;
 };
 
 
