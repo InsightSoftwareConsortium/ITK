@@ -14,6 +14,10 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#if defined(_MSC_VER)
+#pragma warning ( disable : 4786 )
+#endif
+
 #include <math.h>
 #include <iostream>
 #include <time.h>
@@ -263,6 +267,8 @@ int itkDeformableTest(int, char**)
 
   m_dfilter->Update();
  
+  std::cout << "Mesh Source: " << m_bmmeshsource;
+
 // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;
 
