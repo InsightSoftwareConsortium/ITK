@@ -40,7 +40,7 @@ LocateLevelSet<TLevelSet>
   m_NarrowBandwidth = 12.0;
   m_InputNarrowBand = NULL;
 
-  m_DebugOn = true;
+  m_DebugOn = false;
 
 }
 

@@ -37,7 +37,7 @@ GeodesicActiveContours<TLevelSet,TEdgeImage,TDerivImage>
     m_DerivImages[j] = NULL;  
     }
 
-  m_DebugOn = true;
+  m_DebugOn = false;
 
 }
 
@@ -146,7 +146,7 @@ GeodesicActiveContours<TLevelSet,TEdgeImage,TDerivImage>
   UpwindType::Pointer inUpwind = UpwindType::New();
 
 
-  for( int k = 0; k < numberOfIterations; k++ )
+  for( unsigned int k = 0; k < numberOfIterations; k++ )
     {
     if( m_DebugOn ) 
       {
@@ -269,7 +269,7 @@ GeodesicActiveContours<TLevelSet,TEdgeImage,TDerivImage>
 ::GenerateDataNarrowBand()
 {
 
-  for( int j = 0; j < SetDimension; j++ )
+  for( unsigned int j = 0; j < SetDimension; j++ )
     {
     if ( !m_DerivImages[j] )
       {
@@ -336,7 +336,7 @@ GeodesicActiveContours<TLevelSet,TEdgeImage,TDerivImage>
     UpwindDerivativeFunction<LevelSetImageType> UpwindType;
   UpwindType::Pointer inUpwind = UpwindType::New();
  
-  for( int k = 0; k < numberOfIterations; k++ )
+  for( unsigned int k = 0; k < numberOfIterations; k++ )
     {
     if( m_DebugOn ) 
       {

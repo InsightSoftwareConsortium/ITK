@@ -167,6 +167,11 @@ public:
    */
   void SetDerivativeImage( TDerivImage *ptr, unsigned int idx=0 );
 
+  /** 
+   * Set the debugging mode
+   */
+  itkSetMacro( DebugOn, bool );
+
 
 protected:
   GeodesicActiveContours();

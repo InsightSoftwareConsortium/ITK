@@ -88,7 +88,7 @@ Index& index)
   AuxValueType auxPixel;
   AuxValueVectorType auxVector;
 
-  for( int k = 0; k < VAuxDimension; k++ )
+  for( unsigned int k = 0; k < VAuxDimension; k++ )
   {
     auxPixel = m_AuxImage[k]->GetPixel( index );
     centerValue[k] = (double) ScalarTraits<AuxValueType>::
@@ -98,7 +98,7 @@ Index& index)
   // if distance is zero, insert point in inside container
   if( distance == 0.0 )
   {
-    for( int k = 0; k < VAuxDimension; k++ )
+    for( unsigned int k = 0; k < VAuxDimension; k++ )
     {
       ScalarTraits<AuxValueType>::SetScalar( auxVector[k], centerValue[k] );
     }
@@ -112,7 +112,7 @@ Index& index)
   double numer[VAuxDimension];
   NodeType neighNode;
 
-  for( int k = 0; k < VAuxDimension; k++ )
+  for( unsigned int k = 0; k < VAuxDimension; k++ )
   {
     numer[k] = 0.0;
   }
@@ -135,7 +135,7 @@ Index& index)
     }
 
     denom += 1.0 / vnl_math_sqr( neighNode.value );
-    for( int k = 0; k < VAuxDimension; k++ )
+    for( unsigned int k = 0; k < VAuxDimension; k++ )
     {
       auxPixel = m_AuxImage[k]->GetPixel( neighNode.index );
       numer[k] += (double) ScalarTraits<AuxValueType>::
@@ -144,7 +144,7 @@ Index& index)
 
   }
 
-  for( int k = 0; k < VAuxDimension; k++ )
+  for( unsigned int k = 0; k < VAuxDimension; k++ )
   {
     numer[k] /= denom;
     ScalarTraits<AuxValueType>::SetScalar( auxVector[k], numer[k] );

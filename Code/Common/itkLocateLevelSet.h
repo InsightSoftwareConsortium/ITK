@@ -164,6 +164,11 @@ public:
    */
   void Locate();
 
+  /**
+   * Set the debugging mode
+   */
+  itkSetMacro( DebugOn, bool );
+   
 protected:
   LocateLevelSet();
   ~LocateLevelSet(){};

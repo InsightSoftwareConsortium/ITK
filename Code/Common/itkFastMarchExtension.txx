@@ -28,7 +28,7 @@ FastMarchExtension<TLevelSet,TAuxValue,VAuxDimension>
   m_AuxTrialValues = NULL;
 
   AuxImagePointer ptr;
-  for( int k = 0; k < VAuxDimension; k++ )
+  for( unsigned int k = 0; k < VAuxDimension; k++ )
     {
     ptr = AuxImageType::New();
     m_AuxImage[k] = ptr;
@@ -68,7 +68,7 @@ FastMarchExtension<TLevelSet,TAuxValue,VAuxDimension>
   // set the size of all the auxiliary outputs
   // to be the same as the primary output
   LevelSetPointer primaryOutput = this->GetOutput(0);
-  for( int k = 0; k < VAuxDimension; k++ )
+  for( unsigned int k = 0; k < VAuxDimension; k++ )
     {
     m_AuxImage[k]->SetLargestPossibleRegion( 
       primaryOutput->GetLargestPossibleRegion() );
@@ -93,7 +93,7 @@ DataObject *output )
   // set the requested region for all auxiliary outputs
   // to be the same as the primary output
   LevelSetPointer primaryOutput = this->GetOutput(0);
-  for( int k = 0; k < VAuxDimension; k++ )
+  for( unsigned int k = 0; k < VAuxDimension; k++ )
     {
     m_AuxImage[k]->SetRequestedRegion(
       primaryOutput->GetRequestedRegion() );
@@ -116,7 +116,7 @@ FastMarchExtension<TLevelSet,TAuxValue,VAuxDimension>
   const typename LevelSetImageType::SizeType size = this->GetOutputSize();
 
   // allocate memory for the auxiliary outputs
-  for( int k = 0; k < VAuxDimension; k++ )
+  for( unsigned int k = 0; k < VAuxDimension; k++ )
     {
     m_AuxImage[k]->SetBufferedRegion( 
       m_AuxImage[k]->GetRequestedRegion() );
@@ -178,7 +178,7 @@ FastMarchExtension<TLevelSet,TAuxValue,VAuxDimension>
         }
       if( !inRange ) continue;
     
-      for( int k = 0; k < VAuxDimension; k++ )
+      for( unsigned int k = 0; k < VAuxDimension; k++ )
       {
         m_AuxImage[k]->SetPixel( node.index, auxVec[k] );
       }
@@ -199,7 +199,7 @@ FastMarchExtension<TLevelSet,TAuxValue,VAuxDimension>
 
       // check if node index is within the output level set
       bool inRange = true;
-      for( int j = 0; j < SetDimension; j++ )
+      for( unsigned int j = 0; j < SetDimension; j++ )
         {
         if( node.index[j] > size[j] )
           {
@@ -209,7 +209,7 @@ FastMarchExtension<TLevelSet,TAuxValue,VAuxDimension>
         }
       if( !inRange ) continue;
 
-      for( int k = 0; k < VAuxDimension; k++ )
+      for( unsigned int k = 0; k < VAuxDimension; k++ )
       {
         m_AuxImage[k]->SetPixel( node.index, auxVec[k] );
       }
@@ -251,7 +251,7 @@ IndexType& index )
   if( solution < this->GetLargeValue() )
   {
     // update auxiliary values
-    for( int k = 0; k < VAuxDimension; k++ )
+    for( unsigned int k = 0; k < VAuxDimension; k++ )
     {
       double numer = 0.0;
       double denom = 0. ;

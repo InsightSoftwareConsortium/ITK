@@ -34,7 +34,7 @@ ExtensionVelocities<TLevelSet,TAuxValue,VAuxDimension>
   this->ProcessObject::SetNumberOfRequiredInputs(VAuxDimension + 1);
   this->ProcessObject::SetNumberOfRequiredOutputs(VAuxDimension + 1);
 
-  for( int k = 0; k < VAuxDimension; k++ )
+  for( unsigned int k = 0; k < VAuxDimension; k++ )
     {
     AuxImagePointer ptr;
     ptr = AuxImageType::New();
@@ -91,7 +91,7 @@ ExtensionVelocities<TLevelSet,TAuxValue,VAuxDimension>
 
   // this filter requires all of the input images to be
   // in the buffer
-  for( int k = 0; k < VAuxDimension; k++ )
+  for( unsigned int k = 0; k < VAuxDimension; k++ )
     {
     m_InputAuxImage[k]->
       SetRequestedRegionToLargestPossibleRegion();
@@ -114,7 +114,7 @@ ExtensionVelocities<TLevelSet,TAuxValue,VAuxDimension>
   // set the requested region for all output to be the
   // same as the primary input
   LevelSetPointer primaryOutput = this->GetOutput(0);
-  for( int k = 0; k < VAuxDimension; k++ )
+  for( unsigned int k = 0; k < VAuxDimension; k++ )
     {
     m_OutputAuxImage[k]->SetRequestedRegion(
       primaryOutput->GetRequestedRegion() );
@@ -134,7 +134,7 @@ ExtensionVelocities<TLevelSet,TAuxValue,VAuxDimension>
   this->Superclass::AllocateOutput();
 
   // allocate memory for the output images
-  for( int k = 0; k < VAuxDimension; k++ )
+  for( unsigned int k = 0; k < VAuxDimension; k++ )
     {
     m_OutputAuxImage[k]->SetBufferedRegion( 
       m_OutputAuxImage[k]->GetRequestedRegion() );
@@ -180,7 +180,7 @@ ExtensionVelocities<TLevelSet,TAuxValue,VAuxDimension>
   AuxIteratorType auxTempIt[VAuxDimension];
   AuxIteratorType auxOutputIt[VAuxDimension];
 
-  for( int k = 0; k < VAuxDimension; k++ )
+  for( unsigned int k = 0; k < VAuxDimension; k++ )
     {
     AuxImagePointer ptr;
     ptr = m_OutputAuxImage[k];
@@ -190,7 +190,7 @@ ExtensionVelocities<TLevelSet,TAuxValue,VAuxDimension>
  
   // locate the level set
   m_Locator->SetInput( inputPtr );
-  for( int k = 0; k < VAuxDimension; k++ )
+  for( unsigned int k = 0; k < VAuxDimension; k++ )
     {
     m_Locator->SetAuxImage( m_InputAuxImage[k], k );
     }
@@ -206,7 +206,7 @@ ExtensionVelocities<TLevelSet,TAuxValue,VAuxDimension>
   tempIt = IteratorType( tempLevelSet,
     tempLevelSet->GetBufferedRegion() );
 
-  for( int k = 0; k < VAuxDimension; k++ )
+  for( unsigned int k = 0; k < VAuxDimension; k++ )
     {
     AuxImagePointer ptr;
     ptr = m_Marcher->GetAuxiliaryImage(k);
@@ -219,7 +219,7 @@ ExtensionVelocities<TLevelSet,TAuxValue,VAuxDimension>
   inputIt = inputIt.Begin();
   outputIt = outputIt.Begin();
   tempIt = tempIt.Begin();
-  for( int k = 0; k < VAuxDimension; k++ )
+  for( unsigned int k = 0; k < VAuxDimension; k++ )
     {
     auxOutputIt[k] = auxOutputIt[k].Begin();
     auxTempIt[k] = auxTempIt[k].Begin();
@@ -232,7 +232,7 @@ ExtensionVelocities<TLevelSet,TAuxValue,VAuxDimension>
       {
       *outputIt = *tempIt;
 
-      for( int k = 0; k < VAuxDimension; k++ )
+      for( unsigned int k = 0; k < VAuxDimension; k++ )
         {
         *(auxOutputIt[k]) = *(auxTempIt[k]);
         }
@@ -242,7 +242,7 @@ ExtensionVelocities<TLevelSet,TAuxValue,VAuxDimension>
     ++inputIt;
     ++outputIt;
     ++tempIt;
-    for( int k = 0; k < VAuxDimension; k++ )
+    for( unsigned int k = 0; k < VAuxDimension; k++ )
       {
       ++(auxTempIt[k]);
       ++(auxOutputIt[k]);
@@ -257,7 +257,7 @@ ExtensionVelocities<TLevelSet,TAuxValue,VAuxDimension>
   inputIt = inputIt.Begin();
   outputIt = outputIt.Begin();
   tempIt = tempIt.Begin();
-  for( int k = 0; k < VAuxDimension; k++ )
+  for( unsigned int k = 0; k < VAuxDimension; k++ )
     {
     auxOutputIt[k] = auxOutputIt[k].Begin();
     auxTempIt[k] = auxTempIt[k].Begin();
@@ -271,7 +271,7 @@ ExtensionVelocities<TLevelSet,TAuxValue,VAuxDimension>
       value = (double) ScalarTraits<PixelType>::GetScalar( *tempIt );
       *outputIt = -1.0 * value;
 
-      for( int k = 0; k < VAuxDimension; k++ )
+      for( unsigned int k = 0; k < VAuxDimension; k++ )
         {
         *(auxOutputIt[k]) = *(auxTempIt[k]);
         }
@@ -280,7 +280,7 @@ ExtensionVelocities<TLevelSet,TAuxValue,VAuxDimension>
     ++inputIt;
     ++outputIt;
     ++tempIt;
-    for( int k = 0; k < VAuxDimension; k++ )
+    for( unsigned int k = 0; k < VAuxDimension; k++ )
       {
       ++(auxTempIt[k]);
       ++(auxOutputIt[k]);
@@ -357,7 +357,7 @@ ExtensionVelocities<TLevelSet,TAuxValue,VAuxDimension>
 
   AuxIteratorType auxOutputIt[VAuxDimension];
 
-  for( int k = 0; k < VAuxDimension; k++ )
+  for( unsigned int k = 0; k < VAuxDimension; k++ )
     {
     AuxImagePointer ptr;
     ptr = m_OutputAuxImage[k];
@@ -367,7 +367,7 @@ ExtensionVelocities<TLevelSet,TAuxValue,VAuxDimension>
     }
   while( !auxOutputIt[0].IsAtEnd() )
     {
-    for( int k = 0; k < VAuxDimension; k++ )
+    for( unsigned int k = 0; k < VAuxDimension; k++ )
       {
       *(auxOutputIt[k]) = zeroPixel;
       ++(auxOutputIt[k]);
@@ -376,7 +376,7 @@ ExtensionVelocities<TLevelSet,TAuxValue,VAuxDimension>
     }
 
   AuxImagePointer tempAuxImage[VAuxDimension];
-  for( int k = 0; k < VAuxDimension; k++ )
+  for( unsigned int k = 0; k < VAuxDimension; k++ )
     {
     tempAuxImage[k] = m_Marcher->GetAuxiliaryImage(k);
     }
@@ -387,7 +387,7 @@ ExtensionVelocities<TLevelSet,TAuxValue,VAuxDimension>
 
   // locate the level set
   m_Locator->SetInput( inputPtr );
-  for( int k = 0; k < VAuxDimension; k++ )
+  for( unsigned int k = 0; k < VAuxDimension; k++ )
     {
     m_Locator->SetAuxImage( m_InputAuxImage[k], k );
     }
@@ -437,7 +437,7 @@ ExtensionVelocities<TLevelSet,TAuxValue,VAuxDimension>
       outputPtr->SetPixel( node.index, inPixel );
       outputNB->InsertElement( outputNB->Size(), node );
 
-      for( int k = 0; k < VAuxDimension; k++ )
+      for( unsigned int k = 0; k < VAuxDimension; k++ )
         { 
         m_OutputAuxImage[k]->SetPixel( node.index, 
           tempAuxImage[k]->GetPixel( node.index ) );
@@ -471,7 +471,7 @@ ExtensionVelocities<TLevelSet,TAuxValue,VAuxDimension>
       node.value *= -1.0;
       outputNB->InsertElement( outputNB->Size(), node );
 
-      for( int k = 0; k < VAuxDimension; k++ )
+      for( unsigned int k = 0; k < VAuxDimension; k++ )
         { 
         m_OutputAuxImage[k]->SetPixel( node.index, 
           tempAuxImage[k]->GetPixel( node.index ) );

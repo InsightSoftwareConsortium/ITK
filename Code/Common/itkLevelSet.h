@@ -121,7 +121,7 @@ public:
   /**
    * NodeContainer typedef support.
    */
-  typedef VectorContainer<int,NodeType> NodeContainer;
+  typedef VectorContainer<unsigned int,NodeType> NodeContainer;
 
   /**
    * NodeContainerPointer typedef support.
@@ -172,7 +172,7 @@ public:
   /**
    * AuxContainer typdef support
    */
-  typedef VectorContainer<int,AuxValueVectorType> AuxValueContainer;
+  typedef VectorContainer<unsigned int,AuxValueVectorType> AuxValueContainer;
 
   /**
    * AuxImage typdef support.

@@ -266,6 +266,11 @@ public:
   void SetOutputSize( const typename LevelSetImageType::SizeType& size )
     { m_OutputSize = size; }
 
+  /**
+   * Set the debugging mode
+   */
+  itkSetMacro( DebugOn, bool );
+
 protected:
   FastMarching();
   ~FastMarching(){};

@@ -18,7 +18,7 @@
 #include "itkIndex.h"
 #include "itkSize.h"
 #include "itkImage.h"
-#include <memory.h>
+#include <memory>
 
 namespace itk
 {

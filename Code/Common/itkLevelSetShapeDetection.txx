@@ -35,7 +35,7 @@ LevelSetShapeDetection<TLevelSet,TEdgeImage>
   m_OutputNarrowBand = NULL;
   m_Extender = ExtenderType::New();
 
-  m_DebugOn = true;
+  m_DebugOn = false;
 
 }
 
@@ -153,7 +153,7 @@ LevelSetShapeDetection<TLevelSet,TEdgeImage>
   unsigned int numberOfIterations = this->GetNumberOfIterations();
   double timeStepSize = this->GetTimeStepSize();
 
-  for( int k = 0; k < numberOfIterations; k++ )
+  for( unsigned int k = 0; k < numberOfIterations; k++ )
     {
     if( m_DebugOn ) 
       {
@@ -288,7 +288,7 @@ LevelSetShapeDetection<TLevelSet,TEdgeImage>
   unsigned int numberOfIterations = this->GetNumberOfIterations();
   double timeStepSize = this->GetTimeStepSize();
 
-  for( int k = 0; k < numberOfIterations; k++ )
+  for( unsigned int k = 0; k < numberOfIterations; k++ )
     {
     if( m_DebugOn ) 
       {

@@ -38,7 +38,7 @@ MutualInformationRigidRegistrationVW<TRefImage,TTestImage,TDerivImage>
   m_AffineMatrix = m_InitialMatrix;
   m_AffineVector = m_InitialVector;
 
-  m_DebugOn = true;
+  m_DebugOn = false;
 
 }
 
@@ -155,7 +155,7 @@ MutualInformationRigidRegistrationVW<TRefImage,TTestImage,TDerivImage>
   double mutualInformationValue;
   MatrixType tempMatrix;
 
-  for( int k = 0; k < m_NumberOfIterations; k++ )
+  for( unsigned int k = 0; k < m_NumberOfIterations; k++ )
     {
 
     // set up the affine parameters

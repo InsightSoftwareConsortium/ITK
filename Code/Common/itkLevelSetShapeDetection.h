@@ -174,6 +174,10 @@ public:
   NodeContainerPointer GetOutputNarrowBand()
     { return m_OutputNarrowBand; }
 
+  /**
+   * Set the debugging mode
+   */
+  itkSetMacro( DebugOn, bool );
 
 protected:
   LevelSetShapeDetection();
