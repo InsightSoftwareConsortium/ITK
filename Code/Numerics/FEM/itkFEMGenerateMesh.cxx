@@ -18,8 +18,7 @@
 #include "itkFEMGenerateMesh.h"
 #include "itkFEMElement2DC0LinearQuadrilateral.h"
 #include "itkFEMElement3DC0LinearHexahedron.h"
-#include <cmath>
-
+#include <math.h>
 namespace itk {
 namespace fem {
 
