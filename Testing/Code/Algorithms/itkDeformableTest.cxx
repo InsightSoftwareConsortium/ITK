@@ -37,7 +37,8 @@
 #include "itkShrinkImageFilter.h"
 #include "itkBinaryMask3DMeshSource.h"
 
-int itkDeformableTest(int, char*[] )
+
+int itkDeformableTest(int argc, char **argv)
 {
   int WIDTH = 32;
   int HEIGHT = 32;
@@ -65,6 +66,8 @@ int itkDeformableTest(int, char*[] )
   typedef itk::Mesh<double>   DMesh;
 
   typedef DMesh::PointType   OPointType;
+
+  unsigned char *ImageBuffer = new unsigned char [WIDTH*HEIGHT];
 
   // Declare the type of the gradient image
   typedef itk::CovariantVector<double, myDimension> myGradientType;
@@ -139,6 +142,8 @@ int itkDeformableTest(int, char*[] )
   itk::ImageRegionIteratorWithIndex <binaryImageType> bit(biimg, biregion);
   bit.GoToBegin();
 
+  /////////////////////////////////////////////////////////////////////////
+  
 
   while( !it.IsAtEnd() ) 
   {
@@ -173,7 +178,21 @@ int itkDeformableTest(int, char*[] )
     ++bitb;
   }
 
+  
   //////////////////////////////////////////////////////////////////////////
+
+  itk::ShrinkImageFilter< myImageType, myImageType >::Pointer dshrink;
+  dshrink = itk::ShrinkImageFilter< myImageType, myImageType >::New();
+  dshrink->SetInput( inputImage );
+  dshrink->SetNumberOfThreads(4);
+
+  unsigned int dfactors[3] = { 1, 1, 1 };
+  dshrink->SetShrinkFactors(dfactors);
+  dshrink->UpdateLargestPossibleRegion();
+
+  myImageType::RegionType drequestedRegion;
+  drequestedRegion = dshrink->GetOutput()->GetRequestedRegion();
+
   typedef itk::GradientRecursiveGaussianImageFilter<
                                             myImageType,
                                             myGradientImageType
@@ -186,7 +205,7 @@ int itkDeformableTest(int, char*[] )
   myGToMFilterType::Pointer gtomfilter = myGToMFilterType::New();
 
   // Connect the input images
-  grfilter->SetInput( inputImage ); 
+  grfilter->SetInput( dshrink->GetOutput() ); 
 
   // Set sigma
   grfilter->SetSigma( 1.0 );
@@ -205,13 +224,26 @@ int itkDeformableTest(int, char*[] )
 
   std::cout << "The gradient map created!" << std::endl;
 
-//  the gvf is temproraily disabled to speede up the test process
+//  the gvf is temproraily disabled since the problem related with gradientimagefilter
 //  m_GVFFilter->Update();
 
 //  std::cout << "GVF created! " << std::endl;
 
 ////////////////////////////////////////////////////////////////////////////////////////
 // construct the deformable mesh
+
+  itk::ShrinkImageFilter< binaryImageType, binaryImageType >::Pointer shrink;
+  shrink = itk::ShrinkImageFilter< binaryImageType, binaryImageType >::New();
+  shrink->SetInput( biimg );
+  shrink->SetNumberOfThreads(4);
+
+  unsigned int factors[3] = { 1, 1, 1 };
+  shrink->SetShrinkFactors(factors);
+  shrink->UpdateLargestPossibleRegion();
+
+  binaryImageType::RegionType requestedRegion;
+  requestedRegion = shrink->GetOutput()->GetRequestedRegion();
+
   myMeshSource::Pointer m_bmmeshsource = myMeshSource::New();
 
   DFilter::Pointer m_dfilter = DFilter::New();
@@ -219,7 +251,7 @@ int itkDeformableTest(int, char*[] )
 //  m_dfilter->SetGradient(m_GVFFilter->GetOutput());
   m_dfilter->SetGradient(gfilter->GetOutput());
 
-  m_bmmeshsource->SetBinaryImage( biimg );
+  m_bmmeshsource->SetBinaryImage( shrink->GetOutput() );
   m_bmmeshsource->SetObjectValue( 255 );
 
   std::cout << "Deformable mesh created using Marching Cube!" << std::endl;
@@ -229,16 +261,33 @@ int itkDeformableTest(int, char*[] )
   m_stiff[1] = 0.1;
 
   double3DVector m_scale;
-  m_scale[0] = 1;
-  m_scale[1] = 1; 
-  m_scale[2] = 1;
+  m_scale[0] = 4;
+  m_scale[1] = 4; 
+  m_scale[2] = 3;
   m_dfilter->SetStiffness(m_stiff);
-  m_dfilter->SetGradientMagnitude(0.8);
+  m_dfilter->SetGradientMagnitude(1.0);
   m_dfilter->SetTimeStep(0.01);
-  m_dfilter->SetStepThreshold(50);
+  m_dfilter->SetStepThreshold(360);
   m_dfilter->SetScale(m_scale);
+  m_dfilter->SetObjectLabel(1);
+  m_dfilter->SetPotentialOn(0);
+  m_dfilter->SetPotentialMagnitude(1.0);
+
   std::cout << "Deformable mesh fitting...";
   m_dfilter->Update();
+
+
+  /** raise coverage */
+  myGradientImageType::Pointer grad_tmp = m_dfilter->GetGradient();
+
+  std::cout << m_dfilter->GetStepThreshold() << std::endl;
+
+  double2DVector stiff_tmp = m_dfilter->GetStiffness();
+
+  std::cout << m_dfilter->GetTimeStep() << std::endl;
+
+  DMesh::Pointer norm_tmp = m_dfilter->GetNormals();
+
   std::cout << m_dfilter;
  
   std::cout << "Mesh Source: " << m_bmmeshsource;
