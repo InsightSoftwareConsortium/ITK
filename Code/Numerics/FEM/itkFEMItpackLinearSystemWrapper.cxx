@@ -55,27 +55,11 @@ ItpackLinearSystemWrapper::ItpackLinearSystemWrapper()
 }
 
 
-void ItpackLinearSystemWrapper::SetMaximumNonZeroValuesInMatrix(unsigned int maxNonZeros, unsigned int matrixIndex)
-{
-
-  if (m_MaximumNonZeroValues == 0)
-  {
-    m_MaximumNonZeroValues = new unsigned int [m_NumberOfMatrices];
-  }
-
-  m_MaximumNonZeroValues[matrixIndex] = maxNonZeros;
-
-  return;
-
-}
-
-
 void ItpackLinearSystemWrapper::InitializeMatrix(unsigned int matrixIndex)
 {
 
   /* FIX ME: exceptions */
-  if (!m_Order || !m_MaximumNonZeroValues || (matrixIndex >= m_NumberOfMatrices) ) throw;
-  if ( !m_MaximumNonZeroValues[matrixIndex] ) throw;
+  if (!m_Order || (matrixIndex >= m_NumberOfMatrices) ) throw;
 
   // allocate if necessay
   if (m_Matrices == 0)
@@ -87,7 +71,7 @@ void ItpackLinearSystemWrapper::InitializeMatrix(unsigned int matrixIndex)
   /* Set required variables */
   (*m_Matrices)[matrixIndex].Clear();
   (*m_Matrices)[matrixIndex].SetOrder(m_Order);
-  (*m_Matrices)[matrixIndex].SetMaxNonZeroValues( m_MaximumNonZeroValues[matrixIndex] );
+  (*m_Matrices)[matrixIndex].SetMaxNonZeroValues( m_MaximumNonZeroValues );
 
   return;
 
@@ -265,7 +249,7 @@ void ItpackLinearSystemWrapper::ScaleMatrix(Float scale, unsigned int matrixInde
 
   int i;
   doublereal *values = (*m_Matrices)[matrixIndex].GetA();
-  for (i=0; i<m_MaximumNonZeroValues[matrixIndex]; i++) 
+  for (i=0; i<(*m_Matrices)[matrixIndex].GetMaxNonZeroValues(); i++) 
   {
     values[i] = values[i]*scale;
   }
@@ -576,7 +560,6 @@ void ItpackLinearSystemWrapper::MultiplyMatrixVector(unsigned int resultVectorIn
 
 ItpackLinearSystemWrapper::~ItpackLinearSystemWrapper(void)
 {
-  delete [] m_MaximumNonZeroValues;
   delete m_Matrices;
 
   int i;

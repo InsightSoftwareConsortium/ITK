@@ -388,7 +388,7 @@ public:
    * \param maxNonZeroValues maximum number of entries allowed in matrix
    * \note this must be called before any matrices are initialized
    */  
-  virtual void SetMaximumNonZeroValuesInMatrix(unsigned int matrixIndex, unsigned int maxNonZeroValues);
+  virtual void SetMaximumNonZeroValuesInMatrix(unsigned int maxNonZeroValues) {m_MaximumNonZeroValues = maxNonZeroValues;}
 
 
   void ScaleMatrix(Float scale, unsigned int matrixIndex);
@@ -479,7 +479,7 @@ private:
 
   /** pointer to array of unsigned int's indicating max number of entries in each matrix */
   //UnsignedIntegerArrayPtr m_MaximumNonZeroValues;
-  unsigned int *m_MaximumNonZeroValues;
+  unsigned int m_MaximumNonZeroValues;
 
   /** Array of pointers to available solver functions */
   int (*m_Methods[7])(integer *, integer *, integer *, doublereal *, doublereal *, doublereal *, integer *, integer *, doublereal *, 

@@ -88,14 +88,14 @@ public:
    */
   void SetNumberOfMatrices(unsigned int nMatrices) { m_NumberOfMatrices = nMatrices; }
 
-  /**
+  /*
    * Set the maximum number of entries permitted in a matrix
    * \param matrixIndex index of matrix to set value for
    * \param maxNonZeros maximum number of entries allowed in matrix
    * \note in general this function does nothing, however it may 
    *       redefined by the derived wrapper if necessary
    */
-  virtual void SetMaximumNonZeroValuesInMatrix(unsigned int maxNonZeros, unsigned int matrixIndex = 0) = 0;
+  //virtual void SetMaximumNonZeroValuesInMatrix(unsigned int maxNonZeroValues) = 0;
 
   /**
    * Get Index of matrices used by system
