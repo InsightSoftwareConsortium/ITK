@@ -52,20 +52,9 @@ namespace itk
 *
 */
 
-
-//template <class TIndexType>
-//class NodeBand
-//{
-//public:
-//  TIndexType Index;
-//  signed char NodeState;
-//};  
-
-
-
 template < class TInputImage, class TOutputImage >
 class ITK_EXPORT FastChamferDistanceImageFilter :
-                 public ImageToImageFilter<TInputImage,TOutputImage>
+    public ImageToImageFilter<TInputImage,TOutputImage>
 {
 public:
   /** Standard class typedefs. */
@@ -73,107 +62,107 @@ public:
   typedef ImageToImageFilter<TInputImage,TOutputImage> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
-
+  
   /** Method for creation through the object factory */
   itkNewMacro(Self);
-
+  
   /** Run-time type information (and related methods). */
   itkTypeMacro( FastChamferDistanceImageFilter, ImageToImageFilter );
-
+  
   /** Type for input image. */
   typedef   TInputImage       InputImageType;
-
+  
   /** Type for the region of the input image. */
   typedef typename InputImageType::RegionType   RegionType;
-
+  
   /** Type for the region of the input image. */
   typedef typename InputImageType::PixelType   PixelType;
-
+  
   /** Type for the index of the input image. */
   typedef typename RegionType::IndexType  IndexType;
-
+  
   /** Type for the index of the input image. */
   typedef typename InputImageType::OffsetType  OffsetType;
-
+  
   /** Type for the size of the input image. */
   typedef typename RegionType::SizeType   SizeType;
   
   /** The dimension of the input image. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       InputImageType::ImageDimension);
-
+  
   /** Pointer Type for input image. */
   typedef typename InputImageType::ConstPointer InputImagePointer;
-
+  
   /** NarrowBand container */
   typedef BandNode<IndexType,PixelType> BandNodeType;
   typedef NarrowBand<BandNodeType> NarrowBandType;
   typedef typename NarrowBandType::Pointer NarrowBandPointer;
   
-
+  
   /** coefficients of the Chamfer distance for each kind of neighbor. */
   itkSetVectorMacro( Weights, float, ImageDimension);
   itkGetVectorMacro( Weights, const float, ImageDimension);
-
-
+  
+  
   /** Maximal computed distance */
   itkSetMacro( MaximumDistance, float);
   itkGetMacro( MaximumDistance, float);
 
-
+  /** */
   void SetRegionToProcess( const RegionType &r)
-    {
-      if ( m_RegionToProcess != r)
-        {
-          m_RegionToProcess = r;
-          this->Modified();
-        }      
-    }
+  {
+    if ( m_RegionToProcess != r)
+      {
+      m_RegionToProcess = r;
+      this->Modified();
+      }      
+  }
   RegionType GetRegionToProcess() const
-    {
-      return m_RegionToProcess;
-    }
+  {
+    return m_RegionToProcess;
+  }
   
-
+  
   void SetNarrowBand( NarrowBandType * ptr)
-    {  
-     if ( m_NarrowBand != ptr )
-       {
-       m_NarrowBand = ptr;
-       this->Modified();
-       }
-    }
-    
-   NarrowBandPointer GetNarrowBand() const
-   { return m_NarrowBand; }
-
+  {  
+    if ( m_NarrowBand != ptr )
+      {
+      m_NarrowBand = ptr;
+      this->Modified();
+      }
+  }
+  
+  NarrowBandPointer GetNarrowBand() const
+  { return m_NarrowBand; }
+  
 protected:
   FastChamferDistanceImageFilter();
   virtual ~FastChamferDistanceImageFilter() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
-
+  
   /** Compute a Signed Chamfer Distance Map up to the specified maximal distance 
       in n dimensions */
   void GenerateDataND();  
-
+  
   /** Compute a Signed Chamfer Distance Map up to the specified maximal distance */
   void GenerateData();  
-
+  
 private:   
   FastChamferDistanceImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
+  
   float  m_MaximumDistance;
-
+  
   /** coefficients of the Chamfer distance for each kind of neighbor. */
   float  m_Weights[ImageDimension];
-
+  
   NarrowBandPointer m_NarrowBand;
-
+  
   /** Region in the image to process.  */
   typename InputImageType::RegionType m_RegionToProcess;
-
-
+  
+  
 }; // end of FastChamferDistanceImageFilter class
 
 } //end namespace itk
