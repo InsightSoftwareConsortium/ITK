@@ -7,11 +7,11 @@ from InsightToolkit import *
 from sys import argv
 
 
-reader = itkImageFileReaderUS2_New()
-writer = itkImageFileWriterUS2_New()
+reader = itkImageFileReaderUC2_New()
+writer = itkImageFileWriterUC2_New()
 
 
-filter  = itkSigmoidImageFilterUS2US2_New()
+filter  = itkSigmoidImageFilterUC2UC2_New()
 
 filter.SetInput( reader.GetOutput() )
 writer.SetInput( filter.GetOutput() )
