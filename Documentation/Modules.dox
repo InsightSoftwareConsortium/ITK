@@ -441,9 +441,57 @@ These objects are the basic system objects used in building ITK.
  \ingroup ThreadSafety
 */  
 
+
 /**
  \defgroup ThreadSafetyUnknown
  \ingroup ThreadSafety
+*/
+
+
+/**
+  \defgroup ThreadSafety  Thread Safety
+  This groups catalog classes according to its compliance with thread safety.
+  ITK is designed to be thread-safe, but in some particular cases this
+  capability cannot be supported and for this reason a classification is
+  needed.
+*/  
+
+
+/**
+  \defgroup Multithreaded   Multithreaded Filters
+  Filters on this category divide processing across several threads.
+*/
+
+
+/**
+  \defgroup Singlethreaded  Singlethreaded Filters 
+  Filter on this category perform all its processing in a single thread
+*/
+
+
+/**
+  \defgroup ShouldBeThreaded Filters that can potentialy be modified to be Threaded 
+  Filter on this category could be implemented to use several processing threads
+*/
+
+
+/** 
+  \defgroup Streamed      Filters supporting Streaming    
+  Filter can respond to a request for a portion of the output using 
+  only a portion of the input.
+*/
+
+
+/**
+  \defgroup CannotBeStreamed  Filters that cannot be streamed      
+  Filter requires either all the input or produces all the output.
+*/
+
+
+/**
+  \defgroup ShouldBeStreamed  Filters that could be implemented to be streamed 
+  Filters that can potentially be modified to support streaming but currently 
+  are not supporting it.
 */
 
 
