@@ -23,7 +23,7 @@
 #include "itkImage.h"
 #include "itkThresholdLabelerImageFilter.h"
 
-int itkThresholdLabelerImageFilterTest( int argc, char * argv[] )
+int itkThresholdLabelerImageFilterTest( int, char *[] )
 {
   //
   //  The following code defines the input and output pixel types and their

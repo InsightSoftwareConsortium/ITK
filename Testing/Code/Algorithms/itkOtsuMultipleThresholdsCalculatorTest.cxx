@@ -19,7 +19,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkHistogram.h"
 #include "itkOtsuMultipleThresholdsCalculator.h"
 
-int itkOtsuMultipleThresholdsCalculatorTest(int argc, char* argv[])
+int itkOtsuMultipleThresholdsCalculatorTest(int, char*[])
 {
   typedef float MeasurementType ;
   typedef itk::Statistics::Histogram< MeasurementType, 1 > HistogramType ;
