@@ -108,7 +108,7 @@ public:
    */
   enum { InputImageDimension = InputImageType::ImageDimension };
   typedef ImageRegionSplitter<InputImageDimension> SplitterType;
-  typedef SplitterType::Pointer RegionSplitterPointer;
+  typedef typename SplitterType::Pointer RegionSplitterPointer;
   
   /**
    * Set the number of pieces to divide the input.  The upstream pipeline
