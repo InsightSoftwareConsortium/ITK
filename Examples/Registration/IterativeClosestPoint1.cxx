@@ -77,11 +77,13 @@ int main(int argc, char * argv[] )
 
   unsigned int pointId = 0;
   fixedFile >> fixedPoint;
-  while( fixedFile.eof() );
+  while( !fixedFile.eof() )
     {
     fixedPointContainer->InsertElement( pointId, fixedPoint );
     fixedFile >> fixedPoint;
+    pointId++;
     }
+  std::cout << "Number of fixed Points = " << fixedPointSet->GetNumberOfPoints() << std::endl;
 
 
 
@@ -97,12 +99,13 @@ int main(int argc, char * argv[] )
 
   pointId = 0;
   movingFile >> movingPoint;
-  while( movingFile.eof() );
+  while( !movingFile.eof() )
     {
     movingPointContainer->InsertElement( pointId, movingPoint );
     movingFile >> movingPoint;
+    pointId++;
     }
-
+  std::cout << "Number of moving Points = " << movingPointSet->GetNumberOfPoints() << std::endl;
 
 
 //-----------------------------------------------------------
@@ -149,7 +152,7 @@ int main(int argc, char * argv[] )
   scales.Fill( 1.0 );
 
   
-  unsigned long   numberOfIterations =   100;
+  unsigned long   numberOfIterations =   1000;
   double          gradientTolerance  =  1e-1; // convergence criterion
   double          valueTolerance =  1e-1; // convergence criterion
   double          epsilonFunction =  1e-9; // convergence criterion
@@ -157,9 +160,9 @@ int main(int argc, char * argv[] )
 
   optimizer->SetScales( scales );
   optimizer->SetNumberOfIterations( numberOfIterations );
-  optimizer->SetValueTolerance(valueTolerance);
-  optimizer->SetGradientTolerance(gradientTolerance);
-  optimizer->SetEpsilonFunction(epsilonFunction);
+  optimizer->SetValueTolerance( valueTolerance );
+  optimizer->SetGradientTolerance( gradientTolerance );
+  optimizer->SetEpsilonFunction( epsilonFunction );
 
   // Start from an Identity transform (in a normal case, the user 
   // can probably provide a better guess than the identity...
