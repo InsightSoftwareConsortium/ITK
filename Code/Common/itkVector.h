@@ -175,6 +175,24 @@ ITK_EXPORT Vector<float,3> operator^( const Vector<float,3> &,
 ITK_EXPORT Vector<int,3> operator^( const Vector<int,3> &,
                                     const Vector<int,3> &  );
 
+/** \function VectorCast
+ * \brief A templated function for casting Vectors from one representation type to another.
+ *
+ * \warning This function does not test if the two vectors are of equal dimension. 
+ * \ingroup Geometry
+ * \ingroup DataRepresentation
+ * 
+ */
+template <typename TVectorA, typename TVectorB >
+ITK_EXPORT void VectorCast( const TVectorA & pa, TVectorB & pb  ) 
+{
+for(unsigned int i=0; i<TVectorA::VectorDimension; i++)
+  {
+  pb[i] = static_cast< typename TVectorB::ValueType >( pa[i] );
+  }
+ }
+
+
 } // end namespace itk
   
 
