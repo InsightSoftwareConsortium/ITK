@@ -116,8 +116,9 @@ int main( int argc, char *argv[] )
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile outputImagefile  ";
-    std::cerr << " [differenceOutputfile] [differenceBeforeRegistration] ";
     std::cerr << " [numberOfIterations] [stepLength]"<< std::endl;
+    std::cerr << " [differenceOutputfile] [differenceBeforeRegistration] ";
+    std::cerr << " [deformationField] ";
     return 1;
     }
   
@@ -287,16 +288,16 @@ int main( int argc, char *argv[] )
   optimizer->SetScales( optimizerScales );
 
   unsigned int maxNumberOfIterations = 50;
-  if( argc >= 7 )
+  if( argc >= 5 )
     {
-    maxNumberOfIterations = atoi( argv[6] );
+    maxNumberOfIterations = atoi( argv[4] );
     }
  
 
   double maxStepLength = 10.0;
-  if( argc >= 8 )
+  if( argc >= 6 )
     {
-    maxStepLength = atoi( argv[7] );
+    maxStepLength = atoi( argv[5] );
     }
  
 
@@ -423,11 +424,11 @@ int main( int argc, char *argv[] )
 
   // Compute the difference image between the 
   // fixed and resampled moving image.
-  if( argc >= 5 )
+  if( argc >= 7 )
     {
     difference->SetInput1( fixedImageReader->GetOutput() );
     difference->SetInput2( resample->GetOutput() );
-    writer2->SetFileName( argv[4] );
+    writer2->SetFileName( argv[6] );
     try
       {
       writer2->Update();
@@ -443,9 +444,9 @@ int main( int argc, char *argv[] )
 
   // Compute the difference image between the 
   // fixed and moving image before registration.
-  if( argc >= 6 )
+  if( argc >= 8 )
     {
-    writer2->SetFileName( argv[5] );
+    writer2->SetFileName( argv[7] );
     difference->SetInput1( fixedImageReader->GetOutput() );
     difference->SetInput2( movingImageReader->GetOutput() );
     try
@@ -460,6 +461,63 @@ int main( int argc, char *argv[] )
       } 
     }
 
+
+
+  // Generate the explicit deformation field resulting from 
+  // the registration.
+
+  typedef itk::Vector< float, ImageDimension >  VectorType;
+  typedef itk::Image< VectorType, ImageDimension >  DeformationFieldType;
+
+  DeformationFieldType::Pointer field = DeformationFieldType::New();
+  field->SetRegions( fixedRegion );
+  field->SetOrigin( fixedImage->GetOrigin() );
+  field->SetSpacing( fixedImage->GetSpacing() );
+  field->Allocate();
+
+  typedef itk::ImageRegionIterator< DeformationFieldType > FieldIterator;
+  FieldIterator fi( field, fixedRegion );
+
+  fi.GoToBegin();
+
+  TransformType::InputPointType  fixedPoint;
+  TransformType::OutputPointType movingPoint;
+  DeformationFieldType::IndexType index;
+
+  VectorType displacement;
+
+  while( ! fi.IsAtEnd() )
+    {
+    index = fi.GetIndex();
+    field->TransformIndexToPhysicalPoint( index, fixedPoint );
+    movingPoint = transform->TransformPoint( fixedPoint );
+    displacement[0] = movingPoint[0] - fixedPoint[0];
+    displacement[1] = movingPoint[1] - fixedPoint[1];
+    fi.Set( displacement );
+    ++fi;
+    }
+
+
+
+  typedef itk::ImageFileWriter< DeformationFieldType >  FieldWriterType;
+  FieldWriterType::Pointer fieldWriter = FieldWriterType::New();
+
+  fieldWriter->SetInput( field );
+
+  if( argc >= 9 )
+    {
+    fieldWriter->SetFileName( argv[8] );
+    try
+      {
+      fieldWriter->Update();
+      }
+    catch( itk::ExceptionObject & excp )
+      {
+      std::cerr << "Exception thrown " << std::endl;
+      std::cerr << excp << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
 
   return 0;
 }
