@@ -96,7 +96,6 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
   unsigned int i;
   ZeroFluxNeumannBoundaryCondition<TInputImage> nbc;
 
-  ConstNeighborhoodIterator<TInputImage> nit;
   ConstSmartNeighborhoodIterator<TInputImage> bit;
   ImageRegionIterator<TOutputImage> it;
   
@@ -125,11 +124,14 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
 
   FixedArray<long, 2 * ImageDimension> offset;
 
+  bit = ConstSmartNeighborhoodIterator<InputImageType>(radius,
+                                                       input,
+                                                       *faceList.begin());
   //Set the offset of the neighbors to the center pixel.
   for ( i = 0 ; i < ImageDimension; i++)
     {
-    offset[i] = -1 * static_cast<long>( nit.GetStride(i));
-    offset[i+ImageDimension] =  nit.GetStride(i);
+    offset[i] = -1 * static_cast<long>( bit.GetStride(i));
+    offset[i+ImageDimension] =  bit.GetStride(i);
     }
 
   // Process each of the boundary faces.  These are N-d regions which border
