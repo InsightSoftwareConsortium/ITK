@@ -13,7 +13,7 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-// #include "itkVertexCell.h"
+#include "itkVertexCell.h"
 
 namespace itk
 {

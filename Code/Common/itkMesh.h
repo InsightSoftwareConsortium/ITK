@@ -26,6 +26,7 @@
 #include "itkCellInterface.h"
 #include "itkMeshTypeDefault.h"
 #include "itkMapContainer.h"
+#include "itkPointLocator.h"
 
 namespace itk
 {
@@ -105,6 +106,8 @@ public:
   typedef typename MeshType::CellDataContainer        CellDataContainer;  
   typedef typename MeshType::BoundariesContainer      BoundariesContainer;
   typedef typename MeshType::BoundaryDataContainer    BoundaryDataContainer;
+  typedef PointLocator< PointIdentifier, CoordRep, PointDimension >
+          PointLocatorType;
 
   /** \typedef
    * Create types that are pointers to each of the container types.
@@ -117,6 +120,7 @@ public:
   typedef typename BoundariesContainer::Pointer    BoundariesContainerPointer;
   typedef typename
           BoundaryDataContainer::Pointer  BoundaryDataContainerPointer;  
+  typedef PointLocatorType::Pointer  PointLocatorPointer;
 
   /** \typedef
    * Create types that are iterators for each of the container types.
@@ -284,6 +288,12 @@ protected:
   typedef std::vector< BoundaryAssignmentsContainerPointer >
         BoundaryAssignmentsContainerVector;
   BoundaryAssignmentsContainerVector  m_BoundaryAssignmentsContainers;
+  
+  /**
+   * PointLocator is used to accelerate the search for points. This
+   * supports the FindClosestPoint() method.
+   */
+  PointLocatorPointer m_PointLocator;
   
   /**
    * Define the mesh's public interface.  This includes access routines along

@@ -13,8 +13,7 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-// #include "itkMesh.h"
-
+#include "itkMesh.h"
 #include <algorithm>
 
 namespace itk
@@ -774,8 +773,8 @@ Mesh< TPixelType , TMeshType >
 		   PointIdentifier* pointId)
 {
   // IMPLEMENT ME
-  int i = int();
-  bool foo = bool();
+  m_PointLocator->DebugOn();
+
   return bool();
 }
 
@@ -1161,7 +1160,8 @@ Mesh< TPixelType , TMeshType >
   m_BoundariesContainers(BoundariesContainerVector(MaxTopologicalDimension)),
   m_BoundaryDataContainers(BoundaryDataContainerVector(MaxTopologicalDimension)),
   m_BoundaryAssignmentsContainers(
-    BoundaryAssignmentsContainerVector(MaxTopologicalDimension))
+    BoundaryAssignmentsContainerVector(MaxTopologicalDimension)),
+  m_PointLocator(NULL)
 {}
 
 } // namespace itk
