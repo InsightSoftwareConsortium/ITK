@@ -45,9 +45,25 @@
 #endif //_MSC_VER
 
 //-----------------------------------------------------------------------------
+// ifdef for old gcc compiler
+#ifdef GDCM_NO_ANSI_STRING_STREAM
+#  include <strstream>
+#  define  ostringstream ostrstream
+# else
+#  include <sstream>
+#endif
+
+#include <string>
+#include <assert.h>
+
 #ifdef GDCM_HAVE_STDINT_H
 #include <stdint.h>   // For uint8_t uint16_t and uint32_t
-#else
+#endif
+
+namespace gdcm
+{
+
+#ifndef GDCM_HAVE_STDINT_H
 typedef    signed char   int8_t;
 typedef  unsigned char  uint8_t;
 typedef  unsigned short uint16_t;
@@ -65,19 +81,6 @@ typedef  unsigned int   uint32_t;
 #define getcwd _getcwd
 #endif
 
-// ifdef for old gcc compiler
-#ifdef GDCM_NO_ANSI_STRING_STREAM
-#  include <strstream>
-#  define  ostringstream ostrstream
-# else
-#  include <sstream>
-#endif
-
-#include <string>
-#include <assert.h>
-
-namespace gdcm
-{
 
 // Centralize information about the gdcm dictionary in only one file:
 #ifndef PUB_DICT_PATH
