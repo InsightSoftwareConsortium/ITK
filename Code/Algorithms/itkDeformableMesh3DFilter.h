@@ -88,6 +88,10 @@ public:
       InputCellDataContainerIterator;
   typedef typename OutputMeshType::PointsContainerPointer
       OutputPointsContainerPointer;
+  typedef typename OutputMeshType::CellsContainer
+      OutputCellsContainer;
+  typedef typename OutputMeshType::CellsContainerPointer
+      OutputCellsContainerPointer;
   typedef typename OutputMeshType::PointsContainer::Iterator
       OutputPointsContainerIterator;
 
@@ -156,8 +160,6 @@ private:
   InputMeshPointer  m_Displacements;
   InputMeshPointer  m_Derives;
   InputMeshPointer  m_Locations;
-  InputMeshPointer  m_Input;
-  OutputMeshPointer m_Output;
 
   void Initialize();
   void SetDefaultStiffnessMatrix();

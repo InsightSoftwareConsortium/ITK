@@ -59,11 +59,11 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   m_NumberOfNodes = this->GetInput(0)->GetNumberOfPoints();
   m_NumberOfCells = this->GetInput(0)->GetNumberOfCells();
 
-  m_Forces = InputMeshType::New();
-  m_Displacements = InputMeshType::New();
-  m_Derives = InputMeshType::New();
-  m_Normals = InputMeshType::New();
-  m_Locations = InputMeshType::New();
+  m_Forces          = InputMeshType::New();
+  m_Displacements   = InputMeshType::New();
+  m_Derives         = InputMeshType::New();
+  m_Normals         = InputMeshType::New();
+  m_Locations       = InputMeshType::New();
 
   InputPointsContainerPointer      myPoints = this->GetInput(0)->GetPoints();
   InputPointsContainerIterator     points = myPoints->Begin();
@@ -135,6 +135,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   PixelType x = 0.0;
   PixelType* x_pt;
   x_pt = &x;
+  std::cout << "myCells size = " << myCells->Size() << std::endl;
   while( cells != myCells->End() ) {
     typename InputMeshType::CellType * cellPtr = cells.Value();
     tp = cellPtr->GetPointIds();
@@ -400,9 +401,12 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   const unsigned long *tp;
   double x;
 
-  m_Output = this->GetOutput();
+  OutputMeshType * output = this->GetOutput();
 
-  OutputPointsContainerPointer   myPoints = m_Output->GetPoints();
+  output->GetCells()->Reserve( m_NumberOfCells );
+  output->SetCellsAllocationMethod( OutputMeshType::CellsAllocatedDynamicallyCellByCell );
+
+  OutputPointsContainerPointer   myPoints = output->GetPoints();
   myPoints->Reserve(m_NumberOfNodes);
   OutputPointsContainerIterator  points = myPoints->Begin();
 
@@ -429,12 +433,14 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     tripoints[2] = tp[2];
     insertCell.TakeOwnership( new TriCell );
     insertCell->SetPointIds(tripoints);
-    m_Output->SetCell(i, insertCell );
+    output->SetCell(i, insertCell );
     x = celldata.Value();
-    m_Output->SetCellData(i, (PixelType)x);
+    output->SetCellData(i, (PixelType)x);
     ++cells;
     ++celldata;
   }
+
+  output->DebugOn();
 }
 
 /* Generate Data */
