@@ -93,15 +93,15 @@ typedef itk::ImageRegionSimpleIterator<
 //-------------------------
 int main() {
 
-  myImageType::Size size;
+  myImageType::SizeType size;
   size[0] = 2;
   size[1] = 2;
 
-  myImageType::Index index;
+  myImageType::IndexType index;
   index[0] = 0;
   index[1] = 0;
 
-  myImageType::Region region;
+  myImageType::RegionType region;
   region.SetIndex( index );
   region.SetSize(  size  );
 
