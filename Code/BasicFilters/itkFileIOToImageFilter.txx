@@ -50,17 +50,15 @@ void FileIOToImageFilter<TOutputImage>::LoadFile()
 {
 	if (m_FileToLoad == "")
 	{
-		return;
-		// Need to throw an exception instead
+		throw FileIOException();
 	}
 
 	m_LightObjectIO = ObjectFactoryBase::CreateInstance(ExtractFileExtension(m_FileToLoad.c_str()));
 	m_IO = dynamic_cast<ImageIO*>((LightObject*) m_LightObjectIO);
 
-  if (m_IO == NULL)
+  if ( m_IO == 0 )
   {
-    return;
-		// Need to throw an exception instead
+    throw FileIOException();
   }
 
   m_IO->SetFullFileName(m_FileToLoad.c_str());
@@ -95,23 +93,26 @@ void FileIOToImageFilter<TOutputImage>::GenerateData()
   m_OutputImage->Allocate();
 
 
-  typedef typename TOutputImage::PixelType  PixelType;
+  typedef typename TOutputImage::PixelType  OutputPixelType;
 
   typedef SimpleImageRegionIterator< TOutputImage> IteratorType;
 
   IteratorType it(m_OutputImage,
                   m_OutputImage->GetLargestPossibleRegion());
 
-  PixelType * source = (PixelType *) m_IO->GetFileData();
+  char * source = static_cast<char *>( m_IO->GetFileData() );
 
+  const unsigned int pixelStride = m_IO->GetPixelStride();
 
   it.Begin();
   while( !it.IsAtEnd() )
   {
-    it.Set( *source++ );
+    it.Set( *source );
+    source += pixelStride;
     ++it;
   }
 }
+
 
 template <class TOutputImage>
 void FileIOToImageFilter<TOutputImage>::SetIO(ImageIO *io)

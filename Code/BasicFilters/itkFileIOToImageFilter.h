@@ -19,10 +19,39 @@ See COPYRIGHT.txt for copyright details.
 #include "itkImageIO.h"
 #include "itkImageSource.h"
 #include "itkImage.h"
+#include "itkExceptionObject.h"
 
 namespace itk
 {
 
+/**
+ * \brief Base exception class for IO conflicts
+ */
+class FileIOException : public ExceptionObject 
+{
+public:
+  itkTypeMacro( FileIOException, ExceptionObject );
+
+  FileIOException() 
+  {
+    SetDescription("Problem during File IO");
+  }
+};
+
+
+/**
+ * \brief Filter to convert input data to a particular internal type
+ *
+ *  TOutputImage is the type expected by the external users of the 
+ *  filter. Data comming from a file can be stored in any other format
+ *  (or type) this filter converts data between the file type and the
+ *  external expected type.
+ *
+ *  The Pluggable factory pattern is used. Different kinds of readers
+ *  can be registered (even at run time) without having to modify the
+ *  code in this class.
+ *
+ */
 template <class TOutputImage>
 class ITK_EXPORT FileIOToImageFilter : public ImageSource<TOutputImage>
 {
