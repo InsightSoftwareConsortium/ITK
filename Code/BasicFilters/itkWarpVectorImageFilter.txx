@@ -39,9 +39,10 @@ WarpVectorImageFilter<TInputImage,TOutputImage,TDeformationField>
   m_OutputSpacing.Fill( 1.0 );
   m_OutputOrigin.Fill( 0.0 );
 
-  for (int i=0; i<ImageDimension; i++){
+  for (unsigned int i=0; i<ImageDimension; i++)
+    {
     m_EdgePaddingValue[i] = 0;
-  }
+    }
 
   // Setup default interpolator
   typename DefaultInterpolatorType::Pointer interp =
