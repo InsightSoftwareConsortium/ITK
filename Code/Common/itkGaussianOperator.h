@@ -79,10 +79,10 @@ namespace itk {
  * \sa Neighborhood
  *
  */
-template<unsigned int VDimension=2,
-  class TAllocator = NeighborhoodAllocator<float> >
+template<class TPixel,unsigned int VDimension=2,
+  class TAllocator = NeighborhoodAllocator<TPixel> >
 class ITK_EXPORT GaussianOperator
-  : public NeighborhoodOperator<float, VDimension, TAllocator>
+  : public NeighborhoodOperator<TPixel, VDimension, TAllocator>
 {
 public:
   /**
@@ -93,7 +93,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef NeighborhoodOperator<float, VDimension, TAllocator>  Superclass;
+  typedef NeighborhoodOperator<TPixel, VDimension, TAllocator>  Superclass;
 
   /**
    * Constructor.
@@ -104,7 +104,7 @@ public:
    * Copy constructor
    */
   GaussianOperator(const Self &other)
-    : NeighborhoodOperator<float, VDimension, TAllocator>(other)
+    : NeighborhoodOperator<double, VDimension, TAllocator>(other)
   {
     m_Variance = other.m_Variance;
     m_MaximumError = other.m_MaximumError;
@@ -124,7 +124,7 @@ public:
   /**
    * Sets the desired variance of the Gaussian kernel.
    */
-  void SetVariance(const float &variance)
+  void SetVariance(const double &variance)
   {  m_Variance = variance;  }
 
   /**
@@ -133,7 +133,7 @@ public:
    * and the area under the continuous Gaussian. Maximum error affects the
    * Gaussian operator size.
    */
-  void SetMaximumError(const float &max_error)
+  void SetMaximumError(const double &max_error)
   {
     if (max_error >= 1 || max_error <= 0)
       {
@@ -146,7 +146,7 @@ public:
   /**
    * Returns the variance of the Gaussian (scale) for the operator.
    */
-  float GetVariance()
+  double GetVariance()
   {  return m_Variance;  }
 
   /**
@@ -155,7 +155,7 @@ public:
    * area under the continuous Gaussian. Maximum error affects the Gaussian
    * operator size.
    */
-  float GetMaximumError()
+  double GetMaximumError()
   {    return m_MaximumError;  }
 
   /**
@@ -171,24 +171,24 @@ public:
   }
   
 protected:
-  typedef std::vector<float> CoefficientVector;
+  typedef std::vector<TPixel> CoefficientVector;
 
   /**
    * Returns the value of the modified Bessel function I0(x) at a point x >= 0.
    */
-  float ModifiedBesselI0(float);
+  double ModifiedBesselI0(double);
 
   /**
    * Returns the value of the modified Bessel function I1(x) at a point x,
    * x real. 
    */
-  float ModifiedBesselI1(float);
+  double ModifiedBesselI1(double);
 
   /**
    * Returns the value of the modified Bessel function Ik(x) at a point x>=0,
    * where k>=2.
    */
-  float ModifiedBesselI(int, float);
+  double ModifiedBesselI(int, double);
 
   /**
    * Calculates operator coefficients.
@@ -205,13 +205,13 @@ private:
   /**
    * Desired variance of the discrete Gaussian function.
    */
-  float m_Variance;
+  double m_Variance;
   
   /**
    * Difference between the areas under the curves of the continuous and
    * discrete Gaussian functions.
    */
-  float m_MaximumError;
+  double m_MaximumError;
   
 };
 

@@ -43,20 +43,20 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-template<unsigned int VDimension, class TAllocator>
-typename GaussianOperator<VDimension, TAllocator>
+template<class TPixel,unsigned int VDimension, class TAllocator>
+typename GaussianOperator<TPixel,VDimension, TAllocator>
 ::CoefficientVector
-GaussianOperator<VDimension, TAllocator>
+GaussianOperator<TPixel,VDimension, TAllocator>
 ::GenerateCoefficients()
 {
   CoefficientVector coeff;
-  float sum;
+  double sum;
   int i;
   int j;
   CoefficientVector::iterator it;
 
-  const float et           = ::exp(-m_Variance);
-  const float cap          = 1.0 - m_MaximumError;
+  const double et           = ::exp(-m_Variance);
+  const double cap          = 1.0 - m_MaximumError;
   
  // Create the kernel coefficients as a std::vector
   sum = 0.0f;
@@ -89,12 +89,12 @@ GaussianOperator<VDimension, TAllocator>
   return coeff;
 }
 
-template<unsigned int VDimension, class TAllocator>
-float
-GaussianOperator<VDimension, TAllocator>
-::ModifiedBesselI0(float y)
+template<class TPixel,unsigned int VDimension, class TAllocator>
+double
+GaussianOperator<TPixel,VDimension, TAllocator>
+::ModifiedBesselI0(double y)
 {
-  float d, accumulator;
+  double d, accumulator;
   double m;
 
   if ((d=fabs(y)) < 3.75)
@@ -116,12 +116,12 @@ GaussianOperator<VDimension, TAllocator>
 }
  
 
-template<unsigned int VDimension, class TAllocator>
-float
-GaussianOperator<VDimension, TAllocator>
-::ModifiedBesselI1(float y)
+template<class TPixel,unsigned int VDimension, class TAllocator>
+double
+GaussianOperator<TPixel,VDimension, TAllocator>
+::ModifiedBesselI1(double y)
 {
-  float d, accumulator;
+  double d, accumulator;
   double m;
 
   if ((d=fabs(y)) < 3.75)
@@ -147,15 +147,15 @@ GaussianOperator<VDimension, TAllocator>
   
 }
 
-template<unsigned int VDimension, class TAllocator>
-float
-GaussianOperator<VDimension, TAllocator>
-::ModifiedBesselI(int n, float y)
+template<class TPixel,unsigned int VDimension, class TAllocator>
+double
+GaussianOperator<TPixel,VDimension, TAllocator>
+::ModifiedBesselI(int n, double y)
 {
-  const float ACCURACY = 40.0f;
+  const double ACCURACY = 40.0f;
   int j;
-  float qim, qi, qip, toy;
-  float accumulator;
+  double qim, qi, qip, toy;
+  double accumulator;
 
   if (n<2)
 	{
