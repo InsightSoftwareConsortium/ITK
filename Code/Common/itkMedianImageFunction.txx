@@ -1,0 +1,102 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkMedianImageFunction.txx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
+#ifndef _itkMedianImageFunction_txx
+#define _itkMedianImageFunction_txx
+
+#include "itkNumericTraits.h"
+#include "itkConstSmartNeighborhoodIterator.h"
+#include <vector>
+#include <algorithm>
+
+
+namespace itk
+{
+
+/**
+ * Constructor
+ */
+template <class TInputImage>
+MedianImageFunction<TInputImage>
+::MedianImageFunction()
+{
+}
+
+
+/**
+ *
+ */
+template<class TInputImage>
+void
+MedianImageFunction<TInputImage>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  this->Superclass::PrintSelf(os,indent);
+}
+
+
+/**
+ *
+ */
+template <class TInputImage>
+MedianImageFunction<TInputImage>::OutputType
+MedianImageFunction<TInputImage>
+::EvaluateAtIndex(const IndexType& index) const
+{
+  int i;
+  
+  if( !m_Image )
+    {
+    return ( NumericTraits<RealType>::max() );
+    }
+  
+  if ( !this->IsInsideBuffer( index ) )
+    {
+    return ( NumericTraits<RealType>::max() );
+    }
+
+  // Create an N-d neighborhood kernel, using a zeroflux boundary condition
+  InputImageType::SizeType kernelSize;
+  kernelSize.Fill( 1 );
+  
+  ConstSmartNeighborhoodIterator<InputImageType>
+    it(kernelSize, m_Image, m_Image->GetBufferedRegion());
+
+  // Set the iterator at the desired location
+  it.SetLocation(index);
+
+  // We have to copy the pixels so we can run std::nth_element.
+  std::vector<InputPixelType> pixels;
+  std::vector<InputPixelType>::iterator medianIterator;
+  
+  // Walk the neighborhood
+  for (i = 0; i < it.Size(); ++i)
+    {
+    pixels.push_back( it.GetPixel(i) );
+    }
+
+  // Get the median value
+  unsigned int medianPosition = it.Size() / 2;
+  medianIterator = pixels.begin() + medianPosition;
+  std::nth_element(pixels.begin(), medianIterator, pixels.end());
+             
+  return ( *medianIterator );
+}
+
+
+} // namespace itk
+
+#endif
