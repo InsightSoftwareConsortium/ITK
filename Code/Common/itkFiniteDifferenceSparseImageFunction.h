@@ -66,7 +66,12 @@ public:
    *  replaced by the ComputeSparseUpdate function. */
   virtual PixelType ComputeUpdate (const NeighborhoodType&,
                                    void*,
-                                   const FloatOffsetType&) {};
+                                   const FloatOffsetType&)
+  {
+    // if this casting doesn't work for vector pixel type, push this definition
+    // of ComputeUpdate to itkNormalVectorFunctionBase
+    return static_cast<PixelType>(0);
+  }
 
   /** The update called from the FiniteDifferenceSparseImageFilter. This
       function replaces the ComputeUpdate function. */
