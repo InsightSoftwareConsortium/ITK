@@ -53,6 +53,13 @@ public:
   /** Scalar type.   */
   typedef typename Superclass::ScalarType  ScalarType;
 
+  /** Vector type. */
+  typedef typename Superclass::InputVectorType    InputVectorType;
+  typedef typename Superclass::OutputVectorType   OutputVectorType;
+  typedef typename Superclass::InputVnlVectorType   InputVnlVectorType;
+  typedef typename Superclass::OutputVnlVectorType   OutputVnlVectorType;
+  typedef typename Superclass::InputCovariantVectorType InputCovariantVectorType;
+  typedef typename Superclass::OutputCovariantVectorType OutputCovariantVectorType;
   /** Parameters type.   */
   typedef typename Superclass::ParametersType  ParametersType;
   
