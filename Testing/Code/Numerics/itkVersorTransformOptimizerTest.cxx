@@ -57,17 +57,19 @@ public:
 
   enum { SpaceDimension = 3 };
   
-  typedef itk::Versor< double >                    ParametersType;
-  typedef ParametersType::VectorType               AxisType;
+  typedef itk::Array< double >                     ParametersType;
+  typedef itk::Versor< double >                    VersorType;
+  typedef VersorType::VectorType                   AxisType;
 
-  typedef itk::CovariantVector< double, 
-                                SpaceDimension >   DerivativeType;
+  typedef itk::Array< double >                     DerivativeType;
   typedef itk::Vector< double,  SpaceDimension >   VectorType;
 
   typedef double MeasureType;
 
 
-  CostFunction() 
+  CostFunction():
+        m_Parameters(SpaceDimension),
+        m_Derivative(SpaceDimension) 
   {
     m_Transform = TransformType::New();
   }
@@ -94,8 +96,16 @@ public:
 
     m_Parameters = parameters;
 
+    VectorType rightPart;
+    for(unsigned int i=0; i<3; i++)
+      {
+      rightPart[i] = m_Parameters[i];
+      }
 
-    m_Transform->SetRotation( m_Parameters );
+    VersorType versor;
+    versor.Set( rightPart );
+
+    m_Transform->SetRotation( versor );
 
     const VectorType C = m_Transform->TransformVector( B );
 
@@ -109,11 +119,21 @@ public:
                      const ParametersType & parameters ) const
   {
 
+    VectorType rightPart;
+    for(unsigned int i=0; i<3; i++)
+      {
+      rightPart[i] = m_Parameters[i];
+      }
+
+    VersorType currentVersor;
+    currentVersor.Set( rightPart );
+
+
     const MeasureType baseValue =  this->GetValue( parameters );
 
-    ParametersType versorX;
-    ParametersType versorY;
-    ParametersType versorZ;
+    VersorType versorX;
+    VersorType versorY;
+    VersorType versorZ;
 
     const double deltaAngle = 0.00175; // in radians = about 0.1 degree
 
@@ -121,9 +141,29 @@ public:
     versorY.SetRotationAroundY( deltaAngle );
     versorZ.SetRotationAroundZ( deltaAngle );
 
-    const MeasureType turnXValue = this->GetValue( parameters * versorX );
-    const MeasureType turnYValue = this->GetValue( parameters * versorY );
-    const MeasureType turnZValue = this->GetValue( parameters * versorZ );
+    VersorType plusdDeltaX = currentVersor * versorX;
+    VersorType plusdDeltaY = currentVersor * versorY;
+    VersorType plusdDeltaZ = currentVersor * versorZ;
+
+    ParametersType parametersPlustDeltaX(SpaceDimension);
+    ParametersType parametersPlustDeltaY(SpaceDimension);
+    ParametersType parametersPlustDeltaZ(SpaceDimension);
+    
+    parametersPlustDeltaX[0] = plusdDeltaX.GetX();
+    parametersPlustDeltaX[1] = plusdDeltaX.GetY();
+    parametersPlustDeltaX[2] = plusdDeltaX.GetZ();
+
+    parametersPlustDeltaY[0] = plusdDeltaY.GetX();
+    parametersPlustDeltaY[1] = plusdDeltaY.GetY();
+    parametersPlustDeltaY[2] = plusdDeltaY.GetZ();
+
+    parametersPlustDeltaZ[0] = plusdDeltaZ.GetX();
+    parametersPlustDeltaZ[1] = plusdDeltaZ.GetY();
+    parametersPlustDeltaZ[2] = plusdDeltaZ.GetZ();
+
+    const MeasureType turnXValue = this->GetValue( parametersPlustDeltaX );
+    const MeasureType turnYValue = this->GetValue( parametersPlustDeltaY );
+    const MeasureType turnZValue = this->GetValue( parametersPlustDeltaZ );
 
     m_Derivative[0] = ( turnXValue - baseValue ) / deltaAngle;
     m_Derivative[1] = ( turnYValue - baseValue ) / deltaAngle;
@@ -168,29 +208,44 @@ int main()
 
   typedef OptimizerType::TransformType   TransformType;
   typedef TransformType::ParametersType  TransformParametersType;
+  typedef OptimizerType::VersorType      VersorType;
 
   // We start with a null rotation
-  ParametersType  initialRotation;
-  ParametersType::VectorType axis;
-  axis[0] = 1.0f;
-  axis[1] = 0.0f;
-  axis[2] = 0.0f;
-  ParametersType::ValueType angle = 0.0f;
+  VersorType::VectorType axis;
+  axis[0] =  1.0f;
+  axis[1] =  0.0f;
+  axis[2] =  0.0f;
 
+  VersorType::ValueType angle = 0.0f;
+
+  VersorType initialRotation;
   initialRotation.Set( axis, angle );
   
+  ParametersType  initialPosition(CostFunction::SpaceDimension);
+  initialPosition[0] = initialRotation.GetX();
+  initialPosition[1] = initialRotation.GetY();
+  initialPosition[2] = initialRotation.GetZ();
+
   itkOptimizer->MaximizeOn();
   itkOptimizer->SetGradientMagnitudeTolerance( 1e-15 );
   itkOptimizer->SetMaximumStepLength( 0.1745 ); // About 10 deegres
   itkOptimizer->SetMinimumStepLength( 1e-9 );
   itkOptimizer->SetNumberOfIterations( 300 );
 
-  itkOptimizer->SetInitialPosition( initialRotation );
+  itkOptimizer->SetInitialPosition( initialPosition );
   itkOptimizer->StartOptimization();
 
-  ParametersType finalPosition;
+  ParametersType finalPosition(CostFunction::SpaceDimension);
   finalPosition = costFunction->GetParameters();
-  std::cout << "Solution        = (" << finalPosition << ")" << std::endl;  
+
+  VersorType finalRotation;
+  VersorType::VectorType finalRightPart;
+  for(unsigned int i=0; i<CostFunction::SpaceDimension; i++)
+    {
+    finalRightPart[i] = finalPosition[i];
+    }
+  finalRotation.Set( finalRightPart );
+  std::cout << "Solution        = (" << finalRotation << ")" << std::endl;  
 
   //
   // check results to see if it is within range
@@ -198,26 +253,28 @@ int main()
   bool pass = true;
 
   // True versor
-  ParametersType trueParameters;
-  ParametersType::VectorType trueAxis;
-  ParametersType::ValueType  trueAngle;
+
+  VersorType::VectorType trueAxis;
+  VersorType::ValueType  trueAngle;
   trueAxis  = 1.0f, 0.0f, 0.0f;
   trueAngle = 2.0 * atan( 1.0f );
-
-  trueParameters.Set( trueAxis, trueAngle );
+  VersorType trueRotation;
+  trueRotation.Set( trueAxis, trueAngle );
     
+  ParametersType trueParameters(CostFunction::SpaceDimension);
+  trueParameters[0] = trueRotation.GetX();
+  trueParameters[1] = trueRotation.GetY();
+  trueParameters[2] = trueRotation.GetZ();
+  
   std::cout << "True Parameters = " << trueParameters << std::endl;
-  for( unsigned int j = 0; j < 2; j++ )
+
+  VersorType ratio = finalRotation * trueRotation.GetReciprocal();
+  const VersorType::ValueType cosHalfAngle = ratio.GetW();
+  const VersorType::ValueType cosHalfAngleSquare = 
+                                          cosHalfAngle * cosHalfAngle;
+  if( cosHalfAngleSquare < 0.95 )
     {
-    ParametersType ratio = finalPosition * trueParameters.GetReciprocal();
-    const ParametersType::ValueType cosHalfAngle = ratio.GetW();
-    const ParametersType::ValueType cosHalfAngleSquare = 
-                                            cosHalfAngle * cosHalfAngle;
-    if( cosHalfAngleSquare < 0.95 )
-      {
-      pass = false;
-      break;
-      }
+    pass = false;
     }
 
   if( !pass )

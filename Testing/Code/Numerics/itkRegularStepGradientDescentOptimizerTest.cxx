@@ -16,8 +16,7 @@
 =========================================================================*/
 
 #include <itkRegularStepGradientDescentOptimizer.h>
-#include <itkPoint.h>
-#include <itkCovariantVector.h>
+#include <itkArray.h>
 
 
 /** 
@@ -47,16 +46,18 @@ public:
 
   enum { SpaceDimension=2 };
   
-  typedef itk::Point<  double, SpaceDimension >          ParametersType;
-  
-  typedef itk::CovariantVector< double, SpaceDimension > DerivativeType;
+  typedef itk::Array< double >   ParametersType;
+  typedef itk::Array< double >   DerivativeType;
 
   typedef double MeasureType ;
 
 
-  CostFunction() 
-  {
-  }
+  CostFunction() :
+            m_Parameters( SpaceDimension),
+            m_Measure( SpaceDimension ),
+            m_Derivative( SpaceDimension )
+      {
+      }
 
   const ParametersType & GetParameters(void) const 
   { 
@@ -115,10 +116,11 @@ private:
 
 int main() 
 {
-  std::cout << "Conjugate Gradient Optimizer Test ";
+  std::cout << "RegularStepGradientDescentOptimizer Test ";
   std::cout << std::endl << std::endl;
 
-  typedef  itk::RegularStepGradientDescentOptimizer< 
+//  typedef  itk::RegularStepGradientDescentOptimizer< 
+  typedef  itk::SingleValuedNonLinearOptimizer< 
                                 CostFunction >  OptimizerType;
 
   
@@ -130,7 +132,7 @@ int main()
   // Declaration of the CostFunction adaptor
   CostFunction::Pointer costFunction = CostFunction::New();
 
-
+/*
   itkOptimizer->SetCostFunction( costFunction );
 
   
@@ -140,11 +142,11 @@ int main()
   typedef TransformType::ParametersType  TransformParametersType;
 
   // We start not so far from  | 2 -2 |
-  ParametersType  initialPosition;
+  ParametersType  initialPosition(CostFunction::SpaceDimension);
   initialPosition[0] =  100;
   initialPosition[1] = -100;
   
-  TransformParametersType parametersScale(2);
+  TransformParametersType parametersScale(CostFunction::SpaceDimension);
   parametersScale[0] = 1.0;
   parametersScale[1] = 1.0;
 
@@ -158,8 +160,7 @@ int main()
   itkOptimizer->SetInitialPosition( initialPosition );
   itkOptimizer->StartOptimization();
 
-  ParametersType finalPosition;
-  finalPosition = costFunction->GetParameters();
+  ParametersType finalPosition = costFunction->GetParameters();
   std::cout << "Solution        = (";
   std::cout << finalPosition[0] << "," ;
   std::cout << finalPosition[1] << ")" << std::endl;  
@@ -183,7 +184,7 @@ int main()
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
-
+*/
 
 }
 

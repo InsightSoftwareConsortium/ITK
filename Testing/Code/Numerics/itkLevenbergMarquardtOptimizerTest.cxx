@@ -18,7 +18,9 @@
 #include <itkLevenbergMarquardtOptimizer.h>
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
-#include <itkPoint.h>
+#include <itkArray.h>
+#include <itkArray2D.h>
+
 
 
 typedef vnl_matrix<double> MatrixType;
@@ -59,16 +61,20 @@ public:
   enum { SpaceDimension =  3 };
   enum { RangeDimension =  ( 2*XRange+1 ) * ( 2*YRange+1 ) };
 
-  typedef itk::Point<double,SpaceDimension>    ParametersType;
-  typedef VectorType                           MeasureType;
-  typedef MatrixType                           DerivativeType;
+  typedef itk::Array<double>       ParametersType;
+  typedef itk::Array<double>       MeasureType;
+  typedef itk::Array2D<double>     DerivativeType;
 
-  CostFunction() 
+  CostFunction():
+            m_Parameters(SpaceDimension),
+            m_Measure(RangeDimension),
+            m_Derivative(SpaceDimension,RangeDimension),
+            m_TheoreticalData(SpaceDimension)  
   {
 
     m_Measure.resize(RangeDimension);
     m_Derivative.resize(SpaceDimension,RangeDimension);
-    m_TheoricData.resize(RangeDimension);
+    m_TheoreticalData.resize(RangeDimension);
     
     // Compute points of the function over a square domain
     unsigned valueindex = 0;
@@ -78,8 +84,8 @@ public:
       for( int x = -XRange; x<=XRange; x++ ) 
       {
         const double xd = (double)x;
-        m_TheoricData[valueindex] = ra*xd + rb*yd + rc;
-        std::cout << m_TheoricData[valueindex] << "  ";
+        m_TheoreticalData[valueindex] = ra*xd + rb*yd + rc;
+        std::cout << m_TheoreticalData[valueindex] << "  ";
         valueindex++;
       }
     }
@@ -116,7 +122,7 @@ public:
       {
         const double xd = (double)x;
         m_Measure[valueindex]  = a * xd + b * yd + c;
-        m_Measure[valueindex] -= m_TheoricData[valueindex];
+        m_Measure[valueindex] -= m_TheoreticalData[valueindex];
         std::cout << m_Measure[valueindex] << "  ";
         valueindex++;
       }
@@ -175,7 +181,7 @@ private:
   mutable ParametersType    m_Parameters;
   mutable MeasureType       m_Measure;
   mutable DerivativeType    m_Derivative;
-          MeasureType       m_TheoricData;
+          MeasureType       m_TheoreticalData;
 
 };
 
@@ -185,8 +191,7 @@ int main()
 {
   std::cout << "Levenberg Marquardt optimizer test \n \n"; 
   
-  typedef  itk::LevenbergMarquardtOptimizer< \
-                                CostFunction >  OptimizerType;
+  typedef  itk::LevenbergMarquardtOptimizer< CostFunction >  OptimizerType;
 
   typedef  OptimizerType::InternalOptimizerType  vnlOptimizerType;
 
@@ -220,7 +225,10 @@ int main()
 
   // We start not so far from the solution 
   typedef CostFunction::ParametersType ParametersType;
-  ParametersType::ValueType initialValue[3] = {100, 200, 150};
+  ParametersType  initialValue(CostFunction::SpaceDimension);
+  initialValue[0] = 100;
+  initialValue[1] = 200;
+  initialValue[2] = 150;
 
   itkOptimizer->SetInitialPosition( initialValue );
 
@@ -256,8 +264,7 @@ int main()
   std::cout << "Number of evals = " << vnlOptimizer.get_num_evaluations() << std::endl;    
   std::cout << std::endl;
 
-  ParametersType finalPosition;
-  finalPosition = costFunction->GetParameters();
+  ParametersType finalPosition = costFunction->GetParameters();
   std::cout << "Solution        = (";
   std::cout << finalPosition[0] << "," ;
   std::cout << finalPosition[1] << "," ;
