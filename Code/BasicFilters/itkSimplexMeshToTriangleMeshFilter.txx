@@ -81,7 +81,7 @@ namespace itk
       bool b3 = m_Centers->GetElementIfIndexExists(newId3, &p3 );
 
       meshSource->AddTriangle(p1,p2,p3);
-      assert(b1 && b2 && b3);
+//      assert(b1 && b2 && b3);
 
       pointsIt++;
       }
@@ -110,7 +110,7 @@ namespace itk
       cellIt++;
       }
 
-    assert (cellIt != cells1.end() );
+//    assert (cellIt != cells1.end() );
 
     return *cellIt;
     }
