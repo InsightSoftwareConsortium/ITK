@@ -55,7 +55,7 @@
 #endif
 #endif
 
-#include "math.h"
+#include <math.h>
 
 
 
@@ -124,14 +124,14 @@ inline double d_lg10(doublereal *x)
 return( 0.43429448190325182765 * log(*x) );
 }
 
-inline double d_sqrt(doublereal *x)
+inline double sqrt(doublereal x)
 {
-return( sqrt(*x) );
+  return( ::sqrt(x) );
 }
 
-inline double d_log(doublereal *x)
+inline double log(doublereal x)
 {
-return( log(*x) );
+  return( ::log(x) );
 }
 
 inline double d_sign(doublereal *a, doublereal *b)
