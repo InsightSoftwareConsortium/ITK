@@ -15,6 +15,9 @@
 
 =========================================================================*/
 
+#ifndef __Scene_txx
+#define __Scene_txx
+
 #include "itkScene.h"
 #include <algorithm>
 
@@ -161,3 +164,5 @@ Scene<PipelineDimension>
 
 
 } // end of namespace itk 
+
+#endif

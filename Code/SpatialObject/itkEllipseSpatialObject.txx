@@ -14,7 +14,9 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
- 
+#ifndef __EllipseSpatialObject_txx
+#define __EllipseSpatialObject_txx
+
 #include "itkEllipseSpatialObject.h" 
 
 namespace itk 
@@ -178,3 +180,5 @@ EllipseSpatialObject< NDimensions, PipelineDimension >
 
 
 } // end namespace itk
+
+#endif
