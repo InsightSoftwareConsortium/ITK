@@ -19,27 +19,23 @@
 package require InsightToolkit
 package require itkinteraction
 
-set inputFixedImageFileName  "BrainProtonDensitySliceR10X13Y17.png"
-set inputMovingImageFileName  "BrainProtonDensitySliceBorder20.png"
 
-set registration       [ itk::create ImageRegistrationMethodF2 ]
-set imageMetric        [ itk::create MeanSquaresImageToImageMetricF2 ]
-set transform          [ itk::create CenteredRigid2DTransform ]
-set optimizer          [ itk::create RegularStepGradientDescentOptimizer ]
-set interpolator       [ itk::create LinearInterpolateImageFunctionF2  ]
+set registration       [ itkImageRegistrationMethodF2F2_New ]
+set imageMetric        [ itkMeanSquaresImageToImageMetricF2F2_New ]
+set transform          [ itkCenteredRigid2DTransform_New ]
+set optimizer          [ itkRegularStepGradientDescentOptimizer_New ]
+set interpolator       [ itkLinearInterpolateImageFunctionF2D_New  ]
 
+$registration   SetOptimizer      [ $optimizer GetPointer ]
+$registration   SetTransform      [ $transform GetPointer ]
+$registration   SetInterpolator   [ $interpolator GetPointer ]
+$registration   SetMetric         [ $imageMetric GetPointer ]
 
-$registration   SetOptimizer      $optimizer
-$registration   SetTransform      $transform
-$registration   SetInterpolator   $interpolator
-$registration   SetMetric         $imageMetric
+set fixedImageReader   [ itkImageFileReaderF2_New ]
+set movingImageReader  [ itkImageFileReaderF2_New ]
 
-
-set fixedImageReader   [ itk::create ImageFileReaderF2 ]
-set movingImageReader  [ itk::create ImageFileReaderF2 ]
-
-$fixedImageReader    SetFileName  $inputFixedImageFileName 
-$movingImageReader   SetFileName  $inputMovingImageFileName
+$fixedImageReader    SetFileName  [lindex $argv 0]
+$movingImageReader   SetFileName  [lindex $argv 1]
 
 $registration  SetFixedImage    [  $fixedImageReader  GetOutput  ]
 $registration  SetMovingImage   [  $movingImageReader GetOutput  ]
@@ -90,7 +86,7 @@ puts "Translation in  Y =  [$finalParameters () 4]"
 # Now, 
 # we use the final transform for resampling the
 # moving image.
-set resampler [itk::create ResampleImageFilterF2 ]
+set resampler [itkResampleImageFilterF2F2_New ]
 
 $resampler SetTransform $transform
 $resampler SetInput     $movingImage
@@ -103,9 +99,9 @@ $resampler SetOutputSpacing [ $fixedImage GetSpacing ]
 $resampler SetOutputOrigin  [ $fixedImage GetOrigin  ]
 $resampler SetDefaultPixelValue 100
 
-set writer [ itk::create ImageFileWriterF2 ]
+set writer [ itkImageFileWriterF2_New ]
 
-$writer SetFileName "ResampledImage.mhd"
+$writer SetFileName [lindex $argv 3]
 $writer SetInput [ $resampler GetOutput ]
 $writer Update
 
