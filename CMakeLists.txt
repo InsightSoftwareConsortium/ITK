@@ -108,7 +108,7 @@ IF(USE_VTK)
     ENDIF( VTK_USE_HYBRID )
   ELSE (USE_VTK_FILE)
     MESSAGE("The UseVTK.cmake file was not found. You will not be able to build code requiring VTK")
-    SET(HAS_VTK 0 CACHE INTERNAL)
+    SET(HAS_VTK 0 CACHE INTERNAL "Use VTK: The Visualization Toolkit, this is required for some examples but not for the ITK toolkit")
   ENDIF (USE_VTK_FILE)
 ENDIF(USE_VTK)
 
