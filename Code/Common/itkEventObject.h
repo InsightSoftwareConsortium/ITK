@@ -146,6 +146,9 @@ itkEventMacro( PickEvent          , AnyEvent );
 itkEventMacro( StartPickEvent     , PickEvent   );
 itkEventMacro( EndPickEvent       , PickEvent   );
 itkEventMacro( AbortCheckEvent    , PickEvent   );
+itkEventMacro( FunctionEvaluationIterationEvent, IterationEvent );
+itkEventMacro( GradientEvaluationIterationEvent, IterationEvent );
+itkEventMacro( FunctionAndGradientEvaluationIterationEvent, IterationEvent );
 
 itkEventMacro( UserEvent          , AnyEvent );
 

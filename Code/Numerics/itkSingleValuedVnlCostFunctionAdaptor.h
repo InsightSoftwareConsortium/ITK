@@ -123,7 +123,7 @@ protected:
 
   /** This method is intended to be called by the derived classes in order to
    * notify of an iteration event to any Command/Observers */
-  void ReportIteration() const;
+  void ReportIteration( const EventObject & event ) const;
 
 private:
 

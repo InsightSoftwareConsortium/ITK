@@ -78,7 +78,7 @@ SingleValuedVnlCostFunctionAdaptor
   // optimizers of not providing callbacks per iteration.
   m_CachedValue = value;
   m_CachedCurrentParameters = parameters;
-  this->ReportIteration(); 
+  this->ReportIteration( FunctionEvaluationIterationEvent() ); 
     
   return value;
 }
@@ -112,7 +112,13 @@ SingleValuedVnlCostFunctionAdaptor
     
   m_CostFunction->GetDerivative( parameters, m_CachedDerivative );
   this->ConvertExternalToInternalGradient( m_CachedDerivative, gradient);
-
+ 
+  // Notify observers. This is used for overcoming the limitaion of VNL
+  // optimizers of not providing callbacks per iteration.
+  // Note that m_CachedDerivative is already loaded in the GetDerivative() above.
+  m_CachedCurrentParameters = parameters;
+  this->ReportIteration( GradientEvaluationIterationEvent() ); 
+ 
 }
   
 
@@ -125,7 +131,6 @@ SingleValuedVnlCostFunctionAdaptor
            InternalDerivativeType   * g   ) 
 {
   // delegate the computation to the CostFunction
-  DerivativeType externalGradient;
   ParametersType parameters( x.size());
   double   measure;
   if(m_ScalesInitialized)
@@ -140,10 +145,10 @@ SingleValuedVnlCostFunctionAdaptor
     parameters.SetData(const_cast<double*>(x.data_block()));
     }
   
-  m_CostFunction->GetValueAndDerivative( parameters, measure, externalGradient );
+  m_CostFunction->GetValueAndDerivative( parameters, measure, m_CachedDerivative );
   if( g ) // sometimes Vnl doesn't pass a valid pointer
     {
-    this->ConvertExternalToInternalGradient( externalGradient, *g );
+    this->ConvertExternalToInternalGradient( m_CachedDerivative, *g );
     }
   if( f ) // paranoids have longer lives...
     {
@@ -156,6 +161,13 @@ SingleValuedVnlCostFunctionAdaptor
       *f = static_cast<InternalMeasureType>( - measure );  
       }
     }
+  // Notify observers. This is used for overcoming the limitaion of VNL
+  // optimizers of not providing callbacks per iteration.
+  // Note that m_CachedDerivative is already loaded in the GetDerivative() above.
+  m_CachedValue = *f;
+  m_CachedCurrentParameters = parameters;
+  this->ReportIteration( FunctionAndGradientEvaluationIterationEvent() ); 
+ 
 }
   
 
@@ -203,9 +215,9 @@ SingleValuedVnlCostFunctionAdaptor
  *   This is useful for adapting optimizers that are only minimizers. */
 void 
 SingleValuedVnlCostFunctionAdaptor
-::ReportIteration() const
+::ReportIteration( const EventObject & event ) const
 {
-  this->m_Reporter->InvokeEvent( IterationEvent() );
+  this->m_Reporter->InvokeEvent( event );
 }
  
 
