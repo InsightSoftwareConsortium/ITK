@@ -99,14 +99,16 @@ int itkDeformableTest(int, char**)
   typedef itk::ImageRegionIteratorWithIndex<myGradientImageType> myGradientIteratorType;
 
   binaryImageType::SizeType      bisize={{WIDTH,HEIGHT,DEPTH}};
-  binaryImageType::IndexType     biindex=binaryImageType::IndexType::ZeroIndex;
+  binaryImageType::IndexType     biindex;
   binaryImageType::RegionType    biregion;
+  biindex.Fill(0);
   biregion.SetSize(bisize);
   biregion.SetIndex(biindex);
 
   myGradientImageType::SizeType   gdsize={{WIDTH,HEIGHT,DEPTH}};
-  myGradientImageType::IndexType  gdindex=myGradientImageType::IndexType::ZeroIndex;
+  myGradientImageType::IndexType  gdindex;
   myGradientImageType::RegionType gdregion;
+  gdindex.Fill(0);
   gdregion.SetSize(gdsize);
   gdregion.SetIndex(gdindex);
   
@@ -125,7 +127,7 @@ int itkDeformableTest(int, char**)
 
   mySizeType size={{WIDTH,HEIGHT,DEPTH}};
   myIndexType start;
-  start = myIndexType::ZeroIndex;
+  start.Fill(0);
 
   myRegionType region;
   region.SetIndex( start );

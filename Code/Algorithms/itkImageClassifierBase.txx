@@ -189,8 +189,8 @@ ImageClassifierBase<TInputImage, TClassifiedImage>
   this->SetClassifiedImage(classifiedImage);
 
   typedef typename TClassifiedImage::IndexType myIndex;
-  typename TClassifiedImage::IndexType classifiedImageIndex 
-    = myIndex::ZeroIndex;
+  typename TClassifiedImage::IndexType classifiedImageIndex;
+  classifiedImageIndex.Fill(0);
 
   typename TClassifiedImage::RegionType classifiedImageRegion;
 

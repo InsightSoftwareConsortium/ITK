@@ -112,9 +112,14 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
   // make the output of the size specified by m_OutputSize
   LevelSetPointer output = this->GetOutput();
  
-  typename TLevelSet::RegionType region;
+  typedef typename TLevelSet::RegionType RegionType;
+  RegionType region;
+
+  typename RegionType::IndexType index;
+  index.Fill(0);
+
   region.SetSize( m_OutputSize );
-  region.SetIndex( IndexType::ZeroIndex );
+  region.SetIndex( index );
 
   output->SetLargestPossibleRegion( region );
 

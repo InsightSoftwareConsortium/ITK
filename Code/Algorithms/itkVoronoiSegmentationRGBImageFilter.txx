@@ -87,7 +87,8 @@ VoronoiSegmentationRGBImageFilter <TInputImage,TOutputImage>
   Superclass::SetInput(input);
 
   m_Size = this->GetInput()->GetLargestPossibleRegion().GetSize();
-  IndexType index = IndexType::ZeroIndex;
+  IndexType index;
+  index.Fill(0);
   RegionType region;
   region.SetSize(m_Size);
   region.SetIndex(index);

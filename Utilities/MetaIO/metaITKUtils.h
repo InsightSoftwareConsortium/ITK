@@ -40,6 +40,7 @@ metaITKUtilLoadImage3D(const char *fname, MET_ValueEnumType _toType,
 
   typedef typename ImageType::Pointer     ImagePointer;
   typedef typename ImageType::SizeType    SizeType;
+  typedef typename ImageType::IndexType   IndexType;
   typedef typename ImageType::RegionType  RegionType;
 
   ImagePointer image = ImageType::New();
@@ -75,9 +76,12 @@ metaITKUtilLoadImage3D(const char *fname, MET_ValueEnumType _toType,
     spacing[2] = 1;
     }
 
+  IndexType start;
+  start.Fill(0);
+
   RegionType region;
   region.SetSize(size);
-  region.SetIndex( itk::Index<3>::ZeroIndex );
+  region.SetIndex( start );
   image->SetLargestPossibleRegion(region);
   image->SetBufferedRegion(region);
   image->SetRequestedRegion(region);

@@ -29,7 +29,8 @@ int itkHardConnectedComponentImageFilterTest(int, char**)
   itk::HardConnectedComponentImageFilter<InputImageType, OutputImageType>::Pointer 
         filter = itk::HardConnectedComponentImageFilter<InputImageType, OutputImageType>::New();
   InputImageType::Pointer inputimg = InputImageType::New();
-  IndexType index = InputImageType::IndexType::ZeroIndex;
+  IndexType index;
+  index.Fill(0);
   InputImageType::RegionType region;
 
   itk::Size<2> sz;

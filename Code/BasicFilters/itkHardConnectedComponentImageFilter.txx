@@ -41,7 +41,7 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
   typename TInputImage::ConstPointer input = this->GetInput();
 
   size = input->GetLargestPossibleRegion().GetSize();
-  index = IndexType::ZeroIndex;
+  index.Fill(0);
   region.SetSize(size);
   region.SetIndex(index);
   output->SetLargestPossibleRegion( region );

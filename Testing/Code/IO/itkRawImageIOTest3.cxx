@@ -45,7 +45,10 @@ int itkRawImageIOTest3(int, char**)
   size[1]=293;
   
   ImageType::RegionType region;
-  region.SetIndex( ImageType::IndexType::ZeroIndex );
+  ImageType::IndexType  index;
+  index.Fill(0);
+
+  region.SetIndex( index );
   region.SetSize(size);
   
   ImageType::Pointer image = ImageType::New();

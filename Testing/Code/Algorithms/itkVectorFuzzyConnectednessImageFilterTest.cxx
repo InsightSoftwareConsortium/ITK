@@ -116,7 +116,9 @@ int itkVectorFuzzyConnectednessImageFilterTest(int, char**)
   double spacing[3] = { 0.3,  0.3, 0.3};
   FuzzyImage::Pointer testFuzzy=FuzzyImage::New();
   VectorImage3D::Pointer inputimg=VectorImage3D::New();
-  VectorImage3D::IndexType index=VectorImage3D::IndexType::ZeroIndex;
+  VectorImage3D::IndexType index;
+  index.Fill(0);
+
   VectorImage3D::RegionType region;
 
   region.SetSize(size);

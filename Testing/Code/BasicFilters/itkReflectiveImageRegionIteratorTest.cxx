@@ -38,7 +38,7 @@ int itkReflectiveImageRegionIteratorTest(int, char**)
   ImageType::SizeType size = {{4,4,4,4}};
 
   ImageType::IndexType start;
-  start = ImageType::IndexType::ZeroIndex;
+  start.Fill(0);
 
   ImageType::RegionType region;
   region.SetIndex( start );

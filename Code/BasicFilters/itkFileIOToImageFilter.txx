@@ -85,7 +85,8 @@ void FileIOToImageFilter<TOutputImage>::GenerateData()
 
   typedef typename TOutputImage::IndexType IndexType;
 
-  IndexType start = IndexType::ZeroIndex;
+  IndexType start;
+  start.Fill(0);
 
   Region region;
 

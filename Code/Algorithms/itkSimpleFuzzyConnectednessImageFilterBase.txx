@@ -185,7 +185,8 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
   m_SegmentObject = this->GetOutput(); 
 
   m_Size = m_InputImage->GetLargestPossibleRegion().GetSize();
-  IndexType index = IndexType::ZeroIndex;
+  IndexType index;
+  index.Fill(0);
   UShortImage::RegionType region;
   region.SetSize(m_Size);
   region.SetIndex(index);

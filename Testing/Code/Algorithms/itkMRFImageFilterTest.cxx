@@ -60,7 +60,9 @@ int itkMRFImageFilterTest(int, char**)
 
   VecImageType::SizeType vecImgSize = {{ IMGWIDTH , IMGHEIGHT, NFRAMES }};
 
-  VecImageType::IndexType index = VecImageType::IndexType::ZeroIndex;
+  VecImageType::IndexType index;
+  index.Fill(0);
+
   VecImageType::RegionType region;
 
   region.SetSize( vecImgSize );
@@ -203,7 +205,9 @@ int itkMRFImageFilterTest(int, char**)
 
   ClassImageType::SizeType classImgSize = {{ IMGWIDTH , IMGHEIGHT, NFRAMES }};
 
-  ClassImageType::IndexType classindex = ClassImageType::IndexType::ZeroIndex;
+  ClassImageType::IndexType classindex;
+  classindex.Fill(0);
+
   ClassImageType::RegionType classregion;
 
   classregion.SetSize( classImgSize );

@@ -74,7 +74,7 @@ void InitializeImage( myImageType * image, double value   )
   size[1] = 2;
 
   myIndexType start;
-  start = myIndexType::ZeroIndex;
+  start.Fill(0);
 
   myRegionType region;
   region.SetIndex( start );

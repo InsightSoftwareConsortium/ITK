@@ -71,9 +71,6 @@ public:
   /** Get the dimension (size) of the index. */
   static unsigned int GetIndexDimension() { return VIndexDimension; }
 
-  /** Define the zero index for convenience. */
-  static const Self ZeroIndex;
-  
   /** Compatible Size typedef. */
   typedef   Size<VIndexDimension>  SizeType;
 
@@ -267,12 +264,6 @@ std::ostream & operator<<(std::ostream &os, const Index<VIndexDimension> &ind)
   return os;
 }
 
-// Set the const definition of the ZeroIndex. This uses the aggregate
-// initialization shortcut to assign all the data in the aggregate to zero.
-template<unsigned int VIndexDimension>
-const Index<VIndexDimension>
-Index<VIndexDimension>
-::ZeroIndex = {{0}};
 
 } // end namespace itk
 

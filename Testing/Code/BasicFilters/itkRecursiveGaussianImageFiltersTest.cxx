@@ -55,7 +55,7 @@ int itkRecursiveGaussianImageFiltersTest(int, char**)
   size[2] = 100;
 
   myIndexType start;
-  start = myIndexType::ZeroIndex;
+  start.Fill(0);
 
   myRegionType region;
   region.SetIndex( start );

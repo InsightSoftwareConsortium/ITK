@@ -397,7 +397,9 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   typename LabelImageType::SizeType labelImageSize 
     = this->GetInput()->GetBufferedRegion().GetSize();
         
-  typename LabelImageType::IndexType labelImageIndex = LabelImageType::IndexType::ZeroIndex;
+  typename LabelImageType::IndexType labelImageIndex;
+  labelImageIndex.Fill(0);
+
   typename LabelImageType::RegionType labelImageRegion;
 
   labelImageRegion.SetSize( labelImageSize );

@@ -244,7 +244,8 @@ void
 RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
 ::GibbsTotalEnergy(int i)
 {
-  LabelledImageIndexType offsetIndex3D = LabelledImageIndexType::ZeroIndex;
+  LabelledImageIndexType offsetIndex3D;
+  offsetIndex3D.Fill(0);
 
   int size = m_ImageWidth * m_ImageHeight * m_ImageDepth;
   int frame = m_ImageWidth * m_ImageHeight;
@@ -367,14 +368,16 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   bool changeflag;
   double res = 0.0;
 
-  LabelledImageIndexType offsetIndex3D = LabelledImageIndexType::ZeroIndex;
+  LabelledImageIndexType offsetIndex3D;
+  offsetIndex3D.Fill(0);
+
   LabelledImagePixelType labelledPixel = 0;
 
   const unsigned int size     = m_ImageWidth * m_ImageHeight * m_ImageDepth;
   const unsigned int frame    = m_ImageWidth * m_ImageHeight;
   const unsigned int rowsize  = m_ImageWidth;
 
-  offsetIndex3D[2] =  i / frame;
+  
   offsetIndex3D[1] = (i % frame) / m_ImageHeight;
   offsetIndex3D[0] = (i % frame) % m_ImageHeight;
   

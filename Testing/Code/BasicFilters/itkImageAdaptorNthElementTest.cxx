@@ -82,7 +82,8 @@ int itkImageAdaptorNthElementTest(int, char**)
   size[2] = 2;    // Small size, because we are printing it
   
   myIndexType start;
-  start = myIndexType::ZeroIndex;
+  start.Fill(0);
+
 
   myRegionType region;
   region.SetIndex( start );

@@ -96,7 +96,9 @@ public:
     { m_Index = input; };
 
   /** Default constructor */
-  LevelSetNode() : m_Value( NumericTraits<PixelType>::Zero ), m_Index( IndexType::ZeroIndex ) {};
+  LevelSetNode() : m_Value( NumericTraits<PixelType>::Zero ) {
+    m_Index.Fill( 0 );
+    };
 
   /** Copy constructor */
   LevelSetNode(const Self &node) : m_Value( node.m_Value ), m_Index( node.m_Index ) {};

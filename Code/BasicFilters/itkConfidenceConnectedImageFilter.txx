@@ -39,7 +39,7 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>
 {
   m_Multiplier = 2.5;
   m_NumberOfIterations = 4;
-  m_Seed = IndexType::ZeroIndex;
+  m_Seed.Fill(0);
   m_ReplaceValue = NumericTraits<OutputImagePixelType>::One;
 }
 

@@ -33,7 +33,7 @@ NeighborhoodConnectedImageFilter<TInputImage, TOutputImage>
 {
   m_Lower = NumericTraits<InputImagePixelType>::NonpositiveMin();
   m_Upper = NumericTraits<InputImagePixelType>::max();
-  m_Seed = IndexType::ZeroIndex;
+  m_Seed.Fill(0);
   m_ReplaceValue = NumericTraits<OutputImagePixelType>::One;
   m_Radius.Fill(1);
 }

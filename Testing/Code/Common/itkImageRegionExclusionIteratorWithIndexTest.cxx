@@ -44,7 +44,7 @@ int itkImageRegionExclusionIteratorWithIndexTest(int, char**)
   size[2] = 7;
 
   IndexImageType::IndexType start;
-  start = IndexImageType::IndexType::ZeroIndex;
+  start.Fill(0);
 
   IndexImageType::RegionType region;
   region.SetIndex( start );

@@ -73,7 +73,7 @@ int itkImageToParametricSpaceFilterTest(int, char**)
   ImageType::SizeType  size;
   ImageType::IndexType start;
 
-  start = IndexType::ZeroIndex;
+  start.Fill(0);
   size[0] = 10;
   size[1] = 10;
 

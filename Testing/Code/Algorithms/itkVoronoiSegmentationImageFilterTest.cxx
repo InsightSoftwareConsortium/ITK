@@ -35,7 +35,9 @@ int itkVoronoiSegmentationImageFilterTest(int, char**){
   VorSeg::Pointer testVorseg(VorSeg::New());
   UShortImage::Pointer inputIMG = UShortImage::New();
   UShortImage::SizeType size={{WIDTH,HEIGHT}};
-  UShortImage::IndexType index=UShortImage::IndexType::ZeroIndex;
+  UShortImage::IndexType index;
+  index.Fill(0);
+
   UShortImage::RegionType region;
 
   region.SetSize(size);

@@ -32,8 +32,8 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>
 ::IsolatedConnectedImageFilter()
 {
   m_Lower = NumericTraits<InputImagePixelType>::NonpositiveMin();
-  m_Seed1 = IndexType::ZeroIndex;
-  m_Seed2 = IndexType::ZeroIndex;
+  m_Seed1.Fill(0);
+  m_Seed2.Fill(0);
   m_ReplaceValue = NumericTraits<OutputImagePixelType>::One;
 }
 

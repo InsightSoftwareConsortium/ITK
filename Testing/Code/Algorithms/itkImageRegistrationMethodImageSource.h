@@ -76,7 +76,8 @@ const ParametersType & GetActualParameters(void) const
 
 void GenerateImages( const typename MovingImageType::SizeType & size )
 {
-  MovingImageType::IndexType index = MovingImageType::IndexType::ZeroIndex;
+  MovingImageType::IndexType index;
+  index.Fill(0);
   MovingImageType::RegionType region;
   region.SetSize( size );
   region.SetIndex( index );

@@ -71,7 +71,9 @@ unsigned int test_regiongrowKLM2D()
 
   ImageType::SizeType ImageSize = {{ IMGWIDTH , IMGHEIGHT }};
 
-  ImageType::IndexType index = ImageType::IndexType::ZeroIndex;
+  ImageType::IndexType index;
+  index.Fill(0);
+
   ImageType::RegionType region;
 
   region.SetSize( ImageSize );
@@ -283,7 +285,9 @@ unsigned int test_regiongrowKLM3D()
 
   ImageType::SizeType ImageSize = {{ IMGWIDTH , IMGHEIGHT, NFRAMES3D }};
 
-  ImageType::IndexType index = ImageType::IndexType::ZeroIndex;
+  ImageType::IndexType index;
+  index.Fill(0);
+
   ImageType::RegionType region;
 
   region.SetSize( ImageSize );

@@ -1541,7 +1541,8 @@ void VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
   prow = m_Size[1];
   pcol = m_Size[0];
 
-  IndexType index = IndexType::ZeroIndex;
+  IndexType index;
+  index.Fill(0);
 
   UShortImage::RegionType region;
   region.SetSize(m_Size);

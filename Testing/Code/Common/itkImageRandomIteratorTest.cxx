@@ -46,7 +46,7 @@ int itkImageRandomIteratorTest(int, char**)
   unsigned long numberOfSamples = 10;
 
   ImageType::IndexType start;
-  start = ImageType::IndexType::ZeroIndex;
+  start.Fill(0);
 
   ImageType::RegionType region;
   region.SetIndex( start );

@@ -136,7 +136,7 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
   typedef typename TOutputImage::IndexType   IndexType;
 
   IndexType start;
-  start = IndexType::ZeroIndex;
+  start.Fill(0);
 
   ImageRegionType region;
   region.SetSize(dimSize);
@@ -181,7 +181,7 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
 
   typedef typename TOutputImage::IndexType   IndexType;
   IndexType start;
-  start = IndexType::ZeroIndex;
+  start.Fill(0);
   for(unsigned int i = 0; i < start.GetIndexDimension(); ++i)
     {
     ioStart[i] = start[i];

@@ -40,9 +40,11 @@ int itkFastMarchingExtensionImageFilterTest(int, char**)
   NodeType node;
 
   FloatImage::OffsetType offset0 = {{28,35}};
-  
+  itk::Index<2> index;
+  index.Fill(0);
+
   node.SetValue( 0.0 );
-  node.SetIndex( itk::Index<2>::ZeroIndex + offset0 );
+  node.SetIndex( index + offset0 );
   trialPoints->InsertElement(0, node);
   
   marcher->SetTrialPoints( trialPoints );
