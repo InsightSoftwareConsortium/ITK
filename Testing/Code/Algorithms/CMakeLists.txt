@@ -14,6 +14,7 @@ ENDIF( CXX_TEST_PATH )
 
 ADD_TEST(itkAntiAliasBinaryImageFilterTest ${ALGORITHMS_TESTS} itkAntiAliasBinaryImageFilterTest)
 ADD_TEST(itkBinaryMinMaxCurvatureFlowImageFilterTest ${ALGORITHMS_TESTS} itkBinaryMinMaxCurvatureFlowImageFilterTest )
+ADD_TEST(itkBinaryMask3DMeshSourceTest ${ALGORITHMS_TESTS} itkBinaryMask3DMeshSourceTest )
 ADD_TEST(itkBallonForce3DFilterTest ${ALGORITHMS_TESTS} itkBallonForce3DFilterTest )
 ADD_TEST(itkCurvatureFlowTest ${ALGORITHMS_TESTS} itkCurvatureFlowTest)
 ADD_TEST(itkDemonsRegistrationFilterTest ${ALGORITHMS_TESTS} itkDemonsRegistrationFilterTest)
@@ -77,6 +78,7 @@ ADD_TEST(itkWatershedImageFilterTest ${ALGORITHMS_TESTS} itkWatershedImageFilter
 SET(AlgorithmsTest_SRCS
 itkAntiAliasBinaryImageFilterTest.cxx
 itkBinaryMinMaxCurvatureFlowImageFilterTest.cxx
+itkBinaryMask3DMeshSourceTest.cxx
 itkBallonForce3DFilterTest.cxx
 itkCurvatureFlowTest.cxx
 itkDemonsRegistrationFilterTest.cxx
