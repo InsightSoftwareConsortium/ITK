@@ -518,6 +518,7 @@ int itkMeshTest(int, char* [] )
   bbox->ComputeBoundingBox();
   std::cout << bbox << std::endl;
 
+  std::cout << mesh << std::endl;
 
   return 0;  
 }
