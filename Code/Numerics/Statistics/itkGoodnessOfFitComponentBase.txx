@@ -377,7 +377,7 @@ GoodnessOfFitComponentBase< TInputHistogram >
 }
 
 template< class TInputSample >
-GoodnessOfFitComponentBase< TInputSample >::HistogramType*
+typename GoodnessOfFitComponentBase< TInputSample >::HistogramType*
 GoodnessOfFitComponentBase< TInputSample >
 ::GetObservedHistogram()
 {
@@ -386,7 +386,7 @@ GoodnessOfFitComponentBase< TInputSample >
 }
 
 template< class TInputSample >
-GoodnessOfFitComponentBase< TInputSample >::HistogramType*
+typename GoodnessOfFitComponentBase< TInputSample >::HistogramType*
 GoodnessOfFitComponentBase< TInputSample >
 ::GetExpectedHistogram()
 {

@@ -48,7 +48,7 @@ HausdorffDistanceImageFilter<TInputImage1, TInputImage2>
 
 
 template<class TInputImage1, class TInputImage2>
-const HausdorffDistanceImageFilter<TInputImage1, TInputImage2>
+const typename HausdorffDistanceImageFilter<TInputImage1, TInputImage2>
 ::InputImage2Type *
 HausdorffDistanceImageFilter<TInputImage1, TInputImage2>
 ::GetInput2()

@@ -50,7 +50,7 @@ DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>
 
 
 template<class TInputImage1, class TInputImage2>
-const DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>
+const typename DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>
 ::InputImage2Type *
 DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>
 ::GetInput2()

@@ -54,7 +54,7 @@ ConicShellInteriorExteriorSpatialFunction<VDimension, TInput>
 }
 
 template <unsigned int VDimension, typename TInput>
-ConicShellInteriorExteriorSpatialFunction<VDimension, TInput>::OutputType
+typename ConicShellInteriorExteriorSpatialFunction<VDimension, TInput>::OutputType
 ConicShellInteriorExteriorSpatialFunction<VDimension, TInput>
 ::Evaluate(const InputType& position) const
 {

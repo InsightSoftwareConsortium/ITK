@@ -103,7 +103,7 @@ NullImageToImageFilterDriver<TInputImage, TOutputImage>
 {
   for (unsigned int i=0; i < InputPixelDimension; ++i)
     {
-    pixel[i] = NumericTraits<PixelTraits<InputPixelType>::ValueType>::Zero;
+    pixel[i] = NumericTraits<typename PixelTraits<InputPixelType>::ValueType>::Zero;
     }
 }
 
@@ -155,7 +155,7 @@ NullImageToImageFilterDriver<TInputImage, TOutputImage>
             << m_Filter->GetOutput() << std::endl;
 
   typedef ImageToImageFilter<TInputImage, TOutputImage> ImageFilterType;
-  ImageFilterType::Pointer sourceBefore = 
+  typename ImageFilterType::Pointer sourceBefore = 
      dynamic_cast< ImageFilterType * >( m_Filter->GetOutput()->GetSource().GetPointer() );
   
   // Execute the filter
@@ -167,7 +167,7 @@ NullImageToImageFilterDriver<TInputImage, TOutputImage>
   std::cout << "Output object after filter execution" << std::endl
             << m_Filter->GetOutput() << std::endl;
   
-  ImageFilterType::Pointer sourceAfter = 
+  typename ImageFilterType::Pointer sourceAfter = 
     dynamic_cast< ImageFilterType * >( m_Filter->GetOutput()->GetSource().GetPointer() );
 
   std::cout << sourceBefore.GetPointer() << ", " << sourceAfter.GetPointer() << std::endl;

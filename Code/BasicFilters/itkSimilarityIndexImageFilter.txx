@@ -48,7 +48,7 @@ SimilarityIndexImageFilter<TInputImage1, TInputImage2>
 
 
 template<class TInputImage1, class TInputImage2>
-const SimilarityIndexImageFilter<TInputImage1, TInputImage2>
+const typename SimilarityIndexImageFilter<TInputImage1, TInputImage2>
 ::InputImage2Type *
 SimilarityIndexImageFilter<TInputImage1, TInputImage2>
 ::GetInput2()

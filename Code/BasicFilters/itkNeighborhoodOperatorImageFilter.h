@@ -73,6 +73,7 @@ public:
   /** Image typedef support. */
   typedef TInputImage  InputImageType;
   typedef TOutputImage OutputImageType;
+  typedef typename InputImageType::Pointer InputImagePointer;
   
   /** Typedef for generic boundary condition pointer. */
   typedef ImageBoundaryCondition<OutputImageType> *

@@ -108,9 +108,9 @@ BilateralImageFilter<TInputImage, TOutputImage>
     domainKernelSize[i] = 2*radius[i] + 1;
     }
 
-  GaussianImageSource<GaussianImageType>::Pointer gaussianImage;
-  GaussianImageSource<GaussianImageType>::ArrayType mean;
-  GaussianImageSource<GaussianImageType>::ArrayType sigma;
+  typename GaussianImageSource<GaussianImageType>::Pointer gaussianImage;
+  typename GaussianImageSource<GaussianImageType>::ArrayType mean;
+  typename GaussianImageSource<GaussianImageType>::ArrayType sigma;
   
   gaussianImage = GaussianImageSource<GaussianImageType>::New();
   gaussianImage->SetSize(domainKernelSize.GetSize());
@@ -164,7 +164,7 @@ BilateralImageFilter<TInputImage, TOutputImage>
   ZeroFluxNeumannBoundaryCondition<TInputImage> BC;
 
   // Find the boundary "faces"
-  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList;
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList;
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType> fC;
   faceList = fC(this->GetInput(), outputRegionForThread,
                 m_GaussianKernel.GetRadius());

@@ -65,7 +65,7 @@ QuadraticEdgeCell< TCellInterface >
  * Get the number of boundary entities of the given dimension.
  */
 template <typename TCellInterface>
-QuadraticEdgeCell< TCellInterface >::CellFeatureCount
+typename QuadraticEdgeCell< TCellInterface >::CellFeatureCount
 QuadraticEdgeCell< TCellInterface >
 ::GetNumberOfBoundaryFeatures(int dimension) const
 {
@@ -173,7 +173,7 @@ QuadraticEdgeCell< TCellInterface >
  * Get a begin iterator to the list of point identifiers used by the cell.
  */
 template <typename TCellInterface>
-QuadraticEdgeCell< TCellInterface >::PointIdIterator
+typename QuadraticEdgeCell< TCellInterface >::PointIdIterator
 QuadraticEdgeCell< TCellInterface >
 ::PointIdsBegin(void)
 {
@@ -187,7 +187,7 @@ QuadraticEdgeCell< TCellInterface >
  * by the cell.
  */
 template <typename TCellInterface>
-QuadraticEdgeCell< TCellInterface >::PointIdConstIterator
+typename QuadraticEdgeCell< TCellInterface >::PointIdConstIterator
 QuadraticEdgeCell< TCellInterface >
 ::PointIdsBegin(void) const
 {
@@ -200,7 +200,7 @@ QuadraticEdgeCell< TCellInterface >
  * Get an end iterator to the list of point identifiers used by the cell.
  */
 template <typename TCellInterface>
-QuadraticEdgeCell< TCellInterface >::PointIdIterator
+typename QuadraticEdgeCell< TCellInterface >::PointIdIterator
 QuadraticEdgeCell< TCellInterface >
 ::PointIdsEnd(void)
 {
@@ -214,7 +214,7 @@ QuadraticEdgeCell< TCellInterface >
  * by the cell.
  */
 template <typename TCellInterface>
-QuadraticEdgeCell< TCellInterface >::PointIdConstIterator
+typename QuadraticEdgeCell< TCellInterface >::PointIdConstIterator
 QuadraticEdgeCell< TCellInterface >
 ::PointIdsEnd(void) const
 {
@@ -227,7 +227,7 @@ QuadraticEdgeCell< TCellInterface >
  * Get the number of vertices for this line.
  */
 template <typename TCellInterface>
-QuadraticEdgeCell< TCellInterface >::CellFeatureCount
+typename QuadraticEdgeCell< TCellInterface >::CellFeatureCount
 QuadraticEdgeCell< TCellInterface >
 ::GetNumberOfVertices(void) const
 {

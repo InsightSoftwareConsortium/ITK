@@ -71,6 +71,7 @@ public:
   typedef typename Superclass::MeanType MeanType ;
   typedef typename Superclass::StandardDeviationType StandardDeviationType ;
   typedef typename Superclass::ResampledSampleType ResampledSampleType ;
+  typedef typename Superclass::ProjectionAxisArrayType ProjectionAxisArrayType;
   typedef Array< double > ParametersType ;
 
   /** Weight function type. The density values are used as weights of 

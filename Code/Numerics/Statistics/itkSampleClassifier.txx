@@ -112,7 +112,7 @@ SampleClassifier< TSample >
 }
 
 template< class TSample >
-SampleClassifier< TSample >::OutputType*
+typename SampleClassifier< TSample >::OutputType*
 SampleClassifier< TSample >
 ::GetOutput() 
 {

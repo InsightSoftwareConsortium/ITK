@@ -36,7 +36,7 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
   OutputPixelType    label,max_label = 0;
   IndexType          index,current;
   SizeType           size;
-  ListType::iterator  iter;
+  typename ListType::iterator  iter;
   RegionType region;
 
   typename TOutputImage::Pointer output = this->GetOutput();

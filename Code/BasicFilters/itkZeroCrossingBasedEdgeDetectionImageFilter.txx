@@ -91,12 +91,12 @@ ZeroCrossingBasedEdgeDetectionImageFilter< TInputImage, TOutputImage >
   typename  InputImageType::ConstPointer input  = this->GetInput();
   
   // Create the filters that are needed
-  DiscreteGaussianImageFilter<TInputImage, TOutputImage>::Pointer
+  typename DiscreteGaussianImageFilter<TInputImage, TOutputImage>::Pointer
     gaussianFilter
     = DiscreteGaussianImageFilter<TInputImage, TOutputImage>::New();
-  LaplacianImageFilter<TInputImage, TOutputImage>::Pointer  laplacianFilter 
+  typename LaplacianImageFilter<TInputImage, TOutputImage>::Pointer  laplacianFilter 
     =  LaplacianImageFilter<TInputImage, TOutputImage>::New();
-  ZeroCrossingImageFilter<TInputImage, TOutputImage>:: Pointer
+  typename ZeroCrossingImageFilter<TInputImage, TOutputImage>:: Pointer
     zerocrossingFilter =
     ZeroCrossingImageFilter<TInputImage,TOutputImage>::New(); 
   
@@ -143,10 +143,10 @@ ZeroCrossingBasedEdgeDetectionImageFilter< TInputImage, TOutputImage >
   os << "]" << std::endl;
 
   os << indent << "ForegroundValue: "
-     << static_cast<NumericTraits<OutputImagePixelType>::PrintType>(m_ForegroundValue)
+     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ForegroundValue)
      << std::endl;
   os << indent << "BackgroundValue: "
-     << static_cast<NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue)
+     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue)
      << std::endl;
 }
 

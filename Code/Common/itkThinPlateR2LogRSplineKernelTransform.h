@@ -69,6 +69,7 @@ public:
   typedef typename Superclass::OutputVectorType OutputVectorType;
   typedef typename Superclass::InputCovariantVectorType InputCovariantVectorType;
   typedef typename Superclass::OutputCovariantVectorType OutputCovariantVectorType;
+  typedef typename Superclass::PointsIterator PointsIterator;
     
 
 protected:

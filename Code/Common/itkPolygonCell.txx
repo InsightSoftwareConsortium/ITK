@@ -70,7 +70,7 @@ PolygonCell< TCellInterface >
  * Get the number of boundary features of the given dimension.
  */
 template <typename TCellInterface>
-PolygonCell< TCellInterface >::CellFeatureCount
+typename PolygonCell< TCellInterface >::CellFeatureCount
 PolygonCell< TCellInterface >
 ::GetNumberOfBoundaryFeatures(int dimension) const
 {
@@ -259,7 +259,7 @@ PolygonCell< TCellInterface >
  * Get a begin iterator to the list of point identifiers used by the cell.
  */
 template <typename TCellInterface>
-PolygonCell< TCellInterface >::PointIdIterator
+typename PolygonCell< TCellInterface >::PointIdIterator
 PolygonCell< TCellInterface >
 ::PointIdsBegin(void)
 {
@@ -273,7 +273,7 @@ PolygonCell< TCellInterface >
  * by the cell.
  */ 
 template <typename TCellInterface>
-PolygonCell< TCellInterface >::PointIdConstIterator
+typename PolygonCell< TCellInterface >::PointIdConstIterator
 PolygonCell< TCellInterface >
 ::PointIdsBegin(void) const
 {
@@ -286,7 +286,7 @@ PolygonCell< TCellInterface >
  * Get an end iterator to the list of point identifiers used by the cell.
  */ 
 template <typename TCellInterface>
-PolygonCell< TCellInterface >::PointIdIterator
+typename PolygonCell< TCellInterface >::PointIdIterator
 PolygonCell< TCellInterface >
 ::PointIdsEnd(void)
 {
@@ -300,7 +300,7 @@ PolygonCell< TCellInterface >
  * by the cell.
  */ 
 template <typename TCellInterface>
-PolygonCell< TCellInterface >::PointIdConstIterator
+typename PolygonCell< TCellInterface >::PointIdConstIterator
 PolygonCell< TCellInterface >
 ::PointIdsEnd(void) const
 {
@@ -313,7 +313,7 @@ PolygonCell< TCellInterface >
  * Get the number of vertices defining the Polygon.
  */
 template <typename TCellInterface>
-PolygonCell< TCellInterface >::CellFeatureCount
+typename PolygonCell< TCellInterface >::CellFeatureCount
 PolygonCell< TCellInterface >
 ::GetNumberOfVertices(void) const
 {
@@ -325,7 +325,7 @@ PolygonCell< TCellInterface >
  * Get the number of edges defined for the Polygon.
  */
 template <typename TCellInterface>
-PolygonCell< TCellInterface >::CellFeatureCount
+typename PolygonCell< TCellInterface >::CellFeatureCount
 PolygonCell< TCellInterface >
 ::GetNumberOfEdges(void) const
 {

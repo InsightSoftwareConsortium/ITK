@@ -100,7 +100,7 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
   SmartNeighborhoodIteratorType b_iter;
 
   // Find the boundary "faces"
-  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList;
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList;
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType> fC;
   faceList = fC(this->GetInput(), outputRegionForThread, m_Kernel.GetRadius());
 

@@ -17,6 +17,8 @@
 #ifndef __itkGradientNDAnisotropicDiffusionFunction_txx_
 #define __itkGradientNDAnisotropicDiffusionFunction_txx_
 
+#include "itkNumericTraits.h"
+
 namespace itk {
 
 template<class TImage>
@@ -70,7 +72,7 @@ GradientNDAnisotropicDiffusionFunction<TImage>
 }
 
 template<class TImage>
-GradientNDAnisotropicDiffusionFunction<TImage>::PixelType
+typename GradientNDAnisotropicDiffusionFunction<TImage>::PixelType
 GradientNDAnisotropicDiffusionFunction<TImage>
 ::ComputeUpdate(const NeighborhoodType &it, void *globalData,
                 const FloatOffsetType& offset) const
@@ -83,14 +85,15 @@ GradientNDAnisotropicDiffusionFunction<TImage>
   double Cxd;
   
   // PixelType is scalar in this context
-  PixelType delta;
-  PixelType dx_forward;
-  PixelType dx_backward;
-  PixelType dx[ImageDimension];
-  PixelType dx_aug;
-  PixelType dx_dim;
+  typedef typename NumericTraits<PixelType>::RealType PixelRealType;  
+  PixelRealType delta;
+  PixelRealType dx_forward;
+  PixelRealType dx_backward;
+  PixelRealType dx[ImageDimension];
+  PixelRealType dx_aug;
+  PixelRealType dx_dim;
 
-  delta = NumericTraits<PixelType>::Zero;
+  delta = NumericTraits<PixelRealType>::Zero;
   
   // Calculate the centralized derivatives for each dimension.
   for (i = 0; i < ImageDimension; i++)
@@ -124,18 +127,18 @@ GradientNDAnisotropicDiffusionFunction<TImage>
       Cxd= exp(( vnl_math_sqr( dx_backward) + accum_d)/ m_K );
 
       // Conductance modified first order derivatives.
-      dx_forward  *= Cx;
-      dx_backward *= Cxd;
+      dx_forward  = dx_forward * Cx;
+      dx_backward = dx_backward * Cxd;
 
       // Conductance modified second order derivative.
       delta += dx_forward - dx_backward;
     }
   
-  return delta;
+  return static_cast<PixelType>(delta);
 }
 
 template<class TImage>
-GradientNDAnisotropicDiffusionFunction<TImage>::PixelType
+typename GradientNDAnisotropicDiffusionFunction<TImage>::PixelType
 GradientNDAnisotropicDiffusionFunction<TImage>
 ::ComputeUpdate(const BoundaryNeighborhoodType &it, void *globalData,
                 const FloatOffsetType& offset) const
@@ -148,14 +151,15 @@ GradientNDAnisotropicDiffusionFunction<TImage>
   double Cxd;
   
   // PixelType is scalar in this context
-  PixelType delta;
-  PixelType dx_forward;
-  PixelType dx_backward;
-  PixelType dx[ImageDimension];
-  PixelType dx_aug;
-  PixelType dx_dim;
+  typedef typename NumericTraits<PixelType>::RealType PixelRealType;  
+  PixelRealType delta;
+  PixelRealType dx_forward;
+  PixelRealType dx_backward;
+  PixelRealType dx[ImageDimension];
+  PixelRealType dx_aug;
+  PixelRealType dx_dim;
 
-  delta = NumericTraits<PixelType>::Zero;
+  delta = NumericTraits<PixelRealType>::Zero;
   
   // Calculate the centralized derivatives for each dimension.
   for (i = 0; i < ImageDimension; i++)
@@ -196,7 +200,7 @@ GradientNDAnisotropicDiffusionFunction<TImage>
       delta += dx_forward - dx_backward;
     }
   
-  return delta;
+  return static_cast<PixelType>(delta);
 }
 
 } // end namespace itk

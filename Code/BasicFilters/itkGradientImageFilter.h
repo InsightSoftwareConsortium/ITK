@@ -62,7 +62,9 @@ public:
 
   /** Convenient typedefs for simplifying declarations. */
   typedef TInputImage InputImageType;
+  typedef typename InputImageType::Pointer InputImagePointer;
   typedef Image<CovariantVector<TOutputValueType, itkGetStaticConstMacro(OutputImageDimension)>,  itkGetStaticConstMacro(OutputImageDimension)> OutputImageType;
+  typedef typename OutputImageType::Pointer OutputImagePointer;
 
   /** Standard class typedefs. */
   typedef ImageToImageFilter< InputImageType, OutputImageType> Superclass;

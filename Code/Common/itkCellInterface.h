@@ -32,7 +32,7 @@
   static int GetTopologyId() {return TopologyId;}\
   virtual void Accept(unsigned long cellid, typename CellInterface<PixelType, CellTraits>::MultiVisitor* mv)\
     {\
-      CellInterfaceVisitor<PixelType, CellTraits>::Pointer v = mv->GetVisitor(TopologyId);\
+      typename CellInterfaceVisitor<PixelType, CellTraits>::Pointer v = mv->GetVisitor(TopologyId);\
       if(v)\
         {\
         v->VisitFromCell(cellid, this);\

@@ -46,7 +46,7 @@ NeighborhoodSampler< TSample >
 }
 
 template< class TSample >
-NeighborhoodSampler< TSample >::OutputType*
+typename NeighborhoodSampler< TSample >::OutputType*
 NeighborhoodSampler< TSample >
 ::GetOutput()
 {

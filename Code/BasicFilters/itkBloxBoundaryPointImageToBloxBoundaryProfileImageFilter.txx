@@ -289,7 +289,7 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
   for ( bpIt.GoToBegin(); !bpIt.IsAtEnd(); ++bpIt)
     {
     // The iterator for accessing linked list info
-    BloxBoundaryPointPixel<NDimensions>::iterator bpiterator;
+    typename BloxBoundaryPointPixel<NDimensions>::iterator bpiterator;
 
     // Walk through all of the elements at the pixel
     for (bpiterator = bpIt.Value().begin(); bpiterator != bpIt.Value().end(); ++bpiterator)
@@ -306,10 +306,10 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
       typedef SymmetricEllipsoidInteriorExteriorSpatialFunction<NDimensions> FunctionType;
   
       // Point position typedef
-      typedef FunctionType::InputType SymEllipsoidFunctionVectorType;
+      typedef typename FunctionType::InputType SymEllipsoidFunctionVectorType;
 
       // Create a symmetric ellipsoid spatial function for the source image
-      FunctionType::Pointer spatialFunc = FunctionType::New();
+      typename FunctionType::Pointer spatialFunc = FunctionType::New();
 
       // Set the origin of the spatial function to the current boundary point location
       PositionType spatialFunctionOrigin = (*bpiterator)->GetPhysicalPosition();

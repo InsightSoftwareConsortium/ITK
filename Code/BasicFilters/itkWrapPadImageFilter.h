@@ -52,6 +52,12 @@ public:
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(WrapPadImageFilter, PadImageFilter);
+
+  typedef typename Superclass::InputImageType InputImageType;
+  typedef typename Superclass::OutputImageType OutputImageType;
+  typedef typename Superclass::InputImagePointer InputImagePointer;
+  typedef typename Superclass::OutputImagePointer OutputImagePointer;
+  typedef typename Superclass::InputImageConstPointer InputImageConstPointer;
   
   /** Typedef to describe the output image region type. */
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;

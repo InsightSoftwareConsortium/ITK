@@ -54,6 +54,7 @@ public:
 
   typedef TInputImage InputImageType;
   typedef typename InputImageType::Pointer InputImagePointer;
+  typedef typename InputImageType::ConstPointer InputImageConstPointer;
   typedef typename InputImageType::RegionType InputImageRegionType; 
   typedef typename InputImageType::PixelType InputImagePixelType; 
   typedef typename InputImageType::IndexType IndexType;

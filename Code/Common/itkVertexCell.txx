@@ -67,7 +67,7 @@ VertexCell< TCellInterface >
  * A vertex has no boundary entities of any dimension.
  */
 template <typename TCellInterface>
-VertexCell< TCellInterface >::CellFeatureCount
+typename VertexCell< TCellInterface >::CellFeatureCount
 VertexCell< TCellInterface >
 ::GetNumberOfBoundaryFeatures(int) const
 {
@@ -148,7 +148,7 @@ VertexCell< TCellInterface >
  * Get a begin iterator to the list of point identifiers used by the cell.
  */
 template <typename TCellInterface>
-VertexCell< TCellInterface >::PointIdIterator
+typename VertexCell< TCellInterface >::PointIdIterator
 VertexCell< TCellInterface >
 ::PointIdsBegin(void)
 {
@@ -162,7 +162,7 @@ VertexCell< TCellInterface >
  * by the cell.
  */
 template <typename TCellInterface>
-VertexCell< TCellInterface >::PointIdConstIterator
+typename VertexCell< TCellInterface >::PointIdConstIterator
 VertexCell< TCellInterface >
 ::PointIdsBegin(void) const
 {
@@ -175,7 +175,7 @@ VertexCell< TCellInterface >
  * Get an end iterator to the list of point identifiers used by the cell.
  */
 template <typename TCellInterface>
-VertexCell< TCellInterface >::PointIdIterator
+typename VertexCell< TCellInterface >::PointIdIterator
 VertexCell< TCellInterface >
 ::PointIdsEnd(void)
 {
@@ -189,7 +189,7 @@ VertexCell< TCellInterface >
  * by the cell.
  */
 template <typename TCellInterface>
-VertexCell< TCellInterface >::PointIdConstIterator
+typename VertexCell< TCellInterface >::PointIdConstIterator
 VertexCell< TCellInterface >
 ::PointIdsEnd(void) const
 {
@@ -215,7 +215,7 @@ VertexCell< TCellInterface >
  * Get the identifier of the point defining the vertex.
  */
 template <typename TCellInterface>
-VertexCell< TCellInterface >::PointIdentifier
+typename VertexCell< TCellInterface >::PointIdentifier
 VertexCell< TCellInterface >
 ::GetPointId(void)
 {

@@ -41,13 +41,13 @@ class IteratorTester
       {
       m_Image = ImageType::New();
       
-      ImageType::SizeType size;
+      typename ImageType::SizeType size;
       size.Fill(100);
       
-      ImageType::IndexType start;
+      typename ImageType::IndexType start;
       start.Fill(0);
       
-      ImageType::RegionType region;
+      typename ImageType::RegionType region;
       region.SetSize( size );
       region.SetIndex( start );
       

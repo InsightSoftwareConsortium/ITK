@@ -89,7 +89,7 @@ public:
    * example, and RGB pixel of unsigned char would have a 
    * component size of 1 byte. */
   virtual unsigned int GetComponentSize() const
-    {return sizeof(PixelTraits<PixelType>::ValueType);}
+    {return sizeof(typename PixelTraits<PixelType>::ValueType);}
 
   /*-------- This part of the interface deals with reading data. ------ */
 

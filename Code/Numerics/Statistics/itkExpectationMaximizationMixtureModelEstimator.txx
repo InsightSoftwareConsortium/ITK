@@ -63,7 +63,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
 }
 
 template< class TSample >
-ExpectationMaximizationMixtureModelEstimator< TSample >::ProportionVectorType*
+typename ExpectationMaximizationMixtureModelEstimator< TSample >::ProportionVectorType*
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::GetInitialProportions() 
 {
@@ -71,7 +71,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
 }
 
 template< class TSample >
-ExpectationMaximizationMixtureModelEstimator< TSample >::ProportionVectorType*
+typename ExpectationMaximizationMixtureModelEstimator< TSample >::ProportionVectorType*
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::GetProportions() 
 {
@@ -104,7 +104,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
 }
 
 template< class TSample >
-ExpectationMaximizationMixtureModelEstimator< TSample >::TERMINATION_CODE
+typename ExpectationMaximizationMixtureModelEstimator< TSample >::TERMINATION_CODE
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::GetTerminationCode()
 {
@@ -112,7 +112,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
 }
 
 template< class TSample >
-ExpectationMaximizationMixtureModelEstimator< TSample >::ComponentMembershipFunctionType* 
+typename ExpectationMaximizationMixtureModelEstimator< TSample >::ComponentMembershipFunctionType* 
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::GetComponentMembershipFunction(int componentIndex)
 {

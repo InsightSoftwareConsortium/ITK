@@ -156,7 +156,7 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
 ::MakeSegmentObject()
 {
   RegionType regionOUT = this->m_SegmentObject->GetRequestedRegion();
-  UShortImage::RegionType regionIN = this->m_FuzzyScene->GetRequestedRegion();
+  typename UShortImage::RegionType regionIN = this->m_FuzzyScene->GetRequestedRegion();
   
   double activeThreshold = (NumericTraits<unsigned short>::max()) * m_Threshold;
 
@@ -187,7 +187,7 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
   m_Size = m_InputImage->GetLargestPossibleRegion().GetSize();
   IndexType index;
   index.Fill(0);
-  UShortImage::RegionType region;
+  typename UShortImage::RegionType region;
   region.SetSize(m_Size);
   region.SetIndex(index);
   m_FuzzyScene = UShortImage::New();  

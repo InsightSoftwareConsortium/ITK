@@ -77,7 +77,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
  * Access routine to get the cell links container.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-Mesh<TPixelType, VDimension, TMeshTraits>::CellLinksContainerPointer
+typename Mesh<TPixelType, VDimension, TMeshTraits>::CellLinksContainerPointer
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::GetCellLinks(void)
 {
@@ -109,7 +109,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
  * Access routine to get the cells container.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-Mesh<TPixelType, VDimension, TMeshTraits>::CellsContainerPointer
+typename Mesh<TPixelType, VDimension, TMeshTraits>::CellsContainerPointer
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::GetCells(void)
 {
@@ -139,7 +139,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
  * Access routine to get the cell data container.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-Mesh<TPixelType, VDimension, TMeshTraits>::CellDataContainerPointer
+typename Mesh<TPixelType, VDimension, TMeshTraits>::CellDataContainerPointer
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::GetCellData(void)
 {
@@ -173,7 +173,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
  * Access routine to get the boundaries container for a given dimension.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-Mesh<TPixelType, VDimension, TMeshTraits>::BoundariesContainerPointer
+typename Mesh<TPixelType, VDimension, TMeshTraits>::BoundariesContainerPointer
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::GetBoundaries(int dimension)
 {
@@ -206,7 +206,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
  * Access routine to get the boundary data container for a given dimension.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-Mesh<TPixelType, VDimension, TMeshTraits>::BoundaryDataContainerPointer
+typename Mesh<TPixelType, VDimension, TMeshTraits>::BoundaryDataContainerPointer
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::GetBoundaryData(int dimension)
 {
@@ -243,7 +243,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
  * dimension.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-Mesh<TPixelType, VDimension, TMeshTraits>::BoundaryAssignmentsContainerPointer
+typename Mesh<TPixelType, VDimension, TMeshTraits>::BoundaryAssignmentsContainerPointer
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::GetBoundaryAssignments(int dimension)
 {
@@ -580,7 +580,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
  * on the cell with the given identifier.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-Mesh<TPixelType, VDimension, TMeshTraits>::CellFeatureCount 
+typename Mesh<TPixelType, VDimension, TMeshTraits>::CellFeatureCount 
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::GetNumberOfCellBoundaryFeatures(int dimension, CellIdentifier cellId) const
 {
@@ -633,7 +633,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
  * Get the bounding box of the cell with the given identifier.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-Mesh<TPixelType, VDimension, TMeshTraits>::BoundingBoxPointer 
+typename Mesh<TPixelType, VDimension, TMeshTraits>::BoundingBoxPointer 
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::GetCellBoundingBox(CellIdentifier cellId, Mesh<TPixelType, VDimension, TMeshTraits>::BoundingBoxPointer bbox)
 {
@@ -774,7 +774,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
       {
       cellSet->erase(cellSet->begin(), cellSet->end());
       
-      for(BoundaryType::UsingCellsContainerIterator usingCell = 
+      for(typename BoundaryType::UsingCellsContainerIterator usingCell = 
             boundary->UsingCellsBegin() ;
           usingCell != boundary->UsingCellsEnd() ; ++usingCell)
         {
@@ -824,7 +824,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
    * Now get the cell links for the first point.  Also allocate a second set
    * for temporary storage during set intersections below.
    */
-  BoundaryType::PointIdConstIterator pointId = boundary->PointIdsBegin();
+  typename BoundaryType::PointIdConstIterator pointId = boundary->PointIdsBegin();
   PointCellLinksContainer*  currentCells =
     new PointCellLinksContainer(m_CellLinksContainer->GetElement(*pointId++));
   PointCellLinksContainer*  tempCells = new PointCellLinksContainer();
@@ -1001,7 +1001,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
      * For each point, make sure the cell links container has its index,
      * and then insert the cell ID into the point's set.
      */
-    for(CellType::PointIdConstIterator pointId = cellptr->PointIdsBegin() ;
+    for(typename CellType::PointIdConstIterator pointId = cellptr->PointIdsBegin() ;
         pointId != cellptr->PointIdsEnd() ; ++pointId)
       {
       (m_CellLinksContainer->CreateElementAt(*pointId)).insert(cellId);

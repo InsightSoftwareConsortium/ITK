@@ -112,7 +112,7 @@ BloxBoundaryPointToCoreAtomImageFilter< dim >
   for ( imageIt.GoToBegin(); !imageIt.IsAtEnd(); ++imageIt)
     {
     // The iterator for accessing linked list info
-    itk::BloxBoundaryPointPixel<dim>::const_iterator bpiterator;
+    typename itk::BloxBoundaryPointPixel<dim>::const_iterator bpiterator;
 
     // Walk through all of the elements at the pixel
     for (bpiterator = imageIt.Value().begin(); bpiterator != imageIt.Value().end(); ++bpiterator)
@@ -153,9 +153,9 @@ BloxBoundaryPointToCoreAtomImageFilter< dim >
 
   //---------Create and initialize a conic shell spatial function-----------
   typedef itk::ConicShellInteriorExteriorSpatialFunction<NDimensions> FunctionType;
-  typedef FunctionType::GradientType FunctionGradientType;
+  typedef typename FunctionType::GradientType FunctionGradientType;
 
-  FunctionType::Pointer spatialFunc = FunctionType::New();
+  typename FunctionType::Pointer spatialFunc = FunctionType::New();
 
   // Set the properties of the conic shell
   spatialFunc->SetDistanceMin(m_DistanceMin);
@@ -206,7 +206,7 @@ BloxBoundaryPointToCoreAtomImageFilter< dim >
     for( sfi.GoToBegin(); !( sfi.IsAtEnd() ); ++sfi)
       {
       // The iterator for accessing linked list info
-      itk::BloxBoundaryPointPixel<NDimensions>::const_iterator bpiterator;
+      typename itk::BloxBoundaryPointPixel<NDimensions>::const_iterator bpiterator;
 
       // Walk through all of the elements at the pixel
       for (bpiterator = sfi.Get().begin(); bpiterator != sfi.Get().end(); ++bpiterator)

@@ -45,7 +45,7 @@ MeshSource<TOutputMesh>
  *
  */
 template<class TOutputMesh>
-MeshSource<TOutputMesh>::DataObjectPointer
+typename MeshSource<TOutputMesh>::DataObjectPointer
 MeshSource<TOutputMesh>
 ::MakeOutput(unsigned int idx)
 {
@@ -56,7 +56,7 @@ MeshSource<TOutputMesh>
  *
  */
 template<class TOutputMesh>
-MeshSource<TOutputMesh>::OutputMeshType *
+typename MeshSource<TOutputMesh>::OutputMeshType *
 MeshSource<TOutputMesh>
 ::GetOutput(void)
 {
@@ -74,7 +74,7 @@ MeshSource<TOutputMesh>
  *
  */
 template<class TOutputMesh>
-MeshSource<TOutputMesh>::OutputMeshType *
+typename MeshSource<TOutputMesh>::OutputMeshType *
 MeshSource<TOutputMesh>
 ::GetOutput(unsigned int idx)
 {

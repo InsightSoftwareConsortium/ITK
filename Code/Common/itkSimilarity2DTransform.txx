@@ -136,7 +136,7 @@ Similarity2DTransform<TScalarType>
 
 // Set parameters
 template<class TScalarType>
-const Similarity2DTransform<TScalarType>::JacobianType &
+const typename Similarity2DTransform<TScalarType>::JacobianType &
 Similarity2DTransform<TScalarType>::
 GetJacobian( const InputPointType & p ) const
 {

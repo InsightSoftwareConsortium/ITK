@@ -65,6 +65,7 @@ public:
   typedef typename OutputImageType::Pointer OutputImagePointer;
   typedef typename OutputImageType::RegionType OutputImageRegionType; 
   typedef typename OutputImageType::PixelType OutputImagePixelType; 
+  typedef typename Superclass::DataObjectPointer DataObjectPointer;
 
   /** Dimension of input image. */
   itkStaticConstMacro(InputImageDimension, unsigned int,

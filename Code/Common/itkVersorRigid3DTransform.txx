@@ -142,7 +142,7 @@ VersorRigid3DTransform<TScalarType>
 
 // Set parameters
 template<class TScalarType>
-const VersorRigid3DTransform<TScalarType>::JacobianType &
+const typename VersorRigid3DTransform<TScalarType>::JacobianType &
 VersorRigid3DTransform<TScalarType>::
 GetJacobian( const InputPointType & p ) const
 {

@@ -101,7 +101,7 @@ KdTreeGenerator< TSample >
 }
 
 template< class TSample >
-inline KdTreeGenerator< TSample >::KdTreeNodeType*
+inline typename KdTreeGenerator< TSample >::KdTreeNodeType*
 KdTreeGenerator< TSample >
 ::GenerateNonterminalNode(int beginIndex,
                           int endIndex,
@@ -166,7 +166,7 @@ KdTreeGenerator< TSample >
 }
 
 template< class TSample >
-inline KdTreeGenerator< TSample >::KdTreeNodeType*
+inline typename KdTreeGenerator< TSample >::KdTreeNodeType*
 KdTreeGenerator< TSample >
 ::GenerateTreeLoop(int beginIndex,
                    int endIndex,

@@ -72,7 +72,7 @@ InterpolateImageFilter<TInputImage,TOutputImage>
  * Get the second image
  */
 template <class TInputImage, class TOutputImage>
-const InterpolateImageFilter<TInputImage,TOutputImage>::InputImageType *
+const typename InterpolateImageFilter<TInputImage,TOutputImage>::InputImageType *
 InterpolateImageFilter<TInputImage,TOutputImage>
 ::GetInput2()
 {

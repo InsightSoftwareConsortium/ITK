@@ -55,10 +55,10 @@ RescaleIntensityImageFilter<TInputImage, TOutputImage>
   Superclass::PrintSelf(os,indent);
 
   os << indent << "Output Minimum: "
-     << static_cast<NumericTraits<OutputPixelType>::PrintType>(m_OutputMinimum)
+     << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_OutputMinimum)
      << std::endl;
   os << indent << "Output Maximum: "
-     << static_cast<NumericTraits<OutputPixelType>::PrintType>(m_OutputMaximum)
+     << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_OutputMaximum)
      << std::endl;
 }
 
@@ -79,7 +79,7 @@ RescaleIntensityImageFilter<TInputImage, TOutputImage>
 
   typedef MinimumMaximumImageCalculator< TInputImage >  CalculatorType;
   
-  CalculatorType::Pointer calculator = CalculatorType::New();
+  typename CalculatorType::Pointer calculator = CalculatorType::New();
 
   calculator->SetImage( this->GetInput() );
 

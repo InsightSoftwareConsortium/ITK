@@ -57,6 +57,11 @@ public:
   /** Type for representing coordinates. */
   typedef typename TInputMesh::CoordRepType  CoordRepType;
 
+  typedef TInputMesh InputMeshType;
+  typedef TOutputMesh OutputMeshType;
+  typedef typename InputMeshType::Pointer InputMeshPointer;
+  typedef typename OutputMeshType::Pointer OutputMeshPointer;
+  
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
   

@@ -91,6 +91,8 @@ public:
   itkNewMacro(Self);  
 
   /** Typedef to describe the output image region type. */
+  typedef typename TInputImage::Pointer InputImagePointer;
+  typedef typename TOutputImage::Pointer OutputImagePointer;
   typedef typename TOutputImage::RegionType OutputImageRegionType;
 
   /** Run-time type information (and related methods). */

@@ -70,13 +70,13 @@ BloxCoreAtomImage<dim>
   BloxCoreAtomPixel<NDimensions>* pPixel = 0;
 
   // Results of eigenanalysis from each pixel
-  BloxCoreAtomPixel<NDimensions>::EigenvalueType eigenvalues;
-  BloxCoreAtomPixel<NDimensions>::EigenvectorType eigenvectors;
+  typename BloxCoreAtomPixel<NDimensions>::EigenvalueType eigenvalues;
+  typename BloxCoreAtomPixel<NDimensions>::EigenvectorType eigenvectors;
 
   //TESTING
   // Results of eigenanalysis from each pixel
-  BloxCoreAtomPixel<NDimensions>::EigenvalueType sf_eigenvalues;
-  BloxCoreAtomPixel<NDimensions>::EigenvectorType sf_eigenvectors;
+  typename BloxCoreAtomPixel<NDimensions>::EigenvalueType sf_eigenvalues;
+  typename BloxCoreAtomPixel<NDimensions>::EigenvectorType sf_eigenvectors;
 
   unsigned int voterCount = 0;
   for(bloxIt.GoToBegin(); !bloxIt.IsAtEnd(); ++bloxIt)
@@ -118,7 +118,7 @@ BloxCoreAtomImage<dim>
 
     // Build the ellipsoid voting region
     typedef EllipsoidInteriorExteriorSpatialFunction<NDimensions, PositionType> VoteFunctionType;
-    VoteFunctionType::Pointer ellipsoid = VoteFunctionType::New();
+    typename VoteFunctionType::Pointer ellipsoid = VoteFunctionType::New();
 
     // Create an iterator to traverse the ellipsoid region
     typedef FloodFilledSpatialFunctionConditionalIterator
@@ -126,11 +126,11 @@ BloxCoreAtomImage<dim>
 
     // The seed position for the ellipsoid is the current pixel's index in data space
     // since this is always at the center of the voting ellipsoid
-    Self::IndexType seedPos = bloxIt.GetIndex();
+    typename Self::IndexType seedPos = bloxIt.GetIndex();
     
     // Figure out the center of the ellipsoid, which is the center
     // of the voting pixel
-    VoteFunctionType::InputType centerPosition;
+    typename VoteFunctionType::InputType centerPosition;
 
     ContinuousIndex<double, dim> contIndex;
 
@@ -152,7 +152,7 @@ BloxCoreAtomImage<dim>
     // Get the position of the voting blox
     typedef Point<double, NDimensions> TPosition;
     TPosition voterPosition;
-    Self::IndexType voterIndex = bloxIt.GetIndex();
+    typename Self::IndexType voterIndex = bloxIt.GetIndex();
     this->TransformIndexToPhysicalPoint(voterIndex, voterPosition);
 
     int voteeCount = 0;
@@ -163,13 +163,13 @@ BloxCoreAtomImage<dim>
     for( sfi.GoToBegin(); !( sfi.IsAtEnd() ); ++sfi)
       {
       TPosition voteePosition;
-      Self::IndexType voteeIndex = sfi.GetIndex();
+      typename Self::IndexType voteeIndex = sfi.GetIndex();
       //std::cerr << "voteeIndex "<< voteeIndex << std::endl ;
       
       this->TransformIndexToPhysicalPoint(voteeIndex, voteePosition);
 
       // vector from voting blox to current votee
-      TPosition::VectorType dbar = voterPosition - voteePosition;
+      typename TPosition::VectorType dbar = voterPosition - voteePosition;
       voteeCount ++;
 
       // The voting process and variables are explained in
@@ -263,8 +263,8 @@ BloxCoreAtomImage<dim>
   BloxCoreAtomPixel<NDimensions> pPixel;
 
   // Results of eigenanalysis from each pixel
-  BloxCoreAtomPixel<NDimensions>::EigenvalueType eigenvalues;
-  BloxCoreAtomPixel<NDimensions>::EigenvalueType veigenvalues;
+  typename BloxCoreAtomPixel<NDimensions>::EigenvalueType eigenvalues;
+  typename BloxCoreAtomPixel<NDimensions>::EigenvalueType veigenvalues;
 
   std::cerr << "Index\t# Core Atoms\tEigen Values\t\t\tMean CA Length\tVoted Eigen Values\n" 
             << "-----\t------------\t------------\t\t\t--------------\t------------------\n" << std::endl;

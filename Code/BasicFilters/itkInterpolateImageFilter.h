@@ -59,6 +59,10 @@ public:
   itkTypeMacro(InterpolateImageFilter, ImageToImageFilter);
 
   /** Inherit typedefs from Superclass */
+  typedef typename Superclass::InputImageType InputImageType;
+  typedef typename Superclass::InputImagePointer InputImagePointer;
+  typedef typename Superclass::OutputImageType OutputImageType;
+  typedef typename Superclass::OutputImagePointer OutputImagePointer;
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
 
   /** Number of dimensions. */

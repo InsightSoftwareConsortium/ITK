@@ -58,7 +58,7 @@ ObjectStore<TObjectType>
 }
 
 template <class TObjectType>
-ObjectStore<TObjectType>::ObjectType *
+typename ObjectStore<TObjectType>::ObjectType *
 ObjectStore<TObjectType>
 ::Borrow()
 {

@@ -70,6 +70,7 @@ public:
    */
   typedef TInputImage  InputImageType;
   typedef TOutputImage OutputImageType;
+  typedef typename InputImageType::Pointer InputImagePointer;
 
   /** 
    * Smart pointer typedef support 

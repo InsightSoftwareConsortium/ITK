@@ -65,7 +65,7 @@ QuadrilateralCell< TCellInterface >
  * Get the number of boundary features of the given dimension.
  */
 template <typename TCellInterface>
-QuadrilateralCell< TCellInterface >::CellFeatureCount
+typename QuadrilateralCell< TCellInterface >::CellFeatureCount
 QuadrilateralCell< TCellInterface >
 ::GetNumberOfBoundaryFeatures(int dimension) const
 {
@@ -191,7 +191,7 @@ QuadrilateralCell< TCellInterface >
  * Get a begin iterator to the list of point identifiers used by the cell.
  */
 template <typename TCellInterface >
-QuadrilateralCell< TCellInterface >::PointIdIterator
+typename QuadrilateralCell< TCellInterface >::PointIdIterator
 QuadrilateralCell< TCellInterface >
 ::PointIdsBegin(void)
 {
@@ -205,7 +205,7 @@ QuadrilateralCell< TCellInterface >
  * by the cell.
  */
 template <typename TCellInterface>
-QuadrilateralCell< TCellInterface >::PointIdConstIterator
+typename QuadrilateralCell< TCellInterface >::PointIdConstIterator
 QuadrilateralCell< TCellInterface >
 ::PointIdsBegin(void) const
 {
@@ -218,7 +218,7 @@ QuadrilateralCell< TCellInterface >
  * Get an end iterator to the list of point identifiers used by the cell.
  */
 template <typename TCellInterface>
-QuadrilateralCell< TCellInterface >::PointIdIterator
+typename QuadrilateralCell< TCellInterface >::PointIdIterator
 QuadrilateralCell< TCellInterface >
 ::PointIdsEnd(void)
 {
@@ -231,7 +231,7 @@ QuadrilateralCell< TCellInterface >
  * by the cell.
  */
 template <typename TCellInterface >
-QuadrilateralCell< TCellInterface >::PointIdConstIterator
+typename QuadrilateralCell< TCellInterface >::PointIdConstIterator
 QuadrilateralCell< TCellInterface >
 ::PointIdsEnd(void) const
 {
@@ -243,7 +243,7 @@ QuadrilateralCell< TCellInterface >
  * Get the number of vertices defining the quadrilateral.
  */
 template <typename TCellInterface>
-QuadrilateralCell< TCellInterface >::CellFeatureCount
+typename QuadrilateralCell< TCellInterface >::CellFeatureCount
 QuadrilateralCell< TCellInterface >
 ::GetNumberOfVertices(void) const
 {
@@ -255,7 +255,7 @@ QuadrilateralCell< TCellInterface >
  * Get the number of edges defined for the quadrilateral.
  */
 template <typename TCellInterface>
-QuadrilateralCell< TCellInterface >::CellFeatureCount
+typename QuadrilateralCell< TCellInterface >::CellFeatureCount
 QuadrilateralCell< TCellInterface >
 ::GetNumberOfEdges(void) const
 {

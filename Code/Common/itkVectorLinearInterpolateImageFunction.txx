@@ -59,7 +59,7 @@ VectorLinearInterpolateImageFunction< TInputImage, TCoordRep >
  * Evaluate at image index position
  */
 template<class TInputImage, class TCoordRep>
-VectorLinearInterpolateImageFunction< TInputImage, TCoordRep >
+typename VectorLinearInterpolateImageFunction< TInputImage, TCoordRep >
 ::OutputType
 VectorLinearInterpolateImageFunction< TInputImage, TCoordRep >
 ::EvaluateAtContinuousIndex(

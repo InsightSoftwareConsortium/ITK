@@ -42,6 +42,7 @@ class ITK_EXPORT ImportImageFilter:
 public:
   /** Typedef for the output image.   */
   typedef Image<TPixel,VImageDimension> OutputImageType;
+  typedef typename OutputImageType::Pointer OutputImagePointer;
   
   /** Standard class typedefs. */
   typedef ImportImageFilter   Self;

@@ -35,7 +35,7 @@ FrustumSpatialFunction<VImageDimension,TInput>::~FrustumSpatialFunction()
 }
 
 template <unsigned int VImageDimension,typename TInput>
-FrustumSpatialFunction<VImageDimension,TInput>::OutputType
+typename FrustumSpatialFunction<VImageDimension,TInput>::OutputType
 FrustumSpatialFunction<VImageDimension,TInput>
 ::Evaluate(const InputType& position) const
 {

@@ -137,7 +137,7 @@ SetRotation(const Vector<TScalarType,3> & axis, double angle )
 
 // Transform a point
 template<class TScalarType>
-Rigid3DPerspectiveTransform<TScalarType>::OutputPointType
+typename Rigid3DPerspectiveTransform<TScalarType>::OutputPointType
 Rigid3DPerspectiveTransform<TScalarType>::
 TransformPoint(const InputPointType &point) const 
 {
@@ -169,7 +169,7 @@ ComputeMatrix(void)
  
 // Compute the Jacobian in one position 
 template<class TScalarType >
-const Rigid3DPerspectiveTransform<TScalarType>::JacobianType & 
+const typename Rigid3DPerspectiveTransform<TScalarType>::JacobianType & 
 Rigid3DPerspectiveTransform< TScalarType >::
 GetJacobian( const InputPointType & p ) const
 {

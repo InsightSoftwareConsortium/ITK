@@ -71,6 +71,7 @@ public:
 
   /** InputImageType typedef support. */
   typedef TInputImage InputImageType;
+  typedef typename InputImageType::ConstPointer InputImageConstPointer;
 
   /** Dimension of the underlying image. */
   itkStaticConstMacro(ImageDimension, unsigned int,

@@ -48,7 +48,7 @@ WeightedCovarianceCalculator< TSample >
 }
 
 template< class TSample >
-WeightedCovarianceCalculator< TSample >::WeightArrayType*
+typename WeightedCovarianceCalculator< TSample >::WeightArrayType*
 WeightedCovarianceCalculator< TSample >
 ::GetWeights()
 {
@@ -64,7 +64,7 @@ WeightedCovarianceCalculator< TSample >
 }
 
 template< class TSample >
-WeightedCovarianceCalculator< TSample >::WeightFunctionType*
+typename WeightedCovarianceCalculator< TSample >::WeightFunctionType*
 WeightedCovarianceCalculator< TSample >
 ::GetWeightFunction()
 {
@@ -150,7 +150,7 @@ WeightedCovarianceCalculator< TSample >
 }
 
 template< class TSample >
-WeightedCovarianceCalculator< TSample >::OutputType*
+typename WeightedCovarianceCalculator< TSample >::OutputType*
 WeightedCovarianceCalculator< TSample >
 ::GetOutput()
 {

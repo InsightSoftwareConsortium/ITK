@@ -27,8 +27,8 @@ template <class T, unsigned int VImageDimension>
 void TestConstPixelAccess(const itk::Image<T, VImageDimension> &in,
                           itk::Image<T, VImageDimension> &out)
 {
-  itk::Image<T, VImageDimension>::IndexType regionStartIndex3D = {{5, 10, 15}};
-  itk::Image<T, VImageDimension>::IndexType regionEndIndex3D = {{8, 15, 17}};
+  typename itk::Image<T, VImageDimension>::IndexType regionStartIndex3D = {{5, 10, 15}};
+  typename itk::Image<T, VImageDimension>::IndexType regionEndIndex3D = {{8, 15, 17}};
 
   T vec;
   

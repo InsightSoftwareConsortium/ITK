@@ -65,7 +65,7 @@ TriangleCell< TCellInterface >
  * Get the number of boundary features of the given dimension.
  */
 template <typename TCellInterface>
-TriangleCell< TCellInterface >::CellFeatureCount
+typename TriangleCell< TCellInterface >::CellFeatureCount
 TriangleCell< TCellInterface >
 ::GetNumberOfBoundaryFeatures(int dimension) const
 {
@@ -192,7 +192,7 @@ TriangleCell< TCellInterface >
  * Get a begin iterator to the list of point identifiers used by the cell.
  */
 template <typename TCellInterface>
-TriangleCell< TCellInterface >::PointIdIterator
+typename TriangleCell< TCellInterface >::PointIdIterator
 TriangleCell< TCellInterface >
 ::PointIdsBegin(void)
 {
@@ -206,7 +206,7 @@ TriangleCell< TCellInterface >
  * by the cell.
  */
 template <typename TCellInterface>
-TriangleCell< TCellInterface >::PointIdConstIterator
+typename TriangleCell< TCellInterface >::PointIdConstIterator
 TriangleCell< TCellInterface >
 ::PointIdsBegin(void) const
 {
@@ -219,7 +219,7 @@ TriangleCell< TCellInterface >
  * Get an end iterator to the list of point identifiers used by the cell.
  */
 template <typename TCellInterface>
-TriangleCell< TCellInterface >::PointIdIterator
+typename TriangleCell< TCellInterface >::PointIdIterator
 TriangleCell< TCellInterface >
 ::PointIdsEnd(void)
 {
@@ -233,7 +233,7 @@ TriangleCell< TCellInterface >
  * by the cell.
  */
 template <typename TCellInterface>
-TriangleCell< TCellInterface >::PointIdConstIterator
+typename TriangleCell< TCellInterface >::PointIdConstIterator
 TriangleCell< TCellInterface >
 ::PointIdsEnd(void) const
 {
@@ -246,7 +246,7 @@ TriangleCell< TCellInterface >
  * Get the number of vertices defining the triangle.
  */
 template <typename TCellInterface>
-TriangleCell< TCellInterface >::CellFeatureCount
+typename TriangleCell< TCellInterface >::CellFeatureCount
 TriangleCell< TCellInterface >
 ::GetNumberOfVertices(void) const
 {
@@ -259,7 +259,7 @@ TriangleCell< TCellInterface >
  * Get the number of edges defined for the triangle.
  */
 template <typename TCellInterface>
-TriangleCell< TCellInterface >::CellFeatureCount
+typename TriangleCell< TCellInterface >::CellFeatureCount
 TriangleCell< TCellInterface >
 ::GetNumberOfEdges(void) const
 {

@@ -22,7 +22,7 @@ namespace itk
 {
 
 template <class TScalarType, unsigned int NDimensions>
-const ThinPlateR2LogRSplineKernelTransform<TScalarType, NDimensions>::GMatrixType &
+const typename ThinPlateR2LogRSplineKernelTransform<TScalarType, NDimensions>::GMatrixType &
 ThinPlateR2LogRSplineKernelTransform<TScalarType, NDimensions>::
 ComputeG(const InputVectorType & x) const
 {

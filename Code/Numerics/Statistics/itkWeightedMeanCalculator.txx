@@ -37,7 +37,7 @@ WeightedMeanCalculator< TSample >
 }
 
 template< class TSample >
-WeightedMeanCalculator< TSample >::WeightArrayType*
+typename WeightedMeanCalculator< TSample >::WeightArrayType*
 WeightedMeanCalculator< TSample >
 ::GetWeights()
 {
@@ -53,7 +53,7 @@ WeightedMeanCalculator< TSample >
 }
 
 template< class TSample >
-WeightedMeanCalculator< TSample >::WeightFunctionType*
+typename WeightedMeanCalculator< TSample >::WeightFunctionType*
 WeightedMeanCalculator< TSample >
 ::GetWeightFunction()
 {
@@ -113,7 +113,7 @@ WeightedMeanCalculator< TSample >
 }
 
 template< class TSample >
-WeightedMeanCalculator< TSample >::OutputType*
+typename WeightedMeanCalculator< TSample >::OutputType*
 WeightedMeanCalculator< TSample >
 ::GetOutput()
 {

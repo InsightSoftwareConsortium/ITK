@@ -75,7 +75,7 @@ SampleToHistogramProjectionFilter< TInputSample, THistogramMeasurement >
 }
 
 template< class TInputSample, class THistogramMeasurement >
-SampleToHistogramProjectionFilter< TInputSample, THistogramMeasurement >::MeanType*
+typename SampleToHistogramProjectionFilter< TInputSample, THistogramMeasurement >::MeanType*
 SampleToHistogramProjectionFilter< TInputSample, THistogramMeasurement >
 ::GetMean()
 {
@@ -115,7 +115,7 @@ SampleToHistogramProjectionFilter< TInputSample, THistogramMeasurement >
 }
 
 template< class TInputSample, class THistogramMeasurement >
-SampleToHistogramProjectionFilter< TInputSample, THistogramMeasurement >::ArrayType*
+typename SampleToHistogramProjectionFilter< TInputSample, THistogramMeasurement >::ArrayType*
 SampleToHistogramProjectionFilter< TInputSample, THistogramMeasurement >
 ::GetProjectionAxis()
 {
@@ -205,8 +205,8 @@ void
 SampleToHistogramProjectionFilter< TInputSample, THistogramMeasurement >
 ::GenerateData()
 {
-  HistogramType::Iterator h_iter = m_Histogram->Begin() ;
-  HistogramType::Iterator h_last = m_Histogram->End() ;
+  typename HistogramType::Iterator h_iter = m_Histogram->Begin() ;
+  typename HistogramType::Iterator h_last = m_Histogram->End() ;
   while (h_iter != h_last)
     {
       h_iter.SetFrequency(0.0) ;
@@ -220,7 +220,7 @@ SampleToHistogramProjectionFilter< TInputSample, THistogramMeasurement >
       scale = log(1.0 + m_HistogramBinOverlap / 10.0 ) ;
     }
 
-  HistogramType::InstanceIdentifier binId ;
+  typename HistogramType::InstanceIdentifier binId ;
   unsigned int dimension ;
   float coordinateDistance ;
   float squaredDistance ;

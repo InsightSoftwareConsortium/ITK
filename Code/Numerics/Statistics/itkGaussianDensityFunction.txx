@@ -69,7 +69,7 @@ GaussianDensityFunction< TMeasurementVector >
 }
 
 template < class TMeasurementVector >
-GaussianDensityFunction< TMeasurementVector >::CovarianceType*
+typename GaussianDensityFunction< TMeasurementVector >::CovarianceType*
 GaussianDensityFunction< TMeasurementVector >
 ::GetCovariance() const
 {

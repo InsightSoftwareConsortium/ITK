@@ -88,7 +88,7 @@ BloxCoreAtomPixel<NDimensions>
 ::CalcWeightedCoreAtomLocation(double weight_factor, Self * votingPixel)
 {
   // The iterator for accessing linked list info
-  itk::BloxCoreAtomPixel<NDimensions>::iterator bpiterator;
+  typename itk::BloxCoreAtomPixel<NDimensions>::iterator bpiterator;
   
   PositionType center;
 
@@ -124,7 +124,7 @@ BloxCoreAtomPixel<NDimensions>
   m_MeanCoreAtomDiameter = 0;
 
   // The iterator for accessing linked list info
-  itk::BloxCoreAtomPixel<NDimensions>::iterator bpiterator;
+  typename itk::BloxCoreAtomPixel<NDimensions>::iterator bpiterator;
   
     // Walk through all of the items at the pixel
   for (bpiterator = this->begin(); bpiterator != this->end(); ++bpiterator)
@@ -157,7 +157,7 @@ BloxCoreAtomPixel<NDimensions>
   }
 
   // The iterator for accessing linked list info
-  itk::BloxCoreAtomPixel<NDimensions>::iterator bpiterator;
+  typename itk::BloxCoreAtomPixel<NDimensions>::iterator bpiterator;
 
   // The number of items stored in the pixel
   unsigned long int numItems = 0;
@@ -228,7 +228,7 @@ BloxCoreAtomPixel<NDimensions>
 }
 
 template <unsigned int NDimensions>
-BloxCoreAtomPixel<NDimensions>::PositionType
+typename BloxCoreAtomPixel<NDimensions>::PositionType
 BloxCoreAtomPixel<NDimensions>
 ::GetVotedLocation()
 {

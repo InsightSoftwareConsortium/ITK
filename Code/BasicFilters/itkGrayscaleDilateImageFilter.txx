@@ -23,7 +23,7 @@ namespace itk {
 
 
 template<class TInputImage, class TOutputImage, class TKernel>
-GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>::PixelType
+typename GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>::PixelType
 GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>
 ::Evaluate(const NeighborhoodIteratorType &nit,
            const KernelType &kernel)
@@ -53,7 +53,7 @@ GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>
 } 
 
 template<class TInputImage, class TOutputImage, class TKernel>
-GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>::PixelType
+typename GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>::PixelType
 GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>
 ::Evaluate(const SmartNeighborhoodIteratorType &nit,
            const KernelType &kernel)

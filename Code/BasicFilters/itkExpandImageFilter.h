@@ -99,6 +99,8 @@ public:
   typedef typename Superclass::InputImageType  InputImageType;
   typedef typename Superclass::OutputImageType OutputImageType;
   typedef typename OutputImageType::PixelType  OutputPixelType;
+  typedef typename InputImageType::Pointer  InputImagePointer;
+  typedef typename OutputImageType::Pointer  OutputImagePointer;
 
   /** Typedef support for the interpolation function. */
   typedef double CoordRepType;

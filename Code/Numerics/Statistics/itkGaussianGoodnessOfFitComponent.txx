@@ -90,7 +90,7 @@ GaussianGoodnessOfFitComponent< TInputSample >
 }
 
 template< class TInputSample >
-GaussianGoodnessOfFitComponent< TInputSample >::CenterType*
+typename GaussianGoodnessOfFitComponent< TInputSample >::CenterType*
 GaussianGoodnessOfFitComponent< TInputSample >
 ::GetCenter()
 {
@@ -98,7 +98,7 @@ GaussianGoodnessOfFitComponent< TInputSample >
 }
 
 template< class TInputSample >
-GaussianGoodnessOfFitComponent< TInputSample >::RadiusType*
+typename GaussianGoodnessOfFitComponent< TInputSample >::RadiusType*
 GaussianGoodnessOfFitComponent< TInputSample >
 ::GetRadius() 
 {
@@ -107,7 +107,7 @@ GaussianGoodnessOfFitComponent< TInputSample >
 }
   
 template< class TInputSample >
-GaussianGoodnessOfFitComponent< TInputSample >::MeanType*
+typename GaussianGoodnessOfFitComponent< TInputSample >::MeanType*
 GaussianGoodnessOfFitComponent< TInputSample >
 ::GetMean()
 {
@@ -115,7 +115,7 @@ GaussianGoodnessOfFitComponent< TInputSample >
 }
 
 template< class TInputSample >
-GaussianGoodnessOfFitComponent< TInputSample >::StandardDeviationType*
+typename GaussianGoodnessOfFitComponent< TInputSample >::StandardDeviationType*
 GaussianGoodnessOfFitComponent< TInputSample >
 ::GetStandardDeviation() 
 {
@@ -156,7 +156,7 @@ GaussianGoodnessOfFitComponent< TInputSample >
         }
     }
 
-  ProjectionAxisCalculatorType::ArrayType* eigenValues = 
+  typename ProjectionAxisCalculatorType::ArrayType* eigenValues = 
     m_ProjectionAxisCalculator->GetEigenValues() ;
 
   m_LongestAxisIndex = 0 ;
@@ -232,7 +232,7 @@ GaussianGoodnessOfFitComponent< TInputSample >
 }
 
 template< class TInputSample >
-GaussianGoodnessOfFitComponent< TInputSample >::ParametersType
+typename GaussianGoodnessOfFitComponent< TInputSample >::ParametersType
 GaussianGoodnessOfFitComponent< TInputSample >
 ::GetFullParameters() const
 {

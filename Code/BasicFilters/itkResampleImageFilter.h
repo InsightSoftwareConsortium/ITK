@@ -60,6 +60,9 @@ public:
   typedef SmartPointer<const Self>  ConstPointer;
   typedef TInputImage InputImageType;
   typedef TOutputImage OutputImageType;
+  typedef typename InputImageType::Pointer InputImagePointer;
+  typedef typename OutputImageType::Pointer OutputImagePointer;
+  typedef typename InputImageType::RegionType InputImageRegionType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  

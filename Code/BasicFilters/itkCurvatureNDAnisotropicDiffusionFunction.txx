@@ -151,7 +151,7 @@ CurvatureNDAnisotropicDiffusionFunction<TImage>
     }
 
   
-  return ( ::sqrt(propagation_gradient) * speed );
+  return static_cast<PixelType>( ::sqrt(propagation_gradient) * speed );
 }
 
 template<class TImage>
@@ -236,7 +236,7 @@ CurvatureNDAnisotropicDiffusionFunction<TImage>
     }
 
   
-  return ( ::sqrt(propagation_gradient) * speed );
+  return static_cast<PixelType>( ::sqrt(propagation_gradient) * speed );
 }
 
 } // end namespace itk

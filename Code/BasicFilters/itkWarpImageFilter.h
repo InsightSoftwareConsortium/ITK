@@ -104,6 +104,7 @@ public:
   typedef typename Superclass::InputImagePointer     InputImagePointer;
   typedef typename Superclass::OutputImageType       OutputImageType;
   typedef typename Superclass::OutputImagePointer    OutputImagePointer;
+  typedef typename Superclass::InputImageConstPointer InputImageConstPointer;
   typedef typename OutputImageType::IndexType        IndexType;
   typedef typename OutputImageType::SizeType         SizeType;
   typedef typename OutputImageType::PixelType        PixelType;

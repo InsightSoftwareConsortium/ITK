@@ -48,12 +48,12 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>
   this->Superclass::PrintSelf(os, indent);
   os << indent << "Lower: " << m_Lower << std::endl;
   os << indent << "ReplaceValue: "
-     << static_cast<NumericTraits<OutputImagePixelType>::PrintType>(m_ReplaceValue)
+     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ReplaceValue)
      << std::endl;
   os << indent << "Seed1: " << m_Seed1 << std::endl;
   os << indent << "Seed2: " << m_Seed2 << std::endl;
   os << indent << "IsolatedValue: "
-     << static_cast<NumericTraits<OutputImagePixelType>::PrintType>(m_IsolatedValue)
+     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_IsolatedValue)
      << std::endl;
 }
 
@@ -96,7 +96,7 @@ IsolatedConnectedImageFilter<TInputImage,TOutputImage>
   typedef BinaryThresholdImageFunction<InputImageType> FunctionType;
   typedef FloodFilledImageFunctionConditionalIterator<OutputImageType, FunctionType> IteratorType;
 
-  FunctionType::Pointer function = FunctionType::New();
+  typename FunctionType::Pointer function = FunctionType::New();
     function->SetInputImage ( inputImage );
 
   InputImagePixelType lower = m_Lower;

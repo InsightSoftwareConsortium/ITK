@@ -132,6 +132,7 @@ public:
   typedef typename Superclass::OutputImageType OutputImageType;
   typedef typename Superclass::InputImagePointer InputImagePointer;
   typedef typename Superclass::OutputImagePointer OutputImagePointer;
+  typedef typename Superclass::InputImageConstPointer InputImageConstPointer;
 
   /** Set the number of multi-resolution levels. The matrix containing the
    * schedule will be resized accordingly.  The schedule is populated with

@@ -101,7 +101,7 @@ MixtureModelComponentBase< TSample >
 }
 
 template< class TSample >
-MixtureModelComponentBase< TSample >::WeightArrayType*
+typename MixtureModelComponentBase< TSample >::WeightArrayType*
 MixtureModelComponentBase< TSample >
 ::GetWeights()
 {
@@ -139,7 +139,7 @@ MixtureModelComponentBase< TSample >
 }
 
 template< class TSample >
-MixtureModelComponentBase< TSample >::MembershipFunctionType*
+typename MixtureModelComponentBase< TSample >::MembershipFunctionType*
 MixtureModelComponentBase< TSample >
 ::GetMembershipFunction()
 {

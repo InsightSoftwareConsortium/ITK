@@ -166,7 +166,7 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
 
   while ( !u.IsAtEnd() )
     {
-    o.Value() += u.Value() * dt;  // no adaptor support here
+    o.Value() += static_cast<PixelType>(u.Value() * dt);  // no adaptor support here
     ++o;
     ++u;
     }

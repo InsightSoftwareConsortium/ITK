@@ -135,7 +135,7 @@ Euler2DTransform<TScalarType>
 
 // Set parameters
 template<class TScalarType>
-const Euler2DTransform<TScalarType>::JacobianType &
+const typename Euler2DTransform<TScalarType>::JacobianType &
 Euler2DTransform<TScalarType>::
 GetJacobian( const InputPointType & p ) const
 {

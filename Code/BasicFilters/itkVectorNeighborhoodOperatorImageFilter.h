@@ -71,6 +71,8 @@ public:
   
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
+  typedef typename TInputImage::Pointer           InputImagePointer;
+  typedef typename TOutputImage::Pointer           OutputImagePointer;
   typedef typename TOutputImage::PixelType         OutputPixelType;
   typedef typename TOutputImage::InternalPixelType OutputInternalPixelType;
   typedef typename  TInputImage::PixelType         InputPixelType;

@@ -84,7 +84,7 @@ ImageToMeshFilter<TInputImage,TOutputMesh>
  *
  */
 template <class TInputImage, class TOutputMesh>
-const ImageToMeshFilter<TInputImage,TOutputMesh>::InputImageType *
+const typename ImageToMeshFilter<TInputImage,TOutputMesh>::InputImageType *
 ImageToMeshFilter<TInputImage,TOutputMesh>
 ::GetInput(unsigned int idx) 
 {
@@ -97,7 +97,7 @@ ImageToMeshFilter<TInputImage,TOutputMesh>
  *
  */
 template <class TInputImage, class TOutputMesh>
-ImageToMeshFilter<TInputImage,TOutputMesh>::OutputMeshType *
+typename ImageToMeshFilter<TInputImage,TOutputMesh>::OutputMeshType *
 ImageToMeshFilter<TInputImage,TOutputMesh>
 ::GetOutput(void) 
 {

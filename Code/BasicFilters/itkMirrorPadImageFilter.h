@@ -53,6 +53,9 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(MirrorPadImageFilter, PadImageFilter);
   
+  typedef TInputImage InputImageType;
+  typedef TOutputImage OutputImageType;
+  
   /** Typedef to describe the output image region type. */
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
   typedef typename Superclass::InputImageRegionType InputImageRegionType;

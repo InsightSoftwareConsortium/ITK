@@ -65,7 +65,7 @@ TetrahedronCell< TCellInterface >
  * Get the number of boundary features of the given dimension.
  */
 template <typename TCellInterface>
-TetrahedronCell< TCellInterface >::CellFeatureCount
+typename TetrahedronCell< TCellInterface >::CellFeatureCount
 TetrahedronCell< TCellInterface >
 ::GetNumberOfBoundaryFeatures(int dimension) const
 {
@@ -207,7 +207,7 @@ TetrahedronCell< TCellInterface >
  * Get a begin iterator to the list of point identifiers used by the cell.
  */
 template <typename TCellInterface>
-TetrahedronCell< TCellInterface >::PointIdIterator
+typename TetrahedronCell< TCellInterface >::PointIdIterator
 TetrahedronCell< TCellInterface >
 ::PointIdsBegin(void)
 {
@@ -221,7 +221,7 @@ TetrahedronCell< TCellInterface >
  * by the cell.
  */
 template <typename TCellInterface>
-TetrahedronCell< TCellInterface >::PointIdConstIterator
+typename TetrahedronCell< TCellInterface >::PointIdConstIterator
 TetrahedronCell< TCellInterface >
 ::PointIdsBegin(void) const
 {
@@ -234,7 +234,7 @@ TetrahedronCell< TCellInterface >
  * Get an end iterator to the list of point identifiers used by the cell.
  */
 template <typename TCellInterface>
-TetrahedronCell< TCellInterface >::PointIdIterator
+typename TetrahedronCell< TCellInterface >::PointIdIterator
 TetrahedronCell< TCellInterface >
 ::PointIdsEnd(void)
 {
@@ -248,7 +248,7 @@ TetrahedronCell< TCellInterface >
  * by the cell.
  */
 template <typename TCellInterface>
-TetrahedronCell< TCellInterface >::PointIdConstIterator
+typename TetrahedronCell< TCellInterface >::PointIdConstIterator
 TetrahedronCell< TCellInterface >
 ::PointIdsEnd(void) const
 {
@@ -261,7 +261,7 @@ TetrahedronCell< TCellInterface >
  * Get the number of vertices defining the tetrahedron.
  */
 template <typename TCellInterface>
-TetrahedronCell< TCellInterface >::CellFeatureCount
+typename TetrahedronCell< TCellInterface >::CellFeatureCount
 TetrahedronCell< TCellInterface >
 ::GetNumberOfVertices(void) const
 {
@@ -274,7 +274,7 @@ TetrahedronCell< TCellInterface >
  * Get the number of edges defined for the tetrahedron.
  */
 template <typename TCellInterface>
-TetrahedronCell< TCellInterface >::CellFeatureCount
+typename TetrahedronCell< TCellInterface >::CellFeatureCount
 TetrahedronCell< TCellInterface >
 ::GetNumberOfEdges(void) const
 {
@@ -287,7 +287,7 @@ TetrahedronCell< TCellInterface >
  * Get the number of faces defined for the tetrahedron.
  */
 template <typename TCellInterface>
-TetrahedronCell< TCellInterface >::CellFeatureCount
+typename TetrahedronCell< TCellInterface >::CellFeatureCount
 TetrahedronCell< TCellInterface >
 ::GetNumberOfFaces(void) const
 {

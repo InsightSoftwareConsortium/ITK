@@ -81,35 +81,35 @@ double SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::m_ConstantGradientValue = 1.0;
 
 template<class TInputImage, class TOutputImage>
-SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ValueType
+typename SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ValueType
 SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::m_ValueOne = NumericTraits<SparseFieldLevelSetImageFilter<TInputImage,
                               TOutputImage>::ValueType >::One;
 
 template<class TInputImage, class TOutputImage>
-SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ValueType
+typename SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ValueType
 SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::m_ValueZero = NumericTraits<SparseFieldLevelSetImageFilter<TInputImage,
                                TOutputImage>::ValueType >::Zero;
 
 template<class TInputImage, class TOutputImage>
-SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::StatusType
+typename SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::StatusType
 SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::m_StatusNull = NumericTraits<SparseFieldLevelSetImageFilter<TInputImage,
                                TOutputImage>::StatusType >::NonpositiveMin();
 
 template<class TInputImage, class TOutputImage>
-SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::StatusType
+typename SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::StatusType
 SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::m_StatusChanging = -1;
 
 template<class TInputImage, class TOutputImage>
-SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::StatusType
+typename SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::StatusType
 SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::m_StatusActiveChangingUp = -2;
 
 template<class TInputImage, class TOutputImage>
-SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::StatusType
+typename SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::StatusType
 SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::m_StatusActiveChangingDown = -3;
 
@@ -468,7 +468,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
        ! inputIt.IsAtEnd(); ++inputIt, ++shiftedIt)
     { shiftedIt.Set(static_cast<ValueType>(inputIt.Get()) - m_IsoSurfaceValue );}
   
-  ZeroCrossingImageFilter<OutputImageType, OutputImageType>::Pointer
+  typename ZeroCrossingImageFilter<OutputImageType, OutputImageType>::Pointer
     zeroCrossingFilter = ZeroCrossingImageFilter<OutputImageType,
     OutputImageType>::New();
   zeroCrossingFilter->SetInput(m_ShiftedImage);

@@ -18,6 +18,8 @@
 #define _itkDerivativeOperator_txx
 #include "itkDerivativeOperator.h"
 
+#include "itkNumericTraits.h"
+
 namespace itk
 {
 
@@ -29,11 +31,11 @@ DerivativeOperator<TPixel, VDimension, TAllocator>
 {
   unsigned int i;
   unsigned int j;
-  PixelType previous;
-  PixelType next;
+  typedef typename NumericTraits<PixelType>::RealType PixelRealType;  
+  PixelRealType previous;
+  PixelRealType next;
   const unsigned int w = 2*((m_Order + 1)/2) + 1;
-  std::vector<PixelType> coeff(w);
-  CoefficientVector coeffP(w);
+  CoefficientVector coeff(w);
 
   coeff[w/2] = 1.0;
    for (i = 0; i < m_Order/2; i++)
@@ -63,12 +65,7 @@ DerivativeOperator<TPixel, VDimension, TAllocator>
         coeff[j] = next;      
       }
 
-    for (i=0; i<w; ++i)
-      {
-        coeffP[i] = coeff[i];
-      }
-    return coeffP;
-    
+    return coeff;
 }
 
 } // namespace itk

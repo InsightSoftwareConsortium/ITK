@@ -105,6 +105,7 @@ public:
    * Note that we have to rescope Index back to itk::Index to that is it not
    * confused with ImageIterator::Index. */
   typedef typename TImage::IndexType  IndexType;
+  typedef typename TImage::SizeType SizeType;
 
   /** Image typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.

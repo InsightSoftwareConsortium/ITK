@@ -120,7 +120,7 @@ Scale(const ScaleType & scale, bool )
 
 // Transform a point
 template<class ScalarType, unsigned int NDimensions>
-ScaleTransform<ScalarType, NDimensions>::OutputPointType
+typename ScaleTransform<ScalarType, NDimensions>::OutputPointType
 ScaleTransform<ScalarType, NDimensions>::
 TransformPoint(const InputPointType &point) const 
 {
@@ -135,7 +135,7 @@ TransformPoint(const InputPointType &point) const
 
 // Transform a vector
 template<class ScalarType, unsigned int NDimensions>
-ScaleTransform<ScalarType, NDimensions>::OutputVectorType
+typename ScaleTransform<ScalarType, NDimensions>::OutputVectorType
 ScaleTransform<ScalarType, NDimensions>::
 TransformVector(const InputVectorType &vect) const 
 {
@@ -150,7 +150,7 @@ TransformVector(const InputVectorType &vect) const
 
 // Transform a vnl_vector_fixed
 template<class ScalarType, unsigned int NDimensions>
-ScaleTransform<ScalarType, NDimensions>::OutputVnlVectorType
+typename ScaleTransform<ScalarType, NDimensions>::OutputVnlVectorType
 ScaleTransform<ScalarType, NDimensions>::
 TransformVector(const InputVnlVectorType &vect) const 
 {
@@ -165,7 +165,7 @@ TransformVector(const InputVnlVectorType &vect) const
 
 // Transform a CovariantVector
 template<class ScalarType, unsigned int NDimensions>
-ScaleTransform<ScalarType, NDimensions>::OutputCovariantVectorType
+typename ScaleTransform<ScalarType, NDimensions>::OutputCovariantVectorType
 ScaleTransform<ScalarType, NDimensions>::
 TransformCovariantVector(const InputCovariantVectorType &vect) const 
 {
@@ -182,7 +182,7 @@ TransformCovariantVector(const InputCovariantVectorType &vect) const
 
 // Back transform a point
 template<class ScalarType, unsigned int NDimensions>
-ScaleTransform<ScalarType, NDimensions>::InputPointType
+typename ScaleTransform<ScalarType, NDimensions>::InputPointType
 ScaleTransform<ScalarType, NDimensions>::
 BackTransform(const OutputPointType &point) const {
   InputPointType result;
@@ -198,7 +198,7 @@ BackTransform(const OutputPointType &point) const {
 
 // Back transform a vector
 template<class ScalarType, unsigned int NDimensions>
-ScaleTransform<ScalarType, NDimensions>::InputVectorType
+typename ScaleTransform<ScalarType, NDimensions>::InputVectorType
 ScaleTransform<ScalarType, NDimensions>::
 BackTransform(const OutputVectorType &vect ) const 
 {
@@ -215,7 +215,7 @@ BackTransform(const OutputVectorType &vect ) const
 
 // Back transform a vnl_vector
 template<class ScalarType, unsigned int NDimensions>
-ScaleTransform<ScalarType, NDimensions>::InputVnlVectorType
+typename ScaleTransform<ScalarType, NDimensions>::InputVnlVectorType
 ScaleTransform<ScalarType, NDimensions>::
 BackTransform(const OutputVnlVectorType &vect ) const 
 {
@@ -230,7 +230,7 @@ BackTransform(const OutputVnlVectorType &vect ) const
 
 // Back Transform a CovariantVector
 template<class ScalarType, unsigned int NDimensions>
-ScaleTransform<ScalarType, NDimensions>::InputCovariantVectorType
+typename ScaleTransform<ScalarType, NDimensions>::InputCovariantVectorType
 ScaleTransform<ScalarType, NDimensions>::
 BackTransform(const OutputCovariantVectorType &vect) const 
 {
@@ -247,7 +247,7 @@ BackTransform(const OutputCovariantVectorType &vect) const
 
 // Create and return an inverse transformation
 template<class ScalarType, unsigned int NDimensions>
-ScaleTransform<ScalarType, NDimensions>::Pointer
+typename ScaleTransform<ScalarType, NDimensions>::Pointer
 ScaleTransform<ScalarType, NDimensions>::
 Inverse(void) const
 {
@@ -262,7 +262,7 @@ Inverse(void) const
 // Compute the Jacobian of the transformation
 // It follows the same order of Parameters vector 
 template<class ScalarType, unsigned int NDimensions>
-const ScaleTransform<ScalarType, NDimensions>::JacobianType &
+const typename ScaleTransform<ScalarType, NDimensions>::JacobianType &
 ScaleTransform<ScalarType, NDimensions>
 ::GetJacobian( const InputPointType & p ) const
 {

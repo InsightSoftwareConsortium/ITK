@@ -82,7 +82,7 @@ WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
   os << m_OutputOrigin[j] << "]" << std::endl;
 
   os << indent << "EdgePaddingValue: "
-     << static_cast<NumericTraits<PixelType>::PrintType>(m_EdgePaddingValue)
+     << static_cast<typename NumericTraits<PixelType>::PrintType>(m_EdgePaddingValue)
      << std::endl;
 
   os << indent << "Interpolator: " << m_Interpolator.GetPointer() << std::endl;
@@ -170,7 +170,7 @@ DeformationFieldType * field )
  * Return a pointer to the deformation field.
  */
 template <class TInputImage,class TOutputImage,class TDeformationField>
-WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
+typename WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
 ::DeformationFieldType *
 WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
 ::GetDeformationField(void)

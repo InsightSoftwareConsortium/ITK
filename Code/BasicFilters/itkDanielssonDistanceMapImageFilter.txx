@@ -75,8 +75,8 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
  *  Return Closest Points Map
  */
 template <class TInputImage,class TOutputImage>
-DanielssonDistanceMapImageFilter<
-         TInputImage,TOutputImage>::OutputImageType * 
+typename
+DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>::OutputImageType*
 DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 ::GetVoronoiMap(void)
 {

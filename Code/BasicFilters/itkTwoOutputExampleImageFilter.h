@@ -74,6 +74,8 @@ public:
   /** The values outside the range are set to OutsideValue. */
   void ThresholdOutside(PixelType &lower, PixelType &upper);
 
+  typedef typename Superclass::InputImageConstPointer InputImageConstPointer;
+  
   /** Some typedefs to handle the second output. */
   typedef TImage OutputImageType;
   typedef typename OutputImageType::Pointer OutputImagePointer;

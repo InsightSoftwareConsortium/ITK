@@ -81,6 +81,7 @@ public:
   typedef typename Superclass::OutputImageType OutputImageType;
   typedef typename Superclass::InputImagePointer InputImagePointer;
   typedef typename Superclass::OutputImagePointer OutputImagePointer;
+  typedef typename Superclass::InputImageConstPointer InputImageConstPointer;
 
   /** Given one output whose requested region has been set, 
    * this method sets the requtested region for the remaining

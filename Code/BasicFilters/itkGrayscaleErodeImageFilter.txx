@@ -22,7 +22,7 @@
 namespace itk {
 
 template<class TInputImage, class TOutputImage, class TKernel>
-GrayscaleErodeImageFilter<TInputImage, TOutputImage, TKernel>::PixelType
+typename GrayscaleErodeImageFilter<TInputImage, TOutputImage, TKernel>::PixelType
 GrayscaleErodeImageFilter<TInputImage, TOutputImage, TKernel>
 ::Evaluate(const NeighborhoodIteratorType &nit,
            const KernelType &kernel)
@@ -52,7 +52,7 @@ GrayscaleErodeImageFilter<TInputImage, TOutputImage, TKernel>
 } 
 
 template<class TInputImage, class TOutputImage, class TKernel>
-GrayscaleErodeImageFilter<TInputImage, TOutputImage, TKernel>::PixelType
+typename GrayscaleErodeImageFilter<TInputImage, TOutputImage, TKernel>::PixelType
 GrayscaleErodeImageFilter<TInputImage, TOutputImage, TKernel>
 ::Evaluate(const SmartNeighborhoodIteratorType &nit,
            const KernelType &kernel)

@@ -70,7 +70,7 @@ VectorGradientNDAnisotropicDiffusionFunction<TImage>
 }
 
 template<class TImage>
-VectorGradientNDAnisotropicDiffusionFunction<TImage>::PixelType
+typename VectorGradientNDAnisotropicDiffusionFunction<TImage>::PixelType
 VectorGradientNDAnisotropicDiffusionFunction<TImage>
 ::ComputeUpdate(const NeighborhoodType &it, void * globalData,
                 const FloatOffsetType& offset) const
@@ -145,7 +145,7 @@ VectorGradientNDAnisotropicDiffusionFunction<TImage>
 }
 
 template<class TImage>
-VectorGradientNDAnisotropicDiffusionFunction<TImage>::PixelType
+typename VectorGradientNDAnisotropicDiffusionFunction<TImage>::PixelType
 VectorGradientNDAnisotropicDiffusionFunction<TImage>
 ::ComputeUpdate(const BoundaryNeighborhoodType &it, void * globalData,
                 const FloatOffsetType& offset) const

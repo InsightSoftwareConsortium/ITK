@@ -69,6 +69,8 @@ public:
   /** Image typedef support */
   typedef TInputImage  InputImageType;
   typedef TOutputImage OutputImageType;
+  typedef typename InputImageType::Pointer InputImagePointer;
+  typedef typename OutputImageType::Pointer OutputImagePointer;
   
   /** Superclass typedefs. */
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;

@@ -76,7 +76,7 @@ void
 StreamingImageFilter<TInputImage,TOutputImage>
 ::UpdateOutputData(DataObject *itkNotUsed(output))
 {
-  std::vector<DataObjectPointer>::size_type idx;
+  typename std::vector<DataObjectPointer>::size_type idx;
 
   /**
    * prevent chasing our tail

@@ -22,7 +22,7 @@ namespace itk
 {
 
 template <class TScalarType, unsigned int NDimensions>
-const ThinPlateSplineKernelTransform<TScalarType, NDimensions>::GMatrixType &
+const typename ThinPlateSplineKernelTransform<TScalarType, NDimensions>::GMatrixType &
 ThinPlateSplineKernelTransform<TScalarType, NDimensions>::
 ComputeG(const InputVectorType & x) const
 {

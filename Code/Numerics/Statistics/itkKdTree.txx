@@ -374,7 +374,7 @@ KdTree< TSample >
   MeasurementType partitionValue ;
 
   node->GetParameters(partitionDimension, partitionValue) ;
-  KdTreeNodeType::CenteroidType centeroid ;
+  typename KdTreeNodeType::CenteroidType centeroid ;
   node->GetWeightedCenteroid(centeroid) ;
   std::cout << "Nonterminal: level = " << level << std::endl ;
   std::cout << "             dim = " << partitionDimension << std::endl ;

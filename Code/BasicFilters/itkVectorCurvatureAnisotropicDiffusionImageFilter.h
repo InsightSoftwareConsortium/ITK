@@ -58,7 +58,7 @@ public:
 protected:
   VectorCurvatureAnisotropicDiffusionImageFilter()
     {
-      VectorCurvatureNDAnisotropicDiffusionFunction<UpdateBufferType>::Pointer q
+    typename VectorCurvatureNDAnisotropicDiffusionFunction<UpdateBufferType>::Pointer q
         = VectorCurvatureNDAnisotropicDiffusionFunction<UpdateBufferType>::New();
       this->SetDifferenceFunction(q);
     }

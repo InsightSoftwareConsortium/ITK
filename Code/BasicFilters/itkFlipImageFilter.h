@@ -67,6 +67,7 @@ public:
 
   /** Inherited types */
   typedef typename Superclass::InputImagePointer InputImagePointer;
+  typedef typename Superclass::InputImageConstPointer InputImageConstPointer;
   typedef typename Superclass::OutputImagePointer OutputImagePointer;
   typedef typename Superclass::OutputImageRegionType    OutputImageRegionType;
 

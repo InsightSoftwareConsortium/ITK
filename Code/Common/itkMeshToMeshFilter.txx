@@ -55,7 +55,7 @@ MeshToMeshFilter<TInputMesh,TOutputMesh>
  *
  */
 template <class TInputMesh, class TOutputMesh>
-MeshToMeshFilter<TInputMesh,TOutputMesh>::InputMeshType *
+typename MeshToMeshFilter<TInputMesh,TOutputMesh>::InputMeshType *
 MeshToMeshFilter<TInputMesh,TOutputMesh>
 ::GetInput()
 {
@@ -73,7 +73,7 @@ MeshToMeshFilter<TInputMesh,TOutputMesh>
  *
  */
 template <class TInputMesh, class TOutputMesh>
-MeshToMeshFilter<TInputMesh,TOutputMesh>::InputMeshType *
+typename MeshToMeshFilter<TInputMesh,TOutputMesh>::InputMeshType *
 MeshToMeshFilter<TInputMesh,TOutputMesh>
 ::GetInput(unsigned int idx)
 {

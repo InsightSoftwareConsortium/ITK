@@ -70,7 +70,7 @@ VectorCurvatureNDAnisotropicDiffusionFunction<TImage>
 }
 
 template<class TImage>
-VectorCurvatureNDAnisotropicDiffusionFunction<TImage>::PixelType
+typename VectorCurvatureNDAnisotropicDiffusionFunction<TImage>::PixelType
 VectorCurvatureNDAnisotropicDiffusionFunction<TImage>
 ::ComputeUpdate(const NeighborhoodType &it, void *globalData,
                 const FloatOffsetType& offset) const
@@ -196,7 +196,7 @@ VectorCurvatureNDAnisotropicDiffusionFunction<TImage>
 }
 
 template<class TImage>
-VectorCurvatureNDAnisotropicDiffusionFunction<TImage>::PixelType
+typename VectorCurvatureNDAnisotropicDiffusionFunction<TImage>::PixelType
 VectorCurvatureNDAnisotropicDiffusionFunction<TImage>
 ::ComputeUpdate(const BoundaryNeighborhoodType &it, void *globalData,
                 const FloatOffsetType& offset) const

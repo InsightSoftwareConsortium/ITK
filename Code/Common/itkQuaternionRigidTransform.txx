@@ -60,7 +60,7 @@ SetRotation(const VnlQuaternionType &rotation )
 
 // Transform a point
 template<class TScalarType>
-QuaternionRigidTransform<TScalarType>::OutputPointType
+typename QuaternionRigidTransform<TScalarType>::OutputPointType
 QuaternionRigidTransform<TScalarType>::
 TransformPoint(const InputPointType &point) const 
 {
@@ -105,7 +105,7 @@ QuaternionRigidTransform<TScalarType>
 
 // Set parameters
 template<class TScalarType>
-const QuaternionRigidTransform<TScalarType>::JacobianType &
+const typename QuaternionRigidTransform<TScalarType>::JacobianType &
 QuaternionRigidTransform<TScalarType>::
 GetJacobian( const InputPointType & p ) const
 {

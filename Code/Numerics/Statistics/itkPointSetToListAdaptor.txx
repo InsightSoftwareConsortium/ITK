@@ -42,7 +42,7 @@ PointSetToListAdaptor< TPointSet >
 }
 
 template < class TPointSet >
-PointSetToListAdaptor< TPointSet >::PointSetPointer
+typename PointSetToListAdaptor< TPointSet >::PointSetPointer
 PointSetToListAdaptor< TPointSet >
 ::GetPointSet() 
 {
@@ -84,7 +84,7 @@ PointSetToListAdaptor< TPointSet >
 //  }
 
 template < class TPointSet >
-inline PointSetToListAdaptor< TPointSet >::MeasurementVectorType&
+inline typename PointSetToListAdaptor< TPointSet >::MeasurementVectorType&
 PointSetToListAdaptor< TPointSet >
 ::GetMeasurementVector(const InstanceIdentifier &id)
 {
@@ -93,7 +93,7 @@ PointSetToListAdaptor< TPointSet >
 }
 
 template < class TPointSet >
-inline PointSetToListAdaptor< TPointSet >::FrequencyType
+inline typename PointSetToListAdaptor< TPointSet >::FrequencyType
 PointSetToListAdaptor< TPointSet >
 ::GetFrequency(const InstanceIdentifier &id) const 
 {
@@ -101,7 +101,7 @@ PointSetToListAdaptor< TPointSet >
 }
 
 template < class TPointSet >
-PointSetToListAdaptor< TPointSet >::FrequencyType
+typename PointSetToListAdaptor< TPointSet >::FrequencyType
 PointSetToListAdaptor< TPointSet >
 ::GetTotalFrequency(const unsigned int &dim) const
 { 

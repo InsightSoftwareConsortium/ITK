@@ -95,11 +95,10 @@ LaplacianImageFilter< TInputImage, TOutputImage >
   LaplacianOperator<OutputPixelType, ImageDimension> oper;
   oper.CreateOperator();
 
-  NeighborhoodOperatorImageFilter<InputImageType, OutputImageType>
-    ::Pointer filter =
-    NeighborhoodOperatorImageFilter<InputImageType, OutputImageType>
-    ::New();
-
+  
+  typedef NeighborhoodOperatorImageFilter<InputImageType, OutputImageType> NOIF;
+  typename NOIF::Pointer filter = NOIF::New();
+  
   filter->OverrideBoundaryCondition(&nbc);
 
   //

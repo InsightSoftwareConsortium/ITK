@@ -60,6 +60,7 @@ public:
   typedef typename Superclass::InputImageType InputImageType;
   typedef typename Superclass::PixelType      PixelType;
   typedef typename Superclass::ValueType      ValueType;
+  typedef typename Superclass::RealType       RealType;
     
   /** Grab the vector dimension from the superclass. */
   itkStaticConstMacro(VectorDimension, unsigned int,

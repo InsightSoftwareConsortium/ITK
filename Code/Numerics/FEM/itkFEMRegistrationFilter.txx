@@ -420,12 +420,12 @@ int FEMRegistrationFilter<TReference,TTarget>::WriteDisplacementField(unsigned i
   // Outputs the displacement field for the index provided (0=x,1=y,2=z)
 {
   // Initialize the caster to the displacement field
-  IndexSelectCasterType::Pointer fieldCaster = IndexSelectCasterType::New();
+  typename IndexSelectCasterType::Pointer fieldCaster = IndexSelectCasterType::New();
   fieldCaster->SetInput( m_Field );
   fieldCaster->SetIndex( index );
   
   // Define the output of the caster
-  FloatImageType::Pointer fieldImage = FloatImageType::New();
+  typename FloatImageType::Pointer fieldImage = FloatImageType::New();
   fieldCaster->Update();
   fieldImage = fieldCaster->GetOutput();
 
@@ -439,9 +439,9 @@ int FEMRegistrationFilter<TReference,TTarget>::WriteDisplacementField(unsigned i
   //   for (; !it.IsAtEnd(); ++it) { std::cout << it.Get() << "\t"; }
   typedef typename FloatImageType::PixelType FType;
   typedef RawImageIO<FType,ImageDimension> IOType;
-  IOType::Pointer io = IOType::New();
+  typename IOType::Pointer io = IOType::New();
   typedef ImageFileWriter<FloatImageType> WriterType;
-  WriterType::Pointer writer = WriterType::New();
+  typename WriterType::Pointer writer = WriterType::New();
   writer->SetInput(fieldImage);
   writer->SetImageIO(io);
   writer->SetFileName(outfile);
@@ -498,16 +498,16 @@ void FEMRegistrationFilter<TReference,TTarget>::WarpImage(ImageType* ImageToWarp
   else 
   {
   typedef itk::WarpImageFilter<ImageType,ImageType,FieldType> WarperType;
-  WarperType::Pointer warper = WarperType::New();
+  typename WarperType::Pointer warper = WarperType::New();
 
-  typedef WarperType::CoordRepType CoordRepType;
+  typedef typename WarperType::CoordRepType CoordRepType;
   typedef itk::NearestNeighborInterpolateImageFunction<ImageType,CoordRepType>
     InterpolatorType0;
   typedef itk::LinearInterpolateImageFunction<ImageType,CoordRepType>
     InterpolatorType1;
   typedef itk::BSplineInterpolateImageFunction<ImageType,CoordRepType>
     InterpolatorType2;
-  InterpolatorType1::Pointer interpolator = InterpolatorType1::New();
+  typename InterpolatorType1::Pointer interpolator = InterpolatorType1::New();
   
   warper = WarperType::New();
   warper->SetInput( ImageToWarp );
@@ -1056,16 +1056,16 @@ void FEMRegistrationFilter<TReference,TTarget>::MultiResSolve()
 //   Setup a multi-resolution pyramid
   typedef itk::RecursiveMultiResolutionPyramidImageFilter<FloatImageType,FloatImageType>
     PyramidType;
-  typedef PyramidType::ScheduleType ScheduleType;
-  PyramidType::Pointer pyramidR = PyramidType::New();
-  PyramidType::Pointer pyramidT = PyramidType::New();
+  typedef typename PyramidType::ScheduleType ScheduleType;
+  typename PyramidType::Pointer pyramidR = PyramidType::New();
+  typename PyramidType::Pointer pyramidT = PyramidType::New();
 
   typedef itk::CastImageFilter<ImageType,FloatImageType> CasterType1;
   typedef itk::CastImageFilter<FloatImageType,ImageType> CasterType2;
-  CasterType1::Pointer Rcaster1 = CasterType1::New();
-  CasterType1::Pointer Tcaster1 = CasterType1::New();
-  CasterType2::Pointer Rcaster2;
-  CasterType2::Pointer Tcaster2;
+  typename CasterType1::Pointer Rcaster1 = CasterType1::New();
+  typename CasterType1::Pointer Tcaster1 = CasterType1::New();
+  typename CasterType2::Pointer Rcaster2;
+  typename CasterType2::Pointer Tcaster2;
 
   Rcaster1->SetInput(m_RefImg); Rcaster1->Update();
   pyramidR->SetInput( Rcaster1->GetOutput());

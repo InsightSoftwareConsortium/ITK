@@ -115,6 +115,7 @@ protected:
    * work around compiler bug on VC++.
    */
   typedef typename Superclass::CoefficientVector CoefficientVector;
+  typedef typename Superclass::PixelType PixelType;
 
   /**
    * Calculates operator coefficients.

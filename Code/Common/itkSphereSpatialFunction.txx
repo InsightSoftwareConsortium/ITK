@@ -39,7 +39,7 @@ SphereSpatialFunction<VImageDimension,TInput>
 }
 
 template <unsigned int VImageDimension,typename TInput>
-SphereSpatialFunction<VImageDimension,TInput>::OutputType
+typename SphereSpatialFunction<VImageDimension,TInput>::OutputType
 SphereSpatialFunction<VImageDimension,TInput>
 ::Evaluate(const InputType& position) const
 {

@@ -68,7 +68,7 @@ public:
 protected:
   GradientAnisotropicDiffusionImageFilter()
     {
-      GradientNDAnisotropicDiffusionFunction<UpdateBufferType>::Pointer p
+      typename GradientNDAnisotropicDiffusionFunction<UpdateBufferType>::Pointer p
         = GradientNDAnisotropicDiffusionFunction<UpdateBufferType>::New();
       this->SetDifferenceFunction(p);
     }

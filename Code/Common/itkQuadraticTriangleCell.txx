@@ -65,7 +65,7 @@ QuadraticTriangleCell< TCellInterface >
  * Get the number of boundary features of the given dimension.
  */
 template <typename TCellInterface>
-QuadraticTriangleCell< TCellInterface >::CellFeatureCount
+typename QuadraticTriangleCell< TCellInterface >::CellFeatureCount
 QuadraticTriangleCell< TCellInterface >
 ::GetNumberOfBoundaryFeatures(int dimension) const
 {
@@ -192,7 +192,7 @@ QuadraticTriangleCell< TCellInterface >
  * Get a begin iterator to the list of point identifiers used by the cell.
  */
 template <typename TCellInterface>
-QuadraticTriangleCell< TCellInterface >::PointIdIterator
+typename QuadraticTriangleCell< TCellInterface >::PointIdIterator
 QuadraticTriangleCell< TCellInterface >
 ::PointIdsBegin(void)
 {
@@ -206,7 +206,7 @@ QuadraticTriangleCell< TCellInterface >
  * by the cell.
  */
 template <typename TCellInterface>
-QuadraticTriangleCell< TCellInterface >::PointIdConstIterator
+typename QuadraticTriangleCell< TCellInterface >::PointIdConstIterator
 QuadraticTriangleCell< TCellInterface >
 ::PointIdsBegin(void) const
 {
@@ -219,7 +219,7 @@ QuadraticTriangleCell< TCellInterface >
  * Get an end iterator to the list of point identifiers used by the cell.
  */
 template <typename TCellInterface>
-QuadraticTriangleCell< TCellInterface >::PointIdIterator
+typename QuadraticTriangleCell< TCellInterface >::PointIdIterator
 QuadraticTriangleCell< TCellInterface >
 ::PointIdsEnd(void)
 {
@@ -233,7 +233,7 @@ QuadraticTriangleCell< TCellInterface >
  * by the cell.
  */
 template <typename TCellInterface>
-QuadraticTriangleCell< TCellInterface >::PointIdConstIterator
+typename QuadraticTriangleCell< TCellInterface >::PointIdConstIterator
 QuadraticTriangleCell< TCellInterface >
 ::PointIdsEnd(void) const
 {
@@ -246,7 +246,7 @@ QuadraticTriangleCell< TCellInterface >
  * Get the number of vertices defining the triangle.
  */
 template <typename TCellInterface>
-QuadraticTriangleCell< TCellInterface >::CellFeatureCount
+typename QuadraticTriangleCell< TCellInterface >::CellFeatureCount
 QuadraticTriangleCell< TCellInterface >
 ::GetNumberOfVertices(void) const
 {
@@ -259,7 +259,7 @@ QuadraticTriangleCell< TCellInterface >
  * Get the number of edges defined for the triangle.
  */
 template <typename TCellInterface>
-QuadraticTriangleCell< TCellInterface >::CellFeatureCount
+typename QuadraticTriangleCell< TCellInterface >::CellFeatureCount
 QuadraticTriangleCell< TCellInterface >
 ::GetNumberOfEdges(void) const
 {

@@ -47,7 +47,7 @@ BloxPixel<TItemType>
   // if the list contains existing entries
   if( !( this->empty() ) )
     {
-    BloxPixel::iterator bpiterator;
+    typename BloxPixel::iterator bpiterator;
   
     for (bpiterator = this->begin(); bpiterator != this->end(); ++bpiterator)
       {

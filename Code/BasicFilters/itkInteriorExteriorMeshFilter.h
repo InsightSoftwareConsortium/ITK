@@ -52,7 +52,12 @@ public:
   typedef MeshToMeshFilter<TInputMesh,TOutputMesh> Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
+  
+  typedef TInputMesh InputMeshType;
+  typedef TOutputMesh OutputMeshType;
+  typedef typename InputMeshType::Pointer InputMeshPointer;
+  typedef typename OutputMeshType::Pointer OutputMeshPointer;
+  
   /** Type for representing coordinates. */
   typedef typename TInputMesh::CoordRepType  CoordRepType;
 

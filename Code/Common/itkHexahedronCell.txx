@@ -62,7 +62,7 @@ HexahedronCell< TCellInterface >
  * Get the number of boundary features of the given dimension.
  */
 template <typename TCellInterface>
-HexahedronCell< TCellInterface >::CellFeatureCount
+typename HexahedronCell< TCellInterface >::CellFeatureCount
 HexahedronCell< TCellInterface >
 ::GetNumberOfBoundaryFeatures(int dimension) const
 {
@@ -199,7 +199,7 @@ HexahedronCell< TCellInterface >
  * Get a begin iterator to the list of point identifiers used by the cell.
  */
 template <typename TCellInterface>
-HexahedronCell< TCellInterface >::PointIdIterator
+typename HexahedronCell< TCellInterface >::PointIdIterator
 HexahedronCell< TCellInterface >
 ::PointIdsBegin(void)
 {
@@ -212,7 +212,7 @@ HexahedronCell< TCellInterface >
  * by the cell.
  */
 template <typename TCellInterface>
-HexahedronCell< TCellInterface >::PointIdConstIterator
+typename HexahedronCell< TCellInterface >::PointIdConstIterator
 HexahedronCell< TCellInterface >
 ::PointIdsBegin(void) const
 {
@@ -224,7 +224,7 @@ HexahedronCell< TCellInterface >
  * Get an end iterator to the list of point identifiers used by the cell.
  */
 template <typename TCellInterface>
-HexahedronCell< TCellInterface >::PointIdIterator
+typename HexahedronCell< TCellInterface >::PointIdIterator
 HexahedronCell< TCellInterface >
 ::PointIdsEnd(void)
 {
@@ -237,7 +237,7 @@ HexahedronCell< TCellInterface >
  * by the cell.
  */
 template <typename TCellInterface>
-HexahedronCell< TCellInterface >::PointIdConstIterator
+typename HexahedronCell< TCellInterface >::PointIdConstIterator
 HexahedronCell< TCellInterface >
 ::PointIdsEnd(void) const
 {
@@ -249,7 +249,7 @@ HexahedronCell< TCellInterface >
  * Get the number of vertices defining the hexahedron.
  */
 template <typename TCellInterface>
-HexahedronCell< TCellInterface >::CellFeatureCount
+typename HexahedronCell< TCellInterface >::CellFeatureCount
 HexahedronCell< TCellInterface >
 ::GetNumberOfVertices(void) const
 {
@@ -261,7 +261,7 @@ HexahedronCell< TCellInterface >
  * Get the number of edges defined for the hexahedron.
  */
 template <typename TCellInterface>
-HexahedronCell< TCellInterface >::CellFeatureCount
+typename HexahedronCell< TCellInterface >::CellFeatureCount
 HexahedronCell< TCellInterface >
 ::GetNumberOfEdges(void) const
 {
@@ -273,7 +273,7 @@ HexahedronCell< TCellInterface >
  * Get the number of faces defined for the hexahedron.
  */
 template <typename TCellInterface>
-HexahedronCell< TCellInterface >::CellFeatureCount
+typename HexahedronCell< TCellInterface >::CellFeatureCount
 HexahedronCell< TCellInterface >
 ::GetNumberOfFaces(void) const
 {

@@ -46,7 +46,7 @@ LaplacianOperator <TPixel, VDimension, TAllocator>
   std::slice* temp_slice;
   temp_slice = new std::slice(0, coeff.size(),1);
   
-  Self::SliceIteratorType data(this, *temp_slice);
+  typename Self::SliceIteratorType data(this, *temp_slice);
   delete temp_slice;
  
   it = coeff.begin();

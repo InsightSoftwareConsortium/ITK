@@ -82,6 +82,8 @@ public:
   itkTypeMacro(MorphologyImageFilter, ImageToImageFilter);
   
   /** Image related typedefs. */
+  typedef TInputImage InputImageType;
+  typedef TOutputImage OutputImageType;
   typedef typename TInputImage::RegionType RegionType ;
   typedef typename TInputImage::SizeType SizeType ;
   typedef typename TInputImage::IndexType IndexType ;

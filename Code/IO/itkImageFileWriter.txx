@@ -57,7 +57,7 @@ ImageFileWriter<TInputImage>
 
 //---------------------------------------------------------
 template <class TInputImage>
-const ImageFileWriter<TInputImage>::InputImageType *
+const typename ImageFileWriter<TInputImage>::InputImageType *
 ImageFileWriter<TInputImage>
 ::GetInput(void)
 {
@@ -72,7 +72,7 @@ ImageFileWriter<TInputImage>
   
 //---------------------------------------------------------
 template <class TInputImage>
-const ImageFileWriter<TInputImage>::InputImageType *
+const typename ImageFileWriter<TInputImage>::InputImageType *
 ImageFileWriter<TInputImage>
 ::GetInput(unsigned int idx)
 {
