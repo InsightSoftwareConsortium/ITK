@@ -184,8 +184,6 @@ Element2DC0LinearTriangular
   localPt[1]=((y3 - y1)*x + (x1 - x3)*y + x3*y1 - x1*y3)/A;
   localPt[2]=((y1 - y2)*x + (x2 - x1)*y + x1*y2 - x2*y1)/A;
 
-  bool isInside=true;
-
   if (localPt[0] < 0.0 || localPt[0] > 1.0 || localPt[1] < 0.0 || localPt[1] > 1.0 || localPt[2] < 0.0 || localPt[2] > 1.0 )
   {
     return false;
