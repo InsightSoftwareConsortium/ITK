@@ -63,7 +63,7 @@ namespace itk
  * pipeline and produces a unique output image.
  * */
 
-template<class TInputImage, class TOutputImage>
+template<class TSpatialFunction, class TInputImage, class TOutputImage>
 class ITK_EXPORT SpatialFunctionImageEvaluatorFilter :
    public ImageToImageFilter<TInputImage, TOutputImage>
 {
@@ -111,9 +111,19 @@ public:
   typedef typename TOutputImage::RegionType OutputImageRegionType;
 
   /**
+   * Type of function
+   */
+  typedef TSpatialFunction TFunctionType;
+
+  /**
+   * Return type of function
+   */
+  typedef TSpatialFunction::TFunctionValueType TFunctionValueType;
+
+  /**
   * Typedef describing vector info
   */
-  typedef vnl_vector_fixed<double, NDimensions> TVectorType;
+  typedef TSpatialFunction::TVectorType TVectorType;
 
   /** 
    * Run-time type information (and related methods).
@@ -128,36 +138,8 @@ public:
   /**
    * Set the internal implicit function
    */
-  void SetFunction( SpatialFunction<NDimensions>* pFunction )
+  void SetFunction( TFunctionType* pFunction )
     {m_pFunction = pFunction;};
-
-  /**
-   * Set the evaluator behavior to function value. This flag means the
-   * the actual value of the function will be stored in the output image,
-   * to the best of the output images ability to handle double floating
-   * point numbers.
-   */
-  void SetBehaviorToFunctionValue()
-    {m_Behavior = 0;};
-
-  /**
-   * Set the evaluator behavior to interior/exterior. Assuming that the
-   * spatial function can provide information about whether or not a physical
-   * location is "inside" or "outside" a certain object (e.g. a sphere),
-   * then the interior is set to a certain pixel value and the exterior
-   * set to another pixel value.
-   *
-   * By conventions, functions which supplu interior/exterior information
-   * do so as follows:
-   *
-   * >0 means exterior
-   * 0 means the surface of the function
-   * <0 means interior
-   *
-   * This behavior is identical to VTK's implicit functions
-   */
-  void SetBehaviorToInteriorExterior()
-    {m_Behavior = 1;};
 
   /**
    * Method for evaluating the implicit function over the image.
@@ -185,28 +167,9 @@ protected:
 private:
 
   /**
-   * The behavior of the evaluator
-   * 0 = evaluate the actual function value
-   * 1 = evaluate interior / exterior
-   */
-  unsigned int m_Behavior;
-
-  /**
    * The function that will be evaluated over the image
    */
-  SpatialFunction<NDimensions>* m_pFunction;
-
-  /**
-   * The value to be output if the function represents the "interior"
-   * or surface of the function.
-   */
-  PixelType m_InteriorValue;
-  
-  /**
-   * The value to be output if the function represents the "exterior"
-   * of the function.
-   */
-  PixelType m_ExteriorValue;
+  TFunctionType* m_pFunction;
 };
 
 } // end namespace itk

@@ -50,27 +50,20 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-template< class TInputImage, class TOutputImage >
-SpatialFunctionImageEvaluatorFilter< TInputImage, TOutputImage >
+template< class TSpatialFunction, class TInputImage, class TOutputImage >
+SpatialFunctionImageEvaluatorFilter< TSpatialFunction, TInputImage, TOutputImage >
 ::SpatialFunctionImageEvaluatorFilter()
 {
   std::cout << "SpatialFunctionImageEvaluatorFilter::SpatialFunctionImageEvaluatorFilter() called\n";
   
   // Set the internal function to null
   this->m_pFunction = 0;
-
-  // Default behavior is to just evaluate the function
-  this->SetBehaviorToFunctionValue();
-
-  // Safe values for all data types
-  m_InteriorValue = 255;
-  m_ExteriorValue = 128;
 }
 
 
-template< class TInputImage, class TOutputImage >
+template< class TSpatialFunction, class TInputImage, class TOutputImage >
 void
-SpatialFunctionImageEvaluatorFilter< TInputImage, TOutputImage >
+SpatialFunctionImageEvaluatorFilter< TSpatialFunction, TInputImage, TOutputImage >
 ::GenerateData()
 {
   std::cout << "SpatialFunctionImageEvaluatorFilter::GenerateData() called\n";
@@ -133,30 +126,13 @@ SpatialFunctionImageEvaluatorFilter< TInputImage, TOutputImage >
     for (int ii = 0; ii < NDimensions; ++ii)
       outputVector[ii] = outputIndex[ii]*spacing[ii]+origin[ii];
 
-    value = m_pFunction->EvaluateFunctionValue(&outputVector);
+    value = m_pFunction->Evaluate(&outputVector);
 
-    switch (m_Behavior)
-      {
-      case 0: // Use the function value
-        pixval.SetScalar(value);
-        outIt.Set(pixval);
-        break;
-
-      case 1: // Use the interior/exterior values
-        if (value <= 0)
-          pixval.SetScalar(m_InteriorValue);
-        else
-          pixval.SetScalar(m_ExteriorValue);
-        outIt.Set(pixval);
-        break;
-      
-      default: // Use the function value
-        pixval.SetScalar(value);
-        outIt.Set(pixval);
+    // Set the pixel value to the function value
+    pixval.SetScalar(value);
+    outIt.Set(pixval);
     
-      } // end switch
-
-    }
+    } // end switch
 
   std::cout << "SpatialFunctionImageEvaluatorFilter::GenerateData() finished\n";
 }
