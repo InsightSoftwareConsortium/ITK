@@ -17,6 +17,7 @@
 #ifndef _itkBilateralImageFilter_txx
 #define _itkBilateralImageFilter_txx
 
+#include "itkBilateralImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkGaussianImageSource.h"
 #include "itkNeighborhoodAlgorithm.h"
