@@ -44,7 +44,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <itkImage.h>
 #include <itkSinImageFilter.h>
 #include <itkSinImageAdaptor.h>
-#include <itkSimpleImageRegionIterator.h>
+#include <itkImageRegionIteratorWithIndex.h>
 #include <itkSubtractImageFilter.h>
 
 
@@ -61,10 +61,10 @@ int main()
   
   
   // Declare Iterator types apropriated for each image 
-  typedef itk::SimpleImageRegionIterator<
+  typedef itk::ImageRegionIteratorWithIndex<
                                   InputImageType>  InputIteratorType;
 
-  typedef itk::SimpleImageRegionIterator<
+  typedef itk::ImageRegionIteratorWithIndex<
                                   OutputImageType>  OutputIteratorType;
 
 
@@ -108,7 +108,7 @@ int main()
   const double pi    = atan( 1.0 ) * 4.0;
   const double value = pi / 6.0;
   std::cout << "Content of the Input " << std::endl;
-  it.Begin();
+  it.GoToBegin();
   while( !it.IsAtEnd() ) 
   {
     it.Set( value );
@@ -141,8 +141,8 @@ int main()
   //  Check the content of the result image
   std::cout << "Verification of the output " << std::endl;
   const OutputImageType::PixelType epsilon = 1e-6;
-  ot.Begin();
-  it.Begin();
+  ot.GoToBegin();
+  it.GoToBegin();
   while( !ot.IsAtEnd() ) 
   {
     std::cout <<  ot.Get() << " = ";
@@ -197,7 +197,7 @@ int main()
   // Create an iterator for going through the image output
   OutputIteratorType dt(diffImage, diffImage->GetRequestedRegion());
   
-  dt.Begin();
+  dt.GoToBegin();
   while( !dt.IsAtEnd() ) 
   {
     std::cout <<  dt.Get() << std::endl;
