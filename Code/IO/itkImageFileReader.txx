@@ -169,21 +169,21 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
   OutputImagePixelType *buffer = 
     output->GetPixelContainer()->GetBufferPointer();
   m_ImageIO->SetFileName(m_FileName.c_str());
-  m_ImageIO->SetLoadRegion(ioRegion);
+  m_ImageIO->SetIORegion(ioRegion);
 
   if ( m_ImageIO->GetPixelType() == typeid(TOutputImage::PixelType) &&
        (m_ImageIO->GetNumberOfComponents() == 
         ConvertPixelTraits::GetNumberOfComponents()))
     {
     // allocate a buffer and have the ImageIO read directly into it
-    m_ImageIO->Load(buffer);
+    m_ImageIO->Read(buffer);
     return;
     }
   else // a type conversion is necessary
     {
     OutputImagePixelType* loadBuffer = 
       new OutputImagePixelType[m_ImageIO->GetImageSizeInBytes()];
-    m_ImageIO->Load(loadBuffer);
+    m_ImageIO->Read(loadBuffer);
     this->DoConvertBuffer(loadBuffer, region.GetNumberOfPixels());
     delete [] loadBuffer;
     }

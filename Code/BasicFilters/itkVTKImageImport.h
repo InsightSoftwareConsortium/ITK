@@ -59,8 +59,21 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/** 
- * \brief Connect the end of an VTK pipeline to an ITK image pipeline.
+/** \brief Connect the end of an VTK pipeline to an ITK image pipeline.
+ *
+ * VTKImageImport can be used at the beginning of an ITK image pipeline to
+ * connect with a VTK pipeline that ends with vtkImageExport.  Callbacks
+ * provided by VTKImageImport are registered with vtkImageExport to connect
+ * the pipeline execution together.  Once connected, update requests coming
+ * through the ITK pipeline are automatically propagated to the VTK pipeline.
+ *
+ * Note that the VTK images are assumed to be of 1, 2, or 3 dimensions.
+ * Scalar value types can be one of: float, double, char, unsigned char,
+ * short, unsigned short, int, unsigned int, long, unsigned long. The
+ * images must have pixel types with one component.
+ *
+ * \ingroup IOFilters
+ * \sa VTKImageImport 
  */
 template <typename TOutputImage>
 class ITK_EXPORT VTKImageImport: public ImageSource<TOutputImage>
@@ -102,47 +115,47 @@ public:
   typedef int* (*DataExtentCallbackType)(void*);
   typedef void* (*BufferPointerCallbackType)(void*);
   
-  /** What to do when recieving UpdateInformation(). */
+  /** What to do when receiving UpdateInformation(). */
   itkSetMacro(UpdateInformationCallback, UpdateInformationCallbackType);
   itkGetMacro(UpdateInformationCallback, UpdateInformationCallbackType);
   
-  /** What to do when recieving PipelineModified(). */
+  /** What to do when receiving PipelineModified(). */
   itkSetMacro(PipelineModifiedCallback, PipelineModifiedCallbackType);
   itkGetMacro(PipelineModifiedCallback, PipelineModifiedCallbackType);
   
-  /** What to do when recieving SetWholeExtent(). */
+  /** What to do when receiving SetWholeExtent(). */
   itkSetMacro(WholeExtentCallback, WholeExtentCallbackType);
   itkGetMacro(WholeExtentCallback, WholeExtentCallbackType);
   
-  /** What to do when recieving SetSpacing(). */
+  /** What to do when receiving SetSpacing(). */
   itkSetMacro(SpacingCallback, SpacingCallbackType);
   itkGetMacro(SpacingCallback, SpacingCallbackType);
   
-  /** What to do when recieving SetOrigin(). */
+  /** What to do when receiving SetOrigin(). */
   itkSetMacro(OriginCallback, OriginCallbackType);
   itkGetMacro(OriginCallback, OriginCallbackType);
   
-  /** What to do when recieving UpdateInformation(). */
+  /** What to do when receiving UpdateInformation(). */
   itkSetMacro(ScalarTypeCallback, ScalarTypeCallbackType);
   itkGetMacro(ScalarTypeCallback, ScalarTypeCallbackType);
   
-  /** What to do when recieving SetNumberOfComponents(). */
+  /** What to do when receiving SetNumberOfComponents(). */
   itkSetMacro(NumberOfComponentsCallback, NumberOfComponentsCallbackType);
   itkGetMacro(NumberOfComponentsCallback, NumberOfComponentsCallbackType);
   
-  /** What to do when recieving PropagateUpdateExtent(). */
-  itkSetMacro(PropagateUpdateExtentCallback, PropagateUpdateExtentCallbackType);
-  itkGetMacro(PropagateUpdateExtentCallback, PropagateUpdateExtentCallbackType);
+  /** What to do when receiving PropagateUpdateExtent(). */
+  itkSetMacro(PropagateUpdateExtentCallback,PropagateUpdateExtentCallbackType);
+  itkGetMacro(PropagateUpdateExtentCallback,PropagateUpdateExtentCallbackType);
   
-  /** What to do when recieving UpdateData(). */
+  /** What to do when receiving UpdateData(). */
   itkSetMacro(UpdateDataCallback, UpdateDataCallbackType);
   itkGetMacro(UpdateDataCallback, UpdateDataCallbackType);
 
-  /** What to do when recieving DataExtent(). */
+  /** What to do when receiving DataExtent(). */
   itkSetMacro(DataExtentCallback, DataExtentCallbackType);
   itkGetMacro(DataExtentCallback, DataExtentCallbackType);
   
-  /** What to do when recieving BufferPointer(). */
+  /** What to do when receiving BufferPointer(). */
   itkSetMacro(BufferPointerCallback, BufferPointerCallbackType);
   itkGetMacro(BufferPointerCallback, BufferPointerCallbackType);
 

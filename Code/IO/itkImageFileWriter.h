@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkImageFileReader.h
+  Module:    itkImageFileWriter.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,28 +38,27 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef __itkImageFileReader_h
-#define __itkImageFileReader_h
+#ifndef __itkImageFileWriter_h
+#define __itkImageFileWriter_h
 
+#include "itkProcessObject.h"
 #include "itkImageIOBase.h"
-#include "itkImageSource.h"
 #include "itkExceptionObject.h"
 #include "itkSize.h"
 #include "itkImageRegion.h"
-#include "itkDefaultConvertPixelTraits.h"
 
 namespace itk
 {
 
-/** \brief Base exception class for IO conflicts. */
-class ImageFileReaderException : public ExceptionObject 
+/** \brief Base exception class for IO problems during writing. */
+class ImageFileWriterException : public ExceptionObject 
 {
 public:
   /** Run-time information. */
-  itkTypeMacro( ImageFileReaderException, ExceptionObject );
+  itkTypeMacro( ImageFileWriterException, ExceptionObject );
 
   /** Constructor. */
-  ImageFileReaderException(char *file, unsigned int line, 
+  ImageFileWriterException(char *file, unsigned int line, 
                            const char* message = "Error in IO") : 
     ExceptionObject(file, line)
     {
@@ -67,7 +66,7 @@ public:
     }
 
   /** Constructor. */
-  ImageFileReaderException(const std::string &file, unsigned int line, 
+  ImageFileWriterException(const std::string &file, unsigned int line, 
                            const char* message = "Error in IO") : 
     ExceptionObject(file, line)
     {
@@ -76,58 +75,54 @@ public:
 };
 
 
-/** \brief Data source that reads image data from disk files.
+/** \class ImageFileWriter
+ * \brief The base class for all image data writers.
  *
- * This source object is a general filter to read data from
- * a variety of file formats. It works with a ImageIOBase subclass
- * to actually do the reading of the data. Object factory machinery
- * can be used to automatically create the ImageIOBase, or the
- * ImageIOBase can be manually created and set.
+ * ImageFileWriter is the base class for all Insight image data writers.
+ * ImageFileWriter interfaces with an ImageIO class to write out its
+ * data.
  *
- * TOutputImage is the type expected by the external users of the
- * filter. If data stored in the file is stored in a different format
- * then specified by TOutputImage, than this filter converts data 
- * between the file type and the external expected type.  The 
- * ConvertTraits template argument is used to do the conversion.
- *
- * A Pluggable factory pattern is used this allows different kinds of readers
+ * A Pluggable factory pattern is used that allows different kinds of writers
  * to be registered (even at run time) without having to modify the
- * code in this class.
+ * code in this class. You can either manually instantiate the ImageIO
+ * object and associate it with the ImageFileWriter, or let the class
+ * figure it out from the extension.
+ *
+ * \ingroup IOFilters 
  */
-template <class TOutputImage,
-  class ConvertPixelTraits = 
-DefaultConvertPixelTraits< ITK_TYPENAME TOutputImage::PixelType> >
-class ITK_EXPORT ImageFileReader : public ImageSource<TOutputImage>
+template <class TInputImage>
+class ITK_EXPORT ImageFileWriter : public ProcessObject
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageFileReader         Self;
-  typedef ImageSource<TOutputImage>  Superclass;
+  typedef ImageFileWriter              Self;
+  typedef ProcessObject  Superclass;
   typedef SmartPointer<Self>  Pointer;
-  
+  typedef SmartPointer<const Self>  ConstPointer;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageFileReader, ImageSource);
+  itkTypeMacro(ImageFileWriter,ProcessObject);
 
-  /** The size of the output image. */
-  typedef Size<TOutputImage::ImageDimension>  Size;
-
-  /** The region of the output image. */
-  typedef ImageRegion<TOutputImage::ImageDimension>  Region;
-
-  /** The pixel type of the output image. */
-  typedef typename TOutputImage::PixelType OutputImagePixelType;
+  /** Some convenient typedefs. */
+  typedef TInputImage InputImageType;
+  typedef typename InputImageType::Pointer InputImagePointer;
+  typedef typename InputImageType::RegionType InputImageRegionType; 
+  typedef typename InputImageType::PixelType InputImagePixelType; 
   
-  /** Specify the file to load. This is forwarded to the IO instance. 
-   * Either the FileName or FilePrefix plus pattern are used to read
-   * files. */
+  /** Set/Get the image input of this writer.  */
+  void SetInput(InputImageType *input);
+  InputImagePointer GetInput();
+  InputImagePointer GetInput(unsigned int idx);
+  
+  /** Specify the name of the output file. */
   itkSetStringMacro(FileName);
   itkGetStringMacro(FileName);
   
   /** Specify file prefix for the image file(s). You should specify either
-   * a FileName or FilePrefix. Use FilePrefix if the data is stored
+   * a FileName or FilePrefix. Use FilePrefix if the data can be stored
    * in multiple files. */
   itkSetStringMacro(FilePrefix);
   itkGetStringMacro(FilePrefix);
@@ -138,40 +133,51 @@ public:
   
   /** Set/Get the ImageIO helper class. Often this is created via the object
    * factory mechanism that determines whether a particular ImageIO can
-   * read a certain file. This method provides a way to get the ImageIO 
+   * write a certain file. This method provides a way to get the ImageIO 
    * instance that is created. */
   itkSetObjectMacro(ImageIO,ImageIOBase);
   itkGetObjectMacro(ImageIO,ImageIOBase);
   
+  /** A special version of the Update() method for writers.
+   * It invokes start and end events and handles releasing data. It
+   * eventually calls GenerateData() ehich does the actual writing.
+   * Note: if the write method is called without arguments, then the
+   * entire image is written. The Write(region) method writes the
+   * requested region. Note that the region will be cropped to fit
+   * the input image's LargestPossibleRegion. */
+  virtual void Write();
+  virtual void Write(const ImageIORegion& region);
+
 protected:
-  ImageFileReader();
-  ~ImageFileReader();
+  ImageFileWriter();
+  ~ImageFileWriter();
   void PrintSelf(std::ostream& os, Indent indent) const;
-  
-  /** Convert a block of pixels from one type to another. */
-  void DoConvertBuffer(void* buffer, unsigned long numberOfPixels);
 
   /** Does the real work. */
-  virtual void GenerateData();
-
-  ImageIOBase::Pointer m_ImageIO;
-  bool m_UserSpecified; //keep track whether the ImageIO is user specified
-
-  std::string m_FileName;
-  std::string m_FilePrefix;
-  std::string m_FilePattern;
+  void GenerateData();
   
 private:
-  ImageFileReader(const Self&); //purposely not implemented
+  ImageFileWriter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
+
+  std::string        m_FileName;
+  std::string        m_FilePrefix;
+  std::string        m_FilePattern;
+  
+  ImageIOBase::Pointer m_ImageIO;
+  bool m_UserSpecifiedImageIO; //track whether the ImageIO is user specified
+  
+  ImageIORegion *m_Region;
+  bool m_UserSpecifiedRegion; //track whether the region is user specified
   
 };
 
-
-} //namespace ITK
-
+  
+} // end namespace itk
+  
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageFileReader.txx"
+#include "itkImageFileWriter.txx"
 #endif
 
-#endif // __itkImageFileReader_h
+#endif // __itkImageFileWriter_h
+  

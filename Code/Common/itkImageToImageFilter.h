@@ -103,10 +103,8 @@ public:
   typedef typename InputImageType::RegionType InputImageRegionType; 
   typedef typename InputImageType::PixelType InputImagePixelType; 
   
-  /** Set the image input of this process object.  */
+  /** Set/Get the image input of this process object.  */
   void SetInput(InputImageType *input);
-
-  /** Get the image input of this process object.  */
   InputImagePointer GetInput();
   InputImagePointer GetInput(unsigned int idx);
   

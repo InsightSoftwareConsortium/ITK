@@ -222,7 +222,8 @@ unsigned int *RawImageIO<TPixel,VImageDimension>
 
 
 template <class TPixel, unsigned int VImageDimension>
-void RawImageIO<TPixel,VImageDimension>::Load()
+void RawImageIO<TPixel,VImageDimension>
+::Read()
 {
   // Open the file
   this->OpenFile();

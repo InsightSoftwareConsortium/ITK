@@ -256,7 +256,7 @@ ImageSource<TOutputImage>
   this->GetMultiThreader()->SetNumberOfThreads(this->GetNumberOfThreads());
   this->GetMultiThreader()->SetSingleMethod(this->ThreaderCallback, &str);
   
-  // <ultithread the execution
+  // multithread the execution
   this->GetMultiThreader()->SingleMethodExecute();
 
   // Call a method that can be overridden by a subclass to perform

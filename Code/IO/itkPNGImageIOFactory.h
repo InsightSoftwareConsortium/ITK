@@ -58,23 +58,23 @@ public:
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
-  /** Class Methods used to interface with the registered factories */
+  /** Class methods used to interface with the registered factories. */
   virtual const char* GetITKSourceVersion();
   virtual const char* GetDescription() const;
     
-  /** Run-time type information (and related methods). */
-  itkTypeMacro(PNGImageIOFactory, ObjectFactoryBase);
-
-  /** Method for creation through the object factory. */
+  /** Method for class instantiation. */
   static PNGImageIOFactory* New()
     { return new PNGImageIOFactory; }
 
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(PNGImageIOFactory, ObjectFactoryBase);
+
   /** Register one factory of this type  */
   static void RegisterOneFactory(void)
-  {
-    PNGImageIOFactory::Pointer pngFactory = PNGImageIOFactory::New();
-    ObjectFactoryBase::RegisterFactory(pngFactory);
-  }
+    {
+      PNGImageIOFactory::Pointer pngFactory = PNGImageIOFactory::New();
+      ObjectFactoryBase::RegisterFactory(pngFactory);
+    }
   
 protected:
   PNGImageIOFactory();

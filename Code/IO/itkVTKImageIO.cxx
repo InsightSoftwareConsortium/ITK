@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkVTKImageReader.h
+  Module:    itkVTKImageIO.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,64 +38,84 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef __itkVTKImageReader_h
-#define __itkVTKImageReader_h
-
-#include "itkImageSource.h"
+#include "itkVTKImageIO.h"
+#include "png.h"
 
 namespace itk
 {
 
-/** \class VTKImageReader
- * \brief Read VTK-formatted image files.
- *
- * VTKImageReader reads VTK-formatted data files. This class requires
- * that the VTK dataset type is STRUCTURED_POINTS, and only the scalar
- * point data is read (1-4 components).
- *
- * \ingroup IOFilters
- */
-template <class TOutputImage>
-class ITK_EXPORT VTKImageReader : public ImageSource<TOutputImage>
+bool VTKImageIO::CanReadFile(const char* file) 
+{ 
+  return true;
+}
+  
+const std::type_info& VTKImageIO::GetPixelType() const
 {
-public:
-  /** Standard class typedefs. */
-  typedef VTKImageReader        Self;
-  typedef ImageSource<TOutputImage>  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  switch(m_VTKPixelType)
+    {
+    case UCHAR:
+      return typeid(unsigned char);
+    case USHORT:
+      return typeid(unsigned short);
+    default:
+      return typeid(unsigned char);
+    }
+}
 
-  /** Run-time type information (and related methods). */
-  itkTypeMacro(VTKImageReader,ImageSource);
-
-  /** Method for creation through the object factory. */
-  itkNewMacro(Self);  
-
-  /** Specify the name of the input file. */
-  itkSetStringMacro(FileName);
   
-  /** Get the name of the input file. */
-  itkGetStringMacro(FileName);
+unsigned int VTKImageIO::GetComponentSize() const
+{
+  switch(m_VTKPixelType)
+    {
+    case UCHAR:
+      return sizeof(unsigned char);
+    case USHORT:
+      return sizeof(unsigned short);
+    }
+  return 1;
+}
+
   
-protected:
-  VTKImageReader();
-  ~VTKImageReader() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+void VTKImageIO::Read(void* buffer)
+{
+}
+
+
+const double* 
+VTKImageIO::GetOrigin() const
+{
+  return m_Origin;
+}
+
+
+const double* 
+VTKImageIO::GetSpacing() const
+{
+  return m_Spacing;
+}
+
+
+VTKImageIO::VTKImageIO()
+{
+  this->SetNumberOfDimensions(2);
+  m_VTKPixelType = UCHAR;
+}
+
+VTKImageIO::~VTKImageIO()
+{
+}
+
+void VTKImageIO::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "VTKPixelType " << m_VTKPixelType << "\n";
+}
+
   
-  void GenerateData();
+  
+void VTKImageIO::ReadImageInformation()
+{
+}
 
-private:
-  VTKImageReader(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
-  std::string m_FileName;
-
-};
 
 } // end namespace itk
-
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVTKImageReader.txx"
-#endif
-
-#endif

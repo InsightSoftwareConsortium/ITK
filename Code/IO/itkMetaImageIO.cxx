@@ -327,7 +327,7 @@ unsigned int MetaImageIO::GetComponentSize() const
 }
 
   
-void MetaImageIO::Load(void* buffer)
+void MetaImageIO::Read(void* buffer)
 {
   unsigned int dimensions = this->GetNumberOfDimensions();
   unsigned int numberOfPixels = 1;

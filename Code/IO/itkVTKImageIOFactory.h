@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkRawImageWriter.h
+  Module:    itkVTKImageIOFactory.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,79 +38,56 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef __itkRawImageWriter_h
-#define __itkRawImageWriter_h
+#ifndef __itkVTKImageIOFactory_h
+#define __itkVTKImageIOFactory_h
 
-#include "itkImageWriter.h"
-#include <vector>
+#include "itkObjectFactoryBase.h"
+#include "itkImageIOBase.h"
 
 namespace itk
 {
-
-/** \class RawImageWriter
- * \brief Write an image (n-dimensional) in raw format.
- *
- * RawImageWriter writes n-dimensional images in raw file format. 
- * The raw format is just a sequence of numbers representing pixel
- * (i.e., image) values in the order of image definition (i.e., row, 
- * then slice, then volume, etc.) You can specify
- * binary or ASCII output types, as well as the byte order (little
- * endian or big endian).
- *
- * \ingroup IOFilters
+/** \class VTKImageIOFactory
+ * \brief Create instances of VTKImageIO objects using an object factory.
  */
-template <class TInputImage>
-class ITK_EXPORT RawImageWriter : public ImageWriter<TInputImage>
+class ITK_EXPORT VTKImageIOFactory : public ObjectFactoryBase
 {
-public:
+public:  
   /** Standard class typedefs. */
-  typedef RawImageWriter       Self;
-  typedef ImageWriter<TInputImage>  Superclass;
+  typedef VTKImageIOFactory   Self;
+  typedef Object  Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
+  
+  /** Class Methods used to interface with the registered factories. */
+  virtual const char* GetITKSourceVersion();
+  virtual const char* GetDescription() const;
+    
+  /** Method for class instantiation. */
+  static VTKImageIOFactory* New()
+    { return new VTKImageIOFactory; }
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(RawImageWriter,ImageWriter);
+  itkTypeMacro(VTKImageIOFactory, ObjectFactoryBase);
 
-  /** Method for creation through the object factory. */
-  itkNewMacro(Self);
+  /** Register one factory of this type  */
+  static void RegisterOneFactory(void)
+    {
+      VTKImageIOFactory::Pointer vtkFactory = VTKImageIOFactory::New();
+      ObjectFactoryBase::RegisterFactory(vtkFactory);
+    }
   
-  /** Enums used to specify the byte order. */
-  typedef  enum {BigEndian,LittleEndian} ByteOrder;
-  
-  /** Set the ITK file type. The default is BigEndian. */
-  itkSetMacro(ByteOrder,ByteOrder);
-  
-  /** Get the byte order. */
-  itkGetMacro(ByteOrder,ByteOrder);
-                 
-  /** Specify the byte order as big endian. */
-  void SetByteOrderToBigEndian() 
-    {this->SetByteOrder(RawImageWriter::BigEndian);}
-
-  /** Specify the byte order as little endian. */
-  void SetByteOrderToLittleEndian() 
-    {this->SetByteOrder(RawImageWriter::LittleEndian);}
-
 protected:
-  RawImageWriter();
-  ~RawImageWriter() {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  VTKImageIOFactory();
+  ~VTKImageIOFactory();
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
-  void WriteData();
-  
 private:
-  RawImageWriter(const Self&); //purposely not implemented
+  VTKImageIOFactory(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
-  ByteOrder m_ByteOrder;
 
 };
 
-} // end namespace itk
   
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRawImageWriter.txx"
-#endif
+} // end namespace itk
 
 #endif

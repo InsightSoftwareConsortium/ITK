@@ -74,6 +74,8 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(VOLImageIO, Superclass);
 
+  /*-------- This part of the interfaces deals with reading data. ----- */
+
   /** Determine the file type. Returns true if this ImageIOBase can read the
    * file specified.  Reads in the header as well. */
   virtual bool CanReadFile(const char*);
@@ -88,14 +90,26 @@ public:
   /** Get the type of the pixel.  */
   virtual const std::type_info& GetPixelType() const ;
 
-  /** Loads the data from disk into the memory buffer provided. */
-  virtual void Load(void* buffer);
+  /** Reads the data from disk into the memory buffer provided. */
+  virtual void Read(void* buffer);
 
   /** Get the image spacing. */
   virtual const double* GetSpacing() const;
   const double* GetOrigin() const;
   
-  /** Methods thet provide information about the data file. This
+  /*-------- This part of the interfaces deals with writing data. ----- */
+
+  /** Determine the file type. Returns true if this ImageIO can read the
+   * file specified. */
+  virtual bool CanWriteFile(const char*)
+    { return false; }
+
+  /** Writes the data to disk from the memory buffer provided. Make sure
+   * that the IORegions has been set properly. */
+  virtual void Write(void* buffer)
+    { return; }
+
+  /** Methods that provide information about the data file. This
    * information is only valid after the file is read successfully. */
   unsigned int GetComponentSize() const;
   itkGetMacro(File_type, unsigned long);

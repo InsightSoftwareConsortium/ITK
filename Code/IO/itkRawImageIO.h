@@ -83,6 +83,8 @@ public:
    * or other operations. */
   typedef TPixel PixelType;
 
+  /*-------- This part of the interface deals with reading data. ------ */
+
   /** Determine the file type. Returns true if this ImageIOBase can read the
    * file specified. */
   virtual bool CanReadFile(const char*) 
@@ -92,11 +94,11 @@ public:
   virtual const type_info& GetPixelType() const
     {return typeid(PixelType);}
 
-  /** Loads the data from disk into internal memory (the RequestedRegionData). */
-  virtual void Load();
+  /** Reads data from disk into internal memory (the RequestedRegionData). */
+  virtual void Read();
   
-  /** Loads the data from disk into the memory buffer provided. */
-  virtual void Load(void* buffer) {}
+  /** Reads the data from disk into the memory buffer provided. */
+  virtual void Read(void* buffer) {}
 
   /** Compute the size (in bytes) of the components of a pixel. For
    * example, and RGB pixel of unsigned char would have a 
@@ -162,6 +164,18 @@ public:
   
   /** Read a file's header to determine image dimensions, etc. */
   virtual void ReadHeader (const std::string fileName="") {};
+
+  /*-------- This part of the interfaces deals with writing data. ----- */
+
+  /** Determine the file type. Returns true if this ImageIO can read the
+   * file specified. */
+  virtual bool CanWriteFile(const char*)
+    { return false; }
+
+  /** Writes the data to disk from the memory buffer provided. Make sure
+   * that the IORegions has been set properly. */
+  virtual void Write(void* buffer)
+    { return; }
 
 protected:
   RawImageIO();

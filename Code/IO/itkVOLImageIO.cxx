@@ -106,7 +106,7 @@ unsigned int VOLImageIO::GetComponentSize() const
   return sizeof(unsigned char);
 }
 
-void VOLImageIO::Load(void* buffer)
+void VOLImageIO::Read(void* buffer)
 {
 
   // use this class so return will call close

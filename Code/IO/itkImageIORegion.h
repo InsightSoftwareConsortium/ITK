@@ -55,7 +55,7 @@ namespace itk
  * a size in each of the n-dimensions of the image. (The index is the
  * corner of the image, the size is the lengths of the image in each of
  * the topological directions.)  ImageIORegion is not templated over
- * dimension, but use dynamic arrays instead.
+ * dimension, but uses dynamic arrays instead.
  *
  * \sa Region
  * \sa ImageRegion

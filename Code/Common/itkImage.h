@@ -64,7 +64,7 @@ namespace itk
  * allows an application to pass a block of memory to the Image class
  * to use as its initial storage.
  * 
- * Within, the pixel container, images are modeled as arrays, defined by a
+ * Within the pixel container, images are modeled as arrays, defined by a
  * start index and a size.
  * 
  * There are three sets of meta-data describing an image. These are "Region"
@@ -193,10 +193,10 @@ public:
    * For efficiency, this function does not check that the
    * image has actually been allocated yet. */
   TPixel& GetPixel(const IndexType &index)
-  {
+    {
     OffsetValueType offset = this->ComputeOffset(index);
     return ( (*m_Buffer)[offset] );
-  }
+    }
     
   /** \brief Access a pixel. This version can be an lvalue.
    * 
@@ -238,8 +238,7 @@ public:
   /** Set the spacing (size of a pixel) of the image. The
    * spacing is the geometric distance between image samples.
    * It is stored internally as double, but may be set from
-   * float.
-   * \sa GetSpacing() */
+   * float. \sa GetSpacing() */
   virtual void SetSpacing( const double values[ImageDimension] );
   virtual void SetSpacing( const float values[ImageDimension] );
   
@@ -336,7 +335,6 @@ public:
   bool TransformPhysicalPointToIndex(Point<TCoordRep, VImageDimension>& point, 
     Index<VImageDimension>& index)
     {
-
     // If no current transforms exist, rebuild using the origin and spacing
     if ( !m_PhysicalToIndexTransform ) { this->RebuildTransforms(); }
 
@@ -396,8 +394,7 @@ public:
     point = outputPoint;
     }
 
-  /**
-   * Get a physical point (in the space which 
+  /** Get a physical point (in the space which 
    * the origin and spacing infomation comes from) 
    * from a discrete index (in the index space) 
    *

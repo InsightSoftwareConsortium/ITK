@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkImageWriter.txx
+  Module:    itkVTKImageIOFactory.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,52 +38,45 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef _itkImageWriter_txx
-#define _itkImageWriter_txx
-
-#include "itkImageWriter.h"
+#include "itkVTKImageIOFactory.h"
+#include "itkCreateObjectFunction.h"
+#include "itkVTKImageIO.h"
+#include "itkVersion.h"
 
 namespace itk
 {
 
-/**
- *
- */
-template <class TInputImage>
-void 
-ImageWriter<TInputImage>
-::SetInput(InputImageType *input)
+
+void VTKImageIOFactory::PrintSelf(std::ostream& os, Indent indent) const
 {
-  this->ProcessObject::SetNthInput(0, input);
+  
+}
+  
+
+VTKImageIOFactory::VTKImageIOFactory()
+{
+  this->RegisterOverride("itkImageIOBase",
+                         "itkVTKImageIO",
+                         "VTK Image IO",
+                         1,
+                         new CreateObjectFunction<VTKImageIO>);
+}
+  
+VTKImageIOFactory::~VTKImageIOFactory()
+{
 }
 
-template <class TInputImage>
-ImageWriter<TInputImage>::InputImagePointer 
-ImageWriter<TInputImage>
-::GetInput()
+const char* 
+VTKImageIOFactory::GetITKSourceVersion()
 {
-  if (this->GetNumberOfInputs() < 1)
-    {
-    return 0;
-    }
-  
-  return static_cast<TInputImage*>
-                     (this->ProcessObject::GetInput(0).GetPointer());
+  return ITK_SOURCE_VERSION;
 }
 
-
-/**
- *
- */
-template <class TInputImage>
-void 
-ImageWriter<TInputImage>
-::PrintSelf(std::ostream& os, Indent indent) const
+const char* 
+VTKImageIOFactory::GetDescription() const
 {
-  Superclass::PrintSelf(os,indent);
-  
+  return "VTK ImageIO Factory, allows the loading of VTK images into ITK";
 }
 
 } // end namespace itk
 
-#endif

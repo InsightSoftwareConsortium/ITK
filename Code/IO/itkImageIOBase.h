@@ -50,17 +50,20 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/** \brief Abstract superclass for IO classes.
+/** \brief Abstract superclass defines image IO interface.
  *
- *  TOutputImage is the type expected by the external users of the
- *  filter. Data comming from a file can be stored in any other format (or
- *  type) this filter converts data between the file type and the external
- *  expected type.  The ConvertTraits template arguement is used to do the
- *  conversion.
+ * An itk::ImageIOClass is a class that reads and/or writes image data of a
+ * particular format. The ImageIOClass encapsulates both the reading and
+ * writing of a particular form of data, such as PNG or raw binary. The
+ * ImageIOClass is typically used by the ImageFileReader class (to read data)
+ * and the ImageFileWriter (to write data).
  *
- *  A Pluggable factory pattern is used this allows different kinds of readers
- *  to be registered (even at run time) without having to modify the
- *  code in this class.
+ * A Pluggable factory pattern is used this allows different kinds of readers
+ * to be registered (even at run time) without having to modify the
+ * code in this class.  
+ *
+ * \sa ImageFileWriter
+ * \sa ImageFileReader
  */
 class ITK_EXPORT ImageIOBase : public Object
 {
@@ -77,9 +80,19 @@ public:
   itkSetStringMacro(FileName);
   itkGetStringMacro(FileName);
   
+  /** Enums used to manipulate types. */
+  typedef  enum {UCHAR,CHAR,USHORT,SHORT,UINT,INT,ULONG,LONG,FLOAT,DOUBLE} 
+           ComponentType;
+
+  /** Specify the region of the image data to either read or write. */
+  itkSetMacro(IORegion, ImageIORegion);
+  itkGetMacro(IORegion, ImageIORegion);
+
+  /*-------- This part of the interfaces deals with reading data ----- */
+
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  virtual bool CanReadFile(const char*)  = 0;
+  virtual bool CanReadFile(const char*) = 0;
   
   /** Read the spacing and dimentions of the image.
    * Assumes SetFileName has been called with a valid file name. */
@@ -88,12 +101,8 @@ public:
   /** Get the type of the pixel.  */
   virtual const std::type_info& GetPixelType() const = 0;
 
-  /** Specify the region of the data to load. */
-  itkSetMacro(LoadRegion, ImageIORegion);
-  itkGetMacro(LoadRegion, ImageIORegion);
-    
-  /** Loads the data from disk into the memory buffer provided. */
-  virtual void Load(void* buffer) = 0;
+  /** Reads the data from disk into the memory buffer provided. */
+  virtual void Read(void* buffer) = 0;
 
   /** The guts of this class. Returns the data in the requested region, 
    * which holds the raw pixels of the image read from disk. */
@@ -120,11 +129,18 @@ public:
    * the next pixel. Returns m_Strides[1]; */
   virtual unsigned int GetPixelStride () const;
 
-  /** Enums used to manipulate types */
-  typedef  enum {UCHAR,CHAR,USHORT,SHORT,UINT,INT,ULONG,LONG,FLOAT,DOUBLE} 
-           ComponentType;
   /** Return the number of bytes in the image. */
   unsigned int GetImageSizeInBytes() const;
+  
+  /*-------- This part of the interfaces deals with writing data ----- */
+
+  /** Determine the file type. Returns true if this ImageIO can read the
+   * file specified. */
+  virtual bool CanWriteFile(const char*)  = 0;
+  
+  /** Writes the data to disk from the memory buffer provided. Make sure
+   * that the IORegions has been set properly. */
+  virtual void Write(void* buffer) = 0;
 
 protected:
   ImageIOBase();
@@ -153,8 +169,8 @@ protected:
    * grayscale images, 3 for RGBPixel images, and 4 for RGBPixelA images. */
   unsigned int m_NumberOfComponents;
 
-  /** The region to load. */
-  ImageIORegion m_LoadRegion;
+  /** The region to read or write. */
+  ImageIORegion m_IORegion;
 
   /** The number of dimensions in the image. */
   unsigned int m_NumberOfDimensions;

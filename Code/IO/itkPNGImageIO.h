@@ -60,6 +60,8 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(PNGImageIO, Superclass);
 
+  /*-------- This part of the interface deals with reading data. ------ */
+
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
   virtual bool CanReadFile(const char*);
@@ -70,8 +72,8 @@ public:
   /** Get the type of the pixel.  */
   virtual const std::type_info& GetPixelType() const;
 
-  /** Loads the data from disk into the memory buffer provided. */
-  virtual void Load(void* buffer);
+  /** Reads the data from disk into the memory buffer provided. */
+  virtual void Read(void* buffer);
 
   /** Get the image origin. */
   virtual const double* GetOrigin() const;
@@ -83,6 +85,18 @@ public:
    * example, and RGB pixel of unsigned char would have a 
    * component size of 1 byte. */
   virtual unsigned int GetComponentSize() const;
+
+  /*-------- This part of the interfaces deals with writing data. ----- */
+
+  /** Determine the file type. Returns true if this ImageIO can read the
+   * file specified. */
+  virtual bool CanWriteFile(const char*)
+    { return false; }
+
+  /** Writes the data to disk from the memory buffer provided. Make sure
+   * that the IORegions has been set properly. */
+  virtual void Write(void* buffer)
+    { return; }
 
 protected:
   PNGImageIO();

@@ -159,7 +159,7 @@ unsigned int PNGImageIO::GetComponentSize() const
 }
 
   
-void PNGImageIO::Load(void* buffer)
+void PNGImageIO::Read(void* buffer)
 {
   // use this class so return will call close
   PNGFileWrapper pngfp(this->GetFileName()); 

@@ -10,6 +10,8 @@ itkPNGImageIOFactory
 itkPNGImageIO
 itkVOLImageIOFactory
 itkVOLImageIO
+itkVTKImageIOFactory
+itkVTKImageIO
 )
 
 # Add ITKIO library

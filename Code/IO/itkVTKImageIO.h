@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkImageWriter.h
+  Module:    itkVTKImageIO.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,58 +38,81 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef __itkImageWriter_h
-#define __itkImageWriter_h
+#ifndef __itkVTKImageIO_h
+#define __itkVTKImageIO_h
 
-#include "itkWriter.h"
+#include "itkImageIOBase.h"
 
 namespace itk
 {
 
-/** \class ImageWriter
- * \brief Base class for all writers that write images.
- *
- * ImageWriter is the base class for writers that write images.
- * \ingroup IOFilters
- */
-template <class TInputImage>
-class ITK_EXPORT ImageWriter : public Writer
+class ITK_EXPORT VTKImageIO : public ImageIOBase
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageWriter          Self;
-  typedef Writer   Superclass;
+  typedef VTKImageIO            Self;
+  typedef ImageIOBase  Superclass;
   typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-
-  /** Some convenience typedefs. */
-  typedef TInputImage InputImageType;
-  typedef typename InputImageType::Pointer InputImagePointer;
+  
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageWriter,Writer);
+  itkTypeMacro(VTKImageIO, Superclass);
 
-  /** Set the input image of this writer.  */
-  void SetInput(TInputImage *input);
+  /*-------- This part of the interface deals with reading data. ------ */
 
-  /** Get the input image of this writer. */
-  InputImagePointer GetInput();
+  /** Determine the file type. Returns true if this ImageIO can read the
+   * file specified. */
+  virtual bool CanReadFile(const char*);
+  
+  /** Set the spacing and diemention information for the set filename. */
+  virtual void ReadImageInformation();
+  
+  /** Get the type of the pixel.  */
+  virtual const std::type_info& GetPixelType() const;
+
+  /** Reads the data from disk into the memory buffer provided. */
+  virtual void Read(void* buffer);
+
+  /** Get the image origin. */
+  virtual const double* GetOrigin() const;
+
+  /** Get the image spacing. */
+  virtual const double* GetSpacing() const;
+
+  /** Compute the size (in bytes) of the components of a pixel. For
+   * example, and RGB pixel of unsigned char would have a 
+   * component size of 1 byte. */
+  virtual unsigned int GetComponentSize() const;
+
+  /*-------- This part of the interfaces deals with writing data. ----- */
+
+  /** Determine the file type. Returns true if this ImageIO can read the
+   * file specified. */
+  virtual bool CanWriteFile(const char*)
+    { return false; }
+
+  /** Writes the data to disk from the memory buffer provided. Make sure
+   * that the IORegions has been set properly. */
+  virtual void Write(void* buffer)
+    { return; }
 
 protected:
-  ImageWriter() {}
-  ~ImageWriter() {}
+  VTKImageIO();
+  ~VTKImageIO();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
+  ComponentType m_VTKPixelType;
+  double m_Spacing[2];
+  double m_Origin[2];
+
 private:
-  ImageWriter(const Self&); //purposely not implemented
+  VTKImageIO(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
+
 };
 
 } // end namespace itk
-  
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageWriter.txx"
-#endif
 
-#endif
-  
+#endif // __itkVTKImageIO_h
