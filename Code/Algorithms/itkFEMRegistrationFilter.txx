@@ -216,7 +216,6 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::ChooseMetric(float which)
 
 // for using the imagetoimagemetricloads 
 #ifdef  USEIMAGEMETRIC
-
   typedef itk::MeanSquaresImageToImageMetric<FixedImageType,MovingImageType> MetricType0;
   typedef itk::NormalizedCorrelationImageToImageMetric<FixedImageType,MovingImageType> MetricType1;
   typedef itk::PatternIntensityImageToImageMetric<FixedImageType,MovingImageType> MetricType2;
@@ -283,7 +282,6 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::ChooseMetric(float which)
 
     }
 #else 
-
 
   typedef itk::MeanSquareRegistrationFunction<FixedImageType,MovingImageType,FieldType> MetricType0;
   typedef itk::NCCRegistrationFunction<FixedImageType,MovingImageType,FieldType> MetricType1;
@@ -551,7 +549,7 @@ int FEMRegistrationFilter<TMovingImage,TFixedImage>::WriteDisplacementFieldMulti
   std::cout << "Writing multi-component displacement vector field...";
 
   typedef itk::ImageFileWriter< FieldType >  FieldWriterType;
-  FieldWriterType::Pointer  fieldWriter = FieldWriterType::New();
+  typename FieldWriterType::Pointer  fieldWriter = FieldWriterType::New();
 
   fieldWriter->SetInput( m_Field );
   fieldWriter->SetFileName("VectorDeformationField.mhd");
