@@ -349,7 +349,7 @@ public:
    * Return an iterator for the beginning of the region. "Begin"
    * is defined as the first pixel in the region.
    */
-  Self Begin();
+  Self Begin(void) const;
 
  /**
   * Move an iterator to the beginning of the region. "Begin" is
@@ -364,7 +364,7 @@ public:
    * Return an iterator for the end of the region. "End" is defined
    * as one pixel past the last pixel of the region.
    */
-  Self End();
+  Self End(void) const;
 
  /**
   * Move an iterator to the end of the region. "End" is defined as
@@ -379,7 +379,7 @@ public:
    * Is the iterator at the beginning of the region? "Begin" is defined
    * as the first pixel in the region.
    */
-  bool IsAtBegin()
+  bool IsAtBegin(void) const
     {
     return (m_Offset == m_BeginOffset);
     }
@@ -388,7 +388,7 @@ public:
    * Is the iterator at the end of the region? "End" is defined as one
    * pixel past the last pixel of the region.
    */
-  bool IsAtEnd()
+  bool IsAtEnd(void) const
     {
     return (m_Offset == m_EndOffset);
     }
