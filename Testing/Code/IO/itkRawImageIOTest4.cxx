@@ -34,8 +34,47 @@ int itkRawImageIOTest4(int, char**)
   io->SetFileTypeToBinary();
   io->SetByteOrderToBigEndian();
 
+  char filename[] = "test.raw";
   unsigned int dims[ImageDimension] = { 5, 5 };
-  for( int j = 0; j < ImageDimension; j++ )
+
+  // Create the binary file
+  ofstream outputFile;
+#ifdef Win32
+  outputFile.open( filename , ios::binary );
+#else
+  outputFile.open( filename );
+#endif
+
+  if( outputFile.fail() )
+    {
+    std::cerr << "itkRawImageIOTest4:Error writing the test file" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  PixelType value = itk::NumericTraits< PixelType >::Zero;
+  typedef itk::PixelTraits< PixelType >::ValueType ComponentType;
+  typedef itk::ByteSwapper< ComponentType >              ByteSwapperType;
+  unsigned int numberOfPixels = dims[0] * dims[1];
+  for( unsigned int i = 0; i < numberOfPixels; i++ )
+    {
+    PixelType swappedValue = value;
+    // make sure that the file is written in 
+    // BigEndian regardless of the platform
+    ByteSwapperType::SwapFromSystemToBigEndian( &swappedValue );
+    outputFile.write( reinterpret_cast<char*>(&swappedValue), 
+                      sizeof(swappedValue) );
+    ++value;
+    }
+  outputFile.close();
+ 
+  if( outputFile.fail() )
+    {
+    std::cerr << "itkRawImageIOTest4:Error writing the test file" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+ 
+  for( unsigned int j = 0; j < ImageDimension; j++ )
     {
     io->SetDimensions( j, dims[j] );
     }
@@ -44,7 +83,6 @@ int itkRawImageIOTest4(int, char**)
   typedef itk::Image<PixelType,ImageDimension> ImageType;
   typedef itk::ImageFileReader<ImageType> ReaderType;
 
-  char filename[] = "test.raw";
   
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( filename );
@@ -58,17 +96,28 @@ int itkRawImageIOTest4(int, char**)
   it.GoToBegin();
   it.SetDirection( 0 ); 
 
+  value = itk::NumericTraits< PixelType >::Zero;
   while ( !it.IsAtEnd() )
     {
     while ( !it.IsAtEndOfLine() )
       {
-      std::cout << it.Get() << " ";
+      PixelType readValue = it.Get();
+      std::cout << readValue << " ";
+      if( readValue != value )
+        {
+        std::cerr << "At index " << it.GetIndex() << std::endl;
+        std::cerr << "the value " << value << " was expected  " << std::endl;
+        std::cerr << "but value " << readValue << " was read  " << std::endl;
+        return EXIT_FAILURE;
+        }
       ++it;
+      ++value;
       }
     std::cout << std::endl;
     it.NextLine();
     }
 
+  std::cout << "Test PASSED !" << std::endl;
   return EXIT_SUCCESS;
 
 }
