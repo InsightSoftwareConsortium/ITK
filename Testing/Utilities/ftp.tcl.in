@@ -4,6 +4,10 @@
 #	Traeger (Steffen.Traeger@t-online.de); modified by Peter MacDonald
 #	(peter@pdqi.com) to support multiple simultaneous FTP sessions.
 #
+#       Modified to use "string compare" instead of "string equal". This 
+#       allows the script to run under Tcl 8.0
+#
+#
 # Copyright (c) 1996-1999 by Steffen Traeger <Steffen.Traeger@t-online.de>
 # Copyright (c) 2000 by Ajuba Solutions
 #
@@ -84,6 +88,16 @@ namespace export DisplayMsg Open Close Cd Pwd Type List NList FileSize ModTime\
 set serial 0
 set VERBOSE 0
 set DEBUG 0
+}
+
+#
+# Hack for tcl8.0 compatibility
+#
+proc ftp::StringEqual { string1 string2 } {
+  if { [string compare $string1 $string2] == 0} {
+    return 1;
+  }
+  return 0;
 }
 
 #############################################################################
@@ -273,7 +287,7 @@ proc ftp::StateHandler {s {sock ""}} {
             # multi-line format detected ("-"), get all the lines
             # until the real return code
 
-            while { [string equal $multi_line "-"] } {
+            while { [ftp::StringEqual $multi_line "-"] } {
                 set number [gets $sock bufline]	
                 if { $number > 0 } {
                     append buffer \n "$bufline"
@@ -303,7 +317,7 @@ proc ftp::StateHandler {s {sock ""}} {
     }
 	
     # system status replay
-    if { [string equal $rc "211"] } {
+    if { [ftp::StringEqual $rc "211"] } {
         return
     }
 
@@ -373,7 +387,7 @@ proc ftp::StateHandler {s {sock ""}} {
             set ftp(Quote) $buffer
         }
         type {
-            if { [string equal $ftp(Type) "ascii"] } {
+            if { [ftp::StringEqual $ftp(Type) "ascii"] } {
                 PutsCtrlSock $s "TYPE A"
             } else {
                 PutsCtrlSock $s "TYPE I"
@@ -406,7 +420,7 @@ proc ftp::StateHandler {s {sock ""}} {
         nlist_open {
             switch -exact -- $rc {
                 2 {
-                    if { [string equal $ftp(Mode) "passive"] } {
+                    if { [ftp::StringEqual $ftp(Mode) "passive"] } {
                         if { ![OpenPassiveConn $s $buffer] } {
                             set errmsg "Error setting PASSIVE mode!"
                             set complete_with 0
@@ -416,7 +430,7 @@ proc ftp::StateHandler {s {sock ""}} {
                     set ftp(State) list_sent
                 }
                 default {
-                    if { [string equal $ftp(Mode) "passive"] } {
+                    if { [ftp::StringEqual $ftp(Mode) "passive"] } {
                         set errmsg "Error setting PASSIVE mode!"
                     } else {
                         set errmsg "Error setting port!"
@@ -440,7 +454,7 @@ proc ftp::StateHandler {s {sock ""}} {
         list_open {
             switch -exact -- $rc {
                 2 {
-                    if { [string equal $ftp(Mode) "passive"] } {
+                    if { [ftp::StringEqual $ftp(Mode) "passive"] } {
                         if { ![OpenPassiveConn $s $buffer] } {
                             set errmsg "Error setting PASSIVE mode!"
                             set complete_with 0
@@ -450,7 +464,7 @@ proc ftp::StateHandler {s {sock ""}} {
                     set ftp(State) list_sent
                 }
                 default {
-                    if { [string equal $ftp(Mode) "passive"] } {
+                    if { [ftp::StringEqual $ftp(Mode) "passive"] } {
                         set errmsg "Error setting PASSIVE mode!"
                     } else {
                         set errmsg "Error setting port!"
@@ -465,7 +479,7 @@ proc ftp::StateHandler {s {sock ""}} {
                     set ftp(State) list_close
                 }
                 default {  
-                    if { [string equal $ftp(Mode) "passive"] } {
+                    if { [ftp::StringEqual $ftp(Mode) "passive"] } {
                         unset ftp(state.data)
                     }    
                     set errmsg "Error getting directory listing!"
@@ -634,7 +648,7 @@ proc ftp::StateHandler {s {sock ""}} {
         put_open {
             switch -exact -- $rc {
                 2 {
-                    if { [string equal $ftp(Mode) "passive"] } {
+                    if { [ftp::StringEqual $ftp(Mode) "passive"] } {
                         if { ![OpenPassiveConn $s $buffer] } {
                             set errmsg "Error setting PASSIVE mode!"
                             set complete_with 0
@@ -644,7 +658,7 @@ proc ftp::StateHandler {s {sock ""}} {
                     set ftp(State) put_sent
                 }
                 default {
-                    if { [string equal $ftp(Mode) "passive"] } {
+                    if { [ftp::StringEqual $ftp(Mode) "passive"] } {
                         set errmsg "Error setting PASSIVE mode!"
                     } else {
                         set errmsg "Error setting port!"
@@ -659,7 +673,7 @@ proc ftp::StateHandler {s {sock ""}} {
                     set ftp(State) put_close
                 }
                 default {
-                    if { [string equal $ftp(Mode) "passive"] } {
+                    if { [ftp::StringEqual $ftp(Mode) "passive"] } {
                         # close already opened DataConnection
                         unset ftp(state.data)
                     }  
@@ -694,7 +708,7 @@ proc ftp::StateHandler {s {sock ""}} {
         append_open {
             switch -exact -- $rc {
                 2 {
-                    if { [string equal $ftp(Mode) "passive"] } {
+                    if { [ftp::StringEqual $ftp(Mode) "passive"] } {
                         if { ![OpenPassiveConn $s $buffer] } {
                             set errmsg "Error setting PASSIVE mode!"
                             set complete_with 0
@@ -704,7 +718,7 @@ proc ftp::StateHandler {s {sock ""}} {
                     set ftp(State) append_sent
                 }
                 default {
-                    if { [string equal $ftp(Mode) "passive"] } {
+                    if { [ftp::StringEqual $ftp(Mode) "passive"] } {
                         set errmsg "Error setting PASSIVE mode!"
                     } else {
                         set errmsg "Error setting port!"
@@ -719,7 +733,7 @@ proc ftp::StateHandler {s {sock ""}} {
                     set ftp(State) append_close
                 }
                 default {
-                    if { [string equal $ftp(Mode) "passive"] } {
+                    if { [ftp::StringEqual $ftp(Mode) "passive"] } {
                         # close already opened DataConnection
                         unset ftp(state.data)
                     }  
@@ -754,7 +768,7 @@ proc ftp::StateHandler {s {sock ""}} {
         reget_restart {
             switch -exact -- $rc {
                 2 { 
-                    if { [string equal $ftp(Mode) "passive"] } {
+                    if { [ftp::StringEqual $ftp(Mode) "passive"] } {
                         if { ![OpenPassiveConn $s $buffer] } {
                             set errmsg "Error setting PASSIVE mode!"
                             set complete_with 0
@@ -782,7 +796,7 @@ proc ftp::StateHandler {s {sock ""}} {
                     set ftp(State) reget_sent
                 }
                 default {
-                    if { [string equal $ftp(Mode) "passive"] } {
+                    if { [ftp::StringEqual $ftp(Mode) "passive"] } {
                         set errmsg "Error setting PASSIVE mode!"
                     } else {
                         set errmsg "Error setting port!"
@@ -797,7 +811,7 @@ proc ftp::StateHandler {s {sock ""}} {
                     set ftp(State) reget_close
                 }
                 default {
-                    if { [string equal $ftp(Mode) "passive"] } {
+                    if { [ftp::StringEqual $ftp(Mode) "passive"] } {
                         # close already opened DataConnection
                         unset ftp(state.data)
                     }  
@@ -833,7 +847,7 @@ proc ftp::StateHandler {s {sock ""}} {
             switch -exact -- $rc {
                 2 -
                 3 {
-                    if { [string equal $ftp(Mode) "passive"] } {
+                    if { [ftp::StringEqual $ftp(Mode) "passive"] } {
                         if { ![OpenPassiveConn $s $buffer] } {
                             set errmsg "Error setting PASSIVE mode!"
                             set complete_with 0
@@ -843,7 +857,7 @@ proc ftp::StateHandler {s {sock ""}} {
                     set ftp(State) get_sent
                 }
                 default {
-                    if { [string equal $ftp(Mode) "passive"] } {
+                    if { [ftp::StringEqual $ftp(Mode) "passive"] } {
                         set errmsg "Error setting PASSIVE mode!"
                     } else {
                         set errmsg "Error setting port!"
@@ -858,7 +872,7 @@ proc ftp::StateHandler {s {sock ""}} {
                     set ftp(State) get_close
                 }
                 default {
-                    if { [string equal $ftp(Mode) "passive"] } {
+                    if { [ftp::StringEqual $ftp(Mode) "passive"] } {
                         # close already opened DataConnection
                         unset ftp(state.data)
                     }  
@@ -1059,7 +1073,7 @@ proc ftp::List {s {dir ""}} {
     # save current type and force ascii mode
 
     set old_type $ftp(Type)
-    if { ![string equal "$ftp(Type)" "ascii"] } {
+    if { ![ftp::StringEqual "$ftp(Type)" "ascii"] } {
         Type $s ascii
     }
 
@@ -1072,7 +1086,7 @@ proc ftp::List {s {dir ""}} {
 
     # restore old type
 
-    if { ![string equal "[Type $s]" "$old_type"] } {
+    if { ![ftp::StringEqual "[Type $s]" "$old_type"] } {
         Type $s $old_type
     }
 
@@ -1519,7 +1533,7 @@ proc ftp::Put {s source {dest ""}} {
     set ftp(RemoteFilename) $dest
 
     set ftp(SourceCI) [open $ftp(LocalFilename) r]
-    if { [string equal $ftp(Type) "ascii"] } {
+    if { [ftp::StringEqual $ftp(Type) "ascii"] } {
         fconfigure $ftp(SourceCI) -buffering line -blocking 1
     } else {
         fconfigure $ftp(SourceCI) -buffering line -translation binary -blocking 1
@@ -1579,7 +1593,7 @@ proc ftp::Append {s source {dest ""}} {
     set ftp(RemoteFilename) $dest
 
     set ftp(SourceCI) [open $ftp(LocalFilename) r]
-    if { [string equal $ftp(Type) "ascii"] } {
+    if { [ftp::StringEqual $ftp(Type) "ascii"] } {
         fconfigure $ftp(SourceCI) -buffering line -blocking 1
     } else {
         fconfigure $ftp(SourceCI) -buffering line -translation binary -blocking 1
@@ -2047,7 +2061,7 @@ proc ftp::HandleData {s sock} {
             DisplayMsg $s "$msg" error
             return 0
         }
-        if { [string equal $ftp(Type) "ascii"] } {
+        if { [ftp::StringEqual $ftp(Type) "ascii"] } {
             fconfigure $ftp(DestCI) -buffering line -blocking 1
         } else {
             fconfigure $ftp(DestCI) -buffering line -translation binary -blocking 1
@@ -2062,7 +2076,7 @@ proc ftp::HandleData {s sock} {
             DisplayMsg $s "$msg" error
             return 0
         }
-        if { [string equal $ftp(Type) "ascii"] } {
+        if { [ftp::StringEqual $ftp(Type) "ascii"] } {
             fconfigure $ftp(DestCI) -buffering line -blocking 1
         } else {
             fconfigure $ftp(DestCI) -buffering line -translation binary -blocking 1
@@ -2155,7 +2169,7 @@ proc ftp::InitDataConn {s sock addr port} {
 
     # Configure translation mode
 
-    if { [string equal $ftp(Type) "ascii"] } {
+    if { [ftp::StringEqual $ftp(Type) "ascii"] } {
         fconfigure $sock -buffering line -blocking 1
     } else {
         fconfigure $sock -buffering line -translation binary -blocking 1
@@ -2315,7 +2329,7 @@ proc ftp::OpenControlConn {s } {
 # added TkCon support
 # TkCon is (c) 1995-1999 Jeffrey Hobbs, http://www.purl.org/net/hobbs/tcl/script/tkcon/
 # started with: tkcon -load ftp
-if { [string equal [uplevel "#0" {info commands tkcon}] "tkcon"] } {
+if { [ftp::StringEqual [uplevel "#0" {info commands tkcon}] "tkcon"] } {
 
     # new ftp::List proc makes the output more readable
     proc ::ftp::__ftp_ls {args} {
