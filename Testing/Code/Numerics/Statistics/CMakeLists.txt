@@ -47,6 +47,7 @@ ADD_TEST(itkSampleClassifierWithMaskTest ${STATISTICS_TESTS}
 ADD_TEST(itkSampleMeanShiftClusteringFilterTest ${STATISTICS_TESTS}                itkSampleMeanShiftClusteringFilterTest ${ITK_DATA_ROOT}/Input/sf4.png)
 ADD_TEST(itkSampleSelectiveMeanShiftBlurringFilterTest ${STATISTICS_TESTS}                itkSampleSelectiveMeanShiftBlurringFilterTest ${ITK_DATA_ROOT}/Input/sf4.png)
 ADD_TEST(itkScalarImageToHistogramGeneratorTest ${STATISTICS_TESTS} itkScalarImageToHistogramGeneratorTest)
+ADD_TEST(itkScalarImageToGreyLevelCooccurrenceMatrixGeneratorTest ${STATISTICS_TESTS} itkScalarImageToGreyLevelCooccurrenceMatrixGeneratorTest)
 ADD_TEST(itkSelectiveSubsampleGeneratorTest ${STATISTICS_TESTS} 
                                             itkSelectiveSubsampleGeneratorTest)
 ADD_TEST(itkSubsampleTest ${STATISTICS_TESTS} itkSubsampleTest)
@@ -82,6 +83,7 @@ itkSampleMeanShiftClusteringFilterTest.cxx
 itkSampleSelectiveMeanShiftBlurringFilterTest.cxx
 itkSelectiveSubsampleGeneratorTest.cxx
 itkScalarImageToHistogramGeneratorTest.cxx
+itkScalarImageToGreyLevelCooccurrenceMatrixGeneratorTest.cxx
 itkSubsampleTest.cxx
 itkWeightedMeanCalculatorTest.cxx
 itkWeightedCovarianceCalculatorTest.cxx
