@@ -3,14 +3,14 @@
   Program:   Insight Segmentation & Registration Toolkit
   Module:    itkFEMLoadLandmark.h
   Language:  C++
-  Date:      $Date$
+  Date:  $Date$
   Version:   $Revision$
 
   Copyright (c) 2002 Insight Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -35,10 +35,10 @@ class LoadLandmark : public LoadElement {
 FEM_CLASS(LoadLandmark,LoadElement)
 public:
 
-  /**  
+  /**
    * Square root of the variance (eta)
    */
-  double eta; 
+  double eta;
 
   /**
    * Point in __local coordinates__ in the undeformed configuration
@@ -51,7 +51,7 @@ public:
   vnl_vector<Float> m_target;
 
   vnl_vector<Float> m_source;
-  
+
   vnl_vector<Float> m_force;
 
 
@@ -59,7 +59,7 @@ public:
    * Pointer to the element which contains the undeformed
    * configuration of the landmark
    */
-  Element::ConstPointer m_element;
+  //Element::ConstPointer m_element;
 
   /**
    * Pointer to the solution object
@@ -86,82 +86,87 @@ public:
   /**
    * Access the location of the point load
    */
-  Element::VectorType& GetSource() 
-    { 
-      return m_source; 
+  Element::VectorType& GetSource()
+    {
+      return m_source;
     }
 
-  Element::VectorType& GetForce() 
-    { 
-      return m_force; 
+  Element::VectorType& GetForce()
+    {
+      return m_force;
     }
 
   /**
    * Set the force vector
    */
-  void SetForce( const  vnl_vector<Float>& force) 
-    { 
+  void SetForce( const  vnl_vector<Float>& force)
+    {
       if (m_force.size() != force.size())
-        {
-          m_force.resize(force.size());
-        }
+  {
+    m_force.resize(force.size());
+  }
       for (unsigned int i=0; i<force.size(); i++)
-        m_force[i]=force[i]; 
+  m_force[i]=force[i];
     }
 
 
   /**
    * Set the force vector
    */
-  void SetSource( const  vnl_vector<Float>& source) 
-    { 
+  void SetSource( const  vnl_vector<Float>& source)
+    {
       if (m_source.size() != source.size())
-        {
-          m_source.resize(source.size());
-        }
+  {
+    m_source.resize(source.size());
+  }
       for (unsigned int i=0; i<source.size(); i++)
-        m_source[i]=source[i]; 
+  m_source[i]=source[i];
     }
 
   /**
    * Access the location of the point load
    */
-  const Element::VectorType& GetTarget() const 
-    { 
-      return m_target; 
+  const Element::VectorType& GetTarget() const
+    {
+      return m_target;
     }
 
   /**
    * Set the force vector
    */
   void SetTarget( const  vnl_vector<Float>& target)
-    { 
+    {
       if (m_target.size() != target.size())
-        {
-          m_target.resize(target.size());
-        }
+  {
+    m_target.resize(target.size());
+  }
       for (unsigned int i=0; i<target.size(); i++)
-        m_target[i]=target[i]; 
-    } 
+  m_target[i]=target[i];
+    }
 
 
   void ScalePointAndForce( double* spacing, double fwt)
     {
-    
+
       std::cout << " target " << m_target << std::endl;
-      for (unsigned int i=0; i<m_target.size(); i++) 
+      for (unsigned int i=0; i<m_target.size(); i++)
       {
-        m_target[i]/=spacing[i];
-        m_source[i]/=spacing[i];
-        this->eta*=fwt;
+  m_target[i]/=spacing[i];
+  m_source[i]/=spacing[i];
+  this->eta*=fwt;
       }
       std::cout << " new target " << m_target << std::endl;
     }
-  
-  /** 
+
+  /**
    * Read a LoadLandmark object from the input stream
    */
   virtual void Read( std::istream& f, void* info );
+
+  /**
+   * Assign the LoadLandmark to an element
+   */
+  virtual void AssignToElement( Element::ArrayType::Pointer elements );
 
   /**
    * Write a LoadLandmark object to the output stream
@@ -171,8 +176,8 @@ public:
   /**
    * Default constructors
    */
-  LoadLandmark() : m_element(0) {}
-  LoadLandmark( Element::ConstPointer el_, vnl_vector<Float> pu_ ) : m_pt(pu_), m_element(el_) {}
+  LoadLandmark() {}
+  //LoadLandmark( Element::ConstPointer el_, vnl_vector<Float> pu_ ) : m_pt(pu_), m_element(el_) {}
 
 };
 
