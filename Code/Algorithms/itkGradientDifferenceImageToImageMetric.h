@@ -227,7 +227,6 @@ private:
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkGradientDifferenceImageToImageMetric.txx"
-#include "itkGradientDifferenceImageToImageMetric_IO.txx"
 #endif
 
 #endif
