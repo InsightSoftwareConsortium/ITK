@@ -774,18 +774,19 @@ int main( int argc, char **argv )
   //  \end{tabular}
   //  \end{center}
   //
-  //  Figure~\ref{fig:ShapeDetectionLevelSetFilterOutput} presents the intermediate
-  //  outputs of the pipeline illustrated in
+  //  Figure~\ref{fig:ShapeDetectionLevelSetFilterOutput} presents the
+  //  intermediate outputs of the pipeline illustrated in
   //  Figure~\ref{fig:ShapeDetectionCollaborationDiagram}. They are from left
   //  to right: the output of the anisotropic diffusing filter, the gradient
   //  magnitude of the smoothed image and the sigmoid of the gradient magnitude
   //  which is finally used as the edge potential for the
   //  \doxygen{ShapeDetectionLevelSetFilter}.
   //
-  //  Notice that in Figure~\ref{fig:ShapeDetectionLevelSetOutput2} the segmented shapes
-  //  are rounder than the results in Figure~\ref{fig:FastMarchingImageFilterOutput2} due
-  //  to the effects of the curvature term in the driving equation. As with the previous
-  //  example, segmentation of the gray matter is still problematic.
+  //  Notice that in Figure~\ref{fig:ShapeDetectionLevelSetFilterOutput} the
+  //  segmented shapes are rounder than the results in
+  //  Figure~\ref{fig:FastMarchingImageFilterOutput2} due to the effects of the
+  //  curvature term in the driving equation. As with the previous example,
+  //  segmentation of the gray matter is still problematic.
   //
   // \begin{figure} \center
   // \includegraphics[width=6cm]{BrainProtonDensitySlice.eps}
