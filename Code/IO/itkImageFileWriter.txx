@@ -270,6 +270,16 @@ ImageFileWriter<TInputImage>
     {
     os << indent << "Compression: Off\n";
     }
+
+  if (m_UseInputMetaDataDictionary)
+    {
+    os << indent << "UseInputMetaDataDictionary: On\n";
+    }
+  else
+    {
+    os << indent << "UseInputMetaDataDictionary: Off\n";
+    }
+
 }
 
 } // end namespace itk
