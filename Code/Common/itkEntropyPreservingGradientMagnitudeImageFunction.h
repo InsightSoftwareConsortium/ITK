@@ -114,6 +114,14 @@ public:
   virtual double Evaluate( const IndexType& index );
 
   /**
+   * Evalulate the function at specified coordinate
+   */
+  virtual double Evaluate( double coord[] )
+  {
+    return Superclass::Evaluate( coord ); 
+  }
+
+  /**
    * Get the magnitude from last evaluation
    */
   double GetMagnitude() const
