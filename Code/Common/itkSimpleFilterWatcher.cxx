@@ -89,7 +89,6 @@ SimpleFilterWatcher
   m_Process = 0;
 }
 
-
 SimpleFilterWatcher
 ::SimpleFilterWatcher(const SimpleFilterWatcher &watch)
 {
