@@ -114,14 +114,19 @@ public:
    */
   void RecomputeForceVector(unsigned int index);
 
+  /* Finds a triplet that brackets the energy minimum.  From Numerical Recipes.*/
+  void FindBracketingTriplet(Float* a,Float* b,Float* c);
   /** Finds the optimum value between the last two solutions 
     * and sets the current solution to that value.  Uses Evaluate Residual;
     */
   void GoldenSection(Float tol=0.01);
+  /* Brents method from Numerical Recipes. */
+  Float BrentsMethod(Float tol=0.01,unsigned int MaxIters=25);
   Float EvaluateResidual(Float t=1.0);
   inline Float GSSign(Float a,Float b) { return (b > 0.0 ? fabs(a) : -1.*fabs(a)); }
   inline Float GSMax(Float a,Float b) { return (a > b ? a : b); }
 
+  void SetEnergyToMin(Float xmin);
   inline LinearSystemWrapper* GetLS(){ return m_ls;}
 
    /**
