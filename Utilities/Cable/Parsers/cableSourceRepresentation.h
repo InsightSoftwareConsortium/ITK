@@ -71,6 +71,8 @@ class CvQualifiers;
 class Type;
 class Argument;
 class Function;
+class Typedef;
+class Enumeration;
 class Context;
 class NamedType;
 class PointerType;
@@ -79,7 +81,6 @@ class FunctionType;
 class MethodType;
 class OffsetType;
 class ArrayType;
-class Typedef;
 class Namespace;
 class Method;
 class Constructor;
@@ -115,6 +116,8 @@ enum TypeOfObject {
   
   NamedType_id, PointerType_id, ReferenceType_id, FunctionType_id,
   MethodType_id, OffsetType_id, ArrayType_id, Typedef_id,
+
+  Enumeration_id,
   
   Argument_id, Returns_id,
   
@@ -255,6 +258,8 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
+  static Pointer New(const String&);
+  
   const String& GetName() const { return m_Name; }
 
   virtual void SetLocation(Location* location) { m_Location = location; }
@@ -293,29 +298,26 @@ typedef SmartPointer<const QualifiedName>  QualifiedNameConstPointer;
 typedef SmartPointer<BaseType>        BaseTypePointer;
 typedef SmartPointer<const BaseType>  BaseTypeConstPointer;
 
-typedef SmartPointer<Argument>   ArgumentPointer;
-typedef SmartPointer<Typedef>    TypedefPointer;
-typedef SmartPointer<Class>      ClassPointer;
-typedef SmartPointer<Namespace>  NamespacePointer;
-typedef SmartPointer<Function>   FunctionPointer;
-typedef SmartPointer<Method>     MethodPointer;
-typedef SmartPointer<BaseClass>  BaseClassPointer;
+typedef SmartPointer<Argument>    ArgumentPointer;
+typedef SmartPointer<Named>       NamedPointer;
+typedef SmartPointer<Class>       ClassPointer;
+typedef SmartPointer<Enumeration> EnumerationPointer;
+typedef SmartPointer<Namespace>   NamespacePointer;
+typedef SmartPointer<Function>    FunctionPointer;
+typedef SmartPointer<Method>      MethodPointer;
+typedef SmartPointer<BaseClass>   BaseClassPointer;
 
 typedef std::vector<ArgumentPointer>                  ArgumentContainer;
-typedef std::set<TypedefPointer, NamedCompare>        TypedefContainer;
-typedef std::set<ClassPointer, NamedCompare>          ClassContainer;
-typedef std::set<NamespacePointer, NamedCompare>      NamespaceContainer;
+typedef std::set<NamedPointer, NamedCompare>          DeclarationsContainer;
 typedef std::multiset<FunctionPointer, NamedCompare>  FunctionContainer;
 typedef std::multiset<MethodPointer, NamedCompare>    MethodContainer;
 typedef std::vector<BaseClassPointer>                 BaseClassContainer;
 
-typedef ArgumentContainer::const_iterator   ArgumentsIterator;
-typedef TypedefContainer::const_iterator    TypedefsIterator;
-typedef ClassContainer::const_iterator      ClassesIterator;
-typedef FunctionContainer::const_iterator   FunctionsIterator;
-typedef NamespaceContainer::const_iterator  NamespacesIterator;
-typedef MethodContainer::const_iterator     MethodsIterator;
-typedef BaseClassContainer::const_iterator  BaseClassesIterator;
+typedef ArgumentContainer::const_iterator     ArgumentsIterator;
+typedef DeclarationsContainer::const_iterator DeclarationsIterator;
+typedef FunctionContainer::const_iterator     FunctionsIterator;
+typedef MethodContainer::const_iterator       MethodsIterator;
+typedef BaseClassContainer::const_iterator    BaseClassesIterator;
 
 /**
  * A singe instance of the TypeSystem will be used to register all
@@ -330,6 +332,8 @@ public:
                                            bool isConst, bool isVolatile,
                                            bool isAbstract = false,
                                            const cxx::ClassTypes& parents = cxx::ClassTypes());
+  static cxx::CvQualifiedType GetEnumerationType(const String& name,
+                                                 bool isConst, bool isVolatile);
   static cxx::CvQualifiedType GetFunctionType(const cxx::CvQualifiedType& returnType,
                                               const cxx::CvQualifiedTypes& argumentTypes,
                                               bool isConst, bool isVolatile);
@@ -550,6 +554,73 @@ private:
 };
 
 
+/**
+ * Store a typedef.  This is just a new name for an existing type.
+ */
+class Typedef: public Named
+{
+public:
+  typedef Typedef                Self;
+  typedef SmartPointer<Self>        Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
+
+  virtual TypeOfObject GetTypeOfObject() const { return Typedef_id; }
+  virtual const char* GetClassName() const { return "Typedef"; }
+
+  static Pointer New(const String&);
+                     
+  virtual void SetInternalType(Type* t) { this->SetType(t); }
+
+  void SetType(Type* t)       { m_Type = t; }
+  Type::Pointer GetType() { return m_Type; }
+
+  virtual bool CheckComplete() const { return (m_Type != NULL); }
+  
+  ClassPointer GetClass(const Namespace* gns);  
+  EnumerationPointer GetEnumeration(const Namespace* gns);
+protected:
+  Typedef(const String& name): Named(name), m_Type(NULL) {}
+  Typedef(const Self&): Named("") {}
+  void operator=(const Self&) {}
+  virtual ~Typedef() {}
+  
+private:
+  Type::Pointer m_Type;
+};
+
+
+/**
+ * Store an enumeration type.  This is just a name.
+ */
+class Enumeration: public Named
+{
+public:
+  typedef Enumeration               Self;
+  typedef SmartPointer<Self>        Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
+
+  virtual TypeOfObject GetTypeOfObject() const { return Enumeration_id; }
+  virtual const char* GetClassName() const { return "Enumeration_id"; }
+
+  static Pointer New(const String&);
+  const cxx::EnumerationType* GetCxxEnumerationType(const Namespace* gns) const;
+
+  void SetContext(Context* context) { m_Context = context; }
+  ContextPointer GetContext() { return m_Context.RealPointer(); }
+  ContextConstPointer GetContext() const { return m_Context.RealPointer(); }
+  
+  String GetQualifiedName() const;
+  
+protected:
+  Enumeration(const String& name): Named(name) {}
+  Enumeration(const Self&): Named("") {}
+  void operator=(const Self&) {}
+  virtual ~Enumeration() {}
+private:
+  ContextPointer m_Context;
+};
+
+
 /** \class Context
  * Abstract interface for scoping.  Any namespace or class scope has
  * a containing context (except the global namespace), a name, and
@@ -570,12 +641,13 @@ public:
   const Namespace* GetGlobalNamespace() const;
 
   void AddClass(Context* inClass)
-    { inClass->SetContext(this); m_Classes.insert((Class*)inClass); }
-  const ClassContainer& GetClasses() const { return m_Classes; }
-
+    { inClass->SetContext(this); m_Declarations.insert(inClass); }
   void AddTypedef(Typedef* inTypedef)
-    { m_Typedefs.insert(inTypedef); }
-  const TypedefContainer& GetTypedefs() const { return m_Typedefs; }
+    { m_Declarations.insert(inTypedef); }
+  void AddEnumeration(Enumeration* inEnumeration)
+    { inEnumeration->SetContext(this); m_Declarations.insert(inEnumeration); }
+  
+  const DeclarationsContainer& GetDeclarations() const { return m_Declarations; }
 
   void SetContext(Context* context) { m_Context = context; }
   Pointer GetContext() { return m_Context.RealPointer(); }
@@ -591,6 +663,7 @@ public:
   
   Named* LookupName(const String&) const;
   Class* LookupClass(const String&) const;
+  Enumeration* LookupEnumeration(const String&) const;
   virtual Named* LookupName(QualifiersConstIterator,QualifiersConstIterator) const;
 protected:
   Context(const String& name): Named(name) {}
@@ -599,9 +672,8 @@ protected:
   virtual ~Context() { }
   
 protected:
-  ClassContainer     m_Classes;
-  TypedefContainer   m_Typedefs;
-  Pointer            m_Context;
+  DeclarationsContainer m_Declarations;
+  Pointer               m_Context;
 };
 
 
@@ -867,40 +939,6 @@ private:
 };
 
 
-/**
- * Store a typedef.  This is just a new name for an existing type.
- */
-class Typedef: public Named
-{
-public:
-  typedef Typedef                Self;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-
-  virtual TypeOfObject GetTypeOfObject() const { return Typedef_id; }
-  virtual const char* GetClassName() const { return "Typedef"; }
-
-  static Pointer New(const String&);
-                     
-  virtual void SetInternalType(Type* t) { this->SetType(t); }
-
-  void SetType(Type* t)       { m_Type = t; }
-  Type::Pointer GetType() { return m_Type; }
-
-  virtual bool CheckComplete() const { return (m_Type != NULL); }
-  
-  ClassPointer GetClass(const Namespace* gns);
-protected:
-  Typedef(const String& name): Named(name), m_Type(NULL) {}
-  Typedef(const Self&): Named("") {}
-  void operator=(const Self&) {}
-  virtual ~Typedef() {}
-  
-private:
-  Type::Pointer m_Type;
-};
-
-
 /** \class Namespace
  * Stores information for a namespace Context.  A namespace can contain other
  * namespaces as well as Class es.  A namespace can also have Function s.
@@ -918,18 +956,14 @@ public:
   virtual const char* GetClassName() const { return "Namespace"; }
 
   void AddNamespace(Namespace* in_namespace)
-    { in_namespace->SetContext(this); m_Namespaces.insert(in_namespace); }
-  const NamespaceContainer& GetNamespaces() const { return m_Namespaces; }
-
+    { in_namespace->SetContext(this); m_Declarations.insert(in_namespace); }
+  
   void AddFunction(Function* function)
     { function->SetContext(this); m_Functions.insert(function); }
-  const FunctionContainer& GetFunctions() const { return m_Functions; }
   
   typedef Context::Qualifiers  Qualifiers;
   typedef Context::QualifiersConstIterator QualifiersConstIterator;
   typedef Context::QualifiersInserter QualifiersInserter;  
-  
-  virtual Named* LookupName(QualifiersConstIterator,QualifiersConstIterator) const;
 protected:
   Namespace(const String& name): Context(name) {}
   Namespace(const Self&): Context("") {}
@@ -937,8 +971,7 @@ protected:
   virtual ~Namespace() {}
   
 private:
-  NamespaceContainer m_Namespaces;
-  FunctionContainer  m_Functions;
+  FunctionContainer m_Functions;
 };
 
 

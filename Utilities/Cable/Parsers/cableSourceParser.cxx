@@ -1336,14 +1336,13 @@ Parser
  */
 void
 Parser
-::begin_EnumType(const Attributes&)
+::begin_EnumType(const Attributes& atts)
 {
-  // Use the UnimplementedNameHolder to catch the Location element
-  // inside the EnumType element.  
-  UnimplementedNameHolder::Pointer newUnimplementedNameHolder
-    = UnimplementedNameHolder::New();
+  String name = atts.Get("name");
+  Enumeration::Pointer newEnumeration = Enumeration::New(name);
   
-  this->PushElement(newUnimplementedNameHolder);
+  this->CurrentContext()->AddEnumeration(newEnumeration);
+  this->PushElement(newEnumeration);
 }
 
 /**

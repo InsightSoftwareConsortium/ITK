@@ -82,6 +82,18 @@ CxxTypes::GetClassType(const String& name,
 
 
 /**
+ * Register an EnumerationType having the given name, and cv-qualifiers.
+ */
+cxx::CvQualifiedType
+CxxTypes::GetEnumerationType(const String& name,
+                             bool isConst, bool isVolatile)
+{
+  return typeSystem.GetEnumerationType(name)
+    ->GetCvQualifiedType(isConst, isVolatile);
+}
+
+
+/**
  * Register a FunctionType having the given return type, argument types,
  * and cv-qualifiers.
  */
@@ -198,6 +210,12 @@ String GetValid_C_Identifier(const String& in_name)
   return name.str();
 }
 
+Named::Pointer
+Named
+::New(const String& name)
+{
+  return new Named(name);
+}
 
 /**
  * Construct a new Location and return a smart pointer to it.
@@ -329,6 +347,17 @@ Typedef
 ::New(const String& name)
 {
   return new Typedef(name);
+}
+
+
+/**
+ * Construct a new Enumeration and return a smart pointer to it.
+ */
+Enumeration::Pointer
+Enumeration
+::New(const String& name)
+{
+  return new Enumeration(name);
 }
 
 
@@ -545,10 +574,29 @@ Class::Pointer BaseClass::GetClass(const Namespace* gns)
 
 
 /**
- * Get the fully qualified name of this context.
+ * Get the fully qualified name of this Context.
  */
 String
 Context
+::GetQualifiedName() const
+{
+  String name = this->GetName();
+  const Context* c = this->GetContext().RealPointer();
+  while(c && c->GetContext())
+    {
+    name = c->GetName() + "::" + name;
+    c = c->GetContext().RealPointer();
+    }
+  
+  return name;
+}
+
+
+/**
+ * Get the fully qualified name of this Enumeration.
+ */
+String
+Enumeration
 ::GetQualifiedName() const
 {
   String name = this->GetName();
@@ -654,6 +702,12 @@ cxx::CvQualifiedType NamedType::GetCxxType(const Namespace* gns) const
     const cxx::ClassType* classType = c->GetCxxClassType(gns);
     return classType->GetCvQualifiedType(isConst, isVolatile);
     }
+  const Enumeration* e = gns->LookupEnumeration(name);
+  if(e)
+    {
+    const cxx::EnumerationType* enumType = e->GetCxxEnumerationType(gns);
+    return enumType->GetCvQualifiedType(isConst, isVolatile);
+    }
   // Couldn't identify the type.
   std::cerr << "NamedType::GetCxxType()" << std::endl
             << "  ERROR: Couldn't identify type \"" << name.c_str() << "\"" << std::endl;
@@ -728,6 +782,11 @@ cxx::CvQualifiedType ArrayType::GetCxxType(const Namespace* gns) const
   return CxxTypes::GetArrayType(elementType, m_Size);
 }
 
+const cxx::EnumerationType*
+Enumeration::GetCxxEnumerationType(const Namespace* gns) const
+{
+  return CxxTypes::typeSystem.GetEnumerationType(this->GetQualifiedName());
+}
 
 const cxx::ClassType* Class::GetCxxClassType(const Namespace* gns) const
 {
@@ -869,11 +928,38 @@ Context
       }
     else if(resultType == Typedef_id)
       {
-      Class* c = dynamic_cast<Typedef*>(result)->GetClass(this->GetGlobalNamespace());
+      Typedef* td = dynamic_cast<Typedef*>(result);
+      Class* c = td->GetClass(this->GetGlobalNamespace());
       return c;
       }
     }
-  std::cerr << "Couldn't find class with qualified name: \"" << name.c_str() << "\"" << std::endl;
+  return NULL;
+}
+
+
+/**
+ * Lookup the given enumeration type starting in this context's scope.
+ */
+Enumeration*
+Context
+::LookupEnumeration(const String& name) const
+{
+  Named* result = this->LookupName(name);
+  if(result)
+    {
+    TypeOfObject resultType = result->GetTypeOfObject();
+    if(resultType == Enumeration_id)
+      {
+      Enumeration *e = dynamic_cast<Enumeration*>(result);
+      return e;
+      }
+    else if(resultType == Typedef_id)
+      {
+      Typedef* td = dynamic_cast<Typedef*>(result);
+      Enumeration* e = td->GetEnumeration(this->GetGlobalNamespace());
+      return e;
+      }
+    }
   return NULL;
 }
 
@@ -899,46 +985,39 @@ Context
   QualifiersConstIterator second = first; ++second;
   
   // Try looking up a class with that name.
-  Class::Pointer classKey = Class::New(*first, Public, false);
-  ClassContainer::const_iterator classIter = m_Classes.find(classKey);
-  if(classIter != m_Classes.end())
+  Named::Pointer key = Named::New(*first);
+  DeclarationsContainer::const_iterator declsIter = m_Declarations.find(key);
+  if(declsIter != m_Declarations.end())
     {
-    // We have found a class.
-    Class* c = classIter->RealPointer();
+    // We have the name.
+    Named* n = declsIter->RealPointer();
     if(second == last)
       {
       // This was the last qualifier.  This is the target.
-      return c;
+      return n;
       }
     else
       {
-      // Lookup the rest of the name in the class.
-      return c->LookupName(second, last);
-      }
-    }
-
-  // Try looking up a typedef with that name.
-  Typedef::Pointer typedefKey = Typedef::New(*first);
-  TypedefsIterator typedefIter = m_Typedefs.find(typedefKey);
-  if(typedefIter != m_Typedefs.end())
-    {
-    // We have found a typedef.
-    Typedef* t = typedefIter->RealPointer();
-    if(second == last)
-      {
-      // This was the last qualifier.  This is the target.
-      return t;
-      }
-    else
-      {
-      // Lookup the rest of the name in the resulting type.
-      Class* c = t->GetClass(this->GetGlobalNamespace());
-      if(c)
+      // Lookup the rest of the name in the nested context.
+      TypeOfObject t = n->GetTypeOfObject();
+      if((t == Class_id) || (t == Struct_id) || (t == Union_id)
+         || (t == Namespace_id))
         {
+        Context* c = dynamic_cast<Context*>(n);
         return c->LookupName(second, last);
+        }
+      else if(t == Typedef_id)
+        {
+        Typedef* td = dynamic_cast<Typedef*>(n);
+        Class* c = td->GetClass(this->GetGlobalNamespace());
+        if(c)
+          {
+          return c->LookupName(second, last);
+          }
         }
       else
         {
+        // Found the qualifier, but it didn't refer to another context.
         return NULL;
         }
       }
@@ -946,52 +1025,6 @@ Context
 
   // Didn't find the first qualifier in our scope.
   return NULL;
-}
-
-
-/**
- * Lookup the given name starting in this namespace's scope.
- *
- * This internal version takes iterators into a Qualifiers describing
- * the name.
- */
-Named*
-Namespace
-::LookupName(QualifiersConstIterator first,
-             QualifiersConstIterator last) const
-{
-  // If there is no name, we cannot look it up.
-  if(first == last)
-    {
-    return NULL;
-    }
-  
-  // Get an iterator to the second member of the list (may be the end).
-  QualifiersConstIterator second = first; ++second;
-  
-  // Try to look up the highest level qualifier in this namespace.
-  Namespace::Pointer nsKey = Namespace::New(*first);
-
-  NamespaceContainer::const_iterator namespaceIter = m_Namespaces.find(nsKey);
-  if(namespaceIter != m_Namespaces.end())
-    {
-    // We have found a nested namespace.
-    Namespace* ns = namespaceIter->RealPointer();
-    if(second == last)
-      {
-      // This was the last qualifier.  This is the target.
-      return ns;
-      }
-    else
-      {
-      // Lookup the rest of the name in the nested namespace.
-      return ns->LookupName(second, last);
-      }
-    }
-  
-  // There was no namespace with the given name.  Chain up to the general
-  // Context lookup function.
-  return this->Context::LookupName(first, last);
 }
 
 
@@ -1009,6 +1042,23 @@ Typedef
     }
   NamedType* nt = dynamic_cast<NamedType*>(m_Type.RealPointer());
   return gns->LookupClass(nt->GetQualifiedName()->Get());
+}
+
+
+/**
+ * If the typedef refers to an enumeration type, this returns
+ * a pointer to its representation.  Otherwise, NULL is returned.
+ */
+Enumeration::Pointer
+Typedef
+::GetEnumeration(const Namespace* gns)
+{
+  if(!m_Type || (m_Type->GetTypeOfObject() != NamedType_id))
+    {
+    return NULL;
+    }
+  NamedType* nt = dynamic_cast<NamedType*>(m_Type.RealPointer());
+  return gns->LookupEnumeration(nt->GetQualifiedName()->Get());
 }
 
 
