@@ -645,7 +645,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
             {
               
               //First calculate the directional derivative
-              gradMag = std::sqrt(gradMag);
+              gradMag = vnl_math_sqrt(gradMag);
               directional[i] = dx[i]/gradMag;
                                
               //calculate gradient of 2nd derivative
