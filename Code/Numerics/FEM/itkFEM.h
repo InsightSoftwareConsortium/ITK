@@ -37,7 +37,6 @@
 
 #include "itkFEMGenerateMesh.h"
 
-#include "itkFEMRegistrationFilter.h"
 
 // Perform the initialization of the library when this header is included
 #include "itkFEMInitialization.h"

@@ -152,8 +152,8 @@ SET(FEM_SRCS ${FEM_SRCS}
 
   itkFEMImageMetricLoad.txx
   
-  itkFEMRegistrationFilter.h
-  itkFEMRegistrationFilter.txx
+  ../../Algorithms/itkFEMRegistrationFilter.h
+  ../../Algorithms/itkFEMRegistrationFilter.txx
 
 )
 ENDIF(WIN32)
