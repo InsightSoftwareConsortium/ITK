@@ -126,8 +126,8 @@ public:
   virtual void PrintSelf(std::ostream &, Indent) const;
 
   /** Returns the internal, default boundary condition. */
-  const BoundaryConditionType &GetBoundaryCondition() const
-    { return *m_BoundaryCondition; }
+  const BoundaryConditionType *GetBoundaryCondition() const
+    { return dynamic_cast<BoundaryConditionType *>(m_BoundaryCondition); }
   
   /** "Dereferences" the iterator. Returns the Neighborhood of values in the
    * itk::Image masked by the iterator. */
