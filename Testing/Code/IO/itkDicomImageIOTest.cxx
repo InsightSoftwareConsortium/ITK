@@ -17,15 +17,16 @@
 #include <list>
 #include <fstream>
 #include "itkImageFileReader.h"
+#include "itkImageFileWriter.h"
 #include "itkImage.h"
-#include "itkDicomImageIOFactory.h"
+#include "itkRescaleIntensityImageFilter.h"
 
 int itkDicomImageIOTest(int ac, char* av[])
 {
 
-  if(ac < 2)
+  if(ac < 3)
   {
-    std::cerr << "Usage: " << av[0] << " Image\n";
+    std::cerr << "Usage: " << av[0] << " DicomImage OutputImage\n";
     return EXIT_FAILURE;
   }
 
@@ -39,9 +40,6 @@ int itkDicomImageIOTest(int ac, char* av[])
   itk::ImageFileReader<myImage>::Pointer reader 
                                   = itk::ImageFileReader<myImage>::New();
   
-  // Register on factory capable of creating DicomImage readers
-  itk::DicomImageIOFactory::RegisterOneFactory();
-  reader->DebugOn();
   reader->SetFileName(av[1]);
   
   try
@@ -56,19 +54,29 @@ int itkDicomImageIOTest(int ac, char* av[])
     return EXIT_FAILURE;
   }
   
-  myImage::Pointer image = reader->GetOutput();
-  
-  myImage::RegionType region = image->GetLargestPossibleRegion();
-  std::cout << "region " << region;
+  typedef unsigned char WritePixelType;
 
- 
-  PixelType * data = image->GetPixelContainer()->GetBufferPointer();
-  unsigned long numberOfPixels = region.GetNumberOfPixels(); 
-  for(unsigned int i=0; i < numberOfPixels; i++ )
-  {
-    std::cout << i << " : " << *data++ << std::endl;
-  }
+  typedef itk::Image< WritePixelType, 2 > WriteImageType;
+
+  typedef itk::RescaleIntensityImageFilter< 
+               myImage, WriteImageType > RescaleFilterType;
+
+  RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
+
+  rescaler->SetOutputMinimum(   0 );
+  rescaler->SetOutputMaximum( 255 );
   
+
+  typedef itk::ImageFileWriter< WriteImageType >  WriterType;
+
+  WriterType::Pointer writer = WriterType::New();
+
+  writer->SetFileName( av[2] );
+ 
+  // Software Guide : BeginCodeSnippet
+  rescaler->SetInput( reader->GetOutput() );
+  writer->SetInput( rescaler->GetOutput() );
+  writer->Update();
   return EXIT_SUCCESS;
 
 }
