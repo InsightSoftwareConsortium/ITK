@@ -149,7 +149,7 @@ namespace itk
 	    m_cg[r] = m_m1[r] / m_m0;
 	    m_cm[r][r] = m_m2[r][r] 
 		- 2.0*m_cg[r]*m_m1[r] + m_cg[r]*m_cg[r]*m_m0;
-	    for (int s = r+1; s < VRank; s++) {
+	    for (int s = 0; s < r; s++) {
 		m_cm[r][s] = m_m2[r][s]
 		    - m_cg[r]*m_m1[s] - m_cg[s]*m_m1[r]
 		    + m_cg[r]*m_cg[s]*m_m0;
@@ -162,7 +162,7 @@ namespace itk
 	for (int r = 0; r < VRank; r++) {
 	    m_cg[r] = spc[r] * m_cg[r] + org[r];
 	    m_cm[r][r] *= spc[r] * spc[r];
-	    for (int s = r+1; s < VRank; s++) {
+	    for (int s = 0; s < r; s++) {
 		m_cm[r][s] *= spc[r] * spc[s];
 		m_cm[s][r] = m_cm[r][s];   // Reflect across diagonal
 	    }
