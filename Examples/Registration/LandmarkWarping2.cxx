@@ -37,6 +37,7 @@
 #include "itkImageFileWriter.h"
 #include "itkWarpImageFilter.h"
 #include "itkLinearInterpolateImageFunction.h"
+// Software Guide : EndCodeSnippet
 
 #include <fstream>
 
@@ -198,8 +199,6 @@ int main( int argc, char * argv[] )
 
 
   return EXIT_SUCCESS;
-
-//  Software Guide : EndLatex
 
 }
 
