@@ -51,6 +51,9 @@ namespace itk
  *
  *  This class is templated over the type of the transformation
  *  used to convert between the coordinate systems
+ *
+ * \ingroup Functions
+ *
  */
 
 template <class TTransformation, unsigned int NDimension> 

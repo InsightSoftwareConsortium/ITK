@@ -56,6 +56,8 @@ namespace itk
  * the point and gets the value of the image at that new point 
  * using some interpolation strategy.
  *
+ * \ingroup ImageFunctions
+ *
  */
 
 

@@ -53,6 +53,8 @@ namespace itk
  * and over the type of the transformation used to convert the
  * coordinate system.
  *
+ * \ingroup Functions
+ *
  */
 
 template <class TDomain, class TTransform> 
