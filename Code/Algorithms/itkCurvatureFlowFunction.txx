@@ -128,7 +128,7 @@ CurvatureFlowFunction<TImage>
     return NumericTraits<PixelType>::Zero; 
     }
 
-  // compute the update value = curvature * magnitude
+  // compute the update value = mean curvature * magnitude
   PixelType update = 0.0;
   PixelType temp;
 
@@ -222,7 +222,7 @@ CurvatureFlowFunction<TImage>
     return NumericTraits<PixelType>::Zero; 
     }
 
-  // compute the update value = curvature * magnitude
+  // compute the update value = mean curvature * magnitude
   PixelType update = 0.0;
   PixelType temp;
 

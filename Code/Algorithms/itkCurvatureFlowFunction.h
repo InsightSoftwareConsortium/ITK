@@ -52,9 +52,13 @@ namespace itk {
  * This class encapsulate the finite difference equation which drives a curvature
  * flow denoising algorithm.
  *
+ * This class uses a zero flux Neumann boundary condition when computing derivatives
+ * near the data boundary.
+ *
  * This class operates as part of the finite difference solver hierarchy.
  *
- * \sa CurvatureFlowImageFilter.
+ * \sa CurvatureFlowImageFilter
+ * \sa ZeroFluxNeumannBoundaryCondition
  */ 
 template <class TImage>
 class CurvatureFlowFunction :
