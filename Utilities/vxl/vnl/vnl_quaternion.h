@@ -150,7 +150,9 @@ class vnl_quaternion : public vnl_vector_fixed<T, 4>
 // \relates vnl_quaternion
 template <class T>
 inline vcl_ostream& operator<< (vcl_ostream& os, const vnl_quaternion<T>& q) {
-  return os << *((vnl_vector<T>*) &q);
+  q.print ( os );
+  return os;
+  // return os << *((vnl_vector<T>*) &q);
 }
 
 #define VNL_QUATERNION_INSTANTIATE(T) extern "you must include vnl/vnl_quaternion.txx first"
