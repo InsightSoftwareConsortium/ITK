@@ -84,13 +84,19 @@ proc IsBuildStampInDay { NightlyDateStamp BuildStamp } \
   }
   
   # Convert the BuildStamp into something recognizable
-  set NTS [ExpandStamp $NightlyDateStamp]
+  if { [catch { set NTS [ExpandStamp $NightlyDateStamp] } ] } \
+  {
+    return 0;
+  }
 
   # From 7:00am on the morning of the NightlyDateStamp + 24 hours
   set Start [expr $NTS + 7 * 60 * 60]
   set End [expr $Start + 24 * 60 * 60]
   
-  set BSTS [ExpandStamp $BuildStamp]
+  if { [catch { set BSTS [ExpandStamp $BuildStamp] } ] } \
+  {
+    return 0;
+  }
 
   if { $BSTS >= $Start && $BSTS < $End } \
   {
