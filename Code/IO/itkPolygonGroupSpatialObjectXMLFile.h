@@ -42,7 +42,7 @@ public XMLReader<PGroupSpatialObjectType>
   typedef PGroupSpatialObjectType PolygonGroupType;
   typedef PolygonSpatialObject<3> PolygonSpatialObjectType;
   typedef SpatialObjectPoint<3> PointType;
-  typedef std::list<PointType> PointListType;
+  typedef std::vector<PointType> PointListType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(Self,Superclass);
