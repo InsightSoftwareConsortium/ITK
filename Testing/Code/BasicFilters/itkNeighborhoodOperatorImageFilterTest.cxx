@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
       typedef  itk::Image<float, 3> ImageType;
       // Set up operator
       itk::DerivativeOperator<float, 3> oper;
-      oper.SetOrder(1);
+      oper.SetOrder(2);
       oper.SetDirection(2);
       oper.CreateDirectional();
 
@@ -62,11 +62,10 @@ int main(int argc, char *argv[])
 
       // Run Test
       itk::Size<3> sz;
-      sz[0]=256;
-      sz[1]=256;
+      sz[0]=257;
+      sz[1]=252;
       sz[2]=5;
-      itk::NullImageToImageFilterDriver< ImageType, ImageType >
-        test1;
+      itk::NullImageToImageFilterDriver< ImageType, ImageType >  test1;
       test1.SetImageSize(sz);
       test1.SetFilter(filter.GetPointer());
       test1.Execute();
