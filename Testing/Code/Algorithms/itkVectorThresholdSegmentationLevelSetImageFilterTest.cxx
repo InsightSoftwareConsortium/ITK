@@ -32,9 +32,9 @@ int itkVectorThresholdSegmentationLevelSetImageFilterTest(int ac, char* av[] )
   // Comment the following if you want to use the itk text output window
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
-  if(ac < 4)
+  if(ac < 5)
     {
-    std::cerr << "Usage: " << av[0] << " InputImage BaselineImage threshold\n";
+    std::cerr << "Usage: " << av[0] << " InputInitialImage InputColorImage BaselineImage threshold\n";
     return -1;
     }
 
@@ -73,13 +73,34 @@ int itkVectorThresholdSegmentationLevelSetImageFilterTest(int ac, char* av[] )
 
   filter->SetFeatureImage( rgbReader->GetOutput() );
 
-  FilterType::MeanVectorType        mean; 
-  FilterType::CovarianceMatrixType  covariance; 
-
-  const double threshold = atof( av[3] );
+  // Mean values hand coded for the VisibleWomanSlice.png color file
+  typedef FilterType::MeanVectorType  MeanVectorType; 
+  MeanVectorType  mean = MeanVectorType(3); 
   
+  mean[0] = 44.7841;
+  mean[1] = 37.5714;
+  mean[2] = 29.5385;
+
   filter->SetMean( mean );
+
+  // Covariance values hand coded for the VisibleWomanSlice.png color file
+  typedef FilterType::CovarianceMatrixType  CovarianceMatrixType; 
+  CovarianceMatrixType  covariance = CovarianceMatrixType( 3, 3 ); 
+
+  covariance[0][0] = 81.2391;
+  covariance[1][1] = 82.3301;
+  covariance[2][2] = 51.9178;
+  covariance[0][1] = 74.0973;
+  covariance[0][2] = 59.0182;
+  covariance[1][2] = 62.9698;
+  covariance[1][0] = covariance[0][1];
+  covariance[2][0] = covariance[0][2];
+  covariance[2][1] = covariance[1][2];
+
   filter->SetCovariance(  covariance );
+
+  const double threshold = atof( av[4] );
+  
   filter->SetThreshold( threshold );
 
   try
@@ -108,16 +129,19 @@ int itkVectorThresholdSegmentationLevelSetImageFilterTest(int ac, char* av[] )
   RescalerType::Pointer rescaler = RescalerType::New();
 
   rescaler->SetInput( filter->GetOutput() );
-
+  
+  rescaler->SetOutputMinimum(   0 );
+  rescaler->SetOutputMaximum( 255 );
   
   // Generate test image
   typedef itk::ImageFileWriter< WriteImageType >   WriterType;
   WriterType::Pointer writer = WriterType::New();
     
   writer->SetInput( rescaler->GetOutput() );
-  writer->SetFileName( av[2] );
+  writer->SetFileName( av[3] );
   writer->Update();
 
+  std::cout << "Test PASSED !" << std::endl;
 
-  return 0;
+  return EXIT_SUCCESS;
 }
