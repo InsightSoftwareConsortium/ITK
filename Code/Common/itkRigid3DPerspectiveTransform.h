@@ -135,6 +135,10 @@ public:
   void SetFocalDistance( TScalarType focalDistance )
     { m_FocalDistance = focalDistance; }
 
+  /** Return the Focal Distance */
+  double GetFocalDistance( void ) const
+    { return m_FocalDistance; }
+
   /** Set the Height of the output plan
    * This method sets the height of the output plan
    * to a value specified by the user.
