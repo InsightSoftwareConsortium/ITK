@@ -278,6 +278,7 @@ public:
     if (v != m_SegmentationFunction->GetPropagationWeight())
       {        
       m_SegmentationFunction->SetPropagationWeight(v);
+      this->Modified();
       }
   }
   ValueType GetPropagationScaling() const
@@ -292,6 +293,7 @@ public:
     if (v != m_SegmentationFunction->GetAdvectionWeight())
       {        
       m_SegmentationFunction->SetAdvectionWeight(v);
+      this->Modified();
       }
   }
   ValueType GetAdvectionScaling() const
@@ -307,6 +309,7 @@ public:
     if (v != m_SegmentationFunction->GetCurvatureWeight())
       {        
       m_SegmentationFunction->SetCurvatureWeight(v);
+      this->Modified();
       }
   }
   ValueType GetCurvatureScaling() const
