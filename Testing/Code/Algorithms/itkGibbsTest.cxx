@@ -91,7 +91,7 @@ const unsigned short TestingImage [400]={
 328,315,327,311,315,305,340,306,314,339,344,339,337,330,318,342,311,343,311,312
 };
 
-int itkGibbsTest(int, char* [] )
+int itkGibbsTest(int, char** )
 //int main() 
 {
 std::cout<< "Gibbs Prior Test Begins: " << std::endl;
@@ -187,11 +187,7 @@ std::cout<< "Gibbs Prior Test Begins: " << std::endl;
     if ( (i%IMGWIDTH<18) && (i%IMGWIDTH>14) && 
       (i/IMGWIDTH<18) && (i/IMGWIDTH>14)) {
       classoutIt.Set( 2 );
-    }/* else {
-    if ( (i%IMGWIDTH<20) && (i%IMGWIDTH>10) && 
-      (i/IMGWIDTH<139) && (i/IMGWIDTH>129)) {
-      classoutIt.Set( 3 );
-    }*/
+    }
     else {
       classoutIt.Set( 0 );
     }
@@ -293,9 +289,31 @@ std::cout<< "Gibbs Prior Test Begins: " << std::endl;
   applyGibbsImageFilter->SetClusterSize(10);
   applyGibbsImageFilter->SetBoundaryGradient(6);
   applyGibbsImageFilter->SetObjectLabel(1);
+//  applyGibbsImageFilter->SetRecursiveNumber(1);
+  applyGibbsImageFilter->SetCliqueWeight_1(5.0);
+  applyGibbsImageFilter->SetCliqueWeight_2(5.0);
+  applyGibbsImageFilter->SetCliqueWeight_3(5.0);
+  applyGibbsImageFilter->SetCliqueWeight_4(5.0);
+  applyGibbsImageFilter->SetCliqueWeight_5(5.0);
+  applyGibbsImageFilter->SetCliqueWeight_6(0.0);
  
   applyGibbsImageFilter->SetInput(vecImage);
   applyGibbsImageFilter->SetClassifier( myClassifier ); 
+ 
+
+  applyGibbsImageFilter->SetObjectThreshold(5.0);
+  
+  /** coverage */
+  std::cout << applyGibbsImageFilter->GetNumberOfClasses() << std::endl;
+  std::cout << applyGibbsImageFilter->GetMaximumNumberOfIterations() << std::endl;
+
+  /** coverage */
+  std::cout << applyGibbsImageFilter->GetCliqueWeight_1() << std::endl;
+  std::cout << applyGibbsImageFilter->GetCliqueWeight_2() << std::endl;
+  std::cout << applyGibbsImageFilter->GetCliqueWeight_3() << std::endl;
+  std::cout << applyGibbsImageFilter->GetCliqueWeight_4() << std::endl;
+  std::cout << applyGibbsImageFilter->GetCliqueWeight_5() << std::endl;
+  std::cout << applyGibbsImageFilter->GetCliqueWeight_6() << std::endl;
 
   //Since a suvervised classifier is used, it requires a training image
   applyGibbsImageFilter->SetTrainingImage(classImage);  

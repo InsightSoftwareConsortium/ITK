@@ -14,26 +14,6 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-/*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkGradientVectorFlowImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
-
-
-
 #include <itkImage.h>
 #include <itkGradientRecursiveGaussianImageFilter.h>
 #include <itkImageRegionIteratorWithIndex.h>
@@ -174,6 +154,8 @@ int itkGradientVectorFlowImageFilterTest(int, char* [] )
   m_GVFFilter->SetInput(gfilter->GetOutput());
   m_GVFFilter->SetLaplacianFilter(m_LFilter);
   m_GVFFilter->SetNoiseLevel(500);
+  m_GVFFilter->SetTimeStep(0.001);
+  m_GVFFilter->SetIterationNum(2);
 
   // Get the Smart Pointer to the Filter Output 
   // It is important to do it AFTER the filter is Updated
@@ -195,6 +177,13 @@ int itkGradientVectorFlowImageFilterTest(int, char* [] )
   gfilter->Update();
 
   m_GVFFilter->Update();
+
+  std::cout << m_GVFFilter->GetTimeStep() << std::endl;
+
+  std::cout << m_GVFFilter->GetNoiseLevel() << std::endl;
+
+  std::cout << m_GVFFilter->GetIterationNum() << std::endl;
+
   myOutputIteratorType itgvf( m_GVFFilter->GetOutput(), 
                             m_GVFFilter->GetOutput()->GetRequestedRegion() );
 

@@ -229,10 +229,18 @@ int itk2DDeformableTest(int, char* [])
   m_dfilter->SetDistanceForGradient(1.0);
   m_dfilter->SetDistanceToStop(6.0);
   m_dfilter->SetResolution(100);
+  m_dfilter->SetGradientBegin(0);
   std::cout << "Deformable mesh fitting...";
+
   m_dfilter->Update();
   std::cout << m_dfilter;
   
+  DMesh::Pointer normals = m_dfilter->GetNormals();
+  DMesh::Pointer locations = m_dfilter->GetLocations();
+  DMesh::Pointer displacements = m_dfilter->GetDisplacements();
+  DMesh::Pointer derives = m_dfilter->GetDerives();
+  DMesh::Pointer forces = m_dfilter->GetForces();
+
   DMesh::PointsContainerPointer     points;
   DMesh::CellsContainerPointer      cells;
   DMesh::PointType                  node;

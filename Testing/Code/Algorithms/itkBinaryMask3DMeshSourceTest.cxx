@@ -124,6 +124,8 @@ int itkBinaryMask3DMeshSourceTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
+  std::cout << meshSource->GetNumberOfNodes() << std::endl;
+  std::cout << meshSource->GetNumberOfCells() << std::endl;
 
   return EXIT_SUCCESS;
 
