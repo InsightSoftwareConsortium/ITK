@@ -110,6 +110,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkImageIteratorWithIndex.txx"
 #include "itkImageLinearConstIteratorWithIndex.txx"
 #include "itkImageLinearIteratorWithIndex.txx"
+#include "itkImageRandomConstIteratorWithIndex.txx"
+#include "itkImageRandomIteratorWithIndex.txx"
 #include "itkImageRegion.txx"
 #include "itkImageRegionConstIterator.txx"
 #include "itkImageRegionConstIteratorWithIndex.txx"
