@@ -48,7 +48,7 @@ public BloxImage<BloxBoundaryProfilePixel<VImageDimension >, VImageDimension>
 {
 public:
 
-  /** Standard class typedefs. */
+  /** Standard image class typedefs. */
   typedef BloxBoundaryProfileImage  Self;
   typedef BloxImage<BloxBoundaryProfilePixel<VImageDimension>,
                     VImageDimension >  Superclass;
@@ -77,7 +77,6 @@ public:
   typedef typename Superclass::RegionType RegionType;
   
   typedef typename PixelContainer::Pointer PixelContainerPointer;
-
   
 protected:
   BloxBoundaryProfileImage();
