@@ -122,14 +122,13 @@ protected:
   /** Inner product function. */
   NeighborhoodInnerProduct<ImageType> m_InnerProduct;
 
-
   /** Boundary Inner product function. */
   SmartNeighborhoodInnerProduct<ImageType> m_SmartInnerProduct;
 
   /** Slices for the ND neighborhood. */
   std::slice  x_slice[ImageDimension];
-  std::slice xa_slice[ImageDimension];
-  std::slice xd_slice[ImageDimension];
+  std::slice xa_slice[ImageDimension][ImageDimension];
+  std::slice xd_slice[ImageDimension][ImageDimension];
 
   /** Derivative operator. */
   DerivativeOperator<PixelType, ImageDimension> dx_op;
@@ -140,6 +139,8 @@ protected:
   unsigned long m_Center;
   unsigned long m_Stride[ImageDimension];
 
+  static double m_MIN_NORM;
+  
 private:
   GradientNDAnisotropicDiffusionEquation(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented

@@ -44,12 +44,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk {
 
 template<class TImage>
+double GradientNDAnisotropicDiffusionEquation<TImage>
+::m_MIN_NORM = 1.0e-10;
+  
+template<class TImage>
 GradientNDAnisotropicDiffusionEquation<TImage>
 ::GradientNDAnisotropicDiffusionEquation()
 {
-  unsigned int i;
+  unsigned int i, j;
   RadiusType r;
-  r[0] = 2;
+
   for (i = 0; i < ImageDimension; ++i)
     {
       r[i] = 1;
@@ -64,15 +68,27 @@ GradientNDAnisotropicDiffusionEquation<TImage>
   m_Center =  it.Size() / 2;
 
   for (i = 0; i< ImageDimension; ++i)
+    { m_Stride[i] = it.GetStride(i); }
+
+  for (i = 0; i< ImageDimension; ++i)
+    { x_slice[i]  = std::slice( m_Center - m_Stride[i], 3, m_Stride[i]); }
+  
+  for (i = 0; i< ImageDimension; ++i)
     {
-      m_Stride[i]   = it.GetStride(i);
-      x_slice[i]  = std::slice( m_Center - m_Stride[i],  3, m_Stride[i]);
-      xa_slice[i] = std::slice((m_Center+1)-m_Stride[i], 3, m_Stride[i]);
-      xd_slice[i] = std::slice((m_Center-1)-m_Stride[i], 3, m_Stride[i]);
+      for (j = 0; j < ImageDimension; ++j)
+        {
+          // For taking derivatives in the i direction that are offset one
+          // pixel in the j direction.
+          xa_slice[i][j]
+            = std::slice((m_Center + m_Stride[j])-m_Stride[i], 3, m_Stride[i]); 
+          xd_slice[i][j]
+            = std::slice((m_Center - m_Stride[j])-m_Stride[i], 3, m_Stride[i]);
+        }
     }
 
   // Allocate the derivative operator.
-  dx_op.SetDirection(0);
+  dx_op.SetDirection(0);  // Not relevant, will be applied in a slice-based
+                          // fashion.
   dx_op.SetOrder(1);
   dx_op.CreateDirectional();
 }
@@ -84,51 +100,62 @@ GradientNDAnisotropicDiffusionEquation<TImage>
                 const FloatOffsetType& offset) const
 {
   unsigned int i, j;
-  PixelType accum, accum_d, delta;
-  PixelType Cx[ImageDimension];
-  PixelType Cxd[ImageDimension];
-  PixelType dx_forward[ImageDimension];
-  PixelType dx_backward[ImageDimension];
+
+  double accum;
+  double accum_d;
+  double Cx;
+  double Cxd;
+  
+  // PixelType is scalar in this context
+  PixelType delta;
+  PixelType dx_forward;
+  PixelType dx_backward;
   PixelType dx[ImageDimension];
-  PixelType dx_aug[ImageDimension];
-  PixelType dx_dim[ImageDimension];
+  PixelType dx_aug;
+  PixelType dx_dim;
 
   delta = NumericTraits<PixelType>::Zero;
   
-  // Calculate the partial derivatives for each dimension
+  // Calculate the centralized derivatives for each dimension.
+  for (i = 0; i < ImageDimension; i++)
+    {      dx[i]  = m_InnerProduct(x_slice[i], it, dx_op);    }
+
   for (i = 0; i < ImageDimension; i++)
     {
-      dx_forward[i] = it.GetPixel(m_Center + m_Stride[i])
+      // ``Half'' directional derivatives
+      dx_forward = it.GetPixel(m_Center + m_Stride[i])
         - it.GetPixel(m_Center);
-      dx_backward[i]=  it.GetPixel(m_Center)
-        - it.GetPixel(m_Center - m_Stride[i]);
+      dx_backward =  it.GetPixel(m_Center)
+        - it.GetPixel(m_Center - m_Stride[i]);      
 
-      dx[i]         = m_InnerProduct(x_slice[i], it, dx_op);
-      dx_aug[i]     = m_InnerProduct(xa_slice[i],it, dx_op);
-      dx_dim[i]     = m_InnerProduct(xd_slice[i],it, dx_op);
-    }
-
-  // Calculate the conductance terms
-  for (i = 0; i < ImageDimension; i++)
-    {
-      accum   = NumericTraits<PixelType>::Zero;
-      accum_d = NumericTraits<PixelType>::Zero;
+      // Calculate the conductance terms.  Conductance varies with each
+      // dimension because the gradient magnitude approximation is different
+      // along each  dimension.      
+      accum   = 0.0;
+      accum_d = 0.0;
       for (j = 0; j < ImageDimension; j++)
         {
           if (j != i)
             {
-              accum   += 0.25f * (dx[j]+dx_aug[j]) * (dx[j]+dx_aug[j]);
-              accum_d += 0.25f * (dx[j]+dx_dim[j]) * (dx[j]+dx_dim[j]);
+              dx_aug     = m_InnerProduct(xa_slice[j][i], it, dx_op);
+              dx_dim     = m_InnerProduct(xd_slice[j][i], it, dx_op);
+              accum   += 0.25f * vnl_math_sqr( dx[j] + dx_aug );
+              accum_d += 0.25f * vnl_math_sqr( dx[j] + dx_dim );
             }
         }
-      Cx[i] = exp(( dx_forward[i] * dx_forward[i]  + accum)  / m_k);
-      Cxd[i]= exp((dx_backward[i] * dx_backward[i] + accum_d)/ m_k);
-      dx_forward[i]  *= Cx[i];
-      dx_backward[i] *= Cxd[i];
-      delta += dx_forward[i] - dx_backward[i];
+      
+      Cx = exp(( vnl_math_sqr( dx_forward ) + accum)  / m_k );
+      Cxd= exp(( vnl_math_sqr( dx_backward) + accum_d)/ m_k );
+
+      // Conductance modified first order derivatives.
+      dx_forward  *= Cx;
+      dx_backward *= Cxd;
+
+      // Conductance modified second order derivative.
+      delta += dx_forward - dx_backward;
     }
   
-  return ( delta );
+  return delta;
 }
 
 template<class TImage>
@@ -137,52 +164,63 @@ GradientNDAnisotropicDiffusionEquation<TImage>
 ::ComputeUpdate(const BoundaryNeighborhoodType &it, void *globalData,
                 const FloatOffsetType& offset) const
 {
- unsigned int i, j;
-  PixelType accum, accum_d, delta;
-  PixelType Cx[ImageDimension];
-  PixelType Cxd[ImageDimension];
-  PixelType dx_forward[ImageDimension];
-  PixelType dx_backward[ImageDimension];
+  unsigned int i, j;
+
+  double accum;
+  double accum_d;
+  double Cx;
+  double Cxd;
+  
+  // PixelType is scalar in this context
+  PixelType delta;
+  PixelType dx_forward;
+  PixelType dx_backward;
   PixelType dx[ImageDimension];
-  PixelType dx_aug[ImageDimension];
-  PixelType dx_dim[ImageDimension];
+  PixelType dx_aug;
+  PixelType dx_dim;
 
   delta = NumericTraits<PixelType>::Zero;
   
-  // Calculate the partial derivatives for each dimension
+  // Calculate the centralized derivatives for each dimension.
+  for (i = 0; i < ImageDimension; i++)
+    {      dx[i]  = m_SmartInnerProduct(x_slice[i], it, dx_op);    }
+
   for (i = 0; i < ImageDimension; i++)
     {
-      dx_forward[i] = it.GetPixel(m_Center + m_Stride[i])
+      // ``Half'' directional derivatives
+      dx_forward = it.GetPixel(m_Center + m_Stride[i])
         - it.GetPixel(m_Center);
-      dx_backward[i]=  it.GetPixel(m_Center)
-        - it.GetPixel(m_Center - m_Stride[i]);
+      dx_backward =  it.GetPixel(m_Center)
+        - it.GetPixel(m_Center - m_Stride[i]);      
 
-      dx[i]         = m_SmartInnerProduct(x_slice[i], it, dx_op);
-      dx_aug[i]     = m_SmartInnerProduct(xa_slice[i],it, dx_op);
-      dx_dim[i]     = m_SmartInnerProduct(xd_slice[i],it, dx_op);
-    }
-
-  // Calculate the conductance terms
-  for (i = 0; i < ImageDimension; i++)
-    {
-      accum   = NumericTraits<PixelType>::Zero;
-      accum_d = NumericTraits<PixelType>::Zero;
+      // Calculate the conductance terms.  Conductance varies with each
+      // dimension because the gradient magnitude approximation is different
+      // along each  dimension.      
+      accum   = 0.0;
+      accum_d = 0.0;
       for (j = 0; j < ImageDimension; j++)
         {
           if (j != i)
             {
-              accum   += 0.25f * (dx[j]+dx_aug[j]) * (dx[j]+dx_aug[j]);
-              accum_d += 0.25f * (dx[j]+dx_dim[j]) * (dx[j]+dx_dim[j]);
+              dx_aug     = m_SmartInnerProduct(xa_slice[j][i], it, dx_op);
+              dx_dim     = m_SmartInnerProduct(xd_slice[j][i], it, dx_op);
+              accum   += 0.25f * vnl_math_sqr( dx[j] + dx_aug );
+              accum_d += 0.25f * vnl_math_sqr( dx[j] + dx_dim );
             }
         }
-      Cx[i] = exp(( dx_forward[i] * dx_forward[i]  + accum)  / m_k);
-      Cxd[i]= exp((dx_backward[i] * dx_backward[i] + accum_d)/ m_k);
-      dx_forward[i]  *= Cx[i];
-      dx_backward[i] *= Cxd[i];
-      delta += dx_forward[i] - dx_backward[i];
+      
+      Cx = exp(( vnl_math_sqr( dx_forward ) + accum)  / m_k );
+      Cxd= exp(( vnl_math_sqr( dx_backward) + accum_d)/ m_k );
+
+      // Conductance modified first order derivatives.
+      dx_forward  *= Cx;
+      dx_backward *= Cxd;
+
+      // Conductance modified second order derivative.
+      delta += dx_forward - dx_backward;
     }
   
-  return ( delta );
+  return delta;
 }
 
 } // end namespace itk
