@@ -105,8 +105,6 @@ OnePlusOneEvolutionaryOptimizer
     {
     A(i,i) = m_InitialRadius / scales[i] ;
     }
-  //m_BiasField->SetCoefficients(parent) ;
-
 
   ParametersType parentPosition( spaceDimension );
   for( unsigned int i=0; i<spaceDimension; i++)
@@ -152,16 +150,13 @@ OnePlusOneEvolutionaryOptimizer
       if (cvalue > pvalue) 
         {
         pvalue = cvalue ;
-          
         parent.swap(child) ;                  
-          
         adjust = m_GrowthFactor ; 
         for( unsigned int i=0; i<spaceDimension; i++)
           {
           parentPosition[i] = parent[i];
           }
         this->SetCurrentPosition(parentPosition) ;
-          
         } 
       }
     else
@@ -169,19 +164,15 @@ OnePlusOneEvolutionaryOptimizer
       if (cvalue < pvalue) 
         {
         pvalue = cvalue ;
-          
         parent.swap(child) ;                  
-          
         adjust = m_GrowthFactor ; 
         for( unsigned int i=0; i<spaceDimension; i++)
           {
           parentPosition[i] = parent[i];
           }
         this->SetCurrentPosition(parentPosition) ;
-          
         } 
       }
-     
 
     m_CurrentCost = pvalue ;
     // convergence criterion: f-norm of A < epsilon_A
@@ -227,7 +218,6 @@ OnePlusOneEvolutionaryOptimizer
     itkDebugMacro(<< "Current position: " << this->GetCurrentPosition()) ;
     }
   this->InvokeEvent( EndEvent() );
-  
 }
  
 
