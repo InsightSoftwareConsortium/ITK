@@ -94,7 +94,13 @@ foreach Test $TestList \
   {
     windows \
     {
-      set NewFilename [file join Release $Filename.exe]
+      if { [regexp cygtclsh [info nameofexecutable]] == 0 } {
+        # Windows build
+	set NewFilename [file join Release $Filename.exe]
+      } else {
+        # Cygwin build
+        set NewFilename [file join . $Filename]
+      }
     }
     default \
     {
