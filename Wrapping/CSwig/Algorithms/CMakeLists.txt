@@ -14,8 +14,6 @@ SET(WRAP_SOURCES
     wrap_itkOtsuThresholdImageCalculator
     wrap_itkMeanReciprocalSquareDifferenceImageToImageMetric
     wrap_itkRecursiveMultiResolutionPyramidImageFilter
-    wrap_itkSimpleFuzzyConnectednessImageFilterBase
-    wrap_itkSimpleFuzzyConnectednessScalarImageFilter
     wrap_itkThresholdSegmentationLevelSetImageFilter
     wrap_itkGeodesicActiveContourLevelSetImageFilter
     wrap_itkShapeDetectionLevelSetImageFilter
