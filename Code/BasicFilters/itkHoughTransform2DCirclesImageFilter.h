@@ -74,9 +74,6 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /** Image size typedef */
-  typedef Size<InputImageType::ImageDimension> SizeType;
-
   /** Image index typedef */
   typedef typename InputImageType::IndexType IndexType;
 
