@@ -23,4 +23,4 @@ ENDIF(WIN32)
 ADD_LIBRARY(itkpng ${PNG_SRCS})
 TARGET_LINK_LIBRARIES(itkpng itkzlib)
 
-INSTALL_TARGETS(/lib/insight itkpng)
+INSTALL_TARGETS(/lib/InsightToolkit itkpng)

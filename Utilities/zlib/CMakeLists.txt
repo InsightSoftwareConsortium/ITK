@@ -28,4 +28,4 @@ ENDIF(WIN32)
 
 ADD_LIBRARY(itkzlib ${ZLIB_SRCS})
 
-INSTALL_TARGETS(/lib/insight itkzlib)
+INSTALL_TARGETS(/lib/InsightToolkit itkzlib)

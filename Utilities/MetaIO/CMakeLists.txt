@@ -18,5 +18,4 @@ ADD_LIBRARY (
   MetaIO ${MetaIO_SRCS}
 )
 
-INSTALL_TARGETS(/lib/insight MetaIO)
-
+INSTALL_TARGETS(/lib/InsightToolkit MetaIO)
