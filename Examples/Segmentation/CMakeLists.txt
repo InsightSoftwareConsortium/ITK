@@ -73,6 +73,8 @@ TARGET_LINK_LIBRARIES(VectorConfidenceConnected ITKNumerics ITKIO)
 SET(SEGMENTATION_EXAMPLES ${CXX_TEST_PATH}/SegmentationExamples)
 SET(SEGMENTATION_EXAMPLES2 ${CXX_TEST_PATH}/SegmentationExamples2)
 SET(SEGMENTATION_EXAMPLES3 ${CXX_TEST_PATH}/SegmentationExamples3)
+SET(SEGMENTATION_EXAMPLES4 ${CXX_TEST_PATH}/SegmentationExamples4)
+
 
 SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Segmentation)
 SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
@@ -371,7 +373,7 @@ ADD_TEST(GeodesicActiveContourShapePriorCallosumTest ${SEGMENTATION_EXAMPLES3}
 
 )
 
-ADD_TEST(CellularSegmentation1Test ${SEGMENTATION_EXAMPLES3}
+ADD_TEST(CellularSegmentation1Test ${SEGMENTATION_EXAMPLES4}
   CellularSegmentation1Test
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         100 115 200 255 3000
@@ -396,6 +398,15 @@ ITKStatistics
 
 ADD_EXECUTABLE(SegmentationExamples3 SegmentationExamples3.cxx )
 TARGET_LINK_LIBRARIES(SegmentationExamples3
+ITKAlgorithms 
+ITKIO 
+ITKBasicFilters 
+ITKCommon
+ITKStatistics
+)
+
+ADD_EXECUTABLE(SegmentationExamples4 SegmentationExamples4.cxx )
+TARGET_LINK_LIBRARIES(SegmentationExamples4
 ITKAlgorithms 
 ITKIO 
 ITKBasicFilters 
