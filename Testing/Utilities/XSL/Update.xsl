@@ -47,7 +47,6 @@
     <a><xsl:attribute name="href"><xsl:value-of select="$CVSWebURL"/><xsl:value-of select="FullName"/>.diff?r1=<xsl:value-of select="PriorRevision"/>&amp;r2=<xsl:value-of select="Revision"/></xsl:attribute>
     <xsl:value-of select="PriorRevision"/></a>
   </xsl:if>
-  <br/>
 </xsl:for-each>
 
 
