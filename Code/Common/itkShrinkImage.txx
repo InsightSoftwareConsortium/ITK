@@ -124,6 +124,11 @@ ShrinkImage<TInputImage,TOutputImage>
   InputImagePointer  inputPtr = this->GetInput();
   OutputImagePointer outputPtr = this->GetOutput();
 
+  if ( !inputPtr || !outputPtr )
+    {
+    return;
+    }
+
   // we need to compute the input requested region (size and start index)
   int i;
   const typename TOutputImage::SizeType& outputRequestedRegionSize
@@ -163,6 +168,11 @@ ShrinkImage<TInputImage,TOutputImage>
   // get pointers to the input and output
   InputImagePointer inputPtr = this->GetInput();
   OutputImagePointer outputPtr = this->GetOutput();
+
+  if ( !inputPtr || !outputPtr )
+    {
+    return;
+    }
 
   // we need to compute the output spacing, the output image size, and the
   // output image start index
