@@ -21,6 +21,7 @@
 
 #include "itkImageToImageFilter.h"
 #include "itkImage.h"
+#include "itkArray2D.h"
 #include "itkMRASlabIdentifier.h"
 #include "itkCompositeValleyFunction.h"
 #include "itkMultivariateLegendrePolynomial.h"

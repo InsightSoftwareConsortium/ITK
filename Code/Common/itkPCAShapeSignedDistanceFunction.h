@@ -22,6 +22,7 @@
 #include "itkImage.h"
 #include "itkInterpolateImageFunction.h"
 #include "itkExtrapolateImageFunction.h"
+#include "itkTransform.h"
 
 namespace itk
 {
