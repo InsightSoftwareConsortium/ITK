@@ -32,7 +32,7 @@ namespace itk{
 namespace Statistics{
 
 /** \class KdTreeGenerator 
- *  \brief This class generates a KdTree object without centeroid information.
+ *  \brief This class generates a KdTree object without centroid information.
  * 
  * The KdTree object stores measurment vectors in a k-d tree structure
  * that is a binary tree. The partition value is the median value of one
@@ -41,7 +41,7 @@ namespace Statistics{
  * partition dimension is the dimension has the widest spread. Our
  * implementation of k-d tree doesn't have any construction or insertion
  * logic. Users should use this class or the
- * WeightedCenteroidKdTreeGenerator class.
+ * WeightedCentroidKdTreeGenerator class.
  *
  * The number of the measurement vectors in a terminal node is set by
  * the SetBucketSize method. If we use too small number for this, it
@@ -56,7 +56,7 @@ namespace Statistics{
  * object, call the GetOutput method.
  * 
  * \sa KdTree, KdTreeNode, KdTreeNonterminalNode, KdTreeTerminalNode,
- * WeightedCenteroidKdTreeGenerator
+ * WeightedCentroidKdTreeGenerator
  */
 
 template < class TSample >

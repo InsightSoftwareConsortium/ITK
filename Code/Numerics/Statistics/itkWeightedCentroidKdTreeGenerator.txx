@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkWeightedCenteroidKdTreeGenerator.txx
+  Module:    itkWeightedCentroidKdTreeGenerator.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,21 +14,21 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkWeightedCenteroidKdTreeGenerator_txx
-#define __itkWeightedCenteroidKdTreeGenerator_txx
+#ifndef __itkWeightedCentroidKdTreeGenerator_txx
+#define __itkWeightedCentroidKdTreeGenerator_txx
 
 namespace itk{ 
 namespace Statistics{
 
 template< class TSample >
-WeightedCenteroidKdTreeGenerator< TSample >
-::WeightedCenteroidKdTreeGenerator()
+WeightedCentroidKdTreeGenerator< TSample >
+::WeightedCentroidKdTreeGenerator()
 {
 }
 
 template< class TSample >
 void
-WeightedCenteroidKdTreeGenerator< TSample >
+WeightedCentroidKdTreeGenerator< TSample >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
@@ -36,7 +36,7 @@ WeightedCenteroidKdTreeGenerator< TSample >
 
 template< class TSample >
 inline typename KdTreeGenerator< TSample >::KdTreeNodeType*
-WeightedCenteroidKdTreeGenerator< TSample >
+WeightedCentroidKdTreeGenerator< TSample >
 ::GenerateNonterminalNode(int beginIndex,
                           int endIndex,
                           MeasurementVectorType &lowerBound,
@@ -55,17 +55,17 @@ WeightedCenteroidKdTreeGenerator< TSample >
   int medianIndex ;
   SubsamplePointer subsample = this->GetSubsample() ;
 
-  // calculates the weighted centeroid which is the vector sum
+  // calculates the weighted centroid which is the vector sum
   // of all the associated instances.
-  typename KdTreeNodeType::CenteroidType weightedCenteroid ;
+  typename KdTreeNodeType::CentroidType weightedCentroid ;
   MeasurementVectorType tempVector ;
-  weightedCenteroid.Fill(NumericTraits< MeasurementType >::Zero) ;
+  weightedCentroid.Fill(NumericTraits< MeasurementType >::Zero) ;
   for (i = beginIndex ; i < endIndex ; i++)
     {
     tempVector = subsample->GetMeasurementVectorByIndex(i) ;
     for(j = 0 ; j < (int)MeasurementVectorSize ; j++)
       {
-      weightedCenteroid[j] += tempVector[j] ;
+      weightedCentroid[j] += tempVector[j] ;
       }
     }
 
@@ -106,9 +106,9 @@ WeightedCenteroidKdTreeGenerator< TSample >
   right = GenerateTreeLoop(medianIndex, endIndex, lowerBound, upperBound, level + 1) ;
   lowerBound[partitionDimension] = dimensionLowerBound ;
 
-  return new KdTreeWeightedCenteroidNonterminalNode< TSample >
+  return new KdTreeWeightedCentroidNonterminalNode< TSample >
     (partitionDimension, partitionValue,
-     left, right, weightedCenteroid, endIndex - beginIndex) ;
+     left, right, weightedCentroid, endIndex - beginIndex) ;
 }
 
 } // end of namespace Statistics 

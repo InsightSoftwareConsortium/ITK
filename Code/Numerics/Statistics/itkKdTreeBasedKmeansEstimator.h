@@ -28,16 +28,16 @@ namespace Statistics {
 /** \class KdTreeBasedKmeansEstimator
  * \brief fast k-means algorithm implementation using k-d tree structure
  *
- * It returns k mean vectors that are centeroids of k-clusters 
+ * It returns k mean vectors that are centroids of k-clusters 
  * using pre-generated k-d tree. k-d tree generation is done by 
- * the WeightedCenteroidKdTreeGenerator. The tree construction needs 
+ * the WeightedCentroidKdTreeGenerator. The tree construction needs 
  * to be done only once. The resulting k-d tree's non-terminal nodes 
  * that have their children nodes have vector sums of measurement vectors 
  * that belong to the nodes and the number of measurement vectors 
  * in addition to the typical node boundary information and pointers to 
  * children nodes. Instead of reassigning every measurement vector to 
- * the nearest cluster centeroid and recalculating centeroid, it maintain 
- * a set of cluster centeroid candidates and using pruning algorithm that 
+ * the nearest cluster centroid and recalculating centroid, it maintain 
+ * a set of cluster centroid candidates and using pruning algorithm that 
  * utilizes k-d tree, it updates the means of only relevant candidates at 
  * each iterations. It would be faster than traditional implementation 
  * of k-means algorithm. However, the k-d tree consumes a large amount 
@@ -45,7 +45,7 @@ namespace Statistics {
  * are important factors to the whole process's performance. If users 
  * want to use k-d tree for some purpose other than k-means estimation, 
  * they can use the KdTreeGenerator instead of the 
- * WeightedCenteroidKdTreeGenerator. It will save the tree construction
+ * WeightedCentroidKdTreeGenerator. It will save the tree construction
  * time and memory usage.
  *
  * Note: There is a second implementation of k-means algorithm in ITK under the
@@ -53,7 +53,7 @@ namespace Statistics {
  * based algorithm is more memory efficient.
  * \sa ImageKmeansModelEstimator
  *
- * \sa WeightedCenteroidKdTreeGenerator, KdTree
+ * \sa WeightedCentroidKdTreeGenerator, KdTree
  */
 
 template< class TKdTree >
@@ -79,7 +79,7 @@ public:
   typedef typename TKdTree::MeasurementVectorType MeasurementVectorType ;
   typedef typename TKdTree::InstanceIdentifier InstanceIdentifier ;
   typedef typename TKdTree::SampleType SampleType ;
-  typedef typename KdTreeNodeType::CenteroidType CenteroidType ;
+  typedef typename KdTreeNodeType::CentroidType CentroidType ;
   itkStaticConstMacro(MeasurementVectorSize, unsigned int,
                       TKdTree::MeasurementVectorSize);
   /**  Parameters type.
@@ -102,9 +102,9 @@ public:
   itkGetConstMacro( MaximumIteration, int ); 
  
   /** Set/Get the termination threshold for the squared sum
-   * of changes in centeroid postions after one iteration */
-  itkSetMacro( CenteroidPositionChangesThreshold, double );   
-  itkGetConstMacro( CenteroidPositionChangesThreshold, double );   
+   * of changes in centroid postions after one iteration */
+  itkSetMacro( CentroidPositionChangesThreshold, double );   
+  itkGetConstMacro( CentroidPositionChangesThreshold, double );   
   
   /** Set/Get the pointer to the KdTree */
   void SetKdTree(TKdTree* tree) 
@@ -114,12 +114,12 @@ public:
   { return m_KdTree ; }
 
   itkGetConstMacro( CurrentIteration, int) ;
-  itkGetConstMacro( CenteroidPositionChanges, double) ;
+  itkGetConstMacro( CentroidPositionChanges, double) ;
 
   /** Start optimization
    * Optimization will stop when it meets either of two termination conditions,
    * the maximum iteration limit or epsilon (minimal changes in squared sum
-   * of changes in centeroid positions)  */
+   * of changes in centroid positions)  */
   void StartOptimization() ;
 
   typedef itk::hash_map< InstanceIdentifier, unsigned int > ClusterLabelsType ;
@@ -146,8 +146,8 @@ protected:
 
     struct Candidate
     {
-      CenteroidType Centeroid ;
-      CenteroidType WeightedCenteroid ;
+      CentroidType Centroid ;
+      CentroidType WeightedCentroid ;
       int Size ;
     } ; // end of struct
 
@@ -157,35 +157,35 @@ protected:
     int Size()
     { return static_cast<int>( m_Candidates.size() ); }
 
-    /** Initialize the centeroids with the argument.
+    /** Initialize the centroids with the argument.
      * At each iteration, this should be called before filtering*/
-    void SetCenteroids(InternalParametersType& centeroids)
+    void SetCentroids(InternalParametersType& centroids)
     {
-      m_Candidates.resize(centeroids.size()) ;
-      for (unsigned int i = 0 ; i < centeroids.size() ; i++)
+      m_Candidates.resize(centroids.size()) ;
+      for (unsigned int i = 0 ; i < centroids.size() ; i++)
         {
           Candidate candidate ;
-          candidate.Centeroid = centeroids[i] ;
-          candidate.WeightedCenteroid.Fill(0.0) ;
+          candidate.Centroid = centroids[i] ;
+          candidate.WeightedCentroid.Fill(0.0) ;
           candidate.Size = 0 ;
           m_Candidates[i] = candidate ;
         }
     }
 
-    /** gets the centeroids (k-means) */
-    void GetCenteroids(InternalParametersType& centeroids)
+    /** gets the centroids (k-means) */
+    void GetCentroids(InternalParametersType& centroids)
     {
       unsigned int i ;
-      centeroids.resize(this->Size()) ;
+      centroids.resize(this->Size()) ;
       for (i = 0 ; i < (unsigned int)this->Size() ; i++)
         {
-          centeroids[i] = m_Candidates[i].Centeroid ;
+          centroids[i] = m_Candidates[i].Centroid ;
         }
     }
 
-    /** updates the centeroids using the vector sum of measurement vectors
-     * that belongs to each centeroid and the number of measurement vectors */
-    void UpdateCenteroids()
+    /** updates the centroids using the vector sum of measurement vectors
+     * that belongs to each centroid and the number of measurement vectors */
+    void UpdateCentroids()
     {
       unsigned int i, j ;
       for (i = 0 ; i < (unsigned int)this->Size() ; i++)
@@ -194,8 +194,8 @@ protected:
             {
               for (j = 0 ; j < MeasurementVectorSize ; j++)
                 {
-                  m_Candidates[i].Centeroid[j] = 
-                    m_Candidates[i].WeightedCenteroid[j] / 
+                  m_Candidates[i].Centroid[j] = 
+                    m_Candidates[i].WeightedCentroid[j] / 
                     double(m_Candidates[i].Size) ;
                 }
             }
@@ -213,9 +213,9 @@ protected:
   } ; // end of class
 
   /** gets the sum of squared difference between the previous position
-   * and current postion of all centeroid. This is the primary termination
+   * and current postion of all centroid. This is the primary termination
    * condition for this algorithm. If the return value is less than
-   * the value that was set by the SetCenteroidPositionChangesThreshold 
+   * the value that was set by the SetCentroidPositionChangesThreshold 
    * method.*/
   double GetSumOfSquaredPositionChanges(InternalParametersType &previous, 
                                         InternalParametersType &current) ;
@@ -272,11 +272,11 @@ private:
   int m_CurrentIteration ;
   /** maximum number of iteration. termination criterion */  
   int m_MaximumIteration ;
-  /** sum of squared centeroid position changes at the current iteration */ 
-  double m_CenteroidPositionChanges ;
-  /** threshold for the sum of squared centeroid position changes.
+  /** sum of squared centroid position changes at the current iteration */ 
+  double m_CentroidPositionChanges ;
+  /** threshold for the sum of squared centroid position changes.
    * termination criterion */
-  double m_CenteroidPositionChangesThreshold ;
+  double m_CentroidPositionChangesThreshold ;
   /** pointer to the k-d tree */
   TKdTree* m_KdTree ;
   /** pointer to the euclidean distance funtion */

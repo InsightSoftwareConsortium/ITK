@@ -50,7 +50,7 @@ namespace Statistics{
  * with the terminal ones. The terminal nodes don't have any child (left
  * or right). For terminal nodes, the GetParameters method is void.
  *
- * \sa KdTreeNonterminalNode, KdTreeWeightedCenteroidNonterminalNode,
+ * \sa KdTreeNonterminalNode, KdTreeWeightedCentroidNonterminalNode,
  * KdTreeTerminalNode 
  */
 template< class TSample >
@@ -66,9 +66,9 @@ struct KdTreeNode
   itkStaticConstMacro(MeasurementVectorSize, unsigned int,
                       TSample::MeasurementVectorSize) ;
 
-  /** Centeroid type */
+  /** Centroid type */
   typedef FixedArray< double, 
-                      itkGetStaticConstMacro(MeasurementVectorSize) > CenteroidType ;
+                      itkGetStaticConstMacro(MeasurementVectorSize) > CentroidType ;
   
   /** Instance identifier type (index value type for the measurement
    * vector in a sample */
@@ -97,10 +97,10 @@ struct KdTreeNode
   virtual unsigned int Size() = 0 ;
 
   /** Returns the vector sum of the all measurement vectors under this node */
-  virtual void GetWeightedCenteroid(CenteroidType &centeroid) = 0 ;
+  virtual void GetWeightedCentroid(CentroidType &centroid) = 0 ;
 
-  /** Returns the centeroid. weighted centeroid divided by the size */
-  virtual void GetCenteroid(CenteroidType &centeroid) = 0 ;
+  /** Returns the centroid. weighted centroid divided by the size */
+  virtual void GetCentroid(CentroidType &centroid) = 0 ;
 
   /** Retuns the instance identifier of the index-th measurement vector */
   virtual InstanceIdentifier GetInstanceIdentifier(size_t index) = 0 ;
@@ -116,19 +116,19 @@ struct KdTreeNode
  *  \brief This is a subclass of the KdTreeNode. 
  *
  * KdTreeNonterminalNode doesn't store the information related with the
- * centeroids. Therefore, the GetWeightedCenteroid and the GetCenteroid
+ * centroids. Therefore, the GetWeightedCentroid and the GetCentroid
  * methods are void. This class should have the left and the right
  * children. If we have a sample and want to generate a KdTree without
- * the centeroid related information, we can use the KdTreeGenerator.
+ * the centroid related information, we can use the KdTreeGenerator.
  * 
- * \sa KdTreeNode, KdTreeWeightedCenteroidNonterminalNode, KdTreeGenerator
+ * \sa KdTreeNode, KdTreeWeightedCentroidNonterminalNode, KdTreeGenerator
  */
 template< class TSample >
 struct KdTreeNonterminalNode: public KdTreeNode< TSample >
 {
   typedef KdTreeNode< TSample > Superclass ;
   typedef typename Superclass::MeasurementType MeasurementType ;
-  typedef typename Superclass::CenteroidType CenteroidType ;
+  typedef typename Superclass::CentroidType CentroidType ;
   typedef typename Superclass::InstanceIdentifier InstanceIdentifier ;
 
   KdTreeNonterminalNode(unsigned int partitionDimension,
@@ -153,10 +153,10 @@ struct KdTreeNonterminalNode: public KdTreeNode< TSample >
   unsigned int Size()
   { return 0 ; }
 
-  void GetWeightedCenteroid(CenteroidType &)
+  void GetWeightedCentroid(CentroidType &)
   { /* do nothing */ } 
 
-  void GetCenteroid(CenteroidType &)
+  void GetCentroid(CentroidType &)
   { /* do nothing */ }
 
   InstanceIdentifier GetInstanceIdentifier(size_t)
@@ -171,35 +171,35 @@ private:
   Superclass* m_Right ;
 } ; // end of class
 
-/** \class KdTreeWeightedCenteroidNonterminalNode
+/** \class KdTreeWeightedCentroidNonterminalNode
  *  \brief This is a subclass of the KdTreeNode. 
  * 
  * KdTreeNonterminalNode does have the information related with the
- * centeroids. Therefore, the GetWeightedCenteroid and the GetCenteroid
+ * centroids. Therefore, the GetWeightedCentroid and the GetCentroid
  * methods returns meaningful values. This class should have the left
  * and right children. If we have a sample and want to generate a KdTree
- * with the centeroid related information, we can use the
- * WeightedCenteroidKdTreeGenerator. The centeroid, the weighted
- * centeroid, and the size (the number of measurement vectors) can be
+ * with the centroid related information, we can use the
+ * WeightedCentroidKdTreeGenerator. The centroid, the weighted
+ * centroid, and the size (the number of measurement vectors) can be
  * used to accelate the k-means estimation.
  * 
- * \sa KdTreeNode, KdTreeNonterminalNode, WeightedCenteroidKdTreeGenerator
+ * \sa KdTreeNode, KdTreeNonterminalNode, WeightedCentroidKdTreeGenerator
  */
 template< class TSample >
-struct KdTreeWeightedCenteroidNonterminalNode: public KdTreeNode< TSample >
+struct KdTreeWeightedCentroidNonterminalNode: public KdTreeNode< TSample >
 {
   typedef KdTreeNode< TSample > Superclass ;
   typedef typename Superclass::MeasurementType MeasurementType ;
-  typedef typename Superclass::CenteroidType CenteroidType ;
+  typedef typename Superclass::CentroidType CentroidType ;
   typedef typename Superclass::InstanceIdentifier InstanceIdentifier ;
 
-  KdTreeWeightedCenteroidNonterminalNode(unsigned int partitionDimension,
+  KdTreeWeightedCentroidNonterminalNode(unsigned int partitionDimension,
                                          MeasurementType partitionValue,
                                          Superclass* left,
                                          Superclass* right,
-                                         CenteroidType &centeroid,
+                                         CentroidType &centroid,
                                          unsigned int size) ;
-  virtual ~KdTreeWeightedCenteroidNonterminalNode() {}
+  virtual ~KdTreeWeightedCentroidNonterminalNode() {}
 
   virtual bool IsTerminal()
   { return false ; }
@@ -216,11 +216,11 @@ struct KdTreeWeightedCenteroidNonterminalNode: public KdTreeNode< TSample >
   unsigned int Size()
   { return m_Size ; }
 
-  void GetWeightedCenteroid(CenteroidType &centeroid)
-  { centeroid = m_WeightedCenteroid ; }
+  void GetWeightedCentroid(CentroidType &centroid)
+  { centroid = m_WeightedCentroid ; }
 
-  void GetCenteroid(CenteroidType &centeroid)
-  { centeroid = m_Centeroid ; }
+  void GetCentroid(CentroidType &centroid)
+  { centroid = m_Centroid ; }
 
   InstanceIdentifier GetInstanceIdentifier(size_t)
   { return 0 ; }
@@ -230,8 +230,8 @@ struct KdTreeWeightedCenteroidNonterminalNode: public KdTreeNode< TSample >
 private:
   unsigned int m_PartitionDimension ;
   MeasurementType m_PartitionValue ;
-  CenteroidType m_WeightedCenteroid ;
-  CenteroidType m_Centeroid ;
+  CentroidType m_WeightedCentroid ;
+  CentroidType m_Centroid ;
   unsigned int m_Size ;
   Superclass* m_Left ;
   Superclass* m_Right ;
@@ -247,14 +247,14 @@ private:
  *  identifiers belonging to this node.
  * 
  * \sa KdTreeNode, KdTreeNonterminalNode,
- * KdTreeWeightedCenteroidNonterminalNode
+ * KdTreeWeightedCentroidNonterminalNode
  */
 template< class TSample >
 struct KdTreeTerminalNode: public KdTreeNode< TSample >
 {
   typedef KdTreeNode< TSample > Superclass ;
   typedef typename Superclass::MeasurementType MeasurementType ;
-  typedef typename Superclass::CenteroidType CenteroidType ;
+  typedef typename Superclass::CentroidType CentroidType ;
   typedef typename Superclass::InstanceIdentifier InstanceIdentifier ;
 
   KdTreeTerminalNode() {}
@@ -276,10 +276,10 @@ struct KdTreeTerminalNode: public KdTreeNode< TSample >
   unsigned int Size()
   { return static_cast<unsigned int>( m_InstanceIdentifiers.size() ); }
 
-  void GetWeightedCenteroid(CenteroidType &)
+  void GetWeightedCentroid(CentroidType &)
   { /* do nothing */ } 
 
-  void GetCenteroid(CenteroidType &)
+  void GetCentroid(CentroidType &)
   { /* do nothing */ } 
 
   InstanceIdentifier GetInstanceIdentifier(size_t index)
@@ -305,7 +305,7 @@ private:
  * SetBucketSize. That is The split process is a recursive process in
  * nature and in implementation. This implementation doesn't support
  * dynamic insert and delete operations for the tree. Instead, we can
- * use the KdTreeGenerator or WeightedCenteroidKdTreeGenerator to
+ * use the KdTreeGenerator or WeightedCentroidKdTreeGenerator to
  * generate a static KdTree object. 
  *
  * To search k-nearest neighbor, call the Search method with the query
@@ -314,8 +314,8 @@ private:
  * with k-nearest neighbors.
  *
  * \sa KdTreeNode, KdTreeNonterminalNode,
- * KdTreeWeightedCenteroidNonterminalNode, KdTreeTerminalNode,
- * KdTreeGenerator, WeightedCenteroidKdTreeNode
+ * KdTreeWeightedCentroidNonterminalNode, KdTreeTerminalNode,
+ * KdTreeGenerator, WeightedCentroidKdTreeNode
  */
 
 template < class TSample >
@@ -456,7 +456,7 @@ public:
   { return m_EmptyTerminalNode ; } 
 
   /** Sets the root node of the KdTree that is a result of
-   * KdTreeGenerator or WeightedCenteroidKdTreeGenerator. */
+   * KdTreeGenerator or WeightedCentroidKdTreeGenerator. */
   void SetRoot(KdTreeNodeType* root) 
   { m_Root = root ; } 
 

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkWeightedCenteroidKdTreeGenerator.h
+  Module:    itkWeightedCentroidKdTreeGenerator.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkWeightedCenteroidKdTreeGenerator_h
-#define __itkWeightedCenteroidKdTreeGenerator_h
+#ifndef __itkWeightedCentroidKdTreeGenerator_h
+#define __itkWeightedCentroidKdTreeGenerator_h
 
 #include <vector>
 
@@ -28,8 +28,8 @@
 namespace itk{ 
 namespace Statistics{
 
-/** \class WeightedCenteroidKdTreeGenerator 
- *  \brief This class generates a KdTree object with centeroid information.
+/** \class WeightedCentroidKdTreeGenerator 
+ *  \brief This class generates a KdTree object with centroid information.
  * 
  * The KdTree object stores measurment vectors in a k-d tree structure
  * that is a binary tree. The partition value is the median value of one
@@ -42,7 +42,7 @@ namespace Statistics{
  * This class is derived from the KdTreeGenerator class. The only
  * difference between this class and the KdTreeGenerator class is that
  * the nonterminal node type of this class is
- * KdTreeWeightedCenteroidNonterminalNode and that of the
+ * KdTreeWeightedCentroidNonterminalNode and that of the
  * KdTreeGenerator is KdTreeNonterminalNode. Therefore, the public
  * interface is identical to each other. The nonterminal node generation
  * routines differ.
@@ -52,22 +52,22 @@ namespace Statistics{
  * Update method will run this generator. To get the resulting KdTree
  * object, call the GetOutput method.
  * 
- * \sa KdTree, KdTreeNode, KdTreeWeightedCenteroidNonterminalNode, 
+ * \sa KdTree, KdTreeNode, KdTreeWeightedCentroidNonterminalNode, 
  * KdTreeTerminalNode, KdTreeGenerator
  */
 
 template < class TSample >
-class ITK_EXPORT WeightedCenteroidKdTreeGenerator : 
+class ITK_EXPORT WeightedCentroidKdTreeGenerator : 
     public KdTreeGenerator< TSample >
 {
 public:
   /** Standard class typedefs */
-  typedef WeightedCenteroidKdTreeGenerator Self ;
+  typedef WeightedCentroidKdTreeGenerator Self ;
   typedef KdTreeGenerator< TSample > Superclass ;
   typedef SmartPointer<Self> Pointer;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(WeightedCenteroidKdTreeGenerator, KdTreeGenerator);
+  itkTypeMacro(WeightedCentroidKdTreeGenerator, KdTreeGenerator);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self) ;
@@ -84,10 +84,10 @@ public:
 
 protected:
   /** Constructor */
-  WeightedCenteroidKdTreeGenerator() ;
+  WeightedCentroidKdTreeGenerator() ;
 
   /** Destructor */
-  virtual ~WeightedCenteroidKdTreeGenerator() {}
+  virtual ~WeightedCentroidKdTreeGenerator() {}
 
   void PrintSelf(std::ostream& os, Indent indent) const ;
 
@@ -101,7 +101,7 @@ protected:
                                                   int level) ;
 
 private:
-  WeightedCenteroidKdTreeGenerator(const Self&) ; //purposely not implemented
+  WeightedCentroidKdTreeGenerator(const Self&) ; //purposely not implemented
   void operator=(const Self&) ; //purposely not implemented
 
   MeasurementVectorType m_TempLowerBound ;
@@ -113,7 +113,7 @@ private:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkWeightedCenteroidKdTreeGenerator.txx"
+#include "itkWeightedCentroidKdTreeGenerator.txx"
 #endif
 
 #endif

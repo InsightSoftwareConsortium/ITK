@@ -27,7 +27,7 @@ template< class TKdTree >
 KdTreeBasedKmeansEstimator< TKdTree >
 ::KdTreeBasedKmeansEstimator()
 {
-  m_CenteroidPositionChangesThreshold = 0.0 ;
+  m_CentroidPositionChangesThreshold = 0.0 ;
   m_KdTree = 0 ;
   m_UseClusterLabels = false ;
   m_MaximumIteration = 100 ;
@@ -46,10 +46,10 @@ KdTreeBasedKmeansEstimator< TKdTree >
   os << indent << "Maximum Iteration: "
      << m_MaximumIteration << std::endl;
 
-  os << indent << "Sum of Centeroid Position Changes: "
-     << m_CenteroidPositionChanges << std::endl;
-  os << indent << "Threshold for theSum of Centeroid Position Changes: "
-     << m_CenteroidPositionChangesThreshold << std::endl;
+  os << indent << "Sum of Centroid Position Changes: "
+     << m_CentroidPositionChanges << std::endl;
+  os << indent << "Threshold for theSum of Centroid Position Changes: "
+     << m_CentroidPositionChangesThreshold << std::endl;
 
   os << indent << "Kd Tree:" << m_KdTree << std::endl ;
   os << indent << "Distance Metric: " << m_DistanceMetric << std::endl ;
@@ -94,7 +94,7 @@ KdTreeBasedKmeansEstimator< TKdTree >
   while (iter != validIndexes.end())
     {
     tempDistance = 
-      m_DistanceMetric->Evaluate(m_CandidateVector[*iter].Centeroid,
+      m_DistanceMetric->Evaluate(m_CandidateVector[*iter].Centroid,
                                  measurements) ;
     if (tempDistance < closestDistance)
       {
@@ -168,7 +168,7 @@ KdTreeBasedKmeansEstimator< TKdTree >
         this->GetClosestCandidate(individualPoint, validIndexes) ;
       for (j = 0 ; j < MeasurementVectorSize ; j++)
         {
-        m_CandidateVector[closest].WeightedCenteroid[j] +=
+        m_CandidateVector[closest].WeightedCentroid[j] +=
           individualPoint[j] ;
         }
       m_CandidateVector[closest].Size += 1 ;
@@ -180,20 +180,20 @@ KdTreeBasedKmeansEstimator< TKdTree >
     }
   else
     {
-    CenteroidType centeroid ; 
-    CenteroidType weightedCenteroid ;
+    CentroidType centroid ; 
+    CentroidType weightedCentroid ;
     ParameterType closestPosition ;
-    node->GetWeightedCenteroid(weightedCenteroid) ;
-    node->GetCenteroid(centeroid) ;
+    node->GetWeightedCentroid(weightedCentroid) ;
+    node->GetCentroid(centroid) ;
 
     closest = 
-      this->GetClosestCandidate(centeroid, validIndexes) ;
-    closestPosition = m_CandidateVector[closest].Centeroid ;
+      this->GetClosestCandidate(centroid, validIndexes) ;
+    closestPosition = m_CandidateVector[closest].Centroid ;
     std::vector< int >::iterator iter = validIndexes.begin() ;
     while (iter != validIndexes.end())
       {
       if (*iter != closest &&
-          this->IsFarther(m_CandidateVector[*iter].Centeroid,
+          this->IsFarther(m_CandidateVector[*iter].Centroid,
                           closestPosition,
                           lowerBound, upperBound))
         {
@@ -211,8 +211,8 @@ KdTreeBasedKmeansEstimator< TKdTree >
       {
       for (j = 0 ; j < MeasurementVectorSize ; j++)
         {
-        m_CandidateVector[closest].WeightedCenteroid[j] += 
-          weightedCenteroid[j] ;
+        m_CandidateVector[closest].WeightedCentroid[j] += 
+          weightedCentroid[j] ;
         }
       m_CandidateVector[closest].Size += node->Size() ;
       if ( m_GenerateClusterLabels )
@@ -353,21 +353,21 @@ KdTreeBasedKmeansEstimator< TKdTree >
   while(true)
     {
     this->CopyParameters(currentPosition, previousPosition) ;
-    m_CandidateVector.SetCenteroids(currentPosition) ;
+    m_CandidateVector.SetCentroids(currentPosition) ;
     this->Filter(m_KdTree->GetRoot(), validIndexes,
                  lowerBound, upperBound) ;
-    m_CandidateVector.UpdateCenteroids() ;
-    m_CandidateVector.GetCenteroids(currentPosition) ;
+    m_CandidateVector.UpdateCentroids() ;
+    m_CandidateVector.GetCentroids(currentPosition) ;
      
     if(m_CurrentIteration >= m_MaximumIteration) 
       {
       break ;
       } 
 
-    m_CenteroidPositionChanges = 
+    m_CentroidPositionChanges = 
       this->GetSumOfSquaredPositionChanges(previousPosition, 
                                            currentPosition) ;
-    if (m_CenteroidPositionChanges <= m_CenteroidPositionChangesThreshold)
+    if (m_CentroidPositionChanges <= m_CentroidPositionChangesThreshold)
       {
       break ;
       }

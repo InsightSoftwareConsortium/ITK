@@ -45,23 +45,23 @@ KdTreeNonterminalNode< TSample >
 }
 
 template< class TSample >
-KdTreeWeightedCenteroidNonterminalNode< TSample >
-::KdTreeWeightedCenteroidNonterminalNode(unsigned int partitionDimension,
+KdTreeWeightedCentroidNonterminalNode< TSample >
+::KdTreeWeightedCentroidNonterminalNode(unsigned int partitionDimension,
                                          MeasurementType partitionValue,
                                          Superclass* left,
                                          Superclass* right,
-                                         CenteroidType &centeroid,
+                                         CentroidType &centroid,
                                          unsigned int size)
 {
   m_PartitionDimension = partitionDimension ;
   m_PartitionValue = partitionValue ;
   m_Left = left ;
   m_Right = right ;
-  m_WeightedCenteroid = centeroid ;
+  m_WeightedCentroid = centroid ;
 
   for (unsigned int i = 0 ; i < TSample::MeasurementVectorSize ; i++)
     {
-    m_Centeroid[i] = m_WeightedCenteroid[i] / double(size) ;
+    m_Centroid[i] = m_WeightedCentroid[i] / double(size) ;
     }
 
   m_Size = size ;
@@ -69,7 +69,7 @@ KdTreeWeightedCenteroidNonterminalNode< TSample >
 
 template< class TSample >
 void
-KdTreeWeightedCenteroidNonterminalNode< TSample >
+KdTreeWeightedCentroidNonterminalNode< TSample >
 ::GetParameters(unsigned int &partitionDimension, 
                 MeasurementType &partitionValue)
 {
@@ -497,13 +497,13 @@ KdTree< TSample >
   MeasurementType partitionValue ;
 
   node->GetParameters(partitionDimension, partitionValue) ;
-  typename KdTreeNodeType::CenteroidType centeroid ;
-  node->GetWeightedCenteroid(centeroid) ;
+  typename KdTreeNodeType::CentroidType centroid ;
+  node->GetWeightedCentroid(centroid) ;
   std::cout << "Nonterminal: level = " << level << std::endl ;
   std::cout << "             dim = " << partitionDimension << std::endl ;
   std::cout << "             value = " << partitionValue << std::endl ;
-  std::cout << "             weighted centeroid = " 
-            << centeroid ;
+  std::cout << "             weighted centroid = " 
+            << centroid ;
   std::cout << "             size = " << node->Size()<< std::endl ;
  
   PrintTree(node->Left(), level, partitionDimension) ;
