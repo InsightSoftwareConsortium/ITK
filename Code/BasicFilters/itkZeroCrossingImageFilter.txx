@@ -25,6 +25,7 @@
 #include "itkZeroFluxNeumannBoundaryCondition.h"
 #include "itkFixedArray.h"
 
+
 namespace itk
 {
 
@@ -73,6 +74,7 @@ ZeroCrossingImageFilter<TInputImage,TOutputImage>
     
     // build an exception
     InvalidRequestedRegionError e(__FILE__, __LINE__);
+      
     OStringStream msg;
     msg << (char *)this->GetNameOfClass()
         << "::GenerateInputRequestedRegion()";
@@ -80,6 +82,7 @@ ZeroCrossingImageFilter<TInputImage,TOutputImage>
     e.SetDescription("Requested region is (at least partially) outside the largest possible region.");
     e.SetDataObject(inputPtr);
     throw e;
+    
     }
 }
 
@@ -141,7 +144,7 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
   //Set the offset of the neighbors to the center pixel.
   for ( i = 0 ; i < ImageDimension; i++)
     {
-      offset[i] = - nit.GetStride(i);
+      offset[i] = -1 * static_cast<long>( nit.GetStride(i));
       offset[i+ImageDimension] =  nit.GetStride(i);
     }
 
