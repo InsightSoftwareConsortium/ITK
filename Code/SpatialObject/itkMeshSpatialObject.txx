@@ -33,6 +33,7 @@ MeshSpatialObject< TMesh >
   m_Mesh = MeshType::New();
   this->ComputeBoundingBox();
   m_PixelType = typeid(typename TMesh::PixelType).name();
+  m_IsInsidePrecision = 1;
 }
 
 /** Destructor */
@@ -78,9 +79,23 @@ MeshSpatialObject< TMesh >
         position[i] = transformedPoint[i];
         }
 
-      if(it.Value()->EvaluatePosition(position,m_Mesh->GetPoints(),NULL,NULL,NULL,NULL))
+      typename MeshType::CoordRepType closestPoint[itkGetStaticConstMacro(Dimension)];
+      double minDist;
+
+      if(it.Value()->EvaluatePosition(position,m_Mesh->GetPoints(),closestPoint,NULL,&minDist,NULL))
         {
-        return true;
+        // If this is a triangle cell we need to check the distance
+        if(it.Value()->GetNumberOfPoints() == 3)
+          {
+          if(minDist <= m_IsInsidePrecision)
+            {
+            return true;
+            }
+          }
+        else
+          {
+          return true;
+          }
         }
       it++;
       }
@@ -196,6 +211,7 @@ MeshSpatialObject< TMesh >
 {
   Superclass::PrintSelf(os,indent);
   os << "Mesh: " << std::endl;
+  os << "m_IsInsidePrecision: " << m_IsInsidePrecision << std::endl; 
   os << indent << m_Mesh << std::endl;
 }
 

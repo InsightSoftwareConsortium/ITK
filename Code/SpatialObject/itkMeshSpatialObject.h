@@ -103,11 +103,19 @@ public:
     return m_PixelType.c_str();
     }
 
+  /** Set/Get the precision for the IsInside function. This is used when the cell is 
+   *  a triangle, in this case, it's more likely that the given point will not be falling
+   *  exactly on the triangle surface. If the distance from the point to the surface is <= to 
+   * m_IsInsidePrecision the point is considered inside the mesh. The default value is 1. */
+  itkSetMacro(IsInsidePrecision, double);
+  itkGetMacro(IsInsidePrecision, double);
 
 protected:
 
   MeshPointer m_Mesh;
   std::string m_PixelType;
+  double m_IsInsidePrecision;
+
   MeshSpatialObject();
   virtual ~MeshSpatialObject();
 
