@@ -75,17 +75,17 @@ namespace itk {
  *  curvature in the solver. You should not need to change this parameter from
  *  its default value of 1.0 except in very rare circumstances.
  * 
- * \par INPUT
- *  The input is an image of any type. It is assumed to be a binary image.
- *  The filter will use an isosurface value that is halfway between the min and
- *  max values in the image.  A signed data type is *not* necessary for the
- *  input.
+ * \par INPUT 
+ *  The input is an N-dimensional image of any type. It is assumed to be a
+ *  binary image. The filter will use an isosurface value that is halfway
+ *  between the min and max values in the image.  A signed data type is *not*
+ *  necessary for the input.
  *
- * \par OUTPUT
+ * \par OUTPUT 
  *  The filter will output a level set image of real, signed values.  The zero
- *  crossings of this image represent the position of the isosurface value of
- *  interest. Values outside the zero level set are negative and values inside
- *  the zero level set are positive values.
+ *  crossings of this (N-dimensional) image represent the position of the
+ *  isosurface value of interest. Values outside the zero level set are
+ *  negative and values inside the zero level set are positive values.
  *
  * \par IMPORTANT!
  *  The output image type you use to instantiate this filter should be a real
@@ -93,7 +93,8 @@ namespace itk {
  *
  * \par USING THIS FILTER
  *  The filter is relatively straightforward to use.  Tests and examples exist
- *  to illustrate.
+ *  to illustrate.  The important thing is to understand the input and output
+ *  types so you can properly interperet your results.
  *
  * \par
  *  In the common case, the only parameter that will need to be set is the
