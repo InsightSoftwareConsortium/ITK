@@ -27,6 +27,7 @@ SOURCE_FILES(FEM_SRCS
   itkFEMLoadGrav.cxx
   itkFEMLoadEdge.cxx
   itkFEMLoadPoint.cxx
+  itkFEMLoadImagePairBase.txx
   
   itkFEMLoadImplementationsRegister.cxx
   itkFEMLoadImplementationGrav_Bar2D.cxx
@@ -92,6 +93,7 @@ SOURCE_FILES(FEM_SRCS
   itkFEMLoadGrav.h
   itkFEMLoadEdge.h
   itkFEMLoadPoint.h
+  itkFEMLoadImagePairBase.h
  
   itkFEMSolver.h
 
