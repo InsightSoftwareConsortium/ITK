@@ -128,7 +128,10 @@ namespace itk
  * \par Some notes on filter parameters
  * Two parameters control the output of this filter, Threshold and Level.  The 
  * units of both parameters are percentage points of the maximum height value
- * in the input.  \par Threshold is used to set the absolute minimum height
+ * in the input.
+ *
+ * \par
+ * Threshold is used to set the absolute minimum height
  * value used during processing. Raising this threshold percentage effectively
  * decreases the number of local minima in the input, resulting in an initial
  * segmentation with fewer regions.  The assumption is that the shallow regions 
@@ -160,7 +163,7 @@ namespace itk
  * Get/SetThreshold() and Get/SetLevel() methods.
  *
  * \par Notes on streaming the watershed segmentation code
- *
+ *  Coming soon... 12/06/01
  *
  *
  * 
