@@ -68,7 +68,13 @@ template<class TComponent>
 std::istream &
 operator>>(std::istream& is, RGBPixel<TComponent> & c ) 
 {
-  is >> c.m_Red >> c.m_Green >> c.m_Blue;                      
+  TComponent red;
+  TComponent green;
+  TComponent blue;
+  is >> red >> green >> blue;
+  c.SetRed( red );
+  c.SetGreen( green );
+  c.SetBlue( blue );
   return is;
 }
 
