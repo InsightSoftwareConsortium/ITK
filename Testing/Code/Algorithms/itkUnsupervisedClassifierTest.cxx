@@ -44,7 +44,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "vnl/vnl_matrix_fixed.h"
 #include "vnl/vnl_math.h"
 #include "itkImageRegionIterator.h"
-#include "itkKMeansUnsupervisedClassifier.h"
+#include "itkKmeansUnsupervisedClassifier.h"
 
 //File name definitions 
 #define   IMGWIDTH            16
@@ -164,24 +164,25 @@ int main()
   //---------------------------------------------------------------------
   //Set the Kmeans classifier
   //---------------------------------------------------------------------
-  typedef itk::KMeansUnsupervisedClassifier<VecImageType,VecImageType> 
-    KMeansUnsupervisedClassifierType;
+  typedef itk::KmeansUnsupervisedClassifier<VecImageType,VecImageType> 
+    KmeansUnsupervisedClassifierType;
 
-  KMeansUnsupervisedClassifierType::Pointer 
-    applyKMeansClusterer = KMeansUnsupervisedClassifierType::New();
+  KmeansUnsupervisedClassifierType::Pointer 
+    applyKmeansClusterer = KmeansUnsupervisedClassifierType::New();
 
 
   //----------------------------------------------------------------------
   //Set the parameters of the clusterer
   //----------------------------------------------------------------------
-  applyKMeansClusterer->SetInputImage(vecImage);
-  applyKMeansClusterer->SetNumberOfClasses(NCODEWORDS);
-  applyKMeansClusterer->SetThreshold(0.01);
-  applyKMeansClusterer->Cluster();
+  applyKmeansClusterer->SetInputImage(vecImage);
+  applyKmeansClusterer->SetNumberOfClasses(NCODEWORDS);
+  applyKmeansClusterer->SetThreshold(0.01);
+  applyKmeansClusterer->Cluster();
+  applyKmeansClusterer->Print(std::cout);
   //applyKMeansClusterer->PrintKmeansAlgorithmResults();
 
   //Validation with no codebook/initial Kmeans estimate
-  vnl_matrix<double> kmeansResult = applyKMeansClusterer->GetKmeansResults();
+  vnl_matrix<double> kmeansResult = applyKmeansClusterer->GetKmeansResults();
   vnl_matrix<double> errorMat = (kmeansResult - inCDBK);
   double error =0;
   double meanCDBKvalue = 0;
@@ -201,12 +202,12 @@ int main()
   else
     std::cout << "Kmeans algorithm failed (without initial input)"<<std::endl;
 
-  applyKMeansClusterer->SetCodebook(inCDBK);
-  applyKMeansClusterer->Cluster();
+  applyKmeansClusterer->SetCodebook(inCDBK);
+  applyKmeansClusterer->Cluster();
   //applyKMeansClusterer->PrintKmeansAlgorithmResults();
 
   //Validation with initial Kmeans estimate provided as input by the user
-  kmeansResult = applyKMeansClusterer->GetKmeansResults();
+  kmeansResult = applyKmeansClusterer->GetKmeansResults();
   errorMat = (kmeansResult - inCDBK);
   error =0;
   meanCDBKvalue = 0;

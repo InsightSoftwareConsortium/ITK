@@ -297,6 +297,8 @@ int main()
   ClassImageType::Pointer outClassImage =  
     applyClassifier->GetClassifiedImage();
 
+  applyClassifier->Print(std::cout); 
+
   //Print the gaussian classified image
   ClassImageIterator labeloutIt( outClassImage, 
                                  outClassImage->GetBufferedRegion() );
