@@ -20,22 +20,23 @@
 #include <typeinfo>
 
 #include "itkImage.h"
+#include "itkPixelTraits.h"
 #include "itkListSample.h"
 #include "itkSmartPointer.h"
 #include "itkImageRegionIterator.h"
 
 namespace itk{ 
-  namespace Statistics{
-
+namespace Statistics{
 /** \class ScalarAccessor
  *  \brief converts scalar pixel type to measurement vector type
  */
-template< class TImage, class TMeasurement, unsigned int VMeasurementVectorSize >
+template< class TImage >
 class ScalarAccessor
 {
 public:
-  typedef Point< TMeasurement, VMeasurementVectorSize > MeasurementVectorType ;
   typedef typename TImage::PixelType PixelType ;
+  typedef PixelTraits< PixelType >::ValueType MeasurementType ;
+  typedef Sample< PixelType, 1 >::MeasurementVectorType MeasurementVectorType ;
 
   ScalarAccessor() {}
   virtual ~ScalarAccessor() {} 
@@ -50,22 +51,27 @@ public:
 
   MeasurementVectorType GetMeasurementVector(PixelType pixel) 
   {
-    MeasurementVectorType measurement ;
-    measurement[0] = pixel ;
-    return measurement ;
+    //MeasurementVectorType measurement ;
+    m_TempMeasurementVector[0] = pixel ;
+    return m_TempMeasurementVector ;
   }
+
 private:
+  MeasurementVectorType m_TempMeasurementVector ;
 } ; // end of class
 
 /** \class VectorAccessor
  *  \brief converts any vector pixel type to measurement vector type
  */
-template< class TImage, class TMeasurement, unsigned int VMeasurementVectorSize >
+
+template< class TImage >
 class VectorAccessor
 {
 public:
-  typedef Point< TMeasurement, VMeasurementVectorSize > MeasurementVectorType ;
   typedef typename TImage::PixelType PixelType ;
+  enum { MeasurementVectorSize = PixelTraits< PixelType >::Dimension } ;
+  typedef PixelTraits< PixelType >::ValueType MeasurementType ;
+  typedef Sample< MeasurementType, MeasurementVectorSize >::MeasurementVectorType MeasurementVectorType ;
 
   VectorAccessor() {}
   virtual ~VectorAccessor() {}
@@ -74,26 +80,16 @@ public:
                   typename TImage::IndexType index, 
                   MeasurementVectorType measurement)
   {
-    PixelType pixel ;
-    for (size_t i = 0 ; i < VMeasurementVectorSize ; i++)
-      {
-        pixel[i] = measurement[i] ;
-      }
-
-    image->SetPixel(index, pixel) ;
+    image->SetPixel(index, measurement) ;
   }
 
   MeasurementVectorType GetMeasurementVector(PixelType pixel) 
   {
-    MeasurementVectorType measurement ;
-    for (size_t i = 0 ; i < VMeasurementVectorSize ; i++)
-      {
-        measurement[i] = pixel[i] ;
-      }
-    return measurement ;
+    return pixel ;
   }
 private:
 } ; // end of class
+
 
 /** \class ImageListSampleAdaptor
  *  \brief This class provides ListSample interfaces to ITK Image
@@ -124,18 +120,17 @@ private:
  * \sa Sample, ListSample
  */
   
-template < class TImage, class TMeasurement = float, 
-           unsigned int VMeasurementVectorSize = 1, 
-           class TAccessor = 
-           ScalarAccessor< TImage, TMeasurement, VMeasurementVectorSize > >
+template < class TImage, class TAccessor = VectorAccessor< TImage > >
 class ITK_EXPORT ImageListSampleAdaptor :
-      public ListSample< TMeasurement, VMeasurementVectorSize >
+  public ListSample< PixelTraits< typename TImage::PixelType >::ValueType, 
+  PixelTraits< typename TImage::PixelType >::Dimension >
 {
 public:
   /** Standard class typedefs */
   typedef ImageListSampleAdaptor Self;
-  typedef ListSample<TMeasurement, VMeasurementVectorSize> Superclass;
-  typedef SmartPointer<Self> Pointer;
+  typedef ListSample< PixelTraits< typename TImage::PixelType >::ValueType, 
+    PixelTraits< typename TImage::PixelType >::Dimension > Superclass;
+  typedef SmartPointer< Self > Pointer;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageListSampleAdaptor, ListSample) ;
@@ -149,21 +144,19 @@ public:
   /**  * Image Pointer typedef support */
   typedef typename ImageType::Pointer ImagePointer ;
   
-  /** Dimension of the Data */
-  enum { MeasurementVectorSize = VMeasurementVectorSize } ;
-
-  /** MeasurementVector Coordinate Representation typedef support */
-  typedef TMeasurement MeasurementType ;
-
-  /** Image Iterator typedef support */
-  typedef ImageRegionIterator<ImageType> IteratorType ; 
-  
   /** Image class typedefs for index and pixel */
   typedef typename ImageType::IndexType IndexType ;
   typedef typename ImageType::PixelType PixelType ;
 
+  /** Image Iterator typedef support */
+  typedef ImageRegionIterator<ImageType> IteratorType ; 
+  
+  /** Dimension of the Data */
+  enum { MeasurementVectorSize = Superclass::MeasurementVectorSize } ;
+
   /** Superclass typedefs for Measurement vector, measurement, Instance Identifier, 
    * frequency, size, size element value */
+  typedef typename Superclass::MeasurementType MeasurementType ;
   typedef typename Superclass::MeasurementVectorType MeasurementVectorType;
   typedef typename Superclass::InstanceIdentifier InstanceIdentifier;
   typedef typename Superclass::FrequencyType FrequencyType ;
@@ -185,11 +178,15 @@ public:
 
   /** returns the size of the 'dimension' dimension 
    * in the ListSample subclasses, the size of each dimension 
-   * is equal to the number of instance. And the size is all same over all dimensions. */
+   * is equal to the number of instance. And the size is all same 
+   * over all dimensions. */
   SizeValueType GetSize(unsigned int dimension) 
   {
     return static_cast< SizeValueType >(m_Image->GetPixelContainer()->Size()) ;
   }
+
+  size_t GetNumberOfInstances()
+  { return GetSize(0) ; }
 
   /** returns the index that is uniquely labelled by an instance identifier 
    * The corresponding id is the offset of the index  
@@ -211,8 +208,8 @@ public:
   { m_Accessor.SetMeasurementVector(m_Image, index, measurement) ; }
   
   void SetMeasurement(const IndexType index, 
-                         const unsigned int dim,
-                         const MeasurementType value) 
+                      const unsigned int dim,
+                      const MeasurementType value) 
   {
     MeasurementVectorType f = GetMeasurementVector(index) ;
     f[dim] = value ;
@@ -230,7 +227,7 @@ public:
 
   /** Method to get a measurement element the measurement from this container */
   MeasurementType GetMeasurement(const IndexType index, 
-                                       const unsigned int dim) 
+                                 const unsigned int dim) 
   { 
     return GetMeasurementVector(index)[dim] ; 
   }
@@ -251,15 +248,15 @@ public:
 
 
   void SetMeasurement(const unsigned int dimension,
-                         const unsigned int n,
-                         const MeasurementType value) 
+                      const unsigned int n,
+                      const MeasurementType value) 
   {
     SetMeasurement(GetIndex(n), dimension, value ) ;
   }
 
   /** Method to get the measurement from list using an instance identifier */
   MeasurementType GetMeasurement(const unsigned int dimension,
-                                       const unsigned long n) 
+                                 const unsigned long n) 
   { return GetMeasurement(GetIndex(n), dimension) ; }
 
   /** returns the frequency of the 'n'-th element in the 'd' dimension  
@@ -370,7 +367,7 @@ private:
   TAccessor m_Accessor ;
 } ;
 
-  } // end of namespace Statistics
+} // end of namespace Statistics
 } // end of namespace itk
 
 

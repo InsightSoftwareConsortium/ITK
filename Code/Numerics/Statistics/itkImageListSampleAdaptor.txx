@@ -22,38 +22,27 @@
 namespace itk{ 
   namespace Statistics{
 
-template < class TImage, class TMeasurement, 
-           unsigned int VMeasurementVectorSize , 
-           class TAccessor >
-ImageListSampleAdaptor< TImage, TMeasurement, VMeasurementVectorSize, 
-                               TAccessor >::IndexType
-ImageListSampleAdaptor< TImage, TMeasurement, VMeasurementVectorSize,
-                               TAccessor >
+template < class TImage, class TAccessor >
+ImageListSampleAdaptor< TImage, TAccessor >::IndexType
+ImageListSampleAdaptor< TImage, TAccessor >
 ::GetIndex(const InstanceIdentifier id) 
 {
   IndexType index = m_Image->ComputeIndex(id) ;
   return index ;
 }
 
-template < class TImage, class TMeasurement, 
-           unsigned int VMeasurementVectorSize , 
-           class TAccessor >
-ImageListSampleAdaptor< TImage, TMeasurement, VMeasurementVectorSize,
-                               TAccessor >::InstanceIdentifier
-ImageListSampleAdaptor< TImage, TMeasurement, VMeasurementVectorSize,
-                               TAccessor >
+template < class TImage, class TAccessor >
+ImageListSampleAdaptor< TImage, TAccessor >::InstanceIdentifier
+ImageListSampleAdaptor< TImage, TAccessor >
 ::GetInstanceIdentifier(const IndexType index) 
 {
   return m_Image->ComputeOffset(index) ;
 }
 
 
-template < class TImage, class TMeasurement, 
-           unsigned int VMeasurementVectorSize , 
-           class TAccessor >
+template < class TImage, class TAccessor >
 void
-ImageListSampleAdaptor< TImage, TMeasurement, VMeasurementVectorSize,
-                               TAccessor >
+ImageListSampleAdaptor< TImage, TAccessor >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
