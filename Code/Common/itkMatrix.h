@@ -129,6 +129,12 @@ class Matrix {
   inline void SetIdentity( void ) 
     { m_Matrix.set_identity(); }
 
+  /**
+   * Fill the matrix with a value
+   */
+  inline void Fill( const T & value ) 
+    { m_Matrix.fill( value ); }
+
 
   /**
    * Assignment Operator
