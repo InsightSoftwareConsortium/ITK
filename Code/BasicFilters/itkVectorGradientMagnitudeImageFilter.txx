@@ -25,6 +25,8 @@
 #include "itkProgressReporter.h"
 #include "itkVectorCastImageFilter.h"
 
+#include "vnl/vnl_math.h"
+
 namespace itk
 {
 
@@ -67,6 +69,7 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>
   for (i = 0; i < VectorDimension; i++)
     {
       m_ComponentWeights[i] = static_cast<TRealType>(1.0);
+      m_SqrtComponentWeights[i] = static_cast<TRealType>(1.0);
     }
 }
 template <typename TInputImage, typename TRealType, typename TOutputImage>
@@ -165,6 +168,17 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>
 {
   Superclass::BeforeThreadedGenerateData();
 
+  // Calculate the square-roots of the component weights.
+  for (unsigned i = 0; i < VectorDimension; ++i)
+    {
+      if (m_ComponentWeights[i] < 0 )
+        {
+          itkExceptionMacro( << "Component weights must be positive numbers" );
+        }
+      m_SqrtComponentWeights[i] = ::sqrt(m_ComponentWeights[i]);
+    }
+
+  
   // Set the weights on the derivatives.
   // Are we using image spacing in the calculations?  If so we must update now
   // in case our input image has changed.
@@ -184,8 +198,9 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>
     }
 
   // If using the principle components method, then force this filter to use a
-  // single thread because vnl eigensystem objects are not thread-safe.
-  if (m_UsePrincipleComponents == true)
+  // single thread because vnl eigensystem objects are not thread-safe.  3D
+  // data is ok because we have a special solver.
+  if (m_UsePrincipleComponents == true && ImageDimension != 3)
     {
       m_RequestedNumberOfThreads = this->GetNumberOfThreads();
       this->SetNumberOfThreads(1);
@@ -253,12 +268,25 @@ VectorGradientMagnitudeImageFilter< TInputImage, TRealType, TOutputImage >
 
       if (m_UsePrincipleComponents == true)
         {
-          while ( ! bit.IsAtEnd() )
+          if (ImageDimension == 3)
+            { // Use the specialized eigensolve which can be threaded
+              while ( ! bit.IsAtEnd() )
+                {
+                  it.Set( this->EvaluateAtNeighborhood3D(bit) );
+                  ++bit;
+                  ++it;
+                  progress.CompletedPixel();
+                }
+            }
+          else
             {
-              it.Set( this->EvaluateAtNeighborhood(bit) );
-              ++bit;
-              ++it;
-              progress.CompletedPixel();
+              while ( ! bit.IsAtEnd() )
+                {
+                  it.Set( this->EvaluateAtNeighborhood(bit) );
+                  ++bit;
+                  ++it;
+                  progress.CompletedPixel();
+                }
             }
         }
       else
@@ -273,6 +301,77 @@ VectorGradientMagnitudeImageFilter< TInputImage, TRealType, TOutputImage >
         }
     }
 }
+
+template <typename TInputImage, typename TRealType, typename TOutputImage>
+int
+VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>
+::CubicSolver(double *c, double *s)
+{
+  // IMPORTANT
+  // This code is specialized for particular case of positive symmetric
+  // matrix.   It also assumes that x^3 coefficient is 1. c contains the
+  // coefficients of the polynomial: x^3 + c[2]x^2 + c[1]x^1 + c[0].  The roots
+  // s are not necessarily sorted, and int is the number of distinct roots
+  // found in s.
+  int     num;
+  const double pi = 3.14159265358979323846;
+  const double epsilon = 1.0e-11;
+
+  // Substitution of  x = y - c[2]/3 eliminate the quadric term  x^3 +px + q = 0
+  double sq_c2 = c[2] * c[2];
+  double p = 1.0/3 * (- 1.0/3.0 * sq_c2 + c[1]);
+  double q = 1.0/2 * (2.0/27.0 * c[2] * sq_c2 - 1.0/3.0 * c[2] * c[1] + c[0]);
+  
+  // Cardano's formula
+  double cb_p = p * p * p;
+  double D = q * q + cb_p;
+  
+  if (D < -epsilon) // D < 0, three real solutions, by far the common case.
+    {
+      double phi = 1.0/3.0 * acos(-q / sqrt(-cb_p));
+      double t = 2.0 * sqrt(-p);
+      
+      s[0] =   t * cos(phi);
+      s[1] = - t * cos(phi + pi / 3);
+      s[2] = - t * cos(phi - pi / 3);
+      num = 3;
+    }
+
+  else if (D < epsilon) // D == 0
+    {
+      if (q > -epsilon && q < epsilon)
+        {
+          s[0] = 0.0;
+          num = 1;
+        }
+      else
+        {
+          double u = vnl_math_cuberoot(-q);
+          s[0] = 2 * u;
+          s[1] = - u;
+          num = 2;
+        }
+    }
+  else // Only one real solution. This case misses a double root on rare
+       // occasions with very large char eqn coefficients.
+    {
+      double sqrt_D = sqrt(D);
+      double u = vnl_math_cuberoot(sqrt_D - q);
+      double v = - vnl_math_cuberoot(sqrt_D + q);
+      
+      s[0] = u + v;
+      num = 1;
+    }
+  
+  // Resubstitute
+  double sub = 1.0/3.0 * c[2];
+  
+  for (int i = 0; i < num; ++i)
+    {      s[i] -= sub;    }
+  
+  return num;
+}
+
 
 } // end namespace itk
 
