@@ -65,7 +65,7 @@ public:
   /** Return the number of values that are computed by the
    *  multivalued cost function.     
    *  This method MUST be overloaded by derived classes */
-  virtual unsigned int GetNumberOfValues(void) const  { return 0; }
+  virtual unsigned int GetNumberOfValues(void) const  = 0;
 
 
   /** This method returns the value of the cost function corresponding
