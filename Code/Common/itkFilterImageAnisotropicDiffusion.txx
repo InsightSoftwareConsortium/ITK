@@ -30,8 +30,8 @@ FilterImageAnisotropicDiffusion<TPixel, VDimension>
 {
   Superclass::GenerateData();  // Allocates output, copies input to output
 
-  TPixelScalarValueType k_adj;
-  TPixelScalarValueType grad_mag_avg;
+  ScalarValueType k_adj;
+  ScalarValueType grad_mag_avg;
   
   ImageType::Pointer output = this->GetOutput();
   ImageType::Pointer input  = this->GetInput();
@@ -67,7 +67,7 @@ FilterImageAnisotropicDiffusion<TPixel, VDimension>
 
   RegionNeighborhoodIterator<TPixel, VDimension>
     rni(hoodRadius, output, cropped);
- 
+  
   RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
     bni(hoodRadius, output, delta->GetRequestedRegion());
   
@@ -85,10 +85,10 @@ FilterImageAnisotropicDiffusion<TPixel, VDimension>
 
       if (VDimension==2)
         {
-          this->CurvatureDiffuse2D(rni, k_adj);
-          this->CurvatureDiffuse2D(bni, k_adj);
-          //          this->AnisotropicDiffuse2D(rni, k_adj);
-          //          this->AnisotropicDiffuse2D(bni, k_adj);
+          //this->CurvatureDiffuse2D(rni, k_adj);
+          //this->CurvatureDiffuse2D(bni, k_adj);
+                    this->AnisotropicDiffuse2D(rni, k_adj);
+                    this->AnisotropicDiffuse2D(bni, k_adj);
         }
       else if(VDimension==3)
         {
@@ -111,21 +111,21 @@ void
 FilterImageAnisotropicDiffusion<TPixel, VDimension>
 ::CurvatureDiffuse2D(TNeighborhoodIterator it, const float k)
 {
-  const TPixelScalarValueType Zero =
-    NumericTraits<TPixelScalarValueType>::Zero;
-  const TPixelScalarValueType One =
-    NumericTraits<TPixelScalarValueType>::One;
+  const ScalarValueType Zero =
+    NumericTraits<ScalarValueType>::Zero;
+  const ScalarValueType One =
+    NumericTraits<ScalarValueType>::One;
   enum { X=0, Y=1 };
 
-  TPixelScalarValueType Cx, Cy, Cxd, Cyd;
-  TPixelScalarValueType dx_forward, dx_backward, dy_forward, dy_backward;
-  TPixelScalarValueType dx_forward_Cn = One, dx_backward_Cn = One,
+  ScalarValueType Cx, Cy, Cxd, Cyd;
+  ScalarValueType dx_forward, dx_backward, dy_forward, dy_backward;
+  ScalarValueType dx_forward_Cn = One, dx_backward_Cn = One,
     dy_forward_Cn = One, dy_backward_Cn = One;
-  TPixelScalarValueType dy, dx, dy_aug, dy_dim, dx_aug, dx_dim;
-  TPixelScalarValueType grad_mag_x, grad_mag_y, grad_mag_xd, grad_mag_yd;
-  TPixelScalarValueType grad_mag_x_sq, grad_mag_y_sq,
+  ScalarValueType dy, dx, dy_aug, dy_dim, dx_aug, dx_dim;
+  ScalarValueType grad_mag_x, grad_mag_y, grad_mag_xd, grad_mag_yd;
+  ScalarValueType grad_mag_x_sq, grad_mag_y_sq,
     grad_mag_xd_sq, grad_mag_yd_sq;
-  TPixelScalarValueType speed_x, speed_y;
+  ScalarValueType speed_x, speed_y;
 
   DerivativeOperator<TPixel, 2> dx_op;
    dx_op.SetDirection(X);
@@ -215,9 +215,9 @@ FilterImageAnisotropicDiffusion<TPixel, VDimension>
 {
   enum { X=0, Y=1 };
 
-  TPixelScalarValueType Cx, Cy, Cxd, Cyd;
-  TPixelScalarValueType dx_forward, dx_backward, dy_forward, dy_backward;
-  TPixelScalarValueType dy, dx, dy_aug, dy_dim, dx_aug, dx_dim;
+  ScalarValueType Cx, Cy, Cxd, Cyd;
+  ScalarValueType dx_forward, dx_backward, dy_forward, dy_backward;
+  ScalarValueType dy, dx, dy_aug, dy_dim, dx_aug, dx_dim;
 
   DerivativeOperator<TPixel, 2> dx_op;
    dx_op.SetDirection(X);
@@ -244,15 +244,6 @@ FilterImageAnisotropicDiffusion<TPixel, VDimension>
   const TNeighborhoodIterator it_end = it.End();
   for (it = it.Begin(); it < it_end; ++it)
     {
-      //      dx_forward = ScalarTraits<TPixel>::GetScalar(it.GetPixel(6))
-      //        - ScalarTraits<TPixel>::GetScalar(it.GetPixel(7));
-      //      dx_backward= ScalarTraits<TPixel>::GetScalar(it.GetPixel(8))
-      //        - ScalarTraits<TPixel>::GetScalar(it.GetPixel(7));
-      //      dy_forward = ScalarTraits<TPixel>::GetScalar(it.GetPixel(12))
-      //        - ScalarTraits<TPixel>::GetScalar(it.GetPixel(7));
-      //      dy_backward= ScalarTraits<TPixel>::GetScalar(it.GetPixel(2))
-      //        - ScalarTraits<TPixel>::GetScalar(it.GetPixel(7));
-
       dx_forward = it.GetPixel(6) - it.GetPixel(7);
       dx_backward= it.GetPixel(8) - it.GetPixel(7);
       dy_forward = it.GetPixel(12) - it.GetPixel(7);
@@ -281,10 +272,8 @@ FilterImageAnisotropicDiffusion<TPixel, VDimension>
       dx_backward *= Cxd;
       dy_backward *= Cyd;
       
-      *(it.GetOutputBuffer())= dx_forward  + dy_forward + dx_backward + dy_backward;
-      //      ScalarTraits<TPixel>::SetScalar(*(it.GetOutputBuffer()), dx_forward +
-      //                                      dy_forward+ dx_backward + dy_backward);
-
+      *(it.GetOutputBuffer())= dx_forward  + dy_forward
+        + dx_backward + dy_backward;
     }  
 }
 
@@ -296,10 +285,10 @@ FilterImageAnisotropicDiffusion<TPixel, VDimension>
 {
   enum { X=0, Y=1, Z=2 };
 
-  TPixelScalarValueType Cx, Cy, Cxd, Cyd, Cz, Czd;
-  TPixelScalarValueType dx_forward, dx_backward, dy_forward, dy_backward,
+  ScalarValueType Cx, Cy, Cxd, Cyd, Cz, Czd;
+  ScalarValueType dx_forward, dx_backward, dy_forward, dy_backward,
     dz_forward, dz_backward;
-  TPixelScalarValueType dy, dx, dy_aug, dy_dim, dx_aug, dx_dim, dz, dz_aug,
+  ScalarValueType dy, dx, dy_aug, dy_dim, dx_aug, dx_dim, dz, dz_aug,
     dz_dim; 
 
   DerivativeOperator<TPixel, 3> dx_op;
@@ -394,9 +383,6 @@ FilterImageAnisotropicDiffusion<TPixel, VDimension>
       
       *(it.GetOutputBuffer())= dx_forward  + dy_forward +
               dx_backward + dy_backward + dz_forward + dz_backward;
-      //ScalarTraits<TPixel>::SetScalar(*(it.GetOutputBuffer()), dx_forward +
-      //                              dy_forward +  dz_forward + dx_backward+
-      //                              dy_backward + dz_backward); 
     }  
 }
 
@@ -408,14 +394,14 @@ FilterImageAnisotropicDiffusion<TPixel, VDimension>
 ::AnisotropicDiffuseND(TNeighborhoodIterator it, const float k)
 {
   unsigned int i, j;
-  TPixelScalarValueType accum, accum_d, delta;
-  TPixelScalarValueType Cx[VDimension];
-  TPixelScalarValueType Cxd[VDimension];
-  TPixelScalarValueType dx_forward[VDimension];
-  TPixelScalarValueType dx_backward[VDimension];
-  TPixelScalarValueType dx[VDimension];
-  TPixelScalarValueType dx_aug[VDimension];
-  TPixelScalarValueType dx_dim[VDimension];
+  ScalarValueType accum, accum_d, delta;
+  ScalarValueType Cx[VDimension];
+  ScalarValueType Cxd[VDimension];
+  ScalarValueType dx_forward[VDimension];
+  ScalarValueType dx_backward[VDimension];
+  ScalarValueType dx[VDimension];
+  ScalarValueType dx_aug[VDimension];
+  ScalarValueType dx_dim[VDimension];
   
   DerivativeOperator<TPixel, VDimension> dx_op;
    dx_op.SetDirection(0);
@@ -440,7 +426,7 @@ FilterImageAnisotropicDiffusion<TPixel, VDimension>
   const TNeighborhoodIterator it_end = it.End();
   for (it = it.Begin(); it < it_end; ++it)
     {
-      delta = NumericTraits<TPixelScalarValueType>::Zero;
+      delta = NumericTraits<ScalarValueType>::Zero;
       for (i = 0; i < VDimension; ++i)  // Calculate all derivatives
         {
           dx_forward[i] =
@@ -455,8 +441,8 @@ FilterImageAnisotropicDiffusion<TPixel, VDimension>
         }
       for (i = 0; i< VDimension; ++i) // Calculate conductance terms
         { 
-          accum   = NumericTraits<TPixelScalarValueType>::Zero;
-          accum_d = NumericTraits<TPixelScalarValueType>::Zero;;
+          accum   = NumericTraits<ScalarValueType>::Zero;
+          accum_d = NumericTraits<ScalarValueType>::Zero;;
           for (j = 0; j < VDimension; ++j)
             {
               if (j != i)

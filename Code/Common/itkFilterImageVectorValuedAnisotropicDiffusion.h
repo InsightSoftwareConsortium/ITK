@@ -21,14 +21,40 @@
 #include "itkImage.h"
 #include "itkRegionBoundaryNeighborhoodIterator.h"
 #include "itkFilterImageAnisotropicDiffusionBase.h"
+#include "itkVector.h"
 
 namespace itk
 {
+
+// TEMPORARY PATCH UNTIL I CAN REDESIGN THE NEIGHBORHOOD OBJECTS TO
+// CLEANLY SUPPORT BOTH VECTOR AND SCALAR TYPES  --jc 12/01/00
+// These functions are never called, yet the compiler may
+// try to instantiate them.
+template <class TPixel, unsigned int TVectorDimension>  
+inline Vector<TPixel, TVectorDimension>
+operator* ( const Vector<TPixel, TVectorDimension> &a,
+            const Vector<TPixel, TVectorDimension> &b ) {};
+
+template <class TPixel, unsigned int TVectorDimension>  
+inline Vector<TPixel, TVectorDimension>
+operator/ ( const Vector<TPixel, TVectorDimension> &a,
+            const Vector<TPixel, TVectorDimension> &b ) {};
+
+template <class TPixel, unsigned int TVectorDimension>
+inline typename ScalarTraits<Vector<TPixel, TVectorDimension>
+>::ScalarValueType & 
+operator+=(typename ScalarTraits<Vector<TPixel, TVectorDimension>
+           >::ScalarValueType a, Vector<TPixel, TVectorDimension> b) {};
+
+
+// END PATCH
+
+
+  
 /**
  * \class FilterImageVectorValuedAnisotropicDiffusion
- * \brief Performs anisotropic diffusion on the scalar portion of an
- *  itk::Image. 
- *
+ * \brief Performs anisotropic diffusion on an N-dimensional vector-valued
+ * image region. 
  *
  * \sa Image
  * \sa Neighborhood

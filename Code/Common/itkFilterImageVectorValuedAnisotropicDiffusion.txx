@@ -28,11 +28,11 @@ FilterImageVectorValuedAnisotropicDiffusion<TPixel, VDimension>
 ::GenerateData()
 {
   Superclass::GenerateData();  // Allocates output, copies input to output
-  VectorComponentDataAccessor<TPixel, TPixelScalarValueType> accessor;
+  VectorComponentDataAccessor<TPixel, ScalarValueType> accessor;
   const unsigned long VectorLength = TPixel::GetVectorDimension();
-  TPixelScalarValueType k_adj;
+  ScalarValueType k_adj;
   
-  TPixelScalarValueType grad_mag_avg;
+  ScalarValueType grad_mag_avg;
   ImageType::Pointer output = this->GetOutput();
   ImageType::Pointer input  = this->GetInput();
   
@@ -76,23 +76,23 @@ FilterImageVectorValuedAnisotropicDiffusion<TPixel, VDimension>
       // Calculate average gradient magnitude as the average of the
       // image component's gradient magnitude's.
       grad_mag_avg = 0;
-      TPixelVectorValueType vo;
+      VectorValueType vo;
       for (int j = 0; j < VectorLength; ++j)
         {
           accessor.SetVisibleComponent(j);
           vo=  NeighborhoodAlgorithm::AverageGradientMagnitudeSquared
             <RegionNeighborhoodIterator<TPixel, VDimension>, TPixel,
-            TPixelVectorValueType>(output, cropped, accessor);
+            VectorValueType>(output, cropped, accessor);
           grad_mag_avg += vo;
-          cout << "vo=" << vo << endl;
+          //          std::cout << "vo=" << vo << std::endl;
         }
       //     grad_mag_avg /= VectorLength;
 
-      cout << "Grad mag avg = " << grad_mag_avg << endl;
+      //      std::cout << "Grad mag avg = " << grad_mag_avg << std::endl;
 
       k_adj = grad_mag_avg * this->GetConductanceParameter() * -1.0f;
 
-      cout << "k_adj = " << k_adj << endl;
+      //      std::cout << "k_adj = " << k_adj << std::endl;
 
       // Calculate update image
       rni.SetOutputBuffer(delta->GetBufferPointer()
@@ -126,25 +126,25 @@ void
 FilterImageVectorValuedAnisotropicDiffusion<TPixel, VDimension>
 ::VectorValuedAnisotropicDiffuse2D(TNeighborhoodIterator &it, const float k)
 {
-  VectorComponentDataAccessor<TPixel, TPixelVectorValueType> accessor;
+  VectorComponentDataAccessor<TPixel, VectorValueType> accessor;
 
   const unsigned int N = TPixel::GetVectorDimension();
   enum { X=0, Y=1 };
   
   
-  TPixelVectorValueType Cx, Cy, Cxd, Cyd;
-  TPixelVectorValueType Cx_gradmag, Cy_gradmag, Cxd_gradmag, Cyd_gradmag;
-  TPixelVectorValueType dx_forward[N], dx_backward[N], dy_forward[N],
+  VectorValueType Cx, Cy, Cxd, Cyd;
+  VectorValueType Cx_gradmag, Cy_gradmag, Cxd_gradmag, Cyd_gradmag;
+  VectorValueType dx_forward[N], dx_backward[N], dy_forward[N],
     dy_backward[N];
-  TPixelVectorValueType dy[N], dx[N], dy_aug[N], dy_dim[N], dx_aug[N],
+  VectorValueType dy[N], dx[N], dy_aug[N], dy_dim[N], dx_aug[N],
     dx_dim[N]; 
 
-  DerivativeOperator<TPixelVectorValueType, 2> dx_op;
+  DerivativeOperator<VectorValueType, 2> dx_op;
    dx_op.SetDirection(X);
    dx_op.SetOrder(1);
    dx_op.CreateDirectional();
    
-  DerivativeOperator<TPixelVectorValueType, 2> dy_op;
+  DerivativeOperator<VectorValueType, 2> dy_op;
    dy_op.SetDirection(Y);
    dy_op.SetOrder(1);
    dy_op.CreateDirectional();
@@ -164,10 +164,10 @@ FilterImageVectorValuedAnisotropicDiffusion<TPixel, VDimension>
   const TNeighborhoodIterator it_end = it.End();
   for (it = it.Begin(); it < it_end; ++it)
     {
-      Cx_gradmag  = NumericTraits<TPixelVectorValueType>::Zero;
-      Cy_gradmag  = NumericTraits<TPixelVectorValueType>::Zero;
-      Cxd_gradmag = NumericTraits<TPixelVectorValueType>::Zero;
-      Cyd_gradmag = NumericTraits<TPixelVectorValueType>::Zero;
+      Cx_gradmag  = NumericTraits<VectorValueType>::Zero;
+      Cy_gradmag  = NumericTraits<VectorValueType>::Zero;
+      Cxd_gradmag = NumericTraits<VectorValueType>::Zero;
+      Cyd_gradmag = NumericTraits<VectorValueType>::Zero;
       
       for (int j = 0; j<N; ++j)  // Take the derivatives & approximate gradient 
         {                        // magnitudes
@@ -223,22 +223,22 @@ void
 FilterImageVectorValuedAnisotropicDiffusion<TPixel, VDimension>
 ::VectorValuedAnisotropicDiffuseND(TNeighborhoodIterator &it, const float k)
 {
-  VectorComponentDataAccessor<TPixel, TPixelVectorValueType> accessor;
+  VectorComponentDataAccessor<TPixel, VectorValueType> accessor;
   const unsigned int N = TPixel::GetVectorDimension();
   
-  TPixelScalarValueType GradMag[VDimension], GradMag_d[VDimension], delta[N];
+  ScalarValueType GradMag[VDimension], GradMag_d[VDimension], delta[N];
 
-  TPixelVectorValueType Cx[VDimension];
-  TPixelVectorValueType Cxd[VDimension];
-  TPixelVectorValueType Cx_gradmag[VDimension];
-  TPixelVectorValueType Cxd_gradmag[VDimension];
-  TPixelVectorValueType dx_forward[VDimension][N];
-  TPixelVectorValueType dx_backward[VDimension][N];
-  TPixelVectorValueType dx[VDimension][N];
-  TPixelVectorValueType dx_aug[VDimension][N];
-  TPixelVectorValueType dx_dim[VDimension][N]; 
+  VectorValueType Cx[VDimension];
+  VectorValueType Cxd[VDimension];
+  VectorValueType Cx_gradmag[VDimension];
+  VectorValueType Cxd_gradmag[VDimension];
+  VectorValueType dx_forward[VDimension][N];
+  VectorValueType dx_backward[VDimension][N];
+  VectorValueType dx[VDimension][N];
+  VectorValueType dx_aug[VDimension][N];
+  VectorValueType dx_dim[VDimension][N]; 
 
-  DerivativeOperator<TPixelVectorValueType, 2> dx_op;
+  DerivativeOperator<VectorValueType, 2> dx_op;
    dx_op.SetDirection(0);
    dx_op.SetOrder(1);
    dx_op.CreateDirectional();
@@ -278,8 +278,8 @@ FilterImageVectorValuedAnisotropicDiffusion<TPixel, VDimension>
         }
       for (int i = 0; i < VDimension; ++i) // Approx. grad magnitudes
         {
-          GradMag[i]   = NumericTraits<TPixelScalarValueType>::Zero;
-          GradMag_d[i] = NumericTraits<TPixelScalarValueType>::Zero;
+          GradMag[i]   = NumericTraits<ScalarValueType>::Zero;
+          GradMag_d[i] = NumericTraits<ScalarValueType>::Zero;
 
           for (int j = 0; j < N; ++j)
             {
@@ -306,7 +306,7 @@ FilterImageVectorValuedAnisotropicDiffusion<TPixel, VDimension>
       
       for (int j = 0; j<N; ++j)            // Update values
         {
-          delta[j] = NumericTraits<TPixelVectorValueType>::Zero;
+          delta[j] = NumericTraits<VectorValueType>::Zero;
           accessor.SetVisibleComponent(j);
           
           for (int i = 0; i < VDimension; ++i)

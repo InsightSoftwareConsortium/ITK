@@ -71,9 +71,7 @@ DoUnsynchedInnerProduct(Image<TPixel, VDimension> *ip,
   for (bi = bi.Begin(), obi = obi.Begin();
        bi < biEnd; ++bi, ++obi)
     {
-      // *(obi.CenterPointer()) = bi.InnerProduct(oper);
-      ScalarTraits<TPixel>::SetScalar(*(obi.CenterPointer()),
-                                      bi.InnerProduct(oper) );
+      *(obi.CenterPointer()) = bi.InnerProduct(oper);
     }
 
 }
@@ -126,14 +124,14 @@ DoSynchedInnerProduct(Image<TPixel, VDimension> *ip,
 
 
 template<class TPixel, unsigned int VDimension>
-typename Neighborhood<TPixel, VDimension>::TPixelScalarValueType
+typename Neighborhood<TPixel, VDimension>::ScalarValueType
 InnerProduct(Neighborhood<TPixel, VDimension> &n,
              std::valarray<typename Neighborhood<TPixel,
-             VDimension>::TPixelScalarValueType> &v, 
+             VDimension>::ScalarValueType> &v, 
              VectorComponentDataAccessor<TPixel, typename Neighborhood<TPixel,
-             VDimension>::TPixelScalarValueType> &accessor)
+             VDimension>::ScalarValueType> &accessor)
 {
-  typedef typename Neighborhood<TPixel, VDimension>::TPixelScalarValueType
+  typedef typename Neighborhood<TPixel, VDimension>::ScalarValueType
     ExternalType;
   
   ExternalType sum  = NumericTraits<ExternalType>::Zero; 

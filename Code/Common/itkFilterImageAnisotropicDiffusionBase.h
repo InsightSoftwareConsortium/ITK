@@ -65,12 +65,12 @@ public:
   /**
    * Scalar value type typedef support
    */
-  typedef typename ScalarTraits<TPixel>::ScalarValueType TPixelScalarValueType;
+  typedef typename ScalarTraits<TPixel>::ScalarValueType ScalarValueType;
 
   /**
    * Scalar value type typedef support
    */
-  typedef typename VectorTraits<TPixel>::VectorValueType TPixelVectorValueType;
+  typedef typename VectorTraits<TPixel>::VectorValueType VectorValueType;
 
   /**
    * Run-time type information (and related methods)
@@ -100,22 +100,22 @@ public:
   /**
    * Sets the free conductance parameter used in the conductance function.
    */
-  itkSetMacro(ConductanceParameter, TPixelScalarValueType);
+  itkSetMacro(ConductanceParameter, ScalarValueType);
 
   /**
    * Returns the free conductance parameter used in the conductance function.
    */
-  itkGetMacro(ConductanceParameter, TPixelScalarValueType);
+  itkGetMacro(ConductanceParameter, ScalarValueType);
 
   /**
    * Sets the size of the time step for each iteration.
    */
-  itkSetMacro(TimeStep, TPixelScalarValueType);
+  itkSetMacro(TimeStep, ScalarValueType);
 
   /**
    * Returns the size of the time step for each iteration.
    */
-  itkGetMacro(TimeStep, TPixelScalarValueType);
+  itkGetMacro(TimeStep, ScalarValueType);
 
 protected:
   FilterImageAnisotropicDiffusionBase() {}
@@ -133,16 +133,16 @@ protected:
    *  Adds a multiple of the scalar portion of an image to the scalar portion
    *  of the output image.
    */
-  void UpdateOutputScalar(ImageType *, const TPixelScalarValueType);
-  void UpdateOutputScalar(ImageType *, const TPixelScalarValueType, const
+  void UpdateOutputScalar(ImageType *, const ScalarValueType);
+  void UpdateOutputScalar(ImageType *, const ScalarValueType, const
                           VectorComponentDataAccessor<TPixel,
-                          TPixelVectorValueType> &);
+                          VectorValueType> &);
   
   /**
    *  Returns the average scalar gradient magnitude at all non-boundary pixels
    *  in an image.
    */
-  TPixelScalarValueType AverageGradientMagnitudeScalar(ImageType *,const
+  ScalarValueType AverageGradientMagnitudeScalar(ImageType *,const
                                                ImageRegion<VDimension>&); 
 
 
@@ -150,7 +150,7 @@ private:
   /**
    * Free parameter in the conductance function.
    */
-  TPixelScalarValueType m_ConductanceParameter;
+  ScalarValueType m_ConductanceParameter;
 
   /**
    * Total number of times the filter will cycle on the image.
@@ -160,7 +160,7 @@ private:
   /**
    * The size of the time step for each iteration. 
    */
-  TPixelScalarValueType m_TimeStep;
+  ScalarValueType m_TimeStep;
 
   //*****************************
   /**
@@ -171,7 +171,7 @@ private:
     std::cout << "[" ;
     for (s=s.Begin(); s < s.End(); s++)
       {
-      std::cout << ScalarTraits<TPixel>::GetScalar(*s) << " ";
+        std::cout << *s << " ";
       }
     std::cout << "]" << std::endl;
   }

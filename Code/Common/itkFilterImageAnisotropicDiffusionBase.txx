@@ -25,9 +25,8 @@ namespace itk
 template<class TPixel, unsigned int VDimension>
 void
 FilterImageAnisotropicDiffusionBase<TPixel, VDimension>
-::UpdateOutputScalar(ImageType *ip, const TPixelScalarValueType multiplier)
+::UpdateOutputScalar(ImageType *ip, const ScalarValueType multiplier)
 {
-  // Update the scalar portion of the output only.
   ImageRegionIterator<TPixel, VDimension>
     update(ip, ip->GetRequestedRegion());
   ImageRegionIterator<TPixel, VDimension>
@@ -36,17 +35,11 @@ FilterImageAnisotropicDiffusionBase<TPixel, VDimension>
   update = update.Begin();
   output = output.Begin();
 
-  //  cout << "multiplier = " << multiplier << endl;
   while ( ! update.IsAtEnd() )
     {
-      //*output += *update * multiplier;
-      ScalarTraits<TPixel>::SetScalar(*output,
-               ScalarTraits<TPixel>::GetScalar(*output)  +
-               ScalarTraits<TPixel>::GetScalar(*update)  *    multiplier);
+      *output += *update * multiplier;
       ++update;
       ++output;
-      //      cout << "output = " << *output << endl;
-      //      cout << "update = " << *update << endl;
     }
   
 }
@@ -55,9 +48,9 @@ FilterImageAnisotropicDiffusionBase<TPixel, VDimension>
 template<class TPixel, unsigned int VDimension>
 void
 FilterImageAnisotropicDiffusionBase<TPixel, VDimension>
-::UpdateOutputScalar(ImageType *ip, const TPixelScalarValueType multiplier,
+::UpdateOutputScalar(ImageType *ip, const ScalarValueType multiplier,
                      const VectorComponentDataAccessor<TPixel,
-                     TPixelVectorValueType> &accessor)
+                     VectorValueType> &accessor)
 {
 
   // Update the scalar portion of the output only.
@@ -103,14 +96,14 @@ FilterImageAnisotropicDiffusionBase<TPixel, VDimension>
 }
 
 template<class TPixel, unsigned int VDimension>
-FilterImageAnisotropicDiffusionBase<TPixel, VDimension>::TPixelScalarValueType
+FilterImageAnisotropicDiffusionBase<TPixel, VDimension>::ScalarValueType
 FilterImageAnisotropicDiffusionBase<TPixel, VDimension>
 ::AverageGradientMagnitudeScalar(ImageType *ip,
                            const ImageRegion<VDimension> &region)
 {
   // Average gradient magnitude of the SCALAR portion of the data only.
-  TPixelScalarValueType accumulator;
-  TPixelScalarValueType val;
+  ScalarValueType accumulator;
+  ScalarValueType val;
   unsigned long counter;
   typedef RegionNeighborhoodIterator<TPixel, VDimension>
     RegionNeighborhoodIterator;
@@ -152,7 +145,7 @@ FilterImageAnisotropicDiffusionBase<TPixel, VDimension>
     }
 
   // Now do the actual processing
-  accumulator = NumericTraits<TPixelScalarValueType>::Zero;
+  accumulator = NumericTraits<ScalarValueType>::Zero;
   counter     = 0;
   const RegionNeighborhoodIterator iterator_end = iterator_list[0].End();
   for (iterator_list[0] = iterator_list[0].Begin();

@@ -70,9 +70,7 @@ DoUnsynchedInnerProduct(TNeighborhoodIterator &it, TImageIterator op,
   const TNeighborhoodIterator itEnd = it.End();
   for (it = it.Begin(); it < itEnd; ++it, ++op)
     {
-      //*op = it.InnerProduct(oper);
-      ScalarTraits<typename TNeighborhoodIterator::ScalarValueType>
-        ::SetScalar(*op, it.InnerProduct(oper));
+      *op = it.InnerProduct(oper);
     }
 }
   
@@ -94,9 +92,7 @@ DoSynchedInnerProduct(TNeighborhoodIterator &it, TNeighborhood &oper)
   const TNeighborhoodIterator itEnd = it.End();
   for (it = it.Begin(); it < itEnd; ++it)
     {
-      // *( it.GetOutputBuffer() ) = it.InnerProduct(oper);
-      ScalarTraits<typename TNeighborhoodIterator::ScalarValueType>
-        ::SetScalar(*( it.GetOutputBuffer() ), it.InnerProduct(oper) );
+      *( it.GetOutputBuffer() ) = it.InnerProduct(oper);
     }
 }
 
@@ -137,7 +133,7 @@ template <class TNeighborhoodIterator, class TInternalType, class TExternalType>
 TExternalType
 AverageGradientMagnitudeSquared(typename TNeighborhoodIterator::ImageType *,
                                 typename
-                                TNeighborhoodIterator::ImageType::Region,
+                                TNeighborhoodIterator::ImageType::RegionType,
            VectorComponentDataAccessor<TInternalType, TExternalType> accessor);
 
 
