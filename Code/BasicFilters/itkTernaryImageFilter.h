@@ -63,7 +63,19 @@ public:
    * Method for execute the algorithm
    */
    void GenerateData(void);
-   
+
+
+  /**
+   * Compute the input region needed to produce
+   * a requested output region
+   */
+   void GenerateInputRequestedRegion(void);
+
+  /**
+   * Prepare output image
+   */
+   void GenerateOutputInformation(void);
+    
   /**
    * Connect one of the operands for pixel-wise addition
    */

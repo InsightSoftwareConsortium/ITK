@@ -58,6 +58,79 @@ BinaryImageFilter<TInputImage1,TInputImage2,TOutputImage,TFunction>
 }
 
 
+/**
+ * copy information from first input to the outputs
+ * The default implementation of itkProcessObject
+ * should not be used because it calls CopyInformation()
+ * on the outputObject, and for the case of itkImage this
+ * method assumes that the input image is exactly of the
+ * same type as the output image. (and... that they are 
+ * really images)
+ */
+template <class TInputImage1, class TInputImage2, 
+          class TOutputImage, class TFunction  >
+void
+BinaryImageFilter<TInputImage1,TInputImage2,TOutputImage,TFunction>
+::GenerateOutputInformation()
+{
+  typename TOutputImage::Pointer outputImage = dynamic_cast<TOutputImage *>(
+                      (ProcessObject::GetOutput( 0 )).GetPointer());
+
+  typename TInputImage1::Pointer inputImage1  = 
+				dynamic_cast<TInputImage1  *>(
+                      (ProcessObject::GetInput(  0 )).GetPointer());
+
+  if ( outputImage && inputImage1 )
+  {
+    // this is the equivalent of the CopyInformation() method
+    // defined in itkImage.
+    outputImage->SetLargestPossibleRegion( 
+      inputImage1->GetLargestPossibleRegion() );
+  }
+}
+
+
+
+
+/**
+ * Define the size of the input region required to 
+ * generate a requested output region
+ */
+template <class TInputImage1, class TInputImage2, 
+          class TOutputImage, class TFunction  >
+void
+BinaryImageFilter<TInputImage1,TInputImage2,TOutputImage,TFunction>
+::GenerateInputRequestedRegion()
+{
+
+  Superclass::GenerateInputRequestedRegion();
+
+  typename TOutputImage::Pointer outputImage =
+        dynamic_cast<TOutputImage *>(
+                      (ProcessObject::GetOutput( 0 )).GetPointer());
+
+  typename TInputImage1::Pointer inputImage1  = 
+				dynamic_cast<TInputImage1  *>(
+                      (ProcessObject::GetInput(  0 )).GetPointer());
+
+  typename TInputImage2::Pointer inputImage2  = 
+				dynamic_cast<TInputImage2  *>(
+                      (ProcessObject::GetInput(  1 )).GetPointer());
+
+  if( inputImage1 )
+  {
+    inputImage1->SetRequestedRegion( outputImage->GetRequestedRegion() );
+  }
+
+  if( inputImage2 )
+  {
+    inputImage2->SetRequestedRegion( outputImage->GetRequestedRegion() );
+  }
+
+
+
+}
+
 
 
 

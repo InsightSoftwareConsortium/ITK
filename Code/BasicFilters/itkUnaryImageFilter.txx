@@ -45,6 +45,68 @@ UnaryImageFilter<TInputImage,TOutputImage,TFunction>
 
 
 /**
+ * copy information from first input to the outputs
+ * The default implementation of itkProcessObject
+ * should not be used because it calls CopyInformation()
+ * on the outputObject, and for the case of itkImage this
+ * method assumes that the input image is exactly of the
+ * same type as the output image. (and... that they are 
+ * really images)
+ */
+template <class TInputImage, class TOutputImage, class TFunction  >
+void
+UnaryImageFilter<TInputImage,TOutputImage,TFunction>
+::GenerateOutputInformation()
+{
+  typename TOutputImage::Pointer outputImage = dynamic_cast<TOutputImage *>(
+                      (ProcessObject::GetOutput( 0 )).GetPointer());
+
+  typename TInputImage::Pointer inputImage  = 
+				dynamic_cast<TInputImage  *>(
+                      (ProcessObject::GetInput(  0 )).GetPointer());
+
+  if ( outputImage && inputImage1 )
+  {
+    // this is the equivalent of the CopyInformation() method
+    // defined in itkImage.
+    outputImage->SetLargestPossibleRegion( 
+      inputImage->GetLargestPossibleRegion() );
+  }
+}
+
+
+/**
+ * Define the size of the input region required to 
+ * generate a requested output region
+ */
+template <class TInputImage, class TOutputImage, class TFunction  >
+void
+UnaryImageFilter<TInputImage,TOutputImage,TFunction>
+::GenerateInputRequestedRegion()
+{
+
+  Superclass::GenerateInputRequestedRegion();
+
+  typename TOutputImage::Pointer outputImage =
+        dynamic_cast<TOutputImage *>(
+                      (ProcessObject::GetOutput( 0 )).GetPointer());
+
+  typename TInputImage::Pointer inputImage  = 
+				dynamic_cast<TInputImage  *>(
+                      (ProcessObject::GetInput(  0 )).GetPointer());
+
+  if( inputImage )
+  {
+    inputImage->SetRequestedRegion( outputImage->GetRequestedRegion() );
+  }
+
+
+}
+
+
+
+
+/**
  * GenerateData Performs the pixel-wise addition
  */
 template <class TInputImage, class TOutputImage, class TFunction  >
