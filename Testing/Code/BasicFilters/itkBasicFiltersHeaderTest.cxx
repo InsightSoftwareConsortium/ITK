@@ -28,6 +28,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkGradientMagnitudeImageFilter.h"
 #include "itkImageWriter.h"
 #include "itkImportImageFilter.h"
+#include "itkMeshSource.h"
 #include "itkMeshToMeshFilter.h"
 #include "itkMultiplyImageFilter.h"
 #include "itkNeighborhoodOperatorImageFilter.h"
