@@ -2,6 +2,15 @@
 #ifndef __DICOM_CALLBACK_H_
 #define __DICOM_CALLBACK_H_
 
+#ifdef _MSC_VER
+#pragma warning ( disable : 4514 )
+#pragma warning ( disable : 4786 )
+#pragma warning ( disable : 4503 )
+#pragma warning ( disable : 4710 )
+#pragma warning ( disable : 4702 )
+#pragma warning ( push, 3 )
+#endif 
+
 #include "DICOMParser.h"
 
 //
@@ -74,6 +83,10 @@ class DICOMMemberCallback : public DICOMCallback
   TMemberFunctionPointer MemberFunction;
 
 };
+
+#ifdef _MSC_VER
+#pragma warning ( pop )
+#endif
 
 #endif
 
