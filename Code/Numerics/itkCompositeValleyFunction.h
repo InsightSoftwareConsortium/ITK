@@ -189,7 +189,7 @@ protected:
   {
     MeasureType res = 1;
     
-    for (int k = 0 ; k < m_Targets.size() ; k++)
+    for (unsigned int k = 0 ; k < m_Targets.size() ; k++)
       res *= valley( ( x - m_Targets[k].GetMean() ) /
                      m_Targets[k].GetSigma() );
     return res;
