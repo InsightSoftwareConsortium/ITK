@@ -36,6 +36,7 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>
   m_Seed1.Fill(0);
   m_Seed2.Fill(0);
   m_ReplaceValue = NumericTraits<OutputImagePixelType>::One;
+  m_IsolatedValue = NumericTraits<InputImagePixelType >::Zero;
   m_IsolatedValueTolerance = NumericTraits<InputImagePixelType >::One;
   m_UpperValueLimit = NumericTraits<InputImagePixelType>::max();
 }
