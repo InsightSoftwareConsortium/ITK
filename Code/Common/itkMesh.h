@@ -314,38 +314,40 @@ public:
    * Method for creation through the object factory.
    */
   itkNewMacro(Self);
+
   /**
    * Provide a print self method for mesh.
    */
   void PrintSelf(std::ostream& os, Indent indent);
+
   /**
    * Define Set/Get access routines for each internal container.
    */
-  void SetPointsContainer(PointsContainer*);
-  PointsContainerPointer GetPointsContainer(void);
+  void SetPoints(PointsContainer*);
+  PointsContainerPointer GetPoints(void);
 
-  void SetPointDataContainer(PointDataContainer*);
-  PointDataContainerPointer GetPointDataContainer(void);
+  void SetPointData(PointDataContainer*);
+  PointDataContainerPointer GetPointData(void);
 
-  void SetCellLinksContainer(CellLinksContainer*);
-  CellLinksContainerPointer GetCellLinksContainer(void);
+  void SetCellLinks(CellLinksContainer*);
+  CellLinksContainerPointer GetCellLinks(void);
 
-  void SetCellsContainer(CellsContainer*);
-  CellsContainerPointer GetCellsContainer(void);
+  void SetCells(CellsContainer*);
+  CellsContainerPointer GetCells(void);
 
-  void SetCellDataContainer(CellDataContainer*);
-  CellDataContainerPointer GetCellDataContainer(void);
+  void SetCellData(CellDataContainer*);
+  CellDataContainerPointer GetCellData(void);
 
-  void SetBoundariesContainer(int dimension, BoundariesContainer*);
-  BoundariesContainerPointer GetBoundariesContainer(int dimension);
+  void SetBoundaries(int dimension, BoundariesContainer*);
+  BoundariesContainerPointer GetBoundaries(int dimension);
 
-  void SetBoundaryDataContainer(int dimension, BoundaryDataContainer*);
-  BoundaryDataContainerPointer GetBoundaryDataContainer(int dimension);
+  void SetBoundaryData(int dimension, BoundaryDataContainer*);
+  BoundaryDataContainerPointer GetBoundaryData(int dimension);
   
-  void SetBoundaryAssignmentsContainer(int dimension,
-                                       BoundaryAssignmentsContainer*);
+  void SetBoundaryAssignments(int dimension,
+			      BoundaryAssignmentsContainer*);
   BoundaryAssignmentsContainerPointer
-  GetBoundaryAssignmentsContainer(int dimension);
+  GetBoundaryAssignments(int dimension);
   
   /**
    * Access routines to fill the Points container, and get information
