@@ -125,6 +125,7 @@ public:
    * quaternion and the last three represents the
    * offset. */
   void SetParameters( const ParametersType & parameters );
+  itkGetConstReferenceMacro(Parameters, ParametersType);
 
   /** Compute the Jacobian of the transformation.
    * This method computes the Jacobian matrix of the transformation.

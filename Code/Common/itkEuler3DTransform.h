@@ -93,6 +93,8 @@ public:
    * versor and the last three represents the offset. */
   void SetParameters( const ParametersType & parameters );
 
+  itkGetConstReferenceMacro( Parameters, ParametersType );
+
   /** Set the rotational part of the transform. */
   void SetRotation(TScalarType angleX,TScalarType angleY,TScalarType angleZ);
   
