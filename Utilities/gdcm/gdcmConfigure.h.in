@@ -22,7 +22,7 @@
 #cmakedefine GDCM_NO_ANSI_STRING_STREAM
 
 /* I guess something important */
-#cmakedefine HAVE_NO_STDINT_H 
+#cmakedefine GDCM_HAVE_STDINT_H
 
 /* This variable allows you to have helpful debug statement */
 /* That are in between #ifdef / endif in the gdcm code */

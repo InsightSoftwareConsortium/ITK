@@ -45,19 +45,9 @@
 #endif //_MSC_VER
 
 //-----------------------------------------------------------------------------
-#ifdef __GNUC__
-#ifndef HAVE_NO_STDINT_H
+#ifdef GDCM_HAVE_STDINT_H
 #include <stdint.h>   // For uint8_t uint16_t and uint32_t
 #else
-typedef    signed char   int8_t;
-typedef  unsigned char  uint8_t;
-typedef  unsigned short uint16_t;
-typedef  unsigned int   uint32_t;
-#define UINT32_MAX    (4294967295U)
-#endif //HAVE_NO_STDINT_H
-#endif
-
-#if defined(_MSC_VER) || defined(__BORLANDC__)
 typedef    signed char   int8_t;
 typedef  unsigned char  uint8_t;
 typedef  unsigned short uint16_t;
@@ -75,7 +65,7 @@ typedef  unsigned int   uint32_t;
 #define getcwd _getcwd
 #endif
 
-// ifdef for old gcc / broken compiler
+// ifdef for old gcc compiler
 #ifdef GDCM_NO_ANSI_STRING_STREAM
 #  include <strstream>
 #  define  ostringstream ostrstream
