@@ -625,7 +625,7 @@ Read(const char *_headerName, bool _readElements, void * _buffer)
       }
     else if(!strncmp("LIST", m_ElementDataFileName,4))
       {
-      unsigned int fileImageDim = 0;
+      int fileImageDim = 0;
       char junk[255];
       sscanf( m_ElementDataFileName,"%s %d",junk, &fileImageDim);
       if ( (fileImageDim == 0) || (fileImageDim > m_NDims) )
@@ -639,7 +639,7 @@ Read(const char *_headerName, bool _readElements, void * _buffer)
       int elementSize;
       MET_SizeOfType(m_ElementType, &elementSize);
       elementSize *= m_ElementNumberOfChannels;
-      unsigned int totalFiles = 1;
+      int totalFiles = 1;
       for (i = m_NDims; i > fileImageDim; i--)
         {
           totalFiles *= m_DimSize[i-1];
