@@ -33,6 +33,8 @@ public:
   virtual RepresentationType GetRepresentationType() const;
   virtual String GenerateName(const String& indirection,
                               bool isConst, bool isVolatile) const;
+  
+  const CvQualifiedType& GetReferencedType() const;
 
 protected:  
   ReferenceType(const CvQualifiedType&);

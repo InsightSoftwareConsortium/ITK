@@ -36,6 +36,15 @@ String ReferenceType::GenerateName(const String&, bool, bool) const
 
 
 /**
+ * Get the CvQualifiedType referenced by this ReferenceType.
+ */
+const CvQualifiedType& ReferenceType::GetReferencedType() const
+{
+  return m_ReferencedType;
+}
+
+
+/**
  * Constructor takes the cv-qualified type that is referenced.
  */
 ReferenceType::ReferenceType(const CvQualifiedType& in_type):
