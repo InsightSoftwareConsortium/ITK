@@ -68,6 +68,10 @@ public:
 
   itkStaticConstMacro(MaximumDepth, unsigned int, 9999999);
 
+  /** Return the maximum depth that a tree of spatial objects can
+   * have.  This provides convenient access to a static constant. */
+  unsigned int GetMaximumDepth() { return MaximumDepth; }
+
   typedef SpatialObject<TDimension> Self;
   typedef DataObject Superclass; 
   
@@ -197,27 +201,28 @@ public:
                      OutputVectorType & value,
                      unsigned int depth=0,
                      char * name = NULL);
-
+  
   /** 
-   * Compute an axis-aligned bounding box for the object and its
-   * selected children, down to a specified depth.  After computation,
-   * the resulting bounding box is stored in <tt>this->m_Bounds</tt>.
-   * Once this function is called with a specific value of \a depth
-   * and \a name, future calls, irrespective of the parameters, will
-   * leave the bounding box unchanged until the spatial object is
-   * modified (resulting in an update of the modification time).
+   * Compute an axis-aligned bounding box for an object and its selected
+   * children, down to a specified depth.  After computation, the
+   * resulting bounding box is stored in this->m_Bounds.  
    *
-   * This function has to be implemented in the deriving class. 
+   * By default, the bounding box children depth is 0, meaning that only
+   * the bounding box for the object itself is computed.  This depth can
+   * be set (before calling ComputeBoundingBox) using
+   * SetBoundingBoxChildrenDepth().
    *
-   * \param depth Include children down to this depth.  If \a depth = 0,
-   * include only the object itself.
-   * \param name Include only objects whose type string contains \a
-   * name.  
-   * \return \c true if, after the function completes, the bounding box
-   * reflects object information, and \c false if the bounding box is
-   * still in an initial state.  The return value can be ignored; it
-   * is used internally when the function recurses.
-   */ 
+   * By calling SetBoundingBoxChildrenName(), it is possible to
+   * restrict the bounding box computation to objects of a specified
+   * type or family of types.  The spatial objects included in the
+   * computation are those whose typenames share, as their initial
+   * substring, the string specified via SetBoundingBoxChildrenName().
+   * The root spatial object (on which the method is called) is not
+   * treated specially.  If its typename does not match the bounding
+   * box children name, then it is not included in the bounding box
+   * computation, but its descendents that match the string are
+   * included.
+   */
   virtual bool ComputeBoundingBox() const;
   
   /** Get the bounding box of the object.
@@ -448,7 +453,7 @@ public:
   {return m_IndexToObjectTransform->GetScaleComponent();}
 
 protected: 
-  
+ 
   BoundingBoxPointer  m_Bounds; 
   mutable unsigned long       m_BoundsMTime;
 

@@ -540,20 +540,23 @@ SpatialObject< TDimension >
 /** 
  * Compute an axis-aligned bounding box for an object and its selected
  * children, down to a specified depth.  After computation, the
- * resulting bounding box is stored in this->m_Bounds.  Once this
- * function is called with a specific value of \p depth and \p name,
- * future calls, irrespective of the parameters, will leave the
- * bounding box unchanged until the spatial object is modified and the
- * modification time updated.
+ * resulting bounding box is stored in this->m_Bounds.  
  *
- * \param depth Include children down to this depth.  If \p depth = 0,
- * include only the object itself.
- * \param name Include only objects whose type string contains \p
- * name.  
- * \return \c true if, after the function completes, the bounding box
- * reflects object information, and \c false if the bounding box is
- * still in an initial state.  The return value is mainly used by recursive
- * calls of this function.
+ * By default, the bounding box children depth is 0, meaning that only
+ * the bounding box for the object itself is computed.  This depth can
+ * be set (before calling ComputeBoundingBox) using
+ * SetBoundingBoxChildrenDepth().
+ *
+ * By calling SetBoundingBoxChildrenName(), it is possible to restrict
+ * the bounding box computation to objects of a specified type or
+ * family of types.  The spatial objects included in the computation
+ * are those whose typenames share, as their initial substring, the
+ * string specified via SetBoundingBoxChildrenName().  The root
+ * spatial object (on which the method is called) is not treated
+ * specially.  If its typename does not match the bounding box
+ * children name, then it is not included in the bounding box
+ * computation, but its descendents that match the string are
+ * included.
  */
 template< unsigned int TDimension >
 bool
