@@ -130,7 +130,7 @@ void DICOMImageIO2::ReadImageInformation()
   Parser->ReadHeader();
 
   float* spacing = AppHelper->GetPixelSpacing();
-  float origin[3] = {0.0, 0.0, 0.0};
+  float* origin  = AppHelper->GetImagePositionPatient();
 
   int* dims = AppHelper->GetDimensions();
 
