@@ -136,7 +136,7 @@ public:
    * Get the AbortGenerateData flag for the process object. Process objects
    *  may handle premature termination of execution in different ways. 
    */
-  itkGetConstMacro(AbortGenerateData,bool);
+  itkGetMacro(AbortGenerateData,bool);
   
   /**
    * Turn on and off the AbortGenerateData flag.
@@ -155,7 +155,7 @@ public:
    * a floating number between (0,1), 0 meaning no progress; 1 meaning
    * the filter has completed execution.
    */
-  itkGetConstMacro(Progress,float);
+  itkGetMacro(Progress,float);
 
   /** 
    * Update the progress of the process object. If a ProgressMethod exists,
@@ -262,7 +262,7 @@ public:
    * Get/Set the number of threads to create when executing.
    */
   itkSetClampMacro( NumberOfThreads, int, 1, ITK_MAX_THREADS );
-  itkGetConstMacro( NumberOfThreads, int );
+  itkGetMacro( NumberOfThreads, int );
 
   /**
    * Return the multithreader used by this class.
@@ -300,7 +300,7 @@ protected:
   virtual void AddInput(DataObject *input);
   virtual void RemoveInput(DataObject *input);
   itkSetMacro(NumberOfRequiredInputs,unsigned int);
-  itkGetConstMacro(NumberOfRequiredInputs,unsigned int);
+  itkGetMacro(NumberOfRequiredInputs,unsigned int);
 
   /**
    * Protected methods for setting outputs.
@@ -310,7 +310,7 @@ protected:
   virtual void AddOutput(DataObject *output);
   virtual void RemoveOutput(DataObject *output);
   itkSetMacro(NumberOfRequiredOutputs,unsigned int);
-  itkGetConstMacro(NumberOfRequiredOutputs,unsigned int);
+  itkGetMacro(NumberOfRequiredOutputs,unsigned int);
 
   /**
    * This method causes the filter to generate its output.
