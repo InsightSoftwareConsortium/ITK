@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkNonThreadedShrinkImageFilterFilter.txx
+  Module:    itkShrinkImageFilter.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -13,7 +13,7 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#include "itkNonThreadedShrinkImageFilterFilter.h"
+#include "itkShrinkImageFilter.h"
 #include "itkObjectFactory.h"
 
 namespace itk
@@ -23,8 +23,8 @@ namespace itk
  *
  */
 template <class TInputImage, class TOutputImage>
-NonThreadedShrinkImageFilterFilter<TInputImage,TOutputImage>
-::NonThreadedShrinkImageFilterFilter()
+ShrinkImageFilter<TInputImage,TOutputImage>
+::ShrinkImageFilter()
 {
   m_ShrinkFactor = 1;
 }
@@ -35,7 +35,7 @@ NonThreadedShrinkImageFilterFilter<TInputImage,TOutputImage>
  */
 template <class TInputImage, class TOutputImage>
 void 
-NonThreadedShrinkImageFilterFilter<TInputImage,TOutputImage>
+ShrinkImageFilter<TInputImage,TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent)
 {
   Superclass::PrintSelf(os,indent);
@@ -49,43 +49,53 @@ NonThreadedShrinkImageFilterFilter<TInputImage,TOutputImage>
  */
 template <class TInputImage, class TOutputImage>
 void 
-NonThreadedShrinkImageFilterFilter<TInputImage,TOutputImage>
-::GenerateData()
+ShrinkImageFilter<TInputImage,TOutputImage>
+::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
+                       int threadId)
 {
+  int i;
+  
   itkDebugMacro(<<"Actually executing");
 
   // Get the input and output pointers
   InputImagePointer  inputPtr = this->GetInput();
   OutputImagePointer outputPtr = this->GetOutput();
 
-  // Since we are providing a GenerateData() method, we need to allocate the
-  // output buffer memory (if we provided a ThreadedGenerateData(), then
-  // the memory would have already been allocated for us).
-  outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
-  outputPtr->Allocate();
-
-  // Define/declare an iterator that will walk the output region
+  // Define/declare an iterator that will walk the output region for this
+  // thread.
   typedef
-    ImageRegionIterator<typename TOutputImage::PixelType, TOutputImage::ImageDimension>
+    ImageRegionIterator<OutputImagePixelType, TOutputImage::ImageDimension>
     OutputIterator;
 
-  OutputIterator outIt = OutputIterator(outputPtr,
-                                        outputPtr->GetRequestedRegion());
+  OutputIterator outIt(outputPtr, outputRegionForThread);
 
   // Define a few indices that will be used to translate from an input pixel
   // to an output pixel
   typename TOutputImage::IndexType outputIndex;
   typename TInputImage::IndexType inputIndex;
-  typename TInputImage::IndexType factorIndex;
+  typename TOutputImage::IndexType factorIndex;
 
-  for (int i=0; i < TInputImage::ImageDimension; i++)
+  for (i=0; i < TInputImage::ImageDimension; i++)
     {
     factorIndex[i] = m_ShrinkFactor;
     }
 
-  // walk the output image, and sample the input image
-  for ( ; !outIt.IsAtEnd(); ++outIt)
+  // support progress methods/callbacks
+  unsigned long updateVisits = 0;
+  if ( threadId == 0 )
     {
+    updateVisits = 
+      outputPtr->GetRequestedRegion().GetNumberOfPixels()/10;
+    }
+        
+  // walk the output region, and sample the input image
+  for (i=0; !outIt.IsAtEnd(); ++outIt, i++ )
+    {
+    if ( threadId == 0 && !(i % updateVisits ) )
+      {
+      this->UpdateProgress((float)i/(float(updateVisits)*10.0));
+      }
+    
     // determine the index of the output pixel
     outputIndex = outIt.GetIndex();
 
@@ -104,7 +114,7 @@ NonThreadedShrinkImageFilterFilter<TInputImage,TOutputImage>
  */
 template <class TInputImage, class TOutputImage>
 void 
-NonThreadedShrinkImageFilterFilter<TInputImage,TOutputImage>
+ShrinkImageFilter<TInputImage,TOutputImage>
 ::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
@@ -113,6 +123,11 @@ NonThreadedShrinkImageFilterFilter<TInputImage,TOutputImage>
   // get pointers to the input and output
   InputImagePointer  inputPtr = this->GetInput();
   OutputImagePointer outputPtr = this->GetOutput();
+
+  if ( !inputPtr || !outputPtr )
+    {
+    return;
+    }
 
   // we need to compute the input requested region (size and start index)
   int i;
@@ -129,7 +144,7 @@ NonThreadedShrinkImageFilterFilter<TInputImage,TOutputImage>
     inputRequestedRegionSize[i]
       = outputRequestedRegionSize[i] * m_ShrinkFactor;
     inputRequestedRegionStartIndex[i]
-      = outputRequestedRegionStartIndex[i] * (int)m_ShrinkFactor;
+      = outputRequestedRegionStartIndex[i] * (long)m_ShrinkFactor;
     }
 
   typename TInputImage::RegionType inputRequestedRegion;
@@ -144,7 +159,7 @@ NonThreadedShrinkImageFilterFilter<TInputImage,TOutputImage>
  */
 template <class TInputImage, class TOutputImage>
 void 
-NonThreadedShrinkImageFilterFilter<TInputImage,TOutputImage>
+ShrinkImageFilter<TInputImage,TOutputImage>
 ::UpdateOutputInformation()
 {
   // call the superclass' implementation of this method
@@ -154,26 +169,31 @@ NonThreadedShrinkImageFilterFilter<TInputImage,TOutputImage>
   InputImagePointer inputPtr = this->GetInput();
   OutputImagePointer outputPtr = this->GetOutput();
 
+  if ( !inputPtr || !outputPtr )
+    {
+    return;
+    }
+
   // we need to compute the output spacing, the output image size, and the
   // output image start index
   int i;
-  const float              *inputSpacing = inputPtr->GetSpacing();
+  const double             *inputSpacing = inputPtr->GetSpacing();
   const typename TInputImage::SizeType&   inputSize
     = inputPtr->GetLargestPossibleRegion().GetSize();
   const typename TInputImage::IndexType&  inputStartIndex
     = inputPtr->GetLargestPossibleRegion().GetIndex();
   
-  float                     outputSpacing[TOutputImage::ImageDimension];
-  typename TOutputImage::SizeType         outputSize;
-  typename TOutputImage::IndexType        outputStartIndex;
+  float    outputSpacing[TOutputImage::ImageDimension];
+  typename TOutputImage::SizeType     outputSize;
+  typename TOutputImage::IndexType    outputStartIndex;
   
   for (i = 0; i < TOutputImage::ImageDimension; i++)
     {
     outputSpacing[i] = inputSpacing[i] * (float) m_ShrinkFactor;
-    outputSize[i] = (unsigned int)
+    outputSize[i] = (unsigned long)
       floor( ((float)(inputSize[i] - m_ShrinkFactor + 1))
              / (float) m_ShrinkFactor);
-    outputStartIndex[i] = (int)
+    outputStartIndex[i] = (long)
       ceil( (float) inputStartIndex[i] / (float) m_ShrinkFactor );
     }
 

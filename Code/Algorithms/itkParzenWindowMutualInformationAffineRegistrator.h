@@ -1,7 +1,7 @@
 /*==========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkMutualInformationImageMetricRigidRegistrationVW.h
+  Module:    itkParzenWindowMutualInformationAffineRegistrator.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -12,8 +12,8 @@
   See COPYRIGHT.txt for copyright details.
   
 ==========================================================================*/
-#ifndef _itkMutualInformationImageMetricRigidRegistrationVW_h
-#define _itkMutualInformationImageMetricRigidRegistrationVW_h
+#ifndef _itkParzenWindowMutualInformationAffineRegistrator_h
+#define _itkParzenWindowMutualInformationAffineRegistrator_h
 
 #include "itkMutualInformationImageMetricRigidRegistration.h"
 #include "itkAffineMutualInformationImageMetricMetric.h"
@@ -23,10 +23,10 @@ namespace itk
 {
 
 /** 
- * \class MutualInformationImageMetricRigidRegistrationVW
+ * \class ParzenWindowMutualInformationAffineRegistrator
  * \brief Rigid mutual information registration by the Viola and Wells method.
  *
- * MutualInformationImageMetricRigidRegistrationVW performs a rigid registration
+ * ParzenWindowMutualInformationAffineRegistrator performs a rigid registration
  * between a reference and test image using mutual information. Specially,
  * it uses the optimization method of Viola and Wells to find the
  * best affine transform to register the test image onto the reference
@@ -73,14 +73,14 @@ class TRefImage,
 class TTestImage,
 class TDerivImage
 >
-class ITK_EXPORT MutualInformationImageMetricRigidRegistrationVW :
+class ITK_EXPORT ParzenWindowMutualInformationAffineRegistrator :
   public MutualInformationImageMetricRigidRegistration<TRefImage,TTestImage,TDerivImage>
 {
 public:
   /**
    * Standard "Self" typedef
    */
-  typedef MutualInformationImageMetricRigidRegistrationVW Self;
+  typedef ParzenWindowMutualInformationAffineRegistrator Self;
 
   /**
    * Standard "Superclass" typedef
@@ -98,7 +98,7 @@ public:
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(MutualInformationImageMetricRigidRegistrationVW, 
+  itkTypeMacro(ParzenWindowMutualInformationAffineRegistrator, 
     MutualInformationImageMetricRigidRegistration);
 
   /**
@@ -256,9 +256,9 @@ public:
   itkSetMacro( DebugOn, bool );
 
 protected:
-  MutualInformationImageMetricRigidRegistrationVW();
-  ~MutualInformationImageMetricRigidRegistrationVW(){};
-  MutualInformationImageMetricRigidRegistrationVW(const Self&){};
+  ParzenWindowMutualInformationAffineRegistrator();
+  ~ParzenWindowMutualInformationAffineRegistrator(){};
+  ParzenWindowMutualInformationAffineRegistrator(const Self&){};
   void operator=(const Self&) {};
   void PrintSelf(std::ostream& os, Indent indent);
 
@@ -279,7 +279,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMutualInformationImageMetricRigidRegistrationVW.txx"
+#include "itkParzenWindowMutualInformationAffineRegistrator.txx"
 #endif
 
 #endif

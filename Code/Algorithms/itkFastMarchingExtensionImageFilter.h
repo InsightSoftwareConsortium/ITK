@@ -1,7 +1,7 @@
 /*==========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFastMarchingImageFilterExtensionImageFilter.h
+  Module:    itkFastMarchingExtensionImageFilter.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -12,8 +12,8 @@
   See COPYRIGHT.txt for copyright details.
   
 ==========================================================================*/
-#ifndef _itkFastMarchingImageFilterExtensionImageFilter_h
-#define _itkFastMarchingImageFilterExtensionImageFilter_h
+#ifndef _itkFastMarchingExtensionImageFilter_h
+#define _itkFastMarchingExtensionImageFilter_h
 
 #include "itkFastMarchingImageFilter.h"
 #include "itkImage.h"
@@ -22,7 +22,7 @@
 namespace itk
 {
 
-/** \class FastMarchingImageFilterExtensionImageFilter
+/** \class FastMarchingExtensionImageFilter
  * \brief Extend auxiliary variables smoothly using Fast Marching.
  *
  * Fast marching can be used to extend auxiliary variables smoothly
@@ -51,7 +51,7 @@ template <
   class TAuxValue,
   unsigned int VAuxDimension = 1 
 >
-class ITK_EXPORT FastMarchingImageFilterExtensionImageFilter :
+class ITK_EXPORT FastMarchingExtensionImageFilter :
   public FastMarchingImageFilter<TLevelSet>
 {
 public:
@@ -59,7 +59,7 @@ public:
   /** 
    * Standard "Self" typdedef
    */
-  typedef FastMarchingImageFilterExtensionImageFilter Self;
+  typedef FastMarchingExtensionImageFilter Self;
 
   /**
    * Standard "Superclass" typedef
@@ -75,7 +75,7 @@ public:
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(FastMarchingImageFilterExtensionImageFilter, FastMarchingImageFilter);
+  itkTypeMacro(FastMarchingExtensionImageFilter, FastMarchingImageFilter);
 
   /**
    * Method for creation through the object factory.
@@ -137,9 +137,9 @@ public:
 
 
 protected:
-  FastMarchingImageFilterExtensionImageFilter();
-  ~FastMarchingImageFilterExtensionImageFilter(){};
-  FastMarchingImageFilterExtensionImageFilter( const Self& ) {};
+  FastMarchingExtensionImageFilter();
+  ~FastMarchingExtensionImageFilter(){};
+  FastMarchingExtensionImageFilter( const Self& ) {};
   void operator= ( const Self& ) {};
   void PrintSelf( std::ostream& os, Indent indent );
 
@@ -163,7 +163,7 @@ private:
 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFastMarchingImageFilterExtensionImageFilter.txx"
+#include "itkFastMarchingExtensionImageFilter.txx"
 #endif
 
 #endif

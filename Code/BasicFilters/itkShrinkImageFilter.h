@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkShrinkImageFilterFilter.h
+  Module:    itkShrinkImageFilter.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -13,18 +13,18 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#ifndef __itkShrinkImageFilterFilter_h
-#define __itkShrinkImageFilterFilter_h
+#ifndef __itkShrinkImageFilter_h
+#define __itkShrinkImageFilter_h
 
 #include "itkImageToImageFilter.h"
 
 namespace itk
 {
 
-/** \class ShrinkImageFilterFilter
+/** \class ShrinkImageFilter
  * \brief Reduce the size of an image by an integer factor.
  *
- * ShrinkImageFilterFilter reduces the size of an image by an integer factor. The
+ * ShrinkImageFilter reduces the size of an image by an integer factor. The
  * algorithm implemented is a simple subsample. Since this filter produces
  * an image which is a different resolution and with different pixel spacing
  * than its input image, it needs to override several of the methods defined
@@ -37,14 +37,14 @@ namespace itk
  * ThreadedGenerateData() method for its implementation.
  */
 template <class TInputImage, class TOutputImage>
-class ITK_EXPORT ShrinkImageFilterFilter:
+class ITK_EXPORT ShrinkImageFilter:
     public ImageToImageFilter<TInputImage,TOutputImage>
 {
 public:
   /**
    * Standard "Self" typedef.
    */
-  typedef ShrinkImageFilterFilter         Self;
+  typedef ShrinkImageFilter         Self;
 
   /**
    * Standard "Superclass" typedef.
@@ -70,7 +70,7 @@ public:
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(ShrinkImageFilterFilter, ImageToImageFilter);
+  itkTypeMacro(ShrinkImageFilter, ImageToImageFilter);
 
   /** 
    * Set the shrink factor. The default value is 1.
@@ -84,9 +84,9 @@ public:
   itkGetMacro(ShrinkFactor,int);
                  
   /**
-   * ShrinkImageFilterFilter produces an image which is a different resolution and
+   * ShrinkImageFilter produces an image which is a different resolution and
    * with a different pixel spacing than its input image.  As such,
-   * ShrinkImageFilterFilter needs to provide an implementation for
+   * ShrinkImageFilter needs to provide an implementation for
    * UpdateOutputInformation() in order to inform the pipeline execution model.
    * The original documentation of this method is below.
    *
@@ -95,8 +95,8 @@ public:
   virtual void UpdateOutputInformation();
 
   /**
-   * ShrinkImageFilterFilter needs a larger input requested region than the output
-   * requested region.  As such, ShrinkImageFilterFilter needs to provide an implementation
+   * ShrinkImageFilter needs a larger input requested region than the output
+   * requested region.  As such, ShrinkImageFilter needs to provide an implementation
    * for GenerateInputRequestedRegion() in order to inform the pipeline
    * execution model.  
    *
@@ -105,14 +105,14 @@ public:
   virtual void GenerateInputRequestedRegion();
 
  protected:
-  ShrinkImageFilterFilter();
-  ~ShrinkImageFilterFilter() {};
-  ShrinkImageFilterFilter(const Self&) {}
+  ShrinkImageFilter();
+  ~ShrinkImageFilter() {};
+  ShrinkImageFilter(const Self&) {}
   void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent);
 
   /**
-   * ShrinkImageFilterFilter can be implemented as a multithreaded filter.  Therefore,
+   * ShrinkImageFilter can be implemented as a multithreaded filter.  Therefore,
    * this implementation provides a ThreadedGenerateData() routine which
    * is called for each processing thread. The output image data is allocated
    * automatically by the superclass prior to calling ThreadedGenerateData().
@@ -133,7 +133,7 @@ private:
 } // end namespace itk
   
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkShrinkImageFilterFilter.txx"
+#include "itkShrinkImageFilter.txx"
 #endif
   
 #endif

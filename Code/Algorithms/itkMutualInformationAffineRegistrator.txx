@@ -1,7 +1,7 @@
 /*==========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkMutualInformationImageMetricRigidRegistration.txx
+  Module:    itkMutualInformationAffineRegistrator.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -20,8 +20,8 @@ namespace itk
  * Default constructor
  */
 template <class TRefImage, class TTestImage, class TDerivImage>
-MutualInformationImageMetricRigidRegistration<TRefImage,TTestImage,TDerivImage>
-::MutualInformationImageMetricRigidRegistration()
+MutualInformationAffineRegistrator<TRefImage,TTestImage,TDerivImage>
+::MutualInformationAffineRegistrator()
 {
   m_RefImage = NULL;
   m_TestImage = NULL;
@@ -43,7 +43,7 @@ MutualInformationImageMetricRigidRegistration<TRefImage,TTestImage,TDerivImage>
  */
 template <class TRefImage, class TTestImage, class TDerivImage>
 void
-MutualInformationImageMetricRigidRegistration<TRefImage,TTestImage,TDerivImage>
+MutualInformationAffineRegistrator<TRefImage,TTestImage,TDerivImage>
 ::PrintSelf(std::ostream& os, Indent indent)
 {
   Superclass::PrintSelf(os,indent);

@@ -12,8 +12,8 @@
   See COPYRIGHT.txt for copyright details.
   
 ==========================================================================*/
-#ifndef _itkParzenWindowAffineMutualInformationImageMetricMetricMetric_h
-#define _itkParzenWindowAffineMutualInformationImageMetricMetricMetric_h
+#ifndef _itkParzenWindowAffineMutualInformationMetric_h
+#define _itkParzenWindowAffineMutualInformationMetric_h
 
 #include "itkAffineMutualInformationImageMetricMetric.h"
 #include "itkIndex.h"
@@ -25,11 +25,11 @@ namespace itk
 {
 
 /** 
- * \class ParzenWindowAffineMutualInformationImageMetricMetricMetric
+ * \class ParzenWindowAffineMutualInformationMetric
  * \brief Calculates the mutual information between a reference
  * and an affine transformed test image using the Viola and Wells method.
  *
- * ParzenWindowAffineMutualInformationImageMetricMetricMetric calculats the mutual information
+ * ParzenWindowAffineMutualInformationMetric calculats the mutual information
  * between a reference image and a affine transformed test image
  * using the method of Viola and Wells where the probability
  * density distributions are estimated using Parzen windows.
@@ -82,14 +82,14 @@ class TRefImage,
 class TTestImage,
 class TDerivImage
 >
-class ITK_EXPORT ParzenWindowAffineMutualInformationImageMetricMetricMetric :
+class ITK_EXPORT ParzenWindowAffineMutualInformationMetric :
   public AffineMutualInformationImageMetricMetric<TRefImage,TTestImage,TDerivImage>
 {
 public:
   /**
    * Standard "Self" typedef
    */
-  typedef ParzenWindowAffineMutualInformationImageMetricMetricMetric Self;
+  typedef ParzenWindowAffineMutualInformationMetric Self;
 
   /**
    * Standard "Superclass" typedef
@@ -105,7 +105,7 @@ public:
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(ParzenWindowAffineMutualInformationImageMetricMetricMetric, AffineMutualInformationImageMetricMetric);
+  itkTypeMacro(ParzenWindowAffineMutualInformationMetric, AffineMutualInformationImageMetricMetric);
 
   /**
    * Method for creation through the object factory.
@@ -224,9 +224,9 @@ public:
   void CalculateMutualInformationImageMetricAndGradient( bool resample = true );
 
 protected:
-  ParzenWindowAffineMutualInformationImageMetricMetricMetric();
-  ~ParzenWindowAffineMutualInformationImageMetricMetricMetric(){};
-  ParzenWindowAffineMutualInformationImageMetricMetricMetric(const Self&){};
+  ParzenWindowAffineMutualInformationMetric();
+  ~ParzenWindowAffineMutualInformationMetric(){};
+  ParzenWindowAffineMutualInformationMetric(const Self&){};
   void operator=(const Self&) {};
   void PrintSelf(std::ostream& os, Indent indent);
 
@@ -276,7 +276,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkParzenWindowAffineMutualInformationImageMetricMetricMetric.txx"
+#include "itkParzenWindowAffineMutualInformationMetric.txx"
 #endif
 
 #endif

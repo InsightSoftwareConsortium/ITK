@@ -1,3 +1,18 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkFileIOToImageFilter.txx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+
+Copyright (c) 2000 National Library of Medicine
+All rights reserved.
+
+See COPYRIGHT.txt for copyright details.
+
+=========================================================================*/
 #include "itkObjectFactory.h"
 #include "itkSimpleImageRegionIterator.h"
 
@@ -5,7 +20,7 @@ namespace itk
 {
 
 template <class TOutputImage>
-FilterImageIOToImage<TOutputImage>::FilterImageIOToImage(std::string fileName)
+FileIOToImageFilter<TOutputImage>::FileIOToImageFilter(std::string fileName)
 {
 	m_LightObjectIO = ObjectFactoryBase::CreateInstance(ExtractFileExtension(fileName.c_str()));
 	m_IO = dynamic_cast<ImageIO*>((LightObject*) m_LightObjectIO);
@@ -19,19 +34,19 @@ FilterImageIOToImage<TOutputImage>::FilterImageIOToImage(std::string fileName)
 }
 
 template <class TOutputImage>
-FilterImageIOToImage<TOutputImage>::FilterImageIOToImage()
+FileIOToImageFilter<TOutputImage>::FileIOToImageFilter()
 {
   m_IO = NULL;
 	m_FileToLoad = "";
 }
 
 template <class TOutputImage>
-FilterImageIOToImage<TOutputImage>::~FilterImageIOToImage()
+FileIOToImageFilter<TOutputImage>::~FileIOToImageFilter()
 {
 }
 
 template <class TOutputImage>
-void FilterImageIOToImage<TOutputImage>::LoadFile()
+void FileIOToImageFilter<TOutputImage>::LoadFile()
 {
 	if (m_FileToLoad == "")
 	{
@@ -53,7 +68,7 @@ void FilterImageIOToImage<TOutputImage>::LoadFile()
 }
 
 template <class TOutputImage>
-void FilterImageIOToImage<TOutputImage>::GenerateData()
+void FileIOToImageFilter<TOutputImage>::GenerateData()
 {
   typename TOutputImage::Pointer m_OutputImage = GetOutput();
 
@@ -99,13 +114,13 @@ void FilterImageIOToImage<TOutputImage>::GenerateData()
 }
 
 template <class TOutputImage>
-void FilterImageIOToImage<TOutputImage>::SetIO(ImageIO *io)
+void FileIOToImageFilter<TOutputImage>::SetIO(ImageIO *io)
 {
   m_IO = io;
 }
 
 template <class TOutputImage>
-ImageIO* FilterImageIOToImage<TOutputImage>::GetIO()
+ImageIO* FileIOToImageFilter<TOutputImage>::GetIO()
 {
   return m_IO;
 }

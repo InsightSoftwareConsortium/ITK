@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFilterImageIOToImage.h
+  Module:    itkFileIOToImageFilter.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -13,8 +13,8 @@ All rights reserved.
 See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#ifndef __itkFilterImageIOToImage_h
-#define __itkFilterImageIOToImage_h
+#ifndef __itkFileIOToImageFilter_h
+#define __itkFileIOToImageFilter_h
 
 #include "itkImageIO.h"
 #include "itkImageSource.h"
@@ -24,13 +24,13 @@ namespace itk
 {
 
 template <class TOutputImage>
-class ITK_EXPORT FilterImageIOToImage : public ImageSource<TOutputImage>
+class ITK_EXPORT FileIOToImageFilter : public ImageSource<TOutputImage>
 {
 public:
   /**
    * Standard "Self" typedef.
    */
-  typedef FilterImageIOToImage         Self;
+  typedef FileIOToImageFilter         Self;
 
   /**
    * Standard "Superclass" typedef.
@@ -50,12 +50,12 @@ public:
   /**
    * A useful constructor
    */
-  FilterImageIOToImage(std::string fileName);
+  FileIOToImageFilter(std::string fileName);
 
   /**
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(FilterImageIOToImage, ImageSource);
+  itkTypeMacro(FileIOToImageFilter, ImageSource);
 
   /**
    * typedef for Size.
@@ -84,8 +84,8 @@ public:
 
 protected:
   void GenerateData();
-  FilterImageIOToImage();
-	~FilterImageIOToImage();
+  FileIOToImageFilter();
+	~FileIOToImageFilter();
 	void LoadFile();
 
   ImageIO* m_IO;
@@ -96,7 +96,7 @@ protected:
 } //namespace ITK
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFilterImageIOToImage.txx"
+#include "itkFileIOToImageFilter.txx"
 #endif
 
-#endif // __itkFilterImageIOToImage_h
+#endif // __itkFileIOToImageFilter_h

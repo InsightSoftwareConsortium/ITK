@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkProcrustesSimilarityRegistrationMetric.txx
+  Module:    itkProcrustesRegistrationMetric.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -24,8 +24,8 @@ namespace itk
  * Constructor
  */
 template <class TTransform, unsigned int NDimension>
-ProcrustesSimilarityRegistrationMetric<TTransform, NDimension>
-::ProcrustesSimilarityRegistrationMetric()
+ProcrustesRegistrationMetric<TTransform, NDimension>
+::ProcrustesRegistrationMetric()
 {
 }
 
@@ -39,14 +39,14 @@ ProcrustesSimilarityRegistrationMetric<TTransform, NDimension>
  */
 template <class TTransform, unsigned int NDimension>
 void
-ProcrustesSimilarityRegistrationMetric<TTransform, NDimension>
+ProcrustesRegistrationMetric<TTransform, NDimension>
 ::Compute( void )
 {
 
   if( m_Reference->Size() != m_Target->Size() )
   {
     ExceptionObject wrongSize;
-    wrongSize.SetLocation( "ProcrustesSimilarityRegistrationMetric Compute" );
+    wrongSize.SetLocation( "ProcrustesRegistrationMetric Compute" );
     wrongSize.SetDescription( 
                 "Reference and Target have different number of points");
     throw wrongSize;

@@ -1,7 +1,7 @@
 /*==========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkMutualInformationImageMetricRigidRegistration.h
+  Module:    itkMutualInformationAffineRegistrator.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -12,8 +12,8 @@
   See COPYRIGHT.txt for copyright details.
   
 ==========================================================================*/
-#ifndef _itkMutualInformationImageMetricRigidRegistration_h
-#define _itkMutualInformationImageMetricRigidRegistration_h
+#ifndef _itkMutualInformationAffineRegistrator_h
+#define _itkMutualInformationAffineRegistrator_h
 
 #include "itkObject.h"
 #include "vnl/vnl_vector_fixed.h"
@@ -23,10 +23,10 @@ namespace itk
 {
 
 /** 
- * \class MutualInformationImageMetricRigidRegistration
+ * \class MutualInformationAffineRegistrator
  * \brief Rigid mutual information registration.
  *
- * MutualInformationImageMetricRigidRegistration is a base class for all objects
+ * MutualInformationAffineRegistrator is a base class for all objects
  * which performs a rigid registration between a reference and
  * test image using mutual information. Specifically, the method
  * Maximize() attempts to find the best affine transform to
@@ -50,14 +50,14 @@ class TRefImage,
 class TTestImage,
 class TDerivImage
 >
-class ITK_EXPORT MutualInformationImageMetricRigidRegistration :
+class ITK_EXPORT MutualInformationAffineRegistrator :
   public Object
 {
 public:
   /**
    * Standard "Self" typedef
    */
-  typedef MutualInformationImageMetricRigidRegistration Self;
+  typedef MutualInformationAffineRegistrator Self;
 
   /**
    * Standard "Superclass" typedef
@@ -73,7 +73,7 @@ public:
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(MutualInformationImageMetricRigidRegistration, Object);
+  itkTypeMacro(MutualInformationAffineRegistrator, Object);
 
   /**
    * Method for creation through the object factory.
@@ -192,9 +192,9 @@ public:
   virtual void Maximize() = 0;
 
 protected:
-  MutualInformationImageMetricRigidRegistration();
-  ~MutualInformationImageMetricRigidRegistration(){};
-  MutualInformationImageMetricRigidRegistration(const Self&){};
+  MutualInformationAffineRegistrator();
+  ~MutualInformationAffineRegistrator(){};
+  MutualInformationAffineRegistrator(const Self&){};
   void operator=(const Self&) {};
   void PrintSelf(std::ostream& os, Indent indent);
 
@@ -215,7 +215,7 @@ protected:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMutualInformationImageMetricRigidRegistration.txx"
+#include "itkMutualInformationAffineRegistrator.txx"
 #endif
 
 #endif

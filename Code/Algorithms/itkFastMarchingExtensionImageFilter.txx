@@ -1,7 +1,7 @@
 /*==========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFastMarchingImageFilterExtensionImageFilter.txx
+  Module:    itkFastMarchingExtensionImageFilter.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -20,8 +20,8 @@ namespace itk
  *
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension>
-FastMarchingImageFilterExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension>
-::FastMarchingImageFilterExtensionImageFilter()
+FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension>
+::FastMarchingExtensionImageFilter()
 {
 
   m_AuxAliveValues = NULL;
@@ -45,7 +45,7 @@ FastMarchingImageFilterExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension>
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension>
 void
-FastMarchingImageFilterExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension>
+FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 ::PrintSelf(std::ostream& os, Indent indent)
 {
   Superclass::PrintSelf(os,indent);
@@ -58,7 +58,7 @@ FastMarchingImageFilterExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension>
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension>
 void
-FastMarchingImageFilterExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension>
+FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 ::GenerateOutputInformation()
 {
 
@@ -82,7 +82,7 @@ FastMarchingImageFilterExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension>
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension>
 void
-FastMarchingImageFilterExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension>
+FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 ::EnlargeOutputRequestedRegion(
 DataObject *output )
 {
@@ -106,7 +106,7 @@ DataObject *output )
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension>
 void
-FastMarchingImageFilterExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension>
+FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 ::Initialize()
 {
 
@@ -226,7 +226,7 @@ FastMarchingImageFilterExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension>
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension>
 double
-FastMarchingImageFilterExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension>
+FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 ::UpdateValue(
 IndexType& index )
 {

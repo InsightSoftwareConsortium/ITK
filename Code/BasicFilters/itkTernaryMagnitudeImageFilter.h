@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Modulus:    itkTernaryImageFilterModulus.h
+  Modulus:    itkTernaryMagnitudeImageFilter.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -13,15 +13,15 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#ifndef __itkTernaryImageFilterModulus_h
-#define __itkTernaryImageFilterModulus_h
+#ifndef __itkTernaryMagnitudeImageFilter_h
+#define __itkTernaryMagnitudeImageFilter_h
 
 #include "itkTernaryImageFilter.h"
 
 namespace itk
 {
   
-/** \class TernaryImageFilterModulus
+/** \class TernaryMagnitudeImageFilter
  * \brief Implements pixel-wise addition of three images.
  *
  * This class is parametrized over the types of the three 
@@ -52,7 +52,7 @@ namespace function {
 
 template <class TInputImage1, class TInputImage2, 
           class TInputImage3, class TOutputImage>
-class ITK_EXPORT TernaryImageFilterModulus :
+class ITK_EXPORT TernaryMagnitudeImageFilter :
     public
     TernaryImageFilter<TInputImage1,TInputImage2,
                       TInputImage3,TOutputImage, 
@@ -68,7 +68,7 @@ public:
   /**
    * Standard "Self" typedef.
    */
-  typedef TernaryImageFilterModulus  Self;
+  typedef TernaryMagnitudeImageFilter  Self;
 
   /**
    * Standard "Superclass" typedef.
@@ -96,9 +96,9 @@ public:
   
 protected:
 
-  TernaryImageFilterModulus() {}
-  virtual ~TernaryImageFilterModulus() {}
-  TernaryImageFilterModulus(const Self&) {}
+  TernaryMagnitudeImageFilter() {}
+  virtual ~TernaryMagnitudeImageFilter() {}
+  TernaryMagnitudeImageFilter(const Self&) {}
   void operator=(const Self&) {}
 
 

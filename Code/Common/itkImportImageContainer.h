@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkImportImageFilterContainer.h
+  Module:    itkImportImageContainer.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -13,8 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#ifndef __itkImportImageFilterContainer_h
-#define __itkImportImageFilterContainer_h
+#ifndef __itkImportImageContainer_h
+#define __itkImportImageContainer_h
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"
@@ -25,12 +25,12 @@
 namespace itk
 {
 
-/** \class ImportImageFilterContainer
+/** \class ImportImageContainer
  * Defines an itk::Image front-end to a standard C-array. This container
  * conforms to the ImageContainerInterface. This is a full-fleged Object,
  * so there is modification time, debug, and reference count information.
  *
- * Template parameters for ImportImageFilterContainer:
+ * Template parameters for ImportImageContainer:
  *
  * TElementIdentifier =
  *     An INTEGRAL type for use in indexing the imported buffer.
@@ -40,13 +40,13 @@ namespace itk
  */
   
 template <typename TElementIdentifier, typename TElement>
-class ImportImageFilterContainer:  public Object
+class ImportImageContainer:  public Object
 {
 public:
   /**
    * Standard "Self" typedef.
    */
-  typedef ImportImageFilterContainer     Self;
+  typedef ImportImageContainer     Self;
   
   /**
    * Standard "Superclass" typedef.
@@ -137,12 +137,12 @@ public:
   /**
    * Standard part of every itk Object.
    */
-  itkTypeMacro(ImportImageFilterContainer, Object);
+  itkTypeMacro(ImportImageContainer, Object);
 
 protected:
-  ImportImageFilterContainer();
-  virtual ~ImportImageFilterContainer();
-  ImportImageFilterContainer(const Self&) {}
+  ImportImageContainer();
+  virtual ~ImportImageContainer();
+  ImportImageContainer(const Self&) {}
   void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent);
 
@@ -157,7 +157,7 @@ private:
 } // end namespace itk
   
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImportImageFilterContainer.txx"
+#include "itkImportImageContainer.txx"
 #endif
 
 #endif

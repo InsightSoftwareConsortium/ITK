@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkRecursiveGaussianImageFilterSecondDerivative.txx
+  Module:    itkSecondDerivativeRecursiveGaussianImageFilter.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -13,7 +13,7 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#include "itkRecursiveGaussianImageFilterSecondDerivative.h"
+#include "itkSecondDerivativeRecursiveGaussianImageFilter.h"
 
 namespace itk
 {
@@ -23,7 +23,7 @@ namespace itk
  */
 template <class TInputImage, class TOutputImage, class TComputation>
 void
-RecursiveGaussianImageFilterSecondDerivative<TInputImage,TOutputImage, TComputation>
+SecondDerivativeRecursiveGaussianImageFilter<TInputImage,TOutputImage, TComputation>
 ::SetUp(void)
 {
   a0 = TComputation( -1.3310 );

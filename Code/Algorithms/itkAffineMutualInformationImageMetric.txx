@@ -1,7 +1,7 @@
 /*==========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkAffineMutualInformationImageMetricMetric.txx
+  Module:    itkAffineMutualInformationImageMetric.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -20,8 +20,8 @@ namespace itk
  * Default constructor
  */
 template <class TRefImage, class TTestImage, class TDerivImage>
-AffineMutualInformationImageMetricMetric<TRefImage,TTestImage,TDerivImage>
-::AffineMutualInformationImageMetricMetric()
+AffineMutualInformationImageMetric<TRefImage,TTestImage,TDerivImage>
+::AffineMutualInformationImageMetric()
 {
 
   for( int j = 0; j < ImageDimension; j++ )
@@ -41,7 +41,7 @@ AffineMutualInformationImageMetricMetric<TRefImage,TTestImage,TDerivImage>
  */
 template <class TRefImage, class TTestImage, class TDerivImage>
 void
-AffineMutualInformationImageMetricMetric<TRefImage,TTestImage,TDerivImage>
+AffineMutualInformationImageMetric<TRefImage,TTestImage,TDerivImage>
 ::PrintSelf(std::ostream& os, Indent indent)
 {
   Superclass::PrintSelf(os,indent);
@@ -55,7 +55,7 @@ AffineMutualInformationImageMetricMetric<TRefImage,TTestImage,TDerivImage>
  */
 template <class TRefImage, class TTestImage, class TDerivImage>
 void
-AffineMutualInformationImageMetricMetric<TRefImage,TTestImage,TDerivImage>
+AffineMutualInformationImageMetric<TRefImage,TTestImage,TDerivImage>
 ::SetTestImageDerivative(
 DerivImageType * ptr,
 unsigned int idx )

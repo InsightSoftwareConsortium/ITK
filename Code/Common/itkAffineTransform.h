@@ -17,7 +17,7 @@
 #define __itkAffineTransform_h
 
 #include "itkObject.h"
-#include "itkRegistrationTransformation.h"
+#include "itkTransform.h"
 #include "itkPoint.h"
 #include "itkVector.h"
 #include "itkVectorContainer.h"
@@ -38,7 +38,7 @@ namespace itk
 
 template <unsigned int NDimensions>
 class ITK_EXPORT  AffineTransform : 
-        public RegistrationTransformation<
+        public Transform<
                   VectorContainer<unsigned int,double> >
 
 {
@@ -52,7 +52,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef RegistrationTransformation< 
+  typedef Transform< 
                        VectorContainer< unsigned int, double> > Superclass;
 
 
@@ -96,7 +96,7 @@ public:
  /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(AffineTransform, RegistrationTransformation);
+  itkTypeMacro(AffineTransform, Transform);
 
 
   /**

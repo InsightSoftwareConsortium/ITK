@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkImportImageFilterContainer.txx
+  Module:    itkImportImageContainer.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -18,8 +18,8 @@ namespace itk
 {
 
 template <typename TElementIdentifier, typename TElement>
-ImportImageFilterContainer<TElementIdentifier , TElement>
-::ImportImageFilterContainer()
+ImportImageContainer<TElementIdentifier , TElement>
+::ImportImageContainer()
 {
   m_ImportPointer = 0;
   m_ContainerManageMemory = true;
@@ -29,8 +29,8 @@ ImportImageFilterContainer<TElementIdentifier , TElement>
 
   
 template <typename TElementIdentifier, typename TElement>
-ImportImageFilterContainer< TElementIdentifier , TElement >
-::~ImportImageFilterContainer()
+ImportImageContainer< TElementIdentifier , TElement >
+::~ImportImageContainer()
 {
   if (m_ImportPointer && m_ContainerManageMemory)
     {
@@ -45,7 +45,7 @@ ImportImageFilterContainer< TElementIdentifier , TElement >
  */
 template <typename TElementIdentifier, typename TElement>
 void
-ImportImageFilterContainer< TElementIdentifier , TElement >
+ImportImageContainer< TElementIdentifier , TElement >
 ::Reserve(ElementIdentifier size)
 {
   if (m_ImportPointer)
@@ -83,7 +83,7 @@ ImportImageFilterContainer< TElementIdentifier , TElement >
  */
 template <typename TElementIdentifier, typename TElement>
 void
-ImportImageFilterContainer< TElementIdentifier , TElement >
+ImportImageContainer< TElementIdentifier , TElement >
 ::Squeeze(void)
 {
   if (m_ImportPointer)
@@ -116,7 +116,7 @@ ImportImageFilterContainer< TElementIdentifier , TElement >
  */
 template <typename TElementIdentifier, typename TElement>
 void
-ImportImageFilterContainer< TElementIdentifier , TElement >
+ImportImageContainer< TElementIdentifier , TElement >
 ::SetImportPointer(TElement *ptr, TElementIdentifier num,
                    bool LetContainerManageMemory)
 {
@@ -135,7 +135,7 @@ ImportImageFilterContainer< TElementIdentifier , TElement >
 
 template <typename TElementIdentifier, typename TElement>
 void
-ImportImageFilterContainer< TElementIdentifier , TElement >
+ImportImageContainer< TElementIdentifier , TElement >
 ::PrintSelf(std::ostream& os, Indent indent)
 {
   Superclass::PrintSelf(os,indent);

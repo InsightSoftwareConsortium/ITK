@@ -1,7 +1,7 @@
 /*==========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkLevelSetNeighborhoodExtractorExtension.txx
+  Module:    itkLevelSetVelocityNeighborhoodExtractor.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -22,8 +22,8 @@ namespace itk
  */
 template <class TLevelSet, class TAuxValue, 
 unsigned int VAuxDimension>
-LevelSetNeighborhoodExtractorExtension<TLevelSet,TAuxValue,VAuxDimension>
-::LevelSetNeighborhoodExtractorExtension( )
+LevelSetVelocityNeighborhoodExtractor<TLevelSet,TAuxValue,VAuxDimension>
+::LevelSetVelocityNeighborhoodExtractor( )
 {
   
 }
@@ -34,7 +34,7 @@ LevelSetNeighborhoodExtractorExtension<TLevelSet,TAuxValue,VAuxDimension>
 template <class TLevelSet, class TAuxValue,
   unsigned int VAuxDimension>
 void
-LevelSetNeighborhoodExtractorExtension<TLevelSet,TAuxValue,VAuxDimension>
+LevelSetVelocityNeighborhoodExtractor<TLevelSet,TAuxValue,VAuxDimension>
 ::PrintSelf(std::ostream &os, Indent indent)
 {
   Superclass::PrintSelf(os, indent);
@@ -48,7 +48,7 @@ LevelSetNeighborhoodExtractorExtension<TLevelSet,TAuxValue,VAuxDimension>
 template <class TLevelSet, class TAuxValue,
   unsigned int VAuxDimension>
 void
-LevelSetNeighborhoodExtractorExtension<TLevelSet,TAuxValue,VAuxDimension>
+LevelSetVelocityNeighborhoodExtractor<TLevelSet,TAuxValue,VAuxDimension>
 ::Initialize()
 {
   this->Superclass::Initialize();
@@ -65,7 +65,7 @@ LevelSetNeighborhoodExtractorExtension<TLevelSet,TAuxValue,VAuxDimension>
 template <class TLevelSet, class TAuxValue,
   unsigned int VAuxDimension>
 double
-LevelSetNeighborhoodExtractorExtension<TLevelSet,TAuxValue,VAuxDimension>
+LevelSetVelocityNeighborhoodExtractor<TLevelSet,TAuxValue,VAuxDimension>
 ::CalculateDistance(
 Index& index)
 {

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkProcrustesSimilarityRegistrationMetric.h
+  Module:    itkProcrustesRegistrationMetric.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -13,8 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#ifndef __itkProcrustesSimilarityRegistrationMetric_h
-#define __itkProcrustesSimilarityRegistrationMetric_h
+#ifndef __itkProcrustesRegistrationMetric_h
+#define __itkProcrustesRegistrationMetric_h
 
 #include "itkSimilarityRegistrationMetric.h"
 #include "itkRegistrationMapperProcrustes.h"
@@ -25,7 +25,7 @@
 namespace itk
 {
   
-/** \class ProcrustesSimilarityRegistrationMetric
+/** \class ProcrustesRegistrationMetric
  * \brief Procrustes distance between sets of points
  *
  * This class receives two sets of N-D points and register
@@ -35,7 +35,7 @@ namespace itk
  */
 
 template <class TTransform, unsigned int NDimension>
-class ITK_EXPORT ProcrustesSimilarityRegistrationMetric : 
+class ITK_EXPORT ProcrustesRegistrationMetric : 
       public SimilarityRegistrationMetric<
         VectorContainer< unsigned long, Point<double,NDimension> >,
         VectorContainer< unsigned long, Point<double,NDimension> >,
@@ -48,7 +48,7 @@ public:
   /**
    * Standard "Self" typedef.
    */
-  typedef ProcrustesSimilarityRegistrationMetric  Self;
+  typedef ProcrustesRegistrationMetric  Self;
 
   /**
    * Standard "Superclass" typedef.
@@ -124,7 +124,7 @@ public:
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(ProcrustesSimilarityRegistrationMetric, 
+  itkTypeMacro(ProcrustesRegistrationMetric, 
                SimilarityRegistrationMetric );
 
 
@@ -142,9 +142,9 @@ public:
 
 protected:
 
-  ProcrustesSimilarityRegistrationMetric();
-  virtual ~ProcrustesSimilarityRegistrationMetric() {};
-  ProcrustesSimilarityRegistrationMetric(const Self&) {}
+  ProcrustesRegistrationMetric();
+  virtual ~ProcrustesRegistrationMetric() {};
+  ProcrustesRegistrationMetric(const Self&) {}
   void operator=(const Self&) {}
 
 
@@ -153,7 +153,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkProcrustesSimilarityRegistrationMetric.txx"
+#include "itkProcrustesRegistrationMetric.txx"
 #endif
 
 #endif

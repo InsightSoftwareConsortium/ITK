@@ -23,8 +23,8 @@ namespace itk
  * Default constructor
  */
 template <class TRefImage, class TTestImage, class TDerivImage>
-ParzenWindowAffineMutualInformationImageMetricMetricMetric<TRefImage,TTestImage,TDerivImage>
-::ParzenWindowAffineMutualInformationImageMetricMetricMetric()
+ParzenWindowAffineMutualInformationMetric<TRefImage,TTestImage,TDerivImage>
+::ParzenWindowAffineMutualInformationMetric()
 {
   m_NumberOfSamples = 0;
   m_SamplesValid    = false;
@@ -44,7 +44,7 @@ ParzenWindowAffineMutualInformationImageMetricMetricMetric<TRefImage,TTestImage,
  */
 template <class TRefImage, class TTestImage, class TDerivImage>
 void
-ParzenWindowAffineMutualInformationImageMetricMetricMetric<TRefImage,TTestImage,TDerivImage>
+ParzenWindowAffineMutualInformationMetric<TRefImage,TTestImage,TDerivImage>
 ::PrintSelf(std::ostream& os, Indent indent)
 {
   Superclass::PrintSelf(os,indent);
@@ -60,7 +60,7 @@ ParzenWindowAffineMutualInformationImageMetricMetricMetric<TRefImage,TTestImage,
  */
 template <class TRefImage, class TTestImage, class TDerivImage>
 void
-ParzenWindowAffineMutualInformationImageMetricMetricMetric<TRefImage,TTestImage,TDerivImage>
+ParzenWindowAffineMutualInformationMetric<TRefImage,TTestImage,TDerivImage>
 ::SetTestImage(
 TestImageType * ptr )
 {
@@ -79,7 +79,7 @@ TestImageType * ptr )
  */
 template <class TRefImage, class TTestImage, class TDerivImage>
 void
-ParzenWindowAffineMutualInformationImageMetricMetricMetric<TRefImage,TTestImage,TDerivImage>
+ParzenWindowAffineMutualInformationMetric<TRefImage,TTestImage,TDerivImage>
 ::Resize(
 unsigned int num )
 {
@@ -108,7 +108,7 @@ unsigned int num )
  */
 template <class TRefImage, class TTestImage, class TDerivImage>
 void
-ParzenWindowAffineMutualInformationImageMetricMetricMetric<TRefImage,TTestImage,TDerivImage>
+ParzenWindowAffineMutualInformationMetric<TRefImage,TTestImage,TDerivImage>
 ::SpatialSample()
 {
 
@@ -127,7 +127,7 @@ ParzenWindowAffineMutualInformationImageMetricMetricMetric<TRefImage,TTestImage,
  */
 template <class TRefImage, class TTestImage, class TDerivImage>
 void
-ParzenWindowAffineMutualInformationImageMetricMetricMetric<TRefImage,TTestImage,TDerivImage>
+ParzenWindowAffineMutualInformationMetric<TRefImage,TTestImage,TDerivImage>
 ::SpatialSample(
 IndexContainer& indices,
 IntensityContainer& intensities )
@@ -168,7 +168,7 @@ IntensityContainer& intensities )
  */
 template <class TRefImage, class TTestImage, class TDerivImage>
 void
-ParzenWindowAffineMutualInformationImageMetricMetricMetric<TRefImage,TTestImage,TDerivImage>
+ParzenWindowAffineMutualInformationMetric<TRefImage,TTestImage,TDerivImage>
 ::CalculateTestIntensities()
 {
   if( !m_TestImage ) return;
@@ -184,7 +184,7 @@ ParzenWindowAffineMutualInformationImageMetricMetricMetric<TRefImage,TTestImage,
  */
 template <class TRefImage, class TTestImage, class TDerivImage>
 void
-ParzenWindowAffineMutualInformationImageMetricMetricMetric<TRefImage,TTestImage,TDerivImage>
+ParzenWindowAffineMutualInformationMetric<TRefImage,TTestImage,TDerivImage>
 ::CalculateTestIntensities(
 IndexContainer& indices,
 IntensityContainer& intensities )
@@ -218,7 +218,7 @@ IntensityContainer& intensities )
  */
 template <class TRefImage, class TTestImage, class TDerivImage>
 void
-ParzenWindowAffineMutualInformationImageMetricMetricMetric<TRefImage,TTestImage,TDerivImage>
+ParzenWindowAffineMutualInformationMetric<TRefImage,TTestImage,TDerivImage>
 ::CalculateTestDerivatives()
 {
   if( !m_TestImage ) return;
@@ -240,7 +240,7 @@ ParzenWindowAffineMutualInformationImageMetricMetricMetric<TRefImage,TTestImage,
  */
 template <class TRefImage, class TTestImage, class TDerivImage>
 void
-ParzenWindowAffineMutualInformationImageMetricMetricMetric<TRefImage,TTestImage,TDerivImage>
+ParzenWindowAffineMutualInformationMetric<TRefImage,TTestImage,TDerivImage>
 ::CalculateTestDerivatives(
 IndexContainer& indices,
 VectorContainer& derivatives )
@@ -300,7 +300,7 @@ VectorContainer& derivatives )
  */
 template <class TRefImage, class TTestImage, class TDerivImage>
 void
-ParzenWindowAffineMutualInformationImageMetricMetricMetric<TRefImage,TTestImage,TDerivImage>
+ParzenWindowAffineMutualInformationMetric<TRefImage,TTestImage,TDerivImage>
 ::CalculateMutualInformationImageMetric(
 bool resample)
 {
@@ -370,7 +370,7 @@ bool resample)
  */
 template <class TRefImage, class TTestImage, class TDerivImage>
 void
-ParzenWindowAffineMutualInformationImageMetricMetricMetric<TRefImage,TTestImage,TDerivImage>
+ParzenWindowAffineMutualInformationMetric<TRefImage,TTestImage,TDerivImage>
 ::CalculateMutualInformationImageMetricAndGradient(
 bool resample)
 {

@@ -1,7 +1,7 @@
 /*==========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkMutualInformationImageMetricRigidRegistrationVW.txx
+  Module:    itkParzenWindowMutualInformationAffineRegistrator.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -20,8 +20,8 @@ namespace itk
  * Default constructor
  */
 template <class TRefImage, class TTestImage, class TDerivImage>
-MutualInformationImageMetricRigidRegistrationVW<TRefImage,TTestImage,TDerivImage>
-::MutualInformationImageMetricRigidRegistrationVW()
+ParzenWindowMutualInformationAffineRegistrator<TRefImage,TTestImage,TDerivImage>
+::ParzenWindowMutualInformationAffineRegistrator()
 {
 
   m_MutualInformationImageMetricCalculator = dynamic_cast<CalculatorType*>
@@ -48,7 +48,7 @@ MutualInformationImageMetricRigidRegistrationVW<TRefImage,TTestImage,TDerivImage
  */
 template <class TRefImage, class TTestImage, class TDerivImage>
 void
-MutualInformationImageMetricRigidRegistrationVW<TRefImage,TTestImage,TDerivImage>
+ParzenWindowMutualInformationAffineRegistrator<TRefImage,TTestImage,TDerivImage>
 ::PrintSelf(std::ostream& os, Indent indent)
 {
 
@@ -65,7 +65,7 @@ MutualInformationImageMetricRigidRegistrationVW<TRefImage,TTestImage,TDerivImage
  */
 template <class TRefImage, class TTestImage, class TDerivImage>
 void
-MutualInformationImageMetricRigidRegistrationVW<TRefImage,TTestImage,TDerivImage>
+ParzenWindowMutualInformationAffineRegistrator<TRefImage,TTestImage,TDerivImage>
 ::SetReferenceImage( RefImageType *ptr )
 {
 
@@ -78,7 +78,7 @@ MutualInformationImageMetricRigidRegistrationVW<TRefImage,TTestImage,TDerivImage
  */
 template <class TRefImage, class TTestImage, class TDerivImage>
 void
-MutualInformationImageMetricRigidRegistrationVW<TRefImage,TTestImage,TDerivImage>
+ParzenWindowMutualInformationAffineRegistrator<TRefImage,TTestImage,TDerivImage>
 ::SetTestImage( TestImageType *ptr )
 {
 
@@ -91,7 +91,7 @@ MutualInformationImageMetricRigidRegistrationVW<TRefImage,TTestImage,TDerivImage
  */
 template <class TRefImage, class TTestImage, class TDerivImage>
 void
-MutualInformationImageMetricRigidRegistrationVW<TRefImage,TTestImage,TDerivImage>
+ParzenWindowMutualInformationAffineRegistrator<TRefImage,TTestImage,TDerivImage>
 ::SetTestImageDerivative( 
 DerivImageType *ptr,
 unsigned int idx )
@@ -109,7 +109,7 @@ unsigned int idx )
  */
 template <class TRefImage, class TTestImage, class TDerivImage>
 void
-MutualInformationImageMetricRigidRegistrationVW<TRefImage,TTestImage,TDerivImage>
+ParzenWindowMutualInformationAffineRegistrator<TRefImage,TTestImage,TDerivImage>
 ::SetMutualInformationImageMetricCalculator(
 CalculatorType * ptr )
 {
@@ -144,7 +144,7 @@ CalculatorType * ptr )
  */
 template <class TRefImage, class TTestImage, class TDerivImage>
 void
-MutualInformationImageMetricRigidRegistrationVW<TRefImage,TTestImage,TDerivImage>
+ParzenWindowMutualInformationAffineRegistrator<TRefImage,TTestImage,TDerivImage>
 ::Maximize()
 {
 

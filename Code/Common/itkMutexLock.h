@@ -13,8 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#ifndef __itkMutexVariable_h
-#define __itkMutexVariable_h
+#ifndef __itkMutexLock_h
+#define __itkMutexLock_h
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"

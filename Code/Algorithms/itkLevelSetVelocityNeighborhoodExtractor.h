@@ -1,7 +1,7 @@
 /*==========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkLevelSetNeighborhoodExtractorExtension.h
+  Module:    itkLevelSetVelocityNeighborhoodExtractor.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -12,8 +12,8 @@
   See COPYRIGHT.txt for copyright details.
   
 ==========================================================================*/
-#ifndef _itkLevelSetNeighborhoodExtractorExtension_h
-#define _itkLevelSetNeighborhoodExtractorExtension_h
+#ifndef _itkLevelSetVelocityNeighborhoodExtractor_h
+#define _itkLevelSetVelocityNeighborhoodExtractor_h
 
 #include "itkLevelSetNeighborhoodExtractor.h"
 #include "itkLevelSet.h"
@@ -22,7 +22,7 @@
 namespace itk
 {
 
-/** \class LevelSetNeighborhoodExtractorExtension
+/** \class LevelSetVelocityNeighborhoodExtractor
  * \brief Locate pixels of a particular level set.
  *
  * LevelSetNeighborhoodExtractor locates a particular level set in the input level
@@ -50,14 +50,14 @@ template <
   class TAuxValue,
   unsigned int VAuxDimension = 1
 >
-class ITK_EXPORT LevelSetNeighborhoodExtractorExtension :
+class ITK_EXPORT LevelSetVelocityNeighborhoodExtractor :
   public LevelSetNeighborhoodExtractor<TLevelSet>
 {
 public:
   /** 
    * Standard "Self" typdedef
    */
-  typedef LevelSetNeighborhoodExtractorExtension Self;
+  typedef LevelSetVelocityNeighborhoodExtractor Self;
 
   /**
    * Standard "Superclass" typedef
@@ -73,7 +73,7 @@ public:
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(LevelSetNeighborhoodExtractorExtension, LevelSetNeighborhoodExtractor);
+  itkTypeMacro(LevelSetVelocityNeighborhoodExtractor, LevelSetNeighborhoodExtractor);
 
   /**
    * Method for creation through the object factory.
@@ -128,9 +128,9 @@ public:
 
 
 protected:
-  LevelSetNeighborhoodExtractorExtension();
-  ~LevelSetNeighborhoodExtractorExtension(){};
-  LevelSetNeighborhoodExtractorExtension( const Self& ) {};
+  LevelSetVelocityNeighborhoodExtractor();
+  ~LevelSetVelocityNeighborhoodExtractor(){};
+  LevelSetVelocityNeighborhoodExtractor( const Self& ) {};
   void operator= ( const Self& ) {};
   void PrintSelf( std::ostream& os, Indent indent );
 
@@ -150,7 +150,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSetNeighborhoodExtractorExtension.txx"
+#include "itkLevelSetVelocityNeighborhoodExtractor.txx"
 #endif
 
 #endif

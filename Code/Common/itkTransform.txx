@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkRegistrationTransformation.txx
+  Module:    itkTransform.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -22,8 +22,8 @@ namespace itk
  * Constructor
  */
 template <class TParameters>
-RegistrationTransformation<TParameters>
-::RegistrationTransformation()
+Transform<TParameters>
+::Transform()
 {
   m_Parameters = ParametersType::New();
 }
@@ -33,8 +33,8 @@ RegistrationTransformation<TParameters>
  * Constructor
  */
 template <class TParameters>
-RegistrationTransformation<TParameters>
-::RegistrationTransformation( const Self & other )
+Transform<TParameters>
+::Transform( const Self & other )
 {
 }
 
@@ -43,8 +43,8 @@ RegistrationTransformation<TParameters>
  * Assignment Operator
  */
 template <class TParameters>
-const RegistrationTransformation<TParameters> &
-RegistrationTransformation<TParameters>
+const Transform<TParameters> &
+Transform<TParameters>
 ::operator=( const Self & other )
 {
   return *this;

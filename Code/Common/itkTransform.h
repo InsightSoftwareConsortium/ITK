@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkRegistrationTransformation.h
+  Module:    itkTransform.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -13,8 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#ifndef __itkRegistrationTransformation_h
-#define __itkRegistrationTransformation_h
+#ifndef __itkTransform_h
+#define __itkTransform_h
 
 #include "itkObject.h"
 
@@ -22,7 +22,7 @@
 namespace itk
 {
   
-/** \class RegistrationTransformation
+/** \class Transform
  * \brief Generic concept of transformation for a registration method
  *
  * This Class define the generic interface for a transformation that
@@ -34,14 +34,14 @@ namespace itk
  */
 
 template <class TParameters>
-class ITK_EXPORT  RegistrationTransformation : public Object
+class ITK_EXPORT  Transform : public Object
 
 {
 public:
   /**
    * Standard "Self" typedef.
    */
-  typedef RegistrationTransformation  Self;
+  typedef Transform  Self;
 
   /**
    * Standard "Superclass" typedef.
@@ -71,7 +71,7 @@ public:
  /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(RegistrationTransformation, Object);
+  itkTypeMacro(Transform, Object);
 
 
   /**
@@ -95,9 +95,9 @@ public:
   
 protected:
 
-  RegistrationTransformation();
-  virtual ~RegistrationTransformation() {};
-  RegistrationTransformation(const Self&);
+  Transform();
+  virtual ~Transform() {};
+  Transform(const Self&);
   const Self & operator=(const Self&);
 
 
@@ -110,7 +110,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRegistrationTransformation.txx"
+#include "itkTransform.txx"
 #endif
 
 #endif

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkNonThreadedShrinkImageFilterFilter.h
+  Module:    itkNonThreadedShrinkImageFilter.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -13,18 +13,18 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#ifndef __itkNonThreadedShrinkImageFilterFilter_h
-#define __itkNonThreadedShrinkImageFilterFilter_h
+#ifndef __itkNonThreadedShrinkImageFilter_h
+#define __itkNonThreadedShrinkImageFilter_h
 
 #include "itkImageToImageFilter.h"
 
 namespace itk
 {
 
-/** \class NonThreadedShrinkImageFilterFilter
+/** \class NonThreadedShrinkImageFilter
  * \brief Reduce the size of an image by an integer factor.
  *
- * NonThreadedShrinkImageFilterFilter reduces the size of an image by an integer factor. The
+ * NonThreadedShrinkImageFilter reduces the size of an image by an integer factor. The
  * algorithm implemented is a simple subsample. Since this filter produces
  * an image which is a different resolution and with different pixel spacing
  * than its input image, it needs to override several of the methods defined
@@ -34,14 +34,14 @@ namespace itk
  * ProcessObject::UpdateOutputInformation().
  */
 template <class TInputImage, class TOutputImage>
-class ITK_EXPORT NonThreadedShrinkImageFilterFilter:
+class ITK_EXPORT NonThreadedShrinkImageFilter:
     public ImageToImageFilter<TInputImage,TOutputImage>
 {
 public:
   /**
    * Standard "Self" typedef.
    */
-  typedef NonThreadedShrinkImageFilterFilter         Self;
+  typedef NonThreadedShrinkImageFilter         Self;
 
   /**
    * Standard "Superclass" typedef.
@@ -62,7 +62,7 @@ public:
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(NonThreadedShrinkImageFilterFilter, ImageToImageFilter);
+  itkTypeMacro(NonThreadedShrinkImageFilter, ImageToImageFilter);
 
   /** 
    * Set the shrink factor. The default value is 1.
@@ -76,9 +76,9 @@ public:
   itkGetMacro(ShrinkFactor,unsigned int);
                  
   /**
-   * NonThreadedShrinkImageFilterFilter produces an image which is a different resolution
+   * NonThreadedShrinkImageFilter produces an image which is a different resolution
    * and with a different pixel spacing than its input image.  As such,
-   * NonThreadedShrinkImageFilterFilter needs to provide an implementation for
+   * NonThreadedShrinkImageFilter needs to provide an implementation for
    * UpdateOutputInformation() in order to inform the pipeline execution
    * model.  The original documentation of this method is below.
    *
@@ -86,8 +86,8 @@ public:
   virtual void UpdateOutputInformation();
 
   /**
-   * NonThreadedShrinkImageFilterFilter needs a larger input requested region than the
-   * output requested region.  As such, NonThreadedShrinkImageFilterFilter needs to
+   * NonThreadedShrinkImageFilter needs a larger input requested region than the
+   * output requested region.  As such, NonThreadedShrinkImageFilter needs to
    * provide an implementation for GenerateInputRequestedRegion() in order to
    * inform the pipeline execution model.
    *
@@ -95,9 +95,9 @@ public:
   virtual void GenerateInputRequestedRegion();
 
  protected:
-  NonThreadedShrinkImageFilterFilter();
-  ~NonThreadedShrinkImageFilterFilter() {};
-  NonThreadedShrinkImageFilterFilter(const Self&) {}
+  NonThreadedShrinkImageFilter();
+  ~NonThreadedShrinkImageFilter() {};
+  NonThreadedShrinkImageFilter(const Self&) {}
   void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent);
   
@@ -111,7 +111,7 @@ private:
 } // end namespace itk
   
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNonThreadedShrinkImageFilterFilter.txx"
+#include "itkNonThreadedShrinkImageFilter.txx"
 #endif
   
 #endif

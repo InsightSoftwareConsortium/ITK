@@ -13,8 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#ifndef __itkNonBoundaryNeighborhoodIterator_h
-#define __itkNonBoundaryNeighborhoodIterator_h
+#ifndef __itkRegionNonBoundaryNeighborhoodIterator_h
+#define __itkRegionNonBoundaryNeighborhoodIterator_h
 
 #include "itkRegionNeighborhoodIterator.h"
 

@@ -13,8 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#ifndef __itkCreaetObjectFunction_h
-#define __itkCreaetObjectFunction_h
+#ifndef __itkCreateObjectFunction_h
+#define __itkCreateObjectFunction_h
 
 #include "itkObject.h"
 

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Modulus:    itkTernaryImageFilterModulusSquare.h
+  Module:    itkTernaryAddImageFilter.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -13,15 +13,15 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#ifndef __itkTernaryImageFilterModulusSquare_h
-#define __itkTernaryImageFilterModulusSquare_h
+#ifndef __itkTernaryAddImageFilter_h
+#define __itkTernaryAddImageFilter_h
 
 #include "itkTernaryImageFilter.h"
 
 namespace itk
 {
   
-/** \class TernaryImageFilterModulusSquare
+/** \class TernaryAddImageFilter
  * \brief Implements pixel-wise addition of three images.
  *
  * This class is parametrized over the types of the three 
@@ -33,34 +33,32 @@ namespace itk
 namespace function {  
   
   template< class TInput1, class TInput2, class TInput3, class TOutput>
-  class ModulusSquare3
+  class Add3
   {
   public:
-    ModulusSquare3() {};
-    ~ModulusSquare3() {};
+    Add3() {};
+    ~Add3() {};
     inline TOutput operator()( const TInput1 & A, 
                                const TInput2 & B,
                                const TInput3 & C)
     {
-      return (TOutput)(A*A + B*B + C*C);
+      return (TOutput)(A + B + C);
     }
   }; 
 
 }
 
-
-
 template <class TInputImage1, class TInputImage2, 
           class TInputImage3, class TOutputImage>
-class ITK_EXPORT TernaryImageFilterModulusSquare :
+class ITK_EXPORT TernaryAddImageFilter :
     public
     TernaryImageFilter<TInputImage1,TInputImage2,
                       TInputImage3,TOutputImage, 
-            function::ModulusSquare3< 
+            function::Add3< 
                       typename TInputImage1::PixelType, 
                       typename TInputImage2::PixelType,
                       typename TInputImage3::PixelType,
-                      typename TOutputImage::PixelType >   >
+                      typename TOutputImage::PixelType>   >
 
 
 {
@@ -68,18 +66,18 @@ public:
   /**
    * Standard "Self" typedef.
    */
-  typedef TernaryImageFilterModulusSquare  Self;
+  typedef TernaryAddImageFilter  Self;
 
   /**
    * Standard "Superclass" typedef.
    */
   typedef TernaryImageFilter<TInputImage1,TInputImage2,
                       TInputImage3,TOutputImage, 
-                      function::ModulusSquare3< 
-                      typename TInputImage1::PixelType, 
+                      function::Add3< 
+                      typename TInputImage1::PixelType,
                       typename TInputImage2::PixelType,
                       typename TInputImage3::PixelType,
-                      typename TOutputImage::PixelType >   >  Superclass;
+                      typename TOutputImage::PixelType>   >  Superclass;
 
   /** 
    * Smart pointer typedef support 
@@ -95,9 +93,9 @@ public:
   
 protected:
 
-  TernaryImageFilterModulusSquare() {}
-  virtual ~TernaryImageFilterModulusSquare() {}
-  TernaryImageFilterModulusSquare(const Self&) {}
+  TernaryAddImageFilter() {}
+  virtual ~TernaryAddImageFilter() {}
+  TernaryAddImageFilter(const Self&) {}
   void operator=(const Self&) {}
 
 

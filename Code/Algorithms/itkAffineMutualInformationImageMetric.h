@@ -1,7 +1,7 @@
 /*==========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkAffineMutualInformationImageMetricMetric.h
+  Module:    itkAffineMutualInformationImageMetric.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -12,8 +12,8 @@
   See COPYRIGHT.txt for copyright details.
   
 ==========================================================================*/
-#ifndef _itkAffineMutualInformationImageMetricMetric_h
-#define _itkAffineMutualInformationImageMetricMetric_h
+#ifndef _itkAffineMutualInformationImageMetric_h
+#define _itkAffineMutualInformationImageMetric_h
 
 #include "itkImage.h"
 #include "itkMutualInformationImageMetric.h"
@@ -23,11 +23,11 @@
 namespace itk
 {
 
-/** \class AffineMutualInformationImageMetricMetric
+/** \class AffineMutualInformationImageMetric
  * \brief Calculates the mutual information between a reference 
  * and an affine transformed test image.
  *
- * AffineMutualInformationImageMetricMetric is an abstract which calculates
+ * AffineMutualInformationImageMetric is an abstract which calculates
  * the mutual information between a reference and a affine
  * transformed test image.
  *
@@ -39,8 +39,8 @@ namespace itk
  * transformed_index = matrix * index + vector
  *
  * The affine transformed is specified in terms of one matrix of
- * type AffineMutualInformationImageMetricMetric::MatrixType and one vector of
- * type AffineMutualInformationImageMetricMetric::VectorType. This class provides methods 
+ * type AffineMutualInformationImageMetric::MatrixType and one vector of
+ * type AffineMutualInformationImageMetric::VectorType. This class provides methods 
  * SetAffineMatrix() and SetAffineVector() for defining the affine 
  * transform. The default matrix is the identity matrix and the 
  * default vector is an all zero vector.
@@ -67,14 +67,14 @@ class TRefImage,
 class TTestImage,
 class TDerivImage = Image<float,TTestImage::ImageDimension>
 >
-class ITK_EXPORT AffineMutualInformationImageMetricMetric :
+class ITK_EXPORT AffineMutualInformationImageMetric :
   public MutualInformationImageMetric<TRefImage,TTestImage>
 {
 public:
   /**
    * Standard "Self" typedef
    */
-  typedef AffineMutualInformationImageMetricMetric Self;
+  typedef AffineMutualInformationImageMetric Self;
 
   /**
    * Standard "Superclass" typedef
@@ -90,7 +90,7 @@ public:
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(AffineMutualInformationImageMetricMetric, MutualInformationImageMetric);
+  itkTypeMacro(AffineMutualInformationImageMetric, MutualInformationImageMetric);
 
   /**
    * Method for creation through the object factory.
@@ -188,9 +188,9 @@ public:
 
 
 protected:
-  AffineMutualInformationImageMetricMetric();
-  ~AffineMutualInformationImageMetricMetric(){};
-  AffineMutualInformationImageMetricMetric(const Self&){};
+  AffineMutualInformationImageMetric();
+  ~AffineMutualInformationImageMetric(){};
+  AffineMutualInformationImageMetric(const Self&){};
   void operator=(const Self&) {};
   void PrintSelf(std::ostream& os, Indent indent);
 
@@ -209,7 +209,7 @@ protected:
 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAffineMutualInformationImageMetricMetric.txx"
+#include "itkAffineMutualInformationImageMetric.txx"
 #endif
 
 #endif
