@@ -175,7 +175,7 @@ int main(){
   GibbsPriorFilterType::Pointer applyGibbsImageFilter = GibbsPriorFilterType::New();
 
   //Set the Gibbs Prior labeller parameters
-  applyGibbsImageFilter->SetNumClasses(NUM_CLASSES);
+  applyGibbsImageFilter->SetNumberOfClasses(NUM_CLASSES);
   applyGibbsImageFilter->SetMaxNumIter(MAX_NUM_ITER);
   applyGibbsImageFilter->SetErrorTollerance(0.00);
   applyGibbsImageFilter->SetClusterSize(10);
