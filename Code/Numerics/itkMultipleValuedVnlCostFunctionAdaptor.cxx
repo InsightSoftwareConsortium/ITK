@@ -147,7 +147,7 @@ MultipleValuedVnlCostFunctionAdaptor
     {
     for( unsigned int j=0; j<cols; j++ ) 
       {
-      output(i,j) = input(i,j);
+      output(j,i) = input(i,j);
       }
     }
 }
