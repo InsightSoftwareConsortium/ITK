@@ -22,7 +22,10 @@
 
 namespace itk
 {
-
+/**
+ *
+ */
+HWND Win32OutputWindow::m_OutputWindow = 0;
 
 /**
  *
@@ -61,11 +64,6 @@ Win32OutputWindow
   return DefWindowProc(hWnd, message, wParam, lParam);
 }
  
-/**
- *
- */
-HWND Win32OutputWindow::m_OutputWindow = 0;
-
 /**
  * Display text in the window, and translate the \n to \r\n.
  */

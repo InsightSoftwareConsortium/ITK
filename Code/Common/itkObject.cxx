@@ -23,6 +23,11 @@
 
 namespace itk
 {
+/**
+ * Initialize static member that controls warning display.
+ */
+bool Object::m_GlobalWarningDisplay = true;
+
 class Observer
 {
 public:
@@ -469,11 +474,6 @@ Object
     os << indent.GetNextIndent() << "none\n";
     }
 }
-
-/**
- * Initialize static member that controls warning display.
- */
-bool Object::m_GlobalWarningDisplay = true;
 
 MetaDataDictionary &
 Object
