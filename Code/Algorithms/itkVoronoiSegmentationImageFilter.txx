@@ -81,37 +81,45 @@ SetVarPercentError(double x){
 
 template <class TInputImage, class TOutputImage>
 bool
-VoronoiSegmentationImageFilter <TInputImage,TOutputImage>::
-TestHomogeneity(IndexList Plist)
+VoronoiSegmentationImageFilter <TInputImage,TOutputImage>
+::TestHomogeneity(IndexList Plist)
 {
+  std::cout << "\t\t\tTestHomogeneity" << std::endl;
   int num=Plist.size();
   int i;
   double getp;
   double addp=0;
   double addpp=0;
-  for(i=0;i<num;i++){
+  for(i=0;i<num;i++)
+    {
     getp = (double)(m_InputImage->GetPixel(Plist[i]));
     addp=addp+getp;
     addpp=addpp+getp*getp;
-  }
+    }
 
   double savemean,savevar;
-  if(num > 1){
+  if(num > 1)
+    {
     savemean = addp/num;
     savevar = sqrt((addpp - (addp*addp)/(num) )/(num-1));
-  }
-  else{
+    }
+  else
+    {
     savemean = 0;
     savevar = -1;
-  }
+    }
 
   savemean -= m_Mean;
   savevar -= m_Var;
   if( (savemean>-m_MeanTolerance) && (savemean<m_MeanTolerance) 
-     && (savevar<m_VarTolerance) )
-	return 1;
+      && (savevar<m_VarTolerance) )
+    {
+    return 1;
+    }
   else
-	return 0;
+    {
+    return 0;
+    }
 }
 
 

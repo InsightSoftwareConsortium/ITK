@@ -50,8 +50,9 @@ namespace itk
 
 /* constructor: seting the default value of the parameters */
 template <class TInputImage, class TOutputImage>
-VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>::
-VoronoiSegmentationImageFilterBase(){
+VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
+::VoronoiSegmentationImageFilterBase()
+{
   m_MinRegion = 20;
   m_Steps = 0;
   m_LastStepSeeds = 0;
@@ -63,14 +64,15 @@ VoronoiSegmentationImageFilterBase(){
 
 /* destructor */
 template <class TInputImage, class TOutputImage>
-VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>::
-~VoronoiSegmentationImageFilterBase(){
+VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
+::~VoronoiSegmentationImageFilterBase()
+{
 }
 
 template <class TInputImage, class TOutputImage>
 void
-VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>::
-PrintSelf(std::ostream& os, Indent indent) const
+VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
+::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Number Of Seeds: " 
@@ -86,11 +88,12 @@ PrintSelf(std::ostream& os, Indent indent) const
 /* initialization for the segmentation */
 template <class TInputImage, class TOutputImage>
 void
-VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>::
-InitializeSegment(void){
+VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
+::InitializeSegment(void)
+{
   m_WorkingVD=VoronoiDiagram::New();
   m_VDGenerator=VoronoiDiagramGenerator::New();
- 
+  
   VoronoiDiagram::PointType VDsize;
   VDsize[0] = (VoronoiDiagram::CoordRepType)(m_Size[0]-0.1);
   VDsize[1] = (VoronoiDiagram::CoordRepType)(m_Size[1]-0.1);
@@ -101,9 +104,11 @@ InitializeSegment(void){
 
 template <class TInputImage, class TOutputImage>
 void
-VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>::
-GetPixelIndexFromPolygon(PointTypeDeque vertlist, IndexList *PixelPool)
+VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
+::GetPixelIndexFromPolygon(PointTypeDeque vertlist, IndexList *PixelPool)
 {
+  std::cout << "\t\t\tGetPixelIndexFromPolygon" << std::endl;
+  std::cout << "\t\t\t\tVertex list length = " << vertlist.size() << std::endl;
   IndexType idx;
   PointType currP;
   PointType leftP;
@@ -111,36 +116,47 @@ GetPixelIndexFromPolygon(PointTypeDeque vertlist, IndexList *PixelPool)
   currP = vertlist.front();
   vertlist.pop_front();
   leftP = vertlist.front();
-  while(currP[1] > leftP[1]){
+  while(currP[1] > leftP[1])
+    {
     vertlist.push_back(currP);
     currP=vertlist.front();
     vertlist.pop_front();
     leftP=vertlist.front();
-  }
+    }
+  std::cout << "@1" << std::endl;
   rightP=vertlist.back();
-  while(currP[1] > rightP[1]){
+  while(currP[1] > rightP[1])
+    {
     vertlist.push_front(currP);
     currP=vertlist.back();
     vertlist.pop_back();
     rightP=vertlist.back();
-  }
+    }
   leftP=vertlist.front();
   PointTypeDeque tmpQ; 
   tmpQ.clear();
-  if(leftP[0]>rightP[0]){
-    while(!(vertlist.empty())){
+  std::cout << "@2" << std::endl;
+  if(leftP[0]>rightP[0])
+    {
+    std::cout << "@3" << std::endl;
+    while(!(vertlist.empty()))
+      {
       tmpQ.push_back(vertlist.front());
       vertlist.pop_front(); 
-    }
-    while(!(tmpQ.empty())){
+      }
+    std::cout << "@4" << std::endl;
+    while(!(tmpQ.empty()))
+      {
       vertlist.push_front(tmpQ.front());
       tmpQ.pop_front();
+      }
     }
-  } 
+  std::cout << "@5" << std::endl;
   tmpQ.clear();
   leftP=vertlist.front();
   rightP=vertlist.back();
-
+  std::cout << "@5.1" << std::endl;
+  
   double beginy=currP[1];
   int intbeginy=(int)ceil(beginy); 
   idx[1]=intbeginy;
@@ -158,58 +174,82 @@ GetPixelIndexFromPolygon(PointTypeDeque vertlist, IndexList *PixelPool)
   double endy;
   bool RorL;
   int i;
-  if(leftendy>rightendy){
+  if(leftendy>rightendy)
+    {
     RorL=1;
     endy=rightendy;
-  }
-  else{
+    }
+  else
+    {
     RorL=0;
     endy=leftendy;
-  }
+    }
   leftDx=(leftP[0]-beginx)/(leftP[1]-beginy);
   rightDx=(rightP[0]-endx)/(rightP[1]-beginy);
   int intendy=(int)floor(endy);
-  if(intbeginy>intendy){ //no scanline
-    if(RorL){
+  if(intbeginy>intendy)
+    { //no scanline
+    if(RorL)
+      {
       endx=rightP[0];
       beginx+=leftDx*(rightP[1]-beginy);
       beginy=rightP[1];
-    }
-    else{
+      }
+    else
+      {
       beginx=leftP[0];
       endx+=rightDx*(leftP[1]-beginy); 
       beginy=leftP[1];
+      }
     }
-  }
-  else if((intbeginy==intendy) && (intbeginy==0)){ //only one scanline at 0;
-    if(RorL) endx=rightP[0];
-    else beginx=leftP[0];
-    for(i=ceil(beginx);i<=floor(endx);i++){
+  else if((intbeginy==intendy) && (intbeginy==0))
+    { //only one scanline at 0;
+    if(RorL)
+      {
+      endx=rightP[0];
+      }
+    else
+      {
+      beginx=leftP[0];
+      }
+    std::cout << "ceil(beginx) = " << ceil(beginx) << std::endl;
+    std::cout << "floor(endx) = " << floor(endx) << std::endl;
+    for(i=ceil(beginx);i<=floor(endx);i++)
+      {
       idx[0]=i;
       (*PixelPool).push_back(idx);
-    }
+      }
     idx[1]=idx[1]+1;
-  }
-  else{ //normal case some scanlines
+    }
+  else
+    { //normal case some scanlines
     offset=(double)intbeginy-beginy;
     endx+=offset*rightDx;
     beginx+=offset*leftDx;
-    while(idx[1]<=intendy){
-      for(i=ceil(beginx);i<=floor(endx);i++){
+    while(idx[1]<=intendy)
+      {
+      std::cout << "@5.2" << std::endl;
+      for(i=ceil(beginx);i<=floor(endx);i++)
+        {
+        std::cout << "@5.3" << std::endl;
         idx[0]=i;
         (*PixelPool).push_back(idx);
-      }
+        }
       endx+=rightDx;
       beginx+=leftDx;        
       idx[1]=idx[1]+1;
-    }
+      }
     beginy=endy;
-  }
+    }
 
+  std::cout << "@6" << std::endl;
   int vsize=vertlist.size();
-  while(vsize>2){
+  while(vsize>2)
+    {
+    std::cout << "@7" << std::endl;
     vsize--;
-    if(RorL){
+    if(RorL)
+      {
       vertlist.pop_back();
       currP=rightP;
       rightheadx=currP[0];
@@ -218,8 +258,9 @@ GetPixelIndexFromPolygon(PointTypeDeque vertlist, IndexList *PixelPool)
       beginx=leftheadx+leftDx*(beginy-leftheady); 
       rightP=vertlist.back();
       rightDx=(rightP[0]-currP[0])/(rightP[1]-currP[1]);
-    }
-    else{
+      }
+    else
+      {
       vertlist.pop_front();
       currP=leftP;
       leftheadx=currP[0];
@@ -228,204 +269,242 @@ GetPixelIndexFromPolygon(PointTypeDeque vertlist, IndexList *PixelPool)
       endx=rightheadx+rightDx*(beginy-rightheady);
       leftP=vertlist.front();
       leftDx=(leftP[0]-currP[0])/(leftP[1]-currP[1]);
-    }
+      }
         
     leftendy=leftP[1];
     rightendy=rightP[1];
-    if(leftendy>rightendy){
+    if(leftendy>rightendy)
+      {
       RorL=1;
       endy=rightendy;
-    }
-    else{
+      }
+    else
+      {
       RorL=0;
       endy=leftendy;
-    }
+      }
 
     intendy=(int)floor(endy);
     intbeginy=(int)ceil(beginy); 
 
-    if(intbeginy>intendy){ //no scanline
-      if(RorL){
+    if(intbeginy>intendy)
+      { //no scanline
+      if(RorL)
+        {
         endx=rightP[0];
         beginx+=leftDx*(rightP[1]-beginy);
         beginy=rightP[1];
-      }
-      else{
+        }
+      else
+        {
         beginx=leftP[0];
         endx+=rightDx*(leftP[1]-beginy); 
         beginy=leftP[1];
+        }
       }
-    }
-    else{ //normal case some scanlines
+    else
+      { //normal case some scanlines
       offset=(double)intbeginy-beginy;
       endx+=offset*rightDx;
       beginx+=offset*leftDx;
-      while(idx[1]<=intendy){
-        for(i=ceil(beginx);i<=floor(endx);i++){
+      while(idx[1]<=intendy)
+        {
+        for(i=ceil(beginx);i<=floor(endx);i++)
+          {
           idx[0]=i;
           (*PixelPool).push_back(idx);
-        }
+          }
         endx+=rightDx;
         beginx+=leftDx;        
         idx[1]=idx[1]+1;
-      }
+        }
       beginy=idx[1];
+      }
     }
-  }
 
 
-  if(RorL){
+  if(RorL)
+    {
     beginy=rightP[1];
     endy=leftP[1];
-  }
-  else{
+    }
+  else
+    {
     beginy=leftP[1];
     endy=rightP[1];
-  }
+    }
   intbeginy=(int)ceil(beginy);
   intendy=(int)floor(endy);
-  if(intbeginy<=intendy){
-    if(RorL){
+  if(intbeginy<=intendy)
+    {
+    if(RorL)
+      {
       rightDx=(rightP[0]-leftP[0])/(rightP[1]-leftP[1]);
       endx=rightP[0];
       beginx=leftP[0]+leftDx*(rightP[1]-leftP[1]);
-    }
-    else{
+      }
+    else
+      {
       leftDx=(rightP[0]-leftP[0])/(rightP[1]-leftP[1]);
       beginx=leftP[0];
       endx=rightP[0]+rightDx*(leftP[1]-rightP[1]);
-    }
+      }
     offset=(double)intbeginy-beginy;
     beginx+=offset*leftDx;
     endx+=offset*rightDx;
-    while(idx[1]<=intendy){
-      for(i=ceil(beginx);i<=floor(endx);i++){
+    while(idx[1]<=intendy)
+      {
+      std::cout << "@8" << std::endl;
+      for(i=ceil(beginx);i<=floor(endx);i++)
+        {
         idx[0]=i;
         (*PixelPool).push_back(idx);
-      }
+        }
       endx+=rightDx;
       beginx+=leftDx;        
       idx[1]=idx[1]+1;
+      }
     }
-  }
 }
 
 template <class TInputImage, class TOutputImage>
 void
-VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>::
-ClassifyDiagram(void)
+VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
+::ClassifyDiagram(void)
 {
+  std::cout << "\tClassifyDiagram" << std::endl;
   CellPointer currCell; 
   PointIdIterator currPit;
   PointIdIterator currPitEnd;
   PointType currP;
   PointTypeDeque VertList;
   IndexList PixelPool;
-  for(int i=0;i<m_NumberOfSeeds;i++){
+  for(int i=0;i<m_NumberOfSeeds;i++)
+    {
+    std::cout << "\t\tPass #1, Seed number " << i << std::endl;
     currCell = m_WorkingVD->GetCellId(i);
-	currPitEnd = currCell->PointIdsEnd();
-	VertList.clear();
-	for(currPit=currCell->PointIdsBegin();currPit!=currPitEnd;++currPit){
-	  m_WorkingVD->GetPoint((*currPit),&(currP));
-	  VertList.push_back(currP);
-	}
+    currPitEnd = currCell->PointIdsEnd();
+    VertList.clear();
+    for(currPit=currCell->PointIdsBegin();currPit!=currPitEnd;++currPit)
+      {
+      m_WorkingVD->GetPoint((*currPit),&(currP));
+      VertList.push_back(currP);
+      }
 
     PixelPool.clear();
-	GetPixelIndexFromPolygon(VertList,&PixelPool);
+    this->GetPixelIndexFromPolygon(VertList,&PixelPool);
     m_NumberOfPixels[i] = PixelPool.size();
-    m_Label[i] = TestHomogeneity(PixelPool);
-  }
+    m_Label[i] = this->TestHomogeneity(PixelPool);
+    }
 
   m_NumberOfBoundary = 0;
-  for(int i=0;i<m_NumberOfSeeds;i++){
-    if(m_Label[i] == 0){
-	  NeighborIdIterator itend = m_WorkingVD->NeighborIdsEnd(i);
-	  NeighborIdIterator it=m_WorkingVD->NeighborIdsBegin(i);
-	  bool bnd = 0;
-	  while((it != itend) && (!bnd)){
-	    bnd = (m_Label[*it] == 1);
-		++it;
-	  }
-	  if(bnd){
-	    m_Label[i] = 2;
-		m_NumberOfBoundary++;
-	  }
-	}
-  }
+  for(int i=0;i<m_NumberOfSeeds;i++)
+    {
+    std::cout << "\t\tPass #2, Seed number " << i << std::endl;
+    if(m_Label[i] == 0)
+      {
+      NeighborIdIterator itend = m_WorkingVD->NeighborIdsEnd(i);
+      NeighborIdIterator it=m_WorkingVD->NeighborIdsBegin(i);
+      bool bnd = 0;
+      while((it != itend) && (!bnd))
+        {
+        bnd = (m_Label[*it] == 1);
+        ++it;
+        }
+      if(bnd)
+        {
+        m_Label[i] = 2;
+        m_NumberOfBoundary++;
+        }
+      }
+    }
 }
 
 template <class TInputImage, class TOutputImage>
 void
-VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>::
-GenerateAddingSeeds(void)
+VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
+::GenerateAddingSeeds(void)
 {
+  std::cout << "\tGenerateAddingSeeds" << std::endl;
   EdgeIterator eit;
   EdgeIterator eitend =	m_WorkingVD->EdgeEnd();  
   PointType adds;
   Point<int,2> seeds;
 
-  for(eit = m_WorkingVD->EdgeBegin();eit != eitend; ++eit){
-	seeds = m_WorkingVD->GetSeedsIDAroundEdge(eit);
-	if( ((m_Label[seeds[0]]==2)||(m_Label[seeds[1]]==2))
-	  && (m_NumberOfPixels[seeds[0]]>m_MinRegion)
-	  && (m_NumberOfPixels[seeds[1]]>m_MinRegion) ){
-	  adds[0] = (eit->m_Left[0] + eit->m_Right[0])*0.5;
-	  adds[1] = (eit->m_Left[1] + eit->m_Right[1])*0.5;
-	  m_SeedsToAdded.push_back(adds);
-	}
-  }
+  for(eit = m_WorkingVD->EdgeBegin();eit != eitend; ++eit)
+    {
+    seeds = m_WorkingVD->GetSeedsIDAroundEdge(eit);
+    if( ((m_Label[seeds[0]]==2)||(m_Label[seeds[1]]==2))
+        && (m_NumberOfPixels[seeds[0]]>m_MinRegion)
+        && (m_NumberOfPixels[seeds[1]]>m_MinRegion) )
+      {
+      adds[0] = (eit->m_Left[0] + eit->m_Right[0])*0.5;
+      adds[1] = (eit->m_Left[1] + eit->m_Right[1])*0.5;
+      m_SeedsToAdded.push_back(adds);
+      }
+    }
 }
 
 
 template <class TInputImage, class TOutputImage>
 void
-VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>::
-RunSegmentOneStep(void){
+VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
+::RunSegmentOneStep(void)
+{
+  std::cout << "RunSegmentOneStep" << std::endl;
   m_NumberOfPixels.resize(m_NumberOfSeeds);
   m_Label.resize(m_NumberOfSeeds);
   m_SeedsToAdded.clear();
   m_VDGenerator->Update();
   m_WorkingVD=m_VDGenerator->GetOutput();
-  ClassifyDiagram();
-  GenerateAddingSeeds();
+  this->ClassifyDiagram();
+  this->GenerateAddingSeeds();
   m_NumberOfSeedsToAdded = m_SeedsToAdded.size();
   m_StepsRuned++;
 }
 
 template <class TInputImage, class TOutputImage>
 void
-VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>::
-RunSegment(void){
+VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
+::RunSegment(void)
+{
   bool ok = 1;
-  if(m_Steps == 0){
+  if(m_Steps == 0)
+    {
     RunSegmentOneStep();
-	if(m_NumberOfBoundary == 0){
-	  ok=0;
-    }
-    while( (m_NumberOfSeedsToAdded != 0) && ok){
-	  m_VDGenerator->AddSeeds(m_NumberOfSeedsToAdded,m_SeedsToAdded.begin());
-	  m_LastStepSeeds = m_NumberOfSeeds;
-	  m_NumberOfSeeds += m_NumberOfSeedsToAdded;
+    if(m_NumberOfBoundary == 0)
+      {
+      ok=0;
+      }
+    while( (m_NumberOfSeedsToAdded != 0) && ok)
+      {
+      m_VDGenerator->AddSeeds(m_NumberOfSeedsToAdded,m_SeedsToAdded.begin());
+      m_LastStepSeeds = m_NumberOfSeeds;
+      m_NumberOfSeeds += m_NumberOfSeedsToAdded;
       RunSegmentOneStep();
-	}
-  }
-  else if(m_Steps == 1){
-    RunSegmentOneStep();
-  }
-  else{
-    RunSegmentOneStep();
-	if(m_NumberOfBoundary == 0){
-	  ok=0;
+      }
     }
-	int i = 1;
-	while((i<m_Steps) && ok){
-	  m_VDGenerator->AddSeeds(m_NumberOfSeedsToAdded, m_SeedsToAdded.begin());
-	  m_LastStepSeeds = m_NumberOfSeeds;
-	  m_NumberOfSeeds += m_NumberOfSeedsToAdded;
+  else if(m_Steps == 1)
+    {
+    RunSegmentOneStep();
+    }
+  else
+    {
+    RunSegmentOneStep();
+    if(m_NumberOfBoundary == 0)
+      {
+      ok=0;
+      }
+    int i = 1;
+    while((i<m_Steps) && ok)
+      {
+      m_VDGenerator->AddSeeds(m_NumberOfSeedsToAdded, m_SeedsToAdded.begin());
+      m_LastStepSeeds = m_NumberOfSeeds;
+      m_NumberOfSeeds += m_NumberOfSeedsToAdded;
       RunSegmentOneStep();
-	  i++;
-	}
-  }	  
+      i++;
+      }
+    }	  
 }
 
 template <class TInputImage, class TOutputImage>
@@ -451,8 +530,9 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
 
 template <class TInputImage, class TOutputImage>
 void
-VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>::
-BeforeNextStep(void){ 
+VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
+::BeforeNextStep(void)
+{ 
   m_VDGenerator->AddSeeds(m_NumberOfSeedsToAdded, m_SeedsToAdded.begin()); 
   m_LastStepSeeds = m_NumberOfSeeds; 
   m_NumberOfSeeds += m_NumberOfSeedsToAdded; 
@@ -461,8 +541,8 @@ BeforeNextStep(void){
 
 template <class TInputImage, class TOutputImage>
 void
-VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>::
-MakeSegmentBoundary(void)
+VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
+::MakeSegmentBoundary(void)
 {
 
   RegionType region = m_InputImage->GetRequestedRegion(); 
@@ -475,23 +555,27 @@ MakeSegmentBoundary(void)
 
   NeighborIdIterator nit;
   NeighborIdIterator nitend;
-  for(int i=0;i<m_NumberOfSeeds;i++){
-    if(m_Label[i] == 2){
+  for(int i=0;i<m_NumberOfSeeds;i++)
+    {
+    if(m_Label[i] == 2)
+      {
       nitend = m_WorkingVD->NeighborIdsEnd(i);
-	    for(nit=m_WorkingVD->NeighborIdsBegin(i);nit!=nitend;++nit){
-	      if(((*nit)>i)&&(m_Label[*nit]==2)){
-		      drawLine(m_WorkingVD->GetSeed(i),m_WorkingVD->GetSeed(*nit));
-		      i=i;
-	      }
-	    }
+      for(nit=m_WorkingVD->NeighborIdsBegin(i);nit!=nitend;++nit)
+        {
+        if(((*nit)>i)&&(m_Label[*nit]==2))
+          {
+          drawLine(m_WorkingVD->GetSeed(i),m_WorkingVD->GetSeed(*nit));
+          i=i;
+          }
+        }
+      }
     }
-  }
 }
 
 template <class TInputImage, class TOutputImage>
 void
-VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>::
-MakeSegmentObject(void)
+VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
+::MakeSegmentObject(void)
 {
   RegionType region = m_InputImage->GetRequestedRegion(); 
   itk::ImageRegionIteratorWithIndex <OutputImageType> oit(m_OutputImage, region); 
@@ -505,24 +589,27 @@ MakeSegmentObject(void)
   PointIdIterator currPitEnd;
   PointType currP;
   PointTypeDeque VertList;
-  for(int i=0;i<m_NumberOfSeeds;i++){
-    if(m_Label[i] == 1){
+  for(int i=0;i<m_NumberOfSeeds;i++)
+    {
+    if(m_Label[i] == 1)
+      {
       currCell = m_WorkingVD->GetCellId(i);
       currPitEnd = currCell->PointIdsEnd();
-	  VertList.clear();
-	  for(currPit=currCell->PointIdsBegin();currPit!=currPitEnd;++currPit){
-	    m_WorkingVD->GetPoint((*currPit),&(currP));
-	    VertList.push_back(currP);
-	  }
-	  FillPolygon(VertList);
+      VertList.clear();
+      for(currPit=currCell->PointIdsBegin();currPit!=currPitEnd;++currPit)
+        {
+        m_WorkingVD->GetPoint((*currPit),&(currP));
+        VertList.push_back(currP);
+        }
+      FillPolygon(VertList);
+      }
     }
-  }
 }
 
 template <class TInputImage, class TOutputImage>
 void
-VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>::
-FillPolygon(PointTypeDeque vertlist)
+VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
+::FillPolygon(PointTypeDeque vertlist)
 {
   IndexType idx;
 
@@ -532,36 +619,41 @@ FillPolygon(PointTypeDeque vertlist)
   currP = vertlist.front();
   vertlist.pop_front();
   leftP = vertlist.front();
-  while(currP[1] > leftP[1]){
+  while(currP[1] > leftP[1])
+    {
     vertlist.push_back(currP);
     currP=vertlist.front();
     vertlist.pop_front();
     leftP=vertlist.front();
-  }
+    }
   rightP=vertlist.back();
-  while(currP[1] > rightP[1]){
+  while(currP[1] > rightP[1])
+    {
     vertlist.push_front(currP);
     currP=vertlist.back();
     vertlist.pop_back();
     rightP=vertlist.back();
-  }
+    }
   leftP=vertlist.front();
   PointTypeDeque tmpQ; 
   tmpQ.clear();
-  if(leftP[0]>rightP[0]){
-    while(!(vertlist.empty())){
+  if(leftP[0]>rightP[0])
+    {
+    while(!(vertlist.empty()))
+      {
       tmpQ.push_back(vertlist.front());
       vertlist.pop_front(); 
-    }
-    while(!(tmpQ.empty())){
+      }
+    while(!(tmpQ.empty()))
+      {
       vertlist.push_front(tmpQ.front());
       tmpQ.pop_front();
-    }
-  } 
+      }
+    } 
   tmpQ.clear();
   leftP=vertlist.front();
   rightP=vertlist.back();
-
+  
   double beginy=currP[1];
   int intbeginy=(int)ceil(beginy); 
   idx[1]=intbeginy;
@@ -579,58 +671,76 @@ FillPolygon(PointTypeDeque vertlist)
   double endy;
   bool RorL;
   int i;
-  if(leftendy>rightendy){
+  if(leftendy>rightendy)
+    {
     RorL=1;
     endy=rightendy;
-  }
-  else{
+    }
+  else
+    {
     RorL=0;
     endy=leftendy;
-  }
+    }
   leftDx=(leftP[0]-beginx)/(leftP[1]-beginy);
   rightDx=(rightP[0]-endx)/(rightP[1]-beginy);
   int intendy=(int)floor(endy);
-  if(intbeginy>intendy){ //no scanline
-    if(RorL){
+  if(intbeginy>intendy)
+    { //no scanline
+    if(RorL)
+      {
       endx=rightP[0];
       beginx+=leftDx*(rightP[1]-beginy);
       beginy=rightP[1];
-    }
-    else{
+      }
+    else
+      {
       beginx=leftP[0];
       endx+=rightDx*(leftP[1]-beginy); 
       beginy=leftP[1];
+      }
     }
-  }
-  else if((intbeginy==intendy) && (intbeginy==0)){ //only one scanline at 0;
-    if(RorL) endx=rightP[0];
-    else beginx=leftP[0];
-    for(i=ceil(beginx);i<=floor(endx);i++){
+  else if((intbeginy==intendy) && (intbeginy==0))
+    { //only one scanline at 0;
+    if(RorL)
+      {
+      endx=rightP[0];
+      }
+    else
+      {
+      beginx=leftP[0];
+      }
+    for(i=ceil(beginx);i<=floor(endx);i++)
+      {
       idx[0]=i;
       m_OutputImage->SetPixel(idx,1);  
-    }
+      }
     idx[1]=idx[1]+1;
-  }
-  else{ //normal case some scanlines
+    }
+  else
+    { //normal case some scanlines
     offset=(double)intbeginy-beginy;
     endx+=offset*rightDx;
     beginx+=offset*leftDx;
-    while(idx[1]<=intendy){
-      for(i=ceil(beginx);i<=floor(endx);i++){
+    while(idx[1]<=intendy)
+      {
+      for(i=ceil(beginx);i<=floor(endx);i++)
+        {
         idx[0]=i;
         m_OutputImage->SetPixel(idx,1);  
-      }
+        }
       endx+=rightDx;
       beginx+=leftDx;        
       idx[1]=idx[1]+1;
-    }
+      }
     beginy=endy;
-  }
+    }
 
   int vsize=vertlist.size();
-  while(vsize>2){
+  while(vsize>2)
+    {
     vsize--;
-    if(RorL){
+    if(RorL)
+      {
       vertlist.pop_back();
       currP=rightP;
       rightheadx=currP[0];
@@ -639,8 +749,9 @@ FillPolygon(PointTypeDeque vertlist)
       beginx=leftheadx+leftDx*(beginy-leftheady); 
       rightP=vertlist.back();
       rightDx=(rightP[0]-currP[0])/(rightP[1]-currP[1]);
-    }
-    else{
+      }
+    else
+      {
       vertlist.pop_front();
       currP=leftP;
       leftheadx=currP[0];
@@ -649,93 +760,109 @@ FillPolygon(PointTypeDeque vertlist)
       endx=rightheadx+rightDx*(beginy-rightheady);
       leftP=vertlist.front();
       leftDx=(leftP[0]-currP[0])/(leftP[1]-currP[1]);
-    }
+      }
         
     leftendy=leftP[1];
     rightendy=rightP[1];
-    if(leftendy>rightendy){
+    if(leftendy>rightendy)
+      {
       RorL=1;
       endy=rightendy;
-    }
-    else{
+      }
+    else
+      {
       RorL=0;
       endy=leftendy;
-    }
+      }
 
     intendy=(int)floor(endy);
     intbeginy=(int)ceil(beginy); 
 
-    if(intbeginy>intendy){ //no scanline
-      if(RorL){
+    if(intbeginy>intendy)
+      { //no scanline
+      if(RorL)
+        {
         endx=rightP[0];
         beginx+=leftDx*(rightP[1]-beginy);
         beginy=rightP[1];
-      }
-      else{
+        }
+      else
+        {
         beginx=leftP[0];
         endx+=rightDx*(leftP[1]-beginy); 
         beginy=leftP[1];
+        }
       }
-    }
-    else{ //normal case some scanlines
+    else
+      { //normal case some scanlines
       offset=(double)intbeginy-beginy;
       endx+=offset*rightDx;
       beginx+=offset*leftDx;
-      while(idx[1]<=intendy){
-        for(i=ceil(beginx);i<=floor(endx);i++){
+      while(idx[1]<=intendy)
+        {
+        for(i=ceil(beginx);i<=floor(endx);i++)
+          {
           idx[0]=i;
           m_OutputImage->SetPixel(idx,1);  
-        }
+          }
         endx+=rightDx;
         beginx+=leftDx;        
         idx[1]=idx[1]+1;
-      }
+        }
       beginy=idx[1];
+      }
     }
-  }
+  
 
-
-  if(RorL){
+  if(RorL)
+    {
     beginy=rightP[1];
     endy=leftP[1];
-  }
-  else{
+    }
+  else
+    {
     beginy=leftP[1];
     endy=rightP[1];
-  }
+    }
   intbeginy=(int)ceil(beginy);
   intendy=(int)floor(endy);
-  if(intbeginy<=intendy){
-    if(RorL){
+  if(intbeginy<=intendy)
+    {
+    if(RorL)
+      {
       rightDx=(rightP[0]-leftP[0])/(rightP[1]-leftP[1]);
       endx=rightP[0];
       beginx=leftP[0]+leftDx*(rightP[1]-leftP[1]);
-    }
-    else{
+      }
+    else
+      {
       leftDx=(rightP[0]-leftP[0])/(rightP[1]-leftP[1]);
       beginx=leftP[0];
       endx=rightP[0]+rightDx*(leftP[1]-rightP[1]);
-    }
+      }
     offset=(double)intbeginy-beginy;
     beginx+=offset*leftDx;
     endx+=offset*rightDx;
-    while(idx[1]<=intendy){
-      for(i=ceil(beginx);i<=floor(endx);i++){
+    while(idx[1]<=intendy)
+      {
+      for(i=ceil(beginx);i<=floor(endx);i++)
+        {
         idx[0]=i;
         m_OutputImage->SetPixel(idx,1);  
-      }
+        }
       endx+=rightDx;
       beginx+=leftDx;        
       idx[1]=idx[1]+1;
+      }
     }
-  }
-
+  
 }
 
 template <class TInputImage, class TOutputImage>
 void
-VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>::
-drawLine(PointType p1,PointType p2){
+VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
+::drawLine(PointType p1,PointType p2)
+{
   int x1=(int)(p1[0]+0.5);
   int x2=(int)(p2[0]+0.5);
   int y1=(int)(p1[1]+0.5);
@@ -744,8 +871,8 @@ drawLine(PointType p1,PointType p2){
   if(x2==m_Size[0]) x2--;  
   if(y1==m_Size[1]) y1--;  
   if(y2==m_Size[1]) y2--;  
-
-
+  
+  
   int dx=x1-x2;
   int adx=(dx>0)?dx:-dx;
   int dy=y1-y2;
@@ -753,44 +880,50 @@ drawLine(PointType p1,PointType p2){
   int save;
   float curr;
   IndexType idx;
-  if (adx > ady){
-    if(x1>x2){
-	  save=x1; x1=x2; x2=save;
-	  save=y1; y1=y2; y2=save;
-	}
+  if (adx > ady)
+    {
+    if(x1>x2)
+      {
+      save=x1; x1=x2; x2=save;
+      save=y1; y1=y2; y2=save;
+      }
     curr=(float)y1;
     float offset=(float)dy/dx;
-	for(int i=x1;i<=x2;i++){
-	  idx[0]=i;
-	  idx[1]=y1;
-	  m_OutputImage->SetPixel(idx,1);
-	  curr += offset;
-  	  y1=(int)(curr+0.5);
+    for(int i=x1;i<=x2;i++)
+      {
+      idx[0]=i;
+      idx[1]=y1;
+      m_OutputImage->SetPixel(idx,1);
+      curr += offset;
+      y1=(int)(curr+0.5);
+      }
     }
-  }
-  else { 
-    if(y1>y2){
-	  save=x1; x1=x2; x2=save;
-	  save=y1; y1=y2; y2=save;
-	}
+  else
+    { 
+    if(y1>y2)
+      {
+      save=x1; x1=x2; x2=save;
+      save=y1; y1=y2; y2=save;
+      }
     curr=(float)x1;
     float offset=(float)dx/dy;
-	for(int i=y1;i<=y2;i++){
-	  idx[0]=x1;
-	  idx[1]=i;
-	  m_OutputImage->SetPixel(idx,1);
-	  curr += offset;
-	  x1=(int)(curr+0.5);
+    for(int i=y1;i<=y2;i++)
+      {
+      idx[0]=x1;
+      idx[1]=i;
+      m_OutputImage->SetPixel(idx,1);
+      curr += offset;
+      x1=(int)(curr+0.5);
+      }
     }
-  }
-
+  
 }
 
 template <class TInputImage, class TOutputImage> 
 void 
-VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>:: 
-DrawDiagram(VDImagePointer result,unsigned char incolor, 
-    unsigned char outcolor,unsigned char boundcolor) 
+VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
+::DrawDiagram(VDImagePointer result,unsigned char incolor, 
+              unsigned char outcolor,unsigned char boundcolor) 
 { 
   
   RegionType region = m_InputImage->GetRequestedRegion(); 
@@ -800,39 +933,56 @@ DrawDiagram(VDImagePointer result,unsigned char incolor,
     vdit.Set(0); 
     ++vdit; 
     } 
-      
+  
   EdgeIterator eit; 
   EdgeIterator eitend = m_WorkingVD->EdgeEnd();   
   PointType adds; 
   Point<int,2> seeds; 
-  for(eit = m_WorkingVD->EdgeBegin();eit != eitend; ++eit){ 
+  for(eit = m_WorkingVD->EdgeBegin();eit != eitend; ++eit)
+    { 
     seeds = m_WorkingVD->GetSeedsIDAroundEdge(eit); 
-    if((m_Label[seeds[0]]==2)||(m_Label[seeds[1]]==2)){ 
+    if((m_Label[seeds[0]]==2)||(m_Label[seeds[1]]==2))
+      { 
       drawVDline(result,eit->m_Left,eit->m_Right,boundcolor); 
-    } 
-    else if(m_Label[seeds[0]]){ 
+      } 
+    else if(m_Label[seeds[0]])
+      { 
       drawVDline(result,eit->m_Left,eit->m_Right,incolor); 
-    } 
-    else { 
+      } 
+    else
+      { 
       drawVDline(result,eit->m_Left,eit->m_Right,outcolor); 
+      } 
     } 
-  } 
-    
+  
 } 
     
 template <class TInputImage, class TOutputImage> 
 void 
-VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>:: 
-drawVDline(VDImagePointer result,PointType p1,PointType p2, unsigned char color) 
+VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
+::drawVDline(VDImagePointer result,PointType p1,PointType p2,
+             unsigned char color) 
 { 
   int x1=(int)(p1[0]+0.5); 
   int x2=(int)(p2[0]+0.5); 
   int y1=(int)(p1[1]+0.5); 
   int y2=(int)(p2[1]+0.5); 
-  if(x1==m_Size[0]) x1--;  
-  if(x2==m_Size[0]) x2--;  
-  if(y1==m_Size[1]) y1--;  
-  if(y2==m_Size[1]) y2--; 
+  if(x1==m_Size[0])
+    {
+    x1--;
+    }
+  if(x2==m_Size[0])
+    {
+    x2--;
+    }
+  if(y1==m_Size[1])
+    {
+    y1--;
+    }
+  if(y2==m_Size[1])
+    {
+    y2--;
+    }
   int dx=x1-x2; 
   int adx=(dx>0)?dx:-dx; 
   int dy=y1-y2; 
@@ -840,36 +990,42 @@ drawVDline(VDImagePointer result,PointType p1,PointType p2, unsigned char color)
   int save; 
   float curr; 
   IndexType idx; 
-  if (adx > ady){ 
-    if(x1>x2){ 
+  if (adx > ady)
+    { 
+    if(x1>x2)
+      { 
       save=x1; x1=x2; x2=save; 
       save=y1; y1=y2; y2=save; 
-    } 
+      } 
     curr=(float)y1; 
     float offset=(float)dy/dx; 
-    for(int i=x1;i<=x2;i++){ 
+    for(int i=x1;i<=x2;i++)
+      { 
       idx[0]=i; 
       idx[1]=y1; 
       result->SetPixel(idx,color); 
       curr += offset; 
       y1=(int)(curr+0.5); 
+      } 
     } 
-  } 
-  else {  
-    if(y1>y2){ 
+  else
+    {  
+    if(y1>y2)
+      { 
       save=x1; x1=x2; x2=save; 
       save=y1; y1=y2; y2=save; 
-    } 
+      } 
     curr=(float)x1; 
     float offset=(float)dx/dy; 
-    for(int i=y1;i<=y2;i++){ 
+    for(int i=y1;i<=y2;i++)
+      { 
       idx[0]=x1; 
       idx[1]=i; 
       result->SetPixel(idx,color); 
       curr += offset; 
       x1=(int)(curr+0.5); 
+      } 
     } 
-  } 
 } 
 
 template <class TInputImage, class TOutputImage> 
