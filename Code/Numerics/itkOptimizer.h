@@ -128,20 +128,19 @@ public:
   /**
    *   Set the position to initialize the optimization  
    */
-  void SetInitialPosition( const ParametersType & initialPosition ) 
-    { m_InitialPosition = initialPosition; }
+  itkSetMacro(InitialPosition, ParametersType);
+
 
   /**
    *   Get the position to initialize the optimization  
    */
-  const ParametersType & GetInitialPosition( void ) const 
-    { return m_InitialPosition; }
+  itkGetConstMacro(InitialPosition, ParametersType);
+
 
   /**
    *   Get current position of the optimization  
    */
-  const ParametersType & GetCurrentPosition( void ) const 
-    { return m_CurrentPosition; }
+  itkGetConstMacro( CurrentPosition, ParametersType );
 
 
   /**
@@ -168,8 +167,7 @@ protected:
   /**
    *   Set the current position 
    */
-  void SetCurrentPosition( const ParametersType & currentPosition ) 
-    { m_CurrentPosition = currentPosition; }
+  itkSetMacro( CurrentPosition, ParametersType );
 
 
 private:
