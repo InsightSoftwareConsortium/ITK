@@ -15,7 +15,7 @@
 =========================================================================*/
 #ifndef _itkCellBoundary_txx
 #define _itkCellBoundary_txx
-// #include "itkCellBoundary.h"
+#include "itkCellBoundary.h"
 
 namespace itk
 {

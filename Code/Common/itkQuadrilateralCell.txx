@@ -15,7 +15,7 @@
 =========================================================================*/
 #ifndef _itkQuadrilateralCell_txx
 #define _itkQuadrilateralCell_txx
-// #include "itkQuadrilateralCell.h"
+#include "itkQuadrilateralCell.h"
 
 namespace itk
 {

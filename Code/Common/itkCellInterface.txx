@@ -15,7 +15,7 @@
 =========================================================================*/
 #ifndef _itkCellInterface_txx
 #define _itkCellInterface_txx
-// #include "itkCellInterface.h"
+#include "itkCellInterface.h"
 
 namespace itk
 {

@@ -15,7 +15,7 @@
 =========================================================================*/
 #ifndef _itkLineCell_txx
 #define _itkLineCell_txx
-// #include "itkLineCell.h"
+#include "itkLineCell.h"
 
 namespace itk
 {

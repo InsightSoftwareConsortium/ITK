@@ -15,7 +15,7 @@
 =========================================================================*/
 #ifndef _itkTriangleCell_txx
 #define _itkTriangleCell_txx
-// #include "itkTriangleCell.h"
+#include "itkTriangleCell.h"
 
 namespace itk
 {

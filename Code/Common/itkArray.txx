@@ -16,7 +16,7 @@
 #ifndef _itkArray_txx
 #define _itkArray_txx
 
-// #include "itkArray.h"
+#include "itkArray.h"
 
 namespace itk
 {

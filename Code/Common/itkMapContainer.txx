@@ -15,7 +15,7 @@
 =========================================================================*/
 #ifndef _itkMapContainer_txx
 #define _itkMapContainer_txx
-// #include "itkMapContainer.h"
+#include "itkMapContainer.h"
 
 namespace itk
 {

@@ -15,7 +15,7 @@
 =========================================================================*/
 #ifndef _itkTetrahedronCell_txx
 #define _itkTetrahedronCell_txx
-// #include "itkTetrahedronCell.h"
+#include "itkTetrahedronCell.h"
 
 namespace itk
 {

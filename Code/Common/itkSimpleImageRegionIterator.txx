@@ -16,7 +16,7 @@
 #ifndef _itkSimpleImageRegionIterator_txx
 #define _itkSimpleImageRegionIterator_txx
 
-// #include "itkSimpleImageRegionIterator.h"
+#include "itkSimpleImageRegionIterator.h"
 
 namespace itk
 {

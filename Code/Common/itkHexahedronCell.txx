@@ -15,7 +15,7 @@
 =========================================================================*/
 #ifndef _itkHexahedronCell_txx
 #define _itkHexahedronCell_txx
-// #include "itkHexahedronCell.h"
+#include "itkHexahedronCell.h"
 
 namespace itk
 {

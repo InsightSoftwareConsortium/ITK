@@ -16,7 +16,7 @@
 #ifndef _itkImageBufferIterator_txx
 #define _itkImageBufferIterator_txx
 
-// #include "itkImageBufferIterator.h"
+#include "itkImageBufferIterator.h"
 
 namespace itk
 {
