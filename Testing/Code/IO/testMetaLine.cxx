@@ -63,6 +63,7 @@ int testMetaLine(int argc, char *argv[])
     it++;
   }
 
+  delete Line;
   std::cout << "done" << std::endl;
   return 0;
 }

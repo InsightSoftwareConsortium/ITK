@@ -65,6 +65,8 @@ int testMetaObject(int argc, char *argv[])
     return 1;
   }
 
+  delete name;
+
   int* array = static_cast<int*>(tObj.GetUserField("MyArray"));
 
   for(i=0;i<3;i++)
@@ -75,6 +77,8 @@ int testMetaObject(int argc, char *argv[])
       return 1;
     }
   }
+
+  delete array;
 
   float* matrix = static_cast<float*>(tObj.GetUserField("MyMatrix"));
   for(i=0; i<4; i++)
@@ -128,5 +132,6 @@ int testMetaObject(int argc, char *argv[])
     std::cout << "ElementSpacing: PASS" << std::endl;
     }
 
+  std::cout << "[DONE]" << std::endl;
   return 0;
   }
