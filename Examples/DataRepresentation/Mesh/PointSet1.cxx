@@ -18,18 +18,18 @@
 //  Software Guide : BeginLatex
 //
 //  The \code{itk::PointSet} is a basic class intended to represent geometry.
-//  It is the base class for the \code{itk::Mesh} and provide the support for
+//  It is the base class for the \code{itk::Mesh} and provides support for
 //  manipulating sets of points in $N-Dimensional$ space. Points can have
 //  values associated with them. The type of such values is defined by
 //  a template parameter of the \code{itk::PointSet} class. Two basic styles of 
 //  PointSets are available in ITK. They are referred to as \emph{Static}
-//  and \emph{Dynamic}. The first one is used when the number of points
-//  in the set can be known in advance and it is not expected to change
-//  as a consecuence of the manipulations performed on the set. The dynamic
+//  and \emph{Dynamic}. The first style is used when the number of points
+//  in the set is known in advance and is not expected to change
+//  as a consequence of the manipulations performed on the set. The dynamic
 //  style, on the other hand, is intended to support insertion and removal
-//  of points in an efficient manner. The reason for making the distinction
-//  between both styles is to facilitate the fine tunning of its behavior
-//  with the aim of optimizing performance and memory management.
+//  of points in an efficient manner. Distinguishing between the two styles
+//  is meant to facilitate the fine tuning of a \code{PointSet}'s behavior
+//  while optimizing performance and memory management.
 //
 //  \index{itk::PointSet}
 //  \index{itk::PointSet!Static}
@@ -48,8 +48,8 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  Then we must decide what type of value should be associated with the
-  //  points. This is called in general the \code{PixelType} in order to make a 
+  //  Then we must decide what type of value to associate with the
+  //  points. This is generally called the \code{PixelType} in order to make the
   //  terminology consistent with the \code{itk::Image}. The PointSet is also 
   //  templated over the dimension of the space in which the points are
   //  represented. The following declaration illustrates a typical
@@ -67,15 +67,16 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  PointSet objects are created by invoking the \code{New()} method on its
-  //  type.  The resulting object must be assigned to a \code{SmartPointer}.
-  //  The PointSet is then reference counted and can be shared by multiple
-  //  SmartPointers. The memory allocated for the PointSet will be released
-  //  when the number of references to the object are reduced to zero. This
-  //  simply means that the user does not need to be concerned about invoking
-  //  the \code{Delete()} method on this class.  In fact, the \code{Delete()}
-  //  method should \textbf{never} be called directly in any of the reference
-  //  counted ITK classes.
+  //  A \code{PointSet} object is created by invoking the \code{New()}
+  //  method on its type.  The resulting object must be assigned to a
+  //  \code{SmartPointer}.  The PointSet is then reference-counted and
+  //  can be shared by multiple \code{SmartPointer}s. The memory
+  //  allocated for the PointSet will be released when the number of
+  //  references to the object is reduced to zero. This simply means
+  //  that the user does not need to be concerned with invoking the
+  //  \code{Delete()} method on this class.  In fact, the
+  //  \code{Delete()} method should \textbf{never} be called directly
+  //  within any of the reference-counted ITK classes.
   //
   //  \index{itk::PointSet!New()}
   //  \index{itk::PointSet!Pointer}
@@ -91,13 +92,13 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  Following the principles of Generic Programming the PointSet class has a
+  //  Following the principles of Generic Programming, the \code{PointSet} class has a
   //  set of associated defined types to ensure that interacting objects can be
-  //  declared with compatible types. This set of type definitionas are
-  //  commonly known as \emph{traits}.  Among them we can find for example the
-  //  \code{PointType} type.  This is the type used by the point set to
-  //  represent points in space.  The following declaration is taking the point
-  //  type as defined in the PointSet traits and renaming it to be conveniently
+  //  declared with compatible types. This set of type definitions is
+  //  commonly known as a set of \emph{traits}.  Among them we can find the
+  //  \code{PointType} type, for example.  This is the type used by the point set to
+  //  represent points in space.  The following declaration takes the point
+  //  type as defined in the \code{PointSet} traits and renames it to be conveniently
   //  used in the global namespace.
   //
   //  \index{itk::PointSet!PointType}
@@ -114,14 +115,14 @@ int main()
   //  Software Guide : BeginLatex
   //
   //  The \code{PointType} can now be used to declare point objects to be
-  //  inserted in the PointSet. Points are fairly small objects and henceforth
-  //  it is not convenient to manage them with reference counting and smart
+  //  inserted in the \code{PointSet}. Points are fairly small objects, so
+  //  it is inconvenient to manage them with reference counting and smart
   //  pointers. They are simply instantiated as typical C++ classes. The Point
-  //  class inheriths the \code{[]} operator from the \code{itk::Array} class.
-  //  This makes possible to access its components using index notation. For
-  //  efficiency sake no bound-testing is performed during index access. It is
+  //  class inherits the \code{[]} operator from the \code{itk::Array} class.
+  //  This makes it possible to access its components using index notation. For
+  //  efficiency's sake no bounds checking is performed during index access. It is
   //  the user's responsibility to ensure that the index used is in the range
-  //  $\{0,Dimension-1\}$. Each one of the components in the point are associated
+  //  $\{0,Dimension-1\}$. Each of the components in the point is associated
   //  with space coordinates. The following code illustrates how to instantiate
   //  a point and initialize its components.
   //
@@ -170,7 +171,7 @@ int main()
   //  Software Guide : BeginLatex
   //
   // It is possible to query the PointSet in order to determine how many points
-  // have been inserted on it. This is done with the \code{GetNumberOfPoints()}
+  // have been inserted into it. This is done with the \code{GetNumberOfPoints()}
   // method as illustrated below.
   //
   //  \index{itk::PointSet!GetNumberOfPoints()}
@@ -189,9 +190,9 @@ int main()
   //
   // Points can be read from the PointSet by using the \code{GetPoint()} method
   // and the integer identifier. The point is stored in a pointer provided by
-  // the user. In the case the identifier provided does not match an
-  // existing point the method will return \code{false} and the content of the
-  // point will be invalid. The following code illustrates the access to points
+  // the user. If the identifier provided does not match an
+  // existing point, the method will return \code{false} and the contents of the
+  // point will be invalid. The following code illustrates point access
   // using defensive programming.
   //
   //  \index{itk::PointSet!GetPoint()}
@@ -215,7 +216,7 @@ int main()
   //  Software Guide : BeginLatex
   //
   // \code{GetPoint()} and \code{SetPoint()} are not the most efficient methods
-  // to access points in the PointSet. It is prefereable to get direct access
+  // to access points in the PointSet. It is preferable to get direct access
   // to the internal point container defined by the \emph{traits} and use
   // Iterators to walk sequentially over the list of points.
   //
