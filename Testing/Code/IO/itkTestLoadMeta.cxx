@@ -12,8 +12,15 @@ int main(int ac, char** av)
     return EXIT_FAILURE;
     }
 
+
+  
+  // ATTENTION THIS IS THE PIXEL TYPE FOR 
+  // THE RESULTING IMAGE
   typedef unsigned short PixelType;
   
+
+
+
   typedef itk::Image<PixelType, 3> myImage;
 
   itk::ImageFileReader<myImage>::Pointer reader 
@@ -29,9 +36,11 @@ int main(int ac, char** av)
     {
     reader->Update();
     }
-  catch (itk::ImageFileReaderException& e)
+  catch (itk::ExceptionObject & e)
     {
-    std::cerr << "exception in file reader \n"  << e.GetDescription();
+    std::cerr << "exception in file reader " << std::endl;
+    std::cerr << e.GetDescription() << std::endl;
+    std::cerr << e.GetLocation() << std::endl;
     return EXIT_FAILURE;
     }
   
