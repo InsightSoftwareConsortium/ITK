@@ -299,3 +299,10 @@ IF(ITK_CSWIG_TCL)
   ADD_TEST(itkCurvatureFlowTestTcl2 ${ITKWISH_EXECUTABLE}
            ${ITKTesting_SOURCE_DIR}/Code/Algorithms/itkCurvatureFlowTestTcl2.tcl)
 ENDIF(ITK_CSWIG_TCL)
+
+
+IF(ITK_CSWIG_PYTHON)
+  ADD_TEST(itkCurvatureFlowTestPython2 ${PYTHON_EXECUTABLE}
+           ${ITKTesting_SOURCE_DIR}/Code/Algorithms/itkCurvatureFlowTestPython2.py)
+ENDIF(ITK_CSWIG_PYTHON)
+
