@@ -34,8 +34,8 @@ namespace itk {
  *
  * \sa NeighborhoodOperator
  * \sa Neighborhood
- * \sa DerivativeHalfForwardOperator
- * \sa DerivativeHalfBackwardOperator
+ * \sa ForwardDifferenceOperator
+ * \sa BackwardDifferenceOperator
  */
 template<class TPixel, unsigned int VDimension=2>
 class DerivativeOperator : public NeighborhoodOperator<TPixel, VDimension>

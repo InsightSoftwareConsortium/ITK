@@ -1,4 +1,4 @@
-LIBRARY(ITKNumerics)
+LIBRARY(VXLNumerics)
 
 AUX_SOURCE_DIRECTORY(vnl/Templates)
 AUX_SOURCE_DIRECTORY(vnl/algo/Templates)

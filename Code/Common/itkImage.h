@@ -37,7 +37,7 @@ namespace itk
  * container type for the pixel data. The container for the pixel data
  * must satisfy the ImageContainerInterface.  The default pixel container
  * uses a valarray to store pixel values (ValarrayImageContainer).  An
- * alternative pixel container is ImportImageContainer, which allows an
+ * alternative pixel container is ImportImageFilterContainer, which allows an
  * application to pass a block of memory to the Image class to use as its
  * initial storage.
  *

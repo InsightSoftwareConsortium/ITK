@@ -20,7 +20,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkVector.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageBufferIterator.h"
-#include "itkImageRegionSimpleIterator.h"
+#include "itkSimpleImageRegionIterator.h"
 #include <time.h>
 
 int main()
@@ -143,9 +143,9 @@ int main()
     passed = false;
     }
 
-  // ImageRegionSimpleIterator
+  // SimpleImageRegionIterator
   start = clock();
-  itk::ImageRegionSimpleIterator<ScalarImage> it2(o3, region);
+  itk::SimpleImageRegionIterator<ScalarImage> it2(o3, region);
 
   i = 0;
   for ( it2.Begin(); !it2.IsAtEnd(); ++it2)
@@ -156,7 +156,7 @@ int main()
   end = clock();
   elapsedTime = (end - start) / (double) CLOCKS_PER_SEC;
 
-  std::cout << "ImageRegionSimpleIterator" << std::endl;
+  std::cout << "SimpleImageRegionIterator" << std::endl;
   std::cout << "\tTime   = " << elapsedTime << std::endl;
   std::cout << "\tPixels = " << i << std::endl;
 

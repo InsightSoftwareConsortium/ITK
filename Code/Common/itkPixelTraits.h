@@ -17,7 +17,7 @@
 #define __itkPixelTraits_h
 
 #include "itkNumericTraits.h"
-#include "itkRGB.h"
+#include "itkRGBPixel.h"
 
 namespace itk
 {
@@ -229,42 +229,42 @@ public:
   static void SetScalar(double& data, ScalarValueType const& v) {data = v;}
 };
 
-/** \class ScalarTraits<RGB<float>>
- * \brief Define (pixel) scalar traits for type <RGB<float>.
+/** \class ScalarTraits<RGBPixel<float>>
+ * \brief Define (pixel) scalar traits for type <RGBPixel<float>.
  */
 template <>
-class ScalarTraits< RGB<float> > {
+class ScalarTraits< RGBPixel<float> > {
 public:
-  typedef  RGB<float>  ValueType;
-  typedef  RGB<float>  ScalarValueType;
-  static ScalarValueType& GetScalar( RGB<float> & v) {return v;}
-  static void SetScalar( RGB<float> & data, ScalarValueType const& v) {data = v;}
+  typedef  RGBPixel<float>  ValueType;
+  typedef  RGBPixel<float>  ScalarValueType;
+  static ScalarValueType& GetScalar( RGBPixel<float> & v) {return v;}
+  static void SetScalar( RGBPixel<float> & data, ScalarValueType const& v) {data = v;}
 };
 
 
-/** \class ScalarTraits<RGB<double>>
- * \brief Define (pixel) scalar traits for type <RGB<double>.
+/** \class ScalarTraits<RGBPixel<double>>
+ * \brief Define (pixel) scalar traits for type <RGBPixel<double>.
  */
 template <>
-class ScalarTraits< RGB<double> > {
+class ScalarTraits< RGBPixel<double> > {
 public:
-  typedef  RGB<double>  ValueType;
-  typedef  RGB<double>  ScalarValueType;
-  static ScalarValueType& GetScalar( RGB<double> & v) {return v;}
-  static void SetScalar( RGB<double> & data, ScalarValueType const& v) {data = v;}
+  typedef  RGBPixel<double>  ValueType;
+  typedef  RGBPixel<double>  ScalarValueType;
+  static ScalarValueType& GetScalar( RGBPixel<double> & v) {return v;}
+  static void SetScalar( RGBPixel<double> & data, ScalarValueType const& v) {data = v;}
 };
 
 
-/** \class ScalarTraits<RGB<unsigned short>>
- * \brief Define (pixel) scalar traits for type <RGB<unsigned short>.
+/** \class ScalarTraits<RGBPixel<unsigned short>>
+ * \brief Define (pixel) scalar traits for type <RGBPixel<unsigned short>.
  */
 template <>
-class ScalarTraits< RGB<unsigned short> > {
+class ScalarTraits< RGBPixel<unsigned short> > {
 public:
-  typedef  RGB<unsigned short>  ValueType;
-  typedef  RGB<unsigned short>  ScalarValueType;
-  static ScalarValueType& GetScalar( RGB<unsigned short> & v) {return v;}
-  static void SetScalar( RGB<unsigned short> & data, ScalarValueType const& v) {data = v;}
+  typedef  RGBPixel<unsigned short>  ValueType;
+  typedef  RGBPixel<unsigned short>  ScalarValueType;
+  static ScalarValueType& GetScalar( RGBPixel<unsigned short> & v) {return v;}
+  static void SetScalar( RGBPixel<unsigned short> & data, ScalarValueType const& v) {data = v;}
 };
 
 
@@ -406,42 +406,42 @@ public:
 };
 
 
-/** \class VectorTraits<RGB<float>>
- * \brief Define (pixel) vector traits for type RGB<float>.
+/** \class VectorTraits<RGBPixel<float>>
+ * \brief Define (pixel) vector traits for type RGBPixel<float>.
  */
 template <>
-class VectorTraits< RGB<float> > {
+class VectorTraits< RGBPixel<float> > {
 public:
-  typedef RGB<float> ValueType;
-  typedef RGB<float> VectorValueType;
-  static VectorValueType& GetVector(RGB<float>& v) {return v;}
-  static void SetVector(RGB<float>& data, VectorValueType const & v) {data = v;}
+  typedef RGBPixel<float> ValueType;
+  typedef RGBPixel<float> VectorValueType;
+  static VectorValueType& GetVector(RGBPixel<float>& v) {return v;}
+  static void SetVector(RGBPixel<float>& data, VectorValueType const & v) {data = v;}
 };
 
 
-/** \class VectorTraits<RGB<double>>
- * \brief Define (pixel) vector traits for type RGB<double>.
+/** \class VectorTraits<RGBPixel<double>>
+ * \brief Define (pixel) vector traits for type RGBPixel<double>.
  */
 template <>
-class VectorTraits< RGB<double> > {
+class VectorTraits< RGBPixel<double> > {
 public:
-  typedef RGB<double> ValueType;
-  typedef RGB<double> VectorValueType;
-  static VectorValueType& GetVector(RGB<double>& v) {return v;}
-  static void SetVector(RGB<double>& data, VectorValueType const & v) {data = v;}
+  typedef RGBPixel<double> ValueType;
+  typedef RGBPixel<double> VectorValueType;
+  static VectorValueType& GetVector(RGBPixel<double>& v) {return v;}
+  static void SetVector(RGBPixel<double>& data, VectorValueType const & v) {data = v;}
 };
 
 
-/** \class VectorTraits<RGB<unsigned short>>
- * \brief Define (pixel) vector traits for type RGB<unsigned short>.
+/** \class VectorTraits<RGBPixel<unsigned short>>
+ * \brief Define (pixel) vector traits for type RGBPixel<unsigned short>.
  */
 template <>
-class VectorTraits< RGB<unsigned short> > {
+class VectorTraits< RGBPixel<unsigned short> > {
 public:
-  typedef RGB<unsigned short> ValueType;
-  typedef RGB<unsigned short> VectorValueType;
-  static VectorValueType& GetVector(RGB<unsigned short>& v) {return v;}
-  static void SetVector(RGB<unsigned short>& data, VectorValueType const & v) {data = v;}
+  typedef RGBPixel<unsigned short> ValueType;
+  typedef RGBPixel<unsigned short> VectorValueType;
+  static VectorValueType& GetVector(RGBPixel<unsigned short>& v) {return v;}
+  static void SetVector(RGBPixel<unsigned short>& data, VectorValueType const & v) {data = v;}
 };
 
 

@@ -14,8 +14,8 @@ See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
 #include "itkDerivativeOperator.h"
-#include "itkDerivativeHalfForwardOperator.h"
-#include "itkDerivativeHalfBackwardOperator.h"
+#include "itkForwardDifferenceOperator.h"
+#include "itkBackwardDifferenceOperator.h"
 #include "itkGaussianOperator.h"
 #include "itkSize.h"
 
@@ -31,13 +31,13 @@ int main()
   g.SetMaximumError(.01);
   g.CreateDirectional();
 
-  itk::DerivativeHalfForwardOperator<float, 4> f;
+  itk::ForwardDifferenceOperator<float, 4> f;
   itk::Size<4> sz;
   sz[0] = sz[1] = sz[2] = sz[3] = 2;
   f.SetDirection(2);
   f.CreateToRadius(sz);
 
-  itk::DerivativeHalfBackwardOperator<float, 2> b;
+  itk::BackwardDifferenceOperator<float, 2> b;
   b.SetDirection(0);
   b.CreateDirectional();
 

@@ -4,7 +4,7 @@
  *  Accessors
  *
  *  The example shows how an Adaptor can be used to 
- *  get acces only to thered component of an RGB image
+ *  get acces only to thered component of an RGBPixel image
  *  giving the appearance of being just a 'float' image
  *
  *  That will allow to pass the red component of this
@@ -16,9 +16,9 @@
 
 #include <itkImageAdaptor.h>
 #include <itkScalar.h>
-#include <itkImageRegionSimpleIterator.h>
-#include <itkRGB.h>
-#include <itkDataAccessorRGBtoRed.h>
+#include <itkSimpleImageRegionIterator.h>
+#include <itkRGBPixel.h>
+#include <itkRedDataAccessor.h>
 
 
 
@@ -26,16 +26,16 @@
 //-------------------------------------
 //     Typedefs for convenience
 //-------------------------------------
-typedef itk::Image< itk::RGB<float>,   2 > myImageType;
+typedef itk::Image< itk::RGBPixel<float>,   2 > myImageType;
  
 
-typedef itk::DataAccessorRGBtoRed<float> myRedAccessorType;
+typedef itk::RedDataAccessor<float> myRedAccessorType;
 
 typedef itk::ImageAdaptor< myImageType, myRedAccessorType > myRedAdaptorType;
 
-typedef itk::ImageRegionSimpleIterator< myImageType >       myIteratorType;
+typedef itk::SimpleImageRegionIterator< myImageType >       myIteratorType;
 
-typedef itk::ImageRegionSimpleIterator< myRedAdaptorType >  myRedIteratorType;
+typedef itk::SimpleImageRegionIterator< myRedAdaptorType >  myRedIteratorType;
 
 
 

@@ -22,7 +22,7 @@
 #include "itkSmartPointer.h"
 #include "itkPoint.h"
 #include "itkCellInterface.h"
-#include "itkMeshTypeDefault.h"
+#include "itkDefaultStaticMeshType.h"
 #include "itkMapContainer.h"
 #include "itkPointLocator.h"
 #include "itkBoundingBox.h"
@@ -41,7 +41,7 @@ namespace itk
  * an API to perform operations on points, cells, boundaries, etc., but
  * does not tie down the underlying implementation and storage.  A
  * "MeshType" structure is used to define the container and identifier
- * types that will be used to access the mesh.  See MeshTypeDefault
+ * types that will be used to access the mesh.  See DefaultStaticMeshType
  * for the set of type definitions needed.  All types that are defined
  * in the "MeshType" structure will have duplicate typedefs in the resulting
  * mesh itself.
@@ -71,7 +71,7 @@ namespace itk
   
 template <
   typename TPixelType,
-  typename TMeshType = MeshTypeDefault< TPixelType >
+  typename TMeshType = DefaultStaticMeshType< TPixelType >
   >
 class Mesh: public DataObject
 {

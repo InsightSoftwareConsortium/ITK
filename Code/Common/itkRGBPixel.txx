@@ -1,0 +1,163 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkRGBPixel.txx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+
+  Copyright (c) 2000 National Library of Medicine
+  All rights reserved.
+
+  See COPYRIGHT.txt for copyright details.
+
+=========================================================================*/
+#include "itkRGBPixel.h"
+
+namespace itk
+{
+
+/**
+ * Default constructor.
+ */
+template < typename TComponent >
+RGBPixel< TComponent >
+::RGBPixel()
+{
+}
+
+
+/**
+ * Copy Constructor 
+ */
+template < typename TComponent >
+RGBPixel< TComponent >
+::RGBPixel(const RGBPixel<TComponent> & rgb )
+{
+  m_Red     = rgb.m_Red;
+  m_Green   = rgb.m_Green;
+  m_Blue    = rgb.m_Blue;
+}
+
+/**
+ *  Assignment Operator
+ */
+template < typename TComponent >
+const RGBPixel<TComponent> &
+RGBPixel< TComponent >
+::operator=(const RGBPixel<TComponent> & rgb )
+{
+  m_Red     = rgb.m_Red;
+  m_Green   = rgb.m_Green;
+  m_Blue    = rgb.m_Blue;
+  return *this;
+}
+
+
+/**
+ * Constructor with components
+ */
+template < typename TComponent >
+RGBPixel< TComponent >
+::RGBPixel( TComponent red, TComponent green, TComponent blue )
+{
+  m_Red   = red;
+  m_Green = green;
+  m_Blue  = blue;
+}
+
+
+/**
+ *  Set Red
+ */
+template < typename TComponent >
+void
+RGBPixel< TComponent >
+::SetRed( TComponent red )
+{
+  m_Red = red;
+}
+
+
+
+/**
+ *  Set Green
+ */
+template < typename TComponent >
+void
+RGBPixel< TComponent >
+::SetGreen( TComponent green )
+{
+  m_Green = green;
+}
+
+
+/**
+ *  Set Blue
+ */
+template < typename TComponent >
+void
+RGBPixel< TComponent >
+::SetBlue( TComponent blue )
+{
+  m_Blue = blue;
+}
+
+
+
+/**
+ *  Set the three components
+ */
+template < typename TComponent >
+void
+RGBPixel< TComponent >
+::Set( TComponent red, TComponent green, TComponent blue )
+{
+  m_Red   = red;
+  m_Green = green;
+  m_Blue  = blue;
+}
+
+
+
+/**
+ *  Get Red
+ */
+template < typename TComponent >
+TComponent 
+RGBPixel< TComponent >
+::GetRed( void ) const
+{
+  return m_Red;
+}
+
+
+
+/**
+ *  Get Green
+ */
+template < typename TComponent >
+TComponent 
+RGBPixel< TComponent >
+::GetGreen( void ) const
+{
+  return m_Green;
+}
+
+
+
+/**
+ *  Get Blue
+ */
+template < typename TComponent >
+TComponent 
+RGBPixel< TComponent >
+::GetBlue( void ) const
+{
+  return m_Blue;
+}
+
+
+
+} // end namespace itk

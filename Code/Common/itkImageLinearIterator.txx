@@ -14,7 +14,7 @@
 
 =========================================================================*/
 
-// #include "itkImageRegionSimpleIterator.h"
+// #include "itkSimpleImageRegionIterator.h"
 
 namespace itk
 {

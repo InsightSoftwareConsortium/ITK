@@ -54,7 +54,7 @@ typedef Cell        Boundary;
 
 /**
  * The type of point stored in the mesh. Because mesh was instantiated
- * with defaults (itkMeshTypeDefault), the point dimension is 3 and
+ * with defaults (itkDefaultStaticMeshType), the point dimension is 3 and
  * the coordinate representation is float.
  */
 typedef Mesh::PointType  PointType;

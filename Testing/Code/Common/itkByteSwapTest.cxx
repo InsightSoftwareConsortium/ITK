@@ -14,7 +14,7 @@ See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
 #include <iostream>
-#include "itkByteSwap.h"
+#include "itkByteSwapper.h"
 
 int main ( int argc, char* argv[] )
 {
@@ -32,24 +32,24 @@ int main ( int argc, char* argv[] )
   
   // Try to swap a char
 
-  if ( itk::ByteSwap<int>::IsBigEndian() == itk::ByteSwap<int>::IsLE() )
+  if ( itk::ByteSwapper<int>::IsBigEndian() == itk::ByteSwapper<int>::IsLE() )
     {
     return 1;
     }
-  if ( itk::ByteSwap<int>::IsBE() == itk::ByteSwap<int>::IsLittleEndian() )
+  if ( itk::ByteSwapper<int>::IsBE() == itk::ByteSwapper<int>::IsLittleEndian() )
     {
     return 1;
     }
 
-  if ( itk::ByteSwap<int>::IsBigEndian() )
+  if ( itk::ByteSwapper<int>::IsBigEndian() )
     {
-    itk::ByteSwap<unsigned char>::SwapLE ( &uc );
-    itk::ByteSwap<unsigned char>::SwapLE ( &uc );
+    itk::ByteSwapper<unsigned char>::SwapLE ( &uc );
+    itk::ByteSwapper<unsigned char>::SwapLE ( &uc );
     }
   else
     {
-    itk::ByteSwap<unsigned char>::SwapBE ( &uc );
-    itk::ByteSwap<unsigned char>::SwapBE ( &uc );
+    itk::ByteSwapper<unsigned char>::SwapBE ( &uc );
+    itk::ByteSwapper<unsigned char>::SwapBE ( &uc );
     }
   if ( uc != uc1 )
     {
@@ -57,15 +57,15 @@ int main ( int argc, char* argv[] )
     }
   std::cout << "Passed unsigned char: " << uc << std::endl;
 
-  if ( itk::ByteSwap<int>::IsBE() )
+  if ( itk::ByteSwapper<int>::IsBE() )
     {
-    itk::ByteSwap<unsigned short>::SwapLE ( &us );
-    itk::ByteSwap<unsigned short>::SwapLE ( &us );
+    itk::ByteSwapper<unsigned short>::SwapLE ( &us );
+    itk::ByteSwapper<unsigned short>::SwapLE ( &us );
     }
   else
     {
-    itk::ByteSwap<unsigned short>::SwapBE ( &us );
-    itk::ByteSwap<unsigned short>::SwapBE ( &us );
+    itk::ByteSwapper<unsigned short>::SwapBE ( &us );
+    itk::ByteSwapper<unsigned short>::SwapBE ( &us );
     }
   if ( us != us1 )
     {
@@ -73,15 +73,15 @@ int main ( int argc, char* argv[] )
     }
   std::cout << "Passed unsigned short: " << us << std::endl;
 
-  if ( itk::ByteSwap<int>::IsBigEndian() )
+  if ( itk::ByteSwapper<int>::IsBigEndian() )
     {
-    itk::ByteSwap<unsigned int>::SwapLE ( &ui );
-    itk::ByteSwap<unsigned int>::SwapLE ( &ui );
+    itk::ByteSwapper<unsigned int>::SwapLE ( &ui );
+    itk::ByteSwapper<unsigned int>::SwapLE ( &ui );
     }
   else
     {
-    itk::ByteSwap<unsigned int>::SwapBE ( &ui );
-    itk::ByteSwap<unsigned int>::SwapBE ( &ui );
+    itk::ByteSwapper<unsigned int>::SwapBE ( &ui );
+    itk::ByteSwapper<unsigned int>::SwapBE ( &ui );
     }
   if ( ui != ui1 )
     {
@@ -92,15 +92,15 @@ int main ( int argc, char* argv[] )
 
   try
     {
-    if ( itk::ByteSwap<long>::IsBigEndian() )
+    if ( itk::ByteSwapper<long>::IsBigEndian() )
       {
-      itk::ByteSwap<unsigned long>::SwapLE ( &ul );
-      itk::ByteSwap<unsigned long>::SwapLE ( &ul );
+      itk::ByteSwapper<unsigned long>::SwapLE ( &ul );
+      itk::ByteSwapper<unsigned long>::SwapLE ( &ul );
       }
     else
       {
-      itk::ByteSwap<unsigned long>::SwapBE ( &ul );
-      itk::ByteSwap<unsigned long>::SwapBE ( &ul );
+      itk::ByteSwapper<unsigned long>::SwapBE ( &ul );
+      itk::ByteSwapper<unsigned long>::SwapBE ( &ul );
       }
     if ( ul != ul1 )
       {
@@ -108,22 +108,22 @@ int main ( int argc, char* argv[] )
       }
     std::cout << "Passed unsigned long: " << ul << std::endl;
     }
-  catch ( itk::ByteSwapError &e )
+  catch ( itk::ByteSwapperError &e )
     {
     std::cout << "Caught unsigned long exception size is: " << sizeof ( unsigned long ) << std::endl;
     }
 
   try
     {
-    if ( itk::ByteSwap<int>::IsBigEndian() )
+    if ( itk::ByteSwapper<int>::IsBigEndian() )
       {
-      itk::ByteSwap<float>::SwapLE ( &f );
-      itk::ByteSwap<float>::SwapLE ( &f );
+      itk::ByteSwapper<float>::SwapLE ( &f );
+      itk::ByteSwapper<float>::SwapLE ( &f );
       }
     else
       {
-      itk::ByteSwap<float>::SwapBE ( &f );
-      itk::ByteSwap<float>::SwapBE ( &f );    
+      itk::ByteSwapper<float>::SwapBE ( &f );
+      itk::ByteSwapper<float>::SwapBE ( &f );    
       }
     if ( f != f1 )
       {
@@ -131,7 +131,7 @@ int main ( int argc, char* argv[] )
       }
     std::cout << "Passed float: " << f << std::endl;
     }
-  catch ( itk::ByteSwapError &e )
+  catch ( itk::ByteSwapperError &e )
     {
     std::cout << "Caught float exception size is: " << sizeof ( float ) << std::endl;
     return 1;
@@ -139,15 +139,15 @@ int main ( int argc, char* argv[] )
 
   try
     {
-    if ( itk::ByteSwap<int>::IsBigEndian() )
+    if ( itk::ByteSwapper<int>::IsBigEndian() )
       {
-      itk::ByteSwap<double>::SwapLE ( &d );
-      itk::ByteSwap<double>::SwapLE ( &d );
+      itk::ByteSwapper<double>::SwapLE ( &d );
+      itk::ByteSwapper<double>::SwapLE ( &d );
       }
     else
       {
-      itk::ByteSwap<double>::SwapBE ( &d );
-      itk::ByteSwap<double>::SwapBE ( &d );
+      itk::ByteSwapper<double>::SwapBE ( &d );
+      itk::ByteSwapper<double>::SwapBE ( &d );
       }
     if ( d != d1 )
       {
@@ -155,7 +155,7 @@ int main ( int argc, char* argv[] )
       }
     std::cout << "Passed unsigned d: " << d << std::endl;
     }
-  catch ( itk::ByteSwapError &e )
+  catch ( itk::ByteSwapperError &e )
     {
     std::cout << "Caught double exception size is: " << sizeof ( double ) << std::endl;
     return 1;

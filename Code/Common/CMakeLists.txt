@@ -21,9 +21,8 @@ itkProcessObject
 itkRegion 
 itkTimeStamp 
 itkVersion 
-itkWriter
-itkFileIOCommon
-itkFileIO
+itkImageIOCommon
+itkImageIO
 )
 
 
