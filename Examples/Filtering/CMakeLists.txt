@@ -184,11 +184,12 @@ ADD_TEST( GradientMagnitudeRecursiveGaussianImageFilterTest ${FILTERING_EXAMPLES
         5
 )
 ADD_TEST( DerivativeImageFilterTest ${FILTERING_EXAMPLES}
-  --compare ${ITK_DATA_ROOT}/Baseline/Filtering/DerivativeImageFilter.png
-            ${ITK_BINARY_DIR}/Testing/Temporary/DerivativeImageFilter.png
+  --compare ${ITK_DATA_ROOT}/Baseline/Filtering/DerivativeImageFilter.mha
+            ${ITK_BINARY_DIR}/Testing/Temporary/DerivativeImageFilter.mha
   DerivativeImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
-        ${ITK_BINARY_DIR}/Testing/Temporary/DerivativeImageFilter.mha 1 1
+        ${ITK_BINARY_DIR}/Testing/Temporary/DerivativeImageFilter.mha
+        1 1
 )
 ADD_TEST( LaplacianImageFilterTest ${FILTERING_EXAMPLES}
   --compare ${ITK_DATA_ROOT}/Baseline/Filtering/LaplacianImageFilter.png
