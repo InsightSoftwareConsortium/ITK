@@ -23,19 +23,8 @@
 namespace itk
 {
 /** \class VotingBinaryImageFilter
- * \brief Applies an version of the median filter optimized for binary images.
+ * \brief Applies a voting operation in a neighborhood of each pixel.
  *
- * This filter was contributed by Bjorn Hanch Sollie after identifying that 
- * the generic Median filter performed unecessary operations when the input 
- * image is binary.
- * 
- * This filter Computes an image where a given pixel is the median value 
- * of the pixels in a neighborhood about the corresponding input pixel.
- * For the case of binary images the median can be obtained by simply conting
- * the neigbors that are foreground.
- *
- * A median filter is one of the family of nonlinear filters.  It is
- * used to smooth an image without being biased by outliers or shot noise.
  *
  * \sa Image
  * \sa Neighborhood
