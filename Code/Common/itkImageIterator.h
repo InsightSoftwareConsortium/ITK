@@ -58,6 +58,14 @@ public:
    */
   typedef ImageIterator Self;
   
+  /**
+   * Dimension of the image the iterator walks.  This enum is needed so that
+   * functions that are templated over image iterator type (as opposed to
+   * being templated over pixel type and dimension) can have compile time
+   * access to the dimension of the image that the iterator walks.
+   */
+  enum { ImageIteratorDimension = VImageDimension };
+
   /** 
    * Index typedef support.
    */
