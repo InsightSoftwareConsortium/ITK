@@ -46,8 +46,7 @@ void LoadImagePairBase<TReference , TTarget>::SetReferenceImage(ReferenceType* R
 { 
   m_RefImage = R; 
    // GET DATA SIZE  BUG!! FIXME!! MUST BE BETTER WAY TO GET SIZE
-  typedef typename ImageRegionIteratorWithIndex<TReference>  IterType;
-  IterType Iter (m_RefImage,m_RefImage->GetLargestPossibleRegion() );
+  ImageRegionIteratorWithIndex<ReferenceType> Iter (m_RefImage,m_RefImage->GetLargestPossibleRegion() );
   Iter.GoToEnd();
   typename ReferenceType::IndexType Ind = Iter.GetIndex();    
   for (int i=0; i< ImageDimension; i++) m_RefSize[i]=Ind[i]+1;
@@ -57,8 +56,7 @@ template<class TReference,class TTarget>
 void LoadImagePairBase<TReference , TTarget>::SetTargetImage(TargetType* T ) 
 {    // GET DATA SIZE  BUG!! FIXME!! MUST BE BETTER WAY TO GET SIZE
   m_TarImage=T; 
-  typedef typename ImageRegionIteratorWithIndex<TTarget>  IterType;
-  IterType Iter (m_RefImage,m_RefImage->GetLargestPossibleRegion() );
+  ImageRegionIteratorWithIndex<TargetType> Iter (m_RefImage,m_RefImage->GetLargestPossibleRegion() );
   Iter.GoToEnd();
   typename ReferenceType::IndexType Ind = Iter.GetIndex();   
   for (int i=0; i< ImageDimension; i++) m_RefSize[i]=Ind[i]+1; 
