@@ -97,8 +97,15 @@ public:
   /**
    * Get the input image.
    */
-  typename InputImageType::Pointer GetInputImage()
+  typename InputImageType::Pointer GetInputImage() 
     { return m_Image; }
+
+  /**
+   * Get the input image.
+   */
+  typename InputImageType::ConstPointer GetInputImage() const
+    { return m_Image; }
+
 
   /**
    * Evaluate the function at specified index
