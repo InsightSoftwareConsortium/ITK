@@ -16,6 +16,7 @@
 #ifndef __itkWin32OutputWindow_h
 #define __itkWin32OutputWindow_h
 
+#ifdef _WIN32
 #include "itkOutputWindow.h"
 #include "itkObjectFactory.h"
 #include <windows.h>
@@ -83,5 +84,5 @@ protected:
  
   
 } // end namespace itk
-  
+#endif  
 #endif
