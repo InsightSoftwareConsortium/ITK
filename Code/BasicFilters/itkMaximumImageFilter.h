@@ -43,8 +43,17 @@ public:
   Maximum() {}
   ~Maximum() {}
   inline TOutput operator()( const TInput1 & A, const TInput2 & B)
-  { return static_cast<TOutput>( (A > B)? A : B ); }
-}; 
+  { 
+   if(A > B)
+     {
+     return static_cast<TOutput>(A);
+     }
+   else
+     {
+     return static_cast<TOutput>(B);
+     }
+  } 
+};
 }
 
 template <class TInputImage1, class TInputImage2, class TOutputImage>
