@@ -64,6 +64,10 @@ namespace itk
     }
 
     virtual void Initialize() {
+      //Do itkNarrowBandImageFilterBase initialize
+      Superclass::Initialize();
+      
+      //Create a band
       typename ImageType::SizeType sz= this->GetInput()->GetRequestedRegion().GetSize();
       typename ImageType::IndexType tl= this->GetInput()->GetRequestedRegion().GetIndex();
       typename Superclass::IndexType in;
