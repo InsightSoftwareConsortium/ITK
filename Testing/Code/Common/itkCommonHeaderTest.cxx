@@ -251,6 +251,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkSTLContainerAdaptor.h"
 #include "itkScalarToRGBPixelFunctor.txx"
 #include "itkScalarVector.h"
+#include "itkScaleLogarithmicTransform.txx"
 #include "itkScaleTransform.txx"
 #include "itkSegmentationBorder.h"
 #include "itkSegmentationLevelSetFunction.txx"
