@@ -269,8 +269,8 @@ Rotate2D(TScalarType angle, bool pre)
   MatrixType trans;
 
   trans[0][0] =  cos(angle);
-  trans[0][1] =  sin(angle);
-  trans[1][0] = -sin(angle);
+  trans[0][1] = -sin(angle);
+  trans[1][0] = sin(angle);
   trans[1][1] =  cos(angle);
   if (pre) 
     {
