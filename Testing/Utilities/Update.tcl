@@ -77,14 +77,6 @@ proc LoadCVSInformation { File } \
     
     regexp "revision (\[0-9.\]+)" [lindex $SplitLog 0] dummy LastReported
 
-    # Break out if not today or yesterday...
-    if { $Model == "Nightly" } \
-    {
-      if { ![string match "$Today*" $Date] && ![string match "$Yesterday*" $Date] } \
-      {
-	break;
-      }
-    }
     if { $i == 1 } \
     {
       set FileStatus($File,LastReportedRevision) $LastReported
@@ -124,6 +116,14 @@ proc LoadCVSInformation { File } \
     if { $Model == "Experimental" && $i > 1 } \
     {
       break
+    }
+    # Break out if not today or yesterday...
+    if { $Model == "Nightly" && $i > 1 } \
+    {
+      if { ![string match "$Today*" $Date] && ![string match "$Yesterday*" $Date] } \
+      {
+	break;
+      }
     }
     
   }
