@@ -45,6 +45,7 @@ ${ITK_BINARY_DIR}/doxygen.config)
 
 # make directories in the binary tree
 MAKE_DIRECTORY(${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl)
+MAKE_DIRECTORY(${ITK_BINARY_DIR}/Documentation/Doxygen)
 
 # run VXL configure scripts
 IF(RUN_CONFIGURE)
