@@ -117,6 +117,16 @@ CellBase
 CellBase
 ::~CellBase()
 {
+  if( m_Genome )
+    {
+    delete m_Genome;
+    m_Genome = NULL;
+    }
+  if( m_GenomeCopy )
+    {
+    delete m_GenomeCopy;
+    m_GenomeCopy = NULL;
+    }
 }
 
 
@@ -145,12 +155,16 @@ void
 CellBase
 ::Apoptosis(void) 
 {
-  delete m_Genome;
-  delete m_GenomeCopy;
-
-  m_Genome     = 0;
-  m_GenomeCopy = 0;
-
+  if( m_Genome )
+    {
+    delete m_Genome;
+    m_Genome = NULL;
+    }
+  if( m_GenomeCopy )
+    {
+    delete m_GenomeCopy;
+    m_GenomeCopy = NULL;
+    }
 }
 
 

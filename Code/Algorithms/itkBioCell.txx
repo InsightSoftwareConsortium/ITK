@@ -41,6 +41,7 @@ Cell<NSpaceDimension>
 
   m_Force.Fill( 0.0f );
 
+  // Genome pointers are set to NULL in the superclass.
 }
 
 
@@ -53,11 +54,7 @@ template<unsigned int NSpaceDimension>
 Cell<NSpaceDimension>
 ::~Cell()
 {
-  if( m_Genome )
-    {
-    delete m_Genome;
-    m_Genome = NULL;
-    }
+  // Genomes are released in the destructor of the superclass.
 }
 
 
@@ -240,9 +237,11 @@ void
 Cell<NSpaceDimension>
 ::Apoptosis(void) 
 {
-  this->Superclass::Apoptosis();
+  // This call will release the Genomes
+  this->Superclass::Apoptosis(); 
 
   CellularAggregateBase * aggregate = GetCellularAggregate();
+
   // "this" cell will be destroyed here
   aggregate->Remove( this ); 
 
