@@ -19,7 +19,7 @@
 //
 // This example illustrates the use of the \code{itk::Image} class.
 // The following code is the minimal procedure required to 
-// instantiate, declare and create an image class.\\
+// instantiate, declare and create an image class.
 //
 // \index{itk::Image!Instantiation|textbf}
 // \index{itk::Image!Header|textbf}
