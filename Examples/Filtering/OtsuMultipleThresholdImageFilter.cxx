@@ -36,6 +36,7 @@
 #include "itkScalarImageToHistogramGenerator.h"
 #include "itkBinaryThresholdImageFilter.h"
 
+#include <stdio.h>
 int main( int argc, char * argv[] )
 {
   if( argc < 5 )
