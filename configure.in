@@ -504,9 +504,10 @@ AC_CONFIG_SUBDIRS(Code/Insight3DParty/vxl/vcl)
 # must be created in that directory for non-gmake make programs that
 # abort when they can not find an included makefile part
 AC_OUTPUT(
-Makefile:CMake/MakefileTemplate.in
-Code/Makefile:CMake/MakefileTemplate.in
+Makefile
 CMakeTargets.make:CMake/dummy.in 
+Code/Makefile:CMake/MakefileTemplate.in
+CMake/CMakeSimpleRules.make 
 CMake/CMakeMaster.make 
 CMake/CMakeVariables.make
 CMake/CMakeRules.make 
