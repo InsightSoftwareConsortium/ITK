@@ -17,10 +17,10 @@
 
 // Software Guide : BeginLatex
 //
-// One of the most challenging cases of image registration is when images of
+// Some of the most challenging cases of image registration is when images of
 // different modalities are involved. In such cases, metrics based on direct
 // comparison of gray levels are not applicable. It has been extensively shown
-// that metrics based on the evaluation of \code{Mutual Information} provide
+// that metrics based on the evaluation of mutual information provide
 // the best mechanisms to overcome the difficulties of multi-modality
 // registration.
 //
@@ -29,7 +29,12 @@
 // The following example illustrates in a minimal program how multiple imaging
 // modalities can be registered using Insight components. The first remarkable
 // difference is the use of \code{MutualInformationImageToImageMetric} as the
-// cost-function to be optimized. The following headers declare the basic
+// cost-function to be optimized and the second difference is the use
+// of \code{GradientDescentOptimizer}. Due to the stochastic nature of
+// the way the metric measure is computed, the values are too noisy to
+// work successfully with \code{RegularStepGradientDescentOptimizer}.
+// Therefore we will use the simpler \code{GradientDescentOptimizer} wiht
+// a user defined learning rate. The following headers declare the basic
 // components of the registration method.
 //
 // Software Guide : EndLatex 
@@ -40,7 +45,7 @@
 #include "itkTranslationTransform.h"
 #include "itkMutualInformationImageToImageMetric.h"
 #include "itkLinearInterpolateImageFunction.h"
-#include "itkRegularStepGradientDescentOptimizer.h"
+#include "itkGradientDescentOptimizer.h"
 #include "itkImage.h"
 // Software Guide : EndCodeSnippet
 
@@ -48,7 +53,7 @@
 
 //  Software Guide : BeginLatex
 //  
-//  One way of simplifying the computation of the Mutual Information Metric is
+//  One way of simplifying the computation of the mutual information is
 //  to normalize the statistical distribution of the two input images. The
 //  filter \code{itk::NormalizeImageFilter} is the perfect tool for this task.
 //  It rescales the intensities of the input images in order to produce an
@@ -128,7 +133,7 @@ int main( int argc, char **argv )
 
   // Software Guide : BeginCodeSnippet
   typedef itk::TranslationTransform< double, Dimension > TransformType;
-  typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
+  typedef itk::GradientDescentOptimizer                  OptimizerType;
   typedef itk::LinearInterpolateImageFunction< 
                                     InternalImageType,
                                     double             > InterpolatorType;
@@ -141,7 +146,7 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  The type of the Mutual Information metric is instantiated using the image
+  //  The mutual information metric type is instantiated using the image
   //  types.
   //
   //  Software Guide : EndLatex 
@@ -168,8 +173,8 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  The metric is created using the \code{New()} method and its smart pointer
-  //  is assigned to the registration method object.
+  //  The metric is created using the \code{New()} method and then
+  //  connected to the registration object.
   //
   //  Software Guide : EndLatex 
 
@@ -186,12 +191,16 @@ int main( int argc, char **argv )
   //  Software Guide : BeginLatex
   //  
   //  The metric requires a number of parameters to be selected. Among them,
-  //  the standard deviation of the fixed and moving image and the number of
-  //  samples to be taken in order to estimate the joint probabilities. Details
-  //  on the concept behind the computation of the metric can be found in
-  //  section \ref{sec:MutualInformationMetric}. In our current case, since the
-  //  images have already been passed through the \code{NormalizeImageFilter}
-  //  we are confident that their standard deviations are $1.0$.
+  //  the standard deviation of the Gaussian kernel for the fixed image
+  //  density estimate, the standard deviation of the kernel for the moving
+  //  image density estimate and the number of samples use to compute the
+  //  density estimates and entropy. Details on the concept behind 
+  //  the computation of the metric can be found in section 
+  //  \ref{sec:MutualInformationMetric}. Our experience with the toolkit
+  //  has found that a kernel standard deviation of 0.4 works well for images 
+  //  which has normalized to intensity mean of zero and intensity 
+  //  standard deviation of one. We will follow this empricial rule in
+  //  this example.
   //
   //  \index{itk::MutualInformationImageToImageMetric!SetFixedImageStandardDeviation()}
   //  \index{itk::MutualInformationImageToImageMetric!SetMovingImageStandardDeviation()}
@@ -200,8 +209,8 @@ int main( int argc, char **argv )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  metric->SetFixedImageStandardDeviation(  1.0 );
-  metric->SetMovingImageStandardDeviation( 1.0 );
+  metric->SetFixedImageStandardDeviation(  0.4 );
+  metric->SetMovingImageStandardDeviation( 0.4 );
 
   metric->SetNumberOfSpatialSamples( 50 );
   // Software Guide : EndCodeSnippet
@@ -276,12 +285,14 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  The optimal value of Mutual Information is $1.0$. Sub-optimal values
-  //  will be in the interval $[0,1)$. In this regard the optimization methods
-  //  becomes a maximization problem. By default the
-  //  \code{RegularStepGradientDescentOptimizer} is set to minimize the value
+  //  Since larger values of mutual information indicates better matches
+  //  than smaller values, we need to maximize the cost function in this 
+  //  example.
+  //  By default the \code{GradientDescentOptimizer} is set to minimize the value
   //  of the cost-function. It is henceforth necessary to modify its default
   //  behavior by invoking the \code{MaximizeOn()} method.
+  //  Additionally, we need to define the optimizer's step size using
+  //  the \code{SetLearningRate()} method.
   //
   //  \index{itk::RegularStepGradientDescentOptimizer!MaximizeOn()}
   //  \index{itk::ImageRegistrationMethod!Maximize vs Minimize}
@@ -290,8 +301,7 @@ int main( int argc, char **argv )
 
 
   // Software Guide : BeginCodeSnippet
-  optimizer->SetMaximumStepLength( 4.00 );  
-  optimizer->SetMinimumStepLength( 0.01 );
+  optimizer->SetLearningRate( 20.0 );
   optimizer->SetNumberOfIterations( 200 );
 
   optimizer->MaximizeOn();
@@ -311,12 +321,12 @@ int main( int argc, char **argv )
 
   ParametersType finalParameters = registration->GetLastTransformParameters();
   
-  const double TranslationAlongX = finalParameters[0];
-  const double TranslationAlongY = finalParameters[1];
+  double TranslationAlongX = finalParameters[0];
+  double TranslationAlongY = finalParameters[1];
   
-  const unsigned int numberOfIterations = optimizer->GetCurrentIteration();
+  unsigned int numberOfIterations = optimizer->GetCurrentIteration();
   
-  const double bestValue = optimizer->GetValue();
+  double bestValue = optimizer->GetValue();
 
 
   //
@@ -355,16 +365,13 @@ int main( int argc, char **argv )
   //  iterations and produce as result the parameters:
   //
   //  \begin{verbatim}
-  //  Translation X = ??
-  //  Translation Y = ??
-  //  \end{verbatim}
+  //  Translation X = 12.8864
+  //  Translation Y = 17.1026
   // 
-  //  As expected, these values match pretty well the initial miss-registration
-  //  intentionally introduced in the moving image.
-  //
+  //  As expected, these values are match closely the true misaligment
+  //  introduced in the moving image.
   //
   //  Software Guide : EndLatex 
-
 
 
   //  Software Guide : BeginLatex
