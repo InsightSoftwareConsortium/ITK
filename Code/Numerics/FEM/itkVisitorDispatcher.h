@@ -1,7 +1,25 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkVisitorDispatcher.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
 #ifndef __VisitorDispatcher_h
 #define __VisitorDispatcher_h
 
+#include "itkFEMMacro.h"
 #include "itkFEMException.h"
+#include "itkFastMutexLock.h"
 #include <typeinfo>
 #include <map>
 
@@ -190,17 +208,23 @@ public:
   inline static bool RegisterVisitor(TVisitorClass* ptr, VisitFunctionPointerType visitor_function)
   {
     typedef TVisitorClass VisitorClass;
-    if ( Instance().visitors.insert(VisitorsArrayType::value_type(&typeid(VisitorClass),visitor_function)).second )
+    bool status;
+    Instance().m_MutexLock.Lock();
+    status=Instance().visitors.insert(VisitorsArrayType::value_type(&typeid(VisitorClass),visitor_function)).second;
+    Instance().m_MutexLock.Unlock();
+    if ( status )
     {
       // Visitor class was successfully registered
 //      std::cout<<"Visitor "<<typeid(VisitorClass).name()<<" ("<<typeid(VisitedClass).name()<<") registered.\n";
 //      std::cout<<"Debug info: "<<typeid(TVisitedClass).name()<<", "<<typeid(TVisitorBase).name()<<", "<<typeid(TReturnType).name()<<"\n";
-      return true;
     }
-    // The visitor function was already registered.
-    // FIXME: implement the proper error handler if required
-    std::cout<<"Warning: Visitor "<<typeid(VisitorClass).name()<<" that operates on objects of "<<typeid(VisitedClass).name()<<" was already registered! Ignoring the re-registration.\n";
-    return false;
+    else
+    {
+      // The visitor function was already registered.
+      // FIXME: implement the proper error handler if required
+      std::cout<<"Warning: Visitor "<<typeid(VisitorClass).name()<<" that operates on objects of "<<typeid(VisitedClass).name()<<" was already registered! Ignoring the re-registration.\n";
+    }
+    return status;
   }
 
 private:
@@ -216,6 +240,12 @@ private:
   static VisitorDispatcher* obj;
 
   VisitorsArrayType visitors;
+
+  /**
+   * Mutex lock to protect modification to the visitors during
+   * class registration.
+   */
+  mutable SimpleFastMutexLock m_MutexLock;
 
 };
 

@@ -17,6 +17,7 @@
 #ifndef __itkFEMFEMObjectFactory_h
 #define __itkFEMFEMObjectFactory_h
 
+#include "itkFastMutexLock.h"
 #include <string>
 #include <vector>
 
@@ -98,9 +99,13 @@ public:
    */
   static int Register(COF f, const char *str)
   {
+    int clid=-1;
+    Instance().m_MutexLock.Lock();
 /*    std::cout<<"OF->"<<str<<"\n"; */
     Instance().cofs_.push_back( COF_Array::value_type(f,str) );
-    return Instance().cofs_.size()-1;
+    clid=Instance().cofs_.size()-1;
+    Instance().m_MutexLock.Unlock();
+    return clid;
   }
 
   /**
@@ -133,6 +138,12 @@ private:
    * Array that stores pairs of create functions and class names.
    */
   COF_Array cofs_;
+
+  /**
+   * Mutex lock to protect modification to the cofs_ array during
+   * class registration.
+   */
+  mutable SimpleFastMutexLock m_MutexLock;
 
   /**
    * Private constructor. This class is implemented as a singleton, so we
