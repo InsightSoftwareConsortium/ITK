@@ -173,6 +173,8 @@ struct KdTreeTerminalNode: public KdTreeNode< TSample >
 
   KdTreeTerminalNode() {}
 
+  virtual ~KdTreeTerminalNode() {}
+
   bool IsTerminal()
   { return true ; }
 
