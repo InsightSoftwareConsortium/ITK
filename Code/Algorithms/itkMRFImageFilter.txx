@@ -499,7 +499,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   m_NeighborInfluence.resize( m_NumberOfClasses ); 
 
   //Varible to store the input pixel vector value
-  InputImagePixelType inputPixel;
+  //InputImagePixelType inputPixel;
 
   m_MahalanobisDistance.resize( m_NumberOfClasses );   
 
