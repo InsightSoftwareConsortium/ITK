@@ -36,10 +36,6 @@
 #include "itkNormalizedCorrelationPointSetToImageMetric.h"
 #include "itkOtsuThresholdImageCalculator.h"
 #include "itkPDEDeformableRegistrationFilter.h"
-#include "itkMeanReciprocalSquareDifferenceImageToImageMetric.h"
-#if 0
-#include "itkMeanReciprocalSquareDifferencePointSetToImageMetric.h"
-#endif
 #include "itkRGBGibbsPriorFilter.h"
 #include "itkRecursiveMultiResolutionPyramidImageFilter.h"
 #include "itkRegionGrowImageFilter.h"
@@ -74,11 +70,9 @@ int main(int , char* [])
     itk::MattesMutualInformationImageToImageMetric<InputType,InputType>::New();
   std:: cout << "-------------MattesMutualInformationImageToImageMetric " << MattesMutualInformationImageToImageMetricObj;
 
-#if 0
-  itk::MeanSquaresPointSetToImageMetric<InputType,OutputType>::Pointer MeanSquaresPointSetToImageMetricObj =
+  /*itk::MeanSquaresPointSetToImageMetric<InputType,OutputType>::Pointer MeanSquaresPointSetToImageMetricObj =
     itk::MeanSquaresPointSetToImageMetric<InputType,OutputType>::New();
-  std:: cout << "-------------MeanSquaresPointSetToImageMetric " << MeanSquaresPointSetToImageMetricObj;
-#endif
+  std:: cout << "-------------MeanSquaresPointSetToImageMetric " << MeanSquaresPointSetToImageMetricObj;*/
   itk::MeanSquaresImageToImageMetric<InputType,InputType>::Pointer MeanSquaresImageToImageMetricObj =
     itk::MeanSquaresImageToImageMetric<InputType,InputType>::New();
   std:: cout << "-------------MeanSquaresImageToImageMetric " << MeanSquaresImageToImageMetricObj;
@@ -122,14 +116,6 @@ int main(int , char* [])
     itk::PDEDeformableRegistrationFilter<InputType,InputType,VectorImageType>::New();
   std:: cout << "-------------PDEDeformableRegistrationFilter " << PDEDeformableRegistrationFilterObj;
 
-  itk::MeanReciprocalSquareDifferenceImageToImageMetric<InputType,InputType>::Pointer MeanReciprocalSquareDifferenceImageToImageMetricObj =
-    itk::MeanReciprocalSquareDifferenceImageToImageMetric<InputType,InputType>::New();
-  std:: cout << "-------------MeanReciprocalSquareDifferenceImageToImageMetric " << MeanReciprocalSquareDifferenceImageToImageMetricObj;
-#if 0
-  itk::MeanReciprocalSquareDifferencePointSetToImageMetric<InputType,OutputType>::Pointer MeanReciprocalSquareDifferencePointSetToImageMetricObj =
-    itk::MeanReciprocalSquareDifferencePointSetToImageMetric<InputType,OutputType>::New();
-  std:: cout << "-------------MeanReciprocalSquareDifferencePointSetToImageMetric " << MeanReciprocalSquareDifferencePointSetToImageMetricObj;
-#endif
   itk::RGBGibbsPriorFilter<VectorImageType,UShortImageType>::Pointer RGBGibbsPriorFilterObj =
     itk::RGBGibbsPriorFilter<VectorImageType,UShortImageType>::New();
   std:: cout << "-------------RGBGibbsPriorFilter " << RGBGibbsPriorFilterObj;
