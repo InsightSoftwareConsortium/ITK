@@ -59,8 +59,8 @@ namespace itk
  *
  **/
 template < class TScalarType=double >    // Data type for scalars (float or double)
-class ITK_EXPORT QuaternionRigidTransform : 
-            public Transform< TScalarType, 
+class ITK_EXPORT QuaternionRigidTransform :
+            public Transform< TScalarType,
                               3, 3,       // Dimensions of input and output spaces
                               Point< double, 7 >, // a versor plus a vector
                               Matrix<double, 3, 7 > >
@@ -73,15 +73,12 @@ public:
     typedef QuaternionRigidTransform Self;
 
 
-    /// Dimension of parameters
-    enum { SpaceDimension = 3, 
-           ParametersDimension = 7 };
 
     /**
      * Standard "Superclass" typedef.
      */
     typedef Transform< TScalarType, 3, 3,
-                       Point< double, 7 >, 
+                       Point< double, 7 >,
                        Matrix< double, 3, 7 > >   Superclass;
 
 
@@ -107,28 +104,36 @@ public:
      */
     typedef vnl_quaternion<TScalarType>           VnlQuaternionType;
 
-    /**
-     * InputPoint Type
-     */
-    typedef typename Superclass::InputPointType  InputPointType;
 
-    /** 
-     * Smart pointer typedef support 
+    /**
+     * Smart pointer typedef support
      */
     typedef SmartPointer<Self>        Pointer;
     typedef SmartPointer<const Self>  ConstPointer;
 
 
-    /** 
+    /**
      * Run-time type information (and related methods).
      */
     itkTypeMacro( QuaternionRigidTransform, Transform );
 
 
-    /** 
+    /**
      * New macro for creation of through a Smart Pointer
      */
     itkNewMacro( Self );
+
+    /**
+     * Dimension of parameters
+     */
+    enum { SpaceDimension = 3,
+           ParametersDimension = 7 };
+
+    /**
+     * Dimension of the domain space
+     */
+    enum { InputSpaceDimension = Superclass::InputSpaceDimension,
+           OutputSpaceDimension = Superclass::OutputSpaceDimension };
 
 
     /// Standard matrix type for this class
@@ -137,21 +142,9 @@ public:
     /// Standard vector type for this class
     typedef Vector<TScalarType, InputSpaceDimension> OffsetType;
 
-    /// Standard vector type for this class
-    typedef Vector<TScalarType, InputSpaceDimension> InputVectorType;
-    typedef Vector<TScalarType, OutputSpaceDimension> OutputVectorType;
-
-    /// Standard covariant vector type for this class
-    typedef CovariantVector<TScalarType, InputSpaceDimension> InputCovariantVectorType;
-    typedef CovariantVector<TScalarType, OutputSpaceDimension> OutputCovariantVectorType;
-
-    /// Standard vnl_vector type for this class
-    typedef vnl_vector_fixed<TScalarType, InputSpaceDimension> InputVnlVectorType;
-    typedef vnl_vector_fixed<TScalarType, OutputSpaceDimension> OutputVnlVectorType;
-
     /// Standard coordinate point type for this class
-    typedef Point<TScalarType, InputSpaceDimension>    InputPointType;
-    typedef Point<TScalarType, OutputSpaceDimension>    OutputPointType;
+    typedef typename Superclass::InputPointType    InputPointType;
+    typedef typename Superclass::OutputPointType   OutputPointType;
 
     /// Standard vnl_quaternion type
     typedef vnl_quaternion<TScalarType>           VnlQuaternionType;
@@ -267,20 +260,20 @@ protected:
     const Self & operator=( const Self & );
 
     // matrix representation of the rotation
-    // Should be protected in order to be modified 
+    // Should be protected in order to be modified
     // by derived classes that instantiate an interface
     // to rotation computation
-    MatrixType          m_DirectMatrix;   
+    MatrixType          m_DirectMatrix;
 
 
 private:
-  
+
     // Offset of the transformation
-    OffsetType          m_Offset;   
+    OffsetType          m_Offset;
 
     // Rotation of the transformation
     VnlQuaternionType   m_Rotation;
-    
+
 
 }; //class QuaternionRigidTransform
 
