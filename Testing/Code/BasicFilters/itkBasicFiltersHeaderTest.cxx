@@ -133,6 +133,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkScalarToArrayCastImageFilter.h"
 #include "itkShiftScaleImageFilter.txx"
 #include "itkShrinkImageFilter.txx"
+#include "itkSigmoidImageFilter.h"
 #include "itkSimilarityIndexImageFilter.txx"
 #include "itkSinImageFilter.h"
 #include "itkSobelEdgeDetectionImageFilter.txx"
