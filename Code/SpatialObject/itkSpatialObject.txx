@@ -542,8 +542,10 @@ SpatialObject< TDimension >
     return 0;
     }
   
-  typename TreeNodeType::ChildrenListType* children = m_TreeNode->GetChildren(depth,name);
-  typename TreeNodeType::ChildrenListType::const_iterator it = children->begin();
+  typename TreeNodeType::ChildrenListType* children =
+                                           m_TreeNode->GetChildren(depth,name);
+  typename TreeNodeType::ChildrenListType::const_iterator it = 
+                                                          children->begin();
 
   ChildrenListType * childrenSO = new ChildrenListType; 
 

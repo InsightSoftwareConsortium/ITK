@@ -33,16 +33,17 @@ class SpatialObjectTreeNode : public TreeNode< SpatialObject<TDimension> * >
 public:
 
   /** Standard typedefs */
-  typedef SpatialObject<TDimension>                                   SpatialObjectType;
-  //typedef typename SpatialObjectType::Pointer                         SpatialObjectPointer;
-  typedef TreeNode< SpatialObject<TDimension> *>                      Superclass;
-  typedef SpatialObjectTreeNode<TDimension>                           Self;
-  typedef SmartPointer<Self>                                          Pointer;
-  typedef SmartPointer<const Self>                                    ConstPointer;
-  typedef FixedCenterOfRotationAffineTransform< double, TDimension>   TransformType;
-  typedef typename TransformType::Pointer                             TransformPointer;
-  typedef const TransformType*                                        TransformConstPointer;
-  typedef typename Superclass::ChildrenListType                       ChildrenListType;
+  typedef SpatialObject<TDimension>                SpatialObjectType;
+  //typedef typename SpatialObjectType::Pointer    SpatialObjectPointer;
+  typedef TreeNode< SpatialObject<TDimension> *>   Superclass;
+  typedef SpatialObjectTreeNode<TDimension>        Self;
+  typedef SmartPointer<Self>                       Pointer;
+  typedef SmartPointer<const Self>                 ConstPointer;
+  typedef FixedCenterOfRotationAffineTransform< double, TDimension>   
+                                                   TransformType;
+  typedef typename TransformType::Pointer          TransformPointer;
+  typedef const TransformType*                     TransformConstPointer;
+  typedef typename Superclass::ChildrenListType    ChildrenListType;
 
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
@@ -65,7 +66,8 @@ public:
   void ComputeNodeToWorldTransform();
 
   /** Return a list of children (the list should be deleted by the user */
-  virtual ChildrenListType* GetChildren( unsigned int depth=0, char * name=NULL) const;
+  virtual ChildrenListType* GetChildren( unsigned int depth=0,
+                                         char * name=NULL) const;
 
 protected:
 
@@ -111,7 +113,8 @@ SpatialObjectTreeNode<TDimension>
   if(this->HasParent())
     {
     static_cast<Self*>(this->GetParent())->ComputeNodeToWorldTransform();
-    m_NodeToWorldTransform->Compose( static_cast<Self*>(this->GetParent())->GetNodeToWorldTransform(),false);
+    m_NodeToWorldTransform->Compose( static_cast<Self*>(this->GetParent())
+                                     ->GetNodeToWorldTransform(), false);
     }
 }
 
@@ -131,13 +134,15 @@ SpatialObjectTreeNode<TDimension>
 
   while( childrenListIt != childrenListEnd )
     {
-    if( name == NULL || strstr(typeid(*((*childrenListIt)->Get())).name(), name) )
+    if( name == NULL || strstr(typeid(*((*childrenListIt)->Get())).name(),
+                               name) )
       {
       children->push_back(*childrenListIt);
       }
     if( depth > 0 )
       {
-      ChildrenListType * nextchildren = (**childrenListIt).GetChildren(depth-1, name);  
+      ChildrenListType * nextchildren = 
+                         (**childrenListIt).GetChildren(depth-1, name);  
       // Add the child to the current list
       typename ChildrenListType::const_iterator nextIt = nextchildren->begin();
       while(nextIt != nextchildren->end())
