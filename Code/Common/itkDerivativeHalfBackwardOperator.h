@@ -58,16 +58,6 @@ public:
    */
   DerivativeHalfBackwardOperator() {}
 
-  /**
-   * Required to support anonymous copying of NeighborhoodOperators.
-   */
-  NeighborhoodOperator *New() const { return new Self; }
-
-  /**
-   * Required to support anonymous copying of NeighborhoodOperators.
-   */
-  NeighborhoodOperator *Copy() const { return new Self(*this); }
-
 protected:
   /**
    * Calculates operator coefficients.

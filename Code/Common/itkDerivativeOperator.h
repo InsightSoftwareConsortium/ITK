@@ -63,16 +63,6 @@ public:
   DerivativeOperator() : m_Order(1) {}
 
   /**
-   * Required to support anonymous copying of NeighborhoodOperators.
-   */
-  NeighborhoodOperator *New() const { return new Self; }
-
-  /**
-   * Required to support anonymous copying of NeighborhoodOperators.
-   */
-  NeighborhoodOperator *Copy() const { return new Self(*this); }
-  
-  /**
    * Sets the order of the derivative.
    */
   void SetOrder(const unsigned int &order)
