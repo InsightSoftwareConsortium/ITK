@@ -73,7 +73,7 @@ public:
                     MovingImageType::ImageDimension,
                     FixedImageType::ImageDimension > TransformType;
 
-  typedef TransformType::Pointer                     TransformPointer;
+  typedef typename TransformType::Pointer            TransformPointer;
   typedef typename TransformType::InputPointType     InputPointType;
   typedef typename TransformType::OutputPointType    OutputPointType;
   typedef typename TransformType::ParametersType     TransformParametersType;
@@ -81,7 +81,7 @@ public:
 
   /**  Type of the Interpolator Base class */
   typedef InterpolateImageFunction<MovingImageType>  InterpolatorType;
-  typedef InterpolatorType::Pointer                  InterpolatorPointer;
+  typedef typename InterpolatorType::Pointer         InterpolatorPointer;
 
   /**  Type of the measure. */
   typedef double                        MeasureType;
