@@ -38,7 +38,7 @@ int main()
 
   NodeType node;
 
-  FloatImage::IndexType index0 = {28,35};
+  FloatImage::IndexType index0 = {{28,35}};
   
   node.value = 0.0;
   node.index = index0;
@@ -47,7 +47,7 @@ int main()
   marcher->SetTrialPoints( trialPoints );
 
   // specify the size of the output image
-  FloatImage::SizeType size = {64,64};
+  FloatImage::SizeType size = {{64,64}};
   marcher->SetOutputSize( size );
 
   // update the marcher

@@ -42,7 +42,7 @@ int main()
 
   NodeType node;
 
-  FloatImage::IndexType index0 = {28,35};
+  FloatImage::IndexType index0 = {{28,35}};
   
   node.value = 0.0;
   node.index = index0;
@@ -51,7 +51,7 @@ int main()
   marcher->SetTrialPoints( trialPoints );
 
   // specify the size of the output image
-  FloatImage::SizeType size = {64,64};
+  FloatImage::SizeType size = {{64,64}};
   marcher->SetOutputSize( size );
 
   // update the marcher
@@ -110,6 +110,7 @@ int main()
 
   /* -----------------------------------------------
    * Create a geodesic active contour object
+   * and test the full-band version of the algorithm
    */
 
   typedef itk::GeodesicActiveContours<FloatImage,FloatImage,FloatImage>
@@ -123,11 +124,22 @@ int main()
   detector->SetDerivativeImage( derivImg, 1 );
   detector->SetPropagateOutwards( true );
   detector->SetInflationStrength( 0.5 );
+
+  detector->SetDebugOn( true );
+
+  std::cout << "Running full-band version" << std::endl;
+  detector->Update();
+
+  /* --------------------------------------------------
+   * Test the narrow-band version of the algorithm
+   */
   detector->NarrowBandingOn();
   detector->SetNarrowBandwidth( 10.0 );
   detector->SetNumberOfIterations( 10 );
 
+  std::cout << "Running narrow-band version" << std::endl;
   detector->Update();
+  
 
   return EXIT_SUCCESS;
 

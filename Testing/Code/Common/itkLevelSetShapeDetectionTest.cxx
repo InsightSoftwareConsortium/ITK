@@ -42,7 +42,7 @@ int main()
 
   NodeType node;
 
-  FloatImage::IndexType index0 = {28,35};
+  FloatImage::IndexType index0 = {{28,35}};
   
   node.value = 0.0;
   node.index = index0;
@@ -51,7 +51,7 @@ int main()
   marcher->SetTrialPoints( trialPoints );
 
   // specify the size of the output image
-  FloatImage::SizeType size = {64,64};
+  FloatImage::SizeType size = {{64,64}};
   marcher->SetOutputSize( size );
 
   // update the marcher
@@ -97,10 +97,23 @@ int main()
 
   detector->SetInput( levelSet );
   detector->SetEdgeImage( edgeImg );
-  detector->NarrowBandingOn();
-  detector->SetNarrowBandwidth( 10.0 );
   detector->SetNumberOfIterations( 10 );
 
+  detector->SetDebugOn( true );
+
+  /* -------------------------------------------------
+   * Test the full-band version of the algorithm
+   */
+  std::cout << "Running the full-band version" << std::endl;
+  detector->Update();
+
+
+  /* -------------------------------------------------
+   * Test the narrow-band version of the algorithm
+   */
+  std::cout << "Running the narrow-band version" << std::endl;
+  detector->NarrowBandingOn();
+  detector->SetNarrowBandwidth( 10.0 );
   detector->Update();
 
   return EXIT_SUCCESS;

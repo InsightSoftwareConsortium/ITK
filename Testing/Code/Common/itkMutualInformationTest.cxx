@@ -28,8 +28,8 @@ int main()
    */
   typedef itk::Image<float,2> ImageType;
 
-  ImageType::SizeType size = {64,64};
-  ImageType::IndexType index = {0,0};
+  ImageType::SizeType size = {{64,64}};
+  ImageType::IndexType index = {{0,0}};
   ImageType::RegionType region;
   region.SetSize( size );
   region.SetIndex( index );
@@ -120,6 +120,8 @@ int main()
 
   registrator->SetLearningRate( 5.0 );
   registrator->SetNumberOfIterations( 200 );
+
+  registrator->SetDebugOn( true );
 
   registrator->Maximize();
 
