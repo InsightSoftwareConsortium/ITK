@@ -53,22 +53,22 @@ public:
    */
   itkTypeMacro(RegionBoundaryNeighborhoodIterator,
                SmartRegionNeighborhoodIterator);
-
+  
+  /**
+   * Default constructor.
+   */
+  RegionBoundaryNeighborhoodIterator() {};
+  
   /**
    * itk::Image typedef support.
    */
   typedef Image<TPixel, VDimension> ImageType;
-
+  
   /**
    * Region typedef support.
    */
   typedef ImageRegion<VDimension> RegionType;
   
-  /**
-   * Size object typedef support
-   */
-  typedef typename NeighborhoodBase<TPixel,VDimension>::SizeType SizeType;
-
   /**
    * Size object typedef support
    */
@@ -82,26 +82,47 @@ public:
   RegionBoundaryNeighborhoodIterator(const SizeType& radius,
                                      ImageType * ptr,
                                      const RegionType& region)
-    : m_InnerStride(0),
-      SmartRegionNeighborhoodIterator<TPixel, VDimension>(radius, ptr,
-                                                          region)
-  { this->SetBound(region.GetSize()); }
+  {
+    this->Initialize(radius, ptr, region);
+  }
 
   /**
-   * Overloaded from itkNeighborhoodPointerBase because this
+   * Overridden from itkNeighborhoodPointerBase because this
    * iterator follows a different path across a region.
    */ 
   const NeighborhoodIterator<TPixel, VDimension> &operator++();  
 
   /**
+   * Overridden from itkNeighborhoodPointerBase because this
+   * iterator follows a different path across a region.
+   */ 
+  const NeighborhoodIterator<TPixel, VDimension> &operator--();  
+
+  /**
    * Return an iterator for the beginning of the region.
    */
-  Self Begin();
+  Self Begin() const;
 
   /**
    * Return an iterator for the end of the region.
    */
-  Self End();
+  Self End() const;
+
+ /**
+   * 
+   */
+  virtual void SetEnd()
+  {
+    m_EndPointer = this->End().operator[](this->size()>>1);
+  }
+  
+  /**
+   *
+   */
+  virtual void SetToBegin()
+  {
+    *this = this->Begin();
+  }
 
   /**
    * Print some debugging information.
@@ -124,13 +145,11 @@ protected:
    */
   void SetBound(const SizeType&);
 
-private:
   /**
    * The iterator strides needed to move between inner boundary pixels
    * at opposite ends of a dimensional side.
    */
   unsigned long  m_InnerStride;
-  
 };
 
 } // namespace itk

@@ -71,7 +71,65 @@ RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
                 }
               if (m_OutputBuffer)
                 {
-                  m_OutputBuffer += m_WrapOffset[i];
+                  m_OutputBuffer += m_WrapOffset[i]
+                                  + m_OutputWrapOffsetModifier[i];
+                }
+            }        
+          else break;
+        }
+    }
+  return *this; 
+}
+
+template<class TPixel, unsigned int VDimension>
+const NeighborhoodIterator<TPixel, VDimension> &
+RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
+::operator--()
+{
+  int i;
+  Iterator it;
+  const Iterator _end = this->end();
+
+  if (! this->InBounds())
+    {
+      NeighborhoodIterator<TPixel, VDimension>::operator--();
+    }
+
+  while(this->InBounds())
+    {
+      // Decrement pointers.
+      for (it = this->begin(); it < _end; ++it)
+        {
+          (*it)-= m_InnerStride;;
+        }
+      if (m_OutputBuffer)
+        {
+          m_OutputBuffer -= m_InnerStride;
+        }
+      
+      // Check loop bounds, wrap & add pointer offsets if needed.
+      for (i=0; i < VDimension; ++i)
+        {
+          if (i==0)
+            {
+              m_Loop[0] -= m_InnerStride;
+            }
+          else
+            {
+              m_Loop[i]--;
+            }
+          
+          if ( m_Loop[i] < m_StartIndex[i] )
+            {
+              m_Loop[i]= m_Bound[i] - 1;
+              for (it = this->begin(); it < _end; ++it)
+                {
+                  (*it) -= m_WrapOffset[i];
+                }
+              if (m_OutputBuffer)
+                {
+                  m_OutputBuffer -= m_WrapOffset[i]
+                    + m_OutputWrapOffsetModifier[i];
                 }
             }        
           else break;
@@ -83,7 +141,7 @@ RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
 template<class TPixel, unsigned int VDimension>
 RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
 RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
-::Begin()
+::Begin() const
 {
   //Copy the current iterator
   Self it( *this );
@@ -97,7 +155,7 @@ RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
 template<class TPixel, unsigned int VDimension>
 RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
 RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
-::End()
+::End() const
 {
   IndexType endIndex;
   
@@ -105,14 +163,13 @@ RegionBoundaryNeighborhoodIterator<TPixel, VDimension>
   Self it( *this );
 
   // Calculate the end index
-  endIndex.m_Index[0] = m_Bound[0];
-  for (int i = 1; i< VDimension; ++i)
+  for (int i = 0; i< VDimension; ++i)
     {
       endIndex.m_Index[i] = m_Bound[i] -1;
     }
   
-  // Set the position to the m_BeginOffset
   it.SetLocation( endIndex );
+  ++it;
 
   return it;
 }
