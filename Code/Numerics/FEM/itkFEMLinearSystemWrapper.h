@@ -84,27 +84,70 @@ public:
   virtual void InitB(void) = 0;
 
   /**
-   * Virtual function to access a specific element of the A matrix. Function
-   * must return a valid reference to element that can be modified.
+   * Virtual function to get a value of a specific element of the A matrix.
    * \param i row of the element
    * \param j column of the element
    */
-  virtual Float& A(int i, int j) = 0;
+  virtual Float GetA(int i, int j) = 0;
+
+  /**
+   * Virtual function to set a value of a specific element of the A matrix.
+   * \param i row of the element
+   * \param j column of the element
+   * \param value new value of the element
+   */
+  virtual void SetA(int i, int j, Float value) = 0;
+
+  /**
+   * Virtual function to add a value to a specific element of the A matrix.
+   * \param i row of the element
+   * \param j column of the element
+   * \param value value to add to the existing element
+   */
+  virtual void AddA(int i, int j, Float value) = 0;
 
   /**
    * Virtual function to access a specific element of the B vector. Function
    * must return a valid reference to element that can be modified.
    * \param i element number in vector B
    */
-  virtual Float& B(int i) = 0;
 
   /**
-   * Virtual function to access a specific element of the solution vector.
+   * Virtual function to get a value of a specific element of the B vector.
+   * \param i row of the element
+   */
+  virtual Float GetB(int i) = 0;
+
+  /**
+   * Virtual function to set a value of a specific element of the B vector.
+   * \param i row of the element
+   * \param value new value of the element
+   */
+  virtual void SetB(int i, Float value) = 0;
+
+  /**
+   * Virtual function to add a value to a specific element of the B vector.
+   * \param i row of the element
+   * \param value value to add to the existing element
+   */
+  virtual void AddB(int i, Float value) = 0;
+
+  /**
+   * Virtual function to get a value of specific element of the solution
+   * vector.
    * \param i element number in solution vector
    * \note This function can only be called after the linear system was
    *       succesfully solved by calling the Solve() function.
    */
-  virtual Float x(int i) = 0;
+  virtual Float GetX(int i) = 0;
+
+  /**
+   * Virtual function to set a value of specific element of the solution
+   * vector.
+   * \param i element number in solution vector
+   * \param value new value of the element
+   */
+  virtual void SetX(int i, Float value) = 0;
 
   /**
    * Solves the linear system and creates the solution vector, which can later

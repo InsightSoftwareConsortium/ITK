@@ -44,9 +44,14 @@ public:
   virtual void InitA(int N);  
   virtual void InitB(void);
 
-  virtual Float& A(int i, int j) { return (*m_A)(i,j); }
-  virtual Float& B(int i) { return (*m_B)(i); }
-  virtual Float x(int i) { return (*m_x)(i); }
+  virtual Float GetA(int i, int j) { return (*m_A)(i,j); }
+  virtual void SetA(int i, int j, Float value) { (*m_A)(i,j)=value; }
+  virtual void AddA(int i, int j, Float value) { (*m_A)(i,j)+=value; }
+  virtual Float GetB(int i) { return (*m_B)(i); }
+  virtual void SetB(int i, Float value) { (*m_B)(i)=value; }
+  virtual void AddB(int i, Float value) { (*m_B)(i)+=value; }
+  virtual Float GetX(int i) { return (*m_x)(i); }
+  virtual void SetX(int i, Float value) { (*m_x)(i)=value; }
   virtual void Solve(void);
   
   virtual ~LinearSystemWrapperVNL();

@@ -371,7 +371,7 @@ void Solver::AssembleK() {
          */
         if ( Ke(j,k)!=Float(0.0) )
         {
-          m_ls->A( (*e)->uDOF(j)->GFN , (*e)->uDOF(k)->GFN )+=Ke(j,k);
+          m_ls->AddA( (*e)->uDOF(j)->GFN , (*e)->uDOF(k)->GFN, Ke(j,k) );
         }
 
       }
@@ -401,8 +401,8 @@ void Solver::AssembleK() {
         throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleK()","Illegal GFN!");
       }
 
-      m_ls->A(gfn, NGFN+(*c)->Index)=q->value;
-      m_ls->A(NGFN+(*c)->Index, gfn)=q->value;  // this is a symetric matrix...
+      m_ls->SetA(gfn, NGFN+(*c)->Index, q->value);
+      m_ls->SetA(NGFN+(*c)->Index, gfn, q->value);  // this is a symetric matrix...
 
     }
   }
@@ -462,7 +462,7 @@ void Solver::AssembleF(int dim) {
          * FIXME: We assume that the implementation of force vector inside the LoadNode class is correct for given
          * number of dimensions.
          */
-        m_ls->B(l1->node->uDOF(dof)->GFN)+=l1->F[dof+l1->node->N()*dim];
+        m_ls->AddB(l1->node->uDOF(dof)->GFN , l1->F[dof+l1->node->N()*dim]);
       }
 
       // that's all there is to DOF loads, go to next load in an array
@@ -499,7 +499,7 @@ void Solver::AssembleF(int dim) {
             }
 
             // update the master force vector (take care of the correct isotropic dimensions)
-            m_ls->B(el0->uDOF(j)->GFN)+=Fe(j+dim*Ne);
+            m_ls->AddB(el0->uDOF(j)->GFN , Fe(j+dim*Ne));
           }
         }
       
@@ -522,7 +522,7 @@ void Solver::AssembleF(int dim) {
             }
 
             // update the master force vector (take care of the correct isotropic dimensions)
-            m_ls->B((*e)->uDOF(j)->GFN)+=Fe(j+dim*Ne);
+            m_ls->AddB((*e)->uDOF(j)->GFN , Fe(j+dim*Ne));
 
           }
 
@@ -539,7 +539,7 @@ void Solver::AssembleF(int dim) {
      */
     if ( LoadBCMFC::Pointer l1=dynamic_cast<LoadBCMFC*>(&*l0) ) {
 
-      m_ls->B(NGFN+l1->Index)=l1->rhs[dim];
+      m_ls->SetB(NGFN+l1->Index , l1->rhs[dim]);
 
       // skip to next load in an array
       continue;
@@ -591,7 +591,7 @@ void Solver::UpdateDisplacements() {
    * solution vector back to node objects.
    */
   for(int i=0;i<NGFN;i++)
-    GFN2Disp[i]->value=m_ls->x(i);
+    GFN2Disp[i]->value=m_ls->GetX(i);
 
 }
 
