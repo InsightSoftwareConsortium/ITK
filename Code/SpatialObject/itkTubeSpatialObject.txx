@@ -179,8 +179,8 @@ TubeSpatialObject< TDimension >
     typename PointListType::const_iterator end = m_Points.end(); 
     typename PointListType::const_iterator min;  
   
-    PointType transformedPoint = point;
-    TransformPointToLocalCoordinate(transformedPoint);
+    TransformType * igT = GetIndexGlobalTransform()->Inverse();
+    PointType transformedPoint = igT->TransformPoint(point);
   
     if( m_Bounds->IsInside(transformedPoint) )
       {

@@ -65,8 +65,8 @@ ImageSpatialObject< TDimension,  PixelType >
 {
   if( name == NULL || strstr(typeid(Self).name(), name) )
     {
-    PointType p = point;
-    TransformPointToLocalCoordinate( p );
+    const TransformType * giT = GetGlobalIndexTransform();
+    PointType p = giT->TransformPoint(point);
     if(m_Bounds->IsInside( p))
       {
       return true;
@@ -86,8 +86,9 @@ ImageSpatialObject< TDimension,  PixelType >
 {
   if( IsEvaluableAt( point, 0, name ) )
     {
-    PointType p = point;
-    TransformPointToLocalCoordinate(p);
+    const TransformType * giT = GetGlobalIndexTransform();
+    PointType p = giT->TransformPoint(point);
+
     IndexType index;
     for(unsigned int i=0; i<TDimension; i++)
       {

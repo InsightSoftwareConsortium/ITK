@@ -62,8 +62,8 @@ EllipseSpatialObject< TDimension >
     
   if(name == NULL || strstr(typeid(Self).name(), name) )
     {
-    PointType transformedPoint = point;
-    TransformPointToLocalCoordinate(transformedPoint);
+    const TransformType * giT = GetGlobalIndexTransform();
+    PointType transformedPoint = giT->TransformPoint(point);
   
     double r = 0;
     for(unsigned int i=0;i<TDimension;i++)

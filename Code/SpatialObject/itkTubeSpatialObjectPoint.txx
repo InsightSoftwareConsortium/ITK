@@ -34,7 +34,6 @@ TubeSpatialObjectPoint< TPointDimension >
   m_T.Fill(0);
   m_V1.Fill(0);
   m_V2.Fill(0);
-  m_ID = 0;
   m_R = 0;
   m_Medialness = 0;
   m_Ridgeness = 0;
@@ -184,6 +183,19 @@ TubeSpatialObjectPoint< TPointDimension >
   return m_V1;
 }
 
+template< unsigned int TPointDimension >
+const typename TubeSpatialObjectPoint< TPointDimension >::CovariantVectorType &
+TubeSpatialObjectPoint< TPointDimension >
+::GetCV1() 
+{
+  int i;
+  for(i=0; i<TPointDimension; i++)
+    {
+    m_CV1[i] = m_V1[i];
+    }
+  return m_CV1;
+}
+
 // n-D case
 template< unsigned int TPointDimension >
 void 
@@ -192,6 +204,19 @@ TubeSpatialObjectPoint< TPointDimension >
 {
   m_V1 = newV1;
 }
+
+// n-D case
+template< unsigned int TPointDimension >
+void 
+TubeSpatialObjectPoint< TPointDimension >
+::SetV1( const CovariantVectorType & newV1 ) 
+  {
+  int i;
+  for(i=0; i<TPointDimension; i++)
+    {
+    m_V1[i] = newV1[i];
+    }
+  }
 
 // 3-D case
 template< unsigned int TPointDimension >
@@ -222,6 +247,19 @@ TubeSpatialObjectPoint< TPointDimension >
   return m_V2;
 }
 
+template< unsigned int TPointDimension >
+const typename TubeSpatialObjectPoint< TPointDimension >::CovariantVectorType &
+TubeSpatialObjectPoint< TPointDimension >
+::GetCV2() 
+  {
+  int i;
+  for(i=0; i<TPointDimension; i++)
+    {
+    m_CV2[i] = m_V2[i];
+    }
+  return m_CV2;
+  }
+
 // n-D case
 template< unsigned int TPointDimension >
 void 
@@ -230,6 +268,18 @@ TubeSpatialObjectPoint< TPointDimension >
 {
   m_V2 = newV2;
 }
+
+template< unsigned int TPointDimension >
+void 
+TubeSpatialObjectPoint< TPointDimension >
+::SetV2( const CovariantVectorType & newV2 ) 
+  {
+  int i;
+  for(i=0; i<TPointDimension; i++)
+    {
+    m_V2[i] = newV2[i];
+    }
+  }
 
 // 3-D case
 template< unsigned int TPointDimension >
@@ -307,14 +357,18 @@ TubeSpatialObjectPoint< TPointDimension >
 ::PrintSelf( std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-  os << "ID: " << m_ID << " ";
-  os << "#Dims: " << m_NumDimensions << " ";
-  os << "R: " << m_R << " ";
-  os << "Medialness: " << m_Medialness << " ";
-  os << "Ridgeness: " << m_Ridgeness << " ";
-  os << "Mark: " << m_Mark << std::endl;
-  os << "X: " << m_X << "";
-  os << "T: " << m_T;
+  os << indent << "#Dims: " << m_NumDimensions << std::endl;
+  os << indent << "R: " << m_R << std::endl;
+  os << indent << "Medialness: " << m_Medialness << std::endl;
+  os << indent << "Ridgeness: " << m_Ridgeness << std::endl;
+  os << indent << "X: " << m_X << std::endl;
+  os << indent << "T: " << m_T << std::endl;
+  os << indent << "V1: " << m_V1 << std::endl;
+  os << indent << "V2: " << m_V2 << std::endl;
+  os << indent << "Alpha1: " << m_Alpha1 << std::endl;
+  os << indent << "Alpha2: " << m_Alpha2 << std::endl;
+  os << indent << "Alpha3: " << m_Alpha3 << std::endl;
+  os << indent << "Mark: " << m_Mark << std::endl;
 }
 
 
@@ -332,6 +386,12 @@ TubeSpatialObjectPoint< TPointDimension >
   m_NumDimensions = rhs.m_NumDimensions;
   m_X = rhs.m_X;
   m_T = rhs.m_T;
+  m_V1 = rhs.m_V1;
+  m_V2 = rhs.m_V2;
+  m_Alpha1 = rhs.m_Alpha1;
+  m_Alpha2 = rhs.m_Alpha2;
+  m_Alpha3 = rhs.m_Alpha3;
+  m_Color = rhs.m_Color;
   return * this;
 }
 

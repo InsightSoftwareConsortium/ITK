@@ -50,10 +50,10 @@ public:
   typedef RGBAPixel< float >                PixelType;
 
   /** Get the SpatialObjectPoint Id. */
-  unsigned int GetId( void );
+  int GetID( void ) const;
 
   /** Set the SpatialObjectPoint Id.*/
-  void SetId(const unsigned int newID);
+  void SetID(const int newID);
 
   /** Return a pointer to the point object.*/
   PointType GetPosition( void ) const;
@@ -89,13 +89,16 @@ public:
   void SetAlpha( float a);
   float GetAlpha( void ) const;
 
+  /** PrintSelf method */
+  void Print(std::ostream &os) const;  
+
 protected:
 
   /** PrintSelf method */
-  void PrintSelf(std::ostream &os, Indent indent) const;  
+  virtual void PrintSelf(std::ostream &os, Indent indent) const;  
 
   /** A unique ID assigned to this SpatialObjectPoint */
-  unsigned int m_ID;
+  int m_ID;
 
   /** Position of the point */
   PointType m_X;

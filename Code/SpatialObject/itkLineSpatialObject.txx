@@ -150,8 +150,8 @@ LineSpatialObject< TDimension >
     typename PointListType::const_iterator it = m_Points.begin();
     typename PointListType::const_iterator itEnd = m_Points.end();
     
-    PointType transformedPoint = point;
-    TransformPointToLocalCoordinate(transformedPoint);
+    const TransformType *giT = GetGlobalIndexTransform();
+    PointType transformedPoint = giT->TransformPoint(point);
   
     if( m_Bounds->IsInside(transformedPoint) )
       {

@@ -142,15 +142,24 @@ public:
   TransformType * GetTransform( void ); 
   const TransformType * GetTransform( void ) const; 
 
+  TransformType * GetIndexTransform( void );
+  const TransformType * GetIndexTransform( void ) const;
+
   /** This defines the transformation from the global coordinate frame.
    *  By setting this transform, the local transform is computed */
   void SetGlobalTransform( TransformType * transform );
   TransformType * GetGlobalTransform( void );
   const TransformType * GetGlobalTransform( void ) const;
 
+  TransformType * GetIndexGlobalTransform( void );
+  const TransformType * GetIndexGlobalTransform( void ) const;
+
+  TransformType * GetGlobalIndexTransform( void );
+  const TransformType * GetGlobalIndexTransform( void ) const;
+
   /** Set the center of the rotation */
   itkSetMacro(CenterOfRotation,PointType);
-  itkGetMacro(CenterOfRotation,PointType);
+  itkGetConstMacro(CenterOfRotation,PointType);
 
   /** Returns a degree of membership to the object. 
    *  That's useful for fuzzy objects. */ 
@@ -179,14 +188,6 @@ public:
                      OutputVectorType & value,
                      unsigned int depth=0,
                      char * name = NULL);
-
-  /** Returns the coordinates of the point passed as argument in the object
-   * local coordinate system. */
-  void TransformPointToLocalCoordinate( PointType & p ) const;
-
-  /** Returns the coordinates of the point passed as argument in the object
-   * local coordinate system. */
-  void TransformPointToGlobalCoordinate( PointType & p ) const; 
 
   /** Returns the list of local to global transforms */
   TransformListType & GetGlobalTransformList( void );
@@ -217,17 +218,14 @@ public:
   /** Set the Spacing of the spatial object */
   void SetSpacing( const double spacing[ObjectDimension] );
 
+  /** Get the spacing of the spatial object */
+  const double* GetSpacing() const {return m_Spacing;}
+  
   /** Set the Scale of the spatial object */
   void SetScale( const double scale[ObjectDimension] );
 
   /** Get the spacing of the spatial object */
-  const double* GetSpacing() const {return m_Spacing;}
-  
-  /** Get the spacing of the spatial object */
   const double* GetScale() const {return m_Scale;}
-
-  /** Get the spacing of the spatial object */
-  const double* GetGlobalScale() const {return m_GlobalScale;}
 
   /** Returns the latest modified time of the spatial object, and 
    * any of its components. */
@@ -371,6 +369,9 @@ public:
     return index;
   }
 
+  /** Copy Spacing, Scale, CenterOfRotation, and Transform */
+  virtual void CopySpatialObjectInformation(const SpatialObject * obj);
+
   /** Copy information from the specified data set.  This method is
    * part of the pipeline execution model. By default, a ProcessObject
    * will copy meta-data from the first input to all of its
@@ -442,13 +443,15 @@ protected:
   unsigned long       m_BoundsMTime;
   double              m_Spacing[ObjectDimension];
   double              m_Scale[ObjectDimension];
-  double              m_GlobalScale[ObjectDimension];
   PointType           m_CenterOfRotation;
+
   TransformListType   m_GlobalTransformList;
 
   TransformPointer    m_Transform;
-  TransformPointer    m_TransformWithCoR;
+  TransformPointer    m_IndexTransform;
   TransformPointer    m_GlobalTransform; 
+  TransformPointer    m_IndexGlobalTransform; 
+  TransformPointer    m_GlobalIndexTransform; 
 
   /** Constructor. */ 
   SpatialObject(); 

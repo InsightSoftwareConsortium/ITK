@@ -27,7 +27,7 @@ template< unsigned int TPointDimension >
 SpatialObjectPoint< TPointDimension >
 ::SpatialObjectPoint( void ) 
 { 
-  m_ID = 0;
+  m_ID = -1;
   m_Color.SetRed(1.0); // red by default
   m_Color.SetGreen(0);
   m_Color.SetBlue(0);
@@ -154,16 +154,16 @@ SpatialObjectPoint< TPointDimension >
 template< unsigned int TPointDimension >
 void 
 SpatialObjectPoint< TPointDimension >
-::SetId( const unsigned int newID ) 
+::SetID( const int newID ) 
 {
   m_ID = newID;
 }
 
 /** Get the Identification number of a point */
 template< unsigned int TPointDimension >
-unsigned int 
+int 
 SpatialObjectPoint< TPointDimension >
-::GetId( void ) 
+::GetID( void ) const
 {
   return m_ID;
 }
@@ -230,6 +230,15 @@ SpatialObjectPoint< TPointDimension >
   return * this;
 }
 
+
+/** PrintSelfMethod */
+template< unsigned int TPointDimension >
+void
+SpatialObjectPoint< TPointDimension >
+::Print(std::ostream & os) const
+{
+  this->PrintSelf(os, 3);
+}
 
 /** PrintSelfMethod */
 template< unsigned int TPointDimension >

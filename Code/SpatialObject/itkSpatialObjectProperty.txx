@@ -29,6 +29,9 @@ SpatialObjectProperty< TComponentType >
 {
   m_MTime=0;
   m_Color.SetRed(1);
+  m_Color.SetGreen(1);
+  m_Color.SetBlue(1);
+  m_Color.SetAlpha(1);
 }
 
 template< class TComponentType >

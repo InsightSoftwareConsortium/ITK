@@ -36,20 +36,27 @@ SpatialObject< TDimension >
   m_Bounds = BoundingBoxType::New();
   m_BoundsMTime = 0;
   m_Property = PropertyType::New();
+
   m_Transform = TransformType::New();
+  m_Transform->SetIdentity();
+  m_IndexTransform = TransformType::New();
+  m_IndexTransform->SetIdentity();
   m_GlobalTransform = TransformType::New();
-  m_TransformWithCoR = TransformType::New();
+  m_GlobalTransform->SetIdentity();
+  m_IndexGlobalTransform = TransformType::New();
+  m_IndexGlobalTransform->SetIdentity();
+  m_GlobalIndexTransform = TransformType::New();
+  m_GlobalIndexTransform->SetIdentity();
+
   // Initialize the spacing to 1 by default
   for (unsigned int i=0; i<ObjectDimension; i++)
   {
     m_Spacing[i] = 1;
-    m_Scale[i] = 1;
-    m_GlobalScale[i] = 1;
     m_CenterOfRotation[i] = 0;
   }
   
   SetParent(NULL);
-  m_Id = 0;
+  m_Id = -1;
   m_ParentId=-1; // by default
 }
 
@@ -104,32 +111,9 @@ SpatialObject< TDimension >
       m_Spacing[i] = spacing[i];
     }
   }
+
+  ComputeGlobalTransform();
 }
-
-
-/** Set the Scale of the spatial object */
-template< unsigned int TDimension >
-void
-SpatialObject< TDimension >
-::SetScale(const double scale[ObjectDimension] )
-{
-  unsigned int i; 
-  for (i=0; i<ObjectDimension; i++)
-  {
-    if ( scale[i] != m_Scale[i] )
-    {
-      break;
-    }
-  } 
-  if ( i < ObjectDimension ) 
-  { 
-    for (i=0; i<ObjectDimension; i++)
-    {
-      m_Scale[i] = scale[i];
-    }
-  }
-}
-
 
 /** Return the Derivative at a point given the order of the derivative */
 template< unsigned int TDimension >
@@ -394,42 +378,49 @@ SpatialObject< TDimension >
 {
 
   typename TransformType::MatrixType matrix = m_Transform->GetMatrix();
+  typename TransformType::MatrixType imatrix = m_Transform->GetMatrix();
   typename TransformType::OffsetType offset = m_Transform->GetOffset();
 
   // matrix is changed to include the scaling
   for(unsigned int i=0;i<TDimension;i++)
-  {
-    for(unsigned int j=0;j<TDimension;j++)
     {
-      matrix.GetVnlMatrix().put(i,j,matrix.GetVnlMatrix().get(i,j)*m_Scale[i]);
+    for(unsigned int j=0;j<TDimension;j++)
+      {
+      imatrix.GetVnlMatrix().put(i, j,
+          imatrix.GetVnlMatrix().get(i,j)*m_Spacing[i]);
+      }
     }
-    m_GlobalScale[i] = m_Scale[i];
-  }
 
   PointType point;
   point = matrix*m_CenterOfRotation;
 
   for(unsigned i=0;i<TDimension;i++)
-  {
-    offset[i] += m_Scale[i]*m_CenterOfRotation[i]-point[i];
-  }
+    {
+    offset[i] += m_CenterOfRotation[i]-point[i];
+    }
 
-  m_TransformWithCoR->SetMatrix(matrix);
-  m_TransformWithCoR->SetOffset(offset);
+  m_IndexTransform->SetMatrix(imatrix);
+  m_IndexTransform->SetOffset(offset);
 
   m_GlobalTransform->SetMatrix(matrix);
   m_GlobalTransform->SetOffset(offset);
 
+  m_IndexGlobalTransform->SetMatrix(imatrix);
+  m_IndexGlobalTransform->SetOffset(offset);
 
   if(m_Parent)
-  {
-    for(unsigned int i=0;i<TDimension;i++)
     {
-      m_GlobalScale[i] *= dynamic_cast<const SpatialObject<TDimension>*>(m_Parent)->GetGlobalScale()[i];
+    m_GlobalTransform->Compose(dynamic_cast<const SpatialObject<TDimension>*>
+                               (m_Parent)->GetGlobalTransform(),false);
+    m_IndexGlobalTransform->Compose(
+                               dynamic_cast<const SpatialObject<TDimension>*>
+                               (m_Parent)->GetGlobalTransform(),false);
     }
-    m_GlobalTransform->Compose(dynamic_cast<const SpatialObject<TDimension>*>(m_Parent)->GetGlobalTransform(),false);
-  }
 
+  m_GlobalIndexTransform->SetMatrix(
+                              m_IndexGlobalTransform->Inverse()->GetMatrix());
+  m_GlobalIndexTransform->SetOffset(
+                              m_IndexGlobalTransform->Inverse()->GetOffset());
   
   // Propagate the changes to the children
   typename ChildrenListType::iterator it = m_Children.begin();
@@ -460,6 +451,24 @@ SpatialObject< TDimension >
   return m_Transform.GetPointer();
 }
 
+/** Get the local transformation */
+template< unsigned int TDimension >
+typename SpatialObject< TDimension >::TransformType *
+SpatialObject< TDimension >
+::GetIndexTransform( void )
+{
+  return m_IndexTransform.GetPointer();
+}
+
+/** Get the local transformation (const)*/
+template< unsigned int TDimension >
+const typename SpatialObject< TDimension >::TransformType *
+SpatialObject< TDimension >
+::GetIndexTransform( void ) const
+{
+  return m_IndexTransform.GetPointer();
+}
+
 
 /** Set the global to local transformation */
 template< unsigned int TDimension >
@@ -481,9 +490,39 @@ SpatialObject< TDimension >
   m_Transform = m_GlobalTransform;
 
   if(m_Parent)
-  {
-    m_Transform->Compose(dynamic_cast<const SpatialObject<TDimension>*>(m_Parent)->GetGlobalTransform()->Inverse(),true);
-  }
+    {
+    m_Transform->Compose(dynamic_cast<const SpatialObject<TDimension>*>
+                         (m_Parent)->GetGlobalTransform()->Inverse(),true);
+    }
+
+  typename TransformType::MatrixType imatrix = m_Transform->GetMatrix();
+  typename TransformType::MatrixType igmatrix = m_GlobalTransform->GetMatrix();
+  typename TransformType::OffsetType offset = m_Transform->GetOffset();
+  typename TransformType::OffsetType goffset = m_GlobalTransform->GetOffset();
+
+  // matrix is changed to include the scaling
+  for(unsigned int i=0;i<TDimension;i++)
+    {
+    for(unsigned int j=0;j<TDimension;j++)
+      {
+      imatrix.GetVnlMatrix().put(i, j,
+          imatrix.GetVnlMatrix().get(i,j)*m_Spacing[i]);
+      igmatrix.GetVnlMatrix().put(i, j,
+          imgatrix.GetVnlMatrix().get(i,j)*m_Spacing[i]);
+      }
+    }
+
+  m_IndexTransform->SetMatrix(imatrix);
+  m_IndexTransform->SetOffset(offset);
+
+  m_IndexGlobalTransform->SetMatrix(igmatrix);
+  m_IndexGlobalTransform->SetOffset(goffset);
+
+  m_GlobalIndexTransform->SetMatrix(
+                              m_IndexGlobalTransform->Inverse()->GetMatrix());
+  m_GlobalIndexTransform->SetOffset(goffset);
+  
+
 }
 
 
@@ -505,6 +544,42 @@ SpatialObject< TDimension >
   return m_GlobalTransform.GetPointer();
 }
 
+/** Get the global transformation */
+template< unsigned int TDimension >
+typename SpatialObject< TDimension >::TransformType *
+SpatialObject< TDimension >
+::GetIndexGlobalTransform( void )
+{
+  return m_IndexGlobalTransform.GetPointer();
+}
+
+/** Get the global transformation (const)*/
+template< unsigned int TDimension >
+const typename SpatialObject< TDimension >::TransformType *
+SpatialObject< TDimension >
+::GetIndexGlobalTransform( void ) const
+{
+  return m_IndexGlobalTransform.GetPointer();
+}
+
+/** Get the global transformation */
+template< unsigned int TDimension >
+typename SpatialObject< TDimension >::TransformType *
+SpatialObject< TDimension >
+::GetGlobalIndexTransform( void )
+{
+  return m_GlobalIndexTransform.GetPointer();
+}
+
+/** Get the global transformation (const)*/
+template< unsigned int TDimension >
+const typename SpatialObject< TDimension >::TransformType *
+SpatialObject< TDimension >
+::GetGlobalIndexTransform( void ) const
+{
+  return m_GlobalIndexTransform.GetPointer();
+}
+
 /** Get the Global to Local transformation list */
 template< unsigned int TDimension >
 typename SpatialObject< TDimension >::TransformListType &
@@ -512,24 +587,6 @@ SpatialObject< TDimension >
 ::GetGlobalTransformList( void )
 {
   return m_GlobalTransformList;
-}
-
-/** Transform a point to the local coordinate frame */
-template< unsigned int TDimension >
-void
-SpatialObject< TDimension >
-::TransformPointToLocalCoordinate( PointType & p ) const
-{
-  p = m_GlobalTransform->Inverse()->TransformPoint(p);
-}
-
-/** Transform a point to the global coordinate frame */
-template< unsigned int TDimension >
-void
-SpatialObject< TDimension >
-::TransformPointToGlobalCoordinate( PointType & p ) const
-{
-  p = m_GlobalTransform->TransformPoint(p);
 }
 
 /** Get the modification time  */
@@ -829,6 +886,17 @@ SpatialObject< TDimension >
   m_RequestedRegionInitialized = true;
 }
 
+
+template< unsigned int TDimension >
+void
+SpatialObject< TDimension >
+::CopySpatialObjectInformation(const SpatialObject *obj)
+  {
+  this->SetSpacing(obj->GetSpacing());
+  this->SetCenterOfRotation(obj->GetCenterOfRotation());
+  m_Transform->SetParameters(obj->GetTransform()->GetParameters());
+  ComputeGlobalTransform();
+  }
 
 template< unsigned int TDimension >
 void

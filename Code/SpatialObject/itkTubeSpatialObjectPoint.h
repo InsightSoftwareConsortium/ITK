@@ -19,6 +19,7 @@
 #define __itkTubeSpatialObjectPoint_h
 
 #include "itkSpatialObjectPoint.h"
+#include "itkCovariantVector.h"
 #include "vnl/vnl_vector_fixed.h"
 
 namespace itk 
@@ -43,6 +44,7 @@ public:
   typedef SpatialObjectPoint<TPointDimension> Superclass;
   typedef Point< double, TPointDimension >    PointType;
   typedef Vector<double, TPointDimension >    VectorType;
+  typedef CovariantVector<double, TPointDimension >    CovariantVectorType;
  
   /** Constructor. This one defines the # of dimensions in the TubeSpatialObjectPoint */
   TubeSpatialObjectPoint( void );
@@ -59,18 +61,22 @@ public:
   void SetTangent(const double t0, const double t1, const double t2);
 
   /** Get V1 */
+  const CovariantVectorType & GetCV1( void );
   const VectorType & GetV1( void ) const;
 
   /** Set V1 */
   void SetV1(const VectorType & newV1);
+  void SetV1(const CovariantVectorType & newV1);
   void SetV1(const double v10, const double v11);
   void SetV1(const double v10, const double v11, const double v12);
 
   /** Get V2 */
-   const VectorType & GetV2( void ) const;
+  const VectorType & GetV2( void ) const;
+  const CovariantVectorType & GetCV2( void );
 
   /** Set V2 */
   void SetV2(const VectorType & newV2);
+  void SetV2(const CovariantVectorType & newV2);
   void SetV2(const double v20, const double v21);
   void SetV2(const double v20, const double v21, const double v22);
 
@@ -130,10 +136,9 @@ public:
 
 protected:
 
-  /** A unique ID assigned to this TubeSpatialObjectPoint */
-  unsigned int m_ID;
-
   VectorType m_T;
+  CovariantVectorType m_CV1;
+  CovariantVectorType m_CV2;
   VectorType m_V1;
   VectorType m_V2;
 
