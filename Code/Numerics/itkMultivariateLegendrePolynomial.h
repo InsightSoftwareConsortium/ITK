@@ -210,7 +210,8 @@ public:
           }
         
         // normalized x [-1, 1]
-        double norm_x = m_NormFactor[0] * index[0] - 1 ; 
+        double norm_x = static_cast<double>(
+                    m_NormFactor[0] * index[0] - 1 ); 
         
         return LegendreSum(norm_x, m_Degree, m_CachedXCoef);
       }
