@@ -92,6 +92,7 @@ int main( int argc, char *argv[] )
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile movingImageFile ";
     std::cerr << " outputImageFile " << std::endl;
+    std::cerr << " [outputDeformationFieldFile] " << std::endl;
     return 1;
     }
 
@@ -387,6 +388,37 @@ int main( int argc, char *argv[] )
   // due to expiration.
   //
   // Software Guide : EndLatex
+
+
+
+  // Software Guide : BeginLatex
+  //
+  // It may be also desirable to write the deformation field as an image of
+  // vectors.  This can be done with the following code.
+  //
+  // Software Guide : EndLatex
+
+  if( argc > 4 ) // if a fourth line argument has been provided...
+    {
+
+  // Software Guide : BeginCodeSnippet
+  typedef itk::ImageFileWriter< DeformationFieldType > FieldWriterType;
+  FieldWriterType::Pointer fieldWriter = FieldWriterType::New();
+  fieldWriter->SetFileName( argv[4] );
+  fieldWriter->SetInput( filter->GetOutput() );
+
+  fieldWriter->Update();
+  // Software Guide : EndCodeSnippet
+
+  // Software Guide : BeginLatex
+  //
+  // Note that the file format used for writing the deformation field must be
+  // capable of representing multiple components per pixel. This is the case
+  // for the MetaImage and VTK fileformats for example.
+  //
+  // Software Guide : EndLatex
+
+    }
 
   return 0;
 }
