@@ -39,8 +39,8 @@ SphereSource<TOutputMesh>
   m_Squareness2 = 1.0;
   m_Center.Fill(0);
   m_Scale.Fill(1);
-  m_ResolutionX = 0;
-  m_ResolutionY = 0;
+  m_ResolutionX = 4;
+  m_ResolutionY = 4;
 }
 
 /**

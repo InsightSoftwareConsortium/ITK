@@ -32,6 +32,10 @@ SphereMeshSource<TOutputMesh>
   this->ProcessObject::SetNthOutput(0, output.GetPointer());
   m_Squareness1 = 1.0;
   m_Squareness2 = 1.0;
+  m_Center.Fill(0);
+  m_Scale.Fill(1.0);
+  m_ResolutionX = 4;
+  m_ResolutionY = 4;
 }
 
 template<class TOutputMesh>
