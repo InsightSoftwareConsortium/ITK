@@ -46,7 +46,6 @@
 #include "itkCentralDifferenceImageFunction.h"
 #include "itkColorTable.h"
 #include "itkCommand.h"
-#include "itkConstRandomAccessNeighborhoodIterator.h"
 #include "itkConicShellInteriorExteriorSpatialFunction.h"
 #include "itkCosImageAdaptor.h"
 #include "itkCreateObjectFunction.h"
