@@ -107,12 +107,16 @@ public:
    */
   typedef typename RegionType::SizeType   SizeType;
 
-
+  
+  /**
+   * The dimension of the input image.
+   */
+  enum { InputImageDimension = InputImageType::ImageDimension };
 
   /**
    * Pointer Type for the vector distance image
    */
-  typedef Image< OffsetType, TInputImage::ImageDimension > VectorImageType;
+  typedef Image< OffsetType, InputImageDimension > VectorImageType;
 
 
   /**
@@ -162,7 +166,7 @@ public:
   /**
    * Compute Danielsson distance map and Voronoi Map
    */
-  void GenerateData(void);  
+  void GenerateData();  
 
 
   /**
@@ -172,7 +176,7 @@ public:
    * so the map has a value for each pixel corresponding to the label 
    * of the closest object. 
    */
-  OutputImagePointer GetVoronoiMap(void);
+  OutputImagePointer GetVoronoiMap();
 
 
   /**
@@ -185,21 +189,19 @@ public:
    * and the output image gives for each pixel its minimal distance from the object 
    * (if there is more than one object the closest object is considered).
    */
-  OutputImagePointer GetDistanceMap(void);
+  OutputImagePointer GetDistanceMap();
 
 
   /**
    * Get vector field of distances
    */
-  VectorImagePointer GetVectorDistanceMap(void);
+  VectorImagePointer GetVectorDistanceMap();
 
 
   /**
    * Connect input image to the filter
    */
-   void SetInputImage( TInputImage * InputImage );
-
-
+   void SetInputImage( InputImageType * InputImage );
 
 protected:
 
@@ -212,22 +214,21 @@ protected:
   /**
    * Prepare data
    */
-  void PrepareData(void);  
+  void PrepareData();  
+
+
+  /**
+   *  Compute Voronoi Map
+   */
+  void ComputeVoronoiMap();  
 
 
   /**
    * Update distance map locally
    */
-  void UpdateLocalDistance( VectorImagePointer &, 
-                            const IndexType &, 
-                            const OffsetType &    );  
-
-  /**
-   *  Compute Voronoi Map
-   */
-  void ComputeVoronoiMap(void);  
-
-
+  void UpdateLocalDistance(VectorImageType*,
+                           const IndexType&,
+                           const OffsetType&);
 
 private:   
 

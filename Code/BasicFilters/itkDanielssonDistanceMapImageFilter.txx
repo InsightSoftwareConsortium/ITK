@@ -23,8 +23,6 @@ namespace itk
 {
 
 
-
-
 /**
  *    Constructor
  */
@@ -58,7 +56,7 @@ template <class TInputImage,class TOutputImage>
 DanielssonDistanceMapImageFilter<
               TInputImage,TOutputImage>::OutputImagePointer 
 DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
-::GetDistanceMap(void)
+::GetDistanceMap()
 {
   return  dynamic_cast< OutputImageType * >(
                   this->ProcessObject::GetOutput(0).GetPointer() );
@@ -75,7 +73,7 @@ template <class TInputImage,class TOutputImage>
 DanielssonDistanceMapImageFilter<
          TInputImage,TOutputImage>::OutputImagePointer 
 DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
-::GetVoronoiMap(void)
+::GetVoronoiMap()
 {
   return  dynamic_cast< OutputImageType * >(
                   this->ProcessObject::GetOutput(1).GetPointer() );
@@ -93,7 +91,7 @@ template <class TInputImage,class TOutputImage>
 DanielssonDistanceMapImageFilter<
            TInputImage,TOutputImage>::VectorImagePointer 
 DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
-::GetVectorDistanceMap(void)
+::GetVectorDistanceMap()
 {
   return  dynamic_cast< VectorImageType * >(
                   this->ProcessObject::GetOutput(2).GetPointer() );
@@ -110,7 +108,7 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 template <class TInputImage,class TOutputImage>
 void 
 DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
-::PrepareData(void) 
+::PrepareData() 
 {
   
   OutputImagePointer voronoiMap = GetVoronoiMap();
@@ -211,7 +209,7 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
   typename VectorImageType::PixelType maxValue;
   typename VectorImageType::PixelType minValue;
 
-  for( unsigned int j=0; j<InputImageType::ImageDimension; j++ )
+  for( unsigned int j=0; j<InputImageDimension; j++ )
   {
     maxValue[j] =  2 * maxLength;
     minValue[j] =              0;
@@ -244,7 +242,7 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 template <class TInputImage,class TOutputImage>
 void 
 DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
-::ComputeVoronoiMap(void) 
+::ComputeVoronoiMap() 
 {
 
   OutputImagePointer    voronoiMap          =  GetVoronoiMap();
@@ -270,7 +268,7 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 
   OffsetType distanceVector = ct.Get();
   double distance = 0.0;
-  for(unsigned int i=0; i<InputImageType::ImageDimension; i++)
+  for(unsigned int i=0; i<InputImageDimension; i++)
   {
     distance += distanceVector[i] * distanceVector[i];
   }
@@ -288,20 +286,19 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
  *  Update locally the distance
  */
 template <class TInputImage,class TOutputImage>
-void 
-DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
-::UpdateLocalDistance( VectorImagePointer & components,
-                       const IndexType  & here,
-                       const OffsetType & offset )
+void
+DanielssonDistanceMapImageFilter<TInputImage, TOutputImage>
+::UpdateLocalDistance(VectorImageType* components,
+                      const IndexType& here,
+                      const OffsetType& offset)
 {
-
   IndexType  there            = here + offset;
   OffsetType offsetValueHere  = components->GetPixel( here  );
   OffsetType offsetValueThere = components->GetPixel( there );
 
   double norm1 = 0.0;
   double norm2 = 0.0;
-  for( unsigned int i=0; i<InputImageType::ImageDimension; i++ )
+  for( unsigned int i=0; i<InputImageDimension; i++ )
   {
     const double v1 = static_cast< double >(  offsetValueHere[ i]  );
     const double v2 = static_cast< double >(  offsetValueThere[i] );
@@ -314,11 +311,7 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
   {
      components->GetPixel( here ) = offsetValueThere + offset;
   }
-
 }
-
-
-
 
 
 /**
@@ -327,7 +320,7 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 template <class TInputImage,class TOutputImage>
 void 
 DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
-::GenerateData(void) 
+::GenerateData() 
 {
 
   PrepareData();
@@ -342,7 +335,7 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
   SizeType    size    = region.GetSize();
   OffsetType  offset;
 
-  for(unsigned int dim=0; dim<InputImageType::ImageDimension; dim++)
+  for(unsigned int dim=0; dim<InputImageDimension; dim++)
   {
     start [ dim ] += 1;
     size  [ dim ] -= 2;
