@@ -1,6 +1,13 @@
-/*=========================================================================
+The Insight Segmentation and Registration Toolkit (ITK) was initially
+developed under contract to the National Library of Medicine at the 
+National Institutes of Health. ITK is partially derived from VTK and VXL,
+hence some code is copyrighted accordingly (see VTKCopyright.txt and
+VXLCopyright.txt).
 
-Copyright (c) 2001 Insight Consortium
+The ITK copyright is as follows:
+
+
+Copyright (c) 2002 Insight Consortium
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -13,12 +20,13 @@ modification, are permitted provided that the following conditions are met:
    this list of conditions and the following disclaimer in the documentation
    and/or other materials provided with the distribution.
 
- * The name of the Insight Consortium, nor the names of any consortium members,
-   nor of any contributors, may be used to endorse or promote products derived
-   from this software without specific prior written permission.
+ * The name of the Insight Consortium, or the names of any consortium
+   members, or of any contributors, may not be used to endorse or promote
+   products derived from this software without specific prior written
+   permission.
 
-  * Modified source versions must be plainly marked as such, and must not be
-    misrepresented as being the original software.
+ * Modified source versions must be plainly marked as such, and must not be
+   misrepresented as being the original software.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS ``AS IS''
 AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -31,4 +39,5 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-=========================================================================*/
+
+See also the ITK web site: http://www.itk.com for more information.
