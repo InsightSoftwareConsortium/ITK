@@ -145,8 +145,8 @@ void TclGenerator::GeneratePackage(const configuration::Package* package)
       "  Wrapper< " << w->c_str() << " >::GetForInterpreter(interp);\n";
     }
 
-  std::string tclName = package->GetName();
-  std::string::iterator c = tclName.begin();
+  String tclName = package->GetName();
+  String::iterator c = tclName.begin();
   if(c != tclName.end())
     {
     for(++c; c != tclName.end(); ++c)
@@ -275,7 +275,7 @@ TclGenerator
 ::GenerateClassWrapper(std::ostream& wrapperStream,
                        const source::Class* c)
 {
-  std::string cName = c->GetQualifiedName();
+  String cName = c->GetQualifiedName();
   
   m_WrapperList.push_back(cName);
   
@@ -466,7 +466,7 @@ void TclGenerator::WriteWrapperClassDefinition(std::ostream& wrapperStream,
                                                const source::Class* c,
                                                const Methods& methods) const
 {
-  std::string cName = c->GetQualifiedName();
+  String cName = c->GetQualifiedName();
   wrapperStream <<
     "//--------------------------------------------------------------------\n"
     "// Class wrapper definition for\n"
