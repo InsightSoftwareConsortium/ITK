@@ -113,11 +113,11 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  unsigned int numberOfClasses = 2 ;
-  typedef itk::Vector< double, 1 > MeasurementVectorType ;
+  unsigned int numberOfClasses = 2;
+  typedef itk::Vector< double, 1 > MeasurementVectorType;
   
-  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType ;
-  SampleType::Pointer sample = SampleType::New() ;
+  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
+  SampleType::Pointer sample = SampleType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -140,27 +140,27 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::NormalVariateGenerator NormalGeneratorType ;
-  NormalGeneratorType::Pointer normalGenerator = NormalGeneratorType::New() ;
+  typedef itk::Statistics::NormalVariateGenerator NormalGeneratorType;
+  NormalGeneratorType::Pointer normalGenerator = NormalGeneratorType::New();
 
-  normalGenerator->Initialize( 101 ) ;
+  normalGenerator->Initialize( 101 );
 
-  MeasurementVectorType mv ;
-  double mean = 100 ;
-  double standardDeviation = 30 ;
+  MeasurementVectorType mv;
+  double mean = 100;
+  double standardDeviation = 30;
   for ( unsigned int i = 0 ; i < 100 ; ++i )
     {
-    mv = ( normalGenerator->GetVariate() * standardDeviation ) + mean ;
-    sample->PushBack( mv ) ;
+    mv = ( normalGenerator->GetVariate() * standardDeviation ) + mean;
+    sample->PushBack( mv );
     }
 
-  normalGenerator->Initialize( 3024 ) ;
-  mean = 200 ;
-  standardDeviation = 30 ;
+  normalGenerator->Initialize( 3024 );
+  mean = 200;
+  standardDeviation = 30;
   for ( unsigned int i = 0 ; i < 100 ; ++i )
     {
-    mv = ( normalGenerator->GetVariate() * standardDeviation ) + mean ;
-    sample->PushBack( mv ) ;
+    mv = ( normalGenerator->GetVariate() * standardDeviation ) + mean;
+    sample->PushBack( mv );
     }
   // Software Guide : EndCodeSnippet
 
@@ -173,26 +173,26 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Array< double > ParametersType ;
-  ParametersType params( 2 ) ;
+  typedef itk::Array< double > ParametersType;
+  ParametersType params( 2 );
 
-  std::vector< ParametersType > initialParameters( numberOfClasses ) ;
-  params[0] = 110.0 ;
-  params[1] = 800.0 ;
-  initialParameters[0] = params ;
+  std::vector< ParametersType > initialParameters( numberOfClasses );
+  params[0] = 110.0;
+  params[1] = 800.0;
+  initialParameters[0] = params;
 
-  params[0] = 210.0 ;
-  params[1] = 850.0 ;
-  initialParameters[1] = params ;
+  params[0] = 210.0;
+  params[1] = 850.0;
+  initialParameters[1] = params;
 
   typedef itk::Statistics::GaussianMixtureModelComponent< SampleType > 
-    ComponentType ;
-  std::vector< ComponentType::Pointer > components ;
+    ComponentType;
+  std::vector< ComponentType::Pointer > components;
   for ( unsigned int i = 0 ; i < numberOfClasses ; i++ )
     {
-    components.push_back( ComponentType::New() ) ;
-    (components[i])->SetSample( sample ) ;
-    (components[i])->SetParameters( initialParameters[i] ) ;
+    components.push_back( ComponentType::New() );
+    (components[i])->SetSample( sample );
+    (components[i])->SetParameters( initialParameters[i] );
     }
   // Software Guide : EndCodeSnippet
   
@@ -201,26 +201,28 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  /* Estimating */
-  typedef itk::Statistics::ExpectationMaximizationMixtureModelEstimator< SampleType > EstimatorType ;
-  EstimatorType::Pointer estimator = EstimatorType::New() ;
+  typedef itk::Statistics::ExpectationMaximizationMixtureModelEstimator< 
+                                                           SampleType 
+                                                              > EstimatorType;
 
-  estimator->SetSample( sample ) ;
-  estimator->SetMaximumIteration( 200 ) ;
+  EstimatorType::Pointer estimator = EstimatorType::New();
 
-  itk::Array< double > initialProportions(numberOfClasses) ;
-  initialProportions[0] = 0.5 ;
-  initialProportions[1] = 0.5 ;
+  estimator->SetSample( sample );
+  estimator->SetMaximumIteration( 200 );
 
-  estimator->SetInitialProportions( initialProportions ) ;
+  itk::Array< double > initialProportions(numberOfClasses);
+  initialProportions[0] = 0.5;
+  initialProportions[1] = 0.5;
+
+  estimator->SetInitialProportions( initialProportions );
   
   for ( unsigned int i = 0 ; i < numberOfClasses ; i++)
     {
     estimator->AddComponent( (ComponentType::Superclass*)
-                             (components[i]).GetPointer() ) ;
+                             (components[i]).GetPointer() );
     }
   
-  estimator->Update() ;
+  estimator->Update();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -230,18 +232,18 @@ int main()
   // Software Guide : BeginCodeSnippet
    for ( unsigned int i = 0 ; i < numberOfClasses ; i++ )
     {
-    std::cout << "Cluster[" << i << "]" << std::endl ;
-    std::cout << "    Parameters:" << std::endl ;
+    std::cout << "Cluster[" << i << "]" << std::endl;
+    std::cout << "    Parameters:" << std::endl;
     std::cout << "         " << (components[i])->GetFullParameters() 
-              << std::endl ;
-    std::cout << "    Proportion: " ;
+              << std::endl;
+    std::cout << "    Proportion: ";
     std::cout << "         " << (*estimator->GetProportions())[i] 
-              << std::endl ;
+              << std::endl;
     
     }
   // Software Guide : EndCodeSnippet
   
-  return 0 ;
+  return 0;
 }
 
 
