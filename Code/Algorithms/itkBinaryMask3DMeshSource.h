@@ -68,6 +68,8 @@ namespace itk
  *
  *
  *  */
+template class Image<unsigned short,3>;
+
 template <class TOutputMesh>
 class ITK_EXPORT BinaryMask3DMeshSource : public ImageToMeshFilter<Image<unsigned short, 3>,TOutputMesh>
 {
