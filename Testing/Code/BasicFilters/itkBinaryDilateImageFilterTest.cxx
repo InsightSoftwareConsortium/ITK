@@ -143,6 +143,7 @@ int itkBinaryDilateImageFilterTest(int, char* [] )
 
   // Test the itkGetMacro
   unsigned short value = filter->GetDilateValue();
+  std::cout << "filter->GetDilateValue(): " << value << std::endl;
 
   // Execute the filter
   try

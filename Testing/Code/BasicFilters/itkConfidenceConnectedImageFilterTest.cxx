@@ -21,7 +21,7 @@
 #include "itkPNGImageIOFactory.h"
 #include "itkTextOutput.h"
 #include "itkImageRegionIterator.h"
-
+#include "itkNumericTraits.h"
 
 int itkConfidenceConnectedImageFilterTest(int ac, char* av[] )
 {
@@ -67,9 +67,24 @@ int itkConfidenceConnectedImageFilterTest(int ac, char* av[] )
 
   // Test the GetMacros
   double doubleMultiplier = filter->GetMultiplier();
+  std::cout << "filter->GetMultiplier(): " 
+            << doubleMultiplier
+            << std::endl;
+
   unsigned int uintNumberOfIterations = filter->GetNumberOfIterations();
+  std::cout << "filter->GetNumberOfIterations(): "
+            << uintNumberOfIterations 
+            << std::endl;
+
   PixelType pixelReplaceValue = filter->GetReplaceValue();
+  std::cout << "filter->GetReplaceValue(): "
+            << static_cast<itk::NumericTraits<PixelType>::PrintType>(pixelReplaceValue)
+            << std::endl;
+
   const unsigned int cuintInitialNeighborhoodRadius = filter->GetInitialNeighborhoodRadius();
+  std::cout << "filter->GetInitialNeighborhoodRadius(): "
+            << cuintInitialNeighborhoodRadius
+            << std::endl;
 
   // Generate test image
   itk::ImageFileWriter<myImage>::Pointer writer;

@@ -82,8 +82,10 @@ int itkPasteImageFilterTest(int ac, char* av[] )
 
   // Test itkGetMacros
   myImage::IndexType  value  = filter->GetDestinationIndex();
+  std::cout << "filter->GetDestinationIndex(): " << value << std::endl;
+
   myImage::RegionType value2 = filter->GetSourceRegion();
-  
+  std::cout << "filter->GetSourceRegion(): " << value2 << std::endl;  
 
   try
     {
