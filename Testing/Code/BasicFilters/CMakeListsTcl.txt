@@ -87,7 +87,7 @@ CABLE_WRAP_TCL(ITKBasicFiltersTestTcl
   "itk::NonThreadedShrinkImageFilter<$Image,$Image>"
   "itk::PadImageFilter<$Image,$Image>"
   "itk::ParametricSpaceToImageSpaceMeshFilter<$Mesh,$Mesh>"
-  "itk::PlaheImageFilter<$Float,$Dimension>"
+  "itk::PlaheImageFilter<$Image>"
   "itk::RandomImageSource<$Image>"
   "itk::RecursiveGaussianImageFilter<$Image,$Image,$Float>"
   "itk::RecursiveSeparableImageFilter<$Image,$Image,$Float>"
