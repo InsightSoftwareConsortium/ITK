@@ -52,6 +52,7 @@ IF(USE_GDCM)
   INCLUDE_DIRECTORIES( ${GDCM_INCLUDE_DIR})
   SET(ITKIO_SRCS ${ITKIO_SRCS}
     itkGDCMImageIO.cxx
+    itkGDCMSeriesFileNames.cxx
   )
 ENDIF(USE_GDCM)
 

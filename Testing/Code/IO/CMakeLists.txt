@@ -242,6 +242,12 @@ IF(USE_GDCM)
             ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest.dcm
             ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest2.dcm
             ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest2.png)
+  ADD_EXECUTABLE(itkGDCMSeriesReadImageWrite itkGDCMSeriesReadImageWrite.cxx)
+  TARGET_LINK_LIBRARIES(itkGDCMSeriesReadImageWrite ITKIO ITKCommon ${GDCM_SHARED_LIBRARY})
+  ADD_TEST(itkGDCMSeriesReadImageWrite ${CXX_TEST_PATH}/itkGDCMSeriesReadImageWrite
+            ${ITK_DATA_ROOT}/Input/DicomSeries
+            ${ITK_TEST_OUTPUT_DIR}/itkGDCMSeriesReadImageWrite.vtk
+            ${ITK_TEST_OUTPUT_DIR} )
 ENDIF(USE_GDCM)
 
 
