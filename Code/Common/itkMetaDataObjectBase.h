@@ -20,12 +20,14 @@
 #ifndef MetaDataObjectBase_h_h
 #define MetaDataObjectBase_h_h
 
+#if defined(_MSC_VER)
+#pragma warning ( disable : 4786 )
+#endif
+
 #include <typeinfo>
 #include <iostream>
 #include "itkLightObject.h"
 #include "itkWin32Header.h"
-//#include "itkObjectFactory.h"
-
 
 namespace itk {
   /**

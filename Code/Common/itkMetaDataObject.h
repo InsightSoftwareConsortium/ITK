@@ -20,7 +20,10 @@ PURPOSE.  See the above copyright notices for more information.
 #ifndef MetaDataObject_h_h
 #define MetaDataObject_h_h
 
-//#include "itkMetaDataObjectBase.h"
+#if defined(_MSC_VER)
+#pragma warning ( disable : 4786 )
+#endif
+
 #include "itkMetaDataDictionary.h"
 #include "itkMacro.h"
 #include "itkObjectFactory.h"
