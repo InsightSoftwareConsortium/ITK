@@ -22,13 +22,14 @@
 * unsigned int, or itk::Vector<...>.
 */
 
+
 #include "itkImage.h"
-#include "itkImageSpatialObject.h"
 #include "itkImageRegionIterator.h"
 #include "itkAffineTransform.h"
 #include "itkPoint.h"
 
-#include "itkCompositeSpatialObject.h"
+#include "itkImageSpatialObject.h"
+
 
 int itkImageSpatialObjectTest(int, char**)
 {
@@ -78,7 +79,7 @@ int itkImageSpatialObjectTest(int, char**)
   inverseTransform->Translate(-translation);
 
   Point q,r; 
-  Pixel returnedValue,expectedValue;
+  double returnedValue,expectedValue;
  
   r.Fill(9);
   q.Fill(15);
