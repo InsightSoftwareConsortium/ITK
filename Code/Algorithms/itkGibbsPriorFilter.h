@@ -182,12 +182,12 @@ public:
   /**
    * Set the Number of class macro
    */
-  itkSetMacro(NumClasses, unsigned int);
+  itkSetMacro(NumberOfClasses, unsigned int);
 
   /**
    * Get the Number of class macro
    */
-  itkGetMacro(NumClasses, unsigned int);
+  itkGetMacro(NumberOfClasses, unsigned int);
 
   /**
    * Set the number of iteration of the Iterated Conditional Mode
@@ -257,7 +257,7 @@ protected:
   int m_BoundaryGradient;
   int m_RecursiveNum;
 
-  unsigned int          m_NumClasses;
+  unsigned int          m_NumberOfClasses;
   unsigned int          m_MaxNumIter;
 //  unsigned int           m_KernelSize;
   unsigned int          *m_LabelStatus;

@@ -63,8 +63,6 @@ namespace itk
  *
  */
 
-
-
 template <class TImage, class TTransformation>
 class ITK_EXPORT ImageMapper : 
   public RegistrationMapper< TImage, TTransformation > 
@@ -115,33 +113,25 @@ public:
    */
   typedef typename Superclass::DomainType     DomainType;
 
-
-
   /**
    * Typedef of the Image type
    */
    typedef  TImage   ImageType;
-
 
   /**
    * Typedef of the Pixel type
    */
    typedef  typename   TImage::PixelType   PixelType;
 
-
-
   /**
    * Typedef of the image index
    */
    typedef  typename   TImage::IndexType   IndexType;
 
-
-
   /**
    * Typedef of the image region
    */
    typedef  typename   TImage::RegionType   RegionType;
-
 
   /**
    * Typedef of the image size
@@ -159,18 +149,15 @@ public:
    */
    typedef typename  InterpolatorType::Pointer  InterpolatorPointer;
 
-
   /** 
    * Run-time type information (and related methods).
    */
   itkTypeMacro(ImageMapper, RegistrationMapper);
 
-
   /**
    * Method for creation through the object factory.
    */
   itkNewMacro(Self);
-
 
   /**
    * Set Domain
@@ -178,9 +165,7 @@ public:
   void SetDomain( const DomainType * domain );
 
 
-
   enum { SpaceDimension = TTransformation::ParametersDimension };
-
   
 
 public: 

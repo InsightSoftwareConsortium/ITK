@@ -47,8 +47,7 @@ namespace itk
 template<class TInputImage, class TClassifiedImage>
 SupervisedClassifier<TInputImage,TClassifiedImage>
 ::SupervisedClassifier( void ):
-  m_TrainingImage(NULL),
-  m_NumClasses(0)
+  m_TrainingImage(NULL)
 {
 }
 

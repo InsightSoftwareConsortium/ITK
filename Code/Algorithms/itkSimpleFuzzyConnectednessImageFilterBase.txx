@@ -255,16 +255,16 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
   m_FuzzyScene->SetPixel(m_Seed,NumericTraits<unsigned short>::max());
 
   while(! m_Queue.empty())
-  {
+    {
     current = m_Queue.front();
-	m_Queue.pop();
-	fmax = (unsigned short)(FindStrongPath(current));
-	if(fmax > m_FuzzyScene->GetPixel(current))
-	{
-	  m_FuzzyScene->SetPixel(current,fmax);
-	  PushNeighbors(current);
-	}
-  }
+    m_Queue.pop();
+    fmax = (unsigned short)(FindStrongPath(current));
+    if(fmax > m_FuzzyScene->GetPixel(current))
+      {
+      m_FuzzyScene->SetPixel(current,fmax);
+      PushNeighbors(current);
+      }
+    }
 
   MakeSegmentObject();
 }

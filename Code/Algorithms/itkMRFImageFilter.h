@@ -246,36 +246,36 @@ public:
   /**
    * Set the Number of class macro
    */
-  itkSetMacro(NumClasses, unsigned int);
+  itkSetMacro(NumberOfClasses, unsigned int);
 
   /**
    * Get the Number of class macro
    */
-  itkGetMacro(NumClasses, unsigned int);
+  itkGetMacro(NumberOfClasses, unsigned int);
 
   /**
    * Set the number of iteration of the Iterated Conditional Mode
    * (ICM) algorithm. A default value is set at 50 iterations.
    */
-  itkSetMacro(MaxNumIter, unsigned int);
+  itkSetMacro(MaximumNumberOfIterations, unsigned int);
 
   /**
    * Set the number of iteration of the Iterated Conditional Mode
    * (ICM) algorithm.
    */
-  itkGetMacro(MaxNumIter, unsigned int);
+  itkGetMacro(MaximumNumberOfIterations, unsigned int);
 
   /**
    * Set the error tollerance level which is used as a threshold
    * to quit the iterations
    */
-  itkSetMacro(ErrorTollerance, double);
+  itkSetMacro(ErrorTolerance, double);
 
   /**
    * Get the error tollerance level which is used as a threshold
    * to quit the iterations
    */
-  itkGetMacro(ErrorTollerance, double);
+  itkGetMacro(ErrorTolerance, double);
 
 
   /**
@@ -359,12 +359,12 @@ private:
   TrainingImageType      m_TrainingImage;
   LabelledImageType      m_LabelledImage;
           
-  unsigned int           m_NumClasses;
-  unsigned int           m_MaxNumIter;
+  unsigned int           m_NumberOfClasses;
+  unsigned int           m_MaximumNumberOfIterations;
   unsigned int           m_KernelSize;
   unsigned int           *m_LabelStatus;
   
-  double                 m_ErrorTollerance;
+  double                 m_ErrorTolerance;
   double                 *m_ClassProbability; //Class liklihood
   double                 *m_Beta3x3x3;
 

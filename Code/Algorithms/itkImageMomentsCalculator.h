@@ -53,8 +53,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-/** 
- * Compute moments of an n-dimensional image.
+/** \class ImageMomentsCalculator
+ * \brief Compute moments of an n-dimensional image.
  *
  * This class provides methods for computing the moments and related
  * properties of a single-echo image.  Computing the (non-central)

@@ -88,7 +88,7 @@ namespace itk
  * when a pixel's class is unknown. It is important that in the training set
  * none of the labels should exceed N. An exception is thrown if such a 
  * condition is detected at run time. In addition, for reducing address 
- * arithmetic the m_NumClasses that is passed by the user is incremented by 1.
+ * arithmetic the m_NumberOfClasses that is passed by the user is incremented by 1.
  * This it to accomodate 0 as a class label which remains empty. Trade off is
  * in small additional memory requirement for storing Gaussian model's 
  * parameters.
@@ -163,11 +163,8 @@ public:
    * It has to be the same type as the training image.
    */
   typedef typename TClassifiedImage::PixelType ClassifiedPixelType;
-
   typedef typename TInputImage::PixelType      InputImagePixelType;
-
   typedef typename TClassifiedImage::PixelType ClassifiedImagePixelType;  
-  
   typedef
     ImageRegionIteratorWithIndex< TInputImage >  InputImageIterator;
   typedef
@@ -231,11 +228,6 @@ public:
   void GetPixelDistance(InputImageVectorType &inPixelVec,
     double * results);
 
-  /**
-   * Prints out the results using STL cout function.
-   */
-  void PrintResults();
-
 protected:
   /**
    * Constructor
@@ -267,15 +259,13 @@ private:
   typedef vnl_vector<double> VectorType;
 
   MatrixType      m_Means;
-  MatrixType      m_NumSamples;
+  MatrixType      m_NumberOfSamples;
   MatrixType      *m_Covariance;  
   MatrixType      *m_InvCovariance;
   int             m_ClassifiedPixelIndex;
-  unsigned int    m_NumClasses;
   unsigned int    m_VecDim;
   double          m_Epsilon;
   double          m_DoubleMax;
-
   bool            m_validTrainingFlag;
 
 }; // class GaussianSupervisedClassifier

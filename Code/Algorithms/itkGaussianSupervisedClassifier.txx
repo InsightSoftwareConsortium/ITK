@@ -77,46 +77,23 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Gaussian Supervised Classifier / Clusterer" << std::endl;
+  os << indent <<"                                    "<<std::endl;
+  os << indent <<"Results of the training algorithms"<<std::endl;
+  os << indent <<"===================================="<<std::endl;
 
-}// end PrintSelf
+  os << indent <<"Number of Samples" << m_NumberOfSamples <<std::endl;
 
+  os << indent <<"Means" << m_Means <<std::endl;
 
-template<class TInputImage, class TClassifiedImage>
-void 
-GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
-::PrintResults()
-{
-
-  std::cout<<"                                    "<<std::endl;
-  std::cout<<"Results of the training algorithms"<<std::endl;
-  std::cout<<"===================================="<<std::endl;
-
-  std::cout<<"                                    "<<std::endl;
-  std::cout<<"Number of Samples"<<std::endl;
-  std::cout<<"++++++++++++++++++++++++++++++++++++"<<std::endl;
-
-  std::cout<< m_NumSamples <<std::endl;
-
-  std::cout<<"                                    "<<std::endl;
-  std::cout<<"Means"<<std::endl;
-  std::cout<<"++++++++++++++++++++++++++++++++++++"<<std::endl;
-
-  std::cout<< m_Means <<std::endl;
-  std::cout<<"                                    "<<std::endl;
-  std::cout<<"Covariance matrix"<<std::endl;
-  std::cout<<"++++++++++++++++++++++++++++++++++++"<<std::endl;
-
-  for(unsigned int i = 0; i < m_NumClasses; i++ )
+  os << indent <<"Covariance matrix";
+  for(unsigned int i = 0; i < m_NumberOfClasses; i++ )
   {
-    std::cout<<"============     "<< i<<"     ============="<<std::endl;
-    std::cout<<m_Covariance[i]<<std::endl;
-    std::cout<<"===================================="<<std::endl;
+    os << indent <<m_Covariance[i]<<std::endl;
+    os << indent <<"===================================="<<std::endl;
   }
   
-  std::cout<<"============  DONE  ================"<<std::endl;
+}// end PrintSelf
 
-}// End PrintResults
 
 // Takes a set of training images and returns the means 
 // and variance of the various classes defined in the
@@ -144,32 +121,32 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
 
   //-------------------------------------------------------------------
 
-  m_NumClasses = (this->GetNumClasses());
+  m_NumberOfClasses = (this->GetNumberOfClasses());
 
   //-------------------------------------------------------------------
   // Set up the matrices to hold the means and the covariance for the
   // training data
 
   m_VecDim     = InputPixelType::GetVectorDimension();
-  m_Means.resize(m_NumClasses, m_VecDim);
+  m_Means.resize(m_NumberOfClasses, m_VecDim);
   m_Means.fill(NULL);
 
-  m_NumSamples.resize(m_NumClasses,1);
-  m_NumSamples.fill(NULL);
+  m_NumberOfSamples.resize(m_NumberOfClasses,1);
+  m_NumberOfSamples.fill(NULL);
 
   // delete previous allocation first
   if ( m_Covariance ) delete [] m_Covariance;
   //Number of covariance matrices are equal to number of classes
-  m_Covariance = (MatrixType *) new MatrixType[m_NumClasses];  
+  m_Covariance = (MatrixType *) new MatrixType[m_NumberOfClasses];  
 
-  for(unsigned int i = 0; i < m_NumClasses; i++ )
-  {
+  for(unsigned int i = 0; i < m_NumberOfClasses; i++ )
+    {
     m_Covariance[i].resize( m_VecDim, m_VecDim );
     m_Covariance[i].fill( NULL );
-  }
+    }
 
   for ( inIt.GoToBegin(); ! inIt.IsAtEnd(); ++inIt, ++trainingImageIt ) 
-  {
+    {
     unsigned int classIndex = trainingImageIt.Get();
         
     // Training data assumed =1 band; also the class indices go
@@ -177,143 +154,140 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
     // 0, 1, ..., n-1. 
 
     //Ensure that the training data is labelled appropriately 
-    if( classIndex > m_NumClasses )
-    {
+    if( classIndex > m_NumberOfClasses )
+      {
       throw ExceptionObject(__FILE__, __LINE__);
-    }
+      }
 
     if(classIndex > 0)
-    {
-      m_NumSamples[classIndex][0] +=1;
+      {
+      m_NumberOfSamples[classIndex][0] +=1;
       InputImageVectorType inImgVec = inIt.Get();
 
       for(unsigned int band_x = 0; band_x < m_VecDim; band_x++)
-      {
+        {
         m_Means[classIndex][band_x] += inImgVec[band_x];
         for(unsigned int band_y = 0; band_y <= band_x; band_y++ )
-        {
+          {
           m_Covariance[classIndex][band_x][band_y] += inImgVec[band_x] * inImgVec[band_y];
+          }
         }
-      }
     }
   }// end for 
 
   //Loop through the classes to calculate the means and
 
-  for( unsigned int classIndex = 0; classIndex < m_NumClasses; classIndex++ )
-  {
-    if( m_NumSamples[classIndex][0] != 0 )
+  for( unsigned int classIndex = 0; classIndex < m_NumberOfClasses; classIndex++ )
     {
+    if( m_NumberOfSamples[classIndex][0] != 0 )
+      {
       for(unsigned int i=0; i<m_VecDim;i++)
-      m_Means[classIndex][i] /= m_NumSamples[classIndex][0];
-    }// end if
+      m_Means[classIndex][i] /= m_NumberOfSamples[classIndex][0];
+      }// end if
        
     else 
-    {
+      {
       for(unsigned int i=0; i<m_VecDim;i++) 
         m_Means[classIndex][i] = 0;
-    }// end else
+      }// end else
     
-    if( ( m_NumSamples[classIndex][0] - 1 ) != 0 )
-    {
-      for( unsigned int band_x = 0; band_x < m_VecDim; band_x++ )
+    if( ( m_NumberOfSamples[classIndex][0] - 1 ) != 0 )
       {
-        for( unsigned int band_y=0; band_y <= band_x; band_y++ )
+      for( unsigned int band_x = 0; band_x < m_VecDim; band_x++ )
         {
+        for( unsigned int band_y=0; band_y <= band_x; band_y++ )
+          {
           m_Covariance[classIndex][band_x][band_y] 
-            /= (m_NumSamples[classIndex][0]-1);
-        }// end for band_y loop 
-      }// end for band_x loop
-     }// end if
+            /= (m_NumberOfSamples[classIndex][0]-1);
+          }// end for band_y loop 
+        }// end for band_x loop
+      }// end if
         
      else
-     {
+       {
        for( unsigned int band_x = 0; band_x < m_VecDim; band_x++ )
          for( unsigned int band_y = 0; band_y <= band_x; band_y++ )
            m_Covariance[classIndex][band_x][band_y] = 0;
-     }// end else
+       }// end else
 
     MatrixType tempMeanSq;
     tempMeanSq.resize( m_VecDim, m_VecDim );
     tempMeanSq.fill(NULL);
 
     for( unsigned int band_x = 0; band_x < m_VecDim; band_x++)
-    {
-      for(unsigned int band_y=0; band_y<=band_x; band_y++)
       {
+      for(unsigned int band_y=0; band_y<=band_x; band_y++)
+        {
         tempMeanSq[band_x][band_y] = 
           m_Means[classIndex][band_x] * m_Means[classIndex][band_y];
-      }
-    }// end for band_x loop
+        }
+      }// end for band_x loop
 
-    if( ( m_NumSamples[classIndex][0] - 1) != 0 )
-    {
-      tempMeanSq *= ( m_NumSamples[classIndex][0] 
-                      / (m_NumSamples[classIndex][0] - 1 ) );
-    }
+    if( ( m_NumberOfSamples[classIndex][0] - 1) != 0 )
+      {
+      tempMeanSq *= ( m_NumberOfSamples[classIndex][0] 
+                      / (m_NumberOfSamples[classIndex][0] - 1 ) );
+      }
     m_Covariance[classIndex] -=  tempMeanSq;
 
     // Fill the rest of the covairance matrix and make it symmetric
-    if(m_NumSamples[classIndex][0] > 0)
-    {
-      for(unsigned int band_x = 0; band_x < (m_VecDim-1); band_x++)
+    if(m_NumberOfSamples[classIndex][0] > 0)
       {
+      for(unsigned int band_x = 0; band_x < (m_VecDim-1); band_x++)
+        {
         for(unsigned int band_y=band_x+1; band_y< m_VecDim; band_y++)
-        {  
+          {  
           m_Covariance[classIndex][band_x][band_y] 
             = m_Covariance[classIndex][band_y][band_x];
-        }// end band_y loop
-      }// end band_x loop
-    }// end if loop
-
-  }// end class index loop
-
+          }// end band_y loop
+        }// end band_x loop
+      }// end if loop
+    }// end class index loop
 
   // delete previous allocation first
   if ( m_InvCovariance ) delete [] m_InvCovariance;
 
   //Calculate the inverse of the covariance matrix 
   //Number of inverse covariance matrices are equal to number of classes
-  m_InvCovariance = (MatrixType *) new MatrixType[m_NumClasses];
+  m_InvCovariance = (MatrixType *) new MatrixType[m_NumberOfClasses];
   
   MatrixType tmpCovMat, inverseMat;
 
-  for(unsigned int classIndex = 0; classIndex < m_NumClasses; classIndex++ ) 
-  {
+  for(unsigned int classIndex = 0; classIndex < m_NumberOfClasses; classIndex++ ) 
+    {
     tmpCovMat = m_Covariance[classIndex];
 
     // pack the cov matrix from in_model to tmp_cov_mat 
     double cov_sum = 0;
     for(unsigned int band_x = 0; band_x < m_VecDim; band_x++) 
       for(unsigned int band_y = 0; band_y < m_VecDim; band_y++)
-            cov_sum += vnl_math_abs(tmpCovMat[band_x][band_y]);
+        cov_sum += vnl_math_abs(tmpCovMat[band_x][band_y]);
         
     // check if it is a zero covariance, if it is, we make its
     // inverse as an identity matrix with diagonal elements as
     // a very large number; otherwise, inverse it 
     if( cov_sum < m_Epsilon ) 
-    {
-          inverseMat.resize(m_VecDim,m_VecDim);
-          inverseMat.set_identity();
-          inverseMat *= m_DoubleMax;
-    }
+      {
+      inverseMat.resize(m_VecDim,m_VecDim);
+      inverseMat.set_identity();
+      inverseMat *= m_DoubleMax;
+      }
     else 
-    {
+      {
       // check if num_bands == 1, if it is, we just use 1 to divide it
       if( m_VecDim < 2 ) 
-      {
+        {
         inverseMat.resize(1,1);
         inverseMat[0][0] = 1.0 / tmpCovMat[0][0];
-      }
+        }
       else 
-      {
+        {
         inverseMat = vnl_matrix_inverse<double>(tmpCovMat);
-      }
-    }// end inverse calculations
+        }
+      }// end inverse calculations
 
     m_InvCovariance[classIndex] = inverseMat;
-
-  }//end Class index looping
+    }//end Class index looping
   
   //Training completed now set the valid training flag
   m_validTrainingFlag = true;  
@@ -352,16 +326,15 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
   InputImageVectorType      inImgVec;
   ClassifiedImagePixelType  outClassified;
 
-  m_NumClasses = this->GetNumClasses();
+  m_NumberOfClasses = this->GetNumberOfClasses();
   for ( inIt.GoToBegin(); ! inIt.IsAtEnd(); ++inIt, ++classifiedIt ) 
-  {
+    {
     inImgVec = inIt.Get();
     int classifiedIndex = GetPixelClass( inImgVec );
          
     outClassified = ClassifiedImagePixelType ( classifiedIndex );
     classifiedIt.Set( outClassified );
-
-  }// end for (looping throught the dataset
+    }// end for (looping throught the dataset
 
 }// end ClassifyImage
 
@@ -371,20 +344,20 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
 ::GetPixelClass(InputImageVectorType &inPixelVec)
 {
 
-  double * pixProbability = new double[m_NumClasses];
+  double * pixProbability = new double[m_NumberOfClasses];
   GetPixelDistance( inPixelVec, pixProbability );
   double minDist = pixProbability[0];
   m_ClassifiedPixelIndex = 1;
 
   //Loop through the probabilities to get the best index
-  for(unsigned int classIndex = 1; classIndex < m_NumClasses; classIndex++ )
-  {  
+  for(unsigned int classIndex = 1; classIndex < m_NumberOfClasses; classIndex++ )
+    {  
     if( pixProbability[classIndex] < minDist ) 
-    {
+      {
       minDist = pixProbability[classIndex];
       m_ClassifiedPixelIndex = classIndex;
-    }
-  }// end for
+      }
+    }// end for
 
   delete [] pixProbability;
 
@@ -398,9 +371,8 @@ GaussianSupervisedClassifier<TInputImage, TClassifiedImage>
 InputImageVectorType &inPixelVec,
 double * pixDistance )
 {
-
-  for( unsigned int classIndex = 0; classIndex < m_NumClasses; classIndex++ ) 
-  {
+  for( unsigned int classIndex = 0; classIndex < m_NumberOfClasses; classIndex++ ) 
+    {
     // Compute |y - mean | 
     MatrixType tmpVec;
     tmpVec.resize( 1, m_VecDim );
@@ -417,7 +389,7 @@ double * pixDistance )
     tmpMat = tmpMat * tmpVecTranspose;
     
     pixDistance[classIndex] = tmpMat[0][0];
-  }
+    }
 
 }// end Pixel Distance
 

@@ -132,11 +132,6 @@ public:
   void SetSeed(const IndexType & seed);
 	
   /**
-  * Standard pipeline method.
-  */
-  void GenerateData();
-
-  /**
    * Update the binary result. (needed after update the threshold)
    */
   void MakeSegmentObject();
@@ -151,6 +146,11 @@ public:
 protected:
   SimpleFuzzyConnectednessImageFilterBase();
   ~SimpleFuzzyConnectednessImageFilterBase();
+
+  /**
+  * Standard pipeline method.
+  */
+  void GenerateData();
 
   double m_Weight;
   double m_Threshold;

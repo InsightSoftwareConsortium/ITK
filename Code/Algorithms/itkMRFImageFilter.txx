@@ -50,10 +50,10 @@ MRFImageFilter<TInputImage,TClassifiedImage>
       m_InputImage(0),
       m_TrainingImage(0),
       m_LabelledImage(0),
-      m_NumClasses(0),
-      m_MaxNumIter(50),
+      m_NumberOfClasses(0),
+      m_MaximumNumberOfIterations(50),
       m_LabelStatus(0),
-      m_ErrorTollerance(0),
+      m_ErrorTolerance(0),
       m_ClassProbability(0),
       m_Beta3x3x3(0),
       m_ClassifierPtr(0),
@@ -71,11 +71,11 @@ template<class TInputImage, class TClassifiedImage>
 MRFImageFilter<TInputImage, TClassifiedImage>
 ::~MRFImageFilter(void)
 {
-    delete [] m_WidthOffset;
-    delete [] m_HeightOffset;
-    delete [] m_DepthOffset;
-    delete [] m_Beta3x3x3;
-    if( m_LabelStatus ) delete [] m_LabelStatus;
+  delete [] m_WidthOffset;
+  delete [] m_HeightOffset;
+  delete [] m_DepthOffset;
+  delete [] m_Beta3x3x3;
+  if( m_LabelStatus ) delete [] m_LabelStatus;
 }
 
 /**
@@ -173,14 +173,14 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   //--------------------------------------------------------------------
 
   while ( !outImageIt.IsAtEnd() )
-  {
+    {
     LabelledImagePixelType labelvalue = 
       ( LabelledImagePixelType ) labelledImageIt.Get();
 
     outImageIt.Set( labelvalue );
     ++labelledImageIt;
     ++outImageIt;
-  }// end while
+    }// end while
         
 }// end GenerateData
 
@@ -189,11 +189,11 @@ void
 MRFImageFilter<TInputImage, TClassifiedImage>
 ::SetClassifier( typename ClassifierType::Pointer ptrToClassifier )
 {
-  if( ( ptrToClassifier == 0 ) || (m_NumClasses <= 0) )
+  if( ( ptrToClassifier == 0 ) || (m_NumberOfClasses <= 0) )
     throw ExceptionObject(__FILE__, __LINE__);
 
   m_ClassifierPtr = ptrToClassifier;
-  m_ClassifierPtr->SetNumClasses( m_NumClasses );
+  m_ClassifierPtr->SetNumberOfClasses( m_NumberOfClasses );
 }//end SetPtrToClassifier
 
 template<class TInputImage, class TClassifiedImage>
@@ -221,7 +221,6 @@ MRFImageFilter<TInputImage, TClassifiedImage>
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf(os,indent);
-  os << indent << "MRF labeller" << std::endl;
 }// end PrintSelf
 
 
@@ -230,18 +229,18 @@ void
 MRFImageFilter<TInputImage, TClassifiedImage>
 ::Allocate()
 {
-  if( m_NumClasses <= 0 )
-  {
+  if( m_NumberOfClasses <= 0 )
+    {
     throw ExceptionObject(__FILE__, __LINE__);
-  }
+    }
 
   InputImageSizeType inputImageSize = m_InputImage->GetBufferedRegion().GetSize();
 
   //Ensure that the data provided is three dimensional data set
   if(TInputImage::ImageDimension <= 2 )
-  {
+    {
     throw ExceptionObject(__FILE__, __LINE__);
-  }
+    }
   
   //---------------------------------------------------------------------
   //Get the image width/height and depth
@@ -254,9 +253,9 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   for( int index = 0; 
        index < ( m_imgWidth * m_imgHeight * m_imgDepth ); 
        index++ ) 
-  {
+    {
     m_LabelStatus[index]=1;
-  }
+    }
 
 }// Allocate
 
@@ -303,17 +302,17 @@ MRFImageFilter<TInputImage, TClassifiedImage>
 
   // Now calculate the corresponding offsets
   for( int k = 0; k < m_kDepth; k++ )
-  {
-    for( int j = 0; j < m_kHeight; j++ )
     {
-      for( int i = 0; i < m_kWidth; i++, l++ )
+    for( int j = 0; j < m_kHeight; j++ )
       {
+      for( int i = 0; i < m_kWidth; i++, l++ )
+        {
         m_WidthOffset[l]  = ( i - kHalfWidth ); 
         m_HeightOffset[l] = ( j - kHalfHeight );
         m_DepthOffset[l]  = ( k - kHalfDepth );
-      }// end for (width loop)
-    }// end for (height loop)
-  }// end for (depth loop)
+        }// end for (width loop)
+      }// end for (height loop)
+    }// end for (depth loop)
 
 }// SetBeta
 
@@ -360,11 +359,11 @@ MRFImageFilter<TInputImage, TClassifiedImage>
 {
 
   int maxNumPixelError =  
-    (int)(m_ErrorTollerance * m_imgWidth * m_imgHeight * m_imgDepth);
+    (int)(m_ErrorTolerance * m_imgWidth * m_imgHeight * m_imgDepth);
 
   unsigned int numIter = 0;
   do
-  {
+    {
     std::cout << "Iteration No." << numIter << std::endl;
 
     m_ErrorCounter = 0;
@@ -373,11 +372,11 @@ MRFImageFilter<TInputImage, TClassifiedImage>
 
     for(int index=0; 
         index<( m_imgWidth * m_imgHeight * m_imgDepth ); index++ )
-    {
+      {
       if(m_LabelStatus[index] == 1) m_ErrorCounter +=1;
-    }
-  } 
-  while(( numIter < m_MaxNumIter ) && ( m_ErrorCounter >maxNumPixelError ) ); 
+      }
+    } 
+  while(( numIter < m_MaximumNumberOfIterations ) && ( m_ErrorCounter >maxNumPixelError ) ); 
 
 }// ApplyMRFImageFilter
 
@@ -412,7 +411,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   //---------------------------------------------------------------------
 
   int offset;
-  double *neighborInfluence = (double *) new double[m_NumClasses + 1];
+  double *neighborInfluence = (double *) new double[m_NumberOfClasses + 1];
 
   //Varible to store the input pixel vector value
   InputImageVectorType inputPixelVec;
@@ -432,14 +431,14 @@ MRFImageFilter<TInputImage, TClassifiedImage>
 
   int imageFrame = m_imgWidth * m_imgHeight;
 
-  double * dist = new double[m_NumClasses];
+  double * dist = new double[m_NumberOfClasses];
  
   for( int d = 0; d < m_imgDepth; d++ )
-  {
-    for( int j = 0; j < m_imgHeight; j++ )
     {
-      for( int i = 0; i < m_imgWidth; i++, ++inputImageIt, ++labelledImageIt )
+    for( int j = 0; j < m_imgHeight; j++ )
       {
+      for( int i = 0; i < m_imgWidth; i++, ++inputImageIt, ++labelledImageIt )
+        {
         int labelStatusPtrOffset = i + j * m_imgHeight + d * imageFrame;
 
         //Check if the label == 1 indicates the need for pixel reclassification
@@ -451,11 +450,11 @@ MRFImageFilter<TInputImage, TClassifiedImage>
         inputPixelVec = inputImageIt.Get();
         m_ClassifierPtr->GetPixelDistance( inputPixelVec, dist );
                       
-        for( unsigned int index = 0; index <= m_NumClasses ;index++ ) 
+        for( unsigned int index = 0; index <= m_NumberOfClasses ;index++ ) 
           neighborInfluence[index]=0;
 
         for(unsigned int k=0;k<m_KernelSize;k++)
-        {
+          {
           int widthOffset  = i + m_WidthOffset[k];
           int heightOffset = j + m_HeightOffset[k];
           int depthOffset  = d + m_DepthOffset[k];
@@ -463,7 +462,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
           if( ( widthOffset >= 0 ) && ( widthOffset < m_imgWidth ) &&
               ( heightOffset >= 0 ) && ( heightOffset < m_imgHeight ) &&
               ( depthOffset >= 0) && ( depthOffset <m_imgDepth ) )
-          {
+            {
             //More elegant solution would be to use neighborhood
             //operators but it is currently unstable for VC++
 
@@ -483,24 +482,24 @@ MRFImageFilter<TInputImage, TClassifiedImage>
             //in the 3x3x3 neighborhood
             neighborInfluence[index] += m_Beta3x3x3[k];       
 
-          }// end if
+            }// end if
 
-        }// end for 3x3x3 neighborhood processing
+          }// end for 3x3x3 neighborhood processing
 
-        for( unsigned int index = 1; index <= m_NumClasses; index++ )
+        for( unsigned int index = 1; index <= m_NumberOfClasses; index++ )
           dist[index - 1] = neighborInfluence[index] - dist[index - 1] ;
 
         double maxDist = -1e+20;
         int pixLabel = -1;
 
-        for( unsigned int index = 0; index < m_NumClasses; index++ )
-        {
-          if ( dist[index] > maxDist )
+        for( unsigned int index = 0; index < m_NumberOfClasses; index++ )
           {
-                  maxDist = dist[index];
-                  pixLabel = index;
-          }// if
-        }// for
+          if ( dist[index] > maxDist )
+            {
+            maxDist = dist[index];
+            pixLabel = index;
+            }// if
+          }// for
                       
         //Read the current pixel label
         labelledPixel = 
@@ -509,13 +508,13 @@ MRFImageFilter<TInputImage, TClassifiedImage>
         //Check if the label has changed then set the change flag in all the 
         //neighborhood of the current pixel
         if( pixLabel != ( int ) labelledPixel )
-        {
+          {
           //While the distance array starts with 0, the actual index starts from 1
           outLabelledPix = pixLabel;
           labelledImageIt.Set( outLabelledPix );
 
           for( unsigned int k = 0; k < m_KernelSize; k++ )
-          {
+            {
             int widthOffset  = i + m_WidthOffset[k];
             int heightOffset = j + m_HeightOffset[k];
             int depthOffset  = d + m_DepthOffset[k];
@@ -523,25 +522,25 @@ MRFImageFilter<TInputImage, TClassifiedImage>
             if( ( widthOffset >= 0) && ( widthOffset < m_imgWidth ) &&
                 ( heightOffset >= 0) && ( heightOffset < m_imgHeight ) &&
                 ( depthOffset >= 0) && ( depthOffset < m_imgDepth ) )
-            {
+              {
 
-                  offset = m_WidthOffset[k] +
-                           m_HeightOffset[k] * m_imgWidth +
-                           m_DepthOffset[k] * imageFrame;
+              offset = m_WidthOffset[k] +
+                m_HeightOffset[k] * m_imgWidth +
+                m_DepthOffset[k] * imageFrame;
                   
-                  m_LabelStatus[labelStatusPtrOffset +offset] = 1;
-            }// end if
+              m_LabelStatus[labelStatusPtrOffset +offset] = 1;
+              }// end if
 
-          }// end for 3x3x3 neighborhood processing
-        } //if
+            }// end for 3x3x3 neighborhood processing
+          } //if
         else 
-        {
+          {
           m_LabelStatus[labelStatusPtrOffset]=0;
-        }// else         
+          }// else         
 
-      }//end imageWidth
-    }// end imageHeight
-  }// end imageDepth
+        }//end imageWidth
+      }// end imageHeight
+    }// end imageDepth
 
   delete [] dist;
   delete[] neighborInfluence;

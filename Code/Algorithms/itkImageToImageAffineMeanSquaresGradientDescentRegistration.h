@@ -63,7 +63,6 @@ class ITK_EXPORT ImageToImageAffineMeanSquaresGradientDescentRegistrationTraits
 {
   
 public:
-
   /**
    *  Type of the Reference
    */

@@ -88,13 +88,12 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>
   m_ElapsedIterations = 0;
   while ( ! this->Halt() )
     {
-      this->InitializeIteration(); // An optional method for precalculating
-                                   // global values, or otherwise setting up
-                                   // for the next iteration
-      dt = this->CalculateChange();
-      this->ApplyUpdate(dt);
-      ++m_ElapsedIterations;
-
+    this->InitializeIteration(); // An optional method for precalculating
+                                 // global values, or otherwise setting up
+                                 // for the next iteration
+    dt = this->CalculateChange();
+    this->ApplyUpdate(dt);
+    ++m_ElapsedIterations;
     }
 }
 
@@ -207,7 +206,6 @@ void
 FiniteDifferenceImageFilter<TInputImage, TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
-  os << indent << "FiniteDifferenceImageFilter";
   Superclass::PrintSelf(os, indent.GetNextIndent());
 }
 

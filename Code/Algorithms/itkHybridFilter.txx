@@ -124,10 +124,11 @@ HybridFilter<TInputImage,TOutputImage,TInputMesh,TOutputMesh>
   OutputImageIterator outit(outputImage,
 	  inputImage->GetRequestedRegion());
 
-  while (m_IterNum != 5) {
-	Advance();
-	m_IterNum++;
-  }
+  while (m_IterNum != 5) 
+    {
+    Advance();
+    m_IterNum++;
+    }
 
   OutputImageIterator gpit(outputGp, outputGp->GetBufferedRegion());
 

@@ -61,7 +61,7 @@ namespace itk
  * - cast the \c double value resulting from \c acos() to the pixel type of the output image 
  * - store the casted value into the output image.
  * 
- * The filter expect both images to have the same dimension (e.g. both 2D, or both 3D, or both ND)
+ * The filter expect both images to have the same dimension (e.g. both 2D, or both 3D, or both ND).
  *
  * \ingroup IntensityImageFilters  Multithreaded
  *
@@ -116,7 +116,6 @@ public:
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-
   /**
    * Method for creation through the object factory.
    */
@@ -128,7 +127,6 @@ protected:
   virtual ~AcosImageFilter() {}
   AcosImageFilter(const Self&) {}
   void operator=(const Self&) {}
-
 
 };
 

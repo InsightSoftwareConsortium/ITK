@@ -212,7 +212,6 @@ private:
   typedef typename TInputImage::SizeType InputImageSizeType;
         
   TrainingImageType   m_TrainingImage;
-  unsigned int        m_NumClasses;
 
 }; // class SupervisedClassifier
 

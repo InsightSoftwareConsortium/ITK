@@ -124,12 +124,12 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
     m_ValidInCodebook = true;
 
     //Check the validity of the n
-    if( this->GetNumClasses() <= 0)
+    if( this->GetNumberOfClasses() <= 0)
     {
       throw ExceptionObject(__FILE__, __LINE__);
     }
 
-    m_Ncodewords      = this->GetNumClasses();
+    m_Ncodewords      = this->GetNumberOfClasses();
     m_VecDim          = InputImagePixelType::GetVectorDimension();
 
     // Set the initial and final codebook size

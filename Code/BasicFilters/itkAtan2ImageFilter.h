@@ -60,7 +60,6 @@ namespace itk
  *
  * \ingroup IntensityImageFilters Multithreaded
  *
- *
  */
 
 namespace Functor {  
@@ -80,8 +79,8 @@ namespace Functor {
           );
     }
   }; 
-
 }
+
 // Wrap: Atan2ImageFilter<$Image,$Image,$Image,$Function>
 // Wrap: <XML code for Function....>
 // Wrap: Atan2ImageFilter<Image<$BasicPixel,$BasicDimension>,$Image,$Image,$Function>
@@ -125,7 +124,6 @@ public:
   itkNewMacro(Self);
   
 protected:
-
   Atan2ImageFilter() {}
   virtual ~Atan2ImageFilter() {}
   Atan2ImageFilter(const Self&) {}

@@ -53,13 +53,13 @@ namespace itk
 * and the type of the output image.
 *
 * This Filter computes the distance map of the input image 
-* as an approximation with pixel accuracy to the euclidean distance.
+* as an approximation with pixel accuracy to the Euclidean distance.
 *
 * The input is assumed to contain numeric codes defining objects.
 * The filter will produce as output the following images:
 *
 * - A voronoi partition using the same numeric codes as the input.
-* - A distance map with the aproximation to the euclidean distance.
+* - A distance map with the approximation to the euclidean distance.
 *   from a particular pixel to the nearest object to this pixel
 *   in the input image.
 * - A vector map containing the component of the vector relating
@@ -187,43 +187,30 @@ public:
    */
    itkSetMacro( SquaredDistance, bool );
 
-
   /**
    * Get the distance squared
    */
    itkGetConstReferenceMacro( SquaredDistance, bool );
 
+  /**
+   * Set On/Off if the distance is squared
+   */
+   itkBooleanMacro( SquaredDistance );
 
   /**
    * Set if the input is binary
    */
    itkSetMacro( InputIsBinary, bool );
 
-
   /**
    * Get if the input is binary
    */
    itkGetConstReferenceMacro( InputIsBinary, bool );
 
-
   /**
    * Set On/Off if the input is binary
    */
    itkBooleanMacro( InputIsBinary );
-
-   
-  /**
-   * Set On/Off if the distance is squared
-   */
-   itkBooleanMacro( SquaredDistance );
-
-
-
-  /**
-   * Compute Danielsson distance map and Voronoi Map
-   */
-  void GenerateData();  
-
 
   /**
    * Get Voronoi Map
@@ -234,9 +221,8 @@ public:
    */
   OutputImagePointer GetVoronoiMap();
 
-
   /**
-   * Get Distance map image
+   * Get Distance map image.
    * The distance map is shown as a gray value image depending on 
    * the pixel type of the output image.
    * Regarding the source image, background should be dark (gray value = 0) 
@@ -247,25 +233,23 @@ public:
    */
   OutputImagePointer GetDistanceMap();
 
-
   /**
    * Get vector field of distances
    */
   VectorImagePointer GetVectorDistanceMap();
 
-
-  /**
-   * Connect input image to the filter
-   */
-   void SetInputImage( InputImageType * InputImage );
-
 protected:
-
   DanielssonDistanceMapImageFilter();
   virtual ~DanielssonDistanceMapImageFilter() {};
   DanielssonDistanceMapImageFilter(const Self&) {}
   void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
+
+
+  /**
+   * Compute Danielsson distance map and Voronoi Map
+   */
+  void GenerateData();  
 
 
   /**

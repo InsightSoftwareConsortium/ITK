@@ -61,7 +61,7 @@ namespace itk
  *
  *        pixel_from_image_1 + pixel_from_image_2
  *
- * Additionally the type resulting from the sum, will be casted onto
+ * Additionally the type resulting from the sum, will be cast to
  * the pixel type of the output image.
  * 
  * The total operation over one pixel will be

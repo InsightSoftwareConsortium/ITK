@@ -193,7 +193,6 @@ public:
    */
   void SetDerivativeImage( TDerivImage *ptr, unsigned int idx=0 );
 
-
 protected:
   GeodesicActiveContourImageFilter();
   ~GeodesicActiveContourImageFilter(){};

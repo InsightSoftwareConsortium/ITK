@@ -80,8 +80,6 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Geodesic active contours" << std::endl;
-
 }
 
 /**

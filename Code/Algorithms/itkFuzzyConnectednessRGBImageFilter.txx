@@ -90,30 +90,30 @@ FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
   double s22 = save[2]*save[2];
 
   double tmp1 = s00*(m_Var_inverse[0][0])
-              + s11*(m_Var_inverse[1][1])
-			  + s22*(m_Var_inverse[2][2])
-			  + s01*(m_Var_inverse[0][1]+m_Var_inverse[1][0])
-			  + s02*(m_Var_inverse[0][2]+m_Var_inverse[2][0])
-			  + s12*(m_Var_inverse[1][2]+m_Var_inverse[2][1]);
-
+    + s11*(m_Var_inverse[1][1])
+    + s22*(m_Var_inverse[2][2])
+    + s01*(m_Var_inverse[0][1]+m_Var_inverse[1][0])
+    + s02*(m_Var_inverse[0][2]+m_Var_inverse[2][0])
+    + s12*(m_Var_inverse[1][2]+m_Var_inverse[2][1]);
 
   if(m_Weight == 1)
-  {
+    {
     return( (NumericTraits<unsigned short>::max())*(exp(-0.5*tmp1)) );
-  }
-  else{
+    }
+  else
+    {
     save[0] = f1[0]-f2[0];
     save[1] = f1[1]-f2[1];
     save[2] = f1[2]-f2[2];
-	if(save[0] < 0)
+    if(save[0] < 0)
       save[0]=-save[0];
-	if(save[1] < 0)
+    if(save[1] < 0)
       save[1]=-save[1];
-	if(save[2] < 0)
+    if(save[2] < 0)
       save[2]=-save[2];
-	save[0] = save[0] - m_Diff_Mean[0];
-	save[1] = save[1] - m_Diff_Mean[1];
-	save[2] = save[2] - m_Diff_Mean[2];
+    save[0] = save[0] - m_Diff_Mean[0];
+    save[1] = save[1] - m_Diff_Mean[1];
+    save[2] = save[2] - m_Diff_Mean[2];
 
     s00 = save[0]*save[0];
     s01 = save[0]*save[1];
@@ -123,15 +123,15 @@ FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
     s22 = save[2]*save[2];
 
     double tmp3 = s00*(m_Diff_Var_inverse[0][0])
-                + s11*(m_Diff_Var_inverse[1][1])
-				+ s22*(m_Diff_Var_inverse[2][2])
-			    + s01*(m_Diff_Var_inverse[0][1]+m_Diff_Var_inverse[1][0])
-			    + s02*(m_Diff_Var_inverse[0][2]+m_Diff_Var_inverse[2][0])
-			    + s12*(m_Diff_Var_inverse[1][2]+m_Diff_Var_inverse[2][1]);
+      + s11*(m_Diff_Var_inverse[1][1])
+      + s22*(m_Diff_Var_inverse[2][2])
+      + s01*(m_Diff_Var_inverse[0][1]+m_Diff_Var_inverse[1][0])
+      + s02*(m_Diff_Var_inverse[0][2]+m_Diff_Var_inverse[2][0])
+      + s12*(m_Diff_Var_inverse[1][2]+m_Diff_Var_inverse[2][1]);
 
-	return( (NumericTraits<unsigned short>::max())*(m_Weight*exp(-0.5*tmp1)  
-	                  +(1-m_Weight)*exp(-0.5*tmp3)) );
-	}
+    return( (NumericTraits<unsigned short>::max())*(m_Weight*exp(-0.5*tmp1)  
+                                                    +(1-m_Weight)*exp(-0.5*tmp3)) );
+    }
 }
 
 
@@ -172,11 +172,11 @@ FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
   if((int)(m_Weight*100+0.5) > 1){ //need to use the difference information.
 
   m_Diff_Var_Det = m_Diff_Var[0][0]*m_Diff_Var[1][1]*m_Diff_Var[2][2]
-                  +m_Diff_Var[1][0]*m_Diff_Var[2][1]*m_Diff_Var[0][2]
-			      +m_Diff_Var[0][1]*m_Diff_Var[1][2]*m_Diff_Var[2][0]
-			      -m_Diff_Var[2][0]*m_Diff_Var[1][1]*m_Diff_Var[0][2]
-			      -m_Diff_Var[0][1]*m_Diff_Var[1][0]*m_Diff_Var[2][2]
-			      -m_Diff_Var[0][0]*m_Diff_Var[1][2]*m_Diff_Var[2][1];
+    +m_Diff_Var[1][0]*m_Diff_Var[2][1]*m_Diff_Var[0][2]
+    +m_Diff_Var[0][1]*m_Diff_Var[1][2]*m_Diff_Var[2][0]
+    -m_Diff_Var[2][0]*m_Diff_Var[1][1]*m_Diff_Var[0][2]
+    -m_Diff_Var[0][1]*m_Diff_Var[1][0]*m_Diff_Var[2][2]
+    -m_Diff_Var[0][0]*m_Diff_Var[1][2]*m_Diff_Var[2][1];
   m_Diff_Var_inverse[0][0]=(m_Diff_Var[1][1]*m_Diff_Var[2][2]-m_Diff_Var[2][1]*m_Diff_Var[1][2])
                       /m_Diff_Var_Det;  
   m_Diff_Var_inverse[0][1]=-(m_Diff_Var[1][0]*m_Diff_Var[2][2]-m_Diff_Var[2][0]*m_Diff_Var[1][2])

@@ -363,15 +363,14 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
   OffsetType  offset;
 
   for(unsigned int dim=0; dim<InputImageDimension; dim++)
-  {
+    {
     start [ dim ] += 1;
     size  [ dim ] -= 2;
     offset[ dim ] = 0;
-  }
+    }
 
   region.SetIndex( start );
   region.SetSize ( size  );
-
 
   ReflectiveImageRegionIterator< VectorImageType > 
                                 it( distanceComponents, region );
