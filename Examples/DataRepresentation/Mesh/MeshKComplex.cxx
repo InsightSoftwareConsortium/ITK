@@ -478,14 +478,234 @@ int main()
   //  relationships is that it takes computing time and that some applications
   //  may not accept the same assumptions. A specific case is surgery
   //  simulation. This application typically requires to simulate bistoury cuts
-  //  in the mesh that is modeling an organ. A small cut in the surface may be
-  //  made by specifying that two triangles are not considered to be neighbors
-  //  any more. The rest of this section introduces the concept of neigborhood
-  //  relationships on the \code{itk::Mesh}.
+  //  in a mesh representing an organ. A small cut in the surface may be made
+  //  by specifying that two triangles are not considered to be neighbors any
+  //  more. 
+  //
+  //  Neigborhood relationships are represented in the \code{itk::Mesh} by the
+  //  notion of \emph{BoundaryFeature}. Every cell has a internal list of
+  //  cell-identifiers pointing to other cells that are considered to be its
+  //  neighbors. Boundary features are classified by dimension. For example, a
+  //  line will have two boundary features of dimension zero corresponding to
+  //  its two vertices. A tetrahedron will have boundary features of dimension
+  //  zero, one and two, corresponding to its four vertices, six edges and four
+  //  triangular faces. It is up to the user to specify the connections between
+  //  the cells. 
+  //
+  //  \index{BoundaryFeature}
+  //  \index{CellBoundaryFeature}
+  //  \index{itk::Mesh!BoundaryFeature}
+  //
+  //  Let's take in our current example the tetrahedron cell that was
+  //  associated with the cell-identifier \code{0} and assign to it the four
+  //  vertices as boundaries of dimension zero. This is done by invoking the
+  //  \code{SetBoundaryAssignment()} method on the \code{itk::Mesh}. 
+  //
+  //  \index{itk::Mesh!SetBoundaryAssignment()}
+  //  \index{SetBoundaryAssignment()!itk::Mesh}
   //
   //  Software Guide : EndLatex 
 
+  // Software Guide : BeginCodeSnippet
+  MeshType::CellIdentifier cellId = 0;  // the tetrahedron
 
+  int dimension = 0;                    // vertices
+
+  MeshType::CellFeatureIdentifier featureId = 0; 
+
+  mesh->SetBoundaryAssignment( dimension, cellId, featureId++, 11 );
+  mesh->SetBoundaryAssignment( dimension, cellId, featureId++, 12 );
+  mesh->SetBoundaryAssignment( dimension, cellId, featureId++, 13 );
+  mesh->SetBoundaryAssignment( dimension, cellId, featureId++, 14 );
+  // Software Guide : EndCodeSnippet
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  The \code{featureId} is simply a number associated with the sequence of
+  //  the boundary cells of the same dimension in a specific cell. For example,
+  //  the zero-dimensional features of a tetrahedron are its four vertices.
+  //  Then the zero-dimensional feature-Ids for this cell will range from zero
+  //  to three. The one-dimensional features of the tetrahedron are its six
+  //  edges, henceforth its one-dimensional feature-Ids will range from zero to
+  //  five. The two-dimensional features of the tetrahedron are its four
+  //  triangular faces. The two-dimensional feature ids will then range from
+  //  zero to three. The following table summarizes the use on indices for
+  //  boundary assignments.
+  //
+  //  \begin{center}
+  //  \begin{tabular}{ | c || c | c | c | }
+  //  \hline
+  //  Dimension & CellType & FeatureId range & Cell Ids \\
+  //  \hline\hline
+  //  0 & VertexCell & [0:3] & \{1,2,3,4\} \\
+  //  \hline 
+  //  1 & LineCell & [0:5] & \{5,6,7,8,9,10\} \\
+  //  \hline 
+  //  2 & TriangleCell & [0:3] & \{11,12,13,14\} \\
+  //  \hline 
+  //  \end{tabular}
+  //  \end{center}
+  // 
+  //  In the code example above, the values of featureId range from zero to
+  //  three. The cell identifiers of the vertices cells in this example are the
+  //  numbers \{11,12,13,14\}.
+  //
+  //  Let's now assign one-dimensional boundary features of the tetrahedron.
+  //  Those are the line cells with identifiers  \{5,6,7,8,9,10\}. Note that the
+  //  feature identifier is reinitialized to zero since the count is
+  //  independent for each dimension.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  cellId    = 0;  // still the tetrahedron
+  dimension = 1;  // one-dimensional features = edges
+  featureId = 0;  // reinitialize the count
+
+  mesh->SetBoundaryAssignment( dimension, cellId, featureId++,  5 );
+  mesh->SetBoundaryAssignment( dimension, cellId, featureId++,  6 );
+  mesh->SetBoundaryAssignment( dimension, cellId, featureId++,  7 );
+  mesh->SetBoundaryAssignment( dimension, cellId, featureId++,  8 );
+  mesh->SetBoundaryAssignment( dimension, cellId, featureId++,  9 );
+  mesh->SetBoundaryAssignment( dimension, cellId, featureId++, 10 );
+  // Software Guide : EndCodeSnippet
+
+  //  Software Guide : BeginLatex
+  //
+  //  Finally we assign the two-dimensional boundary features of the
+  //  tetrahedron. These are the four triangular cells with identifiers
+  //  \{1,2,3,4\}. The featureId is reset to zero since feature-Ids are
+  //  independent on each dimension.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  cellId    = 0;  // still the tetrahedron
+  dimension = 2;  // two-dimensional features = triangles
+  featureId = 0;  // reinitialize the count
+
+  mesh->SetBoundaryAssignment( dimension, cellId, featureId++,  1 );
+  mesh->SetBoundaryAssignment( dimension, cellId, featureId++,  2 );
+  mesh->SetBoundaryAssignment( dimension, cellId, featureId++,  3 );
+  mesh->SetBoundaryAssignment( dimension, cellId, featureId++,  4 );
+  // Software Guide : EndCodeSnippet
+
+  //  Software Guide : BeginLatex
+  //
+  //  At this point we can query the tetrahedron cell for information about its
+  //  boundary features. For example, the number of boundary features of each
+  //  dimension can be obtained with the method
+  //  \code{GetNumberOfBoundaryFeatures()}.
+  //
+  //  \index{itk::Mesh!CellFeatureCount}
+  //  \index{itk::Mesh!GetNumberOfBoundaryFeatures()}
+  //  \index{GetNumberOfBoundaryFeatures()!itk::Mesh}
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  cellId = 0; // still the tetrahedron
+
+  MeshType::CellFeatureCount n0;  // number of zero-dimensional features
+  MeshType::CellFeatureCount n1;  // number of  one-dimensional features
+  MeshType::CellFeatureCount n2;  // number of  two-dimensional features
+
+  n0 = mesh->GetNumberOfCellBoundaryFeatures( 0, cellId );
+  n1 = mesh->GetNumberOfCellBoundaryFeatures( 1, cellId );
+  n2 = mesh->GetNumberOfCellBoundaryFeatures( 2, cellId );
+  // Software Guide : EndCodeSnippet
+
+
+  std::cout << "Number of boundary features of the cellId= " << cellId << std::endl;
+  std::cout << "Dimension 0 = " << n0 << std::endl;
+  std::cout << "Dimension 1 = " << n1 << std::endl;
+  std::cout << "Dimension 2 = " << n2 << std::endl;
+
+
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  The boundary assignments can be recovered with the method
+  //  \code{GetBoundaryAssigment()}. For example, the zero-dimensional features
+  //  of the tetrahedron we can obtained with the following code.
+  //
+  // \index{itk::Mesh!GetBoundaryAssignment()}
+  // \index{GetBoundaryAssignment()!itk::Mesh}
+  //
+  //  Software Guide : EndLatex 
+
+  std::cout << "Boundary features of dimension 0 " << std::endl;
+
+  // Software Guide : BeginCodeSnippet
+  dimension = 0;
+  for(unsigned int b0=0; b0 < n0; b0++)
+    {
+    MeshType::CellIdentifier id;
+    bool found = mesh->GetBoundaryAssignment( dimension, cellId, b0, &id );
+    if( found ) std::cout << id << std::endl;
+    }
+  // Software Guide : EndCodeSnippet
+
+  dimension = 1;
+  std::cout << "Boundary features of dimension " << dimension << std::endl;
+  for(unsigned int b1=0; b1 < n1; b1++)
+    {
+    MeshType::CellIdentifier id;
+    bool found = mesh->GetBoundaryAssignment( dimension, cellId, b1, &id );
+    if( found )
+      {
+      std::cout << id << std::endl;
+      }
+    }
+
+  dimension = 2;
+  std::cout << "Boundary features of dimension " << dimension << std::endl;
+  for(unsigned int b2=0; b2 < n2; b2++)
+    {
+    MeshType::CellIdentifier id;
+    bool found = mesh->GetBoundaryAssignment( dimension, cellId, b2, &id );
+    if( found )
+      {
+      std::cout << id << std::endl;
+      }
+    }
+
+
+
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  The following code illustrates how to set the edge boundaries for one of
+  //  the triangular faces.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  cellId     =  2;    // one of the triangles 
+  dimension  =  1;    // boundary edges
+  featureId  =  0;    // start the count of features
+
+  mesh->SetBoundaryAssignment( dimension, cellId, featureId++,  7 );
+  mesh->SetBoundaryAssignment( dimension, cellId, featureId++,  9 );
+  mesh->SetBoundaryAssignment( dimension, cellId, featureId++, 10 );
+  // Software Guide : EndCodeSnippet
+
+  std::cout << "In cell Id = " << cellId << std::endl;
+  std::cout << "Boundary features of dimension " << dimension;
+  n1 = mesh->GetNumberOfCellBoundaryFeatures( dimension, cellId);
+  std::cout << " = " << n1 << std::endl;
+  for(unsigned int b1=0; b1 < n1; b1++)
+    {
+    MeshType::CellIdentifier id;
+    bool found = mesh->GetBoundaryAssignment( dimension, cellId, b1, &id );
+    if( found )
+      {
+      std::cout << id << std::endl;
+      }
+    }
 
 
 
