@@ -81,7 +81,7 @@ public:
 VCL_DEFINE_SPECIALIZATION 
 class traits<float> {
 public:
-  static float eps() { return 1e-5; }
+  static float eps() { return (float)1e-5; }
   static float rand(float const &) { return float( traits<double>::rand(0) ); }
 };
 
