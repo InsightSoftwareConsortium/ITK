@@ -23,7 +23,8 @@
 namespace itk{
 
 /** /class IsolatedConnectedImageFilter
- * \brief Label pixels that are connected to one sedd but not another
+ * \brief Label pixels that are connected to one seed but not another
+ *
  * IsolatedConnectedImageFilter labels pixels with ReplaceValue that are
  * connected to Seed1 AND NOT connected to Seed2. The filter adjusts the
  * upper threshold until the two seeds are not connected. The user
