@@ -91,7 +91,7 @@ void vnl_fastops::AB(const vnl_matrix<double>& A, const vnl_matrix<double>& B, v
     }
 }
 
-//:  Compute \f$A^\topB\f$.
+//:  Compute \f$A^\top B\f$.
 void vnl_fastops::AtB(const vnl_matrix<double>& A, const vnl_matrix<double>& B, vnl_matrix<double>* out_ptr)
 {
   unsigned ma = A.rows();
