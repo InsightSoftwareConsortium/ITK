@@ -86,9 +86,9 @@ int main()
     ++it;
   }
 
-  size[0] = 8;
-  size[1] = 8;
-  size[2] = 8;
+  size[0] = 4;
+  size[1] = 4;
+  size[2] = 4;
 
   start[0] = 2;
   start[1] = 2;
@@ -121,12 +121,16 @@ int main()
   // Connect the input images
   filter->SetInput( inputImage ); 
 
-  // Get the Smart Pointer to the Filter Output 
-  myGradientImageType::Pointer outputImage = filter->GetOutput();
-
   
   // Execute the filter
   filter->Update();
+
+
+  // Get the Smart Pointer to the Filter Output 
+  // It is important to do it AFTER the filter is Updated
+  // Because the object connected to the output may be changed
+  // by another during GenerateData() call
+  myGradientImageType::Pointer outputImage = filter->GetOutput();
 
   // Create an iterator for going through the output image
   myOutputIteratorType itg( outputImage, 
