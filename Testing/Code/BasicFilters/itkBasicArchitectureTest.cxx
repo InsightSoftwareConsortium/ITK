@@ -129,7 +129,8 @@ public:
 int main()
 {
   // Comment the following if you want to use the itk text output window
-  itk::OutputWindow::SetInstance(new TextOutput);
+  TextOutput::Pointer textWindPtr = TextOutput::New();
+  itk::OutputWindow::SetInstance(textWindPtr);
   // Uncomment the following if you want to see each message independently
   // itk::OutputWindow::GetInstance()->PromptUserOn();
 
