@@ -61,7 +61,7 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
 {
   typename TOutputImage::Pointer output = this->GetOutput();
 
-  itkDebugMacro(<<"Reading file" << m_FileName);
+  itkDebugMacro(<<"Reading file " << m_FileName);
   
   // Check to see if we can read the file given the name or prefix
   //
@@ -135,7 +135,8 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
     }
   ioRegion.SetSize(ioSize);
   ioRegion.SetIndex(ioStart);
-  
+
+  itkDebugMacro (<< "ioRegion: " << ioRegion);
   
   output->SetLargestPossibleRegion(region);
   output->SetRequestedRegion(region);
@@ -153,6 +154,7 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
        (m_ImageIO->GetNumberOfComponents() == 
         ConvertPixelTraits::GetNumberOfComponents()))
     {
+    itkDebugMacro(<< "No buffer conversion required.");
     // allocate a buffer and have the ImageIO read directly into it
     m_ImageIO->Read(buffer);
     return;
@@ -162,6 +164,9 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
     OutputImagePixelType* loadBuffer = 
       new OutputImagePixelType[m_ImageIO->GetImageSizeInBytes()];
     m_ImageIO->Read(loadBuffer);
+    itkDebugMacro(<< "Buffer conversion required from: "
+                 << m_ImageIO->GetPixelType().name()
+                 << " to: " << typeid(TOutputImage::PixelType).name());
     this->DoConvertBuffer(loadBuffer, region.GetNumberOfPixels());
     delete [] loadBuffer;
     }
