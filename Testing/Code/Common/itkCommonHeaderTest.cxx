@@ -127,6 +127,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkRegionNeighborhoodIterator.h"
 #include "itkRegionNonBoundaryNeighborhoodIterator.h"
 #include "itkRigid3DRegistrationTransform.h"
+#include "itkRigid3DTransform.h"
 #include "itkScalar.h"
 #include "itkScalarImageRegionIterator.h"
 #include "itkScalarVector.h"
