@@ -14,6 +14,7 @@
 //
 //-----------------------------------------------------------------------------
 
+#include <vcl_iosfwd.h>
 #include <vnl/vnl_numeric_traits.h>
 
 // avoid messing about with aux_* functions for gcc 2.7 -- fsm
@@ -78,11 +79,6 @@ public:
   static T max_value(T const *, unsigned);
   static T min_value(T const *, unsigned);
   static T mean(T const *p, unsigned n) { return sum(p,n)/T(n); }
-
-
-
- 
-
 
 
   //:  one_norm : sum of abs values  
