@@ -100,13 +100,16 @@ int main( int argc, char * argv[] )
 
   resampler->SetInterpolator( interpolator );
 
+  FixedImageType::SpacingType fixedSpacing = fixedImage->GetSpacing();
+  FixedImageType::PointType   fixedOrigin  = fixedImage->GetOrigin();
 
-  resampler->SetOutputSpacing( fixedImage->GetSpacing() );
-  resampler->SetOutputOrigin(  fixedImage->GetOrigin() );
+  resampler->SetOutputSpacing( fixedSpacing );
+  resampler->SetOutputOrigin(  fixedOrigin  );
 
   
   FixedImageType::RegionType region = fixedImage->GetBufferedRegion();
-  resampler->SetSize(  region.GetSize() );
+  FixedImageType::SizeType   fixedSize =  region.GetSize();
+  resampler->SetSize( fixedSize );
   resampler->SetOutputStartIndex(  region.GetIndex() );
 
 
@@ -153,9 +156,12 @@ int main( int argc, char * argv[] )
 //  256$ pixels, and pixel spacing $1.0 \times 1.0$ then we need the $8\times8$
 //  BSpline grid to cover a physical extent of $256 \times 256$ mm. This can be
 //  achieved by setting the pixel spacing of the BSpline grid to $32.0 \times
-//  32.0$. The origin of the BSpline grid must also be set at the negative
-//  value of one grid square, in this case to $(-32.0,-32.0)$.  All this is
-//  done with the following lines of code.
+//  32.0$. The origin of the BSpline grid must be set at the origin of the
+//  desired output image, this may seem counter-intuitive since the size of the
+//  grid region is larger by two than the valid internal region.  However, this
+//  adjustment has been setup internally in the Transform in order to relief
+//  users from having to perform the shift computation in order to set the
+//  origin of the grid. All this is done with the following lines of code.
 // 
 //  \index{BSplineDeformableTransform}
 //
@@ -167,18 +173,19 @@ int main( int argc, char * argv[] )
   RegionType bsplineRegion;
   RegionType::SizeType   size;
 
-  size.Fill( 10 );
+  const unsigned int numberOfGridNodes = 10;
+
+  size.Fill( numberOfGridNodes );
   bsplineRegion.SetSize( size );
 
   typedef TransformType::SpacingType SpacingType;
   SpacingType spacing;
-  spacing.Fill( 32.0 );
+  spacing[0] = fixedSpacing[0] * fixedSize[0] / ( numberOfGridNodes - 2 );
+  spacing[1] = fixedSpacing[1] * fixedSize[1] / ( numberOfGridNodes - 2 );
 
   typedef TransformType::OriginType OriginType;
-  OriginType origin;
-  origin.Fill( -32.0 );
-
-
+  OriginType origin = fixedOrigin;
+  
   bsplineTransform->SetGridSpacing( spacing );
   bsplineTransform->SetGridOrigin( origin );
   bsplineTransform->SetGridRegion( bsplineRegion );
