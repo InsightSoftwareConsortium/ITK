@@ -96,12 +96,12 @@ public:
   /** 
    * Increase the reference count (mark as used by another object). 
    */
-  virtual void Register();
+  virtual void Register() const;
 
   /** 
    * Decrease the reference count (release by another object). 
    */
-  virtual void UnRegister();
+  virtual void UnRegister() const;
 
   /**
    * Gets the reference count on this object.
@@ -200,7 +200,7 @@ protected:
   /**
    * Number of uses of this object by other objects.
    */
-  int m_ReferenceCount;
+  mutable int m_ReferenceCount;
   
   /**
    * Implementation class for Subject/Observer Pattern.

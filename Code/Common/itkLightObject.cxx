@@ -252,7 +252,7 @@ LightObject
  */
 void 
 LightObject
-::Register()
+::Register() const
 {
   m_ReferenceCount++;
 }
@@ -263,7 +263,7 @@ LightObject
  */
 void 
 LightObject
-::UnRegister()
+::UnRegister() const
 {
   if(--m_ReferenceCount <= 0)
     {
