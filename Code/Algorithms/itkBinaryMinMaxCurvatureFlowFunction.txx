@@ -48,7 +48,8 @@ BinaryMinMaxCurvatureFlowFunction<TImage>
                 const FloatOffsetType& offset) const
 {
 
-  PixelType update = this->Superclass::ComputeUpdate(
+  typedef CurvatureFlowFunction<TImage> CurvatureFlowFunctionType;
+  PixelType update = this->CurvatureFlowFunctionType::ComputeUpdate(
     it, globalData, offset );
   
   if ( update == 0.0 )
@@ -82,7 +83,8 @@ BinaryMinMaxCurvatureFlowFunction<TImage>
                 const FloatOffsetType& offset) const
 {
 
-  PixelType update = this->Superclass::ComputeUpdate(
+  typedef CurvatureFlowFunction<TImage> CurvatureFlowFunctionType;
+  PixelType update = this->CurvatureFlowFunctionType::ComputeUpdate(
     it, globalData, offset );
 
   if ( update == 0.0 )
