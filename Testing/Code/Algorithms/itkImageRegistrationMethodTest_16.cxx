@@ -52,10 +52,13 @@ bool DoRegistration ()
   typedef itk::AffineTransform< double, dimension > TransformType;
   typedef typename TransformType::ParametersType             ParametersType;
 
+  typedef typename FixedImageType::PixelType     FixedImagePixelType;
+  typedef typename MovingImageType::PixelType    MovingImagePixelType;
+
   // ImageSource
   typedef itk::testhelper::ImageRegistrationMethodImageSource<
-                                  FixedImageType::PixelType,
-                                  MovingImageType::PixelType,
+                                  FixedImagePixelType,
+                                  MovingImagePixelType,
                                   dimension >         ImageSourceType;
   // Transform Type
   typedef itk::AffineTransform< double, dimension > TransformType;
