@@ -110,7 +110,7 @@ void SegmentTreeGenerator<TScalarType>
   typename EquivalencyTableType::Pointer eqTable  =
     this->GetInputEquivalencyTable();
   typename EquivalencyTableType::Iterator it;
-  ScalarType threshold = m_FloodLevel * segTable->GetMaximumDepth();
+  ScalarType threshold = static_cast<ScalarType>(m_FloodLevel * segTable->GetMaximumDepth());
 
   eqTable->Flatten();
   unsigned long counter =0;
@@ -147,7 +147,7 @@ void SegmentTreeGenerator<TScalarType>
   typename SegmentTableType::Iterator segment_ptr;
   unsigned long labelFROM;
   unsigned long labelTO;
-  ScalarType threshold = m_FloodLevel * segments->GetMaximumDepth();
+  ScalarType threshold = static_cast<ScalarType>(m_FloodLevel * segments->GetMaximumDepth());
   m_MergedSegmentsTable->Flatten();
 
   segments->PruneEdgeLists(threshold);
@@ -195,7 +195,7 @@ void SegmentTreeGenerator<TScalarType>
   // Merges segments up to a specified floodlevel according to the information
   // in the heap of merges.  As two segments are merged, calculates a new
   // possible merges and pushes it onto the heap.
-  ScalarType threshold = m_FloodLevel * segments->GetMaximumDepth();
+  ScalarType threshold = static_cast<ScalarType>(m_FloodLevel * segments->GetMaximumDepth());
 
   unsigned  counter;
   typename SegmentTreeType::merge_comp comp;
