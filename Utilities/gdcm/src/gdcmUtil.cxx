@@ -102,7 +102,7 @@ std::string Util::RootUID        = GDCM_UID;
  * sprintf(result, "%04x|%04x", group , elem);
  *
  * c++ code is 
- * std::ostringstream buf;
+ * itksys_ios::ostringstream buf;
  * buf << std::right << std::setw(4) << std::setfill('0') << std::hex
  *     << group << "|" << std::right << std::setw(4) << std::setfill('0') 
  *     << std::hex <<  elem;

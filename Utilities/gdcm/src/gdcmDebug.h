@@ -21,7 +21,7 @@
 
 #include "gdcmCommon.h"
 
-#include <sstream>
+#include <itksys/ios/sstream>
 #include <fstream>
 #include <assert.h>
 #include <errno.h>

@@ -19,9 +19,9 @@
 #include "gdcmBinEntry.h"
 #include "gdcmContentEntry.h"
 #include "gdcmUtil.h"
+#include "gdcmDebug.h"  //hidden way to include sstream
 
 #include <fstream>
-#include <sstream>
 #include <iostream> // for std::ios_base, since <ios> does not exist on gcc/Solaris
 
 namespace gdcm 
@@ -139,7 +139,7 @@ void BinEntry::Print(std::ostream &os, std::string const & )
 {
    os << "B ";
    DocEntry::Print(os);
-   std::ostringstream s;
+   itksys_ios::ostringstream s;
    void* binArea = GetBinArea();
    if (binArea)
    {

@@ -217,7 +217,7 @@ void DocEntry::Print(std::ostream &os, std::string const & )
    std::string st;
    TSKey v;
    std::string d2, vr;
-   std::ostringstream s;
+   itksys_ios::ostringstream s;
    uint32_t lgth;
 
    o  = GetOffset();

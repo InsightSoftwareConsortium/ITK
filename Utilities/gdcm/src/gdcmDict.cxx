@@ -242,7 +242,7 @@ DictEntry *Dict::GetNextEntry()
 void Dict::Print(std::ostream &os, std::string const & )
 {
    os << "Dict file name : " << Filename << std::endl;
-   std::ostringstream s;
+   itksys_ios::ostringstream s;
 
    for (TagKeyHT::iterator tag = KeyHt.begin(); tag != KeyHt.end(); ++tag)
    {

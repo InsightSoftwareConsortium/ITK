@@ -314,7 +314,7 @@ const char* TS::GetSpecialTransferSyntax(SpecialType t)
  */
 void TS::Print(std::ostream &os) 
 {
-   std::ostringstream s;
+   itksys_ios::ostringstream s;
 
    for (TSHT::const_iterator it = TsMap.begin(); it != TsMap.end(); ++it)
    {

@@ -167,7 +167,7 @@ bool VR::IsValidVR(VRKey const &key)
  */
 void VR::Print(std::ostream &os) 
 {
-   std::ostringstream s;
+   itksys_ios::ostringstream s;
 
    for (VRHT::iterator it = vr.begin(); it != vr.end(); ++it)
    {

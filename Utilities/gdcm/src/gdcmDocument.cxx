@@ -977,7 +977,7 @@ void Document::ParseSQ( SeqEntry *seqEntry,
       }
       // create the current SQItem
       SQItem *itemSQ = new SQItem( seqEntry->GetDepthLevel() );
-      std::ostringstream newBase;
+      itksys_ios::ostringstream newBase;
       newBase << seqEntry->GetKey()
               << "/"
               << SQItemNumber
@@ -1046,7 +1046,7 @@ void Document::LoadDocEntry(DocEntry *entry)
    // are not loaded. Instead we leave a short notice of the offset of
    // the element content and it's length.
 
-   std::ostringstream s;
+   itksys_ios::ostringstream s;
    if (length > MaxSizeLoadEntry)
    {
       if (BinEntry *binEntryPtr = dynamic_cast< BinEntry* >(entry) )
@@ -1447,7 +1447,7 @@ std::string Document::GetDocEntryValue(DocEntry *entry)
       std::string val = ((ValEntry *)entry)->GetValue();
       std::string vr  = entry->GetVR();
       uint32_t length = entry->GetLength();
-      std::ostringstream s;
+      itksys_ios::ostringstream s;
       int nbInt;
 
       // When short integer(s) are expected, read and convert the following 
@@ -1521,7 +1521,7 @@ std::string Document::GetDocEntryUnvalue(DocEntry *entry)
    {
       std::string vr = entry->GetVR();
       std::vector<std::string> tokens;
-      std::ostringstream s;
+      itksys_ios::ostringstream s;
 
       if ( vr == "US" || vr == "SS" ) 
       {
