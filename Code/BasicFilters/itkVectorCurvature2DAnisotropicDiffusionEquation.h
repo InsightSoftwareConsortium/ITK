@@ -111,7 +111,7 @@ public:
    */
   virtual PixelType ComputeUpdate(const NeighborhoodType &neighborhood,
                                   void * globalData,
-                             const FloatOffsetType& offset = m_ZeroOffset) const;
+                                  const FloatOffsetType& offset = m_ZeroOffset) const;
 
   /**
    *

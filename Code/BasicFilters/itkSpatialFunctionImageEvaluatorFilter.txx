@@ -65,7 +65,7 @@ void
 SpatialFunctionImageEvaluatorFilter< TSpatialFunction, TInputImage, TOutputImage >
 ::GenerateData()
 {
-  std::cout << "SpatialFunctionImageEvaluatorFilter::GenerateData() called\n";
+  itkDebugMacro(<< "SpatialFunctionImageEvaluatorFilter::GenerateData() called");
 
   // Get the input and output pointers
   InputImagePointer  inputPtr = this->GetInput(0);

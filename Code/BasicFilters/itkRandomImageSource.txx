@@ -94,11 +94,6 @@ RandomImageSource<TOutputImage>
   Superclass::PrintSelf(os,indent);
 }
 
-
-/**
- * Microsoft compiler defines these and screws up the traits
- */
-
 //----------------------------------------------------------------------------
 template <typename TOutputImage>
 void 

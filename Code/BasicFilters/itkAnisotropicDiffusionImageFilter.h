@@ -120,7 +120,6 @@ protected:
   void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const
     {
-      os << indent << "AnisotropicDiffusionImageFilter";
       Superclass::PrintSelf(os, indent.GetNextIndent());
     }
   

@@ -59,7 +59,7 @@ namespace itk
  * initial position on the front, fast marching systematically move the
  * front forward one grid point at a time.
  *
- * Updates are preformed using an entropy satisfiy scheme where only
+ * Updates are preformed using an entropy satisfy scheme where only
  * "upwind" neighborhoods are used. This implementation of Fast Marching
  * uses a std::priority_queue to locate the next proper grid position to
  * update. 
@@ -292,11 +292,6 @@ public:
   void SetOutputSize( const typename LevelSetImageType::SizeType& size )
     { m_OutputSize = size; }
 
-  /**
-   * Set the debugging mode
-   */
-  itkSetMacro( DebugOn, bool );
-
 protected:
   FastMarchingImageFilter();
   ~FastMarchingImageFilter(){};
@@ -353,9 +348,6 @@ private:
   typedef std::priority_queue< NodeType, HeapContainer, NodeComparer > HeapType;
 
   HeapType    m_TrialHeap;
-
-  // temporary debugging flag
-  bool m_DebugOn;
 
 };
 

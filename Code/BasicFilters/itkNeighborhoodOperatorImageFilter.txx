@@ -86,9 +86,9 @@ NeighborhoodOperatorImageFilter<TInputImage, TOutputImage>
   //  nit.Print(std::cout);
   while( ! nit.IsAtEnd() )
     {
-      it.Value() = innerProduct(nit, m_Operator);
-      ++nit;
-      ++it;
+    it.Value() = innerProduct(nit, m_Operator);
+    ++nit;
+    ++it;
     }
 
   // Process each of the boundary faces.  These are N-d regions which border
@@ -96,20 +96,19 @@ NeighborhoodOperatorImageFilter<TInputImage, TOutputImage>
   ConstSmartNeighborhoodIterator<InputImageType> bit;
   for (++fit; fit != faceList.end(); ++fit)
     { 
-      bit =
-        ConstSmartNeighborhoodIterator<InputImageType>(m_Operator.GetRadius(),
-                                                       input, *fit);
-      //  bit.Print(std::cout);
-      it = ImageRegionIterator<OutputImageType>(output, *fit);
-      bit.GoToBegin();
-      while ( ! bit.IsAtEnd() )
-        {
-          it.Value() = smartInnerProduct(bit, m_Operator);
-          ++bit;
-          ++it;
-        }
-     }
-
+    bit =
+      ConstSmartNeighborhoodIterator<InputImageType>(m_Operator.GetRadius(),
+                                                     input, *fit);
+    //  bit.Print(std::cout);
+    it = ImageRegionIterator<OutputImageType>(output, *fit);
+    bit.GoToBegin();
+    while ( ! bit.IsAtEnd() )
+      {
+      it.Value() = smartInnerProduct(bit, m_Operator);
+      ++bit;
+      ++it;
+      }
+   }
 }
 
 } // end namespace itk

@@ -52,7 +52,7 @@ namespace itk
  * MeshSource is the base class for all process objects that output
  * mesh data. Specifically, this class defines the GetOutput() method
  * that returns a pointer to the output mesh. The class also defines
- * some internal private data memebers that are used to manage streaming
+ * some internal private data members that are used to manage streaming
  * of data.
  *
  * \ingroup DataSources

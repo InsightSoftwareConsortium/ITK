@@ -97,11 +97,6 @@ protected:
   GradientAnisotropicDiffusionImageFilter(const Self&) {}
   
   void operator=(const Self&) {}
-  void PrintSelf(std::ostream& os, Indent indent) const
-    {
-      os << indent << "GradientAnisotropicDiffusionImageFilter";
-      Superclass::PrintSelf(os, indent.GetNextIndent());
-    }
 };
 
 } // end namspace itk

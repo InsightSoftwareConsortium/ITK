@@ -1,6 +1,10 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkBalloonForceFilter.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
 
 Copyright (c) 2001 Insight Consortium
 All rights reserved.

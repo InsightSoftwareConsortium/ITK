@@ -57,8 +57,8 @@ PadImageFilter<TInputImage,TOutputImage>
 {
   for( int j = 0; j < ImageDimension; j++ )
     {
-      m_PadLowerBound[j] = 0;
-      m_PadUpperBound[j] = 0;
+    m_PadLowerBound[j] = 0;
+    m_PadUpperBound[j] = 0;
     }
 }
 
@@ -75,14 +75,14 @@ PadImageFilter<TInputImage,TOutputImage>
 
   os << indent << "Output Lower Bounds: ";
   for( int j = 0; j < ImageDimension; j++ )
-		{
-		os << m_PadLowerBound[j] << " ";
+    {
+    os << m_PadLowerBound[j] << " ";
     } 
   os << std::endl;
   os << indent << "Output Upper Bounds: ";
   for( int j = 0; j < ImageDimension; j++ )
-		{
-		os << m_PadUpperBound[j] << " ";
+    {
+    os << m_PadUpperBound[j] << " ";
     } 
   os << std::endl;
 }
@@ -99,15 +99,15 @@ PadImageFilter<TInputImage,TOutputImage>
   int j = 0;
   for( j = 0; j < ImageDimension; j++ )
     {
-      if( bounds[j] != m_PadLowerBound[j] ) break;
+    if( bounds[j] != m_PadLowerBound[j] ) break;
     }
   if( j < ImageDimension )
     {
-      this->Modified();
-      for( j = 0; j < ImageDimension; j++ )
-	{
-	  m_PadLowerBound[j] = bounds[j];
-	}
+    this->Modified();
+    for( j = 0; j < ImageDimension; j++ )
+      {
+      m_PadLowerBound[j] = bounds[j];
+      }
     }
 }
 

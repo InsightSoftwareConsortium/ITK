@@ -62,6 +62,7 @@ void FileIOToImageFilter<TOutputImage>::Update()
 {
   if ( m_FileName == "" && m_FilePrefix == "" )
     {
+    //todo: give a message
     throw FileIOException(__FILE__, __LINE__);
     }
 
@@ -74,6 +75,7 @@ void FileIOToImageFilter<TOutputImage>::Update()
 
   if ( m_IO == 0 )
     {
+    //todo: give a message
     throw FileIOException(__FILE__, __LINE__);
     }
 
@@ -125,6 +127,7 @@ void FileIOToImageFilter<TOutputImage>::GenerateData()
 
   for ( it.GoToBegin(); !it.IsAtEnd(); ++it, ++source )
     {
+    //todo: progress
     it.Set(*source);
     }
 }

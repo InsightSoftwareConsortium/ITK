@@ -203,7 +203,6 @@ void
 RecursiveSeparableImageFilter<TInputImage,TOutputImage, TComputation>
 ::GenerateData() 
 {
-
   typedef typename TOutputImage::PixelType  TOutputType;
   typedef typename TInputImage::PixelType   TInputType;
 
@@ -283,7 +282,7 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage, TComputation>
                     (float)ln
                   / (float)offsetTable[ TInputImage::ImageDimension ];
 
-  UpdateProgress( progress );
+  this->UpdateProgress( progress );
 
   while( !inputIterator.IsAtEnd() && !outputIterator.IsAtEnd() )
   {
@@ -299,18 +298,18 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage, TComputation>
 
     unsigned int j=0; 
     while( !outputIterator.IsAtEndOfLine() )
-    {
+      {
       outputIterator.Set( (TOutputType)( outs[j++] ) );
       ++outputIterator;
-    }
+      }
 
     inputIterator.NextLine();
     outputIterator.NextLine();
 
     progress += progressAdvance;
 
-    UpdateProgress( progress );
-
+    this->UpdateProgress( progress );
+    
   }
 
   delete [] outs;

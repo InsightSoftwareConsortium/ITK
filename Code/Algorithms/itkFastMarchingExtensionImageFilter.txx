@@ -62,9 +62,6 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension>
     m_AuxImage[k] = ptr;
     this->ProcessObject::AddOutput( ptr.GetPointer() );
     }
-
-  m_DebugOn = false;
-
 }
 
 

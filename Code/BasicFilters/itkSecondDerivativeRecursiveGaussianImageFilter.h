@@ -62,9 +62,7 @@ template <class TInputImage, class TOutputImage, class TComputation>
 class ITK_EXPORT SecondDerivativeRecursiveGaussianImageFilter:
   public RecursiveGaussianImageFilter<TInputImage,TOutputImage,TComputation>
 {
-
 public:
-
   /**
    * Standard "Self" typedef.
    */
@@ -88,16 +86,11 @@ public:
   itkNewMacro(Self);
 
 protected:
-
   SecondDerivativeRecursiveGaussianImageFilter() {};
-  
   virtual ~SecondDerivativeRecursiveGaussianImageFilter() {};
-  
   SecondDerivativeRecursiveGaussianImageFilter(const Self&) {}
-  
   void operator=(const Self&) {}
   
-
   /**
    * Set up the coefficients of the filter to approximate a specific kernel.
    * typically it can be used to approximate a Gaussian or one of its

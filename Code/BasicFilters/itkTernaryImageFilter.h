@@ -50,7 +50,7 @@ namespace itk
 /** \class TernaryImageFilter
  * \brief Implements pixel-wise generic operation of three images.
  *
- * This class is parameterized over the types of the two input images
+ * This class is parameterized over the types of the three input images
  * and the type of the output image.  It is also parameterized by the
  * operation to be applied, using a Functor style.
  * 
@@ -124,7 +124,6 @@ public:
    * Connect one of the operands for pixel-wise addition
    */
   void SetInput3( TInputImage3 *image3);
-
 
 protected:
   TernaryImageFilter();

@@ -46,7 +46,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk {
 
-/**
+/** \class VectorAnisotropicDiffusionEquation
+ * \brief need one
  * Requirements:
  *      1) Image PixelType must have an internal typedef of ValueType,
  *            i.e. TImage::PixelType::ValueType must be defined as the

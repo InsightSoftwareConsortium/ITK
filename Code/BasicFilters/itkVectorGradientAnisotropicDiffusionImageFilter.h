@@ -52,7 +52,6 @@ namespace itk {
  * \class VectorGradientAnisotropicDiffusionImageFilter
  * 
  * \ingroup ImageEnhancement
- * \ingroup FeatureExtraction
  *
  *\todo Document.
  */
@@ -97,11 +96,6 @@ protected:
   VectorGradientAnisotropicDiffusionImageFilter(const Self&) {}
   
   void operator=(const Self&) {}
-  void PrintSelf(std::ostream& os, Indent indent) const
-    {
-      os << indent << "VectorGradientAnisotropicDiffusionImageFilter";
-      Superclass::PrintSelf(os, indent.GetNextIndent());
-    }
 };
 
 } // end namspace itk

@@ -21,7 +21,7 @@ void
 DifferenceOfGaussiansGradientImageFilter< TInputImage, TDataType >
 ::GenerateData()
 {
-  std::cout << "DifferenceOfGaussiansGradientImageFilter::GenerateData() called\n";
+  itkDebugMacro(<< "DifferenceOfGaussiansGradientImageFilter::GenerateData() called");
 
   // Get the input and output pointers
   InputImagePointer  inputPtr = this->GetInput(0);

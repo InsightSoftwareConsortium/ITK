@@ -108,9 +108,6 @@ public:
    * Kernel (structuring element) iterator
    */
   typedef typename Superclass::KernelIteratorType  KernelIteratorType;
- 
-
-
 
 protected:
 

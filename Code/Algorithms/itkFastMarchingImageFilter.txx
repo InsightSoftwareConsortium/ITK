@@ -79,8 +79,6 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
 
   m_NodesUsed.resize( SetDimension );
 
-  m_DebugOn = false;
-
 }
 
 
@@ -275,8 +273,8 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
       {
        if( node.index[j] > (signed long) m_OutputSize[j] )
         {
-          inRange = false;
-          break;
+        inRange = false;
+        break;
         }
       }
       if( !inRange ) continue;
@@ -303,7 +301,6 @@ void
 FastMarchingImageFilter<TLevelSet,TSpeedImage>
 ::GenerateData()
 {
-
   this->Initialize();
 
   if( m_CollectPoints )
@@ -325,34 +322,31 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
     node = m_TrialHeap.top();
     m_TrialHeap.pop();
 
-    if( m_DebugOn ) { NumPoints++; }
+    if( this->GetDebug() ) { NumPoints++; }
 
     // does this node contain the current value ?
     currentValue = (double) m_OutputLevelSet->GetPixel( node.index );
 
     if( node.value != currentValue )
       {
-      if( m_DebugOn ) { InvalidPoints++; }
+      if( this->GetDebug() ) { InvalidPoints++; }
       continue;
       } 
 
     // is this node already alive ?
     if( m_LabelImage->GetPixel( node.index ) != TrialPoint ) 
       {
-      if( m_DebugOn) { InvalidPoints++; }
+      if( this->GetDebug() ) { InvalidPoints++; }
       continue;
       }
 
     if( currentValue > m_StoppingValue )
       {
-      if( m_DebugOn ) 
-        {
-        std::cout << "stopping value reached" << std::endl;
-        }
+      itkDebugMacro(<< "stopping value reached");
       break;
       }
 
-    if( m_DebugOn && currentValue < oldValue) 
+    if( this->GetDebug() && currentValue < oldValue) 
       {
        std::cout << "error value decrease at:" << node.index << std::endl;
       }
@@ -370,15 +364,10 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
     this->UpdateNeighbors( node.index );
 
     }
-
-  if( m_DebugOn ) 
-    {
-    std::cout << "No. points processed: " << NumPoints << std::endl;
-    std::cout << "No. invalid points: " << InvalidPoints << std::endl;
-    }
-
+  
+  itkDebugMacro(<< "No. points processed: " << NumPoints);
+  itkDebugMacro(<< "No. invalid points: " << InvalidPoints);
 }
-
 
 /**
  *

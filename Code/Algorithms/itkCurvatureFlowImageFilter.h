@@ -56,7 +56,7 @@ namespace itk
   * The advantage of this approach is that sharp boundaries are preserved
   * with smoothing occuring only within a region.
   *
-  * Note that unlike level set segmenetation algorithms,
+  * Note that unlike level set segmentation algorithms,
   * the image to be denoised is already the level set and can be set
   * directly as the input using the SetInput() method.
   *
@@ -120,23 +120,14 @@ public:
    */
   typedef Index<LevelSetType::SetDimension> IndexType;
 
-  /**
-   * Set the debugging mode
-   */
-  itkSetMacro( DebugOn, bool );
-
 protected:
   CurvatureFlowImageFilter();
   ~CurvatureFlowImageFilter(){};
   CurvatureFlowImageFilter(const Self&){};
   void operator=(const Self&) {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
 
   virtual void Initialize();
   void GenerateData();
-
-private:
-  bool m_DebugOn;
 
 };
 

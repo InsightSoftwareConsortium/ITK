@@ -97,20 +97,15 @@ public:
    */   
   itkGetMacro( Sigma, TComputation );
 
-
   /**
    * Set the Sigma of the Gaussian kernel.
    */   
   itkSetMacro( Sigma, TComputation );
 
-
 protected:
   RecursiveGaussianImageFilter();
-  
   virtual ~RecursiveGaussianImageFilter() {};
-  
   RecursiveGaussianImageFilter(const Self&) {}
-  
   void operator=(const Self&) {}
 
   /**

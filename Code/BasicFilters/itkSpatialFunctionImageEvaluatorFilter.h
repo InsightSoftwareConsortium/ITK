@@ -145,11 +145,6 @@ public:
     {m_pFunction = pFunction;};
 
   /**
-   * Method for evaluating the implicit function over the image.
-   */
-  void GenerateData();
-
-  /**
    * Gets and sets for member variables
    */
 
@@ -166,6 +161,11 @@ protected:
 
   SpatialFunctionImageEvaluatorFilter(const Self&) {}
   void operator=(const Self&) {}
+
+  /**
+   * Method for evaluating the implicit function over the image.
+   */
+  void GenerateData();
 
 private:
 

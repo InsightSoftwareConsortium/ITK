@@ -55,6 +55,7 @@ namespace itk
  * the recursive filtering method proposed by R.Deriche in IEEE-PAMI Vol.12,
  * No.1, January 1990, pp 78-87.  
  *
+ * \ingroup ImageEnhancement 
  * \ingroup ImageFeatureExtraction
  *
  */
@@ -88,13 +89,9 @@ public:
   itkNewMacro(Self);  
   
 protected:
-
   FirstDerivativeRecursiveGaussianImageFilter() {};
-  
   virtual ~FirstDerivativeRecursiveGaussianImageFilter() {};  
-  
   FirstDerivativeRecursiveGaussianImageFilter(const Self&) {}
-
   void operator=(const Self&) {}
   
 

@@ -50,7 +50,7 @@ namespace itk
  * \brief Base class for recursive convolution with a kernel.
  *
  * RecursiveSeparableImageFilter is the base class for recursive 
- * filters that are applied in each dimension separatedly
+ * filters that are applied in each dimension separatedly.
  * 
  * This class implements the recursive filtering
  * method proposed by R.Deriche in IEEE-PAMI
@@ -118,20 +118,16 @@ public:
 //  typename TInputImage::Pointer GetInputImage( void );
   TInputImage * GetInputImage( void );
 
+protected:
+  RecursiveSeparableImageFilter();
+  virtual ~RecursiveSeparableImageFilter() {};
+  RecursiveSeparableImageFilter(const Self&) {}
+  void operator=(const Self&) {}
+
   /**
    * GenerateData (apply) the filter
    */   
   void GenerateData(void);
-
-
-protected:
-  RecursiveSeparableImageFilter();
-  
-  virtual ~RecursiveSeparableImageFilter() {};
-  
-  RecursiveSeparableImageFilter(const Self&) {}
-  
-  void operator=(const Self&) {}
 
   /**
    * Set up the coefficients of the filter to approximate a specific kernel.
@@ -165,7 +161,6 @@ protected:
   void FilterDataArray(TComputation *outs,
                        const TComputation *data, unsigned int ln);
 
-
 private:  
 
   /**
@@ -176,18 +171,15 @@ private:
 
 
 protected:
-  
   /**
    *  Normalization factor
    */
   TComputation K;                       
 
-
   /**
    * Spacing along the direction of filtering
    */   
   TComputation m_Spacing;
-
 
   /**
    *  Parameter of exponential series
@@ -201,7 +193,6 @@ protected:
   TComputation w0;
   TComputation w1; 
 
-
   /**
    * Causal coefficients
    */
@@ -209,7 +200,6 @@ protected:
   TComputation n11;
   TComputation n22;
   TComputation n33; 
-
   
   /**
    * Causal coefficients == Anticausal coefficients
@@ -218,7 +208,6 @@ protected:
   TComputation d22;
   TComputation d33;
   TComputation d44; 
-
   
   /**
    * Anti-Causal coefficients (symmetric case)

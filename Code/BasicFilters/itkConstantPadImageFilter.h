@@ -49,17 +49,15 @@ namespace itk
 /** \class ConstantPadImageFilter
  * \brief Increase the image size by padding with a constant value.
  *
- * ConstantPadImageFilter changes the image extent of an image.  If the 
- * image extent is larger than the input image extent, the extra pixels are 
- * filled in by a constant value.  The image extent of the output 
- * must be specified.
+ * ConstantPadImageFilter changes the output image region.  If the output
+ * image region is larger than the input image region, the extra pixels are
+ * filled in by a constant value.  The output image region must be specified.
  *
  * This filter is implemented as a multithreaded filter.  It provides a 
  * ThreadedGenerateData() method for its implementation.
  * 
  * \ingroup GeometricTransforms
- *
- */
+ * */
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT ConstantPadImageFilter:
     public PadImageFilter<TInputImage,TOutputImage>

@@ -54,8 +54,6 @@ namespace itk
  * Numeric conversions (castings) are done by the C++ defaults.
  * 
  * \ingroup IntensityImageFilters
- *
- *
  */
 
 namespace Function {  
@@ -113,7 +111,6 @@ public:
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-
   /**
    * Method for creation through the object factory.
    */
@@ -125,7 +122,6 @@ protected:
   virtual ~TernaryAddImageFilter() {}
   TernaryAddImageFilter(const Self&) {}
   void operator=(const Self&) {}
-
 
 };
 

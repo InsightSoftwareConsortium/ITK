@@ -56,7 +56,7 @@ namespace itk
  * \brief Base class for classifier object
  * 
  * itkClassifier is the base class for the classifier objects. It provides
- * the basic function definitons that are inherent to a classifier objects.
+ * the basic function definitions that are inherent to a classifier objects.
  * It is templated over the type of input and the classified image. The  
  * second template parameter allows templating over the classified image 
  * type. The template name is a misnomer since this class allows general 

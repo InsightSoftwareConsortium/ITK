@@ -50,7 +50,7 @@ namespace itk
 /** \class TransformMeshFilter
  * \brief 
  *
- * TransformMeshFilter applies an  Transform to all the points
+ * TransformMeshFilter applies a transform to all the points
  * of a mesh.
  *
  * The additional content of the mesh is passed untouched. Including the 
@@ -58,7 +58,6 @@ namespace itk
  * 
  * Meshes that have added information like normal vector on the points, will
  * have to take care of transforming this data by other means.
- * 
  * 
  * \ingroup MeshFilters
  *
@@ -89,12 +88,10 @@ public:
    */
   typedef typename TInputMesh::CoordRepType  CoordRepType;
 
-
   /** 
    * Type of the  Transform
    */
   typedef TTransform  TransformType;
-
 
   /**
    * Method for creation through the object factory.
@@ -107,11 +104,6 @@ public:
   itkTypeMacro(TransformMeshFilter,MeshToMeshFilter);
 
   /** 
-   * Generate Requested Data
-   */
-  virtual void GenerateData( void );
-
-  /** 
    * Set transform.
    */
   itkSetObjectMacro(Transform, TransformType); 
@@ -121,7 +113,6 @@ public:
    */
   itkGetObjectMacro(Transform,TransformType);
 
-
 protected:
   TransformMeshFilter();
   ~TransformMeshFilter() {};
@@ -129,6 +120,11 @@ protected:
   void operator=(const TransformMeshFilter&) {};
   void PrintSelf(std::ostream& os, Indent indent) const;
   
+  /** 
+   * Generate Requested Data
+   */
+  virtual void GenerateData( void );
+
  /**
   *   transform to apply to all the mesh points
   */

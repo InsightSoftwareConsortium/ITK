@@ -60,6 +60,8 @@ namespace itk
  * This filter will produce the entire output as one image, but the upstream
  * filters will do their processing in pieces.
  *
+ * \ingroup ITKSystemObjects
+ * \ingroup DataProcessing 
  */
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT StreamingImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>

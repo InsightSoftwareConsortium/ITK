@@ -48,9 +48,9 @@ namespace itk
 {
 
 /** \class RandomImageSource
- * \brief Generate an n-dimensional image of random image values.
+ * \brief Generate an n-dimensional image of random pixel values.
  *
- * RandomImageSource generates an image of random scalar values.
+ * RandomImageSource generates an image of random pixel values.
  * The output image may be of any dimension. 
  *
  * \ingroup DataSources

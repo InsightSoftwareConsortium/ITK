@@ -65,20 +65,6 @@ CurvatureFlowImageFilter<TLevelSet>
 template <class TLevelSet>
 void
 CurvatureFlowImageFilter<TLevelSet>
-::PrintSelf(std::ostream& os, Indent indent) const
-{
-  Superclass::PrintSelf(os,indent);
-
-  os << indent << "Curvature flow" << std::endl;
-}
-
-
-/**
- *
- */
-template <class TLevelSet>
-void
-CurvatureFlowImageFilter<TLevelSet>
 ::Initialize()
 {
   // allocate the output image buffer
@@ -97,8 +83,6 @@ CurvatureFlowImageFilter<TLevelSet>
 ::GenerateData()
 {
 
-  if( !this->GetInput() ) return;
-
   this->Initialize();
   this->AllocateBuffers();
   this->CopyInputToInputBuffer();
@@ -114,10 +98,7 @@ CurvatureFlowImageFilter<TLevelSet>
   for( int k = 0; k < numIterations; k++ )
     {
 
-    if( m_DebugOn ) 
-      {
-      std::cout << "iteration: " << k << std::endl;
-      }
+    itkDebugMacro(<< "iteration: " << k);
 
     LevelSetPointer outputBuffer = this->GetOutputBuffer();
     LevelSetPointer inputBuffer = this->GetInputBuffer();

@@ -53,7 +53,6 @@ namespace itk
  * input images and the type of the output image. 
  * Numeric conversions (castings) are done by the C++ defaults.
  *
- * 
  * \ingroup IntensityImageFilters
  *
  */
@@ -73,10 +72,7 @@ namespace Function {
       return (TOutput) sqrt( (double)(A*A + B*B + C*C) );
     }
   }; 
-
 }
-
-
 
 template <class TInputImage1, class TInputImage2, 
           class TInputImage3, class TOutputImage>
@@ -89,8 +85,6 @@ class ITK_EXPORT TernaryMagnitudeImageFilter :
                       typename TInputImage2::PixelType,
                       typename TInputImage3::PixelType,
                       typename TOutputImage::PixelType>   >
-
-
 {
 public:
   /**

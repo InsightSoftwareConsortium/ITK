@@ -54,7 +54,7 @@ namespace itk
  *
  * This class is templated over the image type which represents
  * the level set, the type of the velocity and the
- * number of veclocities to be extended.
+ * number of velocities to be extended.
  *
  * This class supports narrowbanding. If the input narrowband is provided,
  * the algorithm will only locate the level set within the input narrowband.
@@ -139,7 +139,6 @@ protected:
   ~ExtensionVelocitiesImageFilter(){};
   ExtensionVelocitiesImageFilter(const Self&){};
   void operator=(const Self&) {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
 
   virtual void GenerateDataFull();
   virtual void GenerateDataNarrowBand();

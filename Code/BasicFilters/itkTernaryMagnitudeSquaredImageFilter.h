@@ -73,10 +73,7 @@ namespace Function {
       return (TOutput)(A*A + B*B + C*C);
     }
   }; 
-
 }
-
-
 
 template <class TInputImage1, class TInputImage2, 
           class TInputImage3, class TOutputImage>
@@ -89,8 +86,6 @@ class ITK_EXPORT TernaryMagnitudeSquaredImageFilter :
                       typename TInputImage2::PixelType,
                       typename TInputImage3::PixelType,
                       typename TOutputImage::PixelType >   >
-
-
 {
 public:
   /**

@@ -145,24 +145,17 @@ public:
    */
   void SetSigma( TComputation sigma );
 
-
+protected:
+  GradientRecursiveGaussianImageFilter();
+  virtual ~GradientRecursiveGaussianImageFilter() {};
+  GradientRecursiveGaussianImageFilter(const Self&) {}
+  void operator=(const Self&) {}
+  
   /**
    * Generate Data
    */
   void GenerateData( void );
 
-
-
-protected:
-
-  GradientRecursiveGaussianImageFilter();
-  
-  virtual ~GradientRecursiveGaussianImageFilter() {};
-  
-  GradientRecursiveGaussianImageFilter(const Self&) {}
-  
-  void operator=(const Self&) {}
-  
 private:
   
   SmoothingFilterPointer     m_SmoothingFilters[ImageDimension-1];

@@ -58,7 +58,6 @@ namespace itk
  * convultion with a gaussian.
  * 
  * \ingroup ImageEnhancement
- * \ingroup ImageFeatureExtraction 
  *
  * */
 

@@ -259,9 +259,7 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
     outIt.Set( tempIt2.Get() );
     }
 
-  std::cout << "Binomial filter executed " << num_reps << " times\n";
-
-  std::cout << "BinomialBlurImageFilter::GenerateData() finished\n";
+  vtkDebugMacro(<< "Binomial blur filter executed " << num_reps << " times");
 }
 
 } // end namespace

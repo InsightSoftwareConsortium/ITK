@@ -91,29 +91,28 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>
   swapPtrB = output;
   for (unsigned int i = 0; i < ImageDimension; ++i)
     {
-      // Filter
-      oper = new GaussianOperator<OutputPixelType,ImageDimension>;
-      oper->SetDirection(i);
-      oper->SetVariance(m_Variance[i]);
-      oper->SetMaximumError(m_MaximumError[i]);
-      oper->CreateDirectional();
-      
-      filter = NeighborhoodOperatorImageFilter<InputImageType, OutputImageType>::New();
-      filter->SetOperator(*oper);
-      filter->SetInput(swapPtrA);
-      filter->SetOutput(swapPtrB);
-      filter->Update();
+    // Filter
+    oper = new GaussianOperator<OutputPixelType,ImageDimension>;
+    oper->SetDirection(i);
+    oper->SetVariance(m_Variance[i]);
+    oper->SetMaximumError(m_MaximumError[i]);
+    oper->CreateDirectional();
 
-      //      delete oper;       pipeline problems cause seg fault? --3/13/01
+    filter = NeighborhoodOperatorImageFilter<InputImageType, OutputImageType>::New();
+    filter->SetOperator(*oper);
+    filter->SetInput(swapPtrA);
+    filter->SetOutput(swapPtrB);
+    filter->Update();
 
-      swapPtrC = swapPtrB;
-      swapPtrB = swapPtrA;
-      swapPtrA = swapPtrC;
+    //      delete oper;       pipeline problems cause seg fault? --3/13/01
+    swapPtrC = swapPtrB;
+    swapPtrB = swapPtrA;
+    swapPtrA = swapPtrC;
     }
 
   if ((ImageDimension % 2) == 0)
     { 
-      Self::ImageRegionCopy(output, imgT);
+    Self::ImageRegionCopy(output, imgT);
     }
 }
 

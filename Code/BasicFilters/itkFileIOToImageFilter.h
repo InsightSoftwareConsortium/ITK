@@ -53,6 +53,7 @@ namespace itk
  * \brief Base exception class for IO conflicts
  *
  * \ingroup IOFilters
+ * \ingroup Exceptions
  */
 class FileIOException : public ExceptionObject 
 {
@@ -81,7 +82,7 @@ public:
  *
  *  The Pluggable factory pattern is used. Different kinds of readers
  *  can be registered (even at run time) without having to modify the
- *  code in this class.
+ *  code in this class. (todo: how to use the pluggable)
  *
  *  \ingroup IOFilters
  *

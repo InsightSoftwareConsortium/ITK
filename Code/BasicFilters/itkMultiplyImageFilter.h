@@ -47,15 +47,13 @@ namespace itk
 {
   
 /** \class MultiplyImageFilter
- * \brief Implements an operator for pixel-wise addition of two images.
+ * \brief Implements an operator for pixel-wise multiplication of two images.
  *
  * This class is parametrized over the types of the two 
  * input images and the type of the output image. 
  * Numeric conversions (castings) are done by the C++ defaults.
- *
  * 
  * \ingroup IntensityImageFilters
- *
  */
 
 namespace Function {  
@@ -71,7 +69,6 @@ namespace Function {
       return (TOutput)(A * B);
     }
   }; 
-
 }
 
 template <class TInputImage1, class TInputImage2, class TOutputImage>
@@ -82,8 +79,6 @@ class ITK_EXPORT MultiplyImageFilter :
               typename TInputImage1::PixelType, 
               typename TInputImage2::PixelType,
               typename TOutputImage::PixelType>   >
-
-
 {
 public:
   /**
@@ -107,19 +102,16 @@ public:
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-
   /**
    * Method for creation through the object factory.
    */
   itkNewMacro(Self);
   
 protected:
-
   MultiplyImageFilter() {}
   virtual ~MultiplyImageFilter() {}
   MultiplyImageFilter(const Self&) {}
   void operator=(const Self&) {}
-
 
 };
 

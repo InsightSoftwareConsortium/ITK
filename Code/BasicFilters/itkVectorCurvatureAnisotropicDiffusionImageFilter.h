@@ -52,7 +52,6 @@ namespace itk {
  * \class VectorCurvatureAnisotropicDiffusionImageFilter
  * 
  * \ingroup ImageEnhancement
- * \ingroup FeatureExtraction
  *
  *\todo Document.
  */
@@ -97,11 +96,6 @@ protected:
   VectorCurvatureAnisotropicDiffusionImageFilter(const Self&) {}
   
   void operator=(const Self&) {}
-  void PrintSelf(std::ostream& os, Indent indent) const
-    {
-      os << indent << "VectorCurvatureAnisotropicDiffusionImageFilter";
-      Superclass::PrintSelf(os, indent.GetNextIndent());
-    }
 };
 
 } // end namspace itk

@@ -98,7 +98,6 @@ protected:
   void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const
     {
-      os << indent << "CurvatureAnisotropicDiffusionImageFilter";
       Superclass::PrintSelf(os, indent.GetNextIndent());
     }
 };

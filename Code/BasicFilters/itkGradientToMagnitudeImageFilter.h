@@ -115,12 +115,12 @@ public:
    */
   itkNewMacro(Self);  
 
+protected:
+
   /**
    * Method for evaluating the implicit function over the image.
    */
   void GenerateData();
-
-protected:
 
   GradientToMagnitudeImageFilter();
   virtual ~GradientToMagnitudeImageFilter() {};

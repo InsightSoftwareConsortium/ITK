@@ -110,11 +110,6 @@ public:
   itkNewMacro(Self);
 
   /**
-   * Standard pipeline method.
-   */
-  void GenerateData();
-
-  /**
    * Standard get/set macros for filter parameters.
    */
   itkSetVectorMacro(Variance, float, ImageDimension);
@@ -148,6 +143,11 @@ protected:
   virtual ~DiscreteGaussianImageFilter() {}
   DiscreteGaussianImageFilter(const Self&) {}
   void operator=(const Self&) {}
+
+  /**
+   * Standard pipeline method.
+   */
+  void GenerateData();
 
   static void ImageRegionCopy(OutputImageType *, InputImageType *);
 

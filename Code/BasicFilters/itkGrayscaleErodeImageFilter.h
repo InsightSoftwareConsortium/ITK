@@ -113,12 +113,8 @@ public:
    * Kernel (structuring element) iterator
    */
   typedef typename Superclass::KernelIteratorType  KernelIteratorType;
- 
-
-
 
 protected:
-
   /**
    * Evaluate image neighborhood with kernel to find the new value 
    * for the center pixel value

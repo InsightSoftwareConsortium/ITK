@@ -180,9 +180,6 @@ private:
   typename AuxValueContainer::Pointer    m_AuxTrialValues;
   AuxImagePointer                        m_AuxImage[VAuxDimension] ;
   
-  // temporary debugging flag
-  bool m_DebugOn;
-
 };
 
 } // namespace itk

@@ -76,6 +76,8 @@ ThresholdImageFilter<TImage>
   Superclass::PrintSelf(os,indent);
 
   os << indent << "Outside Value: " << m_OutsideValue << std::endl;
+  os << indent << "Lower: " << m_Lower << std::endl;
+  os << indent << "Upper: " << m_Upper << std::endl;
 }
 
 /**

@@ -64,7 +64,6 @@ namespace itk
  * 
  * \ingroup ImageFilters
  *
- *
  * \todo Add method to request buffered (for convolution) input region to
  * support data streaming.
  *
@@ -142,9 +141,7 @@ public:
    * a subclass of ImageBoundaryCondition.
    */
   void OverrideBoundaryCondition(const ImageBoundaryConditionPointerType i)
-  { m_BoundsCondition = i; }
-
-  void GenerateData();
+    { m_BoundsCondition = i; }
 
 protected:
   NeighborhoodOperatorImageFilter() {}
@@ -152,6 +149,8 @@ protected:
   NeighborhoodOperatorImageFilter(const Self&) : m_Operator(0) {}
   void operator=(const Self&) {}
     
+  void GenerateData();
+
 private:
   /**
    * Pointer to the internal operator used to filter the image.

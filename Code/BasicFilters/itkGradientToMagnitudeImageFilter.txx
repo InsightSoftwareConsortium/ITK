@@ -24,33 +24,11 @@ void
 GradientToMagnitudeImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
-  std::cout << "GradientToMagnitudeImageFilter::GenerateData() called\n";
+  itkDebugMacro(<< "GradientToMagnitudeImageFilter::GenerateData() called");
 
   // Get the input and output pointers
   InputImagePointer  inputPtr = this->GetInput(0);
   OutputImagePointer outputPtr = this->GetOutput(0);
-
-  // Commented out per Lydia's instructions
-  /*
-  // Make sure we're getting everything
-  inputPtr->SetRequestedRegionToLargestPossibleRegion();
-
-  // How big is the input image?
-  typename TInputImage::SizeType inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
-
-  // Create a region object native to the output image type
-  OutputImageRegionType outputRegion;
-
-  // Resize the output region
-  outputRegion.SetSize( inputSize );
-
-  // Set the largest legal region size (i.e. the size of the whole image)
-  // to what we just defined
-  outputPtr->SetLargestPossibleRegion( outputRegion );
-  outputPtr->SetBufferedRegion( outputRegion );
-  outputPtr->SetRequestedRegion( outputRegion );
-  outputPtr->Allocate();
-  */
 
   outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
   outputPtr->Allocate();
@@ -87,7 +65,7 @@ GradientToMagnitudeImageFilter< TInputImage, TOutputImage >
 
     }
 
-  std::cout << "GradientToMagnitudeImageFilter::GenerateData() finished\n";
+  itkDebugMacro(<< "GradientToMagnitudeImageFilter::GenerateData() finished");
 }
 
 } // end namespace

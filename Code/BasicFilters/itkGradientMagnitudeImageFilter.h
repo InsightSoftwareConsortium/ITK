@@ -104,16 +104,17 @@ public:
    */
   itkNewMacro(Self);
 
-  /**
-   * Standard pipeline method.
-   */
-  void GenerateData();
-
 protected:
   GradientMagnitudeImageFilter() {}
   virtual ~GradientMagnitudeImageFilter() {}
   GradientMagnitudeImageFilter(const Self&) {}
   void operator=(const Self&) {}
+
+  /**
+   * Standard pipeline method.
+   */
+  void GenerateData();
+
 };
   
 } // end namespace itk
