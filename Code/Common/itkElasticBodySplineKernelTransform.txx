@@ -71,7 +71,8 @@ SetAlpha(const TScalarType newAlpha)
 
 template <class TScalarType, int NDimensions>
 ElasticBodySplineKernelTransform<TScalarType, NDimensions>::GMatrixType
-ElasticBodySplineKernelTransform<TScalarType, NDimensions>::ComputeG(VectorType& x) const
+ElasticBodySplineKernelTransform<TScalarType, NDimensions>
+::ComputeG(const VectorType& x) const
 {
   RowMatrixType xRV; // row vector rep. of x
   ColumnMatrixType xCV; // column vector rep. of x

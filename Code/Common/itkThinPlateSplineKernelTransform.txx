@@ -58,7 +58,7 @@ ThinPlateSplineKernelTransform<TScalarType, NDimensions>::
 template <class TScalarType, int NDimensions>
 ThinPlateSplineKernelTransform<TScalarType, NDimensions>::GMatrixType
 ThinPlateSplineKernelTransform<TScalarType, NDimensions>::
-ComputeG(VectorType& x) const
+ComputeG(const VectorType & x) const
 {
   RowMatrixType xRV; // row vector rep. of x
   ColumnMatrixType xCV; // column vector rep. of x

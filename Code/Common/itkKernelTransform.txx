@@ -64,9 +64,9 @@ Transform<TScalarType, NDimensions>()
     m_I.set_identity();
     IMatrixInitialized = true;
   }
-  m_p = PointSetType::New();
-  m_q = PointSetType::New();
-  m_d = new VectorListType;
+  m_SourceLandmarks = PointSetType::New();
+  m_TargetLandmarks = PointSetType::New();
+  m_Displacements   = VectorSetType::New();
   m_LMatrix = NULL;
   m_KMatrix = NULL;
   m_PMatrix = NULL;
@@ -81,10 +81,6 @@ Transform<TScalarType, NDimensions>()
 template <class TScalarType, int NDimensions>
 KernelTransform<TScalarType, NDimensions>::~KernelTransform()
 {
-  if (m_d != NULL)
-    {
-    delete m_d;
-    }
   if (m_LMatrix != NULL)
     {
     delete m_LMatrix;
@@ -112,9 +108,10 @@ KernelTransform<TScalarType, NDimensions>::~KernelTransform()
  */
 template <class TScalarType, int NDimensions>
 KernelTransform<TScalarType, NDimensions>::PointSetPointer
-KernelTransform<TScalarType, NDimensions>::Getp()
+KernelTransform<TScalarType, NDimensions>
+::GetSourceLandmarks(void) const
 {
-  return m_p;
+  return m_SourceLandmarks;
 }
 
 /**
@@ -122,9 +119,10 @@ KernelTransform<TScalarType, NDimensions>::Getp()
  */
 template <class TScalarType, int NDimensions>
 KernelTransform<TScalarType, NDimensions>::PointSetPointer
-KernelTransform<TScalarType, NDimensions>::Getq()
+KernelTransform<TScalarType, NDimensions>
+::GetTargetLandmarks(void) const
 {
-  return m_q;
+  return m_TargetLandmarks;
 }
 
 /**
@@ -132,9 +130,10 @@ KernelTransform<TScalarType, NDimensions>::Getq()
  */
 template <class TScalarType, int NDimensions>
 void 
-KernelTransform<TScalarType, NDimensions>::Setp(const PointSetPointer p)
+KernelTransform<TScalarType, NDimensions>
+::SetSourceLandmarks(const PointSetType * p)
 {
-  m_p = p;
+  m_SourceLandmarks = p;
 }
 
 /**
@@ -142,51 +141,57 @@ KernelTransform<TScalarType, NDimensions>::Setp(const PointSetPointer p)
  */
 template <class TScalarType, int NDimensions>
 void 
-KernelTransform<TScalarType, NDimensions>::Setq(const PointSetPointer q)
+KernelTransform<TScalarType, NDimensions>
+::SetTargetLandmarks(const PointSetType * q)
 {
-  m_q = q;
+  m_TargetLandmarks = q;
 }
 
 /**
  *
  */
 template <class TScalarType, int NDimensions>
-KernelTransform<TScalarType, NDimensions>::VectorListType*
-KernelTransform<TScalarType, NDimensions>::Getd()
+KernelTransform<TScalarType, NDimensions>::VectorSetPointer
+KernelTransform<TScalarType, NDimensions>
+::GetDisplacements(void) const
 {
-  return m_d;
+  return m_Displacements;
 }
 
 /**
  *
  */
 template <class TScalarType, int NDimensions>
-void KernelTransform<TScalarType, NDimensions>::ComputeD()
+void KernelTransform<TScalarType, NDimensions>
+::ComputeD()
 {
-  int numLandmarks = m_p->GetNumberOfPoints();
-  int i;
-  PointType p;
-  PointType q;
-  VectorType* d;
+  int numLandmarks = m_SourceLandmarks->GetNumberOfPoints();
+  
+  PointsIterator sp  = m_SourceLandmarks->GetPoints()->Begin();
+  PointsIterator tp  = m_TargetLandmarks->GetPoints()->Begin();
+  PointsIterator end = m_SourceLandmarks->GetPoints()->End();
 
-  m_d->clear();
-  for (i = 0; i < numLandmarks; i++) 
-    {
-    m_p->GetPoint(i, &p);
-    m_q->GetPoint(i, &q);
-    d = new VectorType(q - p);
-    m_d->push_back(d);
-    }
+  m_Displacements->Reserve( numLandmarks );
+  VectorSetType::Iterator vt = m_Displacements->Begin();
+
+  while( sp != end )
+  {
+    vt->Value() = tp->Value() - sp->Value();
+    vt++;
+    sp++;
+    tp++;
+  }
 }
 
 /**
  *
  */
 template <class TScalarType, int NDimensions>
-void KernelTransform<TScalarType, NDimensions>::ComputeW()
+void KernelTransform<TScalarType, NDimensions>
+::ComputeWMatrix(void)
 {
-        int numLandmarks = m_p->GetNumberOfPoints();
-  vnl_svd<TScalarType>* svd;
+  int numLandmarks = m_SourceLandmarks->GetNumberOfPoints();
+  typedef vnl_svd<TScalarType>  SVDSolverType;
 
   ComputeL();
   ComputeY();
@@ -195,8 +200,8 @@ void KernelTransform<TScalarType, NDimensions>::ComputeW()
     delete m_WMatrix;
     }
   m_WMatrix = new WMatrixType(NDimensions*(numLandmarks+NDimensions+1), 1);
-  svd = new vnl_svd<TScalarType>(*m_LMatrix, 1e-8);
-  *m_WMatrix = svd->solve(*m_YMatrix);
+  SVDSolverType svd( *m_LMatrix, 1e-8 );
+  *m_WMatrix = svd.solve( *m_YMatrix );
 }
 
 /**
@@ -205,7 +210,7 @@ void KernelTransform<TScalarType, NDimensions>::ComputeW()
 template <class TScalarType, int NDimensions>
 void KernelTransform<TScalarType, NDimensions>::ComputeL()
 {
-  int numLandmarks = m_p->GetNumberOfPoints();
+  int numLandmarks = m_SourceLandmarks->GetNumberOfPoints();
   vnl_matrix<TScalarType> O2(NDimensions*(NDimensions+1),
                              NDimensions*(NDimensions+1), 0);
 
@@ -223,36 +228,43 @@ void KernelTransform<TScalarType, NDimensions>::ComputeL()
   m_LMatrix->update(O2, m_KMatrix->rows(), m_KMatrix->columns());
 }
 
+
 /**
  *
  */
 template <class TScalarType, int NDimensions>
 void KernelTransform<TScalarType, NDimensions>::ComputeK()
 {
-  int numLandmarks = m_p->GetNumberOfPoints();
+  int numLandmarks = m_SourceLandmarks->GetNumberOfPoints();
   GMatrixType G;
-  VectorType s;
-  int i, j;
-  PointType p1;
-  PointType p2;
 
   ComputeD();
   if (m_KMatrix != NULL)
-    {
+  {
     delete m_KMatrix;
-    }
+  }
+
   m_KMatrix = new KMatrixType(NDimensions*numLandmarks,
                               NDimensions*numLandmarks);
-  for (i = 0; i < numLandmarks; i++)
+
+  PointsIterator p1  = m_SourceLandmarks->GetPoints()->Begin();
+  PointsIterator end = m_SourceLandmarks->GetPoints()->End();
+
+  unsigned int i = 0;
+  while( p1 != end )
+  {
+    PointsIterator p2  = m_SourceLandmarks->GetPoints()->Begin();
+    unsigned int j = 0;
+    while( p2 != end ) 
     {
-    for (j = 0; j < numLandmarks; j++)
-      {
-      m_p->GetPoint(i, &p1);
-      m_p->GetPoint(j, &p2);
-      s = p1 - p2;
+      const VectorType s = p1.Value() - p2.Value();
       G = ComputeG(s);
       m_KMatrix->update(G, i*NDimensions, j*NDimensions);
+      p2++;
+      j++;
     }
+    p1++;
+    i++;
   }
 }
 
@@ -262,7 +274,7 @@ void KernelTransform<TScalarType, NDimensions>::ComputeK()
 template <class TScalarType, int NDimensions>
 void KernelTransform<TScalarType, NDimensions>::ComputeP()
 {
-  int numLandmarks = m_p->GetNumberOfPoints();
+  int numLandmarks = m_SourceLandmarks->GetNumberOfPoints();
   IMatrixType I;
   IMatrixType temp;
   int i, j;
@@ -270,14 +282,14 @@ void KernelTransform<TScalarType, NDimensions>::ComputeP()
 
   I.set_identity();
   if (m_PMatrix != NULL)
-    {
+  {
     delete m_PMatrix;
-    }
+  }
   m_PMatrix = new PMatrixType(NDimensions*numLandmarks,
                               NDimensions*(NDimensions+1));
   for (i = 0; i < numLandmarks; i++)
-    {
-    m_p->GetPoint(i, &p);
+  {
+    m_SourceLandmarks->GetPoint(i, &p);
     for (j = 0; j < NDimensions; j++)
       {
       temp = I * p.Get_vnl_vector()[j];
@@ -294,25 +306,28 @@ template <class TScalarType, int NDimensions>
 void KernelTransform<TScalarType, NDimensions>::ComputeY()
 {
   int i, j;
-  int numLandmarks = m_p->GetNumberOfPoints();
+  int numLandmarks = m_SourceLandmarks->GetNumberOfPoints();
 
   if (m_YMatrix != NULL)
-    {
+  {
     delete m_YMatrix;
-    }
+  }
 
+  VectorSetType::ConstIterator displacement = m_Displacements->Begin();
   m_YMatrix = new YMatrixType(NDimensions*(numLandmarks+NDimensions+1), 1);
   for (i = 0; i < numLandmarks; i++)
-    {
+  {
     for (j = 0; j < NDimensions; j++)
-      {
-      m_YMatrix->put(i*NDimensions+j, 0, (*m_d)[i]->Get_vnl_vector()[j]);
-      }
-    }
-  for (i = 0; i < NDimensions*(NDimensions+1); i++) 
     {
-    m_YMatrix->put(numLandmarks*NDimensions+i, 0, 0);
+      m_YMatrix->put(i*NDimensions+j, 0, displacement.Value()[j]);
     }
+    displacement++;
+  }
+
+  for (i = 0; i < NDimensions*(NDimensions+1); i++) 
+  {
+    m_YMatrix->put(numLandmarks*NDimensions+i, 0, 0);
+  }
 }
 
 /**
@@ -323,7 +338,7 @@ KernelTransform<TScalarType, NDimensions>::PointType
 KernelTransform<TScalarType, NDimensions>
 ::TransformPoint(const PointType& thisPoint) const
 {
-  int numLandmarks = m_p->GetNumberOfPoints();
+  int numLandmarks = m_SourceLandmarks->GetNumberOfPoints();
   int i, j;
   ColumnMatrixType b, c, d, Ax;
   vnl_matrix_fixed<TScalarType, NDimensions, NDimensions> A;
@@ -335,7 +350,7 @@ KernelTransform<TScalarType, NDimensions>
   for (i = 0; i < numLandmarks; i++)
     {
     c.update(m_WMatrix->extract(NDimensions, 1, i*NDimensions, 0), 0, 0);
-    m_p->GetPoint(i, &p);
+    m_SourceLandmarks->GetPoint(i, &p);
     argumentG = thisPoint - p;
     d = d + ComputeG(argumentG) * c;
     }
@@ -368,7 +383,7 @@ KernelTransform<TScalarType, NDimensions>::VectorType
 KernelTransform<TScalarType, NDimensions>
 ::TransformVector(const VectorType& thisVector) const
 {
-  int numLandmarks = m_p->GetNumberOfPoints();
+  int numLandmarks = m_SourceLandmarks->GetNumberOfPoints();
   int i, j;
   ColumnMatrixType c, d, Ax;
   VectorType result;
@@ -380,7 +395,7 @@ KernelTransform<TScalarType, NDimensions>
   d = d*0;
   for (i = 0; i < numLandmarks; i++)
     {
-    m_p->GetPoint(i, &p);
+    m_SourceLandmarks->GetPoint(i, &p);
     c.update(m_WMatrix->extract(NDimensions, 1, i*NDimensions, 0), 0, 0);
     for (j = 0; j < NDimensions; j++)
       {

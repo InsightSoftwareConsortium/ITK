@@ -109,7 +109,7 @@ protected:
    * r(x) = Euclidean norm = sqrt[x1^2 + x2^2 + x3^2]
    * I = identity matrix
    */
-  GMatrixType ComputeG(VectorType& x) const;
+  GMatrixType ComputeG(const VectorType& x) const;
   /**
    * alpha, Poisson's ratio
    */

@@ -84,18 +84,22 @@ public:
    * Standard Self typedef
    */
   typedef KernelTransform<TScalarType, NDimensions> Self;
+  
   /**
    * Standard Superclass typedef
    */
   typedef Transform<TScalarType, NDimensions> Superclass;
+  
   /**
    * Standard coordinate point type for this class
    */
-  typedef typename Superclass::PointType PointType;
+  typedef typename Superclass::PointType   PointType;
+  
   /**
    * Standard vector type for this class
    */
-  typedef typename Superclass::VectorType VectorType;
+  typedef typename Superclass::VectorType  VectorType;
+
   /**
    * PointList typedef. This type is used for maintaining lists of points,
    * specifically, the source and target landmark lists.
@@ -108,48 +112,60 @@ public:
 
   typedef PointSet<PointType, NDimensions, PointSetTraitsType> PointSetType;
   typedef typename PointSetType::Pointer PointSetPointer;
+  typedef typename PointSetType::PointsContainerConstIterator PointsIterator;
   
   /**
-   * VectorList typedef
+   * VectorSet typedef
    */
-  typedef std::deque<VectorType*> VectorListType;
+  typedef itk::VectorContainer<unsigned long,VectorType> VectorSetType;
+  typedef VectorSetType::Pointer           VectorSetPointer;
+
   /**
-   * Get the source landmarks list, which we will denote p
+   * Get the source landmarks list, which we will denote \f$ p \f$
    */
-  PointSetPointer Getp();
+  PointSetPointer GetSourceLandmarks(void) const;
+  
   /**
    * Set the source landmarks list
    */
-  void Setp(const PointSetPointer p);
+  void SetSourceLandmarks(const PointSetType * p);
+  
   /**
-   * Get the target landmarks list, which we will denote q
+   * Get the target landmarks list, which we will denote  \f$ q \f$
    */
-  PointSetPointer Getq();
+  PointSetPointer GetTargetLandmarks(void) const;
+  
   /**
    * Set the target landmarks list
    */
-  void Setq(const PointSetPointer q);
+  void SetTargetLandmarks(const PointSetType * q);
+  
   /**
-   * Get the displacements list, which we will denote d,
-   * where d_i = q_i - p_i
+   * Get the displacements list, which we will denote \f$ d \f$,
+   * where \f$ d_i = q_i - p_i \f$
    */
-  VectorListType* Getd();
+  VectorSetPointer GetDisplacements(void) const;
+  
   /**
    * Compute W matrix
    */
-  void ComputeW();
+  void ComputeWMatrix(void);
+  
   /**
    * Compute the position of point in the new space
    */
   virtual PointType TransformPoint(const PointType& thisPoint) const;
+  
   /**
    * Compute the position of vector in the new space
    */
   virtual VectorType TransformVector(const VectorType& thisVector) const;
+  
   /**
    * 'I' (identity) matrix typedef
    */
   typedef vnl_matrix_fixed<TScalarType, NDimensions, NDimensions> IMatrixType;
+  
   /**
    * Default constructor
    */
@@ -201,68 +217,84 @@ protected:
    *    Thin plate spline
    *    Volume spline
    */
-  virtual GMatrixType ComputeG(VectorType& x) const = 0;
+  virtual GMatrixType ComputeG(const VectorType & x) const = 0;
+  
   /**
    * Compute K matrix
    */
   void ComputeK();
+  
   /**
    * Compute L matrix
    */
   void ComputeL();
+  
   /**
    * Compute P matrix
    */
   void ComputeP();
+  
   /**
    * Compute Y matrix
    */
   void ComputeY();
+  
   /**
-   * Compute displacements q_i - p_i
+   * Compute displacements \f$ q_i - p_i \f$
    */
   void ComputeD();
+  
   /**
    * The list of source landmarks, denoted 'p'
    */
-  PointSetPointer m_p;
+  PointSetPointer m_SourceLandmarks;
+  
   /**
    * The list of target landmarks, denoted 'q'
    */
-  PointSetPointer m_q;
+  PointSetPointer m_TargetLandmarks;
+
   /**
    * The list of displacements.
    * d[i] = q[i] - p[i];
    */
-  VectorListType* m_d;
+  VectorSetPointer m_Displacements;
+
   /**
    * The L matrix
    */
   LMatrixType* m_LMatrix;
+
   /**
    * The K matrix
    */
   KMatrixType* m_KMatrix;
+  
   /**
    * The P matrix
    */
   PMatrixType* m_PMatrix;
+  
   /**
    * The Y matrix
    */
   YMatrixType* m_YMatrix;
+  
   /**
    * The W matrix
    */
   WMatrixType* m_WMatrix;
+  
   /**
    * Has the W matrix been computed?
    */
   bool m_WMatrixComputed;
+  
   /**
    * Identity matrix
    */
   static IMatrixType m_I;
+
 };
 
 } // end namespace itk
