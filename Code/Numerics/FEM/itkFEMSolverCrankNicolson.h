@@ -98,8 +98,6 @@ public:
   void PrintDisplacements(); 
   void PrintForce();
   
-  inline int GetNGFN() { return NGFN; }
-
   /** Set stability step for the solution.  */
   inline void SetAlpha(Float a = 0.5) { m_alpha=a; }
 

@@ -93,7 +93,6 @@ std::cout << "Begin Assembly." << std::endl;
   /*
    * Step over all elements
    */
-
   for(ElementArray::iterator e=el.begin(); e!=el.end(); e++)
   {
     vnl_matrix<Float> Ke;
@@ -134,7 +133,6 @@ std::cout << "Begin Assembly." << std::endl;
           m_ls->AddMatrixValue( (*e)->GetDegreeOfFreedom(j) , 
                     (*e)->GetDegreeOfFreedom(k), 
                     rhsval, DifferenceMatrixIndex );
-
           //if (k == 0 && j == 0) std::cout << " ke " << Ke(j,k) << " me " << Me(j,k) << std::endl;
         }
       }
@@ -537,8 +535,8 @@ void SolverCrankNicolson::AddToDisplacements(Float optimum)
 #ifdef TOTE
     CurrentSolution=optimum*m_ls->GetSolutionValue(i,SolutionTIndex);
     CurrentForce=optimum*m_ls->GetVectorValue(i,ForceTIndex);
-    m_ls->AddVectorValue(i,CurrentSolution,SolutionVectorTMinus1Index); // FOR TOT E   
-    m_ls->AddSolutionValue(i,CurrentSolution,SolutionTMinus1Index);  // FOR TOT E 
+    m_ls->SetVectorValue(i,CurrentSolution,SolutionVectorTMinus1Index); // FOR TOT E   
+    m_ls->SetSolutionValue(i,CurrentSolution,SolutionTMinus1Index);  // FOR TOT E 
     m_ls->SetVectorValue(i,CurrentForce,ForceTMinus1Index);
 #endif
    

@@ -94,21 +94,26 @@ void FEMRegistrationFilter<TReference,TTarget>::RunRegistration()
 
   if (!m_DoMultiRes && m_Maxiters[m_CurrentLevel] > 0) 
   {
-    m_Solver.SetDeltatT(m_dT);  
-    m_Solver.SetRho(m_Rho[m_CurrentLevel]);      
-    m_Solver.SetAlpha(m_Alpha); 
+    SolverType mySolver;
+    mySolver.SetDeltatT(m_dT);  
+    mySolver.SetRho(m_Rho[m_CurrentLevel]);      
+    mySolver.SetAlpha(m_Alpha); 
     
-    CreateMesh((double)m_MeshElementsPerDimensionAtEachResolution[m_CurrentLevel],m_Solver); 
-    m_Solver.GenerateGFN(); 
-    ApplyLoads(m_Solver,m_ImageSize);
+    CreateMesh((double)m_MeshElementsPerDimensionAtEachResolution[m_CurrentLevel],mySolver); 
+    mySolver.GenerateGFN(); 
+    ApplyLoads(mySolver,m_ImageSize);
 
+    unsigned int ndofpernode=(m_Element)->GetNumberOfDegreesOfFreedomPerNode();
+    unsigned int numnodesperelt=(m_Element)->GetNumberOfNodes();
+      
+    unsigned int nzelts=numnodesperelt*ndofpernode*mySolver.GetNumberOfDegreesOfFreedom();
 
     LinearSystemWrapperItpack itpackWrapper; 
-    itpackWrapper.SetMaximumNonZeroValuesInMatrix(25*m_Solver.GetNGFN());
-    itpackWrapper.SetMaximumNumberIterations(2*m_Solver.GetNGFN()); 
+    itpackWrapper.SetMaximumNonZeroValuesInMatrix(nzelts);
+    itpackWrapper.SetMaximumNumberIterations(2*mySolver.GetNumberOfDegreesOfFreedom()); 
     itpackWrapper.SetTolerance(1.e-13);
     itpackWrapper.JacobianSemiIterative(); 
-    m_Solver.SetLinearSystemWrapper(&itpackWrapper); 
+    mySolver.SetLinearSystemWrapper(&itpackWrapper); 
 
     m_Load=FEMRegistrationFilter<TReference,TTarget>::ImageMetricLoadType::New();
 
@@ -121,17 +126,17 @@ void FEMRegistrationFilter<TReference,TTarget>::RunRegistration()
     for (unsigned int i=0; i<ImageDimension; i++) r[i]=m_MetricWidth[m_CurrentLevel];
     m_Load->SetMetricRadius(r);
     m_Load->SetNumberOfIntegrationPoints(m_NumberOfIntegrationPoints[m_CurrentLevel]);
-    m_Load->GN=m_Solver.load.size()+1; //NOTE SETTING GN FOR FIND LATER
+    m_Load->GN=mySolver.load.size()+1; //NOTE SETTING GN FOR FIND LATER
     m_Load->SetSign((Float)m_DescentDirection);
-    m_Solver.load.push_back( FEMP<Load>(&*m_Load) );    
-    m_Load=dynamic_cast<FEMRegistrationFilter<TReference,TTarget>::ImageMetricLoadType*> (&*m_Solver.load.Find(m_Solver.load.size()));  
+    mySolver.load.push_back( FEMP<Load>(&*m_Load) );    
+    m_Load=dynamic_cast<FEMRegistrationFilter<TReference,TTarget>::ImageMetricLoadType*> (&*mySolver.load.Find(mySolver.load.size()));  
   
  
-    m_Solver.AssembleKandM();
+    mySolver.AssembleKandM();
  
-    IterativeSolve(m_Solver);
+    IterativeSolve(mySolver);
 
-    GetVectorField(m_Solver);
+    GetVectorField(mySolver);
     WarpImage(m_RefImg); 
   }
   else if (m_Maxiters[m_CurrentLevel] > 0)
@@ -535,6 +540,7 @@ void FEMRegistrationFilter<TReference,TTarget>::CreateMesh(double ElementsPerSid
 
     mySolver.Read(meshstream); 
     itk::fem::MaterialLinearElasticity::Pointer m=dynamic_cast<MaterialLinearElasticity*>(mySolver.mat.Find(0));
+   
     if (m) { 
       m->E=this->GetElasticity(m_CurrentLevel);  // Young modulus -- used in the membrane ///
       //m->A=1.0;     // Crossection area ///
@@ -546,7 +552,9 @@ void FEMRegistrationFilter<TReference,TTarget>::CreateMesh(double ElementsPerSid
     // now scale the mesh to the current scale
     Element::VectorType coord;  
     Node::ArrayType* nodes = &(mySolver.node);
-    for(  Node::ArrayType::iterator node=nodes->begin(); node!=nodes->end(); node++) 
+    Node::ArrayType::iterator node=nodes->begin();
+    m_Element=( *((*node)->m_elements.begin()));
+    for(  node=nodes->begin(); node!=nodes->end(); node++) 
     {
       coord=(*node)->GetCoordinates();    
       for (unsigned int ii=0; ii < ImageDimension; ii++)
@@ -624,7 +632,7 @@ void FEMRegistrationFilter<TReference,TTarget>::ApplyLoads(SolverType& mySolver,
   }
   }*/
   
-  //Pin  one corner image  
+  //Pin  one corner of image  
   unsigned int CornerCounter=0,ii=0,EdgeCounter=0;
   Node::ArrayType* nodes = &(mySolver.node);
   Element::VectorType coord;
@@ -781,7 +789,7 @@ void FEMRegistrationFilter<TReference,TTarget>::IterativeSolve(SolverType& mySol
    
    std::cout << " min E " << m_MinE << " delt E " << deltE <<  " iter " << iters << std::endl;
    iters++;
-   if ( iters > m_Maxiters[m_CurrentLevel] -3) { DLS=1; LSF=m_Maxiters[m_CurrentLevel]*2;}
+   if ( iters > m_Maxiters[m_CurrentLevel] -1) { DLS=1; LSF=m_Maxiters[m_CurrentLevel]*2;}
    
    // uncomment to write out every deformation SLOW due to interpolating vector field everywhere.
    //GetVectorField();
@@ -1101,9 +1109,16 @@ void FEMRegistrationFilter<TReference,TTarget>::MultiResSolve()
       SSS.GenerateGFN();
       ApplyLoads(SSS,Isz);
 
+      unsigned int ndofpernode=(m_Element)->GetNumberOfDegreesOfFreedomPerNode();
+      unsigned int numnodesperelt=(m_Element)->GetNumberOfNodes();
+      
+      unsigned int ndof=SSS.GetNumberOfDegreesOfFreedom();
+      unsigned int nzelts=2*numnodesperelt*ndofpernode*ndof;
+      std::cout << " ndof " << ndof << " nzelts " <<  nzelts << std::endl;
       LinearSystemWrapperItpack itpackWrapper; 
-      itpackWrapper.SetMaximumNonZeroValuesInMatrix(25*SSS.GetNGFN());
-      itpackWrapper.SetMaximumNumberIterations(2*SSS.GetNGFN()); 
+      itpackWrapper.SetMaximumNonZeroValuesInMatrix(nzelts);
+      unsigned int maxits=2*SSS.GetNumberOfDegreesOfFreedom();
+      itpackWrapper.SetMaximumNumberIterations(maxits); 
       itpackWrapper.SetTolerance(1.e-13);
       itpackWrapper.JacobianSemiIterative(); 
       SSS.SetLinearSystemWrapper(&itpackWrapper); 
@@ -1159,38 +1174,6 @@ void FEMRegistrationFilter<TReference,TTarget>::MultiResSolve()
   return;
   
 }
-/*
-
-
-void FEMRegistrationFilter<TReference,TTarget>::CreateLinearSystemSolver()
-{
-    // experiment with these values and choices for solver
-    LinearSystemSolverType* itpackWrapper=new LinearSystemSolverType; 
-    itpackWrapper->SetMaximumNonZeroValuesInMatrix(25*m_Solver.GetNGFN());
-    itpackWrapper->SetMaximumNumberIterations(m_Solver.GetNGFN()); 
-    itpackWrapper->SetTolerance(1.e-13);
-
-    // select solution type
-    // did converge in test
-    
-    itpackWrapper->JacobianSemiIterative(); // err 23 500 its
-    m_Solver.SetLinearSystemWrapper(itpackWrapper); 
-
-    // did not converge below here:  ordered best to worst
-   // itpackWrapper->SymmetricSuccessiveOverrelaxationSuccessiveOverrelaxation(); // err 53
-   // itpackWrapper->SymmetricSuccessiveOverrelaxationConjugateGradient();// err 43 
-   // itpackWrapper->SuccessiveOverrelaxation(); // err 33 500 its
-
-    // These methods failed!!
-    //itpackWrapper->JacobianConjugateGradient();  // err 13 500 its
-    //itpackWrapper->ReducedSystemSemiIteration(); // err 201 
-    //itpackWrapper->ReducedSystemConjugateGradient(); // err 201 
-
-    
-}
-
-
-*/
 
 }} // end namespace itk::fem
 

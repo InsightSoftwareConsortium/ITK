@@ -317,10 +317,7 @@ public:
   
   /** Sets the boolean for writing the displacement field to a file.*/
   bool      GetWriteDisplacements() {return m_WriteDisplacementField;}
-  
-  /** Returns a pointer to the current solver */
-  SolverType* GetSolver(){return &m_Solver;}
-  
+    
   /** Sets the file name for the FEM multi-resolution registration.
       One can also set the parameters in code. */
   void      SetConfigFileName (const char* f){m_ConfigFileName=f;}
@@ -362,8 +359,6 @@ private :
   FEMRegistrationFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
     
-  SolverType m_Solver; // Defines the solver to use
-
   std::string      m_ConfigFileName;
   std::string      m_ResultsFileName;
   std::string      m_ReferenceFileName;  
