@@ -70,6 +70,11 @@ namespace itk {
  * because, for simplicity, the filter will shift your input image so that the
  * active front has zero values. 
  *
+ * \par A NOTE ON DATA SPACING
+ * Input data with anisotropic spacing should be resampled to isotropic voxels
+ * for use in this filter.  Interpolation has not been built into the
+ * underlying p.d.e. solver.
+ * 
  * \par
  * Depending on the particular application and filter that you are using, the
  * feature image should be preprocessed with some type of noise reduction
