@@ -22,7 +22,7 @@
 #include "itkTransform.h"
 #include "itkImage.h"
 #include "itkImageRegion.h"
-#include "itkBSplineKernelFunction.h"
+#include "itkBSplineInterpolationWeightFunction.h"
 
 namespace itk
 {
@@ -242,18 +242,13 @@ private:
   /** Keep a pointer to the input parameters. */
   const ParametersType *  m_InputParametersPointer;
 
-  /** BSpline kernel function for reconstruction. */
-  typedef BSplineKernelFunction<SplineOrder> KernelType;
-  typename KernelType::Pointer  m_Kernel;
+  /** Interpolation weights function type. */
+  typedef BSplineInterpolationWeightFunction<ScalarType,SpaceDimension,SplineOrder> 
+    WeightsFunctionType;
+  typedef typename WeightsFunctionType::WeightsType WeightsType;
+  typedef typename WeightsFunctionType::ContinuousIndexType ContinuousIndexType;
 
-  /** Compute interpolation weights. */ 
-  typedef vnl_matrix_fixed<double,SpaceDimension,SplineOrder + 1> WeightsType;
-  void ComputeInterpolationWeights( const InputPointType & point, 
-    WeightsType & weights, IndexType & supportIndex, bool & valid ) const;
-
-  /** Table mapping support region offset to index. */
-  typedef vnl_matrix<unsigned long> TableType;
-  TableType m_SupportOffsetToIndexTable;
+  typename WeightsFunctionType::Pointer  m_WeightsFunction;
 
 
 }; //class BSplineDeformableTransform

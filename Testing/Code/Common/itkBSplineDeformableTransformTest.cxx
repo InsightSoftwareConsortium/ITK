@@ -284,8 +284,38 @@ int itkBSplineDeformableTransformTest(int, char **)
 
   }
 
+  {
+    typedef TransformType::InputVnlVectorType VectorType;
+    VectorType vector;
+    vector.fill ( 1.0 );
 
+    bool pass = false;
+    try
+      {
+      transform->TransformVector( vector );
+      }
+    catch( itk::ExceptionObject & err )
+      {
+      std::cout << "Caught expected exception." << std::endl;
+      std::cout << err << std::endl;
+      pass = true;
+      }
+    if ( !pass )
+      {
+      std::cout << "Did not catch expected exception." << std::endl;
+      std::cout << "Test failed. " << std::endl;
+      return EXIT_FAILURE;
+      }
 
+  }
+
+  /**
+   * Exercise other methods
+   */
+  std::cout << transform->GetGridRegion() << std::endl;
+  std::cout << transform->GetGridSpacing() << std::endl;
+  std::cout << transform->GetGridOrigin() << std::endl;
+ 
   /**
    * Parameters should remain even when the transform has been destroyed
    */

@@ -33,8 +33,9 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 ::BSplineDeformableTransform():Superclass(SpaceDimension,0)
 {
 
-  // Instantiate a kernel
-  m_Kernel = KernelType::New();
+  // Instantiate a weights function
+  m_WeightsFunction = WeightsFunctionType::New();
+  m_SupportSize = m_WeightsFunction->GetSupportSize();
 
   // Instantiate an identity transform
   typedef IdentityTransform<ScalarType,SpaceDimension> IdentityTransformType;
@@ -65,35 +66,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 
   // Setup variables for computing interpolation
   m_Offset = ( SplineOrder + 1 ) / 2;
-  m_SupportSize.Fill( SplineOrder + 1 );
   m_ValidRegion = m_GridRegion;
-
-  // Setup the support offset to index table
-  RegionType supportRegion;
-  supportRegion.SetSize( m_SupportSize );
-
-  m_SupportOffsetToIndexTable.resize( supportRegion.GetNumberOfPixels(),
-    SpaceDimension );
-
-  typedef Image<char,SpaceDimension> CharImageType;
-  typename CharImageType::Pointer tempImage = CharImageType::New();
-  tempImage->SetRegions( supportRegion );
-  tempImage->Allocate();
-  tempImage->FillBuffer( 0 );
-  
-  typedef ImageRegionConstIteratorWithIndex<CharImageType> IteratorType;
-  IteratorType iterator( tempImage, supportRegion );
-  unsigned long counter = 0;
-
-  while ( !iterator.IsAtEnd() )
-    {
-    for( int j = 0; j < SpaceDimension; j++ )
-      {
-      m_SupportOffsetToIndexTable[counter][j] = iterator.GetIndex()[j];
-      }
-    ++counter;
-    ++iterator;
-    }  
 
   // Initialize jacobian images
   for ( int j = 0; j < SpaceDimension; j++ )
@@ -308,6 +281,8 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 ::TransformPoint(const InputPointType &point) const 
 {
+  
+  unsigned int j;
 
   InputPointType transformedPoint;
   if ( m_BulkTransform )
@@ -319,19 +294,25 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
     transformedPoint = point;
     }
 
-  WeightsType weights;
-  IndexType supportIndex;
-  bool valid;
 
-  // Compute interpolation weights
-  this->ComputeInterpolationWeights( point, weights, supportIndex, valid );
+  ContinuousIndexType index;
+  for ( j = 0; j < SpaceDimension; j++ )
+    {
+    index[j] = ( point[j] - m_GridOrigin[j] ) / m_GridSpacing[j];
+    }
 
   // NOTE: if the support region does not lie totally within the grid
   // we assume zero displacement and return the input point
-  if ( !valid )
+  if ( !m_ValidRegion.IsInside( index ) )
     {
     return transformedPoint;
     }
+
+  WeightsType weights( m_WeightsFunction->GetNumberOfWeights() );
+  IndexType supportIndex;
+
+  // Compute interpolation weights
+  m_WeightsFunction->Evaluate( index, weights, supportIndex );
 
   // For each dimension, correlate coefficient with weights
   RegionType supportRegion;
@@ -343,7 +324,6 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 
   typedef ImageRegionConstIterator<ImageType> IteratorType;
   IteratorType m_Iterator[ SpaceDimension ];
-  unsigned int j;
   unsigned long counter = 0;
 
   for ( j = 0; j < SpaceDimension; j++ )
@@ -354,17 +334,11 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
   while ( ! m_Iterator[0].IsAtEnd() )
     {
 
-    // compute total weight
-    double w = 1.0;
-    for ( j = 0; j < SpaceDimension; j++ )
-      {
-      w *= weights[j][ m_SupportOffsetToIndexTable[counter][j] ];
-      }
-
     // multiply weigth with coefficient
     for ( j = 0; j < SpaceDimension; j++ )
       {
-      outputPoint[j] += static_cast<ScalarType>( w * m_Iterator[j].Get());
+      outputPoint[j] += static_cast<ScalarType>( 
+        weights[counter] * m_Iterator[j].Get());
       }
 
     // go to next coefficient in the support region
@@ -427,20 +401,24 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
     }
 
  
-  // Compute interpolation weights
-  WeightsType weights;
-  IndexType supportIndex;
-  bool valid;
-
-  this->ComputeInterpolationWeights( point, weights, supportIndex, valid );
+  ContinuousIndexType index;
+  for ( j = 0; j < SpaceDimension; j++ )
+    {
+    index[j] = ( point[j] - m_GridOrigin[j] ) / m_GridSpacing[j];
+    }
 
   // NOTE: if the support region does not lie totally within the grid
-  // we assume zero displacement and we return a zero Jacobian
-  if ( !valid )
+  // we assume zero displacement and return the input point
+  if ( !m_ValidRegion.IsInside( index ) )
     {
     return m_Jacobian;
     }
 
+  // Compute interpolation weights
+  WeightsType weights( m_WeightsFunction->GetNumberOfWeights() );
+  IndexType supportIndex;
+
+  m_WeightsFunction->Evaluate( index, weights, supportIndex );
   m_LastJacobianIndex = supportIndex;
 
   // For each dimension, copy the weight to the support region
@@ -455,17 +433,10 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
   while ( ! m_Iterator[0].IsAtEnd() )
     {
 
-    // compute total weight
-    double w = 1.0;
-    for ( j = 0; j < SpaceDimension; j++ )
-      {
-      w *= weights[j][ m_SupportOffsetToIndexTable[counter][j] ];
-      }
-
     // copy weight to jacobian image
     for ( j = 0; j < SpaceDimension; j++ )
       {
-      m_Iterator[j].Set( static_cast<JacobianPixelType>( w ) );
+      m_Iterator[j].Set( static_cast<JacobianPixelType>( weights[counter] ) );
       }
 
     // go to next coefficient in the support region
@@ -482,70 +453,6 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 
 }
 
-
-
-// Compute the interpolation weights.
-// This method also returns the support region start index
-// and checks whether or not the support region is wholly inside
-// the grid
-template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
-void
-BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
-::ComputeInterpolationWeights(
-const InputPointType &point,
-WeightsType & weights,
-IndexType & startIndex,
-bool & valid ) const 
-{
-
-  typedef ContinuousIndex<ScalarType,SpaceDimension> ContinuousIndexType;
-  ContinuousIndexType index;
-  unsigned int j, k;
-
-  // Convert point to continuous index
-  for ( j = 0; j < SpaceDimension; j++ )
-    {
-    index[j] = ( point[j] - m_GridOrigin[j] ) / m_GridSpacing[j];
-    }
-
-  // Check if point is within the valid grid region.
-  // If not, assume zero displacement
-  valid = m_ValidRegion.IsInside( index );
-
-  if ( !valid ) 
-    {
-    return;
-    }
-  
-  // Find the starting index of the support region
-  for ( j = 0; j < SpaceDimension; j++ )
-    {
-    startIndex[j] = static_cast<typename RegionType::IndexValueType>(
-      ceil( index[j] - 0.5 * static_cast<ScalarType>( SplineOrder + 1 ) ) );
-    }
-
-  itkDebugMacro( << std::endl << "Start Index: " 
-    << startIndex << std::endl );
-
-  
-  // Compute the weights
-  for ( j = 0; j < SpaceDimension; j++ )
-    {
-
-    ScalarType x = index[j] - static_cast<ScalarType>( startIndex[j] );
-
-    for ( k = 0; k <= SplineOrder; k++ )
-      {
-      weights[j][k] = m_Kernel->Evaluate( x );
-      x -= 1.0;
-      }
-
-    }
-
-  itkDebugMacro( << std::endl << "Weights: " << std:: endl 
-    << weights << std::endl );
- 
-}
  
   
 } // namespace
