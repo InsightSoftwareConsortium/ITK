@@ -32,7 +32,7 @@ void
 MinimumMaximumImageFilter<TInputImage>
 ::GenerateData(void)
 {
-  StatisticsImageFilter<TInputImage>::Pointer stats = StatisticsImageFilter<TInputImage>::New();
+  typename StatisticsImageFilter<TInputImage>::Pointer stats = StatisticsImageFilter<TInputImage>::New();
   stats->SetInput (this->GetInput());
   stats->GraftOutput (this->GetOutput());
   stats->Update();
