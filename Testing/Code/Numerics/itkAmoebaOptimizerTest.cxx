@@ -89,11 +89,9 @@ public:
       {
       v[i] = parameters[i];
       }
-    std::cout << "GetValue( " << v << " ) = ";
     VectorType Av = m_A * v;
     double val = ( inner_product<double>( Av , v ) )/2.0;
     val -= inner_product< double >( m_b , v );
-    std::cout << val << std::endl;
     if( m_Negate )
       {
       val *= -1.0;
@@ -142,6 +140,43 @@ private:
   MatrixType        m_A;
   VectorType        m_b;
   bool              m_Negate;
+};
+
+class CommandIterationUpdateAmoeba : public itk::Command 
+{
+public:
+  typedef  CommandIterationUpdateAmoeba   Self;
+  typedef  itk::Command             Superclass;
+  typedef itk::SmartPointer<Self>  Pointer;
+  itkNewMacro( Self );
+protected:
+  CommandIterationUpdateAmoeba() 
+  {
+    m_IterationNumber=0;
+  }
+public:
+  typedef itk::AmoebaOptimizer         OptimizerType;
+  typedef   const OptimizerType   *    OptimizerPointer;
+
+  void Execute(itk::Object *caller, const itk::EventObject & event)
+    {
+      Execute( (const itk::Object *)caller, event);
+    }
+
+  void Execute(const itk::Object * object, const itk::EventObject & event)
+    {
+      OptimizerPointer optimizer = 
+        dynamic_cast< OptimizerPointer >( object );
+      if( typeid( event ) != typeid( itk::IterationEvent ) )
+        {
+        return;
+        }
+      std::cout << m_IterationNumber++ << "   ";
+      std::cout << optimizer->GetCachedValue() << "   ";
+      std::cout << optimizer->GetCachedCurrentPosition() << std::endl;
+    }
+private:
+  unsigned long m_IterationNumber;
 };
 
 
@@ -271,6 +306,10 @@ int itkAmoebaOptimizerTest(int, char* [] )
 
   itkOptimizer->SetInitialPosition( currentValue );
   
+  CommandIterationUpdateAmoeba::Pointer observer = 
+    CommandIterationUpdateAmoeba::New();
+  itkOptimizer->AddObserver( itk::IterationEvent(), observer );
+
 
   try 
     {
