@@ -32,7 +32,7 @@ public:
   /**
    * The type of a function that deletes an object.
    */
-  typedef void (*DeleteFunction)(void*);
+  typedef void (*DeleteFunction)(const void*);
   
   InstanceTable(Tcl_Interp*);
   
@@ -103,9 +103,22 @@ private:
 template <typename T>
 struct NewObjectOf
 {
+  /**
+   * Method to create a new object.
+   */
   static T* Create(void)
     {
-      return new T;
+    // Use default constructor by default.
+    return new T;
+    }
+  
+  /**
+   * Method to create a copy of the given object.
+   */
+  static T* CreateCopy(const T* obj)
+    {
+    // Use copy constructor by default.
+    return new T(*obj);
     }
 };
 
@@ -118,9 +131,13 @@ struct NewObjectOf
 template <typename T>
 struct OldObjectOf
 {
-  static void Delete(void* object)
+  /**
+   * Method to delete the given object.
+   */
+  static void Delete(const void* object)
     {
-      delete static_cast<T*>(object);
+    // Use delete operator by default.
+    delete static_cast<const T*>(object);
     }
 };
 
