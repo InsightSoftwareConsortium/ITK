@@ -85,10 +85,6 @@ public:
   ObjectType *operator -> () const
     { return m_Pointer; }
 
-  /** Return pointer to object.  */
-  operator ObjectType * () const 
-    { return m_Pointer; }
-  
   /** Clear the AutoPointer. If it had a pointer the object
       is deleted and the pointer is set to null. */
   void Reset( void ) 
@@ -100,6 +96,7 @@ public:
     m_Pointer = 0;
     m_IsOwner = false;
     }
+
 
   /** Set explicitly the Ownership */
   void TakeOwnership(void) 
@@ -115,6 +112,7 @@ public:
     m_Pointer = objectptr;
     m_IsOwner = true;
     }
+
 
   /** Query for the ownership */
   bool IsOwner(void) const
@@ -140,19 +138,17 @@ public:
     return m_Pointer;
     }
 
-  /** comparison operators. */
-  bool operator == (ObjectType * r) const
-    {
-    return (m_Pointer == r );
-    }
-  bool operator != (ObjectType * r) const
-    {
-    return (m_Pointer != r);
-    }
-    
   /** Access function to pointer. */
   ObjectType *GetPointer () const 
     { return m_Pointer; }
+
+   /** Comparison of pointers. Equal comparison.  */
+  bool operator == (const AutoPointer &r) const
+    { return (void*)m_Pointer == (void*) r.m_Pointer; }
+
+  /** Comparison of pointers. NonEqual comparison.  */
+  bool operator != (const AutoPointer &r) const
+    { return (void*)m_Pointer != (void*) r.m_Pointer; }
   
   /** Comparison of pointers. Less than comparison.  */
   bool operator < (const AutoPointer &r) const
@@ -173,7 +169,7 @@ public:
   /** Overload operator assignment.  */
   AutoPointer &operator = (AutoPointer &r) const
     { 
-    this->operator = (r.ReleaseOwnership()); 
+    AutoPointer( r ).Swap( *this );
     return *this;
     }
   
@@ -199,6 +195,16 @@ public:
     } 
 
 private:
+
+  /** Exchange the content of two AutoPointers */
+  void Swap(AutoPointer &r) throw()
+    { 
+    ObjectType * temp = m_Pointer;
+    m_Pointer         = r.m_Pointer;
+    r.m_Pointer       = temp; 
+    }
+ 
+
   /** The pointer to the object referrred to by this smart pointer. */
   ObjectType* m_Pointer;
   bool        m_IsOwner;
