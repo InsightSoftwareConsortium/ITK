@@ -67,7 +67,7 @@ class itkVector {
   /**
    * Get the dimension (size) of the vector.
    */
-  int GetVectorDimension() const { return TVectorDimension; }
+  static int GetVectorDimension() { return TVectorDimension; }
   
   /**
    * Get the vector. This provides a read only reference to the vector.
