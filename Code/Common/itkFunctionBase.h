@@ -52,6 +52,9 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(FunctionBase, Object);
 
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);  
+
   /** Input type */
   typedef TInput InputType;
 

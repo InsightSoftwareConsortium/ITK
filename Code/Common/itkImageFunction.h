@@ -70,6 +70,9 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageFunction, FunctionBase);
 
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);  
+
   /** InputImageType typedef support. */
   typedef TInputImage InputImageType;
 
