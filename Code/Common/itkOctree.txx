@@ -109,7 +109,7 @@ namespace itk
   template <class TPixel,unsigned int ColorTableSize,class MappingFunctionType>
   unsigned int
   Octree<TPixel,ColorTableSize,MappingFunctionType>::
-  getValue(const unsigned int Dim0, 
+  GetValue(const unsigned int Dim0, 
            const unsigned int Dim1,
            const unsigned int Dim2)
   {
@@ -242,7 +242,10 @@ namespace itk
       }
     this->SetDepth(depth);
     this->SetWidth(width);
-    const TPixel *bufcast = static_cast<const TPixel *>(frombuffer);
+    m_TrueDims[0] = xsize;
+    m_TrueDims[1] = ysize;
+    m_TrueDims[2] = zsize;
+  const TPixel *bufcast = static_cast<const TPixel *>(frombuffer);
     OctreeNodeBranch *branch = 
       this->maskToOctree(bufcast,width,0,0,0,
                          xsize,ysize,zsize);
@@ -253,12 +256,12 @@ namespace itk
   Octree<TPixel,ColorTableSize,MappingFunctionType>::
   BuildFromImage(ImageType *fromImage)
   {
-    typename Image<TPixel,3>::RegionType &region =
+    const typename Image<TPixel,3>::RegionType &region =
       fromImage->GetLargestPossibleRegion();
     unsigned int xsize,ysize,zsize;
     xsize = region.GetSize(0);
     ysize = region.GetSize(1);
-    xsize = region.GetSize(2);
+    zsize = region.GetSize(2);
     this->BuildFromBuffer(static_cast<void *>(fromImage->GetBufferPointer()),
                           xsize,ysize,zsize);
   }
@@ -268,8 +271,38 @@ namespace itk
   Octree<TPixel,ColorTableSize,MappingFunctionType>::
   GetImage()
   {
-    ImageTypePointer rval = ImageType::New();
-    return rval;
+    unsigned int i,j,k;
+    typename ImageType::SizeType imageSize = {{0,0,0}};
+    typedef typename ImageType::SizeType::SizeValueType SizeValueType;
+    SizeValueType sizes[3];
+    sizes[0] = m_TrueDims[0];
+    sizes[1] = m_TrueDims[1];
+    sizes[2] = m_TrueDims[2];
+    imageSize.SetSize(sizes);
+    const typename ImageType::IndexType imageIndex = {{0,0,0}};
+    typename ImageType::RegionType region;
+    region.SetSize(imageSize);
+    region.SetIndex(imageIndex);
+    typename ImageType::Pointer img = ImageType::New();
+    img->SetLargestPossibleRegion(region);
+    img->SetBufferedRegion(region);
+    img->SetRequestedRegion(region);
+    img->Allocate();
+    typename ImageType::IndexType setIndex;
+    for(i = 0; i < m_TrueDims[0]; i++)
+      {
+      setIndex[0] = i;
+      for(j = 0; j < m_TrueDims[0]; j++)
+        {
+        setIndex[1] = j;
+        for(k = 0; k < m_TrueDims[0]; k++) 
+          {
+          setIndex[2] = k;
+          img->SetPixel(setIndex,(TPixel)this->GetValue(i,j,k));
+          }
+        }
+      }
+    return img;
   }
 
   template <class TPixel,unsigned int ColorTableSize,class MappingFunctionType>
