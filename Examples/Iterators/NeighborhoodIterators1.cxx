@@ -192,9 +192,8 @@ int main( int argc, char ** argv )
 // image, it is rescaled to intensity range $[0, 255]$ and cast to unsigned
 // char.
 //
-// Figure~\ref{fig:NeighborhoodExamples1}a shows the output of .....BLAH BLAH
-// Software Guide : EndLatex
-
+// Software Guide : EndLatex  
+  
 // Software Guide : BeginCodeSnippe
   typedef unsigned char WritePixelType;
   typedef itk::Image< WritePixelType, 2 > WriteImageType;
@@ -224,6 +223,24 @@ int main( int argc, char ** argv )
     }
 // Software Guide : EndCodeSnippet
 
+
+// Software Guide : BeginLatex
+// The center image of Figure~\ref{fig:NeighborhoodExamples1} shows the output of the Sobel
+// algorithm run on the image \code{Insight/Examples/Data/BrainT1Slice.png}.
+//
+// \begin{figure} \centering
+// \includegraphics[width=0.3\textwidth]{BrainT1Slice.eps}
+// \includegraphics[width=0.3\textwidth]{NeighborhoodIterators1a.eps}
+// \includegraphics[width=0.3\textwidth]{NeighborhoodIterators1b.eps}
+// \itkcaption[Sobel edge detection results]{Applying the Sobel operator in
+// different orientations to an MRI image (left) produces $x$ (center) and $y$
+// (right) derivative images.}
+// \protect\label{fig:NeighborhoodExamples1}
+// \end{figure}
+//
+// Software Guide : EndLatex
+
+  
   return 0;
 }
 

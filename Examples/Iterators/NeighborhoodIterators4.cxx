@@ -157,12 +157,23 @@ int main( int argc, char ** argv )
 // Software Guide : BeginLatex
 //
 // The output is rescaled and written as in the previous examples.
-// Figure~\ref{fig:NeighborhoodExample4} shows the results of Gaussian blurring with
-// various standard deviations.
+// Figure~\ref{fig:NeighborhoodExample4} shows the results of Gaussian blurring
+// the image \code{Insight/Examples/Data/BrainT1Slice.png} using increasing
+// kernel widths.
+//
+// \begin{figure} \centering
+// \includegraphics[width=0.23\textwidth]{NeighborhoodIterators4a.eps}
+// \includegraphics[width=0.23\textwidth]{NeighborhoodIterators4b.eps}
+// \includegraphics[width=0.23\textwidth]{NeighborhoodIterators4c.eps}
+// \includegraphics[width=0.23\textwidth]{NeighborhoodIterators4d.eps}
+// \itkcaption[Gaussian blurring by convolution filtering]{Results of
+// convolution filtering with a Guassian kernel of increasing standard
+// deviation $\sigma$.  From left to right, $\sigma = 0$, $\sigma = 1$, $\sigma
+// = 2$, $\sigma = 5$}
+// \protect\label{fig:NeighborhoodExamples4}
+// \end{figure}
 //
 // Software Guide : EndLatex
-
-// Software Guide : BeginCodeSnippet
 
   typedef unsigned char WritePixelType;
   typedef itk::Image< WritePixelType, 2 > WriteImageType;
@@ -190,7 +201,6 @@ int main( int argc, char ** argv )
     std::cout << err << std::endl;
     return -1;
     }
-// Software Guide : EndCodeSnippet
 
   return 0;
 }
