@@ -58,7 +58,7 @@ BlobSpatialObject< TDimension, PipelineDimension >
 
 /** Get the list of points which are defining the blob */
 template< unsigned int TDimension , unsigned int PipelineDimension >
-typename BlobSpatialObject< TDimension, PipelineDimension > ::ConstPointListType &  
+const typename BlobSpatialObject< TDimension, PipelineDimension > ::PointListType &  
 BlobSpatialObject< TDimension, PipelineDimension > 
 ::GetPoints() const
 { 
