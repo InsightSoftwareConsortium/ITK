@@ -108,14 +108,6 @@ public:
   /** Writes the data to disk from the memory buffer provided. Make sure
        * that the IORegions has been set properly. */
   virtual void Write(const void* buffer);
-  enum ENUM_PLANE_SELECTION
-  {
-    NO_PLANE = 0,
-    AXIAL = 1,
-    CORONAL = 2,
-    SAGITTAL = 3,
-    UNKNOWN_PLANE = 5
-  };
 
 
   protected:

@@ -151,6 +151,31 @@ protected:
   ~AnalyzeImageIO();
   void PrintSelf(std::ostream& os, Indent indent) const;
 private:
+  /**
+       * \enum ValidAnalyzeOrientationFlags
+       * Valid Orientation values for objects
+       * - Key  Description           Origin   dims[1]  dims[2]  dims[3]
+       * - =================================================================
+       * - 0    transverse-unflipped   IRP       R->L     P->A    I->S
+       * - 1    coronal-unflipped      IRP       R->L     I->S    P->A
+       * - 2    sagittal-unflipped     IRP       P->A     I->S    R->L
+       * - 3    transverse-flipped     IRA       R->L     A->P    I->S
+       * - 4    coronal-flipped        SRP       R->L     S->I    P->A
+       * - 5    sagittal-flipped       ILP       P->A     I->S    L->R
+       * - Where the Origin disignators are with respect to the patient
+       * - [(I)nferior|(S)uperior] [(L}eft|(R)ight] [(A)nterior|(P)osterior]
+       * \note Key's 0-5 correspond to the Analyze v7.5 orientations, and should not be changed.
+       */
+  typedef enum {
+    ITK_ANALYZE_ORIENTATION_RPS_TRANSVERSE=0,        /**< Denotes a transverse data orientation Right-->Left, */
+    ITK_ANALYZE_ORIENTATION_RIP_CORONAL   =1,        /**< Denotes a coronal data orientation */
+    ITK_ANALYZE_ORIENTATION_AIR_SAGITTAL  =2,        /**< Denotes a sagittal data orientation */
+    ITK_ANALYZE_ORIENTATION_RAI_TRANSVERSE_FLIPPED=3,/**<  */
+    ITK_ANALYZE_ORIENTATION_RSP_CORONAL_FLIPPED=4,   /**<  */
+    ITK_ANALYZE_ORIENTATION_PIL_SAGITTAL_FLIPPED=5   /**<  */
+  } ValidAnalyzeOrientationFlags;
+
+
   AnalyzeImageIO(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   void SwapBytesIfNecessary(void * buffer, unsigned long numberOfPixels);

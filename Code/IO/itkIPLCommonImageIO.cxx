@@ -71,16 +71,122 @@ bool IPLCommonImageIO::CanWriteFile(const char * )
 
 const std::type_info& IPLCommonImageIO::GetPixelType() const
 {
-  return typeid(S16);
+  return typeid(short int);
 }
 
 unsigned int IPLCommonImageIO::GetComponentSize() const
 {
-  return sizeof(S16);
+  return sizeof(short int);
 }
+#ifdef __THIS_CODE_BELONGS_ELSEWHERE__
+static void SwapZeroCornerToIRP(const itk::IOCommon::ValidOriginFlags original, short int * const imageBuffer, const int XDim, const int YDim, const int ZDim)
+{
+  short int *** pntrs = new (short int **) [ZDim];
+  for (int k=0;k<ZDim;k++)
+  {
+    pntrs[k] = new (short int *) [YDim];
+    for(int j=0; j<YDim;j++)
+    {
+      pntrs[k][j] = &(imageBuffer[k*(XDim*YDim)+j*XDim]);
+    }
+  }
+  // Apply three possible flips to the buffer.
+  // The 'Half variables are loop limits in the case of folding.
+  int ZHalf = ZDim/2;
+  switch (original)
+      {
+  case itk::IOCommon::ITK_ORIGIN_SLA:
+  case itk::IOCommon::ITK_ORIGIN_ILA:
+  case itk::IOCommon::ITK_ORIGIN_IRA:
+  case itk::IOCommon::ITK_ORIGIN_SRA:
+      std::cout << "DEBUG:  Flipping in Z." << std::endl;
+      //break;
+      for (int k=0;k<ZHalf;k++)
+          {
+          for(int j=0; j<YDim;j++)
+              {
+              for(int i=0; i<XDim;i++)
+                  {
+                  const short int temp = pntrs[k][j][i];
+                  pntrs[k][j][i] = pntrs[ZDim-k-1][j][i];
+                  pntrs[ZDim-k-1][j][i] = temp;
+
+                  }
+              }
+          }
+      break;
+  case itk::IOCommon::ITK_ORIGIN_ILP:
+  case itk::IOCommon::ITK_ORIGIN_IRP:
+  case itk::IOCommon::ITK_ORIGIN_SLP:
+  case itk::IOCommon::ITK_ORIGIN_SRP:
+  default:
+      break;
+      }
+  int YHalf = YDim/2;
+  switch (original)
+      {
+  case itk::IOCommon::ITK_ORIGIN_SLA:
+  case itk::IOCommon::ITK_ORIGIN_SLP:
+  case itk::IOCommon::ITK_ORIGIN_SRA:
+  case itk::IOCommon::ITK_ORIGIN_SRP:
+      std::cout << "DEBUG:  Flipping in Y." << std::endl;
+      //break;
+      for (int k=0;k<ZDim;k++)
+          {
+          for(int j=0; j<YHalf;j++)
+              {
+              for(int i=0; i<XDim;i++)
+                  {
+                  const short int temp = pntrs[k][j][i];
+                  pntrs[k][j][i] = pntrs[k][YDim-j-1][i];
+                  pntrs[k][YDim-j-1][i] = temp;
+
+                  }
+              }
+          }
+      break;
+  case itk::IOCommon::ITK_ORIGIN_ILA:
+  case itk::IOCommon::ITK_ORIGIN_ILP:
+  case itk::IOCommon::ITK_ORIGIN_IRA:
+  case itk::IOCommon::ITK_ORIGIN_IRP:
+  default:
+      break;
+      }
+  int XHalf = XDim/2;
+  switch (original)
+      {
+  case itk::IOCommon::ITK_ORIGIN_SLA:
+  case itk::IOCommon::ITK_ORIGIN_ILA:
+  case itk::IOCommon::ITK_ORIGIN_ILP:
+  case itk::IOCommon::ITK_ORIGIN_SLP:
+      std::cout << "DEBUG:  Flipping in X." << std::endl;
+      //break;
+      for (int k=0;k<ZDim;k++)
+          {
+          for(int j=0; j<YDim;j++)
+              {
+              for(int i=0; i<XHalf;i++)
+                  {
+                  const short int temp = pntrs[k][j][i];
+                  pntrs[k][j][i] = pntrs[k][j][XDim-i-1];
+                  pntrs[k][j][XDim-i-1] = temp;
+
+                  }
+              }
+          }
+      break;
+  case itk::IOCommon::ITK_ORIGIN_IRP:
+  case itk::IOCommon::ITK_ORIGIN_SRP:
+  case itk::IOCommon::ITK_ORIGIN_IRA:
+  case itk::IOCommon::ITK_ORIGIN_SRA:
+  default:
+      break;
+      }
+}
+#endif
 void IPLCommonImageIO::Read(void* buffer)
 {
-  S16 *img_buffer = (S16 *)buffer;
+  short int *img_buffer = (short int *)buffer;
   IPLFileNameList::IteratorType it = m_fnlist->begin();
   IPLFileNameList::IteratorType itend = m_fnlist->end();
 
@@ -93,7 +199,7 @@ void IPLCommonImageIO::Read(void* buffer)
     if(!f.is_open())
       RAISE_EXCEPTION();
     f.seekg ((*it)->GetSliceOffset(), std::ios::beg);
-    if(!this->ReadBufferAsBinary(f, img_buffer, m_fnlist->GetXDim() * m_fnlist->GetYDim() * sizeof(S16)))
+    if(!this->ReadBufferAsBinary(f, img_buffer, m_fnlist->GetXDim() * m_fnlist->GetYDim() * sizeof(short int)))
       {
       f.close();
       RAISE_EXCEPTION();
@@ -103,13 +209,13 @@ void IPLCommonImageIO::Read(void* buffer)
     // the FILE endian-ness, not as the name would lead you to believe.
     // So, on LittleEndian systems, SwapFromSystemToBigEndian will swap.
     // On BigEndian systems, SwapFromSystemToBigEndian will do nothing.
-    itk::ByteSwapper<S16>::SwapRangeFromSystemToBigEndian(img_buffer,m_fnlist->GetXDim()*m_fnlist->GetYDim());
+    itk::ByteSwapper<short int>::SwapRangeFromSystemToBigEndian(img_buffer,m_fnlist->GetXDim()*m_fnlist->GetYDim());
     img_buffer += m_fnlist->GetXDim() * m_fnlist->GetYDim();
     }
 #if 0 // Debugging
   std::ofstream f2("test.img",std::ios::binary | std::ios::out);
   f2.write(buffer,(m_fnlist->numImageInfoStructs *
-                   m_fnlist->GetXDim() * m_fnlist->GetYDim() * sizeof(S16)));
+                   m_fnlist->GetXDim() * m_fnlist->GetYDim() * sizeof(short int)));
   f2.close();
 #endif
 }
@@ -149,29 +255,11 @@ void IPLCommonImageIO::ReadImageInformation()
     
   itk::MetaDataDictionary &thisDic=this->GetMetaDataDictionary();
   std::string classname(this->GetNameOfClass());
-  itk::EncapsulateMetaData<std::string>(thisDic,ITK_InputFilterName,
-                                        classname);
-  itk::EncapsulateMetaData<std::string>(thisDic,
-                                        ITK_OnDiskStorageTypeName,
-                                        std::string("SHORT"));
+  itk::EncapsulateMetaData<std::string>(thisDic,ITK_InputFilterName, classname);
+  itk::EncapsulateMetaData<std::string>(thisDic, ITK_OnDiskStorageTypeName, std::string("SHORT"));
   itk::EncapsulateMetaData<short int>(thisDic,ITK_OnDiskBitPerPixel,(short int)16);
     
-    
-  itk::IOCommon::ValidOrientationFlags orient;
-  switch(m_ImageHeader->imagePlane)
-    {
-    case GE_AXIAL:
-      orient = IOCommon::ITK_ORIENTATION_IRP_TRANSVERSE;
-      break;
-    case GE_SAGITTAL:
-      orient = IOCommon::ITK_ORIENTATION_IRP_SAGITTAL  ;
-      break;
-    case GE_CORONAL:
-      // fall thru
-    default:
-      orient = IOCommon::ITK_ORIENTATION_IRP_CORONAL   ;
-    }
-  itk::EncapsulateMetaData<itk::IOCommon::ValidOrientationFlags>(thisDic,ITK_Orientation,orient);
+  itk::EncapsulateMetaData<itk::IOCommon::ValidCoordinateOrientationFlags>(thisDic,ITK_CoordinateOrientation,m_ImageHeader->coordinateOrientation);
   itk::EncapsulateMetaData<std::string>(thisDic,ITK_PatientID,std::string(m_ImageHeader->patientId));
   itk::EncapsulateMetaData<std::string>(thisDic,ITK_ExperimentDate,std::string(m_ImageHeader->date));
 
@@ -246,13 +334,13 @@ void IPLCommonImageIO::ReadImageInformation()
       }
     delete curImageHeader;
     }
-  switch(m_ImageHeader->imagePlane)
+  switch(m_ImageHeader->coordinateOrientation)
     {
-    case AXIAL:  //Axial needs to descend
+    case itk::IOCommon::ITK_COORDINATE_ORIENTATION_RAS:  //Axial needs to descend
       sortImageListDescend ();
       break;
-    case CORONAL: //Fall through and ascend
-    case SAGITTAL:
+    case itk::IOCommon::ITK_COORDINATE_ORIENTATION_RSP: //Coronal and Sagittal should ascend
+    case itk::IOCommon::ITK_COORDINATE_ORIENTATION_AIR:
       sortImageListAscend ();
       break;
     default:
@@ -267,7 +355,7 @@ void IPLCommonImageIO::ReadImageInformation()
   this->SetDimensions(2,m_fnlist->NumFiles());
   this->SetSpacing(0, m_ImageHeader->imageXres);
   this->SetSpacing(1, m_ImageHeader->imageYres);
-  this->SetSpacing(2, m_ImageHeader->sliceThickness);
+  this->SetSpacing(2, m_ImageHeader->sliceThickness + m_ImageHeader->sliceGap);
     
 }
 
@@ -328,37 +416,37 @@ IPLCommonImageIO
 }
 int IPLCommonImageIO
 ::GetIntAt(std::ifstream &f,std::streamoff Offset,int *ip,
-           bool )
+           bool throw_exception)
 {
   int tmp;
-  this->GetStringAt(f,Offset,(char *)&tmp,sizeof(int));
+  this->GetStringAt(f,Offset,(char *)&tmp,sizeof(int), throw_exception);
   *ip = this->hdr2Int((char *)&tmp);
   return 0;
 }
 int IPLCommonImageIO
 ::GetShortAt(std::ifstream &f,std::streamoff Offset,short *ip,
-             bool )
+             bool throw_exception)
 {
   short tmp;
-  this->GetStringAt(f,Offset,(char *)&tmp,sizeof(short));
+  this->GetStringAt(f,Offset,(char *)&tmp,sizeof(short), throw_exception);
   *ip = this->hdr2Short((char *)&tmp);
   return 0;
 }
 int IPLCommonImageIO
 ::GetFloatAt(std::ifstream &f,std::streamoff Offset,float *ip,
-             bool )
+             bool throw_exception)
 {
   float tmp;
-  this->GetStringAt(f,Offset,(char *)&tmp,sizeof(float));
+  this->GetStringAt(f,Offset,(char *)&tmp,sizeof(float), throw_exception);
   *ip = this->hdr2Float((char *)&tmp);
   return 0;
 }
 int IPLCommonImageIO
 ::GetDoubleAt(std::ifstream &f,std::streamoff Offset,double *ip,
-              bool )
+              bool throw_exception)
 {
   double tmp;
-  this->GetStringAt(f,Offset,(char *)&tmp,sizeof(double));
+  this->GetStringAt(f,Offset,(char *)&tmp,sizeof(double), throw_exception);
   *ip = this->hdr2Double((char *)&tmp);
   return 0;
 }

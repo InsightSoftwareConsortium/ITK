@@ -205,17 +205,20 @@ struct GEImageHeader *SiemensVisionImageIO::ReadHeader(const char *FileNameToRea
     {
     if (fabs(atof(tmpStr4))<= 45.0)
       {
-      hdr->imagePlane = CORONAL;
+      //hdr->imagePlane = itk::IOCommon::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
+      hdr->coordinateOrientation = itk::IOCommon::ITK_COORDINATE_ORIENTATION_RSP;
       }
     else
       {
       if (strcmp(tmpStr3, "Sag") == 0)
         {
-        hdr->imagePlane = SAGITTAL;
+        //hdr->imagePlane = itk::IOCommon::ITK_ANALYZE_ORIENTATION_IRP_SAGITTAL;
+        hdr->coordinateOrientation = itk::IOCommon::ITK_COORDINATE_ORIENTATION_AIR;
         }
       else
         {
-        hdr->imagePlane = AXIAL;
+        //hdr->imagePlane = itk::IOCommon::ITK_ANALYZE_ORIENTATION_IRP_TRANSVERSE;
+        hdr->coordinateOrientation = itk::IOCommon::ITK_COORDINATE_ORIENTATION_RAS;
         }
       }
     }
@@ -223,17 +226,20 @@ struct GEImageHeader *SiemensVisionImageIO::ReadHeader(const char *FileNameToRea
     {
     if (fabs(atof(tmpStr4))<= 45.0)
       {
-      hdr->imagePlane = SAGITTAL;
+      //hdr->imagePlane = itk::IOCommon::ITK_ANALYZE_ORIENTATION_IRP_SAGITTAL;
+      hdr->coordinateOrientation = itk::IOCommon::ITK_COORDINATE_ORIENTATION_AIR;
       }
     else
       {
       if (strcmp(tmpStr3, "Cor") == 0)
         {
-        hdr->imagePlane = CORONAL;
+        //hdr->imagePlane = itk::IOCommon::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
+        hdr->coordinateOrientation = itk::IOCommon::ITK_COORDINATE_ORIENTATION_RSP;
         }
       else
         {
-        hdr->imagePlane = AXIAL;
+        //hdr->imagePlane = itk::IOCommon::ITK_ANALYZE_ORIENTATION_IRP_TRANSVERSE;
+        hdr->coordinateOrientation = itk::IOCommon::ITK_COORDINATE_ORIENTATION_RAS;
         }
       }
     }
@@ -241,17 +247,20 @@ struct GEImageHeader *SiemensVisionImageIO::ReadHeader(const char *FileNameToRea
     {
     if (fabs(atof(tmpStr4))<= 45.0)
       {
-      hdr->imagePlane = AXIAL;
+      //hdr->imagePlane = itk::IOCommon::ITK_ANALYZE_ORIENTATION_IRP_TRANSVERSE;
+      hdr->coordinateOrientation = itk::IOCommon::ITK_COORDINATE_ORIENTATION_RAS;
       }
     else
       {
       if (strcmp(tmpStr3, "Cor") == 0)
         {
-        hdr->imagePlane = CORONAL;
+        //hdr->imagePlane = itk::IOCommon::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
+        hdr->coordinateOrientation = itk::IOCommon::ITK_COORDINATE_ORIENTATION_RSP;
         }
       else
         {
-        hdr->imagePlane = SAGITTAL;
+        //hdr->imagePlane = itk::IOCommon::ITK_ANALYZE_ORIENTATION_IRP_SAGITTAL;
+        hdr->coordinateOrientation = itk::IOCommon::ITK_COORDINATE_ORIENTATION_AIR;
         }
       }
     }

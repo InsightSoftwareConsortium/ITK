@@ -17,6 +17,7 @@
 #include "itkIOCommon.h"
 #include "itkExceptionObject.h"
 #include "itkByteSwapper.h"
+#include "itkMetaDataObject.h"
 #include "itkGEImageHeader.h"
 //#include "idbm_hdr_def.h"
 #include "itkMvtSunf.h"
@@ -141,26 +142,36 @@ struct GEImageHeader *GE4ImageIO::ReadHeader(const char *FileNameToRead)
   hdr->yFOV = hdr->xFOV;
   RGEDEBUG(std::sprintf (debugbuf, "FOV = %fx%f\n", hdr->xFOV, hdr->yFOV); cerr << debugbuf;)
 
+
     /* Get the Plane from the IMAGE Header */
-    this->GetStringAt(f, SEHDR_START * 2 + SEHDR_PNAME * 2,tmpStr,16);
+  this->GetStringAt(f, SEHDR_START * 2 + SEHDR_PNAME * 2,tmpStr,16);
   tmpStr[16] = '\0';
+
   if (strstr (tmpStr, "CORONAL") != NULL)
     {
-    hdr->imagePlane = CORONAL;
+    //hdr->imagePlane = itk::IOCommon::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
+    //hdr->origin = itk::IOCommon::ITK_ORIGIN_SRP; // was SLA in the brains2 filter.
+    hdr->coordinateOrientation = itk::IOCommon::ITK_COORDINATE_ORIENTATION_RSP;
     }
   else if (strstr (tmpStr, "SAGITTAL") != NULL)
     {
-    hdr->imagePlane = SAGITTAL;
+    //hdr->imagePlane = itk::IOCommon::ITK_ANALYZE_ORIENTATION_IRP_SAGITTAL;
+    //hdr->origin = itk::IOCommon::ITK_ORIGIN_SRA;  //was SLP in the brains2 filter.
+    hdr->coordinateOrientation = itk::IOCommon::ITK_COORDINATE_ORIENTATION_AIR;
     }
   else if (strstr (tmpStr, "AXIAL") != NULL)
     {
-    hdr->imagePlane = AXIAL;
+    //hdr->imagePlane = itk::IOCommon::ITK_ANALYZE_ORIENTATION_IRP_TRANSVERSE;
+    //hdr->origin = itk::IOCommon::ITK_ORIGIN_SRA;  //was SLP in the brains2 filter.
+    hdr->coordinateOrientation = itk::IOCommon::ITK_COORDINATE_ORIENTATION_RAS;
     }
   else
     {
-    hdr->imagePlane = CORONAL;
+    //hdr->imagePlane = itk::IOCommon::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
+    //hdr->origin = itk::IOCommon::ITK_ORIGIN_SRP; // was SLA
+    hdr->coordinateOrientation = itk::IOCommon::ITK_COORDINATE_ORIENTATION_RSP;
     }
-  RGEDEBUG(std::sprintf (debugbuf, "Plane = %d\n", hdr->imagePlane); cerr << debugbuf;)
+  //RGEDEBUG(std::sprintf (debugbuf, "Plane = %d\n", hdr->imagePlane); cerr << debugbuf;)
 
     /* Get the Scan Matrix from the IMAGE Header */
     this->GetShortAt(f,SEHDR_START * 2 + SEHDR_SMATRIX * 2,&(hdr->acqXsize));

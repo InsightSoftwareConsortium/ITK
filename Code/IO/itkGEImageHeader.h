@@ -47,7 +47,7 @@ struct GEImageHeader
   short int acqYsize;
   short int frequencyDir;
   char scanner[16];
-  char pulseSequence[128]; //Needs to be at least 65 for seimans vision
+  char pulseSequence[128]; //Needs to be at least 65 for seimens vision
   char patientId[32];
   char scanId[32];
   char name[64];
@@ -56,7 +56,9 @@ struct GEImageHeader
   short int imageYsize;
   float imageXres;
   float imageYres;
-  short int imagePlane;
+  //itk::IOCommon::ValidAnalyzeOrientationFlags imagePlane;
+  //itk::IOCommon::ValidOriginFlags origin;
+  itk::IOCommon::ValidCoordinateOrientationFlags coordinateOrientation;
   short int numberOfSlices;
   short int offset;
   char filename[itk::IOCommon::ITK_MAXPATHLEN+1];

@@ -261,25 +261,32 @@ GE5ImageIO::ReadHeader (const char  *FileNameToRead)
     curImage->imageXres = hdr2Float (&hdr[IM_HDR_START + IM_PIXSIZE_X]);
   curImage->imageYres = hdr2Float (&hdr[IM_HDR_START + IM_PIXSIZE_Y]);
   RGEDEBUG(fprintf (stderr, "Image Res %fx%f\n", curImage->imageXres, curImage->imageYres);)
-
-    curImage->imagePlane = hdr2Short (&hdr[IM_HDR_START + IM_PLANE]);
-  RGEDEBUG(fprintf (stderr, "Plane %d\n", curImage->imagePlane);)
+    short int GE_Plane = hdr2Short (&hdr[IM_HDR_START + IM_PLANE]);
+  //RGEDEBUG(fprintf (stderr, "Plane %d\n", curImage->imagePlane);)
 
     //RECODE image plane to be brains2 compliant.!!
-    switch (curImage->imagePlane)
+  switch (GE_Plane)
       {
-      case GE_CORONAL:
-        curImage->imagePlane = itk::GE5ImageIO::CORONAL;
-        break;
-      case GE_SAGITTAL:
-        curImage->imagePlane = itk::GE5ImageIO::SAGITTAL;
-        break;
-      case GE_AXIAL:
-        curImage->imagePlane = itk::GE5ImageIO::AXIAL;
-        break;
-      default:
-        curImage->imagePlane = itk::GE5ImageIO::CORONAL;
-        break;
+  case GE_CORONAL:
+      //curImage->imagePlane = itk::IOCommon::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
+      //curImage->origin = itk::IOCommon::ITK_ORIGIN_SLA;
+      curImage->coordinateOrientation = itk::IOCommon::ITK_COORDINATE_ORIENTATION_RSP;
+      break;
+  case GE_SAGITTAL:
+      //curImage->imagePlane = itk::IOCommon::ITK_ANALYZE_ORIENTATION_IRP_SAGITTAL;
+      //curImage->origin = itk::IOCommon::ITK_ORIGIN_SLP;
+      curImage->coordinateOrientation = itk::IOCommon::ITK_COORDINATE_ORIENTATION_AIR;
+      break;
+  case GE_AXIAL:
+      //curImage->imagePlane = itk::IOCommon::ITK_ANALYZE_ORIENTATION_IRP_TRANSVERSE;
+      //curImage->origin = itk::IOCommon::ITK_ORIGIN_ILP;
+      curImage->coordinateOrientation = itk::IOCommon::ITK_COORDINATE_ORIENTATION_RAS;
+      break;
+  default:
+      //curImage->imagePlane = itk::IOCommon::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
+      //curImage->origin = itk::IOCommon::ITK_ORIGIN_SLA;
+      curImage->coordinateOrientation = itk::IOCommon::ITK_COORDINATE_ORIENTATION_RSP;
+      break;
       }
   curImage->sliceLocation = hdr2Float (&hdr[IM_HDR_START + IM_LOC]);
   RGEDEBUG(fprintf (stderr, "Location %f %c %c\n", curImage->sliceLocation, hdr[IM_HDR_START + IM_LOC_RAS], hdr[IM_HDR_START + IM_LOC_RAS+1]);)

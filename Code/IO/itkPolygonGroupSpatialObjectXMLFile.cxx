@@ -130,17 +130,27 @@ EndElement(const char *name)
     itk::EncapsulateMetaData<int>(thisDic,ROI_NUM_SEGMENTS,size);
     }
   else if(itksys::SystemTools::Strucmp(name,"PLANE") == 0)
-    {
-    itk::IOCommon::ValidOrientationFlags temporient;
-    if(itksys::SystemTools::Strucmp(m_CurCharacterData.c_str(),"AXIAL"))
-      temporient = IOCommon::ITK_ORIENTATION_IRP_TRANSVERSE;
-    else if(itksys::SystemTools::Strucmp(m_CurCharacterData.c_str(),"CORONAL"))
-      temporient = IOCommon::ITK_ORIENTATION_IRP_CORONAL;
-    else if(itksys::SystemTools::Strucmp(m_CurCharacterData.c_str(),"SAGITTAL"))
-      temporient = IOCommon::ITK_ORIENTATION_IRP_SAGITTAL;
-    itk::EncapsulateMetaData<itk::IOCommon::ValidOrientationFlags>(thisDic,
-      ITK_Orientation, temporient);
-    }
+      {
+      //itk::IOCommon::ValidAnalyzeOrientationFlags temporient;
+      itk::IOCommon::ValidCoordinateOrientationFlags coord_orient;
+      if(itksys::SystemTools::Strucmp(m_CurCharacterData.c_str(),"AXIAL"))
+          {
+          //temporient = IOCommon::ITK_ANALYZE_ORIENTATION_IRP_TRANSVERSE;
+          coord_orient = itk::IOCommon::ITK_COORDINATE_ORIENTATION_RPS;
+          } 
+      else if(itksys::SystemTools::Strucmp(m_CurCharacterData.c_str(),"CORONAL"))
+          {
+          //temporient = IOCommon::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
+          coord_orient = itk::IOCommon::ITK_COORDINATE_ORIENTATION_RIP;
+          } 
+      else if(itksys::SystemTools::Strucmp(m_CurCharacterData.c_str(),"SAGITTAL"))
+          {
+          //temporient = IOCommon::ITK_ANALYZE_ORIENTATION_IRP_SAGITTAL;
+          coord_orient = itk::IOCommon::ITK_COORDINATE_ORIENTATION_AIR;
+          } 
+      //itk::EncapsulateMetaData<itk::IOCommon::ValidAnalyzeOrientationFlags>(thisDic, ITK_AnalyzeOrientation, temporient);
+      itk::EncapsulateMetaData<itk::IOCommon::ValidCoordinateOrientationFlags>(thisDic, ITK_CoordinateOrientation, coord_orient);
+      }
   else if(itksys::SystemTools::Strucmp(name,"POINT") == 0)
     {
     double pval[3];
@@ -263,23 +273,23 @@ WriteFile()
                                 "Z-RESOLUTION",output);
   WriteMetaDataAttribute<int>(this,thisDic,ROI_NUM_SEGMENTS,
                               "NUM-SEGMENTS",output);
-  itk::IOCommon::ValidOrientationFlags orientation;
+  itk::IOCommon::ValidCoordinateOrientationFlags orientation;
 
-  if(ExposeMetaData<itk::IOCommon::ValidOrientationFlags>(thisDic,
-                                                          ITK_Orientation,
+  if(ExposeMetaData<itk::IOCommon::ValidCoordinateOrientationFlags>(thisDic,
+                                                          ITK_CoordinateOrientation,
                                                           orientation))
   {
   std::string SOrient;
   bool known_orientation = true;
   switch(orientation)
     {
-    case IOCommon::ITK_ORIENTATION_IRP_TRANSVERSE:
+    case IOCommon::ITK_COORDINATE_ORIENTATION_RPS:
       SOrient = "AXIAL";
       break;
-    case IOCommon::ITK_ORIENTATION_IRP_CORONAL:
+    case IOCommon::ITK_COORDINATE_ORIENTATION_RIP:
       SOrient = "CORONAL";
       break;
-    case IOCommon::ITK_ORIENTATION_IRP_SAGITTAL:
+    case IOCommon::ITK_COORDINATE_ORIENTATION_AIR:
       SOrient = "SAGITTAL";
       break;
     default:

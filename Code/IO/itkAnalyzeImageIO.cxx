@@ -517,7 +517,7 @@ AnalyzeImageIO::AnalyzeImageIO()
   /*3-transverse flipped*/
   /*4-coronal flipped*/
   /*5-sagittal flipped*/
-  this->m_hdr.hist.orient=itk::IOCommon::ITK_ORIENTATION_IRP_TRANSVERSE; //default orientation is ITK_ANALYZE_TRANSVERSE
+  this->m_hdr.hist.orient=itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RPS_TRANSVERSE; //default orientation is ITK_ANALYZE_TRANSVERSE
 
   this->m_hdr.hist.originator[0]='\0';
   this->m_hdr.hist.generated[0]='\0';
@@ -960,8 +960,23 @@ void AnalyzeImageIO::ReadImageInformation()
   itk::EncapsulateMetaData<std::string>(thisDic,ANALYZE_AUX_FILE_NAME,std::string(this->m_hdr.hist.aux_file,24));
 
   {
-  itk::IOCommon::ValidOrientationFlags temporient= static_cast<itk::IOCommon::ValidOrientationFlags>(this->m_hdr.hist.orient);
-  itk::EncapsulateMetaData<itk::IOCommon::ValidOrientationFlags>(thisDic,ITK_Orientation, temporient);
+    itk::AnalyzeImageIO::ValidAnalyzeOrientationFlags temporient= static_cast<itk::AnalyzeImageIO::ValidAnalyzeOrientationFlags>(this->m_hdr.hist.orient);
+    //itk::EncapsulateMetaData<itk::AnalyzeImageIO::ValidAnalyzeOrientationFlags>(thisDic,ITK_AnalyzeOrientation, temporient);
+    itk::IOCommon::ValidCoordinateOrientationFlags coord_orient;
+    switch (temporient)
+      {
+      case itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RPS_TRANSVERSE:
+          coord_orient = itk::IOCommon::ITK_COORDINATE_ORIENTATION_RPS;
+          break;
+      case itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_AIR_SAGITTAL:
+          coord_orient = itk::IOCommon::ITK_COORDINATE_ORIENTATION_AIR;
+          break;
+      case itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RIP_CORONAL:
+          // fall thru
+      default:
+          coord_orient = itk::IOCommon::ITK_COORDINATE_ORIENTATION_RIP;
+      }
+    itk::EncapsulateMetaData<itk::IOCommon::ValidCoordinateOrientationFlags>(thisDic,ITK_CoordinateOrientation, coord_orient);
   }
   itk::EncapsulateMetaData<std::string>(thisDic,ITK_FileOriginator,std::string(this->m_hdr.hist.originator,10));
   itk::EncapsulateMetaData<std::string>(thisDic,ITK_OriginationDate,std::string(this->m_hdr.hist.generated,10));
@@ -1049,11 +1064,24 @@ AnalyzeImageIO
     }
 
   {
-  itk::IOCommon::ValidOrientationFlags temporient;
-  if ( itk::ExposeMetaData<itk::IOCommon::ValidOrientationFlags>(thisDic,ITK_Orientation, temporient) )
-    {
-    this->m_hdr.hist.orient=static_cast<itk::IOCommon::ValidOrientationFlags>(temporient);
-    }
+    itk::IOCommon::ValidCoordinateOrientationFlags coord_orient;
+    if ( itk::ExposeMetaData<itk::IOCommon::ValidCoordinateOrientationFlags>(thisDic,ITK_CoordinateOrientation, coord_orient) )
+        {
+        switch (coord_orient)
+            {
+        case itk::IOCommon::ITK_COORDINATE_ORIENTATION_RPS:
+            this->m_hdr.hist.orient=itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RPS_TRANSVERSE;
+            break;
+        case itk::IOCommon::ITK_COORDINATE_ORIENTATION_AIR:
+            this->m_hdr.hist.orient=itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_AIR_SAGITTAL;
+            break;
+        case itk::IOCommon::ITK_COORDINATE_ORIENTATION_RIP:
+            this->m_hdr.hist.orient=itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RIP_CORONAL;
+            break;
+        default:
+            break;
+            }
+        }
   }
 
   if(itk::ExposeMetaData<std::string>(thisDic,ITK_FileOriginator,temp))
