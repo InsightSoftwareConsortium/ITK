@@ -41,14 +41,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "cableConfigurationParser.h"
 #include "cableSourceParser.h"
 
-#include "genCxxGenerator.h"
+#include "genGeneratorBase.h"
 #include "genTclGenerator.h"
 
 #include <iostream>
 #include <fstream>
 
 typedef configuration::CableConfiguration  CableConfiguration;
-typedef configuration::Package  Package;
 typedef source::Namespace       Namespace;
   
 /**
@@ -57,7 +56,7 @@ typedef source::Namespace       Namespace;
 class WrapperGenerator
 {
 public:
-  typedef gen::GeneratorBase* (*AllocateFunction)(const Package*, const Namespace*);
+  typedef gen::GeneratorBase* (*AllocateFunction)(const CableConfiguration*, const Namespace*, std::ostream&);
   WrapperGenerator(const String& languageName,
                    const String& commandLineFlag,
                    AllocateFunction get):
@@ -69,10 +68,13 @@ public:
   bool Enabled() const { return m_Enabled; }
   const String& GetLanguageName() const { return m_LanguageName; }
   const String& GetCommandLineFlag() const { return m_CommandLineFlag; }
-  gen::GeneratorBase* GetGenerator(const Package* p,
-                                   const Namespace* ns)
+  const String& GetOutputFileName() const { return m_OutputFileName; }
+  void SetOutputFileName(const String& name) { m_OutputFileName = name; }
+  gen::GeneratorBase* GetGenerator(const CableConfiguration* c,
+                                   const Namespace* ns,
+                                   std::ostream& os)
     {
-      if(m_Get) { return m_Get(p, ns); }
+      if(m_Get) { return m_Get(c, ns, os); }
       else { return NULL; }
     }
   
@@ -81,25 +83,24 @@ private:
   String m_CommandLineFlag;
   AllocateFunction m_Get;
   bool m_Enabled;
+  String m_OutputFileName;
 };
 
 
 class Cable
 {
 public:
-  Cable(): m_GeneratingCxx(true) {}
   void Add(const WrapperGenerator&);
   bool ProcessCommandLine(int argc, char* argv[]);
   bool ParseConfiguration();
+  bool ParseSource();
   void Generate();
 private:
-  void GeneratePackageCxx(const Package*);
-  void GeneratePackageWrappers(const Package*);
   std::vector<WrapperGenerator> m_WrapperGenerators;
   String m_ConfigurationFileName;
+  String m_SourceFileName;
   CableConfiguration::ConstPointer m_CableConfiguration;
-  std::set<String> m_Packages;
-  bool m_GeneratingCxx;
+  source::Namespace::ConstPointer m_GlobalNamespace;
 };
 
 void Cable::Add(const WrapperGenerator& wg)
@@ -119,45 +120,30 @@ bool Cable::ProcessCommandLine(int argc, char* argv[])
     arguments.push_back(argv[i]);
     }
 
-  bool forceCxx = false;
   bool haveConfig = false;
   
   for(std::vector<String>::const_iterator arg = arguments.begin();
       arg != arguments.end(); ++arg)
     {
-    if(!forceCxx)
-      {
-      bool found = false;
-      for(std::vector<WrapperGenerator>::iterator wg = m_WrapperGenerators.begin();
-          wg != m_WrapperGenerators.end(); ++wg)
+    bool found = false;
+    for(std::vector<WrapperGenerator>::iterator wg = m_WrapperGenerators.begin();
+        wg != m_WrapperGenerators.end(); ++wg)
       {
       if(*arg == wg->GetCommandLineFlag())
         {
+        ++arg;
+        if(arg == arguments.end())
+          {
+          std::cerr << "  Language " << wg->GetLanguageName().c_str() << " specified without output file." << std::endl;
+          return false;
+          }
+        wg->SetOutputFileName(*arg);
         wg->Enable();
-        m_GeneratingCxx = false;
         found = true;
         }
       }
-      if(found) { continue; }
-      }
-    if(*arg == "-package")
-      {
-      ++arg;
-      if(arg == arguments.end())
-        {
-        std::cerr << "  Command line argument -package given with no value." << std::endl;
-        return false;
-        }
-      m_Packages.insert(*arg);
-      std::cout << "  Enabling generation for package \"" << arg->c_str() << "\"" << std::endl;
-      }
-    else if(*arg == "-cxx")
-      {
-      m_GeneratingCxx = true;
-      forceCxx = true;
-      std::cout << "  Command line argument -cxx given.  Ignoring other languages." << std::endl;
-      }
-    else if(!haveConfig)
+    if(found) { continue; }
+    if(!haveConfig)
       {
       m_ConfigurationFileName = *arg;
       haveConfig = true;
@@ -191,75 +177,70 @@ bool Cable::ParseConfiguration()
     return false;
     }
   
+  std::cout << "  Parsing configuration file \"" << m_ConfigurationFileName.c_str()
+            << "\" ..." << std::endl;
   configurationParser->Parse(configFile);
   m_CableConfiguration = configurationParser->GetCableConfiguration();
+  m_SourceFileName = m_CableConfiguration->GetSourceFileName();
+  
+  return true;
+}
+
+bool Cable::ParseSource()
+{
+  if(m_SourceFileName.length() > 0)
+    {
+    source::Parser::Pointer sourceParser = source::Parser::New();
+  
+    std::ifstream sourceFile(m_SourceFileName.c_str());
+    if(!sourceFile)
+      {
+      std::cerr << "  Error opening XML source file \""
+                << m_SourceFileName.c_str() << "\"" << std::endl;
+      return false;
+      }
+    
+    std::cout << "  Parsing XML source file \"" << m_SourceFileName.c_str()
+              << "\" ..." << std::endl;
+    sourceParser->Parse(sourceFile);
+    m_GlobalNamespace = sourceParser->GetGlobalNamespace();
+    }
   
   return true;
 }
 
 void Cable::Generate()
 {
-  // Loop over all pacakges in the configuration.
-  for(CableConfiguration::PackageIterator package = m_CableConfiguration->BeginPackages();
-      package != m_CableConfiguration->EndPackages(); ++package)
-    {
-    if(m_Packages.empty() || (m_Packages.find((*package)->GetName()) != m_Packages.end()))
-      {
-      if(m_GeneratingCxx)
-        {
-        this->GeneratePackageCxx(*package);
-        }
-      else
-        {
-        this->GeneratePackageWrappers(*package);
-        }
-      }
-    }
-}
-
-void Cable::GeneratePackageCxx(const Package* package)
-{
-  gen::GeneratorBase* cxxGenerator = gen::CxxGenerator::GetInstance(package);  
-  cxxGenerator->Generate();
-  delete cxxGenerator;
-}
-
-void Cable::GeneratePackageWrappers(const Package* package)
-{
-  std::cout << "  Generating package " << package->GetName().c_str() << std::endl;
-  String sourceName = "Cxx/"+package->GetName()+"_cxx.xml";
-  
-  std::ifstream sourceFile(sourceName.c_str());
-  if(!sourceFile)
-    {
-    std::cerr << "    Error opening XML source file: \"" << sourceName.c_str() << "\"" << std::endl
-              << "    Skipping this package." << std::endl;
-    return;
-    }
-  
-  source::Parser::Pointer sourceParser = source::Parser::New();  
-  sourceParser->Parse(sourceFile);
-  const Namespace* globalNamespace = sourceParser->GetGlobalNamespace();
-  
   for(std::vector<WrapperGenerator>::iterator
         wg = m_WrapperGenerators.begin();
       wg != m_WrapperGenerators.end(); ++wg)
     {
     if(wg->Enabled())
       {
-      std::cout << "    Generating " << wg->GetLanguageName().c_str()
-                << " wrappers..." << std::endl;
-      gen::GeneratorBase* generator =
-        wg->GetGenerator(package, globalNamespace);
-      if(generator)
+      std::ofstream wrapperStream(wg->GetOutputFileName().c_str());
+      if(wrapperStream)
         {
-        generator->Generate();
-        delete generator;
+        std::cout << "    Generating " << wg->GetLanguageName().c_str()
+                  << " wrappers..." << std::endl;
+      
+        gen::GeneratorBase* generator =
+          wg->GetGenerator(m_CableConfiguration, m_GlobalNamespace, wrapperStream);
+        if(generator)
+          {
+          generator->Generate();
+          delete generator;
+          }
+        else
+          {
+          std::cerr << "      Error creating wrapper generation class." << std::endl;
+          }
         }
       else
         {
-        std::cerr << "      Error creating wrapper generation class.  Disabling." << std::endl;
-        wg->Disable();
+        std::cerr << "  Error opening output file \""
+                  << wg->GetOutputFileName().c_str() << "\"" << std::endl;
+        std::cout << "    Not Generating " << wg->GetLanguageName().c_str()
+                  << " wrappers." << std::endl;
         }
       }
     }
@@ -278,6 +259,8 @@ int main(int argc, char* argv[])
   if(!cable.ProcessCommandLine(argc, argv))
     { return 1; }
   if(!cable.ParseConfiguration())
+    { return 1; }
+  if(!cable.ParseSource())
     { return 1; }
   cable.Generate();
   }

@@ -76,8 +76,7 @@ public:
 private:
   void AddFunctionTypes(const cxx::FunctionType*);  
   void GenerateInitialization(std::ostream&, const cxx::CvQualifiedType&) const;
-  bool TypeIsPointerToChar(const cxx::CvQualifiedType&) const;
-  bool TypeIsChar(const cxx::CvQualifiedType&) const;
+  void GenerateArgumentAs(std::ostream&, const cxx::CvQualifiedType&) const;
 private:
   /**
    * An ordering of the added types which guarantees that any type's

@@ -112,13 +112,10 @@ private:
   bool m_CdataSectionFlag;  
 
   // Access functions for element stack.
-  ConfigureObject::Pointer  TopParseElement() const;
-  Package::Pointer          CurrentPackage() const;
-  Dependencies::Pointer     CurrentDependencies() const;
-  CodeBlock::Pointer        CurrentCodeBlock() const;
-  Set::Pointer              CurrentSet() const;
-  Element::Pointer          CurrentElement() const;
-  Headers::Pointer          CurrentHeaders() const;
+  ConfigureObject::Pointer    TopParseElement() const;
+  CableConfiguration::Pointer CurrentCableConfiguration() const;
+  CodeBlock::Pointer          CurrentCodeBlock() const;
+  Class::Pointer              CurrentClass() const;
 
   // Element stack utilities.
   void PushElement(ConfigureObject*);
@@ -128,35 +125,22 @@ private:
   void PushNamespace(Namespace*);
   void PopNamespace();
   Namespace::Pointer        CurrentNamespaceScope() const;
-  PackageNamespace::Pointer CurrentPackageNamespaceScope() const;
 
   // The element begin handlers.
   void begin_CableConfiguration(const Attributes&);
-  void begin_Package(const Attributes&);
-  void begin_Dependencies(const Attributes&);
-  void begin_Headers(const Attributes&);
-  void begin_File(const Attributes&);
-  void begin_Directory(const Attributes&);
   void begin_Namespace(const Attributes&);
   void begin_Code(const Attributes&);
-  void begin_Set(const Attributes&);
-  void begin_Element(const Attributes&);
-  void begin_WrapperSet(const Attributes&);
-  void begin_InstantiationSet(const Attributes&);
+  void begin_Class(const Attributes&);
+  void begin_Header(const Attributes&);
+  void begin_Group(const Attributes&);
   
   // The element end handlers.
   void end_CableConfiguration();
-  void end_Package();
-  void end_Dependencies();
-  void end_Headers();
-  void end_File();
-  void end_Directory();
   void end_Namespace();
   void end_Code();
-  void end_Set();
-  void end_Element();
-  void end_WrapperSet();
-  void end_InstantiationSet();
+  void end_Class();
+  void end_Header();
+  void end_Group();
   
   // Element map utilities.
   static void InitializeHandlers();
@@ -183,7 +167,6 @@ private:
   
   // Other utilities.
   Namespace* GlobalNamespace() const;
-  void GenerateElementCombinations(const Element*, Set*) const;
 };
 
 } // namespace configuration

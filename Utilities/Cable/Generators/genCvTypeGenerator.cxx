@@ -56,7 +56,10 @@ void CvTypeGenerator::GenerateClasses(std::ostream& os) const
     {
     os << "template <> struct CvType< "
        << t->GetName().c_str()
-       << " >   { static CvQualifiedType type; };\n";
+       << " >   { static CvQualifiedType type; typedef "
+       << t->GetType()->GenerateDeclaration("NoCv").c_str() << "; ";
+    this->GenerateArgumentAs(os, *t);
+    os << "};\n";
     }
 }
 
@@ -106,12 +109,20 @@ void CvTypeGenerator::Add(const cxx::CvQualifiedType& cvType)
       this->Add(cxx::ArrayType::SafeDownCast(type)->GetElementType());
       break;
     case cxx::ClassType_id:
-      // A ClassType has no "inner" types, but we want the first entry
-      // for any class to have no cv-qualifiers.  This first entry
-      // will be used for construction parent class information.
+      // Make sure the cv-unqualified version comes first.
       if(cvType.IsConst() || cvType.IsVolatile())
         {
         this->Add(type->GetCvQualifiedType(false, false));
+        }
+      // Make sure any superclasses come first.
+      else
+        {
+        const cxx::ClassType* classType = cxx::ClassType::SafeDownCast(type);
+        for(cxx::ClassTypes::const_iterator p = classType->ParentsBegin();
+            p != classType->ParentsEnd(); ++p)
+          {
+          this->Add((*p)->GetCvQualifiedType(false, false));
+          }
         }
       break;
     case cxx::EnumerationType_id:
@@ -142,13 +153,7 @@ void CvTypeGenerator::Add(const cxx::CvQualifiedType& cvType)
   // All "inner" types have been added.  Add this type.
   m_TypesAdded.insert(cvType);
   
-  // All the fundamental types and type "char*" have predefined
-  // specializations in the wrapper facilities.  Don't add these to the
-  // ordering, but add all others.
-  if(!type->IsFundamentalType() && !this->TypeIsPointerToChar(cvType))
-    {
-    m_TypeOrdering.push_back(cvType);
-    }
+  m_TypeOrdering.push_back(cvType);
 }
 
 
@@ -192,18 +197,68 @@ CvTypeGenerator
          << ", " << (cvType.IsVolatile()? "true":"false") << ");\n";
       break;
     case cxx::ClassType_id:
-      // TODO: Generate superclass information on cv-unqualified version.
-      os << "  CvType< " << cvType.GetName().c_str()
-         << " >::type = TypeInfo::GetClassType(\""
-         << cxx::ClassType::SafeDownCast(type)->GetName().c_str()
-         << "\", " << (cvType.IsConst()? "true":"false")
-         << ", " << (cvType.IsVolatile()? "true":"false") << ");\n";
-      break;
+      {
+      const cxx::ClassType* classType = cxx::ClassType::SafeDownCast(type);
+      // Generate superclass information on cv-unqualified version.
+      if(!cvType.IsConst() && !cvType.IsVolatile()
+         && (classType->ParentsBegin() != classType->ParentsEnd()))
+        {
+        os << "  {\n"
+           << "  ClassTypes parents;\n";
+        for(cxx::ClassTypes::const_iterator p = classType->ParentsBegin();
+            p != classType->ParentsEnd(); ++p)
+          {
+          os << "  parents.push_back(ClassType::SafeDownCast(CvType< " << (*p)->GetName().c_str()
+             << " >::type.GetType()));\n";
+          }
+        os << "  CvType< " << cvType.GetName().c_str()
+           << " >::type = TypeInfo::GetClassType(\""
+           << classType->GetName().c_str()
+           << "\", " << (cvType.IsConst()? "true":"false")
+           << ", " << (cvType.IsVolatile()? "true":"false")
+           << ", " << (classType->IsAbstract()? "true":"false")
+           << ", parents);\n";
+        os << "  }\n";
+        }
+      else
+        {
+        os << "  CvType< " << cvType.GetName().c_str()
+           << " >::type = TypeInfo::GetClassType(\""
+           << classType->GetName().c_str()
+           << "\", " << (cvType.IsConst()? "true":"false")
+           << ", " << (cvType.IsVolatile()? "true":"false")
+           << ", " << (classType->IsAbstract()? "true":"false") << ");\n";
+        }
+      }; break;
     case cxx::EnumerationType_id:
       os << "  CvType< " << cvType.GetName().c_str()
          << " >::type = TypeInfo::GetEnumerationType(\""
          << cxx::EnumerationType::SafeDownCast(type)->GetName().c_str()
          << "\", " << (cvType.IsConst()? "true":"false")
+         << ", " << (cvType.IsVolatile()? "true":"false") << ");\n";
+      break;
+    case cxx::FundamentalType_id:
+      os << "  CvType< " << cvType.GetName().c_str()
+         << " >::type = TypeInfo::GetFundamentalType(FundamentalType::";
+      switch (cxx::FundamentalType::SafeDownCast(type)->GetId())
+        {
+        case cxx::FundamentalType::UnsignedChar:     os << "UnsignedChar";     break;
+        case cxx::FundamentalType::UnsignedShortInt: os << "UnsignedShortInt"; break;
+        case cxx::FundamentalType::UnsignedInt:      os << "UnsignedInt";      break;
+        case cxx::FundamentalType::UnsignedLongInt:  os << "UnsignedLongInt";  break;
+        case cxx::FundamentalType::SignedChar:       os << "SignedChar";       break;
+        case cxx::FundamentalType::Char:             os << "Char";             break;
+        case cxx::FundamentalType::ShortInt:         os << "ShortInt";         break;
+        case cxx::FundamentalType::Int:              os << "Int";              break;
+        case cxx::FundamentalType::LongInt:          os << "LongInt";          break;
+        case cxx::FundamentalType::WChar_t:          os << "WChar_t";          break;
+        case cxx::FundamentalType::Bool:             os << "Bool";             break;
+        case cxx::FundamentalType::Float:            os << "Float";            break;
+        case cxx::FundamentalType::Double:           os << "Double";           break;
+        case cxx::FundamentalType::LongDouble:       os << "LongDouble";       break;
+        case cxx::FundamentalType::Void:             os << "Void";             break;
+        }
+      os << ", " << (cvType.IsConst()? "true":"false")
          << ", " << (cvType.IsVolatile()? "true":"false") << ");\n";
       break;
     case cxx::FunctionType_id:
@@ -249,54 +304,93 @@ CvTypeGenerator
          << cxx::ReferenceType::SafeDownCast(type)->GetReferencedType().GetName().c_str()
          << " >::type);\n";
       break;
-    case cxx::FundamentalType_id:
-      // All FundamentalTypes have predefined specializations.  We should
-      // never get here.
     case cxx::Undefined_id:
     default: break;
     }
 }
 
-
 /**
- * Returns true if the given type is "char*", "const char*", "volatile char*",
- * or "const volatile char*".
+ * Called internally by GenerateClasses().
+ *
+ * Generates the
+ *   typedef ArgumentAs...<T> ArgumentFor;
+ * functor type to be used when passing an argument of the given type
+ * to a wrapped function.
  */
-bool CvTypeGenerator::TypeIsPointerToChar(const cxx::CvQualifiedType& cvType) const
-{
-  // There must be no cv-qualifiers.
-  if(cvType.IsConst() || cvType.IsVolatile())
-    {
-    return false;
-    }  
-  
-  const cxx::Type* type = cvType.GetType();
-  
-  // The type must be a PointerType.
-  if(!type->IsPointerType())
-    {
-    return false;
-    }
-  
-  // The PointerType's pointed-to-type must be "char".
-  return this->TypeIsChar(cxx::PointerType::SafeDownCast(type)->GetPointedToType());
-}
-
-/**
- * Returns true if the given type is "char", "const char", "volatile char",
- * or "const volatile char".
- */
-bool CvTypeGenerator::TypeIsChar(const cxx::CvQualifiedType& cvType) const
+void
+CvTypeGenerator
+::GenerateArgumentAs(std::ostream& os,
+                     const cxx::CvQualifiedType& cvType) const
 {
   const cxx::Type* type = cvType.GetType();
-  // The type must be a FundamentalType.
-  if(!type->IsFundamentalType())
+  switch (type->GetRepresentationType())
     {
-    return false;
+    case cxx::ArrayType_id:
+      {
+      os << "typedef ArgumentAsPointerTo_array< "
+         << cxx::ArrayType::SafeDownCast(type)->GetElementType().GetName().c_str()
+         << " > ArgumentFor; ";
+      }; break;
+    case cxx::ClassType_id:
+    case cxx::EnumerationType_id:
+    case cxx::FundamentalType_id:
+      {
+      os << "typedef ArgumentAsInstanceOf< "
+         << cvType.GetName().c_str()
+         << " > ArgumentFor; ";
+      }; break;
+    case cxx::PointerType_id:
+      {
+      cxx::CvQualifiedType pointedToType = cxx::PointerType::SafeDownCast(type)->GetPointedToType();
+      if(pointedToType.IsFunctionType())
+        {
+        os << "typedef ArgumentAsPointerToFunction< "
+           << pointedToType.GetName().c_str()
+           << " > ArgumentFor; ";
+        }
+      else if(pointedToType.IsPointerType()
+              || pointedToType.IsEnumerationType()
+              || (pointedToType.IsFundamentalType()
+                  && !cxx::FundamentalType::SafeDownCast(pointedToType.GetType())->IsVoid()))
+        {
+        os << "typedef ArgumentAsPointerTo_array< "
+           << pointedToType.GetName().c_str()
+           << " > ArgumentFor; ";
+        }
+      else
+        {
+        os << "typedef ArgumentAsPointerTo< "
+           << pointedToType.GetName().c_str()
+           << " > ArgumentFor; ";
+        }
+      }; break;
+    case cxx::PointerToMemberType_id:
+      {
+      // TODO: Implement.
+      }; break;
+    case cxx::ReferenceType_id:
+      {
+      cxx::CvQualifiedType referencedType = cxx::ReferenceType::SafeDownCast(type)->GetReferencedType();
+      if(referencedType.IsConst() && !referencedType.IsVolatile()
+         && !(referencedType.IsClassType()
+              && cxx::ClassType::SafeDownCast(referencedType.GetType())->IsAbstract()))
+        {
+        os << "typedef ArgumentAsReferenceTo_const< "
+           << referencedType.GetType()->Name().c_str()
+           << " > ArgumentFor; ";
+        }
+      else
+        {
+        os << "typedef ArgumentAsReferenceTo< "
+           << referencedType.GetName().c_str()
+           << " > ArgumentFor; ";
+        }
+      }; break;
+    case cxx::FunctionType_id:
+    case cxx::Undefined_id:
+    default: break;
     }
-  
-  // The FundamentalType must be "char".
-  return cxx::FundamentalType::SafeDownCast(type)->IsChar();
 }
+
 
 } // namespace gen

@@ -650,7 +650,7 @@ cxx::CvQualifiedType NamedType::GetCxxType(const Namespace* gns) const
       return CxxTypes::GetFundamentalType(cxx::FundamentalType::Char,
                                           isConst, isVolatile);
       }
-    else if((name == "short") || (name == "signed short"))
+    else if((name == "short") || (name == "signed short") || (name == "short int"))
       {
       return CxxTypes::GetFundamentalType(cxx::FundamentalType::ShortInt,
                                           isConst, isVolatile);
@@ -696,17 +696,28 @@ cxx::CvQualifiedType NamedType::GetCxxType(const Namespace* gns) const
                                           isConst, isVolatile);
       }
     }
-  const Class* c = gns->LookupClass(name);
-  if(c)
+
+  Named* result = gns->LookupName(name);
+  if(result)
     {
-    const cxx::ClassType* classType = c->GetCxxClassType(gns);
-    return classType->GetCvQualifiedType(isConst, isVolatile);
-    }
-  const Enumeration* e = gns->LookupEnumeration(name);
-  if(e)
-    {
-    const cxx::EnumerationType* enumType = e->GetCxxEnumerationType(gns);
-    return enumType->GetCvQualifiedType(isConst, isVolatile);
+    TypeOfObject resultType = result->GetTypeOfObject();
+    if((resultType == Class_id) || (resultType == Struct_id) || (resultType == Union_id))
+      {
+      Class *c = dynamic_cast<Class*>(result);
+      const cxx::ClassType* classType = c->GetCxxClassType(gns);
+      return classType->GetCvQualifiedType(isConst, isVolatile);
+      }
+    else if(resultType == Enumeration_id)
+      {
+      Enumeration *e = dynamic_cast<Enumeration*>(result);
+      const cxx::EnumerationType* enumType = e->GetCxxEnumerationType(gns);
+      return enumType->GetCvQualifiedType(isConst, isVolatile);
+      }
+    else if(resultType == Typedef_id)
+      {
+      Typedef* td = dynamic_cast<Typedef*>(result);
+      return td->GetOriginalType()->GetCxxType(gns);
+      }
     }
   // Couldn't identify the type.
   std::cerr << "NamedType::GetCxxType()" << std::endl
@@ -794,10 +805,14 @@ const cxx::ClassType* Class::GetCxxClassType(const Namespace* gns) const
   for(BaseClassContainer::const_iterator base = m_BaseClasses.begin();
       base != m_BaseClasses.end(); ++base)
     {
-    Class* c = (*base)->GetClass(this->GetGlobalNamespace());
-    if(c)
+    // Only add public base classes.
+    if((*base)->GetAccess() == Public)
       {
-      baseTypes.push_back(c->GetCxxClassType(gns));
+      Class* c = (*base)->GetClass(this->GetGlobalNamespace());
+      if(c)
+        {
+        baseTypes.push_back(c->GetCxxClassType(gns));
+        }
       }
     }
   return CxxTypes::typeSystem.GetClassType(this->GetQualifiedName(),
@@ -938,33 +953,6 @@ Context
 
 
 /**
- * Lookup the given enumeration type starting in this context's scope.
- */
-Enumeration*
-Context
-::LookupEnumeration(const String& name) const
-{
-  Named* result = this->LookupName(name);
-  if(result)
-    {
-    TypeOfObject resultType = result->GetTypeOfObject();
-    if(resultType == Enumeration_id)
-      {
-      Enumeration *e = dynamic_cast<Enumeration*>(result);
-      return e;
-      }
-    else if(resultType == Typedef_id)
-      {
-      Typedef* td = dynamic_cast<Typedef*>(result);
-      Enumeration* e = td->GetEnumeration(this->GetGlobalNamespace());
-      return e;
-      }
-    }
-  return NULL;
-}
-
-
-/**
  * Lookup the given name starting in this namespace's scope.
  *
  * This internal version takes iterators into a Qualifiers describing
@@ -1043,23 +1031,5 @@ Typedef
   NamedType* nt = dynamic_cast<NamedType*>(m_Type.RealPointer());
   return gns->LookupClass(nt->GetQualifiedName()->Get());
 }
-
-
-/**
- * If the typedef refers to an enumeration type, this returns
- * a pointer to its representation.  Otherwise, NULL is returned.
- */
-Enumeration::Pointer
-Typedef
-::GetEnumeration(const Namespace* gns)
-{
-  if(!m_Type || (m_Type->GetTypeOfObject() != NamedType_id))
-    {
-    return NULL;
-    }
-  NamedType* nt = dynamic_cast<NamedType*>(m_Type.RealPointer());
-  return gns->LookupEnumeration(nt->GetQualifiedName()->Get());
-}
-
 
 } // namespace source

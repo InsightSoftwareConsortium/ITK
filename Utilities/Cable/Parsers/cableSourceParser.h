@@ -67,7 +67,7 @@ public:
   static Pointer New();
   
   void Parse(std::istream&);  
-  const Namespace* GetGlobalNamespace() const;  
+  Namespace::ConstPointer GetGlobalNamespace() const;  
 public:
   // Call-backs from the XML parser.
   void BeginElement(const char *name, const char **atts);

@@ -447,20 +447,20 @@ public:
   void SetType(Type* t)       { m_Type = t; }
   Type::Pointer GetType() { return m_Type; }
   Type::ConstPointer GetType() const { return m_Type.RealPointer(); }
-
-  void SetDefault(const String& s) { m_Default = s; }
-  String GetDefault()          { return m_Default; }
-
+  
+  void SetHasDefault(bool v) { m_HasDefault = v; }
+  bool HasDefault() const { return m_HasDefault; }
+  
   virtual bool CheckComplete() const { return (m_Type != NULL); }
   
 protected:
-  Argument(const String& name): Named(name) {}
+  Argument(const String& name): Named(name), m_HasDefault(false) {}
   Argument(const Self&): Named("") {}
   void operator=(const Self&) {}
   virtual ~Argument() {}
 private:
   Type::Pointer m_Type;
-  String m_Default;
+  bool m_HasDefault;
 };
 
 
@@ -529,7 +529,17 @@ public:
   const ArgumentContainer& GetArguments() const { return m_Arguments; }
   Argument::Pointer GetArgument(unsigned int a) { return m_Arguments[a]; }
   Argument::ConstPointer GetArgument(unsigned int a) const { return m_Arguments[a].RealPointer(); }
-  unsigned int GetArgumentCount() const { return m_Arguments.size(); }  
+  unsigned int GetArgumentCount() const { return m_Arguments.size(); }
+  unsigned int GetDefaultArgumentCount() const
+    {
+    unsigned int count = 0;
+    for(source::ArgumentsIterator a = m_Arguments.begin();
+        a != m_Arguments.end(); ++a)
+      {
+      if((*a)->HasDefault()) { ++count; }
+      }
+    return count;
+    }
   
   void SetContext(Context* context) { m_Context = context; }
   ContextPointer GetContext() { return m_Context.RealPointer(); }
@@ -576,8 +586,10 @@ public:
 
   virtual bool CheckComplete() const { return (m_Type != NULL); }
   
-  ClassPointer GetClass(const Namespace* gns);  
-  EnumerationPointer GetEnumeration(const Namespace* gns);
+  ClassPointer GetClass(const Namespace* gns);
+
+  Type::Pointer GetOriginalType() { return m_Type; }
+
 protected:
   Typedef(const String& name): Named(name), m_Type(NULL) {}
   Typedef(const Self&): Named("") {}
@@ -663,7 +675,6 @@ public:
   
   Named* LookupName(const String&) const;
   Class* LookupClass(const String&) const;
-  Enumeration* LookupEnumeration(const String&) const;
   virtual Named* LookupName(QualifiersConstIterator,QualifiersConstIterator) const;
 protected:
   Context(const String& name): Named(name) {}

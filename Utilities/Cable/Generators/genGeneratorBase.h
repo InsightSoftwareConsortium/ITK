@@ -42,6 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _genGeneratorBase_h
 
 #include "cableConfigurationRepresentation.h"
+#include "cableSourceRepresentation.h"
 #include <iostream>
 
 namespace gen
@@ -70,18 +71,28 @@ std::ostream& operator<<(std::ostream& os, const String& str);
 class GeneratorBase
 {
 public:
-  GeneratorBase(const configuration::Package* in_package):
-    m_Package(in_package) {}
+  GeneratorBase(const configuration::CableConfiguration*,
+                const source::Namespace*,
+                std::ostream&);
   virtual ~GeneratorBase() {}
   
   virtual void Generate()=0;
 protected:
   /**
-   * The package configuration that controls generation.
+   * The configuration that controls generation.
    */
-  configuration::Package::ConstPointer m_Package;
+  configuration::CableConfiguration::ConstPointer m_CableConfiguration;
+
+  /**
+   * The global namespace that was parsed from the source file.
+   */
+  source::Namespace::ConstPointer m_GlobalNamespace;
   
-  static bool MakeDirectory(const char*);
+  /**
+   * The output stream to which the generated output will be written.
+   */
+  std::ostream& m_Output;
+  
   static String GetOperatorName(const String&);
 };
 

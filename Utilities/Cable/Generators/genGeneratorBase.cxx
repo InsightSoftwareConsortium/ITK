@@ -40,28 +40,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 =========================================================================*/
 #include "genGeneratorBase.h"
 
-#include <sys/stat.h>
-#include <errno.h>
-
-#if defined(_MSC_VER) || defined(__BORLANDC__)
-#include <windows.h>
-#include <direct.h>
-#define _unlink unlink
-inline int Mkdir(const char* dir)
-{
-  return _mkdir(dir);
-}
-#else
-#include <sys/types.h>
-#include <fcntl.h>
-#include <unistd.h>
-inline int Mkdir(const char* dir)
-{
-  return mkdir(dir, 00777);
-}
-#endif
-
-
 namespace gen
 {
 
@@ -112,40 +90,16 @@ std::ostream& operator<<(std::ostream& os, const String& str)
 
 
 /**
- * Make sure the given path exists, creating it if necessary.
- * Returns false only on error.
+ * Constructor.
  */
-bool GeneratorBase::MakeDirectory(const char* path)
+GeneratorBase::GeneratorBase(
+  const configuration::CableConfiguration* in_cableConfiguration,
+  const source::Namespace* in_globalNamespace,
+  std::ostream& output):
+  m_CableConfiguration(in_cableConfiguration),
+  m_GlobalNamespace(in_globalNamespace),
+  m_Output(output)
 {
-  std::string dir = path;
-  // replace all of the \ with /
-  size_t pos = 0;
-  while((pos = dir.find('\\', pos)) != std::string::npos)
-    {
-    dir[pos] = '/';
-    pos++;
-    }
-  pos =  dir.find(':');
-  if(pos == std::string::npos)
-    {
-    pos = 0;
-    }
-  while((pos = dir.find('/', pos)) != std::string::npos)
-    {
-    std::string topdir = dir.substr(0, pos);
-    Mkdir(topdir.c_str());
-    pos++;
-    }
-  if(Mkdir(path) != 0)
-    {
-    // if it is some other error besides directory exists
-    // then return false
-    if(errno != EEXIST)
-      {
-      return false;
-      }
-    }
-  return true;
 }
 
 #define TEST_OPERATOR(op, id) \

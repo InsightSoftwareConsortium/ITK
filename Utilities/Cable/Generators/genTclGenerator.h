@@ -55,54 +55,61 @@ namespace gen
 class TclGenerator: public GeneratorBase
 {
 public:
-  TclGenerator(const configuration::Package* in_package,
-               const source::Namespace* in_globalNamespace):
-    GeneratorBase(in_package), m_GlobalNamespace(in_globalNamespace) {}
+  TclGenerator(const configuration::CableConfiguration*,
+               const source::Namespace*, std::ostream&);
   virtual ~TclGenerator() {}
   
-  static GeneratorBase* GetInstance(const configuration::Package*,
-                                    const source::Namespace*);  
+  static GeneratorBase* GetInstance(const configuration::CableConfiguration*,
+                                    const source::Namespace*, std::ostream&);  
   
   virtual void Generate();  
 private:
-  typedef std::vector<String> WrapperList;
-  typedef std::vector<source::Method*> Methods;
+  class MethodEntry
+  {
+  public:
+    MethodEntry(source::Method* method, unsigned int argc):
+      m_Method(method), m_ArgumentCount(argc) {}
+    unsigned int GetArgumentCount() const { return m_ArgumentCount; }
+    source::Method* operator->() const { return m_Method; }
+    operator source::Method*() const { return m_Method; }
+  private:
+    source::Method* m_Method;
+    unsigned int m_ArgumentCount;
+  };
   
-  void GeneratePackage(const configuration::Package*);  
-  void GenerateIncludes(std::ostream&, const configuration::Headers*);  
-  void GenerateNamespace(std::ostream&,
-                         const configuration::PackageNamespace*);
-  void GenerateWrapperSet(std::ostream&, const configuration::WrapperSet*,
-                          const configuration::PackageNamespace*);
-  void GenerateClassWrapper(std::ostream&, const source::Class*);
+  typedef std::vector<String> WrapperList;
+  typedef std::vector<MethodEntry> Methods;
+  
+  void GenerateWrappers();
+  void GeneratePackageInitializer();
+  void GenerateNamespace(const configuration::Namespace*);
+  void GenerateClassWrapper(const source::Class*);
   bool ReturnsVoid(const source::Function*) const;
-  void WriteWrapperClassDefinition(std::ostream&, const source::Class*,
-                                   const Methods&) const;
-  void WriteImplicitArgument(std::ostream&, const source::Class*,
-                             const source::Method*) const;
-  void WriteArgumentList(std::ostream&, const source::ArgumentContainer&) const;
-  void WriteArgumentAs(std::ostream&, const cxx::CvQualifiedType&,
-                       unsigned int) const;
-  void WriteReturnBegin(std::ostream&, const source::Function*) const;
-  void WriteReturnEnd(std::ostream&, const source::Function*) const;
-  void FindCvTypes(const configuration::PackageNamespace*);
-  void FindCvTypes(const configuration::WrapperSet*,
-                   const configuration::PackageNamespace*);
+  void WriteWrapperClassDefinition(const source::Class*, const Methods&) const;
+  void WriteImplicitArgument(const source::Class*, const source::Method*) const;
+  void WriteArgumentList(const source::ArgumentContainer&, unsigned int, unsigned int) const;
+  void WriteReturnBegin(const source::Function*) const;
+  void WriteReturnEnd(const source::Function*) const;
+  void WriteMethodComment(const String&, const MethodEntry&) const;
+  void WriteConversionIntitialization() const;
+  void FindCvTypes(const configuration::Namespace*);
   void FindCvTypes(const source::Class*);
   void FindCvTypes(const source::Method*);
+  void AddSuperclassCvTypes(const cxx::ClassType*);
   cxx::CvQualifiedType GetCxxType(const source::Type*) const;
 
-  /**
-   * The global namespace that was parsed from the source file.
-   */
-  const source::Namespace* m_GlobalNamespace;
-  
   /**
    * Generator to write out CxxType representation construction code.
    */
   CvTypeGenerator  m_CvTypeGenerator;
   
   WrapperList m_WrapperList;
+  
+  typedef std::set<const cxx::ClassType*> ClassesForDerivedToBase;
+  ClassesForDerivedToBase m_ClassesForDerivedToBase;
+
+  typedef std::set<const cxx::ClassType*> ClassesThatNeedDestructor;
+  ClassesThatNeedDestructor m_ClassesThatNeedDestructor;
 };
 
 } // namespace gen

@@ -86,7 +86,7 @@ Parser
 /**
  * Get a pointer to the GlobalNamespace that was parsed.
  */
-const Namespace* Parser::GetGlobalNamespace() const
+Namespace::ConstPointer Parser::GetGlobalNamespace() const
 {
   return m_GlobalNamespace.RealPointer();
 }
@@ -1000,8 +1000,9 @@ Parser
  */
 void
 Parser
-::begin_DefaultArgument(const Attributes& atts)
+::begin_DefaultArgument(const Attributes&)
 {
+  this->CurrentArgument()->SetHasDefault(true);
 }
 
 /**
