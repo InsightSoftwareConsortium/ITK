@@ -11,6 +11,7 @@ SET(WRAP_SOURCES
   wrap_itkAffineTransform
   wrap_itkAzimuthElevationToCartesianTransform
   wrap_itkBSplineDeformableTransform
+  wrap_itkBinaryBallStructuringElement
   wrap_itkContinuousIndex
   wrap_itkDenseFiniteDifferenceImageFilter
   wrap_itkDifferenceImageFilter

@@ -31,6 +31,7 @@ namespace _cable_
     ITK_WRAP_GROUP(itkArray),
     ITK_WRAP_GROUP(itkAzimuthElevationToCartesianTransform),
     ITK_WRAP_GROUP(itkBSplineDeformableTransform),
+    ITK_WRAP_GROUP(itkBinaryBallStructuringElement),
     ITK_WRAP_GROUP(itkContinuousIndex),
     ITK_WRAP_GROUP(itkDifferenceImageFilter),
     ITK_WRAP_GROUP(itkDenseFiniteDifferenceImageFilter),
