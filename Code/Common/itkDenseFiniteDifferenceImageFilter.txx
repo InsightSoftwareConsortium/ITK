@@ -230,7 +230,7 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
   const SizeType  rSize  = regionToProcess.GetSize();
   const SizeType  radius = df->GetRadius();
 
-  unsigned long  overlapLow, overlapHigh;
+  IndexValueType  overlapLow, overlapHigh;
   std::list<RegionType> faceList;
   IndexType  fStart;         // Boundary, "face"
   SizeType   fSize;          // region data.
@@ -241,22 +241,33 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
 
   for (i = 0; i < ImageDimension; ++i)
     {
-      overlapLow = (rStart[i] - radius[i]) - bStart[i];
-      overlapHigh= (bStart[i] + bSize[i]) - (rStart[i] + rSize[i] + radius[i]);
+      overlapLow = (rStart[i] - static_cast<IndexValueType>(radius[i])) 
+        - bStart[i];
+      overlapHigh= (bStart[i] + static_cast<IndexValueType>(bSize[i])) 
+        - (rStart[i] + static_cast<IndexValueType>(rSize[i] + radius[i]));
 
       if (overlapLow < 0) // out of bounds condition, define a region of 
         {                 // iteration along this face
-          for (j = 0; j < ImageDimension; ++j) // define the starting index
-            {                                  // and size of the face region
+
+          // NOTE: this algorithm results in duplicate
+          // processing of a single pixel at corners between
+          // adjacent faces.  This is negligible performance-
+          // wise until very high dimensions.          
+          for (j = 0; j < ImageDimension; ++j) 
+            { 
+              // define the starting index                                 
+              // and size of the face region
               fStart[j] = rStart[j];
-              if ( j == i ) fSize[j] = -overlapLow;// NOTE: this algorithm
-              else          fSize[j] = rSize[j];   // results in duplicate
-            }                                      // processing of a single
-          nbSize[i]  -= fSize[i];                  // pixel at corners between
-          nbStart[i] += -overlapLow;               // adjacent faces.  This is
-          fRegion.SetIndex(fStart);                // negligible performance-
-          fRegion.SetSize(fSize);                  // wise until very high
-          faceList.push_back(fRegion);             // dimensions.
+              // casting from signed to unsigned is ok here since
+              // -overLapLow must be positive.
+              if ( j == i ) fSize[j] = static_cast<SizeValueType>(-overlapLow);
+              else          fSize[j] = rSize[j];   
+            }                                      
+          nbSize[i]  -= fSize[i];                  
+          nbStart[i] += -overlapLow;               
+          fRegion.SetIndex(fStart);                
+          fRegion.SetSize(fSize);                  
+          faceList.push_back(fRegion);             
         }
       if (overlapHigh < 0)
         {
@@ -264,8 +275,11 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
             {
               if ( j == i )
                 {
-                  fStart[j] = rStart[j] + static_cast<IndexValueType>(rSize[j] + overlapHigh);
-                  fSize[j] = -overlapHigh;
+                  fStart[j] = rStart[j] + 
+                     static_cast<IndexValueType>(rSize[j]) + overlapHigh;
+                  // casting from signed to unsigned is ok here since
+                  // -overlapHigh must be positive
+                  fSize[j] = static_cast<SizeValueType>(-overlapHigh);
                 }
               else
                 {
