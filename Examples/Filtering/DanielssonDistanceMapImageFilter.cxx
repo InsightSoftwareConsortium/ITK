@@ -14,6 +14,12 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS:  {FivePoints.png}
+//    OUTPUTS: {DanielssonDistanceMapImageFilterOutput1.png}
+//    OUTPUTS: {DanielssonDistanceMapImageFilterOutput2.png}
+//    OUTPUTS: {DanielssonDistanceMapImageFilterOutput3.mhd}
+//  Software Guide : EndCommandLineArgs
 
 // Software Guide : BeginLatex
 //
