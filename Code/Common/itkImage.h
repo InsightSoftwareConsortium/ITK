@@ -46,12 +46,12 @@ public:
   /**
    * Set a pixel
    */
-  void SetPixel(const itkImage::Index &index, const T& value);
+  void SetPixel(const itkImage<T, TImageDimension>::Index &index, const T& value);
   
   /**
    * Get a pixel
    */
-  const T& GetPixel(const itkImage::Index &index);
+  const T& GetPixel(const itkImage<T, TImageDimension>::Index &index);
 
 
  private:
