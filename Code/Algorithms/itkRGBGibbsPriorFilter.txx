@@ -710,6 +710,14 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
      << m_MaximumNumberOfIterations << std::endl;
   os << indent << "BoundaryGradient: "
      << m_BoundaryGradient << std::endl;
+  os << indent << "CliqueWeight_1: "
+     << m_CliqueWeight_1 << std::endl;
+  os << indent << "CliqueWeight_2: "
+     << m_CliqueWeight_2 << std::endl;
+  os << indent << "CliqueWeight_3: "
+     << m_CliqueWeight_3 << std::endl;
+  os << indent << "CliqueWeight_4: "
+     << m_CliqueWeight_4 << std::endl;
   os << indent << "ClusterSize: " 
      << m_ClusterSize << std::endl;
   os << indent << "ObjectLabel: " 
