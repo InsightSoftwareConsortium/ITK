@@ -29,13 +29,13 @@ MembershipSampleGenerator< TInputSample, TClassMaskSample >
 template< class TInputSample, class TClassMaskSample >
 void
 MembershipSampleGenerator< TInputSample, TClassMaskSample >
-::SetInput(InputPointer sample)
+::SetInput(TInputSample* sample)
 {
   m_Input = sample ;
 }
   
 template< class TInputSample, class TClassMaskSample >
-MembershipSampleGenerator< TInputSample, TClassMaskSample >::InputPointer
+TInputSample*
 MembershipSampleGenerator< TInputSample, TClassMaskSample >
 ::GetInput()
 {
@@ -45,13 +45,13 @@ MembershipSampleGenerator< TInputSample, TClassMaskSample >
 template< class TInputSample, class TClassMaskSample >
 void
 MembershipSampleGenerator< TInputSample, TClassMaskSample >
-::SetClassMask(ClassMaskPointer classMask)
+::SetClassMask(TClassMaskSample* classMask)
 {
   m_ClassMask = classMask ;
 }
 
 template< class TInputSample, class TClassMaskSample >
-MembershipSampleGenerator< TInputSample, TClassMaskSample >::ClassMaskPointer
+TClassMaskSample*
 MembershipSampleGenerator< TInputSample, TClassMaskSample >
 ::GetClassMask()
 {
@@ -76,11 +76,11 @@ MembershipSampleGenerator< TInputSample, TClassMaskSample >
 
 
 template< class TInputSample, class TClassMaskSample >
-MembershipSampleGenerator< TInputSample, TClassMaskSample >::OutputPointer
+MembershipSampleGenerator< TInputSample, TClassMaskSample >::OutputType*
 MembershipSampleGenerator< TInputSample, TClassMaskSample >
 ::GetOutput()
 {
-  return m_Output ;
+  return m_Output.GetPointer() ;
 }
 
 template< class TInputSample, class TClassMaskSample >
@@ -89,14 +89,13 @@ MembershipSampleGenerator< TInputSample, TClassMaskSample >
 ::GenerateData()
 {
   unsigned int classLabel ;
-  unsigned int dimension = 0 ;
   m_Output = OutputType::New() ;
   m_Output->SetSample(m_Input) ;
   m_Output->SetNumberOfClasses(m_NumberOfClasses) ;
   typename TClassMaskSample::Iterator iter = m_ClassMask->Begin() ;
   while (iter != m_ClassMask->End())
     {
-      classLabel = iter.GetMeasurementVector()[dimension] ;
+      classLabel = iter.GetMeasurementVector()[0] ;
       m_Output->AddInstance(classLabel, iter.GetInstanceIdentifier()) ;
       ++iter ;
     }
