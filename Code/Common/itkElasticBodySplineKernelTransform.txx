@@ -64,7 +64,7 @@ ElasticBodySplineKernelTransform<TScalarType, NDimensions>::GetAlpha() const
 
 template <class TScalarType, int NDimensions>
 void ElasticBodySplineKernelTransform<TScalarType, NDimensions>::
-SetAlpha(const TScalarType newAlpha)
+SetAlpha(TScalarType newAlpha)
 {
 	m_Alpha = newAlpha;
 }
@@ -72,7 +72,7 @@ SetAlpha(const TScalarType newAlpha)
 template <class TScalarType, int NDimensions>
 ElasticBodySplineKernelTransform<TScalarType, NDimensions>::GMatrixType
 ElasticBodySplineKernelTransform<TScalarType, NDimensions>
-::ComputeG(const VectorType& x) const
+::ComputeG(const InputVectorType & x) const
 {
   RowMatrixType xRV; // row vector rep. of x
   ColumnMatrixType xCV; // column vector rep. of x
