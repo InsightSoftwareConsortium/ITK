@@ -74,7 +74,7 @@ public:
 
   /** Return zero value. This function should be used to support
    *  RGBPixel type and standard types (not vectors) */
-  static const T ZeroValue() { return Zero; }
+  static T ZeroValue() { return Zero; }
 };
 
 /** \class NumericTraits<bool>
@@ -98,7 +98,7 @@ public:
   static bool IsNonpositive(bool val) { return !val; }
   static bool IsNegative(bool /* val */) { return false; }
   static bool IsNonnegative(bool /*val*/) {return true; }
-  static const bool ZeroValue() { return Zero; }
+  static bool ZeroValue() { return Zero; }
 };
 
 /** \class NumericTraits<char>
@@ -123,7 +123,7 @@ public:
   static bool IsNonpositive(char val) { return val <= Zero; }
   static bool IsNegative(char val) { return val < Zero; }
   static bool IsNonnegative(char val) {return val >= Zero; }
-  static const char ZeroValue() { return Zero; }
+  static char ZeroValue() { return Zero; }
 };
 
 /** \class NumericTraits<char>
@@ -148,7 +148,7 @@ public:
   static bool IsNonpositive(signed char val) { return val <= Zero; }
   static bool IsNegative(signed char val) { return val < Zero; }
   static bool IsNonnegative(signed char val) {return val >= Zero; }
-  static const signed char  ZeroValue() { return Zero; }
+  static signed char  ZeroValue() { return Zero; }
 };
 
 /** \class NumericTraits<unsigned char>
@@ -171,7 +171,7 @@ public:
   static bool IsNonpositive(unsigned char val) { return val == Zero; }
   static bool IsNegative(unsigned char /* val */) { return false; }
   static bool IsNonnegative(unsigned char /*val */) {return true; }
-  static const unsigned char  ZeroValue() { return Zero; }
+  static unsigned char  ZeroValue() { return Zero; }
 };
 
 /** \class NumericTraits<short>
@@ -193,7 +193,7 @@ public:
   static bool IsNonpositive(short val) { return val <= Zero; }
   static bool IsNegative(short val) { return val < Zero; }
   static bool IsNonnegative(short val) {return val >= Zero; }
-  static const short  ZeroValue() { return Zero; }
+  static short  ZeroValue() { return Zero; }
 };
 
 /** \class NumericTraits<unsigned short>
@@ -216,7 +216,7 @@ public:
   static bool IsNonpositive(unsigned short val) { return val == Zero; }
   static bool IsNegative(unsigned short/* val*/) { return false; }
   static bool IsNonnegative(unsigned short /*val*/) {return true; }
-  static const unsigned short  ZeroValue() { return Zero; }
+  static unsigned short  ZeroValue() { return Zero; }
 };
 
 /** \class NumericTraits<int>
@@ -238,7 +238,7 @@ public:
   static bool IsNonpositive(int val) { return val <= Zero; }
   static bool IsNegative(int val) { return val < Zero; }
   static bool IsNonnegative(int val) {return val >= Zero; }
-  static const int  ZeroValue() { return Zero; }
+  static int  ZeroValue() { return Zero; }
 };
 
 /** \class NumericTraits<unsigned int>
@@ -263,7 +263,7 @@ public:
   static bool IsNonpositive(unsigned int val) { return  val == Zero; }
   static bool IsNegative(unsigned int /*val*/) { return false; }
   static bool IsNonnegative(unsigned int /*val*/) {return true; }
-  static const unsigned int  ZeroValue() { return Zero; }
+  static unsigned int  ZeroValue() { return Zero; }
 };
 
 /** \class NumericTraits<long>
