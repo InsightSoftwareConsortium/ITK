@@ -29,7 +29,7 @@ CumulativeGaussianCostFunction
   // Initial values for fit error and range dimension.
   m_RangeDimension = 0;
   m_OriginalDataArray = new MeasureType();
-  m_MeasurePointer = 0;
+  m_MeasurePointer = new MeasureType();
 }
 
 CumulativeGaussianCostFunction
@@ -157,7 +157,6 @@ CumulativeGaussianCostFunction::MeasureType *
 CumulativeGaussianCostFunction
 ::GetValue( ParametersType & parameters )
 {  
-  m_MeasurePointer = new MeasureType();
   m_MeasurePointer->resize(m_RangeDimension);
 
   for(unsigned int i = 0; i < m_RangeDimension; i++)
