@@ -76,7 +76,7 @@ public:
   void SetCovariance(const CovarianceMatrixType &cov); 
   
   /** Method to get covariance matrix */
-  const CovarianceMatrixType & GetCovariance() const;
+  itkGetConstReferenceMacro( Covariance, CovarianceMatrixType );
 
   /**
    * Method to set covariance matrix
@@ -85,7 +85,7 @@ public:
   void SetInverseCovariance(const CovarianceMatrixType &invcov); 
   
   /** Method to get covariance matrix */
-  const CovarianceMatrixType & GetInverseCovariance() const;
+  itkGetConstReferenceMacro( InverseCovariance, CovarianceMatrixType );
 
   /** Method to set the number of samples */
   itkSetMacro( NumberOfSamples, double );
@@ -119,8 +119,6 @@ private:
   double       m_Epsilon;
   double       m_DoubleMax;
  
-  bool         m_ValidInverseCovarianceFlag;
-
   itkStaticConstMacro(VectorDimension, unsigned int, TVector::Dimension);
   typedef vnl_matrix_fixed<double,1,itkGetStaticConstMacro(VectorDimension)> ColumnVectorType;
 

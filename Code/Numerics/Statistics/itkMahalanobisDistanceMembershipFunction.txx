@@ -28,8 +28,7 @@ MahalanobisDistanceMembershipFunction< TVector >
   m_NumberOfSamples(0),
   m_PreFactor(0),
   m_Epsilon( 1e-100 ),
-  m_DoubleMax( 1e+20 ),
-  m_ValidInverseCovarianceFlag( false )
+  m_DoubleMax( 1e+20 )
 {
   m_Mean.fill( 0.0f );
   m_Covariance.set_identity();
@@ -59,35 +58,24 @@ MahalanobisDistanceMembershipFunction< TVector >
 ::SetCovariance(const CovarianceMatrixType &cov)
 {
   m_Covariance = cov; 
-  if( !m_ValidInverseCovarianceFlag ) CalculateInverseCovariance();
+  this->CalculateInverseCovariance();
 }
 
-template < class TVector >
-const typename
-MahalanobisDistanceMembershipFunction< TVector >::CovarianceMatrixType &
-MahalanobisDistanceMembershipFunction< TVector >
-::GetCovariance() const
-{
-  return m_Covariance ;
-}
+
 
 template < class TVector >
 void 
 MahalanobisDistanceMembershipFunction< TVector >
 ::SetInverseCovariance(const CovarianceMatrixType &invcov)
 {
-  m_InverseCovariance = invcov; 
-  m_ValidInverseCovarianceFlag = true;
+  // use the inverse computation
+  m_Covariance = invcov; 
+  this->CalculateInverseCovariance();
+  m_Covariance = m_InverseCovariance;
+  m_InverseCovariance = invcov;
 }
 
-template < class TVector >
-const typename
-MahalanobisDistanceMembershipFunction< TVector >::CovarianceMatrixType &
-MahalanobisDistanceMembershipFunction< TVector >
-::GetInverseCovariance() const
-{
-  return m_InverserCovariance ;
-}
+
 
 template < class TVector >
 void
@@ -126,8 +114,6 @@ MahalanobisDistanceMembershipFunction< TVector >
       m_InverseCovariance = vnl_matrix_inverse<double>(m_Covariance);
       }
     }// end inverse calculations
-
-  m_ValidInverseCovarianceFlag = true;
 
 }// CalculateInverseCovariance()
 
