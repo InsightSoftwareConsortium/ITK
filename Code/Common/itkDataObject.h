@@ -114,8 +114,7 @@ public:
    * Provides opportunity for the data object to insure internal 
    * consistency before access. Also causes owning source/filter 
    * (if any) to update itself. The Update() method is composed of 
-   * UpdateInformation(), PropagateUpdateExtent(), 
-   * TriggerAsynchronousUpdate(), and UpdateData().
+   * UpdateInformation(), PropagateUpdateExtent(), and UpdateData().
    */
   virtual void Update();
 
@@ -124,7 +123,6 @@ public:
    */
   virtual void UpdateInformation() = 0;
   virtual void PropagateUpdateExtent();
-  virtual void TriggerAsynchronousUpdate();
   virtual void UpdateData();
 
   /**

@@ -749,36 +749,6 @@ ProcessObject
  */
 void 
 ProcessObject
-::TriggerAsynchronousUpdate()
-{
-  /**
-   * check flag to avoid executing forever if there is a loop
-   */
-  if (m_Updating)
-    {
-    return;
-    }
-
-  /**
-   * Propagate the trigger to all the inputs
-   */
-  m_Updating = true;
-  for (unsigned int idx = 0; idx < m_Inputs.size(); ++idx)
-    {
-    if (m_Inputs[idx])
-      {
-      m_Inputs[idx]->TriggerAsynchronousUpdate();
-      }
-    }
-  m_Updating = false;
-}
-
-
-/**
- *
- */
-void 
-ProcessObject
 ::UpdateData(DataObject *itkNotUsed(output))
 {
   unsigned int idx;

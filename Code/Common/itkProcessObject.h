@@ -201,11 +201,6 @@ public:
   virtual void PropagateUpdateExtent(DataObject *output);
 
   /** 
-   * Start any asynchronous processing, if any. 
-   */
-  virtual void TriggerAsynchronousUpdate();
-
-  /** 
    * Actually generate new output 
    */
   virtual void UpdateData(DataObject *output);

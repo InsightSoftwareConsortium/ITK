@@ -189,7 +189,6 @@ DataObject
 {
   this->UpdateInformation();
   this->PropagateUpdateExtent();
-  this->TriggerAsynchronousUpdate();
   this->UpdateData();
 }
 
@@ -222,24 +221,6 @@ DataObject
     return;
     }
 
-}
-
-//----------------------------------------------------------------------------
-void 
-DataObject
-::TriggerAsynchronousUpdate()
-{
-  // If we need to update due to PipelineMTime, or the fact that our
-  // data was released, then propagate the trigger to the source
-  // if there is one.
-  if ( m_UpdateTime < m_PipelineMTime || m_DataReleased ||
-       this->UpdateExtentIsOutsideOfTheExtent())
-    {
-    if (m_Source)
-      {
-      m_Source->TriggerAsynchronousUpdate();
-      }
-    }
 }
 
 //----------------------------------------------------------------------------
