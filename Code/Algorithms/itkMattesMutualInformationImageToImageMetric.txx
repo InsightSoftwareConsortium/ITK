@@ -71,6 +71,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   m_NumBSplineWeights = 0;
   m_BSplineTransform = NULL;
   m_NumberOfParameters = 0;
+  m_UseAllPixels = false;
 
 }
 
@@ -297,11 +298,22 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   m_CubicBSplineDerivativeKernel = CubicBSplineDerivativeFunctionType::New();    
 
 
-  /** 
-   * Uniformly sample the fixed image (within the fixed image region)
-   * to create the sample points list.
-   */
-  this->SampleFixedImageDomain( m_FixedImageSamples );
+  if( m_UseAllPixels )
+    {
+    /** 
+     * Take all the pixels within the fixed image region)
+     * to create the sample points list.
+     */
+    this->SampleFullFixedImageDomain( m_FixedImageSamples );
+    }
+  else
+    {
+    /** 
+     * Uniformly sample the fixed image (within the fixed image region)
+     * to create the sample points list.
+     */
+    this->SampleFixedImageDomain( m_FixedImageSamples );
+    }
 
   /**
    * Pre-compute the fixed image parzen window index for 
@@ -457,6 +469,74 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     }
 }
 
+
+
+/**
+ * Sample the fixed image domain using all pixels in the Fixed image region
+ */
+template < class TFixedImage, class TMovingImage >
+void
+MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
+::SampleFullFixedImageDomain( FixedImageSpatialSampleContainer& samples )
+{
+
+  // Set up a region interator within the user specified fixed image region.
+  typedef ImageRegionConstIteratorWithIndex<FixedImageType> RegionIterator;
+  RegionIterator regionIter( this->m_FixedImage, this->GetFixedImageRegion() );
+
+  regionIter.GoToBegin();
+
+  typename FixedImageSpatialSampleContainer::iterator iter;
+  typename FixedImageSpatialSampleContainer::const_iterator end=samples.end();
+
+  if( this->m_FixedImageMask )
+    {
+
+    typename Superclass::InputPointType inputPoint;
+
+    iter=samples.begin();
+
+    while( iter != end )
+      {
+      // Get sampled index
+      FixedImageIndexType index = regionIter.GetIndex();
+      // Check if the Index is inside the mask, translate index to point
+      this->m_FixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
+
+      // If not inside the mask, ignore the point
+      if( !this->m_FixedImageMask->IsInside( inputPoint ) )
+        {
+        ++regionIter; // jump to next pixel
+        continue;
+        }
+
+      // Get sampled fixed image value
+      (*iter).FixedImageValue = regionIter.Get();
+      // Translate index to point
+      (*iter).FixedImagePointValue = inputPoint;
+
+      // Jump to random position
+      ++regionIter;
+      ++iter;
+      }
+    }
+  else
+    {
+    for( iter=samples.begin(); iter != end; ++iter )
+      {
+      // Get sampled index
+      FixedImageIndexType index = regionIter.GetIndex();
+      // Get sampled fixed image value
+      (*iter).FixedImageValue = regionIter.Get();
+      // Translate index to point
+      this->m_FixedImage->TransformIndexToPhysicalPoint( index,
+                                                   (*iter).FixedImagePointValue );
+      // Jump to random position
+      ++regionIter;
+
+      }
+    }
+}
 
 /**
  * Uniformly sample the fixed image domain using a random walk
@@ -787,6 +867,8 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   unsigned long nSamples=0;
   unsigned long nFixedImageSamples=0;
 
+std::cout << "DEBUG: m_FixedImageSamples.size() = " << m_FixedImageSamples.size() << std::endl;
+
   for ( fiter = m_FixedImageSamples.begin(); fiter != fend; ++fiter )
     {
 
@@ -800,6 +882,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
     if( sampleOk )
       {
+      std::cout << "Entering sampleOk  nSamples = " << nSamples << std::endl;
 
       ++nSamples; 
 

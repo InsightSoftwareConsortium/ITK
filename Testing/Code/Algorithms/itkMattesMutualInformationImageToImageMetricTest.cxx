@@ -45,7 +45,7 @@
  */
 template< class TImage, class TInterpolator>
 int TestMattesMetricWithAffineTransform(
-TInterpolator * interpolator )
+TInterpolator * interpolator, bool useSampling )
 {
 
 //------------------------------------------------------------
@@ -63,23 +63,29 @@ TInterpolator * interpolator )
   region.SetSize( size );
   region.SetIndex( index );
 
-  double spacing[ImageDimension];
-  spacing[0] = 3.0;
-  spacing[1] = 2.0;
+  typename MovingImageType::SpacingType imgSpacing;
+  imgSpacing[0] = 3.0;
+  imgSpacing[1] = 2.0;
+
+  typename MovingImageType::PointType imgOrigin;
+  imgOrigin[0] = 0.0;
+  imgOrigin[1] = 0.0;
 
   typename MovingImageType::Pointer imgMoving = MovingImageType::New();
   imgMoving->SetLargestPossibleRegion( region );
   imgMoving->SetBufferedRegion( region );
   imgMoving->SetRequestedRegion( region );
   imgMoving->Allocate();
-  imgMoving->SetSpacing( spacing );
+  imgMoving->SetSpacing( imgSpacing );
+  imgMoving->SetOrigin( imgOrigin );
 
   typename FixedImageType::Pointer imgFixed = FixedImageType::New();
   imgFixed->SetLargestPossibleRegion( region );
   imgFixed->SetBufferedRegion( region );
   imgFixed->SetRequestedRegion( region );
   imgFixed->Allocate();
-  imgFixed->SetSpacing( spacing );
+  imgFixed->SetSpacing( imgSpacing );
+  imgFixed->SetOrigin( imgOrigin );
 
   // Fill images with a 2D gaussian
   typedef  itk::ImageRegionIterator<MovingImageType>
@@ -162,8 +168,15 @@ TInterpolator * interpolator )
   // set the number of histogram bins
   metric->SetNumberOfHistogramBins( 50 );
 
-  // set the number of samples to use
-  metric->SetNumberOfSpatialSamples( 500 );
+  if( useSampling )
+    {
+    // set the number of samples to use
+    metric->SetNumberOfSpatialSamples( 500 );
+    }
+  else
+    {
+    metric->UseAllPixelsOn();
+    }
 
   // set the region over which to compute metric
   index.Fill(2);
@@ -315,7 +328,7 @@ TInterpolator * interpolator )
  */
 template< class TImage, class TInterpolator>
 int TestMattesMetricWithBSplineDeformableTransform(
-TInterpolator * interpolator )
+TInterpolator * interpolator, bool useSampling )
 {
 
 //------------------------------------------------------------
@@ -333,9 +346,13 @@ TInterpolator * interpolator )
   region.SetSize( size );
   region.SetIndex( index );
 
-  double imgSpacing[ImageDimension];
+  typename MovingImageType::SpacingType imgSpacing;
   imgSpacing[0] = 1.5;
   imgSpacing[1] = 1.5;
+
+  typename MovingImageType::PointType imgOrigin;
+  imgOrigin[0] = 0.0;
+  imgOrigin[1] = 0.0;
 
   typename MovingImageType::Pointer imgMoving = MovingImageType::New();
   imgMoving->SetLargestPossibleRegion( region );
@@ -343,6 +360,7 @@ TInterpolator * interpolator )
   imgMoving->SetRequestedRegion( region );
   imgMoving->Allocate();
   imgMoving->SetSpacing( imgSpacing );
+  imgMoving->SetOrigin( imgOrigin );
 
   typename FixedImageType::Pointer imgFixed = FixedImageType::New();
   imgFixed->SetLargestPossibleRegion( region );
@@ -350,6 +368,7 @@ TInterpolator * interpolator )
   imgFixed->SetRequestedRegion( region );
   imgFixed->Allocate();
   imgFixed->SetSpacing( imgSpacing );
+  imgFixed->SetOrigin( imgOrigin );
 
   // Fill images with a 2D gaussian
   typedef  itk::ImageRegionIterator<MovingImageType>
@@ -465,8 +484,16 @@ TInterpolator * interpolator )
   // set the number of histogram bins
   metric->SetNumberOfHistogramBins( 50 );
 
-  // set the number of samples to use
-  metric->SetNumberOfSpatialSamples( 500 );
+  if( useSampling )
+    {
+    // set the number of samples to use
+    metric->SetNumberOfSpatialSamples( 500 );
+    }
+  else
+    {
+    metric->UseAllPixelsOn();
+    }
+
 
   // set the region over which to compute metric
   metric->SetFixedImageRegion( imgFixed->GetBufferedRegion() );
@@ -570,6 +597,8 @@ int itkMattesMutualInformationImageToImageMetricTest(int, char* [] )
   int failed;
   typedef itk::Image<unsigned char,2> ImageType;
 
+  bool useSampling = true;
+
   itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
 
 
@@ -581,13 +610,24 @@ int itkMattesMutualInformationImageToImageMetricTest(int, char* [] )
     = LinearInterpolatorType::New();
 
   failed = TestMattesMetricWithAffineTransform<ImageType,LinearInterpolatorType>(
-    linearInterpolator );
+    linearInterpolator, useSampling );
 
   if ( failed ) 
     {
     std::cout << "Test failed" << std::endl;
     return EXIT_FAILURE;
     }
+
+  useSampling = false;
+  failed = TestMattesMetricWithAffineTransform<ImageType,LinearInterpolatorType>(
+    linearInterpolator, useSampling );
+
+  if ( failed ) 
+    {
+    std::cout << "Test failed when using all the pixels instead of sampling" << std::endl;
+    return EXIT_FAILURE;
+    }
+
 
   // Test metric with a BSpline interpolator
   typedef itk::BSplineInterpolateImageFunction< ImageType, double >
@@ -598,24 +638,57 @@ int itkMattesMutualInformationImageToImageMetricTest(int, char* [] )
 
   bSplineInterpolator->SetSplineOrder( 3 );
 
+  useSampling = true;
   failed = TestMattesMetricWithAffineTransform<ImageType,BSplineInterpolatorType>(
-    bSplineInterpolator );
+    bSplineInterpolator, useSampling );
 
   if ( failed ) 
     {
     std::cout << "Test failed" << std::endl;
     return EXIT_FAILURE;
     }
+
+  useSampling = false;
+  failed = TestMattesMetricWithAffineTransform<ImageType,BSplineInterpolatorType>(
+    bSplineInterpolator, useSampling );
+
+  if ( failed ) 
+    {
+    std::cout << "Test failed when using all the pixels instead of sampling" << std::endl;
+    return EXIT_FAILURE;
+    }
+
 
   // Test metric with BSpline deformable transform
+  useSampling = true;
   failed = TestMattesMetricWithBSplineDeformableTransform<
-    ImageType,BSplineInterpolatorType>( bSplineInterpolator );
+    ImageType,BSplineInterpolatorType>( bSplineInterpolator, useSampling );
 
   if ( failed ) 
     {
     std::cout << "Test failed" << std::endl;
     return EXIT_FAILURE;
     }
+
+
+
+  // Test metric with BSpline deformable transform and using all the pixels
+  //
+  // We know this test particular combination is not working yet,
+  // but we left the test here in order to help with the debugging.
+  //
+  /*
+  std::cout << "Test metric with BSpline deformable transform and using all the pixels" << std::endl;
+  useSampling = false;
+  failed = TestMattesMetricWithBSplineDeformableTransform<
+    ImageType,BSplineInterpolatorType>( bSplineInterpolator, useSampling );
+
+  if ( failed ) 
+    {
+    std::cout << "Test failed when using all the pixels instead of sampling" << std::endl;
+    return EXIT_FAILURE;
+    }
+  */
 
   std::cout << "Test passed" << std::endl;
   return EXIT_SUCCESS;

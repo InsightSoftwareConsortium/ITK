@@ -75,6 +75,10 @@ namespace itk
  * via SetNumberOfSpatialSamples(). Typically, the number of
  * spatial samples used should increase with the image size.
  *
+ * The option UseAllPixelOn() disables the random sampling and uses
+ * all the pixels of the FixedImageRegion in order to estimate the 
+ * joint intensity PDF.
+ * 
  * During each call of GetValue(), GetDerivatives(),
  * GetValueAndDerivatives(), marginal and joint intensity PDF's
  * values are estimated at discrete position or bins. 
@@ -187,6 +191,13 @@ public:
   static void ReinitializeSeed();
   static void ReinitializeSeed(int);  
 
+  /** Select whether the metric will be computed using all the pixels on the
+   * fixed image region, or only using a set of randomly selected pixels. */ 
+  itkSetMacro(UseAllPixels,bool);
+  itkGetConstReferenceMacro(UseAllPixels,bool);
+  itkBooleanMacro(UseAllPixels);
+
+
 protected:
 
   MattesMutualInformationImageToImageMetric();
@@ -217,6 +228,10 @@ protected:
 
   /** Uniformly select a sample set from the fixed image domain. */
   virtual void SampleFixedImageDomain( 
+    FixedImageSpatialSampleContainer& samples);
+
+  /** Gather all the pixels from the fixed image domain. */
+  virtual void SampleFullFixedImageDomain( 
     FixedImageSpatialSampleContainer& samples);
 
   /** Transform a point from FixedImage domain to MovingImage domain.
@@ -385,6 +400,8 @@ private:
   typedef FixedArray<unsigned long, 
     ::itk::GetImageDimension<FixedImageType>::ImageDimension> ParametersOffsetType;
   ParametersOffsetType                  m_ParametersOffset;
+
+  bool             m_UseAllPixels;
 
   virtual void PreComputeTransformValues();
 
