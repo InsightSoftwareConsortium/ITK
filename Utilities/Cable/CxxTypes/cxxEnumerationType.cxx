@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    cxxTypes.h
+  Module:    cxxEnumerationType.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,41 +38,71 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef _cxxTypes_h
-#define _cxxTypes_h
-
-#include "cxxUtils.h"
+#include "cxxTypes.h"
 
 namespace _cxx_
 {
 
-/**
- * Enumeration of identifiers for representation types.
- */
-enum RepresentationType
-{
-  Undefined_id=0,
   
-  ArrayType_id, ClassType_id, EnumerationType_id, PointerType_id,
-  PointerToMemberType_id, ReferenceType_id, FundamentalType_id,
-  FunctionType_id
-};
+/**
+ * Retrieve what kind of Type this is.
+ */
+RepresentationType EnumerationType::GetRepresentationType() const
+{
+  return EnumerationType_id;
+}
 
-class TypeSystem;
+
+/**
+ * Try to cast the given Type to an EnumerationType.  If this returns, the
+ * pointer will be valid.  If the cast is not allowed, an exception is
+ * thrown.
+ */
+EnumerationType* EnumerationType::SafeDownCast(Type* t)
+{
+  EnumerationType* result = dynamic_cast<EnumerationType*>(t);
+  if(!result) { throw TypeDownCastException(t, EnumerationType_id); }
+  return result;
+}
+
+
+/**
+ * Try to cast the given Type to an EnumerationType.  If this returns, the
+ * pointer will be valid.  If the cast is not allowed, an exception is
+ * thrown.
+ */
+const EnumerationType* EnumerationType::SafeDownCast(const Type* t)
+{
+  const EnumerationType* result = dynamic_cast<const EnumerationType*>(t);
+  if(!result) { throw TypeDownCastException(t, EnumerationType_id); }
+  return result;
+}
+
+
+/**
+ * Get the name of the class.
+ */
+String EnumerationType::GetName() const
+{
+  return m_Name;
+}
+
+
+String EnumerationType::GenerateName(const String& indirection,
+                                     bool isConst, bool isVolatile) const
+{
+  String cv = this->GetLeftCvString(isConst, isVolatile);
+  return cv+m_Name+indirection;
+}
+
+
+/**
+ * Constructor for EnumerationType just takes the name of the type.
+ */
+EnumerationType::EnumerationType(const String& name):
+  m_Name(name)
+{
+}
+
 
 } // namespace _cxx_
-
-// Include all the representation types.
-#include "cxxCvQualifiedType.h"
-#include "cxxArrayType.h"
-#include "cxxClassType.h"
-#include "cxxEnumerationType.h"
-#include "cxxFunctionType.h"
-#include "cxxFundamentalType.h"
-#include "cxxPointerType.h"
-#include "cxxPointerToMemberType.h"
-#include "cxxReferenceType.h"
-#include "cxxTypedefType.h"
-
-
-#endif

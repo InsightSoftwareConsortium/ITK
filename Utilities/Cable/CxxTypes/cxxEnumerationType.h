@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    cxxTypes.h
+  Module:    cxxEnumerationType.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,41 +38,46 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef _cxxTypes_h
-#define _cxxTypes_h
+#ifndef _cxxEnumerationType_h
+#define _cxxEnumerationType_h
 
-#include "cxxUtils.h"
+#include "cxxCvQualifiedType.h"
 
 namespace _cxx_
 {
 
 /**
- * Enumeration of identifiers for representation types.
+ * Represents a C++ enumeration type.
  */
-enum RepresentationType
+class _cxx_EXPORT EnumerationType: public Type
 {
-  Undefined_id=0,
+public:
+  typedef EnumerationType Self;
   
-  ArrayType_id, ClassType_id, EnumerationType_id, PointerType_id,
-  PointerToMemberType_id, ReferenceType_id, FundamentalType_id,
-  FunctionType_id
+  virtual RepresentationType GetRepresentationType() const;
+  static EnumerationType* SafeDownCast(Type*);
+  static const EnumerationType* SafeDownCast(const Type*);
+
+  String GetName() const;
+  virtual String GenerateName(const String& indirection,
+                              bool isConst, bool isVolatile) const;
+protected:
+  EnumerationType(const String&);
+  EnumerationType(const Self&) {}
+  void operator=(const Self&) {}
+  virtual ~EnumerationType() {}
+  
+private:  
+  /**
+   * The name of the class.
+   */
+  String m_Name;
+  
+  friend class TypeSystem;
 };
 
-class TypeSystem;
 
 } // namespace _cxx_
-
-// Include all the representation types.
-#include "cxxCvQualifiedType.h"
-#include "cxxArrayType.h"
-#include "cxxClassType.h"
-#include "cxxEnumerationType.h"
-#include "cxxFunctionType.h"
-#include "cxxFundamentalType.h"
-#include "cxxPointerType.h"
-#include "cxxPointerToMemberType.h"
-#include "cxxReferenceType.h"
-#include "cxxTypedefType.h"
 
 
 #endif

@@ -62,6 +62,7 @@ public:
   ClassType*                 GetClassType(const String&,
                                           bool isAbstract = false,
                                           const ClassTypes& = ClassTypes());
+  const EnumerationType*     GetEnumerationType(const String&);
   const FunctionType*        GetFunctionType(const CvQualifiedType&,
                                              const CvQualifiedTypes&);
   const FundamentalType*     GetFundamentalType(FundamentalType::Id);
@@ -102,6 +103,21 @@ private:
    * Store all the ClassType instances that have been allocated.
    */
   ClassTypeMap m_ClassTypeMap;
+  
+  /**
+   * The key type for the EnumerationTypeMap.
+   */
+  typedef String EnumerationTypeKey; 
+  
+  /**
+   * Map from this type's identifying properties to the instance.
+   */
+  typedef std::map<EnumerationTypeKey, EnumerationType*>  EnumerationTypeMap;
+  
+  /**
+   * Store all the EnumerationType instances that have been allocated.
+   */
+  EnumerationTypeMap m_EnumerationTypeMap;
 
   /**
    * The key type for the FunctionTypeMap.

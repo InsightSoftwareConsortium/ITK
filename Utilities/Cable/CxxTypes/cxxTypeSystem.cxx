@@ -104,6 +104,32 @@ TypeSystem
 
 
 /**
+ * Get the type representation for a EnumerationType with the given name.
+ * If one does not exist, it will be created.
+ */
+const EnumerationType*
+TypeSystem
+::GetEnumerationType(const String& name)
+{
+  // Look for an existing copy of this type.
+  EnumerationTypeMap::const_iterator i = m_EnumerationTypeMap.find(name);
+  
+  if(i != m_EnumerationTypeMap.end())
+    {
+    // An existing copy was found, return it.
+    return i->second;
+    }
+  else
+    {
+    // This is a new type.  Generate an entry and return it.
+    EnumerationType* newEnumerationType = new EnumerationType(name);
+    m_EnumerationTypeMap[name] = newEnumerationType;
+    return newEnumerationType;
+    }
+}
+
+
+/**
  * Get the type representation for a FunctionType with the given return
  * type and argument types.
  */

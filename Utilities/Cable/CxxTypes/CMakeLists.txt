@@ -3,6 +3,7 @@ cxxArrayType
 cxxClassType
 cxxConversions
 cxxCvQualifiedType
+cxxEnumerationType
 cxxFunctionType
 cxxFundamentalType
 cxxPointerToMemberType
