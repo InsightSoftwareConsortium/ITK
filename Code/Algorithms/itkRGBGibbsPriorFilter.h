@@ -104,10 +104,10 @@ public:
   typedef typename TClassifiedImage::PixelType	LabelledImagePixelType;
 
   typedef
-    SimpleImageRegionIterator< TInputImage > InputImageIterator;
+    ImageRegionIteratorWithIndex< TInputImage > InputImageIterator;
 
   typedef
-    SimpleImageRegionIterator< TClassifiedImage > LabelledImageIterator;
+    ImageRegionIteratorWithIndex< TClassifiedImage > LabelledImageIterator;
 
 
   typedef typename TInputImage::PixelType    InputImageVecType;

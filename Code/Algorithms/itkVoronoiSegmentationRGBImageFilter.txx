@@ -41,7 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef _itkVoronoiSegmentationRGBImageFilter_txx
 #define _itkVoronoiSegmentationRGBImageFilter_txx
 
-#include "itkSimpleImageRegionIterator.h"
+#include "itkImageRegionIteratorWithIndex.h"
 #include <math.h>
 
 namespace itk
@@ -128,8 +128,8 @@ InitializeSegment(void){
   m_WorkingImage->SetRequestedRegion( region );
   m_WorkingImage->Allocate();  
 
-  itk::SimpleImageRegionIterator <RGBHCVImage> wit(m_WorkingImage, region);
-  itk::SimpleImageRegionIterator <InputImageType> iit(m_InputImage, region);
+  itk::ImageRegionIteratorWithIndex <RGBHCVImage> wit(m_WorkingImage, region);
+  itk::ImageRegionIteratorWithIndex <InputImageType> iit(m_InputImage, region);
   wit.Begin();
   iit.Begin();
   PixelType ipixel;
@@ -591,7 +591,7 @@ MakeSegmentBoundary(void)
 {
 
   RegionType region = m_InputImage->GetRequestedRegion(); 
-  itk::SimpleImageRegionIterator <OutputImageType> oit(m_OutputImage, region); 
+  itk::ImageRegionIteratorWithIndex <OutputImageType> oit(m_OutputImage, region); 
   oit.Begin(); 
   while( !oit.IsAtEnd()) {     
   oit.Set(0); 
@@ -623,8 +623,8 @@ Reset(void)
   m_StepsRuned = 0;
   m_LastStepSeeds=m_NumberOfSeeds;
   m_NumberOfSeedsToAdded=0;
-  itk::SimpleImageRegionIterator <RGBHCVImage> wit(m_WorkingImage, region);
-  itk::SimpleImageRegionIterator <InputImageType> iit(m_InputImage, region);
+  itk::ImageRegionIteratorWithIndex <RGBHCVImage> wit(m_WorkingImage, region);
+  itk::ImageRegionIteratorWithIndex <InputImageType> iit(m_InputImage, region);
   wit.Begin();
   iit.Begin();
   PixelType ipixel;
@@ -671,7 +671,7 @@ VoronoiSegmentationRGBImageFilter <TInputImage,TOutputImage>::
 MakeSegmentObject(void)
 {
   RegionType region = m_InputImage->GetRequestedRegion(); 
-  itk::SimpleImageRegionIterator <OutputImageType> oit(m_OutputImage, region); 
+  itk::ImageRegionIteratorWithIndex <OutputImageType> oit(m_OutputImage, region); 
   oit.Begin(); 
   while( !oit.IsAtEnd()) {     
   oit.Set(0); 
@@ -969,8 +969,8 @@ VoronoiSegmentationRGBImageFilter <TInputImage,TOutputImage>::
 TakeAPrior(BinaryObjectImage* aprior)
 {
   RegionType region = m_InputImage->GetRequestedRegion();
-  itk::SimpleImageRegionIterator <BinaryObjectImage> ait(aprior, region);
-  itk::SimpleImageRegionIterator <RGBHCVImage> iit(m_WorkingImage, region);
+  itk::ImageRegionIteratorWithIndex <BinaryObjectImage> ait(aprior, region);
+  itk::ImageRegionIteratorWithIndex <RGBHCVImage> iit(m_WorkingImage, region);
   ait.Begin();
   iit.Begin();
 
@@ -1098,7 +1098,7 @@ DrawDiagram(VDImagePointer result,unsigned char incolor,
 { 
   
   RegionType region = m_InputImage->GetRequestedRegion(); 
-  itk::SimpleImageRegionIterator <VDImage> vdit(result, region); 
+  itk::ImageRegionIteratorWithIndex <VDImage> vdit(result, region); 
   vdit.Begin(); 
   while( !vdit.IsAtEnd()) {     
     vdit.Set(0); 

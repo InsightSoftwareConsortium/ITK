@@ -19,7 +19,7 @@
 
 #include "vnl/algo/vnl_real_eigensystem.h"
 #include "vnl/algo/vnl_symmetric_eigensystem.h"
-#include "itkSimpleImageRegionIterator.h"
+#include "itkImageRegionIteratorWithIndex.h"
 
 namespace itk
 { 
@@ -72,7 +72,7 @@ ComputeMoments( ImageType * image )
 
   typedef typename ImageType::IndexType IndexType;
     
-  SimpleImageRegionIterator< ImageType > it( image,
+  ImageRegionIteratorWithIndex< ImageType > it( image,
                                    image->GetRequestedRegion() ); 
 
   it.Begin();

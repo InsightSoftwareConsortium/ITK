@@ -447,7 +447,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   Potential->SetRequestedRegion( region );
   Potential->Allocate();  
 
-  SimpleImageRegionIterator <ImageType> it(this->Potential, region);
+  ImageRegionIteratorWithIndex <ImageType> it(this->Potential, region);
 
   it.Begin();
 */

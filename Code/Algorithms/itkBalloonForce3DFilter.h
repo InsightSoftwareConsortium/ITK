@@ -19,7 +19,7 @@
 #include "itkVector.h"
 #include "itkTriangleCell.h"
 #include "itkImage.h"
-#include "itkSimpleImageRegionIterator.h"
+#include "itkImageRegionIteratorWithIndex.h"
 
 namespace itk
 {
@@ -102,7 +102,7 @@ public:
   typedef typename OutputMeshType::Pointer	OutputMeshPointer;
   typedef typename ImageType::Pointer		ImagePointer;
   typedef typename ImageType::IndexType		IndexType;
-  typedef SimpleImageRegionIterator<ImageType>	ImageIterator;
+  typedef ImageRegionIteratorWithIndex<ImageType>	ImageIterator;
 
   typedef itk::Vector<float, 3>				FloatVector;
   typedef itk::Vector<int, 3>				IntVector;

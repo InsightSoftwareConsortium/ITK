@@ -42,7 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkFuzzyConnectednessRGBImageFilter_txx
 
 #include "vnl/vnl_math.h"
-#include "itkSimpleImageRegionIterator.h"
+#include "itkImageRegionIteratorWithIndex.h"
 #include "itkNumericTraits.h"
 
 namespace itk{
@@ -267,8 +267,8 @@ FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
   double activeThreshold = (NumericTraits<unsigned short>::max()) * m_Threshold;
 
 
-  SimpleImageRegionIterator <UShortImage> it(this->m_FuzzyScene, regionIN);
-  SimpleImageRegionIterator <OutputImageType> ot(this->m_SegmentObject, regionOUT);
+  ImageRegionIteratorWithIndex <UShortImage> it(this->m_FuzzyScene, regionIN);
+  ImageRegionIteratorWithIndex <OutputImageType> ot(this->m_SegmentObject, regionOUT);
 
 
   it.Begin();
@@ -361,7 +361,7 @@ FuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
   m_FuzzyScene->SetRequestedRegion( region );
   m_FuzzyScene->Allocate();  
 
-  SimpleImageRegionIterator <UShortImage> it(this->m_FuzzyScene, region);
+  ImageRegionIteratorWithIndex <UShortImage> it(this->m_FuzzyScene, region);
 
   it.Begin();
 

@@ -3,7 +3,7 @@
 
 #include "itkBalloonForceFilter.h"
 #include "itkGibbsPriorFilter.h"
-#include "itkSimpleImageRegionIterator.h"
+#include "itkImageRegionIteratorWithIndex.h"
 
 namespace itk
 {
@@ -68,7 +68,7 @@ public:
   typedef typename GibbsPriorFilterType::Pointer	GibbsPriorFilterPointer;                                  
                                   
   typedef
-    SimpleImageRegionIterator< TOutputImage > OutputImageIterator;
+    ImageRegionIteratorWithIndex< TOutputImage > OutputImageIterator;
   
   /** 
    * Image Dimension

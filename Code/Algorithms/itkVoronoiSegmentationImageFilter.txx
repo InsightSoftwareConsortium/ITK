@@ -41,7 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef _itkVoronoiSegmentationImageFilter_txx
 #define _itkVoronoiSegmentationImageFilter_txx
 
-#include "itkSimpleImageRegionIterator.h"
+#include "itkImageRegionIteratorWithIndex.h"
 
 
 namespace itk
@@ -517,8 +517,8 @@ VoronoiSegmentationImageFilter <TInputImage,TOutputImage>::
 TakeAPrior(BinaryObjectImage* aprior)
 {
   RegionType region = m_InputImage->GetRequestedRegion();
-  itk::SimpleImageRegionIterator <BinaryObjectImage> ait(aprior, region);
-  itk::SimpleImageRegionIterator <InputImageType> iit(m_InputImage, region);
+  itk::ImageRegionIteratorWithIndex <BinaryObjectImage> ait(aprior, region);
+  itk::ImageRegionIteratorWithIndex <InputImageType> iit(m_InputImage, region);
   ait.Begin();
   iit.Begin();
 
@@ -605,7 +605,7 @@ DrawDiagram(VDImagePointer result,unsigned char incolor,
 {
 
   RegionType region = m_InputImage->GetRequestedRegion();
-  itk::SimpleImageRegionIterator <VDImage> vdit(result, region);
+  itk::ImageRegionIteratorWithIndex <VDImage> vdit(result, region);
   vdit.Begin();
   while( !vdit.IsAtEnd()) {    
     vdit.Set(0);
@@ -692,7 +692,7 @@ MakeSegmentBoundary(void)
 {
 
   RegionType region = m_InputImage->GetRequestedRegion(); 
-  itk::SimpleImageRegionIterator <OutputImageType> oit(m_OutputImage, region); 
+  itk::ImageRegionIteratorWithIndex <OutputImageType> oit(m_OutputImage, region); 
   oit.Begin(); 
   while( !oit.IsAtEnd()) {     
   oit.Set(0); 
@@ -730,7 +730,7 @@ VoronoiSegmentationImageFilter <TInputImage,TOutputImage>::
 MakeSegmentObject(void)
 {
   RegionType region = m_InputImage->GetRequestedRegion(); 
-  itk::SimpleImageRegionIterator <OutputImageType> oit(m_OutputImage, region); 
+  itk::ImageRegionIteratorWithIndex <OutputImageType> oit(m_OutputImage, region); 
   oit.Begin(); 
   while( !oit.IsAtEnd()) {     
   oit.Set(0); 

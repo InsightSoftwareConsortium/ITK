@@ -42,7 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _itkClassifier_h
 
 #include "itkObject.h"
-#include "itkSimpleImageRegionIterator.h"
+#include "itkImageRegionIteratorWithIndex.h"
 #include "vnl/vnl_vector.h"
 #include "vnl/vnl_matrix.h"
 #include "vnl/vnl_math.h"

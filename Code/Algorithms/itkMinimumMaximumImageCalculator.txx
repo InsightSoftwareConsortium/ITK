@@ -42,7 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _itkMinimumMaximumImageCalculator_txx
 
 #include "itkMinimumMaximumImageCalculator.h"
-#include "itkSimpleImageRegionConstIterator.h"
+#include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkNumericTraits.h"
 
 namespace itk
@@ -67,7 +67,7 @@ void
 MinimumMaximumImageCalculator<TInputImage>
 ::Compute(void)
 {
-  SimpleImageRegionConstIterator< TInputImage >  it( m_Image,  m_Image->GetRequestedRegion() );
+  ImageRegionConstIteratorWithIndex< TInputImage >  it( m_Image,  m_Image->GetRequestedRegion() );
   m_Maximum = NumericTraits<PixelType>::min() ;
   m_Minimum = NumericTraits<PixelType>::max() ;
 
@@ -96,7 +96,7 @@ void
 MinimumMaximumImageCalculator<TInputImage>
 ::ComputeMinimum(void)
 {
-  SimpleImageRegionConstIterator< TInputImage >  it( m_Image,  m_Image->GetRequestedRegion() );
+  ImageRegionConstIteratorWithIndex< TInputImage >  it( m_Image,  m_Image->GetRequestedRegion() );
   m_Minimum = NumericTraits<PixelType>::max() ;
 
   it.Begin();
@@ -119,7 +119,7 @@ void
 MinimumMaximumImageCalculator<TInputImage>
 ::ComputeMaximum(void)
 {
-  SimpleImageRegionConstIterator< TInputImage >  it( m_Image,  m_Image->GetRequestedRegion() );
+  ImageRegionConstIteratorWithIndex< TInputImage >  it( m_Image,  m_Image->GetRequestedRegion() );
   m_Maximum = NumericTraits<PixelType>::min() ;
 
   it.Begin();

@@ -13,7 +13,7 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#include "itkSimpleImageRegionIterator.h"
+#include "itkImageRegionIteratorWithIndex.h"
 
 
 namespace itk{
@@ -1323,10 +1323,10 @@ void VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
   m_SegmentObject->SetRequestedRegion( region1 );
   m_SegmentObject->Allocate();  
 
-  SimpleImageRegionIterator <UShortImage> it1(this->m_ObjectFuzzyScene,region);
-  SimpleImageRegionIterator <UShortImage> it2(this->m_BackgroundFuzzyScene,region);
+  ImageRegionIteratorWithIndex <UShortImage> it1(this->m_ObjectFuzzyScene,region);
+  ImageRegionIteratorWithIndex <UShortImage> it2(this->m_BackgroundFuzzyScene,region);
 
-  SimpleImageRegionIterator <OutputImageType> it3(this->m_SegmentObject,region1);
+  ImageRegionIteratorWithIndex <OutputImageType> it3(this->m_SegmentObject,region1);
 
   it1.Begin();
   it2.Begin();

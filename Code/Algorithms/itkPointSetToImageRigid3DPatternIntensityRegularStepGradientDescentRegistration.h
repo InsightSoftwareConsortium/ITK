@@ -23,7 +23,7 @@
 #include "itkImage.h"
 #include "itkImageMapper.h"
 #include "itkRigid3DRegistrationTransform.h"
-#include "itkSimpleImageRegionIterator.h"
+#include "itkImageRegionIteratorWithIndex.h"
 #include "itkPointSet.h"
 
 namespace itk

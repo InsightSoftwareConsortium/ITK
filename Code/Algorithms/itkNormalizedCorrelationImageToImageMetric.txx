@@ -42,7 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _itkNormalizedCorrelationImageToImageMetric_txx
 
 #include "itkNormalizedCorrelationImageToImageMetric.h"
-#include "itkSimpleImageRegionConstIterator.h"
+#include "itkImageRegionConstIteratorWithIndex.h"
 
 
 namespace itk
@@ -78,7 +78,7 @@ NormalizedCorrelationImageToImageMetric<TTarget,TMapper>
   double ReferenceValue;
   double TargetValue;
 
-  typedef  itk::SimpleImageRegionConstIterator<TTarget> TargetIteratorType;
+  typedef  itk::ImageRegionConstIteratorWithIndex<TTarget> TargetIteratorType;
 
 
   TargetIteratorType ti( target, targetRegion );
