@@ -5,11 +5,13 @@ ITKCommon
 TESTS(
 itkAffineTransformTest
 itkArrayTest
+itkBoundaryConditionTest
 itkBoundingBoxTest
 itkByteSwapTest
 itkDataTypeTest
 itkExceptionObjectTest
 itkCommonHeaderTest
+itkHashTableTest
 itkImageAdaptorTest
 itkImageIteratorTest
 itkIteratorTests
