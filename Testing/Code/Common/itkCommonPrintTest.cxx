@@ -46,6 +46,7 @@
 #include "itkCentralDifferenceImageFunction.h"
 #include "itkColorTable.h"
 #include "itkCommand.h"
+#include "itkConstRandomAccessNeighborhoodIterator.h"
 #include "itkConicShellInteriorExteriorSpatialFunction.h"
 #include "itkCosImageAdaptor.h"
 #include "itkCreateObjectFunction.h"
@@ -100,6 +101,7 @@
 #include "itkObjectStore.h"
 #include "itkPointLocator.h"
 #include "itkPointSet.h"
+#include "itkProgressAccumulator.h"
 #include "itkQuaternionRigidTransform.h"
 #include "itkRGBToVectorImageAdaptor.h"
 #include "itkRigid2DTransform.h"
@@ -252,6 +254,9 @@ int itkCommonPrintTest(int , char* [])
   itk::ConicShellInteriorExteriorSpatialFunction<3>::Pointer ConicShellInteriorExteriorSpatialFunctionObj =
     itk::ConicShellInteriorExteriorSpatialFunction<3>::New();
   std::cout << "------------ConicShellInteriorExteriorSpatialFunction" << ConicShellInteriorExteriorSpatialFunctionObj;
+  
+  itk::ConstRandomAccessNeighborhoodIterator<InputType> ConstRandomAccessNeighborhoodIteratorObj;
+  std::cout << "------------ConstRandomAccessNeighborhoodIteratorObj "<< ConstRandomAccessNeighborhoodIteratorObj;
   
   itk::CosImageAdaptor<InputType,InputType>::Pointer CosImageAdaptorObj =
     itk::CosImageAdaptor<InputType,InputType>::New();
@@ -444,6 +449,10 @@ int itkCommonPrintTest(int , char* [])
   itk::PointSet<PointType,2>::Pointer PointSetObj =
     itk::PointSet<PointType,2>::New();
   std::cout << "------------PointSet" << PointSetObj;
+  
+  itk::ProgressAccumulator::Pointer ProgressAccumulatorObj =
+    itk::ProgressAccumulator::New();
+  std::cout << "------------ProgressAccumulator" << ProgressAccumulatorObj;
   
   itk::QuaternionRigidTransform<double>::Pointer QuaternionRigidTransformObj =
     itk::QuaternionRigidTransform<double>::New();
