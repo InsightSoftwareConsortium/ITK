@@ -430,7 +430,16 @@ WrapperBase::ResolveOverload(const CvQualifiedTypes& argumentTypes,
         continue;
         }
       else if(this->GetConversionFunction(from, to) == NULL)
-        {
+        {        
+        // If the "to" type is void and this is the first argument,
+        // assume that it matches.  THIS IS A HACK for static methods to match
+        // the implicit object parameter to any object (13.3.1/4).
+        if((argument == argumentTypes.begin()) && to->IsFundamentalType()
+           && FundamentalType::SafeDownCast(to)->IsVoid())
+          {
+          continue;
+          }
+        
         // This conversion cannot be done.
         break;
         }
@@ -638,14 +647,23 @@ WrapperBase
     argumentTypes.push_back(this->GetObjectType(objv[i]));
     }
   
+  // See if any wrapper in our class hierarchy knows about a static method
+  // with this name.
+  String methodName = Tcl_GetStringFromObj(objv[1], NULL);
+  const WrapperBase* wrapper = this->FindMethodWrapper(methodName);
+  if(wrapper)
+    {
+    // We have found a wrapper that knows about the method.  Call it.
+    return wrapper->CallWrappedFunction(objc, objv, true);
+    }
+  
   // See if this wrapper knows about a constructor.
-  String methodName = m_ConstructorName;  
-  if(m_FunctionMap.count(methodName) > 0)
+  if(m_FunctionMap.count(m_ConstructorName) > 0)
     {
     // Prepare the set of candidate functions.
     CandidateFunctions candidates;    
-    FunctionMap::const_iterator first = m_FunctionMap.lower_bound(methodName);
-    FunctionMap::const_iterator last = m_FunctionMap.upper_bound(methodName);
+    FunctionMap::const_iterator first = m_FunctionMap.lower_bound(m_ConstructorName);
+    FunctionMap::const_iterator last = m_FunctionMap.upper_bound(m_ConstructorName);
     for(FunctionMap::const_iterator i = first; i != last; ++i)
       {
       candidates.push_back(i->second);
@@ -658,7 +676,7 @@ WrapperBase
     // Make sure we have a matching candidate.
     if(!constructor)
       {
-      this->UnknownConstructor(methodName, argumentTypes, candidates);
+      this->UnknownConstructor(m_ConstructorName, argumentTypes, candidates);
       return TCL_ERROR;
       }
     
@@ -684,7 +702,7 @@ WrapperBase
   else
     {
     // We don't have a constructor.
-    this->UnknownConstructor(methodName, argumentTypes);
+    this->UnknownConstructor(m_ConstructorName, argumentTypes);
     return TCL_ERROR;
     }  
   return TCL_OK;
@@ -714,7 +732,7 @@ int WrapperBase::ObjectWrapperDispatch(ClientData clientData,
   if(wrapper)
     {
     // We have found a wrapper that knows about the method.  Call it.
-    return wrapper->CallWrappedFunction(objc, objv);
+    return wrapper->CallWrappedFunction(objc, objv, false);
     }
   else
     {
@@ -786,11 +804,22 @@ bool WrapperBase::HasMethod(const String& name) const
  * the method being invoked.  Here we determine the argument types,
  * use ResolveOverload to get the correct method wrapper, and call it.
  */
-int WrapperBase::CallWrappedFunction(int objc, Tcl_Obj* CONST objv[]) const
+int WrapperBase::CallWrappedFunction(int objc, Tcl_Obj* CONST objv[],
+                                     bool staticOnly) const
 {
-  // Determine the type of the object.  This should be the wrapped
-  // type or a subclass of it, but possibly with cv-qualifiers added.
-  CvQualifiedType objectType = this->GetObjectType(objv[0]);
+  CvQualifiedType objectType;
+  if(!staticOnly)
+    {
+    // Determine the type of the object.  This should be the wrapped
+    // type or a subclass of it, but possibly with cv-qualifiers added.
+    objectType = this->GetObjectType(objv[0]);
+    }
+  else
+    {
+    // If only static methods are allowed, use void as the implicit object
+    // argument type so that no non-static methods can be considered.
+    objectType = TypeInfo::GetFundamentalType(FundamentalType::Void, false, false);
+    }
 
   // Determine the argument types of the method call.
   CvQualifiedTypes argumentTypes;

@@ -105,7 +105,7 @@ protected:
   const WrapperBase* FindMethodWrapper(const String& name) const;
   bool HasMethod(const String& name) const;
   int ClassWrapperDispatch(ClientData, int, Tcl_Obj* CONST[]) const;
-  int CallWrappedFunction(int, Tcl_Obj* CONST[]) const;
+  int CallWrappedFunction(int, Tcl_Obj* CONST[], bool) const;
 
 protected:
   /**
