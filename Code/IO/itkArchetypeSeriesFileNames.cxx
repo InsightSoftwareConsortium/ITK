@@ -160,7 +160,7 @@ ArchetypeSeriesFileNames
   // Use a RegularExpressionSeriesFileNames to find the files to return
   std::vector<std::string> names;
 
-  for (i = 0; i < regExpFileNameVector.size(); i++)
+  for (i = 0; i < (int) regExpFileNameVector.size(); i++)
     {
     itk::RegularExpressionSeriesFileNames::Pointer fit = itk::RegularExpressionSeriesFileNames::New();
     fit->SetDirectory( fileNamePath.c_str() );
