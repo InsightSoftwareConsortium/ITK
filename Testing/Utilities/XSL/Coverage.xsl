@@ -21,7 +21,7 @@
       <xsl:with-param name="Title">Coverage Log</xsl:with-param>
       <xsl:with-param name="IconDir">../../../../Icons</xsl:with-param>
       <xsl:with-param name="CoverageIcon">CoverageBlue.gif</xsl:with-param>
-      <xsl:with-param name="DashboardDir" select="$DashboardDir"/>
+      <xsl:with-param name="DashboardDir">../../../../Dashboard/</xsl:with-param>
     </xsl:call-template>
 
     <h3>Coverage started on <xsl:value-of select="Site/Coverage/StartDateTime"/></h3>

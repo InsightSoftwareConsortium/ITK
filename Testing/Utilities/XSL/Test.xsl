@@ -19,7 +19,7 @@
     <xsl:call-template name="InsightHeader">
       <xsl:with-param name="Title">Test Log</xsl:with-param>
       <xsl:with-param name="IconDir">../../../../Icons</xsl:with-param>
-      <xsl:with-param name="DashboardDir" select="$DashboardDir"/>
+      <xsl:with-param name="DashboardDir">../../../../Dashboard/</xsl:with-param>
     </xsl:call-template>
     <h2>Testing started on <xsl:value-of select="Site/Testing/StartDateTime"/></h2>
     <h3>
