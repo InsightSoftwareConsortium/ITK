@@ -199,10 +199,10 @@ template <class TInputImage, class TOutputImage, class TTransform,
     class TInterpolator>
 void 
 ResampleImageFilter<TInputImage,TOutputImage, TTransform, TInterpolator>
-::UpdateOutputInformation()
+::GenerateOutputInformation()
 {
   // call the superclass' implementation of this method
-  Superclass::UpdateOutputInformation();
+  Superclass::GenerateOutputInformation();
 
   // get pointers to the input and output
   OutputImagePointer outputPtr = this->GetOutput();

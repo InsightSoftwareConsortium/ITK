@@ -172,10 +172,10 @@ NonThreadedShrinkImageFilter<TInputImage,TOutputImage>
 template <class TInputImage, class TOutputImage>
 void 
 NonThreadedShrinkImageFilter<TInputImage,TOutputImage>
-::UpdateOutputInformation()
+::GenerateOutputInformation()
 {
   // call the superclass' implementation of this method
-  Superclass::UpdateOutputInformation();
+  Superclass::GenerateOutputInformation();
 
   // get pointers to the input and output
   InputImagePointer inputPtr = this->GetInput();

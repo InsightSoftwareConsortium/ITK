@@ -381,16 +381,16 @@ MultiResolutionImagePyramid<TInputImage, TOutputImage>
 
 
 /** 
- * UpdateOutputInformation
+ * GenerateOutputInformation
  */
 template <class TInputImage, class TOutputImage>
 void
 MultiResolutionImagePyramid<TInputImage, TOutputImage>
-::UpdateOutputInformation()
+::GenerateOutputInformation()
 {
 
   // call the superclass's implementation of this method
-  Superclass::UpdateOutputInformation();
+  Superclass::GenerateOutputInformation();
 
   // get pointers to the input and output
   InputImagePointer inputPtr = this->GetInput();

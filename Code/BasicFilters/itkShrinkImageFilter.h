@@ -62,7 +62,7 @@ namespace itk
  * in ProcessObject in order to properly manage the pipeline execution model.
  * In particular, this filter overrides
  * ProcessObject::GenerateInputRequestedRegion() and
- * ProcessObject::UpdateOutputInformation().
+ * ProcessObject::GenerateOutputInformation().
  *
  * This filter is implemented as a multithreaded filter.  It provides a 
  * ThreadedGenerateData() method for its implementation.
@@ -125,15 +125,16 @@ public:
 		{ return m_ShrinkFactors; }
                  
   /**
-   * ShrinkImageFilter produces an image which is a different resolution and
-   * with a different pixel spacing than its input image.  As such,
-   * ShrinkImageFilter needs to provide an implementation for
-   * UpdateOutputInformation() in order to inform the pipeline execution model.
-   * The original documentation of this method is below.
+   * ShrinkImageFilter produces an image which is a different
+   * resolution and with a different pixel spacing than its input
+   * image.  As such, ShrinkImageFilter needs to provide an
+   * implementation for GenerateOutputInformation() in order to inform
+   * the pipeline execution model.  The original documentation of this
+   * method is below.
    *
-   * \sa ProcessObject::UpdateOutputInformaton()
+   * \sa ProcessObject::GenerateOutputInformaton()
    */
-  virtual void UpdateOutputInformation();
+  virtual void GenerateOutputInformation();
 
   /**
    * ShrinkImageFilter needs a larger input requested region than the output

@@ -217,15 +217,16 @@ public:
   void SetStartingShrinkFactors( unsigned int* factors );
 
   /**
-   * MultiResolutionPyramid produces an image which is a different resolution and
-   * with a different pixel spacing than its input image.  As such,
-   * MultiResolutionPyramid needs to provide an implementation for
-   * UpdateOutputInformation() in order to inform the pipeline execution model.
-   * The original documentation of this method is below.
+   * MultiResolutionPyramid produces an image which is a different
+   * resolution and with a different pixel spacing than its input
+   * image.  As such, MultiResolutionPyramid needs to provide an
+   * implementation for GenerateOutputInformation() in order to inform
+   * the pipeline execution model.  The original documentation of this
+   * method is below.
    *
-   * \sa ProcessObject::UpdateOutputInformaton()
+   * \sa ProcessObject::GenerateOutputInformaton()
    */
-  virtual void UpdateOutputInformation();
+  virtual void GenerateOutputInformation();
 
   /**
    * MultiResolutionPyramid requires all of the input to be in the

@@ -68,7 +68,7 @@ namespace itk
  * in ProcessObject in order to properly manage the pipeline execution model.
  * In particular, this filter overrides
  * ProcessObject::GenerateInputRequestedRegion() and
- * ProcessObject::UpdateOutputInformation().
+ * ProcessObject::GenerateOutputInformation().
  *
  * This filter is implemented as a multithreaded filter.  It provides a 
  * ThreadedGenerateData() method for its implementation.
@@ -193,14 +193,15 @@ public:
   itkGetMacro(DefaultPixelValue,PixelType);
 
   /**
-   * ResampleImageFilter produces an image which is a different size than
-   * its input.  As such, it needs to provide an implementation for
-   * UpdateOutputInformation() in order to inform the pipeline execution model.
-   * The original documentation of this method is below.
+   * ResampleImageFilter produces an image which is a different size
+   * than its input.  As such, it needs to provide an implementation
+   * for GenerateOutputInformation() in order to inform the pipeline
+   * execution model.  The original documentation of this method is
+   * below.
    *
-   * \sa ProcessObject::UpdateOutputInformaton()
+   * \sa ProcessObject::GenerateOutputInformaton()
    */
-  virtual void UpdateOutputInformation();
+  virtual void GenerateOutputInformation();
 
   /**
    * ResampleImageFilter needs a different input requested region than

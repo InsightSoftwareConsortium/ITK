@@ -49,14 +49,15 @@ namespace itk
 /** \class NonThreadedShrinkImageFilter
  * \brief Reduce the size of an image by an integer factor.
  *
- * NonThreadedShrinkImageFilter reduces the size of an image by an integer factor. The
- * algorithm implemented is a simple subsample. Since this filter produces
- * an image which is a different resolution and with different pixel spacing
- * than its input image, it needs to override several of the methods defined
- * in ProcessObject in order to properly manage the pipeline execution model.
- * In particular, this filter overrides
+ * NonThreadedShrinkImageFilter reduces the size of an image by an
+ * integer factor. The algorithm implemented is a simple
+ * subsample. Since this filter produces an image which is a different
+ * resolution and with different pixel spacing than its input image,
+ * it needs to override several of the methods defined in
+ * ProcessObject in order to properly manage the pipeline execution
+ * model.  In particular, this filter overrides
  * ProcessObject::GenerateInputRequestedRegion() and
- * ProcessObject::UpdateOutputInformation().
+ * ProcessObject::GenerateOutputInformation().
  *
  * 
  * \ingroup GeometricTransforms
@@ -105,20 +106,22 @@ public:
   itkGetMacro(ShrinkFactor,unsigned int);
                  
   /**
-   * NonThreadedShrinkImageFilter produces an image which is a different resolution
-   * and with a different pixel spacing than its input image.  As such,
-   * NonThreadedShrinkImageFilter needs to provide an implementation for
-   * UpdateOutputInformation() in order to inform the pipeline execution
-   * model.  The original documentation of this method is below.
+   * NonThreadedShrinkImageFilter produces an image which is a
+   * different resolution and with a different pixel spacing than its
+   * input image.  As such, NonThreadedShrinkImageFilter needs to
+   * provide an implementation for GenerateOutputInformation() in
+   * order to inform the pipeline execution model.  The original
+   * documentation of this method is below.
    *
-   * \sa ProcessObject::UpdateOutputInformaton() */
-  virtual void UpdateOutputInformation();
+   * \sa ProcessObject::GenerateOutputInformaton() */
+  virtual void GenerateOutputInformation();
 
   /**
-   * NonThreadedShrinkImageFilter needs a larger input requested region than the
-   * output requested region.  As such, NonThreadedShrinkImageFilter needs to
-   * provide an implementation for GenerateInputRequestedRegion() in order to
-   * inform the pipeline execution model.
+   * NonThreadedShrinkImageFilter needs a larger input requested
+   * region than the output requested region.  As such,
+   * NonThreadedShrinkImageFilter needs to provide an implementation
+   * for GenerateInputRequestedRegion() in order to inform the
+   * pipeline execution model.
    *
    * \sa ProcessObject::GenerateInputRequestedRegion() */
   virtual void GenerateInputRequestedRegion();

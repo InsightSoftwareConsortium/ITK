@@ -87,7 +87,7 @@ namespace itk
  *
  * Subclasses of ProcessObject may override 4 of the methods of this class
  * to control how a given filter may interact with the pipeline (dataflow).
- * These methods are: UpdateOutputInformation(),
+ * These methods are: GenerateOutputInformation(),
  * EnlargeOutputRequestedRegion(), GenerateInputRequestedRegion(), and
  * GenerateOutputRequestedRegion(). By overriding these methods, a filter
  * can deviate from the base assumptions of the pipeline execution model.
@@ -229,15 +229,17 @@ public:
   virtual void UpdateLargestPossibleRegion();
 
   /** 
-   * Update the information decribing the output data. The default 
-   * implementation of this method will copy information from the input to
-   * the output.  A filter may override this method if its output will have
-   * different information than its input.  For instance, a filter that 
-   * shrinks an image will need to provide an implementation for this 
-   * method that changes the spacing of the pixels. Such filters should call
-   * their superclass' implementation of this method prior to changing the
-   * information values they need (i.e. UpdateOutputInformation() should
-   * call Superclass::UpdateOutputInformation() prior to changing the
+   * Update the information decribing the output data. This method
+   * transverses up the pipeline gathering modified time information.
+   * On the way back down the pipeline, this method calls
+   * GenerateOutputInformation() to set any necessary information
+   * about the output data objects.  For instance, a filter that
+   * shrinks an image will need to provide an implementation for
+   * GenerateOutputInformation() that changes the spacing of the
+   * pixels. Such filters should call their superclass' implementation
+   * of GenerateOutputInformation prior to changing the information
+   * values they need (i.e. GenerateOutputInformation() should call
+   * Superclass::GenerateOutputInformation() prior to changing the
    * information.
    */
   virtual void UpdateOutputInformation();
@@ -274,6 +276,20 @@ public:
   virtual void ComputeEstimatedOutputMemorySize( DataObject *output,
 						 unsigned long *inputSize,
 						 unsigned long size[2] );
+
+  /**
+   * Generate the information decribing the output data. The default 
+   * implementation of this method will copy information from the input to
+   * the output.  A filter may override this method if its output will have
+   * different information than its input.  For instance, a filter that 
+   * shrinks an image will need to provide an implementation for this 
+   * method that changes the spacing of the pixels. Such filters should call
+   * their superclass' implementation of this method prior to changing the
+   * information values they need (i.e. GenerateOutputInformation() should
+   * call Superclass::GenerateOutputInformation() prior to changing the
+   * information.
+   */
+  virtual void GenerateOutputInformation();
 
   /** 
    * Give the process object a chance to indictate that it will produce more
@@ -400,11 +416,6 @@ protected:
    */
   DataObjectPointer GetOutput(unsigned int idx);
 
-  /**
-   * By default, UpdateOutputInformation calls this method to copy information
-   * unmodified from the input to the output.
-   */
-  virtual void GenerateOutputInformation();
 
   /**
    * Propagate a call to ResetPipeline() up the pipeline. Called only from

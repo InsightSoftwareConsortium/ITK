@@ -84,7 +84,7 @@ namespace itk
  *
  * Subclasses of LightProcessObject may override 4 of the methods of this class
  * to control how a given filter may interact with the pipeline (dataflow).
- * These methods are: UpdateOutputInformation(),
+ * These methods are: GenerateOutputInformation(),
  * EnlargeOutputRequestedRegion(), GenerateInputRequestedRegion(), and
  * GenerateOutputRequestedRegion(). By overriding these methods, a filter
  * can deviate from the base assumptions of the pipeline execution model.

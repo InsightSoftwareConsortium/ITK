@@ -128,13 +128,13 @@ public:
   /** 
    * PadImageFilter produces an image which is a different resolution
    * than its input image.  As such, PadImageFilter needs to
-   * provide an implementation for UpdateOutputInformation() in order
+   * provide an implementation for GenerateOutputInformation() in order
    * to inform the pipeline execution model.  The original
    * documentation of this method is below.
    *
-   * \sa ProcessObject::UpdateOutputInformaton() 
+   * \sa ProcessObject::GenerateOutputInformaton() 
    */
-  virtual void UpdateOutputInformation();
+  virtual void GenerateOutputInformation();
 
   /** 
    * PadImageFilter needs a smaller input requested region than

@@ -190,20 +190,20 @@ PadImageFilter<TInputImage,TOutputImage>
 
 /** 
  * PadImageFilter produces an image which is a different resolution
- * than its input image.  As such, PadImageFilter needs to
- * provide an implementation for UpdateOutputInformation() in order
- * to inform the pipeline execution model.  The original
- * documentation of this method is below.
+ * than its input image.  As such, PadImageFilter needs to provide an
+ * implementation for GenerateOutputInformation() in order to inform
+ * the pipeline execution model.  The original documentation of this
+ * method is below.
  *
- * \sa ProcessObject::UpdateOutputInformaton() 
+ * \sa ProcessObject::GenerateOutputInformaton() 
  */
 template <class TInputImage, class TOutputImage>
 void 
 PadImageFilter<TInputImage,TOutputImage>
-::UpdateOutputInformation()
+::GenerateOutputInformation()
 {
   // call the superclass' implementation of this method
-  Superclass::UpdateOutputInformation();
+  Superclass::GenerateOutputInformation();
 
   // get pointers to the input and output
   OutputImagePointer outputPtr = this->GetOutput();
