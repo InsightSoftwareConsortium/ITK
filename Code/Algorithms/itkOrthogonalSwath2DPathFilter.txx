@@ -18,9 +18,9 @@
 #ifndef _itkOrthogonalSwath2DPathFilter_txx
 #define _itkOrthogonalSwath2DPathFilter_txx
 
-#include <float.h>  // for DBL_MIN constant, used as negative infinity
-#include <stdlib.h> // for abs
 #include "itkOrthogonalSwath2DPathFilter.h"
+#include "vnl/vnl_math.h"
+#include "itkNumericTraits.h"
 
 namespace itk
 {
@@ -143,7 +143,7 @@ OrthogonalSwath2DPathFilter<TParametricPath, TImage>
       }
     else
       {
-      MeritValue(F,L,0) = DBL_MIN;
+      MeritValue(F,L,0) = NumericTraits<double>::NonpositiveMin();
       StepValue( F,L,0) = F;
       }
     }
@@ -155,7 +155,7 @@ OrthogonalSwath2DPathFilter<TParametricPath, TImage>
   for(F=0;F<m_SwathSize[1];F++) for(L=0;L<m_SwathSize[1];L++)
     {
     // find merit for x=1
-    if( abs(F-L) <= 1 )
+    if( vnl_math_abs(F-L) <= 1 )
       {
       IndexType index2; // we need a second index here
       index[0]=0;
@@ -168,7 +168,7 @@ OrthogonalSwath2DPathFilter<TParametricPath, TImage>
       }
     else
       {
-      MeritValue(F,L,1) = DBL_MIN;
+      MeritValue(F,L,1) = NumericTraits<double>::NonpositiveMin();
       }
     // Enter the final step values (x=SWATH_COLUMNS-1)
     StepValue(F,L,m_SwathSize[0]-1) = L;
@@ -191,10 +191,10 @@ OrthogonalSwath2DPathFilter<TParametricPath, TImage>
   
   // Find the best starting and ending points (F & L) for the path
   int bestF, bestL;
-  double meritTemp, meritMax=DBL_MIN;
+  double meritTemp, meritMax=NumericTraits<double>::NonpositiveMin();
   for(F=0;F<m_SwathSize[1];F++) for(L=0;L<m_SwathSize[1];L++)
     {
-    if( abs(F-L) <= 1 ) // only accept closed paths
+    if( vnl_math_abs(F-L) <= 1 ) // only accept closed paths
       {
       meritTemp = MeritValue( F, L, m_SwathSize[0]-1 );
       if( meritTemp > meritMax )
