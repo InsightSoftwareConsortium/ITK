@@ -203,12 +203,65 @@ int main( int argc, char *argv[] )
   fixedImageReader->SetFileName(  argv[1] );
   movingImageReader->SetFileName( argv[2] );
 
-  registration->SetFixedImage(    fixedImageReader->GetOutput()    );
+  FixedImageType::ConstPointer fixedImage = fixedImageReader->GetOutput();
+
+  registration->SetFixedImage(  fixedImage   );
   registration->SetMovingImage(   movingImageReader->GetOutput()   );
+
   fixedImageReader->Update();
 
-  registration->SetFixedImageRegion( 
-     fixedImageReader->GetOutput()->GetBufferedRegion() );
+  FixedImageType::RegionType fixedRegion = fixedImage->GetBufferedRegion();
+  
+ registration->SetFixedImageRegion( fixedRegion );
+
+  //  Software Guide : BeginLatex
+  //
+  //  Here we define the parameters of the BSplineDeformableTransform grid.  We
+  //  arbitrarily decide to use a grid with $10 \times 10$ nodes. We compute
+  //  its spacing from the image spacing and the resolution ratio. We also
+  //  assign its origin from the origin of the fixed image.
+  // 
+  //  \index{BSplineDeformableTransform}
+  //
+  //  Software Guide : EndLatex 
+
+
+  // Software Guide : BeginCodeSnippet
+  typedef TransformType::RegionType RegionType;
+  RegionType bsplineRegion;
+  RegionType::SizeType   size;
+
+  size.Fill( 10 );
+  bsplineRegion.SetSize( size );
+
+  typedef TransformType::SpacingType SpacingType;
+  SpacingType spacing = fixedImage->GetSpacing();
+
+  typedef TransformType::OriginType OriginType;
+  OriginType origin = fixedImage->GetOrigin();;
+
+  FixedImageType::SizeType fixedImageSize = fixedRegion.GetSize();
+
+  for(unsigned int r=0; r<ImageDimension; r++)
+    {
+    spacing[r] *= fixedImageSize[r] / size[r]; 
+    }
+
+  transform->SetGridSpacing( spacing );
+  transform->SetGridOrigin( origin );
+  transform->SetGridRegion( bsplineRegion );
+  
+
+  typedef TransformType::ParametersType     ParametersType;
+
+  const unsigned int numberOfParameters =
+               transform->GetNumberOfParameters();
+  
+  ParametersType parameters( numberOfParameters );
+
+  parameters.Fill( 0.0 );
+  //  Software Guide : EndCodeSnippet
+
 
 
   //  Software Guide : BeginLatex
@@ -302,8 +355,6 @@ int main( int argc, char *argv[] )
 
   resample->SetTransform( finalTransform );
   resample->SetInput( movingImageReader->GetOutput() );
-
-  FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
   resample->SetSize(    fixedImage->GetLargestPossibleRegion().GetSize() );
   resample->SetOutputOrigin(  fixedImage->GetOrigin() );
