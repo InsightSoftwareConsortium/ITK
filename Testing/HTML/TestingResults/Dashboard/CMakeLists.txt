@@ -13,17 +13,33 @@ BuildNames = $(wildcard ../Sites/*/*/)
 LatestBuildStamps = $(foreach BuildName, $(BuildNames), $(wordlist $(words $(wildcard $(BuildName)*)),$(words $(wildcard $(BuildName)*)), $(sort $(wildcard $(BuildName)*))))
 
 DashboardStamp := $(shell date -u +%Y%m%d%H%M)
-PreviousDashboards = $(wildcard 20*)
+
+Dashboards = $(sort $(wildcard 20*))
+LatestDashboard = $(wordlist $(words $(Dashboards)),$(words $(Dashboards)), $(Dashboards))
+
 
 
 MAKEFILES = $(CMAKE_CONFIG_DIR)/CMake/CMakeVariables.make $(CMAKE_CONFIG_DIR)/Testing/Utilities/CMakeTestingDashboardRules.make 
 
+StartDashboard: $(LatestBuildStamps)
+	mkdir $(DashboardStamp)
+
+EndDashboard:
+	echo 'BuildStamps = $(foreach stamp, $(LatestBuildStamps), ../$(stamp))' > $(DashboardStamp)/DashboardTargets.make
+	@echo "Latest Dashboard: $(LatestDashboard)"
+	$(MAKE) -C $(LatestDashboard) EndDashboard
+	$(shell rm -f MostRecentResults)
+	$(shell ln -s $(DashboardStamp) MostRecentResults)
+
+
+DashboardUpdate:
+	$(shell cd $(LatestDashboard); (cd $(topdir); $(TCLSH) Testing/Utilities/Update.tcl) > Update.xml )
+
+
 Dashboard: $(LatestBuildStamps)
 	mkdir $(DashboardStamp)
 	echo 'BuildStamps = $(foreach stamp, $(LatestBuildStamps), ../$(stamp))' > $(DashboardStamp)/DashboardTargets.make
-	$(MAKE) -C $(DashboardStamp) Dashboard
-	$(shell rm -f MostRecentResults)
-	$(shell ln -s $(DashboardStamp) MostRecentResults)
+	$(MAKE) -C $(DashboardStamp) EndDashboard
 
 RemakeDashboard:
 	$(foreach Previous, $(PreviousDashboards), \
