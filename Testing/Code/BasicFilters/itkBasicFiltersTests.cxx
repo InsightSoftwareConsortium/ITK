@@ -87,6 +87,7 @@ void RegisterTests()
   REGISTER_TEST(itkZeroCrossingImageFilterTest );
   REGISTER_TEST(itkLaplacianImageFilterTest );
   REGISTER_TEST(itkDivideImageFilterTest );
+  REGISTER_TEST(itkCropImageFilterTest );
   REGISTER_TEST(itkSobelEdgeDetectionImageFilterTest );
   REGISTER_TEST(itkZeroCrossingBasedEdgeDetectionImageFilterTest );
   REGISTER_TEST(itkCannyEdgeDetectionImageFilterTest );
