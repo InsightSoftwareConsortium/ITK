@@ -14,6 +14,9 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#ifndef _itkImageFileWriter_txx
+#define _itkImageFileWriter_txx
+
 #include "itkImageFileWriter.h"
 #include "itkDataObject.h"
 #include "itkImageIOFactory.h"
@@ -223,3 +226,5 @@ ImageFileWriter<TInputImage>
 }
 
 } // end namespace itk
+
+#endif
