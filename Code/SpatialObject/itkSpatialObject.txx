@@ -774,7 +774,7 @@ SpatialObject< TDimension >
   // requested region was not set yet, (or has been set to something 
   // invalid - with no data in it ) then set it to the largest possible
   // region.
-  if ( ! m_RequestedRegionInitialized)
+  if ( m_RequestedRegion.GetNumberOfPixels() == 0)
     {
     this->SetRequestedRegionToLargestPossibleRegion();
     }
@@ -786,7 +786,6 @@ SpatialObject< TDimension >
 ::SetRequestedRegionToLargestPossibleRegion()
 {
   m_RequestedRegion = m_LargestPossibleRegion;
-  m_RequestedRegionInitialized = true;
 }
 
 template< unsigned int TDimension >
@@ -896,7 +895,6 @@ SpatialObject< TDimension >
   if (m_RequestedRegion != region)
     {
     m_RequestedRegion = region;
-    m_RequestedRegionInitialized = true;
     this->Modified();
     }
 }
@@ -914,7 +912,6 @@ SpatialObject< TDimension >
   if (imgData)
     {
     m_RequestedRegion = imgData->GetRequestedRegion();
-    m_RequestedRegionInitialized = true;
     }
   else
     {
