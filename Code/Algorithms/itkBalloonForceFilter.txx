@@ -35,6 +35,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   m_Step = 0;
   m_GradientBegin = 0;
   m_DistanceToBoundary = 100;
+  m_DistanceToStop = 10;
   m_Center.Fill(0);
   m_Stiffness.Fill(0);
   m_TimeStep = 0.0;
