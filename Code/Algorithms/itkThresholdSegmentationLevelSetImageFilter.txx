@@ -30,7 +30,7 @@ ThresholdSegmentationLevelSetImageFilter<TInputImage, TOutputImage>
   m_ThresholdFunction->SetUpperThreshold(0);
   m_ThresholdFunction->SetLowerThreshold(0);
 
-   this->SetSegmentationFunction(m_ThresholdFunction.GetPointer());
+  this->SetSegmentationFunction(m_ThresholdFunction.GetPointer());
 
 
 }

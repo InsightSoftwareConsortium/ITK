@@ -22,8 +22,63 @@
 
 namespace itk {
 
+/** \class ThresholdSegmentationLevelSetImageFilter
+ *    \brief Segments structures in images based on intensity values.
+ *
+ *   \par IMPORTANT
+ *   The SegmentationLevelSetImageFilter class and the
+ *   ThresholdSegmentationLevelSetFunction class contain additional information necessary
+ *   to the full understanding of how to use this filter.
+ *
+ *    \par OVERVIEW
+ *    This class is a level set method segmentation filter.  It constructs a
+ *    speed function which is close to zero at the upper and lower bounds of an
+ *    intensity window, effectively locking the propagating front onto those
+ *    edges.  Elsewhere, the front will propagate quickly.
+ *
+ *    \par INPUTS
+ *    This filter requires two inputs.  The first input is a seed
+ *    image.  This seed image must contain an isosurface that you want to use as the
+ *    seed for your segmentation.  It can be a binary, graylevel, or floating
+ *    point image.  The only requirement is that it contain a closed isosurface
+ *    that you will identify as the seed by setting the IsosurfaceValue parameter
+ *    of the filter.  For a binary image you will want to set your isosurface
+ *    value halfway between your on and off values (i.e. for 0's and 1's, use an
+ *    isosurface value of 0.5).
+ *
+ *    \par
+ *    The second input is the feature image.  This is the image from which the
+ *    speed function will be calculated.  For most applications, this is the
+ *    image that you want to segment. The desired isosurface in your seed image
+ *    should lie within the region of your feature image that you are trying to
+ *    segment.Note that this filter does no preprocessing of the feature image
+ *    before thresholding.
+ *
+ *    \par
+ *    See SegmentationLevelSetImageFilter for more information on Inputs.
+ *
+ *    \par OUTPUTS
+ *    The filter outputs a single, scalar, real-valued image.
+ *    Positive *values in the output image are inside the segmentated region
+ *    and negative *values in the image are outside of the inside region.  The
+ *    zero crossings of *the image correspond to the position of the level set
+ *    front.
+ *
+ *   \par
+ *   See SparseFieldLevelSetImageFilter and
+ *   SegmentationLevelSetImageFilter for more information.
+ *
+ *   \par PARAMETERS
+ *   In addition to parameters described in SegmentationLevelSetImageFilter,
+ *   this filter adds the UpperThreshold and LowerThreshold.  See
+ *   ThresholdSegmentationLevelSetFunction for a description of how these values
+ *   affect the segmentation.
+ *
+ *   \sa SegmentationLevelSetImageFilter
+ *   \sa ThresholdSegmentationLevelSetFunction,
+ *   \sa SparseFieldLevelSetImageFilter */
 template <class TInputImage, class TOutputImage>
-class ThresholdSegmentationLevelSetImageFilter
+class ITK_EXPORT ThresholdSegmentationLevelSetImageFilter
   : public SegmentationLevelSetImageFilter<TInputImage, TOutputImage>
 {
 public:
@@ -71,7 +126,8 @@ protected:
 
   virtual void PrintSelf(std::ostream &os, Indent indent) const; 
 
-  
+  ThresholdSegmentationLevelSetImageFilter(const Self &); // purposely not impl.
+   void operator=(const Self&); //purposely not implemented
 private:
   typename ThresholdFunctionType::Pointer m_ThresholdFunction;  
 };
