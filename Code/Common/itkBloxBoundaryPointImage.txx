@@ -70,6 +70,13 @@ BloxBoundaryPointImage<TSourceImage, TImageTraits>
 
   m_SourceOrigin = m_SourceImage->GetOrigin();
   m_SourceSpacing = m_SourceImage->GetSpacing();
+
+  std::cout << "m_SourceOrigin = " << m_SourceOrigin[0] << "," << m_SourceOrigin[1] << ","
+    << m_SourceOrigin[2] << "\n";
+
+  std::cout << "m_SourceSpacing = " << m_SourceSpacing[0] << "," << m_SourceSpacing[1] << ","
+    << m_SourceSpacing[2] << "\n";
+
 }
 
 template<class TSourceImage, class TImageTraits>
@@ -102,7 +109,7 @@ BloxBoundaryPointImage<TSourceImage, TImageTraits>
   typename TSourceImage::IndexType sourceIndex;
   IndexType bloxIndex;
   
-  for ( ; !sourceIt.IsAtEnd(); ++sourceIt)
+  for ( sourceIt.GoToBegin(); !sourceIt.IsAtEnd(); ++sourceIt)
     {
     // Figure out the magnitude of the gradient
     double mag = 0;

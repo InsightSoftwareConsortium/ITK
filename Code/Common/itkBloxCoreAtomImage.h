@@ -42,6 +42,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkBloxCoreAtomImage_h
 
 #include "vnl/vnl_vector_fixed.h"
+#include "itkPoint.h"
+#include "itkVector.h"
+#include "itkCovariantVector.h"
 #include "itkBloxPixel.h"
 #include "itkBloxBoundaryPointItem.h"
 #include "itkBloxCoreAtomItem.h"
@@ -118,6 +121,16 @@ public:
    * The type of Point used to convert between physical and blox space
    */
   typedef Point<double, NDimensions> TPositionType;
+
+  /**
+   * The vector between two points
+   */
+  typedef TPositionType::VectorType TVectorType;
+
+  /**
+   * How we represent gradients
+   */
+  typedef CovariantVector<double, NDimensions> TGradientType;
 
   /**
    * The ImageTraits for this image.
@@ -226,11 +239,6 @@ private:
    * Keep track of how many core atoms we found (for debugging)
    */
   unsigned long int m_NumCoreAtoms;
-
-  /**
-  *Vector to hold the average center position for debugging
-  */
-  vnl_vector_fixed<double, 3> avgCenter;
 
 };
 

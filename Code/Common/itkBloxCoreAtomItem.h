@@ -65,9 +65,9 @@ class BloxCoreAtomItem: public BloxItem
 public:
   
   /**
-   * The type of vector used to store the position of the CoreAtomItem
+   * The point type used to store the position of the CoreAtomItem
    * */
-  typedef vnl_vector_fixed<double, VImageDimension> TPositionType;
+  typedef Point<double, VImageDimension> TPositionType;
 
   /**
    * The type of boundary point item we store pointers to

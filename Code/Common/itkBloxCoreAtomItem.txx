@@ -65,13 +65,11 @@ void
 BloxCoreAtomItem<VImageDimension>
 ::CalcCenterPosition()
 {
-  TPositionType P1;
-  m_BoundaryPointA->GetPosition(P1);
+  TPositionType P1 = m_BoundaryPointA->GetPosition();
 
-  TPositionType P2;
-  m_BoundaryPointB->GetPosition(P2);
+  TPositionType P2 = m_BoundaryPointB->GetPosition();
 
-  m_CenterPosition = (P2 + P1) / 2;
+  m_CenterPosition = P1 + (P2 - P1) / 2;
   
 }
 

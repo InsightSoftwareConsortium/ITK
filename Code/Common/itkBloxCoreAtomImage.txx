@@ -42,7 +42,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkBloxCoreAtomImage_txx
 
 #include <iostream>
-#include "itkPoint.h"
 #include "itkImageRegionIterator.h"
 #include "itkConicShellInteriorExteriorSpatialFunction.h"
 #include "itkFloodFilledSpatialFunctionConditionalIterator.h"
@@ -80,9 +79,6 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
 {
   std::cout << "BloxCoreAtomImage::FindCoreAtoms() called\n";
 
-  // Reset the average center position
-  avgCenter.fill(0.0);
-
   // Make sure we're getting everything
   m_BoundaryPointImage->SetRequestedRegionToLargestPossibleRegion();
 
@@ -91,26 +87,23 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
 
   TImageIteratorType imageIt = TImageIteratorType(m_BoundaryPointImage,
                                                   m_BoundaryPointImage->GetRequestedRegion() );
-  
+
   // Iterate through the entire image (all pixels) and look for core atoms
-  for ( ; !imageIt.IsAtEnd(); ++imageIt)
+  for ( imageIt.GoToBegin(); !imageIt.IsAtEnd(); ++imageIt)
     {
     // The iterator for accessing linked list info
     itk::BloxPixel::iterator bpiterator;
 
     // Walk through all of the elements at the pixel
-    for (bpiterator = imageIt.Get().begin(); bpiterator != imageIt.Get().end(); ++bpiterator)
+    for (bpiterator = imageIt.Value().begin(); bpiterator != imageIt.Value().end(); ++bpiterator)
+      {
       this->FindCoreAtomsAtBoundaryPoint( (TBPItemType*&)(*bpiterator) );
+      }
+
     }
  
   std::cout << "Finished looking for core atoms\n";
   std::cout << "I found " << m_NumCoreAtoms << " core atoms\n";
-
-  avgCenter /= m_NumCoreAtoms;
-  std::cout << "Average core atom center position is";
-  for (int i = 0; i < NDimensions; i++)
-    std::cout << " " << avgCenter[i];
-  std::cout << "\n";
 }
 
 template<class TBoundaryPointImage, class TImageTraits>
@@ -122,10 +115,6 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
   // all of the boundary points within blox that are part of a conical
   // region extending out in the direction of the gradient of the boundary
   // point.
-
-  // std::cout << "Finding core atoms at boundary point\n";
-
-  typedef vnl_vector_fixed<double, NDimensions> TVectorType;
 
   //---------Create and initialize a conic shell spatial function-----------
   typedef itk::ConicShellInteriorExteriorSpatialFunction<NDimensions> TFunctionType;
@@ -144,11 +133,10 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
   spatialFunc->SetOrigin(spatialFunctionOrigin);
 
   // Covert the origin position to a vector
+  //TVectorType spatialFunctionOriginVector = spatialFunctionOrigin.GetVectorFromOrigin();
+
   TVectorType spatialFunctionOriginVector;
-  for(int i = 0; i < NDimensions; i++)
-  {
-    spatialFunctionOriginVector[i] = spatialFunctionOrigin[i];
-  }
+  spatialFunctionOriginVector.Set_vnl_vector( spatialFunctionOrigin.Get_vnl_vector() );
 
   // Set the gradient of the conic shell to the current boundary point gradient
   TFunctionGradientType spatialFunctionGradient = pBPOne->GetGradient();
@@ -158,8 +146,9 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
   typename TBoundaryPointImage::IndexType seedIndex;
 
   // Normalize the origin gradient
-  TVectorType seedVector = spatialFunctionGradient.Get_vnl_vector();
-  seedVector.normalize();
+  TVectorType seedVector;
+  seedVector.Set_vnl_vector(spatialFunctionGradient.Get_vnl_vector());
+  seedVector = seedVector / seedVector.GetNorm();
   
   // If the polarity is 1, the seed position is in the direction
   // opposite the gradient
@@ -168,19 +157,12 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
   
   // A "safe" seed position is the closest point in the conical region
   // along the axis of the cone
-  seedVector = spatialFunctionOriginVector + (seedVector * m_DistanceMin);
-
-  // Convert to a position
-  TPositionType seedPos;
-  for(int i = 0; i < NDimensions; i++)
-  {
-    seedPos[i] = seedVector[i];
-  }
+  TPositionType seedPos = spatialFunctionOrigin + (seedVector * m_DistanceMin);
 
   // If the seed position is inside the image, go ahead and process it
   if( this->ConvertPhysicalToDataCoords(seedPos, seedIndex) )
     {
-    // std::cout << "Successfully created a conical iterator\n";
+    //std::cout << "Successfully created a conical iterator\n";
 
     // Create and initialize a spatial function iterator
     typedef itk::FloodFilledSpatialFunctionConditionalIterator<TBoundaryPointImage, TFunctionType> TSphereItType;
@@ -199,30 +181,31 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
         TBPItemType* pBPTwo = (TBPItemType*&)(*bpiterator);
 
         // Get the physical positions of the two boundary points
-        TVectorType P1 = pBPOne->GetPhysicalPosition().Get_vnl_vector();
-        TVectorType P2 = pBPTwo->GetPhysicalPosition().Get_vnl_vector();
+        TPositionType P1 = pBPOne->GetPhysicalPosition();
+        TPositionType P2 = pBPTwo->GetPhysicalPosition();
 
         // Form the two vectors between them
         TVectorType C12 = P2 - P1;
 
         // If we don't meet distance criteria, move on
-        if(!( (C12.magnitude() > m_DistanceMin) && (C12.magnitude() < m_DistanceMax) ) )
+        if(!( (C12.GetNorm() > m_DistanceMin) && (C12.GetNorm() < m_DistanceMax) ) )
           continue;
 
         TVectorType C21 = P1 - P2;
 
-        C12.normalize();
-        C21.normalize();
+        C12 = C12 / C12.GetNorm();
+        C21 = C21 / C21.GetNorm();
 
         // Get the gradients of the two boundary points
-        TVectorType G1 = pBPOne->GetGradient().Get_vnl_vector();
-        TVectorType G2 = pBPTwo->GetGradient().Get_vnl_vector();;
+        TGradientType G1 = pBPOne->GetGradient();
+        TGradientType G2 = pBPTwo->GetGradient();
 
-        G1.normalize();
-        G2.normalize();
+        G1 = G1 / G1.GetNorm();
+        G2 = G2 / G2.GetNorm();
 
         // Calculate face-to-faceness
-        double faceToFaceness = dot_product(G1, C12) * dot_product(G2, C21);
+        double faceToFaceness = dot_product(G1.Get_vnl_vector(), C12.Get_vnl_vector() ) *
+          dot_product(G2.Get_vnl_vector(), C21.Get_vnl_vector() );
         
         //std::cout << "Face to faceness = " << faceToFaceness << "\n";
 
@@ -232,7 +215,7 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
           //std::cout << "Passed, face to faceness = " << faceToFaceness << "\n";
 
           // Figure out the center of the core atom
-          TVectorType coreAtomCenter = (P2 + P1) / 2;
+          TPositionType coreAtomCenter = P1 + (P2 - P1) / 2;
 
           // Create a new core atom
           BloxCoreAtomItem<NDimensions>* pCoreAtom = new BloxCoreAtomItem<NDimensions>;
@@ -242,18 +225,10 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
           pCoreAtom->SetBoundaryPointB(pBPTwo);
           pCoreAtom->SetCenterPosition(coreAtomCenter);
 
-          avgCenter += coreAtomCenter;
-
           // Figure out the data space coordinates of the center
           IndexType coreAtomPos;
           
-          // Convert core atom center to a position type
-          TPositionType coreAtomCenterPosition;
-          for(int i = 0; i < NDimensions; i++)
-          {
-            coreAtomCenterPosition[i] = coreAtomCenter[i];
-          }
-          this->ConvertPhysicalToDataCoords(coreAtomCenterPosition, coreAtomPos);
+          this->ConvertPhysicalToDataCoords(coreAtomCenter, coreAtomPos);
          
           // Store the new core atom in the correct spot
           this->GetPixel(coreAtomPos).push_back(pCoreAtom);
