@@ -17,10 +17,10 @@ vnl_file_vector<T>::vnl_file_vector(char const* filename)
 //vcl_cerr << "filename=" << filename << "\nlength=" << this->length() << '\n';
   if (filename && vcl_strcmp(filename, "-")) {
     vcl_ifstream o(filename);
-    ok_=read_ascii(o);
+    ok_=this->read_ascii(o);
   }
   else
-    ok_=read_ascii(vcl_cin);
+    ok_=this->read_ascii(vcl_cin);
 //vcl_cerr << "length=" << this->length() << '\n';
 }
 

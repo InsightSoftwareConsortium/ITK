@@ -20,12 +20,12 @@ vnl_file_matrix<T>::vnl_file_matrix(char const* filename)
 {
   if (filename && vcl_strcmp(filename, "-")) {
     vcl_ifstream o(filename);
-    ok_=read_ascii(o);
+    ok_=this->read_ascii(o);
     if (!ok_)
       vcl_cerr << "vnl_file_matrix: ERROR loading " << filename << '\n';
   }
   else {
-    ok_=read_ascii(vcl_cin);
+    ok_=this->read_ascii(vcl_cin);
     if (!ok_)
       vcl_cerr << "vnl_file_matrix: ERROR loading from stdin\n";
   }

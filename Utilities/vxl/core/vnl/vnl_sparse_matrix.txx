@@ -443,7 +443,8 @@ void vnl_sparse_matrix<T>::set_row(unsigned int r,
   if (rw.size() != cols.size()) rw = row(cols.size());
   for (unsigned int i=0; i < cols.size(); ++i)
     rw[i] = vnl_sparse_matrix_pair<T>(cols[i], vals[i]);
-  vcl_sort(rw.begin(), rw.end(), vnl_sparse_matrix_pair<T>::less());
+  typedef typename vnl_sparse_matrix_pair<T>::less less;
+  vcl_sort(rw.begin(), rw.end(), less());
 }
 
 template <class T>

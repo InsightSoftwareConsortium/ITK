@@ -399,7 +399,7 @@ class vnl_matrix_fixed_ref : public vnl_matrix_fixed_ref_const<T,num_rows,num_co
   // this is the only point where the const_cast happens
   // the base class is used to store the pointer, so that conversion is not neccesary
   T * data_block() const {
-    return const_cast<T*>(data_);
+    return const_cast<T*>(this->data_);
   }
   vnl_matrix_fixed_ref(vnl_matrix_fixed<T,num_rows,num_cols>& rhs)
     : base(rhs.data_block())
@@ -435,8 +435,8 @@ class vnl_matrix_fixed_ref : public vnl_matrix_fixed_ref_const<T,num_rows,num_co
   T       & operator() (unsigned r, unsigned c) const
   {
 #if VNL_CONFIG_CHECK_BOUNDS  && (!defined NDEBUG)
-    assert(r<rows());   // Check the row index is valid
-    assert(c<cols());   // Check the column index is valid
+    assert(r<this->rows());   // Check the row index is valid
+    assert(c<this->cols());   // Check the column index is valid
 #endif
     return *(this->data_block() + num_cols * r + c);
   }
@@ -505,7 +505,7 @@ class vnl_matrix_fixed_ref : public vnl_matrix_fixed_ref_const<T,num_rows,num_co
   //:
   vnl_matrix_fixed_ref const& operator+= (vnl_matrix<T> const& m) const
   {
-    assert( m.rows() == rows() && m.cols() == cols() );
+    assert( m.rows() == this->rows() && m.cols() == this->cols() );
     add( data_block(), m.data_block(), data_block() ); return *this;
   }
 
@@ -518,7 +518,7 @@ class vnl_matrix_fixed_ref : public vnl_matrix_fixed_ref_const<T,num_rows,num_co
   //:
   vnl_matrix_fixed_ref const& operator-= (vnl_matrix<T> const& m) const
   {
-    assert( m.rows() == rows() && m.cols() == cols() );
+    assert( m.rows() == this->rows() && m.cols() == this->cols() );
     sub( data_block(), m.data_block(), data_block() ); return *this;
   }
 
@@ -658,7 +658,7 @@ class vnl_matrix_fixed_ref : public vnl_matrix_fixed_ref_const<T,num_rows,num_co
   //: Iterator pointing to start of data
   iterator       begin() const { return data_block(); }
   //: Iterator pointing to element beyond end of data
-  iterator       end() const { return begin() + size(); }
+  iterator       end() const { return begin() + this->size(); }
   //--------------------------------------------------------------------------------
 
   //: Return true if *this == rhs

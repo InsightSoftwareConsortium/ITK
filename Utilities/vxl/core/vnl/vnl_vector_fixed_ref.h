@@ -299,7 +299,7 @@ class vnl_vector_fixed_ref : public vnl_vector_fixed_ref_const<T,n>
 
   // this is the only point where the const_cast happens
   // the base class is used to store the pointer, so that conversion is not neccesary
-  T * data_block() const { return const_cast<T*>(data_); }
+  T * data_block() const { return const_cast<T*>(this->data_); }
 
   vnl_vector_fixed_ref(vnl_vector_fixed<T,n>& rhs) : base(rhs.data_block()) {}
 
@@ -307,13 +307,13 @@ class vnl_vector_fixed_ref : public vnl_vector_fixed_ref_const<T,n>
 
   //: Copy operator
   vnl_vector_fixed_ref<T,n> const & operator=( const vnl_vector_fixed<T,n>& rhs ) const {
-    vcl_memcpy( data_block(), rhs.data_block(), size() * sizeof(T) );
+    vcl_memcpy( data_block(), rhs.data_block(), n * sizeof(T) );
     return *this;
   }
 
   //: Copy operator
   vnl_vector_fixed_ref<T,n> const& operator=( const vnl_vector_fixed_ref_const<T,n>& rhs ) const {
-    vcl_memcpy( data_block(), rhs.data_block(), size() * sizeof(T) );
+    vcl_memcpy( data_block(), rhs.data_block(), n * sizeof(T) );
     return *this;
   }
 
