@@ -655,7 +655,7 @@ const WrapperBase* WrapperBase::FindMethodWrapper(const String& name) const
   std::queue<const ClassType*> classQueue;
   
   // Start with the search at this class.
-  classQueue.push(ClassType::SafeDownCast(m_WrappedTypeRepresentation));
+  classQueue.push(m_WrappedTypeRepresentation);
   while(!classQueue.empty())
     {
     // Get the next class off the queue.
