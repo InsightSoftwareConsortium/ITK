@@ -93,6 +93,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkVectorFuzzyConnectednessImageFilter.txx"
 #include "itkVoronoiDiagram2D.txx"
 #include "itkVoronoiDiagram2DGenerator.txx"
+#include "itkVoronoiPartitioningImageFilter.txx"
 #include "itkVoronoiSegmentationImageFilter.txx"
 #include "itkVoronoiSegmentationImageFilterBase.txx"
 #include "itkVoronoiSegmentationRGBImageFilter.txx"
