@@ -327,7 +327,7 @@ Shear(int axis1, int axis2, TScalarType coef, bool pre)
 
 // Transform a point
 template<class TScalarType, unsigned int NDimensions>
-AffineTransform<TScalarType, NDimensions>::OutputPointType
+typename AffineTransform<TScalarType, NDimensions>::OutputPointType
 AffineTransform<TScalarType, NDimensions>::
 TransformPoint(const InputPointType &point) const 
 {
@@ -337,7 +337,7 @@ TransformPoint(const InputPointType &point) const
 
 // Transform a vector
 template<class TScalarType, unsigned int NDimensions>
-AffineTransform<TScalarType, NDimensions>::OutputVectorType
+typename AffineTransform<TScalarType, NDimensions>::OutputVectorType
 AffineTransform<TScalarType, NDimensions>::
 TransformVector(const InputVectorType &vect) const 
 {
@@ -347,7 +347,7 @@ TransformVector(const InputVectorType &vect) const
 
 // Transform a vnl_vector_fixed
 template<class TScalarType, unsigned int NDimensions>
-AffineTransform<TScalarType, NDimensions>::OutputVnlVectorType
+typename AffineTransform<TScalarType, NDimensions>::OutputVnlVectorType
 AffineTransform<TScalarType, NDimensions>::
 TransformVector(const InputVnlVectorType &vect) const {
   return m_Matrix * vect;
@@ -356,7 +356,7 @@ TransformVector(const InputVnlVectorType &vect) const {
 
 // Transform a CovariantVector
 template<class TScalarType, unsigned int NDimensions>
-AffineTransform<TScalarType, NDimensions>::OutputCovariantVectorType
+typename AffineTransform<TScalarType, NDimensions>::OutputCovariantVectorType
 AffineTransform<TScalarType, NDimensions>::
 TransformCovariantVector(const InputCovariantVectorType &vec) const 
 {
@@ -376,7 +376,7 @@ TransformCovariantVector(const InputCovariantVectorType &vec) const
 
 // Back transform a point
 template<class TScalarType, unsigned int NDimensions>
-AffineTransform<TScalarType, NDimensions>::InputPointType
+typename AffineTransform<TScalarType, NDimensions>::InputPointType
 AffineTransform<TScalarType, NDimensions>::
 BackTransform(const OutputPointType &point) const 
 {
@@ -405,7 +405,7 @@ BackTransform(const OutputPointType &point) const
 
 // Back transform a vector
 template<class TScalarType, unsigned int NDimensions>
-AffineTransform<TScalarType, NDimensions>::InputVectorType
+typename AffineTransform<TScalarType, NDimensions>::InputVectorType
 AffineTransform<TScalarType, NDimensions>::
 BackTransform(const OutputVectorType &vect ) const 
 {
@@ -417,7 +417,7 @@ BackTransform(const OutputVectorType &vect ) const
 
 // Back transform a vnl_vector
 template<class TScalarType, unsigned int NDimensions>
-AffineTransform<TScalarType, NDimensions>::InputVnlVectorType
+typename AffineTransform<TScalarType, NDimensions>::InputVnlVectorType
 AffineTransform<TScalarType, NDimensions>::
 BackTransform(const OutputVnlVectorType &vect ) const 
 {
@@ -428,7 +428,7 @@ BackTransform(const OutputVnlVectorType &vect ) const
 
 // Back Transform a CovariantVector
 template<class TScalarType, unsigned int NDimensions>
-AffineTransform<TScalarType, NDimensions>::InputCovariantVectorType
+typename AffineTransform<TScalarType, NDimensions>::InputCovariantVectorType
 AffineTransform<TScalarType, NDimensions>::
 BackTransform(const OutputCovariantVectorType &vec) const 
 {
@@ -451,7 +451,7 @@ BackTransform(const OutputCovariantVectorType &vec) const
 
 // Back transform a given point which is represented as type PointType
 template<class TScalarType, unsigned int NDimensions>
-AffineTransform<TScalarType, NDimensions>::InputPointType
+typename AffineTransform<TScalarType, NDimensions>::InputPointType
 AffineTransform<TScalarType, NDimensions>::
 BackTransformPoint(const OutputPointType &point) const
 {
@@ -481,7 +481,7 @@ BackTransformPoint(const OutputPointType &point) const
 
 // Create and return an inverse transformation
 template<class TScalarType, unsigned int NDimensions>
-AffineTransform<TScalarType, NDimensions>::Pointer
+typename AffineTransform<TScalarType, NDimensions>::Pointer
 AffineTransform<TScalarType, NDimensions>::
 Inverse( void ) const
 {
@@ -498,7 +498,7 @@ Inverse( void ) const
 
 // Compute a distance between two affine transforms
 template<class TScalarType, unsigned int NDimensions>
-AffineTransform<TScalarType, NDimensions>::ScalarType
+typename AffineTransform<TScalarType, NDimensions>::ScalarType
 AffineTransform<TScalarType, NDimensions>::
 Metric(const Self * other) const
 {
@@ -521,7 +521,7 @@ Metric(const Self * other) const
 
 // Compute a distance between self and the identity transform
 template<class TScalarType, unsigned int NDimensions>
-AffineTransform<TScalarType, NDimensions>::ScalarType
+typename AffineTransform<TScalarType, NDimensions>::ScalarType
 AffineTransform<TScalarType, NDimensions>::
 Metric(void) const
 {
@@ -573,7 +573,7 @@ RecomputeInverse( void )
 
 // Get parameters
 template<class TScalarType, unsigned int NDimensions>
-const AffineTransform<TScalarType, NDimensions>::ParametersType &
+const typename AffineTransform<TScalarType, NDimensions>::ParametersType &
 AffineTransform<TScalarType, NDimensions>::
 GetParameters( void ) const
 {
@@ -638,7 +638,7 @@ SetParameters( const ParametersType & parameters )
 
 // Compute the Jacobian in one position 
 template<class TScalarType, unsigned int NDimensions>
-const AffineTransform<TScalarType, NDimensions>::JacobianType & 
+const typename AffineTransform<TScalarType, NDimensions>::JacobianType & 
 AffineTransform<TScalarType, NDimensions>::
 GetJacobian( const InputPointType & p ) const
 {

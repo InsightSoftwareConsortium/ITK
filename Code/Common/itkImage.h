@@ -172,7 +172,7 @@ public:
    * image has actually been allocated yet. */
   void SetPixel(const IndexType &index, const TPixel& value)
     {
-    OffsetValueType offset = this->ComputeOffset(index);
+    typename OffsetValueType offset = this->ComputeOffset(index);
     (*m_Buffer)[offset] = value;
     }
   
@@ -182,7 +182,7 @@ public:
    * image has actually been allocated yet. */
   const TPixel& GetPixel(const IndexType &index) const
   {
-    OffsetValueType offset = this->ComputeOffset(index);
+    typename OffsetValueType offset = this->ComputeOffset(index);
     return ( (*m_Buffer)[offset] );
   }
 
@@ -192,7 +192,7 @@ public:
    * image has actually been allocated yet. */
   TPixel& GetPixel(const IndexType &index)
     {
-    OffsetValueType offset = this->ComputeOffset(index);
+    typename OffsetValueType offset = this->ComputeOffset(index);
     return ( (*m_Buffer)[offset] );
     }
     
@@ -306,7 +306,7 @@ public:
       itkExceptionMacro("The Image lacks a PhysicalToIndexTransform");
       }
 
-    TransformType::InputPointType inputPoint =
+    typename TransformType::InputPointType inputPoint =
                           m_PhysicalToIndexTransform->TransformPoint(point) ;
 
     // Update the output index
@@ -344,7 +344,7 @@ public:
       itkExceptionMacro("The Image lacks a PhysicalToIndexTransform");
       }
 
-    TransformType::InputPointType inputPoint =
+    typename TransformType::InputPointType inputPoint =
                           m_PhysicalToIndexTransform->TransformPoint(point) ;
 
     // Update the output index
@@ -382,14 +382,14 @@ public:
       itkExceptionMacro("The Image lacks a IndexToPhysicalTransform");
       }
 
-    TransformType::InputPointType inputPoint;
+    typename TransformType::InputPointType inputPoint;
 
     // Update the input index
     for (unsigned int i = 0 ; i < VImageDimension ; i++)
       { inputPoint[i] = index[i]; }
 
     // Transform the point
-    TransformType::OutputPointType outputPoint =
+    typename TransformType::OutputPointType outputPoint =
       m_IndexToPhysicalTransform->TransformPoint(inputPoint) ;
   
     // Update the output point
@@ -418,7 +418,7 @@ public:
       itkExceptionMacro("The Image lacks a IndexToPhysicalTransform");
       }
 
-    TransformType::InputPointType inputPoint;
+    typename TransformType::InputPointType inputPoint;
 
     // Update the input index
     for (unsigned int i = 0 ; i < VImageDimension ; i++)
@@ -427,7 +427,7 @@ public:
       }
 
     // Transform the point
-    TransformType::OutputPointType outputPoint =
+    typename TransformType::OutputPointType outputPoint =
       m_IndexToPhysicalTransform->TransformPoint(inputPoint) ;
   
     // Update the output point
