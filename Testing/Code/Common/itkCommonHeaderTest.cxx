@@ -234,6 +234,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkSymmetricEllipsoidInteriorExteriorSpatialFunction.txx"
 #include "itkTanImageAdaptor.h"
 #include "itkTetrahedronCell.txx"
+#include "itkTextOutput.h"
 #include "itkThinPlateR2LogRSplineKernelTransform.txx"
 #include "itkThinPlateSplineKernelTransform.txx"
 #include "itkTimeProbe.h"
