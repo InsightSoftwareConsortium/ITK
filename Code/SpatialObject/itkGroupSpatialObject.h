@@ -29,6 +29,10 @@ namespace itk
 * \class GroupSpatialObject
 * \brief Representation of a group based on the spatial object classes.
 *
+* A GroupSpatialObject represents a group by serving as the parent of
+* the elements of the group.  Since any itk::SpatialObject can have
+* children (see SpatialObject::GetChildren()), this class needs no
+* additional methods.
 */
 
 template < unsigned int TDimension = 3 >
