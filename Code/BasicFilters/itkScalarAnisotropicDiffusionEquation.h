@@ -63,12 +63,14 @@ public:
   /**
    * Inherit some parameters from the superclass type
    */
-  typedef  Superclass::ImageType ImageType;
   enum { ImageDimension = Superclass::ImageDimension };
-  typedef Superclass::PixelType PixelType;
-  typedef Superclass::RadiusType RadiusType;
-  typedef  Superclass::NeighborhoodType NeighborhoodType;
-  typedef  Superclass::BoundaryNeighborhoodType BoundaryNeighborhoodType;
+  typedef typename Superclass::ImageType ImageType;
+  typedef typename Superclass::PixelType PixelType;
+  typedef typename Superclass::RadiusType RadiusType;
+  typedef typename Superclass::NeighborhoodType NeighborhoodType;
+  typedef typename Superclass::BoundaryNeighborhoodType BoundaryNeighborhoodType;
+  typedef typename Superclass::TimeStepType TimeStepType;
+  typedef typename Superclass::RadiusType RadiusType;
 
   /** 
    * Smart pointer support for this class.

@@ -65,6 +65,8 @@ public:
   typedef typename Superclass::RadiusType RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
   typedef typename Superclass::BoundaryNeighborhoodType BoundaryNeighborhoodType;
+  typedef typename Superclass::TimeStepType TimeStepType;
+  typedef typename Superclass::ScalarValueType ScalarValueType;
   enum { ImageDimension = Superclass::ImageDimension };
 
   /** 
