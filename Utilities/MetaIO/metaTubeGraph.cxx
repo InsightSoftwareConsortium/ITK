@@ -361,7 +361,6 @@ M_Read(void)
       return false;
     }
 
-    int i=0;
     double td;
     for(int j=0; j<m_NPoints; j++) 
     {
