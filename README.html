@@ -87,9 +87,11 @@ accessible.
 
 Some of the early developers include:
 
+Steve Aylward - UNC; architecture, algorithms
 Dan Blezek - GE CRD; testing infrastructure
 Josh Cates - Utah; imaging classes and filters
 Bill Hoffman - Kitware; CMake (build process); vxl/vnl numerics; infrastructure (smart pointers, object factories, callback mechanism)
+Paul Hughett - ; quality, algorithms
 Luis Ibanez - UNC; imaging classes and filters
 Brad King - Kitware; Mesh class, autowrapping of C++ code
 Bill Lorensen - GE CRD; testing, requirements, architecture
@@ -98,6 +100,7 @@ Jim Miller - GR CRD; Image classes, iterators, pipeline update mechanism
 Lydia Ng - Mathsoft; Image filters, algorithms
 Will Schroeder - Kitware; Mesh classes, algorithms, core classes
 George Stetton - Pittsburgh; image filters, algorithms
+Ross Whitaker - Utah; architecture, algorithms
 
 
 * How do I participate?
@@ -135,32 +138,93 @@ The following sections summarize the technical features of the
 NLM's Insight ITK toolkit.
 
 * Design Philosophy
-segmentation
-registration
-no visualization
-no GUI
-little IO
-Extreme Programming with testing
-Supports multithreading
-cross platform (Unix & MCVC)
+The following are key features of the toolkit design philosophy.
+
+  * The toolkit provides data representation and algorithms for
+    performing segmentation and registration. The focus is on medical
+    applications; although the toolkit is capable of processing other
+    types.
+
+  * The toolkit provides data representations in general form for images
+    (arbitrary dimension) and (unstructured) meshes.
+
+  * The toolkit does not address visualization or graphical user interface.
+    These are left to other toolkits (such as VTK, VisPack, MetaImage, etc.)
+
+  * The toolkit provides minimal tools for file interface. Again, this is
+    left to other toolkits/libraries to provide.
+
+  * Multi-threaded (shared memory) parallel processing is supported.
+
+  * The development of the toolkit is based on principles of extreme
+    programming. That is, design, implementation, and testing is
+    performed in a rapid, iterative process. Testing forms the core
+    of this process. In Insight, testing is performed continuously
+    as files are checked in, and every night across multiple platforms
+    and compilers.
+
+* Architecture 
+The following are key features of the toolkit architecture.
+
+  * The toolkit is organized around a data-flow architecture. That is,
+    data is represented using data objects which are in turn processed
+    by process objects (filters). Data objects and process objects are
+    connected together into pipelines. Pipelines are capable of
+    processing the data in pieces according to a user-specified memory
+    limit set on the pipeline.
+
+  * Object factories are used to instantiate objects. Factories allow
+    run-time extension of the system.
+
 
 * Implementation Philosophy
-generic programming
-automatic wrapping process generates Tcl, Python, Jave, Perl wrappers
+The following are key features of the toolkit implementation philosophy.
 
-* Architecture
-Data flow, process objects (filters) and data object (image and mesh).
+  * The toolkit is implemented using generic programming
+    principles. Such heavily templated C++ code challenges many
+    compilers; hence development was carried out with the latest
+    versions of the MSVC, Sun, gcc, and SGI compilers.
 
+  * The toolkit is cross-platform (Unix and Windows).
+
+  * The toolkit supports multiple language bindings, including
+    such languages as Tcl, Python, and Java. These bindings are generated
+    automatically using an auto-wrap process.
+
+  * The memory model depends on "smart pointers" that maintain a
+    reference count to objects. Smart pointers can be allocated on the
+    stack, and when scope is exited, the smart pointers disappear and
+    decrement their reference count to the object that they refer to.
 
 * Build Environment
 
-Use the CMake build environment. Class-platform environment (Unix and
-Windows).  Uses configure and make on Unix; generates projects and workspaces
-in Windows environment (from OS-indepenent text files).
-
+Insight uses the CMake (cross-platform make) build environment. CMake
+uses configure and make on Unix and generates projects and workspaces
+in the windows environment.
 
 
 FURTHER INFORMATION
-* Getting Started
-* Additional Documentation
+The following information is available from the Insight CVS repository.
+
+(To download Insight using CVS, use the following steps.
+cvs -d :pserver:anonymous@public.kitware.com:/insight/cvsroot login
+with password "insight"...then get the source/documentation as follows:
+cvs -d :pserver:anonymous@public.kitware.com:/insight/cvsroot checkout Insight
+)
+
+Once you have done this, look for the following documents:
+* Insight/Documents/InsightStart.doc|.pdf (Word/PDF)
+  The basics of working with CVS, obtaining the source code repository,
+  and compiling Insight.
+* Additional Documentation (all found in the directory Insight/Documents)
+  - CMake (CMake.doc|.pdf (Word/PDF)
+  - Requirements (Requirements.doc|.pdf)
+  - Style Guide (a must read for coders) (Style.ppt|.pdf)
 * Contacts
+  Terry Yoo (NLM/NIH Insight Project Manager 
+  Bill Lorensen (PI GE CRD lorensen@crd.ge.com)
+  Will Schroeder (PI Kitware, Inc. will.schroeder@kitware.com)
+  Steve Aylward (PI UNC )
+  Ross Whitaker (PI Utah )
+  Vikram Chalana (PI Mathsoft )
+  Dimitri Metaxes (PI UPenn )
