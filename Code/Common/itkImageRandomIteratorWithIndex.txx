@@ -18,6 +18,7 @@
 #define _itkImageRandomIteratorWithIndex_txx
 
 #include "itkImageRandomIteratorWithIndex.h"
+#include "vnl/vnl_sample.h"
 
 namespace itk
 {
@@ -99,12 +100,10 @@ ImageRandomIteratorWithIndex<TImage>  &
 ImageRandomIteratorWithIndex<TImage>
 ::operator++()
 {
-  const double normalizationFactor =
-      static_cast<double>( m_NumberOfPixelsInRegion - 1 ) / RAND_MAX;
-
   const unsigned long randomPosition =
      static_cast<unsigned long > (
-     static_cast<double>( rand() ) * normalizationFactor );
+        vnl_sample_uniform(0.0f, 
+                    static_cast<double>(m_NumberOfPixelsInRegion)-0.5) );
 
   unsigned long position = randomPosition;
   unsigned long residual;
