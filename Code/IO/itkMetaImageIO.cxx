@@ -309,16 +309,49 @@ void MetaImageIO::Read(void* buffer)
     }
 
   char * p = static_cast<char *>(buffer);
-  m_Ifstream.read( p, this->GetImageSizeInBytes() );
-  bool success = !m_Ifstream.bad();
-  m_Ifstream.close();
-  if( !success )
+
+  const unsigned int imageSizeInBytes = this->GetImageSizeInBytes();
+  unsigned int numberOfUpdates = 100;
+  while( imageSizeInBytes < numberOfUpdates )
     {
-    itkExceptionMacro("Error reading image data.");
+    numberOfUpdates /= 10;
     }
 
+  unsigned int numberOfBytesReadBetweenProgressUpdates = imageSizeInBytes / numberOfUpdates;
+  unsigned int numberOfBytesLeftForReading = imageSizeInBytes;
+  unsigned int numberOfBytesRead = 0;
+
+
+  while( numberOfBytesLeftForReading )
+    {
+
+    m_Ifstream.read( p, numberOfBytesReadBetweenProgressUpdates );
+
+    bool success = !m_Ifstream.bad();
+    if( !success )
+      {
+      itkExceptionMacro("Error reading image data.");
+      }
+
+    p += numberOfBytesReadBetweenProgressUpdates;
+    numberOfBytesLeftForReading -= numberOfBytesReadBetweenProgressUpdates;
+    numberOfBytesRead           += numberOfBytesReadBetweenProgressUpdates;
+
+    if( numberOfBytesLeftForReading < numberOfBytesReadBetweenProgressUpdates )
+      {
+      numberOfBytesReadBetweenProgressUpdates = numberOfBytesLeftForReading;
+      }
+
+    this->UpdateProgress( static_cast<float>( numberOfBytesRead ) / 
+                          static_cast<float>( imageSizeInBytes  ) );
+
+    }
+
+  m_Ifstream.close();
 
   SwapBytesIfNecessary( buffer, numberOfPixels );
+
+  this->UpdateProgress( 1.0f );
 
 }
 
