@@ -43,10 +43,10 @@ int itkNormalizeImageFilterTest(int, char**)
 
   source->SetSize(randomSize);
   float minValue = -1000.0;
-  float maxValue = 1000.0;
+  float maxValue =  1000.0;
 
-  source->SetMin(minValue);
-  source->SetMax(maxValue);
+  source->SetMin( static_cast<ShortImage::PixelType>( minValue ) );
+  source->SetMax( static_cast<ShortImage::PixelType>( maxValue ) );
 
   typedef itk::NormalizeImageFilter<ShortImage,FloatImage> NormalizeType;
   NormalizeType::Pointer normalize = NormalizeType::New();
