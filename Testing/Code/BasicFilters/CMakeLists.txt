@@ -144,6 +144,7 @@ ADD_TEST(itkPathToChainCodePathFilterTest ${BASIC_FILTERS_TESTS} itkPathToChainC
 ADD_TEST(itkPathToImageFilterTest ${BASIC_FILTERS_TESTS} itkPathToImageFilterTest)
 ADD_TEST(itkPermuteAxesImageFilterTest ${BASIC_FILTERS_TESTS} itkPermuteAxesImageFilterTest)
 ADD_TEST(itkRGBToVectorAdaptImageFilterTest.cxx ${BASIC_FILTERS_TESTS} itkRGBToVectorAdaptImageFilterTest)
+ADD_TEST(itkRGBToLuminanceImageFilterAndAdaptorTest.cxx ${BASIC_FILTERS_TESTS} itkRGBToLuminanceImageFilterAndAdaptorTest)
 ADD_TEST(itkRecursiveGaussianImageFiltersTest ${BASIC_FILTERS_TESTS} itkRecursiveGaussianImageFiltersTest)
 ADD_TEST(itkReflectImageFilterTest ${BASIC_FILTERS_TESTS} itkReflectImageFilterTest)
 ADD_TEST(itkReflectiveImageRegionIteratorTest ${BASIC_FILTERS_TESTS}  itkReflectiveImageRegionIteratorTest )
@@ -579,6 +580,7 @@ itkPathToImageFilterTest.cxx
 itkPromoteDimensionImageTest.cxx
 itkPermuteAxesImageFilterTest.cxx
 itkRGBToVectorAdaptImageFilterTest.cxx
+itkRGBToLuminanceImageFilterAndAdaptorTest.cxx
 itkRecursiveGaussianImageFiltersTest.cxx
 itkReflectImageFilterTest.cxx
 itkReflectiveImageRegionIteratorTest.cxx
