@@ -13,7 +13,7 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#include "itkIdentifierTraits.h"
+// #include "itkIdentifierTraits.h"
 
 const bool itkIdentifierTraits<char>::IsIntegralType = true;
 

@@ -29,14 +29,18 @@ itkVertexCell< TPixelType , TMeshType >
 
 
 /**
- *
+ * Get the number of boundary entities of the given dimension.
  */
 template <typename TPixelType, typename TMeshType>
-itkVertexCell< TPixelType , TMeshType >::CellFeatureID
+itkVertexCell< TPixelType , TMeshType >::CellFeatureCount
 itkVertexCell< TPixelType , TMeshType >
-::GetNumberOfBoundaryEntities(void)
+::GetNumberOfBoundaryEntities(int dimension)
 {
-  return 1;
+  switch (dimension)
+    {
+    case 0: return NumberOfPoints;
+    default: return 0;
+    }
 }
 
 
@@ -49,7 +53,8 @@ void
 itkVertexCell< TPixelType , TMeshType >
 ::SetCellPoints(PointIdentifier *ptList)
 {
-  m_Points[0] = ptList[0];
+  for(int i=0; i < NumberOfPoints ; ++i)
+    m_PointIds[i] = ptList[i];
 }
 
 
@@ -62,6 +67,6 @@ itkVertexCell< TPixelType , TMeshType >::PointIdentifier
 itkVertexCell< TPixelType , TMeshType >
 ::GetCellPoint(void)
 {
-  return m_Points[0];
+  return m_PointIds[0];
 }
 

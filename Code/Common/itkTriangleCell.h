@@ -55,26 +55,26 @@ public:
   typedef itkVertexCell< TPixelType , TMeshType >  Vertex;
   typedef itkLineCell< TPixelType , TMeshType >    Edge;
   
-protected:
   /**
-   * A triangle needs three points to define it.
+   * Triangle-specific topology numbers.
    */
-  itkTriangleCell(): Cell(3) {}  
+  enum { NumberOfPoints   = 3,
+         NumberOfVertices = 3,
+         NumberOfEdges    = 3 };
   
-public:
   /**
    * Implement the standard cell API.
    */
   static Pointer New(void);
-  virtual CellFeatureID GetNumberOfBoundaryEntities(void);
+  virtual CellFeatureCount GetNumberOfBoundaryEntities(int dimension);
   virtual void SetCellPoints(PointIdentifier *ptList);
 
   /**
    * Triangle-specific interface.
    */
   
-  virtual CellFeatureID GetNumberOfVertices(void);
-  virtual CellFeatureID GetNumberOfEdges(void);
+  virtual CellFeatureCount GetNumberOfVertices(void);
+  virtual CellFeatureCount GetNumberOfEdges(void);
 
   /**
    * Get the cell vertex corresponding to the given ID.
@@ -92,7 +92,17 @@ public:
    * Standard part of itkObject class.  Used for debugging output.
    */
   itkTypeMacro(itkTriangleCell, itkCell);
-  //virtual const char *GetClassName() const { return "itkTriangleCell"; }
+  
+protected:
+  /**
+   * Allocate number of points needed for this cell type.
+   */
+  itkTriangleCell(): Cell(NumberOfPoints) {}
+
+  /**
+   * Triangle topology data.
+   */
+  static const int m_Edges[3][2];
 };
 
 #ifndef ITK_MANUAL_INSTANTIATION

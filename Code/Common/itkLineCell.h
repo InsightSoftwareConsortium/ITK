@@ -54,30 +54,35 @@ public:
    */
   typedef itkVertexCell< TPixelType , TMeshType >  Vertex;
   
-protected:
   /**
-   * A line needs two points to define it.
+   * Line-specific topology numbers.
    */
-  itkLineCell(): Cell(2) {}  
+  enum { NumberOfPoints   = 2,
+         NumberOfVertices = 2 };
   
-public:
   /**
    * Implement the standard cell API.
    */
   static Pointer New(void);
-  virtual CellFeatureID GetNumberOfBoundaryEntities(void);
+  virtual CellFeatureCount GetNumberOfBoundaryEntities(int dimension);
   virtual void SetCellPoints(PointIdentifier *ptList);
 
   /**
    * Line-specific interface.
    */
-  virtual CellFeatureID GetNumberOfVertices(void);
+  virtual CellFeatureCount GetNumberOfVertices(void);
   virtual Vertex::Pointer GetCellVertex(CellFeatureID);
 
   /**
    * Standard part of itkObject class.  Used for debugging output.
    */
-  virtual const char *GetClassName() const { return "itkLineCell"; }
+  itkTypeMacro(itkLineCell, itkCell);
+
+protected:
+  /**
+   * Allocate number of points needed for this cell type.
+   */
+  itkLineCell(): Cell(NumberOfPoints) {}  
 };
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -59,19 +59,17 @@ public:
    * The vertex has only a point as its boundary.
    */
   typedef itkPoint< PointDimension , CoordRep >  Point;
-  
-protected:
+
   /**
-   * A vertex needs only one point to define it.
+   * Vertex-specific topology numbers.
    */
-  itkVertexCell(): Cell(1) {}
+  enum { NumberOfPoints = 1 };
   
-public:
   /**
    * Implement the standard cell API.
    */
   static Pointer New(void);
-  virtual CellFeatureID GetNumberOfBoundaryEntities(void);
+  virtual CellFeatureCount GetNumberOfBoundaryEntities(int dimension);
   virtual void SetCellPoints(PointIdentifier *ptList);
   
   /**
@@ -82,7 +80,13 @@ public:
   /**
    * Standard part of itkObject class.  Used for debugging output.
    */
-  virtual const char *GetClassName() const { return "itkVertexCell"; }
+  itkTypeMacro(itkVertexCell, itkCell);
+
+protected:
+  /**
+   * Allocate number of points needed for this cell type.
+   */
+  itkVertexCell(): Cell(NumberOfPoints) {}
 };
 
 #ifndef ITK_MANUAL_INSTANTIATION

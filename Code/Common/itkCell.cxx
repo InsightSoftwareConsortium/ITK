@@ -16,20 +16,26 @@
 // #include "itkCell.h"
 
 
-template <typename TPixelType, typename TMeshType>
-itkCell< TPixelType , TMeshType >::Point
-itkCell< TPixelType , TMeshType >
-::GetPointPosition(Mesh* mesh, int localID)
-{
-  return (*(mesh->m_Points))[m_Points[localID]];
-}
-
-
+/**
+ * Use this to set an individual point identifier in the cell.
+ */
 template <typename TPixelType, typename TMeshType>
 void
 itkCell< TPixelType , TMeshType >
 ::SetCellPoint(CellFeatureID featureId, PointIdentifier ptId)
 {
-  m_Points[featureId] = ptId;
+  m_PointIds[featureId] = ptId;
+}
+
+
+/**
+ * Used internally by a cell to get the geometric position of a point.
+ */
+template <typename TPixelType, typename TMeshType>
+itkCell< TPixelType , TMeshType >::Point
+itkCell< TPixelType , TMeshType >
+::GetPointPosition(Mesh* mesh, int localID)
+{
+  return (*(mesh->m_PointIds))[m_PointIds[localID]];
 }
 

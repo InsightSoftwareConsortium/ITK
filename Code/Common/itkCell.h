@@ -70,7 +70,27 @@ public:
   typedef typename MeshType::CellFeatureID    CellFeatureID;
   enum { PointDimension = MeshType::PointDimension };
   
+  /**
+   * The type of point used by the cell.
+   */
   typedef itkPoint< PointDimension , CoordRep >  Point;
+
+  /**
+   * A useful rename.
+   */
+  typedef CellFeatureID CellFeatureCount;  
+
+  /**
+   * Public interface routines.
+   */
+  virtual CellFeatureCount GetNumberOfBoundaryEntities(int dimension)=0;
+  virtual void SetCellPoints(PointIdentifier *ptList)=0;
+  virtual void SetCellPoint(CellFeatureID, PointIdentifier ptId);
+
+  /**
+   * Standard part of itkObject class.  Used for debugging output.
+   */
+  itkTypeMacro(itkCell, itkObject);
 
 protected:
   /**
@@ -79,7 +99,7 @@ protected:
    * identifiers.
    */
   typedef std::vector< PointIdentifier >  PointIdentifierContainer;
-  PointIdentifierContainer  m_Points;
+  PointIdentifierContainer  m_PointIds;
   
   /**
    * The set of cells that have been assigned to use this cell as a boundary.
@@ -96,25 +116,12 @@ protected:
    * The constructor allocates the point identifier container.
    */
   itkCell() {}
-  itkCell(unsigned long numPoints): m_Points(numPoints) {}  
+  itkCell(unsigned long numPoints): m_PointIds(numPoints) {}  
   
   /**
    * Get the geometrical position of a point.
    */
   Point GetPointPosition(Mesh* mesh, int localID);
-  
-public:
-  /**
-   * Public interface routines.
-   */
-  virtual CellFeatureID GetNumberOfBoundaryEntities(void)=0;
-  virtual void SetCellPoints(PointIdentifier *ptList)=0;
-  virtual void SetCellPoint(CellFeatureID, PointIdentifier ptId);
-
-  /**
-   * Standard part of itkObject class.  Used for debugging output.
-   */
-  itkTypeMacro(itkCell, itkObject);
 };
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -28,14 +28,18 @@ itkLineCell< TPixelType , TMeshType >
 
 
 /**
- *
+ * Get the number of boundary entities of the given dimension.
  */
 template <typename TPixelType, typename TMeshType>
-itkLineCell< TPixelType , TMeshType >::CellFeatureID
+itkLineCell< TPixelType , TMeshType >::CellFeatureCount
 itkLineCell< TPixelType , TMeshType >
-::GetNumberOfBoundaryEntities(void)
+::GetNumberOfBoundaryEntities(int dimension)
 {
-  return 2;
+  switch (dimension)
+    {
+    case 0: return GetNumberOfVertices();
+    default: return 0;
+    }
 }
 
 
@@ -48,8 +52,8 @@ void
 itkLineCell< TPixelType , TMeshType >
 ::SetCellPoints(PointIdentifier *ptList)
 {
-  m_Points[0] = ptList[0];
-  m_Points[1] = ptList[1];
+  for(int i=0; i < NumberOfPoints ; ++i)
+    m_PointIds[i] = ptList[i];
 }
 
 
@@ -58,11 +62,11 @@ itkLineCell< TPixelType , TMeshType >
  * Get the number of vertices for this cell.
  */
 template <typename TPixelType, typename TMeshType>
-itkLineCell< TPixelType , TMeshType >::CellFeatureID
+itkLineCell< TPixelType , TMeshType >::CellFeatureCount
 itkLineCell< TPixelType , TMeshType >
 ::GetNumberOfVertices(void)
 {
-  return 2;
+  return NumberOfPoints;
 }
 
 
@@ -76,7 +80,7 @@ itkLineCell< TPixelType , TMeshType >
 ::GetCellVertex(CellFeatureID vertexId)
 {
   Vertex::Pointer vert(Vertex::New());
-  vert->SetCellPoint(0, m_Points[vertexId]);
+  vert->SetCellPoint(0, m_PointIds[vertexId]);
   
   return vert;  
 }

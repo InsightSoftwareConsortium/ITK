@@ -95,4 +95,8 @@ public:
 };
 
 
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkIdentifierTraits.cxx"
+#endif
+
 #endif
