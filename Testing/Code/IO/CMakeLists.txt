@@ -31,6 +31,7 @@ itkRawImageIOTest2.cxx
 itkRawImageIOTest3.cxx
 itkRawImageIOTest4.cxx
 itkRegularExpressionSeriesFileNamesTest.cxx
+itkArchetypeSeriesFileNamesTest.cxx
 itkStimulateImageIOTest.cxx
 itkStimulateImageIOTest2.cxx
 itkTIFFImageIOTest.cxx
@@ -345,8 +346,12 @@ ADD_TEST(itkGiplImageIOTest2 ${IO_TESTS} itkGiplImageIOTest
         ${ITK_DATA_ROOT}/Input/test_siemens/3868-2-100.ima)
   ADD_TEST(itkRegularExpressionSeriesFileNamesTest
     ${IO_TESTS} itkRegularExpressionSeriesFileNamesTest
-    ${ITK_DATA_ROOT}/Input
-    )
+    ${ITK_DATA_ROOT}/Input)
+  ADD_TEST(itkArchetypeSeriesFileNamesTest
+    ${IO_TESTS} itkArchetypeSeriesFileNamesTest
+    ${ITK_DATA_ROOT}/Input/Archetype/a5b7.PNG
+    ${ITK_DATA_ROOT}/Input/Archetype/a7b1.PNG)
+
 
 IF(USE_GDCM)
   INCLUDE_DIRECTORIES( ${GDCM_INCLUDE_DIR})
