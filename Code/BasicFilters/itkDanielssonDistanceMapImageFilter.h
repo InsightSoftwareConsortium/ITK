@@ -72,7 +72,8 @@ public:
   /** Type for input image. */
   typedef   TInputImage       InputImageType;
 
-  /** Type for the output image. */
+  /** Type for two of the three output images: the VoronoiMap and the
+   * DistanceMap.  */
   typedef   TOutputImage      OutputImageType;
 
   /** Type for the region of the input image. */
@@ -128,14 +129,14 @@ public:
    * of the closest object.  */
   OutputImageType * GetVoronoiMap(void);
 
-  /** Get Distance map image.
-   * The distance map is shown as a gray value image depending on 
-   * the pixel type of the output image.
-   * Regarding the source image, background should be dark (gray value = 0) 
-   * and object should have a gray value larger than 0. 
-   * The minimal distance is calculated on the object frontier, 
-   * and the output image gives for each pixel its minimal distance from the object 
-   * (if there is more than one object the closest object is considered). */
+  /** Get Distance map image.  The distance map is shown as a gray
+   * value image depending on the pixel type of the output image.
+   * Regarding the source image, background should be dark (gray value
+   * = 0) and object should have a gray value larger than 0.  The
+   * minimal distance is calculated on the object frontier, and the
+   * output image gives for each pixel its minimal distance from the
+   * object (if there is more than one object the closest object is
+   * considered). */
   OutputImageType * GetDistanceMap(void);
 
   /** Get vector field of distances. */
