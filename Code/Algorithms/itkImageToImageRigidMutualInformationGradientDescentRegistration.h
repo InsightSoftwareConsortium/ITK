@@ -45,8 +45,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkMutualInformationImageToImageMetric.h"
 #include "itkQuaternionRigidTransformGradientDescentOptimizer.h"
 #include "itkImageMapper.h"
-#include "itkQuaternionRigidRegistrationTransform.h"
 #include "itkPoint.h"
+#include "itkQuaternionRigidTransform.h"
 
 namespace itk
 {
@@ -72,11 +72,17 @@ public:
    */
    typedef TTarget TargetType;
 
+
   /**
    * Image Dimensions
    */
-   enum {ImageDimension = ReferenceType::ImageDimension,
-         ParametersDimension = 7 };
+   enum { ImageDimension = ReferenceType::ImageDimension }; 
+
+
+  /**
+   * Parameters Dimensions
+   */
+   enum { ParametersDimension = 7 };
 
   /**
    *  Type of the parameters
@@ -86,7 +92,7 @@ public:
   /**
    *  Type of the Transformation
    */
-  typedef QuaternionRigidRegistrationTransform<
+  typedef QuaternionRigidTransform<
                  double,
                  ParametersType > TransformationType;
 

@@ -87,12 +87,16 @@ public:
    */
    typedef TransformationType::ParametersType  ParametersType;
 
-
   /**
    * Image Dimensions
    */
-   enum {ImageDimension = ReferenceType::ImageDimension,
-         ParametersDimension = TransformationType::ParametersDimension };
+   enum { ImageDimension = ReferenceType::ImageDimension }; 
+
+
+  /**
+   * Parameters Dimensions
+   */
+   enum { ParametersDimension = TransformationType::ParametersDimension }; 
 
 
   /**

@@ -22,8 +22,9 @@
 #include "itkRegularStepGradientDescentOptimizer.h"
 #include "itkImage.h"
 #include "itkImageMapper.h"
-#include "itkRigid3DRegistrationTransform.h"
 #include "itkPointSet.h"
+#include "itkRigid3DTransform.h"
+
 
 namespace itk
 {
@@ -67,7 +68,7 @@ public:
   /**
    *  Type of the Transformation
    */
-   typedef Rigid3DRegistrationTransform<
+   typedef Rigid3DTransform<
                 double, 
                 ParametersType > TransformationType;
 	  
