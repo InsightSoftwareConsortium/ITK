@@ -59,8 +59,11 @@ int main()
 
 
   //  VnlVector type
-  typedef    VersorType::VnlVectorType      VnlVectorType;
+  typedef    VersorType::VnlVectorType       VnlVectorType;
 
+
+  //  VnlQuaternion type
+  typedef    VersorType::VnlQuaternionType   VnlQuaternionType;
 
   {
     std::cout << "Test default constructor... ";
@@ -360,6 +363,70 @@ int main()
     std::cout << " PASSED !" << std::endl;
   }
   
+
+
+  {
+
+    std::cout << "Test for Set components operations ...";
+
+    // First, create a known versor
+    VersorType v1;
+
+    VectorType x1;
+    x1 = 2.5f, 1.5f, 3.5f;
+
+    ValueType angle1 = atan(1.0)/3.0; // 15 degrees in radians
+    
+    v1.Set( x1, angle1 );
+ 
+    // Get the components and scale them
+    ValueType scale = 5.5;
+    ValueType x = v1.GetX() * scale;
+    ValueType y = v1.GetY() * scale;
+    ValueType z = v1.GetZ() * scale;
+    ValueType w = v1.GetW() * scale;
+ 
+    VersorType v2;
+    v2.Set( x, y, z, w );
+
+    // Compare both versors
+    if( fabs(v1.GetX() - v2.GetX() ) > epsilon ||
+        fabs(v1.GetY() - v2.GetY() ) > epsilon ||
+        fabs(v1.GetZ() - v2.GetZ() ) > epsilon ||
+        fabs(v1.GetW() - v2.GetW() ) > epsilon )
+      {
+      std::cout << "Error in Versor Set(x,y,z,w) ! " << std::endl;
+      std::cout << "v1  = " << v1 << std::endl;
+      std::cout << "v2  = " << v2 << std::endl;
+      return EXIT_FAILURE;
+      } 
+    std::cout << " PASSED !" << std::endl;
+
+
+    std::cout << "Test for Set quaternion ...";
+    // Get a vnl_quaternion
+    VnlQuaternionType vnlq = v1.GetVnlQuaternion();
+   
+    vnlq *= scale;
+
+    v2.Set( vnlq );
+
+    // Compare both versors
+    if( fabs(v1.GetX() - v2.GetX() ) > epsilon ||
+        fabs(v1.GetY() - v2.GetY() ) > epsilon ||
+        fabs(v1.GetZ() - v2.GetZ() ) > epsilon ||
+        fabs(v1.GetW() - v2.GetW() ) > epsilon )
+      {
+      std::cout << "Error in Versor Set( vnl_quaternion ) ! " << std::endl;
+      std::cout << "v1  = " << v1 << std::endl;
+      std::cout << "v2  = " << v2 << std::endl;
+      return EXIT_FAILURE;
+      } 
+    std::cout << " PASSED !" << std::endl;
+
+
+
+  }
 
 
 
