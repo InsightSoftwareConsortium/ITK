@@ -342,6 +342,11 @@ ImageSeriesWriter<TInputImage,TOutputImage>
       writer->SetImageIO(m_ImageIO);
       }
 
+    if( m_MetaDataDictionaryArray )
+      {
+      DictionaryRawPointer dictionary = (*m_MetaDataDictionaryArray)[slice];
+      m_ImageIO->SetMetaDataDictionary( (*dictionary) );
+      }
 
     writer->SetFileName( m_FileNames[slice].c_str() );
     writer->Update();
