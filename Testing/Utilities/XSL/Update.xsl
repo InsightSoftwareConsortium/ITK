@@ -48,7 +48,7 @@
     <xsl:value-of select="PriorRevision"/></a>
   </xsl:if>
   <br/>
-</xsl:template>
+</xsl:for-each>
 
 
 <h2><a><xsl:attribute name="name">author</xsl:attribute>Modified by Author</a></h2>
