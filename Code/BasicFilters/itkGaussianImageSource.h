@@ -102,6 +102,7 @@ protected:
   ~GaussianImageSource();
   void PrintSelf(std::ostream& os, Indent indent) const;
   void GenerateData();
+  virtual void GenerateOutputInformation();
 
 private:
   GaussianImageSource(const GaussianImageSource&); //purposely not implemented

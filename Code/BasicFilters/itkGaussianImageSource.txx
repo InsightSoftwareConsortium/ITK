@@ -39,8 +39,8 @@ GaussianImageSource<TOutputImage>
 
   // Gaussian parameters, defined so that the gaussian
   // is centered in the default image
-  m_Mean = ArrayType::Filled(32.0);
-  m_Sigma = ArrayType::Filled(16.0);
+  m_Mean.Fill(32.0);
+  m_Sigma.Fill(16.0);
   m_Scale = 255.0;
   m_Normalized = false;
 
@@ -100,29 +100,39 @@ GaussianImageSource<TOutputImage>
   os << indent << "Normalized Gaussian?: " << m_Normalized << std::endl;
 }
 
+//----------------------------------------------------------------------------
+template <typename TOutputImage>
+void 
+GaussianImageSource<TOutputImage>
+::GenerateOutputInformation()
+{
+  TOutputImage *output;
+  typename TOutputImage::IndexType index = {{0}};
+  typename TOutputImage::SizeType size = {{0}};
+  size.SetSize( m_Size );
+  
+  output = this->GetOutput(0);
+
+  typename TOutputImage::RegionType largestPossibleRegion;
+  largestPossibleRegion.SetSize( size );
+  largestPossibleRegion.SetIndex( index );
+  output->SetLargestPossibleRegion( largestPossibleRegion );
+
+  output->SetSpacing(m_Spacing);
+  output->SetOrigin(m_Origin);
+}
+
 template <typename TOutputImage>
 void 
 GaussianImageSource<TOutputImage>
 ::GenerateData()
 {
-  // Initialize the output image
-  TOutputImage *outputPtr;
-  typename TOutputImage::IndexType index = {{0}};
-  typename TOutputImage::SizeType size = {{0}};
-  size.SetSize( m_Size );
-  
-  outputPtr = this->GetOutput(0);
+  typename TOutputImage::Pointer outputPtr = this->GetOutput();
 
-  typename TOutputImage::RegionType largestPossibleRegion;
-  largestPossibleRegion.SetSize( size );
-  largestPossibleRegion.SetIndex( index );
-  outputPtr->SetLargestPossibleRegion( largestPossibleRegion );
-  outputPtr->SetBufferedRegion( largestPossibleRegion );
+  // allocate the output buffer
+  outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
   outputPtr->Allocate();
 
-  outputPtr->SetSpacing(m_Spacing);
-  outputPtr->SetOrigin(m_Origin);
-  
   // Create and initialize a new gaussian function
   typedef itk::GaussianSpatialFunction<double, NDimensions> TFunctionType;
   typedef TFunctionType::InputType TFunctionPositionType;
@@ -135,7 +145,8 @@ GaussianImageSource<TOutputImage>
 
   // Create an iterator that will walk the output region
   typedef ImageRegionIterator<TOutputImage> OutputIterator;
-  OutputIterator outIt = OutputIterator(outputPtr, largestPossibleRegion);
+  OutputIterator outIt = OutputIterator(outputPtr,
+                                        outputPtr->GetRequestedRegion());
 
   // The value produced by the spatial function
   double value;
