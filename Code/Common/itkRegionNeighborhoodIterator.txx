@@ -71,15 +71,16 @@ void RegionNeighborhoodIterator<TPixel, VDimension>
   
 template<class TPixel, unsigned int VDimension>
 void RegionNeighborhoodIterator<TPixel, VDimension>
-::SetBound(const unsigned long bound[VDimension])
+::SetBound(const Size& size)
 {
   const unsigned long *offset     = m_Image->GetOffsetTable();
-  const unsigned long *bufferSize = m_Image->GetBufferSize();
+  const unsigned long *bufferSize
+    = m_Image->GetBufferedRegion().GetSize().m_Size;
 
   // Set the bounds and the wrapping offsets
   for (int i=0; i<VDimension; ++i)
     {
-      m_Bound[i]      = m_StartIndex[i]+bound[i];
+      m_Bound[i]      = m_StartIndex[i]+size[i];
       m_WrapOffset[i] = (bufferSize[i] - (m_Bound[i] - m_StartIndex[i]))
                         * offset[i];
     }  
@@ -128,13 +129,11 @@ RegionNeighborhoodIterator<TPixel, VDimension>
   Self it( *this );
 
   // Calculate the end index
-  endIndex.m_Index[0] = m_StartIndex[0] + m_Bound[0];
+  endIndex.m_Index[0] = m_Bound[0];
   for (int i = 1; i< VDimension; ++i)
     {
-      endIndex.m_Index[i] = m_StartIndex[i] + m_Bound[i] -1;
+      endIndex.m_Index[i] = m_Bound[i] -1;
     }
-  
-  // Set the position to the m_BeginOffset
   it.SetLocation( endIndex );
 
   return it;

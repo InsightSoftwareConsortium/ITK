@@ -31,7 +31,8 @@ namespace itk {
  * conditions on dereferencing.
  *
  * RegionNeighborhoodIterator only maintains counters for loop position and
- * upper bounds, and so it is "unaware" when it is overlapping a region boundary.
+ * upper bounds, and so it is "unaware" when it is overlapping a region
+ * boundary.
  * You can only safely use this iterator on regions sufficiently contained
  * within the itk::Image buffer.
  *
@@ -60,6 +61,8 @@ public:
   typedef itk::Image<TPixel, VDimension>        Image;
   typedef itk::Index<VDimension>                Index;
   typedef itk::Neighborhood<TPixel, VDimension> Neighborhood;
+  typedef itk::Size<VDimension>                 Size;
+  typedef itk::ImageRegion<VDimension>               Region;
   
   /** 
    * Run-time type information (and related methods).
@@ -71,13 +74,12 @@ public:
   * dimension to walk a particular image and a particular region of
   * that image.
   */
-  RegionNeighborhoodIterator(const unsigned long radius[VDimension],
+  RegionNeighborhoodIterator(const Size &radius,
                              Image *ptr,
-                             const Index &start,
-                             const unsigned long bound[VDimension])
-    : NeighborhoodIterator<TPixel, VDimension>(radius, ptr, start, bound)
+                             const Region &region)
+    : NeighborhoodIterator<TPixel, VDimension>(radius, ptr, region)
   {
-    this->SetBound(bound);
+    this->SetBound(region.GetSize());
   }
 
   /**
@@ -128,7 +130,7 @@ protected:
   /**
    * Sets the loop upper boundaries for iteration.
    */
-  void SetBound(const unsigned long []);
+  void SetBound(const Size &);
 };
   
 } // namespace itk
