@@ -63,6 +63,13 @@ MultivariateLegendrePolynomial
 }
 
 void MultivariateLegendrePolynomial
+::Print(std::ostream& os) 
+{
+  itk::Indent indent(4) ;
+  this->PrintSelf(os, indent) ;
+}
+
+void MultivariateLegendrePolynomial
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   os << indent << "Dimension: " << m_Dimension << std::endl ;
@@ -251,6 +258,13 @@ unsigned int MultivariateLegendrePolynomial
 ::GetNumberOfCoefficients()
 { 
   return m_NumberOfCoefficients ;
+}
+
+std::ostream& operator<< (std::ostream& os, 
+                          MultivariateLegendrePolynomial& poly) 
+{
+  poly.Print(os); 
+  return os;
 }
 
 } // end of namespace itk

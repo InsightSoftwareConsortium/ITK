@@ -70,6 +70,8 @@ namespace itk {
 class MultivariateLegendrePolynomial
 {
 public:
+  typedef MultivariateLegendrePolynomial Self ;
+
   typedef std::vector< double > DoubleArrayType ;
   typedef std::vector< unsigned long > ULongArrayType ;
   typedef std::vector< long > LongArrayType ;
@@ -252,9 +254,10 @@ public:
     bool              m_IsAtEnd;
   } ; // end of class Iterator 
   
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void Print(std::ostream& os) ;
 
 protected:
+  void PrintSelf(std::ostream& os, Indent indent) const;
   double LegendreSum(const double x, int n, const CoefficientArrayType& coef,
                      int offset = 0); 
   void CalculateXCoef(double norm_y, const CoefficientArrayType& coef);
@@ -276,5 +279,7 @@ private:
   long m_PrevZ ;
 } ; // end of class
 
+std::ostream& operator<< (std::ostream& os, 
+                          MultivariateLegendrePolynomial& poly) ;
 } // end of namespace itk
 #endif
