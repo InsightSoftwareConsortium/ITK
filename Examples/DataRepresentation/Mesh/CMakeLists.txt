@@ -1,0 +1,10 @@
+
+PROJECT(MeshExamples)
+
+ADD_EXECUTABLE(Mesh1 Mesh1.cxx )
+TARGET_LINK_LIBRARIES(Mesh1 ITKCommon)
+
+ADD_EXECUTABLE(Mesh2 Mesh2.cxx )
+TARGET_LINK_LIBRARIES(Mesh2 ITKCommon)
+
+
