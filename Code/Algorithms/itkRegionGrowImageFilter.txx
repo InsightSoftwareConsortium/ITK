@@ -71,8 +71,11 @@ RegionGrowImageFilter<TInputImage,TOutputImage>
 {
 
   Superclass::PrintSelf(os,indent);
-
-  os << indent << "Region grow segmentation" << std::endl;
+  os << indent << "Region grow image filter object" << std::endl;
+  os << indent << "Maximum number of regions: " << m_MaxNumRegions << std::endl;
+  os << indent << "Maximum column grid size : " << m_ColGridSize << std::endl;
+  os << indent << "Maximum row grid size    : " << m_RowGridSize << std::endl;
+  os << indent << "Maximum slice grid size  : " << m_SliceGridSize << std::endl;
 
 }// end PrintSelf
 

@@ -67,7 +67,8 @@ SegmentationBorder<TInputImage,TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-  os << indent << "Region border object" << std::endl;
+  os << indent << "Segmentation border object" << std::endl;
+  os << indent << "Length of the border: " << m_BorderLength << std::endl;
 
 }// end PrintSelf
 
