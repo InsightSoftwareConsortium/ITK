@@ -239,7 +239,7 @@ int main( int argc, char **argv )
   // Software Guide : BeginCodeSnippet
   smoothing->SetNumberOfIterations( 5 );
 
-  smoothing->SetTimeStep( 0.25 );
+  smoothing->SetTimeStep( 0.125 );
   // Software Guide : EndCodeSnippet
 
 
