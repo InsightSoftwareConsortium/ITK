@@ -96,7 +96,6 @@ VectorLinearInterpolateImageFunction< TInputImage, TCoordRep >
     double overlap = 1.0;          // fraction overlap
     unsigned int upper = counter;  // each bit indicates upper/lower neighbour
     IndexType neighIndex;
-    PixelType input;
 
     // get neighbor index and overlap fraction
     for( dim = 0; dim < ImageDimension; dim++ )
@@ -120,7 +119,7 @@ VectorLinearInterpolateImageFunction< TInputImage, TCoordRep >
     // get neighbor value only if overlap is not zero
     if( overlap )
       {
-      input = m_Image->GetPixel( neighIndex );
+      const PixelType input = m_Image->GetPixel( neighIndex );
       for(unsigned int k = 0; k < Dimension; k++ )
         {
         output[k] += overlap * static_cast<RealType>( input[k] );
