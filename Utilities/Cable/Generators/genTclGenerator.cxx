@@ -161,12 +161,13 @@ void TclGenerator::GenerateWrappers()
     "\n"
     "void Wrapper_" << m_CableConfiguration->GetGroupName().c_str() << "_Initialize(Tcl_Interp* interp)\n"
     "{\n"
-    "  InitializeGroupForInterpreter(interp);\n";  
+    "  InitializeGroupForInterpreter(interp);\n"
+    "  WrapperFacility* wrapperFacility = WrapperFacility::GetForInterpreter(interp);\n";
   for(WrapperList::const_iterator w = m_WrapperList.begin();
       w != m_WrapperList.end(); ++w)
     {
     m_Output <<
-      "  Wrapper< " << w->c_str() << " >::GetForInterpreter(interp);\n";
+      "  new Wrapper< " << w->c_str() << " >(wrapperFacility);\n";
     }
   m_Output <<
     "}\n"

@@ -68,7 +68,7 @@ class Wrapper;
 class _wrap_EXPORT WrapperBase
 {
 public:
-  WrapperBase(Tcl_Interp* interp, const String& wrappedTypeName);
+  WrapperBase(WrapperFacility*, const String&);
   virtual ~WrapperBase();
   
   const Type* GetWrappedTypeRepresentation() const;
@@ -106,8 +106,12 @@ protected:
                                           int, Tcl_Obj*CONST[]);  
   static int ObjectWrapperDispatchFunction(ClientData, Tcl_Interp*,
                                            int, Tcl_Obj*CONST[]);
-  static void InterpreterFreeCallback(ClientData, Tcl_Interp*);
 protected:
+  /**
+   * The wrapper facility for this wrapper's interpreter.
+   */
+  WrapperFacility* m_WrapperFacility;
+
   /**
    * The Tcl interpreter to which this wrapper is attached.
    */
@@ -116,12 +120,7 @@ protected:
   /**
    * The name of the wrapped type.
    */
-  const String   m_WrappedTypeName;
-  
-  /**
-   * The wrapper facility for this wrapper's interpreter.
-   */
-  WrapperFacility* m_WrapperFacility;
+  const String   m_WrappedTypeName;  
   
   /**
    * The TypeSystem's representation for this wrapped type.

@@ -70,11 +70,12 @@ struct WrapperBase::MethodMap: public MethodMapBase
  * also gets the interpreter's TypeSystem and WrapperFacility
  * for this wrapper's use.
  */
-WrapperBase::WrapperBase(Tcl_Interp* interp, const String& wrappedTypeName):
-  m_Interpreter(interp),
+WrapperBase::WrapperBase(WrapperFacility* wrapperFacility,
+                         const String& wrappedTypeName):
+  m_WrapperFacility(wrapperFacility),
+  m_Interpreter(m_WrapperFacility->GetInterpreter()),
   m_WrappedTypeName(wrappedTypeName),
   m_WrappedTypeRepresentation(NULL),
-  m_WrapperFacility(WrapperFacility::GetForInterpreter(m_Interpreter)),
   m_MethodMap(new MethodMap)
 {
   String noTemplate = m_WrappedTypeName.substr(0, m_WrappedTypeName.find_first_of("<"));
@@ -545,16 +546,4 @@ int WrapperBase::ObjectWrapperDispatchFunction(ClientData clientData,
 }
 
 
-/**
- * When a Tcl interpreter is deleted, this is called for each of the
- * registered wrappers to free them.
- */
-void WrapperBase::InterpreterFreeCallback(ClientData data,
-                                          Tcl_Interp* interp)
-{
-  delete static_cast<WrapperBase*>(data);
-}
-
-
 } // namespace _wrap_
-

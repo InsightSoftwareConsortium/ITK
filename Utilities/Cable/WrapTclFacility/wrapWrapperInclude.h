@@ -93,11 +93,9 @@ public:
   // Pull this typedef from our superclass.
   typedef WrapperBase::WrapperFunction WrapperFunction;
   
-  // A few methods common to every Wrapper.  These are implemented below.
-  Wrapper(Tcl_Interp* interp);  
-  void InitializeForInterpreter();  
-  static Wrapper* GetForInterpreter(Tcl_Interp*);
-  
+  // Constructor.  This is implemented below.
+  Wrapper(WrapperFacility*);
+
 private:
   // Everything in the class below here must be implemented by the
   // file that includes this one.
@@ -113,33 +111,26 @@ private:
 
 
 /**
- * Constructor just initializes the Wrapper to work with the given
- * interpreter.  It passes down some information to the WrapperBase.
+ * Constructor initializes the Wrapper to work with the given
+ * WrapperFacility.  It passes down some information to the
+ * WrapperBase constructor.
  */
 Wrapper< _wrap_WRAPPED_TYPE >:: 
-Wrapper(Tcl_Interp* interp):
-  WrapperBase(interp, _wrap_WRAPPED_TYPE_NAME)
+Wrapper(WrapperFacility* wrapperFacility):
+  WrapperBase(wrapperFacility, _wrap_WRAPPED_TYPE_NAME)
 {
   // Setup our superclass's record of the representation of the
   // wrapped type.
   m_WrappedTypeRepresentation =
     ClassType::SafeDownCast(CvType<WrappedType>::type.GetType());
   
+  // Register the Wrapper with the WrapperFacility.
+  m_WrapperFacility->SetWrapper(m_WrappedTypeRepresentation, this);
+  
   // Register our method wrappers with the superclass.
   this->RegisterMethodWrappers();
   
   // Setup this instance of the Wrapper to work with its interpreter.
-  this->InitializeForInterpreter();
-}
-
-/**
- * Setup this wrapper to work with its interpreter.
- */
-void
-Wrapper< _wrap_WRAPPED_TYPE >
-::InitializeForInterpreter()
-{
-  m_WrapperFacility->SetWrapper(m_WrappedTypeRepresentation, this);
   Tcl_CreateObjCommand(m_Interpreter,
                        const_cast<char*>(m_WrappedTypeName.c_str()),
                        this->GetClassWrapperFunction(),
@@ -153,31 +144,6 @@ Wrapper< _wrap_WRAPPED_TYPE >
                          static_cast<WrapperBase*>(this), 0);
     }
 #endif
-}
-
-
-/**
- * Get a Wrapper configured to work with the given interpreter.  If one
- * does not exist, it will be created.
- */
-Wrapper< _wrap_WRAPPED_TYPE >*
-Wrapper< _wrap_WRAPPED_TYPE >::GetForInterpreter(Tcl_Interp* interp)
-{
-  // See if the interpreter has already been given a WrapperFacility.
-  ClientData data =
-    Tcl_GetAssocData(interp, "WrapTclWrapper: " _wrap_WRAPPED_TYPE_NAME, 0);
-  
-  if(data)
-    {
-    return static_cast<Wrapper*>(static_cast<WrapperBase*>(data));
-    }
-  
-  // No, we must create a new WrapperFacility for this interpreter.
-  Wrapper* newWrapper = new Wrapper(interp);
-  Tcl_SetAssocData(interp, "WrapTclWrapper: " _wrap_WRAPPED_TYPE_NAME,
-                   &InterpreterFreeCallback,
-                   static_cast<WrapperBase*>(newWrapper));
-  return newWrapper;
 }
 
 
@@ -225,18 +191,9 @@ void InitializeGroupForInterpreter(Tcl_Interp* interp)
 {
   // Make sure the global group stuff has been initialized.
   InitializeGroup();
-
-  // See if the group has already been initialized for the interpreter.
-  ClientData data =
-    Tcl_GetAssocData(interp, "WrapTclGroup: " _wrap_WRAPPER_GROUP_NAME, 0);
   
-  if(!data)
-    {
-    // Mark the interpreter as initialized for this group.
-    Tcl_SetAssocData(interp, "WrapTclGroup: " _wrap_WRAPPER_GROUP_NAME, 0,
-                     reinterpret_cast<ClientData>(1));
-    InitializeConversions(interp);
-    }  
+  // Initialize interpreter-specific stuff for this group.
+  InitializeConversions(interp);
 }
 
 } // anonymous namespace

@@ -198,6 +198,10 @@ WrapperFacility::WrapperFacility(Tcl_Interp* interp):
  */
 WrapperFacility::~WrapperFacility()
 {
+  // The interpreter is being deleted.  Make sure no code below tries
+  // to use it.
+  m_Interpreter = 0;
+
   // Delete object instances first because they may want to use the
   // facility for something.  Loop over the maps and explicitly delete
   // every instance left.  Do not call CxxObject::Delete because that
@@ -218,6 +222,13 @@ WrapperFacility::~WrapperFacility()
       e != m_EnumMap->end(); ++e)
     {
     this->DeleteObject(e->second.m_Object, e->second.m_Type);
+    }
+  
+  // Delete class wrapper objects.
+  for(WrapperMap::const_iterator w = m_WrapperMap->begin();
+      w != m_WrapperMap->end(); ++w)
+    {
+    delete w->second;
     }
   
   delete m_ConversionTable;
@@ -660,6 +671,14 @@ bool WrapperFacility::WrapperExists(const Type* type) const
  */
 void WrapperFacility::SetWrapper(const Type* type, WrapperBase* wrapper)
 {
+  // Delete any existing Wrapper for the type.
+  WrapperMap::const_iterator w = m_WrapperMap->find(type);
+  if(w != m_WrapperMap->end())
+    {
+    delete w->second;
+    }
+  
+  // Set the new Wrapper for the type.
   m_WrapperMap->insert(WrapperMap::value_type(type, wrapper));
 }
   

@@ -243,8 +243,15 @@ void CxxObject::CreateTclCommand() const
 void CxxObject::DeleteTclCommand() const
 {
   String cmdName = this->GetStringRepresentation();
-  Tcl_DeleteCommand(m_WrapperFacility->GetInterpreter(),
-                    const_cast<char*>(cmdName.c_str()));
+
+  // If this object is being deleted by the WrapperFacility's
+  // destructor, then the interpreter is being deleted.  Don't bother
+  // removing the command.
+  Tcl_Interp* interp = m_WrapperFacility->GetInterpreter();
+  if(interp)
+    {
+    Tcl_DeleteCommand(interp, const_cast<char*>(cmdName.c_str()));
+    }
 }
 
 
