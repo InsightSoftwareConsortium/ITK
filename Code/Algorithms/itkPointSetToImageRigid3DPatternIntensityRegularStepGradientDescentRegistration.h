@@ -126,10 +126,10 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-   typedef
+   typedef RegistrationMethod<
      PointSetToImageRigid3DPatternIntensityRegularStepGradientDescentRegistrationTraits<
         TReference,
-        TTarget>  Superclass;
+        TTarget>  > Superclass;
 
 
   /** 
@@ -185,7 +185,8 @@ public:
   /**
    * Image Dimensions
    */
-  enum {ImageDimension = ReferenceType::ImageDimension};
+  enum {ImageDimension = ReferenceType::ImageDimension,
+        ParametersDimension = TransformationType::ParametersDimension };
 
   /** 
    * Run-time type information (and related methods).
