@@ -62,10 +62,10 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage >
   fixedCalculator.ComputeMoments(  m_FixedImage );
   movingCalculator.ComputeMoments( m_MovingImage );
   
-  FixedImageCalculatorType::VectorType fixedCenter =
+  typename FixedImageCalculatorType::VectorType fixedCenter =
                         fixedCalculator.GetCenterOfGravity();
 
-  MovingImageCalculatorType::VectorType movingCenter =
+  typename MovingImageCalculatorType::VectorType movingCenter =
                         movingCalculator.GetCenterOfGravity();
 
   InputPointType rotationCenter;
