@@ -3357,7 +3357,7 @@ fi
 test -n "$COMPRESSIONCOMMAND" && break
 done
 
-for ac_prog in cygtclsh80
+for ac_prog in cygtclsh80 tclsh tclsh82 tclsh8.2 tclsh80 tclsh8.2 
 do
 # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
@@ -3396,14 +3396,13 @@ fi
 
 test -n "$TCLSHCOMMAND" && break
 done
-test -n "$TCLSHCOMMAND" || TCLSHCOMMAND="tclsh tclsh82 tclsh8.2 tclsh80 tclsh8.2 "
 
 for ac_prog in gunzip 
 do
 # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:3407: checking for $ac_word" >&5
+echo "configure:3406: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_GUNZIPCOMMAND'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -3452,7 +3451,7 @@ do
 # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:3456: checking for $ac_word" >&5
+echo "configure:3455: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_JAVACOMMAND'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -3618,7 +3617,6 @@ Testing/Utilities/Coverage.tcl
 Testing/Utilities/ftp.tcl
 Testing/Utilities/CMakeTestingRules.make
 Testing/Utilities/CMakeTestingDashboardRules.make
-
  itkConfigure.h" | sed "s/:[^ ]*//g"` conftest*; exit 1' 1 2 15
 EOF
 cat >> $CONFIG_STATUS <<EOF
@@ -3761,7 +3759,6 @@ Testing/Utilities/Coverage.tcl
 Testing/Utilities/ftp.tcl
 Testing/Utilities/CMakeTestingRules.make
 Testing/Utilities/CMakeTestingDashboardRules.make
-
 "}
 EOF
 cat >> $CONFIG_STATUS <<\EOF
