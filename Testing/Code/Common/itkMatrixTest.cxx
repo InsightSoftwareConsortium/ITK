@@ -29,7 +29,7 @@ int main()
 {
 
 
-  typedef   double                                NumericType;
+  typedef   float                                NumericType;
   typedef   itk::Matrix<NumericType,3,3>          MatrixType;
   typedef   itk::Vector<NumericType,3>            VectorType;
   typedef   itk::Point<NumericType,3>             PointType;
@@ -89,6 +89,5 @@ int main()
   MatrixType matrix4;
   matrix4 = matrix.GetTranspose();
 
-  
   return 0;
 }
