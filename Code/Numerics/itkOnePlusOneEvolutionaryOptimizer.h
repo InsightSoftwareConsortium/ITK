@@ -14,11 +14,11 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __ONEPLUSONEEVOLUTIONARYOPTIMIZER_H
-#define __ONEPLUSONEEVOLUTIONARYOPTIMIZER_H
-
+#ifndef __itkOnePlusOneEvolutionaryOptimizer_h
+#define __itkOnePlusOneEvolutionaryOptimizer_h
 
 #include <itkSingleValuedNonLinearOptimizer.h>
+#include <itkRandomVariateGeneratorBase.h>
 
 namespace itk
 {
@@ -27,7 +27,7 @@ namespace itk
  * \brief 1+1 evolutionary strategy optimizer
  *
  * This optimizer searches for the optimal parameters. It changes its search
- * radius and position using the grow factor, shrink factor, and isotropic 
+ * radius and position using the grow factor ,shrink factor, and isotropic 
  * probability function (which is a random unit normal variate generator).   
  *
  * This optimizer needs a cost function and a random unit normal 
@@ -54,7 +54,6 @@ namespace itk
  * \sa FastRandomUnitNormalVariateGenerator 
  */
 
-template< class TNormalRandomVariateGenerator>
 class ITK_EXPORT OnePlusOneEvolutionaryOptimizer: 
     public SingleValuedNonLinearOptimizer
 {
@@ -76,9 +75,7 @@ public:
   typedef  CostFunctionType::Pointer        CostFunctionPointer;
 
   /** Normal random variate generator type. */
-  typedef TNormalRandomVariateGenerator NormalRandomVariateGeneratorType ;
-  typedef typename TNormalRandomVariateGenerator::Pointer  
-                   NormalRandomVariateGeneratorPointerType ;
+  typedef Statistics::RandomVariateGeneratorBase NormalVariateGeneratorType ;
   
   /** Set/Get maximum iteration limit. */
   itkSetMacro( MaximumIteration, unsigned int );
@@ -97,12 +94,8 @@ public:
    * (frobenius_norm of covariance matrix). */
   itkSetMacro( Epsilon, double );   
   itkGetConstMacro( Epsilon, double );   
-  
-  /** set seed number for the normal random variate generator.
-   * if users don't provide the seed, this optimizer will use 
-   * rand() function return value as seed.  */
-  itkSetMacro( RandomSeed, long );
-  itkGetConstMacro( RandomSeed, long );
+
+  void SetNormalVariateGenerator(NormalVariateGeneratorType* generator) ;
 
   /** Initializes the optimizer.
    * Before running this optimizer, this function should have been called.
@@ -112,10 +105,13 @@ public:
    * shrink: searhc radius shrink factor */
   void Initialize(double initialRadius, double grow = -1, double shrink = -1) ;
 
+  MeasureType GetCurrentCost()
+  { return m_CurrentCost ; }
+
   /** Start optimization.
    * Optimization will stop when it meets either of two termination conditions,
    * the maximum iteration limit or epsilon (minimal search radius)  */
-  void Run() throw (ExceptionObject) ;
+  void StartOptimization() ;
 
 protected:
   OnePlusOneEvolutionaryOptimizer() ;
@@ -125,7 +121,7 @@ protected:
 private:
   
   /** Smart pointer to the normal random variate generator. */
-  NormalRandomVariateGeneratorPointerType m_RandomGenerator ;
+  NormalVariateGeneratorType* m_RandomGenerator ;
 
   /** Maximum iteration limit. */
   unsigned int m_MaximumIteration ;
@@ -143,22 +139,14 @@ private:
   /** Search radius shrink factor in parameter space, */
   double m_ShrinkFactor ;
 
-  /** Seed number for the normal random variate generator. */
-  long m_RandomSeed ;
-
   /** Flag tells if the optimizer was initialized using Initialize function. */
   bool m_Initialized ;
 
   /** Internal storage for the value type / used as a cache  */
-  MeasureType       m_Value;
+  MeasureType       m_CurrentCost;
 
 } ; // end of class
 
 } // end of namespace itk
-
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkOnePlusOneEvolutionaryOptimizer.txx"
-#endif
-
 
 #endif
