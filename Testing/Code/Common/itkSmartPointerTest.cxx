@@ -84,12 +84,21 @@ itkTestObjectSubClass::Pointer itkTestObjectSubClass::New()
   return itkTestObjectSubClass::Pointer(new itkTestObjectSubClass);
 }
 
+void TestUpCastPointer(itkTestObject::Pointer p)
+{
+}
+
+void TestUpCast(itkTestObject* p)
+{
+}
+
 
 int main()
 {
-  itkTestObject::Pointer to = (itkTestObjectSubClass*)itkTestObjectSubClass::New().GetPointer();
-  itkTestObjectSubClass::Pointer sc = dynamic_cast<itkTestObjectSubClass*>(to.GetPointer());
-  
+  itkTestObject::Pointer to(itkTestObjectSubClass::New());
+  itkTestObjectSubClass::Pointer sc = dynamic_cast<itkTestObjectSubClass*>((itkTestObject*)to);
+  TestUpCast(sc);
+  TestUpCastPointer(sc.GetPointer());
   std::cout <<"second test" << std::endl;
   {
   itkTestObject::Pointer o1 = itkTestObject::New();
