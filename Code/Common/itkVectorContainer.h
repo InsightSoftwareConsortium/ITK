@@ -47,7 +47,7 @@ template <
   >
 class ITK_EXPORT VectorContainer: 
   public Object,
-  private std::vector<TElement>
+  public std::vector<TElement>
 {
 public:
   /** Standard class typedefs. */

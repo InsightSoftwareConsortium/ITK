@@ -45,7 +45,7 @@ namespace itk
 template <typename TElementIdentifier, typename TElement>
 class MapContainer:
   public Object,
-  private std::map< TElementIdentifier , TElement >
+  public std::map< TElementIdentifier , TElement >
 {
 public:
   /** Standard class typedefs. */
