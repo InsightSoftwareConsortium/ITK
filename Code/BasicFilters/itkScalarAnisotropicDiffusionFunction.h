@@ -47,9 +47,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk {
 
 /**
- * \todo DOCUMENT!
- * \ingroup Operators
- */ 
+ * \class ScalarAnisotropicDiffusionFunction    
+ * This class forms the base for any anisotropic diffusion function that
+ * operates on scalar data (see itkAnisotropicDiffusionFunction).  It provides
+ * some common functionality used in classes like
+ * CurvatureNDAnisotropicDiffusionFunction and
+ * GradientNDAnisotropicDiffusionFunction.
+ *
+ * \sa AnisotropicDiffusionFunction
+ * \sa AnisotropicDiffusionImageFilter
+ * \sa VectorAnisotropicDiffusionFunction
+ * \ingroup Functions
+ * \ingroup ImageEnhancement */
 template <class TImage>
 class ScalarAnisotropicDiffusionFunction :
     public AnisotropicDiffusionFunction<TImage>
