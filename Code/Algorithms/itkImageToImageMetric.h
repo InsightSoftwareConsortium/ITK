@@ -68,6 +68,7 @@ public:
   /**  Type of the fixed Image. */
   typedef TFixedImage                                FixedImageType;
   typedef typename FixedImageType::ConstPointer      FixedImageConstPointer;
+  typedef typename FixedImageType::RegionType        FixedImageRegionType;
 
 
   /**  Type of the Transform Base class */
@@ -122,7 +123,13 @@ public:
   itkGetObjectMacro( Interpolator, InterpolatorType );
 
   /** Get the number of pixels considered in the computation. */
-  itkGetMacro( NumberOfPixelsCounted, unsigned long );
+  itkGetConstMacro( NumberOfPixelsCounted, unsigned long );
+
+  /** Set the region over which the metric will be computed */
+  itkSetMacro( FixedImageRegion, FixedImageRegionType );
+
+  /** Get the region over which the metric will be computed */
+  itkGetConstMacro( FixedImageRegion, FixedImageRegionType );
 
   /** Set the parameters defining the Transform. */
   void SetTransformParameters( const ParametersType & parameters ) const;
@@ -152,6 +159,8 @@ private:
   ImageToImageMetric(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
+  FixedImageRegionType        m_FixedImageRegion;  
+
 };
 
 } // end namespace itk

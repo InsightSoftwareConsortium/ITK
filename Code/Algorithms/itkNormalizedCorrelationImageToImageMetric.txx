@@ -48,9 +48,6 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
     itkExceptionMacro( << "Fixed image has not been assigned" );
     }
 
-  typename FixedImageType::RegionType  fixedRegion = 
-                              fixedImage->GetLargestPossibleRegion();
-
   const unsigned int dimension = FixedImageType::ImageDimension;
   itk::Point<double, dimension> Point;  
 
@@ -60,7 +57,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
   typedef  itk::ImageRegionConstIteratorWithIndex<FixedImageType> FixedIteratorType;
 
 
-  FixedIteratorType ti( fixedImage, fixedRegion );
+  FixedIteratorType ti( fixedImage, this->GetFixedImageRegion() );
 
   typename FixedImageType::IndexType index;
 

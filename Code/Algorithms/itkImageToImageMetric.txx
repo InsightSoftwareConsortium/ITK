@@ -84,6 +84,11 @@ ImageToImageMetric<TFixedImage,TMovingImage>
     itkExceptionMacro(<<"FixedImage is not present");
     }
 
+  if( m_FixedImageRegion.GetNumberOfPixels() == 0 )
+    {
+    itkExceptionMacro(<<"FixedImageRegion is empty");
+    }
+
   m_Interpolator->SetInputImage( m_MovingImage );
  
 }
@@ -102,6 +107,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
   os << indent << "Fixed  Image: " << m_FixedImage.GetPointer()   << std::endl;
   os << indent << "Transform:    " << m_Transform.GetPointer()    << std::endl;
   os << indent << "Interpolator: " << m_Interpolator.GetPointer() << std::endl;
+  os << indent << "FixedImageRegion: " << m_FixedImageRegion << std::endl;
   os << indent << "Number of Pixels Counted: " << m_NumberOfPixelsCounted << std::endl;
 
 }
