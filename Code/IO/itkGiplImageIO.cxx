@@ -656,6 +656,12 @@ GiplImageIO
     }
 
   char    line1[80];         /*   26   80  Patient / Text field        */
+
+  for(i=0;i<80;i++)
+    {
+    line1[i]=0; //initialize
+    }
+
   sprintf(line1,"No Patient Information");
   for(i=0;i<80;i++)
     {
@@ -665,6 +671,7 @@ GiplImageIO
   float   matrix[20];        /*  106   80                              */
   for(i=0;i<20;i++)
     {
+    matrix[i]=0; //write zeros
     m_Ofstream.write((char*)&matrix[i],sizeof(float));
     }
 
