@@ -126,7 +126,7 @@ ConstantPadImageFilter<TInputImage,TOutputImage> // support progress methods/cal
 ::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                        int threadId)
 {
-  int dimCtr, regCtr, i;
+  int dimCtr, regCtr, ctr=0;
   int numRegions=1; // Actual number of regions in our decomposed space.
   long sizeTemp;    // We need to calculate negative sizes.  This allows us to do so.
 
@@ -254,11 +254,11 @@ ConstantPadImageFilter<TInputImage,TOutputImage> // support progress methods/cal
       inIt = OutputIterator(inputPtr, inputRegion);
 
       // walk the output region, and sample the input image
-      for (i=0; !outIt.IsAtEnd(); ++outIt, ++inIt, i++ )
+      for (ctr=0; !outIt.IsAtEnd(); ++outIt, ++inIt, ctr++ )
 	{
-	  if ( threadId == 0 && !(i % updateVisits ) )
+	  if ( threadId == 0 && !(ctr % updateVisits ) )
 	    {
-	      this->UpdateProgress((float)i / (float)totalPixels);
+	      this->UpdateProgress((float)ctr / (float)totalPixels);
 	    }
 	  
 	  // copy the input pixel to the output
@@ -275,11 +275,11 @@ ConstantPadImageFilter<TInputImage,TOutputImage> // support progress methods/cal
 	  outIt = OutputIterator(outputPtr, outputRegion);
 	  
 	  // walk the output region, and sample the input image
-	  for (; !outIt.IsAtEnd(); ++outIt, i++ )
+	  for (; !outIt.IsAtEnd(); ++outIt, ctr++ )
 	    {
-	      if ( threadId == 0 && !(i % updateVisits ) )
+	      if ( threadId == 0 && !(ctr % updateVisits ) )
 		{
-		  this->UpdateProgress((float)i / (float)totalPixels);
+		  this->UpdateProgress((float)ctr / (float)totalPixels);
 		}
 	      
 	      // copy the input pixel to the output
