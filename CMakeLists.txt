@@ -7,8 +7,31 @@ BUILD_SHARED_LIBRARIES()
 
 SOURCE_GROUP("XML Files" "\.xml$")
 
+# Include standard Testing module
+INCLUDE (${CMAKE_ROOT}/Modules/Testing.cmake)
+
+#
+# Variables used for submitting testing results. These will change from
+# project to project. Most likely, you will change DROP_SITE, 
+# DROP_SITE_PASSWORD and TRIGGER_SITE.
+# 
+IF (BUILD_TESTING)
+  SUBDIRS(TESTING)
+
+  SET (DROP_SITE "public.kitware.com")
+  SET (DROP_LOCATION "/incoming")
+  SET (DROP_SITE_USER "anonymous")
+  SET (DROP_SITE_PASSWORD "insight-tester@somewhere.com")
+  SET (TRIGGER_SITE "http://${DROP_SITE}/cgi-bin/Submit-Insight-TestingResults.pl")
+
+  SET (CVS_WEB_URL "http://${DROP_SITE}/cgi-bin/itkcvsweb.cgi/Insight/")
+  SET (DOXYGEN_URL "http://${DROP_SITE}/Insight/Doxygen/html/")
+  SET (GNATS_WEB_URL "http://${DROP_SITE}/cgi-bin/gnatsweb.pl/Insight/")
+ENDIF (BUILD_TESTING)
+
+
 # set up subdirectories
-SUBDIRS(Utilities Code Testing Examples)
+SUBDIRS(Utilities Code)
 # Add an option to build or not build the Unsupported stuff
 OPTION(BUILD_UNSUPPORTED "Build the unsupported directory")
 IF(BUILD_UNSUPPORTED)
@@ -37,36 +60,6 @@ IF(UNIX)
 ENDIF(UNIX)
 
 
-# find programs used by testing
-# look for the make program
-IF(NOT UNIX) 
-  FIND_PROGRAM(MAKEPROGRAM msdev )
-ENDIF(NOT UNIX)
-FIND_PROGRAM(MAKEPROGRAM NAMES gmake make )
-FIND_PROGRAM(CVSCOMMAND cvs )
-FIND_PROGRAM(GREPCOMMAND grep )
-FIND_PROGRAM(COMPRESSIONCOMMAND NAMES gzip compress zip )
-FIND_PROGRAM(GUNZIPCOMMAND gunzip )
-FIND_PROGRAM(JAVACOMMAND java )
-
-# find a tcl shell command
-IF (UNIX)
-  FIND_PROGRAM(TCLSHCOMMAND cygtclsh80 )
-ENDIF(UNIX)
-FIND_PROGRAM(TCLSHCOMMAND 
-             NAMES tclsh tclsh83 tclsh8.3 tclsh82 tclsh8.2 tclsh80 tclsh8.0 
-             )
-FIND_PROGRAM(HOSTNAME hostname /usr/bsd /usr/sbin /usr/bin /bin /sbin)
-FIND_PROGRAM(NSLOOKUP nslookup /usr/bin /usr/sbin /usr/local/bin)
-
-# set the site name
-SITE_NAME(SITE)
-# set the build name
-BUILD_NAME(BUILDNAME)
-# set the build command
-BUILD_COMMAND(MAKECOMMAND ${MAKEPROGRAM} )
-
-
 CONFIGURE_FILE(
 ${ITK_SOURCE_DIR}/itkConfigure.h.in 
 ${ITK_BINARY_DIR}/itkConfigure.h)
@@ -77,7 +70,6 @@ ${ITK_BINARY_DIR}/Code/doxygen.config)
 
 # make directories in the binary tree
 MAKE_DIRECTORY(${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl)
-MAKE_DIRECTORY(${ITK_BINARY_DIR}/Testing/HTML/TestingResults/Sites/${SITE}/${BUILDNAME})
 
 # run VXL configure scripts
 IF(RUN_CONFIGURE)
@@ -104,62 +96,6 @@ IF(NOT UNIX)
         ${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl/vcl_config_manual.h)
   ENDIF(WIN32)
 ENDIF(NOT UNIX)
-
-# configure files
-CONFIGURE_FILE(
-${ITK_SOURCE_DIR}/Testing/Utilities/Utility.conf.in
-${ITK_BINARY_DIR}/Testing/Utilities/Utility.conf )
-
-CONFIGURE_FILE(
-${ITK_SOURCE_DIR}/Testing/Utilities/Build.tcl.in
-${ITK_BINARY_DIR}/Testing/Utilities/Build.tcl COPYONLY)
-
-CONFIGURE_FILE(
-${ITK_SOURCE_DIR}/Testing/Utilities/Utility.tcl.in
-${ITK_BINARY_DIR}/Testing/Utilities/Utility.tcl COPYONLY)
-
-CONFIGURE_FILE(
-${ITK_SOURCE_DIR}/Testing/Utilities/DashboardManager.tcl.in
-${ITK_BINARY_DIR}/Testing/Utilities/DashboardManager.tcl COPYONLY)
-
-CONFIGURE_FILE(
-${ITK_SOURCE_DIR}/Testing/Utilities/Test.tcl.in
-${ITK_BINARY_DIR}/Testing/Utilities/Test.tcl COPYONLY)
-
-CONFIGURE_FILE(
-${ITK_SOURCE_DIR}/Testing/Utilities/Submit.tcl.in
-${ITK_BINARY_DIR}/Testing/Utilities/Submit.tcl COPYONLY)
-
-CONFIGURE_FILE(
-${ITK_SOURCE_DIR}/Testing/Utilities/Doxygen.tcl.in
-${ITK_BINARY_DIR}/Testing/Utilities/Doxygen.tcl COPYONLY)
-
-
-# add testing targets
-ADD_CUSTOM_TARGET(Nightly 
-"${TCLSHCOMMAND} Testing/Utilities/DashboardManager.tcl Nightly Start Build Test Submit")
-ADD_CUSTOM_TARGET(NightlyBuild 
-"${TCLSHCOMMAND} Testing/Utilities/DashboardManager.tcl Nightly Start Build")
-ADD_CUSTOM_TARGET(NightlyTest 
-"${TCLSHCOMMAND} Testing/Utilities/DashboardManager.tcl Nightly Test")
-ADD_CUSTOM_TARGET(NightlyCoverage 
-"${TCLSHCOMMAND} Testing/Utilities/DashboardManager.tcl Nightly Coverage")
-ADD_CUSTOM_TARGET(NightlySubmit 
-"${TCLSHCOMMAND} Testing/Utilities/DashboardManager.tcl Nightly Submit")
-ADD_CUSTOM_TARGET(NightlyDashboardStart 
-"${TCLSHCOMMAND} Testing/Utilities/DashboardManager.tcl Nightly DashboardStart")
-ADD_CUSTOM_TARGET(NightlyDashboardEnd 
-"${TCLSHCOMMAND} Testing/Utilities/DashboardManager.tcl Nightly DashboardEnd")
-ADD_CUSTOM_TARGET(ExperimentalBuild 
-"${TCLSHCOMMAND} Testing/Utilities/DashboardManager.tcl Experimental Start Build")
-ADD_CUSTOM_TARGET(ExperimentalTest 
-"${TCLSHCOMMAND} Testing/Utilities/DashboardManager.tcl Experimental Test")
-ADD_CUSTOM_TARGET(ExperimentalCoverage 
-"${TCLSHCOMMAND} Testing/Utilities/DashboardManager.tcl Experimental Coverage")
-ADD_CUSTOM_TARGET(ExperimentalSubmit 
-"${TCLSHCOMMAND} Testing/Utilities/DashboardManager.tcl Experimental Submit")
-ADD_CUSTOM_TARGET(Experimental 
-"${TCLSHCOMMAND} Testing/Utilities/DashboardManager.tcl Experimental Start Build Test Submit")
 
 # Find the CABLE utility.
 UTILITY_SOURCE(CABLE cable Utilities/Cable/Executables)
