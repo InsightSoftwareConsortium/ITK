@@ -46,13 +46,13 @@ void
 ListSample< TMeasurement, VMeasurementVectorSize >
 ::GenerateSortedDimensionData(unsigned int dimension)
 {
-  SizeValueType size = GetSize(dimension) ;
+  unsigned long size = this->Size() ;
   m_SortedDimensionData.clear() ;
   InstanceIdentifier n ;
 
   for (n = 0 ; n < size ; n++)
     {
-      m_SortedDimensionData.push_back(GetMeasurement(dimension, n)) ;
+      m_SortedDimensionData.push_back(GetMeasurement(n, dimension)) ;
     }
   
   std::sort(m_SortedDimensionData.begin(), m_SortedDimensionData.end()) ;

@@ -51,14 +51,18 @@ public:
    * frequency, size, size element value */
   typedef typename Superclass::MeasurementVectorType MeasurementVectorType;
   typedef typename Superclass::MeasurementType MeasurementType;
-  typedef typename Superclass::InstanceIdentifier InstanceIdentifier;
   typedef typename Superclass::FrequencyType FrequencyType ;
-  typedef typename Superclass::SizeType SizeType ;
-  typedef typename Superclass::SizeValueType SizeValueType ;
+//    typedef typename Superclass::SizeType SizeType ;
+//    typedef typename Superclass::SizeValueType SizeValueType ;
+  typedef typename Superclass::InstanceIdentifier InstanceIdentifier;
 
   /** VMeasurementVectorSize template argument alias */
   enum { MeasurementVectorSize = VMeasurementVectorSize } ;
 
+  /** returns the measurement element which is the 'n'-th element 
+   * in the 'd' dimension of the measurement vector*/
+  virtual MeasurementType& GetMeasurement(const InstanceIdentifier &id,
+                                          const unsigned int &dimension) = 0 ;
   /** returns 'p'-th percentile.
    *
    * If t = p * total frequency of the dimension,
