@@ -17,6 +17,7 @@ See COPYRIGHT.txt for copyright details.
 #define __itkImageBase_h
 
 #include "itkDataObject.h"
+#include "itkProcessObject.h"
 
 namespace itk
 {
