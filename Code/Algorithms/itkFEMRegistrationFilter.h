@@ -34,7 +34,10 @@
 #include "itkNearestNeighborInterpolateImageFunction.h"
 #include "itkBSplineInterpolateImageFunction.h"
 #include "itkLinearInterpolateImageFunction.h"
-
+#include "itkFEMSolverCrankNicolson.h"
+#include "itkFEMMaterialLinearElasticity.h"
+#include "itkFEMImageMetricLoad.h"
+#include "itkImageToImageMetric.h"
 #include "itkTranslationTransform.h"
 #include "vnl/vnl_vector.h"
 #include "vnl/vnl_math.h"

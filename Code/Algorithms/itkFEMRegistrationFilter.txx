@@ -27,7 +27,8 @@
 #include "itkImageFileWriter.h" 
 #include "itkRawImageIO.h" 
 #include "itkFEMRegistrationFilter.h"
-
+#include "itkFEMElements.h"
+#include "itkFEMLoadBC.h"
 
 namespace itk {
 namespace fem {
