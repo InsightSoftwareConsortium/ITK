@@ -41,7 +41,7 @@ void
 TernaryImageFilter<TInputImage1,TInputImage2,TInputImage3,TOutputImage,TFunction>
 ::SetInput1( TInputImage1 *image1 ) 
 {
-  SetNthInput(0, image1.GetPointer() );
+  SetNthInput(0, image1 );
 }
 
 
@@ -54,7 +54,7 @@ void
 TernaryImageFilter<TInputImage1,TInputImage2,TInputImage3,TOutputImage,TFunction>
 ::SetInput2( TInputImage2 *image2 ) 
 {
-  SetNthInput(1, image2.GetPointer());
+  SetNthInput(1, image2 );
 }
 
 
@@ -68,7 +68,7 @@ void
 TernaryImageFilter<TInputImage1,TInputImage2,TInputImage3,TOutputImage,TFunction>
 ::SetInput3( TInputImage3 *image3 ) 
 {
-  SetNthInput(2, image3.GetPointer());
+  SetNthInput(2, image3 );
 }
 
 
