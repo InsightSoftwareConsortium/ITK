@@ -1,10 +1,24 @@
 # Automatically configured options for Build/Test process
 
+if {$tcl_platform(platform) == "windows"} {
+  source [file join Testing Utilities WindowsUtility.conf]
+}
+
 
 proc SetConfiguration { variable { value INSIGHTINVALIDVALUE } } \
 {
   global TestingUtility
+  global tcl_platform
   upvar \#0 $variable myvariable
+
+  # Hack for Windows where variables @foo@ are defined in WindowsUtility.conf
+  # instead of being substituted by configure
+  if {$tcl_platform(platform) == "windows"} {
+    global $value
+    if {[info exists $value]} {
+      set value [set $value]
+    }
+  }
   
   if { ![info exists TestingUtility(Valid)] } \
   {
