@@ -96,12 +96,7 @@ public:
 
 protected:
 
-  ShapeSignedDistanceFunction()
-    {
-    // memory initialization
-    m_Parameters = ParametersType(1);
-    m_Parameters.Fill( 0.0 );
-    };
+  ShapeSignedDistanceFunction() {};
 
   ~ShapeSignedDistanceFunction(){};
 
