@@ -53,7 +53,7 @@ void
 ConjugateGradientOptimizer<TCostFunction>
 ::StartOptimization( const ParametersType &  initialValue )
 {
-  InternalParametersType initialParameters;
+  InternalParametersType initialParameters( SpaceDimension );
   VnlCostFunctionAdaptor::ConvertParameters( initialValue, initialParameters );
   m_ConjugateGradient.minimize( initialParameters );
 }
