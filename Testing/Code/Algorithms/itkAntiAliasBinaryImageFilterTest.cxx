@@ -139,9 +139,16 @@ int itkAntiAliasBinaryImageFilterTest(int argc, char **argv)
       //      writer->SetFileName("spheretest.raw");
       //      writer->SetImageIO(output_io);
       //      writer->Write();
-      
+
+      // Repeat just to make sure we reinitialize properly.
+      antialiaser->SetMaximumIterations(200);
+      antialiaser->Update();
+      std::cout << "Maximum RMS change value threshold was: 0.02 " << std::endl;
+      std::cout << "Last RMS change value was: " << antialiaser->GetRMSChange() << std::endl;
       return 0;
     }
  
+
+
   return 0;
 }

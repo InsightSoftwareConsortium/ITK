@@ -100,11 +100,7 @@ protected:
   virtual ~RMSCommand() {}
 };
 
-
-
 }
-
-
 
 
 int itkThresholdSegmentationLevelSetImageFilterTest(int, char **)
@@ -161,6 +157,11 @@ int itkThresholdSegmentationLevelSetImageFilterTest(int, char **)
   
   try {
     filter->Update();
+    std::cout << "Done first trial" << std::endl;
+    // Repeat to make sure that the filter is reinitialized properly
+    filter->SetMaximumIterations(900);
+    filter->Update();
+    std::cout << "Done second trial" << std::endl;
 
     // Write the output for debugging purposes
     //    itk::ImageFileWriter<TSIFTN::ImageType>::Pointer writer
