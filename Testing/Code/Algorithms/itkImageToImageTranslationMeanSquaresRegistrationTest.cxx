@@ -113,6 +113,8 @@ int main()
   registrationMethod->StartRegistration();
 
 
+  std::cout << "The correct answer should be : " << std::endl;
+  std::cout << displacement << std::endl;
   
 
   return EXIT_SUCCESS;
