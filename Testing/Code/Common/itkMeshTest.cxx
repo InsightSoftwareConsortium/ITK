@@ -40,6 +40,7 @@
 typedef itk::Mesh<int>  MeshType;
 typedef MeshType::CellTraits  CellTraits;
 
+
 /**
  * Define a few cell types which uses a PixelType of "int".  Again,
  * use the defaults for the other parameters.  Note that a cell's template
@@ -51,6 +52,8 @@ typedef itk::TetrahedronCell<CellInterfaceType>         TetraCellType;
 typedef itk::HexahedronCell<CellInterfaceType>          HexaCellType;
 typedef itk::QuadraticEdgeCell<CellInterfaceType>       QuadraticEdgeCellType;
 typedef itk::QuadraticTriangleCell<CellInterfaceType>   QuadraticTriangleCellType;
+
+
 
 /**
  * Typedef the generic cell type for the mesh.  It is an abstract class,
@@ -74,12 +77,85 @@ typedef MeshType::PointType  PointType;
  */
 
 
+// create a class to store counts of cells found in the visit pass
+class CountClass
+{
+public:
+  CountClass()
+    {
+      m_LineBoundary = 0;
+      m_Tetra =0;
+      m_QuadraticEdgeCell =0;
+      m_QuadraticTriangleCellType =0;
+    }
+  int m_LineBoundary;
+  int m_Tetra;
+  int m_QuadraticEdgeCell;
+  int m_QuadraticTriangleCellType;
+};
+
+
+// Create a class that can be used to visit cells of
+// different types via overloading the Visit method
+class VisitCells
+{
+public:  
+  void SetCountClass(CountClass* c) 
+    {
+      m_CountClass = c;
+    }
+  
+  void Visit(unsigned long , LineBoundaryType*)
+    {
+      m_CountClass->m_LineBoundary++;
+    }
+  void Visit(unsigned long , TetraCellType*)
+    {
+      m_CountClass->m_Tetra++;
+    }
+  void Visit(unsigned long , QuadraticEdgeCellType*)
+    {
+      m_CountClass->m_QuadraticEdgeCell++;
+    }
+
+  void Visit(unsigned long , QuadraticTriangleCellType*)
+    {
+      m_CountClass->m_QuadraticTriangleCellType++;
+    }
+  CountClass* m_CountClass;
+  VisitCells()
+    {
+      m_CountClass = 0;
+    };
+};
+
+// Create types for each of the visitors
+typedef itk::CellInterfaceVisitorImplementation<
+  int, MeshType::CellTraits,
+  LineBoundaryType,
+  VisitCells> LineBoundaryVisitor;
+
+typedef itk::CellInterfaceVisitorImplementation<
+  int, MeshType::CellTraits,
+  TetraCellType,
+  VisitCells> TetraCellVisitor;
+
+typedef itk::CellInterfaceVisitorImplementation<
+  int, MeshType::CellTraits,
+  QuadraticEdgeCellType,
+  VisitCells> QuadraticEdgeCellVisitor;
+
+typedef itk::CellInterfaceVisitorImplementation<
+  int, MeshType::CellTraits,
+  QuadraticTriangleCellType,
+  VisitCells> QuadraticTriangleCellVisitor;
+
 
 int itkMeshTest(int, char* [] )
 {
   itk::FileOutputWindow::Pointer fow = itk::FileOutputWindow::New();
   fow->SetInstance(fow);
-
+  
   /**
    * Define the 3d geometric positions for 8 points in a cube.
    */
@@ -102,7 +178,6 @@ int itkMeshTest(int, char* [] )
    * Create the mesh through its object factory.
    */
   MeshType::Pointer mesh = MeshType::New();  
-
   mesh->DebugOn();
 
   /**
@@ -530,7 +605,43 @@ int itkMeshTest(int, char* [] )
 
   BoundingBox::Pointer bbox(BoundingBox::New());
   bbox->SetPoints(mesh->GetPoints());
-  bbox->ComputeBoundingBox();
+  bbox->ComputeBoundingBox(); 
+
+  /**
+   * Set up some visitors 
+   */
+  MeshType::CellType::MultiVisitor::Pointer mv =
+    MeshType::CellType::MultiVisitor::New();
+  /**
+   * Create a class to hold the counts of each cell type
+   */
+  CountClass counts;
+  /**
+   * Create a visitor for each cell type and set the counts class for the visitor
+   */
+  LineBoundaryVisitor::Pointer lv = LineBoundaryVisitor::New();
+  lv->SetCountClass(&counts);
+  TetraCellVisitor::Pointer cv = TetraCellVisitor::New();
+  cv->SetCountClass(&counts);
+  QuadraticEdgeCellVisitor::Pointer ev = QuadraticEdgeCellVisitor::New();
+  ev->SetCountClass(&counts);
+  QuadraticTriangleCellVisitor::Pointer tv = QuadraticTriangleCellVisitor::New();
+  tv->SetCountClass(&counts);
+  mv->AddVisitor(lv);
+  mv->AddVisitor(cv);
+  mv->AddVisitor(ev);
+  mv->AddVisitor(tv);
+
+  // Now ask the mesh to accept the multivisitor which
+  // will Call Visit for each cell in the mesh that matches the
+  // cell types of the visitors added to the MultiVisitor
+  mesh->Accept(mv);
+  // print the counts found
+  std::cout << "Number of LineBoundaryType " << counts.m_LineBoundary << "\n";
+  std::cout << "Number of TetraCellType " << counts.m_Tetra << "\n";
+  std::cout << "Number of QuadraticEdgeCellType " << counts.m_QuadraticEdgeCell << "\n";
+  std::cout << "Number of QuadraticTriangleCellType " << counts.m_QuadraticTriangleCellType << "\n";
+
   std::cout << bbox << std::endl;
 
   std::cout << mesh << std::endl;
