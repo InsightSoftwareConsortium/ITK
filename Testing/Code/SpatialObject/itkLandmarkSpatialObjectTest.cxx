@@ -49,17 +49,17 @@ int itkLandmarkSpatialObjectTest(int, char* [])
   }
 
   // Create a Landmark Spatial Object
-  LandmarkPointer blob = LandmarkType::New();
-  blob->GetProperty()->SetName("Landmark 1");
-  blob->SetId(1);
-  blob->SetPoints(list);
-  blob->ComputeBoundingBox();
+  LandmarkPointer landmark = LandmarkType::New();
+  landmark->GetProperty()->SetName("Landmark 1");
+  landmark->SetId(1);
+  landmark->SetPoints(list);
+  landmark->ComputeBoundingBox();
 
   // Number of points
   std::cout << "Testing Consistency: " << std::endl;
   std::cout << "Number of Points: ";
 
-  if(blob->GetPoints().size() != 10)
+  if(landmark->GetPoints().size() != 10)
   {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
@@ -72,10 +72,10 @@ int itkLandmarkSpatialObjectTest(int, char* [])
   // Point consistency
   std::cout << "Point consistency: ";
 
-  LandmarkType::PointListType::const_iterator it = blob->GetPoints().begin();
+  LandmarkType::PointListType::const_iterator it = landmark->GetPoints().begin();
 
   i=0;
-  while(it != blob->GetPoints().end())
+  while(it != landmark->GetPoints().end())
   {
     for(unsigned int d=0;d<3;d++)
     {
@@ -98,13 +98,13 @@ int itkLandmarkSpatialObjectTest(int, char* [])
   itk::Point<double,3> out;
   out[0]=0;out[1]=0;out[2]=0;
 
-  if(!blob->IsInside(in))
+  if(!landmark->IsInside(in,9999,NULL))
   {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
   }
 
-  if(blob->IsInside(out))
+  if(landmark->IsInside(out,9999,NULL))
   {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
@@ -114,10 +114,10 @@ int itkLandmarkSpatialObjectTest(int, char* [])
    
   std::cout << "Color: ";
   
-  it = blob->GetPoints().begin();
+  it = landmark->GetPoints().begin();
 
   i=0;
-  while(it != blob->GetPoints().end())
+  while(it != landmark->GetPoints().end())
   {
     for(unsigned int d=0;d<3;d++)
     {
@@ -147,8 +147,33 @@ int itkLandmarkSpatialObjectTest(int, char* [])
     it++;
     i++;
   }
+  std::cout << "[PASSED]" << std::endl;
+  
+  // Testing IsEvaluableAt()
+  std::cout << "Testing IsEvaluableAt() : ";
+  if(!landmark->IsEvaluableAt(in,9999,NULL))
+    {
+    std::cout<<"[FAILED]"<<std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "[PASSED]" << std::endl;
 
-  std::cout<<"[PASSED]"<<std::endl;
+  // Testing ValueAt()
+  std::cout << "Testing ValueAt() : ";
+  double val = 0;
+  if(!landmark->ValueAt(in,val,9999,NULL))
+    {
+    std::cout<<"[FAILED]"<<std::endl;
+    return EXIT_FAILURE;
+    }
+  if(val != 1)
+    {
+    std::cout<<"[FAILED]"<<std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "[PASSED]" << std::endl;
+
+  std::cout << "[DONE]" << std::endl;
+  
   return EXIT_SUCCESS;
-
 }

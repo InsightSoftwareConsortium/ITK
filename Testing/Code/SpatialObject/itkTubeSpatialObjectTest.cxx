@@ -418,11 +418,11 @@ int itkTubeSpatialObjectTest(int, char * [] )
 
   if( netCount != 1 )
     {
-      std::cout<<"[FAILED]: Problem in TubeNetwork with decrementation of references count"<<std::endl;
+      std::cout << "[FAILED]: Problem in TubeNetwork with decrementation of references count"<<std::endl;
       return EXIT_FAILURE;
     }
 
-  std::cout<<"[PASSED]"<<std::endl;
+  std::cout << "[PASSED]" << std::endl;
 
   // Testing Set/GetParentPoint
   std::cout << "Set/GetParentPoint: ";
@@ -430,11 +430,66 @@ int itkTubeSpatialObjectTest(int, char * [] )
   tube->SetParentPoint(1);
   if(tube->GetParentPoint() !=1)
   {
-    std::cout<<"[FAILED]"<<std::endl;
+    std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
   }
-  std::cout<<"[PASSED]"<<std::endl;
+  std::cout << "[PASSED]" << std::endl;
 
+
+  // Testing ComputeTangentAndNormals();
+  std::cout << "ComputeTangentAndNormals: ";
+  tube1->ComputeTangentAndNormals();
+
+  TubePointType::VectorType t = static_cast<const TubePointType*>(tube1->GetPoint(1))->GetTangent();
+  TubePointType::CovariantVectorType n1 = static_cast<const TubePointType*>(tube1->GetPoint(1))->GetNormal1();
+  TubePointType::CovariantVectorType n2 = static_cast<const TubePointType*>(tube1->GetPoint(1))->GetNormal2();
+
+  if( (fabs(t[0]-0.57735)>0.0001) 
+    || (fabs(t[1]-0.57735)>0.0001) 
+    || (fabs(t[2]-0.57735)>0.0001)
+    || (fabs(n1[0]-0.0)>0.0001) 
+    || (fabs(n1[1]+0.57735)>0.0001)
+    || (fabs(n1[2]-0.57735)>0.0001)
+    || (fabs(n2[0]-0.666667)>0.0001) 
+    || (fabs(n2[1]+0.333333)>0.0001)
+    || (fabs(n2[2]+0.333333)>0.0001)
+    )
+    {
+    std::cout << "[FAILED]" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  std::cout << "[PASSED]" << std::endl;
+
+  // Testing IsInside() with m_EndType set to 1 (rounded end-type);
+  std::cout << "IsInside() with m_EndType=1: ";
+  p1.Fill(19.5);
+
+  if(tube1->IsInside(p1))
+    {
+    std::cout << "[FAILED]" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  tube1->SetEndType(1);
+
+  if(!tube1->IsInside(p1))
+    {
+    std::cout << "[FAILED]" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "[PASSED]" << std::endl;
+
+  
+  // For coverage only
+  std::cout << "Testing PointBasedSO: ";
+  typedef itk::PointBasedSpatialObject<3> PointBasedType;
+  PointBasedType::Pointer pBSO = PointBasedType::New();
+  pBSO->GetPoint(0);
+  pBSO->ComputeBoundingBox();
+  std::cout << "[PASSED]" << std::endl;
+
+  std::cout << "[DONE]" << std::endl;
   return EXIT_SUCCESS;
 
 }
