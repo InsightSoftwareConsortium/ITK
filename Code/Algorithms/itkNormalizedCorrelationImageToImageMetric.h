@@ -38,8 +38,7 @@ namespace itk
 
 template < class TTarget, class TMapper > 
 class ITK_EXPORT NormalizedCorrelationImageToImageMetric : 
-public SimilarityRegistrationMetric< typename TMapper::DomainType,
-                                     TTarget, TMapper, double,
+public SimilarityRegistrationMetric< TTarget, TMapper, double,
                                      CovariantVector<double, TMapper::SpaceDimension > >
 
 {
@@ -73,7 +72,6 @@ public:
    * Standard "Superclass" typedef.
    */
   typedef SimilarityRegistrationMetric< 
-                       typename TMapper::DomainType,
                        TTarget, TMapper,
                        MeasureType,DerivativeType >  Superclass;
 

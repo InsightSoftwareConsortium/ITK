@@ -42,7 +42,10 @@ NormalizedCorrelationImageToImageMetric<TTarget,TMapper>
 ::GetValue( const ParametersType & parameters )
 {
 
-  typename TTarget::RegionType  m_Target_region = m_Target->GetLargestPossibleRegion();
+  TargetPointer target = Superclass::GetTarget();
+
+  typename TTarget::RegionType  targetRegion = target->GetLargestPossibleRegion();
+
   itk::Point<double, TTarget::ImageDimension> Point;  
 
   double ReferenceValue;
@@ -51,7 +54,7 @@ NormalizedCorrelationImageToImageMetric<TTarget,TMapper>
   typedef  itk::SimpleImageRegionIterator<TTarget> TargetIteratorType;
 
 
-  TargetIteratorType ti(m_Target,m_Target_region);
+  TargetIteratorType ti( target, targetRegion );
   ti.Begin();
 
   typename TTarget::IndexType index;
@@ -62,7 +65,7 @@ NormalizedCorrelationImageToImageMetric<TTarget,TMapper>
 
   unsigned int  count = 0;
 
-  m_Mapper->GetTransformation()->SetParameters( parameters );
+  GetMapper()->GetTransformation()->SetParameters( parameters );
 
   double sab = 0.0;
   double saa = 0.0;
@@ -79,7 +82,7 @@ NormalizedCorrelationImageToImageMetric<TTarget,TMapper>
     insidePoint = true;
 
     try {
-     ReferenceValue = m_Mapper->Evaluate( Point );
+     ReferenceValue = GetMapper()->Evaluate( Point );
     }
 
     //If the Mapped Voxel is outside the image
