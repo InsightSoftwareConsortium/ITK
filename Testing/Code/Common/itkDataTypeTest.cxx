@@ -22,12 +22,18 @@
 
 int main()
 {
+  int status = 0;
   itk::Vector<int, 4> v;
 
-  v = 1,2,3,4;
+  v[0] = 1; v[1] = 2; v[2] = 3; v[3] = 4;
   std::cout << "Vector value = ";
   for (unsigned int i=0; i < v.GetVectorDimension(); i++)
     {
+    if (v[i] != static_cast<int>(i + 1))
+      {
+      std::cout << std::endl << "ERROR: v[" << i << "] = " << v[i] << " but should = " << i + 1 << std::endl;
+      status++;
+      }
     std::cout << v[i];
     if (i < v.GetVectorDimension() - 1)
       {
@@ -36,5 +42,5 @@ int main()
     }
   std::cout << std::endl;
   
-  return 0;
+  return status;
 }

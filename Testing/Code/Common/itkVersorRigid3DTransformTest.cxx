@@ -75,8 +75,7 @@ int main()
     
     TransformType::Pointer transform = TransformType::New();
 
-    VectorType axis;
-    axis = 1.5, 1.5, 1.5;
+    VectorType axis(1.5);
 
     ValueType angle = 120.0*atan(1.0)/45.0;
 
@@ -112,8 +111,7 @@ int main()
 
     TransformType::Pointer  rotation = TransformType::New();
 
-    itk::Vector<double,3> axis;
-    axis = 1,1,1;
+    itk::Vector<double,3> axis(1);
 
     const double angle = (atan(1.0)/45.0)*120.0; // turn 120 degrees
 
