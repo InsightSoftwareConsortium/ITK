@@ -112,6 +112,7 @@ public:
    * There are 6 parameters. The first three represent the
    * versor and the last three represents the offset. */
   void SetParameters( const ParametersType & parameters );
+  itkGetConstReferenceMacro(Parameters, ParametersType);
 
   /** This method sets the offset of an Rigid3DPerspectiveTransform to a
    * value specified by the user. */
@@ -138,22 +139,6 @@ public:
   double GetFocalDistance( void ) const
     { return m_FocalDistance; }
 
-  /** Set the Height of the output plan
-   * This method sets the height of the output plan
-   * to a value specified by the user.
-   * This value is used to scale and center the points 
-   * at the output. */
-  void SetHeight( TScalarType height )
-    { m_Height = height; }
-
-  /** Set the Width of the output plan
-   * This method sets the width of the output plan
-   * to a value specified by the user.
-   * This value is used to scale and center the points 
-   * at the output. */
-  void SetWidth( TScalarType width )
-    { m_Width = width; }
-
   /** Transform by a Rigid3DPerspectiveTransform. This method 
    *  applies the transform given by self to a
    *  given point, returning the transformed point. */
@@ -168,17 +153,13 @@ public:
   /** Compute the Jacobian Matrix of the transformation at one point */
   virtual const JacobianType & GetJacobian(const InputPointType  &point ) const;
   
-  /** Set the distance from the object to the plane */
-  itkGetConstMacro(ObjectToPlaneDistance,float);
-  itkSetMacro(ObjectToPlaneDistance,float);
-
   /** Set a fixed offset: this allow to center the object to be transformed */
   itkGetConstMacro(FixedOffset,OffsetType);
   itkSetMacro(FixedOffset,OffsetType);
 
   /** Set the center of Rotation */
   itkSetMacro(CenterOfRotation,InputPointType);
-  itkGetMacro(CenterOfRotation,InputPointType);
+  itkGetConstMacro(CenterOfRotation,InputPointType);
 
 
 protected:
@@ -199,17 +180,9 @@ private:
   /** Set Focal distance of the projection. */
   TScalarType         m_FocalDistance;  
 
-  /** Set the height of the output plan. */
-  TScalarType         m_Height;  
-
-  /** Set the width of the output plan. */
-  TScalarType         m_Width;  
-
   /** Matrix representation of the rotation. */
   MatrixType          m_RotationMatrix;   
 
-  /** Define the Object to Plane Distance */
-  float m_ObjectToPlaneDistance;
   
   /** Fixed offset*/
   OffsetType m_FixedOffset;

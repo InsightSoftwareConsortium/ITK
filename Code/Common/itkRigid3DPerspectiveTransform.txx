@@ -29,11 +29,9 @@ Rigid3DPerspectiveTransform<TScalarType>::
 Rigid3DPerspectiveTransform():Superclass(SpaceDimension,ParametersDimension)
 {
   m_Offset.Fill( 0 );
+  m_Versor.SetIdentity();
   m_RotationMatrix = m_Versor.GetMatrix();
   m_FocalDistance = 1.0;
-  m_Height = 1.0;
-  m_Width  = 1.0;
-  m_ObjectToPlaneDistance=0;
   m_FixedOffset.Fill(0);
   m_CenterOfRotation.Fill(0);
 }
@@ -59,10 +57,7 @@ PrintSelf(std::ostream &os, Indent indent) const
   os << indent << "Offset: "       << m_Offset   << std::endl;
   os << indent << "Rotation: "     << m_Versor << std::endl;
   os << indent << "FocalDistance: "<< m_FocalDistance << std::endl;
-  os << indent << "Height: "       << m_Height << std::endl;
-  os << indent << "Width: "        << m_Width << std::endl;
   os << indent << "RotationMatrix: " << m_RotationMatrix   << std::endl;
-  os << indent << "ObjectToPlaneDistance: " << m_ObjectToPlaneDistance   << std::endl;
   os << indent << "FixedOffset: " << m_FixedOffset   << std::endl;
   os << indent << "CenterOfRotation: " << m_CenterOfRotation   << std::endl;
 }
@@ -133,34 +128,32 @@ template<class TScalarType>
 typename Rigid3DPerspectiveTransform<TScalarType>::OutputPointType
 Rigid3DPerspectiveTransform<TScalarType>::
 TransformPoint(const InputPointType &point) const 
-{
-  InputPointType translatedPoint;
-  for(unsigned int i=0;i<3;i++)
   {
-    translatedPoint[i] = point[i]-m_FixedOffset[i];
-  }
+  unsigned int i;
+  InputPointType centered;
+  for(i=0;i<3;i++)
+    { 
+    centered[i] = point[i] - m_CenterOfRotation[i];
+    }
 
-  InputPointType offset2 = m_RotationMatrix*m_CenterOfRotation;
-  
-  OffsetType offset = m_Offset;
-  for(unsigned int i=0;i<3;i++)
-  { 
-    offset[i] += m_CenterOfRotation[i] - offset2[i];
-  }
+  InputPointType rotated =  m_RotationMatrix * centered;
 
-  offset[2] += m_ObjectToPlaneDistance;
+  InputPointType rigided;
+  for(i=0;i<3;i++)
+    { 
+    rigided[i] = rotated[i] + m_Offset[i] + m_CenterOfRotation[i] 
+                         + m_FixedOffset[i];
+    }
 
-  InputPointType rigid =  m_RotationMatrix * translatedPoint + offset;
-  
   OutputPointType result;
   
-  TScalarType factor = m_FocalDistance /rigid[2];
+  TScalarType factor = m_FocalDistance / rigided[2];
   
-  result[0] = rigid[0] * factor;
-  result[1] = rigid[1] * factor;
+  result[0] = rigided[0] * factor;
+  result[1] = rigided[1] * factor;
 
   return result;
-}
+  }
 
 
 
