@@ -21,13 +21,13 @@
 #ifndef __itkBSplineInterpolateImageFunction_h
 #define __itkBSplineInterpolateImageFunction_h
 
-//#include "itkKernelTransform.h"
 #include <vector>
-//#include <math.h>
 
 #include "itkImageLinearIteratorWithIndex.h"
 #include "itkInterpolateImageFunction.h"
 #include "vnl/vnl_matrix.h"
+
+#include "../BasicFilters/itkBSplineDecompositionImageFilter.h"
 
 namespace itk
 {
@@ -49,11 +49,18 @@ namespace itk
  *        IEEE Transactions on Signal Processing, vol. 41, no. 2, pp. 834-848,
  *        February 1993.
  * And code obtained from bigwww.epfl.ch by Philippe Thevenaz
+ *
+ * The B spline coefficients are calculated through the 
+ * BSplineDecompositionImageFilter
  * 
  * Limitations:  Spline order must be between 0 and 5.
  *               Spline order must be set before setting the image.
  *               Uses mirror boundary conditions.
  *               Requires the same order of Spline for each dimension.
+ *               Spline is determined in all dimensions, cannot selectively
+ *                  pick dimension for calculating spline.
+ *
+ * \sa BSplineDecompositionImageFilter
  *
  * \ingroup 
  */
@@ -96,6 +103,12 @@ public:
   /** Iterator typedef support */
   typedef itk::ImageLinearIteratorWithIndex<TImageType> Iterator;
 
+  /** Define filter for calculating the BSpline coefficients */
+  /*** TODO:  Need to permit templating over a different output type. */
+  typedef itk::BSplineDecompositionImageFilter<TImageType, TImageType> 
+    CoefficientFilter;
+  typedef typename CoefficientFilter::Pointer CoefficientFilterPointer;
+
    /** Evaluate the function at a ContinuousIndex position.
    *
    * Returns the B-Spline interpolated image intensity at a 
@@ -134,24 +147,15 @@ protected:
   BSplineInterpolateImageFunction();
   virtual ~BSplineInterpolateImageFunction() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
-    
+
+    // These are needed by the smoothing spline routine.
+  std::vector<double>    m_Scratch;        // temp storage for processing of Coefficients
+  typename TImageType::SizeType      m_DataLength;  // Image size
+  unsigned int                       m_SplineOrder; // User specified spline order (3rd or cubic is the default)
+  //TODO  Should these be double?
+  typename TImageType::Pointer       m_Coefficients; // Spline coefficients  
+
 private:
-  /** Determines the poles given the Spline Order. */
-  virtual void SetPoles();
-
-  /** Converts a vector of data to a vector of Spline coefficients. */
-  virtual bool DataToCoefficients1D();
-
-  /** Converts an N-dimension image of data to an equivalent sized image
-   *    of spline coefficients. */
-  void DataToCoefficientsND();
-
-  /** Determines the first coefficient for the causal filtering of the data. */
-  virtual void SetInitialCausalCoefficient(double z);
-
-  /** Determines the first coefficient for the anti-causal filtering of the data. */
-  virtual void SetInitialAntiCausalCoefficient(double z);
-
   /** Determines the weights for interpolation of the value x */
   void SetInterpolationWeights( const ContinuousIndexType & x, 
     const vnl_matrix<long> & EvaluateIndex, 
@@ -163,15 +167,6 @@ private:
     const vnl_matrix<long> & EvaluateIndex, 
     vnl_matrix<double> & weights, 
     unsigned int splineOrder ) const;
-
-  /** Used to initialize the Coefficients image before calculation. */
-  void CopyImageToImage(const TImageType * input, TImageType * output );
-
-  /** Copies a vector of data from the Coefficients image to the m_Scratch vector. */
-  void CopyCoefficientsToScratch( Iterator & );
-
-  /** Copies a vector of data from m_Scratch to the Coefficients image. */
-  void CopyScratchToCoefficients( Iterator & );
 
   /** Precomputation for converting the 1D index of the interpolation neighborhood 
     * to an N-dimensional index. */
@@ -188,26 +183,13 @@ private:
     unsigned int splineOrder) const;
 
 
-  // These are needed by the smoothing spline routine.
-protected:
-  std::vector<double>    m_Scratch;        // temp storage for processing of Coefficients
-  typename TImageType::SizeType      m_DataLength;  // Image size
-  unsigned int                       m_SplineOrder; // User specified spline order (3rd or cubic is the default)
-  double                    m_SplinePoles[3];  // Poles calculated for a given spline order
-  int                       m_NumberOfPoles;   // number of poles
-  double                    m_Tolerance;   // Tolerance used for determining initial causal coefficient
-  unsigned int              m_IteratorDirection; // Direction for iterator incrementing
-  //TODO  Should these be double?
-  typename TImageType::Pointer       m_Coefficients; // Spline coefficients
-
-private:
   Iterator                  m_CIterator;    // Iterator for traversing spline coefficients.
   unsigned long             m_MaxNumberInterpolationPoints; // number of neighborhood points used for interpolation
   std::vector<IndexType>    m_PointsToIndex;  // Preallocation of interpolation neighborhood indicies
 
-private:
   BSplineInterpolateImageFunction( const Self& ); //purposely not implemented
   void operator=( const Self& ); //purposely not implemented
+  CoefficientFilterPointer     m_CoefficientFilter;
   
 };
 
