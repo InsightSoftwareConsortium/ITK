@@ -42,7 +42,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkSparseFieldLevelSetImageFilter_txx_
 
 #include "itkSparseFieldLevelSetImageFilter.h"
-#include "itkLevelSet3DFunction.h"
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
 #include "itkZeroCrossingImageFilter.h"
