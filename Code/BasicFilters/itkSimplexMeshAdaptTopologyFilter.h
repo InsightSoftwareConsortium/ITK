@@ -132,11 +132,10 @@ class SimplexMeshAdaptTopologyFilter : public MeshToMeshFilter<TInputMesh, TOutp
         void Visit(unsigned long cellId, InputPolygonType * poly)
           {
           typename InputPolygonType::PointIdIterator it =  poly->PointIdsBegin();
-          double val = 0;
 
           double meanCurvature = 0;
           unsigned long refPoint = *it;
-          val = mesh->GetMeanCurvature(*it++);
+          double val = mesh->GetMeanCurvature(*it++);
           meanCurvature += vcl_abs(val);
 
           unsigned long id1 = *it;
