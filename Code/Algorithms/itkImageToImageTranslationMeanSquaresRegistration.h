@@ -19,13 +19,12 @@
 #include "itkObject.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkMeanSquaresImageToImageMetric.h"
-//#include "itkConjugateGradientOptimizer.h"
-#include "itkLevenbergMarquardtOptimizer.h"
+#include "itkGradientDescentOptimizer.h"
 #include "itkImage.h"
 #include "itkImageMapper.h"
 #include "itkTranslationRegistrationTransform.h"
 #include "itkSimpleImageRegionIterator.h"
-#include "itkVectorContainer.h"
+#include "itkPoint.h"
 
 namespace itk
 {
@@ -81,52 +80,44 @@ public:
    typedef TTarget TargetType;
 
   /**
-   *  Type of the paramters
-   */
-   typedef itk::VectorContainer<unsigned int,double> ParametersType;
-
-  /**
-   *  Pointer to the parameters
-   */
-   typedef typename ParametersType::Pointer ParametersPointer;
-
-  /**
    * Image Dimensions
    */
-   enum {ImageDimension = ReferenceType::ImageDimension};
+   enum {ImageDimension = ReferenceType::ImageDimension,
+         ParametersDimension = ImageDimension*(ImageDimension+1) };
+
+  /**
+   *  Type of the parameters
+   */
+   typedef Point<double,ParametersDimension>   ParametersType;
 
   /**
    *  Type of the Transformation
    */
-   typedef TranslationRegistrationTransform<double,ImageDimension>  TransformationType;
+   typedef TranslationRegistrationTransform<double, ImageDimension, 
+                                       ParametersType> TransformationType;
 	  
   /**
    *  Type of the Mapper
    */
    typedef ImageMapper<ReferenceType,TransformationType>  MapperType;
 
-
   /**
    *  Type of the Metric
    */
-   typedef MeanSquaresImageToImageMetric<TargetType, MapperType,double,double>   MetricType;
+   typedef MeanSquaresImageToImageMetric<TargetType, MapperType>   MetricType;
 
 
   /**
    *  Type of the Optimizer 
    */
-   //typedef ConjugateGradientOptimizer<MetricType>          OptimizerType;
-   typedef LevenbergMarquardtOptimizer<MetricType>           OptimizerType;
+   typedef GradientDescentOptimizer<MetricType>           OptimizerType;
+
 
   /**
    *  Pointer type for the optimizer 
    */
    typedef OptimizerType::Pointer     OptimizerPointer;
 
-  /**
-   * Internal Optimizer type
-   */
-   typedef  OptimizerType::InternalOptimizerType  vnlOptimizerType;
 
   /**
    *  Pointer type for the Reference 
@@ -143,13 +134,13 @@ public:
   /**
    *  Pointer type for the Transformation
    */
-   typedef typename TransformationType::Pointer TransformationPointer;
+   typedef  typename TransformationType::Pointer TransformationPointer;
 
 
   /**
    *  Pointer type for the metric
    */
-   typedef typename MetricType::Pointer        MetricPointer;
+   typedef  typename MetricType::Pointer        MetricPointer;
 
 
   /**
@@ -196,7 +187,6 @@ public:
    * Get the Reference
    */
    itkGetMacro( Reference, ReferencePointer );
-
    
   /**
    * Get the Target
@@ -216,6 +206,7 @@ public:
    itkGetMacro( Optimizer, OptimizerPointer );
 
 
+
 protected:
 
   ImageToImageTranslationMeanSquaresRegistration();
@@ -232,7 +223,7 @@ private:
   MapperPointer              m_Mapper;  
   MetricPointer              m_Metric;
   OptimizerPointer           m_Optimizer;
-  ParametersPointer          m_Parameters;
+  ParametersType             m_Parameters;
 
 };
 
