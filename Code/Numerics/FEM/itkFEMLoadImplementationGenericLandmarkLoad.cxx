@@ -38,7 +38,7 @@ LoadImplementationGenericLandmarkLoad
   const unsigned int NnDOF=element->GetNumberOfDegreesOfFreedomPerNode();
   const unsigned int Nnodes=element->GetNumberOfNodes();
 
-  Element::VectorType force( NnDOF, 0.0 ), disp( NnDOF, 0.0 );
+  Element::VectorType force( NnDOF, 0.0 ), disp( NnDOF, 0.0 ), new_source (NnDOF, 0.0);
   Element::VectorType shapeF;
 
   Fe.resize(element->GetNumberOfDegreesOfFreedom());
@@ -53,10 +53,14 @@ LoadImplementationGenericLandmarkLoad
   // Determine the displacement at point pt
   disp = element->InterpolateSolution( pt, (*sol) );
 
+  // Convert the source to global coordinates
+  new_source = element->GetGlobalFromLocalCoordinates( (pt + disp) );
+
   // Calculate the new force
-  force = load->GetForce() - disp;
+  force = ( (load->m_target - new_source) / (load->eta * load->eta) );
   
   // "Integrate" at the location of the point load
+  // FIXME: is this really all that is necessary?  Where should the shape funcs be calculated?
   shapeF = element->ShapeFunctions(pt);
   
   // Calculate the equivalent nodal loads
