@@ -106,14 +106,14 @@ ImportImageFilter<TPixel, VImageDimension>
   os << indent << "Source manage memory: " << (m_SourceManageMemory ? "true" : "false") << std::endl;
 
   os << indent << "Spacing: [";
-  for (i=0; i < VImageDimension - 1; i++)
+  for (i=0; i < static_cast<int>(VImageDimension) - 1; i++)
     {
     os << m_Spacing[i] << ", ";
     }
   os << m_Spacing[i] << "]" << std::endl;
 
   os << indent << "Origin: [";
-  for (i=0; i < VImageDimension - 1; i++)
+  for (i=0; i < static_cast<int>(VImageDimension) - 1; i++)
     {
     os << m_Origin[i] << ", ";
     }
