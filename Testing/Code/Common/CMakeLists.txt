@@ -2,7 +2,7 @@ TESTS(
 itkAffineTransformTest
 itkArrayTest
 itkBoundingBoxTest
-itkbyteswaptest
+itkByteSwapTest
 itkDataTypeTest
 itkExceptionObjectTest
 itkCommonHeaderTest
