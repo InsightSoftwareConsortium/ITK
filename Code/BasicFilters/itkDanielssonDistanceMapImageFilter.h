@@ -106,7 +106,7 @@ public:
    /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro( DanielssonDistanceMapImageFilter, ImageBase);
+  itkTypeMacro( DanielssonDistanceMapImageFilter, ImageToImageFilter );
 
 
   /**
