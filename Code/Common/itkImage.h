@@ -17,13 +17,10 @@
 #define __itkImage_h
 
 #include "itkImageBase.h"
-#include "itkIndex.h"
-#include "itkSize.h"
-#include "itkImageRegion.h"
 #include "itkPixelTraits.h"
 #include "itkValarrayImageContainer.h"
 #include "itkDataAccessor.h"
-#include "itkAffineTransform.h"
+
 
 namespace itk
 {
@@ -45,7 +42,7 @@ namespace itk
  * start index and a size.
  *
  * There are three sets of meta-data describing an image. These are "Region"
- * objects that define a portion of an image via a starting index for image
+ * objects that define a portion of an image via a starting index for the image
  * array and a size. The ivar LargestPossibleRegion defines the size and
  * starting index of the image dataset. The entire image dataset, however,
  * may not resident in memory. The region of the image that is resident in
@@ -85,7 +82,7 @@ namespace itk
  * */
 
 template <class TPixel, unsigned int VImageDimension=2, class TPixelContainer=ValarrayImageContainer<unsigned long, TPixel> >
-class ITK_EXPORT Image : public ImageBase
+class ITK_EXPORT Image : public ImageBase<VImageDimension>
 {
 public:
   /**
@@ -96,7 +93,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef ImageBase  Superclass;
+  typedef ImageBase<VImageDimension>  Superclass;
 
   /** 
    * Smart pointer typedef support.
@@ -198,64 +195,6 @@ public:
    */
   itkNewMacro(Self);  
 
-  /** 
-   * Image dimension. The dimension of an image is fixed at construction.
-   */
-  static unsigned int GetImageDimension() 
-    { return VImageDimension; }
-
-  /**
-   * Set the region object that defines the size and starting index
-   * for the largest possible region this image could represent.  This
-   * is used in determining how much memory would be needed to load an
-   * entire dataset.  It is also used to determine boundary
-   * conditions.
-   * \sa ImageRegion, SetBufferedRegion(), SetRequestedRegion()
-   */
-  void SetLargestPossibleRegion(const RegionType &region);
-
-  /**
-   * Get the region object that defines the size and starting index
-   * for the largest possible region this image could represent.  This
-   * is used in determining how much memory would be needed to load an
-   * entire dataset.  It is also used to determine boundary
-   * conditions.
-   * \sa ImageRegion, GetBufferedRegion(), GetRequestedRegion()
-   */
-  const RegionType& GetLargestPossibleRegion() const
-    { return m_LargestPossibleRegion;};
-
-  /**
-   * Set the region object that defines the size and starting index
-   * of the region of the image currently loaded in memory. 
-   * \sa ImageRegion, SetLargestPossibleRegion(), SetRequestedRegion()
-   */
-  void SetBufferedRegion(const RegionType &region);
-
-  /**
-   * Get the region object that defines the size and starting index
-   * of the region of the image currently loaded in memory. 
-   * \sa ImageRegion, SetLargestPossibleRegion(), SetRequestedRegion()
-   */
-  const RegionType& GetBufferedRegion() const
-  { return m_BufferedRegion;};
-  
-  /**
-   * Set the region object that defines the size and starting index
-   * for the region of the image requested (i.e., the region of the
-   * image to be operated on by a filter).
-   * \sa ImageRegion, SetLargestPossibleRegion(), SetBufferedRegion()
-   */
-  void SetRequestedRegion(const RegionType &region);
-
-  /**
-   * Get the region object that defines the size and starting index
-   * for the region of the image requested (i.e., the region of the
-   * image to be operated on by a filter).
-   * \sa ImageRegion, SetLargestPossibleRegion(), SetBufferedRegion()
-   */
-  const RegionType& GetRequestedRegion() const
-  { return m_RequestedRegion;};
 
   /**
    * Allocate the image memory. The image Dimension and Size must 
@@ -304,58 +243,6 @@ public:
   const TPixel& operator[](const IndexType &index) const
      { return this->GetPixel(index); }
 
-  /** 
-   * Set the spacing (size of a pixel) of the image. The
-   * spacing is the geometric distance between image samples.
-   * It is stored internally as double, but may be set from
-   * float.
-   * \sa GetSpacing()
-   */
-  itkSetVectorMacro(Spacing, const double, VImageDimension);
-  itkSetVectorMacro(Spacing, const float , VImageDimension);
-
-  /** 
-   * Get the spacing (size of a pixel) of the image. The
-   * spacing is the geometric distance between image samples.
-   * The value returned is a pointer to a double array.
-   * \sa SetSpacing()
-   */
-  itkGetVectorMacro(Spacing, const double, VImageDimension);
-  
-  /** 
-   * Set the origin of the image. The origin is the geometric
-   * coordinates of the image origin.  It is stored internally
-   * as double but may be set from float.
-   * \sa GetOrigin()
-   */
-  itkSetVectorMacro(Origin, const double, VImageDimension);
-  itkSetVectorMacro(Origin, const float , VImageDimension);
-
-  /** 
-   * Get the origin of the image. The origin is the geometric
-   * coordinates of the image origin.  The value returned is
-   * a pointer to a double array.
-   * \sa SetOrigin()
-   */
-  itkGetVectorMacro(Origin, const double, VImageDimension);
-
-  /** 
-   * Get the index-to-physical coordinate transformation
-   *
-   * This method returns an AffineTransform which defines the
-   * transformation from index coordinates to physical coordinates
-   * determined by the origin and spacing of this image.
-   */
-  AffineTransformType GetIndexToPhysicalTransform();
-
-  /** 
-   * Get the physical-to-index coordinate transformation
-   *
-   * This method returns an AffineTransform which defines the
-   * transformation from physical coordinates to index coordinates
-   * determined by the origin and spacing of this image.
-   */
-  AffineTransformType GetPhysicalToIndexTransform();
 
   /**
    * Return a pointer to the beginning of the buffer.  This is used by
@@ -367,72 +254,11 @@ public:
   const TPixel *GetBufferPointer() const
   { return m_Buffer ? m_Buffer->GetBufferPointer() : 0; };
 
-
   /**
    * Return a pointer to the container 
    */
   PixelContainerPointer GetPixelContainer()
   { return m_Buffer; };
-
-  /**
-   * Get the offset table.  The offset table gives increments for
-   * moving from one pixel to next in the current row, column, slice,
-   * etc..  This table if of size [VImageDimension+1], because its
-   * values are computed progressively as: {1, N1, N1*N2,
-   * N1*N2*N3,...,(N1*...*Nn)} Where the values {N1,...,Nn} are the
-   * elements of the BufferedRegion::Size array.  The last element of
-   * the OffsetTable is equivalent to the BufferSize.  Having a
-   * [VImageDimension+1] size array, simplifies the implementation of
-   * some data accessing algorithms.
-   */
-  const unsigned long *GetOffsetTable() const { return m_OffsetTable; };
-  
-  /**
-   * Compute an offset from the beginning of the buffer for a pixel
-   * at the specified index.
-   */
-  unsigned long ComputeOffset(const IndexType &ind) const
-  {
-    // need to add bounds checking for the region/buffer?
-    unsigned long offset=0;
-    const IndexType &bufferedRegionIndex = m_BufferedRegion.GetIndex();
-  
-    // data is arranged as [][][][slice][row][col]
-    // with Index[0] = col, Index[1] = row, Index[2] = slice
-    for (int i=VImageDimension-1; i > 0; i--)
-      {
-      offset += (ind[i] - bufferedRegionIndex[i])*m_OffsetTable[i];
-      }
-    offset += (ind[0] - bufferedRegionIndex[0]);
-
-    return offset;
-  }
-
-  /**
-   * Compute the index of the pixel at a specified offset from the
-   * beginning of the buffered region.
-   */
-  IndexType ComputeIndex(unsigned long offset) const
-  {
-    IndexType index;
-    const IndexType &bufferedRegionIndex = m_BufferedRegion.GetIndex();
-    
-    for (int i=VImageDimension-1; i > 0; i--)
-      {
-      index[i] = offset / m_OffsetTable[i];
-      offset -= (index[i] * m_OffsetTable[i]);
-      index[i] += bufferedRegionIndex[i];
-      }
-    index[0] = bufferedRegionIndex[0] + offset;
-
-    return index;
-  }
-
-  virtual void UpdateOutputInformation();
-  virtual void SetRequestedRegionToLargestPossibleRegion();
-  virtual void CopyInformation(DataObject *data);
-  virtual bool RequestedRegionIsOutsideOfTheBufferedRegion();
-  virtual bool VerifyRequestedRegion();
 
 protected:
   Image();
@@ -441,26 +267,11 @@ protected:
   void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent);
 
-  /**
-   * Calculate the offsets needed to move from one pixel to the next
-   * along a row, column, slice, volume, etc. These offsets are based
-   * on the size of the BufferedRegion. This should be called after
-   * the BufferedRegion is set.
-   */
-  void ComputeOffsetTable();
   
 private:
   // memory for the current buffer
   PixelContainerPointer m_Buffer;
   
-  unsigned long   m_OffsetTable[VImageDimension+1];
-
-  RegionType          m_LargestPossibleRegion;
-  RegionType          m_RequestedRegion;
-  RegionType          m_BufferedRegion;
-
-  double              m_Spacing[VImageDimension];
-  double              m_Origin[VImageDimension];
 };
 
   
