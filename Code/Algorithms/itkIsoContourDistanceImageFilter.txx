@@ -25,7 +25,7 @@
 #include "itkExceptionObject.h"
 #include "itkNumericTraits.h"
 #include "itkIndex.h"
-
+#include <strstream>
 namespace itk
 {
 
@@ -134,17 +134,25 @@ template <class TInputImage, class TOutputImage>
 void
 IsoContourDistanceImageFilter<TInputImage, TOutputImage>
 ::BeforeThreadedGenerateData()
-{  
+{
 
-   if( m_NarrowBanding )
+  // Instead of using GetNumberOfThreads, we need to split the image into the
+  // number of regions that will actually be returned by
+  // itkImageSource::SplitRequestedRegion.  Sometimes this number is less than
+  // the number of threads requested.
+  typename TOutputImage::RegionType dummy;
+  unsigned int actualThreads = this->SplitRequestedRegion(0, this->GetNumberOfThreads(),
+                                            dummy);
+  
+  if( m_NarrowBanding )
      {
      // Split the narrow band into sections, one section for each thread
-     this->m_NarrowBandRegion
-       = this->m_NarrowBand->SplitBand(this->GetNumberOfThreads());
+       this->m_NarrowBandRegion
+       = this->m_NarrowBand->SplitBand(actualThreads);
        
-     // Inititalize the barrier for the thread syncronization in
-     // the narrowband case
-     this->m_Barrier->Initialize(this->GetNumberOfThreads());
+     // Initialize the barrier for the thread syncronization in
+     // the narrowband case.
+     this->m_Barrier->Initialize(actualThreads);
 
      }
 }
@@ -157,7 +165,7 @@ IsoContourDistanceImageFilter<TInputImage,TOutputImage>
 ::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                        int threadId)
 {
-  
+
   //Iterate over split region or split band as convinient.
   if( m_NarrowBanding == false )
      {  
@@ -335,10 +343,9 @@ IsoContourDistanceImageFilter<TInputImage,TOutputImage>
 ::ThreadedGenerateDataBand(const OutputImageRegionType& outputRegionForThread,
                            int threadId)
 {
-
   typename InputImageType::ConstPointer inputPtr = this->GetInput();
   typename OutputImageType::Pointer outputPtr = this->GetOutput();
-  
+
   
   //Tasks:
   //1. Initialize whole output image
@@ -354,7 +361,7 @@ IsoContourDistanceImageFilter<TInputImage,TOutputImage>
   IteratorType outInitIt (outputPtr,
                       outputRegionForThread); 
   
-  
+
   //Initialize output image 
   while(!inInitIt.IsAtEnd())
    {
@@ -373,10 +380,9 @@ IsoContourDistanceImageFilter<TInputImage,TOutputImage>
      ++inInitIt;
      ++outInitIt;
     } 
-    
+
   //2. Threads must wait till all are done
   this->m_Barrier->Wait();
-  
   //3. Computation over the narrowband
   ConstBandIterator bandIt  = m_NarrowBandRegion[threadId].Begin;
   ConstBandIterator bandEnd = m_NarrowBandRegion[threadId].End;
