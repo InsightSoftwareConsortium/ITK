@@ -117,6 +117,10 @@ public:
    */
   itkNewMacro(Self);
 
+  typedef typename Superclass::IndexType IndexType;
+  typedef typename Superclass::SizeType SizeType;
+  typedef typename Superclass::PixelType PixelType;
+
   /**
    * Set the Estimation of the mean difference between neighbor pixels for the object.
    */

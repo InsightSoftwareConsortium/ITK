@@ -121,6 +121,8 @@ public:
    */
   itkNewMacro(Self);
 
+  typedef typename TInputImage::PixelType PixelType;
+
   void GenerateData(void);
  
   /**
