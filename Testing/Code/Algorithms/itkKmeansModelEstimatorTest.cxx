@@ -79,8 +79,6 @@ int itkKmeansModelEstimatorTest(int, char* [] )
   vecImage->Allocate();
 
   // setup the iterators
-  typedef VecImageType::PixelType VecPixelType;
-
   enum { VecImageDimension = VecImageType::ImageDimension };
   typedef
     itk::ImageRegionIterator< VecImageType > VecIterator;
@@ -92,7 +90,7 @@ int itkKmeansModelEstimatorTest(int, char* [] )
   //--------------------------------------------------------------------------
 
   //Vector no. 1
-  VecPixelType vec;
+  VecImagePixelType vec;
   vec[0] = 21; vec[1] = 9; outIt.Set( vec ); ++outIt;
   //Vector no. 2
   vec[0] = 10; vec[1] = 20; outIt.Set( vec ); ++outIt;
@@ -124,6 +122,8 @@ int itkKmeansModelEstimatorTest(int, char* [] )
   vec[0] = 22; vec[1] = 10; outIt.Set( vec ); ++outIt;
   //Vector no. 16
   vec[0] = 24; vec[1] = 23; outIt.Set( vec ); ++outIt;
+
+  outIt.GoToBegin();
 
   //---------------------------------------------------------------
   //Input the codebook
@@ -239,8 +239,23 @@ int itkKmeansModelEstimatorTest(int, char* [] )
     applyKmeansEstimator->GetMaxSplitAttempts() << std::endl;
   std::cout << "  " << std::endl;
 
-  //Validation with initial Kmeans estimate provided as input by the user
+  //Testing the distance of the first pixel to the centroids; identify the class
+  //closest to the fist pixel.
+  unsigned int minidx = 0;
+  double mindist = 99999999;
+  double classdist;
+  for( unsigned int idx=0; idx < membershipFunctions.size(); idx++ )
+    {
+    classdist = membershipFunctions[idx]->Evaluate( outIt.Get() );
+    std::cout << "Distance of first pixel to class " << idx << " is: " << classdist << std::endl;
+    if( mindist > classdist  )
+      {
+      mindist = classdist;
+      minidx = idx;
+      }    
+    }
 
+  //Validation with initial Kmeans estimate provided as input by the user
   error =0;
   meanCDBKvalue = 0;
   const unsigned int test = membershipFunctions.size();
@@ -255,13 +270,14 @@ int itkKmeansModelEstimatorTest(int, char* [] )
       error += vnl_math_abs(errorForClass[i]/referenceCodebookForClass[i]);
       meanCDBKvalue += referenceCodebookForClass[i];
       }
-
     }
 
   error /= NCODEWORDS*NUMBANDS;
   meanCDBKvalue /= NCODEWORDS*NUMBANDS; 
 
-  if( error < 0.1 * meanCDBKvalue)
+  //Check if the mean codebook is within error limits and the first pixel 
+  //is labeled to belong to class 2
+  if( (error < 0.1 * meanCDBKvalue) && (minidx == 2) )
     std::cout << "Kmeans algorithm passed (with initial input)"<<std::endl;
   else
     std::cout << "Kmeans algorithm failed (with initial input)"<<std::endl;

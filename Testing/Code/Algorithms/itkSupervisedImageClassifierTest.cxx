@@ -84,7 +84,6 @@ int itkSupervisedImageClassifierTest(int, char* [] )
 
   VecIterator outIt( vecImage, vecImage->GetBufferedRegion() );
 
-
   //--------------------------------------------------------------------------
   //Manually create and store each vector
   //--------------------------------------------------------------------------
@@ -281,6 +280,12 @@ int itkSupervisedImageClassifierTest(int, char* [] )
   MembershipFunctionPointerVector membershipFunctions = 
     applyEstimateModel->GetMembershipFunctions();  
 
+  for(unsigned int idx=0; idx < membershipFunctions.size(); idx++ )
+    {
+    std::cout << "Number of samples for class " << idx << " is " <<
+      membershipFunctions[ idx ]->GetNumberOfSamples() << std::endl;
+    }
+
   //----------------------------------------------------------------------
   //Set the decision rule 
   //----------------------------------------------------------------------  
@@ -347,7 +352,7 @@ int itkSupervisedImageClassifierTest(int, char* [] )
     {
     //Print the classified index
     int classIndex = (int) labeloutIt.Get();
-    std::cout << " Pixel No" << i << " Value " << classIndex << std::endl;
+    std::cout << " Pixel No " << i << " Value " << classIndex << std::endl;
     ++i;
     ++labeloutIt;
     }//end while

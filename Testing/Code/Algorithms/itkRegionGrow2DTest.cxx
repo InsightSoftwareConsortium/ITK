@@ -41,6 +41,9 @@
 #define   REGIONGROW_ROW_GRIDSIZE_3D 3
 #define   REGIONGROW_COL_GRIDSIZE_3D 3
 #define   REGIONGROW_SLICE_GRIDSIZE  1
+#define   REGIONGROW_ROW_GRIDSIZE_ERR 4
+#define   REGIONGROW_COL_GRIDSIZE_ERR 4
+#define   REGIONGROW_SLICE_GRIDSIZE_ERR  2
 
 static unsigned int test_regiongrowKLM2D();
 static unsigned int test_regiongrowKLM3D();
@@ -52,6 +55,190 @@ static unsigned int test_regiongrowKLM3D();
 
 int itkRegionGrow2DTest(int, char* [] )
 {
+
+  //Perform the exception handling testing
+  //---------------------------------------------------------------
+  //Generate the image data
+  //---------------------------------------------------------------
+  typedef itk::Image<itk::Vector<double,NUMBANDS>,NDIMENSION3D> ImageType; 
+  ImageType::Pointer image  = ImageType::New();
+
+  ImageType::SizeType ImageSize = {{ IMGWIDTH , IMGHEIGHT, (NFRAMES3D + 1) }};
+
+  ImageType::IndexType index;
+  index.Fill(0);
+
+  ImageType::RegionType region;
+
+  region.SetSize( ImageSize );
+  region.SetIndex( index );
+
+  image->SetLargestPossibleRegion( region );
+  image->SetBufferedRegion( region );
+  image->Allocate();
+
+  //------------------------------------------------------------------------
+  //Set the filter first
+  //-------------------------------------------------------------------------
+  typedef itk::KLMRegionGrowImageFilter<ImageType,ImageType> KLMRegionGrowImageFilterType;
+  KLMRegionGrowImageFilterType::Pointer exceptionTestingFilter = KLMRegionGrowImageFilterType::New();
+
+  std::cout << "Test error handling." << std::endl;
+
+  //Check if the Maximumnumber of regions is greater than 0
+  exceptionTestingFilter->SetInput(image);
+  exceptionTestingFilter->SetMaximumNumberOfRegions(0);
+
+  bool passed = false;
+  try
+    {
+    std::cout << "Test when maximum number of user specified region is 0." << std::endl;
+    exceptionTestingFilter->Update();
+    }
+  catch( itk::ExceptionObject& err )
+    {
+    std::cout << "Caught expected error." << std::endl;
+    std::cout << err << std::endl;
+    exceptionTestingFilter->ResetPipeline();
+    passed = true;
+    }
+  
+  if ( !passed )
+    {
+    std::cout << "Test failed." << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  //Check if image width is not divisible by the row grid size
+  exceptionTestingFilter->SetInput(image);
+  exceptionTestingFilter->SetMaximumNumberOfRegions(REGIONGROW_NUMREGIONS);
+  exceptionTestingFilter->SetMaxLambda(REGIONGROW_LAMBDA);
+  exceptionTestingFilter->SetRowGridSize( REGIONGROW_ROW_GRIDSIZE_ERR );
+  exceptionTestingFilter->SetColGridSize(REGIONGROW_COL_GRIDSIZE);
+
+  try
+    {
+    std::cout << "Test when image width is not divisible by row grid size." << std::endl;
+    exceptionTestingFilter->Update();
+    }
+  catch( itk::ExceptionObject& err )
+    {
+    std::cout << "Caught expected error." << std::endl;
+    std::cout << err << std::endl;
+    exceptionTestingFilter->ResetPipeline();
+    passed = true;
+    }
+  
+  if ( !passed )
+    {
+    std::cout << "Test failed." << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  //Check if image height is not divisible by the col grid size
+  exceptionTestingFilter->SetInput(image);
+  exceptionTestingFilter->SetMaximumNumberOfRegions(REGIONGROW_NUMREGIONS);
+  exceptionTestingFilter->SetMaxLambda(REGIONGROW_LAMBDA);
+  exceptionTestingFilter->SetRowGridSize( REGIONGROW_ROW_GRIDSIZE );
+  exceptionTestingFilter->SetColGridSize(REGIONGROW_COL_GRIDSIZE_ERR);
+
+  try
+    {
+    std::cout << "Test when image height is not divisible by col grid size." << std::endl;
+    exceptionTestingFilter->Update();
+    }
+  catch( itk::ExceptionObject& err )
+    {
+    std::cout << "Caught expected error." << std::endl;
+    std::cout << err << std::endl;
+    exceptionTestingFilter->ResetPipeline();
+    passed = true;
+    }
+  
+  if ( !passed )
+    {
+    std::cout << "Test failed." << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  //Check if image depth is not divisible by the slice grid size
+  exceptionTestingFilter->SetInput(image);
+  exceptionTestingFilter->SetMaximumNumberOfRegions(REGIONGROW_NUMREGIONS);
+  exceptionTestingFilter->SetMaxLambda(REGIONGROW_LAMBDA);
+  exceptionTestingFilter->SetRowGridSize( REGIONGROW_ROW_GRIDSIZE );
+  exceptionTestingFilter->SetColGridSize( REGIONGROW_COL_GRIDSIZE);
+  exceptionTestingFilter->SetSliceGridSize( REGIONGROW_SLICE_GRIDSIZE_ERR );
+
+  try
+    {
+    std::cout << "Test when image depth is not divisible by slice grid size." << std::endl;
+    exceptionTestingFilter->Update();
+    }
+  catch( itk::ExceptionObject& err )
+    {
+    std::cout << "Caught expected error." << std::endl;
+    std::cout << err << std::endl;
+    exceptionTestingFilter->ResetPipeline();
+    passed = true;
+    }
+  
+  if ( !passed )
+    {
+    std::cout << "Test failed." << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  //Test for image dimension greater than 3D
+  //---------------------------------------------------------------
+  //Generate the image data
+  //---------------------------------------------------------------
+
+  typedef itk::Image<itk::Vector<double,NUMBANDS>,4> ImageType4D; 
+  ImageType4D::Pointer image4D  = ImageType4D::New();
+
+  ImageType4D::SizeType ImageSize4D = {{ IMGWIDTH , IMGHEIGHT, NFRAMES3D ,4 }};
+
+  ImageType4D::IndexType index4D;
+  index4D.Fill(0);
+
+  ImageType4D::RegionType region4D;
+
+  region4D.SetSize( ImageSize4D );
+  region4D.SetIndex( index4D );
+
+  image4D->SetLargestPossibleRegion( region4D );
+  image4D->SetBufferedRegion( region4D );
+  image4D->Allocate();
+
+  typedef itk::KLMRegionGrowImageFilter<ImageType4D,ImageType4D> KLMRegionGrowImage4DFilterType;
+  KLMRegionGrowImage4DFilterType::Pointer exceptionTesting4DFilter = KLMRegionGrowImage4DFilterType::New();
+
+
+  exceptionTesting4DFilter->SetInput( image4D );
+  exceptionTesting4DFilter->SetMaximumNumberOfRegions( REGIONGROW_NUMREGIONS );
+  exceptionTesting4DFilter->SetMaxLambda( REGIONGROW_LAMBDA );
+  exceptionTesting4DFilter->SetRowGridSize( REGIONGROW_ROW_GRIDSIZE );
+  exceptionTesting4DFilter->SetColGridSize( REGIONGROW_COL_GRIDSIZE );
+
+  try
+    {
+    std::cout << "Test when image dimension is greater than 3." << std::endl;
+    exceptionTesting4DFilter->Update();
+    }
+  catch( itk::ExceptionObject& err )
+    {
+    std::cout << "Caught expected error." << std::endl;
+    std::cout << err << std::endl;
+    exceptionTesting4DFilter->ResetPipeline();
+    passed = true;
+    }
+  
+  if ( !passed )
+    {
+    std::cout << "Test failed." << std::endl;
+    return EXIT_FAILURE;
+    }
+
   //Test the KLM algorithm applied to 2D data
   test_regiongrowKLM2D();
 
@@ -63,8 +250,9 @@ int itkRegionGrow2DTest(int, char* [] )
 
 unsigned int test_regiongrowKLM2D()
 {
+
   //---------------------------------------------------------------
-  //Generate the training data
+  //Generate the image data
   //---------------------------------------------------------------
   typedef itk::Image<itk::Vector<double,NUMBANDS>,NDIMENSION2D> ImageType; 
   ImageType::Pointer image  = ImageType::New();
@@ -161,6 +349,12 @@ unsigned int test_regiongrowKLM2D()
   inIt.Set( 02 ); ++inIt; 
   inIt.Set( 04 ); ++inIt; 
   inIt.Set( 04 ); ++inIt;
+
+  //------------------------------------------------------------------------
+  //Set the filter first
+  //-------------------------------------------------------------------------
+  typedef itk::KLMRegionGrowImageFilter<ImageType,ImageType> KLMRegionGrowImageFilterType;
+
   //--------------------------------------------------------------------------
   // Test code for the Region Grow algorithm
   //----------------------------------------------------------------------
@@ -169,8 +363,7 @@ unsigned int test_regiongrowKLM2D()
   // Set the Region Grow Algorithm classifier/segmentor
   //---------------------------------------------------------------------
 
-  typedef itk::KLMRegionGrowImageFilter<ImageType,ImageType> KLMRegionGrowImageFilterT;
-  KLMRegionGrowImageFilterT::Pointer applyRegionGrowImageFilterKLM = KLMRegionGrowImageFilterT::New();
+  KLMRegionGrowImageFilterType::Pointer applyRegionGrowImageFilterKLM = KLMRegionGrowImageFilterType::New();
   
   //----------------------------------------------------------------------
   //Set the parameters of the clusterer
@@ -454,8 +647,8 @@ unsigned int test_regiongrowKLM3D()
   // Set the Region Grow Algorithm classifier/segmentor
   //---------------------------------------------------------------------
 
-  typedef itk::KLMRegionGrowImageFilter<ImageType,ImageType> KLMRegionGrowImageFilterT;
-  KLMRegionGrowImageFilterT::Pointer applyRegionGrowImageFilterKLM = KLMRegionGrowImageFilterT::New();
+  typedef itk::KLMRegionGrowImageFilter<ImageType,ImageType> KLMRegionGrowImageFilterType;
+  KLMRegionGrowImageFilterType::Pointer applyRegionGrowImageFilterKLM = KLMRegionGrowImageFilterType::New();
   
   //----------------------------------------------------------------------
   //Set the parameters of the clusterer

@@ -122,7 +122,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 ::GenerateData()
 {
   //Run the KLM algorithm
-  this->ApplyKLM();
+  this->ApplyRegionGrowImageFilter();
 
   //Set the output labelled and allocate the memory
   OutputImagePointer outputPtr = this->GetOutput();
@@ -727,46 +727,8 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
     itkDebugMacro( << "    Before merge   ");
     itkDebugMacro( << "-------------------");
 
-/*
-    std::cout << "-------------------" << std::endl;
-    std::cout << "    Before merge   " << std::endl;
-    std::cout << "-------------------" << std::endl;
-
-    for( unsigned int k = 0; k < m_NumRegions; k++ )
-      {
-      m_RegionsPointer[k]->PrintRegionInfo(); 
-      }
-*/
-
     MergeRegions();
 
-    /*
-    itkDebugMacro( << "-------------------");
-    itkDebugMacro( << "    After merge    ");
-    itkDebugMacro( << "-------------------");
-   
-   
-    for( unsigned int k = 0; k < m_NumRegions; k++ )
-      {
-      m_RegionsPointer[k]->PrintRegionInfo(); 
-      }
-
-    itkDebugMacro( << "-------------------");
-    itkDebugMacro( << "    +++++++++++    ");
-    itkDebugMacro( << "-------------------");  
-    */
-
-    /*
-    unsigned int initialNumberOfRegions = m_NumRegions;
-    std::cout << "-------------------" << std::endl;
-    std::cout << "    After merge   " << std::endl;
-    std::cout << "-------------------" << std::endl;
-
-    for( unsigned int k = 0; k < initialNumberOfRegions; k++ )
-      {
-      m_RegionsPointer[k]->PrintRegionInfo(); 
-      }
-    */
     // since the number of borders decreases or increases, possibly
     // many times with each iteration, it is reasonable to check
     // for an invalid value 
@@ -1077,25 +1039,6 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
    
   m_BordersCandidateDynamicPointer = &(m_BordersDynamicPointer[ m_NumberOfBorders - 1 ]);
   m_RegionLambda = m_BordersCandidateDynamicPointer->m_Pointer->GetLambda();
-
-  //COMMENT off
-  //bool smartPointerUseFlag = true;
-  //PrintAlgorithmBorderStats(smartPointerUseFlag);
-
-  //Sorted border counter
-  //For DEBUG purposes
-  if ( this->GetDebug() )
-    {
-    itkDebugMacro( <<"++++++++++++++++++++++++++++++++++++++++");
-    itkDebugMacro( <<"     Rearranged Data Structure List      ");
-    itkDebugMacro( <<"++++++++++++++++++++++++++++++++++++++++");
-
-    //Rearranged list of the borders
-    bool smartPointerUseFlag = true;
-    PrintAlgorithmBorderStats(smartPointerUseFlag);
-    itkDebugMacro( <<"+++++++++++++++++++++++++++++++++");
-
-    }
 
 }// End localfn_initializeKLM()
 
@@ -1466,31 +1409,6 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   m_BordersCandidateDynamicPointer = &(m_BordersDynamicPointer[ m_NumberOfBorders - 1 ]);
   m_RegionLambda = m_BordersCandidateDynamicPointer->m_Pointer->GetLambda();
 
-  //COMMENT later
-  //bool smartPointerUseFlag = true;
-  //PrintAlgorithmBorderStats(smartPointerUseFlag);
-
-  //Sorted border counter
-  //For DEBUG purposes
-  if ( this->GetDebug() )
-    {
-    itkDebugMacro( <<"++++++++++++++++++++++++++++++++++++++++");
-    itkDebugMacro( <<"     Rearranged Data Structure List      ");
-    itkDebugMacro( <<"++++++++++++++++++++++++++++++++++++++++");
-
-    //Rearranged list of the borders
-    bool smartPointerUseFlag = true;
-    PrintAlgorithmBorderStats(smartPointerUseFlag);
-
-    itkDebugMacro( <<"+++++++++++++++++++++++++++++++++");
-    }
-
-
-  //Rearranged list of the borders
-  //
-  //  bool smartPointerUseFlag = true;
-  //PrintAlgorithmBorderStats(smartPointerUseFlag);
-
 }
  
 //----------------------------------------------------------------------
@@ -1744,25 +1662,6 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
              &(m_BordersDynamicPointer[m_NumberOfBorders]), 
              std::greater < KLMDynamicBorderArray<BorderType> >() );
   
-  //COMMENT OFF
-  //bool smartPointerUseFlag = true;
-  //PrintAlgorithmBorderStats(smartPointerUseFlag);
-
-  // Sorted border counter
-  // For DEBUG purposes
-  if ( this->GetDebug() )
-    {
-    itkDebugMacro( <<"++++++++++++++++++++++++++++++++++++++++");
-    itkDebugMacro( <<"     Rearranged Data Structure List      ");
-    itkDebugMacro( <<"++++++++++++++++++++++++++++++++++++++++");
-
-    for(unsigned int k=0; k < m_NumberOfBorders; k++)
-      {
-      itkDebugMacro(<<"Stats for Border No: " << (k+1));
-      m_BordersDynamicPointer[k].m_Pointer->PrintBorderInfo() ;                       
-      }//end region printloop
-    }
-  
   //One border has been deleted. So reduce the no. of smart border pointers
   //by 1.
   m_BordersCandidateDynamicPointer = &(m_BordersDynamicPointer[ m_NumberOfBorders - 1 ]);
@@ -1877,15 +1776,6 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 
     }// end while
 
-  // For DEBUG purposes
-  if ( this->GetDebug() )
-    {
-    itkDebugMacro( << "New Region ");
-    pnewRegion->PrintRegionInfo();
-    itkDebugMacro( << "Old Region ");
-    poldRegion->PrintRegionInfo();
-    }
-
 
   // Do the actual union of the borders
   // Point the new region iterators to the appropriate region border to the 
@@ -1899,13 +1789,6 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   endOfOldRegionBorders = poldRegion->GetRegionBorderItEnd();
 
   //Merge the two sets of region borders into the newly merged region
-
-  //For DEBUG purposes
-  if ( this->GetDebug() )
-    {
-    itkDebugMacro( << "The actual merge goes on here");
-    itkDebugMacro( << "+++++++++++++++++++++++++++++");
-    }
 
   while( ( newRegionBordersIt != ( pnewRegion->GetRegionBorderItEnd() ) ) &&
          ( oldRegionBordersIt != endOfOldRegionBorders ) )
