@@ -80,8 +80,11 @@ GradientDescentOptimizer<TCostFunction>
      << m_CurrentIteration;
   os << indent << "Value: "
      << m_Value;
-  os << indent << "CostFunction: "
-     << m_CostFunction;
+  if (m_CostFunction)
+    {
+    os << indent << "CostFunction: "
+       << m_CostFunction;
+    }
   os << indent << "StopCondition: "
      << m_StopCondition;
   os << std::endl;
