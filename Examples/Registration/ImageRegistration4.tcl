@@ -23,7 +23,7 @@ set inputFixedImageFileName  "BrainProtonDensitySliceR10X13Y17.png"
 set inputMovingImageFileName  "BrainT1SliceBorder20.png"
 
 set registration       [ itk::create ImageRegistrationMethodF2 ]
-set imageMetric        [ itk::create MeanSquaresImageToImageMetricF2 ]
+set imageMetric        [ itk::create MattesMutualInformationImageToImageMetricF2 ]
 set transform          [ itk::create TranslationTransform2 ]
 set optimizer          [ itk::create RegularStepGradientDescentOptimizer ]
 set interpolator       [ itk::create LinearInterpolateImageFunctionF2  ]
