@@ -47,6 +47,7 @@ testMetaLine.cxx
 testMetaMesh.cxx
 testMetaScene.cxx
 itkReadWriteSpatialObjectTest.cxx
+itkImageFileWriterTest.cxx
 )
 
 SET(TEMP ${ITKTesting_BINARY_DIR}/Temporary)
@@ -86,6 +87,7 @@ ADD_TEST(itkStimulateImageIOTest ${IO_TESTS} itkStimulateImageIOTest
                            ${TEMP}/test1.spr ${TEMP}/test2.spr)
 ADD_TEST(itkIOHeaderTest ${IO_HEADER_TEST})
 ADD_TEST(itkPolygonGroupSpatialObjectXMLFileTest ${IO_TESTS} itkPolygonGroupSpatialObjectXMLFileTest ${TEMP})
+ADD_TEST(itkImageFileWriterTest ${IO_TESTS} itkImageFileWriterTest ${TEMP}/test.png)
 ADD_EXECUTABLE(itkIOHeaderTest itkIOHeaderTest.cxx)
 ADD_EXECUTABLE(itkIOTests itkIOTests.cxx ${IOTest_SRCS})
 TARGET_LINK_LIBRARIES(itkIOHeaderTest ITKIO)
@@ -231,8 +233,8 @@ ADD_TEST(itkTIFFImageIOMultiPagesTest ${IO_TESTS}
   itkTIFFImageIOTest 
             ${ITK_DATA_ROOT}/Input/ramp.tif
             ${ITK_TEST_OUTPUT_DIR}/ramp.tif
-			3
-			)
+            3
+            )
 
 ADD_TEST(itkDICOMImageSeriesTest ${IO_TESTS} 
   itkDICOMImageSeriesTest
@@ -282,7 +284,7 @@ ADD_TEST(itkGE4 ${IO_TESTS}
             ${ITK_TEST_OUTPUT_DIR}/19771.002.001.mha
   itkGEImageIOTest  ${ITK_TEST_OUTPUT_DIR} 
             true 
-		GE4
+            GE4
             ${ITK_DATA_ROOT}/Input/test_ge4/19771.002.001
             ${ITK_TEST_OUTPUT_DIR}/19771.002.001.mha)
 
@@ -316,17 +318,17 @@ ADD_TEST(itkGE4 ${IO_TESTS}
 
 
   ADD_TEST(itkGE4Fail ${IO_TESTS} itkGEImageIOTest  ${ITK_TEST_OUTPUT_DIR} false 
-		  GE4 
-		  ${ITK_DATA_ROOT}/Input/test_ge5/113766.003.001)
+                  GE4 
+                  ${ITK_DATA_ROOT}/Input/test_ge5/113766.003.001)
   ADD_TEST(itkGE5Fail ${IO_TESTS} itkGEImageIOTest  ${ITK_TEST_OUTPUT_DIR} false 
-		  GE5 
-		  ${ITK_DATA_ROOT}/Input/test_ge4/19771.002.001)
+                  GE5 
+                      ${ITK_DATA_ROOT}/Input/test_ge4/19771.002.001)
   ADD_TEST(itkGEAdwFail ${IO_TESTS} itkGEImageIOTest  ${ITK_TEST_OUTPUT_DIR} false 
-		  GEAdw 
-		  ${ITK_DATA_ROOT}/Input/test_siemens/3868-2-100.ima)
+                  GEAdw 
+                  ${ITK_DATA_ROOT}/Input/test_siemens/3868-2-100.ima)
   ADD_TEST(itkSiemensFail ${IO_TESTS} itkGEImageIOTest  ${ITK_TEST_OUTPUT_DIR} false 
-		  Siemens 
-		  ${ITK_DATA_ROOT}/Input/test_geadw/I.001)
+                  Siemens 
+                  ${ITK_DATA_ROOT}/Input/test_geadw/I.001)
 
 ADD_TEST(itkGiplImageIOTest2 ${IO_TESTS} itkGiplImageIOTest
          ${ITK_DATA_ROOT}/Input/ramp.gipl ${TEMP}/ramp.gipl)
@@ -334,13 +336,13 @@ ADD_TEST(itkGiplImageIOTest2 ${IO_TESTS} itkGiplImageIOTest
   ADD_TEST(itkBrains2MaskTest ${IO_TESTS} itkBrains2MaskTest  ${ITK_TEST_OUTPUT_DIR} )
 
   ADD_TEST(itkGE4FactoryTest ${IO_TESTS} itkGEImageIOFactoryTest 
-  	${ITK_DATA_ROOT}/Input/test_ge4/19771.002.001)
+        ${ITK_DATA_ROOT}/Input/test_ge4/19771.002.001)
   ADD_TEST(itkGE5FactoryTest  ${IO_TESTS} itkGEImageIOFactoryTest
-  	${ITK_DATA_ROOT}/Input/test_ge5/113766.003.001)
+        ${ITK_DATA_ROOT}/Input/test_ge5/113766.003.001)
   ADD_TEST(itkGEAdwFactoryTest  ${IO_TESTS} itkGEImageIOFactoryTest
-  	${ITK_DATA_ROOT}/Input/test_geadw/I.001)
+        ${ITK_DATA_ROOT}/Input/test_geadw/I.001)
   ADD_TEST(itkSiemensFactoryTest  ${IO_TESTS} itkGEImageIOFactoryTest
-  	${ITK_DATA_ROOT}/Input/test_siemens/3868-2-100.ima)
+        ${ITK_DATA_ROOT}/Input/test_siemens/3868-2-100.ima)
   ADD_TEST(itkRegularExpressionSeriesFileNamesTest
     ${IO_TESTS} itkRegularExpressionSeriesFileNamesTest
     ${ITK_DATA_ROOT}/Input
