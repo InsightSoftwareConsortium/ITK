@@ -60,7 +60,6 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
     m_MaximumNumberOfIterations(10),
     m_ClassifierPtr(0),
     m_BoundaryGradient(7),
-    m_GibbsNeighborsThreshold(1),
     m_BoundaryWt(1),
     m_GibbsPriorWt(1),
     m_StartRadius(10),
