@@ -247,15 +247,25 @@ Write(const char *_headName)
     m_WriteStream = new std::ofstream;
   }
 
+#ifdef __sgi
+  // Create the file. This is required on some older sgi's
+  std::ofstream tFile(m_FileName,std::ios::out);
+  tFile.close();                    
+#endif
+
   m_WriteStream->open(m_FileName, std::ios::binary | std::ios::out);
   if(!m_WriteStream->is_open())
     {
     return false;
+    delete m_WriteStream;
+    m_WriteStream = 0;
     }
 
   M_Write();
 
   m_WriteStream->close();
+  delete m_WriteStream;
+  m_WriteStream = 0;
 
   /** Then we write all the objects in the scene */
   ObjectListType::const_iterator it = m_ObjectList.begin();

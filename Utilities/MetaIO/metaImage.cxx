@@ -859,7 +859,9 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
   M_SetupWriteFields();
 
   if(!m_WriteStream)
-  {
+    {
+    m_WriteStream = new std::ofstream;
+    }
   // Some older sgi compilers have a error in the ofstream constructor
   // that requires a file to exist for output
 #ifdef __sgi
@@ -868,8 +870,6 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
     tFile.close();                    
     }
 #endif
-  m_WriteStream = new std::ofstream;
-  }
   m_WriteStream->open(m_FileName, std::ios::binary | std::ios::out);
   if(!m_WriteStream->is_open())
     {
@@ -888,11 +888,15 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
       m_WriteStream->write( (char *)m_ElementData,
                             m_Quantity * elementNumberOfBytes ); 
       m_WriteStream->close();
+      delete m_WriteStream;
+      m_WriteStream = 0;
       return true;
       }
     else
       {
       m_WriteStream->close();
+      delete m_WriteStream;
+      m_WriteStream = 0;
 
       std::ofstream* writeStreamTemp = new std::ofstream;
       char dataFileName[255];
@@ -915,16 +919,17 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
   // Some older sgi compilers have a error in the ofstream constructor
   // that requires a file to exist for output
 #ifdef __sgi
-    {
-    std::ofstream tFile(fName,std::ios::binary | std::ios::out);
-    tFile.close();                    
-    }
+          {
+          std::ofstream tFile(fName,std::ios::binary | std::ios::out);
+          tFile.close();                    
+          }
 #endif
           writeStreamTemp->open(fName, std::ios::binary | std::ios::out);
           writeStreamTemp->write(
                            &(((char *)m_ElementData)[i*sliceNumberOfBytes]),
                            sliceNumberOfBytes);
           writeStreamTemp->close();
+          delete writeStreamTemp;
           }
         }
       else
@@ -932,10 +937,10 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
   // Some older sgi compilers have a error in the ofstream constructor
   // that requires a file to exist for output
 #ifdef __sgi
-    {
-    std::ofstream tFile(dataFileName,std::ios::binary | std::ios::out);
-    tFile.close();                    
-    }
+        {
+        std::ofstream tFile(dataFileName,std::ios::binary | std::ios::out);
+        tFile.close();                    
+        }
 #endif
         writeStreamTemp->open(dataFileName, std::ios::binary | std::ios::out);
         writeStreamTemp->write( (char *)m_ElementData, 
@@ -1298,6 +1303,8 @@ bool MetaImage
     m_WriteStream->write((char *)m_ElementData,
                         m_Quantity * elementNumberOfBytes); 
     m_WriteStream->close();
+    delete m_WriteStream;
+    m_WriteStream = 0;
     return true;
     }
   else
@@ -1306,6 +1313,8 @@ bool MetaImage
     bool usePath = MET_GetFilePath(m_FileName, pathName);
     std::ofstream* writeStreamTemp = new std::ofstream;
     m_WriteStream->close();
+    delete m_WriteStream;
+    m_WriteStream = 0;
     char dataFileName[255];
     if(usePath)
       {
@@ -1335,6 +1344,7 @@ bool MetaImage
         writeStreamTemp->write(&(((char *)m_ElementData)[i*sliceNumberOfBytes]),
                               sliceNumberOfBytes);
         writeStreamTemp->close();
+        delete writeStreamTemp;
         }
       }
     else
@@ -1342,15 +1352,16 @@ bool MetaImage
   // Some older sgi compilers have a error in the ofstream constructor
   // that requires a file to exist for output
 #ifdef __sgi
-    {
-    std::ofstream tFile(dataFileName,std::ios::binary | std::ios::out);
-    tFile.close();                    
-    }
+      {
+      std::ofstream tFile(dataFileName,std::ios::binary | std::ios::out);
+      tFile.close();                    
+      }
 #endif
       writeStreamTemp->open(dataFileName, std::ios::binary | std::ios::out);
       writeStreamTemp->write( (char *)m_ElementData,
                               m_Quantity * elementNumberOfBytes);
       writeStreamTemp->close();
+      delete writeStreamTemp;
       return true;
       }
     delete writeStreamTemp;

@@ -285,7 +285,12 @@ Write(const char *_fileName)
     m_WriteStream = new std::ofstream;
   }  
  
-  m_WriteStream->open(m_FileName);
+#ifdef __sgi
+  // Create the file. This is required on some older sgi's
+  std::ofstream tFile(m_FileName,std::ios::out);
+  tFile.close();                    
+#endif
+  m_WriteStream->open(m_FileName,std::ios::binary | std::ios::out);
   if(!m_WriteStream->is_open())
   {
     return false;
@@ -294,6 +299,8 @@ Write(const char *_fileName)
   bool result = M_Write();
 
   m_WriteStream->close();
+  delete m_WriteStream;
+  m_WriteStream = 0;
 
   return result;
   }
@@ -1490,15 +1497,32 @@ bool MetaObject
   {
     m_WriteStream = new std::ofstream;
   }
-  m_WriteStream->open(m_FileName, std::ios::binary | std::ios::app | std::ios::out);
+
+#ifndef __sgi
+  m_WriteStream->open(m_FileName, std::ios::binary | std::ios::out | std::ios::app);
   if(!m_WriteStream->is_open())
-  {
+    {
+    delete m_WriteStream;
+    m_WriteStream = 0;
     return false;
-  }
+    }
+#else
+  m_WriteStream->open(m_FileName, std::ios::binary | std::ios::out);
+  if(!m_WriteStream->is_open())
+    {
+    delete m_WriteStream;
+    m_WriteStream = 0;
+    return false;
+    }
+  m_WriteStream->seekp(0,std::ios::end);
+#endif
 
   M_Write();
   
   m_WriteStream->close();
+
+  delete m_WriteStream;
+  m_WriteStream = 0;
   return true;
 
 }

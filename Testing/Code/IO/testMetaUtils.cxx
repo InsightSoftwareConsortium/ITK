@@ -138,8 +138,7 @@ int testMetaUtils(int , char * [])
   else
     std::cout << "PASSED" << std::endl;
 
-  std::ofstream fout;
-  fout.open("testMetaFileUtils.txt", std::ios::out);
+  std::ofstream fout("testMetaFileUtils.txt", std::ios::out);
 
   MET_FieldRecordType * mF;
   std::vector<MET_FieldRecordType *> mFields;

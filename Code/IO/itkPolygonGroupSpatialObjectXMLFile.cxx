@@ -222,8 +222,7 @@ WriteFile()
     std::string errmsg("No filename given");
     RAISE_EXCEPTION(errmsg);
     }
-  std::ofstream output;
-  output.open(m_Filename.c_str());
+  std::ofstream output(m_Filename.c_str());
   if(output.fail())
     {
     std::string errmsg("Can't Open ");
