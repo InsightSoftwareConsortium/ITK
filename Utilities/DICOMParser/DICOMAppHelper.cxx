@@ -890,7 +890,7 @@ void DICOMAppHelper::ROIContourSequenceCallback( DICOMParser *,
                                         doublebyte,
                                         doublebyte,
                                         DICOMParser::VRTypes,
-                                        unsigned char* data,
+                                        unsigned char*,
                                         quadbyte len)
 {
 
@@ -904,10 +904,10 @@ void DICOMAppHelper::ContourSequenceCallback( DICOMParser *,
                                         doublebyte,
                                         doublebyte,
                                         DICOMParser::VRTypes,
-                                        unsigned char* data,
-                                        quadbyte len)
+                                        unsigned char*,
+                                        quadbyte)
 {
-
+  
 #ifdef DEBUG_DICOM_APP_HELPER
   dicom_stream::cout << "ContourSequence : " << len << dicom_stream::endl;
 #endif
@@ -919,7 +919,7 @@ void DICOMAppHelper::ContourDataCallback( DICOMParser *,
                                         doublebyte,
                                         DICOMParser::VRTypes,
                                         unsigned char* data,
-                                        quadbyte len)
+                                        quadbyte)
 {
 
   float p[3];
@@ -939,7 +939,7 @@ void DICOMAppHelper::NumberOfContourPointsCallback( DICOMParser *,
                                                     doublebyte,
                                                     DICOMParser::VRTypes,
                                                     unsigned char* data,
-                                                    quadbyte len)
+                                                    quadbyte)
 {
 
   int n;

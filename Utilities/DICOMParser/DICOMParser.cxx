@@ -436,7 +436,6 @@ void DICOMParser::ParseSequence(unsigned char *buffer, quadbyte len)
 
   doublebyte dataelementtag[2];
   quadbyte itemLength;
-  char *itemValue=0;
 
   while (DataBuffer.Tell() < len)
     {
@@ -453,7 +452,7 @@ void DICOMParser::ParseSequence(unsigned char *buffer, quadbyte len)
     itemLength = DataBuffer.ReadQuadByte();
     //dicom_stream::cout << "itemLength = " << dicom_stream::hex << itemLength << dicom_stream::dec << dicom_stream::endl;
     
-    if (itemLength == 0xFFFFFFFF)
+    if (static_cast<unsigned int>(itemLength) == 0xFFFFFFFFul)
       {
       // undetermined length.  punt for now
       dicom_stream::cerr << "DICOMParser:: sequence of undetermined length.  Skipping sequence." << dicom_stream::endl;
@@ -462,6 +461,7 @@ void DICOMParser::ParseSequence(unsigned char *buffer, quadbyte len)
     else
       {
       // Get the block of data for this item
+      char *itemValue=0;
       itemValue = DataBuffer.ReadAsciiCharArray(itemLength);
 
       // Wrap this data block into a DICOMBuffer
