@@ -407,7 +407,11 @@ private:
 
 int main( int argc, char *argv[] )
 {
-
+  if( argc > 1 )
+  {
+    std::cerr << "Too many parameters " << std::endl;
+    std::cerr << "Usage: " << argv[0] << std::endl;
+  }
 
   //  Software Guide : BeginLatex
   //  
