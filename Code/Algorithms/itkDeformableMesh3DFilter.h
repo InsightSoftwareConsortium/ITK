@@ -128,14 +128,18 @@ public:
   void ComputeDt();   // compute point positions
   void ComputeOutput();
   void NodeAddition();
-  void SliceAddition(int i);
-  void NodesRearrange();
+  void SliceAddition(int i, double dis);
+  void Resample();    // resample the nodes on model
   void GapSearch();
   void GradientFit(); // fit the model with gradient information
   void ComputeNormals();
   void ACDSearch();   // remove weird structures on the model surface
   void ComputeShrinkForce();  // force in case we shrink the model
   void InitialFit();          // locate the model near the objects
+  void ComputeSliceDistance(int i, int j); /** compute the distance between 2 
+                                            *  neighboring slices, add 1 slcie 
+                                            *  if the distance is larger than 
+                                            *  m_SliceDistanceThreshold. */
 
   /** Set/Get routines. */
   itkSetMacro(ImageOutput, ImagePointer);
@@ -152,8 +156,7 @@ public:
 
   itkSetMacro(NeighborRadius, int);
 
-  itkSetMacro(StepThreshold1, int);
-  itkSetMacro(StepThreshold2, int);
+  itkSetMacro(StepThreshold, int);
 
   itkSetMacro(XResolution, int);
   itkSetMacro(YResolution, int);
@@ -164,9 +167,15 @@ public:
 
   itkSetMacro(TimeStep, double);
 
+  itkSetMacro(ZDistance, double);
+
   itkSetMacro(Center, IndexType);
 
   itkGetMacro(Normals, InputMeshPointer);
+
+  itkSetMacro(SliceDistanceThreshold, double);
+
+  itkSetMacro(ModelDistanceToBoundaryThreshold, double);
 
 protected:
   DeformableMesh3DFilter();
@@ -218,11 +227,14 @@ private:
   int       m_ModelZDownLimit;
   int       **m_ACD;         /** To remove unstable structures on the model surface. */
   int       m_ModelRestart;
-  int       m_StepThreshold1;/** This threshold decides when to switch from potential fit to gradient fit. */
-  int       m_StepThreshold2;/** This threshold decides when to stop the model. */
+  int       m_StepThreshold;/** This threshold decides when to stop the model. */
   int       m_FirstSlice;    /** This variable helps relocating the model when trying to load it. */ 
   int       m_NeighborRadius;/** Defines the spatial range for the gradient fit */
- unsigned short        m_ObjectLabel;
+  unsigned short   m_ObjectLabel;
+  double    m_ZDistance;     /** the distance between 2 image slices (in pixels) */
+  double    m_ModelDistanceToBoundaryThreshold;
+  double    m_ModelDistanceToBoundary;
+  double    m_SliceDistanceThreshold;
 
   /** To compute force derived from potential data. */
   ImagePointer          m_Potential;
