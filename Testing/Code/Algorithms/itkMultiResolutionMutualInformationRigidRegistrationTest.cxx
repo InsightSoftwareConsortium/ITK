@@ -258,7 +258,7 @@ std::cout << std::endl;
   const double * ratePtr =
     registrator->GetLearningRates();
  
-  for( int k = 0; k < registrator->GetNumberOfLevels(); k++ )
+  for( unsigned int k = 0; k < registrator->GetNumberOfLevels(); k++ )
     {
     if( iterPtr[k] != niter[k] )
       {
