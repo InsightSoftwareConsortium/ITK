@@ -1,16 +1,17 @@
 PROJECT(ITK)
 INCLUDE_REGULAR_EXPRESSION("^(itk|vtk|vnl|vcl|f2c).*$")
+SOURCE_GROUP("XML Files" "\.xml$")
 
 SUBDIRS(Utilities Code Testing Examples)
 
 INCLUDE_DIRECTORIES(
-${CMAKE_BINARY_DIR} 
-${CMAKE_SOURCE_DIR}/Code/Numerics
-${CMAKE_SOURCE_DIR}/Code/Common 
-${CMAKE_BINARY_DIR}/Code/Numerics/vxl 
-${CMAKE_SOURCE_DIR}/Code/Numerics/vxl 
-${CMAKE_BINARY_DIR}/Code/Numerics/vxl/vcl 
-${CMAKE_SOURCE_DIR}/Code/Numerics/vxl/vcl 
+${ITK_BINARY_DIR} 
+${ITK_SOURCE_DIR}/Code/Numerics
+${ITK_SOURCE_DIR}/Code/Common 
+${ITK_BINARY_DIR}/Code/Numerics/vxl 
+${ITK_SOURCE_DIR}/Code/Numerics/vxl 
+${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl 
+${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl 
 )
 
 UNIX_LIBRARIES(
@@ -20,67 +21,67 @@ ${DL_LIBS}
 )
 
 LINK_DIRECTORIES(
-${CMAKE_BINARY_DIR}/Code/Common 
-${CMAKE_BINARY_DIR}/Code/Numerics/vxl )
+${ITK_BINARY_DIR}/Code/Common 
+${ITK_BINARY_DIR}/Code/Numerics/vxl )
 
 # Add commands to generate configure file when no
 # autoconf is around
 
 CONFIGURE_FILE_NOAUTOCONF(
-${CMAKE_SOURCE_DIR}/itkConfigure.h.in 
-${CMAKE_BINARY_DIR}/itkConfigure.h)
+${ITK_SOURCE_DIR}/itkConfigure.h.in 
+${ITK_BINARY_DIR}/itkConfigure.h)
 
 CONFIGURE_FILE_NOAUTOCONF(
-${CMAKE_SOURCE_DIR}/Code/Numerics/vxl/vcl/config.win32-vc60/vxl_config.h
-${CMAKE_BINARY_DIR}/Code/Numerics/vxl/vxl_config.h)
+${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl/config.win32-vc60/vxl_config.h
+${ITK_BINARY_DIR}/Code/Numerics/vxl/vxl_config.h)
 
 CONFIGURE_FILE_NOAUTOCONF(
-${CMAKE_SOURCE_DIR}/Code/Numerics/vxl/vcl/config.win32-vc60/vcl_config_compiler.h
-${CMAKE_BINARY_DIR}/Code/Numerics/vxl/vcl/vcl_config_compiler.h)
+${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl/config.win32-vc60/vcl_config_compiler.h
+${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl/vcl_config_compiler.h)
 
 CONFIGURE_FILE_NOAUTOCONF(
-${CMAKE_SOURCE_DIR}/Code/Numerics/vxl/vcl/config.win32-vc60/vcl_config_headers.h
-${CMAKE_BINARY_DIR}/Code/Numerics/vxl/vcl/vcl_config_headers.h)
+${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl/config.win32-vc60/vcl_config_headers.h
+${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl/vcl_config_headers.h)
 
 CONFIGURE_FILE_NOAUTOCONF(
-${CMAKE_SOURCE_DIR}/Code/Numerics/vxl/vcl/config.win32-vc60/vcl_config_manual.h
-${CMAKE_BINARY_DIR}/Code/Numerics/vxl/vcl/vcl_config_manual.h)
+${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl/config.win32-vc60/vcl_config_manual.h
+${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl/vcl_config_manual.h)
 
 CONFIGURE_FILE_NOAUTOCONF(
-${CMAKE_SOURCE_DIR}/Testing/Utilities/Build.tcl.in
-${CMAKE_BINARY_DIR}/Testing/Utilities/Build.tcl)
+${ITK_SOURCE_DIR}/Testing/Utilities/Build.tcl.in
+${ITK_BINARY_DIR}/Testing/Utilities/Build.tcl)
 
 CONFIGURE_FILE_NOAUTOCONF(
-${CMAKE_SOURCE_DIR}/Testing/Utilities/Utility.conf.in
-${CMAKE_BINARY_DIR}/Testing/Utilities/Utility.conf)
+${ITK_SOURCE_DIR}/Testing/Utilities/Utility.conf.in
+${ITK_BINARY_DIR}/Testing/Utilities/Utility.conf)
 
 CONFIGURE_FILE_NOAUTOCONF(
-${CMAKE_SOURCE_DIR}/Testing/Utilities/Utility.tcl.in
-${CMAKE_BINARY_DIR}/Testing/Utilities/Utility.tcl)
+${ITK_SOURCE_DIR}/Testing/Utilities/Utility.tcl.in
+${ITK_BINARY_DIR}/Testing/Utilities/Utility.tcl)
 
 CONFIGURE_FILE_NOAUTOCONF(
-${CMAKE_SOURCE_DIR}/Testing/Utilities/DashboardManager.tcl.in
-${CMAKE_BINARY_DIR}/Testing/Utilities/DashboardManager.tcl)
+${ITK_SOURCE_DIR}/Testing/Utilities/DashboardManager.tcl.in
+${ITK_BINARY_DIR}/Testing/Utilities/DashboardManager.tcl)
 
 CONFIGURE_FILE_NOAUTOCONF(
-${CMAKE_SOURCE_DIR}/Testing/Utilities/Test.tcl.in
-${CMAKE_BINARY_DIR}/Testing/Utilities/Test.tcl)
+${ITK_SOURCE_DIR}/Testing/Utilities/Test.tcl.in
+${ITK_BINARY_DIR}/Testing/Utilities/Test.tcl)
 
 CONFIGURE_FILE_NOAUTOCONF(
-${CMAKE_SOURCE_DIR}/Testing/Utilities/Submit.tcl.in
-${CMAKE_BINARY_DIR}/Testing/Utilities/Submit.tcl)
+${ITK_SOURCE_DIR}/Testing/Utilities/Submit.tcl.in
+${ITK_BINARY_DIR}/Testing/Utilities/Submit.tcl)
 
 CONFIGURE_FILE_NOAUTOCONF(
-${CMAKE_SOURCE_DIR}/Testing/Utilities/ftp.tcl.in
-${CMAKE_BINARY_DIR}/Testing/Utilities/ftp.tcl)
+${ITK_SOURCE_DIR}/Testing/Utilities/ftp.tcl.in
+${ITK_BINARY_DIR}/Testing/Utilities/ftp.tcl)
 
 CONFIGURE_FILE_NOAUTOCONF(
-${CMAKE_SOURCE_DIR}/Testing/Utilities/Doxygen.tcl.in
-${CMAKE_BINARY_DIR}/Testing/Utilities/Doxygen.tcl)
+${ITK_SOURCE_DIR}/Testing/Utilities/Doxygen.tcl.in
+${ITK_BINARY_DIR}/Testing/Utilities/Doxygen.tcl)
 
 CONFIGURE_FILE_NOAUTOCONF(
-${CMAKE_SOURCE_DIR}/Testing/Utilities/WindowsUtility.conf.in
-${CMAKE_BINARY_DIR}/Testing/Utilities/WindowsUtility.conf)
+${ITK_SOURCE_DIR}/Testing/Utilities/WindowsUtility.conf.in
+${ITK_BINARY_DIR}/Testing/Utilities/WindowsUtility.conf)
 
 
 BEGIN MAKE VERBATIM

@@ -20,7 +20,7 @@ LatestDashboard = $(wordlist $(words $(Dashboards)),$(words $(Dashboards)), $(Da
 
 PreviousDashboards = $(wildcard 20*)
 
-MAKEFILES = $(CMAKE_CONFIG_DIR)/CMake/CMakeVariables.make $(CMAKE_CONFIG_DIR)/Testing/Utilities/CMakeTestingDashboardRules.make 
+MAKEFILES = $(ITK_CONFIG_DIR)/CMake/CMakeVariables.make $(ITK_CONFIG_DIR)/Testing/Utilities/CMakeTestingDashboardRules.make 
 
 StartNightlyDashboard: 
 	mkdir $(NightlyDashboardStamp)
