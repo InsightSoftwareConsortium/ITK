@@ -49,10 +49,10 @@ public:
   typedef TType InternalType ;
 
 
-  static inline void Set(TType & output, const TType & input)
+  inline void Set(TType & output, const TType & input) const
     {output = input;}
 
-  static inline const TType & Get( const TType & input )
+  inline const TType & Get( const TType & input ) const
     {return input;}
 
 };
