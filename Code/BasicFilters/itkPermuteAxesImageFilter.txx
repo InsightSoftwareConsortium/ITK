@@ -76,31 +76,18 @@ PermuteAxesImageFilter<TImage>
 template <class TImage>
 void
 PermuteAxesImageFilter<TImage>
-::SetOrder( unsigned int order[ImageDimension] )
+::SetOrder( const PermuteOrderArrayType& order )
 {
 
   int j; 
 
   // check if it the same as current
-  bool different = false;
-  for ( j = 0; j < ImageDimension; j++)
-    {
-    if ( order[j] != m_Order[j] )
-      {
-      different = true;
-      break;
-      }
-    } 
-
-  if ( !different ) return;
+  if ( m_Order == order ) return;
 
   // check that input is a rearrangement of the
   // numbers from 0 to ImageDimension - 1
-  bool used[ImageDimension];
-  for ( j = 0; j < ImageDimension; j++ )
-    {
-    used[j] = false;
-    }
+  FixedArray<bool,ImageDimension> used;
+  used.Fill( false );
 
   for ( j = 0; j < ImageDimension; j++ )
     {
@@ -123,9 +110,9 @@ PermuteAxesImageFilter<TImage>
 
   // copy to member variable
   this->Modified();
+  m_Order = order;
   for ( j = 0; j < ImageDimension; j++ )
     {
-    m_Order[j] = order[j];
     m_InverseOrder[m_Order[j]] = j;
     }
   

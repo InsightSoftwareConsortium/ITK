@@ -18,6 +18,7 @@
 #define _itkPermuteAxesImageFilter_h
 
 #include "itkImageToImageFilter.h"
+#include "itkFixedArray.h"
 
 namespace itk
 {
@@ -67,17 +68,18 @@ public:
   typedef typename Superclass::OutputImagePointer OutputImagePointer;
   typedef typename Superclass::OutputImageRegionType    OutputImageRegionType;
 
+  /** PermuteOrderArray type. */
+  typedef FixedArray<unsigned int, ImageDimension> PermuteOrderArrayType;
+
   /** Set the permutation order.  The elements of order must be
    * a rearrangement of the numbers from 0 to ImageDimension - 1.*/
-  void SetOrder( unsigned int order[ImageDimension] );
+  void SetOrder( const PermuteOrderArrayType& order );
 
   /** Get the permutation order. */
-  const unsigned int * GetOrder()
-    { return m_Order; };
+  itkGetConstReferenceMacro( Order, PermuteOrderArrayType );
 
   /** Get the inverse permutation order. */
-  const unsigned int * GetInverseOrder()
-    { return m_InverseOrder; };
+  itkGetConstReferenceMacro( InverseOrder, PermuteOrderArrayType );
 
 
   /** PermuteAxesImageFilter produces an image which is a different
@@ -116,8 +118,8 @@ protected:
 
 private:
 
-  unsigned int  m_Order[ImageDimension];
-  unsigned int  m_InverseOrder[ImageDimension];
+  PermuteOrderArrayType  m_Order;
+  PermuteOrderArrayType  m_InverseOrder;
 
 };
 
