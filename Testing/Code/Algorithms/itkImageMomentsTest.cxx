@@ -17,18 +17,17 @@
 #include "itkAffineTransform.h"
 #include "itkPhysicalImage.h"
 #include "itkImageMomentsCalculator.h"
-#include "itkIndex.h"
-#include "itkSize.h"
 
 
 typedef itk::Vector<double,3>  VectorType;
 typedef itk::Matrix<double,3>  MatrixType;
+typedef itk::PhysicalImage<unsigned short, 3> ImageType;
+typedef itk::ImageMomentsCalculator<ImageType> CalculatorType;
+typedef CalculatorType::AffineTransformType AffineTransformType;
 
 
 int 
-main(
-    int argc,
-    char *argv[])
+main( int argc, char *argv[] )
 {
     /* Define acceptable (absolute) error in computed results.
        All the calculations are done in double and are well-conditioned,
@@ -48,12 +47,12 @@ main(
     /* Define positions of the test masses in index coordinates */
     unsigned short mass = 1;           // Test mass
     unsigned long point[8][3] = {
-	{ 10+8, 20+12, 40+0},
-	{ 10-8, 20-12, 40-0},
-	{ 10+3, 20-8,  40+0},
-	{ 10-3, 20+8,  40-0},
-	{ 10+0, 20+0,  40+10},
-	{ 10-0, 20-0,  40-10},
+  { 10+8, 20+12, 40+0},
+  { 10-8, 20-12, 40-0},
+  { 10+3, 20-8,  40+0},
+  { 10-3, 20+8,  40-0},
+  { 10+0, 20+0,  40+10},
+  { 10-0, 20-0,  40-10},
     };
 
     /* Define the expected (true) results for comparison */
@@ -74,12 +73,13 @@ main(
     tpa.GetVnlMatrix().set((double *)pad);
 
     /* Allocate a simple test image */
-    itk::PhysicalImage<unsigned short, 3>::Pointer
-      image = itk::PhysicalImage<unsigned short,3>::New();
-    itk::PhysicalImage<unsigned short, 3>::RegionType region;
+    ImageType::Pointer image = ImageType::New();
+
+    ImageType::RegionType region;
     region.SetSize(size);
     image->SetLargestPossibleRegion(region);
     image->SetBufferedRegion(region);
+    image->SetRequestedRegion(region);
 
     /* Set origin and spacing of physical coordinates */
     image->SetOrigin(origin);
@@ -91,13 +91,12 @@ main(
        but appears to be the only method currently supported. */
     itk::Index<3> index;          /* Index over pixels */
     for ( int i = 0; i < 6; i++) {
-	index.SetIndex(point[i]);
-	image->SetPixel(index, mass);
+      index.SetIndex(point[i]);
+      image->SetPixel(index, mass);
     }
 
     /* Compute the moments */
-    itk::ImageMomentsCalculator<unsigned short, 3>
-	moments(image);
+    CalculatorType moments(image);
     double ctm = moments.GetTotalMass();
     VectorType ccg = moments.GetCenterOfGravity();
     VectorType cpm = moments.GetPrincipalMoments();
@@ -132,11 +131,11 @@ main(
 
     /* Compute transforms between principal and physical axes */
     /* FIXME: Automatically check correctness of these results? */
-    itk::ImageMomentsCalculator<unsigned short, 3>::AffineTransformType
+    AffineTransformType
         pa2p = moments.GetPrincipalAxesToPhysicalAxesTransform();
     std::cout << "\nPrincipal axes to physical axes transform:\n";
     std::cout << pa2p << std::endl;
-    itk::ImageMomentsCalculator<unsigned short, 3>::AffineTransformType
+    AffineTransformType
         p2pa = moments.GetPhysicalAxesToPrincipalAxesTransform();
     std::cout << "\nPhysical axes to principal axes transform:\n";
     std::cout << p2pa << std::endl;
@@ -144,7 +143,7 @@ main(
     /* Do some error checking on the transforms */
     double dist = pa2p.Metric(pa2p);
     std::cout << "Distance from self to self = " << dist << std::endl;
-    itk::ImageMomentsCalculator<unsigned short, 3>::AffineTransformType
+    AffineTransformType
         p2pa2p;
     p2pa2p.Compose(p2pa);
     p2pa2p.Compose(pa2p);
