@@ -347,8 +347,9 @@ int main( int argc, char **argv )
   // \includegraphics[width=5cm]{ImageRegistration4Output.eps}
   // \includegraphics[width=5cm]{ImageRegistration4CheckerboardBefore.eps}
   // \includegraphics[width=5cm]{ImageRegistration4CheckerboardAfter.eps}
-  // \caption{Mapped moving image (left) and composition of fixed and moving
-  // images before (center) and after (right) registration.}
+  // \caption[MattesMutualInformationImageToImageMetric output images]{Mapped
+  // moving image (left) and composition of fixed and moving images before
+  // (center) and after (right) registration.}
   // \label{fig:ImageRegistration4Output}
   // \end{figure}
   //
@@ -365,7 +366,8 @@ int main( int argc, char **argv )
   // \center
   // \includegraphics[height=6cm]{ImageRegistration4TraceTranslations.eps}
   // \includegraphics[height=6cm]{ImageRegistration4TraceMetric.eps}
-  // \caption{Sequence of translations and metric values at each iteration of the optimizer.}
+  // \caption[MattesMutualInformationImageToImageMetric output plots]{Sequence
+  // of translations and metric values at each iteration of the optimizer.}
   // \label{fig:ImageRegistration4TraceTranslations}
   // \end{figure}
   //
