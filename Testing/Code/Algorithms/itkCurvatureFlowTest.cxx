@@ -43,11 +43,45 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkCurvatureFlowImageFilter.h"
 #include "itkRandomImageSource.h"
 #include "itkImage.h"
-#include "itkRawImageWriter.h"
+#include "itkVTKImageWriter.h"
+#include "itkOutputWindow.h"
+#include "itkCommand.h"
+
+
+// this class is used to send output to stdout and not the itk window
+class TextOutput : public itk::OutputWindow
+{
+public: 
+  typedef TextOutput              Self;
+  typedef itk::SmartPointer<Self>  Pointer;
+  typedef itk::SmartPointer<const Self>  ConstPointer;
+  itkNewMacro(TextOutput);
+  virtual void DisplayText(const char* s)
+    {
+      std::cout << s << std::endl;
+    }
+};
+
+
+// The following three classes are used to support callbacks
+// on the filter in the pipeline that follows later
+class ShowProgressObject
+{
+public:
+  ShowProgressObject(itk::ProcessObject* o)
+    {m_Process = o;}
+  void ShowProgress()
+    {std::cout << "Progress " << m_Process->GetProgress() << std::endl;}
+  itk::ProcessObject::Pointer m_Process;
+};
 
 
 int main()
 {
+
+   itk::OutputWindow::SetInstance(TextOutput::New().GetPointer());
+
+
   /* -------------------------------------------------
    * Create a random image of size 64 x 64
    */
@@ -73,16 +107,23 @@ int main()
   denoiser->SetInput( source->GetOutput() );
   denoiser->SetTimeStep( 0.15 );
   denoiser->SetIterations( 8 );
+  denoiser->DebugOn();
+
+  ShowProgressObject progressWatch(denoiser);
+  itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
+  command = itk::SimpleMemberCommand<ShowProgressObject>::New();
+  command->SetCallbackFunction(&progressWatch,
+                               &ShowProgressObject::ShowProgress);
+  denoiser->AddObserver(itk::Command::ProgressEvent, command);
 
   /* ------------------------------------------
    * Write output to file
    */
-  typedef itk::RawImageWriter<ImageType> WriterType;
+  typedef itk::VTKImageWriter<ImageType> WriterType;
   WriterType::Pointer writer = WriterType::New();
 
   writer->SetInput( denoiser->GetOutput() );
-  writer->SetFileName("CurvatureFlowImageFilterImage.raw");
-  writer->SetFileTypeToBinary();
+  writer->SetFileName("CurvatureFlowImageFilterImage.vtk");
   writer->Write();
   
   return EXIT_SUCCESS;
