@@ -527,11 +527,12 @@ void MetaImageIO::ReadImageInformation()
         endOfPath = 0; // there is no path
         }
       m_Ifstream.close();        // Close the header
-      std::string dataFileName = key;
-      std::cout << "Header filename = " << m_FileName << std::endl;
-      m_FileName.insert( endOfPath, dataFileName );  // Compose the data filename
-      std::cout << "Data filename = " << m_FileName << std::endl;
-      m_Ifstream.open( m_FileName.c_str() ); // open the data file
+      std::string dataFileName;
+      dataFileName = m_FileName.substr( 0, endOfPath+1 );     
+      dataFileName += key;
+      m_FileName = dataFileName;    // Compose the data filename
+      m_Ifstream.open( m_FileName.c_str(), std::ios::in | std::ios::binary );
+      return;
       }
     else 
       {
