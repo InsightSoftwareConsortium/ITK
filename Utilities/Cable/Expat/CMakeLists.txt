@@ -12,7 +12,14 @@ xmltok/xmlrole
 xmlwf/xmlwf
 xmlwf/xmlfile
 xmlwf/codepage
+)
+
+SOURCE_FILES_REQUIRE(UNIX SOURCES_BEGIN
 xmlwf/unixfilemap
+)
+
+SOURCE_FILES_REQUIRE(WIN32 SOURCES_BEGIN
+xmlwf/win32filemap
 )
 
 INCLUDE_DIRECTORIES(
