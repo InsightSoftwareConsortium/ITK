@@ -46,7 +46,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkPhysicalImage.h"
 #include "itkImageRegionIterator.h"
 #include "itkResampleImageFilter.h"
-#include "itkSimpleImageRegionIterator.h"
+#include "itkImageRegionIteratorWithIndex.h"
 
 
 enum {NDimensions = 2};
@@ -75,7 +75,7 @@ int main()
   image->Allocate();
 
   // Fill image with a ramp
-  itk::SimpleImageRegionIterator<ImageType> iter(image, region);
+  itk::ImageRegionIteratorWithIndex<ImageType> iter(image, region);
   PixelType value;
   for (iter.Begin(); !iter.IsAtEnd(); ++iter) {
     index = iter.GetIndex();
@@ -106,7 +106,7 @@ int main()
   bool passed = true;
   ImageType::RegionType region2;
   region2 = resample->GetOutput()->GetRequestedRegion();
-  itk::SimpleImageRegionIterator<ImageType>
+  itk::ImageRegionIteratorWithIndex<ImageType>
       iter2(resample->GetOutput(), region2);
   PixelType pixval;
   for (iter2.Begin(); !iter2.IsAtEnd(); ++iter2) {

@@ -9,7 +9,7 @@
 
 #include <itkPhysicalImage.h>
 #include <itkIndex.h>
-#include <itkSimpleImageRegionIterator.h>
+#include <itkImageRegionIteratorWithIndex.h>
 #include <itkPhysicalImageAdaptor.h>
 #include <itkNthElementImageAdaptor.h>
 #include <itkAddImageFilter.h>
@@ -42,11 +42,11 @@ int main()
   typedef   itk::NthElementImageAdaptor< myContainerPixelImageType,
                                          myFloatPixelType >        myAdaptorType;
 
-  typedef itk::SimpleImageRegionIterator< 
+  typedef itk::ImageRegionIteratorWithIndex< 
                                    myFloatImageType > myFloatIteratorType;
 
 
-  typedef itk::SimpleImageRegionIterator< 
+  typedef itk::ImageRegionIteratorWithIndex< 
                          myContainerPixelImageType >   myContainerPixelIteratorType;
 
 

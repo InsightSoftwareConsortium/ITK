@@ -44,7 +44,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <itkPhysicalImage.h>
 #include <itkGradientRecursiveGaussianImageFilter.h>
-#include <itkSimpleImageRegionIterator.h>
+#include <itkImageRegionIteratorWithIndex.h>
 #include <itkCovariantVector.h>
 
 
@@ -94,9 +94,9 @@ int main()
   inputImage->Allocate();
 
   // Declare Iterator types apropriated for each image 
-  typedef itk::SimpleImageRegionIterator<myImageType>  myIteratorType;
+  typedef itk::ImageRegionIteratorWithIndex<myImageType>  myIteratorType;
 
-  typedef itk::SimpleImageRegionIterator<
+  typedef itk::ImageRegionIteratorWithIndex<
                                  myGradientImageType>  myOutputIteratorType;
 
   // Create one iterator for the Input Image A (this is a light object)

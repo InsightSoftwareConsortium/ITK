@@ -44,7 +44,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <itkImage.h>
 #include <itkAddImageFilter.h>
-#include <itkSimpleImageRegionIterator.h>
+#include <itkImageRegionIteratorWithIndex.h>
 
 
 int main() 
@@ -100,9 +100,9 @@ int main()
 
 
   // Declare Iterator types apropriated for each image 
-  typedef itk::SimpleImageRegionIterator<myImageType1>  myIteratorType1;
-  typedef itk::SimpleImageRegionIterator<myImageType2>  myIteratorType2;
-  typedef itk::SimpleImageRegionIterator<myImageType3>  myIteratorType3;
+  typedef itk::ImageRegionIteratorWithIndex<myImageType1>  myIteratorType1;
+  typedef itk::ImageRegionIteratorWithIndex<myImageType2>  myIteratorType2;
+  typedef itk::ImageRegionIteratorWithIndex<myImageType3>  myIteratorType3;
 
   // Create one iterator for Image A (this is a light object)
   myIteratorType1 it1( inputImageA, inputImageA->GetBufferedRegion() );
