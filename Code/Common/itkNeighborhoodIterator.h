@@ -105,7 +105,7 @@ public:
   /**
    * Scalar data type typedef support
    */
-  typedef typename ScalarTraits<TPixel>::ScalarValueType TPixelScalarValueType;
+  typedef typename ScalarTraits<TPixel>::ScalarValueType ScalarValueType;
   /**
    * itk::Image typedef support.
    */
@@ -125,11 +125,6 @@ public:
    * itk::Neighborhood typedef support
    */
   typedef Neighborhood<TPixel, VDimension> NeighborhoodType;
-  
-  /**
-   * itk::NeighborhoodBase typedef support
-   */
-  typedef NeighborhoodBase<TPixel *, VDimension> NeighborhoodBase;
   
   /** 
    * Run-time type information (and related methods).

@@ -90,7 +90,7 @@ SmartRegionNeighborhoodIterator<TPixel, VDimension>
           
           else  // Boundary condition here
             {
-              *ans_it = NumericTraits<TPixelScalarValueType>::Zero;
+              *ans_it = NumericTraits<ScalarValueType>::Zero;
             }
           
           for (i=0; i<VDimension; ++i)  // Update index
@@ -174,11 +174,11 @@ SmartRegionNeighborhoodIterator<TPixel, VDimension>
 }
 
 template<class TPixel, unsigned int VDimension>
-SmartRegionNeighborhoodIterator<TPixel, VDimension>::TPixelScalarValueType
+SmartRegionNeighborhoodIterator<TPixel, VDimension>::ScalarValueType
 SmartRegionNeighborhoodIterator<TPixel, VDimension>
 ::InnerProduct(std::valarray<TPixel> &v)
 {
-  TPixelScalarValueType sum = NumericTraits<TPixelScalarValueType>::Zero;
+  ScalarValueType sum = NumericTraits<ScalarValueType>::Zero;
   TPixel *it;
   const TPixel *_end = &(v[v.size()]);
   Iterator this_it;
@@ -205,20 +205,20 @@ SmartRegionNeighborhoodIterator<TPixel, VDimension>
 }
 
 template<class TPixel, unsigned int VDimension>
-typename SmartRegionNeighborhoodIterator<TPixel, VDimension>::TPixelScalarValueType
+typename SmartRegionNeighborhoodIterator<TPixel, VDimension>::ScalarValueType
 SmartRegionNeighborhoodIterator<TPixel, VDimension>
 ::InnerProduct(std::valarray<typename SmartRegionNeighborhoodIterator<TPixel,
-               VDimension>::TPixelScalarValueType> &v,
+               VDimension>::ScalarValueType> &v,
                VectorComponentDataAccessor<TPixel, 
                typename SmartRegionNeighborhoodIterator<TPixel,
-               VDimension>::TPixelScalarValueType> & accessor)
+               VDimension>::ScalarValueType> & accessor)
 {
-  TPixelScalarValueType sum  = NumericTraits<TPixelScalarValueType>::Zero; 
+  ScalarValueType sum  = NumericTraits<ScalarValueType>::Zero; 
   
-  TPixelScalarValueType *it;
+  ScalarValueType *it;
   Iterator this_it;
 
-  const TPixelScalarValueType *itEnd = &(v[v.size()]);
+  const ScalarValueType *itEnd = &(v[v.size()]);
 
   if (InBounds())
     {
@@ -238,12 +238,12 @@ SmartRegionNeighborhoodIterator<TPixel, VDimension>
 
 
 template<class TPixel, unsigned int VDimension>
-SmartRegionNeighborhoodIterator<TPixel, VDimension>::TPixelScalarValueType
+SmartRegionNeighborhoodIterator<TPixel, VDimension>::ScalarValueType
 SmartRegionNeighborhoodIterator<TPixel, VDimension>
 ::SlicedInnerProduct(const std::slice &s, std::valarray<TPixel> &v)
 {
   //NumericTraits<TPixel>::AccumulateType sum = NumericTraits<TPixel>::Zero;
-  TPixelScalarValueType sum = NumericTraits<TPixelScalarValueType>::Zero;
+  ScalarValueType sum = NumericTraits<ScalarValueType>::Zero;
   TPixel *it;
   typename Self::SliceIteratorType slice_it(this, s);
   slice_it[0];
@@ -270,19 +270,19 @@ SmartRegionNeighborhoodIterator<TPixel, VDimension>
 
 
 template<class TPixel, unsigned int VDimension>
-typename SmartRegionNeighborhoodIterator<TPixel, VDimension>::TPixelScalarValueType
+typename SmartRegionNeighborhoodIterator<TPixel, VDimension>::ScalarValueType
 SmartRegionNeighborhoodIterator<TPixel, VDimension>
-::SlicedInnerProduct(const std::slice& s, std::valarray<TPixelScalarValueType> &v, 
-               VectorComponentDataAccessor<TPixel, TPixelScalarValueType>
+::SlicedInnerProduct(const std::slice& s, std::valarray<ScalarValueType> &v, 
+               VectorComponentDataAccessor<TPixel, ScalarValueType>
                &accessor)
 {
-  TPixelScalarValueType sum = NumericTraits<TPixelScalarValueType>::Zero;
+  ScalarValueType sum = NumericTraits<ScalarValueType>::Zero;
   
-  TPixelScalarValueType *it;
+  ScalarValueType *it;
   typename Self::SliceIteratorType slice_it(this, s);
 
   slice_it[0];
-  const TPixelScalarValueType *itEnd = &(v[v.size()]);
+  const ScalarValueType *itEnd = &(v[v.size()]);
   if (InBounds())
     {
       for (it = &(v[0]); it < itEnd; ++it, ++slice_it)

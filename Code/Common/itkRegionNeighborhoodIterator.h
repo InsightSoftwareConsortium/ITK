@@ -124,16 +124,16 @@ public:
    * \sa Neighborhood
    * \sa SlicedInnerProduct
    */
-  TPixelScalarValueType InnerProduct(std::valarray<TPixel> &);
-  TPixelScalarValueType InnerProduct(std::valarray<TPixelScalarValueType> &,
+  ScalarValueType InnerProduct(std::valarray<TPixel> &);
+  ScalarValueType InnerProduct(std::valarray<ScalarValueType> &,
                                      VectorComponentDataAccessor<TPixel,
-                                     TPixelScalarValueType> &);
-  TPixelScalarValueType SlicedInnerProduct(const std::slice &s,
+                                     ScalarValueType> &);
+  ScalarValueType SlicedInnerProduct(const std::slice &s,
                                            std::valarray<TPixel> &v);
 
-  TPixelScalarValueType SlicedInnerProduct(const std::slice &,
-                                           std::valarray<TPixelScalarValueType> &,
-              VectorComponentDataAccessor<TPixel, TPixelScalarValueType> &);
+  ScalarValueType SlicedInnerProduct(const std::slice &,
+                                           std::valarray<ScalarValueType> &,
+              VectorComponentDataAccessor<TPixel, ScalarValueType> &);
 
   /**
    * Assignment operator

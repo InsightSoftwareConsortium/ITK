@@ -71,7 +71,7 @@ DoUnsynchedInnerProduct(TNeighborhoodIterator &it, TImageIterator op,
   for (it = it.Begin(); it < itEnd; ++it, ++op)
     {
       //*op = it.InnerProduct(oper);
-      ScalarTraits<typename TNeighborhoodIterator::TPixelScalarValueType>
+      ScalarTraits<typename TNeighborhoodIterator::ScalarValueType>
         ::SetScalar(*op, it.InnerProduct(oper));
     }
 }
@@ -95,7 +95,7 @@ DoSynchedInnerProduct(TNeighborhoodIterator &it, TNeighborhood &oper)
   for (it = it.Begin(); it < itEnd; ++it)
     {
       // *( it.GetOutputBuffer() ) = it.InnerProduct(oper);
-      ScalarTraits<typename TNeighborhoodIterator::TPixelScalarValueType>
+      ScalarTraits<typename TNeighborhoodIterator::ScalarValueType>
         ::SetScalar(*( it.GetOutputBuffer() ), it.InnerProduct(oper) );
     }
 }
@@ -122,12 +122,12 @@ DoSynchedInnerProduct(Image<TPixel, VDimension> *in,
  *
  */
 template<class TPixel, unsigned int VDimension>
-typename Neighborhood<TPixel, VDimension>::TPixelScalarValueType
+typename Neighborhood<TPixel, VDimension>::ScalarValueType
 InnerProduct(Neighborhood<TPixel, VDimension> &,
              std::valarray<typename Neighborhood<TPixel,
-             VDimension>::TPixelScalarValueType> &v,
+             VDimension>::ScalarValueType> &v,
              VectorComponentDataAccessor<TPixel, typename Neighborhood<TPixel,
-             VDimension>::TPixelScalarValueType> &accessor);
+             VDimension>::ScalarValueType> &accessor);
 
 
 /**

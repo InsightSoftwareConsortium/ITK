@@ -63,14 +63,19 @@ class NeighborhoodOperator : public Neighborhood<TPixel, VDimension>
 {
 public:
   /**
-   *  Neighborhood typedef support.
-   */
-  typedef Neighborhood<TPixel, VDimension> Neighborhood;
-
-  /**
    *  Standard "Self" typedef.
    */ 
   typedef NeighborhoodOperator Self;
+
+  /**
+   * Standard Superclass typedef
+   */
+  typedef Neighborhood<TPixel, VDimension> Superclass;
+  
+  /**
+   *  Neighborhood typedef support.
+   */
+  typedef Neighborhood<TPixel, VDimension> NeighborhoodType;
 
   /**
    * Constructor.
@@ -127,7 +132,7 @@ public:
    */
   void PrintSelf()
   {
-    Neighborhood::PrintSelf(); 
+    Superclass::PrintSelf(); 
     std::cout << "NeighborhoodOperator" << std::endl;
     std::cout << "\t Direction = " << m_Direction << std::endl;
   }

@@ -562,21 +562,21 @@ Convolve1D(Neighborhood<TPixel, VDimension> &A,
   return N;
 }
 
-template<class TPixel, unsigned int VDimension>
-template<class YPixel>
-Neighborhood<TPixel, VDimension>
-Neighborhood<TPixel, VDimension>
-::operator+(const YPixel &n) const
-{
-  Neighborhood<TPixel, VDimension> ans(*this);
-  for (Iterator it = ans.Begin(); it < ans.End(); ++it)
-    {
-      //*it += (TPixel) n;
-     ScalarTraits<TPixel>::SetScalar(*it, ScalarTraits<TPixel>::GetScalar(*it)
-                  + (TPixelScalarValueType) n);
-    }
-  return ans;
-}
+  template<class TPixel, unsigned int VDimension>
+  template<class YPixel>
+  Neighborhood<TPixel, VDimension>
+  Neighborhood<TPixel, VDimension>
+  ::operator+(const YPixel &n) const
+  {
+    Neighborhood<TPixel, VDimension> ans(*this);
+    for (Iterator it = ans.Begin(); it < ans.End(); ++it)
+      {
+        //*it += (TPixel) n;
+       ScalarTraits<TPixel>::SetScalar(*it, ScalarTraits<TPixel>::GetScalar(*it)
+                    + (ScalarValueType) n);
+      }
+    return ans;
+  }
 
 template<class TPixel, unsigned int VDimension>
 Neighborhood<TPixel, VDimension>
@@ -587,7 +587,7 @@ Neighborhood<TPixel, VDimension>
   for (Iterator it = ans.Begin(); it < ans.End(); ++it)
     {
       // *it = (TPixel) std::pow((double)*it, n);
-         ScalarTraits<TPixel>::SetScalar(*it, (TPixelScalarValueType)
+         ScalarTraits<TPixel>::SetScalar(*it, (ScalarValueType)
                  std::pow((double)ScalarTraits<TPixel>::GetScalar(*it), n) );
       
     }
@@ -616,11 +616,11 @@ Neighborhood<TPixel, VDimension>
 }
 
 template<class TPixel, unsigned int VDimension>
-Neighborhood<TPixel, VDimension>::TPixelScalarValueType
+Neighborhood<TPixel, VDimension>::ScalarValueType
 Neighborhood<TPixel, VDimension>
 ::SlicedInnerProduct(const std::slice &s, std::valarray<TPixel> &v)
 {
-  TPixelScalarValueType sum = NumericTraits<TPixelScalarValueType>::Zero;
+  ScalarValueType sum = NumericTraits<ScalarValueType>::Zero;
   
   TPixel *it;
   typename Self::SliceIteratorType slice_it(this, s);
@@ -639,19 +639,19 @@ Neighborhood<TPixel, VDimension>
 
 
 template<class TPixel, unsigned int VDimension>
-typename Neighborhood<TPixel, VDimension>::TPixelScalarValueType
+typename Neighborhood<TPixel, VDimension>::ScalarValueType
 Neighborhood<TPixel, VDimension>
-::SlicedInnerProduct(const std::slice& s, std::valarray<TPixelScalarValueType> &v, 
-               VectorComponentDataAccessor<TPixel, TPixelScalarValueType>
+::SlicedInnerProduct(const std::slice& s, std::valarray<ScalarValueType> &v, 
+               VectorComponentDataAccessor<TPixel, ScalarValueType>
                &accessor)
 {
-  TPixelScalarValueType sum = NumericTraits<TPixelScalarValueType>::Zero;
+  ScalarValueType sum = NumericTraits<ScalarValueType>::Zero;
   
-  TPixelScalarValueType *it;
+  ScalarValueType *it;
   typename Self::SliceIteratorType slice_it(this, s);
 
   slice_it[0];
-  const TPixelScalarValueType *itEnd = &(v[v.size()]);
+  const ScalarValueType *itEnd = &(v[v.size()]);
   for (it = &(v[0]); it < itEnd; ++it, ++slice_it)
     {
       //sum += *it * *slice_it;
@@ -662,11 +662,11 @@ Neighborhood<TPixel, VDimension>
 }
 
 template<class TPixel, unsigned int VDimension>
-typename Neighborhood<TPixel, VDimension>::TPixelScalarValueType
+typename Neighborhood<TPixel, VDimension>::ScalarValueType
 Neighborhood<TPixel, VDimension>
 ::InnerProduct(std::valarray<TPixel> &v)
 {
-  TPixelScalarValueType sum = NumericTraits<TPixelScalarValueType>::Zero;
+  ScalarValueType sum = NumericTraits<ScalarValueType>::Zero;
   
   TPixel *it;
   TPixel *this_it;
@@ -685,17 +685,17 @@ Neighborhood<TPixel, VDimension>
 }
 
 template<class TPixel, unsigned int VDimension>
-typename Neighborhood<TPixel, VDimension>::TPixelScalarValueType
+typename Neighborhood<TPixel, VDimension>::ScalarValueType
 Neighborhood<TPixel, VDimension>
-::InnerProduct(std::valarray<TPixelScalarValueType> &v, 
-          VectorComponentDataAccessor<TPixel, TPixelScalarValueType> &accessor)
+::InnerProduct(std::valarray<ScalarValueType> &v, 
+          VectorComponentDataAccessor<TPixel, ScalarValueType> &accessor)
 {
-  TPixelScalarValueType sum  = NumericTraits<TPixelScalarValueType>::Zero; 
+  ScalarValueType sum  = NumericTraits<ScalarValueType>::Zero; 
   
-  TPixelScalarValueType *it;
+  ScalarValueType *it;
   TPixel *this_it;
   
-  const TPixelScalarValueType *itEnd = &(v[v.size()]);
+  const ScalarValueType *itEnd = &(v[v.size()]);
   for (it = &(v[0]), this_it = this->Begin(); it < itEnd;
        ++it, ++this_it)
     {

@@ -23,11 +23,11 @@ DerivativeHalfForwardOperator<TPixel, VDimension>
 {
   std::vector<TPixel> coeff(3);
   ScalarTraits<TPixel>::SetScalar(coeff[0],
-                                  NumericTraits<TPixelScalarValueType>::Zero);
+                                  NumericTraits<ScalarValueType>::Zero);
   ScalarTraits<TPixel>::SetScalar(coeff[1], -1.0f *
-                                  NumericTraits<TPixelScalarValueType>::One);
+                                  NumericTraits<ScalarValueType>::One);
   ScalarTraits<TPixel>::SetScalar(coeff[2],
-                                  NumericTraits<TPixelScalarValueType>::One);
+                                  NumericTraits<ScalarValueType>::One);
   return coeff;
 }
   

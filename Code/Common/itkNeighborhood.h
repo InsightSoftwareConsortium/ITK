@@ -24,7 +24,7 @@
 
 namespace itk {
 
-template<class TPixel, unsigned int VDimension>  class Neighborhood;
+template<class TPixel, unsigned int VDimension> class Neighborhood;
 
 /**
  *  Templated function for convolving two neighborhoods of arbitrary
@@ -116,6 +116,8 @@ Convolve1D(Neighborhood<TPixel, VDimension> &,
  * \sa NeighborhoodBase
  * \sa NeighborhoodAlgorithm
  */  
+
+
 template<class TPixel, unsigned int VDimension = 2>
 class ITK_EXPORT Neighborhood : public NeighborhoodBase<TPixel, VDimension>
 {
@@ -139,7 +141,7 @@ public:
   /**
    * Support for underlying scalar value type of the pixel type.
    */
-  typedef typename ScalarTraits<TPixel>::ScalarValueType TPixelScalarValueType;
+  typedef typename ScalarTraits<TPixel>::ScalarValueType ScalarValueType;
   
   /**
    * Default constructor method.
@@ -158,7 +160,7 @@ public:
   /**
    * Sets all of the scalar values in this neighborhood to a scalar constant.
    */
-  Self &operator=( const TPixelScalarValueType v )
+  Self &operator=( const ScalarValueType v )
   {
     for (Iterator it = this->Begin(); it < this->End(); ++it)
       {
@@ -196,13 +198,13 @@ public:
    * size is undefined.  For efficiency, InnerProduct does no bounds checking.
    * \sa SlicedInnerProduct
    */
-  TPixelScalarValueType InnerProduct(std::valarray<TPixel> &);
+  ScalarValueType InnerProduct(std::valarray<TPixel> &);
 
   /**
    *
    */
-  TPixelScalarValueType InnerProduct(std::valarray<TPixelScalarValueType> &, 
-              VectorComponentDataAccessor<TPixel, TPixelScalarValueType> &);
+  ScalarValueType InnerProduct(std::valarray<ScalarValueType> &, 
+              VectorComponentDataAccessor<TPixel, ScalarValueType> &);
 
   
   /**
@@ -210,15 +212,15 @@ public:
    * the valarray argument.
    * \sa InnerProduct
    */
-  TPixelScalarValueType SlicedInnerProduct(const std::slice &,
+  ScalarValueType SlicedInnerProduct(const std::slice &,
                                            std::valarray<TPixel> &);
 
   /**
    *
    */
-  TPixelScalarValueType SlicedInnerProduct(const std::slice &,
-                                           std::valarray<TPixelScalarValueType> &,
-              VectorComponentDataAccessor<TPixel, TPixelScalarValueType> &);
+  ScalarValueType SlicedInnerProduct(const std::slice &,
+                                           std::valarray<ScalarValueType> &,
+              VectorComponentDataAccessor<TPixel, ScalarValueType> &);
 
   /**
    * Returns the value of the center pixel in a Neighborhood.
@@ -241,19 +243,19 @@ public:
   {
     if (VDimension == 2)
       {
-        return itk::Convolve2D<TPixel, VDimension>(*this, B, 0);
+      return itk::Convolve2D<TPixel, VDimension>(*this, B, 0);
       }
     else if (VDimension == 3)
       {
-        return itk::Convolve3D<TPixel, VDimension>(*this, B, 0);
+      return itk::Convolve3D<TPixel, VDimension>(*this, B, 0);
       }
     else if (VDimension == 1)
       {
-        return itk::Convolve1D<TPixel, VDimension>(*this, B, 0);
+      return itk::Convolve1D<TPixel, VDimension>(*this, B, 0);
       }
     else
       {
-        return itk::ConvolveND<TPixel, VDimension>(*this, B, 0);
+      return itk::ConvolveND<TPixel, VDimension>(*this, B, 0);
       }
   }
 
@@ -271,19 +273,19 @@ public:
   {
     if (VDimension == 2)
       {
-        return itk::Convolve2D<TPixel, VDimension>(*this, B, 1);
+      return itk::Convolve2D<TPixel, VDimension>(*this, B, 1);
       }
     else if (VDimension == 3)
       {
-        return itk::Convolve3D<TPixel, VDimension>(*this, B, 1);
+      return itk::Convolve3D<TPixel, VDimension>(*this, B, 1);
       }
     else if (VDimension == 1)
       {
-        return itk::Convolve1D<TPixel, VDimension>(*this, B, 1);
+      return itk::Convolve1D<TPixel, VDimension>(*this, B, 1);
       }
     else
       {
-        return itk::ConvolveND<TPixel, VDimension>(*this, B, 1);
+      return itk::ConvolveND<TPixel, VDimension>(*this, B, 1);
       }
   }
    
@@ -296,15 +298,15 @@ public:
   /**
    * Returns the sum of all the scalar pixel values in the Neighborhood.
    */
-  TPixelScalarValueType Sum()
+  ScalarValueType Sum()
   {
     // typename NumericTraits<TPixel>::AccumulateType accum
     //      = NumericTraits<TPixel>::Zero;
-    TPixelScalarValueType accum = NumericTraits<TPixelScalarValueType>::Zero;
+    ScalarValueType accum = NumericTraits<ScalarValueType>::Zero;
     
     for (Iterator it = this->Begin(); it < this->End(); ++it)
       {
-        accum += ScalarTraits<TPixel>::GetScalar(*it);
+      accum += ScalarTraits<TPixel>::GetScalar(*it);
       }
     return accum;
   }

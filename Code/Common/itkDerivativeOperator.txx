@@ -27,10 +27,10 @@ DerivativeOperator<TPixel, VDimension>
   int i;
   int j;
   int h;
-  TPixelScalarValueType previous;
-  TPixelScalarValueType next;
+  ScalarValueType previous;
+  ScalarValueType next;
   const int w = 2*((m_Order + 1)/2) + 1;
-  std::vector<TPixelScalarValueType> coeff(w);
+  std::vector<ScalarValueType> coeff(w);
   std::vector<TPixel> coeffP(w);
 
   h = 1;
