@@ -111,7 +111,7 @@ KdTreeGenerator< TSample >
   MeasurementType dimensionLowerBound ;
   MeasurementType dimensionUpperBound ;
   MeasurementType partitionValue ;
-  unsigned int partitionDimension ;
+  unsigned int partitionDimension = 0 ;
   NodeType* left ;
   NodeType* right ;
   unsigned int i ;

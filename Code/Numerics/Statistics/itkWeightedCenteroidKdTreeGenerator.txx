@@ -45,7 +45,7 @@ WeightedCenteroidKdTreeGenerator< TSample >
   MeasurementType dimensionLowerBound ;
   MeasurementType dimensionUpperBound ;
   MeasurementType partitionValue ;
-  unsigned int partitionDimension ;
+  unsigned int partitionDimension = 0 ;
   KdTreeNodeType* left ;
   KdTreeNodeType* right ;
   int i, j ;

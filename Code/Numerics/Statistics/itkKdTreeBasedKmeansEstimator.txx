@@ -84,7 +84,7 @@ KdTreeBasedKmeansEstimator< TKdTree >
                       std::vector< int > &validIndexes)
 {
 
-  int closest ;
+  int closest = 0 ;
   double closestDistance = NumericTraits< double >::max() ;
   double tempDistance ;
   std::vector< int >::iterator iter = validIndexes.begin() ;
