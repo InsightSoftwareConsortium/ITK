@@ -39,11 +39,12 @@ VersorTransformOptimizer
 
 
   const ParametersType & currentPosition = this->GetCurrentPosition();
+  unsigned int NumberOfParameters = m_CostFunction->GetNumberOfParameters();
 
   // The parameters are assumed to be the right part of the versor
   // 
   VectorType rightPart;
-  for(unsigned int i=0; i<SpaceDimension; i++)
+  for(unsigned int i=0; i<3; i++)
     {
     rightPart[i] = currentPosition[i];
     }
@@ -76,11 +77,21 @@ VersorTransformOptimizer
   //
   VersorType newRotation = currentRotation * gradientRotation;
 
-  ParametersType newParameters(SpaceDimension);
+  ParametersType newParameters(NumberOfParameters);
 
   newParameters[0] = newRotation.GetX();
   newParameters[1] = newRotation.GetY();
   newParameters[2] = newRotation.GetZ();
+
+  // Optimize the non-versor parameters as the RegularStepGradientDescentOptimizer
+  for(unsigned int j=3; j<NumberOfParameters; j++)
+    {
+    newParameters[j] = currentPosition[j] + transformedGradient[j] * factor;
+    }
+
+  std::cout << "Current position: " << currentPosition << std::endl;
+  std::cout << "New position: " << newParameters << std::endl;
+  std::cout << "transformedGradient: " << transformedGradient << std::endl;
 
   this->SetCurrentPosition( newParameters );
 

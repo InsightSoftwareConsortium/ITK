@@ -64,9 +64,6 @@ public:
   itkTypeMacro( VersorTransformOptimizer, 
                 RegularStepGradientDescentBaseOptimizer );
 
-  /** This class is specialized for 3D  */
-  itkStaticConstMacro( SpaceDimension, unsigned int, 3 );
-
   /**  Versor Type  */
   typedef Versor<double>                      VersorType;
   typedef VersorType::VectorType              VectorType;
