@@ -174,7 +174,7 @@ int main()
   itkOptimizer->SetGradientMagnitudeTolerance( 1e-6 );
   itkOptimizer->SetMaximumStepLength( 30.0 );
   itkOptimizer->SetMinimumStepLength( 1e-6 );
-  itkOptimizer->SetMaximumNumberOfIterations( 900 );
+  itkOptimizer->SetNumberOfIterations( 900 );
 
   itkOptimizer->SetInitialPosition( initialPosition );
   itkOptimizer->StartOptimization();
