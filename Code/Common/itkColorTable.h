@@ -55,7 +55,8 @@ public:
   RGBPixel<TPixel>*          GetColor(unsigned int colorId);
   RGBPixel<TPixel>*          color(unsigned int c);
 
-  bool    SetColor(unsigned int c, TPixel r, TPixel g, TPixel b, const char * name="UserDefined");
+  bool    SetColor(unsigned int c, TPixel r, TPixel g, TPixel b,
+                   const char * name="UserDefined");
   
   /** Given the position in the table and the color 
    * returns the value. \todo Needs renaming. */
@@ -68,6 +69,7 @@ public:
    
 protected:
   ColorTable();
+  void PrintSelf(std::ostream & os, Indent indent) const;
   virtual ~ColorTable();
 
   unsigned int         m_NumberOfColors;

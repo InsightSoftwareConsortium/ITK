@@ -53,6 +53,17 @@ ColorTable<TPixel>
   m_ColorName = NULL;
   }
 
+template<class TPixel>
+void
+ColorTable<TPixel>
+::PrintSelf(std::ostream & os, Indent indent) const
+  {
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "m_NumberOfColors = " << m_NumberOfColors << std::endl;
+  os << indent << "m_Color = " << (int)m_Color << std::endl;
+  os << indent << "m_ColorName = " << (int)m_ColorName << std::endl;
+  }
 
 template<class TPixel>
 void 
