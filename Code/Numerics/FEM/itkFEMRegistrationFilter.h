@@ -265,6 +265,10 @@ private :
   unsigned int     m_MeshLevels;// Number of Mesh Resolutions ( should be >= 1)
   unsigned int     m_MeshStep;  // Ratio Between Mesh Resolutions ( currently set to 2, should be >= 1)
   unsigned int     m_FileCount; // keeps track of number of files written
+ 
+  /** Stores the number of elements per dimension of the mesh for each
+      resolution of the multi-resolution pyramid */
+  vnl_vector<unsigned int> m_MeshElementsPerDimensionAtEachResolution;
 
   Float     m_dT; // time step
   Float     m_E;  // elasticity 
