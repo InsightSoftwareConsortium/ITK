@@ -65,8 +65,6 @@ public:
   typedef typename OutputImageType::RegionType  OutputImageRegionType;
   typedef typename OutputImageType::PixelType   OutputImagePixelType;
 
-  /** Connect one of the operands for pixel-wise operation. */
-   void SetInput( unsigned int, const TInputImage * image);
 
   /** Get the functor object.  The functor is returned by reference.
    * (Functors do not have to derive from itk::LightObject, so they do

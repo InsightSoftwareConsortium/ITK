@@ -84,7 +84,8 @@ public:
   typedef typename InputImageType::PixelType      InputImagePixelType; 
   
   /** Set/Get the image input of this process object.  */
-  virtual void SetInput(const InputImageType *input);
+  virtual void SetInput( const InputImageType *image);
+  virtual void SetInput( unsigned int, const TInputImage * image);
   InputImageConstPointer GetInput(void);
   InputImageConstPointer GetInput(unsigned int idx);
   
