@@ -125,7 +125,7 @@ public:
   /** Set the rotational part of the transform. */
   void SetAngle(TScalarType angle);
   void SetAngleInDegrees(TScalarType angle);
-  itkGetMacro( Angle, TScalarType );
+  itkGetConstReferenceMacro( Angle, TScalarType );
   
   /** Set and Get the center of rotation */
   void SetCenterOfRotation( const InputPointType & center );
@@ -149,10 +149,13 @@ public:
 protected:
   CenteredRigid2DTransform();
   ~CenteredRigid2DTransform(){};
+
+  CenteredRigid2DTransform(unsigned int outputSpaceDimension, unsigned int parametersDimension);
+
   void PrintSelf(std::ostream &os, Indent indent) const;
 
   /** Compute the components of the rotation matrix and offset in the superclass. */
-  void ComputeMatrixAndOffset(void);
+  virtual void ComputeMatrixAndOffset(void);
 
 private:
   CenteredRigid2DTransform(const Self&); //purposely not implemented

@@ -31,6 +31,11 @@ CenteredRigid2DTransform<TScalarType>
   m_Angle = NumericTraits< TScalarType >::Zero;
   m_Center.Fill( 0.0 );
   m_Translation.Fill( 0.0 );
+
+  // note: this virtual function will only
+  // call the one defined in this class because 
+  // we are in a constructor
+  this->ComputeMatrixAndOffset();
 }
 
 
@@ -45,8 +50,31 @@ CenteredRigid2DTransform<TScalarType>
   m_Center        = other.m_Center;
   m_Translation   = other.m_Translation;
   m_Parameters    = other.m_Parameter;
-  this->ComputeMatrixAndOffset();
+
+  // note: this virtual function will only
+  // call the one defined in this class because 
+  // we are in a constructor
+  this->ComputeMatrixAndOffset(); 
 }
+
+
+
+// Constructor with arguments
+template<class TScalarType>
+CenteredRigid2DTransform<TScalarType>::
+CenteredRigid2DTransform( unsigned int spaceDimension, 
+                          unsigned int parametersDimension):
+Superclass(spaceDimension,parametersDimension)
+{
+  // note: this virtual function will only
+  // call the one defined in this class because 
+  // we are in a constructor
+  this->ComputeMatrixAndOffset(); 
+}
+ 
+
+
+
 
 //
 // Set Parameters
