@@ -131,24 +131,12 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
 #endif
 
   unsigned int threadId = ((MultiThreader::ThreadInfoStruct *)(arg))->ThreadID;
-  unsigned int threadCount = ((MultiThreader::ThreadInfoStruct *)(arg))->NumberOfThreads;
-  unsigned int total;
       
   NarrowBandImageFilterBaseThreadStruct * str
     = (NarrowBandImageFilterBaseThreadStruct *)
     (((MultiThreader::ThreadInfoStruct *)(arg))->UserData);
 
-  // Execute the actual method with appropriate output region
-  // first find out how many pieces extent can be split into.
-  // Use GetSplitRegion to access partition previously computed by
-  // the SplitRegions function in the SparseFieldLayer class.
-  ThreadRegionType splitRegion;
-  total = str->Filter->GetSplitRegion(threadId, threadCount, splitRegion);
-
-  if (threadId < total)
-    {
-    str->Filter->ThreadedIterate(arg, splitRegion, threadId);
-    }
+  str->Filter->ThreadedIterate(arg, threadId);
   
   return ITK_THREAD_RETURN_VALUE;
 }
@@ -157,12 +145,9 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
 template <class TInputImage, class TOutputImage>
 void
 NarrowBandImageFilterBase<TInputImage, TOutputImage>
-::ThreadedIterate(void * arg, const ThreadRegionType &,
-                      int threadId)
+::ThreadedIterate(void * arg, int threadId)
 {
   int threadCount;
-  int total;
-  
   ThreadRegionType splitRegion;
 
 //Implement iterative loop in thread function
@@ -191,8 +176,8 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
     // Use GetSplitRegion to access partition previously computed by
     // the SplitRegions function in the itkNarrowBand class.
 
-    total = this->GetSplitRegion(threadId, threadCount, splitRegion);
-        
+    this->GetSplitRegion(threadId, splitRegion);
+     
     //Threaded Calculate Change
     str->ValidTimeStepList[threadId] = false;
     str->TimeStepList[threadId]
@@ -390,13 +375,12 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
 }  
 
 template <class TInputImage, class TOutputImage>
-int 
+void
 NarrowBandImageFilterBase<TInputImage, TOutputImage>
-::GetSplitRegion (int i, int num, ThreadRegionType &splitRegion)
+::GetSplitRegion (int i, ThreadRegionType &splitRegion)
 {
   splitRegion.first = m_RegionList[i].Begin;
   splitRegion.last = m_RegionList[i].End;
-  return num; // check this with the ITKdevelopers. not sure if it is correct! 
 }
 
 template<class TInputImage, class TOutputImage>

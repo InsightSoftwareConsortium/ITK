@@ -229,7 +229,7 @@ protected:
   
   /** This function returns a single region (of the narrow band list) for use
       in multi-threading */
-  int GetSplitRegion (int i, int num, ThreadRegionType &splitRegion);
+  void GetSplitRegion (int i, ThreadRegionType &splitRegion);
   
   /** This function clears the existing narrow band, calls CreateNarrowBand to create
    *  a band, and calls the SplitRegions function of NarrowBand to pre-partition
@@ -295,8 +295,7 @@ private:
   /** This method is a thread implementation of the iterative scheme implemented
    * in itkFiniteDifferenceImageFilter::GenerateData. It relies on ThreadedApplyUpdate
    * and ThreadedCalculateChange to update the solution at every iteration. */ 
-  virtual void ThreadedIterate(void *arg, const ThreadRegionType &regionToProcess,
-                          int threadId);
+  virtual void ThreadedIterate(void *arg, int threadId);
 
  /** This method applies changes from the m_NarrowBand to the output using
    * the ThreadedApplyUpdate() method and a multithreading mechanism.  "dt" is
