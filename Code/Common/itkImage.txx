@@ -408,14 +408,14 @@ Image<TPixel, VImageDimension, TImageTraits>
     }
   os << m_Spacing[i] << "]" << std::endl;
 
-  os << indent << "Data: " << m_Buffer << std::endl;
+  os << indent << "PixelContainer: " << m_Buffer << std::endl;
   if (m_IndexToPhysicalTransform)
     {       
-    os << indent << "Data: " << m_IndexToPhysicalTransform << std::endl;
+    os << indent << "IndexToPhysicalTransform: " << m_IndexToPhysicalTransform << std::endl;
     }
   if (m_PhysicalToIndexTransform)
     {
-    os << indent << "Data: " << m_PhysicalToIndexTransform << std::endl;
+    os << indent << "PhysicalToIndexTransform: " << m_PhysicalToIndexTransform << std::endl;
     }
 }
 
