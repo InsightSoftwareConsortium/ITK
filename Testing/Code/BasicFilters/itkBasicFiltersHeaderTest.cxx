@@ -60,6 +60,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkGrayscaleFunctionDilateImageFilter.h"
 #include "itkGrayscaleFunctionErodeImageFilter.h"
 #include "itkImageFileReader.h"
+#include "itkImageToMeshFilter.h"
+#include "itkImageToParametricSpaceFilter.h"
 #include "itkImageWriter.h"
 #include "itkImportImageFilter.h"
 #include "itkJoinImageFilter.h"
