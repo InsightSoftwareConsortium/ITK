@@ -303,6 +303,11 @@ int main( int argc, char * argv[] )
   //  noisy images and in images lacking spatial uniformity as is the case of
   //  MRI due to field bias.
   //
+  //  \relatedClasses
+  //  \begin{itemize}
+  //  \item \doxygen{BinaryThresholdImageFilter}
+  //  \end{itemize}
+  //
   //  Software Guide : EndLatex 
 
 

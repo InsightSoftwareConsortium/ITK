@@ -245,6 +245,12 @@ int main( int argc, char * argv[] )
   //  $5$ iterations and a conductance value of $3.0$.  The figure shows how
   //  homogeneous regions are smoothed and edges are preserved.
   //
+  //  \relatedClasses
+  //  \begin{itemize}
+  //  \item \doxygen{BilateralImageFilter}
+  //  \item \doxygen{CurvatureFlowImageFilter}
+  //  \item \doxygen{GradientAnisotropicDiffusionImageFilter}
+  //  \end{itemize}
   //
   //  Software Guide : EndLatex 
 

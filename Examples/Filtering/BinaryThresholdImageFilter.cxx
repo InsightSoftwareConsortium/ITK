@@ -247,6 +247,11 @@ int main( int argc, char * argv[] )
   //  and in images lacking spatial uniformity as is the case of MRI due to
   //  field bias.
   //
+  //  \relatedClasses
+  //  \begin{itemize}
+  //  \item \doxygen{ThresholdImageFilter}
+  //  \end{itemize}
+  //
   //  Software Guide : EndLatex 
 
   writer->SetFileName( argv[2] );
