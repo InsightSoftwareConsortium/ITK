@@ -213,6 +213,7 @@ public:
   void      SetWidthOfMetricRegion(unsigned int i) { m_MetricWidth=i;}
   void      SetMaximumIterations(unsigned int i) { m_Maxiters=i;}
   void      SetTimeStep(Float i) { m_dT=i;}
+  void      SetEnergyReductionFactor(Float i) { m_EnergyReductionFactor=i;}
   void      SetElasticity(Float i) { m_E=i;} /** Stiffness Matrix weight */
   Float     GetElasticity() { return m_E;} /** Stiffness Matrix weight */
   void      SetRho(Float r) { m_Rho=r;} /** Mass matrix weight */  
@@ -279,7 +280,9 @@ private :
   Float     m_Energy; // current value of energy
   Float     m_MinE;  // minimum recorded energy
   Float     m_Rho;   // mass matrix weight
-  Float     m_Alpha; // difference parameter
+  Float     m_Alpha; // difference parameter 
+  /** Factor we want to reduce the energy by - determines convergence. */
+  Float     m_EnergyReductionFactor; 
 
   bool  m_WriteDisplacementField;
   bool  m_DoMultiRes;
