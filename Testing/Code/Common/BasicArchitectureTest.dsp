@@ -157,6 +157,10 @@ SOURCE=..\..\..\Code\Common\itkDynamicLoader.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\Code\Common\itkFilterImageToImage.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\Code\Common\itkImage.h
 # End Source File
 # Begin Source File
@@ -170,10 +174,6 @@ SOURCE=..\..\..\Code\Common\itkImageIterator.h
 # Begin Source File
 
 SOURCE=..\..\..\Code\Common\itkImageSource.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Code\Common\itkImageToImageFilter.h
 # End Source File
 # Begin Source File
 
