@@ -48,16 +48,16 @@ fixedSpacing = fixedImage.GetSpacing()
 fixedOrigin = fixedImage.GetOrigin()
 fixedSize = fixedImage.GetLargestPossibleRegion().GetSize()
 
-centerFixed = ( DArray_getitem( fixedOrigin, 0) + DArray_getitem( fixedSpacing, 0) * fixedSize.GetElement(0) / 2.0,
-                DArray_getitem( fixedOrigin, 1) + DArray_getitem( fixedSpacing, 1) * fixedSize.GetElement(1) / 2.0  )
+centerFixed = ( fixedOrigin.GetElement(0) + fixedSpacing.GetElement(0) * fixedSize.GetElement(0) / 2.0,
+                fixedOrigin.GetElement(1) + fixedSpacing.GetElement(1) * fixedSize.GetElement(1) / 2.0 )
 
 # center of the moving image 
 movingSpacing = movingImage.GetSpacing()
 movingOrigin = movingImage.GetOrigin()
 movingSize = movingImage.GetLargestPossibleRegion().GetSize()
 
-centerMoving = ( DArray_getitem( movingOrigin, 0) + DArray_getitem( movingSpacing, 0) * movingSize.GetElement(0) / 2.0,
-                 DArray_getitem( movingOrigin, 1) + DArray_getitem( movingSpacing, 1) * movingSize.GetElement(1) / 2.0  )
+centerMoving = ( movingOrigin.GetElement(0) + movingSpacing.GetElement(0) * movingSize.GetElement(0) / 2.0,
+                 movingOrigin.GetElement(1) + movingSpacing.GetElement(1) * movingSize.GetElement(1) / 2.0  )
 
 # transform center
 center = transform.GetCenter()
