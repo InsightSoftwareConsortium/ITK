@@ -34,10 +34,11 @@ namespace itk
  *        filters, mappers) in the Insight data processing pipeline.
  *
  * ProcessObject is an abstract object that specifies behavior and
- * interface of visualization network process objects (sources, filters,
- * mappers). Source objects are creators of visualization data; filters
- * input, process, and output image data; and mappers transform data
- * into another form (like transforming coordinates or writing data to a file).
+ * interface of network process objects (sources, filters,
+ * mappers). Source objects are creators of visualization data;
+ * filters input, process, and output image data; and mappers
+ * transform data into another form (like transforming coordinates or
+ * writing data to a file).
  *
  * A major role of ProcessObject is to define the inputs and outputs
  * of a filter. More than one input and/or output may exist for a given
