@@ -1,2 +1,19 @@
-all:
-	cd Code; ${MAKE}  -${MAKEFLAGS} all
+
+srcdir        = @srcdir@
+VPATH         = @srcdir@
+
+
+SUBDIRS = \
+Code/tools \
+Code/Common \
+Code/Insight3DParty/vxl \
+Testing/Code/Common
+
+
+ME = ITK
+
+@MAKEINCLUDE@ @MAKEQUOTE@@ITK_OBJ@/Code/config/Insight.make@MAKEQUOTE@
+
+
+
+
