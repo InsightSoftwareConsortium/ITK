@@ -31,7 +31,7 @@ namespace itk
 
 
 Vector<double,3>
-ITK_EXPORT operator^( const Vector<double,3> & a, const Vector<double,3> & b ) 
+ITK_EXPORT CrossProduct( const Vector<double,3> & a, const Vector<double,3> & b ) 
 {
   Vector<double,3> c;
   c[0] = a[1] * b[2] - a[2] * b[1];
@@ -42,7 +42,7 @@ ITK_EXPORT operator^( const Vector<double,3> & a, const Vector<double,3> & b )
 
 
 Vector<float,3>
-ITK_EXPORT operator^( const Vector<float,3> & a, const Vector<float,3> & b ) 
+ITK_EXPORT CrossProduct( const Vector<float,3> & a, const Vector<float,3> & b ) 
 {
   Vector<float,3> c;
   c[0] = a[1] * b[2] - a[2] * b[1];
@@ -53,7 +53,7 @@ ITK_EXPORT operator^( const Vector<float,3> & a, const Vector<float,3> & b )
 
 
 Vector<int,3>
-ITK_EXPORT operator^( const Vector<int,3> & a, const Vector<int,3> & b ) 
+ITK_EXPORT CrossProduct( const Vector<int,3> & a, const Vector<int,3> & b ) 
 {
   Vector<int,3> c;
   c[0] = a[1] * b[2] - a[2] * b[1];
