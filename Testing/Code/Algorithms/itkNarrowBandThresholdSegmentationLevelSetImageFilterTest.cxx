@@ -213,9 +213,9 @@ int itkNarrowBandThresholdSegmentationLevelSetImageFilterTest(int, char * [] )
   }
   catch (itk::ExceptionObject &e)
     {
-      std::cerr << e << std::endl;
+    std::cerr << e << std::endl;
+    return 1;
     }
-  
   return 0;
 }
  
