@@ -35,12 +35,6 @@
  *
  * Define this macro if you want to compile the FEM classes so that
  * they use itk's SmartPointer object instead of standard c++ pointers.
- * This macro should be defined (if required) on a command line of a
- * compiler. Normally this is done automatically by CMake.
- *
- * \note If you need to define this macro, make sure that you define it
- * both when compiling the FEM library as well as when you're using it,
- * because class declarations depend on it.
  */
 //#define FEM_USE_SMART_POINTERS
 

@@ -207,15 +207,6 @@ SOURCE_GROUP("Linear Systems" itkFEMLinearSystem*)
 SOURCE_GROUP("Source Files Template" ./*.txx)
 
 
-# Add an option to use SmartPointers
-OPTION(FEM_USE_SMART_POINTERS "Select whether Finite Elements Modeling (FEM) classes will be derived from itk::LightObject and use SmartPointers or not. If you select to use SmartPointers, be sure to define FEM_USE_SMART_POINTERS macro before including the FEM classes.")
-MARK_AS_ADVANCED( FEM_USE_SMART_POINTERS )
-IF(FEM_USE_SMART_POINTERS)
-# Define the macro that includes smartpointers
-ADD_DEFINITIONS( -DFEM_USE_SMART_POINTERS )
-ENDIF(FEM_USE_SMART_POINTERS)
-
-
 
 
 # Add an option to build the visualization functions
