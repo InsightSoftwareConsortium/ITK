@@ -151,13 +151,21 @@ public:
   /** Visitor interface. */
   itkCellVisitMacro(TETRAHEDRON_CELL);
   
-protected:
+ protected:
+  TetrahedronCell() {}
+  ~TetrahedronCell() {}
+
   /** Store the number of points needed for a tetrahedron. */
   PointIdentifier m_PointIds[NumberOfPoints];
   
   /** Tetrahedron topology data. */
   static const int m_Edges[6][2];
   static const int m_Faces[4][3];
+
+ private:
+  TetrahedronCell(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   };
 
 /** \class TetrahedronBoundary
