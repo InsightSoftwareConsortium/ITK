@@ -61,15 +61,15 @@ WatershedImageFilter<TInputImage, TOutputImage>
   for (SegmentTableType::const_iterator it = table.begin();
        it != table.end(); ++it)
     {
-      std::cout << it->first << " Minimum = " << it->second.Minimum
-                << " Depth= " << it->second.Depth
-                << " MEV= " << it->second.MinimumEdgeValue
-                << " MTL= " << it->second.MergedToLabel 
+      std::cout << it.first << " Minimum = " << it.second.Minimum
+                << " Depth= " << it.second.Depth
+                << " MEV= " << it.second.MinimumEdgeValue
+                << " MTL= " << it.second.MergedToLabel 
                 << " EdgeTable={ ";
-      for (EdgeTableType::const_iterator eit = it->second.EdgeTable.begin();
-           eit != it->second.EdgeTable.end(); ++eit)
+      for (EdgeTableType::const_iterator eit = it.second.EdgeTable.begin();
+           eit != it.second.EdgeTable.end(); ++eit)
         {
-          std::cout << eit->first <<  "(" << eit->second << ") ";
+          std::cout << eit.first <<  "(" << eit.second << ") ";
         }
       std::cout << "}" << std::endl;
     }
