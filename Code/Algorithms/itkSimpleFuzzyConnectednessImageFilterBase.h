@@ -94,7 +94,7 @@ public:
   itkGetMacro(Threshold, double);
 
   /** Setting the starting point, believed to be inside the object. */
-  void SetSeed(const IndexType & seed);
+  void SetObjectsSeed(const IndexType & seed);
   
   /** Update the binary result (needed after an update the threshold). */
   void MakeSegmentObject();
@@ -115,7 +115,7 @@ protected:
 
   double m_Weight;
   double m_Threshold;
-  IndexType m_Seed;
+  IndexType m_ObjectsSeed;
   SizeType m_Size;
 
   typename InputImageType::Pointer m_InputImage;

@@ -29,7 +29,7 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
 ::SimpleFuzzyConnectednessImageFilterBase()
 {
   m_Threshold = 1.0;
-  m_Seed.Fill(0);
+  m_ObjectsSeed.Fill(0);
   m_Weight = 1.0;
 }
 
@@ -43,9 +43,9 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
 template <class TInputImage, class TOutputImage>
 void 
 SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
-::SetSeed(const IndexType &seed)
+::SetObjectsSeed(const IndexType &seed)
 {
-  m_Seed = seed;
+  m_ObjectsSeed = seed;
 }
 
 template <class TInputImage, class TOutputImage>
@@ -210,8 +210,8 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
   m_SegmentObject->SetRequestedRegion( region1 );
   m_SegmentObject->Allocate();  
 
-  PushNeighbors(m_Seed);
-  m_FuzzyScene->SetPixel(m_Seed,NumericTraits<unsigned short>::max());
+  PushNeighbors(m_ObjectsSeed);
+  m_FuzzyScene->SetPixel(m_ObjectsSeed,NumericTraits<unsigned short>::max());
 
   while(! m_Queue.empty())
     {
