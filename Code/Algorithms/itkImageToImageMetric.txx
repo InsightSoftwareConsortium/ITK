@@ -105,7 +105,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
 
   m_GradientImage = gradientFilter->GetOutput();
 
-  m_GradientImage->Print( std::cout );
+//  m_GradientImage->Print( std::cout );
 
 }
  
