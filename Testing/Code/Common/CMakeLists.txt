@@ -17,6 +17,7 @@ itkImageAdaptorTest
 itkImageIteratorTest
 itkIteratorTests
 itkMatrixTest
+itkMemoryLeakTest
 itkMeshTest
 itkNeighborhoodTest
 itkNeighborhoodAlgorithmTest
@@ -49,6 +50,7 @@ ADD_EXECUTABLE(itkImageAdaptorTest itkImageAdaptorTest)
 ADD_EXECUTABLE(itkImageIteratorTest itkImageIteratorTest)
 ADD_EXECUTABLE(itkIteratorTests itkIteratorTests)
 ADD_EXECUTABLE(itkMatrixTest itkMatrixTest)
+ADD_EXECUTABLE(itkMemoryLeakTest itkMemoryLeakTest)
 ADD_EXECUTABLE(itkMeshTest itkMeshTest)
 ADD_EXECUTABLE(itkNeighborhoodTest itkNeighborhoodTest)
 ADD_EXECUTABLE(itkNeighborhoodAlgorithmTest itkNeighborhoodAlgorithmTest)
