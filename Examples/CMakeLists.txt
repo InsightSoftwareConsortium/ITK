@@ -5,5 +5,6 @@ SUBDIRS(
   IO
   Registration
   Segmentation
+  SpatialObjects
   Statistics
 )
