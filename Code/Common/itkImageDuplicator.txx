@@ -41,17 +41,16 @@ ImageDuplicator<TInputImage>
 {
   if(!m_InputImage )
     {
-    std::cout << "ImageDuplicator: "; 
-    std::cout << "Please set the image first." << std::endl;
+    itkExceptionMacro(<<"Input image has not been connected");
     return;
     }
 
   // Update only if the input image  has been modified
   if((m_InputImage->GetMTime() == m_InternalImageTime)) 
     {
-    return; // No need to update
+    // this seems to be due to a bug in the pipeline...
+    itkWarningMacro(<<"Input image has not been modified");
     }
-
   
   m_InternalImageTime = m_InputImage->GetMTime();
 
