@@ -45,6 +45,8 @@ int itkVarianceImageFunctionTest(int, char**)
   region.SetSize( size );
 
   image->SetRegions( region );
+  image->Allocate();
+
   image->FillBuffer( 27 );
 
   FunctionType::Pointer function = FunctionType::New();
@@ -71,6 +73,7 @@ int itkVarianceImageFunctionTest(int, char**)
     return EXIT_FAILURE;
     }
   
+  std::cout << "Test PASSED ! " << std::endl;
   return EXIT_SUCCESS;
 
 }
