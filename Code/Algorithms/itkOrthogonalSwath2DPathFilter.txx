@@ -37,50 +37,30 @@ OrthogonalSwath2DPathFilter<TParametricPath, TImage>
   size[0]=0;
   size[1]=0;
   m_SwathSize = size;
-  m_StepValues  = 0;
-  m_MeritValues = 0;
-  m_OptimumStepsValues = 0;
+  m_StepValues  = NULL;
+  m_MeritValues = NULL;
+  m_OptimumStepsValues = NULL;
   m_FinalOffsetValues = OrthogonalCorrectionTableType::New();
   
   // Setup internal pipeline, which is used for preprocessing the image data
   
   // Extract the swath image
-  m_Filter1 = Filter1Type::New();
-  m_Filter1->SetImageInput( this->GetImageInput() );
-  m_Filter1->SetPathInput( this->GetPathInput() );
+  m_SwathFilter = SwathFilterType::New();
   size[0]=512;
   size[1]=16*2+1; // the top 1 and bottom 1 rows are dropped when smoothing
-  m_Filter1->SetSize(size);
+  m_SwathFilter->SetSize(size);
   
-  // wrap-pad the image so that the smoothing of the next step treats the swath
-  // as a closed strip
-  m_Filter2 = Filter2Type::New();
-  m_Filter2->SetInput( m_Filter1->GetOutput() );
-  unsigned long lowerfactors[2] = { 1, 0};  // pad 1 columns, 0 rows to the left
-  unsigned long upperfactors[2] = { 1,  0}; // pad 1 columns, 0 rows to the right
-  m_Filter2->SetPadLowerBound(lowerfactors);
-  m_Filter2->SetPadUpperBound(upperfactors);
-  m_Filter2->UpdateLargestPossibleRegion();
+  // Cast the swath image into a double image
+  m_CastFilter = CastFilterType::New();
+  m_CastFilter->SetInput( m_SwathFilter->GetOutput() );
+  m_CastFilter->SetOutputMinimum(0);
+  m_CastFilter->SetOutputMaximum(1.0);
   
-  // Smooth the padded swath image
-  m_Filter3 = Filter3Type::New();
-  m_Filter3->SetInput( m_Filter2->GetOutput() );
-  double gaussianVariance = 1.0;
-  // We want a 3x3 kernel.  Gausian Operator will not truncate its kernel width
-  // to any less than a 5x5 kernel (kernel width of 3 for 1 center pixel + 2 edge
-  // pixels).  However, GausianOperator always uses at least a 3x3 kernel, and so
-  // setting the maximum error to 1.0 (no limit) will make it stop growing the
-  // kernel at the desired 3x3 size.
-  double maxError = 1.0;  
-  m_Filter3->SetUseImageSpacingOff();
-  m_Filter3->SetVariance( gaussianVariance );
-  m_Filter3->SetMaximumError( maxError );
-  
-  // Find the vertical gradient of the smoothed & padded swath image
-  m_Filter4 = Filter4Type::New();
-  m_Filter4->SetInput( m_Filter3->GetOutput() );
-  m_Filter4->SetOrder( 1 ); // first partial derivative
-  m_Filter4->SetDirection( 1 ); // d/dy
+  // Find the vertical gradient of the swath image
+  m_MeritFilter = MeritFilterType::New();
+  m_MeritFilter->SetInput( m_CastFilter->GetOutput() );
+  m_MeritFilter->SetOrder( 1 ); // first partial derivative
+  m_MeritFilter->SetDirection( 1 ); // d/dy
 }
 
 
@@ -107,7 +87,9 @@ OrthogonalSwath2DPathFilter<TParametricPath, TImage>
 {
   // Run the internal pipeline
   FloatImagePointer outImage;
-  outImage=m_Filter4->GetOutput();
+  m_SwathFilter->SetImageInput( this->GetImageInput() );
+  m_SwathFilter->SetPathInput( this->GetPathInput() );
+  outImage=m_MeritFilter->GetOutput();
   outImage->Update();
   
   // Re-initialize the member variables
@@ -209,9 +191,10 @@ OrthogonalSwath2DPathFilter<TParametricPath, TImage>
   
   // Fill in the optimum path error-step (orthogonal correction) values
   m_OptimumStepsValues[ m_SwathSize[0]-1 ] = bestL;
-  for(x=m_SwathSize[0]-2; x>=0; x--)
+  for(x=m_SwathSize[0]-2; ; x--)
     {
     m_OptimumStepsValues[x] = StepValue(bestF, m_OptimumStepsValues[x+1], x);
+    if( 0==x ) break;
     }
   
   // Convert from absolute indicies to +/- orthogonal offset values

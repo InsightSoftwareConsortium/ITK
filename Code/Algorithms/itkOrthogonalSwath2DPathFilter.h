@@ -22,8 +22,7 @@
 #include "itkOrthogonallyCorrected2DParametricPath.h"
 // Filters used internally
 #include "itkExtractOrthogonalSwath2DImageFilter.h"
-#include "itkWrapPadImageFilter.h"
-#include "itkDiscreteGaussianImageFilter.h"
+#include "itkRescaleIntensityImageFilter.h"
 #include "itkDerivativeImageFilter.h"
 
 
@@ -42,7 +41,8 @@ namespace itk
  * the image, where the optimality of an index along a path is the value of the
  * swath image at that pixel after the swath has been processed by the user's
  * filter.  The vertical (y-axis) partial derivative is often a good choice for
- * a merit filter.
+ * a merit filter.  The user will probably also want to smooth the input image
+ * before passing it to this filter.
  * 
  * \ingroup PathFilters
  */
@@ -85,13 +85,11 @@ public:
   typedef typename InputPathType::OffsetType    OffsetType;
   typedef typename ImageType::SizeType          SizeType;
 
-  typedef Image<double, 2>                                  FloatImageType; 
+  typedef Image<double, 2>                                  FloatImageType;
   typedef typename FloatImageType::Pointer                  FloatImagePointer;
-  typedef ExtractOrthogonalSwath2DImageFilter<ImageType>          Filter1Type;    
-  typedef WrapPadImageFilter<ImageType, FloatImageType>           Filter2Type;    
-  typedef DiscreteGaussianImageFilter<FloatImageType,FloatImageType>
-                                                                  Filter3Type;
-  typedef DerivativeImageFilter<FloatImageType,FloatImageType>    Filter4Type;
+  typedef ExtractOrthogonalSwath2DImageFilter<ImageType>        SwathFilterType;
+  typedef RescaleIntensityImageFilter<ImageType,FloatImageType> CastFilterType;
+  typedef DerivativeImageFilter<FloatImageType,FloatImageType>  MeritFilterType;
   
 protected:
   OrthogonalSwath2DPathFilter();
@@ -104,10 +102,9 @@ private:
   OrthogonalSwath2DPathFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-  typename Filter1Type::Pointer m_Filter1;
-  typename Filter2Type::Pointer m_Filter2;
-  typename Filter3Type::Pointer m_Filter3;
-  typename Filter4Type::Pointer m_Filter4;
+  typename SwathFilterType::Pointer m_SwathFilter;
+  typename CastFilterType::Pointer m_CastFilter;
+  typename MeritFilterType::Pointer m_MeritFilter;
   
   SizeType m_SwathSize;
   
