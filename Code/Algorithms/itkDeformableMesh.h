@@ -1,8 +1,8 @@
 #ifndef __itkdeformablemesh_h
 #define __itkdeformablemesh_h
 
-#include <vnl_matrix_fixed.h>
-#include "itkmesh.h"
+#include <vnl/vnl_matrix_fixed.h>
+#include "itkMesh.h"
 #include "itkVector.h"
 #include "itkTriangleCell.h"
 
@@ -28,8 +28,11 @@ namespace itk
  *
  * \sa itkBalloonForceFilter
  */
-template <class PixelType>
-class ITK_EXPORT DeformableMesh : public Mesh<PixelType>
+template <
+  class TPixelType,
+  class TMeshType = DefaultStaticMeshType< TPixelType >
+>
+class ITK_EXPORT DeformableMesh : public Mesh<TPixelType,TMeshType>
 {
 public:
   /**
@@ -40,7 +43,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef Mesh<PixelType> Superclass;
+  typedef Mesh<TPixelType,TMeshType> Superclass;
 
   /** 
    * Smart pointer typedef support 
@@ -58,12 +61,14 @@ public:
   itkTypeMacro(DeformableMesh,Mesh);
 
 /**
- * Define a few cell types which uses a PixelType of "int".  Again,
+ * Define a few cell types which uses a TPixelType of "int".  Again,
  * use the defaults for the other parameters.  Note that a cell's template
  * parameters must match those of the mesh into which it is inserted.
  */
 
-  typedef itk::TriangleCell<PixelType, CellType>	   TriCell;
+  typedef TMeshType   MeshType;
+  typedef typename MeshType::CellType CellType;
+  typedef itk::TriangleCell<TPixelType, CellType>	   TriCell;
 
 
   void SetResolution(int a, int b);
