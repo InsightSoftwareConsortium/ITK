@@ -113,17 +113,17 @@ public:
   /**
    * Type of function
    */
-  typedef TSpatialFunction TFunctionType;
+  typedef typename TSpatialFunction TFunctionType;
 
   /**
    * Return type of function
    */
-  typedef TSpatialFunction::TFunctionValueType TFunctionValueType;
+  typedef TFunctionType::TFunctionValueType TFunctionValueType;
 
   /**
   * Typedef describing vector info
   */
-  typedef TSpatialFunction::TVectorType TVectorType;
+  typedef TFunctionType::TVectorType TVectorType;
 
   /** 
    * Run-time type information (and related methods).
