@@ -43,7 +43,7 @@ public:
   typedef typename TOutputImage::SizeType   SizeType;
   typedef TOutputImage  OutputImageType;
   typedef typename OutputImageType::Pointer OutputImagePointer;
-  typedef OutputImageType::ValueType  ValueType;
+  typedef typename OutputImageType::ValueType  ValueType;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
