@@ -12,6 +12,11 @@ ${CMAKE_BINARY_DIR}/Code/Numerics/vxl/vcl
 ${CMAKE_SOURCE_DIR}/Code/Numerics/vxl/vcl 
 )
 
+UNIX_LIBRARIES(
+${THREAD_LIBS} 
+${DL_LIBS} 
+-lm
+)
 
 LINK_DIRECTORIES(
 ${CMAKE_BINARY_DIR}/Code/Common 

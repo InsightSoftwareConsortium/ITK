@@ -3,11 +3,3 @@ SUBDIRS( Code HTML )
 LINK_LIBRARIES (
 VXLNumerics
 )
-
-UNIX_LIBRARIES(
-${THREAD_LIBS} 
-${DL_LIBS} 
--lm
-)
-
-
