@@ -200,8 +200,8 @@ void SegmentTreeGenerator<TScalarType>
 
 template <class TScalarType>
 void SegmentTreeGenerator<TScalarType>
-::ExtractMergeHierarchy(SegmentTableType::Pointer segments,
-                        SegmentTreeType::Pointer heap)
+::ExtractMergeHierarchy(typename SegmentTableType::Pointer segments,
+                        typename SegmentTreeType::Pointer heap)
 {
   typename SegmentTreeType::Pointer list = this->GetOutputSegmentTree();
 
