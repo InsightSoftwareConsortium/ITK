@@ -63,7 +63,6 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
 // Modify superclass default values, set default values,
 // can be overridden by subclasses
   m_BoundaryGradient = 7;
-  m_GibbsNeighborsThreshold = 1;
   m_BoundaryWeight = 1;
   m_GibbsPriorWeight = 1;
   m_StartPoint[0] = 128;
@@ -924,8 +923,6 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
   Superclass::PrintSelf(os,indent);
   os << indent << "BoundaryGradient: "
      << m_BoundaryGradient << std::endl;
-  os << indent << "GibbsNeighborhoodThreshold: "
-     << m_GibbsNeighborhoodThreshold << std::endl;
   os << indent << "BoundaryWeight: "
      << m_BoundaryWeight << std::endl;
   os << indent << "MaximumNumberOfIterations: "

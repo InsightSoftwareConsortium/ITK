@@ -181,8 +181,8 @@ private:
   unsigned int      m_MaximumNumberOfIterations; /** number of the iteration. */
   typename ClassifierType::Pointer m_ClassifierPtr;
   int m_BoundaryGradient; /** the threshold for the existence of a boundary. */
-  float m_BoundaryWt; /** weight for H_1 */
-  float m_GibbsPriorWt; /** weight for H_2 */
+  float m_BoundaryWeight; /** weight for H_1 */
+  float m_GibbsPriorWeight; /** weight for H_2 */
   int   m_StartRadius;  /** define the start region of the object. */
   int m_RecursiveNum;     /** number of SA iterations. */
   unsigned int      *m_LabelStatus; /** array for the state of each pixel. */
