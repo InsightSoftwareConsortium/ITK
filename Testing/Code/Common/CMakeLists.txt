@@ -22,9 +22,11 @@ itkIteratorTests
 itkLevelSetShapeDetectionTest 
 itkMeshInstanceTest 
 itkMeshTest 
+itkMRFLabellerTest
 itkMutualInformationTest 
 itkNeighborhoodOperatorTest 
 itkPixelAccessTest 
+itkRegionGrow2DTest
 itkRegistrationImageToImageAffine 
 itkRegistrationModelToImage 
 itkRegistrationPoints3D2DAffine 
@@ -33,6 +35,8 @@ itkScalarTest
 itkShrinkImageTest 
 itkSmartPointerConstTest 
 itkSmartPointerTest 
+itkSupervisedClassifierTest
 itkTraitsTest  
+itkUnsupervisedClassifierTest
 itkVectorTest)
 
