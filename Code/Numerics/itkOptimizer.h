@@ -17,6 +17,8 @@
 #define __itkOptimizer_h
 
 #include "itkObject.h"
+#include "itkObjectFactory.h"
+
 
 namespace itk
 {
