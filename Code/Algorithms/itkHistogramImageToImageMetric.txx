@@ -33,6 +33,7 @@ namespace itk
     m_UsePaddingValue = false;
     m_DerivativeStepLength = 0.1;
     m_DerivativeStepLengthScales.Fill(1);
+    m_UpperBoundIncreaseFactor = 0.001;
   }
 
   template <class TFixedImage, class TMovingImage>
@@ -103,8 +104,10 @@ namespace itk
     // Initialize the upper and lower bounds of the histogram.
     m_LowerBound[0] = minFixed;
     m_LowerBound[1] = minMoving;
-    m_UpperBound[0] = maxFixed + (maxFixed - minFixed ) * 0.001;
-    m_UpperBound[1] = maxMoving + (maxMoving - minMoving ) * 0.001;
+    m_UpperBound[0] =
+      maxFixed + (maxFixed - minFixed ) * m_UpperBoundIncreaseFactor;
+    m_UpperBound[1] =
+      maxMoving + (maxMoving - minMoving ) * m_UpperBoundIncreaseFactor;
   }
 
   template <class TFixedImage, class TMovingImage>
@@ -276,14 +279,16 @@ image");
   ::PrintSelf(std::ostream& os, Indent indent) const
   {
     Superclass::PrintSelf(os,indent);
-    os << indent << "PaddingValue: " << m_PaddingValue << std::endl;
-    os << indent << "UsePaddingValue?: " << m_UsePaddingValue << std::endl;
-    os << indent << "DerivativeStepLength: " << m_DerivativeStepLength
+    os << indent << "Padding value: " << m_PaddingValue << std::endl;
+    os << indent << "Use padding value?: " << m_UsePaddingValue << std::endl;
+    os << indent << "Derivative step length: " << m_DerivativeStepLength
        << std::endl;
-    os << indent << "DerivativeStepLengthScales: ";
+    os << indent << "Derivative step length scales: ";
     os << m_DerivativeStepLengthScales << std::endl;
     os << indent << "Histogram size: ";
     os << m_HistogramSize << std::endl;
+    os << indent << "Histogram upper bound increase factor: ";
+    os << m_UpperBoundIncreaseFactor << std::endl;
   }
 } // end namespace itk
 

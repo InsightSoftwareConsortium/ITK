@@ -71,8 +71,9 @@ public:
   typedef typename Superclass::MovingImageConstPointer
     MovingImageConstPointerType;
 
-  /** Typedefs for histogram.  This should have been defined as Histogram<RealType,2> but
-      a bug in VC++7 produced an internal compiler error with such declaration. */
+  /** Typedefs for histogram. This should have been defined as
+      Histogram<RealType,2> but a bug in VC++7 produced an internal compiler
+      error with such declaration. */
   typedef Statistics::Histogram<double, 2> HistogramType;
   typedef typename HistogramType::MeasurementVectorType  MeasurementVectorType;
   typedef typename HistogramType::SizeType               HistogramSizeType;
@@ -86,6 +87,11 @@ public:
 
   /** Gets the histogram size. */
   itkGetConstReferenceMacro( HistogramSize, HistogramSizeType );
+
+  /** Factor to increase the upper bound for the samples in the histogram.
+      Default value is 0.001 */
+  itkSetMacro( UpperBoundIncreaseFactor, double );
+  itkGetMacro( UpperBoundIncreaseFactor, double );
 
   /** The padding value. */
   itkSetMacro( PaddingValue, FixedImagePixelType );
@@ -138,6 +144,8 @@ protected:
   mutable MeasurementVectorType m_LowerBound;
   /** The upper bound for samples in the histogram. */
   mutable MeasurementVectorType m_UpperBound;
+  /** The increase in the upper bound. */
+  double m_UpperBoundIncreaseFactor;
 
   /** Computes the joint histogram from the transformation parameters
       passed to the function. */
