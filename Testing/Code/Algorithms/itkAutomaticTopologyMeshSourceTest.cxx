@@ -34,6 +34,7 @@ itkAutomaticTopologyMeshSourceTest(int, char* [] )
   // Declare the type of the Mesh
   typedef itk::Mesh<double>                         MeshType;
   typedef MeshType::PointType                       PointType;
+  typedef MeshType::CellType                        CellType;
 
   typedef itk::AutomaticTopologyMeshSource< MeshType >   MeshSourceType;
   typedef MeshSourceType::IdentifierType                 IdentifierType;
@@ -239,8 +240,89 @@ itkAutomaticTopologyMeshSourceTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
+  MeshType* mesh = meshSource->GetOutput();
+
   // Print out the resulting mesh data.
-  std::cout << MeshType::Pointer(meshSource->GetOutput()) << std::endl;
+  std::cout << MeshType::Pointer( mesh ) << std::endl;
+
+  // ... In more detail.
+
+  int i;
+
+  std::cout << mesh->GetNumberOfPoints() << " points:" << std::endl;
+  for( i = 0; i < mesh->GetNumberOfPoints(); i++ )
+    {
+    PointType point;
+    if( mesh->GetPoint( i, &point ) )
+      {
+      std::cout << i << ": " << point << std::endl;
+      }
+    }
+
+  std::cout << "\n" << mesh->GetNumberOfCells() << " cells:" << std::endl;
+  for( i = 0; i < mesh->GetNumberOfCells(); i++ )
+    {
+    typedef MeshType::CellAutoPointer CellAutoPointer;
+    CellAutoPointer cell;
+    if( mesh->GetCell( i, cell ) )
+      {
+      std::cout << i << ": ";
+      typedef CellType::PointIdConstIterator PointIdIterator;
+      PointIdIterator pointIter = cell->PointIdsBegin();
+      PointIdIterator pointsEnd = cell->PointIdsEnd();
+      for( ; pointIter != pointsEnd; ++pointIter )
+        {
+        std::cout << *pointIter << " ";
+        }
+      std::cout << std::endl;
+      }
+    }
+  std::cout << "\n";
+
+  for( i = 0; i < mesh->GetNumberOfCells(); i++ )
+    {
+    typedef MeshType::CellAutoPointer CellAutoPointer;
+    CellAutoPointer cell;
+    if( mesh->GetCell( i, cell ) )
+      {
+      if( cell->GetType() == CellType::LINE_CELL )
+        {
+        std::cout << "Cell " << i << ":\n";
+
+        typedef MeshSourceType::IdentifierType IdentifierType;
+        typedef std::set<IdentifierType> NeighborSet;
+        NeighborSet cellSet;
+
+        mesh->GetCellBoundaryFeatureNeighbors( 0, i, 0, &cellSet );
+        std::cout << "Neighbors across vertex 0: ";
+        for( NeighborSet::iterator neighborIter = cellSet.begin();
+             neighborIter != cellSet.end(); ++neighborIter )
+          {
+          std::cout << *neighborIter << " ";
+          }
+        std::cout << "\n";
+
+        mesh->GetCellBoundaryFeatureNeighbors( 0, i, 1, &cellSet );
+        std::cout << "Neighbors across vertex 1: ";
+        for( NeighborSet::iterator neighborIter = cellSet.begin();
+             neighborIter != cellSet.end(); ++neighborIter )
+          {
+          std::cout << *neighborIter << " ";
+          }
+        std::cout << "\n";
+
+        mesh->GetCellBoundaryFeatureNeighbors( 1, i, 0, &cellSet );
+        std::cout << "Neighbors having edge as boundary: ";
+        for( NeighborSet::iterator neighborIter = cellSet.begin();
+             neighborIter != cellSet.end(); ++neighborIter )
+          {
+          std::cout << *neighborIter << " ";
+          }
+        std::cout << "\n" << std::endl;
+
+        }
+      }
+    }
 
   // Check that the right number of points has been added.
 
