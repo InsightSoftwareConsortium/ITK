@@ -129,8 +129,8 @@ SmartNeighborhoodIterator<TImage, TBoundaryCondition>
   OffsetType OverlapLow, OverlapHigh, temp;
   bool flag;
       
-  const typename Superclass::Iterator _end = this->End();
-  typename Superclass::Iterator this_it;
+  const Iterator _end = this->End();
+  Iterator this_it;
   typename  NeighborhoodType::Iterator N_it;
   
   if (InBounds())

@@ -116,6 +116,7 @@ public:
     ImageBoundaryConditionPointerType;
   typedef typename Superclass::BoundaryConditionType BoundaryConditionType;
   typedef typename Superclass::OffsetValueType OffsetValueType;
+  typedef typename Superclass::Iterator Iterator;
     
   /** Extract some type information from the superclass. */
   enum { Dimension = Superclass::Dimension };

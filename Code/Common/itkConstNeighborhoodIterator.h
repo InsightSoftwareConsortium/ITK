@@ -75,6 +75,7 @@ public:
   typedef typename OffsetType::OffsetValueType OffsetValueType;
   typedef typename Superclass::RadiusType RadiusType;
   typedef Neighborhood<PixelType, Dimension> NeighborhoodType;
+  typedef typename Superclass::Iterator Iterator;
     
   /** Support for internal iterator types.  Only const iteration is supported
    * in this class. */

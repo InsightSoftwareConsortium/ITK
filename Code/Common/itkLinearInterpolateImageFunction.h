@@ -62,6 +62,9 @@ public:
   /** InputImageType typedef support. */
   typedef typename Superclass::InputImageType InputImageType;
 
+  /** RealType typedef support. */
+  typedef typename Superclass::RealType RealType;
+
   /** Dimension underlying input image. */
   enum { ImageDimension = Superclass::ImageDimension };
 
