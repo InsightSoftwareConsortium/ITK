@@ -92,6 +92,9 @@ public:
   /** Dimension underlying input image. */
   itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
 
+  /** Point typedef support. */
+  typedef typename Superclass::PointType PointType;
+
   /** Index typedef support. */
   typedef typename Superclass::IndexType IndexType;
 
