@@ -452,7 +452,8 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage>
   ConstIterator iter( image, image->GetBufferedRegion() );
 
   typename HistogramType::MeasurementVectorType measurement;
-  measurement[0] = NumericTraits<HistogramType::MeasurementType>::Zero;
+  typedef typename HistogramType::MeasurementType MeasurementType;
+  measurement[0] = NumericTraits<MeasurementType>::Zero;
   while ( !iter.IsAtEnd() )
     {
     InputPixelType value = iter.Get();

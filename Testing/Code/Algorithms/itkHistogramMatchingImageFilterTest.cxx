@@ -22,7 +22,7 @@
 
 /**
  * This file tests the functionality of the HistogramMatchingImageFilter.
- * This test uses artificial data, where we multiple different intensity
+ * This test uses artificial data, where we multiply different intensity
  * classes by different factors and test whether we can recover the
  * reference image.
  */ 
@@ -150,9 +150,19 @@ int itkHistogramMatchingImageFilterTest(int, char* [] )
   std::cout << filter->GetNumberOfHistogramLevels() << std::endl;
   std::cout << filter->GetNumberOfMatchPoints() << std::endl;
 
+  std::cout << "Source Histogram: " << 
+    filter->GetSourceHistogram() << std::endl;
+  std::cout << "Reference Histogram: " << 
+    filter->GetReferenceHistogram() << std::endl;
+  std::cout << "Output Histogram: " <<
+    filter->GetOutputHistogram() << std::endl;
+
+  std::cout << "Threshold At Mean Intensity? ";
+  std::cout << filter->GetThresholdAtMeanIntensity() << std::endl;
+
   filter->ThresholdAtMeanIntensityOff();
   filter->Update();
-  std::cout << filter->GetThresholdAtMeanIntensity() << std::endl;
+  filter->Print( std::cout );
 
   if ( !passed )
     {
