@@ -104,6 +104,20 @@ public:
   virtual OutputType EvaluateAtContinuousIndex( 
       const ContinuousIndexType & index ) const; 
 
+  /** Derivative typedef support */
+  typedef CovariantVector<OutputType,ImageDimension> CovariantVectorType;
+
+  CovariantVectorType EvaluateDerivative( const PointType & point )
+    {    
+    ContinuousIndexType index;
+    this->ConvertPointToContinuousIndex( point, index );
+    return ( this->EvaluateDerivativeAtContinuousIndex( index ) );
+    }
+
+  CovariantVectorType EvaluateDerivativeAtContinuousIndex( 
+    const ContinuousIndexType & x ) const;
+
+
   /** Get/Sets the Spline Order, supports 0th - 5th order splines. The default
    *  is a 3rd order spline. */
   void SetSplineOrder(unsigned int SplineOrder);
@@ -136,7 +150,16 @@ private:
   virtual void SetInitialAntiCausalCoefficient(double z);
 
   /** Determines the weights for interpolation of the value x */
-  void SetInterpolationWeights( const ContinuousIndexType & x, const vnl_matrix<long> & EvaluateIndex, vnl_matrix<double> & weights ) const;
+  void SetInterpolationWeights( const ContinuousIndexType & x, 
+    const vnl_matrix<long> & EvaluateIndex, 
+    vnl_matrix<double> & weights, 
+    unsigned int splineOrder ) const;
+
+  /** Determines the weights for the derivative portion of the value x */
+  void SetDerivativeWeights( const ContinuousIndexType & x, 
+    const vnl_matrix<long> & EvaluateIndex, 
+    vnl_matrix<double> & weights, 
+    unsigned int splineOrder ) const;
 
   /** Used to initialize the Coefficients image before calculation. */
   void CopyImageToImage(const TImageType * input, TImageType * output );
@@ -151,6 +174,17 @@ private:
     * to an N-dimensional index. */
   void GeneratePointsToIndex(  );
 
+  /** Determines the indicies to use give the splines region of support */
+  void DetermineRegionOfSupport( vnl_matrix<long> & evaluateIndex, 
+    const ContinuousIndexType & x, 
+    unsigned int splineOrder ) const;
+
+  /** Set the indicies in evaluateIndex at the boundaries based on mirror 
+    * boundary conditions. */
+  void ApplyMirrorBoundaryConditions(vnl_matrix<long> & evaluateIndex, 
+    unsigned int splineOrder) const;
+
+
   // These are needed by the smoothing spline routine.
 protected:
   std::vector<double>    m_Scratch;        // temp storage for processing of Coefficients
@@ -160,6 +194,7 @@ protected:
   int                       m_NumberOfPoles;   // number of poles
   double                    m_Tolerance;   // Tolerance used for determining initial causal coefficient
   unsigned int              m_IteratorDirection; // Direction for iterator incrementing
+  //TODO  Should these be double?
   typename TImageType::Pointer       m_Coefficients; // Spline coefficients
 
 private:
