@@ -142,8 +142,8 @@ VoronoiSegmentationImageFilter <TInputImage,TOutputImage>
   float addpp=0;
   float currp;
 
-  int i,j;
-  int minx,miny,maxx,maxy;
+  unsigned int i,j;
+  unsigned int minx,miny,maxx,maxy;
   bool status=0;
   for(i=0;i<m_Size[1];i++)
     {
@@ -216,7 +216,7 @@ VoronoiSegmentationImageFilter <TInputImage,TOutputImage>
   m_Mean = addp/num;
   m_Var = sqrt((addpp - (addp*addp)/num)/(num-1));
   float b_Mean = addb/numb;
-  float b_Var = sqrt((addbb - (addb*addb)/numb)/(numb-1));
+
   if(m_UseBackgroundInAPrior)
     {
     m_MeanTolerance = fabs(m_Mean-b_Mean)*m_MeanDeviation;

@@ -577,9 +577,18 @@ PQbucket(FortuneHalfEdge *task)
 {
   int bucket;
   bucket = (int) ((task->m_ystar - f_pymin)/f_deltay * f_PQhashsize);
-  if(bucket < 0) bucket = 0;
-  if(bucket >= f_PQhashsize) bucket = f_PQhashsize -1;
-  if(bucket < f_PQmin) f_PQmin = bucket;
+  if(bucket < 0)
+    {
+    bucket = 0;
+    }
+  if(bucket >= static_cast<int>(f_PQhashsize))
+    {
+    bucket = f_PQhashsize -1;
+    }
+  if(bucket < static_cast<int>(f_PQmin))
+    {
+    f_PQmin = bucket;
+    }
   return(bucket);
 }
 
@@ -618,16 +627,23 @@ VoronoiDiagram2DGenerator<TCoordRepType>::FortuneHalfEdge *
 VoronoiDiagram2DGenerator<TCoordRepType>::
 ELgethash( int b)
 {
-  if( (b<0) || (b>=f_ELhashsize) )
+  if( (b<0) || (b>=static_cast<int>(f_ELhashsize)) )
+    {
     return (NULL);
+    }
   FortuneHalfEdge *he = f_ELHash[b];
   if(he==NULL)
+    {
     return (he);
+    }
   if(he->m_edge == NULL)
+    {
     return (he);
+    }
   if((he->m_edge) != (&f_DELETED)) 
+    {
     return (he);
-
+    }
   f_ELHash[b] = NULL;
 
   return (NULL);
@@ -641,8 +657,14 @@ findLeftHE(PointType *p)
 {
   int i;
   int bucket = (int)( (((*p)[0]) - f_pxmin)/f_deltax * f_ELhashsize );
-  if(bucket < 0) bucket = 0;
-  if(bucket >= f_ELhashsize) bucket = f_ELhashsize - 1;
+  if(bucket < 0)
+    {
+    bucket = 0;
+    }
+  if(bucket >= static_cast<int>(f_ELhashsize))
+    {
+    bucket = static_cast<int>(f_ELhashsize) - 1;
+    }
   FortuneHalfEdge *he = ELgethash(bucket);
   if(he == NULL)
     {
@@ -667,7 +689,7 @@ findLeftHE(PointType *p)
       } while ( (he!=(&f_ELleftend)) && (!right_of(he,p)) );
     }
 
-  if( (bucket>0) && (bucket<f_ELhashsize-1) )
+  if( (bucket>0) && (bucket<static_cast<int>(f_ELhashsize)-1) )
     {
     f_ELHash[bucket] = he;
     }
