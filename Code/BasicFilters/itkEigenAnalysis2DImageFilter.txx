@@ -110,7 +110,7 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
  * Get the greatest eigenvalue considering the sign
  */
 template <class TInputImage, class TEigenValueImage, class TEigenVectorImage> 
-typename TEigenValueImage::Pointer
+EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>::EigenValueImagePointer
 EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
 ::GetMaxEigenValue( void )
 {
@@ -125,7 +125,7 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
  * Get the smallest eigenvalue considering the sign
  */
 template <class TInputImage, class TEigenValueImage, class TEigenVectorImage>
-typename TEigenValueImage::Pointer
+EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>::EigenValueImagePointer
 EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
 ::GetMinEigenValue( void )
 {
@@ -139,7 +139,7 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
  * Get the smallest eigenvalue considering the sign
  */
 template <class TInputImage, class TEigenValueImage, class TEigenVectorImage> 
-typename TEigenVectorImage::Pointer
+EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>::EigenVectorImagePointer
 EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
 ::GetMaxEigenVector( void )
 {
