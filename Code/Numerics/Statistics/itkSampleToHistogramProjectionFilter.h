@@ -24,6 +24,7 @@
 #include "itkFixedArray.h"
 #include "itkHistogram.h"
 #include "itkFunctionBase.h"
+#include "itkSampleAlgorithmBase.h"
 #include "itkVector.h"
 
 namespace itk{ 
@@ -129,7 +130,6 @@ private:
 
   bool m_HistogramUseEquiProbableBins ;
   double m_HistogramBinOverlap ;
-  double m_OrthoMargin ;
 
   MeanType* m_Mean ;
   ArrayType* m_ProjectionAxis ;
