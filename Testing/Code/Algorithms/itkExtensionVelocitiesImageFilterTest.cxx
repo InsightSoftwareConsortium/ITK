@@ -289,6 +289,24 @@ int itkExtensionVelocitiesImageFilterTest(int, char* [] )
     nodeIter++;
     }
 
+  // Test setting/getting velocity beyond index
+  reinitializer->SetInputVelocityImage( aux1, 2 );
+    
+  if( reinitializer->GetInputVelocityImage( 2 )  )
+    {
+    std::cout << "GetInputVelocityImage(2) should have returned NULL" << std::endl;
+    std::cout << "Test failed" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  if( reinitializer->GetOutputVelocityImage( 2 )  )
+    {
+    std::cout << "GetOutputVelocityImage(2) should have returned NULL" << std::endl;
+    std::cout << "Test failed" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+
   std::cout << "Test passed" << std::endl;
   return EXIT_SUCCESS;
 

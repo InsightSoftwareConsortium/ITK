@@ -298,6 +298,13 @@ int itkFastMarchingExtensionImageFilterTest(int, char* [] )
 
   marcher->Print( std::cout );
 
+  if ( marcher->GetAuxiliaryImage(2) )
+    {
+    std::cout << "GetAuxiliaryImage(2) should have returned NULL";
+    std::cout << std::endl;
+    passed = false;
+    } 
+
   if ( passed )
     {
     std::cout << "Fast Marching test passed" << std::endl;

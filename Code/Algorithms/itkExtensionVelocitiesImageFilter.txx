@@ -139,7 +139,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
       else
         {
         // Pointer could not be cast to AuxImageType *
-        itkWarningMacro(<< "itk::FastMarchingExtensionImageFilter" <<
+        itkWarningMacro(<< "itk::ExtensionVelocitiesImageFilter" <<
                         "::EnlargeOutputRequestedRegion cannot cast "
                         << typeid(this->GetOutput(j)).name() << " to "
                         << typeid(AuxImageType*).name() );    
