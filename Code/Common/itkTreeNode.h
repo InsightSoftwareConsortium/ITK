@@ -54,7 +54,7 @@ public:
   itkNewMacro( Self );
  
   /** Run-time type information (and related methods). */ 
-  itkTypeMacro( Self, Superclass );
+  itkTypeMacro( TreeNode, Object );
 
   /** Get the value of the node */
   const TValueType& Get() const;
