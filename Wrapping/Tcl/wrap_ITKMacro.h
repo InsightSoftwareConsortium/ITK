@@ -209,4 +209,16 @@
     sizeof(f##x##y##_Superclass); \
   }
 
+// Wrap a calculator class.  This is a sink that is not a process object.
+#define ITK_WRAP_IMAGE_CALCULATOR(f, x) \
+  ITK_WRAP_NAMESPACE_OPEN \
+    typedef ::itk::f< Image##x > f##x; \
+    typedef f##x::Pointer f##x##_Pointer; \
+  ITK_WRAP_NAMESPACE_CLOSE \
+  void _cable_force_instantiate_##f##x() { \
+    ITK_WRAP_NAMESPACE_USING \
+    sizeof(f##x); \
+    sizeof(f##x##_Pointer); \
+  }
+
 #endif
