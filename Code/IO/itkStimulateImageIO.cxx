@@ -18,8 +18,8 @@
 
 =========================================================================*/
 #include "itkStimulateImageIO.h"
-#include <cstdio>
 #include <cstring>
+#include <stdio.h>
 #include "itkByteSwapper.h"
 
 namespace itk
