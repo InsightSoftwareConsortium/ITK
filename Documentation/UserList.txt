@@ -8,7 +8,7 @@ blue:Rusty Blue:blue@crd.ge.com
 burgiss
 cates:Josh Cates:cates@cs.utah.edu
 celina:Celina  Imielinska:ci42@columbia.edu
-chandra
+chandra:Parag Chandra:chandra@cs.unc.edu
 chenting:Ting Chen:chenting@graphics.cis.upenn.edu
 danny
 gash
