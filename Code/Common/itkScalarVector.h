@@ -16,6 +16,10 @@
 #define __itkScalarVector_h
 
 #include "itkMacro.h"
+#include "vnl/vnl_vector.txx"
+#include "vnl/vnl_vector_fixed.txx"
+#include "vnl/vnl_c_vector.txx"
+
 #include <memory.h>
 
 namespace itk
@@ -62,19 +66,25 @@ public:
    * ValueType can be used to declare a variable that is the same type
    * as the data held in the scalar portion of the ScalarVector.  
    */
-  typedef typename TScalar ValueType;
+  typedef TScalar ValueType;
 
   /**
    * ValueType can be used to declare a variable that is the same type
    * as the data held in the scalar portion of the ScalarVector.  
    */
-  typedef typename TScalar ScalarValueType;
+  typedef TScalar ScalarValueType;
 
   /**
    * ValueType can be used to declare a variable that is the same type
    * as the data held in the scalar portion of the ScalarVector.  
    */
-  typedef typename TVector VectorValueType;
+  typedef TVector VectorValueType;
+
+  /**
+   * VectorType can be used to declare a variable that is the same type
+   * as the internal vector.  
+   */
+  typedef vnl_vector_fixed<T, TVectorDimension> VectorType;
 
   /**
    * Get the scalar value.
@@ -100,19 +110,26 @@ public:
    * Get the vector. This provides a read only reference to the vector.
    * \sa SetVector().
    */
-  const TVector *GetVector() const 
+  const VectorType &GetVector() const 
     { return m_Vector; }
 
   /**
-   * Set the vector.
-   * \sa GetVector().
+   * Get the vector. This provides a read/write reference to the vector.
+   * \sa SetVector
    */
-  void SetVector(const TVector *val)
-    { memcpy(m_Vector, val, sizeof(T)*TVectorDimension); };
+  VectorType &GetVector()  
+    { return m_Vector; }
+
+  /**
+   * Set the vector. 
+   * \sa GetVector
+   */
+  void SetVector(const VectorType &vec)
+    { m_Vector = vec; }
 
 private:
   TScalar m_Scalar;
-  TVector m_Vector[TVectorDimension];
+  vnl_vector_fixed<TVector, TVectorDimension> m_Vector;
 };
 
   
