@@ -243,6 +243,15 @@ ADD_TEST(HoughTransformTwo2DLinesTest ${SEGMENTATION_EXAMPLES2}
         2 5 10
 )
 
+ADD_TEST(HoughTransformTwo2DCirclesTest ${SEGMENTATION_EXAMPLES2}
+  --compare ${BASELINE}/HoughTransformTwoCirclesTest.png
+            ${TEMP}/HoughTransformTwoCirclesTest.png
+  HoughTransform2DCirclesImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/HoughTransformTwoCircles.png
+        ${TEMP}/HoughTransformTwoCirclesTest.png
+        2 6 20 3.14 10 5 1.5
+)
+
 ADD_TEST(ShapeDetectionLevelSetLeftVentricleTest ${SEGMENTATION_EXAMPLES2}
   --compare ${BASELINE}/ShapeDetectionLevelSetLeftVentricleTest.png
             ${TEMP}/ShapeDetectionLevelSetLeftVentricleTest.png
