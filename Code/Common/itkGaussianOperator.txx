@@ -25,7 +25,7 @@ GaussianOperator<VDimension>
   float sum;
   int i;
   int j;
-  std::size_t accum;
+  ::size_t accum;
   std::vector<float>::iterator it;
 
   const float et           = exp(-m_Variance);
