@@ -125,6 +125,10 @@ ADD_TEST(itkMetaDataDictionaryTest ${COMMON_TESTS} itkMetaDataDictionaryTest)
 ADD_TEST(itkSTLThreadTest ${COMMON_TESTS} itkSTLThreadTest)
 ADD_TEST(itkOctreeTest ${COMMON_TESTS} itkOctreeTest)
 
+IF(ITK_CSWIG_TCL)
+  ADD_TEST(itkBasicClasses ${ITKWISH_EXECUTABLE}
+           ${ITKTesting_SOURCE_DIR}/Code/Common/itkBasicClasses.tcl)
+ENDIF(ITK_CSWIG_TCL)
 #-----------------------------------------------------------------------------
 # Setup the system information test.  Write out some basic failsafe
 # information in case the test doesn't run.
