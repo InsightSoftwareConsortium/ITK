@@ -367,11 +367,57 @@ int itkVersorRigid3DTransformTest(int, char* [] )
      aPoint[0] = 10.0;
      aPoint[1] = 20.0;
      aPoint[2] = -10.0;
-     JacobianType   jacobian = transform->GetJacobian(aPoint);
-     std::cout << "jacobian: " << jacobian << std::endl;
+     JacobianType   jacobian = transform->GetJacobian( aPoint );
+     std::cout << "Jacobian: "  << std::endl;
+     std::cout << jacobian << std::endl;
 
+     // copy the read one just for getting the right matrix size
+     JacobianType   TheoreticalJacobian = jacobian;
+     
+     TheoreticalJacobian[0][0] =    0.0;
+     TheoreticalJacobian[1][0] =  206.0;
+     TheoreticalJacobian[2][0] =  -84.0;
+
+     TheoreticalJacobian[0][1] = -206.0;
+     TheoreticalJacobian[1][1] =    0.0;
+     TheoreticalJacobian[2][1] =  -42.0;
+
+     TheoreticalJacobian[0][2] =   84.0;
+     TheoreticalJacobian[1][2] =   42.0;
+     TheoreticalJacobian[2][2] =    0.0;
+
+     TheoreticalJacobian[0][3] = 1.0;
+     TheoreticalJacobian[1][3] = 0.0;
+     TheoreticalJacobian[2][3] = 0.0;
+
+     TheoreticalJacobian[0][4] = 0.0;
+     TheoreticalJacobian[1][4] = 1.0;
+     TheoreticalJacobian[2][4] = 0.0;
+
+     TheoreticalJacobian[0][5] = 0.0;
+     TheoreticalJacobian[1][5] = 0.0;
+     TheoreticalJacobian[2][5] = 1.0;
+
+     for(unsigned int ii=0; ii < 3; ii++)
+       {
+       for(unsigned int jj=0; jj < 6; jj++)
+         {
+         if( vnl_math_abs( TheoreticalJacobian[ii][jj] - jacobian[ii][jj] ) > 1e-5 )
+           {
+           std::cerr << "Jacobian components differ from expected values ";
+           std::cerr << std::endl << std::endl;
+           std::cerr << "Expected Jacobian = " << std::endl;
+           std::cerr << TheoreticalJacobian << std::endl << std::endl;
+           std::cerr << "Computed Jacobian = " << std::endl;
+           std::cerr << jacobian << std::endl << std::endl;
+           std::cerr << std::endl << "Test FAILED ! " << std::endl;
+           return EXIT_FAILURE;
+           }
+         }
+       }
   }
 
+  std::cout << std::endl << "Test PASSED ! " << std::endl;
   return EXIT_SUCCESS;
 
 }

@@ -267,20 +267,9 @@ GetJacobian( const InputPointType & p ) const
   m_Jacobian[2][2] =   m_Jacobian[0][0];
 
 
-  // compute derivatives for the rotation center 
-  unsigned int blockOffset = 3;  
-  for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
-    {
-    for(unsigned int j=0; j < SpaceDimension; j++ ) 
-      {
-      m_Jacobian[dim][j+blockOffset] = 
-        -m_RotationMatrix[dim][j];
-      }
-    m_Jacobian[dim][dim+blockOffset] += 1.0;
-    }
-
   // compute derivatives for the translation part
-  blockOffset += 3;
+  unsigned int blockOffset = 3;  
+
   for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
     {
     m_Jacobian[ dim ][ blockOffset + dim ] = 1.0;
