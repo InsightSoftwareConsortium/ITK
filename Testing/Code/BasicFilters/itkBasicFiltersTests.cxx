@@ -94,6 +94,9 @@ void RegisterTests()
   REGISTER_TEST(itkGradientImageFilterTest );
   REGISTER_TEST(itkGradientMagnitudeImageFilterTest );
   REGISTER_TEST(itkGradientMagnitudeRecursiveGaussianFilterTest );
+  REGISTER_TEST(itkGradientToMagnitudeImageFilterTest );
+  REGISTER_TEST(itkGradientMagnitudeImageFilterTest );
+  REGISTER_TEST(itkGradientMagnitudeRecursiveGaussianFilterTest );
   REGISTER_TEST(itkGradientRecursiveGaussianFilterTest );
   REGISTER_TEST(itkGradientToMagnitudeImageFilterTest );
   REGISTER_TEST(itkGrayscaleConnectedClosingImageFilterTest );
@@ -188,6 +191,7 @@ void RegisterTests()
   REGISTER_TEST(itkSubtractImageFilterTest );
   REGISTER_TEST(itkTanImageFilterAndAdaptorTest );
   REGISTER_TEST(itkTernaryMagnitudeImageFilterTest );
+  REGISTER_TEST(itkTileImageFilterTest );
   REGISTER_TEST(itkThresholdImageFilterTest );
   REGISTER_TEST(itkThresholdLabelerImageFilterTest );
   REGISTER_TEST(itkTobogganImageFilterTest );

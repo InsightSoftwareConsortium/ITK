@@ -12,6 +12,7 @@ SET(BASIC_FILTERS_TESTS ${CXX_TEST_PATH}/itkBasicFiltersTests)
 SET(BASIC_FILTERS_TESTS2 ${CXX_TEST_PATH}/itkBasicFiltersTests2)
 SET(BASIC_FILTERS_HEADER_TEST ${CXX_TEST_PATH}/itkBasicFiltersHeaderTest)
 SET(BASELINE ${ITK_DATA_ROOT}/Baseline/BasicFilters)
+SET(INPUTDATA ${ITK_DATA_ROOT}/Input)
 SET(TEMP ${ITKTesting_BINARY_DIR}/Temporary)
 
 ADD_TEST(itkBasicFiltersPrintTest ${BASIC_FILTERS_TESTS2} itkBasicFiltersPrintTest)
@@ -370,6 +371,28 @@ ADD_TEST(itkExtractOrthogonalSwath2DImageFilterTest ${BASIC_FILTERS_TESTS}
             ${ITK_TEST_OUTPUT_DIR}/ExtractOrthogonalSwath2DImageFilterTest.png
 )
 
+ADD_TEST(itkTileImageFilterTest ${BASIC_FILTERS_TESTS}
+  --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/TileImageFilterTest4.png
+            ${ITK_TEST_OUTPUT_DIR}/TileImageFilterTest4.png
+  itkTileImageFilterTest
+            1 2 0
+            ${ITK_DATA_ROOT}/Input/STAPLE1.png
+            ${ITK_DATA_ROOT}/Input/STAPLE2.png
+            ${ITK_DATA_ROOT}/Input/STAPLE3.png
+            ${ITK_DATA_ROOT}/Input/STAPLE4.png
+            ${ITK_DATA_ROOT}/Input/Shapes.png
+            ${ITK_DATA_ROOT}/Input/Spots.png
+            ${ITK_DATA_ROOT}/Input/SpotsInverted.png
+            ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png
+            ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSliceInitialLevelSet.png
+            ${ITK_DATA_ROOT}/Input/cake_easy.png
+            ${ITK_DATA_ROOT}/Input/cake_hard.png
+            ${ITK_DATA_ROOT}/Input/cthead1.png
+            ${ITK_DATA_ROOT}/Input/sf4.png
+            ${ITK_DATA_ROOT}/Input/smooth_circle.png
+            ${ITK_DATA_ROOT}/Input/smooth_square.png
+            ${ITK_TEST_OUTPUT_DIR}/TileImageFilterTest%d.png)
+
 ADD_TEST(itkPasteImageFilterTest ${BASIC_FILTERS_TESTS}
   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/PasteImageFilterTest.png
             ${ITK_TEST_OUTPUT_DIR}/PasteImageFilterTest.png
@@ -623,6 +646,7 @@ itkTanImageFilterAndAdaptorTest.cxx
 itkTernaryMagnitudeImageFilterTest.cxx
 itkThresholdImageFilterTest.cxx
 itkThresholdLabelerImageFilterTest.cxx
+itkTileImageFilterTest.cxx
 itkTobogganImageFilterTest.cxx
 itkTransformMeshFilterTest.cxx
 itkTriangleMeshToSimplexMeshFilterTest.cxx
