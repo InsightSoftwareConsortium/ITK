@@ -13,6 +13,9 @@ TARGET_LINK_LIBRARIES(PointSet3 ITKCommon)
 ADD_EXECUTABLE(RGBPointSet RGBPointSet.cxx )
 TARGET_LINK_LIBRARIES(RGBPointSet ITKCommon)
 
+ADD_EXECUTABLE(PointSetWithVectors PointSetWithVectors.cxx )
+TARGET_LINK_LIBRARIES(PointSetWithVectors ITKCommon)
+
 ADD_EXECUTABLE(Mesh1 Mesh1.cxx )
 TARGET_LINK_LIBRARIES(Mesh1 ITKCommon)
 
