@@ -81,8 +81,8 @@ DICOMSeriesFileNames
        iter != m_FileNames.end();
        iter++)
     {
-    char* fn = (char*) (*iter).c_str();
-    bool couldOpen = m_Parser.OpenFile(fn);
+    const char* fn = (*iter).c_str();
+    m_Parser.OpenFile(fn);
     m_Parser.ClearAllDICOMTagCallbacks();
     m_AppHelper.RegisterCallbacks(&m_Parser);
     m_AppHelper.SetFileName(fn);
@@ -121,7 +121,7 @@ int
 DICOMSeriesFileNames
 ::CanReadFile(const char* fname)
 {
-  bool canOpen = m_Parser.OpenFile((char*) fname);
+  bool canOpen = m_Parser.OpenFile(fname);
   if (canOpen == false)
     {
     itkWarningMacro( <<  "DICOMParser couldn't open : " << fname);

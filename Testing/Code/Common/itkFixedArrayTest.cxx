@@ -74,7 +74,7 @@ int itkFixedArrayTest(int, char* [] )
 
   // Test Get/Set element
   const unsigned int n = 20;
-  itk::FixedArray< int, n > array20;
+  itk::FixedArray< unsigned int, n > array20;
   for(unsigned int i=0; i<n; i++)
     {
     array20.SetElement(i,i);

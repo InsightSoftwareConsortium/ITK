@@ -636,7 +636,7 @@ itkBSplineResampleImageFilterTest(
   try
     {
     std::cout << "Test when Standard_l2 spline order is unsupported" << std::endl;
-    dummyflag = test2D_Standard_l2_NthOrderSpline_filter( 6 ); 
+    dummyflag += test2D_Standard_l2_NthOrderSpline_filter( 6 ); 
     }
   catch( itk::ExceptionObject& err )
     {
@@ -651,7 +651,7 @@ itkBSplineResampleImageFilterTest(
   try
     {
     std::cout << "Test when Centered_l2 spline order is unsupported" << std::endl;
-    dummyflag = test2D_Centered_l2_NthOrderSpline_filter( 6 ); 
+    dummyflag += test2D_Centered_l2_NthOrderSpline_filter( 6 ); 
     }
   catch( itk::ExceptionObject& err )
     {
@@ -666,7 +666,7 @@ itkBSplineResampleImageFilterTest(
   try
     {
     std::cout << "Test when Standard_L2 spline order is unsupported" << std::endl;
-    dummyflag = test2D_Standard_L2_NthOrderSpline_filter( 6 ); 
+    dummyflag += test2D_Standard_L2_NthOrderSpline_filter( 6 ); 
     }
   catch( itk::ExceptionObject& err )
     {
@@ -681,7 +681,7 @@ itkBSplineResampleImageFilterTest(
   try
     {
     std::cout << "Test when Centered_L2 spline order is unsupported" << std::endl;
-    dummyflag = test2D_Centered_L2_NthOrderSpline_filter( 6 ); 
+    dummyflag += test2D_Centered_L2_NthOrderSpline_filter( 6 ); 
     }
   catch( itk::ExceptionObject& err )
     {
