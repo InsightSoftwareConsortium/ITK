@@ -40,6 +40,7 @@ LevelSetCurvatureFunction<TInputImage>
     m_ImageSize[j] = (signed long) size[j];
     if( m_ImageSize[j] < 5 )
       {
+      itkWarningMacro ( << " LevelSetCurvatureFunction requires all dimensions have size greater than 5" );
       m_ImageSizeOK = false;
       }
 

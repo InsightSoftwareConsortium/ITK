@@ -42,6 +42,7 @@ EntropyPreservingGradientMagnitudeImageFunction<TInputImage>
     m_ImageSize[j] = (signed long) size[j];
     if( m_ImageSize[j] < 3 )
       {
+      itkWarningMacro ( << " EntropyPreservingGradientMagnitudeImageFunction requires all dimensions have size greater than 3" );
       m_ImageSizeOK = false;
       }
     }
