@@ -72,5 +72,23 @@ int itkFixedArrayTest(int, char* [] )
   if ( array4 != array4 ) return 1; //should be equal
   if ( !(array4 == array4) ) return 1; //should be equal
 
+  // Test Get/Set element
+  const unsigned int n = 20;
+  itk::FixedArray< int, n > array20;
+  for(unsigned int i=0; i<n; i++)
+    {
+    array20.SetElement(i,i);
+    }
+  
+  for(unsigned int k=0; k<n; k++)
+    {
+    if( array20.GetElement(k) != k )
+      {
+      std::cerr << "Set/Get element test failed" << std::endl;
+      return EXIT_FAILURE;
+      }
+    } 
+ 
+
   return 0;
 }
