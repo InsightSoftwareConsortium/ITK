@@ -9,7 +9,7 @@
 #include <metaSurface.h>
 
 //
-// MedImage Constructors
+// MetaSurface Constructors
 //
 MetaSurface::
 MetaSurface()
@@ -31,12 +31,12 @@ MetaSurface(const char *_headerName)
 
 //
 MetaSurface::
-MetaSurface(const MetaSurface *_tube)
+MetaSurface(const MetaSurface *_surface)
 :MetaObject()
 {
   if(META_DEBUG)  std::cout << "MetaSurface()" << std::endl;
   Clear();
-  CopyInfo(_tube);
+  CopyInfo(_surface);
 }
 
 
@@ -54,6 +54,7 @@ MetaSurface(unsigned int dim)
 MetaSurface::
 ~MetaSurface()
 {
+  Clear();
   M_Destroy();
 }
 
@@ -70,9 +71,9 @@ PrintInfo() const
 }
 
 void MetaSurface::
-CopyInfo(const MetaSurface * _tube)
+CopyInfo(const MetaSurface * _surface)
 {
-  MetaObject::CopyInfo(_tube);
+  MetaObject::CopyInfo(_surface);
 }
 
     
@@ -101,131 +102,7 @@ NPoints(void) const
   return m_NPoints;
 }
 
-
-bool MetaSurface::
-ReadStream(int ndims, std::ifstream * stream)
-{
-  
-  if(META_DEBUG)  std::cout << "MetaSurface: ReadStream" << std::endl;
-
-  M_Destroy();
-  Clear();
-
-  M_SetupReadFields();
-
-  MET_FieldRecordType * mF = MET_GetFieldRecord("NDims", &m_Fields);
-  mF->value[0] = ndims;
-  mF->defined = true;
-
-  m_ReadStream = stream;
-  bool result = M_Read();
-  return result;
-}
-
-bool MetaSurface::
-Read(const char *_headerName)
-{
-  if(META_DEBUG) std::cout << "MetaSurface: Read" << std::endl;
-
-  M_Destroy();
-
-  Clear();
-
-  M_SetupReadFields();
-
-  if(_headerName != NULL)
-  {
-    strcpy(m_FileName, _headerName);
-  }
-
-  if(META_DEBUG) std::cout << "MetaSurface: Read: Opening stream" << std::endl;
- 
-  m_ReadStream->open(m_FileName, std::ios::binary | std::ios::in);
-  
-  if(!m_ReadStream->is_open())
-  {
-    std::cout << "MetaSurface: Read: Cannot open file" << std::endl;
-    return false;
-  }
-
-  if(!M_Read())
-  {
-    std::cout << "MetaSurface: Read: Cannot parse file" << std::endl;
-    return false;
-  }
-
-  if(_headerName != NULL)
-  {
-    strcpy(m_FileName, _headerName);
-  }
-
-  m_ReadStream->close();
-
-  return true;
-}
-
-//
-//
-//
-bool MetaSurface::
-Write(const char *_headName)
-{
-  if(META_DEBUG) std::cout << "MetaSurface: Write" << std::endl;
-
-  if(_headName != NULL)
-    {
-    FileName(_headName);
-    }
-
-  m_NPoints = m_PointList.size();
-
-  M_SetupWriteFields();
-
-  m_WriteStream->open(m_FileName, std::ios::binary | std::ios::out);
-  if(!m_WriteStream->is_open())
-    {
-    return false;
-    }
-
-  M_Write();
-      
-  m_WriteStream->close();
-
-  return true;
-}
-  
-
-bool MetaSurface
-::Append(const char *_headName)
-{
-  if(META_DEBUG) std::cout << "MetaSurface: Append" << std::endl;
-
-  if(_headName != NULL)
-  {
-    FileName(_headName);
-  }
-
-  m_NPoints = m_PointList.size();
-
-  M_SetupWriteFields();
-
-  m_WriteStream->open(m_FileName, std::ios::binary | std::ios::app | std::ios::out);
-  if(!m_WriteStream->is_open())
-  {
-    return false;
-  }
-
-  M_Write();
-  
-  m_WriteStream->close();     
-  return true;
-
-}
-
-
-
-
-/** Clear tube information */
+/** Clear Surface information */
 void MetaSurface::
 Clear(void)
 {
@@ -237,7 +114,7 @@ Clear(void)
   m_ElementType = MET_FLOAT;
 }
         
-/** Destroy tube information */
+/** Destroy Surface information */
 void MetaSurface::
 M_Destroy(void)
 {
@@ -253,8 +130,6 @@ M_SetupReadFields(void)
   MetaObject::M_SetupReadFields();
 
   MET_FieldRecordType * mF;
-
-  // int nDimsRecNum = MET_GetFieldRecordNumber("NDims", &m_Fields);
 
   mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "PointDim", MET_STRING, true);
@@ -297,6 +172,8 @@ M_SetupWriteFields(void)
                            strlen(m_PointDim),m_PointDim);
     m_Fields.push_back(mF);
   }
+
+  m_NPoints = m_PointList.size();
   mF = new MET_FieldRecordType;
   MET_InitWriteField(mF, "NPoints", MET_INT,m_NPoints);
   m_Fields.push_back(mF);
@@ -353,19 +230,12 @@ M_Read(void)
     strcpy(m_PointDim,(char *)(mF->value));
   }
 
-  int* posDim= new int[m_NDims];
-  for(int i= 0; i < m_NDims; i++)
-  {
-    posDim[i] = -1;
-  }
-
   int pntDim;
   char** pntVal = NULL;
   MET_StringToWordArray(m_PointDim, &pntDim, &pntVal); 
 
   float v[16];
-  SurfacePnt* pnt;
-  
+
   if(m_BinaryData)
   {
     int elementSize;
@@ -389,19 +259,18 @@ M_Read(void)
     double td;
     for(int j=0; j<m_NPoints; j++) 
     {
-      pnt = new SurfacePnt(m_NDims);
-      float* x = new float[m_NDims];
-      float* n = new float[m_NDims];
+      SurfacePnt* pnt = new SurfacePnt(m_NDims);
+     
       for(d=0; d<m_NDims; d++)
       {
         MET_ValueToDouble(m_ElementType, _data, i++, &td);
-        x[d] = (float)td;
+        pnt->m_X[d] = (float)td;
       }
 
       for(d=0; d<m_NDims; d++)
       {
         MET_ValueToDouble(m_ElementType, _data, i++, &td);
-        n[d] = (float)td;
+        pnt->m_V[d] = (float)td;
       }
 
        for(d=0; d<m_NDims; d++)
@@ -410,17 +279,16 @@ M_Read(void)
         pnt->m_Color[d] = (float)td;
       }
 
-      pnt->m_X = x; 
-      pnt->m_V = n; 
-
+      
       m_PointList.push_back(pnt);
     }
+    delete [] _data;
   }
   else
   {
     for(int j=0; j<m_NPoints; j++) 
     {
-      pnt = new SurfacePnt(m_NDims);
+      SurfacePnt* pnt = new SurfacePnt(m_NDims);
 
       for(int k=0; k<pntDim; k++)
       {
@@ -429,22 +297,15 @@ M_Read(void)
       }
 
       int d;
-      float* x = new float[m_NDims];
       for(d=0; d<m_NDims; d++)
       {
-        x[d] = v[d];
+        pnt->m_X[d] = v[d];
       }
 
-
-      pnt->m_X = x;
-      
-      float* n = new float[m_NDims];
       for(d=m_NDims; d<m_NDims*2; d++)
       {
-        n[d-m_NDims] = v[d];
+        pnt->m_V[d-m_NDims] = v[d];
       }
-
-      pnt->m_V = n;
 
       for(d=0; d<4; d++)
       {
@@ -506,9 +367,9 @@ M_Write(void)
 
       it++;
     }
-
    
-    m_WriteStream->write((char *)data,(m_NDims*2+4)*m_NPoints*elementSize);  
+    m_WriteStream->write((char *)data,(m_NDims*2+4)*m_NPoints*elementSize);
+    delete [] data;
   }
   else
   {

@@ -9,7 +9,7 @@
 #include <metaLine.h>
 
 //
-// MedImage Constructors
+// MetaLine Constructors
 //
 MetaLine::
 MetaLine()
@@ -22,7 +22,7 @@ MetaLine()
 //
 MetaLine::
 MetaLine(const char *_headerName)
-:MetaObject()
+:MetaObject(_headerName)
 {
   if(META_DEBUG)  std::cout << "MetaLine()" << std::endl;
   Clear();
@@ -31,12 +31,12 @@ MetaLine(const char *_headerName)
 
 //
 MetaLine::
-MetaLine(const MetaLine *_tube)
+MetaLine(const MetaLine *_line)
 :MetaObject()
 {
   if(META_DEBUG)  std::cout << "MetaLine()" << std::endl;
   Clear();
-  CopyInfo(_tube);
+  CopyInfo(_line);
 }
 
 
@@ -54,6 +54,7 @@ MetaLine(unsigned int dim)
 MetaLine::
 ~MetaLine()
 {
+  Clear();
   M_Destroy();
 }
 
@@ -101,130 +102,6 @@ NPoints(void) const
   return m_NPoints;
 }
 
-
-bool MetaLine::
-ReadStream(int ndims, std::ifstream * stream)
-{
-  
-  if(META_DEBUG)  std::cout << "MetaLine: ReadStream" << std::endl;
-
-  M_Destroy();
-  Clear();
-
-  M_SetupReadFields();
-
-  MET_FieldRecordType * mF = MET_GetFieldRecord("NDims", &m_Fields);
-  mF->value[0] = ndims;
-  mF->defined = true;
-
-  m_ReadStream = stream;
-  bool result = M_Read();
-  return result;
-}
-
-bool MetaLine::
-Read(const char *_headerName)
-{
-  if(META_DEBUG) std::cout << "MetaLine: Read" << std::endl;
-
-  M_Destroy();
-
-  Clear();
-
-  M_SetupReadFields();
-
-  if(_headerName != NULL)
-  {
-    strcpy(m_FileName, _headerName);
-  }
-
-  if(META_DEBUG) std::cout << "MetaLine: Read: Opening stream" << std::endl;
- 
-  m_ReadStream->open(m_FileName, std::ios::binary | std::ios::in);
-  
-  if(!m_ReadStream->is_open())
-  {
-    std::cout << "MetaLine: Read: Cannot open file" << std::endl;
-    return false;
-  }
-
-  if(!M_Read())
-  {
-    std::cout << "MetaLine: Read: Cannot parse file" << std::endl;
-    return false;
-  }
-
-  if(_headerName != NULL)
-  {
-    strcpy(m_FileName, _headerName);
-  }
-
-  m_ReadStream->close();
-
-  return true;
-}
-
-//
-//
-//
-bool MetaLine::
-Write(const char *_headName)
-{
-  if(META_DEBUG) std::cout << "MetaLine: Write" << std::endl;
-
-  if(_headName != NULL)
-    {
-    FileName(_headName);
-    }
-
-  m_NPoints = m_PointList.size();
-
-  M_SetupWriteFields();
-
-  m_WriteStream->open(m_FileName, std::ios::binary | std::ios::out);
-  if(!m_WriteStream->is_open())
-    {
-    return false;
-    }
-
-  M_Write();
-      
-  m_WriteStream->close();
-
-  return true;
-}
-  
-
-bool MetaLine
-::Append(const char *_headName)
-{
-  if(META_DEBUG) std::cout << "MetaLine: Append" << std::endl;
-
-  if(_headName != NULL)
-  {
-    FileName(_headName);
-  }
-
-  m_NPoints = m_PointList.size();
-
-  M_SetupWriteFields();
-
-  m_WriteStream->open(m_FileName, std::ios::binary | std::ios::app | std::ios::out );
-  if(!m_WriteStream->is_open())
-  {
-    return false;
-  }
-
-  M_Write();
-   
-  m_WriteStream->close();
-  return true;
-
-}
-
-
-
-
 /** Clear tube information */
 void MetaLine::
 Clear(void)
@@ -232,7 +109,16 @@ Clear(void)
   if(META_DEBUG) std::cout << "MetaLine: Clear" << std::endl;
   MetaObject::Clear();
   m_NPoints = 0;
+    // Delete the list of pointers to tubes.
+  PointListType::iterator it = m_PointList.begin();
+  while(it != m_PointList.end())
+  {
+    LinePnt* pnt = *it;
+    it++;
+    delete pnt;
+  }  
   m_PointList.clear();
+
   strcpy(m_PointDim, "x y z v1x v1y v1z");
   m_ElementType = MET_FLOAT;
 }
@@ -297,6 +183,8 @@ M_SetupWriteFields(void)
                            strlen(m_PointDim),m_PointDim);
     m_Fields.push_back(mF);
   }
+
+  m_NPoints = m_PointList.size();
   mF = new MET_FieldRecordType;
   MET_InitWriteField(mF, "NPoints", MET_INT,m_NPoints);
   m_Fields.push_back(mF);
@@ -353,19 +241,12 @@ M_Read(void)
     strcpy(m_PointDim,(char *)(mF->value));
   }
 
-  int* posDim= new int[m_NDims];
-  for(int i= 0; i < m_NDims; i++)
-  {
-    posDim[i] = -1;
-  }
-
   int pntDim;
   char** pntVal = NULL;
   MET_StringToWordArray(m_PointDim, &pntDim, &pntVal); 
 
   float v[16];
-  LinePnt* pnt;
-  
+
   if(m_BinaryData)
   {
     int elementSize;
@@ -388,35 +269,34 @@ M_Read(void)
     double td;
     for(int j=0; j<m_NPoints; j++) 
     {
-      pnt = new LinePnt(m_NDims);
-      float* x = new float[m_NDims];
+      LinePnt* pnt = new LinePnt(m_NDims);
       
       for(int d=0; d<m_NDims; d++)
       {
         MET_ValueToDouble(m_ElementType, _data, i++, &td);
-        x[d] = (float)td;
+        pnt->m_X[d] = (float)td;
       }
 
       for(int l=0;l<m_NDims-1;l++)
       {
-        float* n = new float[m_NDims];
+
         for(int d=0; d<m_NDims; d++)
         {
           MET_ValueToDouble(m_ElementType, _data, i++, &td);
-          n[d] = (float)td;
+          pnt->m_V[l][d] = (float)td;
         }
-        pnt->m_V[l] = n; 
+        //pnt.m_V[l] = n; 
       }
-      pnt->m_X = x; 
       m_PointList.push_back(pnt);
     }
+    delete [] _data;
   }
   else
   {
     for(int j=0; j<m_NPoints; j++) 
     {
-      pnt = new LinePnt(m_NDims);
-
+      LinePnt* pnt = new LinePnt(m_NDims);
+      
       int k;
       int d;
       for(k=0; k<m_NDims; k++)
@@ -425,14 +305,13 @@ M_Read(void)
         m_ReadStream->get();
       }
 
-      float* x = new float[m_NDims];
+      //float* x = new float[m_NDims];
       for(d=0; d<m_NDims; d++)
       {
-        x[d] = v[d];
+        pnt->m_X[d] = v[d];
       }
 
-      pnt->m_X = x;
-      
+      //pnt.m_X = x;
 
       for(k=0; k<m_NDims-1; k++)
       {
@@ -442,14 +321,13 @@ M_Read(void)
           m_ReadStream->get();
         }
 
-        float* n = new float[m_NDims];
+        //float* n = new float[m_NDims];
         for(d=0; d<m_NDims; d++)
         {
-          n[d] = v[d];
+          pnt->m_V[k][d] = v[d];
         }
-        pnt->m_V[k] = n;
+        //pnt.m_V[k] = n;
       }
-
       for(k=0; k<4; k++)
       {
         *m_ReadStream >> v[k];
@@ -497,8 +375,7 @@ M_Write(void)
     {
       for(d = 0; d < m_NDims; d++)
       {
-        MET_DoubleToValue((double)(*it)->m_X[d],m_ElementType,data,i++);
-        
+        MET_DoubleToValue((double)(*it)->m_X[d],m_ElementType,data,i++);  
       }
 
       for(int j=0;j<m_NDims-1;j++)
@@ -517,8 +394,8 @@ M_Write(void)
       it++;
     }
 
-   
-    m_WriteStream->write((char *)data,(m_NDims*m_NDims+4)*m_NPoints*elementSize);  
+    m_WriteStream->write((char *)data,(m_NDims*m_NDims+4)*m_NPoints*elementSize); 
+    delete [] data;
   }
   else
   {

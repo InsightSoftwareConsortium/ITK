@@ -41,7 +41,10 @@ public:
     m_Color[2]=0.0;
     m_Color[3]=1.0;
   }
-  ~BlobPnt(){};
+  ~BlobPnt()
+  { 
+    delete m_X;
+  };
   
   unsigned int m_Dim;
   float* m_X;
@@ -81,14 +84,6 @@ class MetaBlob : public MetaObject
 
     void CopyInfo(const MetaBlob * _tube);
 
-    //
-    //
-    //
-    bool Read(const char *_headerName=NULL);
-
-    bool Write(const char *_headName=NULL);
-
-
     //    NPoints(...)
     //       Required Field
     //       Number of points wich compose the tube
@@ -104,11 +99,8 @@ class MetaBlob : public MetaObject
 
     void  Clear(void);
 
-    PointListType* GetPoints(void) {return &m_PointList;}
-
-    bool ReadStream(int ndims, std::ifstream * stream);
-
-    bool Append(const char *_headName=NULL);
+    PointListType & GetPoints(void) {return m_PointList;}
+    const PointListType & GetPoints(void) const  {return m_PointList;}
  
     MET_ValueEnumType ElementType(void) const;
     void  ElementType(MET_ValueEnumType _elementType);

@@ -17,9 +17,6 @@
  * 
  * \date July 02, 2002
  * 
- * Depends on:
- *    MetaUtils.h
- *    MetaFileLib.h
  */
 
 class SurfacePnt
@@ -42,7 +39,11 @@ public:
     m_Color[2]=0.0;
     m_Color[3]=1.0;
   }
-  ~SurfacePnt(){};
+  ~SurfacePnt()
+  {
+    delete m_X;
+    delete m_V;
+  };
   
   unsigned int m_Dim;
   float* m_X;
@@ -73,7 +74,7 @@ class MetaSurface : public MetaObject
 
     MetaSurface(const char *_headerName);   
 
-    MetaSurface(const MetaSurface *_tube); 
+    MetaSurface(const MetaSurface *_surface); 
     
     MetaSurface(unsigned int dim);
 
@@ -81,15 +82,7 @@ class MetaSurface : public MetaObject
 
     void PrintInfo(void) const;
 
-    void CopyInfo(const MetaSurface * _tube);
-
-    //
-    //
-    //
-    bool Read(const char *_headerName=NULL);
-
-    bool Write(const char *_headName=NULL);
-
+    void CopyInfo(const MetaSurface * _surface);
 
     //    NPoints(...)
     //       Required Field
@@ -106,12 +99,9 @@ class MetaSurface : public MetaObject
 
     void  Clear(void);
 
-    PointListType* GetPoints(void) {return &m_PointList;}
-
-    bool ReadStream(int ndims, std::ifstream * stream);
-
-    bool Append(const char *_headName=NULL);
-
+    PointListType & GetPoints(void) {return m_PointList;}
+    const PointListType & GetPoints(void) const {return m_PointList;}
+    
     MET_ValueEnumType ElementType(void) const;
     void  ElementType(MET_ValueEnumType _elementType);
 

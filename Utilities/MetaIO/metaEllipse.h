@@ -19,7 +19,7 @@
  * 
  * Depends on:
  *    MetaUtils.h
- *    MetaFileLib.h
+ *    MetaObject.h
  */
 
 
@@ -52,20 +52,8 @@ class MetaEllipse : public MetaObject
 
     void CopyInfo(const MetaEllipse * _ellipse);
 
-    //
-    //
-    //
-    bool Read(const char *_headerName=NULL);
-
-    bool Write(const char *_headName=NULL);
-
-
     void  Clear(void);
-
-    bool ReadStream(int ndims, std::ifstream * stream);
-
-    bool Append(const char *_headName=NULL);
- 
+    
     void  Radius(const float* radius);
     void  Radius(float radius);
     void  Radius(float r1,float r2);

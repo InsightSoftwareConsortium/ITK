@@ -45,10 +45,11 @@ MetaScene(unsigned int dim)
 }
 
 
-//
+/** Destructor */
 MetaScene::
 ~MetaScene()
 {
+  Clear();
   M_Destroy();
 }
 
@@ -103,6 +104,11 @@ Read(const char *_headerName)
 
   if(META_DEBUG) std::cout << "MetaScene: Read: Opening stream" << std::endl;
  
+  if(!m_ReadStream)
+  {
+    m_ReadStream = new std::ifstream;
+  }
+  
   m_ReadStream->open(m_FileName, std::ios::binary | std::ios::in);
   
   if(!m_ReadStream->is_open())
@@ -195,6 +201,11 @@ Write(const char *_headName)
 
   M_SetupWriteFields();
 
+  if(!m_WriteStream)
+  { 
+    m_WriteStream = new std::ofstream;
+  }
+
   m_WriteStream->open(m_FileName, std::ios::binary | std::ios::out);
   if(!m_WriteStream->is_open())
     {
@@ -205,7 +216,7 @@ Write(const char *_headName)
 
   m_WriteStream->close();
 
-  /** Then we write all the metanets registered */
+  /** Then we write all the objects in the scene */
   ObjectListType::const_iterator it = m_ObjectList.begin();
   while(it != m_ObjectList.end())
   {
@@ -222,6 +233,17 @@ Clear(void)
 {
   if(META_DEBUG) std::cout << "MetaScene: Clear" << std::endl;
   MetaObject::Clear();
+  // Delete the list of pointers to objects in the scene.
+  ObjectListType::iterator it = m_ObjectList.begin();
+  while(it != m_ObjectList.end())
+  {
+    MetaObject* object = *it;
+    it++;
+    delete object;
+  }
+
+  m_ObjectList.clear();
+
 }
         
 /** Destroy tube information */
@@ -240,8 +262,6 @@ M_SetupReadFields(void)
   MetaObject::M_SetupReadFields();
 
   MET_FieldRecordType * mF;
-
-  //int nDimsRecNum = MET_GetFieldRecordNumber("NDims", &m_Fields);
 
   mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "NObjects", MET_INT, false);

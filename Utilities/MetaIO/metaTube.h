@@ -16,10 +16,6 @@
  * \author Julien Jomier
  * 
  * \date May 22, 2002
- * 
- * Depends on:
- *    MetaUtils.h
- *    MetaFileLib.h
  */
 
 class TubePnt
@@ -27,7 +23,8 @@ class TubePnt
 public:
 
   TubePnt(int dim)
-  { m_Dim = dim;
+  { 
+    m_Dim = dim;
     m_X = new float[m_Dim];
     m_V1= new float[m_Dim];
     m_V2= new float[m_Dim];
@@ -52,12 +49,18 @@ public:
     m_Color[3]=1.0;
    
   }
-  ~TubePnt(){};
+
+  ~TubePnt()
+  {
+    delete m_X;
+    delete m_V1;
+    delete m_V2;
+  };
   
   unsigned int m_Dim;
-  float* m_X;
   float* m_V1;
   float* m_V2;
+  float* m_X;
   float m_Alpha1;
   float m_Alpha2;
   float m_R;
@@ -66,6 +69,7 @@ public:
   float m_Branchness;
   bool  m_Mark;
   float m_Color[4];
+
 };
 
 
@@ -101,14 +105,6 @@ class MetaTube : public MetaObject
 
     void CopyInfo(const MetaTube * _tube);
 
-    //
-    //
-    //
-    bool Read(const char *_headerName=NULL);
-
-    bool Write(const char *_headName=NULL);
-
-
     //    NPoints(...)
     //       Required Field
     //       Number of points wich compose the tube
@@ -136,11 +132,9 @@ class MetaTube : public MetaObject
 
     void  Clear(void);
 
-    PointListType* GetPoints(void) {return &m_PointList;}
+    PointListType &  GetPoints(void) {return m_PointList;}
+    const PointListType &  GetPoints(void) const {return m_PointList;}
 
-    bool ReadStream(int ndims, std::ifstream * stream);
-
-    bool Append(const char *_headName=NULL);
   ////
   //
   // PROTECTED

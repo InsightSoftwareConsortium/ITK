@@ -11,7 +11,7 @@
 #include <metaImage.h>
 
 //
-// MedImage Constructors
+// MetaImage Constructors
 //
 MetaImage::
 MetaImage()
@@ -581,7 +581,11 @@ Read(const char *_headerName, bool _readElements, void * _buffer)
     {
     strcpy(m_FileName, _headerName);
     }
-
+  
+  if(!m_ReadStream)
+  {
+    m_ReadStream = new std::ifstream;
+  }
   m_ReadStream->open(m_FileName, std::ios::binary | std::ios::in);
   if(!m_ReadStream->is_open())
     {
@@ -679,6 +683,7 @@ Read(const char *_headerName, bool _readElements, void * _buffer)
           readStreamTemp->close();
           }
         }
+        delete readStreamTemp;
       }
     else if(strstr(m_ElementDataFileName, "%"))
       {
@@ -738,6 +743,7 @@ Read(const char *_headerName, bool _readElements, void * _buffer)
 
         readStreamTemp->close();
         }
+        delete readStreamTemp;
       }
     else
       {
@@ -759,6 +765,7 @@ Read(const char *_headerName, bool _readElements, void * _buffer)
         }
       M_ReadElements(readStreamTemp, m_ElementData, m_Quantity);
       readStreamTemp->close();
+      delete readStreamTemp;
       }
     }
 
@@ -805,6 +812,10 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
 
   M_SetupWriteFields();
 
+  if(!m_WriteStream)
+  {
+    m_WriteStream = new std::ofstream;
+  }
   m_WriteStream->open(m_FileName, std::ios::binary | std::ios::out);
   if(!m_WriteStream->is_open())
     {
@@ -861,6 +872,7 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
         writeStreamTemp->close();
         return true;
         }
+      delete writeStreamTemp; 
       }
     }
       
@@ -1184,9 +1196,12 @@ bool MetaImage
     FileName(_headName);
     }
 
-  //m_NPoints = m_PointList.size();
-
   M_SetupWriteFields();
+
+  if(!m_WriteStream)
+  {
+    m_WriteStream = new std::ofstream;
+  }
 
   m_WriteStream->open(m_FileName, std::ios::binary | std::ios::app | std::ios::out);
   if(!m_WriteStream->is_open())
@@ -1243,6 +1258,7 @@ bool MetaImage
       writeStreamTemp->close();
       return true;
       }
+    delete writeStreamTemp;
     }
   return true;
 
@@ -1373,15 +1389,12 @@ ReadStream(int ndims, std::ifstream * stream)
   mF->value[0] = ndims;
   mF->defined = true;
 
-  m_ReadStream = stream;
-
-
-  /*m_ReadStream->open(m_FileName, std::ios::binary | std::ios::out);
-  if(!m_ReadStream->is_open())
+  if(m_ReadStream)
   {
-    std::cout << "MetaImage: Read: Cannot open file" << std::endl;
-    return false;
-  }*/
+    delete m_ReadStream;
+  }
+
+  m_ReadStream = stream;
 
   if(!M_Read())
   {
@@ -1396,11 +1409,6 @@ ReadStream(int ndims, std::ifstream * stream)
                       m_ElementNumberOfChannels, 
                       NULL);
 
-/*  if(_headerName != NULL)
-  {
-    strcpy(m_FileName, _headerName);
-  }
-*/
   int i, j;
   bool usePath;
   char pathName[255];
@@ -1418,7 +1426,7 @@ ReadStream(int ndims, std::ifstream * stream)
     char s[255];
     std::ifstream* readStreamTemp = new std::ifstream;
     for(i=0; i<m_DimSize[m_NDims-1] && !m_ReadStream->eof(); i++)
-   {
+    {
       m_ReadStream->getline(s, 255);
       if(!m_ReadStream->eof())
       {
@@ -1450,6 +1458,7 @@ ReadStream(int ndims, std::ifstream * stream)
         readStreamTemp->close();
       }
     }
+    delete readStreamTemp;
   }
   else if(strstr(m_ElementDataFileName, "%"))
   {
@@ -1497,6 +1506,7 @@ ReadStream(int ndims, std::ifstream * stream)
 
       readStreamTemp->close();
     }
+    delete readStreamTemp;
   }
   else
   {
@@ -1520,9 +1530,10 @@ ReadStream(int ndims, std::ifstream * stream)
     }
     M_ReadElements(readStreamTemp, m_ElementData, m_Quantity);
     readStreamTemp->close();
+    delete readStreamTemp;
   }
 
-  //m_ReadStream->close();
+  m_ReadStream=NULL;
 
   return true;
 }

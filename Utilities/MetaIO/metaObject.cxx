@@ -19,8 +19,8 @@ MetaObject(void)
   m_NDims = 0;
   m_Fields.clear();
   MetaObject::Clear();
-  m_ReadStream = new std::ifstream;
-  m_WriteStream = new std::ofstream;
+  m_ReadStream = NULL;
+  m_WriteStream = NULL;
   }
 
 MetaObject::
@@ -29,8 +29,8 @@ MetaObject(const char * _fileName)
   m_NDims = 0;
   m_Fields.clear();
   MetaObject::Clear();
-  m_ReadStream = new std::ifstream;
-  m_WriteStream = new std::ofstream;
+  m_ReadStream = NULL;
+  m_WriteStream = NULL;
   this->Read(_fileName);
   }
 
@@ -40,19 +40,31 @@ MetaObject(unsigned int dim)
   m_NDims = 0;
   m_Fields.clear();
   MetaObject::Clear();
-  m_ReadStream = new std::ifstream;
-  m_WriteStream = new std::ofstream;
+  m_ReadStream = NULL;
+  m_WriteStream = NULL;
   InitializeEssential(dim);
   }
 
 
 MetaObject::
 ~MetaObject(void)
-  {
+{
   M_Destroy();
   delete m_ReadStream;
   delete m_WriteStream;
+
+  // clear the pointer in the m_Fields list
+  std::vector<MET_FieldRecordType *>::iterator it = m_Fields.begin();
+  while(it != m_Fields.end())
+  {
+    MET_FieldRecordType* field = *it;
+    it++;
+    delete field;
   }
+  
+
+  m_Fields.clear();
+}
 
 //
 //
@@ -111,6 +123,11 @@ Read(const char *_fileName)
 
   M_SetupReadFields();
 
+  if(!m_ReadStream)
+  {
+    m_ReadStream = new std::ifstream;
+  }
+
   m_ReadStream->open(m_FileName);
   if(!m_ReadStream->is_open())
     {
@@ -142,10 +159,15 @@ ReadStream(int _nDims, std::ifstream * _stream)
   mF->value[0] = _nDims;
   mF->defined = true;
  
-  m_ReadStream = _stream;
- 
-  bool result = M_Read();
+  if(m_ReadStream)
+  {
+    delete m_ReadStream;
+  }
 
+  m_ReadStream = _stream;
+
+  bool result = M_Read();
+  m_ReadStream= NULL;
   return result;
 }
 
@@ -161,11 +183,16 @@ Write(const char *_fileName)
 
   M_SetupWriteFields();
 
+  if(!m_WriteStream)
+  {
+    m_WriteStream = new std::ofstream;
+  }  
+ 
   m_WriteStream->open(m_FileName);
   if(!m_WriteStream->is_open())
-    {
+  {
     return false;
-    }
+  }
 
   bool result = M_Write();
 
@@ -1019,3 +1046,33 @@ M_Write(void)
 
   return true;
   }
+
+
+bool MetaObject
+::Append(const char *_headName)
+{
+  if(META_DEBUG) std::cout << "MetaObject: Append" << std::endl;
+
+  if(_headName != NULL)
+  {
+    FileName(_headName);
+  }
+
+  M_SetupWriteFields();
+
+  if(!m_WriteStream)
+  {
+    m_WriteStream = new std::ofstream;
+  }
+  m_WriteStream->open(m_FileName, std::ios::binary | std::ios::app | std::ios::out);
+  if(!m_WriteStream->is_open())
+  {
+    return false;
+  }
+
+  M_Write();
+  
+  m_WriteStream->close();
+  return true;
+
+}

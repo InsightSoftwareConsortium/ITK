@@ -93,7 +93,7 @@ class MetaObject
 
       bool  Write(const char * _fileName=NULL);
 
-      virtual bool Append(const char *_headName=NULL) {std::cout << "Not Implemented !" << std::endl; return true;}
+      virtual bool Append(const char *_headName=NULL);
 
       ////
       //

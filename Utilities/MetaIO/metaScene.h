@@ -15,11 +15,8 @@
  *
  * \author Julien Jomier
  * 
- * \date May 22, 2002
- * 
- * Depends on:
- *    MetaUtils.h
- *    MetaFileLib.h
+ * \date July, 2002
+ *
  */
 
 
@@ -65,8 +62,6 @@ class MetaScene : public MetaObject
     bool Append(const char *_headName=NULL) {std::cout << "Not Implemented !" << std::endl;return true;}
 
     void  Clear(void);
-
-    //ObjectListType* GetObjects(void) {return &m_ObjectList;}
 
     
     //    NObjects(...)

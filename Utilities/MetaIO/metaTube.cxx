@@ -8,19 +8,16 @@
 #include <metaObject.h>
 #include <metaTube.h>
 
-//
-// MedImage Constructors
-//
+/** MetaTube Constructors */
 MetaTube::
 MetaTube()
 :MetaObject()
 {
   if(META_DEBUG) std::cout << "MetaTube()" << std::endl;
   Clear();
-
 }
 
-//
+
 MetaTube::
 MetaTube(const char *_headerName)
 :MetaObject()
@@ -30,7 +27,7 @@ MetaTube(const char *_headerName)
   Read(_headerName);
 }
 
-//
+
 MetaTube::
 MetaTube(const MetaTube *_tube)
 :MetaObject()
@@ -41,8 +38,6 @@ MetaTube(const MetaTube *_tube)
 }
 
 
-
-//
 MetaTube::
 MetaTube(unsigned int dim)
 :MetaObject(dim)
@@ -51,10 +46,19 @@ MetaTube(unsigned int dim)
   Clear();
 }
 
-//
+/** Destructor */
 MetaTube::
 ~MetaTube()
 {
+  // Delete the list of pointers to tubes.
+  PointListType::iterator it = m_PointList.begin();
+  while(it != m_PointList.end())
+  {
+    TubePnt* pnt = *it;
+    it++;
+    delete pnt;
+  }  
+  m_PointList.clear();
   M_Destroy();
 }
 
@@ -127,136 +131,22 @@ ParentPoint(void) const
   return m_ParentPoint;
 }
 
-
-bool MetaTube::
-ReadStream(int ndims, std::ifstream * stream)
-{
-  
-  if(META_DEBUG)  std::cout << "MetaTube: ReadStream" << std::endl;
-
-  M_Destroy();
-  Clear();
-
-  M_SetupReadFields();
-
-  MET_FieldRecordType * mF = MET_GetFieldRecord("NDims", &m_Fields);
-  mF->value[0] = ndims;
-  mF->defined = true;
-
-  m_ReadStream = stream;
-  bool result = M_Read();
-  return result;
-}
-
-bool MetaTube::
-Read(const char *_headerName)
-{
-  if(META_DEBUG) std::cout << "MetaTube: Read" << std::endl;
-
-  M_Destroy();
-
-  Clear();
-
-  M_SetupReadFields();
-
-  if(_headerName != NULL)
-  {
-    strcpy(m_FileName, _headerName);
-  }
-
-  if(META_DEBUG) std::cout << "MetaTube: Read: Opening stream" << std::endl;
- 
-  m_ReadStream->open(m_FileName, std::ios::binary | std::ios::in);
-  
-  if(!m_ReadStream->is_open())
-  {
-    std::cout << "MetaTube: Read: Cannot open file" << std::endl;
-    return false;
-  }
-
-  if(!M_Read())
-  {
-    std::cout << "MetaTube: Read: Cannot parse file" << std::endl;
-    return false;
-  }
-
-  if(_headerName != NULL)
-  {
-    strcpy(m_FileName, _headerName);
-  }
-
-  m_ReadStream->close();
-
-  return true;
-}
-
-//
-//
-//
-bool MetaTube::
-Write(const char *_headName)
-{
-  if(META_DEBUG) std::cout << "MetaTube: Write" << std::endl;
-
-  if(_headName != NULL)
-    {
-    FileName(_headName);
-    }
-
-  m_NPoints = m_PointList.size();
-
-  M_SetupWriteFields();
-
-  m_WriteStream->open(m_FileName, std::ios::binary | std::ios::out);
-  if(!m_WriteStream->is_open())
-    {
-    return false;
-    }
-
-  M_Write();
-      
-  m_WriteStream->close();
-
-  return true;
-}
-  
-
-bool MetaTube
-::Append(const char *_headName)
-{
-  if(META_DEBUG) std::cout << "MetaTube: Append" << std::endl;
-
-  if(_headName != NULL)
-  {
-    FileName(_headName);
-  }
-
-  m_NPoints = m_PointList.size();
-
-  M_SetupWriteFields();
-
-  m_WriteStream->open(m_FileName, std::ios::binary | std::ios::app | std::ios::out);
-  if(!m_WriteStream->is_open())
-  {
-    return false;
-  }
-
-  M_Write();
-  
-  m_WriteStream->close();
-  return true;
-
-}
-
-
-
-
 /** Clear tube information */
 void MetaTube::
 Clear(void)
 {
   if(META_DEBUG) std::cout << "MetaTube: Clear" << std::endl;
   MetaObject::Clear();
+  // Delete the list of pointers to tubes.
+  PointListType::iterator it = m_PointList.begin();
+  while(it != m_PointList.end())
+  {
+    TubePnt* pnt = *it;
+    it++;
+    delete pnt;
+  }  
+  m_PointList.clear();
+
   m_ParentPoint= -1;
   m_Root = 0;
   m_NPoints = 0;
@@ -328,6 +218,8 @@ M_SetupWriteFields(void)
                            strlen(m_PointDim),m_PointDim);
     m_Fields.push_back(mF);
   }
+
+  m_NPoints = m_PointList.size();
   mF = new MET_FieldRecordType;
   MET_InitWriteField(mF, "NPoints", MET_INT,m_NPoints);
   m_Fields.push_back(mF);
@@ -504,11 +396,11 @@ M_Read(void)
   }
 
   float v[20];
-  TubePnt* pnt;
+  
 
   for(j=0; j<m_NPoints; j++) 
   {
-    pnt = new TubePnt(m_NDims);
+   TubePnt* pnt = new TubePnt(m_NDims);
 
     for(int k=0; k<pntDim; k++)
     {
@@ -516,14 +408,13 @@ M_Read(void)
       m_ReadStream->get();
     }
 
-    float* x = new float[m_NDims];
+    //float* x = new float[m_NDims];
     for(int d=0; d<m_NDims; d++)
     {
-      x[d] = v[posDim[d]];
+      pnt->m_X[d] = v[posDim[d]];
     }
 
-    pnt->m_X = x;
-
+    //pnt->m_X = x;
     pnt->m_R = v[posR];
 
     if(posMn >= (int)0 && posMn < pntDim)
@@ -546,7 +437,7 @@ M_Read(void)
      pnt->m_Mark = (v[posMk] > 0) ? true:false;
     }
 
-    pnt->m_V1 = new float[m_NDims];
+    //pnt->m_V1 = new float[m_NDims];
     if(posV1x>=0 && posV1x<pntDim)
     {
       pnt->m_V1[0] = v[posV1x]; 
@@ -589,6 +480,7 @@ M_Read(void)
     c = m_ReadStream->get();// to avoid unrecognize charactere
   }
   
+  delete posDim;
   return true;
 }
 
