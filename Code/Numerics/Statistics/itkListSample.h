@@ -114,10 +114,13 @@ public:
   FrequencyType GetTotalFrequency() const
   { return static_cast<FrequencyType>( m_InternalContainer.size() ); }
 
-  
+  class ConstIterator;
  
   class Iterator
   {
+
+    friend ConstIterator;
+
   public:
     
     Iterator(){}
@@ -155,7 +158,7 @@ public:
     bool operator==(const Iterator &it)
     { return (m_Iter == it.m_Iter) ;}
     
-    Iterator& operator = (const Iterator iter)
+    Iterator& operator = (const Iterator & iter)
     { 
       m_Iter = iter.m_Iter; 
       m_InstanceIdentifier = iter.m_InstanceIdentifier ;
@@ -220,7 +223,21 @@ public:
       return *this ;
     }
 
+    ConstIterator& operator = (const Iterator & iter)
+    { 
+      m_Iter = iter.m_Iter; 
+      m_InstanceIdentifier = iter.m_InstanceIdentifier ;
+      return *this ;
+    }
+
+
     ConstIterator(const ConstIterator &iter)
+    {
+      m_Iter = iter.m_Iter; 
+      m_InstanceIdentifier = iter.m_InstanceIdentifier ;
+    }
+
+    ConstIterator(const Iterator &iter)
     {
       m_Iter = iter.m_Iter; 
       m_InstanceIdentifier = iter.m_InstanceIdentifier ;
