@@ -1,7 +1,7 @@
 /**
 \page NeighborhoodIteratorsPage Neighborhood Iterators
 
-\section Introduction
+\section IntroductionSection Introduction
 This document provides a general overview of the intended use of the
 NeighborhoodIterator classes and their associated objects for low-level image
 processing in Itk.  For a more detailed description of the API, please refer to
@@ -50,7 +50,7 @@ unmanageable levels.  In Itk, we have encapsulated this functionality for
 efficiency, readability, and reusability. ( In the code examples that follow,
 some template parameters may have been omitted for clarity. )
 
-\section Neighborhood iterators
+\section NeighborhoodIteratorsSection Neighborhood iterators
 itk::Image neighborhood iteration and dereferencing is encapsulated in the
 itk::NeighborhoodIterator classes. ITK NeighborhoodIterators allow for code
 that is closer to the algorithmic abstraction,
@@ -103,7 +103,7 @@ to:
 \endcode
 produces an averaging filter for five-dimensional images. 
 
-\section Neighborhood operators and operations
+\section OperatorsOperationsSection Neighborhood operators and operations
 NeighborhoodOperators are container classes for generating and storing
 computational kernels such as LaPlacian, Gaussian, derivative, and
 morphological operators.  They provide a generalized interface for creation and 
@@ -157,7 +157,7 @@ returns the stride length in pixels along an axis n, have been provided to help
 in coding algorithms for arbitrary dimensionality.  The index of the center
 pixel in a neighborhood is always Size()/2.
 
-\section Calculations at image boundaries
+\section ImageBoundariesSection Calculations at image boundaries
   For any neighborhood operation, conditions at data set boundaries become
 important.  SmartNeighborhoodIterator defines a special class of neighborhood
 iterators that transparently handle boundary conditions.  These iterators store
@@ -233,7 +233,7 @@ faces of the image (because an image region is defined only by a single index
 and size, no single composite boundary region is possible).  The list is
 traversed with an iterator.
 
-\section Further information
+\section FurtherInformationSection Further information
 Many filters in Itk use the neighborhood iterators and operators.  Some
 canonical examples of their use include the class of
 AnisotropicDiffusionFunctions and the morphological image filters.
