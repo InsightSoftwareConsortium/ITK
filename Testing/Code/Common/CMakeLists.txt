@@ -8,6 +8,7 @@ ENDIF(ITK_BINARY_DIR)
 
 SET(COMMON_TESTS ${CXX_TEST_PATH}/itkCommonTests)
 SET(COMMON_HEADER_TEST ${CXX_TEST_PATH}/itkCommonHeaderTest)
+SET(SYSTEM_INFORMATION_TEST ${CXX_TEST_PATH}/itkCommonHeaderTest)
 
 ADD_TEST(itkModifiedTimeTest ${COMMON_TESTS} itkModifiedTimeTest)
 ADD_TEST(itkAdaptorComparisonTest ${COMMON_TESTS} itkAdaptorComparisonTest)
@@ -90,9 +91,48 @@ ADD_TEST(itkScaleTransformTest ${COMMON_TESTS} itkScaleTransformTest)
 ADD_TEST(itkSplineKernelTransformTest ${COMMON_TESTS} itkSplineKernelTransformTest)
 ADD_TEST(itkEllipsoidInteriorExteriorSpatialFunctionTest ${COMMON_TESTS} itkEllipsoidInteriorExteriorSpatialFunctionTest)
 ADD_TEST(itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest ${COMMON_TESTS} itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest)
-ADD_TEST(itkSystemInformationTest ${COMMON_TESTS} itkSystemInformationTest "${ITK_BINARY_DIR}/Testing/HTML/TestingResults/Sites/${SITE}/${BUILDNAME}/BuildNameNotes.xml")
 ADD_TEST(itkMetaDataDictionaryTest ${COMMON_TESTS} itkMetaDataDictionaryTest)
 ADD_TEST(itkSTLThreadTest ${COMMON_TESTS} itkSTLThreadTest)
+
+#-----------------------------------------------------------------------------
+# Setup the system information test.  Write out some basic failsafe
+# information in case the test doesn't run.
+
+ADD_TEST(itkSystemInformationTest ${SYSTEM_INFORMATION_TEST})
+
+IF(ITK_BINARY_DIR)
+  SET(ITK_SYSTEM_INFORMATION_DIR ${ITK_BINARY_DIR})
+ELSE(ITK_BINARY_DIR)
+  SET(ITK_SYSTEM_INFORMATION_DIR ${ITKTesting_BINARY_DIR})
+ENDIF(ITK_BINARY_DIR)
+
+WRITE_FILE(
+  "${ITK_SYSTEM_INFORMATION_DIR}/Testing/HTML/TestingResults/Sites/${SITE}/${BUILDNAME}/BuildNameNotes.xml"
+
+  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+  "<Site BuildName=\"CMakeCache\" Name=\"crd\">\n"
+  "<BuildNameNotes>\n"
+  "<Note>\n"
+  "<DateTime>Wed Oct 24 1:00:00 EST</DateTime>\n"
+  "<Text>\n"
+  "The full itkSystemInformationTest did not run.\n"
+  "Here is some basic information:\n"
+  "ITK_SOURCE_DIR = ${ITK_SOURCE_DIR}\n"
+  "ITK_BINARY_DIR = ${ITK_BINARY_DIR}\n"
+  "ITKTesting_SOURCE_DIR = ${ITKTesting_SOURCE_DIR}\n"
+  "ITKTesting_BINARY_DIR = ${ITKTesting_BINARY_DIR}\n"
+  "CMAKE_C_COMPILER = ${CMAKE_C_COMPILER}\n"
+  "CMAKE_C_FLAGS = ${CMAKE_C_FLAGS}\n"
+  "CMAKE_CXX_COMPILER = ${CMAKE_CXX_COMPILER}\n"
+  "CMAKE_CXX_FLAGS = ${CMAKE_CXX_FLAGS}\n"
+  "CMAKE_SYSTEM = ${CMAKE_SYSTEM}\n"
+  "CMAKE_MAKE_PROGRAM = ${CMAKE_MAKE_PROGRAM}\n"
+  "</Text>\n"
+  "</Note>\n"
+  "</BuildNameNotes>\n"
+  "</Site>\n"
+)
+#-----------------------------------------------------------------------------
 
 SET(BasicTests_SRCS
 itkModifiedTimeTest.cxx
@@ -176,7 +216,6 @@ itkVectorInterpolateImageFunctionTest.cxx
 itkVectorToRGBImageAdaptorTest.cxx
 itkEllipsoidInteriorExteriorSpatialFunctionTest.cxx
 itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest.cxx
-itkSystemInformationTest.cxx
 itkMetaDataDictionaryTest.cxx
 itkSTLThreadTest.cxx
 )
@@ -186,6 +225,7 @@ CONFIGURE_FILE(${ITKTesting_SOURCE_DIR}/Code/Common/itkSystemInformationTest.h.i
                @ONLY IMMEDIATE)
 INCLUDE_DIRECTORIES("${ITKTesting_BINARY_DIR}")
 
+ADD_EXECUTABLE(itkSystemInformationTest itkSystemInformationTest.cxx)
 ADD_EXECUTABLE(itkCommonHeaderTest itkCommonHeaderTest.cxx)
 ADD_EXECUTABLE(itkCommonTests itkCommonTests.cxx ${BasicTests_SRCS})
 TARGET_LINK_LIBRARIES(itkCommonHeaderTest ITKCommon)

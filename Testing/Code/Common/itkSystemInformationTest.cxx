@@ -15,7 +15,7 @@
 
 =========================================================================*/
 
-#include "itkLightObject.h"
+#include <iostream>
 #include <fstream>
 #include <Code/Common/itkSystemInformationTest.h>
 #include <sys/stat.h>
@@ -25,6 +25,11 @@
 #else
 # define ITK_SYSTEM_INFORMATION_DIR ITKTesting_BINARY_DIR
 #endif
+
+// Construct the name of the notes file.
+#define ITK_SYSTEM_INFORMATION_NOTES \
+  ITK_SYSTEM_INFORMATION_DIR "/Testing/HTML/TestingResults/Sites/" \
+  ITKTesting_SITE "/" ITKTesting_BUILD_NAME "/BuildNameNotes.xml"
 
 void itkSystemInformationPrintFile(const char* name, std::ostream& os)
 {
@@ -69,7 +74,7 @@ void itkSystemInformationPrintFile(const char* name, std::ostream& os)
     }
 }
 
-int itkSystemInformationTest(int,char *argv[])
+int main(int,char *[])
 {
   const char* files[] =
     {
@@ -81,28 +86,41 @@ int itkSystemInformationTest(int,char *argv[])
       ITK_SYSTEM_INFORMATION_DIR "/ITKConfig.cmake",
       0
     };
-
-  const char** f;
-
-  std::ofstream outf(argv[1], std::ios::out);
-  outf << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << std::endl;
-  outf << "<Site BuildName=\"CMakeCache\"  Name=\"crd\">" << std::endl;
-  outf << "<BuildNameNotes>" << std::endl;
-  outf << "<Note>" << std::endl;
-  outf << "<DateTime>Wed Oct 24 1:00:00 EST</DateTime>" << std::endl;
-  outf << "<Text>" << std::endl;
- 
   
+  const char** f;  
   for(f = files; *f; ++f)
     {
-    itkSystemInformationPrintFile(*f, outf);
+    itkSystemInformationPrintFile(*f, std::cout);
     }
   
-  outf << "</Text>" << std::endl;
-  outf << "</Note>" << std::endl;
-  outf << "</BuildNameNotes>" << std::endl;
-  outf << "</Site>" << std::endl;
-
+  std::ofstream outf(ITK_SYSTEM_INFORMATION_NOTES, std::ios::out);
+  if(outf)
+    {
+    std::cout << "Also writing this information to file " << ITK_SYSTEM_INFORMATION_NOTES << "\n";
+  
+    outf << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << std::endl;
+    outf << "<Site BuildName=\"CMakeCache\"  Name=\"crd\">" << std::endl;
+    outf << "<BuildNameNotes>" << std::endl;
+    outf << "<Note>" << std::endl;
+    outf << "<DateTime>Wed Oct 24 1:00:00 EST</DateTime>" << std::endl;
+    outf << "<Text>" << std::endl;
+    
+    for(f = files; *f; ++f)
+      {
+      itkSystemInformationPrintFile(*f, outf);
+      }
+    
+    outf << "</Text>" << std::endl;
+    outf << "</Note>" << std::endl;
+    outf << "</BuildNameNotes>" << std::endl;
+    outf << "</Site>" << std::endl;
+    }
+  else
+    {
+    std::cerr << "Error writing this information to file " << ITK_SYSTEM_INFORMATION_NOTES << "\n";
+    return 1;
+    }
+  
   return 0;
 } 
 
