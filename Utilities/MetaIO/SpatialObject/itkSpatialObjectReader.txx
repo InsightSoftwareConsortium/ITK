@@ -30,6 +30,7 @@ SpatialObjectReader<NDimensions,PixelType>
 ::SpatialObjectReader()
 {
   m_FullFileName = "";
+  m_FileName = "";
   m_Scene = 0;
   m_Group = 0;
 }
@@ -46,18 +47,40 @@ void
 SpatialObjectReader<NDimensions,PixelType>
 ::Update()
 { 
+  if(m_FullFileName == "")
+    {
+    m_FullFileName = m_FileName;
+    }
   m_Scene = m_MetaToSpatialConverter.ReadMeta(m_FullFileName.c_str());
 
-  m_Group = GroupType::New();
-  typename SceneType::ObjectListType * list = m_Scene->GetObjects(0);
-  typename SceneType::ObjectListType::iterator it = list->begin();
-  typename SceneType::ObjectListType::iterator it_end = list->end();
-  while(it != it_end)
+  if(m_Scene->GetNumberOfObjects(0) == 1)
     {
-    m_Group->AddSpatialObject(static_cast<SpatialObjectType *>(*it));
-    it++;
+    typename SceneType::ObjectListType * list = m_Scene->GetObjects(0);
+    typename SceneType::ObjectListType::iterator it = list->begin();
+    if(!strncmp((*it)->GetTypeName(), "Group", 5))
+      {
+      m_Group = static_cast<GroupType *>(*it);
+      }
+    else
+      {
+      m_Group = GroupType::New();
+      m_Group->AddSpatialObject(static_cast<SpatialObjectType *>(*it));
+      }
+    delete list;
     }
-  delete list;
+  else
+    {
+    m_Group = GroupType::New();
+    typename SceneType::ObjectListType * list = m_Scene->GetObjects(0);
+    typename SceneType::ObjectListType::iterator it = list->begin();
+    typename SceneType::ObjectListType::iterator it_end = list->end();
+    while(it != it_end)
+      {
+      m_Group->AddSpatialObject(static_cast<SpatialObjectType *>(*it));
+      it++;
+      }
+    delete list;
+    }
 }
 
 } // namespace itk

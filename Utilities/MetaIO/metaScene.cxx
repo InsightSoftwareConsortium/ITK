@@ -11,6 +11,7 @@
 #include <metaEllipse.h>
 #include <metaImage.h>
 #include <metaBlob.h>
+#include <metaLandmark.h>
 #include <metaLine.h>
 #include <metaGroup.h>
 #include <metaSurface.h>
@@ -93,6 +94,14 @@ Read(const char *_headerName)
 {
   if(META_DEBUG) std::cout << "MetaScene: Read" << std::endl;
 
+  int i = 0;
+  char suf[80];
+  suf[0] = '\0';
+  if(MET_GetFileSuffixPtr(_headerName, &i))
+    {
+    strcpy(suf, &_headerName[i]);
+    }
+
   M_Destroy();
 
   Clear();
@@ -132,59 +141,77 @@ Read(const char *_headerName)
   }
 
   /** Objects should be added here */
-  for(int i=0;i<m_NObjects;i++)
+  for(i=0;i<m_NObjects;i++)
   {
-    
-    if(!strncmp(MET_ReadType(*m_ReadStream),"Landmark",8))
-    {
-      MetaLandmark* landmark = new MetaLandmark();
-      landmark->ReadStream(m_NDims,m_ReadStream);
-      m_ObjectList.push_back(landmark);
-    }
+    if(META_DEBUG) std::cout << MET_ReadType(*m_ReadStream) << std::endl;
 
-    else if(!strncmp(MET_ReadType(*m_ReadStream),"Tube",4))
+    if(!strncmp(MET_ReadType(*m_ReadStream),"Tube",4) || 
+       (MET_ReadType(*m_ReadStream) == NULL && !strcmp(suf, "tre")))
     {
       MetaTube* tube = new MetaTube();
       tube->ReadStream(m_NDims,m_ReadStream);
       m_ObjectList.push_back(tube);
     }
 
-    else if(!strncmp(MET_ReadType(*m_ReadStream),"Ellipse",7))
+    else if(!strncmp(MET_ReadType(*m_ReadStream),"Ellipse",7) ||
+            (MET_ReadType(*m_ReadStream) == NULL && !strcmp(suf, "elp")))
     {
       MetaEllipse* ellipse = new MetaEllipse();
       ellipse->ReadStream(m_NDims,m_ReadStream);
       m_ObjectList.push_back(ellipse);
     }
     
-    else if(!strncmp(MET_ReadType(*m_ReadStream),"Image",5))
+    else if(!strncmp(MET_ReadType(*m_ReadStream),"Image",5) ||
+            (MET_ReadType(*m_ReadStream) == NULL && 
+             (!strcmp(suf, "mhd") || !strcmp(suf, "mha"))))
     {
       MetaImage* image = new MetaImage();
       image->ReadStream(m_NDims,m_ReadStream);
       m_ObjectList.push_back(image);
     }
     
-    else if(!strncmp(MET_ReadType(*m_ReadStream),"Blob",5))
+    else if(!strncmp(MET_ReadType(*m_ReadStream),"Blob",4) ||
+            (MET_ReadType(*m_ReadStream) == NULL && !strcmp(suf, "blb")))
     {
       MetaBlob* blob = new MetaBlob();
       blob->ReadStream(m_NDims,m_ReadStream);
       m_ObjectList.push_back(blob);
     }
       
-    else if(!strncmp(MET_ReadType(*m_ReadStream),"Surface",5))
+    else if(!strncmp(MET_ReadType(*m_ReadStream),"Landmark",8) ||
+            (MET_ReadType(*m_ReadStream) == NULL && !strcmp(suf, "ldm")))
+    {
+      MetaLandmark* landmark = new MetaLandmark();
+      landmark->ReadStream(m_NDims,m_ReadStream);
+      m_ObjectList.push_back(landmark);
+    }
+      
+    else if(!strncmp(MET_ReadType(*m_ReadStream),"Surface",5) ||
+            (MET_ReadType(*m_ReadStream) == NULL && !strcmp(suf, "suf")))
     {
       MetaSurface* surface = new MetaSurface();
       surface->ReadStream(m_NDims,m_ReadStream);
       m_ObjectList.push_back(surface);
     }
      
-    else if(!strncmp(MET_ReadType(*m_ReadStream),"Line",5))
+    else if(!strncmp(MET_ReadType(*m_ReadStream),"Line",5) ||
+            (MET_ReadType(*m_ReadStream) == NULL && !strcmp(suf, "lin")))
     {
       MetaLine* line = new MetaLine();
       line->ReadStream(m_NDims,m_ReadStream);
       m_ObjectList.push_back(line);
     }
 
-    else if(!strncmp(MET_ReadType(*m_ReadStream),"Group",5))
+    else if(!strncmp(MET_ReadType(*m_ReadStream),"Group",5) ||
+            (MET_ReadType(*m_ReadStream) == NULL && !strcmp(suf, "grp")))
+    {
+      MetaGroup* group = new MetaGroup();
+      group->ReadStream(m_NDims,m_ReadStream);
+      m_ObjectList.push_back(group);
+    }
+
+    else if(!strncmp(MET_ReadType(*m_ReadStream),"AffineTransform",15) ||
+            (MET_ReadType(*m_ReadStream) == NULL && !strcmp(suf, "trn")))
     {
       MetaGroup* group = new MetaGroup();
       group->ReadStream(m_NDims,m_ReadStream);
@@ -308,12 +335,18 @@ M_SetupWriteFields(void)
 bool MetaScene::
 M_Read(void)
 {
-  if(META_DEBUG) std::cout << "MetaScene: M_Read: Loading Header" << std::endl;
+  if(META_DEBUG) std::cout<<"MetaScene: M_Read: Loading Header"<<std::endl;
+  if(strncmp(MET_ReadType(*m_ReadStream),"Scene",5))
+    {
+    m_NObjects = 1;
+    return true;
+    }
+
   if(!MetaObject::M_Read())
-  {
+    {
     std::cout << "MetaScene: M_Read: Error parsing file" << std::endl;
     return false;
-  }
+    }
 
   if(META_DEBUG) std::cout << "MetaScene: M_Read: Parsing Header" << std::endl;
  

@@ -26,6 +26,7 @@ public:
   { 
     m_Dim = dim;
     m_X = new float[m_Dim];
+    m_T = new float[m_Dim];
     m_V1= new float[m_Dim];
     m_V2= new float[m_Dim];
     for(unsigned int i=0;i<m_Dim;i++)
@@ -33,9 +34,11 @@ public:
       m_X[i] = 0;
       m_V1[i]= 0;
       m_V2[i]= 0;
+      m_T[i]= 0;
     }
     m_Alpha1=0;
     m_Alpha2=0;
+    m_Alpha3=0;
     m_R=0;
     m_Medialness=0;
     m_Ridgeness=0;
@@ -47,7 +50,7 @@ public:
     m_Color[1]=0.0;
     m_Color[2]=0.0;
     m_Color[3]=1.0;
-   
+    m_ID = -1;
   }
 
   ~TubePnt()
@@ -55,21 +58,24 @@ public:
     delete m_X;
     delete m_V1;
     delete m_V2;
+    delete m_T;
   };
   
   unsigned int m_Dim;
   float* m_V1;
   float* m_V2;
   float* m_X;
+  float* m_T;
   float m_Alpha1;
   float m_Alpha2;
+  float m_Alpha3;
   float m_R;
   float m_Medialness;
   float m_Ridgeness;
   float m_Branchness;
   bool  m_Mark;
   float m_Color[4];
-
+  int   m_ID;
 };
 
 

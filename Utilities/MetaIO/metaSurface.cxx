@@ -110,7 +110,7 @@ Clear(void)
   MetaObject::Clear();
   m_NPoints = 0;
   m_PointList.clear();
-  strcpy(m_PointDim, "x y z v1x v1y v1z");
+  strcpy(m_PointDim, "x y z v1x v1y v1z r g b");
   m_ElementType = MET_FLOAT;
 }
         
@@ -154,6 +154,8 @@ M_SetupReadFields(void)
 void MetaSurface::
 M_SetupWriteFields(void)
 {
+  if(META_DEBUG) std::cout << "MetaSurface: M_SetupWriteFields" << std::endl;
+
   strcpy(m_ObjectTypeName,"Surface");
   MetaObject::M_SetupWriteFields();
 
@@ -273,7 +275,7 @@ M_Read(void)
         pnt->m_V[d] = (float)td;
       }
 
-       for(d=0; d<m_NDims; d++)
+       for(d=0; d<4; d++)
       {
         MET_ValueToDouble(m_ElementType, _data, i++, &td);
         pnt->m_Color[d] = (float)td;
@@ -331,6 +333,8 @@ bool MetaSurface::
 M_Write(void)
 {
 
+  if(META_DEBUG) std::cout << "MetaSurface: M_Write" << std::endl;
+
   if(!MetaObject::M_Write())
   {
     std::cout << "MetaSurface: M_Read: Error parsing file" << std::endl;
@@ -350,6 +354,8 @@ M_Write(void)
     int d;
     while(it != m_PointList.end())
     {
+    std::cout << "Point: " << i << std::endl;
+
       for(d = 0; d < m_NDims; d++)
       {
         MET_DoubleToValue((double)(*it)->m_X[d],m_ElementType,data,i++);

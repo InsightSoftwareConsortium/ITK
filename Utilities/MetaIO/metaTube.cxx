@@ -150,7 +150,7 @@ Clear(void)
   m_ParentPoint= -1;
   m_Root = 0;
   m_NPoints = 0;
-  strcpy(m_PointDim, "x y z r rn mn bn mk v1x v1y v1z v2x v2y v2z a1 a2 red green blue alpha");
+  strcpy(m_PointDim, "x y z r rn mn bn mk v1x v1y v1z v2x v2y v2z tx ty tz a1 a2 a3 red green blue alpha id");
 }
         
 /** Destroy tube information */
@@ -203,21 +203,27 @@ M_SetupWriteFields(void)
 
   MET_FieldRecordType * mF;
 
-  mF = new MET_FieldRecordType;
-  MET_InitWriteField(mF, "ParentPoint", MET_INT,m_ParentPoint);
-  m_Fields.push_back(mF);
+  if(m_ParentPoint>=0)
+    {
+    mF = new MET_FieldRecordType;
+    MET_InitWriteField(mF, "ParentPoint", MET_INT,m_ParentPoint);
+    m_Fields.push_back(mF);
+    }
 
-  mF = new MET_FieldRecordType;
-  MET_InitWriteField(mF, "Root", MET_INT,m_Root);
-  m_Fields.push_back(mF);
+  if(m_Root>0)
+    {
+    mF = new MET_FieldRecordType;
+    MET_InitWriteField(mF, "Root", MET_INT,m_Root);
+    m_Fields.push_back(mF);
+    }
 
   if(strlen(m_PointDim)>0)
-  {
+    {
     mF = new MET_FieldRecordType;
     MET_InitWriteField(mF, "PointDim", MET_STRING,
                            strlen(m_PointDim),m_PointDim);
     m_Fields.push_back(mF);
-  }
+    }
 
   m_NPoints = m_PointList.size();
   mF = new MET_FieldRecordType;
@@ -288,18 +294,25 @@ M_Read(void)
   int posV2x = -1;
   int posV2y = -1;
   int posV2z = -1;
+  int posTx = -1;
+  int posTy = -1;
+  int posTz = -1;
   int posA1 = -1;
   int posA2 = -1;
+  int posA3 = -1;
   int posRed = -1;
   int posGreen = -1;
   int posBlue = -1;
   int posAlpha = -1;
+  int posID = -1;
 
   int pntDim;
   char** pntVal = NULL;
   MET_StringToWordArray(m_PointDim, &pntDim, &pntVal); 
  
-    
+  if(META_DEBUG)
+    { std::cout << "MetaTube: Parsing point dim" << std::endl; }
+
   int j;
   for(j = 0; j < pntDim; j++) 
   {
@@ -367,6 +380,18 @@ M_Read(void)
     {
       posV2z = j;
     }
+    if(!strcmp(pntVal[j], "tx"))
+    {
+      posTx = j;
+    }
+    if(!strcmp(pntVal[j], "ty"))
+    {
+      posTy = j;
+    }
+    if(!strcmp(pntVal[j], "tz"))
+    {
+      posTz = j;
+    }
     if(!strcmp(pntVal[j], "a1"))
     {
       posA1 = j;
@@ -374,6 +399,10 @@ M_Read(void)
     if(!strcmp(pntVal[j], "a2"))
     {
       posA2 = j;
+    }
+    if(!strcmp(pntVal[j], "a3"))
+    {
+      posA3 = j;
     }
     
     if(!strcmp(pntVal[j], "red"))
@@ -393,9 +422,13 @@ M_Read(void)
     {
       posAlpha = j;
     }
+    if(!strcmp(pntVal[j], "id") || !strcmp(pntVal[j], "ID"))
+    {
+      posID = j;
+    }
   }
 
-  float v[20];
+  float v[30];
   
 
   for(j=0; j<m_NPoints; j++) 
@@ -422,7 +455,7 @@ M_Read(void)
      pnt->m_Medialness = v[posMn];
     }
 
-      if(posRn >= (int)0 && posRn < pntDim)
+    if(posRn >= (int)0 && posRn < pntDim)
     {
      pnt->m_Ridgeness = v[posRn];
     }
@@ -439,16 +472,41 @@ M_Read(void)
 
     //pnt->m_V1 = new float[m_NDims];
     if(posV1x>=0 && posV1x<pntDim)
-    {
+      {
       pnt->m_V1[0] = v[posV1x]; 
-      if(posV1y >= 0) { pnt->m_V1[1] = v[posV1y]; }
-      if(posV1z >= 0 && m_NDims>2) { pnt->m_V1[2] = v[posV1z]; }
-      if(posV2x >= 0) { pnt->m_V2[0] = v[posV2x]; }
-      if(posV2y >= 0) { pnt->m_V2[1] = v[posV2y]; }
-      if(posV2z >= 0 && m_NDims>2) { pnt->m_V2[2] = v[posV2z]; }
+      if(posV1y >= 0 && posV1y<pntDim) 
+        { pnt->m_V1[1] = v[posV1y]; }
+      if(posV1z >= 0 && m_NDims>2 && posV1z<pntDim) 
+        { pnt->m_V1[2] = v[posV1z]; }
+      }
+    if(posV2x >= 0 && posV2x<pntDim) 
+      {
+      pnt->m_V2[0] = v[posV2x]; 
+      if(posV2y >= 0 && posV2y<pntDim) 
+        { pnt->m_V2[1] = v[posV2y]; }
+      if(posV2z >= 0 && m_NDims>2 && posV2z<pntDim) 
+        { pnt->m_V2[2] = v[posV2z]; }
+      }
+    if(posTx >= 0 && posTx<pntDim) 
+      {
+      pnt->m_T[0] = v[posTx]; 
+      if(posTy >= 0 && posTy<pntDim) 
+        { pnt->m_T[1] = v[posTy]; }
+      if(posTz >= 0 && m_NDims>2 && posTz<pntDim) 
+        { pnt->m_T[2] = v[posTz]; }
+      }
+    if(posA1 >= 0 && posA1<pntDim) 
+      {
       pnt->m_Alpha1 = v[posA1];    
-      pnt->m_Alpha2 = v[posA2];
-    }
+      }
+    if(posA2 >= 0 && posA2<pntDim) 
+      {
+      pnt->m_Alpha2 = v[posA2];    
+      }
+    if(posA3 >= 0 && posA3<pntDim) 
+      {
+      pnt->m_Alpha3 = v[posA3];    
+      }
     
     if(posRed >= 0 && posRed < pntDim)
     {
@@ -468,6 +526,11 @@ M_Read(void)
     if(posAlpha >= 0 && posAlpha < pntDim)
     {
       pnt->m_Color[3] = v[posAlpha];
+    }
+ 
+    if(posID >= 0 && posID < pntDim)
+    {
+      pnt->m_ID = v[posID];
     }
  
     m_PointList.push_back(pnt);
@@ -529,13 +592,22 @@ M_Write(void)
        *m_WriteStream << (*it)->m_V2[d] << " ";
     }
     
+    for(d = 0; d < m_NDims; d++)
+    {
+       *m_WriteStream << (*it)->m_T[d] << " ";
+    }
+    
     *m_WriteStream << (*it)->m_Alpha1 << " ";
     *m_WriteStream << (*it)->m_Alpha2 << " ";
+    *m_WriteStream << (*it)->m_Alpha3 << " ";
     
     for(d=0;d<4;d++)
     {
       *m_WriteStream << (*it)->m_Color[d] << " ";
     }
+
+    *m_WriteStream << (*it)->m_ID << " ";
+
     *m_WriteStream << std::endl;
     it++;
   }

@@ -36,7 +36,18 @@ MetaGroupConverter<NDimensions>
 ::MetaGroupToGroupSpatialObject(MetaGroup * group)
 { 
   SpatialObjectPointer spatialObject = SpatialObjectType::New();
+  double spacing[NDimensions];
+  int i;
+  for(i=0; i<NDimensions; i++)
+    {
+    spacing[i] = group->ElementSpacing()[i];
+    }
+  spatialObject->SetSpacing(spacing);
   spatialObject->GetProperty()->SetName((char*)group->Name());
+  spatialObject->GetProperty()->SetRed(group->Color()[0]);
+  spatialObject->GetProperty()->SetGreen(group->Color()[1]);
+  spatialObject->GetProperty()->SetBlue(group->Color()[2]);
+  spatialObject->GetProperty()->SetAlpha(group->Color()[3]);
   spatialObject->SetParentId(group->ParentID());
   spatialObject->SetId(group->ID());
   return spatialObject;
@@ -50,8 +61,21 @@ MetaGroupConverter<NDimensions>
 { 
   MetaGroup* group = new MetaGroup(NDimensions);
 
+  float color[4];
+  for(unsigned int i=0;i<4;i++)
+    {
+    color[i]=spatialObject->GetProperty()->GetColor()[i];
+    }
+  group->Color(color);
+
+  for(unsigned int i=0;i<NDimensions;i++)
+    {
+    group->ElementSpacing(i,spatialObject->GetSpacing()[i]);
+    }
+
   group->ParentID(spatialObject->GetParentId());
   group->ID(spatialObject->GetId());
+
   return group;
 }
 

@@ -20,8 +20,8 @@
 
 
 #include "metaTube.h"
-#include "itkTubeSpatialObject.h"
 #include "itkSpatialObject.h"
+#include "itkTubeSpatialObject.h"
 
 template <unsigned int NDimensions = 3>
 class MetaTubeConverter

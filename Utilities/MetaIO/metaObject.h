@@ -6,7 +6,7 @@
 
 #include <metaUtils.h>
 
-#define META_DEBUG 0
+extern int META_DEBUG;
 
 
 class MetaObject
@@ -34,10 +34,9 @@ class MetaObject
 
       int   m_NDims;                // "NDims = "            required
 
-      char  m_TransformName[255];   // "TransformName = "    defined by suffix
-      float m_Position[10];         // "Position = "         0,0,0
+      float m_Offset[10];         // "Offset = "         0,0,0
 
-      float m_Orientation[100];     // "Orientation = "      1,0,0, 0,1,0, 0,0,1
+      float m_Rotation[100];     // "Rotation = "      1,0,0, 0,1,0, 0,0,1
 
       MET_OrientationEnumType m_AnatomicalOrientation[10];
 
@@ -123,19 +122,26 @@ class MetaObject
       //       Number of dimensions to the image
       int   NDims(void) const;
 
-      //    Position(...)
+      //    Offset(...)
       //       Optional Field
       //       Physical location (in millimeters and wrt machine coordinate
       //         system or the patient) of the first element in the image
+      const float * Offset(void) const;
+      float Offset(int _i) const;
+      void  Offset(const float * _position);
+      void  Offset(int _i, float _value);
       const float * Position(void) const;
       float Position(int _i) const;
       void  Position(const float * _position);
       void  Position(int _i, float _value);
 
-      //    Orientation(...)
+      //    Rotation(...)
       //       Optional Field
-      //       Physical orientation of the image (up and left
-      //         directions as a 6 dim array; 2 3D vectors)
+      //       Physical orientation of the object as an NDims x NDims matrix
+      const float * Rotation(void) const;
+      float Rotation(int _i, int _j) const;
+      void  Rotation(const float * _orientation);
+      void  Rotation(int _i, int _j, float _value);
       const float * Orientation(void) const;
       float Orientation(int _i, int _j) const;
       void  Orientation(const float * _orientation);
@@ -150,12 +156,6 @@ class MetaObject
       void AnatomicalOrientation(int _dim, char ao);
 
       
-      //    Transformation Type(...)
-      //       Optional Field
-      //     Name of the transformation used
-      const char  * TransformName(void) const;
-      void    TransformName(const char * _tranformName);
-
       //    ElementSpacing(...)
       //       Optional Field
       //       Physical Spacing (in same units as position)

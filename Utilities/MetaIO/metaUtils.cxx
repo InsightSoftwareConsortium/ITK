@@ -67,13 +67,15 @@ MET_GetFieldRecordNumber(const char * _fieldName,std::vector<MET_FieldRecordType
 const char* MET_ReadType(std::istream &_fp)
 {
   unsigned int pos = _fp.tellg();
-  MET_FieldRecordType* mF = new MET_FieldRecordType;
-  MET_InitReadField(mF, "ObjectType", MET_STRING, false);
-  mF->required = true;
-  mF->terminateRead = true;
   std::vector<MET_FieldRecordType *> fields;
+
+  static MET_FieldRecordType* mF = new MET_FieldRecordType;
+  MET_InitReadField(mF, "ObjectType", MET_STRING, false);
+  mF->required = false;
+  mF->terminateRead = true;
   fields.push_back(mF);
-  MET_Read(_fp, &fields);
+
+  MET_Read(_fp, &fields, '=', true);
   _fp.seekg(pos);
 
   if(mF && mF->defined)
@@ -81,7 +83,9 @@ const char* MET_ReadType(std::istream &_fp)
     return (char *)(mF->value);
   }
 
-  return NULL;
+  sprintf((char *)(mF->value), "");
+
+  return (char *)(mF->value);
 }
 
 
@@ -385,7 +389,12 @@ bool MET_GetFilePath(const char *_fName, char *_fPath)
 bool MET_GetFileSuffixPtr(const char *_fName, int *i)
   {
   *i = static_cast<int>( strlen(_fName) );
-  while(*i>0)
+  int j = *i - 5;
+  if(j<0)
+    {
+    j = 0;
+    }
+  while(*i>j)
     {
     if(_fName[(*i)-1] == '.')
       {
@@ -396,7 +405,8 @@ bool MET_GetFileSuffixPtr(const char *_fName, int *i)
       (*i)--;
       }
     }
-    return false;
+  *i = 0;
+  return false;
   }
 
 //
@@ -416,7 +426,10 @@ bool MET_SetFileSuffix(char *_fName, const char *_suf)
     return true;
     }
   else
-    return false;
+    {
+    strcat(_fName, _suf);
+    return true;
+    }
   }
 
 //
@@ -469,12 +482,12 @@ bool MET_SkipToVal(std::istream &fp)
   
   c = fp.get();
 
-  while( c != MET_SeperatorChar && !fp.eof() )
+  while( c != MET_SeperatorChar && c != ':' && !fp.eof() )
     {
     c = fp.get();
     }
 
-  while( ( c == MET_SeperatorChar || isspace(c) ) && !fp.eof() )
+  while( ( c == MET_SeperatorChar || c == ':' || isspace(c) ) && !fp.eof() )
     {
     c = fp.get();
     }
@@ -510,7 +523,7 @@ bool MET_IsComplete(std::vector<MET_FieldRecordType *> * fields)
 
 //
 bool MET_Read(std::istream &fp, std::vector<MET_FieldRecordType *> * fields,
-              char _MET_SeperatorChar)
+              char _MET_SeperatorChar, bool oneLine)
   {
 
   char s[1024];
@@ -527,12 +540,12 @@ bool MET_Read(std::istream &fp, std::vector<MET_FieldRecordType *> * fields,
     {
     i = 0;
     c = fp.get();
-    while(!fp.eof() && c != MET_SeperatorChar
+    while(!fp.eof() && c != MET_SeperatorChar && c != ':'
           && (c == '\n' || isspace(c)))
       {
       c = fp.get();
       }
-    while(!fp.eof() && c != MET_SeperatorChar && c != '\n' && i<500)
+    while(!fp.eof() && c != MET_SeperatorChar && c != ':' && c != '\n' && i<500)
       {
       s[i++] = c;
       c = fp.get();
@@ -706,6 +719,10 @@ bool MET_Read(std::istream &fp, std::vector<MET_FieldRecordType *> * fields,
       {
       std::cout << "Skipping unrecognized field " << s << std::endl;
       fp.getline( s, 500 );
+      }
+    if(oneLine)
+      {
+      return MET_IsComplete(fields);
       }
     }
     

@@ -71,7 +71,7 @@ class MetaScene : public MetaObject
     int   NObjects(void) const;
 
 
-    ObjectListType GetObjectList(void) {return m_ObjectList;}
+    ObjectListType * GetObjectList(void) {return & m_ObjectList;}
 
   ////
   //

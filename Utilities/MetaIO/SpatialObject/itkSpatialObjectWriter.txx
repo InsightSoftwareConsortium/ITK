@@ -29,6 +29,7 @@ SpatialObjectWriter<NDimensions,PixelType>
 ::SpatialObjectWriter()
 {
   m_FullFileName = "";
+  m_FileName = "";
   m_SpatialObject = 0;
   m_Scene = 0;
 }
@@ -45,6 +46,10 @@ void
 SpatialObjectWriter<NDimensions,PixelType>
 ::Update()
 { 
+  if(m_FileName != "")
+    {
+    m_FullFileName = m_FileName;
+    }
   if(m_Scene != 0)
     {
     m_MetaToSpatialConverter.WriteMeta(m_Scene,m_FullFileName.c_str());

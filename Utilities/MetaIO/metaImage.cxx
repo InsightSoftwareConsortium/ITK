@@ -375,13 +375,22 @@ ElementByteOrderSwap(void)
       break;
       }
     case 4:
-    case 8:
       {
       int i;
       for(i=0; i<m_Quantity*m_ElementNumberOfChannels; i++)
         {
         ((unsigned int *)m_ElementData)[i] =
               MET_ByteOrderSwapLong(((unsigned int *)m_ElementData)[i]);
+        }
+      break;
+      }
+    case 8:
+      {
+      int i;
+      for(i=0; i<m_Quantity*m_ElementNumberOfChannels; i++)
+        {
+        ((unsigned int *)m_ElementData)[i] =
+              MET_ByteOrderSwap8(((unsigned int *)m_ElementData)[i]);
         }
       break;
       }
@@ -780,21 +789,45 @@ Read(const char *_headerName, bool _readElements, void * _buffer)
 bool MetaImage::
 Write(const char *_headName, const char *_dataName, bool _writeElements)
   {
-  if(_dataName == NULL)
+  if(_headName != NULL)
     {
-    if(strlen(m_ElementDataFileName)==0)
+    FileName(_headName);
+    }
+
+  if(_dataName == NULL && strlen(m_ElementDataFileName)==0)
+    {
+    int sPtr = 0;
+    MET_GetFileSuffixPtr(m_FileName, &sPtr);
+    if(!strcmp(&m_FileName[sPtr], "mha"))
       {
       ElementDataFileName("LOCAL");
+      }
+    else
+      {
+      MET_SetFileSuffix(m_FileName, "mhd");
+      strcpy(m_ElementDataFileName, m_FileName);
+      MET_SetFileSuffix(m_ElementDataFileName, "raw");
       }
     }
   else
     {
     ElementDataFileName(_dataName);
     }
-  
-  if(_headName != NULL)
+
+  bool localData = false;
+  if(!strcmp(m_ElementDataFileName, "LOCAL"))
     {
-    FileName(_headName);
+    localData = true;
+    }
+
+  // make sure suffix is valid
+  if(localData)
+    {
+    MET_SetFileSuffix(m_FileName, "mha");
+    }
+   else
+    {
+    MET_SetFileSuffix(m_FileName, "mhd");
     }
 
   char pathName[255];
@@ -829,7 +862,7 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
     int elementSize;
     MET_SizeOfType(m_ElementType, &elementSize);
     int elementNumberOfBytes = elementSize*m_ElementNumberOfChannels;
-    if(!strcmp(m_ElementDataFileName, "LOCAL"))
+    if(localData)
       {
       m_WriteStream->write( (char *)m_ElementData,
                             m_Quantity * elementNumberOfBytes ); 
@@ -859,8 +892,9 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
           {
           sprintf(fName, dataFileName, i);
           writeStreamTemp->open(fName, std::ios::binary | std::ios::out);
-          writeStreamTemp->write(&(((char *)m_ElementData)[i*sliceNumberOfBytes]),
-                                sliceNumberOfBytes);
+          writeStreamTemp->write(
+                           &(((char *)m_ElementData)[i*sliceNumberOfBytes]),
+                           sliceNumberOfBytes);
           writeStreamTemp->close();
           }
         }
@@ -1203,7 +1237,8 @@ bool MetaImage
     m_WriteStream = new std::ofstream;
   }
 
-  m_WriteStream->open(m_FileName, std::ios::binary | std::ios::app | std::ios::out);
+  m_WriteStream->open(m_FileName,
+                      std::ios::binary | std::ios::app | std::ios::out);
   if(!m_WriteStream->is_open())
     {
     return false;
@@ -1519,7 +1554,10 @@ ReadStream(int ndims, std::ifstream * stream)
     else
     {
       strcpy(fName, m_ElementDataFileName);
-      if(META_DEBUG) std::cout << "MetaImage: Read: Element file = " << fName << std::endl;
+      if(META_DEBUG) 
+        {
+        std::cout << "MetaImage: Read: Element file = " << fName << std::endl;
+        }
     }
     std::ifstream* readStreamTemp = new std::ifstream;
     readStreamTemp->open(fName, std::ios::binary | std::ios::in);

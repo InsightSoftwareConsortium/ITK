@@ -9,7 +9,7 @@
 #include <metaUtils.h>
 #include <metaObject.h>
 
-
+int META_DEBUG = 0;
 //
 // MetaObject Constructors
 //
@@ -72,11 +72,15 @@ MetaObject::
 void MetaObject::
 ClearFields()
 {
+  if(META_DEBUG) std::cout << "MetaObject:ClearFields" << std::endl;
+
   FieldsContainerType::iterator  it  = m_Fields.begin();
   FieldsContainerType::iterator  end = m_Fields.end();
   while( it != end )
     {
-    delete *it;
+    MET_FieldRecordType* field = *it;
+    it++;
+    delete field;
     }
   m_Fields.clear();
 }
@@ -112,8 +116,8 @@ CopyInfo(const MetaObject * _object)
   Comment(_object->Comment());
   ObjectTypeName(_object->ObjectTypeName());
   ObjectSubTypeName(_object->ObjectSubTypeName());
-  Position(_object->Position());
-  Orientation(_object->Orientation());
+  Offset(_object->Offset());
+  Rotation(_object->Rotation());
   ElementSpacing(_object->ElementSpacing());
   ID(_object->ID());
   Color(_object->Color());
@@ -228,7 +232,6 @@ PrintInfo(void) const
   std::cout << "Comment = _" << m_Comment << "_" << std::endl;
   std::cout << "ObjectType = _" << m_ObjectTypeName << "_" << std::endl;
   std::cout << "ObjectSubType = _" << m_ObjectSubTypeName << "_" << std::endl;
-  std::cout << "TransformName = _" << m_TransformName << "_" << std::endl;
   std::cout << "NDims = " << m_NDims << std::endl;
   std::cout << "Name = " << m_Name << std::endl;
   std::cout << "ID = " << m_ID << std::endl;
@@ -248,20 +251,20 @@ PrintInfo(void) const
     }
   std::cout << std::endl;
 
-  std::cout << "Position = ";
+  std::cout << "Offset = ";
   for(i=0; i<m_NDims; i++)
     {
-    std::cout << m_Position[i] << " ";
+    std::cout << m_Offset[i] << " ";
     }
   std::cout << std::endl;
   
-  std::cout << "Orientation = ";
+  std::cout << "Rotation = ";
   std::cout << std::endl;
   for(i=0; i<m_NDims; i++)
     {
     for(j=0; j<m_NDims; j++)
       {
-      std::cout << m_Orientation[i*m_NDims+j] << " ";
+      std::cout << m_Rotation[i*m_NDims+j] << " ";
       }
     std::cout << std::endl;
     }
@@ -311,19 +314,6 @@ ObjectSubTypeName(const char * _objectSubTypeName)
   strcpy(m_ObjectSubTypeName, _objectSubTypeName);
   }
 
-const char * MetaObject::
-TransformName(void) const
-  {
-  return m_TransformName;
-  }
-
-void MetaObject::
-TransformName(const char * _transformName)
-  {
-  strcpy(m_TransformName, _transformName);
-  }
-
-
 int MetaObject::
 NDims(void) const
   {
@@ -331,15 +321,44 @@ NDims(void) const
   }
 
 const float * MetaObject::
+Offset(void) const
+  {
+  return m_Offset;
+  }
+
+float MetaObject::
+Offset(int _i) const
+  {
+  return m_Offset[_i];
+  }
+
+void MetaObject::
+Offset(const float * _position)
+  {
+  int i;
+  for(i=0; i<m_NDims; i++)
+    {
+    m_Offset[i] = _position[i];
+    }
+  }
+
+void MetaObject::
+Offset(int _i, float _value)
+  {
+  m_Offset[_i] = _value;
+  }
+
+
+const float * MetaObject::
 Position(void) const
   {
-  return m_Position;
+  return m_Offset;
   }
 
 float MetaObject::
 Position(int _i) const
   {
-  return m_Position[_i];
+  return m_Offset[_i];
   }
 
 void MetaObject::
@@ -348,28 +367,57 @@ Position(const float * _position)
   int i;
   for(i=0; i<m_NDims; i++)
     {
-    m_Position[i] = _position[i];
+    m_Offset[i] = _position[i];
     }
   }
 
 void MetaObject::
 Position(int _i, float _value)
   {
-  m_Position[_i] = _value;
+  m_Offset[_i] = _value;
   }
 
 //
 //
 const float * MetaObject::
+Rotation(void) const
+  {
+  return m_Rotation;
+  }
+
+float MetaObject::
+Rotation(int _i, int _j) const
+  {
+  return m_Rotation[_i*m_NDims+_j];
+  }
+
+void MetaObject::
+Rotation(const float * _orientation)
+  {
+  int i;
+  for(i=0; i<m_NDims*m_NDims; i++)
+    {
+    m_Rotation[i] = _orientation[i];
+    }
+  }
+
+void MetaObject::
+Rotation(int _i, int _j, float _value)
+  {
+  m_Rotation[_i*m_NDims+_j] = _value;
+  }
+
+//
+const float * MetaObject::
 Orientation(void) const
   {
-  return m_Orientation;
+  return m_Rotation;
   }
 
 float MetaObject::
 Orientation(int _i, int _j) const
   {
-  return m_Orientation[_i*m_NDims+_j];
+  return m_Rotation[_i*m_NDims+_j];
   }
 
 void MetaObject::
@@ -378,14 +426,14 @@ Orientation(const float * _orientation)
   int i;
   for(i=0; i<m_NDims*m_NDims; i++)
     {
-    m_Orientation[i] = _orientation[i];
+    m_Rotation[i] = _orientation[i];
     }
   }
 
 void MetaObject::
 Orientation(int _i, int _j, float _value)
   {
-  m_Orientation[_i*m_NDims+_j] = _value;
+  m_Rotation[_i*m_NDims+_j] = _value;
   }
 
 const char * MetaObject::
@@ -591,17 +639,15 @@ Clear(void)
   strcpy(m_ObjectSubTypeName, "");
   strcpy(m_Name, "");
 
-  memset(m_Position, 0, 10*sizeof(float));
-  memset(m_Orientation, 0, 100*sizeof(float));
+  memset(m_Offset, 0, 10*sizeof(float));
+  memset(m_Rotation, 0, 100*sizeof(float));
   memset(m_Color, 0, 4*sizeof(float));
-
-  strcpy(m_TransformName,"Affine");
 
   m_ID = -1;
   m_Color[0]=1.0;
-  m_Color[1]=0.0;
-  m_Color[2]=0.0;
-  m_Color[3]=1.0; // red by default
+  m_Color[1]=1.0;
+  m_Color[2]=1.0;
+  m_Color[3]=1.0; // white by default
   m_ParentID = -1;
   m_BinaryData = false;
   m_BinaryDataByteOrderMSB = MET_SystemByteOrderMSB();
@@ -686,10 +732,6 @@ M_SetupReadFields(void)
   m_Fields.push_back(mF);
 
   mF = new MET_FieldRecordType;
-  MET_InitReadField(mF, "TransformType", MET_STRING, false);
-  m_Fields.push_back(mF);
-
-  mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "NDims", MET_INT, true);
   mF->required = true;
   m_Fields.push_back(mF);
@@ -730,7 +772,17 @@ M_SetupReadFields(void)
   m_Fields.push_back(mF);
 
   mF = new MET_FieldRecordType;
+  MET_InitReadField(mF, "Offset", MET_FLOAT_ARRAY, false,
+                     nDimsRecordNumber);
+  m_Fields.push_back(mF);
+
+  mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "Orientation", MET_FLOAT_MATRIX, false,
+                    nDimsRecordNumber);
+  m_Fields.push_back(mF);
+
+  mF = new MET_FieldRecordType;
+  MET_InitReadField(mF, "Rotation", MET_FLOAT_MATRIX, false,
                     nDimsRecordNumber);
   m_Fields.push_back(mF);
 
@@ -749,8 +801,12 @@ M_SetupReadFields(void)
 void MetaObject::
 M_SetupWriteFields(void)
   {
+  if(META_DEBUG) std::cout << "MetaObject: M_SetupWriteFields" << std::endl;
 
   this->ClearFields();
+
+  if(META_DEBUG) std::cout << "MetaObject: M_SetupWriteFields: Creating Fields"
+                           << std::endl;
 
   MET_FieldRecordType * mF;
 
@@ -775,14 +831,6 @@ M_SetupWriteFields(void)
     MET_InitWriteField(mF, "ObjectSubType", MET_STRING,
                       strlen(m_ObjectSubTypeName),
                       m_ObjectSubTypeName);
-    m_Fields.push_back(mF);
-    }
-
-  if(strlen(m_TransformName)>0 && strcmp(m_TransformName, "Affine"))
-    {
-    mF = new MET_FieldRecordType;
-    MET_InitWriteField(mF, "TransformType", MET_STRING, strlen(m_TransformName),
-                      m_TransformName);
     m_Fields.push_back(mF);
     }
 
@@ -812,15 +860,12 @@ M_SetupWriteFields(void)
     m_Fields.push_back(mF);
     }
 
-  mF = new MET_FieldRecordType;
-  if(m_BinaryData)
-    MET_InitWriteField(mF, "BinaryData", MET_STRING, strlen("True"), "True");
-  else
-    MET_InitWriteField(mF, "BinaryData", MET_STRING, strlen("False"), "False");
-  m_Fields.push_back(mF);
-
   if(m_BinaryData)
     {
+    mF = new MET_FieldRecordType;
+    MET_InitWriteField(mF, "BinaryData", MET_STRING, strlen("True"), "True");
+    m_Fields.push_back(mF);
+
     mF = new MET_FieldRecordType;
     if(m_BinaryDataByteOrderMSB)
       MET_InitWriteField(mF, "BinaryDataByteOrderMSB", MET_STRING,
@@ -831,16 +876,11 @@ M_SetupWriteFields(void)
     m_Fields.push_back(mF);
     }
 
-  mF = new MET_FieldRecordType;
-  MET_InitWriteField(mF, "Color", MET_FLOAT_ARRAY, 4,
-                       m_Color);
-  m_Fields.push_back(mF);
-
   bool valSet = false;
   int i;
   for(i=0; i<m_NDims; i++)
     {
-    if(m_Position[i] != 0)
+    if(m_Offset[i] != 0)
       {
       valSet = true;
       break;
@@ -849,20 +889,37 @@ M_SetupWriteFields(void)
   if(valSet)
     {
     mF = new MET_FieldRecordType;
-    MET_InitWriteField(mF, "Position", MET_FLOAT_ARRAY, m_NDims,
-                       m_Position);
+    MET_InitWriteField(mF, "Offset", MET_FLOAT_ARRAY, m_NDims,
+                       m_Offset);
     m_Fields.push_back(mF);
     }
 
   valSet = false;
+  for(i=0; i<4; i++)
+    {
+    if(m_Color[i] != 1)
+      {
+      valSet = true;
+      break;
+      }
+    }
+  if(valSet)
+    {
+    mF = new MET_FieldRecordType;
+    MET_InitWriteField(mF, "Color", MET_FLOAT_ARRAY, 4,
+                         m_Color);
+    m_Fields.push_back(mF);
+    }
   
+  valSet = false;
+
   // check for identity matrix
   bool isIdentity = true ;
   for(i=0; i<m_NDims*m_NDims; i++)
     {
     if( (i % m_NDims) == (int) (i / m_NDims) )
       {
-        if ( m_Orientation[i] != 1 )
+        if ( m_Rotation[i] != 1 )
           {
             isIdentity = false ;
             break;
@@ -870,7 +927,7 @@ M_SetupWriteFields(void)
       }
     else
       {
-        if ( m_Orientation[i] != 0 )
+        if ( m_Rotation[i] != 0 )
           {
             isIdentity = false ;
             break ;
@@ -884,7 +941,7 @@ M_SetupWriteFields(void)
     {
       for(i=0; i<m_NDims*m_NDims; i++)
         {
-          if ( m_Orientation[i] != 0 )
+          if ( m_Rotation[i] != 0 )
             {
               isAllZero = false ;
               break;
@@ -895,8 +952,8 @@ M_SetupWriteFields(void)
   if(!isIdentity && !isAllZero)
     {
     mF = new MET_FieldRecordType;
-    MET_InitWriteField(mF, "Orientation", MET_FLOAT_MATRIX, m_NDims,
-                       m_Orientation);
+    MET_InitWriteField(mF, "Rotation", MET_FLOAT_MATRIX, m_NDims,
+                       m_Rotation);
     m_Fields.push_back(mF);
     }
 
@@ -912,23 +969,19 @@ M_SetupWriteFields(void)
   valSet = false;
   for(i=0; i<m_NDims; i++)
     {
-    if(m_ElementSpacing[i] != 0)
+    if(m_ElementSpacing[i] != 0 && m_ElementSpacing[i] != 1)
       {
       valSet = true;
       break;
       }
     }
-  if(!valSet)
+  if(valSet)
     {
-    for(i=0; i<m_NDims; i++)
-      {
-      m_ElementSpacing[i] = 1;
-      }
+    mF = new MET_FieldRecordType;
+    MET_InitWriteField(mF, "ElementSpacing", MET_FLOAT_ARRAY, m_NDims,
+                       m_ElementSpacing);
+    m_Fields.push_back(mF);
     }
-  mF = new MET_FieldRecordType;
-  MET_InitWriteField(mF, "ElementSpacing", MET_FLOAT_ARRAY, m_NDims,
-                     m_ElementSpacing);
-  m_Fields.push_back(mF);
   }
 
 bool MetaObject::
@@ -999,6 +1052,10 @@ M_Read(void)
     else
       m_BinaryData = false;
     }
+  else
+    {
+    m_BinaryData = false;
+    }
 
   mF = MET_GetFieldRecord("ElementByteOrderMSB",  &m_Fields);
   if(mF && mF->defined)
@@ -1029,23 +1086,57 @@ M_Read(void)
       m_Color[i] = mF->value[i];
       }
     }
+  else
+    {
+    for(i=0; i<mF->length; i++)
+      {
+      m_Color[i] = 1;
+      }
+    }
 
   mF = MET_GetFieldRecord("Position", &m_Fields);
   if(mF && mF->defined)
     {
     for(i=0; i<mF->length; i++)
       {
-      m_Position[i] = mF->value[i];
+      m_Offset[i] = mF->value[i];
+      }
+    }
+  mF = MET_GetFieldRecord("Offset", &m_Fields);
+  if(mF && mF->defined)
+    {
+    for(i=0; i<mF->length; i++)
+      {
+      m_Offset[i] = mF->value[i];
       }
     }
 
+  bool rotationDefined = false;
   mF = MET_GetFieldRecord("Orientation", &m_Fields);
   if(mF && mF->defined)
     {
+    rotationDefined = true;
     int len = mF->length;
     for(i=0; i<len*len; i++)
       {
-      m_Orientation[i] = mF->value[i];
+      m_Rotation[i] = mF->value[i];
+      }
+    }
+  mF = MET_GetFieldRecord("Rotation", &m_Fields);
+  if(mF && mF->defined)
+    {
+    rotationDefined = true;
+    int len = mF->length;
+    for(i=0; i<len*len; i++)
+      {
+      m_Rotation[i] = mF->value[i];
+      }
+    }
+  if(!rotationDefined)
+    {
+    for(i=0; i<m_NDims; i++)
+      {
+      m_Rotation[i+i*m_NDims] = 1;
       }
     }
 

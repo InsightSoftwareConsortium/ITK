@@ -44,12 +44,20 @@ inline unsigned short MET_ByteOrderSwapShort(unsigned short x)
   return (unsigned short)((unsigned short)(x<<8) | (unsigned short)(x>>8));
   }
 
-inline unsigned long MET_ByteOrderSwapLong(unsigned long x)
+inline unsigned long MET_ByteOrderSwapLong(unsigned int x)
   {
   return (((x<<24) & 0xf000) |
           ((x<<8) & 0x0f00) |
           ((x>>8) & 0x00f0) |
           ((x>>24) & 0x000f));
+  }
+
+inline unsigned long MET_ByteOrderSwap8(unsigned long x)
+  {
+  return (((x<<24) & 0xf000f000) |
+          ((x<<8) & 0x0f000f00) |
+          ((x>>8) & 0x00f000f0) |
+          ((x>>24) & 0x000f000f));
   }
 
 extern bool MET_StringToType(const char *_str, MET_ValueEnumType *_type);
@@ -147,7 +155,7 @@ extern bool MET_InitReadField(MET_FieldRecordType * _mf,
 //       to topOfFile before parsing begins
 extern bool MET_Read(std::istream &fp,
                      std::vector<MET_FieldRecordType *> * fields,
-                     char _sepChar='=');
+                     char _sepChar='=', bool oneLine=false);
 
 // Given an array of fieldRecs, creates a metaFile.
 extern bool MET_Write(std::ostream &fp,

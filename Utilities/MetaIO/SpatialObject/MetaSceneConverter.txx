@@ -24,6 +24,7 @@
 #include "MetaGroupConverter.h"
 #include "MetaImageConverter.h"
 #include "MetaBlobConverter.h"
+#include "MetaLandmarkConverter.h"
 #include "MetaLineConverter.h"
 #include "MetaSurfaceConverter.h"
 #include "MetaLandmarkConverter.h"
@@ -34,6 +35,7 @@
 #include "itkGroupSpatialObject.h"
 #include "itkImageSpatialObject.h"
 #include "itkBlobSpatialObject.h"
+#include "itkLandmarkSpatialObject.h"
 #include "itkLineSpatialObject.h"
 #include "itkSurfaceSpatialObject.h"
 #include "itkLandmarkSpatialObject.h"
@@ -118,9 +120,9 @@ MetaSceneConverter<NDimensions,PixelType>
 {
   ScenePointer soScene = SceneType::New();
 
-  MetaScene::ObjectListType list = mScene->GetObjectList();
-  MetaScene::ObjectListType::iterator it = list.begin();
-  MetaScene::ObjectListType::iterator itEnd = list.end();
+  MetaScene::ObjectListType * list = mScene->GetObjectList();
+  MetaScene::ObjectListType::iterator it = list->begin();
+  MetaScene::ObjectListType::iterator itEnd = list->end();
 
   while(it != itEnd)
   {
@@ -146,7 +148,8 @@ MetaSceneConverter<NDimensions,PixelType>
       soScene->AddSpatialObject((SpatialObjectType*)so.GetPointer());
     }
 
-    if(!strncmp((*it)->ObjectTypeName(),"Group",5))
+    if(!strncmp((*it)->ObjectTypeName(),"Group",5) ||
+       !strncmp((*it)->ObjectTypeName(),"AffineTransform",5))
     {
       MetaGroupConverter<NDimensions> groupConverter;
       typename itk::GroupSpatialObject<NDimensions>::Pointer so =
@@ -183,6 +186,15 @@ MetaSceneConverter<NDimensions,PixelType>
       so = blobConverter.MetaBlobToBlobSpatialObject((MetaBlob*)*it);
       so->SetReferenceCount(2);
       this->SetTransform(so, *it) ;
+      soScene->AddSpatialObject((SpatialObjectType*) so.GetPointer());
+    }
+
+    if(!strncmp((*it)->ObjectTypeName(),"Landmark",8))
+    {
+      MetaLandmarkConverter<NDimensions> landmarkConverter;
+      typename itk::LandmarkSpatialObject<NDimensions>::Pointer
+      so = landmarkConverter.MetaLandmarkToLandmarkSpatialObject((MetaLandmark*)*it);
+      so->SetReferenceCount(2);
       soScene->AddSpatialObject((SpatialObjectType*) so.GetPointer());
     }
 
@@ -255,18 +267,8 @@ MetaSceneConverter<NDimensions,PixelType>
     
   while(it != itEnd)
     {    
-    if(!strncmp((*it)->GetTypeName(),"LandmarkSpatialObject",21))
-      {
-      static MetaLandmarkConverter<NDimensions> converter;
-      MetaLandmark* landmark = converter.LandmarkSpatialObjectToMetaLandmark(
-          dynamic_cast<itk::LandmarkSpatialObject<NDimensions>*>((*it)));
-      landmark->ParentID((*it)->GetParentId());
-      landmark->Name((*it)->GetProperty()->GetName().c_str());
-      this->SetTransform(landmark, (*it)->GetTransform()) ;
-      metaScene->AddObject(landmark);
-      }
-  
-    if(!strncmp((*it)->GetTypeName(),"GroupSpatialObject",17))
+    if(!strncmp((*it)->GetTypeName(),"GroupSpatialObject",17) ||
+       !strncmp((*it)->GetTypeName(),"AffineTransformSpatialObject",28))
       {
       static MetaGroupConverter<NDimensions> converter;
       MetaGroup* group = converter.GroupSpatialObjectToMetaGroup(
@@ -276,7 +278,7 @@ MetaSceneConverter<NDimensions,PixelType>
       this->SetTransform(group, (*it)->GetTransform()) ;
       metaScene->AddObject(group);
       }
-  
+
     if(!strncmp((*it)->GetTypeName(),"TubeSpatialObject",16))
       {
       static MetaTubeConverter<NDimensions> converter;
@@ -322,6 +324,18 @@ MetaSceneConverter<NDimensions,PixelType>
       blob->Name((*it)->GetProperty()->GetName().c_str());
       this->SetTransform(blob, (*it)->GetTransform()) ;
       metaScene->AddObject(blob);
+      }
+  
+    if(!strncmp((*it)->GetTypeName(),"LandmarkSpatialObject",20))
+      {
+      static MetaLandmarkConverter<NDimensions> converter;
+      MetaLandmark* landmark = converter.LandmarkSpatialObjectToMetaLandmark(
+          dynamic_cast<itk::LandmarkSpatialObject<NDimensions >*>(
+            (*it)));
+      landmark->ParentID((*it)->GetParentId());
+      landmark->BinaryData(true);
+      landmark->Name((*it)->GetProperty()->GetName().c_str());
+      metaScene->AddObject(landmark);
       }
   
     if(!strncmp((*it)->GetTypeName(),"SurfaceSpatialObject",20))

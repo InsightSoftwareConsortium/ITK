@@ -9,10 +9,13 @@ ADD_LIBRARY(ITKMetaIO
   metaGroup.cxx
   metaScene.cxx
   metaBlob.cxx
+  metaLandmark.cxx
   metaSurface.cxx
   metaLine.cxx
   metaLandmark.cxx
 )
+
+SUBDIRS(tests)
 
 INSTALL_TARGETS(/lib/InsightToolkit ITKMetaIO)
 INSTALL_FILES(/include/InsightToolkit/Utilities/MetaIO "(\\.h)$")

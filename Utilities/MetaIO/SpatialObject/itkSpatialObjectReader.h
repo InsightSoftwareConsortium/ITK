@@ -56,10 +56,12 @@ public:
   void Update(void);
 
   /** Set the filename  */
-  itkSetStringMacro(FullFileName);
+  itkSetStringMacro(FullFileName); // will be depreciated
+  itkSetStringMacro(FileName);
 
   /** Get the filename */
-  itkGetStringMacro(FullFileName);
+  itkGetStringMacro(FullFileName); // will be depreciated
+  itkGetStringMacro(FileName);
 
   /** Get the output */
   ScenePointer GetScene(void) {return m_Scene;}
@@ -67,6 +69,7 @@ public:
 
 protected:
   std::string m_FullFileName;
+  std::string m_FileName;
 
   SpatialObjectReader();
   virtual ~SpatialObjectReader();

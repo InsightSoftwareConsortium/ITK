@@ -51,9 +51,11 @@ public:
   void Update(void);
 
   /** Set the filename  */
+  itkSetStringMacro(FileName);
   itkSetStringMacro(FullFileName);
 
   /** Get the filename */
+  itkGetStringMacro(FileName);
   itkGetStringMacro(FullFileName);
 
   /** Set the Input  */
@@ -63,6 +65,7 @@ public:
 
 protected:
   std::string m_FullFileName;
+  std::string m_FileName;
 
   SpatialObjectWriter();
   virtual ~SpatialObjectWriter();
