@@ -24,12 +24,7 @@ itkVersorTransformOptimizer.cxx
 itkOnePlusOneEvolutionaryOptimizer.cxx
 )
 
-SET(HAS_FEM 0 CACHE INTERNAL "Support for FEM")
-OPTION(BUILD_FEM_CODE "Build the FEM Code" ON)
-IF(BUILD_FEM_CODE)
-  SUBDIRS( FEM )
-  SET(HAS_FEM 1 CACHE INTERNAL "Support for FEM")
-ENDIF(BUILD_FEM_CODE)
+SUBDIRS( FEM )
 
 ADD_LIBRARY(ITKNumerics ${ITKNumerics_SRCS})
 
