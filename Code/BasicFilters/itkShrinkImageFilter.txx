@@ -177,8 +177,7 @@ namespace itk
     unsigned long totalPixels = 0;
     if ( threadId == 0 )
       {
-      totalPixels = 
-        outputPtr->GetRequestedRegion().GetNumberOfPixels();
+      totalPixels = outputRegionForThread.GetNumberOfPixels();
       updateVisits = totalPixels / 10;
       if( updateVisits < 1 ) updateVisits = 1;
       }

@@ -171,8 +171,7 @@ ThresholdImageFilter<TImage>
   unsigned long updateVisits = 0;
   if ( threadId == 0 )
     {
-    updateVisits = 
-      outputPtr->GetRequestedRegion().GetNumberOfPixels()/10;
+    updateVisits = outputRegionForThread.GetNumberOfPixels()/10;
     if ( updateVisits < 1 ) updateVisits = 1;
     }
         
