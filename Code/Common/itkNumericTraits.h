@@ -286,7 +286,7 @@ public:
   static bool IsNonpositive(long val) { return val <= Zero; }
   static bool IsNegative(long val) { return val < Zero; }
   static bool IsNonnegative(long val) {return val >= Zero; }
-  static const long  ZeroValue() { return Zero; }
+  static long  ZeroValue() { return Zero; }
 };
 
 /** \class NumericTraits<unsigned long>
@@ -309,7 +309,7 @@ public:
   static bool IsNonpositive(unsigned long val) { return val == Zero; }
   static bool IsNegative(unsigned long) { return false; }
   static bool IsNonnegative(unsigned long) {return true; }
-  static const unsigned long  ZeroValue() { return Zero; }
+  static unsigned long  ZeroValue() { return Zero; }
 };
 
 /** \class NumericTraits<float>
@@ -332,7 +332,7 @@ public:
   static bool IsNonpositive(float val) { return val <= Zero; }
   static bool IsNegative(float val) { return val < Zero; }
   static bool IsNonnegative(float val) {return val >= Zero; }
-  static const float  ZeroValue() { return Zero; }
+  static float  ZeroValue() { return Zero; }
 };
 
 /** \class NumericTraits<double>
@@ -355,7 +355,7 @@ public:
   static bool IsNonpositive(double val) { return val <= Zero; }
   static bool IsNegative(double val) { return val < Zero; }
   static bool IsNonnegative(double val) {return val >= Zero; }
-  static const double  ZeroValue() { return Zero; }
+  static double  ZeroValue() { return Zero; }
 };
 
 /** \class NumericTraits<long double>
@@ -378,7 +378,7 @@ public:
   static bool IsNonpositive(long double val) { return val <= Zero; }
   static bool IsNegative(long double val) { return val < Zero; }
   static bool IsNonnegative(long double val) {return val >= Zero; }
-  static const long double ZeroValue() { return Zero; }
+  static long double ZeroValue() { return Zero; }
 };
 
 
