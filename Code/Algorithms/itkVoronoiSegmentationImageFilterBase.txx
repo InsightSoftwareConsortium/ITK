@@ -398,7 +398,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
 
   for(eit = m_WorkingVD->EdgeBegin();eit != eitend; ++eit)
     {
-    seeds = m_WorkingVD->GetSeedsIDAroundEdge(eit);
+    seeds = m_WorkingVD->GetSeedsIDAroundEdge(&*eit);
     if( ((m_Label[seeds[0]]==2)||(m_Label[seeds[1]]==2))
         && (m_NumberOfPixels[seeds[0]]>m_MinRegion)
         && (m_NumberOfPixels[seeds[1]]>m_MinRegion) )
@@ -921,7 +921,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
   Point<int,2> seeds; 
   for(eit = m_WorkingVD->EdgeBegin();eit != eitend; ++eit)
     { 
-    seeds = m_WorkingVD->GetSeedsIDAroundEdge(eit); 
+    seeds = m_WorkingVD->GetSeedsIDAroundEdge(&*eit); 
     if((m_Label[seeds[0]]==2)||(m_Label[seeds[1]]==2))
       { 
       drawVDline(result,eit->m_Left,eit->m_Right,boundcolor); 
