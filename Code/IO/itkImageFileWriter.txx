@@ -35,6 +35,7 @@ ImageFileWriter<TInputImage>
   m_UserSpecifiedIORegion(false)
 {
   m_UseCompression = false;
+  m_UseInputMetaDataDictionary = true;
 }
 
 
