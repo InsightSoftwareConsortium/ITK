@@ -192,6 +192,16 @@ GradientDescentOptimizer
 
   ScalesType scales = this->GetScales();
 
+  // Make sure the scales have been set properly
+  if (scales.size() != spaceDimension)
+    {
+    itkExceptionMacro(<< "The size of Scales is "
+                      << scales.size()
+                      << ", but the NumberOfParameters for the CostFunction is "
+                      << spaceDimension
+                      << ".");
+    }
+
   DerivativeType transformedGradient( spaceDimension ); 
 
   for(unsigned int j = 0; j < spaceDimension; j++)

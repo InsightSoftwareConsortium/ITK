@@ -48,6 +48,16 @@ QuaternionRigidTransformGradientDescentOptimizer
   const unsigned int spaceDimension = 
     m_CostFunction->GetNumberOfParameters();
 
+  // Make sure the scales have been set
+  if (scales.size() != spaceDimension)
+    {
+    itkExceptionMacro(<< "The size of Scales is "
+                      << scales.size()
+                      << ", but the NumberOfParameters is "
+                      << spaceDimension
+                      << ".");
+    }
+
   DerivativeType transformedGradient( spaceDimension);
   for ( unsigned int i=0; i< spaceDimension; i++)
     {

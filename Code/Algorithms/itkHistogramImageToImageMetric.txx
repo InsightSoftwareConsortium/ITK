@@ -144,6 +144,15 @@ HistogramImageToImageMetric<TFixedImage,TMovingImage>
   derivative.Fill(NumericTraits<ITK_TYPENAME
                   DerivativeType::ValueType>::Zero);
 
+  // Make sure the scales have been set
+  if (m_DerivativeStepLengthScales.size() != ParametersDimension)
+    {
+    itkExceptionMacro(<< "The size of DerivativesStepLengthScales is "
+                      << m_DerivativeStepLengthScales.size()
+                      << ", but the Number of Parameters is "
+                      << ParametersDimension
+                      << ".");
+    }
   for (unsigned int i = 0; i < ParametersDimension; i++)
     {
     typename HistogramType::Pointer pHistogram2 = HistogramType::New();
@@ -239,8 +248,10 @@ HistogramImageToImageMetric<TFixedImage,TMovingImage>
     }
     
   if (m_NumberOfPixelsCounted == 0)
+    {
     itkExceptionMacro(<< "All the points mapped to outside of the moving \
 image");
+    }
 }
 
 template <class TFixedImage, class TMovingImage>
