@@ -87,7 +87,7 @@ void
 MapContainer< TElementIdentifier , TElement >
 ::InsertElement(ElementIdentifier id, Element element)
 {
-  this->Map::insert(id, element);
+  this->Map::operator[](id) = element;
   this->Modified();
 }
 
