@@ -25,26 +25,26 @@
 
 namespace itk
 {
-  
+
 /** \class MutualInformationImageToImageMetric
  * \brief Computes the mutual information between two images to be registered
  *
  * MutualInformationImageToImageMetric computes the mutual information
- * between a target and reference image to be registered. 
- * 
+ * between a target and reference image to be registered.
+ *
  * This class is templated over four types:
- *    TTarget = the target image type
- *    TMapper = the mapper type
- *    TMeasure = type of the output metric value
+ *    TTarget = the target image type,
+ *    TMapper = the mapper type,
+ *    TMeasure = type of the output metric value, and
  *    TDerivative = type of each of the individual metric derivatives
  *
  * For a given set of transform parameters, the mapper calculates the
- * value of transformed reference image value at a target domain point.
- * The traansform parameters can be defined via SetParameters().
+ * transformed reference image value at a target domain point.
+ * The transform parameters can be defined via SetParameters().
  *
  * The methods SetTarget() and SetMapper() are used to define the
  * the target image and the mapper. Note that the reference image has
- * to connected to the mapper (outside of this class) before the 
+ * to connected to the mapper (outside of this class) before the
  * mutual information value can be calculated.
  *
  * The method GetValue() evokes the calculation of the mutual information
@@ -52,8 +52,8 @@ namespace itk
  * both the mutual information and its derivatives with respect to the
  * transform parameters.
  *
- * The calculations are based on the method of Viola and Wells 
- * where the probability density distributions are estimated using 
+ * The calculations are based on the method of Viola and Wells
+ * where the probability density distributions are estimated using
  * Parzen windows.
  *
  * By default a Gaussian kernel is used in the density estimation.
@@ -61,41 +61,44 @@ namespace itk
  * the kernel passing in a pointer a KernelFunction using the
  * SetKernelFunction() method.
  *
- * Mutual information is estimated using two sample set: one to calculate
- * the singluar and joint pdf's and one to calculate the entropy 
+ * Mutual information is estimated using two sample sets: one to calculate
+ * the singular and joint pdf's and one to calculate the entropy
  * integral. By default 50 samples points are used in each set.
  * Other values can be set via the SetNumberOfSpatialSamples() method.
  *
  * Quality of the density estimate depends on the choice of the
- * kernel's variance. Optimal choice will depend on the images. 
+ * kernel's variance. Optimal choice will depend on the images.
  * It is can be shown that around the optimal variance, the mutual
  * information estimate is relatively insensitive to small changes
- * of the variance. In our experiments, we have found that a 
+ * of the variance. In our experiments, we have found that a
  * variance of 0.1 works well for images normalized between 0 and 1.
  * The variance can be set via methods SetTargetStandardDeviation()
  * and SetReferenceStandardDeviation().
  *
  * Implementaton of this class is based on:
- * Viola, P. and Wells III, W. (1997). 
+ * Viola, P. and Wells III, W. (1997).
  * "Alignment by Maximization of Mutual Information"
  * International Journal of Computer Vision, 24(2):137-154
  *
  * Caveat:
  * Calculating the mutual information works for all transform type.
  * However, in order to calculate the derivatives, the mapper has to
- * have the ability to provide derivatives of the reference intensity 
+ * have the ability to provide derivatives of the reference intensity
  * with respect to the transform parameters.
  *
  * This feature is still to be implemented.
  *
- * A temporary solution for *only for the affine transform* has been 
- * implemented in this class.
+ * A temporary solution for has been implemented in this class.
+ * It should be removed once the feature has been implemented in
+ * the mapper.
  *
  */
-template < class TTarget, class TMapper,class TMeasure,
-          class TDerivative > 
-class ITK_EXPORT MutualInformationImageToImageMetric : public Object 
-
+template <
+class TTarget,
+class TMapper,
+class TMeasure,
+class TDerivative >
+class ITK_EXPORT MutualInformationImageToImageMetric : public Object
 {
 public:
   /**
@@ -108,8 +111,8 @@ public:
    */
   typedef Object  Superclass;
 
-  /** 
-   * Smart pointer typedef support 
+  /**
+   * Smart pointer typedef support
    */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
@@ -118,7 +121,7 @@ public:
    *  Type of the Mapper
    */
   typedef TMapper MapperType;
-  
+
   /**
    *  Type of the Reference
    */
@@ -128,7 +131,7 @@ public:
    *  Type of the Target
    */
   typedef TTarget TargetType;
- 
+
   /**
    * TargetImageDimension enumeration
    */
@@ -137,7 +140,7 @@ public:
   /**
    *  Type of the match measure
    */
-  typedef TMeasure  MeasureType; 
+  typedef TMeasure  MeasureType;
 
   /**
    * Type of the Transform
@@ -147,7 +150,7 @@ public:
   /**
    * Space dimension is the dimension of parameters space
    */
-   enum { SpaceDimension = TMapper::SpaceDimension };    
+   enum { SpaceDimension = TMapper::SpaceDimension };
 
   /**
    *  Parameters type
@@ -162,15 +165,15 @@ public:
   /**
    * Type of the vector match measure
    */
-  typedef Vector<TMeasure,SpaceDimension>     VectorMeasureType;
+  typedef Vector<TMeasure,SpaceDimension>  VectorMeasureType;
 
   /**
-   *  Pointer type for the Reference 
+   *  Pointer type for the Reference
    */
   typedef typename ReferenceType::Pointer ReferencePointer;
 
   /**
-   *  Pointer type for the Target 
+   *  Pointer type for the Target
    */
   typedef typename TargetType::Pointer TargetPointer;
 
@@ -189,7 +192,7 @@ public:
    */
   typedef typename MapperType::PointType TargetPointType;
 
-  /** 
+  /**
    * Run-time type information (and related methods).
    */
   itkTypeMacro(MutualInformationImageToImageMetric, Object);
@@ -198,9 +201,9 @@ public:
    * Method for creation through the object factory.
    */
   itkNewMacro(Self);
- 
+
   /**
-   * Connect the Target 
+   * Connect the Target
    */
   void SetTarget( TargetType * );
 
@@ -218,7 +221,7 @@ public:
   /**
    * Get Parameters
    */
-  const ParametersType& GetParameters( void ) const 
+  const ParametersType& GetParameters( void ) const
     { return m_Parameters; }
 
   /**
@@ -241,7 +244,6 @@ public:
    */
   void GetValueAndDerivative(MeasureType& Value, DerivativeType& Derivative );
 
-  
   /**
    * Set the number of spatial samples. This is the number of image
    * samples used to calculate the joint probability distribution.
@@ -262,10 +264,10 @@ public:
   /**
    * Set the reference image intensitiy standard deviation. This
    * defines the kernel bandwidth used in the joint probability
-   * distribution calculation. Default value is 0.1 which works 
+   * distribution calculation. Default value is 0.1 which works
    * well for image intensities normalized to between 0 and 1.
    */
-  itkSetClampMacro( ReferenceStandardDeviation, double, 0.0, 
+  itkSetClampMacro( ReferenceStandardDeviation, double, 0.0,
     NumericTraits<double>::max() );
 
   /**
@@ -300,14 +302,13 @@ public:
   KernelFunction * GetKernelFunction( void )
     { return m_KernelFunction; }
 
-
 protected:
 
   ReferencePointer            m_Reference;
   TargetPointer               m_Target;
   MapperPointer               m_Mapper;
   MeasureType                 m_MatchMeasure;
-  VectorMeasureType           m_VectorMatchMeasure;        
+  VectorMeasureType           m_VectorMatchMeasure;
   DerivativeType              m_MatchMeasureDerivatives;
   ParametersType              m_Parameters;
 
@@ -319,10 +320,10 @@ protected:
 private:
 
   /**
-   * A spatial sample consists of 
-   * - the target domain point
-   * - the target value and that point 
-   * - the corresponding reference value
+   * A spatial sample consists of
+   *   the target domain point,
+   *   the target value and that point, and
+   *   the corresponding reference value
    */
   class SpatialSample
   {
@@ -335,16 +336,16 @@ private:
   /**
    * SpatialSampleContainer typedef support
    */
-  typedef std::vector< SpatialSample > SpatialSampleContainer; 
+  typedef std::vector<SpatialSample>  SpatialSampleContainer;
 
   /**
-   * Container to store samples A - used to approximate the probability
+   * Container to store sample set  A - used to approximate the probability
    * density function (pdf)
    */
   SpatialSampleContainer              m_SampleA;
 
   /**
-   * Container to store samples B - used to approximate the mutual
+   * Container to store sample set  B - used to approximate the mutual
    * information value
    */
   SpatialSampleContainer              m_SampleB;
@@ -357,13 +358,12 @@ private:
   /**
    * IntensityDerivativeContainer typedef support
    */
-  typedef std::vector< IntensityDerivativeType > IntensityDerivativeContainer;
+  typedef std::vector<IntensityDerivativeType> IntensityDerivativeContainer;
 
   /**
-   * Container to store sample A image derivatives
+   * Container to store sample set A image derivatives
    */
   IntensityDerivativeContainer      m_SampleADerivatives;
-  
 
   unsigned int                        m_NumberOfSpatialSamples;
   double                              m_ReferenceStandardDeviation;
@@ -376,7 +376,7 @@ private:
   void SampleTargetDomain( SpatialSampleContainer& samples );
 
   //-----------------------------------------------------------
-  // The following methods and variables are related to 
+  // The following methods and variables are related to
   // calculating the reference image intensity derivatives
   // with respect to the transform parameters.
   //
@@ -384,17 +384,18 @@ private:
   //
   // This is a temporary solution until it has been
   // implementation in the mappper.
-  // This solution only works for affine transform type.
+  // This solution only works any transform that has a
+  // GetJacobian() API.
   //----------------------------------------------------------
   /**
    * Calculate the intensity derivatives at a point
    */
-  void CalculateDerivatives( TargetPointType&, IntensityDerivativeType& );
+  void CalculateDerivatives(TargetPointType& , IntensityDerivativeType& );
 
-  typedef CentralDerivativeImageFunction< ReferenceType > 
+  typedef CentralDerivativeImageFunction< ReferenceType >
     DerivativeFunctionType;
 
-  typename DerivativeFunctionType::Pointer      m_DerivativeCalculator;
+  typename DerivativeFunctionType::Pointer  m_DerivativeCalculator;
 
 };
 
@@ -405,3 +406,4 @@ private:
 #endif
 
 #endif
+
