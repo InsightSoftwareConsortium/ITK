@@ -131,18 +131,18 @@ public:
    * \sa EndOfLine
    * \sa End
    */
-  void NextLine(void);
+  inline void NextLine(void);
 
   /**
    * Test if the index is at the end of line
    */
-  bool IsAtEndOfLine(void);
+  inline bool IsAtEndOfLine(void);
 
 
   /**
    * Set the direction of movement
    */
-  void SetDirection(unsigned int direction) ;
+  inline void SetDirection(unsigned int direction) ;
 
 
   /**
