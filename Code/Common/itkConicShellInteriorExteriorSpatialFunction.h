@@ -138,7 +138,14 @@ protected:
 
 private:
 
+  /**
+   * The origin of the conic shell
+   */
   TVectorType m_Origin;
+
+  /**
+   * The gradient at the origin
+   */
   TVectorType m_OriginGradient;
 
   double m_DistanceMin;
