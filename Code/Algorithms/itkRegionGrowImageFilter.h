@@ -112,7 +112,7 @@ public:
 
   /** Set/Get the initial grid. */
   itkSetMacro(GridSize, GridSizeType);
-  itkGetConstMacro(GridSize, GridSizeType);
+  itkGetConstReferenceMacro(GridSize, GridSizeType);
 
   /** Set/Get the number of regions desired. */
   itkSetMacro(MaximumNumberOfRegions, unsigned int);
