@@ -88,6 +88,7 @@ const std::vector<std::string> &GDCMSeriesFileNames::GetOutputFileNames()
   // 2. Mkdir
   //bool SystemTools::FileExists(const char* filename)
   //bool SystemTools::FileIsDirectory(const char* name)
+  m_OutputFileNames.clear();
   
   if( m_OutputDirectory.empty() )
     {
