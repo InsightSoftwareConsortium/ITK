@@ -35,10 +35,18 @@ ImageToListAdaptor< TImage, TMeasurementVector >
 template < class TImage, class TMeasurementVector >
 void
 ImageToListAdaptor< TImage, TMeasurementVector >
-::SetImage(ImagePointer image) 
+::SetImage(TImage* image) 
 { 
   m_Image = image ; 
   m_PixelContainer = image->GetPixelContainer() ;
+  m_ImageBeginIndex = image->GetLargestPossibleRegion().GetIndex() ;
+
+  for ( unsigned int i = 0 ; i < TImage::ImageDimension ; ++i )
+    {
+    m_ImageEndIndex[i] = 
+      m_ImageBeginIndex[i] + image->GetLargestPossibleRegion().GetSize()[i] - 1 ;
+    }
+
   if ( strcmp( m_Image->GetNameOfClass(), "Image" ) != 0 )
     {
     m_UseBuffer = false ;
@@ -50,13 +58,11 @@ ImageToListAdaptor< TImage, TMeasurementVector >
 }
 
 template < class TImage, class TMeasurementVector >
-typename ImageToListAdaptor< 
-  TImage, 
-  TMeasurementVector >::ImagePointer
+TImage*
 ImageToListAdaptor< TImage, TMeasurementVector >
 ::GetImage() 
 {
-  return m_Image ; 
+  return m_Image.GetPointer() ; 
 }  
 
 /** returns the number of measurement vectors in this container*/
@@ -69,7 +75,7 @@ ImageToListAdaptor< TImage, TMeasurementVector >
 }
 
 template < class TImage, class TMeasurementVector >
-TMeasurementVector
+inline TMeasurementVector
 ImageToListAdaptor< TImage, TMeasurementVector >
 ::GetMeasurementVector(const InstanceIdentifier &id)
 {
