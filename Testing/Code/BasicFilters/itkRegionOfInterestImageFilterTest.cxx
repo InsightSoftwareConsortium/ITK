@@ -22,10 +22,11 @@
 int itkRegionOfInterestImageFilterTest(int, char* [] )
 {
 
-  typedef unsigned short      PixelType;
-  const unsigned int          Dimension = 3;
+  const unsigned int               Dimension = 3;
+  typedef itk::Index<Dimension>    PixelType;
 
-  typedef itk::Image< PixelType, Dimension > ImageType;
+  typedef itk::Image< PixelType, 
+                      Dimension >   ImageType;
 
   typedef itk::RegionOfInterestImageFilter< 
                                       ImageType,
@@ -36,6 +37,9 @@ int itkRegionOfInterestImageFilterTest(int, char* [] )
   typedef ImageType::SizeType     SizeType;
   typedef ImageType::IndexType    IndexType;
 
+
+  typedef itk::ImageRegionIterator< 
+                           ImageType > IteratorType;
 
   FilterType::Pointer filter = FilterType::New();
  
@@ -57,7 +61,15 @@ int itkRegionOfInterestImageFilterTest(int, char* [] )
   image->SetRegions( region );
   image->Allocate();
 
-  image->FillBuffer( 217 );
+  // Fill the image pixels with their own index.
+  IteratorType intr( image, region );
+  intr.GoToBegin();
+  while( !intr.IsAtEnd() )
+    {
+    intr.Set( intr.GetIndex() );
+    ++intr;
+    }
+
 
   filter->SetInput( image );
 
@@ -80,7 +92,43 @@ int itkRegionOfInterestImageFilterTest(int, char* [] )
 
   filter->Update();
 
+
+
+  IteratorType ot( filter->GetOutput(),
+                   filter->GetOutput()->GetLargestPossibleRegion() );
+
+  IteratorType it( image, regionOfInterest );
+
+  it.GoToBegin();
+  ot.GoToBegin();
+
+  bool passed = true;
+  while( !it.IsAtEnd() )
+    {
+    IndexType inIndex  = it.Get(); 
+    IndexType outIndex = ot.Get(); 
+    if( inIndex[0] != outIndex[0]  ||
+        inIndex[1] != outIndex[1]  ||
+        inIndex[2] != outIndex[2]    )
+      {
+      std::cerr << "Test failed at pixel " << inIndex << std::endl;
+      std::cerr << "pixel value is       " << outIndex << std::endl;
+      passed = false;
+      break;
+      }
+
+    ++it;
+    ++ot;
+    }
+
+  if( !passed ) 
+    {
+    return EXIT_FAILURE;
+    }
+
+  std::cout << "Test PASSED !" << std::endl;
   return EXIT_SUCCESS;
+
 }
 
 
