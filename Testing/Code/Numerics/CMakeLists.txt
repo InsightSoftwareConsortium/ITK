@@ -8,6 +8,7 @@ ADD_TEST(itkLBFGSOptimizerTest itkLBFGSOptimizerTest)
 ADD_TEST(itkNumericsHeaderTest itkNumericsHeaderTest)
 ADD_TEST(itkNumericsTest itkNumericsTest)
 ADD_TEST(itkRegularStepGradientDescentOptimizerTest itkRegularStepGradientDescentOptimizerTest)
+ADD_TEST(itkVersorTransformOptimizerTest itkVersorTransformOptimizerTest)
 
 LINK_LIBRARIES (
 ITKCommon
@@ -21,5 +22,6 @@ ADD_EXECUTABLE(itkLBFGSOptimizerTest itkLBFGSOptimizerTest)
 ADD_EXECUTABLE(itkNumericsHeaderTest itkNumericsHeaderTest)
 ADD_EXECUTABLE(itkNumericsTest itkNumericsTest)
 ADD_EXECUTABLE(itkRegularStepGradientDescentOptimizerTest itkRegularStepGradientDescentOptimizerTest )
+ADD_EXECUTABLE(itkVersorTransformOptimizerTest itkVersorTransformOptimizerTest)
 
 
