@@ -112,7 +112,7 @@ public:
   /** Kernel typedef. */
   typedef
   Neighborhood<double, itkGetStaticConstMacro(ImageDimension)> KernelType;
-  typedef KernelType::SizeType                                 SizeType;
+  typedef typename KernelType::SizeType SizeType;
   
   /** Kernel iterator. */
   typedef typename KernelType::Iterator KernelIteratorType ;

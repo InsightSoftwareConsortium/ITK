@@ -368,6 +368,8 @@ BilateralImageFilter<TInputImage, TOutputImage>
   os << indent << "NumberOfRangeGaussianSamples: " << m_NumberOfRangeGaussianSamples << std::endl;
   os << indent << "Input dynamic range: " << m_DynamicRange << std::endl;
   os << indent << "Amount of dynamic range used: " << m_DynamicRangeUsed << std::endl;
+  os << indent << "AutomaticKernelSize: " << m_AutomaticKernelSize << std::endl;
+  os << indent << "Radius: " << m_Radius << std::endl;
 }
 
 } // end namespace itk
