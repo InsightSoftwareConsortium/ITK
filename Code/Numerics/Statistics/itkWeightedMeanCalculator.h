@@ -23,6 +23,7 @@
 
 #include "itkArray.h"
 #include "itkVector.h"
+#include "itkFunctionBase.h"
 #include "itkSampleAlgorithmBase.h"
 
 namespace itk{ 
@@ -32,8 +33,9 @@ namespace Statistics{
  * \brief calculates sample mean where each measurement vector has
  * associated weight value
  *
- * You plug in the target sample data using SetSample method. Then call
- * the Update method to run the alogithm.
+ * To run this algorithm, you have plug in the target sample data 
+ * using SetInpuSample method and provides weight by an array or function.
+ *. Then call the Update method to run the alogithm.
  *
  * \sa MeanCalculator SampleAlgorithmBase
  */
@@ -55,13 +57,32 @@ public:
   itkStaticConstMacro(MeasurementVectorSize, unsigned int,
                       TSample::MeasurementVectorSize);
 
-  typedef Array< double > WeightArrayType ;
-  /** Typedef for the mean output */
+  typedef typename TSample::MeasurementVectorType MeasurementVectorType ;
+
+  /** Mean (output) typedef */
   typedef Vector< double, itkGetStaticConstMacro(MeasurementVectorSize) > OutputType ;
   
+  /** Array typedef for weights */
+  typedef Array< double > WeightArrayType ;
+
+  /** Sets the weights using an array */
   void SetWeights(WeightArrayType* array) ;
+  
+  /** Gets the weights array */
   WeightArrayType* GetWeights() ;
 
+  /** Weight calculation function typedef */
+  typedef FunctionBase< MeasurementVectorType, double > WeightFunctionType ;
+
+  /** Sets the wiehts using an function
+   * the function should have a method, 
+   * Evaluate(MeasurementVectorType&) */
+  void SetWeightFunction(WeightFunctionType* func) ;
+
+  /** Gets the weight function */
+  WeightFunctionType* GetWeightFunction() ;
+
+  /** Returns the mean vector as the result */
   OutputType* GetOutput() ;
 
 protected:
@@ -74,6 +95,7 @@ protected:
 
 private:
   WeightArrayType* m_Weights ;
+  WeightFunctionType* m_WeightFunction ;
   OutputType m_Output ;
 } ; // end of class
     
