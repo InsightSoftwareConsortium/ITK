@@ -48,10 +48,12 @@ namespace itk {
 
 /**
  * \class AnisotropicDiffusionFunction
- *
- * This class is a virtual base for anisotropic diffusion function objects.  It 
+ * This class is a virtual base for anisotropic diffusion function objects.  It
  * is a component object in the finite difference solver hierarchy (see
  * itkFiniteDifferenceImageFilter for an overview).
+ * AnisotropicDiffusionFunction objects are used by
+ * AnisotropicDiffusionImageFilter objects to perform non-linear diffusion on
+ * itk::Images.
  *
  * \par Overview of anisotropic diffusion
  * Anisotropic diffusion methods are a tools for calculating multi-scale
@@ -127,17 +129,13 @@ namespace itk {
  * application is wholly dependent on the results you want from a specific data
  * set and the number or iterations you perform.
  * 
- * \par Iterations
-
- 
-
- 
  * \sa VectorAnisotropicDiffusionFunction
  * \sa ScalarAnisotropicDiffusionFunction
  * \sa GradientAnisotropicDiffusionFunction
  * \sa CurvatureAnisotropicDiffusionFunction
  * \sa VectorGradientAnisotropicDiffusionFunction
  * \ingroup Functions
+ * \ingroup ImageEnhancement
  * \todo Automatically generate the time step value from image dimensionality
  *  and order of the equations */
 template <class TImage>
