@@ -26,6 +26,7 @@ ADD_TEST(itkOptimizersHierarchyTest ${NUMERICS_TESTS} itkOptimizersHierarchyTest
 ADD_TEST(itkRegularStepGradientDescentOptimizerTest ${NUMERICS_TESTS} itkRegularStepGradientDescentOptimizerTest)
 ADD_TEST(itkSymmetricEigenSystemTest ${NUMERICS_TESTS} itkSymmetricEigenSystemTest)
 ADD_TEST(itkVersorTransformOptimizerTest ${NUMERICS_TESTS} itkVersorTransformOptimizerTest)
+ADD_TEST(itkVersorRigid3DTransformOptimizerTest ${NUMERICS_TESTS} itkVersorRigid3DTransformOptimizerTest)
 ADD_TEST(itkNumericsHeaderTest ${NUMERICS_HEADER_TEST})
 
 SET(Numerics_SRCS
@@ -43,6 +44,7 @@ itkOptimizersHierarchyTest.cxx
 itkRegularStepGradientDescentOptimizerTest.cxx
 itkSymmetricEigenSystemTest.cxx
 itkVersorTransformOptimizerTest.cxx
+itkVersorRigid3DTransformOptimizerTest.cxx
 )
 
 ADD_EXECUTABLE(itkNumericsHeaderTest itkNumericsHeaderTest.cxx)
