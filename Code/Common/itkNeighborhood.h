@@ -164,23 +164,11 @@ public:
   {
     for (Iterator it = this->Begin(); it < this->End(); ++it)
       {
-        ScalarTraits<TPixel>::SetScalar(*it, v);
-      }
-    return *this;
-  }
-
-  /**
-   * Sets all of the pixel values in this neighborhood to a pixel constant
-   */
-  Self &operator=( const TPixel &v )
-  {
-    for (Iterator it = this->Begin(); it < this->End(); ++it)
-      {
         *it = v;
       }
     return *this;
   }
-  
+
   /**
    * Prints some debugging info.
    */
@@ -306,7 +294,7 @@ public:
     
     for (Iterator it = this->Begin(); it < this->End(); ++it)
       {
-      accum += ScalarTraits<TPixel>::GetScalar(*it);
+        accum += *it;
       }
     return accum;
   }
@@ -315,8 +303,7 @@ public:
    * Returns a Neighborhood  whose scalar pixel values are incremented
    * by a single scalar constant.
    */
-  template<class YPixel>
-  Self operator+(const YPixel &) const;
+  Self operator+(const TPixelScalarValueType &) const;
 
   /**
    * Returns a Neighborhood whose scalar pixel values are all raised to
