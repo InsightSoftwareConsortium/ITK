@@ -55,21 +55,24 @@ public:
   typedef typename Superclass::MovingImageConstPointer
     MovingImageConstPointerType;
 
-  /** Typedefs for histogram. */
-  typedef Statistics::Histogram<RealType, 2> HistogramType;
+  /** Typedefs for histogram.  This should have been defined as Histogram<RealType,2> but
+      a bug in VC++7 produced an internal compiler error with such declaration. */
+  typedef Statistics::Histogram<double, 2> HistogramType;
+  typedef typename HistogramType::MeasurementVectorType  MeasurementVectorType;
+  typedef typename HistogramType::SizeType               HistogramSizeType;
 
   /** Initializes the metric. */
   void Initialize() throw (ExceptionObject);
 
   /** Sets the histogram size. Note this function must be called before
       \c Initialize(). */
-  inline void SetHistogramSize(typename HistogramType::SizeType const& size)
+  inline void SetHistogramSize(const HistogramSizeType & size)
     {
       m_HistogramSize = size;
     }
 
   /** Gets the histogram size. */
-  inline typename HistogramType::SizeType const& GetHistogramSize() const
+  inline const HistogramSizeType & GetHistogramSize() const
     {
       return m_HistogramSize;
     }
@@ -137,19 +140,19 @@ protected:
   virtual ~HistogramImageToImageMetric() {};
 
   /** The histogram size. */
-  typename HistogramType::SizeType m_HistogramSize;
+  HistogramSizeType m_HistogramSize;
   /** The lower bound for samples in the histogram. */
-  mutable typename HistogramType::MeasurementVectorType m_LowerBound;
+  mutable MeasurementVectorType m_LowerBound;
   /** The upper bound for samples in the histogram. */
-  mutable typename HistogramType::MeasurementVectorType m_UpperBound;
+  mutable MeasurementVectorType m_UpperBound;
 
   /** Computes the joint histogram from the transformation parameters
       passed to the function. */
-  void ComputeHistogram(TransformParametersType const& parameters,
+  void ComputeHistogram(const TransformParametersType & parameters,
                         HistogramType& histogram) const;
   /** Computes the joint histogram from the transformation parameters
       passed to the function. */
-  void ComputeHistogram(TransformParametersType const& parameters,
+  void ComputeHistogram(const TransformParametersType & parameters,
                         unsigned int parameter,
                         double step,
                         HistogramType& histogram) const;
