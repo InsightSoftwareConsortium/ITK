@@ -56,7 +56,7 @@
 
 // typename keyword in default template arguments is not accepted by
 // MSVC.  This macro should only be used in such places.
-#if !defined(GCCXML)
+#if !defined(CABLE_CONFIGURATION)
 #define ITK_TYPENAME
 #else
 #define ITK_TYPENAME typename
