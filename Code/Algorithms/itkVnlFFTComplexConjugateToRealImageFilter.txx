@@ -92,7 +92,7 @@ namespace itk
           unsigned int YStrideConj = ((outputSize[1] - i) % outputSize[1]) * inputXSize;
           for(j = 0; j < inputXSize; j++)
             {
-            signal[YStride + j] = std::complex<TPixel>(in[YStride + j].real(),-in[YStride + j].imag());
+            signal[YStride + j] = std::complex<TPixel>(in[YStrideIn + j].real(),-in[YStrideIn + j].imag());
             DEBUG_PRINT(std::cerr << signal[YStride + j] << " ";)
             }
           for(;j < outputSize[0]; j++)
