@@ -41,89 +41,94 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 #include <iostream>
+
+#include "itkAffineTransform.h"
 #include "itkPhysicalImage.h"
 #include "itkImageRegionIterator.h"
-#include "itkScalar.h"
 #include "itkResampleImageFilter.h"
+#include "itkScalar.h"
+#include "itkSimpleImageRegionIterator.h"
+
+
+enum {NDimensions = 2};
+
+typedef itk::Scalar<short>                  PixelType;
+typedef itk::PhysicalImage<PixelType, NDimensions>     ImageType;
+typedef ImageType::IndexType                ImageIndexType;
+typedef ImageType::Pointer                  ImagePointerType;
+typedef ImageType::RegionType               ImageRegionType;
+typedef ImageType::SizeType                 ImageSizeType;
+typedef ImageType::AffineTransformType      AffineTransformType;
+typedef itk::LinearInterpolateImageFunction<ImageType>  InterpolatorType;
 
 
 int main()
 {
-  // typedefs to simplify the syntax
-  typedef itk::PhysicalImage<itk::Scalar<short>, 2>   ShortImage;
-
-  // Test the creation of an image with native type
-  ShortImage::Pointer if2 = ShortImage::New();
-
-  // fill in an image
-  ShortImage::IndexType  index = {{0, 0}};
-  ShortImage::SizeType   size = {{8, 12}};
-  ShortImage::RegionType region;
-  region.SetSize( size );
+  // Create and configure an image
+  ImagePointerType image = ImageType::New();
+  ImageIndexType  index = {{0,  0}};
+  ImageSizeType   size  = {{8, 12}};
+  ImageRegionType region;
+  region.SetSize ( size );
   region.SetIndex( index );
-  if2->SetLargestPossibleRegion( region );
-  if2->SetBufferedRegion( region );
-  if2->Allocate();
+  image->SetLargestPossibleRegion( region );
+  image->SetBufferedRegion( region );
+  image->Allocate();
 
-  itk::ImageRegionIterator<ShortImage> iterator(if2, region);
+  // Fill image with a ramp
+  itk::SimpleImageRegionIterator<ImageType> iter(image, region);
+  PixelType value;
+  for (iter.Begin(); !iter.IsAtEnd(); ++iter) {
+    index = iter.GetIndex();
+    value = index[0] + index[1];
+    iter.Set(value);
+  }
 
-  short i=0;
-  itk::Scalar<short> scalar;
-  for (; !iterator.IsAtEnd(); ++iterator, ++i)
-    {
-    scalar = i;
-    iterator.Set( scalar );
-    }
+  // Create an affine transformation
+  AffineTransformType aff;
+  aff.Scale(0.5);
 
-  // FIXME: Create an affine transformation
-
-  // FIXME: Create a linear interpolation image function
+  // Create a linear interpolation image function
+  InterpolatorType::Pointer interp = InterpolatorType::New();
+  interp->SetInputImage(image);
   
   // Create and configure a resampling filter
-  itk::ResampleImageFilter< ShortImage, ShortImage >::Pointer resample;
-  resample = itk::ResampleImageFilter< ShortImage, ShortImage >::New();
-  resample->SetInput( if2 );
-
-  // FIXME: Must finish configuration code before running rest of program
-  return EXIT_FAILURE;
-
-#if 0             // FIXME: Disable rest of program for now
+  itk::ResampleImageFilter< ImageType, ImageType >::Pointer resample;
+  resample = itk::ResampleImageFilter< ImageType, ImageType >::New();
+  resample->SetInput(image);
+  resample->SetSize(size);
+  resample->SetTransform(&aff);
+  resample->SetInterpolator(interp);
 
   // Run the resampling filter
   resample->Update();
 
-  // Check if we got the results we expected
-  // FIXME: Modify for image resampling
-  ShortImage::RegionType requestedRegion;
-  requestedRegion = resample->GetOutput()->GetRequestedRegion();
-  
-  itk::ImageRegionIterator<ShortImage>
-    iterator2(resample->GetOutput(), requestedRegion);
-
+  // Check if desired results were obtained
   bool passed = true;
-  for (; !iterator2.IsAtEnd(); ++iterator2)
-    {
-    std::cout << "Pixel " << iterator2.GetIndex() << " = " << iterator2.Get()
-              << std::endl;
-    if ( iterator2.Get() != ((shrink->GetShrinkFactor() * iterator2.GetIndex()[0])
-                        + (region.GetSize()[0]
-                           * shrink->GetShrinkFactor() * iterator2.GetIndex()[1])))
-      {
+  ImageType::RegionType region2;
+  region2 = resample->GetOutput()->GetRequestedRegion();
+  itk::SimpleImageRegionIterator<ImageType>
+      iter2(resample->GetOutput(), region2);
+  PixelType pixval;
+  for (iter2.Begin(); !iter2.IsAtEnd(); ++iter2) {
+    index  = iter2.GetIndex();
+    value  = iter2.Get();
+    pixval = value;
+    if ( (index[0] + index[1]) / 2 != pixval ) {
+      std::cout << "Error in resampled image: Pixel " << index
+                << " = " << value << std::endl;
       passed = false;
-      }
     }
+  }
 
-  if (passed)
-    {
-    std::cout << "ResampleImageFilter test passed." << std::endl;
+  // Report success or failure
+  if (passed) {
+    std::cout << "Resampling test was successful" << std::endl;
     return EXIT_SUCCESS;
-    }
-  else
-    {
-    std::cout << "ResampleImageFilter test failed." << std::endl;
+  }
+  else {
+    std::cout << "Resampling test failed" << std::endl;
     return EXIT_FAILURE;
-    }
-
-#endif
+  }
 
 }
