@@ -84,6 +84,7 @@ public:
   /**  Type of the metric. */
   typedef ImageToImageMetric< FixedImageType,
                               MovingImageType >    MetricType;
+  typedef typename MetricType::Pointer             MetricPointer;
 
   /**  Type of the Transform . */
   typedef  typename MetricType::TransformType      TransformType;
@@ -98,7 +99,7 @@ public:
 
   /** Type of the Transformation parameters This is the same type used to
    *  represent the search space of the optimization algorithm */
-  typedef   MetricType::TransformParametersType    ParametersType;
+  typedef  typename MetricType::TransformParametersType    ParametersType;
 
   /** Method that initiates the registration. */
   void StartRegistration(void);
@@ -137,7 +138,7 @@ private:
   ImageRegistrationMethod(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-  MetricType::Pointer              m_Metric;
+  MetricPointer                    m_Metric;
   OptimizerType::Pointer           m_Optimizer;
 
   MovingImageConstPointer          m_MovingImage;
