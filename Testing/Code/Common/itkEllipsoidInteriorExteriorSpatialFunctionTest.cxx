@@ -88,7 +88,6 @@ int main()
   // Evaluate all points in the spatial function and count the number of
   // pixels that are inside the sphere.
   double testPosition[dimension];  // position of a pixel in the function domain
-  std::cerr << "testPos = " << testPosition << std::endl;
 
   bool functionValue;  // Value of pixel at a given position
   int interiorPixelCounter = 0;  // Count pixels inside ellipsoid
