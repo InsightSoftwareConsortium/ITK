@@ -104,7 +104,7 @@ public:
   /**
    * Operator to set the scalar value.
    */
-  operator= (const T &val) { m_Scalar = val; }
+  const T & operator= (const T &val) { m_Scalar = val; return m_Scalar; }
   
 private:
   T m_Scalar;
