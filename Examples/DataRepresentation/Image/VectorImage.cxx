@@ -26,15 +26,15 @@
 // type.  The Vector class is intended to represent a geometrical vector in
 // space. It is not intended to be used as an array container like the
 // \href{http://www.sgi.com/tech/stl/Vector.html}{\code{std::vector}} in
-// href{http://www.sgi.com/tech/stl/}{STL}.  If you are interested in
+// \href{http://www.sgi.com/tech/stl/}{STL}.  If you are interested in
 // containers, the \doxygen{VectorContainer} class may provide the
-// functionalities you are looking for.
+// functionality you want.
 //
 // \index{itk::Vector}
 // \index{itk::Vector!header}
 //
 //
-// The first step is then to include the header file of the vector class.
+// The first step is to include the header file of the \code{Vector} class.
 //
 // Software Guide : EndLatex 
 
@@ -50,10 +50,10 @@ int main()
   // Software Guide : BeginLatex
   // 
   // The \doxygen{Vector} class is templated over the type used to represent
-  // the coordinate in space and over the space dimension.  In this example
-  // we want the vector dimension to match the image dimension but this is by
-  // no means a requirement. We could have defined a four dimensional image
-  // with three dimensional vectors as pixels.
+  // the coordinate in space and over the dimension of the space.  In this example,
+  // we want the vector dimension to match the image dimension, but this is by
+  // no means a requirement. We could have defined a four-dimensional image
+  // with three-dimensional vectors as pixels.
   //
   // \index{itk::Vector!Instantiation}
   // \index{itk::Vector!itk::Image}
@@ -110,8 +110,8 @@ int main()
   // Software Guide : BeginLatex
   //
   // The \doxygen{Vector} inherits the operator \code{[]} from the
-  // \doxygen{FixedArray} class. It is then possible to access its components
-  // using index notation as follows.
+  // \doxygen{FixedArray} class. This makes it possible to access the
+  // \code{Vector}'s components using index notation.
   //
   // Software Guide : EndLatex 
 

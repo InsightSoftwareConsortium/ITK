@@ -65,16 +65,16 @@ int main()
   // Software Guide : BeginLatex
   //
   // The individual position of a pixel inside the image is identified by a
-  // unique index. An index is an array of integers that define the position
+  // unique index. An index is an array of integers that defines the position
   // of the pixel along each coordinate dimension of the image. The IndexType
   // is automatically defined by the image and can be accessed using the
   // scope operator like \doxygen{Index}. The length of the array will match
-  // the dimension of the associated image.
+  // the dimensions of the associated image.
   //
   // The following code illustrates the declaration of an index variable and
-  // assigning values to each one of its components.  Please note that
-  // \code{Index} does not use SmartPointers to access it. The reason being
-  // that \code{Index} is a light-weight object not intended to be shared
+  // the assignment of values to each of its components.  Please note that
+  // \code{Index} does not use SmartPointers to access it. This is because
+  // \code{Index} is a light-weight object that is not intended to be shared
   // between objects. It is more efficient to produce multiple copies of
   // these small objects than to share them using the SmartPointer
   // mechanism.
@@ -95,9 +95,9 @@ int main()
 
   // Software Guide : BeginLatex
   //
-  // Having defined a pixel position with an index it is then possible to
+  // Having defined a pixel position with an index, it is then possible to
   // access the content of the pixel in the image.  The \code{GetPixel()}
-  // method allows to get the value of the pixels.
+  // method allows us to get the value of the pixels.
   //
   // \index{itk::Image!GetPixel()}
   // 
@@ -111,8 +111,7 @@ int main()
 
   // Software Guide : BeginLatex
   //
-  // While the \code{SetPixel()} method allows to set the
-  // value of the pixel.
+  // The \code{SetPixel()} method allows us to set the value of the pixel.
   //
   // \index{itk::Image!SetPixel()}
   //
@@ -131,8 +130,8 @@ int main()
   // and not reference semantics. Hence, the method cannot be used to
   // modify image data values.
   //
-  // Reminder: both \code{SetPixel()} and \code{GetPixel()} are inefficient
-  // and should only be used or debugging or for supporing interactions like
+  // Remember that both \code{SetPixel()} and \code{GetPixel()} are inefficient
+  // and should only be used for debugging or for supporing interactions like
   // querying pixel values by clicking with the mouse.
   //
   // Software Guide : EndLatex 

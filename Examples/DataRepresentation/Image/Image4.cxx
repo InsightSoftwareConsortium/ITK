@@ -16,9 +16,9 @@
 =========================================================================*/
 // Software Guide : BeginLatex
 //
-// Even though \href{http://www.itk.org}{ITK} can be used for performing
+// Even though \href{http://www.itk.org}{ITK} can be used to perform
 // general image processing tasks, the primary purpose of the toolkit is the
-// processing of medical image data.  In that perspective, additional
+// processing of medical image data.  In that respect, additional
 // information about the images is considered mandatory. In particular the
 // information associated with the physical spacing between pixels and the
 // position of the image in space with respect to some world coordinate
@@ -31,7 +31,7 @@
 // information should not be used for medical diagnosis, image analysis,
 // feature extraction, assisted radiation therapy or image guided surgery. In
 // other words, medical images lacking spatial information are not only
-// useless but rather hazardous.
+// useless but also hazardous.
 //
 // \begin{figure} \center
 // \includegraphics[width=15cm]{ImageOriginAndSpacing.eps}
@@ -86,12 +86,12 @@ int main()
 
   // Software Guide : BeginLatex
   //
-  // Image spacing is represented in a \code{C-like} array of \code{double}
+  // Image spacing is represented in a \code{C-like} array of type \code{double}
   // whose size matches the dimension of the image. In order to manually set
   // the spacing of the image, an array of the corresponding type must be
   // created.  The elements of the array should then be initialized with the
-  // spacing between the centers of the adjacent pixels. The following code
-  // illustrates the methods available in the image class for dealing with
+  // spacing between the centers of adjacent pixels. The following code
+  // illustrates the methods available in the \doxygen{Image} class for dealing with
   // spacing and origin.
   //
   // \index{itk::Image!Spacing}
@@ -125,9 +125,9 @@ int main()
   //
   // The spacing information can be retrieved from an image by using the
   // \code{GetSpacing()} method. This method returns a pointer to a static
-  // array of \code{double}. The returned pointer can then be used to read the
-  // content of the array. Note the use of the \code{const} keyword to indicate
-  // that the array content will not be modified. 
+  // array of type \code{double}. The returned pointer can then be used to read the
+  // contents of the array. Note the use of the \code{const} keyword to indicate
+  // that the array will not be modified. 
   //
   //  Software Guide : EndLatex 
 
@@ -142,8 +142,8 @@ int main()
   // Software Guide : BeginLatex
   //
   // The image origin is managed in a similar way to the spacing.  A
-  // \code{C-like} array of \code{double} matching the dimension of the image
-  // must be allocated first.  The coordinates of the origin can then be
+  // \code{C-like} array of type \code{double} matching the dimension of the image
+  // must first be allocated.  The coordinates of the origin can then be
   // assigned to every component.  These coordinates correspond to the
   // position of the first pixel of the image with respect to an arbitrary
   // reference system in physical space. It is the user's responsibility to
@@ -174,9 +174,9 @@ int main()
   //
   //  The origin can also be retrieved from an image by using the
   //  \code{GetOrigin()} method. This will return a pointer to an internal
-  //  array of \code{doubles}. The pointer can be used to read the content of
+  //  array of \code{double}s. The pointer can be used to read the contents of
   //  the array. Note again the use of the \code{const} keyword to indicate
-  //  that the array content will not be modified.
+  //  that the array contents will not be modified.
   //
   //  Software Guide : EndLatex 
 
@@ -190,13 +190,13 @@ int main()
 
   // Software Guide : BeginLatex
   //
-  // Once the spacing and origin of the image have been initialized the image
+  // Once the spacing and origin of the image have been initialized, the image
   // will correctly map pixel indices to and from physical space
   // coordinates. The following code illustrates how a point in physical
   // space can be mapped into an image index for the purpose of reading the
   // content of the closest pixel.
   //
-  // First, a \doxygen{Point} type must be declared. The point type is
+  // First, an \doxygen{Point} type must be declared. The point type is
   // templated over the type used to represent coordinates and over the
   // dimension of the space. In this particular case, the dimension of the
   // point must match the dimension of the image. 
@@ -211,12 +211,12 @@ int main()
   // Software Guide : BeginLatex
   //
   // An \doxygen{Point}, like an \doxygen{Index}, is a relatively small and
-  // simple object.  for this reason it is not reference counted like the
-  // large data objects in ITK---as a consequence it is not manipulated
+  // simple object.  For this reason, it is not reference-counted like the
+  // large data objects in ITK.  Consequently, it is also not manipulated
   // with \doxygen{SmartPointer}s.  Point objects are simply declared as
   // instances of any other C++ class.  Once the point is declared, its
   // components can be accessed using traditional array notation. In
-  // particular the \code{[]} operator is available. For efficiency reasons,
+  // particular, the \code{[]} operator is available. For efficiency reasons,
   // no bounds checking is performed on the index used to access a particular
   // point component. It is the user's responsibility to make sure that the
   // index is in the range $\{0,Dimension-1\}$

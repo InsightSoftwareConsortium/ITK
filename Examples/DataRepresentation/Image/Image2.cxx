@@ -33,7 +33,7 @@ int main( int , char ** argv)
   // Software Guide : BeginLatex
   //
   // Then, the image type should be defined by specifying the
-  // type used to represent pixels and the dimension of the image.
+  // type used to represent pixels and the dimensions of the image.
   //
   // Software Guide : EndLatex 
 
@@ -47,9 +47,9 @@ int main( int , char ** argv)
 
   // Software Guide : BeginLatex
   //
-  // Using the image type it is now possible to instantiate the image reader
+  // Using the image type, it is now possible to instantiate the image reader
   // class. The image type is used as a template parameter to define how the
-  // data will be represented once it gets loaded into memory. This type does
+  // data will be represented once it is loaded into memory. This type does
   // not have to correspond exactly to the type stored in the file. However,
   // a conversion based on C-style type casting is used, so the type chosen
   // to represent the data on disk must be sufficient to characterize it
@@ -71,7 +71,7 @@ int main( int , char ** argv)
   // Software Guide : BeginLatex
   //
   // The reader type can now be used to create one reader object.  A
-  // \doxygen{SmartPointer} defined by the \code{::Pointer} notation is used
+  // \doxygen{SmartPointer} (defined by the \code{::Pointer} notation) is used
   // to receive the reference to the newly created reader.  The \code{New()}
   // method is invoked to create an instance of the image reader.
   //
@@ -103,9 +103,9 @@ int main( int , char ** argv)
 
   // Software Guide : BeginLatex
   //
-  // Reader objects are referred to as pipeline source objects; that is, they
+  // Reader objects are referred to as pipeline source objects; they
   // respond to pipeline update requests and initiate the data flow in the
-  // pipeline. The pipeline update mechanism insures that the reader only
+  // pipeline. The pipeline update mechanism ensures that the reader only
   // executes when a data request is made to the reader and the reader has
   // not read any data.  In the current example we explicitly invoke the
   // \code{Update()} method because the output of the reader is not connected
