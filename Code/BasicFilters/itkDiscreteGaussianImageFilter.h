@@ -142,6 +142,26 @@ public:
       this->SetVariance(dv);
     }
 
+  void SetMaxiumumError (const double *v)
+    {
+      ArrayType dv;
+      for (unsigned int i = 0; i < ImageDimension; i++)
+        {
+        dv[i] = v[i];
+        }
+      this->SetMaxiumumError(dv);
+    }
+
+  void SetMaxiumumError (const float *v)
+    {
+      ArrayType dv;
+      for (unsigned int i = 0; i < ImageDimension; i++)
+        {
+        dv[i] = v[i];
+        }
+      this->SetMaxiumumError(dv);
+    }
+
   /** Use the image spacing information in calculations. Use this option if you
    *  want to specify Gaussian variance in real world units.  Default is
    *   ImageSpacingOn. */
