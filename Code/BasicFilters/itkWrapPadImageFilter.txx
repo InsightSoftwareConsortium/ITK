@@ -362,6 +362,8 @@ WrapPadImageFilter<TInputImage,TOutputImage>
       outputRegionSizes[regCtr] -= sizeTemp;
       inputRegionSizes[regCtr] = outputRegionSizes[regCtr];
     }
+
+  return regCtr;
 }
 
 
