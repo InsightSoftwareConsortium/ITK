@@ -16,6 +16,7 @@
 #include "genCxxGenerator.h"
 
 #include <stack>
+#include <iostream>
 #include <fstream>
 #include <sys/stat.h>
 #include <errno.h>
