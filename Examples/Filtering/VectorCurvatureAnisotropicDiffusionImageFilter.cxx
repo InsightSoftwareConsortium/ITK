@@ -153,19 +153,19 @@ int main( int argc, char ** argv )
   //  This filter requires two parameters, the number of iterations to be
   //  performed and the time step used in the computation of the level set
   //  evolution. These parameters are set using the methods
-  //  \code{SetIterations()} and \code{SetTimeStep()} respectively.  The filter
+  //  \code{SetNumberOfIterations()} and \code{SetTimeStep()} respectively.  The filter
   //  can be executed by invoking \code{Update()}.
   //
   //  \index{itk::VectorCurvatureAnisotropicDiffusionImageFilter!Update()}
   //  \index{itk::VectorCurvatureAnisotropicDiffusionImageFilter!SetTimeStep()}
-  //  \index{itk::VectorCurvatureAnisotropicDiffusionImageFilter!SetIterations()}
+  //  \index{itk::VectorCurvatureAnisotropicDiffusionImageFilter!SetNumberOfIterations()}
   //  \index{SetTimeStep()!itk::VectorCurvatureAnisotropicDiffusionImageFilter}
-  //  \index{SetIterations()!itk::VectorCurvatureAnisotropicDiffusionImageFilter}
+  //  \index{SetNumberOfIterations()!itk::VectorCurvatureAnisotropicDiffusionImageFilter}
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  filter->SetIterations( numberOfIterations );
+  filter->SetNumberOfIterations( numberOfIterations );
   filter->SetTimeStep( timeStep );
   
   filter->Update();

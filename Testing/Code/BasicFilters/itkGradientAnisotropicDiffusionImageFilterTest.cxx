@@ -34,7 +34,7 @@ int itkGradientAnisotropicDiffusionImageFilterTest(int itkNotUsed(argc), char *i
         ::Pointer filter
         = itk::GradientAnisotropicDiffusionImageFilter<ImageType, ImageType>
         ::New();
-      filter->SetIterations(1);
+      filter->SetNumberOfIterations(1);
       filter->SetConductanceParameter(3.0f);
       filter->SetTimeStep(0.125f);
 

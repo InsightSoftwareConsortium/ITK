@@ -143,21 +143,21 @@ int main( int argc, char ** argv )
   //  This filter requires three parameters, the number of iterations to be
   //  performed, the time step and the conductance parameter used in the
   //  computation of the level set evolution. These parameters are set using
-  //  the methods \code{SetIterations()}, \code{SetTimeStep()} and
+  //  the methods \code{SetNumberOfIterations()}, \code{SetTimeStep()} and
   //  \code{SetConductanceParameter()} respectively.  The filter can be
   //  executed by invoking \code{Update()}.
   //
   //  \index{itk::GradientAnisotropicDiffusionImageFilter!Update()}
   //  \index{itk::GradientAnisotropicDiffusionImageFilter!SetTimeStep()}
   //  \index{itk::GradientAnisotropicDiffusionImageFilter!SetConductanceParameter()}
-  //  \index{itk::GradientAnisotropicDiffusionImageFilter!SetIterations()}
+  //  \index{itk::GradientAnisotropicDiffusionImageFilter!SetNumberOfIterations()}
   //  \index{SetTimeStep()!itk::GradientAnisotropicDiffusionImageFilter}
-  //  \index{SetIterations()!itk::GradientAnisotropicDiffusionImageFilter}
+  //  \index{SetNumberOfIterations()!itk::GradientAnisotropicDiffusionImageFilter}
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  filter->SetIterations( numberOfIterations );
+  filter->SetNumberOfIterations( numberOfIterations );
   filter->SetTimeStep( timeStep );
   filter->SetConductanceParameter( conductance );
   

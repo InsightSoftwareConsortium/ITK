@@ -324,7 +324,7 @@ int main( int argc, char **argv )
   //
   
   smoothing->SetTimeStep( 0.25 );
-  smoothing->SetIterations(  5 );
+  smoothing->SetNumberOfIterations(  5 );
   smoothing->SetConductanceParameter( 3.0 );
 
 

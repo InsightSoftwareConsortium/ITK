@@ -159,22 +159,22 @@ int main( int argc, char ** argv )
   //  This filter requires three parameters, the number of iterations to be
   //  performed, the time step used in the computation of the level set
   //  evolution and the value of conductance. These parameters are set using
-  //  the methods \code{SetIterations()}, \code{SetTimeStep()} and
+  //  the methods \code{SetNumberOfIterations()}, \code{SetTimeStep()} and
   //  \code{SetConductance} respectively.  The filter can be executed by
   //  invoking \code{Update()}.
   //
   //  \index{itk::CurvatureAnisotropicDiffusionImageFilter!Update()}
   //  \index{itk::CurvatureAnisotropicDiffusionImageFilter!SetTimeStep()}
-  //  \index{itk::CurvatureAnisotropicDiffusionImageFilter!SetIterations()}
+  //  \index{itk::CurvatureAnisotropicDiffusionImageFilter!SetNumberOfIterations()}
   //  \index{itk::CurvatureAnisotropicDiffusionImageFilter!SetConductanceParameter()}
   //  \index{SetTimeStep()!itk::CurvatureAnisotropicDiffusionImageFilter}
-  //  \index{SetIterations()!itk::CurvatureAnisotropicDiffusionImageFilter}
+  //  \index{SetNumberOfIterations()!itk::CurvatureAnisotropicDiffusionImageFilter}
   //  \index{SetConductanceParameter()!itk::CurvatureAnisotropicDiffusionImageFilter}
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  filter->SetIterations( numberOfIterations );
+  filter->SetNumberOfIterations( numberOfIterations );
   filter->SetTimeStep( timeStep );
   filter->SetConductanceParameter( conductance );
   

@@ -36,7 +36,7 @@ namespace itk {
  *  dimensionality of the input and output are defined by subclasses.
  *
  *  \par Parameters
- *  Set/GetIterations specifies the number of iterations (time-step updates)
+ *  Set/GetNumberOfIterations specifies the number of iterations (time-step updates)
  *  that the solver will perform to produce a solution image.  The appropriate
  *  number of iterations is dependent on the application and the image being
  *  processed.  As a general rule, the more iterations performed, the more
@@ -91,8 +91,8 @@ public:
   typedef typename Superclass::TimeStepType TimeStepType;
 
   /** Set/Get the number of iterations that the filter will run. */
-  itkSetMacro(Iterations, unsigned int);
-  itkGetMacro(Iterations, unsigned int);
+  itkSetMacro(NumberOfIterations, unsigned int);
+  itkGetMacro(NumberOfIterations, unsigned int);
 
   /** Set/Get the time step for each iteration */
   itkSetMacro(TimeStep, TimeStepType);
@@ -128,7 +128,7 @@ public:
 protected:
   AnisotropicDiffusionImageFilter()
     {
-      m_Iterations = 0;
+      m_NumberOfIterations = 0;
       m_ConductanceParameter = 1.0;
       m_TimeStep = 0.125f;
       m_FixedAverageGradientMagnitude = 0.0;
@@ -143,7 +143,7 @@ protected:
          << m_ConductanceParameter << std::endl;
       os << indent << "ConductanceScalingParameter: "
          << m_ConductanceScalingParameter << std::endl;
-      os << indent << "Iterations: " << m_Iterations
+      os << indent << "NumberOfIterations: " << m_NumberOfIterations
          << std::endl;
       os << indent << "ConductanceScalingUpdateInterval: "
          << m_ConductanceScalingUpdateInterval << std::endl;
@@ -155,7 +155,7 @@ protected:
    * algorithm will stop after a user-specified number of iterations. */
   virtual bool Halt()
     {
-      if (this->GetElapsedIterations() == m_Iterations) return true;
+      if (this->GetElapsedIterations() == m_NumberOfIterations) return true;
       else return false;
     }
 
@@ -189,9 +189,9 @@ protected:
         }
       f->InitializeIteration();
 
-      if (m_Iterations != 0)
+      if (m_NumberOfIterations != 0)
           this->UpdateProgress(((float)(this->GetElapsedIterations()))
-                               /((float)(m_Iterations)));
+                               /((float)(m_NumberOfIterations)));
       else this->UpdateProgress(0);
     }
 
@@ -203,7 +203,7 @@ private:
   
   double           m_ConductanceParameter;
   double           m_ConductanceScalingParameter;
-  unsigned int     m_Iterations;
+  unsigned int     m_NumberOfIterations;
   unsigned int     m_ConductanceScalingUpdateInterval;
   double           m_FixedAverageGradientMagnitude;
 

@@ -118,7 +118,7 @@ int main( int argc, char **argv )
   
   // Software Guide : BeginCodeSnippet
   DiffusionFilterType::Pointer diffusion = DiffusionFilterType::New();
-  diffusion->SetIterations( atoi(argv[4]) );
+  diffusion->SetNumberOfIterations( atoi(argv[4]) );
   diffusion->SetConductanceParameter( atof(argv[3]) );
   diffusion->SetTimeStep(0.125);
   // Software Guide : EndCodeSnippet
