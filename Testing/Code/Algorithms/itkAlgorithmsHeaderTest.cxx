@@ -18,9 +18,11 @@ See COPYRIGHT.txt for copyright details.
 // Test to include each header file for Insight
 
 #include "itkAffineMutualInformationImageMetric.h"
+#include "itkBalloonForceFilter.h"
 #include "itkClassifier.h"
 #include "itkConnectedRegionsMeshFilter.h"
 #include "itkCurvatureFlowImageFilter.h"
+#include "itkDeformableMesh.h"
 #include "itkExtensionVelocitiesImageFilter.h"
 #include "itkFastMarchingExtensionImageFilter.h"
 #include "itkFastMarchingImageFilter.h"

@@ -21,8 +21,10 @@ See COPYRIGHT.txt for copyright details.
 #include "itkConjugateGradientOptimizer.h"
 #include "itkLBFGSOptimizer.h"
 #include "itkLevenbergMarquardtOptimizer.h"
+#include "itkMultipleValuedNonLinearOptimizer.h"
 #include "itkNonLinearOptimizer.h"
 #include "itkOptimizer.h"
+#include "itkSingleValuedNonLinearOptimizer.h"
 
 int main ( int argc, char* argv )
 {
