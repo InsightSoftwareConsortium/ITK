@@ -76,8 +76,8 @@ int main(int argc, char* argv[])
   configurationParser->Parse(configFile);
   const CableConfiguration* cableConfiguration =
     configurationParser->GetCableConfiguration();
-  
-  if(!sourceFile)
+
+  if(!sourceFile.is_open())
     {
     gen::GeneratorBase* cxxGenerator =
       gen::CxxGenerator::GetInstance(cableConfiguration);
