@@ -125,25 +125,35 @@ public:
  * image. The two images are defined via methods SetTarget()
  * and SetReference().
  *
- * The mutual information value and its derivatives are computed
- * using the MutualInformationImagetoImageMetric class.
+ * The mutual information value and its derivatives are estimated
+ * using spatial sampling. The performance
+ * of the registration depends on good choices of the parameters
+ * used to estimate the mutual information. Refer to the documentation
+ * for MutualInformationImageToImageMetric for details on these
+ * parameters and how to set them.
  *
  * The registration uses a simple stochastic gradient ascent scheme. Steps
- * are taken repeatedly taken that are proportional to the approximate
+ * are repeatedly taken that are proportional to the approximate
  * deriviative of the mutual information with respect to the affine
  * transform parameters. The stepsize is governed by the LearningRate
  * parameter. The default is 1.0. The LearningRate is set via the method
- * SetLearningRate(). Typically, the learning rate should be annealed
- * (decreased over time). In our experiments, we have found that a
- * LearningRate of 1.0 works well for images normalized between 0 and 1.
+ * SetLearningRate().
  *
  * Since the parameters of the linear part is different in magnitude
  * to the parameters in the offset part, scaling is required
- * to improve convergence. Scaling weights of the parameter derivatives
- * can be set via SetScalingWeights(). Default is 0.001 for the parameters
- * in the linear part and 1.0 for parameters for the offset part.
+ * to improve convergence. The scaling can set via SetTranslationScale().
+ * The default is 1.0 but should be set to the maximum expected translation.
  *
- * Optimization performance can be improve by setting the transformation
+ * NB: In the Viola and Wells paper, the scaling is specified by
+ * using different learning rates for the linear and offset part.
+ * The following formula translate their scaling parameters to
+ * those used in this framework:
+ *
+ * LearningRate = lambda_R
+ *
+ * TranslationScale = sqrt( lambda_T / lambda_R );
+ *
+ * Optimization performance can be improved by setting the transformation
  * centers to center of mass of the image. The transformation centers
  * can be specify via methods SetTargetTransformationCenter() and
  * SetReferenceTransformationCenter(). The default is the origin for
@@ -158,6 +168,7 @@ public:
  * the target image type.
  *
  * \sa MutualInformationImageToImageMetric
+ * \sa CenteredAffineRegistrationTransform
  *
  */
 template <class TReference, class TTarget>
@@ -319,16 +330,14 @@ public:
     { return m_ReferenceTransformationCenter; }
 
   /**
-   * Set the scaling weights
+   * Set the translation scale
    */
-  void SetScalingWeights( const ParametersType& weights )
-   { m_ScalingWeights = weights; }
+  itkSetMacro( TranslationScale, double );
 
   /**
-   * Get the scaling weights
+   * Get the translation scale
    */
-  const ParametersType& GetScalingWeights( void ) const
-   { return m_ScalingWegihts; }
+  itkGetConstMacro( TranslationScale, double );
 
   /**
    * Set the learning rate. This is used in the optimization scheme.
@@ -372,10 +381,9 @@ private:
   // -------------------------------
   // Optimization related variables
   // -------------------------------
-  ParametersType             m_ScalingWeights;
+  double                     m_TranslationScale;
   double                     m_LearningRate;
   unsigned int               m_NumberOfIterations;
-
 
 };
 

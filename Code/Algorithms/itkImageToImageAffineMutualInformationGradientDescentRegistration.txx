@@ -57,7 +57,6 @@ ImageToImageAffineMutualInformationGradientDescentRegistration<TReference, TTarg
 
   // initialize the parameter to be the identity transform
   typename ParametersType::Iterator pit = m_Parameters.Begin();
-  typename ParametersType::Iterator sit = m_ScalingWeights.Begin();
 
   // initialize the linear part
   for (unsigned int i=0; i<TReference::ImageDimension; i++)
@@ -71,8 +70,6 @@ ImageToImageAffineMutualInformationGradientDescentRegistration<TReference, TTarg
         }
 	    ++pit;
 
-      *sit = 0.001;
-      ++sit;
       }
     }
 
@@ -82,13 +79,13 @@ ImageToImageAffineMutualInformationGradientDescentRegistration<TReference, TTarg
     *pit = 0;
     ++pit;
 
-    *sit = 1.0;
-    ++sit;
   }
 
   // set default parameters
   m_NumberOfIterations = 1000;
   m_LearningRate = 1.0;
+  m_TranslationScale = 1.0;
+
   PointType center;
   center.Fill( 0 );
   this->SetTargetTransformationCenter( center );
@@ -105,6 +102,10 @@ ImageToImageAffineMutualInformationGradientDescentRegistration<TReference, TTarg
 ::ImageToImageAffineMutualInformationGradientDescentRegistration( const Self & other )
 :Superclass( other )
 {
+  m_Parameters = other.m_Parameters;
+  m_TranslationScale = other.m_TranslationScale;
+  m_TargetTransformationCenter = other.TargetTransformationCenter;
+  m_ReferenceTransformationCenter = other.ReferenceTransformationCenter;
 }
 
 
@@ -129,6 +130,10 @@ ImageToImageAffineMutualInformationGradientDescentRegistration< TReference, TTar
 ::operator=( const Self & other )
 {
   Superclass::operator=( other );
+  m_Parameters = other.m_Parameters;
+  m_TranslationScale = other.m_TranslationScale;
+  m_TargetTransformationCenter = other.TargetTransformationCenter;
+  m_ReferenceTransformationCenter = other.ReferenceTransformationCenter;
   return *this;
 }
 
@@ -182,6 +187,9 @@ ImageToImageAffineMutualInformationGradientDescentRegistration<TReference, TTarg
 ::StartRegistration( void )
 {
 
+  this->GetMetric()->GetMapper()->GetTransformation()->
+   SetTranslationScale( m_TranslationScale );
+
   typename OptimizerType::Pointer optimizer;
   optimizer = this->GetOptimizer();
 
@@ -190,7 +198,6 @@ ImageToImageAffineMutualInformationGradientDescentRegistration<TReference, TTarg
   // setup the optimizer
   optimizer->SetMaximize();
   optimizer->SetLearningRate( m_LearningRate );
-  optimizer->SetScale( m_ScalingWeights );
   optimizer->SetNumberOfIterations( m_NumberOfIterations );
   optimizer->SetInitialPosition( m_Parameters );
 
