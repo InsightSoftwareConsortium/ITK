@@ -126,6 +126,9 @@ public:
   void Initialize(const SizeType &size, MeasurementVectorType& lowerBound,
                   MeasurementVectorType& upperBound) ;
 
+  /** Initialize the values of the histogram bins to zero */
+  void SetToZero() ;
+
   /** returns the index of histogram corresponding to measurement value
    *  \deprecated Use GetIndex(const MeasurementVectorType & measurement,
    *                           IndexType & index ) const instead.*/

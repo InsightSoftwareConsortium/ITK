@@ -34,6 +34,23 @@ void
 SparseFrequencyContainer< TFrequencyValue >
 ::Initialize(unsigned long) 
 {   
+  this->SetToZero();
+}
+
+template< class TFrequencyValue >
+void
+SparseFrequencyContainer< TFrequencyValue >
+::SetToZero() 
+{   
+  typedef typename FrequencyContainerType::iterator IteratorType;
+  IteratorType iter = m_FrequencyContainer.begin();
+  IteratorType end  = m_FrequencyContainer.end();
+  if ( iter != end )
+    {
+    iter->second = NumericTraits< FrequencyType >::Zero;
+    ++iter;
+    }
+  m_TotalFrequency = NumericTraits< FrequencyType >::Zero ;
 }
 
 template< class TFrequencyValue >

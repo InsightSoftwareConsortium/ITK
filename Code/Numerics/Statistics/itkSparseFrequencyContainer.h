@@ -62,6 +62,10 @@ public:
   /** prepares the frequency container */
   void Initialize(unsigned long length) ;
 
+  /** Calls the SetToZero method of superclass to initialize all the bins to Zero.
+   *  This should be done before starting to call the IncreaseFrequency method. */
+  void SetToZero() ;
+
   /** Method to set the frequency of histogram using instance identifier */
   void SetFrequency(const InstanceIdentifier id, const FrequencyType value) ;
 

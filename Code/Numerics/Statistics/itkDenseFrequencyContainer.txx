@@ -37,6 +37,16 @@ DenseFrequencyContainer< TFrequencyValue >
 ::Initialize(unsigned long length) 
 {   
   m_FrequencyContainer->Reserve(length) ;
+  this->SetToZero();
+}
+
+template< class TFrequencyValue >
+void
+DenseFrequencyContainer< TFrequencyValue >
+::SetToZero() 
+{   
+  m_FrequencyContainer->Fill( NumericTraits< FrequencyType >::Zero );
+  m_TotalFrequency = NumericTraits< FrequencyType >::Zero ;
 }
 
 template< class TFrequencyValue >

@@ -86,7 +86,16 @@ Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
 
   // initialize the frequency container
   m_FrequencyContainer->Initialize(m_OffsetTable[VMeasurementVectorSize]) ;
-  this->SetFrequency(0.0f) ;
+  this->SetToZero();
+}
+
+template< class TMeasurement, unsigned int VMeasurementVectorSize,
+          class TFrequencyContainer>
+void 
+Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
+::SetToZero()
+{
+  m_FrequencyContainer->SetToZero();
 }
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize,
