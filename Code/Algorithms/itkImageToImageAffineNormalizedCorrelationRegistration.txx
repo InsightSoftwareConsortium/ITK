@@ -122,7 +122,7 @@ ImageToImageAffineNormalizedCorrelationRegistration<TReference, TTarget>
     {
       if(i != j) 
       {
-		m_Parameters[ k++ ] = 0.0;
+        m_Parameters[ k++ ] = 0.0;
       }
       else 
       {
