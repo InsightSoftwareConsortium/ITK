@@ -571,7 +571,7 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
     currentMeasure = ComputeMeasure( parameters, subtractionFactor );
 
 #ifdef DEBUG_GRADIENT_DIFFERENCE_IMAGETOIMAGE_METRIC
-    std::cout << setw(4) << nIterations << " " << currentMeasure << std::endl;
+    std::cout << std::setw(4) << nIterations << " " << currentMeasure << std::endl;
 #endif
 
     if (firstIteration)
