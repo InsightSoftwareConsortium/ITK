@@ -167,18 +167,18 @@ int main(int argc, char *argv[])
 //  
 //  In order to begin the registration, we declare an instance of the
 //  FEMRegistrationFilter.  For simplicity, we will call
-//  it \code{X}.
+//  it \code{registrationFilter}.
 // 
 //  Software Guide : EndLatex
 
 //  Software Guide : BeginCodeSnippet
-  RegistrationType::Pointer X = RegistrationType::New(); 
+  RegistrationType::Pointer registrationFilter = RegistrationType::New(); 
 //  Software Guide : EndCodeSnippet
 
 
 //  Software Guide : BeginLatex
 // 
-//  Next, we call \code{X->SetConfigFileName()} to read the parameter
+//  Next, we call \code{registrationFilter->SetConfigFileName()} to read the parameter
 //  file containing information we need to set up the registration
 //  filter (image files, image sizes, etc.).  A sample parameter file is shown at the end of this
 //  section, and the individual components are labeled.  
@@ -187,8 +187,9 @@ int main(int argc, char *argv[])
 
 
   // Attempt to read the parameter file, and exit if an error occurs
-  X->SetConfigFileName(paramname);
-  if ( !X->ReadConfigFile( (X->GetConfigFileName()).c_str() ) ) 
+  registrationFilter->SetConfigFileName(paramname);
+  if ( !registrationFilter->ReadConfigFile( 
+           (registrationFilter->GetConfigFileName()).c_str() ) ) 
     { 
     return -1; 
     }
@@ -198,11 +199,11 @@ int main(int argc, char *argv[])
   typedef fileImageType::PixelType PixType;
 
   FileSourceType::Pointer movingfilter = FileSourceType::New();
-  movingfilter->SetFileName( (X->GetMovingFile()).c_str() );
+  movingfilter->SetFileName( (registrationFilter->GetMovingFile()).c_str() );
   FileSourceType::Pointer fixedfilter = FileSourceType::New();
-  fixedfilter->SetFileName( (X->GetFixedFile()).c_str() );
-  std::cout << " reading moving " << X->GetMovingFile() << std::endl;
-  std::cout << " reading fixed " << X->GetFixedFile() << std::endl;
+  fixedfilter->SetFileName( (registrationFilter->GetFixedFile()).c_str() );
+  std::cout << " reading moving " << registrationFilter->GetMovingFile() << std::endl;
+  std::cout << " reading fixed " << registrationFilter->GetFixedFile() << std::endl;
   
 
   try
@@ -257,22 +258,22 @@ int main(int argc, char *argv[])
   IntensityEqualizeFilter->ThresholdAtMeanIntensityOn();
   IntensityEqualizeFilter->Update();
 
-  X->SetFixedImage(fixedrescalefilter->GetOutput());
-  X->SetMovingImage(IntensityEqualizeFilter->GetOutput());
+  registrationFilter->SetFixedImage(fixedrescalefilter->GetOutput());
+  registrationFilter->SetMovingImage(IntensityEqualizeFilter->GetOutput());
 
 
   itk::ImageFileWriter<ImageType>::Pointer writer;
   writer = itk::ImageFileWriter<ImageType>::New();
   std::string ofn="fixed.hdr";
   writer->SetFileName(ofn.c_str());
-  writer->SetInput(X->GetFixedImage() ); 
+  writer->SetInput(registrationFilter->GetFixedImage() ); 
   writer->Write();
 
   ofn="moving.hdr";
   itk::ImageFileWriter<ImageType>::Pointer writer2;
   writer2 =  itk::ImageFileWriter<ImageType>::New();
   writer2->SetFileName(ofn.c_str());
-  writer2->SetInput(X->GetMovingImage() ); 
+  writer2->SetInput(registrationFilter->GetMovingImage() ); 
   writer2->Write();
  
 
@@ -296,7 +297,7 @@ int main(int argc, char *argv[])
   itk::fem::MaterialLinearElasticity::Pointer m;
   m = itk::fem::MaterialLinearElasticity::New();
   m->GN = 0;                  // Global number of the material
-  m->E = X->GetElasticity();  // Young's modulus -- used in the membrane
+  m->E = registrationFilter->GetElasticity();  // Young's modulus -- used in the membrane
   m->A = 1.0;                 // Cross-sectional area
   m->h = 1.0;                 // Thickness
   m->I = 1.0;                 // Moment of inertia
@@ -306,8 +307,8 @@ int main(int argc, char *argv[])
   // Create the element type 
   ElementType::Pointer e1=ElementType::New();
   e1->m_mat=dynamic_cast<itk::fem::MaterialLinearElasticity*>( m );
-  X->SetElement(e1);
-  X->SetMaterial(m);
+  registrationFilter->SetElement(e1);
+  registrationFilter->SetMaterial(m);
 //  Software Guide : EndCodeSnippet
 
 
@@ -318,7 +319,7 @@ int main(int argc, char *argv[])
 //  Software Guide : EndLatex
 
 //  Software Guide : BeginCodeSnippet
-  X->RunRegistration();
+  registrationFilter->RunRegistration();
 //  Software Guide : EndCodeSnippet
 
 
@@ -331,7 +332,8 @@ int main(int argc, char *argv[])
 //  Software Guide : EndLatex
 
 //  Software Guide : BeginCodeSnippet
-  X->WriteWarpedImage((X->GetResultsFileName()).c_str());
+  registrationFilter->WriteWarpedImage(
+        (registrationFilter->GetResultsFileName()).c_str());
 //  Software Guide : EndCodeSnippet
 
 //  Software Guide : BeginLatex
@@ -345,15 +347,15 @@ int main(int argc, char *argv[])
 //  Software Guide : EndLatex
 
 //  Software Guide : BeginCodeSnippet
-  if (X->GetWriteDisplacements()) 
+  if (registrationFilter->GetWriteDisplacements()) 
     {
-    X->WriteDisplacementField(0);
-    X->WriteDisplacementField(1);
+    registrationFilter->WriteDisplacementField(0);
+    registrationFilter->WriteDisplacementField(1);
     // If this were a 3D example, you might also want to call this line:
-    // X->WriteDisplacementField(2);
+    // registrationFilter->WriteDisplacementField(2);
 
     // We can also write it as a multicomponent vector field
-    X->WriteDisplacementFieldMultiComponent();
+    registrationFilter->WriteDisplacementFieldMultiComponent();
     }
 //  Software Guide : EndCodeSnippet
 
