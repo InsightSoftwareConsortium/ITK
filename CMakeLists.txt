@@ -83,48 +83,32 @@ SET(ITK_BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS})
 
 OPTION(ITK_CSWIG_TCL "Build cswig Tcl wrapper support (requires CableSwig)." OFF)
 OPTION(ITK_CSWIG_PYTHON "Build cswig Python wrapper support (requires CableSwig)." OFF)
-# Java support is not complete and the option should not be used
-# until it has been completed.
-OPTION(ITK_CSWIG_JAVA "Build cswig Java wrapper support (Not working.)" OFF)
+OPTION(ITK_CSWIG_JAVA "Build cswig Java wrapper support " OFF)
 
-#-----------------------------------------------------------------------------
-# Find wrapping language API libraries.
-IF(ITK_CSWIG_TCL)
-  INCLUDE(${CMAKE_ROOT}/Modules/FindTCL.cmake)
-
-  # Hide useless settings provided by FindTCL.
-  FOREACH(entry TCL_LIBRARY_DEBUG
-                TK_LIBRARY_DEBUG
-                TCL_STUB_LIBRARY
-                TCL_STUB_LIBRARY_DEBUG
-                TK_STUB_LIBRARY
-                TK_STUB_LIBRARY_DEBUG
-                TK_WISH)
-    SET(${entry} "${${entry}}" CACHE INTERNAL "This value is not used by ITK.")
-  ENDFOREACH(entry)
-ENDIF(ITK_CSWIG_TCL)
-
-IF(ITK_CSWIG_PYTHON)
-  INCLUDE(${CMAKE_ROOT}/Modules/FindPythonLibs.cmake)
-ENDIF(ITK_CSWIG_PYTHON)
-
-IF(ITK_CSWIG_JAVA)
-  FIND_PACKAGE(Java)
-  FIND_PACKAGE(JNI)
-ENDIF(ITK_CSWIG_JAVA)
+# perl support does not work, contact bill hoffman at kitware
+# if you are interested in perl wrapping.  It is close, but
+# not there yet.
+#OPTION(ITK_CSWIG_PERL "Build cswig Perl wrapper support " OFF)
 
 #-----------------------------------------------------------------------------
 # Do we need CableSwig?
 SET(ITK_NEED_CableSwig 0)
+
 IF(ITK_CSWIG_TCL)
   SET(ITK_NEED_CableSwig 1)
 ENDIF(ITK_CSWIG_TCL)
+
 IF(ITK_CSWIG_PYTHON)
   SET(ITK_NEED_CableSwig 1)
 ENDIF(ITK_CSWIG_PYTHON)
+
 IF(ITK_CSWIG_JAVA)
   SET(ITK_NEED_CableSwig 1)
 ENDIF(ITK_CSWIG_JAVA)
+
+IF(ITK_CSWIG_PERL)
+  SET(ITK_NEED_CableSwig 1)
+ENDIF(ITK_CSWIG_PERL)
 
 IF(ITK_NEED_CableSwig)
   IF(NOT BUILD_SHARED_LIBS)
@@ -136,6 +120,8 @@ ENDIF(ITK_NEED_CableSwig)
 # Find CableSwig if necessary.
 IF(ITK_NEED_CableSwig)
   IF(EXISTS ${ITK_SOURCE_DIR}/Utilities/CableSwig)
+    SET(CMAKE_MODULE_PATH ${ITK_SOURCE_DIR}/Utilities/CableSwig/SWIG/CMake)
+
     # CableSwig is included in the source distribution.
     SET(ITK_BUILD_CABLESWIG 1)
     SET(CableSwig_DIR ${ITK_BINARY_DIR}/Utilities/CableSwig)
@@ -145,7 +131,8 @@ IF(ITK_NEED_CableSwig)
   ELSE(EXISTS ${ITK_SOURCE_DIR}/Utilities/CableSwig)
     # CableSwig is not included in the source distribution.  Find it.
     FIND_PACKAGE(CableSwig)
-    
+    SET(CMAKE_MODULE_PATH ${CableSwig_DIR}/SWIG/CMake)
+
     # Hack for CMake 1.6 compatability.
     IF(${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} LESS 1.7)
       SET(CableSwig_FOUND ${CABLESWIG_FOUND})
@@ -160,6 +147,50 @@ IF(ITK_NEED_CableSwig)
 ENDIF(ITK_NEED_CableSwig)
 
 #-----------------------------------------------------------------------------
+
+
+#-----------------------------------------------------------------------------
+# Find wrapping language API libraries.
+IF(ITK_CSWIG_TCL)
+  FIND_PACKAGE(TCL)
+  # Hide useless settings provided by FindTCL.
+  FOREACH(entry TCL_LIBRARY_DEBUG
+                TK_LIBRARY_DEBUG
+                TCL_STUB_LIBRARY
+                TCL_STUB_LIBRARY_DEBUG
+                TK_STUB_LIBRARY
+                TK_STUB_LIBRARY_DEBUG
+                TK_WISH)
+    SET(${entry} "${${entry}}" CACHE INTERNAL "This value is not used by ITK.")
+  ENDFOREACH(entry)
+ENDIF(ITK_CSWIG_TCL)
+
+IF(ITK_CSWIG_PYTHON)
+  INCLUDE(${CMAKE_ROOT}/Modules/FindPythonLibs.cmake)
+  FIND_PROGRAM(PYTHON_EXECUTABLE
+    NAMES python2.3 python2.2 python2.1 python2.0 python1.6 python1.5 python
+    PATHS
+    [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\2.3\\InstallPath]
+    [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\2.2\\InstallPath]
+    [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\2.1\\InstallPath]
+    [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\2.0\\InstallPath]
+    [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\1.6\\InstallPath]
+    [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\1.5\\InstallPath]
+    )
+  MARK_AS_ADVANCED(PYTHON_EXECUTABLE)
+ENDIF(ITK_CSWIG_PYTHON)
+
+IF(ITK_CSWIG_JAVA)
+  FIND_PACKAGE(Java)
+  FIND_PACKAGE(JNI)
+ENDIF(ITK_CSWIG_JAVA)
+IF(ITK_CSWIG_PERL)
+  FIND_PACKAGE(Perl)
+  FIND_PACKAGE(PerlLibs)
+ENDIF(ITK_CSWIG_PERL)
+
+
+
 IF(WIN32)
    IF(BUILD_SHARED_LIBS)
      SET(ITK_COMMON_BUILD_TYPE "SHARED")
@@ -195,6 +226,7 @@ ITK_THIRD_PARTY_OPTION(TIFF tiff)
 MARK_AS_ADVANCED(ITK_CSWIG_PYTHON)
 MARK_AS_ADVANCED(ITK_CSWIG_TCL)
 MARK_AS_ADVANCED(ITK_CSWIG_JAVA)
+MARK_AS_ADVANCED(ITK_CSWIG_PERL)
 MARK_AS_ADVANCED(CABLE_INDEX)
 MARK_AS_ADVANCED(CSWIG)
 MARK_AS_ADVANCED(GCCXML)

@@ -12,18 +12,6 @@ ENDIF(${CMAKE_MAKE_PROGRAM} MATCHES make)
 SET(ITK_TOP ${ITK_SOURCE_DIR})
 SET(ITK_SWIG_DEFAULT_LIB ${ITK_TOP}/Utilities/CableSwig/Swig/Lib )
 
-FIND_PROGRAM(PYTHON_EXECUTABLE
-  NAMES python2.3 python2.2 python2.1 python2.0 python1.6 python1.5 python
-  PATHS
-  [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\2.3\\InstallPath]
-  [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\2.2\\InstallPath]
-  [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\2.1\\InstallPath]
-  [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\2.0\\InstallPath]
-  [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\1.6\\InstallPath]
-  [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\1.5\\InstallPath]
-)
-MARK_AS_ADVANCED(PYTHON_EXECUTABLE)
-
 SET(CSWIG_EXTRA_LINKFLAGS )
 IF(CMAKE_BUILD_TOOL MATCHES "(msdev|devenv|nmake)")
   SET(CSWIG_EXTRA_LINKFLAGS "/IGNORE:4049")
@@ -71,7 +59,8 @@ MACRO(GCCXML_CREATE_XML_FILE Source Bin Input Output Library)
        ENDIF(EXISTS ${f})
      ENDFOREACH(f)
    ELSE(CABLE_SWIG_DEPEND)
-     # No dependencies.  Force the rule to re-run to update the dependencies.
+     # No dependencies, make the output depend on the dependency file
+     # itself, which should cause the rule to re-run.
      SET(CABLE_SWIG_DEPEND_REGENERATE 1)
    ENDIF(CABLE_SWIG_DEPEND)
    IF(CABLE_SWIG_DEPEND_REGENERATE)
@@ -125,6 +114,27 @@ MACRO(CSWIG_CREATE_TCL_CXX_FILE Bin MasterIdx InputIdx InputXml OutputTclCxx Lib
      DEPENDS ${LibraryIndexFiles} ${Bin}/${InputXml} ${CSWIG} ${ITK_BINARY_DIR}/itkConfigure.h)
 #     MESSAGE("depends are ${CABLE_SWIG_DEPEND}")
 ENDMACRO(CSWIG_CREATE_TCL_CXX_FILE)
+
+MACRO(CSWIG_CREATE_PERL_CXX_FILE Bin MasterIdx InputIdx InputXml OutputPerlCxx Library LibraryIndexFiles)
+   SET(CINDEX)
+   FOREACH(MIDX ${MasterIdx})
+     SET(CINDEX ${CINDEX} -Cindex "${MIDX}")
+   ENDFOREACH(MIDX)
+
+   # Need dependency on ${ITK_BINARY_DIR}/itkConfigure.h so
+   # package is rebuilt when the ITK version changes.
+   ADD_CUSTOM_COMMAND(
+     COMMENT "${OutputPerlCxx} from "
+     SOURCE ${Bin}/${InputIdx}
+     COMMAND ${CSWIG}
+     ARGS -perl5 -l${ITK_TOP}/Wrapping/CSwig/itk.swg
+          -I${ITK_SWIG_DEFAULT_LIB}
+          -noruntime ${CINDEX} ${IGNORE_WARNINGS} -depend ${Bin}/${InputXml}.depend
+          -o ${Bin}/${OutputPerlCxx} -c++ ${Bin}/${InputXml}
+     TARGET ${Library}
+     OUTPUTS ${Bin}/${OutputPerlCxx}
+     DEPENDS ${LibraryIndexFiles} ${Bin}/${InputXml} ${CSWIG} ${ITK_BINARY_DIR}/itkConfigure.h)
+ENDMACRO(CSWIG_CREATE_PERL_CXX_FILE)
 
 SET(ITK_CSWIG_PYTHON_NO_EXCEPTION_REGEX "(ContinuousIndex|Python)\\.xml$")
 
@@ -182,6 +192,14 @@ MACRO(WRAP_TCL_SOURCES Source Bin BaseName LibraryName MasterIdx LibraryIndexFil
                              ${BaseName}Tcl.cxx ${LibraryName} "${LibraryIndexFiles}")
 ENDMACRO(WRAP_TCL_SOURCES)
 
+# macro to create .xml, .idx and Tcl.cxx files
+MACRO(WRAP_PERL_SOURCES Source Bin BaseName LibraryName MasterIdx LibraryIndexFiles)
+   GCCXML_CREATE_XML_FILE(${Source} ${Bin} ${BaseName}.cxx ${BaseName}.xml ${LibraryName})
+   CINDEX_CREATE_IDX_FILE(${Bin} ${BaseName}.xml  ${BaseName}.idx ${LibraryName})
+   CSWIG_CREATE_PERL_CXX_FILE(${Bin} "${MasterIdx}" ${BaseName}.idx ${BaseName}.xml
+                             ${BaseName}Perl.cxx ${LibraryName} "${LibraryIndexFiles}")
+ENDMACRO(WRAP_PERL_SOURCES)
+
 # macro to create .xml, .idx and Python.cxx files
 MACRO(WRAP_PYTHON_SOURCES Source Bin BaseName LibraryName MasterIdx LibraryIndexFiles)
    GCCXML_CREATE_XML_FILE(${Source} ${Bin} ${BaseName}.cxx ${BaseName}.xml ${LibraryName})
@@ -221,6 +239,9 @@ ENDIF(ITK_CSWIG_PYTHON)
 IF(ITK_CSWIG_TCL)
   INCLUDE_DIRECTORIES(${TCL_INCLUDE_PATH})
 ENDIF(ITK_CSWIG_TCL)
+IF(ITK_CSWIG_PERL)
+  INCLUDE_DIRECTORIES(${PERL_INCLUDE_PATH})
+ENDIF(ITK_CSWIG_PERL)
 IF(ITK_CSWIG_JAVA)
   INCLUDE_DIRECTORIES(${JAVA_INCLUDE_PATH} ${JAVA_INCLUDE_PATH2} ${JAVA_AWT_INCLUDE_PATH})
 ENDIF(ITK_CSWIG_JAVA)
@@ -437,6 +458,7 @@ MACRO(ITK_WRAP_LIBRARY WRAP_SOURCES LIBRARY_NAME DIRECTORY DEPEND_LIBRARY EXTRA_
   # WRAP_TCL_SOURCES: list of generated files
   SET(INDEX_FILE_CONTENT "%JavaLoader=InsightToolkit.itkbase.LoadLibrary(\"${LIBRARY_NAME}Java\")\n")
   FOREACH(Source ${WRAP_SOURCES})
+    SET(WRAP_PERL_SOURCES ${WRAP_PERL_SOURCES} ${Source}Perl.cxx)
     SET(WRAP_TCL_SOURCES ${WRAP_TCL_SOURCES} ${Source}Tcl.cxx)
     SET(WRAP_PYTHON_SOURCES ${WRAP_PYTHON_SOURCES} ${Source}Python.cxx)
     SET(WRAP_JAVA_SOURCES ${WRAP_JAVA_SOURCES} ${Source}Java.cxx)
@@ -446,7 +468,8 @@ MACRO(ITK_WRAP_LIBRARY WRAP_SOURCES LIBRARY_NAME DIRECTORY DEPEND_LIBRARY EXTRA_
     SET(INDEX_FILE_CONTENT "${INDEX_FILE_CONTENT}${WrapITK_BINARY_DIR}/${DIRECTORY}/${Source}.idx\n")
   ENDFOREACH(Source)
   SET(${LIBRARY_NAME}_JAVA_DEPENDS  "${${LIBRARY_NAME}_JAVA_DEPENDS_INIT}" CACHE INTERNAL "" FORCE)
-  # add the package wrappers for python and tcl (not used in java)
+  # add the package wrappers 
+  SET(WRAP_PERL_SOURCES ${WRAP_PERL_SOURCES} wrap_${LIBRARY_NAME}PerlPerl.cxx)
   SET(WRAP_TCL_SOURCES ${WRAP_TCL_SOURCES} wrap_${LIBRARY_NAME}TclTcl.cxx)
   SET(WRAP_PYTHON_SOURCES ${WRAP_PYTHON_SOURCES} wrap_${LIBRARY_NAME}PythonPython.cxx)
   SET(WRAP_JAVA_SOURCES ${WRAP_JAVA_SOURCES} wrap_${LIBRARY_NAME}JavaJava.cxx)
@@ -456,9 +479,16 @@ MACRO(ITK_WRAP_LIBRARY WRAP_SOURCES LIBRARY_NAME DIRECTORY DEPEND_LIBRARY EXTRA_
   IF(ITK_EXTRA_PYTHON_WRAP)
     SET(WRAP_PYTHON_SOURCES ${WRAP_PYTHON_SOURCES} ${ITK_EXTRA_PYTHON_WRAP}Python.cxx)
   ENDIF(ITK_EXTRA_PYTHON_WRAP)
+  IF(ITK_EXTRA_JAVA_WRAP)
+    SET(WRAP_JAVA_SOURCES ${WRAP_JAVA_SOURCES} ${ITK_EXTRA_JAVA_WRAP}Java.cxx)
+  ENDIF(ITK_EXTRA_JAVA_WRAP)
+  IF(ITK_EXTRA_PERL_WRAP)
+    SET(WRAP_PERL_SOURCES ${WRAP_PERL_SOURCES} ${ITK_EXTRA_PERL_WRAP}Java.cxx)
+  ENDIF(ITK_EXTRA_PERL_WRAP)
 
   # set the generated sources as generated
   SET_SOURCE_FILES_PROPERTIES(
+    ${WRAP_PERL_SOURCES} 
     ${WRAP_TCL_SOURCES} 
     ${WRAP_PYTHON_SOURCES} 
     ${WRAP_JAVA_SOURCES} GENERATED )
@@ -487,12 +517,42 @@ MACRO(ITK_WRAP_LIBRARY WRAP_SOURCES LIBRARY_NAME DIRECTORY DEPEND_LIBRARY EXTRA_
         SOURCE ${ITK_SWIG_FILE}
         COMMAND ${CSWIG} 
         ARGS -nocable -noruntime ${IGNORE_WARNINGS} -o ${WRAP_FILE}
-        -c++ ${ITK_SWIG_FILE}
+        -c++ ${ITK_SWIG_FILE} 
         TARGET ${LIBRARY_NAME}Tcl
         OUTPUTS ${WRAP_FILE}
         DEPENDS ${ITK_SWIG_FILE} ${CSWIG})
     ENDIF(ITK_SWIG_FILE)
   ENDIF(ITK_CSWIG_TCL)
+
+
+  IF(ITK_CSWIG_PERL)
+    IF(ITK_SWIG_FILE)
+      SET(SWIG_INC ${SWIG_INC} -I${PERL_INCLUDE_PATH}) 
+      SET_SOURCE_FILES_PROPERTIES(${ITK_SWIG_FILE_CXX}Perl.cxx GENERATED)
+      SET(WRAP_FILE ${ITK_SWIG_FILE_CXX}Perl.cxx )
+    ENDIF(ITK_SWIG_FILE)
+      
+    ADD_LIBRARY(${LIBRARY_NAME}Perl SHARED 
+      ${WRAP_PERL_SOURCES} 
+      ${ITK_EXTRA_PERL_SOURCES} 
+      ${WRAP_FILE}
+      ${EXTRA_SOURCES})
+    SET_TARGET_PROPERTIES(${LIBRARY_NAME}PErl PROPERTIES LINK_FLAGS "${CSWIG_EXTRA_LINKFLAGS}")
+    TARGET_LINK_LIBRARIES(${LIBRARY_NAME}Perl ${EXTRA_LIBS} SwigRuntimePerl ${PERL_LIBRARY})
+    INSTALL_TARGETS(/lib/InsightToolkit ${LIBRARY_NAME}Perl )
+    IF(ITK_SWIG_FILE)
+      ADD_CUSTOM_COMMAND(
+        COMMENT "run native swig on ${ITK_SWIG_FILE}"
+        SOURCE ${ITK_SWIG_FILE}
+        COMMAND ${CSWIG} 
+        ARGS -nocable -noruntime ${IGNORE_WARNINGS} -o ${WRAP_FILE}
+        -perl5 -c++ ${ITK_SWIG_FILE}
+        TARGET ${LIBRARY_NAME}Perl
+        OUTPUTS ${WRAP_FILE}
+        DEPENDS ${ITK_SWIG_FILE} ${CSWIG})
+    ENDIF(ITK_SWIG_FILE)
+  ENDIF(ITK_CSWIG_PERL)
+
 
   IF(ITK_CSWIG_PYTHON)  
     IF(ITK_SWIG_FILE)
@@ -528,7 +588,7 @@ MACRO(ITK_WRAP_LIBRARY WRAP_SOURCES LIBRARY_NAME DIRECTORY DEPEND_LIBRARY EXTRA_
 
   IF(ITK_CSWIG_JAVA)  
     IF(ITK_SWIG_FILE)
-      SET(SWIG_INC ${SWIG_INC} -I${TCL_INCLUDE_PATH}) 
+      SET(SWIG_INC ${SWIG_INC} -I${JAVA_INCLUDE_PATH}) 
       SET_SOURCE_FILES_PROPERTIES(${ITK_SWIG_FILE_CXX}Java.cxx GENERATED)
       SET(WRAP_FILE ${ITK_SWIG_FILE_CXX}Java.cxx )
     ENDIF(ITK_SWIG_FILE)
@@ -545,7 +605,8 @@ MACRO(ITK_WRAP_LIBRARY WRAP_SOURCES LIBRARY_NAME DIRECTORY DEPEND_LIBRARY EXTRA_
         COMMENT "run native swig on ${ITK_SWIG_FILE}"
         SOURCE ${ITK_SWIG_FILE}
         COMMAND ${CSWIG} 
-        ARGS -nocable -noruntime ${IGNORE_WARNINGS} -o ${WRAP_FILE}
+        ARGS -nocable -noruntime ${IGNORE_WARNINGS} -o ${WRAP_FILE} 
+        -I${ITK_TOP}/Code/Common -DITKCommon_EXPORT=
         -outdir ${ITK_BINARY_DIR}/Wrapping/CSwig/Java/InsightToolkit
         -package InsightToolkit -java -c++ ${ITK_SWIG_FILE}
         TARGET ${LIBRARY_NAME}Java
@@ -565,6 +626,12 @@ MACRO(ITK_WRAP_LIBRARY WRAP_SOURCES LIBRARY_NAME DIRECTORY DEPEND_LIBRARY EXTRA_
       WRAP_TCL_SOURCES(${ITK_TOP}/Wrapping/CSwig/${DIRECTORY} ${WrapITK_BINARY_DIR}/${DIRECTORY}
         ${Source} ${LIBRARY_NAME}Tcl "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
     ENDIF(ITK_CSWIG_TCL)
+
+    IF(ITK_CSWIG_PERL)
+      # tcl 
+      WRAP_PERL_SOURCES(${ITK_TOP}/Wrapping/CSwig/${DIRECTORY} ${WrapITK_BINARY_DIR}/${DIRECTORY}
+        ${Source} ${LIBRARY_NAME}Perl "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
+    ENDIF(ITK_CSWIG_PERL)
     
     IF(ITK_CSWIG_PYTHON)
       # python
@@ -590,6 +657,16 @@ MACRO(ITK_WRAP_LIBRARY WRAP_SOURCES LIBRARY_NAME DIRECTORY DEPEND_LIBRARY EXTRA_
         "${ITK_EXTRA_TCL_WRAP}" ${LIBRARY_NAME}Tcl "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
     ENDIF(ITK_EXTRA_TCL_WRAP)
   ENDIF(ITK_CSWIG_TCL)
+
+  IF(ITK_CSWIG_PERL)
+    # perl
+    WRAP_PERL_SOURCES(${ITK_TOP}/Wrapping/CSwig/${DIRECTORY} ${WrapITK_BINARY_DIR}/${DIRECTORY}
+      wrap_${LIBRARY_NAME}Perl ${LIBRARY_NAME}Perl "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
+    IF(ITK_EXTRA_PERL_WRAP)
+      WRAP_PERL_SOURCES(${ITK_TOP}/Wrapping/CSwig/${DIRECTORY} ${WrapITK_BINARY_DIR}/${DIRECTORY}
+        "${ITK_EXTRA_PERL_WRAP}" ${LIBRARY_NAME}Perl "${MASTER_INDEX_FILES}" "${ALL_IDX_FILES}")
+    ENDIF(ITK_EXTRA_PERL_WRAP)
+  ENDIF(ITK_CSWIG_PERL)
    
   IF(ITK_CSWIG_PYTHON)
     # python
