@@ -98,6 +98,14 @@ public:
     };
 
   /**
+   * Evaluate the function at a non-integer position
+   */
+  virtual double Evaluate( double coord[] )
+  {
+    return ( this->Evaluate( coord, 0 ) );
+  }
+
+  /**
    * Get the derivative from last evaluation
    */
   virtual double GetDerivative() const
