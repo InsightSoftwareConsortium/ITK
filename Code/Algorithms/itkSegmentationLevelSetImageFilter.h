@@ -388,6 +388,7 @@ public:
   }
 protected:
   virtual ~SegmentationLevelSetImageFilter() {}
+  SegmentationLevelSetImageFilter(const Self&);
   SegmentationLevelSetImageFilter();
 
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
