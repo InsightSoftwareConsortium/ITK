@@ -129,13 +129,12 @@ int main( int argc, char *argv[] )
 // \begin{table}
 // \begin{center}
 // \begin{tabular}[]{rc|c|c|c}
-// & \multicolumn{4}{c}{\emph{Sample Size}} \\
-// & \code{\textbf{10}} & \code{\textbf{100}} & \code{\textbf{1000}} & \code{\textbf{10000}} \\
-// \cline{2-5}
-// \code{RatLungSlice1.mha} & 50.5 & 52.4 & 53.0 & 52.4 \\
-// \code{RatLungSlice2.mha} & 46.7 & 47.5 & 47.4 & 47.6  \\
-// \code{BrainT1Slice.png} & 47.2 & 64.1 & 68.0 & 67.8  \\ 
-// \end{tabular}
+// & \multicolumn{4}{c}{\emph{Sample Size}} \\  & \code{\textbf{10}} & \code{\textbf{100}} 
+// & \code{\textbf{1000}}  
+// & \code{\textbf{10000}} \\ \cline{2-5}
+// \code{RatLungSlice1.mha} & 50.5 & 52.4 & 53.0 & 52.4 \\ \code{RatLungSlice2.mha} 
+// & 46.7 & 47.5 & 47.4 & 47.6  \\ \code{BrainT1Slice.png} 
+// & 47.2 & 64.1 & 68.0 & 67.8  \\ \end{tabular}
 // \protect\label{fig:ImageRandomConstIteratorWithIndexExample}
 // \caption[Estimating mean image value with
 // ImageRandomConstIteratorWithIndex]{Estimates of mean image pixel value
