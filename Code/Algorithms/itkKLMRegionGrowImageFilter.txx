@@ -696,18 +696,23 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
     m_TotalBorderLength -= 
       (m_BordersCandidateDynamicPointer->m_Pointer->GetBorderLength());
 
-    /*
+    
 
     itkDebugMacro( << "-------------------");
     itkDebugMacro( << "    Before merge   ");
     itkDebugMacro( << "-------------------");
 
+/*
+    std::cout << "-------------------" << std::endl;
+    std::cout << "    Before merge   " << std::endl;
+    std::cout << "-------------------" << std::endl;
+
     for( unsigned int k = 0; k < m_NumRegions; k++ )
       {
       m_RegionsPointer[k]->PrintRegionInfo(); 
       }
-    */
-
+    
+*/
     MergeRegions();
 
     /*
@@ -1405,6 +1410,9 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   m_BordersCandidateDynamicPointer = &(m_BordersDynamicPointer[ m_NumberOfBorders - 1 ]);
   m_RegionLambda = m_BordersCandidateDynamicPointer->m_Pointer->GetLambda();
 
+  //COMMENT later
+  //bool smartPointerUseFlag = true;
+  //PrintAlgorithmBorderStats(smartPointerUseFlag);
 
   //Sorted border counter
   //For DEBUG purposes
@@ -2128,7 +2136,9 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   //Print the stats associated with all the regions
   for( unsigned int k = 0; k < m_NumRegions; k++ )
     {
-    itkDebugMacro(<<"Stats for Region No: " << ( k + 1 ));
+    //itkDebugMacro(<<"Stats for Region No: " << ( k + 1 ));
+    //COMMENT ME OFF
+    std::cout << "Stats for Region No: " << ( k + 1 ) << std::endl;
     m_RegionsPointer[ k ]->PrintRegionInfo();
     }//end region printloop
 
@@ -2144,7 +2154,9 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   //Print the stats associated with all the regions
   for( unsigned int k = 0; k < m_NumberOfBorders; k++)
     {
-    itkDebugMacro(<<"Stats for Border No: " << ( k + 1 ));
+    //itkDebugMacro(<<"Stats for Border No: " << ( k + 1 ));
+    //COMMENT ME OFF
+    std::cout << "Stats for Border No: " << ( k + 1 ) << std::endl;
     m_BordersPointer[ k ]->PrintBorderInfo();                                                    
     }//end region printloop
 
@@ -2161,7 +2173,9 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   //Print the stats associated with all the regions
   for( unsigned int k = 0; k < m_NumberOfBorders; k++ )
     {
-    itkDebugMacro(<<"Stats for Border No: " << ( k + 1 ));
+    //itkDebugMacro(<<"Stats for Border No: " << ( k + 1 ));
+    //COMMENT ME OFF
+    std::cout << "Stats for Border No: " << ( k + 1 ) << std::endl;
     m_BordersDynamicPointer[ k ].m_Pointer->PrintBorderInfo() ;                 
     }//end region printloop
 

@@ -407,6 +407,7 @@ KLMSegmentationRegion
 {
   int region1label;
   int region2label;
+  this->DebugOff();
 
   itkDebugMacro(<< "------------------------------" );
   itkDebugMacro(<< "Location   : " << this );
@@ -428,8 +429,33 @@ KLMSegmentationRegion
     tempVectorIt++;
     }// end while
 
-  itkDebugMacro(<< "------------------------------" );
-  itkDebugMacro(<< "------------------------------" );
+  this->DebugOff();
+
+  /*
+  std::cout << "------------------------------" << std::endl;
+  std::cout << "Location   : " << this << std::endl;
+  std::cout << "Label      : " << (this->GetRegionLabel()) << std::endl;
+  std::cout << "Area       : " << (this->GetRegionArea()) << std::endl;
+  std::cout << "Mean       : " << (this->GetMeanRegionIntensity()) << std::endl;
+  std::cout << "Num Borders: " << m_RegionBorderVector.size() << std::endl;
+  std::cout << "++++++++++++++++++++++++++++++" << std::endl;
+
+  // If there are border pointers print the results
+  tempVectorIt = m_RegionBorderVector.begin();
+  for( unsigned int k = 0; k < m_RegionBorderVector.size(); k++ )
+    {      
+    region1label = (*tempVectorIt)->GetRegion1()->GetRegionLabel();
+    region2label = (*tempVectorIt)->GetRegion2()->GetRegionLabel(); 
+
+    std::cout << "Border Ptr :" << (*tempVectorIt) << "( " << 
+      region1label << " - " << region2label << " )" << " L = " << 
+      (*tempVectorIt)->GetLambda() << std::endl;
+
+    tempVectorIt++;
+    }// end while
+
+  std::cout << "------------------------------" << std::endl;
+  */
 
 }//end PrintRegionInfo
 
