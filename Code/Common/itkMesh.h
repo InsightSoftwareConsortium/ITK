@@ -503,21 +503,21 @@ protected:
   void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent);
   
-  
-  // If the RegionType is ITK_UNSTRUCTURED_REGION, then the following variables
-  // represent the maximum number of region that the data object can be
-  // broken into, which region out of how many is currently in the buffered 
-  // region, and the number of regions and the specific region requested 
-  // for the update. Data objects that do not support any division of the 
-  // data can simply leave the MaximumNumberOfRegions as 1. The 
-  // UpdateNumberOfRegions and UpdateRegion are used to define the 
-  // RequestedRegion. The LargestPossibleRegion is always requested region = 0
+  // If the RegionType is ITK_UNSTRUCTURED_REGION, then the following
+  // variables represent the maximum number of region that the data
+  // object can be broken into, which region out of how many is
+  // currently in the buffered region, and the number of regions and
+  // the specific region requested for the update. Data objects that
+  // do not support any division of the data can simply leave the
+  // MaximumNumberOfRegions as 1. The RequestedNumberOfRegions and
+  // RequestedRegion are used to define the currently requested
+  // region. The LargestPossibleRegion is always requested region = 0
   // and number of regions = 1;
   int m_MaximumNumberOfRegions;
   int m_NumberOfRegions;
+  int m_BufferedRegion;
+  int m_RequestedNumberOfRegions;
   int m_RequestedRegion;
-  int m_UpdateNumberOfRegions;
-  int m_UpdateRequestedRegion;
 
 }; // End Class: Mesh
 

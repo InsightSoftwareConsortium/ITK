@@ -40,10 +40,11 @@ Mesh<TPixelType,TMeshType>
     os << indent << "Number of explicet cell boundary assignments: " 
        << m_BoundaryAssignmentsContainers.size() << std::endl;
 
-  os << indent << "Update Number Of Regions: " << m_UpdateNumberOfRegions 
-     << std::endl;
-  os << indent << "Update Requested Region: " << m_UpdateRequestedRegion << std::endl;
-  os << indent << "Maximum Number Of Regions: " << m_MaximumNumberOfRegions << std::endl;
+  os << indent << "Requested Number Of Regions: " 
+	<< m_RequestedNumberOfRegions << std::endl;
+  os << indent << "Requested Region: " << m_RequestedRegion << std::endl;
+  os << indent << "Maximum Number Of Regions: " 
+     << m_MaximumNumberOfRegions << std::endl;
 
 }
 
@@ -1182,11 +1183,11 @@ Mesh<TPixelType,TMeshType>
   // If we used unstructured regions instead of structured regions, then 
   // assume this object was created by the user and this is region 0 of 
   // 1 region.
-  m_RequestedRegion          =  0;
-  m_NumberOfRegions =  1;
-  m_RequestedRegion      =   0;
-  m_UpdateNumberOfRegions =   1;
   m_MaximumNumberOfRegions = 1;
+  m_NumberOfRegions = 1;
+  m_BufferedRegion  = -1;
+  m_RequestedNumberOfRegions = 0;
+  m_RequestedRegion = -1;
 
 }
 
@@ -1206,7 +1207,7 @@ Mesh<TPixelType,TMeshType>
   // requested region was not set yet, (or has been set to something 
   // invalid - with no data in it ) then set it to the largest 
   // possible region.
-  if ( m_RequestedRegion == -1 && m_UpdateNumberOfRegions == 0 )
+  if ( m_RequestedRegion == -1 && m_RequestedNumberOfRegions == 0 )
     {
     this->SetRequestedRegionToLargestPossibleRegion();
     }
@@ -1220,7 +1221,7 @@ void
 Mesh<TPixelType,TMeshType>
 ::SetRequestedRegionToLargestPossibleRegion()
 {
-  m_UpdateNumberOfRegions     = 1;
+  m_RequestedNumberOfRegions     = 1;
   m_RequestedRegion           = 0;
 }
 
@@ -1251,8 +1252,8 @@ Mesh<TPixelType,TMeshType>
 {
   unsigned int i;
 
-  if ( m_UpdateRequestedRegion != m_RequestedRegion ||
-       m_UpdateNumberOfRegions != m_NumberOfRegions )
+  if ( m_RequestedRegion != m_BufferedRegion ||
+       m_RequestedNumberOfRegions != m_NumberOfRegions )
     {
     return true;
     }
@@ -1269,20 +1270,20 @@ Mesh<TPixelType,TMeshType>
   unsigned int i;
 
   // Are we asking for more regions than we can get?
-  if ( m_UpdateNumberOfRegions > m_MaximumNumberOfRegions )
+  if ( m_RequestedNumberOfRegions > m_MaximumNumberOfRegions )
     {
     itkErrorMacro( << "Cannot break object into " <<
-    m_UpdateNumberOfRegions << ". The limit is " <<
+    m_RequestedNumberOfRegions << ". The limit is " <<
     m_MaximumNumberOfRegions );
     retval = false;
     }
 
-  if ( m_UpdateRequestedRegion >= m_UpdateNumberOfRegions ||
-       m_UpdateRequestedRegion < 0 )
+  if ( m_RequestedRegion >= m_RequestedNumberOfRegions ||
+       m_RequestedRegion < 0 )
     {
-    itkErrorMacro( << "Invalid update region " << m_UpdateRegion
-    << ". Must be between 0 and " 
-    << m_UpdateNumberOfRegions - 1);
+    itkErrorMacro( << "Invalid update region " << m_RequestedRegion
+                   << ". Must be between 0 and " 
+                   << m_RequestedNumberOfRegions - 1);
     retval = false;
     }
 
