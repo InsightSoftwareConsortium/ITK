@@ -485,7 +485,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
             }
           
           //it.Value() = derivPos;
-          if( (derivPos <= zero) && (gradMag > m_Threshold) ) ;
+          if( (derivPos <= zero) && (gradMag > m_Threshold) )
             {
             it.Set( m_OutputEdgeValue );
             }
