@@ -1,16 +1,3 @@
-INCLUDE_DIRECTORIES(
-../../../../../../Code/Numerics/vxl
-../../../../../../Code/Numerics/vxl/vcl
-)
-
-LINK_DIRECTORIES(
-../../../../../../Code/Numerics/vxl
-)
-
-LINK_LIBRARIES(
-VXLNumerics
-)
-
 TESTS(
 test_fft1d 
 test_fft2d 
