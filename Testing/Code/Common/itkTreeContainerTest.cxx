@@ -59,9 +59,46 @@ int itkTreeContainerTest(int, char* [])
     std::cout << levelIt.Get() << " ("<< levelIt.GetLevel() << ")" << std::endl;;
     ++levelIt;
     }
-  std::cout << std::endl;
-  std::cout << "[SUCESS]" << std::endl;
-  
+
+  // Test some functionalities of TreeIteratorBase
+  // IsLeaf()
+  std::cout << "Testing IsLeaf(): "; 
+  levelIt.GoToBegin();
+  if(levelIt.IsLeaf())
+    {
+    std::cout << "[FAILURE]" << std::endl;
+    return EXIT_FAILURE;
+    }
+   std::cout << "[SUCESS]" << std::endl;
+
+  // IsRoot()
+  std::cout << "Testing IsRoot(): "; 
+  if(!levelIt.IsRoot())
+    {
+    std::cout << "[FAILURE]" << std::endl;
+    return EXIT_FAILURE;
+    }
+   std::cout << "[SUCESS]" << std::endl;
+
+  // HasParent()
+  std::cout << "Testing HasParent(): "; 
+  if(!levelIt.HasParent())
+    {
+    std::cout << "[FAILURE]" << std::endl;
+    return EXIT_FAILURE;
+    }
+   std::cout << "[SUCESS]" << std::endl;
+
+  // CountChildren()
+  std::cout << "Testing CountChildren(): "; 
+  if(levelIt.CountChildren()!=2)
+    {
+    std::cout << "[FAILURE]" << std::endl;
+    return EXIT_FAILURE;
+    }
+   std::cout << "[SUCESS]" << std::endl;
+
+
   // ChildTreeIterator Test
   std::cout << "Testing ChildTreeIterator: " << std::endl; 
   itk::ChildTreeIterator<TreeType> childIt(tree);
@@ -81,7 +118,35 @@ int itkTreeContainerTest(int, char* [])
     std::cout << childIt2.Get() << std::endl;;
     ++childIt2;
     }
-  std::cout << std::endl;
+
+  childIt2.GoToBegin();
+
+  std::cout << "Testing other features : ";
+
+  if(childIt2.GetType() != itk::TreeIteratorBase<TreeType>::CHILD)
+    {
+    std::cout << "[FAILURE]" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  if(!childIt2.GoToParent())
+    {
+    std::cout << "[FAILURE]" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  std::cout << "[SUCESS]" << std::endl;
+
+  std::cout << "Testing Clone() : ";
+  itk::ChildTreeIterator<TreeType> childIt3 = childIt2;
+  itk::TreeIteratorBase<TreeType>* childItClone = childIt2.Clone();
+  if(!childItClone)
+    {
+    std::cout << "[FAILURE]" << std::endl;
+    return EXIT_FAILURE;
+    }
+  delete childItClone;
+
   std::cout << "[SUCESS]" << std::endl;
 
   // LeafTreeIterator Test
@@ -93,6 +158,7 @@ int itkTreeContainerTest(int, char* [])
     std::cout << leafIt.Get() << std::endl;;
     ++leafIt;
     }
+
   std::cout << std::endl;
   std::cout << "[SUCESS]" << std::endl;
 
