@@ -558,6 +558,8 @@ PREDEFINED  =  "itkNotUsed(x)="\
                   static Pointer New();" \
                "itkTypeMacro(thisClass,superclass)= \
                   virtual const char *GetClassName() const;" \
+               "itkConceptMacro(name,concept)= \
+                  enum { name = 0 };" \
                "ITK_NUMERIC_LIMITS= \
                   std::numeric_limits" \
                "FEM_CLASS_SP(thisClass,parentClass)= \
