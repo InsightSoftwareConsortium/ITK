@@ -83,6 +83,7 @@ REGISTER_TEST(itkNormalizedCorrelationPointSetToImageMetricTest );
 REGISTER_TEST(itkMeanSquaresPointSetToImageMetricTest );
 REGISTER_TEST(itkNormalizedMutualInformationHistogramImageToImageMetricTest );
 REGISTER_TEST(itkOtsuThresholdImageCalculatorTest );
+REGISTER_TEST(itkOtsuThresholdImageFilterTest );
 REGISTER_TEST(itkOrthogonalSwath2DPathFilterTest );
 REGISTER_TEST(itkMeanReciprocalSquareDifferenceImageMetricTest  );
 REGISTER_TEST(itkPointSetToImageRegistrationTest_1  );

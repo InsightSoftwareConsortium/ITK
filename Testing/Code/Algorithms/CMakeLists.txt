@@ -210,6 +210,7 @@ itkNormalizedCorrelationPointSetToImageMetricTest.cxx
 itkMeanSquaresPointSetToImageMetricTest.cxx
 itkNormalizedMutualInformationHistogramImageToImageMetricTest.cxx
 itkOtsuThresholdImageCalculatorTest.cxx
+itkOtsuThresholdImageFilterTest.cxx
 itkOrthogonalSwath2DPathFilterTest.cxx
 itkMeanReciprocalSquareDifferenceImageMetricTest.cxx
 itkPointSetToImageRegistrationTest_1.cxx
@@ -290,6 +291,14 @@ ADD_TEST(itkIsolatedWatershedImageFilterTest ${ALGORITHMS_TESTS2}
              ${ITK_DATA_ROOT}/Input/cthead1.png
              ${ITK_TEST_OUTPUT_DIR}/IsolatedWatershedImageFilterTest.png
              113 84 120 99)
+
+ADD_TEST(itkOtsuThresholdImageFilterTest ${ALGORITHMS_TESTS}
+  --compare ${ITK_DATA_ROOT}/Baseline/Algorithms/OtsuThresholdImageFilterTest.png
+            ${ITK_TEST_OUTPUT_DIR}/OtsuThresholdImageFilterTest.png
+  itkOtsuThresholdImageFilterTest
+            ${ITK_DATA_ROOT}/Input/cthead1.png
+            ${ITK_TEST_OUTPUT_DIR}/OtsuThresholdImageFilterTest.png
+            64)
 
 ADD_TEST(itkVoronoiPartitioningImageFilterTest1 ${ALGORITHMS_TESTS2}
   --compare ${ITK_DATA_ROOT}/Baseline/Algorithms/VoronoiPartioningImageFilterTest1.png
