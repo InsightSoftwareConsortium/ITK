@@ -95,10 +95,10 @@ public:
   /** Lookup table related typedefs */
   typedef Index< MeasurementVectorSize > CachedMeasurementVectorType ;
   typedef Image< MeasurementType, MeasurementVectorSize > LookupTableType ;
-  typedef LookupTableType::Pointer LookupTablePointer ;
+  typedef typename LookupTableType::Pointer LookupTablePointer ;
   typedef ImageRegionIteratorWithIndex< LookupTableType > LookupTableIteratorType ;
-  typedef LookupTableType::RegionType RegionType ;
-  typedef LookupTableType::SizeType SizeType ;
+  typedef typename LookupTableType::RegionType RegionType ;
+  typedef typename LookupTableType::SizeType SizeType ;
 
   /** sets the upper boundary for the lookup table construction */
   void SetLookupTableLowerBound(MeasurementVectorType lower) ;
