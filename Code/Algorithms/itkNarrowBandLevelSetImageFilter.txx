@@ -148,6 +148,8 @@ NarrowBandLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TOut
   m_ChamferFilter->Update();
  
   this->GraftOutput(m_ChamferFilter->GetOutput());
+  m_IsoFilter->SetInput(NULL);
+  m_ChamferFilter->SetInput(NULL);
 }
 
 } // end namespace itk
