@@ -43,12 +43,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "wrapReference.h"
 #include "wrapConversionTable.h"
 #include "wrapInstanceTable.h"
-#include "wrapWrapperTable.h"
 #include "wrapTypeInfo.h"
 #include "wrapWrapperBase.h"
 
 #include <map>
 #include <queue>
+#include <stack>
 
 namespace _wrap_
 {
@@ -196,6 +196,10 @@ int WrapperFacility::ListMethodsCommand(int objc, Tcl_Obj* CONST objv[]) const
   // duplicates.
   std::queue<const ClassType*> classQueue;
   std::set<const ClassType*> visited;
+  
+  // A stack used to reverse the order of the queue after the
+  // breadth-first traversal.
+  std::stack<const ClassType*> outputStack;
     
   // Start with the search at this class.
   visited.insert(classType);
@@ -204,13 +208,7 @@ int WrapperFacility::ListMethodsCommand(int objc, Tcl_Obj* CONST objv[]) const
     {
     // Get the next class off the queue.
     const ClassType* curClass = classQueue.front(); classQueue.pop();
-      
-    // If the class has a wrapper, list its methods.
-    const WrapperBase* wrapper = this->GetWrapper(curClass);
-    if(wrapper)
-      {
-      wrapper->ListMethods();
-      }
+    outputStack.push(curClass);
       
     // Walk up to the class's parents.
     for(ClassTypes::const_iterator parent = curClass->ParentsBegin();
@@ -223,7 +221,19 @@ int WrapperFacility::ListMethodsCommand(int objc, Tcl_Obj* CONST objv[]) const
         }
       }
     }
-    
+      
+  while(!outputStack.empty())
+    {
+    // Get the next class off the stack.
+    const ClassType* curClass = outputStack.top(); outputStack.pop();
+    // If the class has a wrapper, list its methods.
+    const WrapperBase* wrapper = this->GetWrapper(curClass);
+    if(wrapper)
+      {
+      wrapper->ListMethods();
+      }
+    }
+  
   return TCL_OK;
 }
 

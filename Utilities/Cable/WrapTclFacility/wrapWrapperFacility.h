@@ -49,7 +49,6 @@ namespace _wrap_
 
 class ConversionTable;
 class InstanceTable;
-class WrapperTable;
 class WrapperBase;
 
 /**
