@@ -354,6 +354,10 @@ int itkFEMLinearSystemWrapperItpackTest( int argc, char **argv )
   it.ReducedSystemConjugateGradient() ;
   it.ReducedSystemSemiIteration() ;
   
+  // Do something with the variables to avoid compile warnings.
+  intRet=intRet+1;
+  dbRet=dbRet+1.0;
+
   cout << "Done." << endl;
 
 
