@@ -1,337 +1,270 @@
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
+#include <itkImage.h>
+#include <itkFirstDerivativeRecursiveGaussianImageFilter.h>
+#include <itkSecondDerivativeRecursiveGaussianImageFilter.h>
+#include <itkImageRegionIteratorWithIndex.h>
+#include <itkSphereSource.h>
+#include <itkBalloonForceFilter.h>
+#include <itkMesh.h>
+#include <time.h>
 
-#include "itkImage.h"
-#include "itkVector.h"
-#include "vnl/vnl_matrix_fixed.h"
-#include "itkImageRegionIteratorWithIndex.h"
-#include "itkGaussianSupervisedClassifier.h"
-#include "itkGibbsPriorFilter.h"
-#include "itkDeformableMesh.h"
-#include "itkBalloonForceFilter.h"
-#include "itkTriangleCell.h"
-#include "itkImage.h"
-#include "itkDefaultStaticMeshTraits.h"
-#include "itkImageRegionIteratorWithIndex.h"
-#include <iostream>
-#include <string>
-#include <math.h>
+int WIDTH = 100;
+int HEIGHT = 100;
+int DEPTH = 1;
+int SEEDX = 50;
+int SEEDY = 50;
 
-#define   IMGWIDTH            20
-#define   IMGHEIGHT           20
-#define   NFRAMES             1
-#define   NUMBANDS            1  
-#define   NDIMENSION          3
-#define   NUM_CLASSES         3
-#define   MAX_NUM_ITER        20
+time_t btime,etime;
+int main() 
+{
 
-typedef itk::DeformableMesh<float>  DMesh;
-typedef itk::Mesh<float>  MyMesh;
-typedef itk::BalloonForceFilter<DMesh, DMesh> BFilter;
-typedef itk::TriangleCell<DMesh::PixelType, DMesh::CellTraits>	   TriCell;
+  // Define the dimension of the images
+  const unsigned int myDimension = 3;
 
-int main(){
-  	unsigned short TestImage [400]={
-297,277,317,289,300,312,306,283,282,308,308,342,335,325,315,300,304,318,307,308,
+  // Declare the types of the images
+  typedef itk::Image<float, myDimension>           myImageType;
 
-319,276,311,282,309,273,308,277,296,313,308,333,322,317,302,330,339,340,325,315,
+  // Declare the types of the output images
+  typedef itk::Image<unsigned short, myDimension>  outImageType;
 
-272,316,296,299,298,310,271,319,315,280,338,342,349,349,330,319,313,314,342,301,
+  // Declare the type of the index to access images
+  typedef itk::Index<myDimension>				myIndexType;
 
-274,274,312,282,277,303,313,300,275,292,341,336,324,310,337,323,322,347,337,305,
+  // Declare the type of the size 
+  typedef itk::Size<myDimension>				mySizeType;
 
-296,272,304,304,281,304,302,284,315,270,325,349,337,317,308,332,324,303,334,325,
+  // Declare the type of the Region
+  typedef itk::ImageRegion<myDimension>			myRegionType;
 
-291,272,289,317,289,310,305,316,292,307,307,343,341,329,309,308,340,323,307,325,
+  // Declare the type of the Mesh
+  typedef itk::Mesh<float>						DMesh;
 
-274,286,282,291,270,296,274,288,274,275,341,301,325,333,321,305,347,346,327,317,
+  unsigned char *testImage = new unsigned char[WIDTH*HEIGHT*DEPTH];
 
-282,315,270,314,290,304,297,304,309,290,309,338,341,319,325,344,301,349,328,302,
+  typedef itk::SphereSource<DMesh>						SphereSourceType;
+  typedef itk::BalloonForceFilter<DMesh, DMesh>			BFilter;
 
-314,289,296,270,274,277,317,280,278,285,315,347,314,316,307,336,341,335,330,337,
+  outImageType::Pointer ptimg=outImageType::New();
+  outImageType::Pointer gdimg=outImageType::New();
+  outImageType::Pointer	outputimg = outImageType::New();
 
-281,291,317,317,302,304,272,277,318,319,305,322,337,334,327,303,321,310,334,314,
+  outImageType::SizeType outsize={{WIDTH,HEIGHT,DEPTH}};
+  outImageType::IndexType index=outImageType::IndexType::ZeroIndex;
+  outImageType::RegionType outregion;
+  outregion.SetSize(outsize);
+  outregion.SetIndex(index);
 
-321,311,328,326,331,308,325,348,334,346,309,316,308,349,322,349,304,331,304,321,
+  ptimg->SetLargestPossibleRegion( outregion );
+  ptimg->SetBufferedRegion( outregion );
+  ptimg->SetRequestedRegion( outregion );
+  ptimg->Allocate();
 
-346,302,344,314,311,338,320,310,331,330,322,323,329,331,342,341,331,336,328,318,
-
-309,336,327,345,312,309,330,334,329,317,324,304,337,330,331,334,340,307,328,343,
-
-345,330,336,302,333,348,315,328,315,308,305,343,342,337,307,316,303,303,332,341,
-
-327,322,320,314,323,325,307,316,336,315,341,347,343,336,315,347,306,303,339,326,
-
-330,347,303,343,332,316,305,325,311,314,345,327,333,305,324,318,324,339,325,319,
-
-334,326,330,319,300,335,305,331,343,324,337,324,319,339,327,317,347,331,308,318,
-
-306,337,347,330,301,316,302,331,306,342,343,329,336,342,300,306,335,330,310,303,
-
-308,331,317,315,318,333,340,340,326,330,339,345,307,331,320,312,306,342,303,321,
-
-328,315,327,311,315,305,340,306,314,339,344,339,337,330,318,342,311,343,311,312
-};
-  unsigned short TestImage1[400];
-  
-  typedef itk::Image<itk::Vector<unsigned short,NUMBANDS>,NDIMENSION> VecImageType; 
-
-  VecImageType::Pointer vecImage = VecImageType::New();
-
-  VecImageType::SizeType vecImgSize = { IMGWIDTH , IMGHEIGHT, NFRAMES };
-
-  VecImageType::IndexType index = VecImageType::IndexType::ZeroIndex;
-  VecImageType::RegionType region;
-
-  region.SetSize( vecImgSize );
-  region.SetIndex( index );
-
-  vecImage->SetLargestPossibleRegion( region );
-  vecImage->SetBufferedRegion( region );
-  vecImage->Allocate();
-
-  // setup the iterators
-  typedef VecImageType::PixelType::VectorType VecPixelType;
-
-  enum { VecImageDimension = VecImageType::ImageDimension };
-  typedef itk::ImageRegionIteratorWithIndex< VecImageType > VecIterator;
-
-  VecIterator outIt( vecImage, vecImage->GetBufferedRegion() );
-
-  //Set up the vector to store the image  data
-  typedef VecImageType::PixelType     DataVector;
-  DataVector   dblVec; 
-
-  //--------------------------------------------------------------------------
-  //Manually create and store each vector
-  //--------------------------------------------------------------------------
-  int i = 0;
-  while ( !outIt.IsAtEnd() ) { 
-    dblVec[0] = TestImage[i]; 
-	outIt.Set(dblVec); 
-	++outIt;
-	i++;
-  }
-
-  //---------------------------------------------------------------
-  //Generate the initial training data
-  //---------------------------------------------------------------  
-  typedef itk::Image<unsigned short,NDIMENSION> ClassImageType; 
-  ClassImageType::Pointer classImage  = ClassImageType::New();
-
-  ClassImageType::SizeType classImgSize = { IMGWIDTH , IMGHEIGHT, NFRAMES };
-
-  ClassImageType::IndexType classindex = ClassImageType::IndexType::ZeroIndex;
-  ClassImageType::RegionType classregion;
-
-  classregion.SetSize( classImgSize );
-  classregion.SetIndex( classindex );
-
-  classImage->SetLargestPossibleRegion( classregion );
-  classImage->SetBufferedRegion( classregion );
-  classImage->Allocate();
-
-  // setup the iterators
-  typedef ClassImageType::PixelType ClassImagePixelType;
-
-  unsigned int ClassImageDimension = NDIMENSION;
-
-  typedef  itk::ImageRegionIteratorWithIndex<ClassImageType>  ClassImageIterator;
-
-  ClassImageIterator classoutIt( classImage, classImage->GetBufferedRegion() );
-
-  i = 0;
-  while ( !classoutIt.IsAtEnd() ) {
-	classoutIt.Set( 0 );
-	if ( (i%IMGWIDTH<7) && (i%IMGWIDTH>2) && 
-		(i/IMGWIDTH<7) && (i/IMGWIDTH>2)) {
-	  classoutIt.Set( 1 );
-	}
-	if ( (i%IMGWIDTH<17) && (i%IMGWIDTH>12) && 
-		(i/IMGWIDTH<17) && (i/IMGWIDTH>12)) {
-	  classoutIt.Set( 2 );
-	}
-	++classoutIt;
-	i++;
-  }
-
-  //---------------------------------------------------------------------
-  // Multiband data is now available in the right format
-  //---------------------------------------------------------------------
-  typedef 
-	itk::Classifier<VecImageType,ClassImageType>::Pointer 
-	  ClassifierType;
-
-  //Instantiate the classifier to be used
-  typedef itk::GaussianSupervisedClassifier<VecImageType,ClassImageType> 
-    GaussianSupervisedClassifierType;
-
-  GaussianSupervisedClassifierType::Pointer 
-	  myGaussianClassifier = GaussianSupervisedClassifierType::New();
-
-  //Set the Gibbs Prior labeller
-  typedef itk::GibbsPriorFilter<VecImageType,ClassImageType> GibbsPriorFilterType;
-  GibbsPriorFilterType::Pointer applyGibbsImageFilter = GibbsPriorFilterType::New();
-
-  //Set the Gibbs Prior labeller parameters
-  applyGibbsImageFilter->SetNumberOfClasses(NUM_CLASSES);
-  applyGibbsImageFilter->SetMaxNumIter(MAX_NUM_ITER);
-  applyGibbsImageFilter->SetErrorTollerance(0.00);
-  applyGibbsImageFilter->SetClusterSize(10);
-  applyGibbsImageFilter->SetBoundaryGradient(6);
-  applyGibbsImageFilter->SetObjectLabel(1);
- 
-  applyGibbsImageFilter->SetInput(vecImage);
-  applyGibbsImageFilter
-    ->SetClassifier((ClassifierType) myGaussianClassifier ); 
-
-  //Since a suvervised classifier is used, it requires a training image
-  applyGibbsImageFilter->SetTrainingImage(classImage);  
-  
-  //Kick off the Gibbs Prior labeller function
-  applyGibbsImageFilter->Update();
-  
-  ClassImageType::Pointer  outClassImage = applyGibbsImageFilter->GetOutput();
-
-  //Print the Gibbs Prior labelled image
-  ClassImageIterator labeloutIt( outClassImage, outClassImage->GetBufferedRegion() );
-
-  i = 0;
-  while ( !labeloutIt.IsAtEnd() ) {
-	TestImage1[i] = labeloutIt.Get()*32000;
-	i++;
-	++labeloutIt;
-  }
-
-//disable all the file output, please enable it when you test the code locally
-/*
-  FILE *middle=fopen("middle.raw", "wb");
-  fwrite(TestImage1, 2, IMGWIDTH*IMGHEIGHT, middle);
-  fclose(middle);
-*/
-  //---------------------------------------------------------------------
-  // Define the deformable Mesh
-  //---------------------------------------------------------------------
-  DMesh::Pointer m_Mesh(DMesh::New());
-  BFilter::Pointer m_Filter = BFilter::New();
-  DMesh::Pointer force(DMesh::New());
-  DMesh::Pointer displace(DMesh::New());
-  DMesh::Pointer derive(DMesh::New());
-  DMesh::Pointer normal(DMesh::New());
-  DMesh::Pointer location(DMesh::New());
-  
-  m_Mesh->SetDefault();
-  m_Mesh->SetResolution(1, 40);
-  m_Mesh->SetScale(2.0, 2.0, 1.0);
-  m_Mesh->SetCenter(5, 5, 0);
-  m_Mesh->Allocate();
-
-  //---------------------------------------------------------------------
-  // Define the output image
-  //---------------------------------------------------------------------
-  typedef itk::Image<unsigned short,3> ObjectImageType;
-
-  ObjectImageType::Pointer outputimg=ObjectImageType::New();
-  ObjectImageType::SizeType size={{IMGHEIGHT,IMGWIDTH,1}};
-  ObjectImageType::IndexType outindex=ObjectImageType::IndexType::ZeroIndex;
-  ObjectImageType::RegionType outregion;
-
-  outregion.SetSize(size);
-  outregion.SetIndex(outindex);
+  gdimg->SetLargestPossibleRegion( outregion );
+  gdimg->SetBufferedRegion( outregion );
+  gdimg->SetRequestedRegion( outregion );
+  gdimg->Allocate();
 
   outputimg->SetLargestPossibleRegion( outregion );
   outputimg->SetBufferedRegion( outregion );
   outputimg->SetRequestedRegion( outregion );
   outputimg->Allocate();
-  	
-  itk::ImageRegionIteratorWithIndex <ObjectImageType> it(outputimg, outregion);
-  while( !it.IsAtEnd()) {	
-	it.Set(0);	
-	++it;
-  }
-  
-  //---------------------------------------------------------------------
-  // Define the Balloon Force filter
-  //---------------------------------------------------------------------
-  m_Filter->SetInput(m_Mesh);
-  m_Filter->SetPotential(outClassImage);
-  m_Filter->SetImageOutput(outputimg);
-  m_Filter->SetResolution(1, 40, 1);
-  m_Filter->SetCenter(5, 5, 0);
-  m_Filter->SetLocations(location);
-  m_Filter->SetForces(force);
-  m_Filter->SetNormals(normal);
-  m_Filter->SetDisplacements(displace);
-  m_Filter->SetDerives(derive);
-  m_Filter->Initialize();
-  m_Filter->SetStiffnessMatrix();
 
-  int k;
-  for (k=0; k<85; k++) {
-	m_Filter->ComputeForce();
-	m_Filter->ComputeDt();
-	m_Filter->Advance();
-	if (k%20==0) m_Filter->GapSearch();
-  }
-  m_Filter->GapSearch();
-  m_Filter->ComputeOutput();
+  // Create the image
+  myImageType::Pointer inputImage  = myImageType::New();
 
-  int p =0, j;
-  MyMesh::PointType ds;
-  MyMesh::PointsContainerPointer      myoutput = m_Filter->GetOutput()->GetPoints();
-  MyMesh::PointsContainer::Iterator   m_output = myoutput->Begin();
-  while( m_output != myoutput->End() ) {
-	ds = m_output.Value();
-	++m_output;
-	i = (int)ds[0];
-	j = (int)ds[1];
-	k = IMGWIDTH*j + i;
-//	std::cout<< i << ", " << j <<std::endl;;
-	TestImage1[k] = 0;
-	p++;
-  }
-/*
-  FILE *output=fopen("new1.raw", "wb");
-  fwrite(TestImage1, 2, IMGWIDTH*IMGHEIGHT, output);
-  fclose(output);
-*/
+  mySizeType size;
+  size[0] = 100;
+  size[1] = 100;
+  size[2] = 1;
+
+  myIndexType start;
+  start = myIndexType::ZeroIndex;
+
+  myRegionType region;
+  region.SetIndex( start );
+  region.SetSize( size );
+
+  // Initialize Image A
+  inputImage->SetLargestPossibleRegion( region );
+  inputImage->SetBufferedRegion( region );
+  inputImage->SetRequestedRegion( region );
+  inputImage->Allocate();
+
+  itk::ImageRegionIteratorWithIndex <myImageType> it(inputImage, region);
   it.GoToBegin();
-  classoutIt.GoToBegin();
-  while( !it.IsAtEnd()) {	
-    if (classoutIt.Get() == 1) classoutIt.Set(0);
-	if (it.Get() == 1) classoutIt.Set(1);	
+  while( !it.IsAtEnd()) {    
+    it.Set(0.0);
+    ++it;
+  }
+
+  size[0] = 60;
+  size[1] = 60;
+  size[2] = 1;
+
+  start[0] = 20;
+  start[1] = 20;
+  start[2] = 0;
+
+  // Create one iterator for an internal region
+  region.SetSize( size );
+  region.SetIndex( start );
+  itk::ImageRegionIteratorWithIndex <myImageType> itb( inputImage, region );
+
+  // Initialize the content the internal region
+  while( !itb.IsAtEnd() ) 
+  {
+    itb.Set( 100.0 );
+    ++itb;
+  }
+
+  // Declare the type for the  Smoothing  filter
+  typedef itk::RecursiveGaussianImageFilter<
+                                      myImageType,
+                                      myImageType,
+                                      float       >  mySmoothingFilterType;
+            
+
+  // Create a  Filter                                
+  mySmoothingFilterType::Pointer filter = mySmoothingFilterType::New();
+
+
+  // Connect the input images
+  filter->SetInput( inputImage );
+  filter->SetSigma( 2.0 );
+  filter->SetDirection( 0 );  // apply along Z
+
+  
+  // Execute the filter
+  std::cout << "Executing Smoothing filter...";
+  filter->Update();
+
+
+  size[0] = 100;
+  size[1] = 100;
+  size[2] = 1;
+
+  start[0] = 0;
+  start[1] = 0;
+  start[2] = 0;
+
+  // Create one iterator for an internal region
+  region.SetSize( size );
+  region.SetIndex( start );
+  itk::ImageRegionIteratorWithIndex <myImageType> outit(filter->GetOutput(), region);
+  outit.GoToBegin();
+  it.GoToBegin();
+  while( !outit.IsAtEnd()) {    
+    it.Set(outit.Get());
+    ++outit;
 	++it;
-	++classoutIt;
   }
 
-  outIt.GoToBegin();
-  i = 0;
-  while ( !outIt.IsAtEnd() ) { 
-    dblVec[0] = TestImage[i]; 
-	outIt.Set(dblVec); 
-	++outIt;
-	i++;
+  filter->SetDirection( 1 );
+  filter->Update();
+
+  std::cout << " Done !" << std::endl;
+
+  outit.GoToBegin();
+  int k = 0;
+  while( !outit.IsAtEnd()) {    
+    testImage[k] = (unsigned char)outit.Get();
+	k++;
+    ++outit;
   }
 
-// here is a simple example of send the reulst of deformable model back
-// to refine the gibbs prior model parameters.   
-  applyGibbsImageFilter->Advance();
-
-  labeloutIt.GoToBegin();
-
-  i = 0;
-  while ( !labeloutIt.IsAtEnd() ) {
-	TestImage1[i] = labeloutIt.Get()*32000;
-	i++;
-	++labeloutIt;
+  k = 0;
+  float grad;
+  outit.GoToBegin();
+  while( !outit.IsAtEnd() ) {
+	if ((k >= WIDTH) && (k+WIDTH < WIDTH*HEIGHT)) { 
+	  grad = (float) (0.5*sqrt((testImage[k-1]-testImage[k+1])*(testImage[k-1]-testImage[k+1])+
+		(testImage[k-WIDTH]-testImage[k+WIDTH])*(testImage[k-WIDTH]-testImage[k+WIDTH])));
+	  outit.Set(grad);
+	} else {
+	  outit.Set(0);
+	}
+	++outit;
+	k++;
   }
-/*
-  middle=fopen("new2.raw", "wb");
-  fwrite(TestImage1, 2, IMGWIDTH*IMGHEIGHT, middle);
-  fclose(middle);
-*/
+
+// allocating the input image data.
+  BFilter::Pointer m_bfilter = BFilter::New();
+  SphereSourceType::Pointer m_spheresource = SphereSourceType::New();
+  m_bfilter->SetInput(m_spheresource->GetOutput());
+
+  m_spheresource->SetCenter(SEEDX, SEEDY, 0);
+  m_spheresource->SetResolution(1, 200);
+  m_spheresource->SetScale(10, 10, 1);
+  m_spheresource->Update();
+
+  m_bfilter->SetCenter(SEEDX, SEEDY, 0);
+  m_bfilter->SetNeighborRadius(5);
+  m_bfilter->SetStepThreshold1(20);
+  m_bfilter->SetStepThreshold2(30);
+
+  itk::ImageRegionIteratorWithIndex <outImageType> ptit(ptimg, outregion);
+
+  k = 0;
+  ptit.GoToBegin();
+  while( !ptit.IsAtEnd()) { 
+    ptit.Set((unsigned short)0);
+	k++;
+    ++ptit;
+  }
+
+  size[0] = 56;
+  size[1] = 56;
+  size[2] = 1;
+
+  start[0] = 22;
+  start[1] = 22;
+  start[2] = 0;
+
+  // Create one iterator for an internal region
+  outregion.SetSize( size );
+  outregion.SetIndex( start );
+  itk::ImageRegionIteratorWithIndex <outImageType> ptitb(ptimg, outregion);
+
+  // Initialize the content the internal region
+  ptitb.GoToBegin();
+  while( !ptitb.IsAtEnd() ) 
+  {
+    ptitb.Set( 100 );
+    ++ptitb;
+  }
+
+  outregion.SetSize(outsize);
+  outregion.SetIndex(index);
+
+  itk::ImageRegionIteratorWithIndex <outImageType> gdit(gdimg, outregion);
+
+  k = 0;
+  gdit.GoToBegin();
+  outit.GoToBegin();
+  while( !gdit.IsAtEnd()) { 
+    gdit.Set(outit.Get());
+	k++;
+    ++gdit;
+	++outit;
+  }
+
+  m_bfilter->SetPotential(ptimg);
+  m_bfilter->SetGradient(gdimg);
+  m_bfilter->SetImageOutput(outputimg);
+  m_bfilter->SetResolution(1, 200, 1);
+  m_bfilter->Initialize();
+  m_bfilter->SetStiffnessMatrix();
+
+  time(&btime);
+  m_bfilter->Update();
+  time(&etime);
+
+  std::cout<<"Finished: "<<etime-btime<<" seconds."<<std::endl;
+  
+  // All objects should be automatically destroyed at this point
   return 0;
 
 }
+
+
+
 
