@@ -336,11 +336,31 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
   inputRequestedRegion.SetSize( inputRequestedRegionSize );
   inputRequestedRegion.SetIndex( inputRequestedRegionStartIndex );
 
-  // Make sure the requested region is within largest possible.
-  inputRequestedRegion.Crop( inputPtr->GetLargestPossibleRegion() );
-
-  // Set the input requested region.
-  inputPtr->SetRequestedRegion( inputRequestedRegion );
+  // crop the input requested region at the input's largest possible region
+  if ( inputRequestedRegion.Crop(inputPtr->GetLargestPossibleRegion()) )
+    {
+    inputPtr->SetRequestedRegion( inputRequestedRegion );
+    return;
+    }
+  else
+    {
+    // Couldn't crop the region (requested region is outside the largest
+    // possible region).  Throw an exception.
+    
+    // store what we tried to request (prior to trying to crop)
+    inputPtr->SetRequestedRegion( inputRequestedRegion );
+    
+    // build an exception
+    InvalidRequestedRegionError e(__FILE__, __LINE__);
+    OStringStream msg;
+    msg << (const char *)this->GetNameOfClass()
+        << "::GenerateInputRequestedRegion()";
+    e.SetLocation(msg.str().c_str());
+    e.SetDescription("Requested region is (at least partially) outside the largest possible region.");
+    e.SetDataObject(inputPtr);
+    
+    throw e;
+    }
 
 }
 
@@ -398,7 +418,6 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
   outputLargestPossibleRegion.SetIndex( outputStartIndex );
 
   outputPtr->SetLargestPossibleRegion( outputLargestPossibleRegion );
-
 }
 
 
