@@ -73,8 +73,8 @@ bool VOLImageIO::CanReadFile(const char* file)
     return false;
 		}
 
-	ReadData(fp, &file_type, sizeof(file_type), 0);
-  if (file_type != VOL_MAGIC_NUMBER)
+	ReadData(fp, &m_File_type, sizeof(m_File_type), 0);
+  if (m_File_type != VOL_MAGIC_NUMBER)
 		{
     return false;
 		}
@@ -106,14 +106,6 @@ void VOLImageIO::Load(void* buffer)
     return;
 		}
 
-	ReadData(fp, &file_type, sizeof(file_type), 0);
-  if (file_type != VOL_MAGIC_NUMBER)
-		{
-    itkErrorMacro("Error File is not .VOL type" << this->GetFileName());
-    return;
-		}
-
-
   // Read the image
 	unsigned char *tempImage = static_cast<unsigned char*>(buffer);
 	unsigned char * imgset = new unsigned char [256*512*4*4];
@@ -121,7 +113,7 @@ void VOLImageIO::Load(void* buffer)
 		{
 		ReadData(fp, (char *)imgset, 
 						 sizeof(unsigned char) * 256*512*4*4, 
-						 grayImageOffset + timeCounter*256*512*4*4);
+						 m_GrayImageOffset + timeCounter*256*512*4*4);
 		for(unsigned int i=0; i < m_Dimensions[2]; i++)
 			{
 			for(int j=0; j < 16; j++)
@@ -142,9 +134,6 @@ void VOLImageIO::Load(void* buffer)
 			}
 		}
 	delete imgset;
-
-	
-
 }
 
 const double* VOLImageIO::GetOrigin() const
@@ -189,107 +178,102 @@ void VOLImageIO::ReadImageInformation()
     return;
 		}
 
-	ReadData(fp, &file_type, sizeof(file_type), 0);
-  if (file_type != VOL_MAGIC_NUMBER)
-		{
-    itkErrorMacro("Error File is not .VOL type" << this->GetFileName());
-    return;
-		}
+	ReadData(fp, m_File_rev, 12);
+	ReadData(fp, m_Description, 128);
+	ReadData(fp, m_Date, 12);
+	ReadData(fp, m_Time, 12);
+	ReadData(fp, m_Patient, 64);
+	ReadData(fp, m_Clinic, 64);
+	ReadData(fp, &m_NumEchoFrames, sizeof(m_NumEchoFrames), 296); 
+	ReadData(fp, &m_NumDopFrames, sizeof(m_NumDopFrames), 300); 
+	ReadData(fp, &m_Dopmode, sizeof(m_Dopmode), 304); 
+	ReadData(fp, &m_EchoLPF, sizeof(m_EchoLPF), 305); 
+	ReadData(fp, &m_DopLPF, sizeof(m_DopLPF), 309); 
+	ReadData(fp, &m_Repetition, sizeof(m_Repetition), 313); 
+	ReadData(fp, m_Xducer_name, 16);
+	ReadData(fp, &m_Xducer_ID, sizeof(m_Xducer_ID));
+	m_Xducer_freq = 0;
+	ReadData(fp, &m_Xducer_freq, sizeof(m_Xducer_freq), 337);
+	ReadData(fp, &m_Depth, sizeof(m_Depth), 345);
+	ReadData(fp, &m_Default_depth, sizeof(m_Default_depth), 353);
+	ReadData(fp, m_App_name, 24);
+	ReadData(fp, &m_Application, sizeof(m_Application), 385);
+	ReadData(fp, &m_Scan_fmt, sizeof(m_Scan_fmt), 386);
+	ReadData(fp, m_Dataset_name, 64);
+	ReadData(fp, &m_First_tx_line, sizeof(m_First_tx_line), 454);
+	ReadData(fp, &m_Last_tx_line, sizeof(m_Last_tx_line), 456);
+	ReadData(fp, &m_Lines, sizeof(m_Lines), 458);
+	ReadData(fp, &m_Az_lines, sizeof(m_Az_lines), 460);
+	ReadData(fp, &m_Az_angle, sizeof(m_Az_angle), 462);
+	ReadData(fp, &m_Az_angular_separation, sizeof(m_Az_angular_separation), 470);
+	ReadData(fp, &m_El_lines, sizeof(m_El_lines), 478);
+	ReadData(fp, &m_El_angle, sizeof(m_El_angle), 480);
+	ReadData(fp, &m_El_angular_separation, sizeof(m_El_angular_separation), 488);
+	ReadData(fp, &m_Tx_offset, sizeof(m_Tx_offset), 496);
+	ReadData(fp, &m_Rx_offset, sizeof(m_Rx_offset), 500);
+	ReadData(fp, &m_MclkFreq, sizeof(m_MclkFreq), 504);
+	ReadData(fp, &m_SampleSize, sizeof(m_SampleSize), 512);
+	ReadData(fp, &m_Mclk2Size, sizeof(m_Mclk2Size), 520);
+	ReadData(fp, &m_SampleRate, sizeof(m_SampleRate), 528);
+	ReadData(fp, &m_LineGroupSize, sizeof(m_LineGroupSize), 532);
+	ReadData(fp, &m_NumECGSamples, sizeof(m_NumECGSamples), 536);
+	ReadData(fp, &m_GrayImageSize, sizeof(m_GrayImageSize), 540);
+	ReadData(fp, &m_DopplerImageSize, sizeof(m_DopplerImageSize), 544);
+	ReadData(fp, &m_EcgSize, sizeof(m_EcgSize), 548);
+	ReadData(fp, &m_MiscDataSize, sizeof(m_MiscDataSize), 552);
+	ReadData(fp, &m_GrayImageOffset, sizeof(m_GrayImageOffset), 556);
+	ReadData(fp, &m_DopplerImageOffset, sizeof(m_DopplerImageOffset), 560);
+	ReadData(fp, &m_EcgOffset, sizeof(m_EcgOffset), 564);
+	ReadData(fp, &m_MiscDataOffset, sizeof(m_MiscDataOffset), 568);
+	ReadData(fp, &m_File_control_timing_type, sizeof(m_File_control_timing_type), 572);
+	ReadData(fp, &m_DopplerVolInfo, sizeof(m_DopplerVolInfo), 844); 
+	ReadData(fp, &m_ScanDepthCount, sizeof(m_ScanDepthCount), 1833); 
+	ReadData(fp, &m_ScanDepth, sizeof(m_ScanDepth), 1835); 
+	ReadData(fp, &m_Az_sector_tilt, sizeof(m_Az_sector_tilt), 1851); 
+	ReadData(fp, &m_Elev_sector_tilt, sizeof(m_Elev_sector_tilt), 1859); 
+	ReadData(fp, &m_DopplerSegData, sizeof(m_DopplerSegData), 1867); 
+	ReadData(fp, &m_FrameRate, sizeof(m_FrameRate), 1935); 
+	ReadData(fp, &m_Sweepspeed, sizeof(m_Sweepspeed), 1943); 
+	ReadData(fp, &m_Update_interval, sizeof(m_Update_interval), 1947); 
+	ReadData(fp, &m_Contrast_on, sizeof(m_Contrast_on), 1951);
+	ReadData(fp, &m_Comp_curve_p0_x, sizeof(m_Comp_curve_p0_x), 1955); 
+	ReadData(fp, &m_Comp_curve_p0_y, sizeof(m_Comp_curve_p0_y), 1959); 
+	ReadData(fp, &m_Comp_curve_p1_x, sizeof(m_Comp_curve_p1_x), 1963); 
+	ReadData(fp, &m_Comp_curve_p1_y, sizeof(m_Comp_curve_p1_y), 1967); 
+	ReadData(fp, &m_Comp_curve_p2_x, sizeof(m_Comp_curve_p2_x), 1971); 
+	ReadData(fp, &m_Comp_curve_p2_x, sizeof(m_Comp_curve_p2_y), 1975); 
+	ReadData(fp, &m_Comp_curve_p3_x, sizeof(m_Comp_curve_p3_x), 1979); 
+	ReadData(fp, &m_Comp_curve_p3_x, sizeof(m_Comp_curve_p3_y), 1983); 
+	ReadData(fp, &m_Comp_curve_scaling_index, sizeof(m_Comp_curve_scaling_index), 1987);
+	ReadData(fp, &m_Echo_reject, sizeof(m_Echo_reject), 1991);
+	ReadData(fp, &m_Mt_tp, sizeof(m_Mt_tp), 1995);
+	ReadData(fp, &m_True_axis_defined, sizeof(m_True_axis_defined), 2123);
+	ReadData(fp, &m_True_axis_on, sizeof(m_True_axis_on), 2127);
+	ReadData(fp, &m_Parallel_x_tilt, sizeof(m_Parallel_x_tilt), 2131);
+	ReadData(fp, &m_Parallel_y_tilt, sizeof(m_Parallel_y_tilt), 2139);
+	ReadData(fp, &m_Parallel_depth, sizeof(m_Parallel_depth), 2147);
+	ReadData(fp, &m_Parallel_spacing, sizeof(m_Parallel_spacing), 2155);
+	ReadData(fp, &m_Parallel_thickness, sizeof(m_Parallel_thickness), 2163);
+	ReadData(fp, &m_Viewport_transform_flags, sizeof(m_Viewport_transform_flags), 2167);
+	ReadData(fp, &m_Stress_mode, sizeof(m_Stress_mode), 2171);
+	ReadData(fp, &m_Stress_label, sizeof(m_Stress_label), 2175);
+	ReadData(fp, &m_Heart_rate, sizeof(m_Heart_rate), 2239);
+	ReadData(fp, &m_Stage_timer_value, sizeof(m_Stage_timer_value), 2247);
+	ReadData(fp, &m_Ecg_display_on, sizeof(m_Ecg_display_on), 2251);
 
-	ReadData(fp, &file_type, sizeof(file_type), 0);
-	ReadData(fp, file_rev, 12);
-	ReadData(fp, description, 128);
-	ReadData(fp, date, 12);
-	ReadData(fp, time, 12);
-	ReadData(fp, patient, 64);
-	ReadData(fp, clinic, 64);
-	ReadData(fp, &numEchoFrames, sizeof(numEchoFrames), 296); 
-	ReadData(fp, &numDopFrames, sizeof(numDopFrames), 300); 
-	ReadData(fp, &dopmode, sizeof(dopmode), 304); 
-	ReadData(fp, &EchoLPF, sizeof(EchoLPF), 305); 
-	ReadData(fp, &DopLPF, sizeof(DopLPF), 309); 
-	ReadData(fp, &Repetition, sizeof(Repetition), 313); 
-	ReadData(fp, xducer_name, 16);
-	ReadData(fp, &xducer_ID, sizeof(xducer_ID));
-	xducer_freq = 0;
-	ReadData(fp, &xducer_freq, sizeof(xducer_freq), 337);
-	ReadData(fp, &depth, sizeof(depth), 345);
-	ReadData(fp, &default_depth, sizeof(default_depth), 353);
-	ReadData(fp, app_name, 24);
-	ReadData(fp, &application, sizeof(application), 385);
-	ReadData(fp, &scan_fmt, sizeof(scan_fmt), 386);
-	ReadData(fp, dataset_name, 64);
-	ReadData(fp, &first_tx_line, sizeof(first_tx_line), 454);
-	ReadData(fp, &last_tx_line, sizeof(last_tx_line), 456);
-	ReadData(fp, &lines, sizeof(lines), 458);
-	ReadData(fp, &az_lines, sizeof(az_lines), 460);
-	ReadData(fp, &az_angle, sizeof(az_angle), 462);
-	ReadData(fp, &az_angular_separation, sizeof(az_angular_separation), 470);
-	ReadData(fp, &el_lines, sizeof(el_lines), 478);
-	ReadData(fp, &el_angle, sizeof(el_angle), 480);
-	ReadData(fp, &el_angular_separation, sizeof(el_angular_separation), 488);
-	ReadData(fp, &tx_offset, sizeof(tx_offset), 496);
-	ReadData(fp, &rx_offset, sizeof(rx_offset), 500);
-	ReadData(fp, &mclkFreq, sizeof(mclkFreq), 504);
-	ReadData(fp, &sampleSize, sizeof(sampleSize), 512);
-	ReadData(fp, &mclk2Size, sizeof(mclk2Size), 520);
-	ReadData(fp, &sampleRate, sizeof(sampleRate), 528);
-	ReadData(fp, &lineGroupSize, sizeof(lineGroupSize), 532);
-	ReadData(fp, &numECGSamples, sizeof(numECGSamples), 536);
-	ReadData(fp, &grayImageSize, sizeof(grayImageSize), 540);
-	ReadData(fp, &dopplerImageSize, sizeof(dopplerImageSize), 544);
-	ReadData(fp, &ecgSize, sizeof(ecgSize), 548);
-	ReadData(fp, &miscDataSize, sizeof(miscDataSize), 552);
-	ReadData(fp, &grayImageOffset, sizeof(grayImageOffset), 556);
-	ReadData(fp, &dopplerImageOffset, sizeof(dopplerImageOffset), 560);
-	ReadData(fp, &ecgOffset, sizeof(ecgOffset), 564);
-	ReadData(fp, &miscDataOffset, sizeof(miscDataOffset), 568);
-	ReadData(fp, &file_control_timing_type, sizeof(file_control_timing_type), 572);
-	ReadData(fp, &DopplerVolInfo, sizeof(DopplerVolInfo), 844); 
-	ReadData(fp, &scanDepthCount, sizeof(scanDepthCount), 1833); 
-	ReadData(fp, &scanDepth, sizeof(scanDepth), 1835); 
-	ReadData(fp, &az_sector_tilt, sizeof(az_sector_tilt), 1851); 
-	ReadData(fp, &elev_sector_tilt, sizeof(elev_sector_tilt), 1859); 
-	ReadData(fp, &DopplerSegData, sizeof(DopplerSegData), 1867); 
-	ReadData(fp, &FrameRate, sizeof(FrameRate), 1935); 
-	ReadData(fp, &sweepspeed, sizeof(sweepspeed), 1943); 
-	ReadData(fp, &update_interval, sizeof(update_interval), 1947); 
-	ReadData(fp, &contrast_on, sizeof(contrast_on), 1951);
-	ReadData(fp, &comp_curve_p0_x, sizeof(comp_curve_p0_x), 1955); 
-	ReadData(fp, &comp_curve_p0_y, sizeof(comp_curve_p0_y), 1959); 
-	ReadData(fp, &comp_curve_p1_x, sizeof(comp_curve_p1_x), 1963); 
-	ReadData(fp, &comp_curve_p1_y, sizeof(comp_curve_p1_y), 1967); 
-	ReadData(fp, &comp_curve_p2_x, sizeof(comp_curve_p2_x), 1971); 
-	ReadData(fp, &comp_curve_p2_x, sizeof(comp_curve_p2_y), 1975); 
-	ReadData(fp, &comp_curve_p3_x, sizeof(comp_curve_p3_x), 1979); 
-	ReadData(fp, &comp_curve_p3_x, sizeof(comp_curve_p3_y), 1983); 
-	ReadData(fp, &comp_curve_scaling_index, sizeof(comp_curve_scaling_index), 1987);
-	ReadData(fp, &echo_reject, sizeof(echo_reject), 1991);
-	ReadData(fp, &Mt_tp, sizeof(Mt_tp), 1995);
-	ReadData(fp, &true_axis_defined, sizeof(true_axis_defined), 2123);
-	ReadData(fp, &true_axis_on, sizeof(true_axis_on), 2127);
-	ReadData(fp, &parallel_x_tilt, sizeof(parallel_x_tilt), 2131);
-	ReadData(fp, &parallel_y_tilt, sizeof(parallel_y_tilt), 2139);
-	ReadData(fp, &parallel_depth, sizeof(parallel_depth), 2147);
-	ReadData(fp, &parallel_spacing, sizeof(parallel_spacing), 2155);
-	ReadData(fp, &parallel_thickness, sizeof(parallel_thickness), 2163);
-	ReadData(fp, &viewport_transform_flags, sizeof(viewport_transform_flags), 2167);
-	ReadData(fp, &stress_mode, sizeof(stress_mode), 2171);
-	ReadData(fp, &stress_label, sizeof(stress_label), 2175);
-	ReadData(fp, &heart_rate, sizeof(heart_rate), 2239);
-	ReadData(fp, &stage_timer_value, sizeof(stage_timer_value), 2247);
-	ReadData(fp, &ecg_display_on, sizeof(ecg_display_on), 2251);
+	//file_control_timing_type stuff
+  ReadData(fp, &m_Blanking, sizeof(m_Blanking), 596); 
 
-	this->m_Dimensions[0] = az_lines * 4;
-	this->m_Dimensions[1] = el_lines * 4;
-	this->m_Dimensions[2] = EchoLPF;
-	this->m_Dimensions[3] = numEchoFrames;
+	this->m_Dimensions[0] = m_Az_lines * 4;
+	this->m_Dimensions[1] = m_El_lines * 4;
+	this->m_Dimensions[2] = m_EchoLPF;
+	this->m_Dimensions[3] = m_NumEchoFrames;
 
-	this->m_Spacing[0] = az_angular_separation;
-	this->m_Spacing[1] = el_angular_separation;
-	this->m_Spacing[2] = sampleSize;
+	this->m_Spacing[0] = m_Az_angular_separation/4.0;
+	this->m_Spacing[1] = m_El_angular_separation/4.0;
+	this->m_Spacing[2] = m_SampleSize;
   this->m_Spacing[3] = 1.0;
-
+	
   m_Origin[0] = 0.0;
   m_Origin[1] = 0.0;
   m_Origin[2] = 0.0;
