@@ -265,6 +265,11 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage>
   
   const unsigned int ln = region.GetSize()[ this->m_Direction ];
 
+  if( ln == 0 )
+    {
+    itkExceptionMacro("The number of pixels along direction " << this->m_Direction << " is zero");
+    }
+
   RealType *inps = 0;
   RealType *outs = 0;
 
