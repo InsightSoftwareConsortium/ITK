@@ -125,8 +125,8 @@ Euler2DTransform<TScalarType>
   const double cx = cos(m_Angle);
   const double sx = sin(m_Angle);
 
-  m_RotationMatrix[0][0]=cx;m_RotationMatrix[0][1]=sx;
-  m_RotationMatrix[1][0]=-sx;m_RotationMatrix[1][1]=cx;
+  m_RotationMatrix[0][0] =  cx; m_RotationMatrix[0][1] = -sx;
+  m_RotationMatrix[1][0] =  sx; m_RotationMatrix[1][1] =  cx;
 
   m_InverseMatrix = m_RotationMatrix.GetTranspose();
 
@@ -146,8 +146,8 @@ GetJacobian( const InputPointType & p ) const
   m_Jacobian.Fill(0.0);
 
   // derivatives with respect to the angle
-  m_Jacobian[0][0] = -sx * p[0] + cx * p[1]; 
-  m_Jacobian[1][0] = -cx * p[0] + sx * p[1];
+  m_Jacobian[0][0] = -sx * p[0] - cx * p[1]; 
+  m_Jacobian[1][0] =  cx * p[0] - sx * p[1];
 
   // compute derivatives for the translation part
   unsigned int blockOffset = 1;  
