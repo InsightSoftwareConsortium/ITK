@@ -49,7 +49,7 @@ namespace itk{
     itkNewMacro( Self );
     itkTypeMacro( Self, Superclass );
 
-    PixelType & GetColor( void ) const;
+    PixelType GetColor( void ) const;
     void SetColor( PixelType & color );
 
     void SetRed( TComponentType r );

@@ -23,7 +23,7 @@
 namespace itk
 {
   template< class TComponentType >
-  SpatialObjectProperty< TComponentType >::PixelType &
+  SpatialObjectProperty< TComponentType >::PixelType
   SpatialObjectProperty< TComponentType >
   ::GetColor( void ) const
   { return m_Color; }
