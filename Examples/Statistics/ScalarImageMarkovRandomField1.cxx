@@ -72,7 +72,6 @@ int main( int argc, char * argv [] )
     std::cerr << " inputScalarImage inputLabeledImage";
     std::cerr << " outputLabeledImage numberOfClasses";
     std::cerr << " numberOfIterations smoothingFactor";
-    std::cerr << " neighborhoodRadius ";
     std::cerr << " mean1 mean2 ... meanN " << std::endl;
     return EXIT_FAILURE;
     }
@@ -83,10 +82,9 @@ int main( int argc, char * argv [] )
 
   const unsigned int numberOfIterations = atoi( argv[4] );
   const double       smoothingFactor    = atof( argv[5] );
-  const unsigned int neighborhoodRadius = atoi( argv[6] );
-  const unsigned int numberOfClasses    = atoi( argv[7] );
+  const unsigned int numberOfClasses    = atoi( argv[6] );
 
-  const unsigned int numberOfArgumentsBeforeMeans = 8;
+  const unsigned int numberOfArgumentsBeforeMeans = 7;
 
   if( static_cast<unsigned int>(argc) <
       numberOfClasses + numberOfArgumentsBeforeMeans )
@@ -230,12 +228,42 @@ int main( int argc, char * argv [] )
 // this a radius, it is actually the half size of an hypercube. That is, the
 // actual region of influence will not be circular but rather an N-Dimensional
 // box. For example, a neighborhood radius of 2 in a 3D image will result in a
-// clique of size 5x5x5 pixels.
+// clique of size 5x5x5 pixels, and a radius of 1 will result in a clique of
+// size 3x3x3 pixels.
 // 
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
-  mrfFilter->SetNeighborhoodRadius( neighborhoodRadius );
+  mrfFilter->SetNeighborhoodRadius( 1 );
+// Software Guide : EndCodeSnippet
+
+
+// Software Guide : BeginLatex
+//
+// We should now set the weights used for the neighbors. This is done by
+// passing an array of values that contains the linear sequence of weights for
+// the neighbors. For example, in a neighborhood of size 3x3x3, we should
+// provide a linear array of 9 weight values. The values are packaged in a
+// \code{std::vector} and are supposed to be \code{double}. The following lines
+// illustrate a typical set of values for a 3x3x3 neighborhood. The array is
+// arranged and then passed to the filter by using the method
+// \code{SetMRFNeighborhoodWeight()}.
+// 
+// Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
+  std::vector< double > weights;
+  weights.push_back(1.5);
+  weights.push_back(2.0);
+  weights.push_back(1.5);
+  weights.push_back(2.0);
+  weights.push_back(0.0); // This is the central pixel
+  weights.push_back(2.0);
+  weights.push_back(1.5);
+  weights.push_back(2.0);
+  weights.push_back(1.5);
+
+//  mrfFilter->SetMRFNeighborhoodWeight( weights );
 // Software Guide : EndCodeSnippet
 
 
