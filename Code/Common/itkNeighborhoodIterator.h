@@ -68,7 +68,7 @@ namespace itk {
  *
  * To motivate the discussion of NeighborhoodIterators and their use in
  * Itk, consider the following code that takes directional derivatives at each
- * point in an image.  \sa DerivativeOperator \sa NeighborhoodInnerProduct
+ * point in an image.
  *
  * \code
  * itk::NeighborhoodInnerProduct<ImageType> IP;
@@ -119,7 +119,7 @@ namespace itk {
  * N-dimensional radius extending outward from that location.
  
  * Pixels in a neighborhood can be accessed through a NeighborhoodIterator
- * like elements in an array.  For example, a 2D neighborhood with radius 1x2
+ * like elements in an array.  For example, a 2D neighborhood with radius 2x1
  * has indices:
  *
  * \code
@@ -139,7 +139,7 @@ namespace itk {
  * 1.8 1.1 0.7 1.0 1.0
  * 2.1 1.9 1.7 1.4 2.0
  *
- * \code
+ * \endcode
  *
  * Shown below is some sample pixel access code and the values that it returns.
  *
@@ -201,6 +201,7 @@ namespace itk {
  * \todo Better support for regions with negative indicies.
  * \todo Add Begin() and End() methods?
  *
+ * \sa DerivativeOperator \sa NeighborhoodInnerProduct
  * \sa Image \sa Neighborhood \sa ImageIterator \sa NeighborhoodIterator
  * \sa SmartNeighborhoodIterator \sa RandomAccessNeighborhoodIterator
  **/
