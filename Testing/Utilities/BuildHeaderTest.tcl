@@ -62,6 +62,9 @@ foreach Directory $Directories \
   puts $f $Header
   foreach File [lsort [glob -nocomplain [file join Code $Directory *.h]]] \
   {
+      if {[file tail $File] == "itkWindows.h"} {
+	  continue;
+      }
     puts $f "#include \"[file tail $File]\""
   }
   puts $f $Trailer
