@@ -1,5 +1,6 @@
 # Sources of non-templated classes.
 SOURCE_FILES(ITKCommon_SRCS
+itkBloxItem
 itkCommand 
 itkDataObject 
 itkDirectory 
