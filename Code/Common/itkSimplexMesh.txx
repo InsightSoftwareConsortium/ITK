@@ -89,7 +89,7 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>
 
   if (mesh)
     {
-    m_MaximumNumberOfRegions = mesh->GetMaximumNumberOfRegions();
+    this->SetMaximumNumberOfRegions( mesh->GetMaximumNumberOfRegions() );
     }
   else
     {
@@ -193,7 +193,7 @@ double
 SimplexMesh<TPixelType, VDimension, TMeshTraits>
 ::GetRadius(unsigned long idx) const
 {
-  return m_GeometryData->GetElement(idx)->circleRadius = value;
+  return m_GeometryData->GetElement(idx)->circleRadius;
 }
 
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
@@ -210,7 +210,7 @@ double
 SimplexMesh<TPixelType, VDimension, TMeshTraits>
 ::GetDistance(unsigned long idx) const
 {
-  return m_GeometryData->GetElement(idx)->distance = value;
+  return m_GeometryData->GetElement(idx)->distance;
 }
 
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
@@ -277,7 +277,7 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>
 
   PointsContainerConstIterator pointsIt = this->GetPoints()->Begin();
   os << indent << "Point locations:" << std::endl;
-  while ( pointsIt != GetPoints()->End() )
+  while ( pointsIt != this->GetPoints()->End() )
     {
     os << indent << "pt index:" << pointsIt->Index() << " , coords: " << pointsIt->Value() << std::endl;
     pointsIt++;
