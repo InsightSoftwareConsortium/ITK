@@ -93,6 +93,16 @@ int itkConfidenceConnectedImageFilterTest(int ac, char* av[] )
             << cuintInitialNeighborhoodRadius
             << std::endl;
 
+  const double mean = filter->GetMean();
+  std::cout << "filter->GetMean(): "
+            << mean
+            << std::endl;
+
+  const double variance = filter->GetVariance();
+  std::cout << "filter->GetVariance(): "
+            << variance
+            << std::endl;
+
   // Generate test image
   itk::ImageFileWriter<myImage>::Pointer writer;
     writer = itk::ImageFileWriter<myImage>::New();

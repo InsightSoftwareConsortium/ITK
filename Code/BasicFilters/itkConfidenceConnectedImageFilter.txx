@@ -43,6 +43,8 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>
   m_Seeds.clear();
   m_InitialNeighborhoodRadius = 1;
   m_ReplaceValue = NumericTraits<OutputImagePixelType>::One;
+  m_Mean     = NumericTraits< InputRealType >::Zero;
+  m_Variance = NumericTraits< InputRealType >::Zero;
 }
 
 /**
@@ -63,7 +65,10 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>
      << std::endl;
   os << indent << "InitialNeighborhoodRadius: " << m_InitialNeighborhoodRadius 
      << std::endl;
-     
+  os << indent << "Mean of the connected region: " << m_Mean 
+     << std::endl;
+  os << indent << "Variance of the connected region: " << m_Variance 
+     << std::endl;
 }
 
 template <class TInputImage, class TOutputImage>
@@ -94,7 +99,6 @@ void
 ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
 ::GenerateData()
 {
-  typedef typename NumericTraits<ITK_TYPENAME InputImageType::PixelType>::RealType InputRealType;
   typedef BinaryThresholdImageFunction<InputImageType> FunctionType;
   typedef BinaryThresholdImageFunction<OutputImageType> SecondFunctionType;
   typedef FloodFilledImageFunctionConditionalIterator<OutputImageType, FunctionType> IteratorType;
@@ -129,23 +133,23 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
   InputRealType lower;
   InputRealType upper;
 
-  InputRealType mean     = itk::NumericTraits<InputRealType>::Zero;
-  InputRealType variance = itk::NumericTraits<InputRealType>::Zero;
+  m_Mean     = itk::NumericTraits<InputRealType>::Zero;
+  m_Variance = itk::NumericTraits<InputRealType>::Zero;
 
   typename SeedsContainerType::const_iterator si = m_Seeds.begin();
   typename SeedsContainerType::const_iterator li = m_Seeds.end();
   while( si != li )
     {
-    mean     += meanFunction->EvaluateAtIndex( *si );
-    variance += varianceFunction->EvaluateAtIndex( *si );
+    m_Mean     += meanFunction->EvaluateAtIndex( *si );
+    m_Variance += varianceFunction->EvaluateAtIndex( *si );
     si++;
     }
-  mean     /= m_Seeds.size();
-  variance /= m_Seeds.size();
+  m_Mean     /= m_Seeds.size();
+  m_Variance /= m_Seeds.size();
 
 
-  lower = mean - m_Multiplier * sqrt(variance);
-  upper = mean + m_Multiplier * sqrt(variance);
+  lower = m_Mean - m_Multiplier * sqrt( m_Variance );
+  upper = m_Mean + m_Multiplier * sqrt( m_Variance );
   
   // Adjust lower and upper to always contain the seed's intensity, otherwise, no pixels will be
   // returned by the iterator and a zero variance will result
@@ -180,7 +184,7 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
   function->ThresholdBetween(static_cast<InputImagePixelType>(lower),
                              static_cast<InputImagePixelType>(upper));
 
-  itkDebugMacro(<< "\nLower intensity = " << lower << ", Upper intensity = " << upper << "\nmean = " << mean << " , sqrt(variance) = " << sqrt(variance));
+  itkDebugMacro(<< "\nLower intensity = " << lower << ", Upper intensity = " << upper << "\nmean = " << m_Mean << " , sqrt(variance) = " << sqrt( m_Variance ));
 
 
   // Segment the image, the iterator walks the output image (so Set()
@@ -228,17 +232,17 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
       ++num;
       ++sit;
       }
-    mean = sum / double(num);
-    variance = (sumOfSquares - (sum*sum / double(num))) / (double(num) - 1.0);
+    m_Mean      = sum / double(num);
+    m_Variance  = (sumOfSquares - (sum*sum / double(num))) / (double(num) - 1.0);
     // if the variance is zero, there is no point in continuing
-    if (variance == 0)
+    if ( m_Variance == 0 )
       {
-      itkDebugMacro(<< "\nLower intensity = " << lower << ", Upper intensity = " << upper << "\nmean = " << mean << ", variance = " << variance << " , sqrt(variance) = " << sqrt(variance));
+      itkDebugMacro(<< "\nLower intensity = " << lower << ", Upper intensity = " << upper << "\nmean = " << m_Mean << ", variance = " << m_Variance << " , sqrt(variance) = " << sqrt(m_Variance));
       itkDebugMacro(<< "\nsum = " << sum << ", sumOfSquares = " << sumOfSquares << "\nnum = " << num);
       break;
       }
-    lower = mean - m_Multiplier * sqrt(variance);
-    upper = mean + m_Multiplier * sqrt(variance);
+    lower = m_Mean - m_Multiplier * sqrt( m_Variance );
+    upper = m_Mean + m_Multiplier * sqrt( m_Variance );
 
     // Adjust lower and upper to always contain the seed's intensity, otherwise, no pixels will be
     // returned by the iterator and a zero variance will result
@@ -274,7 +278,7 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
     function->ThresholdBetween(static_cast<InputImagePixelType>(lower),
                                static_cast<InputImagePixelType>(upper));
     
-    itkDebugMacro(<< "\nLower intensity = " << lower << ", Upper intensity = " << upper << "\nmean = " << mean << ", variance = " << variance << " , sqrt(variance) = " << sqrt(variance));
+    itkDebugMacro(<< "\nLower intensity = " << lower << ", Upper intensity = " << upper << "\nmean = " << m_Mean << ", variance = " << m_Variance << " , sqrt(variance) = " << sqrt( m_Variance ));
     itkDebugMacro(<< "\nsum = " << sum << ", sumOfSquares = " << sumOfSquares << "\nnum = " << num);
     
 

@@ -85,6 +85,10 @@ public:
   
   typedef std::vector< IndexType >              SeedsContainerType;
 
+  typedef typename NumericTraits< 
+                InputImagePixelType >::RealType InputRealType;
+
+
   void PrintSelf ( std::ostream& os, Indent indent ) const;
 
   /** Set seed point. This method is deprecated, please use AddSeed() */
@@ -120,6 +124,17 @@ public:
   itkSetMacro( InitialNeighborhoodRadius, unsigned int );
   itkGetConstReferenceMacro( InitialNeighborhoodRadius, unsigned int );
 
+  /** Method to get access to the mean of the pixels accepted in the output
+   * region.  This method should only be invoked after the filter has been
+   * executed using the Update() method. */
+  itkGetConstReferenceMacro( Mean, InputRealType );
+
+  /** Method to get access to the variance of the pixels accepted in the output
+   * region.  This method should only be invoked after the filter has been
+   * executed using the Update() method. */
+  itkGetConstReferenceMacro( Variance, InputRealType );
+
+
 protected:
   ConfidenceConnectedImageFilter();
   ~ConfidenceConnectedImageFilter(){};
@@ -141,6 +156,8 @@ private:
   unsigned int            m_NumberOfIterations;
   OutputImagePixelType    m_ReplaceValue;
   unsigned int            m_InitialNeighborhoodRadius;
+  InputRealType           m_Mean;
+  InputRealType           m_Variance;
 };
 
 
