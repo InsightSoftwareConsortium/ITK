@@ -21,6 +21,23 @@
 
 namespace itk {
 
+/** \class SegmentationLevelSetFunction
+
+  \par
+  This object defines the API for a class of function objects which perform
+  level set based segmentations.  The SegmentationLevelSetImageFilter objects
+  use these SegmentationLevelSetFunction objects to perform the numerical
+  calculations which move a level set front to lock onto image features.
+
+  \par
+  In order to create a working function object, you must subclass the
+  CalculateSpeedImage method to produce a "feature image" that is used by the
+  parent LevelSetFunction class as the PropagationSpeed for its calculations.
+
+  \sa SegmentationLevelSetImageFilter
+  \sa LevelSetFunction
+*/
+  
 template <class TImageType, class TFeatureImageType = TImageType>
 class ITK_EXPORT SegmentationLevelSetFunction
   : public LevelSetFunction<TImageType>
@@ -67,8 +84,14 @@ public:
    * necessary for performing the level-set calculations. */
   virtual void Initialize(const RadiusType &r);
 
+  /** This method must be defined in a subclass to implement a working function
+   * object.  This method is called before the solver begins its work to
+   * produce the speed image used as the level set function's Propagation speed
+   * term.  See LevelSetFunction for more information. */
   virtual void CalculateSpeedImage() = 0;
 
+  /** Allocates the image that will be used for the level set function's
+   * Propagation Speed term.  See LevelSetFunction for more information. */
   virtual void AllocateSpeedImage();
   
 protected:
@@ -76,7 +99,7 @@ protected:
   typename FeatureImageType::Pointer m_FeatureImage;
   typename ImageType::Pointer        m_SpeedImage;
 
- /** */
+ /** Returns the propagation speed from the precalculated speed image.*/
  virtual ScalarValueType PropagationSpeed(
                             const NeighborhoodType& neighborhood,
                             const FloatOffsetType
@@ -86,7 +109,7 @@ protected:
       return m_SpeedImage->GetPixel(idx);
     }
   
-  /** */
+  /** Returns the propagation speed from the precalculated speed image. */
   virtual ScalarValueType PropagationSpeed(const BoundaryNeighborhoodType
                                &neighborhood, const FloatOffsetType &
                                            ) const
@@ -95,13 +118,9 @@ protected:
     return m_SpeedImage->GetPixel(idx);
   }
 
-
-
   virtual ~SegmentationLevelSetFunction() {}
   SegmentationLevelSetFunction()
-  { m_SpeedImage = ImageType::New(); }
-
-  
+  { m_SpeedImage = ImageType::New(); }  
 };
 
 } // end namespace

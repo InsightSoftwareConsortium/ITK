@@ -25,7 +25,7 @@ template <class TImageType, class TFeatureImageType>
 void SegmentationLevelSetFunction<TImageType, TFeatureImageType>
 ::Initialize(const RadiusType &r)
 {
-  Superclass::Initialize(r);
+  Superclass::Initialize(r);  
 }
 
 template <class TImageType, class TFeatureImageType>
