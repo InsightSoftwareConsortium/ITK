@@ -9,7 +9,7 @@
 #include <itkPoint.h>
 #include <itkVectorContainer.h>
 #include <itkRegistrationMethod.h>
-#include <itkRegistrationTransformation.h>
+#include <itkRegistrationTransformationAffine.h>
 #include <itkRegistrationMapper.h>
 #include <itkRegistrationMetric.h>
 #include <itkRegistrationOptimizer.h>
@@ -25,8 +25,7 @@ int main()
   typedef itk::VectorContainer< unsigned short,
                                 double >      ParameterType;
 
-  typedef itk::RegistrationTransformation< ParameterType 
-                                             > TransfromType;
+  typedef itk::RegistrationTransformationAffine< 3 > TransfromType;
   
   typedef itk::VectorContainer< unsigned long, 
                                 Point3DType >    ReferenceType;
