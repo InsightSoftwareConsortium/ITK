@@ -68,7 +68,8 @@ parse(void)
   XML_SetUserData(Parser,this);
 
   std::ifstream inputstream;
-  inputstream.open(m_Filename.c_str(),std::ios::in);
+
+  inputstream.open(m_Filename.c_str(), std::ios::binary | std::ios::in);
   if(inputstream.fail())
     {
     ExceptionObject exception(__FILE__, __LINE__);
@@ -82,9 +83,11 @@ parse(void)
   // Default stream parser just reads a block at a time.
   std::streamsize filesize = 
     itksys::SystemTools::FileLength(m_Filename.c_str());
+
   char *buffer = new char [filesize];
   
   inputstream.read(buffer,filesize);
+
   if(inputstream.gcount() != filesize)
     {
     ExceptionObject exception(__FILE__, __LINE__);
