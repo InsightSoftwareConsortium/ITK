@@ -53,10 +53,10 @@ public:
 
 
   static inline void Set(TInternalType & output, const TExternalType & input) 
-    {output = (TInternalType)atan(input);}
+    {output = (TInternalType)atan((double)input);}
 
   static inline TExternalType Get( const TInternalType & input ) 
-    {return (TExternalType)atan(input);}
+    {return (TExternalType)atan((double)input);}
 
 };
 

@@ -53,10 +53,10 @@ public:
 
 
   static inline void Set(TInternalType & output, const TExternalType & input) 
-    {output = (TInternalType)log10(input);}
+    {output = (TInternalType)log10((double)input);}
 
   static inline TExternalType Get( const TInternalType & input ) 
-    {return (TExternalType)log10(input);}
+    {return (TExternalType)log10((double)input);}
 
 };
 
