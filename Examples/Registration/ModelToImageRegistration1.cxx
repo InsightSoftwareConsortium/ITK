@@ -298,7 +298,7 @@ public:
     m_PointList.clear();
     typedef itk::ImageRegionConstIteratorWithIndex<TFixedImage> myIteratorType;
 
-    myIteratorType it(m_FixedImage,m_FixedImage->GetLargestPossibleRegion());
+    myIteratorType it(m_FixedImage,m_FixedImage->GetBufferedRegion());
 
     itk::Point<double,2> point;
 
@@ -358,16 +358,18 @@ public:
     PointListType::const_iterator it = m_PointList.begin();
     
     typename TFixedImage::SizeType size =
-              m_FixedImage->GetLargestPossibleRegion().GetSize();
+              m_FixedImage->GetBufferedRegion().GetSize();
 
     itk::Index<2> index;
+    itk::Index<2> start = m_FixedImage->GetBufferedRegion().GetIndex();
+
     value = 0;
     while(it != m_PointList.end())
     {
       PointType transformedPoint = m_Transform->TransformPoint(*it);
       m_FixedImage->TransformPhysicalPointToIndex(transformedPoint,index);
-      if(    index[0]>0L 
-          && index[1]>0L
+      if(    index[0]> start[0] 
+          && index[1]> start[1]
           && index[0]< static_cast< signed long >( size[0] )
           && index[1]< static_cast< signed long >( size[1] )  )
         {
