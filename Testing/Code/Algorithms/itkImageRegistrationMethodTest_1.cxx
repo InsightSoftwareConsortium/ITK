@@ -54,6 +54,7 @@ int itkImageRegistrationMethodTest_1(int argc, char** argv)
                                   dimension >         ImageSourceType;
   // Transform Type
   typedef itk::AffineTransform< double, dimension > TransformType;
+  typedef TransformType::ParametersType             ParametersType;
 
   // Optimizer Type
   typedef itk::GradientDescentOptimizer                  OptimizerType;
@@ -119,8 +120,8 @@ int itkImageRegistrationMethodTest_1(int argc, char** argv)
   scales.Fill( 1.0 );
 
   
-  unsigned long   numberOfIterations = 200;
-  double          translationScale   = 0.01;
+  unsigned long   numberOfIterations =  100;
+  double          translationScale   = 1e-6;
   double          learningRate       = 1e-8;
 
   if( argc > 1 )
@@ -167,14 +168,39 @@ int itkImageRegistrationMethodTest_1(int argc, char** argv)
     pass = false;
     }
 
+  ParametersType actualParameters = imageSource->GetActualParameters();
+  ParametersType finalParameters  = registration->GetLastTransformParameters();
+
+  const unsigned int numbeOfParameters = actualParameters.Size();
+
+  // We know that for the Affine transform the Translation parameters are at 
+  // the end of the list of parameters.
+  const unsigned int offsetOrder = finalParameters.Size()-actualParameters.Size();
+  
+
+
+  const double tolerance = 1.0;  // equivalent to 1 pixel.
+
+  for(unsigned int i=0; i<numbeOfParameters; i++) 
+    {
+    // the parameters are negated in order to get the inverse transformation.
+    // this only works for comparing translation parameters....
+    std::cout << finalParameters[i+offsetOrder] << " == " << -actualParameters[i] << std::endl;
+    if( fabs ( finalParameters[i+offsetOrder] - (-actualParameters[i]) ) > tolerance )
+      {
+      std::cout << "Tolerance exceeded at component " << i << std::endl;
+      pass = false;
+      }
+    }
+
 
   if( !pass )
     {
-    std::cout << "Test failed." << std::endl;
+    std::cout << "Test FAILED." << std::endl;
     return EXIT_FAILURE;
     }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test PASSED." << std::endl;
   return EXIT_SUCCESS;
 
 
