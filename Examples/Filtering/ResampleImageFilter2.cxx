@@ -69,7 +69,7 @@ int main( int argc, char ** argv )
     {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile  outputImageFile"; 
-    std::cerr << "  [exampleAction={0,1,2,3}]" << std::endl;
+    std::cerr << "  [exampleAction={0,1,2,3,4}]" << std::endl;
     return 1;
     }
 
@@ -366,16 +366,19 @@ int main( int argc, char ** argv )
   //  apropriately scale the images on the screen. Please note that images in
   //  formats like PNG are not capable of representing origin and spacing. The
   //  tookit assume trivial default values for them. Figure
-  //  \ref{fig:ResampleImageFilterOutput7}(center) illustrates the effect of
+  //  \ref{fig:ResampleImageFilterOutput7} (center) illustrates the effect of
   //  using a naive viewer that does not take pixel spacing into accout. A
-  //  correct display is presented at the right in the same figure.
+  //  correct display is presented at the right in the same figure\footnote{A
+  //  viewer is provided with Insight sources under the name of
+  //  \texttt{MetaImageViewer}. This viewer takes into account pixel spacing}.
   // 
   // \begin{figure}
   // \center
   // \includegraphics[width=4cm]{BrainProtonDensitySlice.eps}
   // \includegraphics[width=4cm]{ResampleImageFilterOutput7.eps}
   // \includegraphics[width=4cm]{ResampleImageFilterOutput7b.eps}
-  // \caption{Resampling with different spacing seen by naive viewer (center) and a correct viewer (right)}
+  // \caption{Resampling with different spacing seen by naive viewer (center)
+  // and a correct viewer (right), input image (left)}
   // \label{fig:ResampleImageFilterOutput7}
   // \end{figure}
   //
@@ -397,14 +400,120 @@ int main( int argc, char ** argv )
   //
   //  Software Guide : EndLatex 
 
-
-
   if( exampleAction == 3 )
     {
     writer->Update();
     }
 
+
+
+
+  //  Software Guide : BeginLatex
+  //  
+  //  \piccaption[2]{Input image with $2 \times 3 \mbox{mm}$ spacing as seen
+  //  with a naive viewer (left) and a correct viewer
+  //  (right).\label{fig:ResampleImageFilterInput2}} 
+  //  \parpic(12cm,6cm)[r]{
+  //  \includegraphics[width=5cm]{BrainProtonDensitySlice2x3.eps}
+  //  \includegraphics[width=5cm]{BrainProtonDensitySlice2x3b.eps} }
+  //
+  //  The input image spacing is also an important factor in the process of
+  //  resampling an image. The following example illustrates the effect of
+  //  non-unit pixel spacing on the input image. An input image similar to the
+  //  one used in figures \ref{fig:ResampleImageFilterTransformComposition1} to
+  //  \ref{fig:ResampleImageFilterTransformComposition4} has been previously
+  //  resampled ot have pixel spacing of $2mm \times 3mm$. The input image is
+  //  presented in figure \ref{fig:ResampleImageFilterInput2} as viewed with a
+  //  naive image viewer (left) and with a correct image viewer (right).
+  //
+  //  The following code is used to transform this non-unit spacing input image
+  //  into another non-unit spacing image located at a non-zero origin. The
+  //  comparison between input and output in a common reference system is
+  //  presented in figure \ref{fig:ResampleImageFilterTransformComposition5}.
+  //  
+  //  Software Guide : EndLatex 
+
+  //  Software Guide : BeginLatex
+  //  
+  //  Here we start by selecting the origin of the output image.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  origin[0] = 25.0;  // X space coordinate of origin
+  origin[1] = 35.0;  // Y space coordinate of origin
+
+  filter->SetOutputOrigin( origin );
+  // Software Guide : EndCodeSnippet
+
+  //  Software Guide : BeginLatex
+  //  
+  // then selecting the number of pixels along each dimension.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  size[0] = 40;  // number of pixels along X
+  size[1] = 45;  // number of pixels along Y
+
+  filter->SetSize( size );
+  // Software Guide : EndCodeSnippet
+
+  //  Software Guide : BeginLatex
+  //  
+  //  and finaly the pixel spacing on the output image.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  spacing[0] = 4.0; // pixel spacing in millimeters along X
+  spacing[1] = 4.5; // pixel spacing in millimeters along Y
+
+  filter->SetOutputSpacing( spacing );
+  // Software Guide : EndCodeSnippet
+
+
+
+  if( exampleAction == 4 )
+    {
+    writer->Update();
+    }
+
+
+  //  Software Guide : BeginLatex
+  //  
+  // Figure \ref{fig:ResampleImageFilterTransformComposition5} shows the
+  // analysis of the filter output under these conditions. First, notice that
+  // the origin of the output image corresponds to the settings $O=(25.0,35.0)$
+  // millimeters, spacing $(4.0,4.5)$ millimeters and size $(40,45)$ pixels.
+  // With these parameters the pixel of index $I=(10,10)$ in the output image
+  // is associated with the spatial point of coordinates $P=(10 \times 4.0 +
+  // 25.0, 10 \times 4.5 + 35.0))$ which results to be $P=(65.0,80.0)$. This
+  // point is mapped by the transform --- identity in this particular case ---
+  // to the point $Q=(65.0,80.0)$ in the input image space. The point $Q$ is
+  // then associated with the pixel of index $I=( ( 65.0 - 0.0 )/2.0 - (80.0 -
+  // 0.0)/3.0)$ which results in $I=(32.5,26.6)$. Note that the index does not
+  // fall in to a grid point, for this reason the value to be assigned to the
+  // output pixel is computed by interpolating values on the input image around
+  // the non-integer index $I=(32.5,26.6)$.
+  //
+  // \begin{figure}
+  // \center
+  // \includegraphics[width=14cm]{ResampleImageFilterTransformComposition5.eps}
+  // \caption{Effect non-unit spacing on the input and output images.}
+  // \label{fig:ResampleImageFilterTransformComposition5}
+  // \end{figure}
+  //
+  //  Note also that the discretization of the image is more visible on the
+  //  output presented on the right side of figure
+  //  \ref{fig:ResampleImageFilterTransformComposition5} due to the choice of a
+  //  low resolution --- just $40 \times 45$ pixels.
+  //
+  //  Software Guide : EndLatex 
+
+
   return 0;
+
 
 }
 
