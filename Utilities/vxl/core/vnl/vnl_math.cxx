@@ -14,12 +14,17 @@
 // # define isnan _isnan
 # define finite _finite
 # define finitef _finite
+#ifndef finitel
 # define finitel _finite
+#endif
 # define isnan _isnan
 #elif VXL_IEEEFP_HAS_FINITE
 # include <ieeefp.h>
 # ifndef finitef
 #  define finitef finite
+# endif
+# ifndef finitel
+#  define finitel finite
 # endif
 
 #elif VXL_C_MATH_HAS_FINITE
