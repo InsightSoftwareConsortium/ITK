@@ -68,8 +68,8 @@ MinimumMaximumImageCalculator<TInputImage>
 ::Compute(void)
 {
   SimpleImageRegionConstIterator< TInputImage >  it( m_Image,  m_Image->GetRequestedRegion() );
-  m_Maximum = std::numeric_limits<PixelType>::min() ;
-  m_Minimum = std::numeric_limits<PixelType>::max() ;
+  m_Maximum = NumericTraits<PixelType>::min() ;
+  m_Minimum = NumericTraits<PixelType>::max() ;
 
   it.Begin();
   while( !it.IsAtEnd() )
@@ -97,7 +97,7 @@ MinimumMaximumImageCalculator<TInputImage>
 ::ComputeMinimum(void)
 {
   SimpleImageRegionConstIterator< TInputImage >  it( m_Image,  m_Image->GetRequestedRegion() );
-  m_Minimum = std::numeric_limits<PixelType>::max() ;
+  m_Minimum = NumericTraits<PixelType>::max() ;
 
   it.Begin();
   while( !it.IsAtEnd() )
@@ -120,7 +120,7 @@ MinimumMaximumImageCalculator<TInputImage>
 ::ComputeMaximum(void)
 {
   SimpleImageRegionConstIterator< TInputImage >  it( m_Image,  m_Image->GetRequestedRegion() );
-  m_Maximum = std::numeric_limits<PixelType>::min() ;
+  m_Maximum = NumericTraits<PixelType>::min() ;
 
   it.Begin();
   while( !it.IsAtEnd() )
