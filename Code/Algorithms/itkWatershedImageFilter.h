@@ -118,7 +118,7 @@ public:
   void SetMergeList(const MergeListType &m)
   {
     m_MergeHeirarchy = m;
-    //this->Update();
+    this->Modified();
   }
   
   MergeListType GetMergeList() const
