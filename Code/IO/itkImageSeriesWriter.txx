@@ -274,8 +274,15 @@ ImageSeriesWriter<TInputImage,TOutputImage>
 
   
   Index<TInputImage::ImageDimension> inIndex;
+  Size<TInputImage::ImageDimension> inSize;
+
   unsigned long pixelsPerFile = outputImage->GetRequestedRegion().GetNumberOfPixels();
 
+  inSize.Fill(1);
+  for (unsigned int ns = 0; ns < TOutputImage::ImageDimension; ns++)
+    {
+    inSize[ns] = outRegion.GetSize()[ns]; 
+    }
 
   unsigned int expectedNumberOfFiles = 1;
   for (unsigned int n = TOutputImage::ImageDimension;
@@ -310,10 +317,13 @@ ImageSeriesWriter<TInputImage,TOutputImage>
     // Select a "slice" of the image. 
     inIndex = inputImage->ComputeIndex(offset);
     inRegion.SetIndex(inIndex);
+    inRegion.SetSize(inSize);
+
     ImageRegionConstIterator<InputImageType> it (inputImage,
                                                  inRegion);
 
     // Copy the selected "slice" into the output image.
+    it.GoToBegin();
     ot.GoToBegin();
     while (!ot.IsAtEnd())
       {
@@ -328,6 +338,7 @@ ImageSeriesWriter<TInputImage,TOutputImage>
       {
       writer->SetImageIO(m_ImageIO);
       }
+
 
     writer->SetFileName( m_FileNames[slice].c_str() );
     writer->Update();
