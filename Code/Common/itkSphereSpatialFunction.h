@@ -58,20 +58,21 @@ namespace itk
  *
  * */
 
-template <unsigned int VImageDimension=3>
-class ITK_EXPORT SphereSpatialFunction : public InteriorExteriorSpatialFunction<VImageDimension>
+template <unsigned int VImageDimension=3,typename TInput=Point<double,3> >
+class ITK_EXPORT SphereSpatialFunction : 
+            public InteriorExteriorSpatialFunction<VImageDimension,TInput>
 {
 public:
 
   /**
    * Standard "Self" typedef.
    */
-  typedef SphereSpatialFunction Self;
+  typedef SphereSpatialFunction<VImageDimension,TInput> Self;
 
   /**
    * Standard "Superclass" typedef.
    */
-  typedef InteriorExteriorSpatialFunction<VImageDimension> Superclass;
+  typedef InteriorExteriorSpatialFunction<VImageDimension,TInput> Superclass;
   
   /**
    * Input type for the function

@@ -69,9 +69,9 @@ namespace itk
  * \ingroup SpatialFunctions
  * */
 
-template <unsigned int VImageDimension=3>
+template <unsigned int VImageDimension=3,typename TInput=Point<double,3> >
 class ITK_EXPORT InteriorExteriorSpatialFunction : public
-  SpatialFunction<bool, VImageDimension>
+  SpatialFunction<bool, VImageDimension,TInput >
 {
   public:
 
@@ -83,7 +83,7 @@ class ITK_EXPORT InteriorExteriorSpatialFunction : public
   /**
    * Standard "Superclass" typedef.
    */
-  typedef SpatialFunction<bool, VImageDimension> Superclass;
+  typedef SpatialFunction<bool, VImageDimension,TInput> Superclass;
 
   /**
    * Input type for the function

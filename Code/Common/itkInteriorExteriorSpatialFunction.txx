@@ -46,14 +46,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-template <unsigned int VImageDimension>
-InteriorExteriorSpatialFunction<VImageDimension>::InteriorExteriorSpatialFunction()
+template <unsigned int VImageDimension,typename TInput>
+InteriorExteriorSpatialFunction<VImageDimension,TInput>::InteriorExteriorSpatialFunction()
 {
 
 }
 
-template <unsigned int VImageDimension>
-InteriorExteriorSpatialFunction<VImageDimension>::~InteriorExteriorSpatialFunction()
+template <unsigned int VImageDimension,typename TInput>
+InteriorExteriorSpatialFunction<VImageDimension,TInput>::~InteriorExteriorSpatialFunction()
 {
 
 }

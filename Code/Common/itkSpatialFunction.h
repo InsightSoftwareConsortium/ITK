@@ -66,8 +66,10 @@ namespace itk
  * \ingroup SpatialFunctions
  */
 
-template <typename TOutput, unsigned int VImageDimension=3>
-class ITK_EXPORT SpatialFunction : public FunctionBase<Point<double, VImageDimension>, TOutput>
+template <typename TOutput, 
+          unsigned int VImageDimension=3,
+          typename TInput=Point<double, VImageDimension> >
+class ITK_EXPORT SpatialFunction : public FunctionBase<TInput, TOutput>
 {
   public:
 
@@ -79,7 +81,7 @@ class ITK_EXPORT SpatialFunction : public FunctionBase<Point<double, VImageDimen
   /**
    * Standard "Superclass" typedef.
    */
-  typedef FunctionBase<Point<double, VImageDimension>, TOutput> Superclass;
+  typedef FunctionBase< TInput, TOutput> Superclass;
 
   /**
    * Input type for the function

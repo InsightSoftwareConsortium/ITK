@@ -111,29 +111,40 @@ ConicShellInteriorExteriorSpatialFunction<VImageDimension>
   TVectorType vecOriginToTest = position - m_Origin;
 
   // Compute the length of this vector
-  double vecDistance = vecOriginToTest.Get_vnl_vector().magnitude();
+  // double vecDistance = vecOriginToTest.Get_vnl_vector().magnitude();
+  double vecDistance = vecOriginToTest.GetNorm();
 
   // Check to see if this an allowed distance
   if( !( (vecDistance > m_DistanceMin)&&(vecDistance < m_DistanceMax) ) )
     return 0; // not inside the conic shell
 
   // Normalize it
-  vecOriginToTest.Get_vnl_vector().normalize();
+  // vecOriginToTest.Get_vnl_vector().normalize();
+  vecOriginToTest.Normalize();
 
   // Create a temp vector to get around const problems
   TGradientType originGradient = m_OriginGradient;
 
   // Now compute the dot product
-  double dotprod = dot_product(originGradient.Get_vnl_vector(), vecOriginToTest.Get_vnl_vector());
+  // double dotprod = dot_product(originGradient.Get_vnl_vector(), vecOriginToTest.Get_vnl_vector());
+  double dotprod = originGradient * vecOriginToTest;
 
   if(m_Polarity==1)
+    {
     dotprod = dotprod * -1;
+    }
 
   // Check to see if it meet's the angle criterior
+  OutputType result = 0;
   if( dotprod > (1 - m_Epsilon) )
-    return 1; // it's inside the shell
-  else
-    return 0; // it's not inside the shell
+    {
+    result = 1; // it's inside the shell
+    }
+    result = 0; // it's not inside the shell
+    }
+
+  return result;
+
 }
 
 } // end namespace itk

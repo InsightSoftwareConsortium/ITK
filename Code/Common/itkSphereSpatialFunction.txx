@@ -46,23 +46,23 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-template <unsigned int VImageDimension>
-SphereSpatialFunction<VImageDimension>::SphereSpatialFunction()
+template <unsigned int VImageDimension,typename TInput>
+SphereSpatialFunction<VImageDimension,TInput>::SphereSpatialFunction()
 {
   m_Radius = 1.0;
 
   m_Center.Fill(0.0);
 }
 
-template <unsigned int VImageDimension>
-SphereSpatialFunction<VImageDimension>::~SphereSpatialFunction()
+template <unsigned int VImageDimension,typename TInput>
+SphereSpatialFunction<VImageDimension,TInput>::~SphereSpatialFunction()
 {
 
 }
 
-template <unsigned int VImageDimension>
-SphereSpatialFunction<VImageDimension>::OutputType
-SphereSpatialFunction<VImageDimension>
+template <unsigned int VImageDimension,typename TInput>
+SphereSpatialFunction<VImageDimension,TInput>::OutputType
+SphereSpatialFunction<VImageDimension,TInput>
 ::Evaluate(const InputType& position) const
 {
   double acc = 0;
@@ -75,9 +75,13 @@ SphereSpatialFunction<VImageDimension>
   acc -= m_Radius*m_Radius;
 
   if(acc <= 0) // inside the sphere
+    {
     return 1;
+    }
   else
+    {
     return 0; // outside the sphere
+    }
 }
 
 } // end namespace itk
