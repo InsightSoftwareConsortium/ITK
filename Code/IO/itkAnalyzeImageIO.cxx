@@ -25,6 +25,20 @@
 
 //From uiig library "The University of Iowa Imaging Group-UIIG"
 
+
+/**
+ * \enum ValidAnalyzeOrientationFlags
+ * Valid values for the Analyze orient flag.
+ */
+enum ValidAnalyzeOrientationFlags {
+  ITK_ANALYZE_TRANSVERSE=0,
+  ITK_ANALYZE_CORONAL   =1,
+  ITK_ANALYZE_SAGITTAL  =2,
+  ITK_ANALYZE_TRANSVERSE_FLIPPED=3,
+  ITK_ANALYZE_CORONAL_FLIPPED=4,
+  ITK_ANALYZE_SAGITTAL_FLIPPED=5
+};
+
 //Written by Hans J. Johnson
 //Copied from uiig ANALYZE file reader
 // Acceptable values for hdr.dime.datatype
@@ -33,13 +47,14 @@ enum DataTypeKeyValues  {
   ANALYZE_DT_BINARY         =1,
   ANALYZE_DT_UNSIGNED_CHAR  =2,
   ANALYZE_DT_SIGNED_SHORT   =4,
-  ANALYZE_DT_UNSIGNED_SHORT =6,
   ANALYZE_DT_SIGNED_INT     =8,
   ANALYZE_DT_FLOAT          =16,
   ANALYZE_DT_COMPLEX        =32,
   ANALYZE_DT_DOUBLE         =64,
   ANALYZE_DT_RGB            =128,
-  ANALYZE_DT_ALL            =255
+  ANALYZE_DT_ALL            =255,
+  ANALYZE_DT_UNSIGNED_SHORT =6,
+  ANALYZE_DT_UNSIGNED_INT   =12
 };
 
 enum DataTypeIndex  {
@@ -53,33 +68,22 @@ enum DataTypeIndex  {
   ANALYZE_DT_INDEX_DOUBLE        =7,
   ANALYZE_DT_INDEX_RGB           =8,
   ANALYZE_DT_INDEX_ALL           =9,
-  ANALYZE_DT_INDEX_UNSIGNED_SHORT=10
+  ANALYZE_DT_INDEX_UNSIGNED_SHORT=10,
+  ANALYZE_DT_INDEX_UNSIGNED_INT  =11
 };
 
 //An array of the Analyze v7.5 known DataTypes
-static const char DataTypes[10][12]=  {
+static const char DataTypes[12][10]=  {
   "UNKNOWN","BINARY","CHAR","SHORT",
-  "INT","FLOAT","COMPLEX","DOUBLE","RGB", "USHORT"
+  "INT","FLOAT","COMPLEX","DOUBLE","RGB","ALL","USHORT","UINT"
 };
 
-//An array with the corresponding sizes
+//An array with the corresponding number of bits for each image type.
 //NOTE: the following two line should be equivalent.
-//static const short int DataTypeSizes[11]={0,1,8,16,32,32,64,64,24,0,16};
-static const short int DataTypeSizes[11]={
-  ANALYZE_DT_INDEX_UNKNOWN       ,
-  ANALYZE_DT_INDEX_BINARY        ,
-  ANALYZE_DT_INDEX_UNSIGNED_CHAR ,
-  ANALYZE_DT_INDEX_SIGNED_SHORT  ,
-  ANALYZE_DT_INDEX_SIGNED_INT    ,
-  ANALYZE_DT_INDEX_FLOAT         ,
-  ANALYZE_DT_INDEX_COMPLEX       ,
-  ANALYZE_DT_INDEX_DOUBLE        ,
-  ANALYZE_DT_INDEX_RGB           ,
-  ANALYZE_DT_INDEX_ALL           ,
-  ANALYZE_DT_INDEX_UNSIGNED_SHORT
-};
+static const short int DataTypeSizes[12]={0,1,8,16,32,32,64,64,24,0,16,32};
+
 //An array with Data type key sizes
-static const short int DataTypeKey[11]={0,1,2,4,8,16,32,64,128,255,6};
+static const short int DataTypeKey[12]={0,1,2,4,8,16,32,64,128,255,6,12};
 
 
 //The following was inserted based on Bill Hoffman's CMake
@@ -457,7 +461,52 @@ namespace itk
   }
 
 
-  // Default constructor
+  /**
+   * Analyze IMAGE FILE FORMAT -- As much information as I can determine from the Medical image
+   * formats web site, and the Analyze75.pdf file provided from the Mayo clinic.
+   *
+   * Analyze image file sets consist of at least 2 files:
+   * REQUIRED:
+   *    - an image file  ([basename].img or [basename].img.gz or [basename].img.Z)
+   *          This contains the binary represenation of the raw voxel values.
+   *          If the file is uncompressed, it should be of of size (sizeof(storagetype)*NX*NY*NZ(*NT).
+   *          The format of the image file is very simple; containing usually
+   *          uncompressed voxel data for the images in one of the several
+   *          possible voxel formats:
+   *             - 1 bit  packed binary (slices begin on byte boundaries)
+   *             - 8 bit  (unsigned char) gray scale unless .lkup file present
+   *             - 16 bit signed short
+   *             - 32 bit signed integers or float
+   *             - 24 bit RGB, 8 bits per channel
+   *    - a header file  ([basename].hdr)
+   *          This a 348 byte file 99.99% of all images that contains a binary represenation of the C-struct
+   *          defined in this file.  The analyze 7.5 header structure may, however, be extended beyond this minimal defintion
+   *          to encompase site specific information, and would have more than 348 bytes.  Given that the
+   *          ability to extend the header has rarely been used, this implementation of the Analyze 7.5
+   *          file will only read the first 348 bytes into the structure defined in this file, and all informaiton beyond the
+   *          348 bytes will be ignored.
+   * OPTIONAL:
+   *    - a color lookup file ([basename].lkup)
+   *      The .lkup file is a plain ASCII text file that contains 3 integer values between 0 and 255
+   *      on each line.  Each line of the lkup file represents one color table entry for the Red,
+   *      Green and Blue color components, respectively.  The total dynamic range of the image
+   *      is divided by the number of colors in color table to determine mapping of the image through
+   *      these colors.
+   *       For example, an 8-color 'rainbow colors' lookup table is represented as:
+   *       ===========================
+   *       255 0 0
+   *       255 128 0
+   *       255 255 0
+   *       128 255 0
+   *       0 255 0
+   *       0 0 255
+   *       128 0 255
+   *       255 0 255
+   *       ===========================
+   *    - an object file ([basename].obj)
+   *      A specially formated file with a mapping between object name and image code used to associate
+   *      image voxel locations with a label.  This file is run length encoded to save disk storage.
+   */
   AnalyzeImageIO::AnalyzeImageIO()
   {
     //by default, only have 3 dimensions
@@ -790,7 +839,7 @@ namespace itk
     //
     // CASE NOT YET HANDLED: RGB images, where R G and B
     // volumes are sent sequentially
-    if(this->m_hdr.hist.orient == ITKA_CORONAL)
+    if(this->m_hdr.hist.orient == ITK_ANALYZE_CORONAL)
       return;
     //
     // allocate a buffer to hold image temporarily
@@ -808,7 +857,7 @@ namespace itk
 
     switch(this->m_hdr.hist.orient) 
       {
-      case ITKA_TRANSVERSE:
+      case ITK_ANALYZE_TRANSVERSE:
         for(z = 0; z < this->m_new_dim.zsize; z++) 
           {
             for(y = 0; y < this->m_new_dim.ysize; y++) 
@@ -823,7 +872,7 @@ namespace itk
               }
           }
         break;
-      case ITKA_SAGITTAL:
+      case ITK_ANALYZE_SAGITTAL:
         for(z = 0; z < this->m_new_dim.zsize; z++) 
           {
             for(y = 0; y < this->m_new_dim.ysize; y++) 
@@ -838,7 +887,7 @@ namespace itk
               }
           }
         break;
-      case ITKA_TRANSVERSE_FLIPPED:
+      case ITK_ANALYZE_TRANSVERSE_FLIPPED:
         for(z = 0; z < this->m_new_dim.zsize; z++) 
           {
             for(y = 0; y < this->m_new_dim.ysize; y++) 
@@ -854,7 +903,7 @@ namespace itk
               }
           }
         break;
-      case ITKA_CORONAL_FLIPPED:
+      case ITK_ANALYZE_CORONAL_FLIPPED:
         for(z = 0; z < this->m_new_dim.zsize; z++) 
           {
             for(y = 0; y < this->m_new_dim.ysize; y++) 
@@ -871,7 +920,7 @@ namespace itk
           }
         break;
         break;
-      case ITKA_SAGITTAL_FLIPPED:
+      case ITK_ANALYZE_SAGITTAL_FLIPPED:
         for(z = 0; z < this->m_new_dim.zsize; z++) 
           {
             for(y = 0; y < this->m_new_dim.ysize; y++) 
@@ -1107,16 +1156,16 @@ namespace itk
     // for use in this->Read()
     switch(this->m_hdr.hist.orient) 
       {
-      case ITKA_TRANSVERSE:
-      case ITKA_TRANSVERSE_FLIPPED:
+      case ITK_ANALYZE_TRANSVERSE:
+      case ITK_ANALYZE_TRANSVERSE_FLIPPED:
         this->SetDimensions(this->m_old_dim.ysize,0);
         this->SetDimensions(this->m_old_dim.zsize,1);
         this->SetDimensions(this->m_old_dim.xsize,2);
         this->ComputeStrides();
         this->GetAllDimensions(this->m_new_dim);
         break;
-      case ITKA_SAGITTAL:
-      case ITKA_SAGITTAL_FLIPPED:
+      case ITK_ANALYZE_SAGITTAL:
+      case ITK_ANALYZE_SAGITTAL_FLIPPED:
         this->SetDimensions(this->m_old_dim.zsize,0);
         this->SetDimensions(this->m_old_dim.ysize,1);
         this->SetDimensions(this->m_old_dim.xsize,2);
