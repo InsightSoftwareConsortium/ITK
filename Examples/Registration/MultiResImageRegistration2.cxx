@@ -424,8 +424,8 @@ int main( int argc, char **argv )
   //  measured in radians. For example, a rotation of $1.0$ degree is about
   //  $0.017$ radians. Similar to the previous example, the maximum and minimum
   //  step length of the optimizer is set by the
-  //  \code{RegistrationInterfaceCommand} when it is called at the beggining of
-  //  every iteration.   
+  //  \code{RegistrationInterfaceCommand} when it is called at the beginning of
+  //  registration at each multi-resolution level.   
   //
   //  Software Guide : EndLatex 
 
