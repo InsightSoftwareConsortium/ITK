@@ -321,7 +321,114 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int, char* [] )
     std::cout << std::endl;
     return EXIT_FAILURE; 
     }
+
+  // Exercise Get Methods
+  std::cout << "RegistrationFilter: " << registrator->GetRegistrationFilter() << std::endl;
+  std::cout << "FixedImage: " << registrator->GetFixedImage() << std::endl;
+  std::cout << "MovingImage: " << registrator->GetMovingImage() << std::endl;
+  std::cout << "FixedImagePyramid: " << registrator->GetFixedImagePyramid() << std::endl;
+  std::cout << "MovingImagePyramid: " << registrator->GetMovingImagePyramid() << std::endl;
+  std::cout << "NumberOfLevels: " << registrator->GetNumberOfLevels() << std::endl;
+  std::cout << "CurrentLevel: " << registrator->GetCurrentLevel() << std::endl;
+  std::cout << "NumberOfIterations[0]: " << registrator->GetNumberOfIterations()[0] << std::endl;
+
+  // Exercise error handling
+  bool passed;
+
+  typedef RegistrationType::RegistrationType InternalRegistrationType;
+  InternalRegistrationType::Pointer demons = registrator->GetRegistrationFilter();
+
+  try
+    {
+    passed = false;
+    std::cout << "Set RegistrationFilter to NULL" << std::endl;
+    registrator->SetRegistrationFilter( NULL );
+    registrator->Update();
+    }
+  catch( itk::ExceptionObject& err )
+    {
+    std::cout << err << std::endl;
+    passed = true;
+    registrator->ResetPipeline();
+    registrator->SetRegistrationFilter( demons );
+    }
   
+  if ( !passed )
+    {
+    std::cout << "Test failed" << std::endl;
+    }
+
+  typedef RegistrationType::FixedImagePyramidType FixedImagePyramidType;
+  FixedImagePyramidType::Pointer fixedPyramid = registrator->GetFixedImagePyramid();
+
+  try
+    {
+    passed = false;
+    std::cout << "Set FixedImagePyramid to NULL" << std::endl;
+    registrator->SetFixedImagePyramid( NULL );
+    registrator->Update();
+    }
+  catch( itk::ExceptionObject& err )
+    {
+    std::cout << err << std::endl;
+    passed = true;
+    registrator->ResetPipeline();
+    registrator->SetFixedImagePyramid( fixedPyramid );
+    }
+  
+  if ( !passed )
+    {
+    std::cout << "Test failed" << std::endl;
+    return EXIT_FAILURE;
+   }
+
+  typedef RegistrationType::MovingImagePyramidType MovingImagePyramidType;
+  MovingImagePyramidType::Pointer movingPyramid = registrator->GetMovingImagePyramid();
+
+  try
+    {
+    passed = false;
+    std::cout << "Set MovingImagePyramid to NULL" << std::endl;
+    registrator->SetMovingImagePyramid( NULL );
+    registrator->Update();
+    }
+  catch( itk::ExceptionObject& err )
+    {
+    std::cout << err << std::endl;
+    passed = true;
+    registrator->ResetPipeline();
+    registrator->SetMovingImagePyramid( movingPyramid );
+    }
+  
+  if ( !passed )
+    {
+    std::cout << "Test failed" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+
+  try
+    {
+    passed = false;
+    std::cout << "Set FixedImage to NULL" << std::endl;
+    registrator->SetFixedImage( NULL );
+    registrator->Update();
+    }
+  catch( itk::ExceptionObject& err )
+    {
+    std::cout << err << std::endl;
+    passed = true;
+    registrator->ResetPipeline();
+    registrator->SetFixedImage( fixed );
+    }
+  
+  if ( !passed )
+    {
+    std::cout << "Test failed" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  std::cout << "Test passed" << std::endl;
   return EXIT_SUCCESS;
 
 }
