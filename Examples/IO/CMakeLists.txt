@@ -62,3 +62,6 @@ TARGET_LINK_LIBRARIES(DicomSeriesReadSeriesWrite ITKCommon ITKIO)
 
 ADD_EXECUTABLE(DicomPrintPatientInformation DicomPrintPatientInformation.cxx )
 TARGET_LINK_LIBRARIES(DicomPrintPatientInformation ITKCommon ITKIO)
+
+ADD_EXECUTABLE(TransformReadWrite TransformReadWrite.cxx )
+TARGET_LINK_LIBRARIES(TransformReadWrite ITKCommon ITKIO)
