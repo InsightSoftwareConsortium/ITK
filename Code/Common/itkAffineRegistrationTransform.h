@@ -115,6 +115,13 @@ public:
 
 
   /**
+   *  Set the Scale for translations
+   */
+  void SetTranslationScale(const double &scale)
+                    { m_TranslationScale = scale; }
+   
+
+  /**
    * Compute the Jacobian of the transformation
    *
    * This method computes the Jacobian matrix of the transformation.
@@ -135,6 +142,8 @@ private:
 
   AffineTransformType                 m_AffineTransform;
   ParametersType                      m_Parameters;
+
+  double                              m_TranslationScale;
 
   mutable JacobianType                m_Jacobian;     
 

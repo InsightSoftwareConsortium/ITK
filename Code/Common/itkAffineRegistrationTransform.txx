@@ -100,13 +100,15 @@ AffineRegistrationTransform<TScalarType,NDimensions,TParameters>
   // Transfer the constant part
   for(unsigned int i=0; i<NDimensions; i++) 
   {
-    constant[i] = m_Parameters[par];
+    constant[i] = m_Parameters[par] * m_TranslationScale;
     ++par;
   }
 
   m_AffineTransform.SetMatrix( linear );
   m_AffineTransform.SetOffset( constant );
 
+  std::cout << "SetParameters = " << std::endl;
+  std::cout << m_AffineTransform << std::endl;
 }
 
 
