@@ -32,7 +32,8 @@ MRFImageFilter<TInputImage,TClassifiedImage>
       m_TotalNumberOfPixelsInInputImage(1),
       m_ErrorTolerance(0.2),
       m_ClassProbability(0),
-      m_ClassifierPtr(0)
+      m_ClassifierPtr(0),
+      m_SmoothingFactor(1)
 {
 
   if( (int)InputImageDimension != (int)ClassifiedImageDimension )
@@ -288,18 +289,18 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   m_MRFNeighborhoodWeight.resize( m_NeighborhoodSize );
 
   for( int i = 0; i < 9; i++ ) 
-    m_MRFNeighborhoodWeight[i] = 1.3;
+    m_MRFNeighborhoodWeight[i] = 1.3 * m_SmoothingFactor;
 
   for( int i = 9; i < 18; i++ )
-    m_MRFNeighborhoodWeight[i] = 1.7;
+    m_MRFNeighborhoodWeight[i] = 1.7 * m_SmoothingFactor;
 
   for( int i = 18; i < 27; i++ )
-    m_MRFNeighborhoodWeight[i] = 1.3;
+    m_MRFNeighborhoodWeight[i] = 1.3 * m_SmoothingFactor;
 
   // Change the center weights
-  m_MRFNeighborhoodWeight[4]  = 1.5;
+  m_MRFNeighborhoodWeight[4]  = 1.5 * m_SmoothingFactor;
   m_MRFNeighborhoodWeight[13] = 0.0;
-  m_MRFNeighborhoodWeight[22] = 1.5;
+  m_MRFNeighborhoodWeight[22] = 1.5 * m_SmoothingFactor;
 
 }// SetMRFNeighborhoodWeight
 
@@ -326,7 +327,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   m_MRFNeighborhoodWeight.resize( m_NeighborhoodSize );
 
   for( unsigned int i = 0; i < betaMatrix.size(); i++ ) 
-    m_MRFNeighborhoodWeight[i] = betaMatrix[i];
+    m_MRFNeighborhoodWeight[i] = (betaMatrix[i] * m_SmoothingFactor);
 }// end SetMRFNeighborhoodWeight
 
 

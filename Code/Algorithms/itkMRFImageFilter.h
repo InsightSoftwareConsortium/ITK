@@ -248,6 +248,11 @@ public:
   itkSetMacro(ErrorTolerance, double);
   itkGetMacro(ErrorTolerance, double);
 
+  /** Set/Get the degree of smoothing desired 
+   * */
+  itkSetMacro(SmoothingFactor, double);
+  itkGetMacro(SmoothingFactor, double);
+
   /** Set the neighborhood radius */
   void SetNeighborhoodRadius(const SizeType &);  
 
@@ -342,11 +347,13 @@ private:
   unsigned int              m_NumberOfClasses;
   unsigned int              m_MaximumNumberOfIterations;
   unsigned int              m_KernelSize;
+
   int                       m_ErrorCounter;
   int                       m_NeighborhoodSize;
   int                       m_TotalNumberOfValidPixelsInOutputImage;
   int                       m_TotalNumberOfPixelsInInputImage;
-  double                    m_ErrorTolerance;
+  double                    m_ErrorTolerance;  
+  double                    m_SmoothingFactor;
   double                    *m_ClassProbability; //Class liklihood
 
   LabelStatusImagePointer   m_LabelStatusImage;
