@@ -126,7 +126,7 @@ public:
   /** 
    * Set the input image.
    */
-  virtual void SetInputImage( InputImageType * ptr )
+  virtual void SetInputImage( const InputImageType * ptr )
     { m_Image = ptr; }
 
   /**

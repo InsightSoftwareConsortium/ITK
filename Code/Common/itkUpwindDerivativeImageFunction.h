@@ -115,7 +115,7 @@ public:
   /**
    * Set the input image.
    */
-  virtual void SetInputImage( InputImageType * ptr );
+  virtual void SetInputImage( const InputImageType * ptr );
 
   /**
    * Set the speed parameter.

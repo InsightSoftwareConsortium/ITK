@@ -110,7 +110,7 @@ public:
    *
    * This method is NOT thread safe.
    */
-  virtual void SetInputImage( InputImageType * ptr );
+  virtual void SetInputImage( const InputImageType * ptr );
 
   /**
    * Evaluate the function at specified index.
