@@ -146,7 +146,7 @@ protected:
   void GenerateData();
 
 private:
-  BloxBoundaryProfileImageFilter(const Self&); //purposely not implemented
+  BloxBoundaryPointImageToBloxBoundaryProfileImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   typename BoundaryPointImagePointer m_BoundaryPointImage;
