@@ -76,6 +76,12 @@ namespace itk {
  The UseNegativeFeatures parameter tells the function object to reverse the
  sign of the feature image, which also reverses the INSIDE OUTSIDE sign
  convention.
+
+ \par
+ The FeatureScaling parameter controls the magnitude of the features calculated
+ for use in the level set propagation speed.  This is important in controlling
+ the relative effect of the feature values versus the curvature values (and possibly other
+ terms).
  
  \todo Use a second input image for the feature image instead of keeping the
  feature image as a parameter.  This may be tricky because the feature image
