@@ -334,7 +334,7 @@ int PrintResult( int result, int value )
  */
 int itkTreeContainerTest2(int, char* [])
 {
-  int result = 0;
+  int result;
   int testCounter = 0;
   TreeType::Pointer tree = CreateTree_1();
 
@@ -460,7 +460,7 @@ int itkTreeContainerTest2(int, char* [])
   tree->Clear();
   tree->RemoveObserver( tag );
 
-  if ( testCounter = 8 )
+  if ( testCounter == 19 )
     {
     std::cout << "TEST DONE" << std::endl;
     return EXIT_SUCCESS;
