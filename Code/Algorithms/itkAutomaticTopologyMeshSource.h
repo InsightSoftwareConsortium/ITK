@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkBinaryMask3DMeshSource_h
-#define __itkBinaryMask3DMeshSource_h
+#ifndef __itkAutomaticTopologyMeshSource_h
+#define __itkAutomaticTopologyMeshSource_h
 
 #include "itkArray.h"
 #include "itkDefaultStaticMeshTraits.h"
@@ -217,4 +217,4 @@ private:
 #include "itkAutomaticTopologyMeshSource.txx"
 #endif
 
-#endif // ndef __itkBinaryMask3DMeshSource_h
+#endif // __itkAutomaticTopologyMeshSource_h
