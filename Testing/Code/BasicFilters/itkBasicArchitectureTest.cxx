@@ -14,7 +14,7 @@ See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
 #include <iostream>
-#include "itkImage.h"
+#include "itkPhysicalImage.h"
 #include "itkScalar.h"
 #include "itkVector.h"
 #include "itkRandomImageSource.h"
@@ -111,18 +111,18 @@ int main()
 
   // Test the creation of an image with native type
   //
-  itk::Image<float,2>::Pointer if2 = itk::Image<float,2>::New();
+  itk::PhysicalImage<float,2>::Pointer if2 = itk::PhysicalImage<float,2>::New();
 
   std::cout << std::endl
-            << "Image dimension is " << itk::Image<float,5>::ImageDimension
+            << "Image dimension is " << itk::PhysicalImage<float,5>::ImageDimension
             << std::endl;
-  std::cout << "Image dimension is " << itk::Image<short,1>::ImageDimension
+  std::cout << "Image dimension is " << itk::PhysicalImage<short,1>::ImageDimension
             << std::endl;
 
   // Begin by creating a simple pipeline. Use the Scalar class as a pixel.
   //
   // Create a typedef to make the code more digestable
-  typedef itk::Image<itk::Scalar<float>,2> FloatImage2DType;
+  typedef itk::PhysicalImage<itk::Scalar<float>,2> FloatImage2DType;
 
   // Create a source object (in this case a reader)
   itk::VTKImageReader<FloatImage2DType>::Pointer reader;
