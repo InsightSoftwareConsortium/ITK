@@ -13,14 +13,6 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/** 
- * TimeStamp records a unique time when the method Modified() is 
- *  executed. This time is guaranteed to be monotonically increasing.
- *  Classes use this object to record modified and/or execution time.
- *  There is built in support for the binary < and > comparison
- *  operators between two TimeStamp objects. 
- */
-
 #ifndef __itkTimeStamp_h
 #define __itkTimeStamp_h
 
@@ -29,9 +21,22 @@
 namespace itk
 {
 
+/** \class TimeStamp
+ * \brief Generate a unique, increasing time value.
+ *
+ * TimeStamp records a unique time when the method Modified() is 
+ * executed. This time is guaranteed to be monotonically increasing.
+ * Classes use this object to record modified and/or execution time.
+ * There is built in support for the binary < and > comparison
+ * operators between two TimeStamp objects. 
+ */
+
 class ITK_EXPORT TimeStamp 
 {
 public:
+  /**
+   * Standard "Self" typedef.
+   */
   typedef TimeStamp  Self;
   
   /** 

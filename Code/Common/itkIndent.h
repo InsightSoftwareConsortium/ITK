@@ -13,14 +13,6 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/**
- * Indent is used to control indentation during the chaining print 
- * process. This way nested objects can correctly indent themselves.
- * This class works with the print methods defined in Object (i.e.,
- * the public method Print() and the protected methods PrintSelf(),
- * PrintHeader(), and PrintTrailer().
- */
-
 #ifndef __itkIndent_h
 #define __itkIndent_h
 
@@ -30,9 +22,22 @@
 namespace itk
 {
 
+/** \class Indent
+ * \brief Control indentation during Print() invocation.
+ *
+ * Indent is used to control indentation during the chaining print 
+ * process. This way nested objects can correctly indent themselves.
+ * This class works with the print methods defined in Object (i.e.,
+ * the public method Print() and the protected methods PrintSelf(),
+ * PrintHeader(), and PrintTrailer().
+ */
+
 class ITK_EXPORT Indent
 {
 public:
+  /**
+   * Standard "Self" typedef.
+   */
   typedef Indent  Self;
 
   /**
