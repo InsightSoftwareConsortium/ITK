@@ -61,6 +61,7 @@ REGISTER_TEST(itkLevelSetNeighborhoodExtractorTest );
 REGISTER_TEST(itkLevelSetVelocityNeighborhoodExtractorTest );
 REGISTER_TEST(itkMattesMutualInformationImageToImageMetricTest );
 REGISTER_TEST(itkMeanSquaresImageMetricTest );
+REGISTER_TEST(itkMeanSquaresHistogramImageToImageMetricTest );
 REGISTER_TEST(itkMinMaxCurvatureFlowImageFilterTest );
 REGISTER_TEST(itkMRFImageFilterTest );
 REGISTER_TEST(itkMRIBiasFieldCorrectionFilterTest );
