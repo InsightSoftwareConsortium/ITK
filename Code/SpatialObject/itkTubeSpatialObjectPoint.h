@@ -50,7 +50,7 @@ public:
   TubeSpatialObjectPoint( void );
 
   /** Default destructor. */
-  ~TubeSpatialObjectPoint( void );
+  virtual ~TubeSpatialObjectPoint( void );
 
   /** Get the tangent */
   const VectorType & GetTangent( void ) const;

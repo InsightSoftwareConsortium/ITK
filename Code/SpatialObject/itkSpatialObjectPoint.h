@@ -42,7 +42,7 @@ public:
   SpatialObjectPoint( void );
 
   /** Default destructor. */
-  ~SpatialObjectPoint( void );
+  virtual ~SpatialObjectPoint( void );
 
   typedef SpatialObjectPoint                Self;
   typedef Point< double, TPointDimension >  PointType;
