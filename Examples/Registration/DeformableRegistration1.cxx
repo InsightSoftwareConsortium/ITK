@@ -38,6 +38,9 @@
 // Software Guide : BeginCodeSnippet
 #include "itkFEM.h"
 #include "itkFEMRegistrationFilter.h"
+       
+//#include "itkFEMFiniteDifferenceFunctionLoad.h"
+
 // Software Guide : EndCodeSnippet
 
 
@@ -87,7 +90,10 @@ typedef itk::fem::Element3DC0LinearTetrahedronMembrane  Element3DType2;
 
 
 //  Software Guide : BeginCodeSnippet
-typedef itk::fem::ImageMetricLoad<ImageType,ImageType>     ImageLoadType;
+
+typedef itk::fem::FiniteDifferenceFunctionLoad<ImageType,ImageType>     ImageLoadType;
+//typedef itk::fem::ImageMetricLoad<ImageType,ImageType>     ImageLoadType;
+
 template class itk::fem::ImageMetricLoadImplementation<ImageLoadType>;
 
 typedef ElementType::LoadImplementationFunctionPointer     LoadImpFP;
@@ -191,15 +197,17 @@ int main(int argc, char *argv[])
   typedef itk::ImageFileReader< fileImageType >      FileSourceType;
   typedef fileImageType::PixelType PixType;
 
-  FileSourceType::Pointer reffilter = FileSourceType::New();
-  reffilter->SetFileName( (X->GetMovingFile()).c_str() );
-  FileSourceType::Pointer tarfilter = FileSourceType::New();
-  tarfilter->SetFileName( (X->GetFixedFile()).c_str() );
-
+  FileSourceType::Pointer movingfilter = FileSourceType::New();
+  movingfilter->SetFileName( (X->GetMovingFile()).c_str() );
+  FileSourceType::Pointer fixedfilter = FileSourceType::New();
+  fixedfilter->SetFileName( (X->GetFixedFile()).c_str() );
+  std::cout << " reading moving " << X->GetMovingFile() << std::endl;
+  std::cout << " reading fixed " << X->GetFixedFile() << std::endl;
+  
 
   try
     {
-    reffilter->Update();
+    movingfilter->Update();
     }
   catch( itk::ExceptionObject & e )
     {
@@ -209,7 +217,7 @@ int main(int argc, char *argv[])
     }
   try
     {
-    tarfilter->Update();
+    fixedfilter->Update();
     }
   catch( itk::ExceptionObject & e )
     {
@@ -221,36 +229,53 @@ int main(int argc, char *argv[])
 
   // Rescale the image intensities so that they fall between 0 and 255
   typedef itk::RescaleIntensityImageFilter<fileImageType,ImageType> FilterType;
-  FilterType::Pointer refrescalefilter = FilterType::New();
-  FilterType::Pointer tarrescalefilter = FilterType::New();
+  FilterType::Pointer movingrescalefilter = FilterType::New();
+  FilterType::Pointer fixedrescalefilter = FilterType::New();
 
-  refrescalefilter->SetInput(reffilter->GetOutput());
-  tarrescalefilter->SetInput(tarfilter->GetOutput());
+  movingrescalefilter->SetInput(movingfilter->GetOutput());
+  fixedrescalefilter->SetInput(fixedfilter->GetOutput());
 
   const double desiredMinimum =  0.0;
   const double desiredMaximum =  255.0;
 
-  refrescalefilter->SetOutputMinimum( desiredMinimum );
-  refrescalefilter->SetOutputMaximum( desiredMaximum );
-  refrescalefilter->UpdateLargestPossibleRegion();
-  tarrescalefilter->SetOutputMinimum( desiredMinimum );
-  tarrescalefilter->SetOutputMaximum( desiredMaximum );
-  tarrescalefilter->UpdateLargestPossibleRegion();
+  movingrescalefilter->SetOutputMinimum( desiredMinimum );
+  movingrescalefilter->SetOutputMaximum( desiredMaximum );
+  movingrescalefilter->UpdateLargestPossibleRegion();
+  fixedrescalefilter->SetOutputMinimum( desiredMinimum );
+  fixedrescalefilter->SetOutputMaximum( desiredMaximum );
+  fixedrescalefilter->UpdateLargestPossibleRegion();
   
 
   // Histogram match the images
   typedef itk::HistogramMatchingImageFilter<ImageType,ImageType> HEFilterType;
   HEFilterType::Pointer IntensityEqualizeFilter = HEFilterType::New();
 
-  IntensityEqualizeFilter->SetReferenceImage( refrescalefilter->GetOutput() );
-  IntensityEqualizeFilter->SetInput( tarrescalefilter->GetOutput() );
+  IntensityEqualizeFilter->SetReferenceImage( fixedrescalefilter->GetOutput() );
+  IntensityEqualizeFilter->SetInput( movingrescalefilter->GetOutput() );
   IntensityEqualizeFilter->SetNumberOfHistogramLevels( 100);
   IntensityEqualizeFilter->SetNumberOfMatchPoints( 15);
   IntensityEqualizeFilter->ThresholdAtMeanIntensityOn();
   IntensityEqualizeFilter->Update();
 
-  X->SetFixedImage(refrescalefilter->GetOutput());
+  X->SetFixedImage(fixedrescalefilter->GetOutput());
   X->SetMovingImage(IntensityEqualizeFilter->GetOutput());
+
+
+  itk::ImageFileWriter<ImageType>::Pointer writer;
+  writer = itk::ImageFileWriter<ImageType>::New();
+  std::string ofn="fixed.hdr";
+  writer->SetFileName(ofn.c_str());
+  writer->SetInput(X->GetFixedImage() ); 
+  writer->Write();
+
+  ofn="moving.hdr";
+  itk::ImageFileWriter<ImageType>::Pointer writer2;
+  writer2 =  itk::ImageFileWriter<ImageType>::New();
+  writer2->SetFileName(ofn.c_str());
+  writer2->SetInput(X->GetMovingImage() ); 
+  writer2->Write();
+ 
+
 
 
 //  Software Guide : BeginLatex
