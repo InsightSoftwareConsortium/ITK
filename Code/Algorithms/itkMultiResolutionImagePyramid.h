@@ -106,11 +106,19 @@ namespace itk
  * 2 2 1
  * 1 1 1
  *
- * Only simple subsampling via the ShrinkFilter is peformed in
- * this class. Subclasses should override GenerateData to implement
- * more complex stragtegies.
+ * To generate the output image, Gaussian smoothing is first performed using
+ * DiscreteGaussianImageFilter and  variances of (shrink factor / 2)^2. 
+ * The smoothed image is then downsampled using ShrinkImageFiter.
  *
  * This class is templated over the input image type and the output image type.
+ *
+ * Caveat:
+ * Can only take float input and output image type. This is partially
+ * due to the limitation of DiscreteGaussianImageFilter. 
+ * One option is to store a float version of the input and output and
+ * copy and cast to the output type.
+ * However this can be expensive if the images are large.
+ * 
  *
  */
 template <
