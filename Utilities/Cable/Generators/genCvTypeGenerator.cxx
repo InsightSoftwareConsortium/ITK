@@ -190,12 +190,13 @@ CvTypeGenerator
   switch (type->GetRepresentationType())
     {
     case cxx::ArrayType_id:
+      {
+      const cxx::ArrayType* arrayType = cxx::ArrayType::SafeDownCast(type);
       os << "  CvType< " << cvType.GetName().c_str()
          << " >::type = TypeInfo::GetArrayType(CvType< "
-         << cxx::ArrayType::SafeDownCast(type)->GetElementType().GetName().c_str()
-         << " >::type, " << (cvType.IsConst()? "true":"false")
-         << ", " << (cvType.IsVolatile()? "true":"false") << ");\n";
-      break;
+         << arrayType->GetElementType().GetName().c_str()
+         << " >::type, " << arrayType->GetLength() << ");\n";
+      }; break;
     case cxx::ClassType_id:
       {
       const cxx::ClassType* classType = cxx::ClassType::SafeDownCast(type);
