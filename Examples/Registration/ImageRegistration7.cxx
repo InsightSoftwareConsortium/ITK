@@ -18,14 +18,27 @@
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the \code{Similarity2DTransform} for
-// performing rigid registration in $2D$. The code of this example is for the
-// most part identical to the one presented in
-// \ref{sec:IntroductionImageRegistration}.  The main difference is the use of
-// the \code{Similarity2DTransform} here instead of the
+// performing registration in $2D$. The code of this example is for the most
+// part identical to the one presented in
+// \ref{sec:InitializingRegistrationWithMoments}.  The main difference is the
+// use of the \code{Similarity2DTransform} here instead of the
 // \code{TranslationTransform}.
 //
-// \index{itk::Similarity2DTransform!textbf}
+// A similarity transform can be seen as a composition of rotations,
+// translations and uniform scaling. It preseve angles and map lines into
+// lines. This transform is implemented in the toolkit as a rigid $2D$
+// transform with a scale parameter added.
 //
+// When using this transform, attention should be paid to the fact that scaling
+// and translations are not independent.  In the same way that rotations can
+// locally be seen as translations, scaling also result in local displacements.
+// Scaling is performed in general with respect to the origin of coordinates.
+// However, we already saw how ambiguios that could be in the case of
+// rotations. For this reason, this transform also allows users to setup a
+// specific center. This center is use both for rotation and scaling.
+//
+//
+// \index{itk::Similarity2DTransform!textbf}
 //
 // Software Guide : EndLatex 
 
@@ -34,6 +47,9 @@
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
 #include "itkImage.h"
+
+
+#include "itkCenteredTransformInitializer.h"
 
 
 
@@ -214,107 +230,38 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  In this example, the input images are taken from readers. The code below
-  //  update the readers in order to ensure that the parameters of size, origin
-  //  and spacing of the images are valid when used to initialize the
-  //  transform.  We intend to use the center of the fixed image as the
-  //  rotation center and then use the vector between the fixed image center
-  //  and the moving image center as the initial translation to be applied
-  //  after the rotation.
+  //  In this example, we use again the helper class
+  //  \code{CenteredTransformInitializer} in order to compute a reasonable
+  //  value for the initial center of rotation and the translation.
   //
   //  Software Guide : EndLatex 
 
-  // Software Guide : BeginCodeSnippet
-  fixedImageReader->Update();
-  movingImageReader->Update();
-  // Software Guide : EndCodeSnippet
+   typedef itk::CenteredTransformInitializer< 
+                                    TransformType, 
+                                    FixedImageType, 
+                                    MovingImageType >  TransformInitializerType;
 
+  TransformInitializerType::Pointer initializer = TransformInitializerType::New();
 
+  initializer->SetTransform(   transform );
 
-  
-  //  Software Guide : BeginLatex
-  //  
-  //  The center of rotation is computed using the origin, size and spacing of
-  //  the fixed image.
-  //
-  //  Software Guide : EndLatex 
+  initializer->SetFixedImage(  fixedImageReader->GetOutput() );
+  initializer->SetMovingImage( movingImageReader->GetOutput() );
 
-  // Software Guide : BeginCodeSnippet
-  FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
+  initializer->MomentsOn();
 
-  const double * fixedSpacing = fixedImage->GetSpacing();
-  const double * fixedOrigin  = fixedImage->GetOrigin();
-  
-  FixedImageType::SizeType fixedSize  = 
-          fixedImage->GetLargestPossibleRegion().GetSize();
-  
-  TransformType::InputPointType centerFixed;
-  
-  centerFixed[0] = fixedOrigin[0] + fixedSpacing[0] * fixedSize[0] / 2.0;
-  centerFixed[1] = fixedOrigin[1] + fixedSpacing[1] * fixedSize[1] / 2.0;
-  // Software Guide : EndCodeSnippet
-
-
-
+  initializer->InitializeTransform();
 
 
   //  Software Guide : BeginLatex
   //  
-  //  The center of the moving image is computed in a similar way.
-  //
-  //  Software Guide : EndLatex 
-
-  // Software Guide : BeginCodeSnippet
-  MovingImageType::Pointer movingImage = movingImageReader->GetOutput();
-
-  const double * movingSpacing = movingImage->GetSpacing();
-  const double * movingOrigin  = movingImage->GetOrigin();
-  
-  MovingImageType::SizeType movingSize = 
-            movingImage->GetLargestPossibleRegion().GetSize();
-  
-  TransformType::InputPointType centerMoving;
-  
-  centerMoving[0] = movingOrigin[0] + movingSpacing[0] * movingSize[0] / 2.0;
-  centerMoving[1] = movingOrigin[1] + movingSpacing[1] * movingSize[1] / 2.0;
-  // Software Guide : EndCodeSnippet
-
-
-
-
-
-  //  Software Guide : BeginLatex
-  //  
-  //   In order to initialize the transform parameters, the most
-  //   straightforward method is to setup the configuration of a transform and
-  //   then get its parameters with the method \code{GetParameters()}. Here we
-  //   initialize first the transform by passing the center of the fixed image
-  //   as the rotation center with the \code{SetRotationCenter()} method. Then
-  //   the translation is set as the vector relating the center of moving image
-  //   to the center of the fixed image. This last definition is passed with
-  //   the method \code{SetTranslation()}.
-  //
-  //  Software Guide : EndLatex 
-
-  // Software Guide : BeginCodeSnippet
-  transform->SetCenterOfRotation( centerFixed );
-
-  transform->SetTranslation( centerMoving - centerFixed );
-  // Software Guide : EndCodeSnippet
-
-
-
-
-
-
-  //  Software Guide : BeginLatex
-  //  
-  //  Let's finally initialize the rotation with a zero angle.
+  //  The remaining parameters of the transform are initialized below.
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
   transform->SetAngle( 0.0 );
+  transform->SetScale( 1.0 );
   // Software Guide : EndCodeSnippet
 
 
@@ -339,11 +286,13 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  Keeping in mind that the scale of units in rotation and translation are
-  //  quite different, we take advantage of the scaling functionality provided
-  //  by the optimizers. We know that the first element of the parameters array
-  //  corresponds to the angle. For this reason we use small factors in the
-  //  scales associated with translations and the rotation center. 
+  //  Keeping in mind that the scale of units in scaling, rotation and
+  //  translation are quite different, we take advantage of the scaling
+  //  functionality provided by the optimizers. We know that the first element
+  //  of the parameters array corresponds to the scale factor, the second
+  //  corresponds to the angle, third and forth are the center of rotation and
+  //  fifth and sixth are the remaining translation. We use then, small factors
+  //  in the scales associated with translations and the rotation center. 
   //
   //  Software Guide : EndLatex 
 
@@ -355,10 +304,11 @@ int main( int argc, char **argv )
   const double translationScale = 1.0 / 1000.0;
 
   optimizerScales[0] = 1.0;
-  optimizerScales[1] = translationScale;
+  optimizerScales[1] = 1.0;
   optimizerScales[2] = translationScale;
   optimizerScales[3] = translationScale;
   optimizerScales[4] = translationScale;
+  optimizerScales[5] = translationScale;
 
   optimizer->SetScales( optimizerScales );
   // Software Guide : EndCodeSnippet
@@ -410,11 +360,12 @@ int main( int argc, char **argv )
                     registration->GetLastTransformParameters();
 
 
-  const double finalAngle           = finalParameters[0];
-  const double finalRotationCenterX = finalParameters[1];
-  const double finalRotationCenterY = finalParameters[2];
-  const double finalTranslationX    = finalParameters[3];
-  const double finalTranslationY    = finalParameters[4];
+  const double finalScale           = finalParameters[0];
+  const double finalAngle           = finalParameters[1];
+  const double finalRotationCenterX = finalParameters[2];
+  const double finalRotationCenterY = finalParameters[3];
+  const double finalTranslationX    = finalParameters[4];
+  const double finalTranslationY    = finalParameters[5];
 
   const unsigned int numberOfIterations = optimizer->GetCurrentIteration();
 
@@ -426,6 +377,7 @@ int main( int argc, char **argv )
   const double finalAngleInDegrees = finalAngle * 45.0 / atan(1.0);
 
   std::cout << "Result = " << std::endl;
+  std::cout << " Scale         = " << finalScale  << std::endl;
   std::cout << " Angle         = " << finalAngle  << std::endl;
   std::cout << " Center X      = " << finalRotationCenterX  << std::endl;
   std::cout << " Center Y      = " << finalRotationCenterY  << std::endl;
@@ -528,6 +480,8 @@ int main( int argc, char **argv )
 
   resample->SetTransform( finalTransform );
   resample->SetInput( movingImageReader->GetOutput() );
+
+  FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
   resample->SetSize(    fixedImage->GetLargestPossibleRegion().GetSize() );
   resample->SetOutputOrigin(  fixedImage->GetOrigin() );
