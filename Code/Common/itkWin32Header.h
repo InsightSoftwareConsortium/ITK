@@ -19,7 +19,6 @@ See COPYRIGHT.txt for copyright details.
 
 // add in the Windows variants
 #if defined(_WIN32) || defined(WIN32)
-#include <windows.h>
 
 //
 // Disable some common warnings in MS VC++
@@ -60,4 +59,3 @@ See COPYRIGHT.txt for copyright details.
 #endif
 
 #endif
-

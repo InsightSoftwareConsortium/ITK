@@ -18,6 +18,7 @@
 namespace itk
 {
 
+
 // New for the SimpleMutex
 SimpleMutexLock *SimpleMutexLock::New()
 {

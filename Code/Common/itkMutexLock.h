@@ -28,7 +28,11 @@
 #endif
  
 #if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
+#define NOMINMAX
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
 #include <winbase.h>
+#undef GetClassName
 #endif
 
 namespace itk
