@@ -118,13 +118,13 @@ public:
    * informations from MembershipFunctions and other prior knowledge */
   void SetDecisionRule( DecisionRuleType* ptrToDecisionRule )
   {
-    m_DecisionRulePointer = ptrToDecisionRule;
+    m_DecisionRule = ptrToDecisionRule;
   }
 
   /** Gets the pointer to the decision rule being used. */
   DecisionRuleType* GetDecisionRule(void)
   {
-    return m_DecisionRulePointer.GetPointer() ;
+    return m_DecisionRule.GetPointer() ;
   }
   
   /** Gets the MembershipFunction that are plugged in by
@@ -162,10 +162,10 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   /** Number of classes */
-  unsigned int                       m_NumberOfClasses;
+  unsigned int                       m_NumberOfClasses ;
 
   /** Pointer to the decision rule to be used for classification. */
-  typename DecisionRuleType::Pointer m_DecisionRulePointer;
+  typename DecisionRuleType::Pointer m_DecisionRule ;
 
   /** Container to hold the membership functions */
   MembershipFunctionPointerVector    m_MembershipFunctions ;
