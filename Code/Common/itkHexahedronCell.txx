@@ -228,7 +228,7 @@ HexahedronCell< TPixelType , TCellTraits >
 template <typename TPixelType, typename TCellTraits>
 HexahedronCell< TPixelType , TCellTraits >::CellFeatureCount
 HexahedronCell< TPixelType , TCellTraits >
-::GetNumberOfVertices(void)
+::GetNumberOfVertices(void) const
 {
   return Self::NumberOfVertices;
 }
@@ -240,7 +240,7 @@ HexahedronCell< TPixelType , TCellTraits >
 template <typename TPixelType, typename TCellTraits>
 HexahedronCell< TPixelType , TCellTraits >::CellFeatureCount
 HexahedronCell< TPixelType , TCellTraits >
-::GetNumberOfEdges(void)
+::GetNumberOfEdges(void) const
 {
   return Self::NumberOfEdges;
 }
@@ -252,7 +252,7 @@ HexahedronCell< TPixelType , TCellTraits >
 template <typename TPixelType, typename TCellTraits>
 HexahedronCell< TPixelType , TCellTraits >::CellFeatureCount
 HexahedronCell< TPixelType , TCellTraits >
-::GetNumberOfFaces(void)
+::GetNumberOfFaces(void) const
 {
   return Self::NumberOfFaces;
 }

@@ -237,7 +237,7 @@ QuadrilateralCell< TPixelType , TCellTraits >
 template <typename TPixelType, typename TCellTraits>
 QuadrilateralCell< TPixelType , TCellTraits >::CellFeatureCount
 QuadrilateralCell< TPixelType , TCellTraits >
-::GetNumberOfVertices(void)
+::GetNumberOfVertices(void) const
 {
   return NumberOfVertices;
 }
@@ -249,7 +249,7 @@ QuadrilateralCell< TPixelType , TCellTraits >
 template <typename TPixelType, typename TCellTraits>
 QuadrilateralCell< TPixelType , TCellTraits >::CellFeatureCount
 QuadrilateralCell< TPixelType , TCellTraits >
-::GetNumberOfEdges(void)
+::GetNumberOfEdges(void) const
 {
   return Self::NumberOfEdges;
 }

@@ -238,7 +238,7 @@ TriangleCell< TPixelType , TCellTraits >
 template <typename TPixelType, typename TCellTraits>
 TriangleCell< TPixelType , TCellTraits >::CellFeatureCount
 TriangleCell< TPixelType , TCellTraits >
-::GetNumberOfVertices(void)
+::GetNumberOfVertices(void) const
 {
   return Self::NumberOfVertices;
 }
@@ -251,7 +251,7 @@ TriangleCell< TPixelType , TCellTraits >
 template <typename TPixelType, typename TCellTraits>
 TriangleCell< TPixelType , TCellTraits >::CellFeatureCount
 TriangleCell< TPixelType , TCellTraits >
-::GetNumberOfEdges(void)
+::GetNumberOfEdges(void) const
 {
   return Self::NumberOfEdges;
 }

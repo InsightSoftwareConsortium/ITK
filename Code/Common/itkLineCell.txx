@@ -234,7 +234,7 @@ LineCell< TPixelType , TCellTraits >
 template <typename TPixelType, typename TCellTraits>
 LineCell< TPixelType , TCellTraits >::CellFeatureCount
 LineCell< TPixelType , TCellTraits >
-::GetNumberOfVertices(void)
+::GetNumberOfVertices(void) const
 {
   return Self::NumberOfPoints;
 }

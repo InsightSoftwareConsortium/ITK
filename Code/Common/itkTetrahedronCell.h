@@ -167,9 +167,9 @@ public:
    * Tetrahedron-specific interface.
    */
   
-  virtual CellFeatureCount GetNumberOfVertices(void);
-  virtual CellFeatureCount GetNumberOfEdges(void);
-  virtual CellFeatureCount GetNumberOfFaces(void);
+  virtual CellFeatureCount GetNumberOfVertices(void) const;
+  virtual CellFeatureCount GetNumberOfEdges(void) const;
+  virtual CellFeatureCount GetNumberOfFaces(void) const;
   virtual VertexPointer  GetVertex(CellFeatureIdentifier);
   virtual EdgePointer    GetEdge(CellFeatureIdentifier);  
   virtual FacePointer    GetFace(CellFeatureIdentifier);  

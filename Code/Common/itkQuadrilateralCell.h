@@ -159,8 +159,8 @@ public:
   /**
    * Quadrilateral-specific interface.
    */
-  virtual CellFeatureCount GetNumberOfVertices(void);
-  virtual CellFeatureCount GetNumberOfEdges(void);
+  virtual CellFeatureCount GetNumberOfVertices(void) const;
+  virtual CellFeatureCount GetNumberOfEdges(void) const;
   virtual VertexPointer GetVertex(CellFeatureIdentifier);
   virtual EdgePointer GetEdge(CellFeatureIdentifier);
 

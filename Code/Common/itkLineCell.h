@@ -152,7 +152,7 @@ public:
   /**
    * Line-specific interface.
    */
-  virtual CellFeatureCount GetNumberOfVertices(void);
+  virtual CellFeatureCount GetNumberOfVertices(void) const;
   virtual VertexPointer GetVertex(CellFeatureIdentifier);
 
   /**
