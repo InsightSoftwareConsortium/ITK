@@ -435,7 +435,7 @@ void DicomImageIO::ReadImageInformation()
       for(i=0;i<2;i++)
       {
         m_Ifstream >> c;
-        rows=rows+c*pow((double)256,(double)i);
+        rows=rows+c*pow((unsigned int)256,(unsigned int)i);
       }
       m_Dimensions[1]=rows;
     }
@@ -466,7 +466,7 @@ void DicomImageIO::ReadImageInformation()
       for(i=0;i<2;i++)
       {
         m_Ifstream >> c;
-        columns=columns+c*pow((double)256,(double)i);
+        columns=columns+c*pow((unsigned int)256,(unsigned int)i);
       }
       m_Dimensions[0]=columns;
     }
@@ -588,7 +588,7 @@ void DicomImageIO::ReadImageInformation()
       for(i=0;i<2;i++)
       {
         m_Ifstream >> c;
-        allocatedbits=allocatedbits+c*pow((double)256,(double)i);
+        allocatedbits=allocatedbits+c*pow((unsigned int)256,(unsigned int)i);
       }
     }
     else
@@ -618,7 +618,7 @@ void DicomImageIO::ReadImageInformation()
       for(i=0;i<2;i++)
       {
         m_Ifstream >> c;
-        representation=representation+c*pow((double)256,(double)i);
+        representation=representation+c*pow((unsigned int)256,(unsigned int)i);
       }
     }
     else
