@@ -24,7 +24,7 @@
 //
 // \index{itk::ImageRegistrationMethod!AffineTransform}
 // \index{itk::ImageRegistrationMethod!Scaling parameter space}
-// \index{itk::AffineTransform!Image Registration|textbf}
+// \index{itk::AffineTransform!Image Registration}
 //
 // The AffineTransform is a linear transformation that maps lines into
 // lines. It can be used to represent translations, rotations, anisotropic
@@ -219,7 +219,7 @@ int main( int argc, char *argv[] )
   //
   //  \index{itk::AffineTransform!New()}
   //  \index{itk::AffineTransform!Pointer}
-  //  \index{itk::MultiResolutionImageRegistrationMethod!SetTransform()}
+  //  \index{itk::Multi\-Resolution\-Image\-Registration\-Method!SetTransform()}
   //
   //  Software Guide : EndLatex 
 
