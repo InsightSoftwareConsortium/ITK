@@ -80,7 +80,9 @@ VTKImageImport<TOutputImage>
   m_PipelineModifiedCallback = 0;
   m_NumberOfComponentsCallback = 0;
   m_SpacingCallback = 0;
+  m_FloatSpacingCallback = 0;
   m_OriginCallback = 0;
+  m_FloatOriginCallback = 0;
   m_UpdateInformationCallback = 0;
   m_ScalarTypeCallback = 0;
   m_DataExtentCallback = 0;
