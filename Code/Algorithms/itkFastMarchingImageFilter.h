@@ -149,7 +149,7 @@ public:
   /**
    * Dimension of the level set.
    */
-  enum { SetDimension = LevelSetType::SetDimension};
+  enum { SetDimension = LevelSetType::SetDimension };
 
   /**
    * Index typedef support.
@@ -292,6 +292,12 @@ public:
   void SetOutputSize( const typename LevelSetImageType::SizeType& size )
     { m_OutputSize = size; }
 
+  /**
+   * Get the output level set size.
+   */
+  const typename LevelSetImageType::SizeType & GetOutputSize() const
+    { return m_OutputSize; }
+
 protected:
   FastMarchingImageFilter();
   ~FastMarchingImageFilter(){};
@@ -303,9 +309,6 @@ protected:
   virtual void UpdateNeighbors( IndexType& index );
   virtual double UpdateValue( IndexType& index );
 
-  const typename LevelSetImageType::SizeType& GetOutputSize() const
-    { return m_OutputSize; }
-
   typename LevelSetImageType::PixelType GetLargeValue() const
     { return m_LargeValue; }
 
@@ -313,6 +316,10 @@ protected:
     { return m_NodesUsed[idx]; }
 
   void GenerateData();
+
+  /**
+   * Generate the output image meta information 
+   */
   virtual void GenerateOutputInformation();
   virtual void EnlargeOutputRequestedRegion(DataObject *output);
 
@@ -334,7 +341,7 @@ private:
 
   typename LevelSetImageType::SizeType          m_OutputSize;
 
-  typename LevelSetImageType::PixelType   m_LargeValue;
+  typename LevelSetImageType::PixelType         m_LargeValue;
 
   std::vector<NodeType>                         m_NodesUsed;
 
