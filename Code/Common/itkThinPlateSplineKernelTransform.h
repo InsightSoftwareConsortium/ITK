@@ -80,8 +80,10 @@ protected:
   /** Compute G(x)
    * For the thin plate spline, this is:
    * G(x) = r(x)*I
+   * \f$ G(x) = r(x)^3*I \f$
    * where
    * r(x) = Euclidean norm = sqrt[x1^2 + x2^2 + x3^2]
+   * \f[ r(x) = \sqrt{ x_1^2 + x_2^2 + x_3^2 }  \f]
    * I = identity matrix. */
   const GMatrixType & ComputeG(const InputVectorType & x) const;
 
