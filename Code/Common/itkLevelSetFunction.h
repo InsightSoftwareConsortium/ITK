@@ -241,7 +241,7 @@ protected:
     m_AdvectionWeight = m_PropagationWeight 
       = m_CurvatureWeight = m_LaplacianSmoothingWeight 
       = NumericTraits<ScalarValueType>::Zero;
-    m_UseMinimalCurvature = true;
+    m_UseMinimalCurvature = false;
   }
   virtual ~LevelSetFunction() {}
   void PrintSelf(std::ostream &s, Indent indent) const;
