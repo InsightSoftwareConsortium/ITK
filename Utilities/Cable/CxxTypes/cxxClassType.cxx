@@ -29,6 +29,32 @@ RepresentationType ClassType::GetRepresentationType() const
 
 
 /**
+ * Try to cast the given Type to an ClassType.  If this returns, the
+ * pointer will be valid.  If the cast is not allowed, an exception is
+ * thrown.
+ */
+ClassType* ClassType::SafeDownCast(Type* t)
+{
+  ClassType* result = dynamic_cast<ClassType*>(t);
+  if(!result) { throw TypeDownCastException(t, ClassType_id); }
+  return result;
+}
+
+
+/**
+ * Try to cast the given Type to an ClassType.  If this returns, the
+ * pointer will be valid.  If the cast is not allowed, an exception is
+ * thrown.
+ */
+const ClassType* ClassType::SafeDownCast(const Type* t)
+{
+  const ClassType* result = dynamic_cast<const ClassType*>(t);
+  if(!result) { throw TypeDownCastException(t, ClassType_id); }
+  return result;
+}
+
+
+/**
  * Get the name of the class.
  */
 String ClassType::GetName() const

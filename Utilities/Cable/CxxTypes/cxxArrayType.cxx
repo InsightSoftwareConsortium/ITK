@@ -32,6 +32,32 @@ ArrayType
 }
 
 
+/**
+ * Try to cast the given Type to an ArrayType.  If this returns, the
+ * pointer will be valid.  If the cast is not allowed, an exception is
+ * thrown.
+ */
+ArrayType* ArrayType::SafeDownCast(Type* t)
+{
+  ArrayType* result = dynamic_cast<ArrayType*>(t);
+  if(!result) { throw TypeDownCastException(t, ArrayType_id); }
+  return result;
+}
+
+
+/**
+ * Try to cast the given Type to an ArrayType.  If this returns, the
+ * pointer will be valid.  If the cast is not allowed, an exception is
+ * thrown.
+ */
+const ArrayType* ArrayType::SafeDownCast(const Type* t)
+{
+  const ArrayType* result = dynamic_cast<const ArrayType*>(t);
+  if(!result) { throw TypeDownCastException(t, ArrayType_id); }
+  return result;
+}
+
+
 String ArrayType::GenerateName(const String& indirection,
                                bool isConst, bool isVolatile) const
 {

@@ -28,6 +28,32 @@ RepresentationType ReferenceType::GetRepresentationType() const
 }
 
 
+/**
+ * Try to cast the given Type to an ReferenceType.  If this returns, the
+ * pointer will be valid.  If the cast is not allowed, an exception is
+ * thrown.
+ */
+ReferenceType* ReferenceType::SafeDownCast(Type* t)
+{
+  ReferenceType* result = dynamic_cast<ReferenceType*>(t);
+  if(!result) { throw TypeDownCastException(t, ReferenceType_id); }
+  return result;
+}
+
+
+/**
+ * Try to cast the given Type to an ReferenceType.  If this returns, the
+ * pointer will be valid.  If the cast is not allowed, an exception is
+ * thrown.
+ */
+const ReferenceType* ReferenceType::SafeDownCast(const Type* t)
+{
+  const ReferenceType* result = dynamic_cast<const ReferenceType*>(t);
+  if(!result) { throw TypeDownCastException(t, ReferenceType_id); }
+  return result;
+}
+
+
 // Can't have indirection or cv qualifiers.
 String ReferenceType::GenerateName(const String&, bool, bool) const
 {

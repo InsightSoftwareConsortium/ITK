@@ -27,6 +27,32 @@ RepresentationType FunctionType::GetRepresentationType() const
 }
 
 
+/**
+ * Try to cast the given Type to an FunctionType.  If this returns, the
+ * pointer will be valid.  If the cast is not allowed, an exception is
+ * thrown.
+ */
+FunctionType* FunctionType::SafeDownCast(Type* t)
+{
+  FunctionType* result = dynamic_cast<FunctionType*>(t);
+  if(!result) { throw TypeDownCastException(t, FunctionType_id); }
+  return result;
+}
+
+
+/**
+ * Try to cast the given Type to an FunctionType.  If this returns, the
+ * pointer will be valid.  If the cast is not allowed, an exception is
+ * thrown.
+ */
+const FunctionType* FunctionType::SafeDownCast(const Type* t)
+{
+  const FunctionType* result = dynamic_cast<const FunctionType*>(t);
+  if(!result) { throw TypeDownCastException(t, FunctionType_id); }
+  return result;
+}
+
+
 String FunctionType::GenerateName(const String& indirection,
                                   bool isConst, bool) const
 {

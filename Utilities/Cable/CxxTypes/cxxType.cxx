@@ -123,4 +123,45 @@ String Type::GetRightCvString(bool isConst, bool isVolatile) const
     }
 }
 
+
+/**
+ * Constructor that takes a RepresentationType for both the "from" and
+ * "to" types of the failed cast.
+ */
+TypeDownCastException::TypeDownCastException(RepresentationType from,
+                                             RepresentationType to):
+  m_From(from),
+  m_To(to)
+{
+}
+
+
+/**
+ * Constructor that automatically pulls RepresentationType out of the
+ * "from" type of the failed cast.
+ */
+TypeDownCastException::TypeDownCastException(const Type* from,
+                                             RepresentationType to):
+  m_From(from->GetRepresentationType()),
+  m_To(to)
+{
+}
+
+
+/**
+ * Get the exceptions text message.
+ */
+String TypeDownCastException::GetMessage() const
+{
+  static const char* representationTypeNames[] =
+    {"undefined", "ArrayType", "ClassType", "PointerType",
+     "PointerToMemberType", "ReferenceType", "FundamentalType",
+     "FunctionType"};
+  
+  String from = representationTypeNames[m_From];
+  String to = representationTypeNames[m_To];
+  return "Attempt to cast object of type "+from+" to "+to+".";
+}
+
+
 } // namespace _cxx_

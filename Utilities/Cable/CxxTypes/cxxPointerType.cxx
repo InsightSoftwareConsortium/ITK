@@ -28,6 +28,32 @@ RepresentationType PointerType::GetRepresentationType() const
 }
 
 
+/**
+ * Try to cast the given Type to an PointerType.  If this returns, the
+ * pointer will be valid.  If the cast is not allowed, an exception is
+ * thrown.
+ */
+PointerType* PointerType::SafeDownCast(Type* t)
+{
+  PointerType* result = dynamic_cast<PointerType*>(t);
+  if(!result) { throw TypeDownCastException(t, PointerType_id); }
+  return result;
+}
+
+
+/**
+ * Try to cast the given Type to an PointerType.  If this returns, the
+ * pointer will be valid.  If the cast is not allowed, an exception is
+ * thrown.
+ */
+const PointerType* PointerType::SafeDownCast(const Type* t)
+{
+  const PointerType* result = dynamic_cast<const PointerType*>(t);
+  if(!result) { throw TypeDownCastException(t, PointerType_id); }
+  return result;
+}
+
+
 String PointerType::GenerateName(const String& indirection,
                                  bool isConst, bool isVolatile) const
 {
@@ -37,7 +63,16 @@ String PointerType::GenerateName(const String& indirection,
     {
     indirect += " "+indirection;
     }
-  return m_ReferencedType.GenerateName(indirect);
+  return m_PointedToType.GenerateName(indirect);
+}
+
+
+/**
+ * Get the CvQualifiedType to which this PointerType points.
+ */
+const CvQualifiedType& PointerType::GetPointedToType() const
+{
+  return m_PointedToType;
 }
 
 
@@ -45,7 +80,7 @@ String PointerType::GenerateName(const String& indirection,
  * Constructor takes the cv-qualified type to which the pointer points.
  */
 PointerType::PointerType(const CvQualifiedType& in_type):
-  m_ReferencedType(in_type)
+  m_PointedToType(in_type)
 {
 }
 

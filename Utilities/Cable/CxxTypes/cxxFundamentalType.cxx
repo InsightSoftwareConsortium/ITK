@@ -27,6 +27,32 @@ RepresentationType FundamentalType::GetRepresentationType() const
 }
 
 
+/**
+ * Try to cast the given Type to an FundamentalType.  If this returns, the
+ * pointer will be valid.  If the cast is not allowed, an exception is
+ * thrown.
+ */
+FundamentalType* FundamentalType::SafeDownCast(Type* t)
+{
+  FundamentalType* result = dynamic_cast<FundamentalType*>(t);
+  if(!result) { throw TypeDownCastException(t, FundamentalType_id); }
+  return result;
+}
+
+
+/**
+ * Try to cast the given Type to an FundamentalType.  If this returns, the
+ * pointer will be valid.  If the cast is not allowed, an exception is
+ * thrown.
+ */
+const FundamentalType* FundamentalType::SafeDownCast(const Type* t)
+{
+  const FundamentalType* result = dynamic_cast<const FundamentalType*>(t);
+  if(!result) { throw TypeDownCastException(t, FundamentalType_id); }
+  return result;
+}
+
+
 String FundamentalType::GenerateName(const String& indirection,
                                      bool isConst, bool isVolatile) const
 {

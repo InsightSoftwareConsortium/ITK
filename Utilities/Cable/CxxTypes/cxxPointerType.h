@@ -31,12 +31,17 @@ public:
   typedef PointerType Self;
 
   virtual RepresentationType GetRepresentationType() const;
+  static PointerType* SafeDownCast(Type*);
+  static const PointerType* SafeDownCast(const Type*);
+  
   virtual String GenerateName(const String& indirection,
                               bool isConst, bool isVolatile) const;
   
+  const CvQualifiedType& GetPointedToType() const;
+  
 protected:
   PointerType(const CvQualifiedType&);
-  PointerType(const Self&): m_ReferencedType(NULL) {}
+  PointerType(const Self&): m_PointedToType(NULL) {}
   void operator=(const Self&) {}
   virtual ~PointerType() {}
   
@@ -44,7 +49,7 @@ protected:
   /**
    * The type to which this type refers.
    */
-  CvQualifiedType m_ReferencedType;
+  CvQualifiedType m_PointedToType;
   
   friend TypeSystem;
 };

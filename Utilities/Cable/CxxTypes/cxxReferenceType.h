@@ -31,6 +31,9 @@ public:
   typedef ReferenceType Self;
   
   virtual RepresentationType GetRepresentationType() const;
+  static ReferenceType* SafeDownCast(Type*);
+  static const ReferenceType* SafeDownCast(const Type*);
+  
   virtual String GenerateName(const String& indirection,
                               bool isConst, bool isVolatile) const;
   

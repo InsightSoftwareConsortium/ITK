@@ -27,6 +27,32 @@ RepresentationType PointerToMemberType::GetRepresentationType() const
 }
 
 
+/**
+ * Try to cast the given Type to an PointerToMemberType.  If this returns, the
+ * pointer will be valid.  If the cast is not allowed, an exception is
+ * thrown.
+ */
+PointerToMemberType* PointerToMemberType::SafeDownCast(Type* t)
+{
+  PointerToMemberType* result = dynamic_cast<PointerToMemberType*>(t);
+  if(!result) { throw TypeDownCastException(t, PointerToMemberType_id); }
+  return result;
+}
+
+
+/**
+ * Try to cast the given Type to an PointerToMemberType.  If this returns, the
+ * pointer will be valid.  If the cast is not allowed, an exception is
+ * thrown.
+ */
+const PointerToMemberType* PointerToMemberType::SafeDownCast(const Type* t)
+{
+  const PointerToMemberType* result = dynamic_cast<const PointerToMemberType*>(t);
+  if(!result) { throw TypeDownCastException(t, PointerToMemberType_id); }
+  return result;
+}
+
+
 String PointerToMemberType::GenerateName(const String& indirection,
                                          bool isConst, bool isVolatile) const
 {
@@ -37,7 +63,16 @@ String PointerToMemberType::GenerateName(const String& indirection,
     indirect += " ";
     }
   indirect += m_ClassType->GetName() + "::*" + cv;
-  return m_ReferencedType.GenerateName(indirect);
+  return m_PointedToType.GenerateName(indirect);
+}
+
+
+/**
+ * Get the ClassType to whom's member the PointerType points.
+ */
+const ClassType* PointerToMemberType::GetClassType() const
+{
+  return m_ClassType;
 }
 
 

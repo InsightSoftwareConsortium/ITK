@@ -41,7 +41,9 @@ public:
   typedef ClassType Self;
   
   virtual RepresentationType GetRepresentationType() const;
-
+  static ClassType* SafeDownCast(Type*);
+  static const ClassType* SafeDownCast(const Type*);
+  
   String GetName() const;
   
   virtual String GenerateName(const String& indirection,

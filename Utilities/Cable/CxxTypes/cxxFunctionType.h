@@ -34,7 +34,9 @@ public:
   typedef FunctionType Self;
   
   virtual RepresentationType GetRepresentationType() const;
-
+  static FunctionType* SafeDownCast(Type*);
+  static const FunctionType* SafeDownCast(const Type*);
+  
   virtual String GenerateName(const String& indirection,
                               bool isConst, bool isVolatile) const;
 protected:

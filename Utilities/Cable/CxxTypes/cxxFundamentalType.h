@@ -38,6 +38,9 @@ public:
             Float, Double, LongDouble, Void, NumberOfTypes};
   
   virtual RepresentationType GetRepresentationType() const;
+  static FundamentalType* SafeDownCast(Type*);
+  static const FundamentalType* SafeDownCast(const Type*);
+  
   virtual String GenerateName(const String& indirection,
                               bool isConst, bool isVolatile) const;
 

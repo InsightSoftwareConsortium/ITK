@@ -31,6 +31,8 @@ public:
   typedef ArrayType Self;
   
   virtual RepresentationType GetRepresentationType() const;
+  static ArrayType* SafeDownCast(Type*);
+  static const ArrayType* SafeDownCast(const Type*);
   
   const CvQualifiedType& GetElementType() const
     { return m_ElementType; }

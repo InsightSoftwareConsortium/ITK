@@ -45,6 +45,7 @@ public:
   bool IsPointerType() const         { return this->GetRepresentationType() == PointerType_id; }
   bool IsPointerToMemberType() const { return this->GetRepresentationType() == PointerToMemberType_id; }
   bool IsReferenceType() const       { return this->GetRepresentationType() == ReferenceType_id; }
+  bool IsEitherPointerType() const   { return (this->IsPointerType() || this->IsPointerToMemberType()); }
   //@}
   
   virtual const Type* Id() const;  
@@ -67,6 +68,23 @@ protected:
 };
 
 
+/**
+ * An exception of this type is thrown when a representation's
+ * SafeDownCast fails.
+ */
+class TypeDownCastException
+{
+public:
+  TypeDownCastException(RepresentationType from, RepresentationType to);
+  TypeDownCastException(const Type* from, RepresentationType to);
+  
+  String GetMessage() const;
+private:
+  RepresentationType m_From;
+  RepresentationType m_To;
+};
+
+  
 } // namespace _cxx_
 
 #endif
