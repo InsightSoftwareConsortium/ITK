@@ -250,6 +250,11 @@ public:
    */
   virtual void Maximize();
 
+  /**
+   * Set the debugging mode
+   */
+  itkSetMacro( DebugOn, bool );
+
 protected:
   MutualInformationRigidRegistrationVW();
   ~MutualInformationRigidRegistrationVW(){};
