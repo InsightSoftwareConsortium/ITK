@@ -74,7 +74,7 @@ void Segmenter<TInputImage>::GenerateData()
   // will be used in this algorithm.  Also re-initialize some temporary data
   // structures that may have been used in previous updates of this filter.
   //
-  unsigned int i, j;
+  unsigned int i;
 
   this->UpdateProgress(0.0);
   
@@ -319,10 +319,7 @@ void Segmenter<TInputImage>
   typename flat_region_table_t::iterator flrt_it;
   
   typename BoundaryType::IndexType       idx;
-  flat_region_t tempFlatRegion;
   ImageRegionType region;
-
-  unsigned long label;
 
   for (idx.first = 0; idx.first < ImageDimension; (idx.first)++)
     for (idx.second = 0; idx.second < 2; (idx.second)++)
@@ -645,7 +642,6 @@ void Segmenter<TInputImage>
 ::LabelMinima(typename InputImageType::Pointer img, ImageRegionType region,
               Self::flat_region_table_t &flatRegions, InputPixelType Max)
 {
-  int d;
   unsigned int i, j, nSize, nCenter, nPos;
   bool foundSinglePixelMinimum, foundFlatRegion;
   InputPixelType maxValue = Max;
@@ -793,7 +789,7 @@ void Segmenter<TInputImage>
   typename OutputImageType::Pointer output = this->GetOutputImage();
 
   InputPixelType minVal;
-  unsigned int i, j, nSize, nCenter, nPos;
+  unsigned int i, nSize, nCenter, nPos;
   typename InputImageType::OffsetType  moveIndex;
   unsigned long newLabel;
   std::stack< unsigned long * > updateStack;
@@ -893,7 +889,7 @@ void Segmenter<TInputImage>
   edge_table_hash_t::iterator edge_table_entry_ptr;
   edge_table_t::iterator      edge_ptr;
 
-  unsigned int i, j, nPos;
+  unsigned int i, nPos;
   typename NeighborhoodIterator<OutputImageType>::RadiusType hoodRadius;
   typename SegmentTableType::segment_t *segment_ptr;
   typename SegmentTableType::segment_t temp_segment;
@@ -912,7 +908,6 @@ void Segmenter<TInputImage>
   NeighborhoodIterator<OutputImageType> labelIt(hoodRadius, output, region);
 
   unsigned long hoodCenter = searchIt.Size() >> 1;
-  unsigned long hoodSize   = searchIt.Size();
 
   for (searchIt.GoToBegin(), labelIt.GoToBegin(); ! searchIt.IsAtEnd();
        ++searchIt, ++labelIt)
@@ -1427,9 +1422,14 @@ void Segmenter<TInputImage>::GenerateOutputRequestedRegion(DataObject *output)
 
 template <class TInputImage>
 Segmenter<TInputImage>
-::Segmenter() : m_Threshold(0.0), m_MaximumFloodLevel(1.0),
-  m_CurrentLabel(1), m_DoBoundaryAnalysis(false), m_SortEdgeLists(true)
+::Segmenter()
 {
+  m_Threshold = 0.0;
+  m_MaximumFloodLevel = 1.0;
+  m_CurrentLabel = 1;
+  m_DoBoundaryAnalysis = false;
+  m_SortEdgeLists = true;
+  
   m_Connectivity.direction = 0;
   m_Connectivity.index = 0;
   OutputImageType::Pointer img
