@@ -144,6 +144,7 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Kernel: " << m_Kernel << std::endl;
+  os << indent << "Boundary condition: " << typeid( *m_BoundaryCondition ).name() << std::endl;
 }
 
 }// end namespace itk
