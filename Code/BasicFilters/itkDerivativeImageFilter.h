@@ -130,7 +130,7 @@ protected:
   void operator=(const Self&) {}
 
   /**
-   * Standard pipeline method. While this method does not implement a
+   * Standard pipeline method. While this class does not implement a
    * ThreadedGenerateData(), its GenerateData() delegates all
    * calculations to an NeighborhoodOperatorImageFilter.  Since the
    * NeighborhoodOperatorImageFilter is multithreaded, this filter is
