@@ -1,0 +1,159 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkBoundingBox.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+
+  Copyright (c) 2000 National Library of Medicine
+  All rights reserved.
+
+  See COPYRIGHT.txt for copyright details.
+
+=========================================================================*/
+#ifndef __itkBoundingBox_h
+#define __itkBoundingBox_h
+
+#include "itkObject.h"
+#include "itkPoint.h"
+
+ITK_NAMESPACE_BEGIN
+
+/** \class BoundingBox
+ * \brief Represent and compute information about bounding boxes.
+ *
+ * BoundingBox is a supporting class that represents, computes, and
+ * caches information about bounding boxes. The bounding box can
+ * be computed from several sources, including manual specification
+ * and computation from an input points container.
+ *
+ * This is a templated, n-dimensional version of the bounding box.
+ * Bounding boxes are represented by n pairs of (min,max) pairs,
+ * where min is the minimum coordinate value and max is the
+ * maximum coordinate value for coordinate axis i.
+ *
+ * Template parameters for BoundingBox:
+ *
+ * TPointIdentifier =
+ *     The type used to access a particular point (i.e., a point's id)
+ *
+ * TCoordRep =
+ *     Numerical type with which to represent each coordinate value.
+ *
+ * VPointDimension =
+ *    Geometric dimension of space.
+ */
+  
+template <
+  typename TPointIdentifier = unsigned long,
+  int VPointDimension = 3,
+  typename TCoordRep = float,
+  typename TPointsContainer = 
+    VectorContainer< TPointIdentifier,Point<VPointDimension,TCoordRep> >
+  >
+class ITK_EXPORT BoundingBox : public Object
+{
+public:
+  /**
+   * Standard "Self" typedef.
+   */
+  typedef BoundingBox         Self;
+  
+  /**
+   * Smart pointer typedef support.
+   */
+  typedef SmartPointer<Self>  Pointer;
+  
+  /**
+   * Method for creation through the object factory.
+   */
+  itkNewMacro(Self);
+
+  /**
+   * Provide a print self method for the bounding box.
+   */
+  void PrintSelf(std::ostream& os, Indent indent);
+
+  /** \typedef TCoordRep
+   * Hold on to the type information specified by the template parameters.
+   */
+  typedef TPointIdentifier PointIdentifier;
+  typedef TCoordRep CoordRep;
+  enum { PointDimension = VPointDimension };
+  typedef TPointsContainer PointsContainer;
+  typedef PointsContainer::Pointer PointsContainerPointer;
+
+  /**
+   * Set the points from which the bounding box should be computed. The 
+   * bounding box is cached and is not recomputed if the points are not 
+   * changed.
+   */
+  void SetPoints(PointsContainer *);
+  PointsContainerPointer GetPoints(void);
+
+#if 0
+  /**
+   * Manually specify the bounding box.
+   */
+
+  /**
+   * Get the bounding box. NULL is returned if the bounding box cannot be
+   * computed. (This may happen if the user never specifies something to
+   * compute the bounding box from.)
+   */
+  CoordRep* GetBoundingBox(CoordRep bounds[PointDimension*2]);
+
+  /**
+   * Get the center of the bounding box.
+   */
+  CoordRep* GetBoundingBox(CoordRep bounds[PointDimension*2]);
+
+  /**
+   * Get the length squared of the diagonal of the bounding box.
+   */
+  CoordRep GetBoundingBoxDiagonalLength2(void);
+
+  /**
+   * Intersect this bounding box (bounds[PointDimension*2]) with a line
+   * given by an origin (origin[PointDimension]) and direction
+   * (direction[PointDimension]). Get the following results if the
+   * corresponding pointers are not NULL:
+   *
+   *  - The intersection point's geometric coordinates (returned through
+   *     pointer to array: coords[PointDimension]).
+   *
+   *  - The line's parametric coordinate of the intersection point
+   *     (returned through "t" pointer).
+   *
+   * Returns whether an intersection exists.
+   */
+  bool IntersectWithLine(CoordRep origin[PointDimension],
+			 CoordRep direction[PointDimension],
+			 CoordRep coords[PointDimension],
+			 CoordRep* t);
+  
+#endif
+
+protected:
+  BoundingBox(); 
+  virtual ~BoundingBox(); 
+  BoundingBox(const Self&) {}
+  void operator=(const Self&) {}
+
+private:
+  
+  PointsContainerPointer m_PointsContainer;
+  CoordRep *m_Bounds;
+  TimeStamp m_MTime; //The last time the bounds were computed.
+
+};
+
+ITK_NAMESPACE_END
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkBoundingBox.txx"
+#endif
+  
+#endif
