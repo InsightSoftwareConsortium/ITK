@@ -25,8 +25,8 @@ main(
     char *argv[])
 {
     int any = 0;       // Any errors detected in testing?
-    itk::Matrix<double,2,2> matrix2;
-    itk::Matrix<double,2,2> inverse2;
+    vnl_matrix_fixed<double,2,2> matrix2;
+    vnl_matrix_fixed<double,2,2> inverse2;
     vnl_vector_fixed<double,2>   vector2;
     int i, j;
 
