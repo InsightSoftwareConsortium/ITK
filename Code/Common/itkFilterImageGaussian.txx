@@ -28,7 +28,38 @@ FilterImageGaussian<TInputImage,TOutputImage,TComputation>
 {
   this->SetSigma( 1.0 );
   this->SetDirection( 0 );
+  this->SetNumberOfRequiredOutputs( 1 );
+  this->SetNumberOfRequiredInputs( 1 );
 }
+
+
+/**
+ * Set Input Image
+ */
+template <class TInputImage, class TOutputImage, class TComputation>
+void
+FilterImageGaussian<TInputImage,TOutputImage,TComputation>
+::SetInputImage( InputImagePointer input )
+{
+  ProcessObject::SetNthInput(1, input);
+}
+
+
+
+
+/**
+ * Get Input Image
+ */
+template <class TInputImage, class TOutputImage, class TComputation>
+TInputImage *
+FilterImageGaussian<TInputImage,TOutputImage,TComputation>
+::GetInputImage( void )
+{
+  return dynamic_cast<TInputImage *>((ProcessObject::GetInput(1)).GetPointer());
+}
+
+
+
 
 
 /**
@@ -40,14 +71,14 @@ FilterImageGaussian<TInputImage,TOutputImage,TComputation>
 ::SetUp(TComputation dd)
 {
   
-  a0 = TComputation(  1.680  );
-  a1 = TComputation(  3.735  );
-  b0 = TComputation(  1.783  );
-  b1 = TComputation(  1.723  );
-  c0 = TComputation( -0.6803 );
-  c1 = TComputation( -0.2598 );
-  w0 = TComputation(  0.6318 );
-  w1 = TComputation(  1.9970 );
+  this->a0 = TComputation(  1.680  );
+  this->a1 = TComputation(  3.735  );
+  this->b0 = TComputation(  1.783  );
+  this->b1 = TComputation(  1.723  );
+  this->c0 = TComputation( -0.6803 );
+  this->c1 = TComputation( -0.2598 );
+  this->w0 = TComputation(  0.6318 );
+  this->w1 = TComputation(  1.9970 );
   
   if( dd < TComputation( 0.01 ) ) return;
   
@@ -217,11 +248,12 @@ FilterImageGaussian<TInputImage,TOutputImage, TComputation>
 ::Execute() 
 {
 
+   std::cout << "Gaussian running" << std::endl;
   typedef ImageLinearIterator< TInputImage::PixelType,
 							   TInputImage::ImageDimension> Iterator;
 
-  const TInputImage::Pointer   inputImage  = GetInputImage ();
-        TOutputImage::Pointer  outputImage = GetOutput();
+  const TInputImage::Pointer   inputImage(    GetInputImage ()   );
+        TOutputImage::Pointer  outputImage(   GetOutput()        );
     
  
   // Initialize the output image
@@ -307,6 +339,8 @@ FilterImageGaussian<TInputImage,TOutputImage, TComputation>
 
   delete [] outs;
   delete [] inps;
+
+  std::cout << "Gaussian done !" << std::endl;
 
 }
 

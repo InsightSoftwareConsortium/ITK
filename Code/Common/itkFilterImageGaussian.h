@@ -47,6 +47,11 @@ public:
    */
   typedef SmartPointer<Self>   Pointer;
 
+ /** 
+   * Smart pointer typedef support 
+   */
+  typedef typename TInputImage::Pointer  InputImagePointer;
+
   /**
    * Method for creation through the object factory.
    */
@@ -76,13 +81,13 @@ public:
   /**
    * Set Input Image
    */
-  itkSetMacro(InputImage, typename TInputImage::Pointer );
-
+  void SetInputImage( InputImagePointer );
+    
   /**
    * Get Input Image
    */
-  itkGetMacro(InputImage, typename TInputImage::Pointer );
-
+//  typename TInputImage::Pointer GetInputImage( void );
+  TInputImage * GetInputImage( void );
 
   /**
    * Execute (apply) the filter
@@ -143,11 +148,6 @@ private:
    * this shoul in the range [0,ImageDimension-1]
    */ 
   unsigned int m_Direction;
-
-  /**
-   * Smart pointer to input image
-   */ 
-  typename TInputImage::Pointer m_InputImage;
 
   TComputation n00,n11,n22,n33; // Causal coefficients
   TComputation d11,d22,d33,d44; // Causal coefficients == Anticausal coeff.
