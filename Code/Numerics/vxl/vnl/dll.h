@@ -4,6 +4,8 @@
 #define VNL_DLL_DATA
 
 #if defined(WIN32) && !defined(BUILDING_VNL_DLL)
+// This is vxl/vnl/dll.h
+
 // if win32 and not buiding the DLL then you need a dllimport 
 // Only if you are building a DLL linked application.
 # ifdef BUILD_DLL

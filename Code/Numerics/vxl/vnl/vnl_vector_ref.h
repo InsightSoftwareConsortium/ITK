@@ -3,39 +3,40 @@
 #ifdef __GNUC__
 #pragma interface
 #endif
+// This is vxl/vnl/vnl_vector_ref.h
+
+//: 
+//  \file
+//  \brief vnl_vector using user-supplied storage
+//  \author Andrew W. Fitzgibbon, Oxford RRG, 04 Aug 96 
+
 //
-// .NAME	vnl_vector_ref - vnl_vector using user-supplied storage
-// .LIBRARY	vnl
-// .HEADER	vxl package
-// .INCLUDE	vnl/vnl_vector_ref.h
-// .FILE	vnl_vector_ref.txx
-//
-// .SECTION Author
-//     Andrew W. Fitzgibbon, Oxford RRG, 04 Aug 96
-//
-// .SECTION See also
-//    vnl_matrix_ref
-//
-// .SECTION Modifications
-//     <none yet>
+// Modifications
+// LSB (Manchester) 19/03/2001: Tidied up the documentation
 //
 //-----------------------------------------------------------------------------
 
 #include <vnl/vnl_vector.h>
 
-template <class T>
+//: vnl_vector using user-supplied storage
+//   vnl_vector for which the data space has
+//   been supplied externally.
+export template <class T>
 class vnl_vector_ref : public vnl_vector<T> {
 public:
   typedef vnl_vector<T> Base;
 
+  //: Constructor
   // Do *not* call anything else than the default constructor of vnl_vector<T>
   vnl_vector_ref(int n, T *space) : vnl_vector<T>() {
     Base::data = space;
     Base::num_elmts = n;
   }
 
+  //: Destructor
+  // Prevents base destructor from releasing memory we don't own
   ~vnl_vector_ref() {
-    // Prevent base dtor from releasing memory we don't own
+    
     Base::data = 0;
   }
 

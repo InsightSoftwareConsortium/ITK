@@ -1,6 +1,6 @@
 /* dgeqpf.f -- translated by f2c (version of 4 June 1993  1:43:59).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -11,7 +11,7 @@ static integer c__1 = 1;
 
 /*<       SUBROUTINE DGEQPF( M, N, A, LDA, JPVT, TAU, WORK, INFO ) >*/
 /* Subroutine */ int dgeqpf_(integer *m, integer *n, doublereal *a, integer *
-	lda, integer *jpvt, doublereal *tau, doublereal *work, integer *info)
+        lda, integer *jpvt, doublereal *tau, doublereal *work, integer *info)
 {
     /* System generated locals */
     integer a_dim1, a_offset, i__1, i__2, i__3;
@@ -25,19 +25,19 @@ static integer c__1 = 1;
     extern doublereal dnrm2_(integer *, doublereal *, integer *);
     static doublereal temp2;
     static integer i, j;
-    extern /* Subroutine */ int dlarf_(char *, integer *, integer *, 
-	    doublereal *, integer *, doublereal *, doublereal *, integer *, 
-	    doublereal *, ftnlen);
+    extern /* Subroutine */ int dlarf_(char *, integer *, integer *,
+            doublereal *, integer *, doublereal *, doublereal *, integer *,
+            doublereal *, ftnlen);
     static integer itemp;
-    extern /* Subroutine */ int dswap_(integer *, doublereal *, integer *, 
-	    doublereal *, integer *), dgeqr2_(integer *, integer *, 
-	    doublereal *, integer *, doublereal *, doublereal *, integer *), 
-	    dorm2r_(char *, char *, integer *, integer *, integer *, 
-	    doublereal *, integer *, doublereal *, doublereal *, integer *, 
-	    doublereal *, integer *, ftnlen, ftnlen);
+    extern /* Subroutine */ int dswap_(integer *, doublereal *, integer *,
+            doublereal *, integer *), dgeqr2_(integer *, integer *,
+            doublereal *, integer *, doublereal *, doublereal *, integer *),
+            dorm2r_(char *, char *, integer *, integer *, integer *,
+            doublereal *, integer *, doublereal *, doublereal *, integer *,
+            doublereal *, integer *, ftnlen, ftnlen);
     static integer ma, mn;
     extern /* Subroutine */ int dlarfg_(integer *, doublereal *, doublereal *,
-	     integer *, doublereal *);
+             integer *, doublereal *);
     extern integer idamax_(integer *, doublereal *, integer *);
     extern /* Subroutine */ int xerbla_(char *, integer *, ftnlen);
     static doublereal aii;
@@ -84,7 +84,7 @@ static integer c__1 = 1;
 /*          The leading dimension of the array A. LDA >= max(1,M). */
 
 /*  JPVT    (input/output) INTEGER array, dimension (N) */
-/*          On entry, if JPVT(i) .ne. 0, the i-th column of A is permuted 
+/*          On entry, if JPVT(i) .ne. 0, the i-th column of A is permuted
 */
 /*          to the front of A*P (a leading column); if JPVT(i) = 0, */
 /*          the i-th column of A is a free column. */
@@ -112,14 +112,14 @@ static integer c__1 = 1;
 /*     H = I - tau * v * v' */
 
 /*  where tau is a real scalar, and v is a real vector with */
-/*  v(1:i-1) = 0 and v(i) = 1; v(i+1:m) is stored on exit in A(i+1:m,i). 
+/*  v(1:i-1) = 0 and v(i) = 1; v(i+1:m) is stored on exit in A(i+1:m,i).
 */
 
 /*  The matrix P is represented in jpvt as follows: If */
 /*     jpvt(j) = i */
 /*  then the jth column of P is the ith canonical unit vector. */
 
-/*  ===================================================================== 
+/*  =====================================================================
 */
 
 /*     .. Parameters .. */
@@ -159,24 +159,24 @@ static integer c__1 = 1;
 /*<       IF( M.LT.0 ) THEN >*/
     if (*m < 0) {
 /*<          INFO = -1 >*/
-	*info = -1;
+        *info = -1;
 /*<       ELSE IF( N.LT.0 ) THEN >*/
     } else if (*n < 0) {
 /*<          INFO = -2 >*/
-	*info = -2;
+        *info = -2;
 /*<       ELSE IF( LDA.LT.MAX( 1, M ) ) THEN >*/
     } else if (*lda < max(1,*m)) {
 /*<          INFO = -4 >*/
-	*info = -4;
+        *info = -4;
 /*<       END IF >*/
     }
 /*<       IF( INFO.NE.0 ) THEN >*/
     if (*info != 0) {
 /*<          CALL XERBLA( 'DGEQPF', -INFO ) >*/
-	i__1 = -(*info);
-	xerbla_("DGEQPF", &i__1, 6L);
+        i__1 = -(*info);
+        xerbla_("DGEQPF", &i__1, 6L);
 /*<          RETURN >*/
-	return 0;
+        return 0;
 /*<       END IF >*/
     }
 
@@ -191,30 +191,30 @@ static integer c__1 = 1;
     i__1 = *n;
     for (i = 1; i <= i__1; ++i) {
 /*<          IF( JPVT( I ).NE.0 ) THEN >*/
-	if (jpvt[i] != 0) {
+        if (jpvt[i] != 0) {
 /*<             IF( I.NE.ITEMP ) THEN >*/
-	    if (i != itemp) {
+            if (i != itemp) {
 /*<                CALL DSWAP( M, A( 1, I ), 1, A( 1, ITEMP ), 1 ) >*/
-		dswap_(m, &a[i * a_dim1 + 1], &c__1, &a[itemp * a_dim1 + 1], &
-			c__1);
+                dswap_(m, &a[i * a_dim1 + 1], &c__1, &a[itemp * a_dim1 + 1], &
+                        c__1);
 /*<                JPVT( I ) = JPVT( ITEMP ) >*/
-		jpvt[i] = jpvt[itemp];
+                jpvt[i] = jpvt[itemp];
 /*<                JPVT( ITEMP ) = I >*/
-		jpvt[itemp] = i;
+                jpvt[itemp] = i;
 /*<             ELSE >*/
-	    } else {
+            } else {
 /*<                JPVT( I ) = I >*/
-		jpvt[i] = i;
+                jpvt[i] = i;
 /*<             END IF >*/
-	    }
+            }
 /*<             ITEMP = ITEMP + 1 >*/
-	    ++itemp;
+            ++itemp;
 /*<          ELSE >*/
-	} else {
+        } else {
 /*<             JPVT( I ) = I >*/
-	    jpvt[i] = i;
+            jpvt[i] = i;
 /*<          END IF >*/
-	}
+        }
 /*<    10 CONTINUE >*/
 /* L10: */
     }
@@ -226,18 +226,18 @@ static integer c__1 = 1;
 /*<       IF( ITEMP.GT.0 ) THEN >*/
     if (itemp > 0) {
 /*<          MA = MIN( ITEMP, M ) >*/
-	ma = min(itemp,*m);
+        ma = min(itemp,*m);
 /*<          CALL DGEQR2( M, MA, A, LDA, TAU, WORK, INFO ) >*/
-	dgeqr2_(m, &ma, &a[a_offset], lda, &tau[1], &work[1], info);
+        dgeqr2_(m, &ma, &a[a_offset], lda, &tau[1], &work[1], info);
 /*<          IF( MA.LT.N ) THEN >*/
-	if (ma < *n) {
+        if (ma < *n) {
 /*<    >*/
-	    i__1 = *n - ma;
-	    dorm2r_("Left", "Transpose", m, &i__1, &ma, &a[a_offset], lda, &
-		    tau[1], &a[(ma + 1) * a_dim1 + 1], lda, &work[1], info, 
-		    4L, 9L);
+            i__1 = *n - ma;
+            dorm2r_("Left", "Transpose", m, &i__1, &ma, &a[a_offset], lda, &
+                    tau[1], &a[(ma + 1) * a_dim1 + 1], lda, &work[1], info,
+                    4L, 9L);
 /*<          END IF >*/
-	}
+        }
 /*<       END IF >*/
     }
 
@@ -248,133 +248,133 @@ static integer c__1 = 1;
 /*        work store the exact column norms. */
 
 /*<          DO 20 I = ITEMP + 1, N >*/
-	i__1 = *n;
-	for (i = itemp + 1; i <= i__1; ++i) {
+        i__1 = *n;
+        for (i = itemp + 1; i <= i__1; ++i) {
 /*<             WORK( I ) = DNRM2( M-ITEMP, A( ITEMP+1, I ), 1 ) >*/
-	    i__2 = *m - itemp;
-	    work[i] = dnrm2_(&i__2, &a[itemp + 1 + i * a_dim1], &c__1);
+            i__2 = *m - itemp;
+            work[i] = dnrm2_(&i__2, &a[itemp + 1 + i * a_dim1], &c__1);
 /*<             WORK( N+I ) = WORK( I ) >*/
-	    work[*n + i] = work[i];
+            work[*n + i] = work[i];
 /*<    20    CONTINUE >*/
 /* L20: */
-	}
+        }
 
 /*        Compute factorization */
 
 /*<          DO 40 I = ITEMP + 1, MN >*/
-	i__1 = mn;
-	for (i = itemp + 1; i <= i__1; ++i) {
+        i__1 = mn;
+        for (i = itemp + 1; i <= i__1; ++i) {
 
 /*           Determine ith pivot column and swap if necessary */
 
 /*<             PVT = ( I-1 ) + IDAMAX( N-I+1, WORK( I ), 1 ) >*/
-	    i__2 = *n - i + 1;
-	    pvt = i - 1 + idamax_(&i__2, &work[i], &c__1);
+            i__2 = *n - i + 1;
+            pvt = i - 1 + idamax_(&i__2, &work[i], &c__1);
 
 /*<             IF( PVT.NE.I ) THEN >*/
-	    if (pvt != i) {
+            if (pvt != i) {
 /*<                CALL DSWAP( M, A( 1, PVT ), 1, A( 1, I ), 1 ) >*/
-		dswap_(m, &a[pvt * a_dim1 + 1], &c__1, &a[i * a_dim1 + 1], &
-			c__1);
+                dswap_(m, &a[pvt * a_dim1 + 1], &c__1, &a[i * a_dim1 + 1], &
+                        c__1);
 /*<                ITEMP = JPVT( PVT ) >*/
-		itemp = jpvt[pvt];
+                itemp = jpvt[pvt];
 /*<                JPVT( PVT ) = JPVT( I ) >*/
-		jpvt[pvt] = jpvt[i];
+                jpvt[pvt] = jpvt[i];
 /*<                JPVT( I ) = ITEMP >*/
-		jpvt[i] = itemp;
+                jpvt[i] = itemp;
 /*<                WORK( PVT ) = WORK( I ) >*/
-		work[pvt] = work[i];
+                work[pvt] = work[i];
 /*<                WORK( N+PVT ) = WORK( N+I ) >*/
-		work[*n + pvt] = work[*n + i];
+                work[*n + pvt] = work[*n + i];
 /*<             END IF >*/
-	    }
+            }
 
 /*           Generate elementary reflector H(i) */
 
 /*<             IF( I.LT.M ) THEN >*/
-	    if (i < *m) {
+            if (i < *m) {
 /*<                CALL DLARFG( M-I+1, A( I, I ), A( I+1, I ), 1, TAU( I ) ) >*/
-		i__2 = *m - i + 1;
-		dlarfg_(&i__2, &a[i + i * a_dim1], &a[i + 1 + i * a_dim1], &
-			c__1, &tau[i]);
+                i__2 = *m - i + 1;
+                dlarfg_(&i__2, &a[i + i * a_dim1], &a[i + 1 + i * a_dim1], &
+                        c__1, &tau[i]);
 /*<             ELSE >*/
-	    } else {
+            } else {
 /*<                CALL DLARFG( 1, A( M, M ), A( M, M ), 1, TAU( M ) ) >*/
-		dlarfg_(&c__1, &a[*m + *m * a_dim1], &a[*m + *m * a_dim1], &
-			c__1, &tau[*m]);
+                dlarfg_(&c__1, &a[*m + *m * a_dim1], &a[*m + *m * a_dim1], &
+                        c__1, &tau[*m]);
 /*<             END IF >*/
-	    }
+            }
 
 /*<             IF( I.LT.N ) THEN >*/
-	    if (i < *n) {
+            if (i < *n) {
 
 /*              Apply H(i) to A(i:m,i+1:n) from the left */
 
 /*<                AII = A( I, I ) >*/
-		aii = a[i + i * a_dim1];
+                aii = a[i + i * a_dim1];
 /*<                A( I, I ) = ONE >*/
-		a[i + i * a_dim1] = 1.;
+                a[i + i * a_dim1] = 1.;
 /*<    >*/
-		i__2 = *m - i + 1;
-		i__3 = *n - i;
-		dlarf_("LEFT", &i__2, &i__3, &a[i + i * a_dim1], &c__1, &tau[
-			i], &a[i + (i + 1) * a_dim1], lda, &work[(*n << 1) + 
-			1], 4L);
+                i__2 = *m - i + 1;
+                i__3 = *n - i;
+                dlarf_("LEFT", &i__2, &i__3, &a[i + i * a_dim1], &c__1, &tau[
+                        i], &a[i + (i + 1) * a_dim1], lda, &work[(*n << 1) +
+                        1], 4L);
 /*<                A( I, I ) = AII >*/
-		a[i + i * a_dim1] = aii;
+                a[i + i * a_dim1] = aii;
 /*<             END IF >*/
-	    }
+            }
 
 /*           Update partial column norms */
 
 /*<             DO 30 J = I + 1, N >*/
-	    i__2 = *n;
-	    for (j = i + 1; j <= i__2; ++j) {
+            i__2 = *n;
+            for (j = i + 1; j <= i__2; ++j) {
 /*<                IF( WORK( J ).NE.ZERO ) THEN >*/
-		if (work[j] != 0.) {
+                if (work[j] != 0.) {
 /*<                   TEMP = ONE - ( ABS( A( I, J ) ) / WORK( J ) )**2 >*/
 /* Computing 2nd power */
-		    d__2 = (d__1 = a[i + j * a_dim1], abs(d__1)) / work[j];
-		    temp = 1. - d__2 * d__2;
+                    d__2 = (d__1 = a[i + j * a_dim1], abs(d__1)) / work[j];
+                    temp = 1. - d__2 * d__2;
 /*<                   TEMP = MAX( TEMP, ZERO ) >*/
-		    temp = max(temp,0.);
+                    temp = max(temp,0.);
 /*<    >*/
 /* Computing 2nd power */
-		    d__1 = work[j] / work[*n + j];
-		    temp2 = temp * .05 * (d__1 * d__1) + 1.;
+                    d__1 = work[j] / work[*n + j];
+                    temp2 = temp * .05 * (d__1 * d__1) + 1.;
 /*<                   IF( TEMP2.EQ.ONE ) THEN >*/
-		    if (temp2 == 1.) {
+                    if (temp2 == 1.) {
 /*<                      IF( M-I.GT.0 ) THEN >*/
-			if (*m - i > 0) {
+                        if (*m - i > 0) {
 /*<                         WORK( J ) = DNRM2( M-I, A( I+1, J ), 1 ) >*/
-			    i__3 = *m - i;
-			    work[j] = dnrm2_(&i__3, &a[i + 1 + j * a_dim1], &
-				    c__1);
+                            i__3 = *m - i;
+                            work[j] = dnrm2_(&i__3, &a[i + 1 + j * a_dim1], &
+                                    c__1);
 /*<                         WORK( N+J ) = WORK( J ) >*/
-			    work[*n + j] = work[j];
+                            work[*n + j] = work[j];
 /*<                      ELSE >*/
-			} else {
+                        } else {
 /*<                         WORK( J ) = ZERO >*/
-			    work[j] = 0.;
+                            work[j] = 0.;
 /*<                         WORK( N+J ) = ZERO >*/
-			    work[*n + j] = 0.;
+                            work[*n + j] = 0.;
 /*<                      END IF >*/
-			}
+                        }
 /*<                   ELSE >*/
-		    } else {
+                    } else {
 /*<                      WORK( J ) = WORK( J )*SQRT( TEMP ) >*/
-			work[j] *= sqrt(temp);
+                        work[j] *= sqrt(temp);
 /*<                   END IF >*/
-		    }
+                    }
 /*<                END IF >*/
-		}
+                }
 /*<    30       CONTINUE >*/
 /* L30: */
-	    }
+            }
 
 /*<    40    CONTINUE >*/
 /* L40: */
-	}
+        }
 /*<       END IF >*/
     }
 /*<       RETURN >*/

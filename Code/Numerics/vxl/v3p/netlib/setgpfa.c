@@ -1,6 +1,6 @@
 /* setgpfa.f -- translated by f2c (version 19951025).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #ifdef __cplusplus
@@ -40,8 +40,8 @@ static integer c__5 = 5;
 /* ---------------------------------------------------------------------- */
 
 /*<       SUBROUTINE SETGPFA(TRIGS,N,IRES,INFO) >*/
-/* Subroutine */ int setgpfa_(real *trigs, integer *n, integer *ires, integer 
-	*info)
+/* Subroutine */ int setgpfa_(real *trigs, integer *n, integer *ires, integer
+        *info)
 {
     /* System generated locals */
     integer i__1;
@@ -76,25 +76,25 @@ static integer c__5 = 5;
 /*<       DO 30 LL = 1 , 3 >*/
     for (ll = 1; ll <= 3; ++ll) {
 /*<       KK = 0 >*/
-	kk = 0;
+        kk = 0;
 /*<    10 CONTINUE >*/
 L10:
 /*<       IF (MOD(NN,IFAC).NE.0) GO TO 20 >*/
-	if (nn % ifac != 0) {
-	    goto L20;
-	}
+        if (nn % ifac != 0) {
+            goto L20;
+        }
 /*<       KK = KK + 1 >*/
-	++kk;
+        ++kk;
 /*<       NN = NN / IFAC >*/
-	nn /= ifac;
+        nn /= ifac;
 /*<       GO TO 10 >*/
-	goto L10;
+        goto L10;
 /*<    20 CONTINUE >*/
 L20:
 /*<       NJ(LL) = KK >*/
-	nj[ll - 1] = kk;
+        nj[ll - 1] = kk;
 /*<       IFAC = IFAC + LL >*/
-	ifac += ll;
+        ifac += ll;
 /*<    30 CONTINUE >*/
 /* L30: */
     }
@@ -102,9 +102,9 @@ L20:
 /*<       IF (NN.NE.1) THEN >*/
     if (nn != 1) {
 /*<          INFO = -1 >*/
-	*info = -1;
+        *info = -1;
 /*<          RETURN >*/
-	return 0;
+        return 0;
 /*<       ENDIF >*/
     }
 
@@ -138,45 +138,45 @@ L20:
 /*<       DO 60 LL = 1 , 3 >*/
     for (ll = 1; ll <= 3; ++ll) {
 /*<       NI = NJ(LL) >*/
-	ni = nj[ll - 1];
+        ni = nj[ll - 1];
 /*<       IF (NI.EQ.1) GO TO 60 >*/
-	if (ni == 1) {
-	    goto L60;
-	}
+        if (ni == 1) {
+            goto L60;
+        }
 
 /*<       DEL = TWOPI / FLOAT(NI) >*/
-	del = twopi / (real) ni;
+        del = twopi / (real) ni;
 /*<       IROT = N / NI >*/
-	irot = *n / ni;
+        irot = *n / ni;
 /*<       KINK = MOD(IROT,NI) >*/
-	kink = irot % ni;
+        kink = irot % ni;
 /*<       KK = 0 >*/
-	kk = 0;
+        kk = 0;
 
 /*<       DO 50 K = 1 , NI >*/
-	i__1 = ni;
-	for (k = 1; k <= i__1; ++k) {
+        i__1 = ni;
+        for (k = 1; k <= i__1; ++k) {
 /*<       ANGLE = FLOAT(KK) * DEL >*/
-	    angle = (real) kk * del;
+            angle = (real) kk * del;
 /*<       TRIGS(I) = COS(ANGLE) >*/
-	    trigs[i__] = (float)cos(angle);
+            trigs[i__] = (float)cos(angle);
 /*<       TRIGS(I+1) = SIN(ANGLE) >*/
-	    trigs[i__ + 1] = (float)sin(angle);
-	    
+            trigs[i__ + 1] = (float)sin(angle);
+
 /*<       I = I + 2 >*/
-	    i__ += 2;
+            i__ += 2;
 /*<       KK = KK + KINK >*/
-	    kk += kink;
+            kk += kink;
 /*<       IF (KK.GT.NI) KK = KK - NI >*/
-	    if (kk > ni) {
-		kk -= ni;
-	    }
+            if (kk > ni) {
+                kk -= ni;
+            }
 /*<    50 CONTINUE >*/
 /* L50: */
-	}
+        }
 /*<    60 CONTINUE >*/
 L60:
-	;
+        ;
     }
 
 /*<       INFO = 0 >*/
@@ -187,5 +187,5 @@ L60:
 } /* setgpfa_ */
 
 #ifdef __cplusplus
-	}
+        }
 #endif

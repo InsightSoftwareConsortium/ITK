@@ -18,7 +18,7 @@ void test_determinant() {
       0.95012928514718
     };
     double const * const M1_[]={M1};
-    AssertNear("M1", vnl_determinant(M1_, 1), qr_det(vnl_matrix<double>(M1,1,1)), eps);
+    vnl_test_assert_near("M1", vnl_determinant(M1_, 1), qr_det(vnl_matrix<double>(M1,1,1)), eps);
   }
 
   {
@@ -27,7 +27,7 @@ void test_determinant() {
       0.48598246870930,   0.76209683302739
     };
     double const * const M2_[]={M2, M2+2};
-    AssertNear("M2", vnl_determinant(M2_, 2), qr_det(vnl_matrix<double>(M2,2,2)), eps);
+    vnl_test_assert_near("M2", vnl_determinant(M2_, 2), qr_det(vnl_matrix<double>(M2,2,2)), eps);
   }
 
   {
@@ -37,7 +37,7 @@ void test_determinant() {
       0.82140716429525,   0.79193703742704,   0.17626614449462
     };
     double const * const M3_[]={M3, M3+3, M3+6};
-    AssertNear("M3", vnl_determinant(M3_, 3), qr_det(vnl_matrix<double>(M3,3,3)), eps);
+    vnl_test_assert_near("M3", vnl_determinant(M3_, 3), qr_det(vnl_matrix<double>(M3,3,3)), eps);
   }
 
   {
@@ -48,7 +48,7 @@ void test_determinant() {
       0.41027020699095,   0.81316649730376,   0.19872174266149,   0.01527392702904
     };
     double const * const M4_[]={M4, M4+4, M4+8, M4+12};
-    AssertNear("M4", vnl_determinant(M4_, 4), qr_det(vnl_matrix<double>(M4,4,4)), eps);
+    vnl_test_assert_near("M4", vnl_determinant(M4_, 4), qr_det(vnl_matrix<double>(M4,4,4)), eps);
   }
 }
 

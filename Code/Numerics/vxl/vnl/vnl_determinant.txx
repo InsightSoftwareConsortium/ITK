@@ -1,3 +1,5 @@
+// This is vxl/vnl/vnl_determinant.txx
+
 /*
   fsm@robots.ox.ac.uk
 */

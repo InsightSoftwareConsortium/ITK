@@ -1,6 +1,6 @@
 /* tred1.f -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -58,12 +58,12 @@ doublereal *a, *d, *e, *e2;
 /*          e2 may coincide with e if the squares are not needed. */
 
 /*     questions and comments should be directed to burton s. garbow, */
-/*     mathematics and computer science div, argonne national laboratory 
+/*     mathematics and computer science div, argonne national laboratory
 */
 
 /*     this version dated august 1983. */
 
-/*     ------------------------------------------------------------------ 
+/*     ------------------------------------------------------------------
 */
 
     /* Parameter adjustments */
@@ -77,133 +77,133 @@ doublereal *a, *d, *e, *e2;
     /* Function Body */
     i__1 = *n;
     for (i = 1; i <= i__1; ++i) {
-	d[i] = a[*n + i * a_dim1];
-	a[*n + i * a_dim1] = a[i + i * a_dim1];
+        d[i] = a[*n + i * a_dim1];
+        a[*n + i * a_dim1] = a[i + i * a_dim1];
 /* L100: */
     }
 /*     .......... for i=n step -1 until 1 do -- .......... */
     i__1 = *n;
     for (ii = 1; ii <= i__1; ++ii) {
-	i = *n + 1 - ii;
-	l = i - 1;
-	h = 0.;
-	scale = 0.;
-	if (l < 1) {
-	    goto L130;
-	}
+        i = *n + 1 - ii;
+        l = i - 1;
+        h = 0.;
+        scale = 0.;
+        if (l < 1) {
+            goto L130;
+        }
 /*     .......... scale row (algol tol then not needed) .......... */
-	i__2 = l;
-	for (k = 1; k <= i__2; ++k) {
+        i__2 = l;
+        for (k = 1; k <= i__2; ++k) {
 /* L120: */
-	    scale += (d__1 = d[k], abs(d__1));
-	}
+            scale += (d__1 = d[k], abs(d__1));
+        }
 
-	if (scale != 0.) {
-	    goto L140;
-	}
+        if (scale != 0.) {
+            goto L140;
+        }
 
-	i__2 = l;
-	for (j = 1; j <= i__2; ++j) {
-	    d[j] = a[l + j * a_dim1];
-	    a[l + j * a_dim1] = a[i + j * a_dim1];
-	    a[i + j * a_dim1] = 0.;
+        i__2 = l;
+        for (j = 1; j <= i__2; ++j) {
+            d[j] = a[l + j * a_dim1];
+            a[l + j * a_dim1] = a[i + j * a_dim1];
+            a[i + j * a_dim1] = 0.;
 /* L125: */
-	}
+        }
 
 L130:
-	e[i] = 0.;
-	e2[i] = 0.;
-	goto L300;
+        e[i] = 0.;
+        e2[i] = 0.;
+        goto L300;
 
 L140:
-	i__2 = l;
-	for (k = 1; k <= i__2; ++k) {
-	    d[k] /= scale;
-	    h += d[k] * d[k];
+        i__2 = l;
+        for (k = 1; k <= i__2; ++k) {
+            d[k] /= scale;
+            h += d[k] * d[k];
 /* L150: */
-	}
+        }
 
-	e2[i] = scale * scale * h;
-	f = d[l];
-	d__1 = sqrt(h);
-	g = -d_sign(&d__1, &f);
-	e[i] = scale * g;
-	h -= f * g;
-	d[l] = f - g;
-	if (l == 1) {
-	    goto L285;
-	}
+        e2[i] = scale * scale * h;
+        f = d[l];
+        d__1 = sqrt(h);
+        g = -d_sign(&d__1, &f);
+        e[i] = scale * g;
+        h -= f * g;
+        d[l] = f - g;
+        if (l == 1) {
+            goto L285;
+        }
 /*     .......... form a*u .......... */
-	i__2 = l;
-	for (j = 1; j <= i__2; ++j) {
+        i__2 = l;
+        for (j = 1; j <= i__2; ++j) {
 /* L170: */
-	    e[j] = 0.;
-	}
+            e[j] = 0.;
+        }
 
-	i__2 = l;
-	for (j = 1; j <= i__2; ++j) {
-	    f = d[j];
-	    g = e[j] + a[j + j * a_dim1] * f;
-	    jp1 = j + 1;
-	    if (l < jp1) {
-		goto L220;
-	    }
+        i__2 = l;
+        for (j = 1; j <= i__2; ++j) {
+            f = d[j];
+            g = e[j] + a[j + j * a_dim1] * f;
+            jp1 = j + 1;
+            if (l < jp1) {
+                goto L220;
+            }
 
-	    i__3 = l;
-	    for (k = jp1; k <= i__3; ++k) {
-		g += a[k + j * a_dim1] * d[k];
-		e[k] += a[k + j * a_dim1] * f;
+            i__3 = l;
+            for (k = jp1; k <= i__3; ++k) {
+                g += a[k + j * a_dim1] * d[k];
+                e[k] += a[k + j * a_dim1] * f;
 /* L200: */
-	    }
+            }
 
 L220:
-	    e[j] = g;
+            e[j] = g;
 /* L240: */
-	}
+        }
 /*     .......... form p .......... */
-	f = 0.;
+        f = 0.;
 
-	i__2 = l;
-	for (j = 1; j <= i__2; ++j) {
-	    e[j] /= h;
-	    f += e[j] * d[j];
+        i__2 = l;
+        for (j = 1; j <= i__2; ++j) {
+            e[j] /= h;
+            f += e[j] * d[j];
 /* L245: */
-	}
+        }
 
-	h = f / (h + h);
+        h = f / (h + h);
 /*     .......... form q .......... */
-	i__2 = l;
-	for (j = 1; j <= i__2; ++j) {
+        i__2 = l;
+        for (j = 1; j <= i__2; ++j) {
 /* L250: */
-	    e[j] -= h * d[j];
-	}
+            e[j] -= h * d[j];
+        }
 /*     .......... form reduced a .......... */
-	i__2 = l;
-	for (j = 1; j <= i__2; ++j) {
-	    f = d[j];
-	    g = e[j];
+        i__2 = l;
+        for (j = 1; j <= i__2; ++j) {
+            f = d[j];
+            g = e[j];
 
-	    i__3 = l;
-	    for (k = j; k <= i__3; ++k) {
+            i__3 = l;
+            for (k = j; k <= i__3; ++k) {
 /* L260: */
-		a[k + j * a_dim1] = a[k + j * a_dim1] - f * e[k] - g * d[k];
-	    }
+                a[k + j * a_dim1] = a[k + j * a_dim1] - f * e[k] - g * d[k];
+            }
 
 /* L280: */
-	}
+        }
 
 L285:
-	i__2 = l;
-	for (j = 1; j <= i__2; ++j) {
-	    f = d[j];
-	    d[j] = a[l + j * a_dim1];
-	    a[l + j * a_dim1] = a[i + j * a_dim1];
-	    a[i + j * a_dim1] = f * scale;
+        i__2 = l;
+        for (j = 1; j <= i__2; ++j) {
+            f = d[j];
+            d[j] = a[l + j * a_dim1];
+            a[l + j * a_dim1] = a[i + j * a_dim1];
+            a[i + j * a_dim1] = f * scale;
 /* L290: */
-	}
+        }
 
 L300:
-	;
+        ;
     }
 
     return 0;

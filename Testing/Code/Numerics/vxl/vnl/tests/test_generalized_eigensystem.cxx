@@ -1,8 +1,10 @@
-//
-// .NAME test_generalized_eigensystem
-// Author: Andrew W. Fitzgibbon, Oxford RRG
-// Created: 29 Aug 96
-//
+
+//:
+// \file
+// \brief test program for generalized eigensystem routines.
+// \author Andrew W. Fitzgibbon, Oxford RRG.
+// \date 29 Aug 96
+
 //-----------------------------------------------------------------------------
 
 #include <vcl_iostream.h>
@@ -42,7 +44,7 @@ void test_generalized_eigensystem()
   double err = (C * gev.V - S * gev.V * gev.D).fro_norm();
   vcl_cout << "Recomposition residual = " << err << vcl_endl;
 
-  Assert("Recomposition residual < 1e-12", err < 1e-12);
+  vnl_test_assert("Recomposition residual < 1e-12", err < 1e-12);
 }
 
 TESTMAIN(test_generalized_eigensystem);

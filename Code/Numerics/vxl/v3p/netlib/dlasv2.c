@@ -1,6 +1,6 @@
 /* dlasv2.f -- translated by f2c (version of 4 June 1993  1:43:59).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -11,9 +11,9 @@ static doublereal c_b3 = 2.;
 static doublereal c_b4 = 1.;
 
 /*<       SUBROUTINE DLASV2( F, G, H, SSMIN, SSMAX, SNR, CSR, SNL, CSL ) >*/
-/* Subroutine */ int dlasv2_(doublereal *f, doublereal *g, doublereal *h, 
-	doublereal *ssmin, doublereal *ssmax, doublereal *snr, doublereal *
-	csr, doublereal *snl, doublereal *csl)
+/* Subroutine */ int dlasv2_(doublereal *f, doublereal *g, doublereal *h,
+        doublereal *ssmin, doublereal *ssmax, doublereal *snr, doublereal *
+        csr, doublereal *snl, doublereal *csl)
 {
     /* System generated locals */
     doublereal d__1;
@@ -48,9 +48,9 @@ static doublereal c_b4 = 1.;
 /*  triangular matrix */
 /*     [  F   G  ] */
 /*     [  0   H  ]. */
-/*  On return, abs(SSMAX) is the larger singular value, abs(SSMIN) is the 
+/*  On return, abs(SSMAX) is the larger singular value, abs(SSMIN) is the
 */
-/*  smaller singular value, and (CSL,SNL) and (CSR,SNR) are the left and 
+/*  smaller singular value, and (CSL,SNL) and (CSR,SNR) are the left and
 */
 /*  right singular vectors for abs(SSMAX), giving the decomposition */
 
@@ -77,13 +77,13 @@ static doublereal c_b4 = 1.;
 
 /*  SNL     (output) DOUBLE PRECISION */
 /*  CSL     (output) DOUBLE PRECISION */
-/*          The vector (CSL, SNL) is a unit left singular vector for the 
+/*          The vector (CSL, SNL) is a unit left singular vector for the
 */
 /*          singular value abs(SSMAX). */
 
 /*  SNR     (output) DOUBLE PRECISION */
 /*  CSR     (output) DOUBLE PRECISION */
-/*          The vector (CSR, SNR) is a unit right singular vector for the 
+/*          The vector (CSR, SNR) is a unit right singular vector for the
 */
 /*          singular value abs(SSMAX). */
 
@@ -92,12 +92,12 @@ static doublereal c_b4 = 1.;
 
 /*  Any input parameter may be aliased with any output parameter. */
 
-/*  Barring over/underflow and assuming a guard digit in subtraction, all 
+/*  Barring over/underflow and assuming a guard digit in subtraction, all
 */
 /*  output quantities are correct to within a few units in the last */
 /*  place (ulps). */
 
-/*  In IEEE arithmetic, the code works correctly if one matrix element is 
+/*  In IEEE arithmetic, the code works correctly if one matrix element is
 */
 /*  infinite. */
 
@@ -110,7 +110,7 @@ static doublereal c_b4 = 1.;
 /*  may correspond to a matrix modified by perturbations of size near */
 /*  the underflow threshold. */
 
-/* ===================================================================== 
+/* =====================================================================
 */
 
 /*     .. Parameters .. */
@@ -160,19 +160,19 @@ static doublereal c_b4 = 1.;
 /*<       IF( SWAP ) THEN >*/
     if (swap) {
 /*<          PMAX = 3 >*/
-	pmax = 3;
+        pmax = 3;
 /*<          TEMP = FT >*/
-	temp = ft;
+        temp = ft;
 /*<          FT = HT >*/
-	ft = ht;
+        ft = ht;
 /*<          HT = TEMP >*/
-	ht = temp;
+        ht = temp;
 /*<          TEMP = FA >*/
-	temp = fa;
+        temp = fa;
 /*<          FA = HA >*/
-	fa = ha;
+        fa = ha;
 /*<          HA = TEMP >*/
-	ha = temp;
+        ha = temp;
 
 /*        Now FA .ge. HA */
 
@@ -188,175 +188,175 @@ static doublereal c_b4 = 1.;
 /*        Diagonal matrix */
 
 /*<          SSMIN = HA >*/
-	*ssmin = ha;
+        *ssmin = ha;
 /*<          SSMAX = FA >*/
-	*ssmax = fa;
+        *ssmax = fa;
 /*<          CLT = ONE >*/
-	clt = 1.;
+        clt = 1.;
 /*<          CRT = ONE >*/
-	crt = 1.;
+        crt = 1.;
 /*<          SLT = ZERO >*/
-	slt = 0.;
+        slt = 0.;
 /*<          SRT = ZERO >*/
-	srt = 0.;
+        srt = 0.;
 /*<       ELSE >*/
     } else {
 /*<          GASMAL = .TRUE. >*/
-	gasmal = TRUE_;
+        gasmal = TRUE_;
 /*<          IF( GA.GT.FA ) THEN >*/
-	if (ga > fa) {
+        if (ga > fa) {
 /*<             PMAX = 2 >*/
-	    pmax = 2;
+            pmax = 2;
 /*<             IF( ( FA / GA ).LT.DLAMCH( 'EPS' ) ) THEN >*/
-	    if (fa / ga < dlamch_("EPS", 3L)) {
+            if (fa / ga < dlamch_("EPS", 3L)) {
 
 /*              Case of very large GA */
 
 /*<                GASMAL = .FALSE. >*/
-		gasmal = FALSE_;
+                gasmal = FALSE_;
 /*<                SSMAX = GA >*/
-		*ssmax = ga;
+                *ssmax = ga;
 /*<                IF( HA.GT.ONE ) THEN >*/
-		if (ha > 1.) {
+                if (ha > 1.) {
 /*<                   SSMIN = FA / ( GA / HA ) >*/
-		    *ssmin = fa / (ga / ha);
+                    *ssmin = fa / (ga / ha);
 /*<                ELSE >*/
-		} else {
+                } else {
 /*<                   SSMIN = ( FA / GA )*HA >*/
-		    *ssmin = fa / ga * ha;
+                    *ssmin = fa / ga * ha;
 /*<                END IF >*/
-		}
+                }
 /*<                CLT = ONE >*/
-		clt = 1.;
+                clt = 1.;
 /*<                SLT = HT / GT >*/
-		slt = ht / gt;
+                slt = ht / gt;
 /*<                SRT = ONE >*/
-		srt = 1.;
+                srt = 1.;
 /*<                CRT = FT / GT >*/
-		crt = ft / gt;
+                crt = ft / gt;
 /*<             END IF >*/
-	    }
+            }
 /*<          END IF >*/
-	}
+        }
 /*<          IF( GASMAL ) THEN >*/
-	if (gasmal) {
+        if (gasmal) {
 
 /*           Normal case */
 
 /*<             D = FA - HA >*/
-	    d = fa - ha;
+            d = fa - ha;
 /*<             IF( D.EQ.FA ) THEN >*/
-	    if (d == fa) {
+            if (d == fa) {
 
 /*              Copes with infinite F or H */
 
 /*<                L = ONE >*/
-		l = 1.;
+                l = 1.;
 /*<             ELSE >*/
-	    } else {
+            } else {
 /*<                L = D / FA >*/
-		l = d / fa;
+                l = d / fa;
 /*<             END IF >*/
-	    }
+            }
 
 /*           Note that 0 .le. L .le. 1 */
 
 /*<             M = GT / FT >*/
-	    m = gt / ft;
+            m = gt / ft;
 
 /*           Note that abs(M) .le. 1/macheps */
 
 /*<             T = TWO - L >*/
-	    t = 2. - l;
+            t = 2. - l;
 
 /*           Note that T .ge. 1 */
 
 /*<             MM = M*M >*/
-	    mm = m * m;
+            mm = m * m;
 /*<             TT = T*T >*/
-	    tt = t * t;
+            tt = t * t;
 /*<             S = SQRT( TT+MM ) >*/
-	    s = sqrt(tt + mm);
+            s = sqrt(tt + mm);
 
 /*           Note that 1 .le. S .le. 1 + 1/macheps */
 
 /*<             IF( L.EQ.ZERO ) THEN >*/
-	    if (l == 0.) {
+            if (l == 0.) {
 /*<                R = ABS( M ) >*/
-		r = abs(m);
+                r = abs(m);
 /*<             ELSE >*/
-	    } else {
+            } else {
 /*<                R = SQRT( L*L+MM ) >*/
-		r = sqrt(l * l + mm);
+                r = sqrt(l * l + mm);
 /*<             END IF >*/
-	    }
+            }
 
 /*           Note that 0 .le. R .le. 1 + 1/macheps */
 
 /*<             A = HALF*( S+R ) >*/
-	    a = (s + r) * .5;
+            a = (s + r) * .5;
 
 /*           Note that 1 .le. A .le. 1 + abs(M) */
 
 /*<             SSMIN = HA / A >*/
-	    *ssmin = ha / a;
+            *ssmin = ha / a;
 /*<             SSMAX = FA*A >*/
-	    *ssmax = fa * a;
+            *ssmax = fa * a;
 /*<             IF( MM.EQ.ZERO ) THEN >*/
-	    if (mm == 0.) {
+            if (mm == 0.) {
 
 /*              Note that M is very tiny */
 
 /*<                IF( L.EQ.ZERO ) THEN >*/
-		if (l == 0.) {
+                if (l == 0.) {
 /*<                   T = SIGN( TWO, FT )*SIGN( ONE, GT ) >*/
-		    t = d_sign(&c_b3, &ft) * d_sign(&c_b4, &gt);
+                    t = d_sign(&c_b3, &ft) * d_sign(&c_b4, &gt);
 /*<                ELSE >*/
-		} else {
+                } else {
 /*<                   T = GT / SIGN( D, FT ) + M / T >*/
-		    t = gt / d_sign(&d, &ft) + m / t;
+                    t = gt / d_sign(&d, &ft) + m / t;
 /*<                END IF >*/
-		}
+                }
 /*<             ELSE >*/
-	    } else {
+            } else {
 /*<                T = ( M / ( S+T )+M / ( R+L ) )*( ONE+A ) >*/
-		t = (m / (s + t) + m / (r + l)) * (a + 1.);
+                t = (m / (s + t) + m / (r + l)) * (a + 1.);
 /*<             END IF >*/
-	    }
+            }
 /*<             L = SQRT( T*T+FOUR ) >*/
-	    l = sqrt(t * t + 4.);
+            l = sqrt(t * t + 4.);
 /*<             CRT = TWO / L >*/
-	    crt = 2. / l;
+            crt = 2. / l;
 /*<             SRT = T / L >*/
-	    srt = t / l;
+            srt = t / l;
 /*<             CLT = ( CRT+SRT*M ) / A >*/
-	    clt = (crt + srt * m) / a;
+            clt = (crt + srt * m) / a;
 /*<             SLT = ( HT / FT )*SRT / A >*/
-	    slt = ht / ft * srt / a;
+            slt = ht / ft * srt / a;
 /*<          END IF >*/
-	}
+        }
 /*<       END IF >*/
     }
 /*<       IF( SWAP ) THEN >*/
     if (swap) {
 /*<          CSL = SRT >*/
-	*csl = srt;
+        *csl = srt;
 /*<          SNL = CRT >*/
-	*snl = crt;
+        *snl = crt;
 /*<          CSR = SLT >*/
-	*csr = slt;
+        *csr = slt;
 /*<          SNR = CLT >*/
-	*snr = clt;
+        *snr = clt;
 /*<       ELSE >*/
     } else {
 /*<          CSL = CLT >*/
-	*csl = clt;
+        *csl = clt;
 /*<          SNL = SLT >*/
-	*snl = slt;
+        *snl = slt;
 /*<          CSR = CRT >*/
-	*csr = crt;
+        *csr = crt;
 /*<          SNR = SRT >*/
-	*snr = srt;
+        *snr = srt;
 /*<       END IF >*/
     }
 
@@ -364,15 +364,15 @@ static doublereal c_b4 = 1.;
 
 /*<    >*/
     if (pmax == 1) {
-	tsign = d_sign(&c_b4, csr) * d_sign(&c_b4, csl) * d_sign(&c_b4, f);
+        tsign = d_sign(&c_b4, csr) * d_sign(&c_b4, csl) * d_sign(&c_b4, f);
     }
 /*<    >*/
     if (pmax == 2) {
-	tsign = d_sign(&c_b4, snr) * d_sign(&c_b4, csl) * d_sign(&c_b4, g);
+        tsign = d_sign(&c_b4, snr) * d_sign(&c_b4, csl) * d_sign(&c_b4, g);
     }
 /*<    >*/
     if (pmax == 3) {
-	tsign = d_sign(&c_b4, snr) * d_sign(&c_b4, snl) * d_sign(&c_b4, h);
+        tsign = d_sign(&c_b4, snr) * d_sign(&c_b4, snl) * d_sign(&c_b4, h);
     }
 /*<       SSMAX = SIGN( SSMAX, TSIGN ) >*/
     *ssmax = d_sign(ssmax, &tsign);

@@ -1,6 +1,6 @@
 /* dpofa.f -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -47,7 +47,7 @@ integer *lda, *n, *info;
 
 /*     on return */
 
-/*        a       an upper triangular matrix  r  so that  a = trans(r)*r 
+/*        a       an upper triangular matrix  r  so that  a = trans(r)*r
 */
 /*                where  trans(r)  is the transpose. */
 /*                the strict lower triangle is unaltered. */
@@ -79,29 +79,29 @@ integer *lda, *n, *info;
     /* Function Body */
     i__1 = *n;
     for (j = 1; j <= i__1; ++j) {
-	*info = j;
-	s = 0.;
-	jm1 = j - 1;
-	if (jm1 < 1) {
-	    goto L20;
-	}
-	i__2 = jm1;
-	for (k = 1; k <= i__2; ++k) {
-	    i__3 = k - 1;
-	    t = a[k + j * a_dim1] - ddot_(&i__3, &a[k * a_dim1 + 1], &c__1, &
-		    a[j * a_dim1 + 1], &c__1);
-	    t /= a[k + k * a_dim1];
-	    a[k + j * a_dim1] = t;
-	    s += t * t;
+        *info = j;
+        s = 0.;
+        jm1 = j - 1;
+        if (jm1 < 1) {
+            goto L20;
+        }
+        i__2 = jm1;
+        for (k = 1; k <= i__2; ++k) {
+            i__3 = k - 1;
+            t = a[k + j * a_dim1] - ddot_(&i__3, &a[k * a_dim1 + 1], &c__1, &
+                    a[j * a_dim1 + 1], &c__1);
+            t /= a[k + k * a_dim1];
+            a[k + j * a_dim1] = t;
+            s += t * t;
 /* L10: */
-	}
+        }
 L20:
-	s = a[j + j * a_dim1] - s;
+        s = a[j + j * a_dim1] - s;
 /*     ......exit */
-	if (s <= 0.) {
-	    goto L40;
-	}
-	a[j + j * a_dim1] = sqrt(s);
+        if (s <= 0.) {
+            goto L40;
+        }
+        a[j + j * a_dim1] = sqrt(s);
 /* L30: */
     }
     *info = 0;

@@ -3,27 +3,22 @@
 #ifdef __GNUC__
 #pragma interface
 #endif
-//
-// .NAME	vnl_least_squares_cost_function - vnl_least_squares_function -> vnl_cost_function adaptor
-// .LIBRARY	vnl
-// .HEADER	vxl package
-// .INCLUDE	vnl/vnl_least_squares_cost_function.h
-// .FILE	vnl_least_squares_cost_function.cxx
-//
-// .SECTION Description
-//    An adaptor that converts a vnl_least_squares_function to a vnl_cost_function
-//
-// .SECTION Author
-//     Andrew W. Fitzgibbon, Oxford RRG, 20 Aug 99
-//
-// .SECTION Modifications
+// This is vxl/vnl/vnl_least_squares_cost_function.h
+
+//: \file
+//  \brief vnl_least_squares_function -> vnl_cost_function adaptor
+//  \author Andrew W. Fitzgibbon, Oxford RRG, 20 Aug 99
+
+//     Modifications:
 //     990820 AWF Initial version.
+//     LSB (Manchester) 23/3/01 Tidied documentation
 //
 //-----------------------------------------------------------------------------
 
 #include <vnl/vnl_cost_function.h>
 #include <vnl/vnl_least_squares_function.h>
 
+//: An adaptor that converts a vnl_least_squares_function to a vnl_cost_function
 class vnl_least_squares_cost_function : public vnl_cost_function {
 public:
   vnl_least_squares_cost_function(vnl_least_squares_function* f);

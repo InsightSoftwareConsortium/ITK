@@ -20,14 +20,14 @@ struct vnl_brent_data {
   }
 };
 
-vnl_brent::vnl_brent(vnl_cost_function* functor) 
+vnl_brent::vnl_brent(vnl_cost_function* functor)
 {
   p = new vnl_brent_data;
   p->functor = functor;
   p->tol = 2.0e-4;
 }
 
-vnl_brent::~vnl_brent() 
+vnl_brent::~vnl_brent()
 {
   delete p;
 }
@@ -44,13 +44,13 @@ void SHFT(double* a, double* b, double* c, double d) {
 }
 
 double vnl_brent::minimize_given_bounds(double ax, double bx, double cx,
-				       double tol, 
-				       double *xmin)
+                                       double tol,
+                                       double *xmin)
 {
   int iter;
-  double a,b,d,etemp,fu,fv,fw,fx,p1,q,r,tol1,tol2,u,v,w,x,xm;
+  double a,b,d=0.0,etemp,fu,fv,fw,fx,p1,q,r,tol1,tol2,u,v,w,x,xm;
   double e=0.0;
-  
+
   a=(ax < cx ? ax : cx);
   b=(ax > cx ? ax : cx);
   x=w=v=bx;
@@ -71,14 +71,14 @@ double vnl_brent::minimize_given_bounds(double ax, double bx, double cx,
       if (q > 0.0) p1 = -p1;
       q=fabs(q);
       etemp=e;
-      e=d; // "mvox_powell.cxx", line 139: Warning: The variable d has not yet been assigned a value.
+      e=d; // Warning: The variable d has not yet been assigned a value.
       if (fabs(p1) >= fabs(0.5*q*etemp) || p1 <= q*(a-x) || p1 >= q*(b-x))
-	d=CGOLD*(e=(x >= xm ? a-x : b-x));
+        d=CGOLD*(e=(x >= xm ? a-x : b-x));
       else {
-	d=p1/q;
-	u=x+d;
-	if (u-a < tol2 || b-u < tol2)
-	  d=tol1 * vnl_math_sgn(xm-x);
+        d=p1/q;
+        u=x+d;
+        if (u-a < tol2 || b-u < tol2)
+          d=tol1 * vnl_math_sgn(xm-x);
       }
     } else {
       d=CGOLD*(e=(x >= xm ? a-x : b-x));
@@ -92,13 +92,13 @@ double vnl_brent::minimize_given_bounds(double ax, double bx, double cx,
     } else {
       if (u < x) a=u; else b=u;
       if (fu <= fw || w == x) {
-	v=w;
-	w=u;
-	fv=fw;
-	fw=fu;
+        v=w;
+        w=u;
+        fv=fw;
+        fw=fu;
       } else if (fu <= fv || v == x || v == w) {
-	v=u;
-	fv=fu;
+        v=u;
+        fv=fu;
       }
     }
   }
@@ -117,8 +117,8 @@ const double GOLD = 1.618034;
 const double GLIMIT = 100.0;
 const double TINY = 1.0e-20;
 
-void vnl_brent::bracket_minimum(double *ax, double *bx, double *cx, 
-				double *fa, double *fb, double *fc)
+void vnl_brent::bracket_minimum(double *ax, double *bx, double *cx,
+                                double *fa, double *fb, double *fc)
 {
   double ulim,u,r,q,fu;
 
@@ -136,30 +136,30 @@ void vnl_brent::bracket_minimum(double *ax, double *bx, double *cx,
     double dq = q-r;
     if (vcl_abs(dq) < TINY)
       dq = vnl_math_sgn(dq) * TINY;
-				
+
     u=(*bx)-((*bx-*cx)*q-(*bx-*ax)*r)/(2.0*dq);
     ulim=(*bx)+GLIMIT*(*cx-*bx);
     if ((*bx-u)*(u-*cx) > 0.0) {
       fu=p->f(u);
       if (fu < *fc) {
-	*ax=(*bx);
-	*bx=u;
-	*fa=(*fb);
-	*fb=fu;
-	return;
+        *ax=(*bx);
+        *bx=u;
+        *fa=(*fb);
+        *fb=fu;
+        return;
       } else if (fu > *fb) {
-	*cx=u;
-	*fc=fu;
-	return;
+        *cx=u;
+        *fc=fu;
+        return;
       }
       u=(*cx)+GOLD*(*cx-*bx);
       fu=p->f(u);
     } else if ((*cx-u)*(u-ulim) > 0.0) {
       fu=p->f(u);
       if (fu < *fc) {
-	//SHFT(bx,cx,&u,*cx+GOLD*(*cx-*bx)); awf dumped -- c is useless
-	SHFT(bx,cx,&u,u+GOLD*(u-*cx));
-	SHFT(fb,fc,&fu,p->f(u));
+        //SHFT(bx,cx,&u,*cx+GOLD*(*cx-*bx)); awf dumped -- c is useless
+        SHFT(bx,cx,&u,u+GOLD*(u-*cx));
+        SHFT(fb,fc,&fu,p->f(u));
       }
     } else if ((u-ulim)*(ulim-*cx) >= 0.0) {
       u=ulim;

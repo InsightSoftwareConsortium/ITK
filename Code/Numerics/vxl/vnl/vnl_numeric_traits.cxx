@@ -1,9 +1,11 @@
+// This is vxl/vnl/vnl_numeric_traits.cxx
+
 //-*- c++ -*-------------------------------------------------------------------
 #ifdef __GNUC__
 #pragma implementation
 #endif
 //
-// Class: vnl_numeric_traits
+// vnl_numeric_traits
 // Author: Andrew W. Fitzgibbon, Oxford RRG
 // Created: 12 Feb 98
 //
@@ -53,16 +55,18 @@ const float vnl_numeric_traits<float>::one = 1.0F;
 const double vnl_numeric_traits<double>::zero = 0.0;
 const double vnl_numeric_traits<double>::one = 1.0;
 
+const long double vnl_numeric_traits<long double>::zero = 0.0;
+const long double vnl_numeric_traits<long double>::one = 1.0;
+
 #endif
 
 //--------------------------------------------------------------------------------
 
-// declaring these const crashes 2.7.2
-#ifdef VCL_GCC_272
-#define const
-#endif
+const vcl_complex<float> vnl_numeric_traits<vcl_complex<float> >::zero = 0.0;
+const vcl_complex<float> vnl_numeric_traits<vcl_complex<float> >::one = 1.0;
+
 const vcl_complex<double> vnl_numeric_traits<vcl_complex<double> >::zero = 0.0;
 const vcl_complex<double> vnl_numeric_traits<vcl_complex<double> >::one = 1.0;
 
-const vcl_complex<float> vnl_numeric_traits<vcl_complex<float> >::zero = 0.0;
-const vcl_complex<float> vnl_numeric_traits<vcl_complex<float> >::one = 1.0;
+const vcl_complex<long double> vnl_numeric_traits<vcl_complex<long double> >::zero = 0.0;
+const vcl_complex<long double> vnl_numeric_traits<vcl_complex<long double> >::one = 1.0;

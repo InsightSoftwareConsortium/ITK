@@ -10,7 +10,7 @@ void c_div(complex       *c, complex       *a, complex       *b)
 {
   double ratio, den;
   double abr, abi;
-  
+
   if( (abr = b->r) < 0.)
     abr = - abr;
   if( (abi = b->i) < 0.)
@@ -21,7 +21,7 @@ void c_div(complex       *c, complex       *a, complex       *b)
       float af, bf;
       af = bf = abr;
       if (a->i != 0 || a->r != 0)
-	af = 1.;
+        af = 1.;
       c->i = c->r = af / bf;
       return;
 #else
@@ -33,7 +33,7 @@ void c_div(complex       *c, complex       *a, complex       *b)
     c->r = (a->r*ratio + a->i) / den;
     c->i = (a->i*ratio - a->r) / den;
   }
-  
+
   else {
     ratio = (double)b->i / b->r ;
     den = b->r * (1 + ratio*ratio);

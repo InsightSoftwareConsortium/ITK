@@ -11,11 +11,10 @@
 # undef M_PI_4     // avoid redef. it's non-iso anyway.
 #endif
 
-// missing
-namespace xx_std {
-  inline long   abs(long   x) { return x >= 0L   ? x : -x; }
-  inline float  abs(float  x) { return x >= 0.0f ? x : -x; }
-  inline double abs(double x) { return x >= 0.0  ? x : -x; }
-}
+#undef  vcl_abs
+#define vcl_abs vcl_abs
+inline float       vcl_abs(float       x) { return x >= 0.0f ? x : -x; }
+inline double      vcl_abs(double      x) { return x >= 0.0  ? x : -x; }
+inline long double vcl_abs(long double x) { return x >= 0.0  ? x : -x; }
 
 #endif // vcl_cmath_h_

@@ -4,24 +4,20 @@
 #pragma interface
 #endif
 
-// .NAME vnl_int_matrix
-// .HEADER vxl package
-// .LIBRARY vnl
-// .INCLUDE vnl/vnl_int_matrix.h
-// .FILE vnl_int_matrix.cxx
-// .SECTION Description
-//    vnl_int_matrix specializes vnl_matrix for integers, adding a vnl_matrix<double> ctor.
-//
-// .SECTION Author
-//     Andrew W. Fitzgibbon, Oxford RRG, 27 Dec 96
-//
-// .SECTION Modifications:
-//     <none yet>
+// This is vxl/vnl/vnl_int_matrix.h
+
+//: \file
+//  \brief Specializes vnl_matrix for integers
+//  \author Andrew W. Fitzgibbon, Oxford RRG, 27 Dec 96
+
+// Modifications:
+// LSB (Manchester) 23/3/01 Tidied documentation
 //
 //-----------------------------------------------------------------------------
 
 #include <vnl/vnl_matrix.h>
 
+//: Specializes vnl_matrix for integers, adding a vnl_matrix<double> ctor.
 class vnl_int_matrix : public vnl_matrix<int> {
   typedef vnl_matrix<int> Base;
 public:

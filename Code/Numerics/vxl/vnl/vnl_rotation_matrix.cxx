@@ -1,3 +1,5 @@
+// This is vxl/vnl/vnl_rotation_matrix.cxx
+
 #include "vnl_rotation_matrix.h"
 #include <vcl_cmath.h>
 

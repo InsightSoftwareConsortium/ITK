@@ -1,3 +1,3 @@
+#include <vcl_complex.h>
 #include <vnl/vnl_matrix.txx>
-#include <vnl/vnl_complex.h>
-VNL_MATRIX_INSTANTIATE(vnl_double_complex);
+VNL_MATRIX_INSTANTIATE(vcl_complex<double>);

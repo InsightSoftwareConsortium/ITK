@@ -16,3 +16,4 @@
 @vsprintf
 @vfprintf
 @perror
+@sscanf

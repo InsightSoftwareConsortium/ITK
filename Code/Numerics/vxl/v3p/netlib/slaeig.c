@@ -1,12 +1,12 @@
 /*  -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
 
-/* Subroutine */ int slaeig_(n, nband, nl, nr, a, eigval, lde, eigvec, bound, 
-	atemp, d, vtemp, eps, tmin, tmax)
+/* Subroutine */ int slaeig_(n, nband, nl, nr, a, eigval, lde, eigvec, bound,
+        atemp, d, vtemp, eps, tmin, tmax)
 integer *n, *nband, *nl, *nr;
 real *a, *eigval;
 integer *lde;
@@ -65,7 +65,7 @@ real *eigvec, *bound, *atemp, *d, *vtemp, *eps, *tmin, *tmax;
 /*   CHECK FOR SPECIAL CASE OF N = 1 */
 
     if (*n != 1) {
-	goto L30;
+        goto L30;
     }
     eigval[1] = a[a_dim1 + 1];
     eigvec[eigvec_dim1 + 1] = (float)1.;
@@ -77,23 +77,23 @@ L30:
     m = nval + 1;
     i__1 = m;
     for (i = 2; i <= i__1; ++i) {
-	bound[(i << 1) + 1] = *tmin;
-	bound[(i << 1) + 2] = *tmax;
+        bound[(i << 1) + 1] = *tmin;
+        bound[(i << 1) + 2] = *tmax;
 /* L50: */
     }
     bound[4] = *tmax;
     bound[(nval + 2 << 1) + 1] = *tmin;
     if (*nl == 1) {
-	bound[4] = *tmin;
+        bound[4] = *tmin;
     }
     if (*nr == *n) {
-	bound[(nval + 2 << 1) + 1] = *tmax;
+        bound[(nval + 2 << 1) + 1] = *tmax;
     }
 
 /* L60: */
     slabcm_(n, nband, nl, nr, &a[a_offset], &eigval[1], lde, &eigvec[
-	    eigvec_offset], &atol, &artol, &bound[3], &atemp[1], &d[1], &
-	    vtemp[1]);
+            eigvec_offset], &atol, &artol, &bound[3], &atemp[1], &d[1], &
+            vtemp[1]);
     return 0;
 } /* slaeig_ */
 

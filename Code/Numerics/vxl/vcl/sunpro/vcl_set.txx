@@ -18,7 +18,7 @@ template void settype<T, Comp >::insert(InputIterator first, InputIterator last)
 template void std :: __distance (InputIterator , InputIterator , Distance& , std::bidirectional_iterator_tag ) 
 
 
-
+#undef VCL_SET_INSTANTIATE
 #define VCL_SET_INSTANTIATE(T, Comp)\
 template class vcl_set<T, Comp >; \
 template class vcl_set<T, Comp >::__rep_type; \

@@ -1,8 +1,5 @@
 #ifndef vcl_sgi_cstdlib_h_
 #define vcl_sgi_cstdlib_h_
-// .NAME vcl_cstdlib
-// .INCLUDE vcl_cstdlib.h
-// .FILE vcl_cstdlib.cxx
 
 // Include system stdlib.h
 #if defined(VCL_SGI_CC_720) || (defined(VCL_CXX_HAS_HEADER_CSTDLIB) && !VCL_CXX_HAS_HEADER_CSTDLIB)

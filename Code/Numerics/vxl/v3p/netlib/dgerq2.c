@@ -1,24 +1,24 @@
 /* dgerq2.f -- translated by f2c (version of 4 June 1993  1:43:59).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
 
 /*<       SUBROUTINE DGERQ2( M, N, A, LDA, TAU, WORK, INFO ) >*/
 /* Subroutine */ int dgerq2_(integer *m, integer *n, doublereal *a, integer *
-	lda, doublereal *tau, doublereal *work, integer *info)
+        lda, doublereal *tau, doublereal *work, integer *info)
 {
     /* System generated locals */
     integer a_dim1, a_offset, i__1, i__2;
 
     /* Local variables */
     static integer i, k;
-    extern /* Subroutine */ int dlarf_(char *, integer *, integer *, 
-	    doublereal *, integer *, doublereal *, doublereal *, integer *, 
-	    doublereal *, ftnlen), dlarfg_(integer *, doublereal *, 
-	    doublereal *, integer *, doublereal *), xerbla_(char *, integer *,
-	     ftnlen);
+    extern /* Subroutine */ int dlarf_(char *, integer *, integer *,
+            doublereal *, integer *, doublereal *, doublereal *, integer *,
+            doublereal *, ftnlen), dlarfg_(integer *, doublereal *,
+            doublereal *, integer *, doublereal *), xerbla_(char *, integer *,
+             ftnlen);
     static doublereal aii;
 
 
@@ -52,13 +52,13 @@
 /*  A       (input/output) DOUBLE PRECISION array, dimension (LDA,N) */
 /*          On entry, the m by n matrix A. */
 /*          On exit, if m <= n, the upper triangle of the subarray */
-/*          A(1:m,n-m+1:n) contains the m by m upper triangular matrix R; 
+/*          A(1:m,n-m+1:n) contains the m by m upper triangular matrix R;
 */
-/*          if m >= n, the elements on and above the (m-n)-th subdiagonal 
+/*          if m >= n, the elements on and above the (m-n)-th subdiagonal
 */
-/*          contain the m by n upper trapezoidal matrix R; the remaining 
+/*          contain the m by n upper trapezoidal matrix R; the remaining
 */
-/*          elements, with the array TAU, represent the orthogonal matrix 
+/*          elements, with the array TAU, represent the orthogonal matrix
 */
 /*          Q as a product of elementary reflectors (see Further */
 /*          Details). */
@@ -67,7 +67,7 @@
 /*          The leading dimension of the array A.  LDA >= max(1,M). */
 
 /*  TAU     (output) DOUBLE PRECISION array, dimension (min(M,N)) */
-/*          The scalar factors of the elementary reflectors (see Further 
+/*          The scalar factors of the elementary reflectors (see Further
 */
 /*          Details). */
 
@@ -89,11 +89,11 @@
 /*     H(i) = I - tau * v * v' */
 
 /*  where tau is a real scalar, and v is a real vector with */
-/*  v(n-k+i+1:n) = 0 and v(n-k+i) = 1; v(1:n-k+i-1) is stored on exit in 
+/*  v(n-k+i+1:n) = 0 and v(n-k+i) = 1; v(1:n-k+i-1) is stored on exit in
 */
 /*  A(m-k+i,1:n-k+i-1), and tau in TAU(i). */
 
-/*  ===================================================================== 
+/*  =====================================================================
 */
 
 /*     .. Parameters .. */
@@ -127,24 +127,24 @@
 /*<       IF( M.LT.0 ) THEN >*/
     if (*m < 0) {
 /*<          INFO = -1 >*/
-	*info = -1;
+        *info = -1;
 /*<       ELSE IF( N.LT.0 ) THEN >*/
     } else if (*n < 0) {
 /*<          INFO = -2 >*/
-	*info = -2;
+        *info = -2;
 /*<       ELSE IF( LDA.LT.MAX( 1, M ) ) THEN >*/
     } else if (*lda < max(1,*m)) {
 /*<          INFO = -4 >*/
-	*info = -4;
+        *info = -4;
 /*<       END IF >*/
     }
 /*<       IF( INFO.NE.0 ) THEN >*/
     if (*info != 0) {
 /*<          CALL XERBLA( 'DGERQ2', -INFO ) >*/
-	i__1 = -(*info);
-	xerbla_("DGERQ2", &i__1, 6L);
+        i__1 = -(*info);
+        xerbla_("DGERQ2", &i__1, 6L);
 /*<          RETURN >*/
-	return 0;
+        return 0;
 /*<       END IF >*/
     }
 
@@ -158,23 +158,23 @@
 /*        A(m-k+i,1:n-k+i-1) */
 
 /*<    >*/
-	i__1 = *n - k + i;
-	dlarfg_(&i__1, &a[*m - k + i + (*n - k + i) * a_dim1], &a[*m - k + i 
-		+ a_dim1], lda, &tau[i]);
+        i__1 = *n - k + i;
+        dlarfg_(&i__1, &a[*m - k + i + (*n - k + i) * a_dim1], &a[*m - k + i
+                + a_dim1], lda, &tau[i]);
 
 /*        Apply H(i) to A(1:m-k+i-1,1:n-k+i) from the right */
 
 /*<          AII = A( M-K+I, N-K+I ) >*/
-	aii = a[*m - k + i + (*n - k + i) * a_dim1];
+        aii = a[*m - k + i + (*n - k + i) * a_dim1];
 /*<          A( M-K+I, N-K+I ) = ONE >*/
-	a[*m - k + i + (*n - k + i) * a_dim1] = 1.;
+        a[*m - k + i + (*n - k + i) * a_dim1] = 1.;
 /*<    >*/
-	i__1 = *m - k + i - 1;
-	i__2 = *n - k + i;
-	dlarf_("Right", &i__1, &i__2, &a[*m - k + i + a_dim1], lda, &tau[i], &
-		a[a_offset], lda, &work[1], 5L);
+        i__1 = *m - k + i - 1;
+        i__2 = *n - k + i;
+        dlarf_("Right", &i__1, &i__2, &a[*m - k + i + a_dim1], lda, &tau[i], &
+                a[a_offset], lda, &work[1], 5L);
 /*<          A( M-K+I, N-K+I ) = AII >*/
-	a[*m - k + i + (*n - k + i) * a_dim1] = aii;
+        a[*m - k + i + (*n - k + i) * a_dim1] = aii;
 /*<    10 CONTINUE >*/
 /* L10: */
     }

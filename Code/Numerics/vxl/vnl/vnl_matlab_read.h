@@ -3,12 +3,14 @@
 #ifdef __GNUC__
 #pragma interface
 #endif
-// .NAME vnl_matlab_read
-// .HEADER vxl package
-// .LIBRARY vnl
-// .INCLUDE vnl/vnl_matlab_read.h
-// .FILE vnl_matlab_read.cxx
-// @author fsm@robots.ox.ac.uk
+// This is vxl/vnl/vnl_matlab_read.h
+
+//: \file
+// \brief Read from MATLAB files 
+// \author fsm@robots.ox.ac.uk
+
+// Modifications
+// LSB (Manchester) 23/3/01 documentation tidied
 
 #include <vcl_iosfwd.h>
 #include <vcl_complex_fwd.h>
@@ -19,7 +21,7 @@
 template <class T> class vnl_vector;
 template <class T> class vnl_matrix;
 
-// Attempt to read vector or matrix. If the MATLAB header cannot be
+//: Attempt to read vector or matrix. If the MATLAB header cannot be
 // read, return false. Else, if a name is given, and it doesn't 
 // match what's in the file, abort(). If the data in the file cannot 
 // reasonably be read into the destination, abort().
@@ -30,7 +32,7 @@ template <class T> bool vnl_matlab_read_or_die(vcl_istream &, vnl_matrix<T> &, c
 
 // ------------------------------ less easy ------------------------------
 
-// MATLAB stores its data as a real block followed by an imaginary block.
+//: MATLAB stores its data as a real block followed by an imaginary block.
 // This function will read both blocks and interleave them into the area
 // pointed to by ptr. For real T, it is equivalent to s.read(ptr, sizeof(T)*n);
 template <class T> void vnl_matlab_read_data(vcl_istream &s, T *ptr, unsigned n);

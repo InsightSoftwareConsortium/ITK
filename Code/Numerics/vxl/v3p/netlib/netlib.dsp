@@ -4,7 +4,7 @@
 
 # TARGTYPE "Win32 (x86) Static Library" 0x0104
 
-CFG=netlib - Win32 Debug
+CFG=netlib - Win32 DebugSTLPort
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
 !MESSAGE 
@@ -13,12 +13,16 @@ CFG=netlib - Win32 Debug
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE 
-!MESSAGE NMAKE /f "netlib.mak" CFG="netlib - Win32 Debug"
+!MESSAGE NMAKE /f "netlib.mak" CFG="netlib - Win32 DebugSTLPort"
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
 !MESSAGE 
 !MESSAGE "netlib - Win32 Release" (based on "Win32 (x86) Static Library")
 !MESSAGE "netlib - Win32 Debug" (based on "Win32 (x86) Static Library")
+!MESSAGE "netlib - Win32 StaticDebug" (based on "Win32 (x86) Static Library")
+!MESSAGE "netlib - Win32 StaticRelease" (based on "Win32 (x86) Static Library")
+!MESSAGE "netlib - Win32 DebugSTLPort" (based on "Win32 (x86) Static Library")
+!MESSAGE "netlib - Win32 ReleaseSTLPort" (based on "Win32 (x86) Static Library")
 !MESSAGE 
 
 # Begin Project
@@ -42,7 +46,7 @@ RSC=rc.exe
 # PROP Target_Dir ""
 MTL=midl.exe
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
-# ADD CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /FD /c
+# ADD CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /Zl /FD /c
 # SUBTRACT CPP /YX
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
 # ADD RSC /l 0x409 /d "NDEBUG"
@@ -67,7 +71,7 @@ LIB32=link.exe -lib
 # PROP Target_Dir ""
 MTL=midl.exe
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
-# ADD CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /FD /GZ /c
+# ADD CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /Zl /FD /GZ /c
 # SUBTRACT CPP /YX
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
@@ -78,12 +82,120 @@ LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
 # ADD LIB32 /nologo
 
+!ELSEIF  "$(CFG)" == "netlib - Win32 StaticDebug"
+
+# PROP BASE Use_MFC 0
+# PROP BASE Use_Debug_Libraries 1
+# PROP BASE Output_Dir "netlib___Win32_StaticDebug"
+# PROP BASE Intermediate_Dir "netlib___Win32_StaticDebug"
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 0
+# PROP Use_Debug_Libraries 1
+# PROP Output_Dir "StaticDebug"
+# PROP Intermediate_Dir "StaticDebug"
+# PROP Target_Dir ""
+MTL=midl.exe
+# ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /FD /GZ /c
+# SUBTRACT BASE CPP /YX
+# ADD CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /Zl /FD /GZ /c
+# SUBTRACT CPP /YX
+# ADD BASE RSC /l 0x409 /d "_DEBUG"
+# ADD RSC /l 0x409 /d "_DEBUG"
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo
+# ADD BSC32 /nologo
+LIB32=link.exe -lib
+# ADD BASE LIB32 /nologo
+# ADD LIB32 /nologo /out:"..\StaticDebug\netlib.lib"
+
+!ELSEIF  "$(CFG)" == "netlib - Win32 StaticRelease"
+
+# PROP BASE Use_MFC 0
+# PROP BASE Use_Debug_Libraries 0
+# PROP BASE Output_Dir "netlib___Win32_StaticRelease"
+# PROP BASE Intermediate_Dir "netlib___Win32_StaticRelease"
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 0
+# PROP Use_Debug_Libraries 0
+# PROP Output_Dir "StaticRelease"
+# PROP Intermediate_Dir "StaticRelease"
+# PROP Target_Dir ""
+MTL=midl.exe
+# ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /FD /c
+# SUBTRACT BASE CPP /YX
+# ADD CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /Zl /FD /c
+# SUBTRACT CPP /YX
+# ADD BASE RSC /l 0x409 /d "NDEBUG"
+# ADD RSC /l 0x409 /d "NDEBUG"
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo
+# ADD BSC32 /nologo
+LIB32=link.exe -lib
+# ADD BASE LIB32 /nologo
+# ADD LIB32 /nologo /out:"..\StaticRelease\netlib.lib"
+
+!ELSEIF  "$(CFG)" == "netlib - Win32 DebugSTLPort"
+
+# PROP BASE Use_MFC 0
+# PROP BASE Use_Debug_Libraries 1
+# PROP BASE Output_Dir "netlib___Win32_DebugSTLPort"
+# PROP BASE Intermediate_Dir "netlib___Win32_DebugSTLPort"
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 0
+# PROP Use_Debug_Libraries 1
+# PROP Output_Dir "Debug-STLPort"
+# PROP Intermediate_Dir "Debug-STLPort"
+# PROP Target_Dir ""
+MTL=midl.exe
+# ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /FD /GZ /c
+# SUBTRACT BASE CPP /YX
+# ADD CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /Zl /FD /GZ /c
+# SUBTRACT CPP /YX
+# ADD BASE RSC /l 0x409 /d "_DEBUG"
+# ADD RSC /l 0x409 /d "_DEBUG"
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo
+# ADD BSC32 /nologo
+LIB32=link.exe -lib
+# ADD BASE LIB32 /nologo
+# ADD LIB32 /nologo /out:"..\Debug-STLPort\netlib.lib"
+
+!ELSEIF  "$(CFG)" == "netlib - Win32 ReleaseSTLPort"
+
+# PROP BASE Use_MFC 0
+# PROP BASE Use_Debug_Libraries 0
+# PROP BASE Output_Dir "netlib___Win32_ReleaseSTLPort"
+# PROP BASE Intermediate_Dir "netlib___Win32_ReleaseSTLPort"
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 0
+# PROP Use_Debug_Libraries 0
+# PROP Output_Dir "Release-STLPort"
+# PROP Intermediate_Dir "Release-STLPort"
+# PROP Target_Dir ""
+MTL=midl.exe
+# ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /FD /c
+# SUBTRACT BASE CPP /YX
+# ADD CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /Zl /FD /c
+# SUBTRACT CPP /YX
+# ADD BASE RSC /l 0x409 /d "NDEBUG"
+# ADD RSC /l 0x409 /d "NDEBUG"
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo
+# ADD BSC32 /nologo
+LIB32=link.exe -lib
+# ADD BASE LIB32 /nologo
+# ADD LIB32 /nologo /out:"..\Release-STLPort\netlib.lib"
+
 !ENDIF 
 
 # Begin Target
 
 # Name "netlib - Win32 Release"
 # Name "netlib - Win32 Debug"
+# Name "netlib - Win32 StaticDebug"
+# Name "netlib - Win32 StaticRelease"
+# Name "netlib - Win32 DebugSTLPort"
+# Name "netlib - Win32 ReleaseSTLPort"
 # Begin Group "Source Files"
 
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
@@ -430,6 +542,26 @@ SOURCE=.\lmder1.c
 # Begin Source File
 
 SOURCE=.\lmdif.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\enorm.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\fdjac2.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\lmpar.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\qrfac.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\qrsolv.c
 # End Source File
 # Begin Source File
 

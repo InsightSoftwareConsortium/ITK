@@ -2,12 +2,12 @@
 
 #include <vcl_fstream.h>
 #include <vcl_cstdlib.h> // abort()
+#include <vcl_complex.h>
 #ifdef VCL_SGI_CC_720
 # include <vcl_rel_ops.h> // operator!=(complex)
 #endif
 
 #include <vnl/vnl_math.h>
-#include <vnl/vnl_complex.h>
 #include <vnl/vnl_fortran_copy.h>
 #include <vnl/algo/vnl_netlib.h>
 
@@ -39,8 +39,8 @@ vnl_svd<T>::vnl_svd(vnl_matrix<T> const& M, double zero_out_tol):
   // fsm added this sanity check
   if (m_==0 || n_==0) {
     vcl_cerr << __FILE__ " : matrix M has size " << M.rows() << 'x' << M.columns() << vcl_endl
-	 << "  That makes no sense!" << vcl_endl
-	 << "  &M = " << (void*)&M << vcl_endl;
+         << "  That makes no sense!" << vcl_endl
+         << "  &M = " << (void*)&M << vcl_endl;
     abort();
   }
 
@@ -63,12 +63,12 @@ vnl_svd<T>::vnl_svd(vnl_matrix<T> const& M, double zero_out_tol):
     // Call Linpack SVD
     int info = 0;
     vnl_linpack_svd((T*)X, n, n, p,
-		    wspace.data_block(),
-		    espace.data_block(),
-		    uspace.data_block(), n,
-		    vspace.data_block(), p,
-		    work.data_block(),
-		    21, &info);
+                    wspace.data_block(),
+                    espace.data_block(),
+                    uspace.data_block(), n,
+                    vspace.data_block(), p,
+                    work.data_block(),
+                    21, &info);
 
     // Error return?
     if (info != 0) {
@@ -84,33 +84,33 @@ vnl_svd<T>::vnl_svd(vnl_matrix<T> const& M, double zero_out_tol):
     {
       const T *d = uspace.data_block();
       for(int j = 0; j < p; ++j)
-	for(int i = 0; i < n; ++i)
-	  U_(i,j) = *d++;
+        for(int i = 0; i < n; ++i)
+          U_(i,j) = *d++;
     }
 
     for(int j = 0; j < mm; ++j)
-      W_(j, j) = vnl_math_abs(wspace(j)); // we get rid of complexness here.
-    
+      W_(j, j) = vcl_abs(wspace(j)); // we get rid of complexness here.
+
     for(int j = mm; j < n_; ++j)
       W_(j, j) = 0;
 
     {
       const T *d = vspace.data_block();
       for(int j = 0; j < p; ++j)
-	for(int i = 0; i < p; ++i)
-	  V_(i,j) = *d++;
+        for(int i = 0; i < p; ++i)
+          V_(i,j) = *d++;
     }
   }
 
   if (test_heavily) {
     // Test that recomposed matrix == M
-    double recomposition_residual = vnl_math_abs((recompose() - M).fro_norm());
-    double n = vnl_math_abs(M.fro_norm());
+    double recomposition_residual = vcl_abs((recompose() - M).fro_norm());
+    double n = vcl_abs(M.fro_norm());
     double thresh = m_ * vnl_math::eps * n;
     if (recomposition_residual > thresh) {
       vcl_cerr << "vnl_svd<T>::vnl_svd<T>() -- Warning, recomposition_residual = "
-	   << recomposition_residual << vcl_endl;
-      vcl_cerr << "fro_norm(M) = " << n << vcl_endl; 
+           << recomposition_residual << vcl_endl;
+      vcl_cerr << "fro_norm(M) = " << n << vcl_endl;
       vcl_cerr << "eps*fro_norm(M) = " << thresh << vcl_endl;
       vcl_cerr << "Press return to continue\n";
       char x[1];
@@ -158,11 +158,11 @@ vnl_svd<T>& vnl_svd<T>::operator=(vnl_svd<T> const& that)
 #warning "I think I may have fixed this, remove if so -awf"
 
 // this is a cool hack for the microsoft compiler
-// if it does not see these things being cout'ed 
+// if it does not see these things being cout'ed
 // there is an error in operator<<!  It claims that
 // there is no way to do that for matrix and diagmatrix
 static void foo()
-{ 
+{
   DiagMatrix<double> DD;
   DiagMatrix<float> FF;
   vcl_cout << DD  << FF;
@@ -190,9 +190,9 @@ vcl_ostream& operator<<(vcl_ostream& s, const vnl_svd<T>& svd)
 //-----------------------------------------------------------------------------
 // Chunky bits.
 
-// -- find weights below threshold tol, zero them out, and update W_ and
+//: find weights below threshold tol, zero them out, and update W_ and
 // Winverse_
-template <class T> 
+template <class T>
 void
 vnl_svd<T>::zero_out_absolute(double tol)
 {
@@ -200,7 +200,7 @@ vnl_svd<T>::zero_out_absolute(double tol)
   rank_ = W_.n();
   for (unsigned k = 0; k < W_.n(); k++) {
     singval_t& weight = W_(k, k);
-    if (vnl_math_abs(weight) <= tol) {
+    if (vcl_abs(weight) <= tol) {
       Winverse_(k,k) = 0;
       weight = 0;
       --rank_;
@@ -210,15 +210,15 @@ vnl_svd<T>::zero_out_absolute(double tol)
   }
 }
 
-// -- find weights below tol*max(w) and zero them out
+//: find weights below tol*max(w) and zero them out
 template <class T> void vnl_svd<T>::zero_out_relative(double tol) // sqrt(machine epsilon)
 {
-  zero_out_absolute(tol * vnl_math_abs(sigma_max()));
+  zero_out_absolute(tol * vcl_abs(sigma_max()));
 }
 
 
 /*
-// -- return the largest singular value
+//: return the largest singular value
 template <class T>
 vnl_svd<T>::singval_t vnl_svd<T>::sigma_max() const
 {
@@ -227,7 +227,7 @@ vnl_svd<T>::singval_t vnl_svd<T>::sigma_max() const
 
 
 
-// -- return the smallest singular value
+//: return the smallest singular value
 template <class T>
 vnl_svd<T>::singval_t vnl_svd<T>::sigma_min() const
 {
@@ -236,7 +236,7 @@ vnl_svd<T>::singval_t vnl_svd<T>::sigma_min() const
 
 
 
-// -- Return ratio of smallest/largest singular value
+//: Return ratio of smallest/largest singular value
 template <class T>
 vnl_svd<T>::singval_t vnl_svd<T>::well_condition () const
 {
@@ -245,7 +245,7 @@ vnl_svd<T>::singval_t vnl_svd<T>::well_condition () const
 
 */
 
-// -- Calculate determinant as product of diagonals in W.
+//: Calculate determinant as product of diagonals in W.
 template <class T>
 vnl_svd<T>::singval_t vnl_svd<T>::determinant_magnitude() const
 {
@@ -259,10 +259,10 @@ vnl_svd<T>::singval_t vnl_svd<T>::determinant_magnitude() const
 template <class T>
 vnl_svd<T>::singval_t vnl_svd<T>::norm() const
 {
-  return vnl_math_abs(sigma_max());
+  return vcl_abs(sigma_max());
 }
 
-// -- Recompose SVD to U*W*V'
+//: Recompose SVD to U*W*V'
 template <class T>
 vnl_matrix<T> vnl_svd<T>::recompose() const
 {
@@ -282,7 +282,7 @@ vnl_matrix<T> vnl_svd<T>::inverse() const
 }
 
 
-// -- Calculate pseudo-inverse.
+//: Calculate pseudo-inverse.
 template <class T>
 vnl_matrix<T> vnl_svd<T>::pinverse()  const
 {
@@ -296,7 +296,7 @@ vnl_matrix<T> vnl_svd<T>::pinverse()  const
 
 
 
-// -- Calculate inverse of transpose.
+//: Calculate inverse of transpose.
 template <class T>
 vnl_matrix<T> vnl_svd<T>::tinverse()  const
 {
@@ -310,7 +310,7 @@ vnl_matrix<T> vnl_svd<T>::tinverse()  const
 
 
 
-// -- Solve the matrix equation M X = B, returning X
+//: Solve the matrix equation M X = B, returning X
 template <class T>
 vnl_matrix<T> vnl_svd<T>::solve(vnl_matrix<T> const& B)  const
 {
@@ -333,7 +333,7 @@ vnl_matrix<T> vnl_svd<T>::solve(vnl_matrix<T> const& B)  const
   return x;
 }
 
-// -- Solve the matrix-vector system M x = y, returning x.
+//: Solve the matrix-vector system M x = y, returning x.
 template <class T>
 vnl_vector<T> vnl_svd<T>::solve(vnl_vector<T> const& y)  const
 {
@@ -347,7 +347,7 @@ vnl_vector<T> vnl_svd<T>::solve(vnl_vector<T> const& y)  const
     vcl_cerr << "V_=" << vcl_endl << V_;
     vcl_cerr << "W_=" << vcl_endl << W_;
   }
-  
+
   vnl_vector<T> x(V_.rows());                   // Solution matrix.
   if (U_.rows() < U_.columns()) {               // Augment y with extra rows of
     vnl_vector<T> yy(U_.rows(), 0);             // zeros, so that it matches
@@ -376,7 +376,7 @@ void vnl_svd<T>::solve(T const *y, T *x) const {
   solve(vnl_vector<T>(y, m_)).copy_out(x);
 }
 
-// -- Solve the matrix-vector system M x = y, assuming that
+//: Solve the matrix-vector system M x = y, assuming that
 // the singular values W have been preinverted by the caller.
 template <class T>
 void vnl_svd<T>::solve_preinverted(vnl_vector<T> const& y, vnl_vector<T>* x_out)  const
@@ -391,12 +391,12 @@ void vnl_svd<T>::solve_preinverted(vnl_vector<T> const& y, vnl_vector<T>* x_out)
     x = U_.conjugate_transpose() * y;
   for (unsigned i = 0; i < x.size(); i++)  // multiply with diagonal W, assumed inverted
     x[i] *= W_(i, i);
-  
+
   *x_out = V_ * x;                                      // premultiply with v.
 }
 
 //-----------------------------------------------------------------------------
-// -- Return N s.t. M * N = 0
+//: Return N s.t. M * N = 0
 template <class T>
 vnl_matrix <T> vnl_svd<T>::nullspace()  const
 {
@@ -407,7 +407,7 @@ vnl_matrix <T> vnl_svd<T>::nullspace()  const
 }
 
 //-----------------------------------------------------------------------------
-// -- Return N s.t. M * N = 0
+//: Return N s.t. M * N = 0
 template <class T>
 vnl_matrix <T> vnl_svd<T>::nullspace(int required_nullspace_dimension)  const
 {
@@ -415,7 +415,7 @@ vnl_matrix <T> vnl_svd<T>::nullspace(int required_nullspace_dimension)  const
 }
 
 //-----------------------------------------------------------------------------
-// -- Return N s.t. M' * N = 0
+//: Return N s.t. M' * N = 0
 template <class T>
 vnl_matrix <T> vnl_svd<T>::left_nullspace()  const
 {
@@ -425,7 +425,7 @@ vnl_matrix <T> vnl_svd<T>::left_nullspace()  const
   return U_.extract(U_.rows(), n_-k, 0, k);
 }
 
-// -- Implementation to be done yet; currently returns left_nullspace(). - PVR.
+//: Implementation to be done yet; currently returns left_nullspace(). - PVR.
 template <class T>
 vnl_matrix<T> vnl_svd<T>::left_nullspace(int /*required_nullspace_dimension*/) const
 {
@@ -434,7 +434,7 @@ vnl_matrix<T> vnl_svd<T>::left_nullspace(int /*required_nullspace_dimension*/) c
 
 
 //-----------------------------------------------------------------------------
-// -- Return the rightmost column of V.  Does not check to see whether or
+//: Return the rightmost column of V.  Does not check to see whether or
 // not the matrix actually was rank-deficient - the caller is assumed to have
 // examined W and decided that to his or her satisfaction.
 template <class T>
@@ -447,7 +447,7 @@ vnl_vector <T> vnl_svd<T>::nullvector()  const
 }
 
 //-----------------------------------------------------------------------------
-// -- Return the rightmost column of U.  Does not check to see whether or
+//: Return the rightmost column of U.  Does not check to see whether or
 // not the matrix actually was rank-deficient.
 template <class T>
 vnl_vector <T> vnl_svd<T>::left_nullvector()  const

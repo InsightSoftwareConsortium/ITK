@@ -3,6 +3,8 @@
 #ifdef __GNUC__
 #pragma interface
 #endif
+// This is vxl/vnl/vnl_T_n.h
+
 /*
   fsm@robots.ox.ac.uk
 */
@@ -31,17 +33,8 @@ public: \
   vnl_##T##_##n vnl_T_n_aux_##n(T) \
 };
 
-//: some compilers need a bit of help with the overload resolution.
-#if defined(VCL_GCC_27)
-# define vnl_T_n_funcs_impl(T,n) \
-inline bool operator==(vnl_##T##_##n const & a, vnl_##T##_##n const & b) \
-{ return (vnl_vector<T > const &)a == (vnl_vector<T > const &)b; } \
- \
-inline vcl_ostream & operator<<(vcl_ostream & s, vnl_##T##_##n const & v) \
-{ return s << (vnl_vector<T > const&)v; }
-#else
-# define vnl_T_n_funcs_impl(T,n) /* no need */
-#endif
+// some compilers need a bit of help with the overload resolution.
+#define vnl_T_n_funcs_impl(T,n) /* no need */
 
 //: clients use this.
 #define vnl_T_n_impl(T,n) \

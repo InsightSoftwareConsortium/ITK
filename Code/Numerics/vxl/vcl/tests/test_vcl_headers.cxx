@@ -7,12 +7,12 @@
 #include <vcl_climits.h>
 #include <vcl_csignal.h>
 #include <vcl_cstdlib.h>
-#include <vcl_cwchar.h>
+//FreeBSD4 #include <vcl_cwchar.h>
 #include <vcl_cerrno.h>
 #include <vcl_clocale.h>
 #include <vcl_cstdarg.h>
 #include <vcl_cstring.h>
-#include <vcl_cwctype.h>
+//FreeBSD4 #include <vcl_cwctype.h>
 #include <vcl_cfloat.h>
 #include <vcl_cmath.h>
 #include <vcl_cstddef.h>

@@ -1,6 +1,6 @@
 /* slartg.f -- translated by f2c (version of 4 June 1993  1:43:59).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -71,7 +71,7 @@
 /*  R       (output) REAL */
 /*          The nonzero component of the rotated vector. */
 
-/*  ===================================================================== 
+/*  =====================================================================
 */
 
 /*     .. Parameters .. */
@@ -89,90 +89,90 @@
 /*     .. Executable Statements .. */
 
     if (first) {
-	first = FALSE_;
-	safmin = slamch_("S");
-	eps = slamch_("E");
-	r__1 = slamch_("B");
-	i__1 = (integer) (log(safmin / eps) / log(slamch_("B")) / 2.f);
-	safmn2 = pow_ri(&r__1, &i__1);
-	safmx2 = 1.f / safmn2;
+        first = FALSE_;
+        safmin = slamch_("S");
+        eps = slamch_("E");
+        r__1 = slamch_("B");
+        i__1 = (integer) (log(safmin / eps) / log(slamch_("B")) / 2.f);
+        safmn2 = pow_ri(&r__1, &i__1);
+        safmx2 = 1.f / safmn2;
     }
     if (*g == 0.f) {
-	*cs = 1.f;
-	*sn = 0.f;
-	*r = *f;
+        *cs = 1.f;
+        *sn = 0.f;
+        *r = *f;
     } else if (*f == 0.f) {
-	*cs = 0.f;
-	*sn = 1.f;
-	*r = *g;
+        *cs = 0.f;
+        *sn = 1.f;
+        *r = *g;
     } else {
-	f1 = *f;
-	g1 = *g;
+        f1 = *f;
+        g1 = *g;
 /* Computing MAX */
-	r__1 = abs(f1), r__2 = abs(g1);
-	scale = max(r__1,r__2);
-	if (scale >= safmx2) {
-	    count = 0;
+        r__1 = abs(f1), r__2 = abs(g1);
+        scale = max(r__1,r__2);
+        if (scale >= safmx2) {
+            count = 0;
 L10:
-	    ++count;
-	    f1 *= safmn2;
-	    g1 *= safmn2;
+            ++count;
+            f1 *= safmn2;
+            g1 *= safmn2;
 /* Computing MAX */
-	    r__1 = abs(f1), r__2 = abs(g1);
-	    scale = max(r__1,r__2);
-	    if (scale >= safmx2) {
-		goto L10;
-	    }
+            r__1 = abs(f1), r__2 = abs(g1);
+            scale = max(r__1,r__2);
+            if (scale >= safmx2) {
+                goto L10;
+            }
 /* Computing 2nd power */
-	    r__1 = f1;
+            r__1 = f1;
 /* Computing 2nd power */
-	    r__2 = g1;
-	    *r = sqrt(r__1 * r__1 + r__2 * r__2);
-	    *cs = f1 / *r;
-	    *sn = g1 / *r;
-	    i__1 = count;
-	    for (i = 1; i <= i__1; ++i) {
-		*r *= safmx2;
+            r__2 = g1;
+            *r = sqrt(r__1 * r__1 + r__2 * r__2);
+            *cs = f1 / *r;
+            *sn = g1 / *r;
+            i__1 = count;
+            for (i = 1; i <= i__1; ++i) {
+                *r *= safmx2;
 /* L20: */
-	    }
-	} else if (scale <= safmn2) {
-	    count = 0;
+            }
+        } else if (scale <= safmn2) {
+            count = 0;
 L30:
-	    ++count;
-	    f1 *= safmx2;
-	    g1 *= safmx2;
+            ++count;
+            f1 *= safmx2;
+            g1 *= safmx2;
 /* Computing MAX */
-	    r__1 = abs(f1), r__2 = abs(g1);
-	    scale = max(r__1,r__2);
-	    if (scale <= safmn2) {
-		goto L30;
-	    }
+            r__1 = abs(f1), r__2 = abs(g1);
+            scale = max(r__1,r__2);
+            if (scale <= safmn2) {
+                goto L30;
+            }
 /* Computing 2nd power */
-	    r__1 = f1;
+            r__1 = f1;
 /* Computing 2nd power */
-	    r__2 = g1;
-	    *r = sqrt(r__1 * r__1 + r__2 * r__2);
-	    *cs = f1 / *r;
-	    *sn = g1 / *r;
-	    i__1 = count;
-	    for (i = 1; i <= i__1; ++i) {
-		*r *= safmn2;
+            r__2 = g1;
+            *r = sqrt(r__1 * r__1 + r__2 * r__2);
+            *cs = f1 / *r;
+            *sn = g1 / *r;
+            i__1 = count;
+            for (i = 1; i <= i__1; ++i) {
+                *r *= safmn2;
 /* L40: */
-	    }
-	} else {
+            }
+        } else {
 /* Computing 2nd power */
-	    r__1 = f1;
+            r__1 = f1;
 /* Computing 2nd power */
-	    r__2 = g1;
-	    *r = sqrt(r__1 * r__1 + r__2 * r__2);
-	    *cs = f1 / *r;
-	    *sn = g1 / *r;
-	}
-	if (abs(*f) > abs(*g) && *cs < 0.f) {
-	    *cs = -(*cs);
-	    *sn = -(*sn);
-	    *r = -(*r);
-	}
+            r__2 = g1;
+            *r = sqrt(r__1 * r__1 + r__2 * r__2);
+            *cs = f1 / *r;
+            *sn = g1 / *r;
+        }
+        if (abs(*f) > abs(*g) && *cs < 0.f) {
+            *cs = -(*cs);
+            *sn = -(*sn);
+            *r = -(*r);
+        }
     }
     return 0;
 

@@ -1,6 +1,6 @@
 /* dgeqr2.f -- translated by f2c (version of 4 June 1993  1:43:59).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -11,18 +11,18 @@ static integer c__1 = 1;
 
 /*<       SUBROUTINE DGEQR2( M, N, A, LDA, TAU, WORK, INFO ) >*/
 /* Subroutine */ int dgeqr2_(integer *m, integer *n, doublereal *a, integer *
-	lda, doublereal *tau, doublereal *work, integer *info)
+        lda, doublereal *tau, doublereal *work, integer *info)
 {
     /* System generated locals */
     integer a_dim1, a_offset, i__1, i__2, i__3;
 
     /* Local variables */
     static integer i, k;
-    extern /* Subroutine */ int dlarf_(char *, integer *, integer *, 
-	    doublereal *, integer *, doublereal *, doublereal *, integer *, 
-	    doublereal *, ftnlen), dlarfg_(integer *, doublereal *, 
-	    doublereal *, integer *, doublereal *), xerbla_(char *, integer *,
-	     ftnlen);
+    extern /* Subroutine */ int dlarf_(char *, integer *, integer *,
+            doublereal *, integer *, doublereal *, doublereal *, integer *,
+            doublereal *, ftnlen), dlarfg_(integer *, doublereal *,
+            doublereal *, integer *, doublereal *), xerbla_(char *, integer *,
+             ftnlen);
     static doublereal aii;
 
 
@@ -55,10 +55,10 @@ static integer c__1 = 1;
 
 /*  A       (input/output) DOUBLE PRECISION array, dimension (LDA,N) */
 /*          On entry, the m by n matrix A. */
-/*          On exit, the elements on and above the diagonal of the array 
+/*          On exit, the elements on and above the diagonal of the array
 */
 /*          contain the min(m,n) by n upper trapezoidal matrix R (R is */
-/*          upper triangular if m >= n); the elements below the diagonal, 
+/*          upper triangular if m >= n); the elements below the diagonal,
 */
 /*          with the array TAU, represent the orthogonal matrix Q as a */
 /*          product of elementary reflectors (see Further Details). */
@@ -67,7 +67,7 @@ static integer c__1 = 1;
 /*          The leading dimension of the array A.  LDA >= max(1,M). */
 
 /*  TAU     (output) DOUBLE PRECISION array, dimension (min(M,N)) */
-/*          The scalar factors of the elementary reflectors (see Further 
+/*          The scalar factors of the elementary reflectors (see Further
 */
 /*          Details). */
 
@@ -89,11 +89,11 @@ static integer c__1 = 1;
 /*     H(i) = I - tau * v * v' */
 
 /*  where tau is a real scalar, and v is a real vector with */
-/*  v(1:i-1) = 0 and v(i) = 1; v(i+1:m) is stored on exit in A(i+1:m,i), 
+/*  v(1:i-1) = 0 and v(i) = 1; v(i+1:m) is stored on exit in A(i+1:m,i),
 */
 /*  and tau in TAU(i). */
 
-/*  ===================================================================== 
+/*  =====================================================================
 */
 
 /*     .. Parameters .. */
@@ -127,24 +127,24 @@ static integer c__1 = 1;
 /*<       IF( M.LT.0 ) THEN >*/
     if (*m < 0) {
 /*<          INFO = -1 >*/
-	*info = -1;
+        *info = -1;
 /*<       ELSE IF( N.LT.0 ) THEN >*/
     } else if (*n < 0) {
 /*<          INFO = -2 >*/
-	*info = -2;
+        *info = -2;
 /*<       ELSE IF( LDA.LT.MAX( 1, M ) ) THEN >*/
     } else if (*lda < max(1,*m)) {
 /*<          INFO = -4 >*/
-	*info = -4;
+        *info = -4;
 /*<       END IF >*/
     }
 /*<       IF( INFO.NE.0 ) THEN >*/
     if (*info != 0) {
 /*<          CALL XERBLA( 'DGEQR2', -INFO ) >*/
-	i__1 = -(*info);
-	xerbla_("DGEQR2", &i__1, 6L);
+        i__1 = -(*info);
+        xerbla_("DGEQR2", &i__1, 6L);
 /*<          RETURN >*/
-	return 0;
+        return 0;
 /*<       END IF >*/
     }
 
@@ -155,33 +155,33 @@ static integer c__1 = 1;
     i__1 = k;
     for (i = 1; i <= i__1; ++i) {
 
-/*        Generate elementary reflector H(i) to annihilate A(i+1:m,i) 
+/*        Generate elementary reflector H(i) to annihilate A(i+1:m,i)
 */
 
 /*<    >*/
-	i__2 = *m - i + 1;
+        i__2 = *m - i + 1;
 /* Computing MIN */
-	i__3 = i + 1;
-	dlarfg_(&i__2, &a[i + i * a_dim1], &a[min(i__3,*m) + i * a_dim1], &
-		c__1, &tau[i]);
+        i__3 = i + 1;
+        dlarfg_(&i__2, &a[i + i * a_dim1], &a[min(i__3,*m) + i * a_dim1], &
+                c__1, &tau[i]);
 /*<          IF( I.LT.N ) THEN >*/
-	if (i < *n) {
+        if (i < *n) {
 
 /*           Apply H(i) to A(i:m,i+1:n) from the left */
 
 /*<             AII = A( I, I ) >*/
-	    aii = a[i + i * a_dim1];
+            aii = a[i + i * a_dim1];
 /*<             A( I, I ) = ONE >*/
-	    a[i + i * a_dim1] = 1.;
+            a[i + i * a_dim1] = 1.;
 /*<    >*/
-	    i__2 = *m - i + 1;
-	    i__3 = *n - i;
-	    dlarf_("Left", &i__2, &i__3, &a[i + i * a_dim1], &c__1, &tau[i], &
-		    a[i + (i + 1) * a_dim1], lda, &work[1], 4L);
+            i__2 = *m - i + 1;
+            i__3 = *n - i;
+            dlarf_("Left", &i__2, &i__3, &a[i + i * a_dim1], &c__1, &tau[i], &
+                    a[i + (i + 1) * a_dim1], lda, &work[1], 4L);
 /*<             A( I, I ) = AII >*/
-	    a[i + i * a_dim1] = aii;
+            a[i + i * a_dim1] = aii;
 /*<          END IF >*/
-	}
+        }
 /*<    10 CONTINUE >*/
 /* L10: */
     }

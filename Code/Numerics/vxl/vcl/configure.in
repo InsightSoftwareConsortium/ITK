@@ -2,11 +2,11 @@
 AC_INIT(configure.in)
 
 # blurb
-echo "CC=$CC"
-echo "CCFLAGS=$CCFLAGS"
-echo "CXX=$CXX"
-echo "CXXFLAGS=$CXXFLAGS"
-echo "TXXFLAGS=$TXXFLAGS"
+echo "vcl configure: CC=$CC"
+echo "vcl configure: CCFLAGS=$CCFLAGS"
+echo "vcl configure: CXX=$CXX"
+echo "vcl configure: CXXFLAGS=$CXXFLAGS"
+echo "vcl configure: TXXFLAGS=$TXXFLAGS"
 
 ## we need to use the scripts in ./shell
 #no_we_dont AC_CONFIG_AUX_DIR(shell)
@@ -55,11 +55,21 @@ AC_ARG_ENABLE(emulation-complex,
 [VCL_USE_NATIVE_COMPLEX=0],
 [VCL_USE_NATIVE_COMPLEX=1])
 
-# use double instead of long double? default is no.
-AC_ARG_ENABLE(long-double,
-[  --disable-long-double  use double instead of long double],
-[VCL_USE_LONG_DOUBLE=0],
-[VCL_USE_LONG_DOUBLE=1])
+# use implicit template instantiation?
+AC_ARG_ENABLE(implicit-templates,[
+  --enable-implicit-templates        enable implicit template instantiation (default)
+  --disable-implicit-templates       disable implicit template instantiation
+],[
+if test "$enable_implicit_templates" = yes; then
+  VCL_USE_IMPLICIT_TEMPLATES=1
+else
+  VCL_USE_IMPLICIT_TEMPLATES=0
+fi
+export VCL_USE_IMPLICIT_TEMPLATES
+],[
+VCL_USE_IMPLICIT_TEMPLATES=1
+export VCL_USE_IMPLICIT_TEMPLATES
+])
 
 #--------------------------------------------------------------------------------
 # COMPILER CHARACTERISTICS
@@ -69,6 +79,8 @@ AC_ARG_ENABLE(long-double,
 AC_CXX_HAS_BOOL
 
 AC_CXX_HAS_TYPENAME
+
+AC_CXX_HAS_EXPORT
 
 AC_CXX_HAS_MUTABLE
 
@@ -121,6 +133,11 @@ AC_CXX_NO_STATIC_DATA_MEMBERS
 
 AC_CXX_HAS_TEMPLATE_SYMBOLS
 
+AC_CXX_CAN_DO_IMPLICIT_TEMPLATES
+if test "$VCL_CAN_DO_IMPLICIT_TEMPLATES" = "0"; then
+  echo "Warning: turning off implicit template instantiation";
+  VCL_USE_IMPLICIT_TEMPLATES="0";
+fi
 
 #VCL_DFL_TYPE_PARAM_STLDECL
 #VCL_DFL_TMPL_PARAM_STLDECL
@@ -225,12 +242,13 @@ AC_CXX_HAS_HEADER(strstream,VCL_CXX_HAS_HEADER_STRSTREAM)
 # manual
 AC_SUBST(VCL_USE_NATIVE_STL)
 AC_SUBST(VCL_USE_NATIVE_COMPLEX)
-AC_SUBST(VCL_USE_LONG_DOUBLE)
+AC_SUBST(VCL_USE_IMPLICIT_TEMPLATES)
 
 # compiler
 AC_SUBST(VCL_HAS_BOOL)
 AC_SUBST(VCL_HAS_DYNAMIC_CAST)
 AC_SUBST(VCL_HAS_TYPENAME)
+AC_SUBST(VCL_HAS_EXPORT)
 AC_SUBST(VCL_HAS_MUTABLE)
 AC_SUBST(VCL_HAS_EXPLICIT)
 AC_SUBST(VCL_STATIC_CONST_INIT_INT)

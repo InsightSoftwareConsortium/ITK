@@ -1,6 +1,6 @@
 /* sorm2r.f -- translated by f2c (version of 4 June 1993  1:43:59).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -9,9 +9,9 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int sorm2r_(char *side, char *trans, integer *m, integer *n, 
-	integer *k, real *a, integer *lda, real *tau, real *c, integer *ldc, 
-	real *work, integer *info, ftnlen side_len, ftnlen trans_len)
+/* Subroutine */ int sorm2r_(char *side, char *trans, integer *m, integer *n,
+        integer *k, real *a, integer *lda, real *tau, real *c, integer *ldc,
+        real *work, integer *info, ftnlen side_len, ftnlen trans_len)
 {
     /* System generated locals */
     integer a_dim1, a_offset, c_dim1, c_offset, i__1, i__2;
@@ -20,8 +20,8 @@ static integer c__1 = 1;
     static logical left;
     static integer i;
     extern logical lsame_(char *, char *, ftnlen, ftnlen);
-    extern /* Subroutine */ int slarf_(char *, integer *, integer *, real *, 
-	    integer *, real *, real *, integer *, real *, ftnlen);
+    extern /* Subroutine */ int slarf_(char *, integer *, integer *, real *,
+            integer *, real *, real *, integer *, real *, ftnlen);
     static integer i1, i2, i3, ic, jc, mi, ni, nq;
     extern /* Subroutine */ int xerbla_(char *, integer *, ftnlen);
     static logical notran;
@@ -84,7 +84,7 @@ static integer c__1 = 1;
 
 /*  A       (input) REAL array, dimension (LDA,K) */
 /*          The i-th column must contain the vector which defines the */
-/*          elementary reflector H(i), for i = 1,2,...,k, as returned by 
+/*          elementary reflector H(i), for i = 1,2,...,k, as returned by
 */
 /*          SGEQRF in the first k columns of its array argument A. */
 /*          A is modified by the routine but restored on exit. */
@@ -113,7 +113,7 @@ static integer c__1 = 1;
 /*          = 0: successful exit */
 /*          < 0: if INFO = -i, the i-th argument had an illegal value */
 
-/*  ===================================================================== 
+/*  =====================================================================
 */
 
 /*     .. Parameters .. */
@@ -148,79 +148,79 @@ static integer c__1 = 1;
 /*     NQ is the order of Q */
 
     if (left) {
-	nq = *m;
+        nq = *m;
     } else {
-	nq = *n;
+        nq = *n;
     }
     if (! left && ! lsame_(side, "R", 1L, 1L)) {
-	*info = -1;
+        *info = -1;
     } else if (! notran && ! lsame_(trans, "T", 1L, 1L)) {
-	*info = -2;
+        *info = -2;
     } else if (*m < 0) {
-	*info = -3;
+        *info = -3;
     } else if (*n < 0) {
-	*info = -4;
+        *info = -4;
     } else if (*k < 0 || *k > nq) {
-	*info = -5;
+        *info = -5;
     } else if (*lda < max(1,nq)) {
-	*info = -7;
+        *info = -7;
     } else if (*ldc < max(1,*m)) {
-	*info = -10;
+        *info = -10;
     }
     if (*info != 0) {
-	i__1 = -(*info);
-	xerbla_("SORM2R", &i__1, 6L);
-	return 0;
+        i__1 = -(*info);
+        xerbla_("SORM2R", &i__1, 6L);
+        return 0;
     }
 
 /*     Quick return if possible */
 
     if (*m == 0 || *n == 0 || *k == 0) {
-	return 0;
+        return 0;
     }
 
     if (left && ! notran || ! left && notran) {
-	i1 = 1;
-	i2 = *k;
-	i3 = 1;
+        i1 = 1;
+        i2 = *k;
+        i3 = 1;
     } else {
-	i1 = *k;
-	i2 = 1;
-	i3 = -1;
+        i1 = *k;
+        i2 = 1;
+        i3 = -1;
     }
 
     if (left) {
-	ni = *n;
-	jc = 1;
+        ni = *n;
+        jc = 1;
     } else {
-	mi = *m;
-	ic = 1;
+        mi = *m;
+        ic = 1;
     }
 
     i__1 = i2;
     i__2 = i3;
     for (i = i1; i__2 < 0 ? i >= i__1 : i <= i__1; i += i__2) {
-	if (left) {
+        if (left) {
 
 /*           H(i) is applied to C(i:m,1:n) */
 
-	    mi = *m - i + 1;
-	    ic = i;
-	} else {
+            mi = *m - i + 1;
+            ic = i;
+        } else {
 
 /*           H(i) is applied to C(1:m,i:n) */
 
-	    ni = *n - i + 1;
-	    jc = i;
-	}
+            ni = *n - i + 1;
+            jc = i;
+        }
 
 /*        Apply H(i) */
 
-	aii = a[i + i * a_dim1];
-	a[i + i * a_dim1] = 1.f;
-	slarf_(side, &mi, &ni, &a[i + i * a_dim1], &c__1, &tau[i], &c[ic + jc 
-		* c_dim1], ldc, &work[1], 1L);
-	a[i + i * a_dim1] = aii;
+        aii = a[i + i * a_dim1];
+        a[i + i * a_dim1] = 1.f;
+        slarf_(side, &mi, &ni, &a[i + i * a_dim1], &c__1, &tau[i], &c[ic + jc
+                * c_dim1], ldc, &work[1], 1L);
+        a[i + i * a_dim1] = aii;
 /* L10: */
     }
     return 0;

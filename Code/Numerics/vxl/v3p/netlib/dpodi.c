@@ -1,6 +1,6 @@
 /* dpodi.f -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -92,7 +92,7 @@ integer *job;
 
     /* Function Body */
     if (*job / 10 == 0) {
-	goto L70;
+        goto L70;
     }
     det[1] = 1.;
     det[2] = 0.;
@@ -100,30 +100,30 @@ integer *job;
     i__1 = *n;
     for (i = 1; i <= i__1; ++i) {
 /* Computing 2nd power */
-	d__1 = a[i + i * a_dim1];
-	det[1] = d__1 * d__1 * det[1];
+        d__1 = a[i + i * a_dim1];
+        det[1] = d__1 * d__1 * det[1];
 /*        ...exit */
-	if (det[1] == 0.) {
-	    goto L60;
-	}
+        if (det[1] == 0.) {
+            goto L60;
+        }
 L10:
-	if (det[1] >= 1.) {
-	    goto L20;
-	}
-	det[1] = s * det[1];
-	det[2] += -1.;
-	goto L10;
+        if (det[1] >= 1.) {
+            goto L20;
+        }
+        det[1] = s * det[1];
+        det[2] += -1.;
+        goto L10;
 L20:
 L30:
-	if (det[1] < s) {
-	    goto L40;
-	}
-	det[1] /= s;
-	det[2] += 1.;
-	goto L30;
+        if (det[1] < s) {
+            goto L40;
+        }
+        det[1] /= s;
+        det[2] += 1.;
+        goto L30;
 L40:
 /* L50: */
-	;
+        ;
     }
 L60:
 L70:
@@ -131,49 +131,49 @@ L70:
 /*     compute inverse(r) */
 
     if (*job % 10 == 0) {
-	goto L140;
+        goto L140;
     }
     i__1 = *n;
     for (k = 1; k <= i__1; ++k) {
-	a[k + k * a_dim1] = 1. / a[k + k * a_dim1];
-	t = -a[k + k * a_dim1];
-	i__2 = k - 1;
-	dscal_(&i__2, &t, &a[k * a_dim1 + 1], &c__1);
-	kp1 = k + 1;
-	if (*n < kp1) {
-	    goto L90;
-	}
-	i__2 = *n;
-	for (j = kp1; j <= i__2; ++j) {
-	    t = a[k + j * a_dim1];
-	    a[k + j * a_dim1] = 0.;
-	    daxpy_(&k, &t, &a[k * a_dim1 + 1], &c__1, &a[j * a_dim1 + 1], &
-		    c__1);
+        a[k + k * a_dim1] = 1. / a[k + k * a_dim1];
+        t = -a[k + k * a_dim1];
+        i__2 = k - 1;
+        dscal_(&i__2, &t, &a[k * a_dim1 + 1], &c__1);
+        kp1 = k + 1;
+        if (*n < kp1) {
+            goto L90;
+        }
+        i__2 = *n;
+        for (j = kp1; j <= i__2; ++j) {
+            t = a[k + j * a_dim1];
+            a[k + j * a_dim1] = 0.;
+            daxpy_(&k, &t, &a[k * a_dim1 + 1], &c__1, &a[j * a_dim1 + 1], &
+                    c__1);
 /* L80: */
-	}
+        }
 L90:
 /* L100: */
-	;
+        ;
     }
 
 /*        form  inverse(r) * trans(inverse(r)) */
 
     i__1 = *n;
     for (j = 1; j <= i__1; ++j) {
-	jm1 = j - 1;
-	if (jm1 < 1) {
-	    goto L120;
-	}
-	i__2 = jm1;
-	for (k = 1; k <= i__2; ++k) {
-	    t = a[k + j * a_dim1];
-	    daxpy_(&k, &t, &a[j * a_dim1 + 1], &c__1, &a[k * a_dim1 + 1], &
-		    c__1);
+        jm1 = j - 1;
+        if (jm1 < 1) {
+            goto L120;
+        }
+        i__2 = jm1;
+        for (k = 1; k <= i__2; ++k) {
+            t = a[k + j * a_dim1];
+            daxpy_(&k, &t, &a[j * a_dim1 + 1], &c__1, &a[k * a_dim1 + 1], &
+                    c__1);
 /* L110: */
-	}
+        }
 L120:
-	t = a[j + j * a_dim1];
-	dscal_(&j, &t, &a[j * a_dim1 + 1], &c__1);
+        t = a[j + j * a_dim1];
+        dscal_(&j, &t, &a[j * a_dim1 + 1], &c__1);
 /* L130: */
     }
 L140:

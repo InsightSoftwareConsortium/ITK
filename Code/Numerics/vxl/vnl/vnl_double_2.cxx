@@ -1,8 +1,10 @@
 #ifdef __GNUC__
 #pragma implementation
 #endif
+// This is vxl/vnl/vnl_double_2.cxx
+
 //
-// Class: vnl_double_2
+// vnl_double_2
 // Author: Andrew W. Fitzgibbon, Oxford RRG
 // Created: 31 Aug 96
 //

@@ -1,6 +1,6 @@
 /*  -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -38,7 +38,7 @@ integer *lda;
 
 /*     A := alpha*x*conjg( y' ) + A, */
 
-/*  where alpha is a scalar, x is an m element vector, y is an n element 
+/*  where alpha is a scalar, x is an m element vector, y is an n element
 */
 /*  vector and A is an m by n matrix. */
 
@@ -51,7 +51,7 @@ integer *lda;
 /*           Unchanged on exit. */
 
 /*  N      - INTEGER. */
-/*           On entry, N specifies the number of columns of the matrix A. 
+/*           On entry, N specifies the number of columns of the matrix A.
 */
 /*           N must be at least zero. */
 /*           Unchanged on exit. */
@@ -88,7 +88,7 @@ integer *lda;
 /*           overwritten by the updated matrix. */
 
 /*  LDA    - INTEGER. */
-/*           On entry, LDA specifies the first dimension of A as declared 
+/*           On entry, LDA specifies the first dimension of A as declared
 */
 /*           in the calling (sub) program. LDA must be at least */
 /*           max( 1, m ). */
@@ -123,90 +123,90 @@ integer *lda;
     /* Function Body */
     info = 0;
     if (*m < 0) {
-	info = 1;
+        info = 1;
     } else if (*n < 0) {
-	info = 2;
+        info = 2;
     } else if (*incx == 0) {
-	info = 5;
+        info = 5;
     } else if (*incy == 0) {
-	info = 7;
+        info = 7;
     } else if (*lda < max(1,*m)) {
-	info = 9;
+        info = 9;
     }
     if (info != 0) {
-	xerbla_("ZGERC ", &info, 6L);
-	return 0;
+        xerbla_("ZGERC ", &info, 6L);
+        return 0;
     }
 
 /*     Quick return if possible. */
 
     if (*m == 0 || *n == 0 || alpha->r == 0. && alpha->i == 0.) {
-	return 0;
+        return 0;
     }
 
 /*     Start the operations. In this version the elements of A are */
 /*     accessed sequentially with one pass through A. */
 
     if (*incy > 0) {
-	jy = 1;
+        jy = 1;
     } else {
-	jy = 1 - (*n - 1) * *incy;
+        jy = 1 - (*n - 1) * *incy;
     }
     if (*incx == 1) {
-	i__1 = *n;
-	for (j = 1; j <= i__1; ++j) {
-	    i__2 = jy;
-	    if (y[i__2].r != 0. || y[i__2].i != 0.) {
-		d_cnjg(&z__2, &y[jy]);
-		z__1.r = alpha->r * z__2.r - alpha->i * z__2.i, z__1.i = 
-			alpha->r * z__2.i + alpha->i * z__2.r;
-		temp.r = z__1.r, temp.i = z__1.i;
-		i__2 = *m;
-		for (i = 1; i <= i__2; ++i) {
-		    i__3 = i + j * a_dim1;
-		    i__4 = i + j * a_dim1;
-		    i__5 = i;
-		    z__2.r = x[i__5].r * temp.r - x[i__5].i * temp.i, z__2.i =
-			     x[i__5].r * temp.i + x[i__5].i * temp.r;
-		    z__1.r = a[i__4].r + z__2.r, z__1.i = a[i__4].i + z__2.i;
-		    a[i__3].r = z__1.r, a[i__3].i = z__1.i;
+        i__1 = *n;
+        for (j = 1; j <= i__1; ++j) {
+            i__2 = jy;
+            if (y[i__2].r != 0. || y[i__2].i != 0.) {
+                d_cnjg(&z__2, &y[jy]);
+                z__1.r = alpha->r * z__2.r - alpha->i * z__2.i, z__1.i =
+                        alpha->r * z__2.i + alpha->i * z__2.r;
+                temp.r = z__1.r, temp.i = z__1.i;
+                i__2 = *m;
+                for (i = 1; i <= i__2; ++i) {
+                    i__3 = i + j * a_dim1;
+                    i__4 = i + j * a_dim1;
+                    i__5 = i;
+                    z__2.r = x[i__5].r * temp.r - x[i__5].i * temp.i, z__2.i =
+                             x[i__5].r * temp.i + x[i__5].i * temp.r;
+                    z__1.r = a[i__4].r + z__2.r, z__1.i = a[i__4].i + z__2.i;
+                    a[i__3].r = z__1.r, a[i__3].i = z__1.i;
 /* L10: */
-		}
-	    }
-	    jy += *incy;
+                }
+            }
+            jy += *incy;
 /* L20: */
-	}
+        }
     } else {
-	if (*incx > 0) {
-	    kx = 1;
-	} else {
-	    kx = 1 - (*m - 1) * *incx;
-	}
-	i__1 = *n;
-	for (j = 1; j <= i__1; ++j) {
-	    i__2 = jy;
-	    if (y[i__2].r != 0. || y[i__2].i != 0.) {
-		d_cnjg(&z__2, &y[jy]);
-		z__1.r = alpha->r * z__2.r - alpha->i * z__2.i, z__1.i = 
-			alpha->r * z__2.i + alpha->i * z__2.r;
-		temp.r = z__1.r, temp.i = z__1.i;
-		ix = kx;
-		i__2 = *m;
-		for (i = 1; i <= i__2; ++i) {
-		    i__3 = i + j * a_dim1;
-		    i__4 = i + j * a_dim1;
-		    i__5 = ix;
-		    z__2.r = x[i__5].r * temp.r - x[i__5].i * temp.i, z__2.i =
-			     x[i__5].r * temp.i + x[i__5].i * temp.r;
-		    z__1.r = a[i__4].r + z__2.r, z__1.i = a[i__4].i + z__2.i;
-		    a[i__3].r = z__1.r, a[i__3].i = z__1.i;
-		    ix += *incx;
+        if (*incx > 0) {
+            kx = 1;
+        } else {
+            kx = 1 - (*m - 1) * *incx;
+        }
+        i__1 = *n;
+        for (j = 1; j <= i__1; ++j) {
+            i__2 = jy;
+            if (y[i__2].r != 0. || y[i__2].i != 0.) {
+                d_cnjg(&z__2, &y[jy]);
+                z__1.r = alpha->r * z__2.r - alpha->i * z__2.i, z__1.i =
+                        alpha->r * z__2.i + alpha->i * z__2.r;
+                temp.r = z__1.r, temp.i = z__1.i;
+                ix = kx;
+                i__2 = *m;
+                for (i = 1; i <= i__2; ++i) {
+                    i__3 = i + j * a_dim1;
+                    i__4 = i + j * a_dim1;
+                    i__5 = ix;
+                    z__2.r = x[i__5].r * temp.r - x[i__5].i * temp.i, z__2.i =
+                             x[i__5].r * temp.i + x[i__5].i * temp.r;
+                    z__1.r = a[i__4].r + z__2.r, z__1.i = a[i__4].i + z__2.i;
+                    a[i__3].r = z__1.r, a[i__3].i = z__1.i;
+                    ix += *incx;
 /* L30: */
-		}
-	    }
-	    jy += *incy;
+                }
+            }
+            jy += *incy;
 /* L40: */
-	}
+        }
     }
 
     return 0;

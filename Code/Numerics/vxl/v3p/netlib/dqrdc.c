@@ -1,6 +1,6 @@
 /* dqrdc.f -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -104,7 +104,7 @@ integer *job;
 /*                with its columns permuted as described by jpvt. */
 
 /*        qraux   double precision(p). */
-/*                qraux contains further information required to recover 
+/*                qraux contains further information required to recover
 */
 /*                the orthogonal part of the decomposition. */
 
@@ -136,7 +136,7 @@ integer *job;
     pl = 1;
     pu = 0;
     if (*job == 0) {
-	goto L60;
+        goto L60;
     }
 
 /*        pivoting has been requested.  rearrange the columns */
@@ -144,57 +144,57 @@ integer *job;
 
     i__1 = *p;
     for (j = 1; j <= i__1; ++j) {
-	swapj = jpvt[j] > 0;
-	negj = jpvt[j] < 0;
-	jpvt[j] = j;
-	if (negj) {
-	    jpvt[j] = -j;
-	}
-	if (! swapj) {
-	    goto L10;
-	}
-	if (j != pl) {
-	    dswap_(n, &x[pl * x_dim1 + 1], &c__1, &x[j * x_dim1 + 1], &c__1);
-	}
-	jpvt[j] = jpvt[pl];
-	jpvt[pl] = j;
-	++pl;
+        swapj = jpvt[j] > 0;
+        negj = jpvt[j] < 0;
+        jpvt[j] = j;
+        if (negj) {
+            jpvt[j] = -j;
+        }
+        if (! swapj) {
+            goto L10;
+        }
+        if (j != pl) {
+            dswap_(n, &x[pl * x_dim1 + 1], &c__1, &x[j * x_dim1 + 1], &c__1);
+        }
+        jpvt[j] = jpvt[pl];
+        jpvt[pl] = j;
+        ++pl;
 L10:
 /* L20: */
-	;
+        ;
     }
     pu = *p;
     i__1 = *p;
     for (jj = 1; jj <= i__1; ++jj) {
-	j = *p - jj + 1;
-	if (jpvt[j] >= 0) {
-	    goto L40;
-	}
-	jpvt[j] = -jpvt[j];
-	if (j == pu) {
-	    goto L30;
-	}
-	dswap_(n, &x[pu * x_dim1 + 1], &c__1, &x[j * x_dim1 + 1], &c__1);
-	jp = jpvt[pu];
-	jpvt[pu] = jpvt[j];
-	jpvt[j] = jp;
+        j = *p - jj + 1;
+        if (jpvt[j] >= 0) {
+            goto L40;
+        }
+        jpvt[j] = -jpvt[j];
+        if (j == pu) {
+            goto L30;
+        }
+        dswap_(n, &x[pu * x_dim1 + 1], &c__1, &x[j * x_dim1 + 1], &c__1);
+        jp = jpvt[pu];
+        jpvt[pu] = jpvt[j];
+        jpvt[j] = jp;
 L30:
-	--pu;
+        --pu;
 L40:
 /* L50: */
-	;
+        ;
     }
 L60:
 
 /*     compute the norms of the free columns. */
 
     if (pu < pl) {
-	goto L80;
+        goto L80;
     }
     i__1 = pu;
     for (j = pl; j <= i__1; ++j) {
-	qraux[j] = dnrm2_(n, &x[j * x_dim1 + 1], &c__1);
-	work[j] = qraux[j];
+        qraux[j] = dnrm2_(n, &x[j * x_dim1 + 1], &c__1);
+        work[j] = qraux[j];
 /* L70: */
     }
 L80:
@@ -204,110 +204,110 @@ L80:
     lup = min(*n,*p);
     i__1 = lup;
     for (l = 1; l <= i__1; ++l) {
-	if (l < pl || l >= pu) {
-	    goto L120;
-	}
+        if (l < pl || l >= pu) {
+            goto L120;
+        }
 
 /*           locate the column of largest norm and bring it */
 /*           into the pivot position. */
 
-	maxnrm = 0.;
-	maxj = l;
-	i__2 = pu;
-	for (j = l; j <= i__2; ++j) {
-	    if (qraux[j] <= maxnrm) {
-		goto L90;
-	    }
-	    maxnrm = qraux[j];
-	    maxj = j;
+        maxnrm = 0.;
+        maxj = l;
+        i__2 = pu;
+        for (j = l; j <= i__2; ++j) {
+            if (qraux[j] <= maxnrm) {
+                goto L90;
+            }
+            maxnrm = qraux[j];
+            maxj = j;
 L90:
 /* L100: */
-	    ;
-	}
-	if (maxj == l) {
-	    goto L110;
-	}
-	dswap_(n, &x[l * x_dim1 + 1], &c__1, &x[maxj * x_dim1 + 1], &c__1);
-	qraux[maxj] = qraux[l];
-	work[maxj] = work[l];
-	jp = jpvt[maxj];
-	jpvt[maxj] = jpvt[l];
-	jpvt[l] = jp;
+            ;
+        }
+        if (maxj == l) {
+            goto L110;
+        }
+        dswap_(n, &x[l * x_dim1 + 1], &c__1, &x[maxj * x_dim1 + 1], &c__1);
+        qraux[maxj] = qraux[l];
+        work[maxj] = work[l];
+        jp = jpvt[maxj];
+        jpvt[maxj] = jpvt[l];
+        jpvt[l] = jp;
 L110:
 L120:
-	qraux[l] = 0.;
-	if (l == *n) {
-	    goto L190;
-	}
+        qraux[l] = 0.;
+        if (l == *n) {
+            goto L190;
+        }
 
 /*           compute the householder transformation for column l. */
 
-	i__2 = *n - l + 1;
-	nrmxl = dnrm2_(&i__2, &x[l + l * x_dim1], &c__1);
-	if (nrmxl == 0.) {
-	    goto L180;
-	}
-	if (x[l + l * x_dim1] != 0.) {
-	    nrmxl = d_sign(&nrmxl, &x[l + l * x_dim1]);
-	}
-	i__2 = *n - l + 1;
-	d__1 = 1. / nrmxl;
-	dscal_(&i__2, &d__1, &x[l + l * x_dim1], &c__1);
-	x[l + l * x_dim1] += 1.;
+        i__2 = *n - l + 1;
+        nrmxl = dnrm2_(&i__2, &x[l + l * x_dim1], &c__1);
+        if (nrmxl == 0.) {
+            goto L180;
+        }
+        if (x[l + l * x_dim1] != 0.) {
+            nrmxl = d_sign(&nrmxl, &x[l + l * x_dim1]);
+        }
+        i__2 = *n - l + 1;
+        d__1 = 1. / nrmxl;
+        dscal_(&i__2, &d__1, &x[l + l * x_dim1], &c__1);
+        x[l + l * x_dim1] += 1.;
 
 /*              apply the transformation to the remaining columns, */
 /*              updating the norms. */
 
-	lp1 = l + 1;
-	if (*p < lp1) {
-	    goto L170;
-	}
-	i__2 = *p;
-	for (j = lp1; j <= i__2; ++j) {
-	    i__3 = *n - l + 1;
-	    t = -ddot_(&i__3, &x[l + l * x_dim1], &c__1, &x[l + j * x_dim1], &
-		    c__1) / x[l + l * x_dim1];
-	    i__3 = *n - l + 1;
-	    daxpy_(&i__3, &t, &x[l + l * x_dim1], &c__1, &x[l + j * x_dim1], &
-		    c__1);
-	    if (j < pl || j > pu) {
-		goto L150;
-	    }
-	    if (qraux[j] == 0.) {
-		goto L150;
-	    }
+        lp1 = l + 1;
+        if (*p < lp1) {
+            goto L170;
+        }
+        i__2 = *p;
+        for (j = lp1; j <= i__2; ++j) {
+            i__3 = *n - l + 1;
+            t = -ddot_(&i__3, &x[l + l * x_dim1], &c__1, &x[l + j * x_dim1], &
+                    c__1) / x[l + l * x_dim1];
+            i__3 = *n - l + 1;
+            daxpy_(&i__3, &t, &x[l + l * x_dim1], &c__1, &x[l + j * x_dim1], &
+                    c__1);
+            if (j < pl || j > pu) {
+                goto L150;
+            }
+            if (qraux[j] == 0.) {
+                goto L150;
+            }
 /* Computing 2nd power */
-	    d__2 = (d__1 = x[l + j * x_dim1], abs(d__1)) / qraux[j];
-	    tt = 1. - d__2 * d__2;
-	    tt = max(tt,0.);
-	    t = tt;
+            d__2 = (d__1 = x[l + j * x_dim1], abs(d__1)) / qraux[j];
+            tt = 1. - d__2 * d__2;
+            tt = max(tt,0.);
+            t = tt;
 /* Computing 2nd power */
-	    d__1 = qraux[j] / work[j];
-	    tt = tt * .05 * (d__1 * d__1) + 1.;
-	    if (tt == 1.) {
-		goto L130;
-	    }
-	    qraux[j] *= sqrt(t);
-	    goto L140;
+            d__1 = qraux[j] / work[j];
+            tt = tt * .05 * (d__1 * d__1) + 1.;
+            if (tt == 1.) {
+                goto L130;
+            }
+            qraux[j] *= sqrt(t);
+            goto L140;
 L130:
-	    i__3 = *n - l;
-	    qraux[j] = dnrm2_(&i__3, &x[l + 1 + j * x_dim1], &c__1);
-	    work[j] = qraux[j];
+            i__3 = *n - l;
+            qraux[j] = dnrm2_(&i__3, &x[l + 1 + j * x_dim1], &c__1);
+            work[j] = qraux[j];
 L140:
 L150:
 /* L160: */
-	    ;
-	}
+            ;
+        }
 L170:
 
 /*              save the transformation. */
 
-	qraux[l] = x[l + l * x_dim1];
-	x[l + l * x_dim1] = -nrmxl;
+        qraux[l] = x[l + l * x_dim1];
+        x[l + l * x_dim1] = -nrmxl;
 L180:
 L190:
 /* L200: */
-	;
+        ;
     }
     return 0;
 } /* dqrdc_ */

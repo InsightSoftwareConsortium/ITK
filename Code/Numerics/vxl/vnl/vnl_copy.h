@@ -3,22 +3,21 @@
 #ifdef __GNUC__
 #pragma interface
 #endif
-//
-// .NAME vnl_copy
-// .HEADER vxl package
-// .LIBRARY vnl
-// .INCLUDE vnl/vnl_copy.h
-// .FILE vnl_copy.cxx
-// .SECTION Author
-//  fsm@robots.ox.ac.uk
-//
+// This is vxl/vnl/vnl_copy.h
 
-// purpose: easy conversion between vectors and matrices templated
-// over different types.
+//:  \file
+//   \brief Easy conversion between vectors and matrices templated over different types.
+//   \author fsm@robots.ox.ac.uk
 
+//   Modifications
+//   LSB (Manchester) 26/3/01 Tidied documentation
+
+//: Easy conversion between vectors and matrices templated over different types.
 template <class S, class T>
 void vnl_copy(S const *src, T *dst, unsigned n);
 
+
+//: Easy conversion between vectors and matrices templated over different types.
 template <class S, class T>
 void vnl_copy(S const &, T &);
 

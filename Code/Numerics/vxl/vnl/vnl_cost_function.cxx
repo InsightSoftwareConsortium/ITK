@@ -1,9 +1,11 @@
+// This is vxl/vnl/vnl_cost_function.cxx
+
 //-*- c++ -*-------------------------------------------------------------------
 #ifdef __GNUC__
 #pragma implementation
 #endif
 //
-// Class: vnl_cost_function
+// vnl_cost_function
 // Author: Andrew W. Fitzgibbon, Oxford RRG
 // Created: 23 Oct 97
 //
@@ -20,7 +22,7 @@ void vnl_cost_function::compute(const vnl_vector<double>& x, double *f, vnl_vect
   if (g) this->gradf(x, *g);
 }
 
-// -- Default implementation of f is compute...
+//: Default implementation of f is compute...
 double vnl_cost_function::f(const vnl_vector<double>& x)
 {
   // if we get back here from compute, neither vf was implemented.
@@ -33,8 +35,8 @@ double vnl_cost_function::f(const vnl_vector<double>& x)
   return f;
 }
 
-// -- Default implementation of gradf is to call compute
-void vnl_cost_function::gradf(const vnl_vector<double>& x, vnl_vector<double>& g)
+//: Default implementation of gradf is to call compute
+void vnl_cost_function::gradf(const vnl_vector<double>&x, vnl_vector<double>&g)
 {
   if (f_calling_compute)
     assert(!"vnl_cost_function: RECURSION");
@@ -43,13 +45,15 @@ void vnl_cost_function::gradf(const vnl_vector<double>& x, vnl_vector<double>& g
   f_calling_compute = false;
 }
 
-// -- Compute fd gradient
-void vnl_cost_function::fdgradf(const vnl_vector<double>& x, vnl_vector<double>& gradient, double stepsize VCL_DEFAULT_VALUE( 1e-5) )
+//: Compute fd gradient
+void vnl_cost_function::fdgradf(const vnl_vector<double>& x,
+                                vnl_vector<double>& gradient,
+                                double stepsize )
 {
   vnl_vector<double> tx = x;
   double h = stepsize;
   for(int i = 0; i < dim; ++i) {
-   
+
     double tplus = x[i] + h;
     tx[i] = tplus;
     double fplus = this->f(tx);
@@ -57,7 +61,7 @@ void vnl_cost_function::fdgradf(const vnl_vector<double>& x, vnl_vector<double>&
     double tminus = x[i] - h;
     tx[i] = tminus;
     double fminus = this->f(tx);
-    
+
     gradient[i] = (fplus - fminus) / (tplus - tminus);
     tx[i] = x[i];
   }

@@ -1,6 +1,6 @@
 /* drot.f -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -42,10 +42,10 @@ doublereal *c, doublereal*s)
 
     /* Function Body */
     if (*n <= 0) {
-	return 0;
+        return 0;
     }
     if (*incx == 1 && *incy == 1) {
-	goto L20;
+        goto L20;
     }
 
 /*       code for unequal increments or equal increments not equal */
@@ -54,18 +54,18 @@ doublereal *c, doublereal*s)
     ix = 1;
     iy = 1;
     if (*incx < 0) {
-	ix = (-(*n) + 1) * *incx + 1;
+        ix = (-(*n) + 1) * *incx + 1;
     }
     if (*incy < 0) {
-	iy = (-(*n) + 1) * *incy + 1;
+        iy = (-(*n) + 1) * *incy + 1;
     }
     i__1 = *n;
     for (i = 1; i <= i__1; ++i) {
-	dtemp = *c * dx[ix] + *s * dy[iy];
-	dy[iy] = *c * dy[iy] - *s * dx[ix];
-	dx[ix] = dtemp;
-	ix += *incx;
-	iy += *incy;
+        dtemp = *c * dx[ix] + *s * dy[iy];
+        dy[iy] = *c * dy[iy] - *s * dx[ix];
+        dx[ix] = dtemp;
+        ix += *incx;
+        iy += *incy;
 /* L10: */
     }
     return 0;
@@ -75,9 +75,9 @@ doublereal *c, doublereal*s)
 L20:
     i__1 = *n;
     for (i = 1; i <= i__1; ++i) {
-	dtemp = *c * dx[i] + *s * dy[i];
-	dy[i] = *c * dy[i] - *s * dx[i];
-	dx[i] = dtemp;
+        dtemp = *c * dx[i] + *s * dy[i];
+        dy[i] = *c * dy[i] - *s * dx[i];
+        dx[i] = dtemp;
 /* L30: */
     }
     return 0;

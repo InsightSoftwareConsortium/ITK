@@ -1,16 +1,15 @@
-#ifndef vnl_diag_matrix_C_
-#define vnl_diag_matrix_C_
+#ifndef vnl_diag_matrix_txx_
+#define vnl_diag_matrix_txx_
+
+// This is vxl/vnl/vnl_diag_matrix.txx
 
 #include "vnl_diag_matrix.h"
 
 #include <vcl_iostream.h>
-#include <vnl/vnl_math.h>
+#include <vcl_cmath.h>
 
-#if defined(VCL_SUNPRO_CC) && defined(INSTANTIATE_TEMPLATES)
-# undef inline
-#endif
 
-// -- Return inv(D) * b.
+//: Return inv(D) * b.
 template <class T>
 vnl_vector<T> vnl_diag_matrix<T>::solve(vnl_vector<T> const& b)
 {
@@ -21,7 +20,7 @@ vnl_vector<T> vnl_diag_matrix<T>::solve(vnl_vector<T> const& b)
   return ret;
 }
 
-// -- Return inv(D) * b.
+//: Return inv(D) * b.
 template <class T>
 void vnl_diag_matrix<T>::solve(vnl_vector<T> const& b, vnl_vector<T>* out)
 {
@@ -30,7 +29,7 @@ void vnl_diag_matrix<T>::solve(vnl_vector<T> const& b, vnl_vector<T>* out)
     (*out)[i] = b[i] / diagonal_[i];
 }
 
-// -- Print in MATLAB diag([1 2 3]) form.
+//: Print in MATLAB diag([1 2 3]) form.
 template <class T>
 vcl_ostream& operator<< (vcl_ostream& s, const vnl_diag_matrix<T>& D)
 {
@@ -41,10 +40,10 @@ vcl_ostream& operator<< (vcl_ostream& s, const vnl_diag_matrix<T>& D)
 }
 
 #if 0
-// -- Compares two matrices for component-wise equality within a small epsilon
-template<class T> 
-bool epsilon_equals (const vnl_diag_matrix<T>& m1, const vnl_diag_matrix<T>& m2, 
-		     double alt_epsilon VCL_DEFAULT_VALUE(0)) 
+//: Compares two matrices for component-wise equality within a small epsilon
+template<class T>
+bool epsilon_equals (const vnl_diag_matrix<T>& m1, const vnl_diag_matrix<T>& m2,
+             double alt_epsilon)
 {
   if (alt_epsilon < 0)
     {
@@ -53,10 +52,10 @@ bool epsilon_equals (const vnl_diag_matrix<T>& m1, const vnl_diag_matrix<T>& m2,
     }
 
   if (m1.rows() != m2.rows())
-     return false;				// different sizes.
+     return false;              // different sizes.
 
   double local_epsilon;
-  if (alt_epsilon == 0) 
+  if (alt_epsilon == 0)
     local_epsilon = comparison_epsilon<T>::epsilon;
   else
     local_epsilon = alt_epsilon;
@@ -69,7 +68,7 @@ bool epsilon_equals (const vnl_diag_matrix<T>& m1, const vnl_diag_matrix<T>& m2,
     if (result > local_epsilon)
       return false;
 #endif
-    if (vnl_math_abs(m1(i,i) - m2(i,i)) > local_epsilon)
+    if (vcl_abs(m1(i,i) - m2(i,i)) > local_epsilon)
       return false;
   }
   return true;
@@ -77,25 +76,19 @@ bool epsilon_equals (const vnl_diag_matrix<T>& m1, const vnl_diag_matrix<T>& m2,
 #endif
 
 
-// Outside of STL, this seems to be the way to go
-#if defined(VCL_SUNPRO_CC)
-# undef VCL_INSTANTIATE_INLINE
-# define VCL_INSTANTIATE_INLINE(fn_decl)  template  fn_decl
-#endif
-
 #undef VNL_DIAG_MATRIX_INSTANTIATE
 #define VNL_DIAG_MATRIX_INSTANTIATE(T) \
 template class vnl_diag_matrix<T >; \
-VCL_INSTANTIATE_INLINE(vnl_matrix<T > operator* (vnl_matrix<T > const &, vnl_diag_matrix<T > const &));	\
-VCL_INSTANTIATE_INLINE(vnl_matrix<T > operator* (vnl_diag_matrix<T > const &, vnl_matrix<T > const &));	\
-VCL_INSTANTIATE_INLINE(vnl_matrix<T > operator+ (vnl_matrix<T > const &, vnl_diag_matrix<T > const &));	\
-VCL_INSTANTIATE_INLINE(vnl_matrix<T > operator+ (vnl_diag_matrix<T > const &, vnl_matrix<T > const &));	\
-VCL_INSTANTIATE_INLINE(vnl_matrix<T > operator- (vnl_matrix<T > const &, vnl_diag_matrix<T > const &));	\
-VCL_INSTANTIATE_INLINE(vnl_matrix<T > operator- (vnl_diag_matrix<T > const &, vnl_matrix<T > const &));	\
-VCL_INSTANTIATE_INLINE(vnl_vector<T > operator* (const vnl_vector<T >&, vnl_diag_matrix<T > const &));	\
-VCL_INSTANTIATE_INLINE(vnl_vector<T > operator* (vnl_diag_matrix<T > const &, const vnl_vector<T >&));	\
-template vcl_ostream& operator<< (vcl_ostream& s, vnl_diag_matrix<T > const &);
+VCL_INSTANTIATE_INLINE(vnl_matrix<T > operator* (vnl_matrix<T > const &, vnl_diag_matrix<T > const &));\
+VCL_INSTANTIATE_INLINE(vnl_matrix<T > operator* (vnl_diag_matrix<T > const &, vnl_matrix<T > const &));\
+VCL_INSTANTIATE_INLINE(vnl_matrix<T > operator+ (vnl_matrix<T > const &, vnl_diag_matrix<T > const &));\
+VCL_INSTANTIATE_INLINE(vnl_matrix<T > operator+ (vnl_diag_matrix<T > const &, vnl_matrix<T > const &));\
+VCL_INSTANTIATE_INLINE(vnl_matrix<T > operator- (vnl_matrix<T > const &, vnl_diag_matrix<T > const &));\
+VCL_INSTANTIATE_INLINE(vnl_matrix<T > operator- (vnl_diag_matrix<T > const &, vnl_matrix<T > const &));\
+VCL_INSTANTIATE_INLINE(vnl_vector<T > operator* (const vnl_vector<T >&, vnl_diag_matrix<T > const &));\
+VCL_INSTANTIATE_INLINE(vnl_vector<T > operator* (vnl_diag_matrix<T > const &, const vnl_vector<T >&));\
+template vcl_ostream& operator<< (vcl_ostream& s, vnl_diag_matrix<T > const &)
 
-//template bool epsilon_equals (vnl_diag_matrix<T > const & , vnl_diag_matrix<T > const & , double) 
+//template bool epsilon_equals (vnl_diag_matrix<T > const & , vnl_diag_matrix<T > const & , double)
 
 #endif

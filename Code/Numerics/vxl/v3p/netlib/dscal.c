@@ -1,6 +1,6 @@
 /* dscal.f -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -29,10 +29,10 @@ integer *incx;
 
     /* Function Body */
     if (*n <= 0 || *incx <= 0) {
-	return 0;
+        return 0;
     }
     if (*incx == 1) {
-	goto L20;
+        goto L20;
     }
 
 /*        code for increment not equal to 1 */
@@ -41,7 +41,7 @@ integer *incx;
     i__1 = nincx;
     i__2 = *incx;
     for (i = 1; i__2 < 0 ? i >= i__1 : i <= i__1; i += i__2) {
-	dx[i] = *da * dx[i];
+        dx[i] = *da * dx[i];
 /* L10: */
     }
     return 0;
@@ -54,25 +54,25 @@ integer *incx;
 L20:
     m = *n % 5;
     if (m == 0) {
-	goto L40;
+        goto L40;
     }
     i__2 = m;
     for (i = 1; i <= i__2; ++i) {
-	dx[i] = *da * dx[i];
+        dx[i] = *da * dx[i];
 /* L30: */
     }
     if (*n < 5) {
-	return 0;
+        return 0;
     }
 L40:
     mp1 = m + 1;
     i__2 = *n;
     for (i = mp1; i <= i__2; i += 5) {
-	dx[i] = *da * dx[i];
-	dx[i + 1] = *da * dx[i + 1];
-	dx[i + 2] = *da * dx[i + 2];
-	dx[i + 3] = *da * dx[i + 3];
-	dx[i + 4] = *da * dx[i + 4];
+        dx[i] = *da * dx[i];
+        dx[i + 1] = *da * dx[i + 1];
+        dx[i + 2] = *da * dx[i + 2];
+        dx[i + 3] = *da * dx[i + 3];
+        dx[i + 4] = *da * dx[i + 4];
 /* L50: */
     }
     return 0;

@@ -1,6 +1,6 @@
 /* sswap.f -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -33,10 +33,10 @@ integer *incy;
 
     /* Function Body */
     if (*n <= 0) {
-	return 0;
+        return 0;
     }
     if (*incx == 1 && *incy == 1) {
-	goto L20;
+        goto L20;
     }
 
 /*       code for unequal increments or equal increments not equal */
@@ -45,18 +45,18 @@ integer *incy;
     ix = 1;
     iy = 1;
     if (*incx < 0) {
-	ix = (-(*n) + 1) * *incx + 1;
+        ix = (-(*n) + 1) * *incx + 1;
     }
     if (*incy < 0) {
-	iy = (-(*n) + 1) * *incy + 1;
+        iy = (-(*n) + 1) * *incy + 1;
     }
     i__1 = *n;
     for (i = 1; i <= i__1; ++i) {
-	stemp = sx[ix];
-	sx[ix] = sy[iy];
-	sy[iy] = stemp;
-	ix += *incx;
-	iy += *incy;
+        stemp = sx[ix];
+        sx[ix] = sy[iy];
+        sy[iy] = stemp;
+        ix += *incx;
+        iy += *incy;
 /* L10: */
     }
     return 0;
@@ -69,31 +69,31 @@ integer *incy;
 L20:
     m = *n % 3;
     if (m == 0) {
-	goto L40;
+        goto L40;
     }
     i__1 = m;
     for (i = 1; i <= i__1; ++i) {
-	stemp = sx[i];
-	sx[i] = sy[i];
-	sy[i] = stemp;
+        stemp = sx[i];
+        sx[i] = sy[i];
+        sy[i] = stemp;
 /* L30: */
     }
     if (*n < 3) {
-	return 0;
+        return 0;
     }
 L40:
     mp1 = m + 1;
     i__1 = *n;
     for (i = mp1; i <= i__1; i += 3) {
-	stemp = sx[i];
-	sx[i] = sy[i];
-	sy[i] = stemp;
-	stemp = sx[i + 1];
-	sx[i + 1] = sy[i + 1];
-	sy[i + 1] = stemp;
-	stemp = sx[i + 2];
-	sx[i + 2] = sy[i + 2];
-	sy[i + 2] = stemp;
+        stemp = sx[i];
+        sx[i] = sy[i];
+        sy[i] = stemp;
+        stemp = sx[i + 1];
+        sx[i + 1] = sy[i + 1];
+        sy[i + 1] = stemp;
+        stemp = sx[i + 2];
+        sx[i + 2] = sy[i + 2];
+        sy[i + 2] = stemp;
 /* L50: */
     }
     return 0;

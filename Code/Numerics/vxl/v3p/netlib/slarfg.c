@@ -1,12 +1,12 @@
 /* slarfg.f -- translated by f2c (version of 4 June 1993  1:43:59).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
 
-/* Subroutine */ int slarfg_(integer *n, real *alpha, real *x, integer *incx, 
-	real *tau)
+/* Subroutine */ int slarfg_(integer *n, real *alpha, real *x, integer *incx,
+        real *tau)
 {
     /* System generated locals */
     integer i__1;
@@ -55,7 +55,7 @@
 /*  where tau is a real scalar and v is a real (n-1)-element */
 /*  vector. */
 
-/*  If the elements of x are all zero, then tau = 0 and H is taken to be 
+/*  If the elements of x are all zero, then tau = 0 and H is taken to be
 */
 /*  the unit matrix. */
 
@@ -82,7 +82,7 @@
 /*  TAU     (output) REAL */
 /*          The value tau. */
 
-/*  ===================================================================== 
+/*  =====================================================================
 */
 
 /*     .. Parameters .. */
@@ -102,8 +102,8 @@
 
     /* Function Body */
     if (*n <= 1) {
-	*tau = 0.f;
-	return 0;
+        *tau = 0.f;
+        return 0;
     }
 
     i__1 = *n - 1;
@@ -113,58 +113,58 @@
 
 /*        H  =  I */
 
-	*tau = 0.f;
+        *tau = 0.f;
     } else {
 
 /*        general case */
 
-	r__1 = slapy2_(alpha, &xnorm);
-	beta = -r_sign(&r__1, alpha);
-	safmin = slamch_("S") / slamch_("E");
-	if (abs(beta) < safmin) {
+        r__1 = slapy2_(alpha, &xnorm);
+        beta = -r_sign(&r__1, alpha);
+        safmin = slamch_("S") / slamch_("E");
+        if (abs(beta) < safmin) {
 
-/*           XNORM, BETA may be inaccurate; scale X and recompute 
+/*           XNORM, BETA may be inaccurate; scale X and recompute
 them */
 
-	    rsafmn = 1.f / safmin;
-	    knt = 0;
+            rsafmn = 1.f / safmin;
+            knt = 0;
 L10:
-	    ++knt;
-	    i__1 = *n - 1;
-	    sscal_(&i__1, &rsafmn, &x[1], incx);
-	    beta *= rsafmn;
-	    *alpha *= rsafmn;
-	    if (abs(beta) < safmin) {
-		goto L10;
-	    }
+            ++knt;
+            i__1 = *n - 1;
+            sscal_(&i__1, &rsafmn, &x[1], incx);
+            beta *= rsafmn;
+            *alpha *= rsafmn;
+            if (abs(beta) < safmin) {
+                goto L10;
+            }
 
 /*           New BETA is at most 1, at least SAFMIN */
 
-	    i__1 = *n - 1;
-	    xnorm = snrm2_(&i__1, &x[1], incx);
-	    r__1 = slapy2_(alpha, &xnorm);
-	    beta = -r_sign(&r__1, alpha);
-	    *tau = (beta - *alpha) / beta;
-	    i__1 = *n - 1;
-	    r__1 = 1.f / (*alpha - beta);
-	    sscal_(&i__1, &r__1, &x[1], incx);
+            i__1 = *n - 1;
+            xnorm = snrm2_(&i__1, &x[1], incx);
+            r__1 = slapy2_(alpha, &xnorm);
+            beta = -r_sign(&r__1, alpha);
+            *tau = (beta - *alpha) / beta;
+            i__1 = *n - 1;
+            r__1 = 1.f / (*alpha - beta);
+            sscal_(&i__1, &r__1, &x[1], incx);
 
-/*           If ALPHA is subnormal, it may lose relative accuracy 
+/*           If ALPHA is subnormal, it may lose relative accuracy
 */
 
-	    *alpha = beta;
-	    i__1 = knt;
-	    for (j = 1; j <= i__1; ++j) {
-		*alpha *= safmin;
+            *alpha = beta;
+            i__1 = knt;
+            for (j = 1; j <= i__1; ++j) {
+                *alpha *= safmin;
 /* L20: */
-	    }
-	} else {
-	    *tau = (beta - *alpha) / beta;
-	    i__1 = *n - 1;
-	    r__1 = 1.f / (*alpha - beta);
-	    sscal_(&i__1, &r__1, &x[1], incx);
-	    *alpha = beta;
-	}
+            }
+        } else {
+            *tau = (beta - *alpha) / beta;
+            i__1 = *n - 1;
+            r__1 = 1.f / (*alpha - beta);
+            sscal_(&i__1, &r__1, &x[1], incx);
+            *alpha = beta;
+        }
     }
 
     return 0;

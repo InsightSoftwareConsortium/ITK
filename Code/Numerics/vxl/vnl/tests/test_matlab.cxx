@@ -5,6 +5,7 @@
 #include <vcl_cmath.h>
 
 #include <vpl/vpl_unistd.h>
+#include <vcl_cstdio.h> /* for tempnam() */
 
 #include <vnl/vnl_test.h>
 #include <vnl/vnl_vector.h>
@@ -15,7 +16,7 @@
 
 static void fsm_assert_(int lineno, bool pass, char const *expr) {
   vcl_cout << __FILE__ ":" << lineno << vcl_endl;
-  Assert(expr, pass);
+  vnl_test_assert(expr, pass);
 }
 #define fsm_assert(c) fsm_assert_(__LINE__, c, #c);
 
@@ -28,19 +29,20 @@ void test_matlab() {
   for (unsigned i=0; i<M.rows(); ++i)
     for (unsigned j=0; j<M.cols(); ++j)
       M(i,j) = i*j;
-  
+
   { // vnl_matlab_print
     vcl_cout << v << vcl_endl;
     vnl_matlab_print(vcl_cout, v, "v");
-    
+
     vcl_cout << M << vcl_endl;
     vnl_matlab_print(vcl_cout, M, "M") << vcl_endl;
   }
-  
+
   // vnl_matlab_write, vnl_matlab_read
   {
-    char const *file = "/tmp/smoo.mat";
-    { 
+    char const* TMPNAM = tempnam(0,0);
+    char const *file = TMPNAM ? TMPNAM : "/tmp/smoo.mat";
+    {
       vcl_ofstream f(file);
       vnl_matlab_write(f, v.begin(), v.size(), "v");
       vnl_matlab_write(f, (double const * const *)M.data_array(), M.rows(), M.cols(), (char const *)"M");
@@ -58,7 +60,7 @@ void test_matlab() {
       vnl_vector<float> v_(v.size());
       fsm_assert( vh.read_data(v_.begin()));
       fsm_assert(v_ == v);
-      
+
       vnl_matlab_readhdr Mh(f);
       fsm_assert( Mh);
       fsm_assert(!Mh.is_single());

@@ -67,4 +67,7 @@ template I find_if<I, P >(I, I, P, iterator_traits<I >::iterator_category)
 #define VCL_REMOVE_INSTANTIATE(I, T) \
 template I remove(I, I, T const &)
 
+#define VCL_UNIQUE_INSTANTIATE(I) \
+template I unique<I>(I, I)
+
 #endif // vcl_gcc_295_algorithm_txx_

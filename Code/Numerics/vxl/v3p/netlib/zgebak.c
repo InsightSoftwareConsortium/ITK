@@ -1,12 +1,12 @@
 /*  -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
 
-/* Subroutine */ int zgebak_(job, side, n, ilo, ihi, scale, m, v, ldv, info, 
-	job_len, side_len)
+/* Subroutine */ int zgebak_(job, side, n, ilo, ihi, scale, m, v, ldv, info,
+        job_len, side_len)
 char *job, *side;
 integer *n, *ilo, *ihi;
 doublereal *scale;
@@ -44,7 +44,7 @@ ftnlen side_len;
 /*  ======= */
 
 /*  ZGEBAK forms the right or left eigenvectors of a complex general */
-/*  matrix by backward transformation on the computed eigenvectors of the 
+/*  matrix by backward transformation on the computed eigenvectors of the
 */
 /*  balanced matrix output by ZGEBAL. */
 
@@ -58,7 +58,7 @@ ftnlen side_len;
 /*          = 'S', do backward transformation for scaling only; */
 /*          = 'B', do backward transformations for both permutation and */
 /*                 scaling. */
-/*          JOB must be the same as the argument JOB supplied to ZGEBAL. 
+/*          JOB must be the same as the argument JOB supplied to ZGEBAL.
 */
 
 /*  SIDE    (input) CHARACTER*1 */
@@ -92,7 +92,7 @@ ftnlen side_len;
 /*          = 0:  successful exit */
 /*          < 0:  if INFO = -i, the i-th argument had an illegal value. */
 
-/*  ===================================================================== 
+/*  =====================================================================
 */
 
 /*     .. Parameters .. */
@@ -121,64 +121,64 @@ ftnlen side_len;
 
     *info = 0;
     if (! lsame_(job, "N", 1L, 1L) && ! lsame_(job, "P", 1L, 1L) && ! lsame_(
-	    job, "S", 1L, 1L) && ! lsame_(job, "B", 1L, 1L)) {
-	*info = -1;
+            job, "S", 1L, 1L) && ! lsame_(job, "B", 1L, 1L)) {
+        *info = -1;
     } else if (! rightv && ! leftv) {
-	*info = -2;
+        *info = -2;
     } else if (*n < 0) {
-	*info = -3;
+        *info = -3;
     } else if (*ilo < 1 || *ilo > max(1,*n)) {
-	*info = -4;
+        *info = -4;
     } else if (*ihi < min(*ilo,*n) || *ihi > *n) {
-	*info = -5;
+        *info = -5;
     } else if (*m < 0) {
-	*info = -7;
+        *info = -7;
     } else if (*ldv < max(1,*n)) {
-	*info = -9;
+        *info = -9;
     }
     if (*info != 0) {
-	i__1 = -(*info);
-	xerbla_("ZGEBAK", &i__1, 6L);
-	return 0;
+        i__1 = -(*info);
+        xerbla_("ZGEBAK", &i__1, 6L);
+        return 0;
     }
 
 /*     Quick return if possible */
 
     if (*n == 0) {
-	return 0;
+        return 0;
     }
     if (*m == 0) {
-	return 0;
+        return 0;
     }
     if (lsame_(job, "N", 1L, 1L)) {
-	return 0;
+        return 0;
     }
 
     if (*ilo == *ihi) {
-	goto L30;
+        goto L30;
     }
 
 /*     Backward balance */
 
     if (lsame_(job, "S", 1L, 1L) || lsame_(job, "B", 1L, 1L)) {
 
-	if (rightv) {
-	    i__1 = *ihi;
-	    for (i = *ilo; i <= i__1; ++i) {
-		s = scale[i];
-		zdscal_(m, &s, &v[i + v_dim1], ldv);
+        if (rightv) {
+            i__1 = *ihi;
+            for (i = *ilo; i <= i__1; ++i) {
+                s = scale[i];
+                zdscal_(m, &s, &v[i + v_dim1], ldv);
 /* L10: */
-	    }
-	}
+            }
+        }
 
-	if (leftv) {
-	    i__1 = *ihi;
-	    for (i = *ilo; i <= i__1; ++i) {
-		s = 1. / scale[i];
-		zdscal_(m, &s, &v[i + v_dim1], ldv);
+        if (leftv) {
+            i__1 = *ihi;
+            for (i = *ilo; i <= i__1; ++i) {
+                s = 1. / scale[i];
+                zdscal_(m, &s, &v[i + v_dim1], ldv);
 /* L20: */
-	    }
-	}
+            }
+        }
 
     }
 
@@ -189,45 +189,45 @@ ftnlen side_len;
 
 L30:
     if (lsame_(job, "P", 1L, 1L) || lsame_(job, "B", 1L, 1L)) {
-	if (rightv) {
-	    i__1 = *n;
-	    for (ii = 1; ii <= i__1; ++ii) {
-		i = ii;
-		if (i >= *ilo && i <= *ihi) {
-		    goto L40;
-		}
-		if (i < *ilo) {
-		    i = *ilo - ii;
-		}
-		k = (integer) scale[i];
-		if (k == i) {
-		    goto L40;
-		}
-		zswap_(m, &v[i + v_dim1], ldv, &v[k + v_dim1], ldv);
+        if (rightv) {
+            i__1 = *n;
+            for (ii = 1; ii <= i__1; ++ii) {
+                i = ii;
+                if (i >= *ilo && i <= *ihi) {
+                    goto L40;
+                }
+                if (i < *ilo) {
+                    i = *ilo - ii;
+                }
+                k = (integer) scale[i];
+                if (k == i) {
+                    goto L40;
+                }
+                zswap_(m, &v[i + v_dim1], ldv, &v[k + v_dim1], ldv);
 L40:
-		;
-	    }
-	}
+                ;
+            }
+        }
 
-	if (leftv) {
-	    i__1 = *n;
-	    for (ii = 1; ii <= i__1; ++ii) {
-		i = ii;
-		if (i >= *ilo && i <= *ihi) {
-		    goto L50;
-		}
-		if (i < *ilo) {
-		    i = *ilo - ii;
-		}
-		k = (integer) scale[i];
-		if (k == i) {
-		    goto L50;
-		}
-		zswap_(m, &v[i + v_dim1], ldv, &v[k + v_dim1], ldv);
+        if (leftv) {
+            i__1 = *n;
+            for (ii = 1; ii <= i__1; ++ii) {
+                i = ii;
+                if (i >= *ilo && i <= *ihi) {
+                    goto L50;
+                }
+                if (i < *ilo) {
+                    i = *ilo - ii;
+                }
+                k = (integer) scale[i];
+                if (k == i) {
+                    goto L50;
+                }
+                zswap_(m, &v[i + v_dim1], ldv, &v[k + v_dim1], ldv);
 L50:
-		;
-	    }
-	}
+                ;
+            }
+        }
     }
 
     return 0;

@@ -3,26 +3,20 @@
 #ifdef __GNUC__
 #pragma interface
 #endif
-// .NAME	vnl_file_matrix - Load vnl_matrix<double> from file
-// .LIBRARY	vnl
-// .HEADER	vxl package
-// .INCLUDE	vnl/vnl_file_matrix.h
-// .FILE	vnl_file_matrix.txx
-//
-// .SECTION Description
-//    vnl_file_matrix is a class to load a matrix from a file.
-//
-// .SECTION Author
-//     Andrew W. Fitzgibbon, Oxford RRG, 23 Dec 96
-//
-// .SECTION Modifications:
-//     <none yet>
+// This is vxl/vnl/vnl_file_matrix.h
+
+//: \file
+// \brief Load vnl_matrix<double> from file
+//  \author Andrew W. Fitzgibbon, Oxford RRG, 23 Dec 96
+
+// Modifications:
+// LSB (Manchester) 23/3/01 Documenation tidied
 //
 //-----------------------------------------------------------------------------
 
 #include <vnl/vnl_matrix.h>
-
-template <class T>
+//: Class to load a matrix from a file.
+export template <class T>
 class vnl_file_matrix : public vnl_matrix<T> {
 public:
   vnl_file_matrix(char const* filename);

@@ -5,12 +5,12 @@
 
 // -------------------- manual options
 
-// -- VCL_USE_NATIVE_STL
+//: VCL_USE_NATIVE_STL
 // Whether to use the compiler's STL.
 #define VCL_USE_NATIVE_STL @VCL_USE_NATIVE_STL@
 
 
-// -- VCL_USE_NATIVE_COMPLEX
+//: VCL_USE_NATIVE_COMPLEX
 // Whether to use the compiler's complex type.
 #define VCL_USE_NATIVE_COMPLEX @VCL_USE_NATIVE_COMPLEX@
 // Used to be set from VCL_USE_NATIVE_STL, which worked fine.
@@ -18,8 +18,8 @@
 // #define VCL_USE_NATIVE_COMPLEX VCL_USE_NATIVE_STL
 
 
-// -- VCL_USE_LONG_DOUBLE
-// Whether to use long double.
-#define VCL_USE_LONG_DOUBLE @VCL_USE_LONG_DOUBLE@
+//: VCL_USE_IMPLICIT_TEMPLATES
+// Whether to use implicit template instantiation.
+#define VCL_USE_IMPLICIT_TEMPLATES @VCL_USE_IMPLICIT_TEMPLATES@
 
 #endif

@@ -13,7 +13,7 @@ typedef vnl_sparse_matrix_pair<float>::less spmpf_less;
 
 VCL_SORT_INSTANTIATE_CMP(vcl_vector<spmpf>::iterator, spmpf, spmpf_less);
 
-static void vnl_sparse_matrix_instances_tickler()
+void vnl_sparse_matrix_float_tickler()
 {
   vnl_sparse_matrix<float> mf(3, 5);
 }

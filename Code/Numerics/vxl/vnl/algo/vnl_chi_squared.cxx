@@ -8,7 +8,7 @@
 // FORTRAN routine
 extern "C" int chscdf_(float* x, int* nu, float* cdf);
 
-// -- This subroutine computes the cumulative distribution function
+//: This subroutine computes the cumulative distribution function
 // value for the chi-squared distribution with integer degrees of
 // freedom parameter = dof.  This distribution is defined for all
 // non-negative chisq.  Thus if a random variable x is drawn from a
@@ -26,7 +26,7 @@ template <class T>
 double vnl_chi_squared_statistic_1 (T const *A, T const *B, int n, bool normalize)
 {
   double sum = 0;
-  
+
   if (normalize) {
     T sumA = 0;
     T sumB = 0;
@@ -34,20 +34,20 @@ double vnl_chi_squared_statistic_1 (T const *A, T const *B, int n, bool normaliz
       sumA += A[i];
       sumB += B[i];
     }
-    
+
     for (int i=0; i<n; ++i)
       if (A[i]) {
-	double a = double(A[i])/sumA;
-	double b = double(B[i])/sumB;
-	double tmp = a - b;
-	sum += tmp*tmp/a;
+        double a = double(A[i])/sumA;
+        double b = double(B[i])/sumB;
+        double tmp = a - b;
+        sum += tmp*tmp/a;
       }
   }
   else {
     for (int i=0; i<n; ++i)
       if (A[i]) {
-	double tmp = A[i] - B[i];
-	sum += tmp*tmp/A[i];
+        double tmp = A[i] - B[i];
+        sum += tmp*tmp/A[i];
       }
   }
 
@@ -64,7 +64,7 @@ template <class T>
 double vnl_chi_squared_statistic_12(T const *A, T const *B, int n, bool normalize)
 {
   double sum = 0;
-  
+
   if (normalize) {
     T sumA = 0;
     T sumB = 0;
@@ -72,23 +72,23 @@ double vnl_chi_squared_statistic_12(T const *A, T const *B, int n, bool normaliz
       sumA += A[i];
       sumB += B[i];
     }
-    
+
     for (int i=0; i<n; ++i)
       if (A[i] || B[i]) {
-	double a = double(A[i])/sumA;
-	double b = double(B[i])/sumB;
-	double tmp = a - b;
-	sum += tmp*tmp/(a + b);
+        double a = double(A[i])/sumA;
+        double b = double(B[i])/sumB;
+        double tmp = a - b;
+        sum += tmp*tmp/(a + b);
       }
   }
   else {
     for (int i=0; i<n; ++i)
       if (A[i] || B[i]) {
-	double tmp = A[i] - B[i];
-	sum += tmp*tmp/(A[i] + B[i]);
+        double tmp = A[i] - B[i];
+        sum += tmp*tmp/(A[i] + B[i]);
       }
   }
-  
+
   return sum;
 }
 

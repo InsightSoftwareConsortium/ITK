@@ -1,13 +1,13 @@
 /* dlas2.f -- translated by f2c (version of 4 June 1993  1:43:59).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
 
 /*<       SUBROUTINE DLAS2( F, G, H, SSMIN, SSMAX ) >*/
-/* Subroutine */ int dlas2_(doublereal *f, doublereal *g, doublereal *h, 
-	doublereal *ssmin, doublereal *ssmax)
+/* Subroutine */ int dlas2_(doublereal *f, doublereal *g, doublereal *h,
+        doublereal *ssmin, doublereal *ssmax)
 {
     /* System generated locals */
     doublereal d__1, d__2;
@@ -59,11 +59,11 @@
 /*  =============== */
 
 /*  Barring over/underflow, all output quantities are correct to within */
-/*  a few units in the last place (ulps), even in the absence of a guard 
+/*  a few units in the last place (ulps), even in the absence of a guard
 */
 /*  digit in addition/subtraction. */
 
-/*  In IEEE arithmetic, the code works correctly if one matrix element is 
+/*  In IEEE arithmetic, the code works correctly if one matrix element is
 */
 /*  infinite. */
 
@@ -76,7 +76,7 @@
 /*  may correspond to a matrix modified by perturbations of size near */
 /*  the underflow threshold. */
 
-/*  ==================================================================== 
+/*  ====================================================================
 */
 
 /*     .. Parameters .. */
@@ -108,76 +108,76 @@
 /*<       IF( FHMN.EQ.ZERO ) THEN >*/
     if (fhmn == 0.) {
 /*<          SSMIN = ZERO >*/
-	*ssmin = 0.;
+        *ssmin = 0.;
 /*<          IF( FHMX.EQ.ZERO ) THEN >*/
-	if (fhmx == 0.) {
+        if (fhmx == 0.) {
 /*<             SSMAX = GA >*/
-	    *ssmax = ga;
+            *ssmax = ga;
 /*<          ELSE >*/
-	} else {
+        } else {
 /*<    >*/
 /* Computing 2nd power */
-	    d__1 = min(fhmx,ga) / max(fhmx,ga);
-	    *ssmax = max(fhmx,ga) * sqrt(d__1 * d__1 + 1.);
+            d__1 = min(fhmx,ga) / max(fhmx,ga);
+            *ssmax = max(fhmx,ga) * sqrt(d__1 * d__1 + 1.);
 /*<          END IF >*/
-	}
+        }
 /*<       ELSE >*/
     } else {
 /*<          IF( GA.LT.FHMX ) THEN >*/
-	if (ga < fhmx) {
+        if (ga < fhmx) {
 /*<             AS = ONE + FHMN / FHMX >*/
-	    as = fhmn / fhmx + 1.;
+            as = fhmn / fhmx + 1.;
 /*<             AT = ( FHMX-FHMN ) / FHMX >*/
-	    at = (fhmx - fhmn) / fhmx;
+            at = (fhmx - fhmn) / fhmx;
 /*<             AU = ( GA / FHMX )**2 >*/
 /* Computing 2nd power */
-	    d__1 = ga / fhmx;
-	    au = d__1 * d__1;
+            d__1 = ga / fhmx;
+            au = d__1 * d__1;
 /*<             C = TWO / ( SQRT( AS*AS+AU )+SQRT( AT*AT+AU ) ) >*/
-	    c = 2. / (sqrt(as * as + au) + sqrt(at * at + au));
+            c = 2. / (sqrt(as * as + au) + sqrt(at * at + au));
 /*<             SSMIN = FHMN*C >*/
-	    *ssmin = fhmn * c;
+            *ssmin = fhmn * c;
 /*<             SSMAX = FHMX / C >*/
-	    *ssmax = fhmx / c;
+            *ssmax = fhmx / c;
 /*<          ELSE >*/
-	} else {
+        } else {
 /*<             AU = FHMX / GA >*/
-	    au = fhmx / ga;
+            au = fhmx / ga;
 /*<             IF( AU.EQ.ZERO ) THEN >*/
-	    if (au == 0.) {
+            if (au == 0.) {
 
 /*              Avoid possible harmful underflow if exponent r
 ange */
-/*              asymmetric (true SSMIN may not underflow even 
+/*              asymmetric (true SSMIN may not underflow even
 if */
 /*              AU underflows) */
 
 /*<                SSMIN = ( FHMN*FHMX ) / GA >*/
-		*ssmin = fhmn * fhmx / ga;
+                *ssmin = fhmn * fhmx / ga;
 /*<                SSMAX = GA >*/
-		*ssmax = ga;
+                *ssmax = ga;
 /*<             ELSE >*/
-	    } else {
+            } else {
 /*<                AS = ONE + FHMN / FHMX >*/
-		as = fhmn / fhmx + 1.;
+                as = fhmn / fhmx + 1.;
 /*<                AT = ( FHMX-FHMN ) / FHMX >*/
-		at = (fhmx - fhmn) / fhmx;
+                at = (fhmx - fhmn) / fhmx;
 /*<    >*/
 /* Computing 2nd power */
-		d__1 = as * au;
+                d__1 = as * au;
 /* Computing 2nd power */
-		d__2 = at * au;
-		c = 1. / (sqrt(d__1 * d__1 + 1.) + sqrt(d__2 * d__2 + 1.));
+                d__2 = at * au;
+                c = 1. / (sqrt(d__1 * d__1 + 1.) + sqrt(d__2 * d__2 + 1.));
 /*<                SSMIN = ( FHMN*C )*AU >*/
-		*ssmin = fhmn * c * au;
+                *ssmin = fhmn * c * au;
 /*<                SSMIN = SSMIN + SSMIN >*/
-		*ssmin += *ssmin;
+                *ssmin += *ssmin;
 /*<                SSMAX = GA / ( C+C ) >*/
-		*ssmax = ga / (c + c);
+                *ssmax = ga / (c + c);
 /*<             END IF >*/
-	    }
+            }
 /*<          END IF >*/
-	}
+        }
 /*<       END IF >*/
     }
 /*<       RETURN >*/

@@ -9,28 +9,28 @@
 
 // Declare fortran function, and what a magnificent function it is too!
 extern "C" int dnlaso_(int (*op)(const int* n,
-				 const int* m,
-				 const double* p,
-				 double* q),
-		       int (*iovect)(const int* n,
-				     const int* m,
-				     double* q,
-				     const int* j,
-				     const int* k),
-		       const int* n,
-		       const int* nval, 
-		       const int* nfig,
-		       int* nperm, 
-		       const int* nmval,
-		       double* val,
-		       const int* nmvec,
-		       double* vec,
-		       const int* nblock,
-		       const int* maxop, 
-		       const int* maxj, 
-		       double* work,
-		       int* ind,
-		       int* ierr);
+                                 const int* m,
+                                 const double* p,
+                                 double* q),
+                       int (*iovect)(const int* n,
+                                     const int* m,
+                                     double* q,
+                                     const int* j,
+                                     const int* k),
+                       const int* n,
+                       const int* nval,
+                       const int* nfig,
+                       int* nperm,
+                       const int* nmval,
+                       double* val,
+                       const int* nmvec,
+                       double* vec,
+                       const int* nblock,
+                       const int* maxop,
+                       const int* maxj,
+                       double* work,
+                       int* ind,
+                       int* ierr);
 
 static vnl_sparse_symmetric_eigensystem * current_system = 0;
 
@@ -41,14 +41,14 @@ static vnl_sparse_symmetric_eigensystem * current_system = 0;
 #endif
 
 //------------------------------------------------------------
-// -- Callback for multiplying our matrix by a number of vectors.  The
+//: Callback for multiplying our matrix by a number of vectors.  The
 // input is p, which is an NxM matrix.  This function returns q = A p,
 // where A is the current sparse matrix.
 FUNCTION
 int sse_op_callback(const int* n,
-		    const int* m,
-		    const double* p,
-		    double* q)
+                    const int* m,
+                    const double* p,
+                    double* q)
 {
   assert(current_system);
 
@@ -56,16 +56,16 @@ int sse_op_callback(const int* n,
 }
 
 //------------------------------------------------------------
-// -- Callback for saving the Lanczos vectors as required by dnlaso.
+//: Callback for saving the Lanczos vectors as required by dnlaso.
 // If k=0, save the m columns of q as the (j-m+1)th through jth
 // vectors.  If k=1 then return the (j-m+1)th through jth vectors in
 // q.
 FUNCTION
 int sse_iovect_callback(const int* n,
-			const int* m,
-			double* q,
-			const int* j,
-			const int* k)
+                        const int* m,
+                        double* q,
+                        const int* j,
+                        const int* k)
 {
   assert(current_system);
 
@@ -83,16 +83,16 @@ vnl_sparse_symmetric_eigensystem::vnl_sparse_symmetric_eigensystem()
 }
 
 //------------------------------------------------------------
-// -- Here is where the fortran converted code gets called.  The
+//: Here is where the fortran converted code gets called.  The
 // sparse matrix M is assumed to be symmetric.  The n smallest
 // eigenvalues and their corresponding eigenvectors are calculated if
 // smallest is true (the default).  Otherwise the n largest eigenpairs
 // are found.  The accuracy of the eigenvalues is to nfigures decimal
 // digits.  Returns 0 if successful, non-zero otherwise.
-int vnl_sparse_symmetric_eigensystem::CalculateNPairs(vnl_sparse_matrix<double>& M, 
-						      int n, 
-						      bool smallest,
-						      int nfigures)
+int vnl_sparse_symmetric_eigensystem::CalculateNPairs(vnl_sparse_matrix<double>& M,
+                                                      int n,
+                                                      bool smallest,
+                                                      int nfigures)
 {
   mat = &M;
 
@@ -116,7 +116,7 @@ int vnl_sparse_symmetric_eigensystem::CalculateNPairs(vnl_sparse_matrix<double>&
   // set nblock = vcl_max(10, dim/6) :
   int nblock = (dim<60) ? dim/6 : 10;
 
-  // isn't this rather a lot ? -- fsm  
+  // isn't this rather a lot ? -- fsm
   int maxop = dim*10;      // dim*20;
 
   // set maxj = vcl_max(40, maxop*nblock, 6*nblock+1) :
@@ -134,7 +134,7 @@ int vnl_sparse_symmetric_eigensystem::CalculateNPairs(vnl_sparse_matrix<double>&
   vcl_vector<double> work(work_size+10);
 
   // Set starting vectors to zero.
-  for (int i=0; i<dim*nblock; ++i) 
+  for (int i=0; i<dim*nblock; ++i)
     work[i] = 0.0;
 
   vcl_vector<int> ind(n);
@@ -142,71 +142,71 @@ int vnl_sparse_symmetric_eigensystem::CalculateNPairs(vnl_sparse_matrix<double>&
   int ierr = 0;
 
   dnlaso_(sse_op_callback, sse_iovect_callback,
-	  &dim, &nvals, &nfigures, &nperm, 
-	  &nmval, &temp_vals[0],
-	  &nmvec, &temp_vecs[0],
-	  &nblock,
-	  &maxop,
-	  &maxj, 
-	  &work[0],
-	  &ind[0],
-	  &ierr);
+          &dim, &nvals, &nfigures, &nperm,
+          &nmval, &temp_vals[0],
+          &nmvec, &temp_vecs[0],
+          &nblock,
+          &maxop,
+          &maxj,
+          &work[0],
+          &ind[0],
+          &ierr);
   if (ierr > 0) {
     if (ierr & 0x1) {
-      vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem: N < 6*NBLOCK" 
-	   << vcl_endl;
+      vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem: N < 6*NBLOCK"
+           << vcl_endl;
     }
     if (ierr & 0x2) {
-      vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem: NFIG < 0" 
-	   << vcl_endl;
+      vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem: NFIG < 0"
+           << vcl_endl;
     }
     if (ierr & 0x4) {
-      vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem: NMVEC < N" 
-	   << vcl_endl;
+      vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem: NMVEC < N"
+           << vcl_endl;
     }
     if (ierr & 0x8) {
-      vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem: NPERM < 0" 
-	   << vcl_endl;
+      vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem: NPERM < 0"
+           << vcl_endl;
     }
     if (ierr & 0x10) {
-      vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem: MAXJ < 6*NBLOCK" 
-	   << vcl_endl;
+      vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem: MAXJ < 6*NBLOCK"
+           << vcl_endl;
     }
     if (ierr & 0x20) {
-      vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem: NVAL < max(1,NPERM)" 
-	   << vcl_endl;
+      vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem: NVAL < max(1,NPERM)"
+           << vcl_endl;
     }
     if (ierr & 0x40) {
-      vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem: NVAL > NMVAL" 
-	   << vcl_endl;
+      vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem: NVAL > NMVAL"
+           << vcl_endl;
     }
     if (ierr & 0x80) {
-      vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem: NVAL > MAXOP" 
-	   << vcl_endl;
+      vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem: NVAL > MAXOP"
+           << vcl_endl;
     }
     if (ierr & 0x100) {
-      vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem: NVAL > MAXJ/2" 
-	   << vcl_endl;
+      vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem: NVAL > MAXJ/2"
+           << vcl_endl;
     }
     if (ierr & 0x200) {
-      vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem: NBLOCK < 1" 
-	   << vcl_endl;
+      vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem: NBLOCK < 1"
+           << vcl_endl;
     }
   }
   else if (ierr < 0) {
     if (ierr == -1) {
       vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem:" << vcl_endl
-	   << "  poor initial vectors chosen" << vcl_endl;
+           << "  poor initial vectors chosen" << vcl_endl;
     }
     else if (ierr == -2) {
       vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem:" << vcl_endl
-	   << "  reached maximum operations " << maxop 
-	   << " without finding all eigenvalues," << vcl_endl
-	   << "  found " << nperm << " eigenvalues" << vcl_endl;
+           << "  reached maximum operations " << maxop
+           << " without finding all eigenvalues," << vcl_endl
+           << "  found " << nperm << " eigenvalues" << vcl_endl;
     }
     else if (ierr == -8) {
       vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem:" << vcl_endl
-	   << "  disastrous loss of orthogonality - internal error" << vcl_endl;
+           << "  disastrous loss of orthogonality - internal error" << vcl_endl;
     }
   }
 
@@ -216,7 +216,7 @@ int vnl_sparse_symmetric_eigensystem::CalculateNPairs(vnl_sparse_matrix<double>&
   values = new double[n];
   for (int i=0; i<n; ++i) {
     values[i] = temp_vals[i];
-    // cout << "value " << temp_vals[i] 
+    // cout << "value " << temp_vals[i]
     //   << " accuracy " << temp_vals[i+n*2] << endl;
     vnl_vector<double> vec(dim,0.0);
     for (int j=0; j<dim; ++j)
@@ -228,14 +228,15 @@ int vnl_sparse_symmetric_eigensystem::CalculateNPairs(vnl_sparse_matrix<double>&
   for (unsigned i=0; i<temp_store.size(); ++i)
     delete [] temp_store[i];
   temp_store.clear();
-  
+
   return ierr;
 }
 
 //------------------------------------------------------------
-// -- Callback from solver to calculate the product A p.
-int vnl_sparse_symmetric_eigensystem::CalculateProduct(int n, int m, 
-						       const double* p, double* q)
+//: Callback from solver to calculate the product A p.
+int vnl_sparse_symmetric_eigensystem::CalculateProduct(int n, int m,
+                                                       const double* p,
+                                                       double* q)
 {
   // Call the special multiply method on the matrix.
   mat->mult(n,m,p,q);
@@ -244,10 +245,10 @@ int vnl_sparse_symmetric_eigensystem::CalculateProduct(int n, int m,
 }
 
 //------------------------------------------------------------
-// -- Callback to store vectors for dnlaso.
+//: Callback to store vectors for dnlaso.
 int vnl_sparse_symmetric_eigensystem::SaveVectors(int n, int m,
-						  const double* q, 
-						  int base)
+                                                  const double* q,
+                                                  int base)
 {
   // Store the contents of q.  Basically this is a fifo.  When a write
   // with base=0 is called, we start another fifo.
@@ -267,10 +268,10 @@ int vnl_sparse_symmetric_eigensystem::SaveVectors(int n, int m,
 }
 
 //------------------------------------------------------------
-// -- Callback to restore vectors for dnlaso.
-int vnl_sparse_symmetric_eigensystem::RestoreVectors(int n, int m, 
-						     double* q,
-						     int base)
+//: Callback to restore vectors for dnlaso.
+int vnl_sparse_symmetric_eigensystem::RestoreVectors(int n, int m,
+                                                     double* q,
+                                                     int base)
 {
   // Store the contents of q.  Basically this is a fifo.  When a read
   // with base=0 is called, we start another fifo.
@@ -287,7 +288,7 @@ int vnl_sparse_symmetric_eigensystem::RestoreVectors(int n, int m,
 }
 
 //------------------------------------------------------------
-// -- Return a calculated eigenvector.
+//: Return a calculated eigenvector.
 vnl_vector<double> vnl_sparse_symmetric_eigensystem::get_eigenvector(int i) const
 {
   assert(i<nvalues);

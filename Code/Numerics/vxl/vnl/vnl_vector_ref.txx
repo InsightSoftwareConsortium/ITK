@@ -1,5 +1,7 @@
 #ifndef vnl_vector_ref_txx_
 #define vnl_vector_ref_txx_
+// This is vxl/vnl/vnl_vector_ref.txx
+
 /*
   fsm@robots.ox.ac.uk
 */

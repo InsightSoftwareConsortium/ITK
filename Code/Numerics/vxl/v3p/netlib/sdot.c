@@ -1,6 +1,6 @@
 /* sdot.f -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -36,10 +36,10 @@ integer *incy;
     stemp = (float)0.;
     ret_val = (float)0.;
     if (*n <= 0) {
-	return ret_val;
+        return ret_val;
     }
     if (*incx == 1 && *incy == 1) {
-	goto L20;
+        goto L20;
     }
 
 /*        code for unequal increments or equal increments */
@@ -48,16 +48,16 @@ integer *incy;
     ix = 1;
     iy = 1;
     if (*incx < 0) {
-	ix = (-(*n) + 1) * *incx + 1;
+        ix = (-(*n) + 1) * *incx + 1;
     }
     if (*incy < 0) {
-	iy = (-(*n) + 1) * *incy + 1;
+        iy = (-(*n) + 1) * *incy + 1;
     }
     i__1 = *n;
     for (i = 1; i <= i__1; ++i) {
-	stemp += sx[ix] * sy[iy];
-	ix += *incx;
-	iy += *incy;
+        stemp += sx[ix] * sy[iy];
+        ix += *incx;
+        iy += *incy;
 /* L10: */
     }
     ret_val = stemp;
@@ -71,22 +71,22 @@ integer *incy;
 L20:
     m = *n % 5;
     if (m == 0) {
-	goto L40;
+        goto L40;
     }
     i__1 = m;
     for (i = 1; i <= i__1; ++i) {
-	stemp += sx[i] * sy[i];
+        stemp += sx[i] * sy[i];
 /* L30: */
     }
     if (*n < 5) {
-	goto L60;
+        goto L60;
     }
 L40:
     mp1 = m + 1;
     i__1 = *n;
     for (i = mp1; i <= i__1; i += 5) {
-	stemp = stemp + sx[i] * sy[i] + sx[i + 1] * sy[i + 1] + sx[i + 2] * 
-		sy[i + 2] + sx[i + 3] * sy[i + 3] + sx[i + 4] * sy[i + 4];
+        stemp = stemp + sx[i] * sy[i] + sx[i + 1] * sy[i + 1] + sx[i + 2] *
+                sy[i + 2] + sx[i + 3] * sy[i + 3] + sx[i + 4] * sy[i + 4];
 /* L50: */
     }
 L60:

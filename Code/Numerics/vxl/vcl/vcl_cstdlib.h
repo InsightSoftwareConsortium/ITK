@@ -1,8 +1,6 @@
 #ifndef vcl_cstdlib_h_
 #define vcl_cstdlib_h_
-// .NAME vcl_cstdlib
-// .INCLUDE vcl_cstdlib.h
-// .FILE vcl_cstdlib.cxx
+// This is vcl_cstdlib.h
 
 // [26.5.4] In addition to the signatures from <stdlib.h> the C++
 // header <cstdlib> adds the overloaded signatures :

@@ -1,6 +1,10 @@
 #include <vcl_string.txx>
 #include <vcl_iostream.h>
 
+#if !VCL_USE_NATIVE_STL
+# include <emulation/vcl_string.txx>
+#endif
+
 VCL_BASIC_STRING_INSTANTIATE(char, vcl_char_traits<char> );
 
 #if defined(VCL_SUNPRO_CC)

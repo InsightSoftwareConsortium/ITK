@@ -3,9 +3,12 @@
 #ifdef __GNUC__
 #pragma interface
 #endif
-/*
-  fsm@robots.ox.ac.uk
-*/
+// This is vxl/vnl/vnl_matlab_header.h
+
+//: \file
+//  \brief MATLAB header structure
+//  \author fsm@robots.ox.ac.uk 
+
 
 struct vnl_matlab_header
 {

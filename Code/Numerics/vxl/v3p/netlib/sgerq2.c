@@ -1,22 +1,22 @@
 /* sgerq2.f -- translated by f2c (version of 4 June 1993  1:43:59).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
 
-/* Subroutine */ int sgerq2_(integer *m, integer *n, real *a, integer *lda, 
-	real *tau, real *work, integer *info)
+/* Subroutine */ int sgerq2_(integer *m, integer *n, real *a, integer *lda,
+        real *tau, real *work, integer *info)
 {
     /* System generated locals */
     integer a_dim1, a_offset, i__1, i__2;
 
     /* Local variables */
     static integer i, k;
-    extern /* Subroutine */ int slarf_(char *, integer *, integer *, real *, 
-	    integer *, real *, real *, integer *, real *, ftnlen), xerbla_(
-	    char *, integer *, ftnlen), slarfg_(integer *, real *, real *, 
-	    integer *, real *);
+    extern /* Subroutine */ int slarf_(char *, integer *, integer *, real *,
+            integer *, real *, real *, integer *, real *, ftnlen), xerbla_(
+            char *, integer *, ftnlen), slarfg_(integer *, real *, real *,
+            integer *, real *);
     static real aii;
 
 
@@ -48,13 +48,13 @@
 /*  A       (input/output) REAL array, dimension (LDA,N) */
 /*          On entry, the m by n matrix A. */
 /*          On exit, if m <= n, the upper triangle of the subarray */
-/*          A(1:m,n-m+1:n) contains the m by m upper triangular matrix R; 
+/*          A(1:m,n-m+1:n) contains the m by m upper triangular matrix R;
 */
-/*          if m >= n, the elements on and above the (m-n)-th subdiagonal 
+/*          if m >= n, the elements on and above the (m-n)-th subdiagonal
 */
-/*          contain the m by n upper trapezoidal matrix R; the remaining 
+/*          contain the m by n upper trapezoidal matrix R; the remaining
 */
-/*          elements, with the array TAU, represent the orthogonal matrix 
+/*          elements, with the array TAU, represent the orthogonal matrix
 */
 /*          Q as a product of elementary reflectors (see Further */
 /*          Details). */
@@ -63,7 +63,7 @@
 /*          The leading dimension of the array A.  LDA >= max(1,M). */
 
 /*  TAU     (output) REAL array, dimension (min(M,N)) */
-/*          The scalar factors of the elementary reflectors (see Further 
+/*          The scalar factors of the elementary reflectors (see Further
 */
 /*          Details). */
 
@@ -85,11 +85,11 @@
 /*     H(i) = I - tau * v * v' */
 
 /*  where tau is a real scalar, and v is a real vector with */
-/*  v(n-k+i+1:n) = 0 and v(n-k+i) = 1; v(1:n-k+i-1) is stored on exit in 
+/*  v(n-k+i+1:n) = 0 and v(n-k+i) = 1; v(1:n-k+i-1) is stored on exit in
 */
 /*  A(m-k+i,1:n-k+i-1), and tau in TAU(i). */
 
-/*  ===================================================================== 
+/*  =====================================================================
 */
 
 /*     .. Parameters .. */
@@ -114,16 +114,16 @@
     /* Function Body */
     *info = 0;
     if (*m < 0) {
-	*info = -1;
+        *info = -1;
     } else if (*n < 0) {
-	*info = -2;
+        *info = -2;
     } else if (*lda < max(1,*m)) {
-	*info = -4;
+        *info = -4;
     }
     if (*info != 0) {
-	i__1 = -(*info);
-	xerbla_("SGERQ2", &i__1, 6L);
-	return 0;
+        i__1 = -(*info);
+        xerbla_("SGERQ2", &i__1, 6L);
+        return 0;
     }
 
     k = min(*m,*n);
@@ -133,19 +133,19 @@
 /*        Generate elementary reflector H(i) to annihilate */
 /*        A(m-k+i,1:n-k+i-1) */
 
-	i__1 = *n - k + i;
-	slarfg_(&i__1, &a[*m - k + i + (*n - k + i) * a_dim1], &a[*m - k + i 
-		+ a_dim1], lda, &tau[i]);
+        i__1 = *n - k + i;
+        slarfg_(&i__1, &a[*m - k + i + (*n - k + i) * a_dim1], &a[*m - k + i
+                + a_dim1], lda, &tau[i]);
 
 /*        Apply H(i) to A(1:m-k+i-1,1:n-k+i) from the right */
 
-	aii = a[*m - k + i + (*n - k + i) * a_dim1];
-	a[*m - k + i + (*n - k + i) * a_dim1] = 1.f;
-	i__1 = *m - k + i - 1;
-	i__2 = *n - k + i;
-	slarf_("Right", &i__1, &i__2, &a[*m - k + i + a_dim1], lda, &tau[i], &
-		a[a_offset], lda, &work[1], 5L);
-	a[*m - k + i + (*n - k + i) * a_dim1] = aii;
+        aii = a[*m - k + i + (*n - k + i) * a_dim1];
+        a[*m - k + i + (*n - k + i) * a_dim1] = 1.f;
+        i__1 = *m - k + i - 1;
+        i__2 = *n - k + i;
+        slarf_("Right", &i__1, &i__2, &a[*m - k + i + a_dim1], lda, &tau[i], &
+                a[a_offset], lda, &work[1], 5L);
+        a[*m - k + i + (*n - k + i) * a_dim1] = aii;
 /* L10: */
     }
     return 0;

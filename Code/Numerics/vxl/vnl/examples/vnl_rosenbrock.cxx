@@ -17,9 +17,9 @@
 #include <vnl/algo/vnl_lbfgs.h>
 
 // Make a compute object for the "banana" function
-//			      2      
-//	    f(x, y) = {10*(y-x ), 1-x}
-//
+// \verbatim
+//          f(x, y) = {10*(y-x*x), 1-x}
+// \endverbatim
 // It is called the banana function because of the way the
 // curvature bends around the origin. It is notorious in
 // optimization examples because of the slow convergence
@@ -40,7 +40,7 @@ public:
 class vnl_rosenbrock_grad_cost_fun : public vnl_cost_function {
 public:
   vnl_rosenbrock_grad_cost_fun(): vnl_cost_function(2) {}
-  
+
   double f(const vnl_vector<double>& x) {
     double a = 10*(x[1] - x[0]*x[0]);
     double b = 1 - x[0];
@@ -53,7 +53,7 @@ public:
     g[0] = 2 * a * (-20*x[0]) - 2 * b;
     g[1] = 20 * a;
   }
-  
+
 };
 
 int main()
@@ -63,7 +63,7 @@ int main()
 
   // Set up the initial guess
   vnl_double_2 x0(-1.9, 2);
-  
+
   // Temp variable.
   vnl_double_2 x;
 

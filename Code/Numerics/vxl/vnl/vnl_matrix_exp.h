@@ -3,30 +3,29 @@
 #ifdef __GNUC__
 #pragma interface
 #endif
-/*
-  fsm@robots.ox.ac.uk
-*/
+// This is vxl/vnl/vnl_matrix_exp.h
 
-// .NAME	vnl_matrix_exp
-// .LIBRARY	vnl
-// .HEADER	vxl Package
-// .INCLUDE	vnl/vnl_matrix_exp.h
-// .FILE	vnl_matrix_exp.txx
-// .SECTION Description
+//: \file
+//  \brief Compute the exponential of a square matrix
+//  \author fsm@robots.ox.ac.uk
 // Compute the exponential of a square matrix, by summing its
 // exponential series $exp(X) = \sum_{n \ge 0} X^n/n!$ till a
 // convergence requirement is met.
 //
 // Many improvements are possible.
 
+// Modifications LSB (Manchester) 23/1/01
+
+
+
 #include <vnl/vnl_matrix.h>
 
-//: fiddly form.
+//: Compute the exponential of a sqaure matrix - fiddly form
 template <class T>
 bool vnl_matrix_exp(vnl_matrix<T> const &X, vnl_matrix<T> &expX, double max_err);
 
 
-//: easy form.
+//: Compute the exponential of a sqaure matrix - easy form.
 template <class T>
 vnl_matrix<T> vnl_matrix_exp(vnl_matrix<T> const &X);
 

@@ -3,26 +3,24 @@
 #ifdef __GNUC__
 #pragma interface
 #endif
+
+//:
+//  \file
+//  \brief Holds one half of a discretely sampled 1D gaussian distribution
+//  \author Andrew W. Fitzgibbon, Oxford RRG, 07 Aug 97
 //
-// .NAME	vnl_gaussian_kernel_1d - 1D discrete Gaussian
-// .LIBRARY	vnl-algo
-// .HEADER	vxl Package
-// .INCLUDE	vnl/algo/vnl_gaussian_kernel_1d.h
-// .FILE	vnl_gaussian_kernel_1d.cxx
+//  Modifications
+//  970807 AWF Initial version.
+//  dac (Manchester) 28/03/2001: tidied up documentation
 //
-// .SECTION Description
-//    vnl_gaussian_kernel_1d is a class that holds one half of a discretely
-//    sampled 1D gaussian distribution.
-//
-// .SECTION Author
-//     Andrew W. Fitzgibbon, Oxford RRG, 07 Aug 97
-//
-// .SECTION Modifications
-//     970807 AWF Initial version.
-//
-//-----------------------------------------------------------------------------
 
 #include <vnl/vnl_vector.h>
+
+
+//: Holds one half of a discretely sampled 1D gaussian distribution
+//  vnl_gaussian_kernel_1d is a class that holds one half of a discretely
+//  sampled 1D gaussian distribution.
+//
 
 class vnl_gaussian_kernel_1d {
 public:

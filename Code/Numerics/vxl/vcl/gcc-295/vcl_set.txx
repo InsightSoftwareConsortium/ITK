@@ -18,6 +18,7 @@
 #define VCL_SET_IMPL(Key, Compare) \
 _Rb_tree<Key, Key, _Identity<Key >, Compare, allocator<Key > >
 
+#undef VCL_SET_INSTANTIATE
 #define VCL_SET_INSTANTIATE(T, Compare)\
 template class vcl_set<T, Compare >; \
 template void distance (vcl_set<T, Compare >::iterator, vcl_set<T, Compare >::iterator, unsigned &); \

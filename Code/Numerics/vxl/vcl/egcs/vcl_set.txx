@@ -6,6 +6,7 @@
 #define VCL_SET_INSTANTIATE_ITERATOR(InputIterator, Distance)\
 template void distance (InputIterator , InputIterator , Distance& ) 
 
+#undef VCL_SET_INSTANTIATE
 #define VCL_SET_INSTANTIATE(T, Comp)\
 template class vcl_set<T, Comp >; \
 template class rb_tree<T, T, vcl_identity<T>, Comp>; \

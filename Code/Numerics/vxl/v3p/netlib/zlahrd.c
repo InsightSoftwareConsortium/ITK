@@ -1,6 +1,6 @@
 /*  -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -22,14 +22,14 @@ doublecomplex *y;
 integer *ldy;
 {
     /* System generated locals */
-    integer a_dim1, a_offset, t_dim1, t_offset, y_dim1, y_offset, i__1, i__2, 
-	    i__3;
+    integer a_dim1, a_offset, t_dim1, t_offset, y_dim1, y_offset, i__1, i__2,
+            i__3;
     doublecomplex z__1;
 
     /* Local variables */
     static integer i;
-    extern /* Subroutine */ int zscal_(), zgemv_(), zcopy_(), zaxpy_(), 
-	    ztrmv_();
+    extern /* Subroutine */ int zscal_(), zgemv_(), zcopy_(), zaxpy_(),
+            ztrmv_();
     static doublecomplex ei;
     extern /* Subroutine */ int zlarfg_(), zlacgv_();
 
@@ -47,13 +47,13 @@ integer *ldy;
 /*  Purpose */
 /*  ======= */
 
-/*  ZLAHRD reduces the first NB columns of a complex general n-by-(n-k+1) 
+/*  ZLAHRD reduces the first NB columns of a complex general n-by-(n-k+1)
 */
 /*  matrix A so that elements below the k-th subdiagonal are zero. The */
 /*  reduction is performed by a unitary similarity transformation */
-/*  Q' * A * Q. The routine returns the matrices V and T which determine 
+/*  Q' * A * Q. The routine returns the matrices V and T which determine
 */
-/*  Q as a block reflector I - V*T*V', and also the matrix Y = A * V * T. 
+/*  Q as a block reflector I - V*T*V', and also the matrix Y = A * V * T.
 */
 
 /*  This is an auxiliary routine called by ZGEHRD. */
@@ -76,9 +76,9 @@ integer *ldy;
 /*          On exit, the elements on and above the k-th subdiagonal in */
 /*          the first NB columns are overwritten with the corresponding */
 /*          elements of the reduced matrix; the elements below the k-th */
-/*          subdiagonal, with the array TAU, represent the matrix Q as a 
+/*          subdiagonal, with the array TAU, represent the matrix Q as a
 */
-/*          product of elementary reflectors. The other columns of A are 
+/*          product of elementary reflectors. The other columns of A are
 */
 /*          unchanged. See Further Details. */
 
@@ -86,7 +86,7 @@ integer *ldy;
 /*          The leading dimension of the array A.  LDA >= max(1,N). */
 
 /*  TAU     (output) COMPLEX*16 array, dimension (NB) */
-/*          The scalar factors of the elementary reflectors. See Further 
+/*          The scalar factors of the elementary reflectors. See Further
 */
 /*          Details. */
 
@@ -105,7 +105,7 @@ integer *ldy;
 /*  Further Details */
 /*  =============== */
 
-/*  The matrix Q is represented as a product of nb elementary reflectors 
+/*  The matrix Q is represented as a product of nb elementary reflectors
 */
 
 /*     Q = H(1) H(2) . . . H(nb). */
@@ -118,7 +118,7 @@ integer *ldy;
 /*  v(1:i+k-1) = 0, v(i+k) = 1; v(i+k+1:n) is stored on exit in */
 /*  A(i+k+1:n,i), and tau in TAU(i). */
 
-/*  The elements of the vectors v together form the (n-k+1)-by-nb matrix 
+/*  The elements of the vectors v together form the (n-k+1)-by-nb matrix
 */
 /*  V which is needed, with T and Y, to apply the transformation to the */
 /*  unreduced part of the matrix, using an update of the form: */
@@ -136,11 +136,11 @@ integer *ldy;
 /*     ( v1  v2  a   a   a ) */
 
 /*  where a denotes an element of the original matrix A, h denotes a */
-/*  modified element of the upper Hessenberg matrix H, and vi denotes an 
+/*  modified element of the upper Hessenberg matrix H, and vi denotes an
 */
 /*  element of the vector defining H(i). */
 
-/*  ===================================================================== 
+/*  =====================================================================
 */
 
 /*     .. Parameters .. */
@@ -169,25 +169,25 @@ integer *ldy;
 
     /* Function Body */
     if (*n <= 1) {
-	return 0;
+        return 0;
     }
 
     i__1 = *nb;
     for (i = 1; i <= i__1; ++i) {
-	if (i > 1) {
+        if (i > 1) {
 
 /*           Update A(1:n,i) */
 
 /*           Compute i-th column of A - Y * V' */
 
-	    i__2 = i - 1;
-	    zlacgv_(&i__2, &a[*k + i - 1 + a_dim1], lda);
-	    i__2 = i - 1;
-	    zgemv_("No transpose", n, &i__2, &c_b4, &y[y_offset], ldy, &a[*k 
-		    + i - 1 + a_dim1], lda, &c_b5, &a[i * a_dim1 + 1], &c__1, 
-		    12L);
-	    i__2 = i - 1;
-	    zlacgv_(&i__2, &a[*k + i - 1 + a_dim1], lda);
+            i__2 = i - 1;
+            zlacgv_(&i__2, &a[*k + i - 1 + a_dim1], lda);
+            i__2 = i - 1;
+            zgemv_("No transpose", n, &i__2, &c_b4, &y[y_offset], ldy, &a[*k
+                    + i - 1 + a_dim1], lda, &c_b5, &a[i * a_dim1 + 1], &c__1,
+                    12L);
+            i__2 = i - 1;
+            zlacgv_(&i__2, &a[*k + i - 1 + a_dim1], lda);
 
 /*           Apply I - V * T' * V' to this column (call it b) from
  the */
@@ -201,88 +201,88 @@ integer *ldy;
 
 /*           w := V1' * b1 */
 
-	    i__2 = i - 1;
-	    zcopy_(&i__2, &a[*k + 1 + i * a_dim1], &c__1, &t[*nb * t_dim1 + 1]
-		    , &c__1);
-	    i__2 = i - 1;
-	    ztrmv_("Lower", "Conjugate transpose", "Unit", &i__2, &a[*k + 1 + 
-		    a_dim1], lda, &t[*nb * t_dim1 + 1], &c__1, 5L, 19L, 4L);
+            i__2 = i - 1;
+            zcopy_(&i__2, &a[*k + 1 + i * a_dim1], &c__1, &t[*nb * t_dim1 + 1]
+                    , &c__1);
+            i__2 = i - 1;
+            ztrmv_("Lower", "Conjugate transpose", "Unit", &i__2, &a[*k + 1 +
+                    a_dim1], lda, &t[*nb * t_dim1 + 1], &c__1, 5L, 19L, 4L);
 
 /*           w := w + V2'*b2 */
 
-	    i__2 = *n - *k - i + 1;
-	    i__3 = i - 1;
-	    zgemv_("Conjugate transpose", &i__2, &i__3, &c_b5, &a[*k + i + 
-		    a_dim1], lda, &a[*k + i + i * a_dim1], &c__1, &c_b5, &t[*
-		    nb * t_dim1 + 1], &c__1, 19L);
+            i__2 = *n - *k - i + 1;
+            i__3 = i - 1;
+            zgemv_("Conjugate transpose", &i__2, &i__3, &c_b5, &a[*k + i +
+                    a_dim1], lda, &a[*k + i + i * a_dim1], &c__1, &c_b5, &t[*
+                    nb * t_dim1 + 1], &c__1, 19L);
 
 /*           w := T'*w */
 
-	    i__2 = i - 1;
-	    ztrmv_("Upper", "Conjugate transpose", "Non-unit", &i__2, &t[
-		    t_offset], ldt, &t[*nb * t_dim1 + 1], &c__1, 5L, 19L, 8L);
+            i__2 = i - 1;
+            ztrmv_("Upper", "Conjugate transpose", "Non-unit", &i__2, &t[
+                    t_offset], ldt, &t[*nb * t_dim1 + 1], &c__1, 5L, 19L, 8L);
 
 /*           b2 := b2 - V2*w */
 
-	    i__2 = *n - *k - i + 1;
-	    i__3 = i - 1;
-	    zgemv_("No transpose", &i__2, &i__3, &c_b4, &a[*k + i + a_dim1], 
-		    lda, &t[*nb * t_dim1 + 1], &c__1, &c_b5, &a[*k + i + i * 
-		    a_dim1], &c__1, 12L);
+            i__2 = *n - *k - i + 1;
+            i__3 = i - 1;
+            zgemv_("No transpose", &i__2, &i__3, &c_b4, &a[*k + i + a_dim1],
+                    lda, &t[*nb * t_dim1 + 1], &c__1, &c_b5, &a[*k + i + i *
+                    a_dim1], &c__1, 12L);
 
 /*           b1 := b1 - V1*w */
 
-	    i__2 = i - 1;
-	    ztrmv_("Lower", "No transpose", "Unit", &i__2, &a[*k + 1 + a_dim1]
-		    , lda, &t[*nb * t_dim1 + 1], &c__1, 5L, 12L, 4L);
-	    i__2 = i - 1;
-	    zaxpy_(&i__2, &c_b4, &t[*nb * t_dim1 + 1], &c__1, &a[*k + 1 + i * 
-		    a_dim1], &c__1);
+            i__2 = i - 1;
+            ztrmv_("Lower", "No transpose", "Unit", &i__2, &a[*k + 1 + a_dim1]
+                    , lda, &t[*nb * t_dim1 + 1], &c__1, 5L, 12L, 4L);
+            i__2 = i - 1;
+            zaxpy_(&i__2, &c_b4, &t[*nb * t_dim1 + 1], &c__1, &a[*k + 1 + i *
+                    a_dim1], &c__1);
 
-	    i__2 = *k + i - 1 + (i - 1) * a_dim1;
-	    a[i__2].r = ei.r, a[i__2].i = ei.i;
-	}
+            i__2 = *k + i - 1 + (i - 1) * a_dim1;
+            a[i__2].r = ei.r, a[i__2].i = ei.i;
+        }
 
 /*        Generate the elementary reflector H(i) to annihilate */
 /*        A(k+i+1:n,i) */
 
-	i__2 = *k + i + i * a_dim1;
-	ei.r = a[i__2].r, ei.i = a[i__2].i;
-	i__2 = *n - *k - i + 1;
+        i__2 = *k + i + i * a_dim1;
+        ei.r = a[i__2].r, ei.i = a[i__2].i;
+        i__2 = *n - *k - i + 1;
 /* Computing MIN */
-	i__3 = *k + i + 1;
-	zlarfg_(&i__2, &ei, &a[min(i__3,*n) + i * a_dim1], &c__1, &tau[i]);
-	i__2 = *k + i + i * a_dim1;
-	a[i__2].r = 1., a[i__2].i = 0.;
+        i__3 = *k + i + 1;
+        zlarfg_(&i__2, &ei, &a[min(i__3,*n) + i * a_dim1], &c__1, &tau[i]);
+        i__2 = *k + i + i * a_dim1;
+        a[i__2].r = 1., a[i__2].i = 0.;
 
 /*        Compute  Y(1:n,i) */
 
-	i__2 = *n - *k - i + 1;
-	zgemv_("No transpose", n, &i__2, &c_b5, &a[(i + 1) * a_dim1 + 1], lda,
-		 &a[*k + i + i * a_dim1], &c__1, &c_b39, &y[i * y_dim1 + 1], &
-		c__1, 12L);
-	i__2 = *n - *k - i + 1;
-	i__3 = i - 1;
-	zgemv_("Conjugate transpose", &i__2, &i__3, &c_b5, &a[*k + i + a_dim1]
-		, lda, &a[*k + i + i * a_dim1], &c__1, &c_b39, &t[i * t_dim1 
-		+ 1], &c__1, 19L);
-	i__2 = i - 1;
-	zgemv_("No transpose", n, &i__2, &c_b4, &y[y_offset], ldy, &t[i * 
-		t_dim1 + 1], &c__1, &c_b5, &y[i * y_dim1 + 1], &c__1, 12L);
-	zscal_(n, &tau[i], &y[i * y_dim1 + 1], &c__1);
+        i__2 = *n - *k - i + 1;
+        zgemv_("No transpose", n, &i__2, &c_b5, &a[(i + 1) * a_dim1 + 1], lda,
+                 &a[*k + i + i * a_dim1], &c__1, &c_b39, &y[i * y_dim1 + 1], &
+                c__1, 12L);
+        i__2 = *n - *k - i + 1;
+        i__3 = i - 1;
+        zgemv_("Conjugate transpose", &i__2, &i__3, &c_b5, &a[*k + i + a_dim1]
+                , lda, &a[*k + i + i * a_dim1], &c__1, &c_b39, &t[i * t_dim1
+                + 1], &c__1, 19L);
+        i__2 = i - 1;
+        zgemv_("No transpose", n, &i__2, &c_b4, &y[y_offset], ldy, &t[i *
+                t_dim1 + 1], &c__1, &c_b5, &y[i * y_dim1 + 1], &c__1, 12L);
+        zscal_(n, &tau[i], &y[i * y_dim1 + 1], &c__1);
 
 /*        Compute T(1:i,i) */
 
-	i__2 = i - 1;
-	i__3 = i;
-	z__1.r = -tau[i__3].r, z__1.i = -tau[i__3].i;
-	zscal_(&i__2, &z__1, &t[i * t_dim1 + 1], &c__1);
-	i__2 = i - 1;
-	ztrmv_("Upper", "No transpose", "Non-unit", &i__2, &t[t_offset], ldt, 
-		&t[i * t_dim1 + 1], &c__1, 5L, 12L, 8L);
-	i__2 = i + i * t_dim1;
-	i__3 = i;
-	t[i__2].r = tau[i__3].r, t[i__2].i = tau[i__3].i;
+        i__2 = i - 1;
+        i__3 = i;
+        z__1.r = -tau[i__3].r, z__1.i = -tau[i__3].i;
+        zscal_(&i__2, &z__1, &t[i * t_dim1 + 1], &c__1);
+        i__2 = i - 1;
+        ztrmv_("Upper", "No transpose", "Non-unit", &i__2, &t[t_offset], ldt,
+                &t[i * t_dim1 + 1], &c__1, 5L, 12L, 8L);
+        i__2 = i + i * t_dim1;
+        i__3 = i;
+        t[i__2].r = tau[i__3].r, t[i__2].i = tau[i__3].i;
 
 /* L10: */
     }

@@ -1,6 +1,6 @@
 //-*- c++ -*-------------------------------------------------------------------
 //
-// Class: vnl_matrix_inverse
+// vnl_matrix_inverse
 // Author: Andrew W. Fitzgibbon, Oxford RRG
 // Created: 22 Nov 96
 //

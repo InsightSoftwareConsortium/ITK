@@ -3,17 +3,19 @@
 #ifdef __GNUC__
 #pragma interface
 #endif
-// .NAME vnl_trace
-// .HEADER vxl package
-// .LIBRARY vnl
-// .INCLUDE vnl/vnl_trace.h
-// .FILE vnl_trace.cxx
-// .SECTION Author
-//  fsm@robots.ox.ac.uk
-//
+// This is vxl/vnl/vnl_trace.h
+
+//: 
+//  \file
+//  \brief Calculate trace of a matrix
+//  \author fsm@robots.ox.ac.uk
+
+// Modifications
+// LSB (Manchester) 19/3/01 Documentation tidied
 
 template <class T> class vnl_matrix;
 
+//: Calculate trace of a matrix
 template <class T>
 T vnl_trace(vnl_matrix<T> const &);
 

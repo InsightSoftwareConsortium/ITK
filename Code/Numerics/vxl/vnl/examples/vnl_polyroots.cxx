@@ -6,7 +6,7 @@
 
 #include <vcl_iostream.h>
 #include <vcl_cstdlib.h> // for atof()
-#include <vnl/vnl_complex.h>
+#include <vcl_complex.h>
 #include <vnl/vnl_vector.h>
 #include <vnl/algo/vnl_rpoly_roots.h>
 

@@ -2,11 +2,11 @@
 AC_INIT(configure.in)
 
 # blurb
-echo "CC=$CC"
-echo "CCFLAGS=$CCFLAGS"
-echo "CXX=$CXX"
-echo "CXXFLAGS=$CXXFLAGS"
-echo "TXXFLAGS=$TXXFLAGS"
+echo "vxl configure: CC=$CC"
+echo "vxl configure: CCFLAGS=$CCFLAGS"
+echo "vxl configure: CXX=$CXX"
+echo "vxl configure: CXXFLAGS=$CXXFLAGS"
+echo "vxl configure: TXXFLAGS=$TXXFLAGS"
 
 ## we need to use the scripts in ./shell
 #no_we_dont AC_CONFIG_AUX_DIR(Scripts/Shell)
@@ -76,10 +76,14 @@ AC_SUBST(VXL_HAS_IEEEFP_H)
 # architecture
 AC_SUBST(VXL_BIG_ENDIAN)
 AC_SUBST(VXL_LITTLE_ENDIAN)
-AC_SUBST(VXL_INT8)
-AC_SUBST(VXL_INT16)
-AC_SUBST(VXL_INT32)
-AC_SUBST(VXL_INT64)
+AC_SUBST(VXL_INT_8)
+AC_SUBST(VXL_INT_16)
+AC_SUBST(VXL_INT_32)
+AC_SUBST(VXL_INT_64)
+AC_SUBST(VXL_IEEE_32)
+AC_SUBST(VXL_IEEE_64)
+#AC_SUBST(VXL_IEEE_96)
+#AC_SUBST(VXL_IEEE_128)
 
 #--------------------------------------------------------------------------------
 # output section:

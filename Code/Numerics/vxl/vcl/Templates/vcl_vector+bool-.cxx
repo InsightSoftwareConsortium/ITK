@@ -8,6 +8,10 @@ namespace {
     vcl_vector<bool> done_once(nargs, false);
   }
 }
+# ifdef VCL_GCC_295
+template void fill<_Bit_iterator, bool>(_Bit_iterator, _Bit_iterator, bool const &);
+template _Bit_iterator fill_n<_Bit_iterator, unsigned int, bool>(_Bit_iterator, unsigned int, bool const &);
+# endif
 # ifdef GNU_LIBSTDCXX_V3
 namespace std {
   template void std::fill<std::_Bit_iterator, bool>(std::_Bit_iterator, std::_Bit_iterator, bool const &);

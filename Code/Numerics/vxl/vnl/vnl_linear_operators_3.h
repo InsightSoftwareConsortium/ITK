@@ -3,30 +3,25 @@
 #ifdef __GNUC__
 #pragma interface
 #endif
-//
-// .NAME	vnl_linear_operators_3 - 3D linear algebra operations
-// .LIBRARY	vnl
-// .HEADER	vxl package
-// .INCLUDE	vnl/vnl_linear_operators_3.h
-// .FILE	vnl_linear_operators_3.cxx
-//
-// .SECTION Description
+// This is vxl/vnl/vnl_linear_operators_3.h
+
+//: \file
+//  \brief 3D linear algebra operations
+//  \author Andrew W. Fitzgibbon, Oxford RRG, 04 Aug 96 
 //    Specialized linear operators for 3D vectors and matrices.
 //    Include this file if you're inlining or compiling linear algebra
 //    code for speed.
 //
-// .SECTION Author
-//     Andrew W. Fitzgibbon, Oxford RRG, 04 Aug 96
-//
-// .SECTION Modifications:
-//     <none yet>
+
+// Modifications:
+// LSB (Manchester) 23/3/01 Tidied documentation
 //
 //-----------------------------------------------------------------------------
 
 #include <vnl/vnl_double_3.h>
 #include <vnl/vnl_double_3x3.h>
 
-// --
+//: The binary multiplication operator 
 inline
 vnl_double_3 operator* (const vnl_double_3x3& A, const vnl_double_3& x)
 {
@@ -37,7 +32,7 @@ vnl_double_3 operator* (const vnl_double_3x3& A, const vnl_double_3& x)
   return vnl_double_3(r0, r1, r2);
 }
 
-// -- 
+//: The binary addition operator 
 inline
 vnl_double_3 operator+ (const vnl_double_3& a, const vnl_double_3& b)
 {

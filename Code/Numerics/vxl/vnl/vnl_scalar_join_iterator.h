@@ -3,13 +3,13 @@
 #ifdef __GNUC__
 #pragma interface
 #endif
-// .NAME	vnl_scalar_join_iterator - Database join on matrix columns
-// .LIBRARY	vnl
-// .HEADER	vxl package
-// .INCLUDE	vnl/vnl_scalar_join_iterator.h
-// .FILE	vnl_scalar_join_iterator.txx
-//
-// .SECTION Description
+// This is vxl/vnl/vnl_scalar_join_iterator.h
+
+//: 
+//  \file
+//  \brief  Database join on matrix columns
+//  \author Andrew W. Fitzgibbon, Oxford RRG, 27 Dec 96
+//  \verbatim
 //    vnl_scalar_join_iterator implements a fast database join on columns
 //    of matrices of scalars.  "Scalar" here really means that the
 //    objects have comparison operators.  The cost is O(n log n) where
@@ -27,11 +27,12 @@
 //          2 3 3 6
 //    And it doesn't.  Contact awf if you need this to work.
 //
-// .SECTION Author
-//     Andrew W. Fitzgibbon, Oxford RRG, 27 Dec 96
+//  \endverbatim
 //
-// .SECTION Modifications:
-//     <none yet>
+
+//
+// Modifications:
+// LSB (Manchester) Documentation Tidied
 //
 //-----------------------------------------------------------------------------
 
@@ -47,29 +48,29 @@ template <class T>
 class vnl_scalar_join_iterator {
 public:
 
-// -- Initialize this iterator to the join of
+//:  Initialize this iterator to the join of
 // relation1(:,column1) and relation2(:,column2).
 // The algorithm sorts an array of pointers to each row and
 // traversal of the iterator runs through these to produce the join.
 // After construction the row1() and row2() methods indicate the first pair.
   vnl_scalar_join_iterator(const vnl_matrix<T>& relation1, unsigned column1,
-		     const vnl_matrix<T>& relation2, unsigned column2);
+                     const vnl_matrix<T>& relation2, unsigned column2);
 
   ~vnl_scalar_join_iterator();
 
 
-// -- Return true if all pairs have been seen.
+//: Return true if all pairs have been seen.
   operator bool () { return !done(); }
 
-// -- Advance to the next pair.  This is prefix ++.
+//: Advance to the next pair.  This is prefix ++.
   inline vnl_scalar_join_iterator<T>& operator ++ () { next(); return *this; }
 
   bool done();
   void next();
 
-// --
+//: Return the indices of the current rows in the first and second relations.
   unsigned row1();
-// -- Return the indices of the current rows in the first and second relations.
+//: Return the indices of the current rows in the first and second relations.
   unsigned row2();
 
 private:
@@ -90,7 +91,7 @@ protected:
   vcl_list<vnl_scalar_join_iterator_indexed_pair<T> >::iterator index2;
 };
 
-// Helper class to hold the sorted arrays of indices.
+//: Helper class to hold the sorted arrays of indices.
 template <class T>
 struct vnl_scalar_join_iterator_indexed_pair {
 public:

@@ -19,7 +19,3 @@ int main()
 
   return 0;
 }
-
-#if defined(VCL_GCC_27)
-VCL_INSTANTIATE_INLINE(void vcl_destroy(X *));
-#endif

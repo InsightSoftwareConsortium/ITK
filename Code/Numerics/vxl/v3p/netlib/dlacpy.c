@@ -1,13 +1,13 @@
 /* dlacpy.f -- translated by f2c (version of 4 June 1993  1:43:59).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
 
 /*<       SUBROUTINE DLACPY( UPLO, M, N, A, LDA, B, LDB ) >*/
 /* Subroutine */ int dlacpy_(char *uplo, integer *m, integer *n, doublereal *
-	a, integer *lda, doublereal *b, integer *ldb, ftnlen uplo_len)
+        a, integer *lda, doublereal *b, integer *ldb, ftnlen uplo_len)
 {
     /* System generated locals */
     integer a_dim1, a_offset, b_dim1, b_offset, i__1, i__2;
@@ -52,7 +52,7 @@
 /*          The number of columns of the matrix A.  N >= 0. */
 
 /*  A       (input) DOUBLE PRECISION array, dimension (LDA,N) */
-/*          The m by n matrix A.  If UPLO = 'U', only the upper triangle 
+/*          The m by n matrix A.  If UPLO = 'U', only the upper triangle
 */
 /*          or trapezoid is accessed; if UPLO = 'L', only the lower */
 /*          triangle or trapezoid is accessed. */
@@ -66,7 +66,7 @@
 /*  LDB     (input) INTEGER */
 /*          The leading dimension of the array B.  LDB >= max(1,M). */
 
-/*  ===================================================================== 
+/*  =====================================================================
 */
 
 /*     .. Local Scalars .. */
@@ -93,51 +93,51 @@
     /* Function Body */
     if (lsame_(uplo, "U", 1L, 1L)) {
 /*<          DO 20 J = 1, N >*/
-	i__1 = *n;
-	for (j = 1; j <= i__1; ++j) {
+        i__1 = *n;
+        for (j = 1; j <= i__1; ++j) {
 /*<             DO 10 I = 1, MIN( J, M ) >*/
-	    i__2 = min(j,*m);
-	    for (i = 1; i <= i__2; ++i) {
+            i__2 = min(j,*m);
+            for (i = 1; i <= i__2; ++i) {
 /*<                B( I, J ) = A( I, J ) >*/
-		b[i + j * b_dim1] = a[i + j * a_dim1];
+                b[i + j * b_dim1] = a[i + j * a_dim1];
 /*<    10       CONTINUE >*/
 /* L10: */
-	    }
+            }
 /*<    20    CONTINUE >*/
 /* L20: */
-	}
+        }
 /*<       ELSE IF( LSAME( UPLO, 'L' ) ) THEN >*/
     } else if (lsame_(uplo, "L", 1L, 1L)) {
 /*<          DO 40 J = 1, N >*/
-	i__1 = *n;
-	for (j = 1; j <= i__1; ++j) {
+        i__1 = *n;
+        for (j = 1; j <= i__1; ++j) {
 /*<             DO 30 I = J, M >*/
-	    i__2 = *m;
-	    for (i = j; i <= i__2; ++i) {
+            i__2 = *m;
+            for (i = j; i <= i__2; ++i) {
 /*<                B( I, J ) = A( I, J ) >*/
-		b[i + j * b_dim1] = a[i + j * a_dim1];
+                b[i + j * b_dim1] = a[i + j * a_dim1];
 /*<    30       CONTINUE >*/
 /* L30: */
-	    }
+            }
 /*<    40    CONTINUE >*/
 /* L40: */
-	}
+        }
 /*<       ELSE >*/
     } else {
 /*<          DO 60 J = 1, N >*/
-	i__1 = *n;
-	for (j = 1; j <= i__1; ++j) {
+        i__1 = *n;
+        for (j = 1; j <= i__1; ++j) {
 /*<             DO 50 I = 1, M >*/
-	    i__2 = *m;
-	    for (i = 1; i <= i__2; ++i) {
+            i__2 = *m;
+            for (i = 1; i <= i__2; ++i) {
 /*<                B( I, J ) = A( I, J ) >*/
-		b[i + j * b_dim1] = a[i + j * a_dim1];
+                b[i + j * b_dim1] = a[i + j * a_dim1];
 /*<    50       CONTINUE >*/
 /* L50: */
-	    }
+            }
 /*<    60    CONTINUE >*/
 /* L60: */
-	}
+        }
 /*<       END IF >*/
     }
 /*<       RETURN >*/

@@ -3,17 +3,15 @@
 #ifdef __GNUC__
 #pragma interface
 #endif
-// .NAME	vnl_identity_3x3 - Undocumented class FIXME
-// .LIBRARY	vnl
-// .HEADER	vxl package
-// .INCLUDE	vnl/vnl_identity_3x3.h
-// .FILE	vnl_identity_3x3.cxx
-//
-// .SECTION Author
-//     Andrew W. Fitzgibbon, Oxford RRG, 30 Nov 96
-//
-// .SECTION Modifications:
-//     <none yet>
+// This is vxl/vnl/vnl_identity_3x3.h
+
+//: \file
+//  \brief  Undocumented class
+//  \author Andrew W. Fitzgibbon, Oxford RRG, 30 Nov 96
+//     
+
+// Modifications:
+// LSB (Manchester) 23/3/01 tidied documentation
 //
 //-----------------------------------------------------------------------------
 

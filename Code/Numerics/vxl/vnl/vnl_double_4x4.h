@@ -3,22 +3,16 @@
 #ifdef __GNUC__
 #pragma interface
 #endif
-//
-// .NAME	vnl_double_4x4 - 4x4 Matrix of double
-// .LIBRARY	vnl
-// .HEADER	vxl package
-// .INCLUDE	vnl/vnl_double_4x4.h
-// .FILE	vnl_double_4x4.cxx
-//
-// .SECTION Description
+// This is vxl/vnl/vnl_double_4x4.h
+
+//: \file
+//  \brief
+//  \author Andrew W. Fitzgibbon, Oxford RRG, 04 Aug 96
 //    vnl_double_4x4 is a vnl_matrix<double> of fixed size 4x4.  It is
 //    merely a typedef for vnl_matrix_fixed<double,4,4>
-//
-// .SECTION Author
-//     Andrew W. Fitzgibbon, Oxford RRG, 04 Aug 96
-//
-// .SECTION Modifications:
-//     <none yet>
+
+// Modifications:
+// 4/4/01 LSB (Manchester) Tidied documentation
 //
 //-----------------------------------------------------------------------------
 

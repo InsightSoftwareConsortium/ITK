@@ -75,5 +75,9 @@
 #ifndef vcl_perror
 #define vcl_perror vcl_generic_cstdio_STD :: perror
 #endif
+// sscanf
+#ifndef vcl_sscanf
+#define vcl_sscanf vcl_generic_cstdio_STD :: sscanf
+#endif
 
 #endif // vcl_generic_cstdio_h_

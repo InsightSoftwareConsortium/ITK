@@ -1,9 +1,11 @@
+// This is vxl/vnl/vnl_matlab_print_format.cxx
+
 #include "vnl_matlab_print.h"
 
 #include <vcl_iostream.h>
 #include <vcl_vector.h>
 
-// -- Choose precision in printouts.
+//: Choose precision in printouts.
 // 
 // vnl_matlab_format(vnl_matops::fmt_long) selects 16-digit precision
 // 

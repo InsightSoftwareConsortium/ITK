@@ -1,6 +1,6 @@
 /* dlarf.f -- translated by f2c (version of 4 June 1993  1:43:59).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -13,21 +13,21 @@ static integer c__1 = 1;
 
 /*<       SUBROUTINE DLARF( SIDE, M, N, V, INCV, TAU, C, LDC, WORK ) >*/
 /* Subroutine */ int dlarf_(char *side, integer *m, integer *n, doublereal *v,
-	 integer *incv, doublereal *tau, doublereal *c, integer *ldc, 
-	doublereal *work, ftnlen side_len)
+         integer *incv, doublereal *tau, doublereal *c, integer *ldc,
+        doublereal *work, ftnlen side_len)
 {
     /* System generated locals */
     integer c_dim1, c_offset;
     doublereal d__1;
 
     /* Local variables */
-    extern /* Subroutine */ int dger_(integer *, integer *, doublereal *, 
-	    doublereal *, integer *, doublereal *, integer *, doublereal *, 
-	    integer *);
+    extern /* Subroutine */ int dger_(integer *, integer *, doublereal *,
+            doublereal *, integer *, doublereal *, integer *, doublereal *,
+            integer *);
     extern logical lsame_(char *, char *, ftnlen, ftnlen);
-    extern /* Subroutine */ int dgemv_(char *, integer *, integer *, 
-	    doublereal *, doublereal *, integer *, doublereal *, integer *, 
-	    doublereal *, doublereal *, integer *, ftnlen);
+    extern /* Subroutine */ int dgemv_(char *, integer *, integer *,
+            doublereal *, doublereal *, integer *, doublereal *, integer *,
+            doublereal *, doublereal *, integer *, ftnlen);
 
 
 /*  -- LAPACK auxiliary routine (version 2.0) -- */
@@ -83,7 +83,7 @@ static integer c__1 = 1;
 
 /*  C       (input/output) DOUBLE PRECISION array, dimension (LDC,N) */
 /*          On entry, the m by n matrix C. */
-/*          On exit, C is overwritten by the matrix H * C if SIDE = 'L', 
+/*          On exit, C is overwritten by the matrix H * C if SIDE = 'L',
 */
 /*          or C * H if SIDE = 'R'. */
 
@@ -94,7 +94,7 @@ static integer c__1 = 1;
 /*                         (N) if SIDE = 'L' */
 /*                      or (M) if SIDE = 'R' */
 
-/*  ===================================================================== 
+/*  =====================================================================
 */
 
 /*     .. Parameters .. */
@@ -124,44 +124,44 @@ static integer c__1 = 1;
 /*        Form  H * C */
 
 /*<          IF( TAU.NE.ZERO ) THEN >*/
-	if (*tau != 0.) {
+        if (*tau != 0.) {
 
 /*           w := C' * v */
 
 /*<    >*/
-	    dgemv_("Transpose", m, n, &c_b4, &c[c_offset], ldc, &v[1], incv, &
-		    c_b5, &work[1], &c__1, 9L);
+            dgemv_("Transpose", m, n, &c_b4, &c[c_offset], ldc, &v[1], incv, &
+                    c_b5, &work[1], &c__1, 9L);
 
 /*           C := C - v * w' */
 
 /*<             CALL DGER( M, N, -TAU, V, INCV, WORK, 1, C, LDC ) >*/
-	    d__1 = -(*tau);
-	    dger_(m, n, &d__1, &v[1], incv, &work[1], &c__1, &c[c_offset], 
-		    ldc);
+            d__1 = -(*tau);
+            dger_(m, n, &d__1, &v[1], incv, &work[1], &c__1, &c[c_offset],
+                    ldc);
 /*<          END IF >*/
-	}
+        }
 /*<       ELSE >*/
     } else {
 
 /*        Form  C * H */
 
 /*<          IF( TAU.NE.ZERO ) THEN >*/
-	if (*tau != 0.) {
+        if (*tau != 0.) {
 
 /*           w := C * v */
 
 /*<    >*/
-	    dgemv_("No transpose", m, n, &c_b4, &c[c_offset], ldc, &v[1], 
-		    incv, &c_b5, &work[1], &c__1, 12L);
+            dgemv_("No transpose", m, n, &c_b4, &c[c_offset], ldc, &v[1],
+                    incv, &c_b5, &work[1], &c__1, 12L);
 
 /*           C := C - w * v' */
 
 /*<             CALL DGER( M, N, -TAU, WORK, 1, V, INCV, C, LDC ) >*/
-	    d__1 = -(*tau);
-	    dger_(m, n, &d__1, &work[1], &c__1, &v[1], incv, &c[c_offset], 
-		    ldc);
+            d__1 = -(*tau);
+            dger_(m, n, &d__1, &work[1], &c__1, &v[1], incv, &c[c_offset],
+                    ldc);
 /*<          END IF >*/
-	}
+        }
 /*<       END IF >*/
     }
 /*<       RETURN >*/

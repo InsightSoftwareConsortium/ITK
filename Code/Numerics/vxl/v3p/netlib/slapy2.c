@@ -1,6 +1,6 @@
 /* slapy2.f -- translated by f2c (version of 4 June 1993  1:43:59).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -28,7 +28,7 @@ real slapy2_(real *x, real *y)
 /*  Purpose */
 /*  ======= */
 
-/*  SLAPY2 returns sqrt(x**2+y**2), taking care not to cause unnecessary 
+/*  SLAPY2 returns sqrt(x**2+y**2), taking care not to cause unnecessary
 */
 /*  overflow. */
 
@@ -39,7 +39,7 @@ real slapy2_(real *x, real *y)
 /*  Y       (input) REAL */
 /*          X and Y specify the values x and y. */
 
-/*  ===================================================================== 
+/*  =====================================================================
 */
 
 /*     .. Parameters .. */
@@ -55,11 +55,11 @@ real slapy2_(real *x, real *y)
     w = max(xabs,yabs);
     z = min(xabs,yabs);
     if (z == 0.f) {
-	ret_val = w;
+        ret_val = w;
     } else {
 /* Computing 2nd power */
-	r__1 = z / w;
-	ret_val = w * sqrt(r__1 * r__1 + 1.f);
+        r__1 = z / w;
+        ret_val = w * sqrt(r__1 * r__1 + 1.f);
     }
     return ret_val;
 

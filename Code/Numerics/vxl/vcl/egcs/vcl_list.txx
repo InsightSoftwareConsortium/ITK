@@ -9,6 +9,7 @@
 template list<T >::list(InputIterator first, InputIterator last); \
 template void list<T >::insert(list<T >::iterator, InputIterator, InputIterator); \
 
+#undef VCL_LIST_INSTANTIATE
 #define VCL_LIST_INSTANTIATE(T) \
 template class list<T >;\
 VCL_LIST_INSTANTIATE_MT_InputIterator(T, list<T >::iterator);\

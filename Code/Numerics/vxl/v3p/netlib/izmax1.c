@@ -1,6 +1,6 @@
 /*  -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -52,7 +52,7 @@ integer *incx;
 /*  INCX    (input) INTEGER */
 /*          The spacing between successive values of CX.  INCX >= 1. */
 
-/* ===================================================================== 
+/* =====================================================================
 */
 
 /*     .. Local Scalars .. */
@@ -73,14 +73,14 @@ integer *incx;
     /* Function Body */
     ret_val = 0;
     if (*n < 1) {
-	return ret_val;
+        return ret_val;
     }
     ret_val = 1;
     if (*n == 1) {
-	return ret_val;
+        return ret_val;
     }
     if (*incx == 1) {
-	goto L30;
+        goto L30;
     }
 
 /*     CODE FOR INCREMENT NOT EQUAL TO 1 */
@@ -90,15 +90,15 @@ integer *incx;
     ix += *incx;
     i__1 = *n;
     for (i = 2; i <= i__1; ++i) {
-	i__2 = ix;
-	if ((d__1 = cx[i__2].r, abs(d__1)) <= smax) {
-	    goto L10;
-	}
-	ret_val = i;
-	i__2 = ix;
-	smax = (d__1 = cx[i__2].r, abs(d__1));
+        i__2 = ix;
+        if ((d__1 = cx[i__2].r, abs(d__1)) <= smax) {
+            goto L10;
+        }
+        ret_val = i;
+        i__2 = ix;
+        smax = (d__1 = cx[i__2].r, abs(d__1));
 L10:
-	ix += *incx;
+        ix += *incx;
 /* L20: */
     }
     return ret_val;
@@ -109,15 +109,15 @@ L30:
     smax = (d__1 = cx[1].r, abs(d__1));
     i__1 = *n;
     for (i = 2; i <= i__1; ++i) {
-	i__2 = i;
-	if ((d__1 = cx[i__2].r, abs(d__1)) <= smax) {
-	    goto L40;
-	}
-	ret_val = i;
-	i__2 = i;
-	smax = (d__1 = cx[i__2].r, abs(d__1));
+        i__2 = i;
+        if ((d__1 = cx[i__2].r, abs(d__1)) <= smax) {
+            goto L40;
+        }
+        ret_val = i;
+        i__2 = i;
+        smax = (d__1 = cx[i__2].r, abs(d__1));
 L40:
-	;
+        ;
     }
     return ret_val;
 

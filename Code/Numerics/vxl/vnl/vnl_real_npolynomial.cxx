@@ -1,19 +1,20 @@
 #ifdef __GNUC__
 #pragma implementation
 #endif
-//
-// Class: vnl_real_npolynomial
-// Author: Marc Pollefeys, ESAT-VISICS, K.U.Leuven
-// Created: 12 08 97
-//
-//-----------------------------------------------------------------------------
+// This is vxl/vnl/vnl_real_npolynomial.cxx
 
-#include "vnl_real_npolynomial.h"
+//:
+//  \file
+//  \brief a degree n real polynomial
+//  \author Marc Pollefeys, ESAT-VISICS, K.U.Leuven, 12-08-97
+//  Implements a polynomial with N variables
+
 #include <vcl_cassert.h>
 #include <vcl_cmath.h>    // fabs()
 #include <vcl_iostream.h>
+#include "vnl_real_npolynomial.h"
 
-// -- Constructor
+//: Constructor
 //<PRE>
 // coeffs = vnl_vector<double>(nterms)
 // polyn = vnl_matrix<int>(nterms,nvar)
@@ -35,10 +36,10 @@ vnl_real_npolynomial::vnl_real_npolynomial(const vnl_vector<double>& c, const vn
   , ideg_(p.max_value())
 {
   assert(c.size() == p.rows());
-  simplify(); 
+  simplify();
 }
 
-// -- Combine terms with idential exponents (i.e., identical rows in polyn_).
+//: Combine terms with idential exponents (i.e., identical rows in polyn_).
 // Remove terms with zero coefficient.
 void vnl_real_npolynomial::simplify()
 {
@@ -55,7 +56,7 @@ void vnl_real_npolynomial::simplify()
       coeffs_(row) = coeffs_(nterms_);
       coeffs_(nterms_) = 0; // not really necessary; to keep coeffs_ consistent
       for (int i=0; i<nvar_; ++i)
-	polyn_(row,i) = polyn_(nterms_,i);
+        polyn_(row,i) = polyn_(nterms_,i);
     }
 }
 
@@ -74,7 +75,7 @@ double vnl_real_npolynomial::eval(const vnl_matrix<double>& xn)
 double vnl_real_npolynomial::eval(const vnl_vector<double>& x)
 {
   vnl_matrix<double> xn(nvar_,ideg_+1);
- 
+
   for (int j=0; j<nvar_; j++){
     xn(j,0)=1;
     for (int i=1; i<ideg_+1; i++)
@@ -82,6 +83,18 @@ double vnl_real_npolynomial::eval(const vnl_vector<double>& x)
   }
   return eval(xn);
 }
+
+
+//: Set the coefficients and degree of variable 
+void vnl_real_npolynomial::set(const vnl_vector<double>& c, const vnl_matrix<int>& p)
+{
+  coeffs_= c;
+  polyn_ = p;
+  nvar_ = p.cols();
+  nterms_ = p.rows();
+  ideg_ = p.max_value();
+}
+
 
 int vnl_real_npolynomial::degree()
 {
@@ -162,7 +175,7 @@ vnl_real_npolynomial vnl_real_npolynomial::operator*(vnl_real_npolynomial const&
   k = 0;
   for (int i=0; i<nterms_; ++i)
     for (int j=0; j<P.nterms_; ++j,++k)
-      for (int l=0; l<nvar_; ++l) 
+      for (int l=0; l<nvar_; ++l)
         poly(k,l) = polyn_(i,l) + P.polyn_(j,l);
 
   return vnl_real_npolynomial(coef, poly);
@@ -208,3 +221,9 @@ vcl_ostream& operator<<(vcl_ostream& os, vnl_real_npolynomial const& P)
   }
   os << vcl_endl; return os;
 }
+
+
+
+
+
+

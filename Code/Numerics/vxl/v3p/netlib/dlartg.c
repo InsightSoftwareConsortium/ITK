@@ -1,13 +1,13 @@
 /* dlartg.f -- translated by f2c (version of 4 June 1993  1:43:59).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
 
 /*<       SUBROUTINE DLARTG( F, G, CS, SN, R ) >*/
-/* Subroutine */ int dlartg_(doublereal *f, doublereal *g, doublereal *cs, 
-	doublereal *sn, doublereal *r)
+/* Subroutine */ int dlartg_(doublereal *f, doublereal *g, doublereal *cs,
+        doublereal *sn, doublereal *r)
 {
     /* Initialized data */
 
@@ -74,7 +74,7 @@
 /*  R       (output) DOUBLE PRECISION */
 /*          The nonzero component of the rotated vector. */
 
-/*  ===================================================================== 
+/*  =====================================================================
 */
 
 /*     .. Parameters .. */
@@ -108,145 +108,145 @@
 /*<       IF( FIRST ) THEN >*/
     if (first) {
 /*<          FIRST = .FALSE. >*/
-	first = FALSE_;
+        first = FALSE_;
 /*<          SAFMIN = DLAMCH( 'S' ) >*/
-	safmin = dlamch_("S", 1L);
+        safmin = dlamch_("S", 1L);
 /*<          EPS = DLAMCH( 'E' ) >*/
-	eps = dlamch_("E", 1L);
+        eps = dlamch_("E", 1L);
 /*<    >*/
-	d__1 = dlamch_("B", 1L);
-	i__1 = (integer) (log(safmin / eps) / log(dlamch_("B", 1L)) / 2.);
-	safmn2 = pow_di(&d__1, &i__1);
+        d__1 = dlamch_("B", 1L);
+        i__1 = (integer) (log(safmin / eps) / log(dlamch_("B", 1L)) / 2.);
+        safmn2 = pow_di(&d__1, &i__1);
 /*<          SAFMX2 = ONE / SAFMN2 >*/
-	safmx2 = 1. / safmn2;
+        safmx2 = 1. / safmn2;
 /*<       END IF >*/
     }
 /*<       IF( G.EQ.ZERO ) THEN >*/
     if (*g == 0.) {
 /*<          CS = ONE >*/
-	*cs = 1.;
+        *cs = 1.;
 /*<          SN = ZERO >*/
-	*sn = 0.;
+        *sn = 0.;
 /*<          R = F >*/
-	*r = *f;
+        *r = *f;
 /*<       ELSE IF( F.EQ.ZERO ) THEN >*/
     } else if (*f == 0.) {
 /*<          CS = ZERO >*/
-	*cs = 0.;
+        *cs = 0.;
 /*<          SN = ONE >*/
-	*sn = 1.;
+        *sn = 1.;
 /*<          R = G >*/
-	*r = *g;
+        *r = *g;
 /*<       ELSE >*/
     } else {
 /*<          F1 = F >*/
-	f1 = *f;
+        f1 = *f;
 /*<          G1 = G >*/
-	g1 = *g;
+        g1 = *g;
 /*<          SCALE = MAX( ABS( F1 ), ABS( G1 ) ) >*/
 /* Computing MAX */
-	d__1 = abs(f1), d__2 = abs(g1);
-	scale = max(d__1,d__2);
+        d__1 = abs(f1), d__2 = abs(g1);
+        scale = max(d__1,d__2);
 /*<          IF( SCALE.GE.SAFMX2 ) THEN >*/
-	if (scale >= safmx2) {
+        if (scale >= safmx2) {
 /*<             COUNT = 0 >*/
-	    count = 0;
+            count = 0;
 /*<    10       CONTINUE >*/
 L10:
 /*<             COUNT = COUNT + 1 >*/
-	    ++count;
+            ++count;
 /*<             F1 = F1*SAFMN2 >*/
-	    f1 *= safmn2;
+            f1 *= safmn2;
 /*<             G1 = G1*SAFMN2 >*/
-	    g1 *= safmn2;
+            g1 *= safmn2;
 /*<             SCALE = MAX( ABS( F1 ), ABS( G1 ) ) >*/
 /* Computing MAX */
-	    d__1 = abs(f1), d__2 = abs(g1);
-	    scale = max(d__1,d__2);
+            d__1 = abs(f1), d__2 = abs(g1);
+            scale = max(d__1,d__2);
 /*<    >*/
-	    if (scale >= safmx2) {
-		goto L10;
-	    }
+            if (scale >= safmx2) {
+                goto L10;
+            }
 /*<             R = SQRT( F1**2+G1**2 ) >*/
 /* Computing 2nd power */
-	    d__1 = f1;
+            d__1 = f1;
 /* Computing 2nd power */
-	    d__2 = g1;
-	    *r = sqrt(d__1 * d__1 + d__2 * d__2);
+            d__2 = g1;
+            *r = sqrt(d__1 * d__1 + d__2 * d__2);
 /*<             CS = F1 / R >*/
-	    *cs = f1 / *r;
+            *cs = f1 / *r;
 /*<             SN = G1 / R >*/
-	    *sn = g1 / *r;
+            *sn = g1 / *r;
 /*<             DO 20 I = 1, COUNT >*/
-	    i__1 = count;
-	    for (i = 1; i <= i__1; ++i) {
+            i__1 = count;
+            for (i = 1; i <= i__1; ++i) {
 /*<                R = R*SAFMX2 >*/
-		*r *= safmx2;
+                *r *= safmx2;
 /*<    20       CONTINUE >*/
 /* L20: */
-	    }
+            }
 /*<          ELSE IF( SCALE.LE.SAFMN2 ) THEN >*/
-	} else if (scale <= safmn2) {
+        } else if (scale <= safmn2) {
 /*<             COUNT = 0 >*/
-	    count = 0;
+            count = 0;
 /*<    30       CONTINUE >*/
 L30:
 /*<             COUNT = COUNT + 1 >*/
-	    ++count;
+            ++count;
 /*<             F1 = F1*SAFMX2 >*/
-	    f1 *= safmx2;
+            f1 *= safmx2;
 /*<             G1 = G1*SAFMX2 >*/
-	    g1 *= safmx2;
+            g1 *= safmx2;
 /*<             SCALE = MAX( ABS( F1 ), ABS( G1 ) ) >*/
 /* Computing MAX */
-	    d__1 = abs(f1), d__2 = abs(g1);
-	    scale = max(d__1,d__2);
+            d__1 = abs(f1), d__2 = abs(g1);
+            scale = max(d__1,d__2);
 /*<    >*/
-	    if (scale <= safmn2) {
-		goto L30;
-	    }
+            if (scale <= safmn2) {
+                goto L30;
+            }
 /*<             R = SQRT( F1**2+G1**2 ) >*/
 /* Computing 2nd power */
-	    d__1 = f1;
+            d__1 = f1;
 /* Computing 2nd power */
-	    d__2 = g1;
-	    *r = sqrt(d__1 * d__1 + d__2 * d__2);
+            d__2 = g1;
+            *r = sqrt(d__1 * d__1 + d__2 * d__2);
 /*<             CS = F1 / R >*/
-	    *cs = f1 / *r;
+            *cs = f1 / *r;
 /*<             SN = G1 / R >*/
-	    *sn = g1 / *r;
+            *sn = g1 / *r;
 /*<             DO 40 I = 1, COUNT >*/
-	    i__1 = count;
-	    for (i = 1; i <= i__1; ++i) {
+            i__1 = count;
+            for (i = 1; i <= i__1; ++i) {
 /*<                R = R*SAFMN2 >*/
-		*r *= safmn2;
+                *r *= safmn2;
 /*<    40       CONTINUE >*/
 /* L40: */
-	    }
+            }
 /*<          ELSE >*/
-	} else {
+        } else {
 /*<             R = SQRT( F1**2+G1**2 ) >*/
 /* Computing 2nd power */
-	    d__1 = f1;
+            d__1 = f1;
 /* Computing 2nd power */
-	    d__2 = g1;
-	    *r = sqrt(d__1 * d__1 + d__2 * d__2);
+            d__2 = g1;
+            *r = sqrt(d__1 * d__1 + d__2 * d__2);
 /*<             CS = F1 / R >*/
-	    *cs = f1 / *r;
+            *cs = f1 / *r;
 /*<             SN = G1 / R >*/
-	    *sn = g1 / *r;
+            *sn = g1 / *r;
 /*<          END IF >*/
-	}
+        }
 /*<          IF( ABS( F ).GT.ABS( G ) .AND. CS.LT.ZERO ) THEN >*/
-	if (abs(*f) > abs(*g) && *cs < 0.) {
+        if (abs(*f) > abs(*g) && *cs < 0.) {
 /*<             CS = -CS >*/
-	    *cs = -(*cs);
+            *cs = -(*cs);
 /*<             SN = -SN >*/
-	    *sn = -(*sn);
+            *sn = -(*sn);
 /*<             R = -R >*/
-	    *r = -(*r);
+            *r = -(*r);
 /*<          END IF >*/
-	}
+        }
 /*<       END IF >*/
     }
 /*<       RETURN >*/

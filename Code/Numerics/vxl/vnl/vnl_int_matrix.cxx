@@ -1,9 +1,11 @@
+// This is vxl/vnl/vnl_int_matrix.cxx
+
 //-*- c++ -*-------------------------------------------------------------------
 #ifdef __GNUC__
 #pragma implementation
 #endif
 //
-// Class: vnl_int_matrix
+// vnl_int_matrix
 // Author: Andrew W. Fitzgibbon, Oxford RRG
 // Created: 27 Dec 96
 //
@@ -15,7 +17,7 @@
 #include <vcl_cstdlib.h>
 #include <vcl_cctype.h>
 
-// -- Construct from matrix of double.  The double-to-int conversion
+//: Construct from matrix of double.  The double-to-int conversion
 // is simply the standard (int) cast.
 vnl_int_matrix::vnl_int_matrix(const vnl_matrix<double>& d):
   Base(d.rows(), d.columns())
@@ -28,7 +30,7 @@ vnl_int_matrix::vnl_int_matrix(const vnl_matrix<double>& d):
       (*this)(i,j) = (int)d(i,j);
 }
 
-// -- Load from disk
+//: Load from disk
 vnl_int_matrix::vnl_int_matrix(char const* filename)
 {
   vcl_ifstream s(filename);

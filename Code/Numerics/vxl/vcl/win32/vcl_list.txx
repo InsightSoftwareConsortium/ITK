@@ -8,7 +8,7 @@ template Fwd std::copy(Inp, Inp, Fwd);\
 template Fwd std::copy_backward(Inp, Inp, Fwd);\
 template void std::advance(Fwd&, Diff)
 
-
+#undef VCL_LIST_INSTANTIATE
 #define VCL_LIST_INSTANTIATE(T)
 
 #endif

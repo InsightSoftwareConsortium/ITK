@@ -10,6 +10,7 @@ template void list<T >::_M_insert_dispatch(list<T >::iterator, InputIterator, In
 
 //PVr removed(for gcc 2.95): template void list<T >::range_initialize(InputIterator first, InputIterator last);
 
+#undef VCL_LIST_INSTANTIATE
 #define VCL_LIST_INSTANTIATE(T) \
 template class list<T >;\
 template void _List_base<T,allocator<T > >::clear();\

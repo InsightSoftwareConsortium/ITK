@@ -1,8 +1,5 @@
 #ifndef vcl_vc_cstdlib_h_
 #define vcl_vc_cstdlib_h_
-// .NAME vcl_cstdlib
-// .INCLUDE vcl_cstdlib.h
-// .FILE vcl_cstdlib.cxx
 
 
 #include <cstdlib>
@@ -120,6 +117,7 @@
 // abs is an "intrinsic" if optimizing....
 inline int  abs(int  x) { return x >= 0 ? x : -x; }
 #endif
+inline long double abs(long double x) { return x >= 0 ? x : -x; }
 inline long abs(long x) { return x >= 0 ? x : -x; }
 
 #endif // vcl_cstdlib_h_

@@ -1,6 +1,6 @@
 /* rs.f -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -52,12 +52,12 @@ integer *ierr;
 /*        fv1  and  fv2  are temporary storage arrays. */
 
 /*     questions and comments should be directed to burton s. garbow, */
-/*     mathematics and computer science div, argonne national laboratory 
+/*     mathematics and computer science div, argonne national laboratory
 */
 
 /*     this version dated august 1983. */
 
-/*     ------------------------------------------------------------------ 
+/*     ------------------------------------------------------------------
 */
 
     /* Parameter adjustments */
@@ -73,14 +73,14 @@ integer *ierr;
 
     /* Function Body */
     if (*n <= *nm) {
-	goto L10;
+        goto L10;
     }
     *ierr = *n * 10;
     goto L50;
 
 L10:
     if (*matz != 0) {
-	goto L20;
+        goto L20;
     }
 /*     .......... find eigenvalues only .......... */
     tred1_(nm, n, &a[a_offset], &w[1], &fv1[1], &fv2[1]);

@@ -1,12 +1,12 @@
 /*  -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
 
-/* Subroutine */ int zgemv_(trans, m, n, alpha, a, lda, x, incx, beta, y, 
-	incy, trans_len)
+/* Subroutine */ int zgemv_(trans, m, n, alpha, a, lda, x, incx, beta, y,
+        incy, trans_len)
 char *trans;
 integer *m, *n;
 doublecomplex *alpha, *a;
@@ -70,7 +70,7 @@ ftnlen trans_len;
 /*           Unchanged on exit. */
 
 /*  N      - INTEGER. */
-/*           On entry, N specifies the number of columns of the matrix A. 
+/*           On entry, N specifies the number of columns of the matrix A.
 */
 /*           N must be at least zero. */
 /*           Unchanged on exit. */
@@ -85,7 +85,7 @@ ftnlen trans_len;
 /*           Unchanged on exit. */
 
 /*  LDA    - INTEGER. */
-/*           On entry, LDA specifies the first dimension of A as declared 
+/*           On entry, LDA specifies the first dimension of A as declared
 */
 /*           in the calling (sub) program. LDA must be at least */
 /*           max( 1, m ). */
@@ -114,7 +114,7 @@ ftnlen trans_len;
 /*           and at least */
 /*           ( 1 + ( n - 1 )*abs( INCY ) ) otherwise. */
 /*           Before entry with BETA non-zero, the incremented array Y */
-/*           must contain the vector y. On exit, Y is overwritten by the 
+/*           must contain the vector y. On exit, Y is overwritten by the
 */
 /*           updated vector y. */
 
@@ -152,54 +152,54 @@ ftnlen trans_len;
 
     /* Function Body */
     info = 0;
-    if (! lsame_(trans, "N", 1L, 1L) && ! lsame_(trans, "T", 1L, 1L) && ! 
-	    lsame_(trans, "C", 1L, 1L)) {
-	info = 1;
+    if (! lsame_(trans, "N", 1L, 1L) && ! lsame_(trans, "T", 1L, 1L) && !
+            lsame_(trans, "C", 1L, 1L)) {
+        info = 1;
     } else if (*m < 0) {
-	info = 2;
+        info = 2;
     } else if (*n < 0) {
-	info = 3;
+        info = 3;
     } else if (*lda < max(1,*m)) {
-	info = 6;
+        info = 6;
     } else if (*incx == 0) {
-	info = 8;
+        info = 8;
     } else if (*incy == 0) {
-	info = 11;
+        info = 11;
     }
     if (info != 0) {
-	xerbla_("ZGEMV ", &info, 6L);
-	return 0;
+        xerbla_("ZGEMV ", &info, 6L);
+        return 0;
     }
 
 /*     Quick return if possible. */
 
-    if (*m == 0 || *n == 0 || alpha->r == 0. && alpha->i == 0. && (beta->r == 
-	    1. && beta->i == 0.)) {
-	return 0;
+    if (*m == 0 || *n == 0 || alpha->r == 0. && alpha->i == 0. && (beta->r ==
+            1. && beta->i == 0.)) {
+        return 0;
     }
 
     noconj = lsame_(trans, "T", 1L, 1L);
 
-/*     Set  LENX  and  LENY, the lengths of the vectors x and y, and set 
+/*     Set  LENX  and  LENY, the lengths of the vectors x and y, and set
 */
 /*     up the start points in  X  and  Y. */
 
     if (lsame_(trans, "N", 1L, 1L)) {
-	lenx = *n;
-	leny = *m;
+        lenx = *n;
+        leny = *m;
     } else {
-	lenx = *m;
-	leny = *n;
+        lenx = *m;
+        leny = *n;
     }
     if (*incx > 0) {
-	kx = 1;
+        kx = 1;
     } else {
-	kx = 1 - (lenx - 1) * *incx;
+        kx = 1 - (lenx - 1) * *incx;
     }
     if (*incy > 0) {
-	ky = 1;
+        ky = 1;
     } else {
-	ky = 1 - (leny - 1) * *incy;
+        ky = 1 - (leny - 1) * *incy;
     }
 
 /*     Start the operations. In this version the elements of A are */
@@ -208,202 +208,202 @@ ftnlen trans_len;
 /*     First form  y := beta*y. */
 
     if (beta->r != 1. || beta->i != 0.) {
-	if (*incy == 1) {
-	    if (beta->r == 0. && beta->i == 0.) {
-		i__1 = leny;
-		for (i = 1; i <= i__1; ++i) {
-		    i__2 = i;
-		    y[i__2].r = 0., y[i__2].i = 0.;
+        if (*incy == 1) {
+            if (beta->r == 0. && beta->i == 0.) {
+                i__1 = leny;
+                for (i = 1; i <= i__1; ++i) {
+                    i__2 = i;
+                    y[i__2].r = 0., y[i__2].i = 0.;
 /* L10: */
-		}
-	    } else {
-		i__1 = leny;
-		for (i = 1; i <= i__1; ++i) {
-		    i__2 = i;
-		    i__3 = i;
-		    z__1.r = beta->r * y[i__3].r - beta->i * y[i__3].i, 
-			    z__1.i = beta->r * y[i__3].i + beta->i * y[i__3]
-			    .r;
-		    y[i__2].r = z__1.r, y[i__2].i = z__1.i;
+                }
+            } else {
+                i__1 = leny;
+                for (i = 1; i <= i__1; ++i) {
+                    i__2 = i;
+                    i__3 = i;
+                    z__1.r = beta->r * y[i__3].r - beta->i * y[i__3].i,
+                            z__1.i = beta->r * y[i__3].i + beta->i * y[i__3]
+                            .r;
+                    y[i__2].r = z__1.r, y[i__2].i = z__1.i;
 /* L20: */
-		}
-	    }
-	} else {
-	    iy = ky;
-	    if (beta->r == 0. && beta->i == 0.) {
-		i__1 = leny;
-		for (i = 1; i <= i__1; ++i) {
-		    i__2 = iy;
-		    y[i__2].r = 0., y[i__2].i = 0.;
-		    iy += *incy;
+                }
+            }
+        } else {
+            iy = ky;
+            if (beta->r == 0. && beta->i == 0.) {
+                i__1 = leny;
+                for (i = 1; i <= i__1; ++i) {
+                    i__2 = iy;
+                    y[i__2].r = 0., y[i__2].i = 0.;
+                    iy += *incy;
 /* L30: */
-		}
-	    } else {
-		i__1 = leny;
-		for (i = 1; i <= i__1; ++i) {
-		    i__2 = iy;
-		    i__3 = iy;
-		    z__1.r = beta->r * y[i__3].r - beta->i * y[i__3].i, 
-			    z__1.i = beta->r * y[i__3].i + beta->i * y[i__3]
-			    .r;
-		    y[i__2].r = z__1.r, y[i__2].i = z__1.i;
-		    iy += *incy;
+                }
+            } else {
+                i__1 = leny;
+                for (i = 1; i <= i__1; ++i) {
+                    i__2 = iy;
+                    i__3 = iy;
+                    z__1.r = beta->r * y[i__3].r - beta->i * y[i__3].i,
+                            z__1.i = beta->r * y[i__3].i + beta->i * y[i__3]
+                            .r;
+                    y[i__2].r = z__1.r, y[i__2].i = z__1.i;
+                    iy += *incy;
 /* L40: */
-		}
-	    }
-	}
+                }
+            }
+        }
     }
     if (alpha->r == 0. && alpha->i == 0.) {
-	return 0;
+        return 0;
     }
     if (lsame_(trans, "N", 1L, 1L)) {
 
 /*        Form  y := alpha*A*x + y. */
 
-	jx = kx;
-	if (*incy == 1) {
-	    i__1 = *n;
-	    for (j = 1; j <= i__1; ++j) {
-		i__2 = jx;
-		if (x[i__2].r != 0. || x[i__2].i != 0.) {
-		    i__2 = jx;
-		    z__1.r = alpha->r * x[i__2].r - alpha->i * x[i__2].i, 
-			    z__1.i = alpha->r * x[i__2].i + alpha->i * x[i__2]
-			    .r;
-		    temp.r = z__1.r, temp.i = z__1.i;
-		    i__2 = *m;
-		    for (i = 1; i <= i__2; ++i) {
-			i__3 = i;
-			i__4 = i;
-			i__5 = i + j * a_dim1;
-			z__2.r = temp.r * a[i__5].r - temp.i * a[i__5].i, 
-				z__2.i = temp.r * a[i__5].i + temp.i * a[i__5]
-				.r;
-			z__1.r = y[i__4].r + z__2.r, z__1.i = y[i__4].i + 
-				z__2.i;
-			y[i__3].r = z__1.r, y[i__3].i = z__1.i;
+        jx = kx;
+        if (*incy == 1) {
+            i__1 = *n;
+            for (j = 1; j <= i__1; ++j) {
+                i__2 = jx;
+                if (x[i__2].r != 0. || x[i__2].i != 0.) {
+                    i__2 = jx;
+                    z__1.r = alpha->r * x[i__2].r - alpha->i * x[i__2].i,
+                            z__1.i = alpha->r * x[i__2].i + alpha->i * x[i__2]
+                            .r;
+                    temp.r = z__1.r, temp.i = z__1.i;
+                    i__2 = *m;
+                    for (i = 1; i <= i__2; ++i) {
+                        i__3 = i;
+                        i__4 = i;
+                        i__5 = i + j * a_dim1;
+                        z__2.r = temp.r * a[i__5].r - temp.i * a[i__5].i,
+                                z__2.i = temp.r * a[i__5].i + temp.i * a[i__5]
+                                .r;
+                        z__1.r = y[i__4].r + z__2.r, z__1.i = y[i__4].i +
+                                z__2.i;
+                        y[i__3].r = z__1.r, y[i__3].i = z__1.i;
 /* L50: */
-		    }
-		}
-		jx += *incx;
+                    }
+                }
+                jx += *incx;
 /* L60: */
-	    }
-	} else {
-	    i__1 = *n;
-	    for (j = 1; j <= i__1; ++j) {
-		i__2 = jx;
-		if (x[i__2].r != 0. || x[i__2].i != 0.) {
-		    i__2 = jx;
-		    z__1.r = alpha->r * x[i__2].r - alpha->i * x[i__2].i, 
-			    z__1.i = alpha->r * x[i__2].i + alpha->i * x[i__2]
-			    .r;
-		    temp.r = z__1.r, temp.i = z__1.i;
-		    iy = ky;
-		    i__2 = *m;
-		    for (i = 1; i <= i__2; ++i) {
-			i__3 = iy;
-			i__4 = iy;
-			i__5 = i + j * a_dim1;
-			z__2.r = temp.r * a[i__5].r - temp.i * a[i__5].i, 
-				z__2.i = temp.r * a[i__5].i + temp.i * a[i__5]
-				.r;
-			z__1.r = y[i__4].r + z__2.r, z__1.i = y[i__4].i + 
-				z__2.i;
-			y[i__3].r = z__1.r, y[i__3].i = z__1.i;
-			iy += *incy;
+            }
+        } else {
+            i__1 = *n;
+            for (j = 1; j <= i__1; ++j) {
+                i__2 = jx;
+                if (x[i__2].r != 0. || x[i__2].i != 0.) {
+                    i__2 = jx;
+                    z__1.r = alpha->r * x[i__2].r - alpha->i * x[i__2].i,
+                            z__1.i = alpha->r * x[i__2].i + alpha->i * x[i__2]
+                            .r;
+                    temp.r = z__1.r, temp.i = z__1.i;
+                    iy = ky;
+                    i__2 = *m;
+                    for (i = 1; i <= i__2; ++i) {
+                        i__3 = iy;
+                        i__4 = iy;
+                        i__5 = i + j * a_dim1;
+                        z__2.r = temp.r * a[i__5].r - temp.i * a[i__5].i,
+                                z__2.i = temp.r * a[i__5].i + temp.i * a[i__5]
+                                .r;
+                        z__1.r = y[i__4].r + z__2.r, z__1.i = y[i__4].i +
+                                z__2.i;
+                        y[i__3].r = z__1.r, y[i__3].i = z__1.i;
+                        iy += *incy;
 /* L70: */
-		    }
-		}
-		jx += *incx;
+                    }
+                }
+                jx += *incx;
 /* L80: */
-	    }
-	}
+            }
+        }
     } else {
 
 /*        Form  y := alpha*A'*x + y  or  y := alpha*conjg( A' )*x + y.
  */
 
-	jy = ky;
-	if (*incx == 1) {
-	    i__1 = *n;
-	    for (j = 1; j <= i__1; ++j) {
-		temp.r = 0., temp.i = 0.;
-		if (noconj) {
-		    i__2 = *m;
-		    for (i = 1; i <= i__2; ++i) {
-			i__3 = i + j * a_dim1;
-			i__4 = i;
-			z__2.r = a[i__3].r * x[i__4].r - a[i__3].i * x[i__4]
-				.i, z__2.i = a[i__3].r * x[i__4].i + a[i__3]
-				.i * x[i__4].r;
-			z__1.r = temp.r + z__2.r, z__1.i = temp.i + z__2.i;
-			temp.r = z__1.r, temp.i = z__1.i;
+        jy = ky;
+        if (*incx == 1) {
+            i__1 = *n;
+            for (j = 1; j <= i__1; ++j) {
+                temp.r = 0., temp.i = 0.;
+                if (noconj) {
+                    i__2 = *m;
+                    for (i = 1; i <= i__2; ++i) {
+                        i__3 = i + j * a_dim1;
+                        i__4 = i;
+                        z__2.r = a[i__3].r * x[i__4].r - a[i__3].i * x[i__4]
+                                .i, z__2.i = a[i__3].r * x[i__4].i + a[i__3]
+                                .i * x[i__4].r;
+                        z__1.r = temp.r + z__2.r, z__1.i = temp.i + z__2.i;
+                        temp.r = z__1.r, temp.i = z__1.i;
 /* L90: */
-		    }
-		} else {
-		    i__2 = *m;
-		    for (i = 1; i <= i__2; ++i) {
-			d_cnjg(&z__3, &a[i + j * a_dim1]);
-			i__3 = i;
-			z__2.r = z__3.r * x[i__3].r - z__3.i * x[i__3].i, 
-				z__2.i = z__3.r * x[i__3].i + z__3.i * x[i__3]
-				.r;
-			z__1.r = temp.r + z__2.r, z__1.i = temp.i + z__2.i;
-			temp.r = z__1.r, temp.i = z__1.i;
+                    }
+                } else {
+                    i__2 = *m;
+                    for (i = 1; i <= i__2; ++i) {
+                        d_cnjg(&z__3, &a[i + j * a_dim1]);
+                        i__3 = i;
+                        z__2.r = z__3.r * x[i__3].r - z__3.i * x[i__3].i,
+                                z__2.i = z__3.r * x[i__3].i + z__3.i * x[i__3]
+                                .r;
+                        z__1.r = temp.r + z__2.r, z__1.i = temp.i + z__2.i;
+                        temp.r = z__1.r, temp.i = z__1.i;
 /* L100: */
-		    }
-		}
-		i__2 = jy;
-		i__3 = jy;
-		z__2.r = alpha->r * temp.r - alpha->i * temp.i, z__2.i = 
-			alpha->r * temp.i + alpha->i * temp.r;
-		z__1.r = y[i__3].r + z__2.r, z__1.i = y[i__3].i + z__2.i;
-		y[i__2].r = z__1.r, y[i__2].i = z__1.i;
-		jy += *incy;
+                    }
+                }
+                i__2 = jy;
+                i__3 = jy;
+                z__2.r = alpha->r * temp.r - alpha->i * temp.i, z__2.i =
+                        alpha->r * temp.i + alpha->i * temp.r;
+                z__1.r = y[i__3].r + z__2.r, z__1.i = y[i__3].i + z__2.i;
+                y[i__2].r = z__1.r, y[i__2].i = z__1.i;
+                jy += *incy;
 /* L110: */
-	    }
-	} else {
-	    i__1 = *n;
-	    for (j = 1; j <= i__1; ++j) {
-		temp.r = 0., temp.i = 0.;
-		ix = kx;
-		if (noconj) {
-		    i__2 = *m;
-		    for (i = 1; i <= i__2; ++i) {
-			i__3 = i + j * a_dim1;
-			i__4 = ix;
-			z__2.r = a[i__3].r * x[i__4].r - a[i__3].i * x[i__4]
-				.i, z__2.i = a[i__3].r * x[i__4].i + a[i__3]
-				.i * x[i__4].r;
-			z__1.r = temp.r + z__2.r, z__1.i = temp.i + z__2.i;
-			temp.r = z__1.r, temp.i = z__1.i;
-			ix += *incx;
+            }
+        } else {
+            i__1 = *n;
+            for (j = 1; j <= i__1; ++j) {
+                temp.r = 0., temp.i = 0.;
+                ix = kx;
+                if (noconj) {
+                    i__2 = *m;
+                    for (i = 1; i <= i__2; ++i) {
+                        i__3 = i + j * a_dim1;
+                        i__4 = ix;
+                        z__2.r = a[i__3].r * x[i__4].r - a[i__3].i * x[i__4]
+                                .i, z__2.i = a[i__3].r * x[i__4].i + a[i__3]
+                                .i * x[i__4].r;
+                        z__1.r = temp.r + z__2.r, z__1.i = temp.i + z__2.i;
+                        temp.r = z__1.r, temp.i = z__1.i;
+                        ix += *incx;
 /* L120: */
-		    }
-		} else {
-		    i__2 = *m;
-		    for (i = 1; i <= i__2; ++i) {
-			d_cnjg(&z__3, &a[i + j * a_dim1]);
-			i__3 = ix;
-			z__2.r = z__3.r * x[i__3].r - z__3.i * x[i__3].i, 
-				z__2.i = z__3.r * x[i__3].i + z__3.i * x[i__3]
-				.r;
-			z__1.r = temp.r + z__2.r, z__1.i = temp.i + z__2.i;
-			temp.r = z__1.r, temp.i = z__1.i;
-			ix += *incx;
+                    }
+                } else {
+                    i__2 = *m;
+                    for (i = 1; i <= i__2; ++i) {
+                        d_cnjg(&z__3, &a[i + j * a_dim1]);
+                        i__3 = ix;
+                        z__2.r = z__3.r * x[i__3].r - z__3.i * x[i__3].i,
+                                z__2.i = z__3.r * x[i__3].i + z__3.i * x[i__3]
+                                .r;
+                        z__1.r = temp.r + z__2.r, z__1.i = temp.i + z__2.i;
+                        temp.r = z__1.r, temp.i = z__1.i;
+                        ix += *incx;
 /* L130: */
-		    }
-		}
-		i__2 = jy;
-		i__3 = jy;
-		z__2.r = alpha->r * temp.r - alpha->i * temp.i, z__2.i = 
-			alpha->r * temp.i + alpha->i * temp.r;
-		z__1.r = y[i__3].r + z__2.r, z__1.i = y[i__3].i + z__2.i;
-		y[i__2].r = z__1.r, y[i__2].i = z__1.i;
-		jy += *incy;
+                    }
+                }
+                i__2 = jy;
+                i__3 = jy;
+                z__2.r = alpha->r * temp.r - alpha->i * temp.i, z__2.i =
+                        alpha->r * temp.i + alpha->i * temp.r;
+                z__1.r = y[i__3].r + z__2.r, z__1.i = y[i__3].i + z__2.i;
+                y[i__2].r = z__1.r, y[i__2].i = z__1.i;
+                jy += *incy;
 /* L140: */
-	    }
-	}
+            }
+        }
     }
 
     return 0;

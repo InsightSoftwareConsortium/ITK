@@ -1,12 +1,12 @@
 /* slapll.f -- translated by f2c (version of 4 June 1993  1:43:59).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
 
-/* Subroutine */ int slapll_(integer *n, real *x, integer *incx, real *y, 
-	integer *incy, real *ssmin)
+/* Subroutine */ int slapll_(integer *n, real *x, integer *incx, real *y,
+        integer *incy, real *ssmin)
 {
     /* System generated locals */
     integer i__1;
@@ -14,13 +14,13 @@
     /* Local variables */
     extern doublereal sdot_(integer *, real *, integer *, real *, integer *);
     extern /* Subroutine */ int slas2_(real *, real *, real *, real *, real *)
-	    ;
+            ;
     static real c, ssmax;
-    extern /* Subroutine */ int saxpy_(integer *, real *, real *, integer *, 
-	    real *, integer *);
+    extern /* Subroutine */ int saxpy_(integer *, real *, real *, integer *,
+            real *, integer *);
     static real a11, a12, a22;
-    extern /* Subroutine */ int slarfg_(integer *, real *, real *, integer *, 
-	    real *);
+    extern /* Subroutine */ int slarfg_(integer *, real *, real *, integer *,
+            real *);
     static real tau;
 
 
@@ -69,10 +69,10 @@
 /*          The increment between successive elements of Y. INCY > 0. */
 
 /*  SSMIN   (output) REAL */
-/*          The smallest singular value of the N-by-2 matrix A = ( X Y ). 
+/*          The smallest singular value of the N-by-2 matrix A = ( X Y ).
 */
 
-/*  ===================================================================== 
+/*  =====================================================================
 */
 
 /*     .. Parameters .. */
@@ -93,8 +93,8 @@
 
     /* Function Body */
     if (*n <= 1) {
-	*ssmin = 0.f;
-	return 0;
+        *ssmin = 0.f;
+        return 0;
     }
 
 /*     Compute the QR factorization of the N-by-2 matrix ( X Y ) */

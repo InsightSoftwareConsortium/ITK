@@ -1,6 +1,6 @@
 /*  -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -50,7 +50,7 @@ integer *incx;
 /*  INCX    (input) INTEGER */
 /*          The spacing between successive elements of X. */
 
-/* ===================================================================== 
+/* =====================================================================
 */
 
 /*     .. Local Scalars .. */
@@ -64,26 +64,26 @@ integer *incx;
 
     /* Function Body */
     if (*incx == 1) {
-	i__1 = *n;
-	for (i = 1; i <= i__1; ++i) {
-	    i__2 = i;
-	    d_cnjg(&z__1, &x[i]);
-	    x[i__2].r = z__1.r, x[i__2].i = z__1.i;
+        i__1 = *n;
+        for (i = 1; i <= i__1; ++i) {
+            i__2 = i;
+            d_cnjg(&z__1, &x[i]);
+            x[i__2].r = z__1.r, x[i__2].i = z__1.i;
 /* L10: */
-	}
+        }
     } else {
-	ioff = 1;
-	if (*incx < 0) {
-	    ioff = 1 - (*n - 1) * *incx;
-	}
-	i__1 = *n;
-	for (i = 1; i <= i__1; ++i) {
-	    i__2 = ioff;
-	    d_cnjg(&z__1, &x[ioff]);
-	    x[i__2].r = z__1.r, x[i__2].i = z__1.i;
-	    ioff += *incx;
+        ioff = 1;
+        if (*incx < 0) {
+            ioff = 1 - (*n - 1) * *incx;
+        }
+        i__1 = *n;
+        for (i = 1; i <= i__1; ++i) {
+            i__2 = ioff;
+            d_cnjg(&z__1, &x[ioff]);
+            x[i__2].r = z__1.r, x[i__2].i = z__1.i;
+            ioff += *incx;
 /* L20: */
-	}
+        }
     }
     return 0;
 

@@ -1,6 +1,6 @@
 /*  -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -54,7 +54,7 @@ ftnlen uplo_len;
 /*          The number of columns of the matrix A.  N >= 0. */
 
 /*  A       (input) COMPLEX*16 array, dimension (LDA,N) */
-/*          The m by n matrix A.  If UPLO = 'U', only the upper trapezium 
+/*          The m by n matrix A.  If UPLO = 'U', only the upper trapezium
 */
 /*          is accessed; if UPLO = 'L', only the lower trapezium is */
 /*          accessed. */
@@ -68,7 +68,7 @@ ftnlen uplo_len;
 /*  LDB     (input) INTEGER */
 /*          The leading dimension of the array B.  LDB >= max(1,M). */
 
-/*  ===================================================================== 
+/*  =====================================================================
 */
 
 /*     .. Local Scalars .. */
@@ -89,43 +89,43 @@ ftnlen uplo_len;
 
     /* Function Body */
     if (lsame_(uplo, "U", 1L, 1L)) {
-	i__1 = *n;
-	for (j = 1; j <= i__1; ++j) {
-	    i__2 = min(j,*m);
-	    for (i = 1; i <= i__2; ++i) {
-		i__3 = i + j * b_dim1;
-		i__4 = i + j * a_dim1;
-		b[i__3].r = a[i__4].r, b[i__3].i = a[i__4].i;
+        i__1 = *n;
+        for (j = 1; j <= i__1; ++j) {
+            i__2 = min(j,*m);
+            for (i = 1; i <= i__2; ++i) {
+                i__3 = i + j * b_dim1;
+                i__4 = i + j * a_dim1;
+                b[i__3].r = a[i__4].r, b[i__3].i = a[i__4].i;
 /* L10: */
-	    }
+            }
 /* L20: */
-	}
+        }
 
     } else if (lsame_(uplo, "L", 1L, 1L)) {
-	i__1 = *n;
-	for (j = 1; j <= i__1; ++j) {
-	    i__2 = *m;
-	    for (i = j; i <= i__2; ++i) {
-		i__3 = i + j * b_dim1;
-		i__4 = i + j * a_dim1;
-		b[i__3].r = a[i__4].r, b[i__3].i = a[i__4].i;
+        i__1 = *n;
+        for (j = 1; j <= i__1; ++j) {
+            i__2 = *m;
+            for (i = j; i <= i__2; ++i) {
+                i__3 = i + j * b_dim1;
+                i__4 = i + j * a_dim1;
+                b[i__3].r = a[i__4].r, b[i__3].i = a[i__4].i;
 /* L30: */
-	    }
+            }
 /* L40: */
-	}
+        }
 
     } else {
-	i__1 = *n;
-	for (j = 1; j <= i__1; ++j) {
-	    i__2 = *m;
-	    for (i = 1; i <= i__2; ++i) {
-		i__3 = i + j * b_dim1;
-		i__4 = i + j * a_dim1;
-		b[i__3].r = a[i__4].r, b[i__3].i = a[i__4].i;
+        i__1 = *n;
+        for (j = 1; j <= i__1; ++j) {
+            i__2 = *m;
+            for (i = 1; i <= i__2; ++i) {
+                i__3 = i + j * b_dim1;
+                i__4 = i + j * a_dim1;
+                b[i__3].r = a[i__4].r, b[i__3].i = a[i__4].i;
 /* L50: */
-	    }
+            }
 /* L60: */
-	}
+        }
     }
 
     return 0;

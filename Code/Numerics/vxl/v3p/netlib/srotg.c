@@ -1,6 +1,6 @@
 /* srotg.f -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -28,11 +28,11 @@ real *sa, *sb, *c, *s;
 
     roe = *sb;
     if (dabs(*sa) > dabs(*sb)) {
-	roe = *sa;
+        roe = *sa;
     }
     scale = dabs(*sa) + dabs(*sb);
     if (scale != (float)0.) {
-	goto L10;
+        goto L10;
     }
     *c = (float)1.;
     *s = (float)0.;
@@ -50,10 +50,10 @@ L10:
     *s = *sb / r;
     z = (float)1.;
     if (dabs(*sa) > dabs(*sb)) {
-	z = *s;
+        z = *s;
     }
     if (dabs(*sb) >= dabs(*sa) && *c != (float)0.) {
-	z = (float)1. / *c;
+        z = (float)1. / *c;
     }
 L20:
     *sa = r;

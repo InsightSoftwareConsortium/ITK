@@ -3,25 +3,22 @@
 #ifdef __GNUC__
 #pragma interface
 #endif
+// This is vxl/vnl/vnl_fortran_copy.h
+
+//: \file
+//  \brief Convert row-stored matrix to column-stored 
+//  \author Andrew W. Fitzgibbon, Oxford RRG, 29 Aug 96
+//   convert C format (row-stored) matrix to fortran format (column-stored) matrix.
 //
-// .NAME	vnl_fortran_copy - convert row-stored matrix to column-stored
-// .LIBRARY	vnl
-// .HEADER	vxl Package
-// .INCLUDE	vnl/vnl_fortran_copy.h
-// .FILE	vnl_fortran_copy.txx
-// .SECTION Description
-//    convert C format (row-stored) matrix to fortran format (column-stored) matrix.
-//
-// .SECTION Author
-//     Andrew W. Fitzgibbon, Oxford RRG, 29 Aug 96
-//
-// .SECTION Modifications:
-//     <none yet>
+
+//   Modifications:
+//   LSB (Manchester) 23/3/01 Tidied documentation
 //
 //-----------------------------------------------------------------------------
 
 #include <vnl/vnl_matrix.h>
-
+//:  Convert row-stored matrix to column-stored 
+//  convert C format (row-stored) matrix to fortran format (column-stored) matrix.
 template <class T>
 class vnl_fortran_copy {
 public:

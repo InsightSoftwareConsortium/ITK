@@ -2,7 +2,7 @@
 #pragma implementation
 #endif
 //
-// Class: vnl_rpoly_roots
+// vnl_rpoly_roots
 // Author: Andrew W. Fitzgibbon, Oxford RRG
 // Created: 06 Aug 96
 //
@@ -12,7 +12,7 @@
 
 #include <vcl_cstdlib.h>
 #include <vcl_iostream.h>
-#include <vnl/vnl_complex.h>
+#include <vcl_complex.h>
 #include <vnl/vnl_math.h>
 #include <vnl/algo/vnl_netlib.h> // rpoly_()
 
@@ -43,11 +43,11 @@ vnl_rpoly_roots::vnl_rpoly_roots(const vnl_vector<double>& a)
 }
 
 // - Complex vector of all roots.
-vnl_vector<vnl_double_complex> vnl_rpoly_roots::roots() const
+vnl_vector<vcl_complex<double> > vnl_rpoly_roots::roots() const
 {
-  vnl_vector<vnl_double_complex> ret(num_roots_found_);
+  vnl_vector<vcl_complex<double> > ret(num_roots_found_);
   for(int i = 0; i < num_roots_found_; ++i)
-    ret[i] = vnl_double_complex(r_[i], i_[i]);
+    ret[i] = vcl_complex<double>(r_[i], i_[i]);
   return ret;
 }
 
@@ -70,7 +70,7 @@ vnl_vector<double> vnl_rpoly_roots::realroots(double tol) const
   return ret;
 }
 
-// -- Compute roots using Jenkins-Traub algorithm.
+//: Compute roots using Jenkins-Traub algorithm.
 // Calls rpoly and interprets failure codes.
 bool vnl_rpoly_roots::compute()
 {

@@ -3,22 +3,14 @@
 #ifdef __GNUC__
 #pragma interface
 #endif
+// This is vxl/vnl/vnl_double_3x3.h
+
+//: \file
+//  \brief vnl_double_3x3 is a vnl_matrix<double> of fixed size 3x3.  It is merely a typedef for vnl_matrix_fixed<double,3,3>
+//  \author Andrew W. Fitzgibbon, Oxford RRG, 04 Aug 96
 //
-// .NAME	vnl_double_3x3 - 3x3 Matrix of double
-// .LIBRARY	vnl
-// .HEADER	vxl package
-// .INCLUDE	vnl/vnl_double_3x3.h
-// .FILE	vnl_double_3x3.cxx
-//
-// .SECTION Description
-//    vnl_double_3x3 is a vnl_matrix<double> of fixed size 3x3.  It is
-//    merely a typedef for vnl_matrix_fixed<double,3,3>
-//
-// .SECTION Author
-//     Andrew W. Fitzgibbon, Oxford RRG, 04 Aug 96
-//
-// .SECTION Modifications:
-//     <none yet>
+//  Modifications:
+//  LSB (Manchester) 26/3/01 Tidied documentation
 //
 //-----------------------------------------------------------------------------
 

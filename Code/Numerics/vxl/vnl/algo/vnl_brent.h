@@ -20,10 +20,10 @@ public:
 
   double minimize(double x);
   double minimize_given_bounds(double ax, double bx, double cx,
-			       double tol, 
-			       double *xmin);
-  void bracket_minimum(double *ax, double *bx, double *cx, 
-		       double *fa, double *fb, double *fc);
+                               double tol,
+                               double *xmin);
+  void bracket_minimum(double *ax, double *bx, double *cx,
+                       double *fa, double *fb, double *fc);
 
   void bracket_minimum(double *ax, double *bx, double *cx);
 

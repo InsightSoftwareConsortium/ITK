@@ -1,6 +1,6 @@
 /*  -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -42,7 +42,7 @@ integer *info;
 /*  Purpose */
 /*  ======= */
 
-/*  ZGEHD2 reduces a complex general matrix A to upper Hessenberg form H 
+/*  ZGEHD2 reduces a complex general matrix A to upper Hessenberg form H
 */
 /*  by a unitary similarity transformation:  Q' * A * Q = H . */
 
@@ -72,7 +72,7 @@ integer *info;
 /*          The leading dimension of the array A.  LDA >= max(1,N). */
 
 /*  TAU     (output) COMPLEX*16 array, dimension (N-1) */
-/*          The scalar factors of the elementary reflectors (see Further 
+/*          The scalar factors of the elementary reflectors (see Further
 */
 /*          Details). */
 
@@ -112,11 +112,11 @@ integer *info;
 /*  (                         a )    (                          a ) */
 
 /*  where a denotes an element of the original matrix A, h denotes a */
-/*  modified element of the upper Hessenberg matrix H, and vi denotes an 
+/*  modified element of the upper Hessenberg matrix H, and vi denotes an
 */
 /*  element of the vector defining H(i). */
 
-/*  ===================================================================== 
+/*  =====================================================================
 */
 
 /*     .. Parameters .. */
@@ -141,18 +141,18 @@ integer *info;
     /* Function Body */
     *info = 0;
     if (*n < 0) {
-	*info = -1;
+        *info = -1;
     } else if (*ilo < 1 || *ilo > max(1,*n)) {
-	*info = -2;
+        *info = -2;
     } else if (*ihi < min(*ilo,*n) || *ihi > *n) {
-	*info = -3;
+        *info = -3;
     } else if (*lda < max(1,*n)) {
-	*info = -5;
+        *info = -5;
     }
     if (*info != 0) {
-	i__1 = -(*info);
-	xerbla_("ZGEHD2", &i__1, 6L);
-	return 0;
+        i__1 = -(*info);
+        xerbla_("ZGEHD2", &i__1, 6L);
+        return 0;
     }
 
     i__1 = *ihi - 1;
@@ -161,31 +161,31 @@ integer *info;
 /*        Compute elementary reflector H(i) to annihilate A(i+2:ihi,i)
  */
 
-	i__2 = i + 1 + i * a_dim1;
-	alpha.r = a[i__2].r, alpha.i = a[i__2].i;
-	i__2 = *ihi - i;
+        i__2 = i + 1 + i * a_dim1;
+        alpha.r = a[i__2].r, alpha.i = a[i__2].i;
+        i__2 = *ihi - i;
 /* Computing MIN */
-	i__3 = i + 2;
-	zlarfg_(&i__2, &alpha, &a[min(i__3,*n) + i * a_dim1], &c__1, &tau[i]);
-	i__2 = i + 1 + i * a_dim1;
-	a[i__2].r = 1., a[i__2].i = 0.;
+        i__3 = i + 2;
+        zlarfg_(&i__2, &alpha, &a[min(i__3,*n) + i * a_dim1], &c__1, &tau[i]);
+        i__2 = i + 1 + i * a_dim1;
+        a[i__2].r = 1., a[i__2].i = 0.;
 
 /*        Apply H(i) to A(1:ihi,i+1:ihi) from the right */
 
-	i__2 = *ihi - i;
-	zlarf_("Right", ihi, &i__2, &a[i + 1 + i * a_dim1], &c__1, &tau[i], &
-		a[(i + 1) * a_dim1 + 1], lda, &work[1], 5L);
+        i__2 = *ihi - i;
+        zlarf_("Right", ihi, &i__2, &a[i + 1 + i * a_dim1], &c__1, &tau[i], &
+                a[(i + 1) * a_dim1 + 1], lda, &work[1], 5L);
 
 /*        Apply H(i)' to A(i+1:ihi,i+1:n) from the left */
 
-	i__2 = *ihi - i;
-	i__3 = *n - i;
-	d_cnjg(&z__1, &tau[i]);
-	zlarf_("Left", &i__2, &i__3, &a[i + 1 + i * a_dim1], &c__1, &z__1, &a[
-		i + 1 + (i + 1) * a_dim1], lda, &work[1], 4L);
+        i__2 = *ihi - i;
+        i__3 = *n - i;
+        d_cnjg(&z__1, &tau[i]);
+        zlarf_("Left", &i__2, &i__3, &a[i + 1 + i * a_dim1], &c__1, &z__1, &a[
+                i + 1 + (i + 1) * a_dim1], lda, &work[1], 4L);
 
-	i__2 = i + 1 + i * a_dim1;
-	a[i__2].r = alpha.r, a[i__2].i = alpha.i;
+        i__2 = i + 1 + i * a_dim1;
+        a[i__2].r = alpha.r, a[i__2].i = alpha.i;
 /* L10: */
     }
 

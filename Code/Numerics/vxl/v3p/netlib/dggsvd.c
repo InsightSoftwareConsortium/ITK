@@ -1,42 +1,42 @@
 /* dggsvd.f -- translated by f2c (version of 4 June 1993  1:43:59).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
 
 /*<    >*/
-/* Subroutine */ int dggsvd_(char *jobu, char *jobv, char *jobq, integer *m, 
-	integer *n, integer *p, integer *k, integer *l, doublereal *a, 
-	integer *lda, doublereal *b, integer *ldb, doublereal *alpha, 
-	doublereal *beta, doublereal *u, integer *ldu, doublereal *v, integer 
-	*ldv, doublereal *q, integer *ldq, doublereal *work, integer *iwork, 
-	integer *info, ftnlen jobu_len, ftnlen jobv_len, ftnlen jobq_len)
+/* Subroutine */ int dggsvd_(char *jobu, char *jobv, char *jobq, integer *m,
+        integer *n, integer *p, integer *k, integer *l, doublereal *a,
+        integer *lda, doublereal *b, integer *ldb, doublereal *alpha,
+        doublereal *beta, doublereal *u, integer *ldu, doublereal *v, integer
+        *ldv, doublereal *q, integer *ldq, doublereal *work, integer *iwork,
+        integer *info, ftnlen jobu_len, ftnlen jobv_len, ftnlen jobq_len)
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, q_dim1, q_offset, u_dim1, 
-	    u_offset, v_dim1, v_offset, i__1;
+    integer a_dim1, a_offset, b_dim1, b_offset, q_dim1, q_offset, u_dim1,
+            u_offset, v_dim1, v_offset, i__1;
 
     /* Local variables */
     static doublereal tola, tolb, unfl;
     extern logical lsame_(char *, char *, ftnlen, ftnlen);
     static doublereal anorm, bnorm;
     static logical wantq, wantu, wantv;
-    extern doublereal dlamch_(char *, ftnlen), dlange_(char *, integer *, 
-	    integer *, doublereal *, integer *, doublereal *, ftnlen);
-    extern /* Subroutine */ int dtgsja_(char *, char *, char *, integer *, 
-	    integer *, integer *, integer *, integer *, doublereal *, integer 
-	    *, doublereal *, integer *, doublereal *, doublereal *, 
-	    doublereal *, doublereal *, doublereal *, integer *, doublereal *,
-	     integer *, doublereal *, integer *, doublereal *, integer *, 
-	    integer *, ftnlen, ftnlen, ftnlen);
+    extern doublereal dlamch_(char *, ftnlen), dlange_(char *, integer *,
+            integer *, doublereal *, integer *, doublereal *, ftnlen);
+    extern /* Subroutine */ int dtgsja_(char *, char *, char *, integer *,
+            integer *, integer *, integer *, integer *, doublereal *, integer
+            *, doublereal *, integer *, doublereal *, doublereal *,
+            doublereal *, doublereal *, doublereal *, integer *, doublereal *,
+             integer *, doublereal *, integer *, doublereal *, integer *,
+            integer *, ftnlen, ftnlen, ftnlen);
     static integer ncycle;
     extern /* Subroutine */ int xerbla_(char *, integer *, ftnlen), dggsvp_(
-	    char *, char *, char *, integer *, integer *, integer *, 
-	    doublereal *, integer *, doublereal *, integer *, doublereal *, 
-	    doublereal *, integer *, integer *, doublereal *, integer *, 
-	    doublereal *, integer *, doublereal *, integer *, integer *, 
-	    doublereal *, doublereal *, integer *, ftnlen, ftnlen, ftnlen);
+            char *, char *, char *, integer *, integer *, integer *,
+            doublereal *, integer *, doublereal *, integer *, doublereal *,
+            doublereal *, integer *, integer *, doublereal *, integer *,
+            doublereal *, integer *, doublereal *, integer *, integer *,
+            doublereal *, doublereal *, integer *, ftnlen, ftnlen, ftnlen);
     static doublereal ulp;
 
 
@@ -63,7 +63,7 @@
 /*      U'*A*Q = D1*( 0 R ),    V'*B*Q = D2*( 0 R ) */
 
 /*  where U, V and Q are orthogonal matrices, and Z' is the transpose */
-/*  of Z.  Let K+L = the effective numerical rank of the matrix (A',B')', 
+/*  of Z.  Let K+L = the effective numerical rank of the matrix (A',B')',
 */
 /*  then R is a K+L-by-K+L nonsingular upper triangular matrix, D1 and */
 /*  D2 are M-by-(K+L) and P-by-(K+L) "diagonal" matrices and of the */
@@ -121,12 +121,12 @@
 /*  The routine computes C, S, R, and optionally the orthogonal */
 /*  transformation matrices U, V and Q. */
 
-/*  In particular, if B is an N-by-N nonsingular matrix, then the GSVD of 
+/*  In particular, if B is an N-by-N nonsingular matrix, then the GSVD of
 */
 /*  A and B implicitly gives the SVD of A*inv(B): */
 /*                       A*inv(B) = U*(D1*inv(D2))*V'. */
 /*  If ( A',B')' has orthonormal columns, then the GSVD of A and B is */
-/*  also equal to the CS decomposition of A and B. Furthermore, the GSVD 
+/*  also equal to the CS decomposition of A and B. Furthermore, the GSVD
 */
 /*  can be used to derive the solution of the eigenvalue problem: */
 /*                       A'*A x = lambda* B'*B x. */
@@ -234,7 +234,7 @@
 /*          = 0:  successful exit */
 /*          < 0:  if INFO = -i, the i-th argument had an illegal value. */
 /*          > 0:  if INFO = 1, the Jacobi-type procedure failed to */
-/*                converge.  For further details, see subroutine DTGSJA. 
+/*                converge.  For further details, see subroutine DTGSJA.
 */
 
 /*  Internal Parameters */
@@ -249,7 +249,7 @@
 /*          The size of TOLA and TOLB may affect the size of backward */
 /*          errors of the decomposition. */
 
-/*  ===================================================================== 
+/*  =====================================================================
 */
 
 /*     .. Local Scalars .. */
@@ -306,56 +306,56 @@
 /*<       IF( .NOT.( WANTU .OR. LSAME( JOBU, 'N' ) ) ) THEN >*/
     if (! (wantu || lsame_(jobu, "N", 1L, 1L))) {
 /*<          INFO = -1 >*/
-	*info = -1;
+        *info = -1;
 /*<       ELSE IF( .NOT.( WANTV .OR. LSAME( JOBV, 'N' ) ) ) THEN >*/
     } else if (! (wantv || lsame_(jobv, "N", 1L, 1L))) {
 /*<          INFO = -2 >*/
-	*info = -2;
+        *info = -2;
 /*<       ELSE IF( .NOT.( WANTQ .OR. LSAME( JOBQ, 'N' ) ) ) THEN >*/
     } else if (! (wantq || lsame_(jobq, "N", 1L, 1L))) {
 /*<          INFO = -3 >*/
-	*info = -3;
+        *info = -3;
 /*<       ELSE IF( M.LT.0 ) THEN >*/
     } else if (*m < 0) {
 /*<          INFO = -4 >*/
-	*info = -4;
+        *info = -4;
 /*<       ELSE IF( N.LT.0 ) THEN >*/
     } else if (*n < 0) {
 /*<          INFO = -5 >*/
-	*info = -5;
+        *info = -5;
 /*<       ELSE IF( P.LT.0 ) THEN >*/
     } else if (*p < 0) {
 /*<          INFO = -6 >*/
-	*info = -6;
+        *info = -6;
 /*<       ELSE IF( LDA.LT.MAX( 1, M ) ) THEN >*/
     } else if (*lda < max(1,*m)) {
 /*<          INFO = -10 >*/
-	*info = -10;
+        *info = -10;
 /*<       ELSE IF( LDB.LT.MAX( 1, P ) ) THEN >*/
     } else if (*ldb < max(1,*p)) {
 /*<          INFO = -12 >*/
-	*info = -12;
+        *info = -12;
 /*<       ELSE IF( LDU.LT.1 .OR. ( WANTU .AND. LDU.LT.M ) ) THEN >*/
     } else if (*ldu < 1 || wantu && *ldu < *m) {
 /*<          INFO = -16 >*/
-	*info = -16;
+        *info = -16;
 /*<       ELSE IF( LDV.LT.1 .OR. ( WANTV .AND. LDV.LT.P ) ) THEN >*/
     } else if (*ldv < 1 || wantv && *ldv < *p) {
 /*<          INFO = -18 >*/
-	*info = -18;
+        *info = -18;
 /*<       ELSE IF( LDQ.LT.1 .OR. ( WANTQ .AND. LDQ.LT.N ) ) THEN >*/
     } else if (*ldq < 1 || wantq && *ldq < *n) {
 /*<          INFO = -20 >*/
-	*info = -20;
+        *info = -20;
 /*<       END IF >*/
     }
 /*<       IF( INFO.NE.0 ) THEN >*/
     if (*info != 0) {
 /*<          CALL XERBLA( 'DGGSVD', -INFO ) >*/
-	i__1 = -(*info);
-	xerbla_("DGGSVD", &i__1, 6L);
+        i__1 = -(*info);
+        xerbla_("DGGSVD", &i__1, 6L);
 /*<          RETURN >*/
-	return 0;
+        return 0;
 /*<       END IF >*/
     }
 
@@ -382,17 +382,17 @@
 
 /*<    >*/
     dggsvp_(jobu, jobv, jobq, m, p, n, &a[a_offset], lda, &b[b_offset], ldb, &
-	    tola, &tolb, k, l, &u[u_offset], ldu, &v[v_offset], ldv, &q[
-	    q_offset], ldq, &iwork[1], &work[1], &work[*n + 1], info, 1L, 1L, 
-	    1L);
+            tola, &tolb, k, l, &u[u_offset], ldu, &v[v_offset], ldv, &q[
+            q_offset], ldq, &iwork[1], &work[1], &work[*n + 1], info, 1L, 1L,
+            1L);
 
 /*     Compute the GSVD of two upper "triangular" matrices */
 
 /*<    >*/
-    dtgsja_(jobu, jobv, jobq, m, p, n, k, l, &a[a_offset], lda, &b[b_offset], 
-	    ldb, &tola, &tolb, &alpha[1], &beta[1], &u[u_offset], ldu, &v[
-	    v_offset], ldv, &q[q_offset], ldq, &work[1], &ncycle, info, 1L, 
-	    1L, 1L);
+    dtgsja_(jobu, jobv, jobq, m, p, n, k, l, &a[a_offset], lda, &b[b_offset],
+            ldb, &tola, &tolb, &alpha[1], &beta[1], &u[u_offset], ldu, &v[
+            v_offset], ldv, &q[q_offset], ldq, &work[1], &ncycle, info, 1L,
+            1L, 1L);
 
 /*<       RETURN >*/
     return 0;

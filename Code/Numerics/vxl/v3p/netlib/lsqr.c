@@ -1,6 +1,6 @@
 /* lsqr.f -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -11,9 +11,9 @@ static integer c__1 = 1;
 static integer c__2 = 2;
 
 /* From arpa!sol-michael.stanford.edu!mike 5 May 89 23:53:00 PDT */
-/* Subroutine */ int lsqr_(m, n, aprod, damp, leniw, lenrw, iw, rw, u, v, w, 
-	x, se, atol, btol, conlim, itnlim, nout, istop, itn, anorm, acond, 
-	rnorm, arnorm, xnorm)
+/* Subroutine */ int lsqr_(m, n, aprod, damp, leniw, lenrw, iw, rw, u, v, w,
+        x, se, atol, btol, conlim, itnlim, nout, istop, itn, anorm, acond,
+        rnorm, arnorm, xnorm)
 integer *m, *n;
 /* Subroutine */ int (*aprod) ();
 doublereal *damp;
@@ -40,9 +40,9 @@ doublereal *anorm, *acond, *rnorm, *arnorm, *xnorm;
     static doublereal theta, bnorm;
     extern /* Subroutine */ int dcopy_();
     static integer nconv, nstop;
-    static doublereal t1, t2, t3, rhbar1, rhbar2, cs, gambar, sn, phibar, 
-	    rhobar, bbnorm, ddnorm, dampsq, cs1, cs2, sn1, sn2, xxnorm, phi, 
-	    rho, tau, psi, rhs, res1, res2;
+    static doublereal t1, t2, t3, rhbar1, rhbar2, cs, gambar, sn, phibar,
+            rhobar, bbnorm, ddnorm, dampsq, cs1, cs2, sn1, sn2, xxnorm, phi,
+            rho, tau, psi, rhs, res1, res2;
 
 /* -----------------------------------------------------------------------
  */
@@ -79,7 +79,7 @@ doublereal *anorm, *acond, *rnorm, *arnorm, *xnorm;
 /*     The rhs vector b is input via U, and subsequently overwritten. */
 
 
-/*     Note:  LSQR uses an iterative method to approximate the solution. 
+/*     Note:  LSQR uses an iterative method to approximate the solution.
 */
 /*     The number of iterations required to reach a certain accuracy */
 /*     depends strongly on the scaling of the problem.  Poor scaling of */
@@ -122,7 +122,7 @@ doublereal *anorm, *acond, *rnorm, *arnorm, *xnorm;
 /*            =  norm( rbar ) */
 
 /*     RELPR  =  the relative precision of floating-point arithmetic */
-/*               on the machine being used.  For example, on the IBM 370, 
+/*               on the machine being used.  For example, on the IBM 370,
 */
 /*               RELPR is about 1.0E-6 and 1.0D-16 in single and double */
 /*               precision respectively. */
@@ -175,7 +175,7 @@ doublereal *anorm, *acond, *rnorm, *arnorm, *xnorm;
 /*                        components of X.  For each i, SE(i) is set */
 /*                        to the value  rnorm * sqrt( sigma(i,i) / T ), */
 /*                        where sigma(i,i) is an estimate of the i-th */
-/*                        diagonal of the inverse of Abar(transpose)*Abar 
+/*                        diagonal of the inverse of Abar(transpose)*Abar
 */
 /*                        and  T = 1      if  m .le. n, */
 /*                             T = m - n  if  m .gt. n  and  damp = 0, */
@@ -197,20 +197,20 @@ doublereal *anorm, *acond, *rnorm, *arnorm, *xnorm;
 /*                        estimate of cond(Abar) exceeds CONLIM. */
 /*                        This is intended to prevent certain small or */
 /*                        zero singular values of A or Abar from */
-/*                        coming into effect and causing unwanted growth 
+/*                        coming into effect and causing unwanted growth
 */
 /*                        in the computed solution. */
 
 /*                        CONLIM and DAMP may be used separately or */
-/*                        together to regularize ill-conditioned systems. 
+/*                        together to regularize ill-conditioned systems.
 */
 
 /*                        Normally, CONLIM should be in the range */
 /*                        1000 to 1/RELPR. */
 /*                        Suggested value: */
-/*                        CONLIM = 1/(100*RELPR)  for compatible systems, 
+/*                        CONLIM = 1/(100*RELPR)  for compatible systems,
 */
-/*                        CONLIM = 1/(10*sqrt(RELPR)) for least squares. 
+/*                        CONLIM = 1/(10*sqrt(RELPR)) for least squares.
 */
 
 /*             Note:  If the user is not concerned about the parameters */
@@ -221,7 +221,7 @@ doublereal *anorm, *acond, *rnorm, *arnorm, *xnorm;
 /*     ITNLIM  input      An upper limit on the number of iterations. */
 /*                        Suggested value: */
 /*                        ITNLIM = n/2   for well-conditioned systems */
-/*                                       with clustered singular values, 
+/*                                       with clustered singular values,
 */
 /*                        ITNLIM = 4*n   otherwise. */
 
@@ -244,7 +244,7 @@ doublereal *anorm, *acond, *rnorm, *arnorm, *xnorm;
 
 /*                3       An estimate of cond(Abar) has exceeded */
 /*                        CONLIM.  The system A*x = b appears to be */
-/*                        ill-conditioned.  Otherwise, there could be an 
+/*                        ill-conditioned.  Otherwise, there could be an
 */
 /*                        error in subroutine APROD. */
 
@@ -274,7 +274,7 @@ doublereal *anorm, *acond, *rnorm, *arnorm, *xnorm;
 /*                        ANORM should increase to roughly sqrt(n). */
 /*                        A radically different value for ANORM may */
 /*                        indicate an error in subroutine APROD (there */
-/*                        may be an inconsistency between modes 1 and 2). 
+/*                        may be an inconsistency between modes 1 and 2).
 */
 
 /*     ACOND   output     An estimate of cond(Abar), the condition */
@@ -321,7 +321,7 @@ doublereal *anorm, *acond, *rnorm, *arnorm, *xnorm;
 
 /*     C.C. Paige and M.A. Saunders,  LSQR: An algorithm for sparse */
 /*          linear equations and sparse least squares, */
-/*          ACM Transactions on Mathematical Software 8, 1 (March 1982), 
+/*          ACM Transactions on Mathematical Software 8, 1 (March 1982),
 */
 /*          pp. 43-71. */
 
@@ -346,14 +346,14 @@ doublereal *anorm, *acond, *rnorm, *arnorm, *xnorm;
 /*                  from loop 200.  The test was an attempt to reduce */
 /*                  underflows, but caused W(I) not to be updated. */
 /*     17 Mar 1989: First F77 version. */
-/*     04 May 1989: Bug (David Gay, AT&T).  When the second BETA is zero, 
+/*     04 May 1989: Bug (David Gay, AT&T).  When the second BETA is zero,
 */
 /*                  RNORM = 0 and */
 /*                  TEST2 = ARNORM / (ANORM * RNORM) overflows. */
 /*                  Fixed by testing for RNORM = 0. */
 /*     05 May 1989: Sent to "misc" in netlib. */
 
-/*     Michael A. Saunders            (na.saunders @ NA-net.stanford.edu) 
+/*     Michael A. Saunders            (na.saunders @ NA-net.stanford.edu)
 */
 /*     Department of Operations Research */
 /*     Stanford University */
@@ -382,7 +382,7 @@ doublereal *anorm, *acond, *rnorm, *arnorm, *xnorm;
     nstop = 0;
     ctol = 0.;
     if (*conlim > 0.) {
-	ctol = 1. / *conlim;
+        ctol = 1. / *conlim;
     }
     *anorm = 0.;
     *acond = 0.;
@@ -399,9 +399,9 @@ doublereal *anorm, *acond, *rnorm, *arnorm, *xnorm;
     z = 0.;
     i__1 = *n;
     for (i = 1; i <= i__1; ++i) {
-	v[i] = 0.;
-	x[i] = 0.;
-	se[i] = 0.;
+        v[i] = 0.;
+        x[i] = 0.;
+        se[i] = 0.;
 /* L10: */
     }
 /*     Set up the first vectors U and V for the bidiagonalization. */
@@ -409,19 +409,19 @@ doublereal *anorm, *acond, *rnorm, *arnorm, *xnorm;
     alfa = 0.;
     beta = dnrm2_(m, &u[1], &c__1);
     if (beta > 0.) {
-	d__1 = 1. / beta;
-	dscal_(m, &d__1, &u[1], &c__1);
-	(*aprod)(&c__2, m, n, &v[1], &u[1], leniw, lenrw, &iw[1], &rw[1]);
-	alfa = dnrm2_(n, &v[1], &c__1);
+        d__1 = 1. / beta;
+        dscal_(m, &d__1, &u[1], &c__1);
+        (*aprod)(&c__2, m, n, &v[1], &u[1], leniw, lenrw, &iw[1], &rw[1]);
+        alfa = dnrm2_(n, &v[1], &c__1);
     }
     if (alfa > 0.) {
-	d__1 = 1. / alfa;
-	dscal_(n, &d__1, &v[1], &c__1);
-	dcopy_(n, &v[1], &c__1, &w[1], &c__1);
+        d__1 = 1. / alfa;
+        dscal_(n, &d__1, &v[1], &c__1);
+        dcopy_(n, &v[1], &c__1, &w[1], &c__1);
     }
     *arnorm = alfa * beta;
     if (*arnorm == 0.) {
-	goto L800;
+        goto L800;
     }
     rhobar = alfa;
     phibar = beta;
@@ -438,10 +438,10 @@ doublereal *anorm, *acond, *rnorm, *arnorm, *xnorm;
 /*         WRITE(NOUT, 1500) ITN, X(1), RNORM, TEST1, TEST2 */
 /*         WRITE(NOUT, 1600) */
 /*      END IF */
-/*     ------------------------------------------------------------------ 
+/*     ------------------------------------------------------------------
 */
 /*     Main iteration loop. */
-/*     ------------------------------------------------------------------ 
+/*     ------------------------------------------------------------------
 */
 L100:
     ++(*itn);
@@ -459,19 +459,19 @@ L100:
     d__2 = beta;
     bbnorm = bbnorm + d__1 * d__1 + d__2 * d__2 + dampsq;
     if (beta > 0.) {
-	d__1 = 1. / beta;
-	dscal_(m, &d__1, &u[1], &c__1);
-	d__1 = -beta;
-	dscal_(n, &d__1, &v[1], &c__1);
-	(*aprod)(&c__2, m, n, &v[1], &u[1], leniw, lenrw, &iw[1], &rw[1]);
-	alfa = dnrm2_(n, &v[1], &c__1);
-	if (alfa > 0.) {
-	    d__1 = 1. / alfa;
-	    dscal_(n, &d__1, &v[1], &c__1);
-	}
+        d__1 = 1. / beta;
+        dscal_(m, &d__1, &u[1], &c__1);
+        d__1 = -beta;
+        dscal_(n, &d__1, &v[1], &c__1);
+        (*aprod)(&c__2, m, n, &v[1], &u[1], leniw, lenrw, &iw[1], &rw[1]);
+        alfa = dnrm2_(n, &v[1], &c__1);
+        if (alfa > 0.) {
+            d__1 = 1. / alfa;
+            dscal_(n, &d__1, &v[1], &c__1);
+        }
     }
 /*     Use a plane rotation to eliminate the damping parameter. */
-/*     This alters the diagonal (RHOBAR) of the lower-bidiagonal matrix. 
+/*     This alters the diagonal (RHOBAR) of the lower-bidiagonal matrix.
 */
 /* Computing 2nd power */
     d__1 = rhobar;
@@ -482,7 +482,7 @@ L100:
     psi = sn1 * phibar;
     phibar = cs1 * phibar;
 /*     Use a plane rotation to eliminate the subdiagonal element (BETA) */
-/*     of the lower-bidiagonal matrix, giving an upper-bidiagonal matrix. 
+/*     of the lower-bidiagonal matrix, giving an upper-bidiagonal matrix.
 */
 /* Computing 2nd power */
     d__1 = beta;
@@ -500,14 +500,14 @@ L100:
     t3 = 1. / rho;
     i__1 = *n;
     for (i = 1; i <= i__1; ++i) {
-	t = w[i];
-	x[i] = t1 * t + x[i];
-	w[i] = t2 * t + v[i];
+        t = w[i];
+        x[i] = t1 * t + x[i];
+        w[i] = t2 * t + v[i];
 /* Computing 2nd power */
-	d__1 = t3 * t;
-	t = d__1 * d__1;
-	se[i] = t + se[i];
-	ddnorm = t + ddnorm;
+        d__1 = t3 * t;
+        t = d__1 * d__1;
+        se[i] = t + se[i];
+        ddnorm = t + ddnorm;
 /* L200: */
     }
 /*     Use a plane rotation on the right to eliminate the */
@@ -549,7 +549,7 @@ L100:
     test1 = *rnorm / bnorm;
     test2 = 0.;
     if (*rnorm > 0.) {
-	test2 = *arnorm / (*anorm * *rnorm);
+        test2 = *arnorm / (*anorm * *rnorm);
     }
     test3 = 1. / *acond;
     t1 = test1 / (*anorm * *xnorm / bnorm + 1.);
@@ -563,66 +563,66 @@ L100:
     t2 = test2 + 1.;
     t1 += 1.;
     if (*itn >= *itnlim) {
-	*istop = 7;
+        *istop = 7;
     }
     if (t3 <= 1.) {
-	*istop = 6;
+        *istop = 6;
     }
     if (t2 <= 1.) {
-	*istop = 5;
+        *istop = 5;
     }
     if (t1 <= 1.) {
-	*istop = 4;
+        *istop = 4;
     }
 /*     Allow for tolerances set by the user. */
     if (test3 <= ctol) {
-	*istop = 3;
+        *istop = 3;
     }
     if (test2 <= *atol) {
-	*istop = 2;
+        *istop = 2;
     }
     if (test1 <= rtol) {
-	*istop = 1;
+        *istop = 1;
     }
-/*     ================================================================== 
+/*     ==================================================================
 */
 /*     See if it is time to print something. */
     if (*nout <= 0) {
-	goto L600;
+        goto L600;
     }
     if (*n <= 40) {
-	goto L400;
+        goto L400;
     }
     if (*itn <= 10) {
-	goto L400;
+        goto L400;
     }
     if (*itn >= *itnlim - 10) {
-	goto L400;
+        goto L400;
     }
     if (*itn % 10 == 0) {
-	goto L400;
+        goto L400;
     }
     if (test3 <= ctol * (float)2.) {
-	goto L400;
+        goto L400;
     }
     if (test2 <= *atol * (float)10.) {
-	goto L400;
+        goto L400;
     }
     if (test1 <= rtol * (float)10.) {
-	goto L400;
+        goto L400;
     }
     if (*istop != 0) {
-	goto L400;
+        goto L400;
     }
     goto L600;
 /*     Print a line for this iteration. */
 L400:
     if (TRUE_) {
-	goto L600;
+        goto L600;
     }
 /*  400 WRITE(NOUT, 1500) ITN, X(1), RNORM, TEST1, TEST2, ANORM, ACOND */
 /*  IF (MOD(ITN,10) .EQ. 0) WRITE(NOUT, 1600) */
-/*     ================================================================== 
+/*     ==================================================================
 */
 /*     Stop if appropriate. */
 /*     The convergence criteria are required to be met on  NCONV */
@@ -630,42 +630,42 @@ L400:
 /*     Suggested value:  NCONV = 1, 2  or  3. */
 L600:
     if (*istop == 0) {
-	nstop = 0;
+        nstop = 0;
     }
     if (*istop == 0) {
-	goto L100;
+        goto L100;
     }
     nconv = 1;
     ++nstop;
     if (nstop < nconv && *itn < *itnlim) {
-	*istop = 0;
+        *istop = 0;
     }
     if (*istop == 0) {
-	goto L100;
+        goto L100;
     }
-/*     ------------------------------------------------------------------ 
+/*     ------------------------------------------------------------------
 */
 /*     End of iteration loop. */
-/*     ------------------------------------------------------------------ 
+/*     ------------------------------------------------------------------
 */
 /*     Finish off the standard error estimates. */
     t = 1.;
     if (*m > *n) {
-	t = (doublereal) (*m - *n);
+        t = (doublereal) (*m - *n);
     }
     if (dampsq > 0.) {
-	t = (doublereal) (*m);
+        t = (doublereal) (*m);
     }
     t = *rnorm / sqrt(t);
     i__1 = *n;
     for (i = 1; i <= i__1; ++i) {
-	se[i] = t * sqrt(se[i]);
+        se[i] = t * sqrt(se[i]);
 /* L700: */
     }
 /*     Print the stopping condition. */
 L800:
     if (TRUE_) {
-	goto L900;
+        goto L900;
     }
 /*  800 IF (NOUT .GT. 0) THEN */
 /*         WRITE(NOUT, 2000) EXIT, ISTOP, ITN, */
@@ -676,7 +676,7 @@ L800:
 /*      END IF */
 L900:
     return 0;
-/*     ------------------------------------------------------------------ 
+/*     ------------------------------------------------------------------
 */
 /* L1000: */
 /* L1200: */
@@ -685,7 +685,7 @@ L900:
 /* L1600: */
 /* L2000: */
 /* L3000: */
-/*     ------------------------------------------------------------------ 
+/*     ------------------------------------------------------------------
 */
 /*     End of LSQR */
 } /* lsqr_ */

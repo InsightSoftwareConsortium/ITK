@@ -6,6 +6,10 @@
 
 #include "vcl_compiler.h"
 
-#include <stdarg.h>
+#if !VCL_CXX_HAS_HEADER_CSTDARG
+# include <stdarg.h>
+#else
+# include "iso/vcl_cstdarg.h"
+#endif
 
 #endif // vcl_cstdarg_h_

@@ -3,17 +3,16 @@
 #ifdef __GNUC__
 #pragma interface
 #endif
-// .NAME	vnl_double_3
-// .LIBRARY	vnl
-// .HEADER	vxl package
-// .INCLUDE	vnl/vnl_double_3.h
-// .FILE	vnl_double_3.cxx
+// This is vxl/vnl/vnl_double_3.h
+
+//: \file
+// \brief 
+// \author Andrew W. Fitzgibbon, Oxford RRG, 31 Dec 96
+
 //
-// .SECTION Author
-//     Andrew W. Fitzgibbon, Oxford RRG, 31 Dec 96
-//
-// .SECTION Modifications:
+//  Modifications:
 //   Peter Vanroose, 25 June 1999: vnl_vector_fixed<double,3> already instantiated
+//  4/4/01 LSB (Manchester) Documentation tidied
 
 #include <vnl/vnl_T_n.h>
 

@@ -1,6 +1,6 @@
 /* lsqr-test.f -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -83,14 +83,14 @@ doublereal *rw;
     static integer locd, locw, lochy, lochz;
     extern /* Subroutine */ int aprod1_(), aprod2_();
 
-/*     ------------------------------------------------------------------ 
+/*     ------------------------------------------------------------------
 */
 /*     This is the matrix-vector product routine required by  LSQR */
 /*     for a test matrix of the form  A = HY*D*HZ.  The quantities */
 /*     defining D, HY, HZ are in the work array RW, followed by a */
 /*     work array W.  These are passed to APROD1 and APROD2 in order to */
 /*     make the code readable. */
-/*     ------------------------------------------------------------------ 
+/*     ------------------------------------------------------------------
 */
     /* Parameter adjustments */
     --rw;
@@ -104,12 +104,12 @@ doublereal *rw;
     lochz = lochy + *m;
     locw = lochz + *n;
     if (*mode == 1) {
-	aprod1_(m, n, &x[1], &y[1], &rw[locd], &rw[lochy], &rw[lochz], &rw[
-		locw]);
+        aprod1_(m, n, &x[1], &y[1], &rw[locd], &rw[lochy], &rw[lochz], &rw[
+                locw]);
     }
     if (*mode != 1) {
-	aprod2_(m, n, &x[1], &y[1], &rw[locd], &rw[lochy], &rw[lochz], &rw[
-		locw]);
+        aprod2_(m, n, &x[1], &y[1], &rw[locd], &rw[lochy], &rw[lochz], &rw[
+                locw]);
     }
 /*     End of APROD */
 } /* aprod_ */
@@ -125,13 +125,13 @@ doublereal *x, *y, *d, *hy, *hz, *w;
     static integer i;
     extern /* Subroutine */ int hprod_();
 
-/*     ------------------------------------------------------------------ 
+/*     ------------------------------------------------------------------
 */
 /*     APROD1  computes  Y = Y + A*X  for subroutine APROD, */
 /*     where A is a test matrix of the form  A = HY*D*HZ, */
 /*     and the latter matrices HY, D, HZ are represented by */
 /*     input vectors with the same name. */
-/*     ------------------------------------------------------------------ 
+/*     ------------------------------------------------------------------
 */
     /* Parameter adjustments */
     --w;
@@ -145,18 +145,18 @@ doublereal *x, *y, *d, *hy, *hz, *w;
     hprod_(n, &hz[1], &x[1], &w[1]);
     i__1 = *n;
     for (i = 1; i <= i__1; ++i) {
-	w[i] = d[i] * w[i];
+        w[i] = d[i] * w[i];
 /* L100: */
     }
     i__1 = *m;
     for (i = *n + 1; i <= i__1; ++i) {
-	w[i] = 0.;
+        w[i] = 0.;
 /* L200: */
     }
     hprod_(m, &hy[1], &w[1], &w[1]);
     i__1 = *m;
     for (i = 1; i <= i__1; ++i) {
-	y[i] += w[i];
+        y[i] += w[i];
 /* L600: */
     }
 /*     End of APROD1 */
@@ -173,13 +173,13 @@ doublereal *x, *y, *d, *hy, *hz, *w;
     static integer i;
     extern /* Subroutine */ int hprod_();
 
-/*     ------------------------------------------------------------------ 
+/*     ------------------------------------------------------------------
 */
 /*     APROD2  computes  X = X + A(T)*Y  for subroutine APROD, */
 /*     where  A  is a test matrix of the form  A = HY*D*HZ, */
 /*     and the latter matrices  HY, D, HZ  are represented by */
 /*     input vectors with the same name. */
-/*     ------------------------------------------------------------------ 
+/*     ------------------------------------------------------------------
 */
     /* Parameter adjustments */
     --w;
@@ -193,13 +193,13 @@ doublereal *x, *y, *d, *hy, *hz, *w;
     hprod_(m, &hy[1], &y[1], &w[1]);
     i__1 = *n;
     for (i = 1; i <= i__1; ++i) {
-	w[i] = d[i] * w[i];
+        w[i] = d[i] * w[i];
 /* L100: */
     }
     hprod_(n, &hz[1], &w[1], &w[1]);
     i__1 = *n;
     for (i = 1; i <= i__1; ++i) {
-	x[i] += w[i];
+        x[i] += w[i];
 /* L600: */
     }
 /*     End of APROD2 */
@@ -216,11 +216,11 @@ doublereal *hz, *x, *y;
     static integer i;
     static doublereal s;
 
-/*     ------------------------------------------------------------------ 
+/*     ------------------------------------------------------------------
 */
 /*     HPROD  applies a Householder transformation stored in  HZ */
 /*     to get  Y = ( I - 2*HZ*HZ(transpose) ) * X. */
-/*     ------------------------------------------------------------------ 
+/*     ------------------------------------------------------------------
 */
     /* Parameter adjustments */
     --y;
@@ -231,20 +231,20 @@ doublereal *hz, *x, *y;
     s = (float)0.;
     i__1 = *n;
     for (i = 1; i <= i__1; ++i) {
-	s = hz[i] * x[i] + s;
+        s = hz[i] * x[i] + s;
 /* L100: */
     }
     s += s;
     i__1 = *n;
     for (i = 1; i <= i__1; ++i) {
-	y[i] = x[i] - s * hz[i];
+        y[i] = x[i] - s * hz[i];
 /* L200: */
     }
 /*     End of HPROD */
 } /* hprod_ */
 
-/* Subroutine */ int lstp_(m, n, nduplc, npower, damp, x, b, d, hy, hz, w, 
-	acond, rnorm)
+/* Subroutine */ int lstp_(m, n, nduplc, npower, damp, x, b, d, hy, hz, w,
+        acond, rnorm)
 integer *m, *n, *nduplc, *npower;
 doublereal *damp, *x, *b, *d, *hy, *hz, *w, *acond, *rnorm;
 {
@@ -263,7 +263,7 @@ doublereal *damp, *x, *b, *d, *hy, *hz, *w, *acond, *rnorm;
     extern /* Subroutine */ int dscal_(), hprod_(), aprod1_();
     static doublereal dampsq, fourpi;
 
-/*     ------------------------------------------------------------------ 
+/*     ------------------------------------------------------------------
 */
 /*     LSTP  generates a sparse least-squares test problem of the form */
 
@@ -282,15 +282,15 @@ doublereal *damp, *x, *b, *d, *hy, *hz, *w, *acond, *rnorm;
 
 /*     TESTPROB           APROD1, HPROD */
 /*     BLAS               DNRM2 */
-/*     ------------------------------------------------------------------ 
+/*     ------------------------------------------------------------------
 */
 /*     Intrinsics and local variables */
-/*     ------------------------------------------------------------------ 
+/*     ------------------------------------------------------------------
 */
-/*     Make two vectors of norm 1.0 for the Householder transformations. 
+/*     Make two vectors of norm 1.0 for the Householder transformations.
 */
 /*     FOURPI  need not be exact. */
-/*     ------------------------------------------------------------------ 
+/*     ------------------------------------------------------------------
 */
     /* Parameter adjustments */
     --w;
@@ -309,12 +309,12 @@ doublereal *damp, *x, *b, *d, *hy, *hz, *w, *acond, *rnorm;
     beta = fourpi / *n;
     i__1 = *m;
     for (i = 1; i <= i__1; ++i) {
-	hy[i] = sin(i * alfa);
+        hy[i] = sin(i * alfa);
 /* L100: */
     }
     i__1 = *n;
     for (i = 1; i <= i__1; ++i) {
-	hz[i] = cos(i * beta);
+        hz[i] = cos(i * beta);
 /* L200: */
     }
     alfa = dnrm2_(m, &hy[1], &c__1);
@@ -324,18 +324,18 @@ doublereal *damp, *x, *b, *d, *hy, *hz, *w, *acond, *rnorm;
     d__1 = -1. / beta;
     dscal_(n, &d__1, &hz[1], &c__1);
 
-/*     ------------------------------------------------------------------ 
+/*     ------------------------------------------------------------------
 */
-/*     Set the diagonal matrix  D.  These are the singular values of  A. 
+/*     Set the diagonal matrix  D.  These are the singular values of  A.
 */
-/*     ------------------------------------------------------------------ 
+/*     ------------------------------------------------------------------
 */
     i__1 = *n;
     for (i = 1; i <= i__1; ++i) {
-	j = (i - 1 + *nduplc) / *nduplc;
-	t = (doublereal) (j * *nduplc);
-	t /= *n;
-	d[i] = pow_di(&t, npower);
+        j = (i - 1 + *nduplc) / *nduplc;
+        t = (doublereal) (j * *nduplc);
+        t /= *n;
+        d[i] = pow_di(&t, npower);
 /* L300: */
     }
 /* Computing 2nd power */
@@ -343,34 +343,34 @@ doublereal *damp, *x, *b, *d, *hy, *hz, *w, *acond, *rnorm;
 /* Computing 2nd power */
     d__2 = d[1];
     *acond = sqrt((d__1 * d__1 + dampsq) / (d__2 * d__2 + dampsq));
-/*     ------------------------------------------------------------------ 
+/*     ------------------------------------------------------------------
 */
 /*     Compute the residual vector, storing it in  B. */
 /*     It takes the form  HY*( s ) */
 /*                           ( t ) */
 /*     where  s  is obtained from  D*s = DAMP**2 * HZ * X */
 /*     and    t  can be anything. */
-/*     ------------------------------------------------------------------ 
+/*     ------------------------------------------------------------------
 */
     hprod_(n, &hz[1], &x[1], &b[1]);
     i__1 = *n;
     for (i = 1; i <= i__1; ++i) {
-	b[i] = dampsq * b[i] / d[i];
+        b[i] = dampsq * b[i] / d[i];
 /* L500: */
     }
     t = 1.;
     i__1 = *m;
     for (i = *n + 1; i <= i__1; ++i) {
-	j = i - *n;
-	b[i] = t * j / *m;
-	t = -t;
+        j = i - *n;
+        b[i] = t * j / *m;
+        t = -t;
 /* L600: */
     }
     hprod_(m, &hy[1], &b[1], &b[1]);
-/*     ------------------------------------------------------------------ 
+/*     ------------------------------------------------------------------
 */
 /*     Now compute the true  B  =  RESIDUAL  +  A*X. */
-/*     ------------------------------------------------------------------ 
+/*     ------------------------------------------------------------------
 */
 /* Computing 2nd power */
     d__1 = dnrm2_(m, &b[1], &c__1);
@@ -451,10 +451,10 @@ The length of  RW  should be at least\002,i6)";
     static cilist io___55 = { 0, 0, 0, fmt_9000, 0 };
 
 
-/*     ------------------------------------------------------------------ 
+/*     ------------------------------------------------------------------
 */
 /*     This is an example driver routine for running LSQR. */
-/*     It generates a test problem, solves it, and examines the results. 
+/*     It generates a test problem, solves it, and examines the results.
 */
 /*     Note that subroutine APROD must be declared EXTERNAL */
 /*     if it is used only in the call to LSQR. */
@@ -464,13 +464,13 @@ The length of  RW  should be at least\002,i6)";
 
 /*     TESTPROB           APROD */
 /*     BLAS               DCOPY, DNRM2, DSCAL */
-/*     ------------------------------------------------------------------ 
+/*     ------------------------------------------------------------------
 */
 /*     Intrinsics and local variables */
 /*     Set the desired solution  XTRUE. */
     i__1 = *n;
     for (j = 1; j <= i__1; ++j) {
-	xtrue[j - 1] = (doublereal) (*n - j);
+        xtrue[j - 1] = (doublereal) (*n - j);
 /* L100: */
     }
 /*     Generate the specified test problem. */
@@ -485,10 +485,10 @@ The length of  RW  should be at least\002,i6)";
     locw = lochz + *n;
     ltotal = locw + max(*m,*n) - 1;
     if (ltotal > 600) {
-	goto L900;
+        goto L900;
     }
     lstp_(m, n, nduplc, npower, damp, xtrue, b, &rw[locd - 1], &rw[lochy - 1],
-	     &rw[lochz - 1], &rw[locw - 1], &acond, &rnorm);
+             &rw[lochz - 1], &rw[locw - 1], &acond, &rnorm);
 /*     Solve the problem defined by APROD, DAMP and B. */
 /*     Copy the rhs vector B into U  (LSQR will overwrite U) */
 /*     and set the other input parameters for LSQR. */
@@ -513,8 +513,8 @@ The length of  RW  should be at least\002,i6)";
     do_fio(&c__1, line, 34L);
     e_wsfe();
     lsqr_(m, n, aprod_, damp, &c__1, &c__600, iw, rw, u, v, w, x, se, &atol, &
-	    btol, &conlim, &itnlim, &nout, &istop, &itn, &anorm, &acond, &
-	    rnorm, &arnorm, &xnorm);
+            btol, &conlim, &itnlim, &nout, &istop, &itn, &anorm, &acond, &
+            rnorm, &arnorm, &xnorm);
 /*     Examine the results. */
 /*     We print the residual norms  RNORM  and  ARNORM  given by LSQR, */
 /*     and then compute their true values in terms of the solution  X */
@@ -563,37 +563,37 @@ The length of  RW  should be at least\002,i6)";
     s_wsfe(&io___49);
     i__1 = *n;
     for (j = 1; j <= i__1; ++j) {
-	do_fio(&c__1, (char *)&j, (ftnlen)sizeof(integer));
-	do_fio(&c__1, (char *)&x[j - 1], (ftnlen)sizeof(doublereal));
+        do_fio(&c__1, (char *)&j, (ftnlen)sizeof(integer));
+        do_fio(&c__1, (char *)&x[j - 1], (ftnlen)sizeof(doublereal));
     }
     e_wsfe();
     io___50.ciunit = nout;
     s_wsfe(&io___50);
     i__1 = *n;
     for (j = 1; j <= i__1; ++j) {
-	do_fio(&c__1, (char *)&j, (ftnlen)sizeof(integer));
-	do_fio(&c__1, (char *)&se[j - 1], (ftnlen)sizeof(doublereal));
+        do_fio(&c__1, (char *)&j, (ftnlen)sizeof(integer));
+        do_fio(&c__1, (char *)&se[j - 1], (ftnlen)sizeof(doublereal));
     }
     e_wsfe();
 /*     Print a clue about whether the solution looks OK. */
     i__1 = *n;
     for (j = 1; j <= i__1; ++j) {
-	w[j - 1] = x[j - 1] - xtrue[j - 1];
+        w[j - 1] = x[j - 1] - xtrue[j - 1];
 /* L500: */
     }
     enorm = dnrm2_(n, w, &c__1) / (dnrm2_(n, xtrue, &c__1) + 1.);
     etol = 1e-5;
     if (enorm <= etol) {
-	io___53.ciunit = nout;
-	s_wsfe(&io___53);
-	do_fio(&c__1, (char *)&enorm, (ftnlen)sizeof(doublereal));
-	e_wsfe();
+        io___53.ciunit = nout;
+        s_wsfe(&io___53);
+        do_fio(&c__1, (char *)&enorm, (ftnlen)sizeof(doublereal));
+        e_wsfe();
     }
     if (enorm > etol) {
-	io___54.ciunit = nout;
-	s_wsfe(&io___54);
-	do_fio(&c__1, (char *)&enorm, (ftnlen)sizeof(doublereal));
-	e_wsfe();
+        io___54.ciunit = nout;
+        s_wsfe(&io___54);
+        do_fio(&c__1, (char *)&enorm, (ftnlen)sizeof(doublereal));
+        e_wsfe();
     }
     return 0;
 /*     Not enough workspace. */

@@ -1,9 +1,11 @@
+// This is vxl/vnl/vnl_cross_product_matrix.cxx
+
 //-*- c++ -*-------------------------------------------------------------------
 #ifdef __GNUC__
 #pragma implementation
 #endif
 //
-// Class: vnl_cross_product_matrix
+// vnl_cross_product_matrix
 // Author: Andrew W. Fitzgibbon, Oxford RRG
 // Created: 19 Sep 96
 //
@@ -12,7 +14,7 @@
 #include <vnl/vnl_vector.h>
 #include "vnl_cross_product_matrix.h"
 
-// -- Construct a vnl_cross_product_matrix from a vector of 3 doubles.
+//: Construct a vnl_cross_product_matrix from a vector of 3 doubles.
 void vnl_cross_product_matrix::set(const double* v) 
 {
   double e1 = v[0];

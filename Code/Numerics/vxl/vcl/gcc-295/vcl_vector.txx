@@ -9,6 +9,7 @@ template pair<Inp, Fwd> __uninitialized_copy_n(Inp, Size, Fwd, input_iterator_ta
 VCL_INSTANTIATE_INLINE(Fwd uninitialized_copy(Inp, Inp, Fwd))
 
 // --- Vector ---
+#undef VCL_VECTOR_INSTANTIATE
 #define VCL_VECTOR_INSTANTIATE(T) \
 template vector<T >::iterator __uninitialized_fill_n_aux(vector<T >::iterator, vector<T >::size_type, T const &, __false_type); \
 template void fill(vector<T >::iterator, vector<T >::iterator, T const &); \

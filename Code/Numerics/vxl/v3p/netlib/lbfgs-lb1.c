@@ -56,26 +56,26 @@ int *finish; /* logical*/
 /*IF (ITER.EQ.0)THEN*/
   if (*iter == 0) {
 /*  30   FORMAT(' F= ',1PD10.3,'   GNORM= ',1PD10.3)*/
-/* 	      WRITE(MP,30)F,GNORM*/
+/*       WRITE(MP,30)F,GNORM*/
     printf(" F = %g, GNORM = %g\n", *f, *gnorm);
-/* 		    IF (IPRINT(2).GE.1)THEN*/
+/*       IF (IPRINT(2).GE.1)THEN*/
     if (iprint[2] >= 1) {
 /*  40   FORMAT(' VECTOR X= ')*/
-/* 			WRITE(MP,40)*/
+/*       WRITE(MP,40)*/
       printf(" VECTOR X=\n");
-/* 			WRITE(MP,50) (X(I),I=1,N)*/
+/*       WRITE(MP,50) (X(I),I=1,N)*/
       write50(x, *n);
 /*  60   FORMAT(' GRADIENT VECTOR G= ')*/
-/* 			WRITE(MP,60)*/
+/*       WRITE(MP,60)*/
       printf(" GRADIENT VECTOR G=\n");
-/* 			WRITE(MP,50) (G(I),I=1,N)*/
+/*       WRITE(MP,50) (G(I),I=1,N)*/
       write50(g, *n);
-/* 		     ENDIF*/
+/*       ENDIF*/
     }
 /*  10   FORMAT('*************************************************')*/
     printf("*************************************************\n");
 /*  70   FORMAT(/'   I   NFN',4X,'FUNC',8X,'GNORM',7X,'STEPLENGTH'/)*/
-/* 	      WRITE(MP,70)*/
+/*       WRITE(MP,70)*/
     printf("   I   NFN    FUNC        GNORM       STEPLENGTH\n");
 /*ELSE*/
   } else {
@@ -88,27 +88,27 @@ int *finish; /* logical*/
       if ((*iter - 1)%iprint[1] == 0 || *finish) {
 /*  70  FORMAT(/'   I   NFN',4X,'FUNC',8X,'GNORM',7X,'STEPLENGTH'/)*/
 /*      IF(IPRINT(2).GT.1.AND.ITER.GT.1) WRITE(MP,70)*/
-	if (iprint[2] > 1 && *iter > 1)
-	  printf("   I   NFN    FUNC        GNORM       STEPLENGTH\n");
+        if (iprint[2] > 1 && *iter > 1)
+          printf("   I   NFN    FUNC        GNORM       STEPLENGTH\n");
 /*  80  FORMAT(2(I4,1X),3X,3(1PD10.3,2X))*/
 /*      WRITE(MP,80)ITER,NFUN,F,GNORM,STP*/
-	printf("%4d %4d    %10.3f  %10.3f  %10.3f  \n", *iter, *nfun, *f, *gnorm, *stp);
+        printf("%4d %4d    %10.3f  %10.3f  %10.3f  \n", *iter, *nfun, *f, *gnorm, *stp);
       }
 /*    ELSE*/
       else {
 /*      RETURN*/
-	return;
+        return;
 /*    ENDIF*/
       }
     }
 /*  ELSE*/
     else {
-      
+
 /*  70   FORMAT(/'   I   NFN',4X,'FUNC',8X,'GNORM',7X,'STEPLENGTH'/)*/
 /*    IF( IPRINT(2).GT.1.AND.FINISH) WRITE(MP,70)*/
       if (iprint[2] > 1 && *finish)
-	printf("   I   NFN    FUNC        GNORM       STEPLENGTH\n");
-      
+        printf("   I   NFN    FUNC        GNORM       STEPLENGTH\n");
+
 /*  80   FORMAT(2(I4,1X),3X,3(1PD10.3,2X))*/
 /*    WRITE(MP,80)ITER,NFUN,F,GNORM,STP*/
       printf("%4d %4d    %10.3f  %10.3f  %10.3f  \n", *iter, *nfun, *f, *gnorm, *stp);
@@ -121,14 +121,14 @@ int *finish; /* logical*/
       if (*finish)
 /*  90  FORMAT(' FINAL POINT X= ')*/
 /*      WRITE(MP,90)*/
-	printf(" FINAL POINT X=\n");
+        printf(" FINAL POINT X=\n");
 /*    ELSE*/
       else
 /*  40  FORMAT(' VECTOR X= ')*/
 /*      WRITE(MP,40)*/
-	printf(" VECTOR X=\n");
+        printf(" VECTOR X=\n");
 /*    ENDIF*/
-      
+
 /*  50   FORMAT(6(2X,1PD10.3))*/
 /*     WRITE(MP,50)(X(I),I=1,N)*/
       write50(x, *n);
@@ -136,22 +136,22 @@ int *finish; /* logical*/
       if (iprint[2] == 3) {
 /*  60   FORMAT(' GRADIENT VECTOR G= ')*/
 /*       WRITE(MP,60)*/
-	printf(" GRADIENT VECTOR G=\n");
+        printf(" GRADIENT VECTOR G=\n");
 /*  50   FORMAT(6(2X,1PD10.3))*/
 /*       WRITE(MP,50)(G(I),I=1,N)*/
-	write50(g, *n);
+        write50(g, *n);
 /*     ENDIF*/
       }
 /*  ENDIF*/
     }
 /*  100  FORMAT(/' THE MINIMIZATION TERMINATED WITHOUT DETECTING ERRORS.',*/
-/* 	.       /' IFLAG = 0')*/
+/* .       /' IFLAG = 0')*/
 /*  IF (FINISH) WRITE(MP,100)*/
     if (*finish)
       printf(" THE MINIMIZATION TERMINATED WITHOUT DETECTING ERRORS.\n");
   }
-/* ENDIF*/
+/*  ENDIF*/
 /* C*/
-/* 	 RETURN*/
-/* 	 END*/
+/*  RETURN*/
+/*  END*/
 }

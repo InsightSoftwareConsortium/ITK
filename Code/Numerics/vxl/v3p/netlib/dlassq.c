@@ -1,13 +1,13 @@
 /* dlassq.f -- translated by f2c (version of 4 June 1993  1:43:59).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
 
 /*<       SUBROUTINE DLASSQ( N, X, INCX, SCALE, SUMSQ ) >*/
-/* Subroutine */ int dlassq_(integer *n, doublereal *x, integer *incx, 
-	doublereal *scale, doublereal *sumsq)
+/* Subroutine */ int dlassq_(integer *n, doublereal *x, integer *incx,
+        doublereal *scale, doublereal *sumsq)
 {
     /* System generated locals */
     integer i__1, i__2;
@@ -36,7 +36,7 @@
 
 /*  DLASSQ  returns the values  scl  and  smsq  such that */
 
-/*     ( scl**2 )*smsq = x( 1 )**2 +...+ x( n )**2 + ( scale**2 )*sumsq, 
+/*     ( scl**2 )*smsq = x( 1 )**2 +...+ x( n )**2 + ( scale**2 )*sumsq,
 */
 
 /*  where  x( i ) = X( 1 + ( i - 1 )*INCX ). The value of  sumsq  is */
@@ -65,7 +65,7 @@
 
 /*  SCALE   (input/output) DOUBLE PRECISION */
 /*          On entry, the value  scale  in the equation above. */
-/*          On exit, SCALE is overwritten with  scl , the scaling factor 
+/*          On exit, SCALE is overwritten with  scl , the scaling factor
 */
 /*          for the sum of squares. */
 
@@ -74,7 +74,7 @@
 /*          On exit, SUMSQ is overwritten with  smsq , the basic sum of */
 /*          squares from which  scl  has been factored out. */
 
-/* ===================================================================== 
+/* =====================================================================
 */
 
 /*     .. Parameters .. */
@@ -97,34 +97,34 @@
     /* Function Body */
     if (*n > 0) {
 /*<          DO 10 IX = 1, 1 + ( N-1 )*INCX, INCX >*/
-	i__1 = (*n - 1) * *incx + 1;
-	i__2 = *incx;
-	for (ix = 1; i__2 < 0 ? ix >= i__1 : ix <= i__1; ix += i__2) {
+        i__1 = (*n - 1) * *incx + 1;
+        i__2 = *incx;
+        for (ix = 1; i__2 < 0 ? ix >= i__1 : ix <= i__1; ix += i__2) {
 /*<             IF( X( IX ).NE.ZERO ) THEN >*/
-	    if (x[ix] != 0.) {
+            if (x[ix] != 0.) {
 /*<                ABSXI = ABS( X( IX ) ) >*/
-		absxi = (d__1 = x[ix], abs(d__1));
+                absxi = (d__1 = x[ix], abs(d__1));
 /*<                IF( SCALE.LT.ABSXI ) THEN >*/
-		if (*scale < absxi) {
+                if (*scale < absxi) {
 /*<                   SUMSQ = 1 + SUMSQ*( SCALE / ABSXI )**2 >*/
 /* Computing 2nd power */
-		    d__1 = *scale / absxi;
-		    *sumsq = *sumsq * (d__1 * d__1) + 1;
+                    d__1 = *scale / absxi;
+                    *sumsq = *sumsq * (d__1 * d__1) + 1;
 /*<                   SCALE = ABSXI >*/
-		    *scale = absxi;
+                    *scale = absxi;
 /*<                ELSE >*/
-		} else {
+                } else {
 /*<                   SUMSQ = SUMSQ + ( ABSXI / SCALE )**2 >*/
 /* Computing 2nd power */
-		    d__1 = absxi / *scale;
-		    *sumsq += d__1 * d__1;
+                    d__1 = absxi / *scale;
+                    *sumsq += d__1 * d__1;
 /*<                END IF >*/
-		}
+                }
 /*<             END IF >*/
-	    }
+            }
 /*<    10    CONTINUE >*/
 /* L10: */
-	}
+        }
 /*<       END IF >*/
     }
 /*<       RETURN >*/

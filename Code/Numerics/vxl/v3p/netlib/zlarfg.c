@@ -1,6 +1,6 @@
 /*  -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -91,7 +91,7 @@ doublecomplex *tau;
 /*  TAU     (output) COMPLEX*16 */
 /*          The value tau. */
 
-/*  ===================================================================== 
+/*  =====================================================================
 */
 
 /*     .. Parameters .. */
@@ -111,8 +111,8 @@ doublecomplex *tau;
 
     /* Function Body */
     if (*n <= 0) {
-	tau->r = 0., tau->i = 0.;
-	return 0;
+        tau->r = 0., tau->i = 0.;
+        return 0;
     }
 
     i__1 = *n - 1;
@@ -124,73 +124,73 @@ doublecomplex *tau;
 
 /*        H  =  I */
 
-	tau->r = 0., tau->i = 0.;
+        tau->r = 0., tau->i = 0.;
     } else {
 
 /*        general case */
 
-	d__1 = dlapy3_(&alphr, &alphi, &xnorm);
-	beta = -d_sign(&d__1, &alphr);
-	safmin = dlamch_("S", 1L) / dlamch_("E", 1L);
-	rsafmn = 1. / safmin;
+        d__1 = dlapy3_(&alphr, &alphi, &xnorm);
+        beta = -d_sign(&d__1, &alphr);
+        safmin = dlamch_("S", 1L) / dlamch_("E", 1L);
+        rsafmn = 1. / safmin;
 
-	if (abs(beta) < safmin) {
+        if (abs(beta) < safmin) {
 
-/*           XNORM, BETA may be inaccurate; scale X and recompute 
+/*           XNORM, BETA may be inaccurate; scale X and recompute
 them */
 
-	    knt = 0;
+            knt = 0;
 L10:
-	    ++knt;
-	    i__1 = *n - 1;
-	    zdscal_(&i__1, &rsafmn, &x[1], incx);
-	    beta *= rsafmn;
-	    alphi *= rsafmn;
-	    alphr *= rsafmn;
-	    if (abs(beta) < safmin) {
-		goto L10;
-	    }
+            ++knt;
+            i__1 = *n - 1;
+            zdscal_(&i__1, &rsafmn, &x[1], incx);
+            beta *= rsafmn;
+            alphi *= rsafmn;
+            alphr *= rsafmn;
+            if (abs(beta) < safmin) {
+                goto L10;
+            }
 
 /*           New BETA is at most 1, at least SAFMIN */
 
-	    i__1 = *n - 1;
-	    xnorm = dznrm2_(&i__1, &x[1], incx);
-	    z__1.r = alphr, z__1.i = alphi;
-	    alpha->r = z__1.r, alpha->i = z__1.i;
-	    d__1 = dlapy3_(&alphr, &alphi, &xnorm);
-	    beta = -d_sign(&d__1, &alphr);
-	    d__1 = (beta - alphr) / beta;
-	    d__2 = -alphi / beta;
-	    z__1.r = d__1, z__1.i = d__2;
-	    tau->r = z__1.r, tau->i = z__1.i;
-	    z__2.r = alpha->r - beta, z__2.i = alpha->i;
-	    zladiv_(&z__1, &c_b5, &z__2);
-	    alpha->r = z__1.r, alpha->i = z__1.i;
-	    i__1 = *n - 1;
-	    zscal_(&i__1, alpha, &x[1], incx);
+            i__1 = *n - 1;
+            xnorm = dznrm2_(&i__1, &x[1], incx);
+            z__1.r = alphr, z__1.i = alphi;
+            alpha->r = z__1.r, alpha->i = z__1.i;
+            d__1 = dlapy3_(&alphr, &alphi, &xnorm);
+            beta = -d_sign(&d__1, &alphr);
+            d__1 = (beta - alphr) / beta;
+            d__2 = -alphi / beta;
+            z__1.r = d__1, z__1.i = d__2;
+            tau->r = z__1.r, tau->i = z__1.i;
+            z__2.r = alpha->r - beta, z__2.i = alpha->i;
+            zladiv_(&z__1, &c_b5, &z__2);
+            alpha->r = z__1.r, alpha->i = z__1.i;
+            i__1 = *n - 1;
+            zscal_(&i__1, alpha, &x[1], incx);
 
-/*           If ALPHA is subnormal, it may lose relative accuracy 
+/*           If ALPHA is subnormal, it may lose relative accuracy
 */
 
-	    alpha->r = beta, alpha->i = 0.;
-	    i__1 = knt;
-	    for (j = 1; j <= i__1; ++j) {
-		z__1.r = safmin * alpha->r, z__1.i = safmin * alpha->i;
-		alpha->r = z__1.r, alpha->i = z__1.i;
+            alpha->r = beta, alpha->i = 0.;
+            i__1 = knt;
+            for (j = 1; j <= i__1; ++j) {
+                z__1.r = safmin * alpha->r, z__1.i = safmin * alpha->i;
+                alpha->r = z__1.r, alpha->i = z__1.i;
 /* L20: */
-	    }
-	} else {
-	    d__1 = (beta - alphr) / beta;
-	    d__2 = -alphi / beta;
-	    z__1.r = d__1, z__1.i = d__2;
-	    tau->r = z__1.r, tau->i = z__1.i;
-	    z__2.r = alpha->r - beta, z__2.i = alpha->i;
-	    zladiv_(&z__1, &c_b5, &z__2);
-	    alpha->r = z__1.r, alpha->i = z__1.i;
-	    i__1 = *n - 1;
-	    zscal_(&i__1, alpha, &x[1], incx);
-	    alpha->r = beta, alpha->i = 0.;
-	}
+            }
+        } else {
+            d__1 = (beta - alphr) / beta;
+            d__2 = -alphi / beta;
+            z__1.r = d__1, z__1.i = d__2;
+            tau->r = z__1.r, tau->i = z__1.i;
+            z__2.r = alpha->r - beta, z__2.i = alpha->i;
+            zladiv_(&z__1, &c_b5, &z__2);
+            alpha->r = z__1.r, alpha->i = z__1.i;
+            i__1 = *n - 1;
+            zscal_(&i__1, alpha, &x[1], incx);
+            alpha->r = beta, alpha->i = 0.;
+        }
     }
 
     return 0;

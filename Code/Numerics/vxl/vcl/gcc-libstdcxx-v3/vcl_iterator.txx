@@ -1,5 +1,5 @@
-#ifndef vcl_gcc295_iterator_txx_
-#define vcl_gcc295_iterator_txx_
+#ifndef vcl_gcc_libstdcxx_v3_iterator_txx_
+#define vcl_gcc_libstdcxx_v3_iterator_txx_
 
 #include <vcl_iterator.h>
 

@@ -1,6 +1,6 @@
 /* camsun.f -- translated by f2c (version 19950102).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -89,7 +89,7 @@ real *cdf;
 /*     MODE OF INTERNAL OPERATIONS--DOUBLE PRECISION. */
 /*     LANGUAGE--ANSI FORTRAN. */
 /*     REFERENCES--NATIONAL BUREAU OF STANDARDS APPLIED MATHEMATICS */
-/*                 SERIES 55, 1964, PAGE 941, FORMULAE 26.4.4 AND 26.4.5. 
+/*                 SERIES 55, 1964, PAGE 941, FORMULAE 26.4.4 AND 26.4.5.
 */
 /*               --JOHNSON AND KOTZ, CONTINUOUS UNIVARIATE */
 /*                 DISTRIBUTIONS--1, 1970, PAGE 176, */
@@ -110,7 +110,7 @@ real *cdf;
 /*     UPDATED         --NOVEMBER  1975. */
 /*     UPDATED         --OCTOBER   1976. */
 
-/* --------------------------------------------------------------------- 
+/* ---------------------------------------------------------------------
 */
 
 
@@ -119,10 +119,10 @@ real *cdf;
 /*     CHECK THE INPUT ARGUMENTS FOR ERRORS */
 
     if (*nu <= 0) {
-	goto L50;
+        goto L50;
     }
     if (*x < (float)0.) {
-	goto L55;
+        goto L55;
     }
     goto L90;
 L50:
@@ -140,7 +140,7 @@ L55:
     return 0;
 L90:
 
-/* -----START POINT----------------------------------------------------- 
+/* -----START POINT-----------------------------------------------------
 */
 
     dx = *x;
@@ -162,22 +162,22 @@ L90:
 /*     SET CDF = 1.0 AND RETURN. */
 
     if (*x <= (float)0.) {
-	goto L105;
+        goto L105;
     }
     amean = anu;
     sd = sqrt(anu * (float)2.);
     z = (*x - amean) / sd;
     if (*nu < 10 && z < (float)-200.) {
-	goto L105;
+        goto L105;
     }
     if (*nu >= 10 && z < (float)-100.) {
-	goto L105;
+        goto L105;
     }
     if (*nu < 10 && z > (float)200.) {
-	goto L107;
+        goto L107;
     }
     if (*nu >= 10 && z > (float)100.) {
-	goto L107;
+        goto L107;
     }
     goto L109;
 L105:
@@ -195,13 +195,13 @@ L109:
 /*     NUCUT HAS THE VALUE 1000. */
 
     if (*nu < nucut) {
-	goto L1000;
+        goto L1000;
     }
     if (*nu >= nucut && *x <= anu) {
-	goto L2000;
+        goto L2000;
     }
     if (*nu >= nucut && *x > anu) {
-	goto L3000;
+        goto L3000;
     }
     ibran = 1;
     fprintf(stderr,fmt_99,ibran);
@@ -216,7 +216,7 @@ L1000:
     chi = sqrt(dx);
     ievodd = *nu - (*nu / 2 << 1);
     if (ievodd == 0) {
-	goto L120;
+        goto L120;
     }
 
     sum = 0.;
@@ -233,20 +233,20 @@ L120:
 
 L130:
     if (imin > imax) {
-	goto L160;
+        goto L160;
     }
     i__1 = imax;
     for (i = imin; i <= i__1; i += 2) {
-	ai = (doublereal) i;
-	term *= dx / ai;
-	sum += term;
+        ai = (doublereal) i;
+        term *= dx / ai;
+        sum += term;
 /* L100: */
     }
 L160:
 
     sum *= exp(-dx / 2.);
     if (ievodd == 0) {
-	goto L170;
+        goto L170;
     }
     sum = sqrt(2. / pi) * sum;
     spchi = chi;
@@ -361,7 +361,7 @@ real *x, *cdf;
 /*     UPDATED         --SEPTEMBER 1975. */
 /*     UPDATED         --NOVEMBER  1975. */
 
-/* --------------------------------------------------------------------- 
+/* ---------------------------------------------------------------------
 */
 
 
@@ -371,12 +371,12 @@ real *x, *cdf;
 /*     NO INPUT ARGUMENT ERRORS POSSIBLE */
 /*     FOR THIS DISTRIBUTION. */
 
-/* -----START POINT----------------------------------------------------- 
+/* -----START POINT-----------------------------------------------------
 */
 
     z = *x;
     if (*x < (float)0.) {
-	z = -(doublereal)z;
+        z = -(doublereal)z;
     }
     t = (float)1. / (p * z + (float)1.);
 /* Computing 2nd power */
@@ -387,11 +387,11 @@ real *x, *cdf;
     r__4 = t, r__4 *= r__4;
 /* Computing 5th power */
     r__5 = t, r__6 = r__5, r__5 *= r__5;
-    *cdf = (float)1. - exp(z * (float)-.5 * z) * (float).39894228040143 * (b1 
-	    * t + b2 * (r__1 * r__1) + b3 * (r__3 * (r__2 * r__2)) + b4 * (
-	    r__4 * r__4) + b5 * (r__6 * (r__5 * r__5)));
+    *cdf = (float)1. - exp(z * (float)-.5 * z) * (float).39894228040143 * (b1
+            * t + b2 * (r__1 * r__1) + b3 * (r__3 * (r__2 * r__2)) + b4 * (
+            r__4 * r__4) + b5 * (r__6 * (r__5 * r__5)));
     if (*x < (float)0.) {
-	*cdf = (float)1. - *cdf;
+        *cdf = (float)1. - *cdf;
     }
 
     return 0;

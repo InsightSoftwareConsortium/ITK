@@ -1,12 +1,15 @@
 #ifndef vcl_ostream_h_
 #define vcl_ostream_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 /*
   fsm@robots.ox.ac.uk
 */
 
-#include "vcl_iostream.h" // this should do it.
+#include "vcl_compiler.h"
+
+#if VCL_CXX_HAS_HEADER_OSTREAM
+# include "iso/vcl_ostream.h"
+#else
+# include "vcl_iostream.h" // this should do it.
+#endif
 
 #endif // vcl_ostream_h_

@@ -1,11 +1,10 @@
-
 #include <vcl_string.h> // C++ specific includes first
 #include <vcl_cassert.h>
 #include <vcl_iostream.h>
 
-#define Assert(x) {vcl_cout << "TEST " #x " : "; bool b = (x); vcl_cout << (b?"PASSED":"FAILED")}
+#define Assert(x) {vcl_cout << "TEST " #x " : "; vcl_cout << ((x)?"PASSED":"FAILED")}
 
-#define AssertEq(x) {vcl_cout << "TEST [" << fred << "] == [" << x << "] : "; bool b = fred == (x); vcl_cout << (b?"PASSED":"FAILED") << vcl_endl; }
+#define AssertEq(x) {vcl_cout<<"TEST ["<<fred<<"] == ["<<x<<"] : ";vcl_cout<<(fred==(x)?"PASSED":"FAILED")<<vcl_endl;}
 
 int main()
 {

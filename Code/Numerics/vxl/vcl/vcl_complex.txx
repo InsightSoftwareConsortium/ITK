@@ -1,10 +1,12 @@
-// -*- c++ -*-
 #ifndef vcl_complex_txx_
 #define vcl_complex_txx_
+// -*- c++ -*-
 
 #include "vcl_complex.h"
 
-#if !VCL_USE_NATIVE_COMPLEX
+#if VCL_USE_IMPLICIT_TEMPLATES
+# include "iso/vcl_complex.txx"
+#elif !VCL_USE_NATIVE_COMPLEX
 # include "emulation/vcl_complex.txx"
 #elif defined(VCL_EGCS)
 # include "egcs/vcl_complex.txx"

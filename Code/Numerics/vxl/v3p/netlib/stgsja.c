@@ -1,6 +1,6 @@
 /* stgsja.f -- translated by f2c (version of 4 June 1993  1:43:59).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -12,21 +12,21 @@ static real c_b14 = 1.f;
 static integer c__1 = 1;
 static real c_b43 = -1.f;
 
-/* Subroutine */ int stgsja_(char *jobu, char *jobv, char *jobq, integer *m, 
-	integer *p, integer *n, integer *k, integer *l, real *a, integer *lda,
-	 real *b, integer *ldb, real *tola, real *tolb, real *alpha, real *
-	beta, real *u, integer *ldu, real *v, integer *ldv, real *q, integer *
-	ldq, real *work, integer *ncycle, integer *info, ftnlen jobu_len, 
-	ftnlen jobv_len, ftnlen jobq_len)
+/* Subroutine */ int stgsja_(char *jobu, char *jobv, char *jobq, integer *m,
+        integer *p, integer *n, integer *k, integer *l, real *a, integer *lda,
+         real *b, integer *ldb, real *tola, real *tolb, real *alpha, real *
+        beta, real *u, integer *ldu, real *v, integer *ldv, real *q, integer *
+        ldq, real *work, integer *ncycle, integer *info, ftnlen jobu_len,
+        ftnlen jobv_len, ftnlen jobq_len)
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, q_dim1, q_offset, u_dim1, 
-	    u_offset, v_dim1, v_offset, i__1, i__2, i__3, i__4;
+    integer a_dim1, a_offset, b_dim1, b_offset, q_dim1, q_offset, u_dim1,
+            u_offset, v_dim1, v_offset, i__1, i__2, i__3, i__4;
     real r__1;
 
     /* Local variables */
-    extern /* Subroutine */ int srot_(integer *, real *, integer *, real *, 
-	    integer *, real *, real *);
+    extern /* Subroutine */ int srot_(integer *, real *, integer *, real *,
+            integer *, real *, real *);
     static integer i, j;
     static real gamma;
     extern logical lsame_(char *, char *, ftnlen, ftnlen);
@@ -38,14 +38,14 @@ static real c_b43 = -1.f;
     static real b2, b3;
     static logical wantu, wantv;
     static real error, ssmin;
-    extern /* Subroutine */ int scopy_(integer *, real *, integer *, real *, 
-	    integer *), slags2_(logical *, real *, real *, real *, real *, 
-	    real *, real *, real *, real *, real *, real *, real *, real *);
+    extern /* Subroutine */ int scopy_(integer *, real *, integer *, real *,
+            integer *), slags2_(logical *, real *, real *, real *, real *,
+            real *, real *, real *, real *, real *, real *, real *, real *);
     static integer kcycle;
     extern /* Subroutine */ int xerbla_(char *, integer *, ftnlen), slapll_(
-	    integer *, real *, integer *, real *, integer *, real *), slaset_(
-	    char *, integer *, integer *, real *, real *, real *, integer *, 
-	    ftnlen), slartg_(real *, real *, real *, real *, real *);
+            integer *, real *, integer *, real *, integer *, real *), slaset_(
+            char *, integer *, integer *, real *, real *, real *, integer *,
+            ftnlen), slartg_(real *, real *, real *, real *, real *);
     static real csq, csu, csv, snq, rwk, snu, snv;
 
 
@@ -138,13 +138,13 @@ static real c_b43 = -1.f;
 /*  S = diag( BETA(K+1),  ... , BETA(M) ), */
 /*  C**2 + S**2 = I. */
 
-/*  R = ( R11 R12 R13 ) is stored in A(1:M, N-K-L+1:N) and R33 is stored 
+/*  R = ( R11 R12 R13 ) is stored in A(1:M, N-K-L+1:N) and R33 is stored
 */
 /*      (  0  R22 R23 ) */
 /*  in B(M-K+1:L,N+M-K-L+1:N) on exit. */
 
 /*  The computation of the orthogonal transformation matrices U, V or Q */
-/*  is optional.  These matrices may either be formed explicitly, or they 
+/*  is optional.  These matrices may either be formed explicitly, or they
 */
 /*  may be postmultiplied into input matrices U1, V1, or Q1. */
 
@@ -152,7 +152,7 @@ static real c_b43 = -1.f;
 /*  ========= */
 
 /*  JOBU    (input) CHARACTER*1 */
-/*          = 'U':  U must contain an orthogonal matrix U1 on entry, and 
+/*          = 'U':  U must contain an orthogonal matrix U1 on entry, and
 */
 /*                  the product U1*U is returned; */
 /*          = 'I':  U is initialized to the unit matrix, and the */
@@ -160,7 +160,7 @@ static real c_b43 = -1.f;
 /*          = 'N':  U is not computed. */
 
 /*  JOBV    (input) CHARACTER*1 */
-/*          = 'V':  V must contain an orthogonal matrix V1 on entry, and 
+/*          = 'V':  V must contain an orthogonal matrix V1 on entry, and
 */
 /*                  the product V1*V is returned; */
 /*          = 'I':  V is initialized to the unit matrix, and the */
@@ -168,7 +168,7 @@ static real c_b43 = -1.f;
 /*          = 'N':  V is not computed. */
 
 /*  JOBQ    (input) CHARACTER*1 */
-/*          = 'Q':  Q must contain an orthogonal matrix Q1 on entry, and 
+/*          = 'Q':  Q must contain an orthogonal matrix Q1 on entry, and
 */
 /*                  the product Q1*Q is returned; */
 /*          = 'I':  Q is initialized to the unit matrix, and the */
@@ -186,7 +186,7 @@ static real c_b43 = -1.f;
 
 /*  K       (input) INTEGER */
 /*  L       (input) INTEGER */
-/*          K and L specify the subblocks in the input matrices A and B: 
+/*          K and L specify the subblocks in the input matrices A and B:
 */
 /*          A23 = A(K+1:MIN(K+L,M),N-L+1:N) and B13 = B(1:L,N-L+1:N) */
 /*          of A and B, whose GSVD is going to be computed by STGSJA. */
@@ -233,7 +233,7 @@ static real c_b43 = -1.f;
 /*            BETA(K+L+1:N)  = 0. */
 
 /*  U       (input/output) REAL array, dimension (LDU,M) */
-/*          On entry, if JOBU = 'U', U must contain a matrix U1 (usually 
+/*          On entry, if JOBU = 'U', U must contain a matrix U1 (usually
 */
 /*          the orthogonal matrix returned by SGGSVP). */
 /*          On exit, */
@@ -246,7 +246,7 @@ static real c_b43 = -1.f;
 /*          JOBU = 'U'; LDU >= 1 otherwise. */
 
 /*  V       (input/output) REAL array, dimension (LDV,P) */
-/*          On entry, if JOBV = 'V', V must contain a matrix V1 (usually 
+/*          On entry, if JOBV = 'V', V must contain a matrix V1 (usually
 */
 /*          the orthogonal matrix returned by SGGSVP). */
 /*          On exit, */
@@ -259,7 +259,7 @@ static real c_b43 = -1.f;
 /*          JOBV = 'V'; LDV >= 1 otherwise. */
 
 /*  Q       (input/output) REAL array, dimension (LDQ,N) */
-/*          On entry, if JOBQ = 'Q', Q must contain a matrix Q1 (usually 
+/*          On entry, if JOBQ = 'Q', Q must contain a matrix Q1 (usually
 */
 /*          the orthogonal matrix returned by SGGSVP). */
 /*          On exit, */
@@ -285,7 +285,7 @@ static real c_b43 = -1.f;
 /*  =================== */
 
 /*  MAXIT   INTEGER */
-/*          MAXIT specifies the total loops that the iterative procedure 
+/*          MAXIT specifies the total loops that the iterative procedure
 */
 /*          may take. If after MAXIT cycles, the routine fails to */
 /*          converge, we return INFO = 1. */
@@ -293,7 +293,7 @@ static real c_b43 = -1.f;
 /*  Further Details */
 /*  =============== */
 
-/*  STGSJA essentially uses a variant of Kogbetliantz algorithm to reduce 
+/*  STGSJA essentially uses a variant of Kogbetliantz algorithm to reduce
 */
 /*  min(L,M-K)-by-L triangular (or trapezoidal) matrix A23 and L-by-L */
 /*  matrix B13 to the form: */
@@ -307,7 +307,7 @@ static real c_b43 = -1.f;
 
 /*  and R1 is an L-by-L nonsingular upper triangular matrix. */
 
-/*  ===================================================================== 
+/*  =====================================================================
 */
 
 /*     .. Parameters .. */
@@ -357,44 +357,44 @@ static real c_b43 = -1.f;
 
     *info = 0;
     if (! (initu || wantu || lsame_(jobu, "N", 1L, 1L))) {
-	*info = -1;
+        *info = -1;
     } else if (! (initv || wantv || lsame_(jobv, "N", 1L, 1L))) {
-	*info = -2;
+        *info = -2;
     } else if (! (initq || wantq || lsame_(jobq, "N", 1L, 1L))) {
-	*info = -3;
+        *info = -3;
     } else if (*m < 0) {
-	*info = -4;
+        *info = -4;
     } else if (*p < 0) {
-	*info = -5;
+        *info = -5;
     } else if (*n < 0) {
-	*info = -6;
+        *info = -6;
     } else if (*lda < max(1,*m)) {
-	*info = -10;
+        *info = -10;
     } else if (*ldb < max(1,*p)) {
-	*info = -12;
+        *info = -12;
     } else if (*ldu < 1 || wantu && *ldu < *m) {
-	*info = -18;
+        *info = -18;
     } else if (*ldv < 1 || wantv && *ldv < *p) {
-	*info = -20;
+        *info = -20;
     } else if (*ldq < 1 || wantq && *ldq < *n) {
-	*info = -22;
+        *info = -22;
     }
     if (*info != 0) {
-	i__1 = -(*info);
-	xerbla_("STGSJA", &i__1, 6L);
-	return 0;
+        i__1 = -(*info);
+        xerbla_("STGSJA", &i__1, 6L);
+        return 0;
     }
 
 /*     Initialize U, V and Q, if necessary */
 
     if (initu) {
-	slaset_("Full", m, m, &c_b13, &c_b14, &u[u_offset], ldu, 4L);
+        slaset_("Full", m, m, &c_b13, &c_b14, &u[u_offset], ldu, 4L);
     }
     if (initv) {
-	slaset_("Full", p, p, &c_b13, &c_b14, &v[v_offset], ldv, 4L);
+        slaset_("Full", p, p, &c_b13, &c_b14, &v[v_offset], ldv, 4L);
     }
     if (initq) {
-	slaset_("Full", n, n, &c_b13, &c_b14, &q[q_offset], ldq, 4L);
+        slaset_("Full", n, n, &c_b13, &c_b14, &q[q_offset], ldq, 4L);
     }
 
 /*     Loop until convergence */
@@ -402,103 +402,103 @@ static real c_b43 = -1.f;
     upper = FALSE_;
     for (kcycle = 1; kcycle <= 40; ++kcycle) {
 
-	upper = ! upper;
+        upper = ! upper;
 
-	i__1 = *l - 1;
-	for (i = 1; i <= i__1; ++i) {
-	    i__2 = *l;
-	    for (j = i + 1; j <= i__2; ++j) {
+        i__1 = *l - 1;
+        for (i = 1; i <= i__1; ++i) {
+            i__2 = *l;
+            for (j = i + 1; j <= i__2; ++j) {
 
-		a1 = 0.f;
-		a2 = 0.f;
-		a3 = 0.f;
-		if (*k + i <= *m) {
-		    a1 = a[*k + i + (*n - *l + i) * a_dim1];
-		}
-		if (*k + j <= *m) {
-		    a3 = a[*k + j + (*n - *l + j) * a_dim1];
-		}
+                a1 = 0.f;
+                a2 = 0.f;
+                a3 = 0.f;
+                if (*k + i <= *m) {
+                    a1 = a[*k + i + (*n - *l + i) * a_dim1];
+                }
+                if (*k + j <= *m) {
+                    a3 = a[*k + j + (*n - *l + j) * a_dim1];
+                }
 
-		b1 = b[i + (*n - *l + i) * b_dim1];
-		b3 = b[j + (*n - *l + j) * b_dim1];
+                b1 = b[i + (*n - *l + i) * b_dim1];
+                b3 = b[j + (*n - *l + j) * b_dim1];
 
-		if (upper) {
-		    if (*k + i <= *m) {
-			a2 = a[*k + i + (*n - *l + j) * a_dim1];
-		    }
-		    b2 = b[i + (*n - *l + j) * b_dim1];
-		} else {
-		    if (*k + j <= *m) {
-			a2 = a[*k + j + (*n - *l + i) * a_dim1];
-		    }
-		    b2 = b[j + (*n - *l + i) * b_dim1];
-		}
+                if (upper) {
+                    if (*k + i <= *m) {
+                        a2 = a[*k + i + (*n - *l + j) * a_dim1];
+                    }
+                    b2 = b[i + (*n - *l + j) * b_dim1];
+                } else {
+                    if (*k + j <= *m) {
+                        a2 = a[*k + j + (*n - *l + i) * a_dim1];
+                    }
+                    b2 = b[j + (*n - *l + i) * b_dim1];
+                }
 
-		slags2_(&upper, &a1, &a2, &a3, &b1, &b2, &b3, &csu, &snu, &
-			csv, &snv, &csq, &snq);
+                slags2_(&upper, &a1, &a2, &a3, &b1, &b2, &b3, &csu, &snu, &
+                        csv, &snv, &csq, &snq);
 
 /*              Update (K+I)-th and (K+J)-th rows of matrix A:
  U'*A */
 
-		if (*k + j <= *m) {
-		    srot_(l, &a[*k + j + (*n - *l + 1) * a_dim1], lda, &a[*k 
-			    + i + (*n - *l + 1) * a_dim1], lda, &csu, &snu);
-		}
+                if (*k + j <= *m) {
+                    srot_(l, &a[*k + j + (*n - *l + 1) * a_dim1], lda, &a[*k
+                            + i + (*n - *l + 1) * a_dim1], lda, &csu, &snu);
+                }
 
 /*              Update I-th and J-th rows of matrix B: V'*B */
 
-		srot_(l, &b[j + (*n - *l + 1) * b_dim1], ldb, &b[i + (*n - *l 
-			+ 1) * b_dim1], ldb, &csv, &snv);
+                srot_(l, &b[j + (*n - *l + 1) * b_dim1], ldb, &b[i + (*n - *l
+                        + 1) * b_dim1], ldb, &csv, &snv);
 
 /*              Update (N-L+I)-th and (N-L+J)-th columns of ma
 trices */
 /*              A and B: A*Q and B*Q */
 
 /* Computing MIN */
-		i__4 = *k + *l;
-		i__3 = min(i__4,*m);
-		srot_(&i__3, &a[(*n - *l + j) * a_dim1 + 1], &c__1, &a[(*n - *
-			l + i) * a_dim1 + 1], &c__1, &csq, &snq);
+                i__4 = *k + *l;
+                i__3 = min(i__4,*m);
+                srot_(&i__3, &a[(*n - *l + j) * a_dim1 + 1], &c__1, &a[(*n - *
+                        l + i) * a_dim1 + 1], &c__1, &csq, &snq);
 
-		srot_(l, &b[(*n - *l + j) * b_dim1 + 1], &c__1, &b[(*n - *l + 
-			i) * b_dim1 + 1], &c__1, &csq, &snq);
+                srot_(l, &b[(*n - *l + j) * b_dim1 + 1], &c__1, &b[(*n - *l +
+                        i) * b_dim1 + 1], &c__1, &csq, &snq);
 
-		if (upper) {
-		    if (*k + i <= *m) {
-			a[*k + i + (*n - *l + j) * a_dim1] = 0.f;
-		    }
-		    b[i + (*n - *l + j) * b_dim1] = 0.f;
-		} else {
-		    if (*k + j <= *m) {
-			a[*k + j + (*n - *l + i) * a_dim1] = 0.f;
-		    }
-		    b[j + (*n - *l + i) * b_dim1] = 0.f;
-		}
+                if (upper) {
+                    if (*k + i <= *m) {
+                        a[*k + i + (*n - *l + j) * a_dim1] = 0.f;
+                    }
+                    b[i + (*n - *l + j) * b_dim1] = 0.f;
+                } else {
+                    if (*k + j <= *m) {
+                        a[*k + j + (*n - *l + i) * a_dim1] = 0.f;
+                    }
+                    b[j + (*n - *l + i) * b_dim1] = 0.f;
+                }
 
 /*              Update orthogonal matrices U, V, Q, if desired
 . */
 
-		if (wantu && *k + j <= *m) {
-		    srot_(m, &u[(*k + j) * u_dim1 + 1], &c__1, &u[(*k + i) * 
-			    u_dim1 + 1], &c__1, &csu, &snu);
-		}
+                if (wantu && *k + j <= *m) {
+                    srot_(m, &u[(*k + j) * u_dim1 + 1], &c__1, &u[(*k + i) *
+                            u_dim1 + 1], &c__1, &csu, &snu);
+                }
 
-		if (wantv) {
-		    srot_(p, &v[j * v_dim1 + 1], &c__1, &v[i * v_dim1 + 1], &
-			    c__1, &csv, &snv);
-		}
+                if (wantv) {
+                    srot_(p, &v[j * v_dim1 + 1], &c__1, &v[i * v_dim1 + 1], &
+                            c__1, &csv, &snv);
+                }
 
-		if (wantq) {
-		    srot_(n, &q[(*n - *l + j) * q_dim1 + 1], &c__1, &q[(*n - *
-			    l + i) * q_dim1 + 1], &c__1, &csq, &snq);
-		}
+                if (wantq) {
+                    srot_(n, &q[(*n - *l + j) * q_dim1 + 1], &c__1, &q[(*n - *
+                            l + i) * q_dim1 + 1], &c__1, &csq, &snq);
+                }
 
 /* L10: */
-	    }
+            }
 /* L20: */
-	}
+        }
 
-	if (! upper) {
+        if (! upper) {
 
 /*           The matrices A13 and B13 were lower triangular at the
  start */
@@ -508,27 +508,27 @@ trices */
 onding */
 /*           rows of A and B. */
 
-	    error = 0.f;
+            error = 0.f;
 /* Computing MIN */
-	    i__2 = *l, i__3 = *m - *k;
-	    i__1 = min(i__2,i__3);
-	    for (i = 1; i <= i__1; ++i) {
-		i__2 = *l - i + 1;
-		scopy_(&i__2, &a[*k + i + (*n - *l + i) * a_dim1], lda, &work[
-			1], &c__1);
-		i__2 = *l - i + 1;
-		scopy_(&i__2, &b[i + (*n - *l + i) * b_dim1], ldb, &work[*l + 
-			1], &c__1);
-		i__2 = *l - i + 1;
-		slapll_(&i__2, &work[1], &c__1, &work[*l + 1], &c__1, &ssmin);
-		error = max(error,ssmin);
+            i__2 = *l, i__3 = *m - *k;
+            i__1 = min(i__2,i__3);
+            for (i = 1; i <= i__1; ++i) {
+                i__2 = *l - i + 1;
+                scopy_(&i__2, &a[*k + i + (*n - *l + i) * a_dim1], lda, &work[
+                        1], &c__1);
+                i__2 = *l - i + 1;
+                scopy_(&i__2, &b[i + (*n - *l + i) * b_dim1], ldb, &work[*l +
+                        1], &c__1);
+                i__2 = *l - i + 1;
+                slapll_(&i__2, &work[1], &c__1, &work[*l + 1], &c__1, &ssmin);
+                error = max(error,ssmin);
 /* L30: */
-	    }
+            }
 
-	    if (abs(error) <= (real) (*n) * min(*tola,*tolb)) {
-		goto L50;
-	    }
-	}
+            if (abs(error) <= (real) (*n) * min(*tola,*tolb)) {
+                goto L50;
+            }
+        }
 
 /*        End of cycle loop */
 
@@ -548,8 +548,8 @@ L50:
 
     i__1 = *k;
     for (i = 1; i <= i__1; ++i) {
-	alpha[i] = 1.f;
-	beta[i] = 0.f;
+        alpha[i] = 1.f;
+        beta[i] = 0.f;
 /* L60: */
     }
 
@@ -558,48 +558,48 @@ L50:
     i__1 = min(i__2,i__3);
     for (i = 1; i <= i__1; ++i) {
 
-	a1 = a[*k + i + (*n - *l + i) * a_dim1];
-	b1 = b[i + (*n - *l + i) * b_dim1];
+        a1 = a[*k + i + (*n - *l + i) * a_dim1];
+        b1 = b[i + (*n - *l + i) * b_dim1];
 
-	if (a1 != 0.f) {
-	    gamma = b1 / a1;
+        if (a1 != 0.f) {
+            gamma = b1 / a1;
 
 /*           change sign if necessary */
 
-	    if (gamma < 0.f) {
-		i__2 = *l - i + 1;
-		sscal_(&i__2, &c_b43, &b[i + (*n - *l + i) * b_dim1], ldb);
-		if (wantv) {
-		    sscal_(p, &c_b43, &v[i * v_dim1 + 1], &c__1);
-		}
-	    }
+            if (gamma < 0.f) {
+                i__2 = *l - i + 1;
+                sscal_(&i__2, &c_b43, &b[i + (*n - *l + i) * b_dim1], ldb);
+                if (wantv) {
+                    sscal_(p, &c_b43, &v[i * v_dim1 + 1], &c__1);
+                }
+            }
 
-	    r__1 = abs(gamma);
-	    slartg_(&r__1, &c_b14, &beta[*k + i], &alpha[*k + i], &rwk);
+            r__1 = abs(gamma);
+            slartg_(&r__1, &c_b14, &beta[*k + i], &alpha[*k + i], &rwk);
 
-	    if (alpha[*k + i] >= beta[*k + i]) {
-		i__2 = *l - i + 1;
-		r__1 = 1.f / alpha[*k + i];
-		sscal_(&i__2, &r__1, &a[*k + i + (*n - *l + i) * a_dim1], lda)
-			;
-	    } else {
-		i__2 = *l - i + 1;
-		r__1 = 1.f / beta[*k + i];
-		sscal_(&i__2, &r__1, &b[i + (*n - *l + i) * b_dim1], ldb);
-		i__2 = *l - i + 1;
-		scopy_(&i__2, &b[i + (*n - *l + i) * b_dim1], ldb, &a[*k + i 
-			+ (*n - *l + i) * a_dim1], lda);
-	    }
+            if (alpha[*k + i] >= beta[*k + i]) {
+                i__2 = *l - i + 1;
+                r__1 = 1.f / alpha[*k + i];
+                sscal_(&i__2, &r__1, &a[*k + i + (*n - *l + i) * a_dim1], lda)
+                        ;
+            } else {
+                i__2 = *l - i + 1;
+                r__1 = 1.f / beta[*k + i];
+                sscal_(&i__2, &r__1, &b[i + (*n - *l + i) * b_dim1], ldb);
+                i__2 = *l - i + 1;
+                scopy_(&i__2, &b[i + (*n - *l + i) * b_dim1], ldb, &a[*k + i
+                        + (*n - *l + i) * a_dim1], lda);
+            }
 
-	} else {
+        } else {
 
-	    alpha[*k + i] = 0.f;
-	    beta[*k + i] = 1.f;
-	    i__2 = *l - i + 1;
-	    scopy_(&i__2, &b[i + (*n - *l + i) * b_dim1], ldb, &a[*k + i + (*
-		    n - *l + i) * a_dim1], lda);
+            alpha[*k + i] = 0.f;
+            beta[*k + i] = 1.f;
+            i__2 = *l - i + 1;
+            scopy_(&i__2, &b[i + (*n - *l + i) * b_dim1], ldb, &a[*k + i + (*
+                    n - *l + i) * a_dim1], lda);
 
-	}
+        }
 
 /* L70: */
     }
@@ -608,18 +608,18 @@ L50:
 
     i__1 = *k + *l;
     for (i = *m + 1; i <= i__1; ++i) {
-	alpha[i] = 0.f;
-	beta[i] = 1.f;
+        alpha[i] = 0.f;
+        beta[i] = 1.f;
 /* L80: */
     }
 
     if (*k + *l < *n) {
-	i__1 = *n;
-	for (i = *k + *l + 1; i <= i__1; ++i) {
-	    alpha[i] = 0.f;
-	    beta[i] = 0.f;
+        i__1 = *n;
+        for (i = *k + *l + 1; i <= i__1; ++i) {
+            alpha[i] = 0.f;
+            beta[i] = 0.f;
 /* L85: */
-	}
+        }
     }
 
 L90:

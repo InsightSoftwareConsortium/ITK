@@ -6,9 +6,7 @@
 
 #include "vcl_compiler.h"
 
-//#if defined(VCL_GCC) && !defined(GNU_LIBSTDCXX_V3)
-//# include <limits.h>
-#if defined(VCL_SGI_CC_720)
+#if !VCL_CXX_HAS_HEADER_CLIMITS
 # include <limits.h>
 #elif defined(VCL_SUNPRO_CC_50)
 # include <limits.h> // <climits> is broken -- mismatched braces.

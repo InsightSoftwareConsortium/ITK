@@ -1,6 +1,6 @@
 /* dposl.f -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -84,9 +84,9 @@ doublereal *b;
     /* Function Body */
     i__1 = *n;
     for (k = 1; k <= i__1; ++k) {
-	i__2 = k - 1;
-	t = ddot_(&i__2, &a[k * a_dim1 + 1], &c__1, &b[1], &c__1);
-	b[k] = (b[k] - t) / a[k + k * a_dim1];
+        i__2 = k - 1;
+        t = ddot_(&i__2, &a[k * a_dim1 + 1], &c__1, &b[1], &c__1);
+        b[k] = (b[k] - t) / a[k + k * a_dim1];
 /* L10: */
     }
 
@@ -94,11 +94,11 @@ doublereal *b;
 
     i__1 = *n;
     for (kb = 1; kb <= i__1; ++kb) {
-	k = *n + 1 - kb;
-	b[k] /= a[k + k * a_dim1];
-	t = -b[k];
-	i__2 = k - 1;
-	daxpy_(&i__2, &t, &a[k * a_dim1 + 1], &c__1, &b[1], &c__1);
+        k = *n + 1 - kb;
+        b[k] /= a[k + k * a_dim1];
+        t = -b[k];
+        i__2 = k - 1;
+        daxpy_(&i__2, &t, &a[k * a_dim1 + 1], &c__1, &b[1], &c__1);
 /* L20: */
     }
     return 0;

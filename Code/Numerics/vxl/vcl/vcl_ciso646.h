@@ -1,14 +1,15 @@
 #ifndef vcl_ciso646_h_
 #define vcl_ciso646_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 /*
   fsm@robots.ox.ac.uk
 */
 
 #include "vcl_compiler.h"
 
-#include <iso646.h>
+#if !VCL_CXX_HAS_HEADER_CISO646
+# include <iso646.h>
+#else
+# include "iso/vcl_iso646.h"
+#endif
 
 #endif // vcl_ciso646_h_

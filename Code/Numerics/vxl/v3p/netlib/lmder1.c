@@ -1,12 +1,12 @@
 /* lmder1.f -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
 
-/* Subroutine */ int lmder1_(fcn, m, n, x, fvec, fjac, ldfjac, tol, info, 
-	ipvt, wa, lwa)
+/* Subroutine */ int lmder1_(fcn, m, n, x, fvec, fjac, ldfjac, tol, info,
+        ipvt, wa, lwa)
 /* Subroutine */ int (*fcn) ();
 integer *m, *n;
 doublereal *x, *fvec, *fjac;
@@ -166,8 +166,8 @@ integer *lwa;
 /*     check the input parameters for errors. */
 
     if (*n <= 0 || *m < *n || *ldfjac < *m || *tol < zero || *lwa < *n * 5 + *
-	    m) {
-	goto L10;
+            m) {
+        goto L10;
     }
 
 /*     call lmder. */
@@ -179,15 +179,15 @@ integer *lwa;
     mode = 1;
     nprint = 0;
     lmder_(fcn, m, n, &x[1], &fvec[1], &fjac[fjac_offset], ldfjac, &ftol, &
-	    xtol, &gtol, &maxfev, &wa[1], &mode, &factor, &nprint, info, &
-	    nfev, &njev, &ipvt[1], &wa[*n + 1], &wa[(*n << 1) + 1], &wa[*n * 
-	    3 + 1], &wa[(*n << 2) + 1], &wa[*n * 5 + 1]);
+            xtol, &gtol, &maxfev, &wa[1], &mode, &factor, &nprint, info, &
+            nfev, &njev, &ipvt[1], &wa[*n + 1], &wa[(*n << 1) + 1], &wa[*n *
+            3 + 1], &wa[(*n << 2) + 1], &wa[*n * 5 + 1]);
 
 #ifdef NUMERICS_DEBUG
     printf("INFO = %d\n", *info);
 #endif
     if (*info == 8) {
-	*info = 4;
+        *info = 4;
     }
 L10:
     return 0;

@@ -1,4 +1,8 @@
-// Class: vnl_file_matrix
+
+// This is vxl/vnl/vnl_file_matrix.txx
+
+//
+// vnl_file_matrix
 // Author: Andrew W. Fitzgibbon, Oxford RRG
 // Created: 23 Dec 96
 //
@@ -8,7 +12,7 @@
 #include <vcl_fstream.h>
 #include <vcl_cstring.h> // for strcmp()
 
-// -- Load matrix from filename.
+//: Load matrix from filename.
 template <class T>
 vnl_file_matrix<T>::vnl_file_matrix(char const* filename)
 {

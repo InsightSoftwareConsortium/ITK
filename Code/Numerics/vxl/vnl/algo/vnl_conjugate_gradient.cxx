@@ -3,38 +3,41 @@
 #pragma implementation
 #endif
 //
-// Class: vnl_conjugate_gradient
+// vnl_conjugate_gradient
 // Author: Geoffrey Cross, Oxford RRG
 // Created: 15 Feb 99
 //
 //-----------------------------------------------------------------------------
 #include "vnl_conjugate_gradient.h"
+
+#include <vcl_cstdlib.h>
+#include <vcl_cassert.h>
+#include <vcl_iostream.h>
+
 #include <vnl/vnl_cost_function.h>
 #include <vnl/vnl_vector_ref.h>
 #include <vnl/algo/vnl_svd.h>
-#include <vcl_cstdlib.h>
-#include <vcl_cassert.h>
 
 // external netlib function
 extern "C"
 int cg_( double *x,                     // IO start guess
-	 double *e,                     // O max-norm of gradient
+         double *e,                     // O max-norm of gradient
          int    *it,                    // O number of iterations performed
          double *step,                  // I step=0 make guess at first direction
-	                                // O step size along search direction for final iteration
-	 double *t,                     // I tolerance (iterations stop when max-norm of gradient < t)
+                                        // O step size along search direction for final iteration
+         double *t,                     // I tolerance (iterations stop when max-norm of gradient < t)
          int *limit,                    // I maximum number of iterations
-	 int *n,                        // I number of unknowns
-	 int *m,                        // I number of iterations before renormalizing (normally m=n)
-	 double value( double *x),      // I value(x) is cost at x
+         int *n,                        // I number of unknowns
+         int *m,                        // I number of iterations before renormalizing (normally m=n)
+         double value( double *x),      // I value(x) is cost at x
          int grad( double *g,
-		   double *x),          // I grad(g,x) puts gradient into g at x
-	 int both( double *v,
-		   double *g,
-		   double *x),          // I both(v,g,x) puts value in v and gradient in g at x
-	 int pre( double *y,
-		  double *z),           // I preconditions (not necessarily needed) pre(y,z) 
-	 double *h );                   // I space to work size h = 3*n
+                   double *x),          // I grad(g,x) puts gradient into g at x
+         int both( double *v,
+                   double *g,
+                   double *x),          // I both(v,g,x) puts value in v and gradient in g at x
+         int pre( double *y,
+                  double *z),           // I preconditions (not necessarily needed) pre(y,z)
+         double *h );                   // I space to work size h = 3*n
 
 /////////////////////////////////////
 
@@ -153,7 +156,7 @@ bool vnl_conjugate_gradient::minimize( vnl_vector<double> &x)
   double *xp = x.data_block();
   double max_norm_of_gradient;
   int number_of_iterations;
-  final_step_size_ = 0; 
+  final_step_size_ = 0;
   double gradient_tolerance = gtol;
   vnl_vector<double> workspace(f_->get_number_of_unknowns()*3);
   int number_of_unknowns = f_->get_number_of_unknowns();
@@ -163,7 +166,7 @@ bool vnl_conjugate_gradient::minimize( vnl_vector<double> &x)
   start_error_ = valuecomputer_(xp);
   num_evaluations_ = 0;
 
-  cg_( xp, 
+  cg_( xp,
        &max_norm_of_gradient,
        &number_of_iterations,
        &final_step_size_,
@@ -193,14 +196,19 @@ bool vnl_conjugate_gradient::minimize( vnl_vector<double> &x)
 
 void vnl_conjugate_gradient::diagnose_outcome(vcl_ostream& os) const
 {
-  os << "vnl_conjugate_gradient: " 
-     << num_iterations_ 
-     << " iterations, " 
-     << num_evaluations_ 
-     << " evaluations. Cost function reported error" 
+  os << "vnl_conjugate_gradient: "
+     << num_iterations_
+     << " iterations, "
+     << num_evaluations_
+     << " evaluations. Cost function reported error"
      << f_->reported_error(start_error_)
-     << "/" 
+     << "/"
      << f_->reported_error(end_error_)
      << " . Final step size = " << final_step_size_
      << vcl_endl;
+}
+
+void vnl_conjugate_gradient::diagnose_outcome() const
+{
+  diagnose_outcome(vcl_cout);
 }

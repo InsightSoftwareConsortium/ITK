@@ -1,6 +1,6 @@
 /*  -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -27,7 +27,7 @@ integer *lwork, *info;
 
     /* Local variables */
     static integer i;
-    static doublecomplex t[4160]	/* was [65][64] */;
+    static doublecomplex t[4160] /* was [65][64] */;
     static integer nbmin, iinfo;
     extern /* Subroutine */ int zgemm_(), zgehd2_();
     static integer ib;
@@ -52,7 +52,7 @@ integer *lwork, *info;
 /*  Purpose */
 /*  ======= */
 
-/*  ZGEHRD reduces a complex general matrix A to upper Hessenberg form H 
+/*  ZGEHRD reduces a complex general matrix A to upper Hessenberg form H
 */
 /*  by a unitary similarity transformation:  Q' * A * Q = H . */
 
@@ -82,7 +82,7 @@ integer *lwork, *info;
 /*          The leading dimension of the array A.  LDA >= max(1,N). */
 
 /*  TAU     (output) COMPLEX*16 array, dimension (N-1) */
-/*          The scalar factors of the elementary reflectors (see Further 
+/*          The scalar factors of the elementary reflectors (see Further
 */
 /*          Details). Elements 1:ILO-1 and IHI:N-1 of TAU are set to */
 /*          zero. */
@@ -129,11 +129,11 @@ integer *lwork, *info;
 /*  (                         a )    (                          a ) */
 
 /*  where a denotes an element of the original matrix A, h denotes a */
-/*  modified element of the upper Hessenberg matrix H, and vi denotes an 
+/*  modified element of the upper Hessenberg matrix H, and vi denotes an
 */
 /*  element of the vector defining H(i). */
 
-/*  ===================================================================== 
+/*  =====================================================================
 */
 
 /*     .. Parameters .. */
@@ -162,34 +162,34 @@ integer *lwork, *info;
     /* Function Body */
     *info = 0;
     if (*n < 0) {
-	*info = -1;
+        *info = -1;
     } else if (*ilo < 1 || *ilo > max(1,*n)) {
-	*info = -2;
+        *info = -2;
     } else if (*ihi < min(*ilo,*n) || *ihi > *n) {
-	*info = -3;
+        *info = -3;
     } else if (*lda < max(1,*n)) {
-	*info = -5;
+        *info = -5;
     } else if (*lwork < max(1,*n)) {
-	*info = -8;
+        *info = -8;
     }
     if (*info != 0) {
-	i__1 = -(*info);
-	xerbla_("ZGEHRD", &i__1, 6L);
-	return 0;
+        i__1 = -(*info);
+        xerbla_("ZGEHRD", &i__1, 6L);
+        return 0;
     }
 
 /*     Set elements 1:ILO-1 and IHI:N-1 of TAU to zero */
 
     i__1 = *ilo - 1;
     for (i = 1; i <= i__1; ++i) {
-	i__2 = i;
-	tau[i__2].r = 0., tau[i__2].i = 0.;
+        i__2 = i;
+        tau[i__2].r = 0., tau[i__2].i = 0.;
 /* L10: */
     }
     i__1 = *n - 1;
     for (i = max(1,*ihi); i <= i__1; ++i) {
-	i__2 = i;
-	tau[i__2].r = 0., tau[i__2].i = 0.;
+        i__2 = i;
+        tau[i__2].r = 0., tau[i__2].i = 0.;
 /* L20: */
     }
 
@@ -197,35 +197,35 @@ integer *lwork, *info;
 
     nh = *ihi - *ilo + 1;
     if (nh <= 1) {
-	work[1].r = 1., work[1].i = 0.;
-	return 0;
+        work[1].r = 1., work[1].i = 0.;
+        return 0;
     }
 
 /*     Determine the block size. */
 
 /* Computing MIN */
-    i__1 = 64, i__2 = ilaenv_(&c__1, "ZGEHRD", " ", n, ilo, ihi, &c_n1, 6L, 
-	    1L);
+    i__1 = 64, i__2 = ilaenv_(&c__1, "ZGEHRD", " ", n, ilo, ihi, &c_n1, 6L,
+            1L);
     nb = min(i__1,i__2);
     nbmin = 2;
     iws = 1;
     if (nb > 1 && nb < nh) {
 
-/*        Determine when to cross over from blocked to unblocked code 
+/*        Determine when to cross over from blocked to unblocked code
 */
 /*        (last block is always handled by unblocked code). */
 
 /* Computing MAX */
-	i__1 = nb, i__2 = ilaenv_(&c__3, "ZGEHRD", " ", n, ilo, ihi, &c_n1, 
-		6L, 1L);
-	nx = max(i__1,i__2);
-	if (nx < nh) {
+        i__1 = nb, i__2 = ilaenv_(&c__3, "ZGEHRD", " ", n, ilo, ihi, &c_n1,
+                6L, 1L);
+        nx = max(i__1,i__2);
+        if (nx < nh) {
 
 /*           Determine if workspace is large enough for blocked co
 de. */
 
-	    iws = *n * nb;
-	    if (*lwork < iws) {
+            iws = *n * nb;
+            if (*lwork < iws) {
 
 /*              Not enough workspace to use optimal NB:  deter
 mine the */
@@ -234,16 +234,16 @@ e of */
 /*              unblocked code. */
 
 /* Computing MAX */
-		i__1 = 2, i__2 = ilaenv_(&c__2, "ZGEHRD", " ", n, ilo, ihi, &
-			c_n1, 6L, 1L);
-		nbmin = max(i__1,i__2);
-		if (*lwork >= *n * nbmin) {
-		    nb = *lwork / *n;
-		} else {
-		    nb = 1;
-		}
-	    }
-	}
+                i__1 = 2, i__2 = ilaenv_(&c__2, "ZGEHRD", " ", n, ilo, ihi, &
+                        c_n1, 6L, 1L);
+                nbmin = max(i__1,i__2);
+                if (*lwork >= *n * nbmin) {
+                    nb = *lwork / *n;
+                } else {
+                    nb = 1;
+                }
+            }
+        }
     }
     ldwork = *n;
 
@@ -251,18 +251,18 @@ e of */
 
 /*        Use unblocked code below */
 
-	i = *ilo;
+        i = *ilo;
 
     } else {
 
 /*        Use blocked code */
 
-	i__1 = *ihi - 1 - nx;
-	i__2 = nb;
-	for (i = *ilo; i__2 < 0 ? i >= i__1 : i <= i__1; i += i__2) {
+        i__1 = *ihi - 1 - nx;
+        i__2 = nb;
+        for (i = *ilo; i__2 < 0 ? i >= i__1 : i <= i__1; i += i__2) {
 /* Computing MIN */
-	    i__3 = nb, i__4 = *ihi - i;
-	    ib = min(i__3,i__4);
+            i__3 = nb, i__4 = *ihi - i;
+            ib = min(i__3,i__4);
 
 /*           Reduce columns i:i+ib-1 to Hessenberg form, returning
  the */
@@ -271,38 +271,38 @@ e of */
 /*           which performs the reduction, and also the matrix Y =
  A*V*T */
 
-	    zlahrd_(ihi, &i, &ib, &a[i * a_dim1 + 1], lda, &tau[i], t, &c__65,
-		     &work[1], &ldwork);
+            zlahrd_(ihi, &i, &ib, &a[i * a_dim1 + 1], lda, &tau[i], t, &c__65,
+                     &work[1], &ldwork);
 
 /*           Apply the block reflector H to A(1:ihi,i+ib:ihi) from
  the */
-/*           right, computing  A := A - Y * V'. V(i+ib,ib-1) must 
+/*           right, computing  A := A - Y * V'. V(i+ib,ib-1) must
 be set */
 /*           to 1. */
 
-	    i__3 = i + ib + (i + ib - 1) * a_dim1;
-	    ei.r = a[i__3].r, ei.i = a[i__3].i;
-	    i__3 = i + ib + (i + ib - 1) * a_dim1;
-	    a[i__3].r = 1., a[i__3].i = 0.;
-	    i__3 = *ihi - i - ib + 1;
-	    zgemm_("No transpose", "Conjugate transpose", ihi, &i__3, &ib, &
-		    c_b24, &work[1], &ldwork, &a[i + ib + i * a_dim1], lda, &
-		    c_b21, &a[(i + ib) * a_dim1 + 1], lda, 12L, 19L);
-	    i__3 = i + ib + (i + ib - 1) * a_dim1;
-	    a[i__3].r = ei.r, a[i__3].i = ei.i;
+            i__3 = i + ib + (i + ib - 1) * a_dim1;
+            ei.r = a[i__3].r, ei.i = a[i__3].i;
+            i__3 = i + ib + (i + ib - 1) * a_dim1;
+            a[i__3].r = 1., a[i__3].i = 0.;
+            i__3 = *ihi - i - ib + 1;
+            zgemm_("No transpose", "Conjugate transpose", ihi, &i__3, &ib, &
+                    c_b24, &work[1], &ldwork, &a[i + ib + i * a_dim1], lda, &
+                    c_b21, &a[(i + ib) * a_dim1 + 1], lda, 12L, 19L);
+            i__3 = i + ib + (i + ib - 1) * a_dim1;
+            a[i__3].r = ei.r, a[i__3].i = ei.i;
 
 /*           Apply the block reflector H to A(i+1:ihi,i+ib:n) from
  the */
 /*           left */
 
-	    i__3 = *ihi - i;
-	    i__4 = *n - i - ib + 1;
-	    zlarfb_("Left", "Conjugate transpose", "Forward", "Columnwise", &
-		    i__3, &i__4, &ib, &a[i + 1 + i * a_dim1], lda, t, &c__65, 
-		    &a[i + 1 + (i + ib) * a_dim1], lda, &work[1], &ldwork, 4L,
-		     19L, 7L, 10L);
+            i__3 = *ihi - i;
+            i__4 = *n - i - ib + 1;
+            zlarfb_("Left", "Conjugate transpose", "Forward", "Columnwise", &
+                    i__3, &i__4, &ib, &a[i + 1 + i * a_dim1], lda, t, &c__65,
+                    &a[i + 1 + (i + ib) * a_dim1], lda, &work[1], &ldwork, 4L,
+                     19L, 7L, 10L);
 /* L30: */
-	}
+        }
     }
 
 /*     Use unblocked code to reduce the rest of the matrix */

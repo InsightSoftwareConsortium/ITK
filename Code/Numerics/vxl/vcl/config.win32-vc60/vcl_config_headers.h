@@ -1,5 +1,5 @@
-#ifndef vcl_config_headers_h_
-#define vcl_config_headers_h_
+#ifndef vcl_config_headers_h_config_win32_vc60_
+#define vcl_config_headers_h_config_win32_vc60_
 
 // This file either is or was generated from vcl_config_headers.h.in
 
@@ -60,4 +60,4 @@
 
 //--------------------------------------------------------------------------------
 
-#endif // vcl_config_headers_h_
+#endif // vcl_config_headers_h_config_win32_vc60_

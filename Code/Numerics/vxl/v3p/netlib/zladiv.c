@@ -1,6 +1,6 @@
 /*  -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -33,7 +33,7 @@ doublecomplex *x, *y;
 /*  Purpose */
 /*  ======= */
 
-/*  ZLADIV := X / Y, where X and Y are complex.  The computation of X / Y 
+/*  ZLADIV := X / Y, where X and Y are complex.  The computation of X / Y
 */
 /*  will not overflow on an intermediary step unless the results */
 /*  overflows. */
@@ -45,7 +45,7 @@ doublecomplex *x, *y;
 /*  Y       (input) COMPLEX*16 */
 /*          The complex scalars X and Y. */
 
-/*  ===================================================================== 
+/*  =====================================================================
 */
 
 /*     .. Local Scalars .. */

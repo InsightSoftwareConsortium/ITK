@@ -3,59 +3,76 @@
 #ifdef __GNUC__
 #pragma interface
 #endif
-// .NAME	vnl_symmetric_eigensystem - Solve $A x = \lambda x$ using vnl_qr
-// .HEADER	vxl package
-// .LIBRARY	vnl-algo
-// .INCLUDE	vnl/algo/vnl_symmetric_eigensystem.h
-// .FILE	vnl_symmetric_eigensystem.cxx
+
+//:
+//  \file
+//  \brief Find eigenvalues of a symmetric matrix
+//  \author Andrew W. Fitzgibbon, Oxford RRG, 29 Aug 96
+//  \verbatim
+//  Modifications
+//  fsm@robots, 5 March 2000: templated
+//  dac (Manchester) 28/03/2001: tidied up documentation
+//  \endverbatim
+//  
+
+#include <vnl/vnl_matrix.h>
+#include <vnl/vnl_diag_matrix.h>
+
+
+//: Find eigenvalues of a symmetric matrix
 //
-// .SECTION Description
-// @{
-//    Solve the eigenproblem $A x = \lambda x$, with $A$ symmetric.
+// 
+//    Solve the eigenproblem \f$A x = \lambda x\f$, with \f$A\f$ symmetric.
 //    The resulting eigenvectors and values are sorted in increasing order
-//    so V.column(0) is the eigenvector corresponding to the smallest
-//    eigenvalue.
+//    so <CODE> V.column(0) </CODE> is the eigenvector corresponding to the smallest
+//    the smallest eigenvalue.
 //
-//    As a matrix decomposition, this is $A = V D V^t$
+//    As a matrix decomposition, this is \f$A = V D V^t\f$
 //
 //    Uses the EISPACK routine RS, which in turn calls TRED2 to reduce A
 //    to tridiagonal form, followed by TQL2, to find the eigensystem.
 //    This is summarized in Golub and van Loan, \S8.2.  The following are
 //    the original subroutine headers:
 //
-// \begin{quote}\small
-//    TRED2 is a translation of the Algol procedure tred2,
+// \remark TRED2 is a translation of the Algol procedure tred2,
 //     Num. Math. 11, 181-195(1968) by Martin, Reinsch, and Wilkinson.
 //     Handbook for Auto. Comp., Vol.ii-Linear Algebra, 212-226(1971).
 //
-//     This subroutine reduces a real symmetric matrix to a
+// \remark This subroutine reduces a real symmetric matrix to a
 //     symmetric tridiagonal matrix using and accumulating
 //     orthogonal similarity transformations.
 //
-//    TQL2 is a translation of the Algol procedure tql2,
+// \remark TQL2 is a translation of the Algol procedure tql2,
 //     Num. Math. 11, 293-306(1968) by Bowdler, Martin, Reinsch, and Wilkinson.
 //     Handbook for Auto. Comp., Vol.ii-Linear Algebra, 227-240(1971).
 //
-//     This subroutine finds the eigenvalues and eigenvectors
+// \remark This subroutine finds the eigenvalues and eigenvectors
 //     of a symmetric tridiagonal matrix by the QL method.
 //     the eigenvectors of a full symmetric matrix can also
 //     be found if  tred2  has been used to reduce this
 //     full matrix to tridiagonal form.
-// \end{quote}
-// @}
+
+bool vnl_symmetric_eigensystem_compute(vnl_matrix<float> const & A, 
+                                       vnl_matrix<float> & V,
+                                       vnl_vector<float> & D);
+
+//: Find eigenvalues of a symmetric matrix
 //
-// .SECTION Author
-//    Andrew W. Fitzgibbon, Oxford RRG, 29 Aug 96
-// .SECTION Modifications:
-//    fsm@robots, 5 March 2000: templated
+// 
+//    Solve the eigenproblem \f$A x = \lambda x\f$, with \f$A\f$ symmetric.
+//    The resulting eigenvectors and values are sorted in increasing order
+//    so <CODE> V.column(0) </CODE> is the eigenvector corresponding to the smallest
+//    the smallest eigenvalue.
+bool vnl_symmetric_eigensystem_compute(vnl_matrix<double> const & A, 
+                                       vnl_matrix<double> & V,
+                                       vnl_vector<double> & D);
 
-#include <vnl/vnl_matrix.h>
-#include <vnl/vnl_diag_matrix.h>
-
-template <class T>
+//: Computes and stores the eigensystem decomposition
+// of a symmetric matrix.
+export template <class T>
 class vnl_symmetric_eigensystem {
 public:
-  //: @{ Solve real symmetric eigensystem $A x = \lambda x$ @}
+  //: Solve real symmetric eigensystem \f$A x = \lambda x\f$ 
   vnl_symmetric_eigensystem(vnl_matrix<T> const & M);
 
 protected:
@@ -84,14 +101,14 @@ public:
   // It is deliberate that the signature is the same as on vnl_svd<T>.
   vnl_vector<T> nullvector() const { return get_eigenvector(0); }
 
-  //: @{ Return the matrix $V  D  V^\top$.  This can be useful if you've
-  // modified $D$.  So an inverse is obtained using
-  // \begin{alltt}
-  //   {\bf{}vnl_symmetric_eigensystem} eig(A);
-  //   eig.D.{\bf invert\_in\_place}();
-  //   vnl_matrix<double> Ainverse = eig.{\bf recompose}();
-  // \end{alltt}
-  // @}
+  //: Return the matrix \f$V  D  V^\top\f$.  This can be useful if you've
+  // modified \f$D\f$.  So an inverse is obtained using
+  // \verbatim
+  //   vnl_symmetric_eigensystem} eig(A);
+  //   eig.D.invert_in_place}();
+  //   vnl_matrix<double> Ainverse = eig.recompose();
+  // \endverbatim
+  
   vnl_matrix<T> recompose() const { return V * D * V.transpose(); }
 
   //: return the pseudoinverse.
@@ -108,8 +125,6 @@ public:
 
   //: Solve LS problem M x = b
   void solve(vnl_vector<T> const & b, vnl_vector<T> * x);
-
-  static bool compute(vnl_matrix<T> const & in, vnl_matrix<T> & V, vnl_vector<T> & D);
 };
 
 #endif // vnl_symmetric_eigensystem_h_

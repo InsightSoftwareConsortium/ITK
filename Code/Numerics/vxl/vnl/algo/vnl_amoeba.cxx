@@ -3,7 +3,7 @@
 #pragma implementation
 #endif
 //
-// Class: vnl_amoeba
+// vnl_amoeba
 // Author: Andrew W. Fitzgibbon, Oxford RRG
 // Created: 23 Oct 97
 //
@@ -40,13 +40,13 @@ struct vnl_amoebaFit : public vnl_amoeba {
   vnl_amoebaFit(vnl_amoeba& a): vnl_amoeba(a) {
     cnt = 0;
   }
-  
+
   void amoeba(vnl_vector<double>& x);
 
   double f(const vnl_vector<double>& x) {
     return fptr->f(x);
   }
-  
+
   void set_corner(SimplexCorner * s, const vnl_vector<double>& v)
   {
     s->v = v;
@@ -76,11 +76,13 @@ int compare_aux(const void * s1, const void * s2)
   return SimplexCorner::compare(*(const SimplexCorner*)s1, *(const SimplexCorner*)s2);
 }
 
+static
 void sort_simplex(vcl_vector<SimplexCorner>& simplex)
 {
   qsort(&simplex[0], simplex.size(), sizeof simplex[0], compare_aux);
 }
 
+static
 double maxabsdiff(const vnl_vector<double>& a, const vnl_vector<double>& b)
 {
   double v = 0;
@@ -92,11 +94,14 @@ double maxabsdiff(const vnl_vector<double>& a, const vnl_vector<double>& b)
   return v;
 }
 
+static
 double sorted_simplex_fdiameter(const vcl_vector<SimplexCorner>& simplex)
 {
   return simplex[simplex.size()-1].fv - simplex[0].fv;
 }
 
+#if 0
+static
 double simplex_fdiameter(const vcl_vector<SimplexCorner>& simplex)
 {
   // simplex assumed sorted, so fdiam is n - 0
@@ -108,7 +113,9 @@ double simplex_fdiameter(const vcl_vector<SimplexCorner>& simplex)
   }
   return max;
 }
+#endif
 
+static
 double simplex_diameter(const vcl_vector<SimplexCorner>& simplex)
 {
   double max = 0;
@@ -142,42 +149,42 @@ bool operator==(const SimplexCorner& a, const SimplexCorner& b)
 
 void vnl_amoebaFit::amoeba(vnl_vector<double>& x)
 {
-  
-//FMINS	Minimize a function of several variables.
-//	FMINS('F',X0) attempts to return a vector x which is a local minimizer 
-//	of F(x) near the starting vector X0.  'F' is a string containing the
-//	name of the objective function to be minimized.  F(x) should be a
-//	scalar valued function of a vector variable.
-//
-//	FMINS('F',X0,OPTIONS) uses a vector of control parameters.
-//	If OPTIONS(1) is nonzero, intermediate steps in the solution are
-//	displayed; the default is OPTIONS(1) = 0.  OPTIONS(2) is the termination
-//	tolerance for x; the default is 1.e-4.  OPTIONS(3) is the termination
-//	tolerance for F(x); the default is 1.e-4.  OPTIONS(14) is the maximum
-//	number of steps; the default is OPTIONS(14) = 500.  The other components
-//	of OPTIONS are not used as input control parameters by FMIN.  For more
-//	information, see FOPTIONS.
-//
-//	FMINS('F',X0,OPTIONS,[],P1,P2,...) provides for up to 10 additional
-//	arguments which are passed to the objective function, F(X,P1,P2,...)
-//
-//	FMINS uses a Simplex search method.
-//
-//	See also FMIN. 
 
-//	Reference: J. E. Dennis, Jr. and D. J. Woods, New Computing
-//	Environments: Microcomputers in Large-Scale Computing,
-//	edited by A. Wouk, SIAM, 1987, pp. 116-122.
+//FMINS Minimize a function of several variables.
+//  FMINS('F',X0) attempts to return a vector x which is a local minimizer
+//  of F(x) near the starting vector X0.  'F' is a string containing the
+//  name of the objective function to be minimized.  F(x) should be a
+//  scalar valued function of a vector variable.
+//
+//  FMINS('F',X0,OPTIONS) uses a vector of control parameters.
+//  If OPTIONS(1) is nonzero, intermediate steps in the solution are
+//  displayed; the default is OPTIONS(1) = 0.  OPTIONS(2) is the termination
+//  tolerance for x; the default is 1.e-4.  OPTIONS(3) is the termination
+//  tolerance for F(x); the default is 1.e-4.  OPTIONS(14) is the maximum
+//  number of steps; the default is OPTIONS(14) = 500.  The other components
+//  of OPTIONS are not used as input control parameters by FMIN.  For more
+//  information, see FOPTIONS.
+//
+//  FMINS('F',X0,OPTIONS,[],P1,P2,...) provides for up to 10 additional
+//  arguments which are passed to the objective function, F(X,P1,P2,...)
+//
+//  FMINS uses a Simplex search method.
+//
+//  See also FMIN.
+
+//  Reference: J. E. Dennis, Jr. and D. J. Woods, New Computing
+//  Environments: Microcomputers in Large-Scale Computing,
+//  edited by A. Wouk, SIAM, 1987, pp. 116-122.
 
 // Set up a simplex near the initial guess.
   int n = x.size();
   vcl_vector<SimplexCorner> simplex(n+1, SimplexCorner(n));
-  
+
   simplex[0].v = x;
   simplex[0].fv = f(x);
 
   cnt = 0;
-  
+
   // Following improvement suggested by L.Pfeffer at Stanford
   const double usual_delta = relative_diameter;             // 5 percent deltas for non-zero terms
   const double zero_term_delta = 0.00025;      // Even smaller delta for zero elements of x
@@ -213,60 +220,60 @@ void vnl_amoebaFit::amoeba(vnl_vector<double>& x)
   vnl_vector<double> vbar(n);
   while (cnt < maxiter) {
     if (simplex_diameter(simplex) < X_tolerance &&
-	sorted_simplex_fdiameter(simplex) < F_tolerance)
+        sorted_simplex_fdiameter(simplex) < F_tolerance)
       break;
 
     // One step of the Nelder-Mead simplex algorithm
     for(int k =  0; k < n; ++k)  {
       vbar[k] = 0;
       for(int i = 0; i < n; ++i)
-	vbar[k] += simplex[i].v[k];
+        vbar[k] += simplex[i].v[k];
       vbar[k] /= n;
     }
-    
+
     set_corner_a_plus_bl(&reflect, vbar, simplex[n].v, -1);
-    
+
     next = &reflect;
     const char *how = "reflect ";
     if (reflect.fv < simplex[n-1].fv) {
       // Reflection not totally crap...
       if (reflect.fv < simplex[0].fv) {
-	// Reflection actually the best, try expanding
-	set_corner_a_plus_bl(&expand, vbar, reflect.v, 2);
-	
-	if (expand.fv < simplex[0].fv) {
-	  next = &expand;
-	  how = "expand  ";
-	}
+        // Reflection actually the best, try expanding
+        set_corner_a_plus_bl(&expand, vbar, reflect.v, 2);
+
+        if (expand.fv < simplex[0].fv) {
+          next = &expand;
+          how = "expand  ";
+        }
       }
     } else {
       // Reflection *is* totally crap...
       {
-	SimplexCorner *tmp = &simplex[n];
-	if (reflect.fv < tmp->fv)
-	  // replace simplex[n] by reflection as at least it's better than that
-	  tmp = &reflect;
-	set_corner_a_plus_bl(&contract, vbar, tmp->v, 0.5);
+        SimplexCorner *tmp = &simplex[n];
+        if (reflect.fv < tmp->fv)
+          // replace simplex[n] by reflection as at least it's better than that
+          tmp = &reflect;
+        set_corner_a_plus_bl(&contract, vbar, tmp->v, 0.5);
       }
-      
+
       if (contract.fv < simplex[0].fv) {
-	// The contraction point was really good, hold it there
-	next = &contract;
-	how = "contract";
+        // The contraction point was really good, hold it there
+        next = &contract;
+        how = "contract";
       }
       else {
-	// The contraction point was only average, shrink the entire simplex.
-	for(int j = 1; j < n; ++j)
+        // The contraction point was only average, shrink the entire simplex.
+        for(int j = 1; j < n; ++j)
 
-	  set_corner_a_plus_bl(&simplex[j], simplex[0].v, simplex[j].v, 0.5);
-	set_corner_a_plus_bl(&shrink, simplex[0].v, simplex[n].v, 0.5);
-	
-	next = &shrink;
-	how = "shrink  ";
+          set_corner_a_plus_bl(&simplex[j], simplex[0].v, simplex[j].v, 0.5);
+        set_corner_a_plus_bl(&shrink, simplex[0].v, simplex[n].v, 0.5);
+
+        next = &shrink;
+        how = "shrink  ";
       }
     }
     simplex[n] = *next;
-    
+
     sort_simplex(simplex);
 
     // Print debugging info
@@ -275,16 +282,16 @@ void vnl_amoebaFit::amoeba(vnl_vector<double>& x)
       sprintf(buf, "iter %5d: %s ", cnt, how);
       vcl_cerr << buf;
       if (verbose > 1)
-	vcl_cerr << vcl_endl << simplex << vcl_endl;
+        vcl_cerr << vcl_endl << simplex << vcl_endl;
       else if (verbose)
-	vcl_cerr << simplex << vcl_endl;
+        vcl_cerr << simplex << vcl_endl;
     }
   }
   num_evaluations_ = cnt;
   x = simplex[0].v;
 }
 
-// -- Method
+//: Method
 void vnl_amoeba::minimize(vnl_vector<double>& x)
 {
   vnl_amoebaFit af(*this);
@@ -292,18 +299,18 @@ void vnl_amoeba::minimize(vnl_vector<double>& x)
   num_evaluations_ = af.num_evaluations_;
 }
 
-// -- Static method
+//: Static method
 void vnl_amoeba::minimize(vnl_cost_function& f, vnl_vector<double>& x)
 {
   minimize(f, x, 0);
 }
 
-// -- Static method
+//: Static method
 void vnl_amoeba::minimize(vnl_cost_function& f, vnl_vector<double>& x, double delta)
 {
   vnl_amoeba a(f);
   a.verbose = vnl_amoeba::default_verbose;
-  if (delta != 0) 
+  if (delta != 0)
     a.relative_diameter = delta;
   vnl_amoebaFit amoeba(a);
   amoeba.amoeba(x);
@@ -324,7 +331,7 @@ public:
   }
 
   ~vnl_amoeba_LSCF() {}
-  
+
   double f(vnl_vector<double> const& x) {
     ls_->f(x, fx);
     return fx.squared_magnitude();

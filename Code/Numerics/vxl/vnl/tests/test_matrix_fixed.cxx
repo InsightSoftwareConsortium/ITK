@@ -36,7 +36,7 @@ void testvnl_matrix_fixed()
   // FIXME: Win32 will have different operator new in vnl dll from
   // the one generated here, so this test fails - RWMC.
 #ifndef WIN32
-  Assert("mallocs", malloc_count <= 1);
+  vnl_test_assert("mallocs", malloc_count <= 1);
 #endif
   
   vcl_cout << "Now watch them mallocs\n";
@@ -49,12 +49,8 @@ void testvnl_matrix_fixed()
 
 
 void* operator new(size_t s)
-#if defined(VCL_SUNPRO_CC_50)
-  throw (std::bad_alloc)
-#elif defined(__GNUC__) && (__GNUC_MINOR__ >= 97)
-  throw (std::bad_alloc)
-#elif defined(VCL_KAI)
   // [18.4.1] lib.new.delete
+#if defined(VCL_SUNPRO_CC_50) || defined(GNU_LIBSTDCXX_V3) || defined(VCL_KAI)
   throw (std::bad_alloc)
 #endif
 {
@@ -69,7 +65,7 @@ void* operator new(size_t s)
 }
  
 void operator delete(void* s)
-#if defined(__GNUC__) && (__GNUC_MINOR__ >= 97)
+#if defined(GNU_LIBSTDCXX_V3) || defined(VCL_SUNPRO_CC_50)
   throw ()
 #endif
 {

@@ -1,26 +1,26 @@
-// -*- c++ -*-
-//
-// .NAME	vnl_fftxd_prime_factors
-// .LIBRARY	vnl-algo
-// .HEADER	vxl Package
-// .INCLUDE	vnl/algo/vnl_fftxd_prime_factors.h
-// .FILE	vnl_fftxd_prime_factors.cxx
-//
-// .SECTION Description
-// Helper class used by FFTxD: 
-// given an integer n of the form
-// N = (2**P)(3**Q)(5**R)
-// split n into its primefactors (2,3,5)
-//
-// possible improvements: elements 'number' and 'iPvnl_qr' should
-// really be of type 'unsigned int', but since the f2c'd
-// fortran code does not know about these things....
-/************************************************************/
-
 #ifndef vnl_fftxd_prime_factors_h_
 #define vnl_fftxd_prime_factors_h_
 
+//:
+//  \file
+//  \brief Helper class used by FFTxD
+//  \author ?
+//
+//  Modifications
+//  dac (Manchester) 28/03/2001: tidied up documentation
+//
+
 template<class T>
+
+//: Helper class used by FFTxD: 
+//  given an integer n of the form
+//  N = (2**P)(3**Q)(5**R)
+//  split n into its primefactors (2,3,5)
+//
+//  possible improvements: elements 'number' and 'iPvnl_qr' should
+//  really be of type 'unsigned int', but since the f2c'd
+//  fortran code does not know about these things....
+
 class vnl_fftxd_prime_factors {
 public:
   vnl_fftxd_prime_factors (int);

@@ -3,13 +3,23 @@
 #ifdef __GNUC__
 #pragma interface
 #endif
-// .NAME	vnl_transpose - Efficient matrix transpose
-// .LIBRARY	vnl
-// .HEADER	vxl package
-// .INCLUDE	vnl/vnl_transpose.h
-// .FILE	vnl_transpose.cxx
-//
-// .SECTION Description
+// This is vxl/vnl/vnl_transpose.h
+
+//:
+//  \file
+//  \brief Efficient matrix transpose
+//  \author Andrew W. Fitzgibbon, Oxford RRG, 23 Dec 96
+//    
+
+//  Modifications
+//  LSB (Manchester) 19/3/01 Tidied documentation    
+
+#include <vcl_iostream.h>
+#include <vnl/vnl_matops.h>
+#include <vnl/vnl_fastops.h>
+
+
+//: Efficient matrix transpose
 //    vnl_transpose is an efficient way to write C = vnl_transpose(A) * B.
 //    The vnl_transpose class holds a reference to the original matrix
 //    and when involved in an operation for which it has been specialized,
@@ -22,47 +32,40 @@
 //
 //    NOTE: This is a reference class, so should be shorted-lived than the
 //    matrix to which it refers.
-//
-// .SECTION Author
-//    Andrew W. Fitzgibbon, Oxford RRG, 23 Dec 96
-
-#include <vcl_iostream.h>
-#include <vnl/vnl_matops.h>
-#include <vnl/vnl_fastops.h>
 
 class vnl_transpose {
   const vnl_matrix<double>& M_;
 public:
 
-// -- Make a vnl_transpose object referring to matrix M
+//: Make a vnl_transpose object referring to matrix M
   vnl_transpose(const vnl_matrix<double>& M): M_(M) {}
 
-// -- Noisily convert a vnl_transpose to a matrix
+//: Noisily convert a vnl_transpose to a matrix
   operator vnl_matrix<double> () const {
     vcl_cerr << "vnl_transpose being converted to matrix -- help! I don't wanna go!\n";
     return M_.transpose();
   }
 
-// -- Quietly convert a vnl_transpose to a matrix
+//: Quietly convert a vnl_transpose to a matrix
   vnl_matrix<double> asMatrix () const {
     return M_.transpose();
   }
 
-// -- Return M' * O
+//: Return M' * O
   vnl_matrix<double> operator* (const vnl_matrix<double>& O) {
     vnl_matrix<double> ret(M_.columns(), O.columns());
     vnl_fastops::AtB(M_, O, &ret);
     return ret;
   }
 
-// -- Return M' * O
+//: Return M' * O
   vnl_vector<double> operator* (const vnl_vector<double>& O) {
     vnl_vector<double> ret(M_.columns());
     vnl_fastops::AtB(M_, O, &ret);
     return ret;
   }
 
-// -- Return A * B'
+//: Return A * B'
   friend vnl_matrix<double> operator* (const vnl_matrix<double>& A, const vnl_transpose& B) {
     vnl_matrix<double> ret(A.rows(), B.M_.rows());
     vnl_fastops::ABt(A, B.M_, &ret);

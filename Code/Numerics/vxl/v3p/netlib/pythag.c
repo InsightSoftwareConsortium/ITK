@@ -1,6 +1,6 @@
 /* pythag.f -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -21,7 +21,7 @@ doublereal *a, *b;
     d__1 = abs(*a), d__2 = abs(*b);
     p = max(d__1,d__2);
     if (p == 0.) {
-	goto L20;
+        goto L20;
     }
 /* Computing MIN */
     d__2 = abs(*a), d__3 = abs(*b);
@@ -31,7 +31,7 @@ doublereal *a, *b;
 L10:
     t = r + 4.;
     if (t == 4.) {
-	goto L20;
+        goto L20;
     }
     s = r / t;
     u = s * 2. + 1.;

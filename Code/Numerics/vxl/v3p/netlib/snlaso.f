@@ -1,3 +1,534 @@
+C
+C***********************************************************************
+C
+      SUBROUTINE SLABAX(N, NBAND, A, X, Y)
+C
+C  THIS SUBROUTINE SETS Y = A*X
+C  WHERE X AND Y ARE VECTORS OF LENGTH N
+C  AND A IS AN  N X NBAND  SYMMETRIC BAND MATRIX
+C
+C  FORMAL PARAMETERS
+C
+      INTEGER N, NBAND
+      REAL A(NBAND,1), X(1), Y(1)
+C
+C  LOCAL VARIABLES
+C
+      INTEGER I, K, L, M
+      REAL ZERO(1)
+C
+C  FUNCTIONS CALLED
+C
+      INTEGER MIN0
+C
+C  SUBROUTINES CALLED
+C
+C     SCOPY
+C
+      ZERO(1) = 0.0 
+      CALL SCOPY(N, ZERO, 0, Y, 1)
+      DO 20 K = 1, N
+         Y(K) = Y(K) + A(1,K)*X(K)
+         M = MIN0(N-K+1, NBAND)
+         IF(M .LT. 2) GO TO 20
+         DO 10 I = 2, M
+            L = K + I - 1
+            Y(L) = Y(L) + A(I,K)*X(K)
+            Y(K) = Y(K) + A(I,K)*X(L)
+   10    CONTINUE
+   20 CONTINUE
+      RETURN
+      END
+C
+C***********************************************************************
+C
+      SUBROUTINE SLABCM(N, NBAND, NL, NR, A, EIGVAL,
+     1  LDE, EIGVEC, ATOL, ARTOL, BOUND, ATEMP, D, VTEMP)
+C
+C  THIS SUBROUTINE ORGANIZES THE CALCULATION OF THE EIGENVALUES
+C  FOR THE BNDEIG PACKAGE.  EIGENVALUES ARE COMPUTED BY 
+C  A MODIFIED RAYLEIGH QUOTIENT ITERATION.  THE EIGENVALUE COUNT
+C  OBTAINED BY EACH FACTORIZATION IS USED TO OCCASIONALLY OVERRIDE
+C  THE COMPUTED RAYLEIGH QUOTIENT WITH A DIFFERENT SHIFT TO 
+C  INSURE CONVERGENCE TO THE DESIRED EIGENVALUES.
+C
+C  FORMAL PARAMETERS.
+C
+      INTEGER N, NBAND, NL, NR, LDE
+      REAL A(NBAND,1), EIGVAL(1),
+     1  EIGVEC(LDE,1), ATOL, ARTOL, BOUND(2,1), ATEMP(1),
+     2  D(1), VTEMP(1)
+C
+C
+C  LOCAL VARIABLES
+C
+      LOGICAL FLAG
+      INTEGER I, J, L, M, NUML, NUMVEC, NVAL
+      REAL ERRB, GAP, RESID, RQ, SIGMA, VNORM
+C
+C
+C  FUNCTIONS CALLED
+C
+      INTEGER MIN0
+      REAL AMAX1, AMIN1, SDOT, SNRM2
+C
+C  SUBROUTINES CALLED
+C
+C     SLABAX, SLABFC, SLARAN, SAXPY, SCOPY, SSCAL
+C
+C  REPLACE ZERO VECTORS BY RANDOM
+C
+      NVAL = NR - NL + 1
+      FLAG = .FALSE.
+      DO 5 I = 1, NVAL
+         IF(SDOT(N, EIGVEC(1,I), 1, EIGVEC(1,I), 1) .EQ. 0.0 )
+     1      CALL SLARAN(N,EIGVEC(1,I))
+    5 CONTINUE
+C
+C  LOOP OVER EIGENVALUES
+C
+      SIGMA = BOUND(2,NVAL+1)
+      DO 400 J = 1, NVAL
+         NUML = J
+C
+C  PREPARE TO COMPUTE FIRST RAYLEIGH QUOTIENT
+C
+   10    CALL SLABAX(N, NBAND, A, EIGVEC(1,J), VTEMP)
+         VNORM = SNRM2(N, VTEMP, 1)
+         IF(VNORM .EQ. 0.0 ) GO TO 20
+         CALL SSCAL(N, 1.0 /VNORM, VTEMP, 1)
+         CALL SSCAL(N, 1.0 /VNORM, EIGVEC(1,J), 1)
+         CALL SAXPY(N, -SIGMA, EIGVEC(1,J), 1, VTEMP, 1)
+C
+C  LOOP OVER SHIFTS
+C
+C  COMPUTE RAYLEIGH QUOTIENT, RESIDUAL NORM, AND CURRENT TOLERANCE
+C
+   20       VNORM = SNRM2(N, EIGVEC(1,J), 1)
+            IF(VNORM .NE. 0.0 ) GO TO 30
+            CALL SLARAN(N, EIGVEC(1,J))
+            GO TO 10
+C
+   30       RQ = SIGMA + SDOT(N, EIGVEC(1,J), 1, VTEMP, 1)
+     1        /VNORM/VNORM
+            CALL SAXPY(N, SIGMA-RQ, EIGVEC(1,J), 1, VTEMP, 1)
+            RESID = AMAX1(ATOL, SNRM2(N, VTEMP, 1)/VNORM)
+            CALL SSCAL(N, 1.0/VNORM, EIGVEC(1,J), 1)
+C
+C  ACCEPT EIGENVALUE IF THE INTERVAL IS SMALL ENOUGH
+C
+            IF(BOUND(2,J+1) - BOUND(1,J+1) .LT. 3.0 *ATOL) GO TO 300
+C
+C  COMPUTE MINIMAL ERROR BOUND
+C
+            ERRB = RESID
+            GAP = AMIN1(BOUND(1,J+2) - RQ, RQ - BOUND(2,J))
+            IF(GAP .GT. RESID) ERRB = AMAX1(ATOL, RESID*RESID/GAP)
+C
+C  TENTATIVE NEW SHIFT
+C
+            SIGMA = 0.5 *(BOUND(1,J+1) + BOUND(2,J+1))
+C
+C  CHECK FOR TERMINALTION
+C
+            IF(RESID .GT. 2.0 *ATOL) GO TO 40
+            IF(RQ - ERRB .GT. BOUND(2,J) .AND. 
+     1        RQ + ERRB .LT. BOUND(1,J+2)) GO TO 310
+C
+C  RQ IS TO THE LEFT OF THE INTERVAL
+C
+   40       IF(RQ .GE. BOUND(1,J+1)) GO TO 50
+            IF(RQ - ERRB .GT. BOUND(2,J)) GO TO 100
+            IF(RQ + ERRB .LT. BOUND(1,J+1)) CALL SLARAN(N,EIGVEC(1,J))
+            GO TO 200
+C
+C  RQ IS TO THE RIGHT OF THE INTERVAL
+C
+   50       IF(RQ .LE. BOUND(2,J+1)) GO TO 100
+            IF(RQ + ERRB .LT. BOUND(1,J+2)) GO TO 100
+C
+C  SAVE THE REJECTED VECTOR IF INDICATED
+C
+            IF(RQ - ERRB .LE. BOUND(2,J+1)) GO TO 200
+            DO 60 I = J, NVAL
+               IF(BOUND(2,I+1) .GT. RQ) GO TO 70
+   60       CONTINUE
+            GO TO 80
+C
+   70       CALL SCOPY(N, EIGVEC(1,J), 1, EIGVEC(1,I), 1)
+C
+   80       CALL SLARAN(N, EIGVEC(1,J))
+            GO TO 200
+C
+C  PERTURB RQ TOWARD THE MIDDLE
+C
+  100       IF(SIGMA .LT. RQ) SIGMA = AMAX1(SIGMA, RQ-ERRB)
+            IF(SIGMA .GT. RQ) SIGMA = AMIN1(SIGMA, RQ+ERRB)
+C
+C  FACTOR AND SOLVE
+C
+  200       DO 210 I = J, NVAL
+               IF(SIGMA .LT. BOUND(1,I+1)) GO TO 220
+  210       CONTINUE
+            I = NVAL + 1
+  220       NUMVEC = I - J
+            NUMVEC = MIN0(NUMVEC, NBAND + 2)
+            IF(RESID .LT. ARTOL) NUMVEC = MIN0(1,NUMVEC)
+            CALL SCOPY(N, EIGVEC(1,J), 1, VTEMP, 1)
+            CALL SLABFC(N, NBAND, A, SIGMA, NUMVEC, LDE, 
+     1        EIGVEC(1,J), NUML, 2*NBAND-1, ATEMP, D, ATOL)
+C
+C  PARTIALLY SCALE EXTRA VECTORS TO PREVENT UNDERFLOW OR OVERFLOW
+C
+            IF(NUMVEC .EQ. 1) GO TO 227
+            L = NUMVEC - 1 
+            DO 225 I = 1,L
+               M = J + I
+               CALL SSCAL(N, 1.0 /VNORM, EIGVEC(1,M), 1)
+  225       CONTINUE
+C
+C  UPDATE INTERVALS
+C
+  227       NUML = NUML - NL + 1
+            IF(NUML .GE. 0) BOUND(2,1) = AMIN1(BOUND(2,1), SIGMA)
+            DO 230 I = J, NVAL
+               IF(SIGMA .LT. BOUND(1,I+1)) GO TO 20
+               IF(NUML .LT. I) BOUND(1,I+1) = SIGMA
+               IF(NUML .GE. I) BOUND(2,I+1) = SIGMA
+  230       CONTINUE
+            IF(NUML .LT. NVAL + 1) BOUND(1,NVAL+2) = AMAX1(SIGMA,
+     1        BOUND(1,NVAL+2))
+            GO TO 20
+C
+C  ACCEPT AN EIGENPAIR
+C
+  300    CALL SLARAN(N, EIGVEC(1,J))
+         FLAG = .TRUE.
+         GO TO 310
+C
+  305    FLAG = .FALSE.
+         RQ = 0.5 *(BOUND(1,J+1) + BOUND(2,J+1))
+         CALL SLABFC(N, NBAND, A, RQ, NUMVEC, LDE, 
+     1    EIGVEC(1,J), NUML, 2*NBAND-1, ATEMP, D, ATOL)
+         VNORM = SNRM2(N, EIGVEC(1,J), 1)
+         IF(VNORM .NE. 0.0) CALL SSCAL(N, 1.0 /VNORM, EIGVEC(1,J), 1)
+C
+C  ORTHOGONALIZE THE NEW EIGENVECTOR AGAINST THE OLD ONES
+C
+  310    EIGVAL(J) = RQ
+         IF(J .EQ. 1) GO TO 330
+         M = J - 1
+         DO 320 I = 1, M
+            CALL SAXPY(N, -SDOT(N,EIGVEC(1,I),1,EIGVEC(1,J),1),
+     1        EIGVEC(1,I), 1, EIGVEC(1,J), 1)
+  320    CONTINUE
+  330    VNORM = SNRM2(N, EIGVEC(1,J), 1)
+         IF(VNORM .EQ. 0.0 ) GO TO 305
+         CALL SSCAL(N, 1.0 /VNORM, EIGVEC(1,J), 1)
+C
+C   ORTHOGONALIZE LATER VECTORS AGAINST THE CONVERGED ONE
+C
+         IF(FLAG) GO TO 305
+         IF(J .EQ. NVAL) RETURN
+         M = J + 1
+         DO 340 I = M, NVAL
+            CALL SAXPY(N, -SDOT(N,EIGVEC(1,J),1,EIGVEC(1,I),1),
+     1        EIGVEC(1,J), 1, EIGVEC(1,I), 1)
+  340    CONTINUE
+  400 CONTINUE
+      RETURN
+C
+  500 CONTINUE
+      END
+C
+C***********************************************************************
+C
+      SUBROUTINE SLABFC(N, NBAND, A, SIGMA, NUMBER, LDE,
+     1  EIGVEC, NUML, LDAD, ATEMP, D, ATOL)
+C
+C  THIS SUBROUTINE FACTORS (A-SIGMA*I) WHERE A IS A GIVEN BAND
+C  MATRIX AND SIGMA IS AN INPUT PARAMETER.  IT ALSO SOLVES ZERO
+C  OR MORE SYSTEMS OF LINEAR EQUATIONS.  IT RETURNS THE NUMBER
+C  OF EIGENVALUES OF A LESS THAN SIGMA BY COUNTING THE STURM
+C  SEQUENCE DURING THE FACTORIZATION.  TO OBTAIN THE STURM 
+C  SEQUENCE COUNT WHILE ALLOWING NON-SYMMETRIC PIVOTING FOR
+C  STABILITY, THE CODE USES A GUPTA'S MULTIPLE PIVOTING
+C  ALGORITHM.
+C
+C  FORMAL PARAMETERS
+C
+      INTEGER N, NBAND, NUMBER, LDE, NUML, LDAD
+      REAL A(NBAND,1), SIGMA, EIGVEC(LDE,1),
+     1  ATEMP(LDAD,1), D(LDAD,1), ATOL
+C
+C  LOCAL VARIABLES
+C
+      INTEGER I, J, K, KK, L, LA, LD, LPM, M, NB1
+      REAL ZERO(1)
+C
+C  FUNCTIONS CALLED
+C
+      INTEGER MIN0
+      REAL ABS
+C
+C  SUBROUTINES CALLED
+C
+C     SAXPY, SCOPY, SSWAP
+C
+C
+C  INITIALIZE
+C
+      ZERO(1) = 0.0 
+      NB1 = NBAND - 1
+      NUML = 0
+      CALL SCOPY(LDAD*NBAND, ZERO, 0, D, 1)
+C
+C   LOOP OVER COLUMNS OF A
+C
+      DO 100 K = 1, N
+C
+C   ADD A COLUMN OF A TO D
+C
+         D(NBAND, NBAND) = A(1,K) - SIGMA
+         M = MIN0(K, NBAND) - 1
+         IF(M .EQ. 0) GO TO 20
+         DO 10 I = 1, M
+            LA = K - I
+            LD = NBAND - I
+            D(LD,NBAND) = A(I+1, LA)
+   10    CONTINUE
+C
+   20    M = MIN0(N-K, NB1)
+         IF(M .EQ. 0) GO TO 40
+         DO 30 I = 1, M
+            LD = NBAND + I
+            D(LD, NBAND) = A(I+1, K)
+   30    CONTINUE
+C
+C   TERMINATE
+C
+   40    LPM = 1
+         IF(NB1 .EQ. 0) GO TO 70
+         DO 60 I = 1, NB1
+            L = K - NBAND + I
+            IF(D(I,NBAND) .EQ. 0.0 ) GO TO 60
+            IF(ABS(D(I,I)) .GE. ABS(D(I,NBAND))) GO TO 50
+            IF((D(I,NBAND) .LT. 0.0  .AND. D(I,I) .LT. 0.0 )
+     1        .OR. (D(I,NBAND) .GT. 0.0  .AND. D(I,I) .GE. 0.0 ))
+     2        LPM = -LPM
+            CALL SSWAP(LDAD-I+1, D(I,I), 1, D(I,NBAND), 1)
+            CALL SSWAP(NUMBER, EIGVEC(L,1), LDE, EIGVEC(K,1), LDE)
+   50       CALL SAXPY(LDAD-I, -D(I,NBAND)/D(I,I), D(I+1,I), 1,
+     1        D(I+1,NBAND), 1)
+            CALL SAXPY(NUMBER, -D(I,NBAND)/D(I,I), EIGVEC(L,1), 
+     1        LDE, EIGVEC(K,1), LDE)
+   60    CONTINUE
+C
+C  UPDATE STURM SEQUENCE COUNT
+C
+   70    IF(D(NBAND,NBAND) .LT. 0.0 ) LPM = -LPM
+         IF(LPM .LT. 0) NUML = NUML + 1
+         IF(K .EQ. N) GO TO 110
+C
+C   COPY FIRST COLUMN OF D INTO ATEMP 
+         IF(K .LT. NBAND) GO TO 80
+         L = K - NB1
+         CALL SCOPY(LDAD, D, 1, ATEMP(1,L), 1)
+C
+C   SHIFT THE COLUMNS OF D OVER AND UP
+C
+         IF(NB1 .EQ. 0) GO TO 100
+   80    DO 90 I = 1, NB1
+            CALL SCOPY(LDAD-I, D(I+1,I+1), 1, D(I,I), 1)
+            D(LDAD,I) = 0.0 
+   90    CONTINUE
+  100 CONTINUE
+C
+C  TRANSFER D TO ATEMP
+C
+  110 DO 120 I = 1, NBAND
+         L = N - NBAND + I
+         CALL SCOPY(NBAND-I+1, D(I,I), 1, ATEMP(1,L), 1)
+  120 CONTINUE
+C
+C   BACK SUBSTITUTION
+C
+      IF(NUMBER .EQ. 0) RETURN
+      DO 160 KK = 1, N
+         K = N - KK + 1
+         IF(ABS(ATEMP(1,K)) .LE. ATOL) 
+     1     ATEMP(1,K) = SIGN(ATOL,ATEMP(1,K))
+C
+  130    DO 150 I = 1, NUMBER
+            EIGVEC(K,I) = EIGVEC(K,I)/ATEMP(1,K)
+            M = MIN0(LDAD, K) - 1
+            IF(M .EQ. 0) GO TO 150
+            DO 140 J = 1, M
+                L = K - J
+                EIGVEC(L,I) = EIGVEC(L,I) - ATEMP(J+1,L)*EIGVEC(K,I)
+  140       CONTINUE
+  150    CONTINUE
+  160 CONTINUE
+      RETURN
+      END
+      SUBROUTINE SLAEIG(N, NBAND, NL, NR, A, EIGVAL, LDE,
+     1   EIGVEC, BOUND, ATEMP, D, VTEMP, EPS, TMIN, TMAX)
+C
+C  THIS IS A SPECIALIZED VERSION OF THE SUBROUTINE BNDEIG TAILORED
+C  SPECIFICALLY FOR USE BY THE LASO PACKAGE.
+C
+      INTEGER N, NBAND, NL, NR, LDE
+      REAL A(NBAND,1), EIGVAL(1), 
+     1   EIGVEC(LDE,1), BOUND(2,1), ATEMP(1), D(1), VTEMP(1), 
+     2   EPS, TMIN, TMAX
+C
+C  LOCAL VARIABLES
+C
+      INTEGER I, M, NVAL
+      REAL ARTOL, ATOL
+C
+C  FUNCTIONS CALLED
+C
+      REAL AMAX1
+C
+C  SUBROUTINES CALLED
+C
+C     SLABCM, SLABFC, SLAGER, SCOPY
+C
+C  SET PARAMETERS
+C
+      ATOL = FLOAT(N)*EPS*AMAX1(TMAX,-TMIN)
+      ARTOL = ATOL/SQRT(EPS)
+      NVAL = NR - NL + 1
+C
+C   CHECK FOR SPECIAL CASE OF N = 1
+C
+      IF(N .NE. 1) GO TO 30
+      EIGVAL(1) = A(1,1)
+      EIGVEC(1,1) = 1.0 
+      RETURN
+C
+C   SET UP INITIAL EIGENVALUE BOUNDS
+C
+   30 M = NVAL + 1
+      DO 50 I = 2, M
+         BOUND(1,I) = TMIN
+         BOUND(2,I) = TMAX
+   50 CONTINUE
+      BOUND(2,1) = TMAX
+      BOUND(1,NVAL + 2) = TMIN
+      IF(NL .EQ. 1) BOUND(2,1) = TMIN
+      IF(NR .EQ. N) BOUND(1,NVAL + 2) = TMAX
+C
+   60 CALL SLABCM(N, NBAND, NL, NR, A, EIGVAL, LDE,
+     1  EIGVEC, ATOL, ARTOL, BOUND, ATEMP, D, VTEMP)
+      RETURN
+      END
+C
+C***********************************************************************
+C
+      SUBROUTINE SLAGER(N, NBAND, NSTART, A, TMIN, TMAX)
+C
+C  THIS SUBROUTINE COMPUTES BOUNDS ON THE SPECTRUM OF A BY
+C  EXAMINING THE GERSCHGORIN CIRCLES. ONLY THE NEWLY CREATED
+C  CIRCLES ARE EXAMINED
+C
+C  FORMAL PARAMETERS
+C
+      INTEGER N, NBAND, NSTART
+      REAL A(NBAND,1), TMIN, TMAX
+C
+C  LOCAL VARIABLES
+C
+      INTEGER I, K, L, M
+      REAL TEMP
+C
+C  FUNCTIONS CALLED
+C
+      INTEGER MIN0
+      REAL AMIN1, AMAX1
+C
+      DO 50 K = NSTART, N
+         TEMP = 0.0 
+         DO 10 I = 2, NBAND
+            TEMP = TEMP + ABS(A(I,K))
+   10    CONTINUE
+   20    L = MIN0(K,NBAND)
+         IF(L .EQ. 1) GO TO 40
+         DO 30 I = 2, L
+            M = K - I + 1
+            TEMP = TEMP + ABS(A(I,M))
+   30    CONTINUE
+   40    TMIN = AMIN1(TMIN, A(1,K)-TEMP)
+         TMAX = AMAX1(TMAX, A(1,K)+TEMP)
+   50 CONTINUE
+      RETURN
+      END
+C
+C***********************************************************************
+C
+      SUBROUTINE SLARAN(N, X)
+C
+C  THIS SUBROUTINE SETS THE VECTOR X TO RANDOM NUMBERS
+C
+C  FORMAL PARAMETERS
+C
+      INTEGER N
+      REAL X(N)
+C
+C  LOCAL VARIABLES
+C
+      INTEGER I, IURAND
+C
+C  FUNCTIONS CALLED
+C
+      REAL URAND
+C
+C  SUBROUTINES CALLED
+C
+C     NONE
+C
+C  INITIALIZE SEED
+C
+      DATA IURAND /0/
+C
+      DO 10 I = 1, N
+         X(I) = URAND(IURAND) - 0.5 
+   10 CONTINUE
+      RETURN
+      END
+C
+C ------------------------------------------------------------------
+C
+      SUBROUTINE SMVPC(NBLOCK, BET, MAXJ, J, S, NUMBER, RESNRM,
+     *     ORTHCF, RV)
+C
+      INTEGER NBLOCK, MAXJ, J, NUMBER
+      REAL BET(NBLOCK,1), S(MAXJ,1), RESNRM(1),
+     *     ORTHCF(1), RV(1)
+C
+C THIS SUBROUTINE COMPUTES THE NORM AND THE SMALLEST ELEMENT
+C (IN ABSOLUTE VALUE) OF THE VECTOR BET*SJI, WHERE SJI
+C IS AN NBLOCK VECTOR OF THE LAST NBLOCK ELEMENTS OF THE ITH
+C EIGENVECTOR OF T.  THESE QUANTITIES ARE THE RESIDUAL NORM
+C AND THE ORTHOGONALITY COEFFICIENT RESPECTIVELY FOR THE
+C CORRESPONDING RITZ PAIR.  THE ORTHOGONALITY COEFFICIENT IS
+C NORMALIZED TO ACCOUNT FOR THE LOCAL REORTHOGONALIZATION.
+C
+      INTEGER I, K, M
+      REAL SDOT, SNRM2, ABS, AMIN1
+C
+      M = J - NBLOCK + 1
+      DO 20 I=1,NUMBER
+         DO 10 K=1,NBLOCK
+            RV(K) = SDOT(NBLOCK,S(M,I),1,BET(K,1),NBLOCK)
+            IF (K.EQ.1) ORTHCF(I) = ABS(RV(K))
+            ORTHCF(I) = AMIN1(ORTHCF(I),ABS(RV(K)))
+   10    CONTINUE
+         RESNRM(I) = SNRM2(NBLOCK,RV,1)
+   20 CONTINUE
+      RETURN
+      END
 C   VERSION 2    DOES NOT USE EISPACK
 C
 C ------------------------------------------------------------------
@@ -882,4 +1413,253 @@ C
   810 IERR = -2
       GO TO 790
 C
+      END
+C
+C ------------------------------------------------------------------
+C
+      SUBROUTINE SNPPLA(OP, IOVECT, N, NPERM, NOP, NMVAL, VAL,
+     *   NMVEC, VEC, NBLOCK, H, HV, P, Q, BOUND, D, DELTA, SMALL,
+     *   RARITZ, EPS)
+C
+      INTEGER N, NPERM, NOP, NMVAL, NMVEC, NBLOCK
+      LOGICAL SMALL, RARITZ
+      REAL VAL(NMVAL,1), VEC(NMVEC,1), H(NPERM,1),
+     *   HV(NPERM,1), P(N,1), Q(N,1), BOUND(1), D(1), DELTA, EPS
+      EXTERNAL OP, IOVECT
+C
+C THIS SUBROUTINE POST PROCESSES THE EIGENVECTORS.  BLOCK MATRIX
+C VECTOR PRODUCTS ARE USED TO MINIMIZED THE NUMBER OF CALLS TO OP.
+C
+      INTEGER I, J, JJ, K, KK, L, M, MOD
+      REAL HMIN, HMAX, TEMP, SDOT, SNRM2, ZERO(1)
+      EXTERNAL SAXPY, SCOPY, SDOT, SLAGER, SLAEIG
+C
+C IF RARITZ IS .TRUE.  A FINAL RAYLEIGH-RITZ PROCEDURE IS APPLIED
+C TO THE EIGENVECTORS.
+C
+      ZERO(1) = 0.0 
+      IF (.NOT.RARITZ) GO TO 190
+C
+C ------------------------------------------------------------------
+C
+C THIS CONSTRUCTS H=Q*AQ, WHERE THE COLUMNS OF Q ARE THE
+C APPROXIMATE EIGENVECTORS.  TEMP = -1 IS USED WHEN SMALL IS
+C FALSE TO AVOID HAVING TO RESORT THE EIGENVALUES AND EIGENVECTORS
+C COMPUTED BY SLAEIG.
+C
+      CALL SCOPY(NPERM*NPERM, ZERO, 0, H, 1)
+      TEMP = -1.0 
+      IF (SMALL) TEMP = 1.0 
+      M = MOD(NPERM,NBLOCK)
+      IF (M.EQ.0) GO TO 40
+      DO 10 I=1,M
+         CALL SCOPY(N, VEC(1,I), 1, P(1,I), 1)
+   10 CONTINUE
+      CALL IOVECT(N, M, P, M, 0)
+      CALL OP(N, M, P, Q)
+      NOP = NOP + 1
+      DO 30 I=1,M
+         DO 20 J=I,NPERM
+            JJ = J - I + 1
+            H(JJ,I) = TEMP*SDOT(N,VEC(1,J),1,Q(1,I),1)
+   20    CONTINUE
+   30 CONTINUE
+      IF (NPERM.LT.NBLOCK) GO TO 90
+   40 M = M + NBLOCK
+      DO 80 I=M,NPERM,NBLOCK
+         DO 50 J=1,NBLOCK
+            L = I - NBLOCK + J
+            CALL SCOPY(N, VEC(1,L), 1, P(1,J), 1)
+   50    CONTINUE
+         CALL IOVECT(N, NBLOCK, P, I, 0)
+         CALL OP(N, NBLOCK, P, Q)
+         NOP = NOP + 1
+         DO 70 J=1,NBLOCK
+            L = I - NBLOCK + J
+            DO 60 K=L,NPERM
+               KK = K - L + 1
+               H(KK,L) = TEMP*SDOT(N,VEC(1,K),1,Q(1,J),1)
+   60       CONTINUE
+   70      CONTINUE
+   80 CONTINUE
+C
+C THIS COMPUTES THE SPECTRAL DECOMPOSITION OF H.
+C
+   90 HMIN = H(1,1)
+      HMAX = H(1,1)
+      CALL SLAGER(NPERM, NPERM, 1, H, HMIN, HMAX)
+      CALL SLAEIG(NPERM, NPERM, 1, NPERM, H, VAL, NPERM,
+     1  HV, BOUND, P, D, Q, EPS, HMIN, HMAX)
+C
+C THIS COMPUTES THE RITZ VECTORS--THE COLUMNS OF
+C Y = QS WHERE S IS THE MATRIX OF EIGENVECTORS OF H.
+C
+      DO 120 I=1,NPERM
+         CALL SCOPY(N, ZERO, 0, VEC(1,I), 1)
+  120 CONTINUE
+      M = MOD(NPERM,NBLOCK)
+      IF (M.EQ.0) GO TO 150
+      CALL IOVECT(N, M, P, M, 1)
+      DO 140 I=1,M
+         DO 130 J=1,NPERM
+            CALL SAXPY(N, HV(I,J), P(1,I), 1, VEC(1,J), 1)
+  130    CONTINUE
+  140 CONTINUE
+      IF (NPERM.LT.NBLOCK) GO TO 190
+  150 M = M + NBLOCK
+      DO 180 I=M,NPERM,NBLOCK
+         CALL IOVECT(N, NBLOCK, P, I, 1)
+         DO 170 J=1,NBLOCK
+            L = I - NBLOCK + J
+            DO 160 K=1,NPERM
+               CALL SAXPY(N, HV(L,K), P(1,J), 1, VEC(1,K), 1)
+  160       CONTINUE
+  170    CONTINUE
+  180 CONTINUE
+C
+C ------------------------------------------------------------------
+C
+C THIS SECTION COMPUTES THE RAYLEIGH QUOTIENTS (IN VAL(*,1))
+C AND RESIDUAL NORMS (IN VAL(*,2)) OF THE EIGENVECTORS.
+C
+  190 IF (.NOT.SMALL) DELTA = -DELTA
+      M = MOD(NPERM,NBLOCK)
+      IF (M.EQ.0) GO TO 220
+      DO 200 I=1,M
+         CALL SCOPY(N, VEC(1,I), 1, P(1,I), 1)
+  200 CONTINUE
+      CALL OP(N, M, P, Q)
+      NOP = NOP + 1
+      DO 210 I=1,M
+         VAL(I,1) = SDOT(N,P(1,I),1,Q(1,I),1)
+         CALL SAXPY(N, -VAL(I,1), P(1,I), 1, Q(1,I), 1)
+         VAL(I,2) = SNRM2(N,Q(1,I),1)
+  210 CONTINUE
+      IF (NPERM.LT.NBLOCK) GO TO 260
+  220 M = M + 1
+      DO 250 I=M,NPERM,NBLOCK
+         DO 230 J=1,NBLOCK
+            L = I - 1 + J
+            CALL SCOPY(N, VEC(1,L), 1, P(1,J), 1)
+  230    CONTINUE
+         CALL OP(N, NBLOCK, P, Q)
+         NOP = NOP + 1
+         DO 240 J=1,NBLOCK
+            L = I - 1 + J
+            VAL(L,1) = SDOT(N,P(1,J),1,Q(1,J),1)
+            CALL SAXPY(N, -VAL(L,1), P(1,J), 1, Q(1,J), 1)
+            VAL(L,2) = SNRM2(N,Q(1,J),1)
+  240    CONTINUE
+  250 CONTINUE
+C
+C THIS COMPUTES THE ACCURACY ESTIMATES.  FOR CONSISTENCY WITH SILASO
+C A DO LOOP IS NOT USED.
+C
+  260 I = 0
+  270 I = I + 1
+      IF (I.GT.NPERM) RETURN
+      TEMP = DELTA - VAL(I,1)
+      IF (.NOT.SMALL) TEMP = -TEMP
+      VAL(I,4) = 0.0 
+      IF (TEMP.GT.0.0 ) VAL(I,4) = VAL(I,2)/TEMP
+      VAL(I,3) = VAL(I,4)*VAL(I,2)
+      GO TO 270
+C
+      END
+C
+C ------------------------------------------------------------------
+C
+      SUBROUTINE SORTQR(NZ, N, NBLOCK, Z, B)
+C
+      INTEGER NZ, N, NBLOCK
+      REAL Z(NZ,1), B(NBLOCK,1)
+C
+C THIS SUBROUTINE COMPUTES THE QR FACTORIZATION OF THE N X NBLOCK
+C MATRIX Z.  Q IS FORMED IN PLACE AND RETURNED IN Z.  R IS
+C RETURNED IN B.
+C
+      INTEGER I, J, K, LENGTH, M
+      REAL SIGMA, TAU, TEMP, SDOT, SNRM2, SIGN
+      EXTERNAL SAXPY, SDOT, SNRM2, SSCAL
+C
+C THIS SECTION REDUCES Z TO TRIANGULAR FORM.
+C
+      DO 30 I=1,NBLOCK
+C
+C THIS FORMS THE ITH REFLECTION.
+C
+         LENGTH = N - I + 1
+         SIGMA = SIGN(SNRM2(LENGTH,Z(I,I),1),Z(I,I))
+         B(I,I) = -SIGMA
+         Z(I,I) = Z(I,I) + SIGMA
+         TAU = SIGMA*Z(I,I)
+         IF (I.EQ.NBLOCK) GO TO 30
+         J = I + 1
+C
+C THIS APPLIES THE ROTATION TO THE REST OF THE COLUMNS.
+C
+         DO 20 K=J,NBLOCK
+            IF (TAU.EQ.0.0 ) GO TO 10
+            TEMP = -SDOT(LENGTH,Z(I,I),1,Z(I,K),1)/TAU
+            CALL SAXPY(LENGTH, TEMP, Z(I,I), 1, Z(I,K), 1)
+   10       B(I,K) = Z(I,K)
+            Z(I,K) = 0.0 
+   20    CONTINUE
+   30 CONTINUE
+C
+C THIS ACCUMULATES THE REFLECTIONS IN REVERSE ORDER.
+C
+      DO 70 M=1,NBLOCK
+C
+C THIS RECREATES THE ITH = NBLOCK-M+1)TH REFLECTION.
+C
+         I = NBLOCK + 1 - M
+         SIGMA = -B(I,I)
+         TAU = Z(I,I)*SIGMA
+         IF (TAU.EQ.0.0 ) GO TO 60
+         LENGTH = N - NBLOCK + M
+         IF (I.EQ.NBLOCK) GO TO 50
+         J = I + 1
+C
+C THIS APPLIES IT TO THE LATER COLUMNS.
+C
+         DO 40 K=J,NBLOCK
+            TEMP = -SDOT(LENGTH,Z(I,I),1,Z(I,K),1)/TAU
+            CALL SAXPY(LENGTH, TEMP, Z(I,I), 1, Z(I,K), 1)
+   40    CONTINUE
+   50    CALL SSCAL(LENGTH, -1.0 /SIGMA, Z(I,I), 1)
+   60    Z(I,I) = 1.0  + Z(I,I)
+   70 CONTINUE
+      RETURN
+      END
+C
+C-------------------------------------------------------------------
+C
+      SUBROUTINE SVSORT(NUM, VAL, RES, IFLAG, V, NMVEC, N, VEC)
+      INTEGER NUM, IFLAG, NMVEC, N 
+      REAL VAL(1), RES(1), V(1), VEC(NMVEC,1)
+C
+C  THIS SUBROUTINE SORTS THE EIGENVALUES (VAL) IN ASCENDING ORDER
+C  WHILE CONCURRENTLY SWAPPING THE RESIDUALS AND VECTORS.
+      INTEGER I, K, M
+      REAL TEMP
+      IF(NUM .LE. 1) RETURN
+      DO 20 I = 2, NUM
+         M = NUM - I + 1
+         DO 10 K = 1, M
+            IF(VAL(K) .LE. VAL(K+1)) GO TO 10
+            TEMP = VAL(K)
+            VAL(K) = VAL(K+1)
+            VAL(K+1) = TEMP
+            TEMP = RES(K)
+            RES(K) = RES(K+1)
+            RES(K+1) = TEMP
+            CALL SSWAP(N, VEC(1,K), 1, VEC(1,K+1), 1)
+            IF(IFLAG .EQ. 0) GO TO 10
+            TEMP = V(K)
+            V(K) = V(K+1)
+            V(K+1) = TEMP
+   10    CONTINUE
+   20 CONTINUE
+      RETURN
       END

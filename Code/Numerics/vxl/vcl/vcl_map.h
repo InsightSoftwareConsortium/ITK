@@ -15,8 +15,6 @@
 // -------------------- sunpro 5.0
 #elif defined(VCL_SUNPRO_CC_50)
 # include "sunpro/vcl_map.h"
-# define vcl_map      vcl_map_sunpro_50
-# define vcl_multimap vcl_multimap_sunpro_50
 
 // -------------------- iso
 #else

@@ -12,5 +12,6 @@
 #define VCL_SORT_INSTANTIATE_CMP(I, T, C) /* */
 #define VCL_FIND_IF_INSTANTIATE(I, P) /* */
 #define VCL_REMOVE_INSTANTIATE(I, T)  /* */
+#define VCL_UNIQUE_INSTANTIATE(I) /* */
 
 #endif // vcl_iso_algorithm_txx_

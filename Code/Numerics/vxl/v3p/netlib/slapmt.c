@@ -1,12 +1,12 @@
 /* slapmt.f -- translated by f2c (version of 4 June 1993  1:43:59).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
 
 /* Subroutine */ int slapmt_(logical *forwrd, integer *m, integer *n, real *x,
-	 integer *ldx, integer *k)
+         integer *ldx, integer *k)
 {
     /* System generated locals */
     integer x_dim1, x_offset, i__1, i__2;
@@ -62,7 +62,7 @@
 /*  K       (input) INTEGER array, dimension (N) */
 /*          On entry, K contains the permutation vector. */
 
-/*  ===================================================================== 
+/*  =====================================================================
 */
 
 /*     .. Local Scalars .. */
@@ -77,12 +77,12 @@
 
     /* Function Body */
     if (*n <= 1) {
-	return 0;
+        return 0;
     }
 
     i__1 = *n;
     for (i = 1; i <= i__1; ++i) {
-	k[i] = -k[i];
+        k[i] = -k[i];
 /* L10: */
     }
 
@@ -90,75 +90,75 @@
 
 /*        Forward permutation */
 
-	i__1 = *n;
-	for (i = 1; i <= i__1; ++i) {
+        i__1 = *n;
+        for (i = 1; i <= i__1; ++i) {
 
-	    if (k[i] > 0) {
-		goto L40;
-	    }
+            if (k[i] > 0) {
+                goto L40;
+            }
 
-	    j = i;
-	    k[j] = -k[j];
-	    in = k[j];
+            j = i;
+            k[j] = -k[j];
+            in = k[j];
 
 L20:
-	    if (k[in] > 0) {
-		goto L40;
-	    }
+            if (k[in] > 0) {
+                goto L40;
+            }
 
-	    i__2 = *m;
-	    for (ii = 1; ii <= i__2; ++ii) {
-		temp = x[ii + j * x_dim1];
-		x[ii + j * x_dim1] = x[ii + in * x_dim1];
-		x[ii + in * x_dim1] = temp;
+            i__2 = *m;
+            for (ii = 1; ii <= i__2; ++ii) {
+                temp = x[ii + j * x_dim1];
+                x[ii + j * x_dim1] = x[ii + in * x_dim1];
+                x[ii + in * x_dim1] = temp;
 /* L30: */
-	    }
+            }
 
-	    k[in] = -k[in];
-	    j = in;
-	    in = k[in];
-	    goto L20;
+            k[in] = -k[in];
+            j = in;
+            in = k[in];
+            goto L20;
 
 L40:
 
 /* L60: */
-	    ;
-	}
+            ;
+        }
 
     } else {
 
 /*        Backward permutation */
 
-	i__1 = *n;
-	for (i = 1; i <= i__1; ++i) {
+        i__1 = *n;
+        for (i = 1; i <= i__1; ++i) {
 
-	    if (k[i] > 0) {
-		goto L100;
-	    }
+            if (k[i] > 0) {
+                goto L100;
+            }
 
-	    k[i] = -k[i];
-	    j = k[i];
+            k[i] = -k[i];
+            j = k[i];
 L80:
-	    if (j == i) {
-		goto L100;
-	    }
+            if (j == i) {
+                goto L100;
+            }
 
-	    i__2 = *m;
-	    for (ii = 1; ii <= i__2; ++ii) {
-		temp = x[ii + i * x_dim1];
-		x[ii + i * x_dim1] = x[ii + j * x_dim1];
-		x[ii + j * x_dim1] = temp;
+            i__2 = *m;
+            for (ii = 1; ii <= i__2; ++ii) {
+                temp = x[ii + i * x_dim1];
+                x[ii + i * x_dim1] = x[ii + j * x_dim1];
+                x[ii + j * x_dim1] = temp;
 /* L90: */
-	    }
+            }
 
-	    k[j] = -k[j];
-	    j = k[j];
-	    goto L80;
+            k[j] = -k[j];
+            j = k[j];
+            goto L80;
 
 L100:
 /* L110: */
-	    ;
-	}
+            ;
+        }
 
     }
 

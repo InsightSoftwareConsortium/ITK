@@ -1,9 +1,11 @@
+// This is vxl/vnl/vnl_file_vector.txx
+
 #include "vnl_file_vector.h"
 
 #include <vcl_fstream.h>
 #include <vcl_cstring.h> // for strcmp()
 
-// -- Load vector from filename.
+//: Load vector from filename.
 template <class T>
 vnl_file_vector<T>::vnl_file_vector(char const* filename)
   : vnl_vector<T>() // makes an empty vector.

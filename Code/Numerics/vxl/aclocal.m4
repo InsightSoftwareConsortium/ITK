@@ -49,7 +49,7 @@ dnl ----------------------------------------------------------------------------
 dnl  Usage: AC_VXL_WORDS
 
 AC_DEFUN(AC_VXL_WORDS,[
-AC_MSG_CHECKING( [for words of sizes 8, 16, 32, 64] )
+AC_MSG_CHECKING( [for machine word sizes] )
 cat > check_vxl_words.cc <<EOF
 #include <stdio.h>
 #include <limits.h>
@@ -68,22 +68,22 @@ cat > check_vxl_words.cc <<EOF
 // by configure, but we dont care about that.
 #define QUOTE 34
 
-#define macro(INT, n, cand) \
+#define macro(NAME, n, cand) \
   if (CHAR_BIT==8 && sizeof(cand)==n) \
-    printf(#INT "=%c" #cand "%c;\n", QUOTE, QUOTE); \
+    printf(#NAME "=%c" #cand "%c;\n", QUOTE, QUOTE); \
   else \
-    printf(#INT "=%c" "void" "%c;\n", QUOTE, QUOTE); \
-  printf("export " #INT ";\n");
+    printf(#NAME "=%c" "void" "%c;\n", QUOTE, QUOTE); \
+  printf("export " #NAME ";\n");
 
 int main(int, char **) {
-  // 8bit word
-  macro(VXL_INT8, 1, char);
-  // 16bit word
-  macro(VXL_INT16, 2, short);
-  // 32bit word
-  macro(VXL_INT32, 4, int);
-  // 64bit word
-  macro(VXL_INT64, 8, long long);
+  macro(VXL_INT_8, 1, char);
+  macro(VXL_INT_16, 2, short);
+  macro(VXL_INT_32, 4, int);
+  macro(VXL_INT_64, 8, long long);
+  macro(VXL_IEEE_32, 4, float);
+  macro(VXL_IEEE_64, 8, double);
+//  macro(VXL_IEEE_96, 12, long double);  // x86
+//  macro(VXL_IEEE_128, 16, long double); // sparc, mips
   return 0;
 }
 EOF

@@ -1,6 +1,6 @@
 /* dcopy.f -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -34,10 +34,10 @@ int dcopy_(integer *n, doublereal *dx, integer *incx, doublereal *dy, integer *i
 
     /* Function Body */
     if (*n <= 0) {
-	return 0;
+        return 0;
     }
     if (*incx == 1 && *incy == 1) {
-	goto L20;
+        goto L20;
     }
 
 /*        code for unequal increments or equal increments */
@@ -46,16 +46,16 @@ int dcopy_(integer *n, doublereal *dx, integer *incx, doublereal *dy, integer *i
     ix = 1;
     iy = 1;
     if (*incx < 0) {
-	ix = (-(*n) + 1) * *incx + 1;
+        ix = (-(*n) + 1) * *incx + 1;
     }
     if (*incy < 0) {
-	iy = (-(*n) + 1) * *incy + 1;
+        iy = (-(*n) + 1) * *incy + 1;
     }
     i__1 = *n;
     for (i = 1; i <= i__1; ++i) {
-	dy[iy] = dx[ix];
-	ix += *incx;
-	iy += *incy;
+        dy[iy] = dx[ix];
+        ix += *incx;
+        iy += *incy;
 /* L10: */
     }
     return 0;
@@ -68,27 +68,27 @@ int dcopy_(integer *n, doublereal *dx, integer *incx, doublereal *dy, integer *i
 L20:
     m = *n % 7;
     if (m == 0) {
-	goto L40;
+        goto L40;
     }
     i__1 = m;
     for (i = 1; i <= i__1; ++i) {
-	dy[i] = dx[i];
+        dy[i] = dx[i];
 /* L30: */
     }
     if (*n < 7) {
-	return 0;
+        return 0;
     }
 L40:
     mp1 = m + 1;
     i__1 = *n;
     for (i = mp1; i <= i__1; i += 7) {
-	dy[i] = dx[i];
-	dy[i + 1] = dx[i + 1];
-	dy[i + 2] = dx[i + 2];
-	dy[i + 3] = dx[i + 3];
-	dy[i + 4] = dx[i + 4];
-	dy[i + 5] = dx[i + 5];
-	dy[i + 6] = dx[i + 6];
+        dy[i] = dx[i];
+        dy[i + 1] = dx[i + 1];
+        dy[i + 2] = dx[i + 2];
+        dy[i + 3] = dx[i + 3];
+        dy[i + 4] = dx[i + 4];
+        dy[i + 5] = dx[i + 5];
+        dy[i + 6] = dx[i + 6];
 /* L50: */
     }
     return 0;

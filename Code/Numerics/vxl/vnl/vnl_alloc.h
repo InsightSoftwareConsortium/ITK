@@ -1,13 +1,12 @@
 #ifndef vnl_alloc_h_
 #define vnl_alloc_h_
 
-// .NAME vnl_alloc
-// .HEADER vxl package
-// .LIBRARY vnl
-// .INCLUDE vnl/vnl_alloc.h
-// .FILE vnl_alloc.cxx
+// This is vxl/vnl/vnl_alloc.h
+
+//:
+// \file
+// \author unknown
 //
-// .SECTION Description
 // Default node allocator.
 // With a reasonable compiler, this should be roughly as fast as the
 // original STL class-specific allocators, but with less fragmentation.

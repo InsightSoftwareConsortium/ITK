@@ -1,6 +1,6 @@
 /*  -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -40,7 +40,7 @@ doublereal *x, *y, *z;
 /*  Z       (input) DOUBLE PRECISION */
 /*          X, Y and Z specify the values x, y and z. */
 
-/*  ===================================================================== 
+/*  =====================================================================
 */
 
 /*     .. Parameters .. */
@@ -58,15 +58,15 @@ doublereal *x, *y, *z;
     d__1 = max(xabs,yabs);
     w = max(d__1,zabs);
     if (w == 0.) {
-	ret_val = 0.;
+        ret_val = 0.;
     } else {
 /* Computing 2nd power */
-	d__1 = xabs / w;
+        d__1 = xabs / w;
 /* Computing 2nd power */
-	d__2 = yabs / w;
+        d__2 = yabs / w;
 /* Computing 2nd power */
-	d__3 = zabs / w;
-	ret_val = w * sqrt(d__1 * d__1 + d__2 * d__2 + d__3 * d__3);
+        d__3 = zabs / w;
+        ret_val = w * sqrt(d__1 * d__1 + d__2 * d__2 + d__3 * d__3);
     }
     return ret_val;
 

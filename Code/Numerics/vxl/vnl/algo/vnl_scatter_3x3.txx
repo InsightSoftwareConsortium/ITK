@@ -1,5 +1,5 @@
 //-*- c++ -*-------------------------------------------------------------------
-// Class: vnl_scatter_3x3
+// vnl_scatter_3x3
 // Author: Andrew W. Fitzgibbon, Oxford RRG
 // Created: 02 Oct 96
 //-----------------------------------------------------------------------------
@@ -15,7 +15,7 @@ vnl_scatter_3x3<T>::vnl_scatter_3x3()
   , eigenvectors_currentp(false)
 {
 }
-  
+
 template <class T>
 void vnl_scatter_3x3<T>::add_outer_product(const vnl_vector_fixed<T,3> & v)
   // awf/gcc-2.7.2: vnl_scatter_3x3<T>::vect doesn't work in the arglist
@@ -30,10 +30,10 @@ void vnl_scatter_3x3<T>::add_outer_product(const vnl_vector_fixed<T,3> & v)
     }
   }
 }
-  
+
 template <class T>
 void vnl_scatter_3x3<T>::add_outer_product(const vnl_vector_fixed<T,3> & u,
-					   const vnl_vector_fixed<T,3> & v)
+                                           const vnl_vector_fixed<T,3> & v)
 {
   vnl_scatter_3x3<T> & S = *this;
   for(int i = 0; i < 3; ++i)
@@ -61,13 +61,13 @@ void vnl_scatter_3x3<T>::compute_eigensystem()
 {
   vnl_scatter_3x3<T> &S = *this;
   if (symmetricp)
-    vnl_symmetric_eigensystem<T>::compute(S, V_, D);
+    vnl_symmetric_eigensystem_compute(S, V_, D);
   else
     vcl_cerr << "Unsymmetric scatter not handled now\n";
- 
+
   eigenvectors_currentp = true;
 }
-  
+
 //--------------------------------------------------------------------------------
 
 #define VNL_SCATTER_3X3_INSTANTIATE(T) \

@@ -1,6 +1,6 @@
 /*  -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -47,9 +47,9 @@ integer *lwork, *info;
 /*  Purpose */
 /*  ======= */
 
-/*  ZUNGQR generates an M-by-N complex matrix Q with orthonormal columns, 
+/*  ZUNGQR generates an M-by-N complex matrix Q with orthonormal columns,
 */
-/*  which is defined as the first N columns of a product of K elementary 
+/*  which is defined as the first N columns of a product of K elementary
 */
 /*  reflectors of order M */
 
@@ -67,13 +67,13 @@ integer *lwork, *info;
 /*          The number of columns of the matrix Q. M >= N >= 0. */
 
 /*  K       (input) INTEGER */
-/*          The number of elementary reflectors whose product defines the 
+/*          The number of elementary reflectors whose product defines the
 */
 /*          matrix Q. N >= K >= 0. */
 
 /*  A       (input/output) COMPLEX*16 array, dimension (LDA,N) */
 /*          On entry, the i-th column must contain the vector which */
-/*          defines the elementary reflector H(i), for i = 1,2,...,k, as 
+/*          defines the elementary reflector H(i), for i = 1,2,...,k, as
 */
 /*          returned by ZGEQRF in the first k columns of its array */
 /*          argument A. */
@@ -98,7 +98,7 @@ integer *lwork, *info;
 /*          = 0:  successful exit */
 /*          < 0:  if INFO = -i, the i-th argument has an illegal value */
 
-/*  ===================================================================== 
+/*  =====================================================================
 */
 
 /*     .. Parameters .. */
@@ -125,27 +125,27 @@ integer *lwork, *info;
     /* Function Body */
     *info = 0;
     if (*m < 0) {
-	*info = -1;
+        *info = -1;
     } else if (*n < 0 || *n > *m) {
-	*info = -2;
+        *info = -2;
     } else if (*k < 0 || *k > *n) {
-	*info = -3;
+        *info = -3;
     } else if (*lda < max(1,*m)) {
-	*info = -5;
+        *info = -5;
     } else if (*lwork < max(1,*n)) {
-	*info = -8;
+        *info = -8;
     }
     if (*info != 0) {
-	i__1 = -(*info);
-	xerbla_("ZUNGQR", &i__1, 6L);
-	return 0;
+        i__1 = -(*info);
+        xerbla_("ZUNGQR", &i__1, 6L);
+        return 0;
     }
 
 /*     Quick return if possible */
 
     if (*n <= 0) {
-	work[1].r = 1., work[1].i = 0.;
-	return 0;
+        work[1].r = 1., work[1].i = 0.;
+        return 0;
     }
 
 /*     Determine the block size. */
@@ -160,29 +160,29 @@ integer *lwork, *info;
  */
 
 /* Computing MAX */
-	i__1 = 0, i__2 = ilaenv_(&c__3, "ZUNGQR", " ", m, n, k, &c_n1, 6L, 1L)
-		;
-	nx = max(i__1,i__2);
-	if (nx < *k) {
+        i__1 = 0, i__2 = ilaenv_(&c__3, "ZUNGQR", " ", m, n, k, &c_n1, 6L, 1L)
+                ;
+        nx = max(i__1,i__2);
+        if (nx < *k) {
 
 /*           Determine if workspace is large enough for blocked co
 de. */
 
-	    ldwork = *n;
-	    iws = ldwork * nb;
-	    if (*lwork < iws) {
+            ldwork = *n;
+            iws = ldwork * nb;
+            if (*lwork < iws) {
 
 /*              Not enough workspace to use optimal NB:  reduc
 e NB and */
 /*              determine the minimum value of NB. */
 
-		nb = *lwork / ldwork;
+                nb = *lwork / ldwork;
 /* Computing MAX */
-		i__1 = 2, i__2 = ilaenv_(&c__2, "ZUNGQR", " ", m, n, k, &c_n1,
-			 6L, 1L);
-		nbmin = max(i__1,i__2);
-	    }
-	}
+                i__1 = 2, i__2 = ilaenv_(&c__2, "ZUNGQR", " ", m, n, k, &c_n1,
+                         6L, 1L);
+                nbmin = max(i__1,i__2);
+            }
+        }
     }
 
     if (nb >= nbmin && nb < *k && nx < *k) {
@@ -190,86 +190,86 @@ e NB and */
 /*        Use blocked code after the last block. */
 /*        The first kk columns are handled by the block method. */
 
-	ki = (*k - nx - 1) / nb * nb;
+        ki = (*k - nx - 1) / nb * nb;
 /* Computing MIN */
-	i__1 = *k, i__2 = ki + nb;
-	kk = min(i__1,i__2);
+        i__1 = *k, i__2 = ki + nb;
+        kk = min(i__1,i__2);
 
 /*        Set A(1:kk,kk+1:n) to zero. */
 
-	i__1 = *n;
-	for (j = kk + 1; j <= i__1; ++j) {
-	    i__2 = kk;
-	    for (i = 1; i <= i__2; ++i) {
-		i__3 = i + j * a_dim1;
-		a[i__3].r = 0., a[i__3].i = 0.;
+        i__1 = *n;
+        for (j = kk + 1; j <= i__1; ++j) {
+            i__2 = kk;
+            for (i = 1; i <= i__2; ++i) {
+                i__3 = i + j * a_dim1;
+                a[i__3].r = 0., a[i__3].i = 0.;
 /* L10: */
-	    }
+            }
 /* L20: */
-	}
+        }
     } else {
-	kk = 0;
+        kk = 0;
     }
 
 /*     Use unblocked code for the last or only block. */
 
     if (kk < *n) {
-	i__1 = *m - kk;
-	i__2 = *n - kk;
-	i__3 = *k - kk;
-	zung2r_(&i__1, &i__2, &i__3, &a[kk + 1 + (kk + 1) * a_dim1], lda, &
-		tau[kk + 1], &work[1], &iinfo);
+        i__1 = *m - kk;
+        i__2 = *n - kk;
+        i__3 = *k - kk;
+        zung2r_(&i__1, &i__2, &i__3, &a[kk + 1 + (kk + 1) * a_dim1], lda, &
+                tau[kk + 1], &work[1], &iinfo);
     }
 
     if (kk > 0) {
 
 /*        Use blocked code */
 
-	i__1 = -nb;
-	for (i = ki + 1; i__1 < 0 ? i >= 1 : i <= 1; i += i__1) {
+        i__1 = -nb;
+        for (i = ki + 1; i__1 < 0 ? i >= 1 : i <= 1; i += i__1) {
 /* Computing MIN */
-	    i__2 = nb, i__3 = *k - i + 1;
-	    ib = min(i__2,i__3);
-	    if (i + ib <= *n) {
+            i__2 = nb, i__3 = *k - i + 1;
+            ib = min(i__2,i__3);
+            if (i + ib <= *n) {
 
 /*              Form the triangular factor of the block reflec
 tor */
 /*              H = H(i) H(i+1) . . . H(i+ib-1) */
 
-		i__2 = *m - i + 1;
-		zlarft_("Forward", "Columnwise", &i__2, &ib, &a[i + i * 
-			a_dim1], lda, &tau[i], &work[1], &ldwork, 7L, 10L);
+                i__2 = *m - i + 1;
+                zlarft_("Forward", "Columnwise", &i__2, &ib, &a[i + i *
+                        a_dim1], lda, &tau[i], &work[1], &ldwork, 7L, 10L);
 
 /*              Apply H to A(i:m,i+ib:n) from the left */
 
-		i__2 = *m - i + 1;
-		i__3 = *n - i - ib + 1;
-		zlarfb_("Left", "No transpose", "Forward", "Columnwise", &
-			i__2, &i__3, &ib, &a[i + i * a_dim1], lda, &work[1], &
-			ldwork, &a[i + (i + ib) * a_dim1], lda, &work[ib + 1],
-			 &ldwork, 4L, 12L, 7L, 10L);
-	    }
+                i__2 = *m - i + 1;
+                i__3 = *n - i - ib + 1;
+                zlarfb_("Left", "No transpose", "Forward", "Columnwise", &
+                        i__2, &i__3, &ib, &a[i + i * a_dim1], lda, &work[1], &
+                        ldwork, &a[i + (i + ib) * a_dim1], lda, &work[ib + 1],
+                         &ldwork, 4L, 12L, 7L, 10L);
+            }
 
 /*           Apply H to rows i:m of current block */
 
-	    i__2 = *m - i + 1;
-	    zung2r_(&i__2, &ib, &ib, &a[i + i * a_dim1], lda, &tau[i], &work[
-		    1], &iinfo);
+            i__2 = *m - i + 1;
+            zung2r_(&i__2, &ib, &ib, &a[i + i * a_dim1], lda, &tau[i], &work[
+                    1], &iinfo);
 
 /*           Set rows 1:i-1 of current block to zero */
 
-	    i__2 = i + ib - 1;
-	    for (j = i; j <= i__2; ++j) {
-		i__3 = i - 1;
-		for (l = 1; l <= i__3; ++l) {
-		    i__4 = l + j * a_dim1;
-		    a[i__4].r = 0., a[i__4].i = 0.;
+            i__2 = i + ib - 1;
+            for (j = i; j <= i__2; ++j) {
+                i__3 = i - 1;
+                for (l = 1; l <= i__3; ++l) {
+                    i__4 = l + j * a_dim1;
+                    a[i__4].r = 0., a[i__4].i = 0.;
 /* L30: */
-		}
+                }
 /* L40: */
-	    }
+            }
 /* L50: */
-	}
+        }
     }
 
     work[1].r = (doublereal) iws, work[1].i = 0.;

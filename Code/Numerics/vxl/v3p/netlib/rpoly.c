@@ -1,6 +1,6 @@
 /* rpoly.f -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -9,7 +9,7 @@
 
 struct {
     doublereal p[101], qp[101], k[101], qk[101], svk[101], sr, si, u, v, a, b,
-	     c, d, a1, a2, a3, a6, a7, e, f, g, h, szr, szi, lzr, lzi;
+             c, d, a1, a2, a3, a6, a7, e, f, g, h, szr, szi, lzr, lzi;
     real eta, are, mre;
     integer n, nn;
 } global_;
@@ -127,7 +127,7 @@ logical *fail;
     global_1.nn = global_1.n + 1;
 /* ALGORITHM FAILS IF THE LEADING COEFFICIENT IS ZERO. */
     if (op[1] != 0.) {
-	goto L10;
+        goto L10;
     }
     *fail = TRUE_;
     *degree = 0;
@@ -135,7 +135,7 @@ logical *fail;
 /* REMOVE THE ZEROS AT THE ORIGIN IF ANY */
 L10:
     if (op[global_1.nn] != 0.) {
-	goto L20;
+        goto L20;
     }
     j = *degree - global_1.n + 1;
     zeror[j] = 0.;
@@ -147,27 +147,27 @@ L10:
 L20:
     i__1 = global_1.nn;
     for (i = 1; i <= i__1; ++i) {
-	global_1.p[i - 1] = op[i];
+        global_1.p[i - 1] = op[i];
 /* L30: */
     }
 /* START THE ALGORITHM FOR ONE ZERO */
 L40:
     if (global_1.n > 2) {
-	goto L60;
+        goto L60;
     }
     if (global_1.n < 1) {
-	return 0;
+        return 0;
     }
 /* CALCULATE THE FINAL ZERO OR PAIR OF ZEROS */
     if (global_1.n == 2) {
-	goto L50;
+        goto L50;
     }
     zeror[*degree] = -global_1.p[1] / global_1.p[0];
     zeroi[*degree] = 0.;
     return 0;
 L50:
     quad_(global_1.p, &global_1.p[1], &global_1.p[2], &zeror[*degree - 1], &
-	    zeroi[*degree - 1], &zeror[*degree], &zeroi[*degree]);
+            zeroi[*degree - 1], &zeror[*degree], &zeroi[*degree]);
     return 0;
 /* FIND LARGEST AND SMALLEST MODULI OF COEFFICIENTS. */
 L60:
@@ -175,13 +175,13 @@ L60:
     min_ = infin;
     i__1 = global_1.nn;
     for (i = 1; i <= i__1; ++i) {
-	x = (r__1 = global_1.p[i - 1], dabs(r__1));
-	if (x > max_) {
-	    max_ = x;
-	}
-	if (x != (float)0. && x < min_) {
-	    min_ = x;
-	}
+        x = (r__1 = global_1.p[i - 1], dabs(r__1));
+        if (x > max_) {
+            max_ = x;
+        }
+        if (x != (float)0. && x < min_) {
+            min_ = x;
+        }
 /* L70: */
     }
 /* SCALE IF THERE ARE LARGE OR VERY SMALL COEFFICIENTS */
@@ -192,49 +192,49 @@ L60:
 /* THE FACTOR IS A POWER OF THE BASE */
     sc = lo / min_;
     if (sc > (float)1.) {
-	goto L80;
+        goto L80;
     }
     if (max_ < (float)10.) {
-	goto L110;
+        goto L110;
     }
     if (sc == (float)0.) {
-	sc = smalno;
+        sc = smalno;
     }
     goto L90;
 L80:
     if (infin / sc < max_) {
-	goto L110;
+        goto L110;
     }
 L90:
     l = log(sc) / log(base) + (float).5;
     d__1 = base * 1.;
     factor = pow_di(&d__1, &l);
     if (factor == 1.) {
-	goto L110;
+        goto L110;
     }
     i__1 = global_1.nn;
     for (i = 1; i <= i__1; ++i) {
-	global_1.p[i - 1] = factor * global_1.p[i - 1];
+        global_1.p[i - 1] = factor * global_1.p[i - 1];
 /* L100: */
     }
 /* COMPUTE LOWER BOUND ON MODULI OF ZEROS. */
 L110:
     i__1 = global_1.nn;
     for (i = 1; i <= i__1; ++i) {
-	pt[i - 1] = (r__1 = global_1.p[i - 1], dabs(r__1));
+        pt[i - 1] = (r__1 = global_1.p[i - 1], dabs(r__1));
 /* L120: */
     }
     pt[global_1.nn - 1] = -(doublereal)pt[global_1.nn - 1];
 /* COMPUTE UPPER ESTIMATE OF BOUND */
-    x = exp((log(-(doublereal)pt[global_1.nn - 1]) - log(pt[0])) / (real) 
-	    global_1.n);
+    x = exp((log(-(doublereal)pt[global_1.nn - 1]) - log(pt[0])) / (real)
+            global_1.n);
     if (pt[global_1.n - 1] == (float)0.) {
-	goto L130;
+        goto L130;
     }
 /* IF NEWTON STEP AT THE ORIGIN IS BETTER, USE IT. */
     xm = -(doublereal)pt[global_1.nn - 1] / pt[global_1.n - 1];
     if (xm < x) {
-	x = xm;
+        x = xm;
     }
 /* CHOP THE INTERVAL (0,X) UNTIL FF .LE. 0 */
 L130:
@@ -242,11 +242,11 @@ L130:
     ff = pt[0];
     i__1 = global_1.nn;
     for (i = 2; i <= i__1; ++i) {
-	ff = ff * xm + pt[i - 1];
+        ff = ff * xm + pt[i - 1];
 /* L140: */
     }
     if (ff <= (float)0.) {
-	goto L150;
+        goto L150;
     }
     x = xm;
     goto L130;
@@ -256,14 +256,14 @@ L150:
 /* DECIMAL PLACES */
 L160:
     if ((r__1 = dx / x, dabs(r__1)) <= (float).005) {
-	goto L180;
+        goto L180;
     }
     ff = pt[0];
     df = ff;
     i__1 = global_1.n;
     for (i = 2; i <= i__1; ++i) {
-	ff = ff * x + pt[i - 1];
-	df = df * x + ff;
+        ff = ff * x + pt[i - 1];
+        df = df * x + ff;
 /* L170: */
     }
     ff = ff * x + pt[global_1.nn - 1];
@@ -277,8 +277,8 @@ L180:
     nm1 = global_1.n - 1;
     i__1 = global_1.n;
     for (i = 2; i <= i__1; ++i) {
-	global_1.k[i - 1] = (real) (global_1.nn - i) * global_1.p[i - 1] / (
-		real) global_1.n;
+        global_1.k[i - 1] = (real) (global_1.nn - i) * global_1.p[i - 1] / (
+                real) global_1.n;
 /* L190: */
     }
     global_1.k[0] = global_1.p[0];
@@ -286,40 +286,40 @@ L180:
     bb = global_1.p[global_1.n - 1];
     zerok = global_1.k[global_1.n - 1] == 0.;
     for (jj = 1; jj <= 5; ++jj) {
-	cc = global_1.k[global_1.n - 1];
-	if (zerok) {
-	    goto L210;
-	}
+        cc = global_1.k[global_1.n - 1];
+        if (zerok) {
+            goto L210;
+        }
 /* USE SCALED FORM OF RECURRENCE IF VALUE OF K AT 0 IS */
 /* NONZERO */
-	t = -aa / cc;
-	i__1 = nm1;
-	for (i = 1; i <= i__1; ++i) {
-	    j = global_1.nn - i;
-	    global_1.k[j - 1] = t * global_1.k[j - 2] + global_1.p[j - 1];
+        t = -aa / cc;
+        i__1 = nm1;
+        for (i = 1; i <= i__1; ++i) {
+            j = global_1.nn - i;
+            global_1.k[j - 1] = t * global_1.k[j - 2] + global_1.p[j - 1];
 /* L200: */
-	}
-	global_1.k[0] = global_1.p[0];
-	zerok = (d__1 = global_1.k[global_1.n - 1], abs(d__1)) <= abs(bb) * 
-		global_1.eta * (float)10.;
-	goto L230;
+        }
+        global_1.k[0] = global_1.p[0];
+        zerok = (d__1 = global_1.k[global_1.n - 1], abs(d__1)) <= abs(bb) *
+                global_1.eta * (float)10.;
+        goto L230;
 /* USE UNSCALED FORM OF RECURRENCE */
 L210:
-	i__1 = nm1;
-	for (i = 1; i <= i__1; ++i) {
-	    j = global_1.nn - i;
-	    global_1.k[j - 1] = global_1.k[j - 2];
+        i__1 = nm1;
+        for (i = 1; i <= i__1; ++i) {
+            j = global_1.nn - i;
+            global_1.k[j - 1] = global_1.k[j - 2];
 /* L220: */
-	}
-	global_1.k[0] = 0.;
-	zerok = global_1.k[global_1.n - 1] == 0.;
+        }
+        global_1.k[0] = 0.;
+        zerok = global_1.k[global_1.n - 1] == 0.;
 L230:
-	;
+        ;
     }
 /* SAVE K FOR RESTARTS WITH NEW SHIFTS */
     i__1 = global_1.n;
     for (i = 1; i <= i__1; ++i) {
-	temp[i - 1] = global_1.k[i - 1];
+        temp[i - 1] = global_1.k[i - 1];
 /* L240: */
     }
 /* LOOP TO SELECT THE QUADRATIC  CORRESPONDING TO EACH */
@@ -329,47 +329,47 @@ L230:
 /* NON-REAL POINT AND ITS COMPLEX CONJUGATE. THE POINT */
 /* HAS MODULUS BND AND AMPLITUDE ROTATED BY 94 DEGREES */
 /* FROM THE PREVIOUS SHIFT */
-	xxx = cosr * xx - sinr * yy;
-	yy = sinr * xx + cosr * yy;
-	xx = xxx;
-	global_1.sr = bnd * xx;
-	global_1.si = bnd * yy;
-	global_1.u = global_1.sr * -2.;
-	global_1.v = bnd;
+        xxx = cosr * xx - sinr * yy;
+        yy = sinr * xx + cosr * yy;
+        xx = xxx;
+        global_1.sr = bnd * xx;
+        global_1.si = bnd * yy;
+        global_1.u = global_1.sr * -2.;
+        global_1.v = bnd;
 /* SECOND STAGE CALCULATION, FIXED QUADRATIC */
-	i__1 = cnt * 20;
-	fxshfr_(&i__1, &nz);
-	if (nz == 0) {
-	    goto L260;
-	}
+        i__1 = cnt * 20;
+        fxshfr_(&i__1, &nz);
+        if (nz == 0) {
+            goto L260;
+        }
 /* THE SECOND STAGE JUMPS DIRECTLY TO ONE OF THE THIRD */
 /* STAGE ITERATIONS AND RETURNS HERE IF SUCCESSFUL. */
 /* DEFLATE THE POLYNOMIAL, STORE THE ZERO OR ZEROS AND */
 /* RETURN TO THE MAIN ALGORITHM. */
-	j = *degree - global_1.n + 1;
-	zeror[j] = global_1.szr;
-	zeroi[j] = global_1.szi;
-	global_1.nn -= nz;
-	global_1.n = global_1.nn - 1;
-	i__1 = global_1.nn;
-	for (i = 1; i <= i__1; ++i) {
-	    global_1.p[i - 1] = global_1.qp[i - 1];
+        j = *degree - global_1.n + 1;
+        zeror[j] = global_1.szr;
+        zeroi[j] = global_1.szi;
+        global_1.nn -= nz;
+        global_1.n = global_1.nn - 1;
+        i__1 = global_1.nn;
+        for (i = 1; i <= i__1; ++i) {
+            global_1.p[i - 1] = global_1.qp[i - 1];
 /* L250: */
-	}
-	if (nz == 1) {
-	    goto L40;
-	}
-	zeror[j + 1] = global_1.lzr;
-	zeroi[j + 1] = global_1.lzi;
-	goto L40;
+        }
+        if (nz == 1) {
+            goto L40;
+        }
+        zeror[j + 1] = global_1.lzr;
+        zeroi[j + 1] = global_1.lzi;
+        goto L40;
 /* IF THE ITERATION IS UNSUCCESSFUL ANOTHER QUADRATIC */
 /* IS CHOSEN AFTER RESTORING K */
 L260:
-	i__1 = global_1.n;
-	for (i = 1; i <= i__1; ++i) {
-	    global_1.k[i - 1] = temp[i - 1];
+        i__1 = global_1.n;
+        for (i = 1; i <= i__1; ++i) {
+            global_1.k[i - 1] = temp[i - 1];
 /* L270: */
-	}
+        }
 /* L280: */
     }
 /* RETURN WITH FAILURE IF NO CONVERGENCE WITH 20 */
@@ -417,126 +417,126 @@ integer *l2, *nz;
     ovv = global_1.v;
 /* EVALUATE POLYNOMIAL BY SYNTHETIC DIVISION */
     quadsd_(&global_1.nn, &global_1.u, &global_1.v, global_1.p, global_1.qp, &
-	    global_1.a, &global_1.b);
+            global_1.a, &global_1.b);
     calcsc_(&type);
     i__1 = *l2;
     for (j = 1; j <= i__1; ++j) {
 /* CALCULATE NEXT K POLYNOMIAL AND ESTIMATE V */
-	nextk_(&type);
-	calcsc_(&type);
-	newest_(&type, &ui, &vi);
-	vv = vi;
+        nextk_(&type);
+        calcsc_(&type);
+        newest_(&type, &ui, &vi);
+        vv = vi;
 /* ESTIMATE S */
-	ss = (float)0.;
-	if (global_1.k[global_1.n - 1] != 0.) {
-	    ss = -global_1.p[global_1.nn - 1] / global_1.k[global_1.n - 1];
-	}
-	tv = (float)1.;
-	ts = (float)1.;
-	if (j == 1 || type == 3) {
-	    goto L70;
-	}
+        ss = (float)0.;
+        if (global_1.k[global_1.n - 1] != 0.) {
+            ss = -global_1.p[global_1.nn - 1] / global_1.k[global_1.n - 1];
+        }
+        tv = (float)1.;
+        ts = (float)1.;
+        if (j == 1 || type == 3) {
+            goto L70;
+        }
 /* COMPUTE RELATIVE MEASURES OF CONVERGENCE OF S AND V */
 /* SEQUENCES */
-	if (vv != (float)0.) {
-	    tv = (r__1 = (vv - ovv) / vv, dabs(r__1));
-	}
-	if (ss != (float)0.) {
-	    ts = (r__1 = (ss - oss) / ss, dabs(r__1));
-	}
+        if (vv != (float)0.) {
+            tv = (r__1 = (vv - ovv) / vv, dabs(r__1));
+        }
+        if (ss != (float)0.) {
+            ts = (r__1 = (ss - oss) / ss, dabs(r__1));
+        }
 /* IF DECREASING, MULTIPLY TWO MOST RECENT */
 /* CONVERGENCE MEASURES */
-	tvv = (float)1.;
-	if (tv < otv) {
-	    tvv = tv * otv;
-	}
-	tss = (float)1.;
-	if (ts < ots) {
-	    tss = ts * ots;
-	}
+        tvv = (float)1.;
+        if (tv < otv) {
+            tvv = tv * otv;
+        }
+        tss = (float)1.;
+        if (ts < ots) {
+            tss = ts * ots;
+        }
 /* COMPARE WITH CONVERGENCE CRITERIA */
-	vpass = tvv < betav;
-	spass = tss < betas;
-	if (! (spass || vpass)) {
-	    goto L70;
-	}
+        vpass = tvv < betav;
+        spass = tss < betas;
+        if (! (spass || vpass)) {
+            goto L70;
+        }
 /* AT LEAST ONE SEQUENCE HAS PASSED THE CONVERGENCE */
 /* TEST. STORE VARIABLES BEFORE ITERATING */
-	svu = global_1.u;
-	svv = global_1.v;
-	i__2 = global_1.n;
-	for (i = 1; i <= i__2; ++i) {
-	    global_1.svk[i - 1] = global_1.k[i - 1];
+        svu = global_1.u;
+        svv = global_1.v;
+        i__2 = global_1.n;
+        for (i = 1; i <= i__2; ++i) {
+            global_1.svk[i - 1] = global_1.k[i - 1];
 /* L10: */
-	}
-	s = ss;
+        }
+        s = ss;
 /* CHOOSE ITERATION ACCORDING TO THE FASTEST */
 /* CONVERGING SEQUENCE */
-	vtry = FALSE_;
-	stry = FALSE_;
-	if (spass && (! vpass || tss < tvv)) {
-	    goto L40;
-	}
+        vtry = FALSE_;
+        stry = FALSE_;
+        if (spass && (! vpass || tss < tvv)) {
+            goto L40;
+        }
 L20:
-	quadit_(&ui, &vi, nz);
-	if (*nz > 0) {
-	    return 0;
-	}
+        quadit_(&ui, &vi, nz);
+        if (*nz > 0) {
+            return 0;
+        }
 /* QUADRATIC ITERATION HAS FAILED. FLAG THAT IT HAS */
 /* BEEN TRIED AND DECREASE THE CONVERGENCE CRITERION. */
-	vtry = TRUE_;
-	betav *= (float).25;
+        vtry = TRUE_;
+        betav *= (float).25;
 /* TRY LINEAR ITERATION IF IT HAS NOT BEEN TRIED AND */
 /* THE S SEQUENCE IS CONVERGING */
-	if (stry || ! spass) {
-	    goto L50;
-	}
-	i__2 = global_1.n;
-	for (i = 1; i <= i__2; ++i) {
-	    global_1.k[i - 1] = global_1.svk[i - 1];
+        if (stry || ! spass) {
+            goto L50;
+        }
+        i__2 = global_1.n;
+        for (i = 1; i <= i__2; ++i) {
+            global_1.k[i - 1] = global_1.svk[i - 1];
 /* L30: */
-	}
+        }
 L40:
-	realit_(&s, nz, &iflag);
-	if (*nz > 0) {
-	    return 0;
-	}
+        realit_(&s, nz, &iflag);
+        if (*nz > 0) {
+            return 0;
+        }
 /* LINEAR ITERATION HAS FAILED. FLAG THAT IT HAS BEEN */
 /* TRIED AND DECREASE THE CONVERGENCE CRITERION */
-	stry = TRUE_;
-	betas *= (float).25;
-	if (iflag == 0) {
-	    goto L50;
-	}
+        stry = TRUE_;
+        betas *= (float).25;
+        if (iflag == 0) {
+            goto L50;
+        }
 /* IF LINEAR ITERATION SIGNALS AN ALMOST DOUBLE REAL */
 /* ZERO ATTEMPT QUADRATIC INTERATION */
-	ui = -(s + s);
-	vi = s * s;
-	goto L20;
+        ui = -(s + s);
+        vi = s * s;
+        goto L20;
 /* RESTORE VARIABLES */
 L50:
-	global_1.u = svu;
-	global_1.v = svv;
-	i__2 = global_1.n;
-	for (i = 1; i <= i__2; ++i) {
-	    global_1.k[i - 1] = global_1.svk[i - 1];
+        global_1.u = svu;
+        global_1.v = svv;
+        i__2 = global_1.n;
+        for (i = 1; i <= i__2; ++i) {
+            global_1.k[i - 1] = global_1.svk[i - 1];
 /* L60: */
-	}
+        }
 /* TRY QUADRATIC ITERATION IF IT HAS NOT BEEN TRIED */
 /* AND THE V SEQUENCE IS CONVERGING */
-	if (vpass && ! vtry) {
-	    goto L20;
-	}
+        if (vpass && ! vtry) {
+            goto L20;
+        }
 /* RECOMPUTE QP AND SCALAR VALUES TO CONTINUE THE */
 /* SECOND STAGE */
-	quadsd_(&global_1.nn, &global_1.u, &global_1.v, global_1.p, 
-		global_1.qp, &global_1.a, &global_1.b);
-	calcsc_(&type);
+        quadsd_(&global_1.nn, &global_1.u, &global_1.v, global_1.p,
+                global_1.qp, &global_1.a, &global_1.b);
+        calcsc_(&type);
 L70:
-	ovv = vv;
-	oss = ss;
-	otv = tv;
-	ots = ts;
+        ovv = vv;
+        oss = ss;
+        otv = tv;
+        ots = ts;
 /* L80: */
     }
     return 0;
@@ -580,19 +580,19 @@ integer *nz;
 /* MAIN LOOP */
 L10:
     quad_(&c_b41, &global_1.u, &global_1.v, &global_1.szr, &global_1.szi, &
-	    global_1.lzr, &global_1.lzi);
+            global_1.lzr, &global_1.lzi);
 /* RETURN IF ROOTS OF THE QUADRATIC ARE REAL AND NOT */
 /* CLOSE TO MULTIPLE OR NEARLY EQUAL AND  OF OPPOSITE */
 /* SIGN */
     if ((d__1 = abs(global_1.szr) - abs(global_1.lzr), abs(d__1)) > abs(
-	    global_1.lzr) * .01) {
-	return 0;
+            global_1.lzr) * .01) {
+        return 0;
     }
 /* EVALUATE POLYNOMIAL BY QUADRATIC SYNTHETIC DIVISION */
     quadsd_(&global_1.nn, &global_1.u, &global_1.v, global_1.p, global_1.qp, &
-	    global_1.a, &global_1.b);
-    mp = (d__1 = global_1.a - global_1.szr * global_1.b, abs(d__1)) + (d__2 = 
-	    global_1.szi * global_1.b, abs(d__2));
+            global_1.a, &global_1.b);
+    mp = (d__1 = global_1.a - global_1.szr * global_1.b, abs(d__1)) + (d__2 =
+            global_1.szi * global_1.b, abs(d__2));
 /* COMPUTE A RIGOROUS  BOUND ON THE ROUNDING ERROR IN */
 /* EVALUTING P */
     zm = sqrt((r__1 = global_1.v, dabs(r__1)));
@@ -600,18 +600,18 @@ L10:
     t = -global_1.szr * global_1.b;
     i__1 = global_1.n;
     for (i = 2; i <= i__1; ++i) {
-	ee = ee * zm + (r__1 = global_1.qp[i - 1], dabs(r__1));
+        ee = ee * zm + (r__1 = global_1.qp[i - 1], dabs(r__1));
 /* L20: */
     }
     ee = ee * zm + (r__1 = global_1.a + t, dabs(r__1));
     ee = (global_1.mre * (float)5. + global_1.are * (float)4.) * ee - (
-	    global_1.mre * (float)5. + global_1.are * (float)2.) * ((r__1 = 
-	    global_1.a + t, dabs(r__1)) + (r__2 = global_1.b, dabs(r__2)) * 
-	    zm) + global_1.are * (float)2. * dabs(t);
+            global_1.mre * (float)5. + global_1.are * (float)2.) * ((r__1 =
+            global_1.a + t, dabs(r__1)) + (r__2 = global_1.b, dabs(r__2)) *
+            zm) + global_1.are * (float)2. * dabs(t);
 /* ITERATION HAS CONVERGED SUFFICIENTLY IF THE */
 /* POLYNOMIAL VALUE IS LESS THAN 20 TIMES THIS BOUND */
     if (mp > ee * (float)20.) {
-	goto L30;
+        goto L30;
     }
     *nz = 2;
     return 0;
@@ -619,28 +619,28 @@ L30:
     ++j;
 /* STOP ITERATION AFTER 20 STEPS */
     if (j > 20) {
-	return 0;
+        return 0;
     }
     if (j < 2) {
-	goto L50;
+        goto L50;
     }
     if (relstp > (float).01 || mp < omp || tried) {
-	goto L50;
+        goto L50;
     }
 /* A CLUSTER APPEARS TO BE STALLING THE CONVERGENCE. */
 /* FIVE FIXED SHIFT STEPS ARE TAKEN WITH A U,V CLOSE */
 /* TO THE CLUSTER */
     if (relstp < global_1.eta) {
-	relstp = global_1.eta;
+        relstp = global_1.eta;
     }
     relstp = sqrt(relstp);
     global_1.u -= global_1.u * relstp;
     global_1.v += global_1.v * relstp;
     quadsd_(&global_1.nn, &global_1.u, &global_1.v, global_1.p, global_1.qp, &
-	    global_1.a, &global_1.b);
+            global_1.a, &global_1.b);
     for (i = 1; i <= 5; ++i) {
-	calcsc_(&type);
-	nextk_(&type);
+        calcsc_(&type);
+        nextk_(&type);
 /* L40: */
     }
     tried = TRUE_;
@@ -654,7 +654,7 @@ L50:
     newest_(&type, &ui, &vi);
 /* IF VI IS ZERO THE ITERATION IS NOT CONVERGING */
     if (vi == 0.) {
-	return 0;
+        return 0;
     }
     relstp = (d__1 = (vi - global_1.v) / vi, abs(d__1));
     global_1.u = ui;
@@ -697,8 +697,8 @@ L10:
     global_1.qp[0] = pv;
     i__1 = global_1.nn;
     for (i = 2; i <= i__1; ++i) {
-	pv = pv * s + global_1.p[i - 1];
-	global_1.qp[i - 1] = pv;
+        pv = pv * s + global_1.p[i - 1];
+        global_1.qp[i - 1] = pv;
 /* L20: */
     }
     mp = abs(pv);
@@ -706,17 +706,17 @@ L10:
 /* P */
     ms = abs(s);
     ee = global_1.mre / (global_1.are + global_1.mre) * (r__1 = global_1.qp[0]
-	    , dabs(r__1));
+            , dabs(r__1));
     i__1 = global_1.nn;
     for (i = 2; i <= i__1; ++i) {
-	ee = ee * ms + (r__1 = global_1.qp[i - 1], dabs(r__1));
+        ee = ee * ms + (r__1 = global_1.qp[i - 1], dabs(r__1));
 /* L30: */
     }
 /* ITERATION HAS CONVERGED SUFFICIENTLY IF THE */
 /* POLYNOMIAL VALUE IS LESS THAN 20 TIMES THIS BOUND */
     if (mp > ((global_1.are + global_1.mre) * ee - global_1.mre * mp) * (
-	    float)20.) {
-	goto L40;
+            float)20.) {
+        goto L40;
     }
     *nz = 1;
     global_1.szr = s;
@@ -726,13 +726,13 @@ L40:
     ++j;
 /* STOP ITERATION AFTER 10 STEPS */
     if (j > 10) {
-	return 0;
+        return 0;
     }
     if (j < 2) {
-	goto L50;
+        goto L50;
     }
     if (abs(t) > (d__1 = s - t, abs(d__1)) * (float).001 || mp <= omp) {
-	goto L50;
+        goto L50;
     }
 /* A CLUSTER OF ZEROS NEAR THE REAL AXIS HAS BEEN */
 /* ENCOUNTERED RETURN WITH IFLAG SET TO INITIATE A */
@@ -749,13 +749,13 @@ L50:
     global_1.qk[0] = kv;
     i__1 = global_1.n;
     for (i = 2; i <= i__1; ++i) {
-	kv = kv * s + global_1.k[i - 1];
-	global_1.qk[i - 1] = kv;
+        kv = kv * s + global_1.k[i - 1];
+        global_1.qk[i - 1] = kv;
 /* L60: */
     }
     if (abs(kv) <= (d__1 = global_1.k[global_1.n - 1], abs(d__1)) * (float)
-	    10. * global_1.eta) {
-	goto L80;
+            10. * global_1.eta) {
+        goto L80;
     }
 /* USE THE SCALED FORM OF THE RECURRENCE IF THE VALUE */
 /* OF K AT S IS NONZERO */
@@ -763,7 +763,7 @@ L50:
     global_1.k[0] = global_1.qp[0];
     i__1 = global_1.n;
     for (i = 2; i <= i__1; ++i) {
-	global_1.k[i - 1] = t * global_1.qk[i - 2] + global_1.qp[i - 1];
+        global_1.k[i - 1] = t * global_1.qk[i - 2] + global_1.qp[i - 1];
 /* L70: */
     }
     goto L100;
@@ -772,20 +772,20 @@ L80:
     global_1.k[0] = 0.;
     i__1 = global_1.n;
     for (i = 2; i <= i__1; ++i) {
-	global_1.k[i - 1] = global_1.qk[i - 2];
+        global_1.k[i - 1] = global_1.qk[i - 2];
 /* L90: */
     }
 L100:
     kv = global_1.k[0];
     i__1 = global_1.n;
     for (i = 2; i <= i__1; ++i) {
-	kv = kv * s + global_1.k[i - 1];
+        kv = kv * s + global_1.k[i - 1];
 /* L110: */
     }
     t = 0.;
-    if (abs(kv) > (d__1 = global_1.k[global_1.n - 1], abs(d__1)) * (float)10. 
-	    * global_1.eta) {
-	t = -pv / kv;
+    if (abs(kv) > (d__1 = global_1.k[global_1.n - 1], abs(d__1)) * (float)10.
+            * global_1.eta) {
+        t = -pv / kv;
     }
     s += t;
     goto L10;
@@ -807,14 +807,14 @@ integer *type;
 /* CALCULATIONS ARE NORMALIZED TO AVOID OVERFLOW */
 /* SYNTHETIC DIVISION OF K BY THE QUADRATIC 1,U,V */
     quadsd_(&global_1.n, &global_1.u, &global_1.v, global_1.k, global_1.qk, &
-	    global_1.c, &global_1.d);
+            global_1.c, &global_1.d);
     if (abs(global_1.c) > (d__1 = global_1.k[global_1.n - 1], abs(d__1)) * (
-	    float)100. * global_1.eta) {
-	goto L10;
+            float)100. * global_1.eta) {
+        goto L10;
     }
     if (abs(global_1.d) > (d__1 = global_1.k[global_1.n - 2], abs(d__1)) * (
-	    float)100. * global_1.eta) {
-	goto L10;
+            float)100. * global_1.eta) {
+        goto L10;
     }
     *type = 3;
 /* TYPE=3 INDICATES THE QUADRATIC IS ALMOST A FACTOR */
@@ -822,7 +822,7 @@ integer *type;
     return 0;
 L10:
     if (abs(global_1.d) < abs(global_1.c)) {
-	goto L20;
+        goto L20;
     }
     *type = 2;
 /* TYPE=2 INDICATES THAT ALL FORMULAS ARE DIVIDED BY D */
@@ -831,7 +831,7 @@ L10:
     global_1.g = global_1.u * global_1.b;
     global_1.h = global_1.v * global_1.b;
     global_1.a3 = (global_1.a + global_1.g) * global_1.e + global_1.h * (
-	    global_1.b / global_1.d);
+            global_1.b / global_1.d);
     global_1.a1 = global_1.b * global_1.f - global_1.a;
     global_1.a7 = (global_1.f + global_1.u) * global_1.a + global_1.h;
     return 0;
@@ -842,11 +842,11 @@ L20:
     global_1.f = global_1.d / global_1.c;
     global_1.g = global_1.u * global_1.e;
     global_1.h = global_1.v * global_1.b;
-    global_1.a3 = global_1.a * global_1.e + (global_1.h / global_1.c + 
-	    global_1.g) * global_1.b;
+    global_1.a3 = global_1.a * global_1.e + (global_1.h / global_1.c +
+            global_1.g) * global_1.b;
     global_1.a1 = global_1.b - global_1.a * (global_1.d / global_1.c);
-    global_1.a7 = global_1.a + global_1.g * global_1.d + global_1.h * 
-	    global_1.f;
+    global_1.a7 = global_1.a + global_1.g * global_1.d + global_1.h *
+            global_1.f;
     return 0;
 } /* calcsc_ */
 
@@ -863,14 +863,14 @@ integer *type;
 /* COMPUTES THE NEXT K POLYNOMIALS USING SCALARS */
 /* COMPUTED IN CALCSC */
     if (*type == 3) {
-	goto L40;
+        goto L40;
     }
     temp = global_1.a;
     if (*type == 1) {
-	temp = global_1.b;
+        temp = global_1.b;
     }
     if (abs(global_1.a1) > abs(temp) * global_1.eta * (float)10.) {
-	goto L20;
+        goto L20;
     }
 /* IF A1 IS NEARLY ZERO THEN USE A SPECIAL FORM OF THE */
 /* RECURRENCE */
@@ -878,8 +878,8 @@ integer *type;
     global_1.k[1] = -global_1.a7 * global_1.qp[0];
     i__1 = global_1.n;
     for (i = 3; i <= i__1; ++i) {
-	global_1.k[i - 1] = global_1.a3 * global_1.qk[i - 3] - global_1.a7 * 
-		global_1.qp[i - 2];
+        global_1.k[i - 1] = global_1.a3 * global_1.qk[i - 3] - global_1.a7 *
+                global_1.qp[i - 2];
 /* L10: */
     }
     return 0;
@@ -891,8 +891,8 @@ L20:
     global_1.k[1] = global_1.qp[1] - global_1.a7 * global_1.qp[0];
     i__1 = global_1.n;
     for (i = 3; i <= i__1; ++i) {
-	global_1.k[i - 1] = global_1.a3 * global_1.qk[i - 3] - global_1.a7 * 
-		global_1.qp[i - 2] + global_1.qp[i - 1];
+        global_1.k[i - 1] = global_1.a3 * global_1.qk[i - 3] - global_1.a7 *
+                global_1.qp[i - 2] + global_1.qp[i - 1];
 /* L30: */
     }
     return 0;
@@ -902,7 +902,7 @@ L40:
     global_1.k[1] = 0.;
     i__1 = global_1.n;
     for (i = 3; i <= i__1; ++i) {
-	global_1.k[i - 1] = global_1.qk[i - 3];
+        global_1.k[i - 1] = global_1.qk[i - 3];
 /* L50: */
     }
     return 0;
@@ -918,10 +918,10 @@ doublereal *uu, *vv;
 /* USING THE SCALARS COMPUTED IN CALCSC. */
 /* USE FORMULAS APPROPRIATE TO SETTING OF TYPE. */
     if (*type == 3) {
-	goto L30;
+        goto L30;
     }
     if (*type == 2) {
-	goto L10;
+        goto L10;
     }
     a4 = global_1.a + global_1.u * global_1.b + global_1.h * global_1.f;
     a5 = global_1.c + (global_1.u + global_1.v * global_1.f) * global_1.d;
@@ -932,18 +932,18 @@ L10:
 /* EVALUATE NEW QUADRATIC COEFFICIENTS. */
 L20:
     b1 = -global_1.k[global_1.n - 1] / global_1.p[global_1.nn - 1];
-    b2 = -(global_1.k[global_1.n - 2] + b1 * global_1.p[global_1.n - 1]) / 
-	    global_1.p[global_1.nn - 1];
+    b2 = -(global_1.k[global_1.n - 2] + b1 * global_1.p[global_1.n - 1]) /
+            global_1.p[global_1.nn - 1];
     c1 = global_1.v * b2 * global_1.a1;
     c2 = b1 * global_1.a7;
     c3 = b1 * b1 * global_1.a3;
     c4 = c1 - c2 - c3;
     temp = a5 + b1 * a4 - c4;
     if (temp == 0.) {
-	goto L30;
+        goto L30;
     }
-    *uu = global_1.u - (global_1.u * (c3 + c2) + global_1.v * (b1 * 
-	    global_1.a1 + b2 * global_1.a7)) / temp;
+    *uu = global_1.u - (global_1.u * (c3 + c2) + global_1.v * (b1 *
+            global_1.a1 + b2 * global_1.a7)) / temp;
     *vv = global_1.v * (c4 / temp + (float)1.);
     return 0;
 /* IF TYPE=3 THE QUADRATIC IS ZEROED */
@@ -977,10 +977,10 @@ doublereal *u, *v, *p, *q, *a, *b;
     q[2] = *a;
     i__1 = *nn;
     for (i = 3; i <= i__1; ++i) {
-	c = p[i] - *u * *a - *v * *b;
-	q[i] = c;
-	*b = *a;
-	*a = c;
+        c = p[i] - *u * *a - *v * *b;
+        q[i] = c;
+        *b = *a;
+        *a = c;
 /* L10: */
     }
     return 0;
@@ -1005,11 +1005,11 @@ doublereal *a, *b1, *c, *sr, *si, *lr, *li;
 /* THE SMALLER REAL ZERO IS FOUND DIRECTLY FROM THE */
 /* PRODUCT OF THE ZEROS C/A. */
     if (*a != 0.) {
-	goto L20;
+        goto L20;
     }
     *sr = 0.;
     if (*b1 != 0.) {
-	*sr = -(*c) / *b1;
+        *sr = -(*c) / *b1;
     }
     *lr = 0.;
 L10:
@@ -1018,7 +1018,7 @@ L10:
     return 0;
 L20:
     if (*c != 0.) {
-	goto L30;
+        goto L30;
     }
     *sr = 0.;
     *lr = -(*b1) / *a;
@@ -1027,7 +1027,7 @@ L20:
 L30:
     b = *b1 / 2.;
     if (abs(b) < abs(*c)) {
-	goto L40;
+        goto L40;
     }
     e = 1. - *a / b * (*c / b);
     d = sqrt((abs(e))) * abs(b);
@@ -1035,22 +1035,22 @@ L30:
 L40:
     e = *a;
     if (*c < 0.) {
-	e = -(*a);
+        e = -(*a);
     }
     e = b * (b / abs(*c)) - e;
     d = sqrt((abs(e))) * sqrt((abs(*c)));
 L50:
     if (e < 0.) {
-	goto L60;
+        goto L60;
     }
 /* REAL ZEROS */
     if (b >= 0.) {
-	d = -d;
+        d = -d;
     }
     *lr = (-b + d) / *a;
     *sr = 0.;
     if (*lr != 0.) {
-	*sr = *c / *lr / *a;
+        *sr = *c / *lr / *a;
     }
     goto L10;
 /* COMPLEX CONJUGATE ZEROS */

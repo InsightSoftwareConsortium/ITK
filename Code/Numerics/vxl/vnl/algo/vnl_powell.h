@@ -20,10 +20,8 @@ public:
   //: Initialize a powell with the given cost function
   vnl_powell(vnl_cost_function* functor);
 
-
   //: Run minimization, place result in x.
   ReturnCodes minimize(vnl_vector<double>& x);
-
 
 protected:
   vnl_cost_function* functor_;
@@ -34,5 +32,4 @@ protected:
   }
 };
 
-#endif   // DO NOT ADD CODE AFTER THIS LINE! END OF DEFINITION FOR CLASS vnl_powell.
-
+#endif // vnl_powell_h_

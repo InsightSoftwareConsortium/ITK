@@ -7,10 +7,6 @@
 #include "test_vcl_compiler.cxx"
 #undef main
 
-#define main test_vcl_long_double
-#include "test_vcl_long_double.cxx"
-#undef main
-
 #define main test_vcl_rel_ops
 #include "test_vcl_rel_ops.cxx"
 #undef main
@@ -75,7 +71,6 @@ int main(int argc, char* argv[])
 {
   vcl_cout << "Hello World!\n";
   test_vcl_compiler();
-  test_vcl_long_double();
   test_vcl_rel_ops();
   test_vcl_iterator();
   test_vcl_iostream();

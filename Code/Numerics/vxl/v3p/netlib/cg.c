@@ -1,6 +1,6 @@
 /* cg.f -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "assert.h"
@@ -76,8 +76,8 @@ static integer c__1 = 1;
 /*     |    PACKAGE ROUTINES: CUB,FD,FV,FVD,INS                 | */
 /*     |________________________________________________________| */
 
-/* Subroutine */ int cg_(x, e, it, step, t, limit, n, m, value, grad, both, 
-	pre, h)
+/* Subroutine */ int cg_(x, e, it, step, t, limit, n, m, value, grad, both,
+        pre, h)
 doublereal *x, *e;
 integer *it;
 doublereal *step, *t;
@@ -108,8 +108,8 @@ doublereal *h;
     /* Local variables */
     static doublereal a, b, c, d, f, g;
     static integer i, j, k, l;
-    static doublereal p, q, r, s, v, w, y[50], z[50], a8, c0, c1, d0, f0, f1, 
-	    l3, da, db, fa, fb, fc;
+    static doublereal p, q, r, s, v, w, y[50], z[50], a8, c0, c1, d0, f0, f1,
+            l3, da, db, fa, fb, fc;
     extern doublereal fd_();
     static integer na, nb, nc, nd, iq;
     extern doublereal fv_();
@@ -136,46 +136,46 @@ doublereal *h;
     i__1 = *n;
     for (i = 1; i <= i__1; ++i) {
 /* L10: */
-	if ((d__1 = h[i + h_dim1 * 3], abs(d__1)) > *e) {
-	    *e = (d__2 = h[i + h_dim1 * 3], abs(d__2));
-	}
+        if ((d__1 = h[i + h_dim1 * 3], abs(d__1)) > *e) {
+            *e = (d__2 = h[i + h_dim1 * 3], abs(d__2));
+        }
     }
     if (*e <= *t) {
-	return 0;
+        return 0;
     }
     l3 = (float)1. / log(a3);
     (*pre)(&h[(h_dim1 << 1) + 1], &h[h_dim1 * 3 + 1]);
     a = *step;
     if (a > 0.) {
-	goto L30;
+        goto L30;
     }
     i__1 = *n;
     for (i = 1; i <= i__1; ++i) {
 /* L20: */
-	if ((d__1 = x[i], abs(d__1)) > a) {
-	    a = (d__2 = x[i], abs(d__2));
-	}
+        if ((d__1 = x[i], abs(d__1)) > a) {
+            a = (d__2 = x[i], abs(d__2));
+        }
     }
     a = a * (float).01 / *e;
     if (a == 0.) {
-	a = (float)1.;
+        a = (float)1.;
     }
 L30:
     g = (float)0.;
     i__1 = *n;
     for (i = 1; i <= i__1; ++i) {
 /* L40: */
-	g += h[i + (h_dim1 << 1)] * h[i + h_dim1 * 3];
+        g += h[i + (h_dim1 << 1)] * h[i + h_dim1 * 3];
     }
     if (g < 0.) {
-	goto L620;
+        goto L620;
     }
 L50:
     l = 0;
     i__1 = *n;
     for (i = 1; i <= i__1; ++i) {
 /* L60: */
-	h[i + h_dim1] = -h[i + (h_dim1 << 1)];
+        h[i + h_dim1] = -h[i + (h_dim1 << 1)];
     }
     d = -g;
 L70:
@@ -191,7 +191,7 @@ L70:
     w = a2 * d;
     iq = 0;
     if (fa <= f) {
-	goto L80;
+        goto L80;
     }
     c = a;
     b = (float)0.;
@@ -213,29 +213,29 @@ L90:
     nd = 0;
     q = (d + (f - f0) / c0) / c0;
     if (q < 0.) {
-	goto L110;
+        goto L110;
     }
     q = a;
 L100:
     ++nd;
     if (nd > 25) {
-	goto L610;
+        goto L610;
     }
     q = a3 * q;
     p = fv_(&q, &x[1], &h[h_offset], n, value);
     ins_(&q, &p, &a, &b, &c, &fa, &fb, &fc, &j, y, z);
     if (p - f < w * q) {
-	goto L100;
+        goto L100;
     }
     goto L260;
 L110:
     q = d * (float).5 / q;
     if (q < c0 * (float).01) {
-	q = c0 * (float).01;
+        q = c0 * (float).01;
     }
     p = fv_(&q, &x[1], &h[h_offset], n, value);
     if (p <= f0) {
-	goto L120;
+        goto L120;
     }
     f1 = f0;
     c1 = c0;
@@ -249,44 +249,44 @@ L130:
     ins_(&q, &p, &a, &b, &c, &fa, &fb, &fc, &j, y, z);
 L135:
     if (a == 0.) {
-	goto L140;
+        goto L140;
     }
     if (fa - f >= v * a) {
-	goto L160;
+        goto L160;
     }
     if (fa - f < w * a) {
-	goto L210;
+        goto L210;
     }
     goto L280;
 L140:
     q = c0;
     if (c1 < q) {
-	q = c1;
+        q = c1;
     }
 L150:
     ++na;
     if (na > 25) {
-	goto L630;
+        goto L630;
     }
     q = a4 * q;
     p = fv_(&q, &x[1], &h[h_offset], n, value);
     ins_(&q, &p, &a, &b, &c, &fa, &fb, &fc, &j, y, z);
     if (p - f >= v * q) {
-	goto L150;
+        goto L150;
     }
     goto L250;
 L160:
     if (c0 > c1) {
-	goto L200;
+        goto L200;
     }
     if (f0 - f > v * c0) {
-	goto L180;
+        goto L180;
     }
     if (f0 - f >= w * c0) {
-	goto L320;
+        goto L320;
     }
     if (c1 <= a5 * c0) {
-	goto L320;
+        goto L320;
     }
     r = log(c1 / c0);
     s = (doublereal) (-((integer) (r * l3 + (float).999)));
@@ -295,13 +295,13 @@ L160:
 L170:
     q *= r;
     if (q < c0) {
-	goto L320;
+        goto L320;
     }
     p = fv_(&q, &x[1], &h[h_offset], n, value);
     ins_(&q, &p, &a, &b, &c, &fa, &fb, &fc, &j, y, z);
     ++na;
     if (p - f > v * q) {
-	goto L170;
+        goto L170;
     }
     goto L320;
 L180:
@@ -309,13 +309,13 @@ L180:
 L190:
     ++na;
     if (na > 25) {
-	goto L630;
+        goto L630;
     }
     q = a4 * q;
     p = fv_(&q, &x[1], &h[h_offset], n, value);
     ins_(&q, &p, &a, &b, &c, &fa, &fb, &fc, &j, y, z);
     if (p - f >= v * q) {
-	goto L190;
+        goto L190;
     }
     goto L250;
 L200:
@@ -323,30 +323,30 @@ L200:
     goto L190;
 L210:
     if (c0 < c1) {
-	goto L290;
+        goto L290;
     }
     if (f0 - f >= v * c0) {
-	goto L230;
+        goto L230;
     }
     if (f0 - f >= w * c0) {
-	goto L250;
+        goto L250;
     }
     q = c0;
 L220:
     ++nd;
     if (nd > 25) {
-	goto L610;
+        goto L610;
     }
     q = a3 * q;
     p = fv_(&q, &x[1], &h[h_offset], n, value);
     ins_(&q, &p, &a, &b, &c, &fa, &fb, &fc, &j, y, z);
     if (p - f < w * q) {
-	goto L220;
+        goto L220;
     }
     goto L250;
 L230:
     if (c0 <= a5 * c1) {
-	goto L250;
+        goto L250;
     }
     r = log(c0 / c1);
     s = (doublereal) ((integer) (r * l3 + (float).999));
@@ -355,24 +355,24 @@ L230:
 L240:
     q *= r;
     if (q > c0) {
-	goto L250;
+        goto L250;
     }
     ++nd;
     p = fv_(&q, &x[1], &h[h_offset], n, value);
     ins_(&q, &p, &a, &b, &c, &fa, &fb, &fc, &j, y, z);
     if (p - f < w * q) {
-	goto L240;
+        goto L240;
     }
 L250:
     if (iq == 1) {
-	goto L320;
+        goto L320;
     }
 L260:
     if (b == 0.) {
-	goto L280;
+        goto L280;
     }
     if (c == 0.) {
-	goto L270;
+        goto L270;
     }
     v = c - a;
     w = a - b;
@@ -383,10 +383,10 @@ L260:
     *e = p * r + q * s;
     d__1 = c - b;
     if (d_sign(e, &d__1) != *e) {
-	goto L320;
+        goto L320;
     }
     if (*e == 0.) {
-	goto L320;
+        goto L320;
     }
     q = p * r * w - q * s * v;
     q = a - q * (float).5 / *e;
@@ -403,26 +403,26 @@ L270:
     w = (a * q * s - b * p * r) / *e;
     v = w * w - v * (float)3. * d;
     if (v < 0.) {
-	v = (float)0.;
+        v = (float)0.;
     }
     v = sqrt(v);
     if (w + v == 0.) {
-	goto L320;
+        goto L320;
     }
     q = -d / (w + v);
     if (q <= 0.) {
-	goto L320;
+        goto L320;
     }
     p = fv_(&q, &x[1], &h[h_offset], n, value);
     ins_(&q, &p, &a, &b, &c, &fa, &fb, &fc, &j, y, z);
     goto L320;
 L280:
     if (iq == 1) {
-	goto L320;
+        goto L320;
     }
     q = (d + (f - fa) / a) / a;
     if (q >= 0.) {
-	goto L320;
+        goto L320;
     }
     q = d * (float).5 / q;
     p = fv_(&q, &x[1], &h[h_offset], n, value);
@@ -430,96 +430,96 @@ L280:
     goto L320;
 L290:
     if (f0 - f > v * c0) {
-	goto L300;
+        goto L300;
     }
     if (f0 - f > w * c0) {
-	goto L320;
+        goto L320;
     }
 L300:
     q = a;
 L310:
     ++nd;
     if (nd > 25) {
-	goto L610;
+        goto L610;
     }
     q = a3 * q;
     p = fv_(&q, &x[1], &h[h_offset], n, value);
     ins_(&q, &p, &a, &b, &c, &fa, &fb, &fc, &j, y, z);
     if (p - f < w * q) {
-	goto L310;
+        goto L310;
     }
     goto L250;
 L320:
     da = fd_(&a, &x[1], &h[h_offset], n, grad);
     if (da > a6 * g) {
-	goto L410;
+        goto L410;
     }
     if (da >= 0.) {
-	goto L560;
+        goto L560;
     }
     r = a;
     q = (float)0.;
     i__1 = j;
     for (i = 1; i <= i__1; ++i) {
-	if (y[i - 1] > a) {
-	    goto L370;
-	}
-	if (y[i - 1] <= q) {
-	    goto L330;
-	}
-	if (y[i - 1] == a) {
-	    goto L330;
-	}
-	q = y[i - 1];
+        if (y[i - 1] > a) {
+            goto L370;
+        }
+        if (y[i - 1] <= q) {
+            goto L330;
+        }
+        if (y[i - 1] == a) {
+            goto L330;
+        }
+        q = y[i - 1];
 L330:
-	;
+        ;
     }
     if (a <= a8 * q) {
-	goto L560;
+        goto L560;
     }
     q = a;
 L340:
     ++nd;
     if (nd > 25) {
-	goto L610;
+        goto L610;
     }
     q = a3 * q;
     p = fv_(&q, &x[1], &h[h_offset], n, value);
     f1 = fa;
     ins_(&q, &p, &a, &b, &c, &fa, &fb, &fc, &j, y, z);
     if (p < f1) {
-	goto L340;
+        goto L340;
     }
     if (a > r) {
-	goto L360;
+        goto L360;
     }
     i__1 = *n;
     for (i = 1; i <= i__1; ++i) {
 /* L350: */
-	h[i + (h_dim1 << 1)] = x[i] + a * h[i + h_dim1];
+        h[i + (h_dim1 << 1)] = x[i] + a * h[i + h_dim1];
     }
     goto L560;
 L360:
     da = fd_(&a, &x[1], &h[h_offset], n, grad);
     if (da > a6 * g) {
-	goto L410;
+        goto L410;
     }
     goto L560;
 L370:
     q = y[i - 1];
     i__1 = j;
     for (k = i; k <= i__1; ++k) {
-	if (y[k - 1] <= a) {
-	    goto L380;
-	}
-	if (y[k - 1] < q) {
-	    q = y[k - 1];
-	}
+        if (y[k - 1] <= a) {
+            goto L380;
+        }
+        if (y[k - 1] < q) {
+            q = y[k - 1];
+        }
 L380:
-	;
+        ;
     }
     if (q <= a5 * a) {
-	goto L560;
+        goto L560;
     }
     f0 = log(q / a);
     s = (doublereal) ((integer) (f0 * l3 + (float).999));
@@ -528,21 +528,21 @@ L380:
 L390:
     s *= f0;
     if (s >= q) {
-	goto L320;
+        goto L320;
     }
     p = fv_(&s, &x[1], &h[h_offset], n, value);
     f1 = fa;
     ins_(&s, &p, &a, &b, &c, &fa, &fb, &fc, &j, y, z);
     if (p < f1) {
-	goto L390;
+        goto L390;
     }
     if (a > r) {
-	goto L320;
+        goto L320;
     }
     i__1 = *n;
     for (i = 1; i <= i__1; ++i) {
 /* L400: */
-	h[i + (h_dim1 << 1)] = x[i] + a * h[i + h_dim1];
+        h[i + (h_dim1 << 1)] = x[i] + a * h[i + h_dim1];
     }
     goto L560;
 L410:
@@ -552,13 +552,13 @@ L410:
 L420:
     ++i;
     if (i > j) {
-	goto L430;
+        goto L430;
     }
     if (y[i - 1] >= a) {
-	goto L420;
+        goto L420;
     }
     if (y[i - 1] < b) {
-	goto L420;
+        goto L420;
     }
     b = y[i - 1];
     k = i;
@@ -567,7 +567,7 @@ L430:
     fb = z[k - 1];
     db = d;
     if (b != 0.) {
-	db = fd_(&b, &x[1], &h[h_offset], n, grad);
+        db = fd_(&b, &x[1], &h[h_offset], n, grad);
     }
 /* L440: */
     w = (d__1 = b - a, abs(d__1)) * (float)2.;
@@ -577,45 +577,45 @@ L430:
 L450:
     w *= (float).5;
     if (w < (d__1 = c0 - c, abs(d__1))) {
-	goto L550;
+        goto L550;
     }
     if (c0 < c) {
-	goto L460;
+        goto L460;
     }
     if (d0 >= d) {
-	goto L470;
+        goto L470;
     }
     goto L550;
 L460:
     if (d0 > d) {
-	goto L550;
+        goto L550;
     }
 L470:
     cub_(&c, &c, &c0, &f, &f0, &d, &d0);
     ++nc;
     if (nc > 30) {
-	goto L600;
+        goto L600;
     }
 L480:
     r = max(a,b);
     s = min(a,b);
     if (c > r) {
-	goto L490;
+        goto L490;
     }
     if (c > s) {
-	goto L500;
+        goto L500;
     }
     c = s + (s - c);
     s = (a + b) * (float).5;
     if (c > s) {
-	c = s;
+        c = s;
     }
     goto L500;
 L490:
     c = r - (c - r);
     s = (a + b) * (float).5;
     if (c < s) {
-	c = s;
+        c = s;
     }
 L500:
     c0 = a;
@@ -623,7 +623,7 @@ L500:
     d0 = da;
     fvd_(&f, &d, &c, &x[1], &h[h_offset], n, both);
     if (f < fa) {
-	goto L510;
+        goto L510;
     }
     b = c;
     fb = f;
@@ -631,10 +631,10 @@ L500:
     goto L450;
 L510:
     if (c < a) {
-	goto L540;
+        goto L540;
     }
     if (d < 0.) {
-	goto L530;
+        goto L530;
     }
 L520:
     b = a;
@@ -645,12 +645,12 @@ L530:
     fa = f;
     da = d;
     if (d > a6 * g) {
-	goto L450;
+        goto L450;
     }
     goto L560;
 L540:
     if (d < 0.) {
-	goto L520;
+        goto L520;
     }
     goto L530;
 L550:
@@ -662,18 +662,18 @@ L560:
     *e = (float)0.;
     i__1 = *n;
     for (i = 1; i <= i__1; ++i) {
-	if ((d__1 = h[i + h_dim1 * 3], abs(d__1)) > *e) {
-	    *e = (d__2 = h[i + h_dim1 * 3], abs(d__2));
-	}
+        if ((d__1 = h[i + h_dim1 * 3], abs(d__1)) > *e) {
+            *e = (d__2 = h[i + h_dim1 * 3], abs(d__2));
+        }
 /* L570: */
-	x[i] = h[i + (h_dim1 << 1)];
+        x[i] = h[i + (h_dim1 << 1)];
     }
     ++(*it);
     if (*e <= *t) {
-	goto L660;
+        goto L660;
     }
     if (*it >= *limit) {
-	goto L660;
+        goto L660;
     }
     f = fa;
     d = da;
@@ -683,28 +683,28 @@ L560:
     i__1 = *n;
     for (i = 1; i <= i__1; ++i) {
 /* L580: */
-	r += h[i + (h_dim1 << 1)] * h[i + h_dim1 * 3];
+        r += h[i + (h_dim1 << 1)] * h[i + h_dim1 * 3];
     }
     if (r < 0.) {
-	goto L620;
+        goto L620;
     }
     s = r / g;
     g = r;
     ++l;
     if (l >= *m) {
-	goto L50;
+        goto L50;
     }
     d = (float)0.;
     i__1 = *n;
     for (i = 1; i <= i__1; ++i) {
-	h[i + h_dim1] = -h[i + (h_dim1 << 1)] + s * h[i + h_dim1];
+        h[i + h_dim1] = -h[i + (h_dim1 << 1)] + s * h[i + h_dim1];
 /* L590: */
-	d += h[i + h_dim1] * h[i + h_dim1 * 3];
+        d += h[i + h_dim1] * h[i + h_dim1 * 3];
     }
     goto L70;
 L600:
     if (d < g) {
-	goto L560;
+        goto L560;
     }
 /*     s_wsle(&io___43); */
 /*     do_lio(&c__9, &c__1, "UNABLE TO OBTAIN DESCENT DIRECTION", 34L); */
@@ -725,20 +725,20 @@ L620:
 /*     s_stop("", 0L); */
 L630:
 /* Computing 25th power */
-    d__1 = a3, d__2 = d__1, d__1 *= d__1, d__1 *= d__1, d__1 *= d__1, d__2 *= 
-	    d__1;
+    d__1 = a3, d__2 = d__1, d__1 *= d__1, d__1 *= d__1, d__1 *= d__1, d__2 *=
+            d__1;
     q *= d__2 * (d__1 * d__1);
     nd = 0;
 L640:
     ++nd;
     if (nd > 25) {
-	goto L650;
+        goto L650;
     }
     q = a3 * q;
     p = fv_(&q, &x[1], &h[h_offset], n, value);
     ins_(&q, &p, &a, &b, &c, &fa, &fb, &fc, &j, y, z);
     if (p - f > v * q) {
-	goto L640;
+        goto L640;
     }
     goto L135;
 L650:
@@ -774,7 +774,7 @@ doublereal (*value) ();
     i__1 = *n;
     for (i = 1; i <= i__1; ++i) {
 /* L10: */
-	h[i + (h_dim1 << 1)] = x[i] + *a * h[i + h_dim1];
+        h[i + (h_dim1 << 1)] = x[i] + *a * h[i + h_dim1];
     }
     ret_val = (*value)(&h[(h_dim1 << 1) + 1]);
     return ret_val;
@@ -803,14 +803,14 @@ integer *n;
     i__1 = *n;
     for (i = 1; i <= i__1; ++i) {
 /* L10: */
-	h[i + (h_dim1 << 1)] = x[i] + *a * h[i + h_dim1];
+        h[i + (h_dim1 << 1)] = x[i] + *a * h[i + h_dim1];
     }
     (*grad)(&h[h_dim1 * 3 + 1], &h[(h_dim1 << 1) + 1]);
     d = (float)0.;
     i__1 = *n;
     for (i = 1; i <= i__1; ++i) {
 /* L20: */
-	d += h[i + h_dim1] * h[i + h_dim1 * 3];
+        d += h[i + h_dim1] * h[i + h_dim1 * 3];
     }
     ret_val = d;
     return ret_val;
@@ -837,14 +837,14 @@ integer *n;
     i__1 = *n;
     for (i = 1; i <= i__1; ++i) {
 /* L10: */
-	h[i + (h_dim1 << 1)] = x[i] + *a * h[i + h_dim1];
+        h[i + (h_dim1 << 1)] = x[i] + *a * h[i + h_dim1];
     }
     (*both)(v, &h[h_dim1 * 3 + 1], &h[(h_dim1 << 1) + 1]);
     *d = (float)0.;
     i__1 = *n;
     for (i = 1; i <= i__1; ++i) {
 /* L20: */
-	*d += h[i + h_dim1] * h[i + h_dim1 * 3];
+        *d += h[i + h_dim1] * h[i + h_dim1 * 3];
     }
     return 0;
 } /* fvd_ */
@@ -863,43 +863,43 @@ doublereal *x, *a, *b, *c, *d, *e, *f;
 
     g = *b - *a;
     if (g == 0.) {
-	goto L50;
+        goto L50;
     }
     v = *e + *f - (*d - *c) * 3 / g;
     w = v * v - *e * *f;
     if (w < 0.) {
-	w = (float)0.;
+        w = (float)0.;
     }
     d__1 = sqrt(w);
     w = d_sign(&d__1, &g);
     y = *e + v;
     z = *f + v;
     if (d_sign(&y, &g) != y) {
-	goto L30;
+        goto L30;
     }
     if (d_sign(&z, &g) != z) {
-	goto L20;
+        goto L20;
     }
     if (z == 0.) {
-	goto L20;
+        goto L20;
     }
 L10:
     *x = *b - g * *f / (z + w);
     return 0;
 L20:
     if (*c < *d) {
-	*x = *a;
+        *x = *a;
     }
     if (*c >= *d) {
-	*x = *b;
+        *x = *b;
     }
     return 0;
 L30:
     if (d_sign(&z, &g) != z) {
-	goto L40;
+        goto L40;
     }
     if (abs(*e) > abs(*f)) {
-	goto L10;
+        goto L10;
     }
 L40:
     *x = *a + g * *e / (y - w);
@@ -923,13 +923,13 @@ doublereal *y, *z;
     y[*j] = *s;
     z[*j] = *f;
     if (*f <= *fa) {
-	goto L20;
+        goto L20;
     }
     if (*f <= *fb) {
-	goto L10;
+        goto L10;
     }
     if (*f > *fc) {
-	return 0;
+        return 0;
     }
     *c = *s;
     *fc = *f;

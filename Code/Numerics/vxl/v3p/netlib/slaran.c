@@ -1,6 +1,6 @@
 /*  -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -48,7 +48,7 @@ real *x;
 
     i__1 = *n;
     for (i = 1; i <= i__1; ++i) {
-	x[i] = urand_(&iurand) - (float).5;
+        x[i] = urand_(&iurand) - (float).5;
 /* L10: */
     }
     return 0;

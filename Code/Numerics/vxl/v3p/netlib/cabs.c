@@ -10,16 +10,16 @@ double f__cabs(double real, double imag)
 double temp;
 
 if(real < 0)
-	real = -real;
+        real = -real;
 if(imag < 0)
-	imag = -imag;
+        imag = -imag;
 if(imag > real){
-	temp = real;
-	real = imag;
-	imag = temp;
+        temp = real;
+        real = imag;
+        imag = temp;
 }
 if((real+imag) == real)
-	return(real);
+        return(real);
 
 temp = imag/real;
 temp = real*sqrt(1.0 + temp*temp);  /*overflow!!*/

@@ -2,18 +2,20 @@
 #pragma implementation
 #endif
 
+// This is vxl/vnl/vnl_matlab_filewrite.cxx
+
 #include "vnl_matlab_filewrite.h"
 
 #include <vcl_fstream.h>
 #include <vcl_strstream.h>
+#include <vcl_complex.h>
 
-#include <vnl/vnl_complex.h>
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_matlab_write.h>
 
 vnl_matlab_filewrite::vnl_matlab_filewrite(char const *file_name,
-					   char const *basename VCL_DEFAULT_VALUE(0)) 
+                                           char const *basename)
   : basename_(basename ? basename : "targetvar"), variable_int_(0)
 {
   out_.open(file_name, vcl_ios_out | vcl_ios_binary);
@@ -27,7 +29,7 @@ vcl_string vnl_matlab_filewrite::make_var_name(char const* variable_name)
     return vcl_string(variable_name);
   else {
     vcl_ostrstream ss;
-    ss << variable_int_++;    
+    ss << variable_int_++;
     return basename_ + vcl_string(ss.str());
   }
 }
@@ -44,7 +46,7 @@ void vnl_matlab_filewrite::write(vnl_vector<double> const& v, char const* variab
   vnl_matlab_write(out_, v.data_block(), v.size(), make_var_name(variable_name).c_str());
 }
 
-void vnl_matlab_filewrite::write(vnl_vector<vnl_double_complex> const& v, char const* variable_name) {
+void vnl_matlab_filewrite::write(vnl_vector<vcl_complex<double> > const& v, char const* variable_name) {
   vnl_matlab_write(out_, v.data_block(), v.size(), make_var_name(variable_name).c_str());
 }
 
@@ -57,11 +59,11 @@ void vnl_matlab_filewrite::write(vnl_matrix<double> const& M, char const* variab
   vnl_matlab_write(out_, M.data_array(), M.rows(), M.cols(), make_var_name(variable_name).c_str());
 }
 
-void vnl_matlab_filewrite::write(vnl_matrix<vnl_float_complex> const& M, char const* variable_name) {
+void vnl_matlab_filewrite::write(vnl_matrix<vcl_complex<float> > const& M, char const* variable_name) {
   vnl_matlab_write(out_, M.data_array(), M.rows(), M.cols(), make_var_name(variable_name).c_str());
 }
 
-void vnl_matlab_filewrite::write(vnl_matrix<vnl_double_complex> const& M, char const* variable_name) {
+void vnl_matlab_filewrite::write(vnl_matrix<vcl_complex<double> > const& M, char const* variable_name) {
   vnl_matlab_write(out_, M.data_array(), M.rows(), M.cols(), make_var_name(variable_name).c_str());
 }
 

@@ -4,7 +4,7 @@
 
 # TARGTYPE "Win32 (x86) Static Library" 0x0104
 
-CFG=vcl - Win32 Debug
+CFG=vcl - Win32 DebugSTLPort
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
 !MESSAGE 
@@ -13,19 +13,24 @@ CFG=vcl - Win32 Debug
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE 
-!MESSAGE NMAKE /f "vcl.mak" CFG="vcl - Win32 Debug"
+!MESSAGE NMAKE /f "vcl.mak" CFG="vcl - Win32 DebugSTLPort"
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
 !MESSAGE 
 !MESSAGE "vcl - Win32 Release" (based on "Win32 (x86) Static Library")
 !MESSAGE "vcl - Win32 Debug" (based on "Win32 (x86) Static Library")
+!MESSAGE "vcl - Win32 StaticDebug" (based on "Win32 (x86) Static Library")
+!MESSAGE "vcl - Win32 StaticRelease" (based on "Win32 (x86) Static Library")
+!MESSAGE "vcl - Win32 DebugSTLPort" (based on "Win32 (x86) Static Library")
+!MESSAGE "vcl - Win32 ReleaseSTLPort" (based on "Win32 (x86) Static Library")
+!MESSAGE "vcl - Win32 ReleaseWithDBInfo" (based on "Win32 (x86) Static Library")
 !MESSAGE 
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
 # PROP Scc_ProjName ""
 # PROP Scc_LocalPath ""
-CPP=cl.exe
+CPP=xicl6.exe
 RSC=rc.exe
 
 !IF  "$(CFG)" == "vcl - Win32 Release"
@@ -42,14 +47,14 @@ RSC=rc.exe
 # PROP Target_Dir ""
 MTL=midl.exe
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
-# ADD CPP /nologo /MT /W3 /GX /O2 /Ob2 /I "$(IUEROOT)\vcl\config.win32-VC60" /I "$(IUEROOT)/vcl" /I "$(IUEROOT)\vcl" /D "NDEBUG" /D "WIN32" /D "_MBCS" /D "_LIB" /FD /c
+# ADD CPP /nologo /MT /W3 /GX /O2 /Ob2 /I "$(IUEROOT)\vcl\config.win32-VC60" /I "$(IUEROOT)/vcl" /I "$(IUEROOT)\vcl" /D "NDEBUG" /D "WIN32" /D "_MBCS" /D "_LIB" /Zl /FD /c
 # SUBTRACT CPP /YX
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
 # ADD RSC /l 0x409 /d "NDEBUG"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
-LIB32=link.exe -lib
+LIB32=xilink6.exe -lib
 # ADD BASE LIB32 /nologo
 # ADD LIB32 /nologo /out:"..\Release\vcl.lib"
 
@@ -67,15 +72,141 @@ LIB32=link.exe -lib
 # PROP Target_Dir ""
 MTL=midl.exe
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GX /Zi /Od /Ob2 /I "$(IUEROOT)\vcl\config.win32-VC60" /I "$(IUEROOT)\vcl" /D "_DEBUG" /D "WIN32" /D "_MBCS" /D "_LIB" /D "_AFXDLL" /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GX /Zi /Od /Ob2 /I "$(IUEROOT)\vcl\config.win32-VC60" /I "$(IUEROOT)\vcl" /D "_DEBUG" /D "WIN32" /D "_MBCS" /D "_LIB" /D "_AFXDLL" /Zl /FD /GZ /c
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG" /d "_AFXDLL"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
-LIB32=link.exe -lib
+LIB32=xilink6.exe -lib
 # ADD BASE LIB32 /nologo
 # ADD LIB32 /nologo /out:"..\Debug\vcl.lib"
+
+!ELSEIF  "$(CFG)" == "vcl - Win32 StaticDebug"
+
+# PROP BASE Use_MFC 2
+# PROP BASE Use_Debug_Libraries 1
+# PROP BASE Output_Dir "vcl___Win32_StaticDebug"
+# PROP BASE Intermediate_Dir "vcl___Win32_StaticDebug"
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 2
+# PROP Use_Debug_Libraries 1
+# PROP Output_Dir "StaticDebug"
+# PROP Intermediate_Dir "StaticDebug"
+# PROP Target_Dir ""
+MTL=midl.exe
+# ADD BASE CPP /nologo /MDd /W3 /Gm /GX /Zi /Od /Ob2 /I "$(IUEROOT)\vcl\config.win32-VC60" /I "$(IUEROOT)\vcl" /D "_DEBUG" /D "WIN32" /D "_MBCS" /D "_LIB" /D "_AFXDLL" /FD /GZ /c
+# ADD CPP /nologo /MTd /W3 /Gm /GX /Zi /Od /Ob2 /I "$(IUEROOT)\vcl\config.win32-VC60" /I "$(IUEROOT)\vcl" /D "_DEBUG" /D "WIN32" /D "_MBCS" /D "_LIB" /D "_AFXDLL" /Zl /FD /GZ /c
+# ADD BASE RSC /l 0x409 /d "_DEBUG" /d "_AFXDLL"
+# ADD RSC /l 0x409 /d "_DEBUG" /d "_AFXDLL"
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo
+# ADD BSC32 /nologo
+LIB32=xilink6.exe -lib
+# ADD BASE LIB32 /nologo /out:"..\Debug\vcl.lib"
+# ADD LIB32 /nologo /out:"..\StaticDebug\vcl.lib"
+
+!ELSEIF  "$(CFG)" == "vcl - Win32 StaticRelease"
+
+# PROP BASE Use_MFC 0
+# PROP BASE Use_Debug_Libraries 0
+# PROP BASE Output_Dir "vcl___Win32_StaticRelease"
+# PROP BASE Intermediate_Dir "vcl___Win32_StaticRelease"
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 0
+# PROP Use_Debug_Libraries 0
+# PROP Output_Dir "StaticRelease"
+# PROP Intermediate_Dir "StaticRelease"
+# PROP Target_Dir ""
+MTL=midl.exe
+# ADD BASE CPP /nologo /MT /W3 /GX /O2 /Ob2 /I "$(IUEROOT)\vcl\config.win32-VC60" /I "$(IUEROOT)/vcl" /I "$(IUEROOT)\vcl" /D "NDEBUG" /D "WIN32" /D "_MBCS" /D "_LIB" /FD /c
+# SUBTRACT BASE CPP /YX
+# ADD CPP /nologo /MT /W3 /GX /O2 /Ob2 /I "$(IUEROOT)\vcl\config.win32-VC60" /I "$(IUEROOT)/vcl" /I "$(IUEROOT)\vcl" /D "NDEBUG" /D "WIN32" /D "_MBCS" /D "_LIB" /Zl /FD /c
+# SUBTRACT CPP /YX
+# ADD BASE RSC /l 0x409 /d "NDEBUG"
+# ADD RSC /l 0x409 /d "NDEBUG"
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo
+# ADD BSC32 /nologo
+LIB32=xilink6.exe -lib
+# ADD BASE LIB32 /nologo /out:"..\Release\vcl.lib"
+# ADD LIB32 /nologo /out:"..\StaticRelease\vcl.lib"
+
+!ELSEIF  "$(CFG)" == "vcl - Win32 DebugSTLPort"
+
+# PROP BASE Use_MFC 2
+# PROP BASE Use_Debug_Libraries 1
+# PROP BASE Output_Dir "vcl___Win32_DebugSTLPort"
+# PROP BASE Intermediate_Dir "vcl___Win32_DebugSTLPort"
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 2
+# PROP Use_Debug_Libraries 1
+# PROP Output_Dir "Debug-STLPort"
+# PROP Intermediate_Dir "Debug-STLPort"
+# PROP Target_Dir ""
+MTL=midl.exe
+# ADD BASE CPP /nologo /MDd /W3 /Gm /GX /Zi /Od /Ob2 /I "$(IUEROOT)\vcl\config.win32-VC60" /I "$(IUEROOT)\vcl" /D "_DEBUG" /D "WIN32" /D "_MBCS" /D "_LIB" /D "_AFXDLL" /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GX /Zi /Od /Ob2 /I "$(STLPORT)\stlport" /I "$(IUEROOT)\vcl\config.stlport.win32-VC60" /I "$(IUEROOT)\vcl" /D "_DEBUG" /D "WIN32" /D "_MBCS" /D "_LIB" /D "_AFXDLL" /Zl /FD /GZ /c
+# ADD BASE RSC /l 0x409 /d "_DEBUG" /d "_AFXDLL"
+# ADD RSC /l 0x409 /d "_DEBUG" /d "_AFXDLL"
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo
+# ADD BSC32 /nologo
+LIB32=xilink6.exe -lib
+# ADD BASE LIB32 /nologo /out:"..\Debug\vcl.lib"
+# ADD LIB32 /nologo /out:"..\Debug-STLPort\vcl.lib"
+
+!ELSEIF  "$(CFG)" == "vcl - Win32 ReleaseSTLPort"
+
+# PROP BASE Use_MFC 0
+# PROP BASE Use_Debug_Libraries 0
+# PROP BASE Output_Dir "vcl___Win32_ReleaseSTLPort"
+# PROP BASE Intermediate_Dir "vcl___Win32_ReleaseSTLPort"
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 0
+# PROP Use_Debug_Libraries 0
+# PROP Output_Dir "Release-STLPort"
+# PROP Intermediate_Dir "Release-STLPort"
+# PROP Target_Dir ""
+MTL=midl.exe
+# ADD BASE CPP /nologo /MT /W3 /GX /O2 /Ob2 /I "$(IUEROOT)\vcl\config.win32-VC60" /I "$(IUEROOT)/vcl" /I "$(IUEROOT)\vcl" /D "NDEBUG" /D "WIN32" /D "_MBCS" /D "_LIB" /FD /c
+# SUBTRACT BASE CPP /YX
+# ADD CPP /nologo /MT /W3 /GX /O2 /Ob2 /I "$(STLPORT)\stlport" /I "$(IUEROOT)\vcl\config.stlport.win32-VC60" /I "$(IUEROOT)\vcl" /D "NDEBUG" /D "WIN32" /D "_MBCS" /D "_LIB" /Zl /FD /c
+# SUBTRACT CPP /YX
+# ADD BASE RSC /l 0x409 /d "NDEBUG"
+# ADD RSC /l 0x409 /d "NDEBUG"
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo
+# ADD BSC32 /nologo
+LIB32=xilink6.exe -lib
+# ADD BASE LIB32 /nologo /out:"..\Release\vcl.lib"
+# ADD LIB32 /nologo /out:"..\Release-STLPort\vcl.lib"
+
+!ELSEIF  "$(CFG)" == "vcl - Win32 ReleaseWithDBInfo"
+
+# PROP BASE Use_MFC 0
+# PROP BASE Use_Debug_Libraries 0
+# PROP BASE Output_Dir "vcl___Win32_ReleaseWithDBInfo"
+# PROP BASE Intermediate_Dir "vcl___Win32_ReleaseWithDBInfo"
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 0
+# PROP Use_Debug_Libraries 0
+# PROP Output_Dir "ReleaseWithDBInfo"
+# PROP Intermediate_Dir "ReleaseWithDBInfo"
+# PROP Target_Dir ""
+MTL=midl.exe
+# ADD BASE CPP /nologo /MT /W3 /GX /O2 /Ob2 /I "$(IUEROOT)\vcl\config.win32-VC60" /I "$(IUEROOT)/vcl" /I "$(IUEROOT)\vcl" /D "NDEBUG" /D "WIN32" /D "_MBCS" /D "_LIB" /FD /c
+# SUBTRACT BASE CPP /YX
+# ADD CPP /nologo /MT /W3 /GX /Zi /O2 /Ob2 /I "$(IUEROOT)\vcl\config.win32-VC60" /I "$(IUEROOT)/vcl" /I "$(IUEROOT)\vcl" /D "NDEBUG" /D "WIN32" /D "_MBCS" /D "_LIB" /Zl /FD /c
+# SUBTRACT CPP /YX
+# ADD BASE RSC /l 0x409 /d "NDEBUG"
+# ADD RSC /l 0x409 /d "NDEBUG"
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo
+# ADD BSC32 /nologo
+LIB32=xilink6.exe -lib
+# ADD BASE LIB32 /nologo /out:"..\Release\vcl.lib"
+# ADD LIB32 /nologo /out:"..\Release\vcl.lib"
 
 !ENDIF 
 
@@ -83,6 +214,11 @@ LIB32=link.exe -lib
 
 # Name "vcl - Win32 Release"
 # Name "vcl - Win32 Debug"
+# Name "vcl - Win32 StaticDebug"
+# Name "vcl - Win32 StaticRelease"
+# Name "vcl - Win32 DebugSTLPort"
+# Name "vcl - Win32 ReleaseSTLPort"
+# Name "vcl - Win32 ReleaseWithDBInfo"
 # Begin Group "Source Files"
 
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
@@ -93,10 +229,6 @@ SOURCE=".\Templates\complex-instances.cxx"
 # Begin Source File
 
 SOURCE=".\Templates\fstream-instances.cxx"
-# End Source File
-# Begin Source File
-
-SOURCE=.\Templates\min_max.cxx
 # End Source File
 # Begin Source File
 
@@ -129,10 +261,6 @@ SOURCE=".\Templates\vcl_algorithm+unsigned-.cxx"
 # Begin Source File
 
 SOURCE=.\emulation\vcl_alloc.cxx
-# End Source File
-# Begin Source File
-
-SOURCE=".\Templates\vcl_b+char.vcl_s+char--.cxx"
 # End Source File
 # Begin Source File
 
@@ -525,6 +653,10 @@ SOURCE=.\vcl_ctime.h
 # Begin Source File
 
 SOURCE=.\vcl_deque.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\vcl_deprecated.h
 # End Source File
 # Begin Source File
 

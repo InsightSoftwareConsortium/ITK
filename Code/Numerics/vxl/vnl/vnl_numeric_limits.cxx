@@ -1,8 +1,10 @@
 #ifdef __GNUC__
 #pragma implementation
 #endif
+// This is vxl/vnl/vnl_numeric_limits.cxx
+
 //
-// Class: numeric_limits
+// numeric_limits
 // Author: Andrew W. Fitzgibbon, Oxford RRG
 // Created: 28 Aug 96
 //

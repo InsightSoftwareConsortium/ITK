@@ -1,6 +1,6 @@
 /*  -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -23,14 +23,14 @@ doublereal *small, *large;
 /*  Purpose */
 /*  ======= */
 
-/*  DLABAD takes as input the values computed by SLAMCH for underflow and 
+/*  DLABAD takes as input the values computed by SLAMCH for underflow and
 */
-/*  overflow, and returns the square root of each of these values if the 
+/*  overflow, and returns the square root of each of these values if the
 */
 /*  log of LARGE is sufficiently large.  This subroutine is intended to */
-/*  identify machines with a large exponent range, such as the Crays, and 
+/*  identify machines with a large exponent range, such as the Crays, and
 */
-/*  redefine the underflow and overflow limits to be the square roots of 
+/*  redefine the underflow and overflow limits to be the square roots of
 */
 /*  the values computed by DLAMCH.  This subroutine is needed because */
 /*  DLAMCH does not compensate for poor arithmetic in the upper half of */
@@ -49,7 +49,7 @@ doublereal *small, *large;
 /*          On exit, if LOG10(LARGE) is sufficiently large, the square */
 /*          root of LARGE, otherwise unchanged. */
 
-/*  ===================================================================== 
+/*  =====================================================================
 */
 
 /*     .. Intrinsic Functions .. */
@@ -60,8 +60,8 @@ doublereal *small, *large;
 /*     SMALL and LARGE to avoid overflow and underflow problems. */
 
     if (d_lg10(large) > 2e3) {
-	*small = sqrt(*small);
-	*large = sqrt(*large);
+        *small = sqrt(*small);
+        *large = sqrt(*large);
     }
 
     return 0;

@@ -2,7 +2,7 @@
 #pragma implementation
 #endif
 //
-// Class: vnl_generalized_eigensystem
+// vnl_generalized_eigensystem
 // Author: Andrew W. Fitzgibbon, Oxford RRG
 // Created: 29 Aug 96
 //
@@ -11,7 +11,6 @@
 
 #include <vcl_iostream.h>
 
-#include <vnl/vnl_complex.h>
 #include <vnl/vnl_fortran_copy.h>
 #include <vnl/vnl_matlab_print.h>
 #include <vnl/algo/vnl_symmetric_eigensystem.h>
@@ -19,18 +18,9 @@
 #include <vnl/algo/vnl_netlib.h> // rsg_()
 
 vnl_generalized_eigensystem::vnl_generalized_eigensystem(const vnl_matrix<double>& A,
-							 const vnl_matrix<double>& B)
+                                                         const vnl_matrix<double>& B)
   :
   n(A.rows()), V(n,n), D(n)
-{
-  compute_eispack(A, B);
-}
-
-
-// *****************************************************************************
-
-void vnl_generalized_eigensystem::compute_eispack(const vnl_matrix<double>& A,
-						  const vnl_matrix<double>& B)
 {
   // Copy source matrices into fortran storage
   vnl_fortran_copy<double> a(A);
@@ -44,13 +34,13 @@ void vnl_generalized_eigensystem::compute_eispack(const vnl_matrix<double>& A,
   int want_eigenvectors = 1;
   int ierr = -1;
 
-  // Call EISPACK rsg.  
-  rsg_ (n, n, a, b, D.data_block(), 
-	want_eigenvectors, 
-	V1.begin(), 
-	work1.begin(), 
-	work2.begin(), &ierr);
-  
+  // Call EISPACK rsg.
+  rsg_ (n, n, a, b, D.data_block(),
+        want_eigenvectors,
+        V1.begin(),
+        work1.begin(),
+        work2.begin(), &ierr);
+
   // If b was not pos-def, retry with projection onto nullspace
   if (ierr == 7*n+1) {
     const double THRESH = 1e-8;
@@ -79,8 +69,8 @@ void vnl_generalized_eigensystem::compute_eispack(const vnl_matrix<double>& A,
     vnl_svd<double> svd(M.transpose()*A*N);
 
     vnl_generalized_eigensystem reduced(M.transpose() * A * M,
-					M.transpose() * B * M);
-    
+                                        M.transpose() * B * M);
+
     vcl_cerr << "AN: " << reduced.D << vcl_endl;
 
     vnl_matrix<double> V05 = M * reduced.V.transpose();
@@ -92,26 +82,26 @@ void vnl_generalized_eigensystem::compute_eispack(const vnl_matrix<double>& A,
     for(unsigned i = rank; i < B.columns(); ++i)
       D(i,i) = 0;
     vcl_cerr << "AN: " << D << vcl_endl;
-    
+
     return;
 #endif
   }
-  
+
   // vnl_transpose-copy V1 to V
   {
     double *vptr = &V1[0];
     for(int c = 0; c < n; ++c)
       for(int r = 0; r < n; ++r)
-	V(r,c) = *vptr++;
+        V(r,c) = *vptr++;
   }
-  
+
   // Diagnose errors
   if (ierr) {
     if (ierr == 10*n)
       vcl_cerr << "vnl_generalized_eigensystem: N is greater than NM.  Bug in interface to rsg.f\n";
     else {
       vcl_cerr << "vnl_generalized_eigensystem: The " <<
-	ierr << "-th eigenvalue has not been determined after 30 iterations.\n";
+        ierr << "-th eigenvalue has not been determined after 30 iterations.\n";
       vcl_cerr << "The eigenvalues should be correct for indices 1.." << ierr-1;
       vcl_cerr << ", but no eigenvectors are computed.\n";
       vcl_cerr << "A = " << A << vcl_endl;

@@ -1,8 +1,9 @@
 #ifdef __GNUC__
 #pragma implementation
 #endif
+// This is vxl/vnl/vnl_linear_system.cxx
 
-// Class: vnl_linear_system
+// vnl_linear_system
 // Author: David Capel, capes@robots
 // Created: July 2000
 

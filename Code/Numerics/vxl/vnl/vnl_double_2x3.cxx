@@ -1,9 +1,11 @@
+// This is vxl/vnl/vnl_double_2x3.cxx
+
 //-*- c++ -*-------------------------------------------------------------------
 #ifdef __GNUC__
 #pragma implementation
 #endif
 //
-// Class: vnl_double_2x3
+// vnl_double_2x3
 // Author: Andrew W. Fitzgibbon, Oxford RRG
 // Created: 23 Dec 96
 //

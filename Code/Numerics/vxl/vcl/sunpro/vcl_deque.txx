@@ -10,6 +10,7 @@
 #undef VCL_DEQUE_INSTANTIATE
 
 //std::deque<T, std::allocator<T > >;
+#undef VCL_DEQUE_INSTANTIATE
 #define VCL_DEQUE_INSTANTIATE(T) \
 template class vcl_deque<T >; \
 VCL_FILL_INSTANTIATE(vcl_deque<T >::iterator, T); \

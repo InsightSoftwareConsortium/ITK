@@ -1,3 +1,3 @@
-#include <vnl/vnl_complex.h>
+#include <vcl_complex.h>
 #include <vnl/vnl_vector.txx>
-VNL_VECTOR_INSTANTIATE(vnl_double_complex);
+VNL_VECTOR_INSTANTIATE(vcl_complex<double>);

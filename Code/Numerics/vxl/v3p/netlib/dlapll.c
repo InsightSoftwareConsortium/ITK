@@ -1,28 +1,28 @@
 /* dlapll.f -- translated by f2c (version of 4 June 1993  1:43:59).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
 
 /*<       SUBROUTINE DLAPLL( N, X, INCX, Y, INCY, SSMIN ) >*/
-/* Subroutine */ int dlapll_(integer *n, doublereal *x, integer *incx, 
-	doublereal *y, integer *incy, doublereal *ssmin)
+/* Subroutine */ int dlapll_(integer *n, doublereal *x, integer *incx,
+        doublereal *y, integer *incy, doublereal *ssmin)
 {
     /* System generated locals */
     integer i__1;
 
     /* Local variables */
-    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *, 
-	    integer *);
-    extern /* Subroutine */ int dlas2_(doublereal *, doublereal *, doublereal 
-	    *, doublereal *, doublereal *);
+    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *,
+            integer *);
+    extern /* Subroutine */ int dlas2_(doublereal *, doublereal *, doublereal
+            *, doublereal *, doublereal *);
     static doublereal c;
-    extern /* Subroutine */ int daxpy_(integer *, doublereal *, doublereal *, 
-	    integer *, doublereal *, integer *);
+    extern /* Subroutine */ int daxpy_(integer *, doublereal *, doublereal *,
+            integer *, doublereal *, integer *);
     static doublereal ssmax, a11, a12, a22;
     extern /* Subroutine */ int dlarfg_(integer *, doublereal *, doublereal *,
-	     integer *, doublereal *);
+             integer *, doublereal *);
     static doublereal tau;
 
 
@@ -74,10 +74,10 @@
 /*          The increment between successive elements of Y. INCY > 0. */
 
 /*  SSMIN   (output) DOUBLE PRECISION */
-/*          The smallest singular value of the N-by-2 matrix A = ( X Y ). 
+/*          The smallest singular value of the N-by-2 matrix A = ( X Y ).
 */
 
-/*  ===================================================================== 
+/*  =====================================================================
 */
 
 /*     .. Parameters .. */
@@ -106,9 +106,9 @@
     /* Function Body */
     if (*n <= 1) {
 /*<          SSMIN = ZERO >*/
-	*ssmin = 0.;
+        *ssmin = 0.;
 /*<          RETURN >*/
-	return 0;
+        return 0;
 /*<       END IF >*/
     }
 

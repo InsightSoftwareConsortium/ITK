@@ -1,14 +1,15 @@
 #ifndef vcl_csignal_h_
 #define vcl_csignal_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 /*
   fsm@robots.ox.ac.uk
 */
 
 #include "vcl_compiler.h"
 
-#include <signal.h>
+#if !VCL_CXX_HAS_HEADER_CSIGNAL
+# include <signal.h>
+#else
+# include "iso/vcl_csignal.h"
+#endif
 
 #endif // vcl_csignal_h_

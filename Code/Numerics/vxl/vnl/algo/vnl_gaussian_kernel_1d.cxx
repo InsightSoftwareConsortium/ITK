@@ -3,7 +3,7 @@
 #pragma implementation
 #endif
 //
-// Class: vnl_gaussian_kernel_1d
+// vnl_gaussian_kernel_1d
 // Author: Andrew W. Fitzgibbon, Oxford RRG
 // Created: 07 Aug 97
 //
@@ -22,7 +22,7 @@ double compute_width(double sigma, double cutoff)
   return sigma * vcl_sqrt(-2 * vcl_log(cutoff * sigma * vcl_sqrt(2*3.14159)));
 }
 
-// -- Construct a sampled 1D gaussian of standard deviation sigma.
+//: Construct a sampled 1D gaussian of standard deviation sigma.
 // The vector is normalized so that its sum is 0.5.
 vnl_gaussian_kernel_1d::vnl_gaussian_kernel_1d(double sigma, double cutoff):
   vec_((int)vcl_ceil(compute_width(sigma, cutoff)))

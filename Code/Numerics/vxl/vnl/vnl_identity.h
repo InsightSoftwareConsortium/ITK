@@ -3,15 +3,13 @@
 #ifdef __GNUC__
 #pragma interface
 #endif
-//
-// .NAME	vnl_identity
-// .LIBRARY	vnl
-// .HEADER	vxl package
-// .INCLUDE	vnl/vnl_identity.h
-//
-// .SECTION Author
-//     Andrew W. Fitzgibbon, Oxford RRG, 07 Dec 98
-//
+// This is vxl/vnl/vnl_identity.h
+
+//: \file
+//  \author Andrew W. Fitzgibbon, Oxford RRG, 07 Dec 98
+
+// Modification
+// LSB (Manchester) 23/1/01 Tidied documentation
 //-----------------------------------------------------------------------------
 
 #include <vnl/vnl_unary_function.h>

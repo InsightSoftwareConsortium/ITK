@@ -8,6 +8,7 @@ template Fwd std::copy(Inp, Inp, Fwd);\
 template Fwd std::copy_backward(Inp, Inp, Fwd)
 
 // --- Vector ---
+#undef VCL_VECTOR_INSTANTIATE
 #if VCL_USE_NATIVE_STL
 #define VCL_VECTOR_INSTANTIATE(T) \
 template class std::vector<T,std::__default_alloc_template<true,0> >

@@ -5,11 +5,9 @@
 #ifdef __GNUC__
 #pragma interface
 #endif
-// .NAME vcl_typeinfo
-// .INCLUDE vcl_typeinfo.h
-// .SECTION Description
-//    Provide a uniform interface to the variously supported
-//    RTTI's
+//:
+// \file
+// \brief Provide a uniform interface to the variously supported RTTI's
 
 #include "vcl_compiler.h"
 
@@ -45,12 +43,6 @@
 # include <typeinfo.h>
 # define VCL_HAS_DYNAMIC_CAST 1
 # define VCL_HAS_TYPE_INFO 1
-#endif
-
-// poor old gcc
-#ifdef VCL_GCC_27
-#define VCL_HAS_DYNAMIC_CAST 0
-#define VCL_HAS_TYPE_INFO 0
 #endif
 
 // other compilers

@@ -6,7 +6,7 @@ VOID r_cnjg(r, z) complex *r, *z;
 VOID r_cnjg(complex *r, complex *z)
 #endif
 {
-	real zi = z->i;
-	r->r = z->r;
-	r->i = -zi;
-	}
+        real zi = z->i;
+        r->r = z->r;
+        r->i = -zi;
+        }

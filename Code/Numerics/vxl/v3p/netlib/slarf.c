@@ -1,6 +1,6 @@
 /* slarf.f -- translated by f2c (version of 4 June 1993  1:43:59).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -11,21 +11,21 @@ static real c_b4 = 1.f;
 static real c_b5 = 0.f;
 static integer c__1 = 1;
 
-/* Subroutine */ int slarf_(char *side, integer *m, integer *n, real *v, 
-	integer *incv, real *tau, real *c, integer *ldc, real *work, ftnlen 
-	side_len)
+/* Subroutine */ int slarf_(char *side, integer *m, integer *n, real *v,
+        integer *incv, real *tau, real *c, integer *ldc, real *work, ftnlen
+        side_len)
 {
     /* System generated locals */
     integer c_dim1, c_offset;
     real r__1;
 
     /* Local variables */
-    extern /* Subroutine */ int sger_(integer *, integer *, real *, real *, 
-	    integer *, real *, integer *, real *, integer *);
+    extern /* Subroutine */ int sger_(integer *, integer *, real *, real *,
+            integer *, real *, integer *, real *, integer *);
     extern logical lsame_(char *, char *, ftnlen, ftnlen);
-    extern /* Subroutine */ int sgemv_(char *, integer *, integer *, real *, 
-	    real *, integer *, real *, integer *, real *, real *, integer *, 
-	    ftnlen);
+    extern /* Subroutine */ int sgemv_(char *, integer *, integer *, real *,
+            real *, integer *, real *, integer *, real *, real *, integer *,
+            ftnlen);
 
 
 /*  -- LAPACK auxiliary routine (version 2.0) -- */
@@ -77,7 +77,7 @@ static integer c__1 = 1;
 
 /*  C       (input/output) REAL array, dimension (LDC,N) */
 /*          On entry, the m by n matrix C. */
-/*          On exit, C is overwritten by the matrix H * C if SIDE = 'L', 
+/*          On exit, C is overwritten by the matrix H * C if SIDE = 'L',
 */
 /*          or C * H if SIDE = 'R'. */
 
@@ -88,7 +88,7 @@ static integer c__1 = 1;
 /*                         (N) if SIDE = 'L' */
 /*                      or (M) if SIDE = 'R' */
 
-/*  ===================================================================== 
+/*  =====================================================================
 */
 
 /*     .. Parameters .. */
@@ -111,36 +111,36 @@ static integer c__1 = 1;
 
 /*        Form  H * C */
 
-	if (*tau != 0.f) {
+        if (*tau != 0.f) {
 
 /*           w := C' * v */
 
-	    sgemv_("Transpose", m, n, &c_b4, &c[c_offset], ldc, &v[1], incv, &
-		    c_b5, &work[1], &c__1, 9L);
+            sgemv_("Transpose", m, n, &c_b4, &c[c_offset], ldc, &v[1], incv, &
+                    c_b5, &work[1], &c__1, 9L);
 
 /*           C := C - v * w' */
 
-	    r__1 = -(*tau);
-	    sger_(m, n, &r__1, &v[1], incv, &work[1], &c__1, &c[c_offset], 
-		    ldc);
-	}
+            r__1 = -(*tau);
+            sger_(m, n, &r__1, &v[1], incv, &work[1], &c__1, &c[c_offset],
+                    ldc);
+        }
     } else {
 
 /*        Form  C * H */
 
-	if (*tau != 0.f) {
+        if (*tau != 0.f) {
 
 /*           w := C * v */
 
-	    sgemv_("No transpose", m, n, &c_b4, &c[c_offset], ldc, &v[1], 
-		    incv, &c_b5, &work[1], &c__1, 12L);
+            sgemv_("No transpose", m, n, &c_b4, &c[c_offset], ldc, &v[1],
+                    incv, &c_b5, &work[1], &c__1, 12L);
 
 /*           C := C - w * v' */
 
-	    r__1 = -(*tau);
-	    sger_(m, n, &r__1, &work[1], &c__1, &v[1], incv, &c[c_offset], 
-		    ldc);
-	}
+            r__1 = -(*tau);
+            sger_(m, n, &r__1, &work[1], &c__1, &v[1], incv, &c[c_offset],
+                    ldc);
+        }
     }
     return 0;
 

@@ -1,13 +1,13 @@
 /* dlarfg.f -- translated by f2c (version of 4 June 1993  1:43:59).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
 
 /*<       SUBROUTINE DLARFG( N, ALPHA, X, INCX, TAU ) >*/
-/* Subroutine */ int dlarfg_(integer *n, doublereal *alpha, doublereal *x, 
-	integer *incx, doublereal *tau)
+/* Subroutine */ int dlarfg_(integer *n, doublereal *alpha, doublereal *x,
+        integer *incx, doublereal *tau)
 {
     /* System generated locals */
     integer i__1;
@@ -20,11 +20,11 @@
     static doublereal beta;
     extern doublereal dnrm2_(integer *, doublereal *, integer *);
     static integer j;
-    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *, 
-	    integer *);
+    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *,
+            integer *);
     static doublereal xnorm;
-    extern doublereal dlapy2_(doublereal *, doublereal *), dlamch_(char *, 
-	    ftnlen);
+    extern doublereal dlapy2_(doublereal *, doublereal *), dlamch_(char *,
+            ftnlen);
     static doublereal safmin, rsafmn;
     static integer knt;
 
@@ -60,7 +60,7 @@
 /*  where tau is a real scalar and v is a real (n-1)-element */
 /*  vector. */
 
-/*  If the elements of x are all zero, then tau = 0 and H is taken to be 
+/*  If the elements of x are all zero, then tau = 0 and H is taken to be
 */
 /*  the unit matrix. */
 
@@ -87,7 +87,7 @@
 /*  TAU     (output) DOUBLE PRECISION */
 /*          The value tau. */
 
-/*  ===================================================================== 
+/*  =====================================================================
 */
 
 /*     .. Parameters .. */
@@ -117,9 +117,9 @@
     /* Function Body */
     if (*n <= 1) {
 /*<          TAU = ZERO >*/
-	*tau = 0.;
+        *tau = 0.;
 /*<          RETURN >*/
-	return 0;
+        return 0;
 /*<       END IF >*/
     }
 
@@ -133,83 +133,83 @@
 /*        H  =  I */
 
 /*<          TAU = ZERO >*/
-	*tau = 0.;
+        *tau = 0.;
 /*<       ELSE >*/
     } else {
 
 /*        general case */
 
 /*<          BETA = -SIGN( DLAPY2( ALPHA, XNORM ), ALPHA ) >*/
-	d__1 = dlapy2_(alpha, &xnorm);
-	beta = -d_sign(&d__1, alpha);
+        d__1 = dlapy2_(alpha, &xnorm);
+        beta = -d_sign(&d__1, alpha);
 /*<          SAFMIN = DLAMCH( 'S' ) / DLAMCH( 'E' ) >*/
-	safmin = dlamch_("S", 1L) / dlamch_("E", 1L);
+        safmin = dlamch_("S", 1L) / dlamch_("E", 1L);
 /*<          IF( ABS( BETA ).LT.SAFMIN ) THEN >*/
-	if (abs(beta) < safmin) {
+        if (abs(beta) < safmin) {
 
-/*           XNORM, BETA may be inaccurate; scale X and recompute 
+/*           XNORM, BETA may be inaccurate; scale X and recompute
 them */
 
 /*<             RSAFMN = ONE / SAFMIN >*/
-	    rsafmn = 1. / safmin;
+            rsafmn = 1. / safmin;
 /*<             KNT = 0 >*/
-	    knt = 0;
+            knt = 0;
 /*<    10       CONTINUE >*/
 L10:
 /*<             KNT = KNT + 1 >*/
-	    ++knt;
+            ++knt;
 /*<             CALL DSCAL( N-1, RSAFMN, X, INCX ) >*/
-	    i__1 = *n - 1;
-	    dscal_(&i__1, &rsafmn, &x[1], incx);
+            i__1 = *n - 1;
+            dscal_(&i__1, &rsafmn, &x[1], incx);
 /*<             BETA = BETA*RSAFMN >*/
-	    beta *= rsafmn;
+            beta *= rsafmn;
 /*<             ALPHA = ALPHA*RSAFMN >*/
-	    *alpha *= rsafmn;
+            *alpha *= rsafmn;
 /*<    >*/
-	    if (abs(beta) < safmin) {
-		goto L10;
-	    }
+            if (abs(beta) < safmin) {
+                goto L10;
+            }
 
 /*           New BETA is at most 1, at least SAFMIN */
 
 /*<             XNORM = DNRM2( N-1, X, INCX ) >*/
-	    i__1 = *n - 1;
-	    xnorm = dnrm2_(&i__1, &x[1], incx);
+            i__1 = *n - 1;
+            xnorm = dnrm2_(&i__1, &x[1], incx);
 /*<             BETA = -SIGN( DLAPY2( ALPHA, XNORM ), ALPHA ) >*/
-	    d__1 = dlapy2_(alpha, &xnorm);
-	    beta = -d_sign(&d__1, alpha);
+            d__1 = dlapy2_(alpha, &xnorm);
+            beta = -d_sign(&d__1, alpha);
 /*<             TAU = ( BETA-ALPHA ) / BETA >*/
-	    *tau = (beta - *alpha) / beta;
+            *tau = (beta - *alpha) / beta;
 /*<             CALL DSCAL( N-1, ONE / ( ALPHA-BETA ), X, INCX ) >*/
-	    i__1 = *n - 1;
-	    d__1 = 1. / (*alpha - beta);
-	    dscal_(&i__1, &d__1, &x[1], incx);
+            i__1 = *n - 1;
+            d__1 = 1. / (*alpha - beta);
+            dscal_(&i__1, &d__1, &x[1], incx);
 
-/*           If ALPHA is subnormal, it may lose relative accuracy 
+/*           If ALPHA is subnormal, it may lose relative accuracy
 */
 
 /*<             ALPHA = BETA >*/
-	    *alpha = beta;
+            *alpha = beta;
 /*<             DO 20 J = 1, KNT >*/
-	    i__1 = knt;
-	    for (j = 1; j <= i__1; ++j) {
+            i__1 = knt;
+            for (j = 1; j <= i__1; ++j) {
 /*<                ALPHA = ALPHA*SAFMIN >*/
-		*alpha *= safmin;
+                *alpha *= safmin;
 /*<    20       CONTINUE >*/
 /* L20: */
-	    }
+            }
 /*<          ELSE >*/
-	} else {
+        } else {
 /*<             TAU = ( BETA-ALPHA ) / BETA >*/
-	    *tau = (beta - *alpha) / beta;
+            *tau = (beta - *alpha) / beta;
 /*<             CALL DSCAL( N-1, ONE / ( ALPHA-BETA ), X, INCX ) >*/
-	    i__1 = *n - 1;
-	    d__1 = 1. / (*alpha - beta);
-	    dscal_(&i__1, &d__1, &x[1], incx);
+            i__1 = *n - 1;
+            d__1 = 1. / (*alpha - beta);
+            dscal_(&i__1, &d__1, &x[1], incx);
 /*<             ALPHA = BETA >*/
-	    *alpha = beta;
+            *alpha = beta;
 /*<          END IF >*/
-	}
+        }
 /*<       END IF >*/
     }
 

@@ -1,6 +1,6 @@
 /*  -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -12,8 +12,8 @@ static integer c__1 = 1;
 
 /* ------------------------------------------------------------------ */
 
-/* Subroutine */ int smvpc_(nblock, bet, maxj, j, s, number, resnrm, orthcf, 
-	rv)
+/* Subroutine */ int smvpc_(nblock, bet, maxj, j, s, number, resnrm, orthcf,
+        rv)
 integer *nblock;
 real *bet;
 integer *maxj, *j;
@@ -55,19 +55,19 @@ real *resnrm, *orthcf, *rv;
     m = *j - *nblock + 1;
     i__1 = *number;
     for (i = 1; i <= i__1; ++i) {
-	i__2 = *nblock;
-	for (k = 1; k <= i__2; ++k) {
-	    rv[k] = sdot_(nblock, &s[m + i * s_dim1], &c__1, &bet[k + 
-		    bet_dim1], nblock);
-	    if (k == 1) {
-		orthcf[i] = (r__1 = rv[k], dabs(r__1));
-	    }
+        i__2 = *nblock;
+        for (k = 1; k <= i__2; ++k) {
+            rv[k] = sdot_(nblock, &s[m + i * s_dim1], &c__1, &bet[k +
+                    bet_dim1], nblock);
+            if (k == 1) {
+                orthcf[i] = (r__1 = rv[k], dabs(r__1));
+            }
 /* Computing MIN */
-	    r__2 = orthcf[i], r__3 = (r__1 = rv[k], dabs(r__1));
-	    orthcf[i] = dmin(r__2,r__3);
+            r__2 = orthcf[i], r__3 = (r__1 = rv[k], dabs(r__1));
+            orthcf[i] = dmin(r__2,r__3);
 /* L10: */
-	}
-	resnrm[i] = snrm2_(nblock, &rv[1], &c__1);
+        }
+        resnrm[i] = snrm2_(nblock, &rv[1], &c__1);
 /* L20: */
     }
     return 0;

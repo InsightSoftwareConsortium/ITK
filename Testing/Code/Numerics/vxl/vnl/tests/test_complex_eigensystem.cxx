@@ -1,6 +1,6 @@
 // Author: F. Schaffalitzky, Oxford RRG
 // Created: 7 September 1999
-#include <vnl/vnl_complex.h>
+#include <vcl_complex.h>
 #include <vnl/vnl_test.h>
 #include <vnl/vnl_matops.h>
 #include <vnl/algo/vnl_complex_eigensystem.h>
@@ -28,15 +28,15 @@ void test_complex_eigensystem()
   };
   vnl_matrix<double> A_imag(a_imag,N,N);
 
-  vnl_matrix<vnl_double_complex> A(N,N);
+  vnl_matrix<vcl_complex<double> > A(N,N);
   for (unsigned i=0;i<N;i++)
     for (unsigned j=0;j<N;j++)
-      A(i,j) = vnl_double_complex(A_real(i,j), A_imag(i,j));
-  
+      A(i,j) = vcl_complex<double>(A_real(i,j), A_imag(i,j));
+
   vnl_complex_eigensystem eig(A,     // compute both
-			      true,  // left and right
-			      true); // eigenvectors
-  
+                              true,  // left and right
+                              true); // eigenvectors
+
   //cout << "A = " << A << endl;
   //cout << "eigenvalues = " << eig.W << endl;
   //cout << "L = " << eig.L << endl;
@@ -45,19 +45,19 @@ void test_complex_eigensystem()
   for (unsigned i=0;i<N;i++) {
     //cout << "i=" << i << endl;
     //
-    vnl_double_complex w = eig.W[i];
-    vnl_vector<vnl_double_complex> err;
+    vcl_complex<double> w = eig.W[i];
+    vnl_vector<vcl_complex<double> > err;
     //cout << "  w = " << w << endl;
     //
-    vnl_vector<vnl_double_complex> l(eig.left_eigen_vector(i));
+    vnl_vector<vcl_complex<double> > l(eig.left_eigen_vector(i));
     err = (l*A - l*w);
     //cout << "  " << err << endl;
-    Assert("  Left  eigenvalue", err.magnitude() < 1e-10);
+    vnl_test_assert("  Left  eigenvalue", err.magnitude() < 1e-10);
     //
-    vnl_vector<vnl_double_complex> r(eig.right_eigen_vector(i));
+    vnl_vector<vcl_complex<double> > r(eig.right_eigen_vector(i));
     err = (A*r - w*r);
     //cout << "  " << err << endl;
-    Assert("  Right eigenvalue", err.magnitude() < 1e-10);
+    vnl_test_assert("  Right eigenvalue", err.magnitude() < 1e-10);
   }
 }
 

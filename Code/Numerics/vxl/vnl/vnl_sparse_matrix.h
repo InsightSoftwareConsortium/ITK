@@ -3,13 +3,12 @@
 #ifdef __GNUC__
 #pragma interface
 #endif
-// .NAME	vnl_sparse_matrix
-// .LIBRARY	vnl
-// .HEADER	vxl package
-// .INCLUDE	vnl/vnl_sparse_matrix.h
-// .FILE	vnl_sparse_matrix.txx
-// .SECTION Description
-//    vnl_sparse_matrix<T> - Simple sparse matrix.  Only those values which
+// This is vxl/vnl/vnl_sparse_matrix.h
+
+//: \file
+//  \brief Simple Sparse Matrix
+//  \author Rupert W. Curwen, GE CR&D, 20 Oct 98
+//   Simple sparse matrix.  Only those values which
 //    are non-zero are stored. The sparse matrix currently supports
 //    only getting/putting elements, and multiply by vector or another
 //    sparse matrix.
@@ -18,10 +17,9 @@
 //    of the pair indicates the column index, and the second the
 //    value.  All rows are stored, as vcl_vector< row >;
 //
-// .SECTION Author
-//     Rupert W. Curwen, GE CR&D, 20 Oct 98
+
 //
-// .SECTION Modifications
+//     Modifications
 //
 //     Robin Flatland 5/31/99 Added pre_mult(lhs,result), where
 //                            lhs is a vector.
@@ -38,15 +36,21 @@
 #include <vnl/vnl_vector.h>
 #include <vcl_functional.h>
 
+//: Stores elements of sparse matrix
+//  Each pair consists of a position of an element in the matrix,
+//  and the value of that element
 template <class T>
 class vnl_sparse_matrix_pair {
 public:
   unsigned int first;
   T second;
-  
+
+//: Constructs a pair with null values
   vnl_sparse_matrix_pair() : first(0), second(T(0)) {}
-    
+
+//: Constructs a pair with position a and value b
   vnl_sparse_matrix_pair(unsigned int const& a, T const& b) : first(a), second(b) {}
+
   vnl_sparse_matrix_pair(const vnl_sparse_matrix_pair<T>& o) : first(o.first), second(o.second) {}
 
   vnl_sparse_matrix_pair<T>& operator=(vnl_sparse_matrix_pair const &o) {
@@ -56,30 +60,28 @@ public:
     }
     return *this;
   }
-  
+
   struct less : public vcl_binary_function<vnl_sparse_matrix_pair, vnl_sparse_matrix_pair, bool> {
-    bool operator() (vnl_sparse_matrix_pair const& p1, vnl_sparse_matrix_pair const& p2) { 
-      return p1.first < p2.first; 
+    bool operator() (vnl_sparse_matrix_pair const& p1, vnl_sparse_matrix_pair const& p2) {
+      return p1.first < p2.first;
     }
   };
+
 };
 
+
 //: Simple sparse matrix
-
-//KYM: Added the following so set_row will compile on gcc 2.7.2
-typedef vcl_vector<int> vnl_sparse_matrix_vector_int_gcc272_hack;
-
+//  Stores non-zero elements as a sparse_matrix_pair
 template <class T>
 class vnl_sparse_matrix {
 public:
   typedef vnl_sparse_matrix_pair<T> pair_t;
 #if defined(VCL_SUNPRO_CC)
-  typedef vcl_vector < typename pair_t > row ; 
+  // SunPro is the broken one.
+  typedef vcl_vector < typename pair_t > row ;
   typedef vcl_vector < typename row > vnl_sparse_matrix_elements;
 #else
-  //#if defined(VCL_GCC_295) || defined(VCL_EGCS) || defined(VCL_GCC_27) || defined(VCL_SGI_CC)// it barfs -- fsm
-  // also KAI C++ 4.0
-  typedef vcl_vector < pair_t > row ; 
+  typedef vcl_vector < pair_t > row ;
   typedef vcl_vector < row > vnl_sparse_matrix_elements;
 #endif
 
@@ -123,9 +125,13 @@ public:
   void diag_AtA(vnl_vector<T>& result) const;
 
   //: Set a whole row at once. Much faster.
-  void set_row(unsigned int r, 
-	       vcl_vector<int> const& cols, 
-	       vcl_vector<T> const& vals);
+  void set_row(unsigned int r,
+               vcl_vector<int> const& cols,
+               vcl_vector<T> const& vals);
+
+  //: Return row as vector of pairs
+  //  Added to aid binary I/O
+  row& get_row(unsigned int r) {return elements[r];}
 
   //: Laminate matrix A onto the bottom of this one
   vnl_sparse_matrix<T>& vcat(vnl_sparse_matrix<T> const& A);
@@ -149,14 +155,14 @@ public:
   //    Currently not implemented.
   void resize( int r, int c );
 
-  //: Resets the internal iterator 
+  //: Resets the internal iterator
   void reset();
 
   //: Moves the internal iterator to next non-zero entry in matrix.
   // Returns true if there is another value, false otherwise. Use
   // in combination with methods reset, getrow, getcolumn, and value.
   bool next();
- 
+
   //: Returns the row of the entry pointed to by internal iterator.
   int getrow();
 
@@ -164,7 +170,7 @@ public:
   int getcolumn();
 
   //: Returns the value pointed to by the internal iterator.
-  T value();  
+  T value();
 
 
 protected:
@@ -173,8 +179,9 @@ protected:
 
   // internal iterator
   unsigned int itr_row;
-  typename row::iterator itr_cur;  
+  typename row::iterator itr_cur;
   bool itr_isreset;
 };
+
 
 #endif // vnl_sparse_matrix_h_

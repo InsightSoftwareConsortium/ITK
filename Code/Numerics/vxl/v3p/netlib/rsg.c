@@ -1,6 +1,6 @@
 /* eisrsg.f -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -25,15 +25,15 @@ integer *ierr;
     integer a_dim1, a_offset, b_dim1, b_offset, z_dim1, z_offset;
 
     /* Local variables */
-    extern /* Subroutine */ int tred1_(), tred2_(), rebak_(), reduc_(), 
-	    tqlrat_(), tql2_();
+    extern /* Subroutine */ int tred1_(), tred2_(), rebak_(), reduc_(),
+            tqlrat_(), tql2_();
 
 
 
 /*     this subroutine calls the recommended sequence of */
 /*     subroutines from the eigensystem subroutine package (eispack) */
 /*     to find the eigenvalues and eigenvectors (if desired) */
-/*     for the real symmetric generalized eigenproblem  ax = (lambda)bx. 
+/*     for the real symmetric generalized eigenproblem  ax = (lambda)bx.
 */
 
 /*     on input */
@@ -65,12 +65,12 @@ integer *ierr;
 /*        fv1  and  fv2  are temporary storage arrays. */
 
 /*     questions and comments should be directed to burton s. garbow, */
-/*     mathematics and computer science div, argonne national laboratory 
+/*     mathematics and computer science div, argonne national laboratory
 */
 
 /*     this version dated august 1983. */
 
-/*     ------------------------------------------------------------------ 
+/*     ------------------------------------------------------------------
 */
 
     /* Parameter adjustments */
@@ -89,7 +89,7 @@ integer *ierr;
 
     /* Function Body */
     if (*n <= *nm) {
-	goto L10;
+        goto L10;
     }
     *ierr = *n * 10;
     goto L50;
@@ -97,10 +97,10 @@ integer *ierr;
 L10:
     reduc_(nm, n, &a[a_offset], &b[b_offset], &fv2[1], ierr);
     if (*ierr != 0) {
-	goto L50;
+        goto L50;
     }
     if (*matz != 0) {
-	goto L20;
+        goto L20;
     }
 /*     .......... find eigenvalues only .......... */
     tred1_(nm, n, &a[a_offset], &w[1], &fv1[1], &fv2[1]);
@@ -111,7 +111,7 @@ L20:
     tred2_(nm, n, &a[a_offset], &w[1], &fv1[1], &z[z_offset]);
     tql2_(nm, n, &w[1], &fv1[1], &z[z_offset], ierr);
     if (*ierr != 0) {
-	goto L50;
+        goto L50;
     }
     rebak_(nm, n, &b[b_offset], &fv2[1], n, &z[z_offset]);
 L50:
@@ -158,7 +158,7 @@ L10:
     c = b + b + b;
     eps = (d__1 = c - 1., abs(d__1));
     if (eps == 0.) {
-	goto L10;
+        goto L10;
     }
     ret_val = eps * abs(*x);
     return ret_val;
@@ -199,7 +199,7 @@ integer *ierr;
 /*        d contains the diagonal elements of the input matrix. */
 
 /*        e2 contains the squares of the subdiagonal elements of the */
-/*          input matrix in its last n-1 positions.  e2(1) is arbitrary. 
+/*          input matrix in its last n-1 positions.  e2(1) is arbitrary.
 */
 
 /*      on output */
@@ -219,12 +219,12 @@ integer *ierr;
 /*     calls pythag for  dsqrt(a*a + b*b) . */
 
 /*     questions and comments should be directed to burton s. garbow, */
-/*     mathematics and computer science div, argonne national laboratory 
+/*     mathematics and computer science div, argonne national laboratory
 */
 
 /*     this version dated august 1983. */
 
-/*     ------------------------------------------------------------------ 
+/*     ------------------------------------------------------------------
 */
 
     /* Parameter adjustments */
@@ -234,13 +234,13 @@ integer *ierr;
     /* Function Body */
     *ierr = 0;
     if (*n == 1) {
-	goto L1001;
+        goto L1001;
     }
 
     i__1 = *n;
     for (i = 2; i <= i__1; ++i) {
 /* L100: */
-	e2[i - 1] = e2[i];
+        e2[i - 1] = e2[i];
     }
 
     f = 0.;
@@ -249,112 +249,112 @@ integer *ierr;
 
     i__1 = *n;
     for (l = 1; l <= i__1; ++l) {
-	j = 0;
-	h = (d__1 = d[l], abs(d__1)) + sqrt(e2[l]);
-	if (t > h) {
-	    goto L105;
-	}
-	t = h;
-	b = epslon_(&t);
-	c = b * b;
+        j = 0;
+        h = (d__1 = d[l], abs(d__1)) + sqrt(e2[l]);
+        if (t > h) {
+            goto L105;
+        }
+        t = h;
+        b = epslon_(&t);
+        c = b * b;
 /*     .......... look for small squared sub-diagonal element ........
 .. */
 L105:
-	i__2 = *n;
-	for (m = l; m <= i__2; ++m) {
-	    if (e2[m] <= c) {
-		goto L120;
-	    }
+        i__2 = *n;
+        for (m = l; m <= i__2; ++m) {
+            if (e2[m] <= c) {
+                goto L120;
+            }
 /*     .......... e2(n) is always zero, so there is no exit */
 /*                through the bottom of the loop .......... */
 /* L110: */
-	}
+        }
 
 L120:
-	if (m == l) {
-	    goto L210;
-	}
+        if (m == l) {
+            goto L210;
+        }
 L130:
-	if (j == 30) {
-	    goto L1000;
-	}
-	++j;
+        if (j == 30) {
+            goto L1000;
+        }
+        ++j;
 /*     .......... form shift .......... */
-	l1 = l + 1;
-	s = sqrt(e2[l]);
-	g = d[l];
-	p = (d[l1] - g) / (s * 2.);
-	r = pythag_(&p, &c_b17);
-	d[l] = s / (p + d_sign(&r, &p));
-	h = g - d[l];
+        l1 = l + 1;
+        s = sqrt(e2[l]);
+        g = d[l];
+        p = (d[l1] - g) / (s * 2.);
+        r = pythag_(&p, &c_b17);
+        d[l] = s / (p + d_sign(&r, &p));
+        h = g - d[l];
 
-	i__2 = *n;
-	for (i = l1; i <= i__2; ++i) {
+        i__2 = *n;
+        for (i = l1; i <= i__2; ++i) {
 /* L140: */
-	    d[i] -= h;
-	}
+            d[i] -= h;
+        }
 
-	f += h;
+        f += h;
 /*     .......... rational ql transformation .......... */
-	g = d[m];
-	if (g == 0.) {
-	    g = b;
-	}
-	h = g;
-	s = 0.;
-	mml = m - l;
+        g = d[m];
+        if (g == 0.) {
+            g = b;
+        }
+        h = g;
+        s = 0.;
+        mml = m - l;
 /*     .......... for i=m-1 step -1 until l do -- .......... */
-	i__2 = mml;
-	for (ii = 1; ii <= i__2; ++ii) {
-	    i = m - ii;
-	    p = g * h;
-	    r = p + e2[i];
-	    e2[i + 1] = s * r;
-	    s = e2[i] / r;
-	    d[i + 1] = h + s * (h + d[i]);
-	    g = d[i] - e2[i] / g;
-	    if (g == 0.) {
-		g = b;
-	    }
-	    h = g * p / r;
+        i__2 = mml;
+        for (ii = 1; ii <= i__2; ++ii) {
+            i = m - ii;
+            p = g * h;
+            r = p + e2[i];
+            e2[i + 1] = s * r;
+            s = e2[i] / r;
+            d[i + 1] = h + s * (h + d[i]);
+            g = d[i] - e2[i] / g;
+            if (g == 0.) {
+                g = b;
+            }
+            h = g * p / r;
 /* L200: */
-	}
+        }
 
-	e2[l] = s * g;
-	d[l] = h;
+        e2[l] = s * g;
+        d[l] = h;
 /*     .......... guard against underflow in convergence test ........
 .. */
-	if (h == 0.) {
-	    goto L210;
-	}
-	if ((d__1 = e2[l], abs(d__1)) <= (d__2 = c / h, abs(d__2))) {
-	    goto L210;
-	}
-	e2[l] = h * e2[l];
-	if (e2[l] != 0.) {
-	    goto L130;
-	}
+        if (h == 0.) {
+            goto L210;
+        }
+        if ((d__1 = e2[l], abs(d__1)) <= (d__2 = c / h, abs(d__2))) {
+            goto L210;
+        }
+        e2[l] = h * e2[l];
+        if (e2[l] != 0.) {
+            goto L130;
+        }
 L210:
-	p = d[l] + f;
+        p = d[l] + f;
 /*     .......... order eigenvalues .......... */
-	if (l == 1) {
-	    goto L250;
-	}
+        if (l == 1) {
+            goto L250;
+        }
 /*     .......... for i=l step -1 until 2 do -- .......... */
-	i__2 = l;
-	for (ii = 2; ii <= i__2; ++ii) {
-	    i = l + 2 - ii;
-	    if (p >= d[i - 1]) {
-		goto L270;
-	    }
-	    d[i] = d[i - 1];
+        i__2 = l;
+        for (ii = 2; ii <= i__2; ++ii) {
+            i = l + 2 - ii;
+            if (p >= d[i - 1]) {
+                goto L270;
+            }
+            d[i] = d[i - 1];
 /* L230: */
-	}
+        }
 
 L250:
-	i = 1;
+        i = 1;
 L270:
-	d[i] = p;
+        d[i] = p;
 /* L290: */
     }
 
@@ -416,12 +416,12 @@ doublereal *z;
 /*          in its first m columns. */
 
 /*     questions and comments should be directed to burton s. garbow, */
-/*     mathematics and computer science div, argonne national laboratory 
+/*     mathematics and computer science div, argonne national laboratory
 */
 
 /*     this version dated august 1983. */
 
-/*     ------------------------------------------------------------------ 
+/*     ------------------------------------------------------------------
 */
 
     /* Parameter adjustments */
@@ -435,31 +435,31 @@ doublereal *z;
 
     /* Function Body */
     if (*m == 0) {
-	goto L200;
+        goto L200;
     }
 
     i__1 = *m;
     for (j = 1; j <= i__1; ++j) {
 /*     .......... for i=n step -1 until 1 do -- .......... */
-	i__2 = *n;
-	for (ii = 1; ii <= i__2; ++ii) {
-	    i = *n + 1 - ii;
-	    i1 = i + 1;
-	    x = z[i + j * z_dim1];
-	    if (i == *n) {
-		goto L80;
-	    }
+        i__2 = *n;
+        for (ii = 1; ii <= i__2; ++ii) {
+            i = *n + 1 - ii;
+            i1 = i + 1;
+            x = z[i + j * z_dim1];
+            if (i == *n) {
+                goto L80;
+            }
 
-	    i__3 = *n;
-	    for (k = i1; k <= i__3; ++k) {
+            i__3 = *n;
+            for (k = i1; k <= i__3; ++k) {
 /* L60: */
-		x -= b[k + i * b_dim1] * z[k + j * z_dim1];
-	    }
+                x -= b[k + i * b_dim1] * z[k + j * z_dim1];
+            }
 
 L80:
-	    z[i + j * z_dim1] = x / dl[i];
+            z[i + j * z_dim1] = x / dl[i];
 /* L100: */
-	}
+        }
     }
 
 L200:
@@ -505,7 +505,7 @@ integer *ierr;
 /*        a and b contain the real symmetric input matrices.  only the */
 /*          full upper triangles of the matrices need be supplied.  if */
 /*          n is negative, the strict lower triangle of b contains, */
-/*          instead, the strict lower triangle of its cholesky factor l. 
+/*          instead, the strict lower triangle of its cholesky factor l.
 */
 
 /*        dl contains, if n is negative, the diagonal elements of l. */
@@ -514,7 +514,7 @@ integer *ierr;
 
 /*        a contains in its full lower triangle the full lower triangle */
 /*          of the symmetric matrix derived from the reduction to the */
-/*          standard form.  the strict upper triangle of a is unaltered. 
+/*          standard form.  the strict upper triangle of a is unaltered.
 */
 
 /*        b contains in its strict lower triangle the strict lower */
@@ -528,12 +528,12 @@ integer *ierr;
 /*          7*n+1      if b is not positive definite. */
 
 /*     questions and comments should be directed to burton s. garbow, */
-/*     mathematics and computer science div, argonne national laboratory 
+/*     mathematics and computer science div, argonne national laboratory
 */
 
 /*     this version dated august 1983. */
 
-/*     ------------------------------------------------------------------ 
+/*     ------------------------------------------------------------------
 */
 
     /* Parameter adjustments */
@@ -549,102 +549,102 @@ integer *ierr;
     *ierr = 0;
     nn = abs(*n);
     if (*n < 0) {
-	goto L100;
+        goto L100;
     }
 /*     .......... form l in the arrays b and dl .......... */
     i__1 = *n;
     for (i = 1; i <= i__1; ++i) {
-	i1 = i - 1;
+        i1 = i - 1;
 
-	i__2 = *n;
-	for (j = i; j <= i__2; ++j) {
-	    x = b[i + j * b_dim1];
-	    if (i == 1) {
-		goto L40;
-	    }
+        i__2 = *n;
+        for (j = i; j <= i__2; ++j) {
+            x = b[i + j * b_dim1];
+            if (i == 1) {
+                goto L40;
+            }
 
-	    i__3 = i1;
-	    for (k = 1; k <= i__3; ++k) {
+            i__3 = i1;
+            for (k = 1; k <= i__3; ++k) {
 /* L20: */
-		x -= b[i + k * b_dim1] * b[j + k * b_dim1];
-	    }
+                x -= b[i + k * b_dim1] * b[j + k * b_dim1];
+            }
 
 L40:
-	    if (j != i) {
-		goto L60;
-	    }
-	    if (x <= 0.) {
-		goto L1000;
-	    }
-	    y = sqrt(x);
-	    dl[i] = y;
-	    goto L80;
+            if (j != i) {
+                goto L60;
+            }
+            if (x <= 0.) {
+                goto L1000;
+            }
+            y = sqrt(x);
+            dl[i] = y;
+            goto L80;
 L60:
-	    b[j + i * b_dim1] = x / y;
+            b[j + i * b_dim1] = x / y;
 L80:
-	    ;
-	}
+            ;
+        }
     }
 /*     .......... form the transpose of the upper triangle of inv(l)*a */
 /*                in the lower triangle of the array a .......... */
 L100:
     i__2 = nn;
     for (i = 1; i <= i__2; ++i) {
-	i1 = i - 1;
-	y = dl[i];
+        i1 = i - 1;
+        y = dl[i];
 
-	i__1 = nn;
-	for (j = i; j <= i__1; ++j) {
-	    x = a[i + j * a_dim1];
-	    if (i == 1) {
-		goto L180;
-	    }
+        i__1 = nn;
+        for (j = i; j <= i__1; ++j) {
+            x = a[i + j * a_dim1];
+            if (i == 1) {
+                goto L180;
+            }
 
-	    i__3 = i1;
-	    for (k = 1; k <= i__3; ++k) {
+            i__3 = i1;
+            for (k = 1; k <= i__3; ++k) {
 /* L160: */
-		x -= b[i + k * b_dim1] * a[j + k * a_dim1];
-	    }
+                x -= b[i + k * b_dim1] * a[j + k * a_dim1];
+            }
 
 L180:
-	    a[j + i * a_dim1] = x / y;
+            a[j + i * a_dim1] = x / y;
 /* L200: */
-	}
+        }
     }
 /*     .......... pre-multiply by inv(l) and overwrite .......... */
     i__1 = nn;
     for (j = 1; j <= i__1; ++j) {
-	j1 = j - 1;
+        j1 = j - 1;
 
-	i__2 = nn;
-	for (i = j; i <= i__2; ++i) {
-	    x = a[i + j * a_dim1];
-	    if (i == j) {
-		goto L240;
-	    }
-	    i1 = i - 1;
+        i__2 = nn;
+        for (i = j; i <= i__2; ++i) {
+            x = a[i + j * a_dim1];
+            if (i == j) {
+                goto L240;
+            }
+            i1 = i - 1;
 
-	    i__3 = i1;
-	    for (k = j; k <= i__3; ++k) {
+            i__3 = i1;
+            for (k = j; k <= i__3; ++k) {
 /* L220: */
-		x -= a[k + j * a_dim1] * b[i + k * b_dim1];
-	    }
+                x -= a[k + j * a_dim1] * b[i + k * b_dim1];
+            }
 
 L240:
-	    if (j == 1) {
-		goto L280;
-	    }
+            if (j == 1) {
+                goto L280;
+            }
 
-	    i__3 = j1;
-	    for (k = 1; k <= i__3; ++k) {
+            i__3 = j1;
+            for (k = 1; k <= i__3; ++k) {
 /* L260: */
-		x -= a[j + k * a_dim1] * b[i + k * b_dim1];
-	    }
+                x -= a[j + k * a_dim1] * b[i + k * b_dim1];
+            }
 
 L280:
-	    a[i + j * a_dim1] = x / dl[i];
+            a[i + j * a_dim1] = x / dl[i];
 /* L300: */
-	}
+        }
     }
 
     goto L1001;

@@ -1,6 +1,6 @@
 /* drotg.f -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -28,11 +28,11 @@ doublereal *da, *db, *c, *s;
 
     roe = *db;
     if (abs(*da) > abs(*db)) {
-	roe = *da;
+        roe = *da;
     }
     scale = abs(*da) + abs(*db);
     if (scale != 0.) {
-	goto L10;
+        goto L10;
     }
     *c = 1.;
     *s = 0.;
@@ -50,10 +50,10 @@ L10:
     *s = *db / r;
     z = 1.;
     if (abs(*da) > abs(*db)) {
-	z = *s;
+        z = *s;
     }
     if (abs(*db) >= abs(*da) && *c != 0.) {
-	z = 1. / *c;
+        z = 1. / *c;
     }
 L20:
     *da = r;

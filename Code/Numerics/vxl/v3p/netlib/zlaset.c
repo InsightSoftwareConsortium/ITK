@@ -1,6 +1,6 @@
 /*  -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -41,10 +41,10 @@ ftnlen uplo_len;
 
 /*  UPLO    (input) CHARACTER*1 */
 /*          Specifies the part of the matrix A to be set. */
-/*          = 'U':      Upper triangular part is set. The lower triangle 
+/*          = 'U':      Upper triangular part is set. The lower triangle
 */
 /*                      is unchanged. */
-/*          = 'L':      Lower triangular part is set. The upper triangle 
+/*          = 'L':      Lower triangular part is set. The upper triangle
 */
 /*                      is unchanged. */
 /*          Otherwise:  All of the matrix A is set. */
@@ -69,7 +69,7 @@ ftnlen uplo_len;
 /*  LDA     (input) INTEGER */
 /*          The leading dimension of the array A.  LDA >= max(1,M). */
 
-/*  ===================================================================== 
+/*  =====================================================================
 */
 
 /*     .. Local Scalars .. */
@@ -88,73 +88,73 @@ ftnlen uplo_len;
     /* Function Body */
     if (lsame_(uplo, "U", 1L, 1L)) {
 
-/*        Set the diagonal to BETA and the strictly upper triangular 
+/*        Set the diagonal to BETA and the strictly upper triangular
 */
 /*        part of the array to ALPHA. */
 
-	i__1 = *n;
-	for (j = 2; j <= i__1; ++j) {
+        i__1 = *n;
+        for (j = 2; j <= i__1; ++j) {
 /* Computing MIN */
-	    i__3 = j - 1;
-	    i__2 = min(i__3,*m);
-	    for (i = 1; i <= i__2; ++i) {
-		i__3 = i + j * a_dim1;
-		a[i__3].r = alpha->r, a[i__3].i = alpha->i;
+            i__3 = j - 1;
+            i__2 = min(i__3,*m);
+            for (i = 1; i <= i__2; ++i) {
+                i__3 = i + j * a_dim1;
+                a[i__3].r = alpha->r, a[i__3].i = alpha->i;
 /* L10: */
-	    }
+            }
 /* L20: */
-	}
-	i__1 = min(*n,*m);
-	for (i = 1; i <= i__1; ++i) {
-	    i__2 = i + i * a_dim1;
-	    a[i__2].r = beta->r, a[i__2].i = beta->i;
+        }
+        i__1 = min(*n,*m);
+        for (i = 1; i <= i__1; ++i) {
+            i__2 = i + i * a_dim1;
+            a[i__2].r = beta->r, a[i__2].i = beta->i;
 /* L30: */
-	}
+        }
 
     } else if (lsame_(uplo, "L", 1L, 1L)) {
 
-/*        Set the diagonal to BETA and the strictly lower triangular 
+/*        Set the diagonal to BETA and the strictly lower triangular
 */
 /*        part of the array to ALPHA. */
 
-	i__1 = min(*m,*n);
-	for (j = 1; j <= i__1; ++j) {
-	    i__2 = *m;
-	    for (i = j + 1; i <= i__2; ++i) {
-		i__3 = i + j * a_dim1;
-		a[i__3].r = alpha->r, a[i__3].i = alpha->i;
+        i__1 = min(*m,*n);
+        for (j = 1; j <= i__1; ++j) {
+            i__2 = *m;
+            for (i = j + 1; i <= i__2; ++i) {
+                i__3 = i + j * a_dim1;
+                a[i__3].r = alpha->r, a[i__3].i = alpha->i;
 /* L40: */
-	    }
+            }
 /* L50: */
-	}
-	i__1 = min(*n,*m);
-	for (i = 1; i <= i__1; ++i) {
-	    i__2 = i + i * a_dim1;
-	    a[i__2].r = beta->r, a[i__2].i = beta->i;
+        }
+        i__1 = min(*n,*m);
+        for (i = 1; i <= i__1; ++i) {
+            i__2 = i + i * a_dim1;
+            a[i__2].r = beta->r, a[i__2].i = beta->i;
 /* L60: */
-	}
+        }
 
     } else {
 
 /*        Set the array to BETA on the diagonal and ALPHA on the */
 /*        offdiagonal. */
 
-	i__1 = *n;
-	for (j = 1; j <= i__1; ++j) {
-	    i__2 = *m;
-	    for (i = 1; i <= i__2; ++i) {
-		i__3 = i + j * a_dim1;
-		a[i__3].r = alpha->r, a[i__3].i = alpha->i;
+        i__1 = *n;
+        for (j = 1; j <= i__1; ++j) {
+            i__2 = *m;
+            for (i = 1; i <= i__2; ++i) {
+                i__3 = i + j * a_dim1;
+                a[i__3].r = alpha->r, a[i__3].i = alpha->i;
 /* L70: */
-	    }
+            }
 /* L80: */
-	}
-	i__1 = min(*m,*n);
-	for (i = 1; i <= i__1; ++i) {
-	    i__2 = i + i * a_dim1;
-	    a[i__2].r = beta->r, a[i__2].i = beta->i;
+        }
+        i__1 = min(*m,*n);
+        for (i = 1; i <= i__1; ++i) {
+            i__2 = i + i * a_dim1;
+            a[i__2].r = beta->r, a[i__2].i = beta->i;
 /* L90: */
-	}
+        }
     }
 
     return 0;

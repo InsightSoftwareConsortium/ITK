@@ -1,8 +1,10 @@
 #ifdef __GNUC__
 #pragma implementation
 #endif
+// This is vxl/vnl/vnl_matops.cxx
+
 //
-// Class: vnl_matops
+// vnl_matops
 // Author: Andrew W. Fitzgibbon, Oxford RRG
 // Created: 05 Aug 96
 //
@@ -61,7 +63,7 @@ vnl_matrix<double> vnl_matops::vcat(vnl_matrix<double> const &A, vnl_matrix<doub
   int colsB = B.columns();
 
   assert(colsA == colsB);
-  
+
   vnl_matrix<double> M(rowsA+rowsB,colsA);
   M.update(A,0,0);
   M.update(B,rowsA,0);
@@ -71,34 +73,34 @@ vnl_matrix<double> vnl_matops::vcat(vnl_matrix<double> const &A, vnl_matrix<doub
 
 extern "C" int dtrans_(double *a, const int& m, const int& n, const int& mn, int* move, const int& iwrk, int* iok);
 
-// -- Return fro_norm( (A ./ B) - mean(A ./ B) )
+//: Return fro_norm( (A ./ B) - mean(A ./ B) )
 double vnl_matops::homg_diff(vnl_matrix<double> const& A, vnl_matrix<double> const& B)
 {
   vnl_matrix<double> ratio = element_quotient(A, B);
-  
+
   return (ratio - ratio.mean()).fro_norm();
 }
 
 #define implement_converters(U,V)                           \
-vnl_matrix<U> make_matrix_ ## U(const vnl_matrix<V>& M)    \
-{							    \
-  unsigned m = M.rows();				    \
-  unsigned n = M.columns();				    \
-  vnl_matrix<U> ret(m, n);				    \
-  for(unsigned i = 0; i < m; ++i)			    \
-    for(unsigned j = 0; j < n; ++j)			    \
-      ret(i,j) = U(M(i,j));				    \
-  return ret;						    \
-}							    \
-							    \
-vnl_vector<U> make_vector_ ## U(const vnl_vector<V>& v)    \
-{							    \
-  unsigned n = v.size();  				    \
-  vnl_vector<U> ret(n);					    \
-  for(unsigned i = 0; i < n; ++i)			    \
-    ret[i] = U(v[i]);					    \
-  return ret;						    \
-}							    \
+vnl_matrix<U> make_matrix_ ## U(const vnl_matrix<V>& M)     \
+{                                                           \
+  unsigned m = M.rows();                                    \
+  unsigned n = M.columns();                                 \
+  vnl_matrix<U> ret(m, n);                                  \
+  for(unsigned i = 0; i < m; ++i)                           \
+    for(unsigned j = 0; j < n; ++j)                         \
+      ret(i,j) = U(M(i,j));                                 \
+  return ret;                                               \
+}                                                           \
+                                                            \
+vnl_vector<U> make_vector_ ## U(const vnl_vector<V>& v)     \
+{                                                           \
+  unsigned n = v.size();                                    \
+  vnl_vector<U> ret(n);                                     \
+  for(unsigned i = 0; i < n; ++i)                           \
+    ret[i] = U(v[i]);                                       \
+  return ret;                                               \
+}                                                           \
 
 implement_converters(double,float)
 

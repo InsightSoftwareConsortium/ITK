@@ -1,3 +1,5 @@
+// This is vxl/vnl/vnl_sample.cxx
+
 /*
   fsm@robots.ox.ac.uk
 */
@@ -15,7 +17,25 @@
 # include <stdlib.h> // dont_vxl_filter
 #endif
 
-// -- return a random number uniformly drawn on [a, b)
+
+#if !VXL_STDLIB_HAS_DRAND48
+// rand() is not always a good random number generator,
+// so use the following congruential random number generator - PVr
+static unsigned long vnl_sample_seed = 12345;
+#endif
+
+# include <vcl_ctime.h>
+
+void vnl_sample_reseed()
+{
+# if VXL_STDLIB_HAS_DRAND48
+  srand48( time(0) );
+# else
+  vnl_sample_seed = time(0);
+# endif
+}
+
+//: return a random number uniformly drawn on [a, b)
 double vnl_sample_uniform(double a, double b) 
 {
 #if VXL_STDLIB_HAS_DRAND48
@@ -24,27 +44,26 @@ double vnl_sample_uniform(double a, double b)
 #else
   // unlucky! perhaps your luck will change if you try
   // a different random number generator.
-
-  // rand() is not always a good random number generator,
-  // so use the following congruential random number generator - PVr
-  static unsigned long seed = 12345;
-  seed = (seed*16807)%2147483647L;
-  double u = double(seed)/2147483711L;
+  vnl_sample_seed = (vnl_sample_seed*16807)%2147483647L;
+  double u = double(vnl_sample_seed)/2147483711L;
 #endif
-  return (1.0-u)*a + u*b;
+  return (1.0 - u)*a + u*b;
+}
+
+void vnl_sample_normal_2(double *x, double *y)
+{
+  double u     = vnl_sample_uniform(0, 1);
+  double theta = vnl_sample_uniform(0, 2 * /* pi = */3.14159265358979);
+  
+  double r = vcl_sqrt(-2*vcl_log(u));
+  
+  if (x) *x = r * vcl_cos(theta);
+  if (y) *y = r * vcl_sin(theta);
 }
 
 double vnl_sample_normal(double mean, double sigma) 
 {
-  double u     = vnl_sample_uniform(0, 1);
-  double theta = vnl_sample_uniform(0, 2*3.1415926);
-  
-  double r = vcl_sqrt(-2*vcl_log(u));
-  
-  double x = r * vcl_cos(theta);
-#ifdef fred
-  double y = r * vcl_sin(theta);
-#endif
-  
+  double x;
+  vnl_sample_normal_2(&x, 0);
   return mean + sigma * x;
 }

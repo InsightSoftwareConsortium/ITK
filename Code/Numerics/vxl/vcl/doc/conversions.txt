@@ -5,4 +5,4 @@ old					new
 
 <cool/char.h>				<vcl_cstring.h>
 <cool/Array.h>				<vcl_vector.h>
-<cool/HashTable.h>			<vcl_hash_map.h>
+<cool/HashTable.h>			<vcl_map.h>

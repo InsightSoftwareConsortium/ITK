@@ -1,13 +1,13 @@
 /* dlapmt.f -- translated by f2c (version of 4 June 1993  1:43:59).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
 
 /*<       SUBROUTINE DLAPMT( FORWRD, M, N, X, LDX, K ) >*/
-/* Subroutine */ int dlapmt_(logical *forwrd, integer *m, integer *n, 
-	doublereal *x, integer *ldx, integer *k)
+/* Subroutine */ int dlapmt_(logical *forwrd, integer *m, integer *n,
+        doublereal *x, integer *ldx, integer *k)
 {
     /* System generated locals */
     integer x_dim1, x_offset, i__1, i__2;
@@ -67,7 +67,7 @@
 /*  K       (input) INTEGER array, dimension (N) */
 /*          On entry, K contains the permutation vector. */
 
-/*  ===================================================================== 
+/*  =====================================================================
 */
 
 /*     .. Local Scalars .. */
@@ -85,14 +85,14 @@
 
     /* Function Body */
     if (*n <= 1) {
-	return 0;
+        return 0;
     }
 
 /*<       DO 10 I = 1, N >*/
     i__1 = *n;
     for (i = 1; i <= i__1; ++i) {
 /*<          K( I ) = -K( I ) >*/
-	k[i] = -k[i];
+        k[i] = -k[i];
 /*<    10 CONTINUE >*/
 /* L10: */
     }
@@ -103,57 +103,57 @@
 /*        Forward permutation */
 
 /*<          DO 50 I = 1, N >*/
-	i__1 = *n;
-	for (i = 1; i <= i__1; ++i) {
+        i__1 = *n;
+        for (i = 1; i <= i__1; ++i) {
 
 /*<    >*/
-	    if (k[i] > 0) {
-		goto L40;
-	    }
+            if (k[i] > 0) {
+                goto L40;
+            }
 
 /*<             J = I >*/
-	    j = i;
+            j = i;
 /*<             K( J ) = -K( J ) >*/
-	    k[j] = -k[j];
+            k[j] = -k[j];
 /*<             IN = K( J ) >*/
-	    in = k[j];
+            in = k[j];
 
 /*<    20       CONTINUE >*/
 L20:
 /*<    >*/
-	    if (k[in] > 0) {
-		goto L40;
-	    }
+            if (k[in] > 0) {
+                goto L40;
+            }
 
 /*<             DO 30 II = 1, M >*/
-	    i__2 = *m;
-	    for (ii = 1; ii <= i__2; ++ii) {
+            i__2 = *m;
+            for (ii = 1; ii <= i__2; ++ii) {
 /*<                TEMP = X( II, J ) >*/
-		temp = x[ii + j * x_dim1];
+                temp = x[ii + j * x_dim1];
 /*<                X( II, J ) = X( II, IN ) >*/
-		x[ii + j * x_dim1] = x[ii + in * x_dim1];
+                x[ii + j * x_dim1] = x[ii + in * x_dim1];
 /*<                X( II, IN ) = TEMP >*/
-		x[ii + in * x_dim1] = temp;
+                x[ii + in * x_dim1] = temp;
 /*<    30       CONTINUE >*/
 /* L30: */
-	    }
+            }
 
 /*<             K( IN ) = -K( IN ) >*/
-	    k[in] = -k[in];
+            k[in] = -k[in];
 /*<             J = IN >*/
-	    j = in;
+            j = in;
 /*<             IN = K( IN ) >*/
-	    in = k[in];
+            in = k[in];
 /*<             GO TO 20 >*/
-	    goto L20;
+            goto L20;
 
 /*<    40       CONTINUE >*/
 L40:
 
 /*<    50    CONTINUE >*/
 /* L50: */
-	    ;
-	}
+            ;
+        }
 
 /*<       ELSE >*/
     } else {
@@ -161,52 +161,52 @@ L40:
 /*        Backward permutation */
 
 /*<          DO 90 I = 1, N >*/
-	i__1 = *n;
-	for (i = 1; i <= i__1; ++i) {
+        i__1 = *n;
+        for (i = 1; i <= i__1; ++i) {
 
 /*<    >*/
-	    if (k[i] > 0) {
-		goto L80;
-	    }
+            if (k[i] > 0) {
+                goto L80;
+            }
 
 /*<             K( I ) = -K( I ) >*/
-	    k[i] = -k[i];
+            k[i] = -k[i];
 /*<             J = K( I ) >*/
-	    j = k[i];
+            j = k[i];
 /*<    60       CONTINUE >*/
 L60:
 /*<    >*/
-	    if (j == i) {
-		goto L80;
-	    }
+            if (j == i) {
+                goto L80;
+            }
 
 /*<             DO 70 II = 1, M >*/
-	    i__2 = *m;
-	    for (ii = 1; ii <= i__2; ++ii) {
+            i__2 = *m;
+            for (ii = 1; ii <= i__2; ++ii) {
 /*<                TEMP = X( II, I ) >*/
-		temp = x[ii + i * x_dim1];
+                temp = x[ii + i * x_dim1];
 /*<                X( II, I ) = X( II, J ) >*/
-		x[ii + i * x_dim1] = x[ii + j * x_dim1];
+                x[ii + i * x_dim1] = x[ii + j * x_dim1];
 /*<                X( II, J ) = TEMP >*/
-		x[ii + j * x_dim1] = temp;
+                x[ii + j * x_dim1] = temp;
 /*<    70       CONTINUE >*/
 /* L70: */
-	    }
+            }
 
 /*<             K( J ) = -K( J ) >*/
-	    k[j] = -k[j];
+            k[j] = -k[j];
 /*<             J = K( J ) >*/
-	    j = k[j];
+            j = k[j];
 /*<             GO TO 60 >*/
-	    goto L60;
+            goto L60;
 
 /*<    80       CONTINUE >*/
 L80:
 
 /*<    90    CONTINUE >*/
 /* L90: */
-	    ;
-	}
+            ;
+        }
 
 /*<       END IF >*/
     }

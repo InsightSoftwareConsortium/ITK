@@ -1,6 +1,6 @@
 /* full-dpoco.f -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -60,7 +60,7 @@ integer *info;
 
 /*     on return */
 
-/*        a       an upper triangular matrix  r  so that  a = trans(r)*r 
+/*        a       an upper triangular matrix  r  so that  a = trans(r)*r
 */
 /*                where  trans(r)  is the transpose. */
 /*                the strict lower triangle is unaltered. */
@@ -70,7 +70,7 @@ integer *info;
 /*                an estimate of the reciprocal condition of  a . */
 /*                for the system  a*x = b , relative perturbations */
 /*                in  a  and  b  of size  epsilon  may cause */
-/*                relative perturbations in  x  of size  epsilon/rcond . 
+/*                relative perturbations in  x  of size  epsilon/rcond .
 */
 /*                if  rcond  is so small that the logical expression */
 /*                           1.0 + rcond .eq. 1.0 */
@@ -115,26 +115,26 @@ integer *info;
     /* Function Body */
     i__1 = *n;
     for (j = 1; j <= i__1; ++j) {
-	z[j] = dasum_(&j, &a[j * a_dim1 + 1], &c__1);
-	jm1 = j - 1;
-	if (jm1 < 1) {
-	    goto L20;
-	}
-	i__2 = jm1;
-	for (i = 1; i <= i__2; ++i) {
-	    z[i] += (d__1 = a[i + j * a_dim1], abs(d__1));
+        z[j] = dasum_(&j, &a[j * a_dim1 + 1], &c__1);
+        jm1 = j - 1;
+        if (jm1 < 1) {
+            goto L20;
+        }
+        i__2 = jm1;
+        for (i = 1; i <= i__2; ++i) {
+            z[i] += (d__1 = a[i + j * a_dim1], abs(d__1));
 /* L10: */
-	}
+        }
 L20:
 /* L30: */
-	;
+        ;
     }
     anorm = 0.;
     i__1 = *n;
     for (j = 1; j <= i__1; ++j) {
 /* Computing MAX */
-	d__1 = anorm, d__2 = z[j];
-	anorm = max(d__1,d__2);
+        d__1 = anorm, d__2 = z[j];
+        anorm = max(d__1,d__2);
 /* L40: */
     }
 
@@ -142,7 +142,7 @@ L20:
 
     dpofa_(&a[a_offset], lda, n, info);
     if (*info != 0) {
-	goto L180;
+        goto L180;
     }
 
 /*        rcond = 1/(norm(a)*(estimate of norm(inverse(a)))) . */
@@ -156,52 +156,52 @@ L20:
     ek = 1.;
     i__1 = *n;
     for (j = 1; j <= i__1; ++j) {
-	z[j] = 0.;
+        z[j] = 0.;
 /* L50: */
     }
     i__1 = *n;
     for (k = 1; k <= i__1; ++k) {
-	if (z[k] != 0.) {
-	    d__1 = -z[k];
-	    ek = d_sign(&ek, &d__1);
-	}
-	if ((d__1 = ek - z[k], abs(d__1)) <= a[k + k * a_dim1]) {
-	    goto L60;
-	}
-	s = a[k + k * a_dim1] / (d__1 = ek - z[k], abs(d__1));
-	dscal_(n, &s, &z[1], &c__1);
-	ek = s * ek;
+        if (z[k] != 0.) {
+            d__1 = -z[k];
+            ek = d_sign(&ek, &d__1);
+        }
+        if ((d__1 = ek - z[k], abs(d__1)) <= a[k + k * a_dim1]) {
+            goto L60;
+        }
+        s = a[k + k * a_dim1] / (d__1 = ek - z[k], abs(d__1));
+        dscal_(n, &s, &z[1], &c__1);
+        ek = s * ek;
 L60:
-	wk = ek - z[k];
-	wkm = -ek - z[k];
-	s = abs(wk);
-	sm = abs(wkm);
-	wk /= a[k + k * a_dim1];
-	wkm /= a[k + k * a_dim1];
-	kp1 = k + 1;
-	if (kp1 > *n) {
-	    goto L100;
-	}
-	i__2 = *n;
-	for (j = kp1; j <= i__2; ++j) {
-	    sm += (d__1 = z[j] + wkm * a[k + j * a_dim1], abs(d__1));
-	    z[j] += wk * a[k + j * a_dim1];
-	    s += (d__1 = z[j], abs(d__1));
+        wk = ek - z[k];
+        wkm = -ek - z[k];
+        s = abs(wk);
+        sm = abs(wkm);
+        wk /= a[k + k * a_dim1];
+        wkm /= a[k + k * a_dim1];
+        kp1 = k + 1;
+        if (kp1 > *n) {
+            goto L100;
+        }
+        i__2 = *n;
+        for (j = kp1; j <= i__2; ++j) {
+            sm += (d__1 = z[j] + wkm * a[k + j * a_dim1], abs(d__1));
+            z[j] += wk * a[k + j * a_dim1];
+            s += (d__1 = z[j], abs(d__1));
 /* L70: */
-	}
-	if (s >= sm) {
-	    goto L90;
-	}
-	t = wkm - wk;
-	wk = wkm;
-	i__2 = *n;
-	for (j = kp1; j <= i__2; ++j) {
-	    z[j] += t * a[k + j * a_dim1];
+        }
+        if (s >= sm) {
+            goto L90;
+        }
+        t = wkm - wk;
+        wk = wkm;
+        i__2 = *n;
+        for (j = kp1; j <= i__2; ++j) {
+            z[j] += t * a[k + j * a_dim1];
 /* L80: */
-	}
+        }
 L90:
 L100:
-	z[k] = wk;
+        z[k] = wk;
 /* L110: */
     }
     s = 1. / dasum_(n, &z[1], &c__1);
@@ -211,17 +211,17 @@ L100:
 
     i__1 = *n;
     for (kb = 1; kb <= i__1; ++kb) {
-	k = *n + 1 - kb;
-	if ((d__1 = z[k], abs(d__1)) <= a[k + k * a_dim1]) {
-	    goto L120;
-	}
-	s = a[k + k * a_dim1] / (d__1 = z[k], abs(d__1));
-	dscal_(n, &s, &z[1], &c__1);
+        k = *n + 1 - kb;
+        if ((d__1 = z[k], abs(d__1)) <= a[k + k * a_dim1]) {
+            goto L120;
+        }
+        s = a[k + k * a_dim1] / (d__1 = z[k], abs(d__1));
+        dscal_(n, &s, &z[1], &c__1);
 L120:
-	z[k] /= a[k + k * a_dim1];
-	t = -z[k];
-	i__2 = k - 1;
-	daxpy_(&i__2, &t, &a[k * a_dim1 + 1], &c__1, &z[1], &c__1);
+        z[k] /= a[k + k * a_dim1];
+        t = -z[k];
+        i__2 = k - 1;
+        daxpy_(&i__2, &t, &a[k * a_dim1 + 1], &c__1, &z[1], &c__1);
 /* L130: */
     }
     s = 1. / dasum_(n, &z[1], &c__1);
@@ -233,16 +233,16 @@ L120:
 
     i__1 = *n;
     for (k = 1; k <= i__1; ++k) {
-	i__2 = k - 1;
-	z[k] -= ddot_(&i__2, &a[k * a_dim1 + 1], &c__1, &z[1], &c__1);
-	if ((d__1 = z[k], abs(d__1)) <= a[k + k * a_dim1]) {
-	    goto L140;
-	}
-	s = a[k + k * a_dim1] / (d__1 = z[k], abs(d__1));
-	dscal_(n, &s, &z[1], &c__1);
-	ynorm = s * ynorm;
+        i__2 = k - 1;
+        z[k] -= ddot_(&i__2, &a[k * a_dim1 + 1], &c__1, &z[1], &c__1);
+        if ((d__1 = z[k], abs(d__1)) <= a[k + k * a_dim1]) {
+            goto L140;
+        }
+        s = a[k + k * a_dim1] / (d__1 = z[k], abs(d__1));
+        dscal_(n, &s, &z[1], &c__1);
+        ynorm = s * ynorm;
 L140:
-	z[k] /= a[k + k * a_dim1];
+        z[k] /= a[k + k * a_dim1];
 /* L150: */
     }
     s = 1. / dasum_(n, &z[1], &c__1);
@@ -253,18 +253,18 @@ L140:
 
     i__1 = *n;
     for (kb = 1; kb <= i__1; ++kb) {
-	k = *n + 1 - kb;
-	if ((d__1 = z[k], abs(d__1)) <= a[k + k * a_dim1]) {
-	    goto L160;
-	}
-	s = a[k + k * a_dim1] / (d__1 = z[k], abs(d__1));
-	dscal_(n, &s, &z[1], &c__1);
-	ynorm = s * ynorm;
+        k = *n + 1 - kb;
+        if ((d__1 = z[k], abs(d__1)) <= a[k + k * a_dim1]) {
+            goto L160;
+        }
+        s = a[k + k * a_dim1] / (d__1 = z[k], abs(d__1));
+        dscal_(n, &s, &z[1], &c__1);
+        ynorm = s * ynorm;
 L160:
-	z[k] /= a[k + k * a_dim1];
-	t = -z[k];
-	i__2 = k - 1;
-	daxpy_(&i__2, &t, &a[k * a_dim1 + 1], &c__1, &z[1], &c__1);
+        z[k] /= a[k + k * a_dim1];
+        t = -z[k];
+        i__2 = k - 1;
+        daxpy_(&i__2, &t, &a[k * a_dim1 + 1], &c__1, &z[1], &c__1);
 /* L170: */
     }
 /*        make znorm = 1.0 */
@@ -273,10 +273,10 @@ L160:
     ynorm = s * ynorm;
 
     if (anorm != 0.) {
-	*rcond = ynorm / anorm;
+        *rcond = ynorm / anorm;
     }
     if (anorm == 0.) {
-	*rcond = 0.;
+        *rcond = 0.;
     }
 L180:
     return 0;
@@ -310,10 +310,10 @@ integer *incx;
     ret_val = 0.;
     dtemp = 0.;
     if (*n <= 0 || *incx <= 0) {
-	return ret_val;
+        return ret_val;
     }
     if (*incx == 1) {
-	goto L20;
+        goto L20;
     }
 
 /*        code for increment not equal to 1 */
@@ -322,7 +322,7 @@ integer *incx;
     i__1 = nincx;
     i__2 = *incx;
     for (i = 1; i__2 < 0 ? i >= i__1 : i <= i__1; i += i__2) {
-	dtemp += (d__1 = dx[i], abs(d__1));
+        dtemp += (d__1 = dx[i], abs(d__1));
 /* L10: */
     }
     ret_val = dtemp;
@@ -336,24 +336,24 @@ integer *incx;
 L20:
     m = *n % 6;
     if (m == 0) {
-	goto L40;
+        goto L40;
     }
     i__2 = m;
     for (i = 1; i <= i__2; ++i) {
-	dtemp += (d__1 = dx[i], abs(d__1));
+        dtemp += (d__1 = dx[i], abs(d__1));
 /* L30: */
     }
     if (*n < 6) {
-	goto L60;
+        goto L60;
     }
 L40:
     mp1 = m + 1;
     i__2 = *n;
     for (i = mp1; i <= i__2; i += 6) {
-	dtemp = dtemp + (d__1 = dx[i], abs(d__1)) + (d__2 = dx[i + 1], abs(
-		d__2)) + (d__3 = dx[i + 2], abs(d__3)) + (d__4 = dx[i + 3], 
-		abs(d__4)) + (d__5 = dx[i + 4], abs(d__5)) + (d__6 = dx[i + 5]
-		, abs(d__6));
+        dtemp = dtemp + (d__1 = dx[i], abs(d__1)) + (d__2 = dx[i + 1], abs(
+                d__2)) + (d__3 = dx[i + 2], abs(d__3)) + (d__4 = dx[i + 3],
+                abs(d__4)) + (d__5 = dx[i + 4], abs(d__5)) + (d__6 = dx[i + 5]
+                , abs(d__6));
 /* L50: */
     }
 L60:
@@ -387,13 +387,13 @@ integer *incy;
 
     /* Function Body */
     if (*n <= 0) {
-	return 0;
+        return 0;
     }
     if (*da == 0.) {
-	return 0;
+        return 0;
     }
     if (*incx == 1 && *incy == 1) {
-	goto L20;
+        goto L20;
     }
 
 /*        code for unequal increments or equal increments */
@@ -402,16 +402,16 @@ integer *incy;
     ix = 1;
     iy = 1;
     if (*incx < 0) {
-	ix = (-(*n) + 1) * *incx + 1;
+        ix = (-(*n) + 1) * *incx + 1;
     }
     if (*incy < 0) {
-	iy = (-(*n) + 1) * *incy + 1;
+        iy = (-(*n) + 1) * *incy + 1;
     }
     i__1 = *n;
     for (i = 1; i <= i__1; ++i) {
-	dy[iy] += *da * dx[ix];
-	ix += *incx;
-	iy += *incy;
+        dy[iy] += *da * dx[ix];
+        ix += *incx;
+        iy += *incy;
 /* L10: */
     }
     return 0;
@@ -424,24 +424,24 @@ integer *incy;
 L20:
     m = *n % 4;
     if (m == 0) {
-	goto L40;
+        goto L40;
     }
     i__1 = m;
     for (i = 1; i <= i__1; ++i) {
-	dy[i] += *da * dx[i];
+        dy[i] += *da * dx[i];
 /* L30: */
     }
     if (*n < 4) {
-	return 0;
+        return 0;
     }
 L40:
     mp1 = m + 1;
     i__1 = *n;
     for (i = mp1; i <= i__1; i += 4) {
-	dy[i] += *da * dx[i];
-	dy[i + 1] += *da * dx[i + 1];
-	dy[i + 2] += *da * dx[i + 2];
-	dy[i + 3] += *da * dx[i + 3];
+        dy[i] += *da * dx[i];
+        dy[i + 1] += *da * dx[i + 1];
+        dy[i + 2] += *da * dx[i + 2];
+        dy[i + 3] += *da * dx[i + 3];
 /* L50: */
     }
     return 0;
@@ -478,10 +478,10 @@ integer *incy;
     ret_val = 0.;
     dtemp = 0.;
     if (*n <= 0) {
-	return ret_val;
+        return ret_val;
     }
     if (*incx == 1 && *incy == 1) {
-	goto L20;
+        goto L20;
     }
 
 /*        code for unequal increments or equal increments */
@@ -490,16 +490,16 @@ integer *incy;
     ix = 1;
     iy = 1;
     if (*incx < 0) {
-	ix = (-(*n) + 1) * *incx + 1;
+        ix = (-(*n) + 1) * *incx + 1;
     }
     if (*incy < 0) {
-	iy = (-(*n) + 1) * *incy + 1;
+        iy = (-(*n) + 1) * *incy + 1;
     }
     i__1 = *n;
     for (i = 1; i <= i__1; ++i) {
-	dtemp += dx[ix] * dy[iy];
-	ix += *incx;
-	iy += *incy;
+        dtemp += dx[ix] * dy[iy];
+        ix += *incx;
+        iy += *incy;
 /* L10: */
     }
     ret_val = dtemp;
@@ -513,22 +513,22 @@ integer *incy;
 L20:
     m = *n % 5;
     if (m == 0) {
-	goto L40;
+        goto L40;
     }
     i__1 = m;
     for (i = 1; i <= i__1; ++i) {
-	dtemp += dx[i] * dy[i];
+        dtemp += dx[i] * dy[i];
 /* L30: */
     }
     if (*n < 5) {
-	goto L60;
+        goto L60;
     }
 L40:
     mp1 = m + 1;
     i__1 = *n;
     for (i = mp1; i <= i__1; i += 5) {
-	dtemp = dtemp + dx[i] * dy[i] + dx[i + 1] * dy[i + 1] + dx[i + 2] * 
-		dy[i + 2] + dx[i + 3] * dy[i + 3] + dx[i + 4] * dy[i + 4];
+        dtemp = dtemp + dx[i] * dy[i] + dx[i + 1] * dy[i + 1] + dx[i + 2] *
+                dy[i + 2] + dx[i + 3] * dy[i + 3] + dx[i + 4] * dy[i + 4];
 /* L50: */
     }
 L60:
@@ -560,10 +560,10 @@ integer *incx;
 
     /* Function Body */
     if (*n <= 0 || *incx <= 0) {
-	return 0;
+        return 0;
     }
     if (*incx == 1) {
-	goto L20;
+        goto L20;
     }
 
 /*        code for increment not equal to 1 */
@@ -572,7 +572,7 @@ integer *incx;
     i__1 = nincx;
     i__2 = *incx;
     for (i = 1; i__2 < 0 ? i >= i__1 : i <= i__1; i += i__2) {
-	dx[i] = *da * dx[i];
+        dx[i] = *da * dx[i];
 /* L10: */
     }
     return 0;
@@ -585,25 +585,25 @@ integer *incx;
 L20:
     m = *n % 5;
     if (m == 0) {
-	goto L40;
+        goto L40;
     }
     i__2 = m;
     for (i = 1; i <= i__2; ++i) {
-	dx[i] = *da * dx[i];
+        dx[i] = *da * dx[i];
 /* L30: */
     }
     if (*n < 5) {
-	return 0;
+        return 0;
     }
 L40:
     mp1 = m + 1;
     i__2 = *n;
     for (i = mp1; i <= i__2; i += 5) {
-	dx[i] = *da * dx[i];
-	dx[i + 1] = *da * dx[i + 1];
-	dx[i + 2] = *da * dx[i + 2];
-	dx[i + 3] = *da * dx[i + 3];
-	dx[i + 4] = *da * dx[i + 4];
+        dx[i] = *da * dx[i];
+        dx[i + 1] = *da * dx[i + 1];
+        dx[i + 2] = *da * dx[i + 2];
+        dx[i + 3] = *da * dx[i + 3];
+        dx[i + 4] = *da * dx[i + 4];
 /* L50: */
     }
     return 0;
@@ -647,7 +647,7 @@ integer *lda, *n, *info;
 
 /*     on return */
 
-/*        a       an upper triangular matrix  r  so that  a = trans(r)*r 
+/*        a       an upper triangular matrix  r  so that  a = trans(r)*r
 */
 /*                where  trans(r)  is the transpose. */
 /*                the strict lower triangle is unaltered. */
@@ -679,29 +679,29 @@ integer *lda, *n, *info;
     /* Function Body */
     i__1 = *n;
     for (j = 1; j <= i__1; ++j) {
-	*info = j;
-	s = 0.;
-	jm1 = j - 1;
-	if (jm1 < 1) {
-	    goto L20;
-	}
-	i__2 = jm1;
-	for (k = 1; k <= i__2; ++k) {
-	    i__3 = k - 1;
-	    t = a[k + j * a_dim1] - ddot_(&i__3, &a[k * a_dim1 + 1], &c__1, &
-		    a[j * a_dim1 + 1], &c__1);
-	    t /= a[k + k * a_dim1];
-	    a[k + j * a_dim1] = t;
-	    s += t * t;
+        *info = j;
+        s = 0.;
+        jm1 = j - 1;
+        if (jm1 < 1) {
+            goto L20;
+        }
+        i__2 = jm1;
+        for (k = 1; k <= i__2; ++k) {
+            i__3 = k - 1;
+            t = a[k + j * a_dim1] - ddot_(&i__3, &a[k * a_dim1 + 1], &c__1, &
+                    a[j * a_dim1 + 1], &c__1);
+            t /= a[k + k * a_dim1];
+            a[k + j * a_dim1] = t;
+            s += t * t;
 /* L10: */
-	}
+        }
 L20:
-	s = a[j + j * a_dim1] - s;
+        s = a[j + j * a_dim1] - s;
 /*     ......exit */
-	if (s <= 0.) {
-	    goto L40;
-	}
-	a[j + j * a_dim1] = sqrt(s);
+        if (s <= 0.) {
+            goto L40;
+        }
+        a[j + j * a_dim1] = sqrt(s);
 /* L30: */
     }
     *info = 0;

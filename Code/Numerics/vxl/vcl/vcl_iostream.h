@@ -1,13 +1,12 @@
 #ifndef vcl_iostream_h_
 #define vcl_iostream_h_
 
-// .NAME vcl_iostream
-// .INCLUDE vcl_iostream.h
-// .SECTION Author
-//    awf@robots.ox.ac.uk
-// .SECTION Description
-//  include compiler's <iostream.h> in a uniform way.
-//  in particular, define the following
+//: 
+// \file
+// \brief Include compiler's <iostream.h> in a uniform way.
+// \author awf@robots.ox.ac.uk
+//
+//  In particular, define the following
 // \verbatim
 //   vcl_ostream
 //   vcl_ios_X (as in ios::X)
@@ -43,9 +42,7 @@
 // ------------------------------------------------------------
 
 #if defined(VCL_SGI_CC_720)
-# include <iostream.h>
-# define vcl_generic_iostream_STD /* */
-# include "generic/vcl_iostream.h"
+# include "sgi/vcl_iostream.h"
 
 #else // -------------------- ISO
 # include "iso/vcl_iostream.h"
@@ -53,31 +50,11 @@
 
 // -------------------- miscellaneous fixes which can go at the end:
 
-#if defined(VCL_SGI_CC_720)
-inline istream& operator>>(istream& s, signed char& c) 
-{
-  char i;
-  s >> i;
-  c = i;
-  return s;
-}
-// SGI CC has no ios::bin, but since UNIX makes no distinction
-// between binary and non-binary, 0 works just as well.
-# undef  vcl_ios_binary
-# define vcl_ios_binary   ios::open_mode(0)/*ios::bin*/
-#endif
-
 // Need std::ios::nocreate to avoid creating an empty file on 
 // attempts to read a non-existent one. Don't we? -- fsm
 #if defined(VCL_VC50)
 # undef  vcl_ios_in
 # define vcl_ios_in      (std::ios::in | std::ios::nocreate)
-#endif
-
-#if defined(VCL_SGI_CC_720)
-// This is not there.
-# undef  vcl_streamsize
-# define vcl_streamsize   unsigned
 #endif
 
 #endif // vcl_iostream_h_

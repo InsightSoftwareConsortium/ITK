@@ -1,6 +1,6 @@
 /* dlapy2.f -- translated by f2c (version of 4 June 1993  1:43:59).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -30,7 +30,7 @@ doublereal dlapy2_(doublereal *x, doublereal *y)
 /*  Purpose */
 /*  ======= */
 
-/*  DLAPY2 returns sqrt(x**2+y**2), taking care not to cause unnecessary 
+/*  DLAPY2 returns sqrt(x**2+y**2), taking care not to cause unnecessary
 */
 /*  overflow. */
 
@@ -41,7 +41,7 @@ doublereal dlapy2_(doublereal *x, doublereal *y)
 /*  Y       (input) DOUBLE PRECISION */
 /*          X and Y specify the values x and y. */
 
-/*  ===================================================================== 
+/*  =====================================================================
 */
 
 /*     .. Parameters .. */
@@ -69,13 +69,13 @@ doublereal dlapy2_(doublereal *x, doublereal *y)
 /*<       IF( Z.EQ.ZERO ) THEN >*/
     if (z == 0.) {
 /*<          DLAPY2 = W >*/
-	ret_val = w;
+        ret_val = w;
 /*<       ELSE >*/
     } else {
 /*<          DLAPY2 = W*SQRT( ONE+( Z / W )**2 ) >*/
 /* Computing 2nd power */
-	d__1 = z / w;
-	ret_val = w * sqrt(d__1 * d__1 + 1.);
+        d__1 = z / w;
+        ret_val = w * sqrt(d__1 * d__1 + 1.);
 /*<       END IF >*/
     }
 /*<       RETURN >*/

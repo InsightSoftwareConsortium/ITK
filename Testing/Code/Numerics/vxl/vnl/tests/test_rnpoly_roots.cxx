@@ -30,16 +30,16 @@ int testRNPolyRoots() {
   vnl_rnpoly_solve solver(l);
 
   vcl_vector<vnl_vector<double>*> r = solver.realroots();
-  Assert("There should be two real roots: ", r.size() == 2);
+  vnl_test_assert("There should be two real roots: ", r.size() == 2);
   for (rp = r.begin(); rp != r.end(); ++rp) {
     vcl_cout << *(*rp) << vcl_endl;
-    Assert("x==0.5", fabs((*rp)->x()-0.5) < 1e-9);
+    vnl_test_assert("x==0.5", fabs((*rp)->x()-0.5) < 1e-9);
     double ryy = (*rp)->y(); ryy *= ryy;
-    Assert("y==sqrt(0.75)", fabs(ryy-0.75) < 1e-9);
+    vnl_test_assert("y==sqrt(0.75)", fabs(ryy-0.75) < 1e-9);
   }
   vcl_vector<vnl_vector<double>*> roots_r = solver.real();
   vcl_vector<vnl_vector<double>*> roots_i = solver.imag();
-  Assert("and no more finite imaginary roots: ", roots_r.size() == 2 && roots_i.size() == 2);
+  vnl_test_assert("and no more finite imaginary roots: ", roots_r.size() == 2 && roots_i.size() == 2);
   for (rp=roots_r.begin(),ip=roots_i.begin(); rp!=roots_r.end(); ++rp,++ip)
     vcl_cout << "  REAL " << *((*rp)) << " IMAG " << *((*ip)) << vcl_endl;
 
@@ -55,16 +55,16 @@ int testRNPolyRoots() {
   vnl_rnpoly_solve solver2(l);
 
   r = solver2.realroots();
-  Assert("There should be four real roots: ", r.size() == 4);
+  vnl_test_assert("There should be four real roots: ", r.size() == 4);
   for (rp = r.begin(); rp != r.end(); ++rp) {
     vcl_cout << *(*rp) << vcl_endl;
     double rxx = (*rp)->x(); rxx *= rxx;
-    Assert("x==sqrt(1/3)", fabs(3*rxx-1) < 1e-9);
+    vnl_test_assert("x==sqrt(1/3)", fabs(3*rxx-1) < 1e-9);
     double ryy = (*rp)->y(); ryy *= ryy;
-    Assert("y==sqrt(1/3)", fabs(3*ryy-1) < 1e-9);
+    vnl_test_assert("y==sqrt(1/3)", fabs(3*ryy-1) < 1e-9);
   }
   roots_r = solver2.real(); roots_i = solver2.imag();
-  Assert("and no more imaginary roots: ", roots_r.size() == 4 && roots_i.size() == 4);
+  vnl_test_assert("and no more imaginary roots: ", roots_r.size() == 4 && roots_i.size() == 4);
   for (rp=roots_r.begin(),ip=roots_i.begin(); rp!=roots_r.end(); ++rp,++ip)
     vcl_cout << "  REAL " << *((*rp)) << " IMAG " << *((*ip)) << vcl_endl;
 
@@ -77,8 +77,8 @@ int testRNPolyRoots() {
   vnl_rnpoly_solve solver3(l);
 
   r = solver3.realroots();
-  Assert("There should be no real roots", r.size() == 0);
-  Assert("and four imaginary roots", solver3.real().size() == 4);
+  vnl_test_assert("There should be no real roots", r.size() == 0);
+  vnl_test_assert("and four imaginary roots", solver3.real().size() == 4);
   roots_r = solver3.real(); roots_i = solver3.imag();
   for (rp=roots_r.begin(),ip=roots_i.begin(); rp!=roots_r.end(); ++rp,++ip)
     vcl_cout << "  REAL " << *((*rp)) << " IMAG " << *((*ip)) << vcl_endl;

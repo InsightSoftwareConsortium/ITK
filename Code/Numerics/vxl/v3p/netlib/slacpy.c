@@ -1,12 +1,12 @@
 /* slacpy.f -- translated by f2c (version of 4 June 1993  1:43:59).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
 
-/* Subroutine */ int slacpy_(char *uplo, integer *m, integer *n, real *a, 
-	integer *lda, real *b, integer *ldb, ftnlen uplo_len)
+/* Subroutine */ int slacpy_(char *uplo, integer *m, integer *n, real *a,
+        integer *lda, real *b, integer *ldb, ftnlen uplo_len)
 {
     /* System generated locals */
     integer a_dim1, a_offset, b_dim1, b_offset, i__1, i__2;
@@ -48,7 +48,7 @@
 /*          The number of columns of the matrix A.  N >= 0. */
 
 /*  A       (input) REAL array, dimension (LDA,N) */
-/*          The m by n matrix A.  If UPLO = 'U', only the upper triangle 
+/*          The m by n matrix A.  If UPLO = 'U', only the upper triangle
 */
 /*          or trapezoid is accessed; if UPLO = 'L', only the lower */
 /*          triangle or trapezoid is accessed. */
@@ -62,7 +62,7 @@
 /*  LDB     (input) INTEGER */
 /*          The leading dimension of the array B.  LDB >= max(1,M). */
 
-/*  ===================================================================== 
+/*  =====================================================================
 */
 
 /*     .. Local Scalars .. */
@@ -83,35 +83,35 @@
 
     /* Function Body */
     if (lsame_(uplo, "U", 1L, 1L)) {
-	i__1 = *n;
-	for (j = 1; j <= i__1; ++j) {
-	    i__2 = min(j,*m);
-	    for (i = 1; i <= i__2; ++i) {
-		b[i + j * b_dim1] = a[i + j * a_dim1];
+        i__1 = *n;
+        for (j = 1; j <= i__1; ++j) {
+            i__2 = min(j,*m);
+            for (i = 1; i <= i__2; ++i) {
+                b[i + j * b_dim1] = a[i + j * a_dim1];
 /* L10: */
-	    }
+            }
 /* L20: */
-	}
+        }
     } else if (lsame_(uplo, "L", 1L, 1L)) {
-	i__1 = *n;
-	for (j = 1; j <= i__1; ++j) {
-	    i__2 = *m;
-	    for (i = j; i <= i__2; ++i) {
-		b[i + j * b_dim1] = a[i + j * a_dim1];
+        i__1 = *n;
+        for (j = 1; j <= i__1; ++j) {
+            i__2 = *m;
+            for (i = j; i <= i__2; ++i) {
+                b[i + j * b_dim1] = a[i + j * a_dim1];
 /* L30: */
-	    }
+            }
 /* L40: */
-	}
+        }
     } else {
-	i__1 = *n;
-	for (j = 1; j <= i__1; ++j) {
-	    i__2 = *m;
-	    for (i = 1; i <= i__2; ++i) {
-		b[i + j * b_dim1] = a[i + j * a_dim1];
+        i__1 = *n;
+        for (j = 1; j <= i__1; ++j) {
+            i__2 = *m;
+            for (i = 1; i <= i__2; ++i) {
+                b[i + j * b_dim1] = a[i + j * a_dim1];
 /* L50: */
-	    }
+            }
 /* L60: */
-	}
+        }
     }
     return 0;
 

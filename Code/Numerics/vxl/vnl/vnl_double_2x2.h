@@ -3,22 +3,17 @@
 #ifdef __GNUC__
 #pragma interface
 #endif
-//
-// .NAME	vnl_double_2x2 - 2x2 Matrix of double
-// .LIBRARY	vnl
-// .HEADER	vxl package
-// .INCLUDE	vnl/vnl_double_2x2.h
-// .FILE	vnl_double_2x2.cxx
-//
-// .SECTION Description
+// This is vxl/vnl/vnl_double_2x2.h
+
+//: \file
+//  \brief 2x2 Matrix of double
+//  \author Andrew W. Fitzgibbon, Oxford RRG, 04 Aug 96 
 //    vnl_double_2x2 is a vnl_matrix<double> of fixed size 2x2.  It is
 //    merely a typedef for vnl_matrix_fixed<double,2,2>
-//
-// .SECTION Author
-//     Andrew W. Fitzgibbon, Oxford RRG, 04 Aug 96
-//
-// .SECTION Modifications:
-//     <none yet>
+
+// Modifications:
+// 4/4/01 Tidied documentation
+//  
 //
 //-----------------------------------------------------------------------------
 

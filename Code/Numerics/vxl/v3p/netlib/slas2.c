@@ -1,12 +1,12 @@
 /* slas2.f -- translated by f2c (version of 4 June 1993  1:43:59).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
 
 /* Subroutine */ int slas2_(real *f, real *g, real *h, real *ssmin, real *
-	ssmax)
+        ssmax)
 {
     /* System generated locals */
     real r__1, r__2;
@@ -57,11 +57,11 @@
 /*  =============== */
 
 /*  Barring over/underflow, all output quantities are correct to within */
-/*  a few units in the last place (ulps), even in the absence of a guard 
+/*  a few units in the last place (ulps), even in the absence of a guard
 */
 /*  digit in addition/subtraction. */
 
-/*  In IEEE arithmetic, the code works correctly if one matrix element is 
+/*  In IEEE arithmetic, the code works correctly if one matrix element is
 */
 /*  infinite. */
 
@@ -74,7 +74,7 @@
 /*  may correspond to a matrix modified by perturbations of size near */
 /*  the underflow threshold. */
 
-/*  ==================================================================== 
+/*  ====================================================================
 */
 
 /*     .. Parameters .. */
@@ -91,49 +91,49 @@
     fhmn = min(fa,ha);
     fhmx = max(fa,ha);
     if (fhmn == 0.f) {
-	*ssmin = 0.f;
-	if (fhmx == 0.f) {
-	    *ssmax = ga;
-	} else {
+        *ssmin = 0.f;
+        if (fhmx == 0.f) {
+            *ssmax = ga;
+        } else {
 /* Computing 2nd power */
-	    r__1 = min(fhmx,ga) / max(fhmx,ga);
-	    *ssmax = max(fhmx,ga) * sqrt(r__1 * r__1 + 1.f);
-	}
+            r__1 = min(fhmx,ga) / max(fhmx,ga);
+            *ssmax = max(fhmx,ga) * sqrt(r__1 * r__1 + 1.f);
+        }
     } else {
-	if (ga < fhmx) {
-	    as = fhmn / fhmx + 1.f;
-	    at = (fhmx - fhmn) / fhmx;
+        if (ga < fhmx) {
+            as = fhmn / fhmx + 1.f;
+            at = (fhmx - fhmn) / fhmx;
 /* Computing 2nd power */
-	    r__1 = ga / fhmx;
-	    au = r__1 * r__1;
-	    c = 2.f / (sqrt(as * as + au) + sqrt(at * at + au));
-	    *ssmin = fhmn * c;
-	    *ssmax = fhmx / c;
-	} else {
-	    au = fhmx / ga;
-	    if (au == 0.f) {
+            r__1 = ga / fhmx;
+            au = r__1 * r__1;
+            c = 2.f / (sqrt(as * as + au) + sqrt(at * at + au));
+            *ssmin = fhmn * c;
+            *ssmax = fhmx / c;
+        } else {
+            au = fhmx / ga;
+            if (au == 0.f) {
 
 /*              Avoid possible harmful underflow if exponent r
 ange */
-/*              asymmetric (true SSMIN may not underflow even 
+/*              asymmetric (true SSMIN may not underflow even
 if */
 /*              AU underflows) */
 
-		*ssmin = fhmn * fhmx / ga;
-		*ssmax = ga;
-	    } else {
-		as = fhmn / fhmx + 1.f;
-		at = (fhmx - fhmn) / fhmx;
+                *ssmin = fhmn * fhmx / ga;
+                *ssmax = ga;
+            } else {
+                as = fhmn / fhmx + 1.f;
+                at = (fhmx - fhmn) / fhmx;
 /* Computing 2nd power */
-		r__1 = as * au;
+                r__1 = as * au;
 /* Computing 2nd power */
-		r__2 = at * au;
-		c = 1.f / (sqrt(r__1 * r__1 + 1.f) + sqrt(r__2 * r__2 + 1.f));
-		*ssmin = fhmn * c * au;
-		*ssmin += *ssmin;
-		*ssmax = ga / (c + c);
-	    }
-	}
+                r__2 = at * au;
+                c = 1.f / (sqrt(r__1 * r__1 + 1.f) + sqrt(r__2 * r__2 + 1.f));
+                *ssmin = fhmn * c * au;
+                *ssmin += *ssmin;
+                *ssmax = ga / (c + c);
+            }
+        }
     }
     return 0;
 

@@ -20,7 +20,8 @@
 #define vcl_clog vcl_generic_iostream_STD :: clog
 #endif
 // the following are not actually in the
-// <iostream> synopsis:
+// <iostream> synopsis. for example, endl
+// and ends actually come from <ostream>.
 // ios
 #ifndef vcl_ios
 #define vcl_ios vcl_generic_iostream_STD :: ios
@@ -49,6 +50,10 @@
 #ifndef vcl_ios_binary
 #define vcl_ios_binary vcl_generic_iostream_STD :: ios::binary
 #endif
+// ios::openmode
+#ifndef vcl_ios_openmode
+#define vcl_ios_openmode vcl_generic_iostream_STD :: ios::openmode
+#endif
 // hex
 #ifndef vcl_hex
 #define vcl_hex vcl_generic_iostream_STD :: hex
@@ -68,6 +73,10 @@
 // endl
 #ifndef vcl_endl
 #define vcl_endl vcl_generic_iostream_STD :: endl
+#endif
+// ends
+#ifndef vcl_ends
+#define vcl_ends vcl_generic_iostream_STD :: ends
 #endif
 // flush
 #ifndef vcl_flush

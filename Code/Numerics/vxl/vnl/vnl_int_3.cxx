@@ -1,8 +1,9 @@
 #ifdef __GNUC__
 #pragma implementation
 #endif
+// This is vxl/vnl/vnl_int_3.cxx
+
 //
-// Class: vnl_int_3
 // Author: Andrew W. Fitzgibbon, Oxford RRG
 // Created: 31 Aug 96
 //

@@ -1,15 +1,13 @@
 
 /*  -- translated by f2c (version 19940927).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
 
 integer isamax_(integer *n, real *sx, integer *incx)
 {
-
-
     /* System generated locals */
     integer ret_val, i__1;
     real s__1;
@@ -19,28 +17,28 @@ integer isamax_(integer *n, real *sx, integer *incx)
     static integer i, ix;
 
 
-/*     finds the index of element having max. absolute value.   
-       jack dongarra, linpack, 3/11/78.   
-       modified 3/93 to return if incx .le. 0.   
-       modified 12/3/93, array(1) declarations changed to array(*)   
+/*     finds the index of element having max. absolute value.
+       jack dongarra, linpack, 3/11/78.
+       modified 3/93 to return if incx .le. 0.
+       modified 12/3/93, array(1) declarations changed to array(*)
 
 
-    
-   Parameter adjustments   
+
+   Parameter adjustments
        Function Body */
 #define SX(I) sx[(I)-1]
 
 
     ret_val = 0;
     if (*n < 1 || *incx <= 0) {
-	return ret_val;
+        return ret_val;
     }
     ret_val = 1;
     if (*n == 1) {
-	return ret_val;
+        return ret_val;
     }
     if (*incx == 1) {
-	goto L20;
+        goto L20;
     }
 
 /*        code for increment not equal to 1 */
@@ -50,13 +48,13 @@ integer isamax_(integer *n, real *sx, integer *incx)
     ix += *incx;
     i__1 = *n;
     for (i = 2; i <= *n; ++i) {
-	if ((s__1 = SX(ix), abs(s__1)) <= smax__) {
-	    goto L5;
-	}
-	ret_val = i;
-	smax__ = (s__1 = SX(ix), abs(s__1));
+        if ((s__1 = SX(ix), abs(s__1)) <= smax__) {
+            goto L5;
+        }
+        ret_val = i;
+        smax__ = (s__1 = SX(ix), abs(s__1));
 L5:
-	ix += *incx;
+        ix += *incx;
     }
     return ret_val;
 
@@ -66,13 +64,13 @@ L20:
     smax__ = abs(SX(1));
     i__1 = *n;
     for (i = 2; i <= *n; ++i) {
-	if ((s__1 = SX(i), abs(s__1)) <= smax__) {
-	    goto L30;
-	}
-	ret_val = i;
-	smax__ = (s__1 = SX(i), abs(s__1));
+        if ((s__1 = SX(i), abs(s__1)) <= smax__) {
+            goto L30;
+        }
+        ret_val = i;
+        smax__ = (s__1 = SX(i), abs(s__1));
 L30:
-	;
+        ;
     }
     return ret_val;
 } /* isamax_ */

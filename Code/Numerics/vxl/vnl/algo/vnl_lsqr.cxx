@@ -3,7 +3,7 @@
 #pragma implementation
 #endif
 //
-// Class: vnl_lsqr
+// vnl_lsqr
 // Author: David Capel
 // Created: July 2000
 //
@@ -22,7 +22,7 @@ lsqr_(int* m, int* n,
       double* damp,
       int* leniw, int* lenrw, int* iw, double* rw,
       double* u,
-      double* v, double* w, 
+      double* v, double* w,
       double* x, double* se,
       double* atol, double* btol, double* conlim, int* itnlim,
       int* nout,
@@ -106,13 +106,13 @@ int vnl_lsqr::minimize(vnl_vector<double>& result)
 
   vnl_vector<double> rhs(m);
   ls_->get_rhs(rhs);
-    
+
   vnl_lsqr_Activate activator(this);
 
-  lsqr_(&m, &n, aprod_, &damp, &leniw, &lenrw, iw, &rw[0], 
-	rhs.data_block(), &v[0], &w[0], result.data_block(), &se[0],
-	&atol, &btol, &conlim, &max_iter_, &nout, &return_code_,
-	&num_iter_, &anorm, &acond, &rnorm, &arnorm, &xnorm);
+  lsqr_(&m, &n, aprod_, &damp, &leniw, &lenrw, iw, &rw[0],
+        rhs.data_block(), &v[0], &w[0], result.data_block(), &se[0],
+        &atol, &btol, &conlim, &max_iter_, &nout, &return_code_,
+        &num_iter_, &anorm, &acond, &rnorm, &arnorm, &xnorm);
 
   resid_norm_estimate_ = rnorm;
   result_norm_estimate_ = xnorm;
@@ -142,12 +142,23 @@ void vnl_lsqr::translate_return_code(vcl_ostream& os, int rc)
 {
   char* vnl_lsqr_reasons[] = {
    "x = 0  is the exact solution. No iterations were performed.",
-   "The equations A*x = b are probably compatible.  Norm(A*x - b) is sufficiently small, given the values of ATOL and BTOL.",
-   "The system A*x = b is probably not compatible.  A least-squares solution has been obtained that is sufficiently accurate, given the value of ATOL.",   
-   "An estimate of cond(Abar) has exceeded CONLIM.  The system A*x = b appears to be ill-conditioned.  Otherwise, there could be an error in subroutine APROD.",   
-   "The equations A*x = b are probably compatible.  Norm(A*x - b) is as small as seems reasonable on this machine.",   
-   "The system A*x = b is probably not compatible.  A least-squares solution has been obtained that is as accurate as seems reasonable on this machine.",   
-   "Cond(Abar) seems to be so large that there is no point in doing further iterations, given the precision of this machine. There could be an error in subroutine APROD.",  
+   "The equations A*x = b are probably compatible.  "
+       "Norm(A*x - b) is sufficiently small, given the "
+       "values of ATOL and BTOL.",
+   "The system A*x = b is probably not compatible.  "
+       "A least-squares solution has been obtained that is "
+       "sufficiently accurate, given the value of ATOL.",
+   "An estimate of cond(Abar) has exceeded CONLIM.  "
+       "The system A*x = b appears to be ill-conditioned.  "
+       "Otherwise, there could be an error in subroutine APROD.",   
+   "The equations A*x = b are probably compatible.  "
+       "Norm(A*x - b) is as small as seems reasonable on this machine.",
+   "The system A*x = b is probably not compatible.  A least-squares "
+       "solution has been obtained that is as accurate as seems "
+       "reasonable on this machine.",   
+   "Cond(Abar) seems to be so large that there is no point in doing further "
+       "iterations, given the precision of this machine. "
+       "There could be an error in subroutine APROD.",  
    "The iteration limit ITNLIM was reached."
   };
 
@@ -157,4 +168,3 @@ void vnl_lsqr::translate_return_code(vcl_ostream& os, int rc)
     os << __FILE__ " : " << vnl_lsqr_reasons[rc] << vcl_endl;
 
 }
-

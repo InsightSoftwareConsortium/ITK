@@ -1,6 +1,6 @@
 /* lbfgs-example.f -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -62,8 +62,8 @@ Extern struct {
     iflag = 0;
     i__1 = n;
     for (j = 1; j <= i__1; j += 2) {
-	x[j - 1] = -1.2;
-	x[j] = 1.;
+        x[j - 1] = -1.2;
+        x[j] = 1.;
 /* L10: */
     }
 
@@ -71,28 +71,28 @@ L20:
     f = 0.;
     i__1 = n;
     for (j = 1; j <= i__1; j += 2) {
-	t1 = 1. - x[j - 1];
+        t1 = 1. - x[j - 1];
 /* Computing 2nd power */
-	d__1 = x[j - 1];
-	t2 = (x[j] - d__1 * d__1) * 10.;
-	g[j] = t2 * 20.;
-	g[j - 1] = (x[j - 1] * g[j] + t1) * -2.;
+        d__1 = x[j - 1];
+        t2 = (x[j] - d__1 * d__1) * 10.;
+        g[j] = t2 * 20.;
+        g[j - 1] = (x[j - 1] * g[j] + t1) * -2.;
 /* Computing 2nd power */
-	d__1 = t1;
+        d__1 = t1;
 /* Computing 2nd power */
-	d__2 = t2;
-	f = f + d__1 * d__1 + d__2 * d__2;
+        d__2 = t2;
+        f = f + d__1 * d__1 + d__2 * d__2;
 /* L30: */
     }
     lbfgs_(&n, &m, x, &f, g, &diagco, diag, iprint, &eps, &xtol, w, &iflag);
     lbp1f_("f = %g\n", &f, 7L);
     if (iflag <= 0) {
-	goto L50;
+        goto L50;
     }
     ++icall;
 /*     We allow at most 2000 evaluations of F and G */
     if (icall > 2000) {
-	goto L50;
+        goto L50;
     }
     goto L20;
 L50:

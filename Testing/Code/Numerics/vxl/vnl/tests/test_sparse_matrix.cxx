@@ -28,7 +28,7 @@ int doTest1()
       vcl_cout << m1(i,j) << " ";
     vcl_cout << vcl_endl;
   }
-  
+
   vnl_sparse_matrix<double> m2(n,n);
   for (unsigned i=0; i<n; i++) {
     m2(i,i) = 2.0;
@@ -61,7 +61,7 @@ int doTest1()
       vcl_cout << sum(i,j) << " ";
     vcl_cout << vcl_endl;
   }
-  
+
   vnl_sparse_matrix<double> diff;
   m1.subtract(m2,diff);
 
@@ -71,7 +71,7 @@ int doTest1()
       vcl_cout << diff(i,j) << " ";
     vcl_cout << vcl_endl;
   }
-  
+
   return 0;
 }
 
@@ -84,21 +84,21 @@ int doTest2()
       m1(i,i) = 2.0;
       m1(i,(i+3)%n) = 1.0;
     }
-    
+
     vnl_sparse_matrix<double> m2(n,n);
     for (unsigned i=0; i<n; i++) {
       m2(i,i) = 2.0;
       m2(i,(i+n-3)%n) = 1.0;
     }
-    
+
     vnl_sparse_matrix<double> prod;
     m1.mult(m2,prod);
-    
+
     clock_t tn = clock();
     vcl_cout << n << " " << tn - t << vcl_endl;
     t = tn;
   }
-  
+
   return 0;
 }
 
@@ -123,21 +123,19 @@ int doTest3()
     vcl_cout << vcl_endl;
   }
   vcl_cout << "md:" << vcl_endl << md << vcl_endl;
-  
+
   const unsigned int nvals = 2;
   vnl_symmetric_eigensystem<double> ed(md);
   vnl_sparse_symmetric_eigensystem es;
-  if (0 == es.CalculateNPairs(ms,nvals,true,20))
-    vcl_cout << "vnl_sparse_symmetric_eigensystem::CalculateNPairs() succeeded\n";
-  else
-    vcl_cout << "vnl_sparse_symmetric_eigensystem::CalculateNPairs() failed\n";
-  
+  TEST ("vnl_sparse_symmetric_eigensystem::CalculateNPairs()",
+        es.CalculateNPairs(ms,nvals,true,20), 0);
+
   // Report 'em.
   for (unsigned i=0; i<nvals; i++) {
-    vcl_cout << "Dense[" << i << "] : " << ed.D(i,i) << " -> " 
-	 << ed.get_eigenvector(i) << vcl_endl;
-    vcl_cout << "Sparse[" << i << "]: " << es.get_eigenvalue(i) << " -> " 
-	 << es.get_eigenvector(i) << vcl_endl;
+    vcl_cout << "Dense[" << i << "] : " << ed.D(i,i) << " -> "
+             << ed.get_eigenvector(i) << vcl_endl;
+    vcl_cout << "Sparse[" << i << "]: " << es.get_eigenvalue(i) << " -> "
+             << es.get_eigenvector(i) << vcl_endl;
   }
 
   return 0;
@@ -160,10 +158,8 @@ int doTest4()
   const unsigned int nvals = 3;
   vnl_symmetric_eigensystem<double> ed(md);
   vnl_sparse_symmetric_eigensystem es;
-  if (0 == es.CalculateNPairs(ms,nvals))
-    vcl_cout << "vnl_sparse_symmetric_eigensystem::CalculateNPairs() succeeded\n";
-  else
-    vcl_cout << "vnl_sparse_symmetric_eigensystem::CalculateNPairs() failed\n";
+  TEST("vnl_sparse_symmetric_eigensystem::CalculateNPairs() succeeded",
+       es.CalculateNPairs(ms,nvals), 0);
 
   // Report 'em.
   for (unsigned i=0; i<nvals; i++) {
@@ -171,9 +167,9 @@ int doTest4()
     double sparse = es.get_eigenvalue(i);
     vcl_cout << "Dense[" << i << "] : " << dense << vcl_endl;
     vcl_cout << "Sparse[" << i << "]: " << sparse << vcl_endl;
-    double err = fabs(dense - sparse);
+    double err = vcl_fabs(dense - sparse);
     vcl_cout << "Error: " << err << vcl_endl;
-    Assert("vnl_sparse_symmetric_eigensystem eigenvalue error", err < 1e-10);
+    vnl_test_assert("vnl_sparse_symmetric_eigensystem eigenvalue error", err < 1e-10);
   }
   return 0;
 }

@@ -1,6 +1,6 @@
 /*  -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -44,7 +44,7 @@ doublereal *a, *b, *c, *d, *p, *q;
 /*  Q       (output) DOUBLE PRECISION */
 /*          The scalars p and q in the above expression. */
 
-/*  ===================================================================== 
+/*  =====================================================================
 */
 
 /*     .. Local Scalars .. */
@@ -54,15 +54,15 @@ doublereal *a, *b, *c, *d, *p, *q;
 /*     .. Executable Statements .. */
 
     if (abs(*d) < abs(*c)) {
-	e = *d / *c;
-	f = *c + *d * e;
-	*p = (*a + *b * e) / f;
-	*q = (*b - *a * e) / f;
+        e = *d / *c;
+        f = *c + *d * e;
+        *p = (*a + *b * e) / f;
+        *q = (*b - *a * e) / f;
     } else {
-	e = *c / *d;
-	f = *d + *c * e;
-	*p = (*b + *a * e) / f;
-	*q = (-(*a) + *b * e) / f;
+        e = *c / *d;
+        f = *d + *c * e;
+        *p = (*b + *a * e) / f;
+        *q = (-(*a) + *b * e) / f;
     }
 
     return 0;

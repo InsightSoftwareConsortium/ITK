@@ -1,6 +1,6 @@
 /*  -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -55,22 +55,22 @@ real *a, *x, *y;
     scopy_(n, zero, &c__0, &y[1], &c__1);
     i__1 = *n;
     for (k = 1; k <= i__1; ++k) {
-	y[k] += a[k * a_dim1 + 1] * x[k];
+        y[k] += a[k * a_dim1 + 1] * x[k];
 /* Computing MIN */
-	i__2 = *n - k + 1;
-	m = min(i__2,*nband);
-	if (m < 2) {
-	    goto L20;
-	}
-	i__2 = m;
-	for (i = 2; i <= i__2; ++i) {
-	    l = k + i - 1;
-	    y[l] += a[i + k * a_dim1] * x[k];
-	    y[k] += a[i + k * a_dim1] * x[l];
+        i__2 = *n - k + 1;
+        m = min(i__2,*nband);
+        if (m < 2) {
+            goto L20;
+        }
+        i__2 = m;
+        for (i = 2; i <= i__2; ++i) {
+            l = k + i - 1;
+            y[l] += a[i + k * a_dim1] * x[k];
+            y[k] += a[i + k * a_dim1] * x[l];
 /* L10: */
-	}
+        }
 L20:
-	;
+        ;
     }
     return 0;
 } /* slabax_ */

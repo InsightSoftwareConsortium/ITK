@@ -3,17 +3,15 @@
 #ifdef __GNUC__
 #pragma interface
 #endif
-// .NAME	vnl_int_2
-// .LIBRARY	vnl
-// .HEADER	vxl package
-// .INCLUDE	vnl/vnl_int_2.h
-// .FILE	vnl_int_2.cxx
-//
-// .SECTION Author
-//     Andrew W. Fitzgibbon, Oxford RRG, 31 Aug 96
-//
-// .SECTION Modifications:
+// This is vxl/vnl/vnl_int_2.h
+
+//: \file
+// \brief
+// \author Andrew W. Fitzgibbon, Oxford RRG, 31 Aug 96
+
+// Modifications:
 //   Peter Vanroose, 21 Oct 1999: vnl_vector_fixed<int,2> already instantiated
+// 4/4/01 LSB (Manchester) Tidied documentation
 
 #include <vnl/vnl_T_n.h>
 

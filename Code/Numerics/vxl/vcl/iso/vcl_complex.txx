@@ -1,9 +1,9 @@
-#ifndef vcl_complex_txx_
-#define vcl_complex_txx_
+#ifndef vcl_iso_complex_txx_
+#define vcl_iso_complex_txx_
 
 #include <vcl_complex.h>
 
-#undef vcl_complex_INSTANTIATE
-#define vcl_complex_INSTANTIATE(T) /* */
+#undef VCL_COMPLEX_INSTANTIATE
+#define VCL_COMPLEX_INSTANTIATE(T) /* */
 
 #endif

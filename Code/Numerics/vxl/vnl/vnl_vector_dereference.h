@@ -3,18 +3,15 @@
 #ifdef __GNUC__
 #pragma interface
 #endif
+// This is vxl/vnl/vnl_vector_dereference.h
+
+//: 
+//  \file
+//  \brief  Undocumented
+//  \author Andrew W. Fitzgibbon, Oxford RRG, 28 Nov 98
 //
-// .NAME	vnl_vector_dereference - Undocumented class FIXME
-// .LIBRARY	vnl
-// .HEADER	vxl package
-// .INCLUDE	vnl/vnl_vector_dereference.h
-// .FILE	vnl_vector_dereference.cxx
-//
-// .SECTION Description
+
 //    vnl_vector_dereference is a class that awf hasn't documented properly. FIXME
-//
-// .SECTION Author
-//     Andrew W. Fitzgibbon, Oxford RRG, 28 Nov 98
 //
 //-----------------------------------------------------------------------------
 

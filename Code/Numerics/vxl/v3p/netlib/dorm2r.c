@@ -1,6 +1,6 @@
 /* dorm2r.f -- translated by f2c (version of 4 June 1993  1:43:59).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -10,10 +10,10 @@
 static integer c__1 = 1;
 
 /*<    >*/
-/* Subroutine */ int dorm2r_(char *side, char *trans, integer *m, integer *n, 
-	integer *k, doublereal *a, integer *lda, doublereal *tau, doublereal *
-	c, integer *ldc, doublereal *work, integer *info, ftnlen side_len, 
-	ftnlen trans_len)
+/* Subroutine */ int dorm2r_(char *side, char *trans, integer *m, integer *n,
+        integer *k, doublereal *a, integer *lda, doublereal *tau, doublereal *
+        c, integer *ldc, doublereal *work, integer *info, ftnlen side_len,
+        ftnlen trans_len)
 {
     /* System generated locals */
     integer a_dim1, a_offset, c_dim1, c_offset, i__1, i__2;
@@ -21,9 +21,9 @@ static integer c__1 = 1;
     /* Local variables */
     static logical left;
     static integer i;
-    extern /* Subroutine */ int dlarf_(char *, integer *, integer *, 
-	    doublereal *, integer *, doublereal *, doublereal *, integer *, 
-	    doublereal *, ftnlen);
+    extern /* Subroutine */ int dlarf_(char *, integer *, integer *,
+            doublereal *, integer *, doublereal *, doublereal *, integer *,
+            doublereal *, ftnlen);
     extern logical lsame_(char *, char *, ftnlen, ftnlen);
     static integer i1, i2, i3, ic, jc, mi, ni, nq;
     extern /* Subroutine */ int xerbla_(char *, integer *, ftnlen);
@@ -90,7 +90,7 @@ static integer c__1 = 1;
 
 /*  A       (input) DOUBLE PRECISION array, dimension (LDA,K) */
 /*          The i-th column must contain the vector which defines the */
-/*          elementary reflector H(i), for i = 1,2,...,k, as returned by 
+/*          elementary reflector H(i), for i = 1,2,...,k, as returned by
 */
 /*          DGEQRF in the first k columns of its array argument A. */
 /*          A is modified by the routine but restored on exit. */
@@ -119,7 +119,7 @@ static integer c__1 = 1;
 /*          = 0: successful exit */
 /*          < 0: if INFO = -i, the i-th argument had an illegal value */
 
-/*  ===================================================================== 
+/*  =====================================================================
 */
 
 /*     .. Parameters .. */
@@ -168,50 +168,50 @@ static integer c__1 = 1;
 /*<       IF( LEFT ) THEN >*/
     if (left) {
 /*<          NQ = M >*/
-	nq = *m;
+        nq = *m;
 /*<       ELSE >*/
     } else {
 /*<          NQ = N >*/
-	nq = *n;
+        nq = *n;
 /*<       END IF >*/
     }
 /*<       IF( .NOT.LEFT .AND. .NOT.LSAME( SIDE, 'R' ) ) THEN >*/
     if (! left && ! lsame_(side, "R", 1L, 1L)) {
 /*<          INFO = -1 >*/
-	*info = -1;
+        *info = -1;
 /*<       ELSE IF( .NOT.NOTRAN .AND. .NOT.LSAME( TRANS, 'T' ) ) THEN >*/
     } else if (! notran && ! lsame_(trans, "T", 1L, 1L)) {
 /*<          INFO = -2 >*/
-	*info = -2;
+        *info = -2;
 /*<       ELSE IF( M.LT.0 ) THEN >*/
     } else if (*m < 0) {
 /*<          INFO = -3 >*/
-	*info = -3;
+        *info = -3;
 /*<       ELSE IF( N.LT.0 ) THEN >*/
     } else if (*n < 0) {
 /*<          INFO = -4 >*/
-	*info = -4;
+        *info = -4;
 /*<       ELSE IF( K.LT.0 .OR. K.GT.NQ ) THEN >*/
     } else if (*k < 0 || *k > nq) {
 /*<          INFO = -5 >*/
-	*info = -5;
+        *info = -5;
 /*<       ELSE IF( LDA.LT.MAX( 1, NQ ) ) THEN >*/
     } else if (*lda < max(1,nq)) {
 /*<          INFO = -7 >*/
-	*info = -7;
+        *info = -7;
 /*<       ELSE IF( LDC.LT.MAX( 1, M ) ) THEN >*/
     } else if (*ldc < max(1,*m)) {
 /*<          INFO = -10 >*/
-	*info = -10;
+        *info = -10;
 /*<       END IF >*/
     }
 /*<       IF( INFO.NE.0 ) THEN >*/
     if (*info != 0) {
 /*<          CALL XERBLA( 'DORM2R', -INFO ) >*/
-	i__1 = -(*info);
-	xerbla_("DORM2R", &i__1, 6L);
+        i__1 = -(*info);
+        xerbla_("DORM2R", &i__1, 6L);
 /*<          RETURN >*/
-	return 0;
+        return 0;
 /*<       END IF >*/
     }
 
@@ -219,40 +219,40 @@ static integer c__1 = 1;
 
 /*<    >*/
     if (*m == 0 || *n == 0 || *k == 0) {
-	return 0;
+        return 0;
     }
 
 /*<    >*/
     if (left && ! notran || ! left && notran) {
 /*<          I1 = 1 >*/
-	i1 = 1;
+        i1 = 1;
 /*<          I2 = K >*/
-	i2 = *k;
+        i2 = *k;
 /*<          I3 = 1 >*/
-	i3 = 1;
+        i3 = 1;
 /*<       ELSE >*/
     } else {
 /*<          I1 = K >*/
-	i1 = *k;
+        i1 = *k;
 /*<          I2 = 1 >*/
-	i2 = 1;
+        i2 = 1;
 /*<          I3 = -1 >*/
-	i3 = -1;
+        i3 = -1;
 /*<       END IF >*/
     }
 
 /*<       IF( LEFT ) THEN >*/
     if (left) {
 /*<          NI = N >*/
-	ni = *n;
+        ni = *n;
 /*<          JC = 1 >*/
-	jc = 1;
+        jc = 1;
 /*<       ELSE >*/
     } else {
 /*<          MI = M >*/
-	mi = *m;
+        mi = *m;
 /*<          IC = 1 >*/
-	ic = 1;
+        ic = 1;
 /*<       END IF >*/
     }
 
@@ -261,37 +261,37 @@ static integer c__1 = 1;
     i__2 = i3;
     for (i = i1; i__2 < 0 ? i >= i__1 : i <= i__1; i += i__2) {
 /*<          IF( LEFT ) THEN >*/
-	if (left) {
+        if (left) {
 
 /*           H(i) is applied to C(i:m,1:n) */
 
 /*<             MI = M - I + 1 >*/
-	    mi = *m - i + 1;
+            mi = *m - i + 1;
 /*<             IC = I >*/
-	    ic = i;
+            ic = i;
 /*<          ELSE >*/
-	} else {
+        } else {
 
 /*           H(i) is applied to C(1:m,i:n) */
 
 /*<             NI = N - I + 1 >*/
-	    ni = *n - i + 1;
+            ni = *n - i + 1;
 /*<             JC = I >*/
-	    jc = i;
+            jc = i;
 /*<          END IF >*/
-	}
+        }
 
 /*        Apply H(i) */
 
 /*<          AII = A( I, I ) >*/
-	aii = a[i + i * a_dim1];
+        aii = a[i + i * a_dim1];
 /*<          A( I, I ) = ONE >*/
-	a[i + i * a_dim1] = 1.;
+        a[i + i * a_dim1] = 1.;
 /*<    >*/
-	dlarf_(side, &mi, &ni, &a[i + i * a_dim1], &c__1, &tau[i], &c[ic + jc 
-		* c_dim1], ldc, &work[1], 1L);
+        dlarf_(side, &mi, &ni, &a[i + i * a_dim1], &c__1, &tau[i], &c[ic + jc
+                * c_dim1], ldc, &work[1], 1L);
 /*<          A( I, I ) = AII >*/
-	a[i + i * a_dim1] = aii;
+        a[i + i * a_dim1] = aii;
 /*<    10 CONTINUE >*/
 /* L10: */
     }

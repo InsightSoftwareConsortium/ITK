@@ -1,6 +1,6 @@
 /* dtgsja.f -- translated by f2c (version of 4 June 1993  1:43:59).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -13,29 +13,29 @@ static integer c__1 = 1;
 static doublereal c_b43 = -1.;
 
 /*<    >*/
-/* Subroutine */ int dtgsja_(char *jobu, char *jobv, char *jobq, integer *m, 
-	integer *p, integer *n, integer *k, integer *l, doublereal *a, 
-	integer *lda, doublereal *b, integer *ldb, doublereal *tola, 
-	doublereal *tolb, doublereal *alpha, doublereal *beta, doublereal *u, 
-	integer *ldu, doublereal *v, integer *ldv, doublereal *q, integer *
-	ldq, doublereal *work, integer *ncycle, integer *info, ftnlen 
-	jobu_len, ftnlen jobv_len, ftnlen jobq_len)
+/* Subroutine */ int dtgsja_(char *jobu, char *jobv, char *jobq, integer *m,
+        integer *p, integer *n, integer *k, integer *l, doublereal *a,
+        integer *lda, doublereal *b, integer *ldb, doublereal *tola,
+        doublereal *tolb, doublereal *alpha, doublereal *beta, doublereal *u,
+        integer *ldu, doublereal *v, integer *ldv, doublereal *q, integer *
+        ldq, doublereal *work, integer *ncycle, integer *info, ftnlen
+        jobu_len, ftnlen jobv_len, ftnlen jobq_len)
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, q_dim1, q_offset, u_dim1, 
-	    u_offset, v_dim1, v_offset, i__1, i__2, i__3, i__4;
+    integer a_dim1, a_offset, b_dim1, b_offset, q_dim1, q_offset, u_dim1,
+            u_offset, v_dim1, v_offset, i__1, i__2, i__3, i__4;
     doublereal d__1;
 
     /* Local variables */
-    extern /* Subroutine */ int drot_(integer *, doublereal *, integer *, 
-	    doublereal *, integer *, doublereal *, doublereal *);
+    extern /* Subroutine */ int drot_(integer *, doublereal *, integer *,
+            doublereal *, integer *, doublereal *, doublereal *);
     static integer i, j;
     static doublereal gamma;
-    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *, 
-	    integer *);
+    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *,
+            integer *);
     extern logical lsame_(char *, char *, ftnlen, ftnlen);
-    extern /* Subroutine */ int dcopy_(integer *, doublereal *, integer *, 
-	    doublereal *, integer *);
+    extern /* Subroutine */ int dcopy_(integer *, doublereal *, integer *,
+            doublereal *, integer *);
     static doublereal a1;
     static logical initq;
     static doublereal a2, a3, b1;
@@ -44,15 +44,15 @@ static doublereal c_b43 = -1.;
     static logical wantu, wantv;
     static doublereal error, ssmin;
     extern /* Subroutine */ int dlags2_(logical *, doublereal *, doublereal *,
-	     doublereal *, doublereal *, doublereal *, doublereal *, 
-	    doublereal *, doublereal *, doublereal *, doublereal *, 
-	    doublereal *, doublereal *), dlapll_(integer *, doublereal *, 
-	    integer *, doublereal *, integer *, doublereal *);
+             doublereal *, doublereal *, doublereal *, doublereal *,
+            doublereal *, doublereal *, doublereal *, doublereal *,
+            doublereal *, doublereal *), dlapll_(integer *, doublereal *,
+            integer *, doublereal *, integer *, doublereal *);
     static integer kcycle;
-    extern /* Subroutine */ int dlartg_(doublereal *, doublereal *, 
-	    doublereal *, doublereal *, doublereal *), dlaset_(char *, 
-	    integer *, integer *, doublereal *, doublereal *, doublereal *, 
-	    integer *, ftnlen), xerbla_(char *, integer *, ftnlen);
+    extern /* Subroutine */ int dlartg_(doublereal *, doublereal *,
+            doublereal *, doublereal *, doublereal *), dlaset_(char *,
+            integer *, integer *, doublereal *, doublereal *, doublereal *,
+            integer *, ftnlen), xerbla_(char *, integer *, ftnlen);
     static doublereal csq, csu, csv, snq, rwk, snu, snv;
 
 
@@ -149,13 +149,13 @@ static doublereal c_b43 = -1.;
 /*  S = diag( BETA(K+1),  ... , BETA(M) ), */
 /*  C**2 + S**2 = I. */
 
-/*  R = ( R11 R12 R13 ) is stored in A(1:M, N-K-L+1:N) and R33 is stored 
+/*  R = ( R11 R12 R13 ) is stored in A(1:M, N-K-L+1:N) and R33 is stored
 */
 /*      (  0  R22 R23 ) */
 /*  in B(M-K+1:L,N+M-K-L+1:N) on exit. */
 
 /*  The computation of the orthogonal transformation matrices U, V or Q */
-/*  is optional.  These matrices may either be formed explicitly, or they 
+/*  is optional.  These matrices may either be formed explicitly, or they
 */
 /*  may be postmultiplied into input matrices U1, V1, or Q1. */
 
@@ -163,7 +163,7 @@ static doublereal c_b43 = -1.;
 /*  ========= */
 
 /*  JOBU    (input) CHARACTER*1 */
-/*          = 'U':  U must contain an orthogonal matrix U1 on entry, and 
+/*          = 'U':  U must contain an orthogonal matrix U1 on entry, and
 */
 /*                  the product U1*U is returned; */
 /*          = 'I':  U is initialized to the unit matrix, and the */
@@ -171,7 +171,7 @@ static doublereal c_b43 = -1.;
 /*          = 'N':  U is not computed. */
 
 /*  JOBV    (input) CHARACTER*1 */
-/*          = 'V':  V must contain an orthogonal matrix V1 on entry, and 
+/*          = 'V':  V must contain an orthogonal matrix V1 on entry, and
 */
 /*                  the product V1*V is returned; */
 /*          = 'I':  V is initialized to the unit matrix, and the */
@@ -179,7 +179,7 @@ static doublereal c_b43 = -1.;
 /*          = 'N':  V is not computed. */
 
 /*  JOBQ    (input) CHARACTER*1 */
-/*          = 'Q':  Q must contain an orthogonal matrix Q1 on entry, and 
+/*          = 'Q':  Q must contain an orthogonal matrix Q1 on entry, and
 */
 /*                  the product Q1*Q is returned; */
 /*          = 'I':  Q is initialized to the unit matrix, and the */
@@ -197,7 +197,7 @@ static doublereal c_b43 = -1.;
 
 /*  K       (input) INTEGER */
 /*  L       (input) INTEGER */
-/*          K and L specify the subblocks in the input matrices A and B: 
+/*          K and L specify the subblocks in the input matrices A and B:
 */
 /*          A23 = A(K+1:MIN(K+L,M),N-L+1:N) and B13 = B(1:L,N-L+1:N) */
 /*          of A and B, whose GSVD is going to be computed by DTGSJA. */
@@ -244,7 +244,7 @@ static doublereal c_b43 = -1.;
 /*            BETA(K+L+1:N)  = 0. */
 
 /*  U       (input/output) DOUBLE PRECISION array, dimension (LDU,M) */
-/*          On entry, if JOBU = 'U', U must contain a matrix U1 (usually 
+/*          On entry, if JOBU = 'U', U must contain a matrix U1 (usually
 */
 /*          the orthogonal matrix returned by DGGSVP). */
 /*          On exit, */
@@ -257,7 +257,7 @@ static doublereal c_b43 = -1.;
 /*          JOBU = 'U'; LDU >= 1 otherwise. */
 
 /*  V       (input/output) DOUBLE PRECISION array, dimension (LDV,P) */
-/*          On entry, if JOBV = 'V', V must contain a matrix V1 (usually 
+/*          On entry, if JOBV = 'V', V must contain a matrix V1 (usually
 */
 /*          the orthogonal matrix returned by DGGSVP). */
 /*          On exit, */
@@ -270,7 +270,7 @@ static doublereal c_b43 = -1.;
 /*          JOBV = 'V'; LDV >= 1 otherwise. */
 
 /*  Q       (input/output) DOUBLE PRECISION array, dimension (LDQ,N) */
-/*          On entry, if JOBQ = 'Q', Q must contain a matrix Q1 (usually 
+/*          On entry, if JOBQ = 'Q', Q must contain a matrix Q1 (usually
 */
 /*          the orthogonal matrix returned by DGGSVP). */
 /*          On exit, */
@@ -296,7 +296,7 @@ static doublereal c_b43 = -1.;
 /*  =================== */
 
 /*  MAXIT   INTEGER */
-/*          MAXIT specifies the total loops that the iterative procedure 
+/*          MAXIT specifies the total loops that the iterative procedure
 */
 /*          may take. If after MAXIT cycles, the routine fails to */
 /*          converge, we return INFO = 1. */
@@ -304,7 +304,7 @@ static doublereal c_b43 = -1.;
 /*  Further Details */
 /*  =============== */
 
-/*  DTGSJA essentially uses a variant of Kogbetliantz algorithm to reduce 
+/*  DTGSJA essentially uses a variant of Kogbetliantz algorithm to reduce
 */
 /*  min(L,M-K)-by-L triangular (or trapezoidal) matrix A23 and L-by-L */
 /*  matrix B13 to the form: */
@@ -318,7 +318,7 @@ static doublereal c_b43 = -1.;
 
 /*  and R1 is an L-by-L nonsingular upper triangular matrix. */
 
-/*  ===================================================================== 
+/*  =====================================================================
 */
 
 /*     .. Parameters .. */
@@ -388,56 +388,56 @@ static doublereal c_b43 = -1.;
 /*<       IF( .NOT.( INITU .OR. WANTU .OR. LSAME( JOBU, 'N' ) ) ) THEN >*/
     if (! (initu || wantu || lsame_(jobu, "N", 1L, 1L))) {
 /*<          INFO = -1 >*/
-	*info = -1;
+        *info = -1;
 /*<       ELSE IF( .NOT.( INITV .OR. WANTV .OR. LSAME( JOBV, 'N' ) ) ) THEN >*/
     } else if (! (initv || wantv || lsame_(jobv, "N", 1L, 1L))) {
 /*<          INFO = -2 >*/
-	*info = -2;
+        *info = -2;
 /*<       ELSE IF( .NOT.( INITQ .OR. WANTQ .OR. LSAME( JOBQ, 'N' ) ) ) THEN >*/
     } else if (! (initq || wantq || lsame_(jobq, "N", 1L, 1L))) {
 /*<          INFO = -3 >*/
-	*info = -3;
+        *info = -3;
 /*<       ELSE IF( M.LT.0 ) THEN >*/
     } else if (*m < 0) {
 /*<          INFO = -4 >*/
-	*info = -4;
+        *info = -4;
 /*<       ELSE IF( P.LT.0 ) THEN >*/
     } else if (*p < 0) {
 /*<          INFO = -5 >*/
-	*info = -5;
+        *info = -5;
 /*<       ELSE IF( N.LT.0 ) THEN >*/
     } else if (*n < 0) {
 /*<          INFO = -6 >*/
-	*info = -6;
+        *info = -6;
 /*<       ELSE IF( LDA.LT.MAX( 1, M ) ) THEN >*/
     } else if (*lda < max(1,*m)) {
 /*<          INFO = -10 >*/
-	*info = -10;
+        *info = -10;
 /*<       ELSE IF( LDB.LT.MAX( 1, P ) ) THEN >*/
     } else if (*ldb < max(1,*p)) {
 /*<          INFO = -12 >*/
-	*info = -12;
+        *info = -12;
 /*<       ELSE IF( LDU.LT.1 .OR. ( WANTU .AND. LDU.LT.M ) ) THEN >*/
-    } else if (*ldu < 1 || wantu && *ldu < *m) {
+    } else if (*ldu < 1 || (wantu && *ldu < *m)) {
 /*<          INFO = -18 >*/
-	*info = -18;
+        *info = -18;
 /*<       ELSE IF( LDV.LT.1 .OR. ( WANTV .AND. LDV.LT.P ) ) THEN >*/
-    } else if (*ldv < 1 || wantv && *ldv < *p) {
+    } else if (*ldv < 1 || (wantv && *ldv < *p)) {
 /*<          INFO = -20 >*/
-	*info = -20;
+        *info = -20;
 /*<       ELSE IF( LDQ.LT.1 .OR. ( WANTQ .AND. LDQ.LT.N ) ) THEN >*/
-    } else if (*ldq < 1 || wantq && *ldq < *n) {
+    } else if (*ldq < 1 || (wantq && *ldq < *n)) {
 /*<          INFO = -22 >*/
-	*info = -22;
+        *info = -22;
 /*<       END IF >*/
     }
 /*<       IF( INFO.NE.0 ) THEN >*/
     if (*info != 0) {
 /*<          CALL XERBLA( 'DTGSJA', -INFO ) >*/
-	i__1 = -(*info);
-	xerbla_("DTGSJA", &i__1, 6L);
+        i__1 = -(*info);
+        xerbla_("DTGSJA", &i__1, 6L);
 /*<          RETURN >*/
-	return 0;
+        return 0;
 /*<       END IF >*/
     }
 
@@ -445,15 +445,15 @@ static doublereal c_b43 = -1.;
 
 /*<    >*/
     if (initu) {
-	dlaset_("Full", m, m, &c_b13, &c_b14, &u[u_offset], ldu, 4L);
+        dlaset_("Full", m, m, &c_b13, &c_b14, &u[u_offset], ldu, 4L);
     }
 /*<    >*/
     if (initv) {
-	dlaset_("Full", p, p, &c_b13, &c_b14, &v[v_offset], ldv, 4L);
+        dlaset_("Full", p, p, &c_b13, &c_b14, &v[v_offset], ldv, 4L);
     }
 /*<    >*/
     if (initq) {
-	dlaset_("Full", n, n, &c_b13, &c_b14, &q[q_offset], ldq, 4L);
+        dlaset_("Full", n, n, &c_b13, &c_b14, &q[q_offset], ldq, 4L);
     }
 
 /*     Loop until convergence */
@@ -464,72 +464,72 @@ static doublereal c_b43 = -1.;
     for (kcycle = 1; kcycle <= 40; ++kcycle) {
 
 /*<          UPPER = .NOT.UPPER >*/
-	upper = ! upper;
+        upper = ! upper;
 
 /*<          DO 20 I = 1, L - 1 >*/
-	i__1 = *l - 1;
-	for (i = 1; i <= i__1; ++i) {
+        i__1 = *l - 1;
+        for (i = 1; i <= i__1; ++i) {
 /*<             DO 10 J = I + 1, L >*/
-	    i__2 = *l;
-	    for (j = i + 1; j <= i__2; ++j) {
+            i__2 = *l;
+            for (j = i + 1; j <= i__2; ++j) {
 
 /*<                A1 = ZERO >*/
-		a1 = 0.;
+                a1 = 0.;
 /*<                A2 = ZERO >*/
-		a2 = 0.;
+                a2 = 0.;
 /*<                A3 = ZERO >*/
-		a3 = 0.;
+                a3 = 0.;
 /*<    >*/
-		if (*k + i <= *m) {
-		    a1 = a[*k + i + (*n - *l + i) * a_dim1];
-		}
+                if (*k + i <= *m) {
+                    a1 = a[*k + i + (*n - *l + i) * a_dim1];
+                }
 /*<    >*/
-		if (*k + j <= *m) {
-		    a3 = a[*k + j + (*n - *l + j) * a_dim1];
-		}
+                if (*k + j <= *m) {
+                    a3 = a[*k + j + (*n - *l + j) * a_dim1];
+                }
 
 /*<                B1 = B( I, N-L+I ) >*/
-		b1 = b[i + (*n - *l + i) * b_dim1];
+                b1 = b[i + (*n - *l + i) * b_dim1];
 /*<                B3 = B( J, N-L+J ) >*/
-		b3 = b[j + (*n - *l + j) * b_dim1];
+                b3 = b[j + (*n - *l + j) * b_dim1];
 
 /*<                IF( UPPER ) THEN >*/
-		if (upper) {
+                if (upper) {
 /*<    >*/
-		    if (*k + i <= *m) {
-			a2 = a[*k + i + (*n - *l + j) * a_dim1];
-		    }
+                    if (*k + i <= *m) {
+                        a2 = a[*k + i + (*n - *l + j) * a_dim1];
+                    }
 /*<                   B2 = B( I, N-L+J ) >*/
-		    b2 = b[i + (*n - *l + j) * b_dim1];
+                    b2 = b[i + (*n - *l + j) * b_dim1];
 /*<                ELSE >*/
-		} else {
+                } else {
 /*<    >*/
-		    if (*k + j <= *m) {
-			a2 = a[*k + j + (*n - *l + i) * a_dim1];
-		    }
+                    if (*k + j <= *m) {
+                        a2 = a[*k + j + (*n - *l + i) * a_dim1];
+                    }
 /*<                   B2 = B( J, N-L+I ) >*/
-		    b2 = b[j + (*n - *l + i) * b_dim1];
+                    b2 = b[j + (*n - *l + i) * b_dim1];
 /*<                END IF >*/
-		}
+                }
 
 /*<    >*/
-		dlags2_(&upper, &a1, &a2, &a3, &b1, &b2, &b3, &csu, &snu, &
-			csv, &snv, &csq, &snq);
+                dlags2_(&upper, &a1, &a2, &a3, &b1, &b2, &b3, &csu, &snu, &
+                        csv, &snv, &csq, &snq);
 
 /*              Update (K+I)-th and (K+J)-th rows of matrix A:
  U'*A */
 
 /*<    >*/
-		if (*k + j <= *m) {
-		    drot_(l, &a[*k + j + (*n - *l + 1) * a_dim1], lda, &a[*k 
-			    + i + (*n - *l + 1) * a_dim1], lda, &csu, &snu);
-		}
+                if (*k + j <= *m) {
+                    drot_(l, &a[*k + j + (*n - *l + 1) * a_dim1], lda, &a[*k
+                            + i + (*n - *l + 1) * a_dim1], lda, &csu, &snu);
+                }
 
 /*              Update I-th and J-th rows of matrix B: V'*B */
 
 /*<    >*/
-		drot_(l, &b[j + (*n - *l + 1) * b_dim1], ldb, &b[i + (*n - *l 
-			+ 1) * b_dim1], ldb, &csv, &snv);
+                drot_(l, &b[j + (*n - *l + 1) * b_dim1], ldb, &b[i + (*n - *l
+                        + 1) * b_dim1], ldb, &csv, &snv);
 
 /*              Update (N-L+I)-th and (N-L+J)-th columns of ma
 trices */
@@ -537,64 +537,64 @@ trices */
 
 /*<    >*/
 /* Computing MIN */
-		i__4 = *k + *l;
-		i__3 = min(i__4,*m);
-		drot_(&i__3, &a[(*n - *l + j) * a_dim1 + 1], &c__1, &a[(*n - *
-			l + i) * a_dim1 + 1], &c__1, &csq, &snq);
+                i__4 = *k + *l;
+                i__3 = min(i__4,*m);
+                drot_(&i__3, &a[(*n - *l + j) * a_dim1 + 1], &c__1, &a[(*n - *
+                        l + i) * a_dim1 + 1], &c__1, &csq, &snq);
 
 /*<    >*/
-		drot_(l, &b[(*n - *l + j) * b_dim1 + 1], &c__1, &b[(*n - *l + 
-			i) * b_dim1 + 1], &c__1, &csq, &snq);
+                drot_(l, &b[(*n - *l + j) * b_dim1 + 1], &c__1, &b[(*n - *l +
+                        i) * b_dim1 + 1], &c__1, &csq, &snq);
 
 /*<                IF( UPPER ) THEN >*/
-		if (upper) {
+                if (upper) {
 /*<    >*/
-		    if (*k + i <= *m) {
-			a[*k + i + (*n - *l + j) * a_dim1] = 0.;
-		    }
+                    if (*k + i <= *m) {
+                        a[*k + i + (*n - *l + j) * a_dim1] = 0.;
+                    }
 /*<                   B( I, N-L+J ) = ZERO >*/
-		    b[i + (*n - *l + j) * b_dim1] = 0.;
+                    b[i + (*n - *l + j) * b_dim1] = 0.;
 /*<                ELSE >*/
-		} else {
+                } else {
 /*<    >*/
-		    if (*k + j <= *m) {
-			a[*k + j + (*n - *l + i) * a_dim1] = 0.;
-		    }
+                    if (*k + j <= *m) {
+                        a[*k + j + (*n - *l + i) * a_dim1] = 0.;
+                    }
 /*<                   B( J, N-L+I ) = ZERO >*/
-		    b[j + (*n - *l + i) * b_dim1] = 0.;
+                    b[j + (*n - *l + i) * b_dim1] = 0.;
 /*<                END IF >*/
-		}
+                }
 
 /*              Update orthogonal matrices U, V, Q, if desired
 . */
 
 /*<    >*/
-		if (wantu && *k + j <= *m) {
-		    drot_(m, &u[(*k + j) * u_dim1 + 1], &c__1, &u[(*k + i) * 
-			    u_dim1 + 1], &c__1, &csu, &snu);
-		}
+                if (wantu && *k + j <= *m) {
+                    drot_(m, &u[(*k + j) * u_dim1 + 1], &c__1, &u[(*k + i) *
+                            u_dim1 + 1], &c__1, &csu, &snu);
+                }
 
 /*<    >*/
-		if (wantv) {
-		    drot_(p, &v[j * v_dim1 + 1], &c__1, &v[i * v_dim1 + 1], &
-			    c__1, &csv, &snv);
-		}
+                if (wantv) {
+                    drot_(p, &v[j * v_dim1 + 1], &c__1, &v[i * v_dim1 + 1], &
+                            c__1, &csv, &snv);
+                }
 
 /*<    >*/
-		if (wantq) {
-		    drot_(n, &q[(*n - *l + j) * q_dim1 + 1], &c__1, &q[(*n - *
-			    l + i) * q_dim1 + 1], &c__1, &csq, &snq);
-		}
+                if (wantq) {
+                    drot_(n, &q[(*n - *l + j) * q_dim1 + 1], &c__1, &q[(*n - *
+                            l + i) * q_dim1 + 1], &c__1, &csq, &snq);
+                }
 
 /*<    10       CONTINUE >*/
 /* L10: */
-	    }
+            }
 /*<    20    CONTINUE >*/
 /* L20: */
-	}
+        }
 
 /*<          IF( .NOT.UPPER ) THEN >*/
-	if (! upper) {
+        if (! upper) {
 
 /*           The matrices A13 and B13 were lower triangular at the
  start */
@@ -605,35 +605,35 @@ onding */
 /*           rows of A and B. */
 
 /*<             ERROR = ZERO >*/
-	    error = 0.;
+            error = 0.;
 /*<             DO 30 I = 1, MIN( L, M-K ) >*/
 /* Computing MIN */
-	    i__2 = *l, i__3 = *m - *k;
-	    i__1 = min(i__2,i__3);
-	    for (i = 1; i <= i__1; ++i) {
+            i__2 = *l, i__3 = *m - *k;
+            i__1 = min(i__2,i__3);
+            for (i = 1; i <= i__1; ++i) {
 /*<                CALL DCOPY( L-I+1, A( K+I, N-L+I ), LDA, WORK, 1 ) >*/
-		i__2 = *l - i + 1;
-		dcopy_(&i__2, &a[*k + i + (*n - *l + i) * a_dim1], lda, &work[
-			1], &c__1);
+                i__2 = *l - i + 1;
+                dcopy_(&i__2, &a[*k + i + (*n - *l + i) * a_dim1], lda, &work[
+                        1], &c__1);
 /*<                CALL DCOPY( L-I+1, B( I, N-L+I ), LDB, WORK( L+1 ), 1 ) >*/
-		i__2 = *l - i + 1;
-		dcopy_(&i__2, &b[i + (*n - *l + i) * b_dim1], ldb, &work[*l + 
-			1], &c__1);
+                i__2 = *l - i + 1;
+                dcopy_(&i__2, &b[i + (*n - *l + i) * b_dim1], ldb, &work[*l +
+                        1], &c__1);
 /*<                CALL DLAPLL( L-I+1, WORK, 1, WORK( L+1 ), 1, SSMIN ) >*/
-		i__2 = *l - i + 1;
-		dlapll_(&i__2, &work[1], &c__1, &work[*l + 1], &c__1, &ssmin);
+                i__2 = *l - i + 1;
+                dlapll_(&i__2, &work[1], &c__1, &work[*l + 1], &c__1, &ssmin);
 /*<                ERROR = MAX( ERROR, SSMIN ) >*/
-		error = max(error,ssmin);
+                error = max(error,ssmin);
 /*<    30       CONTINUE >*/
 /* L30: */
-	    }
+            }
 
 /*<    >*/
-	    if (abs(error) <= (doublereal) (*n) * min(*tola,*tolb)) {
-		goto L50;
-	    }
+            if (abs(error) <= (doublereal) (*n) * min(*tola,*tolb)) {
+                goto L50;
+            }
 /*<          END IF >*/
-	}
+        }
 
 /*        End of cycle loop */
 
@@ -659,9 +659,9 @@ L50:
     i__1 = *k;
     for (i = 1; i <= i__1; ++i) {
 /*<          ALPHA( I ) = ONE >*/
-	alpha[i] = 1.;
+        alpha[i] = 1.;
 /*<          BETA( I ) = ZERO >*/
-	beta[i] = 0.;
+        beta[i] = 0.;
 /*<    60 CONTINUE >*/
 /* L60: */
     }
@@ -673,67 +673,67 @@ L50:
     for (i = 1; i <= i__1; ++i) {
 
 /*<          A1 = A( K+I, N-L+I ) >*/
-	a1 = a[*k + i + (*n - *l + i) * a_dim1];
+        a1 = a[*k + i + (*n - *l + i) * a_dim1];
 /*<          B1 = B( I, N-L+I ) >*/
-	b1 = b[i + (*n - *l + i) * b_dim1];
+        b1 = b[i + (*n - *l + i) * b_dim1];
 
 /*<          IF( A1.NE.ZERO ) THEN >*/
-	if (a1 != 0.) {
+        if (a1 != 0.) {
 /*<             GAMMA = B1 / A1 >*/
-	    gamma = b1 / a1;
+            gamma = b1 / a1;
 
 /*           change sign if necessary */
 
 /*<             IF( GAMMA.LT.ZERO ) THEN >*/
-	    if (gamma < 0.) {
+            if (gamma < 0.) {
 /*<                CALL DSCAL( L-I+1, -ONE, B( I, N-L+I ), LDB ) >*/
-		i__2 = *l - i + 1;
-		dscal_(&i__2, &c_b43, &b[i + (*n - *l + i) * b_dim1], ldb);
+                i__2 = *l - i + 1;
+                dscal_(&i__2, &c_b43, &b[i + (*n - *l + i) * b_dim1], ldb);
 /*<    >*/
-		if (wantv) {
-		    dscal_(p, &c_b43, &v[i * v_dim1 + 1], &c__1);
-		}
+                if (wantv) {
+                    dscal_(p, &c_b43, &v[i * v_dim1 + 1], &c__1);
+                }
 /*<             END IF >*/
-	    }
+            }
 
 /*<    >*/
-	    d__1 = abs(gamma);
-	    dlartg_(&d__1, &c_b14, &beta[*k + i], &alpha[*k + i], &rwk);
+            d__1 = abs(gamma);
+            dlartg_(&d__1, &c_b14, &beta[*k + i], &alpha[*k + i], &rwk);
 
 /*<             IF( ALPHA( K+I ).GE.BETA( K+I ) ) THEN >*/
-	    if (alpha[*k + i] >= beta[*k + i]) {
+            if (alpha[*k + i] >= beta[*k + i]) {
 /*<    >*/
-		i__2 = *l - i + 1;
-		d__1 = 1. / alpha[*k + i];
-		dscal_(&i__2, &d__1, &a[*k + i + (*n - *l + i) * a_dim1], lda)
-			;
+                i__2 = *l - i + 1;
+                d__1 = 1. / alpha[*k + i];
+                dscal_(&i__2, &d__1, &a[*k + i + (*n - *l + i) * a_dim1], lda)
+                        ;
 /*<             ELSE >*/
-	    } else {
+            } else {
 /*<    >*/
-		i__2 = *l - i + 1;
-		d__1 = 1. / beta[*k + i];
-		dscal_(&i__2, &d__1, &b[i + (*n - *l + i) * b_dim1], ldb);
+                i__2 = *l - i + 1;
+                d__1 = 1. / beta[*k + i];
+                dscal_(&i__2, &d__1, &b[i + (*n - *l + i) * b_dim1], ldb);
 /*<    >*/
-		i__2 = *l - i + 1;
-		dcopy_(&i__2, &b[i + (*n - *l + i) * b_dim1], ldb, &a[*k + i 
-			+ (*n - *l + i) * a_dim1], lda);
+                i__2 = *l - i + 1;
+                dcopy_(&i__2, &b[i + (*n - *l + i) * b_dim1], ldb, &a[*k + i
+                        + (*n - *l + i) * a_dim1], lda);
 /*<             END IF >*/
-	    }
+            }
 
 /*<          ELSE >*/
-	} else {
+        } else {
 
 /*<             ALPHA( K+I ) = ZERO >*/
-	    alpha[*k + i] = 0.;
+            alpha[*k + i] = 0.;
 /*<             BETA( K+I ) = ONE >*/
-	    beta[*k + i] = 1.;
+            beta[*k + i] = 1.;
 /*<    >*/
-	    i__2 = *l - i + 1;
-	    dcopy_(&i__2, &b[i + (*n - *l + i) * b_dim1], ldb, &a[*k + i + (*
-		    n - *l + i) * a_dim1], lda);
+            i__2 = *l - i + 1;
+            dcopy_(&i__2, &b[i + (*n - *l + i) * b_dim1], ldb, &a[*k + i + (*
+                    n - *l + i) * a_dim1], lda);
 
 /*<          END IF >*/
-	}
+        }
 
 /*<    70 CONTINUE >*/
 /* L70: */
@@ -745,9 +745,9 @@ L50:
     i__1 = *k + *l;
     for (i = *m + 1; i <= i__1; ++i) {
 /*<          ALPHA( I ) = ZERO >*/
-	alpha[i] = 0.;
+        alpha[i] = 0.;
 /*<          BETA( I ) = ONE >*/
-	beta[i] = 1.;
+        beta[i] = 1.;
 /*<    80 CONTINUE >*/
 /* L80: */
     }
@@ -755,15 +755,15 @@ L50:
 /*<       IF( K+L.LT.N ) THEN >*/
     if (*k + *l < *n) {
 /*<          DO 90 I = K + L + 1, N >*/
-	i__1 = *n;
-	for (i = *k + *l + 1; i <= i__1; ++i) {
+        i__1 = *n;
+        for (i = *k + *l + 1; i <= i__1; ++i) {
 /*<             ALPHA( I ) = ZERO >*/
-	    alpha[i] = 0.;
+            alpha[i] = 0.;
 /*<             BETA( I ) = ZERO >*/
-	    beta[i] = 0.;
+            beta[i] = 0.;
 /*<    90    CONTINUE >*/
 /* L90: */
-	}
+        }
 /*<       END IF >*/
     }
 

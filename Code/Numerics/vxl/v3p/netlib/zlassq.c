@@ -1,6 +1,6 @@
 /*  -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -40,7 +40,7 @@ doublereal *scale, *sumsq;
 
 /*     ( scl**2 )*ssq = x( 1 )**2 +...+ x( n )**2 + ( scale**2 )*sumsq, */
 
-/*  where x( i ) = abs( X( 1 + ( i - 1 )*INCX ) ). The value of sumsq is 
+/*  where x( i ) = abs( X( 1 + ( i - 1 )*INCX ) ). The value of sumsq is
 */
 /*  assumed to be at least unity and the value of ssq will then satisfy */
 
@@ -48,7 +48,7 @@ doublereal *scale, *sumsq;
 
 /*  scale is assumed to be non-negative and scl returns the value */
 
-/*     scl = max( scale, abs( real( x( i ) ) ), abs( aimag( x( i ) ) ) ), 
+/*     scl = max( scale, abs( real( x( i ) ) ), abs( aimag( x( i ) ) ) ),
 */
 /*            i */
 
@@ -79,7 +79,7 @@ doublereal *scale, *sumsq;
 /*          On entry, the value  sumsq  in the equation above. */
 /*          On exit, SUMSQ is overwritten with the value  ssq . */
 
-/* ===================================================================== 
+/* =====================================================================
 */
 
 /*     .. Parameters .. */
@@ -95,39 +95,39 @@ doublereal *scale, *sumsq;
 
     /* Function Body */
     if (*n > 0) {
-	i__1 = (*n - 1) * *incx + 1;
-	i__2 = *incx;
-	for (ix = 1; i__2 < 0 ? ix >= i__1 : ix <= i__1; ix += i__2) {
-	    i__3 = ix;
-	    if (x[i__3].r != 0.) {
-		i__3 = ix;
-		temp1 = (d__1 = x[i__3].r, abs(d__1));
-		if (*scale < temp1) {
+        i__1 = (*n - 1) * *incx + 1;
+        i__2 = *incx;
+        for (ix = 1; i__2 < 0 ? ix >= i__1 : ix <= i__1; ix += i__2) {
+            i__3 = ix;
+            if (x[i__3].r != 0.) {
+                i__3 = ix;
+                temp1 = (d__1 = x[i__3].r, abs(d__1));
+                if (*scale < temp1) {
 /* Computing 2nd power */
-		    d__1 = *scale / temp1;
-		    *sumsq = *sumsq * (d__1 * d__1) + 1;
-		    *scale = temp1;
-		} else {
+                    d__1 = *scale / temp1;
+                    *sumsq = *sumsq * (d__1 * d__1) + 1;
+                    *scale = temp1;
+                } else {
 /* Computing 2nd power */
-		    d__1 = temp1 / *scale;
-		    *sumsq += d__1 * d__1;
-		}
-	    }
-	    if (d_imag(&x[ix]) != 0.) {
-		temp1 = (d__1 = d_imag(&x[ix]), abs(d__1));
-		if (*scale < temp1) {
+                    d__1 = temp1 / *scale;
+                    *sumsq += d__1 * d__1;
+                }
+            }
+            if (d_imag(&x[ix]) != 0.) {
+                temp1 = (d__1 = d_imag(&x[ix]), abs(d__1));
+                if (*scale < temp1) {
 /* Computing 2nd power */
-		    d__1 = *scale / temp1;
-		    *sumsq = *sumsq * (d__1 * d__1) + 1;
-		    *scale = temp1;
-		} else {
+                    d__1 = *scale / temp1;
+                    *sumsq = *sumsq * (d__1 * d__1) + 1;
+                    *scale = temp1;
+                } else {
 /* Computing 2nd power */
-		    d__1 = temp1 / *scale;
-		    *sumsq += d__1 * d__1;
-		}
-	    }
+                    d__1 = temp1 / *scale;
+                    *sumsq += d__1 * d__1;
+                }
+            }
 /* L10: */
-	}
+        }
     }
 
     return 0;

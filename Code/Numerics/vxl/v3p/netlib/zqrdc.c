@@ -1,6 +1,6 @@
 /*  -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -139,7 +139,7 @@ integer *job;
     pl = 1;
     pu = 0;
     if (*job == 0) {
-	goto L60;
+        goto L60;
     }
 
 /*        pivoting has been requested.  rearrange the columns */
@@ -147,62 +147,62 @@ integer *job;
 
     i__1 = *p;
     for (j = 1; j <= i__1; ++j) {
-	swapj = jpvt[j] > 0;
-	negj = jpvt[j] < 0;
-	jpvt[j] = j;
-	if (negj) {
-	    jpvt[j] = -j;
-	}
-	if (! swapj) {
-	    goto L10;
-	}
-	if (j != pl) {
-	    zswap_(n, &x[pl * x_dim1 + 1], &c__1, &x[j * x_dim1 + 1], &c__1);
-	}
-	jpvt[j] = jpvt[pl];
-	jpvt[pl] = j;
-	++pl;
+        swapj = jpvt[j] > 0;
+        negj = jpvt[j] < 0;
+        jpvt[j] = j;
+        if (negj) {
+            jpvt[j] = -j;
+        }
+        if (! swapj) {
+            goto L10;
+        }
+        if (j != pl) {
+            zswap_(n, &x[pl * x_dim1 + 1], &c__1, &x[j * x_dim1 + 1], &c__1);
+        }
+        jpvt[j] = jpvt[pl];
+        jpvt[pl] = j;
+        ++pl;
 L10:
 /* L20: */
-	;
+        ;
     }
     pu = *p;
     i__1 = *p;
     for (jj = 1; jj <= i__1; ++jj) {
-	j = *p - jj + 1;
-	if (jpvt[j] >= 0) {
-	    goto L40;
-	}
-	jpvt[j] = -jpvt[j];
-	if (j == pu) {
-	    goto L30;
-	}
-	zswap_(n, &x[pu * x_dim1 + 1], &c__1, &x[j * x_dim1 + 1], &c__1);
-	jp = jpvt[pu];
-	jpvt[pu] = jpvt[j];
-	jpvt[j] = jp;
+        j = *p - jj + 1;
+        if (jpvt[j] >= 0) {
+            goto L40;
+        }
+        jpvt[j] = -jpvt[j];
+        if (j == pu) {
+            goto L30;
+        }
+        zswap_(n, &x[pu * x_dim1 + 1], &c__1, &x[j * x_dim1 + 1], &c__1);
+        jp = jpvt[pu];
+        jpvt[pu] = jpvt[j];
+        jpvt[j] = jp;
 L30:
-	--pu;
+        --pu;
 L40:
 /* L50: */
-	;
+        ;
     }
 L60:
 
 /*     compute the norms of the free columns. */
 
     if (pu < pl) {
-	goto L80;
+        goto L80;
     }
     i__1 = pu;
     for (j = pl; j <= i__1; ++j) {
-	i__2 = j;
-	d__1 = dznrm2_(n, &x[j * x_dim1 + 1], &c__1);
-	z__1.r = d__1, z__1.i = 0.;
-	qraux[i__2].r = z__1.r, qraux[i__2].i = z__1.i;
-	i__2 = j;
-	i__3 = j;
-	work[i__2].r = qraux[i__3].r, work[i__2].i = qraux[i__3].i;
+        i__2 = j;
+        d__1 = dznrm2_(n, &x[j * x_dim1 + 1], &c__1);
+        z__1.r = d__1, z__1.i = 0.;
+        qraux[i__2].r = z__1.r, qraux[i__2].i = z__1.i;
+        i__2 = j;
+        i__3 = j;
+        work[i__2].r = qraux[i__3].r, work[i__2].i = qraux[i__3].i;
 /* L70: */
     }
 L80:
@@ -212,159 +212,159 @@ L80:
     lup = min(*n,*p);
     i__1 = lup;
     for (l = 1; l <= i__1; ++l) {
-	if (l < pl || l >= pu) {
-	    goto L120;
-	}
+        if (l < pl || l >= pu) {
+            goto L120;
+        }
 
 /*           locate the column of largest norm and bring it */
 /*           into the pivot position. */
 
-	maxnrm = 0.;
-	maxj = l;
-	i__2 = pu;
-	for (j = l; j <= i__2; ++j) {
-	    i__3 = j;
-	    if (qraux[i__3].r <= maxnrm) {
-		goto L90;
-	    }
-	    i__3 = j;
-	    maxnrm = qraux[i__3].r;
-	    maxj = j;
+        maxnrm = 0.;
+        maxj = l;
+        i__2 = pu;
+        for (j = l; j <= i__2; ++j) {
+            i__3 = j;
+            if (qraux[i__3].r <= maxnrm) {
+                goto L90;
+            }
+            i__3 = j;
+            maxnrm = qraux[i__3].r;
+            maxj = j;
 L90:
 /* L100: */
-	    ;
-	}
-	if (maxj == l) {
-	    goto L110;
-	}
-	zswap_(n, &x[l * x_dim1 + 1], &c__1, &x[maxj * x_dim1 + 1], &c__1);
-	i__2 = maxj;
-	i__3 = l;
-	qraux[i__2].r = qraux[i__3].r, qraux[i__2].i = qraux[i__3].i;
-	i__2 = maxj;
-	i__3 = l;
-	work[i__2].r = work[i__3].r, work[i__2].i = work[i__3].i;
-	jp = jpvt[maxj];
-	jpvt[maxj] = jpvt[l];
-	jpvt[l] = jp;
+            ;
+        }
+        if (maxj == l) {
+            goto L110;
+        }
+        zswap_(n, &x[l * x_dim1 + 1], &c__1, &x[maxj * x_dim1 + 1], &c__1);
+        i__2 = maxj;
+        i__3 = l;
+        qraux[i__2].r = qraux[i__3].r, qraux[i__2].i = qraux[i__3].i;
+        i__2 = maxj;
+        i__3 = l;
+        work[i__2].r = work[i__3].r, work[i__2].i = work[i__3].i;
+        jp = jpvt[maxj];
+        jpvt[maxj] = jpvt[l];
+        jpvt[l] = jp;
 L110:
 L120:
-	i__2 = l;
-	qraux[i__2].r = 0., qraux[i__2].i = 0.;
-	if (l == *n) {
-	    goto L190;
-	}
+        i__2 = l;
+        qraux[i__2].r = 0., qraux[i__2].i = 0.;
+        if (l == *n) {
+            goto L190;
+        }
 
 /*           compute the householder transformation for column l. */
 
-	i__2 = *n - l + 1;
-	d__1 = dznrm2_(&i__2, &x[l + l * x_dim1], &c__1);
-	z__1.r = d__1, z__1.i = 0.;
-	nrmxl.r = z__1.r, nrmxl.i = z__1.i;
-	z__1.r = nrmxl.r * 0. - nrmxl.i * -1., z__1.i = nrmxl.r * -1. + 
-		nrmxl.i * 0.;
-	if ((d__1 = nrmxl.r, abs(d__1)) + (d__2 = z__1.r, abs(d__2)) == 0.) {
-	    goto L180;
-	}
-	i__2 = l + l * x_dim1;
-	i__3 = l + l * x_dim1;
-	z__1.r = x[i__3].r * 0. - x[i__3].i * -1., z__1.i = x[i__3].r * -1. + 
-		x[i__3].i * 0.;
-	if ((d__1 = x[i__2].r, abs(d__1)) + (d__2 = z__1.r, abs(d__2)) != 0.) 
-		{
-	    d__3 = cdabs_(&nrmxl);
-	    i__4 = l + l * x_dim1;
-	    d__4 = cdabs_(&x[l + l * x_dim1]);
-	    z__3.r = x[i__4].r / d__4, z__3.i = x[i__4].i / d__4;
-	    z__2.r = d__3 * z__3.r, z__2.i = d__3 * z__3.i;
-	    nrmxl.r = z__2.r, nrmxl.i = z__2.i;
-	}
-	i__2 = *n - l + 1;
-	z_div(&z__1, &c_b28, &nrmxl);
-	zscal_(&i__2, &z__1, &x[l + l * x_dim1], &c__1);
-	i__2 = l + l * x_dim1;
-	i__3 = l + l * x_dim1;
-	z__1.r = x[i__3].r + 1., z__1.i = x[i__3].i + 0.;
-	x[i__2].r = z__1.r, x[i__2].i = z__1.i;
+        i__2 = *n - l + 1;
+        d__1 = dznrm2_(&i__2, &x[l + l * x_dim1], &c__1);
+        z__1.r = d__1, z__1.i = 0.;
+        nrmxl.r = z__1.r, nrmxl.i = z__1.i;
+        z__1.r = nrmxl.r * 0. - nrmxl.i * -1., z__1.i = nrmxl.r * -1. +
+                nrmxl.i * 0.;
+        if ((d__1 = nrmxl.r, abs(d__1)) + (d__2 = z__1.r, abs(d__2)) == 0.) {
+            goto L180;
+        }
+        i__2 = l + l * x_dim1;
+        i__3 = l + l * x_dim1;
+        z__1.r = x[i__3].r * 0. - x[i__3].i * -1., z__1.i = x[i__3].r * -1. +
+                x[i__3].i * 0.;
+        if ((d__1 = x[i__2].r, abs(d__1)) + (d__2 = z__1.r, abs(d__2)) != 0.)
+                {
+            d__3 = cdabs_(&nrmxl);
+            i__4 = l + l * x_dim1;
+            d__4 = cdabs_(&x[l + l * x_dim1]);
+            z__3.r = x[i__4].r / d__4, z__3.i = x[i__4].i / d__4;
+            z__2.r = d__3 * z__3.r, z__2.i = d__3 * z__3.i;
+            nrmxl.r = z__2.r, nrmxl.i = z__2.i;
+        }
+        i__2 = *n - l + 1;
+        z_div(&z__1, &c_b28, &nrmxl);
+        zscal_(&i__2, &z__1, &x[l + l * x_dim1], &c__1);
+        i__2 = l + l * x_dim1;
+        i__3 = l + l * x_dim1;
+        z__1.r = x[i__3].r + 1., z__1.i = x[i__3].i + 0.;
+        x[i__2].r = z__1.r, x[i__2].i = z__1.i;
 
 /*              apply the transformation to the remaining columns, */
 /*              updating the norms. */
 
-	lp1 = l + 1;
-	if (*p < lp1) {
-	    goto L170;
-	}
-	i__2 = *p;
-	for (j = lp1; j <= i__2; ++j) {
-	    i__3 = *n - l + 1;
-	    zdotc_(&z__3, &i__3, &x[l + l * x_dim1], &c__1, &x[l + j * x_dim1]
-		    , &c__1);
-	    z__2.r = -z__3.r, z__2.i = -z__3.i;
-	    z_div(&z__1, &z__2, &x[l + l * x_dim1]);
-	    t.r = z__1.r, t.i = z__1.i;
-	    i__3 = *n - l + 1;
-	    zaxpy_(&i__3, &t, &x[l + l * x_dim1], &c__1, &x[l + j * x_dim1], &
-		    c__1);
-	    if (j < pl || j > pu) {
-		goto L150;
-	    }
-	    i__3 = j;
-	    i__4 = j;
-	    z__1.r = qraux[i__4].r * 0. - qraux[i__4].i * -1., z__1.i = qraux[
-		    i__4].r * -1. + qraux[i__4].i * 0.;
-	    if ((d__1 = qraux[i__3].r, abs(d__1)) + (d__2 = z__1.r, abs(d__2))
-		     == 0.) {
-		goto L150;
-	    }
-	    i__3 = j;
+        lp1 = l + 1;
+        if (*p < lp1) {
+            goto L170;
+        }
+        i__2 = *p;
+        for (j = lp1; j <= i__2; ++j) {
+            i__3 = *n - l + 1;
+            zdotc_(&z__3, &i__3, &x[l + l * x_dim1], &c__1, &x[l + j * x_dim1]
+                    , &c__1);
+            z__2.r = -z__3.r, z__2.i = -z__3.i;
+            z_div(&z__1, &z__2, &x[l + l * x_dim1]);
+            t.r = z__1.r, t.i = z__1.i;
+            i__3 = *n - l + 1;
+            zaxpy_(&i__3, &t, &x[l + l * x_dim1], &c__1, &x[l + j * x_dim1], &
+                    c__1);
+            if (j < pl || j > pu) {
+                goto L150;
+            }
+            i__3 = j;
+            i__4 = j;
+            z__1.r = qraux[i__4].r * 0. - qraux[i__4].i * -1., z__1.i = qraux[
+                    i__4].r * -1. + qraux[i__4].i * 0.;
+            if ((d__1 = qraux[i__3].r, abs(d__1)) + (d__2 = z__1.r, abs(d__2))
+                     == 0.) {
+                goto L150;
+            }
+            i__3 = j;
 /* Computing 2nd power */
-	    d__1 = cdabs_(&x[l + j * x_dim1]) / qraux[i__3].r;
-	    tt = 1. - d__1 * d__1;
-	    tt = max(tt,0.);
-	    z__1.r = tt, z__1.i = 0.;
-	    t.r = z__1.r, t.i = z__1.i;
-	    i__3 = j;
-	    i__4 = j;
+            d__1 = cdabs_(&x[l + j * x_dim1]) / qraux[i__3].r;
+            tt = 1. - d__1 * d__1;
+            tt = max(tt,0.);
+            z__1.r = tt, z__1.i = 0.;
+            t.r = z__1.r, t.i = z__1.i;
+            i__3 = j;
+            i__4 = j;
 /* Computing 2nd power */
-	    d__1 = qraux[i__3].r / work[i__4].r;
-	    tt = tt * .05 * (d__1 * d__1) + 1.;
-	    if (tt == 1.) {
-		goto L130;
-	    }
-	    i__3 = j;
-	    i__4 = j;
-	    d__1 = cdsqrt_(&t);
-	    z__1.r = d__1 * qraux[i__4].r, z__1.i = d__1 * qraux[i__4].i;
-	    qraux[i__3].r = z__1.r, qraux[i__3].i = z__1.i;
-	    goto L140;
+            d__1 = qraux[i__3].r / work[i__4].r;
+            tt = tt * .05 * (d__1 * d__1) + 1.;
+            if (tt == 1.) {
+                goto L130;
+            }
+            i__3 = j;
+            i__4 = j;
+            d__1 = cdsqrt_(&t);
+            z__1.r = d__1 * qraux[i__4].r, z__1.i = d__1 * qraux[i__4].i;
+            qraux[i__3].r = z__1.r, qraux[i__3].i = z__1.i;
+            goto L140;
 L130:
-	    i__3 = j;
-	    i__4 = *n - l;
-	    d__1 = dznrm2_(&i__4, &x[l + 1 + j * x_dim1], &c__1);
-	    z__1.r = d__1, z__1.i = 0.;
-	    qraux[i__3].r = z__1.r, qraux[i__3].i = z__1.i;
-	    i__3 = j;
-	    i__4 = j;
-	    work[i__3].r = qraux[i__4].r, work[i__3].i = qraux[i__4].i;
+            i__3 = j;
+            i__4 = *n - l;
+            d__1 = dznrm2_(&i__4, &x[l + 1 + j * x_dim1], &c__1);
+            z__1.r = d__1, z__1.i = 0.;
+            qraux[i__3].r = z__1.r, qraux[i__3].i = z__1.i;
+            i__3 = j;
+            i__4 = j;
+            work[i__3].r = qraux[i__4].r, work[i__3].i = qraux[i__4].i;
 L140:
 L150:
 /* L160: */
-	    ;
-	}
+            ;
+        }
 L170:
 
 /*              save the transformation. */
 
-	i__2 = l;
-	i__3 = l + l * x_dim1;
-	qraux[i__2].r = x[i__3].r, qraux[i__2].i = x[i__3].i;
-	i__2 = l + l * x_dim1;
-	z__1.r = -nrmxl.r, z__1.i = -nrmxl.i;
-	x[i__2].r = z__1.r, x[i__2].i = z__1.i;
+        i__2 = l;
+        i__3 = l + l * x_dim1;
+        qraux[i__2].r = x[i__3].r, qraux[i__2].i = x[i__3].i;
+        i__2 = l + l * x_dim1;
+        z__1.r = -nrmxl.r, z__1.i = -nrmxl.i;
+        x[i__2].r = z__1.r, x[i__2].i = z__1.i;
 L180:
 L190:
 /* L200: */
-	;
+        ;
     }
     return 0;
 } /* zqrdc_ */

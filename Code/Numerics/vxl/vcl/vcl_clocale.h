@@ -1,14 +1,15 @@
 #ifndef vcl_clocale_h_
 #define vcl_clocale_h_
-#ifdef __GNUC__
-#pragma interface
-#endif
 /*
   fsm@robots.ox.ac.uk
 */
 
 #include "vcl_compiler.h"
 
-#include <locale.h>
+#if !VCL_CXX_HAS_HEADER_CLOCALE
+# include <locale.h>
+#else
+# include "iso/vcl_clocale.h"
+#endif
 
 #endif // vcl_clocale_h_

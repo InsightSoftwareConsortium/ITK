@@ -9,13 +9,6 @@
 #include <vcl_cstdlib.h>
 
 #include <vcl_iostream.h>
-#define macro(cond, type) \
-do { \
-  if (cond) \
-    vcl_cout << "vcl_abs(" #type ") PASSED" << vcl_endl; \
-  else \
-    vcl_cerr << "vcl_abs(" #type ") *** FAILED *** " << vcl_endl; \
-} while (false)
 
 int main()
 {
@@ -26,10 +19,18 @@ int main()
     double xd = 23.14159265358979323846;
     // + long double
     
+#define macro(cond, type) \
+do { \
+  if (cond) \
+    vcl_cout << "vcl_abs(" #type ") PASSED" << vcl_endl; \
+  else \
+    vcl_cerr << "vcl_abs(" #type ") *** FAILED *** " << vcl_endl; \
+} while (false)
     macro(vcl_abs(- xi) == xi, int);
     macro(vcl_abs(- xl) == xl, long);
     macro(vcl_abs(- xf) == xf, float);
     macro(vcl_abs(- xd) == xd, double);
+#undef macro
   }
   
   {
@@ -45,6 +46,17 @@ int main()
     double tan = vcl_tan(theta);
     theta = cos + sin + tan; // quell 'unused variable' warning.
   }
+  
+#define macro(T) \
+  do { \
+    T x = 2; \
+    T y = vcl_sqrt(x); \
+    vcl_cout << x - y*y << vcl_endl; \
+  } while (false)
+  macro(float);       // e-08
+  macro(double);      // e-16
+  macro(long double); // e-19
+#undef macro
   
   return 0;
 }

@@ -1,0 +1,54 @@
+#ifndef __STLCOMP_H
+# define __STLCOMP_H
+// Settings for Visual C++ 5.0
+
+// define that to disable these features
+# undef __STL_NO_EXCEPTIONS
+# undef __STL_NO_NAMESPACES
+
+// select allocation method you like
+// uncomment this one to abandon experimantal allocator
+// #define  __STL_USE_NEWALLOC
+
+// this one is not mandatory, just enabled
+#define __STL_USE_DEFALLOC 1
+
+// define NO_USING_STD if don't want using STL namespace by default
+// new-style-headers define that to get proper behaviour
+// # define __STL_NO_USING_STD
+
+// define __STL_USE_ABBREVS if your linker has trouble with long 
+// external symbols
+// # define  __STL_USE_ABBREVS 1
+
+// set this to force checked allocators
+// #  define __STL_DEBUG_ALLOC 1
+
+// unsigned 32-bit integer type
+#  define __STL_UINT32_T unsigned long
+
+
+#  undef  __STL_BOOL_KEYWORD
+#  undef  __STL_UNINITIALIZABLE_PRIVATE
+#  undef  __STL_BASE_MATCH_BUG
+#  undef  __STL_BASE_TYPEDEF_OUTSIDE_BUG
+#  define __STL_STATIC_TEMPLATE_DATA 1
+#  define __STL_DEFAULT_TEMPLATE_PARAM 1
+
+#  define __STL_TYPENAME      1
+#  define __STL_EXPLICIT      1
+#  define __STL_MUTABLE       1
+
+#   define __STL_NAMESPACES      1
+#   define __STL_NEW_STYLE_CASTS 1
+#   define __STL_LONG_DOUBLE     1
+#   define __STL_YVALS_H         1
+#   define __STL_BAD_ALLOC_DEFINED 1
+#   ifdef _CPPUNWIND
+#     define __STL_USE_EXCEPTIONS
+#   endif
+#   ifdef _MT
+#     define __STL_WIN32THREADS
+#   endif
+
+# endif /* STLCOMP_H */

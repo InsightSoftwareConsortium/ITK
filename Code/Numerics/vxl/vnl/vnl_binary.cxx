@@ -1,3 +1,5 @@
+// This is vxl/vnl/vnl_binary.cxx
+
 /*
   fsm@robots.ox.ac.uk
 */
@@ -12,7 +14,6 @@
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_diag_matrix.h>
-#include <vnl/vnl_resize.h>
 
 // KAI C++ wants char*, so it must be correct....
 #define stream_cast (char*)
@@ -37,27 +38,15 @@ bool vnl_binary_load(vcl_istream &f, vnl_vector<T> &v)
   int n = -1;
   f.read(stream_cast &n, sizeof(n));
   if (n > 0) {
-    vnl_resize(v, n);
+    v.resize(n);
     f.read(stream_cast v.data_block(), v.size() * sizeof(T));
   }
-  // FIXME
-  else {
-    // egcs barfs at v.~vnl_vector()
-    // SunPro is merely braindead.
-#if defined(VCL_SUNPRO_CC_50)
-    vnl_c_vector<T>::deallocate(v.begin(), v.size());
-#elif defined(VCL_EGCS)
-    (&v)->~vnl_vector();
-#else
-    v.~vnl_vector();
-#endif
-    new (&v) vnl_vector<T>;
-  }
+  else
+    v.clear();
   return true;
 }
 
-// -------------------- vnl_matrix
-
+//:vnl_matrix
 template <class T>
 bool vnl_binary_save(vcl_ostream &f, vnl_matrix<T> const &A)
 {
@@ -79,25 +68,15 @@ bool vnl_binary_load(vcl_istream &f, vnl_matrix<T> &A)
   f.read(stream_cast &c, sizeof(c));
   //vcl_cerr << "r c = " << r << ' ' << c << vcl_endl;
   if (r > 0 || c > 0) {
-    vnl_resize(A, r, c);
+    A.resize(r, c);
     f.read(stream_cast A.data_block(), A.size() * sizeof(T));
   }
-  // FIXME
-  else {
-#if defined(VCL_SUNPRO_CC_50)
-    assert(!"get a proper compiler");
-#elif defined(VCL_EGCS)
-    (&A)->~vnl_matrix();
-#else
-    A.~vnl_matrix();
-#endif
-    new (&A) vnl_matrix<T>;
-    return false;
-  }
+  else
+    A.clear();
   return true;
 }
 
-// -------------------- vnl_diag_matrix
+//: vnl_diag_matrix
 
 template <class T>
 bool vnl_binary_save(vcl_ostream &f, vnl_diag_matrix<T> const &D)
@@ -117,20 +96,12 @@ bool vnl_binary_load(vcl_istream &f, vnl_diag_matrix<T> &D)
   int n = -1;
   f.read(stream_cast &n, sizeof(n));
   if (n > 0) {
-    vnl_resize(D, n);
+    D.resize(n);
     f.read(stream_cast D.data_block(), D.size() * sizeof(T));
   }
-  // FIXME
-  else {
-#if defined(VCL_SUNPRO_CC_50)
-    assert(!"get a proper compiler");
-#elif defined(VCL_EGCS)
-    (&D)->~vnl_diag_matrix();
-#else
-    D.~vnl_diag_matrix();
-#endif
-    new (&D) vnl_diag_matrix<T>;
-  }
+  else
+    D.clear();
+
   return true;
 }
 
@@ -142,8 +113,7 @@ template bool vnl_binary_save(vcl_ostream &, vnl_matrix<T > const &); \
 template bool vnl_binary_save(vcl_ostream &, vnl_diag_matrix<T > const &); \
 template bool vnl_binary_load(vcl_istream &, vnl_vector<T > &); \
 template bool vnl_binary_load(vcl_istream &, vnl_matrix<T > &); \
-template bool vnl_binary_load(vcl_istream &, vnl_diag_matrix<T > &); \
-;
+template bool vnl_binary_load(vcl_istream &, vnl_diag_matrix<T > &)
 
 inst(int);
 inst(float);

@@ -1,6 +1,6 @@
 /* dgpfa.f -- translated by f2c (version 19951025).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #ifdef __cplusplus
@@ -66,21 +66,21 @@ static integer c__3 = 3;
 /* ---------------------------------------------------------------------- */
 
 /*<       SUBROUTINE DGPFA(A,B,TRIGS,INC,JUMP,N,LOT,ISIGN,NPQR,INFO) >*/
-/* Subroutine */ int dgpfa_(doublereal *a, doublereal *b, doublereal *trigs, 
-	integer *inc, integer *jump, integer *n, integer *lot, integer *isign,
-	 integer *npqr, integer *info)
+/* Subroutine */ int dgpfa_(doublereal *a, doublereal *b, doublereal *trigs,
+        integer *inc, integer *jump, integer *n, integer *lot, integer *isign,
+         integer *npqr, integer *info)
 {
     /* Builtin functions */
     integer pow_ii(integer *, integer *);
 
     /* Local variables */
     static integer i__, ip, iq, ir;
-    extern /* Subroutine */ int dgpfa2f_(doublereal *, doublereal *, 
-	    doublereal *, integer *, integer *, integer *, integer *, integer 
-	    *, integer *), dgpfa3f_(doublereal *, doublereal *, doublereal *, 
-	    integer *, integer *, integer *, integer *, integer *, integer *),
-	     dgpfa5f_(doublereal *, doublereal *, doublereal *, integer *, 
-	    integer *, integer *, integer *, integer *, integer *);
+    extern /* Subroutine */ int dgpfa2f_(doublereal *, doublereal *,
+            doublereal *, integer *, integer *, integer *, integer *, integer
+            *, integer *), dgpfa3f_(doublereal *, doublereal *, doublereal *,
+            integer *, integer *, integer *, integer *, integer *, integer *),
+             dgpfa5f_(doublereal *, doublereal *, doublereal *, integer *,
+            integer *, integer *, integer *, integer *, integer *);
 
 
 /*<       DIMENSION A(*), B(*), TRIGS(*) >*/
@@ -108,23 +108,23 @@ static integer c__3 = 3;
 /*<       IF (IP.GT.0) THEN >*/
     if (ip > 0) {
 /*<          CALL DGPFA2F(A,B,TRIGS,INC,JUMP,N,IP,LOT,ISIGN) >*/
-	dgpfa2f_(&a[1], &b[1], &trigs[1], inc, jump, n, &ip, lot, isign);
+        dgpfa2f_(&a[1], &b[1], &trigs[1], inc, jump, n, &ip, lot, isign);
 /*<          I = I + 2 * ( 2**IP) >*/
-	i__ += pow_ii(&c__2, &ip) << 1;
+        i__ += pow_ii(&c__2, &ip) << 1;
 /*<       ENDIF >*/
     }
 /*<       IF (IQ.GT.0) THEN >*/
     if (iq > 0) {
 /*<          CALL DGPFA3F(A,B,TRIGS(I),INC,JUMP,N,IQ,LOT,ISIGN) >*/
-	dgpfa3f_(&a[1], &b[1], &trigs[i__], inc, jump, n, &iq, lot, isign);
+        dgpfa3f_(&a[1], &b[1], &trigs[i__], inc, jump, n, &iq, lot, isign);
 /*<          I = I + 2 * (3**IQ) >*/
-	i__ += pow_ii(&c__3, &iq) << 1;
+        i__ += pow_ii(&c__3, &iq) << 1;
 /*<       ENDIF >*/
     }
 /*<       IF (IR.GT.0) THEN >*/
     if (ir > 0) {
 /*<          CALL DGPFA5F(A,B,TRIGS(I),INC,JUMP,N,IR,LOT,ISIGN) >*/
-	dgpfa5f_(&a[1], &b[1], &trigs[i__], inc, jump, n, &ir, lot, isign);
+        dgpfa5f_(&a[1], &b[1], &trigs[i__], inc, jump, n, &ir, lot, isign);
 /*<       ENDIF >*/
     }
 
@@ -136,5 +136,5 @@ static integer c__3 = 3;
 } /* dgpfa_ */
 
 #ifdef __cplusplus
-	}
+        }
 #endif

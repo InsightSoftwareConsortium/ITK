@@ -1,6 +1,6 @@
 /*  -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -32,14 +32,14 @@ integer *incx;
     /* Function Body */
     ret_val = 0;
     if (*n < 1 || *incx <= 0) {
-	return ret_val;
+        return ret_val;
     }
     ret_val = 1;
     if (*n == 1) {
-	return ret_val;
+        return ret_val;
     }
     if (*incx == 1) {
-	goto L20;
+        goto L20;
     }
 
 /*        code for increment not equal to 1 */
@@ -49,13 +49,13 @@ integer *incx;
     ix += *incx;
     i__1 = *n;
     for (i = 2; i <= i__1; ++i) {
-	if (dcabs1_(&zx[ix]) <= smax) {
-	    goto L5;
-	}
-	ret_val = i;
-	smax = dcabs1_(&zx[ix]);
+        if (dcabs1_(&zx[ix]) <= smax) {
+            goto L5;
+        }
+        ret_val = i;
+        smax = dcabs1_(&zx[ix]);
 L5:
-	ix += *incx;
+        ix += *incx;
 /* L10: */
     }
     return ret_val;
@@ -66,13 +66,13 @@ L20:
     smax = dcabs1_(&zx[1]);
     i__1 = *n;
     for (i = 2; i <= i__1; ++i) {
-	if (dcabs1_(&zx[i]) <= smax) {
-	    goto L30;
-	}
-	ret_val = i;
-	smax = dcabs1_(&zx[i]);
+        if (dcabs1_(&zx[i]) <= smax) {
+            goto L30;
+        }
+        ret_val = i;
+        smax = dcabs1_(&zx[i]);
 L30:
-	;
+        ;
     }
     return ret_val;
 } /* izamax_ */

@@ -6,7 +6,7 @@
 //-----------------------------------------------------------------------------
 
 #include <vcl_iostream.h>
-#include <vnl/vnl_complex.h>
+#include <vcl_complex.h>
 #include <vnl/vnl_matlab_print.h>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_vector.h>

@@ -3,17 +3,15 @@
 #ifdef __GNUC__
 #pragma interface
 #endif
-// .NAME	vnl_float_3
-// .LIBRARY	vnl
-// .HEADER	vxl package
-// .INCLUDE	vnl/vnl_float_3.h
-// .FILE	vnl_float_3.cxx
-//
-// .SECTION Author
-//     Andrew W. Fitzgibbon, Oxford RRG, 05 Aug 96
-//
-// .SECTION Modifications:
+// This is vxl/vnl/vnl_float_3.h
+
+//: \file
+//  \brief
+//  \author Andrew W. Fitzgibbon, Oxford RRG, 05 Aug 96
+
+// Modifications:
 //   Peter Vanroose, 25 June 1999: vnl_vector_fixed<float,3> already instantiated
+//   4/4/01 LSB (Manchester) Tidied documentation
 
 #include <vnl/vnl_T_n.h>
 

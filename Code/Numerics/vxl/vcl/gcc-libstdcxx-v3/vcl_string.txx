@@ -1,5 +1,5 @@
-#ifndef vcl_gcc295_string_txx_
-#define vcl_gcc295_string_txx_
+#ifndef vcl_gcc_libstdcxx_v3_string_txx_
+#define vcl_gcc_libstdcxx_v3_string_txx_
 /*
   fsm@robots.ox.ac.uk
 */

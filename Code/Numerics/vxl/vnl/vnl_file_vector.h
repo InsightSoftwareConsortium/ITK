@@ -3,25 +3,23 @@
 #ifdef __GNUC__
 #pragma interface
 #endif
-// .NAME	vnl_file_vector - Load vnl_vector<T> from file
-// .LIBRARY	vnl
-// .HEADER	vxl Package
-// .INCLUDE	vnl/vnl_file_vector.h
-// .FILE	vnl_file_vector.txx
+// This is vxl/vnl/vnl_file_vector.h
+
+//: \file
+//  \brief Load vnl_vector<T> from file
+//  \author Andrew W. Fitzgibbon, Oxford RRG, 23 Dec 96
+
+
 //
-// .SECTION Description
-//    vnl_file_vector is a templated class to load a vector from a file.
-//
-// .SECTION Author
-//     Andrew W. Fitzgibbon, Oxford RRG, 23 Dec 96
-//
-// .SECTION Modifications:
+//   Modifications:
 //     fsm created by modifying class FileMatrix
+//  LSB (Manchester) 23/3/01 Tidied documentation
 //
 //-----------------------------------------------------------------------------
 
 #include <vnl/vnl_vector.h>
 
+//: Templated class to load a vector from a file.
 template <class T>
 class vnl_file_vector : public vnl_vector<T> {
 public:

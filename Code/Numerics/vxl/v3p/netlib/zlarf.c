@@ -1,6 +1,6 @@
 /*  -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -44,7 +44,7 @@ ftnlen side_len;
 /*  ======= */
 
 /*  ZLARF applies a complex elementary reflector H to a complex M-by-N */
-/*  matrix C, from either the left or the right. H is represented in the 
+/*  matrix C, from either the left or the right. H is represented in the
 */
 /*  form */
 
@@ -54,7 +54,7 @@ ftnlen side_len;
 
 /*  If tau = 0, then H is taken to be the unit matrix. */
 
-/*  To apply H' (the conjugate transpose of H), supply conjg(tau) instead 
+/*  To apply H' (the conjugate transpose of H), supply conjg(tau) instead
 */
 /*  tau. */
 
@@ -85,7 +85,7 @@ ftnlen side_len;
 
 /*  C       (input/output) COMPLEX*16 array, dimension (LDC,N) */
 /*          On entry, the M-by-N matrix C. */
-/*          On exit, C is overwritten by the matrix H * C if SIDE = 'L', 
+/*          On exit, C is overwritten by the matrix H * C if SIDE = 'L',
 */
 /*          or C * H if SIDE = 'R'. */
 
@@ -96,7 +96,7 @@ ftnlen side_len;
 /*                         (N) if SIDE = 'L' */
 /*                      or (M) if SIDE = 'R' */
 
-/*  ===================================================================== 
+/*  =====================================================================
 */
 
 /*     .. Parameters .. */
@@ -119,36 +119,36 @@ ftnlen side_len;
 
 /*        Form  H * C */
 
-	if (tau->r != 0. || tau->i != 0.) {
+        if (tau->r != 0. || tau->i != 0.) {
 
 /*           w := C' * v */
 
-	    zgemv_("Conjugate transpose", m, n, &c_b5, &c[c_offset], ldc, &v[
-		    1], incv, &c_b3, &work[1], &c__1, 19L);
+            zgemv_("Conjugate transpose", m, n, &c_b5, &c[c_offset], ldc, &v[
+                    1], incv, &c_b3, &work[1], &c__1, 19L);
 
 /*           C := C - v * w' */
 
-	    z__1.r = -tau->r, z__1.i = -tau->i;
-	    zgerc_(m, n, &z__1, &v[1], incv, &work[1], &c__1, &c[c_offset], 
-		    ldc);
-	}
+            z__1.r = -tau->r, z__1.i = -tau->i;
+            zgerc_(m, n, &z__1, &v[1], incv, &work[1], &c__1, &c[c_offset],
+                    ldc);
+        }
     } else {
 
 /*        Form  C * H */
 
-	if (tau->r != 0. || tau->i != 0.) {
+        if (tau->r != 0. || tau->i != 0.) {
 
 /*           w := C * v */
 
-	    zgemv_("No transpose", m, n, &c_b5, &c[c_offset], ldc, &v[1], 
-		    incv, &c_b3, &work[1], &c__1, 12L);
+            zgemv_("No transpose", m, n, &c_b5, &c[c_offset], ldc, &v[1],
+                    incv, &c_b3, &work[1], &c__1, 12L);
 
 /*           C := C - w * v' */
 
-	    z__1.r = -tau->r, z__1.i = -tau->i;
-	    zgerc_(m, n, &z__1, &work[1], &c__1, &v[1], incv, &c[c_offset], 
-		    ldc);
-	}
+            z__1.r = -tau->r, z__1.i = -tau->i;
+            zgerc_(m, n, &z__1, &work[1], &c__1, &v[1], incv, &c[c_offset],
+                    ldc);
+        }
     }
     return 0;
 

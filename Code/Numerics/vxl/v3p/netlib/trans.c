@@ -1,6 +1,6 @@
 /* trans.f -- translated by f2c (version of 23 April 1993  18:34:30).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
@@ -14,8 +14,8 @@ integer *m, *n, *mn, *move, *iwrk, *iok;
 
     /* Local variables */
     static real b, c, d;
-    static integer i, j, k, i1, i2, j1, n1, im, i1c, i2c, ncount, ir0, ir1, 
-	    ir2, kmi, max_;
+    static integer i, j, k, i1, i2, j1, n1, im, i1c, i2c, ncount, ir0, ir1,
+            ir2, kmi, max_;
 
 /* ***** */
 /*  ALGORITHM 380 - REVISED */
@@ -40,26 +40,26 @@ integer *m, *n, *mn, *move, *iwrk, *iok;
 
     /* Function Body */
     if (*m < 2 || *n < 2) {
-	goto L120;
+        goto L120;
     }
     if (*mn != *m * *n) {
-	goto L180;
+        goto L180;
     }
     if (*iwrk < 1) {
-	goto L190;
+        goto L190;
     }
     if (*m == *n) {
-	goto L130;
+        goto L130;
     }
     ncount = 2;
     k = *mn - 1;
     i__1 = *iwrk;
     for (i = 1; i <= i__1; ++i) {
-	move[i] = 0;
+        move[i] = 0;
 /* L10: */
     }
     if (*m < 3 || *n < 3) {
-	goto L30;
+        goto L30;
     }
 /* CALCULATE THE NUMBER OF FIXED POINTS, EUCLIDS ALGORITHM */
 /* FOR GCD(M-1,N-1). */
@@ -70,7 +70,7 @@ L20:
     ir2 = ir1;
     ir1 = ir0;
     if (ir0 != 0) {
-	goto L20;
+        goto L20;
     }
     ncount = ncount + ir2 - 1;
 /* SET INITIAL VALUES FOR SEARCH */
@@ -84,34 +84,34 @@ L40:
     max_ = k - i;
     ++i;
     if (i > max_) {
-	goto L160;
+        goto L160;
     }
     im += *m;
     if (im > k) {
-	im -= k;
+        im -= k;
     }
     i2 = im;
     if (i == i2) {
-	goto L40;
+        goto L40;
     }
     if (i > *iwrk) {
-	goto L60;
+        goto L60;
     }
     if (move[i] == 0) {
-	goto L80;
+        goto L80;
     }
     goto L40;
 L50:
     i2 = *m * i1 - k * (i1 / *n);
 L60:
     if (i2 <= i || i2 >= max_) {
-	goto L70;
+        goto L70;
     }
     i1 = i2;
     goto L50;
 L70:
     if (i2 != i) {
-	goto L40;
+        goto L40;
     }
 /* REARRANGE THE ELEMENTS OF A LOOP AND ITS COMPANION LOOP */
 L80:
@@ -124,17 +124,17 @@ L90:
     i2 = *m * i1 - k * (i1 / *n);
     i2c = k - i2;
     if (i1 <= *iwrk) {
-	move[i1] = 2;
+        move[i1] = 2;
     }
     if (i1c <= *iwrk) {
-	move[i1c] = 2;
+        move[i1c] = 2;
     }
     ncount += 2;
     if (i2 == i) {
-	goto L110;
+        goto L110;
     }
     if (i2 == kmi) {
-	goto L100;
+        goto L100;
     }
     a[i1 + 1] = a[i2 + 1];
     a[i1c + 1] = a[i2c + 1];
@@ -150,7 +150,7 @@ L110:
     a[i1 + 1] = b;
     a[i1c + 1] = c;
     if (ncount < *mn) {
-	goto L40;
+        goto L40;
     }
 /* NORMAL RETURN */
 L120:
@@ -161,16 +161,16 @@ L130:
     n1 = *n - 1;
     i__1 = n1;
     for (i = 1; i <= i__1; ++i) {
-	j1 = i + 1;
-	i__2 = *n;
-	for (j = j1; j <= i__2; ++j) {
-	    i1 = i + (j - 1) * *n;
-	    i2 = j + (i - 1) * *m;
-	    b = a[i1];
-	    a[i1] = a[i2];
-	    a[i2] = b;
+        j1 = i + 1;
+        i__2 = *n;
+        for (j = j1; j <= i__2; ++j) {
+            i1 = i + (j - 1) * *n;
+            i2 = j + (i - 1) * *m;
+            b = a[i1];
+            a[i1] = a[i2];
+            a[i2] = b;
 /* L140: */
-	}
+        }
 /* L150: */
     }
     goto L120;

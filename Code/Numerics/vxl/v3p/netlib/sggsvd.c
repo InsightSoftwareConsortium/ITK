@@ -1,19 +1,19 @@
 /* sggsvd.f -- translated by f2c (version of 4 June 1993  1:43:59).
    You must link the resulting object file with the libraries:
-	-lf2c -lm   (in that order)
+        -lf2c -lm   (in that order)
 */
 
 #include "f2c.h"
 
-/* Subroutine */ int sggsvd_(char *jobu, char *jobv, char *jobq, integer *m, 
-	integer *n, integer *p, integer *k, integer *l, real *a, integer *lda,
-	 real *b, integer *ldb, real *alpha, real *beta, real *u, integer *
-	ldu, real *v, integer *ldv, real *q, integer *ldq, real *work, 
-	integer *iwork, integer *info)
+/* Subroutine */ int sggsvd_(char *jobu, char *jobv, char *jobq, integer *m,
+        integer *n, integer *p, integer *k, integer *l, real *a, integer *lda,
+         real *b, integer *ldb, real *alpha, real *beta, real *u, integer *
+        ldu, real *v, integer *ldv, real *q, integer *ldq, real *work,
+        integer *iwork, integer *info)
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, q_dim1, q_offset, u_dim1, 
-	    u_offset, v_dim1, v_offset, i__1;
+    integer a_dim1, a_offset, b_dim1, b_offset, q_dim1, q_offset, u_dim1,
+            u_offset, v_dim1, v_offset, i__1;
 
     /* Local variables */
     static real tola, tolb, unfl;
@@ -22,17 +22,17 @@
     static logical wantq, wantu, wantv;
     extern doublereal slamch_(char *);
     extern real slange_(char *, integer *, integer *, real *, integer *,
-	    real *, ftnlen);
+            real *, ftnlen);
     static integer ncycle;
     extern /* Subroutine */ int xerbla_(char *, integer *, ftnlen), stgsja_(
-	    char *, char *, char *, integer *, integer *, integer *, integer *
-	    , integer *, real *, integer *, real *, integer *, real *, real *,
-	     real *, real *, real *, integer *, real *, integer *, real *, 
-	    integer *, real *, integer *, integer *, ftnlen, ftnlen, ftnlen), 
-	    sggsvp_(char *, char *, char *, integer *, integer *, integer *, 
-	    real *, integer *, real *, integer *, real *, real *, integer *, 
-	    integer *, real *, integer *, real *, integer *, real *, integer *
-	    , integer *, real *, real *, integer *, ftnlen, ftnlen, ftnlen);
+            char *, char *, char *, integer *, integer *, integer *, integer *
+            , integer *, real *, integer *, real *, integer *, real *, real *,
+             real *, real *, real *, integer *, real *, integer *, real *,
+            integer *, real *, integer *, integer *, ftnlen, ftnlen, ftnlen),
+            sggsvp_(char *, char *, char *, integer *, integer *, integer *,
+            real *, integer *, real *, integer *, real *, real *, integer *,
+            integer *, real *, integer *, real *, integer *, real *, integer *
+            , integer *, real *, real *, integer *, ftnlen, ftnlen, ftnlen);
     static real ulp;
 
 
@@ -55,7 +55,7 @@
 /*      U'*A*Q = D1*( 0 R ),    V'*B*Q = D2*( 0 R ) */
 
 /*  where U, V and Q are orthogonal matrices, and Z' is the transpose */
-/*  of Z.  Let K+L = the effective numerical rank of the matrix (A',B')', 
+/*  of Z.  Let K+L = the effective numerical rank of the matrix (A',B')',
 */
 /*  then R is a K+L-by-K+L nonsingular upper triangular matrix, D1 and */
 /*  D2 are M-by-(K+L) and P-by-(K+L) "diagonal" matrices and of the */
@@ -113,12 +113,12 @@
 /*  The routine computes C, S, R, and optionally the orthogonal */
 /*  transformation matrices U, V and Q. */
 
-/*  In particular, if B is an N-by-N nonsingular matrix, then the GSVD of 
+/*  In particular, if B is an N-by-N nonsingular matrix, then the GSVD of
 */
 /*  A and B implicitly gives the SVD of A*inv(B): */
 /*                       A*inv(B) = U*(D1*inv(D2))*V'. */
 /*  If ( A',B')' has orthonormal columns, then the GSVD of A and B is */
-/*  also equal to the CS decomposition of A and B. Furthermore, the GSVD 
+/*  also equal to the CS decomposition of A and B. Furthermore, the GSVD
 */
 /*  can be used to derive the solution of the eigenvalue problem: */
 /*                       A'*A x = lambda* B'*B x. */
@@ -226,7 +226,7 @@
 /*          = 0:  successful exit */
 /*          < 0:  if INFO = -i, the i-th argument had an illegal value. */
 /*          > 0:  if INFO = 1, the Jacobi-type procedure failed to */
-/*                converge.  For further details, see subroutine STGSJA. 
+/*                converge.  For further details, see subroutine STGSJA.
 */
 
 /*  Internal Parameters */
@@ -241,7 +241,7 @@
 /*          The size of TOLA and TOLB may affect the size of backward */
 /*          errors of the decomposition. */
 
-/*  ===================================================================== 
+/*  =====================================================================
 */
 
 /*     .. Local Scalars .. */
@@ -284,32 +284,32 @@
 
     *info = 0;
     if (! (wantu || lsame_(jobu, "N", 1L, 1L))) {
-	*info = -1;
+        *info = -1;
     } else if (! (wantv || lsame_(jobv, "N", 1L, 1L))) {
-	*info = -2;
+        *info = -2;
     } else if (! (wantq || lsame_(jobq, "N", 1L, 1L))) {
-	*info = -3;
+        *info = -3;
     } else if (*m < 0) {
-	*info = -4;
+        *info = -4;
     } else if (*n < 0) {
-	*info = -5;
+        *info = -5;
     } else if (*p < 0) {
-	*info = -6;
+        *info = -6;
     } else if (*lda < max(1,*m)) {
-	*info = -10;
+        *info = -10;
     } else if (*ldb < max(1,*p)) {
-	*info = -12;
+        *info = -12;
     } else if (*ldu < 1 || wantu && *ldu < *m) {
-	*info = -16;
+        *info = -16;
     } else if (*ldv < 1 || wantv && *ldv < *p) {
-	*info = -18;
+        *info = -18;
     } else if (*ldq < 1 || wantq && *ldq < *n) {
-	*info = -20;
+        *info = -20;
     }
     if (*info != 0) {
-	i__1 = -(*info);
-	xerbla_("SGGSVD", &i__1, 6L);
-	return 0;
+        i__1 = -(*info);
+        xerbla_("SGGSVD", &i__1, 6L);
+        return 0;
     }
 
 /*     Compute the Frobenius norm of matrices A and B */
@@ -328,16 +328,16 @@
 /*     Preprocessing */
 
     sggsvp_(jobu, jobv, jobq, m, p, n, &a[a_offset], lda, &b[b_offset], ldb, &
-	    tola, &tolb, k, l, &u[u_offset], ldu, &v[v_offset], ldv, &q[
-	    q_offset], ldq, &iwork[1], &work[1], &work[*n + 1], info, 1L, 1L, 
-	    1L);
+            tola, &tolb, k, l, &u[u_offset], ldu, &v[v_offset], ldv, &q[
+            q_offset], ldq, &iwork[1], &work[1], &work[*n + 1], info, 1L, 1L,
+            1L);
 
 /*     Compute the GSVD of two upper "triangular" matrices */
 
-    stgsja_(jobu, jobv, jobq, m, p, n, k, l, &a[a_offset], lda, &b[b_offset], 
-	    ldb, &tola, &tolb, &alpha[1], &beta[1], &u[u_offset], ldu, &v[
-	    v_offset], ldv, &q[q_offset], ldq, &work[1], &ncycle, info, 1L, 
-	    1L, 1L);
+    stgsja_(jobu, jobv, jobq, m, p, n, k, l, &a[a_offset], lda, &b[b_offset],
+            ldb, &tola, &tolb, &alpha[1], &beta[1], &u[u_offset], ldu, &v[
+            v_offset], ldv, &q[q_offset], ldq, &work[1], &ncycle, info, 1L,
+            1L, 1L);
 
     return 0;
 

@@ -3,15 +3,11 @@
 #ifdef __GNUC__
 #pragma interface
 #endif
-//
-// .NAME vnl_error
-// .HEADER vxl package
-// .LIBRARY vnl
-// .INCLUDE vnl/vnl_error.h
-// .FILE vnl_error.cxx
-// .SECTION Author
-//  fsm@robots.ox.ac.uk
-//
+// This is vxl/vnl/vnl_error.h
+
+//: \file
+//  \brief
+//  \author fsm@robots.ox.ac.uk
 
 //
 extern void vnl_error_vector_index (const char* fcn, int index);

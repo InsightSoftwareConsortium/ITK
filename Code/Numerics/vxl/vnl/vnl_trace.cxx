@@ -1,3 +1,5 @@
+// This is vxl/vnl/vnl_trace.cxx
+
 /*
   fsm@robots.ox.ac.uk
 */

@@ -1,19 +1,20 @@
-//-*- c++ -*-------------------------------------------------------------------
 #ifdef __GNUC__
 #pragma implementation
 #endif
-//
-// Class: vnl_nonlinear_minimizer
-// Author: Andrew W. Fitzgibbon, Oxford RRG
-// Created: 22 Aug 99
-//
-//-----------------------------------------------------------------------------
 
-#include "vnl_nonlinear_minimizer.h"
+// This is vxl/vnl/vnl_nonlinear_minimizer.cxx
+
+//:
+// \file
+// \brief
+// \author Andrew W. Fitzgibbon, Oxford RRG, 22 Aug 99
+//
+
 #include <vcl_cstdio.h>   // sprintf()
 #include <vcl_iostream.h>
+#include "vnl_nonlinear_minimizer.h"
 
-// -- Default ctor sets verbosity etc.
+//: Default ctor sets verbosity etc.
 vnl_nonlinear_minimizer::vnl_nonlinear_minimizer()
 {
   xtol = 1e-8;           // Termination tolerance on X (solution vector)
@@ -54,7 +55,7 @@ void vnl_nonlinear_minimizer::report_eval(double f)
   if (f < end_error_)
     end_error_ = f;
 
-  ++num_evaluations_;  
+  ++num_evaluations_;
 }
 
 //: Called by derived classes after each iteration
@@ -64,7 +65,15 @@ void vnl_nonlinear_minimizer::report_iter()
   if (verbose_) {
     char buf[1024];
     vcl_sprintf(buf, "Iter %4d, Eval %4d: Best F = %10g\n",
-		num_iterations_, num_evaluations_, end_error_);
+                num_iterations_, num_evaluations_, end_error_);
     vcl_cerr << buf;
   }
 }
+
+//: Return the name of the class
+//  Used by polymorphic IO
+const vcl_string vnl_nonlinear_minimizer::is_a() const
+{
+  return vcl_string("vnl_nonlinear_minimizer");
+}
+

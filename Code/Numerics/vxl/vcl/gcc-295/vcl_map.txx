@@ -29,7 +29,8 @@ _Rb_tree<Key, pair<Key const,T >, _Select1st<pair<Key const,T > >, Compare, allo
 // Macro to instantiate the underlying tree and its member templates.
 #define VCL_MAP_INSTANTIATE_RB_TREE(Key, T, Compare) \
 template class VCL_MAP_IMPL(Key, T, Compare); \
-template void VCL_MAP_IMPL(Key, T, Compare)::insert_unique(VCL_MAP_IMPL(Key, T, Compare)::iterator, VCL_MAP_IMPL(Key, T, Compare)::iterator)
+template void VCL_MAP_IMPL(Key, T, Compare)::insert_unique(VCL_MAP_IMPL(Key, T, Compare)::iterator,\
+                                                           VCL_MAP_IMPL(Key, T, Compare)::iterator)
 
 
 // Macro to instantiate some methods templated over an iterator
@@ -52,7 +53,8 @@ VCL_MAP_INSTANTIATE_RB_TREE(Key, T, Compare)
 #undef VCL_MULTIMAP_INSTANTIATE
 #define VCL_MULTIMAP_INSTANTIATE(Key, T, Compare) \
 template class vcl_multimap<Key, T, Compare >; \
-VCL_MAP_INSTANTIATE_MT_InputIterator(multimap, Key, T, Compare, vcl_multimap<Key VCL_COMMA T VCL_COMMA Compare >::iterator)
+VCL_MAP_INSTANTIATE_MT_InputIterator(multimap, Key, T, Compare,\
+                                     vcl_multimap<Key VCL_COMMA T VCL_COMMA Compare >::iterator)
 
 
 #endif
