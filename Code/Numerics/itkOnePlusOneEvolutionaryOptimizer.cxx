@@ -74,7 +74,7 @@ OnePlusOneEvolutionaryOptimizer
 ::StartOptimization()
 {
   
-  if( m_CostFunction == 0 || !m_Initialized )
+  if( m_CostFunction.IsNull() || !m_Initialized )
     {
       return ;
     }
