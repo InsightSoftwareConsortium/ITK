@@ -76,7 +76,7 @@ public:
 
   /** Returns an array of RegionStructs which represent contiguous arrays
       of nodes within the narrow band. */
-  std::vector<RegionType> SplitBand( unsigned int );
+  std::vector<struct RegionStruct> SplitBand( unsigned int );
   
   Iterator Begin()
   {
