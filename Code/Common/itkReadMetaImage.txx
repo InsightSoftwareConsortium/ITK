@@ -97,7 +97,6 @@ ReadMetaImage<TOutputImage>
     ++it;
   }
 
-
 }
 
 
