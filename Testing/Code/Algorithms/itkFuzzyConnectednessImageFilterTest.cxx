@@ -121,7 +121,7 @@ int main(){
 	testFuzzy->SetSeed(index);
 
 /* set the parameters */
-	testFuzzy->SetParameters(270.0,50.0,1.0,1.0,1.0);
+	testFuzzy->SetParameters(270.0,2500.0,1.0,1.0,1.0);
 	testFuzzy->SetThreshold(0.8);
 	
 	testFuzzy->ExcuteSegment();
