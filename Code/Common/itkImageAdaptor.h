@@ -384,12 +384,12 @@ public:
 protected:
   ImageAdaptor();
   virtual ~ImageAdaptor();
-  ImageAdaptor(const Self&);
-  void operator=(const Self&);
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   
 private:
+  ImageAdaptor(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
   
   // Adapted image, most of the calls to ImageAdaptor
   // will be delegated to this image

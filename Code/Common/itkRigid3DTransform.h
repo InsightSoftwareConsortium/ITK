@@ -238,7 +238,6 @@ public:
      **/
     void PrintSelf(std::ostream &os, Indent indent) const;
 
-
     /**
      * Find inverse of an affine transformation
      *
@@ -249,31 +248,8 @@ public:
     Pointer Inverse( void ) const;
    
 protected:
-    /**
-     * Construct an Rigid3DTransform object
-     *
-     **/
     Rigid3DTransform();
-
-    /**
-     * Copy a Rigid3DTransform object
-     *
-     * This method creates a new Rigid3DTransform object and
-     * initializes it to be a copy of an existing Rigid3DTransform.
-     **/
-    Rigid3DTransform(const Self & other);
-
-    /**
-     * Destroy an Rigid3DTransform object
-     **/
     ~Rigid3DTransform();
-
-
-    /**
-     * Assignment operator
-     **/
-    const Self & operator=( const Self & );
-
 
     // matrix representation of the rotation
     // Should be protected in order to be modified 
@@ -285,9 +261,11 @@ protected:
     MatrixType          m_InverseMatrix; 
     
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
-    // Offset of the transformation
-    OffsetType          m_Offset;   
+  // Offset of the transformation
+  OffsetType          m_Offset;   
 
 }; //class Rigid3DTransform
 

@@ -162,8 +162,6 @@ public:
 protected:
   ByteSwapper() {};
   ~ByteSwapper() {};
-  ByteSwapper(const ByteSwapper&) {};
-  void operator=(const ByteSwapper&) {};
 
   /**
    * Swap 2 bytes.
@@ -199,6 +197,10 @@ protected:
    */
   static void SwapWrite4Range(void *p, unsigned long num, OStreamType *fp);
 
+private:
+  ByteSwapper(const ByteSwapper&); //purposely not implemented
+  void operator=(const ByteSwapper&); //purposely not implemented
+  
 };
 
 } // end namespace itk

@@ -238,12 +238,12 @@ public:
 protected:
   MultiThreader();
   ~MultiThreader();
-  MultiThreader(const MultiThreader&) {};
-  void operator=(const MultiThreader&) {};
-
   void PrintSelf(std::ostream& os, Indent indent) const;
 
- private:
+private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   // The number of threads to use
   int                        m_NumberOfThreads;
 

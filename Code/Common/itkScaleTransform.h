@@ -240,27 +240,17 @@ protected:
     ScaleTransform();
 
     /**
-     * Copy an ScaleTransform object
-     *
-     * This method creates a new ScaleTransform object and
-     * initializes it to be a copy of an existing ScaleTransform.
-     **/
-    ScaleTransform(const Self & other);
-
-    /**
      * Destroy an ScaleTransform object
      **/
     ~ScaleTransform();
 
-    /**
-     * Assignment operator
-     **/
-    const Self & operator=( const Self & );
-
 
 
 private:
-    ScaleType   m_Scale;  // Scales of the transformation
+  Self(const Self & other); //purposely not implemented
+  const Self & operator=( const Self & ); //purposely not implemented
+
+  ScaleType   m_Scale;  // Scales of the transformation
 
 
 }; //class ScaleTransform

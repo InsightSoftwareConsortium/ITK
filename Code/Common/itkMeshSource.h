@@ -166,8 +166,6 @@ public:
  protected:
   MeshSource();
   virtual ~MeshSource() {}
-  MeshSource(const Self&) {}
-  void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
   
   /**
@@ -178,6 +176,9 @@ public:
   void GenerateInputRequestedRegion();
   
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   /**
    * Used by streaming: The requested region of the output being processed
    * by the execute method. Set in the GenerateInputRequestedRegion method.

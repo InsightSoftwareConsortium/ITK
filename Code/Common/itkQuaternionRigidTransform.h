@@ -228,34 +228,9 @@ public:
 
 
 protected:
-    /**
-     * Construct an QuaternionRigidTransform object
-     *
-     **/
     QuaternionRigidTransform();
-
-    /**
-     * Copy a QuaternionRigidTransform object
-     *
-     * This method creates a new QuaternionRigidTransform object and
-     * initializes it to be a copy of an existing QuaternionRigidTransform.
-     **/
-    QuaternionRigidTransform(const Self & other);
-
-    /**
-     * Destroy an QuaternionRigidTransform object
-     **/
     ~QuaternionRigidTransform(){};
-
-    /**
-     * Print contents of an QuaternionRigidTransform
-     **/
     void PrintSelf(std::ostream &os, Indent indent) const;
-
-    /**
-     * Assignment operator
-     **/
-    const Self & operator=( const Self & );
 
     // matrix representation of the rotation
     // Should be protected in order to be modified
@@ -263,15 +238,15 @@ protected:
     // to rotation computation
     MatrixType          m_DirectMatrix;
 
-
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
-    // Offset of the transformation
-    OffsetType          m_Offset;
+  // Offset of the transformation
+  OffsetType          m_Offset;
 
-    // Rotation of the transformation
-    VnlQuaternionType   m_Rotation;
-
+  // Rotation of the transformation
+  VnlQuaternionType   m_Rotation;
 
 }; //class QuaternionRigidTransform
 

@@ -147,10 +147,10 @@ protected:
   ConicShellInteriorExteriorSpatialFunction();
   virtual ~ConicShellInteriorExteriorSpatialFunction();
 
-  ConicShellInteriorExteriorSpatialFunction(const ConicShellInteriorExteriorSpatialFunction&) {};
-  void operator=(const ConicShellInteriorExteriorSpatialFunction&) {};
 
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
   /**
    * The origin of the conic shell

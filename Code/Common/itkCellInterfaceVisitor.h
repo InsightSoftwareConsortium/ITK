@@ -105,8 +105,10 @@ public:
 protected:
   CellInterfaceVisitor() {};
   ~CellInterfaceVisitor() {};
-  CellInterfaceVisitor(const Self&) {}
-  void operator=(const Self&) {}
+
+private:
+  CellInterfaceVisitor(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 };
 
   

@@ -163,8 +163,10 @@ public:
 protected:
   BloxImage();
   virtual ~BloxImage();
-  BloxImage(const Self&) {}
-  void operator=(const Self&) {}
+
+private:
+  BloxImage(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
 };
 

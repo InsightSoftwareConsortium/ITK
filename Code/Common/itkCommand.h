@@ -177,13 +177,13 @@ protected:
   T* m_This;
   TMemberFunctionPointer m_MemberFunction;
   TConstMemberFunctionPointer m_ConstMemberFunction;
-  MemberCommand(){
-   m_MemberFunction = 0;
-   m_ConstMemberFunction = 0;
-  }; 
-  virtual ~MemberCommand(){}; 
-  MemberCommand(const Self&) {}
-  void operator=(const Self&) {}
+  MemberCommand():m_MemberFunction(0),m_ConstMemberFunction(0) {}
+  virtual ~MemberCommand(){}
+
+private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
 };
 
 
@@ -262,12 +262,13 @@ public:
 protected:
   T* m_This;
   TMemberFunctionPointer m_MemberFunction;
-  ReceptorMemberCommand(){
-   m_MemberFunction = 0;
-  }; 
-  virtual ~ReceptorMemberCommand(){}; 
-  ReceptorMemberCommand(const Self&) {}
-  void operator=(const Self&) {}
+  ReceptorMemberCommand():m_MemberFunction(0) {}
+  virtual ~ReceptorMemberCommand() {}
+
+private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
 };
 
 
@@ -333,12 +334,13 @@ public:
 protected:
   T* m_This;
   TMemberFunctionPointer m_MemberFunction;
-  SimpleMemberCommand(){
-    m_MemberFunction = 0;
-  }; 
-  virtual ~SimpleMemberCommand(){}; 
-  SimpleMemberCommand(const Self&) {}
-  void operator=(const Self&) {}
+  SimpleMemberCommand():m_MemberFunction(0) {}
+  virtual ~SimpleMemberCommand() {}
+
+private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
 };
 
 
@@ -399,16 +401,16 @@ public:
       }
     }
 
-
 protected:
   const T* m_This;
   TMemberFunctionPointer m_MemberFunction;
-  SimpleConstMemberCommand(){
-    m_MemberFunction = 0;
-  }; 
-  virtual ~SimpleConstMemberCommand(){}; 
-  SimpleConstMemberCommand(const Self&) {}
-  void operator=(const Self&) {}
+  SimpleConstMemberCommand():m_MemberFunction(0) {}
+  virtual ~SimpleConstMemberCommand() {} 
+
+private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
 };
 
 

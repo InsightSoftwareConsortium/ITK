@@ -164,13 +164,13 @@ public:
                               const RegionType &region);
 
 protected:
-  ImageRegionSplitter() {};
-  ~ImageRegionSplitter() {};
-  ImageRegionSplitter(const ImageRegionSplitter&) {};
-  void operator=(const ImageRegionSplitter&) {};
+  ImageRegionSplitter() {}
+  ~ImageRegionSplitter() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
+  ImageRegionSplitter(const ImageRegionSplitter&); //purposely not implemented
+  void operator=(const ImageRegionSplitter&); //purposely not implemented
 
 };
 

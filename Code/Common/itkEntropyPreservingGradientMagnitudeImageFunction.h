@@ -180,12 +180,13 @@ public:
 
 protected:
   EntropyPreservingGradientMagnitudeImageFunction(){};
-  EntropyPreservingGradientMagnitudeImageFunction( const Self& ){};
   ~EntropyPreservingGradientMagnitudeImageFunction(){};
-  void operator=( const Self& ){};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
+  Self( const Self& ); //purposely not implemented
+  void operator=( const Self& ); //purposely not implemented
+
   signed long             m_ImageSize[ImageDimension];
   bool                    m_ImageSizeOK;
 

@@ -415,8 +415,6 @@ public:
 protected:
   DataObject();
   ~DataObject();
-  DataObject(const Self&) {}
-  void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /**
@@ -432,6 +430,9 @@ protected:
   bool m_RequestedRegionInitialized;  
 
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   //Who generated this data?
   mutable WeakPointer<ProcessObject> m_Source; 
   mutable unsigned int m_SourceOutputIndex;

@@ -60,41 +60,11 @@ Rigid3DPerspectiveTransform()
 }
  
 
-    
-// Copy Constructor
-template <class TScalarType>
-Rigid3DPerspectiveTransform<TScalarType>
-::Rigid3DPerspectiveTransform( const Rigid3DPerspectiveTransform<TScalarType> & other )
-{
-  m_Offset        = other.m_Offset;
-  m_Versor      = other.m_Versor;
-  m_FocalDistance = other.m_FocalDistance;
-  m_Width         = other.m_Width;
-  m_Height        = other.m_Height;
-  m_DirectMatrix    = m_Versor.GetMatrix();
-}
-
 // Destructor
 template<class TScalarType>
 Rigid3DPerspectiveTransform<TScalarType>::
 ~Rigid3DPerspectiveTransform()
 {
-}
-
-
-// Assignment Operator
-template <class TScalarType>
-const Rigid3DPerspectiveTransform<TScalarType> &
-Rigid3DPerspectiveTransform<TScalarType>
-::operator=( const Self & other )
-{
-  m_Offset        = other.m_Offset;
-  m_Versor      = other.m_Versor;
-  m_FocalDistance = other.m_FocalDistance;
-  m_Width         = other.m_Width;
-  m_Height        = other.m_Height;
-  m_DirectMatrix    = m_Versor.GetMatrix();
-  return *this;
 }
 
 

@@ -191,14 +191,14 @@ public:
 protected:
   BoundingBox(); 
   virtual ~BoundingBox(); 
-  BoundingBox(const Self&) {}
-  void operator=(const Self&) {}
-
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   typedef typename PointsContainer::ConstIterator  ConstIterator; 
 
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   PointsContainerPointer m_PointsContainer;
   CoordRepType *m_Bounds;
   TimeStamp m_BoundsMTime; //The last time the bounds were computed.

@@ -106,8 +106,10 @@ public:
 protected:
   MeshToMeshFilter();
   ~MeshToMeshFilter() {};
-  MeshToMeshFilter(const MeshToMeshFilter&) {};
-  void operator=(const MeshToMeshFilter&) {};
+  
+private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
   
 };
 

@@ -168,8 +168,6 @@ public:
 protected:
   LightProcessObject();
   ~LightProcessObject();
-  LightProcessObject(const LightProcessObject&) {};
-  void operator=(const LightProcessObject&) {};
   void PrintSelf(std::ostream& os, Indent indent) const;
   
   /**
@@ -179,6 +177,9 @@ protected:
 
 
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   /**
    * These support the progress method and aborting filter execution.
    */

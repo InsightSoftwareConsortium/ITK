@@ -113,11 +113,12 @@ public:
 protected:
   Directory();
   ~Directory() ;
-  Directory(const Self&) {}
-  void operator=(const Self&) {}
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   std::vector<std::string> m_Files; // Array of Files
   std::string m_Path;               // Path to Open'ed directory
 }; // End Class: Directory

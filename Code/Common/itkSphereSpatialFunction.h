@@ -119,14 +119,12 @@ public:
   itkSetMacro( Radius, double);
      
 protected:
-
   SphereSpatialFunction();
   virtual ~SphereSpatialFunction();
 
-  SphereSpatialFunction(const SphereSpatialFunction&) {};
-  void operator=(const SphereSpatialFunction&) {};
-
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
   /**
    * The center of the sphere (of the same type as Input)

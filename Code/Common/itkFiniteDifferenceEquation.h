@@ -230,8 +230,6 @@ public:
 protected:
   FiniteDifferenceEquation() {}
   ~FiniteDifferenceEquation() {}
-  FiniteDifferenceEquation(const Self&) {}
-  void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const
   {
     os << indent << "FiniteDifferenceEquation";
@@ -250,6 +248,9 @@ protected:
   static FloatOffsetType m_ZeroOffset;
 
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   /**
    * Used internally for the sole purpose of initialization of the static
    * variable m_ZeroOffset 

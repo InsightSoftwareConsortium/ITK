@@ -226,15 +226,9 @@ public:
    **/
   virtual const JacobianType & GetJacobian(const InputPointType  &point ) const;
 
-
-
 protected:
-  
   Transform();
   virtual ~Transform() {};
-  Transform(const Self&);
-  const Self & operator=(const Self&);
-
 
   /**
    * Jacobian matrix of the transformation. It is used to compute
@@ -242,9 +236,9 @@ protected:
    */
   mutable JacobianType                m_Jacobian;     
 
-
-
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
   /**
    *  List of parameters that unambiguosly define the transformation

@@ -122,8 +122,11 @@ class ITK_EXPORT InteriorExteriorSpatialFunction : public
 protected:
   InteriorExteriorSpatialFunction();
   virtual ~InteriorExteriorSpatialFunction();
-  InteriorExteriorSpatialFunction(const InteriorExteriorSpatialFunction&) {};
-  void operator=(const InteriorExteriorSpatialFunction&) {};
+
+private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
 };
 
 } // end namespace itk

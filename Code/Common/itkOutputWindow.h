@@ -144,11 +144,12 @@ public:
 protected:
   OutputWindow();
   virtual ~OutputWindow();
-  OutputWindow(const Self&) {}
-  void operator=(const Self&) {}
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   bool m_PromptUser;
   static Pointer m_Instance;
 };

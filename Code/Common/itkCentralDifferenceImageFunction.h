@@ -145,14 +145,12 @@ public:
 
 protected:
   CentralDifferenceImageFunction();
-  CentralDifferenceImageFunction( const Self& ){};
-
   ~CentralDifferenceImageFunction(){};
-
-  void operator=( const Self& ){};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
+  CentralDifferenceImageFunction( const Self& ); //purposely not implemented
+  void operator=( const Self& ); //purposely not implemented
 
 };
 

@@ -63,40 +63,6 @@ Transform< TScalarType,NInputDimensions,NOutputDimensions,
 }
 
 
-/**
- * Constructor
- */
-template < class TScalarType,
-           unsigned int NInputDimensions,
-           unsigned int NOutputDimensions,
-           class TParameters,
-           class TJacobianType>
-Transform< TScalarType,NInputDimensions,NOutputDimensions,
-           TParameters,TJacobianType>
-::Transform( const Self & other )
-{
-}
-
-
-/**
- * Assignment Operator
- */
-template < class TScalarType,
-           unsigned int NInputDimensions,
-           unsigned int NOutputDimensions,
-           class TParameters,
-           class TJacobianType>
-const 
-Transform< TScalarType,NInputDimensions,NOutputDimensions,
-           TParameters,TJacobianType> &
-Transform< TScalarType,NInputDimensions,NOutputDimensions,
-           TParameters,TJacobianType>
-::operator=( const Self & other )
-{
-  return *this;
-}
-
-
 // Compute the Jacobian of the transformation
 // It follows the same order of Parameters vector 
 template < class TScalarType,

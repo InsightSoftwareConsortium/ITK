@@ -122,15 +122,18 @@ public:
 protected:
   FileOutputWindow();
   virtual ~FileOutputWindow();
-  FileOutputWindow(const Self&) {}
-  void operator=(const Self&) {}
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
   void Initialize();
-
+  
   std::ofstream *m_Stream;
   std::string m_FileName;
   bool m_Flush;
   bool m_Append;
+
+private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
 };
   
 } // end namespace itk

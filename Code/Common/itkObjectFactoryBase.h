@@ -230,12 +230,13 @@ protected:
   
   ObjectFactoryBase();
   ~ObjectFactoryBase();
-  ObjectFactoryBase(const ObjectFactoryBase&) {};
-  void operator=(const ObjectFactoryBase&) {};
 
   OverRideMap* m_OverrideMap;
 
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   /**
    * Initialize the static members of ObjectFactoryBase.   RegisterDefaults
    * is called here.

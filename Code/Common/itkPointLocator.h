@@ -224,9 +224,6 @@ public:
 protected:
   PointLocator();
   ~PointLocator();
-  PointLocator(const Self&) {}
-  void operator=(const Self&) {}
-
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
 #if 0
@@ -252,6 +249,9 @@ protected:
 #endif
 
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   unsigned long *m_Divisions;
   unsigned long m_NumberOfPointsPerBucket;
 

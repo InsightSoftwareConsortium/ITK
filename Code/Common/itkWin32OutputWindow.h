@@ -102,12 +102,15 @@ public:
 protected: 
   Win32OutputWindow() {}
   virtual ~Win32OutputWindow() {}
-  Win32OutputWindow(const Self&) {}
-  void operator=(const Self&) {}
   
   void PromptText(const char* text);
   static void AddText(const char*);
   static int Initialize();
+
+private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   static HWND m_OutputWindow;
 };
  

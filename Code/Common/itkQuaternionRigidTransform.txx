@@ -57,27 +57,6 @@ QuaternionRigidTransform<TScalarType>
   m_DirectMatrix = m_Rotation.rotation_matrix();
 }
 
-// Copy Constructor
-template <class TScalarType>
-QuaternionRigidTransform<TScalarType>
-::QuaternionRigidTransform( const Self & other )
-{
-  m_Offset    = other.m_Offset;
-  m_Rotation  = other.m_Rotation;
-  m_DirectMatrix    = m_Rotation.rotation_matrix();
-}
-
-// Assignment Operator
-template <class TScalarType>
-const QuaternionRigidTransform<TScalarType> &
-QuaternionRigidTransform<TScalarType>
-::operator=( const Self & other )
-{
-  m_Offset    = other.m_Offset;
-  m_Rotation  = other.m_Rotation;
-  m_DirectMatrix    = m_Rotation.rotation_matrix();
-  return *this;
-}
 
 // Print self
 template<class TScalarType>

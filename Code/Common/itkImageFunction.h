@@ -226,11 +226,8 @@ public:
 
 
 protected:
-
   ImageFunction();
-  ImageFunction( const Self& ){};
-  ~ImageFunction(){};
-  void operator=(const Self&) {};
+  ~ImageFunction() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /**
@@ -249,7 +246,8 @@ protected:
   IndexType      m_BufferEnd;
 
 private:
-
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
   
 };
 

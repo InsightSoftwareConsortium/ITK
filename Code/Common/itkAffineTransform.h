@@ -557,23 +557,9 @@ protected:
 
 
     /**
-     * Copy an AffineTransform object
-     *
-     * This method creates a new AffineTransform object and 
-     * initializes it to be a copy of an existing AffineTransform.
-     **/
-    AffineTransform(const Self & other);
-
-    /**
      * Destroy an AffineTransform object
      **/
     virtual ~AffineTransform();
-
-    /**
-     * Assignment operator
-     **/
-    const Self & operator=( const Self & );
-
 
     /**
      * Recompute inverse of the transformation matrix
@@ -582,13 +568,12 @@ protected:
 
 
 private:
+    AffineTransform(const Self & other);
+    const Self & operator=( const Self & );
 
     MatrixType         m_Matrix;       // Matrix of the transformation
-    
     OffsetType         m_Offset;       // Offset of the transformation
-    
     MatrixType         m_Inverse;      // Inverse of the matrix
-    
     bool               m_Singular;     // Is m_Inverse singular?
 
 

@@ -219,10 +219,10 @@ public:
 protected:
   BloxCoreAtomImage();
   virtual ~BloxCoreAtomImage();
-  BloxCoreAtomImage(const Self&) {}
-  void operator=(const Self&) {}
 
 private:
+  BloxCoreAtomImage(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
   /**
    * Pointer to the image that holds boundary points

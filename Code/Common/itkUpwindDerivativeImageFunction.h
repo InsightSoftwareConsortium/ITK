@@ -179,17 +179,16 @@ public:
 
 protected:
   UpwindDerivativeImageFunction(){};
-  UpwindDerivativeImageFunction( const Self& ){};
-
   ~UpwindDerivativeImageFunction(){};
-
-  void operator=( const Self& ){};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   double                  m_Speed;
   mutable double          m_Derivative;
 
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   signed long             m_ImageSize[ImageDimension];
   bool                    m_ImageSizeOK;
 

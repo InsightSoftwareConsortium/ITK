@@ -81,22 +81,6 @@ public:
    */
   BackwardDifferenceOperator() {}
 
-  /**
-   * Copy constructor
-   */
-  BackwardDifferenceOperator(const Self& other)
-    : NeighborhoodOperator<TPixel, VDimension, TAllocator>(other)
-  {  }
-
-  /**
-   * Assignment operator
-   */
-  Self &operator=(const Self& other)
-  {
-    Superclass::operator=(other);
-    return *this;
-  }
-
 protected:
   /**
    * Necessary to work around a compiler bug in VC++.
@@ -113,6 +97,11 @@ protected:
    */
   void Fill(const CoefficientVector &coeff)
   {    this->FillCenteredDirectional(coeff);  }
+  
+
+private:
+  BackwardDifferenceOperator(const Self& other); //purposely not implemented
+  Self &operator=(const Self& other); //purposely not implemented
   
 };
 

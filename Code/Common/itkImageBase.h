@@ -346,8 +346,6 @@ public:
 protected:
   ImageBase();
   ~ImageBase();
-  ImageBase(const Self&) {}
-  void operator=(const Self&) {}
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
   /**
@@ -359,6 +357,9 @@ protected:
   void ComputeOffsetTable();
 
 private:
+  ImageBase(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   OffsetValueType  m_OffsetTable[VImageDimension+1];
 
   RegionType          m_LargestPossibleRegion;

@@ -48,7 +48,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define ITK_MAJOR_VERSION 0
 #define ITK_MINOR_VERSION 0
 #define ITK_BUILD_VERSION 2
-#define ITK_SOURCE_VERSION "itk version " ITK_VERSION ", itk source $Revision: 1.415 $, $Date: 2001-11-21 04:53:19 $ (GMT)"
+#define ITK_SOURCE_VERSION "itk version " ITK_VERSION ", itk source $Revision: 1.416 $, $Date: 2001-11-21 11:21:14 $ (GMT)"
 
 namespace itk
 {
@@ -105,13 +105,12 @@ public:
   static const char *GetITKSourceVersion() { return ITK_SOURCE_VERSION; };
   
 protected:
-  /**
-   * insure constructor/destructor protected
-   */
   Version() {}
   ~Version() {}
-  Version(const Self&) {}
-  void operator=(const Self&) {}
+
+private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
 };
 

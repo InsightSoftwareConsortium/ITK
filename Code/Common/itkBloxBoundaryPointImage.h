@@ -169,10 +169,11 @@ public:
 protected:
   BloxBoundaryPointImage();
   virtual ~BloxBoundaryPointImage();
-  BloxBoundaryPointImage(const Self&) {}
-  void operator=(const Self&) {}
 
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   /**
    * Pointer to the image that we store info. about
    */

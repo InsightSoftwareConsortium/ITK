@@ -152,11 +152,11 @@ public:
 protected:
   ImageRegionMultidimensionalSplitter() {};
   ~ImageRegionMultidimensionalSplitter() {};
-  ImageRegionMultidimensionalSplitter(const ImageRegionMultidimensionalSplitter&) {};
-  void operator=(const ImageRegionMultidimensionalSplitter&) {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
 };
 

@@ -193,8 +193,6 @@ public:
 protected:
   Object(); 
   virtual ~Object(); 
-  Object(const Self&) {}
-  void operator=(const Self&) {}
 
   /** 
    * Methods invoked by Print() to print information about the object
@@ -205,6 +203,9 @@ protected:
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   /**
    * Enable/Disable debug messages.
    */

@@ -127,15 +127,13 @@ public:
 
 protected:
   NearestNeighborInterpolateImageFunction(){};
-  NearestNeighborInterpolateImageFunction( const Self& ){};
-
   ~NearestNeighborInterpolateImageFunction(){};
-
-  void operator=( const Self& ){};
   void PrintSelf(std::ostream& os, Indent indent) const
    { Superclass::PrintSelf( os, indent ); }
 
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
 };
 

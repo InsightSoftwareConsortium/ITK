@@ -77,20 +77,6 @@ AffineTransform(const MatrixType &matrix, const OutputVectorType &offset)
 
 
 
-// Copy Constructor
-template <class TScalarType, unsigned int NDimensions,
-         class TParameters, class TJacobianType >
-AffineTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
-AffineTransform( const AffineTransform<TScalarType, NDimensions,TParameters,TJacobianType> & other )
-{
-  m_Matrix    = other.m_Matrix;
-  m_Offset    = other.m_Offset;
-  m_Inverse   = other.m_Inverse;
-  m_Singular  = other.m_Singular;
-}
-
-
-
 // Destructor
 template<class TScalarType, unsigned int NDimensions,
          class TParameters, class TJacobianType >
@@ -98,21 +84,6 @@ AffineTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
 ~AffineTransform()
 {
   return;
-}
-
-
-// Assignment Operator
-template <class TScalarType, unsigned int NDimensions,
-         class TParameters, class TJacobianType >
-const AffineTransform<TScalarType, NDimensions,TParameters,TJacobianType> &
-AffineTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
-operator=( const Self & other )
-{
-  m_Matrix   = other.m_Matrix;
-  m_Offset   = other.m_Offset;
-  m_Inverse  = other.m_Inverse;
-  m_Singular = other.m_Singular;
-  return *this;
 }
 
 

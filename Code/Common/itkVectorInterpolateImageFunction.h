@@ -72,76 +72,49 @@ class ITK_EXPORT VectorInterpolateImageFunction :
     Vector<double, TPixelType::VectorDimension> > 
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /// Standard "Self" typedef.
   typedef VectorInterpolateImageFunction Self;
 
-  /**
-   * Standard "Superclass" typedef.
-   */
+  /// Standard "Superclass" typedef.
   typedef ImageFunction<TInputImage,
     Vector<double, TPixelType::VectorDimension> > Superclass;
 
-  /** 
-   * Smart pointer typedef support.
-   */
+  /// Smart pointer typedef support.
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /** 
-   * Run-time type information (and related methods).
-   */
+  /// Run-time type information (and related methods).
   itkTypeMacro(VectorInterpolateImageFunction, ImageFunction);
 
-  /**
-   * Method for creation through the object factory.
-   */
+  /// Method for creation through the object factory.
   itkNewMacro(Self);  
 
-  /**
-   * InputImageType typedef support.
-   */
+  /// InputImageType typedef support.
   typedef typename Superclass::InputImageType InputImageType;
   typedef typename InputImageType::PixelType  PixelType;
   typedef typename PixelType::ValueType       ValueType;
   enum { VectorDimension = PixelType::VectorDimension };
   
-  /**
-   * Dimension underlying input image.
-   */
+  /// Dimension underlying input image.
   enum { ImageDimension = Superclass::ImageDimension };
 
-  /**
-   * Point typedef support.
-   */
+  /// Point typedef support.
   typedef typename Superclass::PointType PointType;
 
-  /**
-   * Index typedef support.
-   */
+  /// Index typedef support.
   typedef typename Superclass::IndexType IndexType;
 
-  /**
-   * ContinuousIndex typedef support.
-   */
+  /// ContinuousIndex typedef support.
   typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
 
-  /**
-   * Output type is Vector<double,VectorDimension>
-   */
+  /// Output type is Vector<double,VectorDimension>
   typedef typename Superclass::OutputType OutputType;
 
-  /**
-   * Interpolate the image at a point position
-   *
-   * Returns the interpolated image intensity at a 
+  /** Returns the interpolated image intensity at a 
    * specified point position. No bounds checking is done.
    * The point is assume to lie within the image buffer.
-   *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
-   * calling the method.
-   */
+   * calling the method. */
   virtual OutputType Evaluate( const PointType& point ) const
     {
     ContinuousIndexType index;
@@ -149,8 +122,7 @@ public:
     return ( this->EvaluateAtContinuousIndex( index ) );
     }
 
-  /**
-   * Interpolate the image at a continuous index position
+  /** Interpolate the image at a continuous index position
    *
    * Returns the interpolated image intensity at a 
    * specified index position. No bounds checking is done.
@@ -159,21 +131,17 @@ public:
    * Subclasses must override this method.
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
-   * calling the method.
-   */
+   * calling the method. */
   virtual OutputType EvaluateAtContinuousIndex( 
     const ContinuousIndexType & index ) const = 0;
 
-  /**
-   * Interpolate the image at an index position.
-   *
+  /** Interpolate the image at an index position.
    * Simply returns the image value at the
    * specified index position. No bounds checking is done.
    * The point is assume to lie within the image buffer.
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
-   * calling the method.
-   */
+   * calling the method. */
   virtual OutputType EvaluateAtIndex( const IndexType & index ) const
     {
     OutputType output;
@@ -186,14 +154,14 @@ public:
     }
 
 protected:
-
-  VectorInterpolateImageFunction(){};
-  VectorInterpolateImageFunction( const Self& ){};
-  ~VectorInterpolateImageFunction(){};
+  VectorInterpolateImageFunction() {}
+  ~VectorInterpolateImageFunction() {}
   void PrintSelf(std::ostream& os, Indent indent) const
     { Superclass::PrintSelf( os, indent ); }
 
-  void operator=( const Self& ){};
+private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
 };
 

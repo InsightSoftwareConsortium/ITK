@@ -57,20 +57,6 @@ TranslationTransform()
 }
     
 
-
-// Copy Constructor
-template <class TScalarType, unsigned int NDimensions,
-         class TParameters, class TJacobianType>
-TranslationTransform<TScalarType, NDimensions,TParameters,TJacobianType>
-::TranslationTransform( const 
-    TranslationTransform<TScalarType, NDimensions, 
-                         TParameters, TJacobianType > & other )
-{
-  m_Offset    = other.m_Offset;
-}
-
-
-
 // Destructor
 template<class TScalarType, unsigned int NDimensions,
          class TParameters, class TJacobianType>
@@ -79,20 +65,6 @@ TranslationTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
 {
  return;
 }
-
-
-// Assignment Operator
-template <class TScalarType, unsigned int NDimensions,
-         class TParameters, class TJacobianType>
-const TranslationTransform<TScalarType, NDimensions,
-                           TParameters,TJacobianType> &
-TranslationTransform<TScalarType, NDimensions,TParameters,TJacobianType>
-::operator=( const Self & other )
-{
-  m_Offset   = other.m_Offset;
-  return *this;
-}
-
 
 
 // Set the parameters

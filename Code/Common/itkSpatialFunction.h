@@ -118,8 +118,11 @@ class ITK_EXPORT SpatialFunction : public FunctionBase<TInput, TOutput>
 protected:
   SpatialFunction();
   virtual ~SpatialFunction();
-  SpatialFunction(const SpatialFunction&) {};
-  void operator=(const SpatialFunction&) {};
+
+private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
 };
 
 } // end namespace itk

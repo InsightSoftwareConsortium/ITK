@@ -62,176 +62,106 @@ class ITK_EXPORT VersorRigid3DTransform :
             public Rigid3DTransform< TScalarType > 
 {
 public:
+  /// Standard Self Typedef
+  typedef VersorRigid3DTransform Self;
 
-    /**
-     * Standard Self Typedef
-     */
-    typedef VersorRigid3DTransform Self;
+  /// Dimension of parameters
+  enum { SpaceDimension = 3, 
+         ParametersDimension = 6 };
 
+  /// Standard "Superclass" typedef.
+  typedef Rigid3DTransform< TScalarType >   Superclass;
 
-    /// Dimension of parameters
-    enum { SpaceDimension = 3, 
-           ParametersDimension = 6 };
+  /// Scalar Type
+  typedef typename Superclass::ScalarType  ScalarType;
 
-    /**
-     * Standard "Superclass" typedef.
-     */
-    typedef Rigid3DTransform< TScalarType >   Superclass;
+  /// Parameters Type
+  typedef typename Superclass::ParametersType  ParametersType;
 
+  /// Jacobian Type
+  typedef typename Superclass::JacobianType  JacobianType;
 
-    /**
-     * Scalar Type
-     */
-    typedef typename Superclass::ScalarType  ScalarType;
+  /// VnlQuaternion Type
+  typedef typename Superclass::VnlQuaternionType  VnlQuaternionType;
 
+  //@{
+  /// Versor Type
+  typedef typename Superclass::VersorType  VersorType;
+  typedef typename VersorType::VectorType  AxisType;
+  typedef typename VersorType::ValueType   AngleType;
+  //@}
 
-    /**
-     * Parameters Type
-     */
-    typedef typename Superclass::ParametersType  ParametersType;
+  /// Offset Type
+  typedef typename Superclass::OffsetType  OffsetType;
 
+  //@{
+  /// Point Type
+  typedef typename Superclass::InputPointType   InputPointType;
+  typedef typename Superclass::OutputPointType  OutputPointType;
+  //@}
 
-    /**
-     * Jacobian Type
-     */
-    typedef typename Superclass::JacobianType  JacobianType;
+  //@{
+  /// Vector Type
+  typedef typename Superclass::InputVectorType   InputVectorType;
+  typedef typename Superclass::OutputVectorType  OutputVectorType;
+  //@}
 
-    /**
-     * VnlQuaternion Type
-     */
-    typedef typename Superclass::VnlQuaternionType  VnlQuaternionType;
+  //@{
+  /// CovariantVector Type
+  typedef typename Superclass::InputCovariantVectorType   InputCovariantVectorType;
+  typedef typename Superclass::OutputCovariantVectorType  OutputCovariantVectorType;
+  //@}
 
-    /**
-     * Versor Type
-     */
-    typedef typename Superclass::VersorType  VersorType;
-    typedef typename VersorType::VectorType  AxisType;
-    typedef typename VersorType::ValueType   AngleType;
+  //@{
+  /// VnlVector Type
+  typedef typename Superclass::InputVnlVectorType   InputVnlVectorType;
+  typedef typename Superclass::OutputVnlVectorType  OutputVnlVectorType;
+  //@}
 
-    /**
-     * Offset Type
-     */
-    typedef typename Superclass::OffsetType  OffsetType;
+  //@{
+  /// Smart pointer typedef support 
+  typedef SmartPointer<Self>        Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
+  //@}
 
-    /**
-     * Point Type
-     */
-    typedef typename Superclass::InputPointType   InputPointType;
-    typedef typename Superclass::OutputPointType  OutputPointType;
+  /// Run-time type information (and related methods).
+  itkTypeMacro( VersorRigid3DTransform, Rigid3DTransform );
 
-    /**
-     * Vector Type
-     */
-    typedef typename Superclass::InputVectorType   InputVectorType;
-    typedef typename Superclass::OutputVectorType  OutputVectorType;
+  /// New macro for creation of through a Smart Pointer
+  itkNewMacro( Self );
 
-    /**
-     * CovariantVector Type
-     */
-    typedef typename Superclass::InputCovariantVectorType   InputCovariantVectorType;
-    typedef typename Superclass::OutputCovariantVectorType  OutputCovariantVectorType;
+  /** Set the transformation from a container of parameters
+   * This is typically used by optimizers.
+   * There are 6 parameters. The first three represent the
+   * versor and the last three represents the offset. **/
+  void SetParameters( const ParametersType & parameters );
 
-    /**
-     * VnlVector Type
-     */
-    typedef typename Superclass::InputVnlVectorType   InputVnlVectorType;
-    typedef typename Superclass::OutputVnlVectorType  OutputVnlVectorType;
+  //@{
+  /// Set the rotational part of the transform
+  void SetRotation( const VersorType & versor );
+  void SetRotation( const AxisType & axis, AngleType angle );
+  //@}
 
+  /** This method computes the Jacobian matrix of the transformation.
+   * given point or vector, returning the transformed point or
+   * vector. The rank of the Jacobian will also indicate if the 
+   * transform is invertible at this point. */
+  const JacobianType & GetJacobian(const InputPointType  &point ) const;
 
+protected:
+  VersorRigid3DTransform();
+  ~VersorRigid3DTransform(){};
+  void PrintSelf(std::ostream &os, Indent indent) const;
 
-
-    /** 
-     * Smart pointer typedef support 
-     */
-    typedef SmartPointer<Self>        Pointer;
-    typedef SmartPointer<const Self>  ConstPointer;
-
-
-    /** 
-     * Run-time type information (and related methods).
-     */
-    itkTypeMacro( VersorRigid3DTransform, Rigid3DTransform );
-
-
-    /** 
-     * New macro for creation of through a Smart Pointer
-     */
-    itkNewMacro( Self );
-
-
-    /**
-     * Set the transformation from a container of parameters
-     * This is typically used by optimizers.
-     *
-     * There are 6 parameters. The first three represent the
-     * versor and the last three represents the offset.
-     *
-     **/
-    void SetParameters( const ParametersType & parameters );
-
-
-    /**
-     * Set the rotational part of the transform
-     **/
-    void SetRotation( const VersorType & versor );
-    void SetRotation( const AxisType & axis, AngleType angle );
-
-
-    /**
-     * Compute the Jacobian of the transformation
-     *
-     * This method computes the Jacobian matrix of the transformation.
-     * given point or vector, returning the transformed point or
-     * vector. The rank of the Jacobian will also indicate if the 
-     * transform is invertible at this point.
-     */
-    const JacobianType & GetJacobian(const InputPointType  &point ) const;
-
-
-    /**
-     * Print contents of a VersorRigid3DTransform
-     **/
-    void PrintSelf(std::ostream &os, Indent indent) const;
-
- protected:
-    /**
-     * Construct an VersorRigid3DTransform object
-     *
-     **/
-    VersorRigid3DTransform();
-
-    /**
-     * Copy a VersorRigid3DTransform object
-     *
-     * This method creates a new VersorRigid3DTransform object and
-     * initializes it to be a copy of an existing VersorRigid3DTransform.
-     **/
-    VersorRigid3DTransform(const Self & other);
-
-    /**
-     * Destroy an VersorRigid3DTransform object
-     **/
-    ~VersorRigid3DTransform(){};
-
-
-    /**
-     * Assignment operator
-     **/
-    const Self & operator=( const Self & );
-
-
-    /**
-     * Compute Matrix
-     * Compute the components of the rotation matrix in the superclass
-     **/
-    void ComputeMatrix(void);
+  /// Compute the components of the rotation matrix in the superclass
+  void ComputeMatrix(void);
 
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
-    /**
-     *  Versor containing the rotation
-     */
-    VersorType    m_Versor;
+  ///  Versor containing the rotation
+  VersorType    m_Versor;
 
 }; //class VersorRigid3DTransform
 

@@ -180,10 +180,11 @@ public:
 protected:
   ImportImageContainer();
   virtual ~ImportImageContainer();
-  ImportImageContainer(const Self&) {}
-  void operator=(const Self&) {}
 
 private:
+  ImportImageContainer(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   TElement            *m_ImportPointer;
   TElementIdentifier   m_Size;
   TElementIdentifier   m_Capacity;

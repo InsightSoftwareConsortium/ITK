@@ -57,16 +57,6 @@ Rigid3DTransform()
   m_InverseMatrix.SetIdentity();
 }
  
-    
-// Copy Constructor
-template <class TScalarType>
-Rigid3DTransform<TScalarType>
-::Rigid3DTransform( const Self & other )
-{
-  m_Offset        = other.m_Offset;
-  m_DirectMatrix  = other.m_DirectMatrix;
-  m_InverseMatrix = other.m_InverseMatrix;
-}
 
 // Destructor
 template<class TScalarType>
@@ -74,20 +64,6 @@ Rigid3DTransform<TScalarType>::
 ~Rigid3DTransform()
 {
 }
-
-
-// Assignment Operator
-template <class TScalarType>
-const Rigid3DTransform<TScalarType> &
-Rigid3DTransform<TScalarType>
-::operator=( const Self & other )
-{
-  m_Offset        = other.m_Offset;
-  m_DirectMatrix  = other.m_DirectMatrix;
-  m_InverseMatrix = other.m_InverseMatrix;
-  return *this;
-}
-
 
 
 // Print self

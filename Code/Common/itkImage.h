@@ -449,12 +449,12 @@ public:
 protected:
   Image();
   virtual ~Image();
-  Image(const Self&) {}
-  void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   // memory for the current buffer
   PixelContainerPointer m_Buffer;
 

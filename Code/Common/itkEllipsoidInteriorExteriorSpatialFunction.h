@@ -129,14 +129,12 @@ public:
   OutputType Evaluate(const InputType& position) const;
      
 protected:
-
   EllipsoidInteriorExteriorSpatialFunction();
   virtual ~EllipsoidInteriorExteriorSpatialFunction();
 
-  EllipsoidInteriorExteriorSpatialFunction(const EllipsoidInteriorExteriorSpatialFunction&) {};
-  void operator=(const EllipsoidInteriorExteriorSpatialFunction&) {};
-
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
   /**
    * The center of the ellipsoid.

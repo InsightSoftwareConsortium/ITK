@@ -270,8 +270,6 @@ protected:
    */
   PointSet();
   ~PointSet() {}
-  PointSet(const Self&) {}
-  void operator=(const Self&) {}
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
   
   // If the RegionType is ITK_UNSTRUCTURED_REGION, then the following
@@ -289,6 +287,10 @@ protected:
   int m_BufferedRegion;
   int m_RequestedNumberOfRegions;
   int m_RequestedRegion;
+
+private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
 }; // End Class: PointSet
 

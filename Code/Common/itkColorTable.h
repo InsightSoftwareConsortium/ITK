@@ -102,16 +102,17 @@ public:
   TPixel                     color(int c, char rgb);
   char *                     colorName(int c);
    
- protected:
-
+protected:
   int                  m_NumberOfColors;
   RGBPixel<TPixel> *   m_Color;
   char **              m_ColorName;
 
   ColorTable();
   virtual ~ColorTable();
-  ColorTable(const Self&) {}
-  void operator=(const Self&) {}
+
+private:
+  ColorTable(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 };
 
 

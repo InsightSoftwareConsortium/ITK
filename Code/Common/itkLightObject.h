@@ -148,8 +148,6 @@ public:
 protected:
   LightObject():m_ReferenceCount(1) {}
   virtual ~LightObject(); 
-  LightObject(const Self&) {}
-  void operator=(const Self&) {}
 
   /** 
    * Methods invoked by Print() to print information about the object
@@ -170,6 +168,11 @@ protected:
    * Mutex lock to protect modification to the reference count
    */
   mutable SimpleFastMutexLock m_ReferenceCountLock;
+
+private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   
 };
 

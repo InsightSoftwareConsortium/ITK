@@ -164,8 +164,6 @@ public:
 protected:
   ImageIO();
   ~ImageIO();
-  ImageIO(const Self&) {}
-  void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /**
@@ -266,6 +264,11 @@ protected:
    * next slice. Returns m_Strides[3].
    */
   unsigned int GetSliceStride () const;
+
+private:
+  ImageIO(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
 
 };
 

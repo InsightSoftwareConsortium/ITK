@@ -150,8 +150,6 @@ class FiniteDifferenceImageFilter
 protected:
   FiniteDifferenceImageFilter() : m_ElapsedIterations(0) {}
   ~FiniteDifferenceImageFilter() {}
-  FiniteDifferenceImageFilter(const Self&) {}
-  void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /**
@@ -243,14 +241,14 @@ protected:
   itkSetMacro(ElapsedIterations, unsigned int);
 
 private:
-  /**
-   * A counter for keeping track of the number of elapsed iterations during filtering.
-   */
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
+  /** A counter for keeping track of the number of elapsed 
+      iterations during filtering. */
   unsigned int m_ElapsedIterations;
 
-  /**
-   * The function that will be used in calculating updates for each pixel.
-   */
+  /** The function that will be used in calculating updates for each pixel. */
   typename FiniteDifferenceEquationType::Pointer m_DifferenceEquation;
 };
   

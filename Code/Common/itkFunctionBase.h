@@ -103,11 +103,12 @@ public:
   virtual OutputType Evaluate( const InputType& input ) const = 0;
 
 protected:
-
   FunctionBase(){};
   ~FunctionBase(){};
-  FunctionBase( const Self& ){};
-  void operator=(const Self& ){};
+
+private:
+  Self(const Self& ); //purposely not implemented
+  void operator=(const Self& ); //purposely not implemented
 
 };
 

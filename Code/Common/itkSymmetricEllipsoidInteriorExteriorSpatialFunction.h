@@ -122,14 +122,12 @@ public:
 
      
 protected:
-
   SymmetricEllipsoidInteriorExteriorSpatialFunction();
   virtual ~SymmetricEllipsoidInteriorExteriorSpatialFunction();
 
-  SymmetricEllipsoidInteriorExteriorSpatialFunction(const SymmetricEllipsoidInteriorExteriorSpatialFunction&) {};
-  void operator=(const SymmetricEllipsoidInteriorExteriorSpatialFunction&) {};
-
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
   /**
    * The center of the ellipsoid.

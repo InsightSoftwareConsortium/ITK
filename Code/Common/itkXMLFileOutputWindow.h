@@ -131,13 +131,13 @@ public:
 protected:
   XMLFileOutputWindow();
   virtual ~XMLFileOutputWindow();
-  XMLFileOutputWindow(const Self&) {}
-  void operator=(const Self&) {}
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
   void Initialize();
   virtual void DisplayXML(const char*, const char*);
 
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
 };
   

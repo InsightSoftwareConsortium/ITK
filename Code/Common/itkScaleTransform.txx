@@ -58,17 +58,6 @@ ScaleTransform()
     
 
 
-// Copy Constructor
-template <class ScalarType, unsigned int NDimensions,
-         class TParameters, class TJacobianType>
-ScaleTransform<ScalarType, NDimensions,TParameters,TJacobianType>
-::ScaleTransform( const Self & other )
-{
-  m_Scale    = other.m_Scale;
-}
-
-
-
 // Destructor
 template<class ScalarType, unsigned int NDimensions,
          class TParameters, class TJacobianType>
@@ -77,20 +66,6 @@ ScaleTransform<ScalarType, NDimensions,TParameters,TJacobianType>::
 {
  return;
 }
-
-
-// Assignment Operator
-template <class ScalarType, unsigned int NDimensions,
-         class TParameters, class TJacobianType>
-const ScaleTransform<ScalarType, NDimensions,
-                           TParameters,TJacobianType> &
-ScaleTransform<ScalarType, NDimensions,TParameters,TJacobianType>
-::operator=( const Self & other )
-{
-  m_Scale   = other.m_Scale;
-  return *this;
-}
-
 
 
 // Set the parameters

@@ -142,14 +142,12 @@ public:
   itkSetMacro( BottomPlane, double);
      
 protected:
-
   FrustumSpatialFunction();
   virtual ~FrustumSpatialFunction();
 
-  FrustumSpatialFunction(const FrustumSpatialFunction&) {};
-  void operator=(const FrustumSpatialFunction&) {};
-
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
   /**
    * The apex of the pyramid (of the same type as Input)

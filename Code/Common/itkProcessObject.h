@@ -380,8 +380,6 @@ public:
 protected:
   ProcessObject();
   ~ProcessObject();
-  ProcessObject(const ProcessObject&) {};
-  void operator=(const ProcessObject&) {};
   void PrintSelf(std::ostream& os, Indent indent) const;
   
   /**
@@ -455,7 +453,10 @@ protected:
    */
   TimeStamp m_InformationTime;
 
- private:
+private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   /**
    * An array of the inputs to the filter.
    */
