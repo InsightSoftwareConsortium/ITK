@@ -185,6 +185,10 @@ public:
     * at the scale of the original images.
     */
   void      GetVectorField(SolverType& S); 
+
+  /** Calculates the metric over the domain given the vector field.  
+    */
+  FloatImageType*      GetMetricImage(FieldType* F); 
   
   /** This is used for changing between mesh resolutions. */
   void      SampleVectorFieldAtNodes(SolverType& S);
@@ -222,8 +226,21 @@ public:
       Must first apply the warp using WarpImage() */
   ImageType* GetWarpedImage(){return m_WarpedImage;}
 
+  /** Compute the jacobian of the current deformation field.*/
+  void ComputeJacobian();
+
+  /** Get the image that gives the jacobian of the deformation field. */
+  FloatImageType* GetJacobianImage(){return m_FloatImage;}
+  
+
   /** Outputs the FE deformation field interpolated over the entire image domain.*/
   FieldType* GetDeformationField(){return m_Field;}
+  /** Sets the FE deformation field.*/
+  void SetDeformationField(FieldType* F)
+  {  
+    m_FieldSize=F->GetLargestPossibleRegion().GetSize();
+    m_Field=F;
+  }
 
   /** These functions control the use of landmark constraints.  Currently, 
       landmarks must be read in from a file. */
@@ -249,9 +266,9 @@ public:
       The mesh is generated for quadrilaterals in 2D and hexahedra in 3D.  This function 
       sets the number of elements generated along each dimension at the resolution 
       designated by "which". 
-      E.g. to generate 10 elements per dimension in the 1st resolution, use SetMeshResolution(10,0);.
+      E.g. to generate 10 pixels per element in each dimension in the 1st resolution, use SetMeshResolution(10,0);.
     */
-  void      SetMeshElementsPerDimensionAtEachResolution(unsigned int i,unsigned int which=0){ m_MeshElementsPerDimensionAtEachResolution[which]=i;}
+  void      SetMeshPixelsPerElementAtEachResolution(unsigned int i,unsigned int which=0){ m_MeshPixelsPerElementAtEachResolution[which]=i;}
   
   /** This determines the number of integration points to use at each resolution.  
       These integration points are used to generate the force.  The actual number 
@@ -264,6 +281,7 @@ public:
     * \param which determines the region at a given resolution of the solution process.
     */
   void      SetWidthOfMetricRegion(unsigned int i,unsigned int which=0) { m_MetricWidth[which]=i;}
+  unsigned int      GetWidthOfMetricRegion(unsigned int which=0) { return m_MetricWidth[which];}
   
   /** Setting the maximum iterations stops the solution after i iterations regardless of energy.
     * \param i number of elements
@@ -328,6 +346,7 @@ public:
   ImageSizeType GetImageSize(){ return m_ImageSize; }
 
   /** Set/Get the Metric.  */
+  MetricBaseTypePointer    GetMetric() { return m_Metric; }
   void      SetMetric(MetricBaseTypePointer MP) { m_Metric=MP; }
   
   /** Choose the metric by parameter : 0= mean squares, 1=cross correlation, 
@@ -351,6 +370,10 @@ public:
     * and sets the current solution to that value.  Uses Evaluate Residual;
     */
   Float GoldenSection(SolverType& mySolver,Float tol=0.01,unsigned int MaxIters=25);
+
+  /** Set the solver's current load. */
+//  itkSetMacro( Load, ImageMetricLoadType* );
+  itkGetMacro( Load, ImageMetricLoadType* );
 
   /** de/constructor */
   FEMRegistrationFilter( ); 
@@ -392,10 +415,11 @@ private :
   unsigned int     m_MeshStep;  // Ratio Between Mesh Resolutions ( currently set to 2, should be >= 1)
   unsigned int     m_FileCount; // keeps track of number of files written
   unsigned int     m_CurrentLevel;
+  unsigned int     m_WhichMetric;
  
-  /** Stores the number of elements per dimension of the mesh for each
+  /** Stores the number of  pixels per element  of the mesh for each
       resolution of the multi-resolution pyramid */
-  vnl_vector<unsigned int> m_MeshElementsPerDimensionAtEachResolution;
+  vnl_vector<unsigned int> m_MeshPixelsPerElementAtEachResolution;
 
   Float     m_dT; // time step
   vnl_vector<Float>     m_E;  // elasticity 
@@ -412,6 +436,7 @@ private :
   bool  m_DoMultiRes;
   bool  m_UseLandmarks;
   bool  m_ReadMeshFile;
+  bool  m_UseMassMatrix;
   Sign  m_DescentDirection;
 
   ImageSizeType     m_ImageSize; // image size
@@ -422,13 +447,14 @@ private :
   typename ImageType::SizeType     m_FieldSize;
   typename FieldType::Pointer      m_Field;
 
-  ImageMetricLoad<ImageType,ImageType>* m_Load; // Defines the load to use
+  ImageMetricLoadType* m_Load; // Defines the load to use
    
   // define the warper
   typename WarperType::Pointer m_Warper; 
 
  // declare a new image to hold the warped  reference
   typename ImageType::Pointer      m_WarpedImage;
+  typename FloatImageType::Pointer      m_FloatImage;
   typename ImageType::RegionType   m_Wregion; 
   typename ImageType::IndexType    m_Windex;
  
@@ -455,3 +481,4 @@ private :
 #endif
 
 #endif
+
