@@ -547,10 +547,14 @@ MedialNodePairCorrespondenceProcess< TSourceImage >
 
         // Only add the CorrespondingPairListPointer if it has something in it.
         if(CorrespondingPairListPointer->GetSize() != 0)
-        {
+          {
           PairListPointer->push_back(*CorrespondingPairListPointer);
-        }
+          }
         m_NumberOfNodePairs++;
+
+        // clean up
+        delete CorrespondingPairListPointer;
+        CorrespondingPairListPointer = 0;
         }// End if(i<j)
       }// End for j
 
@@ -559,6 +563,10 @@ MedialNodePairCorrespondenceProcess< TSourceImage >
       {
         m_DataStructure->m_NodeList->push_back(*PairListPointer);
       }
+
+      // clean up
+      delete PairListPointer;
+      PairListPointer = 0;
     }// End for i
   if(m_OutputPNG)
     {

@@ -33,6 +33,18 @@ CorrespondenceDataStructure<TItemType, VCliqueSize>
   m_NodeList = new NodeListType();
 }
 
+template <typename TItemType, int VCliqueSize>
+CorrespondenceDataStructure<TItemType, VCliqueSize>
+::~CorrespondenceDataStructure()
+{
+  if (m_NodeList)
+    {
+    // do we need to delete every item in the list as well?
+    delete m_NodeList;
+    m_NodeList = 0;
+    }
+}
+
 } // end namespace itk
 
 #endif

@@ -72,7 +72,7 @@ protected:
   CorrespondenceDataStructure();
 
   /** Default Destructor. */
-  ~CorrespondenceDataStructure() {};
+  ~CorrespondenceDataStructure();
 };
 
 } // end namespace itk
