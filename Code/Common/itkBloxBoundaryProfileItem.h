@@ -10,6 +10,9 @@ template <unsigned int VImageDimension>
 class BloxBoundaryProfileItem : public BloxItem
 {
 public:
+  /** Run-time type information (and related methods). */
+  itkTypeMacro( BloxBoundaryProfileItem, BloxItem );
+
   /** The point type used to store the position of the boundary profile */
   typedef Point<double, VImageDimension> PositionType;
 

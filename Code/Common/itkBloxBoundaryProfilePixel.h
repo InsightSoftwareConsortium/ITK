@@ -13,6 +13,9 @@ template <unsigned int NDimensions>
 class ITK_EXPORT BloxBoundaryProfilePixel : public BloxPixel< BloxBoundaryProfileItem<NDimensions> >
 {
 public:
+  /** Run-time type information (and related methods). */
+  itkTypeMacro( BloxBoundaryProfilePixel, BloxItem );
+
   /** The type of boundary profile item we process. */
   typedef BloxBoundaryProfilePixel<NDimensions> BoundaryProfileItemType;
 
