@@ -23,5 +23,11 @@ itkMutualInformationTest \
 itkFastMarchingTest \
 itkLevelSetShapeDetectionTest \
 itkGeodesicActiveContoursTest \
-itkCurvatureFlowTest
+itkCurvatureFlowTest  \
+itkRegistrationImageToImageAffine \
+itkRegistrationModelToImage \
+itkRegistrationPoints3D2DAffine \
+itkRegistrationProcrustes 
+
+
 
