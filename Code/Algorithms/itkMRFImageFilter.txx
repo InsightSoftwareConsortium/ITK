@@ -163,6 +163,9 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   //Run the gaussian classifier algorithm
   m_ClassifierPtr->ClassifyImage();
 
+  //Allocate memory for the labelled images
+  this->Allocate();
+
   ApplyMRFImageFilter();
   //Set the output labelled and allocate the memory
   LabelledImagePointer outputPtr = this->GetOutput();
@@ -246,7 +249,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
     throw ExceptionObject(__FILE__, __LINE__);
     }
 
-  InputImageSizeType inputImageSize = m_InputImage->GetBufferedRegion().GetSize();
+  InputImageSizeType inputImageSize = this->GetInput()->GetBufferedRegion().GetSize();
 
   //Ensure that the data provided is three dimensional or higher data set
   if(TInputImage::ImageDimension <= 2 )
