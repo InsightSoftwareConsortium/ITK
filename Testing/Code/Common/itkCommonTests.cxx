@@ -24,6 +24,7 @@ REGISTER_TEST(itkBoundingBoxTest );
 REGISTER_TEST(itkBSplineDeformableTransformTest );
 REGISTER_TEST(itkBSplineInterpolationWeightFunctionTest );
 REGISTER_TEST(itkBSplineKernelFunctionTest );
+REGISTER_TEST(itkBoundaryConditionTest );
 REGISTER_TEST(itkByteSwapTest );
 REGISTER_TEST(itkCenteredRigid2DTransformTest );
 REGISTER_TEST(itkCenteredAffineTransformTest );

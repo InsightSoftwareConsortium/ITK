@@ -41,6 +41,7 @@ ADD_TEST(itkBoundingBoxTest ${COMMON_TESTS} itkBoundingBoxTest)
 ADD_TEST(itkBSplineDeformableTransformTest ${COMMON_TESTS} itkBSplineDeformableTransformTest)
 ADD_TEST(itkBSplineInterpolationWeightFunctionTest ${COMMON_TESTS} itkBSplineInterpolationWeightFunctionTest)
 ADD_TEST(itkBSplineKernelFunctionTest ${COMMON_TESTS} itkBSplineKernelFunctionTest)
+ADD_TEST(itkBoundaryConditionTest ${COMMON_TESTS} itkBoundaryConditionTest)
 ADD_TEST(itkByteSwapTest ${COMMON_TESTS} itkByteSwapTest)
 ADD_TEST(itkCenteredRigid2DTransformTest ${COMMON_TESTS} itkCenteredRigid2DTransformTest)
 ADD_TEST(itkCenteredAffineTransformTest ${COMMON_TESTS} itkCenteredAffineTransformTest)
@@ -197,6 +198,7 @@ itkBoundingBoxTest.cxx
 itkBSplineDeformableTransformTest.cxx
 itkBSplineInterpolationWeightFunctionTest.cxx
 itkBSplineKernelFunctionTest.cxx
+itkBoundaryConditionTest.cxx
 itkByteSwapTest.cxx
 itkCenteredRigid2DTransformTest.cxx
 itkCenteredAffineTransformTest.cxx
