@@ -12,14 +12,7 @@ TARGET_LINK_LIBRARIES(itktcl
   ITKNumericsTcl
   ITKCommonTcl
   VXLNumericsTcl
-  ITKIO
-  ITKBasicFilters
-  ITKNumerics
-  ITKCommon
-  VXLNumerics
-  itkpng
-  itkzlib
   ${CABLE_TCL_LIBRARY}
-  ${TCL_LIBRARY}
   ${TK_LIBRARY}
 )
+
