@@ -72,7 +72,7 @@ public:
   itkNewMacro(Self);
   
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageRegistrationMethod, Object);
+  itkTypeMacro(ImageRegistrationMethod, ProcessObject);
 
   /**  Type of the Fixed image. */
   typedef          TFixedImage                     FixedImageType;
