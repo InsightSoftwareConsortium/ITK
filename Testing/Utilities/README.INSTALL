@@ -73,6 +73,10 @@ IF (BUILD_TESTING)
   SET (DROP_SITE_USER "anonymous")
   SET (DROP_SITE_PASSWORD "insight-tester@somewhere.com")
   SET (TRIGGER_SITE "http://${DROP_SITE}/cgi-bin/Submit-Insight-TestingResults.pl")
+
+  SET (CVS_WEB_URL "http://${DROP_SITE}/cgi-bin/itkcvsweb.cgi/Insight/")
+  SET (DOXYGEN_URL "http://${DROP_SITE}/Insight/Doxygen/html/")
+  SET (GNATS_WEB_URL "http://${DROP_SITE}/cgi-bin/gnatsweb.pl/Insight/")
 ENDIF (BUILD_TESTING)
 
 #
@@ -135,8 +139,6 @@ SHELL=/bin/tcsh
 # End of cron tab
 #
 
-5) XSLT modifications.  The conversion of XML to HTML uses a series of
-XSLT files and files under "Testing/HTML/TestingResults/Icons".  The
-images under "Icons" can be modified to reflect your project's name
-and needs. The XSLT file need to configured for your project (THIS HAS
-YET TO BE DONE).
+5) XSLT modifications.  None needed.  Project specific settings can be
+set through a CMakeLists.txt entry for the project. See "Configuring
+the client" (the server is itself a client).
