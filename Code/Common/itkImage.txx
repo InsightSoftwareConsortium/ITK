@@ -239,7 +239,7 @@ Image<TPixel, VImageDimension, TImageTraits>
 
 //---------------------------------------------------------------------------
 template<class TPixel, unsigned int VImageDimension, class TImageTraits>
-Image<TPixel, VImageDimension, TImageTraits>::AffineTransformType::Pointer
+typename Image<TPixel, VImageDimension, TImageTraits>::AffineTransformType::Pointer
 Image<TPixel, VImageDimension, TImageTraits>
 ::GetIndexToPhysicalTransform(void) const
 {
@@ -267,7 +267,7 @@ Image<TPixel, VImageDimension, TImageTraits>
 
 //---------------------------------------------------------------------------
 template<class TPixel, unsigned int VImageDimension, class TImageTraits>
-Image<TPixel, VImageDimension, TImageTraits>::AffineTransformType::Pointer
+typename Image<TPixel, VImageDimension, TImageTraits>::AffineTransformType::Pointer
 Image<TPixel, VImageDimension, TImageTraits>
 ::GetPhysicalToIndexTransform(void) const
 {
