@@ -25,6 +25,7 @@
 #include "itkFEMObjectFactory.h"
 #include "itkFEMUtility.h"
 #include "vnl/vnl_math.h"
+#include "vnl/algo/vnl_determinant.h"
 
 namespace itk {
 namespace fem {
@@ -77,8 +78,7 @@ vnl_matrix<HexahedronC03D::Float> HexahedronC03D::Ke() const
    * Gaussian integration points
    */
   Float pt = 1.0 / sqrt(3.0);
-  Float GPoints[][3] = {{-pt, -pt, pt}, {pt, -pt, pt}, {pt, pt, pt}, {-pt, pt, pt}, 
-            {-pt, -pt, -pt}, {pt, -pt, -pt}, {pt, pt, -pt}, {-pt, pt, -pt}};
+  Float GPoints[][3] = {{-pt, -pt, -pt}, {pt, -pt, -pt}, {pt, pt, -pt}, {-pt, pt, -pt}, {-pt, -pt, pt}, {pt, -pt, pt}, {pt, pt, pt}, {-pt, pt, pt}};
 
   /**
    * Material properties matrix.  This should be acommodate the
@@ -99,11 +99,15 @@ vnl_matrix<HexahedronC03D::Float> HexahedronC03D::Ke() const
     D[k][k] = 1 - m_mat->ni;
   }
   for (int k=3; k < 6; k++) {
-    D[k][k] = 1 - (2 * m_mat->ni) * 0.5;
+    D[k][k] = (1 - (2 * m_mat->ni)) * 0.5;
   }
 
   /** Multiply by the factor */
   D = D * fac;
+
+  // Added TS
+  // cout << "itkD=[" << D << "];" << endl;
+  // End
 
   /** Initialize stiffness matrix */
   MatKe.fill(0.0);
@@ -135,9 +139,15 @@ vnl_matrix<HexahedronC03D::Float> HexahedronC03D::Ke() const
     shapeINVD = ComputeShapeFunctionCartDerivatives(I, shapeD);
 
     /** Computes the strain (B) matrix */
+    B.fill(0.0);
     B = ComputeBMatrix(shapeINVD);
 
+    // Added TS
+    // cout << "itkB" << k << "=[" << endl << B << "];" << endl;
+    // End
+
     /** Computes the matrix multiplication DB */
+    DB.fill(0.0);
     DB = ComputeDBMatrix(D,B);
 
     /**
@@ -145,24 +155,31 @@ vnl_matrix<HexahedronC03D::Float> HexahedronC03D::Ke() const
      * the stiffness matrix
      */
 
+    MatKe += detJ*(B.transpose()*DB);
+    
+    // Added TS
+    // cout << "J" << k << " = " << detJ << endl;
+    // cout << "Ke:\n" << MatKe << endl;
+    // End
+
     /** For each row of the stiffness matrix */
-    for (i=0; i<24; i++) {
+    // for (i=0; i<24; i++) {
 
       /** For each column of the stiffness matrix */
-      for (j=0; j<24; j++) {
+      // for (j=0; j<24; j++) {
 
         /** 
          * Compute MatKe(i,j) - implies that
          * all Wi = 1 for the Gaussian integration
          */
-        Float temp = 0;
-        for (int k=0; k<6; k++) {
-          temp += B[k][i] * DB[k][j];
-        }
+        // Float temp = 0;
+        // for (int k=0; k<6; k++) {
+        //  temp += B[k][i] * DB[k][j];
+        // }
 
-        MatKe[i][j] += (detJ * temp);
-      }
-    }
+        // MatKe[i][j] += (detJ * temp);
+      // }
+    // }
   }
 
   return MatKe;
@@ -191,7 +208,7 @@ HexahedronC03D::ComputePositionAt(Float x[]) const
 
   vnl_vector<Float> shapeF = ComputeShapeFunctionsAt(x); 
 
-  p[0] = p[1] = p[2] = 0.0;
+  p.fill(0.0);
 
   for (int j=0; j < 8; j++) {
     p[0] += (m_node[j]->X * shapeF[j]);
@@ -246,7 +263,8 @@ HexahedronC03D::ComputeShapeFunctionsAt(Float x[]) const
 {
   /** Linear hexahedral element has 8 shape functions */
   vnl_vector<Float> shapeF(8);
-  
+  shapeF.fill(0.0);
+
   /** 
    * Linear hexahedral element has local coordinates
    *  (-1,-1,-1), (1,-1,-1), (1,1,-1), (-1,1,-1), (-1,-1,1), (1,-1,1), (1,1,1), (-1,1,1)
@@ -293,6 +311,7 @@ HexahedronC03D::ComputeShapeFunctionDerivativesAt(Float x[]) const
 {
   /** functions at directions r, s, and t. */
   vnl_matrix<Float> shapeD(8,3);
+  shapeD.fill(0.0);
 
   // d(N_1) / d(r)
   shapeD[0][0] = (-1) * (1 - x[1]) * (1 - x[2]) * 0.125;
@@ -380,9 +399,9 @@ HexahedronC03D::Float
 HexahedronC03D::JacobianMatrixDeterminant(const vnl_matrix<Float>& J) const
 {
   /** Computes the determinant of the 3x3 Jacobian matrix */
-        return (J[0][0] * (J[1][1] * J[2][2] - J[1][2] * J[2][1])
-    - J[0][1] * (J[1][0] * J[2][2] - J[1][2] * J[2][0]) 
-    + J[0][2] * (J[1][0] * J[2][1] - J[1][1] * J[2][0]));
+  return vnl_determinant<Float>(J);
+
+  //return (J[0][0] * (J[1][1] * J[2][2] - J[1][2] * J[2][1]) - J[0][1] * (J[1][0] * J[2][2] - J[1][2] * J[2][0]) + J[0][2] * (J[1][0] * J[2][1] - J[1][1] * J[2][0]));
 }
 
 
@@ -396,7 +415,8 @@ vnl_matrix<HexahedronC03D::Float>
 HexahedronC03D::ComputeJacobianInverse(const vnl_matrix<Float>& J, Float detJ) const
 {
   vnl_matrix<Float> I(3,3);
-
+  I.fill(0.0);
+  
   I = vnl_matrix_inverse<Float>(J);
 
   return I;
@@ -412,6 +432,7 @@ HexahedronC03D::ComputeShapeFunctionCartDerivatives(const vnl_matrix<Float>& I,
         const vnl_matrix<Float>& shapeD) const
 {
   vnl_matrix<Float> shapeINVD(8,3);
+  shapeINVD.fill(0.0);
 
   shapeINVD = shapeD * I;
 
@@ -482,6 +503,7 @@ vnl_matrix<HexahedronC03D::Float>
 HexahedronC03D::ComputeDBMatrix(const vnl_matrix<Float>& D, const vnl_matrix<Float>& B) const
 {
   vnl_matrix<Float> DB(9,24);
+  DB.fill(0.0);
 
   DB = D * B;
 
