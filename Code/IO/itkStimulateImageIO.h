@@ -26,7 +26,6 @@
 
 #include <fstream>
 #include "itkImageIOBase.h"
-#include "itkRawImageIO.h"
 
 namespace itk
 {
