@@ -143,6 +143,7 @@ PointSetToImageMetric<TFixedPointSet,TMovingImage>
   Superclass::PrintSelf( os, indent );
   os << indent << "Moving Image: " << m_MovingImage.GetPointer()  << std::endl;
   os << indent << "Fixed  Image: " << m_FixedPointSet.GetPointer()   << std::endl;
+  os << indent << "Gradient Image: " << m_GradientImage.GetPointer()   << std::endl;
   os << indent << "Transform:    " << m_Transform.GetPointer()    << std::endl;
   os << indent << "Interpolator: " << m_Interpolator.GetPointer() << std::endl;
   os << indent << "Number of Pixels Counted: " << m_NumberOfPixelsCounted << std::endl;
