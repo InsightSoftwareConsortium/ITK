@@ -20,6 +20,7 @@
 #include "itkImageIOBase.h"
 #include "itkIndex.h"
 #include "itkImageRegion.h"
+#include "itkPixelTraits.h"
 #include "itkVersion.h"
 #include <string>
 #include <fstream>
@@ -64,6 +65,14 @@ public:
   void SetHeaderSize(unsigned long size);
   unsigned long GetHeaderSize();
   
+  /** The number of dimensions stored in a file. Defaults to two. If two,
+   * each file contains one "slice". If three, each file will contain one
+   * "volume". */
+  
+  itkSetMacro(FileDimensionality, unsigned long);
+  itkGetMacro(FileDimensionality, unsigned long);
+
+  
   /** Get the type of the pixel.  */
   virtual const std::type_info& GetPixelType() const
     {return typeid(PixelType);}
@@ -72,7 +81,7 @@ public:
    * example, and RGB pixel of unsigned char would have a 
    * component size of 1 byte. */
   virtual unsigned int GetComponentSize() const
-    {return 0;}
+    {return sizeof(PixelTraits<PixelType>::ValueType);}
 
   /*-------- This part of the interface deals with reading data. ------ */
 
@@ -90,7 +99,7 @@ public:
   virtual void Read();
   
   /** Reads the data from disk into the memory buffer provided. */
-  virtual void Read(void* buffer) {}
+  virtual void Read(void* buffer);
 
   /** Set/Get the Data mask. */
   itkGetConstMacro(ImageMask,unsigned short);
