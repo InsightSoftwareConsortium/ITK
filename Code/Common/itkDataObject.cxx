@@ -200,7 +200,7 @@ void
 itkDataObject
 ::PrintSelf(std::ostream& os, itkIndent indent)
 {
-  int i;
+  unsigned int i;
         
   itkObject::PrintSelf(os,indent);
 
@@ -292,7 +292,7 @@ itkDataObject
       break;
       
     case ITK_STRUCTURED_EXTENT:
-      for (int i=0; i<m_Dimension; i++)
+      for (unsigned int i=0; i<m_Dimension; i++)
         {
         if ( m_UpdateExtent[2*i+1] < m_UpdateExtent[2*i] )
           {
@@ -483,7 +483,7 @@ bool
 itkDataObject
 ::UpdateExtentIsOutsideOfTheExtent()
 {
-  int i;
+  unsigned int i;
 
   switch ( this->GetExtentType() )
     {
@@ -519,7 +519,7 @@ itkDataObject
 ::VerifyUpdateExtent()
 {
   bool retval = true;
-  int i;
+  unsigned int i;
 
   switch ( this->GetExtentType() )
     {
