@@ -27,6 +27,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkBinaryMask3DMeshSource.txx"
 #include "itkBinaryMinMaxCurvatureFlowFunction.txx"
 #include "itkBinaryMinMaxCurvatureFlowImageFilter.txx"
+#include "itkCannySegmentationLevelSetFunction.txx"
+#include "itkCannySegmentationLevelSetImageFilter.txx"
 #include "itkClassifierBase.txx"
 #include "itkConnectedRegionsMeshFilter.txx"
 #include "itkCurvatureFlowFunction.txx"
