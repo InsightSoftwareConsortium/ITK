@@ -190,6 +190,7 @@ void RegisterTests()
   REGISTER_TEST(itkVectorGradientMagnitudeImageFilterTest2 );
   REGISTER_TEST(itkVectorNeighborhoodOperatorImageFilterTest );
   REGISTER_TEST(itkVectorConfidenceConnectedImageFilterTest );
+  REGISTER_TEST(itkVectorResampleImageFilterTest );
   REGISTER_TEST(itkWarpImageFilterTest );
   REGISTER_TEST(itkWrapPadImageTest );
   REGISTER_TEST(itkXorImageFilterTest );
