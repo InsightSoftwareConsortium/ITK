@@ -137,7 +137,7 @@ MembershipSample< TSample >
 }
   
 template< class TSample >
-inline typename MembershipSample< TSample >::MeasurementVectorType&
+inline typename MembershipSample< TSample >::MeasurementVectorType
 MembershipSample< TSample >
 ::GetMeasurementVector(const InstanceIdentifier &id)
 {

@@ -59,7 +59,7 @@ PointSetToListAdaptor< TPointSet >
 }
 
 template < class TPointSet >
-inline typename PointSetToListAdaptor< TPointSet >::MeasurementVectorType&
+inline typename PointSetToListAdaptor< TPointSet >::MeasurementVectorType
 PointSetToListAdaptor< TPointSet >
 ::GetMeasurementVector(const InstanceIdentifier &id)
 {
