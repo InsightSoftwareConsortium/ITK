@@ -147,7 +147,7 @@ public:
   typedef typename TInputImage::RegionType           InputImageRegionType;
 
   /** Type definition for the input image region iterator */
-  typedef typename ImageRegionIterator<TInputImage>  InputImageRegionIterator;
+  typedef ImageRegionIterator<TInputImage>  InputImageRegionIterator;
 
   /** Image dimension */
   enum{ InputImageDimension = TInputImage::ImageDimension };
@@ -177,7 +177,7 @@ public:
   typedef typename TClassifiedImage::OffsetType      LabelledImageOffsetType;
 
   /** Type definition for the input image region iterator */
-  typedef typename ImageRegionIterator<TClassifiedImage>  
+  typedef ImageRegionIterator<TClassifiedImage>  
     LabelledImageRegionIterator;
 
   /** Labelled Image dimension */
@@ -193,10 +193,10 @@ public:
   typedef Size<InputImageDimension> NeighborhoodRadiusType;
 
   /** Input image neighborhood iterator and kernel size typedef */
-  typedef typename ConstNeighborhoodIterator< TInputImage >
+  typedef ConstNeighborhoodIterator< TInputImage >
     InputImageNeighborhoodIterator;
 
-  typedef InputImageNeighborhoodIterator::RadiusType 
+  typedef typename InputImageNeighborhoodIterator::RadiusType 
     InputImageNeighborhoodRadiusType;
 
   typedef typename 
@@ -210,10 +210,10 @@ public:
     InputImageFaceListIterator;
 
   /** Labelled image neighborhood interator typedef */
-  typedef typename NeighborhoodIterator< TClassifiedImage >
+  typedef NeighborhoodIterator< TClassifiedImage >
     LabelledImageNeighborhoodIterator;
 
-  typedef LabelledImageNeighborhoodIterator::RadiusType 
+  typedef typename LabelledImageNeighborhoodIterator::RadiusType 
     LabelledImageNeighborhoodRadiusType;
 
   typedef typename 
@@ -259,12 +259,12 @@ public:
   void SetNeighborhoodRadius( const unsigned long *radiusArray );  
 
   /** Get the neighborhood radius */
-  const NeighborhoodRadiusType *GetNeighborhoodRadius() const
+  const NeighborhoodRadiusType GetNeighborhoodRadius() const
     { 
       NeighborhoodRadiusType radius;
       
       for(int i=0; i<InputImageDimension; ++i)
-        radius[i] = m_InputImageNeighborhoodRadius[i]
+        radius[i] = m_InputImageNeighborhoodRadius[i];
 
       return radius;
     }
@@ -310,18 +310,18 @@ private:
   typedef typename TInputImage::SizeType InputImageSizeType;
 
 
-  typedef typename Image<int,InputImageDimension > LabelStatusImageType;
+  typedef Image<int,InputImageDimension > LabelStatusImageType;
   typedef typename LabelStatusImageType::IndexType LabelStatusIndexType;
   typedef typename LabelStatusImageType::RegionType LabelStatusRegionType;
   typedef typename LabelStatusImageType::Pointer LabelStatusImagePointer;
-  typedef typename ImageRegionIterator< LabelStatusImageType > 
+  typedef ImageRegionIterator< LabelStatusImageType > 
     LabelStatusImageIterator;
 
   /** Labelled status image neighborhood interator typedef */
-  typedef typename NeighborhoodIterator< LabelStatusImageType >
+  typedef NeighborhoodIterator< LabelStatusImageType >
     LabelStatusImageNeighborhoodIterator;
 
-  typedef LabelStatusImageNeighborhoodIterator::RadiusType 
+  typedef typename LabelStatusImageNeighborhoodIterator::RadiusType 
     LabelStatusImageNeighborhoodRadiusType;
 
   typedef typename 
