@@ -22,6 +22,7 @@
 #include "itkGaussianImageSource.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
+#include "itkProgressReporter.h"
 
 
 namespace itk
@@ -162,17 +163,6 @@ BilateralImageFilter<TInputImage, TOutputImage>
   // Boundary condition
   ZeroFluxNeumannBoundaryCondition<TInputImage> BC;
 
-  // support progress methods/callbacks
-  unsigned long ii = 0;
-  unsigned long updateVisits = 0;
-  unsigned long totalPixels = 0;
-  if ( threadId == 0 )
-    {
-    totalPixels = outputRegionForThread.GetNumberOfPixels();
-    updateVisits = totalPixels / 10;
-    if( updateVisits < 1 ) updateVisits = 1;
-    }
-
   // Find the boundary "faces"
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList;
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType> fC;
@@ -195,6 +185,9 @@ BilateralImageFilter<TInputImage, TOutputImage>
   ImageRegionIterator<OutputImageType> o_iter;
   KernelConstIteratorType k_it;
   KernelConstIteratorType kernelEnd = m_GaussianKernel.End();
+
+  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
+
   for (fit = faceList.begin(); fit != faceList.end(); ++fit)
     { 
     // walk the boundary face and the corresponding section of the output
@@ -205,11 +198,6 @@ BilateralImageFilter<TInputImage, TOutputImage>
     
     while ( ! b_iter.IsAtEnd() )
       {
-      if ( threadId == 0 && !(++ii % updateVisits ) )
-        {
-        this->UpdateProgress((float)ii / (float)totalPixels);
-        }
-    
       // Setup
       centerPixel = b_iter.GetCenterPixel();
       val = 0.0;
@@ -242,6 +230,7 @@ BilateralImageFilter<TInputImage, TOutputImage>
 
       ++b_iter;
       ++o_iter;
+      progress.CompletedPixel();
       }
     }
 }
