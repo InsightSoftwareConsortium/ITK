@@ -10,6 +10,7 @@ itkDataTypeTest \
 itkExceptionObjectTest \
 itkImageIteratorTest \
 itkImageMomentsTest \
+itkImportImageTest \
 itkMeshTest \
 itkMeshInstanceTest \
 itkPixelAccessTest \
