@@ -24,7 +24,7 @@
 
 DICOMFile::DICOMFile() : inputStream()
 {
-  Filename = NULL;
+  // Filename = NULL;
 #ifdef DICOM_PLATFORM_WORDS_LITTLE_ENDIAN
   PlatformEndian = "LittleEndian";
   ByteSwap = false;

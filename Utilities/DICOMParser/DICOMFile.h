@@ -260,7 +260,7 @@ class DICOMFile
   //
   // Internal storage for the filename.
   //
-  char* Filename;
+  // char* Filename;
   
   //
   // Internal storage for the file pointer.
