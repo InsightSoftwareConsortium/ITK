@@ -117,7 +117,7 @@ int main()
   filter2D->Update();
 
   /* Show Distance map */
-  itk::ImageSliceConstIterator<myImageType2D2> it2D2( 
+  itk::ImageSliceConstIteratorWithIndex<myImageType2D2> it2D2( 
                                 outputDistance2D,
                                 outputDistance2D->GetRequestedRegion() );
 
@@ -149,7 +149,7 @@ int main()
   std::cout << std::endl << std::endl;
   std::cout << "Voronoi Map Image 2D" << std::endl << std::endl;
 
-  itk::ImageSliceConstIterator< myImageType2D2 > it2D3( 
+  itk::ImageSliceConstIteratorWithIndex< myImageType2D2 > it2D3( 
                                 outputVoronoi2D,
                                 outputVoronoi2D->GetRequestedRegion() );
 
@@ -178,7 +178,7 @@ int main()
   std::cout << std::endl << std::endl;
   std::cout << "Components Map Image 2D" << std::endl << std::endl;
 
-  itk::ImageSliceConstIterator< myFilterType2D::VectorImageType > it2D4( 
+  itk::ImageSliceConstIteratorWithIndex< myFilterType2D::VectorImageType > it2D4( 
                                 outputComponents,
                                 outputComponents->GetRequestedRegion() );
 
