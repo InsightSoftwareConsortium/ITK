@@ -175,10 +175,19 @@ ADD_TEST(DeformableRegistration4Test ${REGISTRATION_EXAMPLES3}
             ${TEMP}/DeformableRegistration4Test.png
   DeformableRegistration4Test
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17.png
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBSplined10.png
         ${TEMP}/DeformableRegistration4Test.png
 )
 
+ADD_TEST(BSplineWarping1Test ${REGISTRATION_EXAMPLES3}
+  --compare ${BASELINE}/BSplineWarping1Test.png
+            ${TEMP}/BSplineWarping1Test.png
+  BSplineWarping1Test
+        ${ITK_SOURCE_DIR}/Examples/Data/BSplineDisplacements1.txt
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
+        ${TEMP}/BSplineWarping1Test.png
+)
 
 ADD_EXECUTABLE(RegistrationExamples RegistrationExamples.cxx )
 TARGET_LINK_LIBRARIES(RegistrationExamples ITKAlgorithms ITKIO ITKBasicFilters ITKCommon)
