@@ -23,6 +23,7 @@ SET(ITKIO_SRCS
   itkJPEGImageIO.cxx
   itkJPEGImageIOFactory.cxx
   itkRegularExpressionSeriesFileNames.cxx
+  itkArchetypeSeriesFileNames.cxx
   itkSiemensVisionImageIO.cxx
   itkSiemensVisionImageIOFactory.cxx
   itkGiplImageIO.cxx
