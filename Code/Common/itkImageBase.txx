@@ -200,6 +200,7 @@ ImageBase<VImageDimension>
 ::SetRequestedRegionToLargestPossibleRegion()
 {
   m_RequestedRegion = m_LargestPossibleRegion;
+  m_RequestedRegionInitialized = true;
 }
 
 //----------------------------------------------------------------------------
@@ -317,6 +318,7 @@ ImageBase<VImageDimension>
   if (m_RequestedRegion != region)
     {
     m_RequestedRegion = region;
+    m_RequestedRegionInitialized = true;
     this->Modified();
     }
 }
@@ -334,6 +336,7 @@ ImageBase<VImageDimension>
   if (imgData)
     {
     m_RequestedRegion = imgData->GetRequestedRegion();
+    m_RequestedRegionInitialized = true;
     }
   else
     {
