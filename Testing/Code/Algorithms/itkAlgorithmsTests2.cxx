@@ -14,6 +14,7 @@ void RegisterTests()
   REGISTER_TEST(itkCompareHistogramImageToImageMetricTest   );
   REGISTER_TEST(itkKullbackLeiblerCompareHistogramImageToImageMetricTest );
   REGISTER_TEST(itkMIRegistrationFunctionTest );
+  REGISTER_TEST(itkOtsuMultipleThresholdsCalculatorTest );
   REGISTER_TEST(itkPointSetToPointSetRegistrationTest );
   REGISTER_TEST(itkSTAPLEImageFilterTest );
   REGISTER_TEST(itkSymmetricForcesDemonsRegistrationFilterTest );
