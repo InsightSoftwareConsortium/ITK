@@ -12,7 +12,7 @@
   <xsl:param name="DashboardStamp" select="string('MostRecentResults-Nightly')"/>
   <xsl:variable name="DashboardDir" select="concat('../../../../Dashboard/', $DashboardStamp)"/>
   <xsl:param name="TestDocDir">.</xsl:param>
-
+  <xsl:preserve-space elements="xsl:text"/>
   <xsl:include href="Insight.xsl"/>
 
   <xsl:template match="/">
@@ -34,7 +34,9 @@
         <xsl:with-param name="Title">Insight Errors</xsl:with-param>
         <xsl:with-param name="IconDir">../../../../Icons</xsl:with-param>
       </xsl:call-template>
-      Found <xsl:value-of select="count(Site/Build/Error)"/> Errors<br/>
+     <p><b><xsl:text>Site:</xsl:text></b><xsl:value-of select="Site/@Name"/></p><p>
+<b><xsl:text>Build Name:</xsl:text></b><xsl:value-of select="Site/@BuildName"/></p> 
+Found <xsl:value-of select="count(Site/Build/Error)"/> Errors<br/>
       <xsl:for-each select="Site/Build/Error">
         <xsl:call-template name="FormatContext"/>
       </xsl:for-each>
@@ -48,7 +50,9 @@
         <xsl:with-param name="Title">Insight Warnings</xsl:with-param>
         <xsl:with-param name="IconDir">../../../../Icons</xsl:with-param>
       </xsl:call-template>
-      Found <xsl:value-of select="count(Site/Build/Warning)"/> Warnings<br/>
+    <p><b><xsl:text>Site:</xsl:text></b><xsl:value-of select="Site/@Name"/></p><p>
+<b><xsl:text>Build Name:</xsl:text></b><xsl:value-of select="Site/@BuildName"/></p>       
+ Found <xsl:value-of select="count(Site/Build/Warning)"/> Warnings<br/>
       <xsl:for-each select="Site/Build/Warning">
         <xsl:call-template name="FormatContext"/>
       </xsl:for-each>
@@ -74,13 +78,13 @@
         <xsl:attribute name="href">
           <xsl:value-of select="$CVSWebURL"/><xsl:value-of select="SourceFile"/>?annotate=HEAD
         </xsl:attribute>
-        CVS Access
-      </a><xsl:text>   </xsl:text>
+        CVS
+		  </a><xsl:text>     and            </xsl:text>
       <xsl:if test="SourceFileTail != ''">
         <a>
           <xsl:attribute name="href"><xsl:value-of select="$DoxygenURL"/><xsl:value-of select="translate ( SourceFileTail, '.', '_' )"/>-source.html</xsl:attribute>
         Doxygen
-        </a>
+        </a><xsl:text> access </xsl:text>
       </xsl:if>
     </xsl:when>
   </xsl:choose>
