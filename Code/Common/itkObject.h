@@ -127,13 +127,13 @@ public:
    * \author Hans J. Johnson
    * \return A reference to this objects MetaDataDictionary.
    */
-  itk::MetaDataDictionary & GetMetaDataDictionary(void);
+  MetaDataDictionary & GetMetaDataDictionary(void);
 
   /**
    * \author Hans J. Johnson
    * \return A constant reference to this objects MetaDataDictionary.
    */
-  const itk::MetaDataDictionary & GetMetaDataDictionary(void) const;
+  const MetaDataDictionary & GetMetaDataDictionary(void) const;
 
 protected:
   Object(); 
@@ -151,7 +151,7 @@ protected:
   * \author Hans J. Johnson hans-johnson@uiowa.edu
   * @see itk::MetaDataDictionary
   */
-  itk::MetaDataDictionary m_MetaDataDictionary;
+  MetaDataDictionary m_MetaDataDictionary;
 private:
   Object(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
