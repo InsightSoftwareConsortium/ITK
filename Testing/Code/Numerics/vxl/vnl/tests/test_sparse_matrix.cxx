@@ -1,3 +1,5 @@
+#include <sys/types.h>
+#include <time.h>
 #include <vcl_cstdlib.h>
 #include <vcl_ctime.h>
 #include <vcl_iostream.h>

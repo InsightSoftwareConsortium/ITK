@@ -12,6 +12,8 @@
 // On SunPro 5.0, <cstdlib> does not
 // declare drand48() but <stdlib.h> does.
 # include <stdlib.h> // dont_vxl_filter
+#include <sys/types.h>
+#include <time.h>
 #endif
 
 

@@ -80,7 +80,7 @@ namespace itk
 #if defined(_MSC_VER) && (_MSC_VER <= 1300) 
 #   define ITK_NO_INCLASS_MEMBER_INITIALIZATION
 #endif
-#if defined(__SUNPRO_CC) && (__SUNPRO_CC <= 0x520)
+#if defined(__SUNPRO_CC) && (__SUNPRO_CC <= 0x540)
 #   define ITK_NO_INCLASS_MEMBER_INITIALIZATION
 #endif
 #if defined(__SVR4) && !defined(__SUNPRO_CC)
