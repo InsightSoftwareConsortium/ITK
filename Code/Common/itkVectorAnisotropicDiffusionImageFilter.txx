@@ -218,10 +218,10 @@ void AnisoDiffuseVector2D<TInnerProduct, TIterator>
         }
 
       // calculate conductance terms
-      Cx = std::exp( Cx_gradmag / k );
-      Cy = std::exp( Cy_gradmag / k );
-      Cxd= std::exp( Cxd_gradmag / k );
-      Cyd= std::exp( Cyd_gradmag / k );
+      Cx = exp( Cx_gradmag / k );
+      Cy = exp( Cy_gradmag / k );
+      Cxd= exp( Cxd_gradmag / k );
+      Cyd= exp( Cyd_gradmag / k );
 
       for (j = 0; j<N; ++j)  // compute diffusion updates
         {
@@ -334,8 +334,8 @@ void AnisoDiffuseVectorND<TInnerProduct, TIterator>
 
       for (int i = 0; i < D; ++i)  // calculate conductance terms
         {
-          Cx[i] = std::exp( GradMag[i] / k );
-          Cxd[i]= std::exp( GradMag_d[i] / k );
+          Cx[i] = exp( GradMag[i] / k );
+          Cxd[i]= exp( GradMag_d[i] / k );
         }
       
       for (int j = 0; j<N; ++j)    // update values
