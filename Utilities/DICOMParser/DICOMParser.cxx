@@ -141,7 +141,7 @@ bool DICOMParser::ReadHeader() {
     this->Elements.push_back(element);
     this->Datatypes.push_back(datatype);
 
-    } while (DataFile->Tell() < fileSize);
+    } while ((DataFile->Tell() >= 0) && (DataFile->Tell() < fileSize));
 
 
   return true;
