@@ -118,6 +118,9 @@ public:
   /** Method that checks if a point is inside the bounding box. */
   bool IsInside( const PointType & );
 
+  /** Method Compute the Modified Time based on changed to the components. */
+  unsigned long GetMTime( void ) const;
+
 #if 0
   /**
    * Intersect this bounding box (bounds[PointDimension*2]) with a line

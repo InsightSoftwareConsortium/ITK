@@ -247,6 +247,25 @@ BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
 
 
 
+
+
+
+template <typename TPointIdentifier, int VPointDimension,
+          typename TCoordRep, typename TPointsContainer>
+unsigned long
+BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
+::GetMTime( void ) const
+{
+  unsigned long latestTime = Object::GetMTime(); 
+  if( latestTime < m_PointsContainer->GetMTime() )
+     {
+     latestTime = m_PointsContainer->GetMTime();
+     }
+  return latestTime;
+}
+
+
+
 } // end namespace itk
 
 #endif
