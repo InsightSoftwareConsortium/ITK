@@ -187,4 +187,30 @@ ImageAdaptor<TImage , TAccessor>
 
 
 
+
+//----------------------------------------------------------------------------
+template <class TImage, class TAccessor >
+typename TAccessor::InternalType  * 
+ImageAdaptor<TImage , TAccessor>
+::GetBufferPointer()
+{
+  return m_Image->GetBufferPointer();
+}
+
+
+
+
+//----------------------------------------------------------------------------
+template <class TImage, class TAccessor >
+const unsigned long *
+ImageAdaptor<TImage , TAccessor>
+::GetOffsetTable() const
+{
+  return m_Image->GetOffsetTable();
+}
+
+
+
 } // end namespace itk
+
+

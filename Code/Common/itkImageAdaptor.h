@@ -207,9 +207,6 @@ public:
   const PixelType & operator[](const Index &index) const
   { return TAccessor::Get( m_Image->GetPixel(index) ); }
 
-  /****************************************** 
-   * TODO :  Set/Get Spacing & Origin
-   *****************************************/
 
   /** 
    * Set the spacing (size of a pixel) of the image.
@@ -243,12 +240,12 @@ public:
    * Return a pointer to the beginning of the buffer.  This is used by
    * the image iterator class.
    */
-  InternalPixelType *GetBufferPointer() { return &(*m_Buffer)[0]; }
+  InternalPixelType *GetBufferPointer();
 
   /**
    * Get the offset table.  
    */
-  const unsigned long *GetOffsetTable() const { return m_OffsetTable; };
+  const unsigned long *GetOffsetTable() const;
   
   /**
    * Compute an offset from the beginning of the buffer for a pixel
