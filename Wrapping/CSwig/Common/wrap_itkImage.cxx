@@ -29,7 +29,7 @@ namespace _cable_
     ITK_WRAP_OBJECT1(ImageBase, 3, itkImageBase3);
     ITK_WRAP_OBJECT2(Image, float, 2, itkImageF2);
     ITK_WRAP_OBJECT2(Image, float, 3, itkImageF3);
-    ITK_WRAP_OBJECT2(Image, unsigned short, 2, itkImageUS);
+    ITK_WRAP_OBJECT2(Image, unsigned short, 2, itkImageUS2);
     ITK_WRAP_OBJECT2(Image, unsigned short, 3, itkImageUS3);
     
     typedef image::F2::PixelContainer::Self itkImageF_PixelContainer;
