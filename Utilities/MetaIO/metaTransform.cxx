@@ -182,7 +182,7 @@ M_SetupWriteFields(void)
     it++;
     }
 
-  unsigned int i;
+  int i;
   bool writeCoR = false;
   for(i=0;i<m_NDims;i++)
     {
@@ -314,7 +314,7 @@ M_Write(void)
     unsigned int j=0;
     for(unsigned int i=0;i<parametersDimension;i++)
       {
-      data[j] = parameters[i];
+      data[j] = (char)parameters[i];
       j+=sizeof(double);
       }
     m_WriteStream->write((char *)data,parametersDimension*sizeof(double));
@@ -343,7 +343,7 @@ const double * MetaTransform::GridSpacing(void) const
     
 void  MetaTransform::GridSpacing(const double * _gridSpacing)
 {
-  for(unsigned int i=0;i<m_NDims;i++)
+  for(int i=0;i<m_NDims;i++)
     {
     gridSpacing[i] = _gridSpacing[i];
     }
@@ -357,7 +357,7 @@ const double * MetaTransform::GridOrigin(void) const
     
 void  MetaTransform::GridOrigin(const double * _gridOrigin)
 {
-  for(unsigned int i=0;i<m_NDims;i++)
+  for(int i=0;i<m_NDims;i++)
     {
     gridOrigin[i] = _gridOrigin[i];
     }
@@ -371,7 +371,7 @@ const double * MetaTransform::GridRegionSize(void) const
     
 void  MetaTransform::GridRegionSize(const double * _gridRegionSize)
 {
-  for(unsigned int i=0;i<m_NDims;i++)
+  for(int i=0;i<m_NDims;i++)
     {
     gridRegionSize[i] = _gridRegionSize[i];
     }
@@ -385,7 +385,7 @@ const double * MetaTransform::GridRegionIndex(void) const
     
 void  MetaTransform::GridRegionIndex(const double * _gridRegionIndex)
 {
-  for(unsigned int i=0;i<m_NDims;i++)
+  for(int i=0;i<m_NDims;i++)
     {
     gridRegionIndex[i] = _gridRegionIndex[i];
     }
@@ -483,7 +483,7 @@ M_Read(void)
   mF = MET_GetFieldRecord("Order", &m_Fields);
   if(mF->defined)
     {
-    transformOrder = mF->value[0]; 
+    transformOrder = (unsigned int)mF->value[0]; 
     }
 
   if(parameters)
