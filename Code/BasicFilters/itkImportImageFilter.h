@@ -74,12 +74,13 @@ public:
 
   /** Set the pointer from which the image data is imported.  "num" is
    * the number of pixels in the block of memory. If
-   * "LetSourceManageMemory" is false, then the application retains
-   * the responsibility of freeing the memory for this image data.  If
-   * "LetSourceManageMemory" is true, then this class will free the
-   * memory when this object is destroyed. */
+   * "ImportImageFilterWillOwnTheMemory" is false, then the this filter will
+   * not free the memory in its destructor and the application providing the
+   * buffer retains the responsibility of freeing the memory for this image
+   * data.  If "ImportImageFilterWillOwnTheMemory" is true, then this class
+   * will free the memory when this object is destroyed. */
   void SetImportPointer(TPixel *ptr, unsigned long num,
-                        bool LetSourceManageMemory);
+                        bool ImportImageFilterWillOwnTheMemory);
 
   /** Set the region object that defines the size and starting index
    * for the imported image. This will serve as the LargestPossibleRegion,
@@ -145,7 +146,7 @@ private:
   double   m_Origin[VImageDimension];
 
   TPixel*  m_ImportPointer;
-  bool     m_SourceManageMemory;
+  bool     m_ThisImportImageFilterWillOwnTheMemory;
   unsigned long m_Size;
 };
 
