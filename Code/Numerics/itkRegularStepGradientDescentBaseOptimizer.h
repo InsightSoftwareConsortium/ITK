@@ -66,9 +66,6 @@ public:
     { SetMaximize( false ); }
   void    MinimizeOff(void) 
     { SetMaximize( true ); }
-  
-  /** Test a precondition. */
-  bool    Precondition( void );
 
   /** Start optimization. */
   void    StartOptimization( void );
