@@ -56,9 +56,9 @@ public:
    *  this cost function.     
    *  This method MUST be overloaded by derived classes */
   virtual unsigned int GetNumberOfParameters(void) const  { 
-    ExceptionObject ex;
-    ex.SetLocation(__FILE__);
-    ex.SetDescription("This method MUST be overloaded in derived classes");
+    ExceptionObject ex(__FILE__,__LINE__);
+    ex.SetLocation("CostFunction::GetNumberOfParameters");
+    ex.SetDescription("Method MUST be overloaded in derived classes");
     throw ex;
     return 0; }
 
