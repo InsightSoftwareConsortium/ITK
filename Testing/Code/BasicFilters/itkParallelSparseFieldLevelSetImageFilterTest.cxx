@@ -283,6 +283,10 @@ int itkParallelSparseFieldLevelSetImageFilterTest(int, char* [])
 //   writer->SetFileName ("out.mha");
 //   writer->Write();
   
+  std::cout << "Debug line: 9" << std::endl << std::flush;
+  
+  std::cout << mf << std::endl << std::flush;
+  
   std::cout << "Passed !" << std::endl << std::flush;
   
   return 0;
