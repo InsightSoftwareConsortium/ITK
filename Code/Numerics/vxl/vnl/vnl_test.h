@@ -60,7 +60,7 @@ void vnl_test_assert_near(const vcl_string& msg, double expr, double target = 0,
 
 #undef TESTMAIN
 //#define TESTMAIN(x) int main() { vnl_test_start(#x); x(); return vnl_test_summary(); }
-#define TESTMAIN(x) int x(int, char**) { vnl_test_start(#x); x(); return vnl_test_summary(); }
+#define TESTMAIN(x) int x(int, char* [] ) { vnl_test_start(#x); x(); return vnl_test_summary(); }
 
 // ---------------------------------------- handy for generating test data
 
