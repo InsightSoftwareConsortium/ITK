@@ -24,6 +24,7 @@ SET(WRAP_SOURCES
   wrap_itkGrayscaleErodeImageFilter
   wrap_itkDanielssonDistanceMapImageFilter
   wrap_itkIsolatedConnectedImageFilter
+  wrap_itkImportImageFilter
   wrap_itkLaplacianImageFilter
   wrap_itkMeanImageFilter
   wrap_itkMedianImageFilter

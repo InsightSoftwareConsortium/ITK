@@ -45,6 +45,7 @@ namespace _cable_
     ITK_WRAP_GROUP(itkGrayscaleDilateImageFilter),
     ITK_WRAP_GROUP(itkGrayscaleErodeImageFilter),
     ITK_WRAP_GROUP(itkIsolatedConnectedImageFilter),
+    ITK_WRAP_GROUP(itkImportImageFilter),
     ITK_WRAP_GROUP(itkLaplacianImageFilter),
     ITK_WRAP_GROUP(itkMeanImageFilter),
     ITK_WRAP_GROUP(itkMedianImageFilter),
