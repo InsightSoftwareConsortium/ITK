@@ -157,8 +157,8 @@ int main( int argc, char ** argv )
 // Software Guide : BeginLatex
 //
 // The output is rescaled and written as in the previous examples.
-// Figure~\ref{????????????????} shows the results of processing with different
-// standard deviations.
+// Figure~\ref{fig:NeighborhoodExample4} shows the results of Gaussian blurring with
+// various standard deviations.
 //
 // Software Guide : EndLatex
 

@@ -38,14 +38,14 @@
 // \doxygen{DerviativeOperator} to the \doxygen{NeighborhoodInnerProduct}
 // function, which will then use only the pixels specified by the slice,
 // i.e. those pixels at neighborhood offsets $(1, -1)$, $(1, 0)$, $(1, 1)$ (see
-// figure~\ref{????????????????????????}) for reference.
+// figure~\ref{fig:NeighborhoodArray} for reference).
 //
 // The previous separable Gaussian filtering example can be rewritten using
 // slices and slice-based inner products.  In general, slice-based processing
 // is most useful when doing many different calculations on the same
-// neighborhood, so that defining multiple iterators as in 
-// section~\ref{?????????????????} becomes impractical or inefficient.  Good
-// examples of slice-based neighborhood processing are any of the ND
+// neighborhood, so that defining multiple iterators as in
+// section~\ref{sec:NeighborhoodIterators4} becomes impractical or inefficient.
+// Good examples of slice-based neighborhood processing are any of the ND
 // anisotropic diffusion function objects, such as
 // \doxygen{CurvatureNDAnisotropicDiffusionFunction}.
 //

@@ -151,9 +151,9 @@ int main( int argc, char ** argv )
 // Software Guide : BeginLatex
 //
 // The output is rescaled and written as in the previous example.  Filtering in
-// the $x$-direction gives the same results as in figure~\ref{??????????????}a.
+// the $x$-direction gives the same results as in figure~\ref{fig:NeighborhoodExample1}a.
 // The results from filtering in the $y$ direction are given by
-// figure~\ref{???????????}b.
+// figure~\ref{fig:NeighborhoodExample1}b.
 // 
 // Software Guide : EndLatex
 

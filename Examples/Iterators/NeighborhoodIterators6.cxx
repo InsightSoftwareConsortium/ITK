@@ -195,7 +195,7 @@ int main( int argc, char ** argv )
     
 // Software Guide : BeginLatex
 //
-// Figure~\ref{fig:????????????????????} records the results of the algorithm
+// Figure~\ref{fig:NeighborhoodExample6} records the results of the algorithm
 // for several seed points.  The effect of the additive noise is visible in
 // the perturbations of the descent paths.
 //

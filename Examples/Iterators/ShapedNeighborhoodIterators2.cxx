@@ -148,7 +148,7 @@ int main( int argc, char ** argv )
 // Software Guide : BeginLatex
 //
 // The output image is written and visualized directly as a binary image of
-// \code{unsigned chars}.  Figure~\ref{fig:??????????????????????????????????}
+// \code{unsigned chars}.  Figure~\ref{fig:ShapedNeighborhoodExample2}
 // illustrates some results of erosion and dilation on the image
 // \code{Insight\Examples\Data\BinaryImage.png}.  Applying erosion and dilation
 // in sequence effects the morphological operations of opening and closing.

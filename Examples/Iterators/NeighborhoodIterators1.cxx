@@ -192,7 +192,7 @@ int main( int argc, char ** argv )
 // image, it is rescaled to intensity range $[0, 255]$ and cast to unsigned
 // char.
 //
-// Figure~\ref{fig:[RESULTSFIGURE] shows the output of .....BLAH BLAH
+// Figure~\ref{fig:NeighborhoodExamples1}a shows the output of .....BLAH BLAH
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippe
