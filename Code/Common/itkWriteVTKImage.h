@@ -32,6 +32,11 @@ public:
   typedef itkSmartPointer< itkVTKImageWriter<TInputImage> > Pointer;
 
   /** 
+   * Run-time type information (and related methods).
+   */
+  itkTypeMacro(itkVTKImageWriter,itkImageWriter);
+
+  /** 
    * Create the VTK image writer.
    */
   static Pointer New();

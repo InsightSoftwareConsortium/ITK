@@ -14,7 +14,7 @@ See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
 /**
- * vtkIndent is used to control indentation during the chaining print 
+ * itkIndent is used to control indentation during the chaining print 
  * process. This way nested objects can correctly indent themselves.
  * This class works with the print methods defined in itkObject (i.e.,
  * the public method Print() and the protected methods PrintSelf(),

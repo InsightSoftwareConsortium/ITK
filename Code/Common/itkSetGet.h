@@ -149,4 +149,10 @@ extern ITK_EXPORT void itkOutputWindowDisplayText(const char*);
 
 #define itkGenericOutputMacro(x)
 
+#define itkTypeMacro(thisClass,superclass) \
+    virtual const char *GetClassName() const \
+        {return #thisClass;}
+
+
+
 #endif

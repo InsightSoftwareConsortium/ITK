@@ -54,7 +54,8 @@ public:
    * (implemented in New()) to instantiate objects of a named type. Also
    * used for debugging and other output information. 
    */
-  static const char *GetClassName() {return "itkObject";}
+  virtual const char *GetClassName() const
+    {return "itkObject";}
 
 #ifdef _WIN32
   /** 

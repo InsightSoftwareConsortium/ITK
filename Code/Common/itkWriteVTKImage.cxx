@@ -28,6 +28,7 @@ template <class TInputImage>
 void itkVTKImageWriter<TInputImage>
 ::WriteData()
 {
+  itkDebugMacro(<<"Writing image in VTK format");
 }
 
 //----------------------------------------------------------------------------

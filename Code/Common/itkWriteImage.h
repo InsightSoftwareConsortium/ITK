@@ -31,6 +31,11 @@ public:
   typedef itkSmartPointer< itkImageWriter<TInputImage> > Pointer;
 
   /** 
+   * Run-time type information (and related methods).
+   */
+  itkTypeMacro(itkImageWriter,itkWriter);
+
+  /** 
    * Set the input image of this writer. 
    */
   void SetInput(TInputImage *input);

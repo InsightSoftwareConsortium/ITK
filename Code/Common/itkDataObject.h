@@ -44,6 +44,11 @@ public:
   typedef itkSmartPointer<itkDataObject> Pointer;
 
   /** 
+   * Run-time type information (and related methods).
+   */
+  itkTypeMacro(itkDataObject,itkObject);
+
+  /** 
    * Instantiate object.
    */
   static Pointer New();
@@ -236,7 +241,5 @@ private:
   bool m_LastUpdateExtentWasOutsideOfTheExtent;
 
 };
-
-
 
 #endif

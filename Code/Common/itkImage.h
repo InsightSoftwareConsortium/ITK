@@ -37,6 +37,11 @@ public:
   /** Index typedef support */
   typedef itkIndex<TImageDimension> Index;
   
+  /** 
+   * Run-time type information (and related methods).
+   */
+  itkTypeMacro(itkImage, itkImageBase);
+
   /**
    * Return an Iterator for the beginning of the image. The index of this
    * iterator is set to m_ImageIndexOrigin.

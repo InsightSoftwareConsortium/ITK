@@ -65,6 +65,11 @@ public:
   typedef itkSmartPointer<itkProcessObject> Pointer;
 
   /** 
+   * Run-time type information (and related methods).
+   */
+  itkTypeMacro(itkProcessObject,itkObject);
+
+  /** 
    * Instantiate object with no start, end, or progress methods. 
    */
   static Pointer New();

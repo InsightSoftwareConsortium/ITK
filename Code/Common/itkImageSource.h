@@ -37,6 +37,11 @@ public:
   static Pointer New();
 
   /** 
+   * Run-time type information (and related methods).
+   */
+  itkTypeMacro(itkImageSource,itkProcessObject);
+
+  /** 
    * Get the image output of this process object. 
    */
   TOutputImage *GetOutput();

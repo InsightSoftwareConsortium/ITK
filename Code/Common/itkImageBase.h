@@ -31,6 +31,11 @@ public:
   typedef itkSmartPointer<itkImageBase> Pointer;
 
   /** 
+   * Run-time type information (and related methods).
+   */
+  itkTypeMacro(itkImageBase, itkProcessObject);
+
+  /** 
    * Create an empty image. 
    */
   static Pointer New();

@@ -36,6 +36,12 @@ public:
    */
   static Pointer New();
 
+  /**
+   *
+   */
+  static const char *GetClassName() 
+    {return "itkShrinkImage";}
+
   /** 
    * Set the shrink factor. The default value is 1.
    */

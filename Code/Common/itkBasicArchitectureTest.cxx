@@ -225,10 +225,11 @@ int main()
                         << vec.GetVector()[3] << ", "
                         << vec.GetVector()[4] << "]");
   
-  // return 0;
-
   IterateOverImage( o3->Begin() );
 
+  // Pause for the user
+  char keyStroke;
+  cin >> keyStroke;
   return 1;
 }
 

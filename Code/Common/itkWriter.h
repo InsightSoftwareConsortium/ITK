@@ -35,6 +35,11 @@ public:
   typedef itkSmartPointer<itkWriter> Pointer;
 
   /** 
+   * Run-time type information (and related methods).
+   */
+  itkTypeMacro(itkWriter,itkProcessObject);
+
+  /** 
    * Specify the name of the output file.
    */
   void SetFileName(const char *str) 

@@ -38,6 +38,11 @@ public:
   static Pointer New();
 
   /** 
+   * Run-time type information (and related methods).
+   */
+  itkTypeMacro(itkImageToImageFilter,itkImageSource);
+
+  /** 
    * Set the image input of this process object. 
    */
   void SetInput(TInputImage *input);

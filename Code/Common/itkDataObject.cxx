@@ -240,10 +240,8 @@ void itkDataObject::UpdateInformation()
     {
     m_Source->UpdateInformation();
     }
-  // if we don't have a source, then let's make our whole
-  // extent equal to our extent. This way if someone created
-  // a vtkStructuredPoints (for example), we will have a
-  // valid whole extent.
+  // If we don't have a source, then let's make our whole
+  // extent equal to our extent. 
   else
     {
     memcpy( m_WholeExtent, m_Extent, m_Dimension*2*sizeof(int) );
