@@ -59,6 +59,7 @@
 /*
  * Required includes and typedefs for code created with f2c
  */
+#include "itkNumericTraits.h"
 #include "itpack_f2c.h"
 #include <math.h>
 
@@ -91,11 +92,19 @@ inline integer e_wsfe(void);
 inline integer s_wsfe(cilist *a);
 inline doublereal etime_(float *tarray);
 
+inline double getDoublePrecision();
+
 
 
 /*
  * Definitions of above functions
  */
+
+double getDoublePrecision()
+{
+  return NumericTraits<double>::min();
+}
+
 double pow_dd(doublereal *ap, doublereal *bp)
 {
   return(pow(*ap, *bp) );
@@ -6983,7 +6992,8 @@ L20:
     --iparm;
 
     /* Function Body */
-    itcom3_1.drelpr = 7.11e-15;
+    //itcom3_1.drelpr = 7.11e-15;
+    itcom3_1.drelpr = getDoublePrecision();
 
     iparm[1] = 100;
     iparm[2] = 0;

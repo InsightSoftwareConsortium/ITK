@@ -18,6 +18,7 @@
 #include "itpack_f2c.h"
 #include "itkFEMLinearSystemWrapperItpack.h"
 #include "itkFEMException.h"
+#include "itkNumericTraits.h"
 #include <vector>
 
 namespace itk {
@@ -45,9 +46,14 @@ LinearSystemWrapperItpack::LinearSystemWrapperItpack()
 
   /* Set solving parameters */
   itpack::dfault_( &(m_IPARM[0]) , &(m_RPARM[0]) );
+
+
   /* m_IPARM[0] = 500; */  /* number of iterations */
   m_IPARM[1] = -1;   /* no error message output */
   m_IPARM[4] = 1;    /* non-symmetric matrix */
+
+  /* itpack recommended (but not default) value */
+  m_RPARM[7] = 500.0 * NumericTraits<double>::min();
 
   m_MaximumNonZeroValues = 0;
   m_Matrices = 0;
