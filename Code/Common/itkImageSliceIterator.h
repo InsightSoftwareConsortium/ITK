@@ -73,7 +73,7 @@ public:
    * Constructor establishes an iterator to walk a particular image and a
    * particular region of that image.
    */
-  ImageSliceIterator( Image *ptr,
+  ImageSliceIterator( ImageType *ptr,
                       const RegionType & region)
     : ImageIteratorWithIndex<TImage>(ptr, region) 
     {
