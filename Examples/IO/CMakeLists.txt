@@ -53,6 +53,9 @@ IF(USE_GDCM)
 
   ADD_EXECUTABLE(DicomImageReadWrite DicomImageReadWrite.cxx )
   TARGET_LINK_LIBRARIES(DicomImageReadWrite ITKCommon ITKIO)
+
+  ADD_EXECUTABLE(DicomSeriesReadSeriesWrite DicomSeriesReadSeriesWrite.cxx )
+  TARGET_LINK_LIBRARIES(DicomSeriesReadSeriesWrite ITKCommon ITKIO)
 ENDIF(USE_GDCM)
 
 ADD_EXECUTABLE(DicomPrintPatientInformation DicomPrintPatientInformation.cxx )
