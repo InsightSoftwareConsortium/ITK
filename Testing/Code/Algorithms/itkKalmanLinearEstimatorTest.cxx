@@ -41,6 +41,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkKalmanLinearEstimator.h"
 
+#include <iostream>
+
 /** 
  *  This program test one instantiation of the itk::KalmanLinearEstimator class
  * 
