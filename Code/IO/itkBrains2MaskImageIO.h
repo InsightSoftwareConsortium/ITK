@@ -40,6 +40,10 @@
 #ifndef __itkBrains2MaskImageIO_h
 #define __itkBrains2MaskImageIO_h
 
+#ifdef WIN32
+#pragma warning(disable:4786)
+#endif
+
 #include <fstream>
 #include "itkImageIOBase.h"
 #include "itkBrains2IPLHeaderInfo.h"
