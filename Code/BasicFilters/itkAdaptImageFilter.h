@@ -119,7 +119,7 @@ public:
   itkTypeMacro(AdaptImageFilter, UnaryFunctorImageFilter);
 
   /** Get the accessor. This is a convenience method so the user */
-  AccessorType& GetAccessor() { return this->GetFunctor()->GetAccessor(); };
+  AccessorType& GetAccessor() { return this->GetFunctor().GetAccessor(); };
 
   /** Set the accessor. This is a convenience method so the user does */
   void SetAccessor(AccessorType& accessor)
