@@ -67,22 +67,24 @@ public:
   itkNewMacro(Self);
   
   /** Specify the size of the output image. */
-  itkSetVectorMacro(Size,unsigned long,TOutputImage::ImageDimension);
+  virtual void SetSize( const unsigned long values[TOutputImage::ImageDimension]);
 
   /** Get the size of the output image. */
-  itkGetVectorMacro(Size,unsigned long,TOutputImage::ImageDimension);
+  itkGetVectorMacro(Size,const unsigned long,TOutputImage::ImageDimension);
   
   /** Specify the spacing of the output image. */
-  itkSetVectorMacro(Spacing,float,TOutputImage::ImageDimension);
-
+  virtual void SetSpacing( const float values[TOutputImage::ImageDimension]);
+  virtual void SetSpacing( const double values[TOutputImage::ImageDimension]);
+  
   /** Get the spacing of the output image. */
-  itkGetVectorMacro(Spacing,float,TOutputImage::ImageDimension);
+  itkGetVectorMacro(Spacing,const double,TOutputImage::ImageDimension);
 
   /** Specify the origin of the output image. */
-  itkSetVectorMacro(Origin,float,TOutputImage::ImageDimension);
+  virtual void SetOrigin( const float values[TOutputImage::ImageDimension]);
+  virtual void SetOrigin( const double values[TOutputImage::ImageDimension]);
 
   /** Get the origin of the output image. */
-  itkGetVectorMacro(Origin,float,TOutputImage::ImageDimension);
+  itkGetVectorMacro(Origin,const double,TOutputImage::ImageDimension);
 
     /** Gets and sets for gaussian parameters */
   itkSetMacro(Scale, double);
@@ -105,9 +107,9 @@ private:
   GaussianImageSource(const GaussianImageSource&); //purposely not implemented
   void operator=(const GaussianImageSource&); //purposely not implemented
 
-  unsigned long *m_Size;    //size of the output image
-  float         *m_Spacing; //spacing
-  float         *m_Origin;  //origin
+  unsigned long  m_Size[TOutputImage::ImageDimension];    //size of the output image
+  double         m_Spacing[TOutputImage::ImageDimension]; //spacing
+  double         m_Origin[TOutputImage::ImageDimension];;  //origin
 
   /** Parameters for the Gaussian. */
   

@@ -29,10 +29,6 @@ template <class TOutputImage>
 GaussianImageSource<TOutputImage>
 ::GaussianImageSource()
 {
-  m_Size = new unsigned long [TOutputImage::GetImageDimension()];
-  m_Spacing = new float [TOutputImage::GetImageDimension()];
-  m_Origin = new float [TOutputImage::GetImageDimension()];  
-
   //Initial image is 64 wide in each direction.
   for (unsigned int i=0; i<TOutputImage::GetImageDimension(); i++)
     {
@@ -54,9 +50,6 @@ template <class TOutputImage>
 GaussianImageSource<TOutputImage>
 ::~GaussianImageSource()
 {
-  delete [] m_Size;
-  delete [] m_Spacing;
-  delete [] m_Origin;
 }
 
 template <class TOutputImage>
@@ -161,6 +154,122 @@ GaussianImageSource<TOutputImage>
     outIt.Set( (typename TOutputImage::PixelType) value);
     }
 }
+
+template<typename TOutputImage>
+void 
+GaussianImageSource<TOutputImage>
+::SetSpacing(const float spacing[TOutputImage::ImageDimension] )
+{
+  unsigned int i; 
+  for (i=0; i<TOutputImage::ImageDimension; i++)
+    {
+    if ( (double)spacing[i] != m_Spacing[i] )
+      {
+      break;
+      }
+    } 
+  if ( i < TOutputImage::ImageDimension ) 
+    { 
+    for (i=0; i<TOutputImage::ImageDimension; i++)
+      {
+      m_Spacing[i] = spacing[i];
+      }
+    this->Modified();
+    }
+}
+
+template<typename TOutputImage>
+void 
+GaussianImageSource<TOutputImage>
+::SetSpacing(const double spacing[TOutputImage::ImageDimension] )
+{
+  unsigned int i; 
+  for (i=0; i<TOutputImage::ImageDimension; i++)
+    {
+    if ( spacing[i] != m_Spacing[i] )
+      {
+      break;
+      }
+    } 
+  if ( i < TOutputImage::ImageDimension ) 
+    { 
+    for (i=0; i<TOutputImage::ImageDimension; i++)
+      {
+      m_Spacing[i] = spacing[i];
+      }
+    this->Modified();
+    }
+}
+
+template<typename TOutputImage>
+void 
+GaussianImageSource<TOutputImage>
+::SetOrigin(const float origin[TOutputImage::ImageDimension] )
+{
+  unsigned int i; 
+  for (i=0; i<TOutputImage::ImageDimension; i++)
+    {
+    if ( (double)origin[i] != m_Origin[i] )
+      {
+      break;
+      }
+    } 
+  if ( i < TOutputImage::ImageDimension ) 
+    { 
+    for (i=0; i<TOutputImage::ImageDimension; i++)
+      {
+      m_Origin[i] = origin[i];
+      }
+    this->Modified();
+    }
+}
+
+template<typename TOutputImage>
+void 
+GaussianImageSource<TOutputImage>
+::SetOrigin(const double origin[TOutputImage::ImageDimension] )
+{
+  unsigned int i; 
+  for (i=0; i<TOutputImage::ImageDimension; i++)
+    {
+    if ( origin[i] != m_Origin[i] )
+      {
+      break;
+      }
+    } 
+  if ( i < TOutputImage::ImageDimension ) 
+    { 
+    for (i=0; i<TOutputImage::ImageDimension; i++)
+      {
+      m_Origin[i] = origin[i];
+      }
+    this->Modified();
+    }
+}
+
+template<typename TOutputImage>
+void 
+GaussianImageSource<TOutputImage>
+::SetSize(const unsigned long size[TOutputImage::ImageDimension] )
+{
+  unsigned int i; 
+  for (i=0; i<TOutputImage::ImageDimension; i++)
+    {
+    if ( size[i] != m_Size[i] )
+      {
+      break;
+      }
+    } 
+  if ( i < TOutputImage::ImageDimension ) 
+    { 
+    for (i=0; i<TOutputImage::ImageDimension; i++)
+      {
+      m_Size[i] = size[i];
+      }
+    this->Modified();
+    }
+}
+
 
 } // end namespace itk
 
