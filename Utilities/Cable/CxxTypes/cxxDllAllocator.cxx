@@ -16,7 +16,7 @@
 
 #include "wrapDllAllocator.h"
 
-#include <cstdlib>
+#include <stdlib.h>
 
 /**
  * Allocate "length" bytes of memory, and return a pointer to it.
