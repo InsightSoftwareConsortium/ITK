@@ -24,6 +24,8 @@ template< class TSample >
 WeightedMeanCalculator< TSample >
 ::WeightedMeanCalculator()
 {
+  m_WeightFunction = 0 ;
+  m_Weights = 0 ;
 }
 
 template< class TSample >
@@ -45,6 +47,23 @@ WeightedMeanCalculator< TSample >
 template< class TSample >
 void
 WeightedMeanCalculator< TSample >
+::SetWeightFunction(WeightFunctionType* func)
+{
+  m_WeightFunction = func ;
+}
+
+template< class TSample >
+WeightedMeanCalculator< TSample >::WeightFunctionType*
+WeightedMeanCalculator< TSample >
+::GetWeightFunction()
+{
+  return m_WeightFunction ;
+}
+
+
+template< class TSample >
+void
+WeightedMeanCalculator< TSample >
 ::GenerateData() 
 {
   m_Output.Fill(0.0) ;
@@ -55,20 +74,42 @@ WeightedMeanCalculator< TSample >
   double weight = 0.0 ;
   unsigned int dim = 0 ;
   int measurementVectorIndex = 0 ;
+  typename TSample::MeasurementVectorType measurements ;
 
-  while (iter != end)
+  if (m_WeightFunction != 0) 
     {
-      weight = iter.GetFrequency() * (*m_Weights)[measurementVectorIndex] ;
-      totalWeight += weight ;
-      for (dim = 0 ; dim < MeasurementVectorSize ; dim++)
+      while (iter != end)
         {
-          m_Output[dim] += iter.GetMeasurementVector()[dim] * weight ;
+          measurements = iter.GetMeasurementVector() ;
+          weight = 
+            iter.GetFrequency() * m_WeightFunction->Evaluate(measurements) ;
+          totalWeight += weight ;
+          for (dim = 0 ; dim < MeasurementVectorSize ; dim++)
+            {
+              m_Output[dim] += measurements[dim] * weight ;
+            }
+          ++measurementVectorIndex ;
+          ++iter ;
         }
-      ++measurementVectorIndex ;
-      ++iter ;
+      m_Output /= totalWeight ;
     }
+  else
+    {
+      while (iter != end)
+        {
+          measurements = iter.GetMeasurementVector() ;
+          weight = iter.GetFrequency() * (*m_Weights)[measurementVectorIndex] ;
+          totalWeight += weight ;
+          for (dim = 0 ; dim < MeasurementVectorSize ; dim++)
+            {
+              m_Output[dim] += measurements[dim] * weight ;
+            }
+          ++measurementVectorIndex ;
+          ++iter ;
+        }
 
-  m_Output /= totalWeight ;
+      m_Output /= totalWeight ;
+    }
 }
 
 template< class TSample >
