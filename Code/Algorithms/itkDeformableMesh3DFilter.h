@@ -98,17 +98,21 @@ public:
   /** Other definitions. */
   typedef typename InputMeshType::CellType          CellType;
   typedef typename InputMeshType::CellTraits        CellTraits;
-  typedef itk::CellInterface<double, CellTraits>    TCellInterface;
-  typedef itk::TriangleCell<TCellInterface>         TriCell;
   typedef typename InputMeshType::PointType         InputPointType;
   typedef typename InputMeshType::PixelType         PixelType;
 
   /** Image and Image iterator definition. */
+  typedef Image<unsigned char, 3>                      PotentialImageType;
+  typedef ImageRegionIterator<PotentialImageType>      PotentialIterator;
   typedef CovariantVector<PixelType, 3>                GradientType;
   typedef Image<GradientType, 3>                       GradientImageType;
   typedef ImageRegionIterator<GradientImageType>       GradientIterator;
   typedef typename GradientImageType::SizeType         ImageSizeType;
   typedef typename GradientImageType::IndexType        ImageIndexType;
+
+  typedef itk::CellInterface<PixelType, CellTraits>     TCellInterface;
+  typedef itk::TriangleCell<TCellInterface>          TriCell;
+
   typedef CovariantVector<int, 3>                      int3DVector;
   typedef CovariantVector<double, 2>                   double2DVector;
   typedef CovariantVector<double, 3>                   double3DVector;
@@ -144,6 +148,11 @@ public:
 
   itkSetMacro(Scale, double3DVector);
 
+  itkSetMacro(PotentialMagnitude, PixelType);
+  itkSetMacro(GradientMagnitude, PixelType);
+  itkSetMacro(PotentialOn, unsigned short);
+  itkSetMacro(ObjectLabel, unsigned char);
+
 protected:
   DeformableMesh3DFilter();
   ~DeformableMesh3DFilter() {}
@@ -169,6 +178,7 @@ private:
   void ComputeOutput();
   void GradientFit(); // fit the model with gradient information
   void ComputeNormals();
+  void PotentialFit();
 
   /** Three different kinds of stiffness matrix. */
   vnl_matrix_fixed<double, 4, 4> Stiffness[10];
@@ -193,11 +203,15 @@ private:
   unsigned short m_ModelYDownLimit;
   unsigned short m_ModelZUpLimit;
   unsigned short m_ModelZDownLimit;
+  unsigned short m_PotentialOn;
   unsigned char  m_NormalUpdate;
+  unsigned char  m_ObjectLabel;
+  PixelType      m_GradientMagnitude;
+  PixelType      m_PotentialMagnitude;
 
   /** To compute force derived from gradient data. */
   GradientImagePointer  m_Gradient; 
-  
+  PotentialImageType::Pointer m_Potential;  
 };
 
 } // end namespace itk
