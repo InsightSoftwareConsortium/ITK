@@ -28,10 +28,18 @@ MultipleValuedVnlCostFunctionAdaptor
   unsigned int spaceDimension, unsigned int numberOfValues ):
   vnl_least_squares_function(spaceDimension,numberOfValues) 
 { 
+  m_ScalesInitialized =false;
 }    
 
     
-
+/** Set current parameters scaling. */
+void
+MultipleValuedVnlCostFunctionAdaptor
+::SetScales(const ScalesType & scales)
+{
+  m_Scales = scales;
+  m_ScalesInitialized = true;
+}
 
 /**  Delegate computation of the value to the CostFunction. */
 void
@@ -47,13 +55,22 @@ MultipleValuedVnlCostFunctionAdaptor
     throw ex;
     }
 
-  ParametersType parameters( inparameters.size() );
-  ConvertInternalToExternalParameters( inparameters, parameters );
+  ParametersType parameters(inparameters.size());
+  // Use scales if they are provided
+  if(m_ScalesInitialized)
+    { 
+    for(unsigned int i=0;i<parameters.size();i++)
+      {
+      parameters[i] = inparameters[i]/m_Scales[i];
+      }
+    }
+  else
+    {
+    parameters.SetData((double*)(inparameters.data_block()));
+    }
 
-  InternalMeasureType values = 
-    m_CostFunction->GetValue( parameters );
+   measures = m_CostFunction->GetValue( parameters );
 
-  measures = values;
 
 }
   
@@ -73,12 +90,22 @@ MultipleValuedVnlCostFunctionAdaptor
     throw ex;
     }
 
-  ParametersType parameters( inparameters.size() );
-  ConvertInternalToExternalParameters( inparameters, parameters );
   DerivativeType externalGradient;
-  m_CostFunction->GetDerivative( parameters, externalGradient );
-  ConvertExternalToInternalGradient( externalGradient, gradient);
+  ParametersType parameters(inparameters.size());
+  if(m_ScalesInitialized)
+    {  
+    for(unsigned int i=0;i<parameters.size();i++)
+      {
+      parameters[i] = inparameters[i]/m_Scales[i];
+      }
+    }
+  else
+    {
+    parameters.SetData((double*)(inparameters.data_block()));
+    }
 
+  m_CostFunction->GetDerivative( parameters, externalGradient ); 
+  ConvertExternalToInternalGradient( externalGradient, gradient);
 }
   
 
@@ -91,49 +118,26 @@ MultipleValuedVnlCostFunctionAdaptor
            InternalDerivativeType   * g   )
 {
   // delegate the computation to the CostFunction
-  ParametersType parameters( x.size() );
-  ConvertInternalToExternalParameters( x, parameters );
-
-  *f = static_cast<InternalMeasureType>(
-    m_CostFunction->GetValue( parameters ) );
-
   DerivativeType externalGradient;
+  ParametersType parameters(x.size());
+  if(m_ScalesInitialized)
+    {
+    for(unsigned int i=0;i<parameters.size();i++)
+      {
+      parameters[i] = x[i]/m_Scales[i];
+      }
+    }
+  else
+    {
+    parameters.SetData((double*)(x.data_block()));
+    }
+
+   *f = static_cast<InternalMeasureType>(
+        m_CostFunction->GetValue( parameters ) );
   m_CostFunction->GetDerivative( parameters, externalGradient );
 
-  ConvertExternalToInternalGradient( externalGradient, *g );    
+  ConvertExternalToInternalGradient( externalGradient, *g );  
 }
-
-
-
-/**  Convert internal Parameters into external type.  */
-void 
-MultipleValuedVnlCostFunctionAdaptor
-::ConvertInternalToExternalParameters( const InternalParametersType & input,
-                                       ParametersType         & output )
-{
-  const unsigned int size = input.size();
-  for( unsigned int i=0; i<size; i++ )
-    {
-    output[i] = input[i]; 
-    }
-}
-
-
-
-
-/**  Convert external Parameters into internal type  */
-void 
-MultipleValuedVnlCostFunctionAdaptor
-::ConvertExternalToInternalParameters( const  ParametersType         & input,
-                                       InternalParametersType & output )
-{
-  const unsigned int size = input.size();
-  for( unsigned int i=0; i<size; i++ ) 
-    {
-    output[i] = input[i];
-    }
-}
-  
 
 /**  Convert external derviative measures into internal type  */
 void 

@@ -55,7 +55,9 @@ public:
 
   /** Derivatives of the MultipleValuedCostFunction */
   typedef MultipleValuedCostFunction::DerivativeType DerivativeType;
-
+  
+  /** Scales typedef */
+  typedef Array<double>             ScalesType;
 
   /** Constructor with size */
   MultipleValuedVnlCostFunctionAdaptor( unsigned int spaceDimension,
@@ -82,16 +84,6 @@ public:
                        InternalMeasureType      * f, 
                        InternalDerivativeType   * g   );
 
-  /**  Convert internal Parameters into external type */
-  static void ConvertInternalToExternalParameters( 
-    const InternalParametersType & input,
-    ParametersType         & output );
-
-  /**  Convert external Parameters into internal type  */
-  static void ConvertExternalToInternalParameters(
-    const  ParametersType         & input,
-    InternalParametersType & output );
-    
   /**  Convert external derviative measures  into internal type */
   void ConvertExternalToInternalGradient(
     const DerivativeType         & input,
@@ -110,9 +102,15 @@ public:
   void UseGradientOff() { this->SetUseGradient( false ); };
   bool GetUseGradient() const;
 
+  /** Set current parameters scaling. */
+  void SetScales(const ScalesType & scales);
+
 private:
 
   MultipleValuedCostFunction::Pointer   m_CostFunction;
+  bool                    m_ScalesInitialized;
+  ScalesType              m_Scales;
+
 
 };  // end of Class CostFunction
 
