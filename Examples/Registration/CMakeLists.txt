@@ -31,3 +31,5 @@ TARGET_LINK_LIBRARIES(MultiResImageRegistration2 ITKCommon ITKNumerics VXLNumeri
 ADD_EXECUTABLE(DeformableRegistration1 DeformableRegistration1.cxx )
 TARGET_LINK_LIBRARIES(DeformableRegistration1 ITKCommon ITKNumerics ITKFEM VXLNumerics ITKIO)
 
+ADD_EXECUTABLE(DeformableRegistration2 DeformableRegistration2.cxx )
+TARGET_LINK_LIBRARIES(DeformableRegistration2 ITKCommon ITKNumerics VXLNumerics ITKIO)
