@@ -94,8 +94,13 @@ public:
     { return m_Index; }
   void SetIndex( const IndexType& input )
     { m_Index = input; };
-  
 
+  /** Default constructor */
+  LevelSetNode() : m_Value( NumericTraits<PixelType>::Zero ), m_Index( IndexType::ZeroIndex ) {};
+
+  /** Copy constructor */
+  LevelSetNode(const Self &node) : m_Value( node.m_Value ), m_Index( node.m_Index ) {};
+  
 private:
   PixelType       m_Value;
   IndexType       m_Index;
