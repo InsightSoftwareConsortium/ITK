@@ -13,7 +13,17 @@
   
 ==========================================================================*/
 
-/**
+#ifndef __itkRegistrator3D2DBatch_h
+#define __itkRegistrator3D2DBatch_h
+
+#include <itkRegistrator3D2D.h>
+
+namespace itk
+{
+
+/** \class Registrator3D2DBatch
+ * \brief Rigid registration in batch mode.
+ *
  *  Registrator3D2D performs 3D rigid registration 
  *  between a set of 3D points and a set of 2D points.
  *  
@@ -36,35 +46,8 @@
  *  bullitt@med.unc.edu
  *  ibanez@cs.unc.edu
  */
- 
-#ifndef __itkRegistrator3D2DBatch_h
-#define __itkRegistrator3D2DBatch_h
-
-#include <itkRegistrator3D2D.h>
-
-namespace itk
-{
-
 class Registrator3D2DBatch : public Registrator3D2D  
 {
-private:
-
-   /** 
-   * The Jacobian contains the dependencies between the registration
-   * parameters and the 2D coordinates of points
-   *
-   */
-  vnl_matrix<double> * Jacobian; 
-  
-
-  /** 
-   * PlanarError is the vector containing the differences of 2D coordinates
-   * between the 2D points and the projections of 3D points.
-   *
-   */
-  vnl_vector<double> * PlanarError; 
- 
-
 public:
 
   /**
@@ -72,20 +55,16 @@ public:
    */
   Registrator3D2DBatch();
 
-
   /**
    * Destructor of a registrator object
    */
   ~Registrator3D2DBatch();
 
-
   /**
    * Set the list of associated pairs of 3D point and 2D points.
    * \sa AssociatedPoints
    */
-  virtual void LoadAssociatedPoints( const vector<PairPoint3D2D> & externalList );
-
-
+  virtual void LoadAssociatedPoints(const vector<PairPoint3D2D>& externalList);
 
   /**
    * Initialize the registration process
@@ -100,8 +79,21 @@ public:
    */
   void ComputeJacobian(void);
 
+private:
 
-private:  
+   /** 
+   * The Jacobian contains the dependencies between the registration
+   * parameters and the 2D coordinates of points
+   *
+   */
+  vnl_matrix<double> * m_Jacobian; 
+
+  /** 
+   * PlanarError is the vector containing the differences of 2D coordinates
+   * between the 2D points and the projections of 3D points.
+   *
+   */
+  vnl_vector<double> * m_PlanarError; 
 
   /**
    * Allocate memory for internal arrays containg data used for solving the

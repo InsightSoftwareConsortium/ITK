@@ -20,7 +20,6 @@
 namespace itk
 {
 
-
 /*********************************************************************
  *
  *        Creator
@@ -29,12 +28,10 @@ namespace itk
 Registrator3D2DBatch::Registrator3D2DBatch()
 {
 
-  PlanarError = 0;
-  Jacobian    = 0;
+  m_PlanarError = 0;
+  m_Jacobian    = 0;
 
 }
-
-
 
 /*********************************************************************
  *
@@ -43,21 +40,18 @@ Registrator3D2DBatch::Registrator3D2DBatch()
  *********************************************************************/
 Registrator3D2DBatch::~Registrator3D2DBatch()
 {
-  if( Jacobian ) 
+  if( m_Jacobian ) 
     {
-    delete Jacobian;
-    Jacobian = 0;
+    delete m_Jacobian;
+    m_Jacobian = 0;
     }
 
-  if( PlanarError ) 
+  if( m_PlanarError ) 
     {
-    delete PlanarError;
-    PlanarError = 0;
+    delete m_PlanarError;
+    m_PlanarError = 0;
     }
-
 }
-
-
 
 /*****************************************************
  *
@@ -67,16 +61,15 @@ Registrator3D2DBatch::~Registrator3D2DBatch()
 void Registrator3D2DBatch::ComputeJacobian(void) 
 {
 
-  Transform3D cameraTotal = intrinsicTransform * extrinsicTransform *
+  Transform3D cameraTotal = m_IntrinsicTransform * m_ExtrinsicTransform *
     cumulatedCorrectionTransform;
 
   double sumSquares = 0.0;
 
   Potential  = 0.0;
-  const double pr2 = potentialRange * potentialRange;
+  const double pr2 = m_PotentialRange * m_PotentialRange;
 
-  const unsigned int numPoints = AssociatedPoints.size();
-
+  const unsigned int numPoints = m_AssociatedPoints.size();
 
   // this section performs only the minimum set of operations
   // needed to get the 2D projection.  Doing a complete 4x4 
@@ -100,13 +93,12 @@ void Registrator3D2DBatch::ComputeJacobian(void)
   const double Wz = cameraTotal(3,2);
   const double Ww = cameraTotal(3,3);
 
-
-  vnl_matrix<double> & mJacobian = *Jacobian;
+  vnl_matrix<double> & mJacobian = *m_Jacobian;
   
-  for(unsigned int i=0; i<AssociatedPoints.size(); i+= 2) 
+  for(unsigned int i=0; i<m_AssociatedPoints.size(); i+= 2) 
     {
 
-    const Point3D pp = AssociatedPoints[i].GetPoint3D();
+    const Point3D pp = m_AssociatedPoints[i].GetPoint3D();
 
     const double x = pp[0];
     const double y = pp[1];
@@ -138,13 +130,13 @@ void Registrator3D2DBatch::ComputeJacobian(void)
     mJacobian(5,i+1) = (Qw*(x*Yy-y*Yx)-Qy*(x*Wy-y*Wx)) * Qwi2; 
 
     Point3D win = cameraTotal * pp;
-    Point2D qq = AssociatedPoints[i].GetPoint2D();
+    Point2D qq = m_AssociatedPoints[i].GetPoint2D();
     
     const double dx =  qq[0] - win[0];
     const double dy =  qq[1] - win[1];
 
-    PlanarError[i]		=  dx;
-    PlanarError[i+1]	=  dy;
+    m_PlanarError[i]		=  dx;
+    m_PlanarError[i+1]	=  dy;
 
     const double squaredDistance = dx*dx + dy*dy;
     sumSquares += squaredDistance;
@@ -173,7 +165,7 @@ void Registrator3D2DBatch::PerformRegistration(void)
 	
   double oldMeanSquareError = 0.0;
 
-  if( AssociatedPoints.empty() ) 
+  if( m_AssociatedPoints.empty() ) 
     {
     throw Registrator3D2DException("There are no associated points");
     }
@@ -279,7 +271,7 @@ void Registrator3D2DBatch::LeastSquareSolution(void)
 {
 
   const int dof = 6;
-  const int colSize = 2*AssociatedPoints.size();
+  const int colSize = 2*m_AssociatedPoints.size();
 
   if( colSize == 0 ) return;
 
@@ -288,14 +280,14 @@ void Registrator3D2DBatch::LeastSquareSolution(void)
   // compute Jacobian^t * Jacobian
   // this matrix is column ordered
   // in a one dimensional array
-  vnl_fastops::AtA(*Jacobian, &M);
+  vnl_fastops::AtA(*m_Jacobian, &M);
 
   // Add Uncertainties
   for(int c=0; c<dof; c++) {
-  M[c][c] += Uncertain[c];
+  M[c][c] += m_Uncertain[c];
   }
 
-  vnl_vector<double> JP = (*Jacobian) * (*PlanarError);
+  vnl_vector<double> JP = (*m_Jacobian) * (*m_PlanarError);
 
   Delta = vnl_svd<double>(M).solve(JP); 
   
@@ -331,17 +323,17 @@ void Registrator3D2DBatch::LoadAssociatedPoints(const vector<PairPoint3D2D> & ex
 void Registrator3D2DBatch::Allocate(void)
 {
 
-  const unsigned int numPoints = AssociatedPoints.size();
+  const unsigned int numPoints = m_AssociatedPoints.size();
   const unsigned int column    = numPoints * 2;
 
-  if( Jacobian ) 
+  if( m_Jacobian ) 
     {
-    delete Jacobian;
+    delete m_Jacobian;
     }
   
   try 
     {
-    Jacobian = new vnl_matrix<double>(6,column);
+    m_Jacobian = new vnl_matrix<double>(6,column);
     }
   catch(...) 
     {
@@ -349,14 +341,14 @@ void Registrator3D2DBatch::Allocate(void)
     }
 
 
-  if( PlanarError )
+  if( m_PlanarError )
     {
-    delete PlanarError;
+    delete m_PlanarError;
     }
 
   try 
     {
-    PlanarError = new vnl_vector<double>(column);
+    m_PlanarError = new vnl_vector<double>(column);
     }
   catch(...)
     {
