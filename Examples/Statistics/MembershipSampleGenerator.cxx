@@ -17,12 +17,12 @@ PURPOSE.  See the above copyright notices for more information.
 
 // Software Guide : BeginLatex
 //
-// \index{itk::Statistics::ListSampleToHistogramFilter}
-// \index{itk::Statistics::ListSampleToHistogramGenerator}
-// \index{itk::Statistics::NeighborhoodSampler}
-// \index{itk::Statistics::SampleToHistogramProjectionFilter}
-// \index{itk::Statistics::SelectiveSubsampleGenerator}
-// \index{itk::Statistics::MembershipSampleGenerator}
+// \index{itk::Statistics::List\-Sample\-To\-Histogram\-Filter}
+// \index{itk::Statistics::List\-Sample\-To\-Histogram\-Generator}
+// \index{itk::Statistics::Neighborhood\-Sampler}
+// \index{itk::Statistics::Sample\-To\-Histogram\-Projection\-Filter}
+// \index{itk::Statistics::Selective\-Subsample\-Generator}
+// \index{itk::Statistics::Membership\-Sample\-Generator}
 //
 // To use, an \code{MembershipSample} object, we include the header files for
 // the class itself and a \code{Sample} class. We will use the

@@ -18,7 +18,7 @@
 // Software Guide : BeginLatex
 //
 // \index{Statistics!Convert ListSample to Histogram}
-// \index{itk::Statistics::ListSampleToHistogramGenerator}
+// \index{itk::Statistics::List\-Sample\-To\-Histogram\-Generator}
 //
 // We decribed how to import data from a \code{ListSample} to a
 // \code{Histogram} in the section

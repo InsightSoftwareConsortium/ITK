@@ -16,7 +16,7 @@
 =========================================================================*/
 
 // Software Guide : BeginLatex
-// \index{itk::Statistics::MaximumRatioDecisionRule}
+// \index{itk::Statistics::Maximum\-Ratio\-Decision\-Rule}
 //
 // The \code{Evaluate()} method of the \doxygen{MaximumRatioDecisionRule}
 // returns the index, $i$ if 

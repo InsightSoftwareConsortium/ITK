@@ -18,7 +18,7 @@
 // Software Guide : BeginLatex
 //
 // \index{Statistics!Projecting mesurement vectors to 1-D histogram}
-// \index{itk::Statistics::SampleToHistogramProjectionFilter}
+// \index{itk::Statistics::Sample\-To\-Histogram\-Projection\-Filter}
 //
 // This filter projects measurement vectors of a sample onto a vector and fills
 // up a 1-D \subdoxygen{Statistics}{Histogram}. The histram will be formed
