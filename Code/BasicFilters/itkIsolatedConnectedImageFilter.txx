@@ -21,6 +21,7 @@
 #include "itkBinaryThresholdImageFunction.h"
 #include "itkFloodFilledImageFunctionConditionalIterator.h"
 #include "itkProgressReporter.h"
+#include "itkIterationReporter.h"
 
 namespace itk
 {
@@ -117,20 +118,12 @@ IsolatedConnectedImageFilter<TInputImage,TOutputImage>
   InputImagePixelType guess = upper;
   IteratorType it = IteratorType ( outputImage, function, m_Seed1 );
 
-  const unsigned int estimatedNumberOfIterations =
-    static_cast<unsigned int>(
-      log( static_cast<double>(( upper - lower ) / m_IsolatedValueTolerance )) / 
-      log ( 2.0 )
-      );
-
-  // Worst-case scenario for the estimation of time to be completed.
-  ProgressReporter progress( this, 0, region.GetNumberOfPixels() * 
-                             estimatedNumberOfIterations );
-
   // do a binary search to find an upper threshold that separates the
   // two seeds.
+  IterationReporter iterate( this, 0, 1);
   while (lower + m_IsolatedValueTolerance < guess)
     {
+    ProgressReporter progress( this, 0, region.GetNumberOfPixels());
     outputImage->FillBuffer ( NumericTraits<OutputImagePixelType>::Zero );
     function->ThresholdBetween ( m_Lower, guess );
     it.GoToBegin();
@@ -149,10 +142,12 @@ IsolatedConnectedImageFilter<TInputImage,TOutputImage>
       lower = guess;
       }
     guess = (upper + lower) /2;
-    this->InvokeEvent(IterationEvent());
+    iterate.CompletedStep();
     }
 
   // now rerun the algorithm with the threshold that separates the seeds.
+  ProgressReporter progress( this, 0, region.GetNumberOfPixels());
+
   outputImage->FillBuffer ( NumericTraits<OutputImagePixelType>::Zero );
   function->ThresholdBetween ( m_Lower, lower);
   it.GoToBegin();
@@ -163,6 +158,7 @@ IsolatedConnectedImageFilter<TInputImage,TOutputImage>
     progress.CompletedPixel(); // potential exception thrown here
     }
   m_IsolatedValue = lower;
+  iterate.CompletedStep();
 }
 
 } // end namespace itk
