@@ -93,7 +93,7 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
       m_C1 = static_cast<RealType>(   0.9557 );
       m_W0 = static_cast<RealType>(   0.6719 );
       m_W1 = static_cast<RealType>(   2.0720 );
-      const symmetric = false;
+      const bool symmetric = false;
       this->ComputeFilterCoefficients(symmetric);
       break;
       }
@@ -108,7 +108,7 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
       m_C1 = static_cast<RealType>(  -1.7380 );
       m_W0 = static_cast<RealType>(   0.7480 );
       m_W1 = static_cast<RealType>(   2.1660 );
-      const symmetric = true;
+      const bool symmetric = true;
       this->ComputeFilterCoefficients(symmetric);
       break;
       }
