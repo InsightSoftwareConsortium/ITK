@@ -18,6 +18,7 @@
 #define __itkImageSeriesReader_h
 
 #include "itkImageSource.h"
+#include "itkImageIOBase.h"
 #include "itkExceptionObject.h"
 #include "itkSize.h"
 #include "itkImageRegion.h"
@@ -101,6 +102,13 @@ public:
   itkGetMacro(ReverseOrder,bool);
   itkBooleanMacro(ReverseOrder);
 
+  /** Set/Get the ImageIO helper class. By default, the
+   * ImageSeriesReader uses the factory mechanism of the
+   * ImageFileReader to determine the file type. This method can be
+   * used to specify which IO to use. */
+  itkSetObjectMacro(ImageIO,ImageIOBase);
+  itkGetObjectMacro(ImageIO,ImageIOBase);
+
   /** Prepare the allocation of the output image during the first back
    * propagation of the pipeline. */
   virtual void GenerateOutputInformation(void);
@@ -113,11 +121,14 @@ public:
   virtual void EnlargeOutputRequestedRegion(DataObject *output);
   
 protected:
-  ImageSeriesReader() : m_ReverseOrder(false) {};
+  ImageSeriesReader() : m_ImageIO(0), m_ReverseOrder(false) {};
   void PrintSelf(std::ostream& os, Indent indent) const;
   
   /** Does the real work. */
   virtual void GenerateData();
+
+  /** The image format, 0 will use the factory mechnism. */
+  ImageIOBase::Pointer m_ImageIO;
 
   /** Select the traversal order. */
   bool m_ReverseOrder;
@@ -128,9 +139,7 @@ protected:
 private:
   ImageSeriesReader(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-  
 };
-
 
 } //namespace ITK
 

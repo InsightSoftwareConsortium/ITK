@@ -39,6 +39,14 @@ void ImageSeriesReader<TOutputImage>
   Superclass::PrintSelf(os, indent);
 
   os << indent << "ReverseOrder: " << m_ReverseOrder << std::endl;
+  if (m_ImageIO)
+    {       
+    os << indent << "m_ImageIO: " << m_ImageIO << "\n";
+    }
+  else
+    {
+    os << indent << "m_ImageIO: (null)" << "\n";
+    }
 }
 
 template <class TOutputImage>
@@ -62,11 +70,15 @@ void ImageSeriesReader<TOutputImage>
       {
       // Read the second (or second to last) image
       reader2->SetFileName (m_FileNames[(m_ReverseOrder ? (m_FileNames.size()-2): 1)].c_str());
+      if (m_ImageIO)
+        {
+        reader2->SetImageIO(m_ImageIO);
+        }
       reader2->Update();
 
       std::string key("ITK_ImageOrigin");
       // Initialize the position to the origin returned by the reader
-      for (i = 0; i < TOutputImage::ImageDimension - 1; i++)
+      for (i = 0; i < TOutputImage::ImageDimension; i++)
         {
         position2[i] = reader2->GetOutput()->GetOrigin()[i];
         }
@@ -75,10 +87,14 @@ void ImageSeriesReader<TOutputImage>
 
       // Read the first (or last) image
       reader1->SetFileName (m_FileNames[(m_ReverseOrder ? (m_FileNames.size()-1): 0)].c_str());
+      if (m_ImageIO)
+        {
+        reader1->SetImageIO(m_ImageIO);
+        }
       reader1->Update();
 
       // Initialize the position to the origin returned by the reader
-      for (i = 0; i < TOutputImage::ImageDimension - 1; i++)
+      for (i = 0; i < TOutputImage::ImageDimension; i++)
         {
         position1[i] = reader1->GetOutput()->GetOrigin()[i];
         }
@@ -175,6 +191,10 @@ void ImageSeriesReader<TOutputImage>
     
     typename ReaderType::Pointer reader = ReaderType::New();
     reader->SetFileName(m_FileNames[i].c_str());
+    if (m_ImageIO)
+      {
+      reader->SetImageIO(m_ImageIO);
+      }
     reader->UpdateLargestPossibleRegion();
 
     if (reader->GetOutput()->GetRequestedRegion().GetSize() != validSize)
