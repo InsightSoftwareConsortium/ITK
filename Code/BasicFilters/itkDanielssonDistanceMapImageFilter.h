@@ -43,10 +43,12 @@ namespace itk
 *   to this pixel. Given that the components of the distance are
 *   computed in "pixels", the vector is represented by an itk::Offset
 *
-* This filter is N-Dimensional and it is known to be efficient
-* in computational time.
-*
-* \todo Add the reference to the journal paper where this method was published
+* This filter is N-dimensional and known to be efficient
+* in computational time.  The algorithm is the N-dimensional version
+* of the 4SED algorithm given for two dimensions in:
+* 
+* Danielsson, Per-Erik.  Euclidean Distance Mapping.  Computer
+* Graphics and Image Processing 14, 227-248 (1980).
 *
 * \ingroup ImageFeatureExtraction 
 *
