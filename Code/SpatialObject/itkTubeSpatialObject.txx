@@ -345,7 +345,7 @@ TubeSpatialObject< TDimension, SpaceDimension >
 template< unsigned int TDimension , unsigned int SpaceDimension >
 bool
 TubeSpatialObject< TDimension, SpaceDimension > 
-::IsEvaluableAt( const PointType & point, unsigned int depth, char * name )
+::IsEvaluableAt( const PointType & point, unsigned int depth, char * name ) const
 {
   itkDebugMacro( "Checking if the tube is evaluable at " << point );
   return IsInside(point, depth, name);
@@ -353,33 +353,31 @@ TubeSpatialObject< TDimension, SpaceDimension >
 
 /** Return the value of the tube at a specified point */
 template< unsigned int TDimension , unsigned int SpaceDimension >
-void
+bool
 TubeSpatialObject< TDimension, SpaceDimension > 
 ::ValueAt( const PointType & point, double & value, unsigned int depth,
-           char * name )
+           char * name ) const
 {
   itkDebugMacro( "Getting the value of the tube at " << point );
   if( IsInside(point, 0, name) )
     {
     value = 1;
-    return;
+    return true;
     }
   else
     {
     if( Superclass::IsEvaluableAt(point, depth, name) )
       {
       Superclass::ValueAt(point, value, depth, name);
-      return;
+      return true;
       }
     else
       {
       value = 0;
-      itk::ExceptionObject e("TubeSpatialObject.txx");
-      e.SetLocation("TubeSpatialObject::ValueAt( const PointType & )");
-      e.SetDescription("this object cannot provide a value at the point");
-      throw e;
+      return false;
       }
     }
+  return false;
 }
 
 } // end namespace itk 

@@ -64,15 +64,15 @@ public:
 
   /** Returns a degree of membership to the object. 
    *  That's useful for fuzzy objects. */ 
-  virtual void ValueAt( const PointType & point, double & value, 
+  virtual bool ValueAt( const PointType & point, double & value, 
                         unsigned int depth=0,
-                        char * name=NULL);
+                        char * name=NULL) const;
      
   /** return ture if the object provides a method to evaluate the value 
    * at the specified point, else otherwise.*/
   virtual bool IsEvaluableAt( const PointType & point, 
                               unsigned int depth=0,
-                              char * name=NULL);
+                              char * name=NULL) const;
 
   /** Test whether a point is inside or outside the object */ 
   virtual bool IsInside( const PointType & point,
@@ -94,8 +94,6 @@ protected:
 
   /** Print the object informations in a stream. */
   virtual void PrintSelf( std::ostream& os, Indent indent ) const; 
-
-  bool IsInsideProjection(double x, double y, unsigned int i) const;
 
 };
 

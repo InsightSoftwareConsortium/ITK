@@ -120,7 +120,7 @@ PlaneSpatialObject<NDimensions, SpaceDimension >
 template< unsigned int NDimensions , unsigned int SpaceDimension >
 bool
 PlaneSpatialObject<NDimensions, SpaceDimension >
-::IsEvaluableAt( const PointType & point, unsigned int depth, char * name )
+::IsEvaluableAt( const PointType & point, unsigned int depth, char * name ) const
 {
   itkDebugMacro( "Checking if the Plane is evaluable at " << point );
   return IsInside(point, depth, name );
@@ -128,33 +128,31 @@ PlaneSpatialObject<NDimensions, SpaceDimension >
 
 /** Returns the value at one point */
 template< unsigned int NDimensions , unsigned int SpaceDimension >
-void
+bool
 PlaneSpatialObject<NDimensions, SpaceDimension >
 ::ValueAt( const PointType & point, double & value, unsigned int depth, 
-           char * name )
+           char * name ) const
 {
   itkDebugMacro( "Getting the value of the tube at " << point );
   if( IsInside(point, 0, name) )
     {
     value = 1;
-    return;
+    return true;
     }
   else
     {
     if( Superclass::IsEvaluableAt(point, depth, name) )
       {
       Superclass::ValueAt(point, value, depth, name);
-      return;
+      return true;
       }
     else
       {
       value = 0;
-      itk::ExceptionObject e("PlaneSpatialObject.txx");
-      e.SetLocation("BlobSpatialObject::ValueAt( const PointType & )");
-      e.SetDescription("this object cannot provide a value at the point");
-      throw e;
+      return false;
       }
     }
+  return false;
 }
 
 /** Print Self function */

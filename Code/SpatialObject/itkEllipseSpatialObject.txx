@@ -52,33 +52,6 @@ EllipseSpatialObject<NDimensions, SpaceDimension >
   }
 }
 
-/** Test if the projection of the point is inside the projection
- *  of the ellipse */
-template< unsigned int NDimensions , unsigned int SpaceDimension >
-bool
-EllipseSpatialObject<NDimensions, SpaceDimension >
-::IsInsideProjection(double x, double y, unsigned int i) const
-{
-  double distance=sqrt(x*x+y*y);
-  if(distance == 0)
-  {
-    return true;
-  }
-
-  double teta = acos(x/distance);
-  double ellipseDistance = sqrt(m_Radius[i]*cos(teta)*m_Radius[i]*cos(teta)+m_Radius[i+1]*sin(teta)*m_Radius[i+1]*sin(teta));
-
-  if(distance <= ellipseDistance)
-  {
-    return true;
-  }
-  else
-  {
-    return false;
-  }
-}
-
-
 /** Test if the given point is inside the ellipse */
 template< unsigned int NDimensions , unsigned int SpaceDimension >
 bool 
@@ -93,7 +66,7 @@ EllipseSpatialObject< NDimensions, SpaceDimension >
     TransformPointToLocalCoordinate(transformedPoint);
   
     double r = 0;
-    for(unsigned int i=0;i<NDimensions-1;i++)
+    for(unsigned int i=0;i<NDimensions;i++)
       {
       r += (transformedPoint[i]*transformedPoint[i])/(m_Radius[i]*m_Radius[i]);
       }
@@ -160,7 +133,7 @@ EllipseSpatialObject<NDimensions, SpaceDimension >
 template< unsigned int NDimensions , unsigned int SpaceDimension >
 bool
 EllipseSpatialObject<NDimensions, SpaceDimension >
-::IsEvaluableAt( const PointType & point, unsigned int depth, char * name )
+::IsEvaluableAt( const PointType & point, unsigned int depth, char * name ) const
 {
   itkDebugMacro( "Checking if the ellipse is evaluable at " << point );
   return IsInside(point, depth, name);
@@ -168,33 +141,31 @@ EllipseSpatialObject<NDimensions, SpaceDimension >
 
 /** Returns the value at one point */
 template< unsigned int NDimensions , unsigned int SpaceDimension >
-void
+bool
 EllipseSpatialObject<NDimensions, SpaceDimension >
 ::ValueAt( const PointType & point, double & value, unsigned int depth,
-           char * name )
+           char * name ) const
 {
   itkDebugMacro( "Getting the value of the ellipse at " << point );
   if( IsInside(point, 0, name) )
     {
     value = 1;
-    return;
+    return true;
     }
   else
     {
     if( Superclass::IsEvaluableAt(point, depth, name) )
       {
       Superclass::ValueAt(point, value, depth, name);
-      return;
+      return true;
       }
     else
       {
       value = 0;
-      itk::ExceptionObject e("BlobSpatialObject.txx");
-      e.SetLocation("BlobSpatialObject::ValueAt( const PointType & )");
-      e.SetDescription("this object cannot provide a value at the point");
-      throw e;
+      return false;
       }
     }
+  return false;
 }
 
 /** Print Self function */

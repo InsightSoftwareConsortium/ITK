@@ -185,7 +185,7 @@ BlobSpatialObject< TDimension, SpaceDimension >
 template< unsigned int TDimension , unsigned int SpaceDimension >
 bool
 BlobSpatialObject< TDimension, SpaceDimension > 
-::IsEvaluableAt( const PointType & point, unsigned int depth, char * name )
+::IsEvaluableAt( const PointType & point, unsigned int depth, char * name ) const
 {
    itkDebugMacro( "Checking if the blob is evaluable at " << point );
    return IsInside(point, depth, name);
@@ -194,32 +194,33 @@ BlobSpatialObject< TDimension, SpaceDimension >
 
 /** Return 1 if the point is in the points list */
 template< unsigned int TDimension , unsigned int SpaceDimension >
-void
+bool
 BlobSpatialObject< TDimension, SpaceDimension > 
 ::ValueAt( const PointType & point, double & value, unsigned int depth,
-           char * name )
+           char * name ) const
 {
   itkDebugMacro( "Getting the value of the blob at " << point );
   if( IsInside(point, 0, name) )
     {
     value = 1;
-    return;
+    return true;
     }
   else
     {
     if( Superclass::IsEvaluableAt(point, depth, name) )
       {
       Superclass::ValueAt(point, value, depth, name);
-      return;
+      return true;
       }
     else
       {
       value = 0;
-      itk::ExceptionObject e("BlobSpatialObject.txx");
+      return false;
+/*      itk::ExceptionObject e("BlobSpatialObject.txx");
       e.SetLocation("BlobSpatialObject::ValueAt( const PointType & )");
       e.SetDescription("this object cannot provide a value at the point");
       throw e;
-      }
+ */     }
     }
 }
 

@@ -68,14 +68,14 @@ public:
   /** Returns true if the Surface is evaluable at the requested point, 
    * false otherwise. */
   bool IsEvaluableAt( const PointType & point,
-                      unsigned int depth=0, char * name=NULL);
+                      unsigned int depth=0, char * name=NULL) const;
 
   /** Returns the value of the Surface at that point.
    *  Currently this function returns a binary value,
    *  but it might want to return a degree of membership
    *  in case of fuzzy Surfaces. */
-  void ValueAt( const PointType & point, double & value,
-                unsigned int depth=0, char * name=NULL);
+  bool ValueAt( const PointType & point, double & value,
+                unsigned int depth=0, char * name=NULL) const;
 
   /** Returns true if the point is inside the Surface, false otherwise. */
   bool IsInside( const PointType & point,

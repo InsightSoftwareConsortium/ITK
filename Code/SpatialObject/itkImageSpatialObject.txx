@@ -55,7 +55,7 @@ template< unsigned int NDimensions, class PixelType,
           unsigned int SpaceDimension >
 bool
 ImageSpatialObject< NDimensions,  PixelType, SpaceDimension >
-::IsEvaluableAt( const PointType & point, unsigned int depth, char * name )
+::IsEvaluableAt( const PointType & point, unsigned int depth, char * name ) const
 {
   return IsInside(point, depth, name);
 }
@@ -84,10 +84,10 @@ ImageSpatialObject< NDimensions,  PixelType, SpaceDimension >
  *  The value returned is always of type double */
 template< unsigned int NDimensions, class PixelType, 
           unsigned int SpaceDimension >
-void 
+bool 
 ImageSpatialObject< NDimensions,  PixelType, SpaceDimension >
 ::ValueAt( const PointType & point, double & value, unsigned int depth,
-           char * name )
+           char * name ) const
 {
   if( IsEvaluableAt( point, 0, name ) )
     {
@@ -99,25 +99,22 @@ ImageSpatialObject< NDimensions,  PixelType, SpaceDimension >
       index[i] = (int)p[i];
       }
     value = m_Image->GetPixel(index);
-    return;
+    return true;
     }
   else
     {
     if( Superclass::IsEvaluableAt(point, depth, name) )
       {
       Superclass::ValueAt(point, value, depth, name);
-      return;
+      return true;
       }
     else
       {
       value = 0;
-      ExceptionObject e;
-      e.SetLocation("ImageSpatialObject< NDimensions,  PixelType, \
-                     SpaceDimension >::ValueAt( const PointType & )");
-      e.SetDescription("the image value cannot be evaluated at the point");
-      throw e;
+     return false;
       }
     }
+  return false;
 }
 
 /** Compute the bounds of the image */

@@ -209,12 +209,12 @@ SpatialObject< NDimensions, SpaceDimension>
 template< unsigned int NDimensions, unsigned int SpaceDimension >
 bool
 SpatialObject< NDimensions, SpaceDimension>
-::IsEvaluableAt( const PointType & point, unsigned int depth, char * name )
+::IsEvaluableAt( const PointType & point, unsigned int depth, char * name ) const
 {
   if( depth > 0 )
     {
-    typename ChildrenListType::iterator it = m_Children.begin();
-    typename ChildrenListType::iterator itEnd = m_Children.end();
+    typename ChildrenListType::const_iterator it = m_Children.begin();
+    typename ChildrenListType::const_iterator itEnd = m_Children.end();
     
     while(it!=itEnd)
       {
@@ -231,36 +231,34 @@ SpatialObject< NDimensions, SpaceDimension>
 
 /** Return the value of the object at a point */
 template< unsigned int NDimensions, unsigned int SpaceDimension >
-void
+bool
 SpatialObject< NDimensions, SpaceDimension>
 ::ValueAt( const PointType & point, double & value, unsigned int depth,
-           char * name )
-{
+           char * name ) const
+{  
   bool evaluable = false;
   if( depth > 0 )
     {
-    typename ChildrenListType::iterator it = m_Children.begin();
-    typename ChildrenListType::iterator itEnd = m_Children.end();
+    typename ChildrenListType::const_iterator it = m_Children.begin();
+    typename ChildrenListType::const_iterator itEnd = m_Children.end();
   
     while(it!=itEnd)
-      {
+    {
       if( (*it)->IsEvaluableAt(point, depth-1, name) )
-        {
-        (*it)->ValueAt(point,value, depth-1, name); 
+      {
+       (*it)->ValueAt(point,value, depth-1, name); 
         evaluable = true;
         break;
-        }
+      }
       it++;
       } 
     }
 
-  if(!evaluable)
-    {
-    itk::ExceptionObject e("SpatialObject.txx");
-    e.SetLocation("SpatialObject<>::ValueAt( const PointType & )");
-    e.SetDescription("This spatial object is not evaluable at the point");
-    throw e;
-    }
+  if(evaluable)
+  {
+    return true;
+  }
+  return false;
 }
 
 /** Set the parent of the object */
@@ -426,9 +424,9 @@ SpatialObject< NDimensions, SpaceDimension>
   typename TransformType::OffsetType offset = m_Transform->GetOffset();
 
   // matrix is changed to include the scaling
-  for(unsigned int i=0;i<3;i++)
+  for(unsigned int i=0;i<NDimensions;i++)
   {
-    for(unsigned int j=0;j<3;j++)
+    for(unsigned int j=0;j<NDimensions;j++)
     {
       matrix.GetVnlMatrix().put(i,j,matrix.GetVnlMatrix().get(i,j)*m_Scale[i]);
     }
