@@ -1168,7 +1168,7 @@ void DICOMAppHelper::PixelSpacingCallback(DICOMParser *parser,
     if (len > 0)
       {
       fval = DICOMFile::ReturnAsFloat(val, parser->GetDICOMFile()->GetPlatformIsBigEndian());
-      this->PixelSpacing[0] = fval;
+      this->PixelSpacing[1] = fval;
       unsigned char * val2 = val;  // search for separator
       while( *val2 != '\\' && *val2 != 0 ) val2++;
       if( *val2 == 0 )
@@ -1179,7 +1179,7 @@ void DICOMAppHelper::PixelSpacingCallback(DICOMParser *parser,
         {
         val2++; // start in the character after the delimiter.
         fval = DICOMFile::ReturnAsFloat(val2, parser->GetDICOMFile()->GetPlatformIsBigEndian());
-        this->PixelSpacing[1] = fval;
+        this->PixelSpacing[0] = fval;
         }
       }
     else
