@@ -129,11 +129,11 @@
   The class name of the iterator makes clears if it provides const access
   or not. Some of the <TT>const</TT> iterators available are
 
-  -  itk::ImageConstIterator.h
-  -  itk::ImageConstIteratorWithIndex.h
-  -  itk::ImageLinearConstIteratorWithIndex.h
-  -  itk::ImageRegionConstIteratorWithIndex.h
-  -  itk::ImageSliceConstIteratorWithIndex.h
+  -  itk::ImageConstIterator
+  -  itk::ImageConstIteratorWithIndex
+  -  itk::ImageLinearConstIteratorWithIndex
+  -  itk::ImageRegionConstIteratorWithIndex
+  -  itk::ImageSliceConstIteratorWithIndex
 
   \subsection NeighbohoodIteratorType  Other Types of Iterators
 
