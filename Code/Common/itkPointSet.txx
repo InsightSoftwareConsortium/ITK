@@ -72,11 +72,12 @@ typename PointSet<TPixelType, VDimension, TMeshTraits>::PointsContainer *
 PointSet<TPixelType, VDimension, TMeshTraits>
 ::GetPoints(void)
 {
-  itkDebugMacro("returning Points container of " << m_PointsContainer );
+  itkDebugMacro("Starting GetPoints()");
   if( !m_PointsContainer )
     {
     this->SetPoints(PointsContainer::New());
     }
+  itkDebugMacro("returning Points container of " << m_PointsContainer );
   return m_PointsContainer;
 }
 

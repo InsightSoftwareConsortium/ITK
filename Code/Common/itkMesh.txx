@@ -1137,6 +1137,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
       }
       case CellsAllocatedDynamicallyCellByCell:
       {
+      itkDebugMacro("CellsAllocatedDynamicallyCellByCell start");
       // It is assumed that every cell was allocated independently.
       // A Cell iterator is created for going through the cells 
       // deleting one by one.
@@ -1145,11 +1146,12 @@ Mesh<TPixelType, VDimension, TMeshTraits>
       while( cell != end )
         {
         const CellType * cellToBeDeleted = cell->Value();
+        itkDebugMacro( << "Mesh destructor deleting cell = " << cellToBeDeleted );
         delete cellToBeDeleted;
         ++cell; 
         }
       m_CellsContainer->Initialize();
-      itkDebugMacro("CellsAllocatedDynamicallyCellByCell");
+      itkDebugMacro("CellsAllocatedDynamicallyCellByCell end");
       break;
       }
       }
