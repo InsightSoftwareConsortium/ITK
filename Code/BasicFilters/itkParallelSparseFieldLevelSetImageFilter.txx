@@ -2511,13 +2511,18 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   Superclass::PrintSelf(os, indent);
   
   unsigned int i;
-  os << indent << "m_IsoSurfaceValue" << m_IsoSurfaceValue << std::endl;
+  os << indent << "m_IsoSurfaceValue: " << m_IsoSurfaceValue << std::endl;
   os << indent << "m_LayerNodeStore: " << m_LayerNodeStore;
-  for (i=0; i < m_Layers.size(); i++)
+  int ThreadId;
+  for (ThreadId=0; ThreadId < m_NumOfThreads; ThreadId++)
     {
-    os << indent << "m_Layers[" << i << "]: size="
-       << m_Layers[i]->Size() << std::endl;
-    os << indent << m_Layers[i];
+      os << indent << "ThreadId: " << ThreadId << std::endl;
+      for (i=0; i < m_Data[ThreadId].m_Layers.size(); i++)
+        {
+        os << indent << "m_Layers[" << i << "]: size="
+           << m_Data[ThreadId].m_Layers[i]->Size() << std::endl;
+        os << indent << m_Data[ThreadId].m_Layers[i];
+        }
     }
 }
 
