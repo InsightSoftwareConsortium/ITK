@@ -14,6 +14,7 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#include "itkTransformBase.h"
 #include "itkTransform.h"
 
 #ifdef CABLE_CONFIGURATION
@@ -27,6 +28,7 @@ namespace _cable_
   const char* const group = ITK_WRAP_GROUP(itkTransform);
   namespace wrappers
   {
+    ITK_WRAP_OBJECT(TransformBase);
     ITK_WRAP_TRANSFORM_3(Transform, 2, 2);
     ITK_WRAP_TRANSFORM_3(Transform, 3, 2);
     ITK_WRAP_TRANSFORM_3(Transform, 3, 3);
