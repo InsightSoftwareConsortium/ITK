@@ -275,7 +275,7 @@ int itkDeformableTest(int , char *[])
 
 
   /** raise coverage */
-  myGradientImageType::Pointer grad_tmp = m_dfilter->GetGradient();
+ myGradientImageType::Pointer grad_tmp = m_dfilter->GetGradient();
 
   std::cout << m_dfilter->GetStepThreshold() << std::endl;
 
@@ -285,11 +285,13 @@ int itkDeformableTest(int , char *[])
 
   DMesh::Pointer norm_tmp = m_dfilter->GetNormals();
 
-//  std::cout << m_dfilter;
+  std::cout << m_dfilter;
  
-//  std::cout << "Mesh Source: " << m_bmmeshsource;
+  std::cout << "Mesh Source: " << m_bmmeshsource;
 
 // All objects should be automatically destroyed at this point
+
+  std::cout << "[TEST DONE]" << std::endl;
   return EXIT_SUCCESS;
 
 }
