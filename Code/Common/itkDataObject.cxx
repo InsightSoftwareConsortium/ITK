@@ -152,8 +152,6 @@ DataObject() : m_UpdateMTime()
   m_DataReleased = false;
 
   m_PipelineMTime = 0;
-
-  m_RequestedRegionInitialized = false;
 }
 
 //----------------------------------------------------------------------------
@@ -349,6 +347,16 @@ DataObject
 
 void
 DataObject
+::UpdateOutputInformation()
+{
+  if (this->GetSource())
+    {
+    this->GetSource()->UpdateOutputInformation();
+    }
+}
+
+void
+DataObject
 ::ResetPipeline()
 {
   this->PropagateResetPipeline();
@@ -408,7 +416,7 @@ DataObject
   // data was released, then propagate the UpdateOutputData to the source
   // if there is one.
   if ( m_UpdateMTime < m_PipelineMTime || m_DataReleased ||
-       this->RequestedRegionIsOutsideOfTheBufferedRegion())
+       this->RequestedRegionIsOutsideOfTheBufferedRegion() )
     {
     if ( m_Source )
       {
