@@ -14,3 +14,6 @@ LINK_LIBRARIES(
 CxxTypes
 )
 
+UNIX_LIBRARIES(
+-ltcl8.2
+)
