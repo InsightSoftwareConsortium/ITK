@@ -69,13 +69,8 @@ int main()
 
   //----------------Test evaluation of funtion------------------
 
-  // We're going to evaluate it at the center of the sphere (0,0,0)
-  TFunctionPositionType evalPosition;
-  evalPosition[0] = 0;
-  evalPosition[1] = 0;
-  evalPosition[2] = 0;
-
-  bool funcVal = spatialFunc->Evaluate(evalPosition);
+  // We're going to evaluate it at the center of the sphere (10,10,10)
+  bool funcVal = spatialFunc->Evaluate(center);
   printf("Sphere function value is %i\n", funcVal);
 
   // The function should have returned a value of 1, since the center is inside
