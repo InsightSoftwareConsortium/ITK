@@ -223,7 +223,7 @@ int itkMeshTest(int, char* [] )
         0,                        // Boundary identifier.
         boundLine);               // Pointer to explicit boundary.
   
-  mesh->SetBoundaryAssignment(1,  // Topologoical dimension.
+  mesh->SetBoundaryAssignment(1,  // Topological dimension.
             1,                    // CellIdentifier
             0,                    // CellFeatureIdentifier
             0);                   // Boundary identifier.  
@@ -255,12 +255,27 @@ int itkMeshTest(int, char* [] )
       }
     std::cout << std::endl;
     }
-  
+
+  /**
+   * Try querying the for the number of neighbors the hexahedron has
+   * through its second edge, without getting the actual set of
+   * boundaries.  (The result should be 1.  Note that the quads and
+   * triangles that bound the 3D cells haven't been added, so they
+   * don't show up as additional neighbors.)
+   */
+  int numberOfNeighbors = mesh->GetCellBoundaryFeatureNeighbors(
+    1,              // Topological dimension of feature.
+    1,              // CellIdentifier
+    1,              // CellFeatureIdentifier
+    NULL);          // We don't want the neighbors themselves (yet)
+  std::cout << "Number of neighbors (hex edge 1): "
+            << numberOfNeighbors << ". " << std::endl;
+
   /**
    * Try getting the hexahedron's neighbor through its second edge.
    * This should be the test tetrahedron. (Because the boundary is
    * not defined explicitly, we use implicit relationships to determine
-   * neighbors. In this case, bit the tetrahedron and hexahedron share
+   * neighbors. In this case, the tetrahedron and hexahedron share
    * the two points defining the edge and are therefore considered 
    * neighbors.)
    */
@@ -268,7 +283,7 @@ int itkMeshTest(int, char* [] )
     1,              // Topological dimension of feature.
     1,              // CellIdentifier
     1,              // CellFeatureIdentifier
-    &neighborSet); // Where to put result.
+    &neighborSet);  // Where to put result.
 
   std::cout << "Neighbors (hex edge 1):" << std::endl;
   for(cell = neighborSet.begin(); cell != neighborSet.end(); ++cell)
