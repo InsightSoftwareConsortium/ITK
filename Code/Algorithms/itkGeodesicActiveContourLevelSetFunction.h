@@ -39,7 +39,7 @@ namespace itk {
  * \f$ (\nabla * G) \f$ is the derivative of Gaussian operator. 
  *
  * \par In this function both the propagation term \f$ P(\mathbf{x}) \f$
- * and the curvature spatial modifier term $\f$ Z(\mathbf{x}) \f$ are taken directly
+ * and the curvature spatial modifier term \f$ Z(\mathbf{x}) \f$ are taken directly
  * from the edge potential image. The edge potential image is set via the
  * SetFeatureImage() method. An advection term \f$ A(\mathbf{x}) \f$ is constructed
  * from the negative gradient of the edge potential image. This term behaves like
