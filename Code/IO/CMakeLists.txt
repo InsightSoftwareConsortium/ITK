@@ -19,6 +19,8 @@ itkVOLImageIOFactory.cxx
 itkVOLImageIO.cxx
 itkVTKImageIOFactory.cxx
 itkVTKImageIO.cxx
+itkStimulateImageIO.cxx
+itkStimulateImageIOFactory.cxx
 itkWriter.cxx
 )
 

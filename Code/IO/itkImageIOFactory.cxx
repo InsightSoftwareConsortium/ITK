@@ -22,6 +22,7 @@
 #include "itkMetaImageIOFactory.h"
 #include "itkPNGImageIOFactory.h"
 #include "itkVTKImageIOFactory.h"
+#include "itkStimulateImageIOFactory.h"
 #include "itkMutexLock.h"
 #include "itkMutexLockHolder.h"
 
@@ -97,6 +98,7 @@ ImageIOFactory::RegisterBuiltInFactories()
       ObjectFactoryBase::RegisterFactory( VTKImageIOFactory::New() ); 
       ObjectFactoryBase::RegisterFactory( GiplImageIOFactory::New() ); 
       ObjectFactoryBase::RegisterFactory( AnalyzeImageIOFactory::New());
+      ObjectFactoryBase::RegisterFactory( StimulateImageIOFactory::New());
       firstTime = false;
       }
   }
