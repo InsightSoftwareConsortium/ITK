@@ -121,6 +121,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkPointSet.h"
 #include "itkProcessObject.h"
 #include "itkQuadrilateralCell.h"
+#include "itkQuaternionRigidRegistrationTransform.h"
 #include "itkRGBPixel.h"
 #include "itkRandomAccessNeighborhoodIterator.h"
 #include "itkRedDataAccessor.h"

@@ -42,6 +42,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkImageToImageAffinePatternIntensityGradientDescentRegistration.h"
 #include "itkImageToImageAffinePatternIntensityRegularStepGradientDescentRegistration.h"
 #include "itkImageToImageMomentsAlignmentCalculator.h"
+#include "itkImageToImageRigidMutualInformationGradientDescentRegistration.h"
 #include "itkImageToImageTranslationMeanSquaresGradientDescentRegistration.h"
 #include "itkImageToImageTranslationMeanSquaresRegularStepGradientDescentRegistration.h"
 #include "itkImageToImageTranslationNormalizedCorrelationGradientDescentRegistration.h"
