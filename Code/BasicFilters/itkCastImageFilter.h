@@ -70,7 +70,10 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
-protected:
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(CastImageFilter, UnaryFunctorImageFilter);
+
+ protected:
   CastImageFilter() {}
   virtual ~CastImageFilter() {}
 
