@@ -211,26 +211,40 @@ GetJacobian( const InputPointType & p ) const
   // The Jacobian of the affine transform is composed of
   // subblocks of diagonal matrices, each one of them having
   // a constant value in the diagonal.
+  // The block corresponding to the center parameters is
+  // composed by ( Identity matrix - Rotation Matrix).
 
   m_Jacobian.Fill( 0.0 );
+
 
   unsigned int blockOffset = 0;
   
   for(unsigned int block=0; block < SpaceDimension; block++) 
-  {
-    for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
     {
+    for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
+      {
        m_Jacobian( block , blockOffset + dim ) = p[dim];
+      }
+    blockOffset += SpaceDimension;
     }
 
-    blockOffset += SpaceDimension;
+  // Block associated with the center parameters
+  const MatrixType & matrix = this->GetMatrix();
+  for(unsigned int k=0; k < SpaceDimension; k++) 
+    {
+    m_Jacobian( k, blockOffset + k ) = 1.0;
+    for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
+      {
+      m_Jacobian( k, blockOffset + dim ) -= matrix[k][dim];
+      }
+    }
+  blockOffset += SpaceDimension;
 
-  }
-
+  // Block associated with the translations
   for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
-  {
-     m_Jacobian( dim , blockOffset + dim ) = 1.0;
-  }
+    {
+    m_Jacobian( dim , blockOffset + dim ) = 1.0;
+    }
 
   return m_Jacobian;
 
