@@ -84,9 +84,17 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  The following code is generating a circle in 3D and assigning vector values
-  //  to the points. The components of the vectors in this example are
-  //  computed to represent the tangents to the circle.
+  //  The following code is generating a circle in 3D and assigning vector
+  //  values to the points. The components of the vectors in this example are
+  //  computed to represent the tangents to the circle as shown in figure
+  //  \ref{fig:PointSetWithVectors}.
+  //
+  //  \begin{figure}
+  //  \centering
+  //  \includegraphics[width=5cm]{PointSetWithVectors.eps}
+  //  \par
+  //  \caption{\label{fig:PointSetWithVectors}PointSet with Vectors as PixelType}
+  //  \end{figure}
   //
   //  \index{itk::PointSet!SetPoint()}
   //  \index{itk::PointSet!SetPointData()}
