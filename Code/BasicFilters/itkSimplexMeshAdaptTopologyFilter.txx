@@ -299,7 +299,7 @@ namespace itk
         {
         InputCellPointIdIterator lineIt =  nextCell->PointIdsBegin();
         unsigned long first= *lineIt++;
-        unsigned long second= *lineIt++;
+        unsigned long second= *lineIt;
 
         this->GetInput(0)->AddEdge( first, insertPointId );
         this->GetInput(0)->AddEdge( insertPointId, second );

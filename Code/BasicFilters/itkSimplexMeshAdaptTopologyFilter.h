@@ -137,11 +137,10 @@ class SimplexMeshAdaptTopologyFilter : public MeshToMeshFilter<TInputMesh, TOutp
           meanCurvature += vcl_abs(val);
 
           unsigned long id1 = *it;
-          val = 0;
           val = mesh->GetMeanCurvature(*it++);
           meanCurvature += vcl_abs(val);
 
-          unsigned long id2 = 0;
+          unsigned long id2;
 
           double area = 0;
 
@@ -152,7 +151,6 @@ class SimplexMeshAdaptTopologyFilter : public MeshToMeshFilter<TInputMesh, TOutp
             id2 = *it;
             area += ComputeArea(refPoint,id1,id2);
             id1 = id2;
-            val = 0;
             val = mesh->GetMeanCurvature(*it);
             meanCurvature += vcl_abs(val);
             cnt++;
