@@ -4,6 +4,10 @@ LINK_LIBRARIES (
 VXLNumerics
 )
 
+UNIX_LIBRARIES (
+-lm
+)
+
 # All the CABLE sets defined here will be inherited by the
 # subdirectories for convenient use in their CMakeLists files.
 
