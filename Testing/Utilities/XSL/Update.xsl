@@ -15,26 +15,32 @@
 <h1>Insight Changed Files - <xsl:value-of select="StartDateTime"/></h1>
 
 <br/>
-<a><xsl:attribute name="HREF">#Modified</xsl:attribute><xsl:value-of select="count(Modified)"/></a><xsl:text> Modified files </xsl:text><a><xsl:attribute name="HREF">#Conflicting</xsl:attribute><xsl:value-of select="count(Conflicting)"/></a> <xsl:text> Conflicting files</xsl:text> 
+<a>
+  <xsl:attribute name="HREF">#Updated</xsl:attribute><xsl:value-of select="count(Updated)"/>
+</a>
+<xsl:text> Updated/Patched files </xsl:text>
+<a>
+  <xsl:attribute name="HREF">#Conflicting</xsl:attribute><xsl:value-of select="count(Conflicting)"/>
+</a> 
+<xsl:text> Conflicting files</xsl:text> 
+<xsl:value-of select="count(Modified)"/> Locally modified
 
 <br/>
-<h3>Modified files listed by <a><xsl:attribute name="href">#directory</xsl:attribute>directory</a></h3>
+<h3>Updated files listed by <a href="#directory">directory</a></h3>
 
   <xsl:for-each select="Directory">
-  <strong><xsl:value-of select="Name"/></strong> had <a><xsl:attribute name="href">#<xsl:value-of select="Name"/></xsl:attribute><xsl:value-of select="count(File)"/></a> modified files<br/>
+  <strong><xsl:value-of select="Name"/></strong> had <a><xsl:attribute name="href">#<xsl:value-of select="Name"/></xsl:attribute><xsl:value-of select="count(File)"/></a> updated files<br/>
   </xsl:for-each>
 <hr/>
 
-<h3>Modified by <a><xsl:attribute name="href">#author</xsl:attribute>author</a></h3>
+<h3>Updated by <a><xsl:attribute name="href">#author</xsl:attribute>author</a></h3>
 <xsl:for-each select="Author">
-  <strong><xsl:value-of select="Name"/></strong> had <a><xsl:attribute name="href">#<xsl:value-of select="Name"/></xsl:attribute><xsl:value-of select="count(File)"/></a> modified files<br/>
+  <strong><xsl:value-of select="Name"/></strong> had <a><xsl:attribute name="href">#<xsl:value-of select="Name"/></xsl:attribute><xsl:value-of select="count(File)"/></a> updated files<br/>
   </xsl:for-each>
-
-
 
 <hr/>
 <h2>Summary</h2>
-<xsl:for-each select="Modified">
+<xsl:for-each select="Updated">
   <br/>
   <strong><a><xsl:attribute name="name"><xsl:value-of select="FullName"/></xsl:attribute></a>
   <a><xsl:attribute name="href"><xsl:value-of select="$CVSWebURL"/><xsl:value-of select="FullName"/></xsl:attribute><xsl:value-of select="File"/></a>
@@ -50,12 +56,16 @@
 </xsl:for-each>
 
 
-<h2><a><xsl:attribute name="name">author</xsl:attribute>Modified by Author</a></h2>
+<h2><a><xsl:attribute name="name">author</xsl:attribute>Updated by Author</a></h2>
   <xsl:apply-templates select="Author"/>
 <hr/>
 
-<h2><a><xsl:attribute name="name">directory</xsl:attribute>Modified by Directory</a></h2>
+<h2><a><xsl:attribute name="name">directory</xsl:attribute>Updated by Directory</a></h2>
   <xsl:apply-templates select="Directory"/>
+<hr/>
+
+<h2><a><xsl:attribute name="name">Updated</xsl:attribute>Updated</a></h2>
+  <xsl:apply-templates select="Updated"/>
 <hr/>
 
 <h2><a><xsl:attribute name="name">Modified</xsl:attribute>Modified</a></h2>
@@ -73,7 +83,7 @@
 
 </xsl:template>
 
-<xsl:template match="Modified|Conflicting">
+<xsl:template match="Updated|Conflicting|Modified">
   <br/>
   <strong><a><xsl:attribute name="name"><xsl:value-of select="FullName"/></xsl:attribute></a>
   <a><xsl:attribute name="href"><xsl:value-of select="$CVSWebURL"/><xsl:value-of select="FullName"/></xsl:attribute><xsl:value-of select="File"/></a>

@@ -36,14 +36,19 @@ set Line 0
 while { ![eof $Update] } \
 {
   set Line [gets $Update]
-  if { [regexp "^U " $Line] } \
+  if { [regexp "^U " $Line] || [regexp "^P " $Line] } \
   {
-    set FileStatus([lindex $Line 1]) Modified
+    set FileStatus([lindex $Line 1]) Updated
     lappend Files [lindex $Line 1]
   }
   if { [regexp "^C " $Line] } \
   {
     set FileStatus([lindex $Line 1]) Conflicting
+    lappend Files [lindex $Line 1]
+  }
+  if { [regexp "^M " $Line] } \
+  {
+    set FileStatus([lindex $Line 1]) Modified
     lappend Files [lindex $Line 1]
   }
   

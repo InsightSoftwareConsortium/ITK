@@ -32,18 +32,25 @@
             
             <xsl:variable name="URLBase">../../Sites/<xsl:value-of select="Site/SiteName"/>/<xsl:value-of select="Site/BuildName"/>/<xsl:value-of select="Site/BuildStamp"/></xsl:variable>
             <tr>
-              <td><xsl:value-of select="Site/SiteName"/></td>
-              <td><xsl:value-of select="Site/BuildName"/></td>
-              <td>
+              <td align="left">
+                <xsl:value-of select="Site/SiteName"/>
+              </td>
+              <td align="left">
+                <xsl:value-of select="Site/BuildName"/>
+              </td>
+              <td align="right">
                 <a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Build.html#Error</xsl:attribute><xsl:value-of select="Site/Build/ErrorCount"/></a>
               </td>
               <td>
+                <xsl:attribute name="align">right</xsl:attribute>
                 <a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Build.html#Warning</xsl:attribute><xsl:value-of select="Site/Build/WarningCount"/></a>
               </td>
               <td>
+                <xsl:attribute name="align">right</xsl:attribute>
                 <a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Test.html#Passed</xsl:attribute><xsl:value-of select="Site/Testing/PassedCount"/></a>
               </td>
               <td>
+                <xsl:attribute name="align">right</xsl:attribute>
                 <a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Test.html#Failed</xsl:attribute><xsl:value-of select="Site/Testing/FailedCount"/></a>
               </td>
               <td><xsl:value-of select="Site/Testing/StartDateTime"/></td>
