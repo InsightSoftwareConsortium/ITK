@@ -75,9 +75,10 @@ ConstantPadImageFilter<TInputImage,TOutputImage>
 }
 
 /**
- * Given the list of region breaks, determine the breaks for this 
- * particular combination. 
- */
+ * Given an n dimensional list of output region breakpoints in indices
+ * and size (where the current region and maximum region for each dimension
+ * is encoded in regIndices and regLimit), choose the next output region.
+ */ 
 template <class TInputImage, class TOutputImage>
 int
 ConstantPadImageFilter<TInputImage,TOutputImage>

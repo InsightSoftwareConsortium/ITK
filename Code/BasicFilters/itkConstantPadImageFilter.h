@@ -115,24 +115,18 @@ public:
   enum { ImageDimension = TInputImage::ImageDimension };
 
   /**
-   * Set the pad value.  Default is Zero.
+   * Set/Get the pad value.  Default is Zero.
    */
-  void SetConstant( OutputImagePixelType constant )
-    {m_Constant = constant; this->Modified();}
-  
-  /** 
-   * Get the output image extent.
-   */
-  const OutputImagePixelType GetConstant() const
-		{ return m_Constant; }
+  itkSetMacro(Constant, OutputImagePixelType);
+  itkGetMacro(Constant, OutputImagePixelType);
                  
- protected:
-   ConstantPadImageFilter();
+protected:
+  ConstantPadImageFilter();
   ~ConstantPadImageFilter() {};
   ConstantPadImageFilter(const Self&) {}
   void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
-
+  
   /**
    * PadImageFilter can be implemented as a multithreaded filter.  Therefore,
    * this implementation provides a ThreadedGenerateData() routine which
@@ -146,11 +140,17 @@ public:
    */
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                             int threadId );
+
+  /**
+   * Given an n dimensional list of output region breakpoints in indices
+   * and size (where the current region and maximum region for each dimension
+   * is encoded in regIndices and regLimit), choose the next output region.
+   */ 
   int GenerateNextRegion(int *regIndices, int *regLimit, 
 			 OutputImageIndexType *indices, 
 			 OutputImageSizeType *sizes, 
 			 OutputImageRegionType& outputRegion);
-
+  
 private:
   OutputImagePixelType m_Constant;
 };

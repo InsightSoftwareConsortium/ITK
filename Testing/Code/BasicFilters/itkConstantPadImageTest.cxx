@@ -91,8 +91,8 @@ int main()
   unsigned int upperfactors[2] = { 0, 0};
   unsigned int lowerfactors[2] = { 0, 0};
   constantPad->SetConstant(13);
-  constantPad->PadLowerBound(lowerfactors);
-  constantPad->PadUpperBound(upperfactors);
+  constantPad->SetPadLowerBound(lowerfactors);
+  constantPad->SetPadUpperBound(upperfactors);
   constantPad->UpdateLargestPossibleRegion();
   
   std::cout << "Input spacing: " << if2->GetSpacing()[0] << ", "
@@ -108,8 +108,8 @@ int main()
   // CASE 1
   lowerfactors[0] = 1; lowerfactors[1] = 2; 
   upperfactors[0] = 3; upperfactors[1] = 4;
-  constantPad->PadLowerBound(lowerfactors);
-  constantPad->PadUpperBound(upperfactors);
+  constantPad->SetPadLowerBound(lowerfactors);
+  constantPad->SetPadUpperBound(upperfactors);
   constantPad->UpdateLargestPossibleRegion();
   requestedRegion = constantPad->GetOutput()->GetRequestedRegion();
   
@@ -163,13 +163,13 @@ int main()
   // CASE 2
   lowerfactors[0] = 10; 
   upperfactors[1] = 15;
-  constantPad->PadLowerBound(0, lowerfactors[0]);
-  constantPad->PadUpperBound(1, upperfactors[1]);
+  constantPad->SetPadLowerBound(lowerfactors);
+  constantPad->SetPadUpperBound(upperfactors);
   
-  if ((constantPad->GetPadUpperBound(0) != upperfactors[0]) 
+  if ((constantPad->GetPadUpperBound()[0] != upperfactors[0]) 
       || (constantPad->GetPadUpperBound()[1] != upperfactors[1])
       || (constantPad->GetPadLowerBound()[0] != lowerfactors[0])
-      || (constantPad->GetPadLowerBound(1) != lowerfactors[1]))
+      || (constantPad->GetPadLowerBound()[1] != lowerfactors[1]))
     {
       passed = false;
     } 

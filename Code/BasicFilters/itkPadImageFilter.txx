@@ -73,13 +73,13 @@ PadImageFilter<TInputImage,TOutputImage>
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Output Lower Bounds: ";
+  os << indent << "Output Pad Lower Bounds: ";
   for( int j = 0; j < ImageDimension; j++ )
     {
     os << m_PadLowerBound[j] << " ";
     } 
   os << std::endl;
-  os << indent << "Output Upper Bounds: ";
+  os << indent << "Output Pad Upper Bounds: ";
   for( int j = 0; j < ImageDimension; j++ )
     {
     os << m_PadUpperBound[j] << " ";
@@ -88,136 +88,13 @@ PadImageFilter<TInputImage,TOutputImage>
 }
 
 
-/**
- *
- */
-template <class TInputImage, class TOutputImage>
-void 
-PadImageFilter<TInputImage,TOutputImage>
-::PadLowerBound(unsigned int bounds[])
-{
-  int j = 0;
-  for( j = 0; j < ImageDimension; j++ )
-    {
-    if( bounds[j] != m_PadLowerBound[j] ) break;
-    }
-  if( j < ImageDimension )
-    {
-    this->Modified();
-    for( j = 0; j < ImageDimension; j++ )
-      {
-      m_PadLowerBound[j] = bounds[j];
-      }
-    }
-}
-
-
-/**
- *
- */
-template <class TInputImage, class TOutputImage>
-void 
-PadImageFilter<TInputImage,TOutputImage>
-::PadLowerBound(unsigned int dimension, unsigned int bounds)
-{
-   if (dimension >= ImageDimension)
-     {
-       itkErrorMacro("Cannot set bound.  Requested dimension is greater than current image dimension!!!");
-       return;
-     }
-
-   if (bounds != m_PadLowerBound[dimension] )
-     {
-       m_PadLowerBound[dimension] = bounds;
-       this->Modified();
-     }
-}
-
-
-/**
- *
- */
-template<class TInputImage, class TOutputImage>
-unsigned int 
-PadImageFilter<TInputImage, TOutputImage>
-::GetPadLowerBound(unsigned int dimension) const
-{
-  if (dimension >= ImageDimension)
-    {
-      itkErrorMacro("Cannot set bound.  Requested dimension is greater than current image dimension!!!");
-      return 0;
-    }
-  
-  return m_PadLowerBound[dimension];
-}
-
-
-/**
- *
- */
-template<class TInputImage, class TOutputImage>
-unsigned int 
-PadImageFilter<TInputImage, TOutputImage>
-::GetPadUpperBound(unsigned int dimension) const
-{
-  if (dimension >= ImageDimension)
-    {
-      itkErrorMacro("Cannot set bound.  Requested dimension is greater than current image dimension!!!");
-      return 0;
-    }
-  
-  return m_PadUpperBound[dimension];
-}
-
-
-/**
- *
- */
-template <class TInputImage, class TOutputImage>
-void 
-PadImageFilter<TInputImage,TOutputImage>
-::PadUpperBound(unsigned int bounds[])
-{
-  int j = 0;
-  for( j = 0; j < ImageDimension; j++ )
-    {
-      if( bounds[j] != m_PadUpperBound[j] ) break;
-    }
-  if( j < ImageDimension )
-    {
-      this->Modified();
-      for( j = 0; j < ImageDimension; j++ )
-	{
-	  m_PadUpperBound[j] = bounds[j];
-	}
-    }
-}
-
-
-/**
- *
- */
-template <class TInputImage, class TOutputImage>
-void 
-PadImageFilter<TInputImage,TOutputImage>
-::PadUpperBound(unsigned int dimension, unsigned int bounds)
-{
-   if (dimension >= ImageDimension)
-     {
-       itkErrorMacro("Cannot set bound.  Requested dimension is greater than current image dimension!!!");
-       return;
-     }
-
-   if (bounds != m_PadUpperBound[dimension] )
-     {
-       m_PadUpperBound[dimension] = bounds;
-       this->Modified();
-     }
-}
-
-
 /** 
+ * PadImageFilter needs a smaller input requested region than
+ * output requested region.  As such, PadImageFilter needs to
+ * provide an implementation for GenerateInputRequestedRegion() in
+ * order to inform the pipeline execution model.
  *
+ * \sa ProcessObject::GenerateInputRequestedRegion() 
  */
 template <class TInputImage, class TOutputImage>
 void 
@@ -280,8 +157,8 @@ PadImageFilter<TInputImage,TOutputImage>
       // The previous statements correctly handle overlapped regions where
       // at least some of the pixels from the input image end up reflected 
       // in the output.  When there is no overlap, the size will be negative.
-      // In that case we arbitrarily pick the start of the input whole extent
-      // as the start of the region and zero for the size.
+      // In that case we arbitrarily pick the start of the input region
+      // as the start of the output region and zero for the size.
       // 
       if (sizeTemp < 0) 
 	{
@@ -300,8 +177,15 @@ PadImageFilter<TInputImage,TOutputImage>
   inputPtr->SetRequestedRegion( inputRequestedRegion );
 }
 
+
 /** 
+ * PadImageFilter produces an image which is a different resolution
+ * than its input image.  As such, PadImageFilter needs to
+ * provide an implementation for UpdateOutputInformation() in order
+ * to inform the pipeline execution model.  The original
+ * documentation of this method is below.
  *
+ * \sa ProcessObject::UpdateOutputInformaton() 
  */
 template <class TInputImage, class TOutputImage>
 void 

@@ -50,10 +50,9 @@ namespace itk
  * \brief Increase the image size by padding. Superclass for filters that fill
  * in extra pixels.
  *
- * PadImageFilter changes the image extent of an image.  If the image extent
- * is larger than the input image extent, the extra pixels are filled in by 
- * an algorithm determined by the subclass.  The image extent of the output 
- * must be specified.
+ * PadImageFilter changes the image boundary of an image by padding each 
+ * dimension with subclass defined algorithms.  The number of pixels to pad
+ * for the upper and lower bounds of each dimension must be specified.
  *
  * This filter is implemented as a multithreaded filter.  It provides a 
  * ThreadedGenerateData() method for its implementation.
@@ -115,25 +114,16 @@ public:
   /**
    * ImageDimension enumeration
    */
+
   enum { ImageDimension = TInputImage::ImageDimension };
 
   /**
-   * Set the output image extent.  Default is the input image extent.
+   * Set/Get the output image padding.  Default is no padding (same as input).
    */
-  void PadLowerBound( unsigned int dimension, unsigned int bound );
-  void PadUpperBound( unsigned int dimension, unsigned int bound );
-  void PadLowerBound( unsigned int bounds[] );
-  void PadUpperBound( unsigned int bounds[] );
-  
-  /** 
-   * Get the output image extent.
-   */
-  const unsigned int * GetPadLowerBound() const
-		{ return m_PadLowerBound; }
-  unsigned int GetPadLowerBound(unsigned int dimension) const;
-  const unsigned int * GetPadUpperBound() const
-		{ return m_PadUpperBound; }
-  unsigned int GetPadUpperBound(unsigned int dimension) const;
+  itkSetVectorMacro(PadLowerBound, const unsigned int, ImageDimension);
+  itkSetVectorMacro(PadUpperBound, const unsigned int, ImageDimension);
+  itkGetVectorMacro(PadLowerBound, const unsigned int, ImageDimension);
+  itkGetVectorMacro(PadUpperBound, const unsigned int, ImageDimension);
                  
   /** 
    * PadImageFilter produces an image which is a different resolution
