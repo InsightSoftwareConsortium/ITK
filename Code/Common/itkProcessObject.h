@@ -51,14 +51,23 @@ namespace itk
  * Another method, ProgressMethod() can be specified. Some filters invoke
  * this method periodically during their execution (with the progress,
  * parameter, the fraction of work done). The use is similar to that of
- * StartMethod() and EndMethod(). Filters may also check their AbortGenerateData
- * flag to determine whether to prematurally end their execution.
+ * StartMethod() and EndMethod(). Filters may also check their
+ * AbortGenerateData flag to determine whether to prematurally end their
+ * execution.
  *
  * An important feature of subclasses of ProcessObject is that it is
  * possible to control the memory-management model (i.e., retain output
  * versus delete output data). If enabled the ReleaseDataFlag enables the
  * deletion of the output data once the downstream process object finishes
- * processing the data (please see text).  
+ * processing the data (please see text).
+ *
+ * Subclasses of ProcessObject may override 3 of the methods of this class
+ * to control how a given filter may interact with the pipeline (dataflow).
+ * These methods are: UpdateOutputInformation(),
+ * EnlargeOutputRequestedRegion(), GenerateInputRequestedRegion(). By
+ * overriding these methods, a filter deviate from the base assumptions
+ * of the pipeline execution model.
+ *       
  */
 class ITK_EXPORT ProcessObject : public Object
 {
@@ -186,26 +195,36 @@ public:
   void UpdateProgress(float amount);
   
   /** 
-   * Bring this filter up-to-date before execution. Update() checks modified
-   * time against last execution time, and re-executes object if necessary. 
-   * A side effect of this method is that the whole pipeline may execute
+   * Bring this filter up-to-date. Update() checks modified times against
+   * last execution times, and re-executes objects if necessary. A side
+   * effect of this method is that the whole pipeline may execute
    * in order to bring this filter up-to-date.
    */
   virtual void Update();
 
   /** 
-   * Like update, but make sure the requested region is the largest possible
+   * Like Update(), but make sure the requested region is the largest possible
    * region the output.
    */
   virtual void UpdateLargestPossibleRegion();
 
   /** 
-   * Updates any global information about the data 
-   * (like spacing for images). */
+   * Update the information decribing the output data. The default 
+   * implementation of this method will copy information from the input to
+   * the output.  A filter may override this method if its output will have
+   * different information than its input.  For instance, a filter that 
+   * shrinks an image will need to provide an implementation for this 
+   * method that changes the spacing of the pixels. Such filters should call
+   * their superclass' implementation of this method prior to changing the
+   * information values they need (i.e. UpdateOutputInformation() should
+   * call Superclass::UpdateOutputInformation() prior to changing the
+   * information.
+   */
   virtual void UpdateOutputInformation();
 
   /** 
-   * Send the requested region down the pipeline 
+   * Send the requested region information back up the pipeline (to the
+   * filters that preceed this one).
    */
   virtual void PropagateRequestedRegion(DataObject *output);
 
@@ -237,20 +256,28 @@ public:
 						 unsigned long size[2] );
 
   /** 
-   * Give the source a chance to say that it will produce more output
-   * than it was asked to produce. For example, FFT always produces the
-   * whole thing, and many imaging filters must produce the output in
-   * whole slices (in two dimensions). By default we do not modify 
-   * the size of the output requested region. 
+   * Give the process object a chance to indictate that it will produce more
+   * output than it was requested to produce. For example, many imaging
+   * filters must compute the entire output at once or can only produce output
+   * in complete slices. Such filters cannot handle smaller requested regions.
+   * These filters must provide an implementation of this method, setting
+   * the output requested region to the size they will produce.  By default,
+   * a process object does not modify the size of the output requested region.
    */
   virtual void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output)){};
   
   /** 
    * What is the input requested region that is required to produce the
-   * desired output? By default, the largest possible region is always 
-   * required but this is overridden in many subclasses. 
+   * output requested region? By default, the largest possible region is
+   * always required but this is overridden in many subclasses. For instance,
+   * for an image processing filter where an output pixel is a simple function
+   * of an input pixel, the input requested region will be set to the output
+   * requested region.  For an image processing filter where an output pixel
+   * is a function of the pixels in a neighborhood of an input pixel, then
+   * the input requested region will need to be larger than the output
+   * requested region (to avoid introducing artificial boundary conditions).
    */
-  virtual void GenerateInputRequestedRegion( DataObject *output );
+  virtual void GenerateInputRequestedRegion();
 
   /** 
    * Turn on/off flag to control whether this object's data is released

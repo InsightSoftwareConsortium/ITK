@@ -655,9 +655,9 @@ ProcessObject
   /**
    * Call GenerateOutputInformation for subclass specific information.
    * Since UpdateOutputInformation propagates all the way up the pipeline,
-   * we need to be careful here to call GenerateOutputInformation only if necessary.
-   * Otherwise, we may cause this source to be modified which will cause it
-   * to execute again on the next update.
+   * we need to be careful here to call GenerateOutputInformation only if
+   * necessary. Otherwise, we may cause this source to be modified which
+   * will cause it to execute again on the next update.
    */
   if (t1 > m_InformationTime.GetMTime())
     {
@@ -707,10 +707,10 @@ ProcessObject
    * derives a new pixel value by applying some operation to a 
    * neighborhood of surrounding original values. 
    */
-  this->GenerateInputRequestedRegion( output );
+  this->GenerateInputRequestedRegion();
 
   /**
-   * Now that we know the input requested region, propogate this
+   * Now that we know the input requested region, propagate this
    * through all the inputs.
    */
   m_Updating = true;
@@ -732,7 +732,7 @@ ProcessObject
  */
 void 
 ProcessObject
-::GenerateInputRequestedRegion( DataObject *itkNotUsed(output) )
+::GenerateInputRequestedRegion()
 {
   for (unsigned int idx = 0; idx < m_Inputs.size(); ++idx)
     {

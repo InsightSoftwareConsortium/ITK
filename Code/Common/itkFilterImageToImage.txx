@@ -52,7 +52,7 @@ FilterImageToImage<TInputImage,TOutputImage>::InputImagePointer
 FilterImageToImage<TInputImage,TOutputImage>
 ::GetInput()
 {
-  if (this->NumberOfInputs < 1)
+  if (this->GetNumberOfInputs() < 1)
     {
     return 0;
     }

@@ -86,8 +86,9 @@ ImageSource<TOutputImage>
 template<class TOutputImage>
 void 
 ImageSource<TOutputImage>
-::GenerateInputRequestedRegion(DataObject *data)
+::GenerateInputRequestedRegion()
 {
+  Superclass::GenerateInputRequestedRegion();
 }
 
 

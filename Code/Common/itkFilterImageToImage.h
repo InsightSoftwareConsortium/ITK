@@ -25,7 +25,7 @@ namespace itk
  * \brief 
  *
  * FilterImageToImage is the base class for all process objects that output
- * image data, and require image data as input. Specifically, this class
+ * image data and require image data as input. Specifically, this class
  * defines the SetInput() method for defining the input to a filter.
  */
 template <class TInputImage, class TOutputImage>
