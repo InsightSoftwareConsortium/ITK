@@ -21,9 +21,7 @@ ${ITK_BINARY_DIR}/Code/Numerics/vxl/vnl
 )
 
 SOURCE_FILES(FEM_SRCS
-itkFEMElementTestMenu
 itkFEMElementTest
-itkFEMBar2DTest
 )
 
 LINK_LIBRARIES (
