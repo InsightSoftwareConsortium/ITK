@@ -180,7 +180,8 @@ void RawImageIO<TPixel,VImageDimension>
   
   if ( m_FileType == Binary )
     {
-    // Read the image (binary) file.read((char *)buffer, m_Strides[m_FileDimensionality + 1]);
+    // Read the image (binary) 
+    file.read((char *)buffer, m_Strides[m_FileDimensionality + 1]);
     if ( file.fail() )
       {
       itkExceptionMacro(<<"Read failed: Wanted " 
