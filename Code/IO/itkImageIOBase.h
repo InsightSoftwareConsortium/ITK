@@ -17,7 +17,7 @@
 #ifndef __itkImageIOBase_h
 #define __itkImageIOBase_h
 
-#include "itkObject.h"
+#include "itkLightProcessObject.h"
 #include "itkObjectFactory.h"
 #include "itkIndent.h"
 #include "itkImageIORegion.h"
@@ -41,12 +41,12 @@ namespace itk
  * \sa ImageFileWriter
  * \sa ImageFileReader
  */
-class ITK_EXPORT ImageIOBase : public Object
+class ITK_EXPORT ImageIOBase : public LightProcessObject
 {
 public:
   /** Standard class typedefs. */
   typedef ImageIOBase            Self;
-  typedef Object  Superclass;
+  typedef LightProcessObject  Superclass;
   typedef SmartPointer<Self>  Pointer;
   
   /** Run-time type information (and related methods). */
