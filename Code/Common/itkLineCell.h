@@ -55,6 +55,16 @@ public:
    */
   typedef SmartPointer<Self>  Pointer;
 
+  /**
+   * Save the PixelType template parameter.
+   */
+  typedef TPixelType                                PixelType;
+  
+  /**
+   * Save the CellType template parameter.
+   */
+  typedef TCellType                                 CellType;
+
   /** \typedef
    * Save some template parameter information.
    */
