@@ -114,6 +114,7 @@ public:
   typedef typename Superclass::RadiusType RadiusType;
   typedef typename Superclass::FloatOffsetType FloatOffsetType;
   typedef typename Superclass::VectorImageType VectorImageType;
+  typedef typename Superclass::GlobalDataStruct GlobalDataStruct;
 
   /** Extract some parameters from the superclass. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -127,8 +128,8 @@ public:
 
   /** The curvature speed is same as the propagation speed. */
   virtual ScalarValueType CurvatureSpeed(const NeighborhoodType & neighborhood,
-                                         const FloatOffsetType & offset ) const
-  { return PropagationSpeed( neighborhood, offset ); }
+                                         const FloatOffsetType & offset, GlobalDataStruct *gd ) const
+  { return PropagationSpeed( neighborhood, offset, gd ); }
 
   /** Set/Get the sigma for the Gaussian kernel used to compute the gradient
    * of the feature image needed for the advection term of the equation. */

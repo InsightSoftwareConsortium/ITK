@@ -91,6 +91,7 @@ public:
   typedef typename Superclass::FeatureScalarType FeatureScalarType;
   typedef typename Superclass::RadiusType RadiusType;
   typedef typename Superclass::FloatOffsetType FloatOffsetType;
+  typedef typename Superclass::GlobalDataStruct GlobalDataStruct;
 
   /** Extract some parameters from the superclass. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -100,8 +101,8 @@ public:
 
   /** The curvature speed is same as the propagation speed. */
   virtual ScalarValueType CurvatureSpeed(const NeighborhoodType & neighborhood,
-                                         const FloatOffsetType & offset ) const
-  { return PropagationSpeed( neighborhood, offset ); }
+                                         const FloatOffsetType & offset, GlobalDataStruct *gd ) const
+  { return PropagationSpeed( neighborhood, offset, gd ); }
 
   virtual void Initialize(const RadiusType &r)
   {
