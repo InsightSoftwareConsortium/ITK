@@ -125,7 +125,7 @@ public:
   
   /** Default constructor. Needed since we provide a cast constructor. */
   ImageRandomConstIteratorWithIndex();
-  virtual ~ImageRandomConstIteratorWithIndex() {};
+  ~ImageRandomConstIteratorWithIndex() {};
   
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
@@ -141,10 +141,10 @@ public:
     { this->ImageConstIteratorWithIndex<TImage>::operator=(it); }
 
   /** Move an iterator to the beginning of the region. */
-  virtual void GoToBegin(void);
+  void GoToBegin(void);
 
   /** Move an iterator to the End of the region. */
-  virtual void GoToEnd(void);
+  void GoToEnd(void);
 
   /** Is the iterator at the beginning of the region? */
   bool IsAtBegin(void) const
