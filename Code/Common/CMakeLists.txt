@@ -8,6 +8,7 @@ itkExceptionObject \
 itkImageBase \
 itkIndent \
 itkLightObject \
+itkMutexLock \
 itkNumericTraits \
 itkObject \
 itkObjectFactoryBase \
