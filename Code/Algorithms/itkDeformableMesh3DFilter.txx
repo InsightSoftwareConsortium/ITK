@@ -192,6 +192,10 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   }
 
   this->SetDefaultStiffnessMatrix();
+
+  // This prevents unnecessary re-executions of the pipeline.
+  OutputMeshPointer outputMesh = this->GetOutput();
+  outputMesh->SetBufferedRegion( outputMesh->GetRequestedRegion() );
 } 
 
 /* Set the stiffness matrix. */

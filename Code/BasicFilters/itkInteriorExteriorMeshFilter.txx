@@ -87,6 +87,8 @@ InteriorExteriorMeshFilter<TInputMesh,TOutputMesh,TSpatialFunction>
     throw exception;
     }
 
+  outputMesh->SetBufferedRegion( outputMesh->GetRequestedRegion() );
+
   InputPointsContainerPointer     inPoints  = inputMesh->GetPoints();
   InputPointDataContainerPointer  inData    = inputMesh->GetPointData();
 

@@ -80,6 +80,8 @@ ParametricSpaceToImageSpaceMeshFilter<TInputMesh,TOutputMesh>
     itkExceptionMacro( <<"Missing Output Mesh" );
     }
 
+  outputMesh->SetBufferedRegion( outputMesh->GetRequestedRegion() );
+
   InputPointsContainerPointer  inPoints  = inputMesh->GetPoints();
   OutputPointsContainerPointer outPoints = OutputPointsContainer::New();
 

@@ -372,6 +372,10 @@ ConnectedRegionsMeshFilter<TInputMesh,TOutputMesh>
     itkDebugMacro (<< "Extracted " << output->GetNumberOfCells() << " cells");
     }
 
+
+  // This prevents unnecessary re-executions of the pipeline.
+  output->SetBufferedRegion( output->GetRequestedRegion() );
+
   return;
 }
 

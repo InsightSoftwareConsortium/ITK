@@ -78,6 +78,8 @@ TransformMeshFilter<TInputMesh,TOutputMesh,TTransform>
     itkExceptionMacro(<<"Missing Output Mesh");
     }
 
+  outputMesh->SetBufferedRegion( outputMesh->GetRequestedRegion() );
+
   InputPointsContainerPointer  inPoints  = inputMesh->GetPoints();
   OutputPointsContainerPointer outPoints = outputMesh->GetPoints();
 

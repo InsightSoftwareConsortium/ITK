@@ -285,6 +285,9 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     ++celldata;
     }
 
+  // This prevents unnecessary re-executions of the pipeline.
+  OutputMeshPointer outputMesh = this->GetOutput();
+  outputMesh->SetBufferedRegion( outputMesh->GetRequestedRegion() );
 } 
 
 /*
