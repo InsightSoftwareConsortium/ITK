@@ -356,7 +356,7 @@ ConstructDiagram(void)
   unsigned char frontbnd;
   unsigned char backbnd;
   std::vector<unsigned long> cellPoints;
-  for(int i = 0; i < m_NumberOfSeeds; i++){
+  for(unsigned int i = 0; i < m_NumberOfSeeds; i++){
     buildEdges.clear();
 	curr=rawEdges[i].front();
    	rawEdges[i].pop_front();

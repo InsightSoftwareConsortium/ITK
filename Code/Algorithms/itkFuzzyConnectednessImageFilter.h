@@ -101,6 +101,8 @@ public:
 
   typedef typename TOutputImage::RegionType RegionType;
   
+  UShortImage::Pointer GetFuzzyScene(void){ return m_FuzzyScene;};
+
   /**
    * Set the Estimation of the mean pixel value for the object.
    */
