@@ -180,6 +180,27 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage >
     {
     os << indent << "None" << std::endl;
     }      
+
+  os << indent << "MovingMomentCalculator   = " << std::endl;
+  if (m_MovingCalculator)
+    { 
+    os << indent << m_MovingCalculator  << std::endl;
+    }
+  else
+    {
+    os << indent << "None" << std::endl;
+    }      
+
+  os << indent << "FixedMomentCalculator   = " << std::endl;
+  if (m_FixedCalculator)
+    { 
+    os << indent << m_FixedCalculator  << std::endl;
+    }
+  else
+    {
+    os << indent << "None" << std::endl;
+    }      
+
 }
  
 }  // namespace itk
