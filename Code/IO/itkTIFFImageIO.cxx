@@ -46,8 +46,8 @@ public:
   TIFF *Image;
   unsigned int Width;
   unsigned int Height;
-  unsigned int NumberOfPages;
-  unsigned int CurrentPage;
+  unsigned short NumberOfPages;
+  unsigned short CurrentPage;
   unsigned short SamplesPerPixel;
   unsigned short Compression;
   unsigned short BitsPerSample;
