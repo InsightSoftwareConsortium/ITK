@@ -57,8 +57,14 @@ public:
   itkNewMacro(Self);
 
   /// Type of the image from where the buffer will be converted
-  typedef TImage                           ImageType;
-  typedef typename ImageType::PixelType    PixelType;
+  typedef TImage                              ImageType;
+  typedef typename ImageType::PixelType       PixelType;
+  typedef typename ImageType::SizeType        SizeType;
+  typedef typename ImageType::IndexType       IndexType;
+  typedef typename ImageType::RegionType      RegionType;
+  typedef typename ImageType::PointType       PointType;
+  typedef typename ImageType::SpacingType     SpacingType;
+
 
    /** Image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int,

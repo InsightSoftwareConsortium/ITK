@@ -58,8 +58,6 @@ PyBuffer<TImage>
    
    int dimensions[ ImageDimension ];
 
-   typedef typename ImageType::SizeType     SizeType;
-
    SizeType size = image->GetBufferedRegion().GetSize();
 
    for(unsigned int d=0; d < ImageDimension; d++ )
@@ -99,6 +97,62 @@ PyBuffer<TImage>
             Py_INCREF(this->obj);
         }
     }
+    
+
+    int element_type = PyArray_DOUBLE;  // change this with pixel traits.
+
+    PyArrayObject * parray = 
+          (PyArrayObject *) PyArray_ContiguousFromObject( 
+                                                    this->obj, 
+                                                    element_type,
+                                                    ImageDimension,
+                                                    ImageDimension  );
+
+    if( parray == NULL )
+      {
+      itkExceptionMacro("Contiguous array couldn't be created from input python object");
+      }
+
+    const unsigned int imageDimension = parray->nd;
+    
+    SizeType size;
+
+    unsigned int numberOfPixels = 1;
+
+    for( unsigned int d=0; d<imageDimension; d++ )
+      {
+      size[d]         = parray->dimensions[d];
+      numberOfPixels *= parray->dimensions[d];
+      }
+
+    IndexType start;
+    start.Fill( 0 );
+
+    RegionType region;
+    region.SetIndex( start );
+    region.SetSize( size );
+
+    PointType origin;
+    origin.Fill( 0.0 );
+
+    SpacingType spacing;
+    spacing.Fill( 1.0 );
+
+    this->m_Importer->SetRegion( region );
+    this->m_Importer->SetOrigin( origin );
+    this->m_Importer->SetSpacing( spacing );
+
+    const bool importImageFilterWillOwnTheBuffer = false;
+    
+    PixelType * data = (PixelType *)parray->data;
+    
+    this->m_Importer->SetImportPointer( 
+                        data,
+                        numberOfPixels,
+                        importImageFilterWillOwnTheBuffer );
+
+    this->m_Importer->Update();
+    
     return this->m_Importer->GetOutput();
 }
 
