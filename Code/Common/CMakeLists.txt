@@ -134,6 +134,10 @@ CABLE_OPEN_NAMESPACE(itk)
     $ImageType
     $MeshType
     "PhysicalImage<$PixelType, $Dimension>"
+    "ImageSource<$ImageType >"
+    "ImageIterator<$PixelType, $Dimension >"
+    "ImageIteratorWithIndex<$ImageType >"
+    "SimpleImageRegionIterator<$ImageType >"
     "$(cellTopology)$(cellOrBoundary)<$PixelType, $CellTraitsType>"
     "$(iaFunc)ImageAdaptor<$ImageType, $PixelType>"
     "ImageToImageFilter<$ImageType, $ImageType >"
