@@ -68,6 +68,9 @@ public:
   /** Point typedef support. */
   typedef typename Superclass::PointType PointType;
 
+  /** PixelType typedef support. */
+  typedef typename Superclass::PixelType PixelType;
+
   /** Dimension of the underlying image. */
   enum { ImageDimension = InputImageType::ImageDimension };
 
