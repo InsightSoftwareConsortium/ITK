@@ -85,7 +85,7 @@
   //  Software Guide : BeginLatex
   //
   //  The following Vertex visitor simply prints out the identifier of the
-  //  point with which the cell is associated. Note that the cell is using the
+  //  point with which the cell is associated. Note that the cell uses the
   //  method \code{GetPointId()} without any arguments. This method is only
   //  defined on the VertexCell.
   //
@@ -152,7 +152,7 @@
 
   //  Software Guide : BeginLatex
   //
-  //  The Triangle visitor below is printing out the identifiers of its points.
+  //  The Triangle visitor below prints out the identifiers of its points.
   //  Note the use of the \code{PointIdIterator} and the \code{PointIdsBegin()}
   //  and \code{PointIdsEnd()} methods.
   //

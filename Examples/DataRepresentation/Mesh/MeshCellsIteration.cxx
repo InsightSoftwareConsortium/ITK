@@ -238,7 +238,7 @@ int main()
   //  The method \code{GetType()} returns one of these codes. It is then
   //  possible to test the type of the cell before down-casting its pointer to
   //  the actual type. For example, the following code visits all the cells in
-  //  the mesh and test which ones are actually of type \code{LINE\_CELL}. Only
+  //  the mesh and tests which ones are actually of type \code{LINE\_CELL}. Only
   //  those cells are down-casted to \code{LineType} cells and a method
   //  specific for the \code{LineType} are invoked.
   //

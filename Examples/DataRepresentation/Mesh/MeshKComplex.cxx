@@ -464,7 +464,7 @@ int main()
   //  by specifying that two triangles are not considered to be neighbors any
   //  more. 
   //
-  //  Neigborhood relationships are represented in the \doxygen{Mesh} by the
+  //  Neighborhood relationships are represented in the \doxygen{Mesh} by the
   //  notion of \emph{BoundaryFeature}. Every cell has a internal list of
   //  cell-identifiers pointing to other cells that are considered to be its
   //  neighbors. Boundary features are classified by dimension. For example, a
@@ -509,7 +509,7 @@ int main()
   //  the zero-dimensional features of a tetrahedron are its four vertices.
   //  Then the zero-dimensional feature-Ids for this cell will range from zero
   //  to three. The one-dimensional features of the tetrahedron are its six
-  //  edges, henceforth its one-dimensional feature-Ids will range from zero to
+  //  edges, hence its one-dimensional feature-Ids will range from zero to
   //  five. The two-dimensional features of the tetrahedron are its four
   //  triangular faces. The two-dimensional feature ids will then range from
   //  zero to three. The following table summarizes the use on indices for
@@ -526,7 +526,7 @@ int main()
   //  \end{center}
   // 
   //  In the code example above, the values of featureId range from zero to
-  //  three. The cell identifiers of the vertices cells in this example are the
+  //  three. The cell identifiers of the vertex cells in this example are the
   //  numbers \{11,12,13,14\}.
   //
   //  Let's now assign one-dimensional boundary features of the tetrahedron.

@@ -71,14 +71,14 @@
   //
   //  Then, a custom CellVisitor class should be declared. In this particular
   //  example, the visitor class is intended to act only on \code{TriangleType}
-  //  cells. The only requirement on the declaration of the visitor class is
-  //  that it must provide a method named \code{Visit()}. This method expect as
-  //  arguments a cell identifier and a pointer to the \emph{specific} cell
-  //  type for which this visitor is intended. Nothing prevents a visitor class
-  //  from providing \code{Visit()} methods for several different cell types.
-  //  The multiple methods will be differentiated by the natural C++ mechanism
-  //  of function overload. The following code illustrates a minimal cell
-  //  vistor class.
+  //  cells. The only requirement on the declaration of the visitor class is that
+  //  it must provide a method named \code{Visit()}. This method expects as
+  //  arguments a cell identifier and a pointer to the \emph{specific} cell type
+  //  for which this visitor is intended. Nothing prevents a visitor class from
+  //  providing \code{Visit()} methods for several different cell types.  The
+  //  multiple methods will be differentiated by the natural C++ mechanism of
+  //  function overload. The following code illustrates a minimal cell vistor
+  //  class.
   //
   //  \index{itk::Mesh!CellInterfaceVisitor}
   //  \index{CellInterfaceVisitor!requirements}
