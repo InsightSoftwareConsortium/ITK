@@ -66,6 +66,12 @@ public:
   /** Set the cost function. */
   virtual void SetCostFunction( CostFunctionType * costFunction );
 
+  /** Get the cost function. */
+  itkGetConstObjectMacro( CostFunction, CostFunctionType );
+
+  /** Get the cost function value at the given parameters. */
+  MeasureType GetValue( const ParametersType & parameters) const;
+
 protected:
   SingleValuedNonLinearOptimizer();
   virtual ~SingleValuedNonLinearOptimizer() {}
