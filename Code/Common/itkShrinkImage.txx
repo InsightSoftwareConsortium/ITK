@@ -53,6 +53,8 @@ ShrinkImage<TInputImage,TOutputImage>
 ::ThreadedGenerateData(const OutputImageRegion& outputRegionForThread,
                        int threadId)
 {
+  int i;
+  
   itkDebugMacro(<<"Actually executing");
 
   // Get the input and output pointers
@@ -73,7 +75,7 @@ ShrinkImage<TInputImage,TOutputImage>
   typename InputImage::Index inputIndex;
   typename OutputImage::Index factorIndex;
 
-  for (int i=0; i < InputImage::ImageDimension; i++)
+  for (i=0; i < InputImage::ImageDimension; i++)
     {
     factorIndex[i] = m_ShrinkFactor;
     }
