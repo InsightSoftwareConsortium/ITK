@@ -120,9 +120,9 @@ Root(void) const
 
 
 void  MetaTube::
-ParentPoint(int root)
+ParentPoint(int parentpoint)
 {
-  m_Root = root;
+  m_ParentPoint = parentpoint;
 }
 
 int MetaTube::

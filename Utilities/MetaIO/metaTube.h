@@ -127,7 +127,7 @@ class MetaTube : public MetaObject
     //    ParentPoint(...)
     //       Optional Field
     //       Set the point number of the parent tube where the branch occurs
-    void  ParentPoint(int root);
+    void  ParentPoint(int parentpoint);
     int   ParentPoint(void) const;
 
     void  Clear(void);
