@@ -155,6 +155,16 @@ public:
   typedef WatershedImageFilter Self;
 
   /**
+   * The type of input image.
+   */
+  typedef TInputImage InputImageType;
+  
+  /**
+   * The type of output image.
+   */
+  typedef TOutputImage OutputImageType;
+  
+  /**
    * Standard super class typedef support.
    */
   typedef ImageToImageFilter< InputImageType, OutputImageType > Superclass;
