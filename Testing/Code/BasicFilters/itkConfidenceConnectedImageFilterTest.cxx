@@ -21,8 +21,8 @@
 #include <fstream>
 #include "itkConfidenceConnectedImageFilter.h"
 #include "itkImageFileReader.h"
+#include "itkPNGImageIO.h"
 #include "itkImageFileWriter.h"
-#include "itkPNGImageIOFactory.h"
 #include "itkTextOutput.h"
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
@@ -33,9 +33,9 @@ int itkConfidenceConnectedImageFilterTest(int ac, char* av[] )
   // Comment the following if you want to use the itk text output window
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
-  if(ac < 3)
+  if(ac < 5)
     {
-    std::cerr << "Usage: " << av[0] << " InputImage BaselineImage\n";
+    std::cerr << "Usage: " << av[0] << " InputImage BaselineImage seed_x seed_y\n";
     return -1;
     }
 
@@ -54,7 +54,7 @@ int itkConfidenceConnectedImageFilterTest(int ac, char* av[] )
   filter->SetInput(input->GetOutput());
   filter->SetInitialNeighborhoodRadius( 3 ); // measured in pixels
 
-  FilterType::IndexType seed; seed[0] = 165; seed[1] = 90;
+  FilterType::IndexType seed; seed[0] = atoi(av[3]); seed[1] = atoi(av[4]);
   //  FilterType::IndexType seed; seed[0] = 56; seed[1] = 90;
   //  FilterType::IndexType seed; seed[0] = 96; seed[1] = 214;
   filter->SetSeed(seed);

@@ -19,6 +19,7 @@
 #endif
 #include <fstream>
 #include "itkVectorConfidenceConnectedImageFilter.h"
+#include "itkPNGImageIO.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkTextOutput.h"
@@ -50,7 +51,7 @@ int itkVectorConfidenceConnectedImageFilterTest(int ac, char* av[] )
   
   typedef itk::ImageFileReader<ImageType>  ReaderType;
     
-   ReaderType::Pointer input = ReaderType::New();
+  ReaderType::Pointer input = ReaderType::New();
   input->SetFileName(av[1]);
   
   // Create a filter

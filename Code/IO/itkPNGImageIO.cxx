@@ -289,8 +289,7 @@ void PNGImageIO::Read(void* buffer)
   png_bytep *row_pointers = new png_bytep [height];
   for (unsigned int ui = 0; ui < height; ++ui)
     {
-    row_pointers[height - ui - 1] = tempImage + rowbytes*ui;
-    //row_pointers[ui] = tempImage + rowbytes*ui;
+    row_pointers[ui] = tempImage + rowbytes*ui;
     }
   png_read_image(png_ptr, row_pointers);
   delete [] row_pointers;
@@ -570,8 +569,7 @@ void PNGImageIO::WriteSlice(std::string& fileName, const void* buffer)
   int rowInc = width*numComp*bitDepth/8;
   for (unsigned int ui = 0; ui < height; ui++)
     {
-    row_pointers[height - ui - 1] = const_cast<png_byte *>(outPtr);
-    //row_pointers[ui] = (png_byte *)outPtr;
+    row_pointers[ui] = (png_byte *)outPtr;
     outPtr = const_cast<unsigned char *>(outPtr) + rowInc;
     }
   png_write_image(png_ptr, row_pointers);

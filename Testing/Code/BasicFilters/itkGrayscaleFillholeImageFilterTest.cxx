@@ -21,6 +21,7 @@
 //  
 
 #include "itkImage.h"
+#include "itkPNGImageIO.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkRescaleIntensityImageFilter.h"

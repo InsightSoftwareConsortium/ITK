@@ -27,9 +27,9 @@
 
 int itkNeighborhoodConnectedImageFilterTest(int ac, char* av[] )
 {
-  if(ac < 3)
+  if(ac < 5)
     {
-    std::cerr << "Usage: " << av[0] << " InputImage OutputImage\n";
+    std::cerr << "Usage: " << av[0] << " InputImage OutputImage seed_x seed_y\n";
     return -1;
     }
 
@@ -49,7 +49,7 @@ int itkNeighborhoodConnectedImageFilterTest(int ac, char* av[] )
   
   FilterType::IndexType seed;
   
-  seed[0] = 146; seed[1] = 88;
+  seed[0] = atoi(av[3]); seed[1] = atoi(av[4]);
   filter->SetSeed(seed);
   
   filter->SetLower (0);

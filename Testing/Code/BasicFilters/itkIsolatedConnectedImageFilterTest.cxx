@@ -28,9 +28,9 @@
 
 int itkIsolatedConnectedImageFilterTest(int ac, char* av[] )
 {
-  if(ac < 3)
+  if(ac < 7)
     {
-    std::cerr << "Usage: " << av[0] << " InputImage OutputImage\n";
+    std::cerr << "Usage: " << av[0] << " InputImage OutputImage seed1_x seed1_y seed2_x seed2_y\n";
     return -1;
     }
 
@@ -50,12 +50,10 @@ int itkIsolatedConnectedImageFilterTest(int ac, char* av[] )
   
   FilterType::IndexType seed1;
   
-  seed1[0] = 146; seed1[1] = 88;
-  seed1[0] = 115; seed1[1] = 170;
+  seed1[0] = atoi(av[3]); seed1[1] = atoi(av[4]);
   filter->SetSeed1(seed1);
   
-  seed1[0] = 156; seed1[1] = 97;
-  seed1[0] = 107; seed1[1] = 145;
+  seed1[0] = atoi(av[5]); seed1[1] = atoi(av[6]);
   filter->SetSeed2(seed1);
   
   filter->SetLower(0);

@@ -18,6 +18,7 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+#include "itkPNGImageIO.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkCastImageFilter.h"

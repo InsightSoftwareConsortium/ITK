@@ -291,7 +291,7 @@ void JPEGImageIO::Read(void* buffer)
   JSAMPROW *row_pointers = new JSAMPROW [cinfo.output_height];
   for (ui = 0; ui < cinfo.output_height; ++ui)
     {
-    row_pointers[ cinfo.output_height - ui - 1 ] = tempImage + rowbytes*ui;
+    row_pointers[ ui  ] = tempImage + rowbytes*ui;
     }
 
   // read the bulk data
@@ -561,7 +561,7 @@ void JPEGImageIO::WriteSlice(std::string& fileName, const void* buffer)
   int rowInc = numComp*width;
   for (ui = 0; ui < height; ui++)
     {
-    row_pointers[height - ui - 1] = const_cast<JSAMPROW>(outPtr);
+    row_pointers[ui] = const_cast<JSAMPROW>(outPtr);
     outPtr = const_cast<unsigned char *>(outPtr) + rowInc;
     }
   jpeg_write_scanlines(&cinfo, row_pointers, height);

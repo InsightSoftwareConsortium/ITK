@@ -38,13 +38,11 @@ int itkTobogganImageFilterTest(int ac, char* av[] )
 
   if(ac < 3)
     {
-    std::cerr << "Usage: " << av[0] << " InputImage BaselineImage [OutputImage]\n";
+    std::cerr << "Usage: " << av[0] << " InputImage OutputImage\n";
     exit ( 1 );
     }
 
-  // Register one Factory of PNG readers
-  itk::PNGImageIOFactory::RegisterOneFactory();
-  
+
   typedef unsigned char PixelType;
   typedef itk::Image<unsigned char, 2> InputImageType;
   typedef itk::Image<float, 2> FloatImageType;
@@ -89,59 +87,11 @@ int itkTobogganImageFilterTest(int ac, char* av[] )
     exit ( 1 );
     }
 
-  // Try to write it out if we need to...
-  if ( ac == 4 )
-    {
-    itk::PNGImageIO::Pointer io;
-    io = itk::PNGImageIO::New();
-  
-    itk::ImageFileWriter<OutputImageType>::Pointer writer;
-    writer = itk::ImageFileWriter<OutputImageType>::New();
-    writer->SetInput( cast->GetOutput() );
-    writer->SetFileName( av[3] );
-    writer->SetImageIO( io );
-    writer->Update();
-    }
+  itk::ImageFileWriter<OutputImageType>::Pointer writer;
+  writer = itk::ImageFileWriter<OutputImageType>::New();
+  writer->SetInput( cast->GetOutput() );
+  writer->SetFileName( av[2] );
+  writer->Update();
 
-  // now read the regression image
-  itk::ImageFileReader<OutputImageType>::Pointer baseline 
-    = itk::ImageFileReader<OutputImageType>::New();
-    baseline->SetFileName(av[2]);
-
-  try
-    {
-    baseline->Update();
-    }
-  catch (itk::ImageFileReaderException& e)
-    {
-    std::cerr << "Exception in file reader: "  << e.GetDescription() << std::endl;
-    exit ( 1 );
-    }
-  
-  // compare the two images
-  itk::ImageRegionIterator<OutputImageType> it(cast->GetOutput(),cast->GetOutput()->GetBufferedRegion());
-  itk::ImageRegionIterator<OutputImageType> rit(baseline->GetOutput(),baseline->GetOutput()->GetBufferedRegion());
-  int status = 0;
-  unsigned long int classes = 0;
-  while (!it.IsAtEnd())
-    {
-    if (it.Get() != rit.Get())
-      {
-      std::cout << "Different pixel at: " << it.GetIndex() << " Baseline: " << (int)rit.Get() << " Computed: " << (int)it.Get() << std::endl;
-      status++;
-      }
-    if ( it.Get() > classes )
-      {
-      classes = it.Get();
-      }
-    ++it;
-    ++rit;  
-    }
-  std::cout << "Found " << classes << " Different objects" << std::endl;
-  std::cout << "Found " << status << " pixel(s) different" << std::endl;
-  if ( status > 1 )
-    {
-    return EXIT_FAILURE;
-    }
   return EXIT_SUCCESS;
 }

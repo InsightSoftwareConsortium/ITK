@@ -25,6 +25,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkUnaryFunctorImageFilter.h"
 #include "itkScalarToRGBPixelFunctor.h"
+#include "itkPNGImageIO.h"
 #include "itkFilterWatcher.h"
 
 
