@@ -47,14 +47,13 @@ int itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char** argv)
     }
 
 
-  int i ;
+  unsigned int i, j ;
   char* dataFileName = argv[1] ;
   int dataSize = 2000 ;
-  int bucketSize = 10 ;
   int maximumIteration = 200 ;
   typedef itk::Array< double > ParametersType ;
   double minStandardDeviation =28.54746 ;
-  int numberOfClasses = 2 ;
+  unsigned int numberOfClasses = 2 ;
   std::vector< ParametersType > trueParameters(numberOfClasses) ;
   ParametersType params(6) ;
   params[0] = 99.261 ;
@@ -140,7 +139,7 @@ int itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char** argv)
   std::vector< ComponentPointer > components ;
   components.resize(numberOfClasses) ;
 
-  for (int i = 0 ; i < numberOfClasses ; i++)
+  for ( i = 0 ; i < numberOfClasses ; i++ )
     {
       components[i] = ComponentType::New() ;
       (components[i])->SetSample(sample.GetPointer()) ;
@@ -153,7 +152,7 @@ int itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char** argv)
   estimator->SetMaximumIteration(maximumIteration) ;
   estimator->SetInitialProportions(initialProportions) ;
 
-  for (unsigned int i = 0 ; i < numberOfClasses ; i++)
+  for ( i = 0 ; i < numberOfClasses ; i++)
     {
       estimator->AddComponent((ComponentType::Superclass*) 
                               (components[i]).GetPointer()) ;
@@ -166,7 +165,7 @@ int itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char** argv)
 
   bool passed = true ;
   double displacement ;
-  for (unsigned int i = 0 ; i < numberOfClasses ; i++)
+  for ( i = 0 ; i < numberOfClasses ; i++)
     {
       std::cout << "Cluster[" << i << "]" << std::endl ;
       std::cout << "    Parameters:" << std::endl ;
@@ -174,7 +173,7 @@ int itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char** argv)
       std::cout << "    Proportion: " ;
       std::cout << "         " << (*estimator->GetProportions())[i] << std::endl ;
       displacement = 0.0 ;
-      for (unsigned int j = 0 ; j < DataSampleType::MeasurementVectorSize ;
+      for ( j = 0 ; j < DataSampleType::MeasurementVectorSize ;
            j++)
         {
           temp = (components[i])->GetFullParameters()[j] - trueParameters[i][j] ;

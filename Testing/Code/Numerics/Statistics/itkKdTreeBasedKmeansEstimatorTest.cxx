@@ -43,7 +43,7 @@ int itkKdTreeBasedKmeansEstimatorTest(int argc, char** argv)
       return EXIT_FAILURE;
     }
 
-  int i, j ;
+  unsigned int i, j ;
   char* dataFileName = argv[1] ;
   int dataSize = 2000 ;
   int bucketSize = 10 ;
@@ -118,8 +118,8 @@ int itkKdTreeBasedKmeansEstimatorTest(int argc, char** argv)
 
   bool passed = true ;
   int index ;
-  int numberOfMeasurements = DataSampleType::MeasurementVectorSize ;
-  int numberOfClasses = trueMeans.size() / numberOfMeasurements ;
+  unsigned int numberOfMeasurements = DataSampleType::MeasurementVectorSize ;
+  unsigned int numberOfClasses = trueMeans.size() / numberOfMeasurements ;
   for (i = 0 ; i < numberOfClasses ; i++)
     {
       std::cout << "cluster[" << i << "] " << std::endl ;
