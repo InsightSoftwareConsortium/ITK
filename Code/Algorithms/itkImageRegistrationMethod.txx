@@ -118,6 +118,15 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
     itkExceptionMacro(<<"Transform is not present");
     }
 
+  //
+  // Connect the transform to the Decorator.
+  //
+  TransformOutputType * transformOutput =  
+     static_cast< TransformOutputType * >( this->ProcessObject::GetOutput(0) );
+
+  transformOutput->Set( m_Transform.GetPointer() );
+
+  
   if( !m_Interpolator )
     {
     itkExceptionMacro(<<"Interpolator is not present");
