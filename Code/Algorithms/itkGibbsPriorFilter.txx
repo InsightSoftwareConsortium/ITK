@@ -923,21 +923,21 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
 {
   Superclass::PrintSelf(os,indent);
   os << indent << "BoundaryGradient: "
-     << m_BoundaryGradient << std:endl;
+     << m_BoundaryGradient << std::endl;
   os << indent << "GibbsNeighborhoodThreshold: "
-     << m_GibbsNeighborhoodThreshold << std:endl;
+     << m_GibbsNeighborhoodThreshold << std::endl;
   os << indent << "BoundaryWeight: "
-     << m_BoundaryWeight << std:endl;
+     << m_BoundaryWeight << std::endl;
   os << indent << "MaximumNumberOfIterations: "
-     << m_MaximumNumberOfIterations << std:endl;
+     << m_MaximumNumberOfIterations << std::endl;
   os << indent << "ErrorTolerance: "
-     << m_ErrorTolerance << std:endl;
+     << m_ErrorTolerance << std::endl;
   os << indent << "ObjectLabel: "
-     << m_ObjectLabel << std:endl;
+     << m_ObjectLabel << std::endl;
   os << indent << "ClusterSize: "
-     << m_ClusterSize << std:endl;
+     << m_ClusterSize << std::endl;
   os << indent << "NumberOfClasses: "
-     << m_NumberOfClasses << std:endl;
+     << m_NumberOfClasses << std::endl;
 
 }
 
