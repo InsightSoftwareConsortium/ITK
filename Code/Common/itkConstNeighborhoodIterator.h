@@ -138,7 +138,7 @@ public:
     {    return *( this->GetCenterPointer() );  }
 
   /** Returns a smartpointer to the image on which this iterator operates. */
-  const ImageType * GetImagePointer(void)
+  const ImageType * GetImagePointer(void) const
     { return m_ConstImage; }
  
   /** Returns the N-dimensional index of the iterator's position in
