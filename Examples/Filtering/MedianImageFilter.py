@@ -20,16 +20,8 @@ reader.SetFileName( argv[1] )
 writer.SetFileName( argv[2] )
 
 sizeRadius = itkSize2()
-
-sizeValues = new_ULArray(2)
-
-ULArray_setitem( sizeValues, 0, eval( argv[3] ) )
-ULArray_setitem( sizeValues, 1, eval( argv[3] ) )
-
-print ULArray_getitem( sizeValues, 0, )
-print ULArray_getitem( sizeValues, 1, )
-
-sizeRadius.SetSize( sizeValues );
+sizeRadius.SetElement( 0, eval( argv[3] ) )
+sizeRadius.SetElement( 1, eval( argv[3] ) )
 
 filter.SetRadius( sizeRadius )
 
