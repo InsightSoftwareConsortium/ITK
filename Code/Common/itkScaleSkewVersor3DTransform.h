@@ -67,7 +67,7 @@ public:
   typedef typename Superclass::VnlQuaternionType  VnlQuaternionType;
 
   /** Scale & Skew Vector Type. */
-  typedef Vector<TScalarType, itkGetStaticConstMacro(OutputSpaceDimension)> ScaleVectorType;
+  typedef Vector<TScalarType, itkGetStaticConstMacro(SpaceDimension)> ScaleVectorType;
   typedef Vector<TScalarType, 6 >                                           SkewVectorType;
 
   /** Versor type. */
