@@ -43,7 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkMinimumMaximumImageCalculator.h"
 #include "itkSimpleImageRegionConstIterator.h"
-#include <limits>
+#include "itkNumericTraits.h"
 
 namespace itk
 { 
