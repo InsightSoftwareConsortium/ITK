@@ -58,6 +58,7 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
   this->SetNumberOfRequiredOutputs( 2 );
   this->SetNthOutput( 0, TEigenValueImage::New() );
   this->SetNthOutput( 1, TEigenValueImage::New() );
+  this->SetNthOutput( 2, TEigenVectorImage::New() );
   
 }
 
