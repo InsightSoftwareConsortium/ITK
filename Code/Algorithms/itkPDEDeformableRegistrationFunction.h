@@ -68,7 +68,7 @@ public:
     { m_MovingImage = ptr; }
 
   /** Get the moving image. */
-  const MovingImageType * GetMovingImage(void)
+  const MovingImageType * GetMovingImage(void) const
     { return m_MovingImage; }
 
   /** Set the fixed image. */
@@ -76,7 +76,7 @@ public:
     { m_FixedImage = ptr; }
 
   /** Get the fixed image. */
-  const FixedImageType * GetFixedImage(void)
+  const FixedImageType * GetFixedImage(void) const
     { return m_FixedImage; }
 
   /** Set the fixed image. */
@@ -89,11 +89,11 @@ public:
 
 
   void SetEnergy( double e) { m_Energy=e;}
-  double GetEnergy( ) { return m_Energy;}
+  double GetEnergy( ) const { return m_Energy;}
   void SetGradientStep( double e) { m_GradientStep = e;}
-  double GetGradientStep( ) { return m_GradientStep ;}
+  double GetGradientStep( ) const { return m_GradientStep ;}
   void SetNormalizeGradient( bool e) { m_NormalizeGradient=e;}
-  bool GetNormalizeGradient( ) { return m_NormalizeGradient;}
+  bool GetNormalizeGradient( ) const { return m_NormalizeGradient;}
 
 protected:
   PDEDeformableRegistrationFunction()
