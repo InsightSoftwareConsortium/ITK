@@ -53,10 +53,10 @@ UnaryImageFilter<TInputImage,TOutputImage,TFunction>
 ::GenerateData( void )
 {
   
-  TOutputImage::Pointer outputImage = dynamic_cast<TOutputImage *>(
+  typename TOutputImage::Pointer outputImage = dynamic_cast<TOutputImage *>(
                       (ProcessObject::GetOutput( 0 )).GetPointer());
 
-  TInputImage::Pointer  inputImage  = dynamic_cast<TInputImage  *>(
+  typename TInputImage::Pointer  inputImage  = dynamic_cast<TInputImage  *>(
                       (ProcessObject::GetInput(  0 )).GetPointer());
 
   outputImage->SetLargestPossibleRegion( 

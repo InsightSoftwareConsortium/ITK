@@ -85,18 +85,18 @@ TernaryImageFilter<TInputImage1,TInputImage2,TInputImage3,TOutputImage,TFunction
 ::GenerateData( void )
 {
 
-  TOutputImage::Pointer outputImage = dynamic_cast<TOutputImage *>(
+  typename TOutputImage::Pointer outputImage = dynamic_cast<TOutputImage *>(
                       (ProcessObject::GetOutput( 0 )).GetPointer());
 
-  TInputImage1::Pointer inputImage1  = 
+  typename TInputImage1::Pointer inputImage1  = 
 				dynamic_cast<TInputImage1  *>(
                       (ProcessObject::GetInput(  0 )).GetPointer());
 
-  TInputImage2::Pointer inputImage2  = 
+  typename TInputImage2::Pointer inputImage2  = 
 				dynamic_cast<TInputImage2  *>(
                       (ProcessObject::GetInput(  1 )).GetPointer());
 
-  TInputImage3::Pointer inputImage3  = 
+  typename TInputImage3::Pointer inputImage3  = 
 				dynamic_cast<TInputImage3  *>(
                       (ProcessObject::GetInput(  2 )).GetPointer());
 
