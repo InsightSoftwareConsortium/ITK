@@ -13,6 +13,7 @@ BuildNames = $(wildcard ../Sites/*/*/)
 LatestBuildStamps = $(foreach BuildName, $(BuildNames), $(wordlist $(words $(wildcard $(BuildName)*)),$(words $(wildcard $(BuildName)*)), $(sort $(wildcard $(BuildName)*))))
 
 DashboardStamp := $(shell date -u +%Y%m%d%H%M)
+NightlyDashboardStamp := $(shell date -u +%Y%m%d)-Nightly
 
 Dashboards = $(sort $(wildcard 20*))
 LatestDashboard = $(wordlist $(words $(Dashboards)),$(words $(Dashboards)), $(Dashboards))
@@ -21,8 +22,19 @@ LatestDashboard = $(wordlist $(words $(Dashboards)),$(words $(Dashboards)), $(Da
 
 MAKEFILES = $(CMAKE_CONFIG_DIR)/CMake/CMakeVariables.make $(CMAKE_CONFIG_DIR)/Testing/Utilities/CMakeTestingDashboardRules.make 
 
-StartDashboard: $(LatestBuildStamps)
-	mkdir $(DashboardStamp)
+StartNightlyDashboard: 
+	mkdir $(NightlyDashboardStamp)
+
+NightlyDashboardUpdate:
+	$(shell cd $(NightlyDashboardStamp); (cd $(topdir); $(TCLSH) Testing/Utilities/Update.tcl) > Update.xml )
+
+EndNightlyDashboard:
+	echo 'BuildStamps = $(foreach stamp, $(LatestBuildStamps), ../$(stamp))' > $(NightlyDashboardStamp)/DashboardTargets.make
+	$(MAKE) -C $(NightlyDashboardStamp) EndDashboard
+	$(shell rm -f MostRecentResults)
+	$(shell ln -s $(NightlyDashboardStamp) MostRecentResults)
+
+
 
 EndDashboard:
 	echo 'BuildStamps = $(foreach stamp, $(LatestBuildStamps), ../$(stamp))' > $(LatestDashboard)/DashboardTargets.make
