@@ -197,9 +197,24 @@ CvTypeGenerator
          << ", " << (cvType.IsVolatile()? "true":"false") << ");\n";
       break;
     case cxx::FunctionType_id:
-      // TODO: Implement.
-      // cxx::FunctionType::SafeDownCast(type);
-      break;
+      {
+      const cxx::FunctionType* t = cxx::FunctionType::SafeDownCast(type);
+      os << "  {\n"
+         << "  CvQualifiedTypes argumentTypes;\n";
+      for(cxx::CvQualifiedTypes::const_iterator arg = t->GetArgumentTypes().begin();
+          arg != t->GetArgumentTypes().end(); ++arg)
+        {
+        os << "  argumentTypes.push_back(CvType< "
+           << arg->GetName().c_str()
+           << " >::type);\n";
+        }      
+      os << "  CvType< " << cvType.GetName().c_str()
+         << " >::type = TypeInfo::GetFunctionType(CvType< "
+         << t->GetReturnType().GetName().c_str()
+         << " >::type, argumentTypes, " << (cvType.IsConst()? "true":"false")
+         << ", " << (cvType.IsVolatile()? "true":"false") << ");\n"
+         << "  }\n";
+      }; break;
     case cxx::PointerType_id:
       os << "  CvType< " << cvType.GetName().c_str()
          << " >::type = TypeInfo::GetPointerType(CvType< "
