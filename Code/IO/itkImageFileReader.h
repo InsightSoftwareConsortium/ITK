@@ -135,7 +135,7 @@ protected:
   virtual void GenerateData();
 
   ImageIOBase::Pointer m_ImageIO;
-  bool m_UserSpecified; //keep track whether the ImageIO is user specified
+  bool m_UserSpecifiedImageIO; //keep track whether the ImageIO is user specified
 
   std::string m_FileName;
   std::string m_FilePrefix;

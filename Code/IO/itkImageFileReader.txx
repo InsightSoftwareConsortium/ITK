@@ -55,7 +55,7 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>::PrintSelf(std::ostream& 
     {
     os << indent << "m_ImageIO: (null)" << "\n";
     }
-  os << indent << "m_UserSpecified m_ImageIO flag: " << m_UserSpecified << "\n";
+  os << indent << "m_UserSpecified m_ImageIO flag: " << m_UserSpecifiedImageIO << "\n";
   os << indent << "m_FileName: " << m_FileName << "\n";
   os << indent << "m_FilePrefix: " << m_FilePrefix << "\n";
   os << indent << "m_FilePattern: " << m_FilePattern << "\n";
@@ -81,12 +81,12 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
 
   if ( m_ImageIO == 0 ) //try creating via factory
     {
-    m_UserSpecified = false;
-    m_ImageIO = ImageIOFactory::CreateImageIO(m_FileName.c_str());
+    m_UserSpecifiedImageIO = false;
+    m_ImageIO = ImageIOFactory::CreateImageIO( m_FileName.c_str(), ImageIOFactory::ReadMode );
     }
   else
     {
-    m_UserSpecified = true;
+    m_UserSpecifiedImageIO = true;
     }
   
   if ( m_ImageIO == 0 )
