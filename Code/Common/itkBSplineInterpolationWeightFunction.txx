@@ -127,7 +127,7 @@ IndexType & startIndex ) const
   for ( j = 0; j < SpaceDimension; j++ )
     {
     startIndex[j] = static_cast<typename IndexType::IndexValueType>(
-      ceil( index[j] - 0.5 * static_cast<double>( SplineOrder + 1 ) ) );
+      floor( index[j] - static_cast<double>( SplineOrder / 2 ) ) );
     }
 
   // Compute the weights

@@ -23,12 +23,20 @@
 #include "itkImage.h"
 #include "itkRigid3DTransform.h"
 
+#include "itkTextOutput.h"
+
 /**
  * This module test the functionality of the BSplineDeformableTransform class.
  *
  */
 int itkBSplineDeformableTransformTest(int, char * [] )
 {
+
+  // Comment the following if you want to use the itk text output window
+  itk::OutputWindow::SetInstance(itk::TextOutput::New());
+
+  // Uncomment the following if you want to see each message independently
+  //itk::OutputWindow::GetInstance()->PromptUserOn();
 
   const unsigned int SpaceDimension = 3;
   const unsigned int SplineOrder = 3;
@@ -67,7 +75,7 @@ int itkBSplineDeformableTransformTest(int, char * [] )
   transform->SetGridOrigin( origin );
   transform->SetGridRegion( region );
   transform->Print( std::cout );
-
+  
   /** 
    * Allocate memory for the parameters
    */
@@ -168,6 +176,7 @@ int itkBSplineDeformableTransformTest(int, char * [] )
   PointType inputPoint;
   PointType outputPoint;
 
+
   // point within the grid support region
   inputPoint.Fill( 9.0 );
   outputPoint = transform->TransformPoint( inputPoint );
@@ -184,7 +193,7 @@ int itkBSplineDeformableTransformTest(int, char * [] )
   std::cout << "Output Point: " << outputPoint << std::endl;
   std::cout << std::endl;
 
-  // point outside the grid support region
+  // point inside the grid support region
   inputPoint.Fill( 2.0 );
   outputPoint = transform->TransformPoint( inputPoint );
 
@@ -193,12 +202,29 @@ int itkBSplineDeformableTransformTest(int, char * [] )
   std::cout << std::endl;
 
   // point inside the grid support region
-  inputPoint.Fill( 2.1 );
+  inputPoint.Fill( 15.9 );
   outputPoint = transform->TransformPoint( inputPoint );
 
   std::cout << "Input Point: " << inputPoint << std::endl;
   std::cout << "Output Point: " << outputPoint << std::endl;
   std::cout << std::endl;
+
+  // point outside the grid support region
+  inputPoint.Fill( 1.9 );
+  outputPoint = transform->TransformPoint( inputPoint );
+
+  std::cout << "Input Point: " << inputPoint << std::endl;
+  std::cout << "Output Point: " << outputPoint << std::endl;
+  std::cout << std::endl;
+
+  // point outside the grid support region
+  inputPoint.Fill( 16.0 );
+  outputPoint = transform->TransformPoint( inputPoint );
+
+  std::cout << "Input Point: " << inputPoint << std::endl;
+  std::cout << "Output Point: " << outputPoint << std::endl;
+  std::cout << std::endl;
+
 
   // use the other version of TransformPoint
   typedef TransformType::WeightsType WeightsType;

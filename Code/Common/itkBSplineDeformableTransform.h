@@ -266,6 +266,7 @@ private:
   unsigned long m_Offset;
   bool          m_SplineOrderOdd;
   SizeType      m_SupportSize;
+  IndexType     m_ValidRegionLast;
 
   /** Parameters as SpaceDimension number of images. */
   typedef typename ParametersType::ValueType PixelType;

@@ -65,7 +65,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
     }
 
   // Setup variables for computing interpolation
-  m_Offset = ( SplineOrder + 1 ) / 2;
+  m_Offset = SplineOrder / 2;
   if ( SplineOrder % 2 ) 
     {
     m_SplineOrderOdd = true;
@@ -146,6 +146,11 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
       }
 
     // Set the valid region
+    // If the grid spans the interval [start,last].
+    // The valid interval for evaluation is [start+offset,last-offset] when spline order is even.
+    // The valid interval for evaluation is [start+offset,last-offset) when spline order is odd
+    // Where offset = floor( spline / 2 ).
+    // Note that the last pixel is not included in the valid region with odd spline orders.
     typename RegionType::SizeType size = m_GridRegion.GetSize();
     typename RegionType::IndexType index = m_GridRegion.GetIndex();
     for ( unsigned int j = 0; j < SpaceDimension; j++ )
@@ -154,11 +159,8 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
         static_cast< typename RegionType::IndexValueType >( m_Offset );
       size[j] -= 
         static_cast< typename RegionType::SizeValueType> ( 2 * m_Offset );
-      if ( m_SplineOrderOdd )
-        { 
-        index[j] -= 1;
-        size[j]  += 1; 
-        };
+      m_ValidRegionLast[j] = index[j] +
+        static_cast< typename RegionType::IndexValueType >( size[j] ) - 1;
       }
     m_ValidRegion.SetSize( size );
     m_ValidRegion.SetIndex( index );
@@ -318,10 +320,9 @@ const ContinuousIndexType& index ) const
   if ( inside && m_SplineOrderOdd )
     {
     typedef typename ContinuousIndexType::ValueType ValueType;
-    IndexType validStart = m_ValidRegion.GetIndex();
     for( unsigned int j = 0; j < SpaceDimension; j++ )
       {
-      if ( index[j] <= static_cast<ValueType>( validStart[j] ) )
+      if ( index[j] >= static_cast<ValueType>( m_ValidRegionLast[j] ) )
         { 
         inside = false;
         break;
