@@ -53,7 +53,7 @@ void ImageIO::Reset(const bool freeDynamic)
   m_Initialized = false;
   m_FileName = "";
   m_PixelType = ITK_DOUBLE;
-  m_NumberOfComponents = 0;
+  m_NumberOfComponents = 1;
   m_NumberOfDimensions = 0;
   for (unsigned int i=0; i < ITK_MAX_DIMENSIONS; i++)
     {
@@ -111,7 +111,7 @@ void ImageIO::ComputeStrides()
 {
   unsigned int i;
 
-  m_Strides[0] = CalcSizeOfAtomicPixelType(m_PixelType);
+  m_Strides[0] = ComputeSizeOfAtomicPixelType(m_PixelType);
   m_Strides[1] = m_NumberOfComponents * m_Strides[0];
   for (i = 2; i <= m_NumberOfDimensions; i++)
     {
@@ -149,7 +149,7 @@ unsigned int ImageIO::ImageSizeInComponents() const
 
 unsigned int ImageIO::ImageSizeInBytes () const
 {
-  return (ImageSizeInComponents() * CalcSizeOfAtomicPixelType(m_PixelType));
+  return (ImageSizeInComponents() * ComputeSizeOfAtomicPixelType(m_PixelType));
 }
 
 unsigned int ImageIO::GetDimensions(unsigned int i) const

@@ -256,31 +256,30 @@ public:
    * the image iterator class.
    */
   TPixel *GetBufferPointer()
-  { return m_Buffer ? m_Buffer->GetBufferPointer() : 0; };
+    { return m_Buffer ? m_Buffer->GetBufferPointer() : 0; };
 
   const TPixel *GetBufferPointer() const
-  { return m_Buffer ? m_Buffer->GetBufferPointer() : 0; };
+    { return m_Buffer ? m_Buffer->GetBufferPointer() : 0; };
 
   /**
    * Return a pointer to the container 
    */
   PixelContainerPointer GetPixelContainer()
-  { return m_Buffer; };
+    { return m_Buffer; };
 
 
   /**
    * Return the Data Accesor object
    */
   AccessorType & GetDataAccessor( void ) 
-  { return m_DataAccessor; }
+    { return m_DataAccessor; }
     
   /**
    * Return the Data Accesor object
    */
   const AccessorType & GetDataAccessor( void ) const
-  { return m_DataAccessor; }
+    { return m_DataAccessor; }
     
-
   /** 
    * Get the spacing (size of a pixel) of the image. The
    * spacing is the geometric distance between image samples.

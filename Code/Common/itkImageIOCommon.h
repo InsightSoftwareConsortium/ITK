@@ -76,7 +76,7 @@ std::string AtomicPixelTypeToString(const AtomicPixelType pixelType);
 /**
  * Calculate the size, in bytes, that the atomic pixel type occupies
  */
-unsigned int CalcSizeOfAtomicPixelType(const AtomicPixelType pixelType);
+unsigned int ComputeSizeOfAtomicPixelType(const AtomicPixelType pixelType);
 
 /**
  * Cross-platform case-insensitive string comparison

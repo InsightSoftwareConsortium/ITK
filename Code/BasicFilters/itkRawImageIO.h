@@ -42,8 +42,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkRawImageIO_h
 
 #include "itkImageIO.h"
-#include <itkVersion.h>
+#include "itkVersion.h"
 #include <string>
+#include <fstream>
 
 namespace itk
 {
@@ -57,6 +58,7 @@ namespace itk
  * \sa FileIOToImageFilter
  * */
 
+template <class TPixel>
 class ITK_EXPORT RawImageIO : public ImageIO
 {
 public:
@@ -72,9 +74,20 @@ public:
   itkTypeMacro(RawImageIO, ImageIO);
 
   /**
+   * Standard "Superclass" typedef.
+   */
+  typedef ImageIO  Superclass;
+
+  /**
    * Method for creation through the object factory.
    */
   itkNewMacro(Self);
+
+  /** 
+   * Pixel typedef support. Used to declare pixel type in filters
+   * or other operations.
+   */
+  typedef TPixel PixelType;
 
   /** 
    * Specify file prefix for the image file(s). You should specify either
@@ -142,10 +155,12 @@ public:
    * in was generated on a VAX or PC, SetDataByteOrderToLittleEndian 
    * otherwise SetDataByteOrderToBigEndian. 
    */
-  void SetDataByteOrderToBigEndian();
-  void SetDataByteOrderToLittleEndian();
   ByteOrder GetDataByteOrder();
   void SetDataByteOrder(ByteOrder);
+  void SetDataByteOrderToBigEndian()
+    { this->SetDataByteOrder(Superclass::BigEndian); }
+  void SetDataByteOrderToLittleEndian()
+    { this->SetDataByteOrder(Superclass::LittleEndian); }
 
   //---------------------------------------------------------------------
   // The following methods satisfy the ImageIO abstract API
@@ -217,20 +232,30 @@ protected:
   void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
+  void ComputeInternalFileName(unsigned long slice);
+  void OpenFile();
+  
 private:
+  std::ifstream m_File;
+
   float m_ImageOrigin[3];
   float m_ImageSpacing[3];
   
   std::string m_FilePrefix;
   std::string m_FilePattern;
+  std::string m_InternalFileName;
   unsigned long m_DataExtent[6];
   unsigned long m_DataVOI[6];
   unsigned long m_FileDimensionality;
+  bool m_ManualHeaderSize;
   unsigned long m_HeaderSize;
+  ByteOrder m_SwapBytes;
   unsigned short m_DataMask;
+  
   
 };
 
+template <class TPixel>
 class ITK_EXPORT RawImageIOFactory : public ObjectFactoryBase
 {
 public:
@@ -239,11 +264,16 @@ public:
   const char* GetDescription() const;
 
 protected:
-  typedef RawImageIO myProductType;
+  typedef RawImageIO<TPixel> myProductType;
   const myProductType* m_MyProduct;
 
 };
 
 } // namespace itk
+
+#ifndef ITK_MANUAL_INSTANTIATION
+
+#include "itkRawImageIO.txx"
+#endif
 
 #endif
