@@ -65,7 +65,7 @@ double spacing[3] = { 0.1,   0.05 , 0.025};
  * This function convert points from Image space to
  * geometric space
  */ 
-PointType ConvertImageToGeometricPoint( PointType& ipoint )
+PointType ConvertImageToGeometricPoint( const PointType& ipoint )
 {
 	PointType opoint;
   for( int j = 0; j < PointType::PointDimension; j++ )
@@ -81,8 +81,8 @@ PointType ConvertImageToGeometricPoint( PointType& ipoint )
  * returns false otherwise
  */
 bool TestGeometricPoint(
-InterpolatorType * interp,
-PointType& point,
+const InterpolatorType * interp,
+const PointType& point,
 bool isInside,
 double trueValue )
 {
@@ -163,40 +163,45 @@ main(
 
     /* Test evaluation at geometric points */
     std::cout << "Evaluate at geometric points: " << std::endl;
-    PointType point;
+    PointType point, ipoint;
     bool passed;
 
     // an integer position inside the image
     double darray1[3] = { 10, 20, 40};
-    point = ConvertImageToGeometricPoint( PointType(darray1) );
+    ipoint = PointType(darray1);
+    point = ConvertImageToGeometricPoint( ipoint );
     passed = TestGeometricPoint( interp, point, true, 70 );
 
     if( !passed ) flag = 1;
     
     // position at the image border
     double darray2[3] = {0, 20, 40};
-    point = ConvertImageToGeometricPoint( PointType(darray2) );
+    ipoint = PointType(darray2);
+    point = ConvertImageToGeometricPoint( ipoint );
     passed = TestGeometricPoint( interp, point, true, 60 );
 
     if( !passed ) flag = 1;
 
     // position near image border
     double darray3[3] = {19, 20, 40};
-    point = ConvertImageToGeometricPoint( PointType(darray3) );
+    ipoint = PointType(darray3);
+    point = ConvertImageToGeometricPoint( ipoint );
     passed = TestGeometricPoint( interp, point, true, 79 );
 
     if( !passed ) flag = 1;
 
     // position outside the image
     double darray4[3] = {20, 20, 40};
-    point = ConvertImageToGeometricPoint( PointType(darray4) );
+    ipoint = PointType(darray4);
+    point = ConvertImageToGeometricPoint( ipoint );
     passed = TestGeometricPoint( interp, point, false, 0 );
 
     if( !passed ) flag = 1;
 
     // at non-integer position 
     double darray5[3] = {5.25, 12.5, 42.0};
-    point = ConvertImageToGeometricPoint( PointType(darray5) );
+    ipoint = PointType(darray5);
+    point = ConvertImageToGeometricPoint( ipoint );
     passed = TestGeometricPoint( interp, point, true, 59.75 );
 
     if( !passed ) flag = 1;
