@@ -17,16 +17,6 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkIOCommon.h"
 #include <sys/stat.h>
 
-#if defined(_WIN32) && (defined(_MSC_VER) || defined(__BORLANDC__))
-#include <string.h>
-#include <windows.h>
-#include <direct.h>
-#define _unlink unlink
-#else
-#include <sys/types.h>
-#include <unistd.h>
-#include <fcntl.h>
-#endif
 
 namespace itk
 {
@@ -43,38 +33,6 @@ namespace itk
   const char *const ITK_ExperimentDate = "ITK_ExperimentDate";
   const char *const ITK_ExperimentTime = "ITK_ExperimentTime";
   const char *const ITK_InputFilterName = "ITK_InputFilterName";
-  // CODE STOLEN STRAIGHT FROM CMAKE
-#if defined(_WIN32) && (defined(_MSC_VER) || defined(__BORLANDC__))
-  inline int Mkdir(const char* dir)
-  {
-    return _mkdir(dir);
-  }
-  inline const char* Getcwd(char* buf, unsigned int len)
-  {
-    return _getcwd(buf, len);
-  }
-  inline int Chdir(const char* dir)
-  {
-#if defined(__BORLANDC__)
-    return chdir(dir);
-#else
-    return _chdir(dir);
-#endif
-  }
-#else
-  inline int Mkdir(const char* dir)
-  {
-    return mkdir(dir, 00777);
-  }
-  inline const char* Getcwd(char* buf, unsigned int len)
-  {
-    return getcwd(buf, len);
-  }
-  inline int Chdir(const char* dir)
-  {
-    return chdir(dir);
-  }
-#endif
 
   std::string IOCommon
   ::AtomicPixelTypeToString(const AtomicPixelType pixelType)
@@ -330,6 +288,19 @@ namespace itk
 #else
     return realpath(path,resolved_path);
 #endif
+  }
+  bool   IOCommon::
+  IsDir(const char *filename) {
+    struct stat fs;
+    if (stat(filename, &fs) != 0) 
+      {
+        return false;
+      }
+    else
+      {
+        return S_ISDIR(fs.st_mode);
+      }
+    
   }
 
 } // namespace itk
