@@ -23,11 +23,6 @@ ADD_TEST(itkRegularStepGradientDescentOptimizerTest itkNumericsTests itkRegularS
 ADD_TEST(itkVersorTransformOptimizerTest itkNumericsTests itkVersorTransformOptimizerTest)
 ADD_TEST(itkNumericsHeaderTest itkNumericsHeaderTest)
 
-LINK_LIBRARIES (
-ITKCommon
-ITKNumerics
-)
-
 SOURCE_FILES(Numerics_SRCS
 itkAmoebaOptimizerTest 
 itkConjugateGradientOptimizerTest 
@@ -42,6 +37,7 @@ itkVersorTransformOptimizerTest
 )
 
 ADD_EXECUTABLE(itkNumericsHeaderTest itkNumericsHeaderTest.cxx)
+TARGET_LINK_LIBRARIES(itkNumericsHeaderTest ITKCommon ITKNumerics)
 ADD_EXECUTABLE(itkNumericsTests itkNumericsTests.cxx Numerics_SRCS)
-
+TARGET_LINK_LIBRARIES(itkNumericsTests ITKCommon ITKNumerics)
 

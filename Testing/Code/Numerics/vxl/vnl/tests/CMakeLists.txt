@@ -26,7 +26,7 @@ test_matrix_exp
 )
 
 ADD_EXECUTABLE(vnlTests vnlTests.cxx vnl_test_SRCS)
-
+TARGET_LINK_LIBRARIES(vnlTests VXLNumerics ITKCommon)
 ADD_TEST(test_fft1d vnlTests test_fft1d )
 ADD_TEST(test_fft2d vnlTests test_fft2d )
 ADD_TEST(test_math vnlTests test_math )
