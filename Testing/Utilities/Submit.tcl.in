@@ -1,0 +1,81 @@
+# Submit.tcl.in
+#
+# This script submits testing results to the centralized server.
+# It uses ftp protocols for transfering the testing results. It then uses
+# a http geturl protocol to notify the server of that testing results 
+# have been dropped into the drop box.
+#
+# If your testing machine is behind a firewall, set two environment variables
+# HTTP_PROXY and HTTP_PROXY_PORT and the http trigger will run through 
+# your filewall.
+#
+
+source Testing/Utilities/Utility.conf
+source Testing/Utilities/Utility.tcl
+source Testing/Utilities/ftp.tcl
+
+package require http
+
+
+set dropSite           "public.kitware.com"
+set dropLocation       "/incoming"
+set dropSiteUser       "anonymous"
+set dropSitePassword   "insight-tester@somewhere.com"
+set triggerSite        "http://public.kitware.com/cgi-bin/Submit-Insight-TestingResults.pl"
+
+set HTMLDir [file join Testing HTML]
+set TempDir [file join Testing Temporary]
+
+set SiteDir [file join $HTMLDir TestingResults Sites $Site]
+set BuildNameDir [file join $SiteDir $BuildName]
+
+# Find the build name directory
+set Status [catch { set BuildStampDirs [glob [file join $BuildNameDir *] ] } Result]
+if { $Status == 1 } \
+{
+  puts stderr "Could not find any builds in the $BuildNameDir: $Result"
+  exit 1
+}
+
+set BuildStampDir [lindex [lsort $BuildStampDirs] end]
+set BuildStamp [file tail $BuildStampDir]
+set XMLDir [file join $BuildStampDir XML]
+set FTPprefix [file join $Site $BuildName $BuildStamp XML]
+
+
+# Ftp the results to public.kitware.com
+set conn [ftp::Open $dropSite $dropSiteUser $dropSitePassword]
+ftp::Type $conn ascii
+ftp::Cd $conn $dropLocation
+
+set XMLFiles [glob $XMLDir/*.xml]
+foreach XMLFile $XMLFiles {
+  # post each xml file using ftp
+  #
+  set RemoteFilename [file join $FTPprefix [file tail $XMLFile]]
+  set RemoteFilename [file split $RemoteFilename]
+  set RemoteFilename [join $RemoteFilename "___"]
+  ftp::Put $conn $XMLFile $RemoteFilename
+
+  # convert the filename to it can be used in a url
+  #
+  regsub -all "\\+" $RemoteFilename "%2B" urlFilename
+
+  # configure for going through a firewall
+  #
+  if {[info exist env(HTTP_PROXY)] && [info exists env(HTTP_PROXY_PORT)]} {
+    ::http::config -proxyhost $env(HTTP_PROXY) -proxyport $env(HTTP_PROXY_PORT)
+  } else {
+    puts ""
+    puts "If your computer is behind a firewall, make sure that you have set"
+    puts "the environment variables HTTP_PROXY and HTTP_PROXY_PORT."
+    puts ""
+  }
+
+  # tell the server the results have been posted
+  #
+  set token [::http::geturl $triggerSite?xmlfile=$urlFilename ]
+  puts [::http::data $token]
+}
+ 
+ftp::Close $conn
