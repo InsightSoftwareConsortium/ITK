@@ -324,12 +324,9 @@ protected:
    * implementation of region growing. */
   void ApplyRegionGrowImageFilter();
 
-  /** Merge two regions. */
-  /** Function responsible for merging two regions using energy-based
-   * regions growing criteria until the desired number of regions has been
-   * reached. When merging two regions, the smaller label is always
-   * assigned to the new region.  This is consistent with the connected
-   * components algorithm. */
+  /** Function to merge two regions.
+   * The smaller label is always assigned to the new region.  This is
+   * consistent with the connected components algorithm. */
   virtual void MergeRegions();
 
   /** Generate output approximated image. */
@@ -349,7 +346,7 @@ protected:
    * initial N-dimensional rectangular area. This is the function that
    * can be overriden in order to enable a different statistical
    * representation for region initialization. */
-  virtual void CalculateInitRegionStats( InputRegionType region );
+  virtual void InitializeRegionParameters( InputRegionType region );
 
   /** Function to resolve the region labels to be consecutively ordered.
    * Each initial atomic region is given a new label and the aggregrate
@@ -369,18 +366,17 @@ private:
 
   /** Local variables. */
 
-  unsigned int            m_NumberOfBorders;
   double                  m_InternalLambda;
   unsigned int            m_InitialNumberOfRegions;
+  double                  m_TotalBorderLength;
 
   std::vector< KLMSegmentationRegionPtr >       m_RegionsPointer;
   std::vector< KLMSegmentationBorderPtr >       m_BordersPointer;
   std::vector< KLMSegmentationBorderArrayPtr >  m_BordersDynamicPointer;
+  KLMSegmentationBorderArrayPtr                *m_BorderCandidate;
 
-  KLMSegmentationBorderArrayPtr   *m_BordersCandidateDynamicPointer;
   MeanRegionIntensityType          m_InitialRegionMean;
   double                           m_InitialRegionArea;
-  double                           m_TotalBorderLength;
 
 }; // class KLMRegionGrowImageFilter
 

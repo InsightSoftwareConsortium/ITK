@@ -27,9 +27,8 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 ::KLMRegionGrowImageFilter(void):
   m_MaximumLambda(1000),
   m_NumberOfRegions(0),
-  m_NumberOfBorders(0),
   m_InitialNumberOfRegions(0),
-  m_BordersCandidateDynamicPointer(NULL),
+  m_BorderCandidate(NULL),
   m_InitialRegionArea(0)
 {
   m_InitialRegionMean.set_size( InputImageVectorDimension );
@@ -390,8 +389,8 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 
     region.SetIndex( tmpIndex * gridSize );
 
-    CalculateInitRegionStats( region );
-    m_RegionsPointer[iregion]->SetRegion( m_InitialRegionMean,
+    InitializeRegionParameters( region );
+    m_RegionsPointer[iregion]->SetRegionParameters( m_InitialRegionMean,
       m_InitialRegionArea, iregion + 1 );
 
     // Calculate next grid index
@@ -410,29 +409,29 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 
   // Allocate and intialize memory to the borders
 
-  m_NumberOfBorders = 0;
+  unsigned int numberOfBorders = 0;
   for ( unsigned int idim = 0; idim < InputImageDimension; idim++ )
     {
-    long tmpVal = 1;
+    unsigned int tmpVal = 1;
     for ( unsigned int jdim = 0; jdim < InputImageDimension; jdim++ )
       {
       tmpVal *= ( jdim == idim ?
         numRegionsAlongDim[jdim] - 1 :
         numRegionsAlongDim[jdim] );
       }
-    m_NumberOfBorders += tmpVal;
+    numberOfBorders += tmpVal;
     }
 
   // Allow a single region to pass through; this memory would not be
   // used but the memory allocation and free routine will throw
   // exception otherwise.
-  if( m_NumberOfBorders == 0 )
+  if( numberOfBorders == 0 )
     {
     itkExceptionMacro( << "Number of initial regions must be 2 or more: reduce granularity of the grid" );
     }
 
-  m_BordersPointer.resize( m_NumberOfBorders );
-  for ( unsigned int k = 0; k < m_NumberOfBorders; k++ )
+  m_BordersPointer.resize( numberOfBorders );
+  for ( unsigned int k = 0; k < m_BordersPointer.size(); k++ )
     {
     m_BordersPointer[k] = KLMSegmentationBorder::New();
     }
@@ -476,6 +475,11 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 
     for ( unsigned int iborder = 0; iborder < numBorderThisDim; iborder++ )
       {
+
+      if ( borderCounter >= numberOfBorders )
+        {
+        itkExceptionMacro( << "KLM initialization is incorrect" );
+        } // end if
 
       // Load the border of interest
       KLMSegmentationBorderPtr pcurrentBorder = m_BordersPointer[borderCounter];
@@ -554,8 +558,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
     actualBorderLength += tmpDblVal;
     }
 
-  if ( m_TotalBorderLength != actualBorderLength ||
-       borderCounter != m_NumberOfBorders )
+  if ( m_TotalBorderLength != actualBorderLength )
     {
     itkExceptionMacro( << "KLM initialization is incorrect" );
     } // end if
@@ -567,24 +570,23 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   // Allocate memory to store the array of pointers that point to the
   // static border objects
 
-  m_BordersDynamicPointer.resize( m_NumberOfBorders );
-
-  for ( unsigned int k = 0; k < m_NumberOfBorders; k++ )
+  m_BordersDynamicPointer.resize( m_BordersPointer.size() );
+  for ( unsigned int k = 0; k < m_BordersDynamicPointer.size(); k++ )
     m_BordersDynamicPointer[ k ].m_Pointer = m_BordersPointer[k];
 
   // For DEBUG purposes
   if ( this->GetDebug() )
     {
-    for ( unsigned int k = 0; k < m_NumberOfBorders; k++ )
-      itkDebugMacro( << m_BordersDynamicPointer[ k ].m_Pointer);
+    for ( unsigned int k = 0; k < m_BordersDynamicPointer.size(); k++ )
+      itkDebugMacro( << m_BordersDynamicPointer[ k ].m_Pointer );
     }
 
   std::stable_sort(m_BordersDynamicPointer.begin(),
                   (m_BordersDynamicPointer.end()),
                   std::greater <KLMDynamicBorderArray<BorderType> >());
 
-  m_BordersCandidateDynamicPointer = &(m_BordersDynamicPointer[ m_NumberOfBorders - 1 ]);
-  m_InternalLambda = m_BordersCandidateDynamicPointer->m_Pointer->GetLambda();
+  m_BorderCandidate = &(m_BordersDynamicPointer[ m_BordersDynamicPointer.size() - 1 ]);
+  m_InternalLambda = m_BorderCandidate->m_Pointer->GetLambda();
 
   if ( m_InternalLambda < 0.0 )
     itkExceptionMacro( << "KLM initialization is incorrect" );
@@ -594,7 +596,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 template<class TInputImage, class TOutputImage>
 void
 KLMRegionGrowImageFilter<TInputImage,TOutputImage>
-::CalculateInitRegionStats( InputRegionType region )
+::InitializeRegionParameters( InputRegionType region )
 {
 
   // Get a pointer to the image
@@ -632,7 +634,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
     }
   m_InitialRegionMean /= m_InitialRegionArea;
 
-} // end CalculateInitRegionStats
+} // end InitializeRegionParameters
 
 
 template<class TInputImage, class TOutputImage>
@@ -644,35 +646,29 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   itkDebugMacro( << "   Merging Regions  ");
 
   // Subtract border length before removing it
-  if ( m_TotalBorderLength <=
-       m_BordersCandidateDynamicPointer->m_Pointer->GetBorderLength() )
-    {
-    itkExceptionMacro( << "KLM algorithm error" );
-    }
-
-  m_TotalBorderLength -=
-    m_BordersCandidateDynamicPointer->m_Pointer->GetBorderLength();
+  m_TotalBorderLength -= m_BorderCandidate->m_Pointer->GetBorderLength();
+  if ( m_TotalBorderLength <= 0 ) itkExceptionMacro( << "KLM algorithm error" );
 
   // Two regions are associated with the candidate border
   KLMSegmentationRegion *pRegion1;
   KLMSegmentationRegion *pRegion2;
 
-  pRegion1 = m_BordersCandidateDynamicPointer->m_Pointer->GetRegion1();
-  pRegion2 = m_BordersCandidateDynamicPointer->m_Pointer->GetRegion2();
+  pRegion1 = m_BorderCandidate->m_Pointer->GetRegion1();
+  pRegion2 = m_BorderCandidate->m_Pointer->GetRegion2();
 
   // For consistency, always assign smaller label: this affects
   // GenerateOutputImage and GenerateLabelledImage
   if( pRegion1->GetRegionLabel() >= pRegion2->GetRegionLabel() )
     {
-    itkExceptionMacro( << "Inappropriate region labelling" );
+    itkExceptionMacro( << "Invalid region labelling" );
     }
 
   // Add the new region's parameter data to the old.
-  pRegion1->AddRegion( pRegion2 );
+  pRegion1->CombineRegionParameters( pRegion2 );
 
   // Remove the common region border from region 1 and region 2
-  pRegion1->DeleteRegionBorder( m_BordersCandidateDynamicPointer->m_Pointer );
-  pRegion2->DeleteRegionBorder( m_BordersCandidateDynamicPointer->m_Pointer );
+  pRegion1->DeleteRegionBorder( m_BorderCandidate->m_Pointer );
+  pRegion2->DeleteRegionBorder( m_BorderCandidate->m_Pointer );
 
   // Assign new equivalence label to the old region and update
   // the region borders, this is needed for ResolveRegions()
@@ -688,15 +684,13 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   pRegion1->UpdateRegionBorderLambda();
 
   // Remove the common region border from list of sorted borders.
-  // The BordersCandidate is always the last element.
+  // The BorderCandidate is always the last element.
   // Set the iterator to very last value and then erase that location
-  m_BordersDynamicPointer.erase( m_BordersDynamicPointer.begin() +
-    m_NumberOfBorders - 1 );
+  m_BordersDynamicPointer.erase( m_BordersDynamicPointer.end() - 1 );
 
   // Decrement for the one deleted border and a deleted region
-  m_NumberOfBorders--;
   m_NumberOfRegions--;
-  if ( m_NumberOfBorders == 0 ) itkExceptionMacro( << "KLM algorithm error" );
+  if ( m_BordersDynamicPointer.empty() ) itkExceptionMacro( << "KLM algorithm error" );
 
   // For DEBUG purposes
   if ( this->GetDebug() )
@@ -707,34 +701,34 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
     pRegion2->PrintRegionInfo();
     }
 
+  // If any duplicate borders are found during SpliceRegionBorders,
+  // lambda is set to -1.0, and pRegion1 and pRegion2 are set NULL
+  // so that after this sort, the duplicate border will be the last
+  // entry in m_BordersDynamicPointer
+
   // Resort the border list based on the lambda values
-  std::stable_sort( &*(m_BordersDynamicPointer.begin()),
-                    &(m_BordersDynamicPointer[m_NumberOfBorders]),
-                    std::greater < KLMDynamicBorderArray<BorderType> >() );
+  std::stable_sort(m_BordersDynamicPointer.begin(),
+                  (m_BordersDynamicPointer.end()),
+                  std::greater <KLMDynamicBorderArray<BorderType> >());
 
-  // Assign new BordersCandidate (it is always the last element).
-  // Set Pointer to BordersCandidate to the last element
-  m_BordersCandidateDynamicPointer =
-    &(m_BordersDynamicPointer[ m_NumberOfBorders - 1 ]);
-
-  m_InternalLambda = m_BordersCandidateDynamicPointer->m_Pointer->GetLambda();
+  // Assign new BorderCandidate (it is always the last element).
+  // Set Pointer to BorderCandidate to the last element
+  m_BorderCandidate = &(m_BordersDynamicPointer[ m_BordersDynamicPointer.size() - 1 ]);
+  m_InternalLambda = m_BorderCandidate->m_Pointer->GetLambda();
 
   // Remove any duplicate borders found during SpliceRegionBorders:
   // lambda = -1.0,  pRegion1 and pRegion2 = NULL
-  while ( m_InternalLambda == -1.0 )
+  while ( m_BorderCandidate->m_Pointer->GetRegion1() == NULL ||
+          m_BorderCandidate->m_Pointer->GetRegion2() == NULL )
     {
 
-    m_BordersDynamicPointer.erase( m_BordersDynamicPointer.begin() +
-      m_NumberOfBorders - 1 );
+    m_BordersDynamicPointer.erase( m_BordersDynamicPointer.end() - 1 );
 
     // Decrement for the one deleted border
-    m_NumberOfBorders--;
-    if ( m_NumberOfBorders == 0 ) itkExceptionMacro( << "KLM algorithm error" );
+    if ( m_BordersDynamicPointer.empty() ) itkExceptionMacro( << "KLM algorithm error" );
 
-    m_BordersCandidateDynamicPointer =
-      &(m_BordersDynamicPointer[ m_NumberOfBorders - 1 ]);
-
-    m_InternalLambda = m_BordersCandidateDynamicPointer->m_Pointer->GetLambda();
+    m_BorderCandidate = &(m_BordersDynamicPointer[ m_BordersDynamicPointer.size() - 1 ]);
+    m_InternalLambda = m_BorderCandidate->m_Pointer->GetLambda();
     }
 
 } // end MergeRegions
@@ -828,9 +822,9 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
     MeanRegionIntensityType newMeanValue =
       m_RegionsPointer[ labelValue - 1 ]->GetMeanRegionIntensity();
 
-    m_RegionsPointer[iregion]->SetRegion( newMeanValue,
-                                          newAreaValue,
-                                          newLabelValue );
+    m_RegionsPointer[iregion]->SetRegionParameters( newMeanValue,
+                                                    newAreaValue,
+                                                    newLabelValue );
 
     } // end looping through the regions
 
@@ -864,10 +858,10 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 ::PrintAlgorithmBorderStats()
 {
   // Print the stats associated with all the regions
-  for ( unsigned int k = 0; k < m_NumberOfBorders; k++)
+  for ( unsigned int k = 0; k < m_BordersDynamicPointer.size(); k++)
     {
     std::cout << "Stats for Border No: " << ( k + 1 ) << std::endl;
-    m_BordersPointer[ k ]->PrintBorderInfo();
+    m_BordersDynamicPointer[ k ].m_Pointer->PrintBorderInfo();
     } // end region printloop
 
 } // end PrintAlgorithmBorderStats

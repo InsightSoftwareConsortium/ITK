@@ -93,26 +93,8 @@ void
 KLMSegmentationBorder
 ::EvaluateLambda()
 {
-  // Get the regions corresponding to the border in question
-  KLMSegmentationRegion *preg1 = this->GetRegion1();
-  KLMSegmentationRegion *preg2 = this->GetRegion2();
 
-  MeanRegionIntensityType region1Mean = preg1->GetMeanRegionIntensity();
-  MeanRegionIntensityType region2Mean = preg2->GetMeanRegionIntensity();
-  MeanRegionIntensityType region1_2MeanDiff = region1Mean - region2Mean;
-
-  // Assuming equal weights to all the channels
-  // FIXME: For different channel weights modify this part of the code.
-
-  m_Lambda = region1_2MeanDiff.squared_magnitude();
-
-  double region1Area = preg1->GetRegionArea();
-  double region2Area = preg2->GetRegionArea();
-
-  double scaleArea = ( region1Area * region2Area ) /
-                     ( region1Area + region2Area );
-
-  m_Lambda *= scaleArea / this->GetBorderLength();
+  m_Lambda = m_Region1->EnergyFunctional( m_Region2 ) / this->GetBorderLength();
 
 } // end EvaluateLambda()
 

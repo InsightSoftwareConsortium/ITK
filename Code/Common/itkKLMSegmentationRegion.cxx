@@ -51,21 +51,21 @@ KLMSegmentationRegion
 
 void
 KLMSegmentationRegion
-::SetRegion( MeanRegionIntensityType meanRegionIntensity,
-             double regionArea,
-             RegionLabelType label )
+::SetRegionParameters( MeanRegionIntensityType meanRegionIntensity,
+                       double                  regionArea,
+                       RegionLabelType         label )
 {
   // Set the area, mean, and label associated with the region
   this->SetRegionArea( regionArea );
   this->SetMeanRegionIntensity( meanRegionIntensity );
   this->SetRegionLabel( label );
 
-} // end SetRegion
+} // end SetRegionParameters
 
 
 void
 KLMSegmentationRegion
-::AddRegion( const Self *region )
+::CombineRegionParameters( const Self *region )
 {
   // Reset the area and mean associated with the merged region
 
@@ -79,13 +79,34 @@ KLMSegmentationRegion
   MeanRegionIntensityType mergedRegionMean =
     region1Mean * region1Area + region2Mean * region2Area;
 
-  if ( mergedRegionArea <= 0 ) itkExceptionMacro( << "Invalid region area" )
+  if ( mergedRegionArea <= 0 ) itkExceptionMacro( << "Invalid region area" );
   mergedRegionMean /= mergedRegionArea;
-
   this->SetRegionArea( mergedRegionArea );
   this->SetMeanRegionIntensity( mergedRegionMean );
 
-} // end AddRegion
+} // end CombineRegionParameters
+
+
+double
+KLMSegmentationRegion
+::EnergyFunctional(const Self *region)
+{
+
+  MeanRegionIntensityType region1_2MeanDiff =
+    this->m_MeanRegionIntensity - region->m_MeanRegionIntensity;
+
+  // Assuming equal weights to all the channels
+  // FIXME: For different channel weights modify this part of the code.
+  double cost = region1_2MeanDiff.squared_magnitude();
+
+  double region1Area = this->GetRegionArea();
+  double region2Area = region->GetRegionArea();
+
+  double scaleArea = ( region1Area * region2Area ) /
+                     ( region1Area + region2Area );
+
+  return scaleArea * cost;
+}
 
 
 void

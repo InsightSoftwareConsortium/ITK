@@ -138,23 +138,13 @@ public:
 
   /** Set the region with parameter values
    * defining the region. */
-  void SetRegion(MeanRegionIntensityType meanRegionIntensity,
-                 double          regionArea,
-                 RegionLabelType label);
-
-  /** Set the region with parameter values (mean and area)
-   * defining the region when merged with the new region. */
-  void AddRegion(const Self *region);
+  void SetRegionParameters(MeanRegionIntensityType meanRegionIntensity,
+                           double                  regionArea,
+                           RegionLabelType         label);
 
   /** Function to print the region parameters using std::cout. */
   void PrintRegionInfo();
 
-protected:
-  KLMSegmentationRegion();
-  ~KLMSegmentationRegion();
-  void PrintSelf(std::ostream& os, Indent indent) const;
-
-public:
   /** Insert a region border to the front of the list. */
   void PushFrontRegionBorder(KLMSegmentationBorder *pBorderCandidate);
 
@@ -165,18 +155,26 @@ public:
     * (sorting based on region labels is done to maintain consistency). */
   void InsertRegionBorder(KLMSegmentationBorder *pBorderCandidate);
 
-  /** Insert a region border at a given location. */
+  /** Insert a region border into the border list at a given location. */
   void InsertRegionBorder(RegionBorderVectorIterator it,
                           KLMSegmentationBorder *pBorderCandidate);
 
-  /** Delete a region border. */
+  /** Delete a region border from the border list. */
   void DeleteRegionBorder(KLMSegmentationBorder *pBorderCandidate);
 
-  /** Delete all region borders */
+  /** Delete all region borders in the border list. */
   void DeleteAllRegionBorders();
 
-  /** Reset a regions label to that of the supplied region and update
-    * the regions borders. */
+  /** Set the region with parameter values (mean and area)
+   * defining the region when merged with the new region. */
+  void CombineRegionParameters(const Self *region);
+
+  /** Compute the energy cost (mean squared difference scaled by area)
+   * that would result if this region is merged with another region. */
+  double EnergyFunctional(const Self *region);
+
+  /** Reset a region's label to that of the supplied region and update
+    * the regions borders to that of the supplied region. */
   void ResetRegionLabelAndUpdateBorders(Self *region);
 
   /** Splice the regions borders from the new region into the current
@@ -210,6 +208,11 @@ public:
   /** Recalculate the Lambda values using EvaluateLambda() for all
    * the borders defining the region. */
   void UpdateRegionBorderLambda();
+
+protected:
+  KLMSegmentationRegion();
+  ~KLMSegmentationRegion();
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   KLMSegmentationRegion(const Self&); // purposely not implemented
