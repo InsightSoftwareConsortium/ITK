@@ -1,5 +1,6 @@
 // this file defines the itkFEMTests for the test driver
 // and all it expects is that you have a function called RegisterTests
+#include <iostream>
 #include "itkTestMain.h"
 
 
@@ -7,5 +8,7 @@
 // macro.
 void RegisterTests()
 {
-REGISTER_TEST( itkFEMBar2DTest );
+  REGISTER_TEST(itkFEMElementTestMenu);
+  REGISTER_TEST(itkFEMElementTest);
+  REGISTER_TEST( itkFEMBar2DTest );
 }
