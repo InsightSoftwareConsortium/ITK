@@ -22,21 +22,12 @@
 namespace itk 
 {
 
-/** Common construction */
-template< unsigned int TPointDimension >
-void 
-SurfaceSpatialObjectPoint< TPointDimension >
-::CommonConstruction() 
-{
-  m_ID = 0;
-}
-
 /** Constructor */
 template< unsigned int TPointDimension >
 SurfaceSpatialObjectPoint< TPointDimension >
 ::SurfaceSpatialObjectPoint( void ) 
 { 
-  CommonConstruction();
+  m_ID = 0;
   m_NumDimensions = TPointDimension;
 }
 

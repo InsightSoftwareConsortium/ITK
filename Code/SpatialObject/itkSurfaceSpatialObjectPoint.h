@@ -72,9 +72,6 @@ protected:
   ~SurfaceSpatialObjectPoint( void );
 
   VectorType m_Normal;
-
-  /**  Initialization of the common variables */
-  void CommonConstruction( void );
   
   /** Method to print the object. */
   virtual void PrintSelf( std::ostream& os, Indent indent ) const;
