@@ -51,7 +51,6 @@ SignedDanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
                                         //doesn't make sense in a SignedDaniel
   this->m_UseImageSpacing     = false;
   this->m_InsideIsPositive    = false;
-  this->m_InsideValue         = 1;
 }
 
 
@@ -142,7 +141,7 @@ void SignedDanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
   structuringElement.SetRadius( 1 );  // 3x3 structuring element
   structuringElement.CreateStructuringElement();
   dilator->SetKernel(  structuringElement );
-  dilator->SetDilateValue(this->m_InsideValue);
+  dilator->SetDilateValue(1);
 
   filter1->SetInput( this->GetInput() );
   dilator->SetInput( inverter->GetOutput() );

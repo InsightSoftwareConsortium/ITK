@@ -169,14 +169,6 @@ public:
      * true.                             */
   itkBooleanMacro( InsideIsPositive );
   
-  /** Set the value in the image to consider as "foreground". Defaults to
-   * 1. */
-  itkSetMacro(InsideValue, PixelType);
-
-  /** Get the value in the image considered as "foreground". Defaults to
-   * 1. */
-  itkGetMacro(InsideValue, PixelType);
-
   /** Get Voronoi Map
    * This map shows for each pixel what object is closest to it. 
    * Each object should be labeled by a number (larger than 0), 
@@ -212,10 +204,6 @@ private:
   bool                  m_SquaredDistance;
   bool                  m_UseImageSpacing;
   bool                  m_InsideIsPositive;   // ON is treated as inside pixels
-  PixelType             m_InsideValue;  //Value of the ON pixels. Treated as one by default
-                                        //Since the OFF pixels are treated as 0. the
-                                        //this value must be non-zero.
-
 }; // end of SignedDanielssonDistanceMapImageFilter class
 
 } //end namespace itk
