@@ -108,6 +108,16 @@ int itkSceneSpatialObjectTest(int, char* [])
     std::cout << "[FAILURE]" << std::endl;
     return EXIT_FAILURE;
   }
+
+  std::cout << "Testing Clear(): ";
+  // Testing the clear function
+  SceneSpatialObject->Clear();
+  if(SceneSpatialObject->GetNumberOfObjects() != 0)
+    {
+    std::cout << "[FAILURE]" << std::endl;
+    return EXIT_FAILURE;
+    }
+
   std::cout << "[PASSED]" << std::endl;
   std::cout << "[DONE]" << std::endl;
 
