@@ -22,7 +22,7 @@
 // Software Guide : BeginLatex
 //
 // This example demostrates how to use the ``demons'' algorithm to deformably
-// register two images. The first step is to include the header files:
+// register two images. The first step is to include the header files.
 //
 // Software Guide : EndLatex
 
@@ -33,7 +33,6 @@
 #include "itkWarpImageFilter.h"
 #include "itkLinearInterpolateImageFunction.h"
 // Software Guide : EndCodeSnippet
-
 
 
 int main( int argc, char *argv[] )
@@ -72,8 +71,6 @@ int main( int argc, char *argv[] )
   movingImageReader->SetFileName( argv[2] );
 
 
-
-
   // Software Guide : BeginLatex
   //
   // Image file readers are set up in a similar fashion to previous examples.
@@ -86,10 +83,8 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   typedef float InternalPixelType;
   typedef itk::Image< InternalPixelType, Dimension > InternalImageType;
-
   typedef itk::CastImageFilter< FixedImageType, 
                                 InternalImageType > FixedImageCasterType;
-
   typedef itk::CastImageFilter< MovingImageType, 
                                 InternalImageType > MovingImageCasterType;
 
@@ -122,12 +117,8 @@ int main( int argc, char *argv[] )
   typedef itk::HistogramMatchingImageFilter<
                                     InternalImageType,
                                     InternalImageType >   MatchingFilterType;
-
   MatchingFilterType::Pointer matcher = MatchingFilterType::New();
   // Software Guide : EndCodeSnippet
-
-
-
 
 
   // Software Guide : BeginLatex
@@ -147,12 +138,11 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
   // Software Guide : BeginLatex
   //
-  // We then select the number of bins to represent the histograms and the number
-  // of points or quantiles values where the histogram is to be matched.
+  // We then select the number of bins to represent the histograms and the
+  // number of points or quantiles values where the histogram is to be
+  // matched.
   //
   // \index{itk::HistogramMatchingImageFilter!SetNumberOfHistogramLevels()}
   // \index{itk::HistogramMatchingImageFilter!SetNumberOfMatchPoints()}
@@ -165,12 +155,10 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
-
   // Software Guide : BeginLatex
   //
-  // Simple background extraction is done by thresholding at the mean intensity.
+  // Simple background extraction is done by thresholding at the mean
+  // intensity.
   //
   // \index{itk::HistogramMatchingImageFilter!ThresholdAtMeanIntensityOn()}
   //
@@ -181,12 +169,10 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
   // Software Guide : BeginLatex
   //
-  // In the \doxygen{DemonsRegistrationFilter}, the deformation field is represented
-  // as an image whose pixels are floating point vectors.
+  // In the \doxygen{DemonsRegistrationFilter}, the deformation field is
+  // represented as an image whose pixels are floating point vectors.
   //
   // \index{itk::DemonsRegistrationFilter|textbf}
   //
@@ -194,24 +180,20 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   typedef itk::Vector< float, Dimension >    VectorPixelType;
-
   typedef itk::Image<  VectorPixelType, Dimension > DeformationFieldType;
-
   typedef itk::DemonsRegistrationFilter<
                                 InternalImageType,
                                 InternalImageType,
                                 DeformationFieldType>   RegistrationFilterType;
-
   RegistrationFilterType::Pointer filter = RegistrationFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
-
-
   // Software Guide : BeginLatex
   //
-  // The input fixed image is simply the output of the fixed image casting filter.
-  // The input moving image is the output of the histogram matching filter.
+  // The input fixed image is simply the output of the fixed image casting
+  // filter.  The input moving image is the output of the histogram matching
+  // filter.
   //
   // \index{itk::DemonsRegistrationFilter!SetFixedImage()}
   // \index{itk::DemonsRegistrationFilter!SetMovingImage()}
@@ -224,13 +206,12 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
   // Software Guide : BeginLatex
   //
-  // The demons registration filter has two parameters: the number of iterations to
-  // be performed and the standard deviation of the Gaussian smoothing kernel to
-  // be applied to the deformation field after each iteration.
+  // The demons registration filter has two parameters: the number of
+  // iterations to be performed and the standard deviation of the Gaussian
+  // smoothing kernel to be applied to the deformation field after each
+  // iteration.
   // \index{itk::DemonsRegistrationFilter!SetNumberOfIterations()}
   // \index{itk::DemonsRegistrationFilter!SetStandardDeviations()}
   //
@@ -242,13 +223,10 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
-
   // Software Guide : BeginLatex
   // 
-  // The registration algorithm is triggered by updating the filter. The filter
-  // output is the computed deformation field.
+  // The registration algorithm is triggered by updating the filter. The
+  // filter output is the computed deformation field.
   //
   // Software Guide : EndLatex
 
@@ -257,15 +235,13 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
   // Software Guide : BeginLatex
   //
-  // A \doxygen{WarpImageFilter} can be used to warp the moving image with the
-  // output deformation field. Similar to the \doxygen{ResampleImageFilter}, the
-  // \doxygen{WarpImageFilter} requires the specification of the input image to be
-  // resampled, an input image interpolator, the output image spacing and
-  // origin.
+  // A \doxygen{WarpImageFilter} can be used to warp the moving image with
+  // the output deformation field. Similar to the
+  // \doxygen{ResampleImageFilter}, the \doxygen{WarpImageFilter} requires
+  // the specification of the input image to be resampled, an input image
+  // interpolator, the output image spacing and origin.
   //
   // \index{itk::WarpImageFilter|textbf}
   // \index{itk::WarpImageFilter!SetInput()}
@@ -280,15 +256,11 @@ int main( int argc, char *argv[] )
                           MovingImageType, 
                           MovingImageType,
                           DeformationFieldType  >     WarperType;
-
   typedef itk::LinearInterpolateImageFunction<
                                    MovingImageType,
                                    double          >  InterpolatorType;
-
-
   WarperType::Pointer warper = WarperType::New();
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
-
   FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
   warper->SetInput( movingImageReader->GetOutput() );
@@ -298,15 +270,12 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
-
-
   // Software Guide : BeginLatex
   //
-  // Unlike the \doxygen{ResampleImageFilter}, the \doxygen{WarpImageFilter} warps or transform
-  // the input image with respect to the deformation field represented by an image of vectors.
-  // The resulting warped or resampled image is written to file as per previous examples.
+  // Unlike the \doxygen{ResampleImageFilter}, the \doxygen{WarpImageFilter}
+  // warps or transform the input image with respect to the deformation field
+  // represented by an image of vectors.  The resulting warped or resampled
+  // image is written to file as per previous examples.
   //
   // \index{itk::WarpImageFilter!SetDeformationField()}
   //
@@ -317,19 +286,13 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
   // Write warped image out to file
   typedef  unsigned char  OutputPixelType;
-
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-  
   typedef itk::CastImageFilter< 
                         MovingImageType,
                         OutputImageType > CastFilterType;
-                    
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
-
 
   WriterType::Pointer      writer =  WriterType::New();
   CastFilterType::Pointer  caster =  CastFilterType::New();
@@ -341,13 +304,11 @@ int main( int argc, char *argv[] )
   writer->Update();
 
 
-
-
-
   // Software Guide : BeginLatex
   //
-  // Let's execute this example using rat lung data in the previous example.
+  // Let's execute this example using rat lung data from the previous example.
   // The associated data files can be found in \code{Examples/Data}:
+  //
   // \begin{itemize}
   // \item \code{RatLungSlice1.mha}
   // \item \code{RatLungSlice2.mha}
@@ -369,6 +330,5 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   return 0;
-
 }
 

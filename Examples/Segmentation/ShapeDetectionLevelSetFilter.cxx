@@ -592,7 +592,7 @@ int main( int argc, char *argv[] )
   //  pedagogical/debugging purposes. These intermediate output are normaly not
   //  required. Only the output of the final thresholding filter should be
   //  relevant.  Observing intermediate output is helpful in the process of
-  //  fine tunning the parameters of filters in the pipeline. 
+  //  fine tuning the parameters of filters in the pipeline. 
   //
   //
   CastFilterType::Pointer caster1 = CastFilterType::New();

@@ -36,7 +36,7 @@
 //  set. The dynamic style, on the other hand, is intended to support
 //  insertion and removal of points in an efficient manner. The reason
 //  for making the distinction between the two styles is to facilitate
-//  the fine tunning of its behavior with the aim of optimizing
+//  fine tuning its behavior with the aim of optimizing
 //  performance and memory management. In the case of the Mesh, the
 //  dynamic/static aspect is extended to the management of cells.
 //

@@ -23,14 +23,12 @@
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkHistogramMatchingImageFilter.h"
 
-
-
 //  Software Guide : BeginLatex
 //
 // The finite element (FEM) library within the Insight Toolkit can be
-// used to solve image registration problems.  The first step in
-// implementing a FEM-based registration is to include the following
-// header files:
+// used to solve deformable image registration problems.  The first step in
+// implementing a FEM-based registration is to include the appropriate
+// header files.
 //
 //  \index{Registration!Finite Element-Based}
 //
@@ -41,7 +39,6 @@
 #include "itkFEM.h"
 #include "itkFEMRegistrationFilter.h"
 // Software Guide : EndCodeSnippet
-
 
 
 //  Software Guide : BeginLatex
@@ -125,12 +122,15 @@ int main(int argc, char *argv[])
 {
   char *paramname;
   if ( argc < 2 )
-  {
+    {
     std::cout << "Parameter file name missing" << std::endl;
     std::cout << "Usage: " << argv[0] << " param.file" << std::endl;
     return -1;
-  } 
-  else { paramname=argv[1]; }
+    } 
+  else 
+    { 
+    paramname=argv[1]; 
+    }
 
 
 //  Software Guide : BeginLatex
@@ -145,15 +145,15 @@ int main(int argc, char *argv[])
   // Register the correct load implementation with the element-typed visitor dispatcher. 
   {
 //  Software Guide : BeginCodeSnippet
-    ElementType::LoadImplementationFunctionPointer fp = 
-      &itk::fem::ImageMetricLoadImplementation<ImageLoadType>::ImplementImageMetricLoad;
-    DispatcherType::RegisterVisitor((ImageLoadType*)0,fp);
+  ElementType::LoadImplementationFunctionPointer fp = 
+    &itk::fem::ImageMetricLoadImplementation<ImageLoadType>::ImplementImageMetricLoad;
+  DispatcherType::RegisterVisitor((ImageLoadType*)0,fp);
 //  Software Guide : EndCodeSnippet  
   }
   {
-    ElementType2::LoadImplementationFunctionPointer fp =
-      &itk::fem::ImageMetricLoadImplementation<ImageLoadType>::ImplementImageMetricLoad;
-    DispatcherType2::RegisterVisitor((ImageLoadType*)0,fp);
+  ElementType2::LoadImplementationFunctionPointer fp =
+    &itk::fem::ImageMetricLoadImplementation<ImageLoadType>::ImplementImageMetricLoad;
+  DispatcherType2::RegisterVisitor((ImageLoadType*)0,fp);
   }
 
 
@@ -182,7 +182,10 @@ int main(int argc, char *argv[])
 
   // Attempt to read the parameter file, and exit if an error occurs
   X->SetConfigFileName(paramname);
-  if ( !X->ReadConfigFile( (X->GetConfigFileName()).c_str() ) ) { return -1; }
+  if ( !X->ReadConfigFile( (X->GetConfigFileName()).c_str() ) ) 
+    { 
+    return -1; 
+    }
  
   // Read the image files
   typedef itk::ImageFileReader< fileImageType >      FileSourceType;
@@ -195,25 +198,25 @@ int main(int argc, char *argv[])
 
 
   try
-  {
+    {
     reffilter->Update();
-  }
+    }
   catch( itk::ExceptionObject & e )
-  {
+    {
     std::cerr << "Exception caught during reference file reading " << std::endl;
     std::cerr << e << std::endl;
     return -1;
-  }
+    }
   try
-  {
+    {
     tarfilter->Update();
-  }
+    }
   catch( itk::ExceptionObject & e )
-  {
+    {
     std::cerr << "Exception caught during target file reading " << std::endl;
     std::cerr << e << std::endl;
     return -1;
-  }
+    }
   
 
   // Rescale the image intensities so that they fall between 0 and 255
@@ -283,7 +286,6 @@ int main(int argc, char *argv[])
 //  Software Guide : EndCodeSnippet
 
 
-
 //  Software Guide : BeginLatex
 //
 //  Now we are ready to run the registration:
@@ -312,30 +314,29 @@ int main(int argc, char *argv[])
 //  We can also output the displacement fields resulting from the
 //  registration, we can call \code{WriteDisplacementField()} with the
 //  desired vector component as an argument.  For a 2D registration,
-//  you would want to write out both the x and y displacements, and
+//  you would want to write out both the $x$ and $y$ displacements, and
 //  this requires two calls to the aforementioned function.
 //
 //  Software Guide : EndLatex
 
 //  Software Guide : BeginCodeSnippet
-  if (X->GetWriteDisplacements()) {
+  if (X->GetWriteDisplacements()) 
+    {
     X->WriteDisplacementField(0);
     X->WriteDisplacementField(1);
-
     // If this were a 3D example, you might also want to call this line:
     // X->WriteDisplacementField(2);
-  }
+    }
 //  Software Guide : EndCodeSnippet
 
-
-  //
   //  This is a documented sample parameter file that can be used with
   //  this deformable registration example.
   //
   //  ../Data/FiniteElementRegistrationParameters1.txt
   //
 
-  // Clean up and exit
+  // Clean up and exit. TODO: THIS IS REALLY BAD. NEEDS TO BE FIXED!!!!
+  // Instantiated as ::Pointer and the delete is used.
   delete m;
   delete e1;
 
