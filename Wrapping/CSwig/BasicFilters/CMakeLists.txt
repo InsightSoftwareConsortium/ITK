@@ -51,17 +51,70 @@ SET(WRAP_PYTHON_SOURCES ${WRAP_PYTHON_SOURCES} wrap_ITKBasicFiltersPythonPython.
 SET_SOURCE_FILES_PROPERTIES(${WRAP_TCL_SOURCES} ${WRAP_PYTHON_SOURCES} GENERATED )
 
 IF(ITK_CSWIG_TCL)
-  ADD_LIBRARY(ITKBasicFiltersTcl SHARED ${WRAP_TCL_SOURCES})
+  SET(LIBRARY_SOURCES ${WRAP_TCL_SOURCES})
+
+  IF (ITK_CSWIG_CONNECTVTKITK)
+    SET_SOURCE_FILES_PROPERTIES(ConnectVTKITK_wrapTcl.cxx GENERATED)
+    SET(LIBRARY_SOURCES ${LIBRARY_SOURCES} ConnectVTKITK_wrapTcl.cxx)
+  ENDIF(ITK_CSWIG_CONNECTVTKITK)
+
+  ADD_LIBRARY(ITKBasicFiltersTcl SHARED ${LIBRARY_SOURCES})
   TARGET_LINK_LIBRARIES(ITKBasicFiltersTcl ITKBasicFilters VXLNumericsTcl ITKNumericsTcl ITKCommonTcl SwigRuntimeTcl ${TCL_LIBRARY})
+  
+  IF(ITK_CSWIG_CONNECTVTKITK)
+    TARGET_LINK_LIBRARIES(ITKBasicFiltersTcl vtkCommonTCL vtkImagingTCL)
+  ENDIF(ITK_CSWIG_CONNECTVTKITK)
+  
+  IF(ITK_CSWIG_CONNECTVTKITK)
+    ADD_CUSTOM_COMMAND(
+      COMMENT "Building ConnectVTKITK_wrapTcl.cxx from ConnectVTKITK.i"
+      SOURCE ${ITK_TOP}/Wrapping/CSwig/BasicFilters/ConnectVTKITK.i
+      COMMAND ${CSWIG}
+      ARGS -I${ITK_TOP}/Wrapping/CSwig
+           -nocable -l${ITK_TOP}/Wrapping/CSwig/itk.swg -c ${IGNORE_WARNINGS}
+           -o ${WrapITK_BINARY_DIR}/BasicFilters/ConnectVTKITK_wrapTcl.cxx
+           -c++ ${ITK_TOP}/Wrapping/CSwig/BasicFilters/ConnectVTKITK.i
+      TARGET ITKBasicFiltersTcl
+      OUTPUTS ${WrapITK_BINARY_DIR}/BasicFilters/ConnectVTKITK_wrapTcl.cxx
+      DEPENDS ${ITK_TOP}/Wrapping/CSwig/BasicFilters/ConnectVTKITK.i)
+  ENDIF(ITK_CSWIG_CONNECTVTKITK)
+  
 ENDIF(ITK_CSWIG_TCL)
 
 IF(ITK_CSWIG_PYTHON)
-  ADD_LIBRARY(_ITKBasicFiltersPython MODULE ${WRAP_PYTHON_SOURCES})
+  SET(LIBRARY_SOURCES ${WRAP_PYTHON_SOURCES})
+
+  IF (ITK_CSWIG_CONNECTVTKITK)
+    SET_SOURCE_FILES_PROPERTIES(ConnectVTKITK_wrapPython.cxx GENERATED)
+    SET(LIBRARY_SOURCES ${LIBRARY_SOURCES} ConnectVTKITK_wrapPython.cxx)
+  ENDIF(ITK_CSWIG_CONNECTVTKITK)
+
+  ADD_LIBRARY(_ITKBasicFiltersPython MODULE ${LIBRARY_SOURCES})
   IF(ITK_PYTHON_NEEDS_DEPENDS)
     ADD_DEPENDENCIES(_ITKBasicFiltersPython _ITKNumericsPython _ITKCommonPython)
   ENDIF(ITK_PYTHON_NEEDS_DEPENDS)
   SET_TARGET_PROPERTIES( _ITKBasicFiltersPython PROPERTIES PREFIX "")
   TARGET_LINK_LIBRARIES(_ITKBasicFiltersPython ITKBasicFilters SwigRuntimePython ${PYTHON_LIBRARY})
+
+  IF(ITK_CSWIG_CONNECTVTKITK)
+    TARGET_LINK_LIBRARIES(_ITKBasicFiltersPython vtkCommonPython vtkImagingPython)
+  ENDIF(ITK_CSWIG_CONNECTVTKITK)
+  
+  IF(ITK_CSWIG_CONNECTVTKITK)
+    ADD_CUSTOM_COMMAND(
+      COMMENT "Building ConnectVTKITK_wrapPython.cxx from ConnectVTKITK.i"
+      SOURCE ${ITK_TOP}/Wrapping/CSwig/BasicFilters/ConnectVTKITK.i
+      COMMAND ${CSWIG}
+      ARGS -I${ITK_TOP}/Wrapping/CSwig
+           -nocable -l${ITK_TOP}/Wrapping/CSwig/itk.swg -c ${IGNORE_WARNINGS}
+           -o ${WrapITK_BINARY_DIR}/BasicFilters/ConnectVTKITK_wrapPython.cxx
+           -bindir "${EXECUTABLE_OUTPUT_PATH}/${CMAKE_CFG_INTDIR}"
+           -python -c++ ${ITK_TOP}/Wrapping/CSwig/BasicFilters/ConnectVTKITK.i
+      TARGET _ITKBasicFiltersPython
+      OUTPUTS ${WrapITK_BINARY_DIR}/BasicFilters/ConnectVTKITK_wrapPython.cxx
+      DEPENDS ${ITK_TOP}/Wrapping/CSwig/BasicFilters/ConnectVTKITK.i)
+  ENDIF(ITK_CSWIG_CONNECTVTKITK)
+
 ENDIF(ITK_CSWIG_PYTHON)
 
 

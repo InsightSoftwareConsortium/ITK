@@ -21,6 +21,9 @@ namespace _cable_
   const char* const package = ITK_WRAP_PACKAGE_NAME(ITK_WRAP_PACKAGE);
   const char* const groups[] =
   {
+#ifdef ITK_CSWIG_CONNECTVTKITK
+    "ConnectVTKITK",
+#endif
     ITK_WRAP_GROUP(itkAnisotropicDiffusionImageFilter),
     ITK_WRAP_GROUP(itkBinaryThresholdImageFilter),
     ITK_WRAP_GROUP(itkCannyEdgeDetectionImageFilter),
