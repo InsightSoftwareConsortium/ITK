@@ -34,10 +34,15 @@ namespace _cable_
     typedef ::itk::Point< double, 3 > D3;
     }
     // wrap FunctionBase 
-    ITK_WRAP_OBJECT2(FunctionBase, point::F2, double, itkFunctionBaseF2D);
-    ITK_WRAP_OBJECT2(FunctionBase, point::F3, double, itkFunctionBaseF3D);
-    ITK_WRAP_OBJECT2(FunctionBase, point::D2, double, itkFunctionBaseD2D);
-    ITK_WRAP_OBJECT2(FunctionBase, point::D3, double, itkFunctionBaseD3D);
+    ITK_WRAP_OBJECT2(FunctionBase, point::F2, double, itkFunctionBasePF2D);
+    ITK_WRAP_OBJECT2(FunctionBase, point::F3, double, itkFunctionBasePF3D);
+    ITK_WRAP_OBJECT2(FunctionBase, point::D2, double, itkFunctionBasePD2D);
+    ITK_WRAP_OBJECT2(FunctionBase, point::D3, double, itkFunctionBasePD3D);
+
+    ITK_WRAP_OBJECT2(FunctionBase, image::F2, double, itkFunctionBaseIF2D);
+    ITK_WRAP_OBJECT2(FunctionBase, image::F3, double, itkFunctionBaseIF3D);
+    ITK_WRAP_OBJECT2(FunctionBase, image::US2, double, itkFunctionBaseIUS2D);
+    ITK_WRAP_OBJECT2(FunctionBase, image::US3, double, itkFunctionBaseIUS3D);
   }
 }
 
