@@ -8,6 +8,11 @@ ${CMAKE_BINARY_DIR}/Code/BasicFilters
 ${CMAKE_BINARY_DIR}/Code/Algorithms
 )
 
+LINK_LIBRARIES (
+ITKBasicFilters 
+ITKAlgorithms
+)
+
 TESTS(
 itkCurvatureFlowTest
 itkExtractMeshConnectedRegionsTest
