@@ -74,8 +74,12 @@ public:
   FloodFilledSpatialFunctionConditionalIterator(ImageType *imagePtr,
                                      FunctionType *fnPtr): Superclass(imagePtr, fnPtr) {}
 
-  /** Get the pixel value */
+  /** Get the pixel value, const version to avoid overload warnings */
   const PixelType & Get(void) const
+    { return const_cast<ImageType *>(m_Image.GetPointer())->GetPixel(m_IndexStack.top() ); }
+
+  /** Get the pixel value, non-const version is sometimes useful*/
+  PixelType & Get(void)
     { return const_cast<ImageType *>(m_Image.GetPointer())->GetPixel(m_IndexStack.top() ); }
 
   /** Set the pixel value */
