@@ -33,7 +33,6 @@ ReflectiveImageRegionIterator<TImage>
     m_Done[i] = false;
     }
   m_Fastest = 0;
-  m_Current = 0;
 }
 
 template<class TImage>
@@ -47,7 +46,6 @@ ReflectiveImageRegionIterator<TImage>
     m_Done[i] = false;
     }
   m_Fastest = 0;
-  m_Current = 0;
 }
 
 template<class TImage>
