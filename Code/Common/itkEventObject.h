@@ -208,20 +208,20 @@ inline std::ostream& operator<<(std::ostream& os, EventObject &e)
  *      Define some common ITK events
  */
 itkEventMacro( NoEvent            , EventObject );
-itkEventMacro( DeleteEvent        , EventObject );
-itkEventMacro( StartEvent         , EventObject );
-itkEventMacro( EndEvent           , EventObject );
-itkEventMacro( ProgressEvent      , EventObject );
-itkEventMacro( PickEvent          , EventObject );
+itkEventMacro( AnyEvent           , EventObject );
+itkEventMacro( DeleteEvent        , AnyEvent );
+itkEventMacro( StartEvent         , AnyEvent );
+itkEventMacro( EndEvent           , AnyEvent );
+itkEventMacro( ProgressEvent      , AnyEvent );
+itkEventMacro( ExitEvent          , AnyEvent );
+itkEventMacro( ModifiedEvent      , AnyEvent );
+itkEventMacro( IterationEvent     , AnyEvent );
+itkEventMacro( PickEvent          , AnyEvent );
 itkEventMacro( StartPickEvent     , PickEvent   );
 itkEventMacro( EndPickEvent       , PickEvent   );
 itkEventMacro( AbortCheckEvent    , PickEvent   );
-itkEventMacro( ExitEvent          , EventObject );
-itkEventMacro( ModifiedEvent      , EventObject );
-itkEventMacro( IterationEvent     , EventObject );
-itkEventMacro( AnyEvent           , EventObject );
-itkEventMacro( UserEvent          , EventObject );
 
+itkEventMacro( UserEvent          , AnyEvent );
 
    
 } // end namespace itk
