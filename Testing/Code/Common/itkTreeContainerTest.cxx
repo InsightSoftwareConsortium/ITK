@@ -138,7 +138,6 @@ int itkTreeContainerTest(int, char* [])
   std::cout << "[SUCESS]" << std::endl;
 
   std::cout << "Testing Clone() : ";
-  itk::ChildTreeIterator<TreeType> childIt3 = childIt2;
   itk::TreeIteratorBase<TreeType>* childItClone = childIt2.Clone();
   if(!childItClone)
     {
