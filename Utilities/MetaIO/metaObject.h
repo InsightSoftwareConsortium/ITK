@@ -29,16 +29,16 @@ class MetaObject
       FieldsContainerType m_UserDefinedReadFields;
       char  m_FileName[255];
 
-      char  m_Comment[255];           // "Comment = "          ""
+      char  m_Comment[255];            // "Comment = "       ""
 
-      char  m_ObjectTypeName[255];    // "ObjectType = "     defined by suffix
-      char  m_ObjectSubTypeName[255]; // "ObjectSubType = "  defined by suffix
+      char  m_ObjectTypeName[255];     // "ObjectType = "    defined by suffix
+      char  m_ObjectSubTypeName[255];  // "ObjectSubType = " defined by suffix
 
-      int   m_NDims;                  // "NDims = "            required
+      int   m_NDims;                   // "NDims = "         required
 
-      double m_Offset[10];             // "Offset = "         0,0,0
-      double m_Rotation[100];          // "Rotation = "      1,0,0, 0,1,0, 0,0,1
-      double m_CenterOfRotation[10];   // CenterOfRotation
+      double m_Offset[10];             // "Offset = "          0,0,0
+      double m_TransformMatrix[100];   // "TransformMatrix = " 1,0,0,0,1,0,0,0,1
+      double m_CenterOfRotation[10];   // "CenterOfRotation = "  0 0 0
 
       MET_OrientationEnumType m_AnatomicalOrientation[10];
 
@@ -150,9 +150,13 @@ class MetaObject
       void  Origin(const double * _position);
       void  Origin(int _i, double _value);
 
-      //    Rotation(...)
+      //    TransformMatrix(...)
       //       Optional Field
       //       Physical orientation of the object as an NDims x NDims matrix
+      const double * TransformMatrix(void) const;
+      double TransformMatrix(int _i, int _j) const;
+      void  TransformMatrix(const double * _orientation);
+      void  TransformMatrix(int _i, int _j, double _value);
       const double * Rotation(void) const;
       double Rotation(int _i, int _j) const;
       void  Rotation(const double * _orientation);

@@ -204,7 +204,7 @@ CopyInfo(const MetaObject * _object)
   ObjectSubTypeName(_object->ObjectSubTypeName());
   CenterOfRotation(_object->CenterOfRotation());
   Offset(_object->Offset());
-  Rotation(_object->Rotation());
+  TransformMatrix(_object->TransformMatrix());
   ElementSpacing(_object->ElementSpacing());
   ID(_object->ID());
   Color(_object->Color());
@@ -355,13 +355,13 @@ PrintInfo(void) const
     }
   std::cout << std::endl;
   
-  std::cout << "Rotation = ";
+  std::cout << "TransformMatrix = ";
   std::cout << std::endl;
   for(i=0; i<m_NDims; i++)
     {
     for(j=0; j<m_NDims; j++)
       { 
-      std::cout << m_Rotation[i*m_NDims+j] << " ";
+      std::cout << m_TransformMatrix[i*m_NDims+j] << " ";
       }
     std::cout << std::endl;
     }
@@ -588,15 +588,44 @@ Origin(int _i, double _value)
 //
 //
 const double * MetaObject::
+TransformMatrix(void) const
+  {
+  return m_TransformMatrix;
+  }
+
+double MetaObject::
+TransformMatrix(int _i, int _j) const
+  {
+  return m_TransformMatrix[_i*m_NDims+_j];
+  }
+
+void MetaObject::
+TransformMatrix(const double * _orientation)
+  {
+  int i;
+  for(i=0; i<m_NDims*m_NDims; i++)
+    {
+    m_TransformMatrix[i] = _orientation[i];
+    }
+  }
+
+void MetaObject::
+TransformMatrix(int _i, int _j, double _value)
+  {
+  m_TransformMatrix[_i*m_NDims+_j] = _value;
+  }
+
+//
+const double * MetaObject::
 Rotation(void) const
   {
-  return m_Rotation;
+  return m_TransformMatrix;
   }
 
 double MetaObject::
 Rotation(int _i, int _j) const
   {
-  return m_Rotation[_i*m_NDims+_j];
+  return m_TransformMatrix[_i*m_NDims+_j];
   }
 
 void MetaObject::
@@ -605,27 +634,27 @@ Rotation(const double * _orientation)
   int i;
   for(i=0; i<m_NDims*m_NDims; i++)
     {
-    m_Rotation[i] = _orientation[i];
+    m_TransformMatrix[i] = _orientation[i];
     }
   }
 
 void MetaObject::
 Rotation(int _i, int _j, double _value)
   {
-  m_Rotation[_i*m_NDims+_j] = _value;
+  m_TransformMatrix[_i*m_NDims+_j] = _value;
   }
 
 //
 const double * MetaObject::
 Orientation(void) const
   {
-  return m_Rotation;
+  return m_TransformMatrix;
   }
 
 double MetaObject::
 Orientation(int _i, int _j) const
   {
-  return m_Rotation[_i*m_NDims+_j];
+  return m_TransformMatrix[_i*m_NDims+_j];
   }
 
 void MetaObject::
@@ -634,14 +663,14 @@ Orientation(const double * _orientation)
   int i;
   for(i=0; i<m_NDims*m_NDims; i++)
     {
-    m_Rotation[i] = _orientation[i];
+    m_TransformMatrix[i] = _orientation[i];
     }
   }
 
 void MetaObject::
 Orientation(int _i, int _j, double _value)
   {
-  m_Rotation[_i*m_NDims+_j] = _value;
+  m_TransformMatrix[_i*m_NDims+_j] = _value;
   }
 
 //
@@ -885,12 +914,12 @@ Clear(void)
   {
   if(META_DEBUG)  std::cout << "MetaObject: Clear()" << std::endl;
   strcpy(m_Comment, "");
-  strcpy(m_ObjectTypeName, "");
+  strcpy(m_ObjectTypeName, "Object");
   strcpy(m_ObjectSubTypeName, "");
   strcpy(m_Name, "");
 
   memset(m_Offset, 0, 10*sizeof(float));
-  memset(m_Rotation, 0, 100*sizeof(float));
+  memset(m_TransformMatrix, 0, 100*sizeof(float));
   memset(m_CenterOfRotation, 0, 10*sizeof(float));
   memset(m_Color, 0, 4*sizeof(float));
 
@@ -1047,12 +1076,17 @@ M_SetupReadFields(void)
   m_Fields.push_back(mF);
 
   mF = new MET_FieldRecordType;
-  MET_InitReadField(mF, "Orientation", MET_FLOAT_MATRIX, false,
+  MET_InitReadField(mF, "TransformMatrix", MET_FLOAT_MATRIX, false,
                     nDimsRecordNumber);
   m_Fields.push_back(mF);
 
   mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "Rotation", MET_FLOAT_MATRIX, false,
+                    nDimsRecordNumber);
+  m_Fields.push_back(mF);
+
+  mF = new MET_FieldRecordType;
+  MET_InitReadField(mF, "Orientation", MET_FLOAT_MATRIX, false,
                     nDimsRecordNumber);
   m_Fields.push_back(mF);
 
@@ -1103,13 +1137,10 @@ M_SetupWriteFields(void)
     m_Fields.push_back(mF);
     }
 
-  if(strlen(m_ObjectTypeName)>0)
-    {
-    mF = new MET_FieldRecordType;
-    MET_InitWriteField(mF, "ObjectType", MET_STRING, strlen(m_ObjectTypeName),
-                      m_ObjectTypeName);
-    m_Fields.push_back(mF);
-    }
+  mF = new MET_FieldRecordType;
+  MET_InitWriteField(mF, "ObjectType", MET_STRING, strlen(m_ObjectTypeName),
+                    m_ObjectTypeName);
+  m_Fields.push_back(mF);
 
   if(strlen(m_ObjectSubTypeName)>0)
     {
@@ -1127,12 +1158,11 @@ M_SetupWriteFields(void)
   if(strlen(m_Name)>0)
     {
     mF = new MET_FieldRecordType;
-    MET_InitWriteField(mF, "Name", MET_STRING,
-                      strlen(m_Name),m_Name);
+    MET_InitWriteField(mF, "Name", MET_STRING, strlen(m_Name),m_Name);
     m_Fields.push_back(mF);
     }
 
-  if(m_ID >= 0)
+  if(m_ID>=0)
     {
     mF = new MET_FieldRecordType;
     MET_InitWriteField(mF, "ID", MET_INT, m_ID);
@@ -1146,18 +1176,37 @@ M_SetupWriteFields(void)
     m_Fields.push_back(mF);
     }
 
-  if(m_CompressedData)
+  bool valSet = false;
+  for(unsigned int i=0; i<4; i++)
+    {
+    if(m_Color[i] != 1)
+      {
+      valSet = true;
+      break;
+      }
+    }
+  if(valSet)
     {
     mF = new MET_FieldRecordType;
-    MET_InitWriteField(mF, "CompressedData", MET_STRING, strlen("True"), "True");
+    MET_InitWriteField(mF, "Color", MET_FLOAT_ARRAY, 4,
+                         m_Color);
     m_Fields.push_back(mF);
     }
 
-  if((m_CompressedDataSize>0) && (m_WriteCompressedDataSize))
+  if(m_CompressedData)
     {
     mF = new MET_FieldRecordType;
-    MET_InitWriteField(mF, "CompressedDataSize", MET_UINT, m_CompressedDataSize);
+    MET_InitWriteField(mF, "CompressedData", MET_STRING, strlen("True"),
+                       "True");
     m_Fields.push_back(mF);
+
+    if(m_WriteCompressedDataSize)
+      {
+      mF = new MET_FieldRecordType;
+      MET_InitWriteField(mF, "CompressedDataSize", MET_UINT,
+                         m_CompressedDataSize);
+      m_Fields.push_back(mF);
+      }
     }
 
   if(m_BinaryData)
@@ -1176,102 +1225,38 @@ M_SetupWriteFields(void)
     m_Fields.push_back(mF);
     }
 
-  bool valSet = false;
-  int i;
-  for(i=0; i<m_NDims; i++)
-    {
-    if(m_Offset[i] != 0)
-      {
-      valSet = true;
-      break;
-      }
-    }
-  if(valSet)
-    {
-    mF = new MET_FieldRecordType;
-    MET_InitWriteField(mF, "Offset", MET_FLOAT_ARRAY, m_NDims,
-                       m_Offset);
-    m_Fields.push_back(mF);
-    }
-
-  valSet = false;
-  for(i=0; i<4; i++)
-    {
-    if(m_Color[i] != 1)
-      {
-      valSet = true;
-      break;
-      }
-    }
-  if(valSet)
-    {
-    mF = new MET_FieldRecordType;
-    MET_InitWriteField(mF, "Color", MET_FLOAT_ARRAY, 4,
-                         m_Color);
-    m_Fields.push_back(mF);
-    }
+  
   
   valSet = false;
-
-  // check for identity matrix
-  bool isIdentity = true ;
-  for(i=0; i<m_NDims*m_NDims; i++)
+  for(int i=0; i<m_NDims*m_NDims; i++)
     {
-    if( (i % m_NDims) == (int) (i / m_NDims) )
-      {
-        if ( m_Rotation[i] != 1 )
-          {
-            isIdentity = false ;
-            break;
-          }
-      }
-    else
-      {
-        if ( m_Rotation[i] != 0 )
-          {
-            isIdentity = false ;
-            break ;
-          }
-      }
-    }
-
-  // check for zero matrix
-  bool isAllZero = true ;
-  if(!isIdentity)
-    {
-      for(i=0; i<m_NDims*m_NDims; i++)
-        {
-          if ( m_Rotation[i] != 0 )
-            {
-              isAllZero = false ;
-              break;
-            }
-        }
-    }
-
-  if(!isIdentity && !isAllZero)
-    {
-    mF = new MET_FieldRecordType;
-    MET_InitWriteField(mF, "Rotation", MET_FLOAT_MATRIX, m_NDims,
-                       m_Rotation);
-    m_Fields.push_back(mF);
-    }
-
-  for(i=0; i<m_NDims; i++)
-    {
-    if(m_CenterOfRotation[i] != 0)
+    if(m_TransformMatrix[i] != 0)
       {
       valSet = true;
       break;
       }
     }
-  if(valSet)
+  if(!valSet)
     {
-    mF = new MET_FieldRecordType;
-    MET_InitWriteField(mF, "CenterOfRotation", MET_FLOAT_ARRAY, m_NDims,
-                       m_CenterOfRotation);
-    m_Fields.push_back(mF);
+    for(int i=0; i<m_NDims; i++)
+      {
+      m_TransformMatrix[i+i*m_NDims] = 1;
+      }
     }
+  mF = new MET_FieldRecordType;
+  MET_InitWriteField(mF, "TransformMatrix", MET_FLOAT_MATRIX, m_NDims,
+                     m_TransformMatrix);
+  m_Fields.push_back(mF);
+
+  mF = new MET_FieldRecordType;
+  MET_InitWriteField(mF, "Offset", MET_FLOAT_ARRAY, m_NDims,
+                     m_Offset);
+  m_Fields.push_back(mF);
+
+  mF = new MET_FieldRecordType;
+  MET_InitWriteField(mF, "CenterOfRotation", MET_FLOAT_ARRAY, m_NDims,
+                     m_CenterOfRotation);
+  m_Fields.push_back(mF);
 
   if(m_AnatomicalOrientation[0] != MET_ORIENTATION_UNKNOWN)
     {
@@ -1282,32 +1267,20 @@ M_SetupWriteFields(void)
     m_Fields.push_back(mF);
     }
 
-  valSet = false;
-  for(i=0; i<m_NDims; i++)
-    {
-    if(m_ElementSpacing[i] != 0 && m_ElementSpacing[i] != 1)
-      {
-      valSet = true;
-      break;
-      }
-    }
-  if(valSet)
-    {
-    mF = new MET_FieldRecordType;
-    MET_InitWriteField(mF, "ElementSpacing", MET_FLOAT_ARRAY, m_NDims,
-                       m_ElementSpacing);
-    m_Fields.push_back(mF);
-    }
+  mF = new MET_FieldRecordType;
+  MET_InitWriteField(mF, "ElementSpacing", MET_FLOAT_ARRAY, m_NDims,
+                     m_ElementSpacing);
+  m_Fields.push_back(mF);
 
-   // Add User's field
-   FieldsContainerType::iterator  it  = m_UserDefinedWriteFields.begin();
-   FieldsContainerType::iterator  end = m_UserDefinedWriteFields.end();
-   while( it != end )
-   {
-     //std::cout << "Adding " << (*it)->name << std::endl;
-     m_Fields.push_back(*it); 
-     it++;
-   }
+  // Add User's field
+  FieldsContainerType::iterator  it  = m_UserDefinedWriteFields.begin();
+  FieldsContainerType::iterator  end = m_UserDefinedWriteFields.end();
+  while( it != end )
+    {
+    //std::cout << "Adding " << (*it)->name << std::endl;
+    m_Fields.push_back(*it); 
+    it++;
+    }
   }
 
 bool MetaObject::
@@ -1465,32 +1438,58 @@ M_Read(void)
       }
     }
 
-  bool rotationDefined = false;
+  bool transformMatrixDefined = false;
   mF = MET_GetFieldRecord("Orientation", &m_Fields);
   if(mF && mF->defined)
     {
-    rotationDefined = true;
+    transformMatrixDefined = true;
     int len = mF->length;
     for(i=0; i<len*len; i++)
       {
-      m_Rotation[i] = static_cast<double>( mF->value[i] );
+      m_TransformMatrix[i] = static_cast<double>( mF->value[i] );
       }
     }
   mF = MET_GetFieldRecord("Rotation", &m_Fields);
   if(mF && mF->defined)
     {
-    rotationDefined = true;
+    transformMatrixDefined = true;
     int len = mF->length;
     for(i=0; i<len*len; i++)
       {
-      m_Rotation[i] = static_cast<double>( mF->value[i] );
+      m_TransformMatrix[i] = static_cast<double>( mF->value[i] );
       }
     }
-  if(!rotationDefined)
+  mF = MET_GetFieldRecord("TransformMatrix", &m_Fields);
+  if(mF && mF->defined)
+    {
+    transformMatrixDefined = true;
+    int len = mF->length;
+    for(i=0; i<len*len; i++)
+      {
+      m_TransformMatrix[i] = static_cast<double>( mF->value[i] );
+      }
+    }
+  if(!transformMatrixDefined)
     {
     for(i=0; i<m_NDims; i++)
       {
-      m_Rotation[i+i*m_NDims] = 1;
+      m_TransformMatrix[i+i*m_NDims] = 1;
+      }
+    }
+
+  mF = MET_GetFieldRecord("CenterOfRotation", &m_Fields);
+  if(mF && mF->defined)
+    {
+    for(i=0; i<mF->length; i++)
+      {
+      m_CenterOfRotation[i] = static_cast<double>( mF->value[i] );
+      }
+    }
+  else
+    {
+    for(i=0; i<m_NDims; i++)
+      {
+      m_CenterOfRotation[i] = 0;
       }
     }
 
@@ -1568,7 +1567,8 @@ bool MetaObject
   }
 
 #ifndef __sgi
-  m_WriteStream->open(m_FileName, std::ios::binary | std::ios::out | std::ios::app);
+  m_WriteStream->open(m_FileName,
+                      std::ios::binary | std::ios::out | std::ios::app);
   if(!m_WriteStream->is_open())
     {
     delete m_WriteStream;
@@ -1576,7 +1576,8 @@ bool MetaObject
     return false;
     }
 #else
-  m_WriteStream->open(m_FileName, std::ios::binary | std::ios::out | std::ios::in);
+  m_WriteStream->open(m_FileName,
+                      std::ios::binary | std::ios::out | std::ios::in);
   if(!m_WriteStream->is_open())
     {
     delete m_WriteStream;
