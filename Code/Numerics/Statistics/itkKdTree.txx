@@ -125,9 +125,10 @@ KdTree< TSample >
 
 
 template< class TSample >
-typename KdTree< TSample >::InstanceIdentifierVectorType 
+void
 KdTree< TSample >
-::Search(MeasurementVectorType &query, unsigned int k)
+::Search(MeasurementVectorType &query, unsigned int k,
+         InstanceIdentifierVectorType& result)
 {
   m_NearestNeighbors.resize(k) ;
 
@@ -146,7 +147,7 @@ KdTree< TSample >
   this->NearestNeighborSearchLoop(m_Root, query, lowerBound, upperBound) ;
 
   m_Neighbors = m_NearestNeighbors.GetNeighbors() ;
-  return m_Neighbors ;
+  result = m_Neighbors ;
 }
 
 template< class TSample >
@@ -252,9 +253,10 @@ KdTree< TSample >
 }
 
 template< class TSample >
-typename KdTree< TSample >::InstanceIdentifierVectorType 
+void
 KdTree< TSample >
-::Search(MeasurementVectorType &query, double radius)
+::Search(MeasurementVectorType &query, double radius,
+         InstanceIdentifierVectorType& result)
 {
   MeasurementVectorType lowerBound ;
   MeasurementVectorType upperBound ;
@@ -271,7 +273,7 @@ KdTree< TSample >
   m_Neighbors.clear() ;
   m_SearchRadius = radius ;
   this->SearchLoop(m_Root, query, lowerBound, upperBound) ;
-  return m_Neighbors ;
+  result = m_Neighbors ;
 }
 
 template< class TSample >
