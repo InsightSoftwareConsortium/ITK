@@ -1,8 +1,7 @@
-LIBRARY(ITKCommon)
 
 
 # Sources of non-templated classes.
-SOURCE_FILES(
+SOURCE_FILES(ITKCommon_SRCS
 itkCommand 
 itkDataObject 
 itkDirectory 
@@ -27,15 +26,17 @@ itkImageIO
 itkLightProcessObject
 )
 
-SOURCE_FILES_REQUIRE(WIN32 SOURCES_BEGIN itkWin32OutputWindow)
+SOURCE_FILES_REQUIRE(WIN32 SOURCES_BEGIN ITKCommon_SRCS itkWin32OutputWindow)
 
 # We want to do manual instantiation for this library.
 UNIX_DEFINES(-DITK_MANUAL_INSTANTIATION)
 WIN32_DEFINES(-DITK_MANUAL_INSTANTIATION)
 
+ADD_LIBRARY(ITKCommon ITKCommon_SRCS)
+
 # Put everything in the "Common" package (related to CABLE, everything
 # will still be put in the ITKCommon library).
-CABLE_PACKAGE(Common)
+CABLE_PACKAGE(Common ITKCommon)
 
 # Sources of templated classes.
 CABLE_SOURCE_FILES(

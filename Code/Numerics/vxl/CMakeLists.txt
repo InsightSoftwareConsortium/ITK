@@ -1,10 +1,9 @@
-LIBRARY(VXLNumerics)
 
-AUX_SOURCE_DIRECTORY(vnl/Templates)
-AUX_SOURCE_DIRECTORY(vnl/algo/Templates)
-AUX_SOURCE_DIRECTORY(v3p/netlib/Templates)
+AUX_SOURCE_DIRECTORY(vnl/Templates VXLNumerics_SRCS)
+AUX_SOURCE_DIRECTORY(vnl/algo/Templates VXLNumerics_SRCS)
+AUX_SOURCE_DIRECTORY(v3p/netlib/Templates VXLNumerics_SRCS)
 
-SOURCE_FILES(
+SOURCE_FILES(VXLNumerics_SRCS
 vnl/vnl_alloc
 vnl/vnl_binary
 vnl/vnl_complex
@@ -268,3 +267,5 @@ v3p/netlib/zung2r
 v3p/netlib/zunghr
 v3p/netlib/zungqr
 )
+
+ADD_LIBRARY(VXLNumerics VXLNumerics_SRCS)

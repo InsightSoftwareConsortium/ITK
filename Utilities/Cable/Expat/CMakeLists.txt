@@ -1,10 +1,8 @@
-LIBRARY(Expat)
+AUX_SOURCE_DIRECTORY(xmlparse/dummy Expat_SRCS)
+AUX_SOURCE_DIRECTORY(xmltok/dummy Expat_SRCS)
+AUX_SOURCE_DIRECTORY(xmlwf/dummy Expat_SRCS)
 
-AUX_SOURCE_DIRECTORY(xmlparse/dummy)
-AUX_SOURCE_DIRECTORY(xmltok/dummy)
-AUX_SOURCE_DIRECTORY(xmlwf/dummy)
-
-SOURCE_FILES(
+SOURCE_FILES(Expat_SRCS
 xmlparse/xmlparse
 xmlparse/hashtable
 xmltok/xmltok
@@ -20,4 +18,6 @@ ${CABLE_SOURCE_DIR}/Expat/xmlparse
 ${CABLE_SOURCE_DIR}/Expat/xmltok
 ${CABLE_SOURCE_DIR}/Expat/xmlwf
 )
+
+ADD_LIBRARY(Expat Expat_SRCS)
 

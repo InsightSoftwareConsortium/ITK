@@ -15,5 +15,13 @@ LINK_LIBRARIES (
 ITKCommon
 )
 
+ADD_EXECUTABLE(itkAmoebaOptimizerTest itkAmoebaOptimizerTest)
+ADD_EXECUTABLE(itkConjugateGradientOptimizerTest itkConjugateGradientOptimizerTest)
+ADD_EXECUTABLE(itkGradientDescentOptimizerTest itkGradientDescentOptimizerTest)
+ADD_EXECUTABLE(itkLevenbergMarquardtOptimizerTest itkLevenbergMarquardtOptimizerTest)
+ADD_EXECUTABLE(itkLBFGSOptimizerTest itkLBFGSOptimizerTest)
+ADD_EXECUTABLE(itkNumericsHeaderTest itkNumericsHeaderTest)
+ADD_EXECUTABLE(itkNumericsTest itkNumericsTest)
+ADD_EXECUTABLE(itkRegularStepGradientDescentOptimizerTest itkRegularStepGradientDescentOptimizerTest )
 
 

@@ -1,6 +1,4 @@
-LIBRARY(CxxTypes)
-
-SOURCE_FILES(
+SOURCE_FILES(CxxTypes_SRCS
 cxxArrayType
 cxxClassType
 cxxConversions
@@ -15,6 +13,8 @@ cxxTypeSystem
 cxxTypedefType
 )
 
-SOURCE_FILES_REQUIRE(WIN32 SOURCES_BEGIN cxxDllAllocator)
+SOURCE_FILES_REQUIRE(WIN32 SOURCES_BEGIN CxxTypes_SRCS cxxDllAllocator)
+
+ADD_LIBRARY(CxxTypes CxxTypes_SRCS)
 
 WIN32_DEFINES(-D_cxx_LIBRARY)

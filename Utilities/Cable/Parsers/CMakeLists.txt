@@ -1,11 +1,11 @@
-LIBRARY(CableParsers)
-
-SOURCE_FILES(
+SOURCE_FILES(CableParsers_SRCS
 cableConfigurationRepresentation
 cableConfigurationParser
 cableSourceParser
 cableSourceRepresentation
 cableXmlAttributes
 )
+
+ADD_LIBRARY(CableParsers CableParsers_SRCS)
 
 WIN32_DEFINES(-DPARSERS_DLL)

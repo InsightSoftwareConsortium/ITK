@@ -10,4 +10,4 @@ CableParsers
 CableGenerators
 )
 
-EXECUTABLES(cable)
+ADD_EXECUTABLE(cable cable)

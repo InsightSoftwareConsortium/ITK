@@ -1,5 +1,3 @@
-LIBRARY(ITKBasicFilters)
-
 LINK_LIBRARIES (
 ITKCommon
 )
@@ -8,9 +6,11 @@ INCLUDE_DIRECTORIES(
 ${ITK_SOURCE_DIR}/Code/BasicFilters
 )
 
-SOURCE_FILES(
+SOURCE_FILES(ITKBasicFilters_SRCS
 itkWriter
 )
+
+ADD_LIBRARY(ITKBasicFilters ITKBasicFilters_SRCS)
 
 # We want to do manual instantiation for this library.
 UNIX_DEFINES(-DITK_MANUAL_INSTANTIATION)
@@ -18,7 +18,7 @@ WIN32_DEFINES(-DITK_MANUAL_INSTANTIATION)
 
 # Put everything in the "BasicFilters" package (related to CABLE, everything
 # will still be put in the ITKBasicFilters library).
-CABLE_PACKAGE(BasicFilters)
+CABLE_PACKAGE(BasicFilters ITKBasicFilters)
 
 # Sources of templated classes.
 CABLE_SOURCE_FILES(
