@@ -32,7 +32,7 @@ RawImageIO<TPixel,VImageDimension>::RawImageIO()
   this->SetNumberOfComponents(1);
   this->SetNumberOfDimensions(VImageDimension);
   
-  for (int idx = 0; idx < VImageDimension; ++idx)
+  for (unsigned int idx = 0; idx < VImageDimension; ++idx)
     {
     m_Spacing.insert(m_Spacing.begin()+idx,1.0);
     m_Origin.insert(m_Origin.begin()+idx,0.0);
