@@ -63,7 +63,7 @@ public:
   typedef double ScalarType;
 
   typedef SpatialObject<NDimensions,TTransform,PipelineDimension> Self;
-  typedef Object Superclass; 
+  typedef NDimensionalSpatialObject<PipelineDimension> Superclass; 
   
   typedef SmartPointer< Self > Pointer;
   typedef SmartPointer< const Self > ConstPointer;
