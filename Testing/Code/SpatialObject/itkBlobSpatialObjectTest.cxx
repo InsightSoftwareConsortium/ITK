@@ -35,8 +35,9 @@ int itkBlobSpatialObjectTest(int, char* [])
   std::cout<<"Testing BlobSpatialObject:"<<std::endl<<std::endl;
 
   BlobType::PointListType list;
-
-  for( unsigned int i=0; i<10; i++)
+ 
+  unsigned int i=0;
+  for( i=0; i<10; i++)
   {
     BlobPointType p;
     p.SetPosition(i,i+1,i+2);
@@ -78,7 +79,7 @@ int itkBlobSpatialObjectTest(int, char* [])
 
   BlobType::PointListType::const_iterator it = blob->GetPoints().begin();
 
-  unsigned int i=0;
+  i=0;
   while(it != blob->GetPoints().end())
   {
     for(unsigned int d=0;d<3;d++)

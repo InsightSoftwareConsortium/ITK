@@ -37,8 +37,8 @@ int itkLineSpatialObjectTest(int, char* [])
   std::cout<<"Testing LineSpatialObject:"<<std::endl<<std::endl;
 
   LineType::PointListType list;
-
-  for( unsigned int i=0; i<10; i++)
+  unsigned int i=0;
+  for(i=0; i<10; i++)
   {
     LinePointType p;
     p.SetPosition(i,i+1,i+2);
@@ -87,7 +87,7 @@ int itkLineSpatialObjectTest(int, char* [])
 
   LineType::PointListType::const_iterator it = Line->GetPoints().begin();
 
-  unsigned int i=0;
+  i=0;
   while(it != Line->GetPoints().end())
   {
     for(unsigned int d=0;d<3;d++)

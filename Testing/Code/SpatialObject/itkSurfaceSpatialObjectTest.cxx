@@ -40,8 +40,8 @@ int itkSurfaceSpatialObjectTest(int, char* [])
   std::cout<<"Testing SurfaceSpatialObject:"<<std::endl<<std::endl;
 
   SurfaceType::PointListType list;
-
-  for( unsigned int i=0; i<10; i++)
+  unsigned int i = 0;
+  for(i=0; i<10; i++)
   {
     SurfacePointType p;
     p.SetPosition(i,i+1,i+2);
@@ -86,7 +86,7 @@ int itkSurfaceSpatialObjectTest(int, char* [])
 
   SurfaceType::PointListType::const_iterator it = Surface->GetPoints().begin();
 
-  unsigned int i=0;
+  i=0;
   while(it != Surface->GetPoints().end())
   {
     for(unsigned int d=0;d<3;d++)

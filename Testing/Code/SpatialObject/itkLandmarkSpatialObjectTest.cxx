@@ -36,7 +36,8 @@ int itkLandmarkSpatialObjectTest(int, char* [])
 
   LandmarkType::PointListType list;
 
-  for( unsigned int i=0; i<10; i++)
+  unsigned int i = 0;
+  for(i=0; i<10; i++)
   {
     LandmarkPointType p;
     p.SetPosition(i,i+1,i+2);
@@ -73,7 +74,7 @@ int itkLandmarkSpatialObjectTest(int, char* [])
 
   LandmarkType::PointListType::const_iterator it = blob->GetPoints().begin();
 
-  unsigned int i=0;
+  i=0;
   while(it != blob->GetPoints().end())
   {
     for(unsigned int d=0;d<3;d++)
