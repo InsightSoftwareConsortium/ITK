@@ -52,6 +52,7 @@ DiscreteGaussianImageFilter<TInputImage,TOutputImage>
     oper.SetDirection(i);
     oper.SetVariance(m_Variance[i]);
     oper.SetMaximumError(m_MaximumError[i]);
+    oper.SetMaximumKernelWidth(m_MaximumKernelWidth);
     oper.CreateDirectional();
 
     radius[i] = oper.GetRadius(i);

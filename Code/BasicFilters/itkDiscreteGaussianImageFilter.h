@@ -76,10 +76,14 @@ public:
   
   /** Standard get/set macros for filter parameters. */
   itkSetVectorMacro(Variance, double, ImageDimension);
+  itkSetVectorMacro(Variance, float, ImageDimension);
   itkGetVectorMacro(Variance, const double, ImageDimension);
   itkSetVectorMacro(MaximumError, double, ImageDimension);
+  itkSetVectorMacro(MaximumError, float, ImageDimension);
   itkGetVectorMacro(MaximumError, const double, ImageDimension);
-
+  itkGetMacro(MaximumKernelWidth, int);
+  itkSetMacro(MaximumKernelWidth, int);
+  
   /** Convenience get/set methods for setting all dimensional parameters to the
    * same values.  */
   void SetVariance(const double v)
@@ -92,6 +96,21 @@ public:
     {
     double vArray[ImageDimension];
     for (unsigned int i = 0; i<ImageDimension; ++i) { vArray[i] = v; }
+    this->SetMaximumError(vArray);
+    }
+
+  /** Convenience get/set methods for setting all dimensional parameters to the
+   * same values.  */
+  void SetVariance(const float v)
+    {
+    double vArray[ImageDimension];
+    for (unsigned int i = 0; i<ImageDimension; ++i) { vArray[i] = static_cast<double>(v); }
+    this->SetVariance(vArray);
+    }
+  void SetMaximumError(const float v)
+    {
+    double vArray[ImageDimension];
+    for (unsigned int i = 0; i<ImageDimension; ++i) { vArray[i] = static_cast<double>(v); }
     this->SetMaximumError(vArray);
     }
   
@@ -111,6 +130,7 @@ protected:
       {
       m_Variance[i] = 0.0f;
       m_MaximumError[i] = 0.01f;
+      m_MaximumKernelWidth = 32;
       }
     }
   virtual ~DiscreteGaussianImageFilter() {}
@@ -134,7 +154,11 @@ private:
   /** The maximum error of the gaussian blurring kernel in each dimensional
    * direction. For definition of maximum error, see GaussianOperator.
    * \sa GaussianOperator */
-  double m_MaximumError[ImageDimension];  
+  double m_MaximumError[ImageDimension];
+
+  /** Maximum allowed kernel width for any dimension of the discrete Gaussian
+      approximation */
+  int m_MaximumKernelWidth;
 };
   
 } // end namespace itk
