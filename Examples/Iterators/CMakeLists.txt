@@ -19,6 +19,18 @@ TARGET_LINK_LIBRARIES(ImageSliceIteratorWithIndex ITKCommon ITKIO ITKMetaIO itkz
 ADD_EXECUTABLE(ImageRandomConstIteratorWithIndex ImageRandomConstIteratorWithIndex.cxx)
 TARGET_LINK_LIBRARIES(ImageRandomConstIteratorWithIndex ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
 
+ADD_EXECUTABLE(NeighborhoodIterators1 NeighborhoodIterators1.cxx)
+TARGET_LINK_LIBRARIES(NeighborhoodIterators1 ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
+
+ADD_EXECUTABLE(NeighborhoodIterators2 NeighborhoodIterators2.cxx)
+TARGET_LINK_LIBRARIES(NeighborhoodIterators2 ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
+
+ADD_EXECUTABLE(NeighborhoodIterators3 NeighborhoodIterators3.cxx)
+TARGET_LINK_LIBRARIES(NeighborhoodIterators3 ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
+
+ADD_EXECUTABLE(NeighborhoodIterators4 NeighborhoodIterators4.cxx)
+TARGET_LINK_LIBRARIES(NeighborhoodIterators4 ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
+
 SET(ITERATORS_EXAMPLES ${CXX_TEST_PATH}/IteratorsExamples)
 
 SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Iterators)

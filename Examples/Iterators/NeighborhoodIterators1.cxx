@@ -27,6 +27,7 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkRescaleIntensityImageFilter.h"
 
 // Software Guide : BeginCodeSnippet
 #include "itkConstNeighborhoodIterator.h"
@@ -49,15 +50,15 @@ int main( int argc, char ** argv )
 // Software Guide : BeginLatex
 // Next declare image and pixel types.  The floating point pixel type is used
 // because the algorithm performs finite difference calculations.  The file
-// readers and writers will automatically cast non floating point data to the
+// reader will automatically cast non floating point data to the
 // correct type.
 // Software Guide : EndLatex
 
+  
 // Software Guide : BeginCodeSnippet
   typedef float PixelType;
   typedef itk::Image< PixelType, 2 >  ImageType;
   typedef itk::ImageFileReader< ImageType > ReaderType;
-  typedef itk::ImageFileWriter< ImageType > WriterType;
 
   typedef itk::ConstNeighborhoodIterator< ImageType > NeighborhoodIteratorType;
   typedef itk::ImageRegionIterator< ImageType>        IteratorType;
@@ -183,23 +184,31 @@ int main( int argc, char ** argv )
 //
 // The final step is to write the output buffer to an image file.  This is done
 // in the standard way with a \code{try / catch} block to handle any
-// exceptions.  The file name is read from the command line.
+// exceptions.  For the purpose of visualizing the output as a \code{png}
+// image, the data is first rescaled to intensity range $[0, 255]$ and cast to
+// unsigned char.
 //
+//
+// Figure~[RESULTSFIGURE] shows the output of .....BLAH BLAH
 // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+// Software Guide : BeginCodeSnippe
+  typedef unsigned char WritePixelType;
+  typedef itk::Image< WritePixelType, 2 > WriteImageType;
+  typedef itk::ImageFileWriter< WriteImageType > WriterType;
+  
+  typedef itk::RescaleIntensityImageFilter< 
+               ImageType, WriteImageType > RescaleFilterType;
 
+  RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
 
-
-
-
-
-
-
-
+  rescaler->SetOutputMinimum(   0 );
+  rescaler->SetOutputMaximum( 255 );
+  rescaler->SetInput(output);
+  
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[2] );
-  writer->SetInput(output);
+  writer->SetInput(rescaler->GetOutput());
   try
     {
     writer->Update();

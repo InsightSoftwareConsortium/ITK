@@ -74,10 +74,6 @@ int main( int argc, char ** argv )
     return -1;
     }
   
-  NeighborhoodIteratorType::RadiusType radius;
-  radius.Fill(1);
-  NeighborhoodIteratorType it( radius, reader->GetOutput(), reader->GetOutput()->GetRequestedRegion() );
-  
   ImageType::Pointer output = ImageType::New();
   output->SetRegions(reader->GetOutput()->GetRequestedRegion());
   output->Allocate();
@@ -90,12 +86,14 @@ int main( int argc, char ** argv )
 // \index{convolution!operators}
 // \index{iterators!neighborhood!and convolution}
 //
-// Refer to the previous example for the steps of reading the input image and
-// setting up the input and output iterators.  In this example, instead of
-// performing the finite-difference operations on the neighborhood explicitly,
-// we will perform convolution of the neighborhood with the Sobel operator
-// (kernel) at each point.  The first step is to create a Sobel operator.  The
-// direction in which the derivatives are taken is read from the command line.
+// Refer to the previous example for the first steps of reading the input image and
+// setting up the output iterator.  In this example, instead of performing the
+// finite-difference operations on the neighborhood explicitly, we will perform
+// convolution of the neighborhood with the Sobel operator (kernel) at each
+// point.  The next step is then to create a Sobel operator.  The Sobel
+// operator requires a direction in which to The direction in
+// which the derivatives are taken is read from the command line and is
+// necessary for initializing the Sobel operator properly.
 //
 // Software Guide : EndLatex
 
@@ -103,15 +101,27 @@ int main( int argc, char ** argv )
   itk::SobelOperator<PixelType, 2> sobelOperator;
   sobelOperator.SetDirection( ::atoi(argv[3]) );
   sobelOperator.CreateDirectional();
-// Software Guide : EndCodeSnippet
 
+// Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
 //
 // There are many other ITK neighborhood operator objects that can be used for
 // convolution filtering.  Note that there may be slight differences in the way
-// each one is constructed and initialized and each may have a different set of
+// each one is constructed and initialized, and each may have a different set of
 // parameters appropriate to its functionality.
+//
+// Once the operator object has been created, we can initialize the iterator
+// to match the operator size.
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
+  NeighborhoodIteratorType::RadiusType radius = sobelOperator.GetRadius();
+  NeighborhoodIteratorType it( radius, reader->GetOutput(), reader->GetOutput()->GetRequestedRegion() );
+// Software Guide : EndCodeSnippet
+
+// Software Guide : BeginLatex
 //
 // Now we create a function object to use for taking the inner products.  The inner
 // product object, like the neighborhood iterators, is templated over an image type.
@@ -145,7 +155,7 @@ int main( int argc, char ** argv )
 //
 // The output is rescaled and written as in the previous example.  Filter the
 // BLAH BLAH image in the $X$ direction give the same result as in Figure~BLAH BLAH
-//
+// SHOW THE TWO DERIVATIVE DIRECTIONS FOR THIS FILTER
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
