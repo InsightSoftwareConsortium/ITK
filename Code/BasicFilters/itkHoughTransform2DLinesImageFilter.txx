@@ -115,6 +115,12 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
   InputImageConstPointer  m_InputImage = this->GetInput(0);
   OutputImagePointer m_OutputImage = this->GetOutput(0);
 
+  if(!m_InputImage || !m_OutputImage)
+    {
+    std::cout << "You should use Simplify after calling Update()" << std::endl;
+    return;
+    } 
+
   Size<2> size;
   /** Allocate the simplify accumulator */
   typename InputImageType::RegionType region;
