@@ -336,19 +336,8 @@ void IPLCommonImageIO::ReadImageInformation()
       }
     delete curImageHeader;
     }
-  switch(m_ImageHeader->coordinateOrientation)
-    {
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI:  //Axial needed to descend, but no longer?
-      sortImageListAscend ();
-      break;
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSP: //Coronal and Sagittal should ascend
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIR:
-      sortImageListAscend ();
-      break;
-    default:
-      std::cout <<"DEBUG:  anomalous m_ImageHeader->coordinateOrientation code, at ReadImageInformation in IPLCommonImageIO." <<std::endl;
-      break;
-    }
+  //
+  sortImageListAscend ();
   //
   //
   // set the image properties

@@ -517,7 +517,7 @@ AnalyzeImageIO::AnalyzeImageIO()
   /*3-transverse flipped*/
   /*4-coronal flipped*/
   /*5-sagittal flipped*/
-  this->m_hdr.hist.orient=itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RPS_TRANSVERSE; //default orientation is ITK_ANALYZE_TRANSVERSE
+  this->m_hdr.hist.orient=itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RPI_TRANSVERSE; //default orientation is ITK_ANALYZE_TRANSVERSE
 
   this->m_hdr.hist.originator[0]='\0';
   this->m_hdr.hist.generated[0]='\0';
@@ -965,11 +965,11 @@ void AnalyzeImageIO::ReadImageInformation()
     itk::SpatialOrientation::ValidCoordinateOrientationFlags coord_orient;
     switch (temporient)
       {
-      case itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RPS_TRANSVERSE:
-          coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPS;
+      case itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RPI_TRANSVERSE:
+          coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI;
           break;
-      case itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_AIR_SAGITTAL:
-          coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIR;
+      case itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_PIR_SAGITTAL:
+          coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR;
           break;
       case itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RIP_CORONAL:
           // fall thru
@@ -1069,11 +1069,11 @@ AnalyzeImageIO
         {
         switch (coord_orient)
             {
-        case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPS:
-            this->m_hdr.hist.orient=itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RPS_TRANSVERSE;
+        case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI:
+            this->m_hdr.hist.orient=itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RPI_TRANSVERSE;
             break;
-        case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIR:
-            this->m_hdr.hist.orient=itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_AIR_SAGITTAL;
+        case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR:
+            this->m_hdr.hist.orient=itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_PIR_SAGITTAL;
             break;
         case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP:
             this->m_hdr.hist.orient=itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RIP_CORONAL;

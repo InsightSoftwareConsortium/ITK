@@ -167,9 +167,9 @@ private:
        * \note Key's 0-5 correspond to the Analyze v7.5 orientations, and should not be changed.
        */
   typedef enum {
-    ITK_ANALYZE_ORIENTATION_RPS_TRANSVERSE=0,        /**< Denotes a transverse data orientation Right-->Left, */
+    ITK_ANALYZE_ORIENTATION_RPI_TRANSVERSE=0,        /**< Denotes a transverse data orientation Right-->Left, */
     ITK_ANALYZE_ORIENTATION_RIP_CORONAL   =1,        /**< Denotes a coronal data orientation */
-    ITK_ANALYZE_ORIENTATION_AIR_SAGITTAL  =2,        /**< Denotes a sagittal data orientation */
+    ITK_ANALYZE_ORIENTATION_PIR_SAGITTAL  =2,        /**< Denotes a sagittal data orientation */
     ITK_ANALYZE_ORIENTATION_RAI_TRANSVERSE_FLIPPED=3,/**<  */
     ITK_ANALYZE_ORIENTATION_RSP_CORONAL_FLIPPED=4,   /**<  */
     ITK_ANALYZE_ORIENTATION_PIL_SAGITTAL_FLIPPED=5   /**<  */
