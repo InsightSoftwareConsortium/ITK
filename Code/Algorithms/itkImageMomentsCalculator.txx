@@ -190,7 +190,7 @@ Compute()
 template<class TImage>
 typename ImageMomentsCalculator<TImage>::ScalarType
 ImageMomentsCalculator<TImage>::
-GetTotalMass()
+GetTotalMass() const
 {
   if (!m_Valid)        throw InvalidImageMomentsError(__FILE__, __LINE__);
   return m_M0;
@@ -201,7 +201,7 @@ GetTotalMass()
 template<class TImage>
 typename ImageMomentsCalculator<TImage>::VectorType
 ImageMomentsCalculator<TImage>::
-GetFirstMoments()
+GetFirstMoments() const
 {
   if (!m_Valid)        throw InvalidImageMomentsError(__FILE__, __LINE__);
   return m_M1;
@@ -212,7 +212,7 @@ GetFirstMoments()
 template<class TImage>
 typename ImageMomentsCalculator<TImage>::MatrixType
 ImageMomentsCalculator<TImage>::
-GetSecondMoments()
+GetSecondMoments() const
 {
   if (!m_Valid)        throw InvalidImageMomentsError(__FILE__, __LINE__);
   return m_M2;
@@ -223,7 +223,7 @@ GetSecondMoments()
 template<class TImage>
 typename ImageMomentsCalculator<TImage>::VectorType
 ImageMomentsCalculator<TImage>::
-GetCenterOfGravity()
+GetCenterOfGravity() const
 {
   if (!m_Valid)        throw InvalidImageMomentsError(__FILE__, __LINE__);
   return m_Cg;
@@ -234,7 +234,7 @@ GetCenterOfGravity()
 template<class TImage>
 typename ImageMomentsCalculator<TImage>::MatrixType
 ImageMomentsCalculator<TImage>::
-GetCentralMoments()
+GetCentralMoments() const
 {
   if (!m_Valid)        throw InvalidImageMomentsError(__FILE__, __LINE__);
   return m_Cm;
@@ -245,7 +245,7 @@ GetCentralMoments()
 template<class TImage>
 typename ImageMomentsCalculator<TImage>::VectorType
 ImageMomentsCalculator<TImage>::
-GetPrincipalMoments()
+GetPrincipalMoments() const
 {
   if (!m_Valid)        throw InvalidImageMomentsError(__FILE__, __LINE__);
   return m_Pm;
@@ -258,7 +258,7 @@ GetPrincipalMoments()
 template<class TImage>
 typename ImageMomentsCalculator<TImage>::MatrixType
 ImageMomentsCalculator<TImage>::
-GetPrincipalAxes()
+GetPrincipalAxes() const
 {
   if (!m_Valid)        throw InvalidImageMomentsError(__FILE__, __LINE__);
   return m_Pa;
