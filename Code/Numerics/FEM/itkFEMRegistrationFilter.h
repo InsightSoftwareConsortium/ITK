@@ -114,6 +114,8 @@ public:
   typedef double                                    Float;
   /** Dimensionality of input and output data is assumed to be the same.
    * It is inherited from the superclass. */
+
+  typedef MaterialLinearElasticity                  MaterialType;
   typedef TReference                                ImageType;
   typedef TTarget                                   TargetImageType;
   enum { ImageDimension = ImageType::ImageDimension };
@@ -155,8 +157,7 @@ public:
   /** Helper functions */
 
   /** This function generates a regular mesh of ElementsPerSide^D size */
-  void      CreateMesh(ImageSizeType MeshOrigin, ImageSizeType MeshSize, 
-                              double ElementsPerSide, Solver& S);
+  void      CreateMesh(double ElementsPerSide, Solver& S);
 
   /** The loads are entered into the solver. */
   void      ApplyLoads(SolverType& S,ImageSizeType Isz); 
@@ -208,15 +209,15 @@ public:
   void      SetLandmarkFile(const char* l) {m_LandmarkFileName=l; }
   void      SetResultsFile(const char* r) {m_ResultsFileName=r;}
   void      SetDisplacementsFile(const char* r) {m_DisplacementsFileName=r;}
-  void      SetMeshResolution(unsigned int i){ m_MeshResolution=i;}
-  void      SetNumberOfIntegrationPoints(unsigned int i){ m_NumberOfIntegrationPoints=i;}
-  void      SetWidthOfMetricRegion(unsigned int i) { m_MetricWidth=i;}
-  void      SetMaximumIterations(unsigned int i) { m_Maxiters=i;}
+  void      SetMeshResolution(unsigned int i,unsigned int which=0){ m_MeshResolution[which]=i;}
+  void      SetNumberOfIntegrationPoints(unsigned int i,unsigned int which=0){ m_NumberOfIntegrationPoints[which]=i;}
+  void      SetWidthOfMetricRegion(unsigned int i,unsigned int which=0) { m_MetricWidth[which]=i;}
+  void      SetMaximumIterations(unsigned int i,unsigned int which) { m_Maxiters[which]=i;}
   void      SetTimeStep(Float i) { m_dT=i;}
   void      SetEnergyReductionFactor(Float i) { m_EnergyReductionFactor=i;}
-  void      SetElasticity(Float i) { m_E=i;} /** Stiffness Matrix weight */
-  Float     GetElasticity() { return m_E;} /** Stiffness Matrix weight */
-  void      SetRho(Float r) { m_Rho=r;} /** Mass matrix weight */  
+  void      SetElasticity(Float i,unsigned int which=0) { m_E[which]=i;} /** Stiffness Matrix weight */
+  Float     GetElasticity(unsigned int which=0) { return m_E[which];} /** Stiffness Matrix weight */
+  void      SetRho(Float r,unsigned int which=0) { m_Rho[which]=r;} /** Mass matrix weight */  
   void      SetDescentDirectionMinimize() { m_DescentDirection=positive;} /** Tries to minimize energy */
   void      SetDescentDirectionMaximize() { m_DescentDirection=negative;} /** Tries to maximize energy */
   void      DoLineSearch(unsigned int b) { m_DoLineSearchOnImageEnergy=b; } /** Finds the minimum energy between the current and next solution by linear search.*/
@@ -238,6 +239,10 @@ public:
   /** This function allows one to set the element and its material externally. */
   void      SetElement(Element::Pointer e) {m_Element=e;}
 
+  /** This sets the pointer to the material */
+  void      SetMaterial(MaterialType::Pointer m) {m_Material=m;}
+
+  void      PrintVectorField();
 
   /** constructor */
   FEMRegistrationFilter( ); 
@@ -257,29 +262,31 @@ private :
   const char*      m_TargetFileName;
   const char*      m_LandmarkFileName;
   const char*      m_DisplacementsFileName;
+  const char*      m_MeshFileName;
 
   unsigned int     m_DoLineSearchOnImageEnergy; 
   unsigned int     m_LineSearchFrequency;  
-  unsigned int     m_MeshResolution; // determines maximum resolution of regular mesh
-  unsigned int     m_NumberOfIntegrationPoints;// resolution of integration
-  unsigned int     m_MetricWidth;
-  unsigned int     m_Maxiters; // max iterations
+  
+  vnl_vector<unsigned int>     m_NumberOfIntegrationPoints;// resolution of integration
+  vnl_vector<unsigned int>     m_MetricWidth;
+  vnl_vector<unsigned int>     m_Maxiters; // max iterations
   unsigned int     m_TotalIterations;
   unsigned int     m_NumLevels; // Number of Resolution Levels
   unsigned int     m_MaxLevel;  // Maximum Level (NumLevels is original resolution).
   unsigned int     m_MeshLevels;// Number of Mesh Resolutions ( should be >= 1)
   unsigned int     m_MeshStep;  // Ratio Between Mesh Resolutions ( currently set to 2, should be >= 1)
   unsigned int     m_FileCount; // keeps track of number of files written
+  unsigned int     m_CurrentLevel;
  
   /** Stores the number of elements per dimension of the mesh for each
       resolution of the multi-resolution pyramid */
   vnl_vector<unsigned int> m_MeshElementsPerDimensionAtEachResolution;
 
   Float     m_dT; // time step
-  Float     m_E;  // elasticity 
+  vnl_vector<Float>     m_E;  // elasticity 
+  vnl_vector<Float>     m_Rho;   // mass matrix weight
   Float     m_Energy; // current value of energy
   Float     m_MinE;  // minimum recorded energy
-  Float     m_Rho;   // mass matrix weight
   Float     m_Alpha; // difference parameter 
   /** Factor we want to reduce the energy by - determines convergence. */
   Float     m_EnergyReductionFactor; 
@@ -287,6 +294,7 @@ private :
   bool  m_WriteDisplacementField;
   bool  m_DoMultiRes;
   bool  m_UseLandmarks;
+  bool  m_ReadMeshFile;
   Sign  m_DescentDirection;
 
   ImageSizeType     m_ImageSize; // image size
@@ -317,6 +325,7 @@ private :
 
   // element and metric pointers
   typename Element::Pointer        m_Element;
+  typename MaterialType::Pointer   m_Material;
   MetricBaseTypePointer            m_Metric;
  
 
