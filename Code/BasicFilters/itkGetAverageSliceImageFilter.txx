@@ -20,6 +20,8 @@
 #include "itkGetAverageSliceImageFilter.h"
 #include "itkPNGImageIO.h"
 #include "itkImageFileWriter.h"
+#include "itkImageRegionIterator.h"
+#include "itkRescaleIntensityImageFilter.h"
 
 namespace itk
 {
@@ -45,8 +47,6 @@ void
 GetAverageSliceImageFilter<TInputImage,TOutputImage>
 ::GenerateData( void )
 {
-
-
   typename Superclass::InputImageConstPointer  inputPtr = this->GetInput();
   typedef itk::ImageRegionIterator<TOutputImage> outputIterType;
   typedef itk::ImageRegionConstIterator<TInputImage> inputIterType;
@@ -70,7 +70,8 @@ GetAverageSliceImageFilter<TInputImage,TOutputImage>
   typename doubleToCharRescalerType::Pointer doubleToCharRescaler=doubleToCharRescalerType::New();
   typename ImageFileWriter<TOutputImage>::Pointer writer=itk::ImageFileWriter<TOutputImage>::New();
 //  double inputSpacing[TInputImage::ImageDimension], inputOrigin[TInputImage::ImageDimension];
-  const double *inputSpacing, *inputOrigin;
+  typename TInputImage::SpacingType inputSpacing;
+  typename TInputImage::PointType   inputOrigin;
   int j=0;
 
   if(m_AveragedOutDimension<0 || m_AveragedOutDimension>=TInputImage::ImageDimension)
