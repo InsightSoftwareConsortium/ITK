@@ -14,11 +14,11 @@ See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
 #include <iostream>
-#include "itkImage.h"
+#include "itkPhysicalImage.h"
 #include "itkImageRegionIterator.h"
 #include "itkScalar.h"
 #include "itkShrinkImageFilter.h"
-#include "itkImportImageFilter.h"
+#include "itkImportPhysicalImageFilter.h"
 
 int main()
 {
@@ -30,8 +30,8 @@ int main()
     }
 
   // typdefs to simplify the syntax
-  typedef itk::ImportImageFilter<short, 2>          ImportImageFilter;
-  typedef itk::Image<itk::Scalar<short>, 2>   ShortImage;
+  typedef itk::ImportPhysicalImageFilter<short, 2>          ImportImageFilter;
+  typedef itk::PhysicalImage<itk::Scalar<short>, 2>   ShortImage;
     
   // Create an ImportImageFilter filter
   ImportImageFilter::Pointer import;
