@@ -273,8 +273,9 @@ M_Read(void)
     {
       posDim[2] = j;
     }
-
   }
+
+  delete [] pntVal;
 
   float v[16];
   
