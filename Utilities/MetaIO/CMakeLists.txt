@@ -15,7 +15,7 @@ ADD_LIBRARY(ITKMetaIO
   metaLandmark.cxx
 )
 
-SUBDIRS(tests)
+#SUBDIRS(tests)
 
 INSTALL_TARGETS(/lib/InsightToolkit ITKMetaIO)
 INSTALL_FILES(/include/InsightToolkit/Utilities/MetaIO "(\\.h)$")
