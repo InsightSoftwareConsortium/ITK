@@ -339,7 +339,7 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  We then specific non-unit spacing for the output image.
+  //  We then specify a non-unit spacing for the output image.
   //
   //  \index{itk::ResampleImageFilter!SetOutputSpacing()}
   //
