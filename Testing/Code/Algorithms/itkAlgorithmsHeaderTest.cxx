@@ -23,7 +23,6 @@ See COPYRIGHT.txt for copyright details.
 
 #include "itkAntiAliasBinaryImageFilter.txx"
 #include "itkAutomaticTopologyMeshSource.txx"
-#include "itkBalloonForce3DFilter.txx"
 #include "itkBalloonForceFilter.txx"
 #include "itkBinaryMask3DMeshSource.txx"
 #include "itkBinaryMinMaxCurvatureFlowFunction.txx"
@@ -37,7 +36,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkCurvatureFlowFunction.txx"
 #include "itkCurvatureFlowImageFilter.txx"
 #include "itkDeformableMesh3DFilter.txx"
-#include "itkDeformableMeshFilter.txx"
 #include "itkDemonsRegistrationFilter.txx"
 #include "itkDemonsRegistrationFunction.txx"
 #include "itkExtensionVelocitiesImageFilter.txx"
