@@ -1,0 +1,31 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkSingleValuedNonLinearOptimizer.txx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+
+  Copyright (c) 2000 National Library of Medicine
+  All rights reserved.
+
+  See COPYRIGHT.txt for copyright details.
+
+=========================================================================*/
+
+
+namespace itk
+{
+
+/**
+ * Constructor
+ */
+template <class TCostFunction>
+SingleValuedNonLinearOptimizer<TCostFunction>
+::SingleValuedNonLinearOptimizer()
+{
+}
+
+
+} // end namespace itk
