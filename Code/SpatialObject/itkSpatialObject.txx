@@ -119,7 +119,7 @@ namespace itk
   SpatialObject< NDimensions, TransformType, OutputType >
   ::HasParent( void ) const
   {
-    if( m_Parent != NULL )
+    if( m_Parent )
       return true;
     else
       return false;
