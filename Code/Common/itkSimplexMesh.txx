@@ -411,7 +411,7 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>
       secondFound = i;
       }
     }
-  if(firstFound != -1 && secondFound != -1)
+  if(firstFound == -1 || secondFound == -1)
     {
     itkExceptionMacro("first and second not found");
     }
