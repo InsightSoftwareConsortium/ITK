@@ -313,6 +313,7 @@ int testMinMaxCurvatureFlow(
     passed = true;
     std::cout << "Caught expected exception." << std::endl;
     std::cout << err << std::endl;
+    denoiser->ResetPipeline();
     }
 
   if ( !passed )
