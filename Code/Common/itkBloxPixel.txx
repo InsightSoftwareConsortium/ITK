@@ -42,6 +42,7 @@ BloxPixel<TItemType>
 }
 
 template <typename TItemType>
+void
 BloxPixel<TItemType>
 ::DeleteListEntries()
 {

@@ -47,7 +47,7 @@ class BloxPixel : public std::list<TItemType*>
 public:
 
   // Delete all entries in the list, then clear the list
-  DeleteListEntries();
+  void DeleteListEntries();
 
   BloxPixel();
   ~BloxPixel();
