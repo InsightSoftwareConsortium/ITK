@@ -31,8 +31,8 @@ namespace itk
     AffineTransform<ScalarType, NDimensions>::
     AffineTransform(void)
     {
-      m_Matrix.set_identity();
-      m_Inverse.set_identity();
+      m_Matrix.SetIdentity();
+      m_Inverse.SetIdentity();
       m_Offset.Fill( 0 );
       m_Singular = false;
     }
