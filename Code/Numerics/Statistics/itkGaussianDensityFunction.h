@@ -18,7 +18,6 @@
 #define __itkGaussianDensityFunction_h
 
 #include <vnl/vnl_vector.h>
-#include <vnl/vnl_transpose.h>
 #include <vnl/vnl_matrix.h>
 #include <vnl/algo/vnl_matrix_inverse.h>
 #include <vnl/algo/vnl_determinant.h>
@@ -57,6 +56,9 @@ public:
   /** Typedef alias for the measurement vectors */
   typedef TMeasurementVector MeasurementVectorType ;
 
+  /** Dimension of the each individual pixel vector. */
+  enum{ VectorDimension = MeasurementVectorType::Length } ;
+
   /** Method to set mean */
   void SetMean(vnl_vector<double> mean) ;
   
@@ -83,6 +85,8 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
+  typedef vnl_matrix_fixed< double, 1, VectorDimension > ColumnVectorType ;
+
   vnl_vector< double >  m_Mean;              // mean
   vnl_matrix< double >  m_Covariance;         // covariance matrix
 
@@ -95,6 +99,9 @@ private:
   double m_PreFactor;
   
   unsigned int m_VectorSize ;
+
+  ColumnVectorType m_TempDifference ;
+  ColumnVectorType m_TempExponential ;
 };
 
   } // end of namespace Statistics

@@ -26,6 +26,7 @@ template < class TMeasurementVector >
 GaussianDensityFunction< TMeasurementVector >
 ::GaussianDensityFunction()
 {
+  m_TempExponential.resize(1, 1) ;
 }
 
 template < class TMeasurementVector >
@@ -50,7 +51,8 @@ GaussianDensityFunction< TMeasurementVector >
 ::SetCovariance(vnl_matrix<double> cov)
 {
   m_VectorSize = cov.rows() ;
-  m_Covariance.resize(m_VectorSize, m_VectorSize) ;
+//    m_TempDifference.resize(m_VectorSize) ;
+//    m_Covariance.resize(m_VectorSize, m_VectorSize) ;
   m_Covariance = cov; 
 
   // allocate the memory for m_InverseCovariance matrix   
@@ -79,20 +81,18 @@ double
 GaussianDensityFunction< TMeasurementVector >
 ::Evaluate(MeasurementVectorType measurement)
 { 
-  vnl_matrix<double> diff(m_VectorSize,1);
+  double temp ;
+
   for ( int i=0; i < m_VectorSize ; i++)
     {
-      diff.put(i,0, measurement[i] - m_Mean[i]);
+      m_TempDifference[0][i] = measurement[i] - m_Mean[i] ;
     }
 
-  vnl_matrix< double > exponentMatrix(1,1);
-  exponentMatrix = vnl_transpose(diff) * m_InverseCovariance * diff;
-  
-  double temp = m_PreFactor * exp( double(-0.5) * exponentMatrix.get(0,0) ) ;
-//   std::cout << temp << " (" << m_PreFactor << ", " 
-//             << -0.5 * exponentMatrix.get(0,0) << ") | " ;
-  
-  return temp ;
+  m_TempExponential = m_TempDifference * m_InverseCovariance ;
+  temp = dot_product( m_TempExponential, m_TempDifference) ;
+//    m_TempExponential = vnl_transpose(m_TempDifference) * m_InverseCovariance * m_TempDifference ;
+
+  return m_PreFactor * exp( double(-0.5) * temp ) ;
 }
   
 template < class TMeasurementVector >
