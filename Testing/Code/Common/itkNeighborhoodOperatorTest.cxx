@@ -42,7 +42,6 @@ int main()
   writer->SetInput(filter->GetOutput());
   writer->SetFileName("junkImage.vtk");
   writer->SetFileTypeToASCII();
-  writer->DebugOn();
   writer->Write();
 
   return 1;
