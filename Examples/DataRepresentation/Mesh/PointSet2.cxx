@@ -64,8 +64,8 @@ int main()
   //  after creation.  The following line creates a point container compatible
   //  with the type of the PointSet from which the trait has been taken.
   //
-  //  \index{itk::PointSet!New()}
-  //  \index{itk::PointSet!Pointer}
+  //  \index{PointContainer!New()}
+  //  \index{PointContainer!Pointer}
   //
   //  Software Guide : EndLatex 
 
@@ -132,6 +132,8 @@ int main()
   //  substitute any previously existing PointContainer on the PointSet. The
   //  assignment is done using the \code{SetPoints()} method.
   //
+  //  \index{itk::PointSet!SetPoints()}
+  //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
@@ -148,6 +150,9 @@ int main()
   //  The PointContainer can be obtained from the PointSet using the
   //  \code{GetPoints()} method.  This method returns a SmartPointer to the
   //  actual container owned by the PointSet.
+  //
+  //  \index{itk::PointSet!GetPoints()}
+  //  \index{PointsContainer!Pointer}
   //
   //  Software Guide : EndLatex 
 
@@ -171,6 +176,8 @@ int main()
   //  iterators.}.  The Points iterator is not a reference counted class, so it
   //  is just created directly from the traits without using SmartPointers.
   //
+  //  \index{PointsContainer!Iterator}
+  //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
@@ -187,6 +194,8 @@ int main()
   //  The subsequent use of the iterator follows what you may expect from a STL
   //  iterator. The iterator to the first point is obtained from the container
   //  with the \code{Begin()} method and assigned to another iterator.
+  //
+  //  \index{PointsContainer!Begin()}
   //
   //  Software Guide : EndLatex 
 
@@ -207,6 +216,9 @@ int main()
   //  iterator with the iterator returned by the \code{End()} method of the
   //  PointsContainer. The following lines illustrate the typical loop for
   //  walking through the points.
+  //
+  //  \index{PointsContainer!End()}
+  //  \index{PointsContainer!Iterator}
   //
   //  Software Guide : EndLatex 
 
@@ -235,7 +247,10 @@ int main()
   //  \code{Size()} method. In the case of the PointSet, the following two
   //  lines of code are equivalent, both of them returning the number of points
   //  in the PointSet.
-
+  //
+  //  \index{itk::PointSet!GetNumberOfPoints()}
+  //  \index{itk::PointSet!GetPoints()}
+  //  \index{PointsContainer!Size()}
   //
   //  Software Guide : EndLatex 
 
