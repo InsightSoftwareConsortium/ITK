@@ -425,15 +425,25 @@ public:
   /** Specify that the object has been updated */
   virtual void Update(void);
 
-
+  /** Set/Get the depth at which the bounding box is computed */
   itkSetMacro(BoundingBoxChildrenDepth, unsigned int);
   itkGetMacro(BoundingBoxChildrenDepth, unsigned int);
 
+  /** Set/Get the name of the children to consider when computing the
+   *  bounding box */
   itkSetMacro(BoundingBoxChildrenName, std::string);
   itkGetMacro(BoundingBoxChildrenName, std::string);
   
+  /** Set/Get the parent Identification number*/
   itkSetMacro(ParentId, int);
   itkGetMacro(ParentId, int);
+
+  /** Set the spacing of the spatial object. */
+  void SetSpacing( const double spacing[itkGetStaticConstMacro(ObjectDimension)] )
+  { m_IndexToObjectTransform->SetScaleComponent(spacing);}
+  /** Get the spacing of the spatial object. */
+  virtual const double* GetSpacing() const 
+  {return m_IndexToObjectTransform->GetScaleComponent();}
 
 protected: 
   

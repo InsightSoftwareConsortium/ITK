@@ -91,7 +91,22 @@ int itkSceneTest(int, char* [])
   }
   std::cout << "[PASSED]" << std::endl;
 
-
+  std::cout << "Testing Set/GetSpacing: ";
+  double spacing[3];
+  spacing[0] = 1;
+  spacing[1] = 2;
+  spacing[2] = 3;
+ 
+  object->SetSpacing(spacing);
+  const double* res_spacing = object->GetSpacing();
+  if((res_spacing[0] != 1) ||
+     (res_spacing[1] != 2) ||
+     (res_spacing[2] != 3) )
+  {
+    std::cout << "[FAILURE]" << std::endl;
+    return EXIT_FAILURE;
+  }
+  std::cout << "[PASSED]" << std::endl;
   std::cout << "[DONE]" << std::endl;
 
   return EXIT_SUCCESS;
