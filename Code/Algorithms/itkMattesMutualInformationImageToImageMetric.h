@@ -98,7 +98,8 @@ namespace itk
  *      Medical Imaging 2001: Image Processing, 2001, pp. 1609-1620.
  * [2] "PET-CT Image Registration in the Chest Using Free-form Deformations"
  *      D. Mattes, D. R. Haynor, H. Vesselle, T. Lewellen and W. Eubank
- *      IEEE Transactions in Medical Imaging. To Appear.
+ *      IEEE Transactions in Medical Imaging. Vol.22, No.1, 
+        January 2003. pp.120-128.
  * [3] "Optimization of Mutual Information for MultiResolution Image
  *      Registration"
  *      P. Thevenaz and M. Unser
