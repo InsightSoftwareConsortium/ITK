@@ -26,7 +26,7 @@ namespace Statistics{
   
 /** \class WeightedCovarianceCalculator
  * \brief Calculates the covariance matrix of the target sample data
- * where each measurement vector has associated weight value
+ * where each measurement vector has an associated weight value
  *
  * \sa CovarianceCalculator SampleAlgorithmBase
  */
@@ -44,32 +44,44 @@ public:
   /** Standard Macros */
   itkTypeMacro(WeightedCovarianceCalculator, SampleAlgorithmBase);
   itkNewMacro(Self) ;
-  
-  typedef typename TSample::MeasurementVectorType MeasurementVectorType ;
-  typedef FunctionBase< MeasurementVectorType, double > WeightFunctionType ;
+
   itkStaticConstMacro(MeasurementVectorSize, unsigned int,
                       TSample::MeasurementVectorSize);
 
-  /** Typedef for the mean output */
+  /** Measurement vector typedef */
+  typedef typename TSample::MeasurementVectorType MeasurementVectorType ;
+  
+  /** Weight calculation function typedef */
+  typedef FunctionBase< MeasurementVectorType, double > WeightFunctionType ;
+
+  /** covarince matrix (output) typedef */
   typedef Matrix< double,
                   itkGetStaticConstMacro(MeasurementVectorSize),
                   itkGetStaticConstMacro(MeasurementVectorSize) > 
           OutputType ;
 
+  /** Mean (input) typedef */
   typedef Vector< double, itkGetStaticConstMacro(MeasurementVectorSize) >
           MeanType ;
 
+  /** Array typedef for weights */
   typedef Array< double > WeightArrayType ;
 
+  /** Sets the weights using an array */
   void SetWeights(WeightArrayType* array) ;
 
+  /** Gets the weights array */
   WeightArrayType* GetWeights() ;
 
+  /** Sets the wiehts using an function
+   * the function should have a method, 
+   * Evaluate(MeasurementVectorType&) */
   void SetWeightFunction(WeightFunctionType* func) ;
+
+  /** Gets the weight function */
+  WeightFunctionType* GetWeightFunction() ;
   
-  double GetWeight(MeasurementVectorType measurementVector) ;
-  
-  /** Stores the sample pointer */
+  /** Sets the mean (input) */
   void SetMean(MeanType* mean)
   {
     if ( m_Mean != mean )
@@ -79,6 +91,7 @@ public:
       }
   }
 
+  /** Gets the mean */
   void GetMean()
   { return m_Mean ; }
 
