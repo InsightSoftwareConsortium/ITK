@@ -119,7 +119,7 @@ ADD_TEST(itkShapePriorSegmentationLevelSetFunctionTest ${ALGORITHMS_TESTS} itkSh
 ADD_TEST(itkSpatialObjectToImageRegistrationTest ${ALGORITHMS_TESTS} itkSpatialObjectToImageRegistrationTest)
 ADD_TEST(itkSupervisedImageClassifierTest ${ALGORITHMS_TESTS} itkSupervisedImageClassifierTest)
 ADD_TEST(itkSwathChainCodePathFilterTest ${ALGORITHMS_TESTS} itkSwathChainCodePathFilterTest)
-ADD_TEST(itkThresholdSegmentationLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkThresholdSegmentationLevelSetImageFilterTest)
+ADD_TEST(itkThresholdSegmentationLevelSetImageFilterTest ${ALGORITHMS_TESTS2} itkThresholdSegmentationLevelSetImageFilterTest)
 ADD_TEST(itkGibbsTest ${ALGORITHMS_TESTS} itkGibbsTest)
 ADD_TEST(itkDeformableTest ${ALGORITHMS_TESTS} itkDeformableTest)
 ADD_TEST(itkDeformableSimplexMesh3DBalloonForceFilterTest ${ALGORITHMS_TESTS2} itkDeformableSimplexMesh3DBalloonForceFilterTest)
@@ -233,7 +233,6 @@ itkShapePriorSegmentationLevelSetFunctionTest.cxx
 itkSpatialObjectToImageRegistrationTest.cxx
 itkSupervisedImageClassifierTest.cxx
 itkSwathChainCodePathFilterTest.cxx
-itkThresholdSegmentationLevelSetImageFilterTest.cxx
 itkUnsharpMaskLevelSetImageFilterTest.cxx
 itkGibbsTest.cxx
 itkDeformableTest.cxx
@@ -262,6 +261,7 @@ itkRegularSphereMeshSourceTest.cxx
 itkRayCastInterpolateImageFunctionTest.cxx
 itkSymmetricForcesDemonsRegistrationFilterTest.cxx
 itkSTAPLEImageFilterTest.cxx
+itkThresholdSegmentationLevelSetImageFilterTest.cxx
 itkVectorThresholdSegmentationLevelSetImageFilterTest.cxx
 itkVoronoiDiagram2DTest.cxx
 itkVoronoiPartitioningImageFilterTest.cxx
