@@ -158,6 +158,11 @@ public:
         reference operator[](unsigned long index)        { return m_InternalArray[index]; }
   const_reference operator[](unsigned long index) const  { return m_InternalArray[index]; }
   
+  /** Set/Get element methods are more convenient in wrapping languages */
+  void SetElement( unsigned short index, const_reference value )
+                                  { m_InternalArray[ index ] = value; }
+  const_reference GetElement( unsigned short index ) const { return m_InternalArray[index]; }
+  
   /** Return a pointer to the data. */
   ValueType* GetDataPointer() { return m_InternalArray; }
   const ValueType* GetDataPointer() const { return m_InternalArray; }
