@@ -19,8 +19,14 @@ TARGET_LINK_LIBRARIES(EllipseSpatialObject ITKCommon ITKIO )
 ADD_EXECUTABLE(GaussianSpatialObject GaussianSpatialObject.cxx)
 TARGET_LINK_LIBRARIES(GaussianSpatialObject ITKCommon ITKIO )
 
+ADD_EXECUTABLE(GroupSpatialObject GroupSpatialObject.cxx)
+TARGET_LINK_LIBRARIES(GroupSpatialObject ITKCommon ITKIO )
+
 ADD_EXECUTABLE(ImageSpatialObject ImageSpatialObject.cxx)
 TARGET_LINK_LIBRARIES(ImageSpatialObject ITKCommon ITKIO )
+
+ADD_EXECUTABLE(ImageMaskSpatialObject ImageMaskSpatialObject.cxx)
+TARGET_LINK_LIBRARIES(ImageMaskSpatialObject ITKCommon ITKIO )
 
 ADD_EXECUTABLE(LandmarkSpatialObject LandmarkSpatialObject.cxx)
 TARGET_LINK_LIBRARIES(LandmarkSpatialObject ITKCommon ITKIO )
@@ -46,9 +52,17 @@ TARGET_LINK_LIBRARIES(SpatialObjectTransforms ITKCommon ITKIO )
 ADD_EXECUTABLE(SpatialObjectTreeContainer SpatialObjectTreeContainer.cxx)
 TARGET_LINK_LIBRARIES(SpatialObjectTreeContainer ITKCommon ITKIO )
 
+ADD_EXECUTABLE(SpatialObjectToImageStatisticsCalculator SpatialObjectToImageStatisticsCalculator.cxx)
+TARGET_LINK_LIBRARIES(SpatialObjectToImageStatisticsCalculator ITKCommon ITKIO )
+
 ADD_EXECUTABLE(SurfaceSpatialObject SurfaceSpatialObject.cxx)
 TARGET_LINK_LIBRARIES(SurfaceSpatialObject ITKCommon ITKIO )
 
 ADD_EXECUTABLE(TubeSpatialObject TubeSpatialObject.cxx)
 TARGET_LINK_LIBRARIES(TubeSpatialObject ITKCommon ITKIO )
 
+ADD_EXECUTABLE(VesselTubeSpatialObject VesselTubeSpatialObject.cxx)
+TARGET_LINK_LIBRARIES(VesselTubeSpatialObject ITKCommon ITKIO )
+
+ADD_EXECUTABLE(DTITubeSpatialObject DTITubeSpatialObject.cxx)
+TARGET_LINK_LIBRARIES(DTITubeSpatialObject ITKCommon ITKIO )
