@@ -93,11 +93,20 @@ PCAShapeSignedDistanceFunction<TCoordRep, VSpaceDimension>
 {
   Superclass::PrintSelf(os,indent);
   
-  os << indent << "WeightOfPrincipalComponents: " 
-    << m_WeightOfPrincipalComponents << std::endl;
+  os << indent << "Transform: "
+     << m_Transform.GetPointer() << std::endl;
 
+  os << indent << "NumberOfPrincipalComponents: " 
+     << m_NumberOfPrincipalComponents << std::endl;  
+  os << indent << "PrincipalComponentStandardDeviations: "
+     << m_PrincipalComponentStandardDeviations << std::endl;
+  os << indent << "MeanImage: "
+     << m_MeanImage.GetPointer() << std::endl;
+
+  os << indent << "WeightOfPrincipalComponents: " 
+     << m_WeightOfPrincipalComponents << std::endl;
   os << indent << "TransformParameters: " 
-    << m_TransformParameters << std::endl;
+     << m_TransformParameters << std::endl;
 }
 
 

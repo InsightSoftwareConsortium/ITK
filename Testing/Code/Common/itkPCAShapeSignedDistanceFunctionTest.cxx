@@ -138,6 +138,8 @@ int itkPCAShapeSignedDistanceFunctionTest( int, char *[])
   // we must initialize the function before use
   shape->Initialize();
 
+  // exercise print methods
+  shape->Print( std::cout );
 
   // check pca shape calculation
   ShapeFunction::PointType  point;
