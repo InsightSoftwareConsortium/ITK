@@ -88,6 +88,9 @@ ByteSwapper<T>
     case 4:
       ByteSwapper<T>::Swap4((void *)p);      
       return;
+    case 8:
+      ByteSwapper<T>::Swap8((void *)p);      
+      return;
     default:  
       ByteSwapperError e(__FILE__, __LINE__);
       e.SetLocation("SwapBE");
@@ -117,6 +120,9 @@ ByteSwapper<T>
       return;
     case 4:
       ByteSwapper<T>::Swap4Range((void *)p,num);      
+      return;
+    case 8:
+      ByteSwapper<T>::Swap8Range((void *)p,num);      
       return;
     default:  
       ByteSwapperError e(__FILE__, __LINE__);
@@ -152,6 +158,9 @@ ByteSwapper<T>
     case 4:
       ByteSwapper<T>::SwapWrite4Range((void *)p, num, fp);      
       return;
+    case 8:
+      ByteSwapper<T>::SwapWrite8Range((void *)p, num, fp);      
+      return;
     default:  
       ByteSwapperError e(__FILE__, __LINE__);
       e.SetLocation("SwapWriteRangeBE");
@@ -178,6 +187,9 @@ ByteSwapper<T>
       return;
     case 4:
       ByteSwapper<T>::Swap4((void *)p);      
+      return;
+    case 8:
+      ByteSwapper<T>::Swap8((void *)p);      
       return;
     default:  
       ByteSwapperError e(__FILE__, __LINE__);
@@ -210,6 +222,9 @@ ByteSwapper<T>
     case 4:
       ByteSwapper<T>::Swap4Range((void *)p,num);      
       return;
+    case 8:
+      ByteSwapper<T>::Swap8Range((void *)p,num);      
+      return;
     default:  
       ByteSwapperError e(__FILE__, __LINE__);
       e.SetLocation("SwapRangeLE");
@@ -239,6 +254,9 @@ ByteSwapper<T>
       return;
     case 4:
       ByteSwapper<T>::SwapWrite4Range((void *)p, num, fp);      
+      return;
+    case 8:
+      ByteSwapper<T>::SwapWrite8Range((void *)p, num, fp);      
       return;
     default:  
       ByteSwapperError e(__FILE__, __LINE__);
@@ -421,6 +439,118 @@ ByteSwapper<T>
       {
       chunkSize = num;
       }
+    }
+  delete [] cpy;
+}
+
+//------8-byte methods----------------------------------------------
+
+// Swap 8 byte double precision
+template <class T>
+void 
+ByteSwapper<T>
+::Swap8(void *ptr)
+{
+  char one_byte;
+  char *p = reinterpret_cast<char *>(ptr);
+
+  one_byte    = p[0];
+  p[0] = p[7];
+  p[7] = one_byte;
+
+  one_byte    = p[1];
+  p[1] = p[6];
+  p[6] = one_byte;
+
+  one_byte    = p[2];
+  p[2] = p[5];
+  p[5] = one_byte;
+
+  one_byte    = p[3];
+  p[3] = p[4];
+  p[4] = one_byte;
+}
+
+// Swap bunch of bytes. Num is the number of eight byte words to swap.
+template <class T>
+void 
+ByteSwapper<T>
+::Swap8Range(void *ptr, unsigned long num)
+{
+  char one_byte;
+  char *pos = reinterpret_cast<char *>(ptr);
+  unsigned long i;
+
+  for (i = 0; i < num; i++)
+    {
+      one_byte    = pos[0];
+      pos[0] = pos[7];
+      pos[7] = one_byte;
+
+      one_byte    = pos[1];
+      pos[1] = pos[6];
+      pos[6] = one_byte;
+
+      one_byte    = pos[2];
+      pos[2] = pos[5];
+      pos[5] = one_byte;
+
+      one_byte    = pos[3];
+      pos[3] = pos[4];
+      pos[4] = one_byte;
+      pos = pos + 8;
+    }
+}
+
+// Swap bunch of bytes. Num is the number of four byte words to swap.
+template <class T>
+void 
+ByteSwapper<T>
+::SwapWrite8Range(void *ptr, unsigned long num, OStreamType *fp)
+{
+  char one_byte;
+  char *pos;
+  unsigned long i;
+  char *cpy;
+  unsigned long chunkSize = 1000000;
+
+  if (num < chunkSize)
+    {
+    chunkSize = num;
+    }
+  cpy = new char [chunkSize * 8];
+ 
+  while (num)
+    {
+      memcpy(cpy, ptr, chunkSize * 8);
+    
+      pos = cpy;   
+      for (i = 0; i < chunkSize; i++)
+        {
+          one_byte    = pos[0];
+          pos[0] = pos[7];
+          pos[7] = one_byte;
+
+          one_byte    = pos[1];
+          pos[1] = pos[6];
+          pos[6] = one_byte;
+
+          one_byte    = pos[2];
+          pos[2] = pos[5];
+          pos[5] = one_byte;
+
+          one_byte    = pos[3];
+          pos[3] = pos[4];
+          pos[4] = one_byte;
+          pos = pos + 8;
+        }
+      fp->write((char *)cpy, 8*chunkSize);
+      ptr  = (char *) ptr + chunkSize*8;
+      num -= chunkSize;
+      if (num < chunkSize)
+        {
+          chunkSize = num;
+        }
     }
   delete [] cpy;
 }

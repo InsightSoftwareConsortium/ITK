@@ -131,6 +131,17 @@ protected:
    * words to swap and write. */
   static void SwapWrite4Range(void *p, unsigned long num, OStreamType *fp);
 
+  /** Swap 8 bytes. */
+  static void Swap8(void *p);
+
+  /** Swap a range of four-byte words. Num is the number of four-byte words 
+   * to swap. */
+  static void Swap8Range(void *p, unsigned long num);
+
+  /** Swap and write a range of 8-byte words. Num is the number of four-byte 
+   * words to swap and write. */
+  static void SwapWrite8Range(void *p, unsigned long num, OStreamType *fp);
+
 private:
   ByteSwapper(const ByteSwapper&); //purposely not implemented
   void operator=(const ByteSwapper&); //purposely not implemented
