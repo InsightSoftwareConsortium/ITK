@@ -319,7 +319,7 @@ ByteSwap
   
   half = wordSize / 2;
   inc = wordSize - 1;
-  buf = (unsigned char *)(buffer);
+  buf = reinterpret_cast<unsigned char *>(buffer);
   
   for (idx1 = 0; idx1 < numWords; ++idx1)
     {
