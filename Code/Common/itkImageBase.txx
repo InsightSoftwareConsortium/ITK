@@ -286,7 +286,6 @@ ImageBase<VImageDimension>
          ((requestedRegionIndex[i] + static_cast<long>(requestedRegionSize[i]))
           > (largestPossibleRegionIndex[i]+static_cast<long>(largestPossibleRegionSize[i]))))
       {
-      itkExceptionMacro( << "Region does not lie within the image" );
       retval = false;
       }
     }
@@ -318,6 +317,7 @@ ImageBase<VImageDimension>
   if (m_RequestedRegion != region)
     {
     m_RequestedRegion = region;
+    this->Modified();
     }
 }
 
