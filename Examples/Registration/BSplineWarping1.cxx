@@ -46,16 +46,16 @@ int main( int argc, char * argv[] )
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " landmarksFile fixedImage ";
+    std::cerr << " coefficientsFile fixedImage ";
     std::cerr << "movingImage deformedMovingImage" << std::endl;
     return 1;
     }
 
-  const     unsigned int   Dimension = 2;
+  const     unsigned int   ImageDimension = 2;
 
   typedef   unsigned char  PixelType;
-  typedef   itk::Image< PixelType, Dimension >       FixedImageType;
-  typedef   itk::Image< PixelType, Dimension >       MovingImageType;
+  typedef   itk::Image< PixelType, ImageDimension >  FixedImageType;
+  typedef   itk::Image< PixelType, ImageDimension >  MovingImageType;
 
   typedef   itk::ImageFileReader< FixedImageType  >  FixedReaderType;
   typedef   itk::ImageFileReader< MovingImageType >  MovingReaderType;
@@ -104,12 +104,85 @@ int main( int argc, char * argv[] )
   resampler->SetOutputSpacing( fixedImage->GetSpacing() );
   resampler->SetOutputOrigin(  fixedImage->GetOrigin() );
 
+  
+  FixedImageType::RegionType region = fixedImage->GetBufferedRegion();
+  resampler->SetSize(  region.GetSize() );
+  resampler->SetOutputStartIndex(  region.GetIndex() );
+
+
   resampler->SetInput( movingReader->GetOutput() );
   
   movingWriter->SetInput( resampler->GetOutput() );
 
+  const unsigned int SpaceDimension = ImageDimension;
+  const unsigned int SplineOrder = 3;
+  typedef double CoordinateRepType;
+
+  typedef itk::BSplineDeformableTransform<
+                            CoordinateRepType,
+                            SpaceDimension,
+                            SplineOrder >     TransformType;
+   
 
   
+  TransformType::Pointer bsplineTransform = TransformType::New();
+
+  resampler->SetTransform( bsplineTransform );
+
+
+  /**
+   * Define the deformable grid region, spacing and origin
+   */
+  typedef TransformType::RegionType RegionType;
+  RegionType bsplineRegion;
+  RegionType::SizeType   size;
+
+  size.Fill( 10 );
+  bsplineRegion.SetSize( size );
+
+  typedef TransformType::SpacingType SpacingType;
+  SpacingType spacing;
+  spacing.Fill( 32.0 );
+
+  typedef TransformType::OriginType OriginType;
+  OriginType origin;
+  origin.Fill( -32.0 );
+
+
+  bsplineTransform->SetGridSpacing( spacing );
+  bsplineTransform->SetGridOrigin( origin );
+  bsplineTransform->SetGridRegion( bsplineRegion );
+  
+
+  typedef TransformType::ParametersType     ParametersType;
+
+  const unsigned int numberOfParameters =
+               bsplineTransform->GetNumberOfParameters();
+  
+
+  const unsigned int numberOfNodes = numberOfParameters / SpaceDimension;
+
+  ParametersType parameters( numberOfParameters );
+
+
+  //  Read the coefficients from an input file
+  std::ifstream infile;
+
+  infile.open( argv[1] );
+
+  for( unsigned int n=0; n < numberOfNodes; n++ )
+    {
+    infile >>  parameters[n]; 
+    infile >>  parameters[n+numberOfNodes]; 
+    } 
+
+  infile.close();
+
+
+  bsplineTransform->SetParameters( parameters );
+
+  bsplineTransform->Print( std::cout );
+
   try
     {
     movingWriter->Update();
