@@ -103,7 +103,6 @@ public:
 
 
   /** Type of the output Image */
-  typedef TOutputImage      OutputImageType;
   typedef typename          OutputImageType::PixelType      OutputPixelType;
   typedef typename PixelTraits<OutputPixelType>::ValueType  OutputComponentType;
 
