@@ -97,6 +97,10 @@ public:
    *  Pointer to the Output Image Adaptor
    */
   typedef typename OutputAdaptorType::Pointer      OutputAdaptorPointer;                                  
+   /** 
+   *  Pointer to the Output Image Adaptor
+   */
+  typedef typename TOutputImage::Pointer          OutputImagePointer;                                  
  
   /** 
    * Image Dimension
@@ -136,6 +140,7 @@ private:
   SmoothingFilterPointer     m_SmoothingFilters[ImageDimension-1];
   DerivativeFilterPointer    m_DerivativeFilter;
   OutputAdaptorPointer       m_OutputAdaptor;
+  OutputImagePointer         m_OutputImage;
 
 };
 

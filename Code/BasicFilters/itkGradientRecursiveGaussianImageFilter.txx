@@ -47,9 +47,11 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage,TComputation>
                        m_SmoothingFilters[ImageDimension-2]->GetOutput() );
   
 
+  m_OutputImage   = TOutputImage::New();
+
   m_OutputAdaptor = OutputAdaptorType::New();
 
-  m_OutputAdaptor->SetImage( GetOutput() );
+  m_OutputAdaptor->SetImage( m_OutputImage );
 
   m_DerivativeFilter->SetOutput( m_OutputAdaptor );
 
@@ -89,11 +91,18 @@ void
 GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage, TComputation>
 ::GenerateData(void)
 {
+
   std::cout << "Hi, GradientRecursiveGaussianImageFilter generating data ";
   std::cout << std::endl;
 
-  const typename TInputImage::Pointer   inputImage(    GetInput()   );
+  const typename TInputImage::Pointer   inputImage( GetInput() );
 
+  m_OutputImage->ReleaseData();  // Free any data from previous execution
+
+  m_OutputImage   = TOutputImage::New(); // Allocate a new one
+  
+  m_OutputAdaptor->SetImage( m_OutputImage );
+  
   m_OutputAdaptor->SetLargestPossibleRegion( 
       inputImage->GetLargestPossibleRegion() );
 
@@ -105,10 +114,12 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage, TComputation>
 
   m_OutputAdaptor->Allocate();
 
+  m_SmoothingFilters[0]->SetInput( inputImage );
+
   for( unsigned int dim=0; dim < ImageDimension; dim++ )
   {
-	unsigned int i=0; 
-	unsigned int j=0;
+    unsigned int i=0; 
+    unsigned int j=0;
     while(  i< ImageDimension)
     {
       if( i == dim ) 
@@ -116,14 +127,16 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage, TComputation>
         j++;
       }
       m_SmoothingFilters[ i ]->SetDirection( j );
-	  i++;
-	  j++;
+    i++;
+    j++;
     }
     m_DerivativeFilter->SetDirection( dim );
     m_OutputAdaptor->SelectNthElement( dim );
     m_DerivativeFilter->Update();
   }
   
+  // Reconnect the image to the output
+  this->SetOutput( m_OutputImage );
 
 }
 
