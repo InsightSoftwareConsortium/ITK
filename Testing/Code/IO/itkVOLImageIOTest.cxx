@@ -72,7 +72,6 @@ int main(int ac, char** av)
 
   myImage::Pointer image = reader->GetOutput();
   image->Print(std::cout);
-  PixelType * data = image->GetPixelContainer()->GetBufferPointer();
   myImage::RegionType region = image->GetLargestPossibleRegion();
   std::cout << "region " << region;
 
