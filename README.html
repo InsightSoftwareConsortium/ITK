@@ -1,230 +1,1186 @@
-Welcome to the National Library of Medicine Insight Segmentation and
-Registration Toolkit (ITK).
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns="http://www.w3.org/TR/REC-html40">
 
-This document provides a brief description of the project, its history, and
-references to additional information describing how to use, develop, and
-contribute to ITK. 
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 9">
+<meta name=Originator content="Microsoft Word 9">
+<link rel=File-List href="./README_files/filelist.xml">
+<link rel=Edit-Time-Data href="./README_files/editdata.mso">
+<!--[if !mso]>
+<style>
+v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+w\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+</style>
+<![endif]-->
+<title>Getting Started with Insight</title>
+<!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Author>Ken Martin</o:Author>
+  <o:LastAuthor>Will Schroeder</o:LastAuthor>
+  <o:Revision>2</o:Revision>
+  <o:TotalTime>57</o:TotalTime>
+  <o:LastPrinted>2000-01-24T22:14:00Z</o:LastPrinted>
+  <o:Created>2000-12-15T12:56:00Z</o:Created>
+  <o:LastSaved>2000-12-15T12:56:00Z</o:LastSaved>
+  <o:Pages>4</o:Pages>
+  <o:Words>1498</o:Words>
+  <o:Characters>8539</o:Characters>
+  <o:Company>Kitware Inc.</o:Company>
+  <o:Lines>71</o:Lines>
+  <o:Paragraphs>17</o:Paragraphs>
+  <o:CharactersWithSpaces>10486</o:CharactersWithSpaces>
+  <o:Version>9.2720</o:Version>
+ </o:DocumentProperties>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:DoNotShowRevisions/>
+  <w:DoNotPrintRevisions/>
+  <w:HyphenationZone>0</w:HyphenationZone>
+  <w:DoNotHyphenateCaps/>
+  <w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery>
+  <w:DisplayVerticalDrawingGridEvery>0</w:DisplayVerticalDrawingGridEvery>
+  <w:UseMarginsForDrawingGridOrigin/>
+  <w:DoNotShadeFormData/>
+  <w:Compatibility>
+   <w:UsePrinterMetrics/>
+   <w:WW6BorderRules/>
+   <w:FootnoteLayoutLikeWW8/>
+   <w:ShapeLayoutLikeWW8/>
+   <w:AlignTablesRowByRow/>
+   <w:ForgetLastTabAlignment/>
+   <w:LayoutRawTableWidth/>
+   <w:LayoutTableRowsApart/>
+  </w:Compatibility>
+ </w:WordDocument>
+</xml><![endif]-->
+<style>
+<!--
+ /* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-parent:"";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+h1
+	{mso-style-next:Normal;
+	margin-top:0in;
+	margin-right:-.5in;
+	margin-bottom:0in;
+	margin-left:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:1;
+	font-size:18.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-font-kerning:0pt;
+	mso-bidi-font-weight:normal;
+	text-decoration:underline;
+	text-underline:single;}
+h2
+	{mso-style-next:Normal;
+	margin-top:0in;
+	margin-right:-.5in;
+	margin-bottom:0in;
+	margin-left:0in;
+	margin-bottom:.0001pt;
+	line-height:150%;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:2;
+	font-size:14.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-bidi-font-weight:normal;}
+h3
+	{mso-style-next:Normal;
+	margin-top:0in;
+	margin-right:-.5in;
+	margin-bottom:0in;
+	margin-left:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:3;
+	font-size:14.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Times New Roman";
+	font-weight:normal;}
+h4
+	{mso-style-update:auto;
+	mso-style-next:Normal;
+	margin-top:0in;
+	margin-right:-.5in;
+	margin-bottom:0in;
+	margin-left:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:4;
+	font-size:14.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-bidi-font-weight:normal;}
+h5
+	{mso-style-next:Normal;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:1.5in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:5;
+	font-size:12.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Times New Roman";
+	font-weight:normal;}
+p.MsoToc1, li.MsoToc1, div.MsoToc1
+	{mso-style-update:auto;
+	mso-style-next:Normal;
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+p.MsoToc2, li.MsoToc2, div.MsoToc2
+	{mso-style-update:auto;
+	mso-style-next:Normal;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:10.0pt;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+p.MsoToc3, li.MsoToc3, div.MsoToc3
+	{mso-style-update:auto;
+	mso-style-next:Normal;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:20.0pt;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+p.MsoToc4, li.MsoToc4, div.MsoToc4
+	{mso-style-update:auto;
+	mso-style-next:Normal;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:30.0pt;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+p.MsoToc5, li.MsoToc5, div.MsoToc5
+	{mso-style-update:auto;
+	mso-style-next:Normal;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:40.0pt;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+p.MsoToc6, li.MsoToc6, div.MsoToc6
+	{mso-style-update:auto;
+	mso-style-next:Normal;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:50.0pt;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+p.MsoToc7, li.MsoToc7, div.MsoToc7
+	{mso-style-update:auto;
+	mso-style-next:Normal;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:60.0pt;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+p.MsoToc8, li.MsoToc8, div.MsoToc8
+	{mso-style-update:auto;
+	mso-style-next:Normal;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:70.0pt;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+p.MsoToc9, li.MsoToc9, div.MsoToc9
+	{mso-style-update:auto;
+	mso-style-next:Normal;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:80.0pt;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+p.MsoBodyText, li.MsoBodyText, div.MsoBodyText
+	{margin-top:0in;
+	margin-right:-.5in;
+	margin-bottom:0in;
+	margin-left:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+p.MsoBodyText2, li.MsoBodyText2, div.MsoBodyText2
+	{margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+p.MsoBodyTextIndent2, li.MsoBodyTextIndent2, div.MsoBodyTextIndent2
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.5in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+p.MsoBodyTextIndent3, li.MsoBodyTextIndent3, div.MsoBodyTextIndent3
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:2.0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+a:link, span.MsoHyperlink
+	{color:blue;
+	text-decoration:underline;
+	text-underline:single;}
+a:visited, span.MsoHyperlinkFollowed
+	{color:purple;
+	text-decoration:underline;
+	text-underline:single;}
+span.eudoraheader
+	{mso-style-name:eudoraheader;}
+ /* Page Definitions */
+@page
+	{mso-footnote-position:end-of-section;
+	mso-endnote-position:end-of-section;
+	mso-endnote-numbering-style:arabic;
+	mso-endnote-numbering-start:0;}
+@page Section1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.25in 1.0in 1.25in;
+	mso-header-margin:.5in;
+	mso-footer-margin:.5in;
+	mso-paper-source:0;}
+div.Section1
+	{page:Section1;}
+ /* List Definitions */
+@list l0
+	{mso-list-id:46804795;
+	mso-list-type:simple;
+	mso-list-template-ids:1598219988;}
+@list l0:level1
+	{mso-level-start-at:6;
+	mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:22.5pt;
+	mso-level-number-position:left;
+	margin-left:22.5pt;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l1
+	{mso-list-id:91441844;
+	mso-list-type:simple;
+	mso-list-template-ids:1598219988;}
+@list l1:level1
+	{mso-level-start-at:6;
+	mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:22.5pt;
+	mso-level-number-position:left;
+	margin-left:22.5pt;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l2
+	{mso-list-id:122164922;
+	mso-list-type:simple;
+	mso-list-template-ids:1598219988;}
+@list l2:level1
+	{mso-level-start-at:6;
+	mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:22.5pt;
+	mso-level-number-position:left;
+	margin-left:22.5pt;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l3
+	{mso-list-id:143935118;
+	mso-list-type:simple;
+	mso-list-template-ids:1598219988;}
+@list l3:level1
+	{mso-level-start-at:6;
+	mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:22.5pt;
+	mso-level-number-position:left;
+	margin-left:22.5pt;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l4
+	{mso-list-id:180633442;
+	mso-list-type:simple;
+	mso-list-template-ids:67698703;}
+@list l4:level1
+	{mso-level-tab-stop:.25in;
+	mso-level-number-position:left;
+	margin-left:.25in;
+	text-indent:-.25in;}
+@list l5
+	{mso-list-id:198664676;
+	mso-list-type:simple;
+	mso-list-template-ids:1598219988;}
+@list l5:level1
+	{mso-level-start-at:6;
+	mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:22.5pt;
+	mso-level-number-position:left;
+	margin-left:22.5pt;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l6
+	{mso-list-id:326330184;
+	mso-list-type:simple;
+	mso-list-template-ids:1598219988;}
+@list l6:level1
+	{mso-level-start-at:6;
+	mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:22.5pt;
+	mso-level-number-position:left;
+	margin-left:22.5pt;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l7
+	{mso-list-id:570389971;
+	mso-list-type:simple;
+	mso-list-template-ids:-1309911912;}
+@list l7:level1
+	{mso-level-start-at:6;
+	mso-level-number-format:bullet;
+	mso-level-text:-;
+	mso-level-tab-stop:22.5pt;
+	mso-level-number-position:left;
+	margin-left:22.5pt;
+	text-indent:-.25in;}
+@list l8
+	{mso-list-id:603342359;
+	mso-list-type:simple;
+	mso-list-template-ids:1598219988;}
+@list l8:level1
+	{mso-level-start-at:6;
+	mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:22.5pt;
+	mso-level-number-position:left;
+	margin-left:22.5pt;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l9
+	{mso-list-id:695034964;
+	mso-list-type:simple;
+	mso-list-template-ids:1598219988;}
+@list l9:level1
+	{mso-level-start-at:6;
+	mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:22.5pt;
+	mso-level-number-position:left;
+	margin-left:22.5pt;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l10
+	{mso-list-id:797340552;
+	mso-list-type:simple;
+	mso-list-template-ids:1598219988;}
+@list l10:level1
+	{mso-level-start-at:6;
+	mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:22.5pt;
+	mso-level-number-position:left;
+	margin-left:22.5pt;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l11
+	{mso-list-id:868301987;
+	mso-list-type:simple;
+	mso-list-template-ids:1598219988;}
+@list l11:level1
+	{mso-level-start-at:6;
+	mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:22.5pt;
+	mso-level-number-position:left;
+	margin-left:22.5pt;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l12
+	{mso-list-id:994187734;
+	mso-list-type:simple;
+	mso-list-template-ids:1598219988;}
+@list l12:level1
+	{mso-level-start-at:6;
+	mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:22.5pt;
+	mso-level-number-position:left;
+	margin-left:22.5pt;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l13
+	{mso-list-id:1036544800;
+	mso-list-type:simple;
+	mso-list-template-ids:1598219988;}
+@list l13:level1
+	{mso-level-start-at:6;
+	mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:22.5pt;
+	mso-level-number-position:left;
+	margin-left:22.5pt;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l14
+	{mso-list-id:1146509462;
+	mso-list-type:simple;
+	mso-list-template-ids:1598219988;}
+@list l14:level1
+	{mso-level-start-at:6;
+	mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:22.5pt;
+	mso-level-number-position:left;
+	margin-left:22.5pt;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l15
+	{mso-list-id:1375693371;
+	mso-list-type:simple;
+	mso-list-template-ids:-1309911912;}
+@list l15:level1
+	{mso-level-start-at:6;
+	mso-level-number-format:bullet;
+	mso-level-text:-;
+	mso-level-tab-stop:22.5pt;
+	mso-level-number-position:left;
+	margin-left:22.5pt;
+	text-indent:-.25in;}
+@list l16
+	{mso-list-id:1593708623;
+	mso-list-type:simple;
+	mso-list-template-ids:67698703;}
+@list l16:level1
+	{mso-level-tab-stop:.25in;
+	mso-level-number-position:left;
+	margin-left:.25in;
+	text-indent:-.25in;}
+@list l17
+	{mso-list-id:1651712013;
+	mso-list-type:simple;
+	mso-list-template-ids:1598219988;}
+@list l17:level1
+	{mso-level-start-at:6;
+	mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:22.5pt;
+	mso-level-number-position:left;
+	margin-left:22.5pt;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l18
+	{mso-list-id:1871140835;
+	mso-list-type:simple;
+	mso-list-template-ids:1598219988;}
+@list l18:level1
+	{mso-level-start-at:6;
+	mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:22.5pt;
+	mso-level-number-position:left;
+	margin-left:22.5pt;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l19
+	{mso-list-id:1889874987;
+	mso-list-type:simple;
+	mso-list-template-ids:1598219988;}
+@list l19:level1
+	{mso-level-start-at:6;
+	mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:22.5pt;
+	mso-level-number-position:left;
+	margin-left:22.5pt;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l20
+	{mso-list-id:1969816158;
+	mso-list-type:simple;
+	mso-list-template-ids:-1309911912;}
+@list l20:level1
+	{mso-level-start-at:6;
+	mso-level-number-format:bullet;
+	mso-level-text:-;
+	mso-level-tab-stop:22.5pt;
+	mso-level-number-position:left;
+	margin-left:22.5pt;
+	text-indent:-.25in;}
+@list l21
+	{mso-list-id:2067028743;
+	mso-list-type:simple;
+	mso-list-template-ids:-1309911912;}
+@list l21:level1
+	{mso-level-start-at:6;
+	mso-level-number-format:bullet;
+	mso-level-text:-;
+	mso-level-tab-stop:22.5pt;
+	mso-level-number-position:left;
+	margin-left:22.5pt;
+	text-indent:-.25in;}
+@list l22
+	{mso-list-id:2108379011;
+	mso-list-type:simple;
+	mso-list-template-ids:67698689;}
+@list l22:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.25in;
+	mso-level-number-position:left;
+	margin-left:.25in;
+	text-indent:-.25in;
+	font-family:Symbol;}
+ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
+-->
+</style>
+<!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext="edit" spidmax="2050"/>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext="edit">
+  <o:idmap v:ext="edit" data="1"/>
+ </o:shapelayout></xml><![endif]-->
+</head>
 
-Table of Contents
+<body lang=EN-US link=blue vlink=purple style='tab-interval:.5in'>
 
-- Introduction
-* What is ITK?
-* Where are ITK's origins?
-* Who are the developers?
-* How do I participate?
-* What are the terms of use?
+<div class=Section1>
 
-- Technical Summary of ITK
-* Design Philosophy
-* Implementation Philosophy
-* Architecture
-* Data Objects
-* Process Objects (Filters)
-* Build Environment
+<p class=MsoNormal><!--[if gte vml 1]><v:shapetype id="_x0000_t202"
+ coordsize="21600,21600" o:spt="202" path="m0,0l0,21600,21600,21600,21600,0xe">
+ <v:stroke joinstyle="miter"/>
+ <v:path gradientshapeok="t" o:connecttype="rect"/>
+</v:shapetype><v:shape id="_x0000_s1027" type="#_x0000_t202" style='position:absolute;
+ margin-left:0;margin-top:-8.35pt;width:135.75pt;height:50.55pt;z-index:1;
+ mso-position-horizontal:left;mso-position-horizontal-relative:text;
+ mso-position-vertical:absolute;mso-position-vertical-relative:text' filled="f"
+ stroked="f">
+ <v:textbox>
+  <![if !mso]>
+  <table cellpadding=0 cellspacing=0 width="100%">
+   <tr>
+    <td><![endif]>
+    <div>
+    <p class=MsoNormal><span style='font-size:24.0pt;mso-bidi-font-size:10.0pt'><v:shapetype
+     id="_x0000_t75" coordsize="21600,21600" o:spt="75" o:preferrelative="t"
+     path="m@4@5l@4@11@9@11@9@5xe" filled="f" stroked="f">
+     <v:stroke joinstyle="miter"/>
+     <v:formulas>
+      <v:f eqn="if lineDrawn pixelLineWidth 0"/>
+      <v:f eqn="sum @0 1 0"/>
+      <v:f eqn="sum 0 0 @1"/>
+      <v:f eqn="prod @2 1 2"/>
+      <v:f eqn="prod @3 21600 pixelWidth"/>
+      <v:f eqn="prod @3 21600 pixelHeight"/>
+      <v:f eqn="sum @0 0 1"/>
+      <v:f eqn="prod @6 1 2"/>
+      <v:f eqn="prod @7 21600 pixelWidth"/>
+      <v:f eqn="sum @8 21600 0"/>
+      <v:f eqn="prod @7 21600 pixelHeight"/>
+      <v:f eqn="sum @10 21600 0"/>
+     </v:formulas>
+     <v:path o:extrusionok="f" gradientshapeok="t" o:connecttype="rect"/>
+     <o:lock v:ext="edit" aspectratio="t"/>
+    </v:shapetype><v:shape id="_x0000_i1025" type="#_x0000_t75" style='width:120.75pt;
+     height:42.75pt' fillcolor="window">
+     <v:imagedata src="./README_files/image001.gif" o:title="insight"/>
+    </v:shape></span></p>
+    </div>
+    <![if !mso]></td>
+   </tr>
+  </table>
+  <![endif]></v:textbox>
+ <w:wrap type="square"/>
+</v:shape><![endif]--><![if !vml]><img width=183 height=69
+src="./README_files/image002.gif" align=left hspace=12 alt="Text Box:  "
+v:shapes="_x0000_s1027"><![endif]><b style='mso-bidi-font-weight:normal'><span
+style='font-size:24.0pt;mso-bidi-font-size:10.0pt'>An Overview</span></b><span
+style='font-size:24.0pt;mso-bidi-font-size:10.0pt'><o:p></o:p></span></p>
 
-- Further Information
-* Getting Started
-* Additional Documentation
-* Contacts
+<p class=MsoNormal><span style='font-size:24.0pt;mso-bidi-font-size:10.0pt'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
 
+<p class=MsoNormal>Welcome to the National Library of Medicine Insight
+Segmentation and Registration Toolkit (ITK).</p>
 
-INTRODUCTION
-* What is ITK?
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
 
-ITK is an open-source software toolkit for performing registration and
-segmentation. Segmentation is the process of identifying and classifying data
-found in a digitally sampled representation. Typically the sampled
-representation is an image acquired from such medical instrumentation as CT
-or MRI scanners. Registration is the task of aligning or developing
-corresponances betwen data. For example, in the medical environment, a CT
-scane may be aligned with a MRI scan in order to combine the information
-contained in both.
+<p class=MsoNormal>This document provides a brief description of the project,
+its history, and references to additional information describing how to use,
+develop, and contribute to ITK. </p>
 
-ITK is implemented in C++. In addition, an automated wrapping process
-generates interfaces between C++ and interpreted programming languages such
-as Tcl, Java, and Python. This enables developers to create software using a
-variety of programming languages. ITK's C++ implementation style is referred
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoToc1 style='tab-stops:right dotted 431.5pt'><!--[if supportFields]><span
+style='mso-element:field-begin'></span><span style="mso-spacerun:
+yes"> </span>TOC \o &quot;1-3&quot; <span style='mso-element:field-separator'></span><![endif]-->INTRODUCTION<span
+style='mso-tab-count:1 dotted'>............................................................................................................................................................. </span><!--[if supportFields]><span
+style='mso-element:field-begin'></span> PAGEREF _Toc501497171 \h <span
+style='mso-element:field-separator'></span><![endif]-->1<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003500300031003400390037003100370031000000</w:data>
+</xml><![endif]--><!--[if supportFields]><span style='mso-element:field-end'></span><![endif]--><o:p></o:p></p>
+
+<p class=MsoToc2 style='tab-stops:right dotted 431.5pt'>What is ITK?<span
+style='mso-tab-count:1 dotted'>................................................................................................................................................................ </span><!--[if supportFields]><span
+style='mso-element:field-begin'></span> PAGEREF _Toc501497172 \h <span
+style='mso-element:field-separator'></span><![endif]-->1<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003500300031003400390037003100370032000000</w:data>
+</xml><![endif]--><!--[if supportFields]><span style='mso-element:field-end'></span><![endif]--><o:p></o:p></p>
+
+<p class=MsoToc2 style='tab-stops:right dotted 431.5pt'>Where are ITK's
+origins?<span style='mso-tab-count:1 dotted'>............................................................................................................................................ </span><!--[if supportFields]><span
+style='mso-element:field-begin'></span> PAGEREF _Toc501497173 \h <span
+style='mso-element:field-separator'></span><![endif]-->2<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003500300031003400390037003100370033000000</w:data>
+</xml><![endif]--><!--[if supportFields]><span style='mso-element:field-end'></span><![endif]--><o:p></o:p></p>
+
+<p class=MsoToc2 style='tab-stops:right dotted 431.5pt'>Who are the developers?<span
+style='mso-tab-count:1 dotted'>............................................................................................................................................ </span><!--[if supportFields]><span
+style='mso-element:field-begin'></span> PAGEREF _Toc501497174 \h <span
+style='mso-element:field-separator'></span><![endif]-->2<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003500300031003400390037003100370034000000</w:data>
+</xml><![endif]--><!--[if supportFields]><span style='mso-element:field-end'></span><![endif]--><o:p></o:p></p>
+
+<p class=MsoToc2 style='tab-stops:right dotted 431.5pt'>How do I participate?<span
+style='mso-tab-count:1 dotted'>.................................................................................................................................................. </span><!--[if supportFields]><span
+style='mso-element:field-begin'></span> PAGEREF _Toc501497175 \h <span
+style='mso-element:field-separator'></span><![endif]-->3<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003500300031003400390037003100370035000000</w:data>
+</xml><![endif]--><!--[if supportFields]><span style='mso-element:field-end'></span><![endif]--><o:p></o:p></p>
+
+<p class=MsoToc2 style='tab-stops:right dotted 431.5pt'>What are the terms of
+use?<span style='mso-tab-count:1 dotted'>......................................................................................................................................... </span><!--[if supportFields]><span
+style='mso-element:field-begin'></span> PAGEREF _Toc501497176 \h <span
+style='mso-element:field-separator'></span><![endif]-->3<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003500300031003400390037003100370036000000</w:data>
+</xml><![endif]--><!--[if supportFields]><span style='mso-element:field-end'></span><![endif]--><o:p></o:p></p>
+
+<p class=MsoToc1 style='tab-stops:right dotted 431.5pt'>TECHNICAL SUMMARY<span
+style='mso-tab-count:1 dotted'>.............................................................................................................................................. </span><!--[if supportFields]><span
+style='mso-element:field-begin'></span> PAGEREF _Toc501497177 \h <span
+style='mso-element:field-separator'></span><![endif]-->3<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003500300031003400390037003100370037000000</w:data>
+</xml><![endif]--><!--[if supportFields]><span style='mso-element:field-end'></span><![endif]--><o:p></o:p></p>
+
+<p class=MsoToc2 style='tab-stops:right dotted 431.5pt'>Design Philosophy<span
+style='mso-tab-count:1 dotted'>...................................................................................................................................................... </span><!--[if supportFields]><span
+style='mso-element:field-begin'></span> PAGEREF _Toc501497178 \h <span
+style='mso-element:field-separator'></span><![endif]-->3<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003500300031003400390037003100370038000000</w:data>
+</xml><![endif]--><!--[if supportFields]><span style='mso-element:field-end'></span><![endif]--><o:p></o:p></p>
+
+<p class=MsoToc2 style='tab-stops:right dotted 431.5pt'>Architecture<span
+style='mso-tab-count:1 dotted'>.................................................................................................................................................................. </span><!--[if supportFields]><span
+style='mso-element:field-begin'></span> PAGEREF _Toc501497179 \h <span
+style='mso-element:field-separator'></span><![endif]-->4<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003500300031003400390037003100370039000000</w:data>
+</xml><![endif]--><!--[if supportFields]><span style='mso-element:field-end'></span><![endif]--><o:p></o:p></p>
+
+<p class=MsoToc2 style='tab-stops:right dotted 431.5pt'>Implementation
+Philosophy<span style='mso-tab-count:1 dotted'>........................................................................................................................................ </span><!--[if supportFields]><span
+style='mso-element:field-begin'></span> PAGEREF _Toc501497180 \h <span
+style='mso-element:field-separator'></span><![endif]-->4<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003500300031003400390037003100380030000000</w:data>
+</xml><![endif]--><!--[if supportFields]><span style='mso-element:field-end'></span><![endif]--><o:p></o:p></p>
+
+<p class=MsoToc2 style='tab-stops:right dotted 431.5pt'>Build Environment<span
+style='mso-tab-count:1 dotted'>....................................................................................................................................................... </span><!--[if supportFields]><span
+style='mso-element:field-begin'></span> PAGEREF _Toc501497181 \h <span
+style='mso-element:field-separator'></span><![endif]-->4<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003500300031003400390037003100380031000000</w:data>
+</xml><![endif]--><!--[if supportFields]><span style='mso-element:field-end'></span><![endif]--><o:p></o:p></p>
+
+<p class=MsoToc1 style='tab-stops:right dotted 431.5pt'>FURTHER INFORMATION<span
+style='mso-tab-count:1 dotted'>........................................................................................................................................... </span><!--[if supportFields]><span
+style='mso-element:field-begin'></span> PAGEREF _Toc501497182 \h <span
+style='mso-element:field-separator'></span><![endif]-->4<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003500300031003400390037003100380032000000</w:data>
+</xml><![endif]--><!--[if supportFields]><span style='mso-element:field-end'></span><![endif]--><o:p></o:p></p>
+
+<p class=MsoNormal><!--[if supportFields]><span style='mso-element:field-end'></span><![endif]--><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<h1><a name="_Toc501497171">INTRODUCTION</a></h1>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<h2><a name="_Toc501497172">What is ITK?</a></h2>
+
+<p class=MsoNormal>ITK is an open-source software toolkit for performing
+registration and segmentation. Segmentation is the process of identifying and
+classifying data found in a digitally sampled representation. Typically the
+sampled representation is an image acquired from such medical instrumentation
+as CT or MRI scanners. Registration is the task of aligning or developing
+correspondences between data. For example, in the medical environment, a CT
+scan may be aligned with a MRI scan in order to combine the information
+contained in both.</p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal>ITK is implemented in C++. In addition, an automated wrapping
+process generates interfaces between C++ and interpreted programming languages
+such as Tcl, Java, and Python. This enables developers to create software using
+a variety of programming languages. ITK's C++ implementation style is referred
 to as generic programming. Such C++ templating means that the code is highly
-efficient, and that the many software problems are discovered at
-compile-time, rather than at run-time during program execution.
+efficient, and that the many software problems are discovered at compile-time,
+rather than at run-time during program execution.</p>
 
-Because ITK is an open-source project, developers from around the world can
-use, debug, maintain, and extend the software. ITK uses a model of software
-development referred to as Extreme Programming. Extreme Programming collapses
-the usual software creation methodology into a simultaneous and iterative
-process of design-implement-test-release. The key features of Extreme
-Programming are communication and testing. Communication among the members 
-of the ITK community is what helps manage the rapid evolution of the
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal>Because ITK is an open-source project, developers from
+around the world can use, debug, maintain, and extend the software. ITK uses a
+model of software development referred to as <i style='mso-bidi-font-style:
+normal'>Extreme Programming</i>. Extreme Programming collapses the usual
+software creation methodology into a simultaneous and iterative</p>
+
+<p class=MsoNormal>process of design-implement-test-release. The key features
+of Extreme Programming are communication and testing. Communication among the
+members of the ITK community is what helps manage the rapid evolution of the
 software. Testing is what keeps the software stable. In ITK, an extensive
-testing process is in place that measures the quality on a daily basis.
+testing process is in place that measures the quality on a daily basis.</p>
 
-* Where are ITK's origins?
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
 
-In 1999 the US National Library of Medicine of the National Institutes of
-Health awarded a three-year contract to develop an open-source registration
-and segmentation toolkit, which eventually came to be known as the Insight
-Toolkit (ITK). ITK's NLM Project Manager was Dr. Terry Yoo, who coordinated
-the six prime contractors who made up the Insight consortium. These
-consortium members included the three commerical partners GE Corporate R&D,
-Kitware, Inc., and MathSoft; and the three academic partners University of
-North Carolina (UNC), University of Tennessee (UT), and University of
-Pennsylvania (UPenn). The Principle Investigators for these partners were,
-resptively, Bill Lorensen at GE CRD, Will Schroeder at Kitware, Vikram
+<h2><a name="_Toc501497173"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></a></h2>
+
+<h2><span style='mso-bookmark:_Toc501497173'>Where are ITK's origins?</span></h2>
+
+<p class=MsoNormal>In 1999 the US National Library of Medicine of the National
+Institutes ofHealth awarded a three-year contract to develop an open-source
+registration and segmentation toolkit, which eventually came to be known as the
+Insight Toolkit (ITK). ITK's NLM Project Manager was Dr. Terry Yoo, who
+coordinated</p>
+
+<p class=MsoNormal>the six prime contractors who made up the Insight
+consortium. These consortium members included the three commercial partners GE
+Corporate R&amp;D, Kitware, Inc., and MathSoft; and the three academic partners
+University of North Carolina (UNC), University of Tennessee (UT), and
+University of Pennsylvania (UPenn). The Principle Investigators for these partners
+were, respectively, Bill Lorensen at GE CRD, Will Schroeder at Kitware, Vikram
 Chalana at Mathsoft, Steve Aylward at UNC, Ross Whitaker at UT, and xxx at
-UPenn. In addition, several subcontractors rounded out the consortium
-including Peter Raitu at Brigham & Women's Hospital, Pat Molholt and Celina
-xxx at Columbia Univerity, Jim Gee at UPenn's Grasp Lab, and George Stetton
-at Univerity of Pittsburgh. (Note: Ross Whitaker subsequently moved to
-Univeristy of Utah in 2000.)
+UPenn. In addition, several subcontractors rounded out the consortium including
+Peter Raitu at Brigham &amp; Women's Hospital, Pat Molholt and Celina xxx at
+Columbia Univerity, Jim Gee at UPenn's Grasp Lab, and George Stetton at
+Univerity of Pittsburgh. (Note: Ross Whitaker subsequently moved to Univeristy
+of Utah in 2000.)</p>
 
-* Who are the developers?
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
 
-The best way to determine the names of developers is to view the CVS source
-code repository logs. Most of the early developers are listed in the
-following, however, many developers beyond those listed here will participate
-in the development of Insight as the code grows and becomes publically
-accessible.
+<h2><a name="_Toc501497174">Who are the developers?</a></h2>
 
-Some of the early developers include:
+<p class=MsoNormal>The best way to determine the names of developers is to view
+the CVS source code repository logs. Most of the early developers are listed in
+the following, however, many developers beyond those listed here will
+participate in the development of Insight as the code grows and becomes
+publicly accessible.</p>
 
-Steve Aylward - UNC; architecture, algorithms
-Dan Blezek - GE CRD; testing infrastructure
-Josh Cates - Utah; imaging classes and filters
-Bill Hoffman - Kitware; CMake (build process); vxl/vnl numerics; infrastructure (smart pointers, object factories, callback mechanism)
-Paul Hughett - ; quality, algorithms
-Luis Ibanez - UNC; imaging classes and filters
-Brad King - Kitware; Mesh class, autowrapping of C++ code
-Bill Lorensen - GE CRD; testing, requirements, architecture
-Ken Martin - Kitware; Build process, architecture, infrastructure
-Jim Miller - GR CRD; Image classes, iterators, pipeline update mechanism
-Lydia Ng - Mathsoft; Image filters, algorithms
-Will Schroeder - Kitware; Mesh classes, algorithms, core classes
-George Stetton - Pittsburgh; image filters, algorithms
-Ross Whitaker - Utah; architecture, algorithms
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
 
+<p class=MsoNormal>Some of the early developers include:</p>
 
-* How do I participate?
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
 
-Because ITK is an open-source system, you can participate. If you'd like to
-become involved, here are the following steps that you might consider.
-1. Read this document
-2. Obtain access to the CVS repository (read-only, anonymous access),
-   and obtain the distribution using the following procedure.
-3. Find the Insight/Documents/InsightStart.doc and read it thoroughly.
-4. As this document suggests, join the insight-developers list.
-5. Cntribute code or fix bugs by mailing code to the list or contacting 
-   a developer directly.
-6. Once you demonstrate your abilities, obtain read-write access to the
-   repository. Access can be obtained by contacting Bill Hoffman at
-   Kitware at 518-371-3971 x105 and leaving your desired account name
-   and account password.
+<p class=MsoNormal>Steve Aylward - UNC; architecture, algorithms</p>
 
-* What are the terms of use?
+<p class=MsoNormal>Dan Blezek - GE CRD; testing infrastructure</p>
 
-Because ITK was developed through US Government funding, it does not carry
-a copyright as many open-source systems do. Instead, it carries a no-cost
-license. The licence can be found at Insight/license.txt.
+<p class=MsoNormal>Josh Cates - Utah; imaging classes and filters</p>
 
-The important feature of the license is that it gives permission to use
-Insight for any purpose, including commercial purposes, with ....  There is a
-patented code found in the Insight/Code/Patented directory. If you use any of
-these code in commercial application, you must contact the patent holder to
-obtain permission.
+<p class=MsoNormal>Bill Hoffman - Kitware; CMake (build process); vxl/vnl
+numerics; infrastructure (smart pointers, object factories, callback mechanism)</p>
 
+<p class=MsoNormal>Paul Hughett - ; quality, algorithms</p>
 
-TECHNICAL SUMMARY
+<p class=MsoNormal>Luis Ibanez - UNC; imaging classes and filters</p>
 
-The following sections summarize the technical features of the
-NLM's Insight ITK toolkit.
+<p class=MsoNormal>Brad King - Kitware; Mesh class, autowrapping of C++ code</p>
 
-* Design Philosophy
-The following are key features of the toolkit design philosophy.
+<p class=MsoNormal>Bill Lorensen - GE CRD; testing, requirements, architecture</p>
 
-  * The toolkit provides data representation and algorithms for
-    performing segmentation and registration. The focus is on medical
-    applications; although the toolkit is capable of processing other
-    types.
+<p class=MsoNormal>Ken Martin - Kitware; Build process, architecture,
+infrastructure</p>
 
-  * The toolkit provides data representations in general form for images
-    (arbitrary dimension) and (unstructured) meshes.
+<p class=MsoNormal>Jim Miller - GR CRD; Image classes, iterators, pipeline
+update mechanism</p>
 
-  * The toolkit does not address visualization or graphical user interface.
-    These are left to other toolkits (such as VTK, VisPack, MetaImage, etc.)
+<p class=MsoNormal>Lydia Ng - Mathsoft; Image filters, algorithms</p>
 
-  * The toolkit provides minimal tools for file interface. Again, this is
-    left to other toolkits/libraries to provide.
+<p class=MsoNormal>Will Schroeder - Kitware; Mesh classes, documentation,
+algorithms, core classes</p>
 
-  * Multi-threaded (shared memory) parallel processing is supported.
+<p class=MsoNormal>George Stetton - Pittsburgh; image filters, algorithms</p>
 
-  * The development of the toolkit is based on principles of extreme
-    programming. That is, design, implementation, and testing is
-    performed in a rapid, iterative process. Testing forms the core
-    of this process. In Insight, testing is performed continuously
-    as files are checked in, and every night across multiple platforms
-    and compilers.
+<p class=MsoNormal>Ross Whitaker - Utah; architecture, algorithms</p>
 
-* Architecture 
-The following are key features of the toolkit architecture.
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
 
-  * The toolkit is organized around a data-flow architecture. That is,
-    data is represented using data objects which are in turn processed
-    by process objects (filters). Data objects and process objects are
-    connected together into pipelines. Pipelines are capable of
-    processing the data in pieces according to a user-specified memory
-    limit set on the pipeline.
+<h2><a name="_Toc501497175">How do I participate?</a></h2>
 
-  * Object factories are used to instantiate objects. Factories allow
-    run-time extension of the system.
+<p class=MsoNormal>Because ITK is an open-source system, you can participate.
+If you'd like to become involved, here are the following steps that you might
+consider. </p>
 
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
 
-* Implementation Philosophy
-The following are key features of the toolkit implementation philosophy.
+<p class=MsoNormal style='margin-left:.25in;text-indent:-.25in;mso-list:l4 level1 lfo1;
+tab-stops:list .25in'><![if !supportLists]>1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><![endif]>Read this document</p>
 
-  * The toolkit is implemented using generic programming
-    principles. Such heavily templated C++ code challenges many
-    compilers; hence development was carried out with the latest
-    versions of the MSVC, Sun, gcc, and SGI compilers.
+<p class=MsoNormal style='margin-left:.25in;text-indent:-.25in;mso-list:l4 level1 lfo1;
+tab-stops:list .25in'><![if !supportLists]>2.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><![endif]>Obtain access to the CVS repository (read-only, anonymous
+access),<span style="mso-spacerun: yes">  </span>and obtain the distribution
+using the following procedure (see instructions in <i style='mso-bidi-font-style:
+normal'>For More Information</i> at the end of document).</p>
 
-  * The toolkit is cross-platform (Unix and Windows).
+<p class=MsoNormal style='margin-left:.25in;text-indent:-.25in;mso-list:l4 level1 lfo1;
+tab-stops:list .25in'><![if !supportLists]>3.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><![endif]>Find the Insight/Documents/InsightStart.doc and read it
+thoroughly.</p>
 
-  * The toolkit supports multiple language bindings, including
-    such languages as Tcl, Python, and Java. These bindings are generated
-    automatically using an auto-wrap process.
+<p class=MsoNormal style='margin-left:.25in;text-indent:-.25in;mso-list:l4 level1 lfo1;
+tab-stops:list .25in'><![if !supportLists]>4.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><![endif]>As this document suggests, join the insight-developers list.</p>
 
-  * The memory model depends on "smart pointers" that maintain a
-    reference count to objects. Smart pointers can be allocated on the
-    stack, and when scope is exited, the smart pointers disappear and
-    decrement their reference count to the object that they refer to.
+<p class=MsoNormal style='margin-left:.25in;text-indent:-.25in;mso-list:l4 level1 lfo1;
+tab-stops:list .25in'><![if !supportLists]>5.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><![endif]>Contribute code or fix bugs by mailing code to the list or
+contacting a developer directly.</p>
 
-* Build Environment
+<p class=MsoNormal style='margin-left:.25in;text-indent:-.25in;mso-list:l4 level1 lfo1;
+tab-stops:list .25in'><![if !supportLists]>6.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><![endif]>Once you demonstrate your abilities, obtain read-write access
+to the<span style="mso-spacerun: yes">  </span>repository. Access can be
+obtained by contacting Bill Hoffman at Kitware at 518-371-3971 x105 and leaving
+your desired account name and account password.</p>
 
-Insight uses the CMake (cross-platform make) build environment. CMake
-uses configure and make on Unix and generates projects and workspaces
-in the windows environment.
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
 
+<h2><a name="_Toc501497176">What are the term</a><span style='mso-bookmark:
+_Toc501497176'><span style='font-weight:normal'>s</span> of use?</span></h2>
 
-FURTHER INFORMATION
-The following information is available from the Insight CVS repository.
+<p class=MsoNormal>Because ITK was developed through US Government funding, it
+does not carry a copyright as many open-source systems do. Instead, it carries
+a no-cost license. The licence can be found at Insight/license.txt.</p>
 
-(To download Insight using CVS, use the following steps.
-cvs -d :pserver:anonymous@public.kitware.com:/insight/cvsroot login
-with password "insight"...then get the source/documentation as follows:
-cvs -d :pserver:anonymous@public.kitware.com:/insight/cvsroot checkout Insight
-)
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
 
-Once you have done this, look for the following documents:
-* Insight/Documents/InsightStart.doc|.pdf (Word/PDF)
-  The basics of working with CVS, obtaining the source code repository,
-  and compiling Insight.
-* Additional Documentation (all found in the directory Insight/Documents)
-  - CMake (CMake.doc|.pdf (Word/PDF)
-  - Requirements (Requirements.doc|.pdf)
-  - Style Guide (a must read for coders) (Style.ppt|.pdf)
-* Contacts
-  Terry Yoo (NLM/NIH Insight Project Manager 
-  Bill Lorensen (PI GE CRD lorensen@crd.ge.com)
-  Will Schroeder (PI Kitware, Inc. will.schroeder@kitware.com)
-  Steve Aylward (PI UNC )
-  Ross Whitaker (PI Utah )
-  Vikram Chalana (PI Mathsoft )
-  Dimitri Metaxes (PI UPenn )
+<p class=MsoNormal>The important feature of the license is that it gives permission
+to use Insight for any purpose, including commercial purposes, with ....<span
+style="mso-spacerun: yes">  </span>There is a patented code found in the
+Insight/Code/Patented directory. If you use any of these code in commercial
+application, you must contact the patent holder to obtain permission.</p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<h1><a name="_Toc501497177">TECHNICAL SUMMARY</a></h1>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal>The following sections summarize the technical features of
+the NLM's Insight ITK toolkit.</p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<h2><a name="_Toc501497178">Design Philosophy</a></h2>
+
+<p class=MsoNormal>The following are key features of the toolkit design
+philosophy.</p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal style='margin-left:22.5pt;text-indent:-.25in;mso-list:l8 level1 lfo4;
+tab-stops:list 22.5pt'><![if !supportLists]><span style='font-family:Symbol'>·<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]>The toolkit provides data representation and algorithms
+for performing segmentation and registration. The focus is on medical
+applications; although the toolkit is capable of processing other types.</p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal style='margin-left:22.5pt;text-indent:-.25in;mso-list:l8 level1 lfo4;
+tab-stops:list 22.5pt'><![if !supportLists]><span style='font-family:Symbol'>·<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]>The toolkit provides data representations in general
+form for images (arbitrary dimension) and (unstructured) meshes.</p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal style='margin-left:22.5pt;text-indent:-.25in;mso-list:l8 level1 lfo4;
+tab-stops:list 22.5pt'><![if !supportLists]><span style='font-family:Symbol'>·<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]>The toolkit does not address visualization or graphical
+user interface. These are left to other toolkits (such as VTK, VisPack,
+MetaImage, etc.)</p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal style='margin-left:22.5pt;text-indent:-.25in;mso-list:l1 level1 lfo7;
+tab-stops:list 22.5pt'><![if !supportLists]><span style='font-family:Symbol'>·<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]>The toolkit provides minimal tools for file interface.
+Again, this is left to other toolkits/libraries to provide.</p>
+
+<p class=MsoNormal style='margin-left:4.5pt'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal style='margin-left:22.5pt;text-indent:-.25in;mso-list:l1 level1 lfo7;
+tab-stops:list 22.5pt'><![if !supportLists]><span style='font-family:Symbol'>·<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]>Multi-threaded (shared memory) parallel processing is
+supported.</p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal style='margin-left:22.5pt;text-indent:-.25in;mso-list:l1 level1 lfo7;
+tab-stops:list 22.5pt'><![if !supportLists]><span style='font-family:Symbol'>·<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]>The development of the toolkit is based on principles
+of extreme programming. That is, design, implementation, and testing is
+performed in a rapid, iterative process. Testing forms the core of this
+process. In Insight, testing is performed continuously as files are checked in,
+and every night across multiple platforms and compilers.</p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<h2><a name="_Toc501497179">Architecture</a> </h2>
+
+<p class=MsoNormal>The following are key features of the toolkit architecture.</p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal style='margin-left:22.5pt;text-indent:-.25in;mso-list:l14 level1 lfo9;
+tab-stops:list 22.5pt'><![if !supportLists]><span style='font-family:Symbol'>·<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]>The toolkit is organized around a data-flow
+architecture. That is, data is represented using data objects which are in turn
+processed by process objects (filters). Data objects and process objects are
+connected together into pipelines. Pipelines are capable of processing the data
+in pieces according to a user-specified memory limit set on the pipeline.</p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal style='margin-left:22.5pt;text-indent:-.25in;mso-list:l11 level1 lfo10;
+tab-stops:list 22.5pt'><![if !supportLists]><span style='font-family:Symbol'>·<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]>Object factories are used to instantiate objects.
+Factories allow run-time extension of the system.</p>
+
+<p class=MsoNormal style='text-indent:4.5pt'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<h2><a name="_Toc501497180">Implementation Philosophy</a></h2>
+
+<p class=MsoNormal>The following are key features of the toolkit implementation
+philosophy.</p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal style='margin-left:22.5pt;text-indent:-.25in;mso-list:l18 level1 lfo11;
+tab-stops:list 22.5pt'><![if !supportLists]><span style='font-family:Symbol'>·<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]>The toolkit is implemented using generic programming
+principles. Such heavily templated C++ code challenges many compilers; hence
+development was carried out with the latest<span style="mso-spacerun: yes">    
+</span>versions of the MSVC, Sun, gcc, and SGI compilers.</p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal style='margin-left:22.5pt;text-indent:-.25in;mso-list:l19 level1 lfo12;
+tab-stops:list 22.5pt'><![if !supportLists]><span style='font-family:Symbol'>·<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]>The toolkit is cross-platform (Unix and Windows).</p>
+
+<p class=MsoNormal style='text-indent:4.5pt'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal style='margin-left:22.5pt;text-indent:-.25in;mso-list:l3 level1 lfo13;
+tab-stops:list 22.5pt'><![if !supportLists]><span style='font-family:Symbol'>·<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]>The toolkit supports multiple language bindings,
+including such languages as Tcl, Python, and Java. These bindings are generated
+automatically using an auto-wrap process.</p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal style='margin-left:22.5pt;text-indent:-.25in;mso-list:l5 level1 lfo14;
+tab-stops:list 22.5pt'><![if !supportLists]><span style='font-family:Symbol'>·<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]>The memory model depends on &quot;smart pointers&quot;
+that maintain a reference count to objects. Smart pointers can be allocated on
+the stack, and when scope is exited, the smart pointers disappear and decrement
+their reference count to the object that they refer to.</p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<h2><a name="_Toc501497181">Build Environment</a></h2>
+
+<p class=MsoNormal>Insight uses the CMake (cross-platform make) build
+environment. CMake uses configure and make on Unix and generates projects and
+workspaces in the windows environment.</p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<h1><a name="_Toc501497182">FURTHER INFORMATION</a></h1>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal>The following information is available from the Insight CVS
+repository.</p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal>( To download Insight using CVS, use the following steps.</p>
+
+<p class=MsoNormal>cvs -d
+:pserver:anonymous@public.kitware.com:/insight/cvsroot login</p>
+
+<p class=MsoNormal>with password &quot;insight&quot;...then get the
+source/documentation as follows:</p>
+
+<p class=MsoNormal>cvs -d :pserver:anonymous@public.kitware.com:/insight/cvsroot
+checkout Insight )</p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal>Once you have done this, look for the following documents:</p>
+
+<p class=MsoNormal style='margin-left:22.5pt;text-indent:-.25in;mso-list:l12 level1 lfo15;
+tab-stops:list 22.5pt'><![if !supportLists]><span style='font-family:Symbol'>·<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]>Insight/Documents/InsightStart.doc|.pdf (Word/PDF)<br>
+The basics of working with CVS, obtaining the source code repository, and
+compiling Insight.</p>
+
+<p class=MsoNormal style='margin-left:22.5pt;text-indent:-.25in;mso-list:l17 level1 lfo16;
+tab-stops:list 22.5pt'><![if !supportLists]><span style='font-family:Symbol'>·<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]>Additional Documentation (all found in the directory
+Insight/Documents)</p>
+
+<p class=MsoNormal style='margin-left:40.5pt;text-indent:-.25in;mso-list:l21 level1 lfo18;
+tab-stops:list 40.5pt'><![if !supportLists]>-<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><![endif]>CMake (CMake.doc|.pdf (Word/PDF)</p>
+
+<p class=MsoNormal style='margin-left:40.5pt;text-indent:-.25in;mso-list:l21 level1 lfo18;
+tab-stops:list 40.5pt'><![if !supportLists]>-<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><![endif]>Requirements (Requirements.doc|.pdf)</p>
+
+<p class=MsoNormal style='margin-left:40.5pt;text-indent:-.25in;mso-list:l21 level1 lfo18;
+tab-stops:list 40.5pt'><![if !supportLists]>-<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><![endif]>Style Guide (a must read for coders) (Style.ppt|.pdf)</p>
+
+<p class=MsoNormal style='margin-left:22.5pt;text-indent:-.25in;mso-list:l17 level1 lfo16;
+tab-stops:list 22.5pt'><![if !supportLists]><span style='font-family:Symbol'>·<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]>Contacts</p>
+
+<p class=MsoNormal style='margin-left:22.5pt;text-indent:-.25in;mso-list:l21 level1 lfo18;
+tab-stops:list 22.5pt'><![if !supportLists]>-<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><![endif]>Terry Yoo (NLM/NIH Insight Project Manager <span
+class=eudoraheader>yoo@fluorite.nlm.nih.gov)</span></p>
+
+<p class=MsoNormal style='margin-left:22.5pt;text-indent:-.25in;mso-list:l21 level1 lfo18;
+tab-stops:list .25in'><![if !supportLists]>-<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><![endif]>Bill Lorensen (PI GE CRD <a href="mailto:lorensen@crd.ge.com">lorensen@crd.ge.com</a>)</p>
+
+<p class=MsoNormal style='margin-left:22.5pt;text-indent:-.25in;mso-list:l21 level1 lfo18;
+tab-stops:list .25in'><![if !supportLists]>-<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><![endif]>Will Schroeder (PI Kitware, Inc. <a
+href="mailto:will.schroeder@kitware.com">will.schroeder@kitware.com</a>)</p>
+
+<p class=MsoNormal style='margin-left:22.5pt;text-indent:-.25in;mso-list:l21 level1 lfo18;
+tab-stops:list .25in'><![if !supportLists]>-<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><![endif]>Steve Aylward (PI UNC <a href="mailto:aylward@unc.edu">aylward@unc.edu</a>)</p>
+
+<p class=MsoNormal style='margin-left:22.5pt;text-indent:-.25in;mso-list:l21 level1 lfo18;
+tab-stops:list .25in'><![if !supportLists]>-<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><![endif]>Ross Whitaker (PI Utah <a href="mailto:whitaker@cs.utah.edu">whitaker@cs.utah.edu</a>)</p>
+
+<p class=MsoNormal style='margin-left:22.5pt;text-indent:-.25in;mso-list:l21 level1 lfo18;
+tab-stops:list .25in'><![if !supportLists]>-<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><![endif]>Vikram Chalana (PI Mathsoft <a href="mailto:vikram@statsci.com">vikram@statsci.com</a>)</p>
+
+<p class=MsoNormal style='margin-left:22.5pt;text-indent:-.25in;mso-list:l21 level1 lfo18;
+tab-stops:list .25in'><![if !supportLists]>-<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><![endif]>Dimitri Metaxes (PI UPenn <a
+href="mailto:dnm@central.cis.upenn.edu">dnm@central.cis.upenn.edu</a>)</p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+</div>
+
+</body>
+
+</html>
