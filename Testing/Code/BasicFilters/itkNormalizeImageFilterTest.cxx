@@ -52,22 +52,25 @@ int itkNormalizeImageFilterTest(int, char**)
   FilterWatcher watch(normalize);
 
   normalize->SetInput(source->GetOutput());
-  normalize->UpdateLargestPossibleRegion();
 
   typedef itk::StreamingImageFilter<FloatImage,FloatImage> StreamingType;
   StreamingType::Pointer streaming = StreamingType::New();
   
-  streaming->SetNumberOfStreamDivisions(10);
+  streaming->SetNumberOfStreamDivisions(5);
   streaming->SetInput (normalize->GetOutput());
   streaming->Update();
-#if 0
+
+  // Force the filter to re-execute
+  source->Modified();
+  
   typedef itk::StatisticsImageFilter<FloatImage> StatisticsType;
   StatisticsType::Pointer statistics = StatisticsType::New();
 
-  statistics->SetInput(normalize->GetOutput());
+  statistics->SetInput(streaming->GetOutput());
   statistics->UpdateLargestPossibleRegion();
 
   std::cout << "Mean is: " << statistics->GetMean() << " Sigma is: " << statistics->GetSigma() << std::endl;
-#endif
+
+
   return 0;
 }
