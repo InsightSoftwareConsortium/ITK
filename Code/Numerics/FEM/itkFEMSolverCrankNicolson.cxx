@@ -98,6 +98,8 @@ std::cout << "Begin Assembly." << std::endl;
     (*e)->GetMassMatrix(Me);  /*Copy the element mass matrix for faster access. */
     int Ne=(*e)->GetNumberOfDegreesOfFreedom();          /*... same for element DOF */
 
+    Me=Me*m_rho;
+
     /* step over all rows in in element matrix */
     for(int j=0; j<Ne; j++)
     {
@@ -193,7 +195,7 @@ void  SolverCrankNicolson::RecomputeForceVector(unsigned int index)
   Float ft   = m_ls->GetVectorValue(index,ForceTIndex);
   Float ftm1 = m_ls->GetVectorValue(index,ForceTMinus1Index);
   Float utm1 = m_ls->GetVectorValue(index,DiffMatrixBySolutionTMinus1Index);
-  m_ls->SetVectorValue(index , m_deltaT*(m_alpha*ftm1+(1.-m_alpha)*ft)+utm1 , ForceTIndex);
+  m_ls->SetVectorValue(index , m_deltaT*(m_alpha*ft+(1.-m_alpha)*ftm1)+utm1 , ForceTIndex);
   m_ls->SetVectorValue(index ,ft,ForceTMinus1Index); // now set t minus one force vector correctly
 }
 
@@ -227,16 +229,17 @@ void SolverCrankNicolson::AddToDisplacements(Float optimum)
   for(unsigned int i=0;i<NGFN;i++)
   {  
     
-    Float temp=m_ls->GetSolutionValue(i,SolutionTIndex);
-    if (temp < mins2 )  mins2=temp;
-    else if (temp > maxs2 )  maxs2=temp;
-//  note: set rather than add - i.e. last solution of system not total solution
-    m_ls->SetVectorValue(i,m_ls->GetSolutionValue(i,SolutionTIndex),SolutionTMinus1Index);    
-    m_ls->AddSolutionValue(i,optimum*m_ls->GetSolutionValue(i,SolutionTIndex),TotalSolutionIndex);
+    Float CurrentSolution=optimum*m_ls->GetSolutionValue(i,SolutionTIndex);
+    if (CurrentSolution < mins2 )  mins2=CurrentSolution;
+    else if (CurrentSolution > maxs2 )  maxs2=CurrentSolution;
+//  note: set rather than add - i.e. last solution of system not total solution  
+    m_ls->SetVectorValue(i,CurrentSolution,SolutionTMinus1Index);  
+    m_ls->AddSolutionValue(i,CurrentSolution,TotalSolutionIndex);
+//    m_ls->SetVectorValue(i,m_ls->GetSolutionValue(i,TotalSolutionIndex),SolutionTMinus1Index);  
     
-    temp=m_ls->GetSolutionValue(i,TotalSolutionIndex);
-    if (temp < mins )  mins=temp;
-    else if (temp > maxs )  maxs=temp;
+    CurrentSolution=m_ls->GetSolutionValue(i,TotalSolutionIndex);
+    if (CurrentSolution < mins )  mins=CurrentSolution;
+    else if (CurrentSolution > maxs )  maxs=CurrentSolution;
   }  
   
   std::cout << " min cur solution val " << mins2 << std::endl;
@@ -244,6 +247,37 @@ void SolverCrankNicolson::AddToDisplacements(Float optimum)
   std::cout << " min tot solution val " << mins << std::endl;
   std::cout << " max tot solution val " << maxs << std::endl;
 
+}
+
+
+/*
+ * Copy solution vector u to the corresponding nodal values, which are
+ * stored in node objects). This is standard post processing of the solution.
+ */  
+void SolverCrankNicolson::AverageLastTwoDisplacements(Float t) 
+{
+ 
+  Float maxs=0.0;
+  for(unsigned int i=0;i<NGFN;i++)
+  {  
+    Float temp=m_ls->GetSolutionValue(i,SolutionTIndex);
+    Float temp2=m_ls->GetVectorValue(i,SolutionTMinus1Index);
+    Float newsol=t*(temp)+(1.-t)*temp2;
+    m_ls->SetVectorValue(i,newsol,SolutionTMinus1Index);  
+    m_ls->SetSolutionValue(i,newsol,SolutionTIndex);    
+    if ( newsol > maxs )  maxs=newsol;
+  }  
+  
+  std::cout << " max cur solution val " << maxs << std::endl;
+ 
+}
+
+void SolverCrankNicolson::ZeroVector(int which) 
+{
+  for(unsigned int i=0;i<NGFN;i++)
+  {  
+    m_ls->SetVectorValue(i,which,0.0);
+  }
 }
 
 void SolverCrankNicolson::PrintDisplacements() 

@@ -89,12 +89,17 @@ public:
    * stored in node objects). This is standard post processing of the solution
    */
   void AddToDisplacements(Float optimum=1.0);
+  void AverageLastTwoDisplacements(Float t=0.5);
+  void ZeroVector(int which=0);
   void PrintDisplacements(); 
   void PrintForce();
   
   inline int GetNGFN() { return NGFN; }
 
-  /** Set time step for the solution.  */
+  /** Set stability step for the solution.  */
+  inline void SetAlpha(Float a = 0.5) { m_alpha=a; }
+
+  /** Set time step for the solution. Should be 1/2. */
   inline void SetDeltatT(Float T) { m_deltaT=T; }
 
   /** Set density constant.  */
@@ -113,7 +118,9 @@ public:
    */
   SolverCrankNicolson() 
   { 
-    m_deltaT=0.5; m_rho=1.; m_alpha=0.5;
+    m_deltaT=0.5; 
+    m_rho=1.; 
+    m_alpha=0.5;
     // BUG FIXME NOT SURE IF SOLVER IS USING VECTOR INDEX 1 FOR BCs
     ForceTIndex=0;                        // vector
     ForceTMinus1Index=2;                  // vector
