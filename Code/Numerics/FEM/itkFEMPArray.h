@@ -146,21 +146,35 @@ template<class T>
 typename FEMPArray<T>::ClassTypeConstPointer FEMPArray<T>::Find(int gn) const
 {
 
-  typename Superclass::const_iterator i;
+  typedef typename Superclass::const_iterator ConstIterator;
+  typedef typename Superclass::value_type     ValueType;
 
-  if( gn<0 ||
-      gn>=(int)size() ||
-      ( *( i=static_cast<typename Superclass::const_iterator>(&this->operator[](gn)) ) )->GN!=gn )
-  {
-    for(i=begin(); i!=end() && (*i)->GN!=gn; i++);
-    if(i==end())
+  const ValueType & value = this->operator[](gn);
+
+  ConstIterator it   = this->begin(); 
+
+  if( gn <   0 ||
+      gn >= (int)size() ||
+      value->GN != gn )
     {
+    ConstIterator iend = this->end();
+    while( it != iend )
+      {
+      if( (*it)->GN == gn )
+        {
+        break;
+        }
+      it++;
+      }  
+
+    if( it == this->end() )
+      {
       throw FEMExceptionObjectNotFound(__FILE__,__LINE__,"FEMPArray::Find() const",typeid(T).name(),gn);
+      }
+
     }
 
-  }
-
-  return &(*(*i));
+  return &(*(*it));
 
 }
 
