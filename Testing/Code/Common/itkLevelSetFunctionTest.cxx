@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkLevelSet2DFunctionTest.cxx
+  Module:    itkLevelSetFunctionTest.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -16,15 +16,13 @@
 =========================================================================*/
 #include "itkImageRegionIterator.h"
 #include "itkLevelSetFunction.h"
-#include "itkLevelSet2DFunction.h"
 #include "itkDenseFiniteDifferenceImageFilter.h"
-//#include "itkRawImageWriter.h"
 
 /*
  * This test exercises the dense p.d.e. solver framework
  * itkDenseFiniteDifferenceImageFilter and the two-dimensional level
  * set surface modeling function object.  It shows how to subclass
- * the DenseFiniteDifferenceImageFilter and the LevelSet2DFunction to
+ * the DenseFiniteDifferenceImageFilter and the LevelSetFunction to
  * create a very simple level set surface evolution application.
  * 
  * This application morphs a circle to a square using the level-set surface
@@ -82,11 +80,11 @@ namespace itk {
 
 /**
  * \class MorphFunction
- * Subclasses LevelSet2DFunction, supplying the ``PropagationSpeed'' term.
+ * Subclasses LevelSetFunction, supplying the ``PropagationSpeed'' term.
  * 
  * See LevelSetFunction for more information.
  */
-class MorphFunction : public LevelSet2DFunction< Image<float, 2> >
+class MorphFunction : public LevelSetFunction< Image<float, 2> >
 {
 public:
   void SetDistanceTransform (Image<float, 2> *d)
@@ -94,7 +92,7 @@ public:
   
   typedef MorphFunction Self;
 
-  typedef LevelSet2DFunction< Image<float, 2> > Superclass;
+  typedef LevelSetFunction< Image<float, 2> > Superclass;
   typedef Superclass::RadiusType RadiusType;
   
    /** 
@@ -106,7 +104,7 @@ public:
   /**
    * Run-time type information (and related methods)
    */
-  itkTypeMacro( MorphFunction, LevelSet2DFunction );
+  itkTypeMacro( MorphFunction, LevelSetFunction );
   
   /**
    * Method for creation through the object factory.
@@ -160,7 +158,7 @@ public:
   /**
    * Run-time type information (and related methods)
    */
-  itkTypeMacro( MorphFunction, LevelSet2DFunction );
+  itkTypeMacro( MorphFunction, LevelSetFunction );
   
   /**
    * Method for creation through the object factory.
@@ -200,7 +198,7 @@ private:
 };
 
 } // end namespace itk
-int itkLevelSet2DFunctionTest(int, char**)
+int itkLevelSetFunctionTest(int, char**)
 {
   typedef itk::Image<float, 2> ImageType;
   
@@ -238,35 +236,13 @@ int itkLevelSet2DFunctionTest(int, char**)
     itr.Value() = itr.Value() /vnl_math_sqrt((5.0f +vnl_math_sqr(itr.Value())));
   
   }
-
-// Uncomment the following lines to see the input and target images
-
-//  itk::RawImageWriter<ImageType>::Pointer writer
-//    = itk::RawImageWriter<ImageType>::New();
-//  writer->SetFileName("im_target.raw");
-//  writer->SetInput(im_target);
-//  writer->Write();
-
-//  writer->SetFileName("im_init.raw");
-//  writer->SetInput(im_init);
-//  writer->Write();
  
   itk::MorphFilter::Pointer mf = itk::MorphFilter::New();
   mf->SetDistanceTransform(im_target);
   mf->SetIterations(n);
   mf->SetInput(im_init);
 
-// Uncomment the following line to set up for multi-processing.
-  //  mf->SetNumberOfThreads(2);
-
- mf->Update();
-
-// Uncomment the following lines to see the output image
-//  writer->SetFileName("final.raw");
-//  writer->SetInput(mf->GetOutput());
-//  writer->Write();
-
+  mf->Update();
 
  return 0;
-  
 }

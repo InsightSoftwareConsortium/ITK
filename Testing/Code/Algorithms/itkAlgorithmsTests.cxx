@@ -35,7 +35,6 @@ REGISTER_TEST(itkImageRegistrationMethodTest_14);
 REGISTER_TEST(itkInterpolateTest );
 REGISTER_TEST(itkKalmanLinearEstimatorTest );
 REGISTER_TEST(itkKmeansModelEstimatorTest );
-REGISTER_TEST(itkLevelSet2DFunctionTest );
 REGISTER_TEST(itkLevelSetShapeDetectionTest );
 REGISTER_TEST(itkMeanSquaresImageMetricTest );
 REGISTER_TEST(itkMinimumMaximumImageCalculatorTest );

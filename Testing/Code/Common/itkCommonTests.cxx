@@ -36,6 +36,7 @@ REGISTER_TEST(itkImageRegionExclusionIteratorWithIndexTest );
 REGISTER_TEST(itkImageSliceIteratorTest );
 REGISTER_TEST(itkIteratorTests );
 REGISTER_TEST(itkLightObjectTest );
+REGISTER_TEST(itkLevelSetFunctionTest );
 REGISTER_TEST(itkMatrixTest );
 REGISTER_TEST(itkMapContainerTest );
 REGISTER_TEST(itkMemoryLeakTest );
