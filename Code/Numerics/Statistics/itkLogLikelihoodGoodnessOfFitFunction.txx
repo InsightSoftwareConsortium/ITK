@@ -38,10 +38,6 @@ LogLikelihoodGoodnessOfFitFunction< TInputHistogram >
   TInputHistogram* observedHistogram = this->GetObservedHistogram() ;
   TInputHistogram* expectedHistogram = this->GetExpectedHistogram() ;
 
-  float totalObservedFrequency = observedHistogram->GetTotalFrequency(0) ;
-
-  int numberOfBins = observedHistogram->GetSize()[0] ;
-  
   float p, px, sum = 0.0f ;
   double ratio = 0.0 ;
   typename TInputHistogram::Iterator e_iter = expectedHistogram->Begin() ;
