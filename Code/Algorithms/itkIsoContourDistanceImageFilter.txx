@@ -136,10 +136,44 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>
 
    if( m_NarrowBanding )
      {
-     this->m_NarrowBandRegion = this->m_NarrowBand->SplitBand(this->GetNumberOfThreads());
+     // Split the narrow band into sections, one section for each thread
+     this->m_NarrowBandRegion
+       = this->m_NarrowBand->SplitBand(this->GetNumberOfThreads());
+
+     // Build a valid output for the narrow band case.
+     typedef typename InputImageType::ConstPointer ImageConstPointer;
+     typedef typename OutputImageType::Pointer OutputPointer;
+     ImageConstPointer inputPtr = this->GetInput();
+     OutputPointer outputPtr = this->GetOutput();
+     
+     typedef ImageRegionConstIterator<InputImageType> ConstIteratorType;
+     typedef ImageRegionIterator<OutputImageType> IteratorType;
+     ConstIteratorType inIt (inputPtr,
+                             outputPtr->GetRequestedRegion());
+     IteratorType outIt (outputPtr,
+                         outputPtr->GetRequestedRegion()); 
+     
+     while(!inIt.IsAtEnd())
+       {
+       if(inIt.Get() > m_LevelSetValue)
+         {
+         outIt.Set(+m_FarValue);
+         }
+       else
+         {
+         if (inIt.Get() < m_LevelSetValue)
+           {
+           outIt.Set(-m_FarValue);
+           }
+         else
+           {
+           outIt.Set(NumericTraits<PixelType>::Zero);
+           }
+         }
+       ++inIt;
+       ++outIt;
+       }
      }
-
-
 }
 
 //----------------------------------------------------------------------------
@@ -426,9 +460,9 @@ IsoContourDistanceImageFilter<TInputImage,TOutputImage>
      stride[n]=inNeigIt.GetStride(n);
      }
   center = inNeigIt.Size() / 2;  
-   
+
   for ( ; bandIt != bandEnd ; bandIt++)
-     {
+    {
      inNeigIt.SetLocation(bandIt->m_Index);
      outNeigIt.SetLocation(bandIt->m_Index);
      
@@ -500,9 +534,6 @@ IsoContourDistanceImageFilter<TInputImage,TOutputImage>
          } // end if (sign != sign_neigh)
        } //end for n       
    } //Band iteratior
-
-
-
 }
 
  
