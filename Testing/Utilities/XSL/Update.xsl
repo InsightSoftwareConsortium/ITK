@@ -62,7 +62,7 @@
       dbAdd (true, "Conflicting files  (<xsl:value-of select="count(/Update/Directory/Conflicting)"/>)", "", 0, "", 1)
       <xsl:for-each select="Directory">
         <xsl:sort select="Name"/>
-        <xsl:if test="count(Updated)">
+        <xsl:if test="count(Conflicting)">
           dbAdd (true, "<b><xsl:value-of select="Name"/> (<xsl:value-of select="count(Conflicting)"/>)</b>", "", 1, "", 1)
           <xsl:for-each select="Conflicting">
             <xsl:sort select="Name"/>
@@ -85,7 +85,16 @@
   <xsl:template name="dbAdd">
     <xsl:param name="Level">1</xsl:param>
     <xsl:variable name="Level2"><xsl:value-of select="$Level + 1"/></xsl:variable>
-    dbAdd (true, "<xsl:value-of select="File"/> by <xsl:value-of select="Author"/>", "<xsl:value-of select="$CVSWebURL"/><xsl:value-of select="FullName"/>.diff?r1=<xsl:value-of select="PriorRevision"/>&amp;r2=<xsl:value-of select="Revision"/>", <xsl:value-of select="$Level"/>, "", 1)
+
+    <xsl:choose>
+      <xsl:when test="PriorRevision = Revision">
+        dbAdd (true, "<xsl:value-of select="File"/> Rev: <xsl:value-of select="Revision"/> by <xsl:value-of select="Author"/>", "<xsl:value-of select="$CVSWebURL"/><xsl:value-of select="FullName"/>?rev=<xsl:value-of select="Revision"/>&amp;content-type=text/x-cvsweb-markup", <xsl:value-of select="$Level"/>, "", 1)
+      </xsl:when>
+      <xsl:otherwise>
+        dbAdd (true, "<xsl:value-of select="File"/> Rev: <xsl:value-of select="Revision"/> by <xsl:value-of select="Author"/>", "<xsl:value-of select="$CVSWebURL"/><xsl:value-of select="FullName"/>.diff?r1=<xsl:value-of select="PriorRevision"/>&amp;r2=<xsl:value-of select="Revision"/>", <xsl:value-of select="$Level"/>, "", 1)
+      </xsl:otherwise>
+    </xsl:choose>
+
     dbAdd ( false, "<xsl:value-of select="normalize-space ( Log )"/>", "", <xsl:value-of select="$Level2"/>, "", 0 )
   </xsl:template>
 
