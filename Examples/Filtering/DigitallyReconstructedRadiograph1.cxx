@@ -85,12 +85,12 @@ void usage()
 
 
 
-int main( int argc, char ** argv )
+int main( int argc, char *argv[] )
 {
   char *input_name = NULL;
   char *output_name = NULL;
 
-  bool ok = false;
+  bool ok;
   bool verbose = false;
 
   float rx = 0.;
