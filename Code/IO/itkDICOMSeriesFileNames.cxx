@@ -66,7 +66,7 @@ DICOMSeriesFileNames
   for (unsigned long i = 0; i < dicomDir.GetNumberOfFiles(); i++)
     {
     // Only read files
-    if (itksys::SystemTools::FileIsDirectory(dicomDir.GetFile(i)))
+    if (itksys::SystemTools::FileIsDirectory( (m_Directory + "/" + dicomDir.GetFile(i)).c_str() ))
       {
       continue;
       }

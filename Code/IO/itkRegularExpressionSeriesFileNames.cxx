@@ -81,7 +81,7 @@ RegularExpressionSeriesFileNames
   for (unsigned long i = 0; i < fileDir.GetNumberOfFiles(); i++)
     {
     // Only read files
-    if (itksys::SystemTools::FileIsDirectory(fileDir.GetFile(i)))
+    if (itksys::SystemTools::FileIsDirectory( (m_Directory + "/" + fileDir.GetFile(i)).c_str() ))
       {
       continue;
       }
