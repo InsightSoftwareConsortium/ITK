@@ -146,8 +146,6 @@ public:
     typedef typename Superclass::InputPointType    InputPointType;
     typedef typename Superclass::OutputPointType   OutputPointType;
 
-    /// Standard vnl_quaternion type
-    typedef vnl_quaternion<TScalarType>           VnlQuaternionType;
 
     /**
      * Get offset of an QuaternionRigidTransform
