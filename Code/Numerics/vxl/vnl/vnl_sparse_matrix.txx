@@ -220,7 +220,7 @@ void vnl_sparse_matrix<T>::mult(unsigned int prows, unsigned int pcols,
 template <class T>
 void vnl_sparse_matrix<T>::mult(const vnl_vector<T>& rhs, vnl_vector<T>& result) const
 {
-  assert(rhs.size() == (int)columns());
+  assert(rhs.size() == columns());
   
   vnl_vector<T> tmp( rows() );
   result = tmp;
@@ -430,7 +430,7 @@ void vnl_sparse_matrix<T>::set_row(unsigned int r,
 
   row& rw = elements[r];
   if (rw.size() != cols.size()) rw = row(cols.size());
-  for (int i=0 ; i < cols.size(); ++i)
+  for (unsigned int i=0 ; i < cols.size(); ++i)
     rw[i] = vnl_sparse_matrix_pair<T>(cols[i], vals[i]);
   vcl_sort(rw.begin(), rw.end(), vnl_sparse_matrix_pair<T>::less());
 }

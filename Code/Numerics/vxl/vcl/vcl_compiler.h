@@ -73,7 +73,7 @@
 
 // win32 or vc++ ?
 // awf hack alert:
-#ifdef VCL_WIN32
+#ifdef VCL_VC
 #pragma warning(disable:4786 4660 4661)
 #pragma warning(disable:4786 4660 4355 4390)
 #endif

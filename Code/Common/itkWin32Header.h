@@ -18,12 +18,11 @@ See COPYRIGHT.txt for copyright details.
 #define __itkWIN32Header_h
 
 // add in the Windows variants
-#if defined(_WIN32) || defined(WIN32)
 
 //
 // Disable some common warnings in MS VC++
 //
-
+#if defined(_MSC_VER)
 // 'conversion' conversion from 'type1' to 'type2', possible loss of data
 #pragma warning ( disable : 4244 )
 
@@ -43,16 +42,20 @@ See COPYRIGHT.txt for copyright details.
 // 'identifier' : class 'type' needs to have dll-interface to be used by
 // clients of class 'type2'
 #pragma warning ( disable : 4251 )
-
-#ifdef ITKDLL
-#define ITK_EXPORT __declspec( dllexport ) 
-#else
-//#define ITK_EXPORT __declspec( dllimport )
-#define ITK_EXPORT __declspec( dllexport ) 
 #endif
 
+#if defined(_WIN32) || defined(WIN32)
+# ifndef ITKSTATIC
+#  ifdef ITKDLL
+#   define ITK_EXPORT __declspec( dllexport ) 
+#  else
+#   define ITK_EXPORT __declspec( dllexport ) 
+#  endif
+# else
+#  define ITK_EXPORT
+# endif  // ITKSTATIC
+#else
 // Now for the UNIX stuff
-#else 
 
 #define ITK_EXPORT
 
