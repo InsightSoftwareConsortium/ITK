@@ -31,7 +31,11 @@ GradientVectorFlowImageFilter<TInputImage, TOutputImage>
   m_TimeStep = 0.001;
   m_NoiseLevel = 200;
   m_IterationNum = 2;
-  for (unsigned int i=0; i<ImageDimension; i++) m_Steps[i] = 1.0;
+  m_LaplacianFilter = LaplacianFilterType::New();
+  for (unsigned int i=0; i<ImageDimension; i++) 
+    {
+    m_Steps[i] = 1.0;
+    }
 }
 
 template <class TInputImage, class TOutputImage>
@@ -202,44 +206,51 @@ GradientVectorFlowImageFilter<TInputImage, TOutputImage>
   BIt.GoToBegin();
   CIt.GoToBegin();
 
-  while ( !outputIt.IsAtEnd() ) {
-  b = BIt.Get();
-  c_vec = CIt.Get();
-    
-  for (i=0; i<ImageDimension; i++) {
-  m_vec[i] = (1 - b*m_TimeStep)*intermediateIt.Get()[i] + c_vec[i]*m_TimeStep;
-  }
-  outputIt.Set(m_vec);
-  ++intermediateIt;
-  ++outputIt;
-  ++CIt;
-  ++BIt;
-  }
+  while ( !outputIt.IsAtEnd() ) 
+    {
+    b = BIt.Get();
+    c_vec = CIt.Get();
+      
+    for (i=0; i<ImageDimension; i++) 
+      {
+      m_vec[i] = (1 - b*m_TimeStep)*intermediateIt.Get()[i] + c_vec[i]*m_TimeStep;
+      }
+    outputIt.Set(m_vec);
+    ++intermediateIt;
+    ++outputIt;
+    ++CIt;
+    ++BIt;
+    }
   
-  for ( i=0; i<ImageDimension; i++ ) {
-  m_LaplacianFilter->SetInput(m_InternalImages[i]);
-  m_LaplacianFilter->UpdateLargestPossibleRegion();
-    
-  InternalImageIterator  internalIt(m_LaplacianFilter->GetOutput(), 
-                                    m_LaplacianFilter->GetOutput()->GetBufferedRegion() );
+  for ( i=0; i<ImageDimension; i++ ) 
+    {
+    m_LaplacianFilter->SetInput(m_InternalImages[i]);
+    m_LaplacianFilter->UpdateLargestPossibleRegion();
+      
+    InternalImageIterator  internalIt(m_LaplacianFilter->GetOutput(), 
+                                      m_LaplacianFilter->GetOutput()->GetBufferedRegion() );
 
-  internalIt.GoToBegin();
-  outputIt.GoToBegin();
-  intermediateIt.GoToBegin();
+    internalIt.GoToBegin();
+    outputIt.GoToBegin();
+    intermediateIt.GoToBegin();
 
-  r = m_NoiseLevel*m_TimeStep;
-  for (j=0; j<ImageDimension; j++) r = r/m_Steps[j];
+    r = m_NoiseLevel*m_TimeStep;
+    for (j=0; j<ImageDimension; j++)
+      {
+      r = r/m_Steps[j];
+      }
 
-  while ( !outputIt.IsAtEnd() ) {
-  m_vec = outputIt.Get();
-  m_vec[i] = m_vec[i] + r*internalIt.Get();
-  outputIt.Set(m_vec);
-  intermediateIt.Set(m_vec);
-  ++intermediateIt;
-  ++internalIt;
-  ++outputIt; 
-  }
-  }
+    while ( !outputIt.IsAtEnd() ) 
+      {
+      m_vec = outputIt.Get();
+      m_vec[i] = m_vec[i] + r*internalIt.Get();
+      outputIt.Set(m_vec);
+      intermediateIt.Set(m_vec);
+      ++intermediateIt;
+      ++internalIt;
+      ++outputIt; 
+      }
+    }
 }
 
 template <class TInputImage, class TOutputImage>
