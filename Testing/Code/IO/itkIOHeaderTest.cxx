@@ -48,6 +48,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkGiplImageIOFactory.h"
 #include "itkIOCommon.h"
 #include "itkIPLCommonImageIO.h"
+#include "itkIPLFileNameList.h"
 #include "itkImageFileReader.txx"
 #include "itkImageFileWriter.txx"
 #include "itkImageIOBase.h"
