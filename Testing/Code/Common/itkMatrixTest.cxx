@@ -254,6 +254,34 @@ int itkMatrixTest(int, char* [] )
       }
     }
 
+    m3 -= m2;
+    m4 += m2;
+
+     // Check the in-place addition and subtraction values
+    {
+    const double tolerance = 1e-7;
+    for(unsigned int r=0; r < nr; r++)
+      {
+      for(unsigned int c=0; c < nc; c++)
+        {
+        if( fabs( m3[r][c] - m1[r][c] ) > tolerance ) 
+          {
+          std::cerr << "In-place addition failed !" << std::endl;
+          std::cerr << m3 << std::endl;
+          return EXIT_FAILURE;
+          }
+        if( fabs( m4[r][c] - m1[r][c] ) > tolerance ) 
+          {
+          std::cerr << "In-place subtraction failed !" << std::endl;
+          std::cerr << m4 << std::endl;
+          return EXIT_FAILURE;
+          }
+        }
+      }
+    }
+
+   
+
 
   }
 
