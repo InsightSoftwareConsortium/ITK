@@ -75,7 +75,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkPointSetToImageTranslationMeanSquaresRegularStepGradientDescentRegistration.h"
 #include "itkPointSetToImageTranslationNormalizedCorrelationGradientDescentRegistration.h"
 #include "itkPointSetToImageTranslationNormalizedCorrelationRegularStepGradientDescentRegistration.h"
-#include "itkPointSetToImageTranslationPatternIntensityGradientDescentRegistration.h"
 #include "itkPointSetToImageTranslationPatternIntensityRegularStepGradientDescentRegistration.h"
 #include "itkProcrustesRegistrationMetric.h"
 #include "itkRGBGibbsPriorFilter.h"
