@@ -149,7 +149,7 @@ FiniteDifferenceFunctionLoad<TMoving , TFixed>::EvaluateMetricGivenSolution( Ele
         this->Fe(Gpos,Gsol); // FIXME
         tempe=fabs(0.0);
       }
-      catch( itk::ExceptionObject & )
+      catch( itk::ExceptionObject & e )
       { 
       // do nothing we dont care if the metric region is outside the image
       //std::cerr << e << std::endl;
@@ -207,9 +207,8 @@ FiniteDifferenceFunctionLoad<TMoving , TFixed>::Fe
       << "  image " << m_FixedImage->GetLargestPossibleRegion().GetSize() << std::endl;
   }
 
-  
-  typename TMoving::IndexType oindex;
   typedef typename TMoving::IndexType::IndexValueType OIndexValueType;
+  typename TMoving::IndexType oindex;
 
   unsigned int k;
   bool inimage=true;
