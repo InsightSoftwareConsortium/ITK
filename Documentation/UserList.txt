@@ -1,3 +1,4 @@
+acois:C. Aaron Cois:cacst11+@pitt.edu
 aborning:Andrea Borning:aborning@insightful.com
 alyassin:Majeid Alyassin:alyassin@crd.ge.com
 anonymous:noone:nowhere@nowhere.com
@@ -5,12 +6,10 @@ avants:Brian Avants:avants@gradient.cis.upenn.edu
 aylward:Stephen Stephen:aylward@unc.edu
 blezek:Dan Blezek:blezek@crd.ge.com
 blue:Rusty Blue:blue@crd.ge.com
-burgiss
 cates:Josh Cates:cates@cs.utah.edu
 celina:Celina  Imielinska:ci42@columbia.edu
 chandra:Parag Chandra:chandra@cs.unc.edu
 chenting:Ting Chen:chenting@graphics.cis.upenn.edu
-gash
 gee:Jim Gee:gee@rad.upenn.edu
 hoffman:Bill Hoffman:bill.hoffman@kitware.com
 hughett:Paul Hughett:hughett@mercur.uphs.upenn.edu
