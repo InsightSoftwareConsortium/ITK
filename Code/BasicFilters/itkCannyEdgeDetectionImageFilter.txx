@@ -59,6 +59,7 @@ CannyEdgeDetectionImageFilter()
   
   this->SetVariance(0.0f);
   this->SetMaximumError(0.01f);
+  m_OutsideValue = NumericTraits<OutputImagePixelType>::Zero;
   m_Threshold = NumericTraits<OutputImagePixelType>::Zero;
   m_UpdateBuffer = OutputImageType::New();
   m_UpdateBuffer1 = OutputImageType::New();
@@ -455,7 +456,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
   this->Compute2ndDerivative();
 
   // Calculate the zero crossings of the zeroCrossing and write the result to
-  // output buffer 
+  // output buffer.
   zeroCrossFilter->SetInput(m_UpdateBuffer);
   zeroCrossFilter->Update();
   zeroCross = zeroCrossFilter->GetOutput();
@@ -464,26 +465,25 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
   // the m_UpdateBuffer1 image.
   this->Compute2ndDerivativePos();
 
-  // multiply the edge with the zerocrossing
+  // Multiply the output of the last step (m_UpdateBuffer1) with the Zero
+  // Crossings image (zeroCross).
   multFilter->SetInput1(m_UpdateBuffer1);
   multFilter->SetInput2(zeroCross);
   multFilter->Update();
 
   edge = multFilter->GetOutput();
 
-  //Do Thresholding 
+  //Do the Thresholding of the final output.
   //Note: Here we need connected-components to implement the classical
-  //       canny edge
+  //       canny edge.
+  threshFilter->SetOutsideValue(m_OutsideValue);
   threshFilter->ThresholdBelow(m_Threshold);
   threshFilter->SetInput(edge);
   threshFilter->Update();
 
-
-  // graft the output of the mini-pipeline back onto the filter's output.
-  // this copies back the region ivars and meta-data
-  
+  // Graft the output of the mini-pipeline back onto the filter's output.
+  // this copies back the region ivars and meta-data.
   this->GraftOutput(threshFilter->GetOutput());
-
 }
 
 template< class TInputImage, class TOutputImage >

@@ -1,4 +1,3 @@
-
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
@@ -39,7 +38,6 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-
 #ifndef __itkCannyEdgeDetectionImageFilter_h
 #define __itkCannyEdgeDetectionImageFilter_h
 
@@ -55,31 +53,41 @@ namespace itk
 {
 /** \class CannyEdgeDetectionImageFilter
  *
-
-   This filter is an implementation of a Canny edge detector for scalar-valued
-   images.  There are four major steps used in the edge-detection scheme:
-   (1)  The input image is smoothed using a Gaussian filter.
-   (2) Directional derivative normals are calculated.
-   (3) The zero-crossings of the second derivative of the smoothed image are
-   identified as edges.
-   (4) The resulting image is thresholded to eliminate uninteresting edges.
-
-   \par Inputs and Outputs
-
-   \par Parameters
-
-   \todo Edge-linking will be added when an itk connected component labeling
-   algorithm is available.
- 
- *  Usage: Before use this filter, 
- *  1) Set variance and maximum error parameter needed for the DiscreteGaussianImageFilter 
- *  2) Set the single threshold used by the ThresholdImageFilter.
+ * This filter is an implementation of a Canny edge detector for scalar-valued
+ * images.  There are four major steps used in the edge-detection scheme:
+ * (1) The input image is smoothed using a Gaussian filter.
+ * (2) The zero-crossings of the second derivative of the smoothed image are
+ *     found.
+ * (3) The zero-crossing image is multiplied (pixel-wise) with the
+ *     second-derivative gradient image of the smoothed image. 
+ * (4) The resulting image is thresholded to eliminate uninteresting edges.
  *
+ * \par Inputs and Outputs
+ * The input to this filter should be a scalar, real-valued Itk image of
+ * arbitrary dimension.  The output should also be a scalar, real-value Itk
+ * image of the same dimensionality.
+ *
+ * \par Parameters
+ * There are four parameters for this filter that control the sub-filters used
+ * by the algorithm.
+ *
+ * \par 
+ * Variance and Maximum error are used in the Gaussian smoothing of the input
+ * image.  See  itkDiscreteGaussianImageFilter for information on these
+ * parameters.
+ *
+ * \par
+ * Threshold is the lowest allowed value in the output image.  Its data type is 
+ * the same as the data type of the output image. Any values below the
+ * Threshold level will be replaced with the OutsideValue parameter value, whose
+ * default is zero.
+ * 
+ * \todo Edge-linking will be added when an itk connected component labeling
+ * algorithm is available.
  *
  * \sa DiscreteGaussianImageFilter
  * \sa ZeroCrossingImageFilter
  * \sa ThresholdImageFilter */
-
 template<class TInputImage, class TOutputImage>
 class ITK_EXPORT CannyEdgeDetectionImageFilter
   : public ImageToImageFilter<TInputImage, TOutputImage>
@@ -153,8 +161,12 @@ public:
     }
   
   /* Set the Threshold value for detected edges. */
-  itkSetMacro(Threshold, float);
-  itkGetMacro(Threshold, float);
+  itkSetMacro(Threshold, OutputImagePixelType );
+  itkGetMacro(Threshold, OutputImagePixelType);
+
+    /* Set the Thresholdvalue for detected edges. */
+  itkSetMacro(OutsideValue, OutputImagePixelType);
+  itkGetMacro(OutsideValue, OutputImagePixelType);
   
   /** CannyEdgeDetectionImageFilter needs a larger input requested
    * region than the output requested region ( derivative operators, etc).  
@@ -254,8 +266,11 @@ private:
    * direction.  */
   float m_MaximumError[ImageDimension];  
 
-  /* Threshold value for identifying edges. */
+  /** Threshold value for identifying edges. */
   OutputImagePixelType m_Threshold;
+
+  /** "Background" value for use in thresholding. */
+  OutputImagePixelType m_OutsideValue;
 
   /** Update buffers used during calculation of multiple steps */
   typename OutputImageType::Pointer  m_UpdateBuffer;
