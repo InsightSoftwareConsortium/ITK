@@ -271,7 +271,7 @@ public:
 };
 
 /**
- * \class FEMExceptionItpackSparseMatrixSbagn
+ * \class FEMExceptionItpackSparseMatrixSbsij
  * \brief handles errors that occur when building the matrix
  * \sa ItpackSparseMatrix
  * \sa FEMException

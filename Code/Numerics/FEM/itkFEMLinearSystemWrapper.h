@@ -302,8 +302,8 @@ public:
    * Copies the content of source matrix to destination matrix. Any existing
    * data in destination matrix is overwritten.
    *
-   * \param matrixSource index of a matrix to copy
-   * \param matrixDestination index of matrix to copy to
+   * \param matrixIndex1 index of a matrix that will be copied
+   * \param matrixIndex2 index of matrix to copy to
    */
   virtual void CopyMatrix(unsigned int matrixIndex1, unsigned int matrixIndex2);
 
