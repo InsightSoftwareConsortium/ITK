@@ -176,7 +176,7 @@ ImageBase<VImageDimension>
 ::Graft(const ImageBase<VImageDimension> *data)
 {
   // Copy the meta-information
-  Superclass::CopyInformation(data);
+  this->CopyInformation(data);
 
   if (data)
     {
