@@ -424,6 +424,12 @@ namespace itk {
             os << indent << "Given Orientation Code: "
                 << m_GivenCoordinateOrientation
                 << std::endl;
+            os << indent << "Permute Axes: "
+                << m_PermuteOrder
+                << std::endl;
+            os << indent << "Flip Axes: "
+                << m_FlipAxes
+                << std::endl;
             }
 
 }// end namespace itk
