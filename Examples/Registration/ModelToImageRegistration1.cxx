@@ -510,18 +510,18 @@ int main( int argc, char *argv[] )
   offset[ 0 ] = 100.0;
   offset[ 1 ] =  40.0;
 
-  ellipse1->GetTransform()->SetOffset(offset);
-  ellipse1->ComputeGlobalTransform();
+  ellipse1->GetObjectToParentTransform()->SetOffset(offset);
+  ellipse1->ComputeObjectToWorldTransform();
  
   offset[ 0 ] =  40.0;
   offset[ 1 ] = 150.0;
-  ellipse2->GetTransform()->SetOffset(offset);
-  ellipse2->ComputeGlobalTransform();
+  ellipse2->GetObjectToParentTransform()->SetOffset(offset);
+  ellipse2->ComputeObjectToWorldTransform();
 
   offset[ 0 ] = 150.0;
   offset[ 1 ] = 150.0;
-  ellipse3->GetTransform()->SetOffset(offset);
-  ellipse3->ComputeGlobalTransform();
+  ellipse3->GetObjectToParentTransform()->SetOffset(offset);
+  ellipse3->ComputeObjectToWorldTransform();
   //  Software Guide : EndCodeSnippet 
 
 
