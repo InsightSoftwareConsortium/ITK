@@ -78,27 +78,45 @@ foreach Test $TestList \
 }
 puts $Out "\t</TestList>"
 
+proc CheckFile { Filename } \
+{
+  return [exec [file exists $Filename] && [file executable $Filename]]
+}
+
 # For each test, cd to the directory, and run it.
 foreach Test $TestList \
 {
   cd [file dirname $Test]
 
-  set Status notrun
-  set Result ""
   set Filename [file tail $Test]
-  
-  if { [file exists $Filename] && [file executable $Filename] } \
+
+  switch $tcl_platform(platform) \
   {
-    set Status [catch { exec [file join . $Filename] } Result]
-    if { $Status == 0 } \
+    windows \
     {
-      set Status passed
-    } \
-    else \
+      set NewFilename [file join Release $Filename.exe]
+    }
+    default \
     {
-      set Status failed
+      set NewFilename [file join . $Filename]
     }
   }
+  
+  set Status notrun
+  set Result ""
+  if { [CheckFile $NewFilename] } \
+  {
+    set Status [catch { eval exec $NewFilename } Result]
+  }
+  if { $Status == 0 } \
+  {
+    set Status passed
+  }
+  if { $Status == 1 } \
+  {
+    set Status failed
+  }
+  
   puts $Out "\t<Test Status=\"$Status\">"
   puts $Out "\t\t<Name>[XMLSafeString $Filename]</Name>"
   puts $Out "\t\t<Path>[XMLSafeString [file dirname $Test]]</Path>"
