@@ -230,7 +230,7 @@ public:
   /**
    * Point Type
    */
-  typedef typename TransformationType::PointType  PointType;
+  typedef typename TransformationType::InputPointType  PointType;
 
   /**
    *  Type of the Mapper
