@@ -125,12 +125,13 @@ ByteSwap
 #ifdef CMAKE_WORDS_BIGENDIAN
 void 
 ByteSwap
-::Swap2LE(void *p)
+::Swap2LE(void *pin)
 {
   unsigned short h1,h2;
-
-  h1 = (unsigned short) *p << 8;
-  h2 = (unsigned short) *p >> 8;
+  short* p = reinterpret_cast<short*>(pin);
+  
+  h1 = static_cast<unsigned short>(*p) << 8;
+  h2 = static_cast<unsigned short>(*p) >> 8;
   *p = (short) h1 | h2;
 }
 #else
@@ -143,8 +144,9 @@ ByteSwap
 #ifdef CMAKE_WORDS_BIGENDIAN
 void 
 ByteSwap
-::Swap4LE(void *p)
+::Swap4LE(void *pin)
 {
+  char* p = reinterpret_cast<char*>(pin);
   char one_byte;
 
   one_byte    = p[0];
