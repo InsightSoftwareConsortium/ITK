@@ -31,9 +31,11 @@ See COPYRIGHT.txt for copyright details.
 #include "itkOnePlusOneEvolutionaryOptimizer.h"
 #include "itkOptimizer.h"
 #include "itkQuaternionRigidTransformGradientDescentOptimizer.h"
+#include "itkRegularStepGradientDescentBaseOptimizer.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
 #include "itkSingleValuedNonLinearOptimizer.h"
 #include "itkSingleValuedNonLinearVnlOptimizer.h"
+#include "itkVersorTransformOptimizer.h"
 
 int main ( int argc, char* argv )
 {
