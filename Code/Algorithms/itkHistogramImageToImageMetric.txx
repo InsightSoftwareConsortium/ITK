@@ -295,10 +295,10 @@ HistogramImageToImageMetric<TFixedImage,TMovingImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-  os << indent << "Padding value: " << m_PaddingValue << std::endl;
-  os << indent << "Use padding value?: "
-     << static_cast<typename NumericTraits<FixedImagePixelType>::PrintType>(m_UsePaddingValue)
+  os << indent << "Padding value: "
+     << static_cast<typename NumericTraits<FixedImagePixelType>::PrintType>(m_PaddingValue)
      << std::endl;
+  os << indent << "Use padding value?: " << m_UsePaddingValue << std::endl;
   os << indent << "Derivative step length: " << m_DerivativeStepLength
      << std::endl;
   os << indent << "Derivative step length scales: ";
