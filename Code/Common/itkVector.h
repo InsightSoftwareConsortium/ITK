@@ -68,18 +68,41 @@ class Vector : public Array<T,TVectorDimension> {
   enum { VectorDimension = TVectorDimension };
 
   /**
+   * The Array type from which this Vector is derived.
+   */
+  typedef Array<T, TVectorDimension>                BaseArray;
+  typedef typename BaseArray::ArrayCommaListCopier  ArrayCommaListCopier;
+  
+  /**
    * Get the dimension (size) of the vector.
    */
   static unsigned int GetVectorDimension() 
-    { return TVectorDimension; }
-  
-  
+    { return TVectorDimension; }  
+
   /**
-   * Operator=.  Assign a vector to a vector.
+   * Default constructor has nothing to do.
    */
-  const Self& operator=(const Self& vec);
+  Vector() {}
 
-
+  /*@{
+   * Pass-through constructor for the Array base class.
+   */
+  Vector(const BaseArray& r): BaseArray(r) {}
+  Vector(const BaseArray::Reference& r): BaseArray(r) {}
+  Vector(const BaseArray::ConstReference& r): BaseArray(r) {}
+  Vector(const ValueType r[Length]): BaseArray(r) {}  
+  //@}
+  
+  /*@{
+   * Pass-through assignment operator for the Array base class.
+   */
+  Vector& operator= (const BaseArray& r);
+  Vector& operator= (const BaseArray::Reference& r);
+  Vector& operator= (const BaseArray::ConstReference& r);
+  Vector& operator= (const ValueType r[Length]);
+  ArrayCommaListCopier operator= (const ValueType& r);
+  //@}
+  
   /**
    * Scalar operator*=.  Scales elements by a scalar.
    */

@@ -20,22 +20,53 @@ namespace itk
 {
 
 
-/**
- *
- */
 template<class T, unsigned int TPointDimension>
-const Point<T, TPointDimension> &
+Point<T, TPointDimension>&
 Point<T, TPointDimension>
-::operator=( const Point<T, TPointDimension> & point )
+::operator= (const BaseArray& r)
 {
-  for( unsigned int i=0; i<TPointDimension; i++) 
-  {
-    (*this)[i] = point[i];
-  }
+  BaseArray::operator=(r);
   return *this;
 }
 
- 
+
+template<class T, unsigned int TPointDimension>
+Point<T, TPointDimension>&
+Point<T, TPointDimension>
+::operator= (const BaseArray::Reference& r)
+{
+  BaseArray::operator=(r);
+  return *this;
+}
+
+
+template<class T, unsigned int TPointDimension>
+Point<T, TPointDimension>&
+Point<T, TPointDimension>
+::operator= (const BaseArray::ConstReference& r)
+{
+  BaseArray::operator=(r);
+  return *this;
+}
+
+
+template<class T, unsigned int TPointDimension>
+Point<T, TPointDimension>&
+Point<T, TPointDimension>
+::operator= (const ValueType r[Length])
+{
+  BaseArray::operator=(r);
+  return *this;
+}
+
+
+template<class T, unsigned int TPointDimension>
+typename Point<T, TPointDimension>::ArrayCommaListCopier
+Point<T, TPointDimension>
+::operator= (const ValueType& r)
+{
+  return BaseArray::operator=(r);
+}
 
 
 /**

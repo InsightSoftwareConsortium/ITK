@@ -60,26 +60,48 @@ class Point : public Array< T, TPointDimension > {
    */
   enum { PointDimension = TPointDimension };
 
-
+  /**
+   * The Array type from which this Vector is derived.
+   */
+  typedef Array<T, TPointDimension>                 BaseArray;
+  typedef typename BaseArray::ArrayCommaListCopier  ArrayCommaListCopier;
+  
   /**
    * Get the dimension (size) of the point.
    */
   static unsigned int GetPointDimension() 
     { return TPointDimension; }
   
-   /**
+  /**
    * VectorType define the difference between two Points
    */
   typedef Vector< ValueType, TPointDimension >   VectorType;
 
- 
   /**
-   * Operator=.  Assign a point to a point.
+   * Default constructor has nothing to do.
    */
-  const Self& operator=(const Self& point);
+  Point() {}
 
-
-   /**
+  /*@{
+   * Pass-through constructor for the Array base class.
+   */
+  Point(const BaseArray& r): BaseArray(r) {}
+  Point(const BaseArray::Reference& r): BaseArray(r) {}
+  Point(const BaseArray::ConstReference& r): BaseArray(r) {}
+  Point(const ValueType r[Length]): BaseArray(r) {}  
+  //@}
+  
+  /*@{
+   * Pass-through assignment operator for the Array base class.
+   */
+  Point& operator= (const BaseArray& r);
+  Point& operator= (const BaseArray::Reference& r);
+  Point& operator= (const BaseArray::ConstReference& r);
+  Point& operator= (const ValueType r[Length]);
+  ArrayCommaListCopier operator= (const ValueType& r);
+  //@}
+  
+  /**
    * Point operator+=.  Adds a vector to the current point.
    */
   const Self& operator+=(const VectorType &vec);

@@ -20,6 +20,53 @@ namespace itk
 {
 
 
+template<class T, unsigned int TVectorDimension>
+Vector<T, TVectorDimension>&
+Vector<T, TVectorDimension>
+::operator= (const BaseArray& r)
+{
+  BaseArray::operator=(r);
+  return *this;
+}
+
+
+template<class T, unsigned int TVectorDimension>
+Vector<T, TVectorDimension>&
+Vector<T, TVectorDimension>
+::operator= (const BaseArray::Reference& r)
+{
+  BaseArray::operator=(r);
+  return *this;
+}
+
+
+template<class T, unsigned int TVectorDimension>
+Vector<T, TVectorDimension>&
+Vector<T, TVectorDimension>
+::operator= (const BaseArray::ConstReference& r)
+{
+  BaseArray::operator=(r);
+  return *this;
+}
+
+
+template<class T, unsigned int TVectorDimension>
+Vector<T, TVectorDimension>&
+Vector<T, TVectorDimension>
+::operator= (const ValueType r[Length])
+{
+  BaseArray::operator=(r);
+  return *this;
+}
+
+
+template<class T, unsigned int TVectorDimension>
+typename Vector<T, TVectorDimension>::ArrayCommaListCopier
+Vector<T, TVectorDimension>
+::operator= (const ValueType& r)
+{
+  return BaseArray::operator=(r);
+}
 
 
 /**
