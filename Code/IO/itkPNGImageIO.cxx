@@ -16,7 +16,6 @@
 
 =========================================================================*/
 #include "itkPNGImageIO.h"
-#include "png.h"
 #include "itkRGBPixel.h"
 #include "itkRGBAPixel.h"
 
@@ -472,23 +471,12 @@ void PNGImageIO::Write(const void* buffer)
     itkExceptionMacro(<<"PNG Writer can only write 2-dimensional images");
     }
   
-  // Compute the pointer offset. THIS CALCULATION CURRENTLY ASSUMES THAT
-  // ALL THE DATA IN A SLICE IS WRITTEN, NOT A PIECE OF THE DATA.
-  unsigned long offset = ioRegion.GetIndex(0);
-  unsigned long sliceSize = ioRegion.GetSize(0);
-  for (unsigned long i=1; i < ioRegion.GetImageDimension(); i++)
-    {
-    offset += ioRegion.GetIndex(i) * sliceSize;
-    sliceSize *= ioRegion.GetSize(i);
-    }
-
-  this->WriteSlice(m_FileName, buffer, offset);
+  this->WriteSlice(m_FileName, buffer);
 }
 
-void PNGImageIO::WriteSlice(std::string& fileName, const void* buffer, 
-                            unsigned long offset)
+void PNGImageIO::WriteSlice(std::string& fileName, const void* buffer)
 {
-  const unsigned char *outPtr = ( (const unsigned char *) buffer) + offset;
+  const unsigned char *outPtr = ( (const unsigned char *) buffer);
 
   // use this class so return will call close
   PNGFileWrapper pngfp(fileName.c_str(),"wb");
@@ -531,10 +519,6 @@ void PNGImageIO::WriteSlice(std::string& fileName, const void* buffer,
 
   png_init_io(png_ptr, fp);
   
-  png_uint_32 width, height;
-  width = this->GetDimensions(0);
-  height = this->GetDimensions(1);
-
   int colorType;
   unsigned int numComp = this->GetNumberOfComponents();
   switch ( numComp )
@@ -549,6 +533,10 @@ void PNGImageIO::WriteSlice(std::string& fileName, const void* buffer,
       break;
     }
   
+  png_uint_32 width, height;
+  width = this->GetDimensions(0);
+  height = this->GetDimensions(1);
+
   png_set_IHDR(png_ptr, info_ptr, width, height,
                bitDepth, colorType, PNG_INTERLACE_NONE,
                PNG_COMPRESSION_TYPE_DEFAULT, 

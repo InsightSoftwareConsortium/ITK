@@ -18,6 +18,7 @@
 #define __itkPNGImageIO_h
 
 #include "itkImageIOBase.h"
+#include "png.h"
 
 namespace itk
 {
@@ -91,8 +92,7 @@ protected:
   ~PNGImageIO();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  void WriteSlice(std::string& fileName, const void* buffer,
-                  unsigned long offset);
+  void WriteSlice(std::string& fileName, const void* buffer);
 
   /** Set if the compression should be used for writing 
    *  the value is false by default */
