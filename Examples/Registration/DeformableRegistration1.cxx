@@ -188,26 +188,12 @@ int main(int argc, char *argv[])
   typedef itk::ImageFileReader< fileImageType >      FileSourceType;
   typedef fileImageType::PixelType PixType;
   const unsigned int ImageDimension=fileImageType::ImageDimension;
-  typedef itk::RawImageIO< PixType,ImageDimension>   RawReaderType;
 
   FileSourceType::Pointer reffilter = FileSourceType::New();
-  reffilter->SetFileName( (X->GetReferenceFile()).c_str() );
+  reffilter->SetFileName( (X->GetMovingFile()).c_str() );
   FileSourceType::Pointer tarfilter = FileSourceType::New();
-  tarfilter->SetFileName( (X->GetTargetFile()).c_str() );
+  tarfilter->SetFileName( (X->GetFixedFile()).c_str() );
 
-  //  itk::MetaImageIOFactory::RegisterOneFactory();
-
-//   RawReaderType::Pointer rawReader  = RawReaderType::New();
-//   rawReader->SetFileDimensionality( ImageDimension );
-
-//   ImageType::SizeType ImageSize=X->GetImageSize();
-//   for (unsigned int ii=0; ii<ImageDimension; ii++)     
-//   {
-//     unsigned int temp = (unsigned int) ImageSize[ii];
-//     rawReader->SetDimensions( ii, temp );
-//   }
-//   reffilter->SetImageIO( rawReader );
-//   tarfilter->SetImageIO( rawReader );
 
   try
   {
@@ -261,8 +247,8 @@ int main(int argc, char *argv[])
   IntensityEqualizeFilter->ThresholdAtMeanIntensityOn();
   IntensityEqualizeFilter->Update();
 
-  X->SetReferenceImage(refrescalefilter->GetOutput());
-  X->SetTargetImage(IntensityEqualizeFilter->GetOutput());
+  X->SetFixedImage(refrescalefilter->GetOutput());
+  X->SetMovingImage(IntensityEqualizeFilter->GetOutput());
 
 
 //  Software Guide : BeginLatex
