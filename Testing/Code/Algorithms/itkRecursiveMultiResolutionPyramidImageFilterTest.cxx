@@ -66,7 +66,7 @@ public:
 };
 }
 
-int itkRecursiveMultiResolutionPyramidImageFilterTest(int, char**)
+int itkRecursiveMultiResolutionPyramidImageFilterTest(int, char* [] )
 {
 
 //------------------------------------------------------------

@@ -31,7 +31,7 @@
 #include "itkImageFileWriter.h"
 */
 
-int itkShapeDetectionLevelSetImageFilterTest(int, char**)
+int itkShapeDetectionLevelSetImageFilterTest(int, char* [] )
 {
 
   const   unsigned int    ImageDimension = 2;

@@ -38,7 +38,7 @@
 #include "itkBinaryMask3DMeshSource.h"
 
 
-int itkDeformableTest(int, char**)
+int itkDeformableTest(int, char* [] )
 {
   int WIDTH = 72;
   int HEIGHT = 72;

@@ -44,7 +44,7 @@
 #define   NEIGHBORHOOD_RAD    1
 
 
-int itkMRFImageFilterTest(int, char**)
+int itkMRFImageFilterTest(int, char* [] )
 {
 
   //------------------------------------------------------

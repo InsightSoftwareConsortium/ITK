@@ -67,7 +67,7 @@ public:
 };
 }
 
-int itkMultiResolutionPyramidImageFilterTest(int, char**)
+int itkMultiResolutionPyramidImageFilterTest(int, char* [] )
 {
 
 //------------------------------------------------------------

@@ -24,7 +24,7 @@
 
 inline void println(char *s) { std::cout << s << std::endl; }
 
-int itkWatershedImageFilterTest(int, char**)
+int itkWatershedImageFilterTest(int, char* [] )
 {
   typedef itk::Image<float, 2> ImageType2D;
   

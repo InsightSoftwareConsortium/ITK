@@ -23,7 +23,7 @@
 #include <stdio.h>
 
 
-int itkVoronoiDiagram2DTest(int, char**){
+int itkVoronoiDiagram2DTest(int, char* [] ){
   const double HEI=400;
   const double WID=400;
   const int NUMSEEDS=20;

@@ -27,7 +27,7 @@
  *  Only typedef are tested in this file.
  */ 
 
-int itkImageRegistrationMethodTest_11(int, char**)
+int itkImageRegistrationMethodTest_11(int, char* [] )
 {
 
   bool pass = true;

@@ -30,7 +30,7 @@
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkImageFileWriter.h"
 
-int itkGeodesicActiveContourLevelSetImageFilterTest(int, char**)
+int itkGeodesicActiveContourLevelSetImageFilterTest(int, char* [] )
 {
 
   const   unsigned int    ImageDimension = 2;

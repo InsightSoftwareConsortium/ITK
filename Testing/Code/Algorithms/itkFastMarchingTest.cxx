@@ -20,7 +20,7 @@
 #include "itkTextOutput.h"
 
 #include "vnl/vnl_math.h"
-int itkFastMarchingTest(int, char**)
+int itkFastMarchingTest(int, char* [] )
 {
 
   itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());

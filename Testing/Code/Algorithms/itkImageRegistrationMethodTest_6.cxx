@@ -30,7 +30,7 @@
  *  
  */ 
 
-int itkImageRegistrationMethodTest_6(int argc, char** argv)
+int itkImageRegistrationMethodTest_6(int argc, char* argv[] )
 {
 
   bool pass = true;

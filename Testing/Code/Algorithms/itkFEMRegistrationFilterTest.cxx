@@ -122,7 +122,7 @@ TImage *output )
 
 }
 
-int itkFEMRegistrationFilterTest(int, char**)
+int itkFEMRegistrationFilterTest(int, char* [] )
 {
 
   const unsigned int ImageDimension = 2;

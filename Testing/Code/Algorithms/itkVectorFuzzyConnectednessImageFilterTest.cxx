@@ -97,7 +97,7 @@ const int data[400][3] =
   {212, 189, 138}, {210, 186, 140}, {206, 181, 134}, {201, 169, 123}, {191, 155, 105}, {182, 134, 81}, {166, 110, 64}, {149, 98, 55}, {137, 93, 48}, {130, 79, 36}, 
 };
 
-int itkVectorFuzzyConnectednessImageFilterTest(int, char**)
+int itkVectorFuzzyConnectednessImageFilterTest(int, char* [] )
 {
   typedef itk::Vector<int,FEATURES_NUM> IntVector;
   typedef itk::Matrix<double,FEATURES_NUM,FEATURES_NUM>  MatrixType;

@@ -129,7 +129,7 @@ double trueValue )
 int 
 itkInterpolateTest(
     int itkNotUsed(argc),
-    char ** itkNotUsed(argv) )
+    char * itkNotUsed(argv) [] )
 {
     int flag = 0;           /* Did this test program work? */
 

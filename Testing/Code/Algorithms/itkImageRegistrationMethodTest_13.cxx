@@ -94,7 +94,7 @@ double F( itk::Vector<double,3> & v );
  * International Journal of Computer Vision, 24(2):137-154
  * 
  */ 
-int itkImageRegistrationMethodTest_13(int, char**)
+int itkImageRegistrationMethodTest_13(int, char* [] )
 {
 
   itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());

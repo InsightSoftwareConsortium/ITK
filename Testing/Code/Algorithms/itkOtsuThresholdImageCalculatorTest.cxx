@@ -33,7 +33,7 @@ double origin [3] = { 0.0, 0.0, 0.0};
   double spacing[3] = { 1, 1 , 1};
 }
 
-int itkOtsuThresholdImageCalculatorTest(int, char**)
+int itkOtsuThresholdImageCalculatorTest(int, char* [] )
 {
     int flag = 0;           /* Did this test program work? */
 

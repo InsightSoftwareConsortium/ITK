@@ -32,7 +32,7 @@ typedef itk::Point<float,3> Point;
 /*
  * Test the mesh connectivity class.
  */
-int itkExtractMeshConnectedRegionsTest(int, char**)
+int itkExtractMeshConnectedRegionsTest(int, char* [])
 {
   // Define a simple mesh of three connected pieces. The mesh consists
   // of several different cell types.

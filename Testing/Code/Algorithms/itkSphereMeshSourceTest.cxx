@@ -26,7 +26,7 @@
 #include <string>
 #include <math.h>
 
-int itkSphereMeshSourceTest(int, char**){
+int itkSphereMeshSourceTest(int, char* [] ){
 
   typedef itk::Point<float,3>  fPointType;
   typedef itk::SphereMeshSource<itk::Mesh<float> >  fSphereMeshSourceType;

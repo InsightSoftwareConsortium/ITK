@@ -63,7 +63,7 @@ double F( itk::Vector<double,3> & v );
  *
  */ 
 
-int itkMultiResolutionImageRegistrationMethodTest_1(int, char**)
+int itkMultiResolutionImageRegistrationMethodTest_1(int, char* [] )
 {
 
   itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());

@@ -61,7 +61,7 @@ int testBinaryMinMaxCurvatureFlow(
  * We then test the ability of BinaryMinMaxCurvatureFlowImageFilter to denoise
  * the binary image.
  */
-int itkBinaryMinMaxCurvatureFlowImageFilterTest(int, char**)
+int itkBinaryMinMaxCurvatureFlowImageFilterTest(int, char* [] )
 {
 
   double radius;

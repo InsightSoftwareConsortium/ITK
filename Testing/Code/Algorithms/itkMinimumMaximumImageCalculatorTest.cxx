@@ -33,7 +33,7 @@ namespace
 }
 
 int 
-itkMinimumMaximumImageCalculatorTest(int argc,char **argv)
+itkMinimumMaximumImageCalculatorTest(int argc,char *argv [] )
 {
     int flag = 0;           /* Did this test program work? */
 

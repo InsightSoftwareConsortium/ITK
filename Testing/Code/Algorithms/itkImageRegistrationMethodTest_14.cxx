@@ -99,7 +99,7 @@ double F( itk::Vector<double,3> & v );
  *
  */ 
 
-int itkImageRegistrationMethodTest_14(int, char**)
+int itkImageRegistrationMethodTest_14(int, char* [] )
 {
 
   itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());

@@ -29,7 +29,7 @@
  *  This file tests initialization errors.
  */ 
 
-int itkImageRegistrationMethodTest(int, char**)
+int itkImageRegistrationMethodTest(int, char* [] )
 {
 
   itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());

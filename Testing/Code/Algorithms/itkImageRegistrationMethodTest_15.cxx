@@ -77,7 +77,7 @@ double F( itk::Vector<double,3> & v );
  * setting the image origin to center of mass of the image.
  * 
  */ 
-int itkImageRegistrationMethodTest_15(int, char**)
+int itkImageRegistrationMethodTest_15(int, char* [] )
 {
 
   itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());

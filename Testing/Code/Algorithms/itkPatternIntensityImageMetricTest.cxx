@@ -32,7 +32,7 @@
  *
  */
 
-int itkPatternIntensityImageMetricTest(int, char**)
+int itkPatternIntensityImageMetricTest(int, char* [] )
 {
 
 //------------------------------------------------------------

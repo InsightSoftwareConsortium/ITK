@@ -32,7 +32,7 @@
  *  This file tests initialization errors.
  */ 
 
-int itkMultiResolutionImageRegistrationMethodTest(int, char**)
+int itkMultiResolutionImageRegistrationMethodTest(int, char* [] )
 {
 
   itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());

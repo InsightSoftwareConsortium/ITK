@@ -292,7 +292,7 @@ TInterpolator * interpolator )
 
 
 
-int itkMattesMutualInformationImageToImageMetricTest(int, char**)
+int itkMattesMutualInformationImageToImageMetricTest(int, char* [] )
 {
 
   int failed;

@@ -60,7 +60,7 @@ int testMinMaxCurvatureFlow(
  * We then test the ability of MinMaxCurvatureFlowImageFilter to denoise
  * the image.
  */
-int itkMinMaxCurvatureFlowImageFilterTest(int, char**)
+int itkMinMaxCurvatureFlowImageFilterTest(int, char* [] )
 {
 
   double radius;

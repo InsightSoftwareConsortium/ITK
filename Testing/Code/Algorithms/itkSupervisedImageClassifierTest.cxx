@@ -50,7 +50,7 @@ public:
 
 
 
-int itkSupervisedImageClassifierTest(int, char**)
+int itkSupervisedImageClassifierTest(int, char* [] )
 {
 
   //------------------------------------------------------

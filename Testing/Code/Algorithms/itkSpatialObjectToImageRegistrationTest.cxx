@@ -153,7 +153,7 @@ public:
       ++it;
     }
 
-    std::cout << "Number of points in the metric = " << m_PointList.size() << std::endl;
+    std::cout << "Number of points in the metric = " << static_cast<unsigned long>( m_PointList.size() ) << std::endl;
   }
 
 
@@ -211,7 +211,7 @@ private:
 
 
 /** test */
-int itkSpatialObjectToImageRegistrationTest(int, char**)
+int itkSpatialObjectToImageRegistrationTest(int, char* [] )
 {
   typedef itk::GroupSpatialObject<2>   GroupType;
   typedef itk::EllipseSpatialObject<2> EllipseType;

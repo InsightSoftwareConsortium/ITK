@@ -91,7 +91,7 @@ const unsigned short TestingImage [400]={
 328,315,327,311,315,305,340,306,314,339,344,339,337,330,318,342,311,343,311,312
 };
 
-int itkGibbsTest(int, char**)
+int itkGibbsTest(int, char* [] )
 //int main() 
 {
 std::cout<< "Gibbs Prior Test Begins: " << std::endl;

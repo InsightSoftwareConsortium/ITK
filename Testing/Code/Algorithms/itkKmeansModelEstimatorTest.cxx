@@ -54,7 +54,7 @@ public:
   itk::LightProcessObject::Pointer m_Process;
 };
 
-int itkKmeansModelEstimatorTest(int, char**)
+int itkKmeansModelEstimatorTest(int, char* [] )
 {
   //------------------------------------------------------
   //Create a simple test vector with 16 entries and 2 bands

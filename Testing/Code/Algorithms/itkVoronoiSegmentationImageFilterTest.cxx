@@ -26,7 +26,7 @@
 #ifdef __BORLANDC__
 #include <float.h>
 #endif
-int itkVoronoiSegmentationImageFilterTest(int, char**){
+int itkVoronoiSegmentationImageFilterTest(int, char* [] ){
   const int WIDTH = 256;
   const int HEIGHT = 256;
 

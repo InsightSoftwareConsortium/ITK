@@ -61,7 +61,7 @@ public:
 }
 
 
-int itkHistogramMatchingImageFilterTest(int, char**)
+int itkHistogramMatchingImageFilterTest(int, char* [] )
 {
 
   typedef float PixelType;

@@ -50,7 +50,7 @@
 //#define INPUTFILE  "../../../Data/bones/test.raw"
 //#define OUTPUTFILE "../../../tmp/test.raw"
 
-int itk2DDeformableTest(int, char**)
+int itk2DDeformableTest(int, char* [] )
 {
 // change the image size to your test images
   int WIDTH = 100;

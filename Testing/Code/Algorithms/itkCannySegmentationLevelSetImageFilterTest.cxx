@@ -146,7 +146,7 @@ protected:
 }
 
 
-int itkCannySegmentationLevelSetImageFilterTest(int, char **)
+int itkCannySegmentationLevelSetImageFilterTest(int, char * [] )
 {
   std::cout << "Last modified 11/08/02" << std::endl;
 
