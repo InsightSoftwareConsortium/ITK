@@ -36,24 +36,6 @@ IF(VW_RAW_DATA_PATH)
 ADD_TEST(itkRawImageIOTest2 ${IO_TESTS} itkRawImageIOTest2 ${VW_RAW_DATA_PATH}/avfCROP.1023c.raw)
 ENDIF(VW_RAW_DATA_PATH)
 
-# Add VTK code if we found VTK
-IF (HAS_VTK)
-  ADD_DEFINITIONS(-DITK_HAS_VTK)
-  TARGET_LINK_LIBRARIES( itkIOTests
-      vtkRendering
-      vtkGraphics         
-      vtkImaging
-      vtkIO
-      vtkFiltering
-      vtkCommon
-  )
-IF (VTKTIFF_BINARY_DIR)
-  TARGET_LINK_LIBRARIES( itkIOTests
-        vtktiff
-  )
-ENDIF (VTKTIFF_BINARY_DIR)
-ENDIF (HAS_VTK)
-
 IF (TCL_TCLSH)
 ADD_TEST(PrintSelf-IO ${TCL_TCLSH}
          ${ITK_SOURCE_DIR}/Utilities/Dart/PrintSelfCheck.tcl  
