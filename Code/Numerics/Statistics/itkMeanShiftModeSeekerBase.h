@@ -63,7 +63,6 @@ public:
 
   /** Standard Macros */
   itkTypeMacro(MeanShiftModeSeekerBase, Object);
-  itkNewMacro(Self) ;
   
   itkStaticConstMacro(MeasurementVectorSize, unsigned int,
                       TSample::MeasurementVectorSize) ;
