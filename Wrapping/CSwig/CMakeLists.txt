@@ -353,7 +353,6 @@ ENDIF(ITK_CSWIG_CONFIGURATION_TYPES)
 #  3. Use Python's compileall to compile the copied files.
 #
 # *** Step 1 has to be done carefully to avoid missing out files ***
-
 IF(PYTHON_EXECUTABLE)
   ADD_CUSTOM_TARGET(itkpython_pyc ALL echo "...")
 
@@ -397,18 +396,16 @@ IF(PYTHON_EXECUTABLE)
     #MESSAGE("In source build -- no need to copy Python files.")
   ELSE ("${ITK_BINARY_DIR}" MATCHES "^${ITK_SOURCE_DIR}$")
     IF(ITK_CSWIG_CONFIGURATION_TYPES)
-      FOREACH(config ${ITK_CSWIG_CONFIGURATION_TYPES})
-        FOREACH(file ${ITK_PYTHON_FILES})
-          SET(src "${ITK_SOURCE_DIR}/Wrapping/CSwig/Python/${file}.py")
-          SET(tgt "${ITK_BINARY_DIR}/Wrapping/CSwig/Python/${config}/${file}.py")
-          ADD_CUSTOM_COMMAND(SOURCE ${src}
-          	         COMMAND ${CMAKE_COMMAND}
-                            ARGS -E copy ${src} ${tgt}
-                            OUTPUTS ${tgt}
-          		 TARGET itkpython_pyc
-                            COMMENT "source copy")
-        ENDFOREACH(file)
-      ENDFOREACH(config)
+      FOREACH(file ${ITK_PYTHON_FILES})
+        SET(src "${ITK_SOURCE_DIR}/Wrapping/CSwig/Python/${file}.py")
+        SET(tgt "${ITK_BINARY_DIR}/Wrapping/CSwig/Python/${CMAKE_CFG_INTDIR}/${file}.py")
+        ADD_CUSTOM_COMMAND(SOURCE ${src}
+                           COMMAND ${CMAKE_COMMAND}
+                           ARGS -E copy ${src} ${tgt}
+                           OUTPUTS ${tgt}
+                           TARGET itkpython_pyc
+                           COMMENT "source copy")
+      ENDFOREACH(file)
     ELSE(ITK_CSWIG_CONFIGURATION_TYPES)
       FOREACH(file ${ITK_PYTHON_FILES})
         SET(src "${ITK_SOURCE_DIR}/Wrapping/CSwig/Python/${file}.py")
