@@ -90,6 +90,14 @@ M_SetupReadFields(void)
   if(META_DEBUG) std::cout << "MetaGroup: M_SetupReadFields" << std::endl;
 
   MetaObject::M_SetupReadFields();
+
+  MET_FieldRecordType * mF = new MET_FieldRecordType;
+  MET_InitReadField(mF, "EndGroup", MET_NONE, true);
+  mF->terminateRead = true;
+  m_Fields.push_back(mF);
+
+  mF = MET_GetFieldRecord("ElementSpacing", &m_Fields);
+  mF->required = false;
 }
 
 void MetaGroup::
@@ -97,6 +105,10 @@ M_SetupWriteFields(void)
 {
   strcpy(m_ObjectTypeName,"Group");
   MetaObject::M_SetupWriteFields();
+
+  MET_FieldRecordType * mF = new MET_FieldRecordType;
+  MET_InitWriteField(mF, "EndGroup", MET_NONE);
+  m_Fields.push_back(mF);
 }
 
 

@@ -47,17 +47,17 @@ SpatialObjectReader<NDimensions,PixelType>
 ::Update()
 { 
   m_Scene = m_MetaToSpatialConverter.ReadMeta(m_FullFileName.c_str());
-  m_Group = GroupType::New();
 
-  typename SceneType::ObjectListType::iterator it;
-  it = m_Scene->GetObjects().begin();
-  typename SceneType::ObjectListType::iterator it_end;
-  it_end = m_Scene->GetObjects().end();
+  m_Group = GroupType::New();
+  typename SceneType::ObjectListType * list = m_Scene->GetObjects(0);
+  typename SceneType::ObjectListType::iterator it = list->begin();
+  typename SceneType::ObjectListType::iterator it_end = list->end();
   while(it != it_end)
     {
-    m_Group->AddSpatialObject(static_cast < SpatialObjectType * > ( *it ));
+    m_Group->AddSpatialObject(static_cast<SpatialObjectType *>(*it));
     it++;
     }
+  delete list;
 }
 
 } // namespace itk

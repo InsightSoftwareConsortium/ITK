@@ -19,9 +19,7 @@
 #define __MetaSceneConverter__h
 
 #include "itkSpatialObject.h"
-//#include "itkCompositeSpatialObject.h"
 #include "metaScene.h"
-#include "MetaTubeConverter.h"
 #include "itkScene.h"
 
 template <unsigned int NDimensions, class PixelType = unsigned char>
@@ -33,26 +31,29 @@ public:
   MetaSceneConverter();
   ~MetaSceneConverter();
 
-  typedef itk::Scene<>  SceneType;
+  itkStaticConstMacro(MaximumDepth, unsigned int, 9999999);
 
-  typedef itk::NDimensionalSpatialObject<> NDimSpatialObjectType;
+  typedef itk::Scene<NDimensions>  SceneType;
+  typedef typename  SceneType::Pointer ScenePointer;
 
-  typedef typename SceneType::Pointer SpatialObjectPointer;
+  ScenePointer ReadMeta(const char* name);
 
-  typedef std::list<MetaObject*>     ObjectListType;
-
-  SpatialObjectPointer ReadMeta(const char* name);
-
-  bool WriteMeta(NDimSpatialObjectType* spatialObject,const char* name);
-
-  SpatialObjectPointer MetaSceneToSpatialObject(MetaScene * scene);
+  bool WriteMeta(SceneType * scene,const char* fileName,
+                 unsigned int depth=MaximumDepth,
+                 char * spatialObjectTypeName=NULL);
 
 private:
 
-  bool CreateScene(NDimSpatialObjectType* spatialObject,int parentID);
+  typedef itk::SpatialObject<NDimensions> SpatialObjectType;
+  typedef typename SpatialObjectType::Pointer SpatialObjectPointer;
 
-  MetaScene* m_Scene;
-  ObjectListType m_ObjectList;
+  typedef std::list<MetaObject*>     MetaObjectListType;
+
+  MetaScene * CreateMetaScene(SceneType * scene,
+                              unsigned int depth=MaximumDepth,
+                              char * name=NULL);
+
+  ScenePointer CreateSpatialObjectScene( MetaScene * scene );
 
 };
 

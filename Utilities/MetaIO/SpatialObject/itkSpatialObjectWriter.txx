@@ -30,6 +30,7 @@ SpatialObjectWriter<NDimensions,PixelType>
 {
   m_FullFileName = "";
   m_SpatialObject = 0;
+  m_Scene = 0;
 }
 
 template <unsigned int NDimensions, class PixelType>
@@ -44,7 +45,20 @@ void
 SpatialObjectWriter<NDimensions,PixelType>
 ::Update()
 { 
-  m_MetaToSpatialConverter.WriteMeta(m_SpatialObject,m_FullFileName.c_str());
+  if(m_Scene != 0)
+    {
+    m_MetaToSpatialConverter.WriteMeta(m_Scene,m_FullFileName.c_str());
+    m_Scene = 0;
+    }
+  else
+    if(m_SpatialObject != 0)
+      {
+      typename SceneType::Pointer tScene = SceneType::New();
+      tScene->AddSpatialObject(m_SpatialObject);
+      m_MetaToSpatialConverter.WriteMeta(tScene,
+                                         m_FullFileName.c_str());
+      m_SpatialObject = 0;
+      }
 }
 
 

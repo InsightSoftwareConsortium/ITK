@@ -54,7 +54,6 @@ MetaGroupConverter<NDimensions>
   MetaGroup* group = new MetaGroup(dim);
 
   group->ParentID(spatialObject->GetParentId());
-  group->Radius(radius);
   group->ID(spatialObject->GetId());
   return group;
 }

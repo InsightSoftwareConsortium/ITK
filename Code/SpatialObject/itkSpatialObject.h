@@ -130,18 +130,18 @@ public:
   /** Returns a degree of membership to the object. 
    *  That's useful for fuzzy objects. */ 
   virtual void ValueAt( const PointType & point, double & value,
-                        unsigned int depth=MaximumDepth,
+                        unsigned int depth=0,
                         char * name = NULL);
      
   /** Return tru if the object provides a method to evaluate the value 
    *  at the specified point, else otherwise. */
   virtual bool IsEvaluableAt( const PointType & point,
-                              unsigned int depth=MaximumDepth,
+                              unsigned int depth=0,
                               char * name = NULL);
 
   /** Test whether a point is inside or outside the object. */ 
   virtual bool IsInside( const PointType & point,
-                         unsigned int depth=MaximumDepth,
+                         unsigned int depth=0,
                          char * name = NULL) const;
 
   /** Set the pointer to the parent object in the tree hierarchy
@@ -152,7 +152,7 @@ public:
   void DerivativeAt( const PointType & point,
                      short unsigned int order,
                      OutputVectorType & value,
-                     unsigned int depth=MaximumDepth,
+                     unsigned int depth=0,
                      char * name = NULL);
 
   /** Returns the coordinates of the point passed as argument in the object
@@ -170,7 +170,7 @@ public:
    *  It should provide a method to get the boundaries of 
    *  a specific object. Basically, this function need to be called
    *  every time one of the object component is changed.  */ 
-  virtual bool ComputeBoundingBox( unsigned int depth=MaximumDepth,
+  virtual bool ComputeBoundingBox( unsigned int depth=0,
                                    char * name = NULL);
 
   /** Set the Spacing of the spatial object */
@@ -212,11 +212,11 @@ public:
   /** Returns a list of pointer to the children affiliated to this object. 
    * A depth of 0 returns the immediate childred. A depth of 1 returns the
    * children and those children's children. */ 
-  virtual ChildrenListType * GetChildren( unsigned int depth=MaximumDepth,
+  virtual ChildrenListType * GetChildren( unsigned int depth=0,
                                           char * name = NULL);
 
   /** Returns the number of children currently assigned to the object. */ 
-  unsigned int GetNumberOfChildren( unsigned int depth=MaximumDepth,
+  unsigned int GetNumberOfChildren( unsigned int depth=0,
                                     char * name = NULL);
 
   /** Set the list of pointers to children to the list passed as argument. */ 

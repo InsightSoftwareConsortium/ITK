@@ -31,7 +31,6 @@ template< unsigned int NDimensions, unsigned int SpaceDimension >
 SpatialObject< NDimensions, SpaceDimension>
 ::SpatialObject( void )
 {
-  m_ParentId=-1;
   m_Dimension = NDimensions;
   m_Bounds = BoundingBoxType::New();
   m_BoundsMTime = 0;
@@ -67,9 +66,9 @@ SpatialObject< NDimensions, SpaceDimension>
 {
   // Call the Clear function of every child
   typename ChildrenListType::iterator it = m_Children.begin();
-  typename ChildrenListType::iterator end = m_Children.end();
+  typename ChildrenListType::iterator itEnd = m_Children.end();
 
-  while(it!=end)
+  while(it!=itEnd)
   {
     if((*it))
     {
@@ -190,9 +189,9 @@ SpatialObject< NDimensions, SpaceDimension>
   if( depth > 0 )
     {
     typename ChildrenListType::const_iterator it = m_Children.begin();
-    typename ChildrenListType::const_iterator end = m_Children.end();
+    typename ChildrenListType::const_iterator itEnd = m_Children.end();
     
-    while(it!=end)
+    while(it!=itEnd)
       {
       if( (*it)->IsInside(point, depth-1, name) ) 
         {
@@ -214,9 +213,9 @@ SpatialObject< NDimensions, SpaceDimension>
   if( depth > 0 )
     {
     typename ChildrenListType::iterator it = m_Children.begin();
-    typename ChildrenListType::iterator end = m_Children.end();
+    typename ChildrenListType::iterator itEnd = m_Children.end();
     
-    while(it!=end)
+    while(it!=itEnd)
       {
       if( (*it)->IsEvaluableAt(point, depth-1, name) ) 
         {
@@ -240,9 +239,9 @@ SpatialObject< NDimensions, SpaceDimension>
   if( depth > 0 )
     {
     typename ChildrenListType::iterator it = m_Children.begin();
-    typename ChildrenListType::iterator end = m_Children.end();
+    typename ChildrenListType::iterator itEnd = m_Children.end();
   
-    while(it!=end)
+    while(it!=itEnd)
       {
       if( (*it)->IsEvaluableAt(point, depth-1, name) )
         {
@@ -336,9 +335,10 @@ SpatialObject< NDimensions, SpaceDimension>
 
   if( it == m_Children.end() )
   {
+    pointer->SetParent( this );
+    pointer->SetParentId( this->GetId() );
     m_Children.push_back( pointer );
     m_NDimensionalChildrenList.push_back( pointer );
-    pointer->SetParent( this );
   }
   else
   { 
@@ -364,6 +364,7 @@ SpatialObject< NDimensions, SpaceDimension>
     if( *it == pointer )
     {
       (*it)->SetParent(NULL);
+      (*it)->SetParentId(-1);
       m_Children.erase( it );
       found =true;
     }
@@ -573,11 +574,11 @@ SpatialObject< NDimensions, SpaceDimension>
   }
 
   typename ChildrenListType::const_iterator it = m_Children.begin();
-  typename ChildrenListType::const_iterator end = m_Children.end();
+  typename ChildrenListType::const_iterator itEnd = m_Children.end();
  
   unsigned long localTime;
 
-  while(it!=end)
+  while(it!=itEnd)
   {
     localTime = (*it)->GetMTime();
 
@@ -603,15 +604,15 @@ SpatialObject< NDimensions, SpaceDimension>
     if( depth > 0 )
       {
       typename ChildrenListType::iterator it = m_Children.begin();
-      typename ChildrenListType::iterator end = m_Children.end();
-      if(it != end)
+      typename ChildrenListType::iterator itEnd = m_Children.end();
+      if(it != itEnd)
         {
         (*it)->ComputeBoundingBox(depth-1, name);
         m_Bounds->SetMinimum((*it)->GetBoundingBox()->GetMinimum());
         m_Bounds->SetMaximum((*it)->GetBoundingBox()->GetMaximum());
         it++;
 
-        while(it!=end)
+        while(it!=itEnd)
           {
           (*it)->ComputeBoundingBox(depth-1, name);
           m_Bounds->ConsiderPoint((*it)->GetBoundingBox()->GetMinimum());
@@ -689,9 +690,9 @@ SpatialObject< NDimensions, SpaceDimension>
   m_Children = children;
 
   typename ChildrenListType::const_iterator it = m_Children.begin();
-  typename ChildrenListType::const_iterator end = m_Children.end();
+  typename ChildrenListType::const_iterator itEnd = m_Children.end();
   
-  while(it != end)
+  while(it != itEnd)
   {
     (*it)->Register(); // increase the reference count
     m_NDimensionalChildrenList.push_back(*it);
@@ -706,14 +707,24 @@ unsigned int
 SpatialObject< NDimensions, SpaceDimension>
 ::GetNumberOfChildren( unsigned int depth, char * name )
 {
-  unsigned int cnt = m_Children.size();
+  typename ChildrenListType::const_iterator it = m_Children.begin();
+  typename ChildrenListType::const_iterator itEnd = m_Children.end();
 
+  unsigned int cnt = 0;
+  while(it != itEnd)
+    {
+    if(name == NULL || strstr(typeid(**it).name(), name))
+      {
+      cnt++;
+      }
+    it++;
+    }
+
+  it = m_Children.begin();
+  itEnd = m_Children.end();
   if( depth > 0 )
     {
-    typename ChildrenListType::const_iterator it = m_Children.begin();
-    typename ChildrenListType::const_iterator end = m_Children.end();
-    
-    while(it != end)
+    while(it != itEnd)
       {
       cnt += (*it)->GetNumberOfChildren( depth-1, name );
       it++;

@@ -21,6 +21,7 @@
 #include "MetaSceneConverter.h"
 #include "itkProcessObject.h"
 #include "itkSpatialObject.h"
+#include "itkScene.h"
 
 
 namespace itk
@@ -35,12 +36,8 @@ public:
   typedef SpatialObjectWriter Self;
   typedef SmartPointer<Self> Pointer;
 
-  /*typedef  CompositeSpatialObject<NDimensions,
-                                  AffineTransform< double, NDimensions>
-                                  > SpatialObjectType; 
-  */
-
-  typedef NDimensionalSpatialObject<> NDimSpatialObjectType; 
+  typedef SpatialObject<NDimensions> SpatialObjectType; 
+  typedef Scene<NDimensions> SceneType; 
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
@@ -49,7 +46,6 @@ public:
   typedef Object Superclass;
   itkTypeMacro(Self, Superclass);
 
-  typedef typename NDimSpatialObjectType::Pointer SpatialObjectTypePointer;
 
   /** Load a tube file. */
   void Update(void);
@@ -61,7 +57,9 @@ public:
   itkGetStringMacro(FullFileName);
 
   /** Set the Input  */
-  void SetInput(NDimSpatialObjectType* input){m_SpatialObject=input;}
+  void SetInput(SpatialObjectType * input){m_SpatialObject=input;}
+
+  void SetInput(SceneType * input){m_Scene=input;}
 
 protected:
   std::string m_FullFileName;
@@ -71,7 +69,9 @@ protected:
 
 private:
 
-  SpatialObjectTypePointer m_SpatialObject;
+  SpatialObjectType * m_SpatialObject;
+  SceneType * m_Scene;
+
   MetaSceneConverter<NDimensions,PixelType> m_MetaToSpatialConverter;
 };
 

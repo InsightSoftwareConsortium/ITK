@@ -21,19 +21,28 @@
 #include "MetaSceneConverter.h"
 #include "MetaEllipseConverter.h"
 #include "MetaTubeConverter.h"
+#include "MetaGroupConverter.h"
 #include "MetaImageConverter.h"
 #include "MetaBlobConverter.h"
 #include "MetaLineConverter.h"
 #include "MetaSurfaceConverter.h"
-#include <algorithm>
+
+#include "itkScene.h"
+#include "itkEllipseSpatialObject.h"
 #include "itkTubeSpatialObject.h"
+#include "itkGroupSpatialObject.h"
+#include "itkImageSpatialObject.h"
+#include "itkBlobSpatialObject.h"
+#include "itkLineSpatialObject.h"
+#include "itkSurfaceSpatialObject.h"
+
+#include <algorithm>
 
 /** Constructor */ 
 template <unsigned int NDimensions, class PixelType>                                        
 MetaSceneConverter<NDimensions,PixelType>
 ::MetaSceneConverter()
 {
-  m_Scene = NULL;
 }
 
 /** Destructor */ 
@@ -41,32 +50,33 @@ template <unsigned int NDimensions, class PixelType>
 MetaSceneConverter<NDimensions,PixelType>
 ::~MetaSceneConverter()
 {
-  delete m_Scene;
 }
 
 /** Convert a metaScene into a Composite Spatial Object 
  *  Also Managed Composite Spatial Object to keep a hierarchy */
 template <unsigned int NDimensions, class PixelType> 
-typename MetaSceneConverter<NDimensions,PixelType>::SpatialObjectPointer
+typename MetaSceneConverter<NDimensions,PixelType>::ScenePointer
 MetaSceneConverter<NDimensions,PixelType>
-::MetaSceneToSpatialObject(MetaScene * scene)
+::CreateSpatialObjectScene(MetaScene * mScene)
 {
 
-  SceneType::Pointer sceneSpatialObject = SceneType::New();
+  ScenePointer soScene = SceneType::New();
 
-  MetaScene::ObjectListType list = scene->GetObjectList();
+  MetaScene::ObjectListType list = mScene->GetObjectList();
   MetaScene::ObjectListType::iterator it = list.begin();
+  MetaScene::ObjectListType::iterator itEnd = list.end();
 
   std::list<int> ParentIDList; 
   std::list<int>::iterator ParentID_it;
 
-  while(it != list.end())
+  while(it != itEnd)
   {
     unsigned int attached = -1;
     if( ((*it)->ParentID() != -1))
     {
       ParentIDList.push_back((*it)->ParentID());
-      ParentID_it = std::find(ParentIDList.begin(), ParentIDList.end(),(*it)->ParentID());
+      ParentID_it = std::find(ParentIDList.begin(), ParentIDList.end(),
+                              (*it)->ParentID());
       if( *ParentID_it )
       {
         attached = *ParentID_it;
@@ -77,45 +87,68 @@ MetaSceneConverter<NDimensions,PixelType>
     if(!strncmp((*it)->ObjectTypeName(),"Tube",4))
     {
       MetaTubeConverter<NDimensions> tubeConverter;
-      typename itk::TubeSpatialObject<NDimensions>::Pointer so = tubeConverter.MetaTubeToTubeSpatialObject((MetaTube*)*it);
+      typename itk::TubeSpatialObject<NDimensions>::Pointer so =
+               tubeConverter.MetaTubeToTubeSpatialObject((MetaTube*)*it);
       so->SetReferenceCount(2);
       if(attached != -1)
       { 
-        static_cast<itk::SpatialObject<NDimensions>* >(sceneSpatialObject->GetObjectById(attached))->AddSpatialObject(so.GetPointer());
+        static_cast<itk::SpatialObject<NDimensions>* >(soScene->
+            GetObjectById(attached))->AddSpatialObject(so.GetPointer());
       }
       else
       {
-        sceneSpatialObject->AddSpatialObject((NDimSpatialObjectType*)so.GetPointer());
+        soScene->AddSpatialObject((SpatialObjectType*)so.GetPointer());
+      }
+    }
+
+    if(!strncmp((*it)->ObjectTypeName(),"Group",5))
+    {
+      MetaGroupConverter<NDimensions> groupConverter;
+      typename itk::GroupSpatialObject<NDimensions>::Pointer so =
+               groupConverter.MetaGroupToGroupSpatialObject((MetaGroup*)*it);
+      so->SetReferenceCount(2);
+      if(attached != -1)
+      { 
+        static_cast<itk::SpatialObject<NDimensions>* >(soScene->
+            GetObjectById(attached))->AddSpatialObject(so.GetPointer());
+      }
+      else
+      {
+        soScene->AddSpatialObject((SpatialObjectType*)so.GetPointer());
       }
     }
 
     if(!strncmp((*it)->ObjectTypeName(),"Ellipse",5))
     {
       MetaEllipseConverter<NDimensions> ellipseConverter;
-      typename itk::EllipseSpatialObject<NDimensions>::Pointer so = ellipseConverter.MetaEllipseToEllipseSpatialObject((MetaEllipse*)*it);
+      typename itk::EllipseSpatialObject<NDimensions>::Pointer so = 
+          ellipseConverter.MetaEllipseToEllipseSpatialObject((MetaEllipse*)*it);
       so->SetReferenceCount(2);
       if(attached != -1)
       {
-        static_cast<itk::SpatialObject<NDimensions>* >(sceneSpatialObject->GetObjectById(attached))->AddSpatialObject(so.GetPointer());
+        static_cast<itk::SpatialObject<NDimensions>* >(soScene->
+            GetObjectById(attached))->AddSpatialObject(so.GetPointer());
       }
       else
       {
-        sceneSpatialObject->AddSpatialObject((NDimSpatialObjectType*)so.GetPointer());
+        soScene->AddSpatialObject( (SpatialObjectType*)so.GetPointer());
       }
     }
 
     if(!strncmp((*it)->ObjectTypeName(),"Image",5))
     {
       MetaImageConverter<NDimensions,PixelType> imageConverter;
-      typename itk::ImageSpatialObject<NDimensions,PixelType>::Pointer so = imageConverter.MetaImageToImageSpatialObject((MetaImage*)*it);
+      typename itk::ImageSpatialObject<NDimensions,PixelType>::Pointer so =
+          imageConverter.MetaImageToImageSpatialObject((MetaImage*)*it);
       so->SetReferenceCount(2);
       if(attached != -1)
       {
-        static_cast<itk::SpatialObject<NDimensions>* >(sceneSpatialObject->GetObjectById(attached))->AddSpatialObject(so.GetPointer());
+        static_cast<itk::SpatialObject<NDimensions>* >(soScene->
+            GetObjectById(attached))->AddSpatialObject(so.GetPointer());
       }
       else
       {
-        sceneSpatialObject->AddSpatialObject((NDimSpatialObjectType*)so.GetPointer());
+        soScene->AddSpatialObject((SpatialObjectType*) so.GetPointer());
       }
     }
 
@@ -127,171 +160,174 @@ MetaSceneConverter<NDimensions,PixelType>
       so->SetReferenceCount(2);
       if(attached != -1)
       {
-        static_cast<itk::SpatialObject<NDimensions>* >(sceneSpatialObject->GetObjectById(attached))->AddSpatialObject(so.GetPointer());
+        static_cast<itk::SpatialObject<NDimensions>* >(soScene->
+            GetObjectById(attached))->AddSpatialObject(so.GetPointer());
       }
       else
       {
-        sceneSpatialObject->AddSpatialObject((NDimSpatialObjectType*)so.GetPointer());
+        soScene->AddSpatialObject((SpatialObjectType*) so.GetPointer());
       }
     }
 
     if(!strncmp((*it)->ObjectTypeName(),"Surface",7))
     {
       MetaSurfaceConverter<NDimensions> surfaceConverter;
-      typename itk::SurfaceSpatialObject<NDimensions>::Pointer
-                                                     so = surfaceConverter.MetaSurfaceToSurfaceSpatialObject((MetaSurface*)*it);
+      typename itk::SurfaceSpatialObject<NDimensions>::Pointer so =
+          surfaceConverter.MetaSurfaceToSurfaceSpatialObject((MetaSurface*)*it);
       so->SetReferenceCount(2);
       if(attached != -1)
       {
-        static_cast<itk::SpatialObject<NDimensions>* >(sceneSpatialObject->GetObjectById(attached))->AddSpatialObject(so.GetPointer());
+        static_cast<itk::SpatialObject<NDimensions>* >(soScene->
+            GetObjectById(attached))->AddSpatialObject(so.GetPointer());
       }
       else
       {
-        sceneSpatialObject->AddSpatialObject((NDimSpatialObjectType*)so.GetPointer());
+        soScene->AddSpatialObject( (SpatialObjectType*)so.GetPointer());
       }
     }
 
     if(!strncmp((*it)->ObjectTypeName(),"Line",4))
     {
       MetaLineConverter<NDimensions> lineConverter;
-      typename itk::LineSpatialObject<NDimensions>::Pointer
-                                                     so = lineConverter.MetaLineToLineSpatialObject((MetaLine*)*it);
+      typename itk::LineSpatialObject<NDimensions>::Pointer so =
+          lineConverter.MetaLineToLineSpatialObject((MetaLine*)*it);
       so->SetReferenceCount(2);
       if(attached != -1)
       {
-        static_cast<itk::SpatialObject<NDimensions>* >(sceneSpatialObject->GetObjectById(attached))->AddSpatialObject(so.GetPointer());
+        static_cast<itk::SpatialObject<NDimensions>* >(soScene->
+            GetObjectById(attached))->AddSpatialObject(so.GetPointer());
       }
       else
       {
-        sceneSpatialObject->AddSpatialObject((NDimSpatialObjectType*)so.GetPointer());
+        soScene->AddSpatialObject( (SpatialObjectType*)so.GetPointer());
       }
     }
     it++;
   }
 
-  return sceneSpatialObject;
+  return soScene;
 }
 
 
 
 /** Read a meta file give the type */
 template <unsigned int NDimensions, class PixelType>   
-typename MetaSceneConverter<NDimensions,PixelType>::SpatialObjectPointer
+typename MetaSceneConverter<NDimensions,PixelType>::ScenePointer
 MetaSceneConverter<NDimensions,PixelType>
 ::ReadMeta(const char* name)
 {
-  MetaScene* scene = new MetaScene;
-  scene->Read(name);
-  SpatialObjectPointer spatialObject = MetaSceneToSpatialObject(scene);
-  delete scene;
-  //std::cout << "test" << std::endl;
-  return spatialObject;
+  MetaScene* mScene = new MetaScene;
+  mScene->Read(name);
+  ScenePointer soScene = CreateSpatialObjectScene(mScene);
+  delete mScene;
+  return soScene;
 }
 
 
 /** Write a meta file give the type */
 template <unsigned int NDimensions, class PixelType>    
-bool
+MetaScene *
 MetaSceneConverter<NDimensions,PixelType>
-::CreateScene(NDimSpatialObjectType* spatialObject,int parentID)
+::CreateMetaScene(SceneType * scene, unsigned int depth, char * name)
 {
-  /** SceneSpatialObject */
-  if(!strncmp(spatialObject->GetTypeName(),"SceneSpatialObject",17))
-  {    
-    typedef SceneType::ObjectListType ListType;
-    ListType childrenList = dynamic_cast<SceneType*>(spatialObject)->GetObjects();
-    ListType::iterator it = childrenList.begin();
-    
-    while(it != childrenList.end())
-    {    
-      CreateScene(*it,dynamic_cast<SceneType*>(spatialObject)->GetParentId());
-      it++;
+  MetaScene * metaScene = new MetaScene(NDimensions);
+
+  float* spacing = new float[NDimensions];
+  for(unsigned int i=0;i<NDimensions;i++)
+    {
+    spacing[i]=1;
     }
-    return true;
-  }
+  metaScene->ElementSpacing(spacing);
+  delete spacing;
+
+  typedef typename SceneType::ObjectListType ListType;
+  ListType * childrenList = scene->GetObjects(depth, name);
+
+  typename ListType::iterator it = childrenList->begin();
+  typename ListType::iterator itEnd = childrenList->end();
+    
+  while(it != itEnd)
+    {    
+    if(!strncmp((*it)->GetTypeName(),"GroupSpatialObject",17))
+      {
+      static MetaGroupConverter<NDimensions> converter;
+      MetaGroup* group = converter.GroupSpatialObjectToMetaGroup(
+          dynamic_cast<itk::GroupSpatialObject<NDimensions>*>((*it)));
+      group->ParentID((*it)->GetParentId());
+      group->Name((*it)->GetProperty()->GetName().c_str());
+      std::cout << "Group id = " << group->ParentID() << std::endl;
+      metaScene->AddObject(group);
+      }
   
-  /** Objects should be added here */
+    if(!strncmp((*it)->GetTypeName(),"TubeSpatialObject",16))
+      {
+      static MetaTubeConverter<NDimensions> converter;
+      MetaTube* tube = converter.TubeSpatialObjectToMetaTube(
+          dynamic_cast<itk::TubeSpatialObject<NDimensions>*>((*it)));
+      tube->ParentID((*it)->GetParentId());
+      tube->Name((*it)->GetProperty()->GetName().c_str());
+      metaScene->AddObject(tube);
+      }
+  
+    if(!strncmp((*it)->GetTypeName(),"EllipseSpatialObject",20))
+      {
+      static MetaEllipseConverter<NDimensions> converter;
+      MetaEllipse* ellipse = converter.EllipseSpatialObjectToMetaEllipse(
+          dynamic_cast<itk::EllipseSpatialObject<NDimensions>*>((*it)));
+      ellipse->ParentID((*it)->GetParentId());
+      ellipse->Name((*it)->GetProperty()->GetName().c_str());
+      metaScene->AddObject(ellipse);
+      }
+  
+    if(!strncmp((*it)->GetTypeName(),"ImageSpatialObject",20))
+      {
+      static MetaImageConverter<NDimensions,PixelType> converter;
+      MetaImage* image = converter.ImageSpatialObjectToMetaImage(
+          dynamic_cast<itk::ImageSpatialObject<NDimensions, PixelType>*>(
+            (*it)));
+      image->ParentID((*it)->GetParentId());
+      image->Name((*it)->GetProperty()->GetName().c_str());
+      metaScene->AddObject(image);
+      }
+  
+    if(!strncmp((*it)->GetTypeName(),"BlobSpatialObject",20))
+      {
+      static MetaBlobConverter<NDimensions> converter;
+      MetaBlob* blob = converter.BlobSpatialObjectToMetaBlob(
+          dynamic_cast<itk::BlobSpatialObject<NDimensions >*>(
+            (*it)));
+      blob->ParentID((*it)->GetParentId());
+      blob->BinaryData(true);
+      blob->Name((*it)->GetProperty()->GetName().c_str());
+      metaScene->AddObject(blob);
+      }
+  
+    if(!strncmp((*it)->GetTypeName(),"SurfaceSpatialObject",20))
+      {
+      static MetaSurfaceConverter<NDimensions> converter;
+      MetaSurface* surface = converter.SurfaceSpatialObjectToMetaSurface(
+          dynamic_cast<itk::SurfaceSpatialObject<NDimensions>*>((*it)));
+      surface->ParentID((*it)->GetParentId());
+      surface->Name((*it)->GetProperty()->GetName().c_str());
+      metaScene->AddObject(surface);
+      }
+  
+    if(!strncmp((*it)->GetTypeName(),"LineSpatialObject",20))
+      {
+      static MetaLineConverter<NDimensions> converter;
+      MetaLine* line = converter.LineSpatialObjectToMetaLine(
+          dynamic_cast<itk::LineSpatialObject<NDimensions>*>((*it)));
+      line->ParentID((*it)->GetParentId());
+      line->Name((*it)->GetProperty()->GetName().c_str());
+      metaScene->AddObject(line);
+      }
+  
+    it++;
+    }
+ 
+  delete childrenList;
 
-  if(spatialObject->GetDimension() != NDimensions)
-  {
-    std::cout << "Dimension mismatch : " << NDimensions << "D asked != " << spatialObject->GetDimension() << "D found" << std::endl;
-    return false;
-  }
-
-  if(!strncmp(spatialObject->GetTypeName(),"TubeSpatialObject",16))
-  {
-    static MetaTubeConverter<NDimensions> converter;
-    MetaTube* tube = converter.TubeSpatialObjectToMetaTube(dynamic_cast<itk::TubeSpatialObject<NDimensions>*>(spatialObject));
-    tube->ParentID(parentID);
-    tube->Name(spatialObject->GetProperty()->GetName().c_str());
-    m_Scene->AddObject(tube);
-    return true;
-  }
-
-  if(!strncmp(spatialObject->GetTypeName(),"EllipseSpatialObject",20))
-  {
-    static MetaEllipseConverter<NDimensions> converter;
-    MetaEllipse* ellipse = converter.EllipseSpatialObjectToMetaEllipse(dynamic_cast<itk::EllipseSpatialObject<NDimensions>*>(spatialObject));
-    ellipse->ParentID(parentID);
-    ellipse->Name(spatialObject->GetProperty()->GetName().c_str());
-    m_Scene->AddObject(ellipse);
-    return true;
-  }
-
-  if(!strncmp(spatialObject->GetTypeName(),"ImageSpatialObject",20))
-  {
-    static MetaImageConverter<NDimensions,PixelType> converter;
-    MetaImage* image = converter.ImageSpatialObjectToMetaImage
-                                (dynamic_cast<itk::ImageSpatialObject<NDimensions,
-                                                                      PixelType>*>(spatialObject)
-                                );
-    image->ParentID(parentID);
-    image->Name(spatialObject->GetProperty()->GetName().c_str());
-    m_Scene->AddObject(image);
-    return true;
-  }
-
-  if(!strncmp(spatialObject->GetTypeName(),"BlobSpatialObject",20))
-  {
-    static MetaBlobConverter<NDimensions> converter;
-    MetaBlob* blob = converter.BlobSpatialObjectToMetaBlob
-                                (dynamic_cast<itk::BlobSpatialObject<NDimensions
-                                            >*>(spatialObject)
-                                );
-    blob->ParentID(parentID);
-    blob->BinaryData(true);
-    blob->Name(spatialObject->GetProperty()->GetName().c_str());
-    m_Scene->AddObject(blob);
-    return true;
-  }
-
-  if(!strncmp(spatialObject->GetTypeName(),"SurfaceSpatialObject",20))
-  {
-    static MetaSurfaceConverter<NDimensions> converter;
-    MetaSurface* surface = converter.SurfaceSpatialObjectToMetaSurface
-                                (dynamic_cast<itk::SurfaceSpatialObject<NDimensions
-                                            >*>(spatialObject)
-                                );
-    surface->ParentID(parentID);
-    surface->Name(spatialObject->GetProperty()->GetName().c_str());
-    m_Scene->AddObject(surface);
-    return true;
-  }
-
-  if(!strncmp(spatialObject->GetTypeName(),"LineSpatialObject",20))
-  {
-    static MetaLineConverter<NDimensions> converter;
-    MetaLine* line = converter.LineSpatialObjectToMetaLine
-                                (dynamic_cast<itk::LineSpatialObject<NDimensions
-                                            >*>(spatialObject)
-                                );
-    line->ParentID(parentID);
-    line->Name(spatialObject->GetProperty()->GetName().c_str());
-    m_Scene->AddObject(line);
-    return true;
-  }
-
-  return true;
+  return metaScene;
 }
 
 
@@ -299,29 +335,15 @@ MetaSceneConverter<NDimensions,PixelType>
 template <unsigned int NDimensions, class PixelType>   
 bool
 MetaSceneConverter<NDimensions,PixelType>
-::WriteMeta(NDimSpatialObjectType* spatialObject, const char* name)
+::WriteMeta(SceneType * scene, const char* fileName,
+            unsigned int depth, char * soName)
 {
-  m_Scene = new MetaScene(spatialObject->GetDimension());
-  CreateScene(spatialObject,-1);
+  MetaScene * metaScene = CreateMetaScene(scene, depth, soName);
 
-  ObjectListType::const_iterator it = m_ObjectList.begin();
+  metaScene->Write(fileName);
 
-  while(it != m_ObjectList.end())
-  {
-    m_Scene->AddObject(*it);
-    it++;
-  }
+  delete metaScene;
 
-  float* spacing = new float[spatialObject->GetDimension()];
-  for(unsigned int i=0;i<spatialObject->GetDimension();i++)
-  {
-    spacing[i]=1;//spatialObject->GetSpacing()[i];
-  }
-
-  m_Scene->ElementSpacing(spacing);
-  m_Scene->Write(name);
-  delete m_Scene;
-  m_Scene = NULL;
   return true;
 }
 

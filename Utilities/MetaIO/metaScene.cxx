@@ -12,6 +12,7 @@
 #include <metaImage.h>
 #include <metaBlob.h>
 #include <metaLine.h>
+#include <metaGroup.h>
 #include <metaSurface.h>
 //
 // MetaScene Constructors
@@ -174,6 +175,13 @@ Read(const char *_headerName)
       line->ReadStream(m_NDims,m_ReadStream);
       m_ObjectList.push_back(line);
     }
+
+    else if(!strncmp(MET_ReadType(*m_ReadStream),"Group",5))
+    {
+      MetaGroup* group = new MetaGroup();
+      group->ReadStream(m_NDims,m_ReadStream);
+      m_ObjectList.push_back(group);
+    }
   }
 
   m_ReadStream->close();
@@ -316,7 +324,7 @@ M_Write(void)
 {
   if(!MetaObject::M_Write())
   {
-    std::cout << "MetaScene: M_Read: Error parsing file" << std::endl;
+    std::cout << "MetaScene: M_Write: Error parsing file" << std::endl;
     return false;
   }
 

@@ -54,7 +54,7 @@ void
 Scene<SpaceDimension>
 ::RemoveSpatialObject( NDimensionalSpatialObject<> * pointer )
 {
-  ObjectListType::iterator it;    
+  typename ObjectListType::iterator it;    
   it = std::find(m_Objects.begin(),m_Objects.end(),pointer);
 
   if( it != m_Objects.end() )
@@ -79,12 +79,12 @@ unsigned long
 Scene<SpaceDimension>
 ::GetMTime( void ) const
 {
-  ObjectListType::const_iterator it = m_Objects.begin();
-  ObjectListType::const_iterator end = m_Objects.end();
+  typename ObjectListType::const_iterator it = m_Objects.begin();
+  typename ObjectListType::const_iterator itEnd = m_Objects.end();
  
   unsigned long latestTime = Superclass::GetMTime();
   unsigned long localTime;
-  while(it!=end)
+  while(it!=itEnd)
   {
     localTime = (*it)->GetMTime();
     if( localTime > latestTime )
@@ -98,11 +98,43 @@ Scene<SpaceDimension>
 
 /** Return the children list */
 template <unsigned int SpaceDimension>
-typename Scene<SpaceDimension>::ObjectListType &
+typename Scene<SpaceDimension>::ObjectListType *
 Scene<SpaceDimension>
-::GetObjects( void )
+::GetObjects( unsigned int depth, char * name )
 {
-  return m_Objects;
+  ObjectListType * newList = new ObjectListType;
+
+  typename ObjectListType::const_iterator it = m_Objects.begin();
+  typename ObjectListType::const_iterator itEnd = m_Objects.end();
+
+  while(it != itEnd)
+    {
+    if(name == NULL || strstr(typeid(**it).name(), name))
+      {
+      newList->push_back(*it);
+      }
+    if(depth>0)
+      {
+      typedef typename SpatialObject<SpaceDimension>::ChildrenListType
+            ChildListType;
+      ChildListType * childList = 
+                     (dynamic_cast<SpatialObject<SpaceDimension> *>(*it))->
+                     GetChildren(depth-1, name);
+      typename ChildListType::const_iterator cIt = childList->begin();
+      typename ChildListType::const_iterator cItEnd = childList->end();
+
+      while(cIt != cItEnd)
+        {
+        newList->push_back(dynamic_cast< ObjectType * >(*cIt));
+        cIt++;
+        }
+
+      delete childList;
+      }
+    it++;
+    }
+
+  return newList;
 }
 
 /** Set the children list */
@@ -118,9 +150,34 @@ Scene<SpaceDimension>
 template <unsigned int SpaceDimension>
 unsigned int
 Scene<SpaceDimension>
-::GetNumberOfObjects( void )
+::GetNumberOfObjects( unsigned int depth, char * name )
 {
-  return m_Objects.size();
+  typename ObjectListType::const_iterator it = m_Objects.begin();
+  typename ObjectListType::const_iterator itEnd = m_Objects.end();
+
+  unsigned int cnt = 0;
+  while(it != itEnd)
+    {
+    if(name == NULL || strstr(typeid(**it).name(), name))
+      {
+      cnt++;
+      }
+    it++;
+    }
+
+  it = m_Objects.begin();
+  itEnd = m_Objects.end();
+  if( depth > 0 )
+    {
+    while(it != itEnd)
+      {
+      cnt += (dynamic_cast<SpatialObject<SpaceDimension> * >(*it))->
+              GetNumberOfChildren( depth-1, name );
+      it++;
+      }
+    }
+
+  return cnt;
 } 
 
 /** Print the object */
@@ -133,10 +190,10 @@ Scene<SpaceDimension>
      << m_Objects.size() << std::endl;
   os << indent << "List of objects: ";
 
-  ObjectListType::const_iterator it = m_Objects.begin();
-  ObjectListType::const_iterator end = m_Objects.end();
+  typename ObjectListType::const_iterator it = m_Objects.begin();
+  typename ObjectListType::const_iterator itEnd = m_Objects.end();
 
-  while(it != end)
+  while(it != itEnd)
   {
     os << "[" << (*it) << "] ";
     it++;
@@ -153,9 +210,10 @@ NDimensionalSpatialObject<> *
 Scene<SpaceDimension>
 ::GetObjectById(int Id)
 {
-  ObjectListType::iterator it = m_Objects.begin();
+  typename ObjectListType::iterator it = m_Objects.begin();
+  typename ObjectListType::iterator itEnd = m_Objects.end();
     
-  while( it != m_Objects.end() )
+  while( it != itEnd )
   {
     if( (*it)->GetId() == Id )
     { 
