@@ -186,6 +186,92 @@ protected:
   void operator=(const Self&) {}
 };
 
+
+
+/** \Class ReceptorMemberCommand
+ *  \brief Command subclass that calls a pointer to a member function
+ *
+ *  ReceptorMemberCommand calls a pointer to a member function with 
+ *  only and itk::EventObject as argument
+ * 
+ * \ingroup ITKSystemObjects
+ */
+template <class T>
+class ReceptorMemberCommand : public Command
+{
+public:
+  /* 
+   * pointer to a member function that takes a Object* and the event
+   */
+  typedef  void (T::*TMemberFunctionPointer)(const EventObject &);
+  
+  /**
+   * Standard "Self" typedef.
+   */
+  typedef ReceptorMemberCommand         Self;
+
+  /**
+   * Smart pointer typedef support.
+   */
+  typedef SmartPointer<Self>  Pointer;
+
+  /**
+   * Method for creation through the object factory.
+   */
+  itkNewMacro(Self);
+  
+  /** 
+   * Run-time type information (and related methods).
+   */
+  itkTypeMacro(ReceptorMemberCommand,Command);
+
+  /**
+   *  Set the callback function along with the object that it will
+   *  be invoked on.
+   */
+  void SetCallbackFunction(T* object,  
+                           TMemberFunctionPointer memberFunction)
+    {
+      m_This = object;
+      m_MemberFunction = memberFunction;
+    }
+
+  /**
+   *  Invoke the member function.
+   */
+  virtual void Execute(Object *caller, const EventObject & event )
+    { 
+      if( m_MemberFunction ) 
+      {
+        ((*m_This).*(m_MemberFunction))(event);
+      }
+    }
+
+  /**
+   *  Invoke the member function with a const object
+   */
+  virtual void Execute( const Object *caller, const EventObject & event )
+    { 
+      if( m_MemberFunction ) 
+      {
+        ((*m_This).*(m_MemberFunction))(event);
+      }
+    }
+
+
+protected:
+  T* m_This;
+  TMemberFunctionPointer m_MemberFunction;
+  ReceptorMemberCommand(){
+   m_MemberFunction = 0;
+  }; 
+  virtual ~ReceptorMemberCommand(){}; 
+  ReceptorMemberCommand(const Self&) {}
+  void operator=(const Self&) {}
+};
+
+
+
 /** \Class SimpleMemberCommand
  *  \brief Command subclass that calls a pointer to a member function
  *
