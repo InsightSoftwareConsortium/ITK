@@ -128,9 +128,9 @@ Rigid3DPerspectiveTransform<TScalarType>
 template<class TScalarType>
 void
 Rigid3DPerspectiveTransform<TScalarType>::
-SetRotation(const VnlQuaternionType &rotation )
+SetRotation(const VersorType &rotation )
 {
-  m_Versor      = rotation;
+  m_Versor        = rotation;
   m_DirectMatrix  = m_Versor.GetMatrix();
   return;
 }
