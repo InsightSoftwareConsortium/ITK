@@ -58,7 +58,7 @@ GradientMagnitudeImageFilter<TInputImage,TOutputImage>
     }
 
   // Build an operator so that we can determine the kernel size
-  DerivativeOperator<OutputPixelType, ImageDimension> oper;
+  DerivativeOperator<RealType, ImageDimension> oper;
   oper.SetDirection(0);
   oper.SetOrder(1);
   oper.CreateDirectional();
@@ -113,14 +113,14 @@ GradientMagnitudeImageFilter< TInputImage, TOutputImage >
   ImageRegionIterator<TOutputImage> it;
 
  
-  NeighborhoodInnerProduct<TInputImage> SIP;
+  NeighborhoodInnerProduct<TInputImage, RealType> SIP;
 
   // Allocate output
   typename OutputImageType::Pointer       output = this->GetOutput();
   typename  InputImageType::ConstPointer  input  = this->GetInput();
 
   // Set up operators
-  DerivativeOperator<OutputPixelType, ImageDimension> op[ImageDimension];
+  DerivativeOperator<RealType, ImageDimension> op[ImageDimension];
 
   for (i = 0; i< ImageDimension; i++)
     {
