@@ -167,9 +167,9 @@ template<class TComponent>
 std::ostream &
 operator<<(std::ostream& os,const RGBPixel<TComponent> & c ) 
 {
-  os <<  NumericTraits<TComponent>::PrintType(c[0]) << "  ";
-  os <<  NumericTraits<TComponent>::PrintType(c[1]) << "  ";
-  os <<  NumericTraits<TComponent>::PrintType(c[2]) ;
+  os <<  static_cast<typename NumericTraits<TComponent>::PrintType>(c[0]) << "  ";
+  os <<  static_cast<typename NumericTraits<TComponent>::PrintType>(c[1]) << "  ";
+  os <<  static_cast<typename NumericTraits<TComponent>::PrintType>(c[2]) ;
   return os;
 }
 
