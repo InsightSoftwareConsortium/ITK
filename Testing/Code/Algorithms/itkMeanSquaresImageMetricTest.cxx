@@ -43,6 +43,8 @@ int main()
 
   typedef unsigned char            PixelType;
 
+  typedef double                   CoordinateRepresentationType;
+
   //Allocate Images
   typedef itk::Image<PixelType,ImageDimension>         MovingImageType;
   typedef itk::Image<PixelType,ImageDimension>         FixedImageType;
@@ -99,11 +101,18 @@ int main()
 
 
 //-----------------------------------------------------------
+// Plug the Images into the metric
+//-----------------------------------------------------------
+  metric->SetFixedImage( fixedImage );
+  metric->SetMovingImage( movingImage );
+
+//-----------------------------------------------------------
 // Set up a Transform
 //-----------------------------------------------------------
 
-  typedef itk::TranslationTransform< double, 
-                                     ImageDimension > TransformType;
+  typedef itk::TranslationTransform< 
+                        CoordinateRepresentationType, 
+                        ImageDimension >         TransformType;
 
   TransformType::Pointer transform = TransformType::New();
 
@@ -114,7 +123,8 @@ int main()
 // Set up an Interpolator
 //------------------------------------------------------------
   typedef itk::LinearInterpolateImageFunction< 
-                                        MovingImageType > InterpolatorType;
+                    MovingImageType,
+                    double > InterpolatorType;
 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
@@ -124,6 +134,22 @@ int main()
 
 
   std::cout << metric << std::endl;
+
+
+//------------------------------------------------------------
+// This call is mandatory before start querying the Metric
+// This method do all the necesary connections between the 
+// internal components: Interpolator, Transform and Images
+//------------------------------------------------------------
+  try {
+    metric->Initialize();
+    }
+  catch( itk::ExceptionObject & e )
+    {
+    std::cout << "Metric initialization failed" << std::endl;
+    std::cout << "Reason " << e.GetDescription() << std::endl;
+    return EXIT_FAILURE;
+    }
 
 
 //------------------------------------------------------------
