@@ -367,7 +367,7 @@ private:
   double                              m_ReferenceStandardDeviation;
   double                              m_TargetStandardDeviation;
   typename KernelFunction::Pointer    m_KernelFunction;
-  double                              m_Epsilon;
+  double                              m_MinProbability;
 
   /**
    * Uniformly select samples from the target image buffer

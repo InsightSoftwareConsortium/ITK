@@ -66,12 +66,13 @@ MutualInformationImageToImageMetric<TTarget,TMapper>
   m_TargetStandardDeviation = 0.1;
   m_ReferenceStandardDeviation = 0.1;
 
+  m_MinProbability = 0.0001;
+
   //
   // Following initialization is related to
   // calculating image derivatives
   m_DerivativeCalculator = DerivativeFunctionType::New();
 
-  m_Epsilon = NumericTraits<double>::min();
 
 }
 
@@ -112,8 +113,8 @@ MutualInformationImageToImageMetric<TTarget,TMapper>
 SpatialSampleContainer& samples )
 {
 
-  typename TargetType::ConstPointer target = GetTarget();
-  typename MapperType::Pointer mapper = GetMapper();
+  typename TargetType::ConstPointer target = this->GetTarget();
+  typename MapperType::Pointer mapper = this->GetMapper();
 
   double range =
    double( target->GetBufferedRegion().GetNumberOfPixels() ) - 1.0;
@@ -174,10 +175,8 @@ MutualInformationImageToImageMetric<TTarget,TMapper>
 ::GetValue( const ParametersType& parameters )
 {
 
-  itkDebugMacro(<< "GetValue( " << parameters << " ) = ");
-
-  TargetConstPointer target = GetTarget();
-  MapperPointer mapper = GetMapper();
+  TargetConstPointer target = this->GetTarget();
+  MapperPointer mapper = this->GetMapper();
 
   if( !target || !mapper )
     {
@@ -206,9 +205,9 @@ MutualInformationImageToImageMetric<TTarget,TMapper>
 
   for( biter = m_SampleB.begin() ; biter != bend; ++biter )
     {
-    double dSumTarget  = 0.0;
-    double dSumRef     = 0.0;
-    double dSumJoint   = 0.0;
+    double dSumTarget  = m_MinProbability;
+    double dSumRef     = m_MinProbability;
+    double dSumJoint   = m_MinProbability;
 
     for( aiter = m_SampleA.begin() ; aiter != aend; ++aiter )
       {
@@ -229,17 +228,6 @@ MutualInformationImageToImageMetric<TTarget,TMapper>
 
       } // end of sample A loop
 
-    // check for taking logs of zero
-    if( dSumTarget < m_Epsilon ||
-        dSumRef < m_Epsilon ||
-        dSumJoint < m_Epsilon )
-      {
-      ExceptionObject err;
-      err.SetLocation( "MutualInformationImageToImageMetric" );
-      err.SetDescription( "Standard deviation is too small" );
-      throw err;
-      }
-
     dLogSumTarget -= log( dSumTarget );
     dLogSumRef    -= log( dSumRef );
     dLogSumJoint  -= log( dSumJoint );
@@ -248,11 +236,21 @@ MutualInformationImageToImageMetric<TTarget,TMapper>
 
   double nsamp   = double( m_NumberOfSpatialSamples );
 
+  double threshold = -0.5 * nsamp * log( m_MinProbability );
+  if( dLogSumRef > threshold || dLogSumTarget > threshold ||
+      dLogSumJoint > threshold  )
+    {
+    // at least half the samples in B did not occur within
+    // the Parzen window width of samples in A
+    ExceptionObject err;
+    err.SetLocation( "MutualInformationImageToImageMetric" );
+    err.SetDescription( "Standard deviation is too small" );
+    throw err;
+    }
+
   m_MatchMeasure = dLogSumTarget + dLogSumRef - dLogSumJoint;
   m_MatchMeasure /= nsamp;
   m_MatchMeasure += log( nsamp );
-
-  itkDebugMacro(<< m_MatchMeasure);
 
   return m_MatchMeasure;
 
@@ -270,14 +268,13 @@ const ParametersType& parameters,
 MeasureType& value,
 DerivativeType& derivative)
 {
-  itkDebugMacro(<< "GetValueAndDerivative( " << parameters << " ) = ");
 
   // reset the derivatives all to zero
   m_MatchMeasureDerivatives.Fill(0);
   m_MatchMeasure = 0;
 
-  MapperPointer mapper = GetMapper();
-  TargetConstPointer target = GetTarget();
+  MapperPointer mapper = this->GetMapper();
+  TargetConstPointer target = this->GetTarget();
 
   // check if target and mapper are valid
   if( !target || !mapper )
@@ -327,10 +324,10 @@ DerivativeType& derivative)
 
   for( biter = m_SampleB.begin(); biter != bend; ++biter )
     {
-    double dDenominatorRef = 0.0;
-    double dDenominatorJoint = 0.0;
+    double dDenominatorRef = m_MinProbability;
+    double dDenominatorJoint = m_MinProbability;
 
-    double dSumTarget = 0.0;
+    double dSumTarget = m_MinProbability;
 
     for( aiter = m_SampleA.begin(); aiter != aend; ++aiter )
       {
@@ -351,18 +348,6 @@ DerivativeType& derivative)
       dSumTarget += valueTarget;
 
       } // end of sample A loop
-
-
-    // check for taking logs of zero
-    if( dSumTarget < m_Epsilon ||
-        dDenominatorRef < m_Epsilon ||
-        dDenominatorJoint < m_Epsilon )
-      {
-      ExceptionObject err;
-      err.SetLocation( "MutualInformationImageToImageMetric" );
-      err.SetDescription( "Standard deviation is too small" );
-      throw err;
-      }
 
     dLogSumTarget -= log( dSumTarget );
     dLogSumRef    -= log( dDenominatorRef );
@@ -403,14 +388,24 @@ DerivativeType& derivative)
 
   double nsamp    = double( m_NumberOfSpatialSamples );
 
+  double threshold = -0.5 * nsamp * log( m_MinProbability );
+  if( dLogSumRef > threshold || dLogSumTarget > threshold ||
+      dLogSumJoint > threshold  )
+    {
+    // at least half the samples in B did not occur within
+    // the Parzen window width of samples in A
+    ExceptionObject err;
+    err.SetLocation( "MutualInformationImageToImageMetric" );
+    err.SetDescription( "Standard deviation is too small" );
+    throw err;
+    }
+
   m_MatchMeasure  = dLogSumTarget + dLogSumRef - dLogSumJoint;
   m_MatchMeasure /= nsamp;
   m_MatchMeasure += log( nsamp );
 
   m_MatchMeasureDerivatives /= nsamp;
   m_MatchMeasureDerivatives /= vnl_math_sqr( m_ReferenceStandardDeviation );
-
-  itkDebugMacro(<< m_MatchMeasure);
 
   value = m_MatchMeasure;
   derivative =  m_MatchMeasureDerivatives;
@@ -456,7 +451,7 @@ DerivativeType& derivatives )
   TargetPointType refPoint;
   TargetIndexType refIndex;
 
-  typename MapperType::Pointer mapper = GetMapper();
+  typename MapperType::Pointer mapper = this->GetMapper();
   typename ReferenceType::ConstPointer reference = mapper->GetDomain();
 
   refPoint = mapper->GetTransform()->TransformPoint( point );
