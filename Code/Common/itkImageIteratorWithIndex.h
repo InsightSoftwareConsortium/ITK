@@ -236,13 +236,6 @@ public:
       m_PositionIndex = ind;  }
 
   /**
-   * Dereference the iterator, returns a reference to the pixel. Used to set
-   * or get the value referenced by the index.
-   */
-  PixelType & operator*() const  
-    { return AccessorType::Get(*m_Position); }
-
-  /**
    * Get the pixel value
    */
   PixelType Get(void) const  
