@@ -45,7 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkImageToImageFilter.h"
 #include "itkImage.h"
 
-#include "itkMRISlabIdentifier.h"
+#include "itkMRASlabIdentifier.h"
 #include "itkCompositeValleyFunction.h"
 #include "itkMultivariateLegendrePolynomial.h"
 #include "itkFastRandomUnitNormalVariateGenerator.h"
@@ -185,7 +185,7 @@ namespace itk
   } ; // end of class
 
   /**
-   * \class MRIMRIBiasFieldCorrectionFilter
+   * \class MRIBiasFieldCorrectionFilter
    * \brief corrects 3D MRI bias field 
    *
    * This class is templated over the type of the input image (TInputImage) 
@@ -200,6 +200,14 @@ namespace itk
    * minimizes the total energy value of each image after bias field
    * is eleminated.
    *
+   * There are three major processes in the whole bias correction scheme: 
+   *  slab identification, inter-slice intensity correction, and 
+   *  actual bias correction process.
+   * Users can turn on and off each process within the whole bias
+   * correction scheme using SetUsingSlabIdentification(bool),
+   * SetUsingInterSliceIntensityCorrection(bool), and 
+   * SetUsingBiasFieldCorrection(bool) member function.
+   * 
    * The bias field correction method was initially developed 
    * and implemented by Martin Styner, Univ. of North Carolina at Chapel Hill,
    * and his colleagues.
@@ -259,6 +267,12 @@ namespace itk
     typedef InternalImageType::PixelType InternalImagePixelType ;
     typedef InternalImageType::Pointer InternalImagePointer ;
     typedef InternalImageType::RegionType InternalImageRegionType ;
+
+    /**
+     * Regions of the MRI slab identifier return 
+     */
+    typedef MRASlabIdentifier<InputImageType>::SlabRegionVectorType 
+    SlabRegionVectorType ;
 
     /** 
      * Smart pointer typedef support b
@@ -344,8 +358,11 @@ namespace itk
     /**
      * Sets the flag. If the flag is true, inter-slice intensity correction
      * and bias field correction will be performed slab by slab which
-     * is identified by the slab identifier. default - true (3D input image),
-     * false (2D input image).
+     * is identified by the slab identifier. default - false
+     *
+     * NOTE:
+     * if users want to slab identification, all the input image data should
+     * be buffered.
      */
     void SetUsingSlabIdentification(bool flag)
     { m_UsingSlabIdentification = flag ; }
@@ -504,6 +521,11 @@ namespace itk
      */
     void CorrectInterSliceIntensityInhomogeneity(InputImageRegionType region) ;
 
+    /**
+     * Print out progess to the standard output
+     */
+    void SetVerboseMode(bool flag) 
+    { m_VerboseMode = flag ; }
 
   protected:
 
@@ -553,6 +575,14 @@ protected:
                           BiasField::DomainSizeType& domainSize) ;
     
     
+    /**
+     * Find overlapping regions between the slab regions and the output image's
+     * requested region. And then replace the original slab regions with
+     * the resulting overlapping regions.
+     */
+    void AdjustSlabRegions(SlabRegionVectorType& slabs, 
+                           OutputImageRegionType requestedRegion) ;
+
     void GenerateData() ;
 
   private:
@@ -585,7 +615,7 @@ protected:
     /**
      * Storage for the MRI slab identifier return 
      */
-    MRISlabIdentifier<InputImageType>::SlabRegionVectorType m_Slabs ;
+    SlabRegionVectorType m_Slabs ;
     
     /**
      * [0 - x, 1 - y, 2 - z]
@@ -669,6 +699,10 @@ protected:
      */
     std::vector<double> m_TissueClassSigmas ;
 
+    /**
+     * if true, print out progress to the standard output. default - false
+     */
+    bool m_VerboseMode ;
   };
 
   
@@ -680,31 +714,26 @@ protected:
    */
   template<class TSource, class TTarget>
   void CopyAndConvertImage(typename TSource::Pointer source,
-                           typename TTarget::Pointer target)
+                           typename TTarget::Pointer target,
+                           typename TTarget::RegionType requestedRegion)
   {
     typedef ImageRegionIterator<TSource> SourceIterator ;
     typedef ImageRegionIterator<TTarget> TargetIterator ;
     typedef typename TTarget::PixelType TargetPixelType ;
-    
-    typename TSource::RegionType s_region = 
-      source->GetLargestPossibleRegion() ;
-    
-    typename TTarget::RegionType t_region = s_region ;
-    
-    target->SetLargestPossibleRegion(t_region) ;
-    target->SetBufferedRegion(t_region) ;
+
+    target->SetRequestedRegion(requestedRegion) ;
+    target->SetBufferedRegion(requestedRegion) ;
     target->Allocate() ;
-    
-    SourceIterator s_iter(source, s_region) ;
-    TargetIterator t_iter(target, t_region) ;
+
+    SourceIterator s_iter(source, requestedRegion) ;
+    TargetIterator t_iter(target, requestedRegion) ;
     
     while (!s_iter.IsAtEnd())
       {
-        t_iter.Set(s_iter.Get()) ;
+        t_iter.Set((TargetPixelType) s_iter.Get()) ;
         ++s_iter ;
         ++t_iter ;
       }
-    
   }
 
 } // end namespace itk

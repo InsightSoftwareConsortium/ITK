@@ -122,8 +122,7 @@ namespace itk
     typename TBiasField::SimpleForwardIterator bIter(m_BiasField) ;
     bIter.Begin() ;
 
-    if (m_Mask->GetLargestPossibleRegion().GetSize() != 
-        m_Image->GetLargestPossibleRegion().GetSize())
+    if (!m_Mask)
       {
         while (!iIter.IsAtEnd())
           {
@@ -162,7 +161,6 @@ namespace itk
   {
     m_InputMask = 0 ;
     m_OutputMask = 0 ;
-    m_InternalInput = InternalImageType::New() ;
 
     m_BiasMultiplicative = true ;
     m_BiasFieldDegree = 3 ;
@@ -175,18 +173,15 @@ namespace itk
     m_Optimizer = OptimizerType::New() ;
     
     if (ImageDimension == 3)
-      {
         m_UsingInterSliceIntensityCorrection = true ;
-        m_UsingSlabIdentification = true ;
-      }
     else
-      {
         m_UsingInterSliceIntensityCorrection = false ;
-        m_UsingSlabIdentification = false ;
-      }
-
+    
+    m_UsingSlabIdentification = false ;
     m_UsingBiasFieldCorrection = true ;
     m_GeneratingOutput = true ;
+
+    m_VerboseMode = false ;
   }
 
   template<class TInputImage, class TOutputImage>
@@ -224,10 +219,6 @@ namespace itk
   MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
   ::Initialize() throw (ExceptionObject)
   {
-    // copy the input image to the internal image and cast the type to
-    // float (InternalImageType::PixelType)
-    CopyAndConvertImage<InputImageType, InternalImageType>
-      (this->GetInput(), m_InternalInput) ;
     // if the bias is multiplicative, we will use logarithm
     // the following section applies logarithm to key parameters and 
     // image data
@@ -265,7 +256,9 @@ namespace itk
       m_EnergyFunction->SetMask(m_InputMask) ;
     
     // initialize the 1+1 optimizer
+    m_Optimizer->SetVerboseMode(m_VerboseMode) ;
     m_Optimizer->SetCostFunction(m_EnergyFunction) ;
+    
     if (m_OptimizerGrowFactor > 0)
       {
         if (m_OptimizerShrinkFactor > 0)
@@ -374,6 +367,10 @@ namespace itk
     BiasField::DomainSizeType biasSize ;
     while (index[m_SlicingDirection] < lastSlice)
       {
+        if (m_VerboseMode)
+          std::cout << "    -- slice : " << index[m_SlicingDirection] 
+                    << std::endl ;
+
         this->GetBiasFieldSize(sliceRegion, biasSize) ;
         BiasField* bias = new BiasField(biasSize.size(), 0, biasSize) ;
         sliceRegion.SetIndex(index) ;
@@ -384,22 +381,40 @@ namespace itk
       }
   }
 
+
   template<class TInputImage, class TOutputImage>
   void 
   MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
   ::GenerateData()
   {
+    m_InternalInput = InternalImageType::New() ;
+
+    // copy the input image to the internal image and cast the type to
+    // float (InternalImageType::PixelType)
+    CopyAndConvertImage<InputImageType, InternalImageType>
+      (this->GetInput(), m_InternalInput, 
+       this->GetOutput()->GetRequestedRegion()) ;
+
+    if (m_VerboseMode)
+      std::cout << "Initializing filter..." << std::endl ;
     this->Initialize() ;
+    if (m_VerboseMode)
+      std::cout << "Filter initialized." << std::endl ;
 
     if (m_UsingSlabIdentification)
       {
+        if (m_VerboseMode)
+          std::cout << "Searching slabs..." << std::endl ;
         // find slabs
-        MRISlabIdentifier<InputImageType>::Pointer identifier = 
-          MRISlabIdentifier<InputImageType>::New() ;
+        MRASlabIdentifier<InputImageType>::Pointer identifier = 
+          MRASlabIdentifier<InputImageType>::New() ;
         identifier->SetImage(this->GetInput()) ;
         identifier->SetNumberOfMinimumsPerSlice(100) ;
         identifier->GenerateSlabRegions() ;
         m_Slabs = identifier->GetSlabRegionVector() ;
+
+        if (m_VerboseMode)
+          std::cout << m_Slabs.size() << " slabs found." << std::endl ;
       }
     else
       {
@@ -408,7 +423,12 @@ namespace itk
         m_Slabs.push_back(this->GetInput()->GetLargestPossibleRegion()) ;
       }
 
-    MRISlabIdentifier<InputImageType>::SlabRegionVectorType::iterator iter = 
+    this->AdjustSlabRegions(m_Slabs, this->GetOutput()->GetRequestedRegion()) ;
+    if (m_VerboseMode)
+      std::cout << "After adjustment, ther are " << m_Slabs.size() 
+                << " slabs." << std::endl ;
+
+    SlabRegionVectorType::iterator iter = 
       m_Slabs.begin() ;
     
     BiasField::DomainSizeType biasSize ;
@@ -416,15 +436,34 @@ namespace itk
     int count = 0 ;
     while (iter != m_Slabs.end())
       {
-        // std::cout << "correcting slab :" << count << std::endl ;
+        if (m_VerboseMode && m_UsingSlabIdentification)
+          std::cout << "## Slab :" << count << std::endl ;
+
         // correct inter-slice intensity inhomogeniety
         // using 0th degree Legendre polynomial
+
         if (m_UsingInterSliceIntensityCorrection)
-          this->CorrectInterSliceIntensityInhomogeneity(*iter) ;
+          {
+            // turn off optimizer's verbose mode 
+            m_Optimizer->SetVerboseMode(false) ;
+
+            if (m_VerboseMode)
+              std::cout << "  Correcting inter-slice intensity..." 
+                        << std::endl ;
+            this->CorrectInterSliceIntensityInhomogeneity(*iter) ;
+            if (m_VerboseMode)
+              std::cout << "  Inter-slice intensity corrected." << std::endl ;
+            
+            // restore optimizer's verbose mode setting
+            m_Optimizer->SetVerboseMode(m_VerboseMode) ;
+          }
 
         // correct 3D bias
         if (m_UsingBiasFieldCorrection)
           {
+            if (m_VerboseMode)
+              std::cout << "  Correcting bias..." << std::endl ;
+
             this->GetBiasFieldSize(*iter, biasSize) ;
             BiasField* bias = 
               new BiasField(biasSize.size(), m_BiasFieldDegree, biasSize) ;
@@ -441,18 +480,27 @@ namespace itk
             m_BiasFieldDomainSize = bias->GetDomainSize() ;
             this->CorrectImage(bias, *iter) ;
             delete bias ;
+            if (m_VerboseMode)
+              std::cout << "  Bias corrected." << std::endl ;
           }
         iter++ ;
         count++ ;
       }
     
+    OutputImagePointer output = this->GetOutput() ;
     if (m_GeneratingOutput)
       {
+        if (m_VerboseMode)
+          std::cout << "Generating the output image..." << std::endl ;
+
         if (this->IsBiasFieldMultiplicative()) 
           ExpImage(m_InternalInput, m_InternalInput) ;
         
         CopyAndConvertImage<InternalImageType, OutputImageType>
-          (m_InternalInput, this->GetOutput()) ;
+          (m_InternalInput, output, output->GetRequestedRegion()) ;
+
+        if (m_VerboseMode)
+          std::cout << "The output image generated." << std::endl ;
       }
   }
 
@@ -491,10 +539,10 @@ namespace itk
       throw ExceptionObject() ;
 
     InputImageRegionType region =
-      this->GetInput()->GetLargestPossibleRegion() ;
+      this->GetInput()->GetBufferedRegion() ;
 
     ImageMaskRegionType m_region =
-      mask->GetLargestPossibleRegion() ;
+      mask->GetBufferedRegion() ;
     if (region.GetSize() != 
         m_region.GetSize())
       return false ;
@@ -510,7 +558,7 @@ namespace itk
              InternalImagePointer target)
   {
     InternalImageRegionType region ;
-    region = source->GetLargestPossibleRegion() ;
+    region = source->GetRequestedRegion() ;
     
     ImageRegionIterator<InternalImageType> s_iter(source, region) ;
     ImageRegionIterator<InternalImageType> t_iter(target, region) ;
@@ -538,7 +586,7 @@ namespace itk
              InternalImagePointer target)
   {
     InternalImageRegionType region ;
-    region = source->GetLargestPossibleRegion() ;
+    region = source->GetRequestedRegion() ;
     
     ImageRegionIterator<InternalImageType> s_iter(source, region) ;
     ImageRegionIterator<InternalImageType> t_iter(target, region) ;
@@ -572,6 +620,62 @@ namespace itk
       }
   }
 
+  template<class TInputImage, class TOutputImage>
+  void 
+  MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
+  ::AdjustSlabRegions(SlabRegionVectorType& slabs, 
+                      OutputImageRegionType requestedRegion) 
+  {
+    OutputImageIndexType indexFirst = requestedRegion.GetIndex() ;
+    OutputImageSizeType size = requestedRegion.GetSize() ;
+    OutputImageIndexType indexLast = indexFirst ;
+    for (unsigned long i = 0 ; i < ImageDimension ; i++)
+      indexLast[i] = indexFirst[i] + size[i] - 1 ;
+
+    long coordFirst = indexFirst[m_SlicingDirection] ;
+    long coordLast = indexLast[m_SlicingDirection] ;
+    long coordFirst2 ;
+    long coordLast2 ;
+    long tempCoordFirst ;
+    long tempCoordLast ;
+
+    OutputImageRegionType tempRegion ;
+    OutputImageSizeType tempSize = size ;
+    OutputImageIndexType tempIndex = indexFirst ;
+
+    SlabRegionVectorType::iterator iter = slabs.begin() ;
+    while (iter != slabs.end())
+      {
+        coordFirst2 = (*iter).GetIndex()[m_SlicingDirection] ;
+        coordLast2 = coordFirst2 + 
+          (*iter).GetSize()[m_SlicingDirection] - 1 ;
+
+        if (coordFirst > coordFirst2)
+          tempCoordFirst = coordFirst ;
+        else
+          tempCoordFirst = coordFirst2 ;
+
+        if (coordLast < coordLast2)
+          tempCoordLast = coordLast ;
+        else
+          tempCoordLast = coordLast2 ;
+          
+        if (tempCoordFirst <= tempCoordLast)
+          {
+            tempIndex[m_SlicingDirection] = tempCoordFirst ;
+            tempSize[m_SlicingDirection] = tempCoordLast - tempCoordFirst + 1 ;
+            tempRegion.SetIndex(tempIndex) ;
+            tempRegion.SetSize(tempSize) ;
+            *iter = tempRegion ;
+          }
+        else
+          {
+            // no ovelapping, so remove the slab from the vector
+            slabs.erase(iter) ;
+          }
+        iter++ ;
+      }
+  }
 
 } // end namespace itk
 
