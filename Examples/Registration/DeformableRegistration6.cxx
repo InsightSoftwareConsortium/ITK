@@ -61,6 +61,9 @@
 #include "itkCastImageFilter.h"
 #include "itkSquaredDifferenceImageFilter.h"
 
+#include "itkBSplineResampleImageFunction.h"
+#include "itkIdentityTransform.h"
+#include "itkBSplineDecompositionImageFilter.h"
 
 // NOTE: the LBFGSOptimizer does not invoke events
 
@@ -257,6 +260,7 @@ int main( int argc, char *argv[] )
   optimizer->TraceOn();
   optimizer->SetMaximumNumberOfFunctionEvaluations( 1000 );
 
+
   std::cout << "Starting Registration with low resolution transform" << std::endl;
 
   try 
@@ -302,91 +306,62 @@ int main( int argc, char *argv[] )
   transformHigh->SetGridOrigin( originHigh );
   transformHigh->SetGridRegion( bsplineRegion );
 
-               
-  
   ParametersType parametersHigh( transformHigh->GetNumberOfParameters() );
-
   parametersHigh.Fill( 0.0 );
 
   //  Software Guide : BeginLatex
   //  
-  //  Now we need to initialize the deformation values at the grid node by
-  //  sampling the displacement from the low resolution transform. This is done
-  //  by visiting all the nodes of the high resolutin grid, taking their
-  //  coordinates, and transforming them in the low resolution transform. The
-  //  vector difference between tha input and output coordinates is the
-  //  displacement to be associated with the current grid node in the high
-  //  resolution transform.
+  //  Now we need to initialize the BSpline coefficients of the higher resolution
+  //  transform. This is done by first computing the actual deformation field 
+  //  at the higher resolution from the lower resolution BSpline coefficients. 
+  //  Then a BSpline decomposition is done to obtain the BSpline coefficient of 
+  //  the higher resolution transform.
   //  
   //  Software Guide : EndLatex 
 
-  // Software Guide : BeginCodeSnippet
-  TransformType::InputPointType     inputPoint;
-  TransformType::OutputPointType    outputPoint;
-  TransformType::OutputVectorType   displacementVector;
-  // Software Guide : EndCodeSnippet
+  unsigned int counter = 0;
 
-
-  //  Software Guide : BeginLatex
-  //  
-  // The following lines force the internal generation of the coefficient
-  // images and recover the array of such images.
-  //  
-  //  Software Guide : EndLatex 
-
-  // Software Guide : BeginCodeSnippet
-  transformHigh->SetParameters( parametersHigh );
-  
-  TransformType::ImagePointer * coefficientImages = transformLow->GetCoefficientImage();
-  // Software Guide : EndCodeSnippet
-
-
-  if( coefficientImages == NULL )
+  for ( unsigned int k = 0; k < SpaceDimension; k++ )
     {
-    std::cerr << "Problem found while getting the coefficients images" << std::endl;
-    return 2;
-    }
+    typedef TransformType::ImageType ParametersImageType;
+    typedef itk::ResampleImageFilter<ParametersImageType,ParametersImageType> ResamplerType;
+    ResamplerType::Pointer upsampler = ResamplerType::New();
 
-  if( coefficientImages[0].GetPointer() == NULL )
-    {
-    std::cerr << "Problem found while getting the first coefficients images" << std::endl;
-    return 3;
-    }
+    typedef itk::BSplineResampleImageFunction<ParametersImageType,double> FunctionType;
+    FunctionType::Pointer function = FunctionType::New();
 
-  //  Software Guide : BeginLatex
-  //  
-  //  Now we proceed to do the actual resampling and to set the resulting
-  //  parameters in the high resolution transform.
-  //  
-  //  Software Guide : EndLatex 
+    typedef itk::IdentityTransform<double,SpaceDimension> IdentityTransformType;
+    IdentityTransformType::Pointer identity = IdentityTransformType::New();
 
-  // Software Guide : BeginCodeSnippet
-  TransformType::ImagePointer coefficientImage = coefficientImages[0];
+    upsampler->SetInput( transformLow->GetCoefficientImage()[k] );
+    upsampler->SetInterpolator( function );
+    upsampler->SetTransform( identity );
+    upsampler->SetSize( transformHigh->GetGridRegion().GetSize() );
+    upsampler->SetOutputSpacing( transformHigh->GetGridSpacing() );
+    upsampler->SetOutputOrigin( transformHigh->GetGridOrigin() );
 
-  typedef itk::ImageRegionIterator< TransformType::ImageType > IteratorType;
+    typedef itk::BSplineDecompositionImageFilter<ParametersImageType,ParametersImageType>
+      DecompositionType;
+    DecompositionType::Pointer decomposition = DecompositionType::New();
 
-  IteratorType cit( coefficientImage, coefficientImage->GetBufferedRegion() );
+    decomposition->SetSplineOrder( SplineOrder );
+    decomposition->SetInput( upsampler->GetOutput() );
+    decomposition->Update();
 
-  cit.GoToBegin();
+    ParametersImageType::Pointer newCoefficients = decomposition->GetOutput();
 
-  unsigned long currentGridNode = 0;
-
-  while( !cit.IsAtEnd() )
-    {
-    coefficientImage->TransformIndexToPhysicalPoint( cit.GetIndex(), inputPoint );
-    outputPoint = transformLow->TransformPoint( inputPoint );
-    displacementVector = outputPoint - inputPoint;
-    for(unsigned int i=0; i<ImageDimension; i++)
+    // copy the coefficients into the parameter array
+    typedef itk::ImageRegionIterator<ParametersImageType> Iterator;
+    Iterator it( newCoefficients, transformHigh->GetGridRegion() );
+    while ( !it.IsAtEnd() )
       {
-      parametersHigh[ ImageDimension * currentGridNode + i ] = displacementVector[i];
+      parametersHigh[ counter++ ] = it.Get();
+      ++it;
       }
-    currentGridNode++;
-    ++cit;
+
     }
   
   transformHigh->SetParameters( parametersHigh );
-  // Software Guide : EndCodeSnippet
-
 
   //  Software Guide : BeginLatex
   //  
@@ -395,11 +370,21 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex 
 
-  std::cout << "Starting Registration with low resolution transform" << std::endl;
+  std::cout << "Starting Registration with high resolution transform" << std::endl;
 
   // Software Guide : BeginCodeSnippet
   registration->SetInitialTransformParameters( transformHigh->GetParameters() );
   registration->SetTransform( transformHigh );
+
+  //  Software Guide : BeginLatex
+  //  
+  //  Typically, we will also want to tighten the optimizer parameters
+  //  when we move from lower to higher resolution grid.
+  //
+  //  Software Guide : EndLatex 
+  optimizer->SetGradientConvergenceTolerance( 0.01 );
+  optimizer->SetDefaultStepLength( 0.25 );
+
 
   try 
     { 
