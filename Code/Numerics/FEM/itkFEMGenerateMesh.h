@@ -28,71 +28,30 @@ namespace fem {
 
 
 /**
- * \class GenerateMesh
- * \brief Use this class to generate (simple) meshes in Solver.
+ * \class GenerateMesh functions
+ * \brief Use these functions to generate (simple) meshes in Solver.
  *
- * This class is templated over the class of the element, that will be
- * used in a mesh. Call the corresponding static member function to
- * create the mesh.
+ * These functions use the generic quadrilateral and hexahedral elements
+ * to build meshes that can be used with specific elements for solving 
+ * membrane or linear elasticity problems.
  *
  * \note All elements will be created by copying the existing element which
  *       is passed to the function. Only number and node pointers will
  *       be changed in copied element. Make sure that this element has material
  *       class and any other properties defined before generating a mesh.
  */
-template<class TElementType>
-class GenerateMesh
-{
-public:
 
-  /**
-   * Class which will be used to represent elements in a mesh.
-   * Must be derived from Element base class.
-   */
-  typedef TElementType ElementType;
-  
-  /**
-   * Vector type used in this class
-   */
-  typedef vnl_vector<double> VectorType;
-
-  /**
-   * Generate a uniform rectangular mesh by creating specific elements.
-   *
-   * \param e0   Pointer to an element object which will copied to create
-   *             other elements in a mesh.
-   * \param S    Reference to the Solver object that will hold the mesh. All
-   *             existing elements, nodes, loads and materials in Solver
-   *             are destroyed.
-   * \param orig Vector specifying the origin of the rectangular mesh.
-   * \param size Vector specifying the size of a mesh in each dimension.
-   * \param Nel  Vector specifying the number of elements in each dimension.
-   */
-  static void Rectangular(
-                          const ElementType* e0,
-                          Solver& S,
-                          VectorType& orig,
-                          VectorType& size,
-                          VectorType& Nel
-                         );
-
-};
-
-// Explicit instatiations must be declared before they are used.
-class Element2DC0LinearQuadrilateral;
-template<>
-void
-GenerateMesh<Element2DC0LinearQuadrilateral>
-::Rectangular( const ElementType* e0, Solver& S, VectorType& orig, VectorType& size, VectorType& Nel);
-
-class Element3DC0LinearHexahedron;
-template<>
-void
-GenerateMesh<Element3DC0LinearHexahedron>
-::Rectangular( const ElementType* e0, Solver& S, VectorType& orig, VectorType& size, VectorType& Nel);
+/**
+ * Generate a rectangular mesh of quadrilateral elements
+ */
+void Generate2DRectilinearMesh(itk::fem::Element::ConstPointer e0, Solver& S, vnl_vector<double>& orig, vnl_vector<double>& size, vnl_vector<double>& Nel);
 
 
-
+/**
+ * Generate a rectangular mesh of hexahedron elements
+ */
+void Generate3DRectilinearMesh(itk::fem::Element::ConstPointer e0, Solver& S, vnl_vector<double>& orig, 
+ vnl_vector<double>& size, vnl_vector<double>& Nel);
 
 }} // end namespace itk::fem
 

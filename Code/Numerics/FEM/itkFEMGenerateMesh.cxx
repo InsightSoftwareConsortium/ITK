@@ -27,16 +27,13 @@ namespace fem {
 /*
  * Generate a rectangular mesh of quadrilateral elements
  */
-template<>
-void
-GenerateMesh<Element2DC0LinearQuadrilateral>
-::Rectangular(ElementType::ConstPointer e0, Solver& S, VectorType& orig, VectorType& size, VectorType& Nel)
+void Generate2DRectilinearMesh(itk::fem::Element::ConstPointer e0, Solver& S, vnl_vector<double>& orig, vnl_vector<double>& size, vnl_vector<double>& Nel)
 {
 
   // Check for correct number of dimensions
-  if(orig.size() != ElementType::NumberOfSpatialDimensions ||
-     size.size() != ElementType::NumberOfSpatialDimensions ||
-     Nel.size()  != ElementType::NumberOfSpatialDimensions)
+  if(orig.size() != Element2DC0LinearQuadrilateral::NumberOfSpatialDimensions ||
+     size.size() != Element2DC0LinearQuadrilateral::NumberOfSpatialDimensions ||
+     Nel.size()  != Element2DC0LinearQuadrilateral::NumberOfSpatialDimensions)
   {
     throw FEMException(__FILE__, __LINE__, "GenerateMesh<Element2DC0LinearQuadrilateral>::Rectangular");
   }
@@ -68,12 +65,12 @@ GenerateMesh<Element2DC0LinearQuadrilateral>
 
   // Create elements  
   gn=0; // global number of the element
-  ElementType::Pointer e;
+  Element2DC0LinearQuadrilateral::Pointer e;
   for(unsigned int j=0; j<Nj; j++)
   {
     for(unsigned int i=0; i<Ni; i++)
     {
-      e=dynamic_cast<ElementType*>(e0->Clone());
+      e=dynamic_cast<Element2DC0LinearQuadrilateral*>(e0->Clone());
       e->SetNode(0,S.node.Find( i+  (Ni+1)*j     ));
       e->SetNode(1,S.node.Find( i+1+(Ni+1)*j     ));
       e->SetNode(2,S.node.Find( i+1+(Ni+1)*(j+1) ));
@@ -87,20 +84,18 @@ GenerateMesh<Element2DC0LinearQuadrilateral>
 }
 
 
-
 /*
  * Generate a rectangular mesh of hexahedron elements
  */
-template<>
-void
-GenerateMesh<Element3DC0LinearHexahedron>
-::Rectangular(ElementType::ConstPointer e0, Solver& S, VectorType& orig, VectorType& size, VectorType& Nel)
+void Generate3DRectilinearMesh
+(itk::fem::Element::ConstPointer e0, Solver& S, vnl_vector<double>& orig, 
+ vnl_vector<double>& size, vnl_vector<double>& Nel)
 {
 
   // Check for correct number of dimensions
-  if(orig.size() != ElementType::NumberOfSpatialDimensions ||
-     size.size() != ElementType::NumberOfSpatialDimensions ||
-     Nel.size()  != ElementType::NumberOfSpatialDimensions)
+  if(orig.size() != Element3DC0LinearHexahedron::NumberOfSpatialDimensions ||
+     size.size() != Element3DC0LinearHexahedron::NumberOfSpatialDimensions ||
+     Nel.size()  != Element3DC0LinearHexahedron::NumberOfSpatialDimensions)
   {
     throw FEMException(__FILE__, __LINE__, "GenerateMesh<Element2DC0LinearQuadrilateral>::Rectangular");
   }
@@ -134,14 +129,14 @@ GenerateMesh<Element3DC0LinearHexahedron>
 
   // Create elements  
   gn=0; // global number of the element
-  ElementType::Pointer e;
+  itk::fem::Element3DC0LinearHexahedron::Pointer e;
   for(unsigned int k=0; k<Nk; k++)
   {
     for(unsigned int j=0; j<Nj; j++)
     {
       for(unsigned int i=0; i<Ni; i++)
       {
-        e=dynamic_cast<ElementType*>(e0->Clone());
+        e=dynamic_cast<Element3DC0LinearHexahedron*>(e0->Clone());
         e->SetNode(0,S.node.Find( i+  (Ni+1)*(j  +(Nj+1)*k) ));
         e->SetNode(1,S.node.Find( i+1+(Ni+1)*(j  +(Nj+1)*k) ));
         e->SetNode(2,S.node.Find( i+1+(Ni+1)*(j+1+(Nj+1)*k) ));
@@ -159,8 +154,6 @@ GenerateMesh<Element3DC0LinearHexahedron>
   }
 
 }
-
-
 
 
 }} // end namespace itk::fem
