@@ -36,7 +36,6 @@ while { ![eof $f] } \
 }
 close $f
 
-
 set Model Experimental
 set DateStamp ""
 if { $argc >= 1 } \
@@ -83,7 +82,7 @@ proc SplitLog { Log } \
 
 proc LoadCVSInformation { File } \
 {
-  global UseDates Yesterday Today cvs FileStatus YesterdayTS Model
+  global UseDates Yesterday Today cvs FileStatus YesterdayTS Model Users
 
   #  puts stderr $YesterdayTS
 

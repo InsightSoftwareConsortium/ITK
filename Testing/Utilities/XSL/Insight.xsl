@@ -355,11 +355,11 @@ function tree_close() {
                 {
                   if ( db[i].mailto == "" || db[i].mailto == null )
                   {
-                    Outline += " " + db[i].author
+                    Outline += " by " + db[i].author
                   }
                   else
                   {
-                    Outline += " <a href=\"mailto:" + db[i].mailto + "\">" + db[i].author + "</a>"
+                    Outline += " by <a href=\"mailto:" + db[i].mailto + "\">" + db[i].author + "</a>"
                   }
                 }
                 if ( db[i].comment != null && db[i].comment != "" )

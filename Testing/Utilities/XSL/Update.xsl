@@ -89,10 +89,10 @@
 
     <xsl:choose>
       <xsl:when test="PriorRevision = Revision">
-        dbAdd (false, "<xsl:value-of select="File"/> Rev: <xsl:value-of select="Revision"/> ", "<xsl:value-of select="$CVSWebURL"/><xsl:value-of select="FullName"/>?rev=<xsl:value-of select="Revision"/>&amp;content-type=text/x-cvsweb-markup", <xsl:value-of select="$Level"/>, "", "0", "by <xsl:value-of select="Author"/>", "<xsl:value-of select="Email"/>", "<xsl:value-of select="translate ( normalize-space ( Log ), '&quot;', ' ' )"/>")
+        dbAdd (false, "<xsl:value-of select="File"/> Rev: <xsl:value-of select="Revision"/> ", "<xsl:value-of select="$CVSWebURL"/><xsl:value-of select="FullName"/>?rev=<xsl:value-of select="Revision"/>&amp;content-type=text/x-cvsweb-markup", <xsl:value-of select="$Level"/>, "", "0", "<xsl:value-of select="Author"/>", "<xsl:value-of select="Email"/>", "<xsl:value-of select="translate ( normalize-space ( Log ), '&quot;', ' ' )"/>")
       </xsl:when>
       <xsl:otherwise>
-      dbAdd (false, "<xsl:value-of select="File"/> Rev: <xsl:value-of select="Revision"/> ", "<xsl:value-of select="$CVSWebURL"/><xsl:value-of select="FullName"/>.diff?r1=<xsl:value-of select="PriorRevision"/>&amp;r2=<xsl:value-of select="Revision"/>", <xsl:value-of select="$Level"/>, "", "0", "by <xsl:value-of select="Author"/>", "<xsl:value-of select="Email"/>", "<xsl:value-of select="translate ( normalize-space ( Log ), '&quot;', ' ' )"/>")
+      dbAdd (false, "<xsl:value-of select="File"/> Rev: <xsl:value-of select="Revision"/> ", "<xsl:value-of select="$CVSWebURL"/><xsl:value-of select="FullName"/>.diff?r1=<xsl:value-of select="PriorRevision"/>&amp;r2=<xsl:value-of select="Revision"/>", <xsl:value-of select="$Level"/>, "", "0", "<xsl:value-of select="Author"/>", "<xsl:value-of select="Email"/>", "<xsl:value-of select="translate ( normalize-space ( Log ), '&quot;', ' ' )"/>")
       </xsl:otherwise>
     </xsl:choose>
 
