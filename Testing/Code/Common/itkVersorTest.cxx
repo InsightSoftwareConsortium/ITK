@@ -145,7 +145,7 @@ int main()
       {
       std::cout << "Error in W ! " << std::endl;
       std::cout << "W= " << qa.GetW();
-      std::cout << " it should be " << cos2a << endl;
+      std::cout << " it should be " << cos2a << std::endl;
       return EXIT_FAILURE;
       } 
     if( fabs(qa.GetAngle()-angle) > epsilon ) 
