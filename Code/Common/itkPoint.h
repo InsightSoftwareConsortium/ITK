@@ -137,23 +137,43 @@ public:
   //@}
   
   /**
+   * Compare two points for equality.
+   */
+  bool
+  operator==(const Self &pt) const
+    {
+    bool same=true;
+    for (unsigned int i=0; i < PointDimension && same; i++)
+      { same = ((*this)[i] == pt[i]); }
+    return same;
+    }
+
+  /**
+   * Compare two points for inequality.
+   */
+  bool
+  operator!=(const Self &pt) const
+    {
+    bool same=true;
+    for (unsigned int i=0; i < PointDimension && same; i++)
+      { same = ((*this)[i] == pt[i]); }
+    return !same;
+    }
+
+  /**
    * Point operator+=.  Adds a vector to the current point.
    */
   const Self& operator+=(const VectorType &vec);
-
 
   /**
    * Point operator-=.  Subtracts a vector from a current point.
    */
   const Self& operator-=(const VectorType &vec);
 
-
   /**
    * Computes the Vector difference between two points
    */
   VectorType operator-(const Self &pnt) const;
-
-
 
   /**
    * Add a vector to a point. Return a new point.
