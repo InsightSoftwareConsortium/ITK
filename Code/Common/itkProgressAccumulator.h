@@ -38,7 +38,7 @@ namespace itk {
  * <pre>
  * 
  */ 
-class ProgressAccumulator : public Object
+class ITKCommon_EXPORT ProgressAccumulator : public Object
 {
 public:
   /** Standard class typedefs. */
