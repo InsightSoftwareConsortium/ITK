@@ -156,8 +156,10 @@ SOURCE_FILES(FEM_SRCS
   itkFEMLoadPoint.h
   itkFEMLoadImagePairBase.h
   itkFEMLoadImageMetric.h
+  itkFEMImageMetricLoad.h
 
   itkFEMLoadImplementationTestBar2D.h
+  itkFEMImageMetricLoadImplementation.h
 
   itkFEMLoadTest.h
 
@@ -186,6 +188,7 @@ SOURCE_FILES(FEM_SRCS
 
   itkFEMLoadImagePairBase.txx
   itkFEMLoadImageMetric.txx
+  itkFEMImageMetricLoad.txx
 
   ReadMe.txt
   ToDo.txt
