@@ -108,7 +108,7 @@ public:
   void SetSigma( RealType sigma );
 
   /** Define which normalization factor will be used for the Gaussian */
-  itkSetMacro( NormalizeAcrossScale, bool );
+  void SetNormalizeAcrossScale( bool normalizeInScaleSpace );
   itkGetMacro( NormalizeAcrossScale, bool );
 
 protected:

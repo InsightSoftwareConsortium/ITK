@@ -87,6 +87,28 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 
 
 /**
+ * Set Normalize Across Scale Space
+ */
+template <typename TInputImage, typename TOutputImage>
+void 
+GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage>
+::SetNormalizeAcrossScale( bool normalize )
+{
+
+  m_NormalizeAcrossScale = normalize;
+
+  for( unsigned int i = 0; i<ImageDimension-1; i++ )
+  {
+    m_SmoothingFilters[ i ]->SetNormalizeAcrossScale( normalize );
+  }
+  m_DerivativeFilter->SetNormalizeAcrossScale( normalize );
+
+  this->Modified();
+
+}
+
+
+/**
  * Compute filter for Gaussian kernel
  */
 template <typename TInputImage, typename TOutputImage >
