@@ -75,8 +75,9 @@ const std::type_info& PNGImageIO::GetPixelType() const
       return typeid(unsigned char);
     case USHORT:
       return typeid(unsigned short);
+    default:
+      return typeid(unsigned char);
     }
-  return typeid(unsigned char);
 }
 
   
