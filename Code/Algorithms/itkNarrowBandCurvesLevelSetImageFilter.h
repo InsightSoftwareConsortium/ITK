@@ -140,6 +140,11 @@ protected:
 
   NarrowBandCurvesLevelSetImageFilter(const Self &); // purposely not implemented
    void operator=(const Self&); //purposely not implemented
+   
+  /** Overridden from Superclass to handle the case when Propagation
+   *  Scaling is zero.*/
+  void GenerateData();
+     
 private:
   CurvesFunctionPointer m_CurvesFunction;
 };

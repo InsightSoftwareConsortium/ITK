@@ -1,3 +1,4 @@
+
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
@@ -45,6 +46,25 @@ NarrowBandCurvesLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>
   os << "CurvesFunction: " << m_CurvesFunction.GetPointer();
 }
 
+template <class TInputImage, class TFeatureImage, class TOutputType>
+void
+NarrowBandCurvesLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>
+::GenerateData()
+{
+
+  // Make sure the SpeedImage is setup for the case when PropagationScaling
+  // is zero. This image is used by the curvature term.
+  if ( this->GetSegmentationFunction() && 
+       this->GetSegmentationFunction()->GetPropagationWeight() == 0 )
+    {
+    this->GetSegmentationFunction()->AllocateSpeedImage();
+    this->GetSegmentationFunction()->CalculateSpeedImage();
+    }
+
+  // Continue with Superclass implementation
+  Superclass::GenerateData();
+
+}
 
 }// end namespace itk
 
