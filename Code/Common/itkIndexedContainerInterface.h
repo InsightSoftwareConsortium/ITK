@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkIndexedContainer.h
+  Module:    itkIndexedContainerInterface.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -13,8 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#ifndef __itkIndexedContainer_h
-#define __itkIndexedContainer_h
+#ifndef __itkIndexedContainerInterface_h
+#define __itkIndexedContainerInterface_h
 
 #include "itkObject.h"
 #include "itkSmartPointer.h"
@@ -22,8 +22,8 @@
 namespace itk
 {
 
-/** \class IndexedContainer
- * The "IndexedContainer" interface.  This should only be used for
+/** \class IndexedContainerInterface
+ * This should only be used for
  * reference when writing containers conforming to this interface.  ITK
  * uses generic programming to allow container type substitution, so
  * polymorphism is not needed to use containers through this interface.  This
@@ -37,7 +37,7 @@ namespace itk
  * Element type.  Also note that all non-const methods assume that the
  * container was modified, and update the modification time.
  *
- * Template parameters for IndexedContainer:
+ * Template parameters for IndexedContainerInterface:
  *
  * TElementIdentifier =
  *    A type that shall be used to index the container.
@@ -47,13 +47,13 @@ namespace itk
  *    The element type stored in the container.
  */
 template <typename TElementIdentifier, typename TElement>
-class IndexedContainer: public Object
+class IndexedContainerInterface: public Object
 {
 public:
   /**
    * Standard "Self" typedef.
    */
-  typedef IndexedContainer      Self;
+  typedef IndexedContainerInterface      Self;
   
   /**
    * Smart pointer typedef support.

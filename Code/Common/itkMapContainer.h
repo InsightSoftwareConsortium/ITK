@@ -27,7 +27,7 @@ namespace itk
 
 /** \class MapContainer
  * Define a front-end to the STL "map" container that conforms to the
- * IndexedContainer interface.  This is a full-fleged Object, so
+ * IndexedContainerInterface.  This is a full-fleged Object, so
  * there is modification time, debug, and reference count information.
  *
  * Template parameters for MapContainer:
