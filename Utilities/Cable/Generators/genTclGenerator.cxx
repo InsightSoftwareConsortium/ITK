@@ -392,7 +392,7 @@ TclGenerator
         m_Output <<
           "void\n"
           "Wrapper< " << cName.c_str() << " >\n"
-          "::StaticOperator_" << m << "_" << methods[m]->GetName().c_str()
+          "::StaticOperator_" << m << "_" << this->GetOperatorName(methods[m]->GetName()).c_str()
                  << "(const WrapperBase* wrapper, const Arguments& arguments)\n"
           "{\n";
         
@@ -600,8 +600,16 @@ void TclGenerator::WriteWrapperClassDefinition(const source::Class* c,
         }
       if(methods[m]->IsOperatorMethod())
         {
-        m_Output <<
-          "  static void Operator_" << m << "_" << this->GetOperatorName(methods[m]->GetName()).c_str() << "(const WrapperBase*, const Arguments&)";
+        if(methods[m]->IsStatic())
+          {
+          m_Output <<
+            "  static void StaticOperator_" << m << "_" << this->GetOperatorName(methods[m]->GetName()).c_str() << "(const WrapperBase*, const Arguments&)";
+          }
+        else
+          {
+          m_Output <<
+            "  static void Operator_" << m << "_" << this->GetOperatorName(methods[m]->GetName()).c_str() << "(const WrapperBase*, const Arguments&)";
+          }
         }
       else if(methods[m]->IsConstructor())
         {
