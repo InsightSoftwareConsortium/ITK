@@ -513,6 +513,7 @@ Parser
     {
     throw NamespaceStackTypeException("PackageNamespace",
                                       currentNamespaceScope->GetClassName());
+    return NULL;
     }
 }
 
