@@ -54,7 +54,8 @@ namespace itk
  * training label be equal to N, where N is the number of classes represented
  * by the maximum label value in the training data set. The pixels 
  * corresponding to each training label is parsed and the mean and covariance
- * is calculated for each class.
+ * is calculated for each class. The background is identified by the label zero 
+ * and is not parsed for further computation to improve efficiency. 
  * 
  * This object supports data handling of multiband images. The object
  * accepts the input image in vector format only, where each pixel is a 
