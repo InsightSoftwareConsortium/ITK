@@ -135,7 +135,6 @@ template<unsigned int VImageDimension>
 ImageBase<VImageDimension>
 ::~ImageBase()
 {
-  this->Initialize();
 }
 
 
