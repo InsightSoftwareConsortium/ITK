@@ -13,7 +13,6 @@ REGISTER_TEST(CannySegmentationLevelSetImageFilterTest);
 REGISTER_TEST(ConfidenceConnectedTest);
 REGISTER_TEST(ConnectedThresholdImageFilterTest);
 REGISTER_TEST(FastMarchingImageFilterTest);
-REGISTER_TEST(FuzzyConnectednessImageFilterTest);
 REGISTER_TEST(GeodesicActiveContourImageFilterTest);
 REGISTER_TEST(GibbsPriorImageFilter1Test);
 }
@@ -33,10 +32,6 @@ REGISTER_TEST(GibbsPriorImageFilter1Test);
 #undef main
 #define main FastMarchingImageFilterTest
 #include "FastMarchingImageFilter.cxx"
-
-#undef main
-#define main FuzzyConnectednessImageFilterTest
-#include "FuzzyConnectednessImageFilter.cxx"
 
 #undef main
 #define main GeodesicActiveContourImageFilterTest
