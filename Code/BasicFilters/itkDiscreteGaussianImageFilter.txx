@@ -59,7 +59,7 @@ DiscreteGaussianImageFilter<TPixel, VDimension>
   Self::ImageRegionCopy(imgT, input);
 
   GaussianOperator<VDimension> *oper;
-  NeighborhoodOperatorImageFilter<TPixel, VDimension>::Pointer filter;
+  NeighborhoodOperatorImageFilter<InputImageType, OutputImageType>::Pointer filter;
 
   swapPtrA = imgT;
   swapPtrB = output;
@@ -72,7 +72,7 @@ DiscreteGaussianImageFilter<TPixel, VDimension>
       oper->SetMaximumError(m_MaximumError[i]);
       oper->CreateDirectional();
       
-      filter = NeighborhoodOperatorImageFilter<TPixel, VDimension>::New();
+      filter = NeighborhoodOperatorImageFilter<InputImageType, OutputImageType>::New();
       filter->SetOperator(*oper);
       filter->SetInput(swapPtrA);
       filter->SetOutput(swapPtrB);

@@ -47,12 +47,14 @@ public:
    * Standard "Self" typedef.
    */
   typedef DiscreteGaussianImageFilter Self;
-
+  
+  typedef Image<TPixel, VDimension>  InputImageType;
+  typedef Image<TPixel, VDimension>  OutputImageType;
+  
   /**
    * Standard super class typedef support.
    */
-  typedef ImageToImageFilter< Image<TPixel, VDimension>,
-    Image<TPixel, VDimension> > Superclass;
+  typedef ImageToImageFilter< InputImageType, OutputImageType > Superclass;
   
   /** 
    * Smart pointer typedef support 
