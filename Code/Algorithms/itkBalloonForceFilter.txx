@@ -53,11 +53,14 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 ::~BalloonForceFilter()
 {
   unsigned int i;
-  for (i = 0; i < m_NewNodeLimit; i++)
+  if (m_NewNodes)
     {
-    free(m_NewNodes[i]);
+    for (i = 0; i < m_NewNodeLimit; i++)
+      {
+      free(m_NewNodes[i]);
+      }
+    free(m_NewNodes);
     }
-  free(m_NewNodes);
   if (m_K)
     {
     free (m_K);

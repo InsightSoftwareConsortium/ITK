@@ -27,8 +27,18 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
 ::BalloonForce3DFilter()
 {
   m_Step = 0;
+  m_TimeStep = 0;
   m_FirstSlice = 0;
   m_NewNode = 0;
+  m_XResolution = 0;
+  m_YResolution = 0;
+  m_ZResolution = 0;
+  m_StiffnessH = 0;
+  m_StiffnessV = 0;
+  m_NeighborRadius = 0;
+  m_StepThreshold1 = 0;
+  m_StepThreshold2 = 0;
+  m_Center.Fill(0);
   typename TOutputMesh::Pointer output = TOutputMesh::New();
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput(0, output.GetPointer());
@@ -43,7 +53,9 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
 {
   Superclass::PrintSelf(os,indent);
 
+  os << indent << "XResolution = " << m_XResolution << std::endl;
   os << indent << "YResolution = " << m_YResolution << std::endl;
+  os << indent << "ZResolution = " << m_ZResolution << std::endl;
   os << indent << "StiffnessH = " << m_StiffnessH << std::endl;
   os << indent << "StiffnessV = " << m_StiffnessV << std::endl;
   os << indent << "Center = " << m_Center << std::endl;
@@ -55,7 +67,6 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
     {
     os << indent << "Potential = " << "(None)" << std::endl;
     }
-  os << indent << "XResolution = " << m_XResolution << std::endl;
   os << indent << "TimeStep = " << m_TimeStep << std::endl;
   if (m_Gradient)
     {
@@ -65,7 +76,6 @@ BalloonForce3DFilter<TInputMesh, TOutputMesh>
     {
     os << indent << "Gradient = " << "(None)" << std::endl;
     }
-  os << indent << "ZResolution = " << m_ZResolution << std::endl;
   os << indent << "FirstSlice = " << m_FirstSlice << std::endl;
   if (m_Normals)
     {
