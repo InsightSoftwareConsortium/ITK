@@ -49,9 +49,9 @@ PlaneSpatialObject< TDimension >
     
   if(name == NULL || strstr(typeid(Self).name(), name) )
     {
-    PointType transformedPoint = point;
-    TransformPointToLocalCoordinate(transformedPoint);
-  
+    const TransformType * giT = GetGlobalIndexTransform(); 
+    PointType transformedPoint = giT->TransformPoint(point); 
+    
     bool inside = true;
     for(unsigned int i=0;i<TDimension;i++)
       {
