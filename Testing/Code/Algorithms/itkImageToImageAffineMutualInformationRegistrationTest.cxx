@@ -123,7 +123,7 @@ int main()
   registrationMethod->SetReferenceTransformationCenter( transCenter );
 
   // set optimization related parameters
-  registrationMethod->SetNumberOfIterations( 350 );
+  registrationMethod->SetNumberOfIterations( 250 );
   registrationMethod->SetLearningRate( 0.1 );
 
   //
