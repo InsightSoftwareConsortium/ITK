@@ -369,12 +369,19 @@
             <xsl:variable name="TestName"><xsl:value-of select="FullName"/></xsl:variable>
             <Test>
               <Name><xsl:value-of select="$TestName"/></Name>
-              <xsl:for-each select="/Dashboard/BuildStamp/Testing/Tests/Test[FullName=$TestName]">
+              <xsl:for-each select="/Dashboard/BuildStamp/Testing">
                 <Result>
-                  <SiteName><xsl:value-of select="../../SiteName"/></SiteName>
-                  <BuildName><xsl:value-of select="../../BuildName"/></BuildName>
-                  <BuildStamp><xsl:value-of select="../../BuildStamp"/></BuildStamp>
-                  <Status><xsl:value-of select="Status"/></Status>
+                  <SiteName><xsl:value-of select="SiteName"/></SiteName>
+                  <BuildName><xsl:value-of select="BuildName"/></BuildName>
+                  <BuildStamp><xsl:value-of select="BuildStamp"/></BuildStamp>
+                  <xsl:choose>
+                    <xsl:when test="count(Tests/Test[FullName=$TestName])">
+                      <Status><xsl:value-of select="Tests/Test[FullName=$TestName]/Status"/></Status>
+                    </xsl:when>
+                    <xsl:otherwise>
+                      <Status>notrun</Status>
+                    </xsl:otherwise>
+                  </xsl:choose>
                 </Result>
               </xsl:for-each>
             </Test>
