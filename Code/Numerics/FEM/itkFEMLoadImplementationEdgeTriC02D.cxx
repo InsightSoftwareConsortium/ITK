@@ -99,7 +99,7 @@ Element::LoadVectorType LoadEdgeImplementationTriC02D(TriC02D::ConstPointer elem
 
   typedef Element::Float Float;
   LoadEdge::Pointer l0=dynamic_cast<LoadEdge*>(&*load);
-  if ( !l0 ) throw;
+  if ( !l0 ) throw FEMException(__FILE__, __LINE__, "FEM error");
 
   /*
    * FIXME: LoadEdge is not handled properly in this code

@@ -97,7 +97,7 @@ Element::LoadVectorType LoadGravImplementationQuadC02D(QuadC02D::ConstPointer el
 
   typedef Element::Float Float;
   LoadGrav::Pointer l0=dynamic_cast<LoadGrav*>(&*load);
-  if ( !l0 ) throw;
+  if ( !l0 ) throw FEMException(__FILE__, __LINE__, "FEM error");
 
   /**
    * Handle gravity loads

@@ -75,7 +75,7 @@ unsigned int Node::GetDegreeOfFreedom(unsigned int i) const
   if(pt>=el->GetNumberOfPoints())
   {
     // m_elements set was defined incorrectly
-    throw;
+    throw FEMException(__FILE__, __LINE__, "FEM error");
   }
 
   return el->GetDegreeOfFreedomAtPoint(pt,i);

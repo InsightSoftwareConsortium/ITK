@@ -120,7 +120,7 @@ void Element::LinkDegreesOfFreedom(void)
               // Something got screwed.
               // FIXME: Write a better error handler or remove it completely,
               //        since this should never happen.
-              throw;
+              throw FEMException(__FILE__, __LINE__, "FEM error");
             }
             this->SetDegreeOfFreedomAtPoint(pt,d,global_dof);
           }

@@ -113,7 +113,7 @@ Element::LoadVectorType LoadGravImplementationHexahedronC03D(HexahedronC03D::Con
 
   typedef Element::Float Float;
   LoadGrav::Pointer l0=dynamic_cast<LoadGrav*>(&*load);
-  if ( !l0 ) throw;
+  if ( !l0 ) throw FEMException(__FILE__, __LINE__, "FEM error");
 
   /**
    * Handle gravity loads

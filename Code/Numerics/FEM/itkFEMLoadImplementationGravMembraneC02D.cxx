@@ -98,7 +98,7 @@ LoadGravImplementationMembraneC02D
     
   typedef Element::Float Float;
   LoadGrav::Pointer l0=dynamic_cast<LoadGrav*>(&*load);
-  if ( !l0 ) throw;
+  if ( !l0 ) throw FEMException(__FILE__, __LINE__, "FEM error");
   // for gravity loads
   vnl_vector<Float> pt(4,0.0), f(2,0.0);
   Solution::ConstPointer   S=l0->GetSolution();

@@ -97,7 +97,7 @@ Element::LoadVectorType LoadEdgeImplementationQuadC02D(QuadC02D::ConstPointer el
 
   typedef Element::Float Float;
   LoadEdge::Pointer l0=dynamic_cast<LoadEdge*>(&*load);
-  if ( !l0 ) throw;
+  if ( !l0 ) throw FEMException(__FILE__, __LINE__, "FEM error");
 
   /**
    * Handle edge loads

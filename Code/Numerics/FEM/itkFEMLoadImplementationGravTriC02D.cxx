@@ -101,7 +101,7 @@ Element::LoadVectorType LoadGravImplementationTriC02D(TriC02D::ConstPointer elem
 
   typedef Element::Float Float;
   LoadGrav::Pointer l0=dynamic_cast<LoadGrav*>(&*load);
-  if ( !l0 ) throw;
+  if ( !l0 ) throw FEMException(__FILE__, __LINE__, "FEM error");
 
   vnl_vector<Float> pt(2), f(2);
 

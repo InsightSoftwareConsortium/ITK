@@ -243,7 +243,7 @@ void ItpackSparseMatrix::Set(integer i, integer j, doublereal value)
     {
       /* FIX ME: error handling */
 
-      throw;
+      throw FEMException(__FILE__, __LINE__, "FEM error");
     }
     else 
     {

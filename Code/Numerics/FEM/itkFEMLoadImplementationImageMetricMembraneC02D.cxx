@@ -40,7 +40,7 @@ LoadImageMetricImplementationMembraneC02D
     
   typedef Element::Float Float;
   LoadGrav::Pointer l0=dynamic_cast<LoadGrav*>(&*load);
-  if ( !l0 ) throw;
+  if ( !l0 ) throw FEMException(__FILE__, __LINE__, "FEM error");
   // for gravity loads
   // 2 dimensional holders for points and vectors
   vnl_vector_fixed<Float,4> pt1(0.0); // (-1,-1) in local coords
