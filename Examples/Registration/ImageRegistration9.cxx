@@ -297,7 +297,7 @@ int main( int argc, char *argv[] )
     }
 
 
-  unsigned int maxNumberOfIterations = 50;
+  unsigned int maxNumberOfIterations = 300;
 
   if( argc > 7 )
     {
