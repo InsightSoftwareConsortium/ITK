@@ -11,7 +11,7 @@ proc MakeDateStamp {} \
 proc MakeNightlyDateStamp {} \
 {
   # Return a DateStamp for yesterday...
-  return [clock format [expr [clock seconds] - 24 * 60 * 60] -format %Y%m%d -gmt 1]
+  return [clock format [expr [clock seconds]] -format %Y%m%d -gmt 1]
 }
 
 proc ExpandStamp { Stamp } \
@@ -415,3 +415,27 @@ proc Match { match file { Exceptions {} } } \
 {
   return [expr [llength [Grep $match $file $Exceptions]] > 0 ]
 }
+
+
+proc GetCMakeVariable { Variable } \
+{
+  if { ![file exists CMakeLists.txt] } \
+  {
+    error "No CMakeLists.txt file"
+  }
+  set Contents ""
+  set f [open CMakeLists.txt r]
+  set Contents [read $f]
+  close $f
+  regsub -all "\\\\\n" $Contents "" Contents
+  foreach Line [split $Contents "\n"] \
+  {
+    if { [string first $Variable $Line] != -1 } \
+    {
+      set i [expr [string first "=" $Line] + 1]
+      return [string trim [string range $Line $i end]]
+    }
+  }
+  return ""
+}
+  
