@@ -113,6 +113,7 @@ public:
 
   /** Image spacing typedef */
   typedef typename TOutputImage::SpacingType SpacingType;
+  typedef typename TOutputImage::PointType   OriginPointType;
   
   /** Set the coordinate transformation.
    * Set the coordinate transform to use for resampling.  Note that this
@@ -153,16 +154,14 @@ public:
   virtual void SetOutputSpacing( const double values[ImageDimension] );
 
   /** Get the output image spacing. */
-  const SpacingType& GetOutputSpacing()
-  { return m_OutputSpacing; }
+  itkGetConstReferenceMacro( OutputSpacing, SpacingType );
 
   /** Set the output image origin. */
   virtual void SetOutputOrigin( const PointType& values );
   virtual void SetOutputOrigin( const double values[ImageDimension] );
 
   /** Get the output image origin. */
-  const PointType& GetOutputOrigin()
-  { return m_OutputSpacing; }
+  itkGetConstReferenceMacro( OutputOrigin, PointType );
 
   /** ResampleImageFilter produces an image which is a different size
    * than its input.  As such, it needs to provide an implementation
