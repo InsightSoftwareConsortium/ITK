@@ -147,8 +147,24 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
     RorL=0;
     endy=leftendy;
     }
-  leftDx=(leftP[0]-beginx)/(leftP[1]-beginy);
-  rightDx=(rightP[0]-endx)/(rightP[1]-beginy);
+  if (leftP[1]==beginy)
+    {
+    leftDx = 1.0;
+    }
+  else
+    {
+    leftDx=(leftP[0]-beginx)/(leftP[1]-beginy);
+    }
+
+  if (rightP[1]==beginy)
+    {
+    rightDx = 1.0;
+    }
+  else
+    {
+    rightDx=(rightP[0]-endx)/(rightP[1]-beginy);
+    }
+
   int intendy=(int)floor(endy);
   if(intbeginy>intendy)
     { //no scanline
@@ -210,7 +226,14 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
       endx=currP[0];
       beginx=leftheadx+leftDx*(beginy-leftheady); 
       rightP=vertlist.back();
-      rightDx=(rightP[0]-currP[0])/(rightP[1]-currP[1]);
+      if ((rightP[1]==currP[1]))
+        {
+        rightDx = 1.0;
+        }
+      else
+        {
+        rightDx=(rightP[0]-currP[0])/(rightP[1]-currP[1]);
+        }
       }
     else
       {
@@ -221,7 +244,14 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
       beginx=currP[0];
       endx=rightheadx+rightDx*(beginy-rightheady);
       leftP=vertlist.front();
-      leftDx=(leftP[0]-currP[0])/(leftP[1]-currP[1]);
+      if ((leftP[1]==currP[1]))
+        {
+        leftDx = 1.0;
+        }
+      else
+        {
+        leftDx=(leftP[0]-currP[0])/(leftP[1]-currP[1]);
+        }
       }
         
     leftendy=leftP[1];
@@ -288,13 +318,27 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
     {
     if(RorL)
       {
-      rightDx=(rightP[0]-leftP[0])/(rightP[1]-leftP[1]);
+      if ((rightP[1]==leftP[1]))
+        {
+        rightDx = 1.0;
+        }
+      else
+        {
+        rightDx=(rightP[0]-leftP[0])/(rightP[1]-leftP[1]);
+        }
       endx=rightP[0];
       beginx=leftP[0]+leftDx*(rightP[1]-leftP[1]);
       }
     else
       {
-      leftDx=(rightP[0]-leftP[0])/(rightP[1]-leftP[1]);
+      if ((rightP[1]==leftP[1]))
+        {
+        leftDx = 1.0;
+        }
+      else
+        {
+        leftDx=(rightP[0]-leftP[0])/(rightP[1]-leftP[1]);
+        }
       beginx=leftP[0];
       endx=rightP[0]+rightDx*(leftP[1]-rightP[1]);
       }
@@ -457,7 +501,14 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
   else
     {
     this->RunSegmentOneStep();
-    this->UpdateProgress(1.0/static_cast<float>(m_Steps));
+    if (m_Steps == 0)
+      {
+      this->UpdateProgress(1.0);
+      }
+    else
+      {
+      this->UpdateProgress(1.0/static_cast<float>(m_Steps));
+      }
     if(m_NumberOfBoundary == 0)
       {
       ok=0;
@@ -659,8 +710,22 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
     RorL=0;
     endy=leftendy;
     }
-  leftDx=(leftP[0]-beginx)/(leftP[1]-beginy);
-  rightDx=(rightP[0]-endx)/(rightP[1]-beginy);
+  if(leftP[1]==beginy)
+    {
+    leftDx = 1.0;
+    }
+  else
+    {
+    leftDx=(leftP[0]-beginx)/(leftP[1]-beginy);
+    }
+  if(rightP[1]==beginy)
+    {
+    rightDx = 1.0;
+    }
+  else
+    {
+    rightDx=(rightP[0]-endx)/(rightP[1]-beginy);
+    }
   int intendy=(int)floor(endy);
   if(intbeginy>intendy)
     { //no scanline
@@ -721,8 +786,15 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
       rightheady=currP[1];
       endx=currP[0];
       beginx=leftheadx+leftDx*(beginy-leftheady); 
-      rightP=vertlist.back();
-      rightDx=(rightP[0]-currP[0])/(rightP[1]-currP[1]);
+      rightP=vertlist.back(); 
+      if (rightP[1] == currP[1])
+        {
+        rightDx = 1.0;
+        }
+      else
+        {
+        rightDx=(rightP[0]-currP[0])/(rightP[1]-currP[1]);
+        }
       }
     else
       {
@@ -733,7 +805,14 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
       beginx=currP[0];
       endx=rightheadx+rightDx*(beginy-rightheady);
       leftP=vertlist.front();
-      leftDx=(leftP[0]-currP[0])/(leftP[1]-currP[1]);
+      if (leftP[1] == currP[1])
+        {
+        leftDx = 1.0;
+        }
+      else
+        {
+        leftDx=(leftP[0]-currP[0])/(leftP[1]-currP[1]);
+        }
       }
         
     leftendy=leftP[1];
@@ -800,13 +879,27 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
     {
     if(RorL)
       {
-      rightDx=(rightP[0]-leftP[0])/(rightP[1]-leftP[1]);
+      if (rightP[1] == leftP[1])
+        {
+        rightDx = 1.0;
+        }
+      else
+        {
+        rightDx=(rightP[0]-leftP[0])/(rightP[1]-leftP[1]);
+        }
       endx=rightP[0];
       beginx=leftP[0]+leftDx*(rightP[1]-leftP[1]);
       }
     else
       {
-      leftDx=(rightP[0]-leftP[0])/(rightP[1]-leftP[1]);
+      if (rightP[1] == leftP[1])
+        {
+        leftDx = 1.0;
+        }
+      else
+        {
+        leftDx=(rightP[0]-leftP[0])/(rightP[1]-leftP[1]);
+        }
       beginx=leftP[0];
       endx=rightP[0]+rightDx*(leftP[1]-rightP[1]);
       }
@@ -850,6 +943,10 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
   int save;
   float curr;
   IndexType idx;
+  if (dy == 0)
+    {
+    dy = 1;
+    }
   if (adx > ady)
     {
     if(x1>x2)
@@ -960,6 +1057,10 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
   int save; 
   float curr; 
   IndexType idx; 
+  if (dx == 0)
+    {
+    dx = 1;
+    }
   if (adx > ady)
     { 
     if(x1>x2)
