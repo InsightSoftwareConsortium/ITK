@@ -606,8 +606,6 @@ void GDCMImageIO::Write(const void* buffer)
     }
     std::string uid = gdcm::Util::CreateUniqueUID( m_UIDPrefix );
   
-    //std::cerr << "Replacing:" << value << " by " << uid << std::endl;
-    //std::cerr << "Replacing:" << SOPInstanceUID << std::endl;
     myGdcmHeader->ReplaceOrCreateByNumber( uid, 0x0008, 0x0018); //[SOP Instance UID]
     myGdcmHeader->ReplaceOrCreateByNumber( uid, 0x0002, 0x0003); //[Media Stored SOP Instance UID]
     myGdcmHeader->ReplaceOrCreateByNumber( m_StudyInstanceUID, 0x0020, 0x000d); //[Study Instance UID]
@@ -619,7 +617,7 @@ void GDCMImageIO::Write(const void* buffer)
   uint8_t* imageData = new uint8_t[numberOfBytes];
   memcpy(imageData, buffer, numberOfBytes);
   
-  // Here we are passsing directly a pointer, this should
+  // Here we are passing directly a pointer, this should
   myGdcmHeader->ReplaceOrCreateByNumber( imageData, numberOfBytes, 0x7fe0, 0x0010, "PXL" );
   myGdcmFile->WriteDcmExplVR( m_FileName );
 
@@ -639,6 +637,8 @@ void GDCMImageIO::PrintSelf(std::ostream& os, Indent indent) const
   Superclass::PrintSelf(os, indent);
   os << indent << "RescaleSlope: " << m_RescaleSlope << "\n";
   os << indent << "RescaleIntercept: " << m_RescaleIntercept << "\n";
+  os << indent << "KeepOriginalUID: " << m_KeepOriginalUID << "\n";
+  os << indent << "UIDPrefix: " << m_UIDPrefix << "\n";
 }
 
 
