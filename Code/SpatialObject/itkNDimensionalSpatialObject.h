@@ -25,6 +25,7 @@
 #include "itkProcessObject.h"
 #include "itkIndex.h"
 #include "itkSize.h"
+#include "itkSpatialObjectProperty.h" 
 
 namespace itk  
 { 
@@ -62,7 +63,10 @@ public:
   typedef typename OffsetType::OffsetValueType OffsetValueType;
   typedef ImageRegion<PipelineDimension> RegionType;
   typedef Size<PipelineDimension>    SizeType; 
+  typedef SpatialObjectProperty< float > PropertyType; 
+  typedef typename PropertyType::Pointer  PropertyPointer; 
 
+  typedef std::list< Self * > NDimensionalChildrenListType; 
 
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
@@ -70,33 +74,30 @@ public:
   /** Run-time type information (and related methods). */ 
   itkTypeMacro( Self, Superclass );
 
-  /**
-  * Set the pointer to the parent object in the tree hierarchy
-  * used for the spatial object patter.
-  */
+  /** Set the pointer to the parent object in the tree hierarchy
+   *  used for the spatial object patter. */
   virtual void SetParent( const Self * parent );
 
-  /**
-  * Return a pointer to the parent object in the hierarchy tree
-  */ 
+  /** Return a pointer to the parent object in the hierarchy tree */ 
   virtual const Self * GetParent( void ) const; 
 
-  /**
-  * Return true if the object has a parent object. Basically, only
-  * the root object , or some isolated objects should return false.
-  */
+  /** Return true if the object has a parent object. Basically, only
+   *  the root object , or some isolated objects should return false. */
   virtual bool HasParent( void ) const;
 
-  
+  /** Get the typename of the SpatialObject */
   virtual const char* GetTypeName(void) {return m_TypeName;}
 
+  /** Get the dimension of the SpatialObject */
   unsigned int GetDimension(void) const {return m_Dimension;}
 
+  /** Set the Spacing of the spatial object */
   void SetSpacing(VectorType spacing){m_Spacing = spacing;}
 
+  /** Get the spacing of the spatial object */
   VectorType GetSpacing(void) const  {return m_Spacing;}
 
-    /** Set the region object that defines the size and starting index
+  /** Set the region object that defines the size and starting index
    * for the largest possible region this image could represent.  This
    * is used in determining how much memory would be needed to load an
    * entire dataset.  It is also used to determine boundary
@@ -238,6 +239,24 @@ public:
   virtual bool VerifyRequestedRegion();
 
 
+  /** Returns a pointer to the property object applied to this class. */
+  PropertyType * GetProperty( void );
+
+  /** Set the property applied to the object. */
+  void SetProperty( const PropertyType * property ); 
+
+  /** Get/Set the ParentID */
+  void SetParentId(int parentid) {m_ParentId=parentid;}
+  int  GetParentId(void) {return m_ParentId;}
+
+  /** Get/Set the ID */
+  itkGetMacro(Id,int);
+  itkSetMacro(Id,int);
+
+  /** Returns a list of pointer to the children affiliated to this object. */ 
+  NDimensionalChildrenListType & GetNDimensionalChildren( void ) {return m_NDimensionalChildrenList;}
+
+
 protected: 
   
  /** Calculate the offsets needed to move from one pixel to the next
@@ -263,6 +282,18 @@ protected:
   RegionType          m_LargestPossibleRegion;
   RegionType          m_RequestedRegion;
   RegionType          m_BufferedRegion;
+    
+
+  NDimensionalChildrenListType m_NDimensionalChildrenList;
+
+  PropertyPointer m_Property; 
+
+  /** Parent ID : default = -1 */
+  int m_ParentId;
+
+  /** Object Identification Number */
+  int m_Id;
+
 }; 
 
 } // end of namespace itk

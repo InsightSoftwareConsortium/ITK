@@ -22,109 +22,115 @@
 
 namespace itk
 {
-  template <unsigned int PipelineDimension>
-  NDimensionalSpatialObject<PipelineDimension>
-  ::NDimensionalSpatialObject()
+
+/** Constructor */
+template <unsigned int PipelineDimension>
+NDimensionalSpatialObject<PipelineDimension>
+::NDimensionalSpatialObject()
+{
+  strcpy(m_TypeName,"NDimensionalSpatialObject");
+  m_ParentId=-1; // by default
+  m_Dimension = 3; // by default
+  m_Id = 0;
+}
+
+/** Destructor */
+template <unsigned int PipelineDimension>
+NDimensionalSpatialObject<PipelineDimension>
+::~NDimensionalSpatialObject()
+{
+}
+
+/** Get the parent of the spatial object */
+template <unsigned int PipelineDimension>
+const NDimensionalSpatialObject<PipelineDimension> *
+NDimensionalSpatialObject<PipelineDimension>
+::GetParent( void ) const
+{
+  return m_Parent.GetPointer();
+}
+
+/** Set the parent of the spatial object */
+template <unsigned int PipelineDimension>
+void
+NDimensionalSpatialObject<PipelineDimension>
+::SetParent( const Self * parent )
+{
+  m_Parent = parent;
+}
+
+/** Return true if the spatial object has a parent */
+template <unsigned int PipelineDimension>
+bool
+NDimensionalSpatialObject<PipelineDimension>
+::HasParent( void ) const
+{
+  if( m_Parent )
   {
-    strcpy(m_TypeName,"NDimensionalSpatialObject");
-    m_Dimension = 3; // by default
+    return true;
   }
-
-  template <unsigned int PipelineDimension>
-  NDimensionalSpatialObject<PipelineDimension>
-  ::~NDimensionalSpatialObject()
+  else
   {
+    return false;
   }
+}
 
-  template <unsigned int PipelineDimension>
-  const NDimensionalSpatialObject<PipelineDimension> *
-  NDimensionalSpatialObject<PipelineDimension>
-  ::GetParent( void ) const
-  {
-    return m_Parent.GetPointer();
-  }
-
-  template <unsigned int PipelineDimension>
-  void
-  NDimensionalSpatialObject<PipelineDimension>
-  ::SetParent( const Self * parent )
-  {
-    m_Parent = parent;
-  }
-
-
-  template <unsigned int PipelineDimension>
-  bool
-  NDimensionalSpatialObject<PipelineDimension>
-  ::HasParent( void ) const
-  {
-    if( m_Parent )
-      return true;
-    else
-      return false;
-  }
-
-
-  //----------------------------------------------------------------------------
-  template <unsigned int PipelineDimension>
-  void
-  NDimensionalSpatialObject<PipelineDimension>
+/** Set the largest possible region */
+template <unsigned int PipelineDimension>
+void
+NDimensionalSpatialObject<PipelineDimension>
 ::SetLargestPossibleRegion(const RegionType &region)
 {
   if (m_LargestPossibleRegion != region)
-    {
+  {
     m_LargestPossibleRegion = region;
     this->Modified();
-    }
+  }
 }
 
-
-  template <unsigned int PipelineDimension>
-  void
-  NDimensionalSpatialObject<PipelineDimension>
+/** Update the Output information */
+template <unsigned int PipelineDimension>
+void
+NDimensionalSpatialObject<PipelineDimension>
 ::UpdateOutputInformation()
 {
   if (this->GetSource())
-    {
+  {
     this->GetSource()->UpdateOutputInformation();
-    }
+  }
   // If we don't have a source, then let's make our Image
   // span our buffer
   else
-    {
+  {
     m_LargestPossibleRegion = m_BufferedRegion;
-    }
+  }
   
   // Now we should know what our largest possible region is. If our 
   // requested region was not set yet, (or has been set to something 
   // invalid - with no data in it ) then set it to the largest possible
   // region.
   if ( ! m_RequestedRegionInitialized)
-    {
+  {
     this->SetRequestedRegionToLargestPossibleRegion();
     m_RequestedRegionInitialized = true;
-    }
+  }
   
   m_LastRequestedRegionWasOutsideOfTheBufferedRegion = 0;
 }
 
-
-//----------------------------------------------------------------------------
-
-  template <unsigned int PipelineDimension>
-  void
-  NDimensionalSpatialObject<PipelineDimension>
+template <unsigned int PipelineDimension>
+void
+NDimensionalSpatialObject<PipelineDimension>
 ::SetRequestedRegionToLargestPossibleRegion()
 {
   m_RequestedRegion = m_LargestPossibleRegion;
   m_RequestedRegionInitialized = true;
 }
 
-//----------------------------------------------------------------------------
 
- template <unsigned int PipelineDimension>
-  void
-  NDimensionalSpatialObject<PipelineDimension>
+template <unsigned int PipelineDimension>
+void
+NDimensionalSpatialObject<PipelineDimension>
 ::CopyInformation(const DataObject *data)
 {
   // Standard call to the superclass' method
@@ -150,11 +156,9 @@ namespace itk
 }
 
 
-//----------------------------------------------------------------------------
-
- template <unsigned int PipelineDimension>
- bool
-  NDimensionalSpatialObject<PipelineDimension>
+template <unsigned int PipelineDimension>
+bool
+NDimensionalSpatialObject<PipelineDimension>
 ::RequestedRegionIsOutsideOfTheBufferedRegion()
 {
   unsigned int i;
@@ -165,38 +169,35 @@ namespace itk
   const SizeType& bufferedRegionSize = m_BufferedRegion.GetSize();
   
   for (i=0; i< m_Dimension; i++)
-    {
+  {
     if ( (requestedRegionIndex[i] < bufferedRegionIndex[i]) ||
          ((requestedRegionIndex[i] + static_cast<long>(requestedRegionSize[i]))
           > (bufferedRegionIndex[i] + static_cast<long>(bufferedRegionSize[i]))) )
-      {
+    {
       return true;
-      }
     }
-
+  }
   return false;
 }
 
-//----------------------------------------------------------------------------
 
- template <unsigned int PipelineDimension>
-  void
-  NDimensionalSpatialObject<PipelineDimension>
+template <unsigned int PipelineDimension>
+void
+NDimensionalSpatialObject<PipelineDimension>
 ::SetBufferedRegion(const RegionType &region)
 {
   if (m_BufferedRegion != region)
-    {
+  {
     m_BufferedRegion = region;
     this->ComputeOffsetTable();
     this->Modified();
-    }
+  }
 }
 
-//----------------------------------------------------------------------------
 
- template <unsigned int PipelineDimension>
- bool
-  NDimensionalSpatialObject<PipelineDimension>
+template <unsigned int PipelineDimension>
+bool
+NDimensionalSpatialObject<PipelineDimension>
 ::VerifyRequestedRegion()
 {
   bool retval = true;
@@ -214,36 +215,35 @@ namespace itk
     = m_LargestPossibleRegion.GetSize();
   
   for (i=0; i< m_Dimension; i++)
-    {
+  {
     if ( (requestedRegionIndex[i] < largestPossibleRegionIndex[i]) ||
          ((requestedRegionIndex[i] + static_cast<long>(requestedRegionSize[i]))
           > (largestPossibleRegionIndex[i]+static_cast<long>(largestPossibleRegionSize[i]))))
-      {
+    {
       retval = false;
-      }
     }
+  }
 
   return retval;
 }
 
-//----------------------------------------------------------------------------
- template <unsigned int PipelineDimension>
-  void
-  NDimensionalSpatialObject<PipelineDimension>
+template <unsigned int PipelineDimension>
+void
+NDimensionalSpatialObject<PipelineDimension>
 ::SetRequestedRegion(const RegionType &region)
 {
   if (m_RequestedRegion != region)
-    {
+  {
     m_RequestedRegion = region;
     m_RequestedRegionInitialized = true;
     this->Modified();
-    }
+  }
 }
 
-//----------------------------------------------------------------------------
- template <unsigned int PipelineDimension>
-  void
-  NDimensionalSpatialObject<PipelineDimension>
+
+template <unsigned int PipelineDimension>
+void
+NDimensionalSpatialObject<PipelineDimension>
 ::SetRequestedRegion(DataObject *data)
 {
   NDimensionalSpatialObject *imgData;
@@ -251,21 +251,21 @@ namespace itk
   imgData = dynamic_cast<NDimensionalSpatialObject*>(data);
 
   if (imgData)
-    {
+  {
     m_RequestedRegion = imgData->GetRequestedRegion();
     m_RequestedRegionInitialized = true;
-    }
+  }
   else
-    {
+  {
     // pointer could not be cast back down
     itkExceptionMacro( << "itk::ImageBase::SetRequestedRegion(DataObject*) cannot cast " << typeid(data).name() << " to " << typeid(NDimensionalSpatialObject*).name() );
-    }
+  }
 }
 
-//----------------------------------------------------------------------------
- template <unsigned int PipelineDimension>
-  void
-  NDimensionalSpatialObject<PipelineDimension>
+
+template <unsigned int PipelineDimension>
+void
+NDimensionalSpatialObject<PipelineDimension>
 ::ComputeOffsetTable()
 {
   double num=1;
@@ -273,10 +273,28 @@ namespace itk
   
   m_OffsetTable[0] = num;
   for (unsigned int i=0; i < m_Dimension; i++)
-    {
+  {
     num *= bufferSize[i];
     m_OffsetTable[i+1] = num;
-    }
+  }
+}
+
+
+template <unsigned int PipelineDimension>
+NDimensionalSpatialObject<PipelineDimension>::PropertyType * 
+NDimensionalSpatialObject<PipelineDimension>
+::GetProperty( void )
+{ 
+  return m_Property; 
+}
+
+
+template <unsigned int PipelineDimension>
+void
+NDimensionalSpatialObject<PipelineDimension>
+::SetProperty( const PropertyType * property)
+{ 
+  m_Property = property; 
 }
 
 
