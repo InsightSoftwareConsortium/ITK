@@ -211,9 +211,8 @@ int itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest(int, char**)
   //verification
 
   double rad = spatialFunc->GetRadius();
-  bool passed = true;
 
-    //-------------------Pull boundary profiles out of the image----------------------
+  //-------------------Pull boundary profiles out of the image----------------------
 
   // Create an iterator that will walk the blox image
   typedef itk::ImageRegionIterator<TBloxProfileImageType> BloxIterator;
