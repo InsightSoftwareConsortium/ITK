@@ -20,6 +20,7 @@
 #endif
 
 #include "itkImage.h"
+#include "itkAffineTransform.h"
 #include "itkVector.h"
 #include "itkPoint.h"
 #include "itkMesh.h"
