@@ -128,13 +128,13 @@ ThresholdImageFilter<TImage>
   itkDebugMacro(<<"Actually executing");
 
   // Get the input and output pointers
-  InputImagePointer  inputPtr = this->GetInput();
+  InputImagePointer  inputPtr = this->GetInput().GetPointer();
   OutputImagePointer outputPtr = this->GetOutput(0);
 
   // Define/declare an iterator that will walk the output region for this
   // thread.
   typedef
-    ImageRegionIterator<TImage> InputIterator;
+    ImageRegionConstIterator<TImage> InputIterator;
   typedef
     ImageRegionIterator<TImage> OutputIterator;
 

@@ -78,6 +78,12 @@ public:
   void ThresholdOutside(PixelType &lower, PixelType &upper);
 
   /** Some additional typedefs.  */
+  typedef TImage InputImageType;
+  typedef typename InputImageType::ConstPointer InputImagePointer;
+  typedef typename InputImageType::RegionType   InputImageRegionType;
+  typedef typename InputImageType::PixelType    InputImagePixelType;
+
+  /** Some additional typedefs.  */
   typedef TImage OutputImageType;
   typedef typename OutputImageType::Pointer OutputImagePointer;
   typedef typename OutputImageType::RegionType OutputImageRegionType;
