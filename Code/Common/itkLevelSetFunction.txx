@@ -247,7 +247,8 @@ LevelSetFunction<TImageType>
     {
     if (d->m_MaxAdvectionChange > 0.0)
       {
-      dt = m_WaveDT / d->m_MaxAdvectionChange;
+      dt = vnl_math_min(( m_WaveDT / d->m_MaxAdvectionChange ),
+                        ( m_WaveDT / vnl_math_abs(m_PropagationWeight) ));
       }
     else 
       {
