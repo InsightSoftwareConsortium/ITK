@@ -20,8 +20,8 @@
 // \index{Iterators!speed}
 // The ``WithIndex'' family of iterators was designed for algorithms that
 // depend on the image index locations of values they work with.  Unlike
-// \code{itk::ImageRegionIterator}, which calculates an index only if and when
-// it is asked for, \code{itk::ImageRegionIteratorWithIndex} maintains its
+// \doxygen{ImageRegionIterator}, which calculates an index only if and when
+// it is asked for, \doxygen{ImageRegionIteratorWithIndex} maintains its
 // index location as a member variable that is updated each time the iterator
 // is incremented or decremented.  A penalty is therefore introduced on the
 // iteration speed, but the iterator is more efficient in cases where it is
@@ -30,8 +30,8 @@
 // \index{itk::ImageRegionIteratorWithIndex!example of using|(}
 //
 // The following example illustrates the use of
-// \code{itk::ImageRegionIteratorWithIndex}.  This algorithm mirrors
-// a 2D image across its $x$-axis (see \code{itk::FlipImageAxis} for an ND
+// \doxygen{ImageRegionIteratorWithIndex}.  This algorithm mirrors
+// a 2D image across its $x$-axis (see \doxygen{FlipImageAxis} for an ND
 // version).  The algorithm makes extensive use of the \code{GetIndex()}
 // method.
 //
@@ -64,7 +64,7 @@ int main( int argc, char ** argv )
 //
 // For this example, we will use an RGB pixel type so that we can process color
 // images. Like most other ITK image iterator,
-// \code{itk::ImageRegionIteratorWithIndex} class expects the image type as its
+// \doxygen{ImageRegionIteratorWithIndex} class expects the image type as its
 // single template parameter.
 //
 // Software Guide : EndLatex
@@ -100,7 +100,7 @@ int main( int argc, char ** argv )
 //
 // An \code{ImageType} smart pointer called \code{inputImage} points to the
 // output of the image reader.  After updating the image reader, we can
-// allocate an output image that of the same size, spacing, and origin as the
+// allocate an output image of the same size, spacing, and origin as the
 // input image.
 //
 // Software Guide : EndLatex
@@ -133,12 +133,17 @@ int main( int argc, char ** argv )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
+  ImageType::IndexType requestedIndex =
+                outputImage->GetRequestedRegion().GetIndex();
+
+  ImageType::SizeType requestedSize =
+                outputImage->GetRequestedRegion().GetSize();
+
   for ( outputIt.GoToBegin(); !outputIt.IsAtEnd(); ++outputIt)
     {
       ImageType::IndexType idx = outputIt.GetIndex();
 
-      idx[0] = outputImage->GetRequestedRegion().GetIndex()[0]
-        + outputImage->GetRequestedRegion().GetSize()[0] - idx[0];
+      idx[0] =  requestedIndex[0] + requestedSize[0] - idx[0];
       
       outputIt.Set( inputImage->GetPixel(idx) );
     }
