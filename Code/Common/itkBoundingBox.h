@@ -24,6 +24,8 @@
 #include "itkPoint.h"
 #include "itkNumericTraits.h"
 #include "itkVectorContainer.h"
+#include "itkFixedArray.h"
+
 
 namespace itk
 {
@@ -82,6 +84,7 @@ public:
   typedef typename PointsContainer::Pointer PointsContainerPointer;
   typedef typename PointsContainer::ConstPointer PointsContainerConstPointer;
   typedef Point< CoordRepType, VPointDimension >  PointType;
+  typedef FixedArray< CoordRepType, VPointDimension*2 >  BoundsArrayType;
   
   /** Hold on to the dimensions specified by the template parameters. */
   enum { PointDimension = VPointDimension };
@@ -104,11 +107,11 @@ public:
   /** Get the bounding box. NULL is returned if the bounding box cannot be
    * computed. (This may happen if the user never specifies something to
    * compute the bounding box from.) */
-  CoordRepType* GetBoundingBox(CoordRepType bounds[PointDimension*2]);
+  itkGetConstMacro( Bounds, BoundsArrayType );
 
   /** Get the center of the bounding box. Returns NULL if bounding box
    * cannot be computed. */
-  CoordRepType* GetCenter(CoordRepType bounds[PointDimension]);
+  PointType GetCenter(void) const;
 
   /** Get the length squared of the diagonal of the bounding box.
    * Returns zero if bounding box cannot be computed. Note that the
@@ -156,7 +159,7 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   PointsContainerConstPointer m_PointsContainer;
-  CoordRepType *m_Bounds;
+  BoundsArrayType m_Bounds;
   TimeStamp m_BoundsMTime; //The last time the bounds were computed.
 
 };

@@ -29,19 +29,34 @@ int itkBoundingBoxTest ( int argc, char** argv )
   int i;
   itk::Point<double, 1> P;
 
-  double coordinates[2];
   std::cout << "Testing Bounding Box" <<std::endl;
-  if ( myBox->GetBoundingBox ( coordinates ) != NULL )
+  {
+  const BB::BoundsArrayType & bounds = myBox->GetBounds();
+  for(unsigned int i=0; i< 1 * 2; i++)
     {
-    return 1;
+    if( bounds[i] != itk::NumericTraits< BB::CoordRepType >::Zero )
+      {
+      std::cerr << "Bounding Box initialization test failed" << std::endl;
+      std::cerr << bounds << std::endl;
+      return EXIT_FAILURE;
+      }   
     }
+  }
   std::cout << "Null GetBoundingBox test passed" <<std::endl;
   
-  if ( myBox->GetCenter ( coordinates ) != NULL )
+  {
+  BB::PointType center = myBox->GetCenter();
+  for(unsigned int i=0; i< 1; i++)
     {
-    return 1;
+    if( center[i] != itk::NumericTraits< BB::CoordRepType >::Zero )
+      {
+      std::cerr << "Empty Box GetCenter initialization test failed" << std::endl;
+      return EXIT_FAILURE;
+      }   
     }
   std::cout << "Null GetCenter test passed" <<std::endl;
+  }
+
   
   if ( myBox->GetDiagonalLength2 ( ) != itk::NumericTraits<double>::Zero )
     {
@@ -71,29 +86,33 @@ int itkBoundingBoxTest ( int argc, char** argv )
   std::cout << "Compute Bounding Box passed" <<std::endl;
 
   // Now we should have something
-  if ( myBox->GetBoundingBox ( coordinates ) == NULL )
+  {
+  const BB::BoundsArrayType & bounds = myBox->GetBounds();
+  if( ( bounds[0] != 0.0 )  || ( bounds[1] != 9.0 ) )
     {
-    return 1;
-    }
+    std::cerr << "Bounding Box initialization test failed" << std::endl;
+    std::cerr << bounds << std::endl;
+    return EXIT_FAILURE;
+    }   
   std::cout << "GetBoundingBox passed" <<std::endl;
+  }
 
-  std::cout << "Got: " << coordinates[0] << ", " << coordinates[1] << std::endl;
-  if ( coordinates[0] != 0.0 || coordinates[1] != 9.0 )
-    {
-    return 1;
-    }
-  std::cout << "Correct BoundingBox passed" <<std::endl;
 
-  if ( myBox->GetCenter ( coordinates ) == NULL )
+  {
+  BB::PointType center = myBox->GetCenter();
+  for(unsigned int i=0; i< 1; i++)
     {
-    return 1;
+    if( center[i] != 4.5 )
+      {
+      std::cerr << "Empty Box GetCenter initialization test failed" << std::endl;
+      return EXIT_FAILURE;
+      }   
     }
-  std::cout << "GetCenter passed" << std::endl;
+  std::cout << "Null GetCenter test passed" <<std::endl;
+  }
 
-  if ( coordinates[0] != 4.5 )
-    {
-    return 1;
-    }
+
+
 
   itk::NumericTraits<double>::AccumulateType diagonal;
   diagonal = myBox->GetDiagonalLength2();
@@ -150,7 +169,7 @@ int itkBoundingBoxTest ( int argc, char** argv )
     }
 
 
-
+  std::cout << "BoundingBox test PASSED ! " << std::endl;
   return EXIT_SUCCESS;
 }
 

@@ -37,19 +37,12 @@ BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, TPointsContainer >
 {
   Superclass::PrintSelf(os, indent);
 
-  if ( m_Bounds )
+  os << indent << "Bounding Box: ( " ;
+  for (unsigned int i=0; i<PointDimension; i++)
     {
-    os << indent << "Bounding Box: ( " ;
-    for (unsigned int i=0; i<PointDimension; i++)
-      {
-      os << m_Bounds[2*i] << "," << m_Bounds[2*i+1] << " ";
-      }
-    os << " )" << std::endl;
+    os << m_Bounds[2*i] << "," << m_Bounds[2*i+1] << " ";
     }
-  else
-    {
-    os << indent << "Bounding Box not defined" << std::endl;
-    }
+  os << " )" << std::endl;
 }
 
 /**
@@ -90,9 +83,9 @@ template <typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer>
 BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, TPointsContainer >
 ::BoundingBox():
-  m_PointsContainer(NULL),
-  m_Bounds(NULL)
+  m_PointsContainer(NULL)
 {
+  m_Bounds.Fill( NumericTraits< CoordRepType >::Zero );
 }
 
 template <typename TPointIdentifier, int VPointDimension,
@@ -100,10 +93,6 @@ template <typename TPointIdentifier, int VPointDimension,
 BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, TPointsContainer >
 ::~BoundingBox()
 {
-  if ( m_Bounds )
-    {   
-    delete [] m_Bounds;
-    }
 }
 
 template <typename TPointIdentifier, int VPointDimension,
@@ -114,21 +103,17 @@ BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
 {
   if ( !m_PointsContainer )
     {
+    m_Bounds.Fill( NumericTraits< CoordRepType >::Zero );
     return false;
     }
 
-  if ( !m_Bounds || this->GetMTime() > m_BoundsMTime )
+  if ( this->GetMTime() > m_BoundsMTime )
     {
-    if ( !m_Bounds )
-      {
-      m_Bounds = new CoordRepType[2*PointDimension];
-      }
-    
     //iterate over points determining min/max
     //start by initializing the values
     for (unsigned int i=0; i < PointDimension; i++)
       {
-      m_Bounds[2*i] = NumericTraits<CoordRepType>::max();
+      m_Bounds[2*i  ] = NumericTraits<CoordRepType>::max();
       m_Bounds[2*i+1] = NumericTraits<CoordRepType>::min();
       }
     
@@ -158,45 +143,20 @@ BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
   return true;
 }
 
-template <typename TPointIdentifier, int VPointDimension,
-          typename TCoordRep, typename TPointsContainer>
-BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>::CoordRepType* 
-BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
-::GetBoundingBox(CoordRepType bounds[PointDimension*2])
-{
-  if ( this->ComputeBoundingBox() )
-    {
-    for (unsigned int i=0; i<PointDimension; i++)
-      {
-      bounds[2*i] = m_Bounds[2*i];
-      bounds[2*i+1] = m_Bounds[2*i+1];
-      }
-    return bounds;
-    }
-  else
-    {
-    return NULL;
-    }
-}
+
 
 template <typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer>
-BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>::CoordRepType*  
+BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>::PointType  
 BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
-::GetCenter(CoordRepType center[PointDimension])
+::GetCenter(void) const
 {
-  if ( this->ComputeBoundingBox() )
+  PointType center;
+  for (unsigned int i=0; i<PointDimension; i++)
     {
-    for (unsigned int i=0; i<PointDimension; i++)
-      {
-      center[i] = (m_Bounds[2*i] + m_Bounds[2*i+1]) / 2.0;
-      }
-    return center;
+    center[i] = (m_Bounds[2*i] + m_Bounds[2*i+1]) / 2.0;
     }
-  else
-    {
-    return NULL;
-    }
+  return center;
 }
 
 template <typename TPointIdentifier, int VPointDimension,
