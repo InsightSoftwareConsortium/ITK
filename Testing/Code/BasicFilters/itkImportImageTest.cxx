@@ -93,7 +93,7 @@ int main()
     {
     std::cout << "Pixel " << iterator2.GetIndex() << " = " << iterator2.Get() << std::endl;
     if ( iterator2.Get() != 
-         static_int<long>( (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0])
+         static_cast<long>( (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0])
                           +(region.GetSize()[0]
                           * shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[1])))
       {
