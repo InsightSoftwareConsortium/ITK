@@ -17,6 +17,7 @@
 #ifndef __itkPeriodicBoundaryCondition_txx
 #define __itkPeriodicBoundaryCondition_txx
 #include "itkConstNeighborhoodIterator.h"
+#include "itkPeriodicBoundaryCondition.h"
 namespace itk
 {
 template<class TImage>
