@@ -18,6 +18,7 @@
 #define _itkNumericSeriesFileIterator_h
 
 #include "itkNumericSeriesFileIterator.h"
+#include <stdio.h>
 
 namespace itk
 {
