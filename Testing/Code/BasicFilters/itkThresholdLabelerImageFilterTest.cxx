@@ -105,6 +105,7 @@ int itkThresholdLabelerImageFilterTest( int, char *[] )
   labelerFilter->SetInput(inputImage);
   labelerFilter->SetThresholds(thresholds);
   labelerFilter->SetLabelOffset(offset);
+  labelerFilter->Print(std::cout);
   try
     {
       labelerFilter->Update();
