@@ -211,10 +211,13 @@ int main()
   // Create a mapper (in this case a writer). A mapper
   // is templated on the input type.
   //
+  itk::VTKImageIO::Pointer vtkIO;
+  vtkIO = itk::VTKImageIO::New();
   itk::ImageFileWriter<FloatImage2DType>::Pointer writer;
   writer = itk::ImageFileWriter<FloatImage2DType>::New();
   writer->SetInput(shrink->GetOutput());
   writer->SetFileName("BasicArchitectureImage.vtk");
+  writer->SetImageIO(vtkIO);
   writer->Write();
 
   // test RemoveObserver code

@@ -77,8 +77,7 @@ namespace itk
  * \ingroup ImageObjects
  * \ingroup ITKSystemObjects
  *
-  */
-
+ */
 template<unsigned int VImageDimension=2>
 class ITK_EXPORT ImageBase : public DataObject
 {
@@ -109,7 +108,6 @@ public:
    * between indices. */
   typedef Offset<VImageDimension>  OffsetType;
   typedef typename OffsetType::OffsetValueType OffsetValueType;
-  
 
   /** Size typedef support. A size is used to define region bounds. */
   typedef Size<VImageDimension>  SizeType;

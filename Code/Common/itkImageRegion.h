@@ -133,7 +133,19 @@ public:
 
   /** Get the size of the region. */
   const SizeType& GetSize() const
-    { return m_Size;}
+    { return m_Size; }
+
+  /** Convenience methods to get and set the size of the particular dimension i. */
+  void SetSize(unsigned long i, SizeValueType sze) 
+    { m_Size[i] = sze; }
+  SizeValueType GetSize(unsigned long i) const
+    { return m_Size[i]; }
+
+  /** Convenience methods to get and set the index of the particular dimension i. */
+  void SetIndex(unsigned long i, IndexValueType sze) 
+    { m_Index[i] = sze; }
+  IndexValueType GetIndex(unsigned long i) const
+    { return m_Index[i]; }
 
   /** Compare two regions. */
   bool

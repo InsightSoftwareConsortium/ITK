@@ -49,80 +49,55 @@ bool VTKImageIO::CanReadFile(const char* file)
   return true;
 }
   
-const std::type_info& VTKImageIO::GetPixelType() const
-{
-  switch(m_VTKPixelType)
-    {
-    case UCHAR:
-      return typeid(unsigned char);
-    case USHORT:
-      return typeid(unsigned short);
-    case CHAR:
-    case SHORT:
-    case UINT:
-    case INT:
-    case ULONG:
-    case LONG:
-    case FLOAT:
-    case DOUBLE:
-      {
-      itkErrorMacro ("Invalid type: " << m_VTKPixelType << ", only unsigned char and unsigned short are allowed.");
-      return this->ConvertToTypeInfo(m_VTKPixelType);      
-      }
-    default:
-      return typeid(unsigned char);
-    }
-}
-
-  
-unsigned int VTKImageIO::GetComponentSize() const
-{
-  switch(m_VTKPixelType)
-    {
-    case UCHAR:
-      return sizeof(unsigned char);
-    case USHORT:
-      return sizeof(unsigned short);
-    case CHAR:
-    case SHORT:
-    case UINT:
-    case INT:
-    case ULONG:
-    case LONG:
-    case FLOAT:
-    case DOUBLE:
-      {
-      itkErrorMacro ("Invalid type: " << m_VTKPixelType << ", only unsigned char and unsigned short are allowed.");
-      return 0;
-      }
-    }
-  return 1;
-}
-
-  
+ 
 void VTKImageIO::Read(void* buffer)
 {
 }
 
-
-const double* 
-VTKImageIO::GetOrigin() const
+void
+VTKImageIO::SetOrigin(unsigned int i, double origin)
 {
-  return m_Origin;
+  if ( i < 0 || i > 2 ) {return;}
+  
+  if ( m_Origin[i] != origin )
+    {
+    this->Modified();
+    m_Origin[i] = i;
+    }
 }
 
-
-const double* 
-VTKImageIO::GetSpacing() const
+const double
+VTKImageIO::GetOrigin(unsigned int i) const
 {
-  return m_Spacing;
+  i = (i < 0 ? 0 : (i > 2 ? 2 : i));
+  return m_Origin[i];
 }
 
+const double
+VTKImageIO::GetSpacing(unsigned int i) const
+{
+  i = (i < 0 ? 0 : (i > 2 ? 2 : i));
+  return m_Spacing[i];
+}
+
+void
+VTKImageIO::SetSpacing(unsigned int i, double spacing)
+{
+  if ( i < 0 || i > 2 ) {return;}
+  
+  if ( m_Spacing[i] != spacing )
+    {
+    this->Modified();
+    m_Spacing[i] = i;
+    }
+}
 
 VTKImageIO::VTKImageIO()
 {
   this->SetNumberOfDimensions(2);
-  m_VTKPixelType = UCHAR;
+  m_Origin[0] = m_Origin[1] = m_Origin[2] = 0.0;
+  m_Spacing[0] = m_Spacing[1] = m_Spacing[2] = 1.0;
+  
 }
 
 VTKImageIO::~VTKImageIO()
@@ -132,12 +107,15 @@ VTKImageIO::~VTKImageIO()
 void VTKImageIO::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "VTKPixelType " << m_VTKPixelType << "\n";
 }
 
   
   
 void VTKImageIO::ReadImageInformation()
+{
+}
+
+void VTKImageIO::Write(void* buffer)
 {
 }
 

@@ -126,8 +126,8 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
   for(unsigned int i=0; i<TOutputImage::ImageDimension; i++)
     {
     dimSize[i] = m_ImageIO->GetDimensions(i);
-    spacing[i] = m_ImageIO->GetSpacing()[i];
-    origin[i]  = m_ImageIO->GetOrigin()[i];
+    spacing[i] = m_ImageIO->GetSpacing(i);
+    origin[i]  = m_ImageIO->GetOrigin(i);
     }
 
   output->SetSpacing( spacing );   // Set the image spacing

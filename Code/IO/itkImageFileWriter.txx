@@ -148,7 +148,7 @@ void
 ImageFileWriter<TInputImage>
 ::GenerateData()
 {
-  InputImagePointer output = this->GetInput();
+  InputImagePointer input = this->GetInput();
 
   itkDebugMacro(<<"Writing file" << m_FileName);
   
@@ -179,18 +179,61 @@ ImageFileWriter<TInputImage>
   // four components.
   typedef typename InputImageType::PixelType ScalarType;
 
-  if ( typeid(ScalarType) != typeid(double) && 
-       typeid(ScalarType) != typeid(float)  &&
-       typeid(ScalarType) != typeid(long) &&
-       typeid(ScalarType) != typeid(unsigned long) &&
-       typeid(ScalarType) != typeid(int) &&
-       typeid(ScalarType) != typeid(unsigned int) &&
-       typeid(ScalarType) != typeid(short) &&
-       typeid(ScalarType) != typeid(unsigned short) &&
-       typeid(ScalarType) != typeid(char) &&
-       typeid(ScalarType) != typeid(unsigned char) )
+  if ( typeid(ScalarType) != typeid(double) )
     {
-    itkErrorMacro(<<"Type currently not supported");
+    m_ImageIO->SetPixelType(ImageIOBase::DOUBLE);
+    m_ImageIO->SetComponentType(ImageIOBase::DOUBLE);
+    }
+  else if ( typeid(ScalarType) != typeid(float) )
+    {
+    m_ImageIO->SetPixelType(ImageIOBase::FLOAT);
+    m_ImageIO->SetComponentType(ImageIOBase::FLOAT);
+    }
+  else if ( typeid(ScalarType) != typeid(long) )
+    {
+    m_ImageIO->SetPixelType(ImageIOBase::LONG);
+    m_ImageIO->SetComponentType(ImageIOBase::LONG);
+    }
+  else if ( typeid(ScalarType) != typeid(unsigned long) )
+    {
+    m_ImageIO->SetPixelType(ImageIOBase::ULONG);
+    m_ImageIO->SetComponentType(ImageIOBase::ULONG);
+    }
+  else if ( typeid(ScalarType) != typeid(int) )
+    {
+    m_ImageIO->SetPixelType(ImageIOBase::INT);
+    m_ImageIO->SetComponentType(ImageIOBase::INT);
+    }
+  else if ( typeid(ScalarType) != typeid(unsigned int) )
+    {
+    m_ImageIO->SetPixelType(ImageIOBase::UINT);
+    m_ImageIO->SetComponentType(ImageIOBase::UINT);
+    }
+  else if ( typeid(ScalarType) != typeid(short) )
+    {
+    m_ImageIO->SetPixelType(ImageIOBase::SHORT);
+    m_ImageIO->SetComponentType(ImageIOBase::SHORT);
+    }
+  else if ( typeid(ScalarType) != typeid(unsigned short) )
+    {
+    m_ImageIO->SetPixelType(ImageIOBase::USHORT);
+    m_ImageIO->SetComponentType(ImageIOBase::USHORT);
+    }
+  else if ( typeid(ScalarType) != typeid(char) )
+    {
+    m_ImageIO->SetPixelType(ImageIOBase::CHAR);
+    m_ImageIO->SetComponentType(ImageIOBase::CHAR);
+    }
+  else if ( typeid(ScalarType) != typeid(unsigned char) )
+    {
+    m_ImageIO->SetPixelType(ImageIOBase::UCHAR);
+    m_ImageIO->SetComponentType(ImageIOBase::UCHAR);
+    }
+  else
+    {
+    itkErrorMacro(<<"Pixel type currently not supported");
+    m_ImageIO->SetPixelType(ImageIOBase::UNKNOWN);
+    m_ImageIO->SetComponentType(ImageIOBase::UNKNOWN);
     return;
     }
 
@@ -199,30 +242,26 @@ ImageFileWriter<TInputImage>
   m_ImageIO->SetFileName(m_FileName.c_str());
   m_ImageIO->SetFileName(m_FilePrefix.c_str());
 
-#if 0
-//  Size dimSize = this->GetLargestPossibleRegion().GetSize();
-  double spacing[ TInputImage::ImageDimension ];
-  double origin[ TInputImage::ImageDimension ];
+  ImageIORegion ioRegion(TInputImage::ImageDimension);
+  ImageRegion<TInputImage::ImageDimension> region = input->GetLargestPossibleRegion();
+  const double *spacing = input->GetSpacing();
+  const double *origin = input->GetOrigin();
 
   for(unsigned int i=0; i<TInputImage::ImageDimension; i++)
     {
-//    m_ImageIO->SetDimensions(i);
-    m_ImageIO->SetSpacing(spacing);
-    m_ImageIO->SetOrigin(origin);
-    dimSize[i] = m_ImageIO->GetDimensions(i);
-    spacing[i] = m_ImageIO->GetSpacing()[i];
-    origin[i]  = m_ImageIO->GetOrigin()[i];
+    ioRegion.SetSize(i,region.GetSize(i));
+    ioRegion.SetIndex(i,region.GetIndex(i));
+    m_ImageIO->SetDimensions(i,region.GetSize(i));
+    m_ImageIO->SetSpacing(i,spacing[i]);
+    m_ImageIO->SetOrigin(i,origin[i]);
     }
 
-  m_ImageIO->SetDimensions();
-  m_ImageIO->SetSpacing(input->GetSpacing());
-  m_ImageIO->SetOrigin(input->GetOrigin());
-  
-  // Perform the actual write operation
-  ImageIORegion ioRegion(TInputImage::ImageDimension);
-  m_ImageIO->Write(ioRegion);
+  m_ImageIO->SetIORegion(ioRegion);
 
-#endif
+  //okay, now extract the data as a raw buffer pointer
+  void* dataPtr = (void*) input->GetBufferPointer();
+  m_ImageIO->Write(dataPtr);
+
 }
 
 

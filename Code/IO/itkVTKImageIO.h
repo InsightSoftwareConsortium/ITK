@@ -60,6 +60,16 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(VTKImageIO, Superclass);
 
+  /** Set/Get the image origin on a axis-by-axis basis. The SetOrigin() method 
+   * is required when writing the image. */
+  virtual void SetOrigin(unsigned int i, double origin);
+  virtual const double GetOrigin(unsigned int i) const;
+
+  /** Set/Get the image spacing on an axis-by-axis basis. The SetSpacing() method 
+   * is required when writing the image. */
+  virtual void SetSpacing(unsigned int i, double spacing);
+  virtual const double GetSpacing(unsigned int i) const;
+
   /*-------- This part of the interface deals with reading data. ------ */
 
   /** Determine the file type. Returns true if this ImageIO can read the
@@ -69,22 +79,8 @@ public:
   /** Set the spacing and diemention information for the set filename. */
   virtual void ReadImageInformation();
   
-  /** Get the type of the pixel.  */
-  virtual const std::type_info& GetPixelType() const;
-
   /** Reads the data from disk into the memory buffer provided. */
   virtual void Read(void* buffer);
-
-  /** Get the image origin. */
-  virtual const double* GetOrigin() const;
-
-  /** Get the image spacing. */
-  virtual const double* GetSpacing() const;
-
-  /** Compute the size (in bytes) of the components of a pixel. For
-   * example, and RGB pixel of unsigned char would have a 
-   * component size of 1 byte. */
-  virtual unsigned int GetComponentSize() const;
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
@@ -95,17 +91,15 @@ public:
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegions has been set properly. */
-  virtual void Write(void* buffer)
-    { return; }
+  virtual void Write(void* buffer);
 
 protected:
   VTKImageIO();
   ~VTKImageIO();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  ComponentType m_VTKPixelType;
-  double m_Spacing[2];
-  double m_Origin[2];
+  double m_Spacing[3];
+  double m_Origin[3];
 
 private:
   VTKImageIO(const Self&); //purposely not implemented

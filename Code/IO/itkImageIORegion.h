@@ -149,6 +149,12 @@ public:
   const SizeType& GetSize() const
     { return m_Size;}
 
+  /** Convenience methods to set the size and index for the dimension i. */
+  void SetSize(const unsigned long i, long size)
+    {m_Size[i] = size;}
+  void SetIndex(const unsigned long i, long idx)
+    {m_Index[i] = idx;}
+
   /** Compare two regions. */
   bool
   operator==(const Self &region) const
