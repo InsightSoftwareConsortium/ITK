@@ -52,8 +52,8 @@ OnePlusOneEvolutionaryOptimizer
 {
   if ( m_RandomGenerator != generator )
     {
-      m_RandomGenerator = generator ;
-      this->Modified() ;
+    m_RandomGenerator = generator ;
+    this->Modified() ;
     }
 }
 
@@ -82,7 +82,7 @@ OnePlusOneEvolutionaryOptimizer
   
   if( m_CostFunction.IsNull() )
     {
-      return ;
+    return ;
     }
 
   this->InvokeEvent( StartEvent() );
@@ -103,7 +103,7 @@ OnePlusOneEvolutionaryOptimizer
 
   for(unsigned int i = 0  ; i < spaceDimension ; i++) 
     {
-      A(i,i) = m_InitialRadius / scales[i] ;
+    A(i,i) = m_InitialRadius / scales[i] ;
     }
   //m_BiasField->SetCoefficients(parent) ;
 
@@ -111,7 +111,7 @@ OnePlusOneEvolutionaryOptimizer
   ParametersType parentPosition( spaceDimension );
   for( unsigned int i=0; i<spaceDimension; i++)
     {
-      parentPosition[i] = parent[i];
+    parentPosition[i] = parent[i];
     }
 
   itkDebugMacro(<< ": initial position: " << parentPosition) ; 
@@ -120,119 +120,111 @@ OnePlusOneEvolutionaryOptimizer
   m_CurrentIteration = 0 ;
   for (unsigned int iter = 0 ; iter < m_MaximumIteration ; iter++) 
     {
-      if ( m_Stop )
-        {
-          break ;
-        }
-
-      ++m_CurrentIteration ;
-
-      for (unsigned int i=0 ; i < spaceDimension ; i++) 
-        {
-          f_norm[i] = m_RandomGenerator->GetVariate() ;
-        }
-
-      delta  = A * f_norm ;
-
-      child  = parent + delta ;
-
-      ParametersType childPosition( spaceDimension );
-      for( unsigned int i=0; i<spaceDimension; i++)
-        {
-          childPosition[i] = child[i];
-        }
-      double cvalue = m_CostFunction->GetValue(childPosition);
-
-      itkDebugMacro(<< iter << ": parent: " << pvalue 
-                    << " child: "<< cvalue );
-
-      double adjust = m_ShrinkFactor ;
-      if(m_Maximize)
+    if ( m_Stop )
       {
-        if (cvalue > pvalue) 
+      break ;
+      }
+
+    ++m_CurrentIteration ;
+
+    for (unsigned int i=0 ; i < spaceDimension ; i++) 
+      {
+      f_norm[i] = m_RandomGenerator->GetVariate() ;
+      }
+
+    delta  = A * f_norm ;
+
+    child  = parent + delta ;
+
+    ParametersType childPosition( spaceDimension );
+    for( unsigned int i=0; i<spaceDimension; i++)
+      {
+      childPosition[i] = child[i];
+      }
+    double cvalue = m_CostFunction->GetValue(childPosition);
+
+    itkDebugMacro(<< iter << ": parent: " << pvalue 
+                  << " child: "<< cvalue );
+
+    double adjust = m_ShrinkFactor ;
+    if(m_Maximize)
+      {
+      if (cvalue > pvalue) 
         {
-          pvalue = cvalue ;
+        pvalue = cvalue ;
           
-          parent.swap(child) ;                  
+        parent.swap(child) ;                  
           
-          adjust = m_GrowthFactor ; 
-          for( unsigned int i=0; i<spaceDimension; i++)
-            {
-              parentPosition[i] = parent[i];
-            }
-          this->SetCurrentPosition(parentPosition) ;
+        adjust = m_GrowthFactor ; 
+        for( unsigned int i=0; i<spaceDimension; i++)
+          {
+          parentPosition[i] = parent[i];
+          }
+        this->SetCurrentPosition(parentPosition) ;
           
         } 
       }
-      else
+    else
       {
-        if (cvalue < pvalue) 
+      if (cvalue < pvalue) 
         {
-          pvalue = cvalue ;
+        pvalue = cvalue ;
           
-          parent.swap(child) ;                  
+        parent.swap(child) ;                  
           
-          adjust = m_GrowthFactor ; 
-          for( unsigned int i=0; i<spaceDimension; i++)
-            {
-              parentPosition[i] = parent[i];
-            }
-          this->SetCurrentPosition(parentPosition) ;
+        adjust = m_GrowthFactor ; 
+        for( unsigned int i=0; i<spaceDimension; i++)
+          {
+          parentPosition[i] = parent[i];
+          }
+        this->SetCurrentPosition(parentPosition) ;
           
         } 
       }
      
 
-      m_CurrentCost = pvalue ;
-      // convergence criterion: f-norm of A < epsilon_A
-      // Compute double precision sum of absolute values of 
-      // a single precision vector
-      double fro_norm = A.fro_norm() ;
-      itkDebugMacro(<< "A f-norm:" << fro_norm);
-      if (fro_norm <= m_Epsilon) 
-        {
-          itkDebugMacro(<< "converges at iteration = " << iter) ;
-          break ;
-        }
+    m_CurrentCost = pvalue ;
+    // convergence criterion: f-norm of A < epsilon_A
+    // Compute double precision sum of absolute values of 
+    // a single precision vector
+    double fro_norm = A.fro_norm() ;
+    itkDebugMacro(<< "A f-norm:" << fro_norm);
+    if (fro_norm <= m_Epsilon) 
+      {
+      itkDebugMacro(<< "converges at iteration = " << iter) ;
+      break ;
+      }
       
-      // A += (adjust - 1)/ (f_norm * f_norm) * A * f_norm * f_norm ;
-      // Blas_R1_Update(A, A * f_norm, f_norm, 
-      //             ((adjust - 1) / Blas_Dot_Prod(f_norm, f_norm)));    
-      // = DGER(Fortran)
-      //   performs the rank 1 operation
-      // A := alpha*x*y' + A,
-      // where y' = transpose(y)
-      // where alpha is a scalar, x is an m element vector, y is an n element
-      // vector and A is an m by n matrix.
-      // x = A * f_norm , y = f_norm, alpha = (adjust - 1) / Blas_Dot_Prod(
-      // f_norm, f_norm)
+    // A += (adjust - 1)/ (f_norm * f_norm) * A * f_norm * f_norm ;
+    // Blas_R1_Update(A, A * f_norm, f_norm, 
+    //             ((adjust - 1) / Blas_Dot_Prod(f_norm, f_norm)));    
+    // = DGER(Fortran)
+    //   performs the rank 1 operation
+    // A := alpha*x*y' + A,
+    // where y' = transpose(y)
+    // where alpha is a scalar, x is an m element vector, y is an n element
+    // vector and A is an m by n matrix.
+    // x = A * f_norm , y = f_norm, alpha = (adjust - 1) / Blas_Dot_Prod(
+    // f_norm, f_norm)
 
-      //A = A + (adjust - 1.0) * A ;
-      double alpha = ((adjust - 1.0) / dot_product(f_norm, f_norm)) ;
-      double temp ; 
-      for ( unsigned int c = 0 ; c < spaceDimension ; c++ )
-        {
-          if ( f_norm[c] != 0.0 )
-            { 
-              temp = alpha * f_norm[c] ;
-            }
-
-          for (unsigned int r = 0 ; r < spaceDimension ; r++)
-            {
-              A(c, r) += alpha * delta[r] * temp ;
-            }
+    //A = A + (adjust - 1.0) * A ;
+    double alpha = ((adjust - 1.0) / dot_product(f_norm, f_norm)) ;
+    for ( unsigned int c = 0 ; c < spaceDimension ; c++ )
+      {
+      double temp = alpha * f_norm[c] ; 
+      if ( f_norm[c] == 0.0 )
+        { 
+        temp = 1.0 ;
         }
-      //      A = A + tempA ;
+        
+      for (unsigned int r = 0 ; r < spaceDimension ; r++)
+        {
+        A(c, r) += alpha * delta[r] * temp ;
+        }
+      }
 
-//       double temp = 0.0 ;
-//       for (unsigned int r = 0 ; r < spaceDimension ; r++)
-//         {
-//           temp += x[r] * y[r] ;
-//         }
-//       A = alpha*temp + A ;
-//       itkDebugMacro( << " Weight matrix: " << std::endl << A) ;
-      this->InvokeEvent( IterationEvent() );   
-      itkDebugMacro(<< "Current position: " << this->GetCurrentPosition()) ;
+    this->InvokeEvent( IterationEvent() );   
+    itkDebugMacro(<< "Current position: " << this->GetCurrentPosition()) ;
     }
   this->InvokeEvent( EndEvent() );
   
