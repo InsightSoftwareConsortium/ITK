@@ -81,7 +81,7 @@ public:
    */
    typedef TranslationTransform<
                                   double, 
-                                  ImageDimension
+                                   ReferenceType::ImageDimension
                                                   > TransformationType;
 		  
   /**
