@@ -38,22 +38,25 @@ namespace itk
 template <class T>
 class NumericTraits : public ITK_NUMERIC_LIMITS<T> {
 public:
-  /** Return the type of this native type */
+  /** Return the type of this native type. */
   typedef T ValueType; 
 
-  /* Return value of abs() */
+  /** Return value of abs(). */
   typedef T AbsType; 
 
-  /* Accumulation of addition and multiplication */
+  /** Accumulation of addition and multiplication. */
   typedef double AccumulateType; 
 
-  /* Additive identity */
+  /** Additive identity. */
   static const T Zero;
 
-  /* Multiplicative identity */
+  /** Multiplicative identity. */
   static const T One;
 };
 
+/** \class NumericTraits<bool>
+ * \brief Define traits for type bool.
+ */
 template <>
 class NumericTraits<bool> : public ITK_NUMERIC_LIMITS<bool> {
 public:
