@@ -135,8 +135,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::ApplyUpdate(TimeStepType dt)
 {
   unsigned int i, j, k, t;
-  const int UP = 1;
-  const int DOWN = 2;
+
   StatusType up_to, up_search;
   StatusType down_to, down_search;
   
@@ -208,7 +207,6 @@ void
 SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::ProcessOutsideList(LayerType *OutsideList, StatusType ChangeToStatus)
 {
-  unsigned int i;
   LayerNodeType *node;
   
   // Push each index in the input list into its appropriate status layer
@@ -708,7 +706,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   const ValueType CHANGE_FACTOR = m_ConstantGradientValue / 2.0;
   const ValueType MIN_NORM      = 1.0e-6;
   unsigned int i, center, stride;
-  bool boundary_status;
+
   typename LayerType::ConstIterator activeIt;
   ConstSmartNeighborhoodIterator<OutputImageType>
     shiftedIt( m_NeighborList.GetRadius(), m_ShiftedImage,
@@ -831,7 +829,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 {
   unsigned int i;
   ValueType value, value_temp, delta;
-  bool boundary_status, found_neighbor_flag;
+  bool found_neighbor_flag;
   typename LayerType::Iterator toIt;
   LayerNodeType *node;
   unsigned int past_end = m_Layers.size() - 1;
