@@ -18,62 +18,6 @@
 
 
 const int LENGTH = 1;
-const int HEIGHT = 380;
-const int WIDTH = 316;
-
-int mean1[3] = {204,184,127};
-int mean2[3] = {125,73, 57};
-int mean3[3] = {84, 54, 28};
-
-const int objects_num = 3;
-const int selected_object = 1;
-
-double object_cov1[3][3] = {
-	{320.885062,  453.134309,  288.894963},
-	{453.134309,  845.260009,  606.738700},
-	{288.894963,  606.738700,  516.897546},
-	};
-double object_cov2[3][3] = {
-	{1531.173057,  1056.929873,  726.409827},
-	{1056.929873,  1894.091267,  1583.935705},
-	{726.409827,   1583.935705,  1429.547456},
-	};
-double object_cov3[3][3] = {
-	{5076.358499,  2695.898101,  1712.968041},
-	{2695.898101,  2127.280686,  1382.548402},
-	{1712.968041,  1382.548402,  1000.542381},
-	};
-unsigned long Seed1[11][3] = {
-	{114, 123,0},
-	{241, 84,0},
-	{305, 41,0},
-	{179,226,0},
-	{20, 68, 0},
-	{12, 369,0},
-	{51,325, 0},
-	{188,293,0},
-	{32, 93, 0},
-	{306,192,0},
-	{296,206,0},
-	};
-unsigned long Seed2[8][3] = {
-	{66,163, 0},
-	{187,189,0},
-	{185, 79,0},
-	{298,153,0},
-	{271, 41,0},
-	{295, 79,0},
-	{249,304,0},
-	{305, 22,0},
-	};
-
-unsigned long Seed3[3][3] = {
-	{88,348, 0},
-	{171,342,0},
-	{137,309,0},
-	};
-/*
-const int LENGTH = 1;
 const int HEIGHT = 20;
 const int WIDTH = 20;
 
@@ -147,7 +91,10 @@ const int data[400][3] = {
 {212, 189, 138}, {210, 186, 140}, {206, 181, 134}, {201, 169, 123}, {191, 155, 105}, {182, 134, 81}, {166, 110, 64}, {149, 98, 55}, {137, 93, 48}, {130, 79, 36}, 
 };
 
-*/
+
+
+
+
 int main()
 {
 	
@@ -174,18 +121,18 @@ int main()
 	inputimg->SetSpacing(spacing);
 	inputimg->Allocate();
 
-//  local test passed
+/*  local test passed
 
 	FILE *fin, *fout;
 	char Input[80],output[80];
 	strcpy(output,"bin.raw");
-	strcpy(Input, "fat_new.raw");
+	strcpy(Input, "fat.raw");
 	unsigned char *data;
 
 	fin = fopen(Input,"rb");
-	data = new unsigned char[LENGTH*HEIGHT*WIDTH*3];
-	fread(data,1,LENGTH*HEIGHT*WIDTH*3,fin);
-//
+	data = new unsigned char[DEEP*HEIGHT*WIDTH*3];
+	fread(data,1,DEEP*HEIGHT*WIDTH*3,fin);
+*/
 	itk::SimpleImageRegionIterator <VectorImage3D> it(inputimg, region);
 	it.Begin();
 
@@ -194,20 +141,17 @@ int main()
 
 	while( !it.IsAtEnd()) 
 	{
-		/*
 		value[0] = data[k][0];
 		value[1] = data[k][1];
 		value[2] = data[k][2];
 		k = k+1;
-		*/
-		value[0] = data[k++];
-		value[1] = data[k++];
-		value[2] = data[k++];
 		it.Set(value);
 		++it;
 	}
-    
-	/*
+
+//	fclose(fin);
+//	delete data;
+    	
 	testFuzzy->SetInput(inputimg);
 	testFuzzy->SetObjects(objects_num);
 	testFuzzy->SetSelectedObject(selected_object);
@@ -234,67 +178,15 @@ int main()
 		index.SetIndex(Seed2[i]);
 		testFuzzy->SetObjectsSeed(index,1);
     }
-	*/
-//
-	testFuzzy->SetInput(inputimg);
-	testFuzzy->SetObjects(objects_num);
-	testFuzzy->SetSelectedObject(1);
-	testFuzzy->Initialization();
-
-	testFuzzy->SetObjectsMean(mean1,0);
-	testFuzzy->SetObjectsMean(mean2,1);
-	testFuzzy->SetObjectsMean(mean3,2);
-
-	MatrixType matrix1;
-	matrix1.GetVnlMatrix().set((double *)object_cov1);
-	testFuzzy->SetObjectsMatrix(matrix1,0);
-	matrix1.GetVnlMatrix().set((double *)object_cov2);
-	testFuzzy->SetObjectsMatrix(matrix1,1);
-	matrix1.GetVnlMatrix().set((double *)object_cov3);
-	testFuzzy->SetObjectsMatrix(matrix1,2);
-
-
-	for ( int i = 0; i < 11; i++) 
-	{
-		index.SetIndex(Seed1[i]);
-		testFuzzy->SetObjectsSeed(index,0);
-    }
-
-    for ( int i = 0; i < 8; i++) 
-	{
-		index.SetIndex(Seed2[i]);
-		testFuzzy->SetObjectsSeed(index,1);
-    }
 	
-    for ( int i = 0; i < 3; i++) 
-	{
-		index.SetIndex(Seed3[i]);
-		testFuzzy->SetObjectsSeed(index,2);
-    }
-
-//
-
 	testFuzzy->DoFuzzySegmentation();
 
 	itk::SimpleImageRegionIterator <BinaryImage3D> ot(testFuzzy->GetOutput(), region);
 
 	ot.Begin();
-//
-	data = new unsigned char[LENGTH*HEIGHT*WIDTH];
 
-	for(int i = 0;i < LENGTH*HEIGHT*WIDTH; i++)
-	{
-		data[i] = ot.Get();
-		++ot;
-	}
+	unsigned char* test = new unsigned char[LENGTH*HEIGHT*WIDTH];
 
-	fout = fopen(output,"wb");
-	fwrite(data,1,LENGTH*HEIGHT*WIDTH,fout);
-	fclose(fout);
-
-	delete data;
-//
-/*
 	for(int i = 0;i < LENGTH*HEIGHT*WIDTH; i++)
 	{
 		if((i%WIDTH) == 0)
@@ -303,7 +195,7 @@ int main()
 		++ot;
 	}
 
-*/
+	delete test;
+
 	return 1;
 }
-
