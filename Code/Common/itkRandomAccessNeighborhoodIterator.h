@@ -47,9 +47,9 @@ namespace itk {
  */
 template<class TImage,
   class TAllocator =
-    NeighborhoodAllocator<ImageTraits<TImage>::InternalPixelType *>,
+    NeighborhoodAllocator<typename ImageTraits<TImage>::InternalPixelType *>,
   class TDerefAllocator =
-    NeighborhoodAllocator<ImageTraits<TImage>::PixelType>
+    NeighborhoodAllocator<typename ImageTraits<TImage>::PixelType>
   >
 class RandomAccessNeighborhoodIterator
   :  public RegionNeighborhoodIterator<TImage, TAllocator, TDerefAllocator> 
@@ -173,7 +173,7 @@ template<class TImage, class TAccessor, class TDerefAccessor>
 inline RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor>
 operator+(const RandomAccessNeighborhoodIterator<TImage, TAccessor, 
           TDerefAccessor> &it,
-          const RandomAccessNeighborhoodIterator<TImage, TAccessor,
+          const typename RandomAccessNeighborhoodIterator<TImage, TAccessor,
           TDerefAccessor>::IndexType &ind)
 {
   RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor> ret;
@@ -184,7 +184,7 @@ operator+(const RandomAccessNeighborhoodIterator<TImage, TAccessor,
 
 template<class TImage, class TAccessor, class TDerefAccessor>
 inline RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor>
-operator+(const RandomAccessNeighborhoodIterator<TImage, TAccessor,
+operator+(const typename RandomAccessNeighborhoodIterator<TImage, TAccessor,
           TDerefAccessor>::IndexType &ind,
           const RandomAccessNeighborhoodIterator<TImage, TAccessor, 
           TDerefAccessor> &it)
@@ -195,7 +195,7 @@ inline RandomAccessNeighborhoodIterator<TImage, TAccessor,
   TDerefAccessor>
 operator-(const RandomAccessNeighborhoodIterator<TImage, TAccessor, 
           TDerefAccessor> &it,
-          const RandomAccessNeighborhoodIterator<TImage, TAccessor,
+          const typename RandomAccessNeighborhoodIterator<TImage, TAccessor,
           TDerefAccessor>::IndexType &ind)
 {
   RandomAccessNeighborhoodIterator<TImage, TAccessor, TDerefAccessor> ret;

@@ -91,20 +91,20 @@ namespace itk {
 
 template<class TImage,
          class TAllocator =
-            NeighborhoodAllocator<ImageTraits<TImage>::InternalPixelType *>,
+            NeighborhoodAllocator<typename ImageTraits<TImage>::InternalPixelType *>,
          class TDerefAllocator =
-            NeighborhoodAllocator<ImageTraits<TImage>::PixelType>
+            NeighborhoodAllocator<typename ImageTraits<TImage>::PixelType>
         >
 class ITK_EXPORT NeighborhoodIterator
-  :  public Neighborhood<ImageTraits<TImage>::InternalPixelType *,
+  :  public Neighborhood<typename ImageTraits<TImage>::InternalPixelType *,
                          ImageTraits<TImage>::ImageDimension, TAllocator >
 {
 public:
   /**
    * Extract image type information.
    */
-  typedef ImageTraits<TImage>::InternalPixelType InternalPixelType;
-  typedef ImageTraits<TImage>::PixelType PixelType;
+  typedef typename ImageTraits<TImage>::InternalPixelType InternalPixelType;
+  typedef typename ImageTraits<TImage>::PixelType PixelType;
   enum {Dimension = ImageTraits<TImage>::ImageDimension };
   
   /** 
@@ -118,8 +118,8 @@ public:
    */
   typedef typename Superclass::SizeType SizeType;
   typedef TImage ImageType;
-  typedef ImageTraits<TImage>::RegionType RegionType;
-  typedef ImageTraits<TImage>::IndexType  IndexType;
+  typedef typename ImageTraits<TImage>::RegionType RegionType;
+  typedef typename ImageTraits<TImage>::IndexType  IndexType;
   // NOTE: the STL Allocator::recast method would eliminate the need
   // for this second Allocator template parameter.
   typedef Neighborhood<PixelType, Dimension, TDerefAllocator> NeighborhoodType;

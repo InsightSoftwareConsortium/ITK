@@ -31,12 +31,12 @@ namespace itk
 template <class TImageType>
 struct ITK_EXPORT AvgGradMagSquared
 {
-  typedef ImageTraits<TImageType>::PixelType PixelType;
+  typedef typename ImageTraits<TImageType>::PixelType PixelType;
   enum { ImageDimension = ImageTraits<TImageType>::ImageDimension };
 
   AvgGradMagSquared() {}
   PixelType operator() (TImageType *,
-                     const ImageTraits<TImageType>::RegionType &) const;
+                     const typename ImageTraits<TImageType>::RegionType &) const;
 };
 
 struct ITK_EXPORT CopyStrategy

@@ -69,8 +69,8 @@ public:
   /**
    * Image typedef support
    */
-  typedef Superclass::InputImageType  InputImageType;
-  typedef Superclass::OutputImageType OutputImageType;
+  typedef typename Superclass::InputImageType  InputImageType;
+  typedef typename Superclass::OutputImageType OutputImageType;
 
   /** 
    * Smart pointer typedef support 
