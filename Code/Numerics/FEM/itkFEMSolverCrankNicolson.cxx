@@ -106,10 +106,10 @@ std::cout << "Begin Assembly." << std::endl;
     Me=Me*m_rho;
 
     /* step over all rows in in element matrix */
-    for(unsigned int j=0; j<Ne; j++)
+    for(int j=0; j<Ne; j++)
     {
       /* step over all columns in in element matrix */
-      for(unsigned int k=0; k<Ne; k++) 
+      for(int k=0; k<Ne; k++) 
       {
         /* error checking. all GFN should be =>0 and <NGFN */
         if ( (*e)->GetDegreeOfFreedom(j) >= NGFN ||
@@ -520,6 +520,7 @@ Element::Float SolverCrankNicolson::EvaluateResidual(Float t)
     ForceEnergy+=iSolVal*FVal;
 #endif
 #ifdef TOTE
+    Fval=Fval+0.0;
     iSolVal=t*(m_ls->GetSolutionValue(i,SolutionTIndex))
         +m_ls->GetSolutionValue(i,TotalSolutionIndex);// FOR TOT E
     ForceEnergy+=iSolVal*(m_ls->GetVectorValue(i,ForceTotalIndex)+
