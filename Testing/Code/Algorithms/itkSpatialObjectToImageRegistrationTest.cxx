@@ -76,7 +76,8 @@ public:
     else if( typeid( event ) == typeid( itk::IterationEvent ) )
     {
       std::cout << "#" << m_Optimizer->GetCurrentIteration() 
-                << " Current parameters = " << m_Optimizer->GetCurrentPosition();
+                << " Current parameters = " << m_Optimizer->GetCurrentPosition()
+                << std::endl;
     }
     else if( typeid( event ) == typeid( itk::EndEvent ) )
     {
@@ -276,6 +277,8 @@ int itkSpatialObjectToImageRegistrationTest(int, char* [] )
 
   typedef itk::SimpleImageToSpatialObjectMetric<ImageType,GroupType> MetricType;
   MetricType::Pointer metric = MetricType::New();
+
+  std::cout << "metric = " << metric << std::endl;
 
   typedef itk::LinearInterpolateImageFunction<ImageType,double>  InterpolatorType;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
