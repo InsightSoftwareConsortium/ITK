@@ -6,9 +6,11 @@ ${ITK_SOURCE_DIR}/Code/Algorithms
 
 LINK_DIRECTORIES(
 ${ITK_BINARY_DIR}/Code/BasicFilters
+${ITK_BINARY_DIR}/Code/Algorithms
 )
 
 LINK_LIBRARIES (
+ITKAlgorithms
 ITKBasicFilters
 ITKCommon
 VXLNumerics
