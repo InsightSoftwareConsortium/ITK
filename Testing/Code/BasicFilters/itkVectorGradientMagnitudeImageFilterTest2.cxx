@@ -97,6 +97,10 @@ int itkVectorGradientMagnitudeImageFilterTest2(int ac, char** av)
     {
       if (it.Get() != rit.Get())
         {
+          // print out the mismatch location and values
+          std::cerr << "diff: " << it.GetIndex() << " " << it.Get()
+                    << " should be " << rit.Get() << std::endl;
+          
           status++;
         } 
       ++it;
