@@ -247,7 +247,8 @@ public:
      * y[axis1] =  cos(angle)*x[axis1] + sin(angle)*x[axis2]
      * y[axis2] = -sin(angle)*x[axis1] + cos(angle)*x[axis2].
      *
-     * All coordinates other than axis1 and axis2 are unchanged.
+     * All coordinates other than axis1 and axis2 are unchanged;
+     * a rotation of pi/2 radians will carry +axis1 into +axis2.
      * The rotation is precomposed with self if pre is true, and
      * postcomposed otherwise.
      **/
