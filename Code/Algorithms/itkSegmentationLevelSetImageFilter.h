@@ -191,10 +191,10 @@ public:
     this->SetInput(f);
   }
   
-  virtual typename const SegmentationFunctionType::ImageType *GetSpeedImage() const
+  virtual const typename SegmentationFunctionType::ImageType *GetSpeedImage() const
   { return m_SegmentationFunction->GetSpeedImage(); }
 
-  virtual typename const SegmentationFunctionType::VectorImageType *GetAdvectionImage() const
+  virtual const typename SegmentationFunctionType::VectorImageType *GetAdvectionImage() const
   { return m_SegmentationFunction->GetAdvectionImage(); }
 
   /** This method reverses the speed function direction, effectively changing
