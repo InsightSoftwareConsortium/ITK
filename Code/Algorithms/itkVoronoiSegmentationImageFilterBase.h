@@ -51,7 +51,26 @@ namespace itk
 
 /** \class VoronoiSegmentationImageFilterBase
  * /breif Base class for VoronoiSegmentationImageFilter
- *
+ * Voronoi SegmentationImageFilter is a class of segmenation algorithms that
+ * works on 2D image.
+ * Begin with certain number of seeds, VoronoiSegmentationImageFilter
+ * first partition the image plane to voronoi regions, and testing each
+ * region by some homogeneity operators, which need to be implemented in the private
+ * method: 
+ *      virtual bool TestHomogeneity(IndexList Plist);
+ * after testing, all the regions are classified as either "internal" or "external"
+ * region and the "boundary" regions was defined as an "external" region that has at 
+ * least one "internal" region as its neighbor.
+ * the algorithm then added seed points to the "boundary" regions (on the edges) and
+ * recursively "split" the boundary region until all the "boundary" become sufficiently
+ * small.
+ * the output of the segmentation can be either a binary object, which is the collection
+ * of all the "internal" region. Or a binary boundary delineate, which is defined as
+ * the connected lines between seed points of "boundary" region.
+ * This class is a base class for voronoi segmenation, single channel or multiple channel
+ * image segmenation can be implemented by deriving imagefilters from this class, by 
+ * implementing the virtual methods.
+ * 
  * Detail information about this algorithm can be found in:
  *  " Semi-automated color segmentation of anatomical tissue,"
  *   C. Imelinska, M. Downes, and W. Yuan  
