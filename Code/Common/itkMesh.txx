@@ -621,7 +621,14 @@ unsigned long
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::GetNumberOfCells(void)
 {  
-  return m_CellsContainer->Size();;
+  if ( ! m_CellsContainer )
+    {
+    return 0;
+    }
+  else
+    {
+    return m_CellsContainer->Size();
+    }
 }
 
 
