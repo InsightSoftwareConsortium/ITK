@@ -133,10 +133,6 @@ public:
    * (0,0, ..., 0) in the "upper-left" corner of the neighborhood. */
   OffsetType ComputeInternalIndex(unsigned int n) const;
   
-  /** Returns the pixel referenced at the center of the ConstNeighborhoodIterator. */
-  PixelType GetCenterPixel() const
-    {    return *( this->GetCenterPointer() );  }
-
   /** Returns the array of upper loop bounds used during iteration. */
   IndexType GetBound() const
     {    return m_Bound;   }
@@ -150,6 +146,10 @@ public:
   const InternalPixelType *GetCenterPointer() const
     {    return (this->operator[]((this->Size())>>1));  }
   
+  /** Returns the pixel referenced at the center of the ConstNeighborhoodIterator. */
+  PixelType GetCenterPixel() const
+    {    return *( this->GetCenterPointer() );  }
+
   /** Returns a smartpointer to the image on which this iterator operates. */
   typename ImageType::ConstPointer GetImagePointer()
     { return m_ConstImage; }

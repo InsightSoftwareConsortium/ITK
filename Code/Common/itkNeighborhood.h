@@ -176,8 +176,12 @@ public:
   TPixel &operator[](unsigned int i)
     { return m_DataBuffer[i]; }
   const TPixel &operator[](unsigned int i) const
-    { return m_DataBuffer[i]; }
-    
+  { return m_DataBuffer[i]; }
+
+  /** Returns the element at the center of the neighborhood. */
+  TPixel GetCenterValue() const
+  {    return (this->operator[]((this->Size())>>1)); }
+
   /** Sets the radius for the neighborhood, calculates size from the
    * radius, and allocates storage. */
   void SetRadius(const SizeType &);
