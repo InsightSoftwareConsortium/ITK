@@ -44,6 +44,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkRawImageWriter.h"
 #include "itkObjectFactory.h"
 #include "itkByteSwapper.h"
+#include "itkImageRegionIterator.h"
 #include <fstream>
 
 namespace itk
