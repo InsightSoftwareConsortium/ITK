@@ -99,44 +99,38 @@ itkCell< TPixelType , TMeshType >
 
 
 /**
- * Use this to set all the points in the cell.  It is assumed that the
- * range [first, last) is exactly the size needed for the cell type on which
- * the operation is done.  The position *last is NOT referenced, so it
- * can safely be one beyond the end of an array.
+ * Increase the reference count (mark as used by another object).
  */
 template <typename TPixelType, typename TMeshType>
 void
 itkCell< TPixelType , TMeshType >
-::SetCellPoints(const PointIdentifier* first, const PointIdentifier* last)
+::Register(void)
 {
-  int localId=0;
-  const PointIdentifier *ii = first;
-  
-  while(ii != last)
-    m_PointIds[localId++] = *ii++;
+  m_ReferenceCount++;
+  if(m_ReferenceCount <= 0)
+    {
+    delete this;
+    }
 }
 
 
 /**
- * Use this to set an individual point identifier in the cell.
+ * Decrease the reference count (release by another object).
+ * If there are no references left, delete ourself.
  */
 template <typename TPixelType, typename TMeshType>
 void
 itkCell< TPixelType , TMeshType >
-::SetCellPoint(int localId, PointIdentifier ptId)
+::UnRegister(void)
 {
-  m_PointIds[localId] = ptId;
+  --m_ReferenceCount;
+  if(m_ReferenceCount <= 0)
+    {
+    // invoke the delete method
+//    if(m_DeleteMethod != NULL)
+//      {
+//      (*m_DeleteMethod)(this);
+//      }
+    delete this;
+    }
 }
-
-
-/**
- * Used internally by a cell to get the geometric position of a point.
- */
-template <typename TPixelType, typename TMeshType>
-bool
-itkCell< TPixelType , TMeshType >
-::GetPointPosition(Mesh* mesh, int localId, Point* point)
-{
-  return mesh->m_Points->GetElementIfIndexExists(m_PointIds[localId], point);
-}
-

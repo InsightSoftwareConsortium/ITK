@@ -92,6 +92,38 @@ itkTetrahedronCell< TPixelType , TMeshType >
 
 
 /**
+ * Standard itkCell API:
+ * Use this to set all the points in the cell.  It is assumed that the
+ * range [first, last) is exactly the size needed for this cell type.
+ * The position *last is NOT referenced, so it can safely be one beyond
+ * the end of an array.
+ */
+template <typename TPixelType, typename TMeshType>
+void
+itkTetrahedronCell< TPixelType , TMeshType >
+::SetCellPoints(const PointIdentifier* first, const PointIdentifier* last)
+{
+  int localId=0;
+  const PointIdentifier *ii = first;
+  
+  while(ii != last)
+    m_PointIds[localId++] = *ii++;
+}
+
+
+/**
+ * Use this to set an individual point identifier in the cell.
+ */
+template <typename TPixelType, typename TMeshType>
+void
+itkTetrahedronCell< TPixelType , TMeshType >
+::SetCellPoint(int localId, PointIdentifier ptId)
+{
+  m_PointIds[localId] = ptId;
+}
+
+
+/**
  * Tetrahedron-specific:
  * Get the number of vertices defining the tetrahedron.
  */

@@ -65,6 +65,9 @@ public:
   virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension);
   virtual Cell::Pointer GetBoundaryFeature(int dimension, CellFeatureIdentifier);
   virtual void SetCellPoints(const PointIdentifier *ptList);
+  virtual void SetCellPoints(const PointIdentifier* first,
+			     const PointIdentifier* last);
+  virtual void SetCellPoint(int localId, PointIdentifier);
 
   /**
    * Line-specific interface.
@@ -81,7 +84,7 @@ protected:
   /**
    * Allocate number of points needed for this cell type.
    */
-  itkLineCell(): Cell(NumberOfPoints) {}  
+  PointIdentifier m_PointIds[NumberOfPoints];
 };
 
 

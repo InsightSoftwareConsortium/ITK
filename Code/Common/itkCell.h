@@ -49,7 +49,7 @@ template <
    */
   typename TMeshType = itkMeshTypeDefault
   >
-class itkCell: public itkObject
+class itkCell //: public itkObject
 {
 public:
   /** 
@@ -128,15 +128,16 @@ public:
    * be one beyond the end of an array.
    */
   virtual void SetCellPoints(const PointIdentifier* first,
-			     const PointIdentifier* last);
+			     const PointIdentifier* last)=0;
   
   /**
    * Set the point identifier for a given spot in the point list for the cell.
    */
-  virtual void SetCellPoint(int localId, PointIdentifier ptId);
+  virtual void SetCellPoint(int localId, PointIdentifier)=0;
   
   /**
    * Interface to the boundary form of the cell to set/get UsingCells.
+   * See the boundary wrapper source for more information.
    */
   virtual bool IsBoundary(void);
   virtual void AddUsingCell(CellIdentifier);
@@ -147,33 +148,23 @@ public:
   virtual UsingCellsContainer::iterator UsingCellsEnd(void);
   
   /**
-   * Standard part of itkObject class.  Used for debugging output.
+   * ITK standard routines.
    */
-  itkTypeMacro(itkCell, itkObject);
+  virtual const char *GetClassName(void) const { return "itkCell"; }
+  void Register(void);
+  void UnRegister(void);
 
 protected:
-  /**
-   * The vector of point identifiers of points used by this cell.
-   * Specific cell types know how to interpret the ordering of these
-   * identifiers.
-   */
-  typedef std::vector< PointIdentifier >  PointIdentifierContainer;
-  PointIdentifierContainer  m_PointIds;
-  
   /**
    * Cell internal utility routines.
    */
 
   /**
-   * The constructor allocates the point identifier container.
-   */
-  itkCell() {}
-  itkCell(unsigned long numPoints): m_PointIds(numPoints) {}  
-  
-  /**
    * Get the geometrical position of a point.
    */
-  bool GetPointPosition(Mesh* mesh, int localId, Point*);
+//  bool GetPointPosition(Mesh* mesh, int localId, Point*)=0;
+private:
+  int m_ReferenceCount;     // Number of uses of this object by other objects.
 };
 
 #ifndef ITK_MANUAL_INSTANTIATION
