@@ -98,9 +98,7 @@ private:
 };
 
 } // end namespace itk
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkOptimizer.txx"
-#endif
+
 
 #endif
 

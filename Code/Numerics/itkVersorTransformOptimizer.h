@@ -88,9 +88,6 @@ private:
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVersorTransformOptimizer.txx"
-#endif
 
 #endif
 

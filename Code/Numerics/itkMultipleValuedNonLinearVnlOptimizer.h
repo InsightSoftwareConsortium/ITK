@@ -80,9 +80,6 @@ private:
 
 
   
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMultipleValuedNonLinearVnlOptimizer.txx"
-#endif
 
 #endif
 
