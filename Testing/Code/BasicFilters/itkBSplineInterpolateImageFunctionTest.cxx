@@ -67,8 +67,45 @@
   typedef InterpolatorType3D::PointType                 PointType3D;
   typedef InterpolatorType3D::ContinuousIndexType       ContinuousIndexType3D;
 
-  void set3DInterpData(ImageType3D::Pointer);
+  typedef itk::Image< unsigned int, ImageDimension3D > ImageIntegerType3D;
+  typedef itk::BSplineInterpolateImageFunction<ImageIntegerType3D,CoordRepType> InterpolatorIntegerType3D;
+    typedef InterpolatorIntegerType3D::IndexType                 IndexIntegerType3D;
+  typedef InterpolatorIntegerType3D::PointType                 PointIntegerType3D;
+  typedef InterpolatorIntegerType3D::ContinuousIndexType       ContinuousIntegerIndexType3D;
+
+//  template <class TImage>
+//  void set3DInterpData(TImage::Pointer);
   void set3DDerivativeData(ImageType3D::Pointer);
+
+template<class TImage>
+void set3DInterpData(TImage::Pointer imgPtr)
+{
+  SizeType3D size = {{80,40,30}};
+
+  /* Allocate a simple test image */
+  TImage::RegionType region;
+  region.SetSize( size );
+
+  imgPtr->SetLargestPossibleRegion( region );
+  imgPtr->SetBufferedRegion( region );
+  imgPtr->Allocate();
+
+
+  /* Set origin and spacing of physical coordinates */
+
+  /* Initialize the image contents */
+  IndexType3D index;
+  for (unsigned int slice = 0; slice < size[2]; slice++) {
+      index[2] = slice;
+      for (unsigned int row = 0; row < size[1]; row++) {
+          index[1] = row;
+          for (unsigned int col = 0; col < size[0]; col++) {
+              index[0] = col;
+              imgPtr->SetPixel(index, slice+row+col);
+          }
+      }
+  }
+}
 
 /**
  * Test a geometric point. Returns true if test has passed,
@@ -298,8 +335,8 @@ int test2DSpline()
     //    4) outside image
 #define NPOINTS2 4  // number of points 
 
-      double darray1[NPOINTS2][2] = {{0.1, 0.2}, {3.4, 5.8}, {4.0, 6.0}, { 2.1, 8.0}};
-      double truth[NPOINTS2][6] = {{154.5, 140.14, 151.86429192392, 151.650316034, 151.865916515, 151.882483111},
+    double darray1[NPOINTS2][2] = {{0.1, 0.2}, {3.4, 5.8}, {4.0, 6.0}, { 2.1, 8.0}};
+    double truth[NPOINTS2][6] = {{154.5, 140.14, 151.86429192392, 151.650316034, 151.865916515, 151.882483111},
         { 0, 13.84, 22.688125812495, 22.411473093, 22.606968306, 22.908345604},
         { 36.2, 36.2, 36.2, 36.2, 36.2, 36.2 },
         {0, 0, 0,0,0,0}};
@@ -333,7 +370,7 @@ int test3DSpline()
   /* Allocate a simple test image */
   ImageTypePtr3D image = ImageType3D::New();
 
-  set3DInterpData(image);
+  set3DInterpData<ImageType3D> (image);
 
   /* Set origin and spacing of physical coordinates */
   double origin [] = { 0.5, 1.0, 1.333};
@@ -364,8 +401,8 @@ int test3DSpline()
     //    4) outside image
 #define NPOINTS3 4  // number of points 
 
-      double darray1[NPOINTS3][ImageDimension3D] = {{0.1, 20.1, 28.4}, {21.58, 34.5, 17.2 }, {10, 20, 12}, { 15, 20.2, 31}};
-      double truth[NPOINTS3][4] = {{48.621593795, 48.651173138, 48.656914878, 48.662256571},
+    double darray1[NPOINTS3][ImageDimension3D] = {{0.1, 20.1, 28.4}, {21.58, 34.5, 17.2 }, {10, 20, 12}, { 15, 20.2, 31}};
+    double truth[NPOINTS3][4] = {{48.621593795, 48.651173138, 48.656914878, 48.662256571},
         { 73.280126903, 73.280816965, 73.282780615, 73.285315943},
         { 42.0, 42.0, 42.0, 42.0},
         {0,0,0,0}};
@@ -465,6 +502,73 @@ int test3DSplineDerivative()
   return (flag);
 }
 
+int testInteger3DSpline()
+{
+  int flag = 0;
+
+  /* Allocate a simple test image */
+  ImageIntegerType3D::Pointer image = ImageIntegerType3D::New();
+
+  set3DInterpData<ImageIntegerType3D> (image);
+
+  /* Set origin and spacing of physical coordinates */
+  double origin [] = { 0.5, 1.0, 1.333};
+  double spacing[] = { 0.1, 0.5, 0.75  };
+  image->SetOrigin(origin);
+  image->SetSpacing(spacing);
+
+  /* Create and initialize the interpolator */
+  for (int splineOrder = 2; splineOrder<=5; splineOrder++)
+    {
+    InterpolatorIntegerType3D::Pointer interp = InterpolatorIntegerType3D::New();
+    interp->SetSplineOrder(splineOrder);
+    interp->SetInputImage(image);
+    interp->Print( std::cout );
+
+    /* Test evaluation at continuous indices and corresponding
+    gemetric points */
+    std::cout << "Testing 3D Integer B-Spline of Order "<< splineOrder << ":\n";
+    std::cout << "Evaluate at: " << std::endl;
+    ContinuousIntegerIndexType3D cindex;
+    PointIntegerType3D point;
+    bool passed;
+
+    // These values test 
+    //    1) near border, 
+    //    2) inside
+    //    3) integer value
+    //    4) outside image
+#define NPOINTS5 4  // number of points 
+
+    // Note: the answers should be the same as for the test3DSpline
+    double darray1[NPOINTS5][ImageDimension3D] = {{0.1, 20.1, 28.4}, {21.58, 34.5, 17.2 }, {10, 20, 12}, { 15, 20.2, 31}};
+    double truth[NPOINTS5][4] = {{48.621593795, 48.651173138, 48.656914878, 48.662256571},
+        { 73.280126903, 73.280816965, 73.282780615, 73.285315943},
+        { 42.0, 42.0, 42.0, 42.0},
+        {0,0,0,0}};
+    bool b_Inside[NPOINTS3] = {true, true, true, false};
+   // double darray1[2];
+
+    // an integer position inside the image
+    for (int ii=0; ii < NPOINTS3; ii++)
+      {
+     // darray1[0] = darray[ii][0];
+     // darray1[1] = darray[ii][1];
+      cindex = ContinuousIntegerIndexType3D(&darray1[ii][0]);
+      passed = TestContinuousIndex<InterpolatorIntegerType3D, ContinuousIntegerIndexType3D >( interp, cindex, b_Inside[ii], truth[ii][splineOrder -2] );
+  
+      if( !passed ) flag += 1;
+  
+      interp->ConvertContinuousIndexToPoint( cindex, point );
+      passed = TestGeometricPoint<InterpolatorIntegerType3D, PointIntegerType3D>( interp, point, b_Inside[ii], truth[ii][splineOrder -2]  );
+  
+      if( !passed ) flag += 1;
+      }
+    }  // end of splineOrder
+
+  return (flag);
+}
+
 int 
 itkBSplineInterpolateImageFunctionTest(
     int argc,
@@ -481,6 +585,8 @@ itkBSplineInterpolateImageFunctionTest(
   flag += test3DSpline();
 
   flag += test3DSplineDerivative();
+
+  flag += testInteger3DSpline();
 
 
 
@@ -560,34 +666,6 @@ void set2DInterpData(ImageType2D::Pointer imgPtr)
 }
 
 
-void set3DInterpData(ImageType3D::Pointer imgPtr)
-{
-  SizeType3D size = {{80,40,30}};
-
-  /* Allocate a simple test image */
-  ImageType3D::RegionType region;
-  region.SetSize( size );
-
-  imgPtr->SetLargestPossibleRegion( region );
-  imgPtr->SetBufferedRegion( region );
-  imgPtr->Allocate();
-
-
-  /* Set origin and spacing of physical coordinates */
-
-  /* Initialize the image contents */
-  IndexType3D index;
-  for (unsigned int slice = 0; slice < size[2]; slice++) {
-      index[2] = slice;
-      for (unsigned int row = 0; row < size[1]; row++) {
-          index[1] = row;
-          for (unsigned int col = 0; col < size[0]; col++) {
-              index[0] = col;
-              imgPtr->SetPixel(index, slice+row+col);
-          }
-      }
-  }
-}
 
 void set3DDerivativeData(ImageType3D::Pointer imgPtr)
 {

@@ -40,7 +40,7 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep>
   unsigned int SplineOrder = 3;
   m_CoefficientFilter = CoefficientFilter::New();
   //***TODO: Should we store coefficients in a variable or retrieve from filter?
-  m_Coefficients = TImageType::New();
+  m_Coefficients = CoefficientImageType::New();
   this->SetSplineOrder(SplineOrder);
 }
 

@@ -20,7 +20,6 @@
 #ifndef _itkBSplineDecompositionImageFilter_txx
 #define _itkBSplineDecompositionImageFilter_txx
 #include "itkBSplineDecompositionImageFilter.h"
-#include "itkImageLinearIteratorWithIndex.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"
 
@@ -40,7 +39,6 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>
   int SplineOrder = 3;
   m_Tolerance = 1e-10;   // Need some guidance on this one...what is reasonable?
   m_IteratorDirection = 0;
-//  m_Coefficients = TImageType::New(); // I think this gets removed.
   this->SetSplineOrder(SplineOrder);
 }
 
@@ -82,7 +80,6 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>
   // TODO:  We need to ensure that this is only run once and only after both input and
   //        spline order have been set.  Should the user be required to explicitly run
   //        this routine?  Or we need to figure out the "update" format.
-//  this->DataToCoefficientsND();   // This seems like a reasonable time to set this...
 
 
 }
@@ -289,7 +286,7 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>
     // Loop through each dimension
 
     // Inititilize iterators
-    Iterator CIterator( outputPtr, outputPtr->GetBufferedRegion() );
+    OutputLinearIterator CIterator( outputPtr, outputPtr->GetBufferedRegion() );
     CIterator.SetDirection( m_IteratorDirection );
     // For each data vector
     while ( !CIterator.IsAtEnd() )
@@ -302,7 +299,7 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>
       this->DataToCoefficients1D();
     
       // Copy scratch back to coefficients.
-//      CIterator.PreviousLine(); // Brings us back to the end of the line we were working on.
+      // Brings us back to the end of the line we were working on.
       CIterator.GoToBeginOfLine();
       this->CopyScratchToCoefficients( CIterator ); // m_Scratch = m_Image;
       CIterator.NextLine();
@@ -348,7 +345,7 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>
 template <class TInputImage, class TOutputImage>
 void
 BSplineDecompositionImageFilter<TInputImage, TOutputImage>
-::CopyScratchToCoefficients(Iterator & Iter)
+::CopyScratchToCoefficients(OutputLinearIterator & Iter)
 {
   unsigned long j = 0;
   while ( !Iter.IsAtEndOfLine() )
@@ -363,7 +360,7 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>
 template <class TInputImage, class TOutputImage>
 void
 BSplineDecompositionImageFilter<TInputImage, TOutputImage>
-::CopyCoefficientsToScratch(Iterator & Iter)
+::CopyCoefficientsToScratch(OutputLinearIterator & Iter)
 {
   unsigned long j = 0;
   while ( !Iter.IsAtEndOfLine() )

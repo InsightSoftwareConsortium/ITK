@@ -91,7 +91,7 @@ public:
   enum { ImageDimension = TInputImage::ImageDimension };
 
   /** Iterator typedef support */
-  typedef itk::ImageLinearIteratorWithIndex<TInputImage> Iterator;
+  typedef itk::ImageLinearIteratorWithIndex<TOutputImage> OutputLinearIterator;
 
 
   /** Get/Sets the Spline Order, supports 0th - 5th order splines. The default
@@ -137,10 +137,10 @@ private:
   void CopyImageToImage(const TInputImage * input, TOutputImage * output );
 
   /** Copies a vector of data from the Coefficients image to the m_Scratch vector. */
-  void CopyCoefficientsToScratch( Iterator & );
+  void CopyCoefficientsToScratch( OutputLinearIterator & );
 
   /** Copies a vector of data from m_Scratch to the Coefficients image. */
-  void CopyScratchToCoefficients( Iterator & );
+  void CopyScratchToCoefficients( OutputLinearIterator & );
 
   // These are needed by the smoothing spline routine.
 protected:

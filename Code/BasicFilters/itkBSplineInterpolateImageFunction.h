@@ -103,12 +103,12 @@ public:
   /** Iterator typedef support */
   typedef itk::ImageLinearIteratorWithIndex<TImageType> Iterator;
 
-  /** Internal Coeffient typedef support */
-  typedef double CoeffientDataType;
-  typedef itk::Image<CoeffientDataType, ImageDimension> CoeffientImageType;
+  /** Internal Coefficient typedef support */
+  typedef double CoefficientDataType;
+  typedef itk::Image<CoefficientDataType, ImageDimension> CoefficientImageType;
 
   /** Define filter for calculating the BSpline coefficients */
-  typedef itk::BSplineDecompositionImageFilter<TImageType, CoeffientImageType> 
+  typedef itk::BSplineDecompositionImageFilter<TImageType, CoefficientImageType> 
     CoefficientFilter;
   typedef typename CoefficientFilter::Pointer CoefficientFilterPointer;
 
@@ -153,11 +153,11 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
     // These are needed by the smoothing spline routine.
-  std::vector<CoeffientDataType>    m_Scratch;        // temp storage for processing of Coefficients
-  typename TImageType::SizeType      m_DataLength;  // Image size
-  unsigned int                       m_SplineOrder; // User specified spline order (3rd or cubic is the default)
+  std::vector<CoefficientDataType>    m_Scratch;        // temp storage for processing of Coefficients
+  typename TImageType::SizeType       m_DataLength;  // Image size
+  unsigned int                        m_SplineOrder; // User specified spline order (3rd or cubic is the default)
 
-  typename CoeffientImageType::Pointer       m_Coefficients; // Spline coefficients  
+  typename CoefficientImageType::Pointer       m_Coefficients; // Spline coefficients  
 
 private:
   /** Determines the weights for interpolation of the value x */
