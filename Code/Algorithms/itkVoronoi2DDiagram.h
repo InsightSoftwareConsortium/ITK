@@ -140,7 +140,8 @@ public:
   
   typedef DynamicPolygonCell<PixelType,CellTraits>  Cell;
   typedef typename DynamicPolygonCell<PixelType,CellTraits>::Pointer  CellPointer;
-  typedef typename Cell::EdgeInfo EdgeInfo;
+  typedef Point<int,2> EdgeInfo;
+  typedef std::deque<EdgeInfo> EdgeInfoDQ;
 
   typedef Cell BoundaryType;
   typedef CellPointer BoundaryPointer;
