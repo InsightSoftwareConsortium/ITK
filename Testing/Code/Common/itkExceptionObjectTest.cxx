@@ -135,6 +135,8 @@ int main()
   catch (itk::ExceptionObject &e) { std::cout << e << std::endl; }
   */
 
+  delete Fp;
+
   return 0;
   
 }
