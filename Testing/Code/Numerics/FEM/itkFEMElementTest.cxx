@@ -27,22 +27,18 @@ using namespace std;
 using namespace itk;
 using namespace fem;
 
-int itkFEMElementTest(int argc, char** argv)
+int itkFEMElementTest(int ac, char** av)
 {
-  // NOTE TO THE USER: you will probably need to change the two paths
-  // below to point to the appropriate directory in your ITK tree from
-  // your executable folder.  
-
   // File input stream
   ifstream f;
 
   // Path to input file
-  char fname[] = "../../Insight/Testing/Data/Input/FEM/hexa2.fem";
+  // char fname[] = "../../Insight/Testing/Data/Input/FEM/hexa2.fem";
 
-  std::cout << std::endl << "FEM Input: " << fname << std::endl;
+  std::cout << std::endl << "FEM Input: " << av[1] << std::endl;
 
   // Declare the FEM solver & associated input stream and read the input file
-  f.open(fname);
+  f.open(av[1]);
 
   if (!f)
   {
