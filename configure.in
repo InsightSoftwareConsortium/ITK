@@ -419,11 +419,11 @@ if test $ac_cv_prog_gxx = no; then
     echo "$ac_t""no" 1>&6
   fi
   rm -f conftest*
-  echo $ac_n "checking whether ${CXX} accepts -instances=semiexplicit""... $ac_c" 1>&6
+  echo $ac_n "checking whether ${CXX} accepts -instances=extern""... $ac_c" 1>&6
   echo 'void f(){}' > conftest.cc
-  if test -z "`${CXX} -instances=static -c conftest.cc 2>&1`"; then
+  if test -z "`${CXX} -instances=extern -c conftest.cc 2>&1`"; then
     echo "$ac_t""yes" 1>&6
-    CMAKE_TEMPLATE_FLAGS="-instances=static"
+    CMAKE_TEMPLATE_FLAGS="-instances=extern"
   else
     echo "$ac_t""no" 1>&6
   fi
