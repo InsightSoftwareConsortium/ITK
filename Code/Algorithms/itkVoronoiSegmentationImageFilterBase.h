@@ -212,7 +212,7 @@ public:
     m_WorkingVD->SetSeeds(num,begin); 
   }; 
     
-  PointType getSeed(int SeedID){ return m_WorkingVD->getSeed(SeedID); }; 
+  PointType GetSeed(int SeedID){ return m_WorkingVD->GetSeed(SeedID); }; 
       
   void DrawDiagram(VDImagePointer result,unsigned char incolor, 
   unsigned char outcolor,unsigned char boundcolor); 

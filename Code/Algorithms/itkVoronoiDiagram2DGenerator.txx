@@ -201,7 +201,7 @@ void
 VoronoiDiagram2DGenerator<TCoordRepType>::
 UpdateDiagram(void)
 {
-  GenerateDiagram();
+  GenerateData();
 }
 
 

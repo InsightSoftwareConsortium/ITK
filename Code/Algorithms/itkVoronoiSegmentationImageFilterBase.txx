@@ -811,13 +811,13 @@ DrawDiagram(VDImagePointer result,unsigned char incolor,
   for(eit = m_WorkingVD->EdgeBegin();eit != eitend; ++eit){ 
     seeds = m_WorkingVD->GetSeedsIDAroundEdge(eit); 
     if((m_Label[seeds[0]]==2)||(m_Label[seeds[1]]==2)){ 
-      drawVDline(result,eit->m_left,eit->m_right,boundcolor); 
+      drawVDline(result,eit->m_Left,eit->m_Right,boundcolor); 
     } 
     else if(m_Label[seeds[0]]){ 
-      drawVDline(result,eit->m_left,eit->m_right,incolor); 
+      drawVDline(result,eit->m_Left,eit->m_Right,incolor); 
     } 
     else { 
-      drawVDline(result,eit->m_left,eit->m_right,outcolor); 
+      drawVDline(result,eit->m_Left,eit->m_Right,outcolor); 
     } 
   } 
     
