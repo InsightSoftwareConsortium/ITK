@@ -80,12 +80,12 @@ public:
 
   /**  Type of the Fixed image. */
   typedef          TFixedImage                     FixedImageType;
-  typedef typename FixedImageType::Pointer         FixedImageConstPointer;
+  typedef typename FixedImageType::ConstPointer    FixedImageConstPointer;
   typedef typename FixedImageType::RegionType      FixedImageRegionType;
 
   /**  Type of the Moving image. */
   typedef          TMovingImage                    MovingImageType;
-  typedef typename MovingImageType::Pointer        MovingImageConstPointer;
+  typedef typename MovingImageType::ConstPointer   MovingImageConstPointer;
 
   /**  Type of the metric. */
   typedef ImageToImageMetric< FixedImageType,
@@ -126,12 +126,12 @@ public:
   void StopRegistration();
 
   /** Set/Get the Fixed image. */
-  itkSetObjectMacro( FixedImage, FixedImageType );
-  itkGetObjectMacro( FixedImage, FixedImageType ); 
+  itkSetConstObjectMacro( FixedImage, FixedImageType );
+  itkGetConstObjectMacro( FixedImage, FixedImageType ); 
 
   /** Set/Get the Moving image. */
-  itkSetObjectMacro( MovingImage, MovingImageType );
-  itkGetObjectMacro( MovingImage, MovingImageType );
+  itkSetConstObjectMacro( MovingImage, MovingImageType );
+  itkGetConstObjectMacro( MovingImage, MovingImageType );
 
   /** Set/Get the Optimizer. */
   itkSetObjectMacro( Optimizer,  OptimizerType );
