@@ -54,6 +54,8 @@ public:
    */
   typedef std::allocator<T>  StdAllocator;
 
+  typedef typename StdAllocator::pointer pointer;
+
   /**
    * Default constructor just invokes the real allocator's default constructor.
    */
@@ -64,6 +66,7 @@ public:
    */
   DllAllocator(const DllAllocator& a): StdAllocator(a) {}
 
+#ifndef _cxx_STATIC_ALLOCATOR_METHODS
   /**
    * Re-implement the allocate() method to be sure to allocate memory on only
    * one DLL's heap.
@@ -81,6 +84,25 @@ public:
     {
       DllDeallocate(p, n);
     }
+#else
+  /**
+   * Re-implement the allocate() method to be sure to allocate memory on only
+   * one DLL's heap.
+   */
+  static pointer allocate(size_type n, DllAllocator<void>::const_pointer hint = 0)
+    {
+      return (pointer)DllAllocate(n*sizeof(T), hint);
+    }
+
+  /**
+   * Re-implement the deallocate() method to free memory allocated by the
+   * re-implementation of the allocate() mehtod.
+   */
+  static void deallocate(void* p, size_type n)
+    {
+      DllDeallocate(p, n);
+    }
+#endif
 };
 
 } // namespace _cxx_

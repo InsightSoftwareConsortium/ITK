@@ -52,8 +52,15 @@
 #    define _cxx_EXPORT
 #  endif
 
+#  ifndef __CYGWIN__
+#    define _cxx_char_traits char_traits
+#  else
+#    define _cxx_STATIC_ALLOCATOR_METHODS
+#    define _cxx_char_traits string_char_traits
+#  endif
+
 #  define _cxxUtils_DllAllocator_include
-#  include "cxxDllAllocator.h"
+#include "cxxDllAllocator.h"
 #  undef _cxxUtils_DllAllocator_include
 
 namespace _cxx_
@@ -62,7 +69,7 @@ namespace _cxx_
  * Define the type "String" to be just like the STL "string", but with our
  * DLL-boundary-safe allocator for the Win32 version.
  */
-typedef std::basic_string<char, std::char_traits<char>, DllAllocator<char> >  String;
+typedef std::basic_string<char, std::_cxx_char_traits<char>, DllAllocator<char> >  String;
 } // namespace _cxx_
 
 #else /* UNIX version */
