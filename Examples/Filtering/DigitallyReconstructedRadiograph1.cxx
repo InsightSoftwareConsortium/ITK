@@ -36,6 +36,7 @@
 #include "itkCenteredEuler3DTransform.h"
 #include "itkNearestNeighborInterpolateImageFunction.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkRescaleIntensityImageFilter.h"
 
 // Software Guide : BeginLatex
 //
@@ -274,7 +275,7 @@ int main( int argc, char ** argv )
 // Software Guide : BeginCodeSnippet
   const     unsigned int   Dimension = 3;
   typedef   short  InputPixelType;
-  typedef   short  OutputPixelType;
+  typedef   unsigned char OutputPixelType;
   
   typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
   typedef itk::Image< OutputPixelType, Dimension >   OutputImageType;
@@ -466,7 +467,7 @@ int main( int argc, char ** argv )
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::ResampleImageFilter<InputImageType, OutputImageType > FilterType;
+  typedef itk::ResampleImageFilter<InputImageType, InputImageType > FilterType;
 
   FilterType::Pointer filter = FilterType::New();
 
@@ -601,6 +602,8 @@ int main( int argc, char ** argv )
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
+  interpolator->Print (std::cout);
+
   filter->SetInterpolator( interpolator );
   filter->SetTransform( transform );
 // Software Guide : EndCodeSnippet
@@ -688,11 +691,18 @@ int main( int argc, char ** argv )
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
-   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+    typedef itk::RescaleIntensityImageFilter< 
+      InputImageType, OutputImageType > RescaleFilterType;
+    RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
+    rescaler->SetOutputMinimum(   0 );
+    rescaler->SetOutputMaximum( 255 );
+    rescaler->SetInput( filter->GetOutput() );
+
+    typedef itk::ImageFileWriter< OutputImageType >  WriterType;
     WriterType::Pointer writer = WriterType::New();
 
     writer->SetFileName( output_name );
-    writer->SetInput( filter->GetOutput() );
+    writer->SetInput( rescaler->GetOutput() );
 
     try 
       { 

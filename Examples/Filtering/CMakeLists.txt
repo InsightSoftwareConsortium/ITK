@@ -49,6 +49,9 @@ TARGET_LINK_LIBRARIES(CastingImageFilters ITKCommon ITKIO)
 ADD_EXECUTABLE(CannyEdgeDetectionImageFilter CannyEdgeDetectionImageFilter.cxx )
 TARGET_LINK_LIBRARIES(CannyEdgeDetectionImageFilter ITKCommon ITKIO)
 
+ADD_EXECUTABLE(DigitallyReconstructedRadiograph1 DigitallyReconstructedRadiograph1.cxx )
+TARGET_LINK_LIBRARIES(DigitallyReconstructedRadiograph1 ITKCommon ITKIO)
+
 ADD_EXECUTABLE(DerivativeImageFilter DerivativeImageFilter.cxx )
 TARGET_LINK_LIBRARIES(DerivativeImageFilter ITKCommon ITKIO)
 
@@ -183,6 +186,7 @@ SET(FILTERING_EXAMPLES2 ${CXX_TEST_PATH}/FilteringExamples2)
 SET(FILTERING_EXAMPLES3 ${CXX_TEST_PATH}/FilteringExamples3)
 SET(FILTERING_EXAMPLES4 ${CXX_TEST_PATH}/FilteringExamples4)
 SET(FILTERING_EXAMPLES5 ${CXX_TEST_PATH}/FilteringExamples5)
+SET(FILTERING_EXAMPLES6 ${CXX_TEST_PATH}/FilteringExamples6)
 
 SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Filtering)
 SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
@@ -662,6 +666,13 @@ ADD_TEST( OtsuMultipleThresholdImageFilterTest ${FILTERING_EXAMPLES5}
         png 3
 )
 
+ADD_TEST( DigitallyReconstructedRadiograph1Test ${FILTERING_EXAMPLES6}
+  --compare ${BASELINE}/DigitallyReconstructedRadiograph1.png
+            ${TEMP}/DigitallyReconstructedRadiograph1.png
+  DigitallyReconstructedRadiograph1Test
+        -o ${TEMP}/DigitallyReconstructedRadiograph1.png
+)
+
 ADD_TEST( AntiAliasBinaryImageFilterTest ${FILTERING_EXAMPLES3}
   --compare ${BASELINE}/AntiAliasBinaryImageFilter.png
             ${TEMP}/AntiAliasBinaryImageFilter.png
@@ -810,6 +821,9 @@ TARGET_LINK_LIBRARIES(FilteringExamples4 ITKIO ITKBasicFilters ITKCommon)
 
 ADD_EXECUTABLE(FilteringExamples5 FilteringExamples5.cxx)
 TARGET_LINK_LIBRARIES(FilteringExamples5 ITKIO ITKBasicFilters ITKCommon)
+
+ADD_EXECUTABLE(FilteringExamples6 FilteringExamples6.cxx)
+TARGET_LINK_LIBRARIES(FilteringExamples6 ITKIO ITKBasicFilters ITKCommon)
 
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
 
