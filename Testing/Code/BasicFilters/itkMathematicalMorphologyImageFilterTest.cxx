@@ -133,6 +133,7 @@ int itkMathematicalMorphologyImageFilterTest(int, char* [] )
   StructuringElementType structuringElement;
 
   structuringElement.SetRadius( 2 );  // 5x5x5 structuring element
+  structuringElement.CreateStructuringElement();
 
   grayErode->SetKernel( structuringElement );
   grayDilate->SetKernel( structuringElement );
