@@ -10,5 +10,21 @@ ENDIF(LIBRARY_OUTPUT_PATH)
 
 SET(ITK_TCL_UTILS_DIR ${ITK_SOURCE_DIR}/Wrapping/Tcl)
 
-CONFIGURE_FILE(${ITK_SOURCE_DIR}/Wrapping/Tcl/pkgIndex.tcl.in
-               ${ITK_BINARY_DIR}/Wrapping/Tcl/pkgIndex.tcl)
+IF(UNIX)
+  SET(ITK_MSDEV_CONFIG_DIR "")
+  CONFIGURE_FILE(${ITK_SOURCE_DIR}/Wrapping/Tcl/pkgIndex.tcl.in
+                 ${ITK_BINARY_DIR}/Wrapping/Tcl/pkgIndex.tcl IMMEDIATE)
+ELSE(UNIX)
+  SET(ITK_MSDEV_CONFIG_DIR Debug)
+  CONFIGURE_FILE(${ITK_SOURCE_DIR}/Wrapping/Tcl/pkgIndex.tcl.in
+                 ${ITK_BINARY_DIR}/Wrapping/Tcl/Debug/pkgIndex.tcl IMMEDIATE)
+  SET(ITK_MSDEV_CONFIG_DIR Release)
+  CONFIGURE_FILE(${ITK_SOURCE_DIR}/Wrapping/Tcl/pkgIndex.tcl.in
+                 ${ITK_BINARY_DIR}/Wrapping/Tcl/Release/pkgIndex.tcl IMMEDIATE)
+  SET(ITK_MSDEV_CONFIG_DIR RelWithDebInfo)
+  CONFIGURE_FILE(${ITK_SOURCE_DIR}/Wrapping/Tcl/pkgIndex.tcl.in
+                 ${ITK_BINARY_DIR}/Wrapping/Tcl/RelWithDebInfo/pkgIndex.tcl IMMEDIATE)
+  SET(ITK_MSDEV_CONFIG_DIR MinSizeRel)
+  CONFIGURE_FILE(${ITK_SOURCE_DIR}/Wrapping/Tcl/pkgIndex.tcl.in
+                 ${ITK_BINARY_DIR}/Wrapping/Tcl/MinSizeRel/pkgIndex.tcl IMMEDIATE)
+ENDIF(UNIX)

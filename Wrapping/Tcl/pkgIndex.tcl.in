@@ -1,3 +1,12 @@
+# ITK Tcl package configuration.
+# This file is moved by a CMake CONFIGURE_FILE command into a file in the
+# build directory called "pkgIndex.tcl".
+
+# If you edit this file, do not use the ${var} access code to refer to
+# a variable.  CMake will replace any such construct with an empty
+# string, or with a random, unintended substitution if variable names
+# happen to match.
+
 package ifneeded WrapTclFacility 1.0 {
   global tcl_platform
   if {$tcl_platform(platform) == "unix"} {
@@ -6,6 +15,7 @@ package ifneeded WrapTclFacility 1.0 {
     set libPrefix ""
   }
 
+  # CABLE_TCL_FACILITY_DIR is replaced by CMake's CONFIGURE_FILE command.
   set facilityDir "${CABLE_TCL_FACILITY_DIR}"
   set libName "WrapTclFacility"
   set libExt [info sharedlibextension]
@@ -31,9 +41,11 @@ proc itkFindTclPackages {libPath} {
     set libPrefix ""
   }
 
+  set libPath [file join $libPath "${ITK_MSDEV_CONFIG_DIR}"]
+
   set libExt [info sharedlibextension]
   set libPattern [file join $libPath $libPrefix*Tcl$libExt]
-  set libRegex [file join $libPath $libPrefix\(.*\)\\$libExt]
+  set libRegex [file join $libPath $libPrefix\(.*\)$libExt]
 
   set packageList {}
   catch {
