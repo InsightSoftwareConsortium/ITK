@@ -54,6 +54,11 @@ int itkIOPrintTest(int , char* [])
   reader->SetImageIO(Dicomio);
   std::cout << "---------------Dicom" << reader;
 
+  itk::DICOMImageIO2::Pointer DICOMio;
+  DICOMio = itk::DICOMImageIO2::New();
+  reader->SetImageIO(DICOMio);
+  std::cout << "---------------DICOM" << reader;
+
   itk::GE4ImageIO::Pointer GE4io;
   GE4io = itk::GE4ImageIO::New();
   reader->SetImageIO(GE4io);
@@ -68,6 +73,11 @@ int itkIOPrintTest(int , char* [])
   GEAdwio = itk::GEAdwImageIO::New();
   reader->SetImageIO(GEAdwio);
   std::cout << "---------------GEAdw" << reader;
+
+  itk::GiplImageIO::Pointer Giplio;
+  Giplio = itk::GiplImageIO::New();
+  reader->SetImageIO(Giplio);
+  std::cout << "---------------Gipl" << reader;
 
   itk::MetaImageIO::Pointer Metaio;
   Metaio = itk::MetaImageIO::New();
