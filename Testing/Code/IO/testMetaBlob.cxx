@@ -2,7 +2,7 @@
 #include <ctype.h>
 #include <metaBlob.h>
 
-int testMetaBlob(int argc, char *argv[])
+int testMetaBlob(int , char * [])
 {
 
   std::cout << "Creating test file ..." << std::endl;

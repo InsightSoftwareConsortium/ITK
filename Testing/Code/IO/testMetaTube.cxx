@@ -5,7 +5,7 @@
 #include <metaScene.h>
 #include <metaEllipse.h>
 
-int testMetaTube(int argc, char *argv[])
+int testMetaTube(int , char * [])
 {
 
   std::cout << "Initializing scene ..." << std::endl;

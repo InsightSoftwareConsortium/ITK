@@ -4,7 +4,7 @@
 #include <metaGroup.h>
 #include <metaEllipse.h>
 
-int testMetaScene(int argc, char *argv[])
+int testMetaScene(int , char * [])
 {
 
   std::cout << "Creating test scene ..." << std::endl;

@@ -2,7 +2,7 @@
 #include <ctype.h>
 #include <metaLine.h>
 
-int testMetaLine(int argc, char *argv[])
+int testMetaLine(int , char * [])
 {
 
   std::cout << "Creating test file ...";
@@ -42,7 +42,7 @@ int testMetaLine(int argc, char *argv[])
   {
     std::cout << "Point #" << i++ << ":" << std::endl;
     std::cout << "position = ";
-    unsigned int d=0;
+    unsigned int d;
     for(d = 0; d < 3; d++)
     {
       std::cout << (*it)->m_X[d] << " ";

@@ -2,7 +2,7 @@
 #include <ctype.h>
 #include <metaSurface.h>
 
-int testMetaSurface(int argc, char *argv[])
+int testMetaSurface(int , char * [])
 {
 
   std::cout << "Creating test file ...";

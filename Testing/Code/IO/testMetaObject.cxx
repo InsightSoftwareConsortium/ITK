@@ -4,7 +4,7 @@
 
 #include <metaObject.h>
 
-int testMetaObject(int argc, char *argv[])
+int testMetaObject(int , char *[])
   {
   MetaObject tObj;
 
@@ -55,7 +55,10 @@ int testMetaObject(int argc, char *argv[])
   tObj.AddUserField("MyArray", MET_INT_ARRAY,3);
   tObj.AddUserField("MyMatrix", MET_FLOAT_MATRIX,2);
 
+  std::cout << "Test Reading: ";
   tObj.Read();
+  std::cout << "[PASSED]" << std::endl;
+
   tObj.PrintInfo();
 
   char* name = static_cast<char*>(tObj.GetUserField("MyName"));
