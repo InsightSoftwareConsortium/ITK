@@ -106,6 +106,9 @@ protected:
    * element in the structuring element is positive. */
   virtual PixelType Evaluate(const SmartNeighborhoodIteratorType &nit,
                              const KernelType &kernel);
+private:
+  GrayscaleErodeImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
 } ; // end of class
 
