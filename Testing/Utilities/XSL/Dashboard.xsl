@@ -50,7 +50,7 @@
         <xsl:choose>
           <xsl:when test="count(BuildStamp/Coverage)">
             <h3>Coverage</h3>
-            <table>
+            <table border="4" cellpadding="0" cellspacing="2" width="600">
               <tr>
                 <th>Site</th>
                 <th>Build Name</th>
@@ -66,11 +66,23 @@
                 <xsl:variable name="URLBase">../../Sites/<xsl:value-of select="Coverage/SiteName"/>/<xsl:value-of select="Coverage/BuildName"/>/<xsl:value-of select="Coverage/BuildStamp"/></xsl:variable>
                 
                 <tr>
-                  <td><xsl:value-of select="Coverage/SiteName"/></td>
-                  <td><xsl:value-of select="Coverage/BuildName"/></td>
-                  <td><a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Coverage.html</xsl:attribute><xsl:value-of select="Coverage/PercentCoverage"/>%</a></td>
-                  <td><xsl:value-of select="Coverage/LOCTested"/><xsl:text> of </xsl:text><xsl:value-of select="Coverage/LOC"/></td>
-                  <td><xsl:value-of select="Coverage/StartDateTime"/></td>
+                  <td align="center"><xsl:value-of select="Coverage/SiteName"/></td>
+                  <td align="center"><xsl:value-of select="Coverage/BuildName"/></td>
+                  <td align="center">
+                    <xsl:choose>
+                      <xsl:when test="Coverage/PercentCoverage &lt; 50">
+                        <xsl:attribute name="bgcolor">#FFA500</xsl:attribute>
+                      </xsl:when>
+                      <xsl:otherwise>
+                        <xsl:attribute name="bgcolor">green</xsl:attribute>
+                      </xsl:otherwise>
+                    </xsl:choose>
+                    <a>
+                      <xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Coverage.html</xsl:attribute><xsl:value-of select="Coverage/PercentCoverage"/>%
+                    </a>
+                  </td>
+                  <td align="center"><xsl:value-of select="Coverage/LOCTested"/><xsl:text> of </xsl:text><xsl:value-of select="Coverage/LOC"/></td>
+                  <td align="center"><xsl:value-of select="Coverage/StartDateTime"/></td>
                 </tr>
               </xsl:if>
             </xsl:for-each>
