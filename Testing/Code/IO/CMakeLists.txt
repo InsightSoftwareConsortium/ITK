@@ -25,6 +25,7 @@ itkRawImageIOTest4.cxx
 itkRegularExpressionSeriesFileNamesTest.cxx
 itkStimulateImageIOTest.cxx
 itkStimulateImageIOTest2.cxx
+itkTIFFImageIOTest.cxx
 itkVTKImageIOTest.cxx
 testMetaGroup.cxx
 testMetaUtils.cxx
@@ -120,6 +121,13 @@ ADD_TEST(itkDICOMImageIO2Test ${IO_TESTS}
 ADD_TEST(itkStimulateImageIOTest2 ${IO_TESTS} 
   itkStimulateImageIOTest2
             ${ITK_DATA_ROOT}/Input/BigEndian.spr)
+
+ADD_TEST(itkTIFFImageIOTest ${IO_TESTS} 
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/cthead1.tif
+            ${ITK_TEST_OUTPUT_DIR}/cthead1.tif
+  itkTIFFImageIOTest 
+            ${ITK_DATA_ROOT}/Input/cthead1.tif
+            ${ITK_TEST_OUTPUT_DIR}/cthead1.tif)
 
 ADD_TEST(itkDICOMImageSeriesTest ${IO_TESTS} 
   itkDICOMImageSeriesTest
