@@ -143,8 +143,13 @@ ENDIF(USE_VTK)
 # Look for OpenGL
 INCLUDE (${ITK_SOURCE_DIR}/Utilities/ITKFindOpenGL.cmake)
   
-# Look for GLUT and if found build the simple image viewer
-INCLUDE (${ITK_SOURCE_DIR}/Utilities/ITKFindGLUT.cmake)
+# Add an option to use or not use GLUT
+OPTION(USE_GLUT "Use GLUT, this enables a very simple image viewer" 0)
+IF(USE_GLUT)
+  # Look for GLUT and if found build the simple image viewer
+  INCLUDE (${ITK_SOURCE_DIR}/Utilities/ITKFindGLUT.cmake)
+ENDIF(USE_GLUT)
+
 
 # Add an option to use or not use FLTK (http://www.fltk.org)
 OPTION(USE_FLTK "Use FLTK (The Fast Light Toolkit) for GUI (some examples need this)" 0)
