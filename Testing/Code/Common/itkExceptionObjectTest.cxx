@@ -133,5 +133,7 @@ int main()
 	}
   catch (itk::ExceptionObject &e) { std::cout << e << std::endl; }
   */
+
+  return 0;
   
 }
