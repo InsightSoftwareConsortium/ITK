@@ -9,21 +9,11 @@
 
 void RegisterTests()
 {
-REGISTER_TEST(HoughTransform2DCirclesImageFilterTest);
-REGISTER_TEST(HoughTransform2DLinesImageFilterTest);
 REGISTER_TEST(IsolatedConnectedImageFilterTest);
 REGISTER_TEST(NeighborhoodConnectedImageFilterTest);
 REGISTER_TEST(ShapeDetectionLevelSetFilterTest);
 REGISTER_TEST(ThresholdSegmentationLevelSetImageFilterTest);
 }
-
-#undef main
-#define main HoughTransform2DLinesImageFilterTest
-#include "HoughTransform2DLinesImageFilter.cxx"
-
-#undef main
-#define main HoughTransform2DCirclesImageFilterTest
-#include "HoughTransform2DCirclesImageFilter.cxx"
 
 #undef main
 #define main IsolatedConnectedImageFilterTest
