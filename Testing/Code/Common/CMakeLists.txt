@@ -31,6 +31,7 @@ itkRegistrationPoints3D2DAffine
 itkRegistrationProcrustes 
 itkScalarTest 
 itkShrinkImageTest 
+itkSmartPointerConstTest 
 itkSmartPointerTest 
 itkTraitsTest  
 itkVectorTest)
