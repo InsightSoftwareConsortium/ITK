@@ -98,6 +98,11 @@ public:
   typedef NeighborhoodIterator Self;
 
   /**
+   * Standard Superclass typedef
+   */
+  typedef NeighborhoodBase<TPixel *, VDimension> Superclass;
+  
+  /**
    * itk::Image typedef support.
    */
   typedef Image<TPixel, VDimension> Image;
@@ -132,6 +137,11 @@ public:
    */
   itkTypeMacro(NeighborhoodIterator, NeighborhoodBase);
 
+  /**
+   * Default constructor.
+   */
+  NeighborhoodIterator() : m_OutputBuffer(0) {};
+  
  /**
   * Constructor establishes a neighborhood of iterators of a specified
   * dimension to walk a particular image and a particular region of
@@ -171,7 +181,7 @@ public:
   virtual void SetNeighborhood(Neighborhood &) = 0;
 
   /**
-   * Virtual function that "dereferences" a NeighborhoodPointer,
+   * Virtual function that "dereferences" a NeighborhoodIterator,
    * returning a Neighborhood of pixel values.
    *
    * This function must be implemented separately by each
@@ -296,6 +306,16 @@ public:
   {
     return (this->operator[]((this->size())>>1));
   }
+
+  /**
+   * "Scalar" dereference.  References the value on which the iterator is
+   * centered.  Allows a NeighborhoodIterator to be used in the context of a
+   * regular image iterator.
+   */
+  TPixel &operator*() const
+  {
+    return *(this->CenterPointer());
+  }
   
   /**
    * Sets the internal pointer to a memory buffer that is incremented
@@ -331,12 +351,33 @@ public:
     this->SetPixelPointers(position);
   }
 
+  /**
+   * Returns a smartpointer to the image on which this iterator operates.
+   */
+  Image::Pointer GetImagePointer() { return m_Image; }
+
+  /**
+   * Assignment operator
+   */
+  Self &operator=(const Self& orig)
+  {
+    Superclass::operator=(orig);
+    memcpy(m_WrapOffset, orig.m_WrapOffset, sizeof(unsigned long) *
+           VDimension);
+    memcpy(m_Bound, orig.m_Bound, sizeof(unsigned long) * VDimension);
+    memcpy(m_Loop, orig.m_Loop, sizeof(unsigned long) * VDimension);
+    m_OutputBuffer = orig.m_OutputBuffer;
+    m_Image = orig.m_Image;
+    m_Buffer = orig.m_Buffer;
+    m_StartIndex = orig.m_StartIndex;
+    return *this;
+  }
   
 protected:
   /**
    * Default method for setting the coordinate location of the iterator.
    * Loop indicies correspond to the actual Image region index.
-   * This correspondance is a coincidental feature that will not
+   * This correspondence is a coincidental feature that will not
    * necessarily be supported.
    */
   virtual void SetLoop( const Index& position )
