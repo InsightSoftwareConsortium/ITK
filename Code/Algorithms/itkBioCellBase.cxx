@@ -673,6 +673,30 @@ CellBase
 
 
 
+/**
+ *    Set ChemoAttractantLowThreshold
+ */ 
+void
+CellBase
+::SetChemoAttractantLowThreshold( double lowvalue )
+{
+  CellBase::ChemoAttractantLowThreshold = lowvalue;
+}
+
+
+
+/**
+ *    Set ChemoAttractantHighThreshold
+ */ 
+void
+CellBase
+::SetChemoAttractantHighThreshold( double highvalue )
+{
+  CellBase::ChemoAttractantHighThreshold = highvalue;
+}
+
+
+
 
 
 }  // end namespace bio

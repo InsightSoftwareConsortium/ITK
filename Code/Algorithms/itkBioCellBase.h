@@ -124,6 +124,9 @@ public:
   static void SetNutrientSelfRepairLevel( double );
   static void SetDefaultColor( const ColorType & color );
 
+  static void SetChemoAttractantHighThreshold( double );
+  static void SetChemoAttractantLowThreshold( double );
+
   static void SetGrowthMaximumLatencyTime( unsigned long latency );
   static unsigned long GetGrowthMaximumLatencyTime( void );
 
