@@ -14,9 +14,11 @@ $writer     SetInput [ $filter  GetOutput ]
 $reader SetFileName [lindex $argv 0]
 $writer SetFileName [lindex $argv 1]
 
+set radius [expr [ lindex $argv 2] ]
+
 itkSize2 sizeRadius 
-sizeRadius SetElement  0  [expr [lindex $argv 2]]
-sizeRadius SetElement  1  [expr [lindex $argv 3]]
+sizeRadius SetElement  0  $radius
+sizeRadius SetElement  1  $radius
 
 $filter SetRadius  sizeRadius 
 
