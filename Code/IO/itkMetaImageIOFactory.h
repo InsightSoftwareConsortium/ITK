@@ -85,6 +85,15 @@ public:
     {
       return new MetaImageIOFactory;
     }
+  /**
+   * Register one factory of this type 
+   */
+  static void RegisterOneFactory(void)
+  {
+    MetaImageIOFactory::Pointer metaFactory = MetaImageIOFactory::New();
+    ObjectFactoryBase::RegisterFactory(metaFactory);
+  }
+
 protected:
   
   MetaImageIOFactory();

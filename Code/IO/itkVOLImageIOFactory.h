@@ -89,7 +89,15 @@ public:
   {
       return new VOLImageIOFactory;
   }
-
+  /**
+   * Register one factory of this type 
+   */
+  static void RegisterOneFactory(void)
+  {
+    VOLImageIOFactory::Pointer volFactory = VOLImageIOFactory::New();
+    ObjectFactoryBase::RegisterFactory(volFactory);
+  }
+ 
 
 protected:
   VOLImageIOFactory();

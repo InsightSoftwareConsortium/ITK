@@ -85,6 +85,16 @@ public:
     {
       return new PNGImageIOFactory;
     }
+
+  /**
+   * Register one factory of this type 
+   */
+  static void RegisterOneFactory(void)
+  {
+    PNGImageIOFactory::Pointer pngFactory = PNGImageIOFactory::New();
+    ObjectFactoryBase::RegisterFactory(pngFactory);
+  }
+  
 protected:
   
   PNGImageIOFactory();
