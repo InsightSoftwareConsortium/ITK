@@ -23,7 +23,7 @@
 namespace itk{
 
 /** /class ConfidenceConnectedImageFilter
- * /brief 
+ * /brief Segment pixels with similar statistics using connectivity
  *
  * This filter extracts a connected set of pixels whose pixel
  * intensities are consistent with the pixel statistics of a seed
@@ -48,6 +48,7 @@ namespace itk{
  * Setting the "NumberOfIterations" to zero stops the algorithm
  * after the initial segmentation from the seed point.
  *
+ * \ingroup RegionGrowingSegmentation
  */
 template <class TInputImage, class TOutputImage>
 class ConfidenceConnectedImageFilter:
