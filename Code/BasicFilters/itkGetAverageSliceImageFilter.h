@@ -14,15 +14,15 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkgetAverageSliceImageFilter_h
-#define __itkgetAverageSliceImageFilter_h
+#ifndef __itkGetAverageSliceImageFilter_h
+#define __itkGetAverageSliceImageFilter_h
 
 #include "itkImageToImageFilter.h"
   
 namespace itk
 {
   
-/** \class getAverageSliceImageFilter
+/** \class GetAverageSliceImageFilter
  * \brief Implements a Reflection of an image along a selected direction.
  *
  * This class is parameterized over the type of the input image and
@@ -31,11 +31,11 @@ namespace itk
  * \ingroup   IntensityImageFilters     Singlethreaded
  */
 template <class TInputImage, class TOutputImage>
-class ITK_EXPORT getAverageSliceImageFilter : public ImageToImageFilter<TInputImage,TOutputImage> 
+class ITK_EXPORT GetAverageSliceImageFilter : public ImageToImageFilter<TInputImage,TOutputImage> 
 {
 public:
   /** Standard class typedefs. */
-  typedef getAverageSliceImageFilter  Self;
+  typedef GetAverageSliceImageFilter  Self;
   typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
@@ -44,7 +44,7 @@ public:
   itkNewMacro(Self);
   
   /** Run-time type information (and related methods). */
-  itkTypeMacro(getAverageSliceImageFilter, ImageToImageFilter);
+  itkTypeMacro(GetAverageSliceImageFilter, ImageToImageFilter);
 
   /** Some convenient typedefs. */
   typedef TInputImage InputImageType;
@@ -68,8 +68,8 @@ public:
 
   void SetAveragedOutDimension(int AOD) {m_AveragedOutDimension=AOD;};
 protected:
-  getAverageSliceImageFilter();
-  virtual ~getAverageSliceImageFilter() {};
+  GetAverageSliceImageFilter();
+  virtual ~GetAverageSliceImageFilter() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
   /** This method implements the actual reflection of the image.
    *
@@ -78,7 +78,7 @@ protected:
   void GenerateData(void);
 
 private:
-  getAverageSliceImageFilter(const Self&); //purposely not implemented
+  GetAverageSliceImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   unsigned int m_Direction;
@@ -90,7 +90,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "getAverageSlice.txx"
+#include "GetAverageSliceImageFilter.txx"
 #endif
 
 #endif

@@ -14,12 +14,13 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkFindMSPImageFilter_txx
-#define _itkFindMSPImageFilter_txx
+#ifndef _itkMidsagittalPlaneExtractionImageFilter_txx
+#define _itkMidsagittalPlaneExtractionImageFilter_txx
 
 
-#include "MSP.h"
+#include "itkMidsagittalPlaneExtractionImageFilter.h"
 #include "itkImage.h"
+#include "itkGetAverageSliceImageFilter.h"
 #include "itkShrinkImageFilter.h"
 #include "itkThresholdImageFilter.h"
 #include "itkCannyEdgeDetectionImageFilter.h"
@@ -29,7 +30,7 @@
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkNormalizedCorrelationImageToImageMetric.h"
 #include "MSP_utils.h"
-#include "lazyEdgeDetector3D.h"
+#include "itkLazyEdgeDetectionImageFiilter3D.h"
 
 namespace itk
 {
@@ -39,8 +40,8 @@ namespace itk
  */
 
  template <class TInputImage, class TOutputImage >
-FindMSPImageFilter<TInputImage,TOutputImage >
-::FindMSPImageFilter()
+MidsagittalPlaneExtractionImageFilter<TInputImage,TOutputImage >
+::MidsagittalPlaneExtractionImageFilter()
 {
   this->SetNumberOfRequiredInputs( 1 );
   m_Direction = 0;
@@ -52,7 +53,7 @@ FindMSPImageFilter<TInputImage,TOutputImage >
  */
 template <class TInputImage, class TOutputImage >
 void
-FindMSPImageFilter<TInputImage,TOutputImage>
+MidsagittalPlaneExtractionImageFilter<TInputImage,TOutputImage>
 ::GenerateData( void )
 {
   #define YAW_ANGLE 0
@@ -70,9 +71,9 @@ FindMSPImageFilter<TInputImage,TOutputImage>
   typedef itk::LinearInterpolateImageFunction<TInputImage, double> linearInterpolatorType;
   typedef itk::ShrinkImageFilter<TInputImage, TInputImage> shrinkerType;
   typedef itk::CannyEdgeDetectionImageFilter<TInputImage, TInputImage> edgeDetectorType;
-    typedef itk::lazyEdgeDetector3DImageFilter<TInputImage, TInputImage> lazyEdgeDetector3DType; 
+    typedef itk::LazyEdgeDetectionImageFilter3D<TInputImage, TInputImage> lazyEdgeDetector3DType; 
   typedef itk::Image<double, TInputImage::ImageDimension> averagedImageType;
-  typedef itk::getAverageSliceImageFilter<TInputImage, averagedImageType> averagerType;
+  typedef itk::GetAverageSliceImageFilter<TInputImage, averagedImageType> averagerType;
 
   itk::Point<double, TInputImage::ImageDimension> centerOfRotation, transformedPoint;
   TInputImage::Pointer tmpImage= TInputImage::New();
@@ -328,7 +329,7 @@ FindMSPImageFilter<TInputImage,TOutputImage>
 
 template <class TInputImage, class TOutputImage >
 void
-FindMSPImageFilter<TInputImage,TOutputImage>::
+MidsagittalPlaneExtractionImageFilter<TInputImage,TOutputImage>::
 PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
@@ -338,7 +339,7 @@ PrintSelf(std::ostream& os, Indent indent) const
 
 template <class TInputImage, class TOutputImage>
 double
-FindMSPImageFilter<TInputImage, TOutputImage>::
+MidsagittalPlaneExtractionImageFilter<TInputImage, TOutputImage>::
 FindAngle(typename Superclass::InputImageConstPointer image, int angleChoice, int numberOfPoints, double step, estimateType* estimate)
 {
   typedef itk::FlipImageFilter<TInputImage> flipperType;
@@ -446,7 +447,7 @@ FindAngle(typename Superclass::InputImageConstPointer image, int angleChoice, in
 
 template <class TInputImage, class TOutputImage>
 double
-FindMSPImageFilter<TInputImage, TOutputImage>::
+MidsagittalPlaneExtractionImageFilter<TInputImage, TOutputImage>::
 FindShift(typename Superclass::InputImageConstPointer volume, double numberOfPoints, double step, double shiftEstimate)
 {
   typedef itk::FlipImageFilter<TInputImage> flipperType;
@@ -517,7 +518,7 @@ FindShift(typename Superclass::InputImageConstPointer volume, double numberOfPoi
 
 template <class TInputImage, class TOutputImage>
 double
-FindMSPImageFilter<TInputImage, TOutputImage>::
+MidsagittalPlaneExtractionImageFilter<TInputImage, TOutputImage>::
 findHighestPoint(typename Superclass::InputImageConstPointer volume, int dimensionChoice, double startingHeight)
 {
   typedef TInputImage::RegionType requestedRegionType;
@@ -532,7 +533,7 @@ findHighestPoint(typename Superclass::InputImageConstPointer volume, int dimensi
 
   if(dimensionChoice<0 || dimensionChoice>=TInputImage::ImageDimension) 
   {
-    fprintf(stderr, "\nFindMSPImageFilter::findHighestPoint: wrong dimension choice\n");
+    fprintf(stderr, "\nMidsagittalPlaneExtractionImageFilter::findHighestPoint: wrong dimension choice\n");
     exit(4);
   }
 
@@ -653,7 +654,7 @@ findHighestPoint(typename Superclass::InputImageConstPointer volume, int dimensi
 template <class TInputImage, class TOutputImage>
 //itk::Point<double, TInputImage::ImageDimension>*
 double*
-FindMSPImageFilter<TInputImage, TOutputImage>::
+MidsagittalPlaneExtractionImageFilter<TInputImage, TOutputImage>::
 //findCentroid(typename Superclass::InputImageConstPointer volume, TInputImage::RegionType::IndexType dimensionMask)
 findCentroid(typename Superclass::InputImageConstPointer volume, double* dimensionMask)
 {
@@ -714,7 +715,7 @@ findCentroid(typename Superclass::InputImageConstPointer volume, double* dimensi
 
 template <class TInputImage, class TOutputImage>
 estimateType*
-FindMSPImageFilter<TInputImage, TOutputImage>::
+MidsagittalPlaneExtractionImageFilter<TInputImage, TOutputImage>::
 estimateAngle(typename Superclass::InputImageConstPointer volume)
 {
   typedef itk::FlipImageFilter<TInputImage> flipperType;
@@ -785,7 +786,7 @@ estimateAngle(typename Superclass::InputImageConstPointer volume)
       }
       else
       {
-        fprintf(stderr, "\nFindMSPImageFilter::EstimateAngle():More than one singleton dimension. Quitting.\n");
+        fprintf(stderr, "\nMidsagittalPlaneExtractionImageFilter::EstimateAngle():More than one singleton dimension. Quitting.\n");
         exit(5);
       }
     }
@@ -793,7 +794,7 @@ estimateAngle(typename Superclass::InputImageConstPointer volume)
 
   if(singletonDimensionNumber==-1)
   {
-    fprintf(stderr, "\nFindMSPImageFilter::estimateAngle():no singleton dimensions. Quitting.\n");
+    fprintf(stderr, "\nMidsagittalPlaneExtractionImageFilter::estimateAngle():no singleton dimensions. Quitting.\n");
     exit(5);
   }
 
@@ -1000,7 +1001,7 @@ estimateAngle(typename Superclass::InputImageConstPointer volume)
  
 template <class TInputImage, class TOutputImage>
 double
-FindMSPImageFilter<TInputImage, TOutputImage>::
+MidsagittalPlaneExtractionImageFilter<TInputImage, TOutputImage>::
 estimateShift(typename Superclass::InputImageConstPointer volume)
 {
   typedef itk::FlipImageFilter<TInputImage> flipperType;
@@ -1057,7 +1058,7 @@ estimateShift(typename Superclass::InputImageConstPointer volume)
       }
       else
       {
-        fprintf(stderr, "\nFindMSPImageFilter::EstimateAngle():More than one singleton dimension. Quitting.\n");
+        fprintf(stderr, "\nMidsagittalPlaneExtractionImageFilter::EstimateAngle():More than one singleton dimension. Quitting.\n");
         exit(5);
       }
     }
@@ -1065,7 +1066,7 @@ estimateShift(typename Superclass::InputImageConstPointer volume)
 
   if(singletonDimensionNumber==-1)
   {
-    fprintf(stderr, "\nFindMSPImageFilter::estimateAngle():no singleton dimensions. Quitting.\n");
+    fprintf(stderr, "\nMidsagittalPlaneExtractionImageFilter::estimateAngle():no singleton dimensions. Quitting.\n");
     exit(5);
   }
 

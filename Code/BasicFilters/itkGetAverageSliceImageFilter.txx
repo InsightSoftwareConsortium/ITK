@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkgetAverageSliceImageFilter_txx
-#define _itkgetAverageSliceImageFilter_txx
+#ifndef _itkGetAverageSliceImageFilter_txx
+#define _itkGetAverageSliceImageFilter_txx
 
 
 
@@ -27,8 +27,8 @@ namespace itk
  * Constructor
  */
 template <class TInputImage, class TOutputImage >
-getAverageSliceImageFilter<TInputImage,TOutputImage >
-::getAverageSliceImageFilter()
+GetAverageSliceImageFilter<TInputImage,TOutputImage >
+::GetAverageSliceImageFilter()
 {
   this->SetNumberOfRequiredInputs( 1 );
   m_Direction = 0;
@@ -41,7 +41,7 @@ getAverageSliceImageFilter<TInputImage,TOutputImage >
  */
 template <class TInputImage, class TOutputImage >
 void
-getAverageSliceImageFilter<TInputImage,TOutputImage>
+GetAverageSliceImageFilter<TInputImage,TOutputImage>
 ::GenerateData( void )
 {
 
@@ -208,7 +208,7 @@ this->GraftOutput(outputImage);
 
 template <class TInputImage, class TOutputImage >
 void
-getAverageSliceImageFilter<TInputImage,TOutputImage>::
+GetAverageSliceImageFilter<TInputImage,TOutputImage>::
 PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);

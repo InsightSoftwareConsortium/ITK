@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkFindMSPImageFilter_h
-#define __itkFindMSPImageFilter_h
+#ifndef __itkMidsagittalPlaneExtractionImageFilter_h
+#define __itkMidsagittalPlaneExtractionImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkPoint.h"
@@ -23,7 +23,7 @@
 namespace itk
 {
   
-/** \class FindMSPImageFilter
+/** \class MidsagittalPlaneExtractionImageFilter
  * \brief Implements a Reflection of an image along a selected direction.
  *
  * This class is parameterized over the type of the input image and
@@ -46,11 +46,11 @@ namespace itk
   } estimateType;
 
  template <class TInputImage, class TOutputImage>
-class ITK_EXPORT FindMSPImageFilter : public ImageToImageFilter<TInputImage,TOutputImage> 
+class ITK_EXPORT MidsagittalPlaneExtractionImageFilter : public ImageToImageFilter<TInputImage,TOutputImage> 
 {
 public:
   /** Standard class typedefs. */
-  typedef FindMSPImageFilter  Self;
+  typedef MidsagittalPlaneExtractionImageFilter  Self;
   typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
@@ -59,7 +59,7 @@ public:
   itkNewMacro(Self);
   
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FindMSPImageFilter, ImageToImageFilter);
+  itkTypeMacro(MidsagittalPlaneExtractionImageFilter, ImageToImageFilter);
 
   /** Some convenient typedefs. */
   typedef TInputImage InputImageType;
@@ -78,8 +78,8 @@ public:
   
 
 protected:
-  FindMSPImageFilter();
-  virtual ~FindMSPImageFilter() {};
+  MidsagittalPlaneExtractionImageFilter();
+  virtual ~MidsagittalPlaneExtractionImageFilter() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
   double FindAngle(typename Superclass::InputImageConstPointer, int angleChoice, int numberOfPoints, double step, estimateType* anEstimate);
   double FindShift(typename Superclass::InputImageConstPointer, double numberOfPoints, double step, double shiftEstimate);
@@ -101,7 +101,7 @@ protected:
   void GenerateData(void);
 
 private:
-  FindMSPImageFilter(const Self&); //purposely not implemented
+  MidsagittalPlaneExtractionImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   unsigned int m_Direction;

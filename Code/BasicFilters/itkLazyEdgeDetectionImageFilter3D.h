@@ -14,15 +14,15 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itklazyEdgeDetector3DImageFilter_h
-#define __itklazyEdgeDetector3DImageFilter_h
+#ifndef __itkLazyEdgeDetectionImageFilter3D_h
+#define __itkLazyEdgeDetectionImageFilter3D_h
 
 #include "itkImageToImageFilter.h"
 
 namespace itk
 {
   
-/** \class lazyEdgeDetector3DImageFilter
+/** \class LazyEdgeDetectionImageFilter3D
  * \brief Implements a Reflection of an image along a selected direction.
  *
  * This class is parameterized over the type of the input image and
@@ -31,11 +31,11 @@ namespace itk
  * \ingroup   IntensityImageFilters     Singlethreaded
  */
 template <class TInputImage, class TOutputImage>
-class ITK_EXPORT lazyEdgeDetector3DImageFilter : public ImageToImageFilter<TInputImage,TOutputImage> 
+class ITK_EXPORT LazyEdgeDetectionImageFilter3D : public ImageToImageFilter<TInputImage,TOutputImage> 
 {
 public:
   /** Standard class typedefs. */
-  typedef lazyEdgeDetector3DImageFilter  Self;
+  typedef LazyEdgeDetectionImageFilter3D  Self;
   typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
@@ -44,7 +44,7 @@ public:
   itkNewMacro(Self);
   
   /** Run-time type information (and related methods). */
-  itkTypeMacro(lazyEdgeDetector3DImageFilter, ImageToImageFilter);
+  itkTypeMacro(LazyEdgeDetectionImageFilter3D, ImageToImageFilter);
 
   /** Some convenient typedefs. */
   typedef TInputImage InputImageType;
@@ -64,8 +64,8 @@ public:
   void SetEdgeDetectorVariance(double d){edgeDetectorVariance=d;};
   void SetEdgeDetectorMaximumError(double d){edgeDetectorMaximumError=d;};
 protected:
-  lazyEdgeDetector3DImageFilter();
-  virtual ~lazyEdgeDetector3DImageFilter() {};
+  LazyEdgeDetectionImageFilter3D();
+  virtual ~LazyEdgeDetectionImageFilter3D() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
   /** This method implements the actual reflection of the image.
    *
@@ -74,7 +74,7 @@ protected:
   void GenerateData(void);
 
 private:
-  lazyEdgeDetector3DImageFilter(const Self&); //purposely not implemented
+  LazyEdgeDetectionImageFilter3D(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   double edgeDetectorThreshold;

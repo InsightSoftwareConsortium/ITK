@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itklazyEdgeDetector3DImageFilter_txx
-#define _itklazyEdgeDetector3DImageFilter_txx
+#ifndef _itkLazyEdgeDetectionImageFilter3D_txx
+#define _itkLazyEdgeDetectionImageFilter3D_txx
 
 
 #include "itkCannyEdgeDetectionImageFilter.h"
@@ -28,8 +28,8 @@ namespace itk
  * Constructor
  */
 template <class TInputImage, class TOutputImage >
-lazyEdgeDetector3DImageFilter<TInputImage,TOutputImage >
-::lazyEdgeDetector3DImageFilter()
+LazyEdgeDetectionImageFilter3D<TInputImage,TOutputImage >
+::LazyEdgeDetectionImageFilter3D()
 {
   this->SetNumberOfRequiredInputs( 1 );
 
@@ -46,7 +46,7 @@ lazyEdgeDetector3DImageFilter<TInputImage,TOutputImage >
  */
 template <class TInputImage, class TOutputImage >
 void
-lazyEdgeDetector3DImageFilter<TInputImage,TOutputImage>
+LazyEdgeDetectionImageFilter3D<TInputImage,TOutputImage>
 ::GenerateData( void )
 {
 
@@ -235,7 +235,7 @@ this->GraftOutput(outputImage);
 
 template <class TInputImage, class TOutputImage >
 void
-lazyEdgeDetector3DImageFilter<TInputImage,TOutputImage>::
+LazyEdgeDetectionImageFilter3D<TInputImage,TOutputImage>::
 PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
