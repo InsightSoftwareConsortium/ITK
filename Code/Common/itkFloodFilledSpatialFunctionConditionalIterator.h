@@ -37,34 +37,28 @@ public:
   typedef FloodFilledSpatialFunctionConditionalIterator Self;
   typedef FloodFilledFunctionConditionalIterator<TImage, TFunction> Superclass;
   /** Type of function */
-  typedef Superclass::FunctionType FunctionType;
+  typedef typename Superclass::FunctionType FunctionType;
 
   /** Type of vector used to store location info in the spatial function */
-  typedef Superclass::FunctionInputType FunctionInputType;
+  typedef typename Superclass::FunctionInputType FunctionInputType;
 
   /** Index typedef support. */
-  typedef Superclass::IndexType  IndexType;
+  typedef typename Superclass::IndexType  IndexType;
 
   /** Size typedef support. */
-  typedef Superclass::SizeType    SizeType;
+  typedef typename Superclass::SizeType    SizeType;
 
   /** Region typedef support */
-  typedef Superclass::RegionType    RegionType;
+  typedef typename Superclass::RegionType    RegionType;
 
   /** Image typedef support. */
-  typedef Superclass::ImageType   ImageType;
+  typedef typename Superclass::ImageType   ImageType;
 
   /** Internal Pixel Type */
-  typedef Superclass::InternalPixelType   InternalPixelType;
+  typedef typename Superclass::InternalPixelType   InternalPixelType;
 
   /** External Pixel Type */
-  typedef Superclass::PixelType   PixelType;
-
-  /** Dimension of the image the iterator walks.  This enum is needed so that
-   * functions that are templated over image iterator type (as opposed to
-   * being templated over pixel type and dimension) can have compile time
-   * access to the dimension of the image that the iterator walks. */
-  enum { NDimensions = TImage::ImageDimension };
+  typedef typename Superclass::PixelType   PixelType;
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
