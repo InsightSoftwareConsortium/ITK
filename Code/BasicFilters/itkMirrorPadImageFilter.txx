@@ -447,7 +447,6 @@ MirrorPadImageFilter<TInputImage,TOutputImage>
 {
   unsigned int dimCtr;
   int regCtr;
-  int numRegions=1; // Actual number of regions in our decomposed space.
 
   // call the superclass' implementation of this method
   // Superclass::GenerateInputRequestedRegion();
@@ -505,7 +504,6 @@ MirrorPadImageFilter<TInputImage,TOutputImage>
                               - static_cast<long>(inputSize[dimCtr]));
     inRegLimit[dimCtr] = numPre[dimCtr] + numIn[dimCtr] + numPost[dimCtr];
     outRegLimit[dimCtr] = numPre[dimCtr] + numIn[dimCtr] + numPost[dimCtr];
-    numRegions *= outRegLimit[dimCtr];
     outputRegionStart[dimCtr].resize(outRegLimit[dimCtr]);
     outputRegionSizes[dimCtr].resize(outRegLimit[dimCtr]);
     inputRegionStart[dimCtr].resize(inRegLimit[dimCtr]);
