@@ -156,6 +156,16 @@ IterativeClosestPointMetric<TFixedPointSet,TMovingPointSet,TDistanceMap>
   this->GetDerivative(parameters,derivative);
 }
 
+/** PrintSelf method */
+template <class TFixedPointSet, class TMovingPointSet, class TDistanceMap>  
+void
+IterativeClosestPointMetric<TFixedPointSet,TMovingPointSet,TDistanceMap>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+  os << indent << "DistanceMap: " << m_DistanceMap << std::endl;
+}
+
 } // end namespace itk
 
 
