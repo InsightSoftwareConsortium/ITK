@@ -77,10 +77,10 @@ namespace Function {
   void SetOutputMaximum( TOutput max ) {
     m_OutputMaximum = max;
     }
-  double GetOutputMinimum() const {
+  TOutput GetOutputMinimum() const {
     return m_OutputMinimum;
     }
-  double GetOutputMaximum() const {
+  TOutput GetOutputMaximum() const {
     return m_OutputMaximum;
     }
 
