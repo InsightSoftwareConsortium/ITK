@@ -17,9 +17,19 @@
 #ifndef  _itkConditionVariable_h_
 #define  _itkConditionVariable_h_
 
+#include "itkConfigure.h"
+
+// This implementation uses a routine called SignalObjectAndWait()
+// which is only defined on WinNT 4.0 or greater systems.  We need to
+// define this symbol in order to get the prototype for the
+// routine. This needs to be done before we load any system headers.
+#ifdef ITK_USE_WIN32_THREADS
+#define _WIN32_WINNT 0x0400
+#endif
+
 #include "itkMutexLock.h"
-#include "itkSemaphore.h"
 #include "itkLightObject.h"
+
 
 namespace itk {
 
@@ -39,7 +49,19 @@ namespace itk {
  *
  * IMPORTANT: A condition variable always requires an associated SimpleMutexLock
  * object.  The mutex object is used to avoid a dangerous race condition when
- * Wait() and Signal() are called simultaneously from two different threads.
+ * Wait() and Signal() are called simultaneously from two different
+ * threads.
+ *
+ * On systems using pthreads, this implementation abstract the
+ * standard calls to the pthread condition variable.  On Win32
+ * systems, there is no system provided condition variable.  This
+ * class implements a condition variable using a critical section, a
+ * semphore, an event and a number of counters.  The implementation is
+ * almost an extract translation of the implementation presented by
+ * Douglas C Schmidt and Irfan Pyarali in "Strategies for Implementing
+ * POSIX Condition Variables on Win32". This article can be found at
+ * http://www.cs.wustl.edu/~schmidt/win32-cv-1.html
+ *
  */
 class ITKCommon_EXPORT ConditionVariable : public LightObject
 {
@@ -78,9 +100,18 @@ private:
   pthread_cond_t m_ConditionVariable;
   MutexType m_Mutex;
 #else
-  int m_NumberOfWaiters;
-  SimpleMutexLock m_Lock;
-  Semaphore::Pointer m_Semaphore;
+  int m_NumberOfWaiters;                   // number of waiting threads
+  CRITICAL_SECTION m_NumberOfWaitersLock;  // Serialize access to m_NumberOfWaiters
+
+  HANDLE m_Semaphore;                      // Semaphore to queue threads 
+  HANDLE m_WaitersAreDone;                 // Auto-reset event used by the
+                                           // broadcast/signal thread to
+                                           // wait for all the waiting
+                                           // threads to wake up and
+                                           // release the semaphore
+
+  size_t m_WasBroadcast;                   // Keeps track of whether we
+                                           // were broadcasting or signaling
 #endif
 };
 
