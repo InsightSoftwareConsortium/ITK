@@ -43,6 +43,37 @@ public:
    */
   static Pointer New();
 
+  /** 
+   * Specify the size of the output image.
+   */
+  itkSetVectorMacro(Size,unsigned long,TOutputImage::GetImageDimension());
+
+  /** 
+   * Get the size of the output image.
+   */
+  itkGetVectorMacro(Size,unsigned long,TOutputImage::GetImageDimension());
+  
+  /** 
+   * Specify the spacing of the output image.
+   */
+  itkSetVectorMacro(Spacing,float,TOutputImage::GetImageDimension());
+
+  /** 
+   * Get the spacing of the output image.
+   */
+  itkGetVectorMacro(Spacing,float,TOutputImage::GetImageDimension());
+
+  /** 
+   * Specify the origin of the output image.
+   */
+  itkSetVectorMacro(Origin,float,TOutputImage::GetImageDimension());
+
+  /** 
+   * Get the origin of the output image.
+   */
+  itkGetVectorMacro(Origin,float,TOutputImage::GetImageDimension());
+  
+  
 protected:
   itkRandomImageSource();
   ~itkRandomImageSource() {};
@@ -53,6 +84,9 @@ protected:
   void Execute();
 
 private:
+  unsigned long *m_Size;    //size of the output image
+  float         *m_Spacing; //spacing
+  float         *m_Origin;  //origin
 
 };
 

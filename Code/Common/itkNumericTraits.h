@@ -23,10 +23,16 @@
 #ifndef __itkNumericTraits_h
 #define __itkNumericTraits_h
 
+#if defined(_WIN32) || defined(WIN32)
 #include <limits>
+#define ITK_NUMERIC_LIMITS std::numeric_limits
+#else
+#include "../Insight3DParty/vxl/vnl/vnl_numeric_limits.h"
+#define ITK_NUMERIC_LIMITS vnl_numeric_limits
+#endif
 
 template <class T>
-class itkNumericTraits : public std::numeric_limits<T> {
+class itkNumericTraits : public ITK_NUMERIC_LIMITS<T> {
 public:
   /* Return the type of this native type */
   typedef typename T ValueType; 
@@ -45,7 +51,7 @@ public:
 };
 
 template <>
-class itkNumericTraits<bool> : public std::numeric_limits<bool> {
+class itkNumericTraits<bool> : public ITK_NUMERIC_LIMITS<bool> {
 public:
   typedef bool ValueType;
   typedef unsigned char AbsType;
@@ -55,7 +61,7 @@ public:
 };
 
 template <>
-class itkNumericTraits<char> : public std::numeric_limits<char> {
+class itkNumericTraits<char> : public ITK_NUMERIC_LIMITS<char> {
 public:
   typedef char ValueType;
   typedef unsigned char AbsType;
@@ -65,7 +71,7 @@ public:
 };
 
 template <>
-class itkNumericTraits<unsigned char> : public std::numeric_limits<unsigned char> {
+class itkNumericTraits<unsigned char> : public ITK_NUMERIC_LIMITS<unsigned char> {
 public:
   typedef unsigned char ValueType;
   typedef unsigned char AbsType;
@@ -75,7 +81,7 @@ public:
 };
 
 template <>
-class itkNumericTraits<short> : public std::numeric_limits<short> {
+class itkNumericTraits<short> : public ITK_NUMERIC_LIMITS<short> {
 public:
   typedef short ValueType;
   typedef unsigned short AbsType;
@@ -85,7 +91,7 @@ public:
 };
 
 template <>
-class itkNumericTraits<unsigned short> : public std::numeric_limits<unsigned short> {
+class itkNumericTraits<unsigned short> : public ITK_NUMERIC_LIMITS<unsigned short> {
 public:
   typedef unsigned short ValueType;
   typedef unsigned short AbsType;
@@ -95,7 +101,7 @@ public:
 };
 
 template <>
-class itkNumericTraits<int> : public std::numeric_limits<int> {
+class itkNumericTraits<int> : public ITK_NUMERIC_LIMITS<int> {
 public:
   typedef int ValueType;
   typedef unsigned int AbsType;
@@ -105,7 +111,7 @@ public:
 };
 
 template <>
-class itkNumericTraits<unsigned int> : public std::numeric_limits<unsigned int> {
+class itkNumericTraits<unsigned int> : public ITK_NUMERIC_LIMITS<unsigned int> {
 public:
   typedef unsigned int ValueType;
   typedef unsigned int AbsType;
@@ -115,7 +121,7 @@ public:
 };
 
 template <>
-class itkNumericTraits<long> : public std::numeric_limits<long> {
+class itkNumericTraits<long> : public ITK_NUMERIC_LIMITS<long> {
 public:
   typedef long ValueType;
   typedef unsigned long AbsType;
@@ -125,7 +131,7 @@ public:
 };
 
 template <>
-class itkNumericTraits<unsigned long> : public std::numeric_limits<unsigned long> {
+class itkNumericTraits<unsigned long> : public ITK_NUMERIC_LIMITS<unsigned long> {
 public:
   typedef unsigned long ValueType;
   typedef unsigned long AbsType;
@@ -135,7 +141,7 @@ public:
 };
 
 template <>
-class itkNumericTraits<float> : public std::numeric_limits<float> {
+class itkNumericTraits<float> : public ITK_NUMERIC_LIMITS<float> {
 public:
   typedef float ValueType;
   typedef float AbsType;
@@ -145,7 +151,7 @@ public:
 };
 
 template <>
-class itkNumericTraits<double> : public std::numeric_limits<double> {
+class itkNumericTraits<double> : public ITK_NUMERIC_LIMITS<double> {
 public:
   typedef double ValueType;
   typedef double AbsType;
@@ -155,7 +161,7 @@ public:
 };
 
 template <>
-class itkNumericTraits<long double> : public std::numeric_limits<long double> {
+class itkNumericTraits<long double> : public ITK_NUMERIC_LIMITS<long double> {
 public:
   typedef long double ValueType;
   typedef long double AbsType;

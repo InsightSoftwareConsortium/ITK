@@ -37,6 +37,10 @@ template <class TOutputImage>
 itkRandomImageSource<TOutputImage>
 ::itkRandomImageSource()
 {
+  m_Size = new unsigned long [TOutputImage::GetImageDimension()];
+  m_Spacing = new float [TOutputImage::GetImageDimension()];
+  m_Origin = new float [TOutputImage::GetImageDimension()];
+  
 }
 
 //----------------------------------------------------------------------------
@@ -61,12 +65,9 @@ itkRandomImageSource<TOutputImage>
 
   TOutputImage *image=this->GetOutput(0);
   unsigned int N = image->GetImageDimension();
-  TOutputImage::Index ind;
-  long index[2];
 
   scalarType min = itkNumericTraits<scalarType>::min();
   scalarType max = itkNumericTraits<scalarType>::max();
-  scalarType value;
   TOutputImage::ScalarIterator scalarIterator = image->ScalarBegin();
   TOutputImage::ScalarIterator scalarEnd = image->ScalarEnd();
 

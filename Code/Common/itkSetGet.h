@@ -344,14 +344,8 @@ virtual type *Get##name () const \
 #define itkGetVectorMacro(name,type,count) \
   virtual type *Get##name () const \
   { \
-    itkDebugMacro(<< this->GetClassName() << " (" << this \
-                  << "): returning " << #name " pointer " << this->m_##name); \
     return this->m_##name; \
-  } \
-  virtual void Get##name (type data[count]) const \
-  { \
-    for (int i=0; i<count; i++) { data[i] = this->m_##name[i]; }\
-  }
+  } 
 
 // Use a global function which actually calls:
 // itkOutputWindow::GetInstance()->DisplayText();
