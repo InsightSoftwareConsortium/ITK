@@ -236,6 +236,7 @@ itkKullbackLeiblerCompareHistogramImageToImageMetricTest.cxx
 itkMIRegistrationFunctionTest.cxx
 itkPointSetToPointSetRegistrationTest.cxx
 itkSymmetricForcesDemonsRegistrationFilterTest.cxx
+itkSTAPLEImageFilterTest.cxx
 itkVectorFuzzyConnectednessImageFilterTest.cxx
 itkVectorThresholdSegmentationLevelSetImageFilterTest.cxx
 itkVoronoiDiagram2DTest.cxx
@@ -291,6 +292,16 @@ ADD_TEST(itkVectorThresholdSegmentationLevelSetImageFilterTest ${ALGORITHMS_TEST
             5.0 50
             )
 
+ADD_TEST(itkSTAPLEImageFilterTest ${ALGORITHMS_TESTS2}
+   --compare ${ITK_DATA_ROOT}/Baseline/Algorithms/STAPLEImageFilterTest.mha
+             ${ITK_TEST_OUTPUT_DIR}/STAPLEImageFilterTest.mha
+   itkSTAPLEImageFilterTest 
+             2 ${ITK_TEST_OUTPUT_DIR}/STAPLEImageFilterTest.mha 255 0.5
+             ${ITK_DATA_ROOT}/Input/STAPLE1.png
+             ${ITK_DATA_ROOT}/Input/STAPLE2.png
+             ${ITK_DATA_ROOT}/Input/STAPLE3.png
+             ${ITK_DATA_ROOT}/Input/STAPLE4.png
+            )   
 
 ENDIF(ITK_DATA_ROOT)
 
