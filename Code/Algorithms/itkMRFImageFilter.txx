@@ -465,7 +465,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
       }  
     }    
   while(( numIter < m_MaximumNumberOfIterations ) && 
-        ( m_ErrorCounter >= maxNumPixelError ) ); 
+        ( m_ErrorCounter > maxNumPixelError ) ); 
 
 }// ApplyMRFImageFilter
 
