@@ -553,6 +553,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
 
   // Normalize the PDF bins
+  jointPDFIterator.GoToEnd();
   while( !jointPDFIterator.IsAtBegin() )
     {
     --jointPDFIterator;
@@ -829,6 +830,7 @@ DerivativeType& derivative) const
 
 
   // Normalize the PDF bins
+  jointPDFIterator.GoToEnd();
   while( !jointPDFIterator.IsAtBegin() )
     {
     --jointPDFIterator;
