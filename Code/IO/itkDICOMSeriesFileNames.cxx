@@ -83,10 +83,10 @@ DICOMSeriesFileNames
     {
     char* fn = (char*) (*iter).c_str();
     bool couldOpen = m_Parser.OpenFile(fn);
-
     m_Parser.ClearAllDICOMTagCallbacks();
     m_AppHelper.RegisterCallbacks(&m_Parser);
     m_AppHelper.SetFileName(fn);
+    m_AppHelper.SetDICOMDataFile(m_Parser.GetDICOMFile());
     m_Parser.ReadHeader();
     }
 
