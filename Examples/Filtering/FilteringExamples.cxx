@@ -14,6 +14,7 @@ REGISTER_TEST(CastingImageFiltersTest);
 REGISTER_TEST(CurvatureAnisotropicDiffusionImageFilterTest);
 REGISTER_TEST(CurvatureFlowImageFilterTest);
 REGISTER_TEST(DanielssonDistanceMapImageFilterTest);
+REGISTER_TEST(DerivativeImageFilterTest);
 REGISTER_TEST(DiscreteGaussianImageFilterTest);
 REGISTER_TEST(GradientAnisotropicDiffusionImageFilterTest);
 REGISTER_TEST(GradientMagnitudeImageFilterTest);
@@ -73,6 +74,10 @@ REGISTER_TEST(VectorGradientAnisotropicDiffusionImageFilterTest);
 #undef main
 #define main DiscreteGaussianImageFilterTest
 #include "DiscreteGaussianImageFilter.cxx"
+
+#undef main
+#define main DerivativeImageFilterTest
+#include "DerivativeImageFilter.cxx"
 
 #undef main
 #define main GradientAnisotropicDiffusionImageFilterTest
