@@ -7,6 +7,7 @@ itkConvertBufferTest.cxx
 itkDicomImageIOTest.cxx
 itkGiplImageIOTest.cxx
 itkImageSeriesIOTest.cxx
+itkMetaImageIOTest.cxx
 itkPNGImageIOTest.cxx
 itkRawImageIOTest.cxx
 itkRawImageIOTest2.cxx
