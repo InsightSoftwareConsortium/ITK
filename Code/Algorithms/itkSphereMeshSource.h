@@ -95,9 +95,9 @@ private:
   OPointType m_Center; 
 
   /** model resolutions. */
-  int m_ResolutionX;
+  unsigned int m_ResolutionX;
 
-  int m_ResolutionY;
+  unsigned int m_ResolutionY;
 
   /** model scales. */
   OPointType m_Scale;
