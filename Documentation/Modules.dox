@@ -381,8 +381,8 @@ Functions provide an efficient mechanism for computing values
 \defgroup ImageFunctions Image Functions
 \ingroup Functions
 Image functions compute single values using data from a previously
-specified Image. The value is computed in a position of
-the image grid space defined by an Index.
+specified Image. A value can be computed at an image index,
+continuous index or point.
 
 \sa Image
 \sa Index
@@ -394,6 +394,16 @@ the image grid space defined by an Index.
 \ingroup Functions
 */
 
+/**
+\defgroup FiniteDifferenceFunctions Finite Difference Functions
+\ingroup Functions
+Finite difference functions are used in the finite difference solver (FDS)
+framework for solving partial differential equations on images using
+an iterative, finite difference update scheme.
+
+\sa FiniteDifferenceImageFilter
+\sa FiniteDifferenceFunction 
+*/
 
 /**
 \defgroup Operators Operators

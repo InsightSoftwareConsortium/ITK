@@ -124,7 +124,7 @@ namespace itk {
  * \sa GradientAnisotropicDiffusionFunction
  * \sa CurvatureAnisotropicDiffusionFunction
  * \sa VectorGradientAnisotropicDiffusionFunction
- * \ingroup Functions
+ * \ingroup FiniteDifferenceFunctions
  * \ingroup ImageEnhancement
  * \todo Automatically generate the time step value from image dimensionality
  *  and order of the equations */

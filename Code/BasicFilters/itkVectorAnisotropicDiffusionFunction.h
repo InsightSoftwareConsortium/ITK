@@ -40,7 +40,7 @@ namespace itk {
  * are in place.  As a general rule, follow the example of itk::Vector in
  * defining your data types.
  *
- *  \ingroup Functions
+ *  \ingroup FiniteDifferenceFunctions
  *  \ingroup ImageEnhancement
  *
  * \sa AnisotropicDiffusionFunction

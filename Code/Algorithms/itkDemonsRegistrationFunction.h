@@ -47,7 +47,7 @@ namespace itk {
  * and deformation field type all have the same number of dimensions.
  *
  * \sa DemonsRegistrationFilter
- * \ingroup Functions
+ * \ingroup FiniteDifferenceFunctions
  */
 template<class TReference, class TTarget, class TDeformationField>
 class ITK_EXPORT DemonsRegistrationFunction : 

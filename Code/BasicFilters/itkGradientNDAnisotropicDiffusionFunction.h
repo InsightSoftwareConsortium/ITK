@@ -52,7 +52,7 @@ namespace itk {
  * \sa VectorAnisotropicDiffusionFunction
  * \sa VectorGradientAnisotropicDiffusionFunction
  * \sa CurvatureNDAnisotropicDiffusionFunction
- * \ingroup Functions
+ * \ingroup FiniteDifferenceFunctions
  * \ingroup ImageEnhancement
  */ 
 template <class TImage>

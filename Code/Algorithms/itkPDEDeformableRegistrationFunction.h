@@ -33,7 +33,7 @@ namespace itk {
  * and the deformation field type.
  *
  * \sa PDEDeformableRegistrationFilter
- * \ingroup Functions
+ * \ingroup FiniteDifferenceFunctions
  */
 template<class TReference, class TTarget, class TDeformationField>
 class ITK_EXPORT PDEDeformableRegistrationFunction : 

@@ -36,7 +36,7 @@ namespace itk {
  * \todo Account for variable curvature term in the CFL Condition when
  *       calculating the time step.
  *
- * \ingroup Functions
+ * \ingroup FiniteDifferenceFunctions
  */
 template <class TImageType>
 class LevelSet2DFunction

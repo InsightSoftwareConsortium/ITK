@@ -64,7 +64,7 @@ namespace itk {
  *
  *  
  * \sa AnisotropicDiffusionFunction
- * \ingroup Functions
+ * \ingroup FiniteDifferenceFunctions
  * \ingroup ImageEnhancement
  * \todo References */
 template <class TImage>

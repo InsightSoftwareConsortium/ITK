@@ -30,7 +30,7 @@ namespace itk {
  *
  * references: Sethian Chap 6, Vispack documentation, insight documents
  * level set arch proposal
- * \ingroup Functions
+ * \ingroup FiniteDifferenceFunctions
  */
 template <class TImageType>
 class LevelSetFunction : public FiniteDifferenceFunction<TImageType>
