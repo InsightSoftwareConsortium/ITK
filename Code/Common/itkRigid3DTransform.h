@@ -92,7 +92,10 @@ public:
     typedef vnl_vector_fixed<TScalarType, SpaceDimension> VnlVectorType;
 
     /// Standard coordinate point type for this class
-    typedef Point<TScalarType, SpaceDimension>    PointType;
+    typedef Point<TScalarType, SpaceDimension>    InputPointType;
+
+    /// The output space is also 3D
+    typedef InputPointType                        OutputPointType;
 
     /// Standard vnl_quaternion type
     typedef vnl_quaternion<TScalarType>           VnlQuaternionType;
@@ -196,7 +199,7 @@ public:
      * given point or vector, returning the transformed point or
      * vector.
      **/
-    PointType     TransformPoint(const PointType  &point ) const;
+    OutputPointType     TransformPoint(const InputPointType  &point ) const;
     VectorType    TransformVector(const VectorType &vector) const;
     VnlVectorType TransformVector(const VnlVectorType &vector) const;
 
@@ -210,7 +213,7 @@ public:
      * point or vector under the affine transformation defined by
      * self.  If no such point exists, an exception is thrown.
      **/
-    inline PointType           BackTransform(const PointType  &point ) const;
+    inline InputPointType      BackTransform(const OutputPointType  &point ) const;
     inline VectorType          BackTransform(const VectorType &vector) const;
     inline VnlVectorType       BackTransform(const VnlVectorType &vector) const;
 

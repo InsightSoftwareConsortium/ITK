@@ -180,9 +180,9 @@ Rotate(const VectorType & axis, ScalarType angle )
 
 // Transform a point
 template<class ScalarType, unsigned int NDimensions>
-Rigid3DTransform<ScalarType, NDimensions>::PointType
+Rigid3DTransform<ScalarType, NDimensions>::OutputPointType
 Rigid3DTransform<ScalarType, NDimensions>::
-TransformPoint(const PointType &point) const 
+TransformPoint(const InputPointType &point) const 
 {
   return m_DirectMatrix * point + m_Offset;
 }
@@ -223,9 +223,9 @@ TransformVector(const CovariantVectorType &vect) const
 
 // Back transform a point
 template<class ScalarType, unsigned int NDimensions>
-Rigid3DTransform<ScalarType, NDimensions>::PointType
+Rigid3DTransform<ScalarType, NDimensions>::InputPointType
 Rigid3DTransform<ScalarType, NDimensions>::
-BackTransform(const PointType &point) const {
+BackTransform(const OutputPointType &point) const {
   return m_InverseMatrix * (point - m_Offset);
 }
 
