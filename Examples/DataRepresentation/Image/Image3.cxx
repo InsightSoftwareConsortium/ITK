@@ -133,6 +133,10 @@ int main()
 
   // Software Guide : BeginLatex
   //
+  // Please note that \texttt{GetPixel() } returns the pixel value
+  // by copy not by reference. Hence, the method can not be used
+  // for indirectly modifying the image content.
+  //
   // Lets repeat that both SetPixel and GetPixel are extremly 
   // inefficient and should only be used for debugging purposes
   // or for implementing interactions with a graphical user interface

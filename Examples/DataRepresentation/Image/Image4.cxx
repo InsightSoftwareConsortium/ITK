@@ -215,7 +215,7 @@ int main()
   // 
   // Remember that \texttt{GetPixel()} and \texttt{SetPixel()} are very 
   // inefficient methods for accessing pixel data. Image iterators should be
-  // used for when massive access to pixel data is required.
+  // used when massive access to pixel data is required.
   //
   // Software Guide : EndLatex
 
