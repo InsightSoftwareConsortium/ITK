@@ -44,8 +44,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <list>
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
+#include "itkFastMutexLock.h"
 
 namespace itk {
+
+/** Used for mutex locking */
+static SimpleFastMutexLock ListMutex;
 
 template <class TInputImage, class TOutputImage>
 void
@@ -231,7 +235,7 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
   const SizeType  radius = df->GetRadius();
 
   IndexValueType  overlapLow, overlapHigh;
-  std::list<RegionType> faceList;
+  std::vector<RegionType> faceList;
   IndexType  fStart;         // Boundary, "face"
   SizeType   fSize;          // region data.
   RegionType fRegion;
@@ -267,7 +271,9 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
           nbStart[i] += -overlapLow;               
           fRegion.SetIndex(fStart);                
           fRegion.SetSize(fSize);                  
+          ListMutex.Lock();
           faceList.push_back(fRegion);             
+          ListMutex.Unlock();
         }
       if (overlapHigh < 0)
         {
@@ -290,7 +296,9 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
           nbSize[i] -= fSize[i];
           fRegion.SetIndex(fStart);
           fRegion.SetSize(fSize);
+          ListMutex.Lock();
           faceList.push_back(fRegion);
+          ListMutex.Unlock();
         }
     }
   nbRegion.SetSize(nbSize);
@@ -320,7 +328,7 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
   // Process each of the boundary faces.
   BoundaryIteratorType bD;
   UpdateIteratorType   bU;
-  for (std::list<RegionType>::iterator fIt = faceList.begin();
+  for (std::vector<RegionType>::iterator fIt = faceList.begin();
        fIt != faceList.end(); ++fIt)
     {
       bD = BoundaryIteratorType(radius, output, *fIt);
@@ -340,7 +348,6 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
   // this iteration.  We give it the global data pointer to use, then
   // ask it to free the global data memory.
   timeStep = df->ComputeGlobalTimeStep(globalData);
-
   df->ReleaseGlobalDataPointer(globalData);
   
   return timeStep;
