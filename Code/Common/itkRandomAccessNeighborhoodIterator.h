@@ -60,7 +60,8 @@ namespace itk {
  * the distance between them.
  *
  *
- * /sa NeighborhoodIterator /sa Offset */
+ * \sa NeighborhoodIterator \sa Offset
+ */
 template<class TImage>
 class ITK_EXPORT RandomAccessNeighborhoodIterator
   :  public ConstRandomAccessNeighborhoodIterator<TImage>
