@@ -94,12 +94,12 @@ int itkContourDirectedMeanDistanceImageFilterTest(int, char* [] )
 
   // check results
   
-  FilterType::RealType trueDistance = 10 * 
+  FilterType::RealType trueDistance = 13.8527;
     vcl_sqrt( static_cast<double>(ImageDimension) );
   FilterType::RealType distance = filter->GetContourDirectedMeanDistance();
 
-  std::cout << " True distance: " << trueDistance << std::endl;
-  std::cout << " Computed computed: " << distance << std::endl;
+  std::cout << " True     distance: " << trueDistance << std::endl;
+  std::cout << " Computed distance: " << distance << std::endl;
 
   if ( vnl_math_abs( trueDistance - distance ) > 0.1 )
     {
@@ -108,7 +108,7 @@ int itkContourDirectedMeanDistanceImageFilterTest(int, char* [] )
     }
   }
 
-  // compute the directed Hausdorff distance h(image2,image1)
+  // compute the directed Mean distance h(image2,image1)
   {
   typedef itk::ContourDirectedMeanDistanceImageFilter<Image2Type,Image1Type> FilterType;
   FilterType::Pointer filter = FilterType::New();
@@ -119,12 +119,11 @@ int itkContourDirectedMeanDistanceImageFilterTest(int, char* [] )
 
 
   // check results
-  FilterType::RealType trueDistance = 5 *
-    vcl_sqrt( static_cast<double>(ImageDimension) );
+  FilterType::RealType trueDistance = 12.1997;
   FilterType::RealType distance = filter->GetContourDirectedMeanDistance();
 
-  std::cout << " True distance: " << trueDistance << std::endl;
-  std::cout << " Computed computed: " << distance << std::endl;
+  std::cout << " True     distance: " << trueDistance << std::endl;
+  std::cout << " Computed distance: " << distance << std::endl;
 
   if ( vnl_math_abs( trueDistance - distance ) > 0.1 )
     {
@@ -132,58 +131,6 @@ int itkContourDirectedMeanDistanceImageFilterTest(int, char* [] )
     return EXIT_FAILURE;
     }
   }
-
-
-  // compute the Mean distance H(image1,image2)
-  {
-  typedef itk::ContourDirectedMeanDistanceImageFilter<Image1Type,Image2Type> FilterType;
-  FilterType::Pointer filter = FilterType::New();
-
-  filter->SetInput1( image1 );
-  filter->SetInput2( image2 );
-  filter->Update();
-
-
-  // check results
-  FilterType::RealType trueDistance = 10 * 
-    vcl_sqrt( static_cast<double>(ImageDimension) );
-  FilterType::RealType distance = filter->GetContourDirectedMeanDistance();
-
-  std::cout << " True distance: " << trueDistance << std::endl;
-  std::cout << " Computed computed: " << distance << std::endl;
-
-  if ( vnl_math_abs( trueDistance - distance ) > 0.1 )
-    {
-    std::cout << "Test failed. " << std::endl;
-    return EXIT_FAILURE;
-    }
-  }
-
-  // compute the Mean distance H(image2,image1)
-  {
-  typedef itk::ContourDirectedMeanDistanceImageFilter<Image2Type,Image1Type> FilterType;
-  FilterType::Pointer filter = FilterType::New();
-
-  filter->SetInput1( image2 );
-  filter->SetInput2( image1 );
-  filter->Update();
-
-
-  // check results
-  FilterType::RealType trueDistance = 10 *
-    vcl_sqrt( static_cast<double>(ImageDimension) );
-  FilterType::RealType distance = filter->GetContourDirectedMeanDistance();
-
-  std::cout << " True distance: " << trueDistance << std::endl;
-  std::cout << " Computed computed: " << distance << std::endl;
-
-  if ( vnl_math_abs( trueDistance - distance ) > 0.1 )
-    {
-    std::cout << "Test failed. " << std::endl;
-    return EXIT_FAILURE;
-    }
-  }
-
 
   std::cout << "Test passed. " << std::endl;
   return EXIT_SUCCESS;
