@@ -95,7 +95,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
-int main( int argc, char ** argv )
+int main( int argc, char *argv[] )
 {
   // Verify the number of parameters on the command line.
   if ( argc < 3 )
@@ -118,7 +118,7 @@ int main( int argc, char ** argv )
 
   const unsigned int Dimension = 2;
   
-  typedef itk::RGBPixel< unsigned short > RGBPixelType;
+  typedef itk::RGBPixel< unsigned char > RGBPixelType;
   typedef itk::Image< RGBPixelType, Dimension >  ImageType;
 
 // Software Guide : BeginCodeSnippet

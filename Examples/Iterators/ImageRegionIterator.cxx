@@ -44,7 +44,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
-int main( int argc, char ** argv )
+int main( int argc, char *argv[] )
 {
   // Verify the number of parameters on the command line.
   if ( argc < 7 )
@@ -67,7 +67,7 @@ int main( int argc, char ** argv )
 // Software Guide : BeginCodeSnippet
   const unsigned int Dimension = 2;
   
-  typedef unsigned short PixelType;
+  typedef unsigned char PixelType;
   typedef itk::Image< PixelType, Dimension >  ImageType;
   
   typedef itk::ImageRegionConstIterator< ImageType > ConstIteratorType;
@@ -135,6 +135,7 @@ int main( int argc, char ** argv )
 
 // Software Guide : BeginCodeSnippet
   ImageType::Pointer outputImage = ImageType::New();
+  std::cout << region;
   outputImage->SetRegions( region );
   outputImage->CopyInformation( reader->GetOutput() );
   outputImage->Allocate();

@@ -100,7 +100,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
-int main( int argc, char ** argv )
+int main( int argc, char *argv[] )
 {
   //   Verify the number of parameters on the command line.
   if ( argc < 4 )
