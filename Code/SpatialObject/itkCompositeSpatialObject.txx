@@ -22,18 +22,18 @@
 
 namespace itk
 {
-  template < unsigned short NDimensions, class TransformType, class OutputType >
+  template < unsigned int NDimensions, class TransformType, class OutputType >
   CompositeSpatialObject< NDimensions, TransformType, OutputType >
   ::CompositeSpatialObject()
   {}
 
-  template < unsigned short NDimensions, class TransformType, class OutputType >
+  template < unsigned int NDimensions, class TransformType, class OutputType >
   CompositeSpatialObject< NDimensions, TransformType, OutputType >
   ::~CompositeSpatialObject()
   {}
 
 
-  template < unsigned short NDimensions, class TransformType, class OutputType >
+  template < unsigned int NDimensions, class TransformType, class OutputType >
   void 
   CompositeSpatialObject< NDimensions, TransformType, OutputType >
   ::AddSpatialObject( SuperclassPointer pointer )
@@ -42,7 +42,7 @@ namespace itk
     pointer->SetParent( this );
   }
 
-  template < unsigned short NDimensions, class TransformType, class OutputType >
+  template < unsigned int NDimensions, class TransformType, class OutputType >
   void
   CompositeSpatialObject< NDimensions, TransformType, OutputType >
   ::RemoveSpatialObject( SuperclassPointer pointer )
@@ -59,7 +59,7 @@ namespace itk
       }
   }
   
-  template < unsigned short NDimensions, class TransformType, class OutputType >
+  template < unsigned int NDimensions, class TransformType, class OutputType >
   bool 
   CompositeSpatialObject< NDimensions, TransformType, OutputType >
   ::IsInside( const PointType &  point )
@@ -77,7 +77,7 @@ namespace itk
     return false;
   }
 
-  template < unsigned short NDimensions, class TransformType, class OutputType >
+  template < unsigned int NDimensions, class TransformType, class OutputType >
   bool 
   CompositeSpatialObject< NDimensions, TransformType, OutputType >
   ::IsEvaluableAt( const PointType & point )
@@ -95,7 +95,7 @@ namespace itk
     return false;
   }
 
-  template < unsigned short NDimensions, class TransformType, class OutputType >
+  template < unsigned int NDimensions, class TransformType, class OutputType >
   void 
   CompositeSpatialObject< NDimensions, TransformType, OutputType >
   ::ValueAt( const PointType & point, OutputType & value )
@@ -117,7 +117,7 @@ namespace itk
     throw e;
   }
 
-  template < unsigned short NDimensions, class TransformType, class OutputType >
+  template < unsigned int NDimensions, class TransformType, class OutputType >
   void 
   CompositeSpatialObject< NDimensions, TransformType, OutputType >
   ::DerivativeAt( const PointType & point, short unsigned int order, OutputVectorType & value )
@@ -141,7 +141,7 @@ namespace itk
       } 
   }
 
-  template < unsigned short NDimensions, class TransformType, class OutputType >
+  template < unsigned int NDimensions, class TransformType, class OutputType >
   void 
   CompositeSpatialObject< NDimensions, TransformType, OutputType >
   ::ComputeBounds( void )
@@ -182,7 +182,7 @@ namespace itk
     }
   }
   
-  template < unsigned short NDimensions, class TransformType, class OutputType >
+  template < unsigned int NDimensions, class TransformType, class OutputType >
   unsigned long
   CompositeSpatialObject< NDimensions, TransformType, OutputType >
   ::GetMTime( void ) const
@@ -205,7 +205,7 @@ namespace itk
     return latestTime;
   }
 
-  template < unsigned short NDimensions, class TransformType, class OutputType >
+  template < unsigned int NDimensions, class TransformType, class OutputType >
   CompositeSpatialObject< NDimensions, TransformType, OutputType >::ChildrenListType &
   CompositeSpatialObject< NDimensions, TransformType, OutputType >
   ::GetChildren( void )
@@ -213,7 +213,7 @@ namespace itk
     return m_Children;
   }
 
-  template < unsigned short NDimensions, class TransformType, class OutputType >
+  template < unsigned int NDimensions, class TransformType, class OutputType >
   void 
   CompositeSpatialObject< NDimensions, TransformType, OutputType >
   ::SetChildren( ChildrenListType & children )
@@ -229,7 +229,7 @@ namespace itk
       }
   }
 
-  template < unsigned short NDimensions, class TransformType, class OutputType >
+  template < unsigned int NDimensions, class TransformType, class OutputType >
   unsigned int
   CompositeSpatialObject< NDimensions, TransformType, OutputType >
   ::GetNumberOfChildren( void )
@@ -237,7 +237,7 @@ namespace itk
     return m_Children.size();
   } 
 
-  template < unsigned short NDimensions, class TransformType, class OutputType >
+  template < unsigned int NDimensions, class TransformType, class OutputType >
   void
   CompositeSpatialObject< NDimensions, TransformType, OutputType >
   ::PrintSelf( std::ostream& os, Indent indent ) const
@@ -258,7 +258,7 @@ namespace itk
     Superclass::PrintSelf(os, indent);
   }
 
-  template < unsigned short NDimensions, class TransformType, class OutputType >
+  template < unsigned int NDimensions, class TransformType, class OutputType >
   void 
   CompositeSpatialObject< NDimensions, TransformType, OutputType >
   ::RebuildGlobalToLocalTransformList( void )
@@ -274,7 +274,7 @@ namespace itk
       }
   }
 
-  template < unsigned short NDimensions, class TransformType, class OutputType >
+  template < unsigned int NDimensions, class TransformType, class OutputType >
   void 
   CompositeSpatialObject< NDimensions, TransformType, OutputType >
   ::RebuildLocalToGlobalTransformList( void )
