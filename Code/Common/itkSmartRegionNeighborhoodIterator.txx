@@ -73,7 +73,7 @@ bool
 SmartRegionNeighborhoodIterator<TImage, TAllocator, TBoundaryCondition,
   TDerefAllocator>
 ::InBounds()
-{
+{ 
   bool ans = true;
   for (unsigned int i=0; i<Dimension; i++)
     {

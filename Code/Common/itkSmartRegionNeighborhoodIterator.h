@@ -18,6 +18,7 @@
 
 #include "itkNeighborhoodIterator.h"
 #include "itkConstantBoundaryCondition.h"
+#include "itkZeroFluxNeumannBoundaryCondition.h"
 
 namespace itk {
 
@@ -44,7 +45,7 @@ namespace itk {
 template<class TImage,
   class TAllocator =
      NeighborhoodAllocator<ITK_TYPENAME TImage::InternalPixelType*>,
-  class TBoundaryCondition = ConstantBoundaryCondition
+  class TBoundaryCondition = ZeroFluxNeumannBoundaryCondition
    <TImage, Neighborhood<ITK_TYPENAME TImage::InternalPixelType*,
                          TImage::ImageDimension,
                          TAllocator>  >,

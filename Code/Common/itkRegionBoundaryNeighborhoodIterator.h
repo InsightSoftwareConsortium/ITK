@@ -41,8 +41,8 @@ namespace itk {
 template<class TImage,
   class TAllocator
  = NeighborhoodAllocator<ITK_TYPENAME TImage::InternalPixelType *>,
-  class TBoundaryCondition = ConstantBoundaryCondition
-    <TImage, Neighborhood<ITK_TYPENAME TImage::InternalPixelType *,
+  class TBoundaryCondition = ZeroFluxNeumannBoundaryCondition
+<TImage, Neighborhood<ITK_TYPENAME TImage::InternalPixelType *,
                           TImage::ImageDimension,
                           TAllocator>  >,  
   class TDerefAllocator

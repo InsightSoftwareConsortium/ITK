@@ -74,8 +74,7 @@ public:
    * Default constructor.
    */
   ConstantBoundaryCondition()
-    : m_Constant(NumericTraits<PixelScalarValueType>::Zero)
-  { }
+  { m_Constant = NumericTraits<PixelScalarValueType>::Zero; }
 
   /**
    * Computes and returns appropriate out-of-bounds values from
