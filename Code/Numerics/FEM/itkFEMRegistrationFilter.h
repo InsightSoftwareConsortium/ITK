@@ -99,30 +99,39 @@ namespace fem {
 */
 
 template<class TReference,class TTarget> 
-class /* ITK_EXPORT */ FEMRegistrationFilter //: public ImageToImageFilter<TReference, TTarget>
+class  ITK_EXPORT  FEMRegistrationFilter : public ImageToImageFilter<TReference, TTarget>
 {
 public:
   typedef FEMRegistrationFilter                              Self;
-//  typedef ImageToImageFilter<TReference, TTarget> Superclass;
+  typedef ImageToImageFilter<TReference, TTarget> Superclass;
+  typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
+
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
   
   /** Run-time type information (and related methods) */
-//  itkTypeMacro(FEMRegistrationFilter, ImageToImageFilter );
+  itkTypeMacro(FEMRegistrationFilter, ImageToImageFilter );
   
+  typedef TReference                                ImageType;
+  typedef TTarget                                   TargetImageType;
+  typedef typename ImageType::PixelType             ImageDataType;
+  typedef typename ImageType::PixelType             PixelType;
+  typedef typename ImageType::SizeType              ImageSizeType;
+
+  /** Dimensionality of input and output data is assumed to be the same. */
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      ImageType::ImageDimension);
+
+  typedef Image< float, ImageDimension >            FloatImageType;
   typedef LinearSystemWrapperItpack                 LinearSystemSolverType;
   typedef SolverCrankNicolson                       SolverType;
   enum Sign { positive = 1, negative = -1 };
   typedef double                                    Float;
-  /** Dimensionality of input and output data is assumed to be the same.
-   * It is inherited from the superclass. */
+   
 
   typedef MaterialLinearElasticity                  MaterialType;
-  typedef TReference                                ImageType;
-  typedef TTarget                                   TargetImageType;
-  enum { ImageDimension = ImageType::ImageDimension };
-  typedef typename ImageType::PixelType             ImageDataType;
-  typedef Image< float, ImageDimension >            FloatImageType;
-  typedef typename ImageType::SizeType              ImageSizeType;
-  typedef ImageToImageMetric<TTarget,TReference >   MetricBaseType;
+  typedef ImageToImageMetric<ImageType,TargetImageType>   MetricBaseType;
   typedef typename MetricBaseType::Pointer          MetricBaseTypePointer;
   typedef itk::Vector<float,ImageDimension>         VectorType;
   typedef itk::Image<VectorType,ImageDimension>     FieldType;
@@ -190,66 +199,158 @@ public:
   /** Writes the displacement field to a file. */
   int       WriteDisplacementField(unsigned int index);
 
-  /** Set the following parameters to run the example */
   /** One can set the reference file names to read images from files */
   void      SetReferenceFile(const char* r) {m_ReferenceFileName=r;}
+
   const char* GetReferenceFile() {return m_ReferenceFileName;}
+  
   void      SetTargetFile(const char* t) {m_TargetFileName=t;}
+  
   const char* GetTargetFile() {return m_TargetFileName;}
+
+  
   /** One can set the images directly to input images in an application */ 
+  
   /** Define the reference (moving) image. */
   void SetReferenceImage(ImageType* R);
+  
   /** Define the target (fixed) image. */
   void SetTargetImage(TargetImageType* T);
+  
   ImageType* GetReferenceImage(){return m_RefImg;}
+  
   TargetImageType* GetTargetImage(){return m_TarImg;}
+  
+  
+  /** Get the reference image warped to the target image.
+      Must first apply the warp using WarpImage() */
   ImageType* GetWarpedImage(){return m_WarpedImage;}
+
+  /** Outputs the FE deformation field interpolated over the entire image domain.*/
   FieldType* GetDeformationField(){return m_Field;}
 
+  /** These functions control the use of landmark constraints.  Currently, 
+      landmarks must be read in from a file. */
   void      SetLandmarkFile(const char* l) {m_LandmarkFileName=l; }
-  void      SetResultsFile(const char* r) {m_ResultsFileName=r;}
-  void      SetDisplacementsFile(const char* r) {m_DisplacementsFileName=r;}
-  void      SetMeshResolution(unsigned int i,unsigned int which=0){ m_MeshResolution[which]=i;}
-  void      SetNumberOfIntegrationPoints(unsigned int i,unsigned int which=0){ m_NumberOfIntegrationPoints[which]=i;}
-  void      SetWidthOfMetricRegion(unsigned int i,unsigned int which=0) { m_MetricWidth[which]=i;}
-  void      SetMaximumIterations(unsigned int i,unsigned int which) { m_Maxiters[which]=i;}
-  void      SetTimeStep(Float i) { m_dT=i;}
-  void      SetEnergyReductionFactor(Float i) { m_EnergyReductionFactor=i;}
-  void      SetElasticity(Float i,unsigned int which=0) { m_E[which]=i;} /** Stiffness Matrix weight */
-  Float     GetElasticity(unsigned int which=0) { return m_E[which];} /** Stiffness Matrix weight */
-  void      SetRho(Float r,unsigned int which=0) { m_Rho[which]=r;} /** Mass matrix weight */  
-  void      SetDescentDirectionMinimize() { m_DescentDirection=positive;} /** Tries to minimize energy */
-  void      SetDescentDirectionMaximize() { m_DescentDirection=negative;} /** Tries to maximize energy */
-  void      DoLineSearch(unsigned int b) { m_DoLineSearchOnImageEnergy=b; } /** Finds the minimum energy between the current and next solution by linear search.*/
-  void      DoMultiRes(bool b) { m_DoMultiRes=b; } 
-  void      SetLineSearchFrequency(unsigned int b) { m_LineSearchFrequency=b; } 
+
+  /** This determines if the landmark file will be read */
   void      UseLandmarks(bool b) {m_UseLandmarks=b;}
-  void      SetWriteDisplacements(bool b) {m_WriteDisplacementField=b;}
-  bool      GetWriteDisplacements() {return m_WriteDisplacementField;}
-  SolverType* GetSolver(){return &m_Solver;}
-  void      SetConfigFileName (const char* f){m_ConfigFileName=f;}
-  const char* GetConfigFileName () {return m_ConfigFileName; }
+
+  /** The warped reference image will be written to this file name with 
+      the extension "11.img" appended to it.  One can also output the 
+      image after every iteration, yielding result11.img, result12.img, etc.
+      by uncommenting the code at the end of IterativeSolve. */
+  void      SetResultsFile(const char* r) {m_ResultsFileName=r;}
+
   void      SetResultsFileName (const char* f){m_ResultsFileName=f;}
+
   const char* GetResultsFileName () {return m_ResultsFileName;} 
+
+  /** Sets the filename for the vector field component images. */
+  void      SetDisplacementsFile(const char* r) {m_DisplacementsFileName=r;}
+  
+  /** The FEM filter can generate its own mesh for 2 or 3 dimensions, if none is provided.
+      The mesh is generated for quadrilaterals in 2D and hexahedra in 3D.  This function 
+      sets the number of elements generated along each dimension at the resolution 
+      designated by "which". 
+      E.g. to generate 10 elements per dimension in the 1st resolution, use SetMeshResolution(10,0);.
+    */
+  void      SetMeshResolution(unsigned int i,unsigned int which=0){ m_MeshResolution[which]=i;}
+  
+  /** This determines the number of integration points to use at each resolution.  
+      These integration points are used to generate the force.  The actual number 
+      used will be i^d, where d is the number of parameters in the elements local domain. */
+  void      SetNumberOfIntegrationPoints(unsigned int i,unsigned int which=0){ m_NumberOfIntegrationPoints[which]=i;}
+  
+  /** The metric region allows one to compute the derivative (force) of the similarity metric 
+    * using a region of size [i,i] in 2D [i,i,i] in 3D.  
+    * \param which determines the region at a given resolution of the solution process.
+    */
+  void      SetWidthOfMetricRegion(unsigned int i,unsigned int which=0) { m_MetricWidth[which]=i;}
+  
+  /** Setting the maximum iterations stops the solution after i iterations regardless of energy.
+    * \param which determines the resolution of the solution process the call is applied to.
+    */
+  void      SetMaximumIterations(unsigned int i,unsigned int which) { m_Maxiters[which]=i;}
+  
+  /** Setting the time step - usually 1.0.  We prefer to use rho to control step sizes.
+    */
+  void      SetTimeStep(Float i) { m_dT=i;}
+  
+  
+  /** Sets the energy below which we decide the solution has converged. 
+    */
+  void      SetEnergyReductionFactor(Float i) { m_EnergyReductionFactor=i;}
+
+  /** Sets the stiffness Matrix weight. */
+  void      SetElasticity(Float i,unsigned int which=0) { m_E[which]=i;} 
+
+  /** Gets the stiffness Matrix weight. */
+  Float     GetElasticity(unsigned int which=0) { return m_E[which];}
+  
+  /** Mass matrix weight */  
+  void      SetRho(Float r,unsigned int which=0) { m_Rho[which]=r;} 
+
+  /** Tries to minimize energy */  
+  void      SetDescentDirectionMinimize() { m_DescentDirection=positive;}
+  
+  /** Tries to maximize energy */ 
+  void      SetDescentDirectionMaximize() { m_DescentDirection=negative;} 
+
+  /** Finds the minimum energy between the current and next solution by linear search.*/
+  void      DoLineSearch(unsigned int b) { m_DoLineSearchOnImageEnergy=b; } 
+
+
+  /** Sets the use of multi-resolution strategy.  The control file always uses multi-res. */ 
+  void      DoMultiRes(bool b) { m_DoMultiRes=b; } 
+
+  /** This allows one to skip the line search every fth iteration. */ 
+  void      SetLineSearchFrequency(unsigned int f) { m_LineSearchFrequency=f; } 
+  
+  /** Sets the boolean for writing the displacement field to a file. */
+  void      SetWriteDisplacements(bool b) {m_WriteDisplacementField=b;}
+  
+  /** Sets the boolean for writing the displacement field to a file.*/
+  bool      GetWriteDisplacements() {return m_WriteDisplacementField;}
+  
+  /** Returns a pointer to the current solver */
+  SolverType* GetSolver(){return &m_Solver;}
+  
+  /** Sets the file name for the FEM multi-resolution registration.
+      One can also set the parameters in code. */
+  void      SetConfigFileName (const char* f){m_ConfigFileName=f;}
+  
+  const char* GetConfigFileName () {return m_ConfigFileName; }
+  
   ImageSizeType GetImageSize(){ return m_ImageSize; }
 
   /** Set/Get the Metric.  */
   void      SetMetric(MetricBaseTypePointer MP) { m_Metric=MP; }
+  
   /** Choose the metric by parameter : 0= mean squares, 1=cross correlation, 
       2=pattern intensity, 3 = mutual information. */
   void      ChooseMetric( float whichmetric); 
+  
   /** This function allows one to set the element and its material externally. */
   void      SetElement(Element::Pointer e) {m_Element=e;}
 
-  /** This sets the pointer to the material */
+  /** This sets the pointer to the material. */
   void      SetMaterial(MaterialType::Pointer m) {m_Material=m;}
 
   void      PrintVectorField();
 
-  /** constructor */
+  /** de/constructor */
   FEMRegistrationFilter( ); 
   ~FEMRegistrationFilter(); 
 
+protected :
+
+
+  void PrintSelf(std::ostream& os, Indent indent) const 
+  { 
+      std::cout << "FEM registration filter "<< std::endl;
+      Superclass::PrintSelf( os, indent );
+  }
 
 private :
 
