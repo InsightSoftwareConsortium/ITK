@@ -112,11 +112,6 @@ public:
   typedef Image<TPixel, VDimension> Image;
 
   /**
-   * itk::Size typedef support
-   */
-  typedef itk::Size<VDimension> Size;
-
-  /**
    * Region typedef support.
    */
   typedef ImageRegion<VDimension> Region;
@@ -151,7 +146,7 @@ public:
   * dimension to walk a particular image and a particular region of
   * that image.
   */
-  NeighborhoodIterator(const Size &radius,
+  NeighborhoodIterator(const SizeType &radius,
                        Image * ptr,
                        const Region &region
                        )
@@ -403,7 +398,7 @@ protected:
    * method must be defined in each subclass because
    * each subclass may handle loop boundaries differently.
    */
-  virtual void SetBound(const Size &) = 0;
+  virtual void SetBound(const SizeType &) = 0;
 
   /**
    * Default method for setting the values of the internal pointers
