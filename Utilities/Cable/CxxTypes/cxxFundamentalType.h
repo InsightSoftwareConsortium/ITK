@@ -69,6 +69,26 @@ public:
   virtual String GenerateName(const String& indirection,
                               bool isConst, bool isVolatile) const;
 
+  /*@{
+   * Test the id of this FundamentalType.
+   */
+  bool IsUnsignedChar() const     { return (m_Id == UnsignedChar); }
+  bool IsUnsignedShortInt() const { return (m_Id == UnsignedShortInt); }
+  bool IsUnsignedInt() const      { return (m_Id == UnsignedInt); }
+  bool IsUnsignedLongInt() const  { return (m_Id == UnsignedLongInt); }
+  bool IsSignedChar() const       { return (m_Id == SignedChar); }
+  bool IsChar() const             { return (m_Id == Char); }
+  bool IsShortInt() const         { return (m_Id == ShortInt); }
+  bool IsInt() const              { return (m_Id == Int); }
+  bool IsLongInt() const          { return (m_Id == LongInt); }
+  bool IsWChar_t() const          { return (m_Id == WChar_t); }
+  bool IsBool() const             { return (m_Id == Bool); }
+  bool IsFloat() const            { return (m_Id == Float); }
+  bool IsDouble() const           { return (m_Id == Double); }
+  bool IsLongDouble() const       { return (m_Id == LongDouble); }
+  bool IsVoid() const             { return (m_Id == Void); }
+  //@}
+  
 protected:
   FundamentalType(Id);
   FundamentalType(const Self&) {}
