@@ -26,8 +26,8 @@ namespace itk
 {
 
 /** \class EllipseSpatialObject
+ * 
  * \brief 
- *
  */
 
 template < unsigned int NDimensions = 3 , unsigned int PipelineDimension = 3  >
@@ -43,7 +43,9 @@ public:
   typedef SmartPointer < const Self > ConstPointer;
   typedef SpatialObject< NDimensions, AffineTransform< double, NDimensions >, PipelineDimension > Superclass;
   typedef SmartPointer<Superclass> SuperclassPointer;
-  
+  typedef VectorContainer<unsigned long,PointType>    PointContainerType;
+  typedef SmartPointer<PointContainerType>            PointContainerPointer;
+
   typedef FixedArray<double,NDimensions> ArrayType;
   enum{ NumberOfDimension = NDimensions };
 
@@ -60,20 +62,22 @@ public:
 
   /** Returns a degree of membership to the object. 
    *  That's useful for fuzzy objects. */ 
-  virtual void ValueAt( const PointType & point, double & value ) {};
+  virtual void ValueAt( const PointType & point, double & value );
      
   /** return ture if the object provides a method to evaluate the value 
    * at the specified point, else otherwise.*/
-  virtual bool IsEvaluableAt( const PointType & point ){return true;}
+  virtual bool IsEvaluableAt( const PointType & point );
 
   /** Test whether a point is inside or outside the object */ 
-  virtual bool IsInside( const PointType & point ) {return true;}
+  virtual bool IsInside( const PointType & point );
 
  /** provide a method to get the boundaries of 
   *  a specific object. Basically, this function need to be called
   *  every time one of the object component is changed. */ 
-  virtual void ComputeBounds( void )  {}; 
+  virtual void ComputeBounds( void ); 
 
+  /** Return the last modified time of the object, and all of its components*/
+  unsigned long GetMTime( void ) const;
 
 protected:
 
