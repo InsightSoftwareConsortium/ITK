@@ -1,0 +1,54 @@
+@unary_function
+@binary_function
+@plus
+@minus
+@multiplies
+@divides
+@modulus
+@negate
+@equal_to
+@not_equal_to
+@greater
+@less
+@greater_equal
+@less_equal
+@logical_and
+@logical_or
+@logical_not
+@unary_negate
+@not1
+@binary_negate
+@not2
+@binder1st
+@bind1st
+@binder2nd
+@bind2nd
+@pointer_to_unary_function
+@ptr_fun
+@pointer_to_binary_function
+@mem_fun_t
+@mem_fun
+@mem_fun1_t
+@mem_fun1
+@mem_fun_ref_t
+@mem_fun_ref
+@mem_fun1_ref_t
+@mem_fun1_ref
+@const_mem_fun_t
+@const_mem_fun
+@const_mem_fun1_t
+@const_mem_fun1
+@const_mem_fun_ref_t
+@const_mem_fun_ref
+@const_mem_fun1_ref_t
+@const_mem_fun1_ref
+@transform
+//not in the standard:
+// @identity
+// @select1st
+// @select2nd
+// @project1st
+// @project2nd
+// @constant_void_fun
+// @constant_unary_fun
+// @constant_binary_fun

@@ -1,0 +1,9 @@
+@logic_error
+@domain_error
+@invalid_argument
+@length_error
+@out_of_range
+@runtime_error
+@range_error
+@overflow_error
+@underflow_error
