@@ -1,0 +1,7 @@
+#ifndef _itkTclConfigure_h
+#define _itkTclConfigure_h
+
+#undef ITK_BINARY_DIR
+#define ITK_BINARY_DIR "${ITK_BINARY_DIR}"
+
+#endif
