@@ -118,6 +118,7 @@ namespace itk
  * memory efficient, the other algorithm is time efficient. 
  *
  * \sa KdTreeBasedKmeansEstimator, WeightedCentroidKdTreeGenerator, KdTree
+ * \sa ScalarImageKmeansImageFilter
  *
  * \ingroup ClassificationFilters 
  */
