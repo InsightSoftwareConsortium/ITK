@@ -265,7 +265,7 @@ VectorContainer& derivatives )
     for( int j = 0; j < ImageDimension; j++ )
       {
       index[j] = vnl_math_rnd( refVec[j] );
-      if( index[j] < 0 || index[j] >= size[j] )
+      if( index[j] >= size[j] )
         {
         inRange = false;
         break;
