@@ -122,18 +122,23 @@ public:
 
   /** Return true if an observer is registered for this event. */
   bool HasObserver( const EventObject & event ) const;
-  
+
   /**
-   * \author Hans J. Johnson
    * \return A reference to this objects MetaDataDictionary.
+   * \warning This reference may be changed.
    */
   MetaDataDictionary & GetMetaDataDictionary(void);
 
   /**
-   * \author Hans J. Johnson
    * \return A constant reference to this objects MetaDataDictionary.
    */
   const MetaDataDictionary & GetMetaDataDictionary(void) const;
+
+  /**
+   * \return Set the MetaDataDictionary
+   */
+  void SetMetaDataDictionary(const MetaDataDictionary & rhs);
+
 
 protected:
   Object(); 

@@ -139,7 +139,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
   output->SetSpacing( spacing );   // Set the image spacing
   output->SetOrigin( origin );     // Set the image origin
   //Copy MetaDataDictionary from instantiated reader to output image.
-  output->GetMetaDataDictionary()=m_ImageIO->GetMetaDataDictionary();
+  output->SetMetaDataDictionary(m_ImageIO->GetMetaDataDictionary());
 
   typedef typename TOutputImage::IndexType   IndexType;
 

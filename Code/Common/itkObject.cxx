@@ -475,26 +475,37 @@ Object
  */
 bool Object::m_GlobalWarningDisplay = true;
 
-itk::MetaDataDictionary &
+MetaDataDictionary &
 Object
 ::GetMetaDataDictionary(void)
 {
   if(m_MetaDataDictionary==NULL)
   {
-    m_MetaDataDictionary=new itk::MetaDataDictionary;
+    m_MetaDataDictionary=new MetaDataDictionary;
   }
   return *m_MetaDataDictionary;
 }
 
-const itk::MetaDataDictionary &
+const MetaDataDictionary &
 Object
 ::GetMetaDataDictionary(void) const
 {
   if(m_MetaDataDictionary==NULL)
   {
-    m_MetaDataDictionary=new itk::MetaDataDictionary;
+    m_MetaDataDictionary=new MetaDataDictionary;
   }
   return *m_MetaDataDictionary;
+}
+
+void
+Object
+::SetMetaDataDictionary(const MetaDataDictionary & rhs)
+{
+  if(m_MetaDataDictionary==NULL)
+  {
+    m_MetaDataDictionary=new MetaDataDictionary;
+  }
+  *m_MetaDataDictionary=rhs;
 }
 
 } // end namespace itk

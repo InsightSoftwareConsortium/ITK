@@ -181,7 +181,7 @@ ImageFileWriter<TInputImage>
     m_ImageIO->SetOrigin(i,origin[i]);
     }
   m_ImageIO->SetIORegion(m_IORegion);
-        m_ImageIO->GetMetaDataDictionary() = input->GetMetaDataDictionary();
+  m_ImageIO->SetMetaDataDictionary(input->GetMetaDataDictionary());
   // Notify start event observers
   this->InvokeEvent( StartEvent() );
 
