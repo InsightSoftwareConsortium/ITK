@@ -50,8 +50,6 @@ optimizer    = itkRegularStepGradientDescentOptimizer_New()
 interpolator = itkLinearInterpolateImageFunctionF2D_New()
 
 
-print optimizer
-
 registration.SetOptimizer(    optimizer.GetPointer()    )
 registration.SetTransform(    transform.GetPointer()    )
 registration.SetInterpolator( interpolator.GetPointer() )
@@ -91,8 +89,8 @@ registration.StartRegistration()
 finalParameters = registration.GetLastTransformParameters()
 
 print "Final Registration Parameters "
-print "Translation X =  " + finalParameters.GetElement(0)
-print "Translation Y =  " + finalParameters.GetElement(1)
+print "Translation X =  %f" % (finalParameters.GetElement(0),)
+print "Translation Y =  %f" % (finalParameters.GetElement(1),)
 
 
 
@@ -101,8 +99,8 @@ print "Translation Y =  " + finalParameters.GetElement(1)
 # Now, we use the final transform for resampling the
 # moving image.
 #
-resampler = itkResampleImageFilterF2_New()
-resampler.SetTransform( transform    )
+resampler = itkResampleImageFilterF2F2_New()
+resampler.SetTransform( transform.GetPointer()    )
 resampler.SetInput(     movingImage  )
 
 region = fixedImage.GetLargestPossibleRegion()
@@ -113,14 +111,18 @@ resampler.SetOutputSpacing( fixedImage.GetSpacing() )
 resampler.SetOutputOrigin(  fixedImage.GetOrigin()  )
 resampler.SetDefaultPixelValue( 100 )
 
+outputCast = itkRescaleIntensityImageFilterF2US2_New()
+outputCast.SetOutputMinimum(      0  )
+outputCast.SetOutputMaximum(  65535  )
+outputCast.SetInput(resampler.GetOutput())
 
 #
 #  Write the resampled image
 #
-writer = itkImageFileWriterF2_New()
+writer = itkImageFileWriterUS2_New()
 
 writer.SetFileName( argv[3] )
-writer.SetInput( resampler.GetOutput() )
+writer.SetInput( outputCast.GetOutput() )
 writer.Update()
 
 
