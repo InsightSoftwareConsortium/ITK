@@ -118,7 +118,7 @@ public:
   itkTypeMacro(ImageRegionConstIterator, ImageIterator);
 
   /** Default constructor. Needed since we provide a cast constructor. */
-  ImageRegionConstIterator() : ImageIterator<TImage>()
+  ImageRegionConstIterator() : ImageConstIterator<TImage>()
   {
     m_SpanBeginOffset = 0;
     m_SpanEndOffset = 0;
