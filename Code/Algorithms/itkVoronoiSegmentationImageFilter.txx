@@ -120,7 +120,7 @@ VoronoiSegmentationImageFilter <TInputImage,TOutputImage>
   float currp;
 
   unsigned int i,j;
-  unsigned int minx,miny,maxx,maxy;
+  unsigned int minx = 0,miny = 0,maxx = 0,maxy = 0;
   bool status=0;
   for(i=0;i<m_Size[1];i++)
     {
