@@ -118,20 +118,6 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension >
 void
 ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
-::GenerateInputRequestedRegion()
-{
-  // call the superclass implemenation of this method
-  this->Superclass::GenerateInputRequestedRegion();
-
-}
-
-
-/**
- *
- */
-template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension >
-void
-ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 ::EnlargeOutputRequestedRegion( DataObject * output )
 {
 

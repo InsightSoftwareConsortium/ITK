@@ -99,7 +99,6 @@ protected:
   virtual void GenerateDataNarrowBand();
   virtual void AllocateOutput();
 
-  virtual void GenerateInputRequestedRegion();
   virtual void EnlargeOutputRequestedRegion( DataObject * );
 
 private:
