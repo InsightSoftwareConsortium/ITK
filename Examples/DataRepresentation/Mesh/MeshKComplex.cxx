@@ -131,10 +131,10 @@ int main()
   MeshType::PointType   point2;
   MeshType::PointType   point3;
 
-  point0[0] = -1; point0[1] = -1; point0[1] = -1; 
-  point1[0] =  1; point1[1] =  1; point1[1] = -1; 
-  point2[0] =  1; point2[1] = -1; point2[1] =  1; 
-  point3[0] = -1; point3[1] =  1; point3[1] =  1; 
+  point0[0] = -1; point0[1] = -1; point0[2] = -1; 
+  point1[0] =  1; point1[1] =  1; point1[2] = -1; 
+  point2[0] =  1; point2[1] = -1; point2[2] =  1; 
+  point3[0] = -1; point3[1] =  1; point3[2] =  1; 
 
   mesh->SetPoint( 0, point0 );
   mesh->SetPoint( 1, point1 );
@@ -165,9 +165,9 @@ int main()
 
   cellpointer.TakeOwnership( new TetrahedronType );
   cellpointer->SetPointId( 0, 0 );
-  cellpointer->SetPointId( 0, 1 );
-  cellpointer->SetPointId( 0, 2 );
-  cellpointer->SetPointId( 0, 3 );
+  cellpointer->SetPointId( 1, 1 );
+  cellpointer->SetPointId( 2, 2 );
+  cellpointer->SetPointId( 3, 3 );
   mesh->SetCell( 0, cellpointer );
   // Software Guide : EndCodeSnippet
 
@@ -236,7 +236,7 @@ int main()
   cellpointer->SetPointId( 0, 3 );
   cellpointer->SetPointId( 1, 2 );
   cellpointer->SetPointId( 2, 1 );
-  mesh->SetCell( 3, cellpointer );
+  mesh->SetCell( 4, cellpointer );
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -258,42 +258,42 @@ int main()
   cellpointer.TakeOwnership( new LineType );
   cellpointer->SetPointId( 0, 0 );
   cellpointer->SetPointId( 1, 1 );
-  mesh->SetCell( 4, cellpointer );
+  mesh->SetCell( 5, cellpointer );
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginCodeSnippet
   cellpointer.TakeOwnership( new LineType );
   cellpointer->SetPointId( 0, 1 );
   cellpointer->SetPointId( 1, 2 );
-  mesh->SetCell( 5, cellpointer );
+  mesh->SetCell( 6, cellpointer );
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginCodeSnippet
   cellpointer.TakeOwnership( new LineType );
   cellpointer->SetPointId( 0, 2 );
   cellpointer->SetPointId( 1, 0 );
-  mesh->SetCell( 6, cellpointer );
+  mesh->SetCell( 7, cellpointer );
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginCodeSnippet
   cellpointer.TakeOwnership( new LineType );
   cellpointer->SetPointId( 0, 1 );
   cellpointer->SetPointId( 1, 3 );
-  mesh->SetCell( 7, cellpointer );
-  // Software Guide : EndCodeSnippet
-
-  // Software Guide : BeginCodeSnippet
-  cellpointer.TakeOwnership( new LineType );
-  cellpointer->SetPointId( 0, 3 );
-  cellpointer->SetPointId( 1, 2 );
   mesh->SetCell( 8, cellpointer );
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginCodeSnippet
   cellpointer.TakeOwnership( new LineType );
   cellpointer->SetPointId( 0, 3 );
-  cellpointer->SetPointId( 1, 0 );
+  cellpointer->SetPointId( 1, 2 );
   mesh->SetCell( 9, cellpointer );
+  // Software Guide : EndCodeSnippet
+
+  // Software Guide : BeginCodeSnippet
+  cellpointer.TakeOwnership( new LineType );
+  cellpointer->SetPointId( 0, 3 );
+  cellpointer->SetPointId( 1, 0 );
+  mesh->SetCell( 10, cellpointer );
   // Software Guide : EndCodeSnippet
 
 
@@ -307,38 +307,184 @@ int main()
   // Software Guide : BeginCodeSnippet
   cellpointer.TakeOwnership( new VertexType );
   cellpointer->SetPointId( 0, 0 );
-  mesh->SetCell( 10, cellpointer );
+  mesh->SetCell( 11, cellpointer );
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginCodeSnippet
   cellpointer.TakeOwnership( new VertexType );
   cellpointer->SetPointId( 0, 1 );
-  mesh->SetCell( 11, cellpointer );
-  // Software Guide : EndCodeSnippet
-
-
-  // Software Guide : BeginCodeSnippet
-  cellpointer.TakeOwnership( new VertexType );
-  cellpointer->SetPointId( 0, 2 );
   mesh->SetCell( 12, cellpointer );
   // Software Guide : EndCodeSnippet
 
 
   // Software Guide : BeginCodeSnippet
   cellpointer.TakeOwnership( new VertexType );
-  cellpointer->SetPointId( 0, 3 );
+  cellpointer->SetPointId( 0, 2 );
   mesh->SetCell( 13, cellpointer );
   // Software Guide : EndCodeSnippet
 
 
+  // Software Guide : BeginCodeSnippet
+  cellpointer.TakeOwnership( new VertexType );
+  cellpointer->SetPointId( 0, 3 );
+  mesh->SetCell( 14, cellpointer );
+  // Software Guide : EndCodeSnippet
+
+
+
+
+  // Print out the number of points and the nuber of cells.
+  std::cout << "# Points= " << mesh->GetNumberOfPoints() << std::endl;
+  std::cout << "# Cell  = " << mesh->GetNumberOfCells() << std::endl;
+
+
+
+
   //  Software Guide : BeginLatex
-  //  
-  //  At this point the Mesh contains four points and fourteen cells.
+  //
+  //  At this point the Mesh contains four points and fourteen cells.  The
+  //  points can be visited using PointContainer iterators 
+  //
+  // \index{itk::Mesh!PointsContainer}
+  // \index{itk::Mesh!PointsIterators}
+  // \index{itk::Mesh!GetPoints()}
+  // \index{PointsContainer!Begin()}
+  // \index{PointsContainer!End()}
   //
   //  Software Guide : EndLatex 
 
-  std::cout << "# Points= " << mesh->GetNumberOfPoints() << std::endl;
-  std::cout << "# Cell  = " << mesh->GetNumberOfCells() << std::endl;
+  // Software Guide : BeginCodeSnippet
+  typedef MeshType::PointsContainer::ConstIterator  PointIterator;
+
+  PointIterator pointIterator = mesh->GetPoints()->Begin();
+  PointIterator pointEnd      = mesh->GetPoints()->End();
+  
+  while( pointIterator != pointEnd ) 
+    {
+    std::cout << pointIterator.Value() << std::endl;
+    ++pointIterator;
+    }
+
+  // Software Guide : EndCodeSnippet
+
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  The cells can be visited using CellsContainer iterators 
+  //
+  // \index{itk::Mesh!CellsContainer}
+  // \index{itk::Mesh!CellsIterators}
+  // \index{itk::Mesh!GetCells()}
+  // \index{CellsContainer!Begin()}
+  // \index{CellsContainer!End()}
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  typedef MeshType::CellsContainer::ConstIterator  CellIterator;
+
+  CellIterator cellIterator = mesh->GetCells()->Begin();
+  CellIterator cellEnd      = mesh->GetCells()->End();
+  
+  while( cellIterator != cellEnd ) 
+    {
+    CellType * cell = cellIterator.Value();
+    std::cout << cell->GetNumberOfPoints() << std::endl;
+    ++cellIterator;
+    }
+
+  // Software Guide : EndCodeSnippet
+
+
+
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  Note that cells are stored as pointer to a generic cell type that is the
+  //  base class of all the specific cell classes. This means that at this
+  //  level we can only have access to the virtual methods defined in the
+  //  CellType. 
+  //
+  //  The point identifiers to which the cells have been associated can be
+  //  visited using iterators defined in the CellType trait. The following code
+  //  illustrates the use of the PointIdIterators. The \code{PointIdsBegin()}
+  //  method returns the iterator to the first point-identifier in the cell.
+  //  The \code{PointIdsEnd()} method returns the iterator to the past-end
+  //  point-identifier in the cell.
+  //
+  //  \index{CellType::PointIdsBegin()}
+  //  \index{CellType::PointIdsEnd()}
+  //  \index{CellType::PointIdIterator()}
+  //  \index{PointIdIterator}
+  //  \index{PointIdsBegin()}
+  //  \index{PointIdsEnd()}
+  //
+  //  Software Guide : EndLatex 
+
+  cellIterator = mesh->GetCells()->Begin();
+  cellEnd      = mesh->GetCells()->End();
+  
+  while( cellIterator != cellEnd ) 
+    {
+    CellType * cell = cellIterator.Value();
+
+    std::cout << "cell with " << cell->GetNumberOfPoints();
+    std::cout << " points   " << std::endl;
+
+    // Software Guide : BeginCodeSnippet
+    typedef CellType::PointIdIterator     PointIdIterator;
+
+    PointIdIterator pointIditer = cell->PointIdsBegin();
+    PointIdIterator pointIdend  = cell->PointIdsEnd();
+
+    while( pointIditer != pointIdend )
+      {
+      std::cout << *pointIditer << std::endl;
+      ++pointIditer;
+      }
+    // Software Guide : EndCodeSnippet
+
+    ++cellIterator;
+    }
+
+
+
+
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  Note that the point-identifier is obtained from the interator using the
+  //  more traditional \code{*iterator} notation instead the \code{Value()}
+  //  notation used by cell-iterators.
+  //
+  //  Software Guide : EndLatex 
+
+
+
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  Up to here, the topology of the K-Complex is not completely defined since
+  //  we have only introduced the cells. ITK allows the user to define
+  //  explicitly the neigborhood relationships between cells. It is clear that
+  //  a clever exploration of the point identifiers could have allowed a user
+  //  to figure out the neighborhood relationships. For example, two triangle
+  //  cells sharing the same two point identifiers will probably be neighbor
+  //  cells. Some of the drawbacks on this implicit discovery of neigborhood
+  //  relationships is that it takes computing time and that some applications
+  //  may not accept the same assumptions. A specific case is surgery
+  //  simulation. This application typically requires to simulate bistoury cuts
+  //  in the mesh that is modeling an organ. A small cut in the surface may be
+  //  made by specifying that two triangles are not considered to be neighbors
+  //  any more. The rest of this section introduces the concept of neigborhood
+  //  relationships on the \code{itk::Mesh}.
+  //
+  //  Software Guide : EndLatex 
+
 
 
 
