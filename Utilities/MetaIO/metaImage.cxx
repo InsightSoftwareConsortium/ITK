@@ -991,7 +991,7 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
       else
         {
         m_WriteStream->write( (char *)m_CompressedElementData,
-                             (int)m_CompressedDataSize);  
+                             m_CompressedDataSize);  
         delete m_CompressedElementData;
         m_CompressedElementData = NULL;
         }
@@ -1051,7 +1051,7 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
             m_CompressedElementData = this->PerformCompression( &(((unsigned char *)m_ElementData)[(i-1)*sliceNumberOfBytes]),sliceNumberOfBytes);
             // Write the compressed data
             writeStreamTemp->write( (char *)m_CompressedElementData,
-                                  (int)m_CompressedDataSize);  
+                                  m_CompressedDataSize);  
             delete m_CompressedElementData;
             m_CompressedElementData = NULL;
             }
@@ -1084,7 +1084,7 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
         m_CompressedElementData = this->PerformCompression((unsigned char *)m_ElementData,m_Quantity * elementNumberOfBytes);
         m_WriteCompressedDataSize = false;
         writeStreamTemp->write( (char *)m_CompressedElementData,
-                             (int)m_CompressedDataSize); 
+                             m_CompressedDataSize); 
         delete m_CompressedElementData;
         m_CompressedElementData = NULL;
         }     
@@ -1417,8 +1417,8 @@ M_ReadElements(std::ifstream * _fstream, void * _data, int _dataQuantity)
       _fstream->seekg(0, std::ios::beg);
       }
 
-    unsigned char* compr = new unsigned char[(unsigned int)(m_CompressedDataSize)];
-    _fstream->read((char *)compr, (int)m_CompressedDataSize);
+    unsigned char* compr = new unsigned char[m_CompressedDataSize];
+    _fstream->read((char *)compr, m_CompressedDataSize);
     
     z_stream d_stream;
  
@@ -1428,7 +1428,7 @@ M_ReadElements(std::ifstream * _fstream, void * _data, int _dataQuantity)
     
     inflateInit(&d_stream);
     d_stream.next_in  = compr;
-    d_stream.avail_in = (unsigned int)(m_CompressedDataSize);
+    d_stream.avail_in = m_CompressedDataSize;
  
     for (;;) 
       {
