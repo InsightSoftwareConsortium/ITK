@@ -156,7 +156,7 @@ int main(int ac, char* av[] )
 int RegressionTestImage (char *testImageFilename, char *baselineImageFilename)
 {
   // Use the factory mechanism to read the test and baseline files and convert them to double
-  typedef itk::Image<double,10> ImageType;
+  typedef itk::Image<float,10> ImageType;
   typedef itk::Image<unsigned char,10> OutputType;
   typedef itk::Image<unsigned char,2> DiffOutputType;
   typedef itk::ImageFileReader<ImageType> ReaderType;
@@ -166,7 +166,7 @@ int RegressionTestImage (char *testImageFilename, char *baselineImageFilename)
     baselineReader->SetFileName(baselineImageFilename);
   try
     {
-    baselineReader->Update();
+    baselineReader->UpdateLargestPossibleRegion();
     }
   catch (itk::ExceptionObject& e)
     {
@@ -179,7 +179,7 @@ int RegressionTestImage (char *testImageFilename, char *baselineImageFilename)
     testReader->SetFileName(testImageFilename);
   try
     {
-    testReader->Update();
+    testReader->UpdateLargestPossibleRegion();
     }
   catch (itk::ExceptionObject& e)
     {
@@ -217,7 +217,7 @@ int RegressionTestImage (char *testImageFilename, char *baselineImageFilename)
       } 
     ++itBase;
     ++itTest;  
-     }
+    }
 
   // if there are discrepencies, create an diff image
   if (status)
@@ -238,7 +238,7 @@ int RegressionTestImage (char *testImageFilename, char *baselineImageFilename)
       rescale->SetOutputMinimum(itk::NumericTraits<unsigned char>::NonpositiveMin());
       rescale->SetOutputMaximum(itk::NumericTraits<unsigned char>::max());
       rescale->SetInput(diff->GetOutput());
-      rescale->Update();
+      rescale->UpdateLargestPossibleRegion();
 
     RegionType region;
     region.SetIndex(index);
@@ -263,6 +263,7 @@ int RegressionTestImage (char *testImageFilename, char *baselineImageFilename)
 
     ::itk::OStringStream diffName;
       diffName << testImageFilename << ".diff.png";
+    rescale->SetInput(diff->GetOutput());
     writer->SetFileName(diffName.str().c_str());
     writer->Update();
 
@@ -270,9 +271,9 @@ int RegressionTestImage (char *testImageFilename, char *baselineImageFilename)
     std::cout << diffName.str();
     std::cout << "</DartMeasurementFile>" << std::endl;
 
-    rescale->SetInput(baselineReader->GetOutput());
     ::itk::OStringStream baseName;
       baseName << testImageFilename << ".base.png";
+    rescale->SetInput(baselineReader->GetOutput());
     writer->SetFileName(baseName.str().c_str());
     writer->Update();
 
@@ -280,9 +281,9 @@ int RegressionTestImage (char *testImageFilename, char *baselineImageFilename)
     std::cout << baseName.str();
     std::cout << "</DartMeasurementFile>" << std::endl;
 
-    rescale->SetInput(testReader->GetOutput());
     ::itk::OStringStream testName;
       testName << testImageFilename << ".test.png";
+    rescale->SetInput(testReader->GetOutput());
     writer->SetFileName(testName.str().c_str());
     writer->Update();
 
