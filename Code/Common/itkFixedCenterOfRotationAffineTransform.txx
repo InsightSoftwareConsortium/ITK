@@ -30,7 +30,7 @@ namespace itk
 template<class TScalarType, unsigned int NDimensions>
 FixedCenterOfRotationAffineTransform<TScalarType, NDimensions>::
 FixedCenterOfRotationAffineTransform()
-  :Superclass(SpaceDimension,ParametersDimension)
+  :Superclass(Self::SpaceDimension,Self::ParametersDimension)
 {
   m_MatrixComponent.SetIdentity();
   
