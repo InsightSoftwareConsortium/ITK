@@ -305,15 +305,7 @@ protected:
     m_FirstSampleDistance = 0;
     }
   virtual ~PhasedArray3DSpecialCoordinatesImage() {};
-  void PrintSelf(std::ostream& os, Indent indent) const
-    {
-    Superclass::PrintSelf(os,indent);
-    
-    os << indent << "m_RadiusSampleSize = "<<m_RadiusSampleSize<<std::endl;
-    os << indent << "m_AzimuthAngularSeparation = "<<m_AzimuthAngularSeparation<<std::endl;
-    os << indent << "m_ElevationAngularSeparation = "<<m_ElevationAngularSeparation<<std::endl;
-    os << indent << "m_FirstSampleDistance = "<<m_FirstSampleDistance<<std::endl;
-    }
+  void PrintSelf(std::ostream& os, Indent indent) const;
   
 private:
   PhasedArray3DSpecialCoordinatesImage(const Self&); //purposely not implemented
