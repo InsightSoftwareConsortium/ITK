@@ -267,7 +267,7 @@ public:
       }
       std::cout << optimizer->GetCurrentIteration() << "   ";
       std::cout << optimizer->GetValue() << "   ";
-      std::cout << optimizer->GetCurrentPosition();
+      std::cout << optimizer->GetCurrentPosition() << std::endl;
   }
 };
 
