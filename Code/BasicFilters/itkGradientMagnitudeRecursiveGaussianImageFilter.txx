@@ -182,20 +182,25 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage >
 
   m_DerivativeFilter->SetInput( inputImage );
 
-  progress->RegisterInternalFilter(m_DerivativeFilter, 1.0f/(ImageDimension * ImageDimension + 1));
+  const unsigned int numberOfFilterRuns = ImageDimension * ImageDimension;
+  progress->RegisterInternalFilter(m_DerivativeFilter, 1.0f / numberOfFilterRuns );
+
+  for( unsigned int k=0; k < ImageDimension-1; k++ )
+    {
+    progress->RegisterInternalFilter( m_SmoothingFilters[k], 1.0f / numberOfFilterRuns );
+    }
 
   for( unsigned int dim=0; dim < ImageDimension; dim++ )
     {
     unsigned int i=0; 
     unsigned int j=0;
-    while(  i< ImageDimension)
+    while(  i < ImageDimension-1 )
       {
       if( i == dim ) 
         {
         j++;
         }
       m_SmoothingFilters[ i ]->SetDirection( j );
-      progress->RegisterInternalFilter(m_SmoothingFilters[i], 1.0f/(ImageDimension * ImageDimension + 1));
       i++;
       j++;
       }
@@ -205,6 +210,7 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage >
 
     lastFilter->Update();
     
+    progress->ResetFilterProgressAndKeepAccumulatedProgress();
 
     // Cummulate the results on the output image
 
