@@ -72,9 +72,9 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
 ::InitializeIterator()
 {
   // Get the origin and spacing from the image in simple arrays
-  m_ImageOrigin = m_Image->GetOrigin();
+  m_ImageOrigin  = m_Image->GetOrigin();
   m_ImageSpacing = m_Image->GetSpacing();
-  m_ImageSize = m_Image->GetLargestPossibleRegion().GetSize().m_Size;
+  m_ImageRegion  =  m_Image->GetBufferedRegion();
 
   // Build a temporary image of chars for use in the flood algorithm
   {
@@ -194,8 +194,7 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
         else
           {
           tempIndex.m_Index[k] = topIndex[k] + j;
-          if( (tempIndex.m_Index[k] < 0) || 
-              (tempIndex.m_Index[k] >= static_cast<long int>(m_ImageSize[k])) )
+          if( !m_ImageRegion.IsInside( tempIndex ) )
             {
             m_IsValidIndex = false;
             continue;

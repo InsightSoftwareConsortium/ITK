@@ -207,8 +207,14 @@ protected: //made protected so other iterators can access
   /** The spacing of the source image */
   const double* m_ImageSpacing;
 
+  /** Region of the source image */
+  RegionType   m_ImageRegion;
+
   /** Size of the source image */
-  const unsigned long int* m_ImageSize;
+  SizeType     m_ImageSize;
+
+  /** Size of the source image */
+  IndexType    m_ImageStart;
 
   /** Stack used to hold the path of the iterator through the image */
   std::queue<IndexType> m_IndexStack;
