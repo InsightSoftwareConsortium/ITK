@@ -115,6 +115,8 @@ VoronoiSegmentationImageFilter <TInputImage,TOutputImage>
   itk::ImageRegionIteratorWithIndex <BinaryObjectImage> ait(aprior, region);
   itk::ImageRegionConstIteratorWithIndex <InputImageType> iit(this->GetInput(), region);
 
+  m_Size = this->GetInput()->GetRequestedRegion().GetSize();
+
   int num=0;
   float addp=0;
   float addpp=0;
