@@ -98,6 +98,13 @@ public:
     this->AddSeed( seed );
   };
 
+  
+  /** Clear all the seeds. */
+  void ClearSeeds()
+  {
+    m_Seeds.clear();
+  };
+
 
   /** Add seed point. */
   void AddSeed(const IndexType & seed)
