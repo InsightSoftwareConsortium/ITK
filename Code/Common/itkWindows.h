@@ -16,6 +16,7 @@
 // This file is used to create the smallest windows.h possible.
 // Also it removes a few annoying #define's in windows.h
 #ifndef __itkWindows_h
+#define __itkWindows_h
 #define NOMINMAX
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
