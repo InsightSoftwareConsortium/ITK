@@ -140,6 +140,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkSparseFieldLevelSetImageFilter.txx"
 #include "itkSpatialFunctionImageEvaluatorFilter.txx"
 #include "itkSqrtImageFilter.h"
+#include "itkSquaredDifferenceImageFilter.h"
 #include "itkStatisticsImageFilter.txx"
 #include "itkStreamingImageFilter.txx"
 #include "itkSubtractImageFilter.h"
