@@ -93,32 +93,32 @@ protected:
    *
    */
   VectorContainer():
-    VectorType() {}
+    Object(), VectorType() {}
   
   /**
    *
    */
   VectorContainer(size_type n):
-    VectorType(n) {}
+    Object(), VectorType(n) {}
   
   /**
    *
    */
   VectorContainer(size_type n, const Element& x):
-    VectorType(n, x) {}
+    Object(), VectorType(n, x) {}
   
   /**
    *
    */
   VectorContainer(const Self& r):
-    VectorType(r) {}
+    Object(), VectorType(r) {}
   
   /**
    *
    */
   template <typename InputIterator>
   VectorContainer(InputIterator first, InputIterator last):
-    VectorType(first, last) {}
+    Object(), VectorType(first, last) {}
 
 public:
   /**
