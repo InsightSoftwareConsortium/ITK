@@ -50,6 +50,9 @@ TARGET_LINK_LIBRARIES(GibbsPriorImageFilter1 ITKAlgorithms ITKNumerics ITKIO)
 ADD_EXECUTABLE(HoughTransform2DLinesImageFilter HoughTransform2DLinesImageFilter.cxx )
 TARGET_LINK_LIBRARIES(HoughTransform2DLinesImageFilter ITKBasicFilters ITKIO)
 
+ADD_EXECUTABLE(VectorConfidenceConnected VectorConfidenceConnected.cxx )
+TARGET_LINK_LIBRARIES(VectorConfidenceConnected ITKNumerics ITKIO)
+
 SET(SEGMENTATION_EXAMPLES ${CXX_TEST_PATH}/SegmentationExamples)
 SET(SEGMENTATION_EXAMPLES2 ${CXX_TEST_PATH}/SegmentationExamples2)
 
