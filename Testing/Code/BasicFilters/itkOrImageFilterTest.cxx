@@ -22,6 +22,7 @@
 
 
 #include <itkImage.h>
+#include <itkNumericTraits.h>
 #include <itkOrImageFilter.h>
 #include <itkImageRegionIteratorWithIndex.h>
 
@@ -33,9 +34,10 @@ int itkOrImageFilterTest(int, char* [] )
   const unsigned int myDimension = 3;
 
   // Declare the types of the images
-  typedef itk::Image<unsigned char, myDimension>  myImageType1;
-  typedef itk::Image<unsigned char, myDimension>  myImageType2;
-  typedef itk::Image<unsigned char, myDimension>  myImageType3;
+  typedef unsigned char myPixelType;
+  typedef itk::Image<myPixelType, myDimension>  myImageType1;
+  typedef itk::Image<myPixelType, myDimension>  myImageType2;
+  typedef itk::Image<myPixelType, myDimension>  myImageType3;
 
   // Declare the type of the index to access images
   typedef itk::Index<myDimension>         myIndexType;
@@ -103,7 +105,7 @@ int itkOrImageFilterTest(int, char* [] )
   while( !it1.IsAtEnd() ) 
   {
     it1.Set( 2.0 );
-    std::cout << it1.Get() << std::endl;
+    std::cout << static_cast<itk::NumericTraits<myPixelType>::PrintType>(it1.Get()) << std::endl;
     ++it1;
   }
 
@@ -115,7 +117,7 @@ int itkOrImageFilterTest(int, char* [] )
   while( !it2.IsAtEnd() ) 
   {
     it2.Set( 3.0 );
-    std::cout << it2.Get() << std::endl;
+    std::cout << static_cast<itk::NumericTraits<myPixelType>::PrintType>(it2.Get()) << std::endl;
     ++it2;
   }
            
@@ -142,7 +144,7 @@ int itkOrImageFilterTest(int, char* [] )
   std::cout << " Result " << std::endl;
   while( !it3.IsAtEnd() ) 
   {
-    std::cout << it3.Get() << std::endl;
+    std::cout << static_cast<itk::NumericTraits<myPixelType>::PrintType>(it3.Get()) << std::endl;
     ++it3;
   }
 
