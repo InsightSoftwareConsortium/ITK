@@ -51,7 +51,7 @@ public:
   /** Some typedefs. */
   typedef TFunction   FunctorType;
   typedef TInputImage InputImageType;
-  typedef typename    InputImageType::Pointer    InputImagePointer;
+  typedef typename    InputImageType::ConstPointer    InputImagePointer;
   typedef typename    InputImageType::RegionType InputImageRegionType; 
   typedef typename    InputImageType::PixelType  InputImagePixelType; 
   typedef TOutputImage OutputImageType;
@@ -71,7 +71,7 @@ public:
    * This method requires an operator!=() be defined on the functor
    * (or the compiler's default implementation of operator!=() being
    * appropriate). */
-  void SetFunctor(FunctorType& functor)
+  void SetFunctor(const FunctorType& functor)
     {
       if ( m_Functor != functor )
         {

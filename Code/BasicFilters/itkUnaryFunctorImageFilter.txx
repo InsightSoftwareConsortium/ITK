@@ -19,6 +19,7 @@
 
 #include "itkUnaryFunctorImageFilter.h"
 #include <itkImageRegionIterator.h>
+#include <itkImageRegionConstIterator.h>
 
 namespace itk
 {
@@ -46,7 +47,7 @@ UnaryFunctorImageFilter<TInputImage,TOutputImage,TFunction>
   InputImagePointer  inputPtr = this->GetInput();
   OutputImagePointer outputPtr = this->GetOutput(0);
   
-  ImageRegionIterator<TInputImage>  inputIt(inputPtr, outputRegionForThread);
+  ImageRegionConstIterator<TInputImage>  inputIt(inputPtr, outputRegionForThread);
   ImageRegionIterator<TOutputImage> outputIt(outputPtr, outputRegionForThread);
 
   // support progress methods/callbacks
