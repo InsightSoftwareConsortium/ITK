@@ -15,9 +15,9 @@
 #ifndef _itkParzenWindowMutualInformationAffineRegistrator_h
 #define _itkParzenWindowMutualInformationAffineRegistrator_h
 
-#include "itkMutualInformationImageMetricRigidRegistration.h"
+#include "itkMutualInformationImageMetric.h"
 #include "itkAffineMutualInformationImageMetric.h"
-#include "itkParzenWindowAffineMutualInformationImageMetric.h"
+#include "itkParzenWindowAffineMutualInformationMetric.h"
 
 namespace itk
 {
@@ -35,7 +35,7 @@ namespace itk
  * In this optimization scheme any subclass of AffineMutualInformationImageMetric
  * can be used as the mutual information calculator. The calculator can
  * be set using method SetMutualInformationImageMetricCalculator(). The default calculator
- * is of type ParzenWindowAffineMutualInformationImageMetric.
+ * is of type ParzenWindowAffineMutualInformationMetric.
  *
  * This class uses a simple stochastic gradient descent scheme. Steps
  * are taken repeatedly taken that are proportional to the approximate
@@ -66,7 +66,7 @@ namespace itk
  * Future implementation should look at more complex schemes.
  *
  * \sa AffineMutualInformationImageMetric
- * \sa ParzenWindowAffineMutualInformationImageMetric.
+ * \sa ParzenWindowAffineMutualInformationMetric.
  */
 template <
 class TRefImage,
@@ -74,7 +74,7 @@ class TTestImage,
 class TDerivImage
 >
 class ITK_EXPORT ParzenWindowMutualInformationAffineRegistrator :
-  public MutualInformationImageMetricRigidRegistration<TRefImage,TTestImage,TDerivImage>
+  public MutualInformationImageMetric<TRefImage,TTestImage,TDerivImage>
 {
 public:
   /**
@@ -86,7 +86,7 @@ public:
    * Standard "Superclass" typedef
    */
   typedef 
-    MutualInformationImageMetricRigidRegistration<TRefImage,TTestImage,TDerivImage> 
+    MutualInformationImageMetric<TRefImage,TTestImage,TDerivImage> 
       Superclass;
 
   /**
@@ -99,7 +99,7 @@ public:
    * Run-time type information (and related methods).
    */
   itkTypeMacro(ParzenWindowMutualInformationAffineRegistrator, 
-    MutualInformationImageMetricRigidRegistration);
+    MutualInformationImageMetric);
 
   /**
    * Method for creation through the object factory.
@@ -116,7 +116,7 @@ public:
    * DefaultCalculatorType typedef support. Type of the default mutual information
    * calculator.
    */
-  typedef ParzenWindowAffineMutualInformationImageMetric<TRefImage,TTestImage,TDerivImage> 
+  typedef ParzenWindowAffineMutualInformationMetric<TRefImage,TTestImage,TDerivImage> 
     DefaultCalculatorType;
 
   /**

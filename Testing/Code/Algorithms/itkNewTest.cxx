@@ -54,7 +54,7 @@ See COPYRIGHT.txt for copyright details.
 // #include "itkRegistrationMapperProcrustes.h"
 // #include "itkRegistrationTransform.h"
 // #include "itkSimilarityRegistrationMetric.h"
-// #include "itkProcrustesSimilarityRegistrationMetric.h"
+// #include "itkProcrustesRegistrationMetric.h"
 // #include "itkOptimizer.h"
 // #include "itkAmoebaOptimizer.h"
 // #include "itkConjugateGradientOptimizer.h"

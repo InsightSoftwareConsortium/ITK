@@ -123,9 +123,9 @@ protected:
 
 private:
 
-  typedef LevelSetNeighborhoodExtractorExtension<TLevelSet,TAuxValue,VAuxDimension> 
+  typedef LevelSetNeighborhoodExtractor<TLevelSet,TAuxValue,VAuxDimension> 
     LocatorType;
-  typedef FastMarchingImageFilterExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension> 
+  typedef FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension> 
     FastMarchingImageFilterType;
 
   typename LocatorType::Pointer         m_Locator;

@@ -21,7 +21,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkPixelTraits.h"
 
-#include "itkRegionGrowImageFilterKLM.h"
+#include "itkKLMRegionGrowImageFilter.h"
 
 #define   IMGWIDTH            6
 #define   IMGHEIGHT           6
@@ -148,9 +148,9 @@ int main()
   // Set the Region Grow Algorithm classifier/segmentor
   //---------------------------------------------------------------------
 
-  typedef itk::RegionGrowImageFilterKLM<ImageType,ImageType> RegionGrowImageFilterKLMT;
+  typedef itk::KLMRegionGrowImageFilter<ImageType,ImageType> RegionGrowImageFilterKLMT;
 
-  RegionGrowImageFilterKLMT::Pointer applyRegionGrowImageFilterKLM = RegionGrowImageFilterKLMT::New();
+  KLMRegionGrowImageFilterT::Pointer applyRegionGrowImageFilterKLM = KLMRegionGrowImageFilterT::New();
   
   //----------------------------------------------------------------------
   //Set the parameters of the clusterer

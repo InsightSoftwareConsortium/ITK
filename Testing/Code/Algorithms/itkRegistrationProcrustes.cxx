@@ -9,7 +9,7 @@
 #include <itkRegistrationTransform.h>
 #include <itkLBFGSOptimizer.h>
 #include <itkAffineTransform.h>
-#include <itkProcrustesSimilarityRegistrationMetric.h>
+#include <itkProcrustesRegistrationMetric.h>
 
 
 int main()
@@ -28,7 +28,7 @@ int main()
                           Dimension      >       TransformationType;
   
 
-  typedef itk::ProcrustesSimilarityRegistrationMetric< TransformationType,
+  typedef itk::ProcrustesRegistrationMetric< TransformationType,
                                 Dimension >       MetricType;
 
   typedef MetricType::TargetType         TargetType;

@@ -45,7 +45,9 @@ namespace function {
   }; 
 
 }
-
+// Wrap: AddImageFilter<$Image,$Image,$Image,$Function>
+// Wrap: <XML code for Function....>
+// Wrap: AddImageFilter<Image<$BasicPixel,$BasicDimension>,$Image,$Image,$Function>
 template <class TInputImage1, class TInputImage2, class TOutputImage>
 class ITK_EXPORT AddImageFilter :
     public
