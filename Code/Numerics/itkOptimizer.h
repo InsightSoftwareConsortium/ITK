@@ -157,9 +157,18 @@ public:
 
 protected:
 
-  Optimizer() {
-     m_Transform = TransformType::New();
-     };
+  Optimizer() 
+    {
+    m_Transform = TransformType::New();
+
+    for( unsigned int j = 0; j < SpaceDimension; j++ )
+      {
+      m_InitialPosition[j] = 0;
+      m_CurrentPosition[j] = 0;
+      }
+
+    };
+
   virtual ~Optimizer() {};
   Optimizer(const Self&) {}
   void operator=(const Self&) {}
