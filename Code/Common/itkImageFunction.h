@@ -67,6 +67,9 @@ public:
    * OutputType typedef support.
    */
   typedef TOutput OutputType;
+  
+  typedef typename InputImageType::Pointer InputImagePointer;
+  typedef typename InputImageType::ConstPointer InputImageConstPointer;
 
   /**
    * Dimension underlying input image.
@@ -76,7 +79,7 @@ public:
   /**
    * Index typedef support.
    */
-  typedef Index<ImageDimension> IndexType;
+  typedef typename InputImageType::IndexType IndexType;
 
   /**
    * InputPixel typedef support
@@ -97,14 +100,14 @@ public:
   /**
    * Get the input image.
    */
-  typename InputImageType::Pointer GetInputImage() 
+  InputImagePointer GetInputImage() 
     { return m_Image; }
 
   /**
    * Get the input image.
    */
-  typename const InputImageType::Pointer & GetInputImage() const
-    { return m_Image; }
+  InputImageConstPointer GetInputImage() const
+    { return m_Image.GetPointer(); }
 
 
   /**
@@ -143,7 +146,7 @@ protected:
     }
 
   // made protected so subclass can access
-  typename InputImageType::Pointer        m_Image;
+  InputImagePointer m_Image;
 
 };
 
