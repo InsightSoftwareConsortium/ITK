@@ -29,8 +29,8 @@ template< unsigned int TDimension >
 GaussianSpatialObject< TDimension >
 ::GaussianSpatialObject()
 {
-  this->m_TypeName = "GaussianSpatialObject";
-  this->m_Dimension = TDimension;
+  this->SetTypeName("GaussianSpatialObject");
+  this->SetDimension(TDimension);
   m_Radius = 1.0;
   m_Maximum = 1.0;
 } 
@@ -117,8 +117,8 @@ bool
 GaussianSpatialObject< TDimension >
 ::ComputeLocalBoundingBox() const
 { 
-  if( this->m_BoundingBoxChildrenName.empty() 
-        || strstr(typeid(Self).name(), this->m_BoundingBoxChildrenName.c_str()) )
+  if( this->GetBoundingBoxChildrenName().empty() 
+        || strstr(typeid(Self).name(), this->GetBoundingBoxChildrenName().c_str()) )
     {
     PointType pnt;
     PointType pnt2;
@@ -130,8 +130,8 @@ GaussianSpatialObject< TDimension >
     pnt = this->GetIndexToWorldTransform()->TransformPoint(pnt);
     pnt2 = this->GetIndexToWorldTransform()->TransformPoint(pnt2);
          
-    this->m_Bounds->SetMinimum(pnt);
-    this->m_Bounds->SetMaximum(pnt2);
+    const_cast<BoundingBoxType *>(this->GetBounds())->SetMinimum(pnt);
+    const_cast<BoundingBoxType *>(this->GetBounds())->SetMaximum(pnt2);
     }
 
   return true;

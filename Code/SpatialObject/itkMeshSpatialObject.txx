@@ -29,7 +29,7 @@ template <class TMesh>
 MeshSpatialObject< TMesh >
 ::MeshSpatialObject()
 {
-  this->m_TypeName = "MeshSpatialObject";
+  this->SetTypeName("MeshSpatialObject");
   m_Mesh = MeshType::New();
   this->ComputeBoundingBox();
   m_PixelType = typeid(typename TMesh::PixelType).name();
@@ -59,14 +59,14 @@ bool
 MeshSpatialObject< TMesh >
 ::IsInside( const PointType & point) const
 {
-  if(!this->GetIndexToWorldTransform()->GetInverse(this->m_InternalInverseTransform))
+  if(!this->GetIndexToWorldTransform()->GetInverse(const_cast<TransformType *>(this->GetInternalInverseTransform())))
     {
     return false;
     }
 
-  PointType transformedPoint = this->m_InternalInverseTransform->TransformPoint(point);
+  PointType transformedPoint = this->GetInternalInverseTransform()->TransformPoint(point);
 
-  if(this->m_Bounds->IsInside(transformedPoint))
+  if( this->GetBounds()->IsInside(transformedPoint) )
     {     
     typename MeshType::CellsContainerPointer cells =  m_Mesh->GetCells();
     typename MeshType::CellsContainer::ConstIterator it = cells->Begin();
@@ -148,8 +148,8 @@ bool
 MeshSpatialObject< TMesh >
 ::ComputeLocalBoundingBox() const
 {
-  if( this->m_BoundingBoxChildrenName.empty() 
-      || strstr(typeid(Self).name(), this->m_BoundingBoxChildrenName.c_str()) )
+  if( this->GetBoundingBoxChildrenName().empty() 
+      || strstr(typeid(Self).name(), this->GetBoundingBoxChildrenName().c_str()) )
     {
     PointType pnt;
     PointType pnt2;
@@ -163,9 +163,8 @@ MeshSpatialObject< TMesh >
     pnt = this->GetIndexToWorldTransform()->TransformPoint(pnt);
     pnt2 = this->GetIndexToWorldTransform()->TransformPoint(pnt2);
          
-    this->m_Bounds->SetMinimum(pnt);
-    this->m_Bounds->SetMaximum(pnt2);
-
+    const_cast<BoundingBoxType *>(this->GetBounds())->SetMinimum(pnt);
+    const_cast<BoundingBoxType *>(this->GetBounds())->SetMaximum(pnt2);
     }
   return true;
 }

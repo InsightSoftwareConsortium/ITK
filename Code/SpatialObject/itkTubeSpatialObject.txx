@@ -32,12 +32,12 @@ TubeSpatialObject< TDimension >
 ::TubeSpatialObject()  
 { 
   m_ParentPoint = -1;
-  this->m_Dimension = TDimension;
-  this->m_TypeName = "TubeSpatialObject";
-  this->m_Property->SetRed(1); 
-  this->m_Property->SetGreen(0); 
-  this->m_Property->SetBlue(0); 
-  this->m_Property->SetAlpha(1);
+  this->SetDimension(TDimension);
+  this->SetTypeName("TubeSpatialObject");
+  this->GetProperty()->SetRed(1); 
+  this->GetProperty()->SetGreen(0); 
+  this->GetProperty()->SetBlue(0); 
+  this->GetProperty()->SetAlpha(1);
   m_OldMTime = 0;
   m_IndexToWorldTransformMTime = 0;
   m_EndType = 0; // default end-type is flat
@@ -110,7 +110,7 @@ TubeSpatialObject< TDimension >
 ::PrintSelf( std::ostream& os, Indent indent ) const 
 { 
   os << indent << "TubeSpatialObject(" << this << ")" << std::endl; 
-  os << indent << "ID: " << this->m_Id << std::endl; 
+  os << indent << "ID: " << this->GetId() << std::endl; 
   os << indent << "nb of points: "<< static_cast<unsigned long>( m_Points.size() )<< std::endl;
   os << indent << "End Type : " << m_EndType << std::endl;
   os << indent << "Parent Point : " << m_ParentPoint << std::endl; 
@@ -136,8 +136,8 @@ TubeSpatialObject< TDimension >
   m_OldMTime = this->GetMTime();
   m_IndexToWorldTransformMTime = this->GetIndexToWorldTransform()->GetMTime();
    
-  if( this->m_BoundingBoxChildrenName.empty() 
-    || strstr(typeid(Self).name(), this->m_BoundingBoxChildrenName.c_str()) )
+  if( this->GetBoundingBoxChildrenName().empty() 
+    || strstr(typeid(Self).name(), this->GetBoundingBoxChildrenName().c_str()) )
     {
     typename PointListType::const_iterator it  = m_Points.begin();
     typename PointListType::const_iterator end = m_Points.end();
@@ -152,8 +152,8 @@ TubeSpatialObject< TDimension >
       ptMin = this->GetIndexToWorldTransform()->TransformPoint(ptMin);
       PointType ptMax = (*it).GetPosition()+(*it).GetRadius();
       ptMax = this->GetIndexToWorldTransform()->TransformPoint(ptMax);
-      this->m_Bounds->SetMinimum(ptMin);
-      this->m_Bounds->SetMaximum(ptMax);
+      const_cast<BoundingBoxType *>(this->GetBounds())->SetMinimum(ptMin);
+      const_cast<BoundingBoxType *>(this->GetBounds())->SetMaximum(ptMax);
       it++;
       while(it!= end) 
        {
@@ -161,8 +161,8 @@ TubeSpatialObject< TDimension >
         ptMin = this->GetIndexToWorldTransform()->TransformPoint(ptMin);
         PointType ptMax = (*it).GetPosition()+(*it).GetRadius();
         ptMax = this->GetIndexToWorldTransform()->TransformPoint(ptMax);
-        this->m_Bounds->ConsiderPoint(ptMin);
-        this->m_Bounds->ConsiderPoint(ptMax);
+        const_cast<BoundingBoxType *>(this->GetBounds())->ConsiderPoint(ptMin);
+        const_cast<BoundingBoxType *>(this->GetBounds())->ConsiderPoint(ptMax);
         it++;
         }
       }
@@ -185,19 +185,19 @@ TubeSpatialObject< TDimension >
   typename PointListType::const_iterator end = m_Points.end(); 
   typename PointListType::const_iterator min;
   
-  if(!this->GetIndexToWorldTransform()->GetInverse(this->m_InternalInverseTransform))
+  if(!this->GetIndexToWorldTransform()->GetInverse(const_cast<TransformType *>(this->GetInternalInverseTransform())))
     {
     return false;
     }
 
-  PointType transformedPoint = this->m_InternalInverseTransform->TransformPoint(point);
+  PointType transformedPoint = this->GetInternalInverseTransform()->TransformPoint(point);
        
   this->ComputeLocalBoundingBox();
 
   if(m_EndType == 0) // flat end-type
     {
     it2++; // next point
-    if( this->m_Bounds->IsInside(point) )
+    if( this->GetBounds()->IsInside(point) )
       {
       while(it2!= end)
         {
@@ -245,7 +245,7 @@ TubeSpatialObject< TDimension >
     }
   else if(m_EndType == 1) // rounded end-type
     {
-    if( this->m_Bounds->IsInside(point) )
+    if( this->GetBounds()->IsInside(point) )
        {
        while(it!= end)
          {

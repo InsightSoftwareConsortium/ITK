@@ -48,6 +48,7 @@ public:
   typedef typename Superclass::TransformType          TransformType;
   typedef VectorContainer<unsigned long,PointType>    PointContainerType;
   typedef SmartPointer<PointContainerType>            PointContainerPointer;
+  typedef typename Superclass::BoundingBoxType        BoundingBoxType;
 
 
   itkStaticConstMacro(NumberOfDimension, unsigned int,

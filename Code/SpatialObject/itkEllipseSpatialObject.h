@@ -45,6 +45,7 @@ public:
   typedef SmartPointer<Superclass> SuperclassPointer;
   typedef typename Superclass::PointType              PointType;
   typedef typename Superclass::TransformType          TransformType;
+  typedef typename Superclass::BoundingBoxType        BoundingBoxType;
   typedef VectorContainer<unsigned long,PointType>    PointContainerType;
   typedef SmartPointer<PointContainerType>            PointContainerPointer;
 

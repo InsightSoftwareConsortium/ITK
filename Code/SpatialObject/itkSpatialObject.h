@@ -500,7 +500,7 @@ public:
   /** Set/Get the name of the children to consider when computing the
    *  bounding box */
   itkSetMacro(BoundingBoxChildrenName, std::string);
-  itkGetMacro(BoundingBoxChildrenName, std::string);
+  itkGetConstMacro(BoundingBoxChildrenName, std::string);
 
   /** Set the pointer to the parent object in the tree hierarchy
    *  used for the spatial object patter. */
@@ -514,13 +514,6 @@ public:
 
 protected: 
  
-  BoundingBoxPointer  m_Bounds; 
-  mutable unsigned long       m_BoundsMTime;
-
-  TransformPointer    m_ObjectToParentTransform;
-  TransformPointer    m_ObjectToWorldTransform; 
-  TransformPointer    m_IndexToWorldTransform; 
-
   /** Constructor. */ 
   SpatialObject(); 
 
@@ -534,6 +527,20 @@ protected:
    * on the size of the BufferedRegion. This should be called after
    * the BufferedRegion is set. */
   void ComputeOffsetTable();
+
+  itkSetMacro(Dimension,unsigned int);
+  itkGetConstMacro(Dimension,unsigned int)
+  itkSetMacro(TypeName,std::string);
+  itkGetConstObjectMacro(Bounds,BoundingBoxType);
+  itkGetConstObjectMacro(InternalInverseTransform,TransformType);
+
+private:
+  BoundingBoxPointer  m_Bounds; 
+  mutable unsigned long       m_BoundsMTime;
+
+  TransformPointer    m_ObjectToParentTransform;
+  TransformPointer    m_ObjectToWorldTransform; 
+  TransformPointer    m_IndexToWorldTransform; 
 
   /** Type of spatial object */
   std::string m_TypeName;

@@ -31,7 +31,7 @@ template< unsigned int TDimension >
 PointBasedSpatialObject< TDimension > 
 ::PointBasedSpatialObject()  
 { 
-  this->m_TypeName = "PointBasedSpatialObject";
+  this->SetTypeName("PointBasedSpatialObject");
 } 
  
 /** Destructor */

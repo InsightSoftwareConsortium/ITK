@@ -27,9 +27,9 @@ template< unsigned int TDimension >
 EllipseSpatialObject< TDimension >
 ::EllipseSpatialObject()
 {
-  this->m_TypeName = "EllipseSpatialObject";
+  this->SetTypeName("EllipseSpatialObject");
   m_Radius.Fill(1.0);
-  this->m_Dimension = TDimension;
+  this->SetDimension(TDimension);
 } 
 
 /** Destructor */
@@ -60,12 +60,12 @@ bool
 EllipseSpatialObject< TDimension >
 ::IsInside( const PointType & point) const
 {
-  if(!this->GetIndexToWorldTransform()->GetInverse(this->m_InternalInverseTransform))
+  if(!this->GetIndexToWorldTransform()->GetInverse(const_cast<TransformType *>(this->GetInternalInverseTransform())))
     {
     return false;
     }
 
-  PointType transformedPoint = this->m_InternalInverseTransform->TransformPoint(point);  
+  PointType transformedPoint = this->GetInternalInverseTransform()->TransformPoint(point);  
   double r = 0;
   for(unsigned int i=0;i<TDimension;i++)
     {
@@ -123,8 +123,8 @@ EllipseSpatialObject< TDimension >
 { 
   itkDebugMacro( "Computing ellipse bounding box" );
 
-  if( this->m_BoundingBoxChildrenName.empty() 
-      || strstr(typeid(Self).name(), this->m_BoundingBoxChildrenName.c_str()) )
+  if( this->GetBoundingBoxChildrenName().empty() 
+      || strstr(typeid(Self).name(), this->GetBoundingBoxChildrenName().c_str()) )
     {
     PointType pnt;
     PointType pnt2;
@@ -145,8 +145,8 @@ EllipseSpatialObject< TDimension >
       pnt = this->GetIndexToWorldTransform()->TransformPoint(pnt);
       pnt2 = this->GetIndexToWorldTransform()->TransformPoint(pnt2);
          
-      this->m_Bounds->SetMinimum(pnt);
-      this->m_Bounds->SetMaximum(pnt2);
+      const_cast<BoundingBoxType *>(this->GetBounds())->SetMinimum(pnt);
+      const_cast<BoundingBoxType *>(this->GetBounds())->SetMaximum(pnt2);
     }
   return true;
 } 

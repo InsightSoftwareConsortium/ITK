@@ -30,7 +30,7 @@ template< unsigned int TDimension, class PixelType >
 ImageSpatialObject< TDimension,  PixelType >
 ::ImageSpatialObject()
 {
-  this->m_TypeName = "ImageSpatialObject";
+  this->SetTypeName("ImageSpatialObject");
   m_Image = ImageType::New();
   m_SlicePosition = new int[TDimension];
   for(unsigned int i=0;i<TDimension;i++)
@@ -67,14 +67,14 @@ bool
 ImageSpatialObject< TDimension,  PixelType >
 ::IsInside( const PointType & point) const
 {
-  if(!this->GetIndexToWorldTransform()->GetInverse(this->m_InternalInverseTransform))
+  if(!this->GetIndexToWorldTransform()->GetInverse(const_cast<TransformType *>(this->GetInternalInverseTransform())))
     {
     return false;
     }
 
-  PointType p = this->m_InternalInverseTransform->TransformPoint(point);
+  PointType p = this->GetInternalInverseTransform()->TransformPoint(point);
 
-  if(this->m_Bounds->IsInside( p))
+  if( this->GetBounds()->IsInside(p))
     {
     return true;
     }
@@ -161,8 +161,8 @@ bool
 ImageSpatialObject< TDimension,  PixelType >
 ::ComputeLocalBoundingBox() const
 {
-    if( this->m_BoundingBoxChildrenName.empty() 
-        || strstr(typeid(Self).name(), this->m_BoundingBoxChildrenName.c_str()) )
+    if( this->GetBoundingBoxChildrenName().empty() 
+        || strstr(typeid(Self).name(), this->GetBoundingBoxChildrenName().c_str()) )
       {
       typename ImageType::RegionType region =
         m_Image->GetLargestPossibleRegion();
@@ -178,8 +178,8 @@ ImageSpatialObject< TDimension,  PixelType >
       pointLow = this->GetIndexToWorldTransform()->TransformPoint(pointLow);
       pointHigh = this->GetIndexToWorldTransform()->TransformPoint(pointHigh);
 
-      this->m_Bounds->SetMinimum(pointLow);
-      this->m_Bounds->SetMaximum(pointHigh);
+      const_cast<BoundingBoxType *>(this->GetBounds())->SetMinimum(pointLow);
+      const_cast<BoundingBoxType *>(this->GetBounds())->SetMaximum(pointHigh);
 
       return true;
       }

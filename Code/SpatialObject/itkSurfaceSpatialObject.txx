@@ -31,12 +31,12 @@ template< unsigned int TDimension >
 SurfaceSpatialObject< TDimension > 
 ::SurfaceSpatialObject()  
 { 
-  this->m_Dimension = TDimension;
-  this->m_TypeName = "SurfaceSpatialObject";
-  this->m_Property->SetRed(1); 
-  this->m_Property->SetGreen(0); 
-  this->m_Property->SetBlue(0); 
-  this->m_Property->SetAlpha(1); 
+  this->SetDimension(TDimension);
+  this->SetTypeName("SurfaceSpatialObject");
+  this->GetProperty()->SetRed(1); 
+  this->GetProperty()->SetGreen(0); 
+  this->GetProperty()->SetBlue(0); 
+  this->GetProperty()->SetAlpha(1); 
   this->ComputeBoundingBox();
 } 
 
@@ -86,7 +86,7 @@ SurfaceSpatialObject< TDimension >
 ::PrintSelf( std::ostream& os, Indent indent ) const 
 { 
   os << indent << "SurfaceSpatialObject(" << this << ")" << std::endl; 
-  os << indent << "ID: " << this->m_Id << std::endl; 
+  os << indent << "ID: " << this->GetId() << std::endl; 
   os << indent << "nb of points: "<< static_cast<unsigned long>( m_Points.size() )<< std::endl;
   Superclass::PrintSelf( os, indent ); 
 } 
@@ -99,8 +99,8 @@ SurfaceSpatialObject< TDimension >
 { 
   itkDebugMacro( "Computing surface bounding box" );
 
-  if( this->m_BoundingBoxChildrenName.empty() 
-        || strstr(typeid(Self).name(), this->m_BoundingBoxChildrenName.c_str()) )
+  if( this->GetBoundingBoxChildrenName().empty() 
+        || strstr(typeid(Self).name(), this->GetBoundingBoxChildrenName().c_str()) )
     {
     typename PointListType::const_iterator it  = m_Points.begin();
     typename PointListType::const_iterator end = m_Points.end();
@@ -112,13 +112,13 @@ SurfaceSpatialObject< TDimension >
     else
       {
       PointType pt = this->GetIndexToWorldTransform()->TransformPoint((*it).GetPosition());
-      this->m_Bounds->SetMinimum(pt);
-      this->m_Bounds->SetMaximum(pt);
+      const_cast<BoundingBoxType *>(this->GetBounds())->SetMinimum(pt);
+      const_cast<BoundingBoxType *>(this->GetBounds())->SetMaximum(pt);
       it++;
       while(it!= end) 
         {
         PointType pt = this->GetIndexToWorldTransform()->TransformPoint((*it).GetPosition());
-        this->m_Bounds->ConsiderPoint(pt);
+        const_cast<BoundingBoxType *>(this->GetBounds())->ConsiderPoint(pt);
         it++;
         }
       }
@@ -137,14 +137,14 @@ SurfaceSpatialObject< TDimension >
   typename PointListType::const_iterator it = m_Points.begin();
   typename PointListType::const_iterator itEnd = m_Points.end();
     
-  if(!this->GetIndexToWorldTransform()->GetInverse(this->m_InternalInverseTransform))
+  if(!this->GetIndexToWorldTransform()->GetInverse(const_cast<TransformType *>(this->GetInternalInverseTransform())))
     {
     return false;
     }
 
-  PointType transformedPoint = this->m_InternalInverseTransform->TransformPoint(point);
+  PointType transformedPoint = this->GetInternalInverseTransform()->TransformPoint(point);
   
-  if( this->m_Bounds->IsInside(transformedPoint) )
+  if( this->GetBounds()->IsInside(transformedPoint) )
     {
     while(it != itEnd)
       {

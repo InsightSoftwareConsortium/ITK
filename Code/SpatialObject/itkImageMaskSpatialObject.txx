@@ -28,7 +28,7 @@ template< unsigned int TDimension>
 ImageMaskSpatialObject< TDimension>
 ::ImageMaskSpatialObject()
 {
-  this->m_TypeName = "ImageMaskSpatialObject";
+  this->SetTypeName("ImageMaskSpatialObject");
   this->ComputeBoundingBox();
 }
 
@@ -48,20 +48,20 @@ bool
 ImageMaskSpatialObject< TDimension >
 ::IsInside( const PointType & point) const
 {
-  if(this->m_Bounds->IsInside(point))
+  if(this->GetBounds()->IsInside(point))
     {
-    if(!this->GetIndexToWorldTransform()->GetInverse(this->m_InternalInverseTransform))
+    if(!this->GetIndexToWorldTransform()->GetInverse(const_cast<TransformType *>(this->GetInternalInverseTransform())))
       {
       return false;
       }
-    PointType p = this->m_InternalInverseTransform->TransformPoint(point);
+    PointType p = this->GetInternalInverseTransform()->TransformPoint(point);
 
     IndexType index;
     for(unsigned int i=0; i<TDimension; i++)
       {
       index[i] = static_cast<int>( p[i] );
       }
-    bool inside = ( this->m_Image->GetPixel(index) != NumericTraits<PixelType>::Zero );
+    bool inside = ( this->GetImage()->GetPixel(index) != NumericTraits<PixelType>::Zero );
     return inside;
     }
 

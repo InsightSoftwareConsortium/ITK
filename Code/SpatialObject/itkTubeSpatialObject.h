@@ -60,6 +60,7 @@ public:
   typedef SmartPointer<PointContainerType>             PointContainerPointer;
   typedef typename Superclass::VectorType              VectorType;
   typedef typename Superclass::CovariantVectorType     CovariantVectorType;
+  typedef typename Superclass::BoundingBoxType         BoundingBoxType;
 
   /** Method for creation through the object factory. */
   itkNewMacro( Self );

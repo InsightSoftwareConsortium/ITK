@@ -52,6 +52,7 @@ public:
   typedef typename Superclass::SpatialObjectPointType SpatialObjectPointType;
   typedef typename Superclass::PointType              PointType;
   typedef typename Superclass::TransformType          TransformType;
+  typedef typename Superclass::BoundingBoxType        BoundingBoxType;
   typedef VectorContainer<unsigned long,PointType>    PointContainerType;
   typedef SmartPointer<PointContainerType>            PointContainerPointer;
 

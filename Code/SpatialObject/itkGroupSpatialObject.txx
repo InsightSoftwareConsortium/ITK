@@ -31,12 +31,12 @@ template< unsigned int TDimension >
 GroupSpatialObject< TDimension > 
 ::GroupSpatialObject()  
 { 
-  this->m_Dimension = TDimension;
-  this->m_TypeName = "GroupSpatialObject";
-  this->m_Property->SetRed(1); 
-  this->m_Property->SetGreen(0); 
-  this->m_Property->SetBlue(0); 
-  this->m_Property->SetAlpha(1); 
+  this->SetDimension(TDimension);
+  this->SetTypeName("GroupSpatialObject");
+  this->GetProperty()->SetRed(1); 
+  this->GetProperty()->SetGreen(0); 
+  this->GetProperty()->SetBlue(0); 
+  this->GetProperty()->SetAlpha(1); 
   this->ComputeBoundingBox();
 } 
  
