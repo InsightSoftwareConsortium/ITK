@@ -46,8 +46,12 @@ ConnectedThresholdImageFilter<TInputImage, TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);
-  os << indent << "Upper: " << m_Upper << std::endl;
-  os << indent << "Lower: " << m_Lower << std::endl;
+  os << indent << "Upper: "
+     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_Upper)
+     << std::endl;
+  os << indent << "Lower: "
+     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_Lower)
+     << std::endl;
   os << indent << "ReplaceValue: "
      << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ReplaceValue)
      << std::endl;
