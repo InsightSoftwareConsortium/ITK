@@ -33,11 +33,6 @@ NDimensionalSpatialObject<PipelineDimension>
   m_Parent = NULL;
   m_Dimension = 3; // by default
   m_Id = 0;
-
-  for(unsigned int i=0;i<6;i++)
-  {
-    m_Origin[i] = 0; // by default;
-  }
 }
 
 /** Destructor */
@@ -301,49 +296,6 @@ NDimensionalSpatialObject<PipelineDimension>
 ::SetProperty( const PropertyType * property)
 { 
   m_Property = property; 
-}
-
-template <unsigned int PipelineDimension>
-void
-NDimensionalSpatialObject<PipelineDimension>
-::SetOrigin(double* origin)
-{
-  for(unsigned int i=0;i<6;i++)
-  {
-    m_Origin[i]=origin[i];
-  }
-}
-
-
-template <unsigned int PipelineDimension>
-void
-NDimensionalSpatialObject<PipelineDimension>
-::SetOrigin(double x, double y)
-{
-  m_Origin[0]=x;
-  m_Origin[1]=y;
-}
-
-template <unsigned int PipelineDimension>
-void
-NDimensionalSpatialObject<PipelineDimension>
-::SetOrigin(double x, double y, double z)
-{
-  m_Origin[0]=x;
-  m_Origin[1]=y;
-  m_Origin[2]=z;
-}
-
-
-template <unsigned int PipelineDimension>
-void
-NDimensionalSpatialObject<PipelineDimension>
-::SetOrigin(double x, double y, double z, double t)
-{
-  m_Origin[0]=x;
-  m_Origin[1]=y;
-  m_Origin[2]=z;
-  m_Origin[3]=t;
 }
 
 template <unsigned int PipelineDimension>

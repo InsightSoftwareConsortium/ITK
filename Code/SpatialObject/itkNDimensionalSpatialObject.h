@@ -90,6 +90,12 @@ public:
   /** Get the dimension of the SpatialObject */
   unsigned int GetDimension(void) const {return m_Dimension;}
 
+  /** Compute the global transform when the transform has beed modified*/
+  virtual void ComputeGlobalTransform() =0 ;
+
+  /** Compute the transform when the global transform has beed modified*/
+  virtual void ComputeTransform() = 0;
+
   /** Set the region object that defines the size and starting index
    * for the largest possible region this image could represent.  This
    * is used in determining how much memory would be needed to load an
@@ -249,21 +255,14 @@ public:
   /** Returns a list of pointer to the children affiliated to this object. */ 
   NDimensionalChildrenListType & GetNDimensionalChildren( void ) {return m_NDimensionalChildrenList;}
 
-  virtual void SetOrigin(double* origin);
-  virtual void SetOrigin(double x, double y);
-  virtual void SetOrigin(double x, double y, double z);
-  virtual void SetOrigin(double x, double y, double z, double t);
-
-  const double*  GetOrigin(void)const {return m_Origin;}
-
   /** Specify that the object has been updated */
   virtual void Update(void);
 
   /** Return the Modified time of the LocalToGlobalTransform */
-  virtual unsigned long GetLocalToGlobalTransformMTime(void) = 0;
+  virtual unsigned long GetTransformMTime(void) = 0;
 
   /** Return the Modified time of the GlobalToLocalTransform */
-  virtual unsigned long GetGlobalToLocalTransformMTime(void) = 0;
+  virtual unsigned long GetGlobalTransformMTime(void) = 0;
 
 
 protected: 
@@ -302,11 +301,6 @@ protected:
 
   /** Object Identification Number */
   int m_Id;
-
-  /** Set the origin of the object 
-   *  The origin dimension is not related with the object dimensions
-   *  A 2D Object could exist in a 3D space or even 4D */
-  double m_Origin[6];
   
 
 }; 
