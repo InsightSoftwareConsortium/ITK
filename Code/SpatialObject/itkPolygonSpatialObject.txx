@@ -404,8 +404,9 @@ PolygonSpatialObject<TDimension>
     {
     return false;
     }
+
+  points.erase(last);         // stl_vector doesn't erase end of range
   points.erase(first,last);
-  points.erase(last);         // stl_list doesn't erase end of range
   return true;
 }
 
