@@ -1291,7 +1291,7 @@ void VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 
 
 		topIndex = 4096;
-		while((topIndex>0) && (chash[topIndex].size() !=0))
+		while((topIndex>0) && (!chash[topIndex].empty()))
 		{
 			current = chash[topIndex].back();
 			chash[topIndex].pop_back();
@@ -1312,7 +1312,7 @@ void VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 			if(z>0)
 				affp[5] = m_Zaffinity[k-prow*pcol];
 
-			while(chash[topIndex].size() == 0)
+			while((topIndex > 0) && (chash[topIndex].empty()))
 				topIndex--;
 
 			unsigned short pmax,pmin,affn;
@@ -1392,12 +1392,12 @@ void VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 
 
 		topIndex = 4096;
-		while((topIndex>0) && (chash[topIndex].size() !=0))
+		while((topIndex>0) && (!chash[topIndex].empty()))
 		{
 			current = chash[topIndex].front();
 			chash[topIndex].pop_front();
 
-			while(chash[topIndex].size() == 0)
+			while((topIndex > 0) && (chash[topIndex].empty()))		
 				topIndex--;
 
 			int x = current[0];
