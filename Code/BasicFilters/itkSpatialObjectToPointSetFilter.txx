@@ -117,8 +117,8 @@ SpatialObjectToPointSetFilter<TInputSpatialObject,TOutputPointSet>
     numberOfPoints += static_cast<const PointBasedSpatialObjectType*>((*it).GetPointer())->GetNumberOfPoints()/m_SamplingFactor;
     }
   
-  typename OutputPointSetType::PointDataContainer::Pointer pointDataContainer = OutputPointSetType::PointDataContainer::New();
-  outputPointSet->SetPointData( pointDataContainer );
+  typedef typename OutputPointSetType::PointDataContainer DataContainer;
+  outputPointSet->SetPointData( DataContainer::New());
 
   outputPointSet->GetPoints()->Reserve( numberOfPoints );
   outputPointSet->GetPointData()->Reserve( numberOfPoints );
