@@ -30,13 +30,18 @@ namespace itk
  *
  * The Gaussian operator used here was described by Tony Lindeberg (Discrete
  * Scale-Space Theory and the Scale-Space Primal Sketch.  Dissertation. Royal
- * Institute of Technology, Stockholm, Sweden. May 1991.)
+ * Institute of Technology, Stockholm, Sweden. May 1991.) The Gaussian kernel
+ * used here was designed so that smoothing and derivative operations commute
+ * after discretization.
  *
- * As compared to itk::RecursiveGaussianImageFilter, this tends to be
- * faster when the kernel is small.  Another difference is that the
- * variance of the kernel is measured in pixels, but can be set
- * independently in each dimension.  
+ * The variance or standard deviation (sigma) will be evaluated as pixel units
+ * if SetUseImageSpacing is off (false) or as physical units if
+ * SetUseImageSpacing is on (true, default). The variance can be set
+ * independently in each dimension.
  *
+ * When the Gaussian kernel is small, this filter tends to run faster than
+ * itk::RecursiveGaussianImageFilter.
+ * 
  * \sa GaussianOperator
  * \sa Image
  * \sa Neighborhood
@@ -79,10 +84,11 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
   
-  /** The variance, in terms of pixels, for the discrete Gaussian
-   * kernel.  Sets the variance independently for each dimension, but
+  /** The variance for the discrete Gaussian kernel.  Sets the variance
+   * independently for each dimension, but 
    * see also SetVariance(const double v). The default is 0.0 in each
-   * dimension. */
+   * dimension. If UseImageSpacing is true, the units are the physical units
+   * of your image.  If UseImageSpacing is false then the units are pixels.*/
   itkSetVectorMacro(Variance, double, ImageDimension);
   itkSetVectorMacro(Variance, float, ImageDimension);
   itkGetVectorMacro(Variance, const double, ImageDimension);
@@ -132,6 +138,22 @@ public:
     this->SetMaximumError(vArray);
     }
   
+  /** Use the image spacing information in calculations. Use this option if you
+   *  want to specify Gaussian variance in real world units.  Default is
+   *   ImageSpacingOn. */
+  void SetUseImageSpacingOn()
+  { this->SetUseImageSpacing(true); }
+  
+  /** Ignore the image spacing. Use this option if you want to specify Gaussian
+      variance in pixels.  Default is ImageSpacingOn. */
+  void SetUseImageSpacingOff()
+  { this->SetUseImageSpacing(false); }
+  
+  /** Set/Get whether or not the filter will use the spacing of the input
+      image in its calculations */
+  itkSetMacro(UseImageSpacing, bool);
+  itkGetMacro(UseImageSpacing, bool);
+  
   /** DiscreteGaussianImageFilter needs a larger input requested region
    * than the output requested region (larger by the size of the
    * Gaussian kernel).  As such, DiscreteGaussianImageFilter needs to
@@ -150,6 +172,7 @@ protected:
       m_MaximumError[i] = 0.01f;
       m_MaximumKernelWidth = 32;
       }
+    m_UseImageSpacing = true;
     m_FilterDimensionality = ImageDimension;
     }
   virtual ~DiscreteGaussianImageFilter() {}
@@ -181,6 +204,9 @@ private:
 
   /** Number of dimensions to process. Default is all dimensions */
   unsigned int m_FilterDimensionality;
+
+  /** Flag to indicate whether to use image spacing */
+  bool m_UseImageSpacing;
 };
   
 } // end namespace itk

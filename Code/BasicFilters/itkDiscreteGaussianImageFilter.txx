@@ -50,11 +50,25 @@ DiscreteGaussianImageFilter<TInputImage,TOutputImage>
     // Determine the size of the operator in this dimension.  Note that the
     // Gaussian is built as a 1D operator in each of the specified directions.
     oper.SetDirection(i);
-    oper.SetVariance(m_Variance[i]);
+    if (m_UseImageSpacing == true)
+      {
+      if (this->GetInput()->GetSpacing()[i] == 0.0)
+        {
+        itkExceptionMacro(<< "Pixel spacing cannot be zero");
+        }
+      else
+        {
+        oper.SetVariance(m_Variance[i] / this->GetInput()->GetSpacing()[i]);
+        }
+      }
+    else
+      {
+      oper.SetVariance(m_Variance[i]);
+      }
     oper.SetMaximumError(m_MaximumError[i]);
     oper.SetMaximumKernelWidth(m_MaximumKernelWidth);
     oper.CreateDirectional();
-
+    
     radius[i] = oper.GetRadius(i);
     }
 
@@ -120,7 +134,22 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>
     {
     // Set up the operator for this dimension
     oper->SetDirection(i);
-    oper->SetVariance(m_Variance[i]);
+    if (m_UseImageSpacing == true)
+      {
+      if (this->GetInput()->GetSpacing()[i] == 0.0)
+        {
+        itkExceptionMacro(<< "Pixel spacing cannot be zero");
+        }
+      else
+        {
+        oper->SetVariance(m_Variance[i] / this->GetInput()->GetSpacing()[i]);
+        }
+      }
+    else
+      {
+      oper->SetVariance(m_Variance[i]);
+      }
+
     oper->SetMaximumKernelWidth(m_MaximumKernelWidth);
     oper->SetMaximumError(m_MaximumError[i]);
     oper->CreateDirectional();
