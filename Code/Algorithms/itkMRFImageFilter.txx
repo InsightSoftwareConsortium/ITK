@@ -362,7 +362,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   int maxNumPixelError =  
     (int)(m_ErrorTollerance * m_imgWidth * m_imgHeight * m_imgDepth);
 
-  int numIter = 0;
+  unsigned int numIter = 0;
   do
   {
     std::cout << "Iteration No." << numIter << std::endl;
@@ -371,7 +371,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
     MinimizeFunctional();
     numIter += 1;
 
-    for(unsigned int index=0; 
+    for(int index=0; 
         index<( m_imgWidth * m_imgHeight * m_imgDepth ); index++ )
     {
       if(m_LabelStatus[index] == 1) m_ErrorCounter +=1;
