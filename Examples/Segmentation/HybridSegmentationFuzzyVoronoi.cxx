@@ -60,7 +60,7 @@ int main( int argc, char **argv )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef  unsigned short     InputPixelType;
+  typedef  unsigned char     InputPixelType;
   const    unsigned int       Dimension = 2;
   
   typedef itk::Image< InputPixelType, Dimension >  InputImageType;
@@ -134,7 +134,7 @@ int main( int argc, char **argv )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef unsigned short OutputPixelType;
+  typedef unsigned char OutputPixelType;
 
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
   // Software Guide : EndCodeSnippet
@@ -209,11 +209,12 @@ int main( int argc, char **argv )
   //  The parameters of the FuzzySegmentationFilter are defined here. A seed
   //  point is provided in order to initialize the region to be grown.
   //  Estimated values for the mean and variance of the object intensities are
-  //  also provided.
+  //  also provided, a threshold value for generate the binary object is preset.
   //
   //  \index{itk::SimpleFuzzyConnectednessScalarImageFilter!SetObjectsSeed()}
   //  \index{itk::SimpleFuzzyConnectednessScalarImageFilter!SetMean()}
   //  \index{itk::SimpleFuzzyConnectednessScalarImageFilter!SetVariance()}
+  //  \index{itk::SimpleFuzzyConnectednessScalarImageFilter!SetThreshold()}
   //
   //  Software Guide : EndLatex 
 
@@ -221,6 +222,7 @@ int main( int argc, char **argv )
   fuzzysegmenter->SetObjectsSeed( index );
   fuzzysegmenter->SetMean( mean );
   fuzzysegmenter->SetVariance( variance );
+  fuzzysegmenter->SetThreshold(0.5);
   // Software Guide : EndCodeSnippet
 
 
@@ -249,13 +251,33 @@ int main( int argc, char **argv )
   //  \index{itk::VoronoiSegmentationImageFilter!SetInput()}
   //  \index{itk::VoronoiSegmentationImageFilter!TakeAPrior()}
   //
+  //  The tolerence level for testing mean and STD,as well as the "resolution" of segmentation
+  //  need to be set.
+  //
+  //  \index{itk::VoronoiSegmentationImageFilter!SetMeanPercentError()}
+  //  \index{itk::VoronoiSegmentationImageFilter!SetSTDPercentError()}
+  //  \index{itk::VoronoiSegmentationImageFilter!SetMinRegion()}
+  //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
+  voronoisegmenter->SetMeanPercentError(0.2);
+  voronoisegmenter->SetSTDPercentError(2.0);
+  voronoisegmenter->SetMinRegion(5);
   voronoisegmenter->SetInput( reader->GetOutput() );
   voronoisegmenter->TakeAPrior( fuzzysegmenter->GetOutput());
   // Software Guide : EndCodeSnippet
 
+  //  Software Guide : BeginLatex
+  //  
+  //  The execution of the VoronoiSegmentationFilter is triggered with the
+  //  \code{Update()} method.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  voronoisegmenter->Update();
+  // Software Guide : EndCodeSnippet
 
 
 
