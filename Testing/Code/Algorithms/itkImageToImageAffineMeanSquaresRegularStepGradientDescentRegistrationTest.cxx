@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit (ITK)
-  Module:    itkImageToImageAffineMeanSquaresRegistrationTest.cxx
+  Module:    itkImageToImageAffineMeanSquaresRegularStepGradientDescentRegistrationTest.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -19,8 +19,8 @@ See COPYRIGHT.txt for copyright details.
 
 /** 
  *  This test uses two 2D-Gaussians (standard deviation RegionSize/2)
- *  One is shifted by 10 pixels from the other.
- *  therefore the solution of the registration is |-5 0|
+ *  One is shifted by 7,3 pixels from the other.
+ *  therefore the solution of the registration is |-7 -3|
  *  This test uses LevenbergMarquart Optimizer but
  *  conjugate gradient optimizer tolerances are also defined
  *  in the itkImageToImageAffineMeanSquaresRegistration.txx file
@@ -30,6 +30,7 @@ See COPYRIGHT.txt for copyright details.
 
 int main()
 {
+
 
   /*Allocate Images*/
   typedef itk::PhysicalImage<unsigned char,2>           ReferenceType;
