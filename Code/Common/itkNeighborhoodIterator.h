@@ -91,9 +91,9 @@ namespace itk {
 
 template<class TImage,
          class TAllocator =
-            NeighborhoodAllocator<typename ImageTraits<TImage>::InternalPixelType *>,
+            NeighborhoodAllocator<TYPENAME ImageTraits<TImage>::InternalPixelType *>,
          class TDerefAllocator =
-            NeighborhoodAllocator<typename ImageTraits<TImage>::PixelType>
+            NeighborhoodAllocator<TYPENAME ImageTraits<TImage>::PixelType>
         >
 class ITK_EXPORT NeighborhoodIterator
   :  public Neighborhood<typename ImageTraits<TImage>::InternalPixelType *,

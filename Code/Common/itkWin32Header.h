@@ -46,6 +46,12 @@ See COPYRIGHT.txt for copyright details.
 // 'identifier' : class 'type' needs to have dll-interface to be used by
 // clients of class 'type2'
 #pragma warning ( disable : 4251 )
+
+// typename keyword in default template arguments is not accepted by
+// MSVC.  This macro should only be used in such places.
+#define TYPENAME
+#else
+#define TYPENAME typename
 #endif
 
 #if defined(_WIN32) || defined(WIN32)
