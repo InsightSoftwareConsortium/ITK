@@ -106,6 +106,36 @@ protected:
   virtual ~RMSCommand() {}
 };
 
+
+class TSIFTNProgressCommand : public Command
+{
+public:
+  /** Smart pointer declaration methods */
+  typedef TSIFTNProgressCommand Self;
+  typedef Command Superclass;
+  typedef itk::SmartPointer<Self>  Pointer;
+  typedef itk::SmartPointer<const Self>  ConstPointer;
+  itkTypeMacro( TSIFTNProgressCommand, Command );
+  itkNewMacro(Self);
+
+  /** Standard Command virtual methods */
+  void Execute(Object *caller, const EventObject &)
+  {
+    const ProcessObject * process = dynamic_cast<ProcessObject *>(caller);
+    std::cout << "Progress = " << process->GetProgress() << std::endl;
+  }
+  void Execute(const Object *, const EventObject &)
+  {
+    std::cout << "ack" << std::endl;
+
+  }
+
+protected:
+  TSIFTNProgressCommand()  {}
+  virtual ~TSIFTNProgressCommand() {}
+};
+
+
 }
 
 
@@ -148,8 +178,11 @@ int itkThresholdSegmentationLevelSetImageFilterTest(int, char * [] )
             inputImage->SetPixel(idx, val);
           }
 
-  itk::ThresholdSegmentationLevelSetImageFilter< ::TSIFTN::SeedImageType, ::TSIFTN::ImageType>::Pointer
-    filter = itk::ThresholdSegmentationLevelSetImageFilter< ::TSIFTN::SeedImageType, ::TSIFTN::ImageType>::New();
+  typedef itk::ThresholdSegmentationLevelSetImageFilter< 
+                                    ::TSIFTN::SeedImageType, 
+                                    ::TSIFTN::ImageType       > FilterType;
+
+  FilterType::Pointer filter = FilterType::New();
   filter->SetInput(seedImage);
   filter->SetFeatureImage(inputImage);
 
@@ -164,6 +197,10 @@ int itkThresholdSegmentationLevelSetImageFilterTest(int, char * [] )
   
   itk::RMSCommand::Pointer c = itk::RMSCommand::New();
   filter->AddObserver(itk::IterationEvent(), c); 
+
+  itk::TSIFTNProgressCommand::Pointer progress = itk::TSIFTNProgressCommand::New();
+  filter->AddObserver(itk::ProgressEvent(), progress); 
+
   filter->SetIsoSurfaceValue(0.5);  //<--- IMPORTANT!  Default is zero.
   
   try {
