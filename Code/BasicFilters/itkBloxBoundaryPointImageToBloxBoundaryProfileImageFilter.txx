@@ -265,8 +265,7 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 {
   itkDebugMacro(<< "itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter::GenerateData() called");
 
-  // Pinters to the source image, the boundary point image, and the output image
-
+  // Pointers to the source image, the boundary point image, and the output image
   // Get the input and output pointers
   BoundaryPointImagePointer bpPtr
     = dynamic_cast<BoundaryPointImageType*>(ProcessObject::GetInput(0));
@@ -281,8 +280,7 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
   // Create an iterator to walk the boundary point image
   typedef ImageRegionIterator<BoundaryPointImageType> BPIteratorType;
 
-  BPIteratorType bpIt = BPIteratorType(bpPtr,
-                                            bpPtr->GetRequestedRegion() );
+  BPIteratorType bpIt = BPIteratorType(bpPtr, bpPtr->GetRequestedRegion() );
 
   // Count number of iterated boundary points
   unsigned int bpCount = 0;
@@ -314,7 +312,6 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
       FunctionType::Pointer spatialFunc = FunctionType::New();
 
       // Set the origin of the spatial function to the current boundary point location
-
       PositionType spatialFunctionOrigin = (*bpiterator)->GetPhysicalPosition();
       spatialFunc->SetCenter(spatialFunctionOrigin);
 
@@ -355,7 +352,6 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
       IteratorType sfi = IteratorType(sourcePtr, spatialFunc, seedIndex);
 
       // The index of the pixel
-    
       VectorType indexPosition;
 
       for(int i = 0; i < m_NumberOfBins; ++i)
@@ -421,7 +417,7 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
           AddSplatToAccumulatorAndNormalizer(binNumber+2,   binJitter, sourcePixelValue);   
           }
         else
-          std::cerr << "BloxBoundaryProfileImage::FindBoundaryProfilesAtBoundaryPoint - Inappropriate splat method" << std::endl;
+          itkDebugMacro(<< "BloxBoundaryProfileImage::FindBoundaryProfilesAtBoundaryPoint - Inappropriate splat method");
         }
 
         // Normalize the splat accumulator with the normalizer 
@@ -469,7 +465,6 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 
   itkDebugMacro(<< "Finished constructing for boundary profiles\n"
                 << "I made " << m_NumBoundaryProfiles << " boundary profiles\n");
-
 }
 
 template< typename TSourceImage >
