@@ -27,7 +27,7 @@ REGISTER_TEST(itkExtractMeshConnectedRegionsTest );
 REGISTER_TEST(itkFastChamferDistanceImageFilterTest );
 REGISTER_TEST(itkFastMarchingTest );
 REGISTER_TEST(itkFastMarchingExtensionImageFilterTest );
-//REGISTER_TEST(itkFEMRegistrationFilterTest );
+REGISTER_TEST(itkFEMRegistrationFilterTest );
 REGISTER_TEST(itkGeodesicActiveContourLevelSetImageFilterTest );
 REGISTER_TEST(itkGeodesicActiveContourShapePriorLevelSetImageFilterTest );
 REGISTER_TEST(itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2 );
