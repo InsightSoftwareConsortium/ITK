@@ -81,6 +81,7 @@ public:
    * filter.
    */
   void ResetProgress();
+  void ResetFilterProgressAndKeepAccumulatedProgress();
 
 protected:
   ProgressAccumulator();
@@ -120,6 +121,9 @@ private:
 
   /** The total accumulated progress */
   float m_AccumulatedProgress;
+
+  /** The total accumulated progress for multiple runs of the mini-pipeline */
+  float m_BaseAccumulatedProgress;
 
   /** 
    * A list of progress proportions of the different filters in the 

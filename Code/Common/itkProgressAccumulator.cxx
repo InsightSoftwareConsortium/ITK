@@ -83,26 +83,43 @@ ProgressAccumulator
 ::ResetProgress()
 {
   // Reset the accumulated progress
-  m_AccumulatedProgress = 0.0f;
+  m_AccumulatedProgress     = 0.0f;
+  m_BaseAccumulatedProgress = 0.0f;
   
   // Reset each of the individial progress meters 
   FilterRecordVector::iterator it;
   for(it = m_FilterRecord.begin();it!=m_FilterRecord.end();++it)
     {
     it->Progress = 0.0f;
+    it->Filter->SetProgress( 0.0f );
     }
 }
 
 void 
 ProgressAccumulator
+::ResetFilterProgressAndKeepAccumulatedProgress()
+{
+  m_BaseAccumulatedProgress = m_AccumulatedProgress;
+  // Reset each of the individial progress meters 
+  FilterRecordVector::iterator it;
+  for(it = m_FilterRecord.begin();it!=m_FilterRecord.end();++it)
+    {
+    it->Progress = 0.0f;
+    it->Filter->SetProgress( 0.0f );
+    }
+}
+
+
+void 
+ProgressAccumulator
 ::ReportProgress(Object *, const EventObject &event)
 {
-  ProgressEvent pe;
-  ProgressEvent ie;
+  ProgressEvent  pe;
+  IterationEvent ie;
   if( typeid( event ) == typeid( pe ) )
     {
     // Add up the progress from different filters
-    m_AccumulatedProgress = 0.0f;
+    m_AccumulatedProgress = m_BaseAccumulatedProgress;
 
     FilterRecordVector::iterator it;
     for(it = m_FilterRecord.begin();it!=m_FilterRecord.end();++it)
@@ -127,7 +144,8 @@ void ProgressAccumulator
     {
     os << indent << m_MiniPipelineFilter << std::endl;
     }
-  os << indent << m_AccumulatedProgress << std::endl;
+  os << indent << m_AccumulatedProgress     << std::endl;
+  os << indent << m_BaseAccumulatedProgress << std::endl;
 }
 
 } // End namespace itk
