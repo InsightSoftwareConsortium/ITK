@@ -54,8 +54,15 @@ public:
     }
 };
 
-int main()
+int main(int argc, char *argv[])
 {
+  if ( argc < 2 )
+    {
+    itkGenericOutputMacro(<<"Need a file to process");
+    return 1;
+    }
+
+
   // Comment the following if you want to use the itk text output window
   itk::OutputWindow::SetInstance(new TextOutput);
   // Uncomment the following if you want to see each message independently
@@ -64,7 +71,7 @@ int main()
   // Create a source object (in this case a reader)
   itk::RawImageIO<unsigned short>::Pointer io;
   io = itk::RawImageIO<unsigned short>::New();
-  io->SetFilePrefix("d:/vtkdata/fullhead/headsq");
+  io->SetFilePrefix(argv[1]);
   unsigned long extent[6] = {0,255,0,255,50,50};
   io->SetImageExtent(extent);
   float spacing[3] = {0.8, 0.8, 1.5};

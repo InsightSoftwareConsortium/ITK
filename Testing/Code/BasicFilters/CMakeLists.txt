@@ -48,7 +48,6 @@ ADD_TEST(itkNeighborhoodOperatorImageFilterTest itkNeighborhoodOperatorImageFilt
 ADD_TEST(itkDerivativeImageFilterTest itkDerivativeImageFilterTest)
 ADD_TEST(itkDiscreteGaussianImageFilterTest itkDiscreteGaussianImageFilterTest)
 
-
 ADD_EXECUTABLE(itkAsinImageFilterAndAdaptorTest itkAsinImageFilterAndAdaptorTest)
 ADD_EXECUTABLE(itkAcosImageFilterAndAdaptorTest itkAcosImageFilterAndAdaptorTest)
 ADD_EXECUTABLE(itkAtanImageFilterAndAdaptorTest itkAtanImageFilterAndAdaptorTest)
@@ -67,7 +66,6 @@ ADD_EXECUTABLE(itkImageAdaptorPipeLineTest itkImageAdaptorPipeLineTest)
 ADD_EXECUTABLE(itkImportImageTest itkImportImageTest)
 ADD_EXECUTABLE(itkLog10ImageFilterAndAdaptorTest itkLog10ImageFilterAndAdaptorTest)
 ADD_EXECUTABLE(itkLogImageFilterAndAdaptorTest itkLogImageFilterAndAdaptorTest)
-ADD_EXECUTABLE(itkRawImageIOTest itkRawImageIOTest)
 ADD_EXECUTABLE(itkResampleImageTest itkResampleImageTest )
 ADD_EXECUTABLE(itkRecursiveGaussianImageFiltersTest itkRecursiveGaussianImageFiltersTest )
 ADD_EXECUTABLE(itkShrinkImageTest itkShrinkImageTest)
@@ -85,3 +83,14 @@ ADD_EXECUTABLE(itkGradientRecursiveGaussianFilterTest itkGradientRecursiveGaussi
 ADD_EXECUTABLE(itkNeighborhoodOperatorImageFilterTest itkNeighborhoodOperatorImageFilterTest)
 ADD_EXECUTABLE(itkDerivativeImageFilterTest itkDerivativeImageFilterTest)
 ADD_EXECUTABLE(itkDiscreteGaussianImageFilterTest itkDiscreteGaussianImageFilterTest)
+
+
+FIND_PATH(VW_RAW_DATA_PATH
+avfCROP.1023c.raw 
+${ITK_SOURCE_DIR}/../InsightData/VisibleWomanHead/CROPraw)
+
+IF(VW_RAW_DATA_PATH)
+ADD_TEST(itkRawImageIOTest itkRawImageIOTest ${VW_RAW_DATA_PATH}/avfCROP.1023c.raw)
+ADD_EXECUTABLE(itkRawImageIOTest itkRawImageIOTest)
+ENDIF(VW_RAW_DATA_PATH)
+
