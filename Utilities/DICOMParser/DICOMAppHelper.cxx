@@ -467,6 +467,10 @@ void DICOMAppHelper::ImagePositionPatientCallback(DICOMParser *parser,
     
     // insert into the map
     this->SliceOrderingMap.insert(std::pair<std::string, DICOMOrderingElements>(parser->GetFileName(), ord));
+
+    // cache the value
+    memcpy( this->ImagePositionPatient, ord.ImagePositionPatient,
+            3*sizeof(float) );
     }
   else
     {
@@ -475,6 +479,10 @@ void DICOMAppHelper::ImagePositionPatientCallback(DICOMParser *parser,
             &(*it).second.ImagePositionPatient[0],
             &(*it).second.ImagePositionPatient[1],
             &(*it).second.ImagePositionPatient[2] );
+
+    // cache the value
+    memcpy( this->ImagePositionPatient, (*it).second.ImagePositionPatient,
+            3*sizeof(float) );
     }
 }
 

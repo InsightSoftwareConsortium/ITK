@@ -261,6 +261,15 @@ public:
     return this->Dimensions;
     }
 
+  /** Get the (DICOM) x,y,z coordinates of the first pixel in the
+   * image (upper left hand corner) of the last image processed by the
+   * DICOMParser */
+  float *GetImagePositionPatient()
+    {
+      return this->ImagePositionPatient;
+    }
+  
+  
   /** Get the number of bits allocated per pixel of the last image
    *  processed by the DICOMParser */
   int GetBitsAllocated()
@@ -381,6 +390,7 @@ public:
   int Height;
   int SliceNumber; 
   int Dimensions[2];
+  float ImagePositionPatient[3];
 
   // map from series UID to vector of files in the series 
   std::map<std::string, std::vector<std::string>, ltstdstr> SeriesUIDMap;
