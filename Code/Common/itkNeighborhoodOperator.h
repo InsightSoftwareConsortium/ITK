@@ -136,7 +136,7 @@ public:
 protected:
   /** Typedef support  for coefficient vector type.  Necessary
    * to fix bug in the microsoft VC++ compiler. */
-  typedef std::vector<TPixel>  CoefficientVector;
+  typedef std::vector<double>  CoefficientVector;
 
   /** A subclass-specific algorithm that computes the coefficients
    * of the operator. */

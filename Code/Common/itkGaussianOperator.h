@@ -137,7 +137,7 @@ public:
   }
   
 protected:
-  typedef std::vector<TPixel> CoefficientVector;
+  typedef typename Superclass::CoefficientVector CoefficientVector;
 
   /** Returns the value of the modified Bessel function I0(x) at a point x >= 0. */
   double ModifiedBesselI0(double);
