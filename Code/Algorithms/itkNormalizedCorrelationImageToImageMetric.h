@@ -70,6 +70,8 @@ public SimilarityRegistrationMetric< TTarget, TMapper, double,
 {
 public:
   /** Standard class typedefs. */
+  typedef double              MeasureType;
+  typedef CovariantVector<MeasureType,TMapper::SpaceDimension >  DerivativeType;
   typedef NormalizedCorrelationImageToImageMetric  Self;
   typedef SimilarityRegistrationMetric< 
                        TTarget, TMapper,
@@ -86,12 +88,6 @@ public:
   /** Space dimension is the dimension of parameters space. */
   enum { SpaceDimension = TMapper::SpaceDimension };
   enum { RangeDimension = 9};
-
-  /**  Type of the match measure. */
-  typedef double              MeasureType;
- 
-  /**  Type of the derivative of the match measure. */
-  typedef CovariantVector<MeasureType,SpaceDimension >  DerivativeType;
 
   /**  Type of the mapper. */
   typedef TMapper             MapperType;
