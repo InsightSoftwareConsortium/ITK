@@ -21,7 +21,7 @@ namespace itk
 {
 
 /**
- *
+ * Construct with empty file name
  */
 Writer
 ::Writer()
@@ -30,9 +30,6 @@ Writer
 }
 
 
-/**
- *
- */
 Writer
 ::~Writer()
 {
@@ -40,7 +37,7 @@ Writer
 
 
 /**
- *
+ * Actually do the work of writing.
  */
 void 
 Writer
@@ -53,13 +50,16 @@ Writer
     return;
     }
 
-  this->GetInput(0)->Update();
+  // Notify start event observers
   this->InvokeEvent(Command::StartEvent);
 
+  // Actually do something
   this->WriteData();
+  
   // Notify end event observers
   this->InvokeEvent(Command::EndEvent);
 
+  // Release upstream data if requested
   if ( this->GetInput(0)->ShouldIReleaseData() )
     {
     this->GetInput(0)->ReleaseData();
@@ -67,9 +67,6 @@ Writer
 }
 
 
-/**
- *
- */
 void 
 Writer
 ::PrintSelf(std::ostream& os, Indent indent)
@@ -79,6 +76,14 @@ Writer
   os << indent << "File Name: " 
      << (m_FileName.data() ? m_FileName.data() : "(none)") << std::endl;
 
+  if ( m_FileType == Writer::ITK_BINARY )
+    {
+    os << indent << "ITK File Type: BINARY\n";
+    }
+  else
+    {
+    os << indent << "ITK File Type: ASCII\n";
+    }
 }
 
 } // end namespace itk

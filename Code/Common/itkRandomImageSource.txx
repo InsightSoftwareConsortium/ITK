@@ -41,6 +41,10 @@ RandomImageSource<TOutputImage>
     m_Spacing[i] = 1.0;
     m_Origin[i] = 0.0;
     }
+
+  m_Min = NumericTraits<TOutputImage::ScalarValueType>::min();
+  m_Max = NumericTraits<TOutputImage::ScalarValueType>::max();
+
 }
 
 template <class TOutputImage>
@@ -97,22 +101,19 @@ RandomImageSource<TOutputImage>
 ::ThreadedGenerateData(const OutputImageRegion& outputRegionForThread,
                        int threadId )
 {
+  itkDebugMacro(<<"Generating a random image of scalars");
+
   typedef typename TOutputImage::ScalarValueType scalarType;
   typename TOutputImage::Pointer image=this->GetOutput(0);
-
   image->SetBufferedRegion( image->GetRequestedRegion() );
-
-  scalarType min = NumericTraits<scalarType>::min();
-  scalarType max = NumericTraits<scalarType>::max();
 
   ImageScalarRegionIterator<OutputImagePixelType, TOutputImage::ImageDimension>
     scalarIterator(image, outputRegionForThread);
 
-  itkDebugMacro(<<"Generating a random image of scalars");
-
   for ( ; !scalarIterator.IsAtEnd(); ++scalarIterator)
     {
-    *scalarIterator = (scalarType) vnl_sample_uniform((double)min,(double)max);
+    *scalarIterator = (scalarType) vnl_sample_uniform(
+                                   (double)m_Min,(double)m_Max);
     }
 }
 

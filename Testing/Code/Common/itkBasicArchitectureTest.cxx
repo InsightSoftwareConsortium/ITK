@@ -133,6 +133,8 @@ int main()
   //
   itk::RandomImageSource<FloatImage2DType>::Pointer random;
   random = itk::RandomImageSource<FloatImage2DType>::New();
+  random->SetMin(0.0);
+  random->SetMax(1.0);
 
   // Create a filter...shrink the image by an integral amount. We also 
   // add some callbacks to the start, progress, and end filter execution

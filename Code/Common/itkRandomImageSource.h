@@ -93,6 +93,32 @@ public:
    */
   itkGetVectorMacro(Origin,float,TOutputImage::ImageDimension);
   
+  /** 
+   * Set the minimum possible pixel value. By default, it is
+   * NumericTraits<TOutputImage::ScalarValueType>::min().
+   */
+  itkSetClampMacro(Min,TOutputImage::ScalarValueType,
+                   NumericTraits<TOutputImage::ScalarValueType>::min(),
+                   NumericTraits<TOutputImage::ScalarValueType>::max());
+  
+  /** 
+   * Get the minimum possible pixel value.
+   */
+  itkGetMacro(Min,TOutputImage::ScalarValueType);
+
+  /** 
+   * Set the maximum possible pixel value. By default, it is
+   * NumericTraits<TOutputImage::ScalarValueType>::max().
+   */
+  itkSetClampMacro(Max,TOutputImage::ScalarValueType,
+                   NumericTraits<TOutputImage::ScalarValueType>::min(),
+                   NumericTraits<TOutputImage::ScalarValueType>::max());
+  
+  /** 
+   * Get the maximum possible pixel value.
+   */
+  itkGetMacro(Max,TOutputImage::ScalarValueType);
+
 protected:
   RandomImageSource();
   ~RandomImageSource();
@@ -110,6 +136,8 @@ private:
   float         *m_Spacing; //spacing
   float         *m_Origin;  //origin
 
+  TOutputImage::ScalarValueType m_Min; //minimum possible value
+  TOutputImage::ScalarValueType m_Max; //maximum possible value
 };
 
 } // end namespace itk

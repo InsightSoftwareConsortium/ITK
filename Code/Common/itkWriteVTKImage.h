@@ -26,7 +26,8 @@ namespace itk
  * \brief Write an image (dimension 1-3D) in VTK format.
  *
  * WriteVTKImage writes 1-3D images in VTK file format. You can specify
- * binary or ASCII output types.
+ * binary or ASCII output types. The class is limited in the type of
+ * scalars that are supported: all native types with up to four components.
  */
 template <class TInputImage>
 class ITK_EXPORT WriteVTKImage : public WriteImage<TInputImage>
@@ -57,33 +58,6 @@ public:
    */
   itkNewMacro(Self);
   
-  /**
-   * Enums used to specify VTK file types.
-   */
-  typedef  enum {VTK_ASCII,VTK_BINARY} VTKFileType;
-  
-  /** 
-   * Set the VTK file type. The default is VTK_ASCII.
-   */
-  itkSetMacro(FileType,VTKFileType);
-  
-  /** 
-   * Get the VTK file type.
-   */
-  itkGetMacro(FileType,VTKFileType);
-                 
-  /** 
-   * Specify the output file type as ASCII (the default).
-   */
-  void SetFileTypeToASCII() 
-    {this->SetFileType(WriteVTKImage::VTK_ASCII);}
-
-  /** 
-   * Specify the output file type to binary.
-   */
-  void SetFileTypeToBinary() 
-    {this->SetFileType(WriteVTKImage::VTK_BINARY);}
-
 protected:
   WriteVTKImage();
   ~WriteVTKImage() {}
@@ -96,7 +70,6 @@ protected:
 private:
   bool               m_WriteToOutputString;
   std::vector<char>  m_OutputBuffer;
-  VTKFileType        m_FileType;
   
   std::ostream *OpenVTKFile();
   bool WriteVTKHeader(std::ostream *fp);

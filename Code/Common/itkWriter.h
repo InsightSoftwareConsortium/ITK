@@ -18,9 +18,6 @@
 
 #include "itkProcessObject.h"
 
-#define ITK_ASCII 0
-#define ITK_BINARY 1
-
 namespace itk
 {
 
@@ -63,10 +60,36 @@ public:
    */
   itkGetStringMacro(FileName);
   
+  /**
+   * Enums used to specify VTK type: binary or ASCII.
+   */
+  typedef  enum {ITK_ASCII,ITK_BINARY} ITKFileType;
+  
+  /** 
+   * Set the ITK file type. The default is ITK_ASCII.
+   */
+  itkSetMacro(FileType,ITKFileType);
+  
+  /** 
+   * Get the ITK file type.
+   */
+  itkGetMacro(FileType,ITKFileType);
+                 
+  /** 
+   * Specify the output file type as ASCII (the default).
+   */
+  void SetFileTypeToASCII() 
+    {this->SetFileType(Writer::ITK_ASCII);}
+
+  /** 
+   * Specify the output file type to binary.
+   */
+  void SetFileTypeToBinary() 
+    {this->SetFileType(Writer::ITK_BINARY);}
+
   /** 
    * A special version of the Update() method for writers.
-   * It insures the pipeline is up-to-date and invokes the
-   * WriteData() method.
+   * It invokes start and end methods and handles releasing data.
    */
   virtual void Write();
 
@@ -77,13 +100,20 @@ protected:
   void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent);
 
-  // All writers must respond to WriteData().
+  /**
+   * All writers must respond to WriteData(). The WriteData() method
+   * is responsible for updating the pipeline, and may request pieces
+   * of the data (e.g., stream) if necessary to write out the entire 
+   * input dataset.
+   */
   virtual void WriteData() = 0;
 
-  void GenerateData() {this->WriteData();}
+  void GenerateData() 
+    {this->WriteData();}
   
 private:
-  std::string m_FileName;
+  std::string        m_FileName;
+  ITKFileType        m_FileType;
   
 };
 

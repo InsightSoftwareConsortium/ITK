@@ -154,7 +154,6 @@ public:
   { Superclass::SetIndex(ind);
     m_SpanEndOffset = m_Offset + m_Region.GetSize()[0] 
       - (ind[0] - m_Region.GetIndex()[0]); }
-
   
   /**
    * Increment (prefix) the fastest moving dimension of the iterator's index.
@@ -215,9 +214,7 @@ public:
     return *this;
   }
 
-
-  
- protected:
+protected:
   unsigned long m_SpanEndOffset;  // one pixel past the end of the span (row)
        
 };
