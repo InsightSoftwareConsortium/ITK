@@ -176,7 +176,8 @@ ConnectedRegionsMeshFilter<TInputMesh,TOutputMesh>
   
   m_RegionSizes.clear();
   m_Visited.reserve(numCells);
-  for ( int i=0; i < numCells; i++ )
+  unsigned int i;
+  for ( i=0; i < numCells; i++ )
     {
     m_Visited[i] = -1;
     }
@@ -334,7 +335,7 @@ ConnectedRegionsMeshFilter<TInputMesh,TOutputMesh>
   else if ( m_ExtractionMode == SpecifiedRegions )
     {
     std::vector<unsigned long>::iterator i;
-    long regionId;
+    unsigned long regionId;
     bool inReg;
     for (cell=inCells->Begin(); cell != inCells->End(); ++cell, ++cellId)
       {

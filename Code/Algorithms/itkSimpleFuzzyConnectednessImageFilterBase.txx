@@ -88,21 +88,22 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
 {
   IndexType current=center;
     
-  for(int i = 0; i < ImageDimension; i++)
-  {
-  if(current[i] < m_size[i]-1)
-  {
+  for(unsigned int i = 0; i < ImageDimension; i++)
+    {
+    if(current[i] < m_Size[i]-1)
+      {
       current[i]++;
-    m_Queue.push(current);
-    current[i]--;
-    }
+      m_Queue.push(current);
+      current[i]--;
+      }
   
-  if(current[i]>0){
-    current[i]--;
-    m_Queue.push(current);
+    if(current[i]>0)
+      {
+      current[i]--;
+      m_Queue.push(current);
       current[i]++;
+      }
     }
-  }
 }
 
 /**
@@ -131,7 +132,7 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
     }
     current[0]++;
   }
-  if(current[0] < m_size[0]-1)
+  if(current[0] < m_Size[0]-1)
   {
     current[0]++;  
     tmp2 = (double)(m_FuzzyScene->GetPixel(current));
@@ -164,7 +165,7 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
       }
       current[i]++;
   }
-  if(current[i] < m_size[i]-1)
+  if(current[i] < m_Size[i]-1)
   {
     current[i]++;
       tmp2 = (double)(m_FuzzyScene->GetPixel(current));
@@ -224,10 +225,10 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
   m_InputImage = this->GetInput();
   m_SegmentObject = this->GetOutput(); 
 
-  m_size = m_InputImage->GetLargestPossibleRegion().GetSize();
+  m_Size = m_InputImage->GetLargestPossibleRegion().GetSize();
   IndexType index = IndexType::ZeroIndex;
   UShortImage::RegionType region;
-  region.SetSize(m_size);
+  region.SetSize(m_Size);
   region.SetIndex(index);
   m_FuzzyScene = UShortImage::New();  
   m_FuzzyScene->SetLargestPossibleRegion( region );
@@ -244,7 +245,7 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
     }
 
   RegionType region1;
-  region1.SetSize(m_size);
+  region1.SetSize(m_Size);
   region1.SetIndex(index);
   m_SegmentObject->SetLargestPossibleRegion( region1 );
   m_SegmentObject->SetBufferedRegion( region1 );

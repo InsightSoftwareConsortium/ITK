@@ -95,8 +95,8 @@ public:
 
   /** All these parameter setting function are public temporarily to make the
    * test easier */
-  itkSetMacro(ResolutionX, int);
-  itkSetMacro(ResolutionY, int);
+  itkSetMacro(ResolutionX, unsigned int);
+  itkSetMacro(ResolutionY, unsigned int);
 
   itkSetMacro(Center, OPointType);
   itkSetMacro(Scale,  OPointType);
@@ -114,9 +114,8 @@ protected:
   OPointType m_Center; 
 
   /** model resolutions */
-  int m_ResolutionX;
-
-  int m_ResolutionY;
+  unsigned int m_ResolutionX;
+  unsigned int m_ResolutionY;
 
   /** model scales */
   OPointType m_Scale;

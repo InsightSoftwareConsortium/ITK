@@ -1421,7 +1421,8 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 #endif
 
   //Rearranged list of the borders
-  bool smartPointerUseFlag = true;
+  //
+  //  bool smartPointerUseFlag = true;
   //PrintAlgorithmBorderStats(smartPointerUseFlag);
 
 }
@@ -1995,8 +1996,6 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   unsigned int nColSquareBlocks = m_imgHeight/( this->GetColGridSize() ); 
 
   unsigned int numBlocks = nRowSquareBlocks * nColSquareBlocks;
-  int rowGridSize        = this->GetRowGridSize();
-  int colGridSize        = this->GetColGridSize();
 
   // Scan through the region labels to establish the correspondence
   // between the final region( and label ) and the initial regions.

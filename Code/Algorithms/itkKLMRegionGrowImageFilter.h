@@ -339,24 +339,24 @@ private:
     KLMSegmentationBorderPtr;
 
   unsigned int     m_MaxLambda;
+  unsigned int     m_nBorders;
+  unsigned int     m_NumRegions;
+  unsigned int     m_InitRegionArea;
+  SegmentationBorderPtr *m_pBordersCandidateDynPtr;
+  SegmentationBorder<TInputImage,TOutputImage> *m_pBorderCandidate;
   unsigned int     m_imgWidth;
   unsigned int     m_imgHeight;
   unsigned int     m_imgDepth;
 
-  unsigned int     m_nBorders;
   unsigned int     m_TotalBorderLength;
   double           m_RegionLambda;
-  unsigned int     m_NumRegions;
 
   VecDblType       m_InitRegionMean;
-  unsigned int     m_InitRegionArea;
 
 
   std::vector< KLMSegmentationRegionPtr >      m_pRegions;
   std::vector< KLMSegmentationBorderPtr >      m_pBorders;
   std::vector< SegmentationBorderPtr >         m_pBordersDynPtrs;
-  SegmentationBorderPtr                        *m_pBordersCandidateDynPtr;
-  SegmentationBorder<TInputImage,TOutputImage> *m_pBorderCandidate;
 
   /** Function responsible for merging two regions using energy-based 
    * regions growing criteria until the desired number of regions has been

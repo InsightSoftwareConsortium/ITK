@@ -140,7 +140,7 @@ protected:
   double m_Weight;
   double m_Threshold;
   IndexType m_Seed;
-  SizeType m_size;
+  SizeType m_Size;
 
   typename InputImageType::Pointer m_InputImage;
   typename UShortImage::Pointer m_FuzzyScene;

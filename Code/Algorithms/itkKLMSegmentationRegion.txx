@@ -187,7 +187,7 @@ KLMSegmentationRegion<TInputImage,TOutputImage>
     {  
 
     // Iterator set to the first element of the region border element
-    RegionBorderVecType::iterator RegionBorderVecIt = m_RegionBorderVec.begin();
+    m_RegionBorderVec.begin();
     m_RegionBorderVec.push_back( pnewRegionBorder );
 
     }//end else
@@ -288,9 +288,6 @@ KLMSegmentationRegion<TInputImage,TOutputImage>
     {
     while( ( regionBorderVecIt + index ) != regionBorderVecItEnd )
       {
-
-      int tmp1 = pBorderCandidate->GetRegion1()->GetRegionLabel();
-      int tmp2 = (* ( regionBorderVecIt + index ))->GetRegion1()->GetRegionLabel(); 
 
       //The region border should be inserted
       if( ( pBorderCandidate->GetRegion1()->GetRegionLabel() <
