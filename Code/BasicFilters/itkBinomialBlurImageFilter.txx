@@ -156,7 +156,8 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
         // determine the index of the output pixel
         index = tempIt.GetIndex();
 
-        if (index[dim] < (startIndex[dim] + size[dim] - 1))
+        if ( index[dim] < 
+           ( startIndex[dim] + static_cast<long>(size[dim]) - 1))
           {
           // Figure out the location of the "neighbor" pixel
           for (unsigned int i = 0; i < NDimensions; i++)
