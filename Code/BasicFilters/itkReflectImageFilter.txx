@@ -55,6 +55,7 @@ ReflectImageFilter<TInputImage,TOutputImage >
 ::ReflectImageFilter()
 {
   this->SetNumberOfRequiredInputs( 1 );
+  m_Direction = 0;
 }
 
 
