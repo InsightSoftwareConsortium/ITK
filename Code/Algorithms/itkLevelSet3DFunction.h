@@ -118,6 +118,12 @@ protected:
    * values that are needed in calculating the time step. */
   struct GlobalDataStruct
   {
+    GlobalDataStruct()
+    {
+      m_MaxPropagationChange = NumericTraits<ScalarValueType>::Zero;
+      m_MaxAdvectionChange = NumericTraits<ScalarValueType>::Zero;
+    }
+    ~GlobalDataStruct() {}
     ScalarValueType m_MaxAdvectionChange;
     ScalarValueType m_MaxPropagationChange;
   };

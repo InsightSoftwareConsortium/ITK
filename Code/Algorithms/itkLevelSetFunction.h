@@ -115,7 +115,9 @@ public:
     { m_EpsilonMagnitude = e; }
   ScalarValueType GetEpsilonMagnitude() const
     { return m_EpsilonMagnitude; }
-      
+
+  virtual void Initialize(const RadiusType &r) =0;
+
 protected:
   LevelSetFunction()
     {

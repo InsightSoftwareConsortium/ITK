@@ -37,7 +37,7 @@ LevelSet2DFunction<TImageType>
   GlobalDataStruct *d = (GlobalDataStruct *)GlobalData;
   d->m_MaxAdvectionChange += d->m_MaxPropagationChange;
   
-  if (m_CurvatureWeight > 0.0)
+  if (vnl_math_abs(m_CurvatureWeight) > 0.0)
     {
     if (d->m_MaxAdvectionChange > 0.0)
       {

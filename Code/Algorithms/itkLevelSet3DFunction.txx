@@ -60,8 +60,8 @@ LevelSet3DFunction<TImageType>
   
   GlobalDataStruct *d = (GlobalDataStruct *)GlobalData;
   d->m_MaxAdvectionChange += d->m_MaxPropagationChange;
-  
-  if (m_CurvatureWeight > 0.0)
+
+  if (vnl_math_abs(m_CurvatureWeight) > 0.0)
     {
     if (d->m_MaxAdvectionChange > 0.0)
       {
@@ -84,7 +84,7 @@ LevelSet3DFunction<TImageType>
       dt = 0.0;
       }
     }
-  
+
   return dt;
 }
  
@@ -329,8 +329,6 @@ LevelSet3DFunction< TImageType >
     }
   else propagation_term = ZERO;
 
-  //  cout<<it.GetIndex()<<" "<<curvature_term<<" "<<curvature_term - propagation_term - advection_term<<endl;
-  
   //
   // Return the combination of all the terms.
   
