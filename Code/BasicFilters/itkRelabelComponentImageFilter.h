@@ -125,9 +125,40 @@ public:
    * executed. Size of the background is not calculated.  Size of
    * object #1 is GetSizeOfObjectsInPhysicalUnits()[0]. Size of object
    * #2 is GetSizeOfObjectsInPhysicalUnits()[1]. Etc. */
-  const std::vector<unsigned long>& GetSizeOfObjectsInPhysicalUnits() const
+  const std::vector<float>& GetSizeOfObjectsInPhysicalUnits() const
     { return m_SizeOfObjectsInPhysicalUnits; }
 
+  /** Get the size of a particular object in pixels. This information is only
+   * valid after the filter has executed.  Size of the background
+   * (object #0) is not calculated.  */
+  unsigned long GetSizeOfObjectInPixels(unsigned long obj) const
+    {
+      if (obj > 0 && obj <= m_NumberOfObjects)
+        {
+        return m_SizeOfObjectsInPixels[obj];
+        }
+      else
+        {
+        return 0;
+        }
+    }
+
+  /** Get the size of a particular object in physical space (in units of pixel
+   * size). This information is only valid after the filter has
+   * executed. Size of the background (object #0) is not calculated.  */
+  float GetSizeOfObjectInPhysicalUnits(unsigned long obj) const
+    { 
+      if (obj > 0 && obj <= m_NumberOfObjects)
+        {
+        return m_SizeOfObjectsInPhysicalUnits[obj];
+        }
+      else
+        {
+        return 0;
+        }
+    }  
+
+  
 protected:
   RelabelComponentImageFilter()
     : m_NumberOfObjects(0)
