@@ -560,8 +560,12 @@ proc GetCMakeVariable { Variable } \
   {
     if { [string first $Variable $Line] != -1 } \
     {
-      set i [expr [string first "=" $Line] + 1]
-      return [string trim [string range $Line $i end]]
+      
+      set i [expr [string first "(" $Line] + 1]
+      
+      set l [string trim [string range $Line $i end]]
+      set l [string trim $l "()"]
+      return $l
     }
   }
   return ""
