@@ -36,6 +36,7 @@ itkArchetypeSeriesFileNamesTest.cxx
 itkStimulateImageIOTest.cxx
 itkStimulateImageIOTest2.cxx
 itkTIFFImageIOTest.cxx
+itkTransformIOTest.cxx
 itkVTKImageIOTest.cxx
 testMetaGroup.cxx
 testMetaUtils.cxx
@@ -72,6 +73,7 @@ ADD_TEST(itkNrrdImageIOTest1 ${IO_TESTS} itkNrrdImageIOTest ${ITK_TEST_OUTPUT_DI
 ADD_TEST(itkNrrdImageIOTest2 ${IO_TESTS} itkNrrdImageIOTest ${ITK_TEST_OUTPUT_DIR}/testNrrd.nhdr)
 ADD_TEST(itkReadWriteSpatialObjectTest ${IO_TESTS} itkReadWriteSpatialObjectTest)
 ADD_TEST(itkMeshSpatialObjectIOTest ${IO_TESTS} itkMeshSpatialObjectIOTest)
+ADD_TEST(itkTransformIOTest ${IO_TESTS} itkTransformIOTest)
 
 ADD_TEST(itkVTKImageIOTest ${IO_TESTS} itkVTKImageIOTest
                            ${TEMP}/test1.vtk ${TEMP}/test2.vtk)

@@ -72,5 +72,6 @@ void RegisterTests()
   REGISTER_TEST(itkBrains2MaskTest);
   REGISTER_TEST(itkGEImageIOFactoryTest);
   REGISTER_TEST(itkTIFFImageIOTest);
+  REGISTER_TEST(itkTransformIOTest);
   REGISTER_TEST(itkImageFileWriterTest);
 }
