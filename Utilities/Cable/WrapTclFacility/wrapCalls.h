@@ -106,8 +106,8 @@ struct Return
  * A specialization for a method with no return type.
  */
 template <>
-struct _wrap_EXPORT Return<void>
-{ static void From(const WrapperBase* wrapper); };
+struct Return<void>
+{ static _wrap_EXPORT void From(const WrapperBase* wrapper); };
 
 
 /*@{
@@ -115,40 +115,40 @@ struct _wrap_EXPORT Return<void>
  * predefined Tcl object type.
  */
 template <>
-struct _wrap_EXPORT Return<bool>
-{ static void From(bool result, const WrapperBase* wrapper); };
+struct Return<bool>
+{ static _wrap_EXPORT void From(bool result, const WrapperBase* wrapper); };
 
 template <>
-struct _wrap_EXPORT  Return<short>
-{ static void From(short result, const WrapperBase* wrapper); };
+struct  Return<short>
+{ static _wrap_EXPORT void From(short result, const WrapperBase* wrapper); };
 
 template <>
-struct _wrap_EXPORT  Return<unsigned short>
-{ static void From(unsigned short result, const WrapperBase* wrapper); };
+struct  Return<unsigned short>
+{ static _wrap_EXPORT void From(unsigned short result, const WrapperBase* wrapper); };
 
 template <>
-struct _wrap_EXPORT  Return<int>
-{ static void From(int result, const WrapperBase* wrapper); };
+struct  Return<int>
+{ static _wrap_EXPORT void From(int result, const WrapperBase* wrapper); };
 
 template <>
-struct _wrap_EXPORT  Return<unsigned int>
-{ static void From(unsigned int result, const WrapperBase* wrapper); };
+struct  Return<unsigned int>
+{ static _wrap_EXPORT void From(unsigned int result, const WrapperBase* wrapper); };
 
 template <>
-struct _wrap_EXPORT  Return<long>
-{ static void From(long result, const WrapperBase* wrapper); };
+struct  Return<long>
+{ static _wrap_EXPORT void From(long result, const WrapperBase* wrapper); };
 
 template <>
-struct _wrap_EXPORT Return<unsigned long>
-{ static void From(unsigned long result, const WrapperBase* wrapper); };
+struct Return<unsigned long>
+{ static _wrap_EXPORT void From(unsigned long result, const WrapperBase* wrapper); };
 
 template <>
-struct _wrap_EXPORT  Return<float>
-{ static void From(float result, const WrapperBase* wrapper); };
+struct  Return<float>
+{ static _wrap_EXPORT void From(float result, const WrapperBase* wrapper); };
 
 template <>
-struct _wrap_EXPORT  Return<double>
-{ static void From(double result, const WrapperBase* wrapper); };
+struct  Return<double>
+{ static _wrap_EXPORT void From(double result, const WrapperBase* wrapper); };
 //@}
   
   
@@ -182,8 +182,8 @@ struct ReturnPointerTo
  * object.
  */
 template <>
-struct _wrap_EXPORT ReturnPointerTo<char>
-{ static void From(char* result, const WrapperBase* wrapper); };
+struct ReturnPointerTo<char>
+{ static _wrap_EXPORT void From(char* result, const WrapperBase* wrapper); };
 
 
 /**
@@ -191,8 +191,8 @@ struct _wrap_EXPORT ReturnPointerTo<char>
  * Tcl String object.
  */
 template <>
-struct _wrap_EXPORT ReturnPointerTo<const char>
-{ static void From(const char* result, const WrapperBase* wrapper); };
+struct ReturnPointerTo<const char>
+{ static _wrap_EXPORT void From(const char* result, const WrapperBase* wrapper); };
 
 
 /**

@@ -51,7 +51,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * differences between UNIX and Win32 platforms that are addressed here.
  */
 #if defined(_WIN32) || defined(WIN32) /* Win32 version */
-#  ifdef _wrap_SHARED
+#  ifndef _wrap_STATIC
 #    ifdef WrapTclFacility_EXPORTS
 #      define _wrap_EXPORT __declspec(dllexport)
 #    else

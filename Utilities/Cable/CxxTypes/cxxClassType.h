@@ -65,7 +65,7 @@ typedef std::set<const ClassType*> ClassTypeSet;
  * class, struct, union, template full specialization, or template
  * instantiation.
  */
-class ClassType: public Type
+class _cxx_EXPORT ClassType: public Type
 {
 public:
   typedef ClassType Self;

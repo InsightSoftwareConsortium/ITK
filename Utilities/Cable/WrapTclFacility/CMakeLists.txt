@@ -38,6 +38,3 @@ ADD_EXECUTABLE(wrapTclShell wrapTclShell)
 
 TARGET_LINK_LIBRARIES(wrapTclShell WrapTclFacility)
 
-IF (WIN32)
-  ADD_DEFINITIONS(-D_wrap_SHARED -D_cxx_SHARED)
-ENDIF (WIN32)

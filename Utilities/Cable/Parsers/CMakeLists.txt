@@ -5,3 +5,6 @@ cableSourceParser
 cableSourceRepresentation
 cableXmlAttributes
 )
+
+ADD_DEFINITIONS(-D_cxx_STATIC)
+

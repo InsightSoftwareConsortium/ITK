@@ -7,3 +7,6 @@ genGeneratorBase
 genTclGenerator
 genCvTypeGenerator
 )
+
+ADD_DEFINITIONS(-D_cxx_STATIC)
+

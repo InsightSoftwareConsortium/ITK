@@ -18,3 +18,5 @@ CableGenerators
 )
 
 ADD_EXECUTABLE(cable cable)
+ADD_DEFINITIONS(-D_cxx_STATIC)
+
