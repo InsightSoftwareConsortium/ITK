@@ -157,9 +157,9 @@ int main()
   const unsigned int numberOfPoints = 10;
   for(unsigned int id=0; id<numberOfPoints; id++) 
     {
-    point[0];   // Initialize points here
-    point[1];
-    point[2];
+    point[0] = 1.565;   // Initialize points here
+    point[1] = 3.647;   // with arbitrary values
+    point[2] = 4.129;
     mesh->SetPoint( id, point );
     }
   // Software Guide : EndCodeSnippet
@@ -170,7 +170,9 @@ int main()
   //  A set of line cells is created and associated with the existing points by
   //  using point identifiers. In this simple case, the point identifiers can
   //  be deduced from cell identifiers since the line cells are ordered in the
-  //  same way.
+  //  same way. Note that in the code above, the values assigned to point
+  //  components are arbitrary. In a more realistic example, those values would
+  //  be computed from another source.
   //
   //  \index{itk::AutoPointer!TakeOwnership()}
   //  \index{CellAutoPointer!TakeOwnership()}
