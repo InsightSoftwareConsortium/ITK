@@ -74,9 +74,10 @@ public:
     std::cout << x << " ";
     std::cout << y << ") = ";
 
-    double val = 0.5*(3*x*x+4*x*y+6*y*y) - 2*x + 8*y;
+    m_Measure = 0.5*(3*x*x+4*x*y+6*y*y) - 2*x + 8*y;
 
-    std::cout << val << std::endl; 
+    std::cout << m_Measure << std::endl; 
+
     return m_Measure;
 
   }
@@ -101,6 +102,13 @@ public:
 
     return m_Derivative;
   }
+ 
+  void GetValueAndDerivative( const ParametersType & parameters,
+    MeasureType& value, DerivativeType& deriv ) const
+  {
+    value = this->GetValue( parameters );
+    deriv = this->GetDerivative( parameters );
+  }
 
 private:
 
@@ -114,14 +122,13 @@ private:
 
 int main() 
 {
-  std::cout << "Conjugate Gradient Optimizer Test ";
+  std::cout << "Gradient Descent Optimizer Test ";
   std::cout << std::endl << std::endl;
 
   typedef  itk::GradientDescentOptimizer< 
                                 CostFunction >  OptimizerType;
 
-  
-  
+    
   // Declaration of a itkOptimizer
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
 
@@ -146,10 +153,8 @@ int main()
 
   itkOptimizer->SetMinimize();
   itkOptimizer->SetScale( parametersScale );
-  itkOptimizer->SetGradientMagnitudeTolerance( 1e-6 );
-  itkOptimizer->SetMaximumStepLength( 30.0 );
-  itkOptimizer->SetMinimumStepLength( 1e-6 );
-  itkOptimizer->SetMaximumNumberOfIterations( 900 );
+  itkOptimizer->SetLearningRate( 0.1 );
+  itkOptimizer->SetNumberOfIterations( 50 );
 
   itkOptimizer->SetInitialPosition( initialPosition );
   itkOptimizer->StartOptimization();
@@ -159,6 +164,27 @@ int main()
   std::cout << "Solution        = (";
   std::cout << finalPosition[0] << "," ;
   std::cout << finalPosition[1] << ")" << std::endl;  
+
+  //
+  // check results to see if it is within range
+  //
+  bool pass = true;
+  double trueParameters[2] = { 2, -2 };
+  for( unsigned int j = 0; j < 2; j++ )
+    {
+    if( vnl_math_abs( finalPosition[j] - trueParameters[j] ) > 0.01 )
+      pass = false;
+    }
+
+  if( !pass )
+    {
+    std::cout << "Test failed." << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  std::cout << "Test passed." << std::endl;
+  return EXIT_SUCCESS;
+
 
   return 0;
 
