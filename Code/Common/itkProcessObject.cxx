@@ -153,18 +153,8 @@ ProcessObject
     this->SetNumberOfInputs(idx + 1);
     }
   
-  if ( m_Inputs[idx] )
-    {
-    m_Inputs[idx]->UnRegister();
-    }
-  
   m_Inputs[idx] = input;
 
-  if ( m_Inputs[idx] )
-    {
-    m_Inputs[idx]->Register();
-    }
-  
   this->Modified();
 }
 
