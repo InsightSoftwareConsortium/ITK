@@ -34,9 +34,19 @@ ListSampleToHistogramFilter< TListSample, THistogram >
   typename TListSample::Iterator iter = m_List->Begin() ;
   typename TListSample::Iterator last = m_List->End() ;
   typename THistogram::IndexType index ;
+  typename TListSample::MeasurementVectorType lvector ;
+  typename THistogram::MeasurementVectorType hvector ;
+  int i ;
   while (iter != last)
     {
-      index = m_Histogram->GetIndex(iter.GetMeasurementVector()) ;
+      lvector = iter.GetMeasurementVector() ;
+      for ( i = 0 ; i < THistogram::MeasurementVectorSize ; i++)
+        {
+          hvector[i] = 
+            (typename THistogram::MeasurementType) lvector[i] ;
+        }
+
+      index = m_Histogram->GetIndex(hvector) ;
       if (!m_Histogram->IsIndexOutOfBound(index))
         {
           // if the measurement vector is out of bound then
