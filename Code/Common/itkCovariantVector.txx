@@ -267,5 +267,41 @@ CovariantVector<T, TCovariantVectorDimension>
 }
  
 
+ 
+/**
+ * Print content
+ */
+template<class T, unsigned int TCovariantVectorDimension>
+void
+CovariantVector<T, TCovariantVectorDimension>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf( os, indent );
+  os << indent;
+  for( unsigned int i=0; i<TCovariantVectorDimension; i++)
+  {
+    os <<  (*this)[i] << ", ";
+  }
+  os << std::endl;
+}
+
+
+
+/**
+ * Print content
+ */
+template<class T, unsigned int TCovariantVectorDimension>
+std::ostream &
+operator<<(std::ostream& os, 
+    const CovariantVector<T,TCovariantVectorDimension> & cvt ) 
+{
+  for( unsigned int i=0; i<TCovariantVectorDimension; i++)
+  {
+    os <<  cvt[i] << "  ";
+  }
+}
+
+
+
 } // end namespace itk
 

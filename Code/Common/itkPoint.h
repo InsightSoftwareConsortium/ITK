@@ -17,6 +17,7 @@
 
 #include "itkVector.h"
 #include "vnl/vnl_vector_ref.h"
+#include "itkIndent.h"
 
 
 namespace itk
@@ -49,6 +50,18 @@ class Point : public Array< TCoordRep, TPointDimension > {
    */
   typedef Point  Self;
   
+  /**
+   * Standard "Superclass" typedef.
+   */
+  typedef Array<TCoordRep,TPointDimension>  Superclass;
+
+  /** 
+   * Run-time type information (and related methods).
+   */
+  itkTypeMacro(Point, Array);
+
+
+
   /**
    * ValueType can be used to declare a variable that is the same type
    * as a data element held in an Point.  
@@ -159,10 +172,22 @@ class Point : public Array< TCoordRep, TPointDimension > {
   vnl_vector_ref<TCoordRep> Get_vnl_vector( void );
 
 
+
+  /**
+   * Print content
+   */
+  void PrintSelf(std::ostream& os, Indent indent) const;
+
+
  
 };
 
   
+
+template< class T, unsigned int TPointDimension >  
+ITK_EXPORT std::ostream& operator<<(std::ostream& os, 
+                                    const Point<T,TPointDimension> & v); 
+
 } // end namespace itk
   
 

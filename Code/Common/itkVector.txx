@@ -268,6 +268,37 @@ Vector<T, TVectorDimension>
   return vector_ref;
 }
  
+/**
+ * Print content
+ */
+template<class T, unsigned int TVectorDimension>
+void
+Vector<T, TVectorDimension>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf( os, indent );
+  os << indent;
+  for( unsigned int i=0; i<TVectorDimension; i++)
+  {
+    os <<  (*this)[i] << ", ";
+  }
+  os << std::endl;
+}
+
+
+/**
+ * Print content to an ostream
+ */
+template<class T, unsigned int TVectorDimension>
+std::ostream &
+operator<<(std::ostream& os,const Vector<T,TVectorDimension> & vct ) 
+{
+  for( unsigned int i=0; i<TVectorDimension; i++)
+  {
+    os <<  vct[i] << "  ";
+  }
+}
+
 
 } // end namespace itk
 

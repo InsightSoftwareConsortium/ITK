@@ -18,6 +18,7 @@
 
 #include "itkArray.h"
 #include "vnl/vnl_vector_ref.h"
+#include "itkIndent.h"
 
 
 namespace itk
@@ -61,6 +62,20 @@ class CovariantVector : public Array<T,TCovariantVectorDimension> {
    * Standard "Self" typedef.
    */
   typedef CovariantVector  Self;
+  
+   
+  /**
+   * Standard "Superclass" typedef.
+   */
+  typedef Array<T,TCovariantVectorDimension>  Superclass;
+
+
+  /** 
+   * Run-time type information (and related methods).
+   */
+  itkTypeMacro(CovariantVector, Array);
+
+
   
   /**
    * ValueType can be used to declare a variable that is the same type
@@ -183,10 +198,23 @@ class CovariantVector : public Array<T,TCovariantVectorDimension> {
    * Returns vector's Squared Euclidean Norm 
    */
   ValueType GetSquaredNorm( void ) const;
+
+
+  /**
+   * Print content
+   */
+  void PrintSelf(std::ostream& os, Indent indent) const;
+
+
  
 };
 
   
+
+template< class T, unsigned int TCovariantVectorDimension >  
+ITK_EXPORT std::ostream& operator<<(std::ostream& os, 
+          const CovariantVector<T,TCovariantVectorDimension> & v); 
+
 } // end namespace itk
   
 

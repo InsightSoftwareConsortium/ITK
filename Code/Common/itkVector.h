@@ -18,6 +18,7 @@
 
 #include "itkArray.h"
 #include "vnl/vnl_vector_ref.h"
+#include "itkIndent.h"
 
 
 namespace itk
@@ -57,7 +58,18 @@ class Vector : public Array<T,TVectorDimension> {
    * Standard "Self" typedef.
    */
   typedef Vector  Self;
-  
+   
+  /**
+   * Standard "Superclass" typedef.
+   */
+  typedef Array<T,TVectorDimension>  Superclass;
+
+  /** 
+   * Run-time type information (and related methods).
+   */
+  itkTypeMacro(Vector, Array);
+
+
   /**
    * ValueType can be used to declare a variable that is the same type
    * as a data element held in an Vector.  
@@ -180,9 +192,22 @@ class Vector : public Array<T,TVectorDimension> {
    */
   ValueType GetSquaredNorm( void ) const;
  
+
+
+
+protected:
+  /**
+   * Print content
+   */
+  void PrintSelf(std::ostream& os, Indent indent) const;
+
+
 };
 
-  
+template< class T, unsigned int TVectorDimension >  
+ITK_EXPORT std::ostream& operator<<(std::ostream& os, 
+                                    const Vector<T,TVectorDimension> & v); 
+
 } // end namespace itk
   
 
