@@ -29,6 +29,7 @@ int itkShiftScaleImageFilterTest(int, char* [] )
 
   typedef itk::Image<char,3> TestInputImage;
   typedef itk::Image<unsigned char,3> TestOutputImage;
+  typedef itk::NumericTraits<char>::RealType RealType;
 
   TestInputImage::Pointer    inputImage  = TestInputImage::New();
   TestInputImage::RegionType region;
@@ -72,6 +73,18 @@ int itkShiftScaleImageFilterTest(int, char* [] )
   source->SetMax( static_cast< TestInputImage::PixelType >( maxValue ) );
   std::cout << source;
   
+
+  // Test GetMacros
+  RealType getShift = filter->GetShift();
+  std::cout << "filter->GetShift(): " << getShift << std::endl;
+  RealType getScale = filter->GetScale();
+  std::cout << "filter->GetScale(): " << getScale << std::endl;
+  long underflowCount = filter->GetUnderflowCount();
+  std::cout << "filter->GetUnderflowCount(): " << underflowCount << std::endl;
+  long overflowCount = filter->GetOverflowCount();
+  std::cout << "filter->GetOverflowCount(): " << overflowCount << std::endl;
+
+
   filter->SetInput(source->GetOutput());
   filter->SetScale(4.0);
   try
