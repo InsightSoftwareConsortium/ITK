@@ -730,7 +730,7 @@ Inverse( void ) const
   itkWarningMacro("Inverse() is deprecated.  Please use GetInverse() instead.");
   Pointer result = New();
   result->m_Matrix   =   this->GetInverseMatrix();
-  result->m_Inverse  =   m_Matrix;
+  result->m_InverseMatrix  =   m_Matrix;
   result->m_Offset   = -(this->GetInverseMatrix() * m_Offset);
   result->m_Singular =   false;
   return result;

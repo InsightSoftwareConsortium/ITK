@@ -201,7 +201,7 @@ public:
    * except for debugging the class itself.
    *
    * \todo Do something reasonable if the transform is singular.  */
-  virtual bool GetInverse(Self* inverse) const;
+  bool GetInverse(Self* inverse) const;
 
   /** Set offset (origin) of an Affine Transform.
    *
