@@ -312,14 +312,14 @@ namespace itk
 
     //checking hk.extents only is NOT a good idea. Many programs do not set
     //hk.extents correctly. Doing an additional check on hk.sizeof_hdr
-    //increases chance of correct result. --Juerg·Tschirrin Univeristy of Iowa
+    //increases chance of correct result. --Juerg Tschirrin Univeristy of Iowa
     //All properly constructed analyze images should have the extents feild
     //set.  It is part of the file format standard.  While most headers of 
-    // analyze·images are 348 bytes long, The Analyze file format allows the 
+    // analyze images are 348 bytes long, The Analyze file format allows the 
     // header to have other lengths.
     //This code will fail in the unlikely event that the extents feild is 
     //not set (invalid anlyze file anyway) and the header is not the normal
-    //size.·Other peices of code have used a heuristic on the image 
+    //size. Other peices of code have used a heuristic on the image 
     //dimensions.  If the Image dimensions is greater
     //than 16000 then the image is almost certainly byte-swapped-- Hans
 
