@@ -198,23 +198,23 @@ public:
   void Execute(const itk::Object *, const itk::EventObject & event)
   {
     if( typeid( event ) == typeid( itk::StartEvent ) )
-    {
+      {
       std::cout << std::endl << "Position              Value";
       std::cout << std::endl << std::endl;
-    }    
+      }    
     else if( typeid( event ) == typeid( itk::IterationEvent ) )
-    {
-      std::cout << "#" << m_Optimizer->GetCurrentIteration() 
-                << " Current parameters = " << m_Optimizer->GetCurrentPosition();
-    }
+      {
+      std::cout << m_Optimizer->GetCurrentIteration() << "   ";
+      std::cout << m_Optimizer->GetCurrentPosition();
+      }
     else if( typeid( event ) == typeid( itk::EndEvent ) )
-    {
+      {
       std::cout << std::endl << std::endl;
       std::cout << "After " << m_Optimizer->GetCurrentIteration();
       std::cout << "  iterations " << std::endl;
       std::cout << "Solution is    = " << m_Optimizer->GetCurrentPosition();
       std::cout << std::endl;
-    }
+      }
 
   }
 //  Software Guide : EndCodeSnippet 
@@ -850,7 +850,7 @@ int main( int argc, char ** argv )
   // Software Guide : BeginCodeSnippet
   optimizer->SetNormalVariateGenerator( generator );
   optimizer->Initialize( 10 );
-  optimizer->SetMaximumIteration( 1000 );
+  optimizer->SetMaximumIteration( 400 );
   // Software Guide : EndCodeSnippet
 
 
@@ -940,9 +940,8 @@ int main( int argc, char ** argv )
   //  The initial set of transform parameters is passed to the registration
   //  method using the \code{SetInitialTransformParameters()} method. Note that
   //  since our original model is alreay registered with the synthetic image,
-  //  we introduce here an artificial missregistration in order to initialize
-  //  the optimization at some point not too far, not too close to the optimal
-  //  value.
+  //  we introduce here an artificial miss-registration in order to initialize
+  //  the optimization at some point away from the optimal value.
   //
   //  Software Guide : EndLatex 
 
@@ -959,154 +958,101 @@ int main( int argc, char ** argv )
 
   std::cout << "Initial Parameters  : " << initialParameters << std::endl;
 
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  Due to the nature of the metric we defined to evaluate the fitness
+  //  between the spatial object and the image, we must tell the optimizer that
+  //  we are interested in finding the maximum value of the metric. Some
+  //  metrics associate low numeric values to good matching, others associate
+  //  high numeric values to good matching. The \code{MaximizeOn()} and
+  //  \code{MaximizeOff()} methods allow easily to deal with both types of
+  //  metrics.
+  //
+  //  \index{itk::Optimizer!MaximizeOn()}
+  //  \index{itk::Optimizer!MaximizeOff()}
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
   optimizer->MaximizeOn();
+  // Software Guide : EndCodeSnippet
 
-  // Show the two sets of spheres misregistered
-  // Create a group with 3 ellipses linked by lines.
-  EllipseType::Pointer ellipse1copy = EllipseType::New();
-  EllipseType::Pointer ellipse2copy = EllipseType::New();
-  EllipseType::Pointer ellipse3copy = EllipseType::New();
 
-  // Set the radius
-  ellipse1copy->SetRadius(10);
-  ellipse2copy->SetRadius(10);
-  ellipse3copy->SetRadius(10);
 
-  GroupType::Pointer transformedGroup = GroupType::New();
-  offset[0]=100;
-  offset[1]=40;
-  ellipse1copy->GetTransform()->SetOffset(offset);
-  ellipse1copy->ComputeGlobalTransform();
- 
-  offset[0]=40;
-  offset[1]=150;
-  ellipse2copy->GetTransform()->SetOffset(offset);
-  ellipse2copy->ComputeGlobalTransform();
+  //  Software Guide : BeginLatex
+  //
+  //  Finally we trigger the execution of the registration process with the
+  //  \code{StartRegistration()} method. We place this call in a
+  //  \code{try/catch} block in case any exception is thrown during the
+  //  process.
+  //
+  //  \index{itk::ImageToSpatialObjectRegistrationMethod!StartRegistration()}
+  //
+  //  Software Guide : EndLatex 
 
-  offset[0]=150;
-  offset[1]=150;
-  ellipse3copy->GetTransform()->SetOffset(offset);
-  ellipse3copy->ComputeGlobalTransform();
 
-  transformedGroup->AddSpatialObject(ellipse1copy);
-  transformedGroup->AddSpatialObject(ellipse2copy);
-  transformedGroup->AddSpatialObject(ellipse3copy);
-
-  // Apply the initial transformation to the initial group of ellipses
-  transform->SetParameters(initialParameters);
-  transformedGroup->GetTransform()->SetMatrix(transform->GetRotationMatrix());
-  transformedGroup->GetTransform()->SetOffset(transform->GetOffset());
-  transformedGroup->ComputeGlobalTransform();
-
-  GroupType::Pointer firstGroup = GroupType::New();
-  firstGroup->AddSpatialObject(group);
-  firstGroup->AddSpatialObject(transformedGroup);
-
-  // Create an image to show it to the user
-  imageFilter->SetInput(firstGroup);
-  imageFilter->SetSize(size);
-  imageFilter->Update();
+  // Software Guide : BeginCodeSnippet
+  try {
+    registration->StartRegistration();
+    }
+  catch( itk::ExceptionObject & exp ) {
+    std::cerr << "Exception caught ! " << std::endl;
+    std::cerr << exp << std::endl;
+    }
+  // Software Guide : EndCodeSnippet
 
 
 
 
   //  Software Guide : BeginLatex
-  //  
-  //  The following casting and writer filter types will be used for saving the
-  //  registered model in to a file. Note that, what we are actually saving
-  //  here is the digitalization of the \doxygen{SpatialObject} in the form of
-  //  a binary image. We could imagine a more sophisticated approach in which
-  //  a geometric file format could have been used to save the parameters of
-  //  the spatial object and its associated transform.
+  //
+  //  The set of transform parameters resulting from the registration can be
+  //  recovered with the \code{GetLastTransformParameters()} method. This
+  //  method returns the array of transform parameters that should be
+  //  interpreted according to the implementation of each transform. In our
+  //  current example, the \doxygen{Euler2DTransform} has three parameters that
+  //  are: the rotation angle, the translation in $x$ and the translation in
+  //  $y$.
+  //
+  //  \index{itk::ImageToSpatialObjectRegistrationMethod!StartRegistration()}
   //
   //  Software Guide : EndLatex 
 
-  //  Software Guide : BeginCodeSnippet
-  typedef itk::Image< unsigned char, 2 >      OutputImageType;
-
-  typedef itk::CastImageFilter< 
-                        ImageType,
-                        OutputImageType > CastFilterType;
-
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
-  //  Software Guide : EndCodeSnippet 
-
-
-
-  // Rescale the image
-  typedef itk::RescaleIntensityImageFilter< 
-                            ImageType, 
-                            OutputImageType >    RescaleFilterType;
-
-  RescaleFilterType::Pointer rescale = RescaleFilterType::New();
-
-  rescale->SetInput( imageFilter->GetOutput() );
-  rescale->SetOutputMinimum(0);
-  rescale->SetOutputMaximum(255);
-
-
-
-
-
-
-
-  // Write the image showing a set of three ellipses mis-registered and a set
-  // of 3 ellipses that is used as the fixed image.
-  WriterType::Pointer      writer =  WriterType::New();
-  writer->SetFileName( "ModelToImageRegistration-Input.png" );
-                
-  writer->SetInput( rescale->GetOutput()   );
-  try 
-  { 
-    writer->Update();
-  } 
-  catch( itk::ExceptionObject & err ) 
-  { 
-    std::cout << "ExceptionObject caught !" << std::endl; 
-    std::cout << err << std::endl; 
-    return -1;
-  } 
-
-
-  // Start the registration
-  registration->StartRegistration();
-
+  // Software Guide : BeginCodeSnippet
   RegistrationType::ParametersType finalParameters 
-                                 = registration->GetLastTransformParameters();
+                         = registration->GetLastTransformParameters();
 
   std::cout << "Final Solution is : " << finalParameters << std::endl;
+  // Software Guide : EndCodeSnippet
 
 
-  /** Show the registration */
-  transformedGroup->GetTransform()->SetMatrix(transform->GetRotationMatrix());
-  transformedGroup->GetTransform()->SetOffset(transform->GetOffset());
 
-  transformedGroup->ComputeGlobalTransform();
 
-  typedef itk::SpatialObjectToImageFilter<GroupType,ImageType> SpatialObjectToImageFilterType;
-  SpatialObjectToImageFilterType::Pointer imageFilter2 = SpatialObjectToImageFilterType::New();
+  //  Software Guide : BeginLatex
+  // 
+  // \begin{figure}
+  // \center
+  // \includegraphics[height=6cm]{ModelToImageRegistrationTraceAngle.eps}
+  // \includegraphics[height=6cm]{ModelToImageRegistrationTraceTranslations.eps}
+  // \caption[SpatialObject to Image Registration results]{Plots of the angle
+  // and translation parameters for a registration process between an SpatialObject
+  // and an image.}
+  // \label{fig:ModelToImageRegistrationPlots}
+  // \end{figure}
+  //
+  //
+  //  The results of the execution are presented in
+  //  Figure~\ref{fig:ModelToImageRegistrationPlots}. The left side shows
+  //  the evolution of the angle parameter as a function of the iterations. The
+  //  right side shows $(x,y)$ translation in the plane. 
+  //
+  //  Software Guide : EndLatex 
 
-  imageFilter2->SetInput(group);
-  imageFilter2->SetSize(size);
-  imageFilter2->Update();
 
-  writer->SetFileName( "ModelToImageRegistration-Output.png" );
-                  
-  rescale->SetInput( imageFilter2->GetOutput() );
-  rescale->SetOutputMinimum(0);
-  rescale->SetOutputMaximum(255);
-
-  writer->SetInput( rescale->GetOutput()   );
-  try 
-  { 
-    writer->Update();
-  } 
-  catch( itk::ExceptionObject & err ) 
-  { 
-    std::cout << "ExceptionObject caught !" << std::endl; 
-    std::cout << err << std::endl; 
-    return -1;
-  } 
-  return EXIT_SUCCESS;
 
 }
+
+
+
