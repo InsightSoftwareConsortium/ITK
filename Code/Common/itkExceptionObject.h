@@ -241,6 +241,31 @@ public:
     {return "IncompatibleOperandsError";}
 };
 
+/** \class ProcessAborted
+ * Exception thrown when a filter (actually a ProcessObject) has been aborted.
+ * \ingroup ITKSystemObjects 
+ */
+class ProcessAborted : public ExceptionObject
+{
+public:
+  /** Default constructor.  Needed to ensure the exception object can be
+   * copied. */
+  ProcessAborted() : ExceptionObject() {}
+  
+  /** Constructor. Needed to ensure the exception object can be copied. */
+  ProcessAborted(const char *file, unsigned int lineNumber) : ExceptionObject(file, lineNumber) {}
+
+  /** Constructor. Needed to ensure the exception object can be copied. */
+  ProcessAborted(const std::string& file, unsigned int lineNumber) : ExceptionObject(file, lineNumber) {}  
+
+  /** Virtual destructor needed for subclasses. Has to have empty throw(). */
+  virtual ~ProcessAborted() throw() {}
+
+  virtual const char *GetNameOfClass() const 
+    {return "ProcessAborted";}
+
+};
+
 
 } // end namespace itk
 
