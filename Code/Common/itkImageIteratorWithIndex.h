@@ -298,7 +298,7 @@ public:
   /**
    * Move an iterator to the beginning of the region.
    */
-  void GoToBegin();
+  void GoToBegin(void);
 
 
 
@@ -312,13 +312,13 @@ public:
   /**
    * Move an iterator to the End of the region.
    */
-  void GoToEnd();
+  void GoToEnd(void);
 
 
   /**
    * Is the iterator at the beginning of the region?
    */
-  bool IsAtBegin()
+  bool IsAtBegin(void) const
     {
       return !m_Remaining;
     }
@@ -326,7 +326,7 @@ public:
   /**
    * Is the iterator at the end of the region?
    */
-  bool IsAtEnd()
+  bool IsAtEnd(void) const
     {
       return !m_Remaining;
     }
