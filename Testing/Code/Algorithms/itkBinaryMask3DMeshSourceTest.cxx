@@ -28,13 +28,12 @@
 #include "itkBinaryMask3DMeshSource.h"
 
 
-int itkBinaryMask3DMeshSourceTest(int, char* [] )
+int itkBinaryMask3DMeshSourceTest(int argc, char **argv)
 {
-  const int WIDTH  = 200;
-  const int HEIGHT = 200;
-  const int DEPTH  = 200;
+  const int WIDTH  = 128;
+  const int HEIGHT = 128;
+  const int DEPTH  = 128;
 
-  
   // Define the dimension of the images
   const unsigned int Dimension = 3;
 
@@ -54,9 +53,10 @@ int itkBinaryMask3DMeshSourceTest(int, char* [] )
 
   typedef itk::BinaryMask3DMeshSource< MeshType >   MeshSourceType;
 
-
+  int i, j, k;
+  
   PixelType backgroundValue = 0;
-  PixelType internalValue   = 0;
+  PixelType internalValue   = 1;
   
   SizeType size;
   size[0] = WIDTH;  
@@ -79,12 +79,27 @@ int itkBinaryMask3DMeshSourceTest(int, char* [] )
   IteratorType it( image, region );
   it.GoToBegin();
 
+  i = 0;
+  j = 0;
+  k = 0;
   while( !it.IsAtEnd() ) 
     {
-    it.Set( backgroundValue );
+    if ((i-64)*(i-64)+(j-64)*(j-64)+(k-64)*(k-64) < 200) it.Set( internalValue );
+    else it.Set( backgroundValue );
     ++it;
+    i++;
+    if (i == WIDTH) 
+      {
+      i = 0;
+      j++;
+      if (j == HEIGHT) 
+        {
+        j = 0;
+        k++;
+        }
+      }
     }
-
+/*  
   SizeType smallerSize;
   smallerSize[0] = 100;
   smallerSize[1] = 100;
@@ -107,7 +122,7 @@ int itkBinaryMask3DMeshSourceTest(int, char* [] )
     ir.Set( internalValue );  
     ++ir;
     }
-
+*/
   MeshSourceType::Pointer meshSource = MeshSourceType::New();
 
   meshSource->SetBinaryImage( image );
