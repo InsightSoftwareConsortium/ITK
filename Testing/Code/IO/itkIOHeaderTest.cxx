@@ -63,6 +63,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkMetaImageIO.h"
 #include "itkMetaImageIOFactory.h"
 #include "itkMvtSunf.h"
+#include "itkNrrdImageIO.h"
+#include "itkNrrdImageIOFactory.h"
 #include "itkNumericSeriesFileNames.h"
 #include "itkPNGImageIO.h"
 #include "itkPNGImageIOFactory.h"
