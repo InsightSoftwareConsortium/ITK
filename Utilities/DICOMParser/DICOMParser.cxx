@@ -238,12 +238,12 @@ void DICOMParser::ReadNextRecord(doublebyte& group, doublebyte& element)
     //
     unsigned char* tempdata = (unsigned char*) DataFile->ReadAsciiCharArray(length);
 
+    DICOMMapKey ge = (*iter).first;
+    mytype = VRTypes(((*iter).second.first));
+  
 #ifdef DEBUG_DICOM
     this->DumpTag(group, element, mytype, tempdata, length);
 #endif
-
-    DICOMMapKey ge = (*iter).first;
-    VRTypes valType = VRTypes(((*iter).second.first));
 
     std::pair<const DICOMMapKey,DICOMMapValue> p = *iter;
     DICOMMapValue mv = p.second;
@@ -255,7 +255,7 @@ void DICOMParser::ReadNextRecord(doublebyte& group, doublebyte& element)
       {
       (*iter)->Execute(ge.first,  // group
                        ge.second,  // element
-                       valType,  // type
+                       mytype,  // type
                        tempdata, // data
                        length);  // length
       }
@@ -368,12 +368,52 @@ bool DICOMParser::CheckMagic(char* magic_number)
 void DICOMParser::DumpTag(doublebyte group, doublebyte element, VRTypes vrtype, unsigned char* tempdata, quadbyte length)
 {
 
+// (0x0028,0x0100)  US [2 bytes] Bits allocated : 16
+
   int t2 = int((0x0000FF00 & vrtype) >> 8);
   int t1 = int((0x000000FF & vrtype));
 
+  if (t1 == 0 && t2 == 0)
+    {
+    t1 = '?';
+    t2 = '?';
+    }
+
   char ct2(t2);
   char ct1(t1);
+    
+  std::cout << "(0x";
+
+  std::cout.width(4);
+  char prev = std::cout.fill('0');
+
+  std::cout << std::hex << group;
+  std::cout << ",0x";
+
+  std::cout.width(4);
+  std::cout.fill('0');
+    
+  std::cout << std::hex << element;
+  std::cout << ") ";
+
+  std::cout.fill(prev);
+  std::cout << std::dec;
+  std::cout << " " << ct1 << ct2 << " ";
+  std::cout << "[" << length << " bytes] ";
   
+  if (group == 0x7FE0 && element == 0x0010)
+    {
+    std::cout << "Image data not printed." ;
+    }
+  else
+    {
+    std::cout << (tempdata ? (char*) tempdata : "NULL");
+    }
+ 
+  std::cout << std::dec << std::endl;
+  std::cout.fill(prev);
+
+  /*
   if (group == 0x7FE0 && element == 0x0010)
     {
     std::cout << "(0x" << std::hex << group << ", 0x" << std::hex << element << ")  : ";
@@ -388,6 +428,7 @@ void DICOMParser::DumpTag(doublebyte group, doublebyte element, VRTypes vrtype, 
     std::cout << std::dec;
     std::cout << " [" << length << " bytes] " << ct1 << ct2 << std::endl;
     }
+  */
 
   std::cout << std::dec;
   return;
