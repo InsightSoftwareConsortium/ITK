@@ -234,7 +234,7 @@ ADD_TEST( SmoothingRecursiveGaussianImageFilterTest ${FILTERING_EXAMPLES}
   SmoothingRecursiveGaussianImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${ITK_BINARY_DIR}/Testing/Temporary/SmoothingRecursiveGaussianImageFilter.png
-        5
+        3
 )
 
 ADD_EXECUTABLE(FilteringExamples FilteringExamples.cxx ${FilteringExamples_SRCS})
