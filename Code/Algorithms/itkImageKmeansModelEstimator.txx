@@ -100,6 +100,20 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>
 
 }// End PrintKmeansAlgorithmResults
 
+
+/**
+ * Generate data (start the model building process)
+ */
+template<class TInputImage, 
+         class TMembershipFunction>
+void 
+ImageKmeansModelEstimator<TInputImage, TMembershipFunction>
+::GenerateData( )
+{
+  this->EstimateModels();
+
+}// end Generate data
+
 // Set the input codebook and allocate memory 
 // for the output codebook and other scratch memory
 template<class TInputImage, 
@@ -234,7 +248,6 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>
 ::EstimateModels()
 {
   this->EstimateKmeansModelPrameters();
-
 
   //-------------------------------------------------------------------
   // Set up the membership calculators

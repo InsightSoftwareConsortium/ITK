@@ -308,7 +308,7 @@ int itkMRFImageFilterTest(int, char**)
   applyEstimateModel->SetTrainingImage(classImage);  
 
   //Run the gaussian classifier algorithm
-  applyEstimateModel->EstimateModels();
+  applyEstimateModel->Update();
   applyEstimateModel->Print(std::cout); 
 
   MembershipFunctionPointerVector membershipFunctions = 

@@ -39,6 +39,14 @@ ImageModelEstimatorBase<TInputImage, TMembershipFunction>
 {
 
 }
+template <class TInputImage, 
+          class TMembershipFunction>
+void
+ImageModelEstimatorBase<TInputImage, TMembershipFunction>
+::Update()
+{
+  GenerateData() ;
+}
 
 template <class TInputImage, 
           class TMembershipFunction>
@@ -46,6 +54,16 @@ void
 ImageModelEstimatorBase<TInputImage, TMembershipFunction>
 ::GenerateData()
 {
+
+/*
+  if( ( m_NumberOfModels == 0 ) ||
+      ( m_MembershipFunctions.size() == 0 ) ||
+      ( m_NumberOfClasses != m_MembershipFunctions.size() ) )
+    {
+      throw ExceptionObject(__FILE__, __LINE__);
+    }
+*/
+
   this->EstimateModels();
 }
 

@@ -169,16 +169,6 @@ int itkKmeansModelEstimatorTest(int, char**)
   //----------------------------------------------------------------------
   typedef itk::ImageKmeansModelEstimator<VecImageType, MembershipFunctionType> 
     ImageKmeansModelEstimatorType;
-/*  
-  applyEstimateModel->SetNumberOfModels(NUM_CLASSES);
-
-  //Run the Kmeans modeller algorithm
-  applyEstimateModel->EstimateModels();
-  applyEstimateModel->Print(std::cout); 
-
-  MembershipFunctionPointerVector membershipFunctions = 
-    applyEstimateModel->GetMembershipFunctions();  
-*/
 
   ImageKmeansModelEstimatorType::Pointer 
     applyKmeansEstimator = ImageKmeansModelEstimatorType::New();
@@ -189,7 +179,7 @@ int itkKmeansModelEstimatorTest(int, char**)
   applyKmeansEstimator->SetInputImage(vecImage);
   applyKmeansEstimator->SetNumberOfModels(NCODEWORDS);
   applyKmeansEstimator->SetThreshold(0.01);
-  applyKmeansEstimator->EstimateModels();
+  applyKmeansEstimator->Update();
   applyKmeansEstimator->Print(std::cout);
 
   MembershipFunctionPointerVector membershipFunctions = 
@@ -227,7 +217,7 @@ int itkKmeansModelEstimatorTest(int, char**)
   vnl_matrix<double> kmeansResult = applyKmeansEstimator->GetKmeansResults();
 
   applyKmeansEstimator->SetCodebook(inCDBK);
-  applyKmeansEstimator->EstimateModels();
+  applyKmeansEstimator->Update();
   applyKmeansEstimator->Print(std::cout);
 
    membershipFunctions = applyKmeansEstimator->GetMembershipFunctions(); 

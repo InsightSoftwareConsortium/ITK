@@ -122,15 +122,15 @@ public:
   /** Get the training image. */
   itkGetMacro(TrainingImage,TrainingImagePointer);
 
-  /** A function that generates the 
-   * model based on the training input data
-   * Achieves the goal of training the classifier. */
-  virtual void EstimateModels();
+
 
 protected: 
   ImageGaussianModelEstimator();
   ~ImageGaussianModelEstimator();
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
+
+  /** Starts the image modelling process */
+  void GenerateData() ;
 
 private:
   ImageGaussianModelEstimator(const Self&); //purposely not implemented
@@ -150,6 +150,11 @@ private:
   MatrixType            *m_Covariance;  
 
   TrainingImagePointer  m_TrainingImage;
+
+  /** A function that generates the 
+   * model based on the training input data
+   * Achieves the goal of training the classifier. */
+  virtual void EstimateModels();
 
   void EstimateGaussianModelPrameters();
 

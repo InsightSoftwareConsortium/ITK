@@ -62,6 +62,21 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>
 
 }// end PrintSelf
 
+
+/**
+ * Generate data (start the model building process)
+ */
+template<class TInputImage, 
+         class TMembershipFunction,
+         class TTrainingImage>
+void 
+ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>
+::GenerateData( )
+{
+  this->EstimateModels();
+
+}// end Generate data
+
 // Takes a set of training images and returns the means 
 // and variance of the various classes defined in the
 // training set.

@@ -126,8 +126,9 @@ public:
   /** Stores a MembershipCalculator of a class in its internal vector */
   unsigned int AddMembershipFunction(MembershipFunctionPointer function);
 
-  /** Define a virtual function to perform clustering of input data */
-  virtual void EstimateModels() = 0;
+  /** Define a virtual function to perform model generation from the input data
+   */
+  void Update() ;
 
 protected:
   ImageModelEstimatorBase();
@@ -149,6 +150,8 @@ private:
   /**Container for holding the training image */
   InputImagePointer               m_InputImage;
 
+  /** The core virtual function to perform modelling of the input data */
+  virtual void EstimateModels() = 0;
 }; // class ImageModelEstimator
 
 

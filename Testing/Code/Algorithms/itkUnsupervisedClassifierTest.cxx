@@ -146,7 +146,6 @@ int itkUnsupervisedClassifierTest(int, char**)
   KmeansUnsupervisedClassifierType::Pointer 
     applyKmeansClusterer = KmeansUnsupervisedClassifierType::New();
 
-
   //----------------------------------------------------------------------
   //Set the parameters of the clusterer
   //----------------------------------------------------------------------
