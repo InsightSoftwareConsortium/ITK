@@ -22,9 +22,6 @@
 
 #include "itkFEMElementTest.h"
 
-using namespace std;
-using namespace itk;
-using namespace fem;
 
 int itkFEMElementTest(int ac, char* av[] )
 {
@@ -40,7 +37,7 @@ int itkFEMElementTest(int ac, char* av[] )
   char filepath[] = "../../Insight/Testing/Data/Input/FEM/";
 
   // File input stream
-  ifstream f;
+  std::ifstream f;
 
   // Storage for list of or user-specified input file(s)
   char** filelist; 
@@ -91,7 +88,7 @@ int itkFEMElementTest(int ac, char* av[] )
       //std::cout << std::endl << "NOTE: some of these problems follow an older data file" << std::endl;
       //std::cout << "format, and have not yet been updated.  They may end in \"Abort\"." << std::endl;
       std::cout << std::endl << "Select an FEM problem to solve:  ";
-      cin >> ch;
+      std::cin >> ch;
     }
     
     // Print the name of the selected problem
@@ -134,7 +131,7 @@ int itkFEMElementTest(int ac, char* av[] )
     // input file
 
     std::cout << comment << "Solver()" << std::endl;
-    Solver S;
+    itk::fem::Solver S;
     std::cout << comment << "Read()" << std::endl;
     S.Read(f);
     f.close();
@@ -148,9 +145,9 @@ int itkFEMElementTest(int ac, char* av[] )
 
     // Declare and initialize linear system wrapper objects
 
-    LinearSystemWrapperDenseVNL lsw_dvnl;
-    LinearSystemWrapperItpack lsw_itpack;
-    LinearSystemWrapperVNL lsw_vnl;
+    itk::fem::LinearSystemWrapperDenseVNL lsw_dvnl;
+    itk::fem::LinearSystemWrapperItpack lsw_itpack;
+    itk::fem::LinearSystemWrapperVNL lsw_vnl;
 
     for (s=0; s < numsolvers; s++) {
  
@@ -208,10 +205,10 @@ int itkFEMElementTest(int ac, char* av[] )
 
 #if DEBUG_FEM_TESTS
 
-void PrintK(Solver& S, int s, char )
+void PrintK( itk::fem::Solver& S, int s, char )
 // Print K - the global stiffness matrix
 {
-  LinearSystemWrapper::Pointer lsw = S.GetLinearSystemWrapper();
+  itk::fem::LinearSystemWrapper::Pointer lsw = S.GetLinearSystemWrapper();
   
   std::cout << std::endl << "k" << s << "=[";
   for (unsigned int j=0; j < lsw->GetSystemOrder(); j++) {
@@ -229,10 +226,10 @@ void PrintK(Solver& S, int s, char )
   std::cout << "];" << std::endl;
 }  
 
-void PrintF(Solver& S, int s, char )
+void PrintF( itk::fem::Solver& S, int s, char )
 // Print F - the global load vector
 {
-  LinearSystemWrapper::Pointer lsw = S.GetLinearSystemWrapper();
+  itk::fem::LinearSystemWrapper::Pointer lsw = S.GetLinearSystemWrapper();
   
   std::cout << std::endl << "f" << s << "=[";
   for (unsigned int j=0; j < lsw->GetSystemOrder(); j++) {
@@ -242,13 +239,13 @@ void PrintF(Solver& S, int s, char )
   std::cout << "];" << std::endl;
 }  
 
-void PrintNodalCoordinates(Solver& S, int w, char comment)
+void PrintNodalCoordinates( itk::fem::Solver& S, int w, char comment)
 // Print the nodal coordinates
 {
   std::cout << std::endl << comment << "Nodal coordinates: " << std::endl;
 
   std::cout << "xyz" << w << "=[";
-  for (Solver::NodeArray::iterator n = S.node.begin(); n != S.node.end(); n++) {
+  for ( itk::fem::Solver::NodeArray::iterator n = S.node.begin(); n != S.node.end(); n++) {
     if (IDL_OUTPUT) { std::cout << " ["; }
     // FIXME: this will generate errors in IDL - needs to be comma-delimited
     std::cout << (*n)->GetCoordinates();
@@ -262,7 +259,7 @@ void PrintNodalCoordinates(Solver& S, int w, char comment)
 }
 
 
-void PrintU(Solver& S, int s, char comment)
+void PrintU( itk::fem::Solver& S, int s, char comment)
 // Prints the components of the problem for debugging/reporting purposes
 {
   std::cout << std::endl << comment << "Displacements: " << std::endl;

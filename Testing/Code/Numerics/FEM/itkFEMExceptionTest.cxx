@@ -26,44 +26,41 @@
 #include <iostream>
 #include <exception>
 
-using namespace std;
-using namespace itk;
-using namespace fem;
 
 int itkFEMExceptionTest(int, char *[])
 {
     try {
-      throw FEMException(__FILE__,__LINE__, "itkFEMException");
+      throw itk::fem::FEMException(__FILE__,__LINE__, "itkFEMException");
     }
-    catch (ExceptionObject &) {
+    catch (itk::ExceptionObject &) {
       std::cout << "Exception caught\n";
     }
 
     try {
-      throw FEMExceptionIO(__FILE__,__LINE__,"itkFEMExceptionIO","IO exception");
+      throw itk::fem::FEMExceptionIO(__FILE__,__LINE__,"itkFEMExceptionIO","IO exception");
     }
-    catch (ExceptionObject &) {
+    catch (itk::ExceptionObject &) {
        std::cout << "IO exception caught\n";
     }
 
     try {
-      throw FEMExceptionWrongClass(__FILE__,__LINE__,"itkFEMExceptionWrongClass");
+      throw itk::fem::FEMExceptionWrongClass(__FILE__,__LINE__,"itkFEMExceptionWrongClass");
     }
-    catch (ExceptionObject &) {
+    catch (itk::ExceptionObject &) {
       std::cout << "Wrong class exception caught\n";
     }
 
     try {
-      throw FEMExceptionObjectNotFound(__FILE__,__LINE__,"itkFEMExceptionObjectNotFound","baseClassName",0);
+      throw itk::fem::FEMExceptionObjectNotFound(__FILE__,__LINE__,"itkFEMExceptionObjectNotFound","baseClassName",0);
     }
-    catch (ExceptionObject &) {
+    catch (itk::ExceptionObject &) {
       std::cout << "Not found exception caught\n";
     }
 
     try {
-      throw FEMExceptionSolution(__FILE__,__LINE__,"itkFEMExceptionSolution","Solution exception");
+      throw itk::fem::FEMExceptionSolution(__FILE__,__LINE__,"itkFEMExceptionSolution","Solution exception");
     }
-    catch (ExceptionObject &) {
+    catch (itk::ExceptionObject &) {
       std::cout << "Solution exception caught\n";
     }
 

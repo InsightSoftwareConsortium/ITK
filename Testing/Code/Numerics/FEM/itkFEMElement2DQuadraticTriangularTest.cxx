@@ -25,55 +25,58 @@
 
 #include <iostream>
 
-using namespace std;
-using namespace itk;
-using namespace fem;
 
 //
 int itkFEMElement2DQuadraticTriangularTest(int, char *[])
 {
-    Node::Pointer n0,n1,n2;
-    Element::VectorType pt(2);
+    typedef itk::fem::Node        NodeType;
+    typedef itk::fem::Element     ElementType;
 
-    n0=Node::New();
+    NodeType::Pointer n0,n1,n2;
+    ElementType::VectorType pt(2);
+
+    n0=NodeType::New();
     pt[0]=0.;
     pt[1]=0.;
     n0->SetCoordinates(pt);
 
-    n1=Node::New();
+    n1=NodeType::New();
     pt[0]=1.;
     pt[1]=1.;
     n1->SetCoordinates(pt);
 
-    n2=Node::New();
+    n2=NodeType::New();
     pt[0]=0.;
     pt[1]=2.;
     n2->SetCoordinates(pt);
 
-    MaterialLinearElasticity::Pointer m;
-    m=MaterialLinearElasticity::New();
+    typedef itk::fem::MaterialLinearElasticity   ElasticityType;
+    
+    ElasticityType::Pointer m = ElasticityType::New();
+    
     m->GN=0;
     m->E=300.0;
     m->A=0.02;
     m->I=0.004;
 
-    Element2DC0QuadraticTriangularStrain::Pointer e0 = Element2DC0QuadraticTriangularStrain::New();
+    typedef itk::fem::Element2DC0QuadraticTriangularStrain StrainType;
+    StrainType::Pointer e0 = StrainType::New();
 
     e0->GN=0;
     e0->SetNode(0, &*n0);
     e0->SetNode(1, &*n1);
     e0->SetNode(2, &*n2);
-    e0->m_mat=dynamic_cast<MaterialLinearElasticity*>(&*m);
+    e0->m_mat=dynamic_cast< ElasticityType * >(&*m);
 
     pt[0]=0.5;
     pt[1]=0.5;
 
-    cout << "# integration points = " << e0->GetNumberOfIntegrationPoints(2) << endl;
-    cout << "shape fxns at " << pt << ":\n" << e0->ShapeFunctions(pt) << endl;
+    std::cout << "# integration points = " << e0->GetNumberOfIntegrationPoints(2) << std::endl;
+    std::cout << "shape fxns at " << pt << ":\n" << e0->ShapeFunctions(pt) << std::endl;
 
-    Element::MatrixType shapeD;
+    ElementType::MatrixType shapeD;
     e0->ShapeFunctionDerivatives(pt, shapeD);
-    cout << "shape fxn derivatives:" << endl << shapeD << endl;
+    std::cout << "shape fxn derivatives:" << std::endl << shapeD << std::endl;
 
 #ifndef FEM_USE_SMART_POINTERS
     delete e0;
@@ -84,7 +87,7 @@ int itkFEMElement2DQuadraticTriangularTest(int, char *[])
 #endif
 
     
-    std::cout << "Test PASSED!\n";
+    std::cout << "Test PASSED!" << std::endl;
     return EXIT_SUCCESS;
 }
 

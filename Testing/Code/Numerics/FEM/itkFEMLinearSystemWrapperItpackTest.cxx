@@ -24,8 +24,6 @@
 #include "itkFEMLinearSystemWrapperItpack.h"
 #include <iostream>
 
-using namespace itk::fem;
-using namespace std;
 
 /* Testing for linear system wrappers */
 int itkFEMLinearSystemWrapperItpackTest( int , char * [] )
@@ -37,7 +35,7 @@ int itkFEMLinearSystemWrapperItpackTest( int , char * [] )
 
 
   /* declare wrapper */
-  LinearSystemWrapperItpack it;
+  itk::fem::LinearSystemWrapperItpack it;
 
 
   /* system parameters */
@@ -60,17 +58,17 @@ int itkFEMLinearSystemWrapperItpackTest( int , char * [] )
 
   /* Initialize memory */
   for (i=0; i<nMatrices; i++) 
-  {
+    {
     it.InitializeMatrix(i);
-  }
+    }
   for (i=0; i<nVectors; i++)
-  {
+    {
     it.InitializeVector(i);
-  }
+    }
   for (i=0; i<nSolutions; i++)
-  {
+    {
     it.InitializeSolution(i);
-  }
+    }
 
 
   /*     matrix 0
@@ -88,16 +86,16 @@ int itkFEMLinearSystemWrapperItpackTest( int , char * [] )
 
 
   /* print matrix 0 */
-  cout << "Matrix 0" << endl;
+  std::cout << "Matrix 0" << std::endl;
   for(i=0; i<N; i++) 
-  {
-    for (j=0; j<N; j++) 
     {
-      cout << it.GetMatrixValue(i,j,0) << " ";
+    for (j=0; j<N; j++) 
+      {
+      std::cout << it.GetMatrixValue(i,j,0) << " ";
+      }
+    std::cout << std::endl;
     }
-    cout << endl;
-  }
-  cout << endl;
+  std::cout << std::endl;
 
 
   /*     matrix 1
@@ -115,16 +113,16 @@ int itkFEMLinearSystemWrapperItpackTest( int , char * [] )
 
 
   /* print Matrix 1 */
-  cout << "Matrix 1" << endl;
+  std::cout << "Matrix 1" << std::endl;
   for(i=0; i<N; i++) 
-  {
-    for (j=0; j<N; j++) 
     {
-      cout << it.GetMatrixValue(i,j,1) << " ";
+    for (j=0; j<N; j++) 
+      {
+      std::cout << it.GetMatrixValue(i,j,1) << " ";
+      }
+    std::cout << std::endl;
     }
-    cout << std::endl;
-  }
-  cout << endl;
+  std::cout << std::endl;
 
 
   /* matrix 2 = matrix 0 * matrix 1 */
@@ -132,14 +130,16 @@ int itkFEMLinearSystemWrapperItpackTest( int , char * [] )
 
 
   /* print Matrix 2 */
-  cout << "matrix 2 = matrix 0 and matrix 1" << endl;
-  for(i=0; i<N; i++) {
-    for (j=0; j<N; j++) {
-      cout << it.GetMatrixValue(i,j,2) << " ";
+  std::cout << "matrix 2 = matrix 0 and matrix 1" << std::endl;
+  for(i=0; i<N; i++) 
+    {
+    for (j=0; j<N; j++) 
+      {
+      std::cout << it.GetMatrixValue(i,j,2) << " ";
+      }
+    std::cout << std::endl;
     }
-    cout << endl;
-  }
-  cout << endl;    
+  std::cout << std::endl;    
 
   /* Vector 0 = [1 2 3 4 5] */
   it.SetVectorValue(0,1,0);
@@ -150,140 +150,140 @@ int itkFEMLinearSystemWrapperItpackTest( int , char * [] )
 
 
   /* print Vector 0 */
-  cout << "Vector 0" << endl;
+  std::cout << "Vector 0" << std::endl;
   for (i=0; i<N; i++) 
-  {
-    cout << it.GetVectorValue(i,0) << " ";
-  }
-  cout << endl << endl;
+    {
+    std::cout << it.GetVectorValue(i,0) << " ";
+    }
+  std::cout << std::endl << std::endl;
 
 
   /* vector 1 = matrix 0 * vector 0 */
-  cout << "Vector 1 =  Matrix 0 * Vector 0" << endl;
+  std::cout << "Vector 1 =  Matrix 0 * Vector 0" << std::endl;
   it.MultiplyMatrixVector(1, 0, 0);
   for (i=0; i<N; i++) 
-  {
-    cout << it.GetVectorValue(i,1) << " ";
-  }
-  cout << endl << endl;
+    {
+    std::cout << it.GetVectorValue(i,1) << " ";
+    }
+  std::cout << std::endl << std::endl;
 
 
   /* swap vectors */
-  cout << "swap Vector 0 and Vector 1" << endl;
-  cout << "Vector 0" << endl;
+  std::cout << "swap Vector 0 and Vector 1" << std::endl;
+  std::cout << "Vector 0" << std::endl;
   it.SwapVectors(0,1);
   for (i=0; i<N; i++) 
-  {
-    cout << it.GetVectorValue(i,0) << " ";
-  }
-  cout << endl << "Vector 1" << endl;
+    {
+    std::cout << it.GetVectorValue(i,0) << " ";
+    }
+  std::cout << std::endl << "Vector 1" << std::endl;
   for (i=0; i<5; i++) 
-  {
-    cout << it.GetVectorValue(i,1) << " ";
-  }
-  cout << endl << endl;
+    {
+    std::cout << it.GetVectorValue(i,1) << " ";
+    }
+  std::cout << std::endl << std::endl;
 
 
   /* swap matrices */
-  cout << "swap Matrix 0 and Matrix 2" << endl;
+  std::cout << "swap Matrix 0 and Matrix 2" << std::endl;
   it.SwapMatrices(0,2);
-  cout << "Matrix 0" << endl;
+  std::cout << "Matrix 0" << std::endl;
   for(i=0; i<N; i++) 
-  {
-    for (j=0; j<N; j++) 
     {
-      cout << it.GetMatrixValue(i,j,0) << " ";
+    for (j=0; j<N; j++) 
+      {
+      std::cout << it.GetMatrixValue(i,j,0) << " ";
+      }
+    std::cout << std::endl;
     }
-    cout << endl;
-  }
-  cout << endl << "Matrix 2" << endl;
+  std::cout << std::endl << "Matrix 2" << std::endl;
   for(i=0; i<N; i++) 
-  {
-    for (j=0; j<N; j++) 
     {
-      cout << it.GetMatrixValue(i,j,2) << " ";
+    for (j=0; j<N; j++) 
+      {
+      std::cout << it.GetMatrixValue(i,j,2) << " ";
+      }
+    std::cout << std::endl;
     }
-    cout << endl;
-  }
-  cout << endl;
+  std::cout << std::endl;
 
 
   /* solve system */
-  cout << "Solve for x in: Matrix 0 * x = Vector 0" << endl;
+  std::cout << "Solve for x in: Matrix 0 * x = Vector 0" << std::endl;
   it.Solve();
-  cout << "Solution 0" << endl;
+  std::cout << "Solution 0" << std::endl;
   for (i=0; i<N; i++) 
-  {
-    cout << it.GetSolutionValue(i,0) << " ";
-  }
-  cout << endl << endl;
+    {
+    std::cout << it.GetSolutionValue(i,0) << " ";
+    }
+  std::cout << std::endl << std::endl;
   
 
   /* set solution */
-  cout << "Solution 1" << endl;
+  std::cout << "Solution 1" << std::endl;
   it.SetSolutionValue(0,1,1);
   it.SetSolutionValue(1,2,1);
   it.SetSolutionValue(2,3,1);
   it.SetSolutionValue(3,4,1);
   it.SetSolutionValue(4,5,1);
   for (i=0; i<5; i++) 
-  {
-    cout << it.GetSolutionValue(i,1) << " ";
-  }
-  cout << endl << endl;
+    {
+    std::cout << it.GetSolutionValue(i,1) << " ";
+    }
+  std::cout << std::endl << std::endl;
 
 
   /* swap solutions */
-  cout << "swap Solution 0 and Solution 1" << endl;
+  std::cout << "swap Solution 0 and Solution 1" << std::endl;
   it.SwapSolutions(0,1);
-  cout << "Solution 0" << endl;
+  std::cout << "Solution 0" << std::endl;
   for (i=0; i<N; i++) 
-  {
-    cout << it.GetSolutionValue(i,0) << " ";
-  }
-  cout << endl << "Solution 1" << endl;
+    {
+    std::cout << it.GetSolutionValue(i,0) << " ";
+    }
+  std::cout << std::endl << "Solution 1" << std::endl;
   for (i=0; i<N; i++) 
-  {
-    cout << it.GetSolutionValue(i,1) << " ";
-  }
-  cout << endl << endl;
+    {
+    std::cout << it.GetSolutionValue(i,1) << " ";
+    }
+  std::cout << std::endl << std::endl;
 
 
   /* copy solution to vector */
-  cout << "copy Solution 1 to Vector 0" << endl;
+  std::cout << "copy Solution 1 to Vector 0" << std::endl;
   it.CopySolution2Vector(1,0);
-  cout << "Vector 0" << endl;
+  std::cout << "Vector 0" << std::endl;
   for (i=0; i<N; i++) 
-  {
-    cout << it.GetVectorValue(i,0) << " ";
-  }
-  cout << endl << endl;
+    {
+    std::cout << it.GetVectorValue(i,0) << " ";
+    }
+  std::cout << std::endl << std::endl;
 
 
   /* scale matrix */
-  cout << "scale Matrix 2 by 2.0" << endl;
+  std::cout << "scale Matrix 2 by 2.0" << std::endl;
   it.ScaleMatrix(2.0, 2);
-  cout << "Matrix 2" << endl;
+  std::cout << "Matrix 2" << std::endl;
   for(i=0; i<N; i++) 
-  {
-    for (j=0; j<N; j++) 
     {
-      cout << it.GetMatrixValue(i,j,2) << " ";
+    for (j=0; j<N; j++) 
+      {
+      std::cout << it.GetMatrixValue(i,j,2) << " ";
+      }
+    std::cout << std::endl;
     }
-    cout << endl;
-  }
-  cout << endl;
+  std::cout << std::endl;
 
 
   /* scale vector */
-  cout << "scale Vector 0 by 3.0" << endl;
+  std::cout << "scale Vector 0 by 3.0" << std::endl;
   it.ScaleVector(3.0, 0);
-  cout << "Vector 0" << endl;
+  std::cout << "Vector 0" << std::endl;
   for (i=0; i<5; i++) 
-  {
-    cout << it.GetVectorValue(i,0) << " ";
-  }
-  cout << endl << endl;
+    {
+    std::cout << it.GetVectorValue(i,0) << " ";
+    }
+  std::cout << std::endl << std::endl;
 
 
   /* destroy matrix,vector,solution */
@@ -296,7 +296,7 @@ int itkFEMLinearSystemWrapperItpackTest( int , char * [] )
   int        integerPass = 1;
   double     doublePass  = 1.0;
  
-  cout << "Test itpack parameter setting..." << endl;
+  std::cout << "Test itpack parameter setting..." << std::endl;
 
   it.SetMaximumNumberIterations(integerPass);
   it.GetMaximumNumberIterations();
@@ -352,7 +352,7 @@ int itkFEMLinearSystemWrapperItpackTest( int , char * [] )
   it.ReducedSystemConjugateGradient() ;
   it.ReducedSystemSemiIteration() ;
   
-  cout << "Done." << endl;
+  std::cout << "Done." << std::endl;
 
 
   return EXIT_SUCCESS;

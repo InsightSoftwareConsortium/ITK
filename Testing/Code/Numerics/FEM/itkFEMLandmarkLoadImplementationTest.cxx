@@ -26,9 +26,6 @@
 #include "itkFEM.h"
 #include "itkFEMLinearSystemWrapperItpack.h"
 
-using namespace std;
-using namespace itk;
-using namespace fem;
 
 //
 int itkFEMLandmarkLoadImplementationTest(int, char*[])

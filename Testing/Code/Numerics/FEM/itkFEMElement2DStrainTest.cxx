@@ -25,59 +25,63 @@
 
 #include <iostream>
 
-using namespace std;
-using namespace itk;
-using namespace fem;
 
 //
 int itkFEMElement2DStrainTest(int, char *[])
 {
-    Node::Pointer n0,n1,n2,n3;
-    Element::VectorType pt(2);
+    typedef itk::fem::Node        NodeType;
+    typedef itk::fem::Element     ElementType;
 
-    n0=Node::New();
+    NodeType::Pointer n0,n1,n2,n3;
+    ElementType::VectorType pt(2);
+
+    n0=NodeType::New();
     pt[0]=0.;
     pt[1]=0.;
     n0->SetCoordinates(pt);
 
-    n1=Node::New();
+    n1=NodeType::New();
     pt[0]=1.;
     pt[1]=1.;
     n1->SetCoordinates(pt);
 
-    n2=Node::New();
+    n2=NodeType::New();
     pt[0]=3.;
     pt[1]=2.;
     n2->SetCoordinates(pt);
 
-    n3=Node::New();
+    n3=NodeType::New();
     pt[0]=0.;
     pt[1]=3.;
     n3->SetCoordinates(pt);
 
-    MaterialLinearElasticity::Pointer m;
-    m=MaterialLinearElasticity::New();
+    typedef itk::fem::MaterialLinearElasticity   ElasticityType;
+    
+    ElasticityType::Pointer m = ElasticityType::New();
+
     m->GN=0;
     m->E=30000.0;
     m->A=0.02;
     m->I=0.004;
 
-    Element2DC0LinearQuadrilateralStrain::Pointer e0 = Element2DC0LinearQuadrilateralStrain::New();
+    typedef itk::fem::Element2DC0LinearQuadrilateralStrain      StrainType;
+
+    StrainType::Pointer e0 = StrainType::New();
 
     e0->GN=0;
     e0->SetNode(0, &*n0);
     e0->SetNode(1, &*n1);
     e0->SetNode(2, &*n2);
     e0->SetNode(3, &*n3);
-    e0->m_mat=dynamic_cast<MaterialLinearElasticity*>(&*m);
+    e0->m_mat=dynamic_cast< ElasticityType * >(&*m);
 
-    Element::MatrixType D, Me;
+    ElementType::MatrixType D, Me;
 
     e0->GetMassMatrix(Me);
     e0->GetMaterialMatrix(D);
-    cout << "Mass matrix: " << endl << Me << endl;
-    cout << "Material matrix: " << endl << D << endl;
-    cout << "#dof per node = " << e0->GetNumberOfDegreesOfFreedomPerNode() << endl;
+    std::cout << "Mass matrix: " << std::endl << Me << std::endl;
+    std::cout << "Material matrix: " << std::endl << D << std::endl;
+    std::cout << "#dof per node = " << e0->GetNumberOfDegreesOfFreedomPerNode() << std::endl;
 
 #ifndef FEM_USE_SMART_POINTERS
     delete e0;
@@ -88,7 +92,7 @@ int itkFEMElement2DStrainTest(int, char *[])
     delete n3;
 #endif
 
-    std::cout << "Test PASSED!\n";
+    std::cout << "Test PASSED!" << std::endl;
     return EXIT_SUCCESS;
 }
 

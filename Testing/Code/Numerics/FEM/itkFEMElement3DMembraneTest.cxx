@@ -25,73 +25,74 @@
 
 #include <iostream>
 
-using namespace std;
-using namespace itk;
-using namespace fem;
 
 //
 int itkFEMElement3DMembraneTest(int, char *[])
 {
-    Node::Pointer n0,n1,n2,n3,n4,n5,n6,n7;
-    Element::VectorType pt(3);
+    typedef itk::fem::Node        NodeType;
+    typedef itk::fem::Element     ElementType;
 
-    n0=Node::New();
+    NodeType::Pointer n0,n1,n2,n3,n4,n5,n6,n7;
+    ElementType::VectorType pt(3);
+
+    n0=NodeType::New();
     pt[0]=0.;
     pt[1]=0.;
     pt[2]=0.;
     n0->SetCoordinates(pt);
 
-    n1=Node::New();
+    n1=NodeType::New();
     pt[0]=1.;
     pt[1]=0.;
     pt[2]=0.;
     n1->SetCoordinates(pt);
 
-    n2=Node::New();
+    n2=NodeType::New();
     pt[0]=1.;
     pt[1]=1.;
     pt[2]=0.;
     n2->SetCoordinates(pt);
 
-    n3=Node::New();
+    n3=NodeType::New();
     pt[0]=0.;
     pt[1]=1.;
     pt[2]=0.;
     n3->SetCoordinates(pt);
 
-    n4=Node::New();
+    n4=NodeType::New();
     pt[0]=0.;
     pt[1]=0.;
     pt[2]=1.;
     n4->SetCoordinates(pt);
 
-    n5=Node::New();
+    n5=NodeType::New();
     pt[0]=1.;
     pt[1]=0.;
     pt[2]=1.;
     n5->SetCoordinates(pt);
 
-    n6=Node::New();
+    n6=NodeType::New();
     pt[0]=1.;
     pt[1]=1.;
     pt[2]=1.;
     n6->SetCoordinates(pt);
 
-    n7=Node::New();
+    n7=NodeType::New();
     pt[0]=0.;
     pt[1]=1.;
     pt[2]=1.;
     n7->SetCoordinates(pt);
 
-    MaterialLinearElasticity::Pointer m;
-    m=MaterialLinearElasticity::New();
+    typedef itk::fem::MaterialLinearElasticity   ElasticityType;
+    ElasticityType::Pointer m = ElasticityType::New();
     m->GN=0;
     m->E=10000.0;
     m->A=0.02;
     m->I=0.004;
     m->nu=0.4;
 
-    Element3DC0LinearHexahedronMembrane::Pointer e0 = Element3DC0LinearHexahedronMembrane::New();
+    typedef itk::fem::Element3DC0LinearHexahedronMembrane ElementMembraneType;
+    ElementMembraneType::Pointer e0 = ElementMembraneType::New();
 
     e0->GN=0;
     e0->SetNode(0, &*n0);
@@ -102,15 +103,15 @@ int itkFEMElement3DMembraneTest(int, char *[])
     e0->SetNode(5, &*n5);
     e0->SetNode(6, &*n6);
     e0->SetNode(7, &*n7);
-    e0->m_mat=dynamic_cast<MaterialLinearElasticity*>(&*m);
+    e0->m_mat=dynamic_cast< ElasticityType * >(&*m);
 
-    Element::MatrixType D, Me;
+    ElementType::MatrixType D, Me;
 
     e0->GetMassMatrix(Me);
     e0->GetMaterialMatrix(D);
-    cout << "Mass matrix: " << endl << Me << endl;
-    cout << "Material matrix: " << endl << D << endl;
-    cout << "#dof per node = " << e0->GetNumberOfDegreesOfFreedomPerNode() << endl;
+    std::cout << "Mass matrix: " << std::endl << Me << std::endl;
+    std::cout << "Material matrix: " << std::endl << D << std::endl;
+    std::cout << "#dof per node = " << e0->GetNumberOfDegreesOfFreedomPerNode() << std::endl;
 
 #ifndef FEM_USE_SMART_POINTERS
     delete e0;
@@ -125,7 +126,7 @@ int itkFEMElement3DMembraneTest(int, char *[])
     delete n7;
 #endif
 
-    std::cout << "Test PASSED!\n";
+    std::cout << "Test PASSED!" << std::endl;;
     return EXIT_SUCCESS;
 }
 
