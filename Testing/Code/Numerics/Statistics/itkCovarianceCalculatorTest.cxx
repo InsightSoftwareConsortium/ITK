@@ -64,16 +64,15 @@ int itkCovarianceCalculatorTest(int, char* [] )
   // calculates variance
   double count = 0.0 ;
   double variance = 0.0 ;
-  double diff ;
   typedef itk::ImageRegionIterator< ImageType > ImageIterator ;
   ImageIterator iter(image, region) ;
   iter.GoToBegin() ;
   while (!iter.IsAtEnd())
     {
-      diff = iter.Get()[0] - float((*mean)[0]) ;
-      variance += diff * diff ; 
-      count++ ; 
-      ++iter ;
+    double diff = iter.Get()[0] - float((*mean)[0]) ;
+    variance += diff * diff ; 
+    count++ ; 
+    ++iter ;
     }
   variance /= static_cast< double>(count - 1) ;
 
@@ -89,13 +88,13 @@ int itkCovarianceCalculatorTest(int, char* [] )
 
   if (calculator->GetOutput()->GetVnlMatrix().get(0,0) != variance)
     {
-      pass = false ;
+    pass = false ;
     }
  
   if( !pass )
     {
-      std::cout << "Test failed." << std::endl;
-      return EXIT_FAILURE;
+    std::cout << "Test failed." << std::endl;
+    return EXIT_FAILURE;
     }
 
   std::cout << "Test passed." << std::endl;
