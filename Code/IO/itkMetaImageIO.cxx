@@ -365,7 +365,7 @@ MetaImageIO
   int i;
   int * dSize = new int[nDims];
   float * eSpacing = new float[nDims];
-  float * eOrigin = new float[nDims];
+  double * eOrigin = new double[nDims];
   for(i=0; i<nDims; i++)
     {
     dSize[i] = this->GetDimensions(i);
