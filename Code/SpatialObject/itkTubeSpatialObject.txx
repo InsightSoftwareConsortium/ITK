@@ -140,13 +140,14 @@ TubeSpatialObject< TDimension >
         {
         if(!ret)
           {
-          m_Bounds->SetMinimum((*it).GetPosition());
-          m_Bounds->SetMaximum((*it).GetPosition());
+          m_Bounds->SetMinimum((*it).GetPosition()-(*it).GetRadius());
+          m_Bounds->SetMaximum((*it).GetPosition()+(*it).GetRadius());
           it++;
           }
         while(it!= end) 
           {     
-          m_Bounds->ConsiderPoint((*it).GetPosition());
+          m_Bounds->ConsiderPoint((*it).GetPosition()-(*it).GetRadius());
+          m_Bounds->ConsiderPoint((*it).GetPosition()+(*it).GetRadius());
           it++;
           }
         ret = true;
@@ -183,8 +184,8 @@ TubeSpatialObject< TDimension >
     typename PointListType::const_iterator min;  
   
     const TransformType * giT = GetWorldToIndexTransform();
-    PointType transformedPoint = giT->TransformPoint(point);
-  
+    PointType transformedPoint = giT->TransformPoint(point);      
+
     if( m_Bounds->IsInside(transformedPoint) )
       {
       while(it!= end)
@@ -301,11 +302,18 @@ TubeSpatialObject< TDimension >
       n1[0] = -t[1];
       n1[1] = t[0];
       n1[2] = 0;
- 
-      n2[0] = t[2]*t[0]; 
-      n2[1] = -t[2]*t[1];
-      n2[2] = t[0]*t[0] - t[1]*t[1];
- 
+
+      if(n1[0]+n1[1]+n1[2] == 0.0) // if the normal is null
+        {
+          n1[0] = 0;
+          n1[1] = -t[2];
+          n1[2] = t[1];
+        }
+      
+      n2[0] = t[1]*n1[2]-t[2]*n1[1];
+      n2[1] = t[2]*n1[0]-t[0]*n1[2];
+      n2[2] = t[0]*n1[1]-t[1]*n1[0];
+     
       (*it1).SetNormal1(n1);
       (*it1).SetNormal2(n2);
       }
@@ -338,7 +346,6 @@ TubeSpatialObject< TDimension >
     n2 = (*it2).GetNormal2();
     (*it1).SetNormal2(n2);  
     }
-
 
   return true; 
 } 
