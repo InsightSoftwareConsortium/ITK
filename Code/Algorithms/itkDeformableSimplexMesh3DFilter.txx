@@ -14,12 +14,11 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkDeformableSimplexMesh3DFilter_TXX
-#define __itkDeformableSimplexMesh3DFilter_TXX
+#ifndef __itkDeformableSimplexMesh3DFilter_txx
+#define __itkDeformableSimplexMesh3DFilter_txx
 
 #include "itkDeformableSimplexMesh3DFilter.h"
 #include "itkNumericTraits.h"
-//#include <vnl/vnl_numeric_limits.h>
 
 #include <set>
 
