@@ -90,8 +90,6 @@ VectorGradientNDAnisotropicDiffusionEquation<TImage>
   ScalarValueType GradMag_d[ImageDimension];  
   ScalarValueType Cx[ImageDimension];
   ScalarValueType Cxd[ImageDimension];
-  ScalarValueType Cx_gradmag[ImageDimension];
-  ScalarValueType Cxd_gradmag[ImageDimension];
   
   PixelType dx_forward[ImageDimension];
   PixelType dx_backward[ImageDimension];
@@ -101,9 +99,6 @@ VectorGradientNDAnisotropicDiffusionEquation<TImage>
 
   for (i = 0; i < ImageDimension; i++)
     {
-      Cx_gradmag[i]  = NumericTraits<ScalarValueType>::Zero;
-      Cxd_gradmag[i] = NumericTraits<ScalarValueType>::Zero;
-      
       dx_forward[i]  = it.GetPixel(m_Center - m_Stride[i])
         - (it.GetPixel(m_Center));
       dx_backward[i] = it.GetPixel(m_Center + m_Stride[i])
@@ -173,8 +168,6 @@ VectorGradientNDAnisotropicDiffusionEquation<TImage>
   ScalarValueType GradMag_d[ImageDimension];  
   ScalarValueType Cx[ImageDimension];
   ScalarValueType Cxd[ImageDimension];
-  ScalarValueType Cx_gradmag[ImageDimension];
-  ScalarValueType Cxd_gradmag[ImageDimension];
   
   PixelType dx_forward[ImageDimension];
   PixelType dx_backward[ImageDimension];
@@ -185,9 +178,6 @@ VectorGradientNDAnisotropicDiffusionEquation<TImage>
 
   for (i = 0; i < ImageDimension; i++)
     {
-      Cx_gradmag[i]  = NumericTraits<ScalarValueType>::Zero;
-      Cxd_gradmag[i] = NumericTraits<ScalarValueType>::Zero;
-
       dx_forward[i]  = it.GetPixel(m_Center - m_Stride[i])
         - (it.GetPixel(m_Center));
       dx_backward[i] = it.GetPixel(m_Center + m_Stride[i])
