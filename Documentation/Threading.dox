@@ -33,6 +33,8 @@
    from anywhere in the input image but each thread can only write to
    its designated portion of the output image.
 
+   \image html Threading.gif "Filters may process their data in multiple threads in a shared memory configuration."
+
    The output image is a single contiguous block on memory that is
    used for all processing threads.  Each thread is informed which
    pixels they are responsible for producing the output values.  All
