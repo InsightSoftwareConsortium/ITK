@@ -26,9 +26,9 @@ namespace _cable_
   const char* const group = ITK_WRAP_GROUP(itkSobelEdgeDetectionImageFilter);
   namespace wrappers
   {
-    ITK_WRAP_OBJECT2_WITH_SUPERCLASS(SobelEdgeDetectionImageFilter, image::F2, image::F2,
+    ITK_WRAP_OBJECT2(SobelEdgeDetectionImageFilter, image::F2, image::F2,
                      itkSobelEdgeDetectionImageFilterF2F2);
-    ITK_WRAP_OBJECT2_WITH_SUPERCLASS(SobelEdgeDetectionImageFilter, image::F3, image::F3,
+    ITK_WRAP_OBJECT2(SobelEdgeDetectionImageFilter, image::F3, image::F3,
                      itkSobelEdgeDetectionImageFilterF3F3);
   }
 }
