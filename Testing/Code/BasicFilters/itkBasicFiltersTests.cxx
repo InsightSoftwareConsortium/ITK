@@ -76,6 +76,7 @@ void RegisterTests()
   REGISTER_TEST(itkExpNegativeImageFilterAndAdaptorTest );
   REGISTER_TEST(itkExpandImageFilterTest );
   REGISTER_TEST(itkExtractImageTest );
+  REGISTER_TEST(itkExtractOrthogonalSwath2DImageFilterTest );
   REGISTER_TEST(itkFilterDispatchTest );
   REGISTER_TEST(itkFlipImageFilterTest );
   REGISTER_TEST(itkFloodFillIteratorTest );
