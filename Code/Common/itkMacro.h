@@ -427,14 +427,16 @@ private:
   ::itk::OStringStream message; \
   message << "itk::ERROR: " << this->GetNameOfClass() \
           << "(" << this << "): " x; \
-  throw ::itk::ExceptionObject(__FILE__, __LINE__, message.str().c_str()); \
+  ::itk::ExceptionObject e_(__FILE__, __LINE__, message.str().c_str()); \
+  throw e_; /* Explicit naming to work around Intel compiler bug.  */ \
   }
 
 #define itkGenericExceptionMacro(x) \
   { \
   ::itk::OStringStream message; \
   message << "itk::ERROR: " x; \
-  throw ::itk::ExceptionObject(__FILE__, __LINE__, message.str().c_str()); \
+  ::itk::ExceptionObject e(__FILE__, __LINE__, message.str().c_str()); \
+  throw e_; /* Explicit naming to work around Intel compiler bug.  */ \
   }
 
 #ifdef ITK_LEAN_AND_MEAN
