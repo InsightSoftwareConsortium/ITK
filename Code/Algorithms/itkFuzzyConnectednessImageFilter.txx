@@ -13,7 +13,7 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#include "itkImageRegionSimpleIterator.h"
+#include "itkSimpleImageRegionIterator.h"
 
 namespace itk{
 
@@ -222,8 +222,8 @@ FuzzyConnectednessImageFilter<TInputImage,TOutputImage>
   double activeThreshold = MAXUSHORT * m_Threshold;
 
 
-  ImageRegionSimpleIterator <UShortImage> it(this->m_FuzzyScene, regionIN);
-  ImageRegionSimpleIterator <OutputImageType> ot(this->m_SegmentObject, regionOUT);
+  SimpleImageRegionIterator <UShortImage> it(this->m_FuzzyScene, regionIN);
+  SimpleImageRegionIterator <OutputImageType> ot(this->m_SegmentObject, regionOUT);
 
 
   it.Begin();
@@ -263,7 +263,7 @@ FuzzyConnectednessImageFilter<TInputImage,TOutputImage>
   m_FuzzyScene->SetRequestedRegion( region );
   m_FuzzyScene->Allocate();  
 
-  ImageRegionSimpleIterator <UShortImage> it(this->m_FuzzyScene, region);
+  SimpleImageRegionIterator <UShortImage> it(this->m_FuzzyScene, region);
 
   it.Begin();
 
