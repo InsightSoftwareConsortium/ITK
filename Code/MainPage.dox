@@ -96,51 +96,136 @@ Algorithms are classes that implement a procedure.
 */
 
 /**
-  \defgroup SegmentationAlgorithms Segmentation Algorithms
-  \ingroup Algorithms
+ \defgroup ImageEnhancement Image Enhancement Algorithms
+ \ingroup Algorithms
+ Image enhancement algorithms process an image to enhance the apperance 
+ of an image either for visualization purposes or for further processing.
+ Examples of image enhancement algorithms available in ITK are: anistropic diffusion,
+ gaussian filter, and histogram equalization.
+*/  
+
+/**
+ \defgroup ImageFeatureExtraction Image Feature Extraction Algorithms
+ \ingroup Algorithms
+ Image feature extraction algorithms process an image to extract features of interest
+ such as gradients, edges, distances, etc. 
+ Examples of image feature extraction algorithms available in ITK are: image gradients, 
+ first and second derivatives, and Danielson distance.
 */  
 
 
 /**
  \defgroup ImageSegmentation Image Segmentation Algorithms
- \ingroup SegmentationAlgorithms
+ \ingroup Algorithms
+ Image segmentation algorithms process an image to 
+ partition it into meaningful regions. Various types of image segmentation algorithms 
+ are available in ITK - some examples are, unsupervised pixel classification methods, region-growing methods, 
+ watershed-based methods, deformable-model based methods, and level-set based methods. 
 */  
 
 /**
  \defgroup IntensityImageSegmentation Intensity-Based Image Segmentation Algorithms
  \ingroup ImageSegmentation
+ Intensity based image segmentation algorithms use intensity values  
+ of image pixels to segment an image. Typically, spatial continguity is not not considered in 
+ intensity-based segmentation algorithms. 
+ Examples of intensity based algorithms in ITK are supervised and unsupervised pixel classification algorithms.
 */  
 
 /**
- \defgroup Classification Classification Algorithms
+ \defgroup ClassificationAlgorithms Classification Algorithms
  \ingroup IntensityImageSegmentation
+  Classification algorithms use statistical classification algorithms to assign a label to 
+a given image pixel. Classification algorithms can be supervised when training data is available 
+or unsupervised when no training data is available. 
 */  
 
 /**
- \defgroup SupervisedClassification Supervised Classification Algorithms
- \ingroup Classification
+ \defgroup SupervisedClassificationAlgorithms Supervised Classification Algorithms
+ \ingroup ClassificationAlgorithms
+ Supervised classification algorithms rely on the existence of training data to classify 
+ pixels into different types. An example of supervised classification algorithms in ITK is
+ the Gaussian classifier which uses the training data to build Gaussian models of intensity distributions.
 */  
 
 /**
- \defgroup UnSupervisedClassification Unsupervised Classification Algorithms
- \ingroup Classification
+ \defgroup UnSupervisedClassificationAlgorithms Unsupervised Classification Algorithms
+ \ingroup ClassificationAlgorithms
+ Unsupervised classification algorithm typically cluster the image intensity data into different groups. 
+ An example of unsupervised classification algorithm in ITK is the K-Means clustering algorithm. 
+*/
+
+/**
+ \defgroup WatershedSegmentation Watershed-based Segmentation Algorithms
+ \ingroup IntensityImageSegmentation
+ These algorithms segment an image based on intensity values usign the watershed algorithm.  
 */  
+
+
+/**
+ \defgroup RegionBasedSegmentation Region-Based Segmentation Algorithms
+ \ingroup IntensityImageSegmentation
+ These algorithms segment an image based on similarity of intensity values between spatially adjacent 
+ pixels. Examples of region-based segmentation algorithms in ITK include fuzzy connectedness, region growing, and 
+ Markov Random Fields.
+*/
+
+/**
+ \defgroup FuzzyConnectednessSegmentation  Fuzzy Connectedness-based Segmentation Algorithms
+ \ingroup RegionBasedSegmentation
+ These algorithms segment an image based on fuzzy connectedness principles. Here you typically 
+start with one or more seed points and grow regions around these seed points based on fuzzy affinity.
+*/  
+
+/**
+ \defgroup RegionGrowingSegmentation Region Growing Algorithms
+ \ingroup RegionBasedSegmentation
+Typically region growing involves starting several small regions on an image and merging them iteratively based on some 
+pixel intensity similarity critereon. ITK provides a intensity and edge-based region growing algorithm for segmentation.
+*/
+
+
+/**
+ \defgroup MRFAlgorithms Markov Random Field-based Algorithms
+ \ingroup RegionBasedAlgorithms
+Markov Random Field (MRF)-based algorithms assume that the segmented image is Markovian in nature, i.e., adjacent 
+pixels are likely to be of the same class. These methods typically combine intensity-based algorithms with MRF prior 
+models also known as Gibbs prior models.
+*/
+
+
 
 /**
  \defgroup ModelImageSegmentation Model-Based Image Segmentation Algorithms
  \ingroup ImageSegmentation
+ These algorithms segment an image by starting with a model and then updating the model based on 
+image features and the updates are typically constrained by a-priori knowledge about the models. 
+Examples of these types of algorithms in ITK include: deformable model (snakes)-based algorithms and level-set based
+algorithms.
 */  
-
 
 /**
  \defgroup MeshSegmentation Mesh Segmentation Algorithms
  \ingroup ModelImageSegmentation
+These algorithms represent models using a mesh and update the models based on image features. 
+Examples of this type of filter in ITK include: balloon force filter and the deformable mesh filter.
 */  
+
+/**
+ \defgroup LevelSetSegmentation Level Set-Based Segmentation Algorithms
+ \ingroup ModelImageSegmentation
+ These algorithms represent models implicitly using level-sets and update the models based on image features. 
+Examples of these types of segmentation methods in ITK include: curvature flow-based algorithms, 
+  fast marching algorithms, and shape-detection algorithms.
+*/  
+
+
 
 /**
  \defgroup RegistrationAlgorithms Registration Algorithms
  \ingroup Algorithms
 */  
+
 
 /**
  \defgroup ImageRegistration Image Registration Methods
@@ -148,12 +233,12 @@ Algorithms are classes that implement a procedure.
 */  
 
 /**
- \defgroup DeformableRegistration Deformable Registration Methods
+ \defgroup RigidRegistration Rigid Registration Methods
  \ingroup ImageRegistration
 */  
 
 /**
- \defgroup RigidRegistration Rigid Registration Methods
+ \defgroup DeformableRegistration Deformable Registration Methods
  \ingroup ImageRegistration
 */  
 
@@ -166,6 +251,16 @@ Algorithms are classes that implement a procedure.
  \defgroup PointSetToImageRegistration PointSet to Image Registration Methods
  \ingroup ModelImageRegistration
 */  
+
+/**
+ \defgroup GeometricTransforms Geometric Transformation Algorithms
+ \ingroup Algorithms
+ Geometric transformation algorithms transform the coordinates of an image in various ways. 
+ Examples of geometric transformation algorithms available in ITK are: image shrinking, and 
+ affine transformation.
+
+*/  
+
 
 
 /**
