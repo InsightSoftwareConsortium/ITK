@@ -94,7 +94,8 @@ int main()
   constantPad->SetPadLowerBound(lowerfactors);
   constantPad->SetPadUpperBound(upperfactors);
   constantPad->UpdateLargestPossibleRegion();
-  
+
+  std::cout << constantPad << std::endl;
   std::cout << "Input spacing: " << if2->GetSpacing()[0] << ", "
             << if2->GetSpacing()[1] << std::endl;
   std::cout << "Output spacing: " << constantPad->GetOutput()->GetSpacing()[0]
