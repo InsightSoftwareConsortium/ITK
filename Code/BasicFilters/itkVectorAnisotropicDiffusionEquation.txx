@@ -72,7 +72,8 @@ VectorAnisotropicDiffusionEquation<TImage>
   VectorNeighborhoodInnerProduct<TImage>      IP;
   RNI_type                                    iterator_list[ImageDimension];
   SNI_type                               face_iterator_list[ImageDimension];
-  DerivativeOperator<PixelType::ValueType, ImageDimension> operator_list[ImageDimension];
+  typedef typename PixelType::ValueType PixelValueType;
+  DerivativeOperator<PixelValueType, ImageDimension> operator_list[ImageDimension];
   
   // Set up the derivative operators, one for each dimension
   for (i = 0; i < ImageDimension; ++i)
