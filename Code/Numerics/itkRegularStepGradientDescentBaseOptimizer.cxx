@@ -99,15 +99,15 @@ RegularStepGradientDescentBaseOptimizer
     {
 
     ParametersType currentPosition = this->GetCurrentPosition();
-    m_Value = m_CostFunction->GetValue( currentPosition );
+    
+    m_PreviousGradient = m_Gradient;
 
     if( m_Stop )
       {
       break;
       }
 
-    m_PreviousGradient = m_Gradient;
-    m_CostFunction->GetDerivative( currentPosition, m_Gradient );
+    m_CostFunction->GetValueAndDerivative( currentPosition, m_Value, m_Gradient );
 
     if( m_Stop )
       {
