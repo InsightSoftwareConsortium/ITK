@@ -49,7 +49,7 @@
 //  \doxygen{NeighborhoodOperator}s.  The size of the neighborhood over which
 //  the mean is computed can be set by the user.
 //
-//  \index{itk::MeanImageFilter|textbf}
+//  \index{itk::MeanImageFilter}
 //
 //  Software Guide : EndLatex 
 
@@ -64,7 +64,7 @@
 //
 //  The header file corresponding to this filter should be included first.
 //
-//  \index{itk::MeanImageFilter!header|textbf}
+//  \index{itk::MeanImageFilter!header}
 //
 //  Software Guide : EndLatex 
 

@@ -24,8 +24,8 @@
 //  which it operates.  The header files required for a minimal example on
 //  the use of mathematical morphology filters are presented below.
 //
-//  \index{itk::BinaryDilateImageFilter!header|textbf}
-//  \index{itk::BinaryErodeImageFilter!header|textbf}
+//  \index{itk::BinaryDilateImageFilter!header}
+//  \index{itk::BinaryErodeImageFilter!header}
 //
 //  Software Guide : EndLatex 
 

@@ -79,8 +79,8 @@
 // \item \texttt{ThresholdOutside()}
 // \end{itemize}
 //
-// \index{itk::ThresholdImageFilter!Instantiation|textbf}
-// \index{itk::ThresholdImageFilter!Header|textbf}
+// \index{itk::ThresholdImageFilter!Instantiation}
+// \index{itk::ThresholdImageFilter!Header}
 // \index{itk::ThresholdImageFilter!ThresholdAbove()}
 // \index{itk::ThresholdImageFilter!ThresholdBelow()}
 // \index{itk::ThresholdImageFilter!ThresholdOutside()}
@@ -222,7 +222,7 @@ int main( int argc, char * argv[] )
   //  which pixels of the input image will be transformed into the
   //  \code{OutsideValue}.
   //  
-  //  \index{itk::ThresholdImageFilter!ThresholdBelow()|textbf}
+  //  \index{itk::ThresholdImageFilter!ThresholdBelow()}
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet

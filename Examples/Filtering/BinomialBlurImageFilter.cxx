@@ -22,7 +22,7 @@
 //  specified by the user. In principle, after a large number of iterations
 //  the result will approach the convolution with a Gaussian.
 //
-//  \index{itk::BinomialBlurImageFilter|textbf}
+//  \index{itk::Binomial\-Blur\-Image\-Filter}
 //
 //  Software Guide : EndLatex 
 

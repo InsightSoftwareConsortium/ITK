@@ -28,7 +28,7 @@
 //  requires a constant number of operations for approximating the convolution.
 //  This is independent of the $\sigma$ value \cite{Deriche1990,Deriche1993}.
 //
-//  \index{itk::RecursiveGaussianImageFilter|textbf}
+//  \index{itk::RecursiveGaussianImageFilter}
 //
 //  Software Guide : EndLatex 
 

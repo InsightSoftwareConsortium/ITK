@@ -46,7 +46,7 @@
 //  \mbox{Threshold} \end{array} \right.
 //  \end{equation}
 //
-//  \index{itk::BinaryMinMaxCurvatureFlowImageFilter|textbf}
+//  \index{itk::Binary\-MinMax\-Curvature\-Flow\-Image\-Filter}
 //
 //  Software Guide : EndLatex 
 

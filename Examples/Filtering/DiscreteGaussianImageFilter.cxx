@@ -34,7 +34,7 @@
 //  Gaussian curve (which has finite support) and the area under the
 //  continuous Gaussian.
 //
-//  \index{itk::DiscreteGaussianImageFilter|textbf}
+//  \index{itk::DiscreteGaussianImageFilter}
 //
 //  Software Guide : EndLatex 
 

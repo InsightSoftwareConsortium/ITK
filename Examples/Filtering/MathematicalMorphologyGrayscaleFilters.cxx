@@ -25,8 +25,8 @@
 //  The header files required for a minimal example on the use of
 //  mathematical morphology filters are presented below.
 //
-//  \index{itk::GrayscaleDilateImageFilter!header|textbf}
-//  \index{itk::GrayscaleErodeImageFilter!header|textbf}
+//  \index{itk::GrayscaleDilateImageFilter!header}
+//  \index{itk::GrayscaleErodeImageFilter!header}
 //
 //  Software Guide : EndLatex 
 

@@ -41,7 +41,7 @@
 //  This filter will work on images of any dimension thanks to the internal
 //  use of \code{NeighborhoodIterators} and \code{NeighborhoodOperators}.
 //
-//  \index{itk::GradientMagnitudeImageFilter|textbf}
+//  \index{itk::GradientMagnitudeImageFilter}
 //
 //  Software Guide : EndLatex 
 

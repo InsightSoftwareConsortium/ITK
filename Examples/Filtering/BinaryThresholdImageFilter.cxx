@@ -34,8 +34,8 @@
 // Thresholding is commonly applied as the last operation of a segmentation
 // pipeline.
 //
-// \index{itk::BinaryThresholdImageFilter!Instantiation|textbf}
-// \index{itk::BinaryThresholdImageFilter!Header|textbf}
+// \index{itk::Binary\-Threshold\-Image\-Filter!Instantiation}
+// \index{itk::Binary\-Threshold\-Image\-Filter!Header}
 //
 // The first step required to use the \doxygen{BinaryThresholdImageFilter} is
 // to include its header file. 
@@ -149,7 +149,7 @@ int main( int argc, char * argv[] )
   //  The image obtained with the reader is passed as input to the
   //  \doxygen{BinaryThresholdImageFilter}.
   //
-  //  \index{itk::BinaryThresholdImageFilter!SetInput()}
+  //  \index{itk::Binary\-Threshold\-Image\-Filter!SetInput()}
   //  \index{itk::FileImageReader!GetOutput()}
   //
   //  Software Guide : EndLatex 
@@ -167,10 +167,10 @@ int main( int argc, char * argv[] )
   //  define the intensity value to be assigned to pixels with intensities
   //  falling inside the threshold range.
   //  
-  //  \index{itk::BinaryThresholdImageFilter!SetOutsideValue()}
-  //  \index{itk::BinaryThresholdImageFilter!SetInsideValue()}
-  //  \index{SetOutsideValue()!itk::BinaryThresholdImageFilter}
-  //  \index{SetInsideValue()!itk::BinaryThresholdImageFilter}
+  //  \index{itk::Binary\-Threshold\-Image\-Filter!SetOutsideValue()}
+  //  \index{itk::Binary\-Threshold\-Image\-Filter!SetInsideValue()}
+  //  \index{SetOutsideValue()!itk::Binary\-Threshold\-Image\-Filter}
+  //  \index{SetInsideValue()!itk::Binary\-Threshold\-Image\-Filter}
   //
   //  Software Guide : EndLatex 
 

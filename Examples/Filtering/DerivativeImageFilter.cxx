@@ -20,7 +20,7 @@
 //  The \doxygen{DerivativeImageFilter} is used for computing the derivative
 //  of an image along a particular direction.
 //
-//  \index{itk::DerivativeImageFilter|textbf}
+//  \index{itk::DerivativeImageFilter}
 //
 //  Software Guide : EndLatex 
 
@@ -36,7 +36,7 @@
 //
 //  The header file corresponding to this filter should be included first.
 //
-//  \index{itk::DerivativeImageFilter!header|textbf}
+//  \index{itk::DerivativeImageFilter!header}
 //
 //  Software Guide : EndLatex 
 

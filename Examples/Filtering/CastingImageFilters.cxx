@@ -71,11 +71,11 @@
 //
 //  \[ outputPixel = \frac{( inputPixel - mean )}{ \sqrt{ variance } } \]
 //
-//  \index{Casting Images|textbf}
-//  \index{itk::CastImageFilter|textbf}
-//  \index{itk::RescaleIntensityImageFilter|textbf}
-//  \index{itk::ShiftScaleImageFilter|textbf}
-//  \index{itk::NormalizeImageFilter|textbf}
+//  \index{Casting Images}
+//  \index{itk::CastImageFilter}
+//  \index{itk::RescaleIntensityImageFilter}
+//  \index{itk::ShiftScaleImageFilter}
+//  \index{itk::NormalizeImageFilter}
 //  \index{itk::ShiftScaleImageFilter!header}
 //  \index{itk::RescaleIntensityImageFilter!header}
 //  \index{itk::NormalizeImageFilter!header}

@@ -69,7 +69,7 @@
 //  neighbors intensity be in order to be considered for the computation of
 //  the output value.
 //
-//  \index{itk::BilateralImageFilter|textbf}
+//  \index{itk::BilateralImageFilter}
 //
 //  Software Guide : EndLatex 
 

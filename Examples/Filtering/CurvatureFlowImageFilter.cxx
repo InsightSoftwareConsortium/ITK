@@ -40,7 +40,7 @@
 //  result is the removal of information as each contour shrinks to a point
 //  and disappears.
 //
-//  \index{itk::CurvatureFlowImageFilter|textbf}
+//  \index{itk::CurvatureFlowImageFilter}
 //
 //  Software Guide : EndLatex 
 

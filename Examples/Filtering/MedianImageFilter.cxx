@@ -50,7 +50,7 @@
 //  \doxygen{NeighborhoodOperator}s. The size of the neighborhood over which
 //  the median is computed can be set by the user.
 //
-//  \index{itk::MedianImageFilter|textbf}
+//  \index{itk::MedianImageFilter}
 //
 //  Software Guide : EndLatex 
 
@@ -64,7 +64,7 @@
 //
 //  The header file corresponding to this filter should be included first.
 //
-//  \index{itk::MedianImageFilter!header|textbf}
+//  \index{itk::MedianImageFilter!header}
 //
 //  Software Guide : EndLatex 
 

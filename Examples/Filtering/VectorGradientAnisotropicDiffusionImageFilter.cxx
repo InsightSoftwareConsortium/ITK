@@ -32,7 +32,7 @@
 //  typedefs and operator overloads are in place.  As a general rule, follow
 //  the example of \doxygen{Vector} in defining your data types.
 //
-//  \index{itk::VectorGradientAnisotropicDiffusionImageFilter|textbf}
+//  \index{itk::Vector\-Gradient\-Anisotropic\-Diffusion\-Image\-Filter}
 //
 //  Software Guide : EndLatex 
 
@@ -49,7 +49,7 @@
 //
 //  The first step required to use this filter is to include its header file.
 //
-//  \index{itk::VectorGradientAnisotropicDiffusionImageFilter!header}
+//  \index{itk::Vector\-Gradient\-Anisotropic\-Diffusion\-Image\-Filter!header}
 //
 //  Software Guide : EndLatex 
 
@@ -97,9 +97,9 @@ int main( int argc, char * argv[] )
   //  output image types. The filter object is created by the \code{New()}
   //  method.
   //
-  //  \index{itk::VectorGradientAnisotropicDiffusionImageFilter!instantiation}
-  //  \index{itk::VectorGradientAnisotropicDiffusionImageFilter!New()}
-  //  \index{itk::VectorGradientAnisotropicDiffusionImageFilter!Pointer}
+  //  \index{itk::Vector\-Gradient\-Anisotropic\-Diffusion\-Image\-Filter!instantiation}
+  //  \index{itk::Vector\-Gradient\-Anisotropic\-Diffusion\-Image\-Filter!New()}
+  //  \index{itk::Vector\-Gradient\-Anisotropic\-Diffusion\-Image\-Filter!Pointer}
   //
   //  Software Guide : EndLatex 
 
@@ -141,11 +141,11 @@ int main( int argc, char * argv[] )
   //  \code{SetNumberOfIterations()} and \code{SetTimeStep()} respectively.
   //  The filter can be executed by invoking \code{Update()}.
   //
-  //  \index{itk::VectorGradientAnisotropicDiffusionImageFilter!Update()}
-  //  \index{itk::VectorGradientAnisotropicDiffusionImageFilter!SetTimeStep()}
-  //  \index{itk::VectorGradientAnisotropicDiffusionImageFilter!SetNumberOfIterations()}
-  //  \index{SetTimeStep()!itk::VectorGradientAnisotropicDiffusionImageFilter}
-  //  \index{SetNumberOfIterations()!itk::VectorGradientAnisotropicDiffusionImageFilter}
+  //  \index{itk::Vector\-Gradient\-Anisotropic\-Diffusion\-Image\-Filter!Update()}
+  //  \index{itk::Vector\-Gradient\-Anisotropic\-Diffusion\-Image\-Filter!SetTimeStep()}
+  //  \index{itk::Vector\-Gradient\-Anisotropic\-Diffusion\-Image\-Filter!SetNumberOfIterations()}
+  //  \index{SetTimeStep()!itk::Vector\-Gradient\-Anisotropic\-Diffusion\-Image\-Filter}
+  //  \index{SetNumberOfIterations()!itk::Vector\-Gradient\-Anisotropic\-Diffusion\-Image\-Filter}
   //
   //  Software Guide : EndLatex 
 

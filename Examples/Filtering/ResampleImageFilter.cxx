@@ -30,7 +30,7 @@
 //  space to the other will often require evaluation of the intensity of the
 //  image at non-grid positions.
 //
-//  \index{itk::ResampleImageFilter|textbf}
+//  \index{itk::ResampleImageFilter}
 //
 //  Software Guide : EndLatex 
 
@@ -44,7 +44,7 @@
 //
 //  The header file corresponding to this filter should be included first. 
 //
-//  \index{itk::ResampleImageFilter!header|textbf}
+//  \index{itk::ResampleImageFilter!header}
 //
 //  Software Guide : EndLatex 
 
