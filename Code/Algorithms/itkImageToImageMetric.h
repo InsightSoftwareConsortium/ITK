@@ -20,6 +20,7 @@
 #include "itkImageBase.h"
 #include "itkTransform.h"
 #include "itkInterpolateImageFunction.h"
+#include "itkVectorNearestNeighborInterpolateImageFunction.h"
 #include "itkSingleValuedCostFunction.h"
 #include "itkExceptionObject.h"
 #include "itkGradientRecursiveGaussianImageFilter.h"
@@ -88,9 +89,10 @@ public:
                       MovingImageType,
                       CoordinateRepresentationType > InterpolatorType;
 
+
   /** Gaussian filter to compute the gradrient of the Moving Image */
   typedef GradientRecursiveGaussianImageFilter< 
-                                   FixedImageType >  GradientImageFilterType;  
+                                   MovingImageType > GradientImageFilterType;  
   typedef typename GradientImageFilterType::Pointer  GradientImageFilterPointer;
   typedef typename GradientImageFilterType::OutputImageType  GradientImageType;
   typedef typename GradientImageType::Pointer        GradientImagePointer;

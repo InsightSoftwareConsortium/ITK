@@ -100,7 +100,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
     GradientImageFilterPointer gradientFilter
                       = GradientImageFilterType::New();
 
-    gradientFilter->SetInput( m_FixedImage );
+    gradientFilter->SetInput( m_MovingImage );
 
     gradientFilter->SetSigma( m_ScaleGradient );  
     gradientFilter->SetNormalizeAcrossScale( true );
@@ -110,6 +110,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
     m_GradientImage = gradientFilter->GetOutput();
 
     }
+
 
 }
  
