@@ -30,18 +30,18 @@ namespace itk {
   * level set. The level set is then evolved using a curvature-based speed 
   * function:
   *
-  * \f[  I_t = k |\mbox{grad}(I)\| \f]
+  * \f[  I_t = \kappa |\nabla I| \f]
   *
-  * where \f$ k \f$ is the curvature.
+  * where \f$ \kappa \f$ is the curvature.
   * 
   * However, continuous application of this scheme will result in the
-  * eventually removal of all information as each contour shrinks to zero
+  * eventual removal of all information as each contour shrinks to zero
   * and disappear.
   *
   * In min/max curvature flow, curvature flow is turned on or off depending
   * on the scale of the noise one wants to remove. Switching depends on
   * the average image value of a region of radius \f$ R \f$ around each 
-  * point. The choice \f$ R \f$ the stencil radius governs the scale of
+  * point. The choice of \f$ R \f$, the stencil radius, governs the scale of
   * the noise to be removed.
   *
   * This filter make use of the multi-threaded finite difference solver
@@ -51,7 +51,9 @@ namespace itk {
   *
   * \warning This filter assumes that the input and output types have the
   * same dimensions. This filter also requires that the output image pixels
-  * are of a floating point type.
+  * are of a floating point type. This filter works for any dimensional images, 
+  * however for dimensions greater than 3D, an expensive brute-force search is used
+  * to compute the local threshold.
   *
   * Reference:
   * "Level Set Methods and Fast Marching Methods", J.A. Sethian,

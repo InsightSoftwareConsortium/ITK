@@ -30,7 +30,8 @@ namespace itk {
   * level set. The level set is then evolved using a curvature-based speed 
   * function:
   *
-  * \f[  I_t = \kappa |\nabla I\| \f]
+  * \f[  I_t = \kappa |\nabla I| \f]
+  * where \f$ \kappa \f$ is the curvature.
   *
   * The advantage of this approach is that sharp boundaries are preserved
   * with smoothing occuring only within a region.
