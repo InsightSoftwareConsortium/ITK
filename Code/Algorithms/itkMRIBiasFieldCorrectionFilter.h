@@ -108,6 +108,14 @@ public:
    * given parameters. */
   MeasureType GetValue(const ParametersType & parameters );
 
+  /** Dummy implementation to confirm to the SingleValuedCostFunction 
+   * interfaces. It is pure virtual in the superclass */
+  DerivativeType GetDerivative( const ParametersType & parameters )
+  { 
+    DerivativeType ret ; 
+    return ret ;
+  }
+
   /** Set Mean and Sigma for the normal distributions 
    *  \warning This method MUST be called before any attemp to 
    *   evaluate the Function because it instantiate the internal
