@@ -19,6 +19,7 @@
 #define __itkCenteredTransformInitializer_h
 
 #include <itkObject.h>
+#include <itkObjectFactory.h>
 
 #include <iostream>
 
