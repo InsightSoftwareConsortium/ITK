@@ -20,7 +20,7 @@ PURPOSE.  See the above copyright notices for more information.
 
 #include "itkSymmetricEigenSystem.h"
 
-int itkSymmetricEigenSystemTest(int argc, char* argv[] )
+int itkSymmetricEigenSystemTest(int , char* [] )
 {
   typedef itk::SymmetricEigenSystem< double, 2 > EigenSystemType ;
   
