@@ -96,6 +96,19 @@ int itkSplineKernelTransformTest(int , char* [] )
   ebs2D->SetAlpha( 12.0 * ( 1 -  0.25) - 1.0 );
   ebs2D->ComputeWMatrix();
 
+  { // Testing the number of parameters 
+  EBSTransform2DType::ParametersType parameters1 = ebs2D->GetParameters();
+  const unsigned int numberOfParameters = parameters1.Size();
+  if( numberOfParameters != 4 * 2 )
+    {
+    std::cerr << "Number of parameters was not updated after" << std::endl;
+    std::cerr << "invoking SetSourceLandmarks and SetTargetLandmarks" << std::endl;
+    std::cerr << "Number of parameters is = " << numberOfParameters << std::endl;
+    std::cerr << "While we were expecting = " << 4 * 2 << std::endl;
+    return EXIT_FAILURE;
+    }
+  }
+
   source2Dit = sourceLandmarks2D->GetPoints()->Begin();
   target2Dit = targetLandmarks2D->GetPoints()->Begin();
   
