@@ -109,6 +109,12 @@ public:
     return *this;
   }
 
+  /** Not Equal operator. */
+  bool operator!=(const Self& other) const
+  {
+    return (m_Data != other.m_Data);
+  }
+
   /** STL-style iterator support for the memory buffer. */
   iterator begin()
     { return m_Data; }

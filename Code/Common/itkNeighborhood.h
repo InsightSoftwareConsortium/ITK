@@ -127,6 +127,14 @@ public:
     return *this;
   }
 
+  /** Not Equal operator. */
+  bool operator!=(const Self& other) const
+  {
+    return (m_Radius != other.m_Radius ||
+            m_Size   != other.m_Size ||
+            m_DataBuffer != other.m_DataBuffer);
+  }
+
   /** Returns the radius of the neighborhood. */
   const SizeType GetRadius() const
     { return m_Radius; }
@@ -225,6 +233,17 @@ private:
   /** The buffer in which data is stored. */
   AllocatorType m_DataBuffer;
 };
+
+template <class TPixel, unsigned int VDimension, class TContainer>
+std::ostream & operator<<(std::ostream &os, const Neighborhood<TPixel,VDimension,TContainer> &neighborhood)
+{
+  os << "Neighborhood:" << std::endl;
+  os << "    Radius:" << neighborhood.GetRadius() << std::endl;
+  os << "    Size:" << neighborhood.GetSize() << std::endl;
+  os << "    DataBuffer:" << neighborhood.GetBufferReference() << std::endl;
+
+  return os;
+}
 
 } // namespace itk
 
