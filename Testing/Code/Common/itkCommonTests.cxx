@@ -87,4 +87,5 @@ REGISTER_TEST(itkScaleTransformTest );
 REGISTER_TEST(itkSplineKernelTransformTest );
 REGISTER_TEST(itkEllipsoidInteriorExteriorSpatialFunctionTest );
 REGISTER_TEST(itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest );
+REGISTER_TEST(itkSystemInformationTest );
 }

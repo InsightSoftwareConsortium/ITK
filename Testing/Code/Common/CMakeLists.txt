@@ -90,6 +90,7 @@ ADD_TEST(itkScaleTransformTest ${COMMON_TESTS} itkScaleTransformTest)
 ADD_TEST(itkSplineKernelTransformTest ${COMMON_TESTS} itkSplineKernelTransformTest)
 ADD_TEST(itkEllipsoidInteriorExteriorSpatialFunctionTest ${COMMON_TESTS} itkEllipsoidInteriorExteriorSpatialFunctionTest)
 ADD_TEST(itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest ${COMMON_TESTS} itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest)
+ADD_TEST(itkSystemInformationTest ${COMMON_TESTS} itkSystemInformationTest)
 
 SET(BasicTests_SRCS
 itkModifiedTimeTest.cxx
@@ -173,13 +174,15 @@ itkVectorInterpolateImageFunctionTest.cxx
 itkVectorToRGBImageAdaptorTest.cxx
 itkEllipsoidInteriorExteriorSpatialFunctionTest.cxx
 itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest.cxx
+itkSystemInformationTest.cxx
 )
 
+CONFIGURE_FILE(${ITKTesting_SOURCE_DIR}/Code/Common/itkSystemInformationTest.h.in
+               ${ITKTesting_BINARY_DIR}/Code/Common/itkSystemInformationTest.h
+               @ONLY IMMEDIATE)
+INCLUDE_DIRECTORIES("${ITKTesting_BINARY_DIR}")
 
 ADD_EXECUTABLE(itkCommonHeaderTest itkCommonHeaderTest.cxx)
 ADD_EXECUTABLE(itkCommonTests itkCommonTests.cxx ${BasicTests_SRCS})
 TARGET_LINK_LIBRARIES(itkCommonHeaderTest ITKCommon)
 TARGET_LINK_LIBRARIES(itkCommonTests ITKCommon)
-
-
-
