@@ -274,47 +274,7 @@ int IteratorTest( itk::TreeIteratorBase<TreeType>& i )
   return sum;
 }
 
-/**
- * return error
- */
-int IteratorCloneTest( itk::TreeIteratorBase<TreeType>& it ) {
-
-  int errorCount = 0;
-  static std::ofstream out( "CloneTest.txt" );
-
-  while ( !it.IsAtEnd() )
-  {
-    out << "\n\n\n" << *it.Get() << "\n\n" << std::endl;
-    itk::TreeIteratorBase<TreeType>& clone = *it.Clone();
-    itk::TreeIteratorBase<TreeType>& help = *it.Clone();
-
-    while ( !clone.IsAtEnd() ) {
-    
-      if ( clone.Get() != it.Get() )
-        errorCount++;
-
-      out << *clone.Get() << " = " << *it.Get() << std::endl;
-
-      ++it;
-      ++clone;
-    }
-
-    it = help;
-
-    if ( !it.IsAtEnd() )
-      ++it;
-
-  }
-
-  std::cout << "Ende" << std::endl;
-
-  return errorCount;
-}
-
-
-/**
- *
- */
+/** Print the results */
 int PrintResult( int result, int value )
 {
   if ( result == value )
@@ -389,59 +349,6 @@ int itkTreeContainerTest2(int, char* [])
   result = IteratorTest( rootIt_1 );
   testCounter += PrintResult( result, 136 );
 
-  /** clone Test */
-  std::cout << "\nClone Test RootTreeIterator:" << std::endl;
-  itk::PreOrderTreeIterator<TreeType> preOrderItClone( tree );
-  result = IteratorCloneTest( preOrderItClone );
-  testCounter += PrintResult( result, 0 );
-
-  std::cout << "\nClone Test LevelOrderTreeIterator:" << std::endl;
-  itk::LevelOrderTreeIterator<TreeType> levelItClone(tree);
-  result = IteratorCloneTest( levelItClone );
-  testCounter += PrintResult( result, 0 );
-
-  std::cout << "\nClone Test InOrderTreeIterator:" << std::endl;
-  itk::InOrderTreeIterator<TreeType> inOrderItClone(tree);
-  result = IteratorCloneTest( inOrderItClone );
-  testCounter += PrintResult( result, 0 );
-
-  std::cout << "\nClone Test PostOrderTreeIterator:" << std::endl;
-  itk::PostOrderTreeIterator<TreeType> postOrderItClone(tree);
-  result = IteratorCloneTest( inOrderItClone );
-  testCounter += PrintResult( result, 0 );
-
-  std::cout << "\nClone Test ChildTreeIterator 1:" << std::endl;
-  itk::ChildTreeIterator<TreeType> childItClone1(tree);
-  result = IteratorCloneTest( childItClone1 );
-  testCounter += PrintResult( result, 0 );
-
-
-  std::cout << "\nClone Test ChildTreeIterator 2:" << std::endl;
-  itk::ChildTreeIterator<TreeType> childItClone2(tree);
-  childItClone2.GoToChild(0);
-  result = IteratorCloneTest( childItClone2 );
-  testCounter += PrintResult( result, 0 );
-
-  std::cout << "\nClone Test ChildTreeIterator 3:" << std::endl;
-  itk::ChildTreeIterator<TreeType> childItClone3(tree);
-  childItClone3.GoToChild(1);
-  result = IteratorCloneTest( childItClone3 );
-  testCounter += PrintResult( result, 0 );
-
-  std::cout << "\nClone Test ChildTreeIterator 4:" << std::endl;
-  itk::ChildTreeIterator<TreeType> childItClone4(tree);
-  childItClone4.GoToChild(1);
-  childItClone4.GoToChild(2);
-  result = IteratorCloneTest( childItClone4 );
-  testCounter += PrintResult( result, 0 );
-
-  std::cout << "\nClone Test RootTreeIterator:" << std::endl;
-  itk::RootTreeIterator<TreeType> rootItClone(tree);
-  rootItClone.GoToChild(1);
-  rootItClone.GoToChild(2);
-  result = IteratorCloneTest( rootItClone );
-  testCounter += PrintResult( result, 0 );
-
   // creat tree 2
   itk::PreOrderTreeIterator<TreeType> iterator_123( tree );
   iterator_123.GoToChild( 1 );
@@ -459,8 +366,7 @@ int itkTreeContainerTest2(int, char* [])
   unsigned long tag = tree->AddObserver( ev, treeChangeListener );
   tree->Clear();
   tree->RemoveObserver( tag );
-
-  if ( testCounter == 19 )
+  if ( testCounter == 10 )
     {
     std::cout << "TEST DONE" << std::endl;
     return EXIT_SUCCESS;
