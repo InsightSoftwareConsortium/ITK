@@ -224,6 +224,29 @@ int itkScaleTransformTest(int ,char * [] )
     }
 
 
+    // Exercise Set/Get Center methods
+    {
+      typedef TransformType::InputPointType  CenterType;
+      CenterType center;
+      center[0] = 5;
+      center[1] = 6;
+      center[2] = 7;
+
+      scaleTransform->SetCenter( center );
+
+      CenterType c2 = scaleTransform->GetCenter();
+      if( c2.EuclideanDistanceTo( center ) > 1e-5 )
+        {
+        std::cerr << "Error in Set/Get center." << std::endl;
+        std::cerr << "It was SetCenter() to    : " << center << std::endl;
+        std::cerr << "but GetCenter() returned : " << c2     << std::endl;
+        return EXIT_FAILURE;
+      }
+      else
+      {
+        std::cout << "Ok SetCenter() / GetCenter() " << std::endl;
+      }
+    }
 
 
   }
