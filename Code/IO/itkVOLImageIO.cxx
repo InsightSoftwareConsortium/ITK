@@ -127,7 +127,7 @@ void VOLImageIO::Read(void* buffer)
 }
 
 
-double const * const * const VOLImageIO::GetMt_tp() const
+double const * const * VOLImageIO::GetMt_tp() const
 {
   return reinterpret_cast<double const * const * const>(m_Mt_tp);
 }
