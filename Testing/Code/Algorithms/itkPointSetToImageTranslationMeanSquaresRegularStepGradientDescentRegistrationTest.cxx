@@ -38,7 +38,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#include "itkPhysicalImage.h"
+#include "itkImage.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkPointSetToImageTranslationMeanSquaresRegularStepGradientDescentRegistration.h"
 
@@ -61,7 +61,7 @@ int main()
   /*Allocate Images*/
   const unsigned int ImageDimension  = 2;
 
-  typedef itk::PhysicalImage<unsigned char,ImageDimension>  ReferenceType;
+  typedef itk::Image<unsigned char,ImageDimension>  ReferenceType;
 
   typedef itk::DefaultStaticMeshTraits<unsigned char,   // pixel type
                                        ImageDimension,  // point dimension
