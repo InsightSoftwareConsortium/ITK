@@ -184,36 +184,24 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
 
   if ( this->GetAlivePoints() && !m_AuxAliveValues )
     {
-    ExceptionObject err(__FILE__, __LINE__);
-    err.SetLocation( "Initialize" );
-    err.SetDescription( "Null pointer for AuxAliveValues" );
-    throw err;
+    itkExceptionMacro(<<"in Initialize(): Null pointer for AuxAliveValues" );
     }  
 
   if ( m_AuxAliveValues &&
       m_AuxAliveValues->Size() != (this->GetAlivePoints())->Size() )
     {
-    ExceptionObject err(__FILE__, __LINE__);
-    err.SetLocation( "Initialize" );
-    err.SetDescription( "AuxAliveValues is the wrong size" );
-    throw err;
+    itkExceptionMacro(<<"in Initialize(): AuxAliveValues is the wrong size" );
     }
 
   if ( this->GetTrialPoints() && !m_AuxTrialValues )
     {
-    ExceptionObject err(__FILE__, __LINE__);
-    err.SetLocation( "Initialize" );
-    err.SetDescription( "Null pointer for AuxTrialValues" );
-    throw err;
+    itkExceptionMacro(<<"in Initialize(): Null pointer for AuxTrialValues" );
     } 
 
   if ( m_AuxTrialValues &&
       m_AuxTrialValues->Size() != (this->GetTrialPoints())->Size() )
     {
-    ExceptionObject err(__FILE__, __LINE__);
-    err.SetLocation( "Initialize" );
-    err.SetDescription( "AuxTrialValues is the wrong size" );
-    throw err;
+    itkExceptionMacro(<<"in Initialize(): AuxTrialValues is the wrong size" );
     } 
   
   // set all alive points to alive

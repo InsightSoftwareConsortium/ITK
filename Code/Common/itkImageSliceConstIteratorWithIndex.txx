@@ -220,9 +220,9 @@ ImageSliceConstIteratorWithIndex<TImage>
 ::SetFirstDirection(unsigned int direction) 
 {
   if( direction >= TImage::ImageDimension )
-  {
-    throw ExceptionObject(__FILE__, __LINE__);
-  }
+    {
+    itkGenericExceptionMacro(<<"In image of dimension " << TImage::ImageDimension <<" Direction " << direction << " sas selected");
+    }
   m_Direction_A = direction;
   m_PixelJump = m_OffsetTable[ m_Direction_A ];
 }
@@ -239,9 +239,9 @@ ImageSliceConstIteratorWithIndex<TImage>
 ::SetSecondDirection(unsigned int direction) 
 {
   if( direction >= TImage::ImageDimension )
-  {
-    throw ExceptionObject(__FILE__, __LINE__);
-  }
+    {
+    itkGenericExceptionMacro(<<"In image of dimension " << TImage::ImageDimension <<" Direction " << direction << " sas selected");
+    }
   m_Direction_B = direction;
   m_LineJump = m_OffsetTable[ m_Direction_B ];
 }

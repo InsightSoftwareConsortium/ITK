@@ -35,10 +35,7 @@ ImageRegionExclusionConstIteratorWithIndex<TImage>
   
   if( !m_Region.IsInside( region ) )
     {
-    ExceptionObject excep;
-    excep.SetLocation("ImageRegionExclusionConstIteratorWithIndex::SetExclusionRegion");
-    excep.SetDescription("Attempt to set a exclusion region that is NOT contained inside the iterator region");
-    throw excep;
+    itkGenericExceptionMacro(<< "Attempt to set a exclusion region that is NOT contained inside the iterator region");
     }
   m_ExclusionRegion      = region;
   m_ExclusionBegin       = m_ExclusionRegion.GetIndex();

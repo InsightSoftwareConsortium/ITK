@@ -161,7 +161,7 @@ public:
     {
     if( direction >= TImage::ImageDimension )
       {
-      throw ExceptionObject(__FILE__, __LINE__);
+    itkGenericExceptionMacro(<<"In image of dimension " << TImage::ImageDimension <<" Direction " << direction << " sas selected");
       }
     m_Direction = direction;
     m_Jump = m_OffsetTable[ m_Direction ];
