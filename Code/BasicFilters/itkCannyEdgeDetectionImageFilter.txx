@@ -42,6 +42,7 @@ CannyEdgeDetectionImageFilter()
     m_MaximumError[i] = 0.01;
     }
   m_OutsideValue = NumericTraits<OutputImagePixelType>::Zero;
+  m_Threshold = NumericTraits<OutputImagePixelType>::Zero;
   m_UpperThreshold = NumericTraits<OutputImagePixelType>::Zero;
   m_LowerThreshold = NumericTraits<OutputImagePixelType>::Zero;
 
