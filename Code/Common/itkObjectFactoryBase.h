@@ -46,6 +46,11 @@ public:
 
   // Class Methods used to interface with the registered factories
   
+  /** 
+   * Run-time type information (and related methods).
+   */
+  itkTypeMacro(itkObjectFactoryBase, itkObject);
+
   /**
    * Create and return an instance of the named itk object.
    * Each loaded itkObjectFactoryBase will be asked in the order

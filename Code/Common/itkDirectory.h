@@ -29,15 +29,15 @@ class ITK_EXPORT itkDirectory : public itkObject
 {
 public:
   /**
-   * Return the class name as a string.
-   */
-  itkTypeMacro(itkDirectory,itkObject);
-
-  /**
    * Create a new itkDirectory object.
    */
   static itkDirectory *New() 
     {return new itkDirectory;};
+
+  /**
+   * Return the class name as a string.
+   */
+  itkTypeMacro(itkDirectory,itkObject);
 
   /**
    * Load the specified directory and load the names of the files

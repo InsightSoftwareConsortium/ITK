@@ -36,11 +36,10 @@ public:
    */
   static Pointer New();
 
-  /**
-   *
+  /** 
+   * Run-time type information (and related methods).
    */
-  const char *GetClassName() const
-    {return "itkShrinkImage";}
+  itkTypeMacro(itkShrinkImage, itkFilterImageToImage);
 
   /** 
    * Set the shrink factor. The default value is 1.

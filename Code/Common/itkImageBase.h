@@ -33,7 +33,7 @@ public:
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(itkImageBase, itkProcessObject);
+  itkTypeMacro(itkImageBase, itkDataObject);
 
   /** 
    * Create an empty image. 

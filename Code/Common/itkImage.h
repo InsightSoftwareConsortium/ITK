@@ -115,13 +115,14 @@ public:
    */
   const T& GetPixel(const Index &index);
 
-private:
+protected:
   itkImage();
   virtual ~itkImage();
   itkImage(const itkImage&) {};
   void operator=(const itkImage&) {};
   void PrintSelf(std::ostream& os, itkIndent indent);
 
+private:
   std::vector<T> *m_Data;
 };
 

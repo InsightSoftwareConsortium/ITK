@@ -36,6 +36,11 @@ public:
   static Pointer New();
 
   /** 
+   * Run-time type information (and related methods).
+   */
+  itkTypeMacro(itkMeshBase, itkDataObject);
+
+  /** 
    * Restore object to initialized state.
    */
   void Initialize();
