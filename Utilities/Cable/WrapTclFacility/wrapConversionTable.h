@@ -24,12 +24,28 @@
 namespace _wrap_
 {
 
+
+/**
+ * The general argument to a conversion function.
+ * Casts between data and function pointers are not allowed.  Therfore,
+ * we need to represent a general object as a class type.  Since only one
+ * of the pointers is needed at a time, it can be a union.
+ */
+union Anything
+{
+  typedef void* ObjectType;
+  typedef void (*FunctionType)();
+  ObjectType   object;
+  FunctionType function;
+};
+
+
 /**
  * The general type of a conversion function.  A real conversion function
  * will return something, but they are all cast to this for storage
  * in the table.
  */
-typedef void (*ConversionFunction)(void*);
+typedef void (*ConversionFunction)(Anything);
 
 
 /**
@@ -85,9 +101,9 @@ namespace Converter
 template <typename To>
 struct ObjectIdentity
 {
-  static To Convert(void* in)
+  static To Convert(Anything in)
     {
-    return *static_cast<To*>(in);
+    return *static_cast<To*>(in.object);
     }
   inline static ConversionFunction GetConversionFunction()
     {
@@ -102,9 +118,9 @@ struct ObjectIdentity
 template <typename From, typename To>
 struct ObjectDerivedToBase
 {
-  static To Convert(void* in)
+  static To Convert(Anything in)
     {
-    return static_cast<To>(*static_cast<From*>(in));
+    return static_cast<To>(*static_cast<From*>(in.object));
     }
   inline static ConversionFunction GetConversionFunction()
     {
@@ -119,9 +135,9 @@ struct ObjectDerivedToBase
 template <typename From, typename To>
 struct ConversionOperator
 {
-  static To Convert(void* in)
+  static To Convert(Anything in)
     {
-    return static_cast<From*>(in)->operator To();
+    return static_cast<From*>(in.object)->operator To();
     }
   inline static ConversionFunction GetConversionFunction()
     {
@@ -136,9 +152,9 @@ struct ConversionOperator
 template <typename From, typename To>
 struct ConversionByConstructor
 {
-  static To Convert(void* in)
+  static To Convert(Anything in)
     {
-    return To(*static_cast<From*>(in));
+    return To(*static_cast<From*>(in.object));
     }
   inline static ConversionFunction GetConversionFunction()
     {
@@ -153,9 +169,9 @@ struct ConversionByConstructor
 template <typename From, typename To>
 struct ObjectReinterpret
 {
-  static To Convert(void* in)
+  static To Convert(Anything in)
     {
-    return reinterpret_cast<To>(*static_cast<From*>(in));
+    return reinterpret_cast<To>(*static_cast<From*>(in.object));
     }
   inline static ConversionFunction GetConversionFunction()
     {
@@ -202,12 +218,12 @@ namespace CastHack
 template <typename To>
 struct PointerIdentity
 {
-  static To* Convert(void* in)
+  static To* Convert(Anything in)
     {
     // This should be
-    // return static_cast<To*>(in);
+    // return static_cast<To*>(in.object);
     // but GCC doesn't like static_cast to add a const qualifier.
-    return static_cast<To*>(CastHack::GetCaster<To>::Caster::Cast(in));
+    return static_cast<To*>(CastHack::GetCaster<To>::Caster::Cast(in.object));
     }
   inline static ConversionFunction GetConversionFunction()
     {
@@ -222,9 +238,9 @@ struct PointerIdentity
 template <typename From, typename To>
 struct PointerDerivedToBase
 {
-  static To* Convert(void* in)
+  static To* Convert(Anything in)
     {
-    return static_cast<To*>(static_cast<From*>(in));
+    return static_cast<To*>(static_cast<From*>(in.object));
     }
   inline static ConversionFunction GetConversionFunction()
     {
@@ -241,12 +257,12 @@ struct PointerDerivedToBase
 template <typename To>
 struct ReferenceIdentity
 {
-  static To& Convert(void* in)
+  static To& Convert(Anything in)
     {
     // This should be
-    // return *static_cast<To*>(in);
+    // return *static_cast<To*>(in.object);
     // but GCC doesn't like static_cast to add a const qualifier.
-    return *static_cast<To*>(CastHack::GetCaster<To>::Caster::Cast(in));
+    return *static_cast<To*>(CastHack::GetCaster<To>::Caster::Cast(in.object));
     }
   inline static ConversionFunction GetConversionFunction()
     {
@@ -261,9 +277,9 @@ struct ReferenceIdentity
 template <typename From, typename To>
 struct ReferenceDerivedToBase
 {
-  static To& Convert(void* in)
+  static To& Convert(Anything in)
     {
-    return static_cast<To&>(*static_cast<From*>(in));
+    return static_cast<To&>(*static_cast<From*>(in.object));
     }
   inline static ConversionFunction GetConversionFunction()
     {
@@ -282,9 +298,9 @@ struct ReferenceDerivedToBase
 template <class T>
 struct ConvertTo
 {
-  inline static T From(void* object, ConversionFunction cf)
+  inline static T From(Anything anything, ConversionFunction cf)
     {
-    return (reinterpret_cast<T(*)(void*)>(cf))(object);
+    return (reinterpret_cast<T(*)(Anything)>(cf))(anything);
     }
 };
 

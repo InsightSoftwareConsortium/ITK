@@ -157,23 +157,28 @@ public:
   Argument(const Argument&);
   Argument& operator=(const Argument&);
 
-  void* GetValue() const;
+  typedef Anything::ObjectType   ObjectType;
+  typedef Anything::FunctionType FunctionType;
+  
+  Anything GetValue() const;
   const CvQualifiedType& GetType() const;
-  void SetToObject(void* object, const CvQualifiedType& type);
+  void SetToObject(ObjectType object, const CvQualifiedType& type);
   void SetToBool(bool);
   void SetToInt(int);
   void SetToLong(long);
   void SetToDouble(double);
-  void SetToPointer(void* v, const CvQualifiedType& pointerType);
+  void SetToPointer(ObjectType v, const CvQualifiedType& pointerType);
+  void SetToFunction(FunctionType f,
+                     const CvQualifiedType& functionPointerType);
 
 private:
-  enum ArgumentId { Uninitialized_id=0, Object_id, bool_id, int_id,
-                    long_id, double_id, Pointer_id };                      
+  enum ArgumentId { Uninitialized_id=0, Object_id, Pointer_id, Function_id,
+                    bool_id, int_id, long_id, double_id };
   
   /**
    * The pointer to the actual object.
    */
-  void* m_Object;
+  Anything m_Anything;
 
   /**
    * The type of the object.

@@ -234,7 +234,7 @@ struct ArgumentAsReferenceTo
     // 8.3.5/3 Top level cv-qualifiers on target type never matter for
     // conversions.  They only affect the parameter inside the function body.
     const ReferenceType* to =
-      dynamic_cast<const ReferenceType*>(CvType<T&>::type.GetType());
+      ReferenceType::SafeDownCast(CvType<T&>::type.GetType());
     
     // Get the argument's type from which we must convert.
     CvQualifiedType from = argument.GetType();
@@ -242,12 +242,9 @@ struct ArgumentAsReferenceTo
     // A pointer to the conversion function.
     ConversionFunction cf = NULL;
     
-    // If the "to" type exactly references the "from" type, or a more
-    // cv-qualified form, use the reference identity conversion function.
-    if((to->GetReferencedType() == from)
-       || (to->GetReferencedType() == from.GetMoreQualifiedType(true, false))
-       || (to->GetReferencedType() == from.GetMoreQualifiedType(false, true))
-       || (to->GetReferencedType() == from.GetMoreQualifiedType(true, true)))
+    // If the "to" type is a reference to the "from" type use the
+    // reference identity conversion function.
+    if(Conversions::ReferenceCanBindAsIdentity(from, to))
       {
       cf = Converter::ReferenceIdentity<T>::GetConversionFunction();
       }

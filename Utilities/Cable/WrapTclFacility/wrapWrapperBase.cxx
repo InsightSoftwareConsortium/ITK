@@ -255,8 +255,6 @@ WrapperBase::Argument WrapperBase::GetObjectArgument(Tcl_Obj* obj) const
     else if(StringRepIsReference(objectName)
             && (Tcl_GetReferenceFromObj(m_Interpreter, obj, &r) == TCL_OK))
       {
-      // When the conversion function dereferences its pointer, it must
-      // get the object referenced.
       argument.SetToObject(r.GetObject(), r.GetReferencedType());
       }
     else
@@ -353,11 +351,8 @@ WrapperBase::ResolveOverload(const CvQualifiedType& objectType,
       // If the type is a reference, see if it can be bound.
       if(to->IsReferenceType())
         {
-        const ReferenceType* toRef = dynamic_cast<const ReferenceType*>(to);
-        if((toRef->GetReferencedType() == from)
-           || (toRef->GetReferencedType() == from.GetMoreQualifiedType(true, false))
-           || (toRef->GetReferencedType() == from.GetMoreQualifiedType(false, true))
-           || (toRef->GetReferencedType() == from.GetMoreQualifiedType(true, true))
+        if(Conversions::ReferenceCanBindAsIdentity(
+             from, ReferenceType::SafeDownCast(to))
            || (this->GetConversionFunction(from, to) != NULL))
           {
           // This conversion can be done, move on to the next
@@ -602,30 +597,30 @@ int WrapperBase::ObjectWrapperDispatch(ClientData clientData,
  * Constructor just sets argument as uninitialized.
  */
 WrapperBase::Argument::Argument():
-  m_Object(NULL),
   m_ArgumentId(Uninitialized_id)
 {
 }
 
 
 /**
- * Copy constructor ensures m_Object still points to the right place.
+ * Copy constructor ensures m_Anything still points to the right place.
  */
 WrapperBase::Argument::Argument(const Argument& a):
-  m_Object(a.m_Object),
+  m_Anything(a.m_Anything),
   m_Type(a.m_Type),
   m_ArgumentId(a.m_ArgumentId),
   m_Temp(a.m_Temp)
 {
-  // Make sure m_Object points to the right place in the copy.
+  // Make sure m_Anything points to the right place in the copy.
   switch (m_ArgumentId)
     {
-    case bool_id:    m_Object = &m_Temp.m_bool; break;
-    case int_id:     m_Object = &m_Temp.m_int; break;
-    case long_id:    m_Object = &m_Temp.m_long; break;
-    case double_id:  m_Object = &m_Temp.m_double; break;
-    case Pointer_id:
+    case bool_id:    m_Anything.object = &m_Temp.m_bool; break;
+    case int_id:     m_Anything.object = &m_Temp.m_int; break;
+    case long_id:    m_Anything.object = &m_Temp.m_long; break;
+    case double_id:  m_Anything.object = &m_Temp.m_double; break;
     case Object_id:
+    case Pointer_id:
+    case Function_id:
     case Uninitialized_id:
     default: break;
     }
@@ -638,20 +633,21 @@ WrapperBase::Argument::Argument(const Argument& a):
 WrapperBase::Argument& WrapperBase::Argument::operator=(const Argument& a)
 {
   // Copy the values.
-  m_Object = a.m_Object;
+  m_Anything = a.m_Anything;
   m_Type = a.m_Type;
   m_ArgumentId = a.m_ArgumentId;
   m_Temp = a.m_Temp;
   
-  // Make sure m_Object points to the right place in the copy.
+  // Make sure m_Anything points to the right place in the copy.
   switch (m_ArgumentId)
     {
-    case bool_id:    m_Object = &m_Temp.m_bool; break;
-    case int_id:     m_Object = &m_Temp.m_int; break;
-    case long_id:    m_Object = &m_Temp.m_long; break;
-    case double_id:  m_Object = &m_Temp.m_double; break;
-    case Pointer_id:
+    case bool_id:    m_Anything.object = &m_Temp.m_bool; break;
+    case int_id:     m_Anything.object = &m_Temp.m_int; break;
+    case long_id:    m_Anything.object = &m_Temp.m_long; break;
+    case double_id:  m_Anything.object = &m_Temp.m_double; break;
     case Object_id:
+    case Pointer_id:
+    case Function_id:
     case Uninitialized_id:
     default: break;
     }
@@ -663,10 +659,10 @@ WrapperBase::Argument& WrapperBase::Argument::operator=(const Argument& a)
 /**
  * Get the value of the Argument for passing to the conversion function.
  */
-void* WrapperBase::Argument::GetValue() const
+Anything WrapperBase::Argument::GetValue() const
 {
   // TODO: Throw exception for uninitalized argument.
-  return m_Object;
+  return m_Anything;
 }
 
 
@@ -683,10 +679,10 @@ const CvQualifiedType& WrapperBase::Argument::GetType() const
 /**
  * Set the Argument to be the object pointed to by the given pointer.
  */
-void WrapperBase::Argument::SetToObject(void* object,
+void WrapperBase::Argument::SetToObject(ObjectType object,
                                         const CvQualifiedType& type)
 {
-  m_Object = object;
+  m_Anything.object = object;
   m_Type = type;
   m_ArgumentId = Object_id;
 }
@@ -698,7 +694,7 @@ void WrapperBase::Argument::SetToObject(void* object,
 void WrapperBase::Argument::SetToBool(bool b)
 {
   m_Temp.m_bool = b;
-  m_Object = &m_Temp.m_bool;
+  m_Anything.object = &m_Temp.m_bool;
   m_Type = CvType<bool>::type;
   m_ArgumentId = bool_id;
 }
@@ -710,7 +706,7 @@ void WrapperBase::Argument::SetToBool(bool b)
 void WrapperBase::Argument::SetToInt(int i)
 {
   m_Temp.m_int = i;
-  m_Object = &m_Temp.m_int;
+  m_Anything.object = &m_Temp.m_int;
   m_Type = CvType<int>::type;
   m_ArgumentId = int_id;
 }
@@ -722,7 +718,7 @@ void WrapperBase::Argument::SetToInt(int i)
 void WrapperBase::Argument::SetToLong(long l)
 {
   m_Temp.m_long = l;
-  m_Object = &m_Temp.m_long;
+  m_Anything.object = &m_Temp.m_long;
   m_Type = CvType<long>::type;
   m_ArgumentId = long_id;
 }
@@ -734,7 +730,7 @@ void WrapperBase::Argument::SetToLong(long l)
 void WrapperBase::Argument::SetToDouble(double d)
 {
   m_Temp.m_double = d;
-  m_Object = &m_Temp.m_double;
+  m_Anything.object = &m_Temp.m_double;
   m_Type = CvType<double>::type;
   m_ArgumentId = double_id;
 }
@@ -743,12 +739,24 @@ void WrapperBase::Argument::SetToDouble(double d)
 /**
  * Set the Argument to be the given pointer value.
  */
-void WrapperBase::Argument::SetToPointer(void* v,
+void WrapperBase::Argument::SetToPointer(ObjectType v,
                                          const CvQualifiedType& pointerType)
 {
-  m_Object = v;
+  m_Anything.object = v;
   m_Type = pointerType;
   m_ArgumentId = Pointer_id;
+}
+
+
+/**
+ * Set the Argument to be the given function pointer value.
+ */
+void WrapperBase::Argument::SetToFunction(FunctionType f,
+                                          const CvQualifiedType& functionPointerType)
+{
+  m_Anything.function = f;
+  m_Type = functionPointerType;
+  m_ArgumentId = Function_id;
 }
 
 

@@ -23,7 +23,7 @@ namespace _wrap_
 
 
 /**
- *
+ * A class to maintain a single instance of TypeSystem.
  */
 class _wrap_EXPORT TypeInfo
 {
