@@ -721,3 +721,15 @@ bool vnl_rnpoly_solve::compute()
   }
   return true;
 }
+
+
+vnl_rnpoly_solve::~vnl_rnpoly_solve()
+{
+  vcl_vector<vnl_vector<double>*>::iterator rp = r_.begin(), ip = i_.begin();
+  for (; rp != r_.end() && ip != i_.end(); ++rp, ++ip)
+    {
+    delete *rp;
+    delete *ip;
+    }
+}
+

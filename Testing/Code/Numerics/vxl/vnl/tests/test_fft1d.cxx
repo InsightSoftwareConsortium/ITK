@@ -149,6 +149,9 @@ void test_fft1d () {
   vcl_cout << "total imag absolute error = " << fImagError << " (== " << fImagError/ciArraySizeX << " per element)\n";
   vnl_test_assert ("real error", fRealError/ciArraySizeX < maxRealErrorPrecision);
   vnl_test_assert ("imag error", fImagError/ciArraySizeX < maxImagErrorPrecision);
+  delete [] realArray;
+  delete [] imagArray;
+  delete [] complArray;
 }
 
 TESTMAIN (test_fft1d);

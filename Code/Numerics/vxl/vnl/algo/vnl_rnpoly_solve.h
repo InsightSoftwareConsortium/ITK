@@ -48,6 +48,7 @@ public:
   //: The constructor already does all the calculations
   inline vnl_rnpoly_solve(vcl_vector<vnl_real_npolynomial*> 
         const& ps) : ps_(ps) {compute();}
+  ~vnl_rnpoly_solve();
 
   // Operations----------------------------------------------------------------
 
