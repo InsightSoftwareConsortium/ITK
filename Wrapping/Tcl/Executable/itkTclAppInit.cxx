@@ -117,7 +117,7 @@ int itkTclAppInit(Tcl_Interp* interp)
   if(Itkalgorithmstcl_Init(interp) != TCL_OK) { return TCL_ERROR; }
   
   // Initialize all ITK Tcl packages.
-  static char initScript[] = "package require InsightToolkit 0.7";
+  static char initScript[] = "package require InsightToolkit " ITK_VERSION_STRING;
   if(Tcl_GlobalEval(interp, initScript) != TCL_OK) { return TCL_ERROR; }
   
   // Allow users to have an initialization file for interactive mode.

@@ -10,16 +10,12 @@ INCLUDE_DIRECTORIES(${TCL_INCLUDE_PATH}
 SUBDIRS(Numerics Common BasicFilters IO Algorithms Executable)
 
 IF(UNIX)
-  SET(ITK_LIBNAME_PREFIX "lib")
+  SET(ITK_TCL_LIBNAME_PREFIX "lib")
 ELSE(UNIX)
-  SET(ITK_LIBNAME_PREFIX "")
+  SET(ITK_TCL_LIBNAME_PREFIX "")
 ENDIF(UNIX)
 
-IF(LIBRARY_OUTPUT_PATH)
-  SET(ITK_TCL_PACKAGE_DIR_BUILD "${LIBRARY_OUTPUT_PATH}")
-ELSE(LIBRARY_OUTPUT_PATH)
-  SET(ITK_TCL_PACKAGE_DIR_BUILD "${ITK_BINARY_DIR}/Wrapping/Tcl/$subdir")
-ENDIF(LIBRARY_OUTPUT_PATH)
+SET(ITK_TCL_PACKAGE_DIR_BUILD "${ITK_LIBRARY_PATH}")
 
 #-----------------------------------------------------------------------------
 # Setup install targets.
@@ -47,12 +43,12 @@ IF(ITK_MSDEV_CONFIG_DIRS)
   FOREACH (config ${ITK_MSDEV_CONFIG_DIRS})
     SET(ITK_TCL_PACKAGE_DIR "${ITK_TCL_PACKAGE_DIR_BUILD}/${config}")
     CONFIGURE_FILE("${ITK_SOURCE_DIR}/Wrapping/Tcl/pkgIndex.tcl.in"
-                   "${ITK_BINARY_DIR}/Wrapping/Tcl/${config}/pkgIndex.tcl" IMMEDIATE)
+                   "${ITK_BINARY_DIR}/Wrapping/Tcl/${config}/pkgIndex.tcl" IMMEDIATE @ONLY)
   ENDFOREACH (config)
 ELSE(ITK_MSDEV_CONFIG_DIRS)
   SET(ITK_TCL_PACKAGE_DIR "${ITK_TCL_PACKAGE_DIR_BUILD}")
   CONFIGURE_FILE("${ITK_SOURCE_DIR}/Wrapping/Tcl/pkgIndex.tcl.in"
-                 "${ITK_BINARY_DIR}/Wrapping/Tcl/pkgIndex.tcl" IMMEDIATE)
+                 "${ITK_BINARY_DIR}/Wrapping/Tcl/pkgIndex.tcl" IMMEDIATE @ONLY)
 ENDIF(ITK_MSDEV_CONFIG_DIRS)
 
 #-----------------------------------------------------------------------------
@@ -63,4 +59,4 @@ SET(ITK_TCL_PACKAGE_DIR "[file dirname [info script]]")
 SET(ITK_TCL_DATA_ROOT "[file dirname [info script]]/Data")
 SET(ITK_TCL_TEST_ROOT "<NO_DEFAULT>")
 CONFIGURE_FILE("${ITK_SOURCE_DIR}/Wrapping/Tcl/pkgIndex.tcl.in"
-               "${ITK_TCL_PKGINDEX_FOR_INSTALL}" IMMEDIATE)
+               "${ITK_TCL_PKGINDEX_FOR_INSTALL}" IMMEDIATE @ONLY)

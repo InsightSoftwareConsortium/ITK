@@ -1,12 +1,4 @@
-# ITK Tcl package configuration.
-#
-# This file is moved by a CMake CONFIGURE_FILE command into a file in the
-# build directory called "pkgIndex.tcl".
-#
-# If you edit this file, do not use the syntax "${var}" to refer to
-# a Tcl variable, only to CMake variables.  CMake will replace any such
-# construct with the value of the named CMake variable, or with the empty
-# string if the names don't match.
+# Insight Toolkit (ITK) Tcl package configuration.
 
 namespace eval itk {
   #
@@ -14,12 +6,10 @@ namespace eval itk {
   # Call it with:
   #   package = the name of the package
   #   version = the version number of the package
-  #   subdir  = the subdirectory under Wrapping/Tcl where the
-  #             package is built
   #
-  proc ConfigureTclPackage {package version subdir} {
-    set libPrefix "${ITK_LIBNAME_PREFIX}"
-    set libPath "${ITK_TCL_PACKAGE_DIR}"
+  proc ConfigureTclPackage {package version} {
+    set libPrefix "@ITK_TCL_LIBNAME_PREFIX@"
+    set libPath "@ITK_TCL_PACKAGE_DIR@"
     set libName $package
     set libExt [info sharedlibextension]
     set libFile [file join $libPath "$libPrefix$libName$libExt"]
@@ -32,12 +22,12 @@ namespace eval itk {
   # Procedure to drive configuration of all packages.
   proc ConfigureItkTclPackages {version} {
     # Configure ITK Tcl packages.
-    ConfigureTclPackage VXLNumericsTcl     $version Numerics
-    ConfigureTclPackage ITKNumericsTcl     $version Numerics
-    ConfigureTclPackage ITKCommonTcl       $version Common
-    ConfigureTclPackage ITKIOTcl           $version IO
-    ConfigureTclPackage ITKBasicFiltersTcl $version BasicFilters
-    ConfigureTclPackage ITKAlgorithmsTcl   $version Algorithms
+    ConfigureTclPackage VXLNumericsTcl     $version
+    ConfigureTclPackage ITKNumericsTcl     $version
+    ConfigureTclPackage ITKCommonTcl       $version
+    ConfigureTclPackage ITKIOTcl           $version
+    ConfigureTclPackage ITKBasicFiltersTcl $version
+    ConfigureTclPackage ITKAlgorithmsTcl   $version
     
     package ifneeded InsightToolkit $version "
       package require itknumerics $version
@@ -76,30 +66,30 @@ namespace eval itk {
     "
 
     package ifneeded itkutils $version "
-      set src \[file join \"${ITK_TCL_SCRIPT_DIR}\" itkutils.tcl\]
+      set src \[file join \"@ITK_TCL_SCRIPT_DIR@\" itkutils.tcl\]
       if {\[catch { source \"\$src\" } errorMessage \]} { puts \$errorMessage } \\
       else { package provide itkutils $version }
     "
 
     package ifneeded itkinteraction $version "
-      set src \[file join \"${ITK_TCL_SCRIPT_DIR}\" itkinteraction.tcl\]
+      set src \[file join \"@ITK_TCL_SCRIPT_DIR@\" itkinteraction.tcl\]
       if {\[catch { source \"\$src\" } errorMessage \]} { puts \$errorMessage } \\
       else { package provide itkinteraction $version }
     "
 
     package ifneeded itkdata $version "
-      set src \[file join \"${ITK_TCL_SCRIPT_DIR}\" itkdata.tcl\]
+      set src \[file join \"@ITK_TCL_SCRIPT_DIR@\" itkdata.tcl\]
       namespace eval itk::data {
-        set defaultDataRoot \"${ITK_TCL_DATA_ROOT}\"
+        set defaultDataRoot \"@ITK_TCL_DATA_ROOT@\"
       }
       if {\[catch { source \"\$src\" } errorMessage \]} { puts \$errorMessage } \\
       else { package provide itkdata $version }
     "
 
     package ifneeded itktesting $version "
-      set src \[file join \"${ITK_TCL_SCRIPT_DIR}\" itktesting.tcl\]
+      set src \[file join \"@ITK_TCL_SCRIPT_DIR@\" itktesting.tcl\]
       namespace eval itk::testing {
-        set defaultTestRoot \"${ITK_TCL_TEST_ROOT}\"
+        set defaultTestRoot \"@ITK_TCL_TEST_ROOT@\"
       }
       if {\[catch { source \"\$src\" } errorMessage \]} { puts \$errorMessage } \\
       else { package provide itktesting $version }
@@ -110,5 +100,5 @@ namespace eval itk {
   namespace export ConfigureItkTclPackages
 }
 
-# Configure packages with version 0.7.
-itk::ConfigureItkTclPackages 0.7
+# Configure packages with version @ITK_VERSION_STRING@.
+itk::ConfigureItkTclPackages @ITK_VERSION_STRING@

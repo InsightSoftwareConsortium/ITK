@@ -17,8 +17,10 @@
 #ifndef _wrap_ITKMacro_h
 #define _wrap_ITKMacro_h
 
+#include "itkConfigure.h"
+
 // The ITK Tcl package version number.
-#define ITK_WRAP_PACKAGE_VERSION "0.7"
+#define ITK_WRAP_PACKAGE_VERSION ITK_VERSION_STRING
 
 // Useful group reference macro.
 #define ITK_WRAP_GROUP(x) ITK_WRAP_PACKAGE "_" #x
