@@ -79,13 +79,15 @@ set BufferLength 5
 set ErrorMatches [list \
 		  {([^ :]+):([0-9]+): } \
 		  {^cc[^C]*CC: ERROR File = ([^,]+), Line = ([0-9]+)} \
+		  {([^ :]+) : (error|fatal error)}
 		 ]
 set ErrorExceptions [list "instantiated from "]
 
 
 set WarningMatches [list \
-		  {([^ :]+):([0-9]+): warning:} \
-		  {^cc[^C]*CC: WARNING File = ([^,]+), Line = ([0-9]+)} \
+		    {([^ :]+):([0-9]+): warning:} \
+		    {^cc[^C]*CC: WARNING File = ([^,]+), Line = ([0-9]+)} \
+		    {([^ :]+) : warning}
 		 ]
 set WarningExceptions [list ]
 
@@ -138,6 +140,18 @@ while { ![eof $Build] } \
     }
     if { !$Found && [regexp {/Insight/([^:]*):([0-9]*)} $LogLine dummy SourceFile LineNumber] } \
     {
+      set ErrorList($i,SourceFile) $SourceFile
+      set ErrorList($i,SourceLineNumber) $LineNumber
+      set Found 1
+    }
+    
+    # MS VC++ 6.0
+    set match {Insight(\\|/)([^(]*)\(([0-9]*)\) : (error|fatal error|warning)}
+      
+    if { !$Found && [regexp $match $LogLine dummy dummy2 SourceFile LineNumber] } \
+    {
+      # Replace all backslashes with forward slashes
+      regsub -all {\\([a-zA-Z0-9_])} $SourceFile "/\\1" dummy
       set ErrorList($i,SourceFile) $SourceFile
       set ErrorList($i,SourceLineNumber) $LineNumber
       set Found 1
