@@ -90,7 +90,16 @@ LevenbergMarquardtOptimizer
 ::GetValue()
 {
   MeasureType  measures;
-  this->GetNonConstCostFunctionAdaptor()->f(this->GetCurrentPosition(),measures);
+  ParametersType parameters = this->GetCurrentPosition();
+  if(m_ScalesInitialized)
+    {
+    const ScalesType scales = this->GetScales();
+    for(unsigned int i=0;i<parameters.size();i++)
+      {
+      parameters[i] *= scales[i]; 
+      }
+    }
+  this->GetNonConstCostFunctionAdaptor()->f(parameters,measures);
   return measures;
 }
 

@@ -88,7 +88,16 @@ ConjugateGradientOptimizer::MeasureType
 ConjugateGradientOptimizer
 ::GetValue()
 {
-  return this->GetNonConstCostFunctionAdaptor()->f(this->GetCurrentPosition());
+  ParametersType parameters = this->GetCurrentPosition();
+  if(m_ScalesInitialized)
+    {
+    const ScalesType scales = this->GetScales();
+    for(unsigned int i=0;i<parameters.size();i++)
+      {
+      parameters[i] *= scales[i]; 
+      }
+    }
+  return this->GetNonConstCostFunctionAdaptor()->f( parameters );
 }
 
 /**
