@@ -138,6 +138,7 @@ ADD_TEST(itkVersorRigid3DTransformTest ${COMMON_TESTS} itkVersorRigid3DTransform
 ADD_TEST(itkVectorTest ${COMMON_TESTS} itkVectorTest)
 ADD_TEST(itkVectorInterpolateImageFunctionTest ${COMMON_TESTS} itkVectorInterpolateImageFunctionTest)
 ADD_TEST(itkVectorToRGBImageAdaptorTest ${COMMON_TESTS} itkVectorToRGBImageAdaptorTest)
+ADD_TEST(itkWindowedSincInterpolateImageFunctionTest ${COMMON_TESTS} itkWindowedSincInterpolateImageFunctionTest)
 ADD_TEST(itkScaleTransformTest ${COMMON_TESTS} itkScaleTransformTest)
 ADD_TEST(itkScaleLogarithmicTransformTest ${COMMON_TESTS} itkScaleLogarithmicTransformTest)
 ADD_TEST(itkSplineKernelTransformTest ${COMMON_TESTS} itkSplineKernelTransformTest)
@@ -306,6 +307,7 @@ itkVersorRigid3DTransformTest.cxx
 itkVectorTest.cxx
 itkVectorInterpolateImageFunctionTest.cxx
 itkVectorToRGBImageAdaptorTest.cxx
+itkWindowedSincInterpolateImageFunctionTest.cxx
 itkEllipsoidInteriorExteriorSpatialFunctionTest.cxx
 itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest.cxx
 itkMetaDataDictionaryTest.cxx
