@@ -109,9 +109,9 @@ Gene
  */ 
 const char *
 Gene
-::SetName() const
+::GetName() const
 {
-   return m_Name.str();
+   return m_Name.c_str();
 }
  
 

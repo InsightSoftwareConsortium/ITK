@@ -26,7 +26,9 @@ int itkBioGeneTest( int, char * [] )
 
    std::string name = "Citosin Kinase";
    cdk2.SetName( name );
-   if( cdk2.GetName() != name ) 
+ 
+   std::string rname = cdk2.GetName();
+   if( rname != name ) 
      {
      std::cerr << "Error setting the name " << std::endl;
      return EXIT_FAILURE;
