@@ -17,26 +17,28 @@
 
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{Mesh} class is intended to represent shapes in space.  It
-//  derives from the \doxygen{PointSet} class and hence inherits all the
-//  functionalities related with access to points and access to the pixel-data
-//  associated with those points.  The mesh class is also $N-Dimensional$ which
-//  allows a great flexibility in it use. 
+//  The \doxygen{Mesh} class is intended to represent shapes in space.
+//  It derives from the \doxygen{PointSet} class and hence inherits
+//  all the functionalities related with access to points and access
+//  to the pixel-data associated with those points.  The mesh class is
+//  also \emph{$N$-Dimensional} which allows a great flexibility in
+//  its use.
 //
-//  In practice an \doxygen{Mesh} class can be seen as an \doxygen{PointSet} to
+//  In practice a \doxygen{Mesh} class can be seen as a \doxygen{PointSet} to
 //  which cells of many different dimensions and shapes have been added. Cells
 //  in the mesh are defined in terms of the existing points using their
 //  point-identifiers.
 //
-//  In the same way as for the \doxygen{PointSet}, two basic styles of Meshes
-//  are available in ITK. They are referred to as \emph{Static} and
-//  \emph{Dynamic}. The first one is used when the number of points in the set
-//  can be known in advance and it is not expected to change as a consecuence
-//  of the manipulations performed on the set. The dynamic style, on the other
-//  hand, is intended to support insertion and removal of points in an
-//  efficient manner. The reason for making the distinction between both styles
-//  is to facilitate the fine tunning of its behavior with the aim of
-//  optimizing performance and memory management. In the case of the Mesh, the
+//  In the same way as for the \doxygen{PointSet}, two basic styles of
+//  Meshes are available in ITK. They are referred to as \emph{Static}
+//  and \emph{Dynamic}. The first one is used when the number of
+//  points in the set can be known in advance and it is not expected
+//  to change as a consequence of the manipulations performed on the
+//  set. The dynamic style, on the other hand, is intended to support
+//  insertion and removal of points in an efficient manner. The reason
+//  for making the distinction between the two styles is to facilitate
+//  the fine tunning of its behavior with the aim of optimizing
+//  performance and memory management. In the case of the Mesh, the
 //  dynamic/static aspect is extended to the management of Cells.
 //
 //  \index{itk::Mesh}
