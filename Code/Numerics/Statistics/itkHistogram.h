@@ -21,12 +21,13 @@
 
 #include "itkIndex.h"
 #include "itkSize.h"
+#include "itkFixedArray.h"
 #include "itkSample.h"
 #include "itkDenseFrequencyContainer.h"
 #include "itkSparseFrequencyContainer.h"
 
 namespace itk{
-  namespace Statistics{
+namespace Statistics{
 
 /** \class Histogram 
  *  \brief This class stores measurement vectors in the context of n-dimensional
@@ -60,15 +61,14 @@ namespace itk{
  */
 
 template < class TMeasurement = float, unsigned int VMeasurementVectorSize = 1,
-           class TFrequencyContainer = 
-           DenseFrequencyContainer< float > > 
+  class TFrequencyContainer = DenseFrequencyContainer< float > > 
 class ITK_EXPORT Histogram 
-  : public Sample < TMeasurement, VMeasurementVectorSize >
+  : public Sample < FixedArray< TMeasurement, VMeasurementVectorSize > >
 {
 public:
   /** Standard typedefs */
   typedef Histogram  Self ;
-  typedef Sample< TMeasurement, VMeasurementVectorSize > Superclass ;
+  typedef Sample< FixedArray< TMeasurement, VMeasurementVectorSize > > Superclass ;
   typedef SmartPointer<Self> Pointer ;
 
   /** Run-time type information (and related methods). */
@@ -189,7 +189,7 @@ public:
   /** Method to get the maximum of the bin corresponding to the gray level of 
    * dimension d. */
   MeasurementType& GetBinMaxFromValue(const unsigned int dimension, 
-                                     const float value ) const ;
+                                      const float value ) const ;
   
   /** Method to get the minimum vector of a dimension  */
   BinMinVectorType& GetDimensionMins(const unsigned int dimension) const
@@ -397,7 +397,7 @@ private:
   IndexType                   m_TempIndex ;
 } ; // end of class
 
-  } // end of namespace Statistics 
+} // end of namespace Statistics 
 } // end of namespace itk 
 
 #ifndef ITK_MANUAL_INSTANTIATION
