@@ -42,8 +42,6 @@
 // second derivative calculation, it is generally a good idea to do some
 // preprocessing of the feature image to remove noise.
 //
-// The following example illustrates the use of the
-// \doxygen{LaplacianSegmentationLevelSetImageFilter}.
 // Figure~\ref{fig:LaplacianSegmentationLevelSetImageFilterDiagram} shows how
 // the image processing pipeline is constructed.  We read two images: the image
 // to segment and the image that contains the initial implicit surface.  The
@@ -53,7 +51,7 @@
 // anisotropic diffusion filter.
 //
 // \begin{figure} \center
-// \includegraphics[width=\textwidth]{LaplacianSegmentationLevelSetImageFilterCollaborationDiagram1.eps}
+// \includegraphics[width=0.9\textwidth]{LaplacianSegmentationLevelSetImageFilterCollaborationDiagram1.eps}
 // \itkcaption[LaplacianSegmentationLevelSetImageFilter collaboration
 // diagram]{An image processing pipeline using
 // LaplacianSegmentationLevelSetImageFilter for segmentation.}
@@ -157,17 +155,18 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   typedef  itk::LaplacianSegmentationLevelSetImageFilter< 
                               InternalImageType, 
-                              InternalImageType >    LaplacianSegmentationLevelSetImageFilterType;
+                              InternalImageType >    
+                                  LaplacianSegmentationLevelSetImageFilterType;
 
   LaplacianSegmentationLevelSetImageFilterType::Pointer laplacianSegmentation = 
-                                     LaplacianSegmentationLevelSetImageFilterType::New();
+                            LaplacianSegmentationLevelSetImageFilterType::New();
   // Software Guide : EndCodeSnippet
 
   
   //  Software Guide : BeginLatex
   //  
   // As with the other ITK level-set segmentation filters, the terms of the
-  // \code{LaplacianSegmentationLevelSetImageFilter} level-set equation can be
+  // \doxygen{LaplacianSegmentationLevelSetImageFilter} level-set equation can be
   // weighted by scalars.  For this application we will modify the relative
   // weight of the propagation term.  The curvature term weight is set to its
   // default of $1$.  The advection term is not used in this filter.
@@ -210,7 +209,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  The filters are now connected in a pipeline indicated in
-  //  Figure~\ref{fig:LaplacianLevelSetSegmentationCollaborationDiagram}.
+  //  Figure~\ref{fig:LaplacianSegmentationLevelSetImageFilterDiagram}.
   //
   //  Software Guide : EndLatex 
   
@@ -269,8 +268,8 @@ int main( int argc, char *argv[] )
   //  propagation scaling was set to $1.0$ and the filter was run until
   //  convergence.
   //  Compare the results in the rightmost images of
-  //  figure~\ref{LaplacianLevelSetSegmentationImageFilter} with the ventricle
-  //  segmentation from figure~\ref{ThresholdSegmentationLevelSetImageFilter}
+  //  Figure~\ref{fig:LaplacianSegmentationLevelSetImageFilter} with the ventricle
+  //  segmentation from Figure~\ref{fig:ThresholdSegmentationLevelSetImageFilter}
   //  shown in the middle.  Jagged edges are straightened and the small spur at
   //  the upper right-hand side of the mask has been removed.
   //
@@ -283,7 +282,7 @@ int main( int argc, char *argv[] )
   //  segmentation.  Shown from left to right are the original image, the
   //  prior segmentation of the ventricle from
   //  figure~\ref{ThresholdSegmentationLevelSetImageFilter}, and the refinement of the
-  //  prior using \code{LaplacianSegmentationLevelSetImageFilter} }
+  //  prior using \doxygen{LaplacianSegmentationLevelSetImageFilter} }
   //  \label{fig:LaplacianSegmentationLevelSetImageFilter}
   //  \end{figure}
   //
