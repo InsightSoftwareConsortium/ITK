@@ -106,6 +106,11 @@ public:
     : NeighborhoodOperator<TPixel, VDimension, TAllocator>(other) 
   {  }
   
+
+  /** 
+   * This function is called to create the operator
+   */ 
+  void CreateOperator();   
  
   /**
    * Assignment operator
@@ -143,10 +148,7 @@ protected:
   void Fill(const CoefficientVector &);
 //{   Superclass::FillCenteredDirectional(coeff);  }
 
-/** 
-   * This function is called to create the operator
-   */ 
-  void CreateOperator();   
+
 
  
 private:
