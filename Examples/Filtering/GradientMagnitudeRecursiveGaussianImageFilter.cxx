@@ -17,14 +17,14 @@
 
 //  Software Guide : BeginLatex
 //
-//  Differentiation is an ill-defined operation over digital data. In
-//  practice it is convenient to define a scale over which the
-//  differentiation should be performed. This is usually done by
-//  preprocessing the data with a smoothing filter. It has been shown that a
-//  Gaussian kernel is the most convinient choice for performing such
-//  smoothing. By chossing a particular value for the $\sigma$ in the
-//  Gaussian, an associated scale is selected. This allows to neglect details
-//  with high frequency content that are commonly considered image noise.
+//  Differentiation is an ill-defined operation over digital data. In practice
+//  it is convenient to define a scale in which the differentiation should be
+//  performed. This is usually done by preprocessing the data with a smoothing
+//  filter. It has been shown that a Gaussian kernel is the most convenient
+//  choice for performing such smoothing. By choosing a particular value for
+//  the standard deviation ($\sigma$) of the Gaussian, an associated scale is
+//  selected that ignores high frequency content, commonly considered image
+//  noise.
 //
 //  The \doxygen{GradientMagnitudeRecursiveGaussianImageFilter} computes the
 //  magnitude of the image gradient at each pixel location.  The computational
@@ -32,14 +32,15 @@
 //  Gaussian kernel and then applying a differential operator.  The user
 //  selects the value of $\sigma$.
 //
-//  Internally this is done by applying a IIR \footnote{Infinite Impulsional
-//  Response} filter that approximates a convolution with the derivative of
-//  the Gaussian kernel. The advantage of this approach is that the
-//  performance is largely superior, in particular when large $\sigma$s are
-//  selected for the Gaussian kernel \cite{Deriche1990,Deriche1993}.
+//  Internally this is done by applying an IIR \footnote{Infinite Impulsional
+//  Response} filter that approximates a convolution with the derivative of the
+//  Gaussian kernel.  Traditional convolution will produce a more accurate
+//  result, but the IIR approach is much faster, especially using large
+//  $\sigma$s \cite{Deriche1990,Deriche1993}.
 //
-//  This filter will work on images of any dimension by taking advantage of
-//  the natural separability of the Gaussian kernel and its derivatives.
+//  GradientMagnitudeRecursiveGaussianImageFilter will work on images of
+//  any dimension by taking advantage of the natural separability of the
+//  Gaussian kernel and its derivatives. 
 //
 //  \index{itk::Gradient\-Magnitude\-Recursive\-Gaussian\-Image\-Filter}
 //
@@ -151,8 +152,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  It is now time for selecting the sigma of the Gaussian to use for
-  //  smoothing the data prior to te differentiation.
+  //  The standard deviation of the Gaussian smoothing kernel is now set.
   //
   //  \index{itk::Gradient\-Magnitude\-Recursive\-Gaussian\-Image\-Filter!SetSigma()}
   //  \index{SetSigma()!itk::Gradient\-Magnitude\-Recursive\-Gaussian\-Image\-Filter}
@@ -182,10 +182,10 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  If the output of this filter has been connected to other filters down
-  //  the pipeline, updating any of the downstream filters would have
-  //  triggered the execution of this one. For example, a rescale filter
-  //  followed by a writer could have been used after the gradient magnitude.
+  //  If connected to other filters in a pipeline, this filter will
+  //  automatically update when any downstream filters are updated.  For
+  //  example, we may connect this gradient magnitude filter to an image file
+  //  writer and then update the writer.
   //
   //  Software Guide : EndLatex 
 
@@ -230,15 +230,14 @@ int main( int argc, char * argv[] )
   //  Figure
   //  \ref{fig:GradientMagnitudeRecursiveGaussianImageFilterInputOutput}
   //  illustrates the effect of this filter on a MRI proton density image of
-  //  the brain using a $\sigma$ value of $3$ (left) and a value of $5$
+  //  the brain using $\sigma$ values of $3$ (left) and $5$
   //  (right).  The figure shows how the sensitivity to noise can be
-  //  regulated by selecting an apropriate $\sigma$.  This type of
-  //  scale-tunable filter is suitable for performing scale space analysis.
+  //  regulated by selecting an appropriate $\sigma$.  This type of
+  //  scale-tunable filter is suitable for performing scale-space analysis.
   //
-  //  Attention should be paid to the image type selected for representing the
-  //  input and output images since the dynamic range of gradient magnitudes is
-  //  usually quite smaller than the dynamic range of the input image
-  //  intensities. 
+  /// Attention should be paid to the image type chosen to represent the output
+  //  image since the dynamic range of the gradient magnitude image is usually
+  //  smaller than the dynamic range of the input image. 
   //
   //  Software Guide : EndLatex 
 
