@@ -19,8 +19,7 @@
 #include "itkObject.h"
 #include "itkPoint.h"
 
-namespace itk
-{
+ITK_NAMESPACE_BEGIN
 
 /** \class PointLocator
  * \brief Accelerate geometric searches for points.
@@ -200,7 +199,7 @@ protected:
 #endif
 }; // End Class: PointLocator
 
-} // namespace itk
+ITK_NAMESPACE_END
   
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkPointLocator.txx"
