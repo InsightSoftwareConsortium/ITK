@@ -40,7 +40,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef _itkInterpolateImageFunction_h
 #define _itkInterpolateImageFunction_h
 
-#include "itkContinuousImageFunction.h"
+#include "itkImageFunction.h"
 
 namespace itk
 {
@@ -51,15 +51,17 @@ namespace itk
  *
  * InterpolateImageFunction is the base for all ImageFunctions that
  * interpolates image intensity at a non-integer pixel position. 
- * This class is templated over the input image type and the function
- * output type.
+ * This class is templated over the input image type.
+ *
+ * \warning This function work only for images with scalar pixel
+ * types. 
  *
  * \ingroup ImageFunctions
  * 
  * */
 template <class TInputImage>
 class ITK_EXPORT InterpolateImageFunction : 
-  public ContinuousImageFunction<TInputImage,double> 
+  public ImageFunction<TInputImage,double> 
 {
 public:
   /**
@@ -70,7 +72,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef ContinuousImageFunction<TInputImage,double> Superclass;
+  typedef ImageFunction<TInputImage,double> Superclass;
 
   /** 
    * Smart pointer typedef support.
@@ -81,7 +83,7 @@ public:
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(InterpolateImageFunction, ContinuousImageFunction);
+  itkTypeMacro(InterpolateImageFunction, ImageFunction);
 
   /**
    * Method for creation through the object factory.
@@ -91,22 +93,22 @@ public:
   /**
    * InputImageType typedef support.
    */
-  typedef TInputImage InputImageType;
+  typedef typename Superclass::InputImageType InputImageType;
   
   /**
    * Dimension underlying input image.
    */
-  enum { ImageDimension = InputImageType::ImageDimension };
+  enum { ImageDimension = Superclass::ImageDimension };
+
+  /**
+   * Point typedef support.
+   */
+  typedef typename Superclass::PointType PointType;
 
   /**
    * Index typedef support.
    */
-  typedef typename InputImageType::IndexType IndexType;
-
-  /**
-   * Superclass typedefs
-   */
-  typedef typename Superclass::PointType PointType;
+  typedef typename Superclass::IndexType IndexType;
 
   /**
    * ContinuousIndex typedef support.
@@ -114,15 +116,13 @@ public:
   typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
 
   /**
-   * Evaluate the function at a non-integer position
+   * Interpolate the image at a point position
    *
    * Returns the interpolated image intensity at a 
    * specified point position. No bounds checking is done.
    * The point is assume to lie within the image buffer.
    *
-   * Subclasses must implemented these methods.
-   *
-   * Superclass::IsInsideBuffer() can be used to check bounds before
+   * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method.
    */
   virtual double Evaluate( const PointType& point ) const
@@ -132,8 +132,35 @@ public:
     return ( this->EvaluateAtContinuousIndex( index ) );
     }
 
+  /**
+   * Interpolate the image at a continuous index position
+   *
+   * Returns the interpolated image intensity at a 
+   * specified index position. No bounds checking is done.
+   * The point is assume to lie within the image buffer.
+   *
+   * Subclasses must override this method.
+   *
+   * ImageFunction::IsInsideBuffer() can be used to check bounds before
+   * calling the method.
+   */
   virtual double EvaluateAtContinuousIndex( 
     const ContinuousIndexType & index ) const = 0;
+
+  /**
+   * Interpolate the image at an index position.
+   *
+   * Simply returns the image value at the
+   * specified index position. No bounds checking is done.
+   * The point is assume to lie within the image buffer.
+   *
+   * ImageFunction::IsInsideBuffer() can be used to check bounds before
+   * calling the method.
+   */
+  virtual double EvaluateAtIndex( const IndexType & index ) const
+    {
+    return ( static_cast<double>( m_Image->GetPixel( index ) ) );
+    }
 
 protected:
   InterpolateImageFunction(){};

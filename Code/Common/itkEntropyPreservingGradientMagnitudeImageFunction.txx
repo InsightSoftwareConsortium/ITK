@@ -83,8 +83,7 @@ EntropyPreservingGradientMagnitudeImageFunction<TInputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   this->Superclass::PrintSelf(os,indent);
-  os << indent << "calculate entropy satisfying derivative:" << std::endl;
-  os << indent << "speed: " << m_Speed << std::endl;
+  os << indent << "Speed: " << m_Speed << std::endl;
 }
 
 
@@ -94,7 +93,7 @@ EntropyPreservingGradientMagnitudeImageFunction<TInputImage>
 template <class TInputImage>
 double
 EntropyPreservingGradientMagnitudeImageFunction<TInputImage>
-::Evaluate(
+::EvaluateAtIndex(
 const IndexType& index ) const
 {
 

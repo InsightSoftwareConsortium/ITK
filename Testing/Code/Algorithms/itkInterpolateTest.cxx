@@ -60,21 +60,6 @@ SizeType size = {{20, 40, 80}};
 double origin [3] = { 0.5,   0.5,   0.5};
 double spacing[3] = { 0.1,   0.05 , 0.025};
 
-/**
- * This function convert points from Image space to
- * geometric space
- */ 
-PointType ConvertContinuousIndexToPoint( 
-const ContinuousIndexType& index )
-{
-	PointType point;
-  for( int j = 0; j < PointType::PointDimension; j++ )
-		{
-		point[j] = index[j] * spacing[j] + origin[j];
-		}
-
-  return point;
-}
 
 /**
  * Test a geometric point. Returns true if test has passed,
@@ -208,7 +193,7 @@ main(
 
     if( !passed ) flag = 1;
     
-    point = ConvertContinuousIndexToPoint( cindex );
+    interp->ConvertContinuousIndexToPoint( cindex, point );
     passed = TestGeometricPoint( interp, point, true, 70 );
 
     if( !passed ) flag = 1;
@@ -220,7 +205,7 @@ main(
 
     if( !passed ) flag = 1;
 
-    point = ConvertContinuousIndexToPoint( cindex );
+    interp->ConvertContinuousIndexToPoint( cindex, point );
     passed = TestGeometricPoint( interp, point, true, 60 );
 
     if( !passed ) flag = 1;
@@ -232,7 +217,7 @@ main(
 
     if( !passed ) flag = 1;
 
-    point = ConvertContinuousIndexToPoint( cindex );
+    interp->ConvertContinuousIndexToPoint( cindex, point );
     passed = TestGeometricPoint( interp, point, true, 79 );
 
     if( !passed ) flag = 1;
@@ -244,7 +229,7 @@ main(
 
     if( !passed ) flag = 1;
 
-    point = ConvertContinuousIndexToPoint( cindex );
+    interp->ConvertContinuousIndexToPoint( cindex, point );
     passed = TestGeometricPoint( interp, point, false, 0 );
 
     if( !passed ) flag = 1;
@@ -256,7 +241,7 @@ main(
 
     if( !passed ) flag = 1;
 
-    point = ConvertContinuousIndexToPoint( cindex );
+    interp->ConvertContinuousIndexToPoint( cindex, point );
     passed = TestGeometricPoint( interp, point, true, 59.75 );
 
     if( !passed ) flag = 1;

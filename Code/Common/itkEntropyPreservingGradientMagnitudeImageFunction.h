@@ -41,7 +41,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _itkEntropyPreservingGradientMagnitudeImageFunction_h
 
 #include "itkImageFunction.h"
-#include "itkIndex.h"
 
 namespace itk
 {
@@ -98,6 +97,11 @@ public:
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
+  /** 
+   * Run-time type information (and related methods).
+   */
+  itkTypeMacro(EntropyPreservingGradientMagnitudeImageFunction, ImageFunction);
+
   /**
    * Method for creation through the object factory.
    */
@@ -143,9 +147,25 @@ public:
   /**
    * Evalulate the function at specified index
    */
-  virtual double Evaluate( const IndexType& index ) const;
-  virtual double EvaluateAtPoint( const PointType& point ) const
-    { return this->Superclass::EvaluateAtPoint( point ); }
+  virtual double EvaluateAtIndex( const IndexType& index ) const;
+
+  /**
+   * Evaluate the function at non-integer positions
+   */
+  virtual double Evaluate( const PointType& point ) const
+    { 
+      IndexType index;
+      this->ConvertPointToNearestIndex( point, index );
+      return this->EvaluateAtIndex( index ); 
+    }
+
+  virtual double EvaluateAtContinuousIndex( 
+    const ContinuousIndexType& cindex ) const
+    { 
+      IndexType index;
+      this->ConvertContinuousIndexToNearestIndex( cindex, index );
+      return this->EvaluateAtIndex( index ) ; 
+    }
 
   /**
    * Get the magnitude from last evaluation

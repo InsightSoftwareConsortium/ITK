@@ -41,23 +41,30 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _itkImageFunction_h
 
 #include "itkFunctionBase.h"
-#include "itkIndex.h"
 #include "itkPoint.h"
-#include "vnl/vnl_math.h"
+#include "itkIndex.h"
+#include "itkContinuousIndex.h"
 
 namespace itk
 {
 
 /** 
  * \class ImageFunction
- * \brief Evaluates a function of an image at specified index.
+ * \brief Evaluates a function of an image at specified position.
  *
  * ImageFunction is a baseclass for all objects that evaluates
- * a function of an image at index. This class is templated over 
- * the input image type and the type of the function output.
+ * a function of an image at index, continuous index or point.
+ * This class is templated over the input image type and the type 
+ * of the function output.
  *
  * The input image is set via method SetInputImage().
- * The Evaluate() method evaluates the function at an index.
+ * Methods Evaluate, EvaluateAtIndex and EvaluateAtContinuousIndex
+ * respectively evaluates the function at an geometric point,
+ * image index and continuous image index.
+ *
+ * \sa Point
+ * \sa Index
+ * \sa Continuous
  *
  * \ingroup ImageFunctions
  *
@@ -67,7 +74,8 @@ class TInputImage,
 class TOutput 
 >
 class ITK_EXPORT ImageFunction : 
-  public FunctionBase< Index<TInputImage::ImageDimension>, TOutput > 
+  public FunctionBase< Point<double,TInputImage::ImageDimension>, 
+                       TOutput > 
 {
 public:
   /**
@@ -78,7 +86,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef FunctionBase< Index<TInputImage::ImageDimension>,
+  typedef FunctionBase< Point<double,TInputImage::ImageDimension>,
             TOutput > Superclass;
 
   /** 
@@ -87,20 +95,25 @@ public:
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
+  /** 
+   * Run-time type information (and related methods).
+   */
+  itkTypeMacro(ImageFunction, FunctionBase);
+
+  /**
+   * Method for creation through the object factory.
+   */
+  itkNewMacro(Self); 
+
   /**
    * InputImageType typedef support.
    */
   typedef TInputImage InputImageType;
 
   /**
-   * OutputType typedef support.
+   * InputPixel typedef support
    */
-  typedef TOutput OutputType;
-
-  /**
-   * Point Type
-   */
-  typedef Point<double,InputImageType::ImageDimension> PointType;
+  typedef typename InputImageType::PixelType PixelType;
 
   /**
    * InputImagePointer typedef support
@@ -113,25 +126,29 @@ public:
   enum { ImageDimension = InputImageType::ImageDimension };
 
   /**
-   * Index typedef support.
+   * OutputType typedef support.
+   */
+  typedef TOutput OutputType;
+
+  /**
+   * Index Type.
    */
   typedef typename InputImageType::IndexType IndexType;
 
   /**
-   * InputPixel typedef support
+   * ContinuousIndex Type.
    */
-  typedef typename InputImageType::PixelType PixelType;
+  typedef ContinuousIndex<double,ImageDimension> ContinuousIndexType;
 
   /**
-   * Method for creation through the object factory.
+   * Point Type.
    */
-  itkNewMacro(Self); 
-  
+  typedef Point<double,ImageDimension> PointType;
+
   /** 
    * Set the input image.
    */
-  virtual void SetInputImage( const InputImageType * ptr )
-    { m_Image = ptr; }
+  virtual void SetInputImage( const InputImageType * ptr );
 
   /**
    * Get the input image.
@@ -140,44 +157,94 @@ public:
     { return m_Image.GetPointer(); }
 
   /**
-   * Evaluate the function at specified index
+   * Evaluate the function at specified Point position.
+   * Subclasses should override this method.
    */
-  virtual TOutput Evaluate( const IndexType& index ) const = 0;
+  virtual TOutput Evaluate( const PointType& point ) const = 0;
 
   /**
-   * Evaluate the function at a Point position
+   * Evaluate the function at specified Index position.
+   * Subclasses should override this method.
    */
-  virtual TOutput EvaluateAtPoint( const PointType & point ) const
-   {
-     IndexType index;
-     for( unsigned int j = 0; j < ImageDimension; j++ )
-        {
-          index[j] = vnl_math_rnd( point[j] );
-        }
-     return ( this->Evaluate( index ) );
-   }
-                   
+  virtual TOutput EvaluateAtIndex( const IndexType & index ) const = 0;
+
+  /**
+   * Evaluate the function at specified ContinousIndex position.
+   * Subclasses should override this method.
+   */
+  virtual TOutput EvaluateAtContinuousIndex( 
+    const ContinuousIndexType & index ) const = 0;
+    
+  /**
+   * Check if an index is inside the image buffer.
+   * \warning For efficiency, no validity checking of
+   * the input image is done.
+   */
+  inline bool IsInsideBuffer( const IndexType & index ) const;
+            
+  /**
+   * Check if a continuous index is inside the image buffer.
+   * \warning For efficiency, no validity checking of
+   * the input image is done.
+   */
+  inline bool IsInsideBuffer( const ContinuousIndexType & index ) const;
+
+  /**
+   * Check if a point is inside the image buffer.
+   * \warning For efficiency, no validity checking of
+   * the input image pointer is done.
+   */
+  inline bool IsInsideBuffer( const PointType & point ) const;
+
+  /**
+   * Point/Index/ContinuousIndex conversion functions.
+   * \warning For efficiency, no validity checking of the
+   * input image pointer is done.
+   */
+  inline void ConvertPointToContinuousIndex(
+    const PointType& point, ContinuousIndexType& index ) const;
+
+  inline void ConvertContinuousIndexToPoint(
+    const ContinuousIndexType& index, PointType& point ) const;
+
+  inline void ConvertIndexToPoint(
+    const IndexType& index, PointType& point ) const;
+
+  inline void ConvertPointToNearestIndex(
+    const PointType& point, IndexType& index ) const;
+
+  inline void ConvertContinuousIndexToNearestIndex(
+    const ContinuousIndexType &cindex, IndexType& index ) const;
+
 
 protected:
 
-  ImageFunction() 
-  { m_Image = NULL; }
-
+  ImageFunction();
   ImageFunction( const Self& ){};
   ~ImageFunction(){};
   void operator=(const Self&) {};
-  void PrintSelf(std::ostream& os, Indent indent) const
-    { 
-      this->Superclass::PrintSelf( os, indent );
-      os << indent << "ImageFunction" << std::endl;
-    }
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
-  // made protected so subclass can access
+  /**
+   * Const pointer to the input image.
+   */
   InputImageConstPointer  m_Image;
 
+  /**
+   * Cache some image information
+   */
+  const double * m_Origin;
+  const double * m_Spacing;
+
+private:
+
+  
 };
 
 } // namespace itk
 
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkImageFunction.txx"
+#endif
 
 #endif

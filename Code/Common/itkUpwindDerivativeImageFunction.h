@@ -89,6 +89,11 @@ public:
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
+  /** 
+   * Run-time type information (and related methods).
+   */
+  itkTypeMacro(UpwindDerivativeImageFunction, ImageFunction);
+
   /**
    * Method for creation through the object factory.
    */
@@ -134,15 +139,31 @@ public:
   /**
    * Evalulate the function at specified index
    */
-  virtual double Evaluate( const IndexType& index ) const
-    { return ( this->Evaluate( index, 0 ) ); }
-  virtual double EvaluateAtPoint( const PointType& point ) const
-    { return ( this->Superclass::EvaluateAtPoint( point ) ); }
+  virtual double EvaluateAtIndex( const IndexType& index ) const
+    { return ( this->EvaluateAtIndex( index, 0 ) ); }
+
+  /**
+   * Evaluate the function at non-integer positions
+   */
+  virtual double Evaluate( const PointType& point ) const
+    { 
+      IndexType index;
+      this->ConvertPointToNearestIndex( point, index );
+      return this->EvaluateAtIndex( index, 0 ); 
+    }
+
+  virtual double EvaluateAtContinuousIndex( 
+    const ContinuousIndexType& cindex ) const
+    { 
+      IndexType index;
+      this->ConvertContinuousIndexToNearestIndex( cindex, index );
+      return this->EvaluateAtIndex( index, 0 ) ; 
+    }
 
   /**
    * Evalulate the function at specified index
    */
-  virtual double Evaluate( const IndexType& index, 
+  virtual double EvaluateAtIndex( const IndexType& index, 
                            unsigned int dim = 0 ) const;
 
   /**

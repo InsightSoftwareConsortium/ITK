@@ -47,7 +47,7 @@ namespace itk
 
 /** 
  * \class LinearInterpolateImageFunction
- * \brief Linearly interpolate an image.
+ * \brief Linearly interpolate an image at specified positions.
  *
  * LinearInterpolateImageFunction linearly interpolates image intensity at
  * a non-integer pixel position. This class is templated
@@ -55,9 +55,12 @@ namespace itk
  *
  * This function works for N-dimensional images.
  *
+ * \warning This function work only for images with scalar pixel
+ * types. 
+ *
  * \ingroup ImageFunctions
  * 
- * */
+ */
 template <class TInputImage>
 class ITK_EXPORT LinearInterpolateImageFunction : 
   public InterpolateImageFunction<TInputImage> 
@@ -116,7 +119,7 @@ public:
    * specified point position. No bounds checking is done.
    * The point is assume to lie within the image buffer.
    *
-   * Superclass::IsInsideBuffer() can be used to check bounds before
+   * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method.
    */
   virtual double EvaluateAtContinuousIndex( 
@@ -132,7 +135,11 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
-  unsigned long          m_Neighbors;  // Size of interpolation neighborhood
+
+  /**
+   * Number of neighbors used in the interpolation
+   */
+  static const unsigned long  m_Neighbors;  
 
 };
 

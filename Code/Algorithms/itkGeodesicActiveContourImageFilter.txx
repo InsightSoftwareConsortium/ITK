@@ -233,14 +233,14 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
       {
       index = inIt.GetIndex();
     
-      magnitude = inEntropy->Evaluate( index );
+      magnitude = inEntropy->EvaluateAtIndex( index );
       updateValue = m_InflationStrength * magnitude;
       if( propagateOutwards )
       {
         updateValue *= -1.0;
       }
 
-      curvature = inCurvature->Evaluate( index );
+      curvature = inCurvature->EvaluateAtIndex( index );
       magnitude = inCurvature->GetMagnitude();
       updateValue += curvature * magnitude;
 
@@ -253,7 +253,7 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
 
         inUpwind->SetSpeed( -1.0 * deriv );
 
-        updateValue += deriv * inUpwind->Evaluate( index, j );
+        updateValue += deriv * inUpwind->EvaluateAtIndex( index, j );
         }
 
       updateValue *= timeStepSize; 
@@ -394,14 +394,14 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
       if( vnl_math_abs( node.value ) <= maxValue )
         {
 
-        magnitude = inEntropy->Evaluate( node.index );
+        magnitude = inEntropy->EvaluateAtIndex( node.index );
         updateValue = m_InflationStrength * magnitude;
         if( propagateOutwards )
           {
           updateValue *= -1.0;
           }
 
-        curvature = inCurvature->Evaluate( node.index );
+        curvature = inCurvature->EvaluateAtIndex( node.index );
         magnitude = inCurvature->GetMagnitude();
         updateValue += curvature * magnitude;
 
@@ -417,7 +417,7 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
 
           inUpwind->SetSpeed( -1.0 * deriv );
           
-          updateValue += deriv * inUpwind->Evaluate( node.index, j );
+          updateValue += deriv * inUpwind->EvaluateAtIndex( node.index, j );
 
           }
 

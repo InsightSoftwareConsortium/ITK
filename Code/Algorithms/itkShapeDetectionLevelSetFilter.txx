@@ -237,10 +237,10 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
       {
       index = outBuffIt.GetIndex();
 
-      magnitude = inEntropy->Evaluate( index );
+      magnitude = inEntropy->EvaluateAtIndex( index );
       updateValue = -1.0 * magnitude;
 
-      curvature = inCurvature->Evaluate( index );
+      curvature = inCurvature->EvaluateAtIndex( index );
       magnitude = inCurvature->GetMagnitude();
       updateValue += m_LengthPenaltyStrength * curvature * magnitude;
 
@@ -358,10 +358,10 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
       if( vnl_math_abs( node.value ) <= maxValue )
         {
         
-        magnitude = inEntropy->Evaluate( node.index );
+        magnitude = inEntropy->EvaluateAtIndex( node.index );
         updateValue = -1.0 * magnitude;
 
-        curvature = inCurvature->Evaluate( node.index );
+        curvature = inCurvature->EvaluateAtIndex( node.index );
         magnitude = inCurvature->GetMagnitude();
         updateValue += m_LengthPenaltyStrength * curvature * magnitude;
 

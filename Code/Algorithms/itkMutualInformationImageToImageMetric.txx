@@ -289,7 +289,6 @@ DerivativeType& derivative)
 
   // set the DerivativeCalculator
   m_DerivativeCalculator->SetInputImage( mapper->GetDomain() );
-  m_DerivativeCalculator->SetImageSpacing( mapper->GetDomain()->GetSpacing() );
 
   // collect sample set A
   this->SampleTargetDomain( m_SampleA );
@@ -465,7 +464,7 @@ DerivativeType& derivatives )
   CovariantVector<double,TargetImageDimension> imageDerivatives;
   for( unsigned int j = 0; j < TargetImageDimension; j++ )
     {
-    imageDerivatives[j] = m_DerivativeCalculator->Evaluate( refIndex, j );
+    imageDerivatives[j] = m_DerivativeCalculator->EvaluateAtIndex( refIndex, j );
     }
 
   derivatives.Set_vnl_vector( mapper->GetTransform()->

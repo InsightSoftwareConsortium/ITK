@@ -77,6 +77,11 @@ public:
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
+  /** 
+   * Run-time type information (and related methods).
+   */
+  itkTypeMacro(CentralDifferenceImageFunction, ImageFunction);
+
   /**
    * Method for creation through the object factory.
    */
@@ -108,25 +113,30 @@ public:
   enum { ImageDimension = InputImageType::ImageDimension };
 
   /**
-   * Set the input image.
-   */
-  virtual void SetInputImage( const InputImageType * ptr );
-
-  /**
-   * Set the image spacing
-   */
-  void SetImageSpacing( const double * spacing );
-
-  /**
    * Evalulate the function at specified index
    */
-  virtual double Evaluate( const IndexType& index ) const
-    { return ( this->Evaluate( index, 0 ) ); }
-  virtual double EvaluateAtPoint( const PointType& point ) const
-    { return ( this->Superclass::EvaluateAtPoint( point ) ); }
+  virtual double EvaluateAtIndex( const IndexType& index ) const
+    { return ( this->EvaluateAtIndex( index, 0 ) ); }
+  virtual double EvaluateAtIndex( const IndexType& index, 
+    unsigned int dim ) const;
 
-  virtual double Evaluate( const IndexType& index, unsigned int dim ) const;
+  /**
+   * Evaluate the function at non-integer positions
+   */
+  virtual double Evaluate( const PointType& point ) const
+    { 
+      IndexType index;
+      this->ConvertPointToNearestIndex( point, index );
+      return this->EvaluateAtIndex( index, 0 ); 
+    }
 
+  virtual double EvaluateAtContinuousIndex( 
+    const ContinuousIndexType& cindex ) const
+    { 
+      IndexType index;
+      this->ConvertContinuousIndexToNearestIndex( cindex, index );
+      return this->EvaluateAtIndex( index, 0 ) ; 
+    }
 
 protected:
   CentralDifferenceImageFunction();
@@ -138,9 +148,6 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
-  Size<ImageDimension>    m_ImageSize;
-  IndexType               m_ImageStart;
-  double                  m_ImageSpacing[ImageDimension];
 
 };
 

@@ -43,6 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
+
 /**
  * Constructor
  */
@@ -50,45 +51,6 @@ template <class TInputImage>
 CentralDifferenceImageFunction<TInputImage>
 ::CentralDifferenceImageFunction()
 {
-  for( unsigned int j = 0; j < ImageDimension; j++ )
-    {
-    m_ImageSpacing[j] = 1.0;
-    m_ImageSize[j] = 0;
-    m_ImageStart[j] = 0;
-    }
-}
-
-
-/**
- *
- */
-template <class TInputImage>
-void
-CentralDifferenceImageFunction<TInputImage>
-::SetInputImage( const InputImageType * ptr )
-{
-  this->Superclass::SetInputImage( ptr );
-
-  m_ImageSize = 
-    m_Image->GetBufferedRegion().GetSize();
-
-  m_ImageStart =
-    m_Image->GetBufferedRegion().GetIndex();  
-}
-
-
-/**
- *
- */
-template <class TInputImage>
-void
-CentralDifferenceImageFunction<TInputImage>
-::SetImageSpacing( const double * spacing )
-{
-  for( unsigned int j = 0; j < ImageDimension; j++ )
-    {
-    m_ImageSpacing[j] = spacing[j];
-    }
 }
 
 
@@ -101,7 +63,6 @@ CentralDifferenceImageFunction<TInputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   this->Superclass::PrintSelf(os,indent);
-  os << indent << "calculate central difference derivative:" << std::endl;
 }
 
 
@@ -111,7 +72,7 @@ CentralDifferenceImageFunction<TInputImage>
 template <class TInputImage>
 double
 CentralDifferenceImageFunction<TInputImage>
-::Evaluate(
+::EvaluateAtIndex(
 const IndexType& index,
 unsigned int dim ) const
 {
@@ -123,21 +84,21 @@ unsigned int dim ) const
     return ( derivative );
     }
   
-  for( unsigned int j = 0; j < ImageDimension; j++ )
+  if ( !this->IsInsideBuffer( index ) )
     {
-    if( index[j] < (signed long) m_ImageStart[j] ||
-        index[j] > (signed long) (m_ImageStart[j] + m_ImageSize[j]) - 1 )
-      {
-      return ( derivative );
-      }
+    return ( derivative );
     }
 
   IndexType neighIndex = index;
 
+  const typename InputImageType::SizeType& size =
+    m_Image->GetBufferedRegion().GetSize();
+  const typename InputImageType::IndexType& start =
+    m_Image->GetBufferedRegion().GetIndex();
 
   // bounds checking
-  if( index[dim] < (signed long) m_ImageStart[dim] + 1 ||
-      index[dim] >= (signed long)(m_ImageStart[dim] + m_ImageSize[dim]) - 2 )
+  if( index[dim] < (signed long) start[dim] + 1 ||
+      index[dim] >= (signed long)(start[dim] + size[dim]) - 2 )
     {
       return ( derivative );
     }
@@ -149,7 +110,7 @@ unsigned int dim ) const
   neighIndex[dim] -= 2;
   derivative -= m_Image->GetPixel( neighIndex );
 
-  derivative *= 0.5 / m_ImageSpacing[dim];
+  derivative *= 0.5 / m_Spacing[dim];
 
 
   return ( derivative );

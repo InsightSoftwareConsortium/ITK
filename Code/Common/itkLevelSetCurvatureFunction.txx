@@ -96,7 +96,7 @@ LevelSetCurvatureFunction<TInputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   this->Superclass::PrintSelf(os,indent);
-  os << indent << "calculate mean curvature" << std::endl;
+  os << indent << "EpsilonMagnitude:" << m_EpsilonMagnitude << std::endl;
 }
 
 
@@ -106,7 +106,7 @@ LevelSetCurvatureFunction<TInputImage>
 template<class TInputImage>
 double
 LevelSetCurvatureFunction<TInputImage>
-::Evaluate(
+::EvaluateAtIndex(
 const IndexType& index ) const
 { 
   if( !m_Image )

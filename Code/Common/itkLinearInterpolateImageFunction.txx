@@ -46,14 +46,21 @@ namespace itk
 {
 
 /**
+ * Define the number of neighbors
+ */
+template<class TInputImage>
+const unsigned long
+LinearInterpolateImageFunction< TInputImage >
+::m_Neighbors = 1 << TInputImage::ImageDimension;
+
+
+/**
  * Constructor
  */
 template<class TInputImage>
 LinearInterpolateImageFunction<TInputImage>
 ::LinearInterpolateImageFunction()
 {
-
-  m_Neighbors = 1UL << ImageDimension;
 
 }
 

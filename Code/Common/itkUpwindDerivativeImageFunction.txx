@@ -74,8 +74,7 @@ UpwindDerivativeImageFunction<TInputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   this->Superclass::PrintSelf(os,indent);
-  os << indent << "calculate upwind derivative:" << std::endl;
-  os << indent << "speed: " << m_Speed << std::endl;
+  os << indent << "Speed: " << m_Speed << std::endl;
 }
 
 
@@ -85,7 +84,7 @@ UpwindDerivativeImageFunction<TInputImage>
 template <class TInputImage>
 double
 UpwindDerivativeImageFunction<TInputImage>
-::Evaluate(
+::EvaluateAtIndex(
 const IndexType& index,
 unsigned int dim ) const
 {

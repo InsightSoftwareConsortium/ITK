@@ -41,7 +41,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _itkLevelSetCurvatureFunction_h
 
 #include "itkImageFunction.h"
-#include "itkSize.h"
 
 #include "vnl/vnl_vector_fixed.h"
 #include "vnl/vnl_matrix_fixed.h"
@@ -108,6 +107,11 @@ public:
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
+  /** 
+   * Run-time type information (and related methods).
+   */
+  itkTypeMacro(LevelSetCurvatureFunction, ImageFunction);
+
   /**
    * Method for creation through the object factory.
    */
@@ -136,9 +140,25 @@ public:
   /**
    * Evaluate the function at specified index
    */
-  virtual double Evaluate( const IndexType& index ) const;
-  virtual double EvaluateAtPoint( const PointType& point ) const
-    { return this->Superclass::EvaluateAtPoint( point ); }
+  virtual double EvaluateAtIndex( const IndexType& index ) const;
+
+  /**
+   * Evaluate the function at non-integer positions
+   */
+  virtual double Evaluate( const PointType& point ) const
+    { 
+      IndexType index;
+      this->ConvertPointToNearestIndex( point, index );
+      return this->EvaluateAtIndex( index ); 
+    }
+
+  virtual double EvaluateAtContinuousIndex( 
+    const ContinuousIndexType& cindex ) const
+    { 
+      IndexType index;
+      this->ConvertContinuousIndexToNearestIndex( cindex, index );
+      return this->EvaluateAtIndex( index ) ; 
+    }
 
   /**
    * Get the curvature from last evaluation
