@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef _itkGaussianSupervisedClassifier_txx
 #define _itkGaussianSupervisedClassifier_txx
+#include "itkGaussianSupervisedClassifier.h"
 
 namespace itk
 {

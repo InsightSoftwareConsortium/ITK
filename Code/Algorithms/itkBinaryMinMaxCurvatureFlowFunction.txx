@@ -14,8 +14,9 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkBinaryMinMaxCurvatureFlowFunction_txx_
-#define __itkBinaryMinMaxCurvatureFlowFunction_txx_
+#ifndef __itkBinaryMinMaxCurvatureFlowFunction_txx
+#define __itkBinaryMinMaxCurvatureFlowFunction_txx
+#include "itkBinaryMinMaxCurvatureFlowFunction.h"
 
 #include "vnl/vnl_math.h"
 #include "itkNeighborhoodInnerProduct.h"

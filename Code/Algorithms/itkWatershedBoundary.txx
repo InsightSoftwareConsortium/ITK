@@ -16,6 +16,8 @@
 =========================================================================*/
 #ifndef __itkWatershedBoundary_txx
 #define __itkWatershedBoundary_txx
+#include "itkWatershedBoundary.h"
+
 #include "itkImageRegionIterator.h"
 
 namespace itk

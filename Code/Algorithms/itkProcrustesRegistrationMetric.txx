@@ -16,8 +16,7 @@
 =========================================================================*/
 #ifndef _itkProcrustesRegistrationMetric_txx
 #define _itkProcrustesRegistrationMetric_txx
-
-
+#include "itkProcrustesRegistrationMetric.h"
 
 #include <itkExceptionObject.h>
 
@@ -32,11 +31,6 @@ ProcrustesRegistrationMetric<TTransform, NDimension>
 ::ProcrustesRegistrationMetric()
 {
 }
-
-
-
-
-
 
 /**
  * Compute Performs the evaluation of similarity
@@ -95,10 +89,6 @@ ProcrustesRegistrationMetric<TTransform, NDimension>
   }
 
 }
-
-
-
-
 
 } // end namespace itk
 

@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef _itkGeodesicActiveContourImageFilter_txx
 #define _itkGeodesicActiveContourImageFilter_txx
+#include "itkGeodesicActiveContourImageFilter.h"
 
 #include "itkLevelSetCurvatureFunction.h"
 #include "itkEntropyPreservingGradientMagnitudeImageFunction.h"

@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef _itkKmeansUnsupervisedClassifier_txx
 #define _itkKmeansUnsupervisedClassifier_txx
+#include "itkKmeansUnsupervisedClassifier.h"
 
 #include "itkNumericTraits.h"
 #include "itkImageRegionIterator.h"

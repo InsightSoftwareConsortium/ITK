@@ -14,8 +14,10 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkMinMaxCurvatureFlowImageFilter_txx_
-#define __itkMinMaxCurvatureFlowImageFilter_txx_
+#ifndef __itkMinMaxCurvatureFlowImageFilter_txx
+#define __itkMinMaxCurvatureFlowImageFilter_txx
+
+#include "itkMinMaxCurvatureFlowImageFilter.h"
 
 #include "itkExceptionObject.h"
 

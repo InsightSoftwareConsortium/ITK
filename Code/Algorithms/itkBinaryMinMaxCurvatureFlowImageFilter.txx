@@ -14,8 +14,9 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkBinaryMinMaxCurvatureFlowImageFilter_txx_
-#define __itkBinaryMinMaxCurvatureFlowImageFilter_txx_
+#ifndef __itkBinaryMinMaxCurvatureFlowImageFilter_txx
+#define __itkBinaryMinMaxCurvatureFlowImageFilter_txx
+#include "itkBinaryMinMaxCurvatureFlowImageFilter.h"
 
 #include "itkExceptionObject.h"
 

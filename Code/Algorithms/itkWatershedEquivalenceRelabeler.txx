@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef __itkWatershedEquivalenceRelabeler_txx
 #define __itkWatershedEquivalenceRelabeler_txx
+#include "itkWatershedEquivalenceRelabeler.h"
 
 #include "itkImageRegionIterator.h"
 namespace itk

@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef _itkVoronoiDiagram2DGenerator_txx
 #define _itkVoronoiDiagram2DGenerator_txx
+#include "itkVoronoiDiagram2DGenerator.h"
 
 
 #include <algorithm>

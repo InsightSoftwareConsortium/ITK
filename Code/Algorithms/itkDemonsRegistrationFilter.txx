@@ -14,9 +14,9 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkDemonsRegistrationFilter_txx_
-#define _itkDemonsRegistrationFilter_txx_
-
+#ifndef _itkDemonsRegistrationFilter_txx
+#define _itkDemonsRegistrationFilter_txx
+#include "itkDemonsRegistrationFilter.h"
 
 namespace itk {
 

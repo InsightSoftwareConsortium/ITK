@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef _itkVoronoiDiagram2D_txx
 #define _itkVoronoiDiagram2D_txx
+#include "itkVoronoiDiagram2D.h"
 
 
 #include <algorithm>

@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef _itkClassifier_txx
 #define _itkClassifier_txx
+#include "itkClassifier.h"
 
 #include "itkCommand.h"
 

@@ -14,8 +14,9 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkMultiResolutionPDEDeformableRegistration_txx_
-#define _itkMultiResolutionPDEDeformableRegistration_txx_
+#ifndef _itkMultiResolutionPDEDeformableRegistration_txx
+#define _itkMultiResolutionPDEDeformableRegistration_txx
+#include "itkMultiResolutionPDEDeformableRegistration.h"
 
 #include "itkImageRegionIterator.h"
 #include "vnl/vnl_math.h"

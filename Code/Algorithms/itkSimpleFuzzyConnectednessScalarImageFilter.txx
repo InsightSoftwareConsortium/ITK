@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef _itkSimpleFuzzyConnectednessScalarImageFilter_txx
 #define _itkSimpleFuzzyConnectednessScalarImageFilter_txx
+#include "itkSimpleFuzzyConnectednessScalarImageFilter.h"
 
 #include "vnl/vnl_math.h"
 #include "itkImageRegionIteratorWithIndex.h"

@@ -14,6 +14,10 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#ifndef _itkVectorFuzzyConnectednessImageFilter_txx
+#define _itkVectorFuzzyConnectednessImageFilter_txx
+#include "itkVectorFuzzyConnectednessImageFilter.h"
+
 #include "itkImageRegionIteratorWithIndex.h"
 
 namespace itk {
@@ -1435,3 +1439,4 @@ void VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
 
 } // end namespace itk
 
+#endif
