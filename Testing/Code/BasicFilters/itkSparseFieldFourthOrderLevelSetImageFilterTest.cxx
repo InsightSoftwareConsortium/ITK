@@ -90,15 +90,16 @@ protected:
     this->SetLevelSetFunction(m_Function);
     this->SetNumberOfLayers(this->GetMinimumNumberOfLayers());
     
-    this->SetMaxNormalIteration(25);
-    this->SetMaxRefitIteration(100);
+    this->SetMaxNormalIteration(10);
+    this->SetMaxRefitIteration(40);
     m_Function->Initialize(radius);    
     this->SetNormalProcessType (0);
   }
   
   virtual bool Halt ()
   {
-    if (this->GetElapsedIterations()==500) return true;
+    std::cout<<"iteration "<<(this->GetElapsedIterations()==100)<<"\n";
+    if (this->GetElapsedIterations()==100) return true;
     else return false;
   }
 };
