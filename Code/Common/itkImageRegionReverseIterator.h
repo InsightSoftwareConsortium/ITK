@@ -186,7 +186,7 @@ public:
     : ImageReverseIterator<TImage>(ptr, region)
   {
     m_SpanBeginOffset = m_BeginOffset;
-    m_SpanEndOffset = m_BeginOffset - m_Region.GetSize()[0];
+    m_SpanEndOffset = m_BeginOffset - static_cast<long>(m_Region.GetSize()[0]);
   }
 
   /**
@@ -203,9 +203,9 @@ public:
     this->ImageReverseIterator<TImage>::operator=(it);
 
     IndexType ind = this->GetIndex();
-    m_SpanBeginOffset = m_Offset + m_Region.GetSize()[0] 
+    m_SpanBeginOffset = m_Offset + static_cast<long>(m_Region.GetSize()[0]) 
       - (ind[0] - m_Region.GetIndex()[0]);
-    m_SpanEndOffset = m_SpanBeginOffset - m_Region.GetSize()[0];
+    m_SpanEndOffset = m_SpanBeginOffset - static_cast<long>(m_Region.GetSize()[0]);
   }
 
   /**
@@ -217,9 +217,9 @@ public:
     this->ImageReverseIterator<TImage>::operator=(it);
 
     IndexType ind = this->GetIndex();
-    m_SpanEndOffset = m_Offset + m_Region.GetSize()[0] 
+    m_SpanEndOffset = m_Offset + static_cast<long>(m_Region.GetSize()[0]) 
       - (ind[0] - m_Region.GetIndex()[0]);
-    m_SpanBeginOffset = m_SpanEndOffset - m_Region.GetSize()[0];
+    m_SpanBeginOffset = m_SpanEndOffset - static_cast<long>(m_Region.GetSize()[0]);
   }
 
   
@@ -230,9 +230,9 @@ public:
    */
   void SetIndex(const IndexType &ind)
   { Superclass::SetIndex(ind);
-    m_SpanBeginOffset = m_Offset + m_Region.GetSize()[0] 
+    m_SpanBeginOffset = m_Offset + static_cast<long>(m_Region.GetSize()[0]) 
       - (ind[0] - m_Region.GetIndex()[0]);
-    m_SpanEndOffset = m_SpanBeginOffset - m_Region.GetSize()[0];
+    m_SpanEndOffset = m_SpanBeginOffset - static_cast<long>(m_Region.GetSize()[0]);
   }
   
   /**

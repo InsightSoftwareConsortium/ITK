@@ -179,7 +179,7 @@ public:
     : ImageIterator<TImage>(ptr, region)
   {
     m_SpanBeginOffset = m_BeginOffset;
-    m_SpanEndOffset = m_BeginOffset + m_Region.GetSize()[0];
+    m_SpanEndOffset = m_BeginOffset + static_cast<long>(m_Region.GetSize()[0]);
   }
 
   /**
@@ -194,9 +194,10 @@ public:
   {
     this->ImageIterator<TImage>::operator=(it);
     IndexType ind = this->GetIndex();
-    m_SpanEndOffset = m_Offset + m_Region.GetSize()[0] 
+    m_SpanEndOffset = m_Offset + static_cast<long>(m_Region.GetSize()[0]) 
       - (ind[0] - m_Region.GetIndex()[0]);
-    m_SpanBeginOffset = m_SpanEndOffset - m_Region.GetSize()[0];
+    m_SpanBeginOffset = m_SpanEndOffset
+      - static_cast<long>(m_Region.GetSize()[0]);
   }
 
 
@@ -207,9 +208,10 @@ public:
    */
   void SetIndex(const IndexType &ind)
   { Superclass::SetIndex(ind);
-    m_SpanEndOffset = m_Offset + m_Region.GetSize()[0] 
+    m_SpanEndOffset = m_Offset + static_cast<long>(m_Region.GetSize()[0]) 
       - (ind[0] - m_Region.GetIndex()[0]);
-    m_SpanBeginOffset = m_SpanEndOffset - m_Region.GetSize()[0];
+    m_SpanBeginOffset = m_SpanEndOffset
+      - static_cast<long>(m_Region.GetSize()[0]);
   }
   
   /**
@@ -266,7 +268,7 @@ public:
           }
         }
       m_Offset = m_Image->ComputeOffset( ind );
-      m_SpanEndOffset = m_Offset + size[0];
+      m_SpanEndOffset = m_Offset + static_cast<long>(size[0]);
       m_SpanBeginOffset = m_Offset;
       }
     return *this;
@@ -320,13 +322,13 @@ public:
         while ( (dim < ImageIteratorDimension - 1)
                 && (ind[dim] < startIndex[dim]) )
           {
-          ind[dim] = startIndex[dim] + size[dim] - 1;
+          ind[dim] = startIndex[dim] + static_cast<long>(size[dim]) - 1;
           ind[++dim]--;
           }
         }
       m_Offset = m_Image->ComputeOffset( ind );
       m_SpanEndOffset = m_Offset + 1;
-      m_SpanBeginOffset = m_SpanEndOffset - size[0];
+      m_SpanBeginOffset = m_SpanEndOffset - static_cast<long>(size[0]);
       }
     return *this;
   }

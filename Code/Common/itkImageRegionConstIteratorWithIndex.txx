@@ -67,8 +67,9 @@ ImageRegionConstIteratorWithIndex<TImage>
     }
     else 
     {
-      m_Position -= m_OffsetTable[ in ] * ( m_Region.GetSize()[in]-1 );
-      m_PositionIndex[ in ] = m_BeginIndex[ in ]; 
+    m_Position -= m_OffsetTable[ in ]
+      * ( static_cast<long>(m_Region.GetSize()[in])-1 );
+    m_PositionIndex[ in ] = m_BeginIndex[ in ]; 
     }
   }
 
@@ -104,7 +105,8 @@ ImageRegionConstIteratorWithIndex<TImage>
       else 
       {
         m_PositionIndex[ in  ]--;
-        m_Position += m_OffsetTable[ in ] * ( m_Region.GetSize()[in]-1 );
+        m_Position += m_OffsetTable[ in ]
+          * ( static_cast<long>(m_Region.GetSize()[in])-1 );
         m_PositionIndex[ in ] = m_EndIndex[ in ] - 1; 
       }
 

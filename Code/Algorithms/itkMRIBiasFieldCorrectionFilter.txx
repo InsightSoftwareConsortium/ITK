@@ -357,8 +357,8 @@ namespace itk
   MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
   ::CorrectInterSliceIntensityInhomogeneity(InputImageRegionType region)
   {
-    int lastSlice = region.GetIndex()[m_SlicingDirection] + 
-      region.GetSize()[m_SlicingDirection] ;
+    long lastSlice = region.GetIndex()[m_SlicingDirection] + 
+      static_cast<long>(region.GetSize()[m_SlicingDirection]) ;
     InputImageRegionType sliceRegion ;
     InputImageIndexType index = region.GetIndex() ;
     InputImageSizeType size = region.GetSize() ;
@@ -629,7 +629,7 @@ namespace itk
     OutputImageSizeType size = requestedRegion.GetSize() ;
     OutputImageIndexType indexLast = indexFirst ;
     for (unsigned long i = 0 ; i < ImageDimension ; i++)
-      indexLast[i] = indexFirst[i] + size[i] - 1 ;
+      indexLast[i] = indexFirst[i] + static_cast<long>(size[i]) - 1 ;
 
     long coordFirst = indexFirst[m_SlicingDirection] ;
     long coordLast = indexLast[m_SlicingDirection] ;
@@ -647,7 +647,7 @@ namespace itk
       {
         coordFirst2 = (*iter).GetIndex()[m_SlicingDirection] ;
         coordLast2 = coordFirst2 + 
-          (*iter).GetSize()[m_SlicingDirection] - 1 ;
+          static_cast<long>((*iter).GetSize()[m_SlicingDirection]) - 1 ;
 
         if (coordFirst > coordFirst2)
           tempCoordFirst = coordFirst ;

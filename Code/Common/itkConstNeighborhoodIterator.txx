@@ -113,7 +113,7 @@ ConstNeighborhoodIterator<TImage>
 {
   m_EndIndex = m_Region.GetIndex();
   m_EndIndex[Dimension-1] = m_Region.GetIndex()[Dimension-1] +
-    m_Region.GetSize()[Dimension-1];        
+    static_cast<long>(m_Region.GetSize()[Dimension-1]);        
 }
 
 template<class TImage> 
@@ -329,8 +329,8 @@ void ConstNeighborhoodIterator<TImage>
   // Set the bounds and the wrapping offsets
   for (unsigned int i=0; i<Dimension; ++i)
     {
-      m_Bound[i]      = m_BeginIndex[i]+size[i];
-      m_WrapOffset[i] = (bufferSize[i] - (m_Bound[i] - m_BeginIndex[i]))
+      m_Bound[i]      = m_BeginIndex[i]+static_cast<long>(size[i]);
+      m_WrapOffset[i] = (static_cast<long>(bufferSize[i]) - (m_Bound[i] - m_BeginIndex[i]))
                         * offset[i];
     }
   m_WrapOffset[Dimension-1] = 0; // last offset is zero because there are no
@@ -382,7 +382,7 @@ void ConstNeighborhoodIterator<TImage>
           if ( loop[i] == size[i] )
             {
               if (i==Dimension-1) break;
-              Iit +=  OffsetTable[i+1] - OffsetTable[i] * size[i];
+              Iit +=  OffsetTable[i+1] - OffsetTable[i] * static_cast<long>(size[i]);
               loop[i]= 0;
             }
           else break;

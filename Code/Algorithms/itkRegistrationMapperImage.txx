@@ -91,7 +91,7 @@ RegistrationMapperImage<TImage,TTransformation>
       break;
     }
     
-    if( m_CurrentIndex[i] >= m_Start[i] + m_Size[i] ) 
+    if( m_CurrentIndex[i] >= m_Start[i] + static_cast<long>(m_Size[i]) ) 
     {
       value = false;
       break;

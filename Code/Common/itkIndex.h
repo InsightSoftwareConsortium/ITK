@@ -119,7 +119,7 @@ public:
     {
     Self result;
     for (unsigned int i=0; i < VIndexDimension; i++)
-      { result[i] = m_Index[i] + size[i]; }
+      { result[i] = m_Index[i] + static_cast<long>(size[i]); }
     return result;
     }
 
@@ -130,7 +130,7 @@ public:
   operator+=(const SizeType &size)
     {
     for (unsigned int i=0; i < VIndexDimension; i++)
-      { m_Index[i] += size[i]; }
+      { m_Index[i] += static_cast<long>(size[i]); }
     return *this;
     }
 
@@ -201,7 +201,7 @@ public:
     {
     Self result;
     for (unsigned int i=0; i < VIndexDimension; i++)
-      { result[i] = m_Index[i] * vec.m_Size[i]; }
+      { result[i] = m_Index[i] * static_cast<long>(vec.m_Size[i]); }
     return result;
     }
 

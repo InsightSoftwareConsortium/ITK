@@ -97,8 +97,8 @@ unsigned int dim ) const
     m_Image->GetBufferedRegion().GetIndex();
 
   // bounds checking
-  if( index[dim] < (signed long) start[dim] + 1 ||
-      index[dim] >= (signed long)(start[dim] + size[dim]) - 2 )
+  if( index[dim] < static_cast<long>(start[dim]) + 1 ||
+      index[dim] >= (start[dim] + static_cast<long>(size[dim]) - 2 ) )
     {
       return ( derivative );
     }

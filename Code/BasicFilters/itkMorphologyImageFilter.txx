@@ -108,20 +108,21 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 
       // adjust the start index and the size of the requested region
       inputRequestedRegionStartIndex[i] += crop;
-      inputRequestedRegionSize[i] -= crop;
+      inputRequestedRegionSize[i] -= static_cast<unsigned long>(crop);
       }
     // now check the final size
     if (inputRequestedRegionStartIndex[i] + inputRequestedRegionSize[i] 
         > inputLargestPossibleRegionStartIndex[i]
-        + inputLargestPossibleRegionSize[i])
+        + static_cast<long>(inputLargestPossibleRegionSize[i]))
       {
       // how much do we need to adjust
-      crop = inputRequestedRegionStartIndex[i] + inputRequestedRegionSize[i] 
+      crop = inputRequestedRegionStartIndex[i]
+        + static_cast<long>(inputRequestedRegionSize[i]) 
         - inputLargestPossibleRegionStartIndex[i]
-        - inputLargestPossibleRegionSize[i];
+        - static_cast<long>(inputLargestPossibleRegionSize[i]);
 
       // adjust the size
-      inputRequestedRegionSize[i] -= crop;
+      inputRequestedRegionSize[i] -= static_cast<unsigned long>(crop);
       }
     }
   

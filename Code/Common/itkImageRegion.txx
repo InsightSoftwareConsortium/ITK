@@ -73,7 +73,7 @@ unsigned long
 ImageRegion<VImageDimension>
 ::GetNumberOfPixels() const
 {
-  int numPixels=1;
+  unsigned long numPixels=1;
 
   for (unsigned int i=0; i<VImageDimension; i++)
     {
@@ -127,7 +127,7 @@ ImageRegion<VImageDimension>
   for (unsigned int i = 0; i < VImageDimension; i++)
     {
     m_Size[i] += 2 * radius[i];
-    m_Index[i] -= radius[i];
+    m_Index[i] -= static_cast<long>(radius[i]);
     }  
 }
 
@@ -145,13 +145,14 @@ ImageRegion<VImageDimension>
     {
     // Is left edge of current region to the right of the right edge
     // of the region to crop with? (if so, we cannot crop)
-    if (m_Index[i] >= region.GetIndex()[i] + (long) region.GetSize()[i])
+    if (m_Index[i] >= region.GetIndex()[i]
+        + static_cast<long>(region.GetSize()[i]))
       {
       cropPossible = false;
       }
     // If right edge of the current region to the left of the left
     // edge of the region to crop with? (if so, we cannot crop)
-    if (m_Index[i] + (long) m_Size[i] <= region.GetIndex()[i])
+    if (m_Index[i] + static_cast<long>(m_Size[i]) <= region.GetIndex()[i])
       {
       cropPossible = false;
       }
@@ -174,18 +175,18 @@ ImageRegion<VImageDimension>
 
       // adjust the start index and the size of the current region
       m_Index[i] += crop;
-      m_Size[i] -= crop;
+      m_Size[i] -= static_cast<unsigned long>(crop);
       }
     // now check the final size
-    if (m_Index[i] + (long) m_Size[i]
-        > region.GetIndex()[i] + (long) region.GetSize()[i])
+    if (m_Index[i] + static_cast<long>(m_Size[i])
+        > region.GetIndex()[i] + static_cast<long>(region.GetSize()[i]))
       {
       // how much do we need to adjust
-      crop = m_Index[i] + (long) m_Size[i]
-        - region.GetIndex()[i] - (long) region.GetSize()[i];
+      crop = m_Index[i] + static_cast<long>(m_Size[i])
+        - region.GetIndex()[i] - static_cast<long>(region.GetSize()[i]);
 
       // adjust the size
-      m_Size[i] -= crop;
+      m_Size[i] -= static_cast<unsigned long>(crop);
       }
     }
 
