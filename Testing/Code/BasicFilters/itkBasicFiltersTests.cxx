@@ -158,6 +158,7 @@ void RegisterTests()
   REGISTER_TEST(itkRegionOfInterestImageFilterTest  );
   REGISTER_TEST(itkRelabelComponentImageFilterTest );
   REGISTER_TEST(itkRemoveBoundaryObjectsTest );
+  REGISTER_TEST(itkRemoveBoundaryObjectsTest2 );
   REGISTER_TEST(itkResampleImageTest );
   REGISTER_TEST(itkRescaleIntensityImageFilterTest );
   REGISTER_TEST(itkShiftScaleImageFilterTest );

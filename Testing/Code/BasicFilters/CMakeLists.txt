@@ -386,6 +386,13 @@ ADD_TEST(itkRemoveBoundaryObjectsTest ${BASIC_FILTERS_TESTS}
             ${ITK_DATA_ROOT}/Input/Spots.png
             ${ITK_TEST_OUTPUT_DIR}/RemoveBoundaryObjectsTest.png)
 
+ADD_TEST(itkRemoveBoundaryObjectsTest2 ${BASIC_FILTERS_TESTS}
+  --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/RemoveBoundaryObjectsTest2.png
+            ${ITK_TEST_OUTPUT_DIR}/RemoveBoundaryObjectsTest2.png
+  itkRemoveBoundaryObjectsTest2
+            ${ITK_DATA_ROOT}/Input/SpotsInverted.png
+            ${ITK_TEST_OUTPUT_DIR}/RemoveBoundaryObjectsTest2.png)
+
 ADD_TEST(itkTobogganImageFilterTest ${BASIC_FILTERS_TESTS}
   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/TobogganImageFilterTest.png
             ${ITK_TEST_OUTPUT_DIR}/TobogganImageFilterTest.png
@@ -572,6 +579,7 @@ itkReflectiveImageRegionIteratorTest.cxx
 itkRegionOfInterestImageFilterTest.cxx
 itkRelabelComponentImageFilterTest.cxx
 itkRemoveBoundaryObjectsTest.cxx
+itkRemoveBoundaryObjectsTest2.cxx
 itkResampleImageTest.cxx
 itkRescaleIntensityImageFilterTest.cxx
 itkShiftScaleImageFilterTest.cxx
