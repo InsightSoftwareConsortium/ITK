@@ -155,7 +155,7 @@ public:
    * a floating number between (0,1), 0 meaning no progress; 1 meaning
    * the filter has completed execution.
    */
-  itkGetConstMacro(Progress,float);
+  itkGetMacro(Progress,float);
 
   /** 
    * Update the progress of the process object. If a ProgressMethod exists,
