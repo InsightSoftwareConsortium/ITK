@@ -19,6 +19,7 @@
 #endif
 
 #include "itkGaussianDerivativeImageFunction.h"
+#include "itkGaussianDerivativeSpatialFunction.h"
 #include "itkImage.h"
 
 int itkGaussianDerivativeImageFunctionTest(int, char* [] )
@@ -148,6 +149,62 @@ int itkGaussianDerivativeImageFunctionTest(int, char* [] )
     return EXIT_FAILURE;
     }
  
+  std::cout << "[PASSED] " << std::endl;
+
+  std::cout << "Testing Gaussian Derivative Spatial Function:";
+  
+  typedef itk::GaussianDerivativeSpatialFunction<double,1>  GaussianDerivativeFunctionType;
+  GaussianDerivativeFunctionType::Pointer f = GaussianDerivativeFunctionType::New();
+
+  f->SetScale(1.0);
+  if(f->GetScale() != 1.0)
+    {
+    std::cerr << "Get Scale : [FAILED]" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  f->SetNormalized(true);
+  if(!f->GetNormalized())
+    {
+    std::cerr << "GetNormalized : [FAILED]" << std::endl;
+    return EXIT_FAILURE;
+    }
+  
+  GaussianDerivativeFunctionType::ArrayType s;
+  s[0] = 1.0; 
+  f->SetSigma(s);
+  if(f->GetSigma()[0] != 1.0)
+    {
+    std::cerr << "GetSigma : [FAILED]" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  GaussianDerivativeFunctionType::ArrayType m;
+  m[0] = 0.0;
+  f->SetMean(m);
+  if(f->GetMean()[0] != 0.0)
+    {
+    std::cerr << "GetMean : [FAILED]" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  f->SetDirection(0);
+  if(f->GetDirection() != 0)
+    {
+    std::cerr << "GetDirection : [FAILED]" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  GaussianDerivativeFunctionType::InputType point;
+  point[0] = 0.0;
+  
+  if(f->Evaluate(point) != 0.0)
+    {
+    std::cerr << "Evaluate: [FAILED]" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  std::cout << f << std::endl;
   std::cout << "[PASSED] " << std::endl;
 
   std::cout << "GaussianDerivativeImageFunctionTest: [DONE] " << std::endl;
