@@ -17,8 +17,9 @@
 
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{DerivativeImageFilter} is used for computing the derivative
-//  of an image along a particular direction.
+//  The \doxygen{DerivativeImageFilter} is used for computing the partial
+//  derivative of an image, the derivative of an image along a particular axial
+//  direction.
 //
 //  \index{itk::DerivativeImageFilter}
 //
@@ -59,8 +60,8 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Then the pixel types for input and output image must be defined and with
-  //  them the image types can be instantiated. Note that it is important to
+  //  Next, the pixel types for the input and output images must be defined and, with
+  //  them, the image types can be instantiated. Note that it is important to
   //  select a signed type for the image, since the values of the derivatives
   //  will be positive as well as negative.
   //
@@ -88,7 +89,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Using the image types it is now possible to instantiate the filter type
+  //  Using the image types, it is now possible to define the filter type
   //  and create the filter object. 
   //
   //  \index{itk::DerivativeImageFilter!instantiation}
@@ -126,7 +127,7 @@ int main( int argc, char * argv[] )
   //
   //  The input to the filter can be taken from any other filter, for example
   //  a reader. The output can be passed down the pipeline to other filters,
-  //  for example a writer. An update call on any downstream filter will
+  //  for example, a writer. An update call on any downstream filter will
   //  trigger the execution of the derivative filter.
   //
   //  \index{itk::DerivativeImageFilter!SetInput()}
@@ -148,14 +149,14 @@ int main( int argc, char * argv[] )
   // \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
   // \includegraphics[width=0.44\textwidth]{DerivativeImageFilterOutput.eps}
-  // \itkcaption[Effect of the Derivative filter]{Effect of the Derivative filter
+  // \itkcaption[Effect of the Derivative filter.]{Effect of the Derivative filter
   // on a slice from a MRI proton density brain image.}
   // \label{fig:DerivativeImageFilterOutput}
   // \end{figure}
   //
   //  Figure \ref{fig:DerivativeImageFilterOutput} illustrates the effect of
-  //  this filter on a slice of MRI brain image. The derivative is taken
-  //  along the $x$-direction.  The sensibility to noise present in the image
+  //  the DerivativeImageFilter on a slice of MRI brain image. The derivative
+  //  is taken along the $x$ direction.  The sensitivity to noise in the image
   //  is evident from this result.
   //
   //  Software Guide : EndLatex 
