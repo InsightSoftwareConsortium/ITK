@@ -112,13 +112,10 @@ namespace itk
  *
  * This class is templated over the input image type and the output image type.
  *
- * Caveat:
- * Can only take float input and output image type. This is partially
- * due to the limitation of DiscreteGaussianImageFilter. 
- * One option is to store a float version of the input and output and
- * copy and cast to the output type.
- * However this can be expensive if the images are large.
- * 
+ * \todo
+ * Smoothing has been skipped for the time being until RecursiveGaussianImageFilter
+ * has been fixed. The filter currently zero pads the image which causes large 
+ * gradient at the image boundary causes registration algorithms to be unstable. 
  *
  */
 template <
@@ -193,8 +190,7 @@ public:
    * of the current level. The current level is clamped to be between
    * 0 and (NumberOfLevels - 1)
    */
-  itkSetClampMacro(CurrentLevel, unsigned int, 0,
-    (this->GetNumberOfLevels() - 1) );
+  void SetCurrentLevel( unsigned int level );
 
   /**
    * Get the current resolution level.

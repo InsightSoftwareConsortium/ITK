@@ -65,6 +65,37 @@ MultiResolutionImagePyramid<TInputImage, TOutputImage>
 
 
 /**
+ * Set the current level
+ */
+template <class TInputImage, class TOutputImage>
+void
+MultiResolutionImagePyramid<TInputImage, TOutputImage>
+::SetCurrentLevel(
+unsigned int level )
+{
+
+  if( level == m_CurrentLevel ) return;
+
+  this->Modified();
+
+  // clamp current level to be between 0 and NumberOfLevels - 1
+  if( level < 0 )
+    {
+    m_CurrentLevel = 0;
+    }
+  else if( level > this->GetNumberOfLevels() - 1 )
+    {
+    m_CurrentLevel = this->GetNumberOfLevels() - 1;
+    }
+  else
+    {
+    m_CurrentLevel = level;
+    }
+
+}
+
+
+/**
  * Set the number of computation levels
  */
 template <class TInputImage, class TOutputImage>
@@ -165,6 +196,12 @@ MultiResolutionImagePyramid<TInputImage, TOutputImage>
   int lastValidFilter = -1;
   Vector<unsigned int,ImageDimension> factors;
 
+  //FIXME: the smoothing part is skipped for now until
+  //RecursiveGaussianImageFilter is fixed.
+  //Currently RecursiveGaussianImageFilter zero pads the image
+  //this causes large gradient at the image border making
+  //the registration unstable.
+
   for( int j = 0; j < ImageDimension; j++ )
     {
 
@@ -185,14 +222,19 @@ MultiResolutionImagePyramid<TInputImage, TOutputImage>
 
       if( lastValidFilter == -1 )
         {
-        smoother[j]->SetInput( this->GetInput() );
+        // FIXME: skipped downsampling for now
+        //smoother[j]->SetInput( this->GetInput() );
+        downsampler[j]->SetInput( this->GetInput() );
         }
       else
         {
-        smoother[j]->SetInput( downsampler[lastValidFilter]->GetOutput() );
+        // FIXME: skipped downsampling for now
+        //smoother[j]->SetInput( downsampler[lastValidFilter]->GetOutput() );
+        downsampler[j]->SetInput( downsampler[lastValidFilter]->GetOutput() );
         }
 
-      downsampler[j]->SetInput( smoother[j]->GetOutput() );
+      // FIXME: skipped downsampling for now
+      //downsampler[j]->SetInput( smoother[j]->GetOutput() );
 
       lastValidFilter = j;
 
