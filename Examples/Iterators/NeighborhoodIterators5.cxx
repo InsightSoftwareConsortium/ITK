@@ -26,27 +26,31 @@
 
 // Software Guide : BeginLatex
 //
-// This example introduces slice-based neighborhood processing.  An
-// \code{std::slice} is a simple object that defines a starting position, a
-// step size, and an ending position.  Using slices, we can walk through a
-// neighborhood in a variety of ways.  For example, suppose we wanted to take
-// derivatives along the $y$-axis, but offset those derivatives by one pixel
-// along the positive $x$-axis.  For a $3\times3$, 2D neighborhood iterator,
-// we can construct a slice as \code{(start = 2, stride = 3, end = 8)}, where
-// \code{start} and \code{end} are given as neighborhood array positions.
-// This slice can be passed along with an appropriate 1D
-// \doxygen{DerviativeOperator} to the \doxygen{NeighborhoodInnerProduct}
-// function, which will then use only the pixels specified by the slice,
-// i.e. those pixels at neighborhood offsets $(1, -1)$, $(1, 0)$, $(1, 1)$
-// (see Figure~\ref{fig:NeighborhoodArray} for reference).
+// This example introduces slice-based neighborhood processing.  A slice, in
+// this context, is a 1D path through an ND neighborhood. Slices are defined
+// for generic arrays by the \code{std::slice} class as a start index, a step
+// size, and an end index.  Slices simplify the implementation of certain
+// neighborhood calculations.  They also provide a mechanism for taking inner
+// products with subregions of neighborhoods.
+// 
+// Suppose, for example, that we want to take partial derivatives in the $y$
+// direction of a neighborhood, but offset those derivatives by one pixel
+// position along the positive $x$ direction.  For a $3\times3$, 2D
+// neighborhood iterator, we can construct an \code{std::slice}, \code{(start =
+// 2, stride = 3, end = 8)}, that represents the neighborhood offsets $(1,
+// -1)$, $(1, 0)$, $(1, 1)$ (see Figure~\ref{fig:NeighborhoodArray}). If we
+// pass this slice as an extra argument to the
+// \doxygen{NeighborhoodInnerProduct} function, then the inner product is taken
+// only along that slice.  This ``sliced'' inner product with a 1D
+// \doxygen{DerivativeOperator} gives the desired derivative.
 //
 // The previous separable Gaussian filtering example can be rewritten using
 // slices and slice-based inner products.  In general, slice-based processing
 // is most useful when doing many different calculations on the same
-// neighborhood, so that defining multiple iterators as in
-// Section~\ref{sec:NeighborhoodIterators4} becomes impractical or inefficient.
-// Good examples of slice-based neighborhood processing are any of the ND
-// anisotropic diffusion function objects, such as
+// neighborhood, where defining multiple iterators as in
+// Section~\ref{sec:NeighborhoodExample4} becomes impractical or inefficient.
+// Good examples of slice-based neighborhood processing can be found in any of
+// the ND anisotropic diffusion function objects, such as
 // \doxygen{CurvatureNDAnisotropicDiffusionFunction}.
 //
 // Software Guide : EndLatex
@@ -129,12 +133,14 @@ int main( int argc, char ** argv )
 
 // Software Guide : BeginLatex
 //
-// Now we have arrived at the main loop.  The inner product and face calculator are
-// defined as before, but now the iterator is reinitialized each iteration with the
-// square \code{radius} instead of the radius of the operator, and the inner
-// product is taken using a slice along the axial direction corresponding to
-// the current iteration.  Note the use of \code{GetSlice} to return the proper
-// slice from the iterator itself.
+// The inner product and face calculator are defined for the main processing
+// loop as before, but now the iterator is reinitialized each iteration with
+// the square \code{radius} instead of the radius of the operator.  The
+// inner product is taken using a slice along the axial direction corresponding
+// to the current iteration.  Note the use of \code{GetSlice} to return the
+// proper slice from the iterator itself.  \code{GetSlice} can only be used to
+// return the slice along the complete extent of the axial direction of a
+// neighborhood.
 //
 // Software Guide : EndLatex
 
