@@ -109,7 +109,6 @@ int main()
   // with a ramp along the 0 direction
   std::cout << "Input Image " << std::endl;
   unsigned long counter = 0;
-  unsigned long period = size[0];
   while( !it.IsAtEnd() ) 
   {
     it.Set( counter );
