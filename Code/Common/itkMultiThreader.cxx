@@ -91,6 +91,7 @@ int MultiThreader::GetGlobalDefaultNumberOfThreads()
 #else
     num = 1;
 #endif
+    pthread_setconcurrency(num);
 #endif
 
 #if defined(_WIN32)
@@ -111,12 +112,11 @@ int MultiThreader::GetGlobalDefaultNumberOfThreads()
 #endif  
 #endif
   
-    // Lets limit the number of threads to 8
-    if (num > 8)
+    // Limit the number of threads
+    if (num > ITK_MAX_THREADS)
       {
-      num = 8;
+      num = ITK_MAX_THREADS;
       }
-
     m_GlobalDefaultNumberOfThreads = num;
     }
 
@@ -322,7 +322,7 @@ void MultiThreader::SingleMethodExecute()
 #else  
   pthread_attr_init(&attr);
 #if !defined(__CYGWIN__)
-  pthread_attr_setscope(&attr, PTHREAD_SCOPE_PROCESS);
+  pthread_attr_setscope(&attr, PTHREAD_SCOPE_SYSTEM);
 #endif
 #endif
   
