@@ -46,7 +46,7 @@ namespace itk
 // Construct a new vtkMutexLock 
 SimpleFastMutexLock::SimpleFastMutexLock()
 {
-#ifdef VTK_USE_SPROC
+#ifdef ITK_USE_SPROC
   init_lock( &m_FastMutexLock );
 #endif
 
@@ -55,8 +55,8 @@ SimpleFastMutexLock::SimpleFastMutexLock()
   InitializeCriticalSection(&m_FastMutexLock);
 #endif
 
-#ifdef VTK_USE_PTHREADS
-#ifdef VTK_HP_PTHREADS
+#ifdef ITK_USE_PTHREADS
+#ifdef ITK_HP_PTHREADS
   pthread_mutex_init(&(m_FastMutexLock), pthread_mutexattr_default);
 #else
   pthread_mutex_init(&(m_FastMutexLock), NULL);
