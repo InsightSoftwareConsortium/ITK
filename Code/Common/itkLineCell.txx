@@ -18,9 +18,9 @@
 /**
  *
  */
-template <typename TPixelType, typename TMeshType>
-itkLineCell< TPixelType , TMeshType >::Pointer
-itkLineCell< TPixelType , TMeshType >
+template <typename TPixelType, typename TCellType>
+itkLineCell< TPixelType , TCellType >::Pointer
+itkLineCell< TPixelType , TCellType >
 ::New(void)
 {
   return new Self;
@@ -30,9 +30,9 @@ itkLineCell< TPixelType , TMeshType >
 /**
  * Get the topological dimension of this cell.
  */
-template <typename TPixelType, typename TMeshType>
+template <typename TPixelType, typename TCellType>
 int
-itkLineCell< TPixelType , TMeshType >
+itkLineCell< TPixelType , TCellType >
 ::GetCellDimension(void)
 {
   return CellDimension;
@@ -42,9 +42,9 @@ itkLineCell< TPixelType , TMeshType >
 /**
  * Get the number of boundary entities of the given dimension.
  */
-template <typename TPixelType, typename TMeshType>
-itkLineCell< TPixelType , TMeshType >::CellFeatureCount
-itkLineCell< TPixelType , TMeshType >
+template <typename TPixelType, typename TCellType>
+itkLineCell< TPixelType , TCellType >::CellFeatureCount
+itkLineCell< TPixelType , TCellType >
 ::GetNumberOfBoundaryFeatures(int dimension)
 {
   switch (dimension)
@@ -59,9 +59,9 @@ itkLineCell< TPixelType , TMeshType >
  * Get the boundary feature of the given dimension specified by the given
  * cell feature Id.
  */
-template <typename TPixelType, typename TMeshType>
-itkLineCell< TPixelType , TMeshType >::Cell::Pointer
-itkLineCell< TPixelType , TMeshType >
+template <typename TPixelType, typename TCellType>
+itkLineCell< TPixelType , TCellType >::Cell::Pointer
+itkLineCell< TPixelType , TCellType >
 ::GetBoundaryFeature(int dimension, CellFeatureIdentifier featureId)
 {
   switch (dimension)
@@ -76,9 +76,9 @@ itkLineCell< TPixelType , TMeshType >
  * Standard itkCell API:
  * Set the cell's internal point list to the list of identifiers provided.
  */
-template <typename TPixelType, typename TMeshType>
+template <typename TPixelType, typename TCellType>
 void
-itkLineCell< TPixelType , TMeshType >
+itkLineCell< TPixelType , TCellType >
 ::SetCellPoints(const PointIdentifier *ptList)
 {
   for(int i=0; i < NumberOfPoints ; ++i)
@@ -93,9 +93,9 @@ itkLineCell< TPixelType , TMeshType >
  * The position *last is NOT referenced, so it can safely be one beyond
  * the end of an array.
  */
-template <typename TPixelType, typename TMeshType>
+template <typename TPixelType, typename TCellType>
 void
-itkLineCell< TPixelType , TMeshType >
+itkLineCell< TPixelType , TCellType >
 ::SetCellPoints(const PointIdentifier* first, const PointIdentifier* last)
 {
   int localId=0;
@@ -109,9 +109,9 @@ itkLineCell< TPixelType , TMeshType >
 /**
  * Use this to set an individual point identifier in the cell.
  */
-template <typename TPixelType, typename TMeshType>
+template <typename TPixelType, typename TCellType>
 void
-itkLineCell< TPixelType , TMeshType >
+itkLineCell< TPixelType , TCellType >
 ::SetCellPoint(int localId, PointIdentifier ptId)
 {
   m_PointIds[localId] = ptId;
@@ -122,9 +122,9 @@ itkLineCell< TPixelType , TMeshType >
  * Line-specific:
  * Get the number of vertices for this cell.
  */
-template <typename TPixelType, typename TMeshType>
-itkLineCell< TPixelType , TMeshType >::CellFeatureCount
-itkLineCell< TPixelType , TMeshType >
+template <typename TPixelType, typename TCellType>
+itkLineCell< TPixelType , TCellType >::CellFeatureCount
+itkLineCell< TPixelType , TCellType >
 ::GetNumberOfVertices(void)
 {
   return NumberOfPoints;
@@ -135,9 +135,9 @@ itkLineCell< TPixelType , TMeshType >
  * Line-specific:
  * Get the vertex specified by the given cell feature Id.
  */
-template <typename TPixelType, typename TMeshType>
-itkLineCell< TPixelType , TMeshType >::Vertex::Pointer
-itkLineCell< TPixelType , TMeshType >
+template <typename TPixelType, typename TCellType>
+itkLineCell< TPixelType , TCellType >::Vertex::Pointer
+itkLineCell< TPixelType , TCellType >
 ::GetCellVertex(CellFeatureIdentifier vertexId)
 {
   Vertex::Pointer vert(Vertex::New());

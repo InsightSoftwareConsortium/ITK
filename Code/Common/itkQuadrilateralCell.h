@@ -34,9 +34,9 @@ template <
   /**
    * Type information of mesh containing cell.
    */
-  typename TMeshType = itkMeshTypeDefault
+  typename TCellType
   >
-class itkQuadrilateralCell: public itkCell< TPixelType , TMeshType >
+class itkQuadrilateralCell: public itkCell< TPixelType , TCellType >
 {
 public:
   /**
@@ -48,8 +48,8 @@ public:
   /**
    * The type of cells for this quadrilateral's vertices and edges.
    */
-  typedef itkVertexBoundary< TPixelType , TMeshType >  Vertex;
-  typedef itkLineBoundary< TPixelType , TMeshType >    Edge;
+  typedef itkVertexBoundary< TPixelType , TCellType >  Vertex;
+  typedef itkLineBoundary< TPixelType , TCellType >    Edge;
   
   /**
    * Quadrilateral-specific topology numbers.
@@ -111,9 +111,9 @@ protected:
 /**
  * Create the boundary-wrapped version of this cell type.
  */
-template <typename TPixelType, typename TMeshType = itkMeshTypeDefault>
+template <typename TPixelType, typename TCellType>
 class itkQuadrilateralBoundary:
-  public itkCellBoundary< itkQuadrilateralCell< TPixelType , TMeshType > >
+  public itkCellBoundary< itkQuadrilateralCell< TPixelType , TCellType > >
 {};
 
 

@@ -34,9 +34,9 @@ template <
   /**
    * Type information of mesh containing cell.
    */
-  typename TMeshType = itkMeshTypeDefault
+  typename TCellType
   >
-class itkLineCell: public itkCell< TPixelType , TMeshType >
+class itkLineCell: public itkCell< TPixelType , TCellType >
 {
 public:
   /**
@@ -48,7 +48,7 @@ public:
   /**
    * The type of cells for this lines's vertices.
    */
-  typedef itkVertexBoundary< TPixelType , TMeshType >  Vertex;
+  typedef itkVertexBoundary< TPixelType , TCellType >  Vertex;
   
   /**
    * Line-specific topology numbers.
@@ -91,9 +91,9 @@ protected:
 /**
  * Create the boundary-wrapped version of this cell type.
  */
-template <typename TPixelType, typename TMeshType = itkMeshTypeDefault>
+template <typename TPixelType, typename TCellType>
 class itkLineBoundary:
-  public itkCellBoundary< itkLineCell< TPixelType , TMeshType > >
+  public itkCellBoundary< itkLineCell< TPixelType , TCellType > >
 {};
 
 

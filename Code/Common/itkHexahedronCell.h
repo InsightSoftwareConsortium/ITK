@@ -34,9 +34,9 @@ template <
   /**
    * Type information of mesh containing cell.
    */
-  typename TMeshType = itkMeshTypeDefault
+  typename TCellType
   >
-class itkHexahedronCell: public itkCell< TPixelType , TMeshType >
+class itkHexahedronCell: public itkCell< TPixelType , TCellType >
 {
 public:
   /**
@@ -48,9 +48,9 @@ public:
   /**
    * The type of cells for this hexahedron's vertices, edges, and faces.
    */
-  typedef itkVertexBoundary< TPixelType , TMeshType >         Vertex;
-  typedef itkLineBoundary< TPixelType , TMeshType >           Edge;
-  typedef itkQuadrilateralBoundary< TPixelType , TMeshType >  Face;
+  typedef itkVertexBoundary< TPixelType , TCellType >         Vertex;
+  typedef itkLineBoundary< TPixelType , TCellType >           Edge;
+  typedef itkQuadrilateralBoundary< TPixelType , TCellType >  Face;
   
   /**
    * Hexahedron-specific topology numbers.
@@ -122,9 +122,9 @@ protected:
 /**
  * Create the boundary-wrapped version of this cell type.
  */
-template <typename TPixelType, typename TMeshType = itkMeshTypeDefault>
+template <typename TPixelType, typename TCellType>
 class itkHexahedronBoundary:
-  public itkCellBoundary< itkHexahedronCell< TPixelType , TMeshType > >
+  public itkCellBoundary< itkHexahedronCell< TPixelType , TCellType > >
 {};
 
 

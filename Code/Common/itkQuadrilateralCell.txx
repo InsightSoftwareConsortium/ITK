@@ -18,9 +18,9 @@
 /**
  *
  */
-template <typename TPixelType, typename TMeshType>
-itkQuadrilateralCell< TPixelType , TMeshType >::Pointer
-itkQuadrilateralCell< TPixelType , TMeshType >
+template <typename TPixelType, typename TCellType>
+itkQuadrilateralCell< TPixelType , TCellType >::Pointer
+itkQuadrilateralCell< TPixelType , TCellType >
 ::New(void)
 {
   return new Self;
@@ -30,9 +30,9 @@ itkQuadrilateralCell< TPixelType , TMeshType >
 /**
  * Get the topological dimension of this cell.
  */
-template <typename TPixelType, typename TMeshType>
+template <typename TPixelType, typename TCellType>
 int
-itkQuadrilateralCell< TPixelType , TMeshType >
+itkQuadrilateralCell< TPixelType , TCellType >
 ::GetCellDimension(void)
 {
   return CellDimension;
@@ -42,9 +42,9 @@ itkQuadrilateralCell< TPixelType , TMeshType >
 /**
  * Get the number of boundary features of the given dimension.
  */
-template <typename TPixelType, typename TMeshType>
-itkQuadrilateralCell< TPixelType , TMeshType >::CellFeatureCount
-itkQuadrilateralCell< TPixelType , TMeshType >
+template <typename TPixelType, typename TCellType>
+itkQuadrilateralCell< TPixelType , TCellType >::CellFeatureCount
+itkQuadrilateralCell< TPixelType , TCellType >
 ::GetNumberOfBoundaryFeatures(int dimension)
 {
   switch (dimension)
@@ -60,9 +60,9 @@ itkQuadrilateralCell< TPixelType , TMeshType >
  * Get the boundary feature of the given dimension specified by the given
  * cell feature Id.
  */
-template <typename TPixelType, typename TMeshType>
-itkQuadrilateralCell< TPixelType , TMeshType >::Cell::Pointer
-itkQuadrilateralCell< TPixelType , TMeshType >
+template <typename TPixelType, typename TCellType>
+itkQuadrilateralCell< TPixelType , TCellType >::Cell::Pointer
+itkQuadrilateralCell< TPixelType , TCellType >
 ::GetBoundaryFeature(int dimension, CellFeatureIdentifier featureId)
 {
   switch (dimension)
@@ -78,9 +78,9 @@ itkQuadrilateralCell< TPixelType , TMeshType >
  * Standard itkCell API:
  * Set the cell's internal point list to the list of identifiers provided.
  */
-template <typename TPixelType, typename TMeshType>
+template <typename TPixelType, typename TCellType>
 void
-itkQuadrilateralCell< TPixelType , TMeshType >
+itkQuadrilateralCell< TPixelType , TCellType >
 ::SetCellPoints(const PointIdentifier *ptList)
 {
   for(int i=0; i < NumberOfPoints ; ++i)
@@ -95,9 +95,9 @@ itkQuadrilateralCell< TPixelType , TMeshType >
  * The position *last is NOT referenced, so it can safely be one beyond
  * the end of an array.
  */
-template <typename TPixelType, typename TMeshType>
+template <typename TPixelType, typename TCellType>
 void
-itkQuadrilateralCell< TPixelType , TMeshType >
+itkQuadrilateralCell< TPixelType , TCellType >
 ::SetCellPoints(const PointIdentifier* first, const PointIdentifier* last)
 {
   int localId=0;
@@ -111,9 +111,9 @@ itkQuadrilateralCell< TPixelType , TMeshType >
 /**
  * Use this to set an individual point identifier in the cell.
  */
-template <typename TPixelType, typename TMeshType>
+template <typename TPixelType, typename TCellType>
 void
-itkQuadrilateralCell< TPixelType , TMeshType >
+itkQuadrilateralCell< TPixelType , TCellType >
 ::SetCellPoint(int localId, PointIdentifier ptId)
 {
   m_PointIds[localId] = ptId;
@@ -124,9 +124,9 @@ itkQuadrilateralCell< TPixelType , TMeshType >
  * Quadrilateral-specific:
  * Get the number of vertices defining the quadrilateral.
  */
-template <typename TPixelType, typename TMeshType>
-itkQuadrilateralCell< TPixelType , TMeshType >::CellFeatureCount
-itkQuadrilateralCell< TPixelType , TMeshType >
+template <typename TPixelType, typename TCellType>
+itkQuadrilateralCell< TPixelType , TCellType >::CellFeatureCount
+itkQuadrilateralCell< TPixelType , TCellType >
 ::GetNumberOfVertices(void)
 {
   return NumberOfVertices;
@@ -137,9 +137,9 @@ itkQuadrilateralCell< TPixelType , TMeshType >
  * Quadrilateral-specific:
  * Get the number of edges defined for the quadrilateral.
  */
-template <typename TPixelType, typename TMeshType>
-itkQuadrilateralCell< TPixelType , TMeshType >::CellFeatureCount
-itkQuadrilateralCell< TPixelType , TMeshType >
+template <typename TPixelType, typename TCellType>
+itkQuadrilateralCell< TPixelType , TCellType >::CellFeatureCount
+itkQuadrilateralCell< TPixelType , TCellType >
 ::GetNumberOfEdges(void)
 {
   return NumberOfEdges;
@@ -150,9 +150,9 @@ itkQuadrilateralCell< TPixelType , TMeshType >
  * Quadrilateral-specific:
  * Get the vertex specified by the given cell feature Id.
  */
-template <typename TPixelType, typename TMeshType>
-itkQuadrilateralCell< TPixelType , TMeshType >::Vertex::Pointer
-itkQuadrilateralCell< TPixelType , TMeshType >
+template <typename TPixelType, typename TCellType>
+itkQuadrilateralCell< TPixelType , TCellType >::Vertex::Pointer
+itkQuadrilateralCell< TPixelType , TCellType >
 ::GetCellVertex(CellFeatureIdentifier vertexId)
 {
   Vertex::Pointer vert(Vertex::New());
@@ -166,9 +166,9 @@ itkQuadrilateralCell< TPixelType , TMeshType >
  * Quadrilateral-specific:
  * Get the edge specified by the given cell feature Id.
  */
-template <typename TPixelType, typename TMeshType>
-itkQuadrilateralCell< TPixelType , TMeshType >::Edge::Pointer
-itkQuadrilateralCell< TPixelType , TMeshType >
+template <typename TPixelType, typename TCellType>
+itkQuadrilateralCell< TPixelType , TCellType >::Edge::Pointer
+itkQuadrilateralCell< TPixelType , TCellType >
 ::GetCellEdge(CellFeatureIdentifier edgeId)
 {
   Edge::Pointer edge(Edge::New());
@@ -183,7 +183,7 @@ itkQuadrilateralCell< TPixelType , TMeshType >
 /**
  * Define the quadrilateral's topology data.
  */
-template <typename TPixelType, typename TMeshType>
+template <typename TPixelType, typename TCellType>
 const int
-itkQuadrilateralCell< TPixelType , TMeshType >
+itkQuadrilateralCell< TPixelType , TCellType >
 ::m_Edges[4][2] = { {0,1}, {1,2}, {2,3}, {3,0} };

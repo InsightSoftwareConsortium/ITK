@@ -16,39 +16,24 @@
 #ifndef __itkCell_h
 #define __itkCell_h
 
-#include <vector>
-#include <set>
-
-#include "itkObject.h"
 #include "itkSmartPointer.h"
-#include "itkMeshType.h"
-#include "itkIndexedContainer.h"
-#include "itkVectorContainer.h"
 
 /**
- * itkCell defines the data that are stored in a Cell.  It is derived from
- * itkCellBase, but is dependent on mesh type.  Cell types are defined
- * by deriving from itkCell<>.
+ * itkCell ....
  */
-
-/**
- * Forward declare itkMesh so itkCell can reference it.
- */
-template <typename TPixelType, typename TMeshType>  class itkMesh;
 
 template <
   /**
-   * The type associated with a point, cell, or boundary for use in storing
-   * its data.
+   * The type stored with an entity (cell, point, or boundary).
    */
   typename TPixelType,
-
+  
   /**
-   * Type information of mesh containing cell.
+   * Type information for cell.
    */
-  typename TMeshType = itkMeshTypeDefault
+  typename TCellType
   >
-class itkCell //: public itkObject
+class itkCell
 {
 public:
   /** 
@@ -58,21 +43,24 @@ public:
   typedef itkSmartPointer<Self>  Pointer;
   
   /**
-   * Extract some type information from the parent mesh's type.
+   * Save type information for this cell.
    */
-  typedef TPixelType  PixelType;
-  typedef TMeshType   MeshType;
-  typedef itkMesh< PixelType , MeshType >     	      Mesh;
-  typedef typename MeshType::PointIdentifier  	      PointIdentifier;
-  typedef typename MeshType::CellIdentifier   	      CellIdentifier;
-  typedef typename MeshType::CoordRep         	      CoordRep;
-  typedef typename MeshType::CellFeatureIdentifier    CellFeatureIdentifier;
-  enum { PointDimension = MeshType::PointDimension };
+  typedef TPixelType                                PixelType;
+  typedef TCellType                                 CellType;
+  typedef typename CellType::CoordRep               CoordRep;
+  typedef typename CellType::PointIdentifier        PointIdentifier;
+  typedef typename CellType::CellIdentifier         CellIdentifier;
+  typedef typename CellType::CellFeatureIdentifier  CellFeatureIdentifier;
+  typedef typename CellType::PointsContainer        PointsContainer;
+  typedef typename CellType::UsingCellsContainer    UsingCellsContainer;
+  enum { PointDimension = CellType::PointDimension };
+
+  typedef typename UsingCellsContainer::iterator  UsingCellsContainerIterator;
   
   /**
    * Let any derived cell type classes have easy access to their base type.
    */
-  typedef itkCell Cell;
+  typedef itkCell  Cell;
   
   /**
    * The type of point used by the cell.
@@ -82,17 +70,7 @@ public:
   /**
    * A useful rename.
    */
-  typedef CellFeatureIdentifier CellFeatureCount;  
-
-  /**
-   * The set of cells that have been assigned to use this cell as a boundary.
-   * Top-level cells in the mesh always have an empty set of using cells, so
-   * an actual "cell" type does not have any data member storing them.  The
-   * inherited "boundary" type corresponding to each cell type adds this
-   * data member.  We need the interface to be defined here to allow all
-   * boundary types to have the same interface to their UsingCells.
-   */
-  typedef std::set< CellIdentifier >  UsingCellsContainer;
+  typedef CellFeatureIdentifier  CellFeatureCount;
   
   /**
    * Public interface routines.
@@ -143,8 +121,8 @@ public:
   virtual void RemoveUsingCell(CellIdentifier);
   virtual bool IsUsingCell(CellIdentifier);
   virtual int GetNumUsingCells(void);
-  virtual UsingCellsContainer::iterator UsingCellsBegin(void);
-  virtual UsingCellsContainer::iterator UsingCellsEnd(void);
+  virtual UsingCellsContainerIterator UsingCellsBegin(void);
+  virtual UsingCellsContainerIterator UsingCellsEnd(void);
   
   /**
    * ITK standard routines.
@@ -166,11 +144,42 @@ protected:
   /**
    * Get the geometric position of a point.
    */
-//  bool GetPointPosition(Mesh* mesh, int localId, Point*)=0;
+//  bool GetPointPosition(PointsContainer*, int localId, Point*)=0;
   
 private:
   int m_ReferenceCount;     // Number of uses of this object by other objects.
 };
+
+
+/**
+ * Define a simple utility to define the cell type inside a mesh type
+ * structure definition.  This just makes a copy of existing type information
+ * that is needed for a cell type template parameter.
+ *
+ * During a mesh type definition, after the appropriate types and values
+ * have been defined, just have the line:
+ *   typedef MakeCellType  CellType;
+ */
+template <int VPointDimension,typename TCoordRep,
+  typename TPointIdentifier,typename TCellIdentifier,
+  typename TCellFeatureIdentifier,typename TPointsContainer,
+  typename TUsingCellsContainer>
+class itkCellType
+{
+public:
+  enum { PointDimension = VPointDimension };
+  typedef TCoordRep               CoordRep;
+  typedef TPointIdentifier  	  PointIdentifier;
+  typedef TCellIdentifier   	  CellIdentifier;
+  typedef TCellFeatureIdentifier  CellFeatureIdentifier;
+  typedef TPointsContainer        PointsContainer;
+  typedef TUsingCellsContainer    UsingCellsContainer;
+};
+
+#define MakeCellType \
+  itkCellType<PointDimension, CoordRep, PointIdentifier, CellIdentifier, \
+              CellFeatureIdentifier, PointsContainer, UsingCellsContainer>
+
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkCell.cxx"

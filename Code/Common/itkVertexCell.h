@@ -33,9 +33,9 @@ template <
   /**
    * Type information of mesh containing cell.
    */
-  typename TMeshType = itkMeshTypeDefault
+  typename TCellType
   >
-class itkVertexCell: public itkCell< TPixelType , TMeshType >
+class itkVertexCell: public itkCell< TPixelType , TCellType >
 {
 public:
   /**
@@ -47,9 +47,9 @@ public:
   /**
    * Save some template parameter information.
    */
-  typedef typename MeshType::CoordRep         CoordRep;
-  typedef typename MeshType::PointIdentifier  PointIdentifier;
-  enum { PointDimension = MeshType::PointDimension };
+  typedef typename CellType::CoordRep         CoordRep;
+  typedef typename CellType::PointIdentifier  PointIdentifier;
+  enum { PointDimension = CellType::PointDimension };
 
   /**
    * The vertex has only a point as its boundary.
@@ -95,9 +95,9 @@ protected:
 /**
  * Create the boundary-wrapped version of this cell type.
  */
-template <typename TPixelType, typename TMeshType = itkMeshTypeDefault>
+template <typename TPixelType, typename TCellType>
 class itkVertexBoundary:
-  public itkCellBoundary< itkVertexCell< TPixelType , TMeshType > >
+  public itkCellBoundary< itkVertexCell< TPixelType , TCellType > >
 {};
 
 

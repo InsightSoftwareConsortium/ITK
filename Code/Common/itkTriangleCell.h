@@ -34,9 +34,9 @@ template <
   /**
    * Type information of mesh containing cell.
    */
-  typename TMeshType = itkMeshTypeDefault
+  typename TCellType
   >
-class itkTriangleCell: public itkCell< TPixelType , TMeshType >
+class itkTriangleCell: public itkCell< TPixelType , TCellType >
 {
 public:
   /**
@@ -48,8 +48,8 @@ public:
   /**
    * The type of cells for this triangle's vertices and edges.
    */
-  typedef itkVertexBoundary< TPixelType , TMeshType >  Vertex;
-  typedef itkLineBoundary< TPixelType , TMeshType >    Edge;
+  typedef itkVertexBoundary< TPixelType , TCellType >  Vertex;
+  typedef itkLineBoundary< TPixelType , TCellType >    Edge;
   
   /**
    * Triangle-specific topology numbers.
@@ -111,9 +111,9 @@ protected:
 /**
  * Create the boundary-wrapped version of this cell type.
  */
-template <typename TPixelType, typename TMeshType = itkMeshTypeDefault>
+template <typename TPixelType, typename TCellType>
 class itkTriangleBoundary:
-  public itkCellBoundary< itkTriangleCell< TPixelType , TMeshType > >
+  public itkCellBoundary< itkTriangleCell< TPixelType , TCellType > >
 {};
 
 

@@ -49,7 +49,7 @@ itkMesh< TPixelType , TMeshType >
  * Access routine to get the points container.
  */
 template <typename TPixelType, typename TMeshType>
-itkMesh< TPixelType , TMeshType >::PointsContainer::Pointer
+itkMesh< TPixelType , TMeshType >::PointsContainerPointer
 itkMesh< TPixelType , TMeshType >
 ::GetPointsContainer(void)
 {
@@ -81,7 +81,7 @@ itkMesh< TPixelType , TMeshType >
  * Access routine to get the point data container.
  */
 template <typename TPixelType, typename TMeshType>
-itkMesh< TPixelType , TMeshType >::PointDataContainer::Pointer
+itkMesh< TPixelType , TMeshType >::PointDataContainerPointer
 itkMesh< TPixelType , TMeshType >
 ::GetPointDataContainer(void)
 {
@@ -113,7 +113,7 @@ itkMesh< TPixelType , TMeshType >
  * Access routine to get the cell links container.
  */
 template <typename TPixelType, typename TMeshType>
-itkMesh< TPixelType , TMeshType >::CellLinksContainer::Pointer
+itkMesh< TPixelType , TMeshType >::CellLinksContainerPointer
 itkMesh< TPixelType , TMeshType >
 ::GetCellLinksContainer(void)
 {
@@ -145,7 +145,7 @@ itkMesh< TPixelType , TMeshType >
  * Access routine to get the cells container.
  */
 template <typename TPixelType, typename TMeshType>
-itkMesh< TPixelType , TMeshType >::CellsContainer::Pointer
+itkMesh< TPixelType , TMeshType >::CellsContainerPointer
 itkMesh< TPixelType , TMeshType >
 ::GetCellsContainer(void)
 {
@@ -177,7 +177,7 @@ itkMesh< TPixelType , TMeshType >
  * Access routine to get the cell data container.
  */
 template <typename TPixelType, typename TMeshType>
-itkMesh< TPixelType , TMeshType >::CellDataContainer::Pointer
+itkMesh< TPixelType , TMeshType >::CellDataContainerPointer
 itkMesh< TPixelType , TMeshType >
 ::GetCellDataContainer(void)
 {
@@ -211,7 +211,7 @@ itkMesh< TPixelType , TMeshType >
  * Access routine to get the boundaries container for a given dimension.
  */
 template <typename TPixelType, typename TMeshType>
-itkMesh< TPixelType , TMeshType >::BoundariesContainer::Pointer
+itkMesh< TPixelType , TMeshType >::BoundariesContainerPointer
 itkMesh< TPixelType , TMeshType >
 ::GetBoundariesContainer(int dimension)
 {
@@ -245,7 +245,7 @@ itkMesh< TPixelType , TMeshType >
  * Access routine to get the boundary data container for a given dimension.
  */
 template <typename TPixelType, typename TMeshType>
-itkMesh< TPixelType , TMeshType >::BoundaryDataContainer::Pointer
+itkMesh< TPixelType , TMeshType >::BoundaryDataContainerPointer
 itkMesh< TPixelType , TMeshType >
 ::GetBoundaryDataContainer(int dimension)
 {
@@ -283,7 +283,7 @@ itkMesh< TPixelType , TMeshType >
  * dimension.
  */
 template <typename TPixelType, typename TMeshType>
-itkMesh< TPixelType , TMeshType >::BoundaryAssignmentsContainer::Pointer
+itkMesh< TPixelType , TMeshType >::BoundaryAssignmentsContainerPointer
 itkMesh< TPixelType , TMeshType >
 ::GetBoundaryAssignmentsContainer(int dimension)
 {
@@ -308,7 +308,7 @@ itkMesh< TPixelType , TMeshType >
    */
   if(m_Points == NULL)
     {
-    this->SetPointsContainer(this->ConstructDefaultPoints());
+    this->SetPointsContainer(PointsContainer::New());
     }
 
   /**
@@ -358,7 +358,7 @@ itkMesh< TPixelType , TMeshType >
    */
   if(m_PointData == NULL)
     {
-    this->SetPointDataContainer(this->ConstructDefaultPointData());
+    this->SetPointDataContainer(PointDataContainer::New());
     }
 
   /**
@@ -408,7 +408,7 @@ itkMesh< TPixelType , TMeshType >
    */
   if(m_Cells == NULL)
     {
-    this->SetCellsContainer(this->ConstructDefaultCells());
+    this->SetCellsContainer(CellsContainer::New());
     }
   
   /**
@@ -458,7 +458,7 @@ itkMesh< TPixelType , TMeshType >
    */
   if(m_CellData == NULL)
     {
-    this->SetCellDataContainer(this->ConstructDefaultCellData());
+    this->SetCellDataContainer(CellDataContainer::New());
     }
 
   /**
@@ -508,7 +508,7 @@ itkMesh< TPixelType , TMeshType >
    */
   if(m_Boundaries[dimension] == NULL)
     {
-    this->SetBoundariesContainer(dimension, this->ConstructDefaultBoundaries());
+    this->SetBoundariesContainer(dimension, BoundariesContainer::New());
     }
   
   /**
@@ -560,7 +560,7 @@ itkMesh< TPixelType , TMeshType >
    */
   if(m_BoundaryData[dimension] == NULL)
     {
-    this->SetBoundaryDataContainer(dimension, this->ConstructDefaultBoundaryData());
+    this->SetBoundaryDataContainer(dimension, BoundaryDataContainer::New());
     }
 
   /**
@@ -615,7 +615,7 @@ itkMesh< TPixelType , TMeshType >
   if(m_BoundaryAssignments[dimension] == NULL)
     {
     this->SetBoundaryAssignmentsContainer(
-      dimension, this->ConstructDefaultBoundaryAssignments());
+      dimension, BoundaryAssignmentsContainer::New());
     }
 
   /**
@@ -780,7 +780,7 @@ itkMesh< TPixelType , TMeshType >
      */
     if(cellList != NULL)
       {
-      for(Boundary::UsingCellsContainer::iterator usingCell = 
+      for(Boundary::UsingCellsContainerIterator usingCell = 
 	    boundary->UsingCellsBegin() ;
 	  usingCell != boundary->UsingCellsEnd() ; ++usingCell)
 	{
@@ -865,7 +865,7 @@ itkMesh< TPixelType , TMeshType >
    */
   if(m_CellLinks == NULL)
     {
-    m_CellLinks = this->ConstructDefaultCellLinks();
+    this->SetCellLinksContainer(CellLinksContainer::New());
     }
   
 }
@@ -892,159 +892,3 @@ itkMesh< TPixelType , TMeshType >
   m_BoundaryAssignments(BoundaryAssignmentsContainerVector(MaxTopologicalDimension))
 {}
 
-
-/**
- * Define the default containers for each internal container.
- */
-#define DefaultPointsContainerForIntegralIdentifiers          itkAutoVectorContainer< PointIdentifier , Point >
-#define DefaultPointsContainerForNonIntegralIdentifiers       itkMapContainer< PointIdentifier , Point >
-#define DefaultPointDataContainerForIntegralIdentifiers       itkAutoVectorContainer< PointIdentifier , PixelType >
-#define DefaultPointDataContainerForNonIntegralIdentifiers    itkMapContainer< PointIdentifier , PixelType >
-#define DefaultCellLinksContainerForIntegralIdentifiers       itkAutoVectorContainer< PointIdentifier , PointCellLinksContainer >
-#define DefaultCellLinksContainerForNonIntegralIdentifiers    itkMapContainer< PointIdentifier , PointCellLinksContainer >
-#define DefaultCellsContainerForIntegralIdentifiers           itkAutoVectorContainer< CellIdentifier , Cell::Pointer >
-#define DefaultCellsContainerForNonIntegralIdentifiers        itkMapContainer< CellIdentifier , Cell::Pointer >
-#define DefaultCellDataContainerForIntegralIdentifiers        itkAutoVectorContainer< CellIdentifier , PixelType >
-#define DefaultCellDataContainerForNonIntegralIdentifiers     itkMapContainer< CellIdentifier , PixelType >
-#define DefaultBoundariesContainerForIntegralIdentifiers      itkAutoVectorContainer< BoundaryIdentifier , Boundary::Pointer >
-#define DefaultBoundariesContainerForNonIntegralIdentifiers   itkMapContainer< BoundaryIdentifier , Boundary::Pointer >
-#define DefaultBoundaryDataContainerForIntegralIdentifiers    itkAutoVectorContainer< BoundaryIdentifier , PixelType >
-#define DefaultBoundaryDataContainerForNonIntegralIdentifiers itkMapContainer< BoundaryIdentifier , PixelType >
-#define DefaultBoundaryAssignmentsContainer                   itkMapContainer< BoundaryAssignmentIdentifier , BoundaryIdentifier >
-
-
-/**
- * Points container default construction.
- */
-template <typename TPixelType, typename TMeshType>
-itkMesh< TPixelType , TMeshType >::PointsContainer::Pointer
-itkMesh< TPixelType , TMeshType >
-::ConstructDefaultPoints(void)
-{
-  if(itkIdentifierTraits< PointIdentifier >::IsIntegralType)
-    return PointsContainer::Pointer(DefaultPointsContainerForIntegralIdentifiers::New());
-  else
-    return PointsContainer::Pointer(DefaultPointsContainerForNonIntegralIdentifiers::New());
-}
-
-
-/**
- * PointData container default construction.
- */
-template <typename TPixelType, typename TMeshType>
-itkMesh< TPixelType , TMeshType >::PointDataContainer::Pointer
-itkMesh< TPixelType , TMeshType >
-::ConstructDefaultPointData(void)
-{
-  if(itkIdentifierTraits< PointIdentifier >::IsIntegralType)
-    return PointDataContainer::Pointer(DefaultPointDataContainerForIntegralIdentifiers::New());
-  else
-    return PointDataContainer::Pointer(DefaultPointDataContainerForNonIntegralIdentifiers::New());
-}
-
-
-/**
- * CellLinks container default construction.
- */
-template <typename TPixelType, typename TMeshType>
-itkMesh< TPixelType , TMeshType >::CellLinksContainer::Pointer
-itkMesh< TPixelType , TMeshType >
-::ConstructDefaultCellLinks(void)
-{
-  if(itkIdentifierTraits< PointIdentifier >::IsIntegralType)
-    return CellLinksContainer::Pointer(DefaultCellLinksContainerForIntegralIdentifiers::New());
-  else
-    return CellLinksContainer::Pointer(DefaultCellLinksContainerForNonIntegralIdentifiers::New());
-}
-
-
-/**
- * Cells container default construction.
- */
-template <typename TPixelType, typename TMeshType>
-itkMesh< TPixelType , TMeshType >::CellsContainer::Pointer
-itkMesh< TPixelType , TMeshType >
-::ConstructDefaultCells(void)
-{
-  if(itkIdentifierTraits< CellIdentifier >::IsIntegralType)
-    return CellsContainer::Pointer(DefaultCellsContainerForIntegralIdentifiers::New());
-  else
-    return CellsContainer::Pointer(DefaultCellsContainerForNonIntegralIdentifiers::New());
-}
-
-
-/**
- * CellData container default construction.
- */
-template <typename TPixelType, typename TMeshType>
-itkMesh< TPixelType , TMeshType >::CellDataContainer::Pointer
-itkMesh< TPixelType , TMeshType >
-::ConstructDefaultCellData(void)
-{
-  if(itkIdentifierTraits< CellIdentifier >::IsIntegralType)
-    return CellDataContainer::Pointer(DefaultCellDataContainerForIntegralIdentifiers::New());
-  else
-    return CellDataContainer::Pointer(DefaultCellDataContainerForNonIntegralIdentifiers::New());
-}
-
-
-/**
- * Boundaries container default construction.
- */
-template <typename TPixelType, typename TMeshType>
-itkMesh< TPixelType , TMeshType >::BoundariesContainer::Pointer
-itkMesh< TPixelType , TMeshType >
-::ConstructDefaultBoundaries(void)
-{
-  if(itkIdentifierTraits< BoundaryIdentifier >::IsIntegralType)
-    return BoundariesContainer::Pointer(DefaultBoundariesContainerForIntegralIdentifiers::New());
-  else
-    return BoundariesContainer::Pointer(DefaultBoundariesContainerForNonIntegralIdentifiers::New());
-}
-
-
-/**
- * BoundaryData container default construction.
- */
-template <typename TPixelType, typename TMeshType>
-itkMesh< TPixelType , TMeshType >::BoundaryDataContainer::Pointer
-itkMesh< TPixelType , TMeshType >
-::ConstructDefaultBoundaryData(void)
-{
-  if(itkIdentifierTraits< BoundaryIdentifier >::IsIntegralType)
-    return BoundaryDataContainer::Pointer(DefaultBoundaryDataContainerForIntegralIdentifiers::New());
-  else
-    return BoundaryDataContainer::Pointer(DefaultBoundaryDataContainerForNonIntegralIdentifiers::New());
-}
-
-
-/**
- * BoundaryAssignments container default construction.
- */
-template <typename TPixelType, typename TMeshType>
-itkMesh< TPixelType , TMeshType >::BoundaryAssignmentsContainer::Pointer
-itkMesh< TPixelType , TMeshType >
-::ConstructDefaultBoundaryAssignments(void)
-{
-  return BoundaryAssignmentsContainer::Pointer(DefaultBoundaryAssignmentsContainer::New());
-}
-
-
-/**
- * Don't need the default containers anymore.
- */
-#undef DefaultPointsContainerForIntegralIdentifiers
-#undef DefaultPointsContainerForNonIntegralIdentifiers
-#undef DefaultPointDataContainerForIntegralIdentifiers
-#undef DefaultPointDataContainerForNonIntegralIdentifiers
-#undef DefaultCellLinksContainerForIntegralIdentifiers
-#undef DefaultCellLinksContainerForNonIntegralIdentifiers
-#undef DefaultCellsContainerForIntegralIdentifiers
-#undef DefaultCellsContainerForNonIntegralIdentifiers
-#undef DefaultCellDataContainerForIntegralIdentifiers
-#undef DefaultCellDataContainerForNonIntegralIdentifiers
-#undef DefaultBoundariesContainerForIntegralIdentifiers
-#undef DefaultBoundariesContainerForNonIntegralIdentifiers
-#undef DefaultBoundaryDataContainerForIntegralIdentifiers
-#undef DefaultBoundaryDataContainerForNonIntegralIdentifiers
-#undef DefaultBoundaryAssignmentsContainer 

@@ -19,9 +19,9 @@
 /**
  * By default, a cell is not a boundary.
  */
-template <typename TPixelType, typename TMeshType>
+template <typename TPixelType, typename TCellType>
 bool
-itkCell< TPixelType , TMeshType >
+itkCell< TPixelType , TCellType >
 ::IsBoundary(void)
 {
   return false;
@@ -31,9 +31,9 @@ itkCell< TPixelType , TMeshType >
 /**
  * This is only part of the boundary interface.  Just ignore the call.
  */
-template <typename TPixelType, typename TMeshType>
+template <typename TPixelType, typename TCellType>
 void
-itkCell< TPixelType , TMeshType >
+itkCell< TPixelType , TCellType >
 ::AddUsingCell(CellIdentifier)
 {
 }
@@ -42,9 +42,9 @@ itkCell< TPixelType , TMeshType >
 /**
  * This is only part of the boundary interface.  Just ignore the call.
  */
-template <typename TPixelType, typename TMeshType>
+template <typename TPixelType, typename TCellType>
 void
-itkCell< TPixelType , TMeshType >
+itkCell< TPixelType , TCellType >
 ::RemoveUsingCell(CellIdentifier)
 {
 }
@@ -53,9 +53,9 @@ itkCell< TPixelType , TMeshType >
 /**
  * By default, the cell is not a boundary, so it has no using cells.
  */
-template <typename TPixelType, typename TMeshType>
+template <typename TPixelType, typename TCellType>
 bool
-itkCell< TPixelType , TMeshType >
+itkCell< TPixelType , TCellType >
 ::IsUsingCell(CellIdentifier)
 {
   return false;
@@ -65,9 +65,9 @@ itkCell< TPixelType , TMeshType >
 /**
  * This is only part of the boundary interface.  Just ignore the call.
  */
-template <typename TPixelType, typename TMeshType>
+template <typename TPixelType, typename TCellType>
 int
-itkCell< TPixelType , TMeshType >
+itkCell< TPixelType , TCellType >
 ::GetNumUsingCells(void)
 {
   return 0;
@@ -77,33 +77,33 @@ itkCell< TPixelType , TMeshType >
 /**
  * This is only part of the boundary interface.  Just ignore the call.
  */
-template <typename TPixelType, typename TMeshType>
-itkCell< TPixelType , TMeshType >::UsingCellsContainer::iterator
-itkCell< TPixelType , TMeshType >
+template <typename TPixelType, typename TCellType>
+itkCell< TPixelType , TCellType >::UsingCellsContainerIterator
+itkCell< TPixelType , TCellType >
 ::UsingCellsBegin(void)
 {
-  return UsingCellsContainer::iterator();
+  return UsingCellsContainerIterator();
 }
 
 
 /**
  * This is only part of the boundary interface.  Just ignore the call.
  */
-template <typename TPixelType, typename TMeshType>
-itkCell< TPixelType , TMeshType >::UsingCellsContainer::iterator
-itkCell< TPixelType , TMeshType >
+template <typename TPixelType, typename TCellType>
+itkCell< TPixelType , TCellType >::UsingCellsContainerIterator
+itkCell< TPixelType , TCellType >
 ::UsingCellsEnd(void)
 {
-  return UsingCellsContainer::iterator();
+  return UsingCellsContainerIterator();
 }
 
 
 /**
  * Increase the reference count (mark as used by another object).
  */
-template <typename TPixelType, typename TMeshType>
+template <typename TPixelType, typename TCellType>
 void
-itkCell< TPixelType , TMeshType >
+itkCell< TPixelType , TCellType >
 ::Register(void)
 {
   m_ReferenceCount++;
@@ -118,9 +118,9 @@ itkCell< TPixelType , TMeshType >
  * Decrease the reference count (release by another object).
  * If there are no references left, delete ourself.
  */
-template <typename TPixelType, typename TMeshType>
+template <typename TPixelType, typename TCellType>
 void
-itkCell< TPixelType , TMeshType >
+itkCell< TPixelType , TCellType >
 ::UnRegister(void)
 {
   --m_ReferenceCount;
@@ -140,8 +140,8 @@ itkCell< TPixelType , TMeshType >
  * Constructor.
  * Just initialize the reference count.
  */
-template <typename TPixelType, typename TMeshType>
-itkCell< TPixelType , TMeshType >
+template <typename TPixelType, typename TCellType>
+itkCell< TPixelType , TCellType >
 ::itkCell(): m_ReferenceCount(0)
 {
 }
