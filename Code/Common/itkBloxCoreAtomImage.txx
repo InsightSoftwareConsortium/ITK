@@ -55,7 +55,7 @@ BloxCoreAtomImage<dim>
 
   for(bloxIt.GoToBegin(); !bloxIt.IsAtEnd(); ++bloxIt)
     {
-      ( &bloxIt.Value() )->DoCoreAtomEigenanalysis();
+    ( &bloxIt.Value() )->DoCoreAtomEigenanalysis();
     }
 }
 
@@ -89,8 +89,9 @@ BloxCoreAtomImage<dim>
 
     // If there are no core atoms in this pixel, it doesn't get to vote
     if( pPixel->empty() )
+      {
       continue;
-
+      }
     //populate the NodePointerList
     m_NodePointerList->push_back(pPixel);
 
@@ -115,10 +116,11 @@ BloxCoreAtomImage<dim>
 
     // Watch out for /0 problems
     if(alphaOne==0)
+      {
       alphaOne = 0.001;
-
+      }
     // Now compute the rest of the lengths
-    for(int i = 1; i < NDimensions; i++)
+    for(unsigned int i = 1; i < NDimensions; i++)
       {
       axisLengthArray[i] = ( (1 - eigenvalues[i]) / alphaOne) * axisLengthArray[0] ;
       }
@@ -185,8 +187,9 @@ BloxCoreAtomImage<dim>
 
       // The votee does not get voted for if it's empty
       if( sfi.Get().GetSize() == 0 )
+        {
         continue;
-
+        }
       // form the ellipsoidal distance de
       double de = 0;
       double sf_de_sqr = 0;
@@ -194,7 +197,7 @@ BloxCoreAtomImage<dim>
       for (unsigned int i = 0; i < NDimensions; i++)
         {
         de += pow((dot_product(eigenvectors.get_column(i), dbar.Get_vnl_vector() ) /
-          axisLengthArray[i] ), 2);
+                   axisLengthArray[i] ), 2);
         }
 
       de = sqrt(de);
@@ -215,7 +218,7 @@ BloxCoreAtomImage<dim>
       for (unsigned int i = 0; i < NDimensions; i++)
         {
         sf_de_sqr += pow((dot_product(sf_eigenvectors.get_column(i), dbar.Get_vnl_vector() ) /
-          axisLengthArray[i] ), 2);
+                          axisLengthArray[i] ), 2);
         }
 
       //printf("sf_de = %f\n", sqrt(sf_de_sqr));
@@ -245,8 +248,8 @@ BloxCoreAtomImage<dim>
     (&bloxIt.Value())->DoVotedEigenanalysis();
     }
 
-    m_MedialNodeCount = voterCount;
-    //cerr << "MedialNodeCount = " << m_MedialNodeCount << endl;
+  m_MedialNodeCount = voterCount;
+  //cerr << "MedialNodeCount = " << m_MedialNodeCount << endl;
 }
 
 template <unsigned int dim>
@@ -256,7 +259,7 @@ BloxCoreAtomImage<dim>
 {
   Superclass::PrintSelf(os,indent);
 
-    // Iterator to access all pixels in the image
+  // Iterator to access all pixels in the image
   ImageRegionConstIterator<Self> bloxIt = 
     ImageRegionConstIterator<Self>(this, this->GetLargestPossibleRegion() );
 
