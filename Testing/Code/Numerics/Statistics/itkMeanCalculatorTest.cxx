@@ -20,6 +20,9 @@
 #include "itkRandomImageSource.h"
 #include "itkImageRegionIterator.h"
 
+#include "itkFixedArray.h"
+#include "itkVector.h"
+
 int itkMeanCalculatorTest(int, char**) 
 {
   std::cout << "MeanCalculator Test \n \n"; 
@@ -27,11 +30,15 @@ int itkMeanCalculatorTest(int, char**)
   std::string whereFail = "" ;
 
   // Now generate an image
-  typedef itk::Image< float, 3 > FloatImage ;
-  FloatImage::Pointer image = FloatImage::New() ;
-  FloatImage::RegionType region ;
-  FloatImage::SizeType size ;
-  FloatImage::IndexType index ;
+  enum { MeasurementVectorSize = 2 } ;
+  typedef float MeasurementType ;
+  typedef itk::FixedArray< MeasurementType, MeasurementVectorSize > 
+    MeasurementVectorType ;
+  typedef itk::Image< MeasurementVectorType, 3 > ImageType ;
+  ImageType::Pointer image = ImageType::New() ;
+  ImageType::RegionType region ;
+  ImageType::SizeType size ;
+  ImageType::IndexType index ;
   index.Fill(0) ;
   size.Fill(5) ;
   region.SetIndex(index) ;
@@ -41,24 +48,29 @@ int itkMeanCalculatorTest(int, char**)
   image->SetBufferedRegion(region) ;
   image->Allocate() ;
 
-  typedef itk::ImageRegionIterator< FloatImage > ImageIterator ;
+  typedef itk::ImageRegionIterator< ImageType > ImageIterator ;
   ImageIterator iter(image, region) ;
 
   unsigned int count = 0 ;
-  double sum = 0.0 ;
+  itk::Vector< double, 2 > sum ;
+  sum[0] = 0.0 ;
+  sum[1] = 0.0 ;
+  MeasurementVectorType temp ;
   // fill the image
   while (!iter.IsAtEnd())
     {
-      iter.Set(count) ;
-      sum += iter.Get() ;
+      temp[0] = count ;
+      temp[1] = count ;
+      iter.Set(temp) ;
+      sum[0] += iter.Get()[0] ;
+      sum[1] += iter.Get()[1] ;
       ++iter ;
       ++count ;
     }
-  double mean = sum / static_cast< double>(count) ;
+  itk::Vector< double, 2 > mean = sum / static_cast< double >(count) ;
 
   // creates an ImageToListAdaptor object
-  typedef  itk::Statistics::ImageToListAdaptor< FloatImage,
-    itk::Statistics::ScalarImageAccessor< FloatImage > >
+  typedef  itk::Statistics::ImageToListAdaptor< ImageType >
     ImageToListAdaptorType ;
 
   ImageToListAdaptorType::Pointer sample = ImageToListAdaptorType::New() ;
@@ -72,7 +84,9 @@ int itkMeanCalculatorTest(int, char**)
   calculator->SetSample(sample) ;
   calculator->Update() ;
 
-  if (calculator->GetOutput()[0] != mean)
+  CalculatorType::OutputType* meanOutput = calculator->GetOutput() ;
+  if ((*meanOutput)[0] != mean[0] || 
+      (*meanOutput)[1] != mean[1])
     {
       pass = false ;
     }
