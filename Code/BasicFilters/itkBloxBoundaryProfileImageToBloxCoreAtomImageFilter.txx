@@ -110,7 +110,7 @@ BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TSourceImage, dim >
   for ( imageIt.GoToBegin(); !imageIt.IsAtEnd(); ++imageIt)
     {
     // The iterator for accessing linked list info
-    typename itk::BloxBoundaryProfilePixel<dim>::const_iterator bpiterator;
+    typename BloxBoundaryProfilePixel<dim>::const_iterator bpiterator;
 
     // Walk through all of the elements at the pixel
     for (bpiterator = imageIt.Value().begin(); bpiterator != imageIt.Value().end(); ++bpiterator)
@@ -122,8 +122,8 @@ BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TSourceImage, dim >
   std::cout << "Core Atoms Created: " << m_CoreAtomsCreated << std::endl;
 
   // Compute mean core atom diameter
-  itk::ImageRegionIterator<TOutputImage> bloxIt = 
-    itk::ImageRegionIterator<TOutputImage>(m_OutputPtr, m_OutputPtr->GetRequestedRegion() );
+  ImageRegionIterator<TOutputImage> bloxIt = 
+    ImageRegionIterator<TOutputImage>(m_OutputPtr, m_OutputPtr->GetRequestedRegion() );
 
   for(bloxIt.GoToBegin(); !bloxIt.IsAtEnd(); ++bloxIt)
     {
@@ -148,7 +148,7 @@ BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TSourceImage, dim >
   // point.
 
   //---------Create and initialize a conic shell spatial function-----------
-  typedef typename itk::ConicShellInteriorExteriorSpatialFunction<NDimensions> FunctionType;
+  typedef typename ConicShellInteriorExteriorSpatialFunction<NDimensions> FunctionType;
   typedef typename FunctionType::GradientType FunctionGradientType;
 
   typename  FunctionType::Pointer spatialFunc = FunctionType::New();
