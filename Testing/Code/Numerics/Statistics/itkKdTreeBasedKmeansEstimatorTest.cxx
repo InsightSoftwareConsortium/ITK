@@ -101,7 +101,7 @@ int itkKdTreeBasedKmeansEstimatorTest(int argc, char** argv)
   typedef stat::WeightedCenteroidKdTreeGenerator< DataSampleType > Generator ;
   Generator::Pointer generator = Generator::New() ;
   
-  generator->SetSample(sample) ;
+  generator->SetSample(sample.GetPointer()) ;
   generator->SetBucketSize(bucketSize) ;
   generator->GenerateData() ;
 
