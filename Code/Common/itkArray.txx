@@ -114,7 +114,7 @@ Array<TValueType, VLength>
  * allows the ValueType's assignment operator to be executed.
  */
 template <typename TValueType, unsigned long VLength>
-Array<TValueType, VLength>::Array&
+typename Array<TValueType, VLength>::Array&
 Array<TValueType, VLength>
 ::operator= (const Array& r)
 {
@@ -131,7 +131,7 @@ Array<TValueType, VLength>
  * allows the ValueType's assignment operator to be executed.
  */
 template <typename TValueType, unsigned long VLength>
-Array<TValueType, VLength>::Array&
+typename Array<TValueType, VLength>::Array&
 Array<TValueType, VLength>
 ::operator= (const Reference& r)
 {
@@ -148,7 +148,7 @@ Array<TValueType, VLength>
  * allows the ValueType's assignment operator to be executed.
  */
 template <typename TValueType, unsigned long VLength>
-Array<TValueType, VLength>::Array&
+typename Array<TValueType, VLength>::Array&
 Array<TValueType, VLength>
 ::operator= (const ValueType r[Length])
 {
@@ -164,7 +164,7 @@ Array<TValueType, VLength>
  * It is assumed that the list is of the appropriate length.
  */
 template <typename TValueType, unsigned long VLength>
-Array<TValueType, VLength>::ArrayCommaListCopier
+typename Array<TValueType, VLength>::ArrayCommaListCopier
 Array<TValueType, VLength>
 ::operator= (const ValueType& r)
 {
@@ -198,7 +198,7 @@ Array<TValueType, VLength>
  * Get an Iterator for the beginning of the Array.
  */
 template <typename TValueType, unsigned long VLength>
-Array<TValueType, VLength>::Iterator
+typename Array<TValueType, VLength>::Iterator
 Array<TValueType, VLength>
 ::Begin()
 {
@@ -210,7 +210,7 @@ Array<TValueType, VLength>
  * Get a ConstIterator for the beginning of the Array.
  */
 template <typename TValueType, unsigned long VLength>
-Array<TValueType, VLength>::ConstIterator
+typename Array<TValueType, VLength>::ConstIterator
 Array<TValueType, VLength>
 ::Begin() const
 {
@@ -222,7 +222,7 @@ Array<TValueType, VLength>
  * Get an Iterator for the end of the Array.
  */
 template <typename TValueType, unsigned long VLength>
-Array<TValueType, VLength>::Iterator
+typename Array<TValueType, VLength>::Iterator
 Array<TValueType, VLength>
 ::End()
 {
@@ -234,7 +234,7 @@ Array<TValueType, VLength>
  * Get a ConstIterator for the end of the Array.
  */
 template <typename TValueType, unsigned long VLength>
-Array<TValueType, VLength>::ConstIterator
+typename Array<TValueType, VLength>::ConstIterator
 Array<TValueType, VLength>
 ::End() const
 {
@@ -246,7 +246,7 @@ Array<TValueType, VLength>
  * Get the size of the Array.
  */
 template <typename TValueType, unsigned long VLength>
-Array<TValueType, VLength>::SizeType
+typename Array<TValueType, VLength>::SizeType
 Array<TValueType, VLength>
 ::Size() const
 {
@@ -317,7 +317,7 @@ Array<TValueType, VLength>::Reference
  * allows the ValueType's assignment operator to be executed.
  */
 template <typename TValueType, unsigned long VLength>
-Array<TValueType, VLength>::Reference&
+typename Array<TValueType, VLength>::Reference&
 Array<TValueType, VLength>::Reference
 ::operator= (const Array& r)
 {
@@ -334,7 +334,7 @@ Array<TValueType, VLength>::Reference
  * allows the ValueType's assignment operator to be executed.
  */
 template <typename TValueType, unsigned long VLength>
-Array<TValueType, VLength>::Reference&
+typename Array<TValueType, VLength>::Reference&
 Array<TValueType, VLength>::Reference
 ::operator= (const Reference& r)
 {
@@ -351,7 +351,7 @@ Array<TValueType, VLength>::Reference
  * allows the ValueType's assignment operator to be executed.
  */
 template <typename TValueType, unsigned long VLength>
-Array<TValueType, VLength>::Reference&
+typename Array<TValueType, VLength>::Reference&
 Array<TValueType, VLength>::Reference
 ::operator= (const ValueType r[Length])
 {
@@ -367,7 +367,7 @@ Array<TValueType, VLength>::Reference
  * It is assumed that the list is of the appropriate length.
  */
 template <typename TValueType, unsigned long VLength>
-Array<TValueType, VLength>::ArrayCommaListCopier
+typename Array<TValueType, VLength>::ArrayCommaListCopier
 Array<TValueType, VLength>::Reference
 ::operator= (const ValueType& r)
 {
@@ -402,7 +402,7 @@ Array<TValueType, VLength>::Reference
  * Get an Iterator for the beginning of the Array.
  */
 template <typename TValueType, unsigned long VLength>
-Array<TValueType, VLength>::Iterator
+typename Array<TValueType, VLength>::Iterator
 Array<TValueType, VLength>::Reference
 ::Begin()
 {
@@ -414,7 +414,7 @@ Array<TValueType, VLength>::Reference
  * Get a ConstIterator for the beginning of the Array.
  */
 template <typename TValueType, unsigned long VLength>
-Array<TValueType, VLength>::ConstIterator
+typename Array<TValueType, VLength>::ConstIterator
 Array<TValueType, VLength>::Reference
 ::Begin() const
 {
@@ -426,7 +426,7 @@ Array<TValueType, VLength>::Reference
  * Get an Iterator for the end of the Array.
  */
 template <typename TValueType, unsigned long VLength>
-Array<TValueType, VLength>::Iterator
+typename Array<TValueType, VLength>::Iterator
 Array<TValueType, VLength>::Reference
 ::End()
 {
@@ -438,7 +438,7 @@ Array<TValueType, VLength>::Reference
  * Get a ConstIterator for the end of the Array.
  */
 template <typename TValueType, unsigned long VLength>
-Array<TValueType, VLength>::ConstIterator
+typename Array<TValueType, VLength>::ConstIterator
 Array<TValueType, VLength>::Reference
 ::End() const
 {
@@ -450,7 +450,7 @@ Array<TValueType, VLength>::Reference
  * Get the size of the Array.
  */
 template <typename TValueType, unsigned long VLength>
-Array<TValueType, VLength>::SizeType
+typename Array<TValueType, VLength>::SizeType
 Array<TValueType, VLength>::Reference
 ::Size() const
 {
@@ -542,7 +542,7 @@ Array<TValueType, VLength>::ConstReference
  * Get a ConstIterator for the beginning of the Array.
  */
 template <typename TValueType, unsigned long VLength>
-Array<TValueType, VLength>::ConstIterator
+typename Array<TValueType, VLength>::ConstIterator
 Array<TValueType, VLength>::ConstReference
 ::Begin() const
 {
@@ -554,7 +554,7 @@ Array<TValueType, VLength>::ConstReference
  * Get a ConstIterator for the end of the Array.
  */
 template <typename TValueType, unsigned long VLength>
-Array<TValueType, VLength>::ConstIterator
+typename Array<TValueType, VLength>::ConstIterator
 Array<TValueType, VLength>::ConstReference
 ::End() const
 {
@@ -566,7 +566,7 @@ Array<TValueType, VLength>::ConstReference
  * Get the size of the Array.
  */
 template <typename TValueType, unsigned long VLength>
-Array<TValueType, VLength>::SizeType
+typename Array<TValueType, VLength>::SizeType
 Array<TValueType, VLength>::ConstReference
 ::Size() const
 {
