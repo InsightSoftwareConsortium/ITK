@@ -33,6 +33,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
 {
   m_ImageIO = 0;
   m_FileName = "";
+  m_UserSpecifiedImageIO = false;
 }
 
 template <class TOutputImage, class ConvertPixelTraits>
@@ -89,10 +90,9 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
     {
     throw ImageFileReaderException(__FILE__, __LINE__, "FileName must be specified");
     }
-
-  if ( m_ImageIO.IsNull() ) //try creating via factory
+  
+  if ( m_UserSpecifiedImageIO == false ) //try creating via factory
     {
-    m_UserSpecifiedImageIO = false;
     m_ImageIO = ImageIOFactory::CreateImageIO( m_FileName.c_str(), ImageIOFactory::ReadMode );
     }
   
@@ -106,7 +106,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
     throw e;
     return;
     }
-
+  
   // Got to allocate space for the image. Determine the characteristics of
   // the image.
   //
