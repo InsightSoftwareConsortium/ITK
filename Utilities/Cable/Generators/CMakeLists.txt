@@ -14,5 +14,4 @@ CableParsers
 CableGenerators
 )
 
-EXECUTABLES(generateWrappers)
-
+EXECUTABLES(cable)
