@@ -17,12 +17,12 @@
 
 //  Software Guide : BeginLatex
 //
-//  The following section illustrates the use of filters for performing basic
+//  The following section illustrates the use of filters that perform basic
 //  mathematical morphology operations on binary images. The
-//  \doxygen{BinaryErodeImageFilter} and \doxygen{BinaryDilateImageFilter}
-//  are described here. The filter names clearly specify the type of image on
-//  which it operates.  The header files required for a minimal example on
-//  the use of mathematical morphology filters are presented below.
+//  \doxygen{BinaryErodeImageFilter} and \doxygen{BinaryDilateImageFilter} are
+//  described here. The filter names clearly specify the type of image on which
+//  they operate.  The header files required to construct a simple example of
+//  the use of the mathematical morphology filters are included below.
 //
 //  \index{itk::BinaryDilateImageFilter!header}
 //  \index{itk::BinaryErodeImageFilter!header}
@@ -81,12 +81,12 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Mathematical morphology operations are based on the application of an
-  //  operator over a neighborhood of each input pixel. The combination of
+  //  Mathematical morphology operations are implemented by applying an
+  //  operator over the neighborhood of each input pixel. The combination of
   //  the rule and the neighborhood is known as \emph{structuring
   //  element}. Although some rules have become de facto standards for image
-  //  processing there is a good deal of freedom as to what kind of
-  //  algorithmic rule should be applied on the neighborhood. The
+  //  processing, there is a good deal of freedom as to what kind of
+  //  algorithmic rule should be applied to the neighborhood. The
   //  implementation in ITK follows the typical rule of minimum for
   //  erosion and maximum for dilation.
   //
@@ -105,7 +105,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The structuring element type is then used along the input and output
+  //  The structuring element type is then used along with the input and output
   //  image types for instantiating the type of the filters.
   //
   //  Software Guide : EndLatex 
@@ -191,7 +191,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  A binary image is provided as input to the filters. This image can be,
+  //  A binary image is provided as input to the filters. This image might be,
   //  for example, the output of a binary threshold image filter.
   //
   //  Software Guide : EndLatex 
@@ -221,8 +221,8 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  It is necessary to define what could be considered objects on the binary
-  //  images. This is specified with the methods \code{SetErodeValue()} and
+  //  The values that correspond to ``objects'' in the binary image are
+  //  specified with the methods \code{SetErodeValue()} and
   //  \code{SetDilateValue()}. The value passed to these methods will be
   //  considered the value over which the dilation and erosion rules will
   //  apply.
@@ -242,9 +242,8 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The execution of the filter can be triggered by the invocation of the
-  //  \code{Update()} method on the filter or on other downstream filter, for
-  //  example a writer.
+  //  The filter is executed by invoking its \code{Update()} method or by
+  //  updating any downstream filter, like, for example, an image writer.
   //
   //  \index{itk::BinaryDilateImageFilter!Update()}
   //  \index{itk::BinaryErodeImageFilter!Update()}
@@ -267,7 +266,7 @@ int main( int argc, char * argv[] )
   // \includegraphics[width=0.32\textwidth]{BinaryThresholdImageFilterOutput.eps}
   // \includegraphics[width=0.32\textwidth]{MathematicalMorphologyBinaryErosionOutput.eps}
   // \includegraphics[width=0.32\textwidth]{MathematicalMorphologyBinaryDilationOutput.eps}
-  // \itkcaption[Effect of erosion and dilation in a binary image]{Effect of
+  // \itkcaption[Effect of erosion and dilation in a binary image.]{Effect of
   // erosion and dilation in a binary image.}
   // \label{fig:MathematicalMorphologyBinaryFilters}
   // \end{figure}

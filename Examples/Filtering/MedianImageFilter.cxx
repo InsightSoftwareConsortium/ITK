@@ -19,13 +19,13 @@
 //
 //  The \doxygen{MedianImageFilter} is commonly used as a robust approach for
 //  noise reduction. This filter is particularly efficient against
-//  \emph{salt-and-pepper} noise. Said in other words, it is robust to the
-//  presence of gray-level outliers. The filter computes the value of each
-//  output pixel by taking a neighborhood of the input pixel and finding the
-//  statistical median of the values in the neighborhood. The following
-//  figure illustrates the local effect of this filter in a $2D$ case. The
-//  statistical median of the neighborhood on the left is passed as the
-//  output value associated with the pixel at the center of the neighborhood.
+//  \emph{salt-and-pepper} noise. In other words, it is robust to the presence
+//  of gray-level outliers. MedianImageFilter computes the value of each output
+//  pixel as the statistical median of the neighborhood of values around the
+//  corresponding input pixel. The following figure illustrates the local
+//  effect of this filter in a $2D$ case. The statistical median of the
+//  neighborhood on the left is passed as the output value associated with the
+//  pixel at the center of the neighborhood.
 //
 //
 //  \begin{center}
@@ -46,8 +46,8 @@
 //
 //
 //  This filter will work on images of any dimension thanks to the internal
-//  use of \doxygen{NeighborhoodIterator}s and
-//  \doxygen{NeighborhoodOperator}s. The size of the neighborhood over which
+//  use of \doxygen{NeighborhoodIterator} and
+//  \doxygen{NeighborhoodOperator}. The size of the neighborhood over which
 //  the median is computed can be set by the user.
 //
 //  \index{itk::MedianImageFilter}
@@ -86,8 +86,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Then the pixel types for input and output image must be defined and
-  //  with them the image types can be instantiated.
+  //  Then the pixel and image types of the input and output must be defined.
   //
   //  Software Guide : EndLatex 
 
@@ -111,7 +110,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Using the image types it is now possible to instantiate the filter type
+  //  Using the image types, it is now possible to define the filter type
   //  and create the filter object.
   //
   //  \index{itk::MedianImageFilter!instantiation}
@@ -155,7 +154,7 @@ int main( int argc, char * argv[] )
   //
   //  The input to the filter can be taken from any other filter, for example
   //  a reader. The output can be passed down the pipeline to other filters,
-  //  for example a writer. An update call on any downstream filter will
+  //  for example, a writer. An update call on any downstream filter will
   //  trigger the execution of the median filter.
   //
   //  \index{itk::MedianImageFilter!SetInput()}
@@ -177,16 +176,16 @@ int main( int argc, char * argv[] )
   // \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
   // \includegraphics[width=0.44\textwidth]{MedianImageFilterOutput.eps}
-  // \itkcaption[Effect of the Median filter]{Effect of the MedianImageFilter on a
+  // \itkcaption[Effect of the Median filter.]{Effect of the MedianImageFilter on a
   // slice from a MRI proton density brain image.}
   // \label{fig:MedianImageFilterOutput}
   // \end{figure}
   //
-  //  Figure \ref{fig:MedianImageFilterOutput} illustrates the effect of this
-  //  filter on a slice of MRI brain image using a neighborhood radii of
-  //  \(1,1\) which corresponds to a $ 3 \times 3 $ classical neighborhood.  It
-  //  can be seen from this picture that the filter has a moderate tendency to
-  //  preserve edges.
+  //  Figure \ref{fig:MedianImageFilterOutput} illustrates the effect of the MedianImageFilter
+  //  filter on a slice of MRI brain image using a neighborhood radius of
+  //  \(1,1\), which corresponds to a $ 3 \times 3 $ classical neighborhood.
+  //  The filtered image demonstrates the moderate tendency of the median
+  //  filter to preserve edges.
   //
   //  Software Guide : EndLatex 
 
