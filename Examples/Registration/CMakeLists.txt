@@ -74,10 +74,13 @@ IF(NOT BORLAND)
   ADD_EXECUTABLE(DeformableRegistration8 DeformableRegistration8.cxx )
   TARGET_LINK_LIBRARIES(DeformableRegistration8 ITKNumerics ITKIO)
 
-ENDIF(NOT BORLAND)
+  ADD_EXECUTABLE(MultiResImageRegistration1 MultiResImageRegistration1.cxx )
+  TARGET_LINK_LIBRARIES(MultiResImageRegistration1 ITKNumerics ITKIO)
 
-ADD_EXECUTABLE(MultiResImageRegistration1 MultiResImageRegistration1.cxx )
-TARGET_LINK_LIBRARIES(MultiResImageRegistration1 ITKNumerics ITKIO)
+  ADD_EXECUTABLE(RegistrationExamples7 RegistrationExamples7.cxx )
+  TARGET_LINK_LIBRARIES(RegistrationExamples7 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
+
+ENDIF(NOT BORLAND)
 
 ADD_EXECUTABLE(MultiResImageRegistration2 MultiResImageRegistration2.cxx )
 TARGET_LINK_LIBRARIES(MultiResImageRegistration2 ITKNumerics ITKIO)
@@ -361,9 +364,6 @@ TARGET_LINK_LIBRARIES(RegistrationExamples5 ITKAlgorithms ITKFEM ITKStatistics I
 
 ADD_EXECUTABLE(RegistrationExamples6 RegistrationExamples6.cxx )
 TARGET_LINK_LIBRARIES(RegistrationExamples6 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
-
-ADD_EXECUTABLE(RegistrationExamples7 RegistrationExamples7.cxx )
-TARGET_LINK_LIBRARIES(RegistrationExamples7 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
 
 ADD_EXECUTABLE(RegistrationExamples8 RegistrationExamples8.cxx )
 TARGET_LINK_LIBRARIES(RegistrationExamples8 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
