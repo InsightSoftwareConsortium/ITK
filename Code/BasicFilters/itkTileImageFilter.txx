@@ -32,6 +32,7 @@ template<class TInputImage, class TOutputImage>
 TileImageFilter<TInputImage, TOutputImage>
 ::TileImageFilter()
 {
+  m_Layout.Fill(0);
 }
 
 template<class TInputImage, class TOutputImage>
