@@ -168,10 +168,6 @@ public:
   itkSetClampMacro(Stiffness, double, 0.0, NumericTraits<double>::max());
   itkGetMacro(Stiffness, double);
 
-  /* Supply a Reinitialize seed API */
-  static void ReinitializeSeed(int seed);
-  static void ReinitializeSeed();
-  
 
 protected:
   KernelTransform();

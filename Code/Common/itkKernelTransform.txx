@@ -520,20 +520,6 @@ GetParameters( void ) const
 }
 
 
-/* API to reseed random generator */
-template <class TScalarType, unsigned int NDimensions>
-void KernelTransform<TScalarType, NDimensions>::
-ReinitializeSeed(int seed)
-{
-  vnl_sample_reseed(seed);
-}
-
-template <class TScalarType, unsigned int NDimensions>
-void KernelTransform<TScalarType, NDimensions>::
-ReinitializeSeed()
-{
-  vnl_sample_reseed();
-}
 
 template <class TScalarType, unsigned int NDimensions>
 void
