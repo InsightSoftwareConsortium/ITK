@@ -69,6 +69,8 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::~ImageFileReader()
 template <class TOutputImage, class ConvertPixelTraits>
 void ImageFileReader<TOutputImage, ConvertPixelTraits>::PrintSelf(std::ostream& os, Indent indent) const
 {
+  Superclass::PrintSelf(os, indent);
+
   os << indent << "m_ImageIO: " << m_ImageIO << "\n";
   os << indent << "m_UserSpecified m_ImageIO flag: " << m_UserSpecified << "\n";
   os << indent << "m_FileName: " << m_ImageIO << "\n";

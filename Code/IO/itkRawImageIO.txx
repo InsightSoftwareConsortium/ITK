@@ -104,6 +104,8 @@ template <class TPixel, unsigned int VImageDimension>
 void RawImageIO<TPixel,VImageDimension>::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+
+  os << indent << "ImageMask: " << m_ImageMask << std::endl;
 }
 
 template <class TPixel, unsigned int VImageDimension>

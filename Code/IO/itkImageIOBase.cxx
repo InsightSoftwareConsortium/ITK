@@ -559,7 +559,11 @@ void ImageIOBase::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Filename: " << m_FileName << std::endl;
+  os << indent << "FileName: " << m_FileName << std::endl;
+  os << indent << "FilePrefix: " << m_FilePrefix << std::endl;
+  os << indent << "FileType: " << m_FileType << std::endl;
+  os << indent << "ByteOrder: " << m_ByteOrder << std::endl;
+  os << indent << "IORegion: " << m_IORegion << std::endl;
   os << indent << "Number of Components/Pixel: " << m_NumberOfComponents << "\n";
   os << indent << "Pixel Type: " << this->GetPixelType().name() << std::endl;
   os << indent << "Component Type: " 
