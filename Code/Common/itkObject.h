@@ -91,7 +91,7 @@ public:
   /** 
    * Get the value of the debug flag. 
    */
-  bool GetDebug();
+  bool GetDebug() const;
   
   /** 
    * Set the value of the debug flag. A non-zero value turns debugging on.
