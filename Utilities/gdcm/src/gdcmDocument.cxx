@@ -89,6 +89,7 @@ Document::Document( std::string const & filename ) : ElementSet(-1)
 {
    SetMaxSizeLoadEntry(MAX_SIZE_LOAD_ELEMENT_VALUE); 
    Filename = filename;
+   Filetype = Unknown;
    Initialise();
 
    if ( !OpenFile() )
@@ -183,6 +184,7 @@ Document::Document( std::string const & filename ) : ElementSet(-1)
 Document::Document() : ElementSet(-1)
 {
    SetMaxSizeLoadEntry(MAX_SIZE_LOAD_ELEMENT_VALUE);
+   Filetype = Unknown;
    Initialise();
    PrintLevel = 1;  // 'Medium' print level by default
 }

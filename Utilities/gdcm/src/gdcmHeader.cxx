@@ -84,6 +84,9 @@ Header::Header( std::string const & filename ):
 Header::Header()
            :Document()
 {
+  // default value
+  GrPixel = 0x7fe0;
+  NumPixel = 0x0010;
 }
 
 /**
