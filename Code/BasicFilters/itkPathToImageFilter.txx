@@ -104,7 +104,7 @@ PathToImageFilter<TInputPath,TOutputImage>
 template <class TInputPath, class TOutputImage>
 void
 PathToImageFilter<TInputPath,TOutputImage>
-::SetSpacing(const double spacing[PathToImageFilter::OutputImageDimension] )
+::SetSpacing(const double spacing[Self::OutputImageDimension] )
 {
   unsigned int i; 
   for (i=0; i<OutputImageDimension; i++)
@@ -126,7 +126,7 @@ PathToImageFilter<TInputPath,TOutputImage>
 template <class TInputPath, class TOutputImage>
 void
 PathToImageFilter<TInputPath,TOutputImage>
-::SetSpacing(const float spacing[PathToImageFilter::OutputImageDimension] )
+::SetSpacing(const float spacing[Self::OutputImageDimension] )
 {
   unsigned int i; 
   for (i=0; i<OutputImageDimension; i++)
@@ -157,7 +157,7 @@ PathToImageFilter<TInputPath,TOutputImage>
 template <class TInputPath, class TOutputImage>
 void
 PathToImageFilter<TInputPath,TOutputImage>
-::SetOrigin(const double origin[PathToImageFilter::OutputImageDimension] )
+::SetOrigin(const double origin[Self::OutputImageDimension] )
 {
   unsigned int i; 
   for (i=0; i<OutputImageDimension; i++)
@@ -179,7 +179,7 @@ PathToImageFilter<TInputPath,TOutputImage>
 template <class TInputPath, class TOutputImage>
 void
 PathToImageFilter<TInputPath,TOutputImage>
-::SetOrigin(const float origin[PathToImageFilter::OutputImageDimension] )
+::SetOrigin(const float origin[Self::OutputImageDimension] )
 {
   unsigned int i; 
   for (i=0; i<OutputImageDimension; i++)

@@ -83,7 +83,7 @@ template <class TInputImage, class TOutputImage>
 void 
 InverseDeformationFieldImageFilter<TInputImage,TOutputImage>
 ::SetOutputSpacing(
-  const double spacing[InverseDeformationFieldImageFilter::ImageDimension] )
+  const double spacing[Self::ImageDimension] )
 {
   SpacingType s(spacing);
   this->SetOutputSpacing( s );
@@ -97,7 +97,7 @@ template <class TInputImage, class TOutputImage>
 void 
 InverseDeformationFieldImageFilter<TInputImage,TOutputImage>
 ::SetOutputOrigin(
-  const double origin[InverseDeformationFieldImageFilter::ImageDimension] )
+  const double origin[Self::ImageDimension] )
 {
   OriginPointType p(origin);
   this->SetOutputOrigin( p );

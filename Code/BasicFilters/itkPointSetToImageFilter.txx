@@ -98,7 +98,7 @@ PointSetToImageFilter<TInputPointSet,TOutputImage>
 template <class TInputPointSet, class TOutputImage>
 void 
 PointSetToImageFilter<TInputPointSet,TOutputImage>
-::SetSpacing(const float v[PointSetToImageFilter::OutputImageDimension] )
+::SetSpacing(const float v[Self::OutputImageDimension] )
 {
   Vector<float, OutputImageDimension> vf(v);
   SpacingType spacing;
@@ -109,7 +109,7 @@ PointSetToImageFilter<TInputPointSet,TOutputImage>
 template <class TInputPointSet, class TOutputImage>
 void 
 PointSetToImageFilter<TInputPointSet,TOutputImage>
-::SetSpacing(const double v[PointSetToImageFilter::OutputImageDimension] )
+::SetSpacing(const double v[Self::OutputImageDimension] )
 {
   SpacingType spacing(v);
   this->SetSpacing(spacing);
@@ -118,7 +118,7 @@ PointSetToImageFilter<TInputPointSet,TOutputImage>
 template <class TInputPointSet, class TOutputImage>
 void 
 PointSetToImageFilter<TInputPointSet,TOutputImage>
-::SetOrigin(const float v[PointSetToImageFilter::OutputImageDimension] )
+::SetOrigin(const float v[Self::OutputImageDimension] )
 {
   Point<float,OutputImageDimension> pf(v);
   PointType origin;
@@ -129,7 +129,7 @@ PointSetToImageFilter<TInputPointSet,TOutputImage>
 template <class TInputPointSet, class TOutputImage>
 void 
 PointSetToImageFilter<TInputPointSet,TOutputImage>
-::SetOrigin(const double v[PointSetToImageFilter::OutputImageDimension] )
+::SetOrigin(const double v[Self::OutputImageDimension] )
 {
   PointType origin(v);
   this->SetOrigin(origin);

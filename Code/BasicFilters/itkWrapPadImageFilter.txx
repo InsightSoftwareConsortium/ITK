@@ -39,8 +39,8 @@ static SimpleFastMutexLock VectorMutex;
 template <class TInputImage, class TOutputImage>
 int WrapPadImageFilter<TInputImage,TOutputImage>
 ::GenerateNextOutputRegion(long *regIndices, long *regLimit, 
-                           std::vector<long> indices[WrapPadImageFilter::ImageDimension], 
-                           std::vector<long> sizes[WrapPadImageFilter::ImageDimension],
+                           std::vector<long> indices[Self::ImageDimension], 
+                           std::vector<long> sizes[Self::ImageDimension],
                            OutputImageRegionType& outputRegion)
 {
   unsigned int ctr;
@@ -95,8 +95,8 @@ int WrapPadImageFilter<TInputImage,TOutputImage>
 template <class TInputImage, class TOutputImage>
 int WrapPadImageFilter<TInputImage,TOutputImage>
 ::GenerateNextInputRegion(long *regIndices, long *regLimit, 
-                          std::vector<long> indices[WrapPadImageFilter::ImageDimension], 
-                          std::vector<long> sizes[WrapPadImageFilter::ImageDimension],
+                          std::vector<long> indices[Self::ImageDimension], 
+                          std::vector<long> sizes[Self::ImageDimension],
                           InputImageRegionType& inputRegion)
 {
   unsigned int ctr;
