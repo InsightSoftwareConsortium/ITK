@@ -91,7 +91,7 @@ ProcessObject
     }
 }
 
-typedef DataObject *DataObjectPointer;
+//typedef DataObject *DataObjectPointer;
 
 /**
  * Called by constructor to set up input array.
