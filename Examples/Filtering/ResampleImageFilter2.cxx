@@ -17,21 +17,17 @@
 
 //  Software Guide : BeginLatex
 //
-//  When using the ResampleImageFilter it is important to keep in mind that
-//  \code{itk::Image} has an internal transform that indicates how to map from
-//  pixels to physical space. By default this internal transform is configured
-//  using the origin and spacing of the image. During the computation of the
+//  During the computation of the
 //  resampled image all the pixels in the output region are visited. This visit
 //  is performed using \code{ImageIterators} which walk in the integer
-//  grid-space of the image. For each pixel, the internal
-//  \code{IndexToPhysicalPoint} transform of the image is used to compute the
-//  corresponding space coordinates.
+//  grid-space of the image. For each pixel, we need to convert grid position
+//  to space coordinates using the image spacing and origin.
 //
 //  For example, the pixel of index $I=(20,50)$ in an image of origin $O=(19.0,
 //  29.0)$ and pixel spacing $S=(1.3,1.5)$ corresponds to the spatial position
 // 
 //  \begin{equation}
-//  P = I \times S + O
+//  P[i] = I[i] \times S[i] + O[i]
 //  \end{equation}
 //
 //  Which in this case leads to 
@@ -39,10 +35,9 @@
 //
 //  The space coordinates of $P$ are mapped using the transform $T$ supplied to
 //  the \code{ResampleImageFilter} in order to map the point $P$ to the input
-//  image space point $Q = T(P)$.  Finally, the internal transform of the input
-//  image is used to find the grid point corresponding to the space point $Q$.
+//  image space point $Q = T(P)$.
 //
-//  The whole process is illustrated in figure
+//  The whole process is illustrated in Figure
 //  \ref{fig:ResampleImageFilterTransformComposition1}. In order to correctly
 //  interpret the process of the ResampleImageFilter you should be aware of the
 //  origin and spacing settings of both the input and output images.
@@ -120,7 +115,7 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  In order to facilitate the interpretation of the transform we set the
-  //  default pixel value to a distinctly visible gray level.
+  //  default pixel value to a distinct from the image background.
   //
   //  \index{itk::ResampleImageFilter!SetDefaultPixelValue()}
   //
@@ -135,7 +130,7 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  Let's set up a uniform spacing 
+  //  Let's set up a uniform spacing for the output image. 
   //
   //  \index{itk::ResampleImageFilter!SetOutputSpacing()}
   //
@@ -154,7 +149,7 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  Let us now set up a non-zero origin for the output image. Note that the
+  //  Additionally, let's set up a non-zero origin. Note that the
   //  values provided here will be those of the space coordinates for the pixel
   //  of index $(0,0)$.
   //
@@ -216,9 +211,7 @@ int main( int argc, char ** argv )
   // \label{fig:ResampleImageFilterTransformComposition1}
   // \end{figure}
   //
-  //  With this change we can better appreciate the effect of the previous
-  //  translation transform on the image resampling. Figure
-  //  \ref{fig:ResampleImageFilterTransformComposition1} illustrates how the
+  //  In the Figure, the
   //  output image point with index $I=(0,0)$ has space coordinates
   //  $P=(30,40)$.  The identity transform maps this point to $Q=(30,40)$ in
   //  the input image space. Because the input image in this case happens to
@@ -233,7 +226,7 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  The code for a different selection of origin and image size is
-  //  illustrated below.  The resulting output is presented in figure
+  //  illustrated below.  The resulting output is presented in Figure
   //  \ref{fig:ResampleImageFilterTransformComposition2}
   //
   //  \index{itk::ResampleImageFilter!SetSize()}
@@ -299,9 +292,9 @@ int main( int argc, char ** argv )
   //  Let's now analyze the effect of a non-zero origin in the input image.
   //  Keeping the output image settings of the previous example, we modify only
   //  the origin values on the file header of the input image. The new origin
-  //  assigned to the input image is $O=(50,70)$. An Identity transform is
+  //  assigned to the input image is $O=(50,70)$. An identity transform is
   //  still used as input for the ResampleImageFilter. The result of running
-  //  the filter with these parameters is presented in figure
+  //  the filter with these parameters is presented in Figure
   //  \ref{fig:ResampleImageFilterTransformComposition3}
   //
   // \begin{figure}
@@ -327,8 +320,9 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  Let's consider now the effect of the spacing on the process of image
-  //  resampling.   //  In order to simplify the analysis, let's put the origin back to zero in
+  //  Let's consider now the effect of the output spacing on the process of image
+  //  resampling.   
+  //  In order to simplify the analysis, let's put the origin back to zero in
   //  both the input and output images. 
   //
   //  \index{itk::ResampleImageFilter!SetOutputOrigin()}
@@ -345,7 +339,7 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  Then, setup a specific spacing for the output image.
+  //  We then specific non-unit spacing for the output image.
   //
   //  \index{itk::ResampleImageFilter!SetOutputSpacing()}
   //
@@ -361,8 +355,8 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  and reduce a bit the image extent, since the new pixels are covering a
-  //  larger area of $2.0\mbox{mm} \times 3.0\mbox{mm}$.
+  //  Additionally, we reduce the output image extent, since the new pixels are
+  //  now covering a larger area of $2.0\mbox{mm} \times 3.0\mbox{mm}$.
   //
   //  \index{itk::ResampleImageFilter!SetSize()}
   //
@@ -380,7 +374,7 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  With these new parameters the physical extent of the image is $160$
+  //  With these new parameters the physical extent of the output image is $160$
   //  millimeters by $150$ millimeters. 
   //
   //  Software Guide : EndLatex 
@@ -393,7 +387,7 @@ int main( int argc, char ** argv )
   //  Before attempting to analyze the effect of the resampling image filter it
   //  is important to make sure that the image viewer used to display the input
   //  and output images take the spacing into account and use it to
-  //  apropriately scale the images on the screen. Please note that images in
+  //  appropriately scale the images on the screen. Please note that images in
   //  formats like PNG are not capable of representing origin and spacing. The
   //  tookit assume trivial default values for them. Figure
   //  \ref{fig:ResampleImageFilterOutput7} (center) illustrates the effect of
@@ -420,8 +414,8 @@ int main( int argc, char ** argv )
   // \label{fig:ResampleImageFilterTransformComposition4}
   // \end{figure}
   //
-  // The same output is analyzed in a common coordinate system on figure
-  // \ref{fig:ResampleImageFilterTransformComposition4}. In this figure pixel
+  // The filter output is analyzed in a common coordinate system with the input in Figure
+  // \ref{fig:ResampleImageFilterTransformComposition4}. In this Figure, pixel
   // $I=(33,27)$ of the output image is located at coordinates $P=(66.0,81.0)$
   // of the physical space. The identity transform maps this point to
   // $Q=(66.0,81.0)$ in the input image physical space. The point $Q$ is then
@@ -450,10 +444,10 @@ int main( int argc, char ** argv )
   //  The input image spacing is also an important factor in the process of
   //  resampling an image. The following example illustrates the effect of
   //  non-unit pixel spacing on the input image. An input image similar to the
-  //  one used in figures \ref{fig:ResampleImageFilterTransformComposition1} to
+  //  one used in Figures \ref{fig:ResampleImageFilterTransformComposition1} to
   //  \ref{fig:ResampleImageFilterTransformComposition4} has been previously
-  //  resampled ot have pixel spacing of $2mm \times 3mm$. The input image is
-  //  presented in figure \ref{fig:ResampleImageFilterInput2} as viewed with a
+  //  resampled to have pixel spacing of $2\mbox{mm} \times 3\mbox{mm}$. The input image is
+  //  presented in Figure \ref{fig:ResampleImageFilterInput2} as viewed with a
   //  naive image viewer (left) and with a correct image viewer (right).
   //
   //  The following code is used to transform this non-unit spacing input image
@@ -480,7 +474,7 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //  
-  // then selecting the number of pixels along each dimension.
+  //  We then select the number of pixels along each dimension.
   //
   //  \index{itk::ResampleImageFilter!SetSize()}
   //
@@ -495,7 +489,7 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  and finaly the pixel spacing on the output image.
+  //  Finally, we set the output pixel spacing.
   //
   //  \index{itk::ResampleImageFilter!SetOutputSpacing()}
   //
@@ -524,14 +518,14 @@ int main( int argc, char ** argv )
   // millimeters, spacing $(4.0,4.5)$ millimeters and size $(40,45)$ pixels.
   // With these parameters the pixel of index $I=(10,10)$ in the output image
   // is associated with the spatial point of coordinates $P=(10 \times 4.0 +
-  // 25.0, 10 \times 4.5 + 35.0))$ which results to be $P=(65.0,80.0)$. This
-  // point is mapped by the transform --- identity in this particular case ---
-  // to the point $Q=(65.0,80.0)$ in the input image space. The point $Q$ is
-  // then associated with the pixel of index $I=( ( 65.0 - 0.0 )/2.0 - (80.0 -
-  // 0.0)/3.0)$ which results in $I=(32.5,26.6)$. Note that the index does not
-  // fall in to a grid point, for this reason the value to be assigned to the
-  // output pixel is computed by interpolating values on the input image around
-  // the non-integer index $I=(32.5,26.6)$.
+  // 25.0, 10 \times 4.5 + 35.0)) =(65.0,80.0)$. This point is mapped by the
+  // transform --- identity in this particular case --- to the point
+  // $Q=(65.0,80.0)$ in the input image space. The point $Q$ is then associated
+  // with the pixel of index $I=( ( 65.0 - 0.0 )/2.0 - (80.0 - 0.0)/3.0)
+  // =(32.5,26.6)$. Note that the index does not fall on grid position, for
+  // this reason the value to be assigned to the output pixel is computed by
+  // interpolating values on the input image around the non-integer index
+  // $I=(32.5,26.6)$.
   //
   // \begin{figure}
   // \center
@@ -541,7 +535,7 @@ int main( int argc, char ** argv )
   // \end{figure}
   //
   //  Note also that the discretization of the image is more visible on the
-  //  output presented on the right side of figure
+  //  output presented on the right side of Figure
   //  \ref{fig:ResampleImageFilterTransformComposition5} due to the choice of a
   //  low resolution --- just $40 \times 45$ pixels.
   //
