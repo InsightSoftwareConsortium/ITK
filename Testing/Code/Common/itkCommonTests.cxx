@@ -20,6 +20,7 @@ REGISTER_TEST(itkBSplineInterpolationWeightFunctionTest );
 REGISTER_TEST(itkBSplineKernelFunctionTest );
 REGISTER_TEST(itkByteSwapTest );
 REGISTER_TEST(itkCenteredRigid2DTransformTest );
+REGISTER_TEST(itkCenteredAffineTransformTest );
 REGISTER_TEST(itkConstNeighborhoodIteratorTest );
 REGISTER_TEST(itkConstShapedNeighborhoodIteratorTest );
 REGISTER_TEST(itkCovariantVectorGeometryTest );
