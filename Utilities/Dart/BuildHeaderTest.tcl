@@ -103,11 +103,17 @@ foreach Directory $Directories \
       if {[file tail $File] == "itkWin32OutputWindow.h"} {
 	  continue;
       }
+      if {[file tail $File] == "itkImageViewerWindow.h"} {
+	  continue;
+      }
 #
 # include the .h if there is no .txx
 # otherwise include the .txx
 #
       set txxFile "[file rootname $File].txx"
+      if {[file tail $txxFile] == "itkImageViewer.txx"} {
+	  continue;
+      }
       if { [file exists $txxFile] } {
           puts $f "#include \"[file tail $txxFile]\""
       } else {
