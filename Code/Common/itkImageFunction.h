@@ -94,6 +94,11 @@ public:
   typedef TOutput OutputType;
 
   /**
+   * Point Type
+   */
+  typedef Point<double,InputImageType::ImageDimension> PointType;
+
+  /**
    * InputImagePointer typedef support
    */ 
   typedef typename InputImageType::ConstPointer InputImageConstPointer;
@@ -138,7 +143,8 @@ public:
   /**
    * Evaluate the function at a Point position
    */
-  virtual TOutput Evaluate( const PointType & point ) const {};
+  virtual TOutput Evaluate( const PointType & point ) const 
+                      { return 0.0; }
 
 
 
