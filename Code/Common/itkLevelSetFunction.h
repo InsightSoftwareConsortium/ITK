@@ -96,23 +96,48 @@ public:
   //  typedef
   //    Vector<ScalarValueType, itkGetStaticConstMacro(ImageDimension)> VectorType;
   typedef FixedArray<ScalarValueType, itkGetStaticConstMacro(ImageDimension)> VectorType;
-  
+
+
+  /** A global data type for this class of equations.  Used to store
+   * values that are needed in calculating the time step and other intermediate
+   * products such as derivatives that may be used by virtual functions called
+   * from ComputeUpdate.  Caching these values here allows the ComputeUpdate
+   * function to be const and thread safe.*/
+  struct GlobalDataStruct
+  {
+    ScalarValueType m_MaxAdvectionChange;
+    ScalarValueType m_MaxPropagationChange;
+
+    /** Hessian matrix */
+    vnl_matrix_fixed<ScalarValueType,
+                     itkGetStaticConstMacro(ImageDimension),
+                     itkGetStaticConstMacro(ImageDimension)> m_dxy;
+    
+    /** Array of first derivatives*/
+    ScalarValueType m_dx[itkGetStaticConstMacro(ImageDimension)];
+    
+    ScalarValueType m_dx_forward[itkGetStaticConstMacro(ImageDimension)];
+    ScalarValueType m_dx_backward[itkGetStaticConstMacro(ImageDimension)];
+    
+    ScalarValueType m_GradMagSqr;
+  };
+
   /** Advection field.  Default implementation returns a vector of zeros. */
   virtual VectorType AdvectionField(const NeighborhoodType &,
-                                    const FloatOffsetType &)  const
+                                    const FloatOffsetType &, GlobalDataStruct *gd = 0)  const
     { return m_ZeroVectorConstant; }
 
   /** Propagation speed.  This term controls surface expansion/contraction.
    *  Default implementation returns zero. */ 
   virtual ScalarValueType PropagationSpeed(
     const NeighborhoodType& ,
-    const FloatOffsetType & ) const
+    const FloatOffsetType &, GlobalDataStruct *gd = 0 ) const
     { return NumericTraits<ScalarValueType>::Zero; }
 
   /** Curvature speed.  Can be used to spatially modify the effects of
       curvature . The default implementation returns one. */
   virtual ScalarValueType CurvatureSpeed(const NeighborhoodType &,
-                                         const FloatOffsetType &
+                                         const FloatOffsetType &, GlobalDataStruct *gd = 0
                                          ) const
     { return NumericTraits<ScalarValueType>::One; }
 
@@ -120,7 +145,7 @@ public:
       effects of laplacian smoothing of the level set function */
   virtual ScalarValueType LaplacianSmoothingSpeed(
     const NeighborhoodType &,
-    const FloatOffsetType &) const
+    const FloatOffsetType &, GlobalDataStruct *gd = 0) const
     { return NumericTraits<ScalarValueType>::One; }
 
   /** Alpha.  Scales all advection term values.*/ 
@@ -166,19 +191,13 @@ public:
    * for each thread by the finite difference solver filters. */
   virtual TimeStepType ComputeGlobalTimeStep(void *GlobalData) const;
 
-  /** A global data type for this class of equations.  Used to store
-   * values that are needed in calculating the time step. */
-  struct GlobalDataStruct
-  {
-    ScalarValueType m_MaxAdvectionChange;
-    ScalarValueType m_MaxPropagationChange;
-  };
-
   /** Returns a pointer to a global data structure that is passed to this
    * object from the solver at each calculation.  The idea is that the solver
    * holds the state of any global values needed to calculate the time step,
    * while the equation object performs the actual calculations.  The global
-   * data should also be initialized in this method. */
+   * data should also be initialized in this method.  Global data can be used
+   * for caching any values used or reused by the FunctionObject.  Each thread
+   * should receive its own global data struct. */
   virtual void *GetGlobalDataPointer() const
     {
       GlobalDataStruct *ans = new GlobalDataStruct();
@@ -201,18 +220,22 @@ public:
 
   /**  */
   virtual ScalarValueType ComputeCurvatureTerm(const NeighborhoodType &,
-                                               const FloatOffsetType &
+                                               const FloatOffsetType &,
+                                               GlobalDataStruct *gd = 0
                                                );
   virtual ScalarValueType ComputeMeanCurvature(const NeighborhoodType &,
-                                               const FloatOffsetType &
+                                               const FloatOffsetType &,
+                                               GlobalDataStruct *gd = 0
                                                );
 
   virtual ScalarValueType ComputeMinimalCurvature(const NeighborhoodType &,
-                                                  const FloatOffsetType &
+                                                  const FloatOffsetType &,
+                                                  GlobalDataStruct *gd = 0
                                                   );
   
   virtual ScalarValueType Compute3DMinimalCurvature(const NeighborhoodType &,
-                                                    const FloatOffsetType &
+                                                    const FloatOffsetType &,
+                                                    GlobalDataStruct *gd = 0
                                                     );
   
   /** */
@@ -234,7 +257,6 @@ public:
   }
   
 protected:
-  
   LevelSetFunction()
   {
     m_EpsilonMagnitude = 1.0e-5;
@@ -261,19 +283,6 @@ protected:
 
   bool m_UseMinimalCurvature;
 
-  /** Hessian matrix */
-  vnl_matrix_fixed<ScalarValueType,
-                   itkGetStaticConstMacro(ImageDimension),
-                   itkGetStaticConstMacro(ImageDimension)> m_dxy;
-
-  /** Array of first derivatives*/
-  ScalarValueType m_dx[itkGetStaticConstMacro(ImageDimension)];
-
-  ScalarValueType m_dx_forward[itkGetStaticConstMacro(ImageDimension)];
-  ScalarValueType m_dx_backward[itkGetStaticConstMacro(ImageDimension)];
-
-  ScalarValueType m_GradMagSqr;
-  
   /** This method's only purpose is to initialize the zero vector
    * constant. */
   static VectorType InitializeZeroVectorConstant();
@@ -295,12 +304,10 @@ protected:
 
   /** Laplacean smoothing term */
   ScalarValueType m_LaplacianSmoothingWeight;
-  
-  
+
 private:
   LevelSetFunction(const Self&); //purposely not implemented
   void operator=(const Self&);   //purposely not implemented
-
 };
 
 } // namespace itk

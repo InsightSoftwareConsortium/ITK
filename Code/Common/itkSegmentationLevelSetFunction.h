@@ -65,6 +65,7 @@ public:
   typedef typename FeatureImageType::PixelType FeatureScalarType;
   typedef typename ImageType::IndexType IndexType;
   typedef typename Superclass::VectorType VectorType;
+  typedef typename Superclass::GlobalDataStruct GlobalDataStruct;
 
   /** Define an image type for the advection field. */
   typedef Image<VectorType, 
@@ -150,11 +151,11 @@ protected:
 
   /** Returns the propagation speed from the precalculated speed image.*/
   virtual ScalarValueType PropagationSpeed(const NeighborhoodType &,
-                                           const FloatOffsetType &) const;
+                                           const FloatOffsetType &, GlobalDataStruct *gd) const;
 
   /** Advection field.  Returns a vector from the computed advectionfield.*/
   virtual VectorType AdvectionField(const NeighborhoodType &,
-                                    const FloatOffsetType &) const;
+                                    const FloatOffsetType &, GlobalDataStruct *gd) const;
   
   
   virtual ~SegmentationLevelSetFunction() {}

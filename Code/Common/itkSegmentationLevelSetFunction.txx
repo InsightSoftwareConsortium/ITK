@@ -62,7 +62,7 @@ template <class TImageType, class TFeatureImageType>
 typename SegmentationLevelSetFunction<TImageType, TFeatureImageType>::ScalarValueType
 SegmentationLevelSetFunction<TImageType, TFeatureImageType>
 ::PropagationSpeed(const NeighborhoodType &neighborhood,
-                   const FloatOffsetType &offset) const
+                   const FloatOffsetType &offset, GlobalDataStruct *) const
 {
   IndexType idx = neighborhood.GetIndex();
   ContinuousIndexType cdx;
@@ -82,7 +82,7 @@ template <class TImageType, class TFeatureImageType>
 typename SegmentationLevelSetFunction<TImageType, TFeatureImageType>::VectorType
 SegmentationLevelSetFunction<TImageType, TFeatureImageType>
 ::AdvectionField(const NeighborhoodType &neighborhood,
-                 const FloatOffsetType &offset)  const
+                 const FloatOffsetType &offset, GlobalDataStruct *)  const
 {
   IndexType idx = neighborhood.GetIndex();
   ContinuousIndexType cdx;

@@ -25,25 +25,25 @@ namespace itk {
 template <class TImageType>
 typename LevelSetFunction<TImageType>::ScalarValueType
 LevelSetFunction<TImageType>::ComputeCurvatureTerm(const NeighborhoodType &neighborhood,
-                                                   const FloatOffsetType &offset)
+                                                   const FloatOffsetType &offset, GlobalDataStruct *gd)
 {
   if ( m_UseMinimalCurvature == false )
     {
-    return this->ComputeMeanCurvature(neighborhood, offset);
+    return this->ComputeMeanCurvature(neighborhood, offset, gd);
     }
   else
     {
     if (ImageDimension == 3)
       {
-      return this->ComputeMinimalCurvature(neighborhood, offset);
+      return this->ComputeMinimalCurvature(neighborhood, offset, gd);
       }
     else if (ImageDimension == 2)
       {
-      return this->ComputeMeanCurvature(neighborhood, offset);
+      return this->ComputeMeanCurvature(neighborhood, offset, gd);
       }
     else
       {
-      return this->ComputeMinimalCurvature(neighborhood, offset);
+      return this->ComputeMinimalCurvature(neighborhood, offset, gd);
       }
     }
 }
@@ -54,11 +54,11 @@ typename LevelSetFunction< TImageType >::ScalarValueType
 LevelSetFunction< TImageType >
 ::ComputeMinimalCurvature(
   const NeighborhoodType &itkNotUsed(neighborhood),
-  const FloatOffsetType& itkNotUsed(offset))
+  const FloatOffsetType& itkNotUsed(offset), GlobalDataStruct *gd)
 {
 
   unsigned int i, j, n;
-  ScalarValueType gradMag = vcl_sqrt(m_GradMagSqr);
+  ScalarValueType gradMag = vcl_sqrt(gd->m_GradMagSqr);
   ScalarValueType Pgrad[ImageDimension][ImageDimension];
   ScalarValueType tmp_matrix[ImageDimension][ImageDimension];
   const ScalarValueType ZERO = NumericTraits<ScalarValueType>::Zero;
@@ -69,10 +69,10 @@ LevelSetFunction< TImageType >
   
   for (i = 0; i < ImageDimension; i++)
     {
-    Pgrad[i][i] = 1.0 - m_dx[i] * m_dx[i]/gradMag;
+    Pgrad[i][i] = 1.0 - gd->m_dx[i] * gd->m_dx[i]/gradMag;
     for (j = i+1; j < ImageDimension; j++)
       {
-      Pgrad[i][j]= m_dx[i] * m_dx[j]/gradMag;
+      Pgrad[i][j]= gd->m_dx[i] * gd->m_dx[j]/gradMag;
       Pgrad[j][i] = Pgrad[i][j];
       }
     }
@@ -85,7 +85,7 @@ LevelSetFunction< TImageType >
       tmp_matrix[i][j]= ZERO;
       for (n = 0 ; n < ImageDimension; n++)
         {
-        tmp_matrix[i][j] += Pgrad[i][n] * m_dxy[n][j];
+        tmp_matrix[i][j] += Pgrad[i][n] * gd->m_dxy[n][j];
         }
       tmp_matrix[j][i]=tmp_matrix[i][j];
       }
@@ -125,19 +125,23 @@ template< class TImageType>
 typename LevelSetFunction< TImageType >::ScalarValueType
 LevelSetFunction< TImageType >
 ::Compute3DMinimalCurvature(const NeighborhoodType &neighborhood,
-                            const FloatOffsetType& offset)
+                            const FloatOffsetType& offset, GlobalDataStruct *gd)
 {
-  ScalarValueType mean_curve = this->ComputeMeanCurvature(neighborhood, offset );
+  ScalarValueType mean_curve = this->ComputeMeanCurvature(neighborhood, offset, gd);
   
-  ScalarValueType gauss_curve = (2*(m_dx[0]*m_dx[1]*(m_dxy[2][0]*m_dxy[1][2]-m_dxy[0][1]*m_dxy[2][2]\
-                                      ) +
-                                    m_dx[1]*m_dx[2]*(m_dxy[2][0]*m_dxy[0][1]-m_dxy[1][2]*m_dxy[0][0]) +
-                                    m_dx[0]*m_dx[2]*(m_dxy[1][2]*m_dxy[0][1]-m_dxy[2][0]*m_dxy[1][1])
-                                   ) +
-                                 m_dx[0]*m_dx[0]*(m_dxy[1][1]*m_dxy[2][2]-m_dxy[1][2]*m_dxy[1][2]) +
-                                 m_dx[1]*m_dx[1]*(m_dxy[0][0]*m_dxy[2][2]-m_dxy[2][0]*m_dxy[2][0]) +
-                                 m_dx[2]*m_dx[2]*(m_dxy[1][1]*m_dxy[0][0]-m_dxy[0][1]*m_dxy[0][1]))/
-    (m_dx[0]*m_dx[0] + m_dx[1]*m_dx[1] + m_dx[2]*m_dx[2]);
+  ScalarValueType gauss_curve = (2*(gd->m_dx[0]*gd->m_dx[1]*(gd->m_dxy[2][0]
+                           *gd->m_dxy[1][2]-gd->m_dxy[0][1]*gd->m_dxy[2][2]) +
+                                    gd->m_dx[1]*gd->m_dx[2]*(gd->m_dxy[2][0]
+                           *gd->m_dxy[0][1]-gd->m_dxy[1][2]*gd->m_dxy[0][0]) +
+                                    gd->m_dx[0]*gd->m_dx[2]*(gd->m_dxy[1][2]
+                       *gd->m_dxy[0][1]-gd->m_dxy[2][0]*gd->m_dxy[1][1])) +
+                                 gd->m_dx[0]*gd->m_dx[0]*(gd->m_dxy[1][1]
+                     *gd->m_dxy[2][2]-gd->m_dxy[1][2]*gd->m_dxy[1][2]) +
+                                 gd->m_dx[1]*gd->m_dx[1]*(gd->m_dxy[0][0]
+                    *gd->m_dxy[2][2]-gd->m_dxy[2][0]*gd->m_dxy[2][0]) +
+                                 gd->m_dx[2]*gd->m_dx[2]*(gd->m_dxy[1][1]
+                  *gd->m_dxy[0][0]-gd->m_dxy[0][1]*gd->m_dxy[0][1]))/
+    (gd->m_dx[0]*gd->m_dx[0] + gd->m_dx[1]*gd->m_dx[1] + gd->m_dx[2]*gd->m_dx[2]);
 
   ScalarValueType discriminant = mean_curve * mean_curve-gauss_curve;
   if (discriminant < 0.0)
@@ -153,7 +157,7 @@ template <class TImageType>
 typename LevelSetFunction<TImageType>::ScalarValueType
 LevelSetFunction<TImageType>::ComputeMeanCurvature(
   const NeighborhoodType &itkNotUsed(neighborhood),
-  const FloatOffsetType &itkNotUsed(offset))
+  const FloatOffsetType &itkNotUsed(offset), GlobalDataStruct *gd)
 {
   // Calculate the mean curvature
   ScalarValueType curvature_term = NumericTraits<ScalarValueType>::Zero;
@@ -164,16 +168,16 @@ LevelSetFunction<TImageType>::ComputeMeanCurvature(
     {      
     for(j = 0; j < ImageDimension; j++)
       {      
-      curvature_term -= m_dx[i] * m_dx[j] * m_dxy[i][j];
+      curvature_term -= gd->m_dx[i] * gd->m_dx[j] * gd->m_dxy[i][j];
 
       if(j != i)
         {
-        curvature_term += m_dxy[j][j] * m_dx[i] * m_dx[i];
+        curvature_term += gd->m_dxy[j][j] * gd->m_dx[i] * gd->m_dx[i];
         }
       }
     }
   
-  return (curvature_term / m_GradMagSqr );
+  return (curvature_term / gd->m_GradMagSqr );
 }
 
 template <class TImageType>
@@ -276,7 +280,7 @@ LevelSetFunction< TImageType>
 template< class TImageType >
 typename LevelSetFunction< TImageType >::PixelType
 LevelSetFunction< TImageType >
-::ComputeUpdate(const NeighborhoodType &it, void *gd,
+::ComputeUpdate(const NeighborhoodType &it, void *globalData,
                 const FloatOffsetType& offset)
 {
   unsigned int i, j;  
@@ -285,16 +289,14 @@ LevelSetFunction< TImageType >
 
   ScalarValueType laplacian, x_energy, laplacian_term, propagation_term,
     curvature_term, advection_term, propagation_gradient;
-  // ScalarValueType dxy, dx[ImageDimension], dxx[ImageDimension],
-  //   dx_forward[ImageDimension], dx_backward[ImageDimension];
   VectorType advection_field;
 
   // Global data structure
-  GlobalDataStruct *globalData = (GlobalDataStruct *)gd;
+  GlobalDataStruct *gd = (GlobalDataStruct *)globalData;
 
   // Compute the Hessian matrix and various other derivatives.  Some of these
   // derivatives may be used by overloaded virtual functions.
-  m_GradMagSqr = 1.0e-6;
+  gd->m_GradMagSqr = 1.0e-6;
   for( i = 0 ; i < ImageDimension; i++)
     {
     const unsigned int positionA = 
@@ -302,15 +304,15 @@ LevelSetFunction< TImageType >
     const unsigned int positionB = 
       static_cast<unsigned int>( m_Center - m_xStride[i]);    
 
-    m_dx[i] = 0.5 * (it.GetPixel( positionA ) - 
+    gd->m_dx[i] = 0.5 * (it.GetPixel( positionA ) - 
                      it.GetPixel( positionB )    );
       
-    m_dxy[i][i] = it.GetPixel( positionA )
+    gd->m_dxy[i][i] = it.GetPixel( positionA )
       + it.GetPixel( positionB ) - 2.0 * center_value;
     
-    m_dx_forward[i]  = it.GetPixel( positionA ) - center_value;
-    m_dx_backward[i] = center_value - it.GetPixel( positionB );
-    m_GradMagSqr += m_dx[i] * m_dx[i];
+    gd->m_dx_forward[i]  = it.GetPixel( positionA ) - center_value;
+    gd->m_dx_backward[i] = center_value - it.GetPixel( positionB );
+    gd->m_GradMagSqr += gd->m_dx[i] * gd->m_dx[i];
 
     for( j = i+1; j < ImageDimension; j++ )
       {
@@ -323,7 +325,7 @@ LevelSetFunction< TImageType >
       const unsigned int positionDa = static_cast<unsigned int>( 
         m_Center + m_xStride[i] + m_xStride[j] );    
 
-      m_dxy[i][j] = m_dxy[j][i] = 0.25 *( it.GetPixel( positionAa )
+      gd->m_dxy[i][j] = gd->m_dxy[j][i] = 0.25 *( it.GetPixel( positionAa )
                                           - it.GetPixel( positionBa )
                                           - it.GetPixel( positionCa )
                                           + it.GetPixel( positionDa )
@@ -333,14 +335,16 @@ LevelSetFunction< TImageType >
 
   if ( m_CurvatureWeight != ZERO )
     {
-    curvature_term = this->ComputeCurvatureTerm(it, offset) * m_CurvatureWeight * this->CurvatureSpeed(it, offset);
+    curvature_term = this->ComputeCurvatureTerm(it, offset, gd) * m_CurvatureWeight
+      * this->CurvatureSpeed(it, offset);
     }
   else
     {
     curvature_term = ZERO;
     }
     
-  // Calculate the advection term.  //  $\alpha \stackrel{\rightharpoonup}{F}(\mathbf{x})\cdot\nabla\phi $
+  // Calculate the advection term.
+  //  $\alpha \stackrel{\rightharpoonup}{F}(\mathbf{x})\cdot\nabla\phi $
   //
   // Here we can use a simple upwinding scheme since we know the
   // sign of each directional component of the advective force.
@@ -348,7 +352,7 @@ LevelSetFunction< TImageType >
   if (m_AdvectionWeight != ZERO)
     {
     
-    advection_field = this->AdvectionField(it, offset);
+    advection_field = this->AdvectionField(it, offset, gd);
     advection_term = ZERO;
     
     for(i = 0; i < ImageDimension; i++)
@@ -358,15 +362,15 @@ LevelSetFunction< TImageType >
       
       if (x_energy > ZERO)
         {
-        advection_term += advection_field[i] * m_dx_backward[i];
+        advection_term += advection_field[i] * gd->m_dx_backward[i];
         }
       else
         {
-        advection_term += advection_field[i] * m_dx_forward[i];
+        advection_term += advection_field[i] * gd->m_dx_forward[i];
         }
         
-      globalData->m_MaxAdvectionChange
-        = vnl_math_max(globalData->m_MaxAdvectionChange, vnl_math_abs(x_energy)); 
+      gd->m_MaxAdvectionChange
+        = vnl_math_max(gd->m_MaxAdvectionChange, vnl_math_abs(x_energy)); 
       }
     advection_term *= m_AdvectionWeight;
     
@@ -376,7 +380,7 @@ LevelSetFunction< TImageType >
   if (m_PropagationWeight != ZERO)
     {
     // Get the propagation speed
-    propagation_term = m_PropagationWeight * this->PropagationSpeed(it, offset);
+    propagation_term = m_PropagationWeight * this->PropagationSpeed(it, offset, gd);
       
     //
     // Construct upwind gradient values for use in the propagation speed term:
@@ -391,23 +395,23 @@ LevelSetFunction< TImageType >
       {
       for(i = 0; i< ImageDimension; i++)
         {
-        propagation_gradient += vnl_math_sqr( vnl_math_max(m_dx_backward[i], ZERO) )
-          + vnl_math_sqr( vnl_math_min(m_dx_forward[i],  ZERO) );
+        propagation_gradient += vnl_math_sqr( vnl_math_max(gd->m_dx_backward[i], ZERO) )
+          + vnl_math_sqr( vnl_math_min(gd->m_dx_forward[i],  ZERO) );
         }
       }
     else
       {
       for(i = 0; i< ImageDimension; i++)
         {
-        propagation_gradient += vnl_math_sqr( vnl_math_min(m_dx_backward[i], ZERO) )
-          + vnl_math_sqr( vnl_math_max(m_dx_forward[i],  ZERO) );
+        propagation_gradient += vnl_math_sqr( vnl_math_min(gd->m_dx_backward[i], ZERO) )
+          + vnl_math_sqr( vnl_math_max(gd->m_dx_forward[i],  ZERO) );
         }        
       }
-      
+    
     // Collect energy change from propagation term.  This will be used in
     // calculating the maximum time step that can be taken for this iteration.
-    globalData->m_MaxPropagationChange =
-      vnl_math_max(globalData->m_MaxPropagationChange,
+    gd->m_MaxPropagationChange =
+      vnl_math_max(gd->m_MaxPropagationChange,
                    vnl_math_abs(propagation_term));
     
     propagation_term *= vcl_sqrt( propagation_gradient );
@@ -421,13 +425,12 @@ LevelSetFunction< TImageType >
     // Compute the laplacian using the existing second derivative values
     for(i = 0;i < ImageDimension; i++)
       {
-      laplacian += m_dxy[i][i];
+      laplacian += gd->m_dxy[i][i];
       }
 
     // Scale the laplacian by its speed and weight
     laplacian_term = 
-      laplacian * m_LaplacianSmoothingWeight 
-      * LaplacianSmoothingSpeed(it,offset);
+      laplacian * m_LaplacianSmoothingWeight * LaplacianSmoothingSpeed(it,offset, gd);
     }
   else 
     laplacian_term = ZERO;
