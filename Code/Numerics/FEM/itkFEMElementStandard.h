@@ -41,17 +41,39 @@ namespace fem {
  *                    (e.g. four for quadrilateral)
  *
  *   NumberOfDOFsPerPoint - number of DOFs that exist at every point
- *                          withing an element. This is basically the
+ *                          within an element. This is basically the
  *                          number of parameters that the unknown
  *                          function has.
  *
  *   NodeClass - class of Node objects that the element uses.
  */
-template<int NumberOfPoints,int NumberOfDOFsPerPoint, class NodeClass>
+template<unsigned int VNumberOfPoints,unsigned int VNumberOfDOFsPerPoint, class TNodeClass>
 class ElementStandard : public Element
 {
 public:
-  enum {NDOF=NumberOfPoints*NumberOfDOFsPerPoint};
+
+  /**
+   * Number of geometrical points that define the element
+   */
+  enum { NumberOfPoints=VNumberOfPoints };
+
+  /**
+   * Number of degrees of freedom that exist at every point
+   * within an element.
+   */
+  enum { NumberOfDOFsPerPoint=VNumberOfDOFsPerPoint };
+
+
+  /**
+   * Node class that is used to specify points that define
+   * the geometry of the element.
+   */
+  typedef TNodeClass NodeClass;
+
+  /**
+   * Total number of degrees of freedom in an element
+   */
+  enum { NDOF=NumberOfPoints*NumberOfDOFsPerPoint };
 
   /**
    * Default constructor just clears the node pointers
