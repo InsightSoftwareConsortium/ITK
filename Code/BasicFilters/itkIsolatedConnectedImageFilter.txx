@@ -51,8 +51,10 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>
      << static_cast<NumericTraits<OutputImagePixelType>::PrintType>(m_ReplaceValue)
      << std::endl;
   os << indent << "Seed1: " << m_Seed1 << std::endl;
-  os << indent << "Seed2: " << m_Seed1 << std::endl;
-  os << indent << "IsolatedValue: " << m_Seed1 << std::endl;
+  os << indent << "Seed2: " << m_Seed2 << std::endl;
+  os << indent << "IsolatedValue: "
+     << static_cast<NumericTraits<OutputImagePixelType>::PrintType>(m_IsolatedValue)
+     << std::endl;
 }
 
 template <class TInputImage, class TOutputImage>
