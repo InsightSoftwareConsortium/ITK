@@ -28,13 +28,6 @@ template< class TMeasurement, unsigned int VMeasurementVectorSize,
 Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
 ::Histogram()
 {
-  // all measurement vectors are sored
-  SetSortedFlag(true) ;
-  // supports GetFrequency method
-  SetSupportingFrequencyFlag(true) ;
-  // no dupliates
-  SetAllowingDuplicatesFlag(false) ;
-
   m_FrequencyContainer = FrequencyContainerType::New() ;
 }
 
