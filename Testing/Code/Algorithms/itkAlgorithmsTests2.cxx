@@ -8,6 +8,7 @@
 void RegisterTests()
 {
   vnl_sample_reseed(8775070);
+  REGISTER_TEST(itkActiveShapeModelCalculatorTest  );
   REGISTER_TEST(itkCompareHistogramImageToImageMetricTest   );
   REGISTER_TEST(itkDeformableSimplexMesh3DFilterTest   );
   REGISTER_TEST(itkDeformableSimplexMesh3DBalloonForceFilterTest  );
