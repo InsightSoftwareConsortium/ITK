@@ -34,11 +34,16 @@
 #include <algorithm>
 #include <sys/types.h>
 
+#ifdef _MSC_VER
+#define getcwd _getcwd
+#endif
+
 #if defined( _MSC_VER) || defined(__BORLANDC__)
    #include <direct.h>
 #else
    #include <unistd.h>
 #endif
+
 namespace gdcm 
 {
 
