@@ -198,6 +198,30 @@ public:
       - static_cast<long>(m_Region.GetSize()[0]);
   }
 
+ /** Move an iterator to the beginning of the region. "Begin" is
+  * defined as the first pixel in the region. */
+  void GoToBegin()
+  {
+    Superclass::GoToBegin();
+
+    // reset the span offsets
+    m_SpanBeginOffset = m_BeginOffset;
+    m_SpanEndOffset   = m_BeginOffset
+      + static_cast<long>(m_Region.GetSize()[0]);
+  };
+  
+ /** Move an iterator to the end of the region. "End" is defined as
+  * one pixel past the last pixel of the region. */
+  void GoToEnd()
+  {
+    Superclass::GoToEnd();
+    
+    // reset the span offsets
+    m_SpanEndOffset = m_EndOffset;
+    m_SpanBeginOffset = m_SpanEndOffset
+      - static_cast<long>(m_Region.GetSize()[0]);
+  };
+
   /** Return an iterator for the beginning of the region. "Begin"
    * is defined as the first pixel in the region.
    * \deprecated Use GoToBegin() instead */

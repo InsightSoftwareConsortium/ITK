@@ -29,7 +29,13 @@ ImageRegionConstIterator<TImage>
 ImageRegionConstIterator<TImage>
 ::Begin() const
 {
-  return this->Superclass::Begin();
+  // Copy the current iterator
+  Self it( *this );
+
+  // Set the iterator to the beginning of the region
+  it.GoToBegin();
+  
+  return it;
 }
 
 //----------------------------------------------------------------------------
@@ -45,7 +51,13 @@ ImageRegionConstIterator<TImage>
 ImageRegionConstIterator<TImage>
 ::End() const
 {
-  return this->Superclass::End();
+  // Copy the current iterator
+  Self it( *this );
+
+  // Set the iterator to the end of the region
+  it.GoToEnd();
+  
+  return it;
 }
 
 } // end namespace itk
