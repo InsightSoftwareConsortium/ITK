@@ -379,7 +379,7 @@ public:
   /** This method iterates over all the cells in the mesh and has
    *  each cell Accept the MultiVisitor. See MultiVisitor for more 
    *  information.  (Note, this follows the Visitor Design Pattern.) */
-  void Accept(CellMultiVisitorType* mv);
+  virtual void Accept(CellMultiVisitorType* mv);
 
   /** Methods that support streaming. */
   virtual void UpdateOutputInformation();
