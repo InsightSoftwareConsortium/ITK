@@ -42,7 +42,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkMRFImageFilter.h"
 #include "itkMutualInformationAffineRegistrator.h"
 #include "itkMutualInformationImageMetric.h"
-#include "itkParzenWindowAffineMutualInformationImageMetric.h"
 #include "itkParzenWindowAffineMutualInformationMetric.h"
 #include "itkParzenWindowMutualInformationAffineRegistrator.h"
 #include "itkProcrustesRegistrationMetric.h"
