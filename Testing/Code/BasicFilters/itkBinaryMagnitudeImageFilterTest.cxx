@@ -148,6 +148,7 @@ int itkBinaryMagnitudeImageFilterTest(int, char**)
       std::cerr << "Error in the output" << std::endl;
       std::cerr << "Value should be  " << outputValue << std::endl;
       std::cerr << "but is           " << it4.Get()  << std::endl;
+      return EXIT_FAILURE;
     }
 
     ++it4;
@@ -155,7 +156,7 @@ int itkBinaryMagnitudeImageFilterTest(int, char**)
 
 
   // All objects should be automatically destroyed at this point
-  return 0;
+  return EXIT_SUCCESS;
 
 }
 
