@@ -289,10 +289,10 @@ itkObjectFactoryBase
   itkObject::PrintSelf(os, indent);
 
   os << indent << "Factory DLL path: " << m_LibraryPath << "\n";
-  os << indent << "Factory description: " << this->GetDescription() << endl;
+  os << indent << "Factory description: " << this->GetDescription() << std::endl;
 
   int num = m_OverrideMap->size();
-  os << indent << "Factory overides " << num << " classes:" << endl;
+  os << indent << "Factory overides " << num << " classes:" << std::endl;
 
   indent = indent.GetNextIndent();
   for(itkOverRideMap::iterator i = m_OverrideMap->begin();

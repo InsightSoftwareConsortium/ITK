@@ -27,6 +27,7 @@
 #define __itkSetGet_h
 
 #include <string>
+#include <strstream>
 #include "itkWin32Header.h"
 //
 // Some constants used throughout code
@@ -396,10 +397,10 @@ extern ITK_EXPORT void itkOutputWindowDisplayText(const char*);
 #else
 #define itkDebugMacro(x) \
 { if (this->GetDebug() && itkObject::GetGlobalWarningDisplay()) \
-    { char *itkmsgbuff; ostrstream itkmsg; \
+    { char *itkmsgbuff; std::ostrstream itkmsg; \
       itkmsg << "Debug: In " __FILE__ ", line " << __LINE__ << "\n" \
              << this->GetClassName() << " (" << this << "): " x  \
-             << "\n\n" << ends; \
+             << "\n\n" << std::ends; \
       itkmsgbuff = itkmsg.str(); \
       itkOutputWindowDisplayText(itkmsgbuff); \
       itkmsg.rdbuf()->freeze(0);} \

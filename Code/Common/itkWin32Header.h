@@ -21,12 +21,10 @@ See COPYRIGHT.txt for copyright details.
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <fstream.h>
 #include <math.h>
 
 // now add in the UNIX / Windows varients
 #if defined(_WIN32) || defined(WIN32)
-#include <strstrea.h>
 #include <windows.h>
 
 #pragma warning ( disable : 4244 )
@@ -43,7 +41,6 @@ See COPYRIGHT.txt for copyright details.
 // Now for the UNIX stuff
 #else 
 
-#include <strstream.h>
 #define ITK_EXPORT
 
 #endif

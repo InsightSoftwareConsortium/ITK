@@ -211,8 +211,8 @@ void
 itkWin32OutputWindow
 ::PromptText(const char* text)
 {
-  ostrstream itkmsg;
-  itkmsg << text << "\nPress Cancel to supress any further messages." << ends;
+  std::ostrstream itkmsg;
+  itkmsg << text << "\nPress Cancel to supress any further messages." << std::ends;
   if (MessageBox(NULL, itkmsg.str(), "Error",
                  MB_ICONERROR | MB_OKCANCEL) == IDCANCEL) 
     { 
