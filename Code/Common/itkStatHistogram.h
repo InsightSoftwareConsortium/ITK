@@ -125,25 +125,25 @@ public:
  /**
   * Method to get the minimum vector of a dimension 
   */
-  const vector<double> & GetDimensionMins(unsigned int dimension) const
+  const std::vector<double> & GetDimensionMins(unsigned int dimension) const
     {  return m_Min[dimension]; }
 
  /**
   * Method to get the maximum vector of a dimension 
   */
-  const vector<double> & GetDimensionMaxs(unsigned int dimension) const
+  const std::vector<double> & GetDimensionMaxs(unsigned int dimension) const
     {  return m_Max[dimension]; }
 
  /**
   * Method to get the minimum vector 
   */
-  const vector< vector<double> > & GetMins() const
+  const std::vector< std::vector<double> > & GetMins() const
     {  return m_Min; }
 
  /**
   * Method to get the maximum vector 
   */
-  const vector< vector<double> >& GetMaxs() const
+  const std::vector< std::vector<double> >& GetMaxs() const
     {  return m_Max; }
 
  /**
@@ -207,10 +207,10 @@ protected:
   SizeType m_Size;
 
   // lower bound of each bin
-  vector< vector<double> > m_Min;
+  std::vector< std::vector<double> > m_Min;
 
   // upper bound of each bin
-  vector< vector<double> > m_Max;
+  std::vector< std::vector<double> > m_Max;
 
 private:
 

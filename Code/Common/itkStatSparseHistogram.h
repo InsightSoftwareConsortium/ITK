@@ -39,6 +39,14 @@ public:
   */
   typedef SparseHistogram  Self;
 
+  /**
+   * Standard Superclass typedef
+   */
+  typedef Histogram <TBin, HistogramDimension> Superclass;
+
+  typedef typename Superclass::IndexType IndexType;
+  typedef typename Superclass::PointType PointType;
+
  /** 
   * Smart pointer typedef support 
   */
@@ -47,7 +55,7 @@ public:
  /**
   * Histogram typedef support
   */
-  typedef map<unsigned long, TBin> HistogramType;
+  typedef std::map<unsigned long, TBin> HistogramType;
 
  /**
   * Run-time type information (and related methods).

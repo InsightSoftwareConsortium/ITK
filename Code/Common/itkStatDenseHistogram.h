@@ -15,7 +15,7 @@
 #ifndef __itkStatDenseHistogram_h
 #define __itkStatDenseHistogram_h
 
-#include <itkImage.h>
+#include "itkImage.h"
 #include "itkStatHistogram.h"
 
 namespace itk{
@@ -35,6 +35,14 @@ public:
   * Standard "Self" typedef.
   */
   typedef DenseHistogram  Self;
+ 
+  /**
+   * Standard Superclass typedef
+   */
+  typedef Histogram <TBin, HistogramDimension> Superclass;
+
+  typedef typename Superclass::IndexType IndexType;
+  typedef typename Superclass::PointType PointType;
  
  /** 
   * Smart pointer typedef support 
@@ -93,7 +101,7 @@ protected:
   
 private:
 
-  HistogramType::Pointer m_Histogram;
+  typename HistogramType::Pointer m_Histogram;
 
 };
 
