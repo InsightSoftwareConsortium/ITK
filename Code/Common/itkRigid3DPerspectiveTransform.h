@@ -46,6 +46,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "vnl/vnl_quaternion.h"
 #include <iostream>
 #include "itkMatrix.h"
+#include "itkTransform.h"
 
 
 
@@ -98,22 +99,43 @@ public:
 
 
 
+    /** 
+     * Smart pointer typedef support 
+     */
+    typedef SmartPointer<Self>        Pointer;
+    typedef SmartPointer<const Self>  ConstPointer;
+
+
+    /** 
+     * Run-time type information (and related methods).
+     */
+    itkTypeMacro( Rigid3DPerspectiveTransform, Transform );
+
+
+    /** 
+     * New macro for creation of through a Smart Pointer
+     */
+    itkNewMacro( Self );
+
+
+
+
     /**
      * Scalar Type
      */
-    typedef Superclass::ScalarType  ScalarType;
+    typedef typename Superclass::ScalarType  ScalarType;
 
 
     /**
      * Parameters Type
      */
-    typedef Superclass::ParametersType  ParametersType;
+    typedef typename Superclass::ParametersType  ParametersType;
 
 
     /**
      * Jacobian Type
      */
-    typedef Superclass::JacobianType  JacobianType;
+    typedef typename Superclass::JacobianType  JacobianType;
 
 
 
@@ -121,6 +143,9 @@ public:
 
     /// Standard matrix type for this class
     typedef Matrix<TScalarType, InputSpaceDimension, InputSpaceDimension> MatrixType;
+
+    /// Standard vector type for this class
+    typedef Vector<TScalarType, InputSpaceDimension> OffsetType;
 
     /// Standard vector type for this class
     typedef Vector<TScalarType, InputSpaceDimension> VectorType;
@@ -159,7 +184,7 @@ public:
      * This method returns the value of the offset of the
      * Rigid3DPerspectiveTransform.
      **/
-    const VectorType & GetOffset() const
+    const OffsetType & GetOffset() const
         { return m_Offset; }
 
 
@@ -185,7 +210,7 @@ public:
      * This method sets the offset of an Rigid3DPerspectiveTransform to a
      * value specified by the user.
      **/
-    void SetOffset(const VectorType &offset)
+    void SetOffset(const OffsetType &offset)
         { m_Offset = offset; return; }
 
 
@@ -196,6 +221,17 @@ public:
      * value specified by the user.
      **/
     void SetRotation(const VnlQuaternionType &rotation);
+
+
+    /**
+     * Set Rotation of the Rigid transform
+     *
+     * This method sets the rotation of an Rigid3DTransform to a
+     * value specified by the user using the axis of rotation an
+     * the angle
+     **/
+    void SetRotation(const Vector<TScalarType,3> &axis, double angle);
+
 
     /**
      * Set the Focal Distance of the projection
@@ -233,11 +269,28 @@ public:
     /**
      * Transform by a Rigid3DPerspectiveTransform
      *
-     * This method applies the affine transform given by self to a
-     * given point or vector, returning the transformed point or
-     * vector.
+     * This method applies the transform given by self to a
+     * given point, returning the transformed point 
      **/
-    OutputPointType  Transform(const InputPointType  &point ) const;
+    OutputPointType  TransformPoint(const InputPointType  &point ) const;
+
+    /**
+     * Transform by a Rigid3DPerspectiveTransform
+     *
+     * This method applies the transform given by self to a
+     * given vector, returning the transformed vector.
+     **/
+    OutputVectorType  TransformVector(const InputVectorType  &vect ) const;
+
+    /**
+     * Transform by a Rigid3DPerspectiveTransform
+     *
+     * This method applies the transform given by self to a
+     * given vnl_vector, returning the transformed vnl_vector.
+     **/
+    OutputVnlVectorType  TransformVnlVector(const InputVnlVectorType  &vect ) const;
+
+
 
     /**
      * Print contents of an Rigid3DPerspectiveTransform
@@ -247,7 +300,7 @@ public:
 private:
 
     // Offset of the transformation
-    VectorType          m_Offset;   
+    OffsetType          m_Offset;   
 
     // Rotation of the transformation
     VnlQuaternionType   m_Rotation; 

@@ -48,8 +48,8 @@ namespace itk
 {
 
 // Constructor with default arguments
-template<class TScalar>
-Rigid3DPerspectiveTransform<TScalar>::
+template<class TScalarType>
+Rigid3DPerspectiveTransform<TScalarType>::
 Rigid3DPerspectiveTransform()
 {
   m_Offset.Fill( 0 );
@@ -63,9 +63,9 @@ Rigid3DPerspectiveTransform()
 
     
 // Copy Constructor
-template <class TScalar>
-Rigid3DPerspectiveTransform<TScalar>
-::Rigid3DPerspectiveTransform( const Rigid3DPerspectiveTransform<TScalar> & other )
+template <class TScalarType>
+Rigid3DPerspectiveTransform<TScalarType>
+::Rigid3DPerspectiveTransform( const Rigid3DPerspectiveTransform<TScalarType> & other )
 {
   m_Offset        = other.m_Offset;
   m_Rotation      = other.m_Rotation;
@@ -76,17 +76,17 @@ Rigid3DPerspectiveTransform<TScalar>
 }
 
 // Destructor
-template<class TScalar>
-Rigid3DPerspectiveTransform<TScalar>::
+template<class TScalarType>
+Rigid3DPerspectiveTransform<TScalarType>::
 ~Rigid3DPerspectiveTransform()
 {
 }
 
 
 // Assignment Operator
-template <class TScalar>
-const Rigid3DPerspectiveTransform<TScalar> &
-Rigid3DPerspectiveTransform<TScalar>
+template <class TScalarType>
+const Rigid3DPerspectiveTransform<TScalarType> &
+Rigid3DPerspectiveTransform<TScalarType>
 ::operator=( const Self & other )
 {
   m_Offset        = other.m_Offset;
@@ -100,9 +100,9 @@ Rigid3DPerspectiveTransform<TScalar>
 
 
 // Print self
-template<class TScalar>
+template<class TScalarType>
 std::ostream &
-Rigid3DPerspectiveTransform<TScalar>::
+Rigid3DPerspectiveTransform<TScalarType>::
 PrintSelf(std::ostream &s) const
 {
   s << m_Offset   << std::endl;
@@ -116,9 +116,9 @@ PrintSelf(std::ostream &s) const
 
 
 // Set rotation
-template<class TScalar>
+template<class TScalarType>
 void
-Rigid3DPerspectiveTransform<TScalar>::
+Rigid3DPerspectiveTransform<TScalarType>::
 SetRotation(const VnlQuaternionType &rotation )
 {
   m_Rotation      = rotation;
@@ -127,12 +127,31 @@ SetRotation(const VnlQuaternionType &rotation )
 }
 
 
+// Set rotation
+template<class TScalarType>
+void
+Rigid3DPerspectiveTransform<TScalarType>::
+SetRotation(const Vector<TScalarType,3> & axis, double angle )
+{
+  const double sinus   = sin(angle/2.0);
+  const double cosinus = cos(angle/2.0);
+  Vector<TScalarType,3> norm;
+  norm = axis;
+  norm.Normalize();
+  norm *= sinus;
+  VnlQuaternionType q;
+  q[0] = cosinus;
+  q[1] = norm[0];
+  q[2] = norm[1];
+  q[3] = norm[2];
+  SetRotation( q );
+}
 
 // Transform a point
-template<class TScalar>
-Rigid3DPerspectiveTransform<TScalar>::OutputPointType
-Rigid3DPerspectiveTransform<TScalar>::
-Transform(const InputPointType &point) const 
+template<class TScalarType>
+Rigid3DPerspectiveTransform<TScalarType>::OutputPointType
+Rigid3DPerspectiveTransform<TScalarType>::
+TransformPoint(const InputPointType &point) const 
 {
   /*
   std::cout << "Rigid3DPerspectiveTransform = " << (void *)this << std::endl;
@@ -147,7 +166,7 @@ Transform(const InputPointType &point) const
   //  std::cout << "Rigid point = " << rigid << std::endl;
   
   OutputPointType result;
-  TScalar factor = m_Height / (rigid[0]-m_FocalDistance);
+  TScalarType factor = m_Height / (rigid[0]-m_FocalDistance);
   result[0] = rigid[0] * factor + m_Width  / 2.0;
   result[1] = rigid[1] * factor + m_Height / 2.0;
   // std::cout << "Mapped point = " << result << std::endl;
@@ -155,7 +174,28 @@ Transform(const InputPointType &point) const
   return result;
 }
 
-  
+// Transform a vector
+template<class TScalarType>
+Rigid3DPerspectiveTransform<TScalarType>::OutputVectorType
+Rigid3DPerspectiveTransform<TScalarType>::
+TransformVector(const InputVectorType &point) const 
+{
+  OutputVectorType result;
+  return result;
+}
+
+ 
+// Transform a vnl_vector
+template<class TScalarType>
+Rigid3DPerspectiveTransform<TScalarType>::OutputVnlVectorType
+Rigid3DPerspectiveTransform<TScalarType>::
+TransformVnlVector(const InputVnlVectorType &point) const 
+{
+  OutputVnlVectorType result;
+  return result;
+}
+
+
 } // namespace
 
 #endif
