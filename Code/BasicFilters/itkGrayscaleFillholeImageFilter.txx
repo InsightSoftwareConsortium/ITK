@@ -104,7 +104,7 @@ GrayscaleFillholeImageFilter<TInputImage, TOutputImage>
   // build the exclusion region
   InputImageRegionType exclusionRegion;
   exclusionRegion = this->GetInput()->GetRequestedRegion();
-  for (int i=0; i < InputImageType::ImageDimension; ++i)
+  for (unsigned int i=0; i < InputImageType::ImageDimension; ++i)
     {
     exclusionRegion.SetSize( i, exclusionRegion.GetSize()[i] - 2);
     exclusionRegion.SetIndex( i, exclusionRegion.GetIndex()[i] + 1);
