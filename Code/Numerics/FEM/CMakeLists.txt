@@ -11,12 +11,15 @@ SET(FEM_SRCS
   itkFEMElement2DC0LinearQuadrilateralMembrane.cxx
   itkFEMElement2DC0LinearQuadrilateralStress.cxx
   itkFEMElement2DC0LinearTriangular.cxx
+  itkFEMElement2DC0LinearTriangularMembrane.cxx
   itkFEMElement2DC0LinearTriangularStress.cxx
   itkFEMElement2DC0QuadraticTriangular.cxx
   itkFEMElement2DC0QuadraticTriangularStress.cxx
   itkFEMElement3DC0LinearHexahedron.cxx
+  itkFEMElement3DC0LinearHexahedronMembrane.cxx
   itkFEMElement3DC0LinearHexahedronStrain.cxx
   itkFEMElement3DC0LinearTetrahedron.cxx
+  itkFEMElement3DC0LinearTetrahedronMembrane.cxx
   itkFEMElement3DC0LinearTetrahedronStrain.cxx
 
   itkFEMMaterialBase.cxx
@@ -70,6 +73,7 @@ SET(FEM_SRCS ${FEM_SRCS}
   itkFEMElement1DStress.h
   itkFEMElement2DStress.h
   itkFEMElement2DMembrane.h
+  itkFEMElement3DMembrane.h
   itkFEMElement3DStrain.h
   itkFEMElement2DC0LinearLine.h
   itkFEMElement2DC0LinearLineStress.h
@@ -78,18 +82,22 @@ SET(FEM_SRCS ${FEM_SRCS}
   itkFEMElement2DC0LinearQuadrilateralMembrane.h
   itkFEMElement2DC0LinearQuadrilateralStress.h
   itkFEMElement2DC0LinearTriangular.h
+  itkFEMElement2DC0LinearTriangularMembrane.h
   itkFEMElement2DC0LinearTriangularStress.h
   itkFEMElement2DC0QuadraticTriangular.h
   itkFEMElement2DC0QuadraticTriangularStress.h
   itkFEMElement3DC0LinearHexahedron.h
+  itkFEMElement3DC0LinearHexahedronMembrane.h
   itkFEMElement3DC0LinearHexahedronStrain.h  
   itkFEMElement3DC0LinearTetrahedron.h
+  itkFEMElement3DC0LinearTetrahedronMembrane.h
   itkFEMElement3DC0LinearTetrahedronStrain.h  
 
   itkFEMElementStd.txx
   itkFEMElement1DStress.txx
   itkFEMElement2DStress.txx
   itkFEMElement2DMembrane.txx
+  itkFEMElement3DMembrane.txx
   itkFEMElement3DStrain.txx
 
   itkFEMMaterials.h
