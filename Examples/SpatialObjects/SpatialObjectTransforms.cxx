@@ -88,6 +88,9 @@ int main( int argc, char *argv[] )
   object2->GetIndexToObjectTransform()->SetScaleComponent(scale);
 // Software Guide : EndCodeSnippet
 
+
+
+
 // Software Guide : BeginLatex
 //
 // Next, we apply an offset on the ObjectToParentTransform of the child object 
@@ -95,12 +98,15 @@ int main( int argc, char *argv[] )
 // parent.
 //
 // Software Guide : EndLatex 
+
 // Software Guide : BeginCodeSnippet
   TransformType::OffsetType Object2ToObject1Offset;
   Object2ToObject1Offset[0] = 4;
   Object2ToObject1Offset[1] = 3;
   object2->GetObjectToParentTransform()->SetOffset(Object2ToObject1Offset);
 // Software Guide : EndCodeSnippet
+
+
 // Software Guide : BeginLatex
 //
 // To make the previous modification on the transformations effective, we should
@@ -108,9 +114,12 @@ int main( int argc, char *argv[] )
 // transformations.
 //
 // Software Guide : EndLatex 
+
 // Software Guide : BeginCodeSnippet
   object2->ComputeObjectToWorldTransform();
 // Software Guide : EndCodeSnippet
+
+
 
 // Software Guide : BeginLatex
 //
@@ -123,22 +132,24 @@ int main( int argc, char *argv[] )
 // The \doxygen{FixedCenterOfRotationAffineTransform} performs the following computation
 //
 //  \begin{equation}
-//    X' = MatrixComponent \cdot ( ScaleComponent \cdot X - CenterOfRotationComponent )
-//    + CenterOfRotationComponent + OffsetComponent
-//    \end{equation}
+//  X' = R \cdot \left( S \cdot X - C \right) + C + V
+//  \end{equation}
 // 
-// Therefore the affine matrix and the affine offset are defined as:
+// Where $R$ is the rotation matrix, $S$ is a scaling factor, $C$ is the center
+// of rotation and $V$ is a translation vector or offset.
+// Therefore the affine matrix $M$ and the affine offset $T$ are defined as:
 //
 // \begin{equation}
-//  Matrix = MatrixComponent \cdot ScaleComponent
+// M = R \cdot S
 // \end{equation}
 // \begin{equation}
-// Offset = CenterOfRotation + Offset - MatrixComponent \cdot CenterOfRotationComponent
+// T = C + V - R \cdot C
 // \end{equation}
 //
-// This means that GetScaleComponent() and GetOffsetComponent() as well as the GetMatrixComponent()
-// might not be set to the expected value, especially if the transformation results from
-// a composition with another transformation since the composition is done using the Matrix and
+// This means that \code{GetScaleComponent()} and \code{GetOffsetComponent()}
+// as well as the \code{GetMatrixComponent()} might not be set to the expected
+// value, especially if the transformation results from a composition with
+// another transformation since the composition is done using the Matrix and
 // the Offset of the affine transformation.
 //
 // Next, we show the two affine transformations corresponding to the two objects
@@ -154,6 +165,9 @@ int main( int argc, char *argv[] )
   std::cout << "object2 IndexToWorld Offset: ";
   std::cout << object2->GetIndexToWorldTransform()->GetOffset() << std::endl;
 // Software Guide : EndCodeSnippet
+
+
+
 // Software Guide : BeginLatex
 //
 // Then, we decide to translate the first object which is the parent of the second
@@ -162,6 +176,7 @@ int main( int argc, char *argv[] )
 // does not have any parent and therefore is attached to the world coordinate frame.
 //
 // Software Guide : EndLatex 
+
 // Software Guide : BeginCodeSnippet 
   TransformType::OffsetType Object1ToWorldOffset;
   Object1ToWorldOffset[0] = 3;
@@ -169,23 +184,30 @@ int main( int argc, char *argv[] )
   object1->GetObjectToParentTransform()->SetOffset(Object1ToWorldOffset);
 // Software Guide : EndCodeSnippet
 
+
+
 // Software Guide : BeginLatex
 //
-// Then we should ComputeObjectToWorldTransform() on the modified object.
-// This will propagate the transformation through all the children.
+// Then we should invoke \code{ComputeObjectToWorldTransform()} on the modified
+// object.  This will propagate the transformation through all the children.
 //
 // Software Guide : EndLatex 
+
 // Software Guide : BeginCodeSnippet 
   object1->ComputeObjectToWorldTransform();
 // Software Guide : EndCodeSnippet
+
+
+
 
 // Software Guide : BeginLatex
 //
 //  
 // \begin{figure} \center
 // \includegraphics[width=\textwidth]{SpatialObjectTransforms.eps}
-// \itkcaption[Caption]{Physical positions of the two objects in the world frame. (shapes are
-// merely for illustration purposes)}
+// \itkcaption[SpatialObject Transform Computations]{Physical positions of the
+// two objects in the world frame. (shapes are merely for illustration
+// purposes)}
 // \label{fig:SpatialObjectTransforms}
 // \end{figure}
 //
