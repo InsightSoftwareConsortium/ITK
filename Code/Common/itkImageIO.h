@@ -115,12 +115,12 @@ public:
   /**
    * Get the image origin.
    */
-  virtual float* GetImageOrigin() const =0;
+  virtual const float* GetImageOrigin() const =0;
 
   /**
    * Get the image spacing.
    */
-  virtual float* GetImageSpacing() const =0;
+  virtual const float* GetImageSpacing() const =0;
 
   /**
    * Default save; do whatever is appropriate for the filetype.
@@ -152,6 +152,12 @@ public:
    * Get the filename.
    */
   itkGetStringMacro(FullFileName);
+
+  /**
+   * Set the number of dimensions in an image
+   */
+  itkSetMacro(NumberOfDimensions, unsigned int);
+  itkGetMacro(NumberOfDimensions, unsigned int);
 
   /**
    * Return the size in x, y, z, etc. dimension.
@@ -211,11 +217,6 @@ protected:
    * The number of dimensions in the image.
    */
   unsigned int m_NumberOfDimensions;
-
-  /**
-   * Set the number of dimensions in an image
-   */
-  itkSetMacro(NumberOfDimensions, unsigned int);
 
   /**
    * The array which stores the number of pixels in the x, y, z directions.
