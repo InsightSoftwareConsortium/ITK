@@ -89,7 +89,7 @@ std::ostream & operator<<(std::ostream &os, const Array<TValueType> &arr)
     {
     os << arr[last];
     }
-  os << "]" << std::endl;
+  os << "]";
   return os;
 }
 

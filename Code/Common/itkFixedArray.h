@@ -195,7 +195,7 @@ std::ostream & operator<<(std::ostream &os, const FixedArray<TValueType,VLength>
     {
     os << arr[VLength-1];
     }
-  os << "]" << std::endl;
+  os << "]";
   return os;
 }
 
