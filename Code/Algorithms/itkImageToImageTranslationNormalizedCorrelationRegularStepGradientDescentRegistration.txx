@@ -30,6 +30,16 @@ ImageToImageTranslationNormalizedCorrelationRegularStepGradientDescentRegistrati
 ::ImageToImageTranslationNormalizedCorrelationRegularStepGradientDescentRegistration()
 { 
   m_TranslationScale = 100.0; 
+
+  typename OptimizerType::Pointer optimizer;
+  optimizer = this->GetOptimizer();
+
+  optimizer->SetGradientMagnitudeTolerance( 1e-9 );
+  optimizer->SetMaximumStepLength( 1e-3  );
+  optimizer->SetMinimumStepLength( 1e-6 );
+  optimizer->SetMaximumNumberOfIterations( 100 );
+
+
 }
 
 
@@ -103,11 +113,6 @@ ImageToImageTranslationNormalizedCorrelationRegularStepGradientDescentRegistrati
   optimizer->SetCostFunction( this->GetMetric() );
   optimizer->SetMinimize();
   optimizer->SetScale( parametersScale );
-  optimizer->SetGradientMagnitudeTolerance( 1e-9 );
-  optimizer->SetMaximumStepLength( 1e-3  );
-  optimizer->SetMinimumStepLength( 1e-6 );
-  optimizer->SetMaximumNumberOfIterations( 100 );
-
   optimizer->SetInitialPosition( m_Parameters );
   optimizer->StartOptimization();
 
