@@ -63,29 +63,29 @@ public:
   /**
    * Enums used to specify VTK type: binary or ASCII.
    */
-  typedef  enum {ITK_ASCII,ITK_BINARY} ITKFileType;
+  typedef  enum {ASCII,Binary} FileType;
   
   /** 
-   * Set the ITK file type. The default is ITK_ASCII.
+   * Set the file type. The default is ASCII.
    */
-  itkSetMacro(FileType,ITKFileType);
+  itkSetMacro(FileType,FileType);
   
   /** 
-   * Get the ITK file type.
+   * Get the file type.
    */
-  itkGetMacro(FileType,ITKFileType);
+  itkGetMacro(FileType,FileType);
                  
   /** 
    * Specify the output file type as ASCII (the default).
    */
   void SetFileTypeToASCII() 
-    {this->SetFileType(Writer::ITK_ASCII);}
+    {this->SetFileType(Writer::ASCII);}
 
   /** 
    * Specify the output file type to binary.
    */
   void SetFileTypeToBinary() 
-    {this->SetFileType(Writer::ITK_BINARY);}
+    {this->SetFileType(Writer::Binary);}
 
   /** 
    * A special version of the Update() method for writers.
@@ -113,7 +113,7 @@ protected:
   
 private:
   std::string        m_FileName;
-  ITKFileType        m_FileType;
+  FileType           m_FileType;
   
 };
 

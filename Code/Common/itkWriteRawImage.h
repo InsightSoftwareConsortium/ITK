@@ -29,7 +29,8 @@ namespace itk
  * The raw format is just a sequence of numbers representing pixel
  * (i.e., image) values in the order of image definition (i.e., row, 
  * then slice, then volume, etc.) You can specify
- * binary or ASCII output types.
+ * binary or ASCII output types, as well as the byte order (little
+ * endian or big endian).
  */
 template <class TInputImage>
 class ITK_EXPORT WriteRawImage : public WriteImage<TInputImage>

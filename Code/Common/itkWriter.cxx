@@ -27,6 +27,7 @@ Writer
 ::Writer()
 {
   m_FileName = "";
+  m_FileType = Writer::ASCII;
 }
 
 
@@ -76,13 +77,13 @@ Writer
   os << indent << "File Name: " 
      << (m_FileName.data() ? m_FileName.data() : "(none)") << std::endl;
 
-  if ( m_FileType == Writer::ITK_BINARY )
+  if ( m_FileType == Writer::Binary )
     {
-    os << indent << "ITK File Type: BINARY\n";
+    os << indent << "File Type: Binary\n";
     }
   else
     {
-    os << indent << "ITK File Type: ASCII\n";
+    os << indent << "File Type: ASCII\n";
     }
 }
 

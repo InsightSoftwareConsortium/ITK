@@ -153,7 +153,7 @@ WriteVTKImage<TInputImage>
     }
   else 
     {
-    if ( this->GetFileType() == Writer::ITK_ASCII )
+    if ( this->GetFileType() == Writer::ASCII )
       {
       fptr = new std::ofstream(this->GetFileName(), std::ios::out);
       }
@@ -188,7 +188,7 @@ WriteVTKImage<TInputImage>
   *fp << "# vtk DataFile Version 3.0\n"; 
   *fp << "NIH/NLM Insight ITK image converted to VTK image format\n";
 
-  if ( this->GetFileType() == Writer::ITK_ASCII )
+  if ( this->GetFileType() == Writer::ASCII )
     {
     *fp << "ASCII\n\n";
     }
@@ -217,7 +217,7 @@ static void WriteDataArray(std::ostream *fp, TInputImage *image, int fileType)
 
   InputIterator inIt(image, region);
 
-  if ( fileType == Writer::ITK_ASCII )
+  if ( fileType == Writer::ASCII )
     {
     for ( int i=0; !inIt.IsAtEnd(); ++inIt, i++ )
       {

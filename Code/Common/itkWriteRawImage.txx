@@ -24,20 +24,19 @@ namespace itk
 /**
  *
  */
-template <class TInputImage>
+template <class TInputImage> 
 WriteRawImage<TInputImage>
 ::WriteRawImage()
 {
-  m_ByteOrder == WriteRawImage::BigEndian;
+  m_ByteOrder = WriteRawImage::BigEndian;
 }
 
 /*
  * Internal method for writing data
  */
 template <class TInputImage>
-static void WriteDataArray(std::ofstream &f, TInputImage *image, 
-                           int fileType, 
-                           WriteRawImage<TInputImage>::ByteOrder byteOrder)
+static void WriteDataArray(std::ofstream& f, TInputImage *image, 
+                           int fileType, int byteOrder)
 {
   // Define/declare an iterator that will walk the output region for this
   // thread.
@@ -50,7 +49,7 @@ static void WriteDataArray(std::ofstream &f, TInputImage *image,
 
   InputIterator inIt(image, region);
 
-  if ( fileType == Writer::ITK_ASCII )
+  if ( fileType == Writer::ASCII )
     {
     for ( int i=0; !inIt.IsAtEnd(); ++inIt, i++ )
       {
@@ -67,8 +66,8 @@ static void WriteDataArray(std::ofstream &f, TInputImage *image,
     scalarType foo;
     for ( int i=0; !inIt.IsAtEnd(); ++inIt, i++ )
       {
-      foo = *inIt;
-      if ( byteOrder == WriteRawImage::BigEndian )
+      foo = (scalarType) *inIt;
+      if ( byteOrder == WriteRawImage<TInputImage>::BigEndian )
         {
         ByteSwap<scalarType>::SwapBE(&foo);
         }
@@ -107,7 +106,7 @@ WriteRawImage<TInputImage>
     return;
     }
   
-  if ( this->GetFileType() == Writer::ITK_ASCII )
+  if ( this->GetFileType() == Writer::ASCII )
     {
     f.open(this->GetFileName(), std::ios::out);
     }
@@ -124,7 +123,7 @@ WriteRawImage<TInputImage>
 
   // Now write the data
   //
-  WriteDataArray(f, input, this->GetFileType(), m_ByteOrder);
+  WriteDataArray(f, (TInputImage *)input, this->GetFileType(), m_ByteOrder);
 }
 
 /**
