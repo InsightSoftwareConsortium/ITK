@@ -52,6 +52,7 @@ void RegisterTests()
   REGISTER_TEST(itkImportImageTest );
   REGISTER_TEST(itkInteriorExteriorMeshFilterTest  );
   REGISTER_TEST(itkInterpolateImageFilterTest );
+  REGISTER_TEST(itkInterpolateImagePointsFilterTest );
   REGISTER_TEST(itkJoinImageFilterTest );
   REGISTER_TEST(itkLog10ImageFilterAndAdaptorTest );
   REGISTER_TEST(itkLogImageFilterAndAdaptorTest );
