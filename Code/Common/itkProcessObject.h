@@ -307,6 +307,10 @@ public:
    * for each output, for instance an image processing filter producing
    * several outputs at different resolutions, then that filter may
    * override this method and set the requested regions appropriatedly.
+   *
+   * Note that a filter producing multiple outputs of different types is
+   * required to override this method.  The default implementation
+   * can only correctly handle multiple outputs of the same type.
    */
   virtual void GenerateOutputRequestedRegion(DataObject *output);
 
