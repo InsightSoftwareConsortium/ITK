@@ -36,6 +36,7 @@
 #include "itkFEMElementHexahedronC03D.h"
 #include "itkFEMElementTetrahedronC03D.h"
 
+#include "itkFEMElement2DC0LinearLineStress.h"
 #include "itkFEMElement2DC0LinearTriangularStress.h"
 #include "itkFEMElement2DC0LinearQuadrilateralStress.h"
 #include "itkFEMElement3DC0LinearTetrahedronStrain.h"
@@ -128,6 +129,9 @@ void LoadImplementationsRegister(void)
   // Loads acting on TetrahedronC03D element
   REGISTER_LOAD( TetrahedronC03D, LoadGravConst, LoadGravImplementationTetrahedronC03D );
 
+  // Loads acting on LineStress element
+  REGISTER_LOAD_EX(Element2DC0LinearLineStress,LoadGravConst,GenericBodyLoad<Element2DC0LinearLineStress>::HandleBodyLoad);
+
   // Loads acting on QuadrilateralStress element
   REGISTER_LOAD_EX(Element2DC0LinearQuadrilateralStress,LoadGravConst,GenericBodyLoad<Element2DC0LinearQuadrilateralStress>::HandleBodyLoad);
 
@@ -139,7 +143,7 @@ void LoadImplementationsRegister(void)
 
   // Loads acting on TetrahedronStrain element
   REGISTER_LOAD_EX(Element3DC0LinearTetrahedronStrain,LoadGravConst,GenericBodyLoad<Element3DC0LinearTetrahedronStrain>::HandleBodyLoad);
-
+  
 
   // Add any additional loads here in a similar fashion...
   // Make sure that the pointer to the visit function is the correct one!!!
