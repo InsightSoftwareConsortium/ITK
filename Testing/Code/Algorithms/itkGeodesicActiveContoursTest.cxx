@@ -82,11 +82,8 @@ int main()
   itk::ImageRegionIterator<itk::Scalar<float>,2>
     edgeIter( edgeImg, edgeImg->GetBufferedRegion() );
   
-  FloatImage::IndexType index;
-
   for(edgeIter = edgeIter.Begin() ; !edgeIter.IsAtEnd(); ++edgeIter )
     {
-    index = edgeIter.GetIndex();
     *edgeIter = 1.0;;
     }
 

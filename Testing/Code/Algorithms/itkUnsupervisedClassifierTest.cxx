@@ -52,7 +52,6 @@ int main()
   VecImageType::Pointer vecImage = VecImageType::New();
 
   VecImageType::SizeType vecImgSize = { IMGWIDTH , IMGHEIGHT, NFRAMES };
-  int numberOfBands = NUMBANDS;
 
   VecImageType::IndexType index = VecImageType::IndexType::ZeroIndex;
   VecImageType::RegionType region;
