@@ -73,6 +73,8 @@
 // true if <ieeefp.h> is available
 #define VXL_HAS_IEEEFP_H          @VXL_HAS_IEEEFP_H@
 
+// true if the system has a 64 bit integer
+#define VXL_HAS_INT_64            @VXL_HAS_INT_64@
 #if 0
 // -------------------- availability of 3rd party packages
 
