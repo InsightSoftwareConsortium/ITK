@@ -758,8 +758,6 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     ++locations;
     ++normals;
   }
-
-  mag = 0.0;
 }
 
 /* Compute normals. */
