@@ -92,7 +92,7 @@ GravityLoad(const vnl_vector<Element::Float>& f, QuadC02D::ConstPointer element)
 /**
  * Handle LoadGrav in QuadC02D element
  */
-Element::LoadVectorType LoadGravImplementation(QuadC02D::ConstPointer element, LoadElement::Pointer load)
+Element::LoadVectorType LoadGravImplementation(QuadC02D::ConstPointer element, Element::LoadElementPointer load)
 {
 
   typedef Element::Float Float;

@@ -34,7 +34,7 @@ namespace fem {
 /**
  * Handle LoadGrav in Bar2D elements
  */
-Element::LoadVectorType LoadGravImplementation(Bar2D::ConstPointer element, LoadElement::Pointer load)
+Element::LoadVectorType LoadGravImplementation(Bar2D::ConstPointer element, Element::LoadElementPointer load)
 {
   typedef Element::Float Float;
   LoadGrav::Pointer l0=dynamic_cast<LoadGrav*>(&*load);

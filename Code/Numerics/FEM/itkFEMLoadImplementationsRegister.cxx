@@ -31,10 +31,15 @@ namespace fem {
 
 
 /* This macro makes registering Load implementations easier. */
+#ifndef FEM_USE_SMART_POINTERS
 #define REGISTER_LOAD(ElementClass,LoadClass,FunctionName) \
   extern Element::LoadVectorType FunctionName(ElementClass::ConstPointer, LoadElement::Pointer); \
   VisitorDispatcher<ElementClass, LoadElement, Element::LoadVectorType>::RegisterVisitor((LoadClass*)0, &FunctionName);
-
+#else
+#define REGISTER_LOAD(ElementClass,LoadClass,FunctionName) \
+  extern Element::LoadVectorType FunctionName(ElementClass::ConstPointer, FEMLightObject::Pointer); \
+  VisitorDispatcher<ElementClass, FEMLightObject, Element::LoadVectorType>::RegisterVisitor((LoadClass*)0, &FunctionName);
+#endif
 
 
 

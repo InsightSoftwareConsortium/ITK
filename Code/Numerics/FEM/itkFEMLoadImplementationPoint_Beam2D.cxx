@@ -33,7 +33,7 @@ namespace fem {
 /**
  * Handle LoadPoint in Beam2D element
  */
-Element::LoadVectorType LoadPointImplementation(Beam2D::ConstPointer element, LoadElement::Pointer load)
+Element::LoadVectorType LoadPointImplementation(Beam2D::ConstPointer element, Element::LoadElementPointer load)
 {
 
   typedef Element::Float Float;

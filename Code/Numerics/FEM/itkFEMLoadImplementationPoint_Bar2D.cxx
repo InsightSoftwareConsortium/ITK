@@ -33,7 +33,7 @@ namespace fem {
 /**
  * Handle LoadPoint in Bar2D element
  */
-Element::LoadVectorType LoadPointImplementation(Bar2D::ConstPointer element, LoadElement::Pointer load)
+Element::LoadVectorType LoadPointImplementation(Bar2D::ConstPointer element, Element::LoadElementPointer load)
 {
 
   typedef Element::Float Float;

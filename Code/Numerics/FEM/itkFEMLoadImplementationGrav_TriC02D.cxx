@@ -96,7 +96,7 @@ GravityLoad(const vnl_vector<Float>& f, TriC02D::ConstPointer element)
 /**
  * Handle LoadGrav in TriC02D element
  */
-Element::LoadVectorType LoadGravImplementation(TriC02D::ConstPointer element, LoadElement::Pointer load)
+Element::LoadVectorType LoadGravImplementation(TriC02D::ConstPointer element, Element::LoadElementPointer load)
 {
 
   typedef Element::Float Float;

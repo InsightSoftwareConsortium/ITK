@@ -94,7 +94,7 @@ EdgeLoad(Float Pn1, Float Pn2, Float Pt1, Float Pt2,
 /**
  * Handle LoadEdge in TriC02D element
  */
-Element::LoadVectorType LoadEdgeImplementation(TriC02D::ConstPointer element, LoadElement::Pointer load)
+Element::LoadVectorType LoadEdgeImplementation(TriC02D::ConstPointer element, Element::LoadElementPointer load)
 {
 
   typedef Element::Float Float;
