@@ -1,1 +1,1 @@
-SUBDIRS(Numerics Common BasicFilters )
+SUBDIRS(Numerics Common BasicFilters Algorithms)
