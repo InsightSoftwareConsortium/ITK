@@ -83,7 +83,7 @@ public:
    * Image Dimensions
    */
    enum {ImageDimension = ReferenceType::ImageDimension,
-         ParametersDimension = ImageDimension*(ImageDimension+1) };
+         ParametersDimension = ImageDimension };
 
   /**
    *  Type of the parameters
@@ -93,8 +93,10 @@ public:
   /**
    *  Type of the Transformation
    */
-   typedef TranslationRegistrationTransform<double, ImageDimension, 
-                                       ParametersType> TransformationType;
+   typedef TranslationRegistrationTransform<
+                double, 
+                ImageDimension, 
+                ParametersType > TransformationType;
 	  
   /**
    *  Type of the Mapper
