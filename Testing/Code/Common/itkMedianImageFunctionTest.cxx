@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkMeanImageFunctionTest.cxx
+  Module:    itkMedianImageFunctionTest.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -17,17 +17,17 @@
 
 #include <stdio.h>
 
-#include "itkMeanImageFunction.h"
+#include "itkMedianImageFunction.h"
 #include "itkImage.h"
 
-int itkMeanImageFunctionTest(int, char* [] )
+int itkMedianImageFunctionTest(int, char* [] )
 {
 
   const unsigned int Dimension = 3;
   typedef unsigned char   PixelType; 
 
   typedef itk::Image< PixelType, Dimension > ImageType;
-  typedef itk::MeanImageFunction< ImageType > FunctionType;
+  typedef itk::MedianImageFunction< ImageType > FunctionType;
 
   // Create and allocate the image
   ImageType::Pointer      image = ImageType::New();
@@ -55,45 +55,38 @@ int itkMeanImageFunctionTest(int, char* [] )
 
   function->SetInputImage( image );
 
-  function->SetNeighborhoodRadius( 5 );
-
   ImageType::IndexType    index;
 
   index[0] = 25;
   index[1] = 25;
   index[2] = 25;
 
-  FunctionType::OutputType  mean;
+  FunctionType::OutputType  median;
 
-  mean = function->EvaluateAtIndex( index );
-  std::cout << "function->EvaluateAtIndex( index ): " << mean << std::endl;
+  median = function->EvaluateAtIndex( index );
+  std::cout << "function->EvaluateAtIndex( index ): " << median << std::endl;
 
   // Test Evaluate
   FunctionType::PointType point;
   point[0] = 25;
   point[1] = 25;
   point[2] = 25;
-  FunctionType::OutputType mean2;
-  mean2 = function->Evaluate(point);
-  std::cout << "function->Evaluate(point): " << mean2 << std::endl;
+  FunctionType::OutputType median2;
+  median2 = function->Evaluate(point);
+  std::cout << "function->Evaluate(point): " << median2 << std::endl;
 
   // Test EvaluateAtContinuousIndex
   FunctionType::ContinuousIndexType cindex;
   cindex[0] = 25;
   cindex[1] = 25;
   cindex[2] = 25;
-  FunctionType::OutputType mean3;
-  mean3 = function->EvaluateAtContinuousIndex(cindex);
-  std::cout << "function->EvaluateAtContinuousIndex(cindex): " << mean3 << std::endl;
-
-  // Test GetConstReferenceMacro
-  const unsigned int & neighborhoodRadius = function->GetNeighborhoodRadius();
-  std::cout << "function->GetNeighborhoodRadius(): " << neighborhoodRadius << std::endl;
-
+  FunctionType::OutputType median3;
+  median3 = function->EvaluateAtContinuousIndex(cindex);
+  std::cout << "function->EvaluateAtContinuousIndex(cindex): " << median3 << std::endl;
 
   // since the input image is constant 
   // the should be equal to the initial value
-  if( vnl_math_abs( initialValue - mean ) > 10e-7 )
+  if( vnl_math_abs( initialValue - median ) > 10e-7 )
     {
     std::cerr << "Error in mean computation" << std::endl;
     return EXIT_FAILURE;
