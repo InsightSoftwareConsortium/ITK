@@ -251,8 +251,9 @@ public:
 
 
 /** \function PointCast
- * \brief A templated function for casting Points from one representation type to another
- * 
+ * \brief A templated function for casting Points from one representation type to another.
+ *
+ * \warning This function does not test if the two points are of equal dimension. 
  * \ingroup Geometry
  * \ingroup DataRepresentation
  * 
