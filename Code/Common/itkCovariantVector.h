@@ -211,6 +211,14 @@ class CovariantVector : public Array<T,TCovariantVectorDimension> {
   
 
   /**
+   * CovariantVector operator*.  Performs the inner product of two covariant vectors.
+   * \warning This is equivalent to the scalar product only if the reference
+   * system has orthogonal axis and equal scales. 
+   */
+  ValueType operator*(const Self &vec) const;
+
+
+  /**
    * Scalar operator/. Scale (divide) the elements of a vector by a scalar.
    * Return a new vector.
    */

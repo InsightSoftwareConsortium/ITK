@@ -232,6 +232,24 @@ CovariantVector<T, TCovariantVectorDimension>
 
 
 /**
+ *
+ */
+template<class T, unsigned int TCovariantVectorDimension>
+typename Vector<T, TCovariantVectorDimension>::ValueType
+Vector<T, TCovariantVectorDimension>
+::operator*( const Self & other ) const
+{
+  T value = NumericTraits<T>::Zero;
+  for( unsigned int i=0; i<TVectorDimension; i++) 
+  {
+    value += (*this)[i] * other[i];
+  }
+  return value;
+}
+
+
+
+/**
  * Returns vector's Squared Euclidean Norm
  */
 template<class T, unsigned int TCovariantVectorDimension>
