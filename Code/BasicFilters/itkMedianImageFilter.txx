@@ -121,60 +121,44 @@ MedianImageFilter< TInputImage, TOutputImage>
   // support progress methods/callbacks
   ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
   
-  try
-    {
-    // All of our neighborhoods have an odd number of pixels, so there is
-    // always a median index (if there where an even number of pixels
-    // in the neighborhood we have to average the middle two values).
+  // All of our neighborhoods have an odd number of pixels, so there is
+  // always a median index (if there where an even number of pixels
+  // in the neighborhood we have to average the middle two values).
     
-    // Process each of the boundary faces.  These are N-d regions which border
-    // the edge of the buffer.
-    for (fit=faceList.begin(); fit != faceList.end(); ++fit)
-      { 
-      bit = ConstNeighborhoodIterator<InputImageType>(m_Radius,
-                                                           input, *fit);
+  // Process each of the boundary faces.  These are N-d regions which border
+  // the edge of the buffer.
+  for (fit=faceList.begin(); fit != faceList.end(); ++fit)
+    { 
+    bit = ConstNeighborhoodIterator<InputImageType>(m_Radius,
+                                                    input, *fit);
 
-      unsigned int medianPosition = bit.Size() / 2;
-      unsigned int neighborhoodSize = bit.Size();
+    unsigned int medianPosition = bit.Size() / 2;
+    unsigned int neighborhoodSize = bit.Size();
 
-      it = ImageRegionIterator<OutputImageType>(output, *fit);
-      bit.OverrideBoundaryCondition(&nbc);
-      bit.GoToBegin();
+    it = ImageRegionIterator<OutputImageType>(output, *fit);
+    bit.OverrideBoundaryCondition(&nbc);
+    bit.GoToBegin();
       
-      while ( ! bit.IsAtEnd() )
+    while ( ! bit.IsAtEnd() )
+      {
+      // collect all the pixels in the neighborhood, note that we use
+      // GetPixel on the NeighborhoodIterator to honor the boundary conditions
+      pixels.clear();
+      for (i = 0; i < neighborhoodSize; ++i)
         {
-        // collect all the pixels in the neighborhood, note that we use
-        // GetPixel on the NeighborhoodIterator to honor the boundary conditions
-        pixels.clear();
-        for (i = 0; i < neighborhoodSize; ++i)
-          {
-          pixels.push_back( bit.GetPixel(i) );
-          }
-        
-        // get the median value
-        medianIterator = pixels.begin() + medianPosition;
-        std::nth_element(pixels.begin(), medianIterator, pixels.end());
-        it.Set( *medianIterator );
-        
-        ++bit;
-        ++it;
-        progress.CompletedPixel();
+        pixels.push_back( bit.GetPixel(i) );
         }
+        
+      // get the median value
+      medianIterator = pixels.begin() + medianPosition;
+      std::nth_element(pixels.begin(), medianIterator, pixels.end());
+      it.Set( *medianIterator );
+      
+      ++bit;
+      ++it;
+      progress.CompletedPixel();
       }
-
     }
-  catch( ProcessAborted  & except )
-    {
-    // User aborted filter excecution Here we catch an exception thrown by the
-    // progress reporter and rethrow it with the correct line number and file
-    // name. We also invoke AbortEvent in case some observer was interested on
-    // it.
-
-    this->InvokeEvent( AbortEvent() );
-    this->ResetPipeline();
-    throw ProcessAborted(__FILE__,__LINE__);
-    }
-
 }
 
 

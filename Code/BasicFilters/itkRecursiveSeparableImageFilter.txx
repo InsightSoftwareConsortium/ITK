@@ -338,15 +338,10 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage>
     // progress reporter and rethrow it with the correct line number and file
     // name. We also invoke AbortEvent in case some observer was interested on
     // it.
-
+    except = except;
     // release locally allocated memory
     delete [] outs;
     delete [] inps;
-
-    // Inform others that we are aborting...
-    this->InvokeEvent( AbortEvent() );
-    // Clear flag preventing pipeline to re-execute
-    this->ResetPipeline();
     // Throw the final exception.
     throw ProcessAborted(__FILE__,__LINE__);
     }

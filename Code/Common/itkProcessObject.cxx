@@ -835,7 +835,17 @@ ProcessObject
     }
   else
     {
-    this->GenerateData();
+    try
+      {
+      this->GenerateData();
+      }
+    catch( ProcessAborted & excp )
+      {
+        excp = excp;
+      this->InvokeEvent( AbortEvent() );
+      this->ResetPipeline();
+      throw ProcessAborted(__FILE__,__LINE__);
+      }
     }
 
   /**

@@ -102,26 +102,11 @@ ConnectedThresholdImageFilter<TInputImage,TOutputImage>
   IteratorType it ( outputImage, function, m_SeedList );
   it.GoToBegin();
 
-  try  // this try is intended to catch an eventual AbortException.
+  while( !it.IsAtEnd())
     {
-
-    while( !it.IsAtEnd())
-      {
-      it.Set(m_ReplaceValue);
-      ++it;
-      progress.CompletedPixel();  // potential exception thrown here
-      }
-
-    }
-  catch( ProcessAborted  & except )
-    {
-    // User aborted filter excecution. Here we catch an exception thrown by the
-    // progress reporter and rethrow it with the correct line number and file
-    // name. We also invoke AbortEvent in case some observer was interested on
-    // it.
-    this->InvokeEvent( AbortEvent() );
-    this->ResetPipeline();
-    throw ProcessAborted(__FILE__,__LINE__);
+    it.Set(m_ReplaceValue);
+    ++it;
+    progress.CompletedPixel();  // potential exception thrown here
     }
 }
 

@@ -95,26 +95,13 @@ BinaryFunctorImageFilter<TInputImage1, TInputImage2, TOutputImage, TFunction>
   inputIt2.GoToBegin();
   outputIt.GoToBegin();
 
-  try  // this try is intended to catch an eventual AbortException.
+  while( !inputIt1.IsAtEnd() ) 
     {
-    while( !inputIt1.IsAtEnd() ) 
-      {
-      outputIt.Set( m_Functor( inputIt1.Get(), inputIt2.Get() ) );
-      ++inputIt1;
-      ++inputIt2;
-      ++outputIt;
-      progress.CompletedPixel(); // potential exception thrown here
-      }
-    }
-  catch( ProcessAborted  & except )
-    {
-    // User aborted filter excecution Here we catch an exception thrown by the
-    // progress reporter and rethrow it with the correct line number and file
-    // name. We also invoke AbortEvent in case some observer was interested on
-    // it.
-    this->InvokeEvent( AbortEvent() );
-    this->ResetPipeline();
-    throw ProcessAborted(__FILE__,__LINE__);
+    outputIt.Set( m_Functor( inputIt1.Get(), inputIt2.Get() ) );
+    ++inputIt1;
+    ++inputIt2;
+    ++outputIt;
+    progress.CompletedPixel(); // potential exception thrown here
     }
 }
 

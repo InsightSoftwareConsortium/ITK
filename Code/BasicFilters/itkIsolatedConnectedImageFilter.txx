@@ -128,31 +128,28 @@ IsolatedConnectedImageFilter<TInputImage,TOutputImage>
   // two seeds.
   itkDebugMacro (<< "GetPixel(m_Seed1): " << inputImage->GetPixel(m_Seed1));
   itkDebugMacro (<< "GetPixel(m_Seed2): " << inputImage->GetPixel(m_Seed2));
-  try
+  while (lower + m_IsolatedValueTolerance < guess)
     {
-    while (lower + m_IsolatedValueTolerance < guess)
+    itkDebugMacro( << "lower, upper, guess: " << lower << ", " << upper << ", " << guess);
+    outputImage->FillBuffer ( NumericTraits<OutputImagePixelType>::Zero );
+    function->ThresholdBetween ( m_Lower, guess );
+    it.GoToBegin();
+    while( !it.IsAtEnd())
       {
-      itkDebugMacro( << "lower, upper, guess: " << lower << ", " << upper << ", " << guess);
-      outputImage->FillBuffer ( NumericTraits<OutputImagePixelType>::Zero );
-      function->ThresholdBetween ( m_Lower, guess );
-      it.GoToBegin();
-      while( !it.IsAtEnd())
-        {
-        it.Set(m_ReplaceValue);
-        ++it;
-        progress.CompletedPixel(); // potential exception thrown here
-        }
-      if (outputImage->GetPixel(m_Seed2) == m_ReplaceValue)
-        {
-        upper = guess;
-        }
-      else
-        {
-        lower = guess;
-        }
-      guess = (upper + lower) /2;
-
+      it.Set(m_ReplaceValue);
+      ++it;
+      progress.CompletedPixel(); // potential exception thrown here
       }
+    if (outputImage->GetPixel(m_Seed2) == m_ReplaceValue)
+      {
+      upper = guess;
+      }
+    else
+      {
+      lower = guess;
+      }
+    guess = (upper + lower) /2;
+    }
 
     // now rerun the algorithm with the threshold that separates the seeds.
     outputImage->FillBuffer ( NumericTraits<OutputImagePixelType>::Zero );
@@ -165,14 +162,6 @@ IsolatedConnectedImageFilter<TInputImage,TOutputImage>
       progress.CompletedPixel(); // potential exception thrown here
       }
     m_IsolatedValue = lower;
-
-    }
-  catch( ProcessAborted & excp )
-    {
-    this->InvokeEvent( AbortEvent() );
-    this->ResetPipeline();
-    throw ProcessAborted(__FILE__,__LINE__);
-    }
 }
 
 } // end namespace itk
