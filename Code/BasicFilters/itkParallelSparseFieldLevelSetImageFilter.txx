@@ -248,6 +248,12 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
     }
   
   m_SplitAxis  = m_OutputImage->GetImageDimension() - 1; // always the "Z" dimension
+  if (m_SplitAxis < 0)
+    {
+      // cannot split
+      itkDebugMacro ("Unable to choose an axis for workload distribution among threads");
+      return;
+    }
   
   typename OutputImageType::SizeType requestedRegionSize
     = m_OutputImage->GetRequestedRegion().GetSize();
@@ -284,13 +290,6 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   this->InitializeBackgroundPixels();
   
   m_NumOfThreads = this->GetNumberOfThreads();
-
-  if (m_SplitAxis < 0)
-    {
-      // cannot split
-      itkDebugMacro ("Unable to choose an axis for workload distribution among threads");
-      return;
-    }
   
   // Cumulative frequency of number of pixels in each Z plane for the entire 3D
   // volume 
@@ -641,34 +640,36 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::InitializeBackgroundPixels()
 {
   // Assign background pixels INSIDE the sparse field layers to a new level set
-  // with value greater than the innermost layer.  Assign background pixels
-  // OUTSIDE the sparse field layers to a new level set with value less than
+  // with value less than the innermost layer.  Assign background pixels
+  // OUTSIDE the sparse field layers to a new level set with value greater than
   // the outermost layer.
   const ValueType max_layer = static_cast<ValueType>(m_NumberOfLayers);
   
-  const ValueType inside_value  =   max_layer + m_ConstantGradientValue;
-  const ValueType outside_value = -(max_layer + m_ConstantGradientValue);
+  const ValueType outside_value  = max_layer + m_ConstantGradientValue;
+  const ValueType inside_value = -(max_layer + m_ConstantGradientValue);
   
-  ImageRegionConstIterator<StatusImageType>
-    statusIt(m_StatusImage,  m_OutputImage->GetRequestedRegion());
-  ImageRegionIterator<OutputImageType>
-    outputIt(m_OutputImage,  m_OutputImage->GetRequestedRegion());
-  ImageRegionConstIterator<OutputImageType>
-    shiftedIt(m_ShiftedImage, m_OutputImage->GetRequestedRegion());
+  ImageRegionConstIterator<StatusImageType> statusIt(m_StatusImage,
+                                                     this->GetOutput()->GetRequestedRegion());
+
+  ImageRegionIterator<OutputImageType> outputIt(this->GetOutput(),
+                                                this->GetOutput()->GetRequestedRegion());
+
+  ImageRegionConstIterator<OutputImageType> shiftedIt(m_ShiftedImage,
+                                                      this->GetOutput()->GetRequestedRegion());
   
   for (outputIt = outputIt.Begin(), statusIt = statusIt.Begin(),
-         shiftedIt = shiftedIt.Begin(); ! outputIt.IsAtEnd(); ++outputIt,
-         ++statusIt, ++shiftedIt)
+         shiftedIt = shiftedIt.Begin();
+       ! outputIt.IsAtEnd(); ++outputIt, ++statusIt, ++shiftedIt)
     {
-    if (statusIt.Get() == m_StatusNull)
+    if (statusIt.Get() == m_StatusNull || statusIt.Get() == m_StatusBoundaryPixel)
       {
       if (shiftedIt.Get() > m_ValueZero)
         {
-        outputIt.Set(inside_value);
+        outputIt.Set(outside_value);
         }
       else
         {
-        outputIt.Set(outside_value);
+        outputIt.Set(inside_value);
         }
       }
     }
@@ -2320,12 +2321,12 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::ThreadedPostProcessOutput(int ThreadId, const ThreadRegionType & regionToProcess)
 {
   // Assign background pixels INSIDE the sparse field layers to a new level set
-  // with value greater than the innermost layer.  Assign background pixels
-  // OUTSIDE the sparse field layers to a new level set with value less than
+  // with value less than the innermost layer.  Assign background pixels
+  // OUTSIDE the sparse field layers to a new level set with value greater than
   // the outermost layer.  
   const ValueType max_layer = static_cast<ValueType>(m_NumberOfLayers);
-  const ValueType inside_value  =   max_layer + m_ConstantGradientValue;
-  const ValueType outside_value = -(max_layer + m_ConstantGradientValue);
+  const ValueType outside_value  =   max_layer + m_ConstantGradientValue;
+  const ValueType inside_value = -(max_layer + m_ConstantGradientValue);
   
   ImageRegionConstIterator <StatusImageType> statusIt(m_StatusImage, regionToProcess);
   ImageRegionIterator      <OutputImageType> outputIt(m_OutputImage, regionToProcess);
@@ -2333,15 +2334,15 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   for (outputIt = outputIt.Begin(), statusIt = statusIt.Begin();
        ! outputIt.IsAtEnd(); ++outputIt, ++statusIt)
     {
-    if (statusIt.Get() == m_StatusNull)
+    if (statusIt.Get() == m_StatusNull || statusIt.Get() == m_StatusBoundaryPixel)
       {
       if (outputIt.Get() > m_ValueZero)
         {
-        outputIt.Set (inside_value);
+        outputIt.Set (outside_value);
         }
       else
         {
-        outputIt.Set (outside_value);
+        outputIt.Set (inside_value);
         }
       }
     }
