@@ -6,12 +6,6 @@ IF(ITK_BINARY_DIR)
   ENDIF(TCL_TCLSH)
 ENDIF(ITK_BINARY_DIR)
 
-IF(USE_FFTW)
-        ADD_DEFINITIONS(-DUSE_FFTW)
-        INCLUDE_DIRECTORIES( ${FFTW_ROOT}/include )
-        LINK_DIRECTORIES( ${FFTW_ROOT}/lib )
-ENDIF(USE_FFTW)
-
 SET(ALGORITHMS_TESTS ${CXX_TEST_PATH}/itkAlgorithmsTests)
 SET(ALGORITHMS_TESTS2 ${CXX_TEST_PATH}/itkAlgorithmsTests2)
 SET(ALGORITHMS_HEADER_TESTS ${CXX_TEST_PATH}/itkAlgorithmsHeaderTest)
@@ -242,12 +236,12 @@ TARGET_LINK_LIBRARIES(itkAlgorithmsTests
                       ITKAlgorithms ITKIO 
                       ITKBasicFilters ITKFEM ITKStatistics)
 
-IF(USE_FFTW)
-        TARGET_LINK_LIBRARIES(itkAlgorithmsTests fftw3 fftw3f)
-ENDIF(USE_FFTW)
-
 ADD_EXECUTABLE(itkAlgorithmsTests2 itkAlgorithmsTests2.cxx ${AlgorithmsTest2_SRCS})
 TARGET_LINK_LIBRARIES(itkAlgorithmsTests2 ITKAlgorithms ITKIO ITKBasicFilters ITKFEM ITKStatistics)
+IF(USE_FFTW)
+        TARGET_LINK_LIBRARIES(itkAlgorithmsTests2 fftw3 fftw3f)
+ENDIF(USE_FFTW)
+
 
 
 IF(ITK_DATA_ROOT)
