@@ -1,7 +1,9 @@
 SET(ITK_JAVA_CLASSPATH ${ITK_BINARY_DIR}/Wrapping/CSwig/Java)
 SET(ITK_JAVA_OUTPATH ${ITK_BINARY_DIR}/Wrapping/CSwig/Java)
-IF(CMAKE_CONFIGURATION_TYPES)
+IF(UNIX)
   SET(ITK_JAVA_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/lib/InsightToolkit)
+ENDIF(UNIX)
+IF(CMAKE_CONFIGURATION_TYPES)
   SET(ITK_BASE_JAVA_FILE ${ITK_BINARY_DIR}/Wrapping/CSwig/Java/${CMAKE_CFG_INTDIR}/InsightToolkit/itkbase.java)
   FOREACH(config ${CMAKE_CONFIGURATION_TYPES})
     SET(ITK_JAVA_BUILD_DIR ${LIBRARY_OUTPUT_PATH}/${config})
@@ -10,18 +12,26 @@ IF(CMAKE_CONFIGURATION_TYPES)
       ${ITK_BINARY_DIR}/Wrapping/CSwig/Java/${config}/InsightToolkit/itkbase.java
       @ONLY IMMEDIATE
       )
+    FILE(WRITE ${CMAKE_CURRENT_BINARY_DIR}/${config}/itk_build_tree.mark
+      "File next to InsightToolkit.jar to mark the build tree.\n"
+    )
   ENDFOREACH(config)
   SET(ITK_JAVA_CLASSPATH
     "${ITK_JAVA_CLASSPATH}\;${ITK_BINARY_DIR}/Wrapping/CSwig/Java/${CMAKE_CFG_INTDIR}")
   SET(ITK_JAVA_OUTPATH "${ITK_JAVA_OUTPATH}/${CMAKE_CFG_INTDIR}")
 ELSE(CMAKE_CONFIGURATION_TYPES)
   SET(ITK_JAVA_BUILD_DIR ${LIBRARY_OUTPUT_PATH})
-  SET(ITK_JAVA_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/lib/InsightToolkit)
   SET(ITK_BASE_JAVA_FILE ${ITK_BINARY_DIR}/Wrapping/CSwig/Java/InsightToolkit/itkbase.java)
   CONFIGURE_FILE(
     ${ITK_SOURCE_DIR}/Wrapping/CSwig/Java/itkbase.java.in
     ${ITK_BASE_JAVA_FILE}
     @ONLY IMMEDIATE
+    )
+  FILE(WRITE ${CMAKE_CURRENT_BINARY_DIR}/itk_build_tree.mark
+    "File next to InsightToolkit.jar to mark the build tree.\n"
+    )
+  INSTALL_FILES(/lib/InsightToolkit/java FILES
+    ${ITK_BINARY_DIR}/Wrapping/CSwig/Java/InsightToolkit.jar
     )
 ENDIF(CMAKE_CONFIGURATION_TYPES)
 
@@ -69,11 +79,3 @@ ELSE(CMAKE_CONFIGURATION_TYPES)
     )
   ADD_CUSTOM_TARGET(ITKJavaJar ALL DEPENDS ${ITK_BINARY_DIR}/Wrapping/CSwig/Java/InsightToolkit.jar)
 ENDIF(CMAKE_CONFIGURATION_TYPES)
-
-FILE(WRITE ${CMAKE_CURRENT_BINARY_DIR}/itk_build_tree.mark
-  "File next to InsightToolkit.jar to mark the build tree.\n"
-  )
-
-INSTALL_FILES(/lib/InsightToolkit/java FILES
-  ${ITK_BINARY_DIR}/Wrapping/CSwig/Java/InsightToolkit.jar
-  )
