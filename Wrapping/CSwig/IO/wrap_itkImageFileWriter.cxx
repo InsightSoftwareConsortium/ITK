@@ -32,6 +32,10 @@ namespace _cable_
     ITK_WRAP_OBJECT1(ImageFileWriter, image::US3, itkImageFileWriterUS3);
     ITK_WRAP_OBJECT1(ImageFileWriter, image::UC2, itkImageFileWriterUC2);
     ITK_WRAP_OBJECT1(ImageFileWriter, image::UC3, itkImageFileWriterUC3);
+    ITK_WRAP_OBJECT1(ImageFileWriter, image::UL2, itkImageFileWriterUL2);
+    ITK_WRAP_OBJECT1(ImageFileWriter, image::UL3, itkImageFileWriterUL3);
+    ITK_WRAP_OBJECT1(ImageFileWriter, image::I2, itkImageFileWriterI2);
+    ITK_WRAP_OBJECT1(ImageFileWriter, image::I3, itkImageFileWriterI3);
   }
 }
 

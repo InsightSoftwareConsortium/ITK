@@ -32,6 +32,10 @@ namespace _cable_
     ITK_WRAP_OBJECT1(ImageFileReader, image::US3, itkImageFileReaderUS3);
     ITK_WRAP_OBJECT1(ImageFileReader, image::UC2, itkImageFileReaderUC2);
     ITK_WRAP_OBJECT1(ImageFileReader, image::UC3, itkImageFileReaderUC3);
+    ITK_WRAP_OBJECT1(ImageFileReader, image::UL2, itkImageFileReaderUL2);
+    ITK_WRAP_OBJECT1(ImageFileReader, image::UL3, itkImageFileReaderUL3);
+    ITK_WRAP_OBJECT1(ImageFileReader, image::I2, itkImageFileReaderI2);
+    ITK_WRAP_OBJECT1(ImageFileReader, image::I3, itkImageFileReaderI3);
   }
 }
 
