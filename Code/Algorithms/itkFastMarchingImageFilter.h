@@ -33,7 +33,7 @@ namespace itk
  *
  * Fast marching solves an Eikonal equation where the speed is always
  * non-negative and depends on the position only. Starting from an 
- * initial position on the front, fast marching systematically move the
+ * initial position on the front, fast marching systematically moves the
  * front forward one grid point at a time.
  *
  * Updates are preformed using an entropy satisfy scheme where only
@@ -42,21 +42,22 @@ namespace itk
  * update. 
  * 
  * Fast Marching sweeps through N grid points in (N log N) steps to obtain
- * the arrival time value as the front propagate through the grid.
+ * the arrival time value as the front propagates through the grid.
  *
  * Implementation of this class is based on Chapter 8 of
  * "Level Set Methods and Fast Marching Methods", J.A. Sethian,
  * Cambridge Press, Second edition, 1999.
  *
- * This class is templated over the level set image type and the speed image
- * image type. The initial front is specified by two containers: one containing
- * the known points and one containing the trial points. The speed function
- * can be specified as a speed image or a speed constant. The speed image
- * is set using method SetInput(). If the speed image is NULL, a constant
- * speed function is used and is specified using method SetSpeedConstant().
+ * This class is templated over the level set image type and the speed
+ * image type. The initial front is specified by two containers: one
+ * containing the known points and one containing the trial
+ * points. The speed function can be specified as a speed image or a
+ * speed constant. The speed image is set using the method
+ * SetInput(). If the speed image is NULL, a constant speed function
+ * is used and is specified using method the SetSpeedConstant().
  *
  * If the speed function is constant and of value one, fast marching results
- * in a approximate distance function from the initial alive points.
+ * in an approximate distance function from the initial alive points.
  * FastMarchingImageFilter is used in the ReinitializeLevelSetImageFilter
  * object to create a signed distance function from the zero level set.
  *
