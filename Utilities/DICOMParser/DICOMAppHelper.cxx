@@ -128,6 +128,7 @@ DICOMAppHelper::DICOMAppHelper()
   this->ByteSwapData = false;
   this->PixelSpacing[0] = this->PixelSpacing[1] = this->PixelSpacing[2] = 1.0;
   this->Dimensions[0] = this->Dimensions[1] = 0;
+  this->Width = this->Height = 0;
   this->PhotometricInterpretation = NULL;
   this->TransferSyntaxUID = NULL;
   this->CurrentSeriesUID = "";
@@ -443,8 +444,21 @@ void DICOMAppHelper::InstanceUIDCallback(DICOMParser *parser,
                                        doublebyte,
                                        DICOMParser::VRTypes,
                                        unsigned char* val,
-                                       quadbyte) 
+                                       quadbyte len) 
 {
+  if (len == 0)
+    {
+#ifdef DEBUG_DICOM_APP_HELPER  
+    dicom_stream::cout << "Instance UID: (EMPTY)" << dicom_stream::endl;
+#endif
+    
+    // empty the string
+    this->InstanceUID = dicom_stl::string();
+
+    // just return, don't bother updating the internal databases of UID's
+    return;
+    }
+  
   char* newString = (char*) val;
   dicom_stl::string newStdString(newString);
 
@@ -467,8 +481,18 @@ void DICOMAppHelper::ReferencedInstanceUIDCallback(DICOMParser *,
                                                    doublebyte,
                                                    DICOMParser::VRTypes,
                                                    unsigned char* val,
-                                                   quadbyte) 
+                                                   quadbyte len) 
 {
+  if (len == 0)
+    {
+#ifdef DEBUG_DICOM_APP_HELPER  
+    dicom_stream::cout << "Referenced Instance UID: (EMPTY)" << dicom_stream::endl;
+#endif
+    
+    // just return, don't bother updating the internal databases of UID's
+    return;
+    }
+
   char* newString = (char*) val;
   dicom_stl::string newStdString(newString);
 
@@ -486,12 +510,9 @@ void DICOMAppHelper::ContourImageSequenceCallback(DICOMParser *,
                                                   doublebyte,
                                                   doublebyte,
                                                   DICOMParser::VRTypes,
-                                                  unsigned char* val,
+                                                  unsigned char*,
                                                   quadbyte) 
 {
-  char* newString = (char*) val;
-  dicom_stl::string newStdString(newString);
-
   // Add a contour to the list of contours
   DICOMAppHelperImplementation::ContourType contour;
   this->Implementation->SeriesUIDToContoursMap[this->CurrentSeriesUID].push_back(contour);
@@ -506,8 +527,21 @@ void DICOMAppHelper::SeriesUIDCallback(DICOMParser *,
                                        doublebyte,
                                        DICOMParser::VRTypes,
                                        unsigned char* val,
-                                       quadbyte) 
+                                       quadbyte len) 
 {
+  if (len == 0)
+    {
+#ifdef DEBUG_DICOM_APP_HELPER  
+    dicom_stream::cout << "Series UID: (EMPTY)" << dicom_stream::endl;
+#endif
+
+    // clear the cached series uid
+    this->CurrentSeriesUID = dicom_stl::string();
+    
+    // just return, don't bother updating the internal databases of UID's
+    return;
+    }
+
   char* newString = (char*) val;
   dicom_stl::string newStdString(newString);
 
@@ -753,7 +787,7 @@ void DICOMAppHelper::SliceLocationCallback(DICOMParser *,
                                            doublebyte,
                                            DICOMParser::VRTypes,
                                            unsigned char* val,
-                                           quadbyte) 
+                                           quadbyte len) 
 {
   // Look for the current instance UID in the map of slice ordering data
   DICOMAppHelperImplementation::InstanceUIDToSliceOrderingMapType::iterator it;
@@ -762,7 +796,10 @@ void DICOMAppHelper::SliceLocationCallback(DICOMParser *,
     {
     // instance UID not found, create a new entry
     DICOMOrderingElements ord;
-    ord.SliceLocation = (float)atof( (char *) val);
+    if (len > 0)
+      {
+      ord.SliceLocation = (float)atof( (char *) val);
+      }
 
     // insert into the map
     this->Implementation->InstanceUIDToSliceOrderingMap.insert(dicom_stl::pair<const dicom_stl::string, DICOMOrderingElements>(this->InstanceUID, ord));
@@ -770,7 +807,10 @@ void DICOMAppHelper::SliceLocationCallback(DICOMParser *,
   else
     {
     // file found, add new values
-    (*it).second.SliceLocation = (float)atof( (char *)val );
+    if (len > 0)
+      {
+      (*it).second.SliceLocation = (float)atof( (char *)val );
+      }
     }
 }
 
@@ -947,8 +987,15 @@ void DICOMAppHelper::BitsAllocatedCallback(DICOMParser *parser,
                                            doublebyte,
                                            DICOMParser::VRTypes,
                                            unsigned char* val,
-                                           quadbyte) 
+                                           quadbyte len) 
 {
+  if (len == 0)
+    {
+    // no value, clear the cached field, return to default BitsAllocated
+    this->BitsAllocated = 8;
+    return;
+    }
+  
   this->BitsAllocated = parser->GetDICOMFile()->ReturnAsUnsignedShort(val, parser->GetDICOMFile()->GetPlatformIsBigEndian());
 #ifdef DEBUG_DICOM_APP_HELPER
   dicom_stream::cout << "Bits allocated: " << this->BitsAllocated << dicom_stream::endl;
@@ -989,16 +1036,11 @@ void DICOMAppHelper::PixelSpacingCallback(DICOMParser *parser,
                                           unsigned char* val,
                                           quadbyte len) 
 {
-  float fval;
+  float fval = 1.0; // defaul of 1mm
 
   if (len > 0)
     {
     fval = DICOMFile::ReturnAsFloat(val, parser->GetDICOMFile()->GetPlatformIsBigEndian());
-    }
-  else
-    {
-    // NULL field, use a default of 1mm
-    fval = 1.0;
     }
 
   if (group == 0x0028 && element == 0x0030)
@@ -1016,9 +1058,15 @@ void DICOMAppHelper::WidthCallback(DICOMParser *parser,
                                    doublebyte,
                                    DICOMParser::VRTypes,
                                    unsigned char* val,
-                                   quadbyte)
+                                   quadbyte len)
 {
-  unsigned short uival = DICOMFile::ReturnAsUnsignedShort(val, parser->GetDICOMFile()->GetPlatformIsBigEndian()); 
+  unsigned short uival = 0;
+
+  if (len > 0)
+    {
+    uival = DICOMFile::ReturnAsUnsignedShort(val, parser->GetDICOMFile()->GetPlatformIsBigEndian());
+    }
+  
 #ifdef DEBUG_DICOM_APP_HELPER
   dicom_stream::cout << "Width: " << uival << dicom_stream::endl;
 #endif
@@ -1032,9 +1080,15 @@ void DICOMAppHelper::HeightCallback(DICOMParser *parser,
                                     doublebyte,
                                     DICOMParser::VRTypes,
                                     unsigned char* val,
-                                    quadbyte) 
+                                    quadbyte len) 
 {
-  unsigned short uival = DICOMFile::ReturnAsUnsignedShort(val, parser->GetDICOMFile()->GetPlatformIsBigEndian()); 
+  unsigned short uival = 0;
+
+  if (len > 0)
+    {
+    uival = DICOMFile::ReturnAsUnsignedShort(val, parser->GetDICOMFile()->GetPlatformIsBigEndian());
+    }
+  
 #ifdef DEBUG_DICOM_APP_HELPER
   dicom_stream::cout << "Height: " << uival << dicom_stream::endl;
 #endif
@@ -1048,9 +1102,15 @@ void DICOMAppHelper::PixelRepresentationCallback( DICOMParser *parser,
                                                   doublebyte,
                                                   DICOMParser::VRTypes,
                                                   unsigned char* val,
-                                                  quadbyte)
+                                                  quadbyte len)
 {
-  unsigned short uival = DICOMFile::ReturnAsUnsignedShort(val, parser->GetDICOMFile()->GetPlatformIsBigEndian());
+  unsigned short uival = 1; // default of unsigned
+
+  if (len > 0)
+    {
+    uival = DICOMFile::ReturnAsUnsignedShort(val, parser->GetDICOMFile()->GetPlatformIsBigEndian());
+    }
+  
 #ifdef DEBUG_DICOM_APP_HELPER
   dicom_stream::cout << "Pixel Representation: " << (uival ? "Signed" : "Unsigned") << dicom_stream::endl;
 #endif
@@ -1062,7 +1122,7 @@ void DICOMAppHelper::PhotometricInterpretationCallback( DICOMParser *,
                                                         doublebyte,
                                                         DICOMParser::VRTypes,
                                                         unsigned char* val,
-                                                        quadbyte)
+                                                        quadbyte len)
 {
 #ifdef DEBUG_DICOM_APP_HELPER
   dicom_stream::cout << "Photometric Interpretation: " << (char*) val << dicom_stream::endl;
@@ -1072,7 +1132,14 @@ void DICOMAppHelper::PhotometricInterpretationCallback( DICOMParser *,
     delete this->PhotometricInterpretation;
     }
 
-  this->PhotometricInterpretation = new dicom_stl::string((char*) val);
+  if (len > 0)
+    {
+    this->PhotometricInterpretation = new dicom_stl::string((char*) val);
+    }
+  else
+    {
+    this->PhotometricInterpretation = NULL;
+    }
 }
 
 void DICOMAppHelper::PixelDataCallback( DICOMParser *,
@@ -1382,20 +1449,6 @@ void DICOMAppHelper::RegisterPixelDataCallback(DICOMParser* parser)
   parser->AddDICOMTagCallback(0x7FE0, 0x0010, DICOMParser::VR_OW, this->PixelDataCB);
 }
 
-void DICOMAppHelper::RescaleOffsetCallback( DICOMParser *parser,
-                                            doublebyte,
-                                            doublebyte,
-                                            DICOMParser::VRTypes,
-                                            unsigned char* val,
-                                            quadbyte)
-{
-  float fval = DICOMFile::ReturnAsFloat(val, parser->GetDICOMFile()->GetPlatformIsBigEndian());
-  this->RescaleOffset = fval;
-#ifdef DEBUG_DICOM_APP_HELPER
-  dicom_stream::cout << "Pixel offset: " << this->RescaleOffset << dicom_stream::endl;
-#endif
-}
-
 
 const char* DICOMAppHelper::TransferSyntaxUIDDescription(const char* uid)
 {
@@ -1443,15 +1496,41 @@ const char* DICOMAppHelper::TransferSyntaxUIDDescription(const char* uid)
 }
 
 
+void DICOMAppHelper::RescaleOffsetCallback( DICOMParser *parser,
+                                            doublebyte,
+                                            doublebyte,
+                                            DICOMParser::VRTypes,
+                                            unsigned char* val,
+                                            quadbyte len)
+{
+  float fval = 0.0;
+
+  if (len > 0)
+    {
+    fval = DICOMFile::ReturnAsFloat(val, parser->GetDICOMFile()->GetPlatformIsBigEndian());
+    }
+  
+  this->RescaleOffset = fval;
+#ifdef DEBUG_DICOM_APP_HELPER
+  dicom_stream::cout << "Pixel offset: " << this->RescaleOffset << dicom_stream::endl;
+#endif
+}
+
 void DICOMAppHelper::RescaleSlopeCallback(DICOMParser *parser,
                                           doublebyte,
                                           doublebyte ,
                                           DICOMParser::VRTypes ,
                                           unsigned char* val,
-                                          quadbyte )
+                                          quadbyte len)
 {
-  float fval = DICOMFile::ReturnAsFloat(val,
-                                        parser->GetDICOMFile()->GetPlatformIsBigEndian ());
+  float fval = 1.0;
+
+  if (len > 0)
+    {
+    fval = DICOMFile::ReturnAsFloat(val,
+                      parser->GetDICOMFile()->GetPlatformIsBigEndian ());
+    }
+  
 #ifdef DEBUG_DICOM_APP_HELPER
   dicom_stream::cout << "Rescale slope: " << fval << dicom_stream::endl;
 #endif
