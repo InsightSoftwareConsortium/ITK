@@ -61,8 +61,7 @@ bool DICOMImageIO2::CanReadFile( const char* filename )
     std::cerr << "Couldn't open file: " << filename << std::endl;
     return false;
     }
-  bool magic = false;
-  magic = Parser->IsDICOMFile();
+  bool magic = Parser->IsDICOMFile();
   return magic;
 }
 
