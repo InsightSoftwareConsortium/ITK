@@ -152,12 +152,12 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
   typename TInputImage::SizeType size = region.GetSize();
   unsigned int maxLength = 0;
   for( unsigned int dim=0; dim < TInputImage::ImageDimension; dim++)
-  {
-    if( maxLength < size[ dim ] )
     {
+    if( maxLength < size[ dim ] )
+      {
       maxLength = size[ dim ];
+      }
     }
-  }
 
 
 
@@ -169,31 +169,31 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 
   itkDebugMacro(<< "PrepareData: Copy input to output");
   if( m_InputIsBinary ) 
-  {
+    {
     unsigned int npt = 1;
     while( !ot.IsAtEnd() )
-    {
+      {
       if( it.Get() )
-      {
+        {
         ot.Set( npt++ );
-      }
+        }
       else 
-      {
+        {
         ot.Set( 0 );
+        }
+      ++it;
+      ++ot;
       }
-    ++it;
-    ++ot;
     }
-  }
   else 
-  {
-    while( !ot.IsAtEnd() )
     {
+    while( !ot.IsAtEnd() )
+      {
       ot.Set( static_cast< typename OutputImageType::PixelType >( it.Get() ) );
       ++it;
       ++ot;
+      }
     }
-  }
 
   VectorImagePointer distanceComponents = GetVectorDistanceMap();
 
@@ -339,6 +339,10 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
   SizeType    size    = region.GetSize();
   OffsetType  offset;
 
+  // Pixels on the border should not be 
+  // processes because they lack neighbors.
+  // Prepare an output region 1 pixel narrower than
+  // the input region
   for(unsigned int dim=0; dim<InputImageDimension; dim++)
     {
     start [ dim ] += 1;
@@ -350,8 +354,10 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
   region.SetSize ( size  );
 
   itkDebugMacro (<< "Region to process: " << region);
+
   ReflectiveImageRegionIterator< VectorImageType > 
                                 it( distanceComponents, region );
+
   it.GoToBegin();
 
   // support progress methods/callbacks
@@ -362,34 +368,36 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
     updateVisits = 1;
     }
  
+  const float updatePeriod = static_cast<float>(updateVisits) * 10.0;
+
   itkDebugMacro(<< "GenerateData: Computing distance transform");
   while( !it.IsAtEnd() )
     {
 
     if ( !(i % updateVisits ) )
       {
-      this->UpdateProgress((float)i/(float(updateVisits)*10.0));
+      this->UpdateProgress( (float) i / updatePeriod );
       }
 
     IndexType here = it.GetIndex();
     for(unsigned int dim=0; dim <VectorImageType::ImageDimension; dim++)
-    {
+      {
       if( it.IsReflected(dim) ) 
-      {
-      offset[dim]++;
-      UpdateLocalDistance( distanceComponents, here, offset );
-      offset[dim]=0;
-      }
+        {
+        offset[dim]++;
+        UpdateLocalDistance( distanceComponents, here, offset );
+        offset[dim]=0;
+        }
       else
-      {
-      offset[dim]--;
-      UpdateLocalDistance( distanceComponents, here, offset );
-      offset[dim]=0;
+        {
+        offset[dim]--;
+        UpdateLocalDistance( distanceComponents, here, offset );
+        offset[dim]=0;
+        }
       }
-    }
-    ++it;
-    ++i;
-    }
+      ++it;
+      ++i;
+      }
   
   itkDebugMacro(<< "GenerateData: ComputeVoronoiMap");
   this->ComputeVoronoiMap();
