@@ -66,6 +66,11 @@ CenteredRigid2DTransform( unsigned int spaceDimension,
                           unsigned int parametersDimension):
 Superclass(spaceDimension,parametersDimension)
 {
+
+  m_Angle = NumericTraits< TScalarType >::Zero;
+  m_Center.Fill( 0.0 );
+  m_Translation.Fill( 0.0 );
+
   // note: this virtual function will only
   // call the one defined in this class because 
   // we are in a constructor
