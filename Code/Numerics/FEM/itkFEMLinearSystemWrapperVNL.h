@@ -23,6 +23,7 @@
 #include "vnl/vnl_vector.h"
 #include <vnl/vnl_sparse_matrix_linear_system.h>
 #include <vxl/vnl/algo/vnl_lsqr.h>
+#include <vector>
 
 
 
@@ -39,36 +40,57 @@ namespace fem {
 class LinearSystemWrapperVNL : public LinearSystemWrapper
 {
 public:
-  LinearSystemWrapperVNL() : LinearSystemWrapper(), m_A(0), m_B(0), m_x(0) {}
 
-  virtual void InitA(int N);  
-  virtual void InitB(void);
+  /* values stored in matrices & vectors */
+  typedef LinearSystemWrapper::Float Float;
 
-  virtual Float GetA(int i, int j) { return (*m_A)(i,j); }
-  virtual void SetA(int i, int j, Float value) { (*m_A)(i,j)=value; }
-  virtual void AddA(int i, int j, Float value) { (*m_A)(i,j)+=value; }
-  virtual Float GetB(int i) { return (*m_B)(i); }
-  virtual void SetB(int i, Float value) { (*m_B)(i)=value; }
-  virtual void AddB(int i, Float value) { (*m_B)(i)+=value; }
-  virtual Float GetX(int i) { return (*m_x)(i); }
-  virtual void SetX(int i, Float value) { (*m_x)(i)=value; }
-  virtual void Solve(void);
-  
+  /* superclass */
+  typedef LinearSystemWrapper SuperClass;
+
+  /* constructor & destructor */
+  LinearSystemWrapperVNL() : LinearSystemWrapper(), m_Matrices(0), m_Vectors(0), m_Solutions(0) {}
   virtual ~LinearSystemWrapperVNL();
 
+  /* memory management routines */
+  virtual void  InitializeMatrix(unsigned int MatrixIndex);  
+  virtual void  DestroyMatrix(unsigned int MatrixIndex);
+  virtual void  InitializeVector(unsigned int VectorIndex);
+  virtual void  DestroyVector(unsigned int MatrixIndex);
+  virtual void  InitializeSolution(unsigned int SolutionIndex);
+  virtual void  DestroySolution(unsigned int SolutionIndex);
+
+  /* assembly & solving routines */
+  virtual Float GetMatrixValue(unsigned int i, unsigned int j, unsigned int MatrixIndex) const { return (*((*m_Matrices)[MatrixIndex]))(i,j); }
+  virtual void  SetMatrixValue(unsigned int i, unsigned int j, Float value, unsigned int MatrixIndex) { (*((*m_Matrices)[MatrixIndex]))(i,j) =  value; }
+  virtual void  AddMatrixValue(unsigned int i, unsigned int j, Float value, unsigned int MatrixIndex) { (*((*m_Matrices)[MatrixIndex]))(i,j) += value; }
+  virtual Float GetVectorValue(unsigned int i, unsigned int VectorIndex) const { return (* ( (*m_Vectors)[VectorIndex] ) )[i]; }
+  virtual void  SetVectorValue(unsigned int i, Float value, unsigned int VectorIndex) { (*((*m_Vectors)[VectorIndex]))(i) =  value; }
+  virtual void  AddVectorValue(unsigned int i, Float value, unsigned int VectorIndex) { (*((*m_Vectors)[VectorIndex]))(i) += value; }
+  virtual Float GetSolutionValue(unsigned int i, unsigned int SolutionIndex) const;
+  virtual void  SetSolutionValue(unsigned int i, Float value, unsigned int SolutionIndex) { (*((*m_Solutions)[SolutionIndex]))(i) =  value; }
+  virtual void  AddSolutionValue(unsigned int i, Float value, unsigned int SolutionIndex) { (*((*m_Solutions)[SolutionIndex]))(i) += value; }
+  virtual void  Solve(void);
+
+  /* matrix & vector manipulation routines */
+  virtual void  SwapMatrices(unsigned int MatrixIndex1, unsigned int MatrixIndex2);
+  virtual void  SwapVectors(unsigned int VectorIndex1, unsigned int VectorIndex2);
+  virtual void  SwapSolutions(unsigned int SolutionIndex1, unsigned int SolutionIndex2);
+  virtual void  Solution2Vector(unsigned SolutionIndex, unsigned int VectorIndex);
+  virtual void  MultiplyMatrixMatrix(unsigned int ResultMatrixIndex, unsigned int LeftMatrixIndex, unsigned int RightMatrixIndex);
+  virtual void  MultiplyMatrixVector(unsigned int ResultVectorIndex, unsigned int MatrixIndex, unsigned int VectorIndex);
+
 private:
-  /** Pointer to VNL sparse matrix */
-  vnl_sparse_matrix<Float> *m_A;
 
-  /** Pointer to VNL vector that stores rhs of equation */
-  vnl_vector<Float> *m_B;
+  /** vector of pointers to VNL sparse matrices */
+  std::vector< vnl_sparse_matrix<Float>* > *m_Matrices;
 
-  /** Pointer to VNL vector that stores the solution */
-  vnl_vector<Float> *m_x;
+  /** vector of pointers to VNL vectors  */
+  std::vector< vnl_vector<Float>* > *m_Vectors;
+
+  /** vector of pointers to VNL vectors */
+  std::vector< vnl_vector<Float>* > *m_Solutions;
 
 };
-
-
 
 }} // end namespace itk::fem
 
