@@ -409,6 +409,12 @@ M_Read(void)
 
      TubeGraphPnt* pnt = new TubeGraphPnt(m_NDims);
 
+     for(int k=0; k<pntDim; k++)
+       {
+       *m_ReadStream >> v[k];
+       m_ReadStream->get();
+       }
+
      pnt->m_GraphNode = (int)v[posGraphNode];
 
      if(posR != -1)
