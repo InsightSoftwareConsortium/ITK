@@ -83,10 +83,11 @@ public:
   typedef typename TFixedImage::PixelType               FixedImagePixelType;
   typedef typename TMovingImage::PixelType              MovedImagePixelType;
 
+  itkStaticConstMacro(FixedImageDimension, unsigned int, TFixedImage::ImageDimension);
   /** Types for transforming the moving image */
   typedef itk::Image< FixedImagePixelType, 
                       itkGetStaticConstMacro( FixedImageDimension ) >      
-                                                        TransformedMovingImageType;
+                    TransformedMovingImageType;
 
   typedef itk::ResampleImageFilter< MovingImageType, TransformedMovingImageType >  
                                                         TransformMovingImageFilterType;
@@ -95,7 +96,7 @@ public:
 
   typedef itk::Image< RealType, 
                       itkGetStaticConstMacro( FixedImageDimension ) >
-                                                        FixedGradientImageType;
+                    FixedGradientImageType;
 
   typedef itk::CastImageFilter< FixedImageType, FixedGradientImageType > 
                                                       CastFixedImageFilterType;
@@ -108,7 +109,9 @@ public:
   itkStaticConstMacro( MovedImageDimension, unsigned int,
                        MovingImageType::ImageDimension );
 
-  typedef itk::Image< RealType, MovedImageDimension > MovedGradientImageType;
+  typedef itk::Image< RealType,
+                      itkGetStaticConstMacro( MovedImageDimension ) >
+                    MovedGradientImageType;
 
   typedef itk::CastImageFilter< TransformedMovingImageType, MovedGradientImageType > 
                                                      CastMovedImageFilterType;
@@ -157,18 +160,18 @@ protected:
                               const double *subtractionFactor ) const;
 
   /** The filter for transforming the moving image. */
-  TransformMovingImageFilterType::Pointer m_TransformMovingImageFilter;
+  typename TransformMovingImageFilterType::Pointer m_TransformMovingImageFilter;
  
   /** The transformed moving image to enable the gradients
       of this image to be calculated efficiently. */
-  TransformedMovingImageType::Pointer m_MovedImage;
+  typename TransformedMovingImageType::Pointer m_MovedImage;
 
   /** The fixed image gradients. */
-  FixedGradientImageType::Pointer
+  typename FixedGradientImageType::Pointer
      m_FixedGradientImage[itkGetStaticConstMacro( FixedImageDimension )];
 
   /** The transformed moving image gradients. */
-  MovedGradientImageType::Pointer
+  typename MovedGradientImageType::Pointer
      m_MovedGradientImage[itkGetStaticConstMacro( MovedImageDimension )];
 
 
@@ -176,12 +179,11 @@ protected:
 
   typedef typename FixedGradientImageType::PixelType FixedGradientPixelType;
 
-  CastFixedImageFilterType::Pointer m_CastFixedImageFilter;
+  typename CastFixedImageFilterType::Pointer m_CastFixedImageFilter;
 
   SobelOperator< FixedGradientPixelType, 
-                 FixedImageDimension > m_FixedSobelOperators[FixedImageDimension];
-
-  ZeroFluxNeumannBoundaryCondition< FixedGradientImageType > fixedBoundCond;
+                 itkGetStaticConstMacro(FixedImageDimension) >
+               m_FixedSobelOperators[FixedImageDimension];
 
   typedef NeighborhoodOperatorImageFilter< FixedGradientImageType,
                                            FixedGradientImageType > 
@@ -194,12 +196,11 @@ protected:
 
   typedef typename MovedGradientImageType::PixelType MovedGradientPixelType;
 
-  CastMovedImageFilterType::Pointer m_CastMovedImageFilter;
+  typename CastMovedImageFilterType::Pointer m_CastMovedImageFilter;
 
   SobelOperator< MovedGradientPixelType, 
-                 MovedImageDimension > m_MovedSobelOperators[MovedImageDimension];
-
-  ZeroFluxNeumannBoundaryCondition< MovedGradientImageType > movedBoundCond;
+                 itkGetStaticConstMacro(MovedImageDimension) >
+               m_MovedSobelOperators[MovedImageDimension];
 
   typedef NeighborhoodOperatorImageFilter< MovedGradientImageType,
                                            MovedGradientImageType > 

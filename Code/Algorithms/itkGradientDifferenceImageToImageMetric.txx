@@ -19,7 +19,6 @@
 
 #include "itkGradientDifferenceImageToImageMetric.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
-#include "itkZeroFluxNeumannBoundaryCondition.h"
 
 
 namespace itk
@@ -113,6 +112,8 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
     m_FixedSobelOperators[iFilter].SetDirection( iFilter );
     m_FixedSobelOperators[iFilter].CreateOperator();
 
+    ZeroFluxNeumannBoundaryCondition< FixedGradientImageType > fixedBoundCond;
+
     m_FixedSobelFilters[iFilter]->OverrideBoundaryCondition( &fixedBoundCond );
     m_FixedSobelFilters[iFilter]->SetOperator( m_FixedSobelOperators[iFilter] );
 
@@ -137,6 +138,8 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 
     m_MovedSobelOperators[iFilter].SetDirection( iFilter );
     m_MovedSobelOperators[iFilter].CreateOperator();
+
+    ZeroFluxNeumannBoundaryCondition< MovedGradientImageType > movedBoundCond;
 
     m_MovedSobelFilters[iFilter]->OverrideBoundaryCondition( &movedBoundCond );
     m_MovedSobelFilters[iFilter]->SetOperator( m_MovedSobelOperators[iFilter] );
