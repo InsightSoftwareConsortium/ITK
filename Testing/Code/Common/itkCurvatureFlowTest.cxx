@@ -44,6 +44,9 @@ int main()
   DenoiserType::Pointer denoiser = DenoiserType::New();
 
   denoiser->SetInput( source->GetOutput() );
+  denoiser->SetTimeStepSize( 1.0 );
+  denoiser->SetNumberOfIterations( 8 );
+  denoiser->SetDebugOn( true );
 
   /* ------------------------------------------
    * Write output to file

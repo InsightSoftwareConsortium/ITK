@@ -17,6 +17,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkScalar.h"
 #include "itkImageRegionIterator.h"
 #include "itkMutualInformationRigidRegistrationVW.h"
+#include "itkKernelFunction.h"
 
 #include "vnl/vnl_sample.h"
 
@@ -110,6 +111,7 @@ int main()
   registrator->SetInitialAffineMatrix( initMatrix );
   registrator->SetInitialAffineVector( initVector );
 
+  // setup the internal calculator
   typedef RegistratorType::DefaultCalculatorType CalculatorType;
   CalculatorType::Pointer calculator =
     dynamic_cast<CalculatorType*> (
@@ -117,11 +119,28 @@ int main()
 
   calculator->SetReferenceStdDev( 0.1 );
   calculator->SetTestStdDev( 0.1 );
+  calculator->SetNumberOfSamples( 100 );
+
+  typedef itk::KernelFunction KernelFunction;
+  itk::KernelFunction::Pointer kernel = 
+    dynamic_cast<KernelFunction*>(
+      itk::GaussianKernelFunction::New().GetPointer() );
+
+  calculator->SetKernelFunction( kernel );
+
+  // printout the internal calculator parameters
+  std::cout << "Calculator parameters" << std::endl;
+  std::cout << "No.of Samples: " << calculator->GetNumberOfSamples();
+  std::cout << std::endl;
+  std::cout << "Reference Std. Dev: " << calculator->GetReferenceStdDev();
+  std::cout << std::endl;
+  std::cout << "Test Std. Dev: " << calculator->GetTestStdDev();
+  std::cout << std::endl;
 
   registrator->SetLearningRate( 5.0 );
   registrator->SetNumberOfIterations( 200 );
 
-  registrator->SetDebugOn( true );
+  registrator->SetDebugOn( false );
 
   registrator->Maximize();
 
