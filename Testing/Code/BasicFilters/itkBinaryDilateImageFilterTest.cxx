@@ -22,6 +22,7 @@
 #include <itkBinaryBallStructuringElement.h>
 #include <itkImageRegionIterator.h>
 #include <itkExceptionObject.h>
+#include "itkFilterWatcher.h"
 
 int itkBinaryDilateImageFilterTest(int, char* [] ) 
 {
@@ -123,6 +124,7 @@ int itkBinaryDilateImageFilterTest(int, char* [] )
 
   // Create the filter
   myFilterType::Pointer filter = myFilterType::New();
+  FilterWatcher filterWatcher(filter);
 
   // Create the structuring element
   myKernelType ball;

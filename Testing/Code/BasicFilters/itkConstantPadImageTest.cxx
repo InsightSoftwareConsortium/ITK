@@ -64,6 +64,7 @@ int itkConstantPadImageTest(int, char* [] )
   // Create a filter
   itk::ConstantPadImageFilter< ShortImage, ShortImage >::Pointer constantPad;
   constantPad = itk::ConstantPadImageFilter< ShortImage, ShortImage >::New();
+  FilterWatcher watch(constantPad);
   constantPad->SetInput( if2 );
   
   unsigned long upperfactors[2] = { 0, 0};
@@ -148,7 +149,6 @@ int itkConstantPadImageTest(int, char* [] )
   upperfactors[1] = 15;
   constantPad->SetPadLowerBound(lowerfactors);
   constantPad->SetPadUpperBound(upperfactors);
-  FilterWatcher watch(constantPad);
 
   // Create a stream
   itk::StreamingImageFilter< ShortImage, ShortImage >::Pointer stream;
