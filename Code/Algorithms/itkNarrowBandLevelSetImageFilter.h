@@ -327,7 +327,7 @@ public:
     return this->GetNumberOfIterations();
   }
 
-  void SetMaximumRMSError(double)
+  virtual void SetMaximumRMSError(const double)
   {
     itkWarningMacro("The current implmentation of this solver does not compute maximum RMS change. The maximum RMS error value will not be set or used.");
   }
