@@ -7,7 +7,6 @@ itkConvertBufferTest.cxx
 itkDicomImageIOTest.cxx
 itkGiplImageIOTest.cxx
 itkImageSeriesIOTest.cxx
-itkMetaImageIOTest.cxx
 itkPNGImageIOTest.cxx
 itkRawImageIOTest.cxx
 itkRawImageIOTest2.cxx
@@ -20,13 +19,26 @@ itkVTKImageIOTest.cxx
 ADD_TEST(itkConvertBufferTest ${IO_TESTS} itkConvertBufferTest)
 ADD_TEST(itkDicomImageIOTest ${IO_TESTS} itkDicomImageIOTest)
 ADD_TEST(itkAnalyzeImageIOTest ${IO_TESTS} itkAnalyzeImageIOTest)
-ADD_TEST(itkGiplImageIOTest ${IO_TESTS} itkGiplImageIOTest)
-ADD_TEST(itkMetaImageIOTest ${IO_TESTS} itkMetaImageIOTest)
 ADD_TEST(itkVOLImageIOTest ${IO_TESTS} itkVOLImageIOTest)
 ADD_TEST(itkVTKImageIOTest ${IO_TESTS} itkVTKImageIOTest)
 ADD_TEST(itkRawImageIOTest ${IO_TESTS} itkRawImageIOTest)
 ADD_TEST(itkRawImageIOTest3 ${IO_TESTS} itkRawImageIOTest3)
 ADD_TEST(itkRawImageIOTest4 ${IO_TESTS} itkRawImageIOTest4)
+
+IF(ITK_DATA_ROOT)
+ADD_TEST(itkMetaImageIOTest ${IO_TESTS} 
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd
+            ${ITK_BINARY_DIR}/Testing/Temporary/HeadMRVolume.mhd
+  itkMetaImageIOTest
+            ${ITK_DATA_ROOT}/Input/HeadMRVolume.mdh
+            ${ITK_BINARY_DIR}/Testing/Temporary/HeadMRVolume.mhd)
+ADD_TEST(itkGiplImageIOTest ${IO_TESTS} 
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/ramp.gpil
+            ${ITK_BINARY_DIR}/Testing/Temporary/ramp.gpil
+  itkMetaImageIOTest
+            ${ITK_DATA_ROOT}/Input/ramp.gpil
+            ${ITK_BINARY_DIR}/Testing/Temporary/ramp.gpil)
+ENDIF(ITK_DATA_ROOT)
 
 ADD_TEST(itkIOHeaderTest ${IO_HEADER_TEST})
 ADD_EXECUTABLE(itkIOHeaderTest itkIOHeaderTest.cxx)
@@ -45,8 +57,6 @@ IF(VW_RAW_DATA_PATH)
 ENDIF(VW_RAW_DATA_PATH)
 
 IF(ITK_DATA_ROOT)
-  ADD_TEST(itkGiplRampFile ${IO_TESTS} itkGiplImageIOTest
-           ${ITK_DATA_ROOT}/Input/ramp.gipl)
   ADD_TEST(itkDicomDifficultFile ${IO_TESTS} itkDicomImageIOTest
            ${ITK_DATA_ROOT}/Input/012345.002.050)
   ADD_TEST(itkPNGImageIOTest1 ${IO_TESTS} itkPNGImageIOTest

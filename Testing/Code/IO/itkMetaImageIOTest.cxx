@@ -17,38 +17,26 @@
 
 #include <fstream>
 #include "itkImageFileReader.h"
+#include "itkImageFileWriter.h"
 #include "itkImage.h"
-#include "itkMetaImageIOFactory.h"
-
 
 int itkMetaImageIOTest(int ac, char* av[])
 {
-  if(ac < 2)
+  if(ac < 3)
     {
-    std::cerr << "Usage: " << av[0] << " Image\n";
+    std::cerr << "Usage: " << av[0] << " Input Output\n";
     return EXIT_FAILURE;
     }
-
-
   
   // ATTENTION THIS IS THE PIXEL TYPE FOR 
   // THE RESULTING IMAGE
   typedef unsigned short PixelType;
-  
-
-
-
   typedef itk::Image<PixelType, 3> myImage;
 
   itk::ImageFileReader<myImage>::Pointer reader 
                                   = itk::ImageFileReader<myImage>::New();
   
-  // Register on factory capable of creating MetaImage readers
-  itk::MetaImageIOFactory::RegisterOneFactory();
-
-  reader->DebugOn();
   reader->SetFileName(av[1]);
-  
   try
     {
     reader->Update();
@@ -62,19 +50,17 @@ int itkMetaImageIOTest(int ac, char* av[])
     }
   
   myImage::Pointer image = reader->GetOutput();
-
   image->Print(std::cout );
   
   myImage::RegionType region = image->GetLargestPossibleRegion();
   std::cout << "region " << region;
 
-  PixelType * data = image->GetPixelContainer()->GetBufferPointer();
-
-  unsigned long numberOfPixels = region.GetNumberOfPixels(); 
-  for(unsigned int i=0; i < numberOfPixels; i++ )
-    {
-      std::cout << i << " : " << *data++ << std::endl;
-    }
+  // Generate test image
+  itk::ImageFileWriter<myImage>::Pointer writer;
+    writer = itk::ImageFileWriter<myImage>::New();
+    writer->SetInput( reader->GetOutput() );
+    writer->SetFileName( av[2] );
+    writer->Update();
 
   return EXIT_SUCCESS;
 }
