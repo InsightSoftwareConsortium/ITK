@@ -62,9 +62,14 @@ String ArrayType::GenerateName(const String& indirection,
                                bool isConst, bool isVolatile) const
 {
   std::strstream length;
-  length << m_Length;
+  length << m_Length << std::ends;
   String lengthStr = length.str();
-  return m_ElementType.GenerateName("", isConst, isVolatile)+"("+indirection+")["+lengthStr+"]";
+  String indirect = "";
+  if(indirection.length() > 0)
+    {
+    indirect = "("+indirection+")";
+    }
+  return m_ElementType.GenerateName("", isConst, isVolatile)+indirection+"["+lengthStr+"]";
 }
 
 

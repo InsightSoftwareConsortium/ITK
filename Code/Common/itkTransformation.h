@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkTransform.h
+  Module:    itkTransformation.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
