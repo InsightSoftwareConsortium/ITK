@@ -157,6 +157,11 @@ MetaSurfaceConverter<NDimensions>
   }
   Surface->NPoints(Surface->GetPoints().size());
 
+ for(unsigned int i=0;i<NDimensions;i++)
+  {
+    Surface->ElementSpacing(i,spatialObject->GetIndexToObjectTransform()->GetScaleComponent()[i]);
+  }
+
   return Surface;
 }
 
