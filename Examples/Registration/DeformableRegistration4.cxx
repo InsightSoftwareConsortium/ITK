@@ -22,11 +22,14 @@
 // for the most part identical to the code presented in
 // Section~\ref{sec:RigidRegistrationIn2D}.  The major difference is that this
 // example we replace the Transform for a more generic one endowed with a large
-// number of degrees of freedom. 
+// number of degrees of freedom. Due to the large number of parameters, we will
+// also replace the simple steepest descent optimizer with the
+// \doxygen{LBFGSOptimizer}. 
 // 
 //
 // \index{itk::BSplineDeformableTransform}
 // \index{itk::BSplineDeformableTransform!DeformableRegistration}
+// \index{itk::LBFGSOptimizer}
 //
 //
 // Software Guide : EndLatex 
@@ -36,17 +39,20 @@
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkImage.h"
 
+#include "itkTimeProbesCollectorBase.h"
 
 //  Software Guide : BeginLatex
 //  
 //  The following are the most relevant headers to this example.
 //
 //  \index{itk::BSplineDeformableTransform!header}
+//  \index{itk::LBFGSOptimizer!header}
 // 
 //  Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
 #include "itkBSplineDeformableTransform.h"
+#include "itkLBFGSOptimizer.h"
 // Software Guide : EndCodeSnippet
 
 //  Software Guide : BeginLatex
@@ -61,10 +67,6 @@
 // 
 //  Software Guide : EndLatex 
 
-// Software Guide : BeginCodeSnippet
-#include "itkRegularStepGradientDescentOptimizer.h"
-// Software Guide : EndCodeSnippet
-
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
@@ -73,40 +75,7 @@
 #include "itkSquaredDifferenceImageFilter.h"
 
 
-//  The following section of code implements a Command observer
-//  that will monitor the evolution of the registration process.
-//
-#include "itkCommand.h"
-class CommandIterationUpdate : public itk::Command 
-{
-public:
-  typedef  CommandIterationUpdate   Self;
-  typedef  itk::Command             Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
-  itkNewMacro( Self );
-protected:
-  CommandIterationUpdate() {};
-public:
-  typedef itk::RegularStepGradientDescentOptimizer     OptimizerType;
-  typedef   const OptimizerType   *    OptimizerPointer;
-
-  void Execute(itk::Object *caller, const itk::EventObject & event)
-    {
-      Execute( (const itk::Object *)caller, event);
-    }
-
-  void Execute(const itk::Object * object, const itk::EventObject & event)
-    {
-      OptimizerPointer optimizer = 
-        dynamic_cast< OptimizerPointer >( object );
-      if( typeid( event ) != typeid( itk::IterationEvent ) )
-        {
-        return;
-        }
-      std::cout << optimizer->GetCurrentIteration() << "   ";
-      std::cout << optimizer->GetValue()  << std::endl;
-    }
-};
+// NOTE: the LBFGSOptimizer does not invoke events
 
 
 int main( int argc, char *argv[] )
@@ -116,7 +85,6 @@ int main( int argc, char *argv[] )
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile outputImagefile  ";
-    std::cerr << " [numberOfIterations] [stepLength]"<< std::endl;
     std::cerr << " [differenceOutputfile] [differenceBeforeRegistration] ";
     std::cerr << " [deformationField] ";
     return 1;
@@ -152,8 +120,8 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
+  typedef itk::LBFGSOptimizer       OptimizerType;
 
-  typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
 
   typedef itk::MeanSquaresImageToImageMetric< 
                                     FixedImageType, 
@@ -182,9 +150,6 @@ int main( int argc, char *argv[] )
   //
   //  The transform object is constructed below and passed to the registration
   //  method.
-  //
-  //  \index{itk::VersorRigid3DTransform!New()}
-  //  \index{itk::VersorRigid3DTransform!Pointer}
   //  \index{itk::RegistrationMethod!SetTransform()}
   //
   //  Software Guide : EndLatex 
@@ -217,9 +182,12 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  Here we define the parameters of the BSplineDeformableTransform grid.  We
-  //  arbitrarily decide to use a grid with $10 \times 10$ nodes. We compute
-  //  its spacing from the image spacing and the resolution ratio. We also
-  //  assign its origin from the origin of the fixed image.
+  //  arbitrarily decide to use a grid with $5 \times 5$ nodes within the image. 
+  //  The reader should note that the BSpline computation requires a
+  //  finite support region ( 1 grid node at the lower borders and 2
+  //  grid nodes at upper borders). Therefore in this example, we set
+  //  the grid size to be $8 \times 8$ and place the grid origin such that
+  //  grid node (1,1) coinicides with the first pixel in the fixed image.
   // 
   //  \index{BSplineDeformableTransform}
   //
@@ -229,10 +197,15 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   typedef TransformType::RegionType RegionType;
   RegionType bsplineRegion;
-  RegionType::SizeType   size;
+  RegionType::SizeType   gridSizeOnImage;
+  RegionType::SizeType   gridBorderSize;
+  RegionType::SizeType   totalGridSize;
 
-  size.Fill( 10 );
-  bsplineRegion.SetSize( size );
+  gridSizeOnImage.Fill( 5 );
+  gridBorderSize.Fill( 3 );    // Border for spline order = 3 ( 1 lower, 2 upper )
+  totalGridSize = gridSizeOnImage + gridBorderSize;
+
+  bsplineRegion.SetSize( totalGridSize );
 
   typedef TransformType::SpacingType SpacingType;
   SpacingType spacing = fixedImage->GetSpacing();
@@ -244,7 +217,9 @@ int main( int argc, char *argv[] )
 
   for(unsigned int r=0; r<ImageDimension; r++)
     {
-    spacing[r] *= fixedImageSize[r] / size[r]; 
+    spacing[r] *= floor( static_cast<double>(fixedImageSize[r] - 1)  / 
+                  static_cast<double>(gridSizeOnImage[r] - 1) );
+    origin[r]  -=  spacing[r]; 
     }
 
   transform->SetGridSpacing( spacing );
@@ -280,44 +255,32 @@ int main( int argc, char *argv[] )
   std::cout << "Intial Parameters = " << std::endl;
   std::cout << transform->GetParameters() << std::endl;
 
-  typedef OptimizerType::ScalesType       OptimizerScalesType;
-  OptimizerScalesType optimizerScales( numberOfParameters );
-  
-  optimizerScales.Fill( 1.0 ); // All parameters have the same dynamic range.
-
-  optimizer->SetScales( optimizerScales );
-
-  unsigned int maxNumberOfIterations = 50;
-  if( argc >= 5 )
-    {
-    maxNumberOfIterations = atoi( argv[4] );
-    }
- 
-
-  double maxStepLength = 10.0;
-  if( argc >= 6 )
-    {
-    maxStepLength = atoi( argv[5] );
-    }
- 
-
-
-  optimizer->SetMaximumStepLength(  maxStepLength  ); 
-  optimizer->SetMinimumStepLength(  maxStepLength / 1000.0 );
-
-  optimizer->SetNumberOfIterations( maxNumberOfIterations );
-
-
-  // Create the Command observer and register it with the optimizer.
+  //  Software Guide : BeginLatex
+  //  
+  //  Next we set the parameters of the LBFGS Optimizer. 
   //
-  CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
-  optimizer->AddObserver( itk::IterationEvent(), observer );
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  optimizer->SetGradientConvergenceTolerance( 1e-2 );
+  optimizer->SetLineSearchAccuracy( 0.9 );
+  optimizer->SetDefaultStepLength( 0.5 );
+  optimizer->TraceOn();
+  optimizer->SetMaximumNumberOfFunctionEvaluations( 1000 );
+  // Software Guide : EndCodeSnippet
+
+
+
+  // Add a time probe
+  itk::TimeProbesCollectorBase collector;
 
   std::cout << std::endl << "Starting Registration" << std::endl;
 
   try 
     { 
+    collector.Start( "Registration" );
     registration->StartRegistration(); 
+    collector.Stop( "Registration" );
     } 
   catch( itk::ExceptionObject & err ) 
     { 
@@ -333,26 +296,17 @@ int main( int argc, char *argv[] )
   std::cout << finalParameters << std::endl;
 
 
-  const unsigned int numberOfIterations = optimizer->GetCurrentIteration();
-
-  const double bestValue = optimizer->GetValue();
-
-
-  // Print out results
-  //
-  std::cout << "Result = " << std::endl;
-  std::cout << " Iterations    = " << numberOfIterations << std::endl;
-  std::cout << " Metric value  = " << bestValue          << std::endl;
+  // Report the time taken by the registration
+  collector.Report();
 
   //  Software Guide : BeginLatex
   //  
-  //  Let's execute this example over some of the images available in
-  //  the ftp site, for example:
+  //  Let's execute this example using the rat lung images from the previous examples.
   //  
-  //  \begin{itemize}
-  //  \item \code{brainweb165a10f17.mha} 
-  //  \item \code{brainweb165a10f17Rot10Tx15.mha}
-  //  \end{itemize}
+  // \begin{itemize}
+  // \item \code{RatLungSlice1.mha}
+  // \item \code{RatLungSlice2.mha}
+  // \end{itemize}
   //
   //
   //  Software Guide : EndLatex 
@@ -424,11 +378,11 @@ int main( int argc, char *argv[] )
 
   // Compute the difference image between the 
   // fixed and resampled moving image.
-  if( argc >= 7 )
+  if( argc >= 5 )
     {
     difference->SetInput1( fixedImageReader->GetOutput() );
     difference->SetInput2( resample->GetOutput() );
-    writer2->SetFileName( argv[6] );
+    writer2->SetFileName( argv[4] );
     try
       {
       writer2->Update();
@@ -444,9 +398,9 @@ int main( int argc, char *argv[] )
 
   // Compute the difference image between the 
   // fixed and moving image before registration.
-  if( argc >= 8 )
+  if( argc >= 6 )
     {
-    writer2->SetFileName( argv[7] );
+    writer2->SetFileName( argv[5] );
     difference->SetInput1( fixedImageReader->GetOutput() );
     difference->SetInput2( movingImageReader->GetOutput() );
     try
@@ -504,9 +458,9 @@ int main( int argc, char *argv[] )
 
   fieldWriter->SetInput( field );
 
-  if( argc >= 9 )
+  if( argc >= 7 )
     {
-    fieldWriter->SetFileName( argv[8] );
+    fieldWriter->SetFileName( argv[6] );
     try
       {
       fieldWriter->Update();
