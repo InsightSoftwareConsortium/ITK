@@ -1,6 +1,6 @@
 
 ADD_EXECUTABLE(itkIOHeaderTest itkIOHeaderTest.cxx)
-TARGET_LINK_LIBRARIES(itkIOHeaderTest ITKIO)
+TARGET_LINK_LIBRARIES(DICOMParser itkIOHeaderTest ITKIO)
 
 IF( CXX_TEST_PATH )
   SET(IO_TESTS ${CXX_TEST_PATH}/itkIOTests)
@@ -23,7 +23,7 @@ itkRawImageIOTest4.cxx
 )
 
 ADD_EXECUTABLE(itkIOTests itkIOTests.cxx ${IOTest_SRCS})
-TARGET_LINK_LIBRARIES(itkIOTests ITKIO)
+TARGET_LINK_LIBRARIES(DICOMParser itkIOTests ITKIO)
 
 
 ##Add tests that depend on finding data
