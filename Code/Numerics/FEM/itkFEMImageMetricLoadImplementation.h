@@ -84,22 +84,60 @@ private:
     const unsigned int Nip=element->GetNumberOfIntegrationPoints(order);
     const unsigned int Ndofs=element->GetNumberOfDegreesOfFreedomPerNode();
     const unsigned int Nnodes=element->GetNumberOfNodes();
+    unsigned int ImageDimension=Ndofs;
 
     Element::VectorType  force(Ndofs,0.0),
-                         ip,gip,gsol,force_tmp,shapeF;
+                         ip,gip,gsol,force_tmp,shapef;
     Element::Float w,detJ;
 
     Fe.resize(element->GetNumberOfDegreesOfFreedom());
     Fe.fill(0.0);
+    shapef.resize(Nnodes);
+    gsol.resize(Ndofs);
+    gip.resize(Ndofs);
 
     for(unsigned int i=0; i<Nip; i++)
     {
       element->GetIntegrationPointAndWeight(i,ip,w,order);
-      gip=element->GetGlobalFromLocalCoordinates(ip);
+/*      gip=element->GetGlobalFromLocalCoordinates(ip);
       gsol=element->InterpolateSolution(ip,*S,TotalSolutionIndex);
       //std::cout << gsol << std::endl;
       shapeF=element->ShapeFunctions(ip);
-      detJ=element->JacobianDeterminant(ip);
+*/
+
+  if (ImageDimension == 3){
+#define FASTHEX
+#ifdef FASTHEX
+  float r=ip[0]; float s=ip[1]; float t=ip[2];
+//FIXME temporarily using hexahedron shape f for speed
+  shapef[0] = (1 - r) * (1 - s) * (1 - t) * 0.125;
+  shapef[1] = (1 + r) * (1 - s) * (1 - t) * 0.125;
+  shapef[2] = (1 + r) * (1 + s) * (1 - t) * 0.125;
+  shapef[3] = (1 - r) * (1 + s) * (1 - t) * 0.125;
+  shapef[4] = (1 - r) * (1 - s) * (1 + t) * 0.125;
+  shapef[5] = (1 + r) * (1 - s) * (1 + t) * 0.125;
+  shapef[6] = (1 + r) * (1 + s) * (1 + t) * 0.125;
+  shapef[7] = (1 - r) * (1 + s) * (1 + t) * 0.125;
+#else
+        shapef = element->ShapeFunctions(ip);
+#endif
+}else if (ImageDimension==2) shapef = element->ShapeFunctions(ip);
+
+        float solval,posval;
+        detJ=element->JacobianDeterminant(ip);
+        
+        for(unsigned int f=0; f<ImageDimension; f++)
+        {
+          solval=0.0;
+          posval=0.0;
+          for(unsigned int n=0; n<Nnodes; n++)
+          {
+            posval+=shapef[n]*((element->GetNodeCoordinates(n))[f]);
+            solval+=shapef[n] * S->GetSolutionValue( element->GetNode(n)->GetDegreeOfFreedom(f) , TotalSolutionIndex);
+          }
+          gsol[f]=solval;
+          gip[f]=posval;
+        }
 
       // Adjust the size of a force vector returned from the load object so
       // that it is equal to the number of DOFs per node. If the Fg returned
@@ -107,17 +145,14 @@ private:
       // returned a vector with more dimensions, we remove the extra dimensions.
       force.fill(0.0);
      
-      force_tmp=l0->Fe(gip,gsol);
-      unsigned int Nd=Ndofs;
-      if(force_tmp.size()<Nd) { Nd=force_tmp.size(); }
-      for(unsigned int d=0; d<Nd; d++) { force[d] = force_tmp[d]; }
-
+      force=l0->Fe(gip,gsol);
       // Calculate the equivalent nodal loads
       for(unsigned int n=0; n<Nnodes; n++)
       {
         for(unsigned int d=0; d<Ndofs; d++)
         {
-          Fe[n*Ndofs+d]+=shapeF[n]*force[d]*w*detJ;
+          itk::fem::Element::Float temp=shapef[n]*force[d]*w*detJ;
+          Fe[n*Ndofs+d]+=temp;
         }
       }
 
