@@ -99,7 +99,7 @@ MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>
 
   if ( m_SamplingFactor[0] == 1 && m_SamplingFactor[1] == 1 && m_SamplingFactor[2] == 1) 
     {
-      typename itk::ImageRegionConstIterator<ImageType> iIter(m_Image, m_Region) ;
+      ImageRegionIterator<ImageType> iIter(m_Image, m_Region) ;
       typename TBiasField::SimpleForwardIterator bIter(m_BiasField) ;
       
       bIter.Begin() ;
@@ -119,7 +119,7 @@ MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>
    } 
       else 
    {
-     typename itk::ImageRegionConstIterator<MaskType> mIter(m_Mask, m_Region) ;
+     ImageRegionIterator<MaskType> mIter(m_Mask, m_Region) ;
      mIter.GoToBegin();
      while (!bIter.IsAtEnd())
        {

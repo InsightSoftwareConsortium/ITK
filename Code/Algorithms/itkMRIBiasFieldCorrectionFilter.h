@@ -132,6 +132,7 @@ public:
   unsigned int GetNumberOfParameters(void) const;
 
 private:
+  
   /** Bias field object pointer. */
   BiasFieldType        * m_BiasField ;
 
@@ -159,10 +160,10 @@ protected:
 
 
 private:
-
+  
   MRIBiasEnergyFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
+  
 } ; // end of class
 
 
@@ -518,7 +519,7 @@ protected:
 private:
   MRIBiasFieldCorrectionFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
+  
   /** Energy function object pointer. */
   EnergyFunctionPointer  m_EnergyFunction ;
 
