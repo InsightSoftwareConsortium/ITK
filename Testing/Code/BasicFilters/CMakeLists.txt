@@ -173,7 +173,7 @@ itkImageToParametricSpaceFilterTest.cxx
 itkImportImageTest.cxx
 itkInteriorExteriorMeshFilterTest.cxx
 itkInterpolateImageFilterTest.cxx
-itkInterpolateImagePointsFilterTest
+itkInterpolateImagePointsFilterTest.cxx
 itkJoinImageFilterTest.cxx
 itkLog10ImageFilterAndAdaptorTest.cxx
 itkLogImageFilterAndAdaptorTest.cxx
