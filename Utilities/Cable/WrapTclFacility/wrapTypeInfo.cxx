@@ -129,6 +129,18 @@ TypeInfo::GetClassType(const String& name,
 
 
 /**
+ * Register an EnumerationType having the given name and cv-qualifiers.
+ */
+CvQualifiedType
+TypeInfo::GetEnumerationType(const String& name,
+                             bool isConst, bool isVolatile)
+{
+  return typeSystem.GetEnumerationType(name)
+    ->GetCvQualifiedType(isConst, isVolatile);
+}
+
+
+/**
  * Register a FunctionType having the given return type, argument types,
  * and cv-qualifiers.
  */

@@ -36,6 +36,8 @@ public:
                                       bool isConst, bool isVolatile,
                                       bool isAbstract = false,
                                       const ClassTypes& parents = ClassTypes());
+  static CvQualifiedType GetEnumerationType(const String& name,
+                                            bool isConst, bool isVolatile);
   static CvQualifiedType GetFunctionType(const CvQualifiedType& returnType,
                                          const CvQualifiedTypes& argumentTypes,
                                          bool isConst, bool isVolatile);
