@@ -192,7 +192,7 @@ bool FEMRegistrationFilter<TReference,TTarget>::ReadConfigFile(const char* fname
 {
   std::ifstream f;
   char buffer[80] = {'\0'};
-  float fbuf = 0.0;
+  Float fbuf = 0.0;
   unsigned int ibuf = 0;
   char* sbuf;
 
@@ -225,6 +225,10 @@ bool FEMRegistrationFilter<TReference,TTarget>::ReadConfigFile(const char* fname
     FEMLightObject::SkipWhiteSpace(f);
     f >> fbuf;
     this->SetTimeStep(fbuf);
+
+    FEMLightObject::SkipWhiteSpace(f);
+    f >> fbuf;
+    this->SetEnergyReductionFactor(fbuf);
 
     FEMLightObject::SkipWhiteSpace(f);
     f >> fbuf;
@@ -654,9 +658,10 @@ void FEMRegistrationFilter<TReference,TTarget>::IterativeSolve(SolverType& mySol
   // iterative solve  
   //for (unsigned int iters=0; iters<m_Maxiters; iters++){
   unsigned int iters=0;
-  Float LastISim=9.e9;
-  while ( (iters < m_Maxiters && m_MinE >= LastE && deltE > ETol )  || 
-        (minct < NumMins && iters < m_Maxiters) ){
+  Float LastISim=9.e9, InitDeltE=0.0;
+  bool Done=false;
+  unsigned int DLS=m_DoLineSearchOnImageEnergy;
+  while ( !Done ){
   /*
    * Assemble the master force vector (from the applied loads)
    */
@@ -669,32 +674,41 @@ void FEMRegistrationFilter<TReference,TTarget>::IterativeSolve(SolverType& mySol
   
   
    Float mint=1.0,ImageSimilarity=0.0;
-   if (m_DoLineSearchOnImageEnergy > 0 && iters > 0  && (iters % m_LineSearchFrequency) == 0) 
+   if (DLS > 0 && iters > 0  && (iters % m_LineSearchFrequency) == 0) 
    {
      std::cout << " line search ";
-     if (m_DoLineSearchOnImageEnergy == 1 ) mySolver.GoldenSection(1.e-1);
-     else mySolver.BrentsMethod(1.e-1,200);
+     if (DLS == 1 ) mySolver.GoldenSection(1.e-1,100);
+     else  mySolver.BrentsMethod(1.e-1,200);
      std::cout << " line search done " << std::endl;
-   } else if (m_DoLineSearchOnImageEnergy >0 && iters == 0) mint=0.5;
+   } else if (DLS >0 && iters == 0) mint=1.0;
 
    ImageSimilarity=0.0;//m_Load->EvaluateMetricGivenSolution(&(mySolver.el), mint);
    LastE=mySolver.EvaluateResidual(mint);
    deltE=fabs(LastE-m_MinE);
-   if ((LastE <= 1.e-15 || deltE < 1.e-15 /*|| ImageSimilarity > LastISim*/) && iters > 3) 
+   if ((LastE <= InitDeltE )/*|| ImageSimilarity > LastISim*/) 
    {
-     iters=m_Maxiters;
+     Done=true;
+   m_MinE=LastE;
      minct=NumMins;
    }
    else //if ( minct < NumMins )
    {  
      mySolver.AddToDisplacements(mint);  
      //if (LastE >= m_MinE) minct++; else 
-   m_MinE=LastE;
-   LastISim = ImageSimilarity;
+     m_MinE=LastE;
+     LastISim = ImageSimilarity;
    } //else iters=m_Maxiters;
    
    std::cout << " min E " << m_MinE << " Sim E " << ImageSimilarity <<  " iter " << iters << std::endl;
    iters++;
+   if ( iters > m_Maxiters ) DLS=1;
+   if (iters > 2*m_Maxiters ) {
+     Done=true;
+   }
+   if (iters == 2) {
+     InitDeltE=LastE/m_EnergyReductionFactor;
+   std::cout << " convergence energy = " << InitDeltE << std::endl;
+   }
    // uncomment to write out every deformation SLOW due to interpolating vector field everywhere.
    //GetVectorField();
    //WarpImage(m_RefImg);
