@@ -25,6 +25,8 @@ IF (BUILD_TESTING)
   CONFIGURE_FILE(${ITK_SOURCE_DIR}/InsightLogo.gif ${ITK_BINARY_DIR}/Testing/HTML/TestingResults/Icons/Logo.gif COPYONLY)
 ENDIF (BUILD_TESTING)
 
+CONFIGURE_FILE(${ITK_SOURCE_DIR}/UseITK.cmake
+               ${ITK_BINARY_DIR}/UseITK.cmake COPYONLY)
 
 # Add an option to build or not build the Examples
 OPTION(BUILD_EXAMPLES "Build the examples directory")
