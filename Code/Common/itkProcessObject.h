@@ -380,7 +380,7 @@ private:
   /**
    * Friends of ProcessObject
    */
-  friend DataObject;
+  friend class DataObject;
 };
 
 } // end namespace itk

@@ -239,7 +239,7 @@ private:
   /**
    * Friends of DataObject
    */
-  friend ProcessObject;
+  friend class ProcessObject;
 
 };
 
