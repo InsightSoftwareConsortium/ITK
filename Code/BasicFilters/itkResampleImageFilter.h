@@ -37,7 +37,7 @@ namespace itk
  *
  * Note that the choice of interpolator function can be important.
  * This function is set via SetInterpolator().  The default is
- * itk::LinearInterpolateImageFunction<InputImageType, double>, which
+ * itk::LinearInterpolateImageFunction<InputImageType, TInterpolatorPrecisionType>, which
  * is reasonable for ordinary medical images.  However, some synthetic
  * images have pixels drawn from a finite prescribed set.  An example
  * would be a mask indicating the segmentation of a brain into a small
@@ -58,7 +58,7 @@ namespace itk
  *
  * \ingroup GeometricTransforms
  */
-template <class TInputImage, class TOutputImage>
+template <class TInputImage, class TOutputImage, class TInterpolatorPrecisionType=double>
 class ITK_EXPORT ResampleImageFilter:
     public ImageToImageFilter<TInputImage, TOutputImage>
 {
@@ -89,11 +89,11 @@ public:
    * \todo Check that input and output images have the same number of 
    * dimensions; this is required by the current implementation of 
    * AffineTransform. */
-  typedef Transform<double, itkGetStaticConstMacro(ImageDimension), itkGetStaticConstMacro(ImageDimension)> TransformType;
+  typedef Transform<TInterpolatorPrecisionType, itkGetStaticConstMacro(ImageDimension), itkGetStaticConstMacro(ImageDimension)> TransformType;
   typedef typename TransformType::Pointer TransformPointerType;
 
   /** Interpolator typedef. */
-  typedef InterpolateImageFunction<InputImageType, double> InterpolatorType;
+  typedef InterpolateImageFunction<InputImageType, TInterpolatorPrecisionType> InterpolatorType;
   typedef typename InterpolatorType::Pointer  InterpolatorPointerType;
 
   /** Image size typedef. */
@@ -104,6 +104,7 @@ public:
 
   /** Image point typedef. */
   typedef typename InterpolatorType::PointType    PointType;
+  //typedef typename TOutputImage::PointType    PointType;
 
   /** Image pixel value typedef. */
   typedef typename TOutputImage::PixelType   PixelType;
@@ -119,14 +120,14 @@ public:
    * Set the coordinate transform to use for resampling.  Note that this
    * must be in index coordinates and is the output-to-input transform,
    * NOT the input-to-output transform that you might naively expect.
-   * The default is itk::AffineTransform<double, ImageDimension>. */
+   * The default is itk::AffineTransform<TInterpolatorPrecisionType, ImageDimension>. */
   itkSetObjectMacro( Transform, TransformType ); 
 
   /** Get a pointer to the coordinate transform. */
   itkGetObjectMacro( Transform, TransformType );
 
   /** Set the interpolator function.  The default is
-   * itk::LinearInterpolateImageFunction<InputImageType, double>. Some
+   * itk::LinearInterpolateImageFunction<InputImageType, TInterpolatorPrecisionType>. Some
    * other options are itk::NearestNeighborInterpolateImageFunction
    * (useful for binary masks and other images with a small number of
    * possible pixel values), and itk::BSplineInterpolateImageFunction
