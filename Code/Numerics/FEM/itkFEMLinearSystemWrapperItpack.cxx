@@ -17,7 +17,8 @@
 #include "itkNumericTraits.h"
 #include "itkFEMLinearSystemWrapperItpack.h"
 #include "itkFEMException.h"
-#include <vector>
+#include "itpack.h"
+
 
 namespace itk {
 namespace fem {

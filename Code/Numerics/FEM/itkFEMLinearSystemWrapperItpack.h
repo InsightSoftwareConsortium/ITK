@@ -53,8 +53,8 @@ public:
   /* typedef std::auto_ptr<MatrixHolder> MatrixArrayPtr; */
 
   /** vector representation typedef */
-  /* typedef std::auto_ptr<doublereal> VectorRepresentation; */
-  typedef doublereal* VectorRepresentation;
+  /* typedef std::auto_ptr<double> VectorRepresentation; */
+  typedef double * VectorRepresentation;
 
   /** vector of vector typedef */
   typedef std::vector<VectorRepresentation> VectorHolder;
@@ -76,259 +76,259 @@ public:
    * Set the maximum number of iterations
    * \param i maximum number of iterations that may be performed
    */
-  void SetMaximumNumberIterations(integer i) {   m_IPARM[0] = i; }
+  void SetMaximumNumberIterations(int i) {   m_IPARM[0] = i; }
 
   /**
    * Get the maximum number iterations that may be performed
    */
-  integer  GetMaximumNumberIterations() { return m_IPARM[0]; }
+  int  GetMaximumNumberIterations() { return m_IPARM[0]; }
 
-  //void SetErrorReportingLevel(integer i) {   m_IPARM[1] = i; }
+  //void SetErrorReportingLevel(int i) {   m_IPARM[1] = i; }
 
   /**
    * Get a flag indicating the type of error reporting 
    */
-  integer  GetErrorReportingLevel() { return m_IPARM[1]; }
+  int  GetErrorReportingLevel() { return m_IPARM[1]; }
 
   /**
    * Set the communication switch - meaningless in this implementation
    * \param i flag value
    */
-  void SetCommunicationSwitch(integer i) {   m_IPARM[2] = i; }
+  void SetCommunicationSwitch(int i) {   m_IPARM[2] = i; }
 
   /**
    * Get the communication flag - meaningless in this implementation
    */
-  integer  GetCommunicationSwitch() { return m_IPARM[2]; }
+  int  GetCommunicationSwitch() { return m_IPARM[2]; }
 
-  //void SetOutputNumber(integer i) {   m_IPARM[3] = i; }
+  //void SetOutputNumber(int i) {   m_IPARM[3] = i; }
 
   /**
    * Get the output number - meaningless in this implementation
    */
-  integer  GetOutputNumber() { return m_IPARM[3]; }
+  int  GetOutputNumber() { return m_IPARM[3]; }
 
   /**
    * Set flag indicating symmetric matrix is being used
    * \param i 1=symmetric, 0=non-symmetric
    */
-  void SetSymmetricMatrixFlag(integer i) {   m_IPARM[4] = i; }
+  void SetSymmetricMatrixFlag(int i) {   m_IPARM[4] = i; }
 
   /** 
    * Get flag indicating use of symmetric matrix (1=symmetric, 0=non-symmetric)
    */
-  integer  GetSymmetricMatrixFlag() { return m_IPARM[4]; }
+  int  GetSymmetricMatrixFlag() { return m_IPARM[4]; }
 
   /**
    * Set flag for ???
    * \param i ??
    */
-  void SetAdaptiveSwitch(integer i) {   m_IPARM[5] = i; }
+  void SetAdaptiveSwitch(int i) {   m_IPARM[5] = i; }
 
   /**
    * Get flag indicating ??
    */
-  integer  GetAdaptiveSwitch() { return m_IPARM[5]; }
+  int  GetAdaptiveSwitch() { return m_IPARM[5]; }
 
   /**
    * Set flag for ??
    * \param i ??
    */
-  void SetAdaptiveCaseSwitch(integer i) {   m_IPARM[6] = i; }
+  void SetAdaptiveCaseSwitch(int i) {   m_IPARM[6] = i; }
 
   /**
    * Get flag indicating ??
    */
-  integer  GetAdaptiveCaseSwitch() { return m_IPARM[6]; }
+  int  GetAdaptiveCaseSwitch() { return m_IPARM[6]; }
 
   /**
    * Set size of workspace used by solver
    * \param i size of the workspace vector
    * \note this value is set by default
    */
-  void SetWorkspaceUsed(integer i) {   m_IPARM[7] = i; }
+  void SetWorkspaceUsed(int i) {   m_IPARM[7] = i; }
 
   /**
    * Get the size of the workspace used by solver
    * \note after solver is called this is the amount of workspace actually used
    */
-  integer  GetWorkspaceUsed() { return m_IPARM[7]; }
+  int  GetWorkspaceUsed() { return m_IPARM[7]; }
 
   /**
    * Set flag indicating use of red black ordering
    * \param i 1=red black ordering used, 0=not
    */
-  void SetRedBlackOrderingSwitch(integer i) {   m_IPARM[8] = i; }
+  void SetRedBlackOrderingSwitch(int i) {   m_IPARM[8] = i; }
 
   /**
    * Get the flag indicating use of red black ordering
    */
-  integer  GetRedBlackOrderingSwitch() { return m_IPARM[8]; }
+  int  GetRedBlackOrderingSwitch() { return m_IPARM[8]; }
 
   /**
    * Set flag indicating ??
    * \param i ??
    */
-  void SetRemoveSwitch(integer i) {   m_IPARM[9] = i; }
+  void SetRemoveSwitch(int i) {   m_IPARM[9] = i; }
 
   /**
    * Get flag indicating ??
    */
-  integer  GetRemoveSwitch() { return m_IPARM[9]; }
+  int  GetRemoveSwitch() { return m_IPARM[9]; }
 
   /**
    * Set the flag indicating use of timer routines - meaningless in this implementation
    * \param i flag
    */
-  void SetTimingSwitch(integer i) {   m_IPARM[10] = i; }
+  void SetTimingSwitch(int i) {   m_IPARM[10] = i; }
 
   /**
    * Get the flag indicating use of the timer routines - meaningless in this implementation
    */
-  integer  GetTimingSwitch() { return m_IPARM[10]; }
+  int  GetTimingSwitch() { return m_IPARM[10]; }
 
   /**
    * Set the flag for level of error reporting - meaningless in this implementation
    * \param i flag for level of error analysis
    */
-  void SetErrorAnalysisSwitch(integer i) {   m_IPARM[11] = i; }
+  void SetErrorAnalysisSwitch(int i) {   m_IPARM[11] = i; }
 
   /**
    * Get the flag for level of error reporting - meaningless in this implementation
    */
-  integer  GetErrorAnalysisSwitch() { return m_IPARM[11]; }
+  int  GetErrorAnalysisSwitch() { return m_IPARM[11]; }
 
   /**
    * Set the level of accuracy for an acceptable solution
    * \param i accuracy desired
    */
-  void   SetAccuracy(doublereal i) {   m_RPARM[0] = i; }
+  void   SetAccuracy(double i) {   m_RPARM[0] = i; }
 
   /**
    * Get the level of accuracy
    */
-  doublereal GetAccuracy()    { return m_RPARM[0]; }
+  double GetAccuracy()    { return m_RPARM[0]; }
 
   /**
    * Set ??
    * \param i larges jacobian eigenvalue estimate
    */
-  void   SetLargestJacobiEigenvalueEstimate(doublereal i) {   m_RPARM[1] = i; }
+  void   SetLargestJacobiEigenvalueEstimate(double i) {   m_RPARM[1] = i; }
 
   /**
    * Get ??
    */
-  doublereal GetLargestJacobiEigenvalueEstimate()    { return m_RPARM[1]; }
+  double GetLargestJacobiEigenvalueEstimate()    { return m_RPARM[1]; }
 
   /**
    * Set ??
    * \param i smalles jacobian eigenvalue estimate
    */
-  void   SetSmallestJacobiEigenvalueEstimate(doublereal i) {   m_RPARM[2] = i; }
+  void   SetSmallestJacobiEigenvalueEstimate(double i) {   m_RPARM[2] = i; }
 
   /**
    * Get ??
    */
-  doublereal GetSmallestJacobiEigenvalueEstimate()    { return m_RPARM[2]; }
+  double GetSmallestJacobiEigenvalueEstimate()    { return m_RPARM[2]; }
 
   /**
    * Set the damping factor used by ??
    * \param i damping factor
    */
-  void   SetDampingFactor(doublereal i) {   m_RPARM[3] = i; }
+  void   SetDampingFactor(double i) {   m_RPARM[3] = i; }
 
   /**
    * Get the damping factor used by ??
    */
-  doublereal GetDampingFactor()    { return m_RPARM[3]; }
+  double GetDampingFactor()    { return m_RPARM[3]; }
 
   /**
    * Set the over-relaxation parameter ??
    * \param i parameter
    */
-  void   SetOverrelaxationParameter(doublereal i) {   m_RPARM[4] = i; }
+  void   SetOverrelaxationParameter(double i) {   m_RPARM[4] = i; }
 
   /**
    * Get the over-relaxation parameter ??
    */
-  doublereal GetOverrelaxationParameter()    { return m_RPARM[4]; }
+  double GetOverrelaxationParameter()    { return m_RPARM[4]; }
 
   /**
    * Set the ??
    * \param i ??
    */
-  void   SetEstimatedSpectralRadiusSSOR(doublereal i) {   m_RPARM[5] = i; }
+  void   SetEstimatedSpectralRadiusSSOR(double i) {   m_RPARM[5] = i; }
 
   /**
    * Get the ??
    */
-  doublereal GetEstimatedSpectralRadiusSSOR()    { return m_RPARM[5]; }
+  double GetEstimatedSpectralRadiusSSOR()    { return m_RPARM[5]; }
 
   /**
    * Set the ??
    * \param i ??
    */
-  void   SetEstimatedSpectralRadiusLU(doublereal i) {   m_RPARM[6] = i; }
+  void   SetEstimatedSpectralRadiusLU(double i) {   m_RPARM[6] = i; }
 
   /**
    * Get the ??
    */
-  doublereal GetEstimatedSpectralRadiusLU()    { return m_RPARM[6]; }
+  double GetEstimatedSpectralRadiusLU()    { return m_RPARM[6]; }
 
   /**
    * Set the tolerance level
    * \param i tolerance
    */
-  void   SetTolerance(doublereal i) {   m_RPARM[7] = i; }
+  void   SetTolerance(double i) {   m_RPARM[7] = i; }
 
   /**
    * Get the tolerance level
    */
-  doublereal GetTolerance()    { return m_RPARM[7]; }
+  double GetTolerance()    { return m_RPARM[7]; }
 
   /**
    * Set the time to convergence
    * \param i ??
    */
-  void   SetTimeToConvergence(doublereal i) {   m_RPARM[8] = i; }
+  void   SetTimeToConvergence(double i) {   m_RPARM[8] = i; }
 
   /**
    * Get the time to convergence
    */
-  doublereal GetTimeToConvergence()    { return m_RPARM[8]; }
+  double GetTimeToConvergence()    { return m_RPARM[8]; }
 
   /**
    * Set the time for call
    * \param i ??
    */
-  void   SetTimeForCall(doublereal i) {   m_RPARM[9] = i; }
+  void   SetTimeForCall(double i) {   m_RPARM[9] = i; }
 
   /**
    * Get the time for call
    */
-  doublereal GetTimeForCall()    { return m_RPARM[9]; }
+  double GetTimeForCall()    { return m_RPARM[9]; }
 
   /**
    * Set digits in error
    * \param i number of digits in error
    */
-  void   SetDigitsInError(doublereal i) {   m_RPARM[10] = i; }
+  void   SetDigitsInError(double i) {   m_RPARM[10] = i; }
 
   /**
    * Get the number of digits in the error
    */
-  doublereal GetDigitsInError()    { return m_RPARM[10]; }
+  double GetDigitsInError()    { return m_RPARM[10]; }
 
   /**
    * Set the number of digits in the residual
    * \param i number of digits in the residual
    */
-  void   SetDigitsInResidual(doublereal i) {   m_RPARM[11] = i; }
+  void   SetDigitsInResidual(double i) {   m_RPARM[11] = i; }
 
   /**
    * Get the number of digits in the residual
    */
-  doublereal GetDigitsInResidual()    { return m_RPARM[11]; }
+  double GetDigitsInResidual()    { return m_RPARM[11]; }
 
   /** 
    * Set numerical solving method to jacobian conjugate gradient 
@@ -463,6 +463,11 @@ public:
 
 private:
 
+
+  /** typedefs from f2c.h  */
+  typedef int       integer;
+  typedef double    doublereal;
+
   /** pointer to vector of matrices */
   MatrixHolder *m_Matrices;
 
@@ -505,7 +510,7 @@ public:
    * must be provided: file, lineNumber, location and a detailed description
    * of the exception.
    */
-  FEMExceptionItpackSolver(const char *file, unsigned int lineNumber, std::string location, integer errorCode);
+  FEMExceptionItpackSolver(const char *file, unsigned int lineNumber, std::string location, int errorCode);
  
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   virtual ~FEMExceptionItpackSolver() throw() {}
