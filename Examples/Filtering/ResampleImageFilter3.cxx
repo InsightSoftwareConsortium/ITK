@@ -18,11 +18,11 @@
 //  Software Guide : BeginLatex
 //
 //  Now that the principles behind the \code{ResampleImageFilter} has been
-//  layed out, let's have some fun with it !
+//  layed out, let's have some fun with it!
 //
 //  Figure \ref{fig:ResampleImageFilterTransformComposition6} illustrates the
 //  generic case of the resampling process. The origin and spacing of the
-//  output image has been choosen to be different from those of the input
+//  output image has been chosen to be different from those of the input
 //  image.  The circles represent the \emph{center} of pixels. They are
 //  inscribed in a rectangle representing the \emph{coverage} of this pixel.
 //  The spacing specifies the distance between pixel centers along every
@@ -32,11 +32,11 @@
 //  note here that the transform supplied to the \code{ResampleImageFilter} is
 //  a \emph{clockwise} rotation. This transform rotates the \emph{coordinate
 //  system} of the output image 30 degrees clockwise.  When the two images are
-//  relocated in a common coordinate system --- as in figure
+//  relocated in a common coordinate system --- as in Figure
 //  \ref{fig:ResampleImageFilterTransformComposition6} --- the result is that
 //  the frame of the output image appears rotated 30 degrees \emph{clockwise}.
 //  If the output image is seen with its coordinate system straighten up --- as
-//  in figure \ref{fig:ResampleImageFilterOutput9} --- the image content
+//  in Figure \ref{fig:ResampleImageFilterOutput9} --- the image content
 //  appears rotated 30 degrees \emph{counter-clockwise}. Before continue
 //  reading this section, you may want to meditate a bit on this fact while
 //  enjoying a cup of coffee.
@@ -56,9 +56,9 @@
 // \label{fig:ResampleImageFilterTransformComposition6}
 // \end{figure}
 //
-//  The following code implements the conditions illustrated in figure
+//  The following code implements the conditions illustrated in Figure
 //  \ref{fig:ResampleImageFilterTransformComposition6} with the only difference
-//  of selecting a spacing 40 times smaller and a number of pixels 40 times
+//  of the output spacing being 40 times smaller and a number of pixels 40 times
 //  larger in both dimensions. Without these changes, few detail will be
 //  recognizable on the images.  Note that the spacing and origin of the input
 //  image should be prepared in advance by using other means since this filter
@@ -135,7 +135,7 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  In order to facilitate the interpretation of the transform we set the
-  //  default pixel value to a distinctly visible gray level.
+  //  default pixel value to value distinct from the image background.
   //
   //  \index{itk::ResampleImageFilter!SetDefaultPixelValue()}
   //
@@ -151,7 +151,7 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  The spacing is selected here to be 40 times smaller than the one
-  //  illustrated in figure \ref{fig:ResampleImageFilterTransformComposition6}.
+  //  illustrated in Figure \ref{fig:ResampleImageFilterTransformComposition6}.
   //
   //  \index{itk::ResampleImageFilter!SetOutputSpacing()}
   //
@@ -193,7 +193,7 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //  
   //  The output image size is defined to be 40 times the one illustrated on
-  //  the figure \ref{fig:ResampleImageFilterTransformComposition6}.
+  //  the Figure \ref{fig:ResampleImageFilterTransformComposition6}.
   //
   //  \index{itk::ResampleImageFilter!SetSize()}
   //
@@ -222,8 +222,8 @@ int main( int argc, char ** argv )
   //
   //  Rotations are performed around the origin of physical coordinates --- not
   //  the image origin nor the image center. Hence, the process of positioning
-  //  the output image frame as it is shown in figure
-  //  \ref{fig:ResampleImageFilterTransformComposition6} reguires three steps.
+  //  the output image frame as it is shown in Figure
+  //  \ref{fig:ResampleImageFilterTransformComposition6} requires three steps.
   //  First, the image origin must be moved to the origin of the coordinate
   //  system, this is done by applying a translation equal to the negative
   //  values of the image origin.
@@ -246,9 +246,9 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  In a second step, a rotation of 30 degrees is performed.  Note that
-  //  angles are specified in \emph{radians} to the Affine transform. Also, the
-  //  AffineTransform uses a second boolean argument to specify if the current
+  //  In a second step, a rotation of 30 degrees is performed.  In the AffineTransform, 
+  //  angles are specified in \emph{radians}. Also, a second boolean argument is used
+  //  to specify if the current
   //  modification of the transform should be pre-composed or post-composed
   //  with the current transform content. In this case the argument is set to
   //  \code{false} to indicate that the rotation should be applied \emph{after}
@@ -310,11 +310,11 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  Figure \ref{fig:ResampleImageFilterOutput9} presents the actual input and
-  //  outpu images of this example as shown by a correct viewer which takes
+  //  output images of this example as shown by a correct viewer which takes
   //  spacing into account. Note the \emph{clockwise} versus
   //  \emph{counter-clockwise} effect discussed previously between the
-  //  representation in figure
-  //  \ref{fig:ResampleImageFilterTransformComposition6} and figure
+  //  representation in Figure
+  //  \ref{fig:ResampleImageFilterTransformComposition6} and Figure
   //  \ref{fig:ResampleImageFilterOutput9}.
   //
   //  Software Guide : EndLatex 
@@ -322,7 +322,7 @@ int main( int argc, char ** argv )
  
   //  Software Guide : BeginLatex
   //
-  //  As a final excercise, let's track the mapping of an individual pixel.
+  //  As a final exercise, let's track the mapping of an individual pixel.
   //  Keep in mind that the transformation is initiated by walking through the
   //  pixels of the \emph{output} image. This is the only way to ensure that
   //  the image will be generated without holes or redundant values. When you
@@ -331,16 +331,16 @@ int main( int argc, char ** argv )
   //
   //  Let's take the pixel with index $I=(1,2)$ from the ouptut image. The
   //  physical coordinates of this point in the output image reference system
-  //  are $P=( 1 \times 40.0 + 50.0, 2 \times 30.0 + 130.0 )$ which corresponds
-  //  to $P=(90.0,190.0)$ millimeters.
+  //  are $P=( 1 \times 40.0 + 50.0, 2 \times 30.0 + 130.0 ) = (90.0,190.0)$ 
+  //  millimeters.
   //  
-  //  This point $P$ is now mapped through the Affine transform into the input
+  //  This point $P$ is now mapped through the AffineTransform into the input
   //  image space.  The operation requires to subtract the origin, apply a $30$
   //  degrees rotation and add the origin back. Let's follow those steps.
   //  Subtracting the origin from $P$ leads to $P1=(40.0,60.0)$, the rotation
-  //  maps $P1$ to $p2=( 40.0 \times cos (30.0) + 60.0 \times sin (30.0), 40.0
-  //  \times sin(30.0) - 60.0 \times cos(30.0))$ which results in
-  //  $P2=(64.64,31.96)$. Finally this point is translated back by the amount
+  //  maps $P1$ to $P2=( 40.0 \times cos (30.0) + 60.0 \times sin (30.0), 40.0
+  //  \times sin(30.0) - 60.0 \times cos(30.0)) = (64.64,31.96)$. 
+  //  Finally this point is translated back by the amount
   //  of the image origin. This moves $P2$ to $P3=(114.64,161.96)$.
   //
   //  The point $P3$ is now in the coordinate system of the input image. The
@@ -354,7 +354,7 @@ int main( int argc, char ** argv )
   //  In this particular code the interpolator used is simply a
   //  \code{NearestNeighborInterpolateImageFunction} which will assign the
   //  value of the closest pixel. This ends up being the pixel of index
-  //  $I=(3,3)$ and can be seen from figure
+  //  $I=(3,3)$ and can be seen from Figure
   //  \ref{fig:ResampleImageFilterTransformComposition6}.
   //
   //  Well, if you read this section up to here, you certainly deserve a break.
