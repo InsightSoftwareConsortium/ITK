@@ -167,18 +167,19 @@ TclGenerator
                      const configuration::WrapperSet* wrapperSet,
                      const configuration::PackageNamespace* ns)
 {
+  String qualifedName = ns->GetQualifiedName()+"::"+wrapperSet->GetName();
+  source::Class* wStruct = m_GlobalNamespace->LookupClass(qualifedName);
   for(configuration::WrapperSet::ConstIterator wrapper = wrapperSet->Begin();
       wrapper != wrapperSet->End(); ++wrapper)
     {
-    String qualifedName = ns->GetQualifiedName()+"::"+wrapper->second;
-    source::Class* c = m_GlobalNamespace->LookupClass(qualifedName);
+    source::Class* c = wStruct->LookupClass(wrapper->first);
     if(c)
       {
       this->GenerateClassWrapper(wrapperStream, c);
       }
     else
       {
-      wrapperStream << "// Couldn't find type " << qualifedName << std::endl;
+      wrapperStream << "// Couldn't find type " << wrapper->first.c_str() << std::endl;
       }
     }
 }
