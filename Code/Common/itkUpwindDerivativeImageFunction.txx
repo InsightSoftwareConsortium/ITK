@@ -84,7 +84,7 @@ UpwindDerivativeImageFunction<TInputImage>
 template <class TInputImage>
 double
 UpwindDerivativeImageFunction<TInputImage>
-::EvaluateAtIndex(
+::EvaluateNthDerivativeAtIndex(
 const IndexType& index,
 unsigned int dim ) const
 {

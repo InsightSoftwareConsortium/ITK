@@ -112,25 +112,25 @@ public:
 
   /** Evalulate the function at specified index. */
   virtual double EvaluateAtIndex( const IndexType& index ) const
-    { return ( this->EvaluateAtIndex( index, 0 ) ); }
+    { return ( this->EvaluateNthDerivativeAtIndex( index, 0 ) ); }
 
   /** Evaluate the function at non-integer positions. */
   virtual double Evaluate( const PointType& point ) const
     { 
       IndexType index;
       this->ConvertPointToNearestIndex( point, index );
-      return this->EvaluateAtIndex( index, 0 ); 
+      return this->EvaluateAtIndex( index ); 
     }
   virtual double EvaluateAtContinuousIndex( 
     const ContinuousIndexType& cindex ) const
     { 
       IndexType index;
       this->ConvertContinuousIndexToNearestIndex( cindex, index );
-      return this->EvaluateAtIndex( index, 0 ) ; 
+      return this->EvaluateAtIndex( index ) ; 
     }
   
-  /** Evalulate the function at specified index. */
-  virtual double EvaluateAtIndex( const IndexType& index, 
+  /** Evalulate the Nth derivative at specified index. */
+  virtual double EvaluateNthDerivativeAtIndex( const IndexType& index, 
                            unsigned int dim = 0 ) const;
 
   /** Get the derivative from last evaluation */

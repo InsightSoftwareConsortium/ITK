@@ -58,6 +58,7 @@ public:
 };
 
 
+
 int main()
 {
 
@@ -184,6 +185,28 @@ int main()
   
   // Exercise various member variables
   detector->Print( std::cout );
+
+  /* ---------------------------------------------------
+   * test some componentes
+   */
+  typedef itk::UpwindDerivativeImageFunction<FloatImage>
+    FunctionType;
+  
+  FunctionType::Pointer func = FunctionType::New();
+  
+  typedef FunctionType::IndexType FunctionIndexType;
+  typedef FunctionType::ContinuousIndexType FunctionContinuousIndexType;
+
+  FunctionIndexType index;
+  index.Fill( 0 );
+  
+  FunctionContinuousIndexType contIndex;
+  contIndex.Fill( 0.0 );
+  
+  func->SetInputImage( levelSet );
+  func->EvaluateAtContinuousIndex( contIndex );
+  func->EvaluateAtIndex( index );
+  func->EvaluateNthDerivativeAtIndex( index, 1 );
 
   return EXIT_SUCCESS;
 
