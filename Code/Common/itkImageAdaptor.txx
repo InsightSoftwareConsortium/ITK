@@ -36,6 +36,10 @@ template <class TImage, class TAccessor >
 ImageAdaptor<TImage , TAccessor>
 ::~ImageAdaptor()
 {
+  if( m_Image )
+  {
+    m_Image->Unregister();
+  }
 }
 
 
@@ -183,6 +187,7 @@ ImageAdaptor<TImage , TAccessor>
 ::SetImage( TImage * image )
 {
   m_Image = image;
+  m_Image->Register();
 }
 
 
@@ -208,6 +213,28 @@ ImageAdaptor<TImage , TAccessor>
 {
   return m_Image->GetOffsetTable();
 }
+
+
+//----------------------------------------------------------------------------
+template <class TImage, class TAccessor >
+void
+ImageAdaptor<TImage , TAccessor>
+::Modified() const
+{
+  m_Image->Modified();
+}
+
+
+
+//----------------------------------------------------------------------------
+template <class TImage, class TAccessor >
+unsigned long
+ImageAdaptor<TImage , TAccessor>
+::GetMTime() 
+{
+  return m_Image->GetMTime();
+}
+
 
 
 

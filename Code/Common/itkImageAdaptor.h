@@ -266,6 +266,17 @@ public:
    */
   virtual void SetImage( TImage * );
 
+  /**
+   * Delegate Modified to the Internal Image
+   */
+  virtual void Modified();
+
+
+  /**
+   * Delegate GetMTime to the Internal Image
+   */
+  virtual unsigned long GetMTime();
+
 
   virtual void UpdateOutputInformation();
   virtual void SetRequestedRegionToLargestPossibleRegion();
