@@ -76,9 +76,9 @@ int itkAzimuthElevationToCartesianTransformTest(
     bool same=true;
     for (unsigned int i=0; i < p.PointDimension && same; i++)
       { 
-      same = ((abs(p[i] - answerBackwards[i]) < ACCEPTABLE_ERROR) && 
-      (abs(p[i] - reverseDirectionAnswerBackwards[i]) < ACCEPTABLE_ERROR) && 
-      (abs(answer[i] - reverseDirectionAnswer[i]) < ACCEPTABLE_ERROR)) ;
+      same = ((vnl_math_abs(p[i] - answerBackwards[i]) < ACCEPTABLE_ERROR) && 
+      (vnl_math_abs(p[i] - reverseDirectionAnswerBackwards[i]) < ACCEPTABLE_ERROR) && 
+      (vnl_math_abs(answer[i] - reverseDirectionAnswer[i]) < ACCEPTABLE_ERROR)) ;
       }
     if (!same) 
       {
