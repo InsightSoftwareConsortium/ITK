@@ -76,7 +76,7 @@ class ITK_EXPORT Sample : public Object
 {
 public:
   /** Standard class typedefs */
-  typedef Sample  Self;
+  typedef Sample  Self;  
   typedef Object Superclass ;
   typedef SmartPointer< Self > Pointer ;
 
@@ -89,10 +89,6 @@ public:
   /** typedef for each element in a measurement vector*/ 
   typedef typename TMeasurementVector::ValueType MeasurementType ;
 
-  /** Alias for the number of measurement vector components */
-  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
-                      TMeasurementVector::Length);
-
   /** frequency value typedef*/
   typedef float FrequencyType ;
 
@@ -104,7 +100,7 @@ public:
   virtual unsigned int Size() const = 0 ;
 
   /** returns the measurement of the instance which is identified by the 'id'*/
-  virtual MeasurementVectorType& GetMeasurementVector(const InstanceIdentifier &id) = 0 ;
+  virtual MeasurementVectorType GetMeasurementVector(const InstanceIdentifier &id) = 0 ;
 
   /** returns the frequency of the instance which is identified by the 'id'*/
   virtual FrequencyType GetFrequency(const InstanceIdentifier &id) const = 0 ;
