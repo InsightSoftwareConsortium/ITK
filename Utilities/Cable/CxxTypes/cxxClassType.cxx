@@ -153,7 +153,6 @@ void ClassType::GetAllSuperclasses(ClassTypes& result) const
     {
     // Get the next class off the queue.
     const ClassType* curClass = classQueue.front(); classQueue.pop();
-    result.push_back(curClass);
     
     // Add the class's parents to the queue.
     for(ClassTypes::const_iterator parent = curClass->ParentsBegin();
@@ -165,6 +164,10 @@ void ClassType::GetAllSuperclasses(ClassTypes& result) const
         {
         classQueue.push(*parent);
         queued.insert(*parent);
+        
+        // Every class but the initial one should be added to the
+        // result.
+        result.push_back(curClass);
         }
       }
     }
