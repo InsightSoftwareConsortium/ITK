@@ -69,13 +69,13 @@ StatisticsImageFilter<TInputImage>
   // Resize the thread temporaries
   m_Count.resize(numberOfThreads);
   m_SumOfSquares.resize(numberOfThreads);
-  m_Sum.resize(numberOfThreads);
+  m_ThreadSum.resize(numberOfThreads);
   m_ThreadMin.resize(numberOfThreads);
   m_ThreadMax.resize(numberOfThreads);
   
   // Initialize the temporaries
   m_Count.Fill(NumericTraits<long>::Zero);
-  m_Sum.Fill(NumericTraits<RealType>::Zero);
+  m_ThreadSum.Fill(NumericTraits<RealType>::Zero);
   m_SumOfSquares.Fill(NumericTraits<RealType>::Zero);
   m_ThreadMin.Fill(NumericTraits<RealType>::max());
   m_ThreadMax.Fill(NumericTraits<RealType>::NonpositiveMin());
@@ -88,11 +88,11 @@ StatisticsImageFilter<TInputImage>
 {
   int i;
   long count;
-  RealType sum, sumOfSquares;
+  RealType sumOfSquares;
     
   int numberOfThreads = this->GetNumberOfThreads();
 
-  sum = sumOfSquares = NumericTraits<RealType>::Zero;
+  m_Sum = sumOfSquares = NumericTraits<RealType>::Zero;
   count = 0;
 
   // Find the min/max over all threads and accumulate count, sum and sum of squares
@@ -101,7 +101,7 @@ StatisticsImageFilter<TInputImage>
   for( i = 0; i < numberOfThreads; i++)
     {
     count += m_Count[i];
-    sum += m_Sum[i];
+    m_Sum += m_ThreadSum[i];
     sumOfSquares += m_SumOfSquares[i];
 
     if (m_ThreadMin[i] < m_Minimum)
@@ -114,10 +114,10 @@ StatisticsImageFilter<TInputImage>
       }
     }
   // compute statistics
-  m_Mean = sum / static_cast<RealType>(count);
+  m_Mean = m_Sum / static_cast<RealType>(count);
 
   // unbiased estimate
-  m_Variance = (sumOfSquares - (sum*sum / static_cast<RealType>(count)))
+  m_Variance = (sumOfSquares - (m_Sum*m_Sum / static_cast<RealType>(count)))
     / (static_cast<RealType>(count) - 1);
   m_Sigma = sqrt(m_Variance);
 
@@ -153,7 +153,7 @@ StatisticsImageFilter<TInputImage>
       m_ThreadMax[threadId] = value;
       }
     
-    m_Sum[threadId] += value;
+    m_ThreadSum[threadId] += value;
     m_SumOfSquares[threadId] += (value * value);
     m_Count[threadId]++;
     ++it;
@@ -176,6 +176,7 @@ StatisticsImageFilter<TImage>
 
   os << indent << "Minimum: "  << m_Minimum << std::endl;
   os << indent << "Maximum: "  << m_Maximum << std::endl;
+  os << indent << "Sum: "      << m_Sum << std::endl;
   os << indent << "Mean: "     << m_Mean << std::endl;
   os << indent << "Sigma: "    << m_Sigma << std::endl;
   os << indent << "Variance: " << m_Variance << std::endl;

@@ -45,6 +45,8 @@ int itkStatisticsImageFilterTest(int, char**)
   image->Allocate();
   image->FillBuffer( static_cast< FloatImage::PixelType >( fillValue ) );
 
+  float sum = fillValue * static_cast<float>( region.GetNumberOfPixels() );
+
   typedef itk::StatisticsImageFilter<FloatImage> FilterType;
   FilterType::Pointer filter = FilterType::New();
 
@@ -61,6 +63,11 @@ int itkStatisticsImageFilterTest(int, char**)
   if (filter->GetMaximum() != fillValue)
     {
     std::cerr << "GetMaximum failed! Got " << filter->GetMaximum() << " but expected " << fillValue << std::endl;
+    status++;
+    }
+  if (filter->GetSum() != sum)
+    {
+    std::cerr << "GetSum failed! Got " << filter->GetSum() << " but expected " << sum << std::endl;
     status++;
     }
   if (filter->GetMean() != fillValue)

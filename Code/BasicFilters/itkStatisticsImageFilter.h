@@ -26,8 +26,8 @@ namespace itk {
 /** \class StatisticsImageFilter 
  * \brief Compute min. max, variance and mean of an Image.
  *
- * StatisticsImageFilter computes the minimum, maximum, mean, variance
- * and sigma of an image.  The filter needs all of its input image.  It
+ * StatisticsImageFilter computes the minimum, maximum, sum, mean, variance
+ * sigma of an image.  The filter needs all of its input image.  It
  * behaves as a filter with an input and output. Thus it can be inserted
  * in a pipline with other filters and the statistics will only be
  * recomputed if a downstream filter changes.
@@ -84,15 +84,18 @@ public:
   /** Return the computed Variance. */
   itkGetMacro(Variance,RealType);
 
+  /** Return the compute Sum. */
+  itkGetMacro(Sum,RealType);
+
 protected:
-  StatisticsImageFilter(): m_Sum(1), m_SumOfSquares(1), m_Count(1), m_ThreadMin(1), m_ThreadMax(1)
+  StatisticsImageFilter(): m_ThreadSum(1), m_SumOfSquares(1), m_Count(1), m_ThreadMin(1), m_ThreadMax(1)
     {
       m_Minimum = NumericTraits<RealType>::max();
       m_Maximum = NumericTraits<RealType>::NonpositiveMin();
       m_Mean = NumericTraits<RealType>::max();
       m_Sigma = NumericTraits<RealType>::max();
       m_Variance = NumericTraits<RealType>::max();
-      
+      m_Sum = NumericTraits<RealType>::Zero;
     };
   
   ~StatisticsImageFilter(){};
@@ -127,8 +130,9 @@ protected:
   RealType m_Mean;
   RealType m_Sigma;
   RealType m_Variance;
+  RealType m_Sum;
 
-  Array<RealType> m_Sum;
+  Array<RealType> m_ThreadSum;
   Array<RealType> m_SumOfSquares;
   Array<long>     m_Count;
   Array<RealType> m_ThreadMin;
