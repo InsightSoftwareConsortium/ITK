@@ -1,6 +1,7 @@
 /*=========================================================================
 
-  Program:   Insight Segmentation & Registration Toolkit
+
+Program:   Insight Segmentation & Registration Toolkit
   Module:    itkPoint.txx
   Language:  C++
   Date:      $Date$
@@ -174,7 +175,16 @@ Point<T, TPointDimension>
   vnl_vector_ref< T > vector_ref( TPointDimension, this->GetDataPointer());
   return vector_ref;
 }
- 
+
+template<class T, unsigned int TPointDimension >
+typename Point<T, TPointDimension>::VectorType
+Point<T, TPointDimension>
+::GetVectorFromOrigin() const
+{
+  // VectorType knows how to construct from ValueType*.
+  return &(*this)[0];
+}
+
 
 /*
  * Returns Squared Euclidean distance between two points

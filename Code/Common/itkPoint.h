@@ -117,7 +117,7 @@ public:
   Self operator-(const VectorType &vec) const;
 
   /** Access an element of a point. This version can be used as an lvalue. */
-  VectorType GetVectorFromOrigin( void ) const;
+  VectorType GetVectorFromOrigin() const;
 
   /** Returns Euclidean distance between two points */
   TCoordRep EuclideanDistanceTo( const Self &  ) const;
