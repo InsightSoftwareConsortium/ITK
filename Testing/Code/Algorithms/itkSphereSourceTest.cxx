@@ -12,15 +12,21 @@
 
 int main(){
 
+  typedef itk::Point<float,3>  fPointType;
   typedef itk::SphereSource<itk::Mesh<float> >  fSphereSourceType;
   fSphereSourceType::Pointer  mySphereSource = fSphereSourceType::New();
-
-  mySphereSource->SetCenter(0, 0, 0);
-  mySphereSource->SetResolution(1, 10);
-  mySphereSource->SetScale(1.0, 1.0, 1.0);
+  fPointType center; center.Fill(0);
+  fPointType scale; scale = 1,1,1;
+  
+  mySphereSource->SetCenter(center);
+  mySphereSource->SetResolutionX(1);
+  mySphereSource->SetResolutionY(10);
+  mySphereSource->SetScale(scale);
 
   mySphereSource->Modified();
   mySphereSource->Update();
+
+  std::cout << "mySphereSource: " << mySphereSource;
 
   typedef itk::Mesh<float>::PointType   IPT;
 //  itk::Mesh<float>::PointsContainerPointer      myoutput = mySphereSource->GetOutput()->GetPoints();
