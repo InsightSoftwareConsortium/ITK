@@ -83,7 +83,8 @@ namespace itk {
  * \f[ \nabla \cdot \frac{\nabla f}{\mid \nabla f \mid} \f] .
  *
  * \par References
- *
+ *  R. Whitaker and X. Xue. Variable-Conductance, Level-Set Curvature for 
+ *  Image Processing, ICIP 2001.
  *
  *  
  * \sa AnisotropicDiffusionFunction
