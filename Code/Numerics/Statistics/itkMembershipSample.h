@@ -207,6 +207,7 @@ public:
       m_Id = it.m_Id;
       m_MembershipSample = it.m_MembershipSample ;
       m_Sample = it.m_Sample ;
+      return *this ;
     }
 
     Iterator(const Iterator& it)

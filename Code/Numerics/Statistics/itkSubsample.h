@@ -187,6 +187,7 @@ public:
       m_Iter = iter.m_Iter;
       m_Subsample = iter.m_Subsample ;
       m_Sample = iter.m_Sample ;
+      return *this ;
     }
 
     Iterator(const Iterator& iter)

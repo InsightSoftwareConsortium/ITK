@@ -187,7 +187,7 @@ public:
     { 
       m_Id = iter.m_Id; 
       m_Container = iter.m_Container ; 
-      return iter ;
+      return *this ;
     }
 
     Iterator(const Iterator &iter)
