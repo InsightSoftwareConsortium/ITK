@@ -163,12 +163,12 @@ public:
   /**
    * Type definition for a double matrix.
    */
-  typedef typename vnl_matrix<double> CodebookMatDblType; 
+  typedef vnl_matrix<double> CodebookMatDblType; 
 
   /**
    * Type definition for an integer vector.
    */
-  typedef typename vnl_matrix<int>    CodebookMatIntType;
+  typedef vnl_matrix<int>    CodebookMatIntType;
 
   /**
    * Set the cluster centers
