@@ -22,7 +22,6 @@ LINK_DIRECTORIES(
 ${CMAKE_BINARY_DIR}/Code/Common 
 ${CMAKE_BINARY_DIR}/Code/Numerics/vxl )
 
-
 # Add commands to generate configure file when no
 # autoconf is around
 
@@ -127,3 +126,6 @@ Experimental:
 
 END MAKE VERBATIM
 
+# Find the CABLE utility.
+UTILITY_SOURCE(CABLE cable Utilities/Cable/Generators)
+FIND_PROGRAM(CABLE cable)
