@@ -55,7 +55,6 @@ int itk2DDeformableTest(int, char**)
 // change the image size to your test images
   int WIDTH = 100;
   int HEIGHT = 100;
-  int DEPTH = 1;
   
   // Define the dimension of the images
   const unsigned int myDimension = 2;
@@ -160,6 +159,7 @@ int itk2DDeformableTest(int, char**)
   // if using local test file
   /*
   FILE *inputfile = fopen(INPUTFILE, "rb");
+  int DEPTH = 1;
   for (int i=0; i<DEPTH; i++) {
     fread(ImageBuffer, 1, WIDTH*HEIGHT, inputfile);
     for (int j=0; j<WIDTH*HEIGHT; j++) {
@@ -315,7 +315,6 @@ int itk2DDeformableTest(int, char**)
   DMesh::CellsContainerPointer      cells;
   DMesh::CellsContainer::Iterator   cellsit;
   DMesh::PointType                  node;
-  const unsigned long *tp;
 
   ///////////////////////////////////////////////////////////////////////
   // my local output

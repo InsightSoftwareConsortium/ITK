@@ -131,7 +131,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   m_ImageHeight = ImageSize[1];
 //  m_ImageDePixelTypeh  = ImageSize[2];
 
-  float d[3] = {0,0,0}, fd=0; 
+  float d[3] = {0,0,0};
 
 //  TimeStep = 0.001; 
 
@@ -321,17 +321,14 @@ void
 BalloonForceFilter<TInputMesh, TOutputMesh>
 ::ComputeForce()
 {
-  int i, p, l=0; 
+  int i;
   IndexType coord = {0, 0};
   IndexType extend = {0, 0};
-  float extends[2], fo, t, xs, ys, zs; 
+  float extends[2], fo, t, xs, ys;
   FloatVector n1, n, vec1, vec2; 
   float max;
   IPixelType x, y, z, f;
-  IPixelType* y_PixelType;
-  IPixelType* z_PixelType;
-  y_PixelType = &y;
-  z_PixelType = &z;
+
   float dist = 0.0;
   unsigned short label;
 
@@ -351,15 +348,12 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   InputPointDataContainerIterator   pointstatus = myPointData->Begin();
 
   int slicediv = this->m_Resolution; 
-  double d=0.0, f1=0.0;
 
   i = 0;
-  int slice; 
   
   while( i != m_NumberOfNodes - 2 )
   {
-  slice = i/slicediv;
-  xs = ys = zs = 1.0; 
+  xs = ys = 1.0; 
   x = points.Value();
 
   coord[0] = (int) x[0];
@@ -368,7 +362,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 
   label = (unsigned short)m_Potential->GetPixel(coord);
   if ( label != m_ObjectLabel ) {
-    xs = ys = zs = 0.0;
+    xs = ys = 0.0;
   }
 
   //---------------------------------------------------------------------
@@ -379,49 +373,49 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   coord[0] = (int) (x[0]+1);
   coord[1] = (int) (x[1]+1);
   if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
-    xs = ys = zs = 0.0;
+    xs = ys = 0.0;
   }
 
   coord[0] = (int) (x[0]+1);
   coord[1] = (int) (x[1]);
   if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
-    xs = ys = zs = 0.0;
+    xs = ys = 0.0;
   }
 
   coord[0] = (int) (x[0]+1);
   coord[1] = (int) (x[1]-1);
   if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
-    xs = ys = zs = 0.0;
+    xs = ys = 0.0;
   }
 
   coord[0] = (int) (x[0]);
   coord[1] = (int) (x[1]+1);
   if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
-    xs = ys = zs = 0.0;
+    xs = ys = 0.0;
   }
 
   coord[0] = (int) (x[0]);
   coord[1] = (int) (x[1]-1);
   if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
-    xs = ys = zs = 0.0;
+    xs = ys = 0.0;
   }
 
   coord[0] = (int) (x[0]-1);
   coord[1] = (int) (x[1]+1);
   if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
-    xs = ys = zs = 0.0;
+    xs = ys = 0.0;
   }
 
   coord[0] = (int) (x[0]-1);
   coord[1] = (int) (x[1]);
   if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
-    xs = ys = zs = 0.0;
+    xs = ys = 0.0;
   }
 
   coord[0] = (int) (x[0]-1);
   coord[1] = (int) (x[1]-1);
   if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
-    xs = ys = zs = 0.0;
+    xs = ys = 0.0;
   }
 */
   extends[0] = x[0];
@@ -433,7 +427,6 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 
   f = normals.Value();
 
-  p = -1;
   max = abs(f[0]);
 
   //---------------------------------------------------------------------
@@ -497,7 +490,6 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 {
   int i; 
   const unsigned long *tp;
-  int nPixelTypes = 3;
 
   InputCellsContainerPointer    myCells = m_Locations->GetCells();
   InputCellsContainerIterator   cells = myCells->Begin();
@@ -1035,9 +1027,9 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 {
   typedef typename GradientIndexType::IndexValueType   IndexValueType;
 
-  GradientIndexType coord, coord2, tmp_co_1, tmp_co_2, tmp_co_3;
+  GradientIndexType coord, coord2, tmp_co_1, tmp_co_2;
   IPixelType v1, v2;
-  PixelType mag, num_for;
+  PixelType mag;
 
   typename TInputMesh::PointType vec_nor, vec_loc, vec_for, tmp_vec_1, tmp_vec_2, tmp_vec_3;
 
@@ -1057,7 +1049,6 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   while( forces != myForces->End() ) {
     vec_loc = locations.Value();
     vec_nor = normals.Value();
-    num_for = 1/forcedata.Value();
 
     coord[0] = static_cast<IndexValueType>(vec_loc[0]);
     coord[1] = static_cast<IndexValueType>(vec_loc[1]);
