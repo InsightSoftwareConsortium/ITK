@@ -1,6 +1,7 @@
 LIBRARY(WrapTclFacility)
 
 SOURCE_FILES(
+wrapCalls
 wrapInit
 wrapInstanceTable
 wrapPointer

@@ -111,6 +111,17 @@ void WrapperBase::CreateResultCommand(const String& name,
 
 
 /**
+ * When an object instance is returned from a wrapped call, this is called
+ * to create the temporary.  This just passes the call through to the
+ * wrapper's InstanceTable.
+ */
+String WrapperBase::CreateTemporary(void* object, const CvQualifiedType& type)
+{
+  return m_InstanceTable->CreateTemporary(object, type);
+}
+
+
+/**
  * When an individual wrapper cannot find a method, this is called to
  * try to chain up the hierarchy from the wrapper's class.
  */

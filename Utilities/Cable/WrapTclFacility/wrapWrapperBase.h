@@ -57,6 +57,7 @@ public:
   CvQualifiedType GetType(TypeKey typeKey) const;
   void SetType(TypeKey typeKey, const CvQualifiedType&);
   void CreateResultCommand(const String& name, const Type* type) const;
+  String CreateTemporary(void* object, const CvQualifiedType&);
   
   /**
    * The type of a wrapper function for a Tcl interpreter call-back.
@@ -148,58 +149,6 @@ private:
    * Must be private (with access routines) to prevent DLL address problems.
    */
   TypeMap        m_TypeMap;
-
-public:
-  
-  /**
-   * When a method returns a pointer type, the wrapper function calls this to
-   * prepare the return.  This creates the PointerType Tcl object for the
-   * Tcl object result.
-   */
-  template <typename T>
-  struct ReturnPointerTo
-  {
-    static void From(T* result, WrapperBase* wrapper)
-      {
-      Tcl_Interp* interp = wrapper->GetInterpreter();
-      CvQualifiedType referencedType = wrapper->GetType(TypeInfo<T>::name);
-      
-      // Set the Tcl result to a PointerType object representing this
-      // pointer return value.
-      Tcl_SetPointerObj(Tcl_GetObjResult(interp),
-                        Pointer(const_cast<T*>(result), referencedType));
-      
-      // Create the command to allow methods to be invoked on the
-      // resulting value.
-      wrapper->CreateResultCommand(Tcl_GetString(Tcl_GetObjResult(interp)),
-                                   referencedType.GetType());
-      }
-  };
-  
-  /**
-   * When a method returns a reference type, the wrapper function calls this to
-   * prepare the return.  This creates the ReferenceType Tcl object for the
-   * Tcl object result.
-   */
-  template <typename T>
-  struct ReturnReferenceTo
-  {
-    static void From(T& result, WrapperBase* wrapper)
-      {
-      Tcl_Interp* interp = wrapper->GetInterpreter();
-      CvQualifiedType referencedType = wrapper->GetType(TypeInfo<T>::name);
-      
-      // Set the Tcl result to a ReferenceType object representing this
-      // reference return value.
-      Tcl_SetReferenceObj(Tcl_GetObjResult(interp),
-                          Reference(const_cast<T*>(&result), referencedType));
-      
-      // Create the command to allow methods to be invoked on the
-      // resulting value.
-      wrapper->CreateResultCommand(Tcl_GetString(Tcl_GetObjResult(interp)),
-                                   referencedType.GetType());
-      }
-  };
 };
 
 } // namespace _wrap_
