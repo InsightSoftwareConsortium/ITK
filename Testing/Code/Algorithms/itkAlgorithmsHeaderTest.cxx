@@ -19,6 +19,8 @@ See COPYRIGHT.txt for copyright details.
 
 #include "itkBalloonForce3DFilter.h"
 #include "itkBalloonForceFilter.h"
+#include "itkBinaryMinMaxCurvatureFlowFunction.h"
+#include "itkBinaryMinMaxCurvatureFlowImageFilter.h"
 #include "itkClassifier.h"
 #include "itkConnectedRegionsMeshFilter.h"
 #include "itkCurvatureFlowFunction.h"
