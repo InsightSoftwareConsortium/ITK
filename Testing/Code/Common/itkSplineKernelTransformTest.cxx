@@ -8,7 +8,7 @@
 #include "itkThinPlateSplineKernelTransform.h"
 
 using namespace itk;
-using namespace std;
+//using namespace std;
 
 int main(int argc, char* argv[])
 {
@@ -42,22 +42,24 @@ int main(int argc, char* argv[])
       tps2D->Getq()->push_back(targetPoint2D);
 		}
 	}
+	std::cout << "EBS 2D Test:" << std::endl;
 	ebs2D->SetAlpha(0.25);
-	cout << "EBS 2D Test:" << endl;
+	ebs2D->ComputeW();
 	for (i = 0; i < 4; i++)
 	{
-		cout << *((*ebs2D->Getp())[i]) << " warps to: " << 
-						ebs2D->Transform(*((*ebs2D->Getp())[i])) << endl;
+		std::cout << *((*ebs2D->Getp())[i]) << " warps to: " << 
+						ebs2D->Transform(*((*ebs2D->Getp())[i])) << std::endl;
 	}
-	cout << endl;
+	std::cout << std::endl;
 
-  cout << "TPS 2D Test:" << endl;
+	std::cout << "TPS 2D Test:" << std::endl;
+	tps2D->ComputeW();
 	for (i = 0; i < 4; i++)
 	{
-		cout << *((*tps2D->Getp())[i]) << " warps to: " << 
-						tps2D->Transform(*((*tps2D->Getp())[i])) << endl;
+		std::cout << *((*tps2D->Getp())[i]) << " warps to: " << 
+						tps2D->Transform(*((*tps2D->Getp())[i])) << std::endl;
 	}
-	cout << endl;
+	std::cout << std::endl;
 
 	// 3-D case
 	int k;
@@ -93,22 +95,24 @@ int main(int argc, char* argv[])
 			}
 		}
 	}
+	std::cout << "EBS 3D Test:" << std::endl;
 	ebs3D->SetAlpha(0.25);
-	cout << "EBS 3D Test:" << endl;
+	ebs3D->ComputeW();
 	for (i = 0; i < 8; i++)
 	{
-		cout << *((*ebs3D->Getp())[i]) << " warps to: " << 
-						ebs3D->Transform(*((*ebs3D->Getp())[i])) << endl;
+		std::cout << *((*ebs3D->Getp())[i]) << " warps to: " << 
+						ebs3D->Transform(*((*ebs3D->Getp())[i])) << std::endl;
 	}
-	cout << endl;
+	std::cout << std::endl;
 
-  cout << "TPS 3D Test:" << endl;
+	std::cout << "TPS 3D Test:" << std::endl;
+	tps3D->ComputeW();
 	for (i = 0; i < 8; i++)
 	{
-		cout << *((*tps3D->Getp())[i]) << " warps to: " << 
-						tps3D->Transform(*((*tps3D->Getp())[i])) << endl;
+		std::cout << *((*tps3D->Getp())[i]) << " warps to: " << 
+						tps3D->Transform(*((*tps3D->Getp())[i])) << std::endl;
 	}
-	cout << endl;
+	std::cout << std::endl;
 
 	// 4-D case
 	int l;
@@ -149,22 +153,24 @@ int main(int argc, char* argv[])
 			}
 		}
 	}
+	std::cout << "EBS 4D Test:" << std::endl;
 	ebs4D->SetAlpha(0.25);
-	cout << "EBS 4D Test:" << endl;
+	ebs4D->ComputeW();
 	for (i = 0; i < 16; i++)
 	{
-		cout << *((*ebs4D->Getp())[i]) << " warps to: " << 
-						ebs4D->Transform(*((*ebs4D->Getp())[i])) << endl;
+		std::cout << *((*ebs4D->Getp())[i]) << " warps to: " << 
+						ebs4D->Transform(*((*ebs4D->Getp())[i])) << std::endl;
 	}
-	cout << endl;
+	std::cout << std::endl;
 
- 	cout << "TPS 4D Test:" << endl;
+	std::cout << "TPS 4D Test:" << std::endl;
+	tps4D->ComputeW();
 	for (i = 0; i < 16; i++)
 	{
-		cout << *((*tps4D->Getp())[i]) << " warps to: " << 
-						tps4D->Transform(*((*tps4D->Getp())[i])) << endl;
+		std::cout << *((*tps4D->Getp())[i]) << " warps to: " << 
+						tps4D->Transform(*((*tps4D->Getp())[i])) << std::endl;
 	}
-	cout << endl;
+	std::cout << std::endl;
 
 	return 0;
 }
