@@ -53,6 +53,7 @@ public:
   
   /** Pixel Type of the input image */
   typedef TInputImage                                    InputImageType;
+  typedef TOutputImage                                   OutputImageType;
   typedef typename TInputImage::PixelType                PixelType;
   typedef typename NumericTraits<PixelType>::RealType    RealType;
 
