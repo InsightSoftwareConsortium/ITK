@@ -75,7 +75,7 @@ itkProcessObject
     (*m_EndMethodArgDelete)(m_EndMethodArg);
     }
 
-  int idx;
+  unsigned int idx;
   
   for (idx = 0; idx < m_NumberOfInputs; ++idx)
     {
@@ -113,9 +113,9 @@ typedef itkDataObject *itkDataObjectPointer;
 // Called by constructor to set up input array.
 void 
 itkProcessObject
-::SetNumberOfInputs(int num)
+::SetNumberOfInputs(unsigned int num)
 {
-  int idx;
+  unsigned int idx;
   itkDataObjectPointer *inputs;
 
   // in case nothing has changed.
@@ -161,7 +161,7 @@ void
 itkProcessObject
 ::AddInput(itkDataObject *input)
 {
-  int idx;
+  unsigned int idx;
   
   if (input)
     {
@@ -189,7 +189,7 @@ void
 itkProcessObject
 ::RemoveInput(itkDataObject *input)
 {
-  int idx, loc;
+  unsigned int idx;
   
   if (!input)
     {
@@ -197,7 +197,7 @@ itkProcessObject
     }
   
   // find the input in the list of inputs
-  loc = -1;
+  int loc = -1;
   for (idx = 0; idx < m_NumberOfInputs; ++idx)
     {
     if (m_Inputs[idx] == input)
@@ -215,7 +215,7 @@ itkProcessObject
   m_Inputs[loc] = NULL;
 
   // if that was the last input, then shrink the list
-  if (loc == m_NumberOfInputs - 1)
+  if (loc == int(m_NumberOfInputs) - 1 )
     {
     this->SetNumberOfInputs(m_NumberOfInputs - 1);
     }
@@ -265,7 +265,7 @@ void
 itkProcessObject
 ::RemoveOutput(itkDataObject *output)
 {
-  int idx, loc;
+  unsigned int idx;
   
   if (!output)
     {
@@ -273,7 +273,7 @@ itkProcessObject
     }
   
   // find the output in the list of outputs
-  loc = -1;
+  int loc = -1;
   for (idx = 0; idx < m_NumberOfOutputs; ++idx)
     {
     if ( m_Outputs[idx] == output)
@@ -292,7 +292,7 @@ itkProcessObject
   m_Outputs[loc] = NULL;
 
   // if that was the last output, then shrink the list
-  if (loc == m_NumberOfOutputs - 1)
+  if (loc == int(m_NumberOfOutputs) - 1)
     {
     this->SetNumberOfOutputs(m_NumberOfOutputs - 1);
     }
@@ -362,7 +362,7 @@ void
 itkProcessObject
 ::AddOutput(itkDataObject *output)
 {
-  int idx;
+  unsigned int idx;
   
   if (output)
     {
@@ -387,9 +387,9 @@ itkProcessObject
 // Called by constructor to set up output array.
 void 
 itkProcessObject
-::SetNumberOfOutputs(int num)
+::SetNumberOfOutputs(unsigned int num)
 {
-  int idx;
+  unsigned int idx;
   itkDataObject **outputs;
 
   // in case nothing has changed.
@@ -584,7 +584,7 @@ void
 itkProcessObject
 ::SetReleaseDataFlag(bool val)
 {
-  int idx;
+  unsigned int idx;
   
   for (idx = 0; idx < m_NumberOfOutputs; idx++)
     {
@@ -606,7 +606,7 @@ itkProcessObject
 
   if ( m_NumberOfInputs)
     {
-    int idx;
+    unsigned int idx;
     for (idx = 0; idx < m_NumberOfInputs; ++idx)
       {
       os << indent << "Input " << idx << ": (" << m_Inputs[idx] << ")\n";
@@ -671,7 +671,7 @@ itkProcessObject
 ::UpdateInformation()
 {
   unsigned long t1, t2;
-  int idx;
+  unsigned int idx;
   itkDataObject *input;
   itkDataObject *output;
 
@@ -770,7 +770,7 @@ itkProcessObject
   // Now that we know the input update extent, propogate this
   // through all the inputs.
   m_Updating = true;
-  for (int idx = 0; idx < m_NumberOfInputs; ++idx)
+  for (unsigned int idx = 0; idx < m_NumberOfInputs; ++idx)
     {
     if (m_Inputs[idx] != NULL)
       {
@@ -789,7 +789,7 @@ void
 itkProcessObject
 ::ComputeInputUpdateExtents( itkDataObject *itkNotUsed(output) )
 {
-  for (int idx = 0; idx < m_NumberOfInputs; ++idx)
+  for (unsigned int idx = 0; idx < m_NumberOfInputs; ++idx)
     {
     if (m_Inputs[idx] != NULL)
       {
@@ -811,7 +811,7 @@ itkProcessObject
 
   // Propagate the trigger to all the inputs
   m_Updating = true;
-  for (int idx = 0; idx < m_NumberOfInputs; ++idx)
+  for (unsigned int idx = 0; idx < m_NumberOfInputs; ++idx)
     {
     if (m_Inputs[idx] != NULL)
       {
@@ -826,7 +826,7 @@ void
 itkProcessObject
 ::UpdateData(itkDataObject *itkNotUsed(output))
 {
-  int idx;
+  unsigned int idx;
 
   // prevent chasing our tail
   if (m_Updating)
@@ -938,7 +938,7 @@ itkProcessObject
   unsigned long maxSize = 0;
   unsigned long goingDownstreamSize = 0;
   unsigned long *inputSize = NULL;
-  int idx;
+  unsigned int idx;
 
   // We need some space to store the input sizes if there are any inputs
   if ( m_NumberOfInputs > 0 )
@@ -1034,8 +1034,8 @@ itkProcessObject
                                           unsigned long *itkNotUsed(inputSize),
                                           unsigned long size[2] )
 {
-  int idx;
-  int tmp;
+  unsigned int idx;
+  unsigned int tmp;
 
   size[0] = 0;
   size[1] = 0;
@@ -1070,7 +1070,7 @@ itkProcessObject
     {
     input = m_Inputs[0];
 
-    for (int idx = 0; idx < m_NumberOfOutputs; ++idx)
+    for (unsigned int idx = 0; idx < m_NumberOfOutputs; ++idx)
       {
       output = this->GetOutput(idx);
       if (output)

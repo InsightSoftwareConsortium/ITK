@@ -262,13 +262,13 @@ protected:
   virtual void Execute() {};
 
   // Called to allocate the input array.  Copies old inputs.
-  void SetNumberOfInputs(int num);
+  void SetNumberOfInputs(unsigned int num);
 
   // method used internally for getting an input.
   itkDataObject *GetInput(unsigned int idx);
 
   // Called to allocate the output array.  Copies old outputs.
-  void SetNumberOfOutputs(int num);
+  void SetNumberOfOutputs(unsigned int num);
 
   // method used internally for getting an output.
   itkDataObject *GetOutput(unsigned int idx);
@@ -295,7 +295,7 @@ private:
   unsigned int m_NumberOfRequiredInputs;
 
   itkDataObject **m_Outputs;   // An Array of the outputs to the filter
-  int m_NumberOfOutputs;
+  unsigned int m_NumberOfOutputs;
   unsigned int m_NumberOfRequiredOutputs;
 
   bool m_Updating; // This flag indicates when the pipeline is executing
