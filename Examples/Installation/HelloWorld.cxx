@@ -27,8 +27,10 @@ int main()
 //  short}. The image is then constructed and assigned to a
 //  \code{SmartPointer}. Although later in the text we will discuss
 //  \code{SmartPointer}'s in detail, for now think of it as a handle on
-//  an instance of an object (see Chaper \ref{chapter:Infrastructure} for
-//  more information).
+//  an instance of an object (see section \ref{sec:SmartPoints} for
+//  more information). 
+//  Similarly, the \code{Image} class will be described in section 
+//  \ref{sec:ImageSection}.
 //
 //  Software Guide : EndLatex 
 
