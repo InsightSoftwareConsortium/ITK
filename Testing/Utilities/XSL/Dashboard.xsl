@@ -230,7 +230,7 @@
 
         <xsl:choose>
           <xsl:when test="count(BuildStamp/Purify)">
-            <h3>Coverage</h3>
+            <h3>Purify</h3>
             <table border="4" cellpadding="0" cellspacing="2" width="100%">
               <tr>
                 <th align="center" bgcolor="#eeeeee">Site</th>
