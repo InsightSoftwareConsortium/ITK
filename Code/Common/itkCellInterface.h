@@ -218,7 +218,7 @@ public:
           m_UserDefined.insert(std::map<int, VisitorPointer>::value_type(id,v));
           }
       }
-    ~MultiVisitor() {}
+    virtual ~MultiVisitor() {}
   protected:
     VisitorPointer m_Visitors[LAST_ITK_CELL]; // fixed array set to the size from the enum
     std::map<int,VisitorPointer> m_UserDefined; // user defined cell types go here
