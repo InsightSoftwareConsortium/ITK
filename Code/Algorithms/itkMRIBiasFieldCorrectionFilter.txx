@@ -594,7 +594,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
       const BiasFieldType::CoefficientArrayType& tempCoefficients = 
         bias.GetCoefficients() ;
       m_EstimatedBiasFieldCoefficients.resize( tempCoefficients.size() ) ;
-      for (int k = 0 ; k < tempCoefficients.size() ; k++)
+      for (unsigned int k = 0 ; k < tempCoefficients.size() ; k++)
         {
         m_EstimatedBiasFieldCoefficients[k] = tempCoefficients[k] ;
         }
