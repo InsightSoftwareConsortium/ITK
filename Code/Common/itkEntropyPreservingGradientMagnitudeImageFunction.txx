@@ -16,6 +16,8 @@
 =========================================================================*/
 #ifndef _itkEntropyPreservingGradientMagnitudeImageFunction_txx
 #define _itkEntropyPreservingGradientMagnitudeImageFunction_txx
+
+#include "itkEntropyPreservingGradientMagnitudeImageFunction.h"
 #include "vnl/vnl_math.h"
 
 namespace itk

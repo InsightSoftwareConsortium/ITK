@@ -16,6 +16,8 @@
 =========================================================================*/
 #ifndef _itkLevelSetCurvatureFunction_txx
 #define _itkLevelSetCurvatureFunction_txx
+
+#include "itkLevelSetCurvatureFunction.h"
 #include "vnl/vnl_math.h"
 
 namespace itk
