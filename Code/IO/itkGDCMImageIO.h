@@ -95,8 +95,6 @@ protected:
   double m_RescaleIntercept;
 #if GDCM_MAJOR_VERSION == 0 && GDCM_MINOR_VERSION <= 5
   ::gdcmHeader *m_GdcmHeader;
-#else
-  gdcm::Header *m_GdcmHeader;
 #endif
 
 private:

@@ -37,12 +37,16 @@ GDCMImageIO::GDCMImageIO()
   m_FileType = Binary;  //default...always true
   m_RescaleSlope = 1.0;
   m_RescaleIntercept = 0.0;
+#if GDCM_MAJOR_VERSION == 0 && GDCM_MINOR_VERSION <= 5
   m_GdcmHeader = NULL;
+#endif
 }
 
 GDCMImageIO::~GDCMImageIO()
 {
+#if GDCM_MAJOR_VERSION == 0 && GDCM_MINOR_VERSION <= 5
   delete m_GdcmHeader;
+#endif
 }
 
 bool GDCMImageIO::OpenGDCMFileForReading(std::ifstream& os, 
@@ -176,14 +180,12 @@ void GDCMImageIO::Read(void* buffer)
   //Should I handle differently dicom lut ?
   //GdcmHeader.HasLUT()
 
+#if GDCM_MAJOR_VERSION == 0 && GDCM_MINOR_VERSION <= 5
   if( !m_GdcmHeader )
     {
-#if GDCM_MAJOR_VERSION == 0 && GDCM_MINOR_VERSION <= 5
     m_GdcmHeader = new gdcmHeader( m_FileName );
-#else
-    m_GdcmHeader = new gdcm::Header( m_FileName );
-#endif
     }
+#endif
 
 #if GDCM_MAJOR_VERSION == 0 && GDCM_MINOR_VERSION <= 5
   gdcmFile GdcmFile( m_FileName );
@@ -285,7 +287,7 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
   TagDocEntryHT & nameHt = GdcmHeader.GetEntry();
   for (TagDocEntryHT::iterator tag = nameHt.begin(); tag != nameHt.end(); ++tag)
 #else
-  const gdcm::TagDocEntryHT & nameHt = GdcmHeader.GetTagHT();
+  const gdcm::TagDocEntryHT &nameHt = GdcmHeader.GetTagHT();
   for (gdcm::TagDocEntryHT::const_iterator tag = nameHt.begin(); tag != nameHt.end(); ++tag)
 #endif
     {
@@ -369,11 +371,14 @@ void GDCMImageIO::Write(const void* buffer)
   gdcmFile *myGdcmFile = new gdcmFile( m_GdcmHeader );
   myGdcmFile->GetImageData();  //API problem
   m_GdcmHeader->SetEntryVoidAreaByNumber( (void*)buffer, 
-         m_GdcmHeader->GetGrPixel(), m_GdcmHeader->GetNumPixel());//Another API problem
+         m_GdcmHeader->GetGrPixel(), m_GdcmHeader->GetNumPixel()); //Another API problem
   myGdcmFile->SetImageData((void*)buffer, numberOfBytes );
+
+  myGdcmFile->WriteDcmExplVR( m_FileName );
+  delete myGdcmFile;
 #else
-  gdcm::File *myGdcmFile = new gdcm::File( m_GdcmHeader );
-  uint8_t* imageData = myGdcmFile->GetImageData();
+  gdcm::Header *myGdcmHeader = new gdcm::Header();
+  gdcm::File *myGdcmFile = new gdcm::File( myGdcmHeader );
 
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
   // Using real iterators (instead of the GetKeys() method)
@@ -392,10 +397,10 @@ void GDCMImageIO::Write(const void* buffer)
 #else
     gdcm::DictEntry *dictEntry =
 #endif
-      m_GdcmHeader->GetPubDict()->GetDictEntryByName(itr->first);
+      myGdcmHeader->GetPubDict()->GetDictEntryByName(itr->first);
     // Anything that has been change in the MetaData Dict will be pushed
     // into the DICOM header:
-    m_GdcmHeader->ReplaceOrCreateByNumber( value, dictEntry->GetGroup(), 
+    myGdcmHeader->ReplaceOrCreateByNumber( value, dictEntry->GetGroup(), 
                                                   dictEntry->GetElement());
     ++itr;
     }
@@ -441,18 +446,21 @@ void GDCMImageIO::Write(const void* buffer)
     }
 
   // Write component specific information in the header:
-  m_GdcmHeader->ReplaceOrCreateByNumber( bitsAllocated, 0x0028, 0x0100 ); //Bits Allocated
-  m_GdcmHeader->ReplaceOrCreateByNumber( bitsStored, 0x0028, 0x0101 ); //Bits Stored
-  m_GdcmHeader->ReplaceOrCreateByNumber( highBit, 0x0028, 0x0102 ); //High Bit
-  m_GdcmHeader->ReplaceOrCreateByNumber( pixelRep, 0x0028, 0x0103 ); //Pixel Representation
+  myGdcmHeader->ReplaceOrCreateByNumber( bitsAllocated, 0x0028, 0x0100 ); //Bits Allocated
+  myGdcmHeader->ReplaceOrCreateByNumber( bitsStored, 0x0028, 0x0101 ); //Bits Stored
+  myGdcmHeader->ReplaceOrCreateByNumber( highBit, 0x0028, 0x0102 ); //High Bit
+  myGdcmHeader->ReplaceOrCreateByNumber( pixelRep, 0x0028, 0x0103 ); //Pixel Representation
 
   //copy data from buffer to DICOM buffer
-  memcpy(imageData,buffer,numberOfBytes); 
-  m_GdcmHeader->SetImageDataSize(numberOfBytes); //update data size
-#endif
+  // The current gdcm API does not allow anything fancy, you have to go lower level
+  uint8_t* imageData = (uint8_t*)buffer;
+  // Here we are passsing directly a pointer, this should
+  myGdcmHeader->ReplaceOrCreateByNumber( imageData, numberOfBytes, 0x7fe0, 0x0010, "PXL" );
 
   myGdcmFile->WriteDcmExplVR( m_FileName );
   delete myGdcmFile;
+  delete myGdcmHeader;
+#endif
 }
 
 void GDCMImageIO::PrintSelf(std::ostream& os, Indent indent) const
