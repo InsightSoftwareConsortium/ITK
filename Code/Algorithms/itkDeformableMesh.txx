@@ -107,15 +107,15 @@ DeformableMesh<TPixelType>
 		if (cos(u) > 0) {signu = 1;} else {signu = -1;}
 		if (cos(v) > 0) {signv = 1;} else {signv = -1;}
 		
-		p1[0] = (Scale[0]*signu*(pow(fabs(cos(u)),1.0))*signv* 
-			(pow(fabs(cos(v)),1.0)) + Center[0]); 
+		p1[0] = (Scale[0]*signu*(pow(fabs(cos(u)),(float) 1.0))*signv* 
+			(pow(fabs(cos(v)),(float) 1.0)) + Center[0]); 
 	  
 		if (sin(v) > 0) {signv = 1;} else {signv = -1;}
-		p1[1] = (Scale[1]*signu*(pow(fabs(cos(u)),1.0))*signv* 
-			(pow(fabs(sin(v)),1.0)) + Center[1]); 
+		p1[1] = (Scale[1]*signu*(pow(fabs(cos(u)),(float) 1.0))*signv* 
+			(pow(fabs(sin(v)),(float) 1.0)) + Center[1]); 
 	  
 		if (sin(u) > 0) {signu = 1;} else {signu = -1;}
-		p1[2] = (Scale[2]*signu*(pow(fabs(sin(u)),1.0)) + Center[2]);
+		p1[2] = (Scale[2]*signu*(pow(fabs(sin(u)),(float) 1.0)) + Center[2]);
 	  
 		point.Value() = p1;
 		++point;
