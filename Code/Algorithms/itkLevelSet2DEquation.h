@@ -211,12 +211,12 @@ private:
   /**
    * The offset of the center pixel in the neighborhood
    */
-  std::size_t m_Center;
+  ::size_t m_Center;
 
   /**
    * Stride length along the y-dimension
    */
-  std::size_t m_yStride;
+  ::size_t m_yStride;
 
 };
 
