@@ -656,7 +656,7 @@ void DICOMAppHelper::SeriesDescriptionCallback(DICOMParser *,
                                        doublebyte,
                                        DICOMParser::VRTypes,
                                        unsigned char* val,
-                                       quadbyte len) 
+                                       quadbyte ) 
 {
   char* newString = (char*) val;
   dicom_stl::string newStdString(newString);
