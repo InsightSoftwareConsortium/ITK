@@ -108,7 +108,7 @@ File::~File()
    DeleteInitialValues();
    if( PixelConverter )
    {
-      delete PixelConverter;
+//     delete PixelConverter;
    }
 
 }
