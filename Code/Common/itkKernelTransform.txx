@@ -138,6 +138,26 @@ KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>
   return m_Displacements;
 }
 
+
+/**
+ *
+ */
+template <class TScalarType, int NDimensions,
+          class TParameters, class TJacobianType>
+KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>::GMatrixType
+KernelTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
+ComputeG( const InputVectorType & vect ) const
+{
+  //
+  // Should an Exception be thrown here  ?
+  //
+  std::cerr << "WARNING: ComputeG() should be reimplemented in the subclass !!";
+  GMatrixType matrix;
+  return matrix;
+}
+
+
+
 /**
  *
  */
