@@ -459,19 +459,41 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
         static_cast<unsigned int>( floor( fixedImageParzenWindowTerm ) );
       
 
-      if ( fixedImageParzenWindowIndex < 2 || 
-           fixedImageParzenWindowIndex > ( m_NumberOfHistogramBins - 2 ) ||
-           movingImageParzenWindowIndex < 2 || 
-           movingImageParzenWindowIndex > ( m_NumberOfHistogramBins - 2 ) )
+      if ( this->GetDebug() )
         {
-        itkExceptionMacro(
-             "PDF indices out of bounds" << std::endl
-          << "fixedImageParzenWindowTerm: " << fixedImageParzenWindowTerm
-          << " fixedImageParzenWindowIndex: " << fixedImageParzenWindowIndex
-          << std::endl
-          << "movingImageParzenWindowTerm: " << movingImageParzenWindowTerm
-          << " movingImageParzenWindowIndex: " << movingImageParzenWindowIndex
-          << std::endl )
+        if ( fixedImageParzenWindowIndex < 2 || 
+             fixedImageParzenWindowIndex >= ( m_NumberOfHistogramBins - 2 ) ||
+             movingImageParzenWindowIndex < 2 || 
+             movingImageParzenWindowIndex >= ( m_NumberOfHistogramBins - 2 ) )
+          {
+          itkDebugMacro(
+               "PDF indices out of bounds" << std::endl
+            << "fixedImageParzenWindowTerm: " << fixedImageParzenWindowTerm
+            << " fixedImageParzenWindowIndex: " << fixedImageParzenWindowIndex
+            << std::endl
+            << "movingImageParzenWindowTerm: " << movingImageParzenWindowTerm
+            << " movingImageParzenWindowIndex: " << movingImageParzenWindowIndex
+            << std::endl )
+          }
+        }
+
+      // Make sure the extreme values are in valid bins
+      if ( fixedImageParzenWindowIndex < 2 )
+        {
+        fixedImageParzenWindowIndex = 2;
+        }
+      else if ( fixedImageParzenWindowIndex > (m_NumberOfHistogramBins - 3) )
+        {
+        fixedImageParzenWindowIndex = m_NumberOfHistogramBins - 3;
+        }
+      
+      if ( movingImageParzenWindowIndex < 2 )
+        {
+        movingImageParzenWindowIndex = 2;
+        }
+      else if ( movingImageParzenWindowIndex > (m_NumberOfHistogramBins - 3) )
+        {
+        movingImageParzenWindowIndex = m_NumberOfHistogramBins - 3;
         }
 
 
@@ -727,21 +749,42 @@ DerivativeType& derivative) const
         m_FixedImageNormalizedMin;
       unsigned int fixedImageParzenWindowIndex =
         static_cast<unsigned int>( floor( fixedImageParzenWindowTerm ) );
-      
 
-      if ( fixedImageParzenWindowIndex < 2 || 
-           fixedImageParzenWindowIndex > ( m_NumberOfHistogramBins - 2 ) ||
-           movingImageParzenWindowIndex < 2 || 
-           movingImageParzenWindowIndex > ( m_NumberOfHistogramBins - 2 ) )
+      if ( this->GetDebug() )
         {
-        itkExceptionMacro(
-             "PDF indices out of bounds" << std::endl
-          << "fixedImageParzenWindowTerm: " << fixedImageParzenWindowTerm
-          << " fixedImageParzenWindowIndex: " << fixedImageParzenWindowIndex
-          << std::endl
-          << "movingImageParzenWindowTerm: " << movingImageParzenWindowTerm
-          << " movingImageParzenWindowIndex: " << movingImageParzenWindowIndex
-          << std::endl )
+        if ( fixedImageParzenWindowIndex < 2 || 
+             fixedImageParzenWindowIndex >= ( m_NumberOfHistogramBins - 2 ) ||
+             movingImageParzenWindowIndex < 2 || 
+             movingImageParzenWindowIndex >= ( m_NumberOfHistogramBins - 2 ) )
+          {
+          itkDebugMacro(
+               "PDF indices out of bounds" << std::endl
+            << "fixedImageParzenWindowTerm: " << fixedImageParzenWindowTerm
+            << " fixedImageParzenWindowIndex: " << fixedImageParzenWindowIndex
+            << std::endl
+            << "movingImageParzenWindowTerm: " << movingImageParzenWindowTerm
+            << " movingImageParzenWindowIndex: " << movingImageParzenWindowIndex
+            << std::endl )
+          }
+        }
+
+      // Make sure the extreme values are in valid bins
+      if ( fixedImageParzenWindowIndex < 2 )
+        {
+        fixedImageParzenWindowIndex = 2;
+        }
+      else if ( fixedImageParzenWindowIndex > (m_NumberOfHistogramBins - 3) )
+        {
+        fixedImageParzenWindowIndex = m_NumberOfHistogramBins - 3;
+        }
+      
+      if ( movingImageParzenWindowIndex < 2 )
+        {
+        movingImageParzenWindowIndex = 2;
+        }
+      else if ( movingImageParzenWindowIndex > (m_NumberOfHistogramBins - 3) )
+        {
+        movingImageParzenWindowIndex = m_NumberOfHistogramBins - 3;
         }
 
 
