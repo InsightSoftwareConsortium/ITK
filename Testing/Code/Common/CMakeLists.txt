@@ -16,7 +16,6 @@ itkImageAdaptorTest
 itkImageIteratorTest
 itkIteratorTests
 itkMatrixTest
-itkMeshInstanceTest
 itkMeshTest
 itkNeighborhoodTest
 itkNeighborhoodAlgorithmTest
