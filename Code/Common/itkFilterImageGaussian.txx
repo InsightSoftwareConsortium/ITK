@@ -258,11 +258,8 @@ FilterImageGaussian<TInputImage,TOutputImage, TComputation>
   typedef typename TOutputImage::PixelType  TOutputType;
   typedef typename TInputImage::PixelType   TInputType;
 
-  typedef ImageLinearIterator< TInputType,
-							   TInputImage::ImageDimension>  InputIteratorType;
-
-  typedef ImageLinearIterator< TOutputType,
-							   TOutputImage::ImageDimension> OutputIteratorType;
+  typedef ImageLinearIterator< TInputImage  >  InputIteratorType;
+  typedef ImageLinearIterator< TOutputImage >  OutputIteratorType;
 
   typedef ImageRegion< TInputImage::ImageDimension > RegionType;
     
@@ -325,7 +322,7 @@ FilterImageGaussian<TInputImage,TOutputImage, TComputation>
     unsigned int i=0;
     while( !inputIterator.IsAtEndOfLine() )
     {
-      inps[i++]      = (*inputIterator).GetScalar();
+      inps[i++]      = inputIterator.Get();
       ++inputIterator;
       }
 
@@ -334,8 +331,7 @@ FilterImageGaussian<TInputImage,TOutputImage, TComputation>
     unsigned int j=0; 
     while( !outputIterator.IsAtEndOfLine() )
     {
-      (*outputIterator).GetScalar()  = 
-            (typename TOutputType::ValueType)( outs[j++] );
+      outputIterator.Set( (TOutputType)( outs[j++] ) );
       ++outputIterator;
     }
 
