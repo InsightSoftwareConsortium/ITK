@@ -142,8 +142,6 @@ readOctree (std::ifstream & octreestream,
 
 void Brains2MaskImageIO::Read(void* buffer)
 {
-  const unsigned int dimensions = this->GetNumberOfDimensions();
-
   std::ifstream   local_InputStream;
   { //Just fast forward throuth the file header
   itk::Brains2IPLHeaderInfo DummyHeader;
