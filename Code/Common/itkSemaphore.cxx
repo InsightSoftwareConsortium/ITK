@@ -20,6 +20,13 @@
 #include "itkConfigure.h"
 #include "itkSemaphore.h"
 
+#ifdef __APPLE__
+extern "C" {
+#include <stdio.h>
+#include <time.h>
+}
+#endif
+
 /// DEBUG
 extern "C" {
 #include <stdio.h>
@@ -28,16 +35,37 @@ extern "C" {
 ///
 
 namespace itk {
-  
+
+#ifdef __APPLE__
+int Semaphore::m_SemaphoreCount = 0;
+#endif
+
 #ifdef ITK_USE_UNIX_IPC_SEMAPHORES
 int Semaphore::m_IPCSemaphoreKey = 12345;
 SimpleMutexLock Semaphore::m_Mutex;
 #endif
-  
+
+#ifdef __APPLE__
+std::string Semaphore::GetUniqueName()
+{
+  char s[255];  
+  time_t t = time(0);
+  snprintf(s,255,"MACSEM%d%d\0",t,m_SemaphoreCount); 
+  return std::string(s); 
+}
+#endif
+
 Semaphore::Semaphore ()
 {
 #ifdef ITK_USE_UNIX_IPC_SEMAPHORES
   m_Sema= -1;
+#endif
+
+
+#ifdef __APPLE__
+  m_Sema = 0;
+  m_SemaphoreCount++;
+  m_SemaphoreName = Semaphore::GetUniqueName();
 #endif
   
 #ifndef ITK_USE_UNIX_IPC_SEMAPHORES  
@@ -88,20 +116,27 @@ void Semaphore::Initialize(unsigned int value)
 #endif
 #ifdef ITK_USE_PTHREADS
 
-#ifdef sun
+#if defined sun
   if ( sema_init(&m_Sema, 0, value, NULL ) != 0 )
     {
     itkExceptionMacro( << "sema_init call failed" );
+    }
+#elif defined  __APPLE__
+  m_Sema  = sem_open( m_SemaphoreName.c_str(), O_CREAT, 0x0644, value );
+  if ( m_Sema == (sem_t *)SEM_FAILED )
+    {
+    //  perror("FAILED WITH ERROR:" );
+    itkExceptionMacro( << "sem_open call failed on " << m_SemaphoreName.c_str() );
     }
 #else
   if ( sem_init(&m_Sema, 0, value) != 0 )
     {
       itkExceptionMacro( << "sem_init call failed" );
     }
-#endif // ifdef sun
+#endif // if defined sun
 
-#endif
-#endif
+#endif // ifdef ITK_USE_PTHREADS
+#endif // ifndef ITK_USE_UNIX_IPC_SEMAPHORES
   
 #ifdef ITK_USE_WIN32_THREADS
   m_Sema = CreateSemaphore( 0, value, 0x7FFFFFFF, 0);
@@ -133,10 +168,17 @@ void Semaphore::Up()
       itkExceptionMacro( << "sema_post call failed." );
     }
 #else
+#ifdef __APPLE__
+  if ( sem_post(m_Sema) != 0 )
+    {
+    itkExceptionMacro( << "sem_post call failed." );
+    }
+#else
   if ( sem_post(&m_Sema) != 0 )
     {
       itkExceptionMacro( << "sem_post call failed." );
     }
+#endif
 #endif // ifdef sun
 #endif
 
@@ -170,10 +212,18 @@ void Semaphore::Down()
     itkExceptionMacro( << "sema_wait call failed." );
     }
 #else
+#ifdef __APPLE__
+  if (sem_wait(m_Sema) != 0)
+    {
+      itkExceptionMacro( << "sem_wait call failed." );
+    }
+#else
+  
   if (sem_wait(&m_Sema) != 0)
     {
       itkExceptionMacro( << "sem_wait call failed." );
     }
+#endif
 #endif
 #endif
 #endif
@@ -226,6 +276,7 @@ void Semaphore::Remove()
 #endif
   
 #ifndef ITK_USE_UNIX_IPC_SEMAPHORES
+
 #ifdef ITK_USE_SPROC
   if (MultiThreader::GetThreadArena() != 0)
     {
@@ -236,14 +287,18 @@ void Semaphore::Remove()
     m_Sema = 0;
     }
 #endif
+
 #ifdef ITK_USE_PTHREADS
+
 #ifdef sun
   if ( sema_destroy(&m_Sema) != 0 )
     {
     itkExceptionMacro( << "sema_destroy call failed. " );
     }
 #else
+
 #ifndef __sgi
+#ifndef __APPLE__
   // IRIX pthreads implementation of sem_destroy is buggy
   if ( sem_destroy(&m_Sema) != 0 )
     {
@@ -251,9 +306,12 @@ void Semaphore::Remove()
     }
 #endif
 #endif
+
+#endif  // sun
+#endif // pthreads
   
-#endif
-#endif
+#endif // semaphores
+  //#endif
   
 #ifdef ITK_USE_WIN32_THREADS
   if (m_Sema != 0)

@@ -20,6 +20,7 @@
 #include "itkObjectFactory.h"
 #include "itkLightObject.h"
 #include "itkConfigure.h"
+#include <string>
 
 #ifdef ITK_USE_UNIX_IPC_SEMAPHORES
 #include "itkMutexLock.h"
@@ -62,7 +63,11 @@ typedef usema_t * SemaphoreType;
 #ifdef sun
 typedef sema_t SemaphoreType;
 #else
+#ifdef __APPLE__
+typedef sem_t *SemaphoreType;
+#else
 typedef sem_t  SemaphoreType;
+#endif
 #endif
 #endif
 #endif
@@ -141,7 +146,7 @@ protected:
   ~Semaphore();
 
 private:   
-  
+
 #ifdef ITK_USE_UNIX_IPC_SEMAPHORES
   /** Every IPC semaphore must be created with a unique key. This variable
    * increments with each new ITK Semaphore created to give a unique key. */
@@ -159,6 +164,13 @@ private:
   char Pad1[128]; // to avoid false sharing in case of shared memory multiprocessor systems
   SemaphoreType m_Sema;
   char Pad2[128]; // to avoid false sharing in case of shared memory multiprocessor systems
+
+#ifdef __APPLE__
+  std::string GetUniqueName();
+  static int m_SemaphoreCount;
+  std::string m_SemaphoreName;
+#endif
+
 };
  
 }//itk
