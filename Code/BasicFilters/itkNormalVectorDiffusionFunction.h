@@ -56,8 +56,11 @@ public:
    *  isotropic. Default is 0. */
   void SetConductanceParameter (NodeValueType cp)
   {
-    m_ConductanceParameter = cp;
-    m_FluxStopConstant = static_cast<NodeValueType> (-1.0/(cp*cp));
+    m_ConductanceParameter = cp + static_cast<NodeValueType> (0.001);
+    // we add a minimum conductance to avoid divide by zero
+    // can make this a parameter.
+    m_FluxStopConstant = static_cast<NodeValueType>
+      (-1.0/(m_ConductanceParameter*m_ConductanceParameter));
   }
 
   /** This method returns the conductance parameter. */
