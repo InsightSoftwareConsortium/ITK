@@ -81,7 +81,7 @@ int itkMeanCalculatorTest(int, char**)
 
   CalculatorType::Pointer calculator = CalculatorType::New() ;
   
-  calculator->SetInputSample(sample) ;
+  calculator->SetInputSample(sample.GetPointer()) ;
   calculator->Update() ;
 
   CalculatorType::OutputType* meanOutput = calculator->GetOutput() ;

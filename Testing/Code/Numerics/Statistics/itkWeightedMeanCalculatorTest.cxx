@@ -139,7 +139,7 @@ int itkWeightedMeanCalculatorTest(int, char**)
   weightArray[12] = 0.0 ;
 
   CalculatorType::Pointer calculator = CalculatorType::New() ;
-  calculator->SetInputSample(sample) ;
+  calculator->SetInputSample(sample.GetPointer()) ;
   calculator->SetWeights(&weightArray) ;
   calculator->Update() ;
 
