@@ -483,6 +483,7 @@ namespace itk
   
     /** Estimate the maximum absolute element of the initial gradient */
     DerivativeType averageAbsoluteGradient(spaceDimension);
+    averageAbsoluteGradient.Fill(0.0);
     m_CurrentIteration = 0;
     for (unsigned long n=1; n<= numberOfGradientEstimates; ++n)
       {
