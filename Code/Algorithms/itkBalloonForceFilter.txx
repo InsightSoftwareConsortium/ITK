@@ -76,8 +76,22 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 
   os << indent << "Center = " << m_Center << std::endl;
   os << indent << "TimeStep = " << m_TimeStep << std::endl;
-  os << indent << "Gradient = " << m_Gradient << std::endl;
-  os << indent << "Forces = " << m_Forces << std::endl;
+  if (m_Gradient)
+    {
+    os << indent << "Gradient = " << m_Gradient << std::endl;
+    }
+  else
+    {
+    os << indent << "Gradient = (None)" << std::endl;
+    }
+  if (m_Forces)
+    {
+    os << indent << "Forces = " << m_Forces << std::endl;
+    }
+  else
+    {
+    os << indent << "Forces = (None)" << std::endl;
+    }
   os << indent << "Stiffness = " << m_Stiffness << std::endl;
   os << indent << "DistanceForGradient = " << m_DistanceForGradient << std::endl;
   os << indent << "GradientBegin = " << m_GradientBegin << std::endl;
@@ -86,12 +100,47 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     {
     os << indent << "ImageOutput = " << m_ImageOutput << std::endl;
     }
-  os << indent << "Potential = " << m_Potential << std::endl;
-  os << indent << "Displacements = " << m_Displacements << std::endl;
-  os << indent << "Locations = " << m_Locations << std::endl;
+  if (m_Potential)
+    {
+    os << indent << "Potential = " << m_Potential << std::endl;
+    }
+  else
+    {
+    os << indent << "Potential = (None)" << std::endl;
+    }
+  if (m_Displacements)
+    {
+    os << indent << "Displacements = " << m_Displacements << std::endl;
+    }
+  else
+    {
+    os << indent << "Displacements = (None)" << std::endl;
+    }
+  if (m_Locations)
+    {
+    os << indent << "Locations = " << m_Locations << std::endl;
+    }
+  else
+    {
+    os << indent << "Locations = (None)" << std::endl;
+    }
   os << indent << "DistanceToStop = " << m_DistanceToStop << std::endl;
-  os << indent << "Derives = " << m_Derives << std::endl;
-  os << indent << "Normals = " << m_Normals << std::endl;
+  if (m_Derives)
+    {
+    os << indent << "Derives = " << m_Derives << std::endl;
+    }
+  else
+    {
+    os << indent << "Derives = (None)" << std::endl;
+    }
+  if (m_Normals)
+    {
+    os << indent << "Normals = " << m_Normals << std::endl;
+    }
+  else
+    {
+    os << indent << "Normals = (None)" << std::endl;    
+    }
   os << indent << "NeighborRadius = " << m_NeighborRadius << std::endl;
 }// end PrintSelf
 
