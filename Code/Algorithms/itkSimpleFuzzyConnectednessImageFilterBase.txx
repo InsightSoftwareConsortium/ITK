@@ -90,7 +90,7 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
     
   for(unsigned int i = 0; i < ImageDimension; i++)
     {
-    if(current[i] < static_cast<IndexType>(m_Size[i])-1)
+    if(current[i] < static_cast<typename IndexType::IndexValueType>(m_Size[i])-1)
       {
       current[i]++;
       m_Queue.push(current);
