@@ -1,5 +1,0 @@
-#setenv CC 'cc -n32'
-#setenv CXX 'CC -n32'
-setenv CXXFLAGS '-ptnone -no_prelink -ptv -LANG:exceptions=OFF -LANG:ansi-for-init-scope=ON -no_auto_include -KPIC -g'
-setenv TXXFLAGS '-ptnone -no_prelink -ptv -LANG:exceptions=OFF -LANG:ansi-for-init-scope=ON -no_auto_include -DINSTANTIATE_TEMPLATES -KPIC -g'
-$IUEROOT/vcl/configure --cache-file=/dev/null --enable-emulation-stl --enable-emulation-complex
