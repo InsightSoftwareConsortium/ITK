@@ -1,5 +1,5 @@
 # Require ITK package.
-package require itk
+package require InsightToolkit
 package require itkinteraction
 
 # Initial sigma value.
