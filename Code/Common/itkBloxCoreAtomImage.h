@@ -41,14 +41,20 @@ namespace itk
  */
 template <class TBoundaryPointImage>
 class ITK_EXPORT BloxCoreAtomImage :
-  public BloxImage<BloxCoreAtomPixel<TBoundaryPointImage::ImageDimension>,
-                   TBoundaryPointImage::ImageDimension>
+  public BloxImage<BloxCoreAtomPixel<ExtractImageDimension<TBoundaryPointImage>::ImageDimension>,
+                   ExtractImageDimension<TBoundaryPointImage>::ImageDimension>
 {
 public:
   /** Standard class typedefs. */
   typedef BloxCoreAtomImage  Self;
-  typedef BloxImage<BloxCoreAtomPixel<TBoundaryPointImage::ImageDimension>,
-                    TBoundaryPointImage::ImageDimension>  Superclass;
+
+  /** Dimension of the image.  This enum is used by functions that are
+   * templated over image type (as opposed to being templated over pixel
+   * type and dimension) when they need compile time access to the dimension
+   * of the image. */
+  enum { NDimensions = TBoundaryPointImage::ImageDimension };
+
+  typedef BloxImage<BloxCoreAtomPixel<NDimensions>, NDimensions>  Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
@@ -58,11 +64,6 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(BloxCoreAtomImage, BloxImage);
 
-  /** Dimension of the image.  This enum is used by functions that are
-   * templated over image type (as opposed to being templated over pixel
-   * type and dimension) when they need compile time access to the dimension
-   * of the image. */
-  enum { NDimensions = TBoundaryPointImage::ImageDimension };
 
   /** The type of boundary point item we process * */
   typedef BloxBoundaryPointItem<NDimensions> TBPItemType;

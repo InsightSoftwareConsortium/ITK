@@ -24,6 +24,8 @@
 namespace itk
 {
 
+
+
 /**
  * \class BloxBoundaryPointImage
  * \brief Templated n-dimensional image class used to store linked lists.
@@ -33,14 +35,21 @@ namespace itk
 
 template <class TSourceImage>
 class ITK_EXPORT BloxBoundaryPointImage :
-    public BloxImage<BloxBoundaryPointPixel<TSourceImage::ImageDimension>,
-                     TSourceImage::ImageDimension>
+    public BloxImage<
+      BloxBoundaryPointPixel< ExtractImageDimension<TSourceImage>::ImageDimension  > ,
+                              ExtractImageDimension<TSourceImage>::ImageDimension  
+                    >
 {
 public:
   /** Standard class typedefs. */
   typedef BloxBoundaryPointImage  Self;
-  typedef BloxImage<BloxBoundaryPointPixel<TSourceImage::ImageDimension>,
-                    TSourceImage::ImageDimension>  Superclass;
+  /** Dimension of the image.  This enum is used by functions that are
+   * templated over image type (as opposed to being templated over pixel
+   * type and dimension) when they need compile time access to the dimension
+   * of the image. */
+  enum { NDimensions = TSourceImage::ImageDimension };
+  typedef BloxImage<BloxBoundaryPointPixel<NDimensions>,
+                    NDimensions >  Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
@@ -49,12 +58,6 @@ public:
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-
-  /** Dimension of the image.  This enum is used by functions that are
-   * templated over image type (as opposed to being templated over pixel
-   * type and dimension) when they need compile time access to the dimension
-   * of the image. */
-  enum { NDimensions = TSourceImage::ImageDimension };
 
   /** Pixel typedef support. Used to declare pixel type in filters
    * or other operations. */
