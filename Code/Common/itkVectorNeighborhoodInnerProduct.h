@@ -46,14 +46,17 @@ public:
   /** Standard typedefs */
   typedef VectorNeighborhoodInnerProduct Self;
 
+  itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
+
   /** Extract the pixel type and scalar type from the image template parameter. */
   typedef typename TImage::PixelType PixelType;
   typedef typename PixelType::ValueType ScalarValueType;
+  typedef Neighborhood<PixelType,
+                       itkGetStaticConstMacro(ImageDimension)> NeighborhoodType;
   
   /** Extract the image and vector dimension from the image template parameter. */
   itkStaticConstMacro(VectorDimension, unsigned int,
                       PixelType::Dimension);
-  itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
   
   /** Operator typedef */
   typedef Neighborhood<ScalarValueType,
@@ -70,6 +73,10 @@ public:
     {
       return this->operator()(std::slice(0, it.Size(), 1), it, op);
     }
+
+  PixelType operator()(const std::slice &s, const NeighborhoodType &N,
+                       const OperatorType &op) const;
+
 };
   
 } // end namespace itk

@@ -25,7 +25,6 @@ template<class TImage>
 typename VectorNeighborhoodInnerProduct<TImage>::PixelType
 VectorNeighborhoodInnerProduct<TImage>
 ::operator()(const std::slice &s,
-             /*           const ImageBoundaryCondition<TImage> *,*/
              const ConstNeighborhoodIterator<TImage> &it,
              const OperatorType &op) const
 {
@@ -49,7 +48,39 @@ VectorNeighborhoodInnerProduct<TImage>
     }
   
   return sum;
+}
+
+
+template<class TImage>
+typename VectorNeighborhoodInnerProduct<TImage>::PixelType
+VectorNeighborhoodInnerProduct<TImage>
+::operator()(const std::slice &s,
+             const NeighborhoodType &it,
+             const OperatorType &op) const
+{
+  PixelType sum;
+  unsigned int j;
+  
+  typename OperatorType::ConstIterator o_it;
+
+  for (j = 0; j < VectorDimension; ++j)
+    { sum[j] = NumericTraits<ScalarValueType>::Zero; }
+  
+  o_it = op.Begin();
+  const typename OperatorType::ConstIterator op_end = op.End();
+
+  const unsigned int start  = static_cast<unsigned int>( s.start() );
+  const unsigned int stride = static_cast<unsigned int>( s.stride() );
+  for ( unsigned int i = start; o_it < op_end; i+=stride, ++o_it )
+    {
+      for (j = 0; j< VectorDimension; ++j)
+        {  sum[j] += *o_it * it[i][j]; }
+    }
+  
+  return sum;
 } 
+
+
 
 }// end namespace itk
 #endif
