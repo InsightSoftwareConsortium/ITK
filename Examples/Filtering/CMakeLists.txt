@@ -1,6 +1,9 @@
 PROJECT(FilteringExamples)
 INCLUDE_REGULAR_EXPRESSION("^.*$")
 
+ADD_EXECUTABLE(FlipImageFilter FlipImageFilter.cxx )
+TARGET_LINK_LIBRARIES(FlipImageFilter ITKCommon ITKIO)
+
 ADD_EXECUTABLE(GradientMagnitudeImageFilter GradientMagnitudeImageFilter.cxx )
 TARGET_LINK_LIBRARIES(GradientMagnitudeImageFilter ITKCommon ITKIO)
 
