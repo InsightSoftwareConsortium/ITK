@@ -181,7 +181,8 @@ int main( int argc, char *argv[] )
   // \begin{figure} \center
   // \includegraphics[width=0.44\textwidth]{BrainT1Slice.eps}
   // \includegraphics[width=0.44\textwidth]{HybridSegmentationFuzzyVoronoiOutput.eps}
-  // \itkcaption{Segmentation results for the hybrid segmentation approach.}
+  // \itkcaption[Segmentation results for the hybrid segmentation
+  // approach]{Segmentation results for the hybrid segmentation approach.}
   // \label{fig:HybridSegmentationFuzzyVoronoiOutput}
   // \end{figure}
   //
@@ -192,7 +193,9 @@ int main( int argc, char *argv[] )
   // \begin{figure} \center
   // \includegraphics[width=0.44\textwidth]{FatMRISlice.eps}
   // \includegraphics[width=0.44\textwidth]{HybridSegmentationFuzzyVoronoiOutput2.eps}
-  // \itkcaption{Another segmentation result for the hybrid segmentation approach.}
+  // \itkcaption[Segmentation result for the hybrid segmentation
+  // approach]{Another segmentation result for the hybrid segmentation
+  // approach.}
   // \label{fig:HybridSegmentationFuzzyVoronoiOutput2}
   // \end{figure}
   //
