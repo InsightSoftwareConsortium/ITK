@@ -37,7 +37,6 @@ MetaImageIO::MetaImageIO()
 
 MetaImageIO::~MetaImageIO()
   {
-  m_Ifstream.close();
   }
 
 

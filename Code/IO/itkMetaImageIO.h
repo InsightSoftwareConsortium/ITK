@@ -99,10 +99,6 @@ private:
   MetaImageIO(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-  std::ifstream   m_Ifstream;
-
-  std::ofstream   m_Ofstream;
-  
 };
 
 } // end namespace itk
