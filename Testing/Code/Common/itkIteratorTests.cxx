@@ -23,26 +23,26 @@ See COPYRIGHT.txt for copyright details.
 #include "itkImageRegionSimpleIterator.h"
 #include <time.h>
 
-int main()
+void main()
 {
   std::cout << "Creating an image" << std::endl;
-  itk::Image<itk::Scalar<unsigned short>, 3>::Pointer
-    o3 = itk::Image<itk::Scalar<unsigned short>, 3>::New();
+  typedef itk::Image<itk::Scalar<unsigned short>, 3> ScalarImage;
+  ScalarImage::Pointer  o3 = ScalarImage::New();
 
   float origin3D[3] = { 5, 2.1, 8.1};
   float spacing3D[3] = { 1.5, 2.1, 1};
 
-  itk::Image<itk::Scalar<unsigned short>, 3>::Size imageSize3D = { 200, 200, 200 };
-  itk::Image<itk::Scalar<unsigned short>, 3>::Size bufferSize3D = { 200, 200, 200 };
-  itk::Image<itk::Scalar<unsigned short>, 3>::Size regionSize3D = { 190, 190, 190 };
+  ScalarImage::Size imageSize3D = { 200, 200, 200 };
+  ScalarImage::Size bufferSize3D = { 200, 200, 200 };
+  ScalarImage::Size regionSize3D = { 190, 190, 190 };
 
-  itk::Image<itk::Scalar<unsigned short>, 3>::Index startIndex3D = {0, 0, 0};
-  itk::Image<itk::Scalar<unsigned short>, 3>::Index bufferStartIndex3D = {0, 0, 0};
-  itk::Image<itk::Scalar<unsigned short>, 3>::Index regionStartIndex3D = {5,5, 5};
-  itk::Image<itk::Scalar<unsigned short>, 3>::Index regionEndIndex3D = {194, 194, 194};
+  ScalarImage::Index startIndex3D = {0, 0, 0};
+  ScalarImage::Index bufferStartIndex3D = {0, 0, 0};
+  ScalarImage::Index regionStartIndex3D = {5,5, 5};
+  ScalarImage::Index regionEndIndex3D = {194, 194, 194};
 
 
-  itk::Image<itk::Scalar<unsigned short>, 3>::Region region;
+  ScalarImage::Region region;
   region.SetSize(imageSize3D);
   region.SetIndex(startIndex3D);
   o3->SetLargestPossibleRegion( region );
@@ -63,7 +63,8 @@ int main()
   clock_t start, end;
   unsigned long num = 190*190*190;
   unsigned long i = 0;
-
+  bool passed = true;
+  
   // memset
   start = clock();
   itk::Scalar<unsigned short> *ptr = o3->GetBufferPointer();
@@ -91,7 +92,11 @@ int main()
   std::cout << "\tTime   = " << elapsedTime << std::endl;
   std::cout << "\tPixels = " << i << std::endl;
 
-
+  if (i != num)
+    {
+    passed = false;
+    }
+  
   // 3 nested loops
   unsigned long ii, jj, kk, len=190;
   start = clock();
@@ -112,6 +117,11 @@ int main()
   std::cout << "\tTime   = " << elapsedTime << std::endl;
   std::cout << "\tPixels = " << i << std::endl;
   
+  if (i != num)
+    {
+    passed = false;
+    }
+
   // ImageRegionIterator
   start = clock();
   itk::ImageRegionIterator<itk::Scalar<unsigned short>, 3> it(o3, region);
@@ -129,9 +139,14 @@ int main()
   std::cout << "\tTime   = " << elapsedTime << std::endl;
   std::cout << "\tPixels = " << i << std::endl;
 
+  if (i != num)
+    {
+    passed = false;
+    }
+
   // ImageRegionSimpleIterator
   start = clock();
-  itk::ImageRegionSimpleIterator<itk::Image<itk::Scalar<unsigned short>, 3> > it2(o3, region);
+  itk::ImageRegionSimpleIterator<ScalarImage> it2(o3, region);
 
   i = 0;
   for ( it2.Begin(); !it2.IsAtEnd(); ++it2)
@@ -145,8 +160,22 @@ int main()
   std::cout << "ImageRegionSimpleIterator" << std::endl;
   std::cout << "\tTime   = " << elapsedTime << std::endl;
   std::cout << "\tPixels = " << i << std::endl;
+
+  if (i != num)
+    {
+    passed = false;
+    }
   
-  return 1;
+  if (passed)
+    {
+    std::cout << "Iterator tests passed" << std::endl;
+    exit(EXIT_SUCCESS);
+    }
+  else
+    {
+    std::cout << "Iterator tests failed" << std::endl;
+    exit(EXIT_FAILURE);
+    }
 }
 
 
