@@ -375,7 +375,10 @@ WatershedImageFilter<TInputImage, TOutputImage>
                 }
             }          
         }
-      topMerge = heap.front();
+      if( !heap.empty() )
+        {
+        topMerge = heap.front();
+        }
     }
 }
 
