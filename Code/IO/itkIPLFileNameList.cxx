@@ -34,36 +34,36 @@ private:
     const int ImageNoDiff= item1->GetimageNumber() -  item2->GetimageNumber();
     if( ImageNoDiff < 0)
       {
-      return -1;
+      return true;
       }
     if( ImageNoDiff > 0 )
       {
-      return 1;
+      return false;
       }
     const int echoNumDiff=item1->GetechoNumber() - item2->GetechoNumber();
     if (echoNumDiff < 0)
       {
-      return -1;
+      return true;
       }
     else if (echoNumDiff > 0 )
       {
-      return 1;
+      return false;
       }
     const float sliceGap = item1->GetSliceLocation() - item2->GetSliceLocation();
     if (sliceGap < 0.0)
       {
-      return -1;
+      return true;
       }
     if (sliceGap > 0.0)
       {
-      return 1;
+      return false;
       }
-    return item2->GetimageFileName() < item1->GetimageFileName();
+    return (item1->GetimageFileName() < item2->GetimageFileName());
   }
 public:
   bool operator()(IPLFileSortInfo *item1,IPLFileSortInfo *item2)
   {
-    return !qsort_IPLFileSortInfo_ascend_compar(item1,item2);
+    return qsort_IPLFileSortInfo_ascend_compar(item1,item2);
   }
  };
 
@@ -76,38 +76,38 @@ private:
     const int ImageNoDiff= item1->GetimageNumber() -  item2->GetimageNumber();
     if( ImageNoDiff < 0)
       {
-      return 1;
+      return false;
       }
     if( ImageNoDiff > 0 )
       {
-      return -1;
+      return true;
       }
     const int echoNumDiff=item1->GetechoNumber() - item2->GetechoNumber();
     if ( echoNumDiff < 0)
       {
-      return 1;
+      return false;
       }
     if ( echoNumDiff > 0)
       {
-      return -1;
+      return true;
       }
     const float sliceGap = item1->GetSliceLocation() - item2->GetSliceLocation();
     if (sliceGap < 0.0)
       {
-      return 1;
+      return false;
       }
     if (sliceGap > 0.0)
       {
-      return -1;
+      return true;
       }
-    return item1->GetimageFileName()  >= item2->GetimageFileName();
+    return (item1->GetimageFileName()  >= item2->GetimageFileName());
     
   }
   
 public:
   bool operator()(IPLFileSortInfo *item1,IPLFileSortInfo *item2)
   {
-    return !qsort_IPLFileSortInfo_descend_compar(item1,item2);
+    return qsort_IPLFileSortInfo_descend_compar(item1,item2);
   }
  };
  
@@ -117,7 +117,7 @@ struct IPLFileSortInfo_ascendbyname_compare
 public:
   bool operator()(IPLFileSortInfo *item1,IPLFileSortInfo *item2)
   {
-    return (item2->GetimageFileName() < item1->GetimageFileName());
+    return (item1->GetimageFileName() < item2->GetimageFileName());
   }
  };
 
@@ -127,7 +127,7 @@ struct IPLFileSortInfo_descendbyname_compare
 public:
   bool operator()(IPLFileSortInfo *item1,IPLFileSortInfo *item2)
   {
-    return item1->GetimageFileName()  >= item2->GetimageFileName();
+    return (item1->GetimageFileName()  >= item2->GetimageFileName());
   }
 };
  

@@ -346,7 +346,7 @@ void IPLCommonImageIO::ReadImageInformation()
     delete curImageHeader;
   }
   //sort image list
-  sortImageListAscend();
+  m_fnlist->sortImageList();
 
 
   //
