@@ -61,7 +61,7 @@ public:
   /** Set raddi via an array of radius */
   itkSetMacro(Radius,ArrayType);
   /** Get raddi via an array of radius */
-  itkGetMacro(Radius,ArrayType);
+  itkGetConstMacro(Radius,ArrayType);
 
   /** Returns a degree of membership to the object. 
    *  That's useful for fuzzy objects. */ 
