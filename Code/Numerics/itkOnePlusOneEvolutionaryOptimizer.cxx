@@ -212,16 +212,10 @@ OnePlusOneEvolutionaryOptimizer
     //A = A + (adjust - 1.0) * A ;
     double alpha = ((adjust - 1.0) / dot_product(f_norm, f_norm)) ;
     for ( unsigned int c = 0 ; c < spaceDimension ; c++ )
-      {
-      double temp = alpha * f_norm[c] ; 
-      if ( f_norm[c] == 0.0 )
-        { 
-        temp = 1.0 ;
-        }
-        
+      {        
       for (unsigned int r = 0 ; r < spaceDimension ; r++)
         {
-        A(c, r) += alpha * delta[r] * temp ;
+        A(c, r) += alpha * delta[r] * f_norm[c];
         }
       }
 
