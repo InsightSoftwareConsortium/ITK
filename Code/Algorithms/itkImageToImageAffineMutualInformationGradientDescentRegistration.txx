@@ -86,9 +86,6 @@ ImageToImageAffineMutualInformationGradientDescentRegistration<TReference, TTarg
   m_LearningRate = 1.0;
   m_TranslationScale = 1.0;
 
-  PointType center;
-  center.Fill( 0 );
-
 }
 
 
