@@ -59,10 +59,14 @@ Gene
 
   m_Name = gene.m_Name;
 
+  m_ControlDomains.clear();
+
   m_ControlDomains.insert( m_ControlDomains.begin(),
                            gene.m_ControlDomains.begin(),
                            gene.m_ControlDomains.end()    );
 
+
+  m_ProteinDomains.clear();
 
   ProteinDomainsType::value_type first = (*gene.m_ProteinDomains.begin());
   ProteinDomainsType::value_type last = (*gene.m_ProteinDomains.end());
