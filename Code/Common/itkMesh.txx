@@ -98,6 +98,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   itkDebugMacro("setting Cells container to " << cells);
   if(m_CellsContainer != cells)
     {
+    this->ReleaseCellsMemory();
     m_CellsContainer = cells;
     this->Modified();
     }
@@ -128,9 +129,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   itkDebugMacro("setting CellData container to " << cellData);
   if(m_CellDataContainer != cellData)
     {
-    // Release current cells
-    this->ReleaseCellsMemory();
-    // Take new ones
     m_CellDataContainer = cellData;
     this->Modified();
     }
@@ -664,6 +662,7 @@ void
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::Initialize(void)
 {
+  itkDebugMacro("Mesh Initialize method ");
   Superclass::Initialize();
 
   this->ReleaseCellsMemory();
@@ -1046,6 +1045,7 @@ template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::~Mesh()
 {
+  itkDebugMacro("Mesh Destructor ");
   this->ReleaseCellsMemory();
   this->ReleaseBoundariesMemory();
 }
@@ -1062,6 +1062,7 @@ void
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::ReleaseCellsMemory(void)
 {
+  itkDebugMacro("Mesh  ReleaseCellsMemory method ");
   // Cells are stored as normal pointers in the CellContainer.
   //
   // The following cases are assumed here: 
@@ -1081,46 +1082,59 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   // 3) the user allocated the Cells on a cell-by-cell basis
   //    so every cell has to be deleted using   "delete cell"
   //
-  if( m_CellsContainer && m_CellsContainer->GetReferenceCount()==0 ) 
+  if( !m_CellsContainer )
+    {
+    itkDebugMacro("m_CellsContainer is null");
+    return;
+    }
+        
+  itkDebugMacro("m_CellsContainer->GetReferenceCount()= " << m_CellsContainer->GetReferenceCount() );
+
+  if( m_CellsContainer->GetReferenceCount()==1 ) 
     {
     switch( m_CellsAllocationMethod )
-    {
-    case CellsAllocationMethodUndefined:
       {
-      // The user forgot to tell the mesh about how he allocated 
-      // the cells. No responsible guess can be made here. Call for help.
-      itkGenericExceptionMacro(<<"Cells Allocation Method was not specified. See SetCellsAllocationMethod()");
-      break;
-      }
-    case CellsAllocatedAsStaticArray:
-      {
-      // The cells will be naturally destroyed when
-      // the original array goes out of scope.
-      break;
-      }
-    case CellsAllocatedAsADynamicArray:
-      {
-      // the pointer to the first Cell is assumed to be the 
-      // base pointer of the array
-      CellsContainerIterator first = m_CellsContainer->Begin();
-      CellType * baseOfCellsArray = first->Value();
-      delete [] baseOfCellsArray;
-      }
-    case CellsAllocatedDynamicallyCellByCell:
-      {
-      // It is assumed that every cell was allocated independently.
-      // A Cell iterator is created for going through the cells 
-      // deleting one by one.
-      CellsContainerIterator cell  = m_CellsContainer->Begin();
-      CellsContainerIterator end   = m_CellsContainer->End();
-      while( cell != end )
+      case CellsAllocationMethodUndefined:
         {
-        const CellType * cellToBeDeleted = cell->Value();
-        delete cellToBeDeleted;
-        ++cell; 
+        // The user forgot to tell the mesh about how he allocated 
+        // the cells. No responsible guess can be made here. Call for help.
+        itkGenericExceptionMacro(<<"Cells Allocation Method was not specified. See SetCellsAllocationMethod()");
+        break;
+        }
+      case CellsAllocatedAsStaticArray:
+        {
+        // The cells will be naturally destroyed when
+        // the original array goes out of scope.
+        itkDebugMacro("CellsAllocatedAsStaticArray ");
+        break;
+        }
+      case CellsAllocatedAsADynamicArray:
+        {
+        // the pointer to the first Cell is assumed to be the 
+        // base pointer of the array
+        CellsContainerIterator first = m_CellsContainer->Begin();
+        CellType * baseOfCellsArray = first->Value();
+        delete [] baseOfCellsArray;
+        m_CellsContainer->Initialize();
+        itkDebugMacro("CellsAllocatedAsADynamicArray");
+        }
+      case CellsAllocatedDynamicallyCellByCell:
+        {
+        // It is assumed that every cell was allocated independently.
+        // A Cell iterator is created for going through the cells 
+        // deleting one by one.
+        CellsContainerIterator cell  = m_CellsContainer->Begin();
+        CellsContainerIterator end   = m_CellsContainer->End();
+        while( cell != end )
+          {
+          const CellType * cellToBeDeleted = cell->Value();
+          delete cellToBeDeleted;
+          ++cell; 
+          }
+        m_CellsContainer->Initialize();
+        itkDebugMacro("CellsAllocatedDynamicallyCellByCell");
         }
       }
-    }
     }
 }
 
@@ -1136,7 +1150,7 @@ void
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::ReleaseBoundariesMemory(void)
 {
-
+  itkDebugMacro("Mesh  ReleaseBoundariesMemory method ");
   const unsigned int numberOfBoundaryDimension = m_BoundariesContainers.size();
 
   if( numberOfBoundaryDimension == 0 )
@@ -1148,7 +1162,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>
     {
     this->ReleaseBoundariesMemory( dimension );
     }
-
 }
 
 
@@ -1164,6 +1177,7 @@ void
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::ReleaseBoundariesMemory(unsigned int dimension)
 {
+  itkDebugMacro("Mesh  ReleaseBoundariesMemory(unsigned int) method ");
   // Boundaries are stored as normal pointers in the CellContainer.
   //
   // The following cases are assumed here: 
@@ -1194,7 +1208,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
                                   = m_BoundariesContainers[ dimension ];
 
 
-  if( boundariesContainer && boundariesContainer->GetReferenceCount()==0 ) 
+  if( boundariesContainer && boundariesContainer->GetReferenceCount()==1 ) 
     {
     switch( m_BoundariesAllocationMethod )
     {
@@ -1218,6 +1232,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
       BoundariesContainerIterator first = boundariesContainer->Begin();
       CellType * baseOfBoundariesArray = first->Value();
       delete [] baseOfBoundariesArray;
+      boundariesContainer->Initialize();
       }
     case BoundariesAllocatedDynamicallyCellByCell:
       {
@@ -1232,6 +1247,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
         delete cellToBeDeleted;
         ++cell; 
         }
+      boundariesContainer->Initialize();
       }
     }
   }
