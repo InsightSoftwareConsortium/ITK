@@ -42,6 +42,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkObject_h
 
 #include "itkLightObject.h"
+#include "itkEventObject.h"
+
 
 namespace itk
 {
@@ -153,7 +155,7 @@ public:
    * this object, so don't pass the same instance of a command to two
    * different objects 
    */
-  unsigned long AddObserver(unsigned long event, Command *);
+  unsigned long AddObserver(const EventObject & event, Command *);
 
   /**
    * Add observer based on the string name of the event.
@@ -172,13 +174,13 @@ public:
   /**
    * Call Execute on all the Commands observing this event id.
    */
-  void InvokeEvent(unsigned long event);
+  void InvokeEvent( const EventObject & );
 
   /**
    * Call Execute on all the Commands observing this event id.
    * The actions triggered by this call doesn't modify this object.
    */
-  void InvokeEvent(unsigned long event) const;
+  void InvokeEvent( const EventObject & ) const;
  
   /**
    * Call Execute on all the Commands observing this event, convert the
@@ -201,7 +203,7 @@ public:
   /**
    * Return true if an observer is registered for this event.
    */
-  bool HasObserver(unsigned long event) const;
+  bool HasObserver( const EventObject & event ) const;
 
   /**
    * Return true if an observer is registered for this event.

@@ -400,7 +400,7 @@ ProcessObject
 ::UpdateProgress(float amount)
 {
   m_Progress = amount;
-  this->InvokeEvent(Command::ProgressEvent);
+  this->InvokeEvent( ProgressEvent() );
 }
 
 
@@ -794,7 +794,7 @@ ProcessObject
       }
     }
  
-  this->InvokeEvent(Command::StartEvent);
+  this->InvokeEvent( StartEvent() );
 
   /**
    * GenerateData this object - we have not aborted yet, and our progress
@@ -824,7 +824,7 @@ ProcessObject
     }
 
   // Notify end event observers
-  this->InvokeEvent(Command::EndEvent);
+  this->InvokeEvent( EndEvent() );
 
   /**
    * Now we have to mark the data as up to date.
