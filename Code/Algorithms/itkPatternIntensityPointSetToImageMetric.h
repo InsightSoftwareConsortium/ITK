@@ -52,8 +52,8 @@ public:
   typedef double              MeasureType;
 
   /**  Type of the derivative of the match measure. */
-  typedef CovariantVector<MeasureType,
-                          itkGetConstMacro(SpaceDimension) >  DerivativeType;
+  typedef CovariantVector<MeasureType, itkGetStaticConstMacro(SpaceDimension) >
+          DerivativeType;
 
   /** Standard class typedefs. */
   typedef PatternIntensityPointSetToImageMetric  Self;
