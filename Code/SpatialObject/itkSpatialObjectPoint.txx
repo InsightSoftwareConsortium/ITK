@@ -33,6 +33,10 @@ SpatialObjectPoint< TPointDimension >
   m_Color.SetBlue(0);
   m_Color.SetAlpha(1);
   m_NumDimensions = TPointDimension;
+  for(unsigned int i=0;i<m_NumDimensions;i++)
+  {
+    m_X[i]=0;
+  }
 }
 
 /** Destructor */
@@ -243,7 +247,13 @@ SpatialObjectPoint< TPointDimension >
   os << indent << "RGBA: "<< m_Color.GetRed() << " ";
   os << m_Color.GetGreen() << " ";
   os << m_Color.GetBlue() << " ";
-  os << m_Color.GetAlpha() << " ";
+  os << m_Color.GetAlpha() << std::endl;
+  os << indent << "Position: ";
+  for(unsigned int i=0;i<m_NumDimensions-1;i++)
+  {
+    os << m_X[i] << "," ;
+  }
+  os <<  m_X[m_NumDimensions-1] << std::endl;
 }
 
 
