@@ -13,14 +13,16 @@ int malloc_count = 0;
 
 int test_matrix_fixed()
 {
-  verbose_malloc = true;
   double datablock[9] = {
     11, 12, 13,
     21, 22, 23,
     31, 32, 33,
   };
   
+  verbose_malloc = false;
   vcl_cout << "Calling ctor -- should be no mallocs\n";
+  verbose_malloc = true;
+
   //Refvnl_double_3x3 X(datablock);
   malloc_count = 0;
   vnl_double_3x3 X(datablock);
@@ -39,7 +41,10 @@ int test_matrix_fixed()
   vnl_test_assert("mallocs", malloc_count <= 1);
 #endif
 
+  verbose_malloc = false;
   vcl_cout << "Now watch them mallocs\n";
+  verbose_malloc = true;
+  
   vnl_matrix<double>& CX = X;
   vnl_vector<double>& cv = v;
   vcl_cout << "X v = " << CX * (cv + cv) << vcl_endl;
@@ -89,7 +94,15 @@ void operator delete(void* s)
 #endif
 {
   if (verbose_malloc)
-    vcl_cout << "delete: " << s << vcl_endl;
+    {
+    // turn off verbose_malloc while printing. otherwise the Borland C++
+    // compiler will get in an infinite loop because
+    // the streams library allocates memory with new.
+    verbose_malloc = false;
+    vcl_cout << " (delete: " << s << ") ";
+    // turn verbose_malloc back on
+    verbose_malloc = true;
+    }
   free(s);
 }
 
