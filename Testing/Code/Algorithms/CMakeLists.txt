@@ -25,6 +25,7 @@ itkImageMomentsTest
 itkImageToImageAffineMeanSquaresRegistrationTest
 itkImageToImageAffineMutualInformationRegistrationTest
 itkImageToImageTranslationMeanSquaresRegistrationTest
+itkImageToImageAffineNormalizedCorrelationRegistrationTest
 itkInterpolateTest
 itkLevelSetShapeDetectionTest
 itkMRFLabellerTest
@@ -40,3 +41,5 @@ itkDeformableTest
 itkVoronoi2DDiagramTest
 itkVoronoiSegmentationImageFilterTest
 )
+
+
