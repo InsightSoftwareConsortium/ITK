@@ -9,10 +9,11 @@ ENDIF(ITK_BINARY_DIR)
 IF( NOT ITK_DISABLE_CXX_TESTING )
 
 SET(SPATIAL_OBJECT_TESTS        ${CXX_TEST_PATH}/itkSpatialObjectTests)
+SET(SPATIAL_OBJECT_TESTS2       ${CXX_TEST_PATH}/itkSpatialObjectTests2)
 SET(SPATIAL_OBJECT_HEADER_TEST  ${CXX_TEST_PATH}/itkSpatialObjectHeaderTest)
 
-ADD_TEST(itkSpatialObjectPrintTest ${SPATIAL_OBJECT_TESTS} itkSpatialObjectPrintTest)
 ADD_TEST( itkAffineGeometryFrameTest ${SPATIAL_OBJECT_TESTS} itkAffineGeometryFrameTest )
+ADD_TEST( itkArrowSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkArrowSpatialObjectTest )
 ADD_TEST( itkBlobSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkBlobSpatialObjectTest )
 ADD_TEST( itkEllipseSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkEllipseSpatialObjectTest)
 ADD_TEST( itkGaussianSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkGaussianSpatialObjectTest)
@@ -20,40 +21,50 @@ ADD_TEST( itkImageMaskSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkImageMaskSpat
 ADD_TEST( itkImageSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkImageSpatialObjectTest )
 ADD_TEST( itkLandmarkSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkLandmarkSpatialObjectTest )
 ADD_TEST( itkLineSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkLineSpatialObjectTest )
-ADD_TEST( itkMeshSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkMeshSpatialObjectTest )
-ADD_TEST( itkPlaneSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkPlaneSpatialObjectTest )
-ADD_TEST( itkPolygonGroupSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkPolygonGroupSpatialObjectTest )
-ADD_TEST( itkSceneSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkSceneSpatialObjectTest )
+
+ADD_TEST( itkMeshSpatialObjectTest ${SPATIAL_OBJECT_TESTS2} itkMeshSpatialObjectTest )
+ADD_TEST( itkPlaneSpatialObjectTest ${SPATIAL_OBJECT_TESTS2} itkPlaneSpatialObjectTest )
+ADD_TEST( itkPolygonGroupSpatialObjectTest ${SPATIAL_OBJECT_TESTS2} itkPolygonGroupSpatialObjectTest )
+ADD_TEST( itkSceneSpatialObjectTest ${SPATIAL_OBJECT_TESTS2} itkSceneSpatialObjectTest )
+ADD_TEST(itkSpatialObjectPrintTest ${SPATIAL_OBJECT_TESTS2} itkSpatialObjectPrintTest)
+ADD_TEST( itkSpatialObjectTreeContainerTest ${SPATIAL_OBJECT_TESTS2} itkSpatialObjectTreeContainerTest )
+ADD_TEST( itkSurfaceSpatialObjectTest ${SPATIAL_OBJECT_TESTS2} itkSurfaceSpatialObjectTest )
+ADD_TEST( itkTubeSpatialObjectTest ${SPATIAL_OBJECT_TESTS2} itkTubeSpatialObjectTest )
+
 ADD_TEST( itkSpatialObjectHeaderTest ${SPATIAL_OBJECT_HEADER_TEST})
-ADD_TEST( itkSpatialObjectTreeContainerTest ${SPATIAL_OBJECT_TESTS} itkSpatialObjectTreeContainerTest )
-ADD_TEST( itkSurfaceSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkSurfaceSpatialObjectTest )
-ADD_TEST( itkTubeSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkTubeSpatialObjectTest )
-ADD_TEST( itkArrowSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkArrowSpatialObjectTest )
 
 SET(SpatialObject_SRCS
+  itkAffineGeometryFrameTest.cxx
   itkArrowSpatialObjectTest.cxx
-  itkSpatialObjectPrintTest.cxx
-  itkTubeSpatialObjectTest.cxx
-  itkImageSpatialObjectTest.cxx
-  itkImageMaskSpatialObjectTest.cxx
+  itkBlobSpatialObjectTest.cxx
   itkEllipseSpatialObjectTest.cxx
   itkGaussianSpatialObjectTest.cxx
-  itkBlobSpatialObjectTest.cxx
+  itkImageMaskSpatialObjectTest.cxx
+  itkImageSpatialObjectTest.cxx
   itkLandmarkSpatialObjectTest.cxx
-  itkSurfaceSpatialObjectTest.cxx
   itkLineSpatialObjectTest.cxx
+)
+
+SET(SpatialObject_SRCS2
   itkMeshSpatialObjectTest.cxx
-  itkPolygonGroupSpatialObjectTest.cxx
   itkPlaneSpatialObjectTest.cxx
+  itkPolygonGroupSpatialObjectTest.cxx
   itkSceneSpatialObjectTest.cxx
-  itkAffineGeometryFrameTest.cxx
+  itkSpatialObjectPrintTest.cxx
   itkSpatialObjectTreeContainerTest.cxx
+  itkSurfaceSpatialObjectTest.cxx
+  itkTubeSpatialObjectTest.cxx
 )
 
 ADD_EXECUTABLE(itkSpatialObjectTests itkSpatialObjectTests.cxx ${SpatialObject_SRCS})
+TARGET_LINK_LIBRARIES(itkSpatialObjectTests ITKIO ITKCommon)
+
+ADD_EXECUTABLE(itkSpatialObjectTests2 itkSpatialObjectTests2.cxx ${SpatialObject_SRCS2})
+TARGET_LINK_LIBRARIES(itkSpatialObjectTests2 ITKIO ITKCommon)
+
 ADD_EXECUTABLE(itkSpatialObjectHeaderTest itkSpatialObjectHeaderTest.cxx)
 TARGET_LINK_LIBRARIES(itkSpatialObjectHeaderTest ITKCommon)
-TARGET_LINK_LIBRARIES(itkSpatialObjectTests ITKIO ITKCommon)
+
 
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
 

@@ -7,20 +7,12 @@
 void RegisterTests()
 {
   REGISTER_TEST(itkAffineGeometryFrameTest);
-  REGISTER_TEST(itkSpatialObjectPrintTest);
-  REGISTER_TEST(itkImageSpatialObjectTest);
-  REGISTER_TEST(itkImageMaskSpatialObjectTest);
-  REGISTER_TEST(itkTubeSpatialObjectTest);
+  REGISTER_TEST(itkArrowSpatialObjectTest);
   REGISTER_TEST(itkBlobSpatialObjectTest);
-  REGISTER_TEST(itkLandmarkSpatialObjectTest);
-  REGISTER_TEST(itkLineSpatialObjectTest);
-  REGISTER_TEST(itkMeshSpatialObjectTest);
   REGISTER_TEST(itkEllipseSpatialObjectTest);
   REGISTER_TEST(itkGaussianSpatialObjectTest);
-  REGISTER_TEST(itkSurfaceSpatialObjectTest);
-  REGISTER_TEST(itkPolygonGroupSpatialObjectTest);
-  REGISTER_TEST(itkPlaneSpatialObjectTest);
-  REGISTER_TEST(itkSceneSpatialObjectTest);
-  REGISTER_TEST(itkSpatialObjectTreeContainerTest);
-  REGISTER_TEST(itkArrowSpatialObjectTest);
+  REGISTER_TEST(itkImageMaskSpatialObjectTest);
+  REGISTER_TEST(itkImageSpatialObjectTest);
+  REGISTER_TEST(itkLandmarkSpatialObjectTest);
+  REGISTER_TEST(itkLineSpatialObjectTest);
 }
