@@ -332,11 +332,14 @@ int main( int argc, char **argv )
 
   OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
 
-  optimizerScales[0] = 0.0001;
+  const double translationScale = 1.0 / 1e4;
   optimizerScales[0] = 1.0;
-  optimizerScales[0] = 1.0;
-  optimizerScales[0] = 1.0;
-  optimizerScales[0] = 1.0;
+  optimizerScales[1] = translationScale;
+  optimizerScales[2] = translationScale;
+  optimizerScales[3] = translationScale;
+  optimizerScales[4] = translationScale;
+
+  optimizer->SetScales( optimizerScales );
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -347,9 +350,9 @@ int main( int argc, char **argv )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  optimizer->SetMaximumStepLength( 4.00 );  
-  optimizer->SetMinimumStepLength( 0.01 );
-  optimizer->SetNumberOfIterations( 200 );
+  optimizer->SetMaximumStepLength( atof( argv[5] ) );  
+  optimizer->SetMinimumStepLength( 0.0001 );
+  optimizer->SetNumberOfIterations( 500 );
   // Software Guide : EndCodeSnippet
 
 
