@@ -47,6 +47,8 @@ Euler2DTransform<TScalarType>
 {
   itkDebugMacro( << "Setting paramaters " << parameters );
 
+  m_Parameters = parameters;
+
   // Set angles with parameters
   m_Angle = parameters[0];
  
@@ -61,8 +63,32 @@ Euler2DTransform<TScalarType>
 
   ComputeMatrix();
 
-  itkDebugMacro(<<"After setting paramaters ");
+  itkDebugMacro(<<"After setting parameters ");
 }
+
+// Get Parameters
+template <class TScalarType>
+const typename Euler2DTransform<TScalarType>::ParametersType &
+Euler2DTransform<TScalarType>
+::GetParameters( void ) const
+{
+  itkDebugMacro( << "Getting parameters ");
+
+  // Set angles with parameters
+  m_Parameters[0] = m_Angle;
+ 
+  // Transfer the translation part
+  OffsetType offset = this->GetOffset();
+  for(unsigned int i=0; i < SpaceDimension; i++) 
+  {
+    m_Parameters[i+1] = offset[i];
+  }
+
+  itkDebugMacro(<<"After getting parameters " << m_Parameters );
+
+  return m_Parameters;
+}
+
 
 
 // Set Identity

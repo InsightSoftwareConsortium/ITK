@@ -86,6 +86,13 @@ public:
    * rotation and the last two represents the offset. */
   void SetParameters( const ParametersType & parameters );
 
+  /** Get the parameters that uniquely define the transform
+   * This is typically used by optimizers.
+   * There are 3 parameters. The first one represents the
+   * rotation and the last two represents the offset. */
+  const ParametersType & GetParameters( void ) const;
+
+
   /** Set the rotational part of the transform. */
   void SetRotation(TScalarType angle);
   
@@ -113,6 +120,8 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   TScalarType m_Angle; 
+
+  mutable ParametersType m_Parameters;
 
 }; //class Euler2DTransform
 
