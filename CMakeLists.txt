@@ -59,15 +59,15 @@ SET(ITK_EXECUTABLE_PATH "${EXECUTABLE_OUTPUT_PATH}")
 SET(CXX_TEST_PATH ${EXECUTABLE_OUTPUT_PATH})
 
 SET(CMAKE_MODULE_PATH ${ITK_SOURCE_DIR}/CMake)
-# Deal with FFT Options
-OPTION(USE_FFTW "Use the FFTW library" OFF)
+# Deal with FFT v3 Options
+OPTION(USE_FFTW "Use the FFTW v3 library" OFF)
 MARK_AS_ADVANCED(USE_FFTW)
 IF( USE_FFTW )
     FIND_PACKAGE( FFTW )
 ENDIF( USE_FFTW )
 
-# Deal with SCSL Options
-OPTION(USE_SCSL "Use the SCSL library" OFF)
+# Deal with SGI SCSL Options
+OPTION(USE_SCSL "Use the SGI SCSL High Performance Computing math library" OFF)
 MARK_AS_ADVANCED(USE_SCSL)
 IF( USE_SCSL )
     FIND_PACKAGE( SCSL )
@@ -85,6 +85,13 @@ OPTION(ITK_CSWIG_TCL "Build cswig Tcl wrapper support (requires CableSwig)." OFF
 OPTION(ITK_CSWIG_PYTHON "Build cswig Python wrapper support (requires CableSwig)." OFF)
 OPTION(ITK_CSWIG_JAVA "Build cswig Java wrapper support " OFF)
 
+# Options for building some of the most common core templates explicitly only
+# once.  This has only been tested on gcc compilers.
+OPTION(ITK_EXPLICIT_INSTANTIATION "BETA-Try to explicitly build some of the core templates explictitly rather than over and over again." OFF)
+MARK_AS_ADVANCED(ITK_EXPLICIT_INSTANTIATION)
+IF( ITK_EXPLICIT_INSTANTIATION )
+ ADD_DEFINITIONS(-DITK_EXPLICIT_INSTANTIATION)
+ENDIF( ITK_EXPLICIT_INSTANTIATION )
 # perl support does not work, contact bill hoffman at kitware
 # if you are interested in perl wrapping.  It is close, but
 # not there yet.
