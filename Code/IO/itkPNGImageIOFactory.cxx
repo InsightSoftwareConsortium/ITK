@@ -51,13 +51,13 @@ PNGImageIOFactory::~PNGImageIOFactory()
 }
 
 const char* 
-PNGImageIOFactory::GetITKSourceVersion()
+PNGImageIOFactory::GetITKSourceVersion(void) const
 {
   return ITK_SOURCE_VERSION;
 }
 
 const char* 
-PNGImageIOFactory::GetDescription() const
+PNGImageIOFactory::GetDescription(void) const
 {
   return "PNG ImageIO Factory, allows the loading of PNG images into insight";
 }

@@ -130,8 +130,10 @@ protected:
   ~ImageFileWriter();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
+  void GenerateOutputInformation(void);
+
   /** Does the real work. */
-  void GenerateData();
+  void GenerateData(void);
   
 private:
   ImageFileWriter(const Self&); //purposely not implemented

@@ -370,6 +370,15 @@ bool PNGImageIO::CanWriteFile(const char*)
   return false;
 }
 
+
+ 
+void PNGImageIO::WriteImageInformation(void)
+{
+}
+
+
+
+
 void PNGImageIO::Write(const void* buffer)
 {
   ImageIORegion ioRegion = this->GetIORegion();

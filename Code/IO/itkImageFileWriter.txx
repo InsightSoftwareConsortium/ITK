@@ -180,6 +180,16 @@ ImageFileWriter<TInputImage>
 template <class TInputImage>
 void 
 ImageFileWriter<TInputImage>
+::GenerateOutputInformation()
+{
+
+}
+
+
+//---------------------------------------------------------
+template <class TInputImage>
+void 
+ImageFileWriter<TInputImage>
 ::GenerateData()
 {
   InputImagePointer input = this->GetInput();

@@ -94,10 +94,10 @@ public:
    * ITK_SOURCE_VERSION and NOT a call to Version::GetITKSourceVersion.
    * As the version needs to be compiled into the file as a string constant.
    * This is critical to determine possible incompatible dynamic factory loads. */
-  virtual const char* GetITKSourceVersion() = 0;
+  virtual const char* GetITKSourceVersion(void) const = 0;
 
   /** Return a descriptive string describing the factory. */
-  virtual const char* GetDescription() const = 0;
+  virtual const char* GetDescription(void) const = 0;
 
   /** Return a list of classes that this factory overrides. */
   virtual std::list<std::string> GetClassOverrideNames();

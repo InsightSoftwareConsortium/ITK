@@ -44,7 +44,7 @@ public:
    * file specified. */
   virtual bool CanReadFile(const char*) ;
 
-  /** Set the spacing and dimention information for the set filename. */
+  /** Set the spacing and dimension information for the set filename. */
   virtual void ReadImageInformation();
   
   /** Get the type of the pixel.  */
@@ -60,15 +60,17 @@ public:
   
   /*-------- This part of the interfaces deals with writing data. ----- */
 
-  /** Determine the file type. Returns true if this ImageIO can read the
+  /** Determine the file type. Returns true if this ImageIO can write the
    * file specified. */
-  virtual bool CanWriteFile(const char*)
-    { return false; }
+  virtual bool CanWriteFile(const char*);
 
+  /** Set the spacing and dimension information for the set filename. */
+  virtual void WriteImageInformation();
+  
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegions has been set properly. */
-  virtual void Write(const void* buffer)
-    { return; }
+  virtual void Write(const void* buffer);
+
 
 protected:
   MetaImageIO();
@@ -83,6 +85,8 @@ private:
   bool GetSeparatorCharacter(std::ifstream & ifs) const;
 
   std::ifstream   m_Ifstream;
+
+  std::ofstream   m_Ofstream;
   
 };
 

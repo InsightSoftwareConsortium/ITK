@@ -41,8 +41,8 @@ public:
   itkTypeMacro(VOLImageIOFactory, ObjectFactoryBase);
   
   /** Class Methods used to interface with the registered factories. */
-  virtual const char* GetITKSourceVersion();
-  virtual const char* GetDescription() const;
+  virtual const char* GetITKSourceVersion(void) const;
+  virtual const char* GetDescription(void) const;
   
   /** Register one factory of this type.  */
   static void RegisterOneFactory(void)

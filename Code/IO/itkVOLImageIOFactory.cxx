@@ -42,13 +42,13 @@ VOLImageIOFactory::~VOLImageIOFactory()
 }
 
 const char* 
-VOLImageIOFactory::GetITKSourceVersion()
+VOLImageIOFactory::GetITKSourceVersion(void) const
 {
   return ITK_SOURCE_VERSION;
 }
 
 const char* 
-VOLImageIOFactory::GetDescription() const
+VOLImageIOFactory::GetDescription(void) const
 {
   return "VOL ImageIO Factory, allows the loading of VOL images into insight";
 }

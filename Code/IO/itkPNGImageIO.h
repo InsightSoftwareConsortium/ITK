@@ -62,6 +62,10 @@ public:
    * file specified. */
   virtual bool CanWriteFile(const char*);
 
+  /** Writes the spacing and dimentions of the image.
+   * Assumes SetFileName has been called with a valid file name. */
+  virtual void WriteImageInformation();
+ 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegion has been set properly. */
   virtual void Write(const void* buffer);

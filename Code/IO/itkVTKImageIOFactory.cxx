@@ -46,13 +46,13 @@ VTKImageIOFactory::~VTKImageIOFactory()
 }
 
 const char* 
-VTKImageIOFactory::GetITKSourceVersion()
+VTKImageIOFactory::GetITKSourceVersion(void) const
 {
   return ITK_SOURCE_VERSION;
 }
 
 const char* 
-VTKImageIOFactory::GetDescription() const
+VTKImageIOFactory::GetDescription(void) const
 {
   return "VTK ImageIO Factory, allows the loading of VTK images into ITK";
 }

@@ -30,13 +30,13 @@ class ITK_EXPORT MetaImageIOFactory : public ObjectFactoryBase
 public:  
   /** Standard class typedefs. */
   typedef MetaImageIOFactory   Self;
-  typedef Object  Superclass;
+  typedef ObjectFactoryBase  Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
   /** Class methods used to interface with the registered factories. */
-  virtual const char* GetITKSourceVersion();
-  virtual const char* GetDescription() const;
+  virtual const char* GetITKSourceVersion(void) const;
+  virtual const char* GetDescription(void) const;
   
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);

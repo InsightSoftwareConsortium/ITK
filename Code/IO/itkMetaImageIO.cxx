@@ -221,6 +221,18 @@ bool MetaImageIO::CanReadFile( const char* filename )
 }
   
 
+bool MetaImageIO::CanWriteFile(const char*)
+{
+  if(   m_FileName != "" &&
+      ( m_FileName.find(".mha") < m_FileName.length() ||
+        m_FileName.find(".mhd") < m_FileName.length()    ) )
+    {
+    return true;
+    }
+  return false;
+}
+
+
 
 const std::type_info& MetaImageIO::GetPixelType() const
 {
@@ -679,6 +691,109 @@ MetaImageIO
     }
 
 }
+
+
+
+
+/**
+ *
+ */
+void 
+MetaImageIO
+::WriteImageInformation(void)
+{
+
+  m_Ofstream.open( m_FileName.c_str(), std::ios::out | std::ios::binary );
+  if( m_Ofstream.fail() )
+    {
+    itkExceptionMacro(<<"File cannot be open for writing");
+    }
+
+
+  const unsigned int numberOfDimensions = this->GetNumberOfDimensions();
+
+  m_Ofstream << "NDims = " << numberOfDimensions << std::endl;
+
+  m_Ofstream << "DimSize = ";
+  for( unsigned int dim=0; dim< numberOfDimensions; dim++ )
+    {
+    m_Ofstream <<  this->GetDimensions( dim ) << "  ";  
+    }
+  m_Ofstream << std::endl;
+
+  m_Ofstream << "ElementSpacing = ";
+  for( unsigned int dim=0; dim< numberOfDimensions; dim++ )
+    {
+    m_Ofstream <<  this->GetSpacing( dim ) << "  ";  
+    }
+  m_Ofstream << std::endl;
+
+
+  m_Ofstream << "ElementType = ";
+  std::string metaImagePixelType;
+  switch( m_PixelType )
+  {
+  case UCHAR:
+      metaImagePixelType = "MET_UCHAR";
+      break;
+  case CHAR:
+      metaImagePixelType = "MET_CHAR";
+      break;
+  case USHORT:
+      metaImagePixelType = "MET_USHORT";
+      break;
+  case SHORT:
+      metaImagePixelType = "MET_SHORT";
+      break;
+  case UINT:
+      metaImagePixelType = "MET_UINT";
+      break;
+  case INT:
+      metaImagePixelType = "MET_INT";
+      break;
+  case ULONG:
+      metaImagePixelType = "MET_ULONG";
+      break;
+  case LONG:
+      metaImagePixelType = "MET_LONG";
+      break;
+  case FLOAT:
+      metaImagePixelType = "MET_FLOAT";
+      break;
+  case DOUBLE:
+      metaImagePixelType = "MET_DOUBLE";
+      break;
+  default:
+      itkExceptionMacro(<<"Unknown type of pixel");
+  }
+  m_Ofstream << metaImagePixelType << std::endl; 
+
+  std::string rawFilename = m_FileName;
+
+  rawFilename.replace( m_FileName.rfind( ".mha" ), 4, ".raw" );
+
+  m_Ofstream << "ElementDataFile = " << rawFilename << std::endl; 
+  
+  m_Ofstream.close();
+
+}
+
+
+
+
+
+/**
+ *
+ */
+void 
+MetaImageIO
+::Write( const void* buffer) 
+{
+  
+
+
+}
+
 
 
 

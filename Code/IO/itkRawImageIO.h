@@ -125,6 +125,11 @@ public:
    * true is always returned. */
   virtual bool CanWriteFile(const char*);
 
+  /** Binary files have no image information to read.  */
+  virtual void WriteImageInformation(void) 
+    {return;}
+
+
   /** Writes the data to disk from the memory buffer provided. */
   virtual void Write(const void* buffer);
 
@@ -151,27 +156,59 @@ private:
   unsigned short m_ImageMask;
 };
 
+
+
+
+
 template <class TPixel, unsigned int VImageDimension>
 class ITK_EXPORT RawImageIOFactory : public ObjectFactoryBase
 {
 public:
-  RawImageIOFactory();
-  const char* GetITKSourceVersion();
-  const char* GetDescription() const;
+  /** Standard class typedefs. */
+  typedef RawImageIOFactory<TPixel,VImageDimension>   Self;
+  typedef ObjectFactoryBase  Superclass;
+  typedef SmartPointer<Self>  Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
+
+  /** Class methods used to interface with the registered factories. */
+  const char* GetITKSourceVersion(void) const
+    {
+    return ITK_SOURCE_VERSION;
+    }
+
+  const char* GetDescription(void) const
+    {
+    return "Raw ImageIO Factory, allows the loading of Raw images into insight";
+    }
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
 
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(RawImageIOFactory, ObjectFactoryBase);
+
+  /** Register one factory of this type  */
+  static void RegisterOneFactory(void)
+    {
+    ObjectFactoryBase::RegisterFactory( Self::New() );
+    }
+
+
 protected:
+  RawImageIOFactory() {};
+  ~RawImageIOFactory() {};
   typedef RawImageIO<TPixel,VImageDimension> myProductType;
   const myProductType* m_MyProduct;
+
+private:
+  RawImageIOFactory(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
 };
 
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-
 #include "itkRawImageIO.txx"
 #endif
 
