@@ -50,7 +50,7 @@ public:
   LineSpatialObjectPoint( void );
 
   /** Default destructor. */
-  ~LineSpatialObjectPoint( void );
+  virtual ~LineSpatialObjectPoint( void );
 
   /** Get Normal */
   const VectorType & GetNormal( unsigned int index ) const;
@@ -64,9 +64,6 @@ public:
 protected:
 
   NormalArrayType m_NormalArray;
-
-  /** Destructor. */ 
-  virtual ~LineSpatialObjectPoint(); 
 
   /** Method to print the object. */
   virtual void PrintSelf( std::ostream& os, Indent indent ) const;
