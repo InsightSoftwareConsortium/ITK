@@ -15,7 +15,7 @@
 #ifndef __itkGrayscaleMorphologicalClosingImageFilter_h
 #define __itkGrayscaleMorphologicalClosingImageFilter_h
 
-#include "itkMorphologyImageFilter.h"
+#include "itkImageToImageFilter.h"
 
 namespace itk {
 
@@ -42,13 +42,12 @@ namespace itk {
 
 template<class TInputImage, class TOutputImage, class TKernel>
 class ITK_EXPORT GrayscaleMorphologicalClosingImageFilter : 
-    public MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
+    public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   /** Standard class typedefs. */
   typedef GrayscaleMorphologicalClosingImageFilter Self;
-  typedef MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
-  Superclass;
+  typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
@@ -57,7 +56,7 @@ public:
 
   /** Runtime information support. */
   itkTypeMacro(GrayscaleMorphologicalClosingImageFilter, 
-               MorphologyImageFilter);
+               ImageToImageFilter);
 
   typedef TInputImage InputImageType;
   typedef TOutputImage OutputImageType;
@@ -65,24 +64,21 @@ public:
   typedef typename OutputImageType::RegionType     OutputImageRegionType;
 
   /** Declaration of pixel type. */
-  typedef typename Superclass::PixelType PixelType;
-
-  /** Kernel (structuring element) iterator. */
-  typedef typename Superclass::KernelIteratorType  KernelIteratorType;
-
-  /** Neighborhood iterator type. */
-  typedef typename Superclass::NeighborhoodIteratorType NeighborhoodIteratorType ;
+  typedef typename TInputImage::PixelType PixelType ;
 
   /** Kernel typedef. */
-  typedef typename Superclass::KernelType KernelType;
+  typedef TKernel KernelType;
 
-  /** Typedef for boundary conditions. */
-  typedef typename Superclass::DefaultBoundaryConditionType DefaultBoundaryConditionType;
-  typedef typename Superclass::ImageBoundaryConditionPointerType ImageBoundaryConditionPointerType;
+  /** Set kernel (structuring element). */
+  itkSetMacro(Kernel, KernelType);
+
+  /** Get the kernel (structuring element). */
+  itkGetConstReferenceMacro(Kernel, KernelType);
 
 protected:
   GrayscaleMorphologicalClosingImageFilter();
   ~GrayscaleMorphologicalClosingImageFilter() {};
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** GrayscaleMorphologicalClosingImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
@@ -96,29 +92,12 @@ protected:
    * to GrayscaleDilateImageFilter GrayscaleErodeImageFilter. */
   void  GenerateData ();
 
-  /** Evaluate image neighborhood with kernel to find the new value 
-   * for the center pixel value
-   *
-   * It will return the maximum value of the image pixels whose corresponding
-   * element in the structuring element is positive. This version of
-   * Evaluate is used for non-boundary pixels. */
-  PixelType Evaluate(const NeighborhoodIteratorType &nit,
-                     const KernelIteratorType kernelBegin,
-                     const KernelIteratorType kernelEnd);
-
-
 private:
   GrayscaleMorphologicalClosingImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  // Default boundary condition for dilation filter, defaults to
-  // NumericTraits<PixelType>::NonpositiveMin()
-  DefaultBoundaryConditionType m_MorphologicalClosingBoundaryCondition;
-
-  /** Pointer to a persistent boundary condition object used
-   * for the image iterator. */
-  ImageBoundaryConditionPointerType m_BoundaryCondition;
-
+  /** kernel or structuring element to use. */
+  KernelType m_Kernel ;
 } ; // end of class
 
 } // end namespace itk

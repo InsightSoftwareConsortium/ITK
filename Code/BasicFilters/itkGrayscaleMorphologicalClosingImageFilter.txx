@@ -25,9 +25,8 @@ namespace itk {
 template<class TInputImage, class TOutputImage, class TKernel>
 GrayscaleMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>
 ::GrayscaleMorphologicalClosingImageFilter()
+  : m_Kernel()
 {
-  m_MorphologicalClosingBoundaryCondition.SetConstant( NumericTraits<PixelType>::NonpositiveMin() );
-  this->OverrideBoundaryCondition( &m_MorphologicalClosingBoundaryCondition );
 }
 
 template <class TInputImage, class TOutputImage, class TKernel>
@@ -92,14 +91,13 @@ GrayscaleMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>
 }
 
 template<class TInputImage, class TOutputImage, class TKernel>
-typename GrayscaleMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>::PixelType
+void
 GrayscaleMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>
-::Evaluate(const NeighborhoodIteratorType &,
-           const KernelIteratorType ,
-           const KernelIteratorType )
+::PrintSelf(std::ostream &os, Indent indent) const
 {
-  PixelType max = NumericTraits<PixelType>::NonpositiveMin();
-  return max ;
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "Kernel: " << m_Kernel << std::endl;
 }
 
 }// end namespace itk
