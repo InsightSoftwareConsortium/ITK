@@ -18,6 +18,12 @@
 #include "itkSimplexMeshGeometry.h"
 #include "itkNumericTraits.h"
 
+#include <vxl_version.h>
+#if VXL_VERSION_DATE_FULL > 20040406
+# include <vnl/vnl_cross.h>
+# define cross_3d vnl_cross_3d
+#endif
+
 namespace itk
 {
   
