@@ -63,7 +63,7 @@ public:
   typedef TPixel PixelType;
 
   /** this type is used in case the pixel has several components */
-  typedef PixelTraits<PixelType>::ValueType       ComponentType;
+  typedef typename PixelTraits<PixelType>::ValueType       ComponentType;
 
   /** Helper class to swap bytes when necessary */
   typedef ByteSwapper<ComponentType>               ByteSwapperType;
