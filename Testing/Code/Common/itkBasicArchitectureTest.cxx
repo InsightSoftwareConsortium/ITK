@@ -24,7 +24,18 @@ See COPYRIGHT.txt for copyright details.
 #include "itkCommand.h"
 #include "itkOutputWindow.h"
 
-// The following two classes are used to support callbacks
+
+// this class is used to send output to stdout and not the itk window
+class TextOutput : public itk::OutputWindow
+{
+public:
+  virtual void DisplayText(const char* s)
+    {
+      std::cout << s << std::endl;
+    }
+};
+
+// The following three classes are used to support callbacks
 // on the shrink filter in the pipeline that follows later
 class ShowProgressObject
 {
@@ -45,8 +56,55 @@ public:
     {std::cout << "end event " << std::endl;}
 };
 
-void main()
+
+class AllEvents
 {
+public:
+  void WatchEvents(itk::LightObject *caller, unsigned long event)
+    {
+      const char* eventName = 0;
+      switch(event)
+        {
+        case itk::Command::DeleteEvent:
+          eventName = "DeleteEvent";
+          break;
+        case itk::Command::StartEvent:
+          eventName = "StartEvent";
+          break;
+        case itk::Command::EndEvent:
+          eventName = "EndEvent";
+          break;
+        case itk::Command::ProgressEvent:
+          {
+          itk::ProcessObject* obj = dynamic_cast<itk::ProcessObject*>(caller);
+          std::cout << "AnyEvent Progress " << obj->GetProgress() << std::endl;
+          eventName = "ProgressEvent";
+          break;
+          }
+        case itk::Command::PickEvent:
+          eventName = "PickEvent";
+          break;
+        case itk::Command::StartPickEvent:
+          eventName = "StartPickEvent";
+          break;
+        case itk::Command::AbortCheckEvent:
+          eventName = "AbortCheckEvent";
+          break;
+        case itk::Command::ExitEvent:
+          eventName = "ExitEvent";
+          break;
+        default:
+          eventName = "UserEvent";
+        }
+      std::cout << "Event name: " << eventName << " Id: " << event << std::endl;
+    }
+};
+
+
+int main()
+{
+  // Comment the following if you want to use the itk text output window
+  itk::OutputWindow::SetInstance(new TextOutput);
   // Uncomment the following if you want to see each message independently
   // itk::OutputWindow::GetInstance()->PromptUserOn();
 
@@ -85,26 +143,36 @@ void main()
   shrink->SetInput(random->GetOutput());
   shrink->SetShrinkFactor(2);
   shrink->DebugOn();
-  // Create objects for managing start, progress, and end events in this filter
-  ShowProgressObject progressWatch(shrink);
-  StartEndEvent startEndWatch;
+  
   // Create a command to call ShowProgress when progress event is triggered
+  ShowProgressObject progressWatch(shrink);
   itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
   command = itk::SimpleMemberCommand<ShowProgressObject>::New();
   command->SetCallbackFunction(&progressWatch,
                                ShowProgressObject::ShowProgress);
   shrink->AddObserver(itk::Command::ProgressEvent, command);
+  
   // Create a command to call StartEndEvent when start event is triggered
+  StartEndEvent startEndWatch;
   itk::SimpleMemberCommand<StartEndEvent>::Pointer start;
   start = itk::SimpleMemberCommand<StartEndEvent>::New();
   start->SetCallbackFunction(&startEndWatch, StartEndEvent::Start);
   shrink->AddObserver(itk::Command::StartEvent, start);
+  
   // Create a command to call StartEndEvent when end event is triggered
   itk::SimpleMemberCommand<StartEndEvent>::Pointer end;
   end = itk::SimpleMemberCommand<StartEndEvent>::New();
   end->SetCallbackFunction(&startEndWatch, StartEndEvent::End);
   shrink->AddObserver(itk::Command::EndEvent, end);
-
+  
+  // Create a command that to call AnyEvent when event is fired
+  AllEvents allWatch;
+  itk::MemberCommand<AllEvents>::Pointer allEvents;
+  allEvents = itk::MemberCommand<AllEvents>::New();
+  allEvents->SetCallbackFunction(&allWatch,
+                                 AllEvents::WatchEvents);
+  shrink->AddObserver(itk::Command::AnyEvent, allEvents);
+  
   // Create a mapper (in this case a writer). A mapper
   // is templated on the input type.
   //
@@ -116,7 +184,7 @@ void main()
   writer->DebugOn();
   writer->Write();
 
-  exit(EXIT_SUCCESS);
+  return EXIT_SUCCESS;
 }
 
 
