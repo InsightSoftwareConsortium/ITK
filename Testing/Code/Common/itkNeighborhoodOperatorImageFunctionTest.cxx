@@ -100,7 +100,7 @@ int itkNeighborhoodOperatorImageFunctionTest(int, char* [] )
   point[1]=25;
   point[2]=25;
 
-  Blur = function->Evaluate( point );
+  function->Evaluate( point );
   
   std::cout << "[PASSED] " << std::endl;
 
