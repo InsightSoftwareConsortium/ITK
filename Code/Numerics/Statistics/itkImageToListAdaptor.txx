@@ -18,11 +18,11 @@
 #define _itkImageToListAdaptor_txx
 
 namespace itk{ 
-  namespace Statistics{
+namespace Statistics{
 
-template < class TImage, class TDataAccessor >
+template < class TImage >
 void
-ImageToListAdaptor< TImage, TDataAccessor >
+ImageToListAdaptor< TImage >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
@@ -31,138 +31,84 @@ ImageToListAdaptor< TImage, TDataAccessor >
   //  os << indent << "Accesor: " << m_Accessor << std::endl;
 }
 
-template < class TImage, class TDataAccessor >
+template < class TImage >
 void
-ImageToListAdaptor< TImage, TDataAccessor >
+ImageToListAdaptor< TImage >
 ::SetImage(ImagePointer image) 
 { 
   m_Image = image ; 
   m_PixelContainer = image->GetPixelContainer() ;
-  m_DataAccessor.SetPixelContainer(m_PixelContainer) ;
 }
 
-template < class TImage, class TDataAccessor >
-ImageToListAdaptor< TImage, TDataAccessor >::ImagePointer
-ImageToListAdaptor< TImage, TDataAccessor >
+template < class TImage >
+ImageToListAdaptor< TImage >::ImagePointer
+ImageToListAdaptor< TImage >
 ::GetImage() 
 {
   return m_Image ; 
 }  
 
-  /** returns the number of measurement vectors in this container*/
-template < class TImage, class TDataAccessor >
+/** returns the number of measurement vectors in this container*/
+template < class TImage >
 inline unsigned int
-ImageToListAdaptor< TImage, TDataAccessor >
+ImageToListAdaptor< TImage >
 ::Size() const
 {
   return m_PixelContainer->Size() ;
 }
 
-template < class TImage, class TDataAccessor >
+template < class TImage >
 inline unsigned int
-ImageToListAdaptor< TImage, TDataAccessor >
+ImageToListAdaptor< TImage >
 ::Size(const unsigned int &dimension) const
 {
   return m_PixelContainer->Size() ;
 }
 
-template < class TImage, class TDataAccessor >
+template < class TImage >
 inline unsigned int
-ImageToListAdaptor< TImage, TDataAccessor >
+ImageToListAdaptor< TImage >
 ::GetNumberOfInstances() const
 {
   return this->Size() ;
 }
 
 
-template < class TImage, class TDataAccessor >
+template < class TImage >
 inline void
-ImageToListAdaptor< TImage, TDataAccessor >
+ImageToListAdaptor< TImage >
 ::SetMeasurementVector(const InstanceIdentifier id,
                        const MeasurementVectorType &measurementVector) 
 { 
-  m_DataAccessor.SetMeasurementVector(id, measurementVector) ;
+  (*m_PixelContainer)[id] = measurementVector ;
 }
 
 
-template < class TImage, class TDataAccessor >
-inline ImageToListAdaptor< TImage, TDataAccessor >::MeasurementVectorType&
-ImageToListAdaptor< TImage, TDataAccessor >
+template < class TImage >
+inline ImageToListAdaptor< TImage >::MeasurementVectorType&
+ImageToListAdaptor< TImage >
 ::GetMeasurementVector(const InstanceIdentifier &id)
 {
-  return m_DataAccessor.GetMeasurementVector(id) ;
+  return (*m_PixelContainer)[id] ;
 }
 
-template < class TImage, class TDataAccessor >
-inline ImageToListAdaptor< TImage, TDataAccessor >::FrequencyType
-ImageToListAdaptor< TImage, TDataAccessor >
+template < class TImage >
+inline ImageToListAdaptor< TImage >::FrequencyType
+ImageToListAdaptor< TImage >
 ::GetFrequency(const InstanceIdentifier &id) const 
 {
   return 1 ;
 }
 
-template < class TImage, class TDataAccessor >
-ImageToListAdaptor< TImage, TDataAccessor >::FrequencyType
-ImageToListAdaptor< TImage, TDataAccessor >
+template < class TImage >
+ImageToListAdaptor< TImage >::FrequencyType
+ImageToListAdaptor< TImage >
 ::GetTotalFrequency(const unsigned int &dim) const
 { 
   return this->Size() ; 
 }
 
-  
-
-template < class TImage >
-void
-ScalarImageAccessor< TImage >
-::SetPixelContainer(PixelContainerPointer pixelContainer)
-{
-  m_PixelContainer = pixelContainer ;
-}
-
-template < class TImage >
-inline void
-ScalarImageAccessor< TImage >
-::SetMeasurementVector(const InstanceIdentifier &id, 
-                       const MeasurementVectorType &measurementVector)
-{ 
-  (*m_PixelContainer)[id] = measurementVector[0] ; 
-}
-  
-template < class TImage >
-inline ScalarImageAccessor< TImage >::MeasurementVectorType& 
-ScalarImageAccessor< TImage >
-::GetMeasurementVector(const InstanceIdentifier &id)
-{ 
-  m_TempMeasurementVector[0] = (*m_PixelContainer)[id] ;
-  return m_TempMeasurementVector ;
-}
-
-template < class TImage >
-void
-VectorImageAccessor< TImage >
-::SetPixelContainer(PixelContainerPointer pixelContainer)
-{
-  m_PixelContainer = pixelContainer ;
-}
-
-template < class TImage >
-inline void
-VectorImageAccessor< TImage >
-::SetMeasurementVector(const InstanceIdentifier &id,
-                       const MeasurementVectorType &measurementVector) 
-{ 
-  (*m_PixelContainer)[id] = measurementVector ; 
-}
-  
-template < class TImage >
-inline VectorImageAccessor< TImage >::MeasurementVectorType&
-VectorImageAccessor< TImage >
-::GetMeasurementVector(const InstanceIdentifier &id)
-{ 
-  return (*m_PixelContainer)[id] ; 
-}
-  
-  } // end of namespace Statistics 
+} // end of namespace Statistics 
 } // end of namespace itk
 
 #endif

@@ -57,69 +57,14 @@ namespace Statistics{
  * \sa Sample, ListSample
  */
 
-template< class TImage >
-class ITK_EXPORT ScalarImageAccessor
-{
-public:
-  typedef typename TImage::PixelContainerPointer PixelContainerPointer ;
-  typedef typename TImage::PixelType PixelType ;
-  typedef typename TImage::PixelContainer::ElementIdentifier
-  InstanceIdentifier ;
-  typedef FixedArray< PixelType, 1 > MeasurementVectorType ;
-  typedef PixelType MeasurementType ;
-
-  ScalarImageAccessor() {}
-  virtual ~ScalarImageAccessor() {} 
-
-  void SetPixelContainer(PixelContainerPointer pixelContainer) ;
-
-  void SetMeasurementVector(const InstanceIdentifier &id, 
-                            const MeasurementVectorType &measurementVector) ;
-  
-  MeasurementVectorType& 
-  GetMeasurementVector(const InstanceIdentifier &id) ;
-
-private:
-  MeasurementVectorType m_TempMeasurementVector ;
-  PixelContainerPointer m_PixelContainer ;
-} ; // end of class
-
-template< class TImage >
-class ITK_EXPORT VectorImageAccessor
-{
-public:
-  typedef typename TImage::PixelContainerPointer PixelContainerPointer ;
-  typedef typename TImage::PixelType PixelType ;
-  typedef typename TImage::PixelContainer::ElementIdentifier
-  InstanceIdentifier ;
-  typedef typename PixelTraits< PixelType >::ValueType MeasurementType ;
-  typedef FixedArray< MeasurementType, PixelTraits< PixelType >::Dimension > 
-  MeasurementVectorType ;
-
-  VectorImageAccessor() {}
-  virtual ~VectorImageAccessor() {} 
-
-  void SetPixelContainer(PixelContainerPointer pixelContainer) ;
-
-  void SetMeasurementVector(const InstanceIdentifier &id,
-                            const MeasurementVectorType &measurementVector) ;
-  
-  MeasurementVectorType& GetMeasurementVector(const InstanceIdentifier &id) ;
-  
-private:
-  PixelContainerPointer m_PixelContainer ;
-} ; // end of class
-
-template < class TImage , class TDataAccessor = VectorImageAccessor< TImage > >
-class ITK_EXPORT ImageToListAdaptor :
-  public ListSample< typename PixelTraits< typename TImage::PixelType >::ValueType, PixelTraits< typename TImage::PixelType >::Dimension >
+template < class TImage >
+class ITK_EXPORT ImageToListAdaptor : 
+    public ListSample< typename TImage::PixelType >
 {
 public:
   /** Standard class typedefs */
   typedef ImageToListAdaptor Self;
-  typedef ListSample< 
-  typename PixelTraits< typename TImage::PixelType >::ValueType, 
-    PixelTraits< typename TImage::PixelType >::Dimension > Superclass;
+  typedef ListSample< typename TImage::PixelType > Superclass;
   typedef SmartPointer< Self > Pointer;
   
   /** Run-time type information (and related methods). */
@@ -146,12 +91,10 @@ public:
 
   /** Superclass typedefs for Measurement vector, measurement, 
    * Instance Identifier, frequency, size, size element value */
-  typedef typename Superclass::MeasurementType MeasurementType ;
-  typedef typename Superclass::MeasurementVectorType MeasurementVectorType;
+  typedef typename PixelTraitsType::ValueType MeasurementType ;
+  typedef PixelType MeasurementVectorType;
   typedef MeasurementVectorType ValueType ;
   typedef typename Superclass::FrequencyType FrequencyType ;
-//    typedef typename Superclass::SizeType SizeType ;
-//    typedef typename Superclass::SizeValueType SizeValueType ;
 
   /** Method to set the image */
   void SetImage(ImagePointer image) ;
@@ -268,16 +211,10 @@ private:
 
   ImagePointer m_Image ;
   PixelContainerPointer m_PixelContainer ;
-  MeasurementVectorType m_TempMeasurementVector ;
-  TDataAccessor m_DataAccessor ;
-  // commented out for MSVC
-//  static const FrequencyType FREQUENCY = 1 ; 
 } ; // end of class ImageToListAdaptor
 
 } // end of namespace Statistics
 } // end of namespace itk
-
-
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkImageToListAdaptor.txx"
