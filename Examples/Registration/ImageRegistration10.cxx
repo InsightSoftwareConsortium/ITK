@@ -14,7 +14,6 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the image registration framework in
@@ -32,6 +31,8 @@
 #include "itkMatchCardinalityImageToImageMetric.h"
 #include "itkNearestNeighborInterpolateImageFunction.h"
 #include "itkAmoebaOptimizer.h"
+// Software Guide : EndCodeSnippet
+
 #include "itkImage.h"
 
 #include "itkImageFileReader.h"
@@ -69,17 +70,24 @@ int main( int argc, char *argv[] )
   typedef itk::Image< PixelType, Dimension >  FixedImageType;
   typedef itk::Image< PixelType, Dimension >  MovingImageType;
 
+  //  Software Guide : BeginLatex
   //  The transform that will map one image space into the other is defined
   //  below.
-  //
+  // Software Guide : EndLatex
+  // Software Guide : BeginCodeSnippet
   typedef itk::TranslationTransform< double, Dimension > TransformType;
+  // Software Guide : EndCodeSnippet
 
+  //  Software Guide : BeginLatex
   //  An optimizer is required to explore the parameter space of the transform
   //  in search of optimal values of the metric. The metric selected
   //  does not require analytical derivatives of its cost function.
-  //
+  // Software Guide : EndLatex
+  // Software Guide : BeginCodeSnippet
   typedef itk::AmoebaOptimizer       OptimizerType;
+  // Software Guide : EndCodeSnippet
 
+  //  Software Guide : BeginLatex
   //  The metric will compare how well the two images match each
   //  other. Metric types are usually parametrized by the image types
   //  as can be seen in the following type declaration. The metric
@@ -87,20 +95,26 @@ int main( int argc, char *argv[] )
   //  labels are consistent between the two maps.  This metric
   //  measures the percentage of pixels that exactly match or
   //  mismatch.
-  //
+  // Software Guide : EndLatex
+  // Software Guide : BeginCodeSnippet
   typedef itk::MatchCardinalityImageToImageMetric< 
                                     FixedImageType, 
                                     MovingImageType >    MetricType;
+  // Software Guide : EndCodeSnippet
 
   //  Finally, the type of the interpolator is declared. The
   //  interpolator will evaluate the moving image at non-grid
-  //  positions. Since we are registering label maps, we use a
+  //  positions. 
+  //  Software Guide : BeginLatex
+  //  Since we are registering label maps, we use a
   //  NearestNeighborInterpolateImageFunction to ensure subpixel
   //  values are not interpolated (to labels that do not exist).
-  //
+  // Software Guide : EndLatex
+  // Software Guide : BeginCodeSnippet
   typedef itk:: NearestNeighborInterpolateImageFunction< 
                                     MovingImageType,
                                     double          >    InterpolatorType;
+  // Software Guide : EndCodeSnippet
 
   //  The registration method type is instantiated using the types of the
   //  fixed and moving images. This class is responsible for interconnecting
@@ -113,12 +127,15 @@ int main( int argc, char *argv[] )
   //  \code{New()} method and is assigned to its respective 
   //  \doxygen{SmartPointer}.
   //
+  // Software Guide : BeginCodeSnippet
   MetricType::Pointer         metric        = MetricType::New();
   TransformType::Pointer      transform     = TransformType::New();
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
   InterpolatorType::Pointer   interpolator  = InterpolatorType::New();
   RegistrationType::Pointer   registration  = RegistrationType::New();
+  // Software Guide : EndCodeSnippet
 
+  //  Software Guide : BeginLatex
   // We are using a MatchCardinalityImageToImageMetric to compare two
   // label maps.  This metric simple counts the percentage of
   // corresponding pixels that have the same label.  This metric does
@@ -126,7 +143,10 @@ int main( int argc, char *argv[] )
   // AmoebaOptimizer to drive the registration.  The AmoebaOptimizer
   // can only minimize a cost function, so we set the metric to count
   // the percentages of mismatches.
+  //  Software Guide : BeginLatex
+  // Software Guide : BeginCodeSnippet
   metric->MeasureMatchesOff();
+  // Software Guide : EndCodeSnippet
 
   
   //  Each component is now connected to the instance of the registration method.
@@ -204,6 +224,8 @@ int main( int argc, char *argv[] )
   //  orchestrates the ensemble to make sure that everything is in place
   //  before control is passed to the optimizer.
   //
+
+  //  Software Guide : BeginLatex
   //  It is usually desirable to fine tune the parameters of the optimizer.
   //  Each optimizer has particular parameters that must be interpreted in the
   //  context of the optimization strategy it implements.
@@ -211,13 +233,17 @@ int main( int argc, char *argv[] )
   //  The AmoebaOptimizer moves a simplex around the cost surface.
   //  Here we set the initial size of the simplex (5 units in each of
   //  the parameters)
+  //  Software Guide : EndLatex
+  // Software Guide : BeginCodeSnippet
   OptimizerType::ParametersType
     simplexDelta( transform->GetNumberOfParameters() );
   simplexDelta.Fill( 5.0 );
 
   optimizer->AutomaticInitialSimplexOff();
   optimizer->SetInitialSimplexDelta( simplexDelta );
+  // Software Guide : EndCodeSnippet
 
+  //  Software Guide : BeginLatex
   //  We also adjust the tolerances on the optimizer to define
   //  convergence.  Here, we used a tolerance on the parameters of
   //  0.25 (which will be a quarter of image unit, in this case
@@ -225,9 +251,13 @@ int main( int argc, char *argv[] )
   //  define convergence.  The metric we are using returns the
   //  percentage of pixels that mismatch.  So we set the function
   //  convergence to be 0.1%
+  //  Software Guide : EndLatex
+  // Software Guide : BeginCodeSnippet
   optimizer->SetParametersConvergenceTolerance( 0.25 ); // quarter pixel
   optimizer->SetFunctionConvergenceTolerance(0.001); // 0.1%
+  // Software Guide : EndCodeSnippet
   
+  //  Software Guide : BeginLatex
   //  In the case where the optimizer never succeeds in reaching the desired
   //  precision tolerance, it is prudent to establish a limit on the number of
   //  iterations to be performed. This maximum number is defined with the
@@ -235,7 +265,10 @@ int main( int argc, char *argv[] )
   //
   //  \index{itk::Amoeba\-Optimizer!SetMaximumNumberOfIterations()}
   //
+  //  Software Guide : EndLatex
+  // Software Guide : BeginCodeSnippet
   optimizer->SetMaximumNumberOfIterations( 200 );
+  // Software Guide : EndCodeSnippet
 
   
   //  The registration process is triggered by an invocation of the
@@ -410,4 +443,17 @@ int main( int argc, char *argv[] )
   return 0;
 }
 
-// Software Guide : EndCodeSnippet
+// SoftwareGuide : BeginLatex
+// The example was run on two binary images. The first binary image was generated by running the
+// confidence connected image filter (section \ref{sec:ConfidenceConnected}) on 
+// the MRI slice of the brain. The second was generated similarly after
+// shifting the slice by 13 pixels horizontally and 17 pixels 
+// vertically. The Amoeba optimizer converged after 34 iterations
+// and produced the following results:
+//
+// \begin{verbatim}
+// Translation X = 12.5 
+// Translation Y = 16.77
+// \end{verbatim}
+// These results are a close match to the true misalignment.
+// SoftwareGuide : EndLatex
