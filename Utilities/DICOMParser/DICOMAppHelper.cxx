@@ -760,11 +760,22 @@ void DICOMAppHelper::ImagePositionPatientCallback(DICOMParser *,
     {
     // instance UID not found, create a new entry
     DICOMOrderingElements ord;
-    sscanf( (char*)(val), "%f\\%f\\%f",
-            &ord.ImagePositionPatient[0],
-            &ord.ImagePositionPatient[1],
-            &ord.ImagePositionPatient[2] );
-    
+
+    if (val)
+      {
+      sscanf( (char*)(val), "%f\\%f\\%f",
+              &ord.ImagePositionPatient[0],
+              &ord.ImagePositionPatient[1],
+              &ord.ImagePositionPatient[2] );
+      }
+    else
+      {
+      // no actual position specified, default to the origin
+      ord.ImagePositionPatient[0] = 0.0;
+      ord.ImagePositionPatient[1] = 0.0;
+      ord.ImagePositionPatient[2] = 0.0;
+      }
+      
     // insert into the map
     this->Implementation->InstanceUIDToSliceOrderingMap.insert(dicom_stl::pair<const dicom_stl::string, DICOMOrderingElements>(this->InstanceUID, ord));
 
@@ -774,12 +785,22 @@ void DICOMAppHelper::ImagePositionPatientCallback(DICOMParser *,
     }
   else
     {
-    // file found, add new values
-    sscanf( (char*)(val), "%f\\%f\\%f",
-            &(*it).second.ImagePositionPatient[0],
-            &(*it).second.ImagePositionPatient[1],
-            &(*it).second.ImagePositionPatient[2] );
-
+    if (val)
+      {
+      // file found, add new values
+      sscanf( (char*)(val), "%f\\%f\\%f",
+              &(*it).second.ImagePositionPatient[0],
+              &(*it).second.ImagePositionPatient[1],
+              &(*it).second.ImagePositionPatient[2] );
+      }
+    else
+      {
+      // no actual position specified, default to the origin
+      (*it).second.ImagePositionPatient[0] = 0.0;
+      (*it).second.ImagePositionPatient[1] = 0.0;
+      (*it).second.ImagePositionPatient[2] = 0.0;
+      }
+    
     // cache the value
     memcpy( this->ImagePositionPatient, (*it).second.ImagePositionPatient,
             3*sizeof(float) );
@@ -801,13 +822,26 @@ void DICOMAppHelper::ImageOrientationPatientCallback(DICOMParser *,
     {
     // instance UID not found, create a new entry
     DICOMOrderingElements ord;
-    sscanf( (char*)(val), "%f\\%f\\%f\\%f\\%f\\%f",
-            &ord.ImageOrientationPatient[0],
-            &ord.ImageOrientationPatient[1],
-            &ord.ImageOrientationPatient[2],
-            &ord.ImageOrientationPatient[3],
-            &ord.ImageOrientationPatient[4],
-            &ord.ImageOrientationPatient[5] );
+    if (val)
+      {
+      sscanf( (char*)(val), "%f\\%f\\%f\\%f\\%f\\%f",
+              &ord.ImageOrientationPatient[0],
+              &ord.ImageOrientationPatient[1],
+              &ord.ImageOrientationPatient[2],
+              &ord.ImageOrientationPatient[3],
+              &ord.ImageOrientationPatient[4],
+              &ord.ImageOrientationPatient[5] );
+      }
+    else
+      {
+      // no orientation defined, default to an standard axial orientation
+      ord.ImageOrientationPatient[0] = 1.0;
+      ord.ImageOrientationPatient[1] = 0.0;
+      ord.ImageOrientationPatient[2] = 0.0;
+      ord.ImageOrientationPatient[3] = 0.0;
+      ord.ImageOrientationPatient[4] = 1.0;
+      ord.ImageOrientationPatient[5] = 0.0;
+      }
     
     // insert into the map
     this->Implementation->InstanceUIDToSliceOrderingMap.insert(dicom_stl::pair<const dicom_stl::string, DICOMOrderingElements>(this->InstanceUID, ord));
@@ -815,13 +849,26 @@ void DICOMAppHelper::ImageOrientationPatientCallback(DICOMParser *,
   else
     {
     // file found, add new values
-    sscanf( (char*)(val), "%f\\%f\\%f\\%f\\%f\\%f",
-            &(*it).second.ImageOrientationPatient[0],
-            &(*it).second.ImageOrientationPatient[1],
-            &(*it).second.ImageOrientationPatient[2],
-            &(*it).second.ImageOrientationPatient[3],
-            &(*it).second.ImageOrientationPatient[4],
-            &(*it).second.ImageOrientationPatient[5] );
+    if (val)
+      {
+      sscanf( (char*)(val), "%f\\%f\\%f\\%f\\%f\\%f",
+              &(*it).second.ImageOrientationPatient[0],
+              &(*it).second.ImageOrientationPatient[1],
+              &(*it).second.ImageOrientationPatient[2],
+              &(*it).second.ImageOrientationPatient[3],
+              &(*it).second.ImageOrientationPatient[4],
+              &(*it).second.ImageOrientationPatient[5] );
+      }
+    else
+      {
+      // no orientation defined, default to an standard axial orientation
+      (*it).second.ImageOrientationPatient[0] = 1.0;
+      (*it).second.ImageOrientationPatient[1] = 0.0;
+      (*it).second.ImageOrientationPatient[2] = 0.0;
+      (*it).second.ImageOrientationPatient[3] = 0.0;
+      (*it).second.ImageOrientationPatient[4] = 1.0;
+      (*it).second.ImageOrientationPatient[5] = 0.0;
+      }
     }
 }
 
