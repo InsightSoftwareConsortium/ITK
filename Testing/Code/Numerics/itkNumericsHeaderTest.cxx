@@ -19,12 +19,14 @@ See COPYRIGHT.txt for copyright details.
 
 #include "itkAmoebaOptimizer.h"
 #include "itkConjugateGradientOptimizer.h"
+#include "itkGradientDescentOptimizer.h"
 #include "itkLBFGSOptimizer.h"
 #include "itkLevenbergMarquardtOptimizer.h"
 #include "itkMultipleValuedNonLinearOptimizer.h"
 #include "itkMultipleValuedNonLinearVnlOptimizer.h"
 #include "itkNonLinearOptimizer.h"
 #include "itkOptimizer.h"
+#include "itkRegularStepGradientDescentOptimizer.h"
 #include "itkSingleValuedNonLinearOptimizer.h"
 #include "itkSingleValuedNonLinearVnlOptimizer.h"
 
