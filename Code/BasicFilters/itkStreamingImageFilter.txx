@@ -86,6 +86,12 @@ StreamingImageFilter<TInputImage,TOutputImage>
     return;
     }
 
+
+  /**
+   * Prepare all the outputs. This may deallocate previous bulk data.
+   */
+  this->PrepareOutputs();
+
   /**
    * Make sure we have an input
    */
@@ -100,16 +106,8 @@ StreamingImageFilter<TInputImage,TOutputImage>
     
 
   /**
-   * Initialize all the outputs
+   * Tell all Observers that the filter is starting
    */
-  for (idx = 0; idx < this->GetNumberOfOutputs(); idx++)
-    {
-    if (this->GetOutput(idx))
-      {
-      this->GetOutput(idx)->PrepareForNewData(); 
-      }
-    }
- 
   this->InvokeEvent( StartEvent() );
 
   /**
@@ -174,8 +172,6 @@ StreamingImageFilter<TInputImage,TOutputImage>
     this->UpdateProgress((float) piece / numDivisions );
     }
 
-  m_Updating = false;
-  
   /**
    * If we ended due to aborting, push the progress up to 1.0 (since
    * it probably didn't end there)
@@ -202,24 +198,10 @@ StreamingImageFilter<TInputImage,TOutputImage>
   /**
    * Release any inputs if marked for release
    */
-  for (idx = 0; idx < this->GetNumberOfInputs(); ++idx)
-    {
-    if (this->GetInput(idx))
-      {
-      if ( this->GetInput(idx)->ShouldIReleaseData() )
-        {
-        InputImagePointer input =
-          const_cast< InputImageType * >( this->GetInput(idx) );
-        input->ReleaseData();
-        }
-      }  
-    }
+  this->ReleaseInputs();
   
-  /**
-   * Information gets invalidated as soon as Update is called,
-   * so validate it again here.
-   */
-  m_InformationTime.Modified();
+  // Mark that we are no longer updating the data in this filter
+  m_Updating = false;
 }
 
 
