@@ -225,7 +225,7 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>
   NewCellPointer->SetPointId( 0, startPointId );
   NewCellPointer->SetPointId( 1, endPointId );
 
-  SetCell( edgeId, NewCellPointer );
+  this->SetCell( edgeId, NewCellPointer );
   m_LastCellId++;
   return edgeId;
 }
@@ -235,7 +235,7 @@ unsigned long
 SimplexMesh<TPixelType, VDimension, TMeshTraits>
 ::AddFace(CellAutoPointer &cellPointer)
 {
-  SetCell( m_LastCellId , cellPointer );
+  this->SetCell( m_LastCellId , cellPointer );
   m_LastCellId++;
   return m_LastCellId-1;      
 }
@@ -245,9 +245,9 @@ unsigned long
 SimplexMesh<TPixelType, VDimension, TMeshTraits>
 ::ReplaceFace(unsigned long replaceIndex, CellAutoPointer &cellPointer)
 {
-  GetCells()->DeleteIndex( replaceIndex );
-  SetCell( replaceIndex , cellPointer );
-  SetCellData( replaceIndex , (PixelType) 1.0 );
+  this->GetCells()->DeleteIndex( replaceIndex );
+  this->SetCell( replaceIndex , cellPointer );
+  this->SetCellData( replaceIndex , (PixelType) 1.0 );
   return replaceIndex;      
 }
 
@@ -261,7 +261,7 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>
 
   os << indent << "LastCellId = " << m_LastCellId << std::endl;
 
-  CellsContainerPointer cells = GetCells();
+  CellsContainerPointer cells = this->GetCells();
   CellsContainerIterator cellIt = cells->Begin();
 
   os << indent << "Cells Point Ids:" << std::endl;
