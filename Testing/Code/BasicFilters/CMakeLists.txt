@@ -794,12 +794,14 @@ IF(ITK_CSWIG_JAVA)
      BinaryThresholdImageFilter
      BinaryDilateImageFilter
      BinaryErodeImageFilter
+     CannyEdgeDetectionImageFilter
      CurvatureFlowImageFilter
      CurvatureAnisotropicDiffusionImageFilter
      GradientAnisotropicDiffusionImageFilter
      MeanImageFilter
      MedianImageFilter
      ThresholdImageFilter
+     SigmoidImageFilter
      )
 
   ADD_CUSTOM_TARGET(${javatestfile}Java ALL  DEPENDS ${ITK_BINARY_DIR}/Examples/Filtering/${javatestfile}.class)
@@ -823,6 +825,11 @@ IF(ITK_CSWIG_JAVA)
            MedianImageFilter
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
            ${ITK_TEST_OUTPUT_DIR}/MedianImageFilterJavaTest.png  1 )  
+
+  ADD_TEST(CannyEdgeDetectionImageFilterJava ${JAVACOMMAND} -classpath ${ITK_BINARY_DIR}/Examples/Filtering/:${JAVACLASSPATH}
+           CannyEdgeDetectionImageFilter
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+           ${ITK_TEST_OUTPUT_DIR}/CannyEdgeDetectionImageFilterJavaTest.png 5 0.125 )  
 
   ADD_TEST(CurvatureFlowImageFilterJava ${JAVACOMMAND} -classpath ${ITK_BINARY_DIR}/Examples/Filtering/:${JAVACLASSPATH}
            CurvatureFlowImageFilter
@@ -858,6 +865,11 @@ IF(ITK_CSWIG_JAVA)
            BinaryErodeImageFilter
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
            ${ITK_TEST_OUTPUT_DIR}/BinaryErodeImageFilterJavaTest.png )  
+
+  ADD_TEST(SigmoidImageFilterJava ${JAVACOMMAND} -classpath ${ITK_BINARY_DIR}/Examples/Filtering/:${JAVACLASSPATH}
+           SigmoidImageFilter
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+           ${ITK_TEST_OUTPUT_DIR}/SigmoidImageFilterJavaTest.png  0 255  1.0  128  )
 
 ENDIF(ITK_CSWIG_JAVA)
 
