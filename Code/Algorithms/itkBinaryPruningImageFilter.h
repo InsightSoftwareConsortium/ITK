@@ -24,7 +24,7 @@
 namespace itk
 {
 
-/** \class BinaryPrunningImageFilter
+/** \class BinaryPruningImageFilter
 *
 * This class is parametrized over the type of the input image
 * and the type of the output image.
@@ -45,6 +45,9 @@ namespace itk
 *
 * \sa MorphologyImageFilter
 * \sa BinaryPruningImageFilter
+* \sa BinaryErodeImageFilter
+* \sa BinaryDilateImageFilter
+* \sa BinaryThinningImageFilter
 * \ingroup ImageEnhancement MathematicalMorphologyImageFilters
 */
 
