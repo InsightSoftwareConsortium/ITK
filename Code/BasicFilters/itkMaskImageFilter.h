@@ -32,18 +32,22 @@ namespace itk
  * input image type, the mask image type and the type of the output image. 
  * Numeric conversions (castings) are done by the C++ defaults.
  *
- * The pixel type of the input 1 image must have a valid defintion of
- * the operator > with a pixel type of the image 2. This condition is 
- * required because internally this filter will perform the operation
+ * The pixel type of the input 2 image must have a valid defintion of the
+ * operator != with zero. This condition is required because internally this
+ * filter will perform the operation
  *
- *        if pixel_from_mask_image == 0 pixel_input_image = 0
+ *        if pixel_from_mask_image != 0 
+ *             pixel_output_image = 0
+ *        else
+ *             pixel_output_image = pixel_input_image
  *
- * The result from the sum, is cast to the pixel type of the output image.
+ * The pixel from the input 1 is casted to the pixel type of the output image.
  *
  * Note that the input and the mask images must be of the same size.
  *
  * \warning Any pixel value other than 0 will not be masked out. 
  *
+ * \sa MaskNegatedImageFilter
  * \ingroup IntensityImageFilters  Multithreaded
  */
 namespace Functor {  
