@@ -75,19 +75,37 @@ int testMetaSurface(int , char * [])
     it++;
   }
 
+  delete surface;
+
+  // Testing Binary Data
+  MetaSurface* surfaceBin = new MetaSurface(3);
+
+  for(i=0;i<10;i++)
+  {
+    pnt = new SurfacePnt(3);
+    pnt->m_X[0]=(float)0.2;
+    pnt->m_X[1]=static_cast<float>(i);
+    pnt->m_X[2]=static_cast<float>(i);
+    pnt->m_V[0]=(float)0.8;
+    pnt->m_V[1]=static_cast<float>(i);
+    pnt->m_V[2]=static_cast<float>(i);
+    surfaceBin->GetPoints().push_back(pnt);
+  }
+  
+
   std::cout << "Writing Binary test file ...";
-  surface->BinaryData(true);
-  surface->ElementType(MET_FLOAT);
-  surface->Write("mySurface2.meta");
+  surfaceBin->BinaryData(true);
+  surfaceBin->ElementType(MET_FLOAT);
+  surfaceBin->Write("mySurfaceBin.meta");
 
   std::cout << "done" << std::endl;
   std::cout << "Reading Binary test file ...";
 
-  surface->Clear();
-  surface->Read("mySurface2.meta");
-  surface->PrintInfo();
+  surfaceBin->Clear();
+  surfaceBin->Read("mySurfaceBin.meta");
+  surfaceBin->PrintInfo();
   
-  MetaSurface::PointListType list2 =  surface->GetPoints();
+  MetaSurface::PointListType list2 =  surfaceBin->GetPoints();
   it = list2.begin();
   
   while(it != list2.end())
@@ -105,7 +123,7 @@ int testMetaSurface(int , char * [])
     it++;
   }
   
-  delete surface;
+  delete surfaceBin;
   std::cout << "done" << std::endl;
   return 0;
 }
