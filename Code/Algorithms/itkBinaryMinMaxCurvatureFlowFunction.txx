@@ -58,7 +58,7 @@ BinaryMinMaxCurvatureFlowFunction<TImage>
     }
 
 
-  NeighborhoodInnerProduct<ImageType> innerProduct;
+  typename NeighborhoodInnerProduct<ImageType> innerProduct;
   PixelType avgValue = innerProduct( it, m_StencilOperator );
 
   if ( avgValue < m_Threshold )
@@ -92,7 +92,7 @@ BinaryMinMaxCurvatureFlowFunction<TImage>
     return update;
     }
 
-  SmartNeighborhoodInnerProduct<ImageType> innerProduct;
+  typename SmartNeighborhoodInnerProduct<ImageType> innerProduct;
   PixelType avgValue = innerProduct( it, m_StencilOperator );
 
   if ( avgValue < m_Threshold )
