@@ -32,9 +32,10 @@ AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
   m_NumberOfIterations = 0;
   m_ConductanceParameter = 1.0;
   m_ConductanceScalingParameter = 1.0;
-  m_ConductanceScalingUpdateInterval = 0.0;
+  m_ConductanceScalingUpdateInterval = 0;
   m_TimeStep = 0.5 / pow(2.0, static_cast<double>(ImageDimension));
   m_FixedAverageGradientMagnitude = 0.0;
+  m_ConductanceScalingUpdateInterval = 1;
   m_GradientMagnitudeIsFixed = false;
 }
 
@@ -70,15 +71,15 @@ AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
     itkWarningMacro(<< "Anisotropic diffusion has attempted to use a time step which will introduce instability into the solution.  The time step has been automatically reduced to " << f->GetTimeStep() << ", which is the maximum value for which the solution is theoretically stable.");
     }
   
-  if (m_GradientMagnitudeIsFixed == false)
+  if (m_GradientMagnitudeIsFixed == false && (this->GetElapsedIterations() % m_ConductanceScalingUpdateInterval)==0 )
     {
-    f->CalculateAverageGradientMagnitudeSquared(this->GetOutput());
+      f->CalculateAverageGradientMagnitudeSquared(this->GetOutput());
     }
   else
     {
-    f->SetAverageGradientMagnitudeSquared(m_FixedAverageGradientMagnitude 
-                                          *
-                                          m_FixedAverageGradientMagnitude);
+      f->SetAverageGradientMagnitudeSquared(m_FixedAverageGradientMagnitude 
+                                            *
+                                            m_FixedAverageGradientMagnitude);
     }
   f->InitializeIteration();
 
