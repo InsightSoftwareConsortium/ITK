@@ -35,7 +35,7 @@ namespace itk
  * Offset is a templated class to represent a multi-dimensional offset,
  * i.e. (i,j,k,...). Offset is templated over the dimension of the space.  
  *
- * For the sake of efficiency, Size does not define a default constructor, a
+ * For the sake of efficiency, Offset does not define a default constructor, a
  * copy constructor, or an operator=. We rely on the compiler to provide
  * efficient bitwise copies.
  *
