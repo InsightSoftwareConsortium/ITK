@@ -1,0 +1,57 @@
+/**
+
+  \page  ImageIterators Image Iterators
+ 
+  Image Iterator are the mechanism used in ITK for walking through the image
+  data. 
+
+  You have probably learn image processing with the classical access to the
+  image date using for loops like:
+
+  \code
+
+  Image im(100,100);
+  
+  for(int x=0; x<nx; x++) 
+  {
+    for(int y=0; y<ny; y++) 
+    {
+      im(x,y) = 10;
+    }
+  }
+
+  \endcode
+
+
+  When what you mean is:
+
+  \code
+
+  ForAllThePixel p in im
+  do   p = 100
+
+  \endcode
+
+  ImageIterators helps to get close to the algorithmic abstraction. Thanks to
+  that they don't attach the user code to the particular implementation of the
+  image class
+  
+  Here is how an image iterator is used in ITK:
+
+  \code
+
+  ImageType::Pointer im = GetAnImageSomeHow();
+
+  ImageIterator  it( im, im->GetRequestedRegion() );
+  
+  it.GoToBegin();
+
+  while( !it.IsAtEnd() )
+  {
+    it.Set( 10 );
+    ++it;
+  }
+
+  \endcode
+  
+*/
