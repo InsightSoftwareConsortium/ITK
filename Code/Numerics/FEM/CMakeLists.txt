@@ -29,7 +29,6 @@ SOURCE_FILES(FEM_SRCS
 
   itkFEMSolver.cxx
 
-  itkFEM.cxx
   itkFEMLightObject.cxx
   itkFEMException.cxx
   itkFEMUtility.cxx

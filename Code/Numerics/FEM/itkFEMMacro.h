@@ -243,25 +243,28 @@ private:  // everything that follows from here is private by default (like in th
 
 
 /**
+ * \brief Class that is used in #FEM_CLASS_INIT macro.
+ */
+struct INITClass { INITClass(int) {} };
+
+
+
+
+/**
  * \brief Perform any initialization tasks for a class.
  *
- * The macro creates a constant reference to class OFID that is globally
- * accesable. This also insures that the class is properly registered with
- * FEMObjectFactory.
+ * This macro creates a static object of INIT_Class class that references
+ * thisClass::OFID static member in a constructor. This insures that
+ * any initialization code for OFID is always executed, and thisClass
+ * is properly registered with FEMObjectFactory.
  *
- * Some compilers (MSVC for example) don't initialize static class members
- * if they are never used. As a consequence that class is never registered
- * with FEMObjectFactory, since OFID was never initialized.
- *
- * Defining a static const reference to OFID member of a class prevents
- * that from happening.
+ * \param thisClass Name of the class that needs to be initialized.
  *
  * \note Call this macro in .h file after class declaration and
  *       within itk::fem namespace.
  */
 #define FEM_CLASS_INIT(thisClass) \
-  /** Globaly accesible const reference to class ID */ \
-  static const int& OFID_##thisClass = thisClass::OFID;
+  static INITClass Initializer_##thisClass(thisClass::OFID);
 
 
 
