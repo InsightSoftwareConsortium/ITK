@@ -15,6 +15,7 @@ itkCommonHeaderTest
 itkHashTableTest
 itkImageAdaptorTest
 itkImageIteratorTest
+itkImageIteratorsForwardBackwardTest
 itkImageLinearIteratorTest
 itkIteratorTests
 itkMatrixTest
@@ -51,6 +52,7 @@ ADD_EXECUTABLE(itkCommonHeaderTest itkCommonHeaderTest)
 ADD_EXECUTABLE(itkHashTableTest itkHashTableTest)
 ADD_EXECUTABLE(itkImageAdaptorTest itkImageAdaptorTest)
 ADD_EXECUTABLE(itkImageIteratorTest itkImageIteratorTest)
+ADD_EXECUTABLE(itkImageIteratorsForwardBackwardTest itkImageIteratorsForwardBackwardTest)
 ADD_EXECUTABLE(itkImageLinearIteratorTest itkImageLinearIteratorTest)
 ADD_EXECUTABLE(itkIteratorTests itkIteratorTests)
 ADD_EXECUTABLE(itkMatrixTest itkMatrixTest)
