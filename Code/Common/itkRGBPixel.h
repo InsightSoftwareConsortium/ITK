@@ -67,8 +67,8 @@ public:
   typedef typename SuperClass::ValueType ValueType;
   
   /** Default constructor has nothing to do. */
-  RGBPixel() {Fill(0);}
-  RGBPixel (const ComponentType& r) { Fill(r); }
+  RGBPixel() {this->Fill(0);}
+  RGBPixel (const ComponentType& r) { this->Fill(r); }
   
   /** Pass-through constructor for the Array base class. */
   RGBPixel(const Self& r): BaseArray(r) {}

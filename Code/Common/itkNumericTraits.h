@@ -39,6 +39,9 @@ namespace itk
 template <class T>
 class NumericTraits : public vcl_numeric_limits<T> {
 public:
+  /** The type of this limits trait object. */
+  typedef vcl_numeric_limits<T> TraitsType;
+
   /** Return the type of this native type. */
   typedef T ValueType; 
 
@@ -58,7 +61,7 @@ public:
   static const T One;
 
   /** Smallest (most nonpositive) value **/
-  static T NonpositiveMin() { return min(); }
+  static T NonpositiveMin() { return TraitsType::min(); }
 
   /** Is a given value positive? **/
   static bool IsPositive(T val) { return val > Zero; }
