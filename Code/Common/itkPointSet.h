@@ -203,7 +203,7 @@ public:
    * PointSet-level operation interface.
    */
   void PassStructure(Self* inputPointSet);
-  void ReInitialize(void);
+  virtual void Initialize(void);
 
   unsigned long GetNumberOfPoints(void) const;
 

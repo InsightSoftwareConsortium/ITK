@@ -651,9 +651,14 @@ Mesh<TPixelType, VDimension, TMeshTraits>
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 Mesh<TPixelType, VDimension, TMeshTraits>
-::ReInitialize(void)
+::Initialize(void)
 {
-  // IMPLEMENT ME
+  Superclass::Initialize();
+
+  m_CellsContainer = 0;
+  m_CellDataContainer = 0;
+  m_CellLinksContainer = 0;
+  
 }
   
   

@@ -52,7 +52,8 @@ namespace itk
 /** \class MapContainer
  * Define a front-end to the STL "map" container that conforms to the
  * IndexedContainerInterface.  This is a full-fleged Object, so
- * there is modification time, debug, and reference count information.
+ * there are events, modification time, debug, and reference count 
+ * information.
  *
  * Template parameters for MapContainer:
  *
@@ -244,6 +245,7 @@ public:
   unsigned long Size(void) const;
   void Reserve(ElementIdentifier);
   void Squeeze(void);
+  void Initialize(void);
   
   /**
    * Standard part of every itk Object.

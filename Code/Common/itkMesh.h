@@ -345,7 +345,7 @@ public:
    * Mesh-level operation interface.
    */
   void PassStructure(Self* inputMesh);
-  void ReInitialize(void);
+  virtual void Initialize(void);
 
   unsigned long GetNumberOfCells(void);
 

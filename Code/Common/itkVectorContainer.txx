@@ -282,7 +282,7 @@ VectorContainer< TElementIdentifier , TElement >
 template <typename TElementIdentifier, typename TElement>
 void 
 VectorContainer< TElementIdentifier , TElement >
-::Clear(void) 
+::Initialize(void) 
 {
   this->VectorType::clear();
 }

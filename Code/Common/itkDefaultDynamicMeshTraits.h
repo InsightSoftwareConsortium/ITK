@@ -55,9 +55,9 @@ namespace itk
  * template parameters while still enjoying the benefits of generic
  * programming.
  *
- * Unlike DefaultStaticMeshTraits, this version of the MeshTraits structure is designed
- * to create Mesh instances that will have many insert and delete operations
- * done on them.
+ * Unlike DefaultStaticMeshTraits, this version of the MeshTraits structure
+ * is designed to create Mesh instances that will have many insert and delete
+ * operations done on them.
  *
  * Template parameters for DefaultDynamicMeshTraits:
  *
@@ -76,7 +76,7 @@ namespace itk
  * TInterpolationWeight =
  *    Numerical type to store interpolation weights.
  * 
- * \ingroup MeshObjects
+ * \ingroup MeshObjects 
  */
   
 template <
@@ -138,7 +138,7 @@ public:
 
   /**
    * The container type for use in storing points.  It must conform to
-   * the IndexedContainer interface.
+   * the IndexedContainerInterface.
    */
   typedef MapContainer< PointIdentifier , PointType >  PointsContainer;
 
@@ -163,7 +163,7 @@ public:
   
   /**
    * The container type for use in storing cells.  It must conform to
-   * the IndexedContainer interface.
+   * the IndexedContainerInterface.
    */
   typedef MapContainer< CellIdentifier , CellPointer >
         CellsContainer;
@@ -177,35 +177,35 @@ public:
 
   /**
    * The container type for use in storing point links back to cells.]
-   * It must conform to the IndexedContainer interface.
+   * It must conform to the IndexedContainerInterface.
    */
   typedef MapContainer< PointIdentifier , PointCellLinksContainer >
         CellLinksContainer;
 
   /**
    * The container type for use in storing point data.  It must conform to
-   * the IndexedContainer interface.
+   * the IndexedContainerInterface.
    */
   typedef MapContainer< PointIdentifier , PixelType >
         PointDataContainer;
 
   /**
    * The container type for use in storing cell data.  It must conform to
-   * the IndexedContainer interface.
+   * the IndexedContainerInterface.
    */
   typedef MapContainer< CellIdentifier , CellPixelType >
         CellDataContainer;
 
   /**
    * The container type for use in storing explicitly created
-   * boundaries.  It must conform to the IndexedContainer interface.
+   * boundaries.  It must conform to the IndexedContainerInterface.
    */
   typedef MapContainer< BoundaryIdentifier , CellPointer >
         BoundariesContainer;
 
   /**
    * The container type for use in storing data for explicitly
-   * created boundaries.  It must conform to the IndexedContainer interface.
+   * created boundaries.  It must conform to the IndexedContainerInterface.
    */
   typedef MapContainer< BoundaryIdentifier , CellPixelType >
         BoundaryDataContainer;

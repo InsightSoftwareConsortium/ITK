@@ -268,6 +268,17 @@ MapContainer< TElementIdentifier , TElement >
 {
 }
 
+/**
+ * Tell the container to release any memory it may have allocated and
+ * return itself to its initial state.
+ */
+template <typename TElementIdentifier, typename TElement>
+void
+MapContainer< TElementIdentifier , TElement >
+::Initialize(void)
+{
+}
+
 
 } // end namespace itk
 

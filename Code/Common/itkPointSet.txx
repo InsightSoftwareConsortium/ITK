@@ -322,9 +322,14 @@ PointSet<TPixelType, VDimension, TMeshTraits>
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 PointSet<TPixelType, VDimension, TMeshTraits>
-::ReInitialize(void)
+::Initialize(void)
 {
-  // IMPLEMENT ME
+  Superclass::Initialize();
+
+  m_PointsContainer = 0;
+  m_PointDataContainer = 0;
+  m_PointLocator = 0;
+
 }
   
 /******************************************************************************

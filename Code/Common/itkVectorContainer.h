@@ -257,7 +257,7 @@ public:
   unsigned long Size(void) const;
   void Reserve(ElementIdentifier);
   void Squeeze(void);
-  void Clear(void);
+  void Initialize(void);
   
   /**
    * Standard part of every itk Object.
