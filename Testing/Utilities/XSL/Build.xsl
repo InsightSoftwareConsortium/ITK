@@ -1,16 +1,27 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 
+  <!--
+       Use DashboardStamp as a parameter, default to most recent
+       The proper flags to Xalan are in the form -PARAM DashboardStamp "string('foo')"
+       -->
+  <xsl:param name="DashboardStamp" select="string('MostRecentResults-Nightly')"/>
+  <xsl:variable name="DashboardDir" select="concat('../../../../Dashboard/', $DashboardStamp)"/>
+
   <xsl:template match="/">
+
+    
     <html>
       <head>
         <title>Build log</title>
       </head>
+      Stamp = <xsl:value-of select="$DashboardStamp"/>
+      Dir = <xsl:value-of select="$DashboardDir"/>
       <body bgcolor="#ffffff">
         <table border="4" cellpading="0" cellspacing="2" width="100%">
 	    <tr>
 	      <td width="140">
-	 	<a href="dashboard.html"> <img src="../../../../Icons/Logo.gif" border="0"></img></a>
+                <a href="{$DashboardDir}/Dashboard.html"> <img src="../../../../Icons/Logo.gif" border="0"></img></a>
               </td>
 	      <td>
                <h1>Insight build log dashboard</h1>
@@ -19,23 +30,23 @@
 	   <tr> <td width="23%" valign="top" halign="center">
 	<table width="100%">
               <tr><td>
-             <a href="Update.html"> <img src="../../../../Icons/Updates.gif" border="0"></img></a>
+              <a href="{$DashboardDir}/Update.html"><img src="../../../../Icons/Updates.gif" border="0"></img></a>
               </td></tr>
                <tr><td>
-              <a href="BuildError.html"><img src="../../../../Icons/Errors.gif" border="0"></img></a>
+               <a href="{$DashboardDir}/BuildError.html"><img src="../../../../Icons/Errors.gif" border="0"></img></a>
               </td></tr>
               <tr><td>
               <img src="../../../../Icons/WarningsBlue.gif" border="0"></img>
               </td></tr>
                 <tr><td>
-              <a href="Test.html"><img src="../../../../Icons/Tests.gif" border="0"></img></a>
+                <a href="{$DashboardDir}/Test.html"><img src="../../../../Icons/Tests.gif" border="0"></img></a>
               </td></tr>
               <tr><td>
-              <a href="Coverage.html"><img src="../../../../Icons/Coverage.gif" border="0"></img></a>
+              <a href="{$DashboardDir}/Coverage.html"><img src="../../../../Icons/Coverage.gif" border="0"></img></a>
              </td></tr></table>
             <hr width="75%"></hr>
 <table width="100%">
-<tr><td><a href="Dashboard.html"><img src="../../../../Icons/Home.gif" border="0"></img></a> 
+  <tr><td><a href="{$DashboardDir}/Dashboard.html"><img src="../../../../Icons/Home.gif" border="0"></img></a> 
  </td></tr></table>
 </td>		    
 <td>

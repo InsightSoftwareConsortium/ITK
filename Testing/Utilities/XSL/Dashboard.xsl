@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 
+  <!--
+       Use DashboardStamp as a parameter, default to most recent
+       The proper flags to Xalan are in the form -PARAM DashboardStamp "string('foo')"
+       -->
+  <xsl:param name="DashboardStamp" select="string('MostRecentResults-Nightly')"/>
+  <xsl:variable name="DashboardDir" select="concat('../../../../Dashboard/', $DashboardStamp)"/>
+
   <xsl:template match="/Dashboard">
     <html>
       <head>
