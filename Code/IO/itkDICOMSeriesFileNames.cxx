@@ -61,6 +61,7 @@ DICOMSeriesFileNames
     }
 }
 
+
 const std::vector<std::string> &
 DICOMSeriesFileNames
 ::GetFileNames(const std::string &seriesUID, bool recursive)
@@ -224,6 +225,9 @@ DICOMSeriesFileNames
 
   // Get the SeriesUIDs
   m_AppHelper.GetSeriesUIDs( m_SeriesUIDs );
+  m_AppHelper.GetSeriesDescriptions( m_SeriesDescriptions );
+  m_AppHelper.GetBodyParts(m_BodyParts);
+  m_AppHelper.GetScanOptions(m_ScanOptions);
 
   // Keep track of when we scanned the directory last
   m_DirectoryScanTime.Modified();
