@@ -53,11 +53,12 @@ else
 fi
 
 
+
 #
 # use shared libs
 #
 AC_ARG_WITH(shared,
-         [  --with-shared               create shared libraries],
+         [  --with-shared           create shared libraries],
          [itk_shared_ok=$withval], [itk_shared_ok=no])
 
 INSTALL_TARGET="install"
@@ -81,7 +82,7 @@ AC_SUBST(CLEAN_TOOLKITS)
 # option for handling BSD style makefile includes
 #
 AC_ARG_WITH(bsdmake,
-         [  --with-bsdmake            uses bsd style makefile includes],
+         [  --with-bsdmake          uses bsd style makefile includes],
 	 if test "$withval" = yes; then
          MAKEINCLUDE=".include"
          MAKEQUOTE='"'
@@ -549,6 +550,38 @@ SUBDIR_CMAKE_TARGETS=`echo $allDirs | sed -e 's|\\([[A-Za-z0-9_/]][[A-Za-z0-9_/]
 #  end of extract SUBDIRS out of CMakeLists.txt files
 # 
 
+#
+# Build two variables (SITE, INSTANCE) used for setting up testing
+#
+
+AC_ARG_WITH(site,
+         [  --with-site             sitename used for testing],
+         [site_specified=$withval], [site_specified=none])
+
+AC_ARG_WITH(buildname,
+         [  --with-buildname        name of build used for testing],
+         [buildname_specified=$withval], [buildname_specified=none])
+
+# Determine the site (domain) name
+AC_PATH_PROG(HOSTNAME, hostname, hostname)
+AC_PATH_PROG(NSLOOKUP, nslookup, nslookup)
+myhostname=`$HOSTNAME`
+SITE=`$NSLOOKUP $myhostname | grep \^Name: | cut -d. -f2- | tr [A-Z] [a-z]`
+if test ! "$site_specified" = none; then
+	SITE=$site_specified
+fi
+AC_SUBST(SITE)
+
+# Setup the instance name (OS, Revision, Compiler, and someday Compiler Revision)
+COMPILER=`echo $CXX | cut -d ' ' -f1`
+COMPILER=`which $COMPILER`
+COMPILER=`basename $COMPILER`
+BUILDNAME=$system-$COMPILER
+if test ! "$buildname_specified" = none; then
+	BUILDNAME=$buildname_specified
+fi
+AC_SUBST(BUILDNAME)
+
 
 # output to the top level Makefile, which must be present
 # create the toplevel CMakeTargets.make file
@@ -569,6 +602,17 @@ CMake/Source/Makefile
 $SUBDIR_MAKEFILES
 $SUBDIR_CMAKE_TARGETS
 )
+
+#
+# Make the directories that will be needed to hold testing results
+#
+if test ! -d $CMAKE_CONFIG_DIR/Testing/HTML/TestingResults/$SITE; then
+	mkdir $CMAKE_CONFIG_DIR/Testing/HTML/TestingResults/$SITE 
+fi
+if test ! -d $CMAKE_CONFIG_DIR/Testing/HTML/TestingResults/$SITE/$BUILDNAME; then
+	mkdir $CMAKE_CONFIG_DIR/Testing/HTML/TestingResults/$SITE/$BUILDNAME
+fi
+
 
 # force a rebuild of rulesgen which will rebuild CMakeTargets.make
 # this has to be done because configure generates empty CMakeTargets.make files
