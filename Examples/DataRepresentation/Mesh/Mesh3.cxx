@@ -219,7 +219,7 @@ int main()
   //  Finally a standard loop is used to iterate over all the cell data
   //  entries. Note the use of the \code{Value()} method used to get the actual
   //  value of the data entry. \code{PixelType} elements are copied into the
-  //  local variable \code{callValue}.
+  //  local variable \code{cellValue}.
   //
   //  \index{CellDataIterator!Value()}
   //  \index{CellDataIterator!increment}

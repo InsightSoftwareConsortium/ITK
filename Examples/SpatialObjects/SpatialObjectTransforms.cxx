@@ -70,8 +70,8 @@ int main( int , char *[] )
 // The ObjectToParentTransform transforms points from the object-specific 
 // ``physical" space to the ``physical" space of its parent object.   
 //
-// The ObjectToWorldTransformation transforms points from the global
-// coordinate frame. This is useful when the position of the object is known
+// The ObjectToWorldTransform maps points from the reference system of the SpatialObject
+// into the global coordinate system. This is useful when the position of the object is known
 // only in the global coordinate frame. Note that by setting this transform,
 // the ObjectToParent transform is recomputed.
 //
@@ -129,7 +129,7 @@ int main( int , char *[] )
 // We can now display the ObjectToWorldTransform for both objects.  One
 // should notice that the FixedCenterOfRotationAffineTransform derives from
 // \doxygen{AffineTransform} and therefore the only valid members of the
-// transformation is Matrix and Offset. For instance, when we invoke the
+// transformation are a Matrix and an Offset. For instance, when we invoke the
 // \code{ScaleComponent()} method the internal Matrix is recomputed to
 // reflect this change.
 // 

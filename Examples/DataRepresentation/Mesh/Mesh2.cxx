@@ -101,7 +101,7 @@ int main()
   //  responsible for allocating and releasing the cells' memory. This protocol
   //  is implemented in the form of a specific type of pointer called the
   //  \code{CellAutoPointer}. This pointer, based on the \doxygen{AutoPointer},
-  //  differs in many respects from the SmartPointer. The CellAutoPointer has a
+  //  differs in many respects from the SmartPointer. The CellAutoPointer has an
   //  internal pointer to the actual object and a boolean flag that indicates
   //  if the CellAutoPointer is responsible for releasing the cell memory
   //  whenever the time comes for its own destruction. It is said that a
