@@ -110,6 +110,8 @@ ADD_TEST(itkSwathChainCodePathFilterTest ${ALGORITHMS_TESTS} itkSwathChainCodePa
 ADD_TEST(itkThresholdSegmentationLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkThresholdSegmentationLevelSetImageFilterTest)
 ADD_TEST(itkGibbsTest ${ALGORITHMS_TESTS} itkGibbsTest)
 ADD_TEST(itkDeformableTest ${ALGORITHMS_TESTS} itkDeformableTest)
+ADD_TEST(itkDeformableSimplexMesh3DBalloonForceFilterTest ${ALGORITHMS_TESTS2} itkDeformableSimplexMesh3DBalloonForceFilterTest)
+ADD_TEST(itkDeformableSimplexMesh3DFilterTest ${ALGORITHMS_TESTS2} itkDeformableSimplexMesh3DFilterTest)
 ADD_TEST(itk2DDeformableTest ${ALGORITHMS_TESTS} itk2DDeformableTest)
 ADD_TEST(itkSphereMeshSourceTest ${ALGORITHMS_TESTS} itkSphereMeshSourceTest)
 ADD_TEST(itkUnsharpMaskLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkUnsharpMaskLevelSetImageFilterTest) 
@@ -243,6 +245,8 @@ itkMIRegistrationFunctionTest.cxx
 itkOtsuMultipleThresholdsCalculatorTest.cxx
 itkPointSetToPointSetRegistrationTest.cxx
 itkPointSetToSpatialObjectDemonsRegistrationTest.cxx
+itkDeformableSimplexMesh3DBalloonForceFilterTest.cxx
+itkDeformableSimplexMesh3DFilterTest.cxx
 itkRegularSphereMeshSourceTest.cxx
 itkSymmetricForcesDemonsRegistrationFilterTest.cxx
 itkSTAPLEImageFilterTest.cxx
