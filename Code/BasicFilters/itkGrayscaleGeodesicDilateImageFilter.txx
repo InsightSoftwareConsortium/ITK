@@ -356,7 +356,7 @@ GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>
     // iterate over image region
     while ( ! oIt.IsAtEnd() )
       {
-      dilateValue = NumericTraits<MarkerImagePixelType>::min();
+      dilateValue = NumericTraits<MarkerImagePixelType>::NonpositiveMin();
       
       // Dilate by checking the face connected neighbors (and center pixel)
       NeighborhoodIteratorType::ConstIterator sIt;
