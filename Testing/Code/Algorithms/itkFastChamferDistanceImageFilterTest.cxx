@@ -135,7 +135,7 @@ int itkFastChamferDistanceImageFilterTest(int, char* [] )
   itNBType itNB = band->Begin();
   itNBType itNBend = band->End();
  
-  BandNodeType *tmp;
+//  BandNodeType *tmp;
   unsigned int innerpositive=0;
   unsigned int innernegative=0;
   unsigned int otherpoints=0;
