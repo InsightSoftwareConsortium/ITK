@@ -166,7 +166,7 @@ ImageLinearConstIteratorWithIndex<TImage>
 template<class TImage>
 void 
 ImageLinearConstIteratorWithIndex<TImage>
-::GoToReverseBeginOfLine(void)
+::GoToEndOfLine(void)
 {
 
   long distanceToEnd = 
@@ -175,7 +175,7 @@ ImageLinearConstIteratorWithIndex<TImage>
 
   m_Position += m_Jump * distanceToEnd; 
 
-  m_PositionIndex[m_Direction] = m_EndIndex[m_Direction];   
+  m_PositionIndex[m_Direction] = m_EndIndex[m_Direction];
   
 }
 

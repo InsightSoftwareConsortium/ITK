@@ -139,7 +139,7 @@ public:
 
   /** Go to the past end pixel of the current line.
    * \sa GoToBeginOfLine \sa operator++ \sa operator-- \sa NextLine \sa EndOfLine */
-  void GoToReverseBeginOfLine(void);
+  void GoToEndOfLine(void);
 
   /** Test if the index is at the end of line */
   inline bool IsAtEndOfLine(void);
