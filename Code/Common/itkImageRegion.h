@@ -217,6 +217,24 @@ public:
    */
   unsigned long GetNumberOfPixels() const;
 
+  /**
+   * Pad an image region by the specified radius. Region can be padded
+   * uniformly in all dimensions or can be padded by different amounts
+   * in each dimension.
+   */
+  void PadByRadius(unsigned long radius);
+  void PadByRadius(const unsigned long radius[VImageDimension]);
+  void PadByRadius(const SizeType &radius);
+
+  /**
+   * Crop a region by another region. If this region is outside of the
+   * crop, this method returns false and does not modify the
+   * region. Otherwise, this method returns true and the region is
+   * modified to reflect the crop.
+   */
+  bool Crop(const Self& region);
+                   
+
 protected:
   /** 
    * Methods invoked by Print() to print information about the object
