@@ -54,6 +54,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkChangeInformationImageFilter.txx"
 #include "itkComposeRGBImageFilter.h"
 #include "itkConfidenceConnectedImageFilter.txx"
+#include "itkConnectedComponentImageFilter.txx"
 #include "itkConnectedThresholdImageFilter.txx"
 #include "itkConstantPadImageFilter.txx"
 #include "itkCosImageFilter.h"
