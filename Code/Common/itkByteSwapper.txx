@@ -104,7 +104,10 @@ ByteSwapper<T>
 template <class T>
 void 
 ByteSwapper<T>
-::SwapRangeFromSystemToBigEndian(T *p, unsigned long num) {}
+::SwapRangeFromSystemToBigEndian(T *, unsigned long ) // unused arguments removed
+ {  
+ // nothing needs to be done here...
+ }
 #else
 template <class T>
 void 
