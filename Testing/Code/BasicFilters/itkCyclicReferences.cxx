@@ -14,7 +14,7 @@ See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
 #include <iostream>
-#include "itkImage.h"
+#include "itkPhysicalImage.h"
 #include "itkScalar.h"
 #include "itkRandomImageSource.h"
 #include "itkShrinkImageFilter.h"
@@ -57,12 +57,12 @@ int main()
   // Begin by creating a simple pipeline. Use the Scalar class as a pixel.
   //
   // Create a typedef to make the code more digestable
-  typedef itk::Image<itk::Scalar<float>,2> FloatImage2DType;
+  typedef itk::PhysicalImage<itk::Scalar<float>,2> FloatImage2DType;
 
   // Test the deletion of an image with native type.
   // (scope operators cause automagic smart pointer destruction)
   {//image
-  itk::Image<float,2>::Pointer if2 = itk::Image<float,2>::New();
+  itk::PhysicalImage<float,2>::Pointer if2 = itk::PhysicalImage<float,2>::New();
   DeleteEvent deleteEvent;
   itk::MemberCommand<DeleteEvent>::Pointer deleteCommand;
   deleteCommand = itk::MemberCommand<DeleteEvent>::New();
