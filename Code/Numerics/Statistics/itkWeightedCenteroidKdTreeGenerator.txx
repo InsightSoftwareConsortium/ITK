@@ -87,7 +87,11 @@ WeightedCenteroidKdTreeGenerator< TSample >
 
   // find median and partition this node using the quick select algorithm
   medianIndex = (endIndex - beginIndex) / 2 ;
-  partitionValue = QuickSelect< SubsampleType >(this->GetSubsample(), partitionDimension, beginIndex, endIndex, medianIndex, m_TempMean[partitionDimension]) ;
+  partitionValue = 
+    QuickSelect< SubsampleType >(this->GetSubsample(), 
+                                 partitionDimension, 
+                                 beginIndex, endIndex, medianIndex, 
+                                 m_TempMean[partitionDimension]) ;
   medianIndex += beginIndex - 1 ;
 
   dimensionLowerBound = lowerBound[partitionDimension] ;
