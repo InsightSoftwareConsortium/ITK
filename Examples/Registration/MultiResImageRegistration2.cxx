@@ -19,7 +19,7 @@
 //
 //  This example illustrates the use of more complex components of the
 //  registration framework. In particular, it introduces the use of the
-//  \doxygen{AffineTransform} and the importance of fine tuning the scale
+//  \doxygen{AffineTransform} and the importance of fine-tuning the scale
 //  parameters of the optimizer.
 //
 // \index{itk::ImageRegistrationMethod!AffineTransform}
@@ -29,9 +29,9 @@
 // The AffineTransform is a linear transformation that maps lines into
 // lines. It can be used to represent translations, rotations, anisotropic
 // scaling, shearing or any combination of them. Details about the affine
-// transform can be seen in section~\ref{sec:AffineTransform}.
+// transform can be seen in Section~\ref{sec:AffineTransform}.
 //
-// In order to use the \doxygen{AffineTransform} class the following header
+// In order to use the AffineTransform class, the following header
 // must be included.
 //
 // \index{itk::AffineTransform!Header}
@@ -168,7 +168,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  The configuration of the registration method in this example closely
-  //  follows the previous section. The main changes involve the
+  //  follows the procedure in the previous section. The main changes involve the
   //  construction and initialization of the transform. The instantiation of
   //  the transform type requires only the dimension of the space and the
   //  type used for representing space coordinates.
@@ -215,7 +215,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  The transform is constructed using the standard \code{New()} method and
-  //  assigning it to a \code{SmartPointer}.
+  //  assigning it to a SmartPointer.
   //
   //  \index{itk::AffineTransform!New()}
   //  \index{itk::AffineTransform!Pointer}
@@ -271,7 +271,7 @@ int main( int argc, char *argv[] )
   //  methods that most transforms have. In this case, we simply force the
   //  transform to be initialized as an identity transform. The method
   //  \code{SetIdentity()} is used to that end. Once the transform is
-  //  initialized we can invoke its \code{GetParameters()} method to extract
+  //  initialized, we can invoke its \code{GetParameters()} method to extract
   //  the array of parameters. Finally the array is passed to the registration
   //  method using its \code{SetInitialTransformParameters()} method.
   //
@@ -285,21 +285,21 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  The set of parameters in the \doxygen{AffineTransform} have different
+  //  The set of parameters in the AffineTransform have different
   //  dynamic ranges. Typically the parameters associated with the matrix
-  //  have values around $[-1:1]$ although they are not restricted to this
+  //  have values around $[-1:1]$, although they are not restricted to this
   //  interval.  Parameters associated with translations, on the other hand,
   //  tend to have much higher values, typically in the order of $10.0$ to
   //  $100.0$. This difference in dynamic range negatively affects the
   //  performance of gradient descent optimizers. ITK provides a mechanism to
   //  compensate for such differences in values among the parameters when
-  //  they are passed to the optimizer. The mechanism consist of providing an
-  //  array of scale factors to the optimizer. These factors renormalize the
+  //  they are passed to the optimizer. The mechanism consists of providing an
+  //  array of scale factors to the optimizer. These factors re-normalize the
   //  gradient components before they are used to compute the step of the
   //  optimizer at the current iteration. In our particular case, a common
   //  choice for the scale parameters is to set to $1.0$ all those associated
-  //  with the matrix coefficients.  That is, the first $N \times N$
-  //  factors. Then, set the remaining scale factors to a small value. The
+  //  with the matrix coefficients, that is, the first $N \times N$
+  //  factors. Then, we set the remaining scale factors to a small value. The
   //  following code sets up the scale coefficients.
   //
   //  Software Guide : EndLatex 
@@ -369,15 +369,15 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  The step length has to be proportionatal to the expected values of the
+  //  The step length has to be proportional to the expected values of the
   //  parameters in the search space. Since the expected values of the matrix
-  //  coefficients are around $1.0$ the initial step of the optimization
+  //  coefficients are around $1.0$, the initial step of the optimization
   //  should be a small number compared to $1.0$. As a guideline, it is
   //  useful to think of the matrix coefficients as combinations of
-  //  $cos(\theta)$ and $sin(\theta)$, this leads to use values close to the
+  //  $cos(\theta)$ and $sin(\theta)$.  This leads to use values close to the
   //  expected rotation measured in radians. For example, a rotation of $1.0$
-  //  degree is about $0.017$ radians. Similar to the previous example, the
-  //  maximum and minimum step length of the optimizer is set by the
+  //  degree is about $0.017$ radians. As in the previous example, the
+  //  maximum and minimum step length of the optimizer are set by the
   //  \code{RegistrationInterfaceCommand} when it is called at the beginning
   //  of registration at each multi-resolution level.
   //
@@ -435,13 +435,13 @@ int main( int argc, char *argv[] )
   //  Let's execute this example using the same multi-modality images as
   //  before.  The registration converges after $5$ iterations in the first
   //  level, $7$ in the second level and $4$ in the third level. The final
-  //  results when printed as an array of parameters appears as
+  //  results when printed as an array of parameters are
   //
   //  \begin{verbatim}
   // [1.00164, 0.00147688, 0.00168372, 1.0027, 12.6296, 16.4768]
   //  \end{verbatim}
   //
-  //  By reordering them as coefficient of matrix $M$ and vector $T$
+  //  By reordering them as coefficient of matrix $\bf{M}$ and vector $\bf{T}$
   //  they can now be seen as
   //
   //  \begin{equation}
@@ -458,17 +458,17 @@ int main( int argc, char *argv[] )
   //  \right] 
   //  \end{equation}
   //
-  //  int this form it is easier to interpret the effect of the
-  //  transform. The matrix $M$ is responsible for scaling, rotation and
-  //  shearing while $T$ is responsible for translations.  It can be seen
-  //  that the translation values in this case match closely the true
+  //  In this form, it is easier to interpret the effect of the
+  //  transform. The matrix $\bf{M}$ is responsible for scaling, rotation and
+  //  shearing while $\bf{T}$ is responsible for translations.  It can be seen
+  //  that the translation values in this case closely match the true
   //  misaligment introduced in the moving image.
   // 
   //  It is important to note that once the images are registered at a
   //  sub-pixel level, any further improvement of the registration relies
-  //  heavily on the quality of the interpolator. It may be reasonable then to
+  //  heavily on the quality of the interpolator. It may then be reasonable to
   //  use a coarse and fast interpolator in the lower resolution levels and
-  //  switch to a high quality but slow interpolator in the final resolution
+  //  switch to a high-quality but slow interpolator in the final resolution
   //  level.
   //
   //  Software Guide : EndLatex 
@@ -531,9 +531,9 @@ int main( int argc, char *argv[] )
   // \label{fig:MultiResImageRegistration2Output}
   // \end{figure}
   //
-  //  The result of resampling the moving image is shown in the left side
+  //  The result of resampling the moving image is shown in the left image
   //  of Figure \ref{fig:MultiResImageRegistration2Output}. The center and
-  //  right parts of the figure present a checkerboard composite of the fixed
+  //  right images of the figure present a checkerboard composite of the fixed
   //  and moving images before and after registration.
   //
   //  Software Guide : EndLatex 
