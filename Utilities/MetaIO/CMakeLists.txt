@@ -1,18 +1,17 @@
 ADD_LIBRARY(ITKMetaIO
-  metaTypes.h
-  metaUtils.cxx
-  metaObject.cxx
-  metaImage.cxx
-  metaImageUtils.cxx
-  metaTube.cxx
+  metaBlob.cxx
   metaEllipse.cxx
   metaGroup.cxx
-  metaScene.cxx
-  metaBlob.cxx
+  metaImage.cxx
+  metaImageUtils.cxx
   metaLandmark.cxx
-  metaSurface.cxx
   metaLine.cxx
-  metaLandmark.cxx
+  metaObject.cxx
+  metaScene.cxx
+  metaSurface.cxx
+  metaTube.cxx
+  metaTypes.h
+  metaUtils.cxx
 )
 
 #SUBDIRS(tests)
