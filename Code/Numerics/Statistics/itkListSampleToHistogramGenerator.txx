@@ -52,7 +52,7 @@ ListSampleToHistogramGenerator< TListSample,
   typename HistogramType::MeasurementVectorType h_upper ;
   typename HistogramType::MeasurementVectorType h_lower ;
 
-  float margin = 1.0 ;
+  float margin ;
 
   for ( unsigned int i = 0 ; i < TListSample::MeasurementVectorSize ; i++ )
     {

@@ -53,8 +53,8 @@ MeanCalculator< TSample >
   typename TSample::Iterator iter = this->GetInputSample()->Begin() ;
   typename TSample::Iterator end = this->GetInputSample()->End() ;
   double totalFrequency = 0.0 ;
-  double frequency = 0.0 ;
-  unsigned int dim = 0 ;
+  double frequency ;
+  unsigned int dim ;
   
   while (iter != end)
     {

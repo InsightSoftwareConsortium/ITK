@@ -73,7 +73,7 @@ CovarianceCalculator< TSample >
 ::GenerateData() 
 {
   m_Output.Fill(0.0) ;
-  double frequency = 0.0 ;
+  double frequency ;
   double totalFrequency = 0.0 ;
   
   unsigned int row, col ;
