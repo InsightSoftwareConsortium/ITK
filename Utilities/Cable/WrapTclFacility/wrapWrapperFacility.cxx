@@ -45,6 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "wrapInstanceTable.h"
 #include "wrapWrapperTable.h"
 #include "wrapTypeInfo.h"
+#include "wrapWrapperBase.h"
 
 #include <map>
 
@@ -98,10 +99,7 @@ WrapperFacility::WrapperFacility(Tcl_Interp* interp):
   m_Interpreter(interp)
 {
   this->Initialize();
-  m_ConversionTable = new ConversionTable();
-  m_InstanceTable = new InstanceTable(m_Interpreter);
-  m_WrapperTable = new WrapperTable(m_Interpreter);
-  Tcl_PkgProvide(m_Interpreter, "Wrap", "1.0");
+  this->InitializeForInterpreter();
 }
 
 WrapperFacility::~WrapperFacility()
@@ -111,13 +109,6 @@ WrapperFacility::~WrapperFacility()
 extern Tcl_ObjType TclPointerType;
 extern Tcl_ObjType TclReferenceType;
 
-/**
- * Initialization function for a Tcl interpreter.   This will only execute
- * exactly once for a given interpreter.
- *
- * This just registers the Pointer and Reference Tcl object types needed
- * by the wrappers with the interpreter.
- */
 void WrapperFacility::Initialize()
 {
   static bool initialized = false;
@@ -139,15 +130,90 @@ void WrapperFacility::Initialize()
 }
 
 
-#if 0
-/**
- * The function called back from a Tcl interpreter...
- */
-int WrapperFacility::ListMethodsCommand(ClientData, Tcl_Interp* interp,
-                                        int objc, Tcl_Obj* CONST objv[])
-{  
+void WrapperFacility::InitializeForInterpreter()
+{
+  m_ConversionTable = new ConversionTable();
+  m_InstanceTable = new InstanceTable(m_Interpreter);
+  m_WrapperTable = new WrapperTable(m_Interpreter);
+  
+  Tcl_CreateObjCommand(m_Interpreter, "wrap::ListMethods",
+                       &ListMethodsCommandFunction, 0, 0);
+  
+  Tcl_PkgProvide(m_Interpreter, "Wrap", "1.0");
 }
-#endif
+
+
+int WrapperFacility::ListMethodsCommand(int objc, Tcl_Obj* CONST objv[]) const
+{
+  static const char usage[] =
+    "Usage: ListMethods <id>\n"
+    "  Where <id> is an object name, pointer, reference.";
+  
+  WrapperBase* wrapper = NULL;
+  
+  if(objc > 1)
+    {
+    Pointer p;
+    Reference r;
+    const Type* type = NULL;
+    
+    if(TclObjectTypeIsPointer(objv[1]))
+      {
+      Tcl_GetPointerFromObj(m_Interpreter, objv[1], &p);
+      type = p.GetPointedToType().GetType();
+      }
+    else if(TclObjectTypeIsReference(objv[1]))
+      {
+      Tcl_GetReferenceFromObj(m_Interpreter, objv[1], &r);
+      type = r.GetReferencedType().GetType();
+      }
+    else
+      {
+      String objectName = Tcl_GetStringFromObj(objv[1], NULL);
+      if(m_InstanceTable->Exists(objectName))
+        {
+        type = m_InstanceTable->GetType(objectName).GetType();
+        }
+      else if(StringRepIsPointer(objectName)
+              && (Tcl_GetPointerFromObj(m_Interpreter, objv[1], &p) == TCL_OK))
+        {
+        type = p.GetPointedToType().GetType();
+        }
+      else if(StringRepIsReference(objectName)
+              && (Tcl_GetReferenceFromObj(m_Interpreter, objv[1], &r) == TCL_OK))
+        {
+        type = r.GetReferencedType().GetType();
+        }    
+      }
+    
+    if(type)
+      {
+      wrapper = m_WrapperTable->GetWrapper(type);
+      }
+    }
+  
+  Tcl_ResetResult(m_Interpreter);
+  if(wrapper)
+    {
+    return wrapper->ListMethods();
+    }
+  else
+    {
+    Tcl_AppendResult(m_Interpreter, usage, NULL);
+    return TCL_ERROR;
+    }
+}
+
+
+int WrapperFacility
+::ListMethodsCommandFunction(ClientData clientData, Tcl_Interp* interp,
+                             int objc, Tcl_Obj* CONST objv[])
+{
+  WrapperFacility* wrapperFacility =
+    WrapperFacility::GetForInterpreter(interp);
+  return wrapperFacility->ListMethodsCommand(objc, objv);
+}
+
 
 } // namespace _wrap_
 

@@ -114,6 +114,29 @@ Tcl_Interp* WrapperBase::GetInterpreter() const
 
 
 /**
+ * Appends the list of methods provided by this wrapper's class and
+ * its superclasses to the current Tcl result.
+ */
+int WrapperBase::ListMethods() const
+{
+  String className = m_WrappedTypeRepresentation->Name();
+  Tcl_AppendResult(m_Interpreter,
+                   "Methods provided by class ",
+                   const_cast<char*>(className.c_str()),
+                   ":\n",
+                   NULL);
+  for(MethodMap::const_iterator m = m_MethodMap.begin();
+      m != m_MethodMap.end(); ++m)
+    {
+    String prototype = m->second->GetInclassPrototype();
+    Tcl_AppendResult(m_Interpreter,
+                     "  ", const_cast<char*>(prototype.c_str()), "\n", NULL);
+    }
+  return TCL_OK;
+}
+
+
+/**
  * When an object is returned, this creates the command to allow wrapper
  * calls to be made to the object.  The command name is that given.
  *

@@ -68,6 +68,10 @@ private:
   ~WrapperFacility();
 
   void Initialize();
+  void InitializeForInterpreter();
+  int ListMethodsCommand(int, Tcl_Obj*CONST[]) const ;
+  static int ListMethodsCommandFunction(ClientData, Tcl_Interp*,
+                                        int, Tcl_Obj*CONST[]);
 
   Tcl_Interp* m_Interpreter;
   ConversionTable* m_ConversionTable;

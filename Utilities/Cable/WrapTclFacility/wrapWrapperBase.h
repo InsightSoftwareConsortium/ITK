@@ -77,6 +77,9 @@ public:
   const Type* GetWrappedTypeRepresentation() const;
   
   Tcl_Interp* GetInterpreter() const;
+  
+  int ListMethods() const;
+  
   void CreateResultCommand(const String& name, const Type* type) const;
   void AddInstance(const String& name, void* object) const;
   String CreateTemporary(void* object, const CvQualifiedType&) const;
