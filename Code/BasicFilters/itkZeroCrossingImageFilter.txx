@@ -124,8 +124,8 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
   FixedArray<long, 2 * ImageDimension> offset;
 
   bit = ConstNeighborhoodIterator<InputImageType>(radius,
-                                                       input,
-                                                       *faceList.begin());
+                                                  input,
+                                                  *faceList.begin());
   //Set the offset of the neighbors to the center pixel.
   for ( i = 0 ; i < ImageDimension; i++)
     {
@@ -138,7 +138,7 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
   for (fit=faceList.begin(); fit != faceList.end(); ++fit)
     { 
     bit = ConstNeighborhoodIterator<InputImageType>(radius,
-                                                         input, *fit);
+                                                    input, *fit);
     it = ImageRegionIterator<OutputImageType>(output, *fit);
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();

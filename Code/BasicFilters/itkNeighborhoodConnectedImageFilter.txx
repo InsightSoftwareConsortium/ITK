@@ -68,7 +68,7 @@ NeighborhoodConnectedImageFilter<TInputImage,TOutputImage>
   if ( this->GetInput() )
     {
     InputImagePointer image =
-        const_cast< InputImageType * >( this->GetInput() );
+      const_cast< InputImageType * >( this->GetInput() );
     image->SetRequestedRegionToLargestPossibleRegion();
     }
 }
@@ -99,9 +99,9 @@ NeighborhoodConnectedImageFilter<TInputImage,TOutputImage>
   typedef FloodFilledImageFunctionConditionalIterator<OutputImageType, FunctionType> IteratorType;
 
   typename FunctionType::Pointer function = FunctionType::New();
-    function->SetInputImage ( inputImage );
-    function->ThresholdBetween ( m_Lower, m_Upper );
-    function->SetRadius (m_Radius);
+  function->SetInputImage ( inputImage );
+  function->ThresholdBetween ( m_Lower, m_Upper );
+  function->SetRadius (m_Radius);
   IteratorType it = IteratorType ( outputImage, function, m_Seeds );
 
   ProgressReporter progress( this, 0,

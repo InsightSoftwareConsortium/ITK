@@ -38,8 +38,8 @@ SparseFieldCityBlockNeighborList<TNeighborhoodType>
     
   for (i = 0; i < Dimension; ++i)
     {
-      m_Radius[i] = 1;
-      zero_offset[i] = 0;
+    m_Radius[i] = 1;
+    zero_offset[i] = 0;
     }
   NeighborhoodType it(m_Radius, dummy_image, dummy_image->GetRequestedRegion());
   nCenter = it.Size() / 2;
@@ -53,13 +53,13 @@ SparseFieldCityBlockNeighborList<TNeighborhoodType>
 
   for (d = Dimension - 1, i = 0; d >= 0; --d, ++i)
     {
-      m_ArrayIndex.push_back( nCenter - it.GetStride(d) );
-      m_NeighborhoodOffset[i][d] = -1;
+    m_ArrayIndex.push_back( nCenter - it.GetStride(d) );
+    m_NeighborhoodOffset[i][d] = -1;
     }
   for (d = 0; d < static_cast<int>(Dimension); ++d, ++i)
     {
-      m_ArrayIndex.push_back( nCenter + it.GetStride(d) );
-      m_NeighborhoodOffset[i][d] = 1;
+    m_ArrayIndex.push_back( nCenter + it.GetStride(d) );
+    m_NeighborhoodOffset[i][d] = 1;
     }
 
   for (i = 0; i < Dimension; ++i)
@@ -74,9 +74,9 @@ SparseFieldCityBlockNeighborList<TNeighborhoodType>
   os << "SparseFieldCityBlockNeighborList: " << std::endl;
   for (unsigned i = 0; i < this->GetSize(); ++i)
     {
-      os << "m_ArrayIndex[" << i << "]: " << m_ArrayIndex[i] << std::endl;
-      os << "m_NeighborhoodOffset[" << i << "]: " << m_NeighborhoodOffset[i]
-         << std::endl;
+    os << "m_ArrayIndex[" << i << "]: " << m_ArrayIndex[i] << std::endl;
+    os << "m_NeighborhoodOffset[" << i << "]: " << m_NeighborhoodOffset[i]
+       << std::endl;
     }
 }
 
@@ -88,19 +88,19 @@ template<class TInputImage, class TOutputImage>
 typename SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ValueType
 SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::m_ValueOne = NumericTraits<SparseFieldLevelSetImageFilter<TInputImage,
-                              TOutputImage>::ValueType >::One;
+                                                            TOutputImage>::ValueType >::One;
 
 template<class TInputImage, class TOutputImage>
 typename SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ValueType
 SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::m_ValueZero = NumericTraits<SparseFieldLevelSetImageFilter<TInputImage,
-                               TOutputImage>::ValueType >::Zero;
+                                                             TOutputImage>::ValueType >::Zero;
 
 template<class TInputImage, class TOutputImage>
 typename SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::StatusType
 SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::m_StatusNull = NumericTraits<SparseFieldLevelSetImageFilter<TInputImage,
-                               TOutputImage>::StatusType >::NonpositiveMin();
+                                                              TOutputImage>::StatusType >::NonpositiveMin();
 
 template<class TInputImage, class TOutputImage>
 typename SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::StatusType
@@ -148,8 +148,8 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   LayerPointerType DownList[2];
   for (i = 0; i < 2; ++i)
     {
-      UpList[i]   = LayerType::New();
-      DownList[i] = LayerType::New();
+    UpList[i]   = LayerType::New();
+    DownList[i] = LayerType::New();
     }
   
   // Process the active layer.  This step will update the values in the active
@@ -175,20 +175,20 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   k = 0;
   while( down_search < static_cast<StatusType>( m_Layers.size() ) )
     {
-      this->ProcessStatusList(UpList[j], UpList[k], up_to, up_search);
-      this->ProcessStatusList(DownList[j], DownList[k], down_to, down_search);
+    this->ProcessStatusList(UpList[j], UpList[k], up_to, up_search);
+    this->ProcessStatusList(DownList[j], DownList[k], down_to, down_search);
 
-      if (up_to == 0) up_to += 1;
-      else            up_to += 2;
-      down_to += 2;
+    if (up_to == 0) up_to += 1;
+    else            up_to += 2;
+    down_to += 2;
 
-      up_search   += 2;
-      down_search += 2;
+    up_search   += 2;
+    down_search += 2;
 
-      // Swap the lists so we can re-use the empty one.
-      t = j;
-      j = k;
-      k = t;      
+    // Swap the lists so we can re-use the empty one.
+    t = j;
+    j = k;
+    k = t;      
     }
 
   // Process the outermost inside/outside layers in the sparse field.
@@ -218,10 +218,10 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   // (ChangeToStatus) and update the status image value at that index.
   while ( ! OutsideList->Empty() )
     {
-      m_StatusImage->SetPixel(OutsideList->Front()->m_Value, ChangeToStatus); 
-      node = OutsideList->Front();
-      OutsideList->PopFront();
-      m_Layers[ChangeToStatus]->PushFront(node);
+    m_StatusImage->SetPixel(OutsideList->Front()->m_Value, ChangeToStatus); 
+    node = OutsideList->Front();
+    OutsideList->PopFront();
+    m_Layers[ChangeToStatus]->PushFront(node);
     }
 }
 
@@ -245,29 +245,29 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   // the output list (search for SearchForStatus).
   while ( ! InputList->Empty() )
     {
-      statusIt.SetLocation(InputList->Front()->m_Value);
-      statusIt.SetCenterPixel(ChangeToStatus);
+    statusIt.SetLocation(InputList->Front()->m_Value);
+    statusIt.SetCenterPixel(ChangeToStatus);
 
-      node = InputList->Front();  // Must unlink from the input list 
-      InputList->PopFront();      // _before_ transferring to another list.
-      m_Layers[ChangeToStatus]->PushFront(node);
+    node = InputList->Front();  // Must unlink from the input list 
+    InputList->PopFront();      // _before_ transferring to another list.
+    m_Layers[ChangeToStatus]->PushFront(node);
      
-      for (i = 0; i < m_NeighborList.GetSize(); ++i)
-        {
-          neighbor_status = statusIt.GetPixel(m_NeighborList.GetArrayIndex(i));
-          if (neighbor_status == SearchForStatus)
-            { // mark this pixel so we don't add it twice.
-              statusIt.SetPixel(m_NeighborList.GetArrayIndex(i),
-                                   m_StatusChanging, bounds_status);
-              if (bounds_status == true)
-                {
-                  node = m_LayerNodeStore->Borrow();
-                  node->m_Value = statusIt.GetIndex() +
-                              m_NeighborList.GetNeighborhoodOffset(i);
-                  OutputList->PushFront( node );
-                } // else this index was out of bounds.
-            }
+    for (i = 0; i < m_NeighborList.GetSize(); ++i)
+      {
+      neighbor_status = statusIt.GetPixel(m_NeighborList.GetArrayIndex(i));
+      if (neighbor_status == SearchForStatus)
+        { // mark this pixel so we don't add it twice.
+        statusIt.SetPixel(m_NeighborList.GetArrayIndex(i),
+                          m_StatusChanging, bounds_status);
+        if (bounds_status == true)
+          {
+          node = m_LayerNodeStore->Borrow();
+          node->m_Value = statusIt.GetIndex() +
+            m_NeighborList.GetNeighborhoodOffset(i);
+          OutputList->PushFront( node );
+          } // else this index was out of bounds.
         }
+      }
     }
 }
 
@@ -309,134 +309,134 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   updateIt = m_UpdateBuffer.begin();
   while (layerIt != m_Layers[0]->End() )
     {
-      outputIt.SetLocation(layerIt->m_Value);
-      statusIt.SetLocation(layerIt->m_Value);
+    outputIt.SetLocation(layerIt->m_Value);
+    statusIt.SetLocation(layerIt->m_Value);
 
-      //
-      //      new_value = dt * (*updateIt) + outputIt.GetCenterPixel();
-      //
+    //
+    //      new_value = dt * (*updateIt) + outputIt.GetCenterPixel();
+    //
       
-      new_value = this->CalculateUpdateValue(layerIt->m_Value,
-                                             dt,
-                                             outputIt.GetCenterPixel(),
-                                             *updateIt);
+    new_value = this->CalculateUpdateValue(layerIt->m_Value,
+                                           dt,
+                                           outputIt.GetCenterPixel(),
+                                           *updateIt);
 
-      // If this index needs to be moved to another layer, then search its
-      // neighborhood for indicies that need to be pulled up/down into the
-      // active layer. Set those new active layer values appropriately,
-      // checking first to make sure they have not been set by a more
-      // influential neighbor.
+    // If this index needs to be moved to another layer, then search its
+    // neighborhood for indicies that need to be pulled up/down into the
+    // active layer. Set those new active layer values appropriately,
+    // checking first to make sure they have not been set by a more
+    // influential neighbor.
 
-      //   ...But first make sure any neighbors in the active layer are not
-      // moving to a layer in the opposite direction.  This step is necessary
-      // to avoid the creation of holes in the active layer.  The fix is simply
-      // to not change this value and leave the index in the active set.
+    //   ...But first make sure any neighbors in the active layer are not
+    // moving to a layer in the opposite direction.  This step is necessary
+    // to avoid the creation of holes in the active layer.  The fix is simply
+    // to not change this value and leave the index in the active set.
 
-      if (new_value > UPPER_ACTIVE_THRESHOLD)
-        { // This index will move UP into a positive (outside) layer.
+    if (new_value > UPPER_ACTIVE_THRESHOLD)
+      { // This index will move UP into a positive (outside) layer.
 
-          // First check for active layer neighbors moving in the opposite
-          // direction.
-          flag = false;
-          for (i = 0; i < m_NeighborList.GetSize(); ++i)
-            {
-              if (statusIt.GetPixel(m_NeighborList.GetArrayIndex(i))
-                  == m_StatusActiveChangingDown)
-                {
-                  flag = true;
-                  break;
-                }
-            }
-          if (flag == true)
-            {
-              ++layerIt;
-              ++updateIt;
-              continue;
-            }
-
-          rms_change_accumulator += vnl_math_sqr(new_value - outputIt.GetCenterPixel());
-          outputIt.SetCenterPixel( new_value );
-
-          // Search the neighborhood for inside indicies.
-          for (i = 0; i < m_NeighborList.GetSize(); ++i)
-            {
-              idx = m_NeighborList.GetArrayIndex(i);
-              neighbor_status = statusIt.GetPixel( idx );
-              if (neighbor_status == 1)
-                {
-                  temp_value = new_value - m_ConstantGradientValue;
-                  if ( temp_value >  outputIt.GetPixel(idx) )
-                    {  outputIt.SetPixel(idx, temp_value, bounds_status); }
-                }
-            }
-          node = m_LayerNodeStore->Borrow();
-          node->m_Value = layerIt->m_Value;
-          UpList->PushFront(node);
-          statusIt.SetCenterPixel(m_StatusActiveChangingUp);
-
-          // Now remove this index from the active list.
-          release_node = layerIt.GetPointer();
-          ++layerIt;          
-          m_Layers[0]->Unlink(release_node);
-          m_LayerNodeStore->Return( release_node );
-        }
-
-      else if (new_value < LOWER_ACTIVE_THRESHOLD)
-        { // This index will move DOWN into a negative (inside) layer.
-
-          // First check for active layer neighbors moving in the opposite
-          // direction.
-          flag = false;
-          for (i = 0; i < m_NeighborList.GetSize(); ++i)
-            {
-              if (statusIt.GetPixel(m_NeighborList.GetArrayIndex(i))
-                  == m_StatusActiveChangingUp)
-                {
-                  flag = true;
-                  break;
-                }
-            }
-          if (flag == true)
-            {
-              ++layerIt;
-              ++updateIt;
-              continue;              
-            }
-          
-          rms_change_accumulator += vnl_math_sqr(new_value - outputIt.GetCenterPixel());
-          outputIt.SetCenterPixel( new_value );
-          
-          // Search the neighborhood for outside indicies.
-          for (i = 0; i < m_NeighborList.GetSize(); ++i)
-            {
-              idx = m_NeighborList.GetArrayIndex(i);
-              neighbor_status = statusIt.GetPixel( idx );
-              if (neighbor_status == 2)
-                {
-                  temp_value = new_value + m_ConstantGradientValue;
-                  if ( temp_value <  outputIt.GetPixel(idx) )
-                    {  outputIt.SetPixel(idx, temp_value, bounds_status); }
-                }
-            }
-          node = m_LayerNodeStore->Borrow();
-          node->m_Value = layerIt->m_Value;
-          DownList->PushFront(node);
-          statusIt.SetCenterPixel(m_StatusActiveChangingDown);
-
-          // Now remove this index from the active list.
-          release_node = layerIt.GetPointer();
-          ++layerIt;
-          m_Layers[0]->Unlink(release_node);
-          m_LayerNodeStore->Return( release_node );
-        }
-      else
+      // First check for active layer neighbors moving in the opposite
+      // direction.
+      flag = false;
+      for (i = 0; i < m_NeighborList.GetSize(); ++i)
         {
-          rms_change_accumulator += vnl_math_sqr(new_value - outputIt.GetCenterPixel());
-          outputIt.SetCenterPixel( new_value );
-          ++layerIt;
+        if (statusIt.GetPixel(m_NeighborList.GetArrayIndex(i))
+            == m_StatusActiveChangingDown)
+          {
+          flag = true;
+          break;
+          }
         }
-      ++updateIt;
-      ++counter;
+      if (flag == true)
+        {
+        ++layerIt;
+        ++updateIt;
+        continue;
+        }
+
+      rms_change_accumulator += vnl_math_sqr(new_value - outputIt.GetCenterPixel());
+      outputIt.SetCenterPixel( new_value );
+
+      // Search the neighborhood for inside indicies.
+      for (i = 0; i < m_NeighborList.GetSize(); ++i)
+        {
+        idx = m_NeighborList.GetArrayIndex(i);
+        neighbor_status = statusIt.GetPixel( idx );
+        if (neighbor_status == 1)
+          {
+          temp_value = new_value - m_ConstantGradientValue;
+          if ( temp_value >  outputIt.GetPixel(idx) )
+            {  outputIt.SetPixel(idx, temp_value, bounds_status); }
+          }
+        }
+      node = m_LayerNodeStore->Borrow();
+      node->m_Value = layerIt->m_Value;
+      UpList->PushFront(node);
+      statusIt.SetCenterPixel(m_StatusActiveChangingUp);
+
+      // Now remove this index from the active list.
+      release_node = layerIt.GetPointer();
+      ++layerIt;          
+      m_Layers[0]->Unlink(release_node);
+      m_LayerNodeStore->Return( release_node );
+      }
+
+    else if (new_value < LOWER_ACTIVE_THRESHOLD)
+      { // This index will move DOWN into a negative (inside) layer.
+
+      // First check for active layer neighbors moving in the opposite
+      // direction.
+      flag = false;
+      for (i = 0; i < m_NeighborList.GetSize(); ++i)
+        {
+        if (statusIt.GetPixel(m_NeighborList.GetArrayIndex(i))
+            == m_StatusActiveChangingUp)
+          {
+          flag = true;
+          break;
+          }
+        }
+      if (flag == true)
+        {
+        ++layerIt;
+        ++updateIt;
+        continue;              
+        }
+          
+      rms_change_accumulator += vnl_math_sqr(new_value - outputIt.GetCenterPixel());
+      outputIt.SetCenterPixel( new_value );
+          
+      // Search the neighborhood for outside indicies.
+      for (i = 0; i < m_NeighborList.GetSize(); ++i)
+        {
+        idx = m_NeighborList.GetArrayIndex(i);
+        neighbor_status = statusIt.GetPixel( idx );
+        if (neighbor_status == 2)
+          {
+          temp_value = new_value + m_ConstantGradientValue;
+          if ( temp_value <  outputIt.GetPixel(idx) )
+            {  outputIt.SetPixel(idx, temp_value, bounds_status); }
+          }
+        }
+      node = m_LayerNodeStore->Borrow();
+      node->m_Value = layerIt->m_Value;
+      DownList->PushFront(node);
+      statusIt.SetCenterPixel(m_StatusActiveChangingDown);
+
+      // Now remove this index from the active list.
+      release_node = layerIt.GetPointer();
+      ++layerIt;
+      m_Layers[0]->Unlink(release_node);
+      m_LayerNodeStore->Return( release_node );
+      }
+    else
+      {
+      rms_change_accumulator += vnl_math_sqr(new_value - outputIt.GetCenterPixel());
+      outputIt.SetCenterPixel( new_value );
+      ++layerIt;
+      }
+    ++updateIt;
+    ++counter;
     }
   
   // Determine the average change during this iteration.
@@ -444,7 +444,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
     { m_RMSChange = m_ValueZero; }
   else
     {
-      m_RMSChange = vcl_sqrt(rms_change_accumulator / static_cast<ValueType>(counter));
+    m_RMSChange = vcl_sqrt(rms_change_accumulator / static_cast<ValueType>(counter));
     }
 }
 
@@ -502,11 +502,11 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   // Erase all existing layer lists.
   for (i = 0; i < m_Layers.size(); ++i)
     {
-      while (! m_Layers[i]->Empty() )
-        {
-          m_LayerNodeStore->Return(m_Layers[i]->Front());
-          m_Layers[i]->PopFront();
-        }
+    while (! m_Layers[i]->Empty() )
+      {
+      m_LayerNodeStore->Return(m_Layers[i]->Front());
+      m_Layers[i]->PopFront();
+      }
     }
   
   // Allocate the layers for the sparse field.
@@ -515,19 +515,19 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 
   while ( m_Layers.size() < (2*m_NumberOfLayers+1) )
     {
-      m_Layers.push_back( LayerType::New() );
+    m_Layers.push_back( LayerType::New() );
     }
   
   // Throw an exception if we don't have enough layers.
   if (m_Layers.size() < 3)
     {
-      ExceptionObject e(__FILE__, __LINE__);
-      OStringStream msg;
-      msg << static_cast<const char *>(this->GetNameOfClass())
-          << "::Initialize()";
-      e.SetLocation(msg.str().c_str());
-      e.SetDescription("Not enough layers have been allocated for the sparse field.  Requires at least one layer.");
-      throw e;      
+    ExceptionObject e(__FILE__, __LINE__);
+    OStringStream msg;
+    msg << static_cast<const char *>(this->GetNameOfClass())
+        << "::Initialize()";
+    e.SetLocation(msg.str().c_str());
+    e.SetDescription("Not enough layers have been allocated for the sparse field.  Requires at least one layer.");
+    throw e;      
     }
   
   // Construct the active layer and initialize the first layers inside and
@@ -549,7 +549,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   // and negative values, respectively.  This is not necessary for the
   // calculations, but is useful for presenting a more intuitive output to the
   // filter.  See PostProcessOutput method for more information.
- this->InitializeBackgroundPixels();
+  this->InitializeBackgroundPixels();
 }
 
 template <class TInputImage, class TOutputImage>
@@ -567,29 +567,29 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   const ValueType outside_value = -(max_layer + m_ConstantGradientValue);
   
   ImageRegionConstIterator<StatusImageType> statusIt(m_StatusImage,
-                         this->GetOutput()->GetRequestedRegion());
+                                                     this->GetOutput()->GetRequestedRegion());
 
   ImageRegionIterator<OutputImageType> outputIt(this->GetOutput(),
-                         this->GetOutput()->GetRequestedRegion());
+                                                this->GetOutput()->GetRequestedRegion());
 
   ImageRegionConstIterator<OutputImageType> shiftedIt(m_ShiftedImage,
-                         this->GetOutput()->GetRequestedRegion());
+                                                      this->GetOutput()->GetRequestedRegion());
   
   for (outputIt = outputIt.Begin(), statusIt = statusIt.Begin(),
          shiftedIt = shiftedIt.Begin();
        ! outputIt.IsAtEnd(); ++outputIt, ++statusIt, ++shiftedIt)
     {
-      if (statusIt.Get() == m_StatusNull)
+    if (statusIt.Get() == m_StatusNull)
+      {
+      if (shiftedIt.Get() > m_ValueZero)
         {
-          if (shiftedIt.Get() > m_ValueZero)
-            {
-              outputIt.Set(inside_value);
-            }
-          else
-            {
-              outputIt.Set(outside_value);
-            }
+        outputIt.Set(inside_value);
         }
+      else
+        {
+        outputIt.Set(outside_value);
+        }
+      }
     }
   
 };
@@ -623,51 +623,51 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 
   for (outputIt.GoToBegin(); !outputIt.IsAtEnd(); ++outputIt)
     {
-      if ( outputIt.GetCenterPixel() == m_ValueZero )
+    if ( outputIt.GetCenterPixel() == m_ValueZero )
+      {
+      // Grab the neighborhood in the status image.
+      center_index = outputIt.GetIndex();
+      statusIt.SetLocation( center_index );
+          
+      // Borrow a node from the store and set its value.
+      node = m_LayerNodeStore->Borrow();
+      node->m_Value = center_index;
+
+      // Add the node to the active list and set the status in the status
+      // image.
+      m_Layers[0]->PushFront( node );
+      statusIt.SetCenterPixel( 0 );
+
+      // Grab the neighborhood in the image of shifted input values.
+      shiftedIt.SetLocation( center_index );
+          
+      // Search the neighborhood pixels for first inside & outside layer
+      // members.  Construct these lists and set status list values. 
+      for (i = 0; i < m_NeighborList.GetSize(); ++i)
         {
-          // Grab the neighborhood in the status image.
-          center_index = outputIt.GetIndex();
-          statusIt.SetLocation( center_index );
-          
-          // Borrow a node from the store and set its value.
-          node = m_LayerNodeStore->Borrow();
-          node->m_Value = center_index;
+        offset_index = center_index
+          + m_NeighborList.GetNeighborhoodOffset(i);
 
-          // Add the node to the active list and set the status in the status
-          // image.
-          m_Layers[0]->PushFront( node );
-          statusIt.SetCenterPixel( 0 );
+        if ( outputIt.GetPixel(m_NeighborList.GetArrayIndex(i)) != m_ValueZero)
+          {
+          value = shiftedIt.GetPixel(m_NeighborList.GetArrayIndex(i));
 
-          // Grab the neighborhood in the image of shifted input values.
-          shiftedIt.SetLocation( center_index );
-          
-          // Search the neighborhood pixels for first inside & outside layer
-          // members.  Construct these lists and set status list values. 
-          for (i = 0; i < m_NeighborList.GetSize(); ++i)
-            {
-              offset_index = center_index
-                             + m_NeighborList.GetNeighborhoodOffset(i);
-
-              if ( outputIt.GetPixel(m_NeighborList.GetArrayIndex(i)) != m_ValueZero)
-                {
-                  value = shiftedIt.GetPixel(m_NeighborList.GetArrayIndex(i));
-
-                  if ( value < m_ValueZero ) // Assign to first inside layer.
-                    { layer_number = 1; }
-                  else // Assign to first outside layer
-                    { layer_number = 2; }
+          if ( value < m_ValueZero ) // Assign to first inside layer.
+            { layer_number = 1; }
+          else // Assign to first outside layer
+            { layer_number = 2; }
                   
-                  statusIt.SetPixel( m_NeighborList.GetArrayIndex(i),
-                                     layer_number, bounds_status );
-                  if ( bounds_status == true ) // In bounds.
-                    {
-                      node = m_LayerNodeStore->Borrow();
-                      node->m_Value = offset_index;
-                      m_Layers[layer_number]->PushFront( node );
-                    } // else do nothing.
-                }
-            }
+          statusIt.SetPixel( m_NeighborList.GetArrayIndex(i),
+                             layer_number, bounds_status );
+          if ( bounds_status == true ) // In bounds.
+            {
+            node = m_LayerNodeStore->Borrow();
+            node->m_Value = offset_index;
+            m_Layers[layer_number]->PushFront( node );
+            } // else do nothing.
+          }
         }
+      }
     }
 }
 
@@ -688,27 +688,27 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   for (fromIt = m_Layers[from]->Begin();
        fromIt != m_Layers[from]->End();  ++fromIt)
     {
-      // Search the neighborhood of this index in the status image for
-      // unassigned indicies. Push those indicies onto the "to" layer and
-      // assign them values in the status image.  Status pixels outside the
-      // boundary will be ignored.
-      statusIt.SetLocation( fromIt->m_Value );
-      for (i = 0; i < m_NeighborList.GetSize(); ++i)
+    // Search the neighborhood of this index in the status image for
+    // unassigned indicies. Push those indicies onto the "to" layer and
+    // assign them values in the status image.  Status pixels outside the
+    // boundary will be ignored.
+    statusIt.SetLocation( fromIt->m_Value );
+    for (i = 0; i < m_NeighborList.GetSize(); ++i)
+      {
+      if ( statusIt.GetPixel( m_NeighborList.GetArrayIndex(i) )
+           == m_StatusNull )
         {
-          if ( statusIt.GetPixel( m_NeighborList.GetArrayIndex(i) )
-               == m_StatusNull )
-            {
-              statusIt.SetPixel(m_NeighborList.GetArrayIndex(i), to,
-                                boundary_status);
-              if (boundary_status == true) // in bounds
-                {
-                  node = m_LayerNodeStore->Borrow();
-                  node->m_Value = statusIt.GetIndex()
-                    + m_NeighborList.GetNeighborhoodOffset(i);
-                  m_Layers[to]->PushFront( node );
-                }
-            }
+        statusIt.SetPixel(m_NeighborList.GetArrayIndex(i), to,
+                          boundary_status);
+        if (boundary_status == true) // in bounds
+          {
+          node = m_LayerNodeStore->Borrow();
+          node->m_Value = statusIt.GetIndex()
+            + m_NeighborList.GetNeighborhoodOffset(i);
+          m_Layers[to]->PushFront( node );
+          }
         }
+      }
     }
 }
 
@@ -735,28 +735,28 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   for (activeIt = m_Layers[0]->Begin();
        activeIt != m_Layers[0]->End(); ++activeIt)
     {
-      // Interpolate on the (shifted) input image values at this index to
-      // assign an active layer value in the output image.
-      shiftedIt.SetLocation( activeIt->m_Value );
+    // Interpolate on the (shifted) input image values at this index to
+    // assign an active layer value in the output image.
+    shiftedIt.SetLocation( activeIt->m_Value );
 
-      length = m_ValueZero;
-      for (i = 0; i < ImageDimension; ++i)
-        {
-          dx_forward = shiftedIt.GetPixel(center + m_NeighborList.GetStride(i))
-            - shiftedIt.GetCenterPixel();
-          dx_backward = shiftedIt.GetCenterPixel()
-            - shiftedIt.GetPixel(center - m_NeighborList.GetStride(i));
+    length = m_ValueZero;
+    for (i = 0; i < ImageDimension; ++i)
+      {
+      dx_forward = shiftedIt.GetPixel(center + m_NeighborList.GetStride(i))
+        - shiftedIt.GetCenterPixel();
+      dx_backward = shiftedIt.GetCenterPixel()
+        - shiftedIt.GetPixel(center - m_NeighborList.GetStride(i));
 
-          if ( vnl_math_abs(dx_forward) > vnl_math_abs(dx_backward) )
-            { length += dx_forward * dx_forward;         }
-          else
-            { length += dx_backward * dx_backward;       }
-        }
-      length = vcl_sqrt(length) + MIN_NORM;
-      distance = shiftedIt.GetCenterPixel() / length;
+      if ( vnl_math_abs(dx_forward) > vnl_math_abs(dx_backward) )
+        { length += dx_forward * dx_forward;         }
+      else
+        { length += dx_backward * dx_backward;       }
+      }
+    length = vcl_sqrt(length) + MIN_NORM;
+    distance = shiftedIt.GetCenterPixel() / length;
 
-      output->SetPixel( activeIt->m_Value , 
-          vnl_math_min(vnl_math_max(-CHANGE_FACTOR, distance), CHANGE_FACTOR) );
+    output->SetPixel( activeIt->m_Value , 
+                      vnl_math_min(vnl_math_max(-CHANGE_FACTOR, distance), CHANGE_FACTOR) );
     }
   
 }
@@ -792,7 +792,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   
   typename LayerType::ConstIterator layerIt;
   NeighborhoodIterator<OutputImageType> outputIt(df->GetRadius(),
-                this->GetOutput(), this->GetOutput()->GetRequestedRegion());
+                                                 this->GetOutput(), this->GetOutput()->GetRequestedRegion());
   TimeStepType timeStep;
   center = outputIt.Size() /2;
   
@@ -805,49 +805,49 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   // index.  Update values are stored in the update buffer.
   for (layerIt = m_Layers[0]->Begin(); layerIt != m_Layers[0]->End(); ++layerIt)
     {
-      outputIt.SetLocation(layerIt->m_Value);
+    outputIt.SetLocation(layerIt->m_Value);
 
-      // Calculate the offset to the surface from the center of this
-      // neighborhood.  This is used by some level set functions in sampling a
-      // speed, advection, or curvature term.
-      if (this->m_InterpolateSurfaceLocation)
+    // Calculate the offset to the surface from the center of this
+    // neighborhood.  This is used by some level set functions in sampling a
+    // speed, advection, or curvature term.
+    if (this->m_InterpolateSurfaceLocation)
+      {
+      // Surface is at the zero crossing, so distance to surface is:
+      // phi(x) / norm(grad(phi)), where phi(x) is the center of the
+      // neighborhood.  The location is therefore
+      // (i,j,k) + ( phi(x) * grad(phi(x)) ) / norm(grad(phi))^2           
+      norm_grad_phi_squared = 0.0;
+      for (i = 0; i < ImageDimension; ++i)
         {
-          // Surface is at the zero crossing, so distance to surface is:
-          // phi(x) / norm(grad(phi)), where phi(x) is the center of the
-          // neighborhood.  The location is therefore
-          // (i,j,k) + ( phi(x) * grad(phi(x)) ) / norm(grad(phi))^2           
-          norm_grad_phi_squared = 0.0;
-          for (i = 0; i < ImageDimension; ++i)
-            {
-              dx_forward = outputIt.GetPixel(center + m_NeighborList.GetStride(i))
-                - outputIt.GetCenterPixel();
-              dx_backward = outputIt.GetCenterPixel()
-                - outputIt.GetPixel(center - m_NeighborList.GetStride(i));
+        dx_forward = outputIt.GetPixel(center + m_NeighborList.GetStride(i))
+          - outputIt.GetCenterPixel();
+        dx_backward = outputIt.GetCenterPixel()
+          - outputIt.GetPixel(center - m_NeighborList.GetStride(i));
               
-              if (::vnl_math_abs(dx_forward) > ::vnl_math_abs(dx_backward) )
-                {
-                  offset[i] = dx_forward;
-                }
-              else
-                {
-                  offset[i] = dx_backward;
-                }
+        if (::vnl_math_abs(dx_forward) > ::vnl_math_abs(dx_backward) )
+          {
+          offset[i] = dx_forward;
+          }
+        else
+          {
+          offset[i] = dx_backward;
+          }
 
-              norm_grad_phi_squared += offset[i] * offset[i];
-            }
-
-          for (i = 0; i < ImageDimension; ++i)
-            {
-              offset[i] = ( offset[i] * outputIt.GetCenterPixel() )
-                                                    / (norm_grad_phi_squared + MIN_NORM);
-            }
-          
-          m_UpdateBuffer.push_back( df->ComputeUpdate(outputIt, globalData, offset) );
+        norm_grad_phi_squared += offset[i] * offset[i];
         }
-      else // Don't do interpolation
+
+      for (i = 0; i < ImageDimension; ++i)
         {
-          m_UpdateBuffer.push_back( df->ComputeUpdate(outputIt, globalData) );
+        offset[i] = ( offset[i] * outputIt.GetCenterPixel() )
+          / (norm_grad_phi_squared + MIN_NORM);
         }
+          
+      m_UpdateBuffer.push_back( df->ComputeUpdate(outputIt, globalData, offset) );
+      }
+    else // Don't do interpolation
+      {
+      m_UpdateBuffer.push_back( df->ComputeUpdate(outputIt, globalData) );
+      }
     }
   
   // Ask the finite difference function to compute the time step for
@@ -907,64 +907,64 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   toIt  = m_Layers[to]->Begin();
   while ( toIt != m_Layers[to]->End() )
     {
-      statusIt.SetLocation( toIt->m_Value );
+    statusIt.SetLocation( toIt->m_Value );
 
-      // Is this index marked for deletion? If the status image has
-      // been marked with another layer's value, we need to delete this node
-      // from the current list then skip to the next iteration.
-      if (statusIt.GetCenterPixel() != to)
-        {
-          node = toIt.GetPointer();
-          ++toIt;
-          m_Layers[to]->Unlink( node );
-          m_LayerNodeStore->Return( node );
-          continue;
-        }
+    // Is this index marked for deletion? If the status image has
+    // been marked with another layer's value, we need to delete this node
+    // from the current list then skip to the next iteration.
+    if (statusIt.GetCenterPixel() != to)
+      {
+      node = toIt.GetPointer();
+      ++toIt;
+      m_Layers[to]->Unlink( node );
+      m_LayerNodeStore->Return( node );
+      continue;
+      }
       
-      outputIt.SetLocation( toIt->m_Value );
+    outputIt.SetLocation( toIt->m_Value );
 
-      value = m_ValueZero;
-      found_neighbor_flag = false;
-      for (i = 0; i < m_NeighborList.GetSize(); ++i)
+    value = m_ValueZero;
+    found_neighbor_flag = false;
+    for (i = 0; i < m_NeighborList.GetSize(); ++i)
+      {
+      // If this neighbor is in the "from" list, compare its absolute value
+      // to to any previous values found in the "from" list.  Keep only the
+      // value with the greatest magnitude.
+      if ( statusIt.GetPixel( m_NeighborList.GetArrayIndex(i) ) == from )
         {
-          // If this neighbor is in the "from" list, compare its absolute value
-          // to to any previous values found in the "from" list.  Keep only the
-          // value with the greatest magnitude.
-          if ( statusIt.GetPixel( m_NeighborList.GetArrayIndex(i) ) == from )
-            {
-              found_neighbor_flag = true;
-              value_temp = outputIt.GetPixel( m_NeighborList.GetArrayIndex(i) );
-              if ( ::vnl_math_abs(value_temp) > ::vnl_math_abs(value) )
-                { value = value_temp; }
-            }
+        found_neighbor_flag = true;
+        value_temp = outputIt.GetPixel( m_NeighborList.GetArrayIndex(i) );
+        if ( ::vnl_math_abs(value_temp) > ::vnl_math_abs(value) )
+          { value = value_temp; }
         }
-      if (found_neighbor_flag == true)
+      }
+    if (found_neighbor_flag == true)
+      {
+      // Set the new value using the largest magnitude
+      // found in our "from" neighbors.
+      outputIt.SetCenterPixel( value + delta );
+      ++toIt;
+      }
+    else
+      {
+      // Did not find any neighbors on the "from" list, then promote this
+      // node.  A "promote" value past the end of my sparse field size
+      // means delete the node instead.  Change the status value in the
+      // status image accordingly.
+      node  = toIt.GetPointer();
+      ++toIt;
+      m_Layers[to]->Unlink( node );
+      if ( promote > past_end )
         {
-          // Set the new value using the largest magnitude
-          // found in our "from" neighbors.
-          outputIt.SetCenterPixel( value + delta );
-          ++toIt;
+        m_LayerNodeStore->Return( node );
+        statusIt.SetCenterPixel(m_StatusNull);
         }
       else
         {
-          // Did not find any neighbors on the "from" list, then promote this
-          // node.  A "promote" value past the end of my sparse field size
-          // means delete the node instead.  Change the status value in the
-          // status image accordingly.
-          node  = toIt.GetPointer();
-          ++toIt;
-          m_Layers[to]->Unlink( node );
-          if ( promote > past_end )
-            {
-              m_LayerNodeStore->Return( node );
-              statusIt.SetCenterPixel(m_StatusNull);
-            }
-          else
-            {
-              m_Layers[promote]->PushFront( node );
-              statusIt.SetCenterPixel(promote);
-            }
+        m_Layers[promote]->PushFront( node );
+        statusIt.SetCenterPixel(promote);
         }
+      }
     }
 }
 
@@ -985,25 +985,25 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 
   
   ImageRegionConstIterator<StatusImageType> statusIt(m_StatusImage,
-                                this->GetOutput()->GetRequestedRegion());
+                                                     this->GetOutput()->GetRequestedRegion());
 
   ImageRegionIterator<OutputImageType> outputIt(this->GetOutput(),
-                         this->GetOutput()->GetRequestedRegion());
+                                                this->GetOutput()->GetRequestedRegion());
 
   for (outputIt = outputIt.Begin(), statusIt = statusIt.Begin();
        ! outputIt.IsAtEnd(); ++outputIt, ++statusIt)
     {
-      if (statusIt.Get() == m_StatusNull)
+    if (statusIt.Get() == m_StatusNull)
+      {
+      if (outputIt.Get() > m_ValueZero)
         {
-          if (outputIt.Get() > m_ValueZero)
-            {
-              outputIt.Set(inside_value);
-            }
-          else
-            {
-              outputIt.Set(outside_value);
-            }
+        outputIt.Set(inside_value);
         }
+      else
+        {
+        outputIt.Set(outside_value);
+        }
+      }
     }
 }
 
@@ -1021,9 +1021,9 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   os << indent << "m_LayerNodeStore: " << m_LayerNodeStore;
   for (i=0; i < m_Layers.size(); i++)
     {
-      os << indent << "m_Layers[" << i << "]: size="
-         << m_Layers[i]->Size() << std::endl;
-      os << indent << m_Layers[i];
+    os << indent << "m_Layers[" << i << "]: size="
+       << m_Layers[i]->Size() << std::endl;
+    os << indent << m_Layers[i];
     }
   os << indent << "m_UpdateBuffer: size=" << static_cast<unsigned long>(m_UpdateBuffer.size())
      << " capacity=" << static_cast<unsigned long>( m_UpdateBuffer.capacity()) << std::endl;

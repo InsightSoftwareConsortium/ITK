@@ -119,7 +119,7 @@ VectorNeighborhoodOperatorImageFilter<TInputImage, TOutputImage>
     { 
     bit =
       ConstNeighborhoodIterator<InputImageType>(m_Operator.GetRadius(),
-                                                     input, *fit);
+                                                input, *fit);
     it = ImageRegionIterator<OutputImageType>(output, *fit);
     bit.GoToBegin();
     while ( ! bit.IsAtEnd() )
@@ -129,7 +129,7 @@ VectorNeighborhoodOperatorImageFilter<TInputImage, TOutputImage>
       ++it;
       progress.CompletedPixel();
       }
-   }
+    }
 }
 
 } // end namespace itk

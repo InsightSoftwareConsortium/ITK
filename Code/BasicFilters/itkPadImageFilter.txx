@@ -53,22 +53,22 @@ PadImageFilter<TInputImage,TOutputImage>
 
   if (ImageDimension >= 1) 
     {
-      os << m_PadLowerBound[0];
+    os << m_PadLowerBound[0];
     }
   for( unsigned int j = 1; j < ImageDimension; j++ )
     {
-      os << ", " << m_PadLowerBound[j];
+    os << ", " << m_PadLowerBound[j];
     } 
   os << "]" << std::endl;
 
   os << indent << "Output Pad Upper Bounds: [";
   if (ImageDimension >= 1) 
     {
-      os << m_PadUpperBound[0];
+    os << m_PadUpperBound[0];
     }
   for( unsigned int j = 1; j < ImageDimension; j++ )
     {
-      os << ", " << m_PadUpperBound[j];
+    os << ", " << m_PadUpperBound[j];
     } 
   os << "]" << std::endl;
 }
@@ -99,7 +99,7 @@ PadImageFilter<TInputImage,TOutputImage>
 
   if ( !inputPtr || !outputPtr )
     {
-      return;
+    return;
     }
 
   // we need to compute the input requested region (size and start index)
@@ -118,42 +118,42 @@ PadImageFilter<TInputImage,TOutputImage>
   
   for (i = 0; i < TInputImage::ImageDimension; i++)
     {
-      if (outputRequestedRegionStartIndex[i] <= inputWholeRegionStartIndex[i]) 
-  {
-    inputRequestedRegionStartIndex[i] = inputWholeRegionStartIndex[i];
-  }
-      else
-  {
-    inputRequestedRegionStartIndex[i] = 
-      outputRequestedRegionStartIndex[i];
-  }
+    if (outputRequestedRegionStartIndex[i] <= inputWholeRegionStartIndex[i]) 
+      {
+      inputRequestedRegionStartIndex[i] = inputWholeRegionStartIndex[i];
+      }
+    else
+      {
+      inputRequestedRegionStartIndex[i] = 
+        outputRequestedRegionStartIndex[i];
+      }
 
-      if ((inputWholeRegionStartIndex[i]+static_cast<long>(inputWholeRegionSize[i])) <= 
-    (outputRequestedRegionStartIndex[i]+static_cast<long>(outputRequestedRegionSize[i])))
-  {
-    sizeTemp = static_cast<long>(inputWholeRegionSize[i]) 
-      + inputWholeRegionStartIndex[i] - inputRequestedRegionStartIndex[i];
-  }
-      else
-  {
-    sizeTemp = static_cast<long>(outputRequestedRegionSize[i])
-      + outputRequestedRegionStartIndex[i] - inputRequestedRegionStartIndex[i];
-  }
+    if ((inputWholeRegionStartIndex[i]+static_cast<long>(inputWholeRegionSize[i])) <= 
+        (outputRequestedRegionStartIndex[i]+static_cast<long>(outputRequestedRegionSize[i])))
+      {
+      sizeTemp = static_cast<long>(inputWholeRegionSize[i]) 
+        + inputWholeRegionStartIndex[i] - inputRequestedRegionStartIndex[i];
+      }
+    else
+      {
+      sizeTemp = static_cast<long>(outputRequestedRegionSize[i])
+        + outputRequestedRegionStartIndex[i] - inputRequestedRegionStartIndex[i];
+      }
 
-      //
-      // The previous statements correctly handle overlapped regions where
-      // at least some of the pixels from the input image end up reflected 
-      // in the output.  When there is no overlap, the size will be negative.
-      // In that case we arbitrarily pick the start of the input region
-      // as the start of the output region and zero for the size.
-      // 
-      if (sizeTemp < 0) 
-  {
-    inputRequestedRegionSize[i] = 0;
-    inputRequestedRegionStartIndex[i] = inputWholeRegionStartIndex[i];
-  } else {
-    inputRequestedRegionSize[i] = sizeTemp;
-  }
+    //
+    // The previous statements correctly handle overlapped regions where
+    // at least some of the pixels from the input image end up reflected 
+    // in the output.  When there is no overlap, the size will be negative.
+    // In that case we arbitrarily pick the start of the input region
+    // as the start of the output region and zero for the size.
+    // 
+    if (sizeTemp < 0) 
+      {
+      inputRequestedRegionSize[i] = 0;
+      inputRequestedRegionStartIndex[i] = inputWholeRegionStartIndex[i];
+      } else {
+      inputRequestedRegionSize[i] = sizeTemp;
+      }
 
     }
 
@@ -204,8 +204,8 @@ PadImageFilter<TInputImage,TOutputImage>
 
   for (i = 0; i < TOutputImage::ImageDimension; i++)
     {
-      outputSize[i] = static_cast<long>(inputSize[i]) + m_PadLowerBound[i] + m_PadUpperBound [i];
-      outputStartIndex[i] = inputStartIndex[i] - static_cast<long>(m_PadLowerBound[i]);
+    outputSize[i] = static_cast<long>(inputSize[i]) + m_PadLowerBound[i] + m_PadUpperBound [i];
+    outputStartIndex[i] = inputStartIndex[i] - static_cast<long>(m_PadLowerBound[i]);
     }
 
   typename TOutputImage::RegionType outputLargestPossibleRegion;

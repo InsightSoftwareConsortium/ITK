@@ -202,7 +202,7 @@ GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>
   // pixelwise casting until the final output image is configured.
   typename GrayscaleGeodesicDilateImageFilter<TInputImage, TInputImage>::Pointer
     singleIteration
-         = GrayscaleGeodesicDilateImageFilter<TInputImage, TInputImage>::New();
+    = GrayscaleGeodesicDilateImageFilter<TInputImage, TInputImage>::New();
   bool done = false;
 
   // set up the singleIteration filter. we are not using the grafting
@@ -340,7 +340,7 @@ GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>
   for (fit = faceList.begin(); fit != faceList.end(); ++fit)
     { 
     NeighborhoodIteratorType markerIt = NeighborhoodIteratorType(kernelRadius,
-                                        this->GetMarkerImage(), *fit);
+                                                                 this->GetMarkerImage(), *fit);
     maskIt=ImageRegionConstIterator<MaskImageType>(this->GetMaskImage(), *fit);
     oIt = ImageRegionIterator<OutputImageType>(this->GetOutput(), *fit);
 

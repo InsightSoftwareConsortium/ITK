@@ -39,7 +39,7 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
   m_SplineOrder = 0;
   unsigned int SplineOrder = 3;
   m_CoefficientFilter = CoefficientFilter::New();
-  //***TODO: Should we store coefficients in a variable or retrieve from filter?
+  // ***TODO: Should we store coefficients in a variable or retrieve from filter?
   m_Coefficients = CoefficientImageType::New();
   this->SetSplineOrder(SplineOrder);
 }
@@ -51,8 +51,8 @@ template <class TImageType, class TCoordRep, class TCoefficientType>
 void
 BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
 ::PrintSelf(
-std::ostream& os, 
-Indent indent) const
+  std::ostream& os, 
+  Indent indent) const
 {
   Superclass::PrintSelf( os, indent );
   os << indent << "Spline Order: " << m_SplineOrder << std::endl;
@@ -141,9 +141,9 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
       w *= weights[n][ m_PointsToIndex[p][n] ];
       coefficientIndex[n] = EvaluateIndex[n][m_PointsToIndex[p][n]];  // Build up ND index for coefficients.
       }
-      // Convert our step p to the appropriate point in ND space in the
-      // m_Coefficients cube.
-      interpolated += w * m_Coefficients->GetPixel(coefficientIndex);
+    // Convert our step p to the appropriate point in ND space in the
+    // m_Coefficients cube.
+    interpolated += w * m_Coefficients->GetPixel(coefficientIndex);
     }
     
 /*  double interpolated = 0.0;
@@ -231,7 +231,7 @@ template <class TImageType, class TCoordRep, class TCoefficientType>
 void 
 BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
 ::SetInterpolationWeights( const ContinuousIndexType & x, const vnl_matrix<long> & EvaluateIndex, 
-                          vnl_matrix<double> & weights, unsigned int splineOrder ) const
+                           vnl_matrix<double> & weights, unsigned int splineOrder ) const
 {
   // For speed improvements we could make each case a separate function and use
   // function pointers to reference the correct weight order.
@@ -329,7 +329,7 @@ template <class TImageType, class TCoordRep, class TCoefficientType>
 void 
 BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
 ::SetDerivativeWeights( const ContinuousIndexType & x, const vnl_matrix<long> & EvaluateIndex, 
-                          vnl_matrix<double> & weights, unsigned int splineOrder ) const
+                        vnl_matrix<double> & weights, unsigned int splineOrder ) const
 {
   // For speed improvements we could make each case a separate function and use
   // function pointers to reference the correct weight order.
@@ -356,7 +356,7 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
         weights[n][0] = -1.0;
         weights[n][1] =  1.0;
         }
-    break;
+      break;
     case 1:
       for (unsigned int n = 0; n < ImageDimension; n++)
         {
@@ -401,7 +401,7 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
         weights[n][4] = w4;
         }
       break;
-      case 4:
+    case 4:
       for (unsigned int n = 0; n < ImageDimension; n++)
         {
         w = x[n] + .5 - (double)EvaluateIndex[n][3];
@@ -443,13 +443,13 @@ template <class TImageType, class TCoordRep, class TCoefficientType>
 void
 BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
 ::GeneratePointsToIndex( )
-  {
+{
   // m_PointsToIndex is used to convert a sequential location to an N-dimension
   // index vector.  This is precomputed to save time during the interpolation routine.
   m_PointsToIndex.resize(m_MaxNumberInterpolationPoints);
-    for (unsigned int p = 0; p < m_MaxNumberInterpolationPoints; p++)
-      {
-      int pp = p;
+  for (unsigned int p = 0; p < m_MaxNumberInterpolationPoints; p++)
+    {
+    int pp = p;
     unsigned long indexFactor[ImageDimension];
     indexFactor[0] = 1;
     for (int j=1; j< static_cast<int>(ImageDimension); j++)
@@ -462,14 +462,14 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
       pp = pp % indexFactor[j];
       }
     }
-  }
+}
 
 template <class TImageType, class TCoordRep, class TCoefficientType>
 void
 BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
 ::DetermineRegionOfSupport( vnl_matrix<long> & evaluateIndex, 
-                           const ContinuousIndexType & x, 
-                           unsigned int splineOrder ) const
+                            const ContinuousIndexType & x, 
+                            unsigned int splineOrder ) const
 { 
   long indx;
 
@@ -516,7 +516,7 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
       }
     else
       {
-        for (unsigned int k = 0; k <= splineOrder; k++)
+      for (unsigned int k = 0; k <= splineOrder; k++)
         {
         // btw - Think about this couldn't this be replaced with a more elagent modulus method?
         evaluateIndex[n][k] = (evaluateIndex[n][k] < 0L) ? (-evaluateIndex[n][k] - dataLength2 * ((-evaluateIndex[n][k]) / dataLength2))

@@ -50,7 +50,7 @@ WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
     DefaultInterpolatorType::New();
 
   m_Interpolator = 
-      static_cast<InterpolatorType*>( interp.GetPointer() );
+    static_cast<InterpolatorType*>( interp.GetPointer() );
 
 }
 
@@ -98,7 +98,7 @@ template <class TInputImage,class TOutputImage,class TDeformationField>
 void
 WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
 ::SetOutputSpacing(
-const double spacing[ImageDimension] )
+  const double spacing[ImageDimension] )
 {
 
   unsigned int j; 
@@ -129,7 +129,7 @@ template <class TInputImage,class TOutputImage,class TDeformationField>
 void
 WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
 ::SetOutputOrigin(
-const double origin[ImageDimension] )
+  const double origin[ImageDimension] )
 {
 
   unsigned int j; 
@@ -160,7 +160,7 @@ template <class TInputImage,class TOutputImage,class TDeformationField>
 void
 WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
 ::SetDeformationField(
-DeformationFieldType * field )
+  DeformationFieldType * field )
 {
   this->ProcessObject::SetNthInput( 1, field );
 }
@@ -210,8 +210,8 @@ template <class TInputImage,class TOutputImage,class TDeformationField>
 void
 WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
 ::ThreadedGenerateData(
-const OutputImageRegionType& outputRegionForThread,
-int threadId )
+  const OutputImageRegionType& outputRegionForThread,
+  int threadId )
 {
 
   InputImageConstPointer inputPtr = this->GetInput();
@@ -252,7 +252,7 @@ int threadId )
     if( m_Interpolator->IsInsideBuffer( point ) )
       {
       PixelType value = static_cast<PixelType>( 
-          m_Interpolator->Evaluate( point ) );
+        m_Interpolator->Evaluate( point ) );
       outputIt.Set( value );
       }
     else
@@ -314,7 +314,7 @@ WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
   if( fieldPtr )
     {
     outputPtr->SetLargestPossibleRegion( fieldPtr->
-      GetLargestPossibleRegion() );
+                                         GetLargestPossibleRegion() );
     }
 
 }

@@ -97,9 +97,9 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
   ImageRegionConstIterator<TInputImage> iRegIter;
   ImageRegionIterator<TOutputImage> oRegIter;
   iRegIter = ImageRegionConstIterator<InputImageType>(this->GetInput(),
-                                                    outputRegionForThread);
+                                                      outputRegionForThread);
   oRegIter = ImageRegionIterator<OutputImageType>(this->GetOutput(),
-                                                    outputRegionForThread);
+                                                  outputRegionForThread);
   /* Copy the input image to the output image - then only boundary pixels
    * need to be changed in the output image */
   iRegIter.GoToBegin();
@@ -117,12 +117,12 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 
   // Find the boundary "faces"
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>
-                                ::FaceListType faceList;
+    ::FaceListType faceList;
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType> fC;
   faceList = fC(this->GetInput(), outputRegionForThread, m_Kernel.GetRadius());
 
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>
-                                ::FaceListType::iterator fit;
+    ::FaceListType::iterator fit;
 
   // Setup the kernel that spans the immediate neighbors of the current
   // input pixel - used to determine if that pixel abuts a non-object
@@ -169,10 +169,10 @@ template<class TInputImage, class TOutputImage, class TKernel>
 bool
 ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 ::IsObjectPixelOnBoundary(const InputNeighborhoodIteratorType &iNIter)
-  {
+{
   static const unsigned int s =
-             (unsigned int)pow(static_cast<float>(3),
-                               static_cast<float>(ImageDimension));
+    (unsigned int)pow(static_cast<float>(3),
+                      static_cast<float>(ImageDimension));
 
   unsigned int i;
   for(i=0; i<s; i++)
@@ -184,7 +184,7 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
     }
 
   return false;
-  }
+}
 
 template<class TInputImage, class TOutputImage, class TKernel>
 void

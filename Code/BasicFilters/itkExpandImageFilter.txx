@@ -91,7 +91,7 @@ template <class TInputImage, class TOutputImage>
 void
 ExpandImageFilter<TInputImage,TOutputImage>
 ::SetExpandFactors(
-const unsigned int factors[] )
+  const unsigned int factors[] )
 {
 
   unsigned int j;
@@ -119,7 +119,7 @@ template <class TInputImage, class TOutputImage>
 void
 ExpandImageFilter<TInputImage,TOutputImage>
 ::SetExpandFactors(
-const unsigned int factor )
+  const unsigned int factor )
 {
 
   unsigned int j;
@@ -168,7 +168,7 @@ template <class TInputImage, class TOutputImage>
 void
 ExpandImageFilter<TInputImage,TOutputImage>
 ::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                         int threadId)
+                       int threadId)
 {
   int i;
 
@@ -210,7 +210,7 @@ ExpandImageFilter<TInputImage,TOutputImage>
     if( m_Interpolator->IsInsideBuffer( inputIndex ) )
       {
       outIt.Set( static_cast<OutputPixelType>( 
-        m_Interpolator->EvaluateAtContinuousIndex( inputIndex ) ) );
+                   m_Interpolator->EvaluateAtContinuousIndex( inputIndex ) ) );
       }
     else
       {
@@ -235,7 +235,7 @@ ExpandImageFilter<TInputImage,TOutputImage>
 
   // Get pointers to the input and output
   InputImagePointer inputPtr = 
-      const_cast< TInputImage * >( this->GetInput() );
+    const_cast< TInputImage * >( this->GetInput() );
   OutputImagePointer outputPtr = this->GetOutput();
 
   if ( !inputPtr || !outputPtr )
@@ -261,11 +261,11 @@ ExpandImageFilter<TInputImage,TOutputImage>
     {
     inputRequestedRegionSize[i]
       = (long) ceil( (double)outputRequestedRegionSize[i] / 
-          (double) m_ExpandFactors[i] ) + 1;
+                     (double) m_ExpandFactors[i] ) + 1;
 
     inputRequestedRegionStartIndex[i]
       = (long) floor( (double)outputRequestedRegionStartIndex[i] / 
-          (double)m_ExpandFactors[i] );
+                      (double)m_ExpandFactors[i] );
     }
 
 
@@ -296,7 +296,7 @@ ExpandImageFilter<TInputImage,TOutputImage>
 
   // Get pointers to the input and output
   InputImagePointer inputPtr = 
-      const_cast< TInputImage * >( this->GetInput() );
+    const_cast< TInputImage * >( this->GetInput() );
   OutputImagePointer outputPtr = this->GetOutput();
 
   if ( !inputPtr || !outputPtr )

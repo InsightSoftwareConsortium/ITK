@@ -119,7 +119,7 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
   for (fit = faceList.begin(); fit != faceList.end(); ++fit)
     { 
     b_iter = NeighborhoodIteratorType(m_Kernel.GetRadius(),
-                                           this->GetInput(), *fit);
+                                      this->GetInput(), *fit);
     
     o_iter = ImageRegionIterator<OutputImageType>(this->GetOutput(), *fit);
     b_iter.OverrideBoundaryCondition(&BC);

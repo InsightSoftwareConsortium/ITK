@@ -51,7 +51,7 @@ BinaryMedianImageFilter<TInputImage, TOutputImage>
   
   // get pointers to the input and output
   typename Superclass::InputImagePointer inputPtr = 
-      const_cast< TInputImage * >( this->GetInput() );
+    const_cast< TInputImage * >( this->GetInput() );
   typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
   
   if ( !inputPtr || !outputPtr )
@@ -137,7 +137,7 @@ BinaryMedianImageFilter< TInputImage, TOutputImage>
 
     while ( ! bit.IsAtEnd() )
       {
-       // count the pixels in the neighborhood
+      // count the pixels in the neighborhood
       unsigned int count = 0;
       for (unsigned int i = 0; i < neighborhoodSize; ++i)
         {
@@ -171,8 +171,8 @@ template <class TInputImage, class TOutput>
 void
 BinaryMedianImageFilter<TInputImage, TOutput>
 ::PrintSelf(
-std::ostream& os, 
-Indent indent) const
+  std::ostream& os, 
+  Indent indent) const
 {
   Superclass::PrintSelf( os, indent );
   os << indent << "Radius: " << m_Radius << std::endl;

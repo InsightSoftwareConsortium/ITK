@@ -34,7 +34,7 @@ GradientNDAnisotropicDiffusionFunction<TImage>
 
   for (i = 0; i < ImageDimension; ++i)
     {
-      r[i] = 1;
+    r[i] = 1;
     }
   this->SetRadius(r);
 
@@ -42,7 +42,7 @@ GradientNDAnisotropicDiffusionFunction<TImage>
   Neighborhood<PixelType, ImageDimension> it;
   it.SetRadius(r);
   
- // Slice the neighborhood
+  // Slice the neighborhood
   m_Center =  it.Size() / 2;
 
   for (i = 0; i< ImageDimension; ++i)
@@ -53,15 +53,15 @@ GradientNDAnisotropicDiffusionFunction<TImage>
   
   for (i = 0; i< ImageDimension; ++i)
     {
-      for (j = 0; j < ImageDimension; ++j)
-        {
-          // For taking derivatives in the i direction that are offset one
-          // pixel in the j direction.
-          xa_slice[i][j]
-            = std::slice((m_Center + m_Stride[j])-m_Stride[i], 3, m_Stride[i]); 
-          xd_slice[i][j]
-            = std::slice((m_Center - m_Stride[j])-m_Stride[i], 3, m_Stride[i]);
-        }
+    for (j = 0; j < ImageDimension; ++j)
+      {
+      // For taking derivatives in the i direction that are offset one
+      // pixel in the j direction.
+      xa_slice[i][j]
+        = std::slice((m_Center + m_Stride[j])-m_Stride[i], 3, m_Stride[i]); 
+      xd_slice[i][j]
+        = std::slice((m_Center - m_Stride[j])-m_Stride[i], 3, m_Stride[i]);
+      }
     }
 
   // Allocate the derivative operator.
@@ -101,45 +101,45 @@ GradientNDAnisotropicDiffusionFunction<TImage>
 
   for (i = 0; i < ImageDimension; i++)
     {
-      // ``Half'' directional derivatives
-      dx_forward = it.GetPixel(m_Center + m_Stride[i])
-        - it.GetPixel(m_Center);
-      dx_backward =  it.GetPixel(m_Center)
-        - it.GetPixel(m_Center - m_Stride[i]);      
+    // ``Half'' directional derivatives
+    dx_forward = it.GetPixel(m_Center + m_Stride[i])
+      - it.GetPixel(m_Center);
+    dx_backward =  it.GetPixel(m_Center)
+      - it.GetPixel(m_Center - m_Stride[i]);      
 
-      // Calculate the conductance terms.  Conductance varies with each
-      // dimension because the gradient magnitude approximation is different
-      // along each  dimension.      
-      accum   = 0.0;
-      accum_d = 0.0;
-      for (j = 0; j < ImageDimension; j++)
+    // Calculate the conductance terms.  Conductance varies with each
+    // dimension because the gradient magnitude approximation is different
+    // along each  dimension.      
+    accum   = 0.0;
+    accum_d = 0.0;
+    for (j = 0; j < ImageDimension; j++)
+      {
+      if (j != i)
         {
-          if (j != i)
-            {
-              dx_aug     = m_InnerProduct(xa_slice[j][i], it, dx_op);
-              dx_dim     = m_InnerProduct(xd_slice[j][i], it, dx_op);
-              accum   += 0.25f * vnl_math_sqr( dx[j] + dx_aug );
-              accum_d += 0.25f * vnl_math_sqr( dx[j] + dx_dim );
-            }
+        dx_aug     = m_InnerProduct(xa_slice[j][i], it, dx_op);
+        dx_dim     = m_InnerProduct(xd_slice[j][i], it, dx_op);
+        accum   += 0.25f * vnl_math_sqr( dx[j] + dx_aug );
+        accum_d += 0.25f * vnl_math_sqr( dx[j] + dx_dim );
         }
+      }
       
-      if (m_K == 0.0)
-        {       
-        Cx = 0.0;
-        Cxd = 0.0;
-        }
-      else
-        {
-        Cx = exp(( vnl_math_sqr( dx_forward ) + accum)  / m_K );
-        Cxd= exp(( vnl_math_sqr( dx_backward) + accum_d)/ m_K );
-        }
+    if (m_K == 0.0)
+      {       
+      Cx = 0.0;
+      Cxd = 0.0;
+      }
+    else
+      {
+      Cx = exp(( vnl_math_sqr( dx_forward ) + accum)  / m_K );
+      Cxd= exp(( vnl_math_sqr( dx_backward) + accum_d)/ m_K );
+      }
 
-      // Conductance modified first order derivatives.
-      dx_forward  = dx_forward * Cx;
-      dx_backward = dx_backward * Cxd;
+    // Conductance modified first order derivatives.
+    dx_forward  = dx_forward * Cx;
+    dx_backward = dx_backward * Cxd;
 
-      // Conductance modified second order derivative.
-      delta += dx_forward - dx_backward;
+    // Conductance modified second order derivative.
+    delta += dx_forward - dx_backward;
     }
   
   return static_cast<PixelType>(delta);

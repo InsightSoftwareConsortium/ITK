@@ -47,7 +47,7 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage>
 {
   // ProcessObject is not const_correct so this const_cast is required
   ProcessObject::SetNthInput(0, 
-          const_cast< TInputImage * >(input) );
+                             const_cast< TInputImage * >(input) );
 }
 
 
@@ -62,7 +62,7 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage>
 ::GetInputImage( void )
 {
   return dynamic_cast<const TInputImage *>(
-          (ProcessObject::GetInput(0)));
+    (ProcessObject::GetInput(0)));
 }
 
 
@@ -293,8 +293,8 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage>
   float       progress        = 0.0f;
 
   const float progressAdvance =    
-                    (float)ln
-                  / (float)offsetTable[ TInputImage::ImageDimension ];
+    (float)ln
+    / (float)offsetTable[ TInputImage::ImageDimension ];
 
   this->UpdateProgress( progress );
 

@@ -37,7 +37,7 @@ NeighborhoodOperatorImageFilter<TInputImage,TOutputImage>
   
   // get pointers to the input and output
   InputImagePointer  inputPtr = 
-      const_cast< TInputImage * >( this->GetInput() );
+    const_cast< TInputImage * >( this->GetInput() );
   
   if ( !inputPtr )
     {
@@ -119,7 +119,7 @@ NeighborhoodOperatorImageFilter<TInputImage, TOutputImage>
     {
     bit =
       ConstNeighborhoodIterator<InputImageType>(m_Operator.GetRadius(),
-                                                     input, *fit);
+                                                input, *fit);
     it = ImageRegionIterator<OutputImageType>(output, *fit);
     bit.GoToBegin();
     while ( ! bit.IsAtEnd() )
@@ -129,7 +129,7 @@ NeighborhoodOperatorImageFilter<TInputImage, TOutputImage>
       ++it;
       progress.CompletedPixel();
       }
-   }
+    }
 }
 
 } // end namespace itk

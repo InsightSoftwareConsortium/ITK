@@ -60,7 +60,7 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
 {
   // Process object is not const-correct so the const_cast is required here
   this->ProcessObject::SetNthInput(0, 
-          const_cast< InputSpatialObjectType * >( input ) );
+                                   const_cast< InputSpatialObjectType * >( input ) );
 }
 
 
@@ -71,12 +71,12 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
 ::SetInput( unsigned int index, const TInputSpatialObject * object ) 
 {
   if( index+1 > this->GetNumberOfInputs() )
-  {
+    {
     this->SetNumberOfRequiredInputs( index + 1 );
-  }
+    }
   // Process object is not const-correct so the const_cast is required here
   this->ProcessObject::SetNthInput(index, 
-          const_cast< TInputSpatialObject *>( object ) );
+                                   const_cast< TInputSpatialObject *>( object ) );
 }
 
 
@@ -93,7 +93,7 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
     }
   
   return static_cast<const TInputSpatialObject * >
-                     (this->ProcessObject::GetInput(0) );
+    (this->ProcessObject::GetInput(0) );
 }
   
 /** Get the input Spatial Object */
@@ -103,7 +103,7 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
 ::GetInput(unsigned int idx)
 {
   return static_cast< const TInputSpatialObject * >
-                     (this->ProcessObject::GetInput(idx));
+    (this->ProcessObject::GetInput(idx));
 }
 
 //----------------------------------------------------------------------------
@@ -231,11 +231,11 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
   SizeType size;
 
   for(unsigned int i=0;i<ObjectDimension;i++)
-  {
+    {
     size[i] = (long unsigned int)(InputObject->GetBoundingBox()->GetMaximum()[i]
-              - InputObject->GetBoundingBox()->GetMinimum()[i]);
+                                  - InputObject->GetBoundingBox()->GetMinimum()[i]);
     origin[i]=0;
-  }
+    }
   
   typename OutputImageType::IndexType index;
   index.Fill(0);
@@ -246,15 +246,15 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
   // object's bounding box will be used as default.
 
   if(   m_Size[0] != 0
-    ||  m_Size[1] != 0
-    ||  m_Size[2] != 0 )
-  {
+        ||  m_Size[1] != 0
+        ||  m_Size[2] != 0 )
+    {
     region.SetSize( m_Size );
-  }
+    }
   else
-  {
+    {
     region.SetSize( size );
-  }
+    }
   region.SetIndex( index );
 
   OutputImage->SetLargestPossibleRegion( region);     // 
@@ -266,8 +266,8 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
   // the spatial object is used as default.
   
   if(   m_Spacing[0] != 1.0
-    ||  m_Spacing[1] != 1.0
-    ||  m_Spacing[2] != 1.0 )
+        ||  m_Spacing[1] != 1.0
+        ||  m_Spacing[2] != 1.0 )
     {
     OutputImage->SetSpacing(this->m_Spacing);         // set spacing
     }
@@ -285,31 +285,31 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
   itk::Point<double,ObjectDimension> point;
 
   while(!it.IsAtEnd())
-  {
-    for(unsigned int i=0;i<ObjectDimension;i++)
     {
+    for(unsigned int i=0;i<ObjectDimension;i++)
+      {
       point[i]=it.GetIndex()[i];
-    }
+      }
     double val =0;
     InputObject->ValueAt(point,val,99999);
     if(   m_InsideValue != 0 
-      ||  m_OutsideValue != 0 )
-    {
+          ||  m_OutsideValue != 0 )
+      {
       if( val )
-      {
+        {
         it.Set(m_InsideValue);
-      }
+        }
       else
-      {
+        {
         it.Set(m_OutsideValue);
+        }
       }
-    }
     else
-    {
+      {
       it.Set(val);
-    }
+      }
     ++it;
-  }
+    }
   
   itkDebugMacro(<< "SpatialObjectToImageFilter::Update() finished");
 

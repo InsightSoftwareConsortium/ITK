@@ -53,7 +53,7 @@ BSplineDownsampleImageFilter<TInputImage,TOutputImage, ResamplerType>
 
   // Iterator for walking the output region is defined in the Superclass
   OutputImageIterator outIt = OutputImageIterator(outputPtr,
-                                        outputPtr->GetRequestedRegion());
+                                                  outputPtr->GetRequestedRegion());
 
   // Calculate actual output
   // TODO:  Need to verify outIt is correctly sized.
@@ -158,7 +158,7 @@ template <class TInputImage, class TOutputImage, class ResamplerType>
 void
 BSplineDownsampleImageFilter<TInputImage,TOutputImage, ResamplerType>
 ::EnlargeOutputRequestedRegion(
-DataObject *output )
+  DataObject *output )
 {
 
   // this filter requires the all of the output image to be in
@@ -173,9 +173,9 @@ DataObject *output )
     {
     // pointer could not be cast to TLevelSet *
     itkWarningMacro(<< "itk::BSplineDownsampleImageFilter" <<
-              "::EnlargeOutputRequestedRegion cannot cast "
-              << typeid(output).name() << " to "
-              << typeid(TOutputImage*).name() );
+                    "::EnlargeOutputRequestedRegion cannot cast "
+                    << typeid(output).name() << " to "
+                    << typeid(TOutputImage*).name() );
 
     }
 

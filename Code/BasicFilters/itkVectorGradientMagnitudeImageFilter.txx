@@ -63,13 +63,13 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>
   m_RequestedNumberOfThreads = this->GetNumberOfThreads();
   for (i = 0; i < ImageDimension; i++)
     {
-      m_NeighborhoodRadius[i] = 1; // radius of neighborhood we will use
-      m_DerivativeWeights[i] = static_cast<TRealType>(1.0);
+    m_NeighborhoodRadius[i] = 1; // radius of neighborhood we will use
+    m_DerivativeWeights[i] = static_cast<TRealType>(1.0);
     }
   for (i = 0; i < VectorDimension; i++)
     {
-      m_ComponentWeights[i] = static_cast<TRealType>(1.0);
-      m_SqrtComponentWeights[i] = static_cast<TRealType>(1.0);
+    m_ComponentWeights[i] = static_cast<TRealType>(1.0);
+    m_SqrtComponentWeights[i] = static_cast<TRealType>(1.0);
     }
 }
 template <typename TInputImage, typename TRealType, typename TOutputImage>
@@ -81,11 +81,11 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>
 
   for (unsigned i = 0; i < ImageDimension; ++i)
     {
-      if (m_DerivativeWeights[i] != data[i])
-        {
-          this->Modified();
-          m_DerivativeWeights[i] = data[i];
-        }
+    if (m_DerivativeWeights[i] != data[i])
+      {
+      this->Modified();
+      m_DerivativeWeights[i] = data[i];
+      }
     }
 }
 
@@ -100,10 +100,10 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>
   // otherwise, the user may have provided their own weightings.
   if (f == false && m_UseImageSpacing == true)
     {
-      for (unsigned i = 0; i < ImageDimension; ++i)
-        {
-          m_DerivativeWeights[i] = static_cast<TRealType>(1.0);
-        }
+    for (unsigned i = 0; i < ImageDimension; ++i)
+      {
+      m_DerivativeWeights[i] = static_cast<TRealType>(1.0);
+      }
     }
 
   m_UseImageSpacing = f;
@@ -119,7 +119,7 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>
   
   // get pointers to the input and output
   InputImagePointer  inputPtr = 
-      const_cast< InputImageType * >( this->GetInput());
+    const_cast< InputImageType * >( this->GetInput());
   OutputImagePointer outputPtr = this->GetOutput();
   
   if ( !inputPtr || !outputPtr )
@@ -138,8 +138,8 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>
   // crop the input requested region at the input's largest possible region
   if ( inputRequestedRegion.Crop(inputPtr->GetLargestPossibleRegion()) )
     {
-      inputPtr->SetRequestedRegion( inputRequestedRegion );
-      return;
+    inputPtr->SetRequestedRegion( inputRequestedRegion );
+    return;
     }
   else
     {
@@ -171,11 +171,11 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>
   // Calculate the square-roots of the component weights.
   for (unsigned i = 0; i < VectorDimension; ++i)
     {
-      if (m_ComponentWeights[i] < 0 )
-        {
-          itkExceptionMacro( << "Component weights must be positive numbers" );
-        }
-      m_SqrtComponentWeights[i] = ::sqrt(m_ComponentWeights[i]);
+    if (m_ComponentWeights[i] < 0 )
+      {
+      itkExceptionMacro( << "Component weights must be positive numbers" );
+      }
+    m_SqrtComponentWeights[i] = ::sqrt(m_ComponentWeights[i]);
     }
 
   
@@ -185,16 +185,16 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>
   if (m_UseImageSpacing == true)
     {
 
-      for (unsigned i = 0; i < ImageDimension; i++)
+    for (unsigned i = 0; i < ImageDimension; i++)
+      {
+      if (static_cast<TRealType>(this->GetInput()->GetSpacing()[i]) == 0.0)
         {
-          if (static_cast<TRealType>(this->GetInput()->GetSpacing()[i]) == 0.0)
-            {
-              itkExceptionMacro(<< "Image spacing in dimension " << i << " is zero.");
-            }
-          m_DerivativeWeights[i]
-            = static_cast<TRealType>( 1.0 /
-                          static_cast<TRealType>(this->GetInput()->GetSpacing()[i]) );
+        itkExceptionMacro(<< "Image spacing in dimension " << i << " is zero.");
         }
+      m_DerivativeWeights[i]
+        = static_cast<TRealType>( 1.0 /
+                                  static_cast<TRealType>(this->GetInput()->GetSpacing()[i]) );
+      }
     }
 
   // If using the principle components method, then force this filter to use a
@@ -202,12 +202,12 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>
   // data is ok because we have a special solver.
   if (m_UsePrincipleComponents == true && ImageDimension != 3)
     {
-      m_RequestedNumberOfThreads = this->GetNumberOfThreads();
-      this->SetNumberOfThreads(1);
+    m_RequestedNumberOfThreads = this->GetNumberOfThreads();
+    this->SetNumberOfThreads(1);
     }
   else
     {
-      this->SetNumberOfThreads(m_RequestedNumberOfThreads);
+    this->SetNumberOfThreads(m_RequestedNumberOfThreads);
     }
 
   /** If the input needs casting to a real-valued vector type, create the
@@ -215,16 +215,16 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>
       image.  Otherwise just point to the input image. */
   if ( typeid( typename InputImageType::PixelType ) != typeid( RealVectorType ) )
     {
-      typename VectorCastImageFilter<TInputImage, RealVectorImageType>::Pointer
-        caster = VectorCastImageFilter<TInputImage, RealVectorImageType>::New();
-      caster->SetInput(this->GetInput());
-      caster->Update();
-      m_RealValuedInputImage = caster->GetOutput();
+    typename VectorCastImageFilter<TInputImage, RealVectorImageType>::Pointer
+      caster = VectorCastImageFilter<TInputImage, RealVectorImageType>::New();
+    caster->SetInput(this->GetInput());
+    caster->Update();
+    m_RealValuedInputImage = caster->GetOutput();
     }
   else
     {
-      m_RealValuedInputImage
-        = dynamic_cast<const ImageBase<ImageDimension> *>(this->GetInput());
+    m_RealValuedInputImage
+      = dynamic_cast<const ImageBase<ImageDimension> *>(this->GetInput());
     }
   
 }
@@ -259,46 +259,46 @@ VectorGradientMagnitudeImageFilter< TInputImage, TRealType, TOutputImage >
   // conditions.
   for (fit=faceList.begin(); fit != faceList.end(); ++fit)
     { 
-      bit = ConstNeighborhoodIteratorType(m_NeighborhoodRadius,
-         dynamic_cast<const RealVectorImageType *>(m_RealValuedInputImage.GetPointer()),
-                                       *fit);
-      it = ImageRegionIterator<TOutputImage>(this->GetOutput(), *fit);
-      bit.OverrideBoundaryCondition(&nbc);
-      bit.GoToBegin();
+    bit = ConstNeighborhoodIteratorType(m_NeighborhoodRadius,
+                                        dynamic_cast<const RealVectorImageType *>(m_RealValuedInputImage.GetPointer()),
+                                        *fit);
+    it = ImageRegionIterator<TOutputImage>(this->GetOutput(), *fit);
+    bit.OverrideBoundaryCondition(&nbc);
+    bit.GoToBegin();
 
-      if (m_UsePrincipleComponents == true)
-        {
-          if (ImageDimension == 3)
-            { // Use the specialized eigensolve which can be threaded
-              while ( ! bit.IsAtEnd() )
-                {
-                  it.Set( this->EvaluateAtNeighborhood3D(bit) );
-                  ++bit;
-                  ++it;
-                  progress.CompletedPixel();
-                }
-            }
-          else
-            {
-              while ( ! bit.IsAtEnd() )
-                {
-                  it.Set( this->EvaluateAtNeighborhood(bit) );
-                  ++bit;
-                  ++it;
-                  progress.CompletedPixel();
-                }
-            }
+    if (m_UsePrincipleComponents == true)
+      {
+      if (ImageDimension == 3)
+        { // Use the specialized eigensolve which can be threaded
+        while ( ! bit.IsAtEnd() )
+          {
+          it.Set( this->EvaluateAtNeighborhood3D(bit) );
+          ++bit;
+          ++it;
+          progress.CompletedPixel();
+          }
         }
       else
         {
-          while ( ! bit.IsAtEnd() )
-            {
-              it.Set( this->NonPCEvaluateAtNeighborhood(bit) );
-              ++bit;
-              ++it;
-              progress.CompletedPixel();
-            }
+        while ( ! bit.IsAtEnd() )
+          {
+          it.Set( this->EvaluateAtNeighborhood(bit) );
+          ++bit;
+          ++it;
+          progress.CompletedPixel();
+          }
         }
+      }
+    else
+      {
+      while ( ! bit.IsAtEnd() )
+        {
+        it.Set( this->NonPCEvaluateAtNeighborhood(bit) );
+        ++bit;
+        ++it;
+        progress.CompletedPixel();
+        }
+      }
     }
 }
 
@@ -328,39 +328,39 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>
   
   if (D < -epsilon) // D < 0, three real solutions, by far the common case.
     {
-      double phi = 1.0/3.0 * acos(-q / sqrt(-cb_p));
-      double t = 2.0 * sqrt(-p);
+    double phi = 1.0/3.0 * acos(-q / sqrt(-cb_p));
+    double t = 2.0 * sqrt(-p);
       
-      s[0] =   t * cos(phi);
-      s[1] = - t * cos(phi + pi / 3);
-      s[2] = - t * cos(phi - pi / 3);
-      num = 3;
+    s[0] =   t * cos(phi);
+    s[1] = - t * cos(phi + pi / 3);
+    s[2] = - t * cos(phi - pi / 3);
+    num = 3;
     }
 
   else if (D < epsilon) // D == 0
     {
-      if (q > -epsilon && q < epsilon)
-        {
-          s[0] = 0.0;
-          num = 1;
-        }
-      else
-        {
-          double u = vnl_math_cuberoot(-q);
-          s[0] = 2 * u;
-          s[1] = - u;
-          num = 2;
-        }
+    if (q > -epsilon && q < epsilon)
+      {
+      s[0] = 0.0;
+      num = 1;
+      }
+    else
+      {
+      double u = vnl_math_cuberoot(-q);
+      s[0] = 2 * u;
+      s[1] = - u;
+      num = 2;
+      }
     }
   else // Only one real solution. This case misses a double root on rare
        // occasions with very large char eqn coefficients.
     {
-      double sqrt_D = sqrt(D);
-      double u = vnl_math_cuberoot(sqrt_D - q);
-      double v = - vnl_math_cuberoot(sqrt_D + q);
+    double sqrt_D = sqrt(D);
+    double u = vnl_math_cuberoot(sqrt_D - q);
+    double v = - vnl_math_cuberoot(sqrt_D + q);
       
-      s[0] = u + v;
-      num = 1;
+    s[0] = u + v;
+    num = 1;
     }
   
   // Resubstitute

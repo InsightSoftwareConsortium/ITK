@@ -75,7 +75,7 @@ ImageToMeshFilter<TInputImage,TOutputMesh>
   // process object is not const-correct, the const_cast
   // is required here.
   this->ProcessObject::SetNthInput(idx, 
-                        const_cast< InputImageType * >(input) );
+                                   const_cast< InputImageType * >(input) );
 }
 
 
@@ -89,7 +89,7 @@ ImageToMeshFilter<TInputImage,TOutputMesh>
 ::GetInput(unsigned int idx) 
 {
   return dynamic_cast<const InputImageType*>
-                     (this->ProcessObject::GetInput(idx));
+    (this->ProcessObject::GetInput(idx));
 }
 
  
@@ -102,7 +102,7 @@ ImageToMeshFilter<TInputImage,TOutputMesh>
 ::GetOutput(void) 
 {
   return dynamic_cast<OutputMeshType*>
-                     (this->ProcessObject::GetOutput(0));
+    (this->ProcessObject::GetOutput(0));
 }
 
 

@@ -46,7 +46,7 @@ NoiseImageFilter<TInputImage, TOutputImage>
   
   // get pointers to the input and output
   typename Superclass::InputImagePointer inputPtr = 
-      const_cast< TInputImage * >( this->GetInput() );
+    const_cast< TInputImage * >( this->GetInput() );
   typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
   
   if ( !inputPtr || !outputPtr )
@@ -126,7 +126,7 @@ NoiseImageFilter< TInputImage, TOutputImage>
   for (fit=faceList.begin(); fit != faceList.end(); ++fit)
     { 
     bit = ConstNeighborhoodIterator<InputImageType>(m_Radius,
-                                                         input, *fit);
+                                                    input, *fit);
     unsigned int neighborhoodSize = bit.Size();
     num = static_cast<InputRealType>( bit.Size() );
       
@@ -163,8 +163,8 @@ template <class TInputImage, class TOutput>
 void
 NoiseImageFilter<TInputImage, TOutput>
 ::PrintSelf(
-std::ostream& os, 
-Indent indent) const
+  std::ostream& os, 
+  Indent indent) const
 {
   Superclass::PrintSelf( os, indent );
   os << indent << "Radius: " << m_Radius << std::endl;

@@ -74,17 +74,17 @@ SparseFieldLayer<TNodeType>
   
   for (int i=0;i<num;i++) 
     {
-      unsigned int j=0;
-      RegionType region;
-      region.first=position;
-      while ((j<regionsize)&&(position!=last)) 
-        {
-          j++;
-          ++position;
-        }
-      region.last=position;
-      regionlist.push_back(region);
-   }
+    unsigned int j=0;
+    RegionType region;
+    region.first=position;
+    while ((j<regionsize)&&(position!=last)) 
+      {
+      j++;
+      ++position;
+      }
+    region.last=position;
+    regionlist.push_back(region);
+    }
   
   return regionlist;
 }

@@ -91,7 +91,7 @@ template <class TInputImage>
 void VTKImageExport<TInputImage>::SetInput(const InputImageType* input)
 {
   this->ProcessObject::SetNthInput(0, 
-                          const_cast<TInputImage*>(input) );
+                                   const_cast<TInputImage*>(input) );
 }
 
 

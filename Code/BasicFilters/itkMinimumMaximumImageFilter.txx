@@ -40,9 +40,9 @@ MinimumMaximumImageFilter<TInputImage>
 
   // Make sure we're getting everything
   {
-    typename TInputImage::Pointer image = 
-                  const_cast< TInputImage * >( inputPtr.GetPointer() ); 
-    image->SetRequestedRegionToLargestPossibleRegion();
+  typename TInputImage::Pointer image = 
+    const_cast< TInputImage * >( inputPtr.GetPointer() ); 
+  image->SetRequestedRegionToLargestPossibleRegion();
   }
 
   // How big is the input image?
@@ -69,8 +69,8 @@ MinimumMaximumImageFilter<TInputImage>
 
  
   ImageRegionConstIteratorWithIndex< TInputImage >  it( 
-                                          this->GetInput(),  
-                                          this->GetInput()->GetRequestedRegion() );
+    this->GetInput(),  
+    this->GetInput()->GetRequestedRegion() );
 
   m_Maximum = NumericTraits<InputPixelType>::NonpositiveMin() ;
   m_Minimum = NumericTraits<InputPixelType>::max() ;

@@ -77,54 +77,54 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
   switch( m_Order ) 
     {
     case ZeroOrder: // equivalent to convolution with a gaussian
-      {
-      m_A0 = static_cast<RealType>(  1.680  );
-      m_A1 = static_cast<RealType>(  3.735  );
-      m_B0 = static_cast<RealType>(  1.783  );
-      m_B1 = static_cast<RealType>(  1.723  );
-      m_C0 = static_cast<RealType>( -0.6803 );
-      m_C1 = static_cast<RealType>( -0.2598 );
-      m_W0 = static_cast<RealType>(  0.6318 );
-      m_W1 = static_cast<RealType>(  1.9970 );
-      const bool symmetric = true;
-      this->ComputeFilterCoefficients(symmetric);
-      break;
-      }
+    {
+    m_A0 = static_cast<RealType>(  1.680  );
+    m_A1 = static_cast<RealType>(  3.735  );
+    m_B0 = static_cast<RealType>(  1.783  );
+    m_B1 = static_cast<RealType>(  1.723  );
+    m_C0 = static_cast<RealType>( -0.6803 );
+    m_C1 = static_cast<RealType>( -0.2598 );
+    m_W0 = static_cast<RealType>(  0.6318 );
+    m_W1 = static_cast<RealType>(  1.9970 );
+    const bool symmetric = true;
+    this->ComputeFilterCoefficients(symmetric);
+    break;
+    }
     case FirstOrder: // equivalent to convolution with 
                      // the first derivative of a gaussian
-      {
-      m_A0 = static_cast<RealType>(  -0.6472 );
-      m_A1 = static_cast<RealType>(  -4.5310 );
-      m_B0 = static_cast<RealType>(   1.5270 );
-      m_B1 = static_cast<RealType>(   1.5160 );
-      m_C0 = static_cast<RealType>(   0.6494 );
-      m_C1 = static_cast<RealType>(   0.9557 );
-      m_W0 = static_cast<RealType>(   0.6719 );
-      m_W1 = static_cast<RealType>(   2.0720 );
-      const bool symmetric = false;
-      this->ComputeFilterCoefficients(symmetric);
-      break;
-      }
+    {
+    m_A0 = static_cast<RealType>(  -0.6472 );
+    m_A1 = static_cast<RealType>(  -4.5310 );
+    m_B0 = static_cast<RealType>(   1.5270 );
+    m_B1 = static_cast<RealType>(   1.5160 );
+    m_C0 = static_cast<RealType>(   0.6494 );
+    m_C1 = static_cast<RealType>(   0.9557 );
+    m_W0 = static_cast<RealType>(   0.6719 );
+    m_W1 = static_cast<RealType>(   2.0720 );
+    const bool symmetric = false;
+    this->ComputeFilterCoefficients(symmetric);
+    break;
+    }
     case SecondOrder: // equivalent to convolution with 
                       // the second derivative of a gaussian
-      {
-      m_A0 = static_cast<RealType>(  -1.3310 );
-      m_A1 = static_cast<RealType>(   3.6610 );
-      m_B0 = static_cast<RealType>(   1.2400 );
-      m_B1 = static_cast<RealType>(   1.3140 );
-      m_C0 = static_cast<RealType>(   0.3225 );
-      m_C1 = static_cast<RealType>(  -1.7380 );
-      m_W0 = static_cast<RealType>(   0.7480 );
-      m_W1 = static_cast<RealType>(   2.1660 );
-      const bool symmetric = true;
-      this->ComputeFilterCoefficients(symmetric);
-      break;
-      }
+    {
+    m_A0 = static_cast<RealType>(  -1.3310 );
+    m_A1 = static_cast<RealType>(   3.6610 );
+    m_B0 = static_cast<RealType>(   1.2400 );
+    m_B1 = static_cast<RealType>(   1.3140 );
+    m_C0 = static_cast<RealType>(   0.3225 );
+    m_C1 = static_cast<RealType>(  -1.7380 );
+    m_W0 = static_cast<RealType>(   0.7480 );
+    m_W1 = static_cast<RealType>(   2.1660 );
+    const bool symmetric = true;
+    this->ComputeFilterCoefficients(symmetric);
+    break;
+    }
     default:
-      {
-      itkExceptionMacro(<<"Unknown Order");
-      return;
-      }
+    {
+    itkExceptionMacro(<<"Unknown Order");
+    return;
+    }
     }
 
 

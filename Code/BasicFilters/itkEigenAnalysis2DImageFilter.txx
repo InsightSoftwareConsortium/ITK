@@ -93,7 +93,7 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
 ::GetMaxEigenValue( void )
 {
   return dynamic_cast<EigenValueImageType *>(
-                    this->GetOutput( 0 ) );
+    this->GetOutput( 0 ) );
 }
 
 
@@ -108,7 +108,7 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
 ::GetMinEigenValue( void )
 {
   return dynamic_cast<EigenValueImageType *>(
-                    this->GetOutput( 1 ) );
+    this->GetOutput( 1 ) );
 }
 
 
@@ -122,7 +122,7 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
 ::GetMaxEigenVector( void )
 {
   EigenVectorImageType *eigenVector = dynamic_cast<EigenVectorImageType *>(
-                    this->GetOutput( 2 ) );
+    this->GetOutput( 2 ) );
 
   if (eigenVector)
     {
@@ -132,7 +132,7 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
     {
     itkWarningMacro(<<"EigenAnalysis2DImageFilter::GetMaxEigenVector(): dynamic_cast has failed. A reinterpret_cast is being attempted." << std::endl << "Type name is: " << typeid( *this->GetOutput( 2 )).name());
     return  reinterpret_cast<EigenVectorImageType *>(
-                    this->GetOutput( 2 ) );
+      this->GetOutput( 2 ) );
     }
 }
 
@@ -150,7 +150,7 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
 {
   DataObject::Pointer output;
   switch( idx )
-  {
+    {
     case 0:
       output = (EigenValueImageType::New()).GetPointer();
       break;
@@ -160,7 +160,7 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
     case 2:
       output = (EigenVectorImageType::New()).GetPointer();
       break;
-  }
+    }
   return output.GetPointer();
 }
 
@@ -176,16 +176,16 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
 {
 
   typename TInputImage::ConstPointer inputPtr1(
-                     dynamic_cast<const TInputImage *>(
-                           (ProcessObject::GetInput(0))));
+    dynamic_cast<const TInputImage *>(
+      (ProcessObject::GetInput(0))));
 
   typename TInputImage::ConstPointer inputPtr2(
-                     dynamic_cast<const TInputImage *>(
-                           (ProcessObject::GetInput(1))));
+    dynamic_cast<const TInputImage *>(
+      (ProcessObject::GetInput(1))));
 
   typename TInputImage::ConstPointer inputPtr3(
-                     dynamic_cast<const TInputImage *>(
-                           (ProcessObject::GetInput(2))));
+    dynamic_cast<const TInputImage *>(
+      (ProcessObject::GetInput(2))));
 
   EigenValueImagePointer   outputPtr1 = this->GetMaxEigenValue();
   EigenValueImagePointer   outputPtr2 = this->GetMinEigenValue();

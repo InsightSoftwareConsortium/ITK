@@ -45,7 +45,7 @@ NormalizeImageFilter<TInputImage, TOutputImage>
   if ( this->GetInput() )
     {
     InputImagePointer image =
-        const_cast< typename Superclass::InputImageType * >( this->GetInput() );
+      const_cast< typename Superclass::InputImageType * >( this->GetInput() );
     image->SetRequestedRegionToLargestPossibleRegion();
     }
 }

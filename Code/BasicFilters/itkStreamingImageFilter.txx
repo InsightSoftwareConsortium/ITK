@@ -124,7 +124,7 @@ StreamingImageFilter<TInputImage,TOutputImage>
    * Grab the input
    */
   InputImagePointer inputPtr = 
-      const_cast< InputImageType * >( this->GetInput(0) );
+    const_cast< InputImageType * >( this->GetInput(0) );
 
   /**
    * Determine of number of pieces to divide the input.  This will be the
@@ -136,7 +136,7 @@ StreamingImageFilter<TInputImage,TOutputImage>
   numDivisions = m_NumberOfStreamDivisions;
   numDivisionsFromSplitter
     = m_RegionSplitter
-        ->GetNumberOfSplits(outputRegion, m_NumberOfStreamDivisions);
+    ->GetNumberOfSplits(outputRegion, m_NumberOfStreamDivisions);
   if (numDivisionsFromSplitter < numDivisions)
     {
     numDivisions = numDivisionsFromSplitter;
@@ -153,7 +153,7 @@ StreamingImageFilter<TInputImage,TOutputImage>
        piece++)
     {
     streamRegion = m_RegionSplitter->GetSplit(piece, numDivisions,
-                                                   outputRegion);
+                                              outputRegion);
       
     inputPtr->SetRequestedRegion(streamRegion);
     inputPtr->PropagateRequestedRegion();

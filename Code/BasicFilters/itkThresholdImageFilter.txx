@@ -53,15 +53,15 @@ ThresholdImageFilter<TImage>
 {
   Superclass::PrintSelf(os,indent);
 
- os << indent << "OutsideValue: "
-    << static_cast<typename NumericTraits<PixelType>::PrintType>(m_OutsideValue)
-    << std::endl;
- os << indent << "Lower: "
-    << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Lower)
-    << std::endl;
- os << indent << "Upper: "
-    << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Upper)
-    << std::endl;
+  os << indent << "OutsideValue: "
+     << static_cast<typename NumericTraits<PixelType>::PrintType>(m_OutsideValue)
+     << std::endl;
+  os << indent << "Lower: "
+     << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Lower)
+     << std::endl;
+  os << indent << "Upper: "
+     << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Upper)
+     << std::endl;
 }
 
 /**

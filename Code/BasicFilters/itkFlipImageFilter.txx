@@ -66,7 +66,7 @@ FlipImageFilter<TImage>
 
   // get pointers to the input and output
   InputImagePointer inputPtr = 
-      const_cast< TImage * >( this->GetInput() );
+    const_cast< TImage * >( this->GetInput() );
   OutputImagePointer outputPtr = this->GetOutput();
 
   const double *inputSpacing = inputPtr->GetSpacing();
@@ -84,9 +84,9 @@ FlipImageFilter<TImage>
     {
     if ( m_FlipAxes[j] )
       {
-        outputOrigin[j] = - 1 * inputOrigin[j] -
-          inputSpacing[j] * ( 2 * static_cast<double>( inputStartIndex[j] ) + 
-          static_cast<double>( inputSize[j] ) - 1.0 );
+      outputOrigin[j] = - 1 * inputOrigin[j] -
+        inputSpacing[j] * ( 2 * static_cast<double>( inputStartIndex[j] ) + 
+                            static_cast<double>( inputSize[j] ) - 1.0 );
       }
     else
       {
@@ -114,7 +114,7 @@ FlipImageFilter<TImage>
 
   // get pointers to the input and output
   InputImagePointer inputPtr = 
-      const_cast< TImage * >( this->GetInput());
+    const_cast< TImage * >( this->GetInput());
   OutputImagePointer outputPtr = this->GetOutput();
 
   const typename TImage::SizeType& outputRequestedSize =
@@ -135,7 +135,7 @@ FlipImageFilter<TImage>
     if ( m_FlipAxes[j] )
       {
       inputRequestedIndex[j] =
-          2 * outputLargestPossibleIndex[j] 
+        2 * outputLargestPossibleIndex[j] 
         + static_cast<IndexValueType>( outputLargestPossibleSize[j] )
         - static_cast<IndexValueType>( outputRequestedSize[j] ) 
         - outputRequestedIndex[j];
@@ -194,7 +194,7 @@ FlipImageFilter<TImage>
     if ( m_FlipAxes[j] )
       {
       offset[j] = 2 * outputLargestPossibleIndex[j] 
-         + static_cast<IndexValueType>( outputLargestPossibleSize[j] ) - 1;
+        + static_cast<IndexValueType>( outputLargestPossibleSize[j] ) - 1;
       } 
     }
 

@@ -54,7 +54,7 @@ SimilarityIndexImageFilter<TInputImage1, TInputImage2>
 ::GetInput2()
 {
   return static_cast< const TInputImage2 * >
-                     (this->ProcessObject::GetInput(1));
+    (this->ProcessObject::GetInput(1));
 }
 
 
@@ -72,13 +72,13 @@ SimilarityIndexImageFilter<TInputImage1, TInputImage2>
   if ( this->GetInput1() )
     {
     InputImage1Pointer image =
-        const_cast< InputImage1Type * >( this->GetInput1() );
+      const_cast< InputImage1Type * >( this->GetInput1() );
     image->SetRequestedRegionToLargestPossibleRegion();
 
     if ( this->GetInput2() )
       {
       InputImage2Pointer image =
-          const_cast< InputImage2Type * >( this->GetInput2() );
+        const_cast< InputImage2Type * >( this->GetInput2() );
       image->SetRequestedRegion( 
         this->GetInput1()->GetRequestedRegion() );
       }
@@ -104,7 +104,7 @@ SimilarityIndexImageFilter<TInputImage1, TInputImage2>
 {
   // Pass the first input through as the output
   InputImage1Pointer image =
-      const_cast< TInputImage1 * >( this->GetInput1() );
+    const_cast< TInputImage1 * >( this->GetInput1() );
   this->GraftOutput( image );
 }
 
@@ -158,7 +158,7 @@ SimilarityIndexImageFilter<TInputImage1, TInputImage2>
     }
 
   m_SimilarityIndex = 2.0 * static_cast<RealType>( countIntersect ) / 
-   ( static_cast<RealType>( countImage1 ) + static_cast<RealType>( countImage2 ) );
+    ( static_cast<RealType>( countImage1 ) + static_cast<RealType>( countImage2 ) );
 
 }
 

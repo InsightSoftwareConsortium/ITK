@@ -175,7 +175,7 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
         index = tempIt.GetIndex();
 
         if ( index[dim] < 
-           ( startIndex[dim] + static_cast<long>(size[dim]) - 1))
+             ( startIndex[dim] + static_cast<long>(size[dim]) - 1))
           {
           // Figure out the location of the "neighbor" pixel
           for (unsigned int i = 0; i < NDimensions; i++)
@@ -260,7 +260,7 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
   OutputIterator outIt = OutputIterator(outputPtr,
                                         outputPtr->GetRequestedRegion());
   TempIterator tempIt2 = TempIterator(tempPtr,
-                                     outputPtr->GetRequestedRegion());
+                                      outputPtr->GetRequestedRegion());
   
   for ( outIt.GoToBegin(), tempIt2.GoToBegin(); !outIt.IsAtEnd();
         ++outIt, ++tempIt2)

@@ -171,7 +171,7 @@ AdaptiveHistogramEqualizationImageFilter<TImageType>
           {
           key.second = *itV;
           CumulativeArray.insert( ArrayMapType::value_type( key,
-                                     this->CumulativeFunction( *itU, *itV )) );
+                                                            this->CumulativeFunction( *itU, *itV )) );
           }
         }
       }
@@ -289,7 +289,7 @@ AdaptiveHistogramEqualizationImageFilter<TImageType>
   
   // get pointers to the input and output
   typename Superclass::InputImagePointer inputPtr = 
-      const_cast< TImageType * >( this->GetInput() );
+    const_cast< TImageType * >( this->GetInput() );
   typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
   
   if ( !inputPtr || !outputPtr )

@@ -113,7 +113,7 @@ GrayscaleConnectedClosingImageFilter<TInputImage, TOutputImage>
   //
   typename GrayscaleGeodesicErodeImageFilter<TInputImage, TInputImage>::Pointer
     erode
-       = GrayscaleGeodesicErodeImageFilter<TInputImage, TInputImage>::New();
+    = GrayscaleGeodesicErodeImageFilter<TInputImage, TInputImage>::New();
 
   // Create a process accumulator for tracking the progress of this minipipeline
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();

@@ -62,9 +62,9 @@ ResampleImageFilter<TInputImage, TOutputImage>
 
   unsigned int j;
   
- os << indent << "DefaultPixelValue: "
-    << static_cast<typename NumericTraits<PixelType>::PrintType>(m_DefaultPixelValue)
-    << std::endl;
+  os << indent << "DefaultPixelValue: "
+     << static_cast<typename NumericTraits<PixelType>::PrintType>(m_DefaultPixelValue)
+     << std::endl;
   os << indent << "Size: [";
   for( j = 0; j < ImageDimension - 1; j++ )
     {
@@ -100,7 +100,7 @@ template <class TInputImage, class TOutputImage>
 void 
 ResampleImageFilter<TInputImage,TOutputImage>
 ::SetOutputSpacing(
-const double spacing[ImageDimension] )
+  const double spacing[ImageDimension] )
 {
 
   unsigned int j; 
@@ -130,7 +130,7 @@ template <class TInputImage, class TOutputImage>
 void 
 ResampleImageFilter<TInputImage,TOutputImage>
 ::SetOutputOrigin(
-const double origin[ImageDimension] )
+  const double origin[ImageDimension] )
 {
 
   unsigned int j; 
@@ -260,7 +260,7 @@ ResampleImageFilter<TInputImage,TOutputImage>
 
   // get pointers to the input and output
   InputImagePointer  inputPtr  = 
-      const_cast< TInputImage *>( this->GetInput() );
+    const_cast< TInputImage *>( this->GetInput() );
 
   // Request the entire input image
   InputImageRegionType inputRegion;
@@ -323,12 +323,12 @@ ResampleImageFilter<TInputImage,TOutputImage>
     }
 
   if( m_Interpolator )
+    {
+    if( latestTime < m_Interpolator->GetMTime() )
       {
-      if( latestTime < m_Interpolator->GetMTime() )
-        {
-        latestTime = m_Interpolator->GetMTime();
-        }
+      latestTime = m_Interpolator->GetMTime();
       }
+    }
 
   return latestTime;
 }

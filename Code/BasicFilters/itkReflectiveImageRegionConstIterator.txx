@@ -82,7 +82,7 @@ ReflectiveImageRegionConstIterator<TImage>
 {
   m_PositionIndex = m_BeginIndex + m_BeginOffset;
   m_Position = m_Image->GetBufferPointer() +
-               m_Image->ComputeOffset( m_PositionIndex );
+    m_Image->ComputeOffset( m_PositionIndex );
 
   m_Remaining = false;
   for (unsigned int i=0; i < ImageDimension; ++i)

@@ -94,8 +94,8 @@ ConnectedThresholdImageFilter<TInputImage,TOutputImage>
   typedef FloodFilledImageFunctionConditionalIterator<OutputImageType, FunctionType> IteratorType;
 
   typename FunctionType::Pointer function = FunctionType::New();
-    function->SetInputImage ( inputImage );
-    function->ThresholdBetween ( m_Lower, m_Upper );
+  function->SetInputImage ( inputImage );
+  function->ThresholdBetween ( m_Lower, m_Upper );
 
   ProgressReporter progress(this, 0, region.GetNumberOfPixels());
 

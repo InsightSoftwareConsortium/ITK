@@ -82,7 +82,7 @@ HMaximaImageFilter<TInputImage, TOutputImage>
   //
   typename GrayscaleGeodesicDilateImageFilter<TInputImage, TInputImage>::Pointer
     dilate
-       = GrayscaleGeodesicDilateImageFilter<TInputImage, TInputImage>::New();
+    = GrayscaleGeodesicDilateImageFilter<TInputImage, TInputImage>::New();
 
   // Create a process accumulator for tracking the progress of this minipipeline
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();

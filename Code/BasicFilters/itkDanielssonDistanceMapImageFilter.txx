@@ -59,12 +59,12 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
  */
 template <class TInputImage,class TOutputImage>
 typename DanielssonDistanceMapImageFilter<
-              TInputImage,TOutputImage>::OutputImageType * 
+  TInputImage,TOutputImage>::OutputImageType * 
 DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 ::GetDistanceMap(void)
 {
   return  dynamic_cast< OutputImageType * >(
-                  this->ProcessObject::GetOutput(0) );
+    this->ProcessObject::GetOutput(0) );
 }
 
 
@@ -81,7 +81,7 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 ::GetVoronoiMap(void)
 {
   return  dynamic_cast< OutputImageType * >(
-                  this->ProcessObject::GetOutput(1) );
+    this->ProcessObject::GetOutput(1) );
 }
 
 
@@ -94,12 +94,12 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
  */
 template <class TInputImage,class TOutputImage>
 typename DanielssonDistanceMapImageFilter<
-           TInputImage,TOutputImage>::VectorImageType * 
+  TInputImage,TOutputImage>::VectorImageType * 
 DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 ::GetVectorDistanceMap(void)
 {
   return  dynamic_cast< VectorImageType * >(
-                  this->ProcessObject::GetOutput(2) );
+    this->ProcessObject::GetOutput(2) );
 }
 
 
@@ -120,29 +120,29 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
   OutputImagePointer voronoiMap = GetVoronoiMap();
 
   InputImagePointer  inputImage  = 
-        dynamic_cast<const TInputImage  *>( ProcessObject::GetInput(0) );
+    dynamic_cast<const TInputImage  *>( ProcessObject::GetInput(0) );
 
   voronoiMap->SetLargestPossibleRegion( 
-                  inputImage->GetLargestPossibleRegion() );
+    inputImage->GetLargestPossibleRegion() );
 
   voronoiMap->SetBufferedRegion( 
-                  inputImage->GetBufferedRegion() );
+    inputImage->GetBufferedRegion() );
 
   voronoiMap->SetRequestedRegion( 
-                  inputImage->GetRequestedRegion() );
+    inputImage->GetRequestedRegion() );
 
   voronoiMap->Allocate();
 
   OutputImagePointer distanceMap = GetDistanceMap();
 
   distanceMap->SetLargestPossibleRegion( 
-                  inputImage->GetLargestPossibleRegion() );
+    inputImage->GetLargestPossibleRegion() );
 
   distanceMap->SetBufferedRegion( 
-                  inputImage->GetBufferedRegion() );
+    inputImage->GetBufferedRegion() );
 
   distanceMap->SetRequestedRegion( 
-                  inputImage->GetRequestedRegion() );
+    inputImage->GetRequestedRegion() );
 
   distanceMap->Allocate();
 
@@ -200,13 +200,13 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
   VectorImagePointer distanceComponents = GetVectorDistanceMap();
 
   distanceComponents->SetLargestPossibleRegion( 
-                  inputImage->GetLargestPossibleRegion() );
+    inputImage->GetLargestPossibleRegion() );
 
   distanceComponents->SetBufferedRegion( 
-                  inputImage->GetBufferedRegion() );
+    inputImage->GetBufferedRegion() );
 
   distanceComponents->SetRequestedRegion( 
-                  inputImage->GetRequestedRegion() );
+    inputImage->GetRequestedRegion() );
 
   distanceComponents->Allocate();
 
@@ -235,8 +235,8 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
       {
       ct.Set( maxValue );
       }
-  ++ot;
-  ++ct;
+    ++ot;
+    ++ct;
     }
   itkDebugMacro(<< "PrepareData End");    
 }

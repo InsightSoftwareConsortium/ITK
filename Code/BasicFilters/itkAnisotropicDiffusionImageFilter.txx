@@ -73,13 +73,13 @@ AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
   
   if (m_GradientMagnitudeIsFixed == false && (this->GetElapsedIterations() % m_ConductanceScalingUpdateInterval)==0 )
     {
-      f->CalculateAverageGradientMagnitudeSquared(this->GetOutput());
+    f->CalculateAverageGradientMagnitudeSquared(this->GetOutput());
     }
   else
     {
-      f->SetAverageGradientMagnitudeSquared(m_FixedAverageGradientMagnitude 
-                                            *
-                                            m_FixedAverageGradientMagnitude);
+    f->SetAverageGradientMagnitudeSquared(m_FixedAverageGradientMagnitude 
+                                          *
+                                          m_FixedAverageGradientMagnitude);
     }
   f->InitializeIteration();
 

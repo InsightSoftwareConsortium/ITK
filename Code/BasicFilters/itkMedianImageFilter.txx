@@ -49,7 +49,7 @@ MedianImageFilter<TInputImage, TOutputImage>
   
   // get pointers to the input and output
   typename Superclass::InputImagePointer inputPtr = 
-      const_cast< TInputImage * >( this->GetInput() );
+    const_cast< TInputImage * >( this->GetInput() );
   typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
   
   if ( !inputPtr || !outputPtr )
@@ -169,8 +169,8 @@ template <class TInputImage, class TOutput>
 void
 MedianImageFilter<TInputImage, TOutput>
 ::PrintSelf(
-std::ostream& os, 
-Indent indent) const
+  std::ostream& os, 
+  Indent indent) const
 {
   Superclass::PrintSelf( os, indent );
   os << indent << "Radius: " << m_Radius << std::endl;

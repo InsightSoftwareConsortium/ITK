@@ -42,7 +42,7 @@ DifferenceOfGaussiansGradientImageFilter< TInputImage, TDataType >
 
   // Get the input and output pointers
   typename Superclass::InputImagePointer  inputPtr = 
-      const_cast< TInputImage * >( this->GetInput(0));
+    const_cast< TInputImage * >( this->GetInput(0));
   typename Superclass::OutputImagePointer outputPtr = this->GetOutput(0);
 
   // Make sure we're getting everything
@@ -89,14 +89,14 @@ DifferenceOfGaussiansGradientImageFilter< TInputImage, TDataType >
 
     for (unsigned int i = 0; i < NDimensions; ++i)
       {
-        const int width = static_cast<int>(m_Width);
-        const int sizeDifference = 
-            static_cast<int>(size.m_Size[i]) - width;
+      const int width = static_cast<int>(m_Width);
+      const int sizeDifference = 
+        static_cast<int>(size.m_Size[i]) - width;
           
-        if( !( (outputIndex[i] < sizeDifference ) &&
-               (outputIndex[i] >= width         )    ) )
+      if( !( (outputIndex[i] < sizeDifference ) &&
+             (outputIndex[i] >= width         )    ) )
         {
-          isValidGrad = false;
+        isValidGrad = false;
         }
       }
 
@@ -122,7 +122,7 @@ DifferenceOfGaussiansGradientImageFilter< TInputImage, TDataType >
           }
         // Remember, output type is a covariant vector of TDataType
         outputPtr->GetPixel(outputIndex)[i] =
-        inputPtr->GetPixel(upperIndex) - inputPtr->GetPixel(lowerIndex);
+          inputPtr->GetPixel(upperIndex) - inputPtr->GetPixel(lowerIndex);
         }
       }
     else // We're not in a safe position, gradient is zero

@@ -81,9 +81,9 @@ ReflectImageFilter<TInputImage,TOutputImage>
       progress.CompletedPixel();
       }
 
-     inputIt.NextLine();
-     outputIt.GoToEndOfLine(); // NextLine() assumes that the 
-     outputIt.NextLine();      // iterator is at the end of line.
+    inputIt.NextLine();
+    outputIt.GoToEndOfLine(); // NextLine() assumes that the 
+    outputIt.NextLine();      // iterator is at the end of line.
     }
 }
 

@@ -54,11 +54,11 @@ ScalarToArrayCastImageFilter<TInputImage,TOutputImage>
 
   for ( unsigned int i = 0 ; i < length ; i++ )
     {
-      inputs.push_back(this->GetInput(i)) ;
-      i_iters.push_back
-        ( ImageRegionConstIterator< TInputImage >
-         (inputs[i], outputRegionForThread) );
-      (i_iters[i]).GoToBegin();
+    inputs.push_back(this->GetInput(i)) ;
+    i_iters.push_back
+      ( ImageRegionConstIterator< TInputImage >
+        (inputs[i], outputRegionForThread) );
+    (i_iters[i]).GoToBegin();
     }
 
   typename TOutputImage::Pointer outputPtr = this->GetOutput(0);
@@ -73,14 +73,14 @@ ScalarToArrayCastImageFilter<TInputImage,TOutputImage>
 
   while( !outputIt.IsAtEnd() ) 
     {
-      for ( unsigned int j = 0 ; j < length ; j++ )
-        {
-          arrayPixel[j] = (i_iters[j]).Get() ;
-          ++(i_iters[j]);
-        }
-      outputIt.Set( arrayPixel );
-      ++outputIt;
-      progress.CompletedPixel();
+    for ( unsigned int j = 0 ; j < length ; j++ )
+      {
+      arrayPixel[j] = (i_iters[j]).Get() ;
+      ++(i_iters[j]);
+      }
+    outputIt.Set( arrayPixel );
+    ++outputIt;
+    progress.CompletedPixel();
     }
 }
 

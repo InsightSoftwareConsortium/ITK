@@ -55,10 +55,10 @@ VectorAnisotropicDiffusionFunction<TImage>
   // Set up the derivative operators, one for each dimension
   for (i = 0; i < ImageDimension; ++i)
     {
-      operator_list[i].SetOrder(1);
-      operator_list[i].SetDirection(i);
-      operator_list[i].CreateDirectional();
-      radius[i] = operator_list[i].GetRadius()[i];
+    operator_list[i].SetOrder(1);
+    operator_list[i].SetDirection(i);
+    operator_list[i].CreateDirectional();
+    radius[i] = operator_list[i].GetRadius()[i];
     }
 
   // Get the various region "faces" that are on the data set boundary.
@@ -76,8 +76,8 @@ VectorAnisotropicDiffusionFunction<TImage>
   // This is more efficient for higher dimensions.
   for (i = 0; i < ImageDimension; ++i)
     {
-      iterator_list[i]=RNI_type(operator_list[i].GetRadius(), ip, *fit);
-      iterator_list[i].GoToBegin();
+    iterator_list[i]=RNI_type(operator_list[i].GetRadius(), ip, *fit);
+    iterator_list[i].GoToBegin();
     }  
   while ( !iterator_list[0].IsAtEnd() )
     {
@@ -95,24 +95,24 @@ VectorAnisotropicDiffusionFunction<TImage>
   ++fit; 
   while ( fit != faceList.end() )
     {
-        for (i = 0; i < ImageDimension; ++i)
-          {
-            face_iterator_list[i]=SNI_type(operator_list[i].GetRadius(), ip, *fit);
-            face_iterator_list[i].GoToBegin();
-          }
+    for (i = 0; i < ImageDimension; ++i)
+      {
+      face_iterator_list[i]=SNI_type(operator_list[i].GetRadius(), ip, *fit);
+      face_iterator_list[i].GoToBegin();
+      }
         
-       while ( ! face_iterator_list[0].IsAtEnd() )
-         {
-           counter++;
-           for (i = 0; i < ImageDimension; ++i)
-             {
-               val = SIP(face_iterator_list[i], operator_list[i]);
-               for (j= 0; j < VectorDimension; ++j)
-                 {  accumulator += val[j] * val[j];  }
-               ++face_iterator_list[i];
-             }
-         }
-       ++fit;
+    while ( ! face_iterator_list[0].IsAtEnd() )
+      {
+      counter++;
+      for (i = 0; i < ImageDimension; ++i)
+        {
+        val = SIP(face_iterator_list[i], operator_list[i]);
+        for (j= 0; j < VectorDimension; ++j)
+          {  accumulator += val[j] * val[j];  }
+        ++face_iterator_list[i];
+        }
+      }
+    ++fit;
     }
   
   this->SetAverageGradientMagnitudeSquared((double) accumulator / counter);

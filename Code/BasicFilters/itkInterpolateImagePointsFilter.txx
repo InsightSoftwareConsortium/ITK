@@ -35,7 +35,7 @@ InterpolateImagePointsFilter<TInputImage,TOutputImage, TCoordType, InterpolatorT
 {
   m_Interpolator = InterpolatorType::New(); 
   m_DefaultPixelValue = 0;
-
+  
 }
 
 /**
@@ -45,8 +45,8 @@ template <class TInputImage, class TOutputImage, class TCoordType, class Interpo
 void 
 InterpolateImagePointsFilter<TInputImage,TOutputImage, TCoordType, InterpolatorType>
 ::PrintSelf(
-std::ostream& os, 
-Indent indent) const
+  std::ostream& os, 
+  Indent indent) const
 {
   Superclass::PrintSelf( os, indent );
   os << indent << "Default (background) pixel level: " << m_DefaultPixelValue << std::endl;
@@ -91,10 +91,10 @@ InterpolateImagePointsFilter<TInputImage, TOutputImage, TCoordType, Interpolator
   // ***TODO: What needs to be done here? Should we set the input image at this time?
   //  ** Also, where is the output allocated?
 
- // OutputImagePointer outputPtr = this->GetOutput();
+  // OutputImagePointer outputPtr = this->GetOutput();
 
- // outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
- // outputPtr->Allocate();
+  // outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
+  // outputPtr->Allocate();
 
 
 }
@@ -103,7 +103,7 @@ template <class TInputImage, class TOutputImage, class TCoordType, class Interpo
 void
 InterpolateImagePointsFilter<TInputImage, TOutputImage, TCoordType, InterpolatorType>
 ::ThreadedGenerateData( const OutputImageRegionType& outputRegionForThread,
-                            int threadId )
+                        int threadId )
 {
   itkDebugMacro(<<"Actually Executing");
 
@@ -145,7 +145,7 @@ InterpolateImagePointsFilter<TInputImage, TOutputImage, TCoordType, Interpolator
     if ( m_Interpolator->IsInsideBuffer(index) )
       {
       outIter.Set( m_Interpolator->EvaluateAtContinuousIndex( index ) );
-      //***TODO: How can we modify the code so that it could also interpolate
+      // TODO: How can we modify the code so that it could also interpolate
       //  from a set of point coordinates instead of Continuous Index coordinates?
       //  If this line is used instead of the above line then this will
       //  calculate from points. ( PointType point must replace index throughout this
@@ -223,8 +223,8 @@ InterpolateImagePointsFilter<TInputImage, TOutputImage, TCoordType, Interpolator
 
   outputPtr->SetLargestPossibleRegion( outputLargestPossibleRegion );
   //***TODO:  We have set the LargestPossibleRegion should we also set the requested 
-  //  region at this stage?
-}
+    //  region at this stage?
+    }
 
 
 

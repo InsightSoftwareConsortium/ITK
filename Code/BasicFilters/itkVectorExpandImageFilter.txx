@@ -46,7 +46,7 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
     DefaultInterpolatorType::New();
 
   m_Interpolator = 
-        static_cast<InterpolatorType*>( interp.GetPointer() );
+    static_cast<InterpolatorType*>( interp.GetPointer() );
 
   // Set default padding value to zero
   for( unsigned int k = 0; k < VectorDimension; k++ )
@@ -91,7 +91,7 @@ template <class TInputImage, class TOutputImage>
 void
 VectorExpandImageFilter<TInputImage,TOutputImage>
 ::SetExpandFactors(
-const unsigned int factors[] )
+  const unsigned int factors[] )
 {
 
   unsigned int j;
@@ -119,7 +119,7 @@ template <class TInputImage, class TOutputImage>
 void
 VectorExpandImageFilter<TInputImage,TOutputImage>
 ::SetExpandFactors(
-const unsigned int factor )
+  const unsigned int factor )
 {
 
   unsigned int j;
@@ -147,7 +147,7 @@ template <class TInputImage, class TOutputImage>
 void
 VectorExpandImageFilter<TInputImage,TOutputImage>
 ::SetEdgePaddingValue(
-const OutputPixelType& value )
+  const OutputPixelType& value )
 {
   unsigned int i;
   for( i = 0; i < OutputPixelType::Dimension; i++ )
@@ -192,7 +192,7 @@ template <class TInputImage, class TOutputImage>
 void
 VectorExpandImageFilter<TInputImage,TOutputImage>
 ::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                         int threadId)
+                       int threadId)
 {
   // Get the input and output pointers
   OutputImagePointer outputPtr = this->GetOutput();
@@ -272,7 +272,7 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
 
   // Get pointers to the input and output
   InputImagePointer inputPtr = 
-      const_cast< TInputImage * >( this->GetInput() );
+    const_cast< TInputImage * >( this->GetInput() );
   OutputImagePointer outputPtr = this->GetOutput();
 
   if ( !inputPtr || !outputPtr )
@@ -298,11 +298,11 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
     {
     inputRequestedRegionSize[i]
       = (long) ceil( (double)outputRequestedRegionSize[i] / 
-          (double) m_ExpandFactors[i] ) + 1;
+                     (double) m_ExpandFactors[i] ) + 1;
 
     inputRequestedRegionStartIndex[i]
       = (long) floor( (double)outputRequestedRegionStartIndex[i] / 
-          (double)m_ExpandFactors[i] );
+                      (double)m_ExpandFactors[i] );
     }
 
 
@@ -333,7 +333,7 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
 
   // Get pointers to the input and output
   InputImagePointer inputPtr = 
-      const_cast< TInputImage * >( this->GetInput() );
+    const_cast< TInputImage * >( this->GetInput() );
   OutputImagePointer outputPtr = this->GetOutput();
 
   if ( !inputPtr || !outputPtr )

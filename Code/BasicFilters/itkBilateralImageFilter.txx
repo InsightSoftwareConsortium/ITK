@@ -159,7 +159,7 @@ BilateralImageFilter<TInputImage, TOutputImage>
   ImageRegionIterator<GaussianImageType> git
     = ImageRegionIterator<GaussianImageType>(gaussianImage->GetOutput(),
                                              gaussianImage->GetOutput()
-                                                     ->GetBufferedRegion() );
+                                             ->GetBufferedRegion() );
   for (git.GoToBegin(), kernel_it = m_GaussianKernel.Begin(); !git.IsAtEnd();
        ++git, ++kernel_it)
     {
@@ -259,7 +259,7 @@ BilateralImageFilter<TInputImage, TOutputImage>
     { 
     // walk the boundary face and the corresponding section of the output
     b_iter = NeighborhoodIteratorType(m_GaussianKernel.GetRadius(),
-                                           this->GetInput(), *fit);
+                                      this->GetInput(), *fit);
     b_iter.OverrideBoundaryCondition(&BC);
     o_iter = ImageRegionIterator<OutputImageType>(this->GetOutput(), *fit);
     
@@ -317,7 +317,7 @@ template< class TInputImage, class TOutputImage >
 void
 BilateralImageFilter<TInputImage, TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
-  {
+{
   Superclass::PrintSelf(os,indent);
 
   os << indent << "DomainSigma: ";

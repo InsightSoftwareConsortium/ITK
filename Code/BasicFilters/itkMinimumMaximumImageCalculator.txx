@@ -1,4 +1,4 @@
- /*=========================================================================
+/*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
   Module:    itkMinimumMaximumImageCalculator.txx
@@ -53,20 +53,20 @@ MinimumMaximumImageCalculator<TInputImage>
 
 
   while( !it.IsAtEnd() )
-  {
+    {
     const PixelType value = it.Get();  
     if (value > m_Maximum) 
-    {
+      {
       m_Maximum = value;
       m_IndexOfMaximum = it.GetIndex();
-    }
+      }
     if (value < m_Minimum) 
-    {
+      {
       m_Minimum = value;
       m_IndexOfMinimum = it.GetIndex();
+      }
+    ++it;
     }
-   ++it;
-  }
 
 }
 
@@ -82,15 +82,15 @@ MinimumMaximumImageCalculator<TInputImage>
   m_Minimum = NumericTraits<PixelType>::max() ;
 
   while( !it.IsAtEnd() )
-  {
+    {
     const PixelType value = it.Get();  
     if (value < m_Minimum) 
-    {
+      {
       m_Minimum = value;
       m_IndexOfMinimum = it.GetIndex();
-    }
+      }
     ++it;
-  }
+    }
 
 }
 
@@ -106,15 +106,15 @@ MinimumMaximumImageCalculator<TInputImage>
   m_Maximum = NumericTraits<PixelType>::NonpositiveMin() ;
 
   while( !it.IsAtEnd() )
-  {
+    {
     const PixelType value = it.Get();  
     if (value > m_Maximum) 
-    {
+      {
       m_Maximum = value;
       m_IndexOfMaximum = it.GetIndex();
-    }
+      }
     ++it;
-  }
+    }
 
 }
 

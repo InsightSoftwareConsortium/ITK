@@ -274,7 +274,7 @@ BloxBoundaryPointToCoreAtomImageFilter< dim >
           } // end if face-to-faceness meets criteria
         } // end iterate through boundary points in pixel
       } // end iterate through the conic shell
-   } // end if the seed position for the conic shell is in the image
+    } // end if the seed position for the conic shell is in the image
 }
 
 template< unsigned int dim >

@@ -69,69 +69,69 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
   ot.GoToBegin();
   for(;!ot.IsAtEnd(); ++ot)
     {
-      if(ot.Get()) 
-        {
-          for(i = 0;i<ImageDimension;i++)
-            {          
-              current = ot.GetIndex();
-              current[i] = current[i]-1;
-              if(current[i]<0)
-                label = 0;
-              else
-                label = output->GetPixel(current);
-              if(label)
-                if(ot.Get() == NumericTraits<unsigned short>::max())
-                  ot.Set(label);
-                else if((ot.Get() != label) && (eq_tab[ot.Get()] != eq_tab[label]))
-                   if(eq_tab[ot.Get()] > eq_tab[label])
-                     {
-                       q = eq_tab[ot.Get()];
-                       for(p = q;p<=max_label;p++)
-                         if(eq_tab[p] == q)
-                           eq_tab[p] = eq_tab[label];
-                     }
-                   else
-                     {
-                       q = eq_tab[label];
-                       for(p = q;p<=max_label;p++)
-                         if(eq_tab[p] == q)
-                           eq_tab[p] = eq_tab[ot.Get()];
-                     }
-            }
+    if(ot.Get()) 
+      {
+      for(i = 0;i<ImageDimension;i++)
+        {          
+        current = ot.GetIndex();
+        current[i] = current[i]-1;
+        if(current[i]<0)
+          label = 0;
+        else
+          label = output->GetPixel(current);
+        if(label)
           if(ot.Get() == NumericTraits<unsigned short>::max())
-            {
-              ++max_label;
-              eq_tab[max_label] = max_label;
-              ot.Set(max_label);
-              if(max_label == NumericTraits<unsigned short>::max())
-                return;
-            }
+            ot.Set(label);
+          else if((ot.Get() != label) && (eq_tab[ot.Get()] != eq_tab[label]))
+            if(eq_tab[ot.Get()] > eq_tab[label])
+              {
+              q = eq_tab[ot.Get()];
+              for(p = q;p<=max_label;p++)
+                if(eq_tab[p] == q)
+                  eq_tab[p] = eq_tab[label];
+              }
+            else
+              {
+              q = eq_tab[label];
+              for(p = q;p<=max_label;p++)
+                if(eq_tab[p] == q)
+                  eq_tab[p] = eq_tab[ot.Get()];
+              }
         }
+      if(ot.Get() == NumericTraits<unsigned short>::max())
+        {
+        ++max_label;
+        eq_tab[max_label] = max_label;
+        ot.Set(max_label);
+        if(max_label == NumericTraits<unsigned short>::max())
+          return;
+        }
+      }
     }
 
   for(p = 1;p<=max_label;p++)
     {
-      for(m = p; (m<=max_label) && (eq_tab[m]!=p); m++);
-      if(m>max_label)
+    for(m = p; (m<=max_label) && (eq_tab[m]!=p); m++);
+    if(m>max_label)
+      {
+      for(m = p; (m<=max_label) && (eq_tab[m]<p); m++);
+      if(m<=max_label)
         {
-          for(m = p; (m<=max_label) && (eq_tab[m]<p); m++);
-          if(m<=max_label)
-            {
-              for(i = m;i<=max_label;i++)
-                if(eq_tab[i] == m)
-                  eq_tab[i] = p;
-            }
+        for(i = m;i<=max_label;i++)
+          if(eq_tab[i] == m)
+            eq_tab[i] = p;
         }
+      }
     }
 
   memset(flags,0,max_label+1);
   for(iter = m_Seeds.begin();iter!=m_Seeds.end();iter++)
     {
-      current = *iter;
-      m = eq_tab[output->GetPixel(current)];
-      for(i = m;i<=max_label;i++)
-        if(eq_tab[i] == m)
-          flags[i] = 1;
+    current = *iter;
+    m = eq_tab[output->GetPixel(current)];
+    for(i = m;i<=max_label;i++)
+      if(eq_tab[i] == m)
+        flags[i] = 1;
     }
 
   ot.GoToBegin();

@@ -35,8 +35,8 @@ void
 GradientMagnitudeImageFilter<TInputImage, TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
- Superclass::PrintSelf(os,indent);
- os << indent << "UseImageSpacing = " << m_UseImageSpacing << std::endl;
+  Superclass::PrintSelf(os,indent);
+  os << indent << "UseImageSpacing = " << m_UseImageSpacing << std::endl;
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -49,7 +49,7 @@ GradientMagnitudeImageFilter<TInputImage,TOutputImage>
   
   // get pointers to the input and output
   InputImagePointer  inputPtr = 
-      const_cast< InputImageType * >( this->GetInput());
+    const_cast< InputImageType * >( this->GetInput());
   OutputImagePointer outputPtr = this->GetOutput();
   
   if ( !inputPtr || !outputPtr )
@@ -59,9 +59,9 @@ GradientMagnitudeImageFilter<TInputImage,TOutputImage>
 
   // Build an operator so that we can determine the kernel size
   DerivativeOperator<OutputPixelType, ImageDimension> oper;
-   oper.SetDirection(0);
-   oper.SetOrder(1);
-   oper.CreateDirectional();
+  oper.SetDirection(0);
+  oper.SetOrder(1);
+  oper.CreateDirectional();
   unsigned long radius = oper.GetRadius()[0];
   
   // get a copy of the input requested region (should equal the output

@@ -68,9 +68,9 @@ PasteImageFilter<TInputImage>
 
   // get the pointers for the inputs and output
   InputImagePointer  destPtr = 
-      const_cast< TInputImage * >( this->GetInput() );
+    const_cast< TInputImage * >( this->GetInput() );
   InputImagePointer  sourcePtr = 
-      const_cast< TInputImage * >( this->GetInput(1) );
+    const_cast< TInputImage * >( this->GetInput(1) );
   OutputImagePointer outputPtr = this->GetOutput();
 
   // second input must include the SourceRegion
@@ -82,7 +82,7 @@ PasteImageFilter<TInputImage>
 
 
 
-  /** 
+/** 
    * PasteImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData()
    * routine which is called for each processing thread. The output

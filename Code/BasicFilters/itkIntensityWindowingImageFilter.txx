@@ -85,13 +85,13 @@ IntensityWindowingImageFilter<TInputImage, TOutputImage>
 {
   m_Scale = 
     (static_cast<RealType>( m_OutputMaximum )
-   - static_cast<RealType>( m_OutputMinimum )) /
+     - static_cast<RealType>( m_OutputMinimum )) /
     (static_cast<RealType>( m_WindowMaximum )
-   - static_cast<RealType>( m_WindowMinimum ));
+     - static_cast<RealType>( m_WindowMinimum ));
 
   m_Shift =
-          static_cast<RealType>( m_OutputMinimum ) - 
-          static_cast<RealType>( m_WindowMinimum ) * m_Scale;
+    static_cast<RealType>( m_OutputMinimum ) - 
+    static_cast<RealType>( m_WindowMinimum ) * m_Scale;
   
   // set up the functor values
   this->GetFunctor().SetOutputMinimum( m_OutputMinimum );

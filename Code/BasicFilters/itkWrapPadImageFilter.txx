@@ -43,48 +43,48 @@ int WrapPadImageFilter<TInputImage,TOutputImage>
                            std::vector<long> sizes[ImageDimension],
                            OutputImageRegionType& outputRegion)
 {
-    unsigned int ctr;
-    int done = 0;
-    OutputImageIndexType nextIndex = outputRegion.GetIndex();
-    OutputImageSizeType nextSize = outputRegion.GetSize();
+  unsigned int ctr;
+  int done = 0;
+  OutputImageIndexType nextIndex = outputRegion.GetIndex();
+  OutputImageSizeType nextSize = outputRegion.GetSize();
     
-    //
-    // Starting at the first dimension, increment the counter and set a new 
-    // value for the region parameters.  If we wrap on a region, then we 
-    // also increment to the next region for the next higher dimension.
-    //
-    for (ctr=0; (ctr<ImageDimension) && !done; ctr++)
+  //
+  // Starting at the first dimension, increment the counter and set a new 
+  // value for the region parameters.  If we wrap on a region, then we 
+  // also increment to the next region for the next higher dimension.
+  //
+  for (ctr=0; (ctr<ImageDimension) && !done; ctr++)
+    {
+    regIndices[ctr]++;
+    done = 1;
+    if (regIndices[ctr] >= regLimit[ctr]) 
       {
-      regIndices[ctr]++;
-      done = 1;
-      if (regIndices[ctr] >= regLimit[ctr]) 
-        {
-        regIndices[ctr] = 0;
-        done = 0;
-        }
-      nextIndex[ctr] = indices[ctr][regIndices[ctr]];
-      nextSize[ctr] = sizes[ctr][regIndices[ctr]];
+      regIndices[ctr] = 0;
+      done = 0;
       }
+    nextIndex[ctr] = indices[ctr][regIndices[ctr]];
+    nextSize[ctr] = sizes[ctr][regIndices[ctr]];
+    }
     
   //
   // Set what we have learned into the image region.
   //
-    outputRegion.SetIndex(nextIndex);
-    outputRegion.SetSize(nextSize);
+  outputRegion.SetIndex(nextIndex);
+  outputRegion.SetSize(nextSize);
     
   // 
   // If any dimension has zero size, then we do not need to process this
   // region.  Report this back to the calling routine.
   //
-    for (ctr=0; ctr<ImageDimension; ctr++)
+  for (ctr=0; ctr<ImageDimension; ctr++)
+    {
+    if (nextSize[ctr] == 0)
       {
-      if (nextSize[ctr] == 0)
-        {
-        return 0;
-        }
+      return 0;
       }
+    }
     
-    return 1;
+  return 1;
 }
 
 /**
@@ -120,7 +120,7 @@ int WrapPadImageFilter<TInputImage,TOutputImage>
       }
     nextIndex[ctr] = indices[ctr][regIndices[ctr]];
     nextSize[ctr] = sizes[ctr][regIndices[ctr]];
-  }
+    }
   
   //
   // Set what we have learned into the image region.
@@ -539,7 +539,7 @@ WrapPadImageFilter<TInputImage,TOutputImage>
   int regCtr;
   int numRegions=1; // Actual number of regions in our decomposed space.
   int goodInput, goodOutput;
-                    // Are the regions non-empty?
+  // Are the regions non-empty?
   
   itkDebugMacro(<<"Actually executing");
   

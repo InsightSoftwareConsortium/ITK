@@ -50,9 +50,9 @@ GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType>
 
   // Build an operator so that we can determine the kernel size
   DerivativeOperator<OperatorValueType, InputImageDimension> oper;
-   oper.SetDirection(0);
-   oper.SetOrder(1);
-   oper.CreateDirectional();
+  oper.SetDirection(0);
+  oper.SetOrder(1);
+  oper.CreateDirectional();
   unsigned long radius = oper.GetRadius()[0];
   
   // get a copy of the input requested region (should equal the output
@@ -113,13 +113,13 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
   
   // Set up operators 
   DerivativeOperator<OperatorValueType, InputImageDimension> op;
-   op.SetDirection(0);
-   op.SetOrder(1);
-   op.CreateDirectional();
+  op.SetDirection(0);
+  op.SetOrder(1);
+  op.CreateDirectional();
 
   // Reverse order of coefficients for the convolution with the image to
   // follow.
-   op.FlipAxes();
+  op.FlipAxes();
 
   // Calculate iterator radius
   Size<InputImageDimension> radius;
@@ -146,8 +146,8 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
   const unsigned long center = nit.Size() / 2;
   for (i = 0; i < InputImageDimension; ++i)
     {
-      x_slice[i] = std::slice( center - nit.GetStride(i) * radius[i],
-                               op.GetSize()[0], nit.GetStride(i));
+    x_slice[i] = std::slice( center - nit.GetStride(i) * radius[i],
+                             op.GetSize()[0], nit.GetStride(i));
     }
 
 
@@ -156,7 +156,7 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
   for (fit=faceList.begin(); fit != faceList.end(); ++fit)
     { 
     bit = ConstNeighborhoodIterator<InputImageType>(radius,
-                                                         input, *fit);
+                                                    input, *fit);
     it = ImageRegionIterator<OutputImageType>(output, *fit);
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();

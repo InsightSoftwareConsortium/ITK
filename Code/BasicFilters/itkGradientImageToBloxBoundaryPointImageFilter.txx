@@ -95,12 +95,12 @@ GradientImageToBloxBoundaryPointImageFilter< TInputImage >
 {
   itkDebugMacro(<< "GradientImageToBloxBoundaryPointImageFilter::GenerateInputRequestedRegion() called");
   
-    // call the superclass' implementation of this method
+  // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
   
   // get pointers to the input and output
   InputImagePointer  inputPtr = 
-      const_cast< TInputImage * >( this->GetInput());
+    const_cast< TInputImage * >( this->GetInput());
   OutputImagePointer outputPtr = this->GetOutput();
   
   if ( !inputPtr || !outputPtr )
@@ -125,9 +125,9 @@ GradientImageToBloxBoundaryPointImageFilter< TInputImage >
   for (unsigned int i = 0; i < TInputImage::ImageDimension; i++)
     {
     inputRequestedRegionSize[i] =  static_cast<SizeValueType>(
-                outputRequestedRegionSize[i] * m_BloxResolution[i] );
+      outputRequestedRegionSize[i] * m_BloxResolution[i] );
     inputRequestedRegionStartIndex[i] =  static_cast<IndexValueType>(
-                outputRequestedRegionStartIndex[i] * m_BloxResolution[i] );
+      outputRequestedRegionStartIndex[i] * m_BloxResolution[i] );
     }
   
   typename TInputImage::RegionType inputRequestedRegion;
@@ -158,9 +158,9 @@ GradientImageToBloxBoundaryPointImageFilter< TInputImage >
   // output image start index
   const double *inputSpacing = inputPtr->GetSpacing();
   const typename TInputImage::SizeType&   inputSize
-                    = inputPtr->GetLargestPossibleRegion().GetSize();
+    = inputPtr->GetLargestPossibleRegion().GetSize();
   const typename TInputImage::IndexType&  inputStartIndex
-                    = inputPtr->GetLargestPossibleRegion().GetIndex();
+    = inputPtr->GetLargestPossibleRegion().GetIndex();
   
   float    outputSpacing[ TOutputImage::ImageDimension ];
   typedef typename TOutputImage::SizeType     SizeType;
@@ -177,7 +177,7 @@ GradientImageToBloxBoundaryPointImageFilter< TInputImage >
     outputSpacing[i] = inputSpacing[i] * m_BloxResolution[i];
 
     outputSize[i] = static_cast<SizeValueType>(
-         floor( static_cast<float>( inputSize[i] )/ m_BloxResolution[i]));
+      floor( static_cast<float>( inputSize[i] )/ m_BloxResolution[i]));
     if( outputSize[i] < 1 )
       {
       outputSize[i] = 1;

@@ -43,8 +43,8 @@ template <class TInputImage, class TOutputImage>
 void
 BSplineCenteredL2ResampleImageFilterBase<TInputImage, TOutputImage>
 ::PrintSelf(
-std::ostream& os, 
-Indent indent) const
+  std::ostream& os, 
+  Indent indent) const
 {
   Superclass::PrintSelf( os, indent );
 }
@@ -234,7 +234,7 @@ void BSplineCenteredL2ResampleImageFilterBase<TInputImage, TOutputImage>
       err.SetDescription( "SplineOrder for Centered L2 pyramid filter must be 0 through 4. Requested spline order has not been implemented." );
       throw err;
       break;
-      }
+    }
 }
 
 

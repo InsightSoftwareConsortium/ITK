@@ -39,13 +39,13 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage>
   m_Progress  = 0.0f;
 
   for( unsigned int i = 0; i<ImageDimension-1; i++ )
-  {
+    {
     m_SmoothingFilters[ i ] = GaussianFilterType::New();
     m_SmoothingFilters[ i ]->SetOrder( GaussianFilterType::ZeroOrder );
     m_SmoothingFilters[ i ]->SetNormalizeAcrossScale( m_NormalizeAcrossScale );
     m_SmoothingFilters[ i ]->AddObserver( ProgressEvent(), m_ProgressCommand );
     m_SmoothingFilters[ i ]->ReleaseDataFlagOn();
-  }
+    }
 
   m_DerivativeFilter = DerivativeFilterType::New();
   m_DerivativeFilter->SetOrder( DerivativeFilterType::FirstOrder );
@@ -57,10 +57,10 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage>
   m_SmoothingFilters[0]->SetInput( m_DerivativeFilter->GetOutput() );
 
   for( unsigned int i = 1; i<ImageDimension-1; i++ )
-  {
+    {
     m_SmoothingFilters[ i ]->SetInput( 
-                              m_SmoothingFilters[i-1]->GetOutput() );
-  }
+      m_SmoothingFilters[i-1]->GetOutput() );
+    }
   
   m_ImageAdaptor = OutputImageAdaptorType::New();
 
@@ -78,16 +78,16 @@ void
 GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 ::ReportProgress(const Object * object, const EventObject & event )
 {
-   const ProcessObject * internalFilter = 
-            dynamic_cast<const ProcessObject *>( object );
+  const ProcessObject * internalFilter = 
+    dynamic_cast<const ProcessObject *>( object );
 
-   if( typeid( event ) == typeid( ProgressEvent() ) )
-     {
-     const float filterProgress    = internalFilter->GetProgress();
-     const float weightedProgress  = filterProgress / ImageDimension;
-     m_Progress += weightedProgress;
-     this->UpdateProgress( m_Progress );
-     }
+  if( typeid( event ) == typeid( ProgressEvent() ) )
+    {
+    const float filterProgress    = internalFilter->GetProgress();
+    const float weightedProgress  = filterProgress / ImageDimension;
+    m_Progress += weightedProgress;
+    this->UpdateProgress( m_Progress );
+    }
 }
 
 
@@ -101,9 +101,9 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 {
 
   for( unsigned int i = 0; i<ImageDimension-1; i++ )
-  {
+    {
     m_SmoothingFilters[ i ]->SetSigma( sigma );
-  }
+    }
   m_DerivativeFilter->SetSigma( sigma );
 
   this->Modified();
@@ -124,9 +124,9 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage>
   m_NormalizeAcrossScale = normalize;
 
   for( unsigned int i = 0; i<ImageDimension-1; i++ )
-  {
+    {
     m_SmoothingFilters[ i ]->SetNormalizeAcrossScale( normalize );
-  }
+    }
   m_DerivativeFilter->SetNormalizeAcrossScale( normalize );
 
   this->Modified();
@@ -186,20 +186,20 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage >
   m_ImageAdaptor->SetImage( this->GetOutput() );
 
   m_ImageAdaptor->SetLargestPossibleRegion( 
-                    inputImage->GetLargestPossibleRegion() );
+    inputImage->GetLargestPossibleRegion() );
 
   m_ImageAdaptor->SetBufferedRegion( 
-                    inputImage->GetBufferedRegion() );
+    inputImage->GetBufferedRegion() );
 
   m_ImageAdaptor->SetRequestedRegion( 
-                    inputImage->GetRequestedRegion() );
+    inputImage->GetRequestedRegion() );
 
   m_ImageAdaptor->Allocate();
 
   m_DerivativeFilter->SetInput( inputImage );
 
   for( unsigned int dim=0; dim < ImageDimension; dim++ )
-  {
+    {
     unsigned int i=0; 
     unsigned int j=0;
     while(  i< ImageDimension)
@@ -223,15 +223,15 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage >
     m_ImageAdaptor->SelectNthElement( dim );
 
     typename RealImageType::Pointer derivativeImage = 
-                                      lastFilter->GetOutput(); 
+      lastFilter->GetOutput(); 
 
     ImageRegionIteratorWithIndex< RealImageType > it( 
-                                      derivativeImage, 
-                                      derivativeImage->GetRequestedRegion() );
+      derivativeImage, 
+      derivativeImage->GetRequestedRegion() );
 
     ImageRegionIteratorWithIndex< OutputImageAdaptorType > ot( 
-                                      m_ImageAdaptor, 
-                                      m_ImageAdaptor->GetRequestedRegion() );
+      m_ImageAdaptor, 
+      m_ImageAdaptor->GetRequestedRegion() );
   
     const RealType spacing = inputImage->GetSpacing()[ dim ];
 
@@ -244,7 +244,7 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage >
       ++ot;
       }
 
-  }
+    }
   
 
 }

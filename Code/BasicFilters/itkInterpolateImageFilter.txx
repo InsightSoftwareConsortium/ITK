@@ -63,7 +63,7 @@ InterpolateImageFilter<TInputImage,TOutputImage>
 {
   // Process object is not const-correct so the const_cast is required here
   this->ProcessObject::SetNthInput(1, 
-          const_cast< InputImageType * >( image ) );
+                                   const_cast< InputImageType * >( image ) );
 
 }
 
@@ -82,7 +82,7 @@ InterpolateImageFilter<TInputImage,TOutputImage>
     }
   
   return static_cast<const TInputImage * >
-                     (this->ProcessObject::GetInput(1) );
+    (this->ProcessObject::GetInput(1) );
 }
 
 
@@ -146,7 +146,7 @@ InterpolateImageFilter<TInputImage,TOutputImage>
 
   ImageRegionConstIteratorWithIndex<TInputImage> inIter( this->GetInput1(), outputRegion );
   ImageRegionIteratorWithIndex<IntermediateImageType> outIter( m_IntermediateImage,
-    intermediateRegion );
+                                                               intermediateRegion );
 
   while( !inIter.IsAtEnd() )
     {
@@ -161,7 +161,7 @@ InterpolateImageFilter<TInputImage,TOutputImage>
 
   inIter = ImageRegionConstIteratorWithIndex<TInputImage>( this->GetInput2(), outputRegion );
   outIter = ImageRegionIteratorWithIndex<IntermediateImageType>( m_IntermediateImage,
-    intermediateRegion );
+                                                                 intermediateRegion );
 
   while( !inIter.IsAtEnd() )
     {
@@ -186,8 +186,8 @@ InterpolateImageFilter<TInputImage,TOutputImage>
 ::AfterThreadedGenerateData()
 {
 
- // Clean up intermediat memory usage
- m_IntermediateImage = NULL;
+  // Clean up intermediat memory usage
+  m_IntermediateImage = NULL;
 
 }
 
@@ -227,22 +227,22 @@ InterpolateImageFilter<TInputImage,TOutputImage>
     // Determine the intermediate image index
     outputIndex = outIt.GetIndex();
     for (unsigned int j = 0; j< ImageDimension; ++j)
-    {
-    intermediateIndex[j] = (double) outputIndex[j];
-    }
+      {
+      intermediateIndex[j] = (double) outputIndex[j];
+      }
     intermediateIndex[ImageDimension] = m_Distance;
 
     // Evaluate input at right position and copy to the output
     if( m_Interpolator->IsInsideBuffer(intermediateIndex) )
-    {
+      {
       outIt.Set( static_cast<OutputPixelType>( 
-        m_Interpolator->EvaluateAtContinuousIndex( intermediateIndex ) ) );      
-    }
+                   m_Interpolator->EvaluateAtContinuousIndex( intermediateIndex ) ) );      
+      }
     else
-    {
+      {
       // should never be in here
       itkExceptionMacro( << "Index not within the intermediate buffer" );
-    }
+      }
 
     ++outIt;
     progress.CompletedPixel();

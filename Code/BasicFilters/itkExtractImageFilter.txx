@@ -193,7 +193,7 @@ ExtractImageFilter<TInputImage,TOutputImage>
     }
 }
 
-  /** 
+/** 
    * ExtractImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData()
    * routine which is called for each processing thread. The output

@@ -91,7 +91,7 @@ TransformMeshFilter<TInputMesh,TOutputMesh,TTransform>
   while( inputPoint != inPoints->End() ) 
     {
     outputPoint.Value() = 
-             m_Transform->TransformPoint( inputPoint.Value() );
+      m_Transform->TransformPoint( inputPoint.Value() );
 
     ++inputPoint;
     ++outputPoint;

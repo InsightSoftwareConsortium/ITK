@@ -41,8 +41,8 @@ template <class TInputImage, class TOutputImage, class ResamplerType>
 void
 BSplineUpsampleImageFilter<TInputImage,TOutputImage, ResamplerType>
 ::PrintSelf(
-std::ostream& os, 
-Indent indent) const
+  std::ostream& os, 
+  Indent indent) const
 {
   Superclass::PrintSelf( os, indent );
 }
@@ -64,9 +64,9 @@ BSplineUpsampleImageFilter<TInputImage,TOutputImage, ResamplerType>
   outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
   outputPtr->Allocate();
 
-    // Iterator for walking the output region is defined in the SuperClass
+  // Iterator for walking the output region is defined in the SuperClass
   OutputImageIterator outIt = OutputImageIterator(outputPtr,
-                                        outputPtr->GetRequestedRegion());
+                                                  outputPtr->GetRequestedRegion());
 
   // Calculate actual output
   // TODO:  Need to verify outIt is correctly sized.
@@ -171,7 +171,7 @@ template <class TInputImage, class TOutputImage, class ResamplerType>
 void
 BSplineUpsampleImageFilter<TInputImage,TOutputImage, ResamplerType>
 ::EnlargeOutputRequestedRegion(
-DataObject *output )
+  DataObject *output )
 {
 
   // this filter requires the all of the output image to be in
@@ -186,9 +186,9 @@ DataObject *output )
     {
     // pointer could not be cast to TLevelSet *
     itkWarningMacro(<< "itk::BSplineUpsampleImageFilter" <<
-              "::EnlargeOutputRequestedRegion cannot cast "
-              << typeid(output).name() << " to "
-              << typeid(TOutputImage*).name() );
+                    "::EnlargeOutputRequestedRegion cannot cast "
+                    << typeid(output).name() << " to "
+                    << typeid(TOutputImage*).name() );
 
     }
 

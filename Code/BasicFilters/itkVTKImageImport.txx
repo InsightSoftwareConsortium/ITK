@@ -204,7 +204,7 @@ VTKImageImport<TOutputImage>
     if(components != 1)
       {
       itkExceptionMacro(<< "Input number of components is " << components
-                    << " but should be 1.");
+                        << " but should be 1.");
       }
     }
   if (m_ScalarTypeCallback)
@@ -214,7 +214,7 @@ VTKImageImport<TOutputImage>
     if(scalarName != m_ScalarTypeName)
       {
       itkExceptionMacro(<< "Input scalar type is " << scalarName
-                    << " but should be " << m_ScalarTypeName.c_str());
+                        << " but should be " << m_ScalarTypeName.c_str());
       }
     }
 }
@@ -268,16 +268,16 @@ VTKImageImport<TOutputImage>
     if(importSize < bufferSize)
       {
       itkExceptionMacro(<<"Import and Buffer sizes do not match: "
-                    << importSize << " v. " << bufferSize);
+                        << importSize << " v. " << bufferSize);
       dataSize = importSize;
       }
     else if(importSize > bufferSize)
       {
       itkExceptionMacro(<<"Import and Buffer sizes do not match: "
-                    << importSize << " v. " << bufferSize);
+                        << importSize << " v. " << bufferSize);
       }
     memcpy(bufferPointer, importPointer,
-     dataSize*sizeof(OutputPixelType));
+           dataSize*sizeof(OutputPixelType));
     }
 }
 
@@ -317,7 +317,7 @@ VTKImageImport<TOutputImage>
     }
   if (m_OriginCallback)
     {
-      os << "OriginCallback: " << m_OriginCallback << std::endl;
+    os << "OriginCallback: " << m_OriginCallback << std::endl;
     }
   if (m_UpdateInformationCallback)
     {
