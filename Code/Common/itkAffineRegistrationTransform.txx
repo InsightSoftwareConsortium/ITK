@@ -30,7 +30,7 @@ template <class TScalarType,unsigned int NDimensions, class TParameters>
 AffineRegistrationTransform<TScalarType,NDimensions,TParameters>
 ::AffineRegistrationTransform()
 { 
-
+  m_TranslationScale = 1;
 }
 
 
