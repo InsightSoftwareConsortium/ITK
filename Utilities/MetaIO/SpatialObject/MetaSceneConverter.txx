@@ -29,7 +29,7 @@
 #include "MetaSurfaceConverter.h"
 #include "MetaLandmarkConverter.h"
 
-#include "itkScene.h"
+#include "itkSceneSpatialObject.h"
 #include "itkEllipseSpatialObject.h"
 #include "itkTubeSpatialObject.h"
 #include "itkGroupSpatialObject.h"

@@ -20,7 +20,7 @@
 
 #include "itkSpatialObject.h"
 #include "metaScene.h"
-#include "itkScene.h"
+#include "itkSceneSpatialObject.h"
 
 template <unsigned int NDimensions, class PixelType = unsigned char>
 class MetaSceneConverter
@@ -33,7 +33,7 @@ public:
 
   itkStaticConstMacro(MaximumDepth, unsigned int, 9999999);
 
-  typedef itk::Scene<NDimensions>  SceneType;
+  typedef itk::SceneSpatialObject<NDimensions>  SceneType;
   typedef typename  SceneType::Pointer ScenePointer;
 
   ScenePointer ReadMeta(const char* name);

@@ -21,7 +21,7 @@
 #include "MetaSceneConverter.h"
 #include "itkProcessObject.h"
 #include "itkSpatialObject.h"
-#include "itkScene.h"
+#include "itkSceneSpatialObject.h"
 
 
 namespace itk
@@ -37,7 +37,7 @@ public:
   typedef SmartPointer<Self> Pointer;
 
   typedef SpatialObject<NDimensions> SpatialObjectType; 
-  typedef Scene<NDimensions> SceneType; 
+  typedef SceneSpatialObject<NDimensions> SceneType; 
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);

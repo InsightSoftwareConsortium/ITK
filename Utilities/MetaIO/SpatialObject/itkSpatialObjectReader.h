@@ -22,7 +22,7 @@
 #include "itkSpatialObject.h"
 #include "itkGroupSpatialObject.h"
 #include "itkProcessObject.h"
-#include "itkScene.h"
+#include "itkSceneSpatialObject.h"
 
 namespace itk
 {
@@ -42,7 +42,7 @@ public:
   typedef GroupSpatialObject<NDimensions> GroupType;
   typedef typename GroupType::Pointer GroupPointer;
   
-  typedef Scene<> SceneType;
+  typedef SceneSpatialObject<NDimensions> SceneType;
   typedef typename SceneType::Pointer ScenePointer;
 
    /** Method for creation through the object factory */
