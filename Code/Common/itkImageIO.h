@@ -88,17 +88,19 @@ public:
    * Currently only a single string is returned, but can be modified
    * so that a whole list of strings is returned.
    */
-  virtual std::string GetSupportedFileExtensions() const = 0;
+  typedef std::deque<std::string> FileExtensionsListType;
+  //virtual std::string GetSupportedFileExtensions() const = 0;
+  virtual FileExtensionsListType GetSupportedFileExtensions() const = 0;
 
   /**
    * Set the filename
    */
   itkSetStringMacro(FullFileName);
 
-	/**
-	 * Get the filename
-	 */
-	itkGetStringMacro(FullFileName);
+  /**
+   * Get the filename
+   */
+  itkGetStringMacro(FullFileName);
 
   /**
    * Display information about an instance of this class

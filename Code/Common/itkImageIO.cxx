@@ -58,46 +58,6 @@ void ImageIO::PrintSelf(std::ostream& os, Indent indent)
   os << std::endl;
 }
 
-/*std::string ImageIO::TAtomicPixelToString(const TAtomicPixel pixelType) const
-{
-  switch(pixelType)
-  {
-    case ITK_UCHAR:
-      return "unsigned char";
-      break;
-    case ITK_CHAR:
-      return "char";
-      break;
-    case ITK_USHORT:
-      return "unsigned short";
-      break;
-    case ITK_SHORT:
-      return "short";
-      break;
-    case ITK_UINT:
-      return "unsigned int";
-      break;
-    case ITK_INT:
-      return "int";
-      break;
-    case ITK_ULONG:
-      return "unsigned long";
-      break;
-    case ITK_LONG:
-      return "long";
-      break;
-    case ITK_FLOAT:
-      return "float";
-      break;
-    case ITK_DOUBLE:
-      return "double";
-      break;
-    default:
-      return "unknown";
-      break;
-  }
-}*/
-
 void ImageIO::Resize(const unsigned int numDimensions,
                     const unsigned int* dimensions)
 {
