@@ -22,11 +22,12 @@
 namespace itk
 {
 /** \class VotingBinaryHoleFillingImageFilter
- * \brief Fills in holes and cavities by iteratively applying a voting operation.
+ * \brief Fills in holes and cavities by applying a voting operation on each pixel.
  *
  *
  * \sa Image
  * \sa VotingBinaryImageFilter
+ * \sa VotingBinaryIterativeHoleFillingImageFilter
  * \sa Neighborhood
  * \sa NeighborhoodOperator
  * \sa NeighborhoodIterator
