@@ -59,6 +59,58 @@ SimpleSignedDistance( const TPoint & p )
 
 }
 
+// simple velocity function to be extended
+template <typename TPoint>
+double
+SimpleVelocity( const TPoint & p )
+{
+  TPoint center;
+  center.Fill( 50 );
+
+  double value;
+  double x = p[0] - center[0];
+  double y = p[1] - center[1];
+
+  if ( y == 0.0 )
+    {
+    if( x >= 0.0 )
+      {
+      value = 0.0;
+      }
+    else
+      {
+      value = vnl_math::pi;
+      }
+    }
+  else if ( x == 0.0 )
+    {
+    if ( y > 0.0 )
+      {
+      value = vnl_math::pi_over_2;
+      }
+    else if ( y < 0.0 )
+      {
+      value = vnl_math::pi + vnl_math::pi_over_2;
+      }
+    }  
+  else
+    {
+    value = atan( y / x );
+    if ( value < 0.0 )
+      {
+      value += vnl_math::pi;
+      }
+   
+    if ( y <= 0.0 )
+      {
+      value += vnl_math::pi;
+      }
+    }
+
+  return ( 10 * sin( value ) );
+
+}
+
 
 int itkExtensionVelocitiesImageFilterTest(int, char* [] )
 {
@@ -108,8 +160,26 @@ int itkExtensionVelocitiesImageFilterTest(int, char* [] )
   aux2->SetRegions( region );
   aux2->Allocate();
 
-  aux2->FillBuffer( 2.0 );
+  iter = Iterator( aux2, region );
+  iter.GoToBegin();
 
+  while( !iter.IsAtEnd() )
+    {
+    PointType point;
+    aux2->TransformIndexToPhysicalPoint( iter.GetIndex(), point );
+    iter.Set( SimpleVelocity( point ) );
+    ++iter;
+    }
+/*
+  {
+  // For debugging
+  typedef itk::ImageFileWriter<ImageType> WriterType;
+  WriterType::Pointer writer = WriterType::New();
+  writer->SetInput( aux2 );
+  writer->SetFileName( "input.mhd" );
+  writer->Write();
+  }
+*/
 
   // Set up reinitialize level set image filter
   const unsigned int AuxDimension = 2;
@@ -126,19 +196,41 @@ int itkExtensionVelocitiesImageFilterTest(int, char* [] )
                                &ShowProgressObject::ShowProgress);
   reinitializer->AddObserver( itk::ProgressEvent(), command);
 
+/*
+  {
   // For debugging
   typedef itk::ImageFileWriter<ImageType> WriterType;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( reinitializer->GetOutputVelocityImage( 1 ) );
   writer->SetFileName( "output.mhd" );
   writer->Write();
+  }
+*/
 
   // Check the output
   typedef itk::DifferenceImageFilter<ImageType,ImageType> DifferenceType;
   DifferenceType::Pointer difference = DifferenceType::New();
-  difference->SetTestInput( image );
-  difference->SetValidInput( reinitializer->GetOutput() );
+  difference->SetTestInput( aux2 );
+  difference->SetValidInput( reinitializer->GetOutputVelocityImage( 1 ) );
   difference->Update();
+
+  // mask out the peak at near the center point
+  ImageType::IndexType centerIndex;
+  centerIndex.Fill( 50 - 8 );
+  ImageType::SizeType centerSize;
+  centerSize.Fill( 17 );
+  ImageType::RegionType centerRegion;
+  centerRegion.SetIndex( centerIndex );
+  centerRegion.SetSize( centerSize );
+
+  iter = Iterator( difference->GetOutput(), centerRegion );
+  iter.GoToBegin();
+
+  while( !iter.IsAtEnd() )
+    {
+    iter.Set( 0.0 );
+    ++iter;
+    }
 
   typedef itk::MinimumMaximumImageCalculator<ImageType> CalculatorType;
   CalculatorType::Pointer calculator = CalculatorType::New();
@@ -151,29 +243,28 @@ int itkExtensionVelocitiesImageFilterTest(int, char* [] )
   std::cout << "Max. abs. difference = " << maxAbsDifference;
   std::cout << " at " << maxAbsDifferenceIndex << std::endl;
 
-  if ( maxAbsDifference > 1.0 )
+  if ( maxAbsDifference > 0.8 )
     {
-    std::cout << "Difference above threshold of 1.0" << std::endl;
+    std::cout << "Difference above threshold of 0.8" << std::endl;
     std::cout << "Test failed" << std::endl;
     return EXIT_FAILURE;
     }
 
   // Exercise other member functions
   reinitializer->Print( std::cout );
- 
   reinitializer->SetLevelSetValue( 1.0 );
+ 
+  // Exercise the narrowband version
+  reinitializer->SetLevelSetValue( 0.0 );
   reinitializer->NarrowBandingOn();
   reinitializer->SetNarrowBandwidth( 8 );
   reinitializer->Update();
  
-  typedef ReinitializerType::NodeContainerPointer NodeContainerPointer;
-  NodeContainerPointer nodes = reinitializer->GetOutputNarrowBand();
+  // We will use the output narrowband from the last run as the input narrowband
+  reinitializer->SetInputNarrowBand( reinitializer->GetOutputNarrowBand() );
+  reinitializer->Update();
 
-  std::cout << "Level set value = " << reinitializer->GetLevelSetValue() << std::endl;
-  std::cout << "Narrow banding = " << reinitializer->GetNarrowBanding() << std::endl;
-  std::cout << "Narrow bandwidth = " << reinitializer->GetOutputNarrowBandwidth() << std::endl;
-  std::cout << "No. nodes = " << nodes->Size() << std::endl;
-
+  // Check the output by iterating throught the output narrowband
 
   std::cout << "Test passed" << std::endl;
   return EXIT_SUCCESS;
