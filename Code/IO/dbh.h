@@ -9,6 +9,8 @@
  *
  * database sub-definitions
  */
+#ifndef __dbh_h
+#define __dbh_h
 
 struct header_key                       /*      header_key       */
     {                                          /* off + size*/
@@ -75,3 +77,5 @@ struct dsr                         /*      dsr              */
         struct image_dimension dime;           /* 40 + 108  */
         struct data_history hist;              /* 148 + 200 */
     };                                         /* total=348 */
+
+#endif // __dbh_h
