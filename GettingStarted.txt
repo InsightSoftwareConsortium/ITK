@@ -2,12 +2,11 @@
 Welcome to the Insight Registration and Segmentation Toolkit (ITK)
 -----------------------------------------------------------------
 
-This is the first public (beta) release of ITK. The ITK developer 
-community appreciates any feedback that you may have regarding
-this software. Join the ITK user mailing list (instructions later)
-and post your feedback there. Warning: since the software is young,
-and this is a beta release, the API to the software will likely change
-in the future.
+This is the second public (beta) release of ITK (Release-0_7). The ITK
+developer community appreciates any feedback that you may have regarding this
+software. Join the ITK user mailing list (instructions later) and post your
+feedback there. Warning: since the software is young, and this is a beta
+release, the API to the software will likely change in the future.
 
 Here are suggested steps for the ITK beginner. Please refer to
 http://www.itk.org for more information.
@@ -24,7 +23,7 @@ http://www.itk.org for more information.
      cvs -d :pserver:anonymous@www.itk.org:/cvsroot/Insight login
          (respond with password "insight")
      cvs -d :pserver:anonymous@www.itk.org:/cvsroot/Insight co \
-            -r release-0_5-beta-branch Insight
+            -r Release-0_7 Insight
 
    The current development version of ITK is available using the
    following process. Please realize that the development version is
