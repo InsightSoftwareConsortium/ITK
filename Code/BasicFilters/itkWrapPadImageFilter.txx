@@ -44,11 +44,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkWrapPadImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkObjectFactory.h"
+#include "itkFastMutexLock.h"
 #include <vector>
 
 namespace itk
 {
   
+/** Used for mutex locking */
+static SimpleFastMutexLock VectorMutex;
+
 /**
  *
  */
@@ -409,9 +413,7 @@ WrapPadImageFilter<TInputImage,TOutputImage>
   // For n dimensions, there are k^n combinations of before, between, and
   // after on these regions.  We are keeping this flexible so that we 
   // can handle other blockings imposed by the mirror and wrap algorithms.
-  long inRegIndices[ImageDimension];
   long inRegLimit[ImageDimension];
-  long outRegIndices[ImageDimension];
   long outRegLimit[ImageDimension];
   long minIndex[ImageDimension], maxIndex[ImageDimension];
   int numPre[ImageDimension], numPost[ImageDimension], numIn[ImageDimension];
@@ -424,27 +426,25 @@ WrapPadImageFilter<TInputImage,TOutputImage>
   // and set up the required variables here.
   for (dimCtr=0; dimCtr<ImageDimension; dimCtr++) 
     {
-      numIn[dimCtr] = 1;  // Always assume exactly one inter region.
-      numPre[dimCtr] =    // Count how many versions of input fit in pre-pad
-  this->FindRegionsInArea(outputIndex[dimCtr], inputIndex[dimCtr],
-        static_cast<long>(inputSize[dimCtr]), 
-        inputIndex[dimCtr]-outputIndex[dimCtr]
-        - static_cast<long>(outputSize[dimCtr]));
-      numPost[dimCtr] =   // Count how many versions of input fit in post-pad
-  this->FindRegionsInArea(inputIndex[dimCtr]+static_cast<long>(inputSize[dimCtr]),
-        outputIndex[dimCtr]+static_cast<long>(outputSize[dimCtr]),
-        static_cast<long>(inputSize[dimCtr]),
-        outputIndex[dimCtr]-inputIndex[dimCtr]
-        - static_cast<long>(inputSize[dimCtr]));
-      inRegLimit[dimCtr] = numPre[dimCtr] + numIn[dimCtr] + numPost[dimCtr];
-      inRegIndices[dimCtr] = inRegLimit[dimCtr] - 1;
-      outRegLimit[dimCtr] = numPre[dimCtr] + numIn[dimCtr] + numPost[dimCtr];
-      outRegIndices[dimCtr] = outRegLimit[dimCtr] - 1;
-      numRegions *= outRegLimit[dimCtr];
-      outputRegionStart[dimCtr].resize(outRegLimit[dimCtr]);
-      outputRegionSizes[dimCtr].resize(outRegLimit[dimCtr]);
-      inputRegionStart[dimCtr].resize(inRegLimit[dimCtr]);
-      inputRegionSizes[dimCtr].resize(inRegLimit[dimCtr]);
+    numIn[dimCtr] = 1;  // Always assume exactly one inter region.
+    numPre[dimCtr] =    // Count how many versions of input fit in pre-pad
+      this->FindRegionsInArea(outputIndex[dimCtr], inputIndex[dimCtr],
+                              static_cast<long>(inputSize[dimCtr]), 
+                              inputIndex[dimCtr]-outputIndex[dimCtr]
+                              - static_cast<long>(outputSize[dimCtr]));
+    numPost[dimCtr] =   // Count how many versions of input fit in post-pad
+      this->FindRegionsInArea(inputIndex[dimCtr]+static_cast<long>(inputSize[dimCtr]),
+                              outputIndex[dimCtr]+static_cast<long>(outputSize[dimCtr]),
+                              static_cast<long>(inputSize[dimCtr]),
+                              outputIndex[dimCtr]-inputIndex[dimCtr]
+                              - static_cast<long>(inputSize[dimCtr]));
+    inRegLimit[dimCtr] = numPre[dimCtr] + numIn[dimCtr] + numPost[dimCtr];
+    outRegLimit[dimCtr] = numPre[dimCtr] + numIn[dimCtr] + numPost[dimCtr];
+    numRegions *= outRegLimit[dimCtr];
+    outputRegionStart[dimCtr].resize(outRegLimit[dimCtr]);
+    outputRegionSizes[dimCtr].resize(outRegLimit[dimCtr]);
+    inputRegionStart[dimCtr].resize(inRegLimit[dimCtr]);
+    inputRegionSizes[dimCtr].resize(inRegLimit[dimCtr]);
     }
   
   //
@@ -600,27 +600,27 @@ WrapPadImageFilter<TInputImage,TOutputImage>
   // and set up the required variables here.
   for (dimCtr=0; dimCtr<ImageDimension; dimCtr++) 
     {
-      numIn[dimCtr] = 1;  // Always assume exactly one inter region.
-      numPre[dimCtr] =    // Count how many versions of input fit in pre-pad
-  this->FindRegionsInArea(outputIndex[dimCtr], inputIndex[dimCtr],
-        static_cast<long>(inputSize[dimCtr]), 
-        inputIndex[dimCtr]-outputIndex[dimCtr]
-        - static_cast<long>(outputSize[dimCtr]));
-      numPost[dimCtr] =   // Count how many versions of input fit in post-pad
-  this->FindRegionsInArea(inputIndex[dimCtr]+static_cast<long>(inputSize[dimCtr]),
-        outputIndex[dimCtr]+static_cast<long>(outputSize[dimCtr]),
-        static_cast<long>(inputSize[dimCtr]),
-        outputIndex[dimCtr]-inputIndex[dimCtr]
-        - static_cast<long>(inputSize[dimCtr]));
-      inRegLimit[dimCtr] = numPre[dimCtr] + numIn[dimCtr] + numPost[dimCtr];
-      inRegIndices[dimCtr] = inRegLimit[dimCtr] - 1;
-      outRegLimit[dimCtr] = numPre[dimCtr] + numIn[dimCtr] + numPost[dimCtr];
-      outRegIndices[dimCtr] = outRegLimit[dimCtr] - 1;
-      numRegions *= outRegLimit[dimCtr];
-      outputRegionStart[dimCtr].resize(outRegLimit[dimCtr]);
-      outputRegionSizes[dimCtr].resize(outRegLimit[dimCtr]);
-      inputRegionStart[dimCtr].resize(inRegLimit[dimCtr]);
-      inputRegionSizes[dimCtr].resize(inRegLimit[dimCtr]);
+    numIn[dimCtr] = 1;  // Always assume exactly one inter region.
+    numPre[dimCtr] =    // Count how many versions of input fit in pre-pad
+      this->FindRegionsInArea(outputIndex[dimCtr], inputIndex[dimCtr],
+                              static_cast<long>(inputSize[dimCtr]), 
+                              inputIndex[dimCtr]-outputIndex[dimCtr]
+                              - static_cast<long>(outputSize[dimCtr]));
+    numPost[dimCtr] =   // Count how many versions of input fit in post-pad
+      this->FindRegionsInArea(inputIndex[dimCtr]+static_cast<long>(inputSize[dimCtr]),
+                              outputIndex[dimCtr]+static_cast<long>(outputSize[dimCtr]),
+                              static_cast<long>(inputSize[dimCtr]),
+                              outputIndex[dimCtr]-inputIndex[dimCtr]
+                              - static_cast<long>(inputSize[dimCtr]));
+    inRegLimit[dimCtr] = numPre[dimCtr] + numIn[dimCtr] + numPost[dimCtr];
+    inRegIndices[dimCtr] = inRegLimit[dimCtr] - 1;
+    outRegLimit[dimCtr] = numPre[dimCtr] + numIn[dimCtr] + numPost[dimCtr];
+    outRegIndices[dimCtr] = outRegLimit[dimCtr] - 1;
+    numRegions *= outRegLimit[dimCtr];
+    outputRegionStart[dimCtr].resize(outRegLimit[dimCtr]);
+    outputRegionSizes[dimCtr].resize(outRegLimit[dimCtr]);
+    inputRegionStart[dimCtr].resize(inRegLimit[dimCtr]);
+    inputRegionSizes[dimCtr].resize(inRegLimit[dimCtr]);
     }
   
   //
