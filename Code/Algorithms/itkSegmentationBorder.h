@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkRGBPixelorder.h
+  Module:    itkSegmentationBorder.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -13,18 +13,18 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#ifndef _itkRGBPixelorder_h
-#define _itkRGBPixelorder_h
+#ifndef _itkSegmentationBorder_h
+#define _itkSegmentationBorder_h
 
 #include "itkObject.h"
 namespace itk
 {
 
-/** \class RGBPixelorder
- * \brief Base class for RGBPixelorder object
+/** \class SegmentationBorder
+ * \brief Base class for SegmentationBorder object
  * 
- * itkRGBPixelorder is the base class for the RGBPixelorder objects. It provides
- * the basic function definitons that are inherent to a RGBPixelorder objects.
+ * itkSegmentationBorder is the base class for the SegmentationBorder objects. It provides
+ * the basic function definitons that are inherent to a SegmentationBorder objects.
  * This object stores information relevant to the borders that are used
  * in the region growing class. This class allows access to the parameter
  * that defines the length of the border associated with this object.
@@ -36,13 +36,13 @@ namespace itk
  */
 
 template <class TInputImage, class TOutputImage>
-class ITK_EXPORT RGBPixelorder : public Object
+class ITK_EXPORT SegmentationBorder : public Object
 {
 public:
   /**
    * Standard "Self" typedef.
    */
-  typedef RGBPixelorder   Self;
+  typedef SegmentationBorder   Self;
 
   /**
    * Standard "Superclass" typedef
@@ -58,7 +58,7 @@ public:
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(RGBPixelorder,Object);
+  itkTypeMacro(SegmentationBorder,Object);
 
   /**
    * Method for creation through the object factory.
@@ -86,27 +86,27 @@ public:
   itkGetMacro(BorderLength, unsigned int);
 
   /**
-   * Define a virtual RGBPixelorder function. This function allows access to
+   * Define a virtual SegmentationBorder function. This function allows access to
    * specific instantiations of other border representations. This is the
    * function should be overloaded in any derived classes for the user to
    * access the various methods supported by the method.
    */
-  virtual void ApplyRGBPixelorder(){};
+  virtual void ApplySegmentationBorder(){};
 
   /**
    * Constructor
    */
-  RGBPixelorder();
+  SegmentationBorder();
 
   /**
    * Destructor
    */
-  ~RGBPixelorder();
+  ~SegmentationBorder();
 
   /**
    * Copy constructor
    */
-  RGBPixelorder(const Self&) {}
+  SegmentationBorder(const Self&) {}
 
   /**
    * Assignment operator
@@ -122,13 +122,13 @@ protected:
 private:
   unsigned int m_BorderLength;
 
-}; // class RGBPixelorder
+}; // class SegmentationBorder
 
 
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRGBPixelorder.txx"
+#include "itkSegmentationBorder.txx"
 #endif
 
 

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkRGBPixelorderKLM.h
+  Module:    itkKLMSegmentationBorder.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -13,11 +13,11 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#ifndef _itkRGBPixelorderKLM_h
-#define _itkRGBPixelorderKLM_h
+#ifndef _itkKLMSegmentationBorder_h
+#define _itkKLMSegmentationBorder_h
 
 #include "itkObject.h"
-#include "itkRGBPixelorder.h"
+#include "itkSegmentationBorder.h"
 #include "itkKLMSegmentationRegion.h"
 
 namespace itk
@@ -54,11 +54,11 @@ public:
 
 };
 
-/** \class RGBPixelorderKLM
- * \brief Base class for RGBPixelorderKLM object
+/** \class KLMSegmentationBorder
+ * \brief Base class for KLMSegmentationBorder object
  * 
- * itkRGBPixelorderKLM is the base class for the RGBPixelorderKLM objects. It provides
- * the basic function definitons that are inherent to a RGBPixelorderKLM objects.
+ * itkKLMSegmentationBorder is the base class for the KLMSegmentationBorder objects. It provides
+ * the basic function definitons that are inherent to a KLMSegmentationBorder objects.
  *
  * This class implements the border object that is used in particular with 
  * the KLM algorithm (see also itkRegionGrowImageFilterKLM). The border is defined by 
@@ -71,7 +71,7 @@ public:
  */
 
 template <class TInputImage, class TOutputImage>
-class ITK_EXPORT RGBPixelorderKLM : public RGBPixelorder<TInputImage,TOutputImage>
+class ITK_EXPORT KLMSegmentationBorder : public SegmentationBorder<TInputImage,TOutputImage>
 {
  private:
   /**
@@ -83,12 +83,12 @@ public:
   /**
    * Standard "Self" typedef.
    */
-  typedef RGBPixelorderKLM   Self;
+  typedef KLMSegmentationBorder   Self;
 
   /**
    * Standard "Superclass" typedef
    */
-  typedef RGBPixelorder<TInputImage,TOutputImage> Superclass;
+  typedef SegmentationBorder<TInputImage,TOutputImage> Superclass;
 
   /** 
    * Smart pointer typedef support.
@@ -99,7 +99,7 @@ public:
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(RGBPixelorderKLM,RGBPixelorder);
+  itkTypeMacro(KLMSegmentationBorder,SegmentationBorder);
 
   /**
    * Method for creation through the object factory.
@@ -161,23 +161,23 @@ public:
   /**
    * Constructor
    */
-  RGBPixelorderKLM();
+  KLMSegmentationBorder();
 
   /**
    * Destructor
    */
-  ~RGBPixelorderKLM();
+  ~KLMSegmentationBorder();
 
   /**
    * Greater than operators defined to work with both static objects
    * or pointer to objects.
    */
-  bool operator> (const RGBPixelorderKLM<TInputImage,TOutputImage>& rhs) const
+  bool operator> (const KLMSegmentationBorder<TInputImage,TOutputImage>& rhs) const
   {
     return(m_Lambda > rhs.m_Lambda);
   }
 
-  bool operator> (const RGBPixelorderKLM<TInputImage,TOutputImage>* rhs) const
+  bool operator> (const KLMSegmentationBorder<TInputImage,TOutputImage>* rhs) const
   {
     return(m_Lambda > rhs->m_Lambda);
   }
@@ -195,13 +195,13 @@ private:
   KLMSegmentationRegion<TInputImage,TOutputImage> *m_Region2;
 
 
-}; // class RGBPixelorderKLM
+}; // class KLMSegmentationBorder
 
 
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRGBPixelorderKLM.txx"
+#include "itkKLMSegmentationBorder.txx"
 #endif
 
 

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkRegionGrowImageFilterKLM.h
+  Module:    itkKLMRegionGrowImageFilter.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -13,8 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#ifndef _itkRegionGrowImageFilterKLM_h
-#define _itkRegionGrowImageFilterKLM_h
+#ifndef _itkKLMRegionGrowImageFilter_h
+#define _itkKLMRegionGrowImageFilter_h
 
 #include "itkImage.h"
 #include "itkObject.h"
@@ -28,11 +28,11 @@
 namespace itk
 {
 
-/** \class RegionGrowImageFilterKLM
+/** \class KLMRegionGrowImageFilter
  * \brief Base class for a region growing object that performs energy-based 
  * region growing for multiband images.  
  * 
- * itkRegionGrowImageFilterKLM is the base class for the RegionGrowImageFilterKLM objects.
+ * itkKLMRegionGrowImageFilter is the base class for the KLMRegionGrowImageFilter objects.
  * This object performes energy-based region growing for multiband images. 
  * Since this is based on G. Koepfler,C. Lopez and J. M. Morel's work 
  * described below, the acronym KLM is added at the end of the object name
@@ -146,14 +146,14 @@ namespace itk
  */
 
 template <class TInputImage, class TOutputImage>
-class ITK_EXPORT RegionGrowImageFilterKLM : public RegionGrowImageFilter<TInputImage,TOutputImage>
+class ITK_EXPORT KLMRegionGrowImageFilter : public RegionGrowImageFilter<TInputImage,TOutputImage>
 {
 
 public:
   /**
    * Standard "Self" typedef.
    */
-  typedef RegionGrowImageFilterKLM   Self;
+  typedef KLMRegionGrowImageFilter   Self;
 
   /**
    * Standard "Superclass" typedef
@@ -169,7 +169,7 @@ public:
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(RegionGrowImageFilterKLM,RegionGrowImageFilter);
+  itkTypeMacro(KLMRegionGrowImageFilter,RegionGrowImageFilter);
 
   /**
    * Method for creation through the object factory.
@@ -322,17 +322,17 @@ protected:
   /**
    * Constructor
    */
-  RegionGrowImageFilterKLM();
+  KLMRegionGrowImageFilter();
 
   /**
    * Destructor
    */
-  ~RegionGrowImageFilterKLM();
+  ~KLMRegionGrowImageFilter();
 
   /**
    * Copy constructor
    */
-  RegionGrowImageFilterKLM(const Self&) {}
+  KLMRegionGrowImageFilter(const Self&) {}
 
   /**
    * Assignment operator
@@ -407,12 +407,12 @@ private:
    */
   void resolve_region_labels();
                                     
-}; // class RegionGrowImageFilterKLM
+}; // class KLMRegionGrowImageFilter
 
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRegionGrowImageFilterKLM.txx"
+#include "itkKLMRegionGrowImageFilter.txx"
 #endif
 
 

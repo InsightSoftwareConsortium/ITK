@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkRegionGrowImageFilterKLM.txx
+  Module:    itkKLMRegionGrowImageFilter.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -18,8 +18,8 @@ namespace itk
 
 
 template<class TInputImage, class TOutputImage>
-RegionGrowImageFilterKLM<TInputImage,TOutputImage>
-::RegionGrowImageFilterKLM(void):
+KLMRegionGrowImageFilter<TInputImage,TOutputImage>
+::KLMRegionGrowImageFilter(void):
   m_MaxLambda(1000),
   m_nBorders(0),
   m_NumRegions(0),
@@ -37,8 +37,8 @@ RegionGrowImageFilterKLM<TInputImage,TOutputImage>
 //----------------------------------------------------------------------
 
 template<class TInputImage, class TOutputImage>
-RegionGrowImageFilterKLM<TInputImage,TOutputImage>
-::~RegionGrowImageFilterKLM()
+KLMRegionGrowImageFilter<TInputImage,TOutputImage>
+::~KLMRegionGrowImageFilter()
 {
 
 }
@@ -50,7 +50,7 @@ RegionGrowImageFilterKLM<TInputImage,TOutputImage>
  */
 template <class TInputImage, class TOutputImage>
 void
-RegionGrowImageFilterKLM<TInputImage,TOutputImage>
+KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent)
 {
   Superclass::PrintSelf(os,indent);
@@ -66,7 +66,7 @@ RegionGrowImageFilterKLM<TInputImage,TOutputImage>
  */
 template<class TInputImage, class TOutputImage>
 void
-RegionGrowImageFilterKLM<TInputImage,TOutputImage>
+KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 ::GenerateInputRequestedRegion()
 {
 
@@ -82,7 +82,7 @@ RegionGrowImageFilterKLM<TInputImage,TOutputImage>
  */
 template<class TInputImage, class TOutputImage>
 void
-RegionGrowImageFilterKLM<TInputImage,TOutputImage>
+KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 ::EnlargeOutputRequestedRegion(
 DataObject *output )
 {
@@ -101,7 +101,7 @@ DataObject *output )
  */
 template<class TInputImage, class TOutputImage>
 void
-RegionGrowImageFilterKLM<TInputImage,TOutputImage>
+KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 ::GenerateOutputInformation()
 {
 
@@ -114,7 +114,7 @@ RegionGrowImageFilterKLM<TInputImage,TOutputImage>
 
 template<class TInputImage, class TOutputImage>
 void
-RegionGrowImageFilterKLM<TInputImage,TOutputImage>
+KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 ::GenerateData()
 {
 
@@ -137,7 +137,7 @@ RegionGrowImageFilterKLM<TInputImage,TOutputImage>
 
 template<class TInputImage, class TOutputImage>
 void
-RegionGrowImageFilterKLM<TInputImage,TOutputImage>
+KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 ::GenerateOutputImage()
 {
   //Get the pointer to the output image
@@ -227,8 +227,8 @@ RegionGrowImageFilterKLM<TInputImage,TOutputImage>
 //----------------------------------------------------------------------
 
 template<class TInputImage, class TOutputImage>
-RegionGrowImageFilterKLM<TInputImage,TOutputImage>::LabelImagePointer
-RegionGrowImageFilterKLM<TInputImage,TOutputImage>
+KLMRegionGrowImageFilter<TInputImage,TOutputImage>::LabelImagePointer
+KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 ::GetLabelledImage()
 {
   //--------------------------------------------------------------------
@@ -325,7 +325,7 @@ RegionGrowImageFilterKLM<TInputImage,TOutputImage>
 
 template<class TInputImage, class TOutputImage>
 void
-RegionGrowImageFilterKLM<TInputImage,TOutputImage>
+KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 ::ApplyRegionGrowImageFilter()
 {
   ApplyKLM();
@@ -335,7 +335,7 @@ RegionGrowImageFilterKLM<TInputImage,TOutputImage>
 
 template<class TInputImage, class TOutputImage>
 void
-RegionGrowImageFilterKLM<TInputImage,TOutputImage>
+KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 ::ApplyKLM()
 {
   if( ( m_MaxLambda < 0 ) || ( this->GetMaxNumRegions() <= 0 ) )
@@ -381,7 +381,7 @@ RegionGrowImageFilterKLM<TInputImage,TOutputImage>
  */
 template<class TInputImage, class TOutputImage>
 void
-RegionGrowImageFilterKLM<TInputImage,TOutputImage>
+KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 ::MergeRegions()
 {
 
@@ -391,7 +391,7 @@ RegionGrowImageFilterKLM<TInputImage,TOutputImage>
 
 template<class TInputImage, class TOutputImage>
 void
-RegionGrowImageFilterKLM<TInputImage,TOutputImage>
+KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 ::initializeKLM()
 { 
   //---------------------------------------------------------------------
@@ -680,7 +680,7 @@ RegionGrowImageFilterKLM<TInputImage,TOutputImage>
 
 template<class TInputImage, class TOutputImage>
 void
-RegionGrowImageFilterKLM<TInputImage,TOutputImage>
+KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 ::CalculateInitRegionStats( int   regionRowIndex, 
                             int   regionColIndex, 
                             int   regionRowGridSize,
@@ -744,7 +744,7 @@ RegionGrowImageFilterKLM<TInputImage,TOutputImage>
 
 template<class TInputImage, class TOutputImage>
 void
-RegionGrowImageFilterKLM<TInputImage,TOutputImage>
+KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 ::merge_regions()
 {
   // One region associated with the candidate border
@@ -867,7 +867,7 @@ RegionGrowImageFilterKLM<TInputImage,TOutputImage>
 
 template<class TInputImage, class TOutputImage>
 void
-RegionGrowImageFilterKLM<TInputImage,TOutputImage>
+KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 ::union_borders(KLMSegmentationRegion<TInputImage,TOutputImage> *pnewRegion,
                         KLMSegmentationRegion<TInputImage,TOutputImage> *poldRegion)
 {
@@ -1154,7 +1154,7 @@ RegionGrowImageFilterKLM<TInputImage,TOutputImage>
 
 template<class TInputImage, class TOutputImage>
 void
-RegionGrowImageFilterKLM<TInputImage,TOutputImage>
+KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 ::resolve_region_labels()
 {
   //---------------------------------------------------------------------
@@ -1292,7 +1292,7 @@ RegionGrowImageFilterKLM<TInputImage,TOutputImage>
 
 template<class TInputImage, class TOutputImage>
 void
-RegionGrowImageFilterKLM<TInputImage,TOutputImage>
+KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 ::PrintAlgorithmRegionStats()
 {
   //Print the stats associated with all the regions
@@ -1308,7 +1308,7 @@ RegionGrowImageFilterKLM<TInputImage,TOutputImage>
 
 template<class TInputImage, class TOutputImage>
 void
-RegionGrowImageFilterKLM<TInputImage,TOutputImage>
+KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 ::PrintAlgorithmBorderStats()
 {
   //Print the stats associated with all the regions
@@ -1324,7 +1324,7 @@ RegionGrowImageFilterKLM<TInputImage,TOutputImage>
 
 template<class TInputImage, class TOutputImage>
 void
-RegionGrowImageFilterKLM<TInputImage,TOutputImage>
+KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 ::PrintAlgorithmBorderStats(bool smartBorderPointerUseFlag)
 {
 

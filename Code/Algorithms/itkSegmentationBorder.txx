@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkRGBPixelorder.txx
+  Module:    itkSegmentationBorder.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -17,15 +17,15 @@ namespace itk
 {
 
 template<class TInputImage, class TOutputImage>
-RGBPixelorder<TInputImage,TOutputImage>
-::RGBPixelorder(void):
+SegmentationBorder<TInputImage,TOutputImage>
+::SegmentationBorder(void):
   m_BorderLength(0)
 {
 }
 
 template<class TInputImage, class TOutputImage>
-RGBPixelorder<TInputImage,TOutputImage>
-::~RGBPixelorder()
+SegmentationBorder<TInputImage,TOutputImage>
+::~SegmentationBorder()
 {
 
 }
@@ -35,7 +35,7 @@ RGBPixelorder<TInputImage,TOutputImage>
  */
 template <class TInputImage, class TOutputImage>
 void
-RGBPixelorder<TInputImage,TOutputImage>
+SegmentationBorder<TInputImage,TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent)
 {
   Superclass::PrintSelf(os,indent);

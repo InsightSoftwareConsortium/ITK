@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkRGBPixelorderKLM.txx
+  Module:    itkKLMSegmentationBorder.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -17,15 +17,15 @@ namespace itk
 {
 
 template<class TInputImage, class TOutputImage>
-RGBPixelorderKLM<TInputImage,TOutputImage>
-::RGBPixelorderKLM(void)
+KLMSegmentationBorder<TInputImage,TOutputImage>
+::KLMSegmentationBorder(void)
 {
 
 }
 
 template<class TInputImage, class TOutputImage>
-RGBPixelorderKLM<TInputImage,TOutputImage>
-::~RGBPixelorderKLM()
+KLMSegmentationBorder<TInputImage,TOutputImage>
+::~KLMSegmentationBorder()
 {
 
 }
@@ -35,7 +35,7 @@ RGBPixelorderKLM<TInputImage,TOutputImage>
  */
 template <class TInputImage, class TOutputImage>
 void
-RGBPixelorderKLM<TInputImage,TOutputImage>
+KLMSegmentationBorder<TInputImage,TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent)
 {
 
@@ -46,7 +46,7 @@ RGBPixelorderKLM<TInputImage,TOutputImage>
 
 template<class TInputImage, class TOutputImage>
 void
-RGBPixelorderKLM<TInputImage,TOutputImage>
+KLMSegmentationBorder<TInputImage,TOutputImage>
 ::SetRegion1(KLMSegmentationRegion<TInputImage,TOutputImage> *Region1)
 {
 
@@ -56,7 +56,7 @@ RGBPixelorderKLM<TInputImage,TOutputImage>
 
 template<class TInputImage, class TOutputImage>
 KLMSegmentationRegion<TInputImage,TOutputImage> *
-RGBPixelorderKLM<TInputImage,TOutputImage>
+KLMSegmentationBorder<TInputImage,TOutputImage>
 ::GetRegion1()
 {
 
@@ -66,7 +66,7 @@ RGBPixelorderKLM<TInputImage,TOutputImage>
 
 template<class TInputImage, class TOutputImage>
 void
-RGBPixelorderKLM<TInputImage,TOutputImage>
+KLMSegmentationBorder<TInputImage,TOutputImage>
 ::SetRegion2(KLMSegmentationRegion<TInputImage,TOutputImage> *Region2)
 {
 
@@ -76,7 +76,7 @@ RGBPixelorderKLM<TInputImage,TOutputImage>
 
 template<class TInputImage, class TOutputImage>
 KLMSegmentationRegion<TInputImage,TOutputImage> *
-RGBPixelorderKLM<TInputImage,TOutputImage>
+KLMSegmentationBorder<TInputImage,TOutputImage>
 ::GetRegion2()
 {
 
@@ -86,7 +86,7 @@ RGBPixelorderKLM<TInputImage,TOutputImage>
 
 template<class TInputImage, class TOutputImage>
 void
-RGBPixelorderKLM<TInputImage,TOutputImage>
+KLMSegmentationBorder<TInputImage,TOutputImage>
 ::EvaluateLambda()
 {
   // Get the regions corresponding to the border in question
@@ -124,7 +124,7 @@ RGBPixelorderKLM<TInputImage,TOutputImage>
 
 template<class TInputImage, class TOutputImage>
 void
-RGBPixelorderKLM<TInputImage,TOutputImage>
+KLMSegmentationBorder<TInputImage,TOutputImage>
 ::PrintBorderInfo()
 {
 
