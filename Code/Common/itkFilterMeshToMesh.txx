@@ -56,7 +56,7 @@ FilterMeshToMesh<TInputMesh,TOutputMesh>
     return 0;
     }
   
-  return (TInputMesh *)(this->GetInput(0));
+  return static_cast<TInputMesh *>(this->GetInput(0));
 }
 
   
