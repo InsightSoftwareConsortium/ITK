@@ -15,7 +15,6 @@
 
 
 char MET_SeperatorChar = '=';
-bool m_ReturnWhenFail = false;
 
 bool MET_SystemByteOrderMSB(void)
   {
@@ -30,11 +29,6 @@ bool MET_SystemByteOrderMSB(void)
     return true;
     }
   }
-
-void MET_ReturnWhenFailed(bool val)
-{
-  m_ReturnWhenFail = val;
-}
 
 MET_FieldRecordType * 
 MET_GetFieldRecord(const char * _fieldName,
@@ -480,7 +474,8 @@ bool MET_IsComplete(std::vector<MET_FieldRecordType *> * fields)
     {
     if((*fieldIter)->required && !(*fieldIter)->defined)
       {
-      std::cout << (*fieldIter)->name << " required and not defined." << std::endl;
+      std::cout << (*fieldIter)->name << " required and not defined." 
+                << std::endl;
       return false;
       }
     }
@@ -506,12 +501,17 @@ bool MET_Read(std::istream &fp, std::vector<MET_FieldRecordType *> * fields,
     {
     i = 0;
     c = fp.get();
+    while(!fp.eof() && c != MET_SeperatorChar
+          && (c == '\n' || isspace(c)))
+      {
+      c = fp.get();
+      }
     while(!fp.eof() && c != MET_SeperatorChar && c != '\n' && i<500)
       {
       s[i++] = c;
       c = fp.get();
       }
-    if(fp.eof())
+    if(fp.eof() || i >= 500)
       {
       break;
       }
@@ -678,11 +678,7 @@ bool MET_Read(std::istream &fp, std::vector<MET_FieldRecordType *> * fields,
       }
     if(!found)
       {
-      std::cout << "Unrecognized field " << s << std::endl;
-      if(m_ReturnWhenFail)
-      {
-        return false;
-      }
+      std::cout << "Skipping unrecognized field " << s << std::endl;
       fp.getline( s, 500 );
       }
     }
@@ -737,7 +733,8 @@ bool MET_Write(std::ostream &fp, std::vector<MET_FieldRecordType *> * fields,
         fp << (*fieldIter)->name << " " << MET_SeperatorChar << " ";
         if((*fieldIter)->dependsOn >= 0) 
           {
-          if((*fieldIter)->length != (*fields)[(*fieldIter)->dependsOn]->value[0])
+          if((*fieldIter)->length != 
+             (*fields)[(*fieldIter)->dependsOn]->value[0])
             {
             std::cout << "Warning:";
             std::cout << "length and dependsOn values not equal in write";
@@ -758,7 +755,8 @@ bool MET_Write(std::ostream &fp, std::vector<MET_FieldRecordType *> * fields,
         fp << (*fieldIter)->name << " " << MET_SeperatorChar;
         if((*fieldIter)->dependsOn >= 0)
           {
-          if((*fieldIter)->length != (*fields)[(*fieldIter)->dependsOn]->value[0])
+          if((*fieldIter)->length != 
+             (*fields)[(*fieldIter)->dependsOn]->value[0])
             {
             std::cout << "Warning: ";
             std::cout << "Length and dependsOn values not equal in write";
@@ -778,7 +776,8 @@ bool MET_Write(std::ostream &fp, std::vector<MET_FieldRecordType *> * fields,
         fp << (*fieldIter)->name << " " << MET_SeperatorChar;
         if((*fieldIter)->dependsOn >= 0)
           {
-          if((*fieldIter)->length != (*fields)[(*fieldIter)->dependsOn]->value[0])
+          if((*fieldIter)->length != 
+             (*fields)[(*fieldIter)->dependsOn]->value[0])
             {
             std::cout << "Warning: ";
             std::cout << "length and dependsOn values not equal in write";
@@ -797,7 +796,8 @@ bool MET_Write(std::ostream &fp, std::vector<MET_FieldRecordType *> * fields,
         fp << (*fieldIter)->name << " " << MET_SeperatorChar;
         if((*fieldIter)->dependsOn >= 0)
           {
-          if((*fieldIter)->length != (*fields)[(*fieldIter)->dependsOn]->value[0])
+          if((*fieldIter)->length != 
+             (*fields)[(*fieldIter)->dependsOn]->value[0])
             {
             std::cout << "Warning: ";
             std::cout << "length and dependsOn values not equal in write";
