@@ -1212,7 +1212,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 ::NodesRearrange()
 {
   int i, j, k;
-  float dis, l1, l2, d;
+  float dis, l1, l2;
   float length;
   IPixelType v1, v2, v3, v4;
 
