@@ -21,6 +21,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkIOCommon.h"
 #include "itkPermuteAxesImageFilter.h"
 #include "itkFlipImageFilter.h"
+#include "itkSpatialOrientation.h"
 
 namespace itk {
 
@@ -28,17 +29,78 @@ namespace itk {
  * \brief Permute axes and then flip images as needed to obtain
  *  agreement in coordinateOrientation codes.
  *
- * OrienterImageFilter is designed to use the
+ * This class satisfies a common requirement in medical imaging, which
+ * is to properly orient a 3 dimensional image with respect to anatomical
+ * features.  Due to the wide variety of hardware used to generate 3D images
+ * of human anatomy, and the even wider variety of image processing software,
+ * it is often necessary to re-orient image volume data.  
  *
- * This filter uses the HMaximaImageFilter.
+ * OrienterImageFilter depends on a set of constants that describe all possible
+ * permutations of Axes. These reside in itkSpatialOrientation.h. These are
+ * labeled according to the following scheme:
+ * Directions are labeled in terms of following pairs:
+ *   - Left and Right (Subject's left and right)
+ *   - Anterior and Posterior (Subject's front and back)
+ *   - Inferior and Superior (Subject's bottom and top, i.e. feet and head)
+ * 
+ * The initials of these directions are used in a 3 letter code in the
+ * enumerated type itk::SpatialOrientation::ValidCoordinateOrientationFlags.
+ * The initials are given fastest moving index first, second fastest second,
+ * third fastest third.
+ * Examples:
+ *  - ITK_COORDINATE_ORIENTATION_RIP
+ *    -# Right to Left varies fastest (0th pixel on Subject's right)
+ *    -# Inferior to Superior varies second fastest
+ *    -# Posterior to Anterior varies slowest.
+ *  - ITK_COORDINATE_ORIENTATION_LSA
+ *    -# Left to Right varies fastest (0th pixel on Subject's left)
+ *    -# Superior to Inferior varies second fastest
+ *    -# Anterior to Posterior varies slower
  *
- * Geodesic morphology and the H-Convex algorithm is described in
- * Chapter 6 of Pierre Soille's book "Morphological Image Analysis:
- * Principles and Applications", Second Edition, Springer, 2003.
+ * In order to use this filter, you need to supply an input
+ * image, the current orientation of the input image (set with
+ * SetGivenCoordinateOrientation) and the desired orientation
+ * (set with SetDesiredCoordinateOrientation).
  *
- * \sa GrayscaleGeodesicDilateImageFilter, HMinimaImageFilter
- * \sa MorphologyImageFilter, GrayscaleDilateImageFilter, GrayscaleFunctionDilateImageFilter, BinaryDilateImageFilter
- * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
+ * When reading image files that define the coordinate orientation
+ * of the image, the current orientation is stored in the MetadataDictionary
+ * for the itk::Image object created from the file.
+ *
+ * As an example, if you wished to keep all images within your program in the
+ * orientation corresponding to the Analyze file format's 'CORONAL' orientation
+ * you could do something like the following
+ *
+ * \code
+ * #include "itkAnalyzeImageIO.h"
+ * #include "itkMetaDataObject.h"
+ * #include "itkImage.h"
+ * #include "itkSpatialOrientation.h"
+ * #include "itkOrienterImageFilter.h"
+ * #include "itkIOCommon.h"
+ * typedef itk::Image<unsigned char,3> ImageType;
+ * typedef itk::ImageFileReader< TstImageType > ImageReaderType ;
+ * ImageType::Pointer ReadAnalyzeFile(const char *path)
+ * {
+ *   itk::AnalyzeImageIO::Pointer io = itk::AnalyzeImageIO::New();
+ *   ImageReaderType::Pointer fileReader = ImageReaderType::New();
+ *   fileReader->SetImageIO(io);
+ *   fileReader->SetFileName(path);
+ *   fileReader->Update();
+ *   ImageType::Pointer rval = fileReader->GetOutput();
+ *   
+ *   itk::SpatialOrientation::ValidCoordinateOrientationFlags fileOrientation;
+ *   itk::ExposeMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>
+ *     (rval->GetMetaDataDictionary(),itk::ITK_CoordinateOrientation,fileOrientation);
+ *   itk::OrienterImageFilter<ImageType,ImageType>::Pointer orienter =
+ *     itk::OrienterImageFilter<ImageType,ImageType>::New();
+ *   orienter->SetGivenCoordinateOrientation(fileOrientation);
+ *   orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
+ *   orienter->SetInput(rval);
+ *   orienter->Update();
+ *   rval = orienter->GetOutput();
+ *   return rval;
+ * }   
+ * \endcode
  */
 template<class TInputImage, class TOutputImage>
 class ITK_EXPORT OrienterImageFilter :
@@ -63,7 +125,7 @@ public:
   typedef typename OutputImageType::ConstPointer   OutputImageConstPointer;
   typedef typename OutputImageType::RegionType     OutputImageRegionType;
   typedef typename OutputImageType::PixelType      OutputImagePixelType;
-  typedef typename IOCommon::ValidCoordinateOrientationFlags
+  typedef typename itk::SpatialOrientation::ValidCoordinateOrientationFlags
   CoordinateOrientationCode;
   /** Axes permuter type. */
   typedef PermuteAxesImageFilter< TInputImage > PermuterType;
@@ -120,7 +182,7 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output));
 
   /*** Member functions used by GenerateData: */
-  void DeterminePermutationsAndFlips(const IOCommon::ValidCoordinateOrientationFlags fixed_orient, const IOCommon::ValidCoordinateOrientationFlags moving_orient);
+  void DeterminePermutationsAndFlips(const itk::SpatialOrientation::ValidCoordinateOrientationFlags fixed_orient, const itk::SpatialOrientation::ValidCoordinateOrientationFlags moving_orient);
   bool NeedToPermute();
   bool NeedToFlip();
 

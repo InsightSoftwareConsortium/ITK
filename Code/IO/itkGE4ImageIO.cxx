@@ -149,27 +149,27 @@ struct GEImageHeader *GE4ImageIO::ReadHeader(const char *FileNameToRead)
 
   if (strstr (tmpStr, "CORONAL") != NULL)
     {
-    //hdr->imagePlane = itk::IOCommon::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
-    //hdr->origin = itk::IOCommon::ITK_ORIGIN_SRP; // was SLA in the brains2 filter.
-    hdr->coordinateOrientation = itk::IOCommon::ITK_COORDINATE_ORIENTATION_RSP;
+    //hdr->imagePlane = itk::SpatialOrientation::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
+    //hdr->origin = itk::SpatialOrientation::ITK_ORIGIN_SRP; // was SLA in the brains2 filter.
+    hdr->coordinateOrientation = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSP;
     }
   else if (strstr (tmpStr, "SAGITTAL") != NULL)
     {
-    //hdr->imagePlane = itk::IOCommon::ITK_ANALYZE_ORIENTATION_IRP_SAGITTAL;
-    //hdr->origin = itk::IOCommon::ITK_ORIGIN_SRA;  //was SLP in the brains2 filter.
-    hdr->coordinateOrientation = itk::IOCommon::ITK_COORDINATE_ORIENTATION_AIR;
+    //hdr->imagePlane = itk::SpatialOrientation::ITK_ANALYZE_ORIENTATION_IRP_SAGITTAL;
+    //hdr->origin = itk::SpatialOrientation::ITK_ORIGIN_SRA;  //was SLP in the brains2 filter.
+    hdr->coordinateOrientation = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIR;
     }
   else if (strstr (tmpStr, "AXIAL") != NULL)
     {
-    //hdr->imagePlane = itk::IOCommon::ITK_ANALYZE_ORIENTATION_IRP_TRANSVERSE;
-    //hdr->origin = itk::IOCommon::ITK_ORIGIN_SRA;  //was SLP in the brains2 filter.
-    hdr->coordinateOrientation = itk::IOCommon::ITK_COORDINATE_ORIENTATION_RAI;
+    //hdr->imagePlane = itk::SpatialOrientation::ITK_ANALYZE_ORIENTATION_IRP_TRANSVERSE;
+    //hdr->origin = itk::SpatialOrientation::ITK_ORIGIN_SRA;  //was SLP in the brains2 filter.
+    hdr->coordinateOrientation = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI;
     }
   else
     {
-    //hdr->imagePlane = itk::IOCommon::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
-    //hdr->origin = itk::IOCommon::ITK_ORIGIN_SRP; // was SLA
-    hdr->coordinateOrientation = itk::IOCommon::ITK_COORDINATE_ORIENTATION_RSP;
+    //hdr->imagePlane = itk::SpatialOrientation::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
+    //hdr->origin = itk::SpatialOrientation::ITK_ORIGIN_SRP; // was SLA
+    hdr->coordinateOrientation = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSP;
     }
   //RGEDEBUG(std::sprintf (debugbuf, "Plane = %d\n", hdr->imagePlane); cerr << debugbuf;)
 

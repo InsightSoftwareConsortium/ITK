@@ -270,22 +270,22 @@ GE5ImageIO::ReadHeader (const char  *FileNameToRead)
   case GE_CORONAL:
       //curImage->imagePlane = itk::IOCommon::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
       //curImage->origin = itk::IOCommon::ITK_ORIGIN_SLA;
-      curImage->coordinateOrientation = itk::IOCommon::ITK_COORDINATE_ORIENTATION_RSP;
+      curImage->coordinateOrientation = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSP;
       break;
   case GE_SAGITTAL:
-      //curImage->imagePlane = itk::IOCommon::ITK_ANALYZE_ORIENTATION_IRP_SAGITTAL;
-      //curImage->origin = itk::IOCommon::ITK_ORIGIN_SLP;
-      curImage->coordinateOrientation = itk::IOCommon::ITK_COORDINATE_ORIENTATION_AIR;
+      //curImage->imagePlane = itk::SpatialOrientation::ITK_ANALYZE_ORIENTATION_IRP_SAGITTAL;
+      //curImage->origin = itk::SpatialOrientation::ITK_ORIGIN_SLP;
+      curImage->coordinateOrientation = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIR;
       break;
   case GE_AXIAL:
-      //curImage->imagePlane = itk::IOCommon::ITK_ANALYZE_ORIENTATION_IRP_TRANSVERSE;
-      //curImage->origin = itk::IOCommon::ITK_ORIGIN_ILP;
-      curImage->coordinateOrientation = itk::IOCommon::ITK_COORDINATE_ORIENTATION_RAI;
+      //curImage->imagePlane = itk::SpatialOrientation::ITK_ANALYZE_ORIENTATION_IRP_TRANSVERSE;
+      //curImage->origin = itk::SpatialOrientation::ITK_ORIGIN_ILP;
+      curImage->coordinateOrientation = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI;
       break;
   default:
-      //curImage->imagePlane = itk::IOCommon::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
-      //curImage->origin = itk::IOCommon::ITK_ORIGIN_SLA;
-      curImage->coordinateOrientation = itk::IOCommon::ITK_COORDINATE_ORIENTATION_RSP;
+      //curImage->imagePlane = itk::SpatialOrientation::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
+      //curImage->origin = itk::SpatialOrientation::ITK_ORIGIN_SLA;
+      curImage->coordinateOrientation = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSP;
       break;
       }
   curImage->sliceLocation = hdr2Float (&hdr[IM_HDR_START + IM_LOC]);

@@ -58,7 +58,7 @@ struct GEImageHeader
   float imageYres;
   //itk::IOCommon::ValidAnalyzeOrientationFlags imagePlane;
   //itk::IOCommon::ValidOriginFlags origin;
-  itk::IOCommon::ValidCoordinateOrientationFlags coordinateOrientation;
+  itk::SpatialOrientation::ValidCoordinateOrientationFlags coordinateOrientation;
   short int numberOfSlices;
   short int offset;
   char filename[itk::IOCommon::ITK_MAXPATHLEN+1];

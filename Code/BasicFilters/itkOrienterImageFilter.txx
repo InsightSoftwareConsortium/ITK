@@ -33,8 +33,8 @@ namespace itk
 template <class TInputImage, class TOutputImage>
 OrienterImageFilter<TInputImage, TOutputImage>
 ::OrienterImageFilter()
-  : m_GivenCoordinateOrientation  ( IOCommon::ITK_COORDINATE_ORIENTATION_RIP ),
-    m_DesiredCoordinateOrientation( IOCommon::ITK_COORDINATE_ORIENTATION_RIP )
+  : m_GivenCoordinateOrientation  ( SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP ),
+    m_DesiredCoordinateOrientation( SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP )
 
 {
 }
@@ -91,7 +91,7 @@ OrienterImageFilter<TInputImage, TOutputImage>
 template <class TInputImage, class TOutputImage>
 void
 OrienterImageFilter<TInputImage, TOutputImage>
-::DeterminePermutationsAndFlips(const IOCommon::ValidCoordinateOrientationFlags fixed_orient, const IOCommon::ValidCoordinateOrientationFlags moving_orient)
+::DeterminePermutationsAndFlips(const SpatialOrientation::ValidCoordinateOrientationFlags fixed_orient, const SpatialOrientation::ValidCoordinateOrientationFlags moving_orient)
 {
   //std::cout <<"DEBUG Received Codes " <<fixed_orient <<"  and  " <<moving_orient <<std::endl;
   //3-dimensional version of code system only.  The 3-axis testing is unrolled.
@@ -101,12 +101,12 @@ OrienterImageFilter<TInputImage, TOutputImage>
   const unsigned int CodeAxisIncreasingField = 1;
   unsigned int fixed_codes[NumDims];
   unsigned int moving_codes[NumDims];
-  fixed_codes[0]  = (fixed_orient  >> IOCommon::ITK_COORDINATE_PrimaryMinor) & CodeField;
-  fixed_codes[1]  = (fixed_orient  >> IOCommon::ITK_COORDINATE_SecondaryMinor) & CodeField;
-  fixed_codes[2]  = (fixed_orient  >> IOCommon::ITK_COORDINATE_TertiaryMinor) & CodeField;
-  moving_codes[0] = (moving_orient >> IOCommon::ITK_COORDINATE_PrimaryMinor) & CodeField;
-  moving_codes[1] = (moving_orient >> IOCommon::ITK_COORDINATE_SecondaryMinor) & CodeField;
-  moving_codes[2] = (moving_orient >> IOCommon::ITK_COORDINATE_TertiaryMinor) & CodeField;
+  fixed_codes[0]  = (fixed_orient  >> SpatialOrientation::ITK_COORDINATE_PrimaryMinor) & CodeField;
+  fixed_codes[1]  = (fixed_orient  >> SpatialOrientation::ITK_COORDINATE_SecondaryMinor) & CodeField;
+  fixed_codes[2]  = (fixed_orient  >> SpatialOrientation::ITK_COORDINATE_TertiaryMinor) & CodeField;
+  moving_codes[0] = (moving_orient >> SpatialOrientation::ITK_COORDINATE_PrimaryMinor) & CodeField;
+  moving_codes[1] = (moving_orient >> SpatialOrientation::ITK_COORDINATE_SecondaryMinor) & CodeField;
+  moving_codes[2] = (moving_orient >> SpatialOrientation::ITK_COORDINATE_TertiaryMinor) & CodeField;
   //std::cout <<"DEBUG Fixed Codes " <<fixed_codes[0]  <<",  " <<fixed_codes[1]  <<"  and  " <<fixed_codes[2]  <<std::endl;
   //std::cout <<"DEBUG Moving Codes " <<moving_codes[0]  <<",  " <<moving_codes[1]  <<"  and  " <<moving_codes[2]  <<std::endl;
 
@@ -363,7 +363,7 @@ OrienterImageFilter<TInputImage, TOutputImage>
   }
   this->GraftOutput( to_output->GetOutput() );
   this->GetOutput()->SetMetaDataDictionary( this->GetInput()->GetMetaDataDictionary() );
-  itk::EncapsulateMetaData<IOCommon::ValidCoordinateOrientationFlags>( this->GetOutput()->GetMetaDataDictionary(), ITK_CoordinateOrientation, m_DesiredCoordinateOrientation );
+  itk::EncapsulateMetaData<SpatialOrientation::ValidCoordinateOrientationFlags>( this->GetOutput()->GetMetaDataDictionary(), ITK_CoordinateOrientation, m_DesiredCoordinateOrientation );
 
 }
 
@@ -389,7 +389,7 @@ OrienterImageFilter<TInputImage,TOutputImage>
 
   // We need to compute the output spacing, the output image size, and the output image start index.
   unsigned int i;
-  const double                           *inputSpacing     = inputPtr->GetSpacing();
+  const typename TInputImage::SpacingType inputSpacing     = inputPtr->GetSpacing();
   const typename TInputImage::SizeType&   inputSize        = inputPtr->GetLargestPossibleRegion().GetSize();
   const typename TInputImage::IndexType&  inputStartIndex  = inputPtr->GetLargestPossibleRegion().GetIndex();
 

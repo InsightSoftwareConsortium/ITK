@@ -259,7 +259,7 @@ void IPLCommonImageIO::ReadImageInformation()
   itk::EncapsulateMetaData<std::string>(thisDic, ITK_OnDiskStorageTypeName, std::string("SHORT"));
   itk::EncapsulateMetaData<short int>(thisDic,ITK_OnDiskBitPerPixel,(short int)16);
     
-  itk::EncapsulateMetaData<itk::IOCommon::ValidCoordinateOrientationFlags>(thisDic,ITK_CoordinateOrientation,m_ImageHeader->coordinateOrientation);
+  itk::EncapsulateMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>(thisDic,ITK_CoordinateOrientation,m_ImageHeader->coordinateOrientation);
   itk::EncapsulateMetaData<std::string>(thisDic,ITK_PatientID,std::string(m_ImageHeader->patientId));
   itk::EncapsulateMetaData<std::string>(thisDic,ITK_ExperimentDate,std::string(m_ImageHeader->date));
 
@@ -336,11 +336,11 @@ void IPLCommonImageIO::ReadImageInformation()
     }
   switch(m_ImageHeader->coordinateOrientation)
     {
-    case itk::IOCommon::ITK_COORDINATE_ORIENTATION_RAI:  //Axial needed to descend, but no longer?
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI:  //Axial needed to descend, but no longer?
       sortImageListAscend ();
       break;
-    case itk::IOCommon::ITK_COORDINATE_ORIENTATION_RSP: //Coronal and Sagittal should ascend
-    case itk::IOCommon::ITK_COORDINATE_ORIENTATION_AIR:
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSP: //Coronal and Sagittal should ascend
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIR:
       sortImageListAscend ();
       break;
     default:

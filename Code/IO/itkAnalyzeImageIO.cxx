@@ -962,21 +962,21 @@ void AnalyzeImageIO::ReadImageInformation()
   {
     itk::AnalyzeImageIO::ValidAnalyzeOrientationFlags temporient= static_cast<itk::AnalyzeImageIO::ValidAnalyzeOrientationFlags>(this->m_hdr.hist.orient);
     //itk::EncapsulateMetaData<itk::AnalyzeImageIO::ValidAnalyzeOrientationFlags>(thisDic,ITK_AnalyzeOrientation, temporient);
-    itk::IOCommon::ValidCoordinateOrientationFlags coord_orient;
+    itk::SpatialOrientation::ValidCoordinateOrientationFlags coord_orient;
     switch (temporient)
       {
       case itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RPS_TRANSVERSE:
-          coord_orient = itk::IOCommon::ITK_COORDINATE_ORIENTATION_RPS;
+          coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPS;
           break;
       case itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_AIR_SAGITTAL:
-          coord_orient = itk::IOCommon::ITK_COORDINATE_ORIENTATION_AIR;
+          coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIR;
           break;
       case itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RIP_CORONAL:
           // fall thru
       default:
-          coord_orient = itk::IOCommon::ITK_COORDINATE_ORIENTATION_RIP;
+          coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP;
       }
-    itk::EncapsulateMetaData<itk::IOCommon::ValidCoordinateOrientationFlags>(thisDic,ITK_CoordinateOrientation, coord_orient);
+    itk::EncapsulateMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>(thisDic,ITK_CoordinateOrientation, coord_orient);
   }
   itk::EncapsulateMetaData<std::string>(thisDic,ITK_FileOriginator,std::string(this->m_hdr.hist.originator,10));
   itk::EncapsulateMetaData<std::string>(thisDic,ITK_OriginationDate,std::string(this->m_hdr.hist.generated,10));
@@ -1064,18 +1064,18 @@ AnalyzeImageIO
     }
 
   {
-    itk::IOCommon::ValidCoordinateOrientationFlags coord_orient;
-    if ( itk::ExposeMetaData<itk::IOCommon::ValidCoordinateOrientationFlags>(thisDic,ITK_CoordinateOrientation, coord_orient) )
+    itk::SpatialOrientation::ValidCoordinateOrientationFlags coord_orient;
+    if ( itk::ExposeMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>(thisDic,ITK_CoordinateOrientation, coord_orient) )
         {
         switch (coord_orient)
             {
-        case itk::IOCommon::ITK_COORDINATE_ORIENTATION_RPS:
+        case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPS:
             this->m_hdr.hist.orient=itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RPS_TRANSVERSE;
             break;
-        case itk::IOCommon::ITK_COORDINATE_ORIENTATION_AIR:
+        case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIR:
             this->m_hdr.hist.orient=itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_AIR_SAGITTAL;
             break;
-        case itk::IOCommon::ITK_COORDINATE_ORIENTATION_RIP:
+        case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP:
             this->m_hdr.hist.orient=itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RIP_CORONAL;
             break;
         default:
