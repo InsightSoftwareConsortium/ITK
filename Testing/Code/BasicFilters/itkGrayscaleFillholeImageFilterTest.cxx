@@ -71,7 +71,7 @@ int itkGrayscaleFillholeImageFilterTest( int argc, char * argv[] )
   
   // Create the filter
   FillholeFilterType::Pointer  fillhole = FillholeFilterType::New();
-  FilterWatcher watcher(fillhole, "fillhole");
+  FilterWatcher watcher(fillhole, "fillhole"); watcher.QuietOn();
 
   // Setup the input and output files
   reader->SetFileName( argv[1] );
