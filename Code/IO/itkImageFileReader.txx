@@ -82,7 +82,13 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
   
   if ( m_ImageIO == 0 )
     {
-    throw ImageFileReaderException(__FILE__, __LINE__, "Could not create IO object for file name");
+    ImageFileReaderException e(__FILE__, __LINE__);
+    std::ostrstream msg;
+    msg << " Could not create IO object for file "
+        << m_FileName.c_str()
+        << std::ends;
+    e.SetDescription(msg.str());
+    throw e;
     return;
     }
 
