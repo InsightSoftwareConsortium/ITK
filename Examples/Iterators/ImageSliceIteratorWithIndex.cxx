@@ -19,8 +19,8 @@
 //
 // \index{Iterators!and image slices}
 //
-// The \code{itk::ImageSliceIteratorWithIndex} is an extension of the
-// \code{itk::ImageLinearIteratorWithIndex} from iteration along lines to
+// The \doxygen{ImageSliceIteratorWithIndex} is an extension of the
+// \doxygen{ImageLinearIteratorWithIndex} from iteration along lines to
 // iteration along both lines \emph{and planes} in an image.  A \emph{slice} is a 2D
 // plane spanned by two vectors pointing along coordinate axes.  The two
 // coordinate directions which define the slice plane are set as member
@@ -54,11 +54,11 @@
 // fastest increasing dimension of the image subspace which excludes the first
 // and second dimensions of the iterator.
 //
-// \index{itk::ImageSliceIteratorWithIndex!IsAtBeginOfSlice(})
+// \index{itk::ImageSliceIteratorWithIndex!IsAtBeginOfSlice()}
 // \item \textbf{\code{IsAtBeginOfSlice()}} Returns true if the iterator
 // points to the beginning pixel of the current slice.
 //
-// \index{itk::ImageSliceIteratorWithIndex!IsAtEndOfSlice(})
+// \index{itk::ImageSliceIteratorWithIndex!IsAtEndOfSlice()}
 // \item \textbf{\code{IsAtEndOfSlice()}} Returns true if the iterator points
 // to \emph{one position past} the last valid pixel of the current slice.
 // 
@@ -72,7 +72,7 @@
 // \index{itk::ImageSliceIteratorWithIndex!example of using|(}
 // The next code example calculates the maximum intensity projection along one
 // of the coordinate axes of an image volume.  The algorithm is straightforward
-// using \code{itk::ImageSliceIteratorWithIndex} because we can coordinate
+// using \doxygen{ImageSliceIteratorWithIndex} because we can coordinate
 // movement through a slice of the 3D input image with movement through the 2D
 // planar output.
 //
