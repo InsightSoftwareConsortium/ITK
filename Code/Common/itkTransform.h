@@ -189,7 +189,7 @@ public:
    * Set the Transformation Parameters
    * and update the internal transformation
    */
-  void SetParameters(const ParametersType &);
+  virtual void SetParameters(const ParametersType &)=0;
 
 
   /**
