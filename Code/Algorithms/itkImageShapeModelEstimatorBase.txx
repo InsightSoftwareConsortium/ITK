@@ -66,25 +66,4 @@ ImageShapeModelEstimatorBase<TInputImage, TOutputImage>
 
 } // namespace itk
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #endif

@@ -67,15 +67,15 @@ namespace itk
  *
  * \ingroup ImageFeatureExtraction */ 
 
-template <class TInputImage, class TOutputImage= double>
+template <class TInputImage, 
+          class TOutputImage= Image<double, ::itk::GetImageDimension<TInputImage>::ImageDimension> >
 class ITK_EXPORT ImagePCAShapeModelEstimator: 
-public ImageShapeModelEstimatorBase<TInputImage, TOutputImage>
+    public ImageShapeModelEstimatorBase<TInputImage, TOutputImage>
 {
 public:
   /** Standard class typedefs. */
   typedef ImagePCAShapeModelEstimator   Self;
   typedef ImageShapeModelEstimatorBase<TInputImage, TOutputImage> Superclass;
-
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
@@ -186,8 +186,6 @@ private:
   virtual void EstimateShapeModels();
 
   void EstimatePCAShapeModelPrameters();
-
-  void CalculateMeanAndCovariance();
 
   void CalculateInnerProduct();
 
