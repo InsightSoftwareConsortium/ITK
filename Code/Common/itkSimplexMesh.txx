@@ -313,10 +313,12 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>
     list->push_back(neighborArray[1]);
     list->push_back(neighborArray[2]);
 
-    list = GetNeighbors(neighborArray[0], radius-1, list);
-    list = GetNeighbors(neighborArray[1], radius-1, list);
-    list = GetNeighbors(neighborArray[2], radius-1, list);
-
+    if(radius>0)
+      {
+      list = GetNeighbors(neighborArray[0], radius-1, list);
+      list = GetNeighbors(neighborArray[1], radius-1, list);
+      list = GetNeighbors(neighborArray[2], radius-1, list);
+      }
     NeighborListType::iterator it = std::find( list->begin(),list->end(),idx );
     if (it != list->end()) list->erase(it);
 
@@ -324,32 +326,31 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>
     }
   else 
     {
+    IndexArray neighborArray = GetNeighbors(idx);
+
+    NeighborListType::iterator foundIt1 = std::find( list->begin(),list->end(),neighborArray[0] );
+    NeighborListType::iterator foundIt2 = std::find( list->begin(),list->end(),neighborArray[1] );
+    NeighborListType::iterator foundIt3 = std::find( list->begin(),list->end(),neighborArray[2] );
+    NeighborListType::iterator endIt = list->end();
+    bool found1=false, found2=false, found3=false;
+
+    if (foundIt1 != endIt) found1 =true;
+    if (foundIt2 != endIt) found2 = true;
+    if (foundIt3 != endIt) found3 = true;
+
+    if (!found1) list->push_back(neighborArray[0]);
+    if (!found2) list->push_back(neighborArray[1]);
+    if (!found3) list->push_back(neighborArray[2]);
+
     if (radius == 0) 
       {
       return list;
       }
     else
       {
-      IndexArray neighborArray = GetNeighbors(idx);
-
-      NeighborListType::iterator foundIt1 = std::find( list->begin(),list->end(),neighborArray[0] );
-      NeighborListType::iterator foundIt2 = std::find( list->begin(),list->end(),neighborArray[1] );
-      NeighborListType::iterator foundIt3 = std::find( list->begin(),list->end(),neighborArray[2] );
-      NeighborListType::iterator endIt = list->end();
-      bool found1=false, found2=false, found3=false;
-
-      if (foundIt1 != endIt) found1 =true;
-      if (foundIt2 != endIt) found2 = true;
-      if (foundIt3 != endIt) found3 = true;
-
-      if (!found1) list->push_back(neighborArray[0]);
-      if (!found2) list->push_back(neighborArray[1]);
-      if (!found3) list->push_back(neighborArray[2]);
-
       list = GetNeighbors(neighborArray[0], radius-1, list);
       list = GetNeighbors(neighborArray[1], radius-1, list);
       list = GetNeighbors(neighborArray[2], radius-1, list);
-
       return list;
       }
     }
