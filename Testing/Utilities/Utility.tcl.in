@@ -14,6 +14,26 @@ proc MakeNightlyDateStamp {} \
   return [clock format [expr [clock seconds] - 24 * 60 * 60] -format %Y%m%d -gmt 1]
 }
 
+proc ExpandStamp { Stamp } \
+{
+  set Year [string range $Stamp 0 3]
+  set Month [string range $Stamp 4 5]
+  set Day [string range $Stamp 6 7]
+  if { [string match "*Nightly" $Stamp] } \
+  {
+    set Seconds [clock scan "$Month/$Day/$Year 00:00" -gmt 1]
+    set Format "%A, %B %d, %Y %Z"
+  } \
+  else \
+  {
+    set Hour [string range $Stamp 8 9]
+    set Minute [string range $Stamp 10 11]
+    set Seconds [clock scan "$Month/$Day/$Year $Hour:$Minute" -gmt 1]
+    set Format "%A, %B, %H:%M %Y %Z"
+  }
+  return [list [clock format $Seconds -format $Format -gmt 1] [clock format $Seconds -format $Format]]
+}
+
 proc FileMap { Queue PatternList Map } \
 {
   while { [llength $Queue] != 0 } \
@@ -62,15 +82,52 @@ proc GetLastDashboardDirectory { {Model Experimental} } \
 {
   global Site BuildName
 
-  set GlobString *
+  set GlobString 20*
   if { $Model == "Nightly" } \
   {
-    set GlobString *-Nightly
+    set GlobString 20*-Nightly
   }
   set DashboardDirs ""
   catch { set DashboardDirs [glob [file join Testing HTML TestingResults Dashboard $GlobString]] }
   return [lindex [lsort $DashboardDirs] end]
 }  
+
+proc TransformBuildLog { Filename } \
+{
+  global GunzipCommand
+
+  set File [open $Filename r]
+  set Header [gets $File]
+  set Encoding [lindex $Header 0]
+  set CompressionType [lindex $Header 1]
+
+  file delete BuildLog.temp
+  set BLFilename BuildLog.temp.gz
+  set BLFile [open $BLFilename w]
+  puts -nonewline $BLFile [base64::decode [read $File]]
+  close $BLFile
+  file delete $Filename
+  if { $GunzipCommand == "" } \
+  {
+    file rename -force -- BuildLog.temp.gz BuildLog.html.$CompresssionType
+    return
+  }
+  
+  switch $CompressionType \
+  {
+    compress - \
+    zip \
+    {
+      exec $GunzipCommand BuildLog.temp.gz
+      file rename -force -- BuildLog.temp BuildLog.txt
+      exec $GzipCommand BuildLog.html
+    }
+    gzip \
+    {
+      file rename -force -- BuildLog.temp.gz BuildLog.html.gz
+    }
+  }
+}
 
 
 proc CompressFile { In Out } \
@@ -104,6 +161,18 @@ proc CompressFile { In Out } \
     }
   }
 }
+
+proc XMLConcat { FP filename } \
+{
+  catch {	
+    set f [open $filename r]
+    gets $f
+    puts -nonewline $FP [read $f]
+    close $f
+  }
+}
+
+
 proc XMLSafeString { string } \
 {
   # Here is where all substitutions should be done

@@ -7,7 +7,7 @@
 # Nightly       -- Nightly build in lockstep with all other nightly builds
 # Dashboard     -- Dashboard mode, builds the the nightly rollup
 #
-# Commands:
+# Commands for Experimental and Nightly:
 #
 # Start         -- Creates the proper directory
 # Update        -- Perform a cvs update for a nightly to the proper version of the code
@@ -17,22 +17,31 @@
 # Coverage      -- Summerize coverage information
 # End           -- Build the HTML pages
 #
+# Commands for Dashboard building:
+#
+# DashboardStart [date]  -- Starts a dashboard for the given date
+#                         Yesterday is default, only for nightly
+# DashboardEnd   [date]  -- Ends a dashboard for the given date
+#                         Yesterday is default, only for nightly
 
-
+set Usage {usage: $argv0 <Model> <Command1> [Command2]...}
 if { $argc < 2 } \
 {
-  puts stderr {usage: $argv0 <Model> <Command1> [Command2]...}
+  puts stderr $Usage
   exit 1
 }
 
 source [file join Testing Utilities Utility.tcl]
 source [file join Testing Utilities Utility.conf]
+source [file join $SourceDirectory Testing Utilities base64.tcl]
+
+set TestingBaseDir [file join Testing HTML TestingResults]
 
 set Model [lindex $argv 0]
 set Commands [lrange $argv 1 end]
 
 # Must be run in build directory
-set BuildStampBase [file join Testing HTML TestingResults Sites $Site $BuildName]
+set BuildStampBase [file join $TestingBaseDir Sites $Site $BuildName]
 set UtilitiesDir [file join Testing Utilities]
 
 set DateTimeStamp [MakeDateTimeStamp]
@@ -41,18 +50,15 @@ set NightlyDateStamp [MakeNightlyDateStamp]
 
 switch -glob -- $Model \
 {
-  Dash* \
-  {
-  }
   Exp* \
   {
     set BuildStampDir [file join $BuildStampBase $DateTimeStamp]
-    set DashboardDir [file join Testing HTML TestingResults Dashboard $DateTimeStamp]
+    set DashboardDir [file join $TestingBaseDir Dashboard $DateTimeStamp]
   }
   Nig* \
   {
     set BuildStampDir [file join $BuildStampBase ${NightlyDateStamp}-Nightly]
-    set DashboardDir [file join Testing HTML TestingResults Dashboard ${NightlyDateStamp}-Nightly]
+    set DashboardDir [file join $TestingBaseDir Dashboard ${NightlyDateStamp}-Nightly]
   }
   default \
   {
@@ -62,6 +68,7 @@ switch -glob -- $Model \
 }
 
 set XMLDir [file join $BuildStampDir XML]
+set XSLDir [file join $SourceDirectory Testing Utilities XSL]
 
 foreach Command $Commands \
 {
@@ -73,7 +80,8 @@ foreach Command $Commands \
     }
     Build - \
     Test - \
-    Coverage \
+    Coverage - \
+    Submit \
     {
       # puts "Running $Command in $Model model"
       exec $TclshCommand [file join $UtilitiesDir $Command.tcl ] $Model
@@ -81,31 +89,163 @@ foreach Command $Commands \
     End \
     {
       # Go into the directory and do the proper XML thing...
+      set Dir [pwd]
+      set BuildStampDir [GetLastBuildDirectory $Model]
+      if { $BuildStampDir == "" } \
+      {
+	puts stderr "Did not find a dashboard to end"
+	exit 1
+      }
+      cd [file join $BuildStampDir]
       
+      foreach XML [list Build Test Coverage] \
+      {
+	if { ![file exists [file join XML $XML.xml]] } \
+	{
+	  puts stderr "Could not find file [file join $BuildStampDir XML $XML.xml]"
+	  exit 1
+	}
+	puts "Xalan on $XML: [catch { exec $JavaCommand -jar $Xalan -Q -IN [file join XML $XML.xml] -OUT $XML.html -XSL [file join $XSLDir $XML.xsl]} Result]"
+	puts $Result
+	puts "Xalan on ${XML}Summary: [catch { exec $JavaCommand -jar $Xalan -Q -IN [file join XML $XML.xml] -OUT ${XML}Summary.xml -XSL [file join $XSLDir ${XML}Summary.xsl] } Result]"
+	puts $Result
+      }
+      puts "Xalan on BuildLog.txt: [catch { exec $JavaCommand -jar $Xalan -Q -IN [file join XML Build.xml] -OUT BuildLog.txt -XSL [file join $XSLDir BuildLog.xsl]} Result]"
+      TransformBuildLog BuildLog.txt
     }
     DashboardStart \
     {
+      set FakeUpdate 0 
+      if { $Model == "Nightly" && $argc == 3 } \
+      {
+	# If we are starting on "old" Nightly dashboard,
+	# fake the Update.xml file
+	if { [lindex $argv 2] != $NightlyDateStamp } \
+	{
+	  set FakeUpdate 1
+	}
+	set NightlyDateStamp [lindex $argv 2]
+	set DashboardDir [file join $TestingBaseDir Dashboard ${NightlyDateStamp}-Nightly]
+      }
+
+      puts "Making $DashboardDir"
       file mkdir $DashboardDir
       set Dir [pwd]
       cd $SourceDirectory
-      exec $TclshCommand [file join $UtilitiesDir Update.tcl ] $Model $NightlyDateStamp > [file join $DashboardDir Update.xml]
-      cd $Dir
 
-      
-      
+      # If we don't have an existing update, make one
+      if { ![info exists [file join $Dir $DashboardDir Update.xml]] } \
+      {
+	if { $FakeUpdate } \
+	{
+	  puts "Faking update"
+	  set Update [open [file join $Dir $DashboardDir Update.xml] w]
+	  puts $Update $XMLHeader
+	  puts $Update "<Update></Update>"
+	  close $Update
+	} \
+	else \
+	{
+	  # Actually do the update
+	  # If the Model is Experimental, will do an update against the
+	  # latest sources
+	  # If the Model is Nightly, will update to the previous day's
+	  # 23:00 repository snapshot
+	  exec $TclshCommand [file join $UtilitiesDir Update.tcl] $Model $NightlyDateStamp > [file join $Dir $DashboardDir Update.xml]
+	}
+      }
+      cd $Dir
     }
     DashboardEnd \
     {
       # Collect all the latest BuildStamps, and any from today's Nightlies
       # Find latest dashboard
-      set DashboardDir [GetLastDashboardDirectory]
+
+      if { $Model == "Nightly" && $argc == 3 } \
+      {
+	# If we are starting on "old" Nightly dashboard
+	set NightlyDateStamp [lindex $argv 2]
+	set DashboardDir [file join $TestingBaseDir Dashboard ${NightlyDateStamp}-Nightly]
+      } \
+      else \
+      {
+	set DashboardDir [GetLastDashboardDirectory $Model]
+      }
+      
       if { $DashboardDir == "" } \
       {
 	puts stderr "Did not find a dashboard to end"
 	exit 1
       }
+      
+      # Get the nightly builds relevant to this Dashboard
+      set NightlyBuilds ""
+      switch -glob $Model \
+      {
+	Nig* \
+	{
+	  set Status [catch {
+	    set NightlyBuilds [glob [file join $TestingBaseDir Sites * * ${NightlyDateStamp}*]]
+	  } Result]
+	  if { $Status } { puts $Result }
+	}
+	Exp* \
+	{
+	  set Status [catch {
+	    set NightlyBuilds [glob [file join $TestingBaseDir Sites * * [MakeDateStamp]*]]
+	  } Result]
+	  if { $Status } { puts $Result }
+	}
+      }
+	  
 
-      # Collect last Dashboards
+      set Dir [pwd]
+      cd $DashboardDir
+
+      # Build the UpdateSummary
+      catch { exec $JavaCommand -jar $Xalan -Q -IN Update.xml -OUT UpdateSummary.xml -XSL [file join $XSLDir UpdateSummary.xsl] } Result
+      puts $Result
+      
+      set DashboardTargets [open DashboardTargets.txt w]
+      set DashboardFile [open Dashboard.xml w]
+
+      puts $DashboardFile $XMLHeader
+      puts $DashboardFile "<Dashboard>"
+
+      # Add some information about the dashboard
+      puts $DashboardFile "<Information>"
+      puts $DashboardFile "\t<DashboardStamp>[file tail $DashboardDir]</DashboardStamp>"
+      set Time [ExpandStamp [file tail $DashboardDir]]
+      puts $DashboardFile "\t<Model>$Model</Model>"
+      puts $DashboardFile "\t<GMT>[lindex $Time 0]</GMT>"
+      puts $DashboardFile "\t<LocalTime>[lindex $Time 1]</LocalTime>"
+      puts $DashboardFile "</Information>"
+
+      XMLConcat $DashboardFile UpdateSummary.xml
+      
+      foreach NightlyBuild $NightlyBuilds \
+      {
+	puts $DashboardTargets $NightlyBuild
+	puts $DashboardFile "<BuildStamp>"
+	foreach Summary [list BuildSummary TestSummary CoverageSummary] \
+	{
+	  XMLConcat $DashboardFile [file join $Dir $NightlyBuild $Summary.xml]
+	}
+	puts $DashboardFile "</BuildStamp>"
+	
+      }
+      puts $DashboardFile "</Dashboard>"
+
+      close $DashboardFile
+      close $DashboardTargets
+
+      # Now run xalan to build the dashboard
+      foreach XML [list Dashboard Update] \
+      {
+ 	catch { exec $JavaCommand -jar $Xalan -Q -IN $XML.xml -OUT $XML.html -XSL [file join $XSLDir $XML.xsl] } Result
+	puts $Result
+      }
+     
     }
   }
 }

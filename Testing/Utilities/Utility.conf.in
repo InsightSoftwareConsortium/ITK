@@ -25,17 +25,21 @@ proc SetConfiguration { variable { value INSIGHTINVALIDVALUE } } \
 
 
 SetConfiguration MakeCommand [list @MAKECOMMAND@ ]
+SetConfiguration GunzipCommand [list @GUNZIPCOMMAND@ ]
 SetConfiguration CompressionCommand [list @COMPRESSIONCOMMAND@ ]
 SetConfiguration CompressionType [list @COMPRESSIONCOMMAND@ ]
 SetConfiguration CVSCommand [list @CVSCOMMAND@ ]
 SetConfiguration GrepCommand [list @GREPCOMMAND@ ]
 SetConfiguration TclshCommand [list @TCLSHCOMMAND@ ]
+SetConfiguration JavaCommand [list @JAVACOMMAND@ ]
 
-SetConfiguration SourceDirectory [list @top_srcdir@ ]
+SetConfiguration SourceDirectory [list @fullSrcDir@ ]
 
 SetConfiguration Site [list @SITE@ ]
 SetConfiguration BuildName [list @BUILDNAME@ ]
 
+SetConfiguration Xalan [list [file join @fullSrcDir@ Code Insight3DParty xalan xalan.jar]]
+SetConfiguration XMLHeader {<?xml version="1.0" encoding="UTF-8"?>}
 
 set HTMLDir [file join Testing HTML]
 set TempDir [file join Testing Temporary]

@@ -23,26 +23,36 @@
         <h2>Errors</h2>
       </a>
       <xsl:for-each select="Site/Build/Error">
-        <h3>Error</h3> Build Log line <xsl:value-of select="BuildLogLine"/><br/>
-        <pre><xsl:value-of select="PreContext"/></pre>
-        <strong><xsl:value-of select="Text"/></strong><br/>
-        <pre><xsl:value-of select="PostContext"/></pre>
+        <h3>Error</h3> <xsl:call-template name="Report"/>
       </xsl:for-each>
 
       <hr/>
       <a name="Warning">
         <h2>Warnings</h2>
       </a>
+
       <xsl:for-each select="//Build/Warning">
-        <h3>Warning</h3> Build Log line <xsl:value-of select="BuildLogLine"/><br/>
-        <pre><xsl:value-of select="PreContext"/></pre>
-        <strong><xsl:value-of select="Text"/></strong>
-        <br/>
-        <pre><xsl:value-of select="PostContext"/></pre>
+        <h3>Warning</h3> <xsl:call-template name="Report"/>
       </xsl:for-each>
       
     </body>
   </html>
+</xsl:template>
+
+<xsl:template name="Report">
+Build Log line
+         <a>
+           <xsl:attribute name="href">BuildLog.html.gz#<xsl:value-of select="BuildLogLine"/></xsl:attribute>
+           <xsl:value-of select="BuildLogLine"/>
+         </a>
+         <xsl:if test="count(SourceFile) > 0">
+         in <xsl:value-of select="SourceFile"/> line <xsl:value-of select="SourceLineNumber"/>
+         </xsl:if>
+         
+        <br/>
+        <pre><xsl:value-of select="PreContext"/></pre>
+        <strong><xsl:value-of select="Text"/></strong><br/>
+        <pre><xsl:value-of select="PostContext"/></pre>
 </xsl:template>
 	
 </xsl:stylesheet>

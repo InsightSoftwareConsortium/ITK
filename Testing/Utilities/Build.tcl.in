@@ -39,7 +39,7 @@ file mkdir $HTMLDir $SiteDir $BuildNameDir $BuildStampDir $BuildTempDir $XMLDir
 
 set BuildLogFilename [file join $BuildTempDir Build.log.[pid]]
 set BuildLogCompressedFilename [file join $BuildTempDir Build.log.compressed.[pid]]
-
+set BuildLogTempFilename [file join $BuildTempDir Build.log.temp.[pid]]
 
 # Begin the XML output
 set Out [open [file join $XMLDir Build.xml] w]
@@ -52,9 +52,18 @@ puts $Out "\t<StartDateTime>[clock format [clock seconds]]</StartDateTime>"
 
 
 # Do the build
-set BuildStatus [catch { exec $MakeCommand >& $BuildLogFilename } ]
+set MakeArgs ""
+if { [string match "*make" $MakeCommand] } \
+{
+  set MakeArgs -k
+}
+set BuildStatus [catch { exec $MakeCommand $MakeArgs >& $BuildLogFilename } ]
 
 set Build [open $BuildLogFilename r]
+set BuildLog [open $BuildLogTempFilename w]
+puts $BuildLog "<html><head><title>Build log: $Site - $BuildName - $BuildStamp</title></head><body bgcolor=\"\#ffffff\">"
+
+
 
 set Cache ""
 catch { unset ErrorList }
@@ -65,11 +74,13 @@ set PostContextCount 5
 set BufferLength 5
 
 set Exceptions [list "has modification time" "Clock slew" "vnl/vnl_error.o" {^gmake} ]
-set Line 0
+set Line 1
 while { ![eof $Build] } \
 {
   # Get a line and write it out
   set LogLine [gets $Build]
+  # Whate the heck should I do here?!?  Always ends up with extra lines.
+  puts $BuildLog "<a name=\"$Line\">$Line:</a><pre>$LogLine</pre>"
 
   set hasError [Match {.*[Ee][Rr][Rr][Oo][Rr].*} $LogLine $Exceptions]
   set hasWarning [Match {.*[Ww[Aa][Rr][Nn][Ii][Nn][Gg].*} $LogLine $Exceptions]
@@ -94,6 +105,21 @@ while { ![eof $Build] } \
     set ErrorList($i,PreContext) $ErrorList(Buffer)
     set ErrorList($i,PostContext) ""
     set ErrorList($i,ContextCounter) 0
+    set ErrorList($i,SourceFile) ""
+    set ErrorList($i,SourceLineNumber) ""
+
+    # Take a stab at getting a file name out of the line
+    # For GCC, we get /path/to/source.cxx:##
+    if { [string match "*SourceLogLine] } \
+    {
+      # Looking good!
+      if { [regexp "${SourceDirectory}/(\[^:\]*):(\[0-9\]*)" $LogLine dummy SourceFile LineNumber] } \
+      {
+	set ErrorList($i,SourceFile) $SourceFile
+	set ErrorList($i,SourceLineNumber) $LineNumber
+      }
+    }
+    
     lappend ErrorList(Append) $i
   }
 
@@ -124,17 +150,17 @@ while { ![eof $Build] } \
   incr Line
 }
 
-set LogCompressionStatus [ catch { CompressFile $BuildLogFilename $BuildLogCompressedFilename } CompressionResult ]
-if { $LogCompressionStatus } \
-{
-  error $CompressionResult
-}
-
+# Write all the errors out to the Out file
 for { set i 0 } { $i < $ErrorList(Counter) } { incr i } \
 {
   puts $Out "\t<$ErrorList($i,Type)>"
   puts $Out "\t\t<BuildLogLine>[XMLSafeString $ErrorList($i,Line)]</BuildLogLine>"
   puts $Out "\t\t<Text>[XMLSafeString $ErrorList($i,Text)]</Text>"
+  if { $ErrorList($i,SourceFile) != "" } \
+  {
+    puts $Out "\t\t<SourceFile>[XMLSafeString $ErrorList($i,SourceFile)]</SourceFile>"
+    puts $Out "\t\t<SourceLineNumber>$ErrorList($i,SourceLineNumber)</SourceLineNumber>"
+  }
   puts $Out "\t\t<PreContext>"
   foreach l $ErrorList($i,PreContext) \
   {
@@ -151,12 +177,18 @@ for { set i 0 } { $i < $ErrorList(Counter) } { incr i } \
   puts $Out "\n"
 }
 
+puts $BuildLog "</body></html>"
+close $BuildLog
+set LogCompressionStatus [ catch { CompressFile $BuildLogTempFilename $BuildLogCompressedFilename } CompressionResult ]
+if { $LogCompressionStatus } \
+{
+  error $CompressionResult
+}
 set BuildLog [open $BuildLogCompressedFilename r]
 fconfigure $BuildLog -translation binary
 
 puts $Out "\t<Log Encoding=\"base64\" Compression=\"$CompressionType\">"
 puts $Out [Base64Encode [read $BuildLog ]]
-# puts $Out [Base64Encode [read $BuildLog]]
 puts $Out "\t</Log>"
 puts $Out "\t<EndDateTime>[clock format [clock seconds]]</EndDateTime>"
 
@@ -166,6 +198,10 @@ puts $Out "</Site>"
 
 close $BuildLog
 close $Out
+
+file delete $BuildLogTempFilename
+file delete $BuildLogCompressedFilename
+file delete $BuildLogFilename
 
 # Clean up any da files from previous coverage
 FileMap [list .] [list *.da] "file delete -force -- "
