@@ -215,13 +215,6 @@ public:
   const typename LevelSetImageType::SizeType & GetOutputSize() const
     { return m_OutputSize; }
 
-  /** Set/Get Large value. This value is an optinal entry. It is used to 
-      represent the concept of infinity for the time assigned to pixels that
-      have not been visited yet. This value is set by default to half the 
-      max() of the pixel type used to represent the time-crossing map. */
-  itkSetMacro( LargeValue, PixelType );
-  itkGetConstMacro( LargeValue, PixelType );
-
 protected:
   FastMarchingImageFilter();
   ~FastMarchingImageFilter(){};
@@ -242,6 +235,13 @@ protected:
   /** Generate the output image meta information. */
   virtual void GenerateOutputInformation();
   virtual void EnlargeOutputRequestedRegion(DataObject *output);
+
+  /** Get Large value. This value is an optinal entry. It is used to 
+      represent the concept of infinity for the time assigned to pixels that
+      have not been visited yet. This value is set by default to half the 
+      max() of the pixel type used to represent the time-crossing map. */
+  itkGetConstMacro( LargeValue, PixelType );
+
 
 private:
   FastMarchingImageFilter(const Self&); //purposely not implemented
