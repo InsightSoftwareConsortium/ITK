@@ -42,22 +42,22 @@
  */
 namespace itk
 {
-  template <unsigned int TDimension = 3> class 
-    ROISpatialObject
-    :public GroupSpatialObject<TDimension>
-    {
+template <unsigned int TDimension = 3> class 
+  ROISpatialObject
+  :public GroupSpatialObject<TDimension>
+  {
     public:
-      typedef ROISpatialObject< TDimension >             Self;
-      typedef BlobSpatialObject< TDimension >            Superclass;
-      typedef SmartPointer < Self >                      Pointer;
-      typedef SmartPointer < const Self >                ConstPointer;
-      typedef typename Superclass::PointType             PointType;
-      typedef typename Superclass::BoundingBoxType       BoundingBoxType;
-      /** Method for creation through the object factory. */
-      itkNewMacro( Self );
+    typedef ROISpatialObject< TDimension >             Self;
+    typedef BlobSpatialObject< TDimension >            Superclass;
+    typedef SmartPointer < Self >                      Pointer;
+    typedef SmartPointer < const Self >                ConstPointer;
+    typedef typename Superclass::PointType             PointType;
+    typedef typename Superclass::BoundingBoxType       BoundingBoxType;
+    /** Method for creation through the object factory. */
+    itkNewMacro( Self );
 
-      /** Method for creation through the object factory. */
-      itkTypeMacro( Self, Superclass );
+    /** Method for creation through the object factory. */
+    itkTypeMacro( Self, Superclass );
   
     /** Return true if the given ROIStrandSpatialObject is successfully
      * added to the ROI.
@@ -90,10 +90,10 @@ namespace itk
     virtual bool IsInside( const PointType & point,
                            unsigned int depth=0,
                            char * name = NULL) const;
-    };
+  };
 }
 #ifndef ITK_MANUAL_INSTANTIATION 
-  #include "itkROISpatialObject.txx" 
+#include "itkROISpatialObject.txx" 
 #endif 
 
 #endif
