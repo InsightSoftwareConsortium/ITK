@@ -127,8 +127,8 @@ if { $Model == "Nightly" } \
 
   
   # puts "Today $Today, Yesterday $Yesterday"
-  set UpdateCommand "$UpdateCommand -D $Today"
-  set UseDates 1
+  # set UpdateCommand "$UpdateCommand -D $Today"
+  set UseDates 0
 }
   
 set UpdateStatus [catch { eval exec $UpdateCommand >& update.tmp } result]
