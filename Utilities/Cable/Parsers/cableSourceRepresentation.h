@@ -132,7 +132,7 @@ enum TypeOfObject {
  * Base class for all internal representation objects.  Implements
  * reference counting and object type identification.
  */
-class InternalObject: public Object
+class PARSERS_EXPORT InternalObject: public Object
 {
 public:
   typedef InternalObject            Self;
@@ -219,7 +219,7 @@ protected:
 /**
  * Store the source location information for a declaration.
  */
-class Location: public InternalObject
+class PARSERS_EXPORT Location: public InternalObject
 {
 public:
   typedef Location                  Self;
@@ -251,7 +251,7 @@ private:
  * a named entity of the source program.  Such named entities also have
  * a location, which is stored as well.
  */
-class Named: public InternalObject
+class PARSERS_EXPORT Named: public InternalObject
 {
 public:
   typedef Named                     Self;
@@ -353,7 +353,7 @@ public:
 /**
  * Store cv-qualifiers for a type.
  */
-class CvQualifiers: public InternalObject
+class PARSERS_EXPORT CvQualifiers: public InternalObject
 {
 public:
   typedef CvQualifiers             Self;
@@ -386,7 +386,7 @@ private:
 /**
  * The interface to any type.
  */
-class Type: public InternalObject
+class PARSERS_EXPORT Type: public InternalObject
 {
 public:
   typedef Type                      Self;
@@ -430,7 +430,7 @@ private:
 /**
  * Store one function argument.
  */
-class Argument: public Named
+class PARSERS_EXPORT Argument: public Named
 {
 public:
   typedef Argument                  Self;
@@ -467,7 +467,7 @@ private:
 /**
  * Store the return type for a function.
  */
-class Returns: public InternalObject
+class PARSERS_EXPORT Returns: public InternalObject
 {
 public:
   typedef Returns                   Self;
@@ -501,7 +501,7 @@ private:
  * Store a normal function, and provide an interface to all function types.
  * Also stores a static function in a Class, Struct, or Union.
  */
-class Function: public Named
+class PARSERS_EXPORT Function: public Named
 {
 public:
   typedef Function                  Self;
@@ -567,7 +567,7 @@ private:
 /**
  * Store a typedef.  This is just a new name for an existing type.
  */
-class Typedef: public Named
+class PARSERS_EXPORT Typedef: public Named
 {
 public:
   typedef Typedef                Self;
@@ -604,7 +604,7 @@ private:
 /**
  * Store an enumeration type.  This is just a name.
  */
-class Enumeration: public Named
+class PARSERS_EXPORT Enumeration: public Named
 {
 public:
   typedef Enumeration               Self;
@@ -638,7 +638,7 @@ private:
  * a containing context (except the global namespace), a name, and
  * child classes.
  */
-class Context: public Named
+class PARSERS_EXPORT Context: public Named
 {
 public:
   typedef Context                   Self;
@@ -691,7 +691,7 @@ protected:
 /**
  * A type with no special language-defined semantics.
  */
-class NamedType: public Type
+class PARSERS_EXPORT NamedType: public Type
 {
 public:
   typedef NamedType                Self;
@@ -726,7 +726,7 @@ private:
 /**
  * Store a pointer type.
  */
-class PointerType: public Type
+class PARSERS_EXPORT PointerType: public Type
 {
 public:
   typedef PointerType               Self;
@@ -762,7 +762,7 @@ private:
 /**
  * Store a reference type.
  */
-class ReferenceType: public Type
+class PARSERS_EXPORT ReferenceType: public Type
 {
 public:
   typedef ReferenceType             Self;
@@ -799,7 +799,7 @@ private:
  * Store a function type.  This includes the funcion's return type,
  * argument types, and cv-qualifiers.
  */
-class FunctionType: public Type
+class PARSERS_EXPORT FunctionType: public Type
 {
  public:
   typedef FunctionType              Self;
@@ -842,7 +842,7 @@ private:
  * Store a method type.  This includes the methods's function type, and
  * the class owning the method.
  */
-class MethodType: public FunctionType
+class PARSERS_EXPORT MethodType: public FunctionType
 {
  public:
   typedef MethodType                Self;
@@ -877,7 +877,7 @@ private:
  * Store an offset-type, which is a pointer to member.  This includes
  * the member's type, and the class owning the member.
  */
-class OffsetType: public Type
+class PARSERS_EXPORT OffsetType: public Type
 {
  public:
   typedef OffsetType                Self;
@@ -918,7 +918,7 @@ private:
  * Store an array type.  This includes the type of the array's elements,
  * and the size.
  */
-class ArrayType: public Type
+class PARSERS_EXPORT ArrayType: public Type
 {
 public:
   typedef ArrayType                Self;
@@ -954,7 +954,7 @@ private:
  * Stores information for a namespace Context.  A namespace can contain other
  * namespaces as well as Class es.  A namespace can also have Function s.
  */
-class Namespace: public Context
+class PARSERS_EXPORT Namespace: public Context
 {
 public:
   typedef Namespace                 Self;
@@ -989,7 +989,7 @@ private:
 /**
  * Stores a function that is a member of a Class, Struct, or Union.
  */
-class Method: public Function
+class PARSERS_EXPORT Method: public Function
 {
 public:
   typedef Method                    Self;
@@ -1030,7 +1030,7 @@ private:
 /**
  * Stores a function that is a constructor of a Class, Struct, or Union.
  */
-class Constructor: public Method
+class PARSERS_EXPORT Constructor: public Method
 {
 public:
   typedef Constructor               Self;
@@ -1054,7 +1054,7 @@ protected:
 /**
  * Stores a function that is a destructor of a Class, Struct, or Union.
  */
-class Destructor: public Method
+class PARSERS_EXPORT Destructor: public Method
 {
 public:
   typedef Destructor                Self;
@@ -1079,7 +1079,7 @@ protected:
  * Stores a function that is a type conversion operator
  * for a Class, Struct, or Union.
  */
-class Converter: public Method
+class PARSERS_EXPORT Converter: public Method
 {
 public:
   typedef Converter                 Self;
@@ -1104,7 +1104,7 @@ protected:
 /**
  * Stores a function that is an operator for a Class, Struct, or Union.
  */
-class OperatorMethod: public Method
+class PARSERS_EXPORT OperatorMethod: public Method
 {
 public:
   typedef OperatorMethod            Self;
@@ -1132,7 +1132,7 @@ protected:
 /**
  * Stores a function that is an operator in a namespace.
  */
-class OperatorFunction: public Function
+class PARSERS_EXPORT OperatorFunction: public Function
 {
 public:
   typedef OperatorFunction          Self;
@@ -1159,7 +1159,7 @@ protected:
  * Stores information for a class Context.  A class can have members, but
  * cannot contain other namespaces.
  */
-class Class: public Context
+class PARSERS_EXPORT Class: public Context
 {
 public:
   typedef Class                     Self;
@@ -1207,7 +1207,7 @@ private:
  * Equivalent to Class, except that original source declared it as
  * a struct instead of a class.
  */
-class Struct: public Class
+class PARSERS_EXPORT Struct: public Class
 {
 public:
   typedef Struct                    Self;
@@ -1232,7 +1232,7 @@ protected:
  * Equivalent to Class, except that original source declared it as
  * a union instead of a class.
  */
-class Union: public Class
+class PARSERS_EXPORT Union: public Class
 {
 public:
   typedef Union                     Self;
@@ -1257,7 +1257,7 @@ protected:
  * Provide the interface to a qualified name.
  * Also stores the innermost qualified name.
  */
-class QualifiedName: public Named
+class PARSERS_EXPORT QualifiedName: public Named
 {
 public:
   typedef QualifiedName             Self;
@@ -1282,7 +1282,7 @@ protected:
 /**
  * Stores a non-innermost name qualifier, and the inner QualifiedName.
  */
-class NameQualifier: public QualifiedName
+class PARSERS_EXPORT NameQualifier: public QualifiedName
 {
 public:
   typedef NameQualifier             Self;
@@ -1316,7 +1316,7 @@ private:
  * Store the name of a base class, and support looking up the actual
  * Class, Struct, or Union.
  */
-class BaseClass: public InternalObject
+class PARSERS_EXPORT BaseClass: public InternalObject
 {
 public:
   typedef BaseClass                 Self;
@@ -1350,7 +1350,7 @@ private:
 /**
  * Store the name of a base type for an MethodType or OffsetType.
  */
-class BaseType: public InternalObject
+class PARSERS_EXPORT BaseType: public InternalObject
 {
 public:
   typedef BaseType                  Self;
@@ -1385,7 +1385,7 @@ private:
  * For unimplemented parts of a parser, this will allow it to absorb
  * any definition which has one internal type to be set.
  */
-class UnimplementedTypeHolder: public Named
+class PARSERS_EXPORT UnimplementedTypeHolder: public Named
 {
 public:
   typedef UnimplementedTypeHolder   Self;
@@ -1415,7 +1415,7 @@ private:
  * For unimplemented parts of a parser, this will allow it to absorb
  * any definition which has one internal name to be set.
  */
-class UnimplementedNameHolder: public Named
+class PARSERS_EXPORT UnimplementedNameHolder: public Named
 {
 public:
   typedef UnimplementedNameHolder   Self;

@@ -57,7 +57,7 @@ typedef ::xml::Attributes                  Attributes;
 /**
  * Class to parse the XML description of a C++ source.
  */
-class Parser: public Object
+class PARSERS_EXPORT Parser: public Object
 {
 public:
   typedef Parser Self;

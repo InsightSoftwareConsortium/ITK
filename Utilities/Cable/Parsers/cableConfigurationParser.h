@@ -57,7 +57,7 @@ typedef ::xml::Attributes                  Attributes;
 /**
  * Class to parse the XML wrapper configuration file.
  */
-class Parser: public Object
+class PARSERS_EXPORT Parser: public Object
 {
 public:
   typedef Parser Self;

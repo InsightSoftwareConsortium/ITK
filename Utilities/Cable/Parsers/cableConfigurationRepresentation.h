@@ -66,7 +66,7 @@ enum TypeOfObject {
 /**
  * Top-level base class for all configuration objects.
  */
-class ConfigureObject: public Object
+class PARSERS_EXPORT ConfigureObject: public Object
 {
 public:
   typedef ConfigureObject           Self;
@@ -94,7 +94,7 @@ protected:
 /**
  * Interface to any object that can be referenced with a name in the source.
  */
-class Named: public ConfigureObject
+class PARSERS_EXPORT Named: public ConfigureObject
 {
 public:
   typedef Named Self;
@@ -124,7 +124,7 @@ private:
 /**
  * Store source code text for custom functions (like create and delete).
  */
-class CodeBlock: public Named
+class PARSERS_EXPORT CodeBlock: public Named
 {
 public:
   typedef CodeBlock           Self;
@@ -157,7 +157,7 @@ private:
  * Represent a class wrapper in the configuration file.  This corresponds to
  * a class in the C++ code being wrapped.
  */
-class Class: public Named
+class PARSERS_EXPORT Class: public Named
 {
 public:
   typedef Class                     Self;
@@ -182,7 +182,7 @@ protected:
  * a namespace in the C++ code being wrapped.  It will also serve to hold
  * the names of CodeBlock definitions.
  */
-class Namespace: public Named
+class PARSERS_EXPORT Namespace: public Named
 {
 public:
   typedef Namespace                 Self;
@@ -257,7 +257,7 @@ protected:
 /**
  * A collection of all configuration information from an input file.
  */
-class CableConfiguration: public ConfigureObject
+class PARSERS_EXPORT CableConfiguration: public ConfigureObject
 {
 public:
   typedef CableConfiguration        Self;
