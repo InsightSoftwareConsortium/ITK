@@ -47,85 +47,93 @@ CellInterface< TPixelType , TCellTraits >
  
   
 /**
- * By default, a cell is not a boundary.
+ * Return true if the UsingCellsContainer m_UsingCells is nonempty,
+ * false otherwise.  The container m_UsingCells is meant to contain a
+ * list of all the cells that have this one as part of their boundary.
+ * Boundary data is not automatically recorded upon mesh creation.  If
+ * the boundary information has not been computed, this method always
+ * returns false.
  */
 template <typename TPixelType, typename TCellTraits>
 bool
 CellInterface< TPixelType , TCellTraits >
 ::IsBoundary(void)
 {
-  return false;
+  return !m_UsingCells.empty();
 }
 
 
 /**
- * This is only part of the boundary interface.  The call is ignored.
+ * Register the fact that this cell is a part of the boundary of the
+ * cell \c cellId, by adding \a cellId to the UsingCellsContainer.
  */
 template <typename TPixelType, typename TCellTraits>
 void
 CellInterface< TPixelType , TCellTraits >
-::AddUsingCell(CellIdentifier)
+::AddUsingCell(CellIdentifier cellId)
 {
+  m_UsingCells.insert(cellId);
 }
 
 
 /**
- * This is only part of the boundary interface.  The call is ignored.
+ * Remove a cell from the UsingCellsContainer.
  */
 template <typename TPixelType, typename TCellTraits>
 void
 CellInterface< TPixelType , TCellTraits >
-::RemoveUsingCell(CellIdentifier)
+::RemoveUsingCell(CellIdentifier cellId)
 {
+  m_UsingCells.erase(cellId);
 }
 
-
 /**
- * By default, the cell is not a boundary, so it has no using cells.
- * This will always return false for a cell.
+ * Test if a cell is in the UsingCellsContainer.  A result of \c true
+ * indicates that this cell is part of the boundary of the cell \c
+ * cellId, assuming that boundary information has been recorded.
  */
 template <typename TPixelType, typename TCellTraits>
 bool
 CellInterface< TPixelType , TCellTraits >
-::IsUsingCell(CellIdentifier)
+::IsUsingCell(CellIdentifier cellId)
 {
-  return false;
+  return (m_UsingCells.count(cellId) > 0);
 }
 
 
 /**
- * This is only part of the boundary interface.  The call is ignored.
+ * Get the number of cells in the UsingCellsContainer.
  */
 template <typename TPixelType, typename TCellTraits>
 unsigned int
 CellInterface< TPixelType , TCellTraits >
 ::GetNumberOfUsingCells(void)
 {
-  return 0;
+  return static_cast<unsigned int>( m_UsingCells.size() );
 }
 
 
 /**
- * This is only part of the boundary interface.  The call is ignored.
+ * Get a begin iterator for the UsingCellsContainer.
  */
 template <typename TPixelType, typename TCellTraits>
 typename CellInterface< TPixelType , TCellTraits >::UsingCellsContainerIterator
 CellInterface< TPixelType , TCellTraits >
 ::UsingCellsBegin(void)
 {
-  return UsingCellsContainerIterator();
+  return m_UsingCells.begin();
 }
 
 
 /**
- * This is only part of the boundary interface.  The call is ignored.
+ * Get an end iterator for the UsingCellsContainer.
  */
 template <typename TPixelType, typename TCellTraits>
 typename CellInterface< TPixelType , TCellTraits >::UsingCellsContainerIterator
 CellInterface< TPixelType , TCellTraits >
 ::UsingCellsEnd(void)
 {
-  return UsingCellsContainerIterator();
+  return m_UsingCells.end();
 }
 
 } // end namespace itk

@@ -505,7 +505,7 @@ void
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::SetBoundaryAssignment(int dimension, CellIdentifier cellId,
                         CellFeatureIdentifier featureId,
-                        BoundaryIdentifier boundaryId)
+                        CellIdentifier boundaryId)
 {
   BoundaryAssignmentIdentifier assignId(cellId, featureId);
     
@@ -534,7 +534,7 @@ bool
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::GetBoundaryAssignment(int dimension, CellIdentifier cellId,
                         CellFeatureIdentifier featureId,
-                        BoundaryIdentifier* boundaryId) const
+                        CellIdentifier* boundaryId) const
 {
   BoundaryAssignmentIdentifier assignId(cellId, featureId);  
 
@@ -603,7 +603,8 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   /**
    * Ask the cell for its boundary count of the given dimension.
    */
-  return m_CellsContainer->GetElement(cellId)->GetNumberOfBoundaryFeatures(dimension);
+  return m_CellsContainer->GetElement(cellId)->
+    GetNumberOfBoundaryFeatures(dimension);
 }
 
 
@@ -951,6 +952,49 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   return false;
 }
 
+#if 0
+
+/**
+ * Check if there is an explicitly assigned boundary feature for the
+ * given dimension and cell- and cell-feature-identifiers.  If there is,
+ * a pointer to it is given back through "boundary" (if it isn't 0) and
+ * true is returned.  Otherwise, false is returned.
+ * 
+ * This version is new.  It does not treat boundaries as a separate
+ * type.  A boundary (boundary component, really) is just a cell that
+ * is part of the boundary of another cell.  As this conversion is
+ * completed, the parts that use the boundary types will be removed.
+ */
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
+bool
+Mesh<TPixelType, VDimension, TMeshTraits>
+::GetAssignedCellBoundaryIfOneExists( int dimension, CellIdentifier cellId,
+                                      CellFeatureIdentifier featureId,
+                                      CellAutoPointer& boundary ) const
+{
+  if( m_BoundaryAssignmentsContainers[dimension].IsNotNull() )
+    {
+    BoundaryAssignmentIdentifier assignId(cellId, featureId);
+    CellIdentifier boundaryId;
+    
+    if( m_BoundaryAssignmentsContainers[dimension]->
+        GetElementIfIndexExists( assignId, &boundaryId ) )
+      {
+      CellType* boundaryptr;
+      const bool found = m_CellsContainer->
+        GetElementIfIndexExists( boundaryId, &boundaryptr );
+      boundary.TakeNoOwnership( boundaryptr );
+      return found;
+      }
+    }
+  
+  /** An explicitly assigned boundary was not found. */
+  boundary.Reset();
+  return false;
+}
+
+#endif
+
 /**
  * Dynamically build the links from points back to their using cells.  This
  * information is stored in the cell links container, not in the points.
@@ -1045,11 +1089,11 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   m_CellDataContainer(0),
   m_CellLinksContainer(0),
   m_BoundariesContainers(
-    BoundariesContainerVector( MaxTopologicalDimension + 1 ) ),
+    BoundariesContainerVector( MaxTopologicalDimension ) ),
   m_BoundaryDataContainers(
-    BoundaryDataContainerVector( MaxTopologicalDimension + 1 ) ),
+    BoundaryDataContainerVector( MaxTopologicalDimension ) ),
   m_BoundaryAssignmentsContainers(
-    BoundaryAssignmentsContainerVector( MaxTopologicalDimension + 1 ) ),
+    BoundaryAssignmentsContainerVector( MaxTopologicalDimension ) ),
   m_CellsAllocationMethod(CellsAllocatedDynamicallyCellByCell),
   m_BoundariesAllocationMethod(BoundariesAllocationMethodUndefined)
 {

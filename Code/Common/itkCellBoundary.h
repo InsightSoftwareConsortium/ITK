@@ -66,26 +66,11 @@ public:
   /** The type stored in the UsingCellsContainer.  This should always be
    * the Cell's CellIdentifier type. */
   typedef typename CellType::CellIdentifier           CellIdentifier;
-  
-  /** Define the interface to the boundary information. */
-  virtual bool IsBoundary(void);
-  virtual void AddUsingCell(CellIdentifier cellId);
-  virtual void RemoveUsingCell(CellIdentifier cellId);
-  virtual bool IsUsingCell(CellIdentifier cellId);
-  virtual unsigned int GetNumberOfUsingCells(void);
-  virtual UsingCellsContainerIterator UsingCellsBegin(void);
-  virtual UsingCellsContainerIterator UsingCellsEnd(void);
     
   /** Constructor and destructor */
   CellBoundary() {};
   ~CellBoundary() {};
 
-
-protected:
-  /** Store the set of cells using this boundary. */
-  UsingCellsContainer m_UsingCells;
-
- 
 private:
   CellBoundary(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented  

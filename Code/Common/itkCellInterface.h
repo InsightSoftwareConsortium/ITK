@@ -375,9 +375,9 @@ public:
   /** Interface to the boundary form of the cell to set/get UsingCells.
    * See the boundary wrapper source for more information. */
   virtual bool IsBoundary(void);
-  virtual void AddUsingCell(CellIdentifier);
-  virtual void RemoveUsingCell(CellIdentifier);
-  virtual bool IsUsingCell(CellIdentifier);
+  virtual void AddUsingCell(CellIdentifier cellId);
+  virtual void RemoveUsingCell(CellIdentifier cellId);
+  virtual bool IsUsingCell(CellIdentifier cellId);
   virtual unsigned int GetNumberOfUsingCells(void);
   virtual UsingCellsContainerIterator UsingCellsBegin(void);
   virtual UsingCellsContainerIterator UsingCellsEnd(void);
@@ -392,6 +392,11 @@ public:
 
   /** Get the geometric position of a point. */
 //  bool GetPointPosition(PointsContainer*, int localId, Point*)=0;
+
+protected:
+  /** Store the set of cells using this boundary. */
+  UsingCellsContainer m_UsingCells;
+
 private:
   CellInterface(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented  

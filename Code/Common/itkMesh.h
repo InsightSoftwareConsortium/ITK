@@ -88,6 +88,12 @@ namespace itk
  * TMeshTraits =
  *     Type information structure for the mesh.
  *
+ *  \note The mesh class is in the process of being modified so that there
+ *  are no separate boundary containers or boundary objects.  A
+ *  boundary is just a cell that happens to be part of the boundary
+ *  of another cell.  It will still possible to have two adjacent
+ *  cells have distinct boundaries that share the same vertices.  
+ *
  * \par References
  * No reference information is available.
  *
@@ -370,20 +376,17 @@ public:
   void SetBoundaryData(int dimension, BoundaryIdentifier, CellPixelType);
   bool GetBoundaryData(int dimension, BoundaryIdentifier, CellPixelType*) const;
   
-  /** Register the fact that one of the boundary features of the cell
-   *  'cellId' is to be identified by boundaryId.  The dimensionality of
-   *  the given feature is specified by 'dimension', and the
-   *  CellFeatureIdentifier 'featureId' is assigned to distinguish this
-   *  particular boundary from others of the same dimension in the
-   *  same cell.  
-   *
-   *  For this assignment to be useful, a BoundaryType object must be
-   *  created and given the appropriate ID using SetBoundary().  Also,
-   *  the BoundaryType object needs to be told what it is a boundary
-   *  of, using BoundaryType::AddUsingCell(cellId). */
+  /** Indicate that the cell identified by \e boundaryId is a part of
+   *  the boundary of the cell identified by \e cellId.  The dimension
+   *  of the given boundary cell must be specified by \e dimension,
+   *  and a unique CellFeatureIdentifier \e featureId must be assigned
+   *  for each distinct boundary feature of a given dimension.
+   *  CellFeatureIdentifier is equivalent to <tt>unsigned long</tt> by
+   *  default, and will not typically need to be changed.
+   */
   void SetBoundaryAssignment(int dimension, CellIdentifier cellId,
                              CellFeatureIdentifier featureId,
-                             BoundaryIdentifier boundaryId);
+                             CellIdentifier boundaryId);
 
   /** For the given cellId, get the identifier of a particular
    * boundary feature of the given dimension.  The featureId
@@ -395,7 +398,7 @@ public:
    * BoundaryIdentifier pointer is left unchanged. */
   bool GetBoundaryAssignment(int dimension, CellIdentifier cellId,
                              CellFeatureIdentifier featureId,
-                             BoundaryIdentifier*) const;
+                             CellIdentifier* boundaryId) const;
   bool RemoveBoundaryAssignment(int dimension, CellIdentifier cellId,
                                 CellFeatureIdentifier featureId);
   
@@ -418,9 +421,10 @@ public:
   
   /**
    * Check if there is an explicitly assigned boundary feature for the
-   * given dimension and cell- and cell-feature-identifiers.  If there is,
-   * a pointer to it is given back through "boundary" (if it isn't 0) and
-   * true is returned.  Otherwise, false is returned.
+   * given dimension and cell- and cell-feature-identifiers.  If there
+   * is, a pointer to it is given back through \e boundary (if \e
+   * boundary != NULL) and true is returned.  Otherwise, false is
+   * returned.
    */
   bool GetAssignedCellBoundaryIfOneExists(int dimension, CellIdentifier,
                                           CellFeatureIdentifier,
