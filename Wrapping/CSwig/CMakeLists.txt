@@ -79,6 +79,9 @@ MACRO(CSWIG_CREATE_TCL_CXX_FILE Bin MasterIdx InputIdx InputXml OutputTclCxx Lib
    FOREACH(MIDX ${MasterIdx})
      SET(CINDEX ${CINDEX} -Cindex "${MIDX}")
    ENDFOREACH(MIDX)
+
+   # Need dependency on ${ITK_BINARY_DIR}/itkConfigure.h so
+   # package is rebuilt when the ITK version changes.
    ADD_CUSTOM_COMMAND(
      COMMENT "${OutputTclCxx} from "
      SOURCE ${Bin}/${InputIdx}
@@ -88,7 +91,7 @@ MACRO(CSWIG_CREATE_TCL_CXX_FILE Bin MasterIdx InputIdx InputXml OutputTclCxx Lib
           -o ${Bin}/${OutputTclCxx} -tcl -pkgversion "${ITK_VERSION_STRING}" -c++ ${Bin}/${InputXml}
      TARGET ${Library}
      OUTPUTS ${Bin}/${OutputTclCxx}
-     DEPENDS ${LibraryIndexFiles} ${Bin}/${InputXml} ${CSWIG} )
+     DEPENDS ${LibraryIndexFiles} ${Bin}/${InputXml} ${CSWIG} ${ITK_BINARY_DIR}/itkConfigure.h)
 #     MESSAGE("depends are ${CABLE_SWIG_DEPEND}")
 ENDMACRO(CSWIG_CREATE_TCL_CXX_FILE)
 
