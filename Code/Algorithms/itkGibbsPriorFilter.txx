@@ -236,7 +236,7 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
   InputImageIterator  inputImageIt(m_InputImage, 
                                    m_InputImage->GetBufferedRegion() );
 
-  LabelledImageIndexType offsetIndex3D = { 0, 0, 0};
+  LabelledImageIndexType offsetIndex3D; offsetIndex3D.Fill(0);
 
   int size = m_ImageWidth * m_ImageHeight * m_ImageDepth;
   int frame = m_ImageWidth * m_ImageHeight;
@@ -367,7 +367,7 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
   InputImageIterator  inputImageIt(m_InputImage, 
                                    m_InputImage->GetBufferedRegion() );
 
-  LabelledImageIndexType offsetIndex3D = { 0, 0, 0};
+  LabelledImageIndexType offsetIndex3D; offsetIndex3D.Fill(0);
 
   int size = m_ImageWidth * m_ImageHeight * m_ImageDepth;
   int frame = m_ImageWidth * m_ImageHeight;
@@ -499,7 +499,7 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
   int j, neighborcount = 0, simnum = 0, difnum = 0, changenum = 0;
   int changeflag;
 
-  LabelledImageIndexType offsetIndex3D = { 0, 0, 0};
+  LabelledImageIndexType offsetIndex3D; offsetIndex3D.Fill(0);
   LabelledImagePixelType labelledPixel;
 
   int size = m_ImageWidth * m_ImageHeight * m_ImageDepth;
@@ -730,7 +730,7 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
   LabelledImagePixelType outLabelledPix;
 
   //Set a variable to store the offset index
-  LabelledImageIndexType offsetIndex3D = { 0, 0, 0};
+  LabelledImageIndexType offsetIndex3D; offsetIndex3D.Fill(0);
 
   int size = m_ImageWidth * m_ImageHeight * m_ImageDepth;
   int frame = m_ImageWidth * m_ImageHeight;
@@ -806,7 +806,7 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
   m_Region = (unsigned short*) malloc(sizeof(unsigned short)*size);
   m_RegionCount = (unsigned short*) malloc(sizeof(unsigned short)*size);
 
-  LabelledImageIndexType offsetIndex3D = { 0, 0, 0};
+  LabelledImageIndexType offsetIndex3D; offsetIndex3D.Fill(0);
 
   int frame = m_ImageWidth * m_ImageHeight;
 
@@ -870,7 +870,7 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
   int frame = m_ImageWidth * m_ImageHeight;
   int rowsize = m_ImageWidth;
 
-  LabelledImageIndexType offsetIndex3D = { 0, 0, 0};
+  LabelledImageIndexType offsetIndex3D; offsetIndex3D.Fill(0);
 
   m_Region[i] = l;
 
