@@ -77,9 +77,9 @@ DeformableMesh<PixelType>
 {
 //  CoordRepType PointCoords[38][3];
 
-  unsigned long ii, i, j, jn, e, p, numpts, numcells;
-  float x[3], ustep, vstep, ubeg, vbeg, u, v; 
-  int pts[3], signu, signv; 
+  unsigned long i, j, jn, p, numpts, numcells;
+  float ustep, vstep, ubeg, vbeg, u, v; 
+  int signu, signv; 
 
   numpts = Resolution[0]*Resolution[1] + 2; 
   numcells = 2 * (Resolution[0]-1) *Resolution[1] + 2*Resolution[1]; 
@@ -90,7 +90,7 @@ DeformableMesh<PixelType>
   vbeg = -vnl_math::pi; 
 
   unsigned long tripoints[3] = {0,1,2};
-  const unsigned long *tp;
+//  const unsigned long *tp;
   
   this->GetPoints()->Reserve(numpts);
 //  this->GetCellData()->Reserve(numcells);

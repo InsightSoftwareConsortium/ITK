@@ -170,7 +170,7 @@ public:
    *  Pointer type for output image
    */
 //  typedef typename TClassifiedImage::Pointer OutputImage;
-
+  itkSetMacro(ClusterSize, unsigned int);
   /**
    *  Region
    */
@@ -226,10 +226,14 @@ protected:
   int                    m_imgWidth;
   int                    m_imgHeight;
   int                    m_imgDepth;
+  int					 m_ClusterSize;
 
   int                    *m_WidthOffset;
   int                    *m_HeightOffset;
   int                    *m_DepthOffset;
+
+  unsigned short		 *m_Region;
+  unsigned short		 *m_RegionCount;
 
   void  GenerateInputRequestedRegion();
   void  EnlargeOutputRequestedRegion( DataObject * );
@@ -238,9 +242,11 @@ protected:
   void  GibbsTotalEnergy(int i);
   int   GreyScalarBoundary(LabelledImageIndexType Index3D); 
   float GibbsEnergy(int i, int k, int k1);
-  int Mini(int i); 
-  int Maxi(int i); 
-  int Sim(int a, int b);
+  int	Mini(int i); 
+  int	Maxi(int i); 
+  int	Sim(int a, int b);
+  int	LabelRegion(int i, int l, int change);
+  void	RegionEraser();
 //  void InitialStat(int dims[3]);
 
 //  void Execute();
