@@ -55,10 +55,17 @@ double F( double x, double y, double z )
   const double s = 50;
   double value = 200.0 * exp( - ( x*x + y*y + z*z )/(s*s) );
   x -= 8; y += 3; z += 0;
-  if( vnl_math_sqrt( x*x + y*y + z*z ) > 35 )
-  value = 2 * ( vnl_math_abs( x ) + 
-    0.8 * vnl_math_abs( y ) +
-    0.5 * vnl_math_abs( z ) );
+  double r = vnl_math_sqrt( x*x + y*y + z*z );
+  if( r > 35 )
+    {
+    value = 2 * ( vnl_math_abs( x ) + 
+      0.8 * vnl_math_abs( y ) +
+      0.5 * vnl_math_abs( z ) );
+    }
+  if( r < 4 )
+    {
+    value = 400;
+    }
 
   return value;
 
@@ -180,11 +187,11 @@ int main()
 
 // This set of parameters can recover thirty percent dilation
 //  unsigned int niter[4] = { 500, 3000, 3000 };
-//  double rates[4] = { 5e-4, 1e-4, 2e-5 };
+//  double rates[4] = { 1e-3, 5e-4, 1e-4 };
 
 // This set of parameters can recover twenty percent dilation
   unsigned int niter[4] = { 100, 300, 550 };
-  double rates[4] = { 5e-4, 1e-4, 5e-5 };
+  double rates[4] = { 1e-3, 5e-4, 1e-4 };
 
   registrator->SetNumberOfIterations( niter );
   registrator->SetLearningRates( rates );
