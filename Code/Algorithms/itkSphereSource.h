@@ -106,7 +106,7 @@ public:
 
 protected:
   SphereSource();
-  ~SphereSource() {};
+  ~SphereSource() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   void GenerateData();
@@ -125,6 +125,9 @@ protected:
   double m_Squareness1;
   double m_Squareness2;
 
+private:
+  SphereSource(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 };
 
 } // end namespace itk
