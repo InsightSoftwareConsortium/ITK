@@ -40,6 +40,21 @@ VectorContainer< TElementIdentifier , TElement >
   return this->VectorType::operator[](id);
 }
 
+/**
+ * Get a reference to the element at the given index.
+ * It is assumed that the index exists, and it will not automatically
+ * be created.
+ *
+ */
+template <typename TElementIdentifier, typename TElement>
+const VectorContainer< TElementIdentifier , TElement >::Element&
+VectorContainer< TElementIdentifier , TElement >
+::ElementAt(ElementIdentifier id) const
+{
+  return this->VectorType::operator[](id);
+}
+
+
 
 /**
  * Get a reference to the element at the given index.

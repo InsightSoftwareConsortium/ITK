@@ -155,6 +155,7 @@ public:
 
   /** Declare the public interface routines. */
   Element& ElementAt(ElementIdentifier);
+  const Element& ElementAt(ElementIdentifier) const;
   Element& CreateElementAt(ElementIdentifier);
   Element GetElement(ElementIdentifier) const;
   void SetElement(ElementIdentifier, Element);

@@ -37,6 +37,19 @@ MapContainer< TElementIdentifier , TElement >
   return this->MapType::operator[](id);
 }
 
+/**
+ * Get a reference to the element at the given index.
+ *
+ */
+template <typename TElementIdentifier, typename TElement>
+const MapContainer< TElementIdentifier , TElement >::Element&
+MapContainer< TElementIdentifier , TElement >
+::ElementAt(ElementIdentifier id) const
+{
+  return this->MapType::find(id)->second;
+}
+
+
 
 /**
  * Get a reference to the element at the given index.
