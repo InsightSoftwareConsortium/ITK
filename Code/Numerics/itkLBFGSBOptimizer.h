@@ -18,6 +18,7 @@
 #define __itkLBFGSBOptimizer_h
 
 #include "itkSingleValuedNonLinearOptimizer.h"
+#include <string>
 
 namespace itk
 {
@@ -135,6 +136,12 @@ public:
   /** Get the current iteration number. */
   itkGetConstMacro( CurrentIteration, unsigned int );
 
+  /** Get the current cost function value. */
+  itkGetConstMacro( Value, MeasureType );
+
+  /** Get the current infinity norm of the project gradient of the cost
+   * function. */
+  itkGetConstMacro( InfinityNormOfProjectedGradient, double );
 
 protected:
   LBFGSBOptimizer();
@@ -158,7 +165,8 @@ private:
   bool                  m_Trace;
 
   unsigned int          m_CurrentIteration;
-
+  MeasureType           m_Value;
+  double                m_InfinityNormOfProjectedGradient;
 
 };
 

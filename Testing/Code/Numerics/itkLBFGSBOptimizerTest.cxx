@@ -140,7 +140,6 @@ int itkLBFGSBOptimizerTest(int, char *[])
   itkOptimizer->SetProjectedGradientTolerance( Projected_G_Tolerance );
   itkOptimizer->SetMaximumNumberOfIterations( Max_Iterations );
   itkOptimizer->SetMaximumNumberOfEvaluations( Max_Iterations );
-//  itkOptimizer->DebugOn();
       
   const unsigned int SpaceDimension = 2;
   OptimizerType::ParametersType initialValue(SpaceDimension);
@@ -190,6 +189,11 @@ int itkLBFGSBOptimizerTest(int, char *[])
   std::cout << finalPosition[0] << "," ;
   std::cout << finalPosition[1] << ")" << std::endl;  
 
+  std::cout << "Final Function Value = ";
+  std::cout << itkOptimizer->GetValue() << std::endl;
+
+  std::cout << "Infinity Norm of Projected Gradient = ";
+  std::cout << itkOptimizer->GetInfinityNormOfProjectedGradient() << std::endl;
   
   //
   // check results to see if it is within range

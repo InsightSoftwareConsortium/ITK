@@ -56,13 +56,16 @@ LBFGSBOptimizer
   m_UpperBound       = BoundValueType(0); 
   m_BoundSelection   = BoundSelectionType(0);
 
-  m_CostFunctionConvergenceFactor = 1e+7;
-  m_ProjectedGradientTolerance    = 1e-5;
-  m_MaximumNumberOfIterations     = 500;
-  m_MaximumNumberOfEvaluations    = 500;
-  m_MaximumNumberOfCorrections    = 5;
-  m_Trace                         = false;
-  m_CurrentIteration              = 0;
+  m_CostFunctionConvergenceFactor   = 1e+7;
+  m_ProjectedGradientTolerance      = 1e-5;
+  m_MaximumNumberOfIterations       = 500;
+  m_MaximumNumberOfEvaluations      = 500;
+  m_MaximumNumberOfCorrections      = 5;
+  m_Trace                           = false;
+  m_CurrentIteration                = 0;
+  m_Value                           = 0.0;
+  m_InfinityNormOfProjectedGradient = 0.0;
+ 
 }
 
 
@@ -104,7 +107,15 @@ LBFGSBOptimizer
   os << indent << "MaximumNumberOfCorrections: " << 
     m_MaximumNumberOfCorrections << std::endl;
 
-  os << indent << "CurrentIteration: " << m_CurrentIteration << std::endl;
+  os << indent << "CurrentIteration: " << 
+    m_CurrentIteration << std::endl;
+
+  os << indent << "Value: " <<
+    m_Value << std::endl;
+
+  os << indent << "InfinityNormOfProjectedGradient: " <<
+    m_InfinityNormOfProjectedGradient << std::endl;
+
 }
 
 /**
@@ -228,8 +239,8 @@ LBFGSBOptimizer
   Array<integer> iwa( 3* n );                     // integer array workspace
 
   /** String indicating current job */
-   char task[60];
-  s_copy(task, "START", (ftnlen)60, (ftnlen)5);
+  char task[60];
+  s_copy( task, "START", (ftnlen)60, (ftnlen)5);
  
   /**  Control frequency and type of output */
   integer iprint;
@@ -250,6 +261,7 @@ LBFGSBOptimizer
   unsigned int numberOfEvaluations = 0;
   m_CurrentIteration = 0;
   bool EvaluateFunction = false;
+  bool started = false;
 
   this->InvokeEvent( StartEvent() );
 
@@ -263,11 +275,13 @@ LBFGSBOptimizer
       m_CostFunction->GetValueAndDerivative( this->GetCurrentPosition(), functionValue, gradient );
       numberOfEvaluations++;
       }
-    else
+    else if ( started )
       {
       this->InvokeEvent( IterationEvent() );
       m_CurrentIteration++;
       }
+
+    started = true;
 
     /** Setup output control */
     iprint = m_Trace ? 1 : -1;   // -1 no o/p, 0 start and end, 1 every iter.
@@ -290,26 +304,30 @@ LBFGSBOptimizer
       */
 
     EvaluateFunction = !(s_cmp(task, "FG", (ftnlen)2, (ftnlen)2));
+
+    m_Value = dsave[1];
+    m_InfinityNormOfProjectedGradient = dsave[12];
+
     if (  !EvaluateFunction &&
-      s_cmp(task, "NEW_X", (ftnlen)5, (ftnlen)5) != 0 )
+      s_cmp( task, "NEW_X", (ftnlen)5, (ftnlen)5) != 0 )
       {
         // terminate
 
-      if( s_cmp(task, "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL", 
+      if( s_cmp( task, "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL", 
         (ftnlen)48, (ftnlen)48) == 0 )
         {
         itkDebugMacro( << "Convergence: gradient tolerance reached." );
         break;
         }
 
-      if( s_cmp(task, "CONVERGENCE: REL_REDUCTION_OF_F <= FACTR*EPSMCH", 
+      if( s_cmp( task, "CONVERGENCE: REL_REDUCTION_OF_F <= FACTR*EPSMCH", 
         (ftnlen)47, (ftnlen)47) == 0 )
         {
         itkDebugMacro( << "Convergence: function tolerance reached." );
         break;
         }
 
-      if ( s_cmp(task, "ERROR", (ftnlen)5, (ftnlen)5) == 0 )
+      if ( s_cmp( task, "ERROR", (ftnlen)5, (ftnlen)5) == 0 )
         {
         itkDebugMacro( << "Error: dodgy input." );
         break;
@@ -330,6 +348,10 @@ LBFGSBOptimizer
       }
 
     }
+
+  /** We need to recompute the metric one more time at the end, since we cannot
+   * obtain that information from the original fortran/c code. */
+  m_CostFunction->GetValueAndDerivative( this->GetCurrentPosition(), m_Value, gradient );
 
   this->InvokeEvent( EndEvent() );
 
