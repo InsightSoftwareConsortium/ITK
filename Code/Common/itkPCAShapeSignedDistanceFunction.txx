@@ -19,6 +19,9 @@
 
 #include "itkPCAShapeSignedDistanceFunction.h"
 
+#include "itkTranslationTransform.h"
+#include "itkLinearInterpolateImageFunction.h"
+#include "itkNearestNeighborExtrapolateImageFunction.h"
 
 namespace itk
 {
@@ -82,6 +85,10 @@ PCAShapeSignedDistanceFunction<TCoordRep, VSpaceDimension>
 
   for(i=0; i<m_NumberOfTransformParameters; i++)
     {m_TransformParameters[i] = parameters[m_NumberOfPrincipalComponents+i];}
+
+  // set up the transform
+  m_Transform->SetParameters(m_TransformParameters);
+
 }
 
 
@@ -150,8 +157,6 @@ PCAShapeSignedDistanceFunction<TCoordRep, VSpaceDimension>
       }
     }
 
-  // set up the transform
-  m_Transform->SetParameters(m_TransformParameters);
 
   // set up the interpolators/extrapolators for each of the mean and pc images
   m_Interpolators.resize(m_NumberOfPrincipalComponents + 1);
@@ -160,22 +165,22 @@ PCAShapeSignedDistanceFunction<TCoordRep, VSpaceDimension>
 
   // interpolator/extrapolator for mean image
   m_Interpolators[0] = 
-    NearestNeighborInterpolateImageFunction<ImageType, double>::New();
+    LinearInterpolateImageFunction<ImageType, CoordRepType>::New();
   m_Interpolators[0]->SetInputImage(m_MeanImage);
 
   m_Extrapolators[0] = 
-    NearestNeighborExtrapolateImageFunction<ImageType, double>::New();
+    NearestNeighborExtrapolateImageFunction<ImageType, CoordRepType>::New();
   m_Extrapolators[0]->SetInputImage(m_MeanImage);
 
   // interpolators/extrapolators for pc images
   for (unsigned int k=1; k<=m_NumberOfPrincipalComponents; k++)
     {
     m_Interpolators[k] = 
-      NearestNeighborInterpolateImageFunction<ImageType, double>::New();
+      LinearInterpolateImageFunction<ImageType, CoordRepType>::New();
     m_Interpolators[k]->SetInputImage(m_PrincipalComponentImages[k-1]);
 
     m_Extrapolators[k] = 
-      NearestNeighborExtrapolateImageFunction<ImageType, double>::New();
+      NearestNeighborExtrapolateImageFunction<ImageType, CoordRepType>::New();
     m_Extrapolators[k]->SetInputImage(m_PrincipalComponentImages[k-1]);
     }
 }

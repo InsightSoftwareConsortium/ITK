@@ -19,12 +19,9 @@
 
 
 #include "itkShapeSignedDistanceFunction.h"
-
 #include "itkImage.h"
-#include "itkTranslationTransform.h"
-#include "itkNearestNeighborInterpolateImageFunction.h"
-#include "itkNearestNeighborExtrapolateImageFunction.h"
-
+#include "itkInterpolateImageFunction.h"
+#include "itkExtrapolateImageFunction.h"
 
 namespace itk
 {

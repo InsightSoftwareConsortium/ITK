@@ -26,9 +26,10 @@
 #include "itkSimilarityIndexImageFilter.h"
 
 /* Uncomment to write out image files */
-
+/*
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkImageFileWriter.h"
+*/
 
 int itkGeodesicActiveContourLevelSetImageFilterTest(int, char* [] )
 {
