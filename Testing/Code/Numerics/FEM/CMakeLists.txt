@@ -19,6 +19,7 @@ itkFEMElement2DQuadraticTriangularTest.cxx
 itkFEMLinearSystemWrapperItpackTest.cxx
 itkFEMLinearSystemWrapperVNLTest.cxx
 itkFEMLinearSystemWrapperDenseVNLTest.cxx
+itkFEMPArrayTest.cxx
 )
 
 ADD_TEST(itkFEMC0HexahedralElement-NodalLoads-BCs ${FEM_TESTS} itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/hexa2.fem)
@@ -45,6 +46,7 @@ ADD_TEST(itkFEMTruss ${FEM_TESTS} itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/t
 ADD_TEST(itkFEMLinearSystemWrapperItpackTest  ${FEM_TESTS} itkFEMLinearSystemWrapperItpackTest)
 ADD_TEST(itkFEMLinearSystemWrapperVNLTest  ${FEM_TESTS} itkFEMLinearSystemWrapperVNLTest)
 ADD_TEST(itkFEMLinearSystemWrapperDenseVNLTest  ${FEM_TESTS} itkFEMLinearSystemWrapperDenseVNLTest)
+ADD_TEST(itkFEMPArrayTest  ${FEM_TESTS} itkFEMPArrayTest)
 
 ADD_TEST(itkFEMExceptionTest ${FEM_TESTS} itkFEMExceptionTest)
 ADD_TEST(itkFEMGenerateMeshTest ${FEM_TESTS} itkFEMGenerateMeshTest)
