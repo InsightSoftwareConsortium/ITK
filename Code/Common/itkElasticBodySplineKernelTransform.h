@@ -80,19 +80,19 @@ public:
   /**
    * Scalar Type
    */
-  typedef Superclass::ScalarType  ScalarType;
+  typedef typename Superclass::ScalarType  ScalarType;
 
 
   /**
    * Parameters Type
    */
-  typedef Superclass::ParametersType  ParametersType;
+  typedef typename Superclass::ParametersType  ParametersType;
 
 
   /**
    * Jacobian Type
    */
-  typedef Superclass::JacobianType  JacobianType;
+  typedef typename Superclass::JacobianType  JacobianType;
 
 
 

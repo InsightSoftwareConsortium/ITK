@@ -93,15 +93,15 @@ public:
                        TJacobianType >             Superclass;
 
     /// Standard scalar type for this class
-    typedef Superclass::ScalarType ScalarType;
+    typedef typename Superclass::ScalarType ScalarType;
 
            
     /// Standard parameters container
-    typedef Superclass::ParametersType ParametersType;
+    typedef typename Superclass::ParametersType ParametersType;
 
 
     /// Standard Jacobian Container
-    typedef Superclass::JacobianType JacobianType;
+    typedef typename Superclass::JacobianType JacobianType;
 
 
 

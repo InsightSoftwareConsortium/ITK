@@ -180,17 +180,17 @@ public:
     /**
      * Parameters Type
      */
-    typedef Superclass::ParametersType  ParametersType;
+    typedef typename Superclass::ParametersType  ParametersType;
 
 
     /**
      * Jacobian Type
      */
-    typedef Superclass::JacobianType  JacobianType;
+    typedef typename Superclass::JacobianType  JacobianType;
 
 
     /// Standard scalar type for this class
-    typedef Superclass::ScalarType ScalarType;
+    typedef typename Superclass::ScalarType ScalarType;
 
 
     /**
