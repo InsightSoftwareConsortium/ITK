@@ -95,13 +95,16 @@ public:
   itkSetMacro( MaximumIteration, unsigned int );
   itkGetConstMacro( MaximumIteration, unsigned int );
 
-  /** Get the search radius grow factor in parameter space. */
+  /** Set/Get the search radius grow factor in parameter space. */
+  itkSetMacro( GrowthFactor, double );
   itkGetConstMacro( GrowthFactor, double );
 
-  /** Get search radius shrink factor. */
+  /** Set/Get the search radius shrink factor. */
+  itkSetMacro( ShrinkFactor, double );
   itkGetConstMacro( ShrinkFactor, double );
 
-  /** Get initial search radius in parameter space. */
+  /** Set/Get initial search radius in parameter space */
+  itkSetMacro( InitialRadius, double ) ;
   itkGetConstMacro( InitialRadius, double );
 
 
