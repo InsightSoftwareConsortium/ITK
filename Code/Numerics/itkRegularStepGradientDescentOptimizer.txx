@@ -73,9 +73,9 @@ RegularStepGradientDescentOptimizer<TCostFunction>
       break;
     }
 
-    m_PreviousRegularStepGradient = m_RegularStepGradient;
+    m_PreviousRegularStepGradient = m_Gradient;
   
-    m_RegularStepGradient = m_CostFunction->GetDerivative( GetCurrentPosition() );
+    m_Gradient = m_CostFunction->GetDerivative( GetCurrentPosition() );
 
     if( m_Stop )
     {
@@ -126,13 +126,13 @@ RegularStepGradientDescentOptimizer<TCostFunction>
   double magnitudeSquare = 0;
   for(unsigned int dim=0; dim<SpaceDimension; dim++)
   {
-    const double weighted = m_RegularStepGradient[dim] * m_Scale[dim];
+    const double weighted = m_Gradient[dim] * m_Scale[dim];
     magnitudeSquare += weighted * weighted;
   }
     
   const double gradientMagnitude = sqrt( magnitudeSquare );
 
-  if( gradientMagnitude < m_RegularStepGradientMagnitudeTolerance ) 
+  if( gradientMagnitude < m_GradientMagnitudeTolerance ) 
   {
     m_StopCondition = RegularStepGradientMagnitudeTolerance;
     StopOptimization();
@@ -143,7 +143,7 @@ RegularStepGradientDescentOptimizer<TCostFunction>
 
   for(unsigned int i=0; i<SpaceDimension; i++)
   {
-    const double weight1 = m_RegularStepGradient[i]         * m_Scale[i]; 
+    const double weight1 = m_Gradient[i]         * m_Scale[i]; 
     const double weight2 = m_PreviousRegularStepGradient[i] * m_Scale[i]; 
     scalarProduct += weight1 * weight2;
   }
@@ -178,7 +178,7 @@ RegularStepGradientDescentOptimizer<TCostFunction>
 
   for(unsigned int j=0; j<SpaceDimension; j++)
   {
-    newPosition[j] = currentPosition[j] + m_RegularStepGradient[j] * factor;
+    newPosition[j] = currentPosition[j] + m_Gradient[j] * factor;
   }
 
   SetCurrentPosition( newPosition );

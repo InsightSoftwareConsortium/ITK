@@ -151,13 +151,13 @@ public:
   itkSetMacro( MaximumStepLength, double );
   itkSetMacro( MinimumStepLength, double );
   itkSetMacro( MaximumNumberOfIterations, unsigned long );
-  itkSetMacro( RegularStepGradientMagnitudeTolerance, double );
+  itkSetMacro( GradientMagnitudeTolerance, double );
 
   itkGetConstMacro( CurrentStepLength, double);
   itkGetConstMacro( MaximumStepLength, double );
   itkGetConstMacro( MinimumStepLength, double );
   itkGetConstMacro( MaximumNumberOfIterations, unsigned long );
-  itkGetConstMacro( RegularStepGradientMagnitudeTolerance, double );
+  itkGetConstMacro( GradientMagnitudeTolerance, double );
   itkGetConstMacro( CurrentNumberOfIterations, unsigned int );
 
   void SetScale( const ParametersType & scale )
@@ -174,14 +174,14 @@ protected:
 
 private:
 
-  ParametersType                m_RegularStepGradient; 
+  ParametersType                m_Gradient; 
   ParametersType                m_PreviousRegularStepGradient; 
   ParametersType                m_Scale;
 
   bool                          m_Stop;
   bool                          m_Maximize;
   double                        m_Value;
-  double                        m_RegularStepGradientMagnitudeTolerance;
+  double                        m_GradientMagnitudeTolerance;
   double                        m_MaximumStepLength;
   double                        m_MinimumStepLength;
   double                        m_CurrentStepLength;
