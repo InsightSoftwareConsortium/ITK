@@ -119,6 +119,10 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
    op.SetOrder(1);
    op.CreateDirectional();
 
+  // Reverse order of coefficients for the convolution with the image to
+  // follow.
+   op.FlipAxes();
+
   // Calculate iterator radius
   Size<InputImageDimension> radius;
   for (i = 0; i < InputImageDimension; ++i)
