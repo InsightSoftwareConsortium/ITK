@@ -597,6 +597,10 @@ protected:
   void SignalNeighbor  (unsigned int SemaphoreArrayNumber, unsigned int ThreadId);
   void WaitForNeighbor (unsigned int SemaphoreArrayNumber, unsigned int ThreadId);
   
+  /** If child classes need an entry point to the start of every iteration step
+      they can override this method. This method is defined but empty in this class. */
+  virtual void ThreadedInitializeIteration (unsigned int ThreadId);
+  
   /**  For debugging.  Writes the active layer set (grid-points closest to evolving
    *  interface) to a file. */
   //  void WriteActivePointsToFile ();

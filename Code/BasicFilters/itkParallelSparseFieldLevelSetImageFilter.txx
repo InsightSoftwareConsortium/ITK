@@ -618,25 +618,18 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
           }
         else
           {
-          if (InOrOut == 1)
-            {
-            // Find the largest (least negative) neighbor
-            if ( value_temp > value )
-              { value = value_temp; }
-            }
-          else
-            {
-            // Find the smallest (least positive) neighbor
-            if (value_temp < value)
-              { value = value_temp; }
-            }
+            if (vnl_math_abs(value_temp+delta) < vnl_math_abs(value+delta))
+              {
+                // take the value closest to zero
+                value= value_temp;
+              }
           }
         found_neighbor_flag = true;
         }
       }
     if (found_neighbor_flag == true)
       {
-      // Set the new value using the largest magnitude
+      // Set the new value using the smallest magnitude
       // found in our "from" neighbors.
       outputIt.SetCenterPixel( value + delta );
       ++toIt;
@@ -1103,6 +1096,16 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 template<class TInputImage, class TOutputImage>
 void
 ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
+::ThreadedInitializeIteration (unsigned int ThreadId)
+{
+  // If child classes need an entry point to the start of every iteration step
+  // they can override this method.
+  return;
+}
+
+template<class TInputImage, class TOutputImage>
+void
+ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::Iterate()
 {
   // Set up for multithreaded processing
@@ -1225,6 +1228,8 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   unsigned int iter = str->Filter->GetElapsedIterations();
   while (! (str->Filter->Halt()) )
     {
+    str->Filter->ThreadedInitializeIteration(ThreadId);
+    
     // Threaded Calculate Change
     str->Filter->m_Data[ThreadId].TimeStep
       = str->Filter->ThreadedCalculateChange(ThreadId);
@@ -1242,7 +1247,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
         }
       }
     
-    // Calcualte the timestep (no need to do this when there is just 1 thread)
+    // Calculate the timestep (no need to do this when there is just 1 thread)
     if (str->Filter->m_NumOfThreads == 1)
       {
       if (iter != 0)
@@ -1396,7 +1401,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
       // Surface is at the zero crossing, so distance to surface is:
       // phi(x) / norm(grad(phi)), where phi(x) is the center of the
       // neighborhood.  The location is therefore
-      // (i,j,k) + ( phi(x) * grad(phi(x)) ) / norm(grad(phi))^2           
+      // (i,j,k) - ( phi(x) * grad(phi(x)) ) / norm(grad(phi))^2           
       norm_grad_phi_squared = 0.0;
       for (i = 0; i < static_cast<unsigned int>(ImageDimension); ++i)
         {
@@ -1441,8 +1446,10 @@ void
 ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::ThreadedApplyUpdate (TimeStepType dt, unsigned int ThreadId)
 {
-  this->ThreadedUpdateActiveLayerValues(dt, m_Data[ThreadId].UpList[0],
-                                        m_Data[ThreadId].DownList[0], ThreadId);
+  this->ThreadedUpdateActiveLayerValues(dt,
+                                        m_Data[ThreadId].UpList[0],
+                                        m_Data[ThreadId].DownList[0],
+                                        ThreadId);
   
   // We need to update histogram information (because some pixels are LEAVING
   // layer-0 (the active layer)
@@ -1450,13 +1457,13 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   this->SignalNeighborsAndWait(ThreadId);
   
   // Process status lists and update value for first inside/outside layers
-
+  
   this->ThreadedProcessStatusList( 0, 1, 2, 1, 1, 0, ThreadId);
   this->ThreadedProcessStatusList( 0, 1, 1, 2, 0, 0, ThreadId);
   
   this->SignalNeighborsAndWait(ThreadId);
   
-  // Update first layer value, process first layer/
+  // Update first layer value, process first layer
   this->ThreadedProcessFirstLayerStatusLists( 1, 0, 3, 1, 1, ThreadId);
   this->ThreadedProcessFirstLayerStatusLists( 1, 0, 4, 0, 1, ThreadId);
 
@@ -1857,20 +1864,11 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
           }
         else
           {
-          if (InOrOut == 1)
-            {
-            // Find the largest (least negative) neighbor
-            if ( value_temp > value )
+            if (vnl_math_abs(value_temp+delta) < vnl_math_abs(value+delta))
               {
-              value = value_temp;
+                // take the value closest to zero
+                value= value_temp;
               }
-            }
-          else
-            {
-            // Find the smallest (least positive) neighbor
-            if (value_temp < value)
-              { value = value_temp; }
-            }
           }
         found_neighbor_flag = true;
         }
@@ -1949,7 +1947,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   // obtain the pixels (from last iteration) that were given to you from other
   // (neighboring) threads 2. make a copy of the node on the
   // m_InterNeighborNodeTransferBufferLayers[InOrOut][LastLayer - 1][i] for all
-  // thread neighbors i ... ... and insert it in one's own InoutList
+  // thread neighbors i ... ... and insert it in one's own InputList
   if (BufferLayerNumber > 0)
     {
     CopyInsertInterNeighborNodeTransferBufferLayers(ThreadId, InputList,
@@ -2117,7 +2115,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
         nStatus = m_StatusImage->GetPixel(nIndex);
         // If this neighbor is in the "from" list, compare its absolute value
         // to any previous values found in the "from" list.  Keep only the
-        // value with the greatest magnitude.
+        // value with the smallest magnitude.
         
         if (nStatus == from)
           {
@@ -2129,25 +2127,18 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
             }
           else
             {
-            if (InOrOut == 1)
-              {
-              // Find the largest (least negative) neighbor
-              if ( value_temp > value )
-                { value = value_temp; }
-              }
-            else
-              {
-              // Find the smallest (least positive) neighbor
-              if (value_temp < value)
-                { value = value_temp; }
-              }
+              if (vnl_math_abs(value_temp+delta) < vnl_math_abs(value+delta))
+                {
+                  // take the value closest to zero
+                  value= value_temp;
+                }
             }
           found_neighbor_flag = true;
           }
         }
       if (found_neighbor_flag == true)
         {
-        // Set the new value using the largest magnitude found in our "from"
+        // Set the new value using the smallest magnitude found in our "from"
         // neighbors
         m_OutputImage->SetPixel (centerIndex, value + delta);
         ++toIt;
@@ -2601,8 +2592,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
         }
     }
 }
-
-/**
+/*
 template <class TInputImage, class TOutputImage>
 void
 ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
@@ -2613,8 +2603,10 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   typename LayerType::Iterator layerIt, end;
   
   FILE* out;
-  out= fopen("surf.pts", "wt");
-  if(!out) std::cout<<"Can not open surf.pts for write"<<std::endl << std::flush;
+  char filename[100];
+  sprintf (filename, "activeLayerPoints_%d.pts", this->GetElapsedIterations());
+  out= fopen(filename, "wt");
+  if(!out) std::cout<<"Can not open "<<filename<<" for writing"<<std::endl << std::flush;
   
   for(unsigned int i = 0; i < m_NumOfThreads; i++)
     {
