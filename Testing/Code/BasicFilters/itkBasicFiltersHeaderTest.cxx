@@ -51,6 +51,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkCannyEdgeDetectionImageFilter.txx"
 #include "itkCastImageFilter.h"
 #include "itkChangeInformationImageFilter.txx"
+#include "itkComposeRGBImageFilter.h"
 #include "itkConfidenceConnectedImageFilter.txx"
 #include "itkConnectedThresholdImageFilter.txx"
 #include "itkConstantPadImageFilter.txx"
