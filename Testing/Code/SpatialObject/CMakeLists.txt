@@ -16,6 +16,7 @@ ADD_TEST( itkTubeSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkTubeSpatialObjectT
 ADD_TEST( itkImageSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkImageSpatialObjectTest )
 ADD_TEST( itkEllipseSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkEllipseSpatialObjectTest)
 ADD_TEST( itkBlobSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkBlobSpatialObjectTest )
+ADD_TEST( itkLandmarkSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkLandmarkSpatialObjectTest )
 ADD_TEST( itkSurfaceSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkSurfaceSpatialObjectTest )
 ADD_TEST( itkLineSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkLineSpatialObjectTest )
 
@@ -26,6 +27,7 @@ SET(SpatialObject_SRCS
   itkImageSpatialObjectTest.cxx
   itkEllipseSpatialObjectTest.cxx
   itkBlobSpatialObjectTest.cxx
+  itkLandmarkSpatialObjectTest.cxx
   itkSurfaceSpatialObjectTest.cxx
   itkLineSpatialObjectTest.cxx
 )
