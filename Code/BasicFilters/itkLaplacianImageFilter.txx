@@ -102,25 +102,20 @@ LaplacianImageFilter<TInputImage,TOutputImage>
     }
 }
 
-
 template< class TInputImage, class TOutputImage >
 void
 LaplacianImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
-
   typename TOutputImage::Pointer output = this->GetOutput();
-
   output->SetBufferedRegion(output->GetRequestedRegion());
   output->Allocate();
-
 
   ZeroFluxNeumannBoundaryCondition<TOutputImage> nbc;
   
   // Create the Laplaican operator
   LaplacianOperator<OutputPixelType, ImageDimension> oper;
   oper.CreateOperator();
-
 
   NeighborhoodOperatorImageFilter<InputImageType, OutputImageType>
     ::Pointer filter =
@@ -145,12 +140,8 @@ LaplacianImageFilter< TInputImage, TOutputImage >
 
   // graft the output of the mini-pipeline back onto the filter's output.
   // this copies back the region ivars and meta-dataig
-
   this->GraftOutput(filter->GetOutput());
-
-
 }
-
 
 } // end namespace itk
 
