@@ -52,16 +52,26 @@ public:
   typedef SpatialObject< 3, AffineTransform< double, 3 >, bool > ChildrenType;
   typedef SmartPointer<ChildrenType> ChildrenPointer;
   typedef std::list< ChildrenType * > ChildrenListType;
+  typedef std::list< TubeSpatialObject * > TubeListType;
 
   itkNewMacro( Self );
   itkTypeMacro( Self, Superclass );
 
+  /**
+   * Compute Tangents
+   */
   void CalcTangent( void );
+
+  /**
+   * Get Tubes in the tree given a certain depth
+   */
+  TubeListType * GetTubes( unsigned int maximumDepth=0 , unsigned int currentDepth=0 ) const;
 
 protected:
 
   TubeNetworkSpatialObject( void );
   ~TubeNetworkSpatialObject( void );
+
 };
 
 } // end namespace itk

@@ -19,22 +19,28 @@
 
 namespace itk 
 { 
+  /**
+   * Constructor
+   */
   TubeNetworkSpatialObject 
-  ::TubeNetworkSpatialObject() // : CompositeSpatialObject<3, AffineTransform<double,3>, bool >()  
+  ::TubeNetworkSpatialObject()
   {
+    
   } 
- 
+
+  /**
+   * Destructor
+   */
   TubeNetworkSpatialObject 
   ::~TubeNetworkSpatialObject()  
   {
   } 
  
  
-  /* 
-  * call the CalcTangent() method for each Tube contained in this  
-  * composite object... 
-  */ 
- 
+  /** 
+   * call the CalcTangent() method for each Tube contained in this  
+   * composite object... 
+   */ 
   void  
   TubeNetworkSpatialObject 
   ::CalcTangent( void )  
@@ -61,5 +67,36 @@ namespace itk
         }
       } 
   } 
+ 
+  /**
+   * Return a list of tubes given a certain depth.
+   * maximumDepth = 0 corresponds to an infinite depth.
+   * maximumDepth = 1 returns tubes children.
+   * currentDepth variable doesn't have to be changed/provided.
+   */
+  TubeNetworkSpatialObject::TubeListType *
+  TubeNetworkSpatialObject
+  ::GetTubes( unsigned int maximumDepth , unsigned int currentDepth ) const
+  {
+    TubeListType * tubes = new TubeListType;
+
+    ChildrenListType::const_iterator childrenListIt = m_Children.begin();
+    while(childrenListIt != m_Children.end())
+    {    
+      if(typeid(*this) != typeid(**childrenListIt))
+      {
+        tubes->push_back(dynamic_cast<TubeSpatialObject*>(*childrenListIt));
+      }
+      else if( (currentDepth < maximumDepth-1) || (maximumDepth == 0) )
+      {
+        currentDepth++;
+        tubes->merge(*dynamic_cast<TubeNetworkSpatialObject*>((*childrenListIt))->GetTubes(maximumDepth,currentDepth));
+      }
+      childrenListIt++;
+    }
+    
+    return tubes;
+  }
+
 
 } // end namespace itk
