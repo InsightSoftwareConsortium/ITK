@@ -62,6 +62,32 @@ public:
 };
 
 
+/**
+ * This function defines the test image pattern.
+ * The pattern is a 3D gaussian in the middle
+ * and some directional pattern on the outside.
+ */
+double F( double x, double y, double z )
+{
+  const double s = 50;
+  double value = 200.0 * exp( - ( x*x + y*y + z*z )/(s*s) );
+  x -= 8; y += 3; z += 0;
+  double r = vnl_math_sqrt( x*x + y*y + z*z );
+  if( r > 35 )
+    {
+    value = 2 * ( vnl_math_abs( x ) +
+      0.8 * vnl_math_abs( y ) +
+      0.5 * vnl_math_abs( z ) );
+    }
+  if( r < 4 )
+    {
+    value = 400;
+    }
+
+  return value;
+
+}
+
 
 int main()
 {
@@ -124,35 +150,38 @@ std::cout << std::endl;
   displacement[1] = 3;
   displacement[2] = 2;
 
+  // Rotate by 10 degrees
+  double angle = 10.0 / 180.0 * vnl_math::pi;
+
+
   ReferenceIteratorType ri(imgReference,region);
   TargetIteratorType ti(imgTarget,region);
   while(!ri.IsAtEnd())
-  {
+    {
     p[0] = ri.GetIndex()[0];
     p[1] = ri.GetIndex()[1];
     p[2] = ri.GetIndex()[2];
     d = p-center;
-    d += displacement;
-    const double x = d[0];
-    const double y = d[1];
-    const double z = d[2];
-    ri.Set( (PixelType)( 200.0 * exp( - ( x*x + y*y + z*z )/(s*s) ) ) );
+    const double x =  d[0] * cos(angle) + d[1] * sin(angle) + displacement[0];
+    const double y = -d[0] * sin(angle) + d[1] * cos(angle) + displacement[1];
+    const double z = d[2] + displacement[2];
+    ri.Set( (PixelType) F(x,y,z) );
     ++ri;
-  }
+    }
 
 
   while(!ti.IsAtEnd())
-  {
+    {
     p[0] = ti.GetIndex()[0];
     p[1] = ti.GetIndex()[1];
     p[2] = ti.GetIndex()[2];
-  d = p-center;
-  const double x = d[0];
-  const double y = d[1];
-  const double z = d[2];
-    ti.Set( (PixelType)( 200.0 * exp( - ( x*x + y*y + z*z )/(s*s) ) ) );
+    d = p-center;
+    const double x = d[0];
+    const double y = d[1];
+    const double z = d[2];
+    ti.Set( (PixelType) F(x,y,z) );
     ++ti;
-  }
+    }
 
   // set image origin to be center of the image
   double transCenter[3];
@@ -178,8 +207,8 @@ std::cout << std::endl;
   registrator->SetReference( imgReference );
   registrator->SetNumberOfLevels( 3 );
 
-  unsigned int niter[4] = { 300, 300, 300 };
-  double rates[4] = { 1e-5, 1e-5, 1e-6 };
+  unsigned int niter[3] = { 300, 300, 350 };
+  double rates[3] = { 1e-3, 5e-4, 1e-4 };
 
   registrator->SetNumberOfIterations( niter );
   registrator->SetLearningRates( rates );
@@ -228,12 +257,20 @@ std::cout << std::endl;
   //
   bool pass = true;
   double trueParameters[7] = { 0, 0, 0, 1, 0, 0, 0 };
-  trueParameters[4] = - displacement[0];
-  trueParameters[5] = - displacement[1];
-  trueParameters[6] = - displacement[2];
+  trueParameters[2] = - sin( angle / 2.0 );
+  trueParameters[3] =   cos( angle / 2.0 );
+  trueParameters[4] = -1.0 * ( displacement[0] * cos(angle) -
+                               displacement[1] * sin(angle) ) ;
+  trueParameters[5] = -1.0 * ( displacement[0] * sin(angle) +
+                               displacement[1] * cos(angle) );
+  trueParameters[6] = -1.0 * displacement[2];
+  std::cout << "True solution is: ";
+  for ( unsigned int j = 0; j < 7; j++)
+      std::cout << trueParameters[j] << "  ";
+  std::cout << std::endl;
   for( unsigned int j = 0; j < 4; j++ )
     {
-    if( vnl_math_abs( solution[j] - trueParameters[j] ) > 0.02 )
+    if( vnl_math_abs( solution[j] - trueParameters[j] ) > 0.025 )
       {
       pass = false;
       }
