@@ -28,8 +28,9 @@ namespace itk {
 template <class TInputImage, class TOutputImage>
 HMaximaImageFilter<TInputImage, TOutputImage>
 ::HMaximaImageFilter()
-  : m_NumberOfIterationsUsed( 0 ),
-    m_Height ( 2 )
+  : m_Height ( 2 ),
+    m_NumberOfIterationsUsed( 0 )
+
 {
 }
 
@@ -69,11 +70,11 @@ HMaximaImageFilter<TInputImage, TOutputImage>
   // construct a marker image to manipulate using reconstruction by
   // dilation. the marker image is the input image minus the height
   // parameter.
-  typedef typename ShiftScaleImageFilter<TInputImage, TInputImage>
+  typedef ShiftScaleImageFilter<TInputImage, TInputImage>
     ShiftFilterType;
   typename ShiftFilterType::Pointer shift = ShiftFilterType::New();
   shift->SetInput( this->GetInput() );
-  shift->SetShift( -1.0 * static_cast<ShiftFilterType::RealType>(m_Height) );
+  shift->SetShift( -1.0 * static_cast<typename ShiftFilterType::RealType>(m_Height) );
 
   // Delegate to a geodesic dilation filter.
   //
@@ -112,7 +113,7 @@ HMaximaImageFilter<TInputImage, TOutputImage>
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Height of local maxima (contrast): "
-     << static_cast<NumericTraits<InputImagePixelType>::PrintType>(m_Height)
+     << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Height)
      << std::endl;
   os << indent << "Number of iterations used to produce current output: "
      << m_NumberOfIterationsUsed << std::endl;

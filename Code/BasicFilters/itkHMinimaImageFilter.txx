@@ -28,8 +28,9 @@ namespace itk {
 template <class TInputImage, class TOutputImage>
 HMinimaImageFilter<TInputImage, TOutputImage>
 ::HMinimaImageFilter()
-  : m_NumberOfIterationsUsed( 0 ),
-    m_Height ( 2 )
+  : m_Height ( 2 ),
+    m_NumberOfIterationsUsed( 0 )
+
 {
 }
 
@@ -69,7 +70,7 @@ HMinimaImageFilter<TInputImage, TOutputImage>
   // construct a marker image to manipulate using reconstruction by
   // erosion. the marker image is the input image minus the height
   // parameter.
-  typedef typename ShiftScaleImageFilter<TInputImage, TInputImage>
+  typedef ShiftScaleImageFilter<TInputImage, TInputImage>
     ShiftFilterType;
   typename ShiftFilterType::Pointer shift = ShiftFilterType::New();
   shift->SetInput( this->GetInput() );
@@ -112,7 +113,7 @@ HMinimaImageFilter<TInputImage, TOutputImage>
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Depth of local maxima (contrast): "
-     << static_cast<NumericTraits<InputImagePixelType>::PrintType>(m_Height)
+     << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Height)
      << std::endl;
   os << indent << "Number of iterations used to produce current output: "
      << m_NumberOfIterationsUsed << std::endl;

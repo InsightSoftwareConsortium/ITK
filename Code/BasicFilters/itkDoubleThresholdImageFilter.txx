@@ -130,22 +130,22 @@ DoubleThresholdImageFilter<TInputImage, TOutputImage>
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Threshold1: "
-     << static_cast<NumericTraits<InputPixelType>::PrintType>(m_Threshold1)
+     << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_Threshold1)
      << std::endl;
   os << indent << "Threshold2: "
-     << static_cast<NumericTraits<InputPixelType>::PrintType>(m_Threshold2)
+     << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_Threshold2)
      << std::endl;
   os << indent << "Threshold3: "
-     << static_cast<NumericTraits<InputPixelType>::PrintType>(m_Threshold3)
+     << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_Threshold3)
      << std::endl;
   os << indent << "Threshold4: "
-     << static_cast<NumericTraits<InputPixelType>::PrintType>(m_Threshold4)
+     << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_Threshold4)
      << std::endl;
   os << indent << "InsideValue: "
-     << static_cast<NumericTraits<OutputPixelType>::PrintType>(m_InsideValue)
+     << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_InsideValue)
      << std::endl;
   os << indent << "OutsideValue: "
-     << static_cast<NumericTraits<OutputPixelType>::PrintType>(m_OutsideValue)
+     << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_OutsideValue)
      << std::endl;
   os << indent << "Number of iterations used to produce current output: "
      << m_NumberOfIterationsUsed << std::endl;

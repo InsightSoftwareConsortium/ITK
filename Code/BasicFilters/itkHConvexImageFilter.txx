@@ -28,8 +28,9 @@ namespace itk {
 template <class TInputImage, class TOutputImage>
 HConvexImageFilter<TInputImage, TOutputImage>
 ::HConvexImageFilter()
-  : m_NumberOfIterationsUsed( 0 ),
-    m_Height ( 2 )
+  : m_Height ( 2 ),
+    m_NumberOfIterationsUsed( 0 )
+
 {
 }
 
@@ -107,7 +108,7 @@ HConvexImageFilter<TInputImage, TOutputImage>
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Height of local maxima (contrast): "
-     << static_cast<NumericTraits<InputImagePixelType>::PrintType>(m_Height)
+     << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Height)
      << std::endl;
   os << indent << "Number of iterations used to produce current output: "
      << m_NumberOfIterationsUsed << std::endl;
