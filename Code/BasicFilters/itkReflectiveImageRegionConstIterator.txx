@@ -40,16 +40,56 @@ ReflectiveImageRegionConstIterator<TImage>
 ::ReflectiveImageRegionConstIterator(TImage *ptr, const RegionType& region) :
   ImageConstIteratorWithIndex<TImage>(ptr, region)
 {
+  m_BeginOffset.Fill( 0 );
+  m_EndOffset.Fill( 0 );
   this->GoToBegin();
 }
 
+template<class TImage>
+ReflectiveImageRegionConstIterator<TImage>
+::ReflectiveImageRegionConstIterator( const Self& it )
+{
+  this->Operator=( it );
+  this->GoToBegin();
+}
+
+
+template<class TImage>
+ReflectiveImageRegionConstIterator<TImage>
+::ReflectiveImageRegionConstIterator(
+  const ImageConstIteratorWithIndex<TImage> &it)
+{
+  this->ImageConstIteratorWithIndex<TImage>::operator=(it); 
+  m_BeginOffset.Fill(0);
+  m_EndOffset.Fill(0);
+}
+
+template<class TImage>
+ReflectiveImageRegionConstIterator<TImage> &
+ReflectiveImageRegionConstIterator<TImage>
+::operator=(const Self& it)
+{
+  this->ImageConstIteratorWithIndex<TImage>::operator=(it);
+  m_BeginOffset = it.m_BeginOffset;
+  m_EndOffset = it.m_EndOffset;
+  return *this;
+}
 
 template<class TImage>
 void
 ReflectiveImageRegionConstIterator<TImage>
 ::GoToBegin( void ) 
 {
-  ImageConstIteratorWithIndex<TImage>::GoToBegin();
+  m_PositionIndex = m_BeginIndex + m_BeginOffset;
+  m_Position = m_Image->GetBufferPointer() +
+               m_Image->ComputeOffset( m_PositionIndex );
+
+  m_Remaining = false;
+  for (unsigned int i=0; i < ImageDimension; ++i)
+    {
+    unsigned long size = m_Region.GetSize()[i];
+    if( size > 0 ) { m_Remaining = true; }
+    }
 
   for(unsigned int i=0;i<TImage::ImageDimension;i++) 
     {
@@ -57,7 +97,6 @@ ReflectiveImageRegionConstIterator<TImage>
     }
 
 }
-
 
 
 
@@ -69,6 +108,15 @@ ReflectiveImageRegionConstIterator<TImage>
   return !m_IsFirstPass[ dim ];
 }
 
+
+template<class TImage>
+void
+ReflectiveImageRegionConstIterator<TImage>
+::FillOffsets(const OffsetValueType &value)
+{
+  m_BeginOffset.Fill( value );
+  m_EndOffset.Fill( value );
+}
 
 
 //----------------------------------------------------------------------

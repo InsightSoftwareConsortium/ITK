@@ -34,6 +34,16 @@ namespace itk
  * along each dimension. It is useful for algorithms that require to 
  * go back and forth (once) over the data. 
  *
+ * By setting the BeginOffset and EndOffset parameters, you can
+ * arrange for the starting point, when going forwards, to be
+ * different from the ending point, when going backwards.  Along
+ * dimension d, when going forwards the iterator traverses the
+ * interval [BeginIndex[d]+BeginOffset[d], EndIndex[d]).  When going
+ * back, it traverses the interval (EndIndex[d]-EndOffset[d],
+ * BeginIndex[d]].  Setting both offsets to (1, ..., 1) enables the
+ * DanielssonDistanceMapImageFilter to process the entire image,
+ * rather than removing a one-pixel border.
+ *
  * \sa DanielssonDistanceMapImageFilter
  *
  * \ingroup Iterators 
@@ -85,8 +95,11 @@ public:
   
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
-  ReflectiveImageRegionConstIterator(TImage *ptr,
-                            const RegionType& region);
+  ReflectiveImageRegionConstIterator( TImage *ptr, const RegionType& region );
+
+  /** Copy Constructor. The copy constructor is provided to make sure the
+   * handle to the image is properly reference counted. */
+  ReflectiveImageRegionConstIterator( const Self& it );
    
 
   /** Constructor that can be used to cast from an ImageIterator to an
@@ -95,8 +108,11 @@ public:
    * Rather than provide overloaded APIs that return different types of
    * Iterators, itk returns ImageIterators and uses constructors to cast 
    * from * an ImageIterator to a ReflectiveImageRegionConstIterator.  */
-  ReflectiveImageRegionConstIterator( const ImageConstIteratorWithIndex<TImage> &it)
-    { this->ImageConstIteratorWithIndex<TImage>::operator=(it); }
+  ReflectiveImageRegionConstIterator(const ImageConstIteratorWithIndex<TImage> &it);
+
+  /** operator= is provided to make sure the handle to the image is properly
+   * reference counted. */
+  Self &operator=(const Self& it);
 
   bool IsReflected(unsigned int) const;
   /** Increment (prefix) the fastest moving dimension of the iterator's index.
@@ -111,7 +127,34 @@ public:
   /** Move an iterator to the beginning of the region. */
   void GoToBegin(void);
 
-  /** Set the beginning offset.  */
+  /** Is the iterator at the beginning of the region? */
+  bool IsAtBegin(void) const
+    {
+      return !m_Remaining;
+    }
+
+  /** Set the begin offset.  Forward iteration starts at this offset
+   * from the current region.  */
+  void SetBeginOffset(const OffsetType& offset)
+    { m_BeginOffset = offset; }
+
+  /** Set the end offset.  Reverse iteration starts at this offset
+   * from the current region.  */
+  void SetEndOffset(const OffsetType& offset)
+    { m_EndOffset = offset; }
+
+  /** Get the begin offset.  Forward iteration starts at this offset
+   * from the current region.  */
+  OffsetType GetBeginOffset(const OffsetType& offset)
+    { return m_BeginOffset; }
+
+  /** Get the end offset.  Reverse iteration starts at this offset
+   * from the current region.  */
+  OffsetType GetEndOffset(const OffsetType& offset)
+    { return m_EndOffset; }
+
+  /** Fill both offsets with a single value.  */
+  void FillOffsets(const OffsetValueType &value);
 
 private:
   bool m_IsFirstPass[TImage::ImageDimension];

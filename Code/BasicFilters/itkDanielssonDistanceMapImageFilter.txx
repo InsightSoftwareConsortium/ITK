@@ -342,17 +342,21 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
   SizeType    size    = region.GetSize();
   OffsetType  offset;
 
-  // Pixels on the border should not be processed because they lack
+  // We now can process border pixels since the iterator has a
+  // separate Begin and End Offset.
+  // [Was: Pixels on the border should not be processed because they lack
   // neighbors.  Prepare an output region 1 pixel narrower than the
-  // input region.  Also, each pixel is visited 2^InputImageDimension
+  // input region.]  Also, each pixel is visited 2^InputImageDimension
   // times, so the number of visits per pixel needs to be computed for
   // progress reporting.
   unsigned long visitsPerPixel = 1;
   {  // Restrict 'dim' to this block.
   for(unsigned int dim=0; dim<InputImageDimension; dim++)
     {
+#if 0
     start [ dim ] += 1;
     size  [ dim ] -= 2;
+#endif
     offset[ dim ] = 0;
     visitsPerPixel *= 2;
     }
@@ -366,6 +370,7 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 
   ReflectiveImageRegionConstIterator< VectorImageType > 
     it( distanceComponents, internalRegion );
+  it.FillOffsets(1);
 
   it.GoToBegin();
 
