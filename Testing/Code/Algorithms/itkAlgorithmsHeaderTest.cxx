@@ -22,6 +22,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkBinaryMinMaxCurvatureFlowFunction.h"
 #include "itkBinaryMinMaxCurvatureFlowImageFilter.h"
 #include "itkClassifier.h"
+#include "itkClassifierBase.h"
 #include "itkConnectedRegionsMeshFilter.h"
 #include "itkCurvatureFlowFunction.h"
 #include "itkCurvatureFlowImageFilter.h"

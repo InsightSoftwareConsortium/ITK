@@ -59,6 +59,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkCovariantVector.h"
 #include "itkCreateObjectFunction.h"
 #include "itkDataObject.h"
+#include "itkDecisionRuleBase.h"
 #include "itkDefaultDynamicMeshTraits.h"
 #include "itkDefaultImageTraits.h"
 #include "itkDefaultPixelAccessor.h"
@@ -199,6 +200,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkSqrtImageAdaptor.h"
 #include "itkSymmetricEllipsoidInteriorExteriorSpatialFunction.h"
 #include "itkTanImageAdaptor.h"
+#include "itkTestMain.h"
 #include "itkTetrahedronCell.h"
 #include "itkThinPlateSplineKernelTransform.h"
 #include "itkTimeStamp.h"
@@ -227,7 +229,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itk_hashtable.h"
 #include "vcl_alloc.h"
 
-int main ( int argc, char** argv )
+int main ( int argc, char* argv )
 {
   
   return 0;
