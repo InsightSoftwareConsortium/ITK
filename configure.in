@@ -493,19 +493,6 @@ if test "$CC" = "gcc" -o `$CC -v 2>&1 | grep -c gcc` != "0" ; then
   SHLIB_CFLAGS="-fPIC"
 fi
 
-
-EXTRA_GCC_FLAG=""
-if test "$CC" = "gcc" -o `$CC -v 2>&1 | grep -c gcc` != "0" ; then
-  echo 'void f(){}' > conftest.cc
-  if test -z "`${CXX} -fguiding-decls -c conftest.cc 2>&1`"; then
-    EXTRA_GCC_FLAG="-fguiding-decls"
-  else
-   echo "$ac_t""no" 1>&6
-  fi
-fi
-
-echo
-
 if test -f $ITK_OBJ/local.make.in; then
    echo "create local.make"
    rm -f local.make
