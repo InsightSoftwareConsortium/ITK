@@ -68,6 +68,10 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ExtractImageFilter, ImageToImageFilter);
 
+  /** Image type information. */
+  typedef TInputImage  InputImageType;
+  typedef TOutputImage OutputImageType;
+
   /** Typedef to describe the output and input image region types. */
   typedef typename TOutputImage::RegionType OutputImageRegionType;
   typedef typename TInputImage::RegionType InputImageRegionType;
