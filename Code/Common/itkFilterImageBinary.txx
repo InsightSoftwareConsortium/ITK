@@ -40,10 +40,10 @@ template <class TInputImage1, class TInputImage2,
           class TOutputImage, class TFunction  >
 void
 FilterImageBinary<TInputImage1,TInputImage2,TOutputImage,TFunction>
-::SetInput1( Image1Pointer image1 ) 
+::SetInput1( TInputImage1 * image1 ) 
 {
   this->m_Image1 = image1;
-  SetNthInput(0, image1.GetPointer() );
+  SetNthInput(0, image1 );
 }
 
 
@@ -54,10 +54,10 @@ template <class TInputImage1, class TInputImage2,
           class TOutputImage, class TFunction  >
 void
 FilterImageBinary<TInputImage1,TInputImage2,TOutputImage,TFunction>
-::SetInput2( Image2Pointer image2 ) 
+::SetInput2( TInputImage2 * image2 ) 
 {
   this->m_Image2 = image2;
-  SetNthInput(0, image2.GetPointer());
+  SetNthInput(0, image2 );
 }
 
 
@@ -74,10 +74,12 @@ FilterImageBinary<TInputImage1,TInputImage2,TOutputImage,TFunction>
 ::GenerateData( void )
 {
 
-  RegionType region = this->m_OutputImage->GetRequestedRegion();
+  RegionType region  = this->m_OutputImage->GetRequestedRegion();
+  RegionType region1 = this->m_Image1->GetRequestedRegion();
+  RegionType region2 = this->m_Image2->GetRequestedRegion();
 
-  Image1Iterator it1( this->m_Image1, region );
-  Image2Iterator it2( this->m_Image2, region );
+  Image1Iterator it1( this->m_Image1, region1 );
+  Image2Iterator it2( this->m_Image2, region2 );
 
   ImageOutputIterator ot( this->m_OutputImage, region );
 
