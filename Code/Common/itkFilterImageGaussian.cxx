@@ -15,6 +15,7 @@
 =========================================================================*/
 #include "itkFilterImageGaussian.h"
 #include "itkObjectFactory.h"
+#include "itkImageIteratorOriented.h"
 
 
 
@@ -227,6 +228,9 @@ void itkFilterImageGaussian<TInputImage,TOutputImage, TComputation>
 ::ApplyRecursiveFilter(unsigned int dimensionToFilter) 
 {
 
+  typedef itkImageIteratorOriented<typename TInputImage::Type,
+                                    TInputImage::Dimension> Iterator;
+
   const TInputImage  * inputImage  = GetInput ();
         TOutputImage * outputImage = GetOutput();
     
@@ -237,13 +241,11 @@ void itkFilterImageGaussian<TInputImage,TOutputImage, TComputation>
     throw itkExceptionObject();
   }
 
-  typename TInputImage::Iterator  *inputIterator = inputImage->Begin();
-  typename TOutputImage::Iterator *outputIterator = outputImage->Begin();
+  Iterator  *inputIterator = inputImage->Begin();
+  Iterator *outputIterator = outputImage->Begin();
 
-  typename TInputImage::Index complementIndex = inputIterator->GetIndex();
-  typename TInputImage::Index basisIndex = 
-                      complementIndex->GetBasisIndex( dimensionToFilter );
-    
+  inputIterator->SetDirection( dimensionToFilter );
+  outputIterator->SetDirection( dimensionToFilter );
 
   const unsigned *imageSize = inputIterator->GetImageSize();
   const unsigned int ln     = imageSize[ dimensionToFilter ];
@@ -270,46 +272,29 @@ void itkFilterImageGaussian<TInputImage,TOutputImage, TComputation>
   }
 
 
-  bool remaining = true;
-  while( remaining )
+  while( !inputIterator->End && !outputIterator->End() )
   {
-    unsigned int i;
+    
+    inputIterator->JumpToBeginOfLine();
+    outputIterator->JumpToBeginOfLine();
 
-    inputIterator->SetIndex(  complementIndex );
-    outputIterator->SetIndex( complementIndex );
-
-    for( i=0; i<ln; i++ )
+    for( unsigned int i=0; i<ln; i++ )
     {
         inps[i++]      = *inputIterator;
-        inputIterator +=  basisIndex;
+        ++inputIterator;
     }
 
     FilterDataArray( outs, inps, ln );
 
-    for( i=0; i<ln; i++ )
+    for( unsigned int j=0; j<ln; j++ )
     {
-       *outputIterator  = outs[i++];
-        outputIterator += basisIndex;
+       *outputIterator  = outs[j++];
+        ++outputIterator;
     }
 
-    unsigned int pn = 0;
-    for( unsigned int n=0; n<imageDimension; n++ )
-    {
-      if( n == dimensionToFilter ) 
-      {
-        continue;
-      }
-      complementIndex[pn] = 0;
-      complementIndex[ n]++;
-      remaining = false;
-      if( complementIndex[n] < imageSize[n] )
-      {
-        remaining = true;
-        break;
-      }
-      pn = n;
-    }
-    
+    inputIterator->NextLine();
+    outputIterator->NextLine();
+
   }
 
   delete [] outs;
