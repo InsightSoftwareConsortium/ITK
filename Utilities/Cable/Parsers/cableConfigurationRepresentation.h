@@ -125,8 +125,16 @@ public:
   void AddFilesFrom(const Set&);
   void AddDirectory(const String&);
   
-  struct File { String name; String purpose; };
-  typedef std::vector<File> Files;
+  struct File
+  {
+    File(): name(""), purpose("") {}
+    File(const String& n, const String& p): name(n), purpose(p) {}    
+    File& operator=(const File& f) { name = f.name; purpose = f.purpose; return *this; }
+    bool operator < (const File& f) const { return (name < f.name); }
+    bool operator ==(const File& f) const { return (name == f.name); }
+    String name; String purpose;
+  };
+  typedef std::set<File> Files;
   typedef Files::const_iterator FilesIterator;
   
   typedef std::vector<String> Directories;

@@ -187,9 +187,7 @@ void
 Set
 ::AddFile(const String& name, const String& purpose)
 {
-  m_Files.push_back(File());
-  m_Files.back().name = name;
-  m_Files.back().purpose = purpose;
+  m_Files.insert(m_Files.begin(), File(name, purpose));
 }
 
 
@@ -203,7 +201,7 @@ Set
   for(FilesIterator f = set.FilesBegin();
       f != set.FilesEnd(); ++f)
     {
-    m_Files.push_back(*f);
+    m_Files.insert(m_Files.begin(), *f);
     }
 }
 
@@ -779,9 +777,7 @@ void
 Headers
 ::AddFile(const String& name, const String& purpose)
 {
-  m_Files.push_back(File());
-  m_Files.back().name = name;
-  m_Files.back().purpose = purpose;
+  m_Files.insert(m_Files.begin(), File(name, purpose));
 }
 
 
@@ -795,7 +791,7 @@ Headers
   for(FilesIterator f = set.FilesBegin();
       f != set.FilesEnd(); ++f)
     {
-    m_Files.push_back(*f);
+    m_Files.insert(m_Files.begin(), *f);
     }
 }
 
