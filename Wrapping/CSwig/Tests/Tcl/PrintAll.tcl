@@ -1,13 +1,19 @@
 package require InsightToolkit
 #
-# Exersize the PrintSelf of each class
+# Exercise the PrintSelf of each class
 #
+if {$argc == 0} {
+    set fileid stdout
+} else {
+    set fileid [open [lindex $argv 0] w]
+}
+
 set b [itkStringStream]
 set allClasses [info command itk*_New]
 
 foreach class $allClasses {
-    puts "--------------- $class ---------------"
-    catch {set a [$class]; $a Print [$b GetStream]; puts "[$b GetString]"}
+    puts $fileid "--------------- $class ---------------"
+    catch {set a [$class]; $a Print [$b GetStream]; puts $fileid "[$b GetString]"; p}
 }
 
 exit
