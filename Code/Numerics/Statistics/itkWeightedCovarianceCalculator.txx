@@ -63,11 +63,11 @@ WeightedCovarianceCalculator< TSample >
 }
 
 template< class TSample >
-double
+WeightedCovarianceCalculator< TSample >::WeightFunctionType*
 WeightedCovarianceCalculator< TSample >
-::GetWeight(MeasurementVectorType measurementVector)
+::GetWeightFunction()
 {
-  return m_WeightFunction->Evaluate(measurementVector) ;
+  return m_WeightFunction ;
 }
 
 template< class TSample >
