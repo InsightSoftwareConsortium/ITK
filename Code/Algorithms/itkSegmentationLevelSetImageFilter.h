@@ -39,6 +39,22 @@ namespace itk {
  converted into a level set embedding which propagates according to the features
  calculated from the original image.
 
+ \par TEMPLATE PARAMETERS
+ There are two required and two optional template parameter for these
+ filters. Of the optional parameters, the last, TOutputImage, should not be
+ changed from its default.  It is only there to instantiate the parent class
+ correctly.
+
+ TInputImage is the image type of the initial model you will input to the
+ filter using SetInput() or SetInitialImage().
+
+ TFeatureImage is the image type of the image from which the filter will
+ calculate the speed term for segmentation (see INPUTS).
+
+ TOutputPixelType is the data type used for the output image phi, the implicit
+ level set image.  This should really only ever be set as float (default) or
+ double.
+ 
  \par INPUTS
  The input to any subclass of this filter is the seed image for the initial
  level set embedding.  As with other subclasses of the
@@ -49,9 +65,8 @@ namespace itk {
  \par
  Depending on the particular application and filter that you are using, the
  feature image should be preprocessed with some type of noise reduction
- filtering.  The feature image should be of a floating point type (floats or
- doubles).  You may need to cast your image to this type before attaching it to
- this filter.
+ filtering.  The feature image input can be of any type, but it will be cast
+ to floating point before calculations are done.
 
  \par OUTPUTS
  The output of any subclass of this filter is a level set embedding as
@@ -74,8 +89,8 @@ namespace itk {
 
  \par
  The UseNegativeFeatures parameter tells the function object to reverse the
- sign of the feature image, which also reverses the INSIDE OUTSIDE sign
- convention.
+ sign of the feature image, resulting in surface movement in the opposite
+ direction.
 
  \par
  The FeatureScaling parameter controls the magnitude of the features calculated
