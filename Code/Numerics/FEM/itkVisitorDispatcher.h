@@ -100,18 +100,18 @@ public:
   /**
    * TVisitedClass is class to which visitor functions will be applied. 
    */
-  typedef typename TVisitedClass VisitedClass;
+  typedef TVisitedClass VisitedClass;
 
   /**
    * TVisitorBase is base class for visitor objects. Any class derived from
    * TVisitorBase could in general be applied to TVisitedClass.
    */
-  typedef typename TVisitorBase VisitorBase;
+  typedef TVisitorBase VisitorBase;
 
   /**
    * Return type of the visitor functions.
    */
-  typedef typename TReturnType ReturnType;
+  typedef TReturnType ReturnType;
 
 
   /**
@@ -142,7 +142,7 @@ public:
    *        pointers. Change this to some other array if necessary. Maybe try
    *        keeping the class IDs within classes.
    */
-  typedef std::map<ClassIDType, VisitFunctionPointerType> VisitorsArrayType;
+  typedef typename std::map<ClassIDType, VisitFunctionPointerType> VisitorsArrayType;
 
   /**
    * Choose the appropriate function that will be applied to object pointed
