@@ -51,13 +51,12 @@ than at run-time during program execution.<br>
 Because ITK is an open-source project, developers from around the world can
 use, debug, maintain, and extend the software. ITK uses a model of software
 development referred to as Extreme Programming. Extreme Programming collapses
-the usual software creation methodology into a simultaneous and iterative<br>
-<br>
-process of design-implement-test-release. The key features of Extreme Programming
-are communication and testing. Communication among the members of the ITK
-community is what helps manage the rapid evolution of the software. Testing
-is what keeps the software stable. In ITK, an extensive testing process is
-in place that measures the quality on a daily basis.<br>
+the usual software creation methodology into a simultaneous and iterative
+process of design-implement-test-release. The key features of Extreme 
+Programming are communication and testing. Communication among the members of 
+the ITK community is what helps manage the rapid evolution of the software. 
+Testing is what keeps the software stable. In ITK, an extensive testing 
+process is in place that measures the quality on a daily basis.<br>
 
 <h3>What are ITK's origins?</h3>
 
@@ -65,24 +64,23 @@ In 1999 the US <a href="http://www.nlm.nih.gov/nlmhome.html">National Library
 of Medicine</a> of the National Institutes of Health awarded a three-year
 contract to develop an open-source registration and segmentation toolkit,
 which eventually came to be known as the Insight Toolkit (ITK). The primary
-purpose of the project is to support the
-<a href="http://www.nlm.nih.gov/research/visible/visible_human.html">
-Visible Human Project</a> by providing software tools to process and work
-with the project data. ITK's NLM Project Manager was Dr. Terry Yoo, who
-coordinated the six prime contractors who made up the Insight
-consortium. These consortium members included the three commercial partners
-GE Corporate R&amp;D, Kitware, Inc., and MathSoft (the company name is now
-Insightful); and the three academic partners University of North Carolina
-(UNC), University of Tennessee (UT), and University of Pennsylvania (UPenn).
-The Principle Investigators for these partners were, respectively, Bill
-Lorensen at GE CRD, Will Schroeder at Kitware, Vikram Chalana at Insightful,
-Stephen Aylward with Luis Ibanez at UNC (Luis is now at Kitware), Ross
-Whitaker with Josh Cates at UT (both now at Utah), and Dimitri Metaxas at
-UPenn. In addition, several subcontractors rounded out the consortium
-including Peter Raitu at Brigham &amp; Women's Hospital, Celina Imielinska 
+purpose of the project is to support the <a
+href="http://www.nlm.nih.gov/research/visible/visible_human.html"> Visible
+Human Project</a> by providing software tools to process and work with the
+project data. ITK's NLM Project Manager was Dr. Terry Yoo, who coordinated
+the six prime contractors who made up the Insight Software Consortium. These
+consortium members included the three commercial partners GE Corporate
+R&amp;D, Kitware, Inc., and MathSoft (the company name is now Insightful);
+and the three academic partners University of North Carolina (UNC),
+University of Tennessee (UT), and University of Pennsylvania (UPenn).  The
+Principle Investigators for these partners were, respectively, Bill Lorensen
+at GE CRD, Will Schroeder at Kitware, Vikram Chalana at Insightful, Stephen
+Aylward with Luis Ibanez at UNC (Luis is now at Kitware), Ross Whitaker with
+Josh Cates at UT (both now at Utah), and Dimitri Metaxas at UPenn (now at
+Rutgers). In addition, several subcontractors rounded out the consortium
+including Peter Raitu at Brigham &amp; Women's Hospital, Celina Imielinska
 and Pat Molholt at Columbia University, Jim Gee at UPenn's Grasp Lab, and
-George Stetton at University of Pittsburgh.
-<br>
+George Stetton at University of Pittsburgh.  <br>
 
 <h3> Who are the developers?</h3>
 The best way to determine the names of developers is to view the CVS
@@ -135,7 +133,11 @@ Because ITK is an open-source system, you can participate. If you'd like
 to become involved, here are the following steps that you might consider.
 <br>
 <ol>
-  <li>Read this document</li>
+  <li>Read this document and the
+  <a href="http://www.itk.org/ItkSoftwareGuide.pdf">
+  <i>ITK Software Guide</i></a>. (The book is also available for purchase from
+  <a href="http://www.kitware.com/products/index.html">
+  Kitware's estore</a>.)</li>
   <li> Obtain access to the CVS repository (read-only, anonymous access),&nbsp;
 and obtain the distribution using the following procedure (see instructions
 in For More Information at the end of document).</li>
@@ -143,20 +145,19 @@ in For More Information at the end of document).</li>
   <li>As this document suggests, join the insight-developers list.</li>
   <li>Contribute code or fix bugs by mailing code to the list or contacting
 a developer directly.</li>
-  <li>Once you demonstrate your abilities, obtain read-write access to the&nbsp;
-repository. Access can be obtained by contacting Bill Hoffman at Kitware
-at 518-371-3971 x105 and leaving your desired account name and account password.</li>
+  <li>Once you demonstrate your abilities, obtain read-write access to 
+  the CVS repository. Access can be obtained by following the procedure 
+  described in the Insight/Documents/InsightDeveloperStart.pdf file.</li>
 </ol>
+
 <h3>What are the terms of use?</h3>
-Because ITK was developed through US Government funding, it does not carry
-a copyright as many open-source systems do. Instead, it carries a no-cost
-license. The licence can be found at Insight/license.txt.<br>
-<br>
-The important feature of the license is that it gives permission to use Insight
-for any purpose, including commercial purposes, with ....&nbsp; There is
-a patented code found in the Insight/Code/Patented directory. If you use
-any of these code in commercial application, you must contact the patent
-holder to obtain permission.<br>
+The ITK copyright is held by the Insight Software Consortium. This non-profit
+entity promotes the use of ITK for educational and research purposes. The
+<a href="http://www.itk.org/HTML/Copyright.htm">copyright</a> enables both
+commercial and non-commercial usage. There is a patented code found in the 
+Insight/Code/Patented directory. If you use any of these code in commercial 
+application, you must contact the patent holder to obtain permission.<br>
+
 <h2>TECHNICAL SUMMARY</h2>
 The following sections summarize the technical features of the NLM's Insight
 ITK toolkit.
@@ -211,16 +212,18 @@ The following are key features of the toolkit implementation philosophy.<br>
 heavily templated C++ code challenges many compilers; hence development was
 carried out with the latest versions of the MSVC, Sun, gcc, Intel,
 and SGI compilers.</li>
-  <li>The toolkit is cross-platform (Unix and Windows).</li>
+  <li>The toolkit is cross-platform (Unix, Windows and MacOSX).</li>
   <li> The toolkit supports multiple language bindings, including such 
   languages as Tcl, Python, and Java. These bindings are generated 
   automatically using an auto-wrap process. 
-  <a href="http://public.kitware.com/Cable">Cable</a> is the tool we use for
-  wrapping the code.</li>
+  <a href="http://www.itk.org/HTML/CableSwig.html">CableSwig</a> is the tool 
+  we use for wrapping the code.</li>
   <li> The memory model depends on "smart pointers" that maintain a reference
-count to objects. Smart pointers can be allocated on the stack, and when
-scope is exited, the smart pointers disappear and decrement their reference
-count to the object that they refer to. </li>
+  count to objects. Smart pointers can be allocated on the stack, and when
+  scope is exited, the smart pointers disappear and decrement their reference
+  count to the object that they refer to. </li>
+  <li>The Command/Observer design pattern is used for invoking and processing
+  events.</li>
 </ul>
 <h3>Build Environment</h3>
 Insight uses the 
@@ -255,16 +258,21 @@ by Matthew H. Austern </li>
   A number of resources are available to learn more about ITK.
   <ul>
     <li>The ITK web pages are located
-    <a href="http://www.itk.org">http://www.itk.org</a>.
+    <a href="http://www.itk.org">http://www.itk.org</a>.</li>
+    <li>The definitive guide to ITK is available from 
+    <a href="http://www.itk.org/ItkSoftwareGuide.pdf">
+    <i>ITK Software Guide</i></a>. (The book is also available for 
+    purchase from <a href="http://www.kitware.com/products/index.html">
+    Kitware's estore</a>.)</li>
     <li>Users of the toolkit should look in the file
     <a href="GettingStarted.txt">GettingStarted.txt</a>. This file contains 
     information on how to obtain ITK and the basics of compilation and
-    otherwise managing the software.
+    otherwise managing the software.</li>
     <li>Developers, or users interested in learning more, should look in the
     document <a href="Documentation/InsightStart.pdf">InsightStart.pdf</a> or
-    InsightStart.doc found in the Insight/Documentation directory.
+    InsightStart.doc found in the Insight/Documentation directory.</li>
     <li>Developers should also look at the ITK style guide
-    <a href="Documentation/Style.pdf">Style.pdf</a>.
+    <a href="Documentation/Style.pdf">Style.pdf</a>.</li>
   </ul>
 
   <h3>Examples</h3>
@@ -272,7 +280,8 @@ by Matthew H. Austern </li>
   places to find examples.
   <ol>
   <li>The <a href="Examples/">Insight/Examples</a> distributed with ITK.
-  The source code is available.</li>
+  The source code is available. The examples are used in the <i>ITK
+  Software Guide</i> mentioned previously.</li>
   <li>The <a href="http://www.itk.org/HTML/Examples.htm">Examples web pages</a>. 
   These are extensive descriptions, with images and references, of the 
   examples found in #1 above.</li>
@@ -296,8 +305,8 @@ by Matthew H. Austern </li>
     <li>Will Schroeder (PI Kitware, Inc. will.schroeder@kitware.com)</li>
     <li>Stephen Aylward (PI UNC aylward@unc.edu).</li>
     <li>Ross Whitaker (PI Utah whitaker@cs.utah.edu)</li>
-    <li>Vikram Chalana (PI Mathsoft (now Insightful) vikram@insightful.com)</li>
-    <li>Dimitri Metaxas (PI UPenn dnm@central.cis.upenn.edu) </li>
+    <li>Lydia Ng (PI Insightful) lng@insightful.com)</li>
+    <li>Dimitri Metaxas (PI Rutgers dnm@cs.rutgers.edu) </li>
   </ul>
   <br>
  <br>
