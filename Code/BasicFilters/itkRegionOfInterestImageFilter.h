@@ -81,6 +81,10 @@ protected:
   ~RegionOfInterestImageFilter() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
+
+  virtual void GenerateInputRequestedRegion();
+  virtual void EnlargeOutputRequestedRegion(DataObject *output);
+  
   /** RegionOfInterestImageFilter can produce an image which is a different
    * size than its input image.  As such, RegionOfInterestImageFilter
    * needs to provide an implementation for

@@ -52,6 +52,35 @@ RegionOfInterestImageFilter<TInputImage,TOutputImage>
 
 
 
+template <class TInputImage, class TOutputImage>
+void 
+RegionOfInterestImageFilter<TInputImage,TOutputImage>
+::GenerateInputRequestedRegion()
+{
+  // call the superclass' implementation of this method
+  Superclass::GenerateInputRequestedRegion();
+  
+  // get pointer to the input 
+  InputImagePointer  inputPtr = 
+    const_cast< TInputImage * >( this->GetInput() );
+
+  // request the region of interest
+  inputPtr->SetRequestedRegion( m_RegionOfInterest );
+}
+
+template <class TInputImage, class TOutputImage>
+void 
+RegionOfInterestImageFilter<TInputImage,TOutputImage>
+::EnlargeOutputRequestedRegion(DataObject *output)
+{
+  // call the superclass' implementation of this method
+  Superclass::EnlargeOutputRequestedRegion(output);
+  
+  // generate everything in the region of interest
+  output->SetRequestedRegionToLargestPossibleRegion();
+}
+
+
 
 
 /** 
