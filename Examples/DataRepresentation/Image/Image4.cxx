@@ -35,7 +35,8 @@
 //
 // \begin{figure} \center
 // \includegraphics[width=\textwidth]{ImageOriginAndSpacing.eps}
-// \itkcaption{Geometrical concepts associated with the ITK image.}
+// \itkcaption[ITK Image Geometrical Concepts]{Geometrical concepts associated
+// with the ITK image.}
 // \label{fig:ImageOriginAndSpacing}
 // \end{figure}
 //
