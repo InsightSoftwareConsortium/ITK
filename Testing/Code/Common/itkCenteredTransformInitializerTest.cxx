@@ -31,7 +31,7 @@
  *  
  */ 
 
-int itkCenteredTransformInitializerTest(int argc, char* argv[] )
+int itkCenteredTransformInitializerTest(int , char* [] )
 {
 
   bool pass = true;
