@@ -130,29 +130,12 @@ BloxBoundaryPointImage<TSourceImage, TImageTraits>
       // Get the index of the boundary pixel
       sourceIndex = sourceIt.GetIndex();
 
-      typedef typename TSourceImage::AffineTransformType AffineTransformType;
-      typedef typename AffineTransformType::Pointer      AffineTransformPointer;
+      // Convert the index of the source pixel to the physical location of the
+      // boundary point in the source image
+      m_SourceImage->TransformIndexToPhysicalPoint(sourceIndex, sourcePosition);
 
-      AffineTransformPointer imageTrans = m_SourceImage->GetIndexToPhysicalTransform();
-      
-      // Convert the normal index to a continuous index
-      typedef ContinuousIndex<double, NDimensions> ContinuousIndexType;
-      ContinuousIndexType contSourceIndex;
-
-      for (int ii = 0; ii < NDimensions; ++ii)
-        contSourceIndex[ii] = sourceIndex[ii];
-
-      // Now do the transform, resulting in sourcePosition containing the physical location
-      // of the boundary point in the source image
-      m_SourceImage->TransformContinuousIndexToPhysicalPoint(contSourceIndex, sourcePosition);
-
-      // Transform the physical location to a continuous blox index
-      ContinuousIndexType contBloxIndex;
-      this->TransformPhysicalPointToContinuousIndex(sourcePosition, contBloxIndex);
-
-      // Convert the continuous index to a normal index
-      for (int ii = 0; ii < NDimensions; ++ii)
-        bloxIndex[ii] = static_cast<long>( contBloxIndex[ii] );
+      // Transform the physical location to a blox index
+      this->TransformPhysicalPointToIndex(sourcePosition, bloxIndex);
 
       // Create a new boundary point item and set its parameters
       BloxBoundaryPointItem<NDimensions>* pItem = new BloxBoundaryPointItem<NDimensions>;

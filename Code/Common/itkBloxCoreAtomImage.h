@@ -148,12 +148,6 @@ public:
   /** Find core atoms given a specific boundary point. */
   void FindCoreAtomsAtBoundaryPoint(BloxBoundaryPointItem<NDimensions>* pItem);
 
-  /** Method to convert physical coordinates to Blox coordinates
-   * Returns TRUE if the specified location lies within the image,
-   * otherwise FALSE. If FALSE, the index value is unmodified. */
-  bool ConvertPhysicalToDataCoords(TPositionType physicalCoords,
-                                   IndexType& dataCoords);
-
   /** Do eigenanalysis on all pixels in the image. */
   void DoEigenanalysis();
 
@@ -165,7 +159,8 @@ public:
   itkSetMacro(DistanceMax, double);
   itkSetMacro(Epsilon, double);
   itkSetMacro(Polarity, bool);
-  
+  itkGetMacro(NumCoreAtoms, unsigned long int);
+
 protected:
   BloxCoreAtomImage();
   virtual ~BloxCoreAtomImage();

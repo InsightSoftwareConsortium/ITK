@@ -188,15 +188,8 @@ FloodFilledSpatialFunctionConditionalIterator<TImage, TFunction>
 {
   FunctionInputType position;
 
-  // Convert the normal index to a continuous index
-  typedef ContinuousIndex<double, NDimensions> ContinuousIndexType;
-  ContinuousIndexType contIndex;
-
-  for (int ii = 0; ii < NDimensions; ++ii)
-    contIndex[ii] = index[ii];
-
-  // Do the transform
-  m_Image->TransformContinuousIndexToPhysicalPoint(contIndex, position);
+  // Get the physical location of this point
+  m_Image->TransformIndexToPhysicalPoint(index, position);
 
   // Evaluate the function at this point
   return m_Function->Evaluate(position);
