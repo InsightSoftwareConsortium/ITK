@@ -98,9 +98,11 @@ public:
   typedef typename LoadElement::Float Float;
 
   typedef TReference ReferenceType;
+  typedef typename ReferenceType::ConstPointer  ReferenceConstPointer;
   typedef ReferenceType*  ReferencePointer;
   typedef TTarget       TargetType;
   typedef TargetType*  TargetPointer;
+  typedef typename TargetType::ConstPointer  TargetConstPointer;
 
   /** Dimensionality of input and output data is assumed to be the same. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -127,8 +129,6 @@ public:
   typedef   typename  TargetType::PixelType    TarPixelType;
   typedef   Float PixelType;
   typedef   Float ComputationType;
-  typedef   CovariantVector< PixelType, itkGetStaticConstMacro(ImageDimension) >  CovariantVectorType;
-  typedef   Image< CovariantVectorType, itkGetStaticConstMacro(ImageDimension) >  CovariantVectorImageType;
   typedef   Image< RefPixelType, itkGetStaticConstMacro(ImageDimension) >       RefImageType;
   typedef   Image< TarPixelType, itkGetStaticConstMacro(ImageDimension) >       TarImageType;
   typedef   Image< PixelType, itkGetStaticConstMacro(ImageDimension) >            ImageType;
@@ -168,7 +168,19 @@ public:
 //------------------------------------------------------------
   typedef LinearInterpolateImageFunction< ReferenceType, double > InterpolatorType;
 
- 
+  /** Gradient filtering */
+  typedef float RealType;
+  typedef CovariantVector<RealType,
+          itkGetStaticConstMacro(ImageDimension)> GradientPixelType;
+  typedef Image<GradientPixelType,
+               itkGetStaticConstMacro(ImageDimension)> GradientImageType;
+  typedef SmartPointer<GradientImageType>     GradientImagePointer;
+  typedef GradientRecursiveGaussianImageFilter< ImageType,
+                                                GradientImageType >
+          GradientImageFilterType;  
+  typedef typename GradientImageFilterType::Pointer GradientImageFilterPointer;
+
+
 // FUNCTIONS
 
   /** Set/Get the Metric.  */
@@ -234,7 +246,10 @@ public:
    *  This method returns the total metric evaluated over the image with respect to the current solution.
    */
   Float GetMetric (VectorType  InVec);
-  
+  VectorType GetPolynomialFitToMetric(VectorType PositionInElement, VectorType SolutionAtPosition);
+
+  VectorType MetricFiniteDiff(VectorType PositionInElement, VectorType SolutionAtPosition);
+
   // FIXME - WE ASSUME THE 2ND VECTOR (INDEX 1) HAS THE INFORMATION WE WANT
   Float GetSolution(unsigned int i,unsigned int which=0)
   {  
@@ -258,11 +273,17 @@ public:
   { return new ImageMetricLoad; }
 
 
+  /** Set/Get the metric gradient image */
+  //void InitializeGradientImage();
+  void SetMetricGradientImage(GradientImageType* g) { m_MetricGradientImage=g;}
+  GradientImageType* GetMetricGradientImage() { return  m_MetricGradientImage;}
+
+
 protected:
 
-private:
 
-  typename CovariantVectorImageType::Pointer          m_DerivativeImage;
+private:
+  GradientImageType*                                  m_MetricGradientImage;
   ReferencePointer                                    m_RefImage;
   TargetPointer                                       m_TarImage;
   ReferenceRadiusType                                 m_MetricRadius; /** used by the metric to set region size for fixed image*/ 

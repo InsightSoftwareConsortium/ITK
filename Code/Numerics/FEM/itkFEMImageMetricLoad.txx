@@ -93,6 +93,7 @@ ImageMetricLoad<TReference , TTarget>::ImageMetricLoad()
   {
     m_MetricRadius[i] = 1;
   }
+  m_MetricGradientImage=NULL;
 
 }
 
@@ -161,7 +162,7 @@ ImageMetricLoad<TReference , TTarget>::EvaluateMetricGivenSolution( Element::Arr
     defe+=0.0;//(double)(*elt)->GetElementDeformationEnergy( solmat );
   }
    
-//  std::cout << " def e " << defe << " sim e " << energy*m_Gamma << std::endl;
+  //std::cout << " def e " << defe << " sim e " << energy*m_Gamma << std::endl;
   return fabs((double)energy*(double)m_Gamma-(double)defe);
 
 }
@@ -184,13 +185,33 @@ ImageMetricLoad<TReference , TTarget>::Fe
 //------------------------------------------------------------
 // Set up transform parameters
 //------------------------------------------------------------
-//  int temp=1;
+
+  VectorType OutVec;
+  
+  for( unsigned int k = 0; k < ImageDimension; k++ ) {
+    //if ( vnl_math_isnan(Gpos[k])  || vnl_math_isinf(Gpos[k]) ||
+    //    vnl_math_isnan(Gsol[k])  || vnl_math_isinf(Gsol[k]) ||
+    //     fabs(Gpos[k]) > 1.e33  || fabs(Gsol[k]) > 1.e33  ) 
+    //{
+      OutVec.resize(ImageDimension);  OutVec.fill(0.0);  return OutVec;
+    //}
+  }
+//  OutVec=this->MetricFiniteDiff(Gpos,Gsol); // gradient direction
+//  OutVec=this->GetPolynomialFitToMetric(Gpos,Gsol); // gradient direction
+//  for( unsigned int k = 0; k < ImageDimension; k++ ) {
+//    if ( vnl_math_isnan(OutVec[k])  || vnl_math_isinf(OutVec[k])
+//      || fabs(OutVec[k]) > 1.e33 ) OutVec[k]=0.0;
+//    else OutVec[k]=m_Sign*OutVec[k];
+//  }
+//  return OutVec;
+
   ParametersType parameters( m_Transform->GetNumberOfParameters() );
   typename TargetType::RegionType requestedRegion;
   TargetRadiusType regionRadius;
   typename TargetType::IndexType tindex;
-  typename ReferenceType::IndexType rindex;
-  VectorType OutVec(ImageDimension,0.0); // gradient direction
+  typename ReferenceType::IndexType rindex; 
+  OutVec.resize(ImageDimension);
+
   int lobordercheck=0,hibordercheck=0;
   for( unsigned int k = 0; k < ImageDimension; k++ )
   { 
@@ -232,15 +253,20 @@ ImageMetricLoad<TReference , TTarget>::Fe
  
   for( unsigned int k = 0; k < ImageDimension; k++ )
   {
-    if (lobordercheck < 0 || hibordercheck >=0) OutVec[k]=0.0; 
-      else OutVec[k]= m_Sign*derivative[k];
+    if (lobordercheck < 0 || hibordercheck >=0 ||
+       vnl_math_isnan(derivative[k])  || vnl_math_isinf(derivative[k]) ) 
+    {
+      OutVec[k]=0.0;
+    } 
+    else OutVec[k]= m_Sign*m_Gamma*derivative[k];
   }
  // NOTE : POSSIBLE THAT DERIVATIVE DIRECTION POINTS UP OR DOWN HILL!
  // IN FACT, IT SEEMS MEANSQRS AND NCC POINT IN DIFFT DIRS
   //std::cout   << " deriv " << derivative <<  " val " << measure << endl;
-  if (m_Temp !=0.0) 
-  return OutVec * exp(-1.*OutVec.magnitude()/m_Temp);
-  else return OutVec;
+  //if (m_Temp !=0.0) 
+  //return OutVec * exp(-1.*OutVec.magnitude()/m_Temp);
+  //else 
+  return OutVec;
 }
 
 
@@ -307,6 +333,242 @@ ImageMetricLoad<TReference , TTarget>::GetMetric
   return (Float) measure;
 }
 
+
+template<class TReference,class TTarget>
+typename ImageMetricLoad<TReference , TTarget>::VectorType 
+ImageMetricLoad<TReference , TTarget>::MetricFiniteDiff
+(ImageMetricLoad<TReference , TTarget>::VectorType  Gpos,
+ ImageMetricLoad<TReference , TTarget>::VectorType  Gsol ) 
+{
+
+  MetricBaseType::MeasureType     measure;
+  ParametersType parameters( ImageDimension );
+  typename TargetType::RegionType requestedRegion;
+  typename TargetType::IndexType tindex;
+  TargetRadiusType regionRadius;
+
+  VectorType OutVec;
+  OutVec.resize(ImageDimension);
+
+  for( unsigned int k = 0; k < ImageDimension; k++ )
+  { 
+    parameters[k]= Gsol[k]; // this gives the translation by the vector field 
+    tindex[k]= (long)(Gpos[k]+0.5);  // position in reference image
+    if (tindex[k] > m_TarSize[k]-1 || tindex[k] < 0) tindex[k]=(long)(Gpos[k]+0.5);
+    int hibordercheck=(int)tindex[k]+(int)m_MetricRadius[k]-(int)m_TarSize[k];
+    int lobordercheck=(int)tindex[k]-(int)m_MetricRadius[k];
+    if (hibordercheck >= 0) regionRadius[k]=m_MetricRadius[k]-(long)hibordercheck-1;
+    else if (lobordercheck < 0) regionRadius[k]=m_MetricRadius[k]+(long)lobordercheck;
+    else regionRadius[k]=m_MetricRadius[k];
+  }
+  
+  unsigned int row;
+  ImageType::IndexType difIndex[ImageDimension][2];
+  
+  MetricBaseType::MeasureType   dPixL,dPixR;
+  for(row=0; row< ImageDimension;row++){
+    difIndex[row][0]=tindex;
+    difIndex[row][1]=tindex;
+    if (tindex[row] < m_TarSize[row]-1) difIndex[row][0][row]=tindex[row]+1;
+    if (tindex[row] > 0 )               difIndex[row][1][row]=tindex[row]-1;
+
+    try
+    { 
+    requestedRegion.SetIndex(difIndex[row][1]);
+    requestedRegion.SetSize(regionRadius);
+    m_TarImage->SetRequestedRegion(requestedRegion);  
+    m_Metric->SetFixedImageRegion( m_TarImage->GetRequestedRegion() );
+    dPixL=m_Metric->GetValue( parameters);
+    }
+    catch( ... )
+    {
+      dPixL=0.0;
+    } 
+    try
+    { 
+    requestedRegion.SetIndex(difIndex[row][0]);
+    requestedRegion.SetSize(regionRadius);
+    m_TarImage->SetRequestedRegion(requestedRegion);  
+    m_Metric->SetFixedImageRegion( m_TarImage->GetRequestedRegion() );
+    dPixR=m_Metric->GetValue( parameters);
+    }
+    catch( ... )
+    {
+      dPixR=0.0;
+    }
+    
+    OutVec[row]=dPixL-dPixR;
+  }
+  return OutVec;
+}
+
+
+template<class TReference,class TTarget>
+typename ImageMetricLoad<TReference , TTarget>::VectorType 
+ImageMetricLoad<TReference , TTarget>::GetPolynomialFitToMetric
+(ImageMetricLoad<TReference , TTarget>::VectorType  Gpos,
+ ImageMetricLoad<TReference , TTarget>::VectorType  Gsol ) 
+{
+
+//discrete orthogonal polynomial fitting
+//see p.394-403 haralick computer and robot vision
+//
+//here, use chebyshev polynomials for fitting a plane to the data
+//
+//f(x,y,z) = a0 + a1*x + a2*y + a3*z
+//
+  MetricBaseType::MeasureType     measure;
+  ParametersType parameters( ImageDimension );
+  typename TargetType::RegionType requestedRegion;
+  typename TargetType::IndexType tindex;
+  TargetRadiusType regionRadius;
+
+  typename ImageType::IndexType temp;
+
+  VectorType chebycoefs; // gradient direction
+  chebycoefs.resize(ImageDimension);
+  double chebycoefs0=0.0;  // the constant term
+  double datatotal=0.0;
+  double a0norm=1.0;
+  double a1norm=1.0/2.0;
+  
+  double met, ind1,ind2;
+  double inds[3]; inds[0]=-1.0;  inds[1]=0.0;  inds[2]=1.0;
+
+  for( unsigned int k = 0; k < ImageDimension; k++ )
+  { 
+    a0norm/=3.0;
+    if (k < ImageDimension-1) a1norm/=3.0;
+    chebycoefs[k]=0.0;
+    parameters[k]= Gsol[k]; // this gives the translation by the vector field 
+    tindex[k]= (long)(Gpos[k]+0.5);  // position in reference image
+    if (tindex[k] > m_TarSize[k]-1 || tindex[k] < 0) tindex[k]=(long)(Gpos[k]+0.5);
+    int hibordercheck=(int)tindex[k]+(int)m_MetricRadius[k]-(int)m_TarSize[k];
+    int lobordercheck=(int)tindex[k]-(int)m_MetricRadius[k];
+    if (hibordercheck >= 0) regionRadius[k]=m_MetricRadius[k]-(long)hibordercheck-1;
+    else if (lobordercheck < 0) regionRadius[k]=m_MetricRadius[k]+(long)lobordercheck;
+    else regionRadius[k]=m_MetricRadius[k];
+  }
+  
+
+  if (ImageDimension==2){
+
+  double measure[3][3];
+  for(int row=-1; row< 2; row++){
+  for(int col=-1; col< 2; col++){
+
+    temp[0]=tindex[0]+(long)row;
+    temp[1]=tindex[1]+(long)col;
+
+    for (unsigned int i=0; i<ImageDimension; i++){
+      if (temp[i] > m_TarSize[i]-1) temp[i]=m_TarSize[i]-1;
+      else if (temp[i] < 0 ) temp[i]=0;
+    }
+
+    requestedRegion.SetIndex(temp);
+    requestedRegion.SetSize(regionRadius);
+    m_TarImage->SetRequestedRegion(requestedRegion);  
+    m_Metric->SetFixedImageRegion( m_TarImage->GetRequestedRegion() );
+    measure[row+1][col+1]=0.0;
+   
+    try
+    { 
+      measure[row+1][col+1]=m_Metric->GetValue( parameters);
+    }
+    catch( ... )
+    {
+    }
+ 
+    
+     datatotal+=measure[row+1][col+1];
+  }}
+  for( unsigned int cb1 = 0; cb1 < 3; cb1++ ) 
+  for( unsigned int cb2 = 0; cb2 < 3; cb2++ ) 
+  {
+    met=measure[cb1][cb2];
+    ind1=inds[cb1]*a1norm;
+    ind2=inds[cb2]*a1norm;
+    chebycoefs[0]+=met*ind1;
+    chebycoefs[1]+=met*ind2;
+  }
+  }
+  else if (ImageDimension == 3) {
+
+  double measure3D[3][3][3];
+  for(int row=-1; row< 2; row++){
+  for(int col=-1; col< 2; col++){
+  for(int z=-1; z< 2; z++){
+
+    temp[0]=tindex[0]+(long)row;
+    temp[1]=tindex[1]+(long)col;
+    temp[2]=tindex[2]+(long)z;
+
+    for (unsigned int i=0; i<ImageDimension; i++){
+      if (temp[i] > m_TarSize[i]-1) temp[i]=m_TarSize[i]-1;
+      else if (temp[i] < 0 ) temp[i]=0;
+    }
+
+    requestedRegion.SetIndex(temp);
+    requestedRegion.SetSize(regionRadius);
+    m_TarImage->SetRequestedRegion(requestedRegion);  
+    m_Metric->SetFixedImageRegion( m_TarImage->GetRequestedRegion() );
+    measure3D[row+1][col+1][z+1]=0.0;
+   
+    try
+    { 
+      measure3D[row+1][col+1][z+1]=m_Metric->GetValue( parameters);
+    }
+    catch( ... )
+    {
+    }
+ 
+    
+     datatotal+=measure3D[row+1][col+1][z+1];
+  }}}
+  for( unsigned int cb1 = 0; cb1 < 2; cb1++ ) 
+  for( unsigned int cb2 = 0; cb2 < 2; cb2++ ) 
+  for( unsigned int cb3 = 0; cb3 < 2; cb3++ ) 
+  {
+    chebycoefs[0]+=measure3D[cb1][cb2][cb3]*inds[cb1]*a1norm;
+    chebycoefs[1]+=measure3D[cb1][cb2][cb3]*inds[cb2]*a1norm;
+    chebycoefs[2]+=measure3D[cb1][cb2][cb3]*inds[cb3]*a1norm;
+  }
+  }
+  
+  chebycoefs0=a0norm*datatotal;
+//  std::cout << " cb " << chebycoefs << std::endl;
+  return chebycoefs;
+
+}
+
+
+/*
+template<class TReference,class TTarget>
+void
+ImageMetricLoad<TReference , TTarget>::InitializeGradientImage() 
+{
+
+  typedef itk::ImageRegionIteratorWithIndex<GradientImageType>         gIterator; 
+
+  GradientImageType::RegionType metricGradientImageRegion;
+  metricGradientImageRegion.SetSize( m_TarSize );
+  m_MetricGradientImage = GradientImageType::New();
+  m_MetricGradientImage->SetLargestPossibleRegion( metricGradientImageRegion );
+  m_MetricGradientImage->SetBufferedRegion( metricGradientImageRegion );
+  m_MetricGradientImage->Allocate(); 
+ 
+  gIterator metricGradientImageIter( m_MetricGradientImage, metricGradientImageRegion );
+  metricGradientImageIter.GoToBegin();
+  
+  GradientPixelType disp;
+  for (int i=0; i<ImageDimension; i++) disp[i]=0.;
+  for( ; !metricGradientImageIter.IsAtEnd(); ++metricGradientImageIter )
+  {
+    metricGradientImageIter.Set(disp);
+  }
+
+}
+*/
 
 template<class TReference,class TTarget> 
 int ImageMetricLoad<TReference,TTarget>::CLID()
