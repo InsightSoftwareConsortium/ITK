@@ -41,6 +41,7 @@ ADD_TEST(itkDataTypeTest ${COMMON_TESTS} itkDataTypeTest)
 ADD_TEST(itkDynamicMeshTest ${COMMON_TESTS} itkDynamicMeshTest)
 ADD_TEST(itkEuler2DTransformTest ${COMMON_TESTS} itkEuler2DTransformTest)
 ADD_TEST(itkEuler3DTransformTest ${COMMON_TESTS} itkEuler3DTransformTest)
+ADD_TEST(itkEventObjectTest ${COMMON_TESTS} itkEventObjectTest)
 ADD_TEST(itkExceptionObjectTest ${COMMON_TESTS} itkExceptionObjectTest)
 ADD_TEST(itkFileOutputWindowTest ${COMMON_TESTS} itkFileOutputWindowTest)
 ADD_TEST(itkFloodFilledSpatialFunctionTest ${COMMON_TESTS} itkFloodFilledSpatialFunctionTest)
@@ -200,6 +201,7 @@ itkDataTypeTest.cxx
 itkDynamicMeshTest.cxx
 itkEuler2DTransformTest.cxx
 itkEuler3DTransformTest.cxx
+itkEventObjectTest.cxx
 itkExceptionObjectTest.cxx
 itkFileOutputWindowTest.cxx
 itkFixedArrayTest.cxx
