@@ -295,9 +295,10 @@ public:
 
   /**
    * Update the information for this DataObject so that it can be used
-   * as an output of a ProcessObject.  This method is used the pipeline
+   * as an output of a ProcessObject.  This method is used in the pipeline
    * mechanism to propagate information and initialize the meta data
-   * associated with a DataObject. This method calls its source's
+   * associated with a DataObject.  Any implementation of this method in
+   * a derived class is assumed to call its source's
    * ProcessObject::UpdateOutputInformation() which determines modified
    * times, LargestPossibleRegions, and any extra meta data like spacing,
    * origin, etc.
