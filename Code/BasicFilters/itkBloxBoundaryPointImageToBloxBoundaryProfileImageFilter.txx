@@ -24,7 +24,6 @@
 #include "itkMultipleValuedCostFunction.h"
 #include "itkLevenbergMarquardtOptimizer.h"
 
-#include "iostream.h"
 typedef vnl_matrix<double> MatrixType;
 typedef vnl_vector<double> VectorType;
 
