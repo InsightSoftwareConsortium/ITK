@@ -70,6 +70,7 @@ public:
   typedef Histogram  Self ;
   typedef Sample< FixedArray< TMeasurement, VMeasurementVectorSize > > Superclass ;
   typedef SmartPointer<Self> Pointer ;
+  typedef SmartPointer<const Self> ConstPointer ;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(Histogram, Sample) ;
@@ -288,33 +289,19 @@ public:
   double Quantile(const unsigned int dimension, const double &p) ;
 
   /** iterator support */
-  class Iterator ;
-  friend class Iterator ;
-
-  Iterator  Begin()
-  { 
-    Iterator iter(0, this) ; 
-    return iter ;
-  }
-           
-  Iterator  End()        
-  {
-    return Iterator(m_OffsetTable[VMeasurementVectorSize], this) ;
-  }
-  
 
   class Iterator
   {
   public:
     Iterator(){};
     
-    Iterator(Pointer histogram) 
+    Iterator(Self * histogram) 
     { 
       m_Id = 0 ;
       m_Histogram = histogram; 
     } 
     
-    Iterator(InstanceIdentifier id, Pointer histogram)
+    Iterator(InstanceIdentifier id, Self * histogram)
       : m_Id(id), m_Histogram(histogram)
     {}
     
@@ -368,6 +355,96 @@ public:
     // Pointer of DenseFrequencyContainer
     Self* m_Histogram ;
   } ; // end of iterator class
+
+  // Const Iterator
+  class ConstIterator
+  {
+  public:
+    ConstIterator(){};
+    
+    ConstIterator(const Self * histogram) 
+    { 
+      m_Id = 0 ;
+      m_Histogram = histogram; 
+    } 
+    
+    ConstIterator(InstanceIdentifier id, const Self * histogram)
+      : m_Id(id), m_Histogram(histogram)
+    {}
+    
+    FrequencyType GetFrequency() const
+    { 
+      return  m_Histogram->GetFrequency(m_Id) ;
+    }
+    
+    void SetFrequency(const FrequencyType value) 
+    { 
+      m_Histogram->SetFrequency(m_Id, value); 
+    }
+
+    InstanceIdentifier GetInstanceIdentifier() const
+    { return m_Id ; }
+
+    const MeasurementVectorType & GetMeasurementVector() const
+    { 
+      return m_Histogram->GetMeasurementVector(m_Id) ;
+    } 
+
+    ConstIterator& operator++() 
+    { 
+      ++m_Id; 
+      return *this;
+    }
+    
+    bool operator!=(const ConstIterator& it) 
+    { return (m_Id != it.m_Id); }
+    
+    bool operator==(const ConstIterator& it) 
+    { return (m_Id == it.m_Id); }
+    
+    ConstIterator& operator=(const ConstIterator& it)
+    { 
+      m_Id  = it.m_Id;
+      m_Histogram = it.m_Histogram ; 
+      return *this ;
+    }
+
+    ConstIterator(const ConstIterator & it)
+    { 
+      m_Id        = it.m_Id;
+      m_Histogram = it.m_Histogram ; 
+    }
+   
+  private:
+    // ConstIterator pointing DenseFrequencyContainer
+    InstanceIdentifier m_Id;
+    
+    // Pointer of DenseFrequencyContainer
+    const Self* m_Histogram ;
+  } ; // end of iterator class
+
+  Iterator  Begin()
+  { 
+    Iterator iter(0, this) ; 
+    return iter ;
+  }
+           
+  Iterator  End()        
+  {
+    return Iterator(m_OffsetTable[VMeasurementVectorSize], this) ;
+  }
+  
+  ConstIterator  Begin() const
+  { 
+    ConstIterator iter(0, this) ; 
+    return iter ;
+  }
+           
+  ConstIterator End() const
+  {
+    return ConstIterator(m_OffsetTable[VMeasurementVectorSize], this) ;
+  }
+ 
 
 protected:
   Histogram() ;
