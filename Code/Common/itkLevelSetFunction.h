@@ -140,12 +140,7 @@ protected:
   
   LevelSetFunction() {}
   ~LevelSetFunction() {}
-  void PrintSelf(std::ostream& os, Indent indent) const
-    {
-      Superclass::PrintSelf(os, indent );
-      os << indent << "WaveDT: " << m_WaveDT << std::endl;
-      os << indent << "DT: " << m_DT << std::endl;
-    }
+  void PrintSelf(std::ostream &s, Indent indent) const;
   
   /** Constants used in the time step calculation. */
   static double m_WaveDT;

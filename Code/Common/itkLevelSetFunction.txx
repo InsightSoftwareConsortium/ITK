@@ -285,6 +285,17 @@ LevelSetFunction< TImageType >
   return ( PixelType ) ( curvature_term - propagation_term - advection_term );
 } 
 
+// Print self
+template<class TImageType>
+void
+LevelSetFunction< TImageType>::
+PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent );
+  os << indent << "WaveDT: " << m_WaveDT << std::endl;
+  os << indent << "DT: " << m_DT << std::endl;
+}
+  
 } // end namespace itk
 
 #endif
