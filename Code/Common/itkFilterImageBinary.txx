@@ -86,7 +86,7 @@ FilterImageBinary<TInputImage1,TInputImage2,TOutputImage,TFunction>
   Image2Iterator it2(m_Image2, m_Image2->GetBufferStartIndex(),
                      m_Image2->GetBufferSize());
   
-  Image3Iterator ot(m_OutputImage, m_OutputImage->GetBufferStartIndex(),
+  ImageOutputIterator ot(m_OutputImage, m_OutputImage->GetBufferStartIndex(),
                      m_OutputImage->GetBufferSize());
 
   it1.Begin();
