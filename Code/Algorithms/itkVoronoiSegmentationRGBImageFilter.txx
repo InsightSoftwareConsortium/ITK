@@ -35,8 +35,8 @@ VoronoiSegmentationRGBImageFilter(){
   for(i=0;i<6;i++){
     m_Mean[i] = 0;
 	m_Var[i] = 0;
-	m_MeanTolerance[i] = 10;
-	m_VarTolerance[i] = 10;
+    m_MeanTolerance[i] = 10;
+    m_VarTolerance[i] = 10;
     m_MeanPercentError[i] = 0.10;
     m_VarPercentError[i] = 1.5;
   }
@@ -120,25 +120,25 @@ InitializeSegment(void){
 
   while( !iit.IsAtEnd()) {    
     ipixel = iit.Get();
-	wpixel[0] = ipixel[0];
-	wpixel[1] = ipixel[1];
-	wpixel[2] = ipixel[2];
+    wpixel[0] = ipixel[0];
+    wpixel[1] = ipixel[1];
+    wpixel[2] = ipixel[2];
 
-	X =  0.607*ipixel[0] + 0.174*ipixel[1] + 0.201*ipixel[2];
-	Y =  0.299*ipixel[0] + 0.587*ipixel[1] + 0.114*ipixel[2];
-	Z =  0.066*ipixel[1] + 1.117*ipixel[2];
+    X =  0.607*ipixel[0] + 0.174*ipixel[1] + 0.201*ipixel[2];
+    Y =  0.299*ipixel[0] + 0.587*ipixel[1] + 0.114*ipixel[2];
+    Z =  0.066*ipixel[1] + 1.117*ipixel[2];
     X = pow((X/X0),0.3333);
     Y = pow((Y/Y0),0.3333);
     Z = pow((Z/Z0),0.3333);
     L = 116*Y - 16;
-	a = 500*(X - Y);
-	b = 200*(Y - Z);
+    a = 500*(X - Y);
+    b = 200*(Y - Z);
 	
-	wpixel[3] = atan(b/a);     //H
-	wpixel[4] = sqrt(a*a+b*b); //C
-	wpixel[5] = L;             //V 
+    wpixel[3] = atan(b/a);     //H
+    wpixel[4] = sqrt(a*a+b*b); //C
+    wpixel[5] = L;             //V 
     wit.Set(wpixel);
-	++wit;
+    ++wit;
     ++iit;
   }
 
@@ -173,16 +173,16 @@ GetStats(PointTypeDeque vertlist, double *savemean, double *savevar, int *nump)
   leftP = vertlist.front();
   while(currP[1] > leftP[1]){
     vertlist.push_back(currP);
-	currP=vertlist.front();
+    currP=vertlist.front();
     vertlist.pop_front();
-	leftP=vertlist.front();
+    leftP=vertlist.front();
   }
   rightP=vertlist.back();
   while(currP[1] > rightP[1]){
     vertlist.push_front(currP);
-	currP=vertlist.back();
-	vertlist.pop_back();
-	rightP=vertlist.back();
+    currP=vertlist.back();
+    vertlist.pop_back();
+    rightP=vertlist.back();
   }
   leftP=vertlist.front();
 
@@ -214,11 +214,11 @@ GetStats(PointTypeDeque vertlist, double *savemean, double *savevar, int *nump)
   rightendy = rightP[1];
   if(leftendy > rightendy){
     RorL = 1;
-	endy = rightendy;
+    endy = rightendy;
   }
   else{
     RorL = 0;
-	endy = leftendy;
+    endy = leftendy;
   }
   intbeginy = (int)(beginy);
   intendy = (int)endy;
@@ -234,20 +234,20 @@ GetStats(PointTypeDeque vertlist, double *savemean, double *savevar, int *nump)
   else{
     leftDx = (leftP[0]-beginx)/(leftP[1]-beginy);
     rightDx = (rightP[0]-beginx)/(rightP[1]-beginy);
-	intbeginy++;
+    intbeginy++;
     offset = (double)intbeginy - beginy;  
     if(RorL){
-	  endx += offset*rightDx;
-	}
-	else{
-	  beginx += offset*leftDx;
-	}
+      endx += offset*rightDx;
+    }
+    else{
+      beginx += offset*leftDx;
+    }
     if(beginx < endx){
-	  for(i = intbeginy;i<=intendy;i++){
-	    intbeginx = (int)(beginx+1);
-	    intendx = (int)endx;
-	    idx[1]=i;
-	    for(j = intbeginx; j < intendx; j++){
+      for(i = intbeginy;i<=intendy;i++){
+        intbeginx = (int)(beginx+1);
+        intendx = (int)endx;
+        idx[1]=i;
+        for(j = intbeginx; j < intendx; j++){
           num++;
 		  idx[0]=j;
 		  getp=m_WorkingImage->GetPixel(idx);
@@ -479,12 +479,6 @@ ExcuteSegmentOneStep(void){
   m_SeedsToAdded.clear();
   m_WorkingVD->GenerateDiagram();
   ClassifyDiagram();
-  int jyp = 1231;
-  jyp++;  
-  jyp++;
-  jyp++;
-  jyp++;
-
   GenerateAddingSeeds();
   m_NumberOfSeedsToAdded = m_SeedsToAdded.size();
   m_StepsRuned++;
