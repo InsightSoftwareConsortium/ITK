@@ -1,0 +1,7 @@
+NDims = 3
+DimSize = 256 256 62
+ElementSize = 1 1 1
+ElementSpacing = 1 1 1
+ElementType = MET_UCHAR
+ElementByteOrderMSB = False
+ElementDataFile = 111_2.buchar
