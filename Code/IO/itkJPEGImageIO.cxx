@@ -39,14 +39,6 @@ struct itk_jpeg_error_mgr
   jmp_buf setjmp_buffer;        /* for return to caller */
 };
 
-typedef struct itk_jpeg_error_mgr* itk_jpeg_error_mgrPtr;
-
-METHODDEF(void)
-  itk_jpeg_error_exit (j_common_ptr cinfo)
-{
-  itk_jpeg_error_mgrPtr jpegErr = (itk_jpeg_error_mgrPtr) cinfo->err;
-  longjmp(jpegErr->setjmp_buffer, 1);
-}
 
 namespace itk
 {
