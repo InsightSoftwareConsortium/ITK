@@ -44,8 +44,6 @@ int itkSimplexMeshVolumeCalculatorTest(int , char *[] )
 
   typedef  SimplexMeshType::NeighborListType              NeighborsListType;
 
-  NeighborsListType* neighbors = NULL;
-
   /**
    * Define the 3d geometric positions for 8 points in a cube.
    */
