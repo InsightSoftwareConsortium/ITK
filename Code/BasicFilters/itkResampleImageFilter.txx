@@ -59,7 +59,7 @@ ResampleImageFilter<TInputImage,TOutputImage>
   for (int i = 0; i < NDimensions; i++)
     m_Size[i] = 0;
   m_Transform = 0;
-  m_Interpolation = 0;
+  m_Interpolator = 0;
 }
 
 
@@ -110,7 +110,7 @@ ResampleImageFilter<TInputImage,TOutputImage>
   double value;                  // Interpolated value of input
 
   // Configure the interpolator
-  m_Interpolation->SetInputImage(this->GetInput());
+  m_Interpolator->SetInputImage(this->GetInput());
 
   // Estimate total work for progress methods/callbacks
   unsigned long updateVisits = 0;
@@ -139,7 +139,7 @@ ResampleImageFilter<TInputImage,TOutputImage>
     inputPoint = m_Transform->Transform(outputPoint);
 
     // Evaluate input at right position and copy to the output
-    value = m_Interpolation->Evaluate(inputPoint);
+    value = m_Interpolator->Evaluate(inputPoint);
     PixelType pixval;
     pixval = value;
     outIt.Set(pixval);

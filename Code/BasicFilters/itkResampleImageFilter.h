@@ -110,12 +110,12 @@ public:
       *TransformPointerType;
 
   /**
-   * Interpolation typedef
+   * Interpolator typedef
    *
    * FIXME: Generalize to any sort of image function.
    */
-  typedef LinearInterpolateImageFunction<TInputImage>   InterpolationType;
-  typedef InterpolationType::Pointer  InterpolationPointerType;
+  typedef LinearInterpolateImageFunction<TInputImage>   InterpolatorType;
+  typedef InterpolatorType::Pointer  InterpolatorPointerType;
 
   /**
    * Image size typedef
@@ -159,15 +159,15 @@ public:
    * must be in index coordinates and is the output-to-input transform,
    * NOT the input-to-output transform that you might naively expect.
    */
-  void SetTransform(TransformPointerType &transform) {
+  void SetTransform(TransformPointerType transform) {
     m_Transform = transform;
   }
 
   /**
-   * Set the interpolation function
+   * Set the interpolator function
    */
-  void SetInterpolation(InterpolationPointerType &interpolation) {
-    m_Interpolation = interpolation;
+  void SetInterpolator(InterpolatorPointerType interpolator) {
+    m_Interpolator = interpolator;
   }
 
   /**
@@ -222,7 +222,7 @@ private:
 
   SizeType m_Size;                      // Size of the output image
   TransformPointerType m_Transform;     // Coordinate transform to use
-  InterpolationPointerType m_Interpolation;
+  InterpolatorPointerType m_Interpolator;
                                         // Image function for interpolation
 };
 
