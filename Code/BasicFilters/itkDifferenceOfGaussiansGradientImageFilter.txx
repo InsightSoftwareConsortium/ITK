@@ -82,9 +82,15 @@ DifferenceOfGaussiansGradientImageFilter< TInputImage, TDataType >
 
     for (int i = 0; i < NDimensions; ++i)
       {
-      if( !( (outputIndex[i] < (size.m_Size[i] - static_cast<int>(m_Width)) ) &&
-        (outputIndex[i] >= m_Width) ) )
-        isValidGrad = false;
+        const int width = static_cast<int>(m_Width);
+        const int sizeDifference = 
+            static_cast<int>(size.m_Size[i]) - width;
+          
+        if( !( (outputIndex[i] < sizeDifference ) &&
+               (outputIndex[i] >= width         )    ) )
+        {
+          isValidGrad = false;
+        }
       }
 
     if (isValidGrad)
