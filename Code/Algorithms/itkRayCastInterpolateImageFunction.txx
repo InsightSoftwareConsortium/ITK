@@ -1,17 +1,17 @@
 /*=========================================================================
 
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkRayCastInterpolateImageFunction.txx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
+Program:   Insight Segmentation & Registration Toolkit
+Module:    itkRayCastInterpolateImageFunction.txx
+Language:  C++
+Date:      $Date$
+Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+Copyright (c) 2002 Insight Consortium. All rights reserved.
+See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
+This software is distributed WITHOUT ANY WARRANTY; without even 
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 
@@ -162,11 +162,13 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 #ifdef DEBUG_RAY_CAST_INTERPOLATOR_PATH
   int i;
   cout << endl << "Corners of volume: " << endl;
-  for (i=0; i<8; i++) 
+  for (i=0; i<8; i++)
+    { 
     cout << "   " << setw(4) << i 
          << setw(8) << setprecision(4) << m_BoundingCorner[i][0] << ", "
          << setw(8) << setprecision(4) << m_BoundingCorner[i][1] << ", "
          << setw(8) << setprecision(4) << m_BoundingCorner[i][2] << endl;
+    }
 #endif
 }
 
@@ -215,7 +217,7 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 #ifdef DEBUG_RAY_CAST_INTERPOLATOR_PATH
   int i;
   cout << endl << "Corners of volume: " << endl;
-  for (i=0; i<8; i++) 
+  fo r(i=0; i<8; i++) 
     cout << "   " << setw(4) << i 
          << setw(8) << setprecision(4) << m_BoundingCorner[i][0] << ", "
          << setw(8) << setprecision(4) << m_BoundingCorner[i][1] << ", "
@@ -246,77 +248,79 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
         
   for (j=0; j<6; j++) 
     {                                // loop around for planes
-      switch (j) {                // which corners to take
-      case 0:
-        c1=1; c2=2; c3=3; c4=0;
-        break;
-      case 1:
-        c1=4; c2=5; c3=6; c4=7;
-        break;
-      case 2:
-        c1=5; c2=3; c3=7; c4=1;
-        break;
-      case 3:
-        c1=2; c2=4; c3=6; c4=0;
-        break;
-      case 4:
-        c1=1; c2=5; c3=0; c4=4;
-        break;
-      case 5:
-        c1=3; c2=7; c3=2; c4=6;
-        break;
-      }
+    switch (j) {                // which corners to take
+    case 0:
+      c1=1; c2=2; c3=3; c4=0;
+      break;
+    case 1:
+      c1=4; c2=5; c3=6; c4=7;
+      break;
+    case 2:
+      c1=5; c2=3; c3=7; c4=1;
+      break;
+    case 3:
+      c1=2; c2=4; c3=6; c4=0;
+      break;
+    case 4:
+      c1=1; c2=5; c3=0; c4=4;
+      break;
+    case 5:
+      c1=3; c2=7; c3=2; c4=6;
+      break;
+    }
 
     
-      double line1x, line1y, line1z;
-      double line2x, line2y, line2z;
+    double line1x, line1y, line1z;
+    double line2x, line2y, line2z;
 
-      // lines from one corner to another in x,y,z dirns
-      line1x = m_BoundingCorner[c1][0] - m_BoundingCorner[c2][0];
-      line2x = m_BoundingCorner[c1][0] - m_BoundingCorner[c3][0];
+    // lines from one corner to another in x,y,z dirns
+    line1x = m_BoundingCorner[c1][0] - m_BoundingCorner[c2][0];
+    line2x = m_BoundingCorner[c1][0] - m_BoundingCorner[c3][0];
     
-      line1y = m_BoundingCorner[c1][1] - m_BoundingCorner[c2][1];
-      line2y = m_BoundingCorner[c1][1] - m_BoundingCorner[c3][1];
+    line1y = m_BoundingCorner[c1][1] - m_BoundingCorner[c2][1];
+    line2y = m_BoundingCorner[c1][1] - m_BoundingCorner[c3][1];
     
-      line1z = m_BoundingCorner[c1][2] - m_BoundingCorner[c2][2];
-      line2z = m_BoundingCorner[c1][2] - m_BoundingCorner[c3][2];
+    line1z = m_BoundingCorner[c1][2] - m_BoundingCorner[c2][2];
+    line2z = m_BoundingCorner[c1][2] - m_BoundingCorner[c3][2];
     
-      double A, B, C, D;
+    double A, B, C, D;
         
-      // take cross product
-      A = line1y*line2z - line2y*line1z;
-      B = line2x*line1z - line1x*line2z;
-      C = line1x*line2y - line2x*line1y;
+    // take cross product
+    A = line1y*line2z - line2y*line1z;
+    B = line2x*line1z - line1x*line2z;
+    C = line1x*line2y - line2x*line1y;
 
-      // find constant
-      D = -(   A*m_BoundingCorner[c1][0] 
+    // find constant
+    D = -(   A*m_BoundingCorner[c1][0] 
              + B*m_BoundingCorner[c1][1] 
              + C*m_BoundingCorner[c1][2] );
 
-      // initialise plane value and normalise
-      m_BoundingPlane[j][0] = A/sqrt(A*A + B*B + C*C);
-      m_BoundingPlane[j][1] = B/sqrt(A*A + B*B + C*C);
-      m_BoundingPlane[j][2] = C/sqrt(A*A + B*B + C*C);
-      m_BoundingPlane[j][3] = D/sqrt(A*A + B*B + C*C);
+    // initialise plane value and normalise
+    m_BoundingPlane[j][0] = A/sqrt(A*A + B*B + C*C);
+    m_BoundingPlane[j][1] = B/sqrt(A*A + B*B + C*C);
+    m_BoundingPlane[j][2] = C/sqrt(A*A + B*B + C*C);
+    m_BoundingPlane[j][3] = D/sqrt(A*A + B*B + C*C);
     
-      if ( (A*A + B*B + C*C) == 0 ) 
-        {
-          ExceptionObject err(__FILE__, __LINE__);
-          err.SetLocation( "RayCastInterpolateImageFunction" );
-          err.SetDescription( "Division by zero (planes) "
-                              "- CalcPlanesAndCorners().");
-          throw err;
-        }
+    if ( (A*A + B*B + C*C) == 0 ) 
+      {
+      ExceptionObject err(__FILE__, __LINE__);
+      err.SetLocation( "RayCastInterpolateImageFunction" );
+      err.SetDescription( "Division by zero (planes) "
+                          "- CalcPlanesAndCorners().");
+      throw err;
+      }
     }
 
 #ifdef DEBUG_RAY_CAST_INTERPOLATOR_PATH
   cout << endl << "Planes of volume: " << endl;
-  for (j=0; j<6; j++) 
+  for (j=0; j<6; j++)
+    { 
     cout << "   " << setw(4) << j
          << setw(8) << setprecision(4) << m_BoundingPlane[j][0] << ", "
          << setw(8) << setprecision(4) << m_BoundingPlane[j][1] << ", "
          << setw(8) << setprecision(4) << m_BoundingPlane[j][2] << ", "
          << setw(8) << setprecision(4) << m_BoundingPlane[j][3] << endl;
+    }
 #endif
 }
 
@@ -361,31 +365,33 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
   for( j=0; j<NoSides; j++) 
     {
       
-      denom = (  m_BoundingPlane[j][0]*m_RayDirectionInMM[0] 
+    denom = (  m_BoundingPlane[j][0]*m_RayDirectionInMM[0] 
                + m_BoundingPlane[j][1]*m_RayDirectionInMM[1] 
                + m_BoundingPlane[j][2]*m_RayDirectionInMM[2]);
       
-      if( (long)(denom*100) != 0 ) {
-        d[j] = -(   m_BoundingPlane[j][3] 
+    if( (long)(denom*100) != 0 )
+      {
+      d[j] = -(   m_BoundingPlane[j][3] 
                   + m_BoundingPlane[j][0]*m_CurrentRayPositionInMM[0]
                   + m_BoundingPlane[j][1]*m_CurrentRayPositionInMM[1] 
                   + m_BoundingPlane[j][2]*m_CurrentRayPositionInMM[2] ) / denom;
-
-        interceptx[j] = m_CurrentRayPositionInMM[0] + d[j]*m_RayDirectionInMM[0];
-        intercepty[j] = m_CurrentRayPositionInMM[1] + d[j]*m_RayDirectionInMM[1];
-        interceptz[j] = m_CurrentRayPositionInMM[2] + d[j]*m_RayDirectionInMM[2];
-
-        noInterFlag[j] = 1;  //OK
+      
+      interceptx[j] = m_CurrentRayPositionInMM[0] + d[j]*m_RayDirectionInMM[0];
+      intercepty[j] = m_CurrentRayPositionInMM[1] + d[j]*m_RayDirectionInMM[1];
+      interceptz[j] = m_CurrentRayPositionInMM[2] + d[j]*m_RayDirectionInMM[2];
+      
+      noInterFlag[j] = 1;  //OK
         
 #ifdef DEBUG_RAY_CAST_INTERPOLATOR_PATH
-        cout << "Plane " << setw(1) << j << " intercept: "
-             << setw(24) << setprecision(16) << interceptx[j] << ", "
-             << setw(24) << setprecision(16) << intercepty[j] << ", "
-             << setw(24) << setprecision(16) << interceptz[j] << endl;
+      cout << "Plane " << setw(1) << j << " intercept: "
+           << setw(24) << setprecision(16) << interceptx[j] << ", "
+           << setw(24) << setprecision(16) << intercepty[j] << ", "
+           << setw(24) << setprecision(16) << interceptz[j] << endl;
 #endif
       }
-      else {
-        noInterFlag[j] = 0;  //NOT OK
+    else
+      {
+      noInterFlag[j] = 0;  //NOT OK
       }
     }
   
@@ -394,103 +400,108 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
   for( j=0; j<NoSides; j++ ) 
     {
       
-      // Work out which corners to use
+    // Work out which corners to use
       
-      if( j==0 ) 
+    if( j==0 ) 
+      {
+      c[0] = 0; c[1] = 1; c[2] = 3; c[3] = 2;
+      }
+    else if( j==1 ) 
+      {
+      c[0] = 4; c[1] = 5; c[2] = 7; c[3] = 6;
+      }
+    else if( j==2 ) 
+      {
+      c[0] = 1; c[1] = 5; c[2] = 7; c[3] = 3;
+      }
+    else if( j==3 ) 
+      {
+      c[0] = 0; c[1] = 2; c[2] = 6; c[3] = 4;
+      }
+    else if( j==4 ) 
+      { //TOP
+      c[0] = 0; c[1] = 1; c[2] = 5; c[3] = 4;
+      }
+    else if( j==5 ) 
+      { //BOTTOM
+      c[0] = 2; c[1] = 3; c[2] = 7; c[3] = 6;
+      }
+
+    // Calculate vectors from corner of ct volume to intercept.
+    for( i=0; i<4; i++ ) 
+      {
+      if( noInterFlag[j]==1 ) 
         {
-          c[0] = 0; c[1] = 1; c[2] = 3; c[3] = 2;
+        cornerVect[i][0] = m_BoundingCorner[c[i]][0] - interceptx[j];
+        cornerVect[i][1] = m_BoundingCorner[c[i]][1] - intercepty[j];
+        cornerVect[i][2] = m_BoundingCorner[c[i]][2] - interceptz[j];
         }
-      else if( j==1 ) 
+      else if( noInterFlag[j]==0 ) 
         {
-          c[0] = 4; c[1] = 5; c[2] = 7; c[3] = 6;
+        cornerVect[i][0] = 0;
+        cornerVect[i][1] = 0;
+        cornerVect[i][2] = 0;
         }
-      else if( j==2 ) 
+
+      }
+
+    // Do cross product with these vectors
+    for( i=0; i<4; i++ ) 
+      {
+      if( i==3 )
         {
-          c[0] = 1; c[1] = 5; c[2] = 7; c[3] = 3;
+        k = 0;
         }
-      else if( j==3 ) 
+      else
         {
-          c[0] = 0; c[1] = 2; c[2] = 6; c[3] = 4;
+        k = i+1;
         }
-      else if( j==4 ) 
-        { //TOP
-          c[0] = 0; c[1] = 1; c[2] = 5; c[3] = 4;
-        }
-      else if( j==5 ) 
-        { //BOTTOM
-          c[0] = 2; c[1] = 3; c[2] = 7; c[3] = 6;
-        }
+      ax = cornerVect[i][0];
+      ay = cornerVect[i][1];
+      az = cornerVect[i][2];
+      bx = cornerVect[k][0];
+      by = cornerVect[k][1];
+      bz = cornerVect[k][2];
 
-      // Calculate vectors from corner of ct volume to intercept.
-      for( i=0; i<4; i++ ) 
+      // The int and divide by 100 are to avoid rounding errors.  If
+      // these are not included then you get values fluctuating around
+      // zero and so in the subsequent check, all the values are not
+      // above or below zero.  NB. If you "INT" by too much here though
+      // you can get problems in the corners of your volume when rays
+      // are allowed to go through more than one plane.
+      cross[i][0] = (int)((ay*bz - az*by)/100);
+      cross[i][1] = (int)((az*bx - ax*bz)/100);
+      cross[i][2] = (int)((ax*by - ay*bx)/100);
+      }
+
+    // See if a sign change occured between all these cross products
+    // if not, then the ray went through this plane
+
+    crossFlag=0;
+    for( i=0; i<3; i++ ) 
+      {
+      if( (   cross[0][i]<=0 
+              && cross[1][i]<=0 
+              && cross[2][i]<=0 
+              && cross[3][i]<=0)
+
+          || (   cross[0][i]>=0 
+                 && cross[1][i]>=0 
+                 && cross[2][i]>=0 
+                 && cross[3][i]>=0) )
         {
-          if( noInterFlag[j]==1 ) 
-            {
-              cornerVect[i][0] = m_BoundingCorner[c[i]][0] - interceptx[j];
-              cornerVect[i][1] = m_BoundingCorner[c[i]][1] - intercepty[j];
-              cornerVect[i][2] = m_BoundingCorner[c[i]][2] - interceptz[j];
-            }
-          else if( noInterFlag[j]==0 ) 
-            {
-              cornerVect[i][0] = 0;
-              cornerVect[i][1] = 0;
-              cornerVect[i][2] = 0;
-            }
-
+        crossFlag++;
         }
-
-      // Do cross product with these vectors
-      for( i=0; i<4; i++ ) 
-        {
-          if( i==3 ) k = 0;
-          else k = i+1;
-
-          ax = cornerVect[i][0];
-          ay = cornerVect[i][1];
-          az = cornerVect[i][2];
-          bx = cornerVect[k][0];
-          by = cornerVect[k][1];
-          bz = cornerVect[k][2];
-
-          // The int and divide by 100 are to avoid rounding errors.  If
-          // these are not included then you get values fluctuating around
-          // zero and so in the subsequent check, all the values are not
-          // above or below zero.  NB. If you "INT" by too much here though
-          // you can get problems in the corners of your volume when rays
-          // are allowed to go through more than one plane.
-          cross[i][0] = (int)((ay*bz - az*by)/100);
-          cross[i][1] = (int)((az*bx - ax*bz)/100);
-          cross[i][2] = (int)((ax*by - ay*bx)/100);
-        }
-
-      // See if a sign change occured between all these cross products
-      // if not, then the ray went through this plane
-
-      crossFlag=0;
-      for( i=0; i<3; i++ ) 
-        {
-          if( (   cross[0][i]<=0 
-               && cross[1][i]<=0 
-               && cross[2][i]<=0 
-               && cross[3][i]<=0)
-
-              || (   cross[0][i]>=0 
-                  && cross[1][i]>=0 
-                  && cross[2][i]>=0 
-                  && cross[3][i]>=0) )
-            {
-              crossFlag++;
-            }
-        }
+      }
 
 
-      if( crossFlag==3 && noInterFlag[j]==1 ) 
-        {
-          cubeInter[nSidesCrossed][0] = interceptx[j];
-          cubeInter[nSidesCrossed][1] = intercepty[j];
-          cubeInter[nSidesCrossed][2] = interceptz[j];
-          nSidesCrossed++;
-        }
+    if( crossFlag==3 && noInterFlag[j]==1 ) 
+      {
+      cubeInter[nSidesCrossed][0] = interceptx[j];
+      cubeInter[nSidesCrossed][1] = intercepty[j];
+      cubeInter[nSidesCrossed][2] = interceptz[j];
+      nSidesCrossed++;
+      }
 
     } // End of loop over all four planes
 
@@ -503,8 +514,9 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
   m_RayEndCoordInMM[2] = cubeInter[1][2];
 
   if( nSidesCrossed >= 5 )
+    {
     cerr << "WARNING: No. of sides crossed equals: " << nSidesCrossed << endl;
-
+    }
 #ifdef DEBUG_RAY_CAST_INTERPOLATOR_PATH
   cout << endl << "No. of sides crossed: " << nSidesCrossed << endl;
 #endif
@@ -518,32 +530,32 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
         
   if( nSidesCrossed >= 3 ) 
     {
-      maxInterDist = 0;
-      for( j=0; j<nSidesCrossed-1; j++ )
+    maxInterDist = 0;
+    for( j=0; j<nSidesCrossed-1; j++ )
+      {
+      for( k=j+1; k<nSidesCrossed; k++ )
         {
-          for( k=j+1; k<nSidesCrossed; k++ )
-            {
-              interDist = 0;
-              for( i=0; i<3; i++ )
-                { 
-                  interDist += (cubeInter[j][i] - cubeInter[k][i])*
-                    (cubeInter[j][i] - cubeInter[k][i]);
-                }
-              if( interDist > maxInterDist )
-                {
-                  maxInterDist = interDist;
+        interDist = 0;
+        for( i=0; i<3; i++ )
+          { 
+          interDist += (cubeInter[j][i] - cubeInter[k][i])*
+            (cubeInter[j][i] - cubeInter[k][i]);
+          }
+        if( interDist > maxInterDist )
+          {
+          maxInterDist = interDist;
 
-                  m_RayStartCoordInMM[0] = cubeInter[j][0];
-                  m_RayStartCoordInMM[1] = cubeInter[j][1];
-                  m_RayStartCoordInMM[2] = cubeInter[j][2];
+          m_RayStartCoordInMM[0] = cubeInter[j][0];
+          m_RayStartCoordInMM[1] = cubeInter[j][1];
+          m_RayStartCoordInMM[2] = cubeInter[j][2];
           
-                  m_RayEndCoordInMM[0] = cubeInter[k][0];
-                  m_RayEndCoordInMM[1] = cubeInter[k][1];
-                  m_RayEndCoordInMM[2] = cubeInter[k][2];
-                }
-            }
+          m_RayEndCoordInMM[0] = cubeInter[k][0];
+          m_RayEndCoordInMM[1] = cubeInter[k][1];
+          m_RayEndCoordInMM[2] = cubeInter[k][2];
+          }
         }
-      nSidesCrossed = 2;
+      }
+    nSidesCrossed = 2;
     }
 
 #ifdef DEBUG_RAY_CAST_INTERPOLATOR_PATH
@@ -559,9 +571,13 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 #endif
 
   if (nSidesCrossed == 2 )
+    {
     return true;
+    }
   else
+    {
     return false;
+    }
 }
 
 
@@ -607,8 +623,8 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 
   if (! m_ValidRay) 
     {
-      Reset();
-      return false;
+    Reset();
+    return false;
     }
 
   // Convert the start and end coordinates of the ray to voxels
@@ -737,62 +753,62 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
     {
 
 #ifdef DEBUG_RAY_CAST_INTERPOLATOR  
-      cout << "Iterating in 'x' direction" << endl;
+    cout << "Iterating in 'x' direction" << endl;
 #endif
 
-      if( m_RayVoxelStartPosition[0] < m_RayVoxelEndPosition[0] ) 
-        { 
-          m_VoxelIncrement[0] = 1;
+    if( m_RayVoxelStartPosition[0] < m_RayVoxelEndPosition[0] ) 
+      { 
+      m_VoxelIncrement[0] = 1;
 
-          m_VoxelIncrement[1] 
-            = (m_RayVoxelStartPosition[1] 
-               - m_RayVoxelEndPosition[1])/(m_RayVoxelStartPosition[0] 
-                                            - m_RayVoxelEndPosition[0]);
+      m_VoxelIncrement[1] 
+        = (m_RayVoxelStartPosition[1] 
+           - m_RayVoxelEndPosition[1])/(m_RayVoxelStartPosition[0] 
+                                        - m_RayVoxelEndPosition[0]);
           
-          m_VoxelIncrement[2] 
-            = (m_RayVoxelStartPosition[2] 
-               - m_RayVoxelEndPosition[2])/(m_RayVoxelStartPosition[0] 
-                                            - m_RayVoxelEndPosition[0]);
-        }
-      else 
-        {
-          m_VoxelIncrement[0] = -1;
+      m_VoxelIncrement[2] 
+        = (m_RayVoxelStartPosition[2] 
+           - m_RayVoxelEndPosition[2])/(m_RayVoxelStartPosition[0] 
+                                        - m_RayVoxelEndPosition[0]);
+      }
+    else 
+      {
+      m_VoxelIncrement[0] = -1;
 
-          m_VoxelIncrement[1] 
-            = -(m_RayVoxelStartPosition[1] 
-                - m_RayVoxelEndPosition[1])/(m_RayVoxelStartPosition[0] 
-                                             - m_RayVoxelEndPosition[0]);
+      m_VoxelIncrement[1] 
+        = -(m_RayVoxelStartPosition[1] 
+            - m_RayVoxelEndPosition[1])/(m_RayVoxelStartPosition[0] 
+                                         - m_RayVoxelEndPosition[0]);
 
-          m_VoxelIncrement[2] 
-            = -(m_RayVoxelStartPosition[2]
-                - m_RayVoxelEndPosition[2])/(m_RayVoxelStartPosition[0] 
-                                             - m_RayVoxelEndPosition[0]);
-        }
+      m_VoxelIncrement[2] 
+        = -(m_RayVoxelStartPosition[2]
+            - m_RayVoxelEndPosition[2])/(m_RayVoxelStartPosition[0] 
+                                         - m_RayVoxelEndPosition[0]);
+      }
 
-      // This section is to alter the start position in order to 
-      // place the center of the voxels in there correct positions,
-      // rather than placing them at the corner of voxels which is
-      // what happens if this is not carried out.  The reason why
-      // x has no -0.5 is because this is the direction we are going
-      // to iterate in and therefore we wish to go from center to 
-      // center rather than finding the surrounding voxels.
+    // This section is to alter the start position in order to 
+    // place the center of the voxels in there correct positions,
+    // rather than placing them at the corner of voxels which is
+    // what happens if this is not carried out.  The reason why
+    // x has no -0.5 is because this is the direction we are going
+    // to iterate in and therefore we wish to go from center to 
+    // center rather than finding the surrounding voxels.
     
-      m_RayVoxelStartPosition[1] 
-        += ( (int)m_RayVoxelStartPosition[0]
-             - m_RayVoxelStartPosition[0])*m_VoxelIncrement[1]*m_VoxelIncrement[0] 
-        + 0.5*m_VoxelIncrement[1] - 0.5;
+    m_RayVoxelStartPosition[1] 
+      += ( (int)m_RayVoxelStartPosition[0]
+           - m_RayVoxelStartPosition[0])*m_VoxelIncrement[1]*m_VoxelIncrement[0] 
+      + 0.5*m_VoxelIncrement[1] - 0.5;
 
-      m_RayVoxelStartPosition[2] 
-        += ( (int)m_RayVoxelStartPosition[0] 
-             - m_RayVoxelStartPosition[0])*m_VoxelIncrement[2]*m_VoxelIncrement[0]
-        + 0.5*m_VoxelIncrement[2] - 0.5;
+    m_RayVoxelStartPosition[2] 
+      += ( (int)m_RayVoxelStartPosition[0] 
+           - m_RayVoxelStartPosition[0])*m_VoxelIncrement[2]*m_VoxelIncrement[0]
+      + 0.5*m_VoxelIncrement[2] - 0.5;
 
-      m_RayVoxelStartPosition[0] 
-        = (int)m_RayVoxelStartPosition[0] + 0.5*m_VoxelIncrement[0];
+    m_RayVoxelStartPosition[0] 
+      = (int)m_RayVoxelStartPosition[0] + 0.5*m_VoxelIncrement[0];
 
-      m_TotalRayVoxelPlanes = (int)xNum;
+    m_TotalRayVoxelPlanes = (int)xNum;
 
-      m_TraversalDirection = TRANSVERSE_IN_X;
+    m_TraversalDirection = TRANSVERSE_IN_X;
     }
 
   // Iterate in Y direction
@@ -801,54 +817,54 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
     {
 
 #ifdef DEBUG_RAY_CAST_INTERPOLATOR  
-      cout << "Iterating in 'y' direction" << endl;
+    cout << "Iterating in 'y' direction" << endl;
 #endif
 
-      if( m_RayVoxelStartPosition[1] < m_RayVoxelEndPosition[1] ) 
-        {
-          m_VoxelIncrement[1] = 1;
+    if( m_RayVoxelStartPosition[1] < m_RayVoxelEndPosition[1] ) 
+      {
+      m_VoxelIncrement[1] = 1;
 
-          m_VoxelIncrement[0] 
-            = (m_RayVoxelStartPosition[0] 
-               - m_RayVoxelEndPosition[0])/(m_RayVoxelStartPosition[1] 
-                                            - m_RayVoxelEndPosition[1]);
+      m_VoxelIncrement[0] 
+        = (m_RayVoxelStartPosition[0] 
+           - m_RayVoxelEndPosition[0])/(m_RayVoxelStartPosition[1] 
+                                        - m_RayVoxelEndPosition[1]);
 
-          m_VoxelIncrement[2] 
-            = (m_RayVoxelStartPosition[2] 
-               - m_RayVoxelEndPosition[2])/(m_RayVoxelStartPosition[1] 
-                                            - m_RayVoxelEndPosition[1]);
-        }
-      else 
-        {
-          m_VoxelIncrement[1] = -1;
+      m_VoxelIncrement[2] 
+        = (m_RayVoxelStartPosition[2] 
+           - m_RayVoxelEndPosition[2])/(m_RayVoxelStartPosition[1] 
+                                        - m_RayVoxelEndPosition[1]);
+      }
+    else 
+      {
+      m_VoxelIncrement[1] = -1;
 
-          m_VoxelIncrement[0] 
-            = -(m_RayVoxelStartPosition[0] 
-                - m_RayVoxelEndPosition[0])/(m_RayVoxelStartPosition[1] 
-                                             - m_RayVoxelEndPosition[1]);
+      m_VoxelIncrement[0] 
+        = -(m_RayVoxelStartPosition[0] 
+            - m_RayVoxelEndPosition[0])/(m_RayVoxelStartPosition[1] 
+                                         - m_RayVoxelEndPosition[1]);
 
-          m_VoxelIncrement[2] 
-            = -(m_RayVoxelStartPosition[2] 
-                - m_RayVoxelEndPosition[2])/(m_RayVoxelStartPosition[1] 
-                                             - m_RayVoxelEndPosition[1]);
-        }
+      m_VoxelIncrement[2] 
+        = -(m_RayVoxelStartPosition[2] 
+            - m_RayVoxelEndPosition[2])/(m_RayVoxelStartPosition[1] 
+                                         - m_RayVoxelEndPosition[1]);
+      }
 
-      m_RayVoxelStartPosition[0] 
-        += ( (int)m_RayVoxelStartPosition[1] 
-             - m_RayVoxelStartPosition[1])*m_VoxelIncrement[0]*m_VoxelIncrement[1] 
-        + 0.5*m_VoxelIncrement[0] - 0.5;
+    m_RayVoxelStartPosition[0] 
+      += ( (int)m_RayVoxelStartPosition[1] 
+           - m_RayVoxelStartPosition[1])*m_VoxelIncrement[0]*m_VoxelIncrement[1] 
+      + 0.5*m_VoxelIncrement[0] - 0.5;
 
-      m_RayVoxelStartPosition[2] 
-        += ( (int)m_RayVoxelStartPosition[1] 
-             - m_RayVoxelStartPosition[1])*m_VoxelIncrement[2]*m_VoxelIncrement[1] 
-        + 0.5*m_VoxelIncrement[2] - 0.5;
+    m_RayVoxelStartPosition[2] 
+      += ( (int)m_RayVoxelStartPosition[1] 
+           - m_RayVoxelStartPosition[1])*m_VoxelIncrement[2]*m_VoxelIncrement[1] 
+      + 0.5*m_VoxelIncrement[2] - 0.5;
 
-      m_RayVoxelStartPosition[1] 
-        = (int)m_RayVoxelStartPosition[1] + 0.5*m_VoxelIncrement[1];
+    m_RayVoxelStartPosition[1] 
+      = (int)m_RayVoxelStartPosition[1] + 0.5*m_VoxelIncrement[1];
     
-      m_TotalRayVoxelPlanes = (int)yNum;
+    m_TotalRayVoxelPlanes = (int)yNum;
 
-      m_TraversalDirection = TRANSVERSE_IN_Y;
+    m_TraversalDirection = TRANSVERSE_IN_Y;
     }
 
   // Iterate in Z direction
@@ -857,54 +873,54 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
     {
 
 #ifdef DEBUG_RAY_CAST_INTERPOLATOR  
-      cout << "Iterating in 'z' direction" << endl;
+    cout << "Iterating in 'z' direction" << endl;
 #endif
 
-      if( m_RayVoxelStartPosition[2] < m_RayVoxelEndPosition[2] ) 
-        {
-          m_VoxelIncrement[2] = 1;
+    if( m_RayVoxelStartPosition[2] < m_RayVoxelEndPosition[2] ) 
+      {
+      m_VoxelIncrement[2] = 1;
           
-          m_VoxelIncrement[0]
-            = (m_RayVoxelStartPosition[0] 
-               - m_RayVoxelEndPosition[0])/(m_RayVoxelStartPosition[2] 
-                                            - m_RayVoxelEndPosition[2]);
+      m_VoxelIncrement[0]
+        = (m_RayVoxelStartPosition[0] 
+           - m_RayVoxelEndPosition[0])/(m_RayVoxelStartPosition[2] 
+                                        - m_RayVoxelEndPosition[2]);
 
-          m_VoxelIncrement[1] 
-            = (m_RayVoxelStartPosition[1] 
-               - m_RayVoxelEndPosition[1])/(m_RayVoxelStartPosition[2] 
-                                            - m_RayVoxelEndPosition[2]);
-        }
-      else 
-        {
-          m_VoxelIncrement[2] = -1;
+      m_VoxelIncrement[1] 
+        = (m_RayVoxelStartPosition[1] 
+           - m_RayVoxelEndPosition[1])/(m_RayVoxelStartPosition[2] 
+                                        - m_RayVoxelEndPosition[2]);
+      }
+    else 
+      {
+      m_VoxelIncrement[2] = -1;
 
-          m_VoxelIncrement[0] 
-            = -(m_RayVoxelStartPosition[0] 
-                - m_RayVoxelEndPosition[0])/(m_RayVoxelStartPosition[2] 
-                                             - m_RayVoxelEndPosition[2]);
+      m_VoxelIncrement[0] 
+        = -(m_RayVoxelStartPosition[0] 
+            - m_RayVoxelEndPosition[0])/(m_RayVoxelStartPosition[2] 
+                                         - m_RayVoxelEndPosition[2]);
 
-          m_VoxelIncrement[1] 
-            = -(m_RayVoxelStartPosition[1] 
-                - m_RayVoxelEndPosition[1])/(m_RayVoxelStartPosition[2] 
-                                             - m_RayVoxelEndPosition[2]);
-        }
+      m_VoxelIncrement[1] 
+        = -(m_RayVoxelStartPosition[1] 
+            - m_RayVoxelEndPosition[1])/(m_RayVoxelStartPosition[2] 
+                                         - m_RayVoxelEndPosition[2]);
+      }
 
-      m_RayVoxelStartPosition[0] 
-        += ( (int)m_RayVoxelStartPosition[2] 
-             - m_RayVoxelStartPosition[2])*m_VoxelIncrement[0]*m_VoxelIncrement[2] 
-        + 0.5*m_VoxelIncrement[0] - 0.5;
+    m_RayVoxelStartPosition[0] 
+      += ( (int)m_RayVoxelStartPosition[2] 
+           - m_RayVoxelStartPosition[2])*m_VoxelIncrement[0]*m_VoxelIncrement[2] 
+      + 0.5*m_VoxelIncrement[0] - 0.5;
 
-      m_RayVoxelStartPosition[1] 
-        += ( (int)m_RayVoxelStartPosition[2] 
-             - m_RayVoxelStartPosition[2])*m_VoxelIncrement[1]*m_VoxelIncrement[2] 
-        + 0.5*m_VoxelIncrement[1] - 0.5;
+    m_RayVoxelStartPosition[1] 
+      += ( (int)m_RayVoxelStartPosition[2] 
+           - m_RayVoxelStartPosition[2])*m_VoxelIncrement[1]*m_VoxelIncrement[2] 
+      + 0.5*m_VoxelIncrement[1] - 0.5;
 
-      m_RayVoxelStartPosition[2] 
-        = (int)m_RayVoxelStartPosition[2] + 0.5*m_VoxelIncrement[2];
+    m_RayVoxelStartPosition[2] 
+      = (int)m_RayVoxelStartPosition[2] + 0.5*m_VoxelIncrement[2];
     
-      m_TotalRayVoxelPlanes = (int)zNum;
+    m_TotalRayVoxelPlanes = (int)zNum;
 
-      m_TraversalDirection = TRANSVERSE_IN_Z;
+    m_TraversalDirection = TRANSVERSE_IN_Z;
     }
 
 #ifdef DEBUG_RAY_CAST_INTERPOLATOR
@@ -956,108 +972,108 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 
   if (m_TraversalDirection == TRANSVERSE_IN_X) 
     {
-      Idirn[0] = 0;    
-      Idirn[1] = 1;    
-      Idirn[2] = 1;
+    Idirn[0] = 0;    
+    Idirn[1] = 1;    
+    Idirn[2] = 1;
     }
   else if (m_TraversalDirection == TRANSVERSE_IN_Y) 
     {
-      Idirn[0] = 1;    
-      Idirn[1] = 0;    
-      Idirn[2] = 1;
+    Idirn[0] = 1;    
+    Idirn[1] = 0;    
+    Idirn[2] = 1;
     }
   else if (m_TraversalDirection == TRANSVERSE_IN_Z) 
     {
-      Idirn[0] = 1;    
-      Idirn[1] = 1;    
-      Idirn[2] = 0;
+    Idirn[0] = 1;    
+    Idirn[1] = 1;    
+    Idirn[2] = 0;
     }
   else 
     {
-      ExceptionObject err(__FILE__, __LINE__);
-      err.SetLocation( "RayCastInterpolateImageFunction" );
-      err.SetDescription( "The ray traversal direction is unset "
-                          "- AdjustRayLength().");
-      throw err;
-      return false;
+    ExceptionObject err(__FILE__, __LINE__);
+    err.SetLocation( "RayCastInterpolateImageFunction" );
+    err.SetDescription( "The ray traversal direction is unset "
+                        "- AdjustRayLength().");
+    throw err;
+    return false;
     }
 
 
   do 
     {
 
-      startOK = false;
-      endOK = false;
+    startOK = false;
+    endOK = false;
 
-      Istart[0] = (int) floor(m_RayVoxelStartPosition[0]);
-      Istart[1] = (int) floor(m_RayVoxelStartPosition[1]);
-      Istart[2] = (int) floor(m_RayVoxelStartPosition[2]);
+    Istart[0] = (int) floor(m_RayVoxelStartPosition[0]);
+    Istart[1] = (int) floor(m_RayVoxelStartPosition[1]);
+    Istart[2] = (int) floor(m_RayVoxelStartPosition[2]);
 
 #ifdef DEBUG_RAY_CAST_INTERPOLATOR
-      cout << endl << "Start test position (vox): " << endl 
+    cout << endl << "Start test position (vox): " << endl 
 
-           << "Istart[0]: " << Istart[0] << " = (int) floor(" 
-           << m_RayVoxelStartPosition[0] << ")" << endl
+         << "Istart[0]: " << Istart[0] << " = (int) floor(" 
+         << m_RayVoxelStartPosition[0] << ")" << endl
 
-           << "Istart[1]: " << Istart[1] << " = (int) floor(" 
-           << m_RayVoxelStartPosition[1] << ")" << endl
+         << "Istart[1]: " << Istart[1] << " = (int) floor(" 
+         << m_RayVoxelStartPosition[1] << ")" << endl
 
-           << "Istart[2]: " << Istart[2] << " = (int) floor(" 
-           << m_RayVoxelStartPosition[2] << ")" << endl;
+         << "Istart[2]: " << Istart[2] << " = (int) floor(" 
+         << m_RayVoxelStartPosition[2] << ")" << endl;
 #endif
 
-      if( (Istart[0] >= 0) && (Istart[0] + Idirn[0] < m_NumberOfVoxelsInX) &&
-          (Istart[1] >= 0) && (Istart[1] + Idirn[1] < m_NumberOfVoxelsInY) &&
-          (Istart[2] >= 0) && (Istart[2] + Idirn[2] < m_NumberOfVoxelsInZ) ) 
-        {
+    if( (Istart[0] >= 0) && (Istart[0] + Idirn[0] < m_NumberOfVoxelsInX) &&
+        (Istart[1] >= 0) && (Istart[1] + Idirn[1] < m_NumberOfVoxelsInY) &&
+        (Istart[2] >= 0) && (Istart[2] + Idirn[2] < m_NumberOfVoxelsInZ) ) 
+      {
 
-          startOK = true;
-        }
-      else 
-        {
-          m_RayVoxelStartPosition[0] += m_VoxelIncrement[0];
-          m_RayVoxelStartPosition[1] += m_VoxelIncrement[1];
-          m_RayVoxelStartPosition[2] += m_VoxelIncrement[2];
+      startOK = true;
+      }
+    else 
+      {
+      m_RayVoxelStartPosition[0] += m_VoxelIncrement[0];
+      m_RayVoxelStartPosition[1] += m_VoxelIncrement[1];
+      m_RayVoxelStartPosition[2] += m_VoxelIncrement[2];
 
-          m_TotalRayVoxelPlanes--;
-        }
+      m_TotalRayVoxelPlanes--;
+      }
 
-      Istart[0] = (int) floor(m_RayVoxelStartPosition[0] 
-                              + m_TotalRayVoxelPlanes*m_VoxelIncrement[0]);
+    Istart[0] = (int) floor(m_RayVoxelStartPosition[0] 
+                            + m_TotalRayVoxelPlanes*m_VoxelIncrement[0]);
 
-      Istart[1] = (int) floor(m_RayVoxelStartPosition[1] 
-                              + m_TotalRayVoxelPlanes*m_VoxelIncrement[1]);
+    Istart[1] = (int) floor(m_RayVoxelStartPosition[1] 
+                            + m_TotalRayVoxelPlanes*m_VoxelIncrement[1]);
 
-      Istart[2] = (int) floor(m_RayVoxelStartPosition[2] 
-                              + m_TotalRayVoxelPlanes*m_VoxelIncrement[2]);
+    Istart[2] = (int) floor(m_RayVoxelStartPosition[2] 
+                            + m_TotalRayVoxelPlanes*m_VoxelIncrement[2]);
   
 #ifdef DEBUG_RAY_CAST_INTERPOLATOR
-      cout << endl << "End test position (vox): " << endl 
+    cout << endl << "End test position (vox): " << endl 
 
-           << "Istart[0]: " << Istart[0] << " = (int) floor(" 
-           << m_RayVoxelStartPosition[0] << " + " 
-           << m_TotalRayVoxelPlanes*m_VoxelIncrement[0] << ")" << endl
+         << "Istart[0]: " << Istart[0] << " = (int) floor(" 
+         << m_RayVoxelStartPosition[0] << " + " 
+         << m_TotalRayVoxelPlanes*m_VoxelIncrement[0] << ")" << endl
 
-           << "Istart[1]: " << Istart[1] << " = (int) floor(" 
-           << m_RayVoxelStartPosition[1] << " + " 
-           << m_TotalRayVoxelPlanes*m_VoxelIncrement[1] << ")" << endl
+         << "Istart[1]: " << Istart[1] << " = (int) floor(" 
+         << m_RayVoxelStartPosition[1] << " + " 
+         << m_TotalRayVoxelPlanes*m_VoxelIncrement[1] << ")" << endl
 
-           << "Istart[2]: " << Istart[2] << " = (int) floor(" 
-           << m_RayVoxelStartPosition[2] << " + " 
-           << m_TotalRayVoxelPlanes*m_VoxelIncrement[2] << ")" << endl;
+         << "Istart[2]: " << Istart[2] << " = (int) floor(" 
+         << m_RayVoxelStartPosition[2] << " + " 
+         << m_TotalRayVoxelPlanes*m_VoxelIncrement[2] << ")" << endl;
 #endif
 
-      if( (Istart[0] >= 0) && (Istart[0] + Idirn[0] < m_NumberOfVoxelsInX) &&
-          (Istart[1] >= 0) && (Istart[1] + Idirn[1] < m_NumberOfVoxelsInY) &&
-          (Istart[2] >= 0) && (Istart[2] + Idirn[2] < m_NumberOfVoxelsInZ) ) 
-        {
+    if( (Istart[0] >= 0) && (Istart[0] + Idirn[0] < m_NumberOfVoxelsInX) &&
+        (Istart[1] >= 0) && (Istart[1] + Idirn[1] < m_NumberOfVoxelsInY) &&
+        (Istart[2] >= 0) && (Istart[2] + Idirn[2] < m_NumberOfVoxelsInZ) ) 
+      {
 
-          endOK = true;
-        }
-      else 
-        {
-          m_TotalRayVoxelPlanes--;
-        }        
+      endOK = true;
+      }
+    else 
+      {
+      m_TotalRayVoxelPlanes--;
+      }        
 
     } while ( (! (startOK && endOK)) && (m_TotalRayVoxelPlanes > 1) );
 
@@ -1095,30 +1111,42 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 
   if (m_ValidRay) 
     {
-
-      for (i=0; i<3; i++)
-        m_Position3Dvox[i] = m_RayVoxelStartPosition[i];
-    
-      this->InitialiseVoxelPointers();
+    for (i=0; i<3; i++)
+      {
+      m_Position3Dvox[i] = m_RayVoxelStartPosition[i];
+      }
+    this->InitialiseVoxelPointers();
     }
 
   // otherwise set parameters to zero
   
   else 
     {
-      for (i=0; i<3; i++) m_RayVoxelStartPosition[i] = 0.;
-      for (i=0; i<3; i++) m_RayVoxelEndPosition[i] = 0.;
+    for (i=0; i<3; i++)
+      {
+      m_RayVoxelStartPosition[i] = 0.;
+      }
+    for (i=0; i<3; i++)
+      {
+      m_RayVoxelEndPosition[i] = 0.;
+      }    
+    for (i=0; i<3; i++)
+      {
+      m_VoxelIncrement[i] = 0.;
+      }      
+    m_TraversalDirection = UNDEFINED_DIRECTION;
     
-      for (i=0; i<3; i++) m_VoxelIncrement[i] = 0.;
-      
-      m_TraversalDirection = UNDEFINED_DIRECTION;
+    m_TotalRayVoxelPlanes = 0;
     
-      m_TotalRayVoxelPlanes = 0;
-    
-      for (i=0; i<4; i++) m_RayIntersectionVoxels[i] = 0;
-      for (i=0; i<3; i++) m_RayIntersectionVoxelIndex[i] = 0;
+    for (i=0; i<4; i++)
+      {
+      m_RayIntersectionVoxels[i] = 0;
+      }
+    for (i=0; i<3; i++)
+      {
+      m_RayIntersectionVoxelIndex[i] = 0;
+      }
     }
-
 }
 
 
@@ -1149,111 +1177,111 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
     case TRANSVERSE_IN_X: 
     {
 
-      if( (Ix >= 0) && (Ix     < m_NumberOfVoxelsInX) && 
-          (Iy >= 0) && (Iy + 1 < m_NumberOfVoxelsInY) && 
-          (Iz >= 0) && (Iz + 1 < m_NumberOfVoxelsInZ)) 
-        {
+    if( (Ix >= 0) && (Ix     < m_NumberOfVoxelsInX) && 
+        (Iy >= 0) && (Iy + 1 < m_NumberOfVoxelsInY) && 
+        (Iz >= 0) && (Iz + 1 < m_NumberOfVoxelsInZ)) 
+      {
 
-          index[0]=Ix; index[1]=Iy; index[2]=Iz; 
-          m_RayIntersectionVoxels[0]
-            = m_Image->GetBufferPointer() + m_Image->ComputeOffset(index);
+      index[0]=Ix; index[1]=Iy; index[2]=Iz; 
+      m_RayIntersectionVoxels[0]
+        = m_Image->GetBufferPointer() + m_Image->ComputeOffset(index);
 
-          index[0]=Ix; index[1]=Iy+1; index[2]=Iz; 
-          m_RayIntersectionVoxels[1] 
-            = ( m_Image->GetBufferPointer() + m_Image->ComputeOffset(index) );
+      index[0]=Ix; index[1]=Iy+1; index[2]=Iz; 
+      m_RayIntersectionVoxels[1] 
+        = ( m_Image->GetBufferPointer() + m_Image->ComputeOffset(index) );
 
-          index[0]=Ix; index[1]=Iy; index[2]=Iz+1; 
-          m_RayIntersectionVoxels[2] 
-            = ( m_Image->GetBufferPointer() + m_Image->ComputeOffset(index) );
+      index[0]=Ix; index[1]=Iy; index[2]=Iz+1; 
+      m_RayIntersectionVoxels[2] 
+        = ( m_Image->GetBufferPointer() + m_Image->ComputeOffset(index) );
 
-          index[0]=Ix; index[1]=Iy+1; index[2]=Iz+1; 
-          m_RayIntersectionVoxels[3] 
-            = ( m_Image->GetBufferPointer() + m_Image->ComputeOffset(index) );
-        }
-      else
-        m_RayIntersectionVoxels[0] 
-          = m_RayIntersectionVoxels[1] 
-          = m_RayIntersectionVoxels[2] 
-          = m_RayIntersectionVoxels[3] = NULL;
+      index[0]=Ix; index[1]=Iy+1; index[2]=Iz+1; 
+      m_RayIntersectionVoxels[3] 
+        = ( m_Image->GetBufferPointer() + m_Image->ComputeOffset(index) );
+      }
+    else
+      m_RayIntersectionVoxels[0] 
+        = m_RayIntersectionVoxels[1] 
+        = m_RayIntersectionVoxels[2] 
+        = m_RayIntersectionVoxels[3] = NULL;
 
-      break;
+    break;
     }
 
     case TRANSVERSE_IN_Y: 
     {
 
-      if( (Ix >= 0) && (Ix + 1 < m_NumberOfVoxelsInX) && 
-          (Iy >= 0) && (Iy     < m_NumberOfVoxelsInY) && 
-          (Iz >= 0) && (Iz + 1 < m_NumberOfVoxelsInZ)) 
-        {
+    if( (Ix >= 0) && (Ix + 1 < m_NumberOfVoxelsInX) && 
+        (Iy >= 0) && (Iy     < m_NumberOfVoxelsInY) && 
+        (Iz >= 0) && (Iz + 1 < m_NumberOfVoxelsInZ)) 
+      {
 
-          index[0]=Ix; index[1]=Iy; index[2]=Iz; 
-          m_RayIntersectionVoxels[0] = ( m_Image->GetBufferPointer()
-                                         + m_Image->ComputeOffset(index) );
+      index[0]=Ix; index[1]=Iy; index[2]=Iz; 
+      m_RayIntersectionVoxels[0] = ( m_Image->GetBufferPointer()
+                                     + m_Image->ComputeOffset(index) );
 
-          index[0]=Ix+1; index[1]=Iy; index[2]=Iz; 
-          m_RayIntersectionVoxels[1] = ( m_Image->GetBufferPointer()
-                                         + m_Image->ComputeOffset(index) );
+      index[0]=Ix+1; index[1]=Iy; index[2]=Iz; 
+      m_RayIntersectionVoxels[1] = ( m_Image->GetBufferPointer()
+                                     + m_Image->ComputeOffset(index) );
 
-          index[0]=Ix; index[1]=Iy; index[2]=Iz+1; 
-          m_RayIntersectionVoxels[2] = ( m_Image->GetBufferPointer()
-                                         + m_Image->ComputeOffset(index) );
+      index[0]=Ix; index[1]=Iy; index[2]=Iz+1; 
+      m_RayIntersectionVoxels[2] = ( m_Image->GetBufferPointer()
+                                     + m_Image->ComputeOffset(index) );
 
-          index[0]=Ix+1; index[1]=Iy; index[2]=Iz+1; 
-          m_RayIntersectionVoxels[3] = ( m_Image->GetBufferPointer()
-                                         + m_Image->ComputeOffset(index) );
-        }
-      else
-        m_RayIntersectionVoxels[0] 
-          = m_RayIntersectionVoxels[1] 
-          = m_RayIntersectionVoxels[2] 
-          = m_RayIntersectionVoxels[3] = NULL;        
+      index[0]=Ix+1; index[1]=Iy; index[2]=Iz+1; 
+      m_RayIntersectionVoxels[3] = ( m_Image->GetBufferPointer()
+                                     + m_Image->ComputeOffset(index) );
+      }
+    else
+      m_RayIntersectionVoxels[0] 
+        = m_RayIntersectionVoxels[1] 
+        = m_RayIntersectionVoxels[2] 
+        = m_RayIntersectionVoxels[3] = NULL;        
 
-      break;
+    break;
     }
 
     case TRANSVERSE_IN_Z: 
     {
 
-      if( (Ix >= 0) && (Ix + 1 < m_NumberOfVoxelsInX)   && 
-          (Iy >= 0) && (Iy + 1 < m_NumberOfVoxelsInY) && 
-          (Iz >= 0) && (Iz     < m_NumberOfVoxelsInZ)) 
-        {
+    if( (Ix >= 0) && (Ix + 1 < m_NumberOfVoxelsInX)   && 
+        (Iy >= 0) && (Iy + 1 < m_NumberOfVoxelsInY) && 
+        (Iz >= 0) && (Iz     < m_NumberOfVoxelsInZ)) 
+      {
 
-          index[0]=Ix; index[1]=Iy; index[2]=Iz; 
-          m_RayIntersectionVoxels[0] = ( m_Image->GetBufferPointer()
-                                         + m_Image->ComputeOffset(index) );
+      index[0]=Ix; index[1]=Iy; index[2]=Iz; 
+      m_RayIntersectionVoxels[0] = ( m_Image->GetBufferPointer()
+                                     + m_Image->ComputeOffset(index) );
 
-          index[0]=Ix+1; index[1]=Iy; index[2]=Iz; 
-          m_RayIntersectionVoxels[1] = ( m_Image->GetBufferPointer()
-                                         + m_Image->ComputeOffset(index) );
+      index[0]=Ix+1; index[1]=Iy; index[2]=Iz; 
+      m_RayIntersectionVoxels[1] = ( m_Image->GetBufferPointer()
+                                     + m_Image->ComputeOffset(index) );
 
-          index[0]=Ix; index[1]=Iy+1; index[2]=Iz; 
-          m_RayIntersectionVoxels[2] = ( m_Image->GetBufferPointer()
-                                         + m_Image->ComputeOffset(index) );
+      index[0]=Ix; index[1]=Iy+1; index[2]=Iz; 
+      m_RayIntersectionVoxels[2] = ( m_Image->GetBufferPointer()
+                                     + m_Image->ComputeOffset(index) );
 
-          index[0]=Ix+1; index[1]=Iy+1; index[2]=Iz; 
-          m_RayIntersectionVoxels[3] = ( m_Image->GetBufferPointer()
-                                         + m_Image->ComputeOffset(index) );
+      index[0]=Ix+1; index[1]=Iy+1; index[2]=Iz; 
+      m_RayIntersectionVoxels[3] = ( m_Image->GetBufferPointer()
+                                     + m_Image->ComputeOffset(index) );
 
-        }
-      else
-        m_RayIntersectionVoxels[0] 
-          = m_RayIntersectionVoxels[1]
-          = m_RayIntersectionVoxels[2]
-          = m_RayIntersectionVoxels[3] = NULL;
+      }
+    else
+      m_RayIntersectionVoxels[0] 
+        = m_RayIntersectionVoxels[1]
+        = m_RayIntersectionVoxels[2]
+        = m_RayIntersectionVoxels[3] = NULL;
 
-      break;
+    break;
     }
 
     default: 
     {
-      ExceptionObject err(__FILE__, __LINE__);
-      err.SetLocation( "RayCastInterpolateImageFunction" );
-      err.SetDescription( "The ray traversal direction is unset "
-                          "- InitialiseVoxelPointers().");
-      throw err;
-      return;
+    ExceptionObject err(__FILE__, __LINE__);
+    err.SetLocation( "RayCastInterpolateImageFunction" );
+    err.SetDescription( "The ray traversal direction is unset "
+                        "- InitialiseVoxelPointers().");
+    throw err;
+    return;
     }
     }  
 }
@@ -1269,8 +1297,9 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 ::NextPoint(void) const
 {
   if (! m_ValidRay) 
+    {
     return false;
-
+    }
   // The first time this routine is called 
   // 'm_NumVoxelPlanesTraversed' should equal -1.
 
@@ -1280,17 +1309,19 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
   // Have we finished stepping along the ray?
 
   if (m_NumVoxelPlanesTraversed == m_TotalRayVoxelPlanes)
+    {
     return false;
+    }
 
   // Are we trying to step beyond the end of the ray?
 
   if (m_NumVoxelPlanesTraversed > m_TotalRayVoxelPlanes) 
     {
-      ExceptionObject err(__FILE__, __LINE__);
-      err.SetLocation( "RayCastInterpolateImageFunction" );
-      err.SetDescription( "The end of the ray has already been reached - NextPoint().");
-      throw err;
-      return false;
+    ExceptionObject err(__FILE__, __LINE__);
+    err.SetLocation( "RayCastInterpolateImageFunction" );
+    err.SetDescription( "The end of the ray has already been reached - NextPoint().");
+    throw err;
+    return false;
     }
 
 
@@ -1300,8 +1331,9 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
      correct voxels surrounding the current position on the ray. */
 
   if (m_NumVoxelPlanesTraversed > 0) 
+    {
     this->IncrementVoxelPointers();
-
+    }
   return true;
 }
 
@@ -1354,8 +1386,9 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
   double y, z;
 
   if (! m_ValidRay)
+    {
     return 0;
-
+    }
   a = (double) (*m_RayIntersectionVoxels[0]);
   b = (double) (*m_RayIntersectionVoxels[1] - a);
   c = (double) (*m_RayIntersectionVoxels[2] - a);
@@ -1365,33 +1398,33 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
     {
     case TRANSVERSE_IN_X: {
 
-      y = m_Position3Dvox[1] - floor(m_Position3Dvox[1]);
-      z = m_Position3Dvox[2] - floor(m_Position3Dvox[2]);
-      break;                                            
+    y = m_Position3Dvox[1] - floor(m_Position3Dvox[1]);
+    z = m_Position3Dvox[2] - floor(m_Position3Dvox[2]);
+    break;                                            
     }                                                    
                                                     
     case TRANSVERSE_IN_Y: {                            
                                                           
-      y = m_Position3Dvox[0] - floor(m_Position3Dvox[0]);
-      z = m_Position3Dvox[2] - floor(m_Position3Dvox[2]);
-      break;                                            
+    y = m_Position3Dvox[0] - floor(m_Position3Dvox[0]);
+    z = m_Position3Dvox[2] - floor(m_Position3Dvox[2]);
+    break;                                            
     }                                                    
                                                         
     case TRANSVERSE_IN_Z: {                            
                                                           
-      y = m_Position3Dvox[0] - floor(m_Position3Dvox[0]);
-      z = m_Position3Dvox[1] - floor(m_Position3Dvox[1]);
-      break;
+    y = m_Position3Dvox[0] - floor(m_Position3Dvox[0]);
+    z = m_Position3Dvox[1] - floor(m_Position3Dvox[1]);
+    break;
     }
 
     default: 
     {
-      ExceptionObject err(__FILE__, __LINE__);
-      err.SetLocation( "RayCastInterpolateImageFunction" );
-      err.SetDescription( "The ray traversal direction is unset "
-                          "- GetCurrentIntensity().");
-      throw err;
-      return 0;
+    ExceptionObject err(__FILE__, __LINE__);
+    err.SetLocation( "RayCastInterpolateImageFunction" );
+    err.SetDescription( "The ray traversal direction is unset "
+                        "- GetCurrentIntensity().");
+    throw err;
+    return 0;
     }
     }
   
@@ -1413,8 +1446,9 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
   double y, z;
 
   if (! m_ValidRay)
+    {
     return 0;
-
+    }
   vox0 = (*m_RayIntersectionVoxels[0] > threshold) ? 1. : 0.;
   vox1 = (*m_RayIntersectionVoxels[1] > threshold) ? 1. : 0.;
   vox2 = (*m_RayIntersectionVoxels[2] > threshold) ? 1. : 0.;
@@ -1429,32 +1463,32 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
     {
     case TRANSVERSE_IN_X: {
 
-      y = (double)(m_Position3Dvox[1] - (int)m_Position3Dvox[1]);
-      z = (double)(m_Position3Dvox[2] - (int)m_Position3Dvox[2]);
-      break;
+    y = (double)(m_Position3Dvox[1] - (int)m_Position3Dvox[1]);
+    z = (double)(m_Position3Dvox[2] - (int)m_Position3Dvox[2]);
+    break;
     }
 
     case TRANSVERSE_IN_Y: {
       
-      y = (double)(m_Position3Dvox[0] - (int)m_Position3Dvox[0]);
-      z = (double)(m_Position3Dvox[2] - (int)m_Position3Dvox[2]);
-      break;
+    y = (double)(m_Position3Dvox[0] - (int)m_Position3Dvox[0]);
+    z = (double)(m_Position3Dvox[2] - (int)m_Position3Dvox[2]);
+    break;
     }
     
     case TRANSVERSE_IN_Z: {
       
-      y = (double)(m_Position3Dvox[0] - (int)m_Position3Dvox[0]);
-      z = (double)(m_Position3Dvox[1] - (int)m_Position3Dvox[1]);
-      break;
+    y = (double)(m_Position3Dvox[0] - (int)m_Position3Dvox[0]);
+    z = (double)(m_Position3Dvox[1] - (int)m_Position3Dvox[1]);
+    break;
     }
 
     default: {
-      ExceptionObject err(__FILE__, __LINE__);
-      err.SetLocation( "RayCastInterpolateImageFunction" );
-      err.SetDescription( "The ray traversal direction is unset "
-                          "- GetCurrentDensity().");
-      throw err;
-      return 0;
+    ExceptionObject err(__FILE__, __LINE__);
+    err.SetLocation( "RayCastInterpolateImageFunction" );
+    err.SetDescription( "The ray traversal direction is unset "
+                        "- GetCurrentDensity().");
+    throw err;
+    return 0;
     }
     }
   
@@ -1463,7 +1497,7 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 
 
 /* -----------------------------------------------------------------------
-  IncrementIntensities() - Increment the intensities of the current ray point
+   IncrementIntensities() - Increment the intensities of the current ray point
    ----------------------------------------------------------------------- */
 
 template<class TInputImage, class TCoordRep>
@@ -1474,8 +1508,9 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
   short inc = (short) floor(increment + 0.5);
 
   if (! m_ValidRay)
+    {
     return;
-  
+    }
   *m_RayIntersectionVoxels[0] += inc;
   *m_RayIntersectionVoxels[1] += inc;
   *m_RayIntersectionVoxels[2] += inc;
@@ -1503,8 +1538,9 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
   // Check if this is a valid ray
   
   if (! m_ValidRay)
+    {
     return false;
-
+    }
   /* Step along the ray as quickly as possible 
      integrating the interpolated intensities. */
 
@@ -1526,24 +1562,25 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
        m_NumVoxelPlanesTraversed<m_TotalRayVoxelPlanes; 
        m_NumVoxelPlanesTraversed++) 
     {
-      intensity = this->GetCurrentIntensity();
+    intensity = this->GetCurrentIntensity();
 
 #ifdef DEBUG_RAY_CAST_INTERPOLATOR
-      this->GetCurrentCoord3D(posn3D_x, posn3D_y, posn3D_z);
+    this->GetCurrentCoord3D(posn3D_x, posn3D_y, posn3D_z);
 
-      cout << "   " << setw(4) << iRayPoint++ << " ("
+    cout << "   " << setw(4) << iRayPoint++ << " ("
 
-           << setw(8) << setprecision(4) << posn3D_x << ", "
-           << setw(8) << setprecision(4) << posn3D_y << ", "
-           << setw(8) << setprecision(4) << posn3D_z << ") "
+         << setw(8) << setprecision(4) << posn3D_x << ", "
+         << setw(8) << setprecision(4) << posn3D_y << ", "
+         << setw(8) << setprecision(4) << posn3D_z << ") "
                                          
-           << setw(8) << setprecision(4) << intensity << endl;
+         << setw(8) << setprecision(4) << intensity << endl;
 #endif
 
-      if (intensity > threshold)
-        integral += intensity - threshold;
-
-      this->IncrementVoxelPointers();
+    if (intensity > threshold)
+      {
+      integral += intensity - threshold;
+      }
+    this->IncrementVoxelPointers();
     }
 
   /* The ray passes through the volume one plane of voxels at a time,
@@ -1573,47 +1610,47 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 {
   if (! m_ValidRay) 
     {
-      x = 0.;
-      y = 0.;
-      z = 0.;
+    x = 0.;
+    y = 0.;
+    z = 0.;
 
-      return;
+    return;
     }
 
   switch( m_TraversalDirection ) 
     {
     case TRANSVERSE_IN_X: {
-      x = m_Position3Dvox[0]*m_VoxelDimensionInX;
-      y = (m_Position3Dvox[1] + 0.5)*m_VoxelDimensionInY;
-      z = (m_Position3Dvox[2] + 0.5)*m_VoxelDimensionInZ;
+    x = m_Position3Dvox[0]*m_VoxelDimensionInX;
+    y = (m_Position3Dvox[1] + 0.5)*m_VoxelDimensionInY;
+    z = (m_Position3Dvox[2] + 0.5)*m_VoxelDimensionInZ;
 
-      break;
+    break;
     }
 
     case TRANSVERSE_IN_Y: {
-      x = (m_Position3Dvox[0] + 0.5)*m_VoxelDimensionInX;
-      y = m_Position3Dvox[1]*m_VoxelDimensionInY;
-      z = (m_Position3Dvox[2] + 0.5)*m_VoxelDimensionInZ;
+    x = (m_Position3Dvox[0] + 0.5)*m_VoxelDimensionInX;
+    y = m_Position3Dvox[1]*m_VoxelDimensionInY;
+    z = (m_Position3Dvox[2] + 0.5)*m_VoxelDimensionInZ;
 
-      break;
+    break;
     }
 
     case TRANSVERSE_IN_Z: {
-      x = (m_Position3Dvox[0] + 0.5)*m_VoxelDimensionInX;
-      y = (m_Position3Dvox[1] + 0.5)*m_VoxelDimensionInY;
-      z = m_Position3Dvox[2]*m_VoxelDimensionInZ;
+    x = (m_Position3Dvox[0] + 0.5)*m_VoxelDimensionInX;
+    y = (m_Position3Dvox[1] + 0.5)*m_VoxelDimensionInY;
+    z = m_Position3Dvox[2]*m_VoxelDimensionInZ;
 
-      break;
+    break;
     }
 
     default: 
     {
-      ExceptionObject err(__FILE__, __LINE__);
-      err.SetLocation( "RayCastInterpolateImageFunction" );
-      err.SetDescription( "The ray traversal direction is unset "
-                          "- GetCurrentCoord3D().");
-      throw err;
-      return;
+    ExceptionObject err(__FILE__, __LINE__);
+    err.SetLocation( "RayCastInterpolateImageFunction" );
+    err.SetDescription( "The ray traversal direction is unset "
+                        "- GetCurrentCoord3D().");
+    throw err;
+    return;
     }
     }  
 }
@@ -1630,47 +1667,47 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 {
   if (! m_ValidRay) 
     {
-      x = 0.;
-      y = 0.;
-      z = 0.;
+    x = 0.;
+    y = 0.;
+    z = 0.;
 
-      return;
+    return;
     }
 
   switch( m_TraversalDirection ) 
     {
     case TRANSVERSE_IN_X: {
-      x = m_Position3Dvox[0];
-      y = m_Position3Dvox[1] + 0.5;
-      z = m_Position3Dvox[2] + 0.5;
+    x = m_Position3Dvox[0];
+    y = m_Position3Dvox[1] + 0.5;
+    z = m_Position3Dvox[2] + 0.5;
 
-      break;
+    break;
     }
 
     case TRANSVERSE_IN_Y: {
-      x = m_Position3Dvox[0] + 0.5;
-      y = m_Position3Dvox[1];
-      z = m_Position3Dvox[2] + 0.5;
+    x = m_Position3Dvox[0] + 0.5;
+    y = m_Position3Dvox[1];
+    z = m_Position3Dvox[2] + 0.5;
 
-      break;
+    break;
     }
 
     case TRANSVERSE_IN_Z: {
-      x = m_Position3Dvox[0] + 0.5;
-      y = m_Position3Dvox[1] + 0.5;
-      z = m_Position3Dvox[2];
+    x = m_Position3Dvox[0] + 0.5;
+    y = m_Position3Dvox[1] + 0.5;
+    z = m_Position3Dvox[2];
 
-      break;
+    break;
     }
 
     default: 
     {
-      ExceptionObject err(__FILE__, __LINE__);
-      err.SetLocation( "RayCastInterpolateImageFunction" );
-      err.SetDescription( "The ray traversal direction is unset "
-                          "- GetVoxelCurrentCoord3D().");
-      throw err;
-      return;
+    ExceptionObject err(__FILE__, __LINE__);
+    err.SetLocation( "RayCastInterpolateImageFunction" );
+    err.SetDescription( "The ray traversal direction is unset "
+                        "- GetVoxelCurrentCoord3D().");
+    throw err;
+    return;
     }
     }  
 
@@ -1689,17 +1726,17 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 {
   if (m_ValidRay && m_RayIntersectionVoxels) 
     {
-      voxel1 = *m_RayIntersectionVoxels[0];
-      voxel2 = *m_RayIntersectionVoxels[1];
-      voxel3 = *m_RayIntersectionVoxels[2];
-      voxel4 = *m_RayIntersectionVoxels[3];
+    voxel1 = *m_RayIntersectionVoxels[0];
+    voxel2 = *m_RayIntersectionVoxels[1];
+    voxel3 = *m_RayIntersectionVoxels[2];
+    voxel4 = *m_RayIntersectionVoxels[3];
     }
   else 
     {
-      voxel1 = 0;
-      voxel2 = 0;
-      voxel3 = 0;
-      voxel4 = 0;
+    voxel1 = 0;
+    voxel2 = 0;
+    voxel3 = 0;
+    voxel4 = 0;
     } 
 }
 
@@ -1754,23 +1791,39 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
   m_VoxelDimensionInY = 0;
   m_VoxelDimensionInZ = 0;  
 
-  for (i=0; i<3; i++) m_CurrentRayPositionInMM[i] = 0.; 
-  for (i=0; i<3; i++) m_RayDirectionInMM[i] = 0.;
-
-  for (i=0; i<3; i++) m_RayVoxelStartPosition[i] = 0.;
-  for (i=0; i<3; i++) m_RayVoxelEndPosition[i] = 0.;
-
-  for (i=0; i<3; i++) m_VoxelIncrement[i] = 0.;
-
+  for (i=0; i<3; i++)
+    {
+    m_CurrentRayPositionInMM[i] = 0.; 
+    }
+  for (i=0; i<3; i++)
+    {
+    m_RayDirectionInMM[i] = 0.;
+    }
+  for (i=0; i<3; i++)
+    {
+    m_RayVoxelStartPosition[i] = 0.;
+    }
+  for (i=0; i<3; i++)
+    {
+    m_RayVoxelEndPosition[i] = 0.;
+    }
+  for (i=0; i<3; i++)
+    {
+    m_VoxelIncrement[i] = 0.;
+    }
   m_TraversalDirection = UNDEFINED_DIRECTION;
 
   m_TotalRayVoxelPlanes = 0;
   m_NumVoxelPlanesTraversed = -1;
   
-  for (i=0; i<4; i++) m_RayIntersectionVoxels[i] = 0;
-
-  for (i=0; i<3; i++) m_RayIntersectionVoxelIndex[i] = 0;
-
+  for (i=0; i<4; i++)
+    {
+    m_RayIntersectionVoxels[i] = 0;
+    }
+  for (i=0; i<3; i++)
+    {
+    m_RayIntersectionVoxelIndex[i] = 0;
+    }
 }
 
 

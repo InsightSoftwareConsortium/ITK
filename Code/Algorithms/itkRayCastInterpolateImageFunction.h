@@ -1,17 +1,17 @@
 /*=========================================================================
 
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkRayCastInterpolateImageFunction.h
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
+Program:   Insight Segmentation & Registration Toolkit
+Module:    itkRayCastInterpolateImageFunction.h
+Language:  C++
+Date:      $Date$
+Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+Copyright (c) 2002 Insight Consortium. All rights reserved.
+See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
+This software is distributed WITHOUT ANY WARRANTY; without even 
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #ifndef _itkRayCastInterpolateImageFunction_h
@@ -37,7 +37,7 @@ namespace itk
  */
 template <class TInputImage, class TCoordRep = float>
 class ITK_EXPORT RayCastInterpolateImageFunction : 
-  public InterpolateImageFunction<TInputImage,TCoordRep> 
+    public InterpolateImageFunction<TInputImage,TCoordRep> 
 {
 public:
   /** Standard class typedefs. */
@@ -127,7 +127,7 @@ public:
    * calling the method. 
    */
   virtual OutputType EvaluateAtContinuousIndex( 
-     const ContinuousIndexType & index ) const {return 0; };
+    const ContinuousIndexType & index ) const {return 0; };
 
 
   /** Connect the Transform. */
@@ -278,8 +278,8 @@ public:
 
     if (m_ValidRay)
       return sqrt(  m_VoxelIncrement[0]*spacing[0]*m_VoxelIncrement[0]*spacing[0]
-                  + m_VoxelIncrement[1]*spacing[1]*m_VoxelIncrement[1]*spacing[1]
-                  + m_VoxelIncrement[2]*spacing[2]*m_VoxelIncrement[2]*spacing[2] );
+                    + m_VoxelIncrement[1]*spacing[1]*m_VoxelIncrement[1]*spacing[1]
+                    + m_VoxelIncrement[2]*spacing[2]*m_VoxelIncrement[2]*spacing[2] );
     else
       return 0.;
   };
