@@ -1,9 +1,7 @@
 # Sources of non-templated classes.
 SET(ITKCommon_SRCS
-  itkBarrier.cxx
   itkBloxItem.cxx
   itkCommand.h
-  itkConditionVariable.cxx
   itkDataObject.cxx 
   itkDecisionRuleBase.cxx 
   itkDirectory.cxx  
