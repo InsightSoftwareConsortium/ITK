@@ -97,7 +97,78 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>
 
     }
 }
-  
+
+/** 
+ *
+ */
+template <class TInputImage, class TOutputImage>
+void 
+FiniteDifferenceImageFilter<TInputImage,TOutputImage>
+::GenerateInputRequestedRegion()
+{
+  // call the superclass' implementation of this method
+  Superclass::GenerateInputRequestedRegion();
+
+  // get pointers to the input and output
+  InputImagePointer  inputPtr  = this->GetInput();
+  OutputImagePointer outputPtr = this->GetOutput();
+
+  if ( !inputPtr || !outputPtr )
+    {
+    return;
+    }
+
+  // Get the size of the neighborhood on which we are going to operate.  This
+  // radius is supplied by the difference function we are using.
+  typename FiniteDifferenceEquationType::RadiusType radius
+    = this->GetDifferenceEquation()->GetRadius();
+
+  // we need to compute the input requested region (size and start index)
+  int i;
+  const typename TOutputImage::SizeType& outputSz
+    = outputPtr->GetRequestedRegion().GetSize();
+  const typename TOutputImage::IndexType& outputStartIdx
+    = outputPtr->GetRequestedRegion().GetIndex();
+
+  // Get the largest possible dimensions we can ask of the input.
+  typename TInputImage::IndexType largestEndIdx;
+  typename TInputImage::IndexType largestStartIdx
+    = inputPtr->GetLargestPossibleRegion().GetIndex();
+  typename TInputImage::SizeType  largestSz =
+    inputPtr->GetLargestPossibleRegion().GetSize();
+  largestEndIdx = largestStartIdx + largestSz;
+
+  typename TInputImage::SizeType  requestedSz;
+  typename TInputImage::IndexType requestedStartIdx;
+
+  // Try to set up a buffered region that will accommodate our
+  // neighborhood operations.  This may not be possible and we
+  // need to be careful not to request a region outside the largest
+  // possible region, because the pipeline will give us whatever we
+  // ask for.
+  for (i = 0; i < TInputImage::ImageDimension; i++)
+    {
+      requestedStartIdx[i] = outputStartIdx[i] - radius[i];
+      requestedSz[i] = outputSz[i] + (2*radius[i]);
+      if (requestedStartIdx[i] < largestStartIdx[i])
+        {
+          requestedSz[i] -= largestStartIdx[i] - requestedStartIdx[i];
+          requestedStartIdx[i] = largestStartIdx[i];
+        }
+      if ((requestedStartIdx[i] + requestedSz[i]) > largestEndIdx[i])
+        {
+          requestedSz[i] -= ((requestedStartIdx[i] + requestedSz[i])
+                             - largestEndIdx[i]);
+        }
+    }
+
+  typename TInputImage::RegionType inputRequestedRegion;
+  inputRequestedRegion.SetSize( requestedSz );
+  inputRequestedRegion.SetIndex( requestedStartIdx );
+
+  inputPtr->SetRequestedRegion( inputRequestedRegion );
+}
+
 template <class TInputImage, class TOutputImage>
 typename FiniteDifferenceImageFilter<TInputImage, TOutputImage>::TimeStepType
 FiniteDifferenceImageFilter<TInputImage, TOutputImage>
