@@ -312,10 +312,9 @@ protected:
    * produces a more intuitive output for the user. */
   virtual void InitializeBackgroundPixels();
  
-  
   /** Constructs the sparse field layers and initializes their values. */
   void Initialize();
-  
+
   /** Copies the input to the output image.  Processing occurs on the output
    * image, so the data type of the output image determines the precision of
    * the calculations (i.e. double or float).  This method overrides the

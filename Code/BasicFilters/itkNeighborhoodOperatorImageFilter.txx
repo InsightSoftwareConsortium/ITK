@@ -117,7 +117,7 @@ NeighborhoodOperatorImageFilter<TInputImage, TOutputImage>
   // These are N-d regions which border the edge of the buffer.
   ConstSmartNeighborhoodIterator<InputImageType> bit;
   for (fit=faceList.begin(); fit != faceList.end(); ++fit)
-    { 
+    {
     bit =
       ConstSmartNeighborhoodIterator<InputImageType>(m_Operator.GetRadius(),
                                                      input, *fit);

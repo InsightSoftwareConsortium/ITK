@@ -104,12 +104,13 @@ GradientMagnitudeImageFilter< TInputImage, TOutputImage >
   ConstSmartNeighborhoodIterator<TInputImage> bit;
   ImageRegionIterator<TOutputImage> it;
 
+ 
   SmartNeighborhoodInnerProduct<TInputImage> SIP;
 
   // Allocate output
   typename OutputImageType::Pointer       output = this->GetOutput();
   typename  InputImageType::ConstPointer  input  = this->GetInput();
-  
+
   // Set up operators
   DerivativeOperator<OutputPixelType, ImageDimension> op;
    op.SetDirection(0);
@@ -144,7 +145,7 @@ GradientMagnitudeImageFilter< TInputImage, TOutputImage >
                                op.GetSize()[0], nit.GetStride(i));
     }
 
-  
+
   // Process each of the boundary faces.  These are N-d regions which border
   // the edge of the buffer.
   for (fit=faceList.begin(); fit != faceList.end(); ++fit)
@@ -154,7 +155,7 @@ GradientMagnitudeImageFilter< TInputImage, TOutputImage >
     it = ImageRegionIterator<OutputImageType>(output, *fit);
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();
-    
+
     while ( ! bit.IsAtEnd() )
       {
       RealType a = NumericTraits<RealType>::Zero;
@@ -170,6 +171,7 @@ GradientMagnitudeImageFilter< TInputImage, TOutputImage >
       }
 
     }
+
 }
 
 } // end namespace itk
