@@ -76,11 +76,11 @@ static void WriteDataArray(std::ofstream& f, TInputImage *image,
       foo = (scalarType) inIt.Get();
       if ( byteOrder == RawImageWriter<TInputImage>::BigEndian )
         {
-        ByteSwapper<scalarType>::SwapBE(&foo);
+        ByteSwapper<scalarType>::SwapFromSystemToBigEndian(&foo);
         }
       else
         {
-        ByteSwapper<scalarType>::SwapLE(&foo);
+        ByteSwapper<scalarType>::SwapFromSystemToLittleEndian(&foo);
         }
       f.write((char *)&foo, sizeof(scalarType));
       }
