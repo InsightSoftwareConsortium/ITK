@@ -965,7 +965,7 @@ void DICOMAppHelper::GetSliceNumberFilenamePairs(const std::string &seriesUID,
        {
        std::pair<int, std::string> p;
        p.second = std::string(*fileIter);
-       int slice_number = -1;
+       int slice_number;
        std::map<std::string, DICOMOrderingElements, ltstdstr>::iterator sn_iter = SliceOrderingMap.find(*fileIter);
        // Only store files that have a valid slice number
        if (sn_iter != SliceOrderingMap.end())
@@ -1012,7 +1012,7 @@ void DICOMAppHelper::GetSliceLocationFilenamePairs(const std::string &seriesUID,
        {
        std::pair<float, std::string> p;
        p.second = std::string(*fileIter);
-       float slice_location = 0.0;
+       float slice_location;
        std::map<std::string, DICOMOrderingElements, ltstdstr>::iterator sn_iter = SliceOrderingMap.find(*fileIter);
 
        if (sn_iter != SliceOrderingMap.end())
@@ -1060,7 +1060,7 @@ void DICOMAppHelper::GetImagePositionPatientFilenamePairs(const std::string &ser
        std::pair<float, std::string> p;
        p.second = std::string(*fileIter);
 
-       float image_position = -1.0;
+       float image_position;
        float normal[3];
        
        std::map<std::string, DICOMOrderingElements, ltstdstr>::iterator sn_iter = SliceOrderingMap.find(*fileIter);

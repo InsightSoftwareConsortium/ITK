@@ -342,7 +342,6 @@ void DICOMParser::ReadNextRecord(doublebyte& group, doublebyte& element, DICOMPa
         std::cout << " AT IMAGE DATA " << std::endl;
         std::cout << " ToggleByteSwapImageData : " << this->ToggleByteSwapImageData << std::endl;
         std::cout << " DataFile Byte Swap : " << this->DataFile->GetPlatformIsBigEndian() << std::endl;
-#endif
 
         int t2 = int((0x0000FF00 & callbackType) >> 8);
         int t1 = int((0x000000FF & callbackType));
@@ -353,7 +352,6 @@ void DICOMParser::ReadNextRecord(doublebyte& group, doublebyte& element, DICOMPa
           t2 = '?';
           }
 
-#ifdef DEBUG_DICOM
         char ct2(t2);
         char ct1(t1);
         std::cout << " Callback type : " << ct1 << ct2 << std::endl;
