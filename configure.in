@@ -733,8 +733,8 @@ rm -f CMake/Source/CMakeBuildTargets.exe
 (cd CMake/Source; make CMakeBuildTargets)
 # if there is no cache file then create one
 if test ! -f $CMAKE_CONFIG_DIR/CMakeCache.txt; then
-        echo  CMake/Source/CMakeBuildTargets.exe ${fullSrcDir}/CMakeLists.txt -MakeCache -S${fullSrcDir} -O${CMAKE_CONFIG_DIR} -H${fullSrcDir} -B${CMAKE_CONFIG_DIR}
-        CMake/Source/CMakeBuildTargets.exe ${fullSrcDir}/CMakeLists.txt -MakeCache -S${fullSrcDir} -O${CMAKE_CONFIG_DIR} -H${fullSrcDir} -B${CMAKE_CONFIG_DIR}
+        echo  CMake/Source/CMakeBuildTargets ${fullSrcDir}/CMakeLists.txt -MakeCache -S${fullSrcDir} -O${CMAKE_CONFIG_DIR} -H${fullSrcDir} -B${CMAKE_CONFIG_DIR}
+        CMake/Source/CMakeBuildTargets ${fullSrcDir}/CMakeLists.txt -MakeCache -S${fullSrcDir} -O${CMAKE_CONFIG_DIR} -H${fullSrcDir} -B${CMAKE_CONFIG_DIR}
 fi
 echo CMakeCache.txt location: ${CMAKE_CONFIG_DIR}/CMakeCache.txt
 
