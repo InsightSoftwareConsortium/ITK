@@ -54,7 +54,7 @@ namespace itk
 template <
   typename TPixelType,
   int VPointDimension = 3,
-  int VMaxTopologicalDimension = 3,
+  int VMaxTopologicalDimension = VPointDimension,
   typename TCoordRep = float,
   typename TInterpolationWeight = float
   >
