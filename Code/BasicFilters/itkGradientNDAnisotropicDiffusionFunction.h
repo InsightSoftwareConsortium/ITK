@@ -94,7 +94,7 @@ public:
   virtual void InitializeIteration()
   {
     m_K = static_cast<PixelType>(this->GetAverageGradientMagnitudeSquared() *
-                                 this->GetConductanceParameter() * -1.0f);
+                                 this->GetConductanceParameter() * this->GetConductanceParameter() * -2.0f);
   }
   
 protected:
