@@ -17,8 +17,8 @@
 #ifndef _itkMeanSquaresPointSetToImageMetric_txx
 #define _itkMeanSquaresPointSetToImageMetric_txx
 
-#ifdef    COMPILE_OLD_REGISTRATION_FRAMEWORK
 #include "itkMeanSquaresPointSetToImageMetric.h"
+#include "itkImageRegionConstIteratorWithIndex.h"
 
 namespace itk
 {
@@ -26,8 +26,8 @@ namespace itk
 /*
  * Constructor
  */
-template < class TTarget, class TMapper > 
-MeanSquaresPointSetToImageMetric<TTarget,TMapper>
+template <class TFixedPointSet, class TMovingImage> 
+MeanSquaresPointSetToImageMetric<TFixedPointSet,TMovingImage>
 ::MeanSquaresPointSetToImageMetric()
 {
 }
@@ -35,115 +35,299 @@ MeanSquaresPointSetToImageMetric<TTarget,TMapper>
 /*
  * Get the match Measure
  */
-template < class TTarget, class TMapper > 
-MeanSquaresPointSetToImageMetric<TTarget,TMapper>::MeasureType
-MeanSquaresPointSetToImageMetric<TTarget,TMapper>
-::GetValue( const ParametersType & parameters )
+template <class TFixedPointSet, class TMovingImage> 
+typename MeanSquaresPointSetToImageMetric<TFixedPointSet,TMovingImage>::MeasureType
+MeanSquaresPointSetToImageMetric<TFixedPointSet,TMovingImage>
+::GetValue( const TransformParametersType & parameters ) const
 {
-  typename TargetType::PointType point;  
 
-  double ReferenceValue;
-  double TargetValue;
+  FixedPointSetConstPointer fixedPointSet = this->GetFixedPointSet();
 
-  typedef  typename  TargetType::PointsContainerConstPointer     
-    PointsContainerConstPointerType;
-
-  typedef  typename  TargetType::PointDataContainerConstPointer 
-    PointsDataContainerConstPointerType;
-
-  typedef  typename  TargetType::PointsContainer     
-    PointsContainerType;
-
-  typedef  typename  TargetType::PointDataContainer 
-    PointsDataContainerType;
-
-  typename  PointsContainerType::ConstIterator       pt;
-  typename  PointsDataContainerType::ConstIterator   vl;
-
-  TargetConstPointer target = Superclass::GetTarget();
-
-  PointsContainerConstPointerType       points = target->GetPoints();
-  PointsDataContainerConstPointerType   data   = target->GetPointData();
-
-  pt = points->Begin();
-  vl = data->Begin();
-
-  m_MatchMeasure = 0;
-
-  unsigned int  count = 0;
-
-  MapperPointer mapper = Superclass::GetMapper();
-  mapper->GetTransform()->SetParameters( parameters );
-
-  while( pt != points->End()  || vl != data->End() )
+  if( !fixedPointSet ) 
     {
-    point       = pt.Value();
-    TargetValue = vl.Value();
-
-    if( mapper->IsInside( point ) )
-      {
-      ReferenceValue = mapper->Evaluate();
-      count++;
-      const double diff = ReferenceValue - TargetValue; 
-      m_MatchMeasure += diff * diff; 
-      }  
-
-    ++pt;
-    ++vl;
+    itkExceptionMacro( << "Fixed point set has not been assigned" );
     }
 
-  if(count == 0) 
-    {
-    itkExceptionMacro(<< "All the mapped image is outside !" );
-    return 100000;
-    } 
+  PointIterator pointItr = fixedPointSet->GetPoints()->Begin();
+  PointIterator pointEnd = fixedPointSet->GetPoints()->End();
 
-  // The sign is changed because the optimization method looks for minima
-  m_MatchMeasure = m_MatchMeasure / ( count * 1e2 );     
-  return m_MatchMeasure;
+  PointDataIterator pointDataItr = fixedPointSet->GetPointData()->Begin();
+  PointDataIterator pointDataEnd = fixedPointSet->GetPointData()->End();
+
+  MeasureType measure = NumericTraits< MeasureType >::Zero;
+
+  m_NumberOfPixelsCounted = 0;
+
+  this->SetTransformParameters( parameters );
+
+  typedef  typename NumericTraits< MeasureType >::AccumulateType AccumulateType;
+
+  while( pointItr != pointEnd && pointDataItr != pointDataEnd )
+    {
+    typename Superclass::InputPointType  inputPoint;
+    inputPoint.CastFrom( pointItr.Value() );
+    typename Superclass::OutputPointType transformedPoint = 
+      m_Transform->TransformPoint( inputPoint );
+
+    if( m_Interpolator->IsInsideBuffer( transformedPoint ) )
+      {
+      const RealType movingValue  = m_Interpolator->Evaluate( transformedPoint );
+      const RealType fixedValue   = pointDataItr.Value();
+      const RealType diff = movingValue - fixedValue; 
+      measure += diff * diff; 
+      m_NumberOfPixelsCounted++;
+      }
+
+    ++pointItr;
+    ++pointDataItr;
+    }
+
+  if( !m_NumberOfPixelsCounted )
+    {
+    itkExceptionMacro(<<"All the points mapped to outside of the moving image");
+    }
+  else
+    {
+    measure /= m_NumberOfPixelsCounted;
+    }
+
+
+  return measure;
 
 }
+
+
+
+
 
 /*
  * Get the Derivative Measure
  */
-template < class TTarget, class TMapper> 
-const MeanSquaresPointSetToImageMetric<TTarget,TMapper>::DerivativeType &
-MeanSquaresPointSetToImageMetric<TTarget,TMapper>
-::GetDerivative( const ParametersType & parameters )
+template < class TFixedPointSet, class TMovingImage> 
+void
+MeanSquaresPointSetToImageMetric<TFixedPointSet,TMovingImage>
+::GetDerivative( const TransformParametersType & parameters,
+                 DerivativeType & derivative ) const
 {
-  const double delta = 0.001;
-  ParametersType testPoint;
-  testPoint = parameters;
 
-  for( unsigned int i=0; i<SpaceDimension; i++) 
+  if( !m_GradientImage )
     {
-    testPoint[i] -= delta;
-    const MeasureType valuep0 = GetValue( testPoint );
-    testPoint[i] += 2*delta;
-    const MeasureType valuep1 = GetValue( testPoint );
-    m_MatchMeasureDerivatives[i] = (valuep1 - valuep0 ) / ( 2.0 * delta );
-    testPoint[i] = parameters[i];
+    itkExceptionMacro(<<"The gradient image is null, maybe you forgot to call Initialize()");
     }
-  return m_MatchMeasureDerivatives;
+
+  FixedPointSetConstPointer fixedPointSet = this->GetFixedPointSet();
+
+  if( !fixedPointSet ) 
+    {
+    itkExceptionMacro( << "Fixed image has not been assigned" );
+    }
+
+  const unsigned int dimension = FixedPointSetDimension;
+
+  m_NumberOfPixelsCounted = 0;
+
+  this->SetTransformParameters( parameters );
+
+  typedef  typename NumericTraits< MeasureType >::AccumulateType AccumulateType;
+
+  const unsigned int ParametersDimension = this->GetNumberOfParameters();
+  derivative = DerivativeType( ParametersDimension );
+  derivative.Fill( NumericTraits<ITK_TYPENAME DerivativeType::ValueType>::Zero );
+
+  PointIterator pointItr = fixedPointSet->GetPoints()->Begin();
+  PointIterator pointEnd = fixedPointSet->GetPoints()->End();
+
+  PointDataIterator pointDataItr = fixedPointSet->GetPointData()->Begin();
+  PointDataIterator pointDataEnd = fixedPointSet->GetPointData()->End();
+
+  while( pointItr != pointEnd && pointDataItr != pointDataEnd )
+    {
+    typename Superclass::InputPointType  inputPoint;
+    inputPoint.CastFrom( pointItr.Value() );
+    typename Superclass::OutputPointType transformedPoint = 
+      m_Transform->TransformPoint( inputPoint );
+
+    if( m_Interpolator->IsInsideBuffer( transformedPoint ) )
+      {
+      const RealType movingValue  = m_Interpolator->Evaluate( transformedPoint );
+      const RealType fixedValue   = pointDataItr.Value();
+
+      m_NumberOfPixelsCounted++;
+      const RealType diff = movingValue - fixedValue; 
+
+
+      // Now compute the derivatives
+      const TransformJacobianType & jacobian =
+        m_Transform->GetJacobian( inputPoint ); 
+
+      // Get the gradient by NearestNeighboorInterpolation: 
+      // which is equivalent to round up the point components.
+      typedef typename Superclass::OutputPointType OutputPointType;
+      typedef typename OutputPointType::CoordRepType CoordRepType;
+      typedef ContinuousIndex<CoordRepType,MovingImageType::ImageDimension>
+        MovingImageContinuousIndexType;
+
+      MovingImageContinuousIndexType tempIndex;
+      m_MovingImage->TransformPhysicalPointToContinuousIndex( transformedPoint, tempIndex );
+
+      typename MovingImageType::IndexType mappedIndex; 
+      for( unsigned int j = 0; j < MovingImageType::ImageDimension; j++ )
+        {
+        mappedIndex[j] = static_cast<long>( vnl_math_rnd( tempIndex[j] ) );
+        }
+
+      const GradientPixelType gradient = 
+        m_GradientImage->GetPixel( mappedIndex );
+
+      for(unsigned int par=0; par<ParametersDimension; par++)
+        {
+        RealType sum = NumericTraits< RealType >::Zero;
+        for(unsigned int dim=0; dim<FixedPointSetDimension; dim++)
+          {
+          sum += 2.0 * diff * jacobian( dim, par ) * gradient[dim];
+          }
+        derivative[par] += sum;
+        }
+      }
+
+    ++pointItr;
+    ++pointDataItr;
+    }
+
+  if( !m_NumberOfPixelsCounted )
+    {
+    itkExceptionMacro(<<"All the points mapped to outside of the moving image");
+    }
+  else
+    {
+    for(unsigned int i=0; i<ParametersDimension; i++)
+      {
+      derivative[i] /= m_NumberOfPixelsCounted;
+      }
+    }
+
+
 
 }
+
 
 /*
  * Get both the match Measure and theDerivative Measure 
  */
-template < class TTarget, class TMapper > 
+template <class TFixedPointSet, class TMovingImage> 
 void
-MeanSquaresPointSetToImageMetric<TTarget,TMapper>
-::GetValueAndDerivative(const ParametersType & parameters, 
-                        MeasureType & Value, DerivativeType  & Derivative)
+MeanSquaresPointSetToImageMetric<TFixedPointSet,TMovingImage>
+::GetValueAndDerivative(const TransformParametersType & parameters, 
+                        MeasureType & value, DerivativeType  & derivative) const
 {
-  Value      = GetValue( parameters );
-  Derivative = GetDerivative( parameters );
+
+  if( !m_GradientImage )
+    {
+    itkExceptionMacro(<<"The gradient image is null, maybe you forgot to call Initialize()");
+    }
+
+  FixedPointSetConstPointer fixedPointSet = this->GetFixedPointSet();
+
+  if( !fixedPointSet ) 
+    {
+    itkExceptionMacro( << "Fixed image has not been assigned" );
+    }
+
+  const unsigned int dimension = FixedPointSetDimension;
+
+  m_NumberOfPixelsCounted = 0;
+  MeasureType measure = NumericTraits< MeasureType >::Zero;
+
+  this->SetTransformParameters( parameters );
+
+  typedef  typename NumericTraits< MeasureType >::AccumulateType AccumulateType;
+
+  const unsigned int ParametersDimension = this->GetNumberOfParameters();
+  derivative = DerivativeType( ParametersDimension );
+  derivative.Fill( NumericTraits<ITK_TYPENAME DerivativeType::ValueType>::Zero );
+
+  PointIterator pointItr = fixedPointSet->GetPoints()->Begin();
+  PointIterator pointEnd = fixedPointSet->GetPoints()->End();
+
+  PointDataIterator pointDataItr = fixedPointSet->GetPointData()->Begin();
+  PointDataIterator pointDataEnd = fixedPointSet->GetPointData()->End();
+
+  while( pointItr != pointEnd && pointDataItr != pointDataEnd )
+    {
+    typename Superclass::InputPointType  inputPoint;
+    inputPoint.CastFrom( pointItr.Value() );
+    typename Superclass::OutputPointType transformedPoint = 
+      m_Transform->TransformPoint( inputPoint );
+
+    if( m_Interpolator->IsInsideBuffer( transformedPoint ) )
+      {
+      const RealType movingValue  = m_Interpolator->Evaluate( transformedPoint );
+      const RealType fixedValue   = pointDataItr.Value();
+
+      m_NumberOfPixelsCounted++;
+
+      // Now compute the derivatives
+      const TransformJacobianType & jacobian =
+        m_Transform->GetJacobian( inputPoint ); 
+
+      const RealType diff = movingValue - fixedValue; 
+  
+      measure += diff * diff;
+
+      // Get the gradient by NearestNeighboorInterpolation: 
+      // which is equivalent to round up the point components.
+      typedef typename Superclass::OutputPointType OutputPointType;
+      typedef typename OutputPointType::CoordRepType CoordRepType;
+      typedef ContinuousIndex<CoordRepType,MovingImageType::ImageDimension>
+        MovingImageContinuousIndexType;
+
+      MovingImageContinuousIndexType tempIndex;
+      m_MovingImage->TransformPhysicalPointToContinuousIndex( transformedPoint, tempIndex );
+
+      typename MovingImageType::IndexType mappedIndex; 
+      for( unsigned int j = 0; j < MovingImageType::ImageDimension; j++ )
+        {
+        mappedIndex[j] = static_cast<long>( vnl_math_rnd( tempIndex[j] ) );
+        }
+
+      const GradientPixelType gradient = 
+        m_GradientImage->GetPixel( mappedIndex );
+
+     for(unsigned int par=0; par<ParametersDimension; par++)
+        {
+        RealType sum = NumericTraits< RealType >::Zero;
+        for(unsigned int dim=0; dim<FixedPointSetDimension; dim++)
+          {
+          sum += 2.0 * diff * jacobian( dim, par ) * gradient[dim];
+          }
+        derivative[par] += sum;
+        }
+
+      }
+
+    ++pointItr;
+    ++pointDataItr;
+    }
+
+ if( !m_NumberOfPixelsCounted )
+    {
+    itkExceptionMacro(<<"All the points mapped to outside of the moving image");
+    }
+  else
+    {
+    for(unsigned int i=0; i<ParametersDimension; i++)
+      {
+      derivative[i] /= m_NumberOfPixelsCounted;
+      }
+    measure /= m_NumberOfPixelsCounted;
+    }
+
+  value = measure;
+
+
 }
 
 } // end namespace itk
 
 
-#endif
 #endif

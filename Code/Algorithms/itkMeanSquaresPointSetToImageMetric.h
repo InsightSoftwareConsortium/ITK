@@ -17,47 +17,40 @@
 #ifndef __itkMeanSquaresPointSetToImageMetric_h
 #define __itkMeanSquaresPointSetToImageMetric_h
 
-#ifdef    COMPILE_OLD_REGISTRATION_FRAMEWORK
-
-#include "itkSimilarityRegistrationMetric.h"
+#include "itkPointSetToImageMetric.h"
 #include "itkCovariantVector.h"
 #include "itkPoint.h"
 
 
 namespace itk
 {
-  
 /** \class MeanSquaresPointSetToImageMetric
- * \brief Computes similarity between two objects to be registered
+ * \brief Computes similarity between pixel values of a point set and 
+ * intensity values of an image.
  *
- * This Class is templated over the type of the objects to be registered and
- * over the type of transformation to be used.
- *
- * SmartPointer to this three objects are received, and using them, this
- * class computes a value(s) that measures the similarity of the target
- * against the reference object once the transformation is applied to it.
+ * This metric computes the correlation between point values in the fixed
+ * point-set and pixel values in the moving image. The correlation is
+ * normalized by the autocorrelation values of both the point-set and the
+ * moving image. The spatial correspondence between the point-set and the image
+ * is established through a Transform. Pixel values are taken from the fixed
+ * point-set. Their positions are mapped to the moving image and result in
+ * general in non-grid position on it.  Values at these non-grid position of
+ * the moving image are interpolated using a user-selected Interpolator.
  *
  * \ingroup RegistrationMetrics
  */
-template < class TTarget, class TMapper > 
+template < class TFixedPointSet, class TMovingImage > 
 class ITK_EXPORT MeanSquaresPointSetToImageMetric : 
-    public SimilarityRegistrationMetric< TTarget, TMapper, double,
-                                         CovariantVector<double, TMapper::SpaceDimension > >
+    public PointSetToImageMetric< TFixedPointSet, TMovingImage>
 {
 public:
-  /** Space dimension is the dimension of parameters space. */
-  itkStaticConstMacro(SpaceDimension, unsigned int,
-                      TMapper::SpaceDimension);
-  itkStaticConstMacro(RangeDimension, unsigned int, 9);
 
   /** Standard class typedefs. */
-  typedef MeanSquaresPointSetToImageMetric  Self;
-  typedef double MeasureType;
-  typedef CovariantVector<MeasureType,itkGetStaticConstMacro(SpaceDimension) >  DerivativeType;
-  typedef SimilarityRegistrationMetric< TTarget, TMapper,
-                                        MeasureType,DerivativeType >  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef MeanSquaresPointSetToImageMetric    Self;
+  typedef PointSetToImageMetric<TFixedPointSet, TMovingImage >  Superclass;
+
+  typedef SmartPointer<Self>         Pointer;
+  typedef SmartPointer<const Self>   ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -65,42 +58,42 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(MeanSquaresPointSetToImageMetric, Object);
 
-  /**  Type of the mapper. */
-  typedef TMapper MapperType;
-  
-  /**  Type of the reference. */
-  typedef typename MapperType::DomainType ReferenceType;
-
-  /**  Type of the target. */
-  typedef TTarget TargetType;
  
-  /**  Pointer type for the reference.  */
-  typedef typename ReferenceType::ConstPointer ReferenceConstPointer;
+  /** Types transferred from the base class */
+  typedef typename Superclass::RealType                   RealType;
+  typedef typename Superclass::TransformType              TransformType;
+  typedef typename Superclass::TransformPointer           TransformPointer;
+  typedef typename Superclass::TransformParametersType    TransformParametersType;
+  typedef typename Superclass::TransformJacobianType      TransformJacobianType;
+  typedef typename Superclass::GradientPixelType          GradientPixelType;
 
-  /**  Pointer type for the target.  */
-  typedef typename TargetType::ConstPointer TargetConstPointer;
+  typedef typename Superclass::MeasureType                MeasureType;
+  typedef typename Superclass::DerivativeType             DerivativeType;
+  typedef typename Superclass::FixedPointSetType          FixedPointSetType;
+  typedef typename Superclass::MovingImageType            MovingImageType;
+  typedef typename Superclass::FixedPointSetConstPointer  FixedPointSetConstPointer;
+  typedef typename Superclass::MovingImageConstPointer    MovingImageConstPointer;
 
-  /**  Pointer type for the mapper. */
-  typedef typename MapperType::Pointer MapperPointer;
+  typedef typename Superclass::PointIterator              PointIterator;
+  typedef typename Superclass::PointDataIterator          PointDataIterator;
 
-  /**  Parameters type. */
-  typedef typename  TMapper::ParametersType       ParametersType;
 
   /** Get the derivatives of the match measure. */
-  const DerivativeType & GetDerivative( const ParametersType & parameters );
+  void GetDerivative( const TransformParametersType & parameters,
+                      DerivativeType & Derivative ) const;
 
-  /**  Get the Value for single valued optimizers. */
-  MeasureType GetValue( const ParametersType & parameters );
+  /**  Get the value for single valued optimizers. */
+  MeasureType GetValue( const TransformParametersType & parameters ) const;
 
-  /**  Get Value and Derivatives for multiple valued optimizers. */
-  void GetValueAndDerivative( const ParametersType & parameters,
-                              MeasureType& Value, DerivativeType& Derivative);
+  /**  Get value and derivatives for multiple valued optimizers. */
+  void GetValueAndDerivative( const TransformParametersType & parameters,
+                              MeasureType& Value, DerivativeType& Derivative ) const;
 
 protected:
   MeanSquaresPointSetToImageMetric();
   virtual ~MeanSquaresPointSetToImageMetric() {};
 
-private:  
+private:
   MeanSquaresPointSetToImageMetric(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
@@ -112,7 +105,6 @@ private:
 #include "itkMeanSquaresPointSetToImageMetric.txx"
 #endif
 
-#endif
 #endif
 
 
