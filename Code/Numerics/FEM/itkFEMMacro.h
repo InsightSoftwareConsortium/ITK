@@ -69,7 +69,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 /**
- * itkFEMMacro defines macros that allow for simple and consistent FEM code
+ * \file itkFEMMacro.h
+ * \brief Definitions of macros used in FEM code.
+ *
+ * itkFEMMacro.h defines macros that allow for simple and consistent FEM code
  * creation. Use these macros whenever posible (always)!
  */
 

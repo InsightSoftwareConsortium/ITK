@@ -40,10 +40,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 =========================================================================*/
 
 /**
+ * \file itkFEM.h
  * \brief Master include file for FEM toolkit.
  *
  * Include this file to make sure that all the necessary includes are 
- * in place when working with FEM toolkit.
+ * in place when using FEM classes.
  */
 #include "itkFEMNodes.h"
 #include "itkFEMElements.h"

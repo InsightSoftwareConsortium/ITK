@@ -40,7 +40,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 =========================================================================*/
 
 /**
- * Includes all finite element material classes defined in FEM toolkit.
+ * \file itkFEMMaterials.h
+ * \brief Include all finite element material classes defined in FEM toolkit.
+ *
  * To make sure you have everything, just include this header file.
  */
 #include "itkFEMMaterialBase.h"

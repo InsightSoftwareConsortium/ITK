@@ -79,7 +79,7 @@ public:
   FEMP() : m_Data(0)
   {
   }
-
+  
   /**
    * Copy constructor. Clone() method is called
    * to duplicate the existing object.
@@ -92,8 +92,8 @@ public:
 
   /**
    * Conversion constructor from T::Pointer to FEMP<T>.
-   * The object T* must exist and we take ownership of object T*
-   * If you want create a copy of object and take ownership of that,
+   * The object T* must exist and we take ownership of object T*.
+   * If you want to create a copy of object and take ownership of that,
    * use: FEMP(x->Clone()) instead of FEMP(x).
    */
   explicit FEMP(typename T::Pointer x) : m_Data(x)
@@ -113,7 +113,7 @@ public:
   /**
    * Asignment operator
    */  
-  const FEMP& operator=(const FEMP &rhs);
+  const FEMP& operator= (const FEMP &rhs);
 
   /**
    * Easy access to members of stored object
@@ -151,7 +151,7 @@ private:
 
 
 template<class T>
-const FEMP<T>& FEMP<T>::operator=(const FEMP &rhs)
+const FEMP<T>& FEMP<T>::operator= (const FEMP &rhs)
 {
 
   /** Self assignments don't make sense. */

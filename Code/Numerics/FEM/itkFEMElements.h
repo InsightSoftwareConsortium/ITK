@@ -41,7 +41,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 /**
- * Includes all finite element classes defined in FEM toolkit.
+ * \file itkFEMElements.h
+ * \brief Include all finite element classes defined in FEM toolkit.
+ *
  * To make sure you have everything, just include this header file.
  */
 #include "itkFEMElementBase.h"
