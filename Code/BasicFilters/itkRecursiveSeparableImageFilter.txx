@@ -209,8 +209,8 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage>
 
   typedef ImageRegion< TInputImage::ImageDimension > RegionType;
     
-  typename TInputImage::ConstPointer   inputImage(    GetInputImage ()   );
-  typename TOutputImage::Pointer       outputImage(   GetOutput()        );
+  typename TInputImage::ConstPointer   inputImage(    this->GetInputImage ()   );
+  typename TOutputImage::Pointer       outputImage(   this->GetOutput()        );
     
  
   const unsigned int imageDimension = inputImage->GetImageDimension();

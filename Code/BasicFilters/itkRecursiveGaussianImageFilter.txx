@@ -139,14 +139,17 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
       ComputeNCoefficients(sigmad,
          A1[0], B1[0], W1, L1,
          A2[0], B2[0], W2, L2,
-         m_N0, m_N1, m_N2, m_N3,
+         this->m_N0, 
+         this->m_N1, 
+         this->m_N2, 
+         this->m_N3,
          SN, DN, EN);
 
-      RealType alpha0 = 2 * SN / SD - m_N0;
-      m_N0 *= across_scale_normalization / alpha0;
-      m_N1 *= across_scale_normalization / alpha0;
-      m_N2 *= across_scale_normalization / alpha0;
-      m_N3 *= across_scale_normalization / alpha0;
+      RealType alpha0 = 2 * SN / SD - this->m_N0;
+      this->m_N0 *= across_scale_normalization / alpha0;
+      this->m_N1 *= across_scale_normalization / alpha0;
+      this->m_N2 *= across_scale_normalization / alpha0;
+      this->m_N3 *= across_scale_normalization / alpha0;
       const bool symmetric = true;
       this->ComputeRemainingCoefficients(symmetric);
       break;
@@ -157,17 +160,17 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
       ComputeNCoefficients(sigmad,
          A1[1], B1[1], W1, L1,
          A2[1], B2[1], W2, L2,
-         m_N0, m_N1, m_N2, m_N3,
+         this->m_N0, this->m_N1, this->m_N2, this->m_N3,
          SN, DN, EN);
 
       RealType alpha1 = 2 * (SN*DD - DN*SD) / (SD*SD);
       // If negative spacing, negate the first derivative response.
       alpha1 *= direction;
       
-      m_N0 *= across_scale_normalization / alpha1;
-      m_N1 *= across_scale_normalization / alpha1;
-      m_N2 *= across_scale_normalization / alpha1;
-      m_N3 *= across_scale_normalization / alpha1;
+      this->m_N0 *= across_scale_normalization / alpha1;
+      this->m_N1 *= across_scale_normalization / alpha1;
+      this->m_N2 *= across_scale_normalization / alpha1;
+      this->m_N3 *= across_scale_normalization / alpha1;
       
       const bool symmetric = false;
       this->ComputeRemainingCoefficients(symmetric);
@@ -192,10 +195,10 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
          SN2, DN2, EN2);
 
       RealType beta = -(2*SN2 - SD*N0_2) / (2*SN0 - SD*N0_0);
-      m_N0 = N0_2 + beta * N0_0;
-      m_N1 = N1_2 + beta * N1_0;
-      m_N2 = N2_2 + beta * N2_0;
-      m_N3 = N3_2 + beta * N3_0;
+      this->m_N0 = N0_2 + beta * N0_0;
+      this->m_N1 = N1_2 + beta * N1_0;
+      this->m_N2 = N2_2 + beta * N2_0;
+      this->m_N3 = N3_2 + beta * N3_0;
       SN = SN2 + beta * SN0;
       DN = DN2 + beta * DN0;
       EN = EN2 + beta * EN0;
@@ -204,10 +207,10 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
       alpha2  = EN*SD*SD - ED*SN*SD - 2*DN*DD*SD + 2*DD*DD*SN;
       alpha2 /= SD*SD*SD;
       
-      m_N0 *= across_scale_normalization / alpha2;
-      m_N1 *= across_scale_normalization / alpha2;
-      m_N2 *= across_scale_normalization / alpha2;
-      m_N3 *= across_scale_normalization / alpha2;
+      this->m_N0 *= across_scale_normalization / alpha2;
+      this->m_N1 *= across_scale_normalization / alpha2;
+      this->m_N2 *= across_scale_normalization / alpha2;
+      this->m_N3 *= across_scale_normalization / alpha2;
       
       const bool symmetric = true;
       this->ComputeRemainingCoefficients(symmetric);
@@ -267,23 +270,23 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
            RealType W1, RealType L1, RealType W2, RealType L2,
            RealType& SD, RealType& DD, RealType& ED) 
 {
-  RealType Sin1 = sin(W1 / sigmad);
-  RealType Sin2 = sin(W2 / sigmad);
-  RealType Cos1 = cos(W1 / sigmad);
-  RealType Cos2 = cos(W2 / sigmad);
-  RealType Exp1 = exp(L1 / sigmad);
-  RealType Exp2 = exp(L2 / sigmad);
+  const RealType Sin1 = sin(W1 / sigmad);
+  const RealType Sin2 = sin(W2 / sigmad);
+  const RealType Cos1 = cos(W1 / sigmad);
+  const RealType Cos2 = cos(W2 / sigmad);
+  const RealType Exp1 = exp(L1 / sigmad);
+  const RealType Exp2 = exp(L2 / sigmad);
   
-  m_D4  = Exp1*Exp1*Exp2*Exp2;
-  m_D3  = -2*Cos1*Exp1*Exp2*Exp2;
-  m_D3 += -2*Cos2*Exp2*Exp1*Exp1;
-  m_D2  =  4*Cos2*Cos1*Exp1*Exp2;
-  m_D2 +=  Exp1*Exp1 + Exp2*Exp2;
-  m_D1  =  -2*(Exp2*Cos2 + Exp1*Cos1);
+  this->m_D4  =     Exp1*Exp1*Exp2*Exp2;
+  this->m_D3  =  -2*Cos1*Exp1*Exp2*Exp2;
+  this->m_D3 +=  -2*Cos2*Exp2*Exp1*Exp1;
+  this->m_D2  =   4*Cos2*Cos1*Exp1*Exp2;
+  this->m_D2 +=     Exp1*Exp1 + Exp2*Exp2;
+  this->m_D1  = -2*(Exp2*Cos2 + Exp1*Cos1);
 
-  SD = 1.0 + m_D1 + m_D2 + m_D3 + m_D4;
-  DD = m_D1 + 2*m_D2 + 3*m_D3 + 4*m_D4;
-  ED = m_D1 + 4*m_D2 + 9*m_D3 + 16*m_D4;
+  SD = 1.0 + this->m_D1 + this->m_D2 + this->m_D3 + this->m_D4;
+  DD = this->m_D1 + 2*this->m_D2 + 3*this->m_D3 + 4*this->m_D4;
+  ED = this->m_D1 + 4*this->m_D2 + 9*this->m_D3 + 16*this->m_D4;
 }
 
 
@@ -297,34 +300,34 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
 {
   if( symmetric )
     {
-    m_M1 = m_N1 - m_D1 * m_N0;
-    m_M2 = m_N2 - m_D2 * m_N0;
-    m_M3 = m_N3 - m_D3 * m_N0;
-    m_M4 =      - m_D4 * m_N0;
+    this->m_M1 = this->m_N1 - this->m_D1 * this->m_N0;
+    this->m_M2 = this->m_N2 - this->m_D2 * this->m_N0;
+    this->m_M3 = this->m_N3 - this->m_D3 * this->m_N0;
+    this->m_M4 =            - this->m_D4 * this->m_N0;
     }
   else
     {
-    m_M1 = -( m_N1 - m_D1 * m_N0 );
-    m_M2 = -( m_N2 - m_D2 * m_N0 );
-    m_M3 = -( m_N3 - m_D3 * m_N0 );
-    m_M4 =           m_D4 * m_N0;
+    this->m_M1 = -( this->m_N1 - this->m_D1 * this->m_N0 );
+    this->m_M2 = -( this->m_N2 - this->m_D2 * this->m_N0 );
+    this->m_M3 = -( this->m_N3 - this->m_D3 * this->m_N0 );
+    this->m_M4 =                 this->m_D4 * this->m_N0;
     }
 
   // Compute coefficients to be used at the boundaries
   // in order to simulate edge extension boundary conditions.
-  const RealType SN = m_N0 + m_N1 + m_N2 + m_N3;
-  const RealType SM = m_M1 + m_M2 + m_M3 + m_M4;
-  const RealType SD = 1.0 + m_D1 + m_D2 + m_D3 + m_D4;
+  const RealType SN = this->m_N0 + this->m_N1 + this->m_N2 + this->m_N3;
+  const RealType SM = this->m_M1 + this->m_M2 + this->m_M3 + this->m_M4;
+  const RealType SD = 1.0 + this->m_D1 + this->m_D2 + this->m_D3 + this->m_D4;
 
-  m_BN1 = m_D1 * SN / SD;
-  m_BN2 = m_D2 * SN / SD;
-  m_BN3 = m_D3 * SN / SD;
-  m_BN4 = m_D4 * SN / SD;
+  this->m_BN1 = this->m_D1 * SN / SD;
+  this->m_BN2 = this->m_D2 * SN / SD;
+  this->m_BN3 = this->m_D3 * SN / SD;
+  this->m_BN4 = this->m_D4 * SN / SD;
 
-  m_BM1 = m_D1 * SM / SD;
-  m_BM2 = m_D2 * SM / SD;
-  m_BM3 = m_D3 * SM / SD;
-  m_BM4 = m_D4 * SM / SD;
+  this->m_BM1 = this->m_D1 * SM / SD;
+  this->m_BM2 = this->m_D2 * SM / SD;
+  this->m_BM3 = this->m_D3 * SM / SD;
+  this->m_BM4 = this->m_D4 * SM / SD;
 }
 
 
