@@ -14,6 +14,10 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS: {BrainProtonDensitySlice.png}
+//    OUTPUTS: {MedianImageFilterOutput.png}
+//  Software Guide : EndCommandLineArgs
 
 //  Software Guide : BeginLatex
 //
