@@ -13,6 +13,10 @@ void RegisterTests()
   REGISTER_TEST(itkMembershipSampleTest);
   REGISTER_TEST(itkSubsampleTest);
   REGISTER_TEST(itkMeanCalculatorTest);
+  REGISTER_TEST(itkWeightedMeanCalculatorTest);
   REGISTER_TEST(itkCovarianceCalculatorTest);
   REGISTER_TEST(itkStatisticsAlgorithmTest);
+  REGISTER_TEST(itkKdTreeBasedKmeansEstimatorTest);
+  REGISTER_TEST(itkExpectationMaximizationMixtureModelEstimatorTest);
+  REGISTER_TEST(itkGoodnessOfFitMixtureModelCostFunctionTest);
 }
