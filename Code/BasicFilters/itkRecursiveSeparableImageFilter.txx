@@ -298,33 +298,59 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage>
 
   this->UpdateProgress( progress );
 
-  while( !inputIterator.IsAtEnd() && !outputIterator.IsAtEnd() )
-  {
-    
-    unsigned int i=0;
-    while( !inputIterator.IsAtEndOfLine() )
+  try  // this try is intended to catch an eventual AbortException.
     {
-      inps[i++]      = inputIterator.Get();
-      ++inputIterator;
-      }
 
-    FilterDataArray( outs, inps, ln );
-
-    unsigned int j=0; 
-    while( !outputIterator.IsAtEndOfLine() )
+    while( !inputIterator.IsAtEnd() && !outputIterator.IsAtEnd() )
       {
-      outputIterator.Set( static_cast<OutputPixelType>( outs[j++] ) );
-      ++outputIterator;
+      
+      unsigned int i=0;
+      while( !inputIterator.IsAtEndOfLine() )
+        {
+        inps[i++]      = inputIterator.Get();
+        ++inputIterator;
+        }
+
+      FilterDataArray( outs, inps, ln );
+
+      unsigned int j=0; 
+      while( !outputIterator.IsAtEndOfLine() )
+        {
+        outputIterator.Set( static_cast<OutputPixelType>( outs[j++] ) );
+        ++outputIterator;
+        }
+
+      inputIterator.NextLine();
+      outputIterator.NextLine();
+
+      progress += progressAdvance;
+
+      this->UpdateProgress( progress );
+      if( this->GetAbortGenerateData() )
+        {
+        throw ProcessAborted();
+        }
       }
+    }
+  catch( ProcessAborted  & except )
+    {
+    // User aborted filter excecution Here we catch an exception thrown by the
+    // progress reporter and rethrow it with the correct line number and file
+    // name. We also invoke AbortEvent in case some observer was interested on
+    // it.
 
-    inputIterator.NextLine();
-    outputIterator.NextLine();
+    // release locally allocated memory
+    delete [] outs;
+    delete [] inps;
 
-    progress += progressAdvance;
+    // Inform others that we are aborting...
+    this->InvokeEvent( AbortEvent() );
 
-    this->UpdateProgress( progress );
-    
-  }
+    // Throw the final exception.
+    ProcessAborted abortException(__FILE__,__LINE__);
+    abortException.SetDescription("Filter execution was aborted by an external request");
+    throw abortException;
+    }
 
   delete [] outs;
   delete [] inps;
@@ -340,6 +366,7 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage>
 
   os << indent << "Direction: " << m_Direction << std::endl;
 }
+
 } // end namespace itk
 
 #endif
