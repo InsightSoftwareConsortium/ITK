@@ -32,36 +32,47 @@ namespace itk {
 * or related class).  
 *
 * The features calculated are as follows (where \f$ g(i, j) \f$ is the element in
-* cell i, j of a a normalized GLCM): 
-* \f[ \text{``Energy"} = f_1 = \sum_{i,j}g(i, j)^2 \f]
-* \f[ \text{``Entropy"} = f_2 = -\sum_{i,j}g(i, j) \log_2 g(i, j) \text{, or 0 if } g(i, j) = 0.\f]
-* (entropy is only calculated for entries in the GLCM with non-zero values. )
-* \f[ \text{``Correlation"} = f_3 = \sum_{i,j}\frac{(i - \mu)(j - \mu)g(i, j)}{\sigma^2} \f]
-* \f[ \text{``Difference Moment"} = f_4 = \sum_{i,j}\frac{1}{1 + (i - j)^2}g(i, j) \f]
-* \f[ \text{``Inertia"} = f_5 = \sum_{i,j}(i - j)^2g(i, j) \text{ (sometimes called ``contrast.")} \f]
-* \f[ \text{``Cluster Shade"} = f_6 = \sum_{i,j}((i - \mu) + (j - \mu))^3 g(i, j) \f]
-* \f[ \text{``Cluster Prominence"} = f_7 = \sum_{i,j}((i - \mu) + (j - \mu))^4 g(i, j) \f]
-* \f[ \text{``Haralick's Correlation"} = f_8 = \frac{\sum_{i,j}(i, j) g(i, j) -\mu_t^2}{\sigma_t^2} \f]
-* \f[ \text{where } \mu = \text{weighted pixel average} = \sum_{i,j}i \cdot g(i, j) = 
-* \sum_{i,j}j \cdot g(i, j) \text{ (due to matrix summetry)} \f]
-* \f[ \text{and } \sigma = \text{weighted pixel variance} = \sum_{i,j}(i - \mu)^2 \cdot g(i, j) = 
-* \sum_{i,j}(j - \mu)^2 \cdot g(i, j) \text{ (due to matrix summetry)} \f]
-* \f$\mu_t\f$ and \f$\sigma_t\f$ are the mean and standard deviation of the row
+* cell i, j of a a normalized GLCM):
+*
+* "Energy" \f$ = f_1 = \sum_{i,j}g(i, j)^2 \f$
+*
+* "Entropy" \f$ = f_2 = -\sum_{i,j}g(i, j) \log_2 g(i, j)\f$, or 0 if \f$g(i, j) = 0\f$
+*
+* "Correlation" \f$ = f_3 = \sum_{i,j}\frac{(i - \mu)(j - \mu)g(i, j)}{\sigma^2} \f$
+*
+* "Difference Moment" \f$= f_4 = \sum_{i,j}\frac{1}{1 + (i - j)^2}g(i, j) \f$
+*
+* "Inertia" \f$ = f_5 = \sum_{i,j}(i - j)^2g(i, j) \f$ (sometimes called "contrast.")
+*
+* "Cluster Shade" \f$ = f_6 = \sum_{i,j}((i - \mu) + (j - \mu))^3 g(i, j) \f$
+*
+* "Cluster Prominence" \f$ = f_7 = \sum_{i,j}((i - \mu) + (j - \mu))^4 g(i, j) \f$
+*
+* "Haralick's Correlation" \f$ = f_8 = \frac{\sum_{i,j}(i, j) g(i, j) -\mu_t^2}{\sigma_t^2} \f$
+* where \f$\mu_t\f$ and \f$\sigma_t\f$ are the mean and standard deviation of the row
 * (or column, due to symmetry) sums.
+*
+* Above, \f$ \mu =  \f$ (weighted pixel average) \f$ = \sum_{i,j}i \cdot g(i, j) = 
+* \sum_{i,j}j \cdot g(i, j) \f$ (due to matrix summetry), and
+*
+* \f$ \sigma =  \f$ (weighted pixel variance) \f$ = \sum_{i,j}(i - \mu)^2 \cdot g(i, j) = 
+* \sum_{i,j}(j - \mu)^2 \cdot g(i, j)  \f$  (due to matrix summetry)    
 *
 * A good texture feature set to use is the Conners, Trivedi and Harlow set: 
 * features 1, 2, 4, 5, 6, and 7. There is some correlation between the various
 * features, so using all of them at the same time is not necessarialy a good idea.
 *
-* NOTA BENE: The input histogram will be forcably normalized, so note this if you
-* wish to reuse it after this! This algorithm takes three passes through the input
+* NOTA BENE: The input histogram will be forcably normalized!
+* This algorithm takes three passes through the input
 * histogram if the histogram was already normalized, and four if not.
 * 
 * Web references:
+*
 * http://www.cssip.uq.edu.au/meastex/www/algs/algs/algs.html
 * http://www.ucalgary.ca/~mhallbey/texture/texture_tutorial.html
 *
 * Print references:
+*
 * Haralick, R.M., K. Shanmugam and I. Dinstein. 1973.  Textural Features for 
 * Image Classification. IEEE Transactions on Systems, Man and Cybernetics. 
 * SMC-3(6):610-620.
