@@ -811,6 +811,9 @@ unsigned int Util::GetCurrentThreadID()
 #endif
 #ifdef __sun
    return (unsigned int)thr_self();
+#else
+   // default implementation
+   return 0;
 #endif
 }
 
