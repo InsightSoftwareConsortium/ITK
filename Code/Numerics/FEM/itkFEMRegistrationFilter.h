@@ -237,7 +237,7 @@ public:
   void      SetMetric(MetricBaseTypePointer MP) { m_Metric=MP; }
   /** Choose the metric by parameter : 0= mean squares, 1=cross correlation, 
       2=pattern intensity, 3 = mutual information. */
-  void      ChooseMetric( unsigned int whichmetric); 
+  void      ChooseMetric( float whichmetric); 
   /** This function allows one to set the element and its material externally. */
   void      SetElement(Element::Pointer e) {m_Element=e;}
 
@@ -292,6 +292,7 @@ private :
   Float     m_Alpha; // difference parameter 
   /** Factor we want to reduce the energy by - determines convergence. */
   Float     m_EnergyReductionFactor; 
+  Float     m_Temp;
 
   bool  m_WriteDisplacementField;
   bool  m_DoMultiRes;

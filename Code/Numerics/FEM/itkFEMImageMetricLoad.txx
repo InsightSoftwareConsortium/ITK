@@ -24,6 +24,8 @@ ImageMetricLoad<TReference , TTarget>
 { 
   if (!m_Transform) m_Transform = DefaultTransformType::New();
   if (!m_Metric)    m_Metric = DefaultMetricType::New();
+  
+  m_Temp=0.0;
 
 //------------------------------------------------------------
 // Set up the metric -- see MetricTest in Testing
@@ -214,8 +216,9 @@ ImageMetricLoad<TReference , TTarget>::Fe
  // NOTE : POSSIBLE THAT DERIVATIVE DIRECTION POINTS UP OR DOWN HILL!
  // IN FACT, IT SEEMS MEANSQRS AND NCC POINT IN DIFFT DIRS
   //std::cout   << " deriv " << derivative <<  " val " << measure << endl;
-  Float m_Temp=1.0;
-  return OutVec* exp(-1.*OutVec.magnitude()/m_Temp);
+  if (m_Temp !=0.0) 
+  return OutVec * exp(-1.*OutVec.magnitude()/m_Temp);
+  else return OutVec;
 }
 
 

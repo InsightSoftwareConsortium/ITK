@@ -216,6 +216,9 @@ public:
     * E.g. the mean squares metric should be minimized while NCC and PR should be maximized.
     */ 
   void SetSign(Float s) {m_Sign=s;}
+  
+  /** temporary */
+  void SetTemp(Float s) {m_Temp=s;}
 
   void SetSolution(Solution::ConstPointer ptr) {  m_Solution=ptr; }
   Solution::ConstPointer GetSolution() {  return m_Solution; }
@@ -262,6 +265,7 @@ private:
   unsigned int                                        m_SolutionIndex;
   unsigned int                                        m_SolutionIndex2;
   Float                                               m_Sign;
+  Float                                               m_Temp;
 
   typename Solution::ConstPointer                     m_Solution;
   MetricBaseTypePointer                               m_Metric;
