@@ -191,21 +191,142 @@ extern int rscg_(integer *nn, integer *ia, integer *ja, doublereal *a, doublerea
 extern int rssi_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs, doublereal *u, integer *iwksp, integer *nw, doublereal *wksp, integer *iparm, doublereal *rparm, integer *ierr);
 
 
+/** 
+ * Performs one iteration of the jacobian conjugate gradiant method
+ * \param nn Order of linear system 
+ * \param ia array of row offsets
+ * \param ja array of column indices     
+ * \param a array of matrix values
+ * \param u input version of solution vector 
+ * \param u1 value of solution vector at the end of the in-1 iteration, gets filled with newest estimate 
+ * \param d__  solution vector, gets filled with pseudo-residual vector after in iterations 
+ * \param d1 pseudo-residual vector after in-1 iterations, gets filled with newest pseudo-residual vector
+ * \param dtwd used in computation of acceleration parameeter gamma and the pseudo-residual
+ * \param tri stores the tridiagonal matrix associated with the eigenvalues of the conjugate gradient ploynomial 
+ */
 extern int itjcg_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *u, doublereal *u1, doublereal *d__, doublereal *d1, doublereal *dtwd, doublereal *tri);
+
+/** 
+ * Performs one iteration of the jacobian semi-iteration method
+ * \param nn Order of linear system 
+ * \param ia array of row offsets
+ * \param ja array of column indices     
+ * \param a array of matrix values
+ * \param rhs array of right hand side of linear system
+ * \param u solution estimate at in iterations 
+ * \param u1 value of solution vector at the end of the in-1 iteration, gets filled with newest estimate 
+ * \param d__  solution vector, gets filled with pseudo-residual vector after in iterations 
+ * \param icnt number of iterations since last change in solution estimate
+ */
 extern int itjsi_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs, doublereal *u, doublereal *u1, doublereal *d__, integer *icnt);
+
+
+/** 
+ * Performs one iteration of the successive overrelaxation method
+ * \param nn Order of linear system 
+ * \param ia array of row offsets
+ * \param ja array of column indices    
+ * \param a array of matrix values 
+ * \param rhs array of right hand side of linear system
+ * \param u solution estimate array
+ * \param wk work array of length nn
+ */
 extern int itsor_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs, doublereal *u, doublereal *wk);
+
+
+/** 
+ * Performs one iteration of the symmetric successive overrelaxation conjugate gradient method
+ * \param nn Order of linear system 
+ * \param ia array of row offsets
+ * \param ja array of column indices     
+ * \param a array of matrix values
+ * \param rhs array of right hand side of linear system
+ * \param u solution estimate at in iterations,
+ * \param u1 value of solution vector at the end of the in-1 iteration, gets filled with newest estimate 
+ * \param c__  forward residual after in iterations
+ * \param c1 forward residual after in-1 iterations, filled with in+1 values
+ * \param d__ used to compute backward pseudo-residual for current iteration
+ * \param dl used in computation of acceleration parameters
+ * \param wk work array of length nn
+ * \param tri stores the tridiagonal matrix associated with the eigenvalues of the conjugate gradient ploynomial 
+ */
 extern int itsrcg_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs, doublereal *u, doublereal *u1, doublereal *c__, doublereal *c1, doublereal *d__, doublereal *dl, doublereal *wk, doublereal *tri);
+
+
+/** 
+ * Performs one iteration of the symmetric successive overrelaxation semi-iteration method
+ * \param nn Order of linear system 
+ * \param ia array of row offsets
+ * \param ja array of column indices     
+ * \param a array of matrix values
+ * \param rhs array of right hand side of linear system
+ * \param u solution estimate at in-1 iterations
+ * \param u1 value of solution vector at the end of the in-1 iteration, gets filled with newest estimate 
+ * \param c__ used to compute forward pseudo-residual vector
+ * \param d__ used to compute backward pseudo-residual vector 
+ * \param ctwd used in computation of acceleration parameters
+ * \param wk work array of length nn
+ */
 extern int itsrsi_(integer *nn, integer *ia, integer *ja, doublereal *a, doublereal *rhs, doublereal *u, doublereal *u1, doublereal *c__, doublereal *d__, doublereal *ctwd, doublereal *wk);
+
+
+/** 
+ * Performs one iteration of the reduced system conjugate gradient method
+ * \param nn Order of linear system 
+ * \param nnb Number of black points
+ * \param ia array of row offsets
+ * \param ja array of column indices     
+ * \param a array of matrix values
+ * \param ub estimate for the solution of black points after in iterations
+ * \param ub1 estimate for the solution of black points after in-1 iterations, filled with in+1 values
+ * \param db pseudo-residual of black points after in iterations
+ * \param db1 pseudo-residual of black points after in-1 iterations, filled with in+1 values
+ * \param wb used in computation involving black vector
+ * \param tri stores the tridiagonal matrix associated with the eigenvalues of the conjugate gradient ploynomial 
+ */
 extern int itrscg_(integer *n, integer *nnb, integer *ia, integer *ja, doublereal *a, doublereal *ub, doublereal *ub1, doublereal *db, doublereal *db1, doublereal *wb, doublereal *tri);
+
+
+/** 
+ * Performs one iteration of the reduced system semi-iteration method
+ * \param nn Order of linear system 
+ * \param nnb Number of black points
+ * \param ia array of row offsets
+ * \param ja array of column indices     
+ * \param a array of matrix values
+ * \param rhs array of right hand side of linear system
+ * \param ub estimate for the solution of black points after in iterations
+ * \param ub1 pseudo-residual of black points after in-1 iterations, filled with in+1 values
+ * \param db current residual
+ */
 extern int itrssi_(integer *n, integer *nnb, integer *ia, integer *ja, doublereal *a, doublereal *rhs, doublereal *ub, doublereal *ub1, doublereal *db);
+
+
+
 extern integer bisrch_(integer *n, integer *k, integer *l);
+
+
 extern doublereal cheby_(doublereal *qa, doublereal *qt, doublereal *rrr, integer *ip, doublereal *cme, doublereal *sme);
+
+
 extern int chgcon_(doublereal *tri, doublereal *gamold, doublereal *rhoold, integer *ibmth);
+
+
 extern int chgsi_(doublereal *dtnrm, integer *ibmth);
+
+
 extern logical chgsme_(doublereal *oldnrm, integer *icnt);
+
+
 extern int daxpy_(integer *n, doublereal *da, doublereal *dx, integer *incx, doublereal *dy, integer *incy);
+
+
 extern int dcopy_(integer *n, doublereal *dx, integer *incx, doublereal *dy, integer *incy);
+
+
 extern doublereal ddot_(integer *n, doublereal *dx, integer *incx, doublereal *dy, integer *incy);
+
+
 extern doublereal determ_(integer *n, doublereal *tri, doublereal *xlmda);
 
 
@@ -224,6 +345,13 @@ extern doublereal eigvss_(integer *n, doublereal *tri, doublereal *start, double
 extern int eqrt1s_(doublereal *d__, doublereal *e2, integer *nn, integer *m, integer *isw, integer *ierr);
 extern integer ipstr_(doublereal *omega);
 extern int iterm_(integer *nn, doublereal *a, doublereal *u, doublereal *wk, integer *imthdd);
+
+/**
+ * Fill integer array with a value
+ * \param n number of elements in array
+ * \param iv pointer to integer array
+ * \param ival value to fill array with
+ */
 extern int ivfill_(integer *n, integer *iv, integer *ival);
 extern int omeg_(doublereal *dnrm, integer *iflag);
 extern logical omgchg_(integer *ndummy);
