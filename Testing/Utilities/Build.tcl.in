@@ -1,3 +1,19 @@
+# =========================================================================
+# 
+#   Program:   Insight Segmentation & Registration Toolkit
+#   Module:    Build.tcl.in
+#   Language:  Tcl
+#   Date:      $Date$
+#   Version:   $Revision$
+# 
+# 
+#   Copyright (c) 2000 National Library of Medicine
+#   All rights reserved.
+# 
+#   See COPYRIGHT.txt for copyright details.
+# 
+# =========================================================================*/
+
 # Put in this directory
 # Year Month Day - TimeZone - Hour:Minute
 # e.g. 20000926-EDT-16:02
@@ -26,13 +42,12 @@ set BuildNameDir [file join $SiteDir $BuildName]
 set BuildStampDir [GetLastBuildDirectory $Model]
 if { $BuildStampDir == "" } \
 {
-  puts stderr "Could not find a BuildStamp in $BuildNameDir"
+  puts "\tCould not find a BuildStamp in $BuildNameDir"
   exit 1
 }
 set BuildStamp [file tail $BuildStampDir]
 set XMLDir [file join $BuildStampDir XML]
 
-puts "Doing build in $BuildStampDir for BuildStamp $BuildStamp"
 
 # We can assume that Testing/HTML/TestingResults/@SITE@ is built
 file mkdir $HTMLDir $SiteDir $BuildNameDir $BuildStampDir $BuildTempDir $XMLDir
@@ -50,20 +65,19 @@ puts $Out "<Site BuildName=\"$BuildName\" BuildStamp=\"$BuildStamp\" Name=\"$Sit
 puts $Out {<Build>}
 puts $Out "\t<StartDateTime>[clock format [clock seconds]]</StartDateTime>"
 
-
 # Do the build
+puts "\tStarting Build"
 set MakeArgs ""
 if { [string match "*make" $MakeCommand] } \
 {
   set MakeArgs -k
 }
 set BuildStatus [catch { eval exec $MakeCommand $MakeArgs >& $BuildLogFilename } ]
-
+puts "\tBuild finished with status: $BuildStatus"
+puts "\tStarting XML generation"
 set Build [open $BuildLogFilename r]
 set BuildLog [open $BuildLogTempFilename w]
 puts $BuildLog "<html><head><title>Build log: $Site - $BuildName - $BuildStamp</title></head><body bgcolor=\"\#ffffff\">"
-
-
 
 set Cache ""
 catch { unset ErrorList }
@@ -147,7 +161,7 @@ while { ![eof $Build] } \
     }
     
     # MS VC++ 6.0
-    set match {Insight(\\|/)([^(]*)\(([0-9]+)\) : (error|fatal error|warning)}
+    set match {Insight(\\|/)([^\(]*)\(([0-9]+)\) : (error|fatal error|warning)}
       
     if { !$Found && [regexp $match $LogLine dummy dummy2 SourceFile LineNumber] } \
     {
@@ -170,7 +184,7 @@ while { ![eof $Build] } \
     
     lappend ErrorList(Append) $i
   }
-
+  
   # Add to the PreContextBuffer
   set l [llength $ErrorList(Buffer)]
   if { $l > $BufferLength } \
@@ -204,7 +218,9 @@ while { ![eof $Build] } \
   incr Line
 }
 
+  
 # Write all the errors out to the Out file
+puts "\tFinished parsing build log"  
 for { set i 0 } { $i < $ErrorList(Counter) } { incr i } \
 {
   puts $Out "\t<$ErrorList($i,Type)>"
@@ -261,6 +277,7 @@ file delete $BuildLogTempFilename
 file delete $BuildLogCompressedFilename
 file delete $BuildLogFilename
 
+puts "\tFinished Build"
 # Clean up any da files from previous coverage
 # FileMap [list .] [list *.da] "file delete -force -- "
 exit

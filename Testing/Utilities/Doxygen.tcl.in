@@ -1,3 +1,19 @@
+# =========================================================================
+# 
+#   Program:   Insight Segmentation & Registration Toolkit
+#   Module:    Doxygen.tcl.in
+#   Language:  Tcl
+#   Date:      $Date$
+#   Version:   $Revision$
+# 
+# 
+#   Copyright (c) 2000 National Library of Medicine
+#   All rights reserved.
+# 
+#   See COPYRIGHT.txt for copyright details.
+# 
+# =========================================================================*/
+
 # Put in this directory
 # Year Month Day - TimeZone - Hour:Minute
 # e.g. 20000926-EDT-16:02

@@ -1,3 +1,18 @@
+# =========================================================================
+# 
+#   Program:   Insight Segmentation & Registration Toolkit
+#   Module:    Coverage.tcl.in
+#   Language:  Tcl
+#   Date:      $Date$
+#   Version:   $Revision$
+# 
+# 
+#   Copyright (c) 2000 National Library of Medicine
+#   All rights reserved.
+# 
+#   See COPYRIGHT.txt for copyright details.
+# 
+# =========================================================================*/
 
 source Testing/Utilities/Utility.conf
 source Testing/Utilities/Utility.tcl

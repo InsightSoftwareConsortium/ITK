@@ -38,7 +38,7 @@ set BuildNameDir [file join $SiteDir $BuildName]
 set BuildStampDir [GetLastBuildDirectory $Model]
 if { $BuildStampDir == "" } \
 {
-  puts stderr "Could not find any builds in the $BuildNameDir: $Result"
+  puts "\tCould not find any builds in the $BuildNameDir: $Result"
   exit 1
 }
 
@@ -52,6 +52,7 @@ set conn [ftp::Open $dropSite $dropSiteUser $dropSitePassword]
 ftp::Type $conn ascii
 ftp::Cd $conn $dropLocation
 
+puts "\tBeginning Submission"
 set XMLFiles [glob $XMLDir/*.xml]
 foreach XMLFile $XMLFiles {
   # post each xml file using ftp
@@ -60,7 +61,8 @@ foreach XMLFile $XMLFiles {
   set RemoteFilename [file split $RemoteFilename]
   set RemoteFilename [join $RemoteFilename "___"]
   ftp::Put $conn $XMLFile $RemoteFilename
-
+  puts "\tPut [file tail $XMLFile]"
+  
   # convert the filename to it can be used in a url
   #
   regsub -all "\\+" $RemoteFilename "%2B" urlFilename
@@ -71,15 +73,15 @@ foreach XMLFile $XMLFiles {
     ::http::config -proxyhost $env(HTTP_PROXY) -proxyport $env(HTTP_PROXY_PORT)
   } else {
     puts ""
-    puts "If your computer is behind a firewall, make sure that you have set"
-    puts "the environment variables HTTP_PROXY and HTTP_PROXY_PORT."
+    puts "\tIf your computer is behind a firewall, make sure that you have set"
+    puts "\tthe environment variables HTTP_PROXY and HTTP_PROXY_PORT."
     puts ""
   }
 
   # tell the server the results have been posted
   #
   set token [::http::geturl $triggerSite?xmlfile=$urlFilename ]
-  puts [::http::data $token]
+  puts "\tTriggered [::http::data $token]"
 }
  
 ftp::Close $conn

@@ -1,3 +1,19 @@
+# =========================================================================
+# 
+#   Program:   Insight Segmentation & Registration Toolkit
+#   Module:    Update.tcl
+#   Language:  Tcl
+#   Date:      $Date$
+#   Version:   $Revision$
+# 
+# 
+#   Copyright (c) 2000 National Library of Medicine
+#   All rights reserved.
+# 
+#   See COPYRIGHT.txt for copyright details.
+# 
+# =========================================================================*/
+
 # Unlike the other tcl scripts in this directory,
 # Update.tcl is run in the source directory.
 # To avoid boot straping problems, this script

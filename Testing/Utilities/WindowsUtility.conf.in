@@ -1,3 +1,19 @@
+# =========================================================================
+# 
+#   Program:   Insight Segmentation & Registration Toolkit
+#   Module:    WindowsUtility.conf.in
+#   Language:  Tcl
+#   Date:      $Date$
+#   Version:   $Revision$
+# 
+# 
+#   Copyright (c) 2000 National Library of Medicine
+#   All rights reserved.
+# 
+#   See COPYRIGHT.txt for copyright details.
+# 
+# =========================================================================*/
+
 # This file is used to hard code the variables for Windows that would normally
 # be determined by configure.  This is not an elegant way to determine these
 # settings and will be replaced by facilities in CMake when they become

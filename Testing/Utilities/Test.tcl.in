@@ -1,3 +1,18 @@
+# =========================================================================
+# 
+#   Program:   Insight Segmentation & Registration Toolkit
+#   Module:    Test.tcl.in
+#   Language:  Tcl
+#   Date:      $Date$
+#   Version:   $Revision$
+# 
+# 
+#   Copyright (c) 2000 National Library of Medicine
+#   All rights reserved.
+# 
+#   See COPYRIGHT.txt for copyright details.
+# 
+# =========================================================================*/
 
 source [file join Testing Utilities Utility.conf]
 source [file join Testing Utilities Utility.tcl]
@@ -18,7 +33,7 @@ set BuildNameDir [file join $SiteDir $BuildName]
 set BuildStampDir [GetLastBuildDirectory $Model]
 if { $BuildStampDir == "" } \
 {
-  puts stderr "Could not find any builds in the $BuildNameDir to do testing $Result"
+  puts  "\tCould not find any builds in the $BuildNameDir to do testing $Result"
   exit 1
 }
 
@@ -39,12 +54,10 @@ proc FindTests { Path } \
 {
   global TestList
   set Tests [GetCMakeVariable TESTS]
-  puts "Tests: $Tests"
   foreach Test $Tests \
   {
     lappend TestList "[file join $Path $Test]"
   }
-  puts "SUBDIRS: [GetCMakeVariable SUBDIRS]"
   foreach SubDir [GetCMakeVariable SUBDIRS] \
   {
     cd $SubDir
@@ -54,21 +67,21 @@ proc FindTests { Path } \
 }
 
 # Find the list of canidate tests
+puts "\tFinding Tests"
 set TestList ""
 set OldDir [pwd]
 cd $SourceDirectory
 FindTests .
 cd $OldDir
+puts "\tFound [llength $TestList] tests"
 
 proc RemoveFile { file } \
 {
-  puts "Removing $file"
   file delete -force -- $file
 }
 
 # Delete any old coverage files
 catch { FileMap [glob -nocomplain *] [list *.da *.gcov] RemoveFile } Result
-puts "FileMap result: $Result"
 
 # Write the list
 puts $Out "\t<TestList>"
@@ -84,6 +97,7 @@ proc CheckFile { Filename } \
 }
 
 # For each test, cd to the directory, and run it.
+puts "\tRunning Tests"
 foreach Test $TestList \
 {
   cd [file dirname $Test]
@@ -142,7 +156,7 @@ puts $Out "\t<EndDateTime>[clock format [clock seconds]]</EndDateTime>"
 
 puts $Out "</Testing>"
 puts $Out "</Site>"
-
+puts "\tTesting completed"
 
 close $Out
 exit
