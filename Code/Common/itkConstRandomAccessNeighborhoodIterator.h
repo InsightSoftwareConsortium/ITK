@@ -131,7 +131,10 @@ public:
    * Assignment operator
    */
   Self &operator=(const Self& orig)
-    {  return Superclass::operator=(orig);  }
+    {
+    Superclass::operator=(orig);
+    return *this;
+    }
 
   /**
    * Standard itk print method
