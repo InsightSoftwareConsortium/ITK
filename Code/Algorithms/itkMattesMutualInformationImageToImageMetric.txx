@@ -72,8 +72,6 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   m_NumParametersPerDim = 0;
   m_NumBSplineWeights = 0;
   m_BSplineTransform = NULL;
-  m_BSplineTransformWeights.Fill( 0.0 );
-  m_BSplineTransformIndices( 0 );
 
 }
 
