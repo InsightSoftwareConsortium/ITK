@@ -112,19 +112,6 @@ Versor<T>
 
 
 /**
- * Division Operator
- */
-template<class T>
-Versor<T> 
-Versor<T>
-::operator/( const Self & v) const
-{
-  return *this * v.GetReciprocal();
-}
-
-
-
-/**
  * Composition Operator
  */
 template<class T>
@@ -139,6 +126,52 @@ Versor<T>
   result.m_Y =  m_Z*v.m_X + m_W*v.m_Y - m_X*v.m_Z + m_Y*v.m_W;
   result.m_Z = -m_Y*v.m_X + m_X*v.m_Y + m_W*v.m_Z + m_Z*v.m_W;
   result.m_W = -m_X*v.m_X - m_Y*v.m_Y - m_Z*v.m_Z + m_W*v.m_W;
+
+  return result;
+}
+
+
+
+
+/**
+ * Division and Assignment Operator
+ */
+template<class T>
+const Versor<T> &
+Versor<T>
+::operator/=( const Self & v)
+{
+  
+  const double mx = -m_W*v.m_X + m_Z*v.m_Y - m_Y*v.m_Z + m_X*v.m_W;
+  const double my = -m_Z*v.m_X - m_W*v.m_Y + m_X*v.m_Z + m_Y*v.m_W;
+  const double mz =  m_Y*v.m_X - m_X*v.m_Y - m_W*v.m_Z + m_Z*v.m_W;
+  const double mw =  m_X*v.m_X + m_Y*v.m_Y + m_Z*v.m_Z + m_W*v.m_W;
+
+  m_X = mx;
+  m_Y = my;
+  m_Z = mz;
+  m_W = mw;
+
+  return *this;
+
+}
+
+
+/**
+ * Division Operator 
+ */
+template<class T>
+Versor<T> 
+Versor<T>
+::operator/( const Self & v) const
+{
+  
+  Self result;
+
+  result.m_X = -m_W*v.m_X + m_Z*v.m_Y - m_Y*v.m_Z + m_X*v.m_W;
+  result.m_Y = -m_Z*v.m_X - m_W*v.m_Y + m_X*v.m_Z + m_Y*v.m_W;
+  result.m_Z =  m_Y*v.m_X - m_X*v.m_Y - m_W*v.m_Z + m_Z*v.m_W;
+  result.m_W =  m_X*v.m_X + m_Y*v.m_Y + m_Z*v.m_Z + m_W*v.m_W;
 
   return result;
 }
