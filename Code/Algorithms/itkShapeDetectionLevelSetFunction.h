@@ -38,8 +38,8 @@ namespace itk {
  * where \f$ I \f$ is image intensity and
  * \f$ (\nabla * G) \f$ is the derivative of Gaussian operator. 
  *
- * \par In this function both the propagation term \f$P(\mathbf{x})\f$
- * and the curvature spatial modifier term $\f$Z(\mathbf{x|)\f$ are taken directly
+ * \par In this function both the propagation term \f $P(\mathbf{x}) \f$
+ * and the curvature spatial modifier term $\f $Z(\mathbf{x}) \f$ are taken directly
  * from the edge potential image. The edge potential image is set via the
  * SetFeatureImage() method. Note that there is no advection term in this function.
  *
