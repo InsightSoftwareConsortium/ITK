@@ -73,9 +73,25 @@ InPlaceImageFilter<TInputImage, TOutputImage>
     {
     // Graft this first input to the output.  Later, we'll need to
     // remove the input's hold on the bulk data.
-    this->GraftOutput( const_cast<TInputImage *>(this->GetInput()) );
+    //
+    OutputImagePointer inputAsOutput
+      = dynamic_cast<TOutputImage *>(const_cast<TInputImage *>(this->GetInput()));
+    if (inputAsOutput)
+      {
+      this->GraftOutput( inputAsOutput );
+      }
+    else
+      {
+      // if we cannot cast the input to an output type, then allocate
+      // an output usual.
+      OutputImagePointer outputPtr;
+
+      outputPtr = this->GetOutput(0);
+      outputPtr->SetBufferedRegion(outputPtr->GetRequestedRegion());
+      outputPtr->Allocate();
+      }
     
-    // If there are more than output, allocate the remaining outputs
+    // If there are more than one outputs, allocate the remaining outputs
     for (unsigned int i=1; i < this->GetNumberOfOutputs(); i++)
       {
       OutputImagePointer outputPtr;
