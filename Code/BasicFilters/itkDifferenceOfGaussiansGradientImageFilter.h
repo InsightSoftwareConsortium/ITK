@@ -41,7 +41,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkDifferenceOfGaussiansGradientImageFilter_h
 #define __itkDifferenceOfGaussiansGradientImageFilter_h
 
-#include "itkPhysicalImage.h"
 #include "itkImageToImageFilter.h"
 #include "itkPhysicalImage.h"
 #include "itkScalarVector.h"
