@@ -321,12 +321,7 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 
   costFunction->Initialize(m_NumberOfBins);
 
-  typedef BoundaryProfileCostFunction::ParametersType ParametersType;
-  ParametersType  parameters(BoundaryProfileCostFunction::SpaceDimension);
-
   costFunction->SetTheoreticalData(m_NormalizedAccumulator);
-
-  costFunction->GetValue(parameters);
 
   try
     {
