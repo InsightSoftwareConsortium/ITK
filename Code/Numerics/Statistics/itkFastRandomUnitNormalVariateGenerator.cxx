@@ -6,36 +6,12 @@
   Date:      $Date$
   Version:   $Revision$
 
-Copyright (c) 2001 Insight Consortium
-All rights reserved.
+  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-
- * Redistributions of source code must retain the above copyright notice,
-   this list of conditions and the following disclaimer.
-
- * Redistributions in binary form must reproduce the above copyright notice,
-   this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution.
-
- * The name of the Insight Consortium, nor the names of any consortium members,
-   nor of any contributors, may be used to endorse or promote products derived
-   from this software without specific prior written permission.
-
-  * Modified source versions must be plainly marked as such, and must not be
-    misrepresented as being the original software.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS ``AS IS''
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHORS OR CONTRIBUTORS BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #include <vnl/vnl_math.h>
@@ -49,7 +25,7 @@ FastRandomUnitNormalVariateGenerator::FastRandomUnitNormalVariateGenerator()
   Scale = ((double) 30000000.0) ;
   Rscale = ((double) (1.0 / Scale)) ;
   Rcons = ((double) (1.0 / (2.0 * 1024.0 * 1024.0 * 1024.0))) ;
-  ELEN = 7 ;	/*  LEN must be 2 ** ELEN	*/
+  ELEN = 7 ;    /*  LEN must be 2 ** ELEN       */
   LEN = 128 ;
   LMASK = (4 * (LEN-1)) ;
   TLEN  = (8*LEN) ;
@@ -69,17 +45,17 @@ void FastRandomUnitNormalVariateGenerator::Initialize(long randomSeed)
   gaussfaze = 1 ;
   nslew = 0 ;
   GScale = Rscale ;
-//    	At one stage, we need to generate a random variable Z such that
-//  	(TLEN * Z*Z) has a Chi-squared-TLEN density. Now, a var with
-//  	an approximate Chi-sq-K distn can be got as
+//      At one stage, we need to generate a random variable Z such that
+//      (TLEN * Z*Z) has a Chi-squared-TLEN density. Now, a var with
+//      an approximate Chi-sq-K distn can be got as
 //          0.5 * (C + A*n)**2  where n has unit Normal distn,
-//  	A = (1 + 1 / (8K)),  C*C = 2K - A*A    (For large K)
+//      A = (1 + 1 / (8K)),  C*C = 2K - A*A    (For large K)
 //          So we form Z as (sqrt (1 / 2TLEN)) * (C + A*n)
-//  	or:
+//      or:
 //          Z = (sqrt (1/2TLEN)) * A * (B + n)
-//  	where:
+//      where:
 //          B = C / A.
-//  	We set chic1 = A * sqrt (0.5 / TLEN),  chic2 = B
+//      We set chic1 = A * sqrt (0.5 / TLEN),  chic2 = B
   
   fake = 1.0 + 0.125 / TLEN;   // This is A 
   chic2 = sqrt (2.0 * TLEN  -  fake*fake) /  fake;
@@ -96,7 +72,7 @@ double FastRandomUnitNormalVariateGenerator::GetNormalVariate()
     return FastNorm() ;
 }
 
-/*	-----------------------------------------------------   */
+/*      -----------------------------------------------------   */
 
 
 double FastRandomUnitNormalVariateGenerator::FastNorm(void)
@@ -125,73 +101,73 @@ double FastRandomUnitNormalVariateGenerator::FastNorm(void)
   double ty = 0.0;
   double tz = 0.0;
 
-  /*	See if time to make a new set of 'original' deviates  */
-  /*	or at least to correct for a drift in sum-of-squares	*/
+  /*    See if time to make a new set of 'original' deviates  */
+  /*    or at least to correct for a drift in sum-of-squares    */
   if (! (nslew & 0xFF)) goto renormalize;
 
  startpass:
-  /*	Count passes	*/
+  /*    Count passes    */
   nslew ++;
-  /*	Reset index into Saved values	*/
-  gaussfaze = TLEN - 1;	/* We will steal the last one	*/
-  /*	Update pseudo-random and use to choose type of rotation  */
+  /*    Reset index into Saved values   */
+  gaussfaze = TLEN - 1; /* We will steal the last one   */
+  /*    Update pseudo-random and use to choose type of rotation  */
   lseed = 69069 * lseed + 33331;
   irs = (irs <= 0) ? ((irs << 1) ^ 333556017):(irs << 1);
   t = irs + lseed;
   if (t < 0) t = ~t;
-  /*	This gives us 31 random bits in t	*/
-  /*	We need ELEN to fix initial index into LEN, ELEN-1 to fix an odd
-	stride, 2 to fix matrix type and maybe 1 for scantype, making
-	2*ELEN + 2 in all, and leaving 29 - 2*ELEN unused
+  /*    This gives us 31 random bits in t       */
+  /*    We need ELEN to fix initial index into LEN, ELEN-1 to fix an odd
+        stride, 2 to fix matrix type and maybe 1 for scantype, making
+        2*ELEN + 2 in all, and leaving 29 - 2*ELEN unused
   */
-  t = t >> (29 - 2*ELEN);	/*  Discard unwanted digits  */
+  t = t >> (29 - 2*ELEN);       /*  Discard unwanted digits  */
   skew = (LEN-1) & t;  t = t >> ELEN;
-  skew = 4 * skew;	/*  To give a word index to group of 4 */
+  skew = 4 * skew;      /*  To give a word index to group of 4 */
   stride = (LEN/2 -1 ) & t;     t = t >> (ELEN-1);
-  stride = 8 * stride + 4;	/* To give an odd num of 4-groups */
+  stride = 8 * stride + 4;      /* To give an odd num of 4-groups */
   mtype = t & 3;     t = t >> 2;
-  /*	Leaves a bit for stype, but not currently used   */
+  /*    Leaves a bit for stype, but not currently used   */
 
-  /*	Use last bits of nslew to determine scanning pattern   */
+  /*    Use last bits of nslew to determine scanning pattern   */
   stype = nslew & 3;
-  switch (stype)	{
-  case 0:		/*   From consecutive in top to scattered in bot  */
+  switch (stype)        {
+  case 0:               /*   From consecutive in top to scattered in bot  */
     inc = 1;
     mask = LMASK;
     pa = vec1;  pb = pa + LEN;  pc = pb + LEN;  pd = pc + LEN;
     p0 = vec1 + 4 * LEN;
     goto scanset;
-  case 1:		/*   From consec in bot to scatt in top  */
+  case 1:               /*   From consec in bot to scatt in top  */
     inc = 1;
     mask = LMASK;
     pa = vec1 + 4 * LEN;  pb = pa + LEN;  pc = pb + LEN;  pd = pc + LEN;
     p0 = vec1;
     goto scanset;
-  case 2:		/*   From consec in even to scatt in odd  */
+  case 2:               /*   From consec in even to scatt in odd  */
     inc = 2;
     mask = 2*LMASK;   skew *= 2;   stride *= 2;
     pa = vec1 + 1;  pb = pa + 2*LEN;  pc = pb + 2*LEN;  pd = pc + 2*LEN;
     p0 = vec1;
     goto scanset;
-  case 3:		/*  From consec in odd to scatt in even  */
+  case 3:               /*  From consec in odd to scatt in even  */
     inc = 2;
     mask = 2*LMASK;   skew *= 2;   stride *= 2;
     pa = vec1;  pb = pa + 2*LEN;  pc = pb + 2*LEN;  pd = pc + 2*LEN;
     p0 = vec1 + 1;
     goto scanset;
-  }	/*   End of scan pattern cases */
+  }     /*   End of scan pattern cases */
 
  scanset:
   gausssave = vec1;
-  /*	Set loop count	*/
+  /*    Set loop count  */
   i = LEN;
 
-  /*	Use mtype to select matrix   */
-  switch (mtype)	{
-  case 0:		goto matrix0;
-  case 1:		goto matrix1;
-  case 2:		goto matrix2;
-  case 3:		goto matrix3;
+  /*    Use mtype to select matrix   */
+  switch (mtype)        {
+  case 0:               goto matrix0;
+  case 1:               goto matrix1;
+  case 2:               goto matrix2;
+  case 3:               goto matrix3;
   }
 
  matrix0:
@@ -202,12 +178,12 @@ double FastRandomUnitNormalVariateGenerator::FastNorm(void)
   p = -*pa;  q = -*pb;  r =  *pc;  s =  *pd;
   t = (p + q + r + s) >> 1;
   p = t - p;  q = t - q;  r = t - r;  s = t - s;
-  /*	Have new values in p,q,r,s.  Place and save replaced vals  */
+  /*    Have new values in p,q,r,s.  Place and save replaced vals  */
   t = -*pe;  *pe = p;   pe += inc;
   p = *pe;  *pe = q;   pe += inc;
   q = -*pe;  *pe = r;   pe += inc;
   r = *pe;  *pe = s;
-  /*	Have vals in p,q,r,t	*/
+  /*    Have vals in p,q,r,t    */
   s = (p + q + r + t) >> 1;
   *pa = s - p;   pa -= inc;
   *pb = s - q;   pb += inc;
@@ -224,12 +200,12 @@ double FastRandomUnitNormalVariateGenerator::FastNorm(void)
   p = -*pa;  q = *pb;  r = *pc;  s = -*pd;
   t = (p + q + r + s) >> 1;
   p = t - p;  q = t - q;  r = t - r;  s = t - s;
-  /*	Have new values in p,q,r,s.  Place and save replaced vals  */
+  /*    Have new values in p,q,r,s.  Place and save replaced vals  */
   t = *pe;  *pe = p;   pe += inc;
   p = -*pe;  *pe = q;   pe += inc;
   q = -*pe;  *pe = r;   pe += inc;
   r = *pe;  *pe = s;
-  /*	Have vals in p,q,r,t	*/
+  /*    Have vals in p,q,r,t    */
   s = (p + q + r + t) >> 1;
   *pa = s - p;   pa += inc;
   *pb = s - t;   pb -= inc;
@@ -246,12 +222,12 @@ double FastRandomUnitNormalVariateGenerator::FastNorm(void)
   p = *pa;  q = -*pb;  r = *pc;  s = -*pd;
   t = (p + q + r + s) >> 1;
   p = t - p;  q = t - q;  r = t - r;  s = t - s;
-  /*	Have new values in p,q,r,s.  Place and save replaced vals  */
+  /*    Have new values in p,q,r,s.  Place and save replaced vals  */
   t = *pe;  *pe = p;   pe += inc;
   p = *pe;  *pe = q;   pe += inc;
   q = -*pe;  *pe = r;   pe += inc;
   r = -*pe;  *pe = s;
-  /*	Have vals in p,q,r,t	*/
+  /*    Have vals in p,q,r,t    */
   s = (p + q + r + t) >> 1;
   *pa = s - r;   pa += inc;
   *pb = s - p;   pb += inc;
@@ -268,12 +244,12 @@ double FastRandomUnitNormalVariateGenerator::FastNorm(void)
   p = *pa;  q = *pb;  r = -*pc;  s = -*pd;
   t = (p + q + r + s) >> 1;
   p = t - p;  q = t - q;  r = t - r;  s = t - s;
-  /*	Have new values in p,q,r,s.  Place and save replaced vals  */
+  /*    Have new values in p,q,r,s.  Place and save replaced vals  */
   t = -*pe;  *pe = p;   pe += inc;
   p =  *pe;  *pe = q;   pe += inc;
   q =  *pe;  *pe = r;   pe += inc;
   r = -*pe;  *pe = s;
-  /*	Have vals in p,q,r,t	*/
+  /*    Have vals in p,q,r,t    */
   s = (p + q + r + t) >> 1;
   *pa = s - q;   pa += inc;
   *pb = s - r;   pb += inc;
@@ -283,20 +259,20 @@ double FastRandomUnitNormalVariateGenerator::FastNorm(void)
   goto endpass;
 
  endpass:
-  /*	Choose a value for GScale which will make the sum-of-squares have
-	the variance of Chi-Sq (TLEN), i.e., 2*TLEN.  Choose a value from
-	Chi-Sq (TLEN) using the method descibed in initnorm.
-	The Normal variate is obtained from gausssave[TLEN-1], which is
-	not used by the caller.
+  /*    Choose a value for GScale which will make the sum-of-squares have
+        the variance of Chi-Sq (TLEN), i.e., 2*TLEN.  Choose a value from
+        Chi-Sq (TLEN) using the method descibed in initnorm.
+        The Normal variate is obtained from gausssave[TLEN-1], which is
+        not used by the caller.
   */
   ts = chic1 * (chic2 + GScale * vec1 [TLEN-1]);
-  /*	TLEN * ts * ts  has ChiSq (TLEN) distribution	*/
+  /*    TLEN * ts * ts  has ChiSq (TLEN) distribution   */
   GScale = Rscale * ts * actualRSD;
   return (GScale * vec1[0]);
 
  renormalize:
   if (nslew & 0xFFFF) goto recalcsumsq;
-  /*	Here, replace the whole pool with conventional Normal variates  */
+  /*    Here, replace the whole pool with conventional Normal variates  */
   ts = 0.0;
   p = 0;
  nextpair:
@@ -320,23 +296,23 @@ double FastRandomUnitNormalVariateGenerator::FastNorm(void)
   vec1 [p++] = (long) (Scale *  tx * tz) ;
   vec1 [p++] = (long) (Scale *  ty * tz) ;
   if (p < TLEN) goto nextpair;
-  /*	Horrid, but good enough	*/
-  /*	Calc correction factor to make sum of squares = TLEN	*/
+  /*    Horrid, but good enough */
+  /*    Calc correction factor to make sum of squares = TLEN    */
   ts = TLEN / ts;  /* Should be close to 1.0  */
   tr = sqrt (ts);
-  for (p = 0; p < TLEN; p++)	{
+  for (p = 0; p < TLEN; p++)    {
     tx = vec1 [p] * tr;
     vec1 [p] = (long) ((tx < 0.0) ? (tx - 0.5) : (tx + 0.5)) ;
   }
 
  recalcsumsq:
-  /*	Calculate actual sum of squares for correction   */
+  /*    Calculate actual sum of squares for correction   */
   ts = 0.0;
-  for (p = 0; p < TLEN; p++)	{	
+  for (p = 0; p < TLEN; p++)    {       
     tx = vec1[p];
     ts += (tx * tx);
   }
-  /*	Now ts should be Scale*Scale*TLEN or thereabouts   */
+  /*    Now ts should be Scale*Scale*TLEN or thereabouts   */
   ts = sqrt (ts / (Scale * Scale * TLEN));
   actualRSD = 1.0 / ts;   /* Reciprocal of actual Standard Devtn */
   goto startpass;
