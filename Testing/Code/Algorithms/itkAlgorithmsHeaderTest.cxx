@@ -39,7 +39,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkImageToImageAffineMutualInformationGradientDescentRegistration.h"
 #include "itkImageToImageAffineNormalizedCorrelationGradientDescentRegistration.h"
 #include "itkImageToImageAffineNormalizedCorrelationRegularStepGradientDescentRegistration.h"
-#include "itkImageToImageAffinePatternIntensityGradientDescentRegistration.h"
 #include "itkImageToImageAffinePatternIntensityRegularStepGradientDescentRegistration.h"
 #include "itkImageToImageMomentsAlignmentCalculator.h"
 #include "itkImageToImageRigidMutualInformationGradientDescentRegistration.h"
