@@ -144,8 +144,23 @@ int itkShapedNeighborhoodIteratorTest(int, char* [] )
                 << ci.GetNeighborhoodOffset() << " = " << ci.Get() << std::endl;
     }
   
-  
 
+
+   println("Testing iteration through the image");
+   off[0] = 0; off[1] =0; off[2] = 0; off[3] = 0;
+   for (it.GoToBegin(); !it.IsAtEnd(); ++it)
+     {
+       std::cout << it.GetPixel(off) << std::endl;
+     }
+
+   println("Testing reverse iteration through the image");
+   off[0] = 0; off[1] =0; off[2] = 0; off[3] = 0;
+   for (it.GoToEnd(), --it; !it.IsAtBegin(); --it)
+     {
+       std::cout << it.GetPixel(off) << std::endl;
+     }
+   std::cout << it.GetPixel(off) << std::endl;
+   
   
   return 0;
 }
