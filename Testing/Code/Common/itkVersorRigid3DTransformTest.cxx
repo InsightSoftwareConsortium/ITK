@@ -380,10 +380,10 @@ int itkVersorRigid3DTransformTest(int, char* [] )
 
      TheoreticalJacobian[0][1] = -206.0;
      TheoreticalJacobian[1][1] =    0.0;
-     TheoreticalJacobian[2][1] =  -42.0;
+     TheoreticalJacobian[2][1] =   42.0;
 
      TheoreticalJacobian[0][2] =   84.0;
-     TheoreticalJacobian[1][2] =   42.0;
+     TheoreticalJacobian[1][2] =  -42.0;
      TheoreticalJacobian[2][2] =    0.0;
 
      TheoreticalJacobian[0][3] = 1.0;
