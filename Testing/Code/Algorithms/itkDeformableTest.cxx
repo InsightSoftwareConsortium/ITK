@@ -239,7 +239,7 @@ int itkDeformableTest(int, char*[] )
   m_dfilter->SetScale(m_scale);
   std::cout << "Deformable mesh fitting...";
   m_dfilter->Update();
-
+  std::cout << m_dfilter;
  
   std::cout << "Mesh Source: " << m_bmmeshsource;
 
