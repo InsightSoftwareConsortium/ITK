@@ -18,6 +18,6 @@ void RegisterTests()
   REGISTER_TEST(itkVoronoiSegmentationImageFilterTest );
   REGISTER_TEST(itkVoronoiPartitioningImageFilterTest );
   REGISTER_TEST(itkWatershedImageFilterTest );
-  //  REGISTER_TEST(itkFFTTest);
+  REGISTER_TEST(itkFFTTest);
 }
 

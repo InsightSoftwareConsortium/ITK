@@ -106,7 +106,7 @@ ADD_TEST(itkDeformableTest ${ALGORITHMS_TESTS} itkDeformableTest)
 ADD_TEST(itk2DDeformableTest ${ALGORITHMS_TESTS} itk2DDeformableTest)
 ADD_TEST(itkSphereMeshSourceTest ${ALGORITHMS_TESTS} itkSphereMeshSourceTest)
 ADD_TEST(itkUnsharpMaskLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkUnsharpMaskLevelSetImageFilterTest) 
-# ADD_TEST(itkFFTTest ${ALGORITHMS_TESTS2} itkFFTTest)
+ADD_TEST(itkFFTTest ${ALGORITHMS_TESTS2} itkFFTTest)
 ADD_TEST(itkMIRegistrationFunctionTest ${ALGORITHMS_TESTS2} itkMIRegistrationFunctionTest)
 ADD_TEST(itkVectorFuzzyConnectednessImageFilterTest ${ALGORITHMS_TESTS2} itkVectorFuzzyConnectednessImageFilterTest)
 ADD_TEST(itkVoronoiDiagram2DTest ${ALGORITHMS_TESTS2} itkVoronoiDiagram2DTest)
@@ -224,9 +224,8 @@ itkVoronoiDiagram2DTest.cxx
 itkVoronoiPartitioningImageFilterTest.cxx
 itkVoronoiSegmentationImageFilterTest.cxx
 itkWatershedImageFilterTest.cxx
-
+itkFFTTest.cxx
 )
-# itkFFTTest.cxx -- temporarily removed
 ADD_EXECUTABLE(itkAlgorithmsHeaderTest itkAlgorithmsHeaderTest.cxx)
 TARGET_LINK_LIBRARIES(itkAlgorithmsHeaderTest ITKAlgorithms ITKIO 
                                               ITKBasicFilters ITKFEM)
