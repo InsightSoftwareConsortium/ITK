@@ -31,6 +31,7 @@
 namespace itk {
 namespace fem {
 
+
 /**
  * \class LinearSystemWrapperVNL
  * \brief LinearSystemWrapper class that uses VNL numeric library functions

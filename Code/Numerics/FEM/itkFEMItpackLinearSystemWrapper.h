@@ -392,6 +392,7 @@ public:
 
   void ScaleMatrix(Float scale, unsigned int matrixIndex);
 
+
   /* -----------------------------------------------------------------
    * 
    * Functions required by LinearSystemWrapper 
