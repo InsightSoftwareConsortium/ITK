@@ -33,7 +33,6 @@ See COPYRIGHT.txt for copyright details.
 #define ITK_LARGE_FLOAT 1.0e+38F
 #define ITK_LARGE_INTEGER 2147483647 // 2^31 - 1
 
-
 // Some constant required for correct template performance
 #define ITK_BIT_MIN 0
 #define ITK_BIT_MAX 1
@@ -62,41 +61,14 @@ See COPYRIGHT.txt for copyright details.
 const int itkBoundsError=10;
 const int itkInvalidDimension=11;
 
-
-// Use a global function which actually calls:
-// itkOutputWindow::GetInstance()->DisplayText();
-// This is to avoid itkObject #include of itkOutputWindow
-// while itkOutputWindow #includes itkObject
-extern ITK_EXPORT void itkOutputWindowDisplayText(const char*);
-
-// This macro is used to print debug (or other information). They are
-// also used to catch errors, etc. Example usage looks like:
-// itkDebugMacro(<< "this is debug info" << this->SomeVariable);
-//
-#ifdef ITK_LEAN_AND_MEAN
-#define itkDebugMacro(x)
-#else
-#define itkDebugMacro(x) \
-{ if (this->GetDebug() && itkObject::GetGlobalWarningDisplay()) \
-    { char *itkmsgbuff; ostrstream itkmsg; \
-      itkmsg << "Debug: In " __FILE__ ", line " << __LINE__ << "\n" << this->GetClassName() << " (" << this << "): " x  << "\n\n" << ends; \
-      itkmsgbuff = itkmsg.str(); \
-      itkOutputWindowDisplayText(itkmsgbuff);\
-      itkmsg.rdbuf()->freeze(0);}}
-#endif
-
-#define itkWarningMacro(x)
-
-#define itkErrorMacro(x)
-
 // A convenience macro marks variables as not being used by a method,
 // avoiding compile-time errors.
 #define itkNotUsed(x)
 
 // Use this method to set instance variable values.
 #define itkSetMacro(ivarValue,value) \
-{itkDebugMacro(<< this->GetClassName() << " (" << this << "): setting " #ivarValue " to " << value); \
-\
+{itkDebugMacro(<< this->GetClassName() << " (" << this \
+               << "): setting " #ivarValue " to " << value); \
 if ( ivarValue != value ) \
   {\
   this->Modified();\
@@ -132,7 +104,11 @@ if ( ivarValue != value ) \
 // the standard "string" class.
 #define itkSetStringMacro(ivarValue,str) \
 {\
-  ivarValue = str;\
+  if ( str != ivarValue ) \
+    { \
+    ivarValue = str;\
+    this->Modified();\
+    } \
 }
 
 // Macros for getting strings. These macros depend on using
@@ -142,5 +118,35 @@ if ( ivarValue != value ) \
 {\
   return ivarValue.data();\
 }
+
+// Use a global function which actually calls:
+// itkOutputWindow::GetInstance()->DisplayText();
+// This is to avoid itkObject #include of itkOutputWindow
+// while itkOutputWindow #includes itkObject
+extern ITK_EXPORT void itkOutputWindowDisplayText(const char*);
+
+// This macro is used to print debug (or other information). They are
+// also used to catch errors, etc. Example usage looks like:
+// itkDebugMacro(<< "this is debug info" << this->SomeVariable);
+//
+#ifdef ITK_LEAN_AND_MEAN
+#define itkDebugMacro(x)
+#else
+#define itkDebugMacro(x) \
+{ if (this->GetDebug() && itkObject::GetGlobalWarningDisplay()) \
+    { char *itkmsgbuff; ostrstream itkmsg; \
+      itkmsg << "Debug: In " __FILE__ ", line " << __LINE__ << "\n" \
+             << this->GetClassName() << " (" << this << "): " x  \
+             << "\n\n" << ends; \
+      itkmsgbuff = itkmsg.str(); \
+      itkOutputWindowDisplayText(itkmsgbuff);\
+      itkmsg.rdbuf()->freeze(0);}}
+#endif
+
+#define itkWarningMacro(x)
+
+#define itkErrorMacro(x)
+
+#define itkGenericOutputMacro(x)
 
 #endif

@@ -36,7 +36,7 @@ itkDataObject::itkDataObject()
   // then they will fill it with valid data.
   m_DataReleased = false;
 
-  m_ReleaseDataFlag = true;
+  m_ReleaseDataFlag = false;
 
   // The extent is uninitialized
   m_WholeExtent = 0;

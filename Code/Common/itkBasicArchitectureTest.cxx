@@ -26,7 +26,7 @@ template <class T, unsigned int TImageDimension>
 int IterateOverImage( itkImageIterator<T, TImageDimension> it, unsigned int dim = 0)
 {
   T value;
-  int i, j, ii;
+  int i, j;
   
   if (dim < TImageDimension - 1)
     {
@@ -40,16 +40,14 @@ int IterateOverImage( itkImageIterator<T, TImageDimension> it, unsigned int dim 
       {
       if (error == itkInvalidDimension)
         {
-        std::cout << "Exception: Invalid dimension" << std::endl;
+        itkGenericOutputMacro(<< "Exception: Invalid dimension");
         }
       }
 
     // set "it" to the beginning of the dim projection
     for (i=0; i < it.GetImageSize()[dim]; i++)
       {
-      for (ii=0; ii < dim; ii++)
-        { std::cout << "\t"; }
-      std::cout << "Looping over " << dim << std::endl;
+      itkGenericOutputMacro(<< "Looping over " << dim);
       
       IterateOverImage(it, dim+1);
       // increment the iterator
@@ -61,7 +59,7 @@ int IterateOverImage( itkImageIterator<T, TImageDimension> it, unsigned int dim 
         {
         if (error == itkBoundsError)
           {
-          std::cout << "Exception: Exceeding image bounds." << std::endl;
+          itkGenericOutputMacro(<< "Exception: Exceeding image bounds.");
           }
         }
       }
@@ -78,15 +76,13 @@ int IterateOverImage( itkImageIterator<T, TImageDimension> it, unsigned int dim 
       {
       if (error == itkInvalidDimension)
         {
-        std::cout << "Exception: Invalid dimension" << std::endl;
+        itkGenericOutputMacro(<< "Exception: Invalid dimension");
         }
       }
 
     // final dimension... do something
     for (j=0; j < it.GetImageSize()[dim]; j++)
       {
-      for (ii=0; ii < dim; ii++)
-        { std::cout << "\t"; }
 //     std::cout << "Looping over " << dim << ", "
 //              << it.GetIndex() << std::endl;
   
@@ -105,7 +101,7 @@ int IterateOverImage( itkImageIterator<T, TImageDimension> it, unsigned int dim 
         {
         if (error == itkBoundsError)
           {
-          std::cout << "Exception: Exceeding image bounds." << std::endl;
+          itkGenericOutputMacro("Exception: Exceeding image bounds.");
           }
         }
       }
@@ -179,7 +175,7 @@ int main()
 
   scalar = o2->GetPixel(ind);
 
-  std::cout << "Scalar pixel value is: " << scalar.GetScalar() << std::endl;
+  itkGenericOutputMacro(<< "Scalar pixel value is: " << scalar.GetScalar());
 
   itkImage<itkVector<unsigned short, 5>, 3>::Pointer
     o3 = itkImage<itkVector<unsigned short, 5>, 3>::New();
@@ -222,14 +218,12 @@ int main()
 
   vec = o3->GetPixel(ind3D);
 
-  std::cout << "Vector pixel value is: ["
-            << vec.GetVector()[0] << ", "
-            << vec.GetVector()[1] << ", "
-            << vec.GetVector()[2] << ", "
-            << vec.GetVector()[3] << ", "
-            << vec.GetVector()[4] << "]"
-            << std::endl;
-  
+  itkGenericOutputMacro(<< "Vector pixel value is: ["
+                        << vec.GetVector()[0] << ", "
+                        << vec.GetVector()[1] << ", "
+                        << vec.GetVector()[2] << ", "
+                        << vec.GetVector()[3] << ", "
+                        << vec.GetVector()[4] << "]");
   
   // return 0;
 

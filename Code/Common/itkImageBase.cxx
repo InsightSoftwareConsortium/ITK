@@ -43,7 +43,7 @@ void itkImageBase::Initialize()
     delete [] m_Spacing;
     delete [] m_Origin;
     }
-  this->itkDataObject::SetDimension(0);
+  this->itkDataObject::Initialize();
 }
 
 //-------------------------------------------------------------------------
