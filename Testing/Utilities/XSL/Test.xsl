@@ -40,9 +40,39 @@
         <th>Name</th>
         <th>Status</th>
       </tr>
+      <xsl:for-each select="Site/Testing/Test[@Status='notrun']">
+        <xsl:sort select="Name"/>
+        <tr>
+          <xsl:if test="position() mod 2 = 0">
+            <xsl:attribute name="bgcolor"><xsl:value-of select="$LightBlue"/></xsl:attribute>
+          </xsl:if>
+          <td>
+            <a>
+              <xsl:attribute name="href">
+                <xsl:call-template name="TranslateTestName">
+                  <xsl:with-param name="Prefix"><xsl:value-of select="$DashboardDir"/>/TestDetail/</xsl:with-param>
+                  <xsl:with-param name="TestName" select="FullName"/>
+                  <xsl:with-param name="Postfix">.html</xsl:with-param>
+                </xsl:call-template>
+              </xsl:attribute>
+              <xsl:value-of select="Name"/>
+            </a>
+          </td>
+          <td>
+            <xsl:attribute name="bgcolor"><xsl:value-of select="$ErrorColor"/></xsl:attribute>
+            Not Run
+          </td>
+        </tr>
+      </xsl:for-each>
+      <tr>
+        <td colspan="2"></td>
+      </tr>
       <xsl:for-each select="Site/Testing/Test[@Status='failed']">
         <xsl:sort select="Name"/>
         <tr>
+          <xsl:if test="position() mod 2 = 0">
+            <xsl:attribute name="bgcolor"><xsl:value-of select="$LightBlue"/></xsl:attribute>
+          </xsl:if>
           <td>
             <a>
               <xsl:attribute name="href">
@@ -55,6 +85,7 @@
             </a>
           </td>
           <td>
+            <xsl:attribute name="bgcolor"><xsl:value-of select="$WarningColor"/></xsl:attribute>
             <a>
               <xsl:attribute name="href">
                 <xsl:call-template name="TranslateTestName">
@@ -63,43 +94,20 @@
                   <xsl:with-param name="Postfix">.html</xsl:with-param>
                 </xsl:call-template>
               </xsl:attribute>
-              <font color="#FF0000"> Failed </font>
+                Failed
             </a>
           </td>
         </tr>
       </xsl:for-each>
-      <tr>
-        <td colspan="2"></td>
-      </tr>
-      <xsl:for-each select="Site/Testing/Test[@Status='notrun']">
-        <xsl:sort select="Name"/>
-        <tr>
-          <td>
-            <a>
-              <xsl:attribute name="href">
-                <xsl:call-template name="TranslateTestName">
-                  <xsl:with-param name="Prefix"><xsl:value-of select="$DashboardDir"/>/TestDetail/</xsl:with-param>
-                  <xsl:with-param name="TestName" select="FullName"/>
-                  <xsl:with-param name="Postfix">.html</xsl:with-param>
-                </xsl:call-template>
-              </xsl:attribute>
-            <xsl:value-of select="Name"/>
-            </a>
-          </td>
-          <td>
-            <font color="#FF0000"> Not Run</font>
-          </td>
-        </tr>
-      </xsl:for-each>
-      <tr>
-        <td colspan="2"></td>
-      </tr>
       <xsl:for-each select="Site/Testing/Test[@Status='passed']">
         <xsl:sort select="Name"/>
         <tr>
+          <xsl:if test="position() mod 2 = 0">
+            <xsl:attribute name="bgcolor"><xsl:value-of select="$LightBlue"/></xsl:attribute>
+          </xsl:if>
           <td>
             <a>
-              <xsl:attribute name="HREF">
+              <xsl:attribute name="href">
                 <xsl:call-template name="TranslateTestName">
                   <xsl:with-param name="Prefix"><xsl:value-of select="$DashboardDir"/>/TestDetail/</xsl:with-param>
                   <xsl:with-param name="TestName" select="FullName"/>
@@ -110,6 +118,7 @@
             </a>
           </td>
           <td>
+            <xsl:attribute name="bgcolor"><xsl:value-of select="$NormalColor"/></xsl:attribute>
             <a>
               <xsl:attribute name="href">
                 <xsl:call-template name="TranslateTestName">
@@ -118,7 +127,7 @@
                   <xsl:with-param name="Postfix">.html</xsl:with-param>
                 </xsl:call-template>
               </xsl:attribute>
-              <font color="#00AA00">Passed</font>
+                Passed
             </a>
           </td>
         </tr>
@@ -158,10 +167,16 @@
       </a>
       <xsl:choose>
         <xsl:when test="contains('failed',@Status)">
-          <font color="#FF0000"> Failed</font>
+          <font>
+            <xsl:attribute name="color"><xsl:value-of select="$WarningColor"/></xsl:attribute>
+            Failed
+          </font>
         </xsl:when>
         <xsl:when test="contains('passed',@Status)">
-          <font color="#00AA00"> Passed</font>
+          <font>
+            <xsl:attribute name="color"><xsl:value-of select="$NormalColor"/></xsl:attribute>
+            Passed
+          </font>
         </xsl:when>
       </xsl:choose>
       

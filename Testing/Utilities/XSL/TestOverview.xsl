@@ -18,48 +18,13 @@
   <xsl:include href="Insight.xsl"/>
 
   <xsl:template match="/">
-    <xsl:message>Starting</xsl:message>
     <xsl:call-template name="TestOverviewByTest"/>
     <xsl:call-template name="TestOverviewByCount"/>
-    <xsl:call-template name="TestColorOverviewByTest"/>
-    <xsl:call-template name="TestColorOverviewByCount"/>
     <xsl:for-each select="/TestOverview/Test">
       <xsl:call-template name="TestDetail"/>
     </xsl:for-each>
   </xsl:template>
 
-  <xsl:template name="TestOverviewByCount">
-    <redirect:write select="concat(string('{$DashboardPath}'), '/TestOverviewByCount.html' )" file="dan.html">
-
-      <xsl:call-template name="InsightHeader">
-        <xsl:with-param name="Title">Insight Test Overview</xsl:with-param>
-        <xsl:with-param name="IconDir">../../Icons</xsl:with-param>
-        <xsl:with-param name="TestsIcon">TestsBlue.gif</xsl:with-param>
-        <xsl:with-param name="DashboardDir" select="$DashboardDir"/>
-      </xsl:call-template>
-      <a href="TestColorOverviewByCount.html">Color overview</a>
-      
-      <table>
-        <tr>
-          <th rowspan="2">Test Name ( <a href="TestOverviewByTest.html">sort by </a> )</th>
-          <th colspan="3">Count <img border="0"><xsl:attribute name="src"><xsl:value-of select="$IconDir"/>/DownBlack.gif</xsl:attribute></img></th>
-        </tr>
-        <tr>
-          <th>Passed</th>
-          <th>Failed</th>
-          <th>Not Run</th>
-        </tr>
-        
-        <xsl:for-each select="/TestOverview/Test">
-          <xsl:sort select="count (Result/Status[node()='notrun'])" data-type="number" order="descending"/>
-          <xsl:sort select="count (Result/Status[node()='failed'])" data-type="number" order="descending"/>
-          <xsl:sort select="Name"/>
-          <xsl:call-template name="TestRows"/>
-        </xsl:for-each>
-      </table>
-      <xsl:call-template name="InsightFooter"/>
-    </redirect:write>
-  </xsl:template>
 
   <xsl:template name="TestOverviewByTest">
     <redirect:write select="concat(string('{$DashboardPath}'), '/TestOverviewByTest.html' )" file="dan.html">
@@ -69,83 +34,14 @@
         <xsl:with-param name="TestsIcon">TestsBlue.gif</xsl:with-param>
         <xsl:with-param name="DashboardDir" select="$DashboardDir"/>
       </xsl:call-template>
-      <a href="TestColorOverviewByTest.html">Color overview</a>
-
-      
-      <table>
-        <tr>
-          <th rowspan="2">Test Name <img border="0"><xsl:attribute name="src"><xsl:value-of select="$IconDir"/>/DownBlack.gif</xsl:attribute></img></th>
-          <th colspan="3">Count (<a href="TestOverviewByCount.html">sort by</a>)</th>
-        </tr>
-        <tr>
-          <th>Passed</th>
-          <th>Failed</th>
-          <th>Not Run</th>
-        </tr>
-
-        <xsl:for-each select="/TestOverview/Test">
-          <xsl:sort select="Name"/>
-          <xsl:call-template name="TestRows"/>
-        </xsl:for-each>
-      </table>
-
-      <xsl:call-template name="InsightFooter"/>
-    </redirect:write>
-  </xsl:template>
-
-  <xsl:template name="BuildNameLegend">
-    <table>
-      <tr>
-        <th colspan="3">Color legend</th>
-      </tr>
-      <tr>
-        <td><xsl:attribute name="bgcolor"><xsl:value-of select="$Green"/></xsl:attribute>Passed</td>
-        <td><xsl:attribute name="bgcolor"><xsl:value-of select="$Red"/></xsl:attribute>Failed</td>
-        <td><xsl:attribute name="bgcolor"><xsl:value-of select="$DarkRed"/></xsl:attribute>Not Run</td>
-      </tr>
-    </table>
-
-    <table>
-      <tr>
-        <th>Number</th>
-        <th>Site Name</th>
-        <th>Build Name</th>
-        <th>Build Stamp</th>
-        <xsl:for-each select="/TestOverview/Test[1]/Result">
-          <xsl:sort select="SiteName"/>
-          <xsl:sort select="BuildName"/>
-          <tr>
-            <xsl:if test="position() mod 2 = 0">
-              <xsl:attribute name="bgcolor"><xsl:value-of select="$LightBlue"/></xsl:attribute>
-            </xsl:if>
-            <td><xsl:number value="position()" format="1"/></td>
-            <td><xsl:value-of select="SiteName"/></td>
-            <td><xsl:value-of select="BuildName"/></td>
-            <td><xsl:value-of select="BuildStamp"/></td>
-          </tr>
-        </xsl:for-each>
-      </tr>
-    </table>
-  </xsl:template>
-
-
-  <xsl:template name="TestColorOverviewByTest">
-    <xsl:message>TestOvenview By Build Name</xsl:message>
-    <redirect:write select="concat(string('{$DashboardPath}'), '/TestColorOverviewByTest.html' )" file="dan.html">
-      <xsl:call-template name="InsightHeader">
-        <xsl:with-param name="Title">Insight Test Color Overview by Test</xsl:with-param>
-        <xsl:with-param name="IconDir">../../Icons</xsl:with-param>
-        <xsl:with-param name="TestsIcon">TestsBlue.gif</xsl:with-param>
-        <xsl:with-param name="DashboardDir" select="$DashboardDir"/>
-      </xsl:call-template>
-      <a href="TestOverviewByTest.html">Numeric overview</a>
       <xsl:call-template name="BuildNameLegend"/>
+      <br/><br/>
       <table>
         <tr>
           <th rowspan="2">Test <img border="0"><xsl:attribute name="src"><xsl:value-of select="$IconDir"/>/DownBlack.gif</xsl:attribute></img></th>
           <th>
-            <xsl:attribute name="colspan"><xsl:value-of select="count(/TestOverview/Test[1]/Result)"/></xsl:attribute>
-            Status ( <a href="TestColorOverviewByCount.html">sort by</a> )
+            <xsl:attribute name="colspan"><xsl:value-of select="4 + count(/TestOverview/Test[1]/Result)"/></xsl:attribute>
+            Status ( <a href="TestOverviewByCount.html">sort by</a> )
           </th>
         </tr>
         <tr>
@@ -154,13 +50,20 @@
             <xsl:sort select="BuildName"/>
             <th><xsl:number value="position()" format="1"/></th>
           </xsl:for-each>
+          <td></td>
+          <td>N</td>
+          <td>F</td>
+          <td>P</td>
         </tr>
 
         <xsl:for-each select="/TestOverview/Test">
           <xsl:sort select="Name"/>
-          <xsl:call-template name="ColorOverviewRow"/>
+          <tr>
+            <xsl:call-template name="ColorOverviewRow"/>
+          </tr>
         </xsl:for-each>
       </table>
+      <br/><br/>
 
       <xsl:call-template name="BuildNameLegend"/>
 
@@ -168,21 +71,21 @@
     </redirect:write>
   </xsl:template>
 
-  <xsl:template name="TestColorOverviewByCount">
-    <redirect:write select="concat(string('{$DashboardPath}'), '/TestColorOverviewByCount.html' )" file="dan.html">
+  <xsl:template name="TestOverviewByCount">
+    <redirect:write select="concat(string('{$DashboardPath}'), '/TestOverviewByCount.html' )" file="dan.html">
       <xsl:call-template name="InsightHeader">
-        <xsl:with-param name="Title">Insight Test Color Overview by Count</xsl:with-param>
+        <xsl:with-param name="Title">Insight Test Overview</xsl:with-param>
         <xsl:with-param name="IconDir">../../Icons</xsl:with-param>
         <xsl:with-param name="TestsIcon">TestsBlue.gif</xsl:with-param>
         <xsl:with-param name="DashboardDir" select="$DashboardDir"/>
       </xsl:call-template>
-      <a href="TestOverviewByCount.html">Numeric overview</a>
       <xsl:call-template name="BuildNameLegend"/>
+      <br/><br/>
       <table>
         <tr>
-          <th rowspan="2">Test ( <a href="TestColorOverviewByTest.html">sort by</a> )</th>
+          <th rowspan="2">Test ( <a href="TestOverviewByTest.html">sort by</a> )</th>
           <th>
-            <xsl:attribute name="colspan"><xsl:value-of select="count(/TestOverview/Test[1]/Result)"/></xsl:attribute>
+            <xsl:attribute name="colspan"><xsl:value-of select="4 + count(/TestOverview/Test[1]/Result)"/></xsl:attribute>
             Status <img border="0"><xsl:attribute name="src"><xsl:value-of select="$IconDir"/>/DownBlack.gif</xsl:attribute></img>
           </th>
         </tr>
@@ -192,15 +95,22 @@
             <xsl:sort select="BuildName"/>
             <th><xsl:number value="position()" format="1"/></th>
           </xsl:for-each>
+          <td></td>
+          <td>N</td>
+          <td>F</td>
+          <td>P</td>
         </tr>
 
         <xsl:for-each select="/TestOverview/Test">
           <xsl:sort select="count (Result/Status[node()='notrun'])" data-type="number" order="descending"/>
           <xsl:sort select="count (Result/Status[node()='failed'])" data-type="number" order="descending"/>
           <xsl:sort select="Name"/>
-          <xsl:call-template name="ColorOverviewRow"/>
+          <tr>
+            <xsl:call-template name="ColorOverviewRow"/>
+          </tr>
         </xsl:for-each>
       </table>
+      <br/><br/>
 
       <xsl:call-template name="BuildNameLegend"/>
 
@@ -208,17 +118,17 @@
     </redirect:write>
   </xsl:template>
 
+
   <xsl:template name="ColorOverviewRow">
-    <tr>
-      <xsl:if test="position() mod 2 = 0">
-        <xsl:attribute name="bgcolor"><xsl:value-of select="$LightBlue"/></xsl:attribute>
-      </xsl:if>
-      <td>
-        <a>
-          <xsl:attribute name="href">
+    <xsl:if test="position() mod 2 = 0">
+      <xsl:attribute name="bgcolor"><xsl:value-of select="$LightBlue"/></xsl:attribute>
+    </xsl:if>
+    <td>
+      <a>
+        <xsl:attribute name="href">
             <xsl:call-template name="TranslateTestName">
               <xsl:with-param name="Prefix">TestDetail/</xsl:with-param>
-              <xsl:with-param name="TestName" select="Name"/>
+              <xsl:with-param name="TestName"><xsl:value-of select="Name"/></xsl:with-param>
               <xsl:with-param name="PostFix">.html</xsl:with-param>
             </xsl:call-template>
           </xsl:attribute>
@@ -231,12 +141,15 @@
         <xsl:choose>
           <xsl:when test="contains(Status,'passed')">
             <td>
-              <xsl:attribute name="bgcolor"><xsl:value-of select="$Green"/></xsl:attribute>
-              <a style="text-decoration:none">
+              <xsl:attribute name="bgcolor"><xsl:value-of select="$NormalColor"/></xsl:attribute>
+              <a  onMouseout="hidetip()" style="text-decoration:none">
+                <xsl:attribute name="onMouseover">
+                  showtip(this,event,'<xsl:value-of select="SiteName"/> -- <xsl:value-of select="BuildName"/>')
+                </xsl:attribute>
                 <xsl:attribute name="href">
                   <xsl:call-template name="TranslateTestName">
                     <xsl:with-param name="Prefix">../../Sites/<xsl:value-of select="SiteName"/>/<xsl:value-of select="BuildName"/>/<xsl:value-of select="BuildStamp"/>/Results/</xsl:with-param>
-                    <xsl:with-param name="TestName" select="Name"/>
+                    <xsl:with-param name="TestName"><xsl:value-of select="../Name"/></xsl:with-param>
                     <xsl:with-param name="PostFix">.html</xsl:with-param>
                   </xsl:call-template>
                 </xsl:attribute>
@@ -246,18 +159,26 @@
           </xsl:when>
           <xsl:when test="contains(Status,'notrun')">
             <td>
-              <xsl:attribute name="bgcolor"><xsl:value-of select="$DarkRed"/></xsl:attribute>
-              <xsl:text disable-output-escaping="yes"><![CDATA[&nbsp;&nbsp;&nbsp;]]></xsl:text>
+              <xsl:attribute name="bgcolor"><xsl:value-of select="$ErrorColor"/></xsl:attribute>
+              <a href="#" onMouseout="hidetip()" style="text-decoration:none">
+                <xsl:attribute name="onMouseover">
+                  showtip(this,event,'<xsl:value-of select="SiteName"/> -- <xsl:value-of select="BuildName"/>')
+                </xsl:attribute>
+                <xsl:text disable-output-escaping="yes"><![CDATA[&nbsp;&nbsp;&nbsp;]]></xsl:text>
+              </a>
             </td>
           </xsl:when>
           <xsl:when test="contains(Status,'failed')">
             <td>
-              <xsl:attribute name="bgcolor"><xsl:value-of select="$Red"/></xsl:attribute>
-              <a style="text-decoration:none">
+              <xsl:attribute name="bgcolor"><xsl:value-of select="$WarningColor"/></xsl:attribute>
+              <a  onMouseout="hidetip()" style="text-decoration:none">
+                <xsl:attribute name="onMouseover">
+                  showtip(this,event,'<xsl:value-of select="SiteName"/> -- <xsl:value-of select="BuildName"/>')
+                </xsl:attribute>
                 <xsl:attribute name="href">
                   <xsl:call-template name="TranslateTestName">
                     <xsl:with-param name="Prefix">../../Sites/<xsl:value-of select="SiteName"/>/<xsl:value-of select="BuildName"/>/<xsl:value-of select="BuildStamp"/>/Results/</xsl:with-param>
-                    <xsl:with-param name="TestName" select="Name"/>
+                    <xsl:with-param name="TestName" select="../Name"/>
                     <xsl:with-param name="PostFix">.html</xsl:with-param>
                   </xsl:call-template>
                 </xsl:attribute>
@@ -267,7 +188,10 @@
           </xsl:when>
         </xsl:choose>
       </xsl:for-each>
-    </tr>
+      <td><xsl:text disable-output-escaping="yes"><![CDATA[&nbsp;&nbsp;&nbsp;]]></xsl:text></td>
+      <td><xsl:value-of select="count (Result/Status[node()='notrun'])"/></td>
+      <td><xsl:value-of select="count (Result/Status[node()='failed'])"/></td>
+      <td><xsl:value-of select="count (Result/Status[node()='passed'])"/></td>
   </xsl:template>
 
   <xsl:template name="TestDetail">
@@ -301,8 +225,9 @@
             <td><xsl:value-of select="BuildStamp"/></td>
             <td>
               <xsl:choose>
-                <xsl:when test="Status = 'failed'"><xsl:attribute name="bgcolor"><xsl:value-of select="$Red"/></xsl:attribute></xsl:when>
-                <xsl:when test="Status = 'notrun'"><xsl:attribute name="bgcolor"><xsl:value-of select="$Red"/></xsl:attribute></xsl:when>
+                <xsl:when test="Status = 'passed'"><xsl:attribute name="bgcolor"><xsl:value-of select="$NormalColor"/></xsl:attribute></xsl:when>
+                <xsl:when test="Status = 'failed'"><xsl:attribute name="bgcolor"><xsl:value-of select="$WarningColor"/></xsl:attribute></xsl:when>
+                <xsl:when test="Status = 'notrun'"><xsl:attribute name="bgcolor"><xsl:value-of select="$ErrorColor"/></xsl:attribute></xsl:when>
               </xsl:choose>
               <xsl:choose>
                 <xsl:when test="Status = 'passed'">
@@ -349,7 +274,7 @@
       <td>
         <xsl:choose>
           <xsl:when test="count (Result/Status[node()='failed']) &gt; 0">
-            <xsl:attribute name="bgcolor"><xsl:value-of select="$Red"/></xsl:attribute>
+            <xsl:attribute name="bgcolor"><xsl:value-of select="$WarningColor"/></xsl:attribute>
           </xsl:when>
         </xsl:choose>
         <xsl:value-of select="count (Result/Status[node()='failed'])"/>
@@ -357,7 +282,7 @@
       <td>
         <xsl:choose>
           <xsl:when test="count (Result/Status[node()='notrun']) &gt; 0">
-            <xsl:attribute name="bgcolor"><xsl:value-of select="$Red"/></xsl:attribute>
+            <xsl:attribute name="bgcolor"><xsl:value-of select="$WarningColor"/></xsl:attribute>
           </xsl:when>
         </xsl:choose>
         <xsl:value-of select="count (Result/Status[node()='notrun'])"/>
@@ -365,5 +290,40 @@
     </tr>
   </xsl:template>
   
+
+  <xsl:template name="BuildNameLegend">
+    <table>
+      <tr>
+        <th>Number</th>
+        <th>Site Name</th>
+        <th>Build Name</th>
+        <th>Build Stamp</th>
+        <xsl:for-each select="/TestOverview/Test[1]/Result">
+          <xsl:sort select="SiteName"/>
+          <xsl:sort select="BuildName"/>
+          <tr>
+            <xsl:if test="position() mod 2 = 0">
+              <xsl:attribute name="bgcolor"><xsl:value-of select="$LightBlue"/></xsl:attribute>
+            </xsl:if>
+            <td><xsl:number value="position()" format="1"/></td>
+            <td><xsl:value-of select="SiteName"/></td>
+            <td><xsl:value-of select="BuildName"/></td>
+            <td><xsl:value-of select="BuildStamp"/></td>
+          </tr>
+        </xsl:for-each>
+      </tr>
+    </table>
+    <table>
+      <tr>
+        <th colspan="3">Color legend</th>
+      </tr>
+      <tr>
+        <td><xsl:attribute name="bgcolor"><xsl:value-of select="$NormalColor"/></xsl:attribute>Passed</td>
+        <td><xsl:attribute name="bgcolor"><xsl:value-of select="$WarningColor"/></xsl:attribute>Failed</td>
+        <td><xsl:attribute name="bgcolor"><xsl:value-of select="$ErrorColor"/></xsl:attribute>Not Run</td>
+      </tr>
+    </table>
+  </xsl:template>
+
 
 </xsl:stylesheet>

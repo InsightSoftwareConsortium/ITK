@@ -3,11 +3,18 @@
 
   <xsl:param name="DashboardDate" select="string('')"/>
 
-  <xsl:variable name="DarkRed">#ff0000</xsl:variable>
+  <xsl:variable name="NormalColor">#00aa00</xsl:variable>
+  <xsl:variable name="WarningColor">#ffcc66</xsl:variable>
+  <xsl:variable name="ErrorColor">#ff6666</xsl:variable>
+
+  <xsl:variable name="DarkRed">#ff6666</xsl:variable>
   <xsl:variable name="Red">#ffcc66</xsl:variable>
-  <xsl:variable name="Green">#00ff7f</xsl:variable>
+  <xsl:variable name="Green">#00AA00</xsl:variable>
   <xsl:variable name="Yellow">#ffff99</xsl:variable>
+
+
   <xsl:variable name="LightBlue">#b0c4de</xsl:variable>
+
   <xsl:variable name="CVSWebURL">http://public.kitware.com/cgi-bin/itkcvsweb.cgi/Insight/</xsl:variable>
   <xsl:variable name="DoxygenURL">http://public.kitware.com/Insight/Doxygen/html/</xsl:variable>
 
@@ -37,16 +44,20 @@
     <xsl:param name="TestsIcon">Tests.gif</xsl:param>
     <xsl:param name="CoverageIcon">Coverage.gif</xsl:param>
     <xsl:param name="HomeIcon">Home.gif</xsl:param>
+    <xsl:param name="UseToolTips">0</xsl:param>
     <xsl:text disable-output-escaping="yes">&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
     &lt;html>
       &lt;head>
-        &lt;title>
-    </xsl:text>
+        &lt;title> 
+   </xsl:text>
     <xsl:value-of select="$Title"/> -- <xsl:value-of select="$DashboardDate"/>
     <xsl:text disable-output-escaping="yes">
         &lt;/title>
       &lt;/head>
       &lt;body bgcolor="#ffffff">
+    </xsl:text>
+    <xsl:if test="$UseToolTips"><xsl:call-template name="ToolTipHeader"/></xsl:if>
+    <xsl:text disable-output-escaping="yes">
       &lt;basefont face="Arial,Helvetica">&lt;/basefont>
         &lt;table border="0" cellpadding="0" cellspacing="2" width="100%">
           &lt;tr>
@@ -108,6 +119,69 @@
             &lt;td valign="top">
             </xsl:text>
             </xsl:template>
+
+
+<xsl:template name="ToolTipHeader">
+
+<xsl:text disable-output-escaping="yes">
+<![CDATA[
+  <script>
+    /*
+    Text Link/Image Map Tooltip Script- 
+    © Dynamic Drive (www.dynamicdrive.com)
+    For full source code, installation instructions,
+    100's more DHTML scripts, and Terms Of
+    Use, visit dynamicdrive.com
+    */
+    /*
+    Use is:
+    <a href="URL" onMouseover="showtip(this,event,'Visit Dynamic Drive for DHTML Scripts!')" onMouseout="hidetip()">Dynamic Drive</a>
+    */
+
+    if (!document.layers&&!document.all)
+    {
+      event="test"
+    }
+
+    function showtip(current,e,text)
+    {
+
+      if (document.all)
+      {
+      thetitle=text.split('<br>')
+      if (thetitle.length>1)
+      {
+        thetitles=''
+        for (i=0;i<thetitle.length;i++)
+        {
+          thetitles+=thetitle[i]
+        }
+        current.title=thetitles
+      }
+      else
+      {
+        current.title=text
+      }
+    }
+
+else if (document.layers){
+document.tooltip.document.write('<layer bgColor="white" style="border:1px solid black;font-size:12px;">'+text+'</layer>')
+document.tooltip.document.close()
+document.tooltip.left=e.pageX+15
+document.tooltip.top=e.pageY+15
+document.tooltip.visibility="show"
+}
+}
+function hidetip(){
+if (document.layers)
+document.tooltip.visibility="hidden"
+}
+
+</script>
+<div id="tooltip" style="position:absolute;visibility:hidden"></div>
+]]>
+</xsl:text>
+</xsl:template>
 
 
 
