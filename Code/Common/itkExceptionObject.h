@@ -19,7 +19,6 @@
 
 #include <string>
 #include "itkObject.h"
-#include "itkSetGet.h"
 
 class itkExceptionObject
 {

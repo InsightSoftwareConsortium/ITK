@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkSetGet.h
+  Module:    itkMacro.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,17 +14,17 @@
 
 =========================================================================*/
 /**
- * itkSetGet.h defines standard system-wide macros, constants, and other
+ * itkMacro.h defines standard system-wide macros, constants, and other
  * parameters. One of its most important functions is to define macros used
  * to interface to instance variables in a standard fashion. For example,
  * these macros manage modified time, debugging information, and provide a
- * standard interface to set and get instance variables.  SetGet macros are
+ * standard interface to set and get instance variables.  Macros are
  * available for built-in types; for string classe; vector arrays;
  * object pointers; and debug, warning, and error printout information. 
  */
 
-#ifndef __itkSetGet_h
-#define __itkSetGet_h
+#ifndef __itkMacro_h
+#define __itkMacro_h
 
 #include <string>
 #include <strstream>

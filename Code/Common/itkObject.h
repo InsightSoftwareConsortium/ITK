@@ -29,7 +29,6 @@
 #include "itkSmartPointer.h"
 #include "itkTimeStamp.h"
 #include "itkIndent.h"
-#include "itkSetGet.h"
 
 class ITK_EXPORT itkObject: public itkLightObject
 {

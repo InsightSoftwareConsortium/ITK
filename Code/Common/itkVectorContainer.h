@@ -29,7 +29,6 @@
 #include "itkObject.h"
 #include "itkObjectFactory.h"
 #include "itkSmartPointer.h"
-#include "itkSetGet.h"
 
 namespace itk
 {
