@@ -804,8 +804,9 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
     FileName(_headName);
     }
 
+ 
   bool userDataFileName = true;
-  if(_dataName == NULL && strlen(m_ElementDataFileName)==0)
+  if(_dataName == NULL)// && strlen(m_ElementDataFileName)==0)
     {
     userDataFileName = false;
     int sPtr = 0;
