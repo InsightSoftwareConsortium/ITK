@@ -126,7 +126,7 @@ public:
   itkGetVectorMacro(OutputOffset, const long, ImageDimension);
 
   /** Change the origin, spacing and region of the output image. */
-  bool ChangeAll()
+  void ChangeAll()
     {
     this->ChangeSpacingOn();
     this->ChangeOriginOn();
@@ -135,7 +135,7 @@ public:
 
   /** Change neither the origin nor spacing nor region of the output image. */
 
-  bool ChangeNone()
+  void ChangeNone()
     {
     this->ChangeSpacingOff();
     this->ChangeOriginOff();
