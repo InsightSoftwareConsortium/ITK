@@ -73,10 +73,17 @@ int main( int argc, char ** argv )
 
 // Software Guide : BeginLatex
 //
-// After reading in the input image (\code{inputImage}), we create an
-// iterator.  The number of samples the iterator will take is set by a command
-// line argument. Calling \code{ReinitializeSeed} seeds the random number
-// generator.
+// The \code{IsAtBegin} and \code{IsAtEnd} methods take on a different meaning
+// in the context of this iterator.  Beginning and ending ``positions'' of the
+// iterator are defined based on the number of samples.  As the random iterator
+// is incremented, it keeps a sample count.  \code{IsAtEnd()} returns
+// \code{true} when the sample count is equal to the user-defined
+// \code{NumberOfSamples} parameter. \code{IsAtBegin()} returns \code{true}
+// when the sample count is zero.
+//
+// The input image has been read as \code{inputImage}.  We now create an
+// iterator with a number of samples set by command line argument. The call to
+// \code{ReinitializeSeed} seeds the random number generator.
 //
 // Software Guide : EndLatex
 
@@ -88,7 +95,7 @@ int main( int argc, char ** argv )
 
 // Software Guide: BeginLatex
 //
-// Now take the specified number of samples and calculate the average.
+// Now take the specified number of samples and calculate its average.
 //
 // Software Guide : EndLatex
 
