@@ -166,6 +166,11 @@ public:
   typedef typename TClassifiedImage::PixelType       LabelledPixelType;
 
   /**
+   * Type definition for the classified image index type.
+   */
+  typedef typename TClassifiedImage::IndexType       LabelledImageIndexType;
+
+  /**
    * Type definitions for classifier to be used for the MRF lavbelling.
    */
   typedef Classifier<TInputImage,TClassifiedImage> ClassifierType;
