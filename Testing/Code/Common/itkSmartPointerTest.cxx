@@ -84,10 +84,13 @@ itkTestObjectSubClass::Pointer itkTestObjectSubClass::New()
   return itkTestObjectSubClass::Pointer(new itkTestObjectSubClass);
 }
 
+// This SHOULD NOT be used in ITK, all functions
+// should take raw pointers as arguments
 void TestUpCastPointer(itkTestObject::Pointer p)
 {
 }
 
+// Test a function that takes an itkTestObject raw pointer
 void TestUpCast(itkTestObject* p)
 {
 }
@@ -95,10 +98,21 @@ void TestUpCast(itkTestObject* p)
 
 int main()
 {
+  // Create a base class pointer to a child class
   itkTestObject::Pointer to(itkTestObjectSubClass::New());
-  itkTestObjectSubClass::Pointer sc = dynamic_cast<itkTestObjectSubClass*>((itkTestObject*)to);
+  // test the safe down cast and create a child class Pointer object
+  itkTestObjectSubClass::Pointer sc 
+    = dynamic_cast<itkTestObjectSubClass*>(to.GetPointer());
+  // Test the up cast with a function that takes a pointer
   TestUpCast(sc);
+  // Test calling a function that takes a SmartPointer as
+  // an argument, note, that you have to get the raw pointer
+  // for this to work
   TestUpCastPointer(sc.GetPointer());
+
+  // Test casting up the tree, note no explict cast is required
+  itkTestObject::Pointer p = sc;
+  
   std::cout <<"second test" << std::endl;
   {
   itkTestObject::Pointer o1 = itkTestObject::New();
