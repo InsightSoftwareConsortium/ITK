@@ -109,8 +109,9 @@ int main(
             matrix2[i][j] = 0.0;
         vector2[i]    = 0.0;
     }
-    std::cout << "Instantiation of a given 2D transform:" 
-              << std::endl << *aff2;
+    std::cout << "Instantiation of a given 2D transform:" << std::endl;
+    aff2->PrintSelf( std::cout );
+
     inverse2 = aff2->GetInverse();
     std::cout << "Inverse matrix for the given transform:"
               << std::endl << inverse2;
@@ -139,44 +140,44 @@ int main(
 
     /* Try composition of two transformations */
     aff2->Compose( aff2 );
-    std::cout << "Result of a composition:"
-              << std::endl << *aff2;
+    std::cout << "Result of a composition:" << std::endl;
+    aff2->PrintSelf( std::cout );
 
     /* Compose with a translation */
     VectorType trans;
     trans[0] = 1;
     trans[1] = 2;
     aff2->Translate(trans);
-    std::cout << "Result of a translation:"
-              << std::endl << *aff2;
+    std::cout << "Result of a translation:" << std::endl;
+    aff2->PrintSelf( std::cout );
 
     /* Compose with an isotropic scaling */
     aff2->Scale(.3, 1);
-    std::cout << "Result of isotropic scaling:"
-              << std::endl << *aff2;
+    std::cout << "Result of isotropic scaling:" << std::endl;
+    aff2->PrintSelf( std::cout );
 
     /* Compose with an anisotropic scaling */
     VectorType scale;
     scale[0] = .3;
     scale[1] = .2;
     aff2->Scale(scale);
-    std::cout << "Result of anisotropic scaling:"
-              << std::endl << *aff2;
+    std::cout << "Result of anisotropic scaling:" << std::endl;
+    aff2->PrintSelf( std::cout );
 
     /* Compose with a general N-D rotation */
     aff2->Rotate(0, 1, 0.57, 1);
-    std::cout << "Result of general rotation:"
-              << std::endl << *aff2;
+    std::cout << "Result of general rotation:" << std::endl;
+    aff2->PrintSelf( std::cout );
 
     /* Compose with a 2-D rotation */
     aff2->Rotate(0, 1, -0.57, 1);
-    std::cout << "Result of 2-D rotation:"
-              << std::endl << *aff2;
+    std::cout << "Result of 2-D rotation:" << std::endl;
+    aff2->PrintSelf( std::cout );
 
     /* Compose with a shear */
     aff2->Shear(1, 0, .2);
-    std::cout << "Result of shear:"
-              << std::endl << *aff2;
+    std::cout << "Result of shear:" << std::endl;
+    aff2->PrintSelf( std::cout );
 
     /* Transform a point */
     itk::Point<double, 2> u2, v2;
