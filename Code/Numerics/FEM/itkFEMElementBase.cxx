@@ -122,7 +122,7 @@ Element::Me() const
 
 
 Element::VectorType
-Element::InterpolateSolution( const VectorType& pt, const Solution& sol ) const
+Element::InterpolateSolution( const VectorType& pt, const Solution& sol , unsigned int WhichSolution ) const
 {
 
   VectorType vec( GetNumberOfDegreesOfFreedomPerNode() );
@@ -138,7 +138,7 @@ Element::InterpolateSolution( const VectorType& pt, const Solution& sol ) const
 
     for(unsigned int n=0; n<Nnodes; n++)
     {
-      value+=shapef[n] * sol.GetSolutionValue( this->GetDegreeOfFreedomAtNode(n,f) );
+      value+=shapef[n] * sol.GetSolutionValue( this->GetDegreeOfFreedomAtNode(n,f), WhichSolution );
     }
 
     vec[f]=value;
@@ -153,7 +153,7 @@ Element::InterpolateSolution( const VectorType& pt, const Solution& sol ) const
 
 
 Element::Float
-Element::InterpolateSolution( const VectorType& pt, const Solution& sol, unsigned int f ) const
+Element::InterpolateSolutionN( const VectorType& pt, const Solution& sol, unsigned int f , unsigned int WhichSolution ) const
 {
 
   Float value=0.0;
@@ -162,7 +162,7 @@ Element::InterpolateSolution( const VectorType& pt, const Solution& sol, unsigne
   unsigned int Nnodes=this->GetNumberOfNodes();
   for(unsigned int n=0; n<Nnodes; n++)
   {
-    value+=shapef[n] * sol.GetSolutionValue( this->GetDegreeOfFreedomAtNode(n,f) );
+    value+=shapef[n] * sol.GetSolutionValue( this->GetDegreeOfFreedomAtNode(n,f), WhichSolution );
   }
   return value;
 

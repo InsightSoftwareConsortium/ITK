@@ -270,7 +270,7 @@ public:
    *            is solved and contains the values of unknown functions
    *            at nodes (degrees of freedom).
    */
-  virtual VectorType InterpolateSolution( const VectorType& pt, const Solution& sol ) const;
+  virtual VectorType InterpolateSolution( const VectorType& pt, const Solution& sol , unsigned int WhichSolution=0 ) const;
 
   /**
    * Return interpolated value of f-th unknown function at
@@ -284,7 +284,7 @@ public:
    * \param f Number of unknown function to interpolate.
    *          Must be 0 <= f < GetNumberOfDegreesOfFreedomPerNode().
    */
-  virtual Float InterpolateSolution( const VectorType& pt, const Solution& sol, unsigned int f ) const;
+  virtual Float InterpolateSolutionN( const VectorType& pt, const Solution& sol, unsigned int f , unsigned int WhichSolution=0 ) const;
 
 
 
