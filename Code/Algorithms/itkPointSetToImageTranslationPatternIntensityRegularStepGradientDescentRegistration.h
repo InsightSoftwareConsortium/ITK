@@ -47,7 +47,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkRegularStepGradientDescentOptimizer.h"
 #include "itkImage.h"
 #include "itkImageMapper.h"
-#include "itkTranslationRegistrationTransform.h"
+#include "itkTranslationTransform.h"
 #include "itkPointSet.h"
 
 namespace itk
@@ -74,25 +74,29 @@ public:
    */
    typedef TTarget TargetType;
 
-  /**
-   * Image Dimensions
-   */
-   enum {ImageDimension = ReferenceType::ImageDimension,
-         ParametersDimension = ImageDimension };
-
-  /**
-   *  Type of the parameters
-   */
-   typedef Point<double,ParametersDimension>   ParametersType;
 
   /**
    *  Type of the Transformation
    */
-   typedef TranslationRegistrationTransform<
-                double, 
-                ImageDimension, 
-                ParametersType > TransformationType;
-	  
+   typedef TranslationTransform<
+                                  double, 
+                                  ImageDimension
+                                                  > TransformationType;
+	  	  
+  /**
+   * Image Dimensions
+   */
+   enum {ImageDimension = ReferenceType::ImageDimension,
+         ParametersDimension = TransformationType::ParametersDimension };
+
+
+  /**
+   *  Type of the parameters
+   */
+   typedef TransformationType::ParametersType   ParametersType;
+
+
+
   /**
    *  Type of the Mapper
    */
