@@ -112,6 +112,18 @@
     sizeof(x##_Pointer); \
   }
 
+// Wrap a subclass of itk::LightObject with two template arguments.
+#define ITK_WRAP_OBJECT_TEMPLATE_3(x, c1,c2,c3) \
+  ITK_WRAP_NAMESPACE_OPEN \
+      typedef ::itk::c1,c2,c3 x; \
+      typedef x::Pointer x##_Pointer; \
+  ITK_WRAP_NAMESPACE_CLOSE \
+  void _cable_force_instantiate_##x() { \
+    ITK_WRAP_NAMESPACE_USING \
+    sizeof(x); \
+    sizeof(x##_Pointer); \
+  }
+
 // Wrap a class taking two image type arguments.
 #define ITK_WRAP_IMAGE_TO_IMAGE(f, x, y) \
   ITK_WRAP_NAMESPACE_OPEN \
@@ -159,6 +171,42 @@
     ITK_WRAP_NAMESPACE_USING \
     sizeof(f##x); \
     sizeof(f##x##_Pointer); \
+  }
+
+// Wrap the superclass of a class taking two of the same image type
+// arguments.
+#define ITK_WRAP_IMAGE_TO_SAME_IMAGE_SUPERCLASS(f, x) \
+  ITK_WRAP_NAMESPACE_OPEN \
+    typedef ::itk::f< Image##x , Image##x >::Superclass f##x##_Superclass; \
+  ITK_WRAP_NAMESPACE_CLOSE \
+  void _cable_force_instantiate_##f##x##_Superclass() { \
+    ITK_WRAP_NAMESPACE_USING \
+    sizeof(f##x##_Superclass); \
+  }
+
+// Wrap a class taking three of the same image type arguments and one
+// other image type argument.
+#define ITK_WRAP_TERNARY_IMAGE_TO_IMAGE(f, x, y) \
+  ITK_WRAP_NAMESPACE_OPEN \
+    typedef ::itk::f< Image##x , Image##x , Image##x , Image##y> f##x##y; \
+    typedef f##x##y::Pointer f##x##y##_Pointer; \
+  ITK_WRAP_NAMESPACE_CLOSE \
+  void _cable_force_instantiate_##f##x##y() { \
+    ITK_WRAP_NAMESPACE_USING \
+    sizeof(f##x##y); \
+    sizeof(f##x##y##_Pointer); \
+  }
+
+// Wrap the superclass of a class taking three of the same image type
+// arguments and one other image type argument.
+#define ITK_WRAP_TERNARY_IMAGE_TO_IMAGE_SUPERCLASS(f, x, y) \
+  ITK_WRAP_NAMESPACE_OPEN \
+    typedef ::itk::f< Image##x , Image##x , Image##x , Image##y>::Superclass \
+              f##x##y##_Superclass; \
+  ITK_WRAP_NAMESPACE_CLOSE \
+  void _cable_force_instantiate_##f##x##y##_Superclass() { \
+    ITK_WRAP_NAMESPACE_USING \
+    sizeof(f##x##y##_Superclass); \
   }
 
 #endif
