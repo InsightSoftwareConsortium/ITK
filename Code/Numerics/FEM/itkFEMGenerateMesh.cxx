@@ -104,22 +104,25 @@ void Generate3DRectilinearMesh
   Nel[0]=floor(Nel[0]);
   Nel[1]=floor(Nel[1]);
   Nel[2]=floor(Nel[2]);
-  unsigned int Ni=static_cast<unsigned int>(Nel[0]);
-  unsigned int Nj=static_cast<unsigned int>(Nel[1]);
-  unsigned int Nk=static_cast<unsigned int>(Nel[2]);
+  double Ni=static_cast<double>(Nel[0]);
+  double Nj=static_cast<double>(Nel[1]);
+  double Nk=static_cast<double>(Nel[2]);
 
   // Create nodes
   Node::Pointer n;
   int gn=0; // number of node
-  for(unsigned int k=0; k<=Nk; k++)
+  for(double k=0; k<=Nk; k++)
   {
-    for(unsigned int j=0; j<=Nj; j++)
+    for(double j=0; j<=Nj; j++)
     {
-      for(unsigned int i=0; i<=Ni; i++)
+      for(double i=0; i<=Ni; i++)
       {
-        n=new Node(orig[0]+i*size[0]/Nel[0],
-                   orig[1]+j*size[1]/Nel[1],
-                   orig[2]+k*size[2]/Nel[2]);
+        double xx,yy,zz;
+        xx=orig[0]+i*size[0]/Nel[0]; 
+        yy=orig[1]+j*size[1]/Nel[1];
+        zz=orig[2]+k*size[2]/Nel[2];
+//std::cout << " xx " << xx << " yy " << yy << " zz " << zz << std::endl;
+        n=new Node(xx,yy,zz);
         n->GN=gn;
         gn++;
         S.node.push_back(FEMP<Node>(n));
