@@ -33,6 +33,8 @@ GoodnessOfFitComponentBase< TInputSample >
   m_HistogramNumberOfBins = 0 ;
   m_HistogramBinOverlap = 0.75 ;
   m_HistogramExtent = 1.5 ;
+  m_HistogramMean = 0.0 ;
+  m_HistogramStandardDeviation = 0.0 ;
   m_HistogramUseEquiProbableBins = true ;
   m_UseExpectedHistogram = true ;
 
@@ -44,7 +46,10 @@ GoodnessOfFitComponentBase< TInputSample >
   m_ExpectedHistogram = 0 ;
 
   m_Proportion = 0.5 ;
-  
+  ProjectionAxisType tempAxis ;
+  tempAxis.Fill(0.0) ;
+  m_ProjectionAxes.Fill(tempAxis) ;
+  m_TotalObservedScale = 0.0 ;
 }
 
 template< class TInputSample >
@@ -60,34 +65,57 @@ GoodnessOfFitComponentBase< TInputSample >
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Input Sample         " << m_InputSample << std::endl;
-  os << indent << "Parameters           " << m_Parameters << std::endl;
-  os << indent << "Proportion           " << m_Proportion << std::endl;
-  os << indent << "Resampler            " << m_Resampler << std::endl;
-  os << indent << "Projector            " << m_Projector << std::endl;
-  os << indent << "Projection Axes      " << m_ProjectionAxes << std::endl;
-  os << indent << "Total Observed Scale " << m_TotalObservedScale << std::endl;
-  os << indent << "Observed Histogram   " << m_ObservedHistogram << std::endl;
-  os << indent << "Expected Histogram   " << m_ExpectedHistogram << std::endl;
+  os << indent << "Input Sample: " ;
+  if ( m_InputSample != 0 )
+    {
+     os << m_InputSample << std::endl;
+    }
+  else
+    {
+    os << "not set." << std::endl ;
+    }
 
-  os << indent << "Histogram Number of Bins        " 
+  os << indent << "Parameters : " << m_Parameters << std::endl;
+  os << indent << "Proportion: " << m_Proportion << std::endl;
+  os << indent << "Resampler: " << m_Resampler << std::endl;
+  os << indent << "Projector: " << m_Projector << std::endl;
+  os << indent << "Projection Axes: " << m_ProjectionAxes << std::endl;
+  os << indent << "Total Observed Scale: " << m_TotalObservedScale << std::endl;
+
+  os << indent << "Observed Histogram: " ;
+  if ( m_ObservedHistogram != 0 )
+    {
+    os << m_ObservedHistogram << std::endl;
+    }
+  else
+    {
+    os << "not allocated." << std::endl ;
+    }
+
+  os << indent << "Expected Histogram: " ;
+  if ( m_ExpectedHistogram != 0 )
+    {
+    os << m_ExpectedHistogram << std::endl ;
+    }
+  else
+    {
+    os << "not allocated yet." << std::endl ;
+    }
+
+  os << indent << "Histogram Number of Bins: " 
      << m_HistogramNumberOfBins << std::endl;
-  os << indent << "Histogram Use Equiprobable Bins " 
+  os << indent << "Histogram Use Equiprobable Bins: " 
      << m_HistogramUseEquiProbableBins << std::endl;
-  os << indent << "Histogram Extent                " 
+  os << indent << "Histogram Extent: " 
      << m_HistogramExtent << std::endl;
-  os << indent << "Histogram Bin Overlap           " 
+  os << indent << "Histogram Bin Overlap: " 
      << m_HistogramBinOverlap << std::endl;
-  os << indent << "Histogram Size Changed          " 
+  os << indent << "Histogram Size Changed: " 
      << m_HistogramSizeChanged << std::endl;
-  os << indent << "Histogram Mean                  " 
+  os << indent << "Histogram Mean: " 
      << m_HistogramMean << std::endl;
-  os << indent << "Histogram Standard Deviation    " 
+  os << indent << "Histogram Standard Deviation: " 
      << m_HistogramStandardDeviation << std::endl;
-
-  
-  os << indent << "Projector    " << m_Projector << std::endl;
-
 }
 
 template< class TInputSample >
@@ -368,21 +396,19 @@ GoodnessOfFitComponentBase< TInputHistogram >
 }
 
 template< class TInputSample >
-typename GoodnessOfFitComponentBase< TInputSample >::HistogramType*
+typename GoodnessOfFitComponentBase< TInputSample >::HistogramPointer
 GoodnessOfFitComponentBase< TInputSample >
 ::GetObservedHistogram()
 {
-  //  this->UpdateObservedHistogram() ;
-  return m_ObservedHistogram.GetPointer() ;
+  return m_ObservedHistogram ;
 }
 
 template< class TInputSample >
-typename GoodnessOfFitComponentBase< TInputSample >::HistogramType*
+typename GoodnessOfFitComponentBase< TInputSample >::HistogramPointer
 GoodnessOfFitComponentBase< TInputSample >
 ::GetExpectedHistogram()
 {
-  //  this->UpdateExpectedHistogram() ;
-  return m_ExpectedHistogram.GetPointer() ;
+  return m_ExpectedHistogram ;
 }
 
 } // end of namespace Statistics 

@@ -102,6 +102,7 @@ public:
 
   /** Histogram type that will be used for observed and expected histogram*/
   typedef Histogram< float, 1 > HistogramType ;
+  typedef typename HistogramType::Pointer HistogramPointer ;
 
   typedef Array< double > ParametersType ;
 
@@ -180,9 +181,9 @@ public:
   { return m_Proportion ; }
 
   /** accessing methods for the projected sample */
-  HistogramType* GetObservedHistogram() ;
+  HistogramPointer GetObservedHistogram() ;
   
-  HistogramType* GetExpectedHistogram() ;
+  HistogramPointer GetExpectedHistogram() ;
 
   virtual void PrintParameters(std::ostream &os) const = 0 ;
 
@@ -241,8 +242,8 @@ private:
   double m_Proportion ;
 
   /** resampled sample projected to a histogram */
-  HistogramType::Pointer m_ObservedHistogram ;
-  HistogramType::Pointer m_ExpectedHistogram ;
+  HistogramPointer m_ObservedHistogram ;
+  HistogramPointer m_ExpectedHistogram ;
   bool m_UseExpectedHistogram ;
 
 } ; // end of class
