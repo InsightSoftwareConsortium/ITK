@@ -34,37 +34,43 @@
       dbAdd (true, "Updated files  (<xsl:value-of select="count(/Update/Directory/Updated)"/>)", "", 0, "", 1)
       <xsl:for-each select="Directory">
         <xsl:sort select="Name"/>
-        dbAdd (true, "<xsl:value-of select="Name"/> (<xsl:value-of select="count(Updated)"/>)", "", 1, "", 1)
-        <xsl:for-each select="Updated">
-          <xsl:sort select="Name"/>
-          <xsl:call-template name="dbAdd">
-            <xsl:with-param name="Level">2</xsl:with-param>
-          </xsl:call-template>
-        </xsl:for-each>
+        <xsl:if test="count(Updated)">
+          dbAdd (true, "<b><xsl:value-of select="Name"/> (<xsl:value-of select="count(Updated)"/>)</b>", "", 1, "", 1)
+          <xsl:for-each select="Updated">
+            <xsl:sort select="Name"/>
+            <xsl:call-template name="dbAdd">
+              <xsl:with-param name="Level">2</xsl:with-param>
+            </xsl:call-template>
+          </xsl:for-each>
+        </xsl:if>
       </xsl:for-each>
 
       dbAdd (true, "Modified files  (<xsl:value-of select="count(/Update/Directory/Modified)"/>)", "", 0, "", 1)
       <xsl:for-each select="Directory">
         <xsl:sort select="Name"/>
-        dbAdd (true, "<xsl:value-of select="Name"/> (<xsl:value-of select="count(Modified)"/>)", "", 1, "", 1)
-        <xsl:for-each select="Modified">
-          <xsl:sort select="Name"/>
-          <xsl:call-template name="dbAdd">
-            <xsl:with-param name="Level">2</xsl:with-param>
-          </xsl:call-template>
-        </xsl:for-each>
+        <xsl:if test="count(Modified)">
+          dbAdd (true, "<b><xsl:value-of select="Name"/> (<xsl:value-of select="count(Modified)"/>)</b>", "", 1, "", 1)
+          <xsl:for-each select="Modified">
+            <xsl:sort select="Name"/>
+            <xsl:call-template name="dbAdd">
+              <xsl:with-param name="Level">2</xsl:with-param>
+            </xsl:call-template>
+          </xsl:for-each>
+        </xsl:if>
       </xsl:for-each>
 
       dbAdd (true, "Conflicting files  (<xsl:value-of select="count(/Update/Directory/Conflicting)"/>)", "", 0, "", 1)
       <xsl:for-each select="Directory">
         <xsl:sort select="Name"/>
-        dbAdd (true, "<xsl:value-of select="Name"/> (<xsl:value-of select="count(Conflicting)"/>)", "", 1, "", 1)
-        <xsl:for-each select="Conflicting">
-          <xsl:sort select="Name"/>
-          <xsl:call-template name="dbAdd">
-            <xsl:with-param name="Level">2</xsl:with-param>
-          </xsl:call-template>
-        </xsl:for-each>
+        <xsl:if test="count(Updated)">
+          dbAdd (true, "<b><xsl:value-of select="Name"/> (<xsl:value-of select="count(Conflicting)"/>)</b>", "", 1, "", 1)
+          <xsl:for-each select="Conflicting">
+            <xsl:sort select="Name"/>
+            <xsl:call-template name="dbAdd">
+              <xsl:with-param name="Level">2</xsl:with-param>
+            </xsl:call-template>
+          </xsl:for-each>
+        </xsl:if>
       </xsl:for-each>
 
       </script>
@@ -79,7 +85,7 @@
   <xsl:template name="dbAdd">
     <xsl:param name="Level">1</xsl:param>
     <xsl:variable name="Level2"><xsl:value-of select="$Level + 1"/></xsl:variable>
-    dbAdd (true, "<b><xsl:value-of select="File"/></b> by <xsl:value-of select="Author"/>", "<xsl:value-of select="$CVSWebURL"/><xsl:value-of select="FullName"/>.diff?r1=<xsl:value-of select="PriorRevision"/>&amp;r2=<xsl:value-of select="Revision"/>", <xsl:value-of select="$Level"/>, "", 1)
+    dbAdd (true, "<xsl:value-of select="File"/> by <xsl:value-of select="Author"/>", "<xsl:value-of select="$CVSWebURL"/><xsl:value-of select="FullName"/>.diff?r1=<xsl:value-of select="PriorRevision"/>&amp;r2=<xsl:value-of select="Revision"/>", <xsl:value-of select="$Level"/>, "", 1)
     dbAdd ( false, "<xsl:value-of select="normalize-space ( Log )"/>", "", <xsl:value-of select="$Level2"/>, "", 0 )
   </xsl:template>
 
@@ -127,7 +133,7 @@
 </xsl:text>
       <Update>
         <StartDateTime><xsl:value-of select="StartDateTime"/></StartDateTime>
-        <ChangedFileCount><xsl:value-of select="count(Updated|Modified|Conflicting)"/></ChangedFileCount>
+        <ChangedFileCount><xsl:value-of select="count(Directory/Updated|Directory/Modified|Directory/Conflicting)"/></ChangedFileCount>
         <AuthorCount><xsl:value-of select="count(Author)"/></AuthorCount>
         <DirectoryCount><xsl:value-of select="count(Directory)"/></DirectoryCount>
       </Update>

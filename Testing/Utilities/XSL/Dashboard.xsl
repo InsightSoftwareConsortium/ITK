@@ -15,7 +15,7 @@
 
   <xsl:template match="/Dashboard">
     <xsl:call-template name="InsightHeader">
-      <xsl:with-param name="Title">Insight dashboard</xsl:with-param>
+      <xsl:with-param name="Title">Insight Dashboard</xsl:with-param>
       <xsl:with-param name="IconDir">../../Icons</xsl:with-param>
     </xsl:call-template>
     <h3>
@@ -99,29 +99,29 @@
                       <xsl:if test="Coverage/LOC != ''">
                         <xsl:variable name="URLBase">../../Sites/<xsl:value-of select="Coverage/SiteName"/>/<xsl:value-of select="Coverage/BuildName"/>/<xsl:value-of select="Coverage/BuildStamp"/></xsl:variable>
                         <tr>
-                          <td align="center"><xsl:value-of select="Coverage/SiteName"/></td>
-                          <td align="center"><xsl:value-of select="Coverage/BuildName"/></td>
+                          <td align="left"><xsl:value-of select="Coverage/SiteName"/></td>
+                          <td align="left"><xsl:value-of select="Coverage/BuildName"/></td>
                           <td align="center">
                             <xsl:choose>
                               <xsl:when test="Coverage/PercentCoverage &lt; 50">
-                                <xsl:attribute name="bgcolor">#ff7f50</xsl:attribute>
+                                <xsl:attribute name="bgcolor"><xsl:value-of select="$Red"/></xsl:attribute>
                               </xsl:when>
                               <xsl:otherwise>
-                                <xsl:attribute name="bgcolor">#00ff7f</xsl:attribute>
+                                <xsl:attribute name="bgcolor"><xsl:value-of select="$Green"/></xsl:attribute>
                               </xsl:otherwise>
                             </xsl:choose>
                             <a>
                               <xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Coverage.html</xsl:attribute><xsl:value-of select="Coverage/PercentCoverage"/>%
                             </a>
                           </td>
-                          <td align="center">
+                          <td align="right">
                             <xsl:value-of select="Coverage/Passed"/>
                           </td>
-                          <td align="center">
+                          <td align="right">
                             <xsl:value-of select="Coverage/Failed"/>
                           </td>
-                          <td align="center"><xsl:value-of select="Coverage/StartDateTime"/></td>
-                          <td align="center"><xsl:value-of select="CoverageSubmissionDateTime"/></td>
+                          <td align="left"><xsl:value-of select="Coverage/StartDateTime"/></td>
+                          <td align="left"><xsl:value-of select="CoverageSubmissionDateTime"/></td>
                         </tr>
                       </xsl:if>
                     </xsl:for-each>

@@ -42,8 +42,8 @@
     <xsl:value-of select="$IconDir"/>
     <xsl:text disable-output-escaping="yes">/Logo.gif" border="0">&lt;/img>
             &lt;/td>
-            &lt;td>
-    &lt;h1></xsl:text><xsl:value-of select="$Title"/> -- <xsl:value-of select="$DashboardDate"/><xsl:text disable-output-escaping="yes">&lt;/h1>
+            &lt;td valign="top">
+    &lt;h2></xsl:text><xsl:value-of select="$Title"/><xsl:text disable-output-escaping="yes">&lt;/h2>&lt;h3></xsl:text><xsl:value-of select="$DashboardDate"/><xsl:text disable-output-escaping="yes">&lt;/h3>
             &lt;/td>
           &lt;/tr>
           &lt;tr>
@@ -59,7 +59,7 @@
                   &lt;/td>
                 &lt;/tr>
                 &lt;tr>
-                  &lt;td>
+                  &lt;td halign="center" valign="left">
                     &lt;a>&lt;img src="</xsl:text>
       <xsl:value-of select="$IconDir"/>
       <xsl:text disable-output-escaping="yes">/Errors.gif" border="0">&lt;/img>&lt;/a>
