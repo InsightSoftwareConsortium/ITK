@@ -447,38 +447,28 @@ These objects are the basic system objects used in building ITK.
 
 
 /**
- \defgroup ThreadSafe Thread Safe classes
- \ingroup ThreadSafety
-*/  
-
-/**
-  \defgroup ThreadSafety  Thread Safety
+  \defgroup ThreadSafetyGroup  Thread Safety
   This groups catalog classes according to its compliance with thread safety.
   ITK is designed to be thread-safe, but in some particular cases this
   capability cannot be supported and for this reason a classification is
   needed.
 */  
 
+/**
+ \defgroup ThreadSafe Thread Safe classes
+ \ingroup ThreadSafetyGroup
+*/  
 
 /**
  \defgroup ThreadUnSafe Thread Unsafe classes
- \ingroup ThreadSafety
+ \ingroup ThreadSafetyGroup
 */  
 
-
 /**
- \defgroup ThreadSafetyUnknown
- \ingroup ThreadSafety
+ \defgroup ThreadSafetyUnknown Thread Safety Unknown
+ \ingroup ThreadSafetyGroup
 */
 
-
-/**
-  \defgroup ThreadSafety  Thread Safety
-  This groups catalog classes according to its compliance with thread safety.
-  ITK is designed to be thread-safe, but in some particular cases this
-  capability cannot be supported and for this reason a classification is
-  needed.
-*/  
 
 
 /**
