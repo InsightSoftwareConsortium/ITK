@@ -34,7 +34,7 @@ namespace itk {
  * work with a subset of the neighborhood around a pixel such as morphological
  * operations or cellular automata.  This iterator can also be used, for
  * example, to specify "cross-shaped" neighborhood where only elements along a
- * spatial access are significant.
+ * spatial axes are significant.
  *
  *\par Constructing a shaped neighborhood iterator
  * A shaped neighborhood iterator is constructed by constructing a list of
