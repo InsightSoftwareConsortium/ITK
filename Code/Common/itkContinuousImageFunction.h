@@ -40,7 +40,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef _itkContinuousImageFunction_h
 #define _itkContinuousImageFunction_h
 
-#include "itkObject.h"
+#include "itkFunctionBase.h"
 #include "itkPoint.h"
 #include "itkContinuousIndex.h"
 #include "itkVector.h"
@@ -59,14 +59,16 @@ namespace itk
  * The input image is set via method SetInputImage().
  * The Evaluate() method evaluates the function at an point.
  * 
- * \ingroup ImageFunctions
+ * \ingroup Functions
  *
  */
 template <
 class TInputImage, 
 class TOutput 
 >
-class ITK_EXPORT ContinuousImageFunction : public Object
+class ITK_EXPORT ContinuousImageFunction : 
+  public FunctionBase< Point<double, TInputImage::ImageDimension>,
+                       TOutput >
 {
 public:
   /**
@@ -77,7 +79,8 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef Object Superclass;
+  typedef FunctionBase< Point<double, TInputImage::ImageDimension>,
+                    TOutput >  Superclass;
 
   /** 
    * Smart pointer typedef support.
@@ -118,7 +121,7 @@ public:
   /**
    * Point Type
    */
-  typedef Point<double,ImageDimension> PointType;
+  typedef typename Superclass::InputType PointType;
 
   /**
    * ContinuousIndex Type
@@ -150,7 +153,7 @@ public:
   /**
    * Evaluate the function at continuous index position
    */
-  virtual TOutput Evaluate( const ContinuousIndexType& index ) const
+  virtual TOutput EvaluateAtContinuousIndex( const ContinuousIndexType& index ) const
     {
     PointType point;
     this->ConvertContinuousIndexToPoint( index, point );

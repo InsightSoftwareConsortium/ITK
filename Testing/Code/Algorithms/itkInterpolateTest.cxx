@@ -139,7 +139,7 @@ double trueValue )
 
   if( isInside )
 		{
-		double value = interp->Evaluate( index );
+		double value = interp->EvaluateAtContinuousIndex( index );
     std::cout << " Value: " << value;
 
     if( vnl_math_abs( value - trueValue ) > 1e-9 )

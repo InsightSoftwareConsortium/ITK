@@ -74,7 +74,7 @@ namespace itk
  * Possible improvements:
  * - the use of Neighborhood operators may improve efficiency.
  *
- * \ingroup ImageFunctions
+ * \ingroup Functions
  *
  */
 template < class TInputImage >
@@ -144,8 +144,8 @@ public:
    * Evalulate the function at specified index
    */
   virtual double Evaluate( const IndexType& index ) const;
-  virtual double Evaluate( const PointType& point ) const
-    { return this->Superclass::Evaluate( point ); }
+  virtual double EvaluateAtPoint( const PointType& point ) const
+    { return this->Superclass::EvaluateAtPoint( point ); }
 
   /**
    * Get the magnitude from last evaluation

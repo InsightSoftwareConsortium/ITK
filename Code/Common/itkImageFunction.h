@@ -40,7 +40,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef _itkImageFunction_h
 #define _itkImageFunction_h
 
-#include "itkObject.h"
+#include "itkFunctionBase.h"
 #include "itkIndex.h"
 #include "itkPoint.h"
 #include "vnl/vnl_math.h"
@@ -66,7 +66,8 @@ template <
 class TInputImage, 
 class TOutput 
 >
-class ITK_EXPORT ImageFunction : public Object
+class ITK_EXPORT ImageFunction : 
+  public FunctionBase< Index<TInputImage::ImageDimension>, TOutput > 
 {
 public:
   /**
@@ -77,7 +78,8 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef Object Superclass;
+  typedef FunctionBase< Index<TInputImage::ImageDimension>,
+            TOutput > Superclass;
 
   /** 
    * Smart pointer typedef support.
@@ -145,7 +147,7 @@ public:
   /**
    * Evaluate the function at a Point position
    */
-  virtual TOutput Evaluate( const PointType & point ) const
+  virtual TOutput EvaluateAtPoint( const PointType & point ) const
    {
      IndexType index;
      for( unsigned int j = 0; j < ImageDimension; j++ )

@@ -54,7 +54,7 @@ namespace itk
  * Possible improvements:
  * - the use of Neighborhood operators may improve efficiency.
  *
- * \ingroup ImageFunctions
+ * \ingroup Functions
  */
 template <class TInputImage >
 class ITK_EXPORT CentralDifferenceImageFunction :
@@ -122,8 +122,8 @@ public:
    */
   virtual double Evaluate( const IndexType& index ) const
     { return ( this->Evaluate( index, 0 ) ); }
-  virtual double Evaluate( const PointType& point ) const
-    { return ( this->Superclass::Evaluate( point ) ); }
+  virtual double EvaluateAtPoint( const PointType& point ) const
+    { return ( this->Superclass::EvaluateAtPoint( point ) ); }
 
   virtual double Evaluate( const IndexType& index, unsigned int dim ) const;
 
