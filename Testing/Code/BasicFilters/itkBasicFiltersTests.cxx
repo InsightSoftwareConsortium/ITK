@@ -114,6 +114,7 @@ void RegisterTests()
   REGISTER_TEST(itkNeighborhoodOperatorImageFilterTest );
   REGISTER_TEST(itkVectorNeighborhoodOperatorImageFilterTest );
   REGISTER_TEST(itkNaryAddImageFilterTest );
+  REGISTER_TEST(itkPasteImageFilterTest );
   REGISTER_TEST(itkDerivativeImageFilterTest );
   REGISTER_TEST(itkDiscreteGaussianImageFilterTest );
   REGISTER_TEST(itkWarpImageFilterTest );
