@@ -324,6 +324,8 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
   Superclass::PrintSelf(os, indent);
   os << indent << "Size : " << m_Size << std::endl;
   os << indent << "Children depth : " << m_ChildrenDepth << std::endl;
+  os << indent << "Inside Value : " << m_InsideValue << std::endl;
+  os << indent << "Outside Value : " << m_OutsideValue << std::endl;
 }
 
 
