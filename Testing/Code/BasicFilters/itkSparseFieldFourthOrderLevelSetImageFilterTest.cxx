@@ -1,7 +1,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkSparseFieldFourthOrderLevelSetImageFilter.h"
 #include "itkLevelSetFunctionWithRefitTerm.h"
-#include <iostream>
+#include <iostream.h>
 
 /*
  * This test exercises the SparseFieldFourthOrderLevelSetImageFilter
@@ -117,18 +117,20 @@ int itkSparseFieldFourthOrderLevelSetImageFilterTest(int, char* [] )
   r.SetSize(sz);
   r.SetIndex(idx);
 
+  std::cout<<"debug line 1\n";
   im_init->SetLargestPossibleRegion(r);
   im_init->SetBufferedRegion(r);
   im_init->SetRequestedRegion(r);
   im_init->Allocate();
+  std::cout<<"debug line 2\n";
   evaluate_function(im_init, square);
-
+  std::cout<<"debug line 3\n";
   typedef itk::IsotropicDiffusionLevelSetFilter<ImageType, ImageType> FilterType;
   FilterType::Pointer filter = FilterType::New();
-
+  std::cout<<"debug line 4\n";
   filter->SetInput(im_init);
+  std::cout<<"debug line 5\n";
   filter->Update();
-  filter->Print(std::cout);
   std::cout<<"Passed.\n";
   return 0;
 }
