@@ -96,7 +96,7 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
   ImageRegionIterator<TOutputImage> it;
   
   typename OutputImageType::Pointer output = this->GetOutput();
-  typename  InputImageType::Pointer input  = this->GetInput();
+  typename  InputImageType::ConstPointer input  = this->GetInput().GetPointer();
   
   // Calculate iterator radius
   Size<ImageDimension> radius;

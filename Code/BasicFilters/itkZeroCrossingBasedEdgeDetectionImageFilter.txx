@@ -88,7 +88,7 @@ void
 ZeroCrossingBasedEdgeDetectionImageFilter< TInputImage, TOutputImage >
 ::GenerateData( )
 {
-  typename  InputImageType::Pointer input  = this->GetInput();
+  typename  InputImageType::ConstPointer input  = this->GetInput().GetPointer();
   
   // Create the filters that are needed
   DiscreteGaussianImageFilter<TInputImage, TOutputImage>::Pointer
