@@ -29,7 +29,7 @@
 // by the MultiVisitor class
 #define itkCellVisitMacro(TopologyId) \
   static int GetTopologyId() {return TopologyId;}\
-  virtual void Accept(unsigned long cellid, MultiVisitor* mv)\
+  virtual void Accept(unsigned long cellid, typename CellInterface<TPixelType, TCellType>::MultiVisitor* mv)\
     {\
       CellInterfaceVisitor<TPixelType, TCellType>::Pointer v = mv->GetVisitor(TopologyId);\
       if(v)\
