@@ -467,7 +467,7 @@ private:
   double                m_Spacing[ImageDimension];
   double                m_Origin[ImageDimension];
 
-  // Affine transforms used to convert between data and physical space
+  /** Affine transforms used to convert between data and physical space. */
   AffineTransformPointer m_IndexToPhysicalTransform;
   AffineTransformPointer m_PhysicalToIndexTransform;
 };
