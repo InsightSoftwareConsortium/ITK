@@ -70,6 +70,9 @@ public:
     return 0;
     }
 
+  /**  */
+  bool ComputeLocalBoundingBox() const {return false;}
+
 protected:
 
   PointBasedSpatialObject();

@@ -72,7 +72,7 @@ public:
   /** provide a method to get the boundaries of 
   *  a specific object. Basically, this function need to be called
   *  every time one of the object component is changed. */ 
-  virtual bool ComputeBoundingBox() const;
+  virtual bool ComputeLocalBoundingBox() const;
 
   itkSetMacro(LowerPoint,PointType);
   itkSetMacro(UpperPoint,PointType);

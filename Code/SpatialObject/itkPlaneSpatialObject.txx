@@ -29,6 +29,8 @@ PlaneSpatialObject<TDimension >
 {
   m_TypeName = "PlaneSpatialObject";
   m_Dimension = TDimension;
+  m_LowerPoint.Fill(0);
+  m_UpperPoint.Fill(0);
 } 
 
 /** Destructor */
@@ -76,44 +78,30 @@ PlaneSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 PlaneSpatialObject<TDimension >
-::ComputeBoundingBox(void) const
+::ComputeLocalBoundingBox(void) const
 { 
   itkDebugMacro( "Computing tube bounding box" );
-  bool ret = false;
 
-  if( this->GetMTime() > m_BoundsMTime )
-    { 
-    ret = Superclass::ComputeBoundingBox();
-
-    if( m_BoundingBoxChildrenName.empty() 
-        || strstr(typeid(Self).name(), m_BoundingBoxChildrenName.c_str()) )
-      {
-      PointType pnt;
-      PointType pnt2;
-      pnt.Fill(0);
-      pnt2.Fill(0);  
-      for(unsigned int i=0; i<TDimension;i++) 
-        {   
-        pnt[i]=m_LowerPoint[i];
-        pnt2[i]=m_UpperPoint[i];
-        }
-  
-      if(!ret)
-        {
-        m_Bounds->SetMinimum(pnt);
-        m_Bounds->SetMaximum(pnt2);
-        }
-      else
-        {
-        m_Bounds->ConsiderPoint(pnt);
-        m_Bounds->ConsiderPoint(pnt2);
-        }
+  if( m_BoundingBoxChildrenName.empty() 
+      || strstr(typeid(Self).name(), m_BoundingBoxChildrenName.c_str()) )
+    {
+    PointType pnt;
+    PointType pnt2;
+    pnt.Fill(0);
+    pnt2.Fill(0);  
+    for(unsigned int i=0; i<TDimension;i++) 
+      {   
+      pnt[i]=m_LowerPoint[i];
+      pnt2[i]=m_UpperPoint[i];
       }
-
-    m_BoundsMTime = this->GetMTime();
+    
+      pnt = this->GetIndexToWorldTransform()->TransformPoint(pnt);
+      pnt2 = this->GetIndexToWorldTransform()->TransformPoint(pnt2);
+         
+      m_Bounds->SetMinimum(pnt);
+      m_Bounds->SetMaximum(pnt2);
     }
-
-  return ret;
+  return true;
 } 
 
 
