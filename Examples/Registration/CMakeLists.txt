@@ -266,6 +266,16 @@ ADD_TEST(BSplineWarping1Test ${REGISTRATION_EXAMPLES6}
         ${TEMP}/BSplineWarping1Test.png
 )
 
+ADD_TEST(LandmarkWarping2Test ${REGISTRATION_EXAMPLES6}
+  --compare ${BASELINE}/LandmarkWarping2Test.png
+            ${TEMP}/LandmarkWarping2Test.png
+  LandmarkWarping2Test
+        ${ITK_SOURCE_DIR}/Examples/Data/LandmarkWarping2Landmarks1.txt
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
+        ${TEMP}/LandmarkWarping2Test.png
+)
+
 ADD_TEST(ImageRegistration12Test ${REGISTRATION_EXAMPLES4}
   --compare ${BASELINE}/ImageRegistration12Test.png
             ${TEMP}/ImageRegistration12Test.png
