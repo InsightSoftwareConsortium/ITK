@@ -118,16 +118,23 @@ MACRO(CSWIG_CREATE_TCL_CXX_FILE Bin MasterIdx InputIdx InputXml OutputTclCxx Lib
 #     MESSAGE("depends are ${CABLE_SWIG_DEPEND}")
 ENDMACRO(CSWIG_CREATE_TCL_CXX_FILE)
 
+SET(ITK_CSWIG_PYTHON_NO_EXCEPTION_REGEX "(ContinuousIndex|Python)\\.xml$")
+
 MACRO(CSWIG_CREATE_PYTHON_CXX_FILE Bin MasterIdx InputIdx InputXml OutputTclCxx Library LibraryIndexFiles)
    SET(CINDEX)
    FOREACH(MIDX ${MasterIdx})
      SET(CINDEX ${CINDEX} -Cindex "${MIDX}")
    ENDFOREACH(MIDX)
+   IF("${InputXml}" MATCHES "${ITK_CSWIG_PYTHON_NO_EXCEPTION_REGEX}")
+     SET(ITK_SWG_FILE "")
+   ELSE("${InputXml}" MATCHES "${ITK_CSWIG_PYTHON_NO_EXCEPTION_REGEX}")
+     SET(ITK_SWG_FILE "-l${ITK_TOP}/Wrapping/CSwig/itk.swg")
+   ENDIF("${InputXml}" MATCHES "${ITK_CSWIG_PYTHON_NO_EXCEPTION_REGEX}")
    ADD_CUSTOM_COMMAND(
      COMMENT "${OutputTclCxx} from "
      SOURCE ${Bin}/${InputIdx}
      COMMAND ${CSWIG} 
-     ARGS -l${ITK_TOP}/Wrapping/CSwig/itk.swg
+     ARGS ${ITK_SWG_FILE}
           -c ${CINDEX} ${IGNORE_WARNINGS} -depend ${Bin}/${InputXml}.depend
           -bindir "${EXECUTABLE_OUTPUT_PATH}/${CMAKE_CFG_INTDIR}" 
           -o ${Bin}/${OutputTclCxx} -python -c++ ${Bin}/${InputXml}
