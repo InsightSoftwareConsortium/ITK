@@ -141,6 +141,15 @@ public:
     const VnlQuaternionType & GetRotation() const
         { return m_Rotation; }
 
+    /**
+     * Get rotation MAtrix from an Rigid3DTransform
+     *
+     * This method returns the value of the rotation of the
+     * Rigid3DTransform.
+     **/
+    const MatrixType & GetRotationMatrix() const
+      { return m_DirectMatrix; }
+
 
     /**
      * Assignment operator
@@ -166,6 +175,14 @@ public:
      **/
     void SetRotation(const VnlQuaternionType &rotation);
 
+
+    /**
+     * Set Rotation as Euler's angles
+     *
+     * This method sets the rotation and scale of an Rigid3DTransform to a
+     * value specified by the user.
+     **/
+    void SetEulerAngles(double alpha,double beta,double gamma);
 
     /**
      * Compose with another Rigid3DTransform
@@ -232,6 +249,16 @@ public:
      * an exception is thrown.
      **/
     Rigid3DTransform Inverse();
+   
+    /**
+     * Set the center of Rotation of the transformation
+     */
+    void    SetCenterOfRotation(const double* center); 
+    
+    /**
+     * Get the center of Rotation of the transformation
+     */
+    const double* GetCenterOfRotation(void);
 
 
 private:
@@ -246,7 +273,10 @@ private:
     MatrixType          m_DirectMatrix;   
 
     // representation of the inverse rottion
-    MatrixType          m_InverseMatrix;  
+    MatrixType          m_InverseMatrix; 
+    
+    // Center of Rotation
+    const double*       m_CenterOfRotation;
 
 }; //class Rigid3DTransform
 

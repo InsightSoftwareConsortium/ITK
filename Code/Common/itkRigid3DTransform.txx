@@ -56,6 +56,7 @@ Rigid3DTransform()
   m_Rotation = VnlQuaternionType(0,0,0,1); // axis * sin(t/2), cos(t/2)
   m_DirectMatrix = m_Rotation.rotation_matrix();
   m_InverseMatrix = m_DirectMatrix.GetTranspose();
+  m_CenterOfRotation = NULL;
 }
  
 // Constructor with explicit arguments
@@ -67,6 +68,7 @@ Rigid3DTransform(const VectorType &offset, const VnlQuaternionType & rotation)
   m_Rotation = rotation;
   m_DirectMatrix   = m_Rotation.rotation_matrix();
   m_InverseMatrix = m_DirectMatrix.GetTranspose();
+  m_CenterOfRotation = NULL;
 }
 
     
@@ -79,6 +81,7 @@ Rigid3DTransform<ScalarType, NDimensions>
   m_Rotation  = other.m_Rotation;
   m_DirectMatrix    = m_Rotation.rotation_matrix();
   m_InverseMatrix = m_DirectMatrix.GetTranspose();
+  m_CenterOfRotation = other.m_CenterOfRotation;
 }
 
 // Destructor
@@ -99,9 +102,29 @@ Rigid3DTransform<ScalarType, NDimensions>
   m_Rotation  = other.m_Rotation;
   m_DirectMatrix    = m_Rotation.rotation_matrix();
   m_InverseMatrix = m_DirectMatrix.GetTranspose();
+  m_CenterOfRotation = other.m_CenterOfRotation;
   return *this;
 }
 
+// Set Center of Rotation
+template<class ScalarType, unsigned int NDimensions>
+void
+Rigid3DTransform<ScalarType, NDimensions>::
+SetCenterOfRotation(const double* center) 
+{
+  m_CenterOfRotation = center;
+}
+
+
+
+// Get Center of Rotation
+template<class ScalarType, unsigned int NDimensions>
+const double*
+Rigid3DTransform<ScalarType, NDimensions>::
+GetCenterOfRotation(void) 
+{
+  return m_CenterOfRotation;
+}
 
 // Print self
 template<class ScalarType, unsigned int NDimensions>
@@ -177,6 +200,33 @@ Rotate(const VectorType & axis, ScalarType angle )
   return;
 }
 
+// set Rotation Matrix using Euler's angle
+template<class ScalarType, unsigned int NDimensions>
+void
+Rigid3DTransform<ScalarType, NDimensions>::
+SetEulerAngles(double alpha,double beta,double gamma)
+{
+  double ca = cos(alpha);
+  double sa = sin(alpha);
+  double cb = cos(beta);
+  double sb = sin(beta); 
+  double cg = cos(gamma);
+  double sg = sin(gamma);
+
+  m_DirectMatrix.GetVnlMatrix().put(0,0,ca*cb);
+  m_DirectMatrix.GetVnlMatrix().put(0,1,ca*sb*sg-sa*cg);
+  m_DirectMatrix.GetVnlMatrix().put(0,2,ca*sb*cg+sa*sg);
+  m_DirectMatrix.GetVnlMatrix().put(1,0,sa*cb);
+  m_DirectMatrix.GetVnlMatrix().put(1,1,sa*sb*sg+ca*cg);
+  m_DirectMatrix.GetVnlMatrix().put(1,2,sa*sb*cg-ca*sg);
+  m_DirectMatrix.GetVnlMatrix().put(2,0,-sb);
+  m_DirectMatrix.GetVnlMatrix().put(2,1,cb*sg);
+  m_DirectMatrix.GetVnlMatrix().put(2,2,cb*cg);
+
+}
+
+
+
 
 // Transform a point
 template<class ScalarType, unsigned int NDimensions>
@@ -184,7 +234,24 @@ Rigid3DTransform<ScalarType, NDimensions>::OutputPointType
 Rigid3DTransform<ScalarType, NDimensions>::
 TransformPoint(const InputPointType &point) const 
 {
-  return m_DirectMatrix * point + m_Offset;
+  if(m_CenterOfRotation)
+  {
+    PointType m_Point;
+    for(unsigned int i=0;i<3;i++)
+    {
+      m_Point[i] = point[i] - m_CenterOfRotation[i];
+    }
+    m_Point = m_DirectMatrix * m_Point + m_Offset;
+    for(unsigned int i=0;i<3;i++)
+    {
+      m_Point[i] +=  m_CenterOfRotation[i];
+    }
+    return m_Point;
+  }
+  else
+  {
+    return m_DirectMatrix * point + m_Offset;
+  }
 }
 
 
@@ -226,7 +293,27 @@ template<class ScalarType, unsigned int NDimensions>
 Rigid3DTransform<ScalarType, NDimensions>::InputPointType
 Rigid3DTransform<ScalarType, NDimensions>::
 BackTransform(const OutputPointType &point) const {
-  return m_InverseMatrix * (point - m_Offset);
+
+  if(m_CenterOfRotation)
+  {
+    PointType m_Point;
+    for(unsigned int i=0;i<3;i++)
+    {
+      m_Point[i] = point[i] - m_CenterOfRotation[i];
+    }
+    m_Point = m_InverseMatrix * m_Point - m_Offset;
+    for(unsigned int i=0;i<3;i++)
+    {
+      m_Point[i] +=  m_CenterOfRotation[i];
+    }
+    return m_Point;
+  }
+  else
+  {
+    return m_InverseMatrix * (point - m_Offset);
+  }
+
+  
 }
 
 // Back transform a vector

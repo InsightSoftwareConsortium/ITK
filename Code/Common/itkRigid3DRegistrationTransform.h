@@ -104,6 +104,11 @@ public:
   typedef Matrix<TScalarType, SpaceDimension, 
                               ParametersDimension > JacobianType;
 
+	/**
+	 * Rotation Matrix Type
+	 */
+  typedef Matrix<TScalarType, SpaceDimension, SpaceDimension> RotationMatrixType;
+
 
   /**
    * Method for creation through the object factory.
@@ -123,6 +128,12 @@ public:
   void SetParameters(const ParametersType &);
 
   /**
+   * Set the Transformation Parameters as Euler's angles,
+   * translation, and update the internal transformation
+   */
+  void SetEulerParameters(const ParametersType &);
+
+  /**
    *  Set the Scale for translations
    */
   itkSetMacro( TranslationScale , TScalarType );
@@ -132,6 +143,10 @@ public:
    */
   itkGetMacro( TranslationScale , TScalarType );
  
+  /**
+   * Get the Rotation Matrix of the transformation
+   */
+  const RotationMatrixType & GetRotationMatrix(void) const;
 
   /**
    * Compute the Jacobian of the transformation
@@ -141,7 +156,18 @@ public:
    * vector.
    **/
   const JacobianType & GetJacobian(const InputPointType  &point ) const;
+  
+  /**
+   * Set the Center of Rotation for the transformation
+   */
+  void  SetCenterOfRotation(const double* center); 
 
+  /**
+   * Get the Center of Rotation of the transformation
+   */
+  const double* GetCenterOfRotation(void); 
+
+ 
 protected:
 
   Rigid3DRegistrationTransform();
@@ -155,7 +181,7 @@ private:
   /**
    *  Internal transformation
    */
-  TransformType                        m_Transform;
+  TransformType                       m_Transform;
   
   /**
    *  List of parameters that unambiguosly define the transformation

@@ -60,6 +60,28 @@ Rigid3DRegistrationTransform<TScalarType,TParameters>
   return *this;
 }
 
+/**
+ * Set Center of the Rotation
+ */
+template <class TScalarType,class TParameters>
+void
+Rigid3DRegistrationTransform<TScalarType,TParameters>
+::SetCenterOfRotation(const double* center)
+{
+  m_Transform.SetCenterOfRotation(center);
+}
+  
+  
+/**
+ * Get Center of the Rotation
+ */
+template <class TScalarType,class TParameters>
+const double* 
+Rigid3DRegistrationTransform<TScalarType,TParameters>
+::GetCenterOfRotation(void) 
+{
+  return m_Transform.GetCenterOfRotation();
+}
 
 /**
  * Transform a Point
@@ -139,6 +161,58 @@ Rigid3DRegistrationTransform<TScalarType,TParameters>
 
 //  std::cout << "SetParameters = " << std::endl;
 //  std::cout << m_Transform << std::endl;
+}
+
+
+/**
+ * Set the transformation parameters
+ * as Euler's angle (alpha,beta,gamma)
+ * and a translation (x,y,z)
+ * Note: To keep the same parameters space dimension
+ * (ie 7) the 4th parameter is ignored.
+ * the 3 first parameters are angles and the 3 last 
+ * ones are translation.
+ *
+ */
+template <class TScalarType,class TParameters>
+void
+Rigid3DRegistrationTransform<TScalarType,TParameters>
+::SetEulerParameters(const ParametersType & parameters )
+{
+  m_Parameters = parameters;
+  
+  typename TransformType::VectorType  translation;
+
+  // get euler's angles
+  unsigned int counter = 0;
+  double alpha= m_Parameters[counter++];
+  double beta = m_Parameters[counter++];
+  double gamma= m_Parameters[counter++];
+
+
+  // fourth parameter ignored to keep the number of 
+  // parameters seven.
+  counter++;
+  
+  // get the translation
+  for( unsigned int i=0; i<SpaceDimension; i++)
+  {
+    translation[i] = m_Parameters[counter++] * m_TranslationScale;
+  }
+  m_Transform.SetEulerAngles( alpha,beta,gamma );
+  m_Transform.SetOffset( translation );
+
+}
+
+/**
+ * Return the rotation matrix of the tranformation
+ */
+template<class ScalarType, class TParameters>
+const Rigid3DRegistrationTransform<ScalarType, TParameters>::RotationMatrixType &
+Rigid3DRegistrationTransform<ScalarType, TParameters>::
+GetRotationMatrix( void ) const
+{
+  return m_Transform.GetRotationMatrix();
 }
 
 
