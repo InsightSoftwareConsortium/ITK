@@ -30,7 +30,7 @@
 namespace itk {
 namespace fem {
 
-#define LOCE
+#define TOTE
 
 void SolverCrankNicolson::InitializeForSolution() 
 {
@@ -59,6 +59,8 @@ void SolverCrankNicolson::AssembleKandM()
   // if no DOFs exist in a system, we have nothing to do
   if (NGFN<=0) return;
 
+  Float lhsval=0.0;
+  Float rhsval=0.0;
   NMFC=0;  // number of MFC in a system
 
   // temporary storage for pointers to LoadBCMFC objects
@@ -104,10 +106,10 @@ std::cout << "Begin Assembly." << std::endl;
     Me=Me*m_rho;
 
     /* step over all rows in in element matrix */
-    for(int j=0; j<Ne; j++)
+    for(unsigned int j=0; j<Ne; j++)
     {
       /* step over all columns in in element matrix */
-      for(int k=0; k<Ne; k++) 
+      for(unsigned int k=0; k<Ne; k++) 
       {
         /* error checking. all GFN should be =>0 and <NGFN */
         if ( (*e)->GetDegreeOfFreedom(j) >= NGFN ||
@@ -124,16 +126,16 @@ std::cout << "Begin Assembly." << std::endl;
         if ( Ke(j,k)!=Float(0.0) || Me(j,k) != Float(0.0) )
         {
           // left hand side matrix
-          Float lhsval=(Me(j,k) + m_alpha*m_deltaT*Ke(j,k));
+          lhsval=(Me(j,k) + m_alpha*m_deltaT*Ke(j,k));
           m_ls->AddMatrixValue( (*e)->GetDegreeOfFreedom(j) , 
                     (*e)->GetDegreeOfFreedom(k), 
                     lhsval, SumMatrixIndex );
           // right hand side matrix
-          Float rhsval=(Me(j,k) - (1.-m_alpha)*m_deltaT*Ke(j,k));
+          rhsval=(Me(j,k) - (1.-m_alpha)*m_deltaT*Ke(j,k));
           m_ls->AddMatrixValue( (*e)->GetDegreeOfFreedom(j) , 
                     (*e)->GetDegreeOfFreedom(k), 
                     rhsval, DifferenceMatrixIndex );
-          //if (k == 0 && j == 0) std::cout << " ke " << Ke(j,k) << " me " << Me(j,k) << std::endl;
+//          if (k == j ) std::cout << " ke " << Ke(j,k) << " me " << Me(j,k) << std::endl;
         }
       }
 
@@ -462,6 +464,42 @@ void SolverCrankNicolson::SetEnergyToMin(Float xmin)
   }
 
 }
+
+Element::Float SolverCrankNicolson::GetDeformationEnergy(Float t)
+{
+  Float DeformationEnergy=0.0;
+  Float iSolVal=0.0,jSolVal=0.0;
+
+  for (unsigned int i=0; i<NGFN; i++)
+  {
+// forming  U^T F
+#ifdef LOCE
+    iSolVal=t*(m_ls->GetSolutionValue(i,SolutionTIndex))
+       +(1.-t)*m_ls->GetSolutionValue(i,SolutionTMinus1Index);
+#endif
+#ifdef TOTE
+    iSolVal=t*(m_ls->GetSolutionValue(i,SolutionTIndex))
+        +m_ls->GetSolutionValue(i,TotalSolutionIndex);// FOR TOT E
+#endif
+// forming U^T K U
+    Float TempRowVal=0.0;
+    for (unsigned int j=0; j<NGFN; j++)
+    {
+#ifdef LOCE
+      jSolVal=t*(m_ls->GetSolutionValue(j,SolutionTIndex))
+         +(1.-t)*m_ls->GetSolutionValue(j,SolutionTMinus1Index);
+#endif
+#ifdef TOTE
+      jSolVal=t*(m_ls->GetSolutionValue(j,SolutionTIndex))
+       +m_ls->GetSolutionValue(j,TotalSolutionIndex);// FOR TOT E
+#endif
+      TempRowVal+=m_ls->GetMatrixValue(i,j,SumMatrixIndex)*jSolVal;
+    }
+    DeformationEnergy+=iSolVal*TempRowVal;
+  }
+  return DeformationEnergy;
+}
+
 
 Element::Float SolverCrankNicolson::EvaluateResidual(Float t)
 {
