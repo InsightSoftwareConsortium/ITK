@@ -43,6 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkObject.h"
 #include "itkRegion.h"
+#include "itkImageRegion.h"
 #include "itkObjectFactory.h"
 #include "itkIndex.h"
 #include "itkSize.h"

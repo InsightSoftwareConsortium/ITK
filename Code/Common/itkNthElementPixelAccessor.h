@@ -41,6 +41,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkNthElementPixelAccessor_h
 #define __itkNthElementPixelAccessor_h
 
+#include "itkMacro.h"
+
 namespace itk
 {
 

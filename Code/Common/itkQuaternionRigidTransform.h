@@ -44,6 +44,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <iostream>
 #include "itkTransform.h"
 #include "vnl/vnl_quaternion.h"
+#include "itkPoint.h"
+#include "itkMatrix.h"
 
 namespace itk
 {

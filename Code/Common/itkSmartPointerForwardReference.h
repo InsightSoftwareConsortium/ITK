@@ -42,6 +42,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkSmartPointerForwardReference_h
 
 #include "itkMacro.h"
+#include "itkWeakPointer.h"
+
 #include <iostream>
 
 namespace itk

@@ -40,6 +40,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkZeroFluxNeumannBoundaryCondition_h
 #define __itkZeroFluxNeumannBoundaryCondition_h
 #include "itkNeighborhood.h"
+#include "itkImageBoundaryCondition.h"
 
 namespace itk
 {

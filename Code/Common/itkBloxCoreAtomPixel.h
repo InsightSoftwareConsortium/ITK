@@ -45,6 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "vnl/vnl_vector_fixed.h"
 #include "vnl/algo/vnl_generalized_eigensystem.h"
 
+#include "itkObject.h"
 #include "itkBloxCoreAtomItem.h"
 #include "itkBloxBoundaryPointItem.h"
 #include "itkPoint.h"
