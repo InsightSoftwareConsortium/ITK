@@ -28,7 +28,6 @@
 
 #include "itkWin32Header.h"
 #include "itkConfigure.h"
-#include "itkConceptChecking.h"
 
 #include <string>
 #include <strstream>
