@@ -49,6 +49,7 @@ namespace itk {
  * ComputeUpdate, ComputeGlobalTimeStep, and Get/ReleaseGlobalDataPointer.
  *
  * \par A note on thread safety.
+template<class TImageType>
  * The ComputeUpdate() methods of this filter are declared as const to enforce
  * thread-safety during execution of FiniteDifferenceImageFilter solver
  * algorithms.  The InitializeIteration() method is intended to provide a safe
@@ -170,11 +171,7 @@ protected:
   }
 
   ~FiniteDifferenceFunction() {}
-  void PrintSelf(std::ostream& os, Indent indent) const
-  {
-    Superclass::PrintSelf(os, indent);
-    os << indent << "Radius: " << m_Radius << std::endl;
-  }
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   RadiusType m_Radius;
 

@@ -19,6 +19,14 @@
 
 namespace itk
 {
+template<class TImageType>
+void
+FiniteDifferenceFunction<TImageType>::
+PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "Radius: " << m_Radius << std::endl;
+}
 } // end namespace itk
 
 
