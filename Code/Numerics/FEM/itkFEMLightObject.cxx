@@ -99,7 +99,7 @@ start:
 #ifndef __sgi
   l=f.tellg();    // remember the stream position
 #endif
-  this->SkipWhiteSpace(f);      // skip comments and whitespaces
+  SkipWhiteSpace(f);      // skip comments and whitespaces
   if ( f.eof() ) return 0; // end of stream. all was good
 
   if ( f.get()!='<' ) goto out; // we expect a token
@@ -179,7 +179,7 @@ out:
 // Helper function to skip all whitespaces and comments in input stream
 void
 FEMLightObject::
-this->SkipWhiteSpace(std::istream& f)
+SkipWhiteSpace(std::istream& f)
 {
   while(f && !f.eof() && (std::ws(f).peek())=='%' )
   {
