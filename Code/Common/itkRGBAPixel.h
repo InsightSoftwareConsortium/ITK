@@ -64,7 +64,8 @@ public:
 
   /** Default constructor has nothing to do. */
   RGBAPixel() {Fill(0);}
-  RGBAPixel (const ComponentType& r);
+  RGBAPixel (const ComponentType& r)
+  { Fill(r) ;}
   
   /** Pass-through constructor for the Array base class. */
   RGBAPixel(const Self& r): BaseArray(r) {}
