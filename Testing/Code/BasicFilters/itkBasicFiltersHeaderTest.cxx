@@ -100,6 +100,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkTransformMeshFilter.h"
 #include "itkTwoOutputExampleImageFilter.h"
 #include "itkUnaryFunctorImageFilter.h"
+#include "itkVTKImageExport.h"
+#include "itkVTKImageExportBase.h"
 #include "itkVTKImageReader.h"
 #include "itkVTKImageWriter.h"
 #include "itkVectorAnisotropicDiffusionEquation.h"

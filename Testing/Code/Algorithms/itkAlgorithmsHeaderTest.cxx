@@ -88,6 +88,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkPointSetToImageTranslationPatternIntensityRegularStepGradientDescentRegistration.h"
 #include "itkProcrustesRegistrationMetric.h"
 #include "itkRGBGibbsPriorFilter.h"
+#include "itkRecursiveMultiResolutionPyramidImageFilter.h"
 #include "itkRegionGrowImageFilter.h"
 #include "itkRegistrationMapper.h"
 #include "itkRegistrationMapperImage.h"
