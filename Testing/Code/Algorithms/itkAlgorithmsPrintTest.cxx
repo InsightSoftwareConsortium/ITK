@@ -57,9 +57,6 @@
 #include "itkLaplacianSegmentationLevelSetImageFilter.h"
 #include "itkLevelSetNeighborhoodExtractor.h"
 #include "itkLevelSetVelocityNeighborhoodExtractor.h"
-#include "itkMRASlabIdentifier.h"
-#include "itkMRFImageFilter.h"
-#include "itkMRIBiasFieldCorrectionFilter.h"
 
 #include "itkDistanceToCentroidMembershipFunction.h"
 #include "itkMahalanobisDistanceMembershipFunction.h"
@@ -228,18 +225,6 @@ int itkAlgorithmsPrintTest(int , char* [])
 
   std:: cout << "-------------LevelSetVelocityNeighborhoodExtractor " << LevelSetVelocityNeighborhoodExtractorObj;
 
-  itk::MRASlabIdentifier<InputType>::Pointer MRASlabIdentifierObj =
-    itk::MRASlabIdentifier<InputType>::New();
-  std:: cout << "-------------MRASlabIdentifier " << MRASlabIdentifierObj;
-
-  itk::MRFImageFilter<VectorImageType,UShortImageType>::Pointer MRFImageFilterObj =
-    itk::MRFImageFilter<VectorImageType,UShortImageType>::New();
-  std:: cout << "-------------MRFImageFilter " << MRFImageFilterObj;
-#if 0
-  itk::MRIBiasFieldCorrectionFilter<InputType,InputType,VectorImageType>::Pointer MRIBiasFieldCorrectionFilterObj =
-    itk::MRIBiasFieldCorrectionFilter<InputType,InputType,VectorImageType>::New();
-  std:: cout << "-------------MRIBiasFieldCorrectionFilter " << MRIBiasFieldCorrectionFilterObj;
-#endif
   return 0;
 
 }

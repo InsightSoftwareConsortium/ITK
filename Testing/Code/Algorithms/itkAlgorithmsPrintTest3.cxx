@@ -24,6 +24,9 @@
 #include "itkMesh.h"
 #include "itkEllipseSpatialObject.h"
 
+#include "itkMRASlabIdentifier.h"
+#include "itkMRFImageFilter.h"
+#include "itkMRIBiasFieldCorrectionFilter.h"
 #include "itkShapeDetectionLevelSetFunction.h"
 #include "itkShapeDetectionLevelSetImageFilter.h"
 #include "itkSimpleFuzzyConnectednessImageFilterBase.h"
@@ -186,6 +189,18 @@ int itkAlgorithmsPrintTest3(int , char* [])
     itk::watershed::Segmenter<InputType>::New();
   std:: cout << "-------------WatershedSegmenter " << WatershedSegmenterObj;
 
+  itk::MRASlabIdentifier<InputType>::Pointer MRASlabIdentifierObj =
+    itk::MRASlabIdentifier<InputType>::New();
+  std:: cout << "-------------MRASlabIdentifier " << MRASlabIdentifierObj;
+
+  itk::MRFImageFilter<VectorImageType,UShortImageType>::Pointer MRFImageFilterObj =
+    itk::MRFImageFilter<VectorImageType,UShortImageType>::New();
+  std:: cout << "-------------MRFImageFilter " << MRFImageFilterObj;
+#if 0
+  itk::MRIBiasFieldCorrectionFilter<InputType,InputType,VectorImageType>::Pointer MRIBiasFieldCorrectionFilterObj =
+    itk::MRIBiasFieldCorrectionFilter<InputType,InputType,VectorImageType>::New();
+  std:: cout << "-------------MRIBiasFieldCorrectionFilter " << MRIBiasFieldCorrectionFilterObj;
+#endif
   return 0;
 
 }
