@@ -35,10 +35,9 @@ int main()
   region.SetIndex (index);
   region.SetSize (size);
 
-  image->SetLargestPossibleRegion( region );
-  image->SetBufferedRegion( region );
-  image->SetRequestedRegion( region );
+  image->SetRegions( region );
   image->Allocate();
+  image->FillBuffer(0.0);
 
 
   for (unsigned int i = 0; i < FloatImage::ImageDimension; i++)
