@@ -73,7 +73,7 @@ int main( int argc, char ** argv )
   if( argc < 4 ) 
     { 
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile   sigma  outputImageFile " << std::endl;
+    std::cerr << argv[0] << "  inputImageFile   outputImageFile   sigma" << std::endl;
     return 1;
     }
 
@@ -167,7 +167,7 @@ int main( int argc, char ** argv )
   //  \index{SetSigma()!itk::GradientMagnitudeRecursiveGaussianImageFilter}
   //
   //  Software Guide : EndLatex 
-  const double sigma = atof( argv[2] );
+  const double sigma = atof( argv[3] );
 
 
   // Software Guide : BeginCodeSnippet
@@ -217,7 +217,7 @@ int main( int argc, char ** argv )
 
   WriterType::Pointer writer = WriterType::New();
 
-  writer->SetFileName( argv[3] );
+  writer->SetFileName( argv[2] );
  
 
   // Software Guide : BeginCodeSnippet
