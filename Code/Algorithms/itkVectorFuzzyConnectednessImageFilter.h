@@ -18,6 +18,7 @@
 
 #include "itkImage.h"
 #include "itkImageToImageFilter.h"
+#include "itkScalar.h"
 #include "itkVector.h"
 #include "itkMatrix.h"
 
@@ -30,7 +31,7 @@ namespace itk{
 
 /** \class VectorFuzzyConnectednessImageFilter
  * 
- *  \ingroup FuzzyConnectednessSegmentation  
+ * 
  */
 template <class TInputImage, class TOutputImage>
 class VectorFuzzyConnectednessImageFilter:
@@ -73,12 +74,11 @@ public:
   typedef   TInputImage	                          InputImageType;
   typedef   TOutputImage                          OutputImageType;
   typedef   Image <unsigned short,ImageDimension> UShortImage;
-  typedef   typename TInputImage::IndexType       InputIndexType;
-  typedef   typename TInputImage::SizeType        InputSizeType;
-  typedef   typename TInputImage::RegionType      InputRegionType;
-  typedef   typename TOutputImage::RegionType     OutputRegionType;
+  typedef   typename TInputImage::IndexType       IndexType;
+  typedef   typename TInputImage::SizeType        SizeType;
+  typedef   typename TOutputImage::RegionType     RegionType;
 
-  typedef   std::list<InputIndexType>                  ListType;
+  typedef   std::list<IndexType>                  ListType;
   typedef   std::vector<IntVector>                OffsetType;
   typedef   std::vector<float>                    FloatType;
   
@@ -108,7 +108,7 @@ public:
   /**
    * Setting the seed points for specified object.
    */
-  void SetObjectsSeed( const InputIndexType &seed, const int object_num);
+  void SetObjectsSeed( const IndexType &seed, const int object_num);
 
   /**
    * Setting the seed points for specified object.
@@ -132,7 +132,7 @@ protected:
 private:
 
 
-  InputSizeType                       m_Size;
+  SizeType                       m_Size;
   OffsetType                     *m_SpherePointsLoc;
   int                            *m_SpherePointsNum;
 
@@ -187,5 +187,3 @@ private:
 #endif
 
 #endif
-
-
