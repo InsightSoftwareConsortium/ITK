@@ -78,7 +78,7 @@ BinaryThresholdImageFilter<TInputImage, TOutputImage>
 }
 
 template <class TInputImage, class TOutputImage>
-typename BinaryThresholdImageFilter<TInputImage, TOutputImage>::InputPixelType
+BinaryThresholdImageFilter<TInputImage, TOutputImage>::InputPixelType
 BinaryThresholdImageFilter<TInputImage, TOutputImage>
 ::GetLowerThreshold() const
 {
@@ -89,7 +89,6 @@ BinaryThresholdImageFilter<TInputImage, TOutputImage>
 }
 
 template <class TInputImage, class TOutputImage>
-typename
 BinaryThresholdImageFilter<TInputImage, TOutputImage>::InputPixelObjectType *
 BinaryThresholdImageFilter<TInputImage, TOutputImage>
 ::GetLowerThresholdInput()
@@ -109,7 +108,7 @@ BinaryThresholdImageFilter<TInputImage, TOutputImage>
 }
 
 template <class TInputImage, class TOutputImage>
-typename const
+const
 BinaryThresholdImageFilter<TInputImage, TOutputImage>::InputPixelObjectType *
 BinaryThresholdImageFilter<TInputImage, TOutputImage>
 ::GetLowerThresholdInput() const
@@ -166,7 +165,7 @@ BinaryThresholdImageFilter<TInputImage, TOutputImage>
 }
 
 template <class TInputImage, class TOutputImage>
-typename BinaryThresholdImageFilter<TInputImage, TOutputImage>::InputPixelType
+BinaryThresholdImageFilter<TInputImage, TOutputImage>::InputPixelType
 BinaryThresholdImageFilter<TInputImage, TOutputImage>
 ::GetUpperThreshold() const
 {
@@ -177,7 +176,6 @@ BinaryThresholdImageFilter<TInputImage, TOutputImage>
 }
 
 template <class TInputImage, class TOutputImage>
-typename
 BinaryThresholdImageFilter<TInputImage, TOutputImage>::InputPixelObjectType *
 BinaryThresholdImageFilter<TInputImage, TOutputImage>
 ::GetUpperThresholdInput()
@@ -197,7 +195,7 @@ BinaryThresholdImageFilter<TInputImage, TOutputImage>
 }
 
 template <class TInputImage, class TOutputImage>
-typename const
+const
 BinaryThresholdImageFilter<TInputImage, TOutputImage>::InputPixelObjectType *
 BinaryThresholdImageFilter<TInputImage, TOutputImage>
 ::GetUpperThresholdInput() const

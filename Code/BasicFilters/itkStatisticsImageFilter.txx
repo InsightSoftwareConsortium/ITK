@@ -52,13 +52,13 @@ StatisticsImageFilter<TInputImage>
 
 
 template<class TInputImage>
-typename ImageSource<TInputImage>::DataObjectPointer
+DataObject::Pointer
 StatisticsImageFilter<TInputImage>
 ::MakeOutput(unsigned int output)
 {
   switch (output)
     {
-    case 0:
+   case 0:
       return static_cast<DataObject*>(TInputImage::New().GetPointer());
       break;
     case 1:
@@ -78,7 +78,7 @@ StatisticsImageFilter<TInputImage>
 
 
 template<class TInputImage>
-typename StatisticsImageFilter<TInputImage>::RealObjectType*
+StatisticsImageFilter<TInputImage>::RealObjectType*
 StatisticsImageFilter<TInputImage>
 ::GetMinimumOutput()
 {
@@ -86,7 +86,7 @@ StatisticsImageFilter<TInputImage>
 }
 
 template<class TInputImage>
-typename const StatisticsImageFilter<TInputImage>::RealObjectType*
+const StatisticsImageFilter<TInputImage>::RealObjectType*
 StatisticsImageFilter<TInputImage>
 ::GetMinimumOutput() const
 {
@@ -95,7 +95,7 @@ StatisticsImageFilter<TInputImage>
 
 
 template<class TInputImage>
-typename StatisticsImageFilter<TInputImage>::RealObjectType*
+StatisticsImageFilter<TInputImage>::RealObjectType*
 StatisticsImageFilter<TInputImage>
 ::GetMaximumOutput()
 {
@@ -103,7 +103,7 @@ StatisticsImageFilter<TInputImage>
 }
 
 template<class TInputImage>
-typename const StatisticsImageFilter<TInputImage>::RealObjectType*
+const StatisticsImageFilter<TInputImage>::RealObjectType*
 StatisticsImageFilter<TInputImage>
 ::GetMaximumOutput() const
 {
@@ -112,7 +112,7 @@ StatisticsImageFilter<TInputImage>
 
 
 template<class TInputImage>
-typename StatisticsImageFilter<TInputImage>::RealObjectType*
+StatisticsImageFilter<TInputImage>::RealObjectType*
 StatisticsImageFilter<TInputImage>
 ::GetMeanOutput()
 {
@@ -120,7 +120,7 @@ StatisticsImageFilter<TInputImage>
 }
 
 template<class TInputImage>
-typename const StatisticsImageFilter<TInputImage>::RealObjectType*
+const StatisticsImageFilter<TInputImage>::RealObjectType*
 StatisticsImageFilter<TInputImage>
 ::GetMeanOutput() const
 {
@@ -129,7 +129,7 @@ StatisticsImageFilter<TInputImage>
 
 
 template<class TInputImage>
-typename StatisticsImageFilter<TInputImage>::RealObjectType*
+StatisticsImageFilter<TInputImage>::RealObjectType*
 StatisticsImageFilter<TInputImage>
 ::GetSigmaOutput()
 {
@@ -137,7 +137,7 @@ StatisticsImageFilter<TInputImage>
 }
 
 template<class TInputImage>
-typename const StatisticsImageFilter<TInputImage>::RealObjectType*
+const StatisticsImageFilter<TInputImage>::RealObjectType*
 StatisticsImageFilter<TInputImage>
 ::GetSigmaOutput() const
 {
@@ -146,7 +146,7 @@ StatisticsImageFilter<TInputImage>
 
 
 template<class TInputImage>
-typename StatisticsImageFilter<TInputImage>::RealObjectType*
+StatisticsImageFilter<TInputImage>::RealObjectType*
 StatisticsImageFilter<TInputImage>
 ::GetVarianceOutput()
 {
@@ -154,7 +154,7 @@ StatisticsImageFilter<TInputImage>
 }
 
 template<class TInputImage>
-typename const StatisticsImageFilter<TInputImage>::RealObjectType*
+const StatisticsImageFilter<TInputImage>::RealObjectType*
 StatisticsImageFilter<TInputImage>
 ::GetVarianceOutput() const
 {
@@ -163,7 +163,7 @@ StatisticsImageFilter<TInputImage>
 
 
 template<class TInputImage>
-typename StatisticsImageFilter<TInputImage>::RealObjectType*
+StatisticsImageFilter<TInputImage>::RealObjectType*
 StatisticsImageFilter<TInputImage>
 ::GetSumOutput()
 {
@@ -171,7 +171,7 @@ StatisticsImageFilter<TInputImage>
 }
 
 template<class TInputImage>
-typename const StatisticsImageFilter<TInputImage>::RealObjectType*
+const StatisticsImageFilter<TInputImage>::RealObjectType*
 StatisticsImageFilter<TInputImage>
 ::GetSumOutput() const
 {

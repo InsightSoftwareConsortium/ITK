@@ -73,10 +73,10 @@ public:
   typedef typename NumericTraits<PixelType>::RealType RealType;
 
   /** Smart Pointer type to a DataObject. */
-  typedef DataObject::Pointer DataObjectPointer;
+  typedef typename DataObject::Pointer DataObjectPointer;
 
   /** Type of DataObjects used for scalar outputs */
-  typedef typename SimpleDataObjectDecorator<RealType> RealObjectType;
+  typedef SimpleDataObjectDecorator<RealType> RealObjectType;
   
   /** Return the computed Minimum. */
   RealType GetMinimum() const
