@@ -161,7 +161,7 @@ unsigned int PNGImageIO::GetComponentSize() const
 }
 
   
-void PNGImageIO::ReadVolume(void* buffer)
+void PNGImageIO::ReadVolume(void*)
 {
   
 }

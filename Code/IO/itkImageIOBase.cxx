@@ -33,7 +33,7 @@ ImageIOBase::ImageIOBase() :
 }
 
   
-void ImageIOBase::Reset(const bool freeDynamic)
+void ImageIOBase::Reset(const bool)
 {
   m_Initialized = false;
   m_FileName = "";

@@ -802,7 +802,7 @@ DicomImageIO
 /** The write function is not implemented */
 void 
 DicomImageIO
-::Write( const void* buffer) 
+::Write( const void*) 
 {
   //not possible to write a dicom file
 }
