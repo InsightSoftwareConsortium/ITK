@@ -28,6 +28,9 @@ namespace itk
  * \brief Affine transformation with a specified center of rotation.
  *
  * This class implements an Affine transform in which the rotation center can be explicitly selected.
+ * Note that the method "ComputeOffset()" must be called just before using the transform for mapping
+ * points, vectors or covariantvectors. This is necessary for updating the offset of the transform
+ * taking into account the center of rotation.
  *
  * 
  * \ingroup Transforms
@@ -120,7 +123,8 @@ public:
   itkGetConstReferenceMacro( Translation, OutputVectorType );
  
   /** Compute the offset using the rotation center, the matrix
-   *  and the final translation. */
+   *  and the final translation. This method MUST be called before
+   *  using the transform for any mapping. */
   virtual void ComputeOffset(void);
 
 protected:
