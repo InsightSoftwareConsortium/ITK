@@ -129,7 +129,9 @@ SetRotation(const Vector<TScalarType,3> & axis, double angle )
   q[1] = norm[0];
   q[2] = norm[1];
   q[3] = norm[2];
-  SetRotation( q );
+  VersorType v;
+  v.Set(q);
+  this->SetRotation(v);
 }
 
 
