@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef _itkWatershedImageFilter_txx
 #define _itkWatershedImageFilter_txx
+#include "itkWatershedImageFilter.h"
 
 namespace itk
 {
