@@ -19,11 +19,13 @@ SET(ITK_TCL_TEST_ROOT "${ITK_BINARY_DIR}/Testing")
 SET(ITK_TCL_SCRIPT_DIR "${ITK_SOURCE_DIR}/Wrapping/Tcl")
 
 IF(UNIX)
+  # Configure pkgIndex.tcl for the build tree.
   SET(ITK_LIBNAME_PREFIX "lib")
   SET(ITK_MSDEV_CONFIG_DIR "")
   CONFIGURE_FILE(${ITK_SOURCE_DIR}/Wrapping/Tcl/pkgIndex.tcl.in
                  ${ITK_BINARY_DIR}/Wrapping/Tcl/pkgIndex.tcl IMMEDIATE)
 
+  # Configure pkgIndex.tcl for installation.
   SET(ITK_TCL_DATA_ROOT "[file dirname [info script]]/Data")
   SET(ITK_TCL_TEST_ROOT "[file dirname [info script]]/Testing")
   SET(ITK_TCL_SCRIPT_DIR "[file dirname [info script]]")
@@ -31,12 +33,24 @@ IF(UNIX)
   CONFIGURE_FILE(${ITK_SOURCE_DIR}/Wrapping/Tcl/pkgIndex.tcl.in
                  ${ITK_BINARY_DIR}/Wrapping/Tcl/Install/Hide/pkgIndex.tcl IMMEDIATE)
 ELSE(UNIX)
+  # Configure pkgIndex.tcl for the build tree in each possible configuration.
   SET(ITK_LIBNAME_PREFIX "")
   FOREACH (config Debug Release RelWithDebInfo MinSizeRel)
     SET(ITK_MSDEV_CONFIG_DIR ${config})
     CONFIGURE_FILE(${ITK_SOURCE_DIR}/Wrapping/Tcl/pkgIndex.tcl.in
                    ${ITK_BINARY_DIR}/Wrapping/Tcl/${config}/pkgIndex.tcl IMMEDIATE)
   ENDFOREACH (config)
+
+  # Configure pkgIndex.tcl for installation.  While installation doesn't
+  # actually do anything on Windows, this generated file will be useful
+  # to those creating binary distribution packages.
+  SET(ITK_TCL_DATA_ROOT "[file dirname [info script]]/Data")
+  SET(ITK_TCL_TEST_ROOT "[file dirname [info script]]/Testing")
+  SET(ITK_TCL_SCRIPT_DIR "[file dirname [info script]]")
+  SET(ITK_TCL_PACKAGE_DIR "[file dirname [info script]]")
+  SET(ITK_MSDEV_CONFIG_DIR "")
+  CONFIGURE_FILE(${ITK_SOURCE_DIR}/Wrapping/Tcl/pkgIndex.tcl.in
+                 ${ITK_BINARY_DIR}/Wrapping/Tcl/Install/Hide/pkgIndex.tcl IMMEDIATE)
 ENDIF(UNIX)
 
 INSTALL_PROGRAMS(/bin "itktcl")
