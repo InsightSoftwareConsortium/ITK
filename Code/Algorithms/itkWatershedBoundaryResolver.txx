@@ -94,14 +94,14 @@ void BoundaryResolver<TPixelType, TDimension>
 // ------------------------------------------------------------
 template <class TPixelType, unsigned int TDimension>
 void BoundaryResolver<TPixelType, TDimension>
-::GenerateOutputRequestedRegion(DataObject *output)
+::GenerateOutputRequestedRegion(DataObject *)
 {
 }
 
 template<class TPixelType, unsigned int TDimension>
 typename BoundaryResolver<TPixelType, TDimension>::DataObjectPointer
 BoundaryResolver<TPixelType, TDimension>
-::MakeOutput(unsigned int idx)
+::MakeOutput(unsigned int )
 {
   return static_cast<DataObject*>(EquivalencyTable::New().GetPointer());
 }
