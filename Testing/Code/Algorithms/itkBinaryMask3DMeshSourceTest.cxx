@@ -28,7 +28,7 @@
 #include "itkBinaryMask3DMeshSource.h"
 
 
-int itkBinaryMask3DMeshSourceTest(int argc, char **argv)
+int itkBinaryMask3DMeshSourceTest(int, char *[])
 {
   const int WIDTH  = 128;
   const int HEIGHT = 128;
