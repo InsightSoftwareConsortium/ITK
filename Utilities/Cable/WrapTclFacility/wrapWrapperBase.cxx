@@ -222,6 +222,102 @@ void WrapperBase::FreeTemporaries(int objc, Tcl_Obj*CONST objv[]) const
 
 
 /**
+ * Try to figure out the name of the type of the given Tcl object.
+ * If the type cannot be determined, a default of "char*" is returned.
+ * Used for type-based overload resolution.
+ */
+CvQualifiedType WrapperBase::GetObjectType(Tcl_Obj* obj) const
+{
+  // First try to use type information from Tcl.
+  if(TclObjectTypeIsPointer(obj))
+    {
+    Pointer p;
+    Tcl_GetPointerFromObj(m_Interpreter, obj, &p);
+    return m_TypeSystem->GetPointerType(p.GetCvQualifiedType())
+      ->GetCvQualifiedType(false, false);
+    }
+  else if(TclObjectTypeIsReference(obj))
+    {
+    Reference r;
+    Tcl_GetReferenceFromObj(m_Interpreter, obj, &r);
+    return m_TypeSystem->GetReferenceType(r.GetCvQualifiedType())
+      ->GetCvQualifiedType(false, false);
+    }
+  else if(TclObjectTypeIsBoolean(obj))
+    {
+    return m_TypeSystem->GetFundamentalType(FundamentalType::Bool)
+      ->GetCvQualifiedType(false, false);
+    }
+  else if(TclObjectTypeIsInt(obj))
+    {
+    return m_TypeSystem->GetFundamentalType(FundamentalType::Int)
+      ->GetCvQualifiedType(false, false);
+    }
+  else if(TclObjectTypeIsLong(obj))
+    {
+    return m_TypeSystem->GetFundamentalType(FundamentalType::LongInt)
+      ->GetCvQualifiedType(false, false);
+    }
+  else if(TclObjectTypeIsDouble(obj))
+    {
+    return m_TypeSystem->GetFundamentalType(FundamentalType::Double)
+      ->GetCvQualifiedType(false, false);
+    }
+  // No Tcl type information.  Try converting from string representation.
+  else
+    {
+    String objectName = Tcl_GetString(obj);
+    if(m_InstanceTable->Exists(objectName))
+      {
+      return m_InstanceTable->GetType(objectName);
+      }
+    else if(StringRepIsPointer(objectName))
+      {
+      Pointer p;
+      if(Tcl_GetPointerFromObj(m_Interpreter, obj, &p) == TCL_OK)
+        {
+        return m_TypeSystem->GetPointerType(p.GetCvQualifiedType())
+          ->GetCvQualifiedType(false, false);
+        }
+      }
+    else if(StringRepIsReference(objectName))
+      {
+      Reference r;
+      if(Tcl_GetReferenceFromObj(m_Interpreter, obj, &r) == TCL_OK)
+        {
+        return m_TypeSystem->GetReferenceType(r.GetCvQualifiedType())
+          ->GetCvQualifiedType(false, false);
+        }
+      }
+    else
+      {
+      // No wrapping type information available.  Try to convert to
+      // some basic types.
+      long l;
+      double d;
+      if(Tcl_GetLongFromObj(m_Interpreter, obj, &l) == TCL_OK)
+        {
+        return m_TypeSystem->GetFundamentalType(FundamentalType::LongInt)
+          ->GetCvQualifiedType(false, false);
+        }
+      else if(Tcl_GetDoubleFromObj(m_Interpreter, obj, &d) == TCL_OK)
+        {
+        return m_TypeSystem->GetFundamentalType(FundamentalType::Double)
+          ->GetCvQualifiedType(false, false);
+        }
+      }
+    }
+  
+  // Could not determine the type.  Default to char*.
+  CvQualifiedType charType =
+    m_TypeSystem->GetFundamentalType(FundamentalType::Char)
+    ->GetCvQualifiedType(false, false);
+  return m_TypeSystem->GetPointerType(charType)
+    ->GetCvQualifiedType(false, false);
+}
+
+
+/**
  * Register an ArrayType having the given element type and size with this
  * wrapper's TypeSystem.
  */
@@ -321,7 +417,6 @@ WrapperBase::GetReferenceType(TypeKey referencedType) const
   return m_TypeSystem->GetReferenceType(this->GetType(referencedType))
     ->GetCvQualifiedType(false, false);
 }
-
 
 } // namespace _wrap_
 

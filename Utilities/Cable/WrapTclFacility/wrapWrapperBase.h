@@ -90,6 +90,7 @@ protected:
   void UnknownInstance(const String& objectName) const;
   void ReportErrorMessage(const String& errorMessage) const;
   void FreeTemporaries(int objc, Tcl_Obj*CONST objv[]) const;
+  CvQualifiedType GetObjectType(Tcl_Obj* obj) const;
 
   typedef std::vector<TypeKey> TypeKeys;
   CvQualifiedType GetArrayType(TypeKey elementType, unsigned long size) const;
