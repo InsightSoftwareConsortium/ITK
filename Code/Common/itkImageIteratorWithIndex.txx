@@ -153,6 +153,17 @@ ImageIteratorWithIndex<TImage>
 
   m_Position       = m_Begin;
   m_PositionIndex  = m_BeginIndex;
+  
+  m_Remaining = false;
+  for (unsigned int i=0; i < ImageIteratorDimension; ++i)
+  {
+    unsigned int size = m_Region.GetSize()[i];
+    if( size > 0 )
+    {
+      m_Remaining = true;
+    }
+
+  }
 
 }
 
