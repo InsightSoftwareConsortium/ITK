@@ -46,6 +46,7 @@ SymmetricalDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField
   m_FixedImage = NULL;
   m_FixedImageSpacing.Fill( 1.0 );
   m_FixedImageOrigin.Fill( 0.0 );
+  m_Normalizer = 1.0;
   m_FixedImageGradientCalculator = GradientCalculatorType::New();
 
 
@@ -97,6 +98,15 @@ SymmetricalDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField
   // cache fixed image information
   m_FixedImageSpacing    = m_FixedImage->GetSpacing();
   m_FixedImageOrigin     = m_FixedImage->GetOrigin();
+
+  // compute the normalizer
+  m_Normalizer      = 1.0;
+  for( unsigned int k = 0; k < ImageDimension; k++ )
+    {
+    m_Normalizer += m_FixedImageSpacing[k] * m_FixedImageSpacing[k];
+    }
+  m_Normalizer /= static_cast<double>( ImageDimension );
+
 
   // setup gradient calculator
   m_FixedImageGradientCalculator->SetInputImage( m_FixedImage );
@@ -190,28 +200,44 @@ SymmetricalDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField
   }
 
 
+  /**
+   * Compute Update.
+   * In the original equation the denominator is defined as
+   *
+   *         (g-f)^2 + (moving_grad+fixed_grad)_mag^2
+   *
+   * However there is a mismatch in units between the two terms. 
+   * The units for the second term is intensity^2/mm^2 while the
+   * units for the first term is intensity^2. This mismatch is particularly
+   * problematic when the fixed image does not have unit spacing.
+   * In this implemenation, we normalize the first term by a factor K,
+   * such that denominator = (g-f)^2/K + grad_mag^2
+   * where K = mean square spacing to compensate for the mismatch in units.
+   */
 
-  // Compute update
   double fixedPlusMovingGradientSquaredMagnitude = 0;
-  double squaredDiagonal = 0;
   for( unsigned int dim = 0; dim < ImageDimension; dim++ ){
     fixedPlusMovingGradientSquaredMagnitude += vnl_math_sqr( fixedGradient[dim] + movingGradient[dim] );
-    squaredDiagonal += m_FixedImageSpacing[dim] * m_FixedImageSpacing[dim];
   }
 
   double speedValue = fixedValue - movingValue;
-  double denominator = vnl_math_sqr( speedValue ) / squaredDiagonal + fixedPlusMovingGradientSquaredMagnitude;
+  double denominator = vnl_math_sqr( speedValue ) / m_Normalizer + 
+    fixedPlusMovingGradientSquaredMagnitude;
 
-  if ( vnl_math_abs(speedValue) < m_IntensityDifferenceThreshold || denominator < m_DenominatorThreshold ){
-    for( unsigned int j = 0; j < ImageDimension; j++ ){
+  if ( vnl_math_abs(speedValue) < m_IntensityDifferenceThreshold || 
+          denominator < m_DenominatorThreshold )
+    {
+    for( unsigned int j = 0; j < ImageDimension; j++ )
+      {
       update[j] = 0.0;
-    }
+      }
     return update;
-  }
+    }
 
-  for( unsigned int j = 0; j < ImageDimension; j++ ){
+  for( unsigned int j = 0; j < ImageDimension; j++ )
+    {
     update[j] = 2 * speedValue * (fixedGradient[j] + movingGradient[j]) / denominator;
-  }
+    }
 
 
   return update;

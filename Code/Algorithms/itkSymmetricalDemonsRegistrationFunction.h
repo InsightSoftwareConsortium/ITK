@@ -173,6 +173,7 @@ private:
   /** Cache fixed image information. */
   SpacingType                     m_FixedImageSpacing;
   PointType                       m_FixedImageOrigin;
+  double                          m_Normalizer;
 
   /** Function to compute derivatives of the fixed image. */
   GradientCalculatorPointer       m_FixedImageGradientCalculator;
