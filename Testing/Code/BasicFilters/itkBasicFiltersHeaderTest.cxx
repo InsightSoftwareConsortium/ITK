@@ -143,6 +143,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkSpatialFunctionImageEvaluatorFilter.txx"
 #include "itkSpatialObjectToImageFilter.txx"
 #include "itkSqrtImageFilter.h"
+#include "itkSquareImageFilter.h"
 #include "itkSquaredDifferenceImageFilter.h"
 #include "itkStatisticsImageFilter.txx"
 #include "itkStreamingImageFilter.txx"
