@@ -119,7 +119,7 @@ const ContinuousIndexType& index) const
   for( unsigned int counter = 0; counter < m_Neighbors; counter++ )
     {
 
-    double overlap = 1.0;   // fraction overlap
+    double overlap = 1.0;          // fraction overlap
     unsigned int upper = counter;  // each bit indicates upper/lower neighbour
     IndexType neighIndex;
 
@@ -141,8 +141,12 @@ const ContinuousIndexType& index) const
       upper >>= 1;
 
       }
-
-    value += overlap * (double) m_Image->GetPixel( neighIndex );
+    
+    // get neighbor value only if overlap is not zero
+    if( overlap )
+      {
+      value += overlap * (double) m_Image->GetPixel( neighIndex );
+      }
 
     }
 
