@@ -12,7 +12,7 @@ void RegisterTests()
   REGISTER_TEST(itkAlgorithmsPrintTest2  );
   REGISTER_TEST(itkAlgorithmsPrintTest3  );
   REGISTER_TEST(itkCompareHistogramImageToImageMetricTest   );
-  REGISTER_TEST(itkKullbackLieblerCompareHistogramImageToImageMetricTest );
+  REGISTER_TEST(itkKullbackLeiblerCompareHistogramImageToImageMetricTest );
   REGISTER_TEST(itkMIRegistrationFunctionTest );
   REGISTER_TEST(itkPointSetToPointSetRegistrationTest );
   REGISTER_TEST(itkVectorThresholdSegmentationLevelSetImageFilterTest );

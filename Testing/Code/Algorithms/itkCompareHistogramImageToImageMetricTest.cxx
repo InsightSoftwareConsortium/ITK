@@ -20,7 +20,7 @@
 #include "itkGaussianImageSource.h"
 #include "itkImage.h"
 #include "itkLinearInterpolateImageFunction.h"
-#include "itkKullbackLieblerCompareHistogramImageToImageMetric.h"
+#include "itkKullbackLeiblerCompareHistogramImageToImageMetric.h"
 #include "itkTranslationTransform.h"
 
 /** This test uses two 2D-Gaussians (standard deviation RegionSize/2).
@@ -78,7 +78,7 @@ int itkCompareHistogramImageToImageMetricTest(int , char* [])
     FixedImageType::Pointer  fixedImage  = fixedImageSource->GetOutput();
     
     // Set up the metric.
-    typedef itk::KullbackLieblerCompareHistogramImageToImageMetric<
+    typedef itk::KullbackLeiblerCompareHistogramImageToImageMetric<
                                                        FixedImageType,
                                                        MovingImageType
                                                                > MetricType;
