@@ -18,6 +18,7 @@
 #include "itkPNGImageIO.h"
 #include "itkRGBPixel.h"
 #include "itkRGBAPixel.h"
+#include "png.h"
 
 namespace itk
 {

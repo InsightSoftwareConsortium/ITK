@@ -22,7 +22,6 @@
 #endif
 
 #include "itkImageIOBase.h"
-#include "png.h"
 
 namespace itk
 {
