@@ -18,10 +18,6 @@
 #endif
 //  Software Guide : BeginCommandLineArgs
 //    INPUTS: {BrainProtonDensitySlice.png}
-//    OUTPUTS: [OtsuMultipleThresholdsOutput0.png]
-//    OUTPUTS: [OtsuMultipleThresholdsOutput1.png]
-//    OUTPUTS: [OtsuMultipleThresholdsOutput2.png]
-//    OUTPUTS: [OtsuMultipleThresholdsOutput3.png]
 //    OtsuMultipleThresholdsOutput png 4
 //  Software Guide : EndCommandLineArgs
 
@@ -65,8 +61,10 @@ int main( int argc, char * argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::ScalarImageToHistogramGenerator< InputImageType > ScalarImageToHistogramGeneratorType;
-  typedef  itk::OtsuMultipleThresholdsCalculator< ScalarImageToHistogramGeneratorType::HistogramType >   CalculatorType;
+  typedef itk::Statistics::ScalarImageToHistogramGenerator< InputImageType > 
+    ScalarImageToHistogramGeneratorType;
+  typedef itk::OtsuMultipleThresholdsCalculator< 
+    ScalarImageToHistogramGeneratorType::HistogramType >   CalculatorType;
   // Software Guide : EndCodeSnippet
 
   typedef itk::ImageFileReader< InputImageType >  ReaderType;
@@ -78,13 +76,15 @@ int main( int argc, char * argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::BinaryThresholdImageFilter< InputImageType, OutputImageType >  FilterType;
+  typedef itk::BinaryThresholdImageFilter< InputImageType, OutputImageType >  
+    FilterType;
   // Software Guide : EndCodeSnippet
   
   //Create using static New() method
 
   // Software Guide : BeginCodeSnippet
-  ScalarImageToHistogramGeneratorType::Pointer scalarImageToHistogramGenerator = ScalarImageToHistogramGeneratorType::New();
+  ScalarImageToHistogramGeneratorType::Pointer scalarImageToHistogramGenerator = 
+    ScalarImageToHistogramGeneratorType::New();
   CalculatorType::Pointer calculator = CalculatorType::New();
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
@@ -155,7 +155,9 @@ int main( int argc, char * argv[] )
     {
     std::cout << "OtsuThreshold["
       << (int)(itNum - thresholdVector.begin())
-      << "] = " << static_cast<itk::NumericTraits<CalculatorType::MeasurementType>::PrintType>(*itNum) << std::endl;  
+      << "] = " << 
+      static_cast<itk::NumericTraits<CalculatorType::MeasurementType>::PrintType>
+      (*itNum) << std::endl;  
   // Software Guide : EndCodeSnippet
     
     upperThreshold = (*itNum);
