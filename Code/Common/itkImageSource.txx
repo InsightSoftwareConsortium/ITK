@@ -162,11 +162,10 @@ void
 ImageSource<TOutputImage>
 ::GenerateData()
 {
-  int i;
   OutputImagePointer outputPtr;
 
   // Allocate the output memory
-  for (i=0; i < this->GetNumberOfOutputs(); i++)
+  for (unsigned int i=0; i < this->GetNumberOfOutputs(); i++)
     {
     outputPtr = this->GetOutput(i);
     outputPtr->SetBufferedRegion(outputPtr->GetRequestedRegion());
