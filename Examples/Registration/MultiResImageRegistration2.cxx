@@ -490,7 +490,7 @@ int main( int argc, char *argv[] )
   FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
   PixelType backgroundGrayLevel = 100;
-  if( argc > 3 )
+  if( argc > 4 )
     {
     backgroundGrayLevel = atoi( argv[4] );
     }
