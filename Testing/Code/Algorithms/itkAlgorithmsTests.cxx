@@ -44,7 +44,6 @@ REGISTER_TEST(itkKmeansModelEstimatorTest );
 REGISTER_TEST(itkLaplacianSegmentationLevelSetImageFilterTest );
 REGISTER_TEST(itkMattesMutualInformationImageToImageMetricTest );
 REGISTER_TEST(itkMeanSquaresImageMetricTest );
-REGISTER_TEST(itkMinimumMaximumImageCalculatorTest );
 REGISTER_TEST(itkMinMaxCurvatureFlowImageFilterTest );
 REGISTER_TEST(itkMRFImageFilterTest );
 REGISTER_TEST(itkMultiResolutionPyramidImageFilterTest );
