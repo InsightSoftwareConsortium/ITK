@@ -89,7 +89,7 @@ public:
   typedef typename InputImageType::PixelType InputImagePixelType; 
   
   /** Set/Get the image input of this writer.  */
-  void SetInput(InputImageType *input);
+  void SetInput(const InputImageType *input);
   InputImagePointer GetInput();
   InputImagePointer GetInput(unsigned int idx);
   

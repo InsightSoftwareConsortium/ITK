@@ -47,9 +47,11 @@ ImageFileWriter<TInputImage>
 template <class TInputImage>
 void 
 ImageFileWriter<TInputImage>
-::SetInput(InputImageType *input)
+::SetInput(const InputImageType *input)
 {
-  this->ProcessObject::SetNthInput(0, input);
+  // ProcessObject is not const_correct so this cast is required here.
+  this->ProcessObject::SetNthInput(0, 
+      const_cast<TInputImage *>(input ) );
 }
 
 
@@ -91,6 +93,11 @@ ImageFileWriter<TInputImage>
     return;
     }
   input->Update();
+
+  if ( m_ImageIO == 0 ) //try creating via factory
+    {
+    m_ImageIO = ImageIOFactory::CreateImageIO(m_FileName.c_str());
+    }
 
   if ( m_ImageIO == 0 )
     {
