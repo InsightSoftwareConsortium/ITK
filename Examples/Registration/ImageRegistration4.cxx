@@ -230,7 +230,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   optimizer->SetMaximumStepLength( 4.00 );  
-  optimizer->SetMinimumStepLength( 0.01 );
+  optimizer->SetMinimumStepLength( 0.005 );
   optimizer->SetNumberOfIterations( 200 );
 
   // Software Guide : EndCodeSnippet
