@@ -149,6 +149,7 @@ Translate(const OutputVectorType &offset, bool pre)
     {
     m_Offset += offset;
     }
+  this->Modified();
   return;
 }
 
