@@ -72,7 +72,7 @@ ADD_EXECUTABLE(itkImageIteratorsForwardBackwardTest itkImageIteratorsForwardBack
 ADD_EXECUTABLE(itkImageLinearIteratorTest itkImageLinearIteratorTest)
 ADD_EXECUTABLE(itkImageSliceIteratorTest itkImageSliceIteratorTest)
 ADD_EXECUTABLE(itkIteratorTests itkIteratorTests)
-ADD_EXECUTABLE(itkMatrixTest itkpMatrixTest)
+ADD_EXECUTABLE(itkMatrixTest itkMatrixTest)
 ADD_EXECUTABLE(itkMapContainerTest itkMapContainerTest)
 ADD_EXECUTABLE(itkMemoryLeakTest itkMemoryLeakTest)
 ADD_EXECUTABLE(itkMeshTest itkMeshTest)
