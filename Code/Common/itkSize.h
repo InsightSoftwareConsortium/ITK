@@ -195,7 +195,7 @@ template<unsigned int VDimension>
 std::ostream & operator<<(std::ostream &os, const Size<VDimension> &size)
 {
   os << "[";
-  for (unsigned int i=0; i < VDimension - 1; ++i)
+  for (unsigned int i=0; i+1 < VDimension; ++i)
     {
     os << size[i] << ", ";
     }
