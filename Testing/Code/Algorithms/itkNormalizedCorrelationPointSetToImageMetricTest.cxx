@@ -112,7 +112,7 @@ int itkNormalizedCorrelationPointSetToImageMetricTest(int, char* [] )
   const unsigned int skip = 
       fixedImage->GetBufferedRegion().GetNumberOfPixels() / numberOfPoints;
 
-  unsigned int counter = skip;
+  unsigned int counter = 0;
 
   FixedPointSetType::PointIdentifier pointId = 0;
   FixedPointSetType::PointType  point;

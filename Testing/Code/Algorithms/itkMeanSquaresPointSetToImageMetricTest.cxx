@@ -112,7 +112,7 @@ int itkMeanSquaresPointSetToImageMetricTest(int, char* [] )
   const unsigned int skip = 
       fixedImage->GetBufferedRegion().GetNumberOfPixels() / numberOfPoints;
 
-  unsigned int counter = skip;
+  unsigned int counter = 0;
 
   FixedPointSetType::PointIdentifier pointId = 0;
   FixedPointSetType::PointType  point;
@@ -123,6 +123,7 @@ int itkMeanSquaresPointSetToImageMetricTest(int, char* [] )
     if( counter==0 )
       {
       fixedImage->TransformIndexToPhysicalPoint( it.GetIndex(), point );
+      std::cout << "******************* " << pointId << ":" << point << std::endl;
       fixedPointSet->SetPoint( pointId, point );
       fixedPointSet->SetPointData( pointId, it.Get() );
       ++pointId; 
@@ -135,6 +136,16 @@ int itkMeanSquaresPointSetToImageMetricTest(int, char* [] )
     --counter;
     ++it;
     }
+
+  // print the points accessed via iterator
+  FixedPointSetType::PointsContainer::ConstIterator pointItr = fixedPointSet->GetPoints()->Begin();
+  FixedPointSetType::PointsContainer::ConstIterator pointEnd = fixedPointSet->GetPoints()->End();
+  while (pointItr != pointEnd)
+    {
+    std::cout << pointItr.Value() << std::endl;
+    ++pointItr;
+    }
+   
 
 
 //-----------------------------------------------------------
