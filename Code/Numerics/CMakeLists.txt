@@ -17,6 +17,7 @@ ADD_LIBRARY(ITKNumerics
   itkMultivariateLegendrePolynomial.cxx
   itkOnePlusOneEvolutionaryOptimizer.cxx
   itkOptimizer.cxx
+  itkPowellOptimizer.cxx
   itkQuaternionRigidTransformGradientDescentOptimizer.cxx
   itkRegularStepGradientDescentBaseOptimizer.cxx
   itkRegularStepGradientDescentOptimizer.cxx
