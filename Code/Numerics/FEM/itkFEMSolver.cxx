@@ -28,6 +28,8 @@
 #include "itkFEMLoadBC.h"
 #include "itkFEMLoadBCMFC.h"
 
+#include "itkImageRegionIterator.h"
+
 #include <algorithm>
 
 namespace itk {
@@ -36,7 +38,7 @@ namespace fem {
 
 
 
-/**
+/*
  * Default constructor for Solver class
  */
 Solver::Solver() : NGFN(0), NMFC(0)
@@ -88,7 +90,7 @@ void Solver::InitializeLinearSystemWrapper(void)
 
 
 
-/**
+/*
  * Reads the whole system (nodes, materials and elements) from input stream
  */
 void Solver::Read(std::istream& f) {
@@ -160,7 +162,7 @@ void Solver::Read(std::istream& f) {
 
 
 
-/**
+/*
  * Writes everything (nodes, materials and elements) to output stream
  */
 void Solver::Write( std::ostream& f ) {
@@ -191,7 +193,7 @@ void Solver::Write( std::ostream& f ) {
 
 
 
-/**
+/*
  * Assign a global freedom number to each DOF in a system.
  */
 void Solver::GenerateGFN() {
@@ -249,7 +251,7 @@ void Solver::GenerateGFN() {
 
 
 
-/**
+/*
  * Assemble the master stiffness matrix (also apply the MFCs to K)
  */  
 void Solver::AssembleK()
@@ -354,7 +356,7 @@ void Solver::AssembleElementMatrix(Element::Pointer e)
 
 
 
-/**
+/*
  * Assemble the master force vector
  */
 void Solver::AssembleF(int dim) {
@@ -549,7 +551,7 @@ void Solver::AssembleF(int dim) {
 
 
 
-/**
+/*
  * Decompose matrix using svd, qr, whatever ... if needed
  */  
 void Solver::DecomposeK()
@@ -559,7 +561,7 @@ void Solver::DecomposeK()
 
 
 
-/**
+/*
  * Solve for the displacement vector u
  */  
 void Solver::Solve()
@@ -583,7 +585,7 @@ void Solver::Solve()
 
 
 
-/**
+/*
  * Copy solution vector u to the corresponding nodal values, which are
  * stored in node objects). This is standard post processing of the solution.
  */  
@@ -613,7 +615,7 @@ Solver::Float Solver::GetDeformationEnergy(unsigned int SolutionIndex)
   return U;
 }
 
-/**
+/*
  * Apply the boundary conditions to the system.
  */
 void Solver::ApplyBC(int dim, unsigned int matrix)
@@ -731,6 +733,130 @@ void Solver::ApplyBC(int dim, unsigned int matrix)
 }
 
 
+
+
+/*
+ * Initialize the interpolation grid
+ */
+void Solver::InitializeInterpolationGrid(VectorType size, VectorType v1, VectorType v2)
+{
+  // Discard any old image object an create a new one
+  m_InterpolationGrid=InterpolationGridType::New();
+
+  // Set the interpolation grid (image) size, origin and spacing
+  // from the given vectors, so that physical point of v1 is (0,0,0) and
+  // phisical point v2 is (size[0],size[1],size[2]).
+  InterpolationGridType::SizeType image_size={1.0,1.0,1.0};
+  for(int i=0;i<size.size();i++) image_size[i]=size[i];
+  double image_origin[MaxGridDimensions]={0.0,0.0,0.0};
+  for(int i=0;i<size.size();i++) image_origin[i]=v1[i];
+  double image_spacing[MaxGridDimensions]={1.0,1.0,1.0};
+  for(int i=0;i<size.size();i++) image_spacing[i]=(v2[i]-v1[i])/(image_size[i]-1);
+
+  // All regions are the same
+  m_InterpolationGrid->SetRegions(image_size);
+  m_InterpolationGrid->Allocate();
+
+  // Set origin and spacing
+  m_InterpolationGrid->SetOrigin(image_origin);
+  m_InterpolationGrid->SetSpacing(image_spacing);
+
+  // Initialize all pointers in interpolation grid image to 0
+  m_InterpolationGrid->FillBuffer(0);
+
+  // Fill the interpolation grid with proper pointers to elements
+  for(ElementArray::iterator e=el.begin(); e!=el.end(); e++)
+  {
+    // Get square boundary box of an element
+    VectorType v1=(*e)->GetNodeCoordinates(0); // lower left corner
+    VectorType v2=(*e)->GetNodeCoordinates(0); // upper right corner
+
+    const unsigned int NumberOfDimensions=(*e)->GetNumberOfSpatialDimensions();
+
+    for(int n=1;n<(*e)->GetNumberOfNodes();n++)
+    {
+      const VectorType& v=(*e)->GetNodeCoordinates(n);
+      for(int d=0;d<NumberOfDimensions;d++)
+      {
+        if(v[d]<v1[d]) v1[d]=v[d];
+        if(v[d]>v2[d]) v2[d]=v[d];
+      }
+    }
+
+    // Convert boundary box corner points into discrete image indexes.
+    InterpolationGridType::IndexType vi1,vi2;
+    
+    Point<double,MaxGridDimensions> vp1,vp2,pt;
+    for(int i=0;i<MaxGridDimensions;i++)
+    {
+      if (i<NumberOfDimensions) vp1[i]=v1[i]; else vp1[i]=0.0;
+      if (i<NumberOfDimensions) vp2[i]=v2[i]; else vp2[i]=0.0;
+    }
+
+    m_InterpolationGrid->TransformPhysicalPointToIndex(vp1,vi1);
+    m_InterpolationGrid->TransformPhysicalPointToIndex(vp2,vi2);
+
+    InterpolationGridType::SizeType region_size;
+    for(int i=0;i<MaxGridDimensions;i++) region_size[i]=vi2[i]-vi1[i]+1;
+    InterpolationGridType::RegionType region(vi1,region_size);
+
+    // Initialize the iterator that will step over all grid points within
+    // element boundary box.
+    ImageRegionIterator<InterpolationGridType> iter(m_InterpolationGrid,region);
+
+
+
+    //
+    // Update the element pointers in the points defined within the region.
+    //
+    VectorType global_point(NumberOfDimensions); // Point in the image as a vector.
+    VectorType local_point(NumberOfDimensions); // Same point in local element coordinate system
+
+    // Step over all points within the region
+    for(iter.GoToBegin(); !iter.IsAtEnd(); ++iter)
+    {
+      m_InterpolationGrid->TransformIndexToPhysicalPoint(iter.GetIndex(),pt);
+      for(int d=0; d<NumberOfDimensions; d++)
+      {
+        global_point[d]=pt[d];
+      }
+
+      // If the point is within the element, we update the pointer at
+      // this point in the interpolation grid image.
+      if( (*e)->GetLocalFromGlobalCoordinates(global_point,local_point) )
+      {
+        iter.Set(*e);
+      }
+    } // next point in region
+
+
+  } // next element
+
+}
+
+
+
+Element::ConstPointer
+Solver::GetElementAtPoint(VectorType pt) const
+{
+  Point<double,MaxGridDimensions> pp;
+  for(int i=0;i<MaxGridDimensions;i++)
+  {
+    if (i<pt.size()) pp[i]=pt[i]; else pt[i]=0.0;
+  }
+
+  InterpolationGridType::IndexType index;
+
+  // Return value only if given point is within the interpolation grid
+  if( m_InterpolationGrid->TransformPhysicalPointToIndex(pp,index) )
+  {
+    return m_InterpolationGrid->GetPixel(index);
+  } else
+  {
+    // Return 0, if outside the grid.
+    return 0;
+  }
+}
 
 
 }} // end namespace itk::fem

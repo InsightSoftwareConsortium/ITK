@@ -25,6 +25,8 @@
 #include "itkFEMLinearSystemWrapper.h"
 #include "itkFEMLinearSystemWrapperVNL.h"
 
+#include "itkImage.h"
+
 namespace itk {
 namespace fem {
 
@@ -69,6 +71,75 @@ public:
    */
   typedef Material::ArrayType MaterialArray;
   MaterialArray mat;
+
+  /**
+   * VectorType from the Element base class
+   */
+  typedef Element::VectorType VectorType;
+
+  /**
+   * Since the itk::Image is templated over the number of dimensions, we
+   * have to know this at compile time. Solver class, however, can handle
+   * elements in any number of dimensions. In order to be able to use the Image,
+   * we choose the maximum number of space dimension that this function will
+   * be able to handle. Any unused dimensions are filled with zero.
+   *
+   * For example: If a 2D node coordinates are {1.0,3.0} then the corresponding
+   *              phisycal point in an image is {1.0,3.0,0.0};
+   */
+  itkStaticConstMacro(MaxGridDimensions, unsigned int, 3);
+
+  /**
+   * Type used to store interpolation grid
+   */
+  typedef itk::Image<Element::ConstPointer,MaxGridDimensions> InterpolationGridType;
+
+  /**
+   * Initialize the interpolation grid. The interpolation grid is used to
+   * find elements that containg specific points in a mesh. The interpolation
+   * grid stores pointers to elements for each point on a grid thereby providing
+   * a fast way (lookup table) to perform interpolation of results.
+   *
+   * \note Interpolation grid must be reinitialized each time a mesh changes.
+   *
+   * \param size Vector that represents number of points on a grid in each dimension.
+   * \param v1 Lower limit of a bounding box of a grid.
+   * \param v2 Upper limit of a bounding box of a grid.
+   *
+   * \sa GetInterpolationGrid
+   */
+  void InitializeInterpolationGrid(VectorType size, VectorType v1, VectorType v2);
+
+  /**
+   * Same as InitializeInterpolationGrid(size, {0,0...}, size);
+   */
+  void InitializeInterpolationGrid(VectorType size)
+  {
+    InitializeInterpolationGrid(size, VectorType(size.size(),0.0), size-1.0);
+  }
+
+  /**
+   * Returns pointer to interpolation grid, which is an itk::Image of pointers
+   * to Element objects. Normally you would use physical coordinates to get
+   * specific points (pointers to elements) from the image. You can then
+   * use the Elemenet::InterpolateSolution member function on the returned
+   * element to obtain the solution at this point.
+   *
+   * \note Physical coordinates in an image correspond to the global
+   *       coordinate system in which the mesh (nodes) are.
+   */
+  InterpolationGridType::ConstPointer GetInterpolationGrid(void) const
+  { return m_InterpolationGrid; }
+
+  /**
+   * Returns the pointer to the element which contains global point pt.
+   *
+   * \param pt Point in global coordinate system.
+   *
+   * \note Interpolation grid must be initializes before you can
+   *       call this function.
+   */
+  Element::ConstPointer GetElementAtPoint(VectorType pt) const;
 
   /**
    * Reads the whole system (nodes, materials and elements) from input stream
@@ -256,6 +327,13 @@ private:
    * LinearSystemWrapperVNL object that is used by default in Solver class.
    */
   LinearSystemWrapperVNL m_lsVNL;
+
+  /**
+   * An Image of pointers to Element objects that represents a grid used
+   * for interpolation of solution. Each Pixel in an image is a pointer to
+   * an Element object in which that pixel is located.
+   */
+  InterpolationGridType::Pointer m_InterpolationGrid;
 
 };
 
