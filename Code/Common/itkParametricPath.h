@@ -115,6 +115,7 @@ public:
     * their work does not need the derivative operator. */
   virtual VectorType EvaluateDerivative(const InputType & input) const;
   
+  itkSetMacro( DefaultInputStepSize, InputType )
   itkGetConstReferenceMacro( DefaultInputStepSize, InputType )
   
   

@@ -106,7 +106,7 @@ template <unsigned int VDimension>
 FourierSeriesPath<VDimension>
 ::FourierSeriesPath()
 {
-  m_DefaultInputStepSize = 1.0/50.0;
+  this->SetDefaultInputStepSize( 1.0/50.0 );
   m_CosCoefficients = CoefficientsType::New();
   m_SinCoefficients = CoefficientsType::New();
 }

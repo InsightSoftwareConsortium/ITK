@@ -87,7 +87,7 @@ ChainCodePath<VDimension>
     }
   else
     {
-    return m_ZeroOffset;
+    return this->GetZeroOffset();
     }
 }
 
@@ -100,7 +100,7 @@ template <unsigned int VDimension>
 ChainCodePath<VDimension>
 ::ChainCodePath()
 {
-  m_Start = m_ZeroIndex;
+  m_Start = this->GetZeroIndex();
 }
 
 

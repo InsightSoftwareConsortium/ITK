@@ -57,7 +57,7 @@ ChainCodePath2D
     }
   else
     {
-    return m_ZeroOffset;
+    return this->GetZeroOffset();
     }
 }
 

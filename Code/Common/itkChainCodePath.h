@@ -140,7 +140,7 @@ public:
   /** Needed for Pipelining */
   virtual void Initialize(void)
     {
-    m_Start = m_ZeroIndex;
+    m_Start = this->GetZeroIndex();
     this->Clear();
     }
 

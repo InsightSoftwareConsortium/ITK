@@ -76,7 +76,7 @@ template <unsigned int VDimension>
 PolyLineParametricPath<VDimension>
 ::PolyLineParametricPath()
 {
-  m_DefaultInputStepSize = 0.3;
+  this->SetDefaultInputStepSize( 0.3 );
   m_VertexList = VertexListType::New();
 }
 
