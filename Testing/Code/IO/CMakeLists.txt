@@ -430,6 +430,7 @@ IF(ITK_CSWIG_JAVA AND ITK_BINARY_DIR)
      )
 
   ADD_CUSTOM_TARGET(${javatestfile}Java ALL  DEPENDS ${ITK_BINARY_DIR}/Examples/IO/${javatestfile}.class)
+  ADD_DEPENDENCIES(${javatestfile}Java ITKJavaJarDummyLibrary)
 
   ADD_CUSTOM_COMMAND(
     OUTPUT  ${ITK_BINARY_DIR}/Examples/IO/${javatestfile}.class
