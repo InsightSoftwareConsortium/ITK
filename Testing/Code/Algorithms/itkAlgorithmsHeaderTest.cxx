@@ -64,6 +64,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkMRIBiasFieldCorrectionFilter.h"
 #include "itkMeanSquaresImageToImageMetric.h"
 #include "itkMeanSquaresPointSetToImageMetric.h"
+#include "itkMinMaxCurvatureFlowFunction.h"
+#include "itkMinMaxCurvatureFlowImageFilter.h"
 #include "itkMinimumMaximumImageCalculator.h"
 #include "itkMultiResolutionMutualInformationAffineRegistration.h"
 #include "itkMultiResolutionMutualInformationRigidRegistration.h"
