@@ -55,7 +55,7 @@ KernelTransform<TScalarType, NDimensions>::
  *
  */
 template <class TScalarType, int NDimensions>
-KernelTransform<TScalarType, NDimensions>::GMatrixType
+const KernelTransform<TScalarType, NDimensions>::GMatrixType &
 KernelTransform<TScalarType, NDimensions>::
 ComputeG( const InputVectorType & vect ) const
 {
@@ -63,8 +63,7 @@ ComputeG( const InputVectorType & vect ) const
   // Should an Exception be thrown here  ?
   //
   itkWarningMacro(<< "ComputeG() should be reimplemented in the subclass !!");
-  GMatrixType matrix;
-  return matrix;
+  return m_GMatrix;
 }
 
 

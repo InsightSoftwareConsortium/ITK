@@ -169,7 +169,7 @@ protected:
    *    Elastic body spline
    *    Thin plate spline
    *    Volume spline */
-  virtual GMatrixType ComputeG(const InputVectorType & landmarkVector) const;
+  virtual const GMatrixType & ComputeG(const InputVectorType & landmarkVector) const;
   
   /** Compute K matrix. */
   void ComputeK();
@@ -210,6 +210,11 @@ protected:
   
   /** The W matrix. */
   WMatrixType m_WMatrix;
+
+  /** The G matrix. 
+    It is made mutable because m_GMatrix was made an ivar
+    only to avoid copying the matrix at return time */
+  mutable GMatrixType m_GMatrix;
 
   /** Has the W matrix been computed? */
   bool m_WMatrixComputed;
