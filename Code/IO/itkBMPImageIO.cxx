@@ -81,7 +81,7 @@ bool BMPImageIO::CanReadFile( const char* filename )
 
   // Now check the content
   std::ifstream inputStream;
-  inputStream.open( filename, std::ios::in || std::ios::binary );
+  inputStream.open( filename, std::ios::in | std::ios::binary );
   if( inputStream.fail() )
     {
     return false;
@@ -237,8 +237,6 @@ void BMPImageIO::Read(void* buffer)
 {
 
   char * p = static_cast<char *>(buffer);
-
-  unsigned char inc = m_Depth/8;
   unsigned long l=0;
   unsigned long step = 1;
   long streamRead = m_Dimensions[0]*m_Depth/8;
@@ -274,7 +272,7 @@ void BMPImageIO::ReadImageInformation()
   int  itmp;       // in case we are on a 64bit machine
 
   // Now check the content
-  m_Ifstream.open( m_FileName.c_str(), std::ios::in || std::ios::binary );
+  m_Ifstream.open( m_FileName.c_str(), std::ios::in | std::ios::binary );
   if( m_Ifstream.fail() )
     {
     return;
@@ -604,7 +602,7 @@ BMPImageIO
 
   int bpp = this->GetNumberOfComponents(); 
 
-  int i=0;
+  int i;
   for (int h = 0; h < m_Dimensions[1]; h++)
     {  
       const char * ptr = static_cast<const char*>(buffer);
