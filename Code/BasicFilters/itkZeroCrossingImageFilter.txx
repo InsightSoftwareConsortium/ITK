@@ -157,7 +157,6 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
   
   InputImagePixelType this_one, that, abs_this_one, abs_that;
   InputImagePixelType zero = NumericTraits<InputImagePixelType>::Zero;
-  OutputImagePixelType one = NumericTraits<OutputImagePixelType>::One;
 
   unsigned long center;
   Array<unsigned long, 2 * ImageDimension> offset;
