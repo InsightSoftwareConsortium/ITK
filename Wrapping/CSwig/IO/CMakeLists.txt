@@ -4,6 +4,7 @@ SET(WRAP_SOURCES
     wrap_itkImageFileReader
     wrap_itkImageFileWriter
     wrap_itkImageSeriesReader
+    wrap_itkImageSeriesWriter
 )
 
 # loop over cable config files creating two lists:

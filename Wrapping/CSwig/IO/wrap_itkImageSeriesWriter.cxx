@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    wrap_ITKIO.cxx
+  Module:    wrap_itkImageSeriesWriter.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,22 +14,21 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#include "itkImageSeriesWriter.h"
+#include "itkImage.h"
+
 #ifdef CABLE_CONFIGURATION
 #include "itkCSwigMacros.h"
+#include "itkCSwigImages.h"
 
 namespace _cable_
 {
-  const char* const package = ITK_WRAP_PACKAGE_NAME(ITK_WRAP_PACKAGE);
-  const char* const groups[] =
+  const char* const group = ITK_WRAP_GROUP(itkImageSeriesWriter);
+  namespace wrappers
   {
-    ITK_WRAP_GROUP(IOBase),
-    ITK_WRAP_GROUP(itkImageFileReader),
-#ifdef ITK_TCL_WRAP
-    ITK_WRAP_GROUP(itkTkImageViewer2D),
-#endif
-    ITK_WRAP_GROUP(itkImageFileWriter),
-    ITK_WRAP_GROUP(itkImageSeriesReader),
-    ITK_WRAP_GROUP(itkImageSeriesWriter)
-  };
+    ITK_WRAP_OBJECT2(ImageSeriesWriter, image::F3,  image::F2,  itkImageSeriesWriterF3F2);
+    ITK_WRAP_OBJECT2(ImageSeriesWriter, image::US3, image::US2, itkImageSeriesWriterUS3US2);
+  }
 }
+
 #endif
