@@ -13,28 +13,18 @@ ADD_EXECUTABLE(itkTestLoadPNG itkTestLoadPNG)
 #ADD_EXECUTABLE(itkTestRawImageIO itkTestRawImageIO)
 
 
-IF(VTK_INCLUDE_PATH)
-IF(VTK_BIN_PATH)
-IF(VTK_LIB_PATH)
+# Add VTK code if we found VTK
+INCLUDE (${CMAKE_ROOT}/Modules/FindVTK.cmake)
+IF (USE_VTK_FILE)
   ADD_DEFINITIONS(-DITK_HAS_VTK)
-  INCLUDE_DIRECTORIES(
-     ${VTK_INCLUDE_PATH}/Common
-     ${VTK_INCLUDE_PATH}/Filtering
-     ${VTK_INCLUDE_PATH}/Graphics
-     ${VTK_INCLUDE_PATH}/Hybrid
-     ${VTK_INCLUDE_PATH}/IO
-     ${VTK_INCLUDE_PATH}/Imaging
-     ${VTK_INCLUDE_PATH}/Parallel
-     ${VTK_INCLUDE_PATH}/Patented
-     ${VTK_INCLUDE_PATH}/Rendering
-     ${VTK_BIN_PATH}
-   ) 
-  LINK_LIBRARIES(
-     vtkCommon     vtkGraphics  vtkImaging
-     vtkFiltering  vtkIO        vtkRendering opengl32
-    )
-  LINK_DIRECTORIES(${VTK_LIB_PATH})
-ENDIF(VTK_LIB_PATH)
-ENDIF(VTK_BIN_PATH)
-ENDIF(VTK_INCLUDE_PATH)
+  INCLUDE(${USE_VTK_FILE})
+  LINK_LIBRARIES( 
+      vtkRendering
+      vtkGraphics	  
+      vtkImaging
+      vtkIO
+      vtkFiltering
+      vtkCommon
+  )
+ENDIF (USE_VTK_FILE)
 
