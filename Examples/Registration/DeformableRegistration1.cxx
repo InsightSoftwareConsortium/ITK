@@ -110,8 +110,8 @@ typedef itk::fem::VisitorDispatcher<ElementType2,ElementLoadType2, LoadImpFP2>
 //  Software Guide : BeginLatex
 //
 //  Once all the necessary components have been instantianted, we can
-//  instantiate the FEM registration filter, which depends on the
-//  image input and output types:
+//  instantiate the \doxygen{FEMRegistrationFilter}, which depends on the
+//  image input and output types.
 //
 //  Software Guide : EndLatex
 
@@ -135,7 +135,7 @@ int main(int argc, char *argv[])
 
 //  Software Guide : BeginLatex
 //  
-//  The \code{itk::fem::ImageMetricLoad} must be registered before it
+//  The \doxygen{FEMImageMetricLoad} must be registered before it
 //  can be used correctly with a particular element type.  An example
 //  of this is shown below for \code{ElementType}.  Similar
 //  definitions are required for all other defined element types.
@@ -160,7 +160,7 @@ int main(int argc, char *argv[])
 //  Software Guide : BeginLatex
 //  
 //  In order to begin the registration, we declare an instance of the
-//  \code{itk::FEMRegistrationFilter}.  For simplicity, we will call
+//  \doxygen{FEMRegistrationFilter}.  For simplicity, we will call
 //  it \code{X}.
 // 
 //  Software Guide : EndLatex

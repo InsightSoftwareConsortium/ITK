@@ -170,7 +170,7 @@ int main( int argc, char **argv )
   //
   //  Each one of the registration components are created using their
   //  \code{New()} method and are assigned to their respective 
-  //  \code{SmartPointer}.
+  //  \doxygen{SmartPointer}.
   //
   //  Software Guide : EndLatex 
 
@@ -219,7 +219,7 @@ int main( int argc, char **argv )
   //  Software Guide : BeginLatex
   //  
   //  In this example, the fixed and moving images are read from files. This
-  //  requires the \code{ImageRegistrationMethod} to connect its inputs to the
+  //  requires the \doxygen{ImageRegistrationMethod} to connect its inputs to the
   //  output of the respective readers.
   //
   //  Software Guide : EndLatex 
@@ -255,6 +255,8 @@ int main( int argc, char **argv )
      fixedImageReader->GetOutput()->GetBufferedRegion() );
   // Software Guide : EndCodeSnippet
 
+
+
   //  Software Guide : BeginLatex
   //
   //  The parameters of the transform are initialized by passing them in an
@@ -287,25 +289,24 @@ int main( int argc, char **argv )
   //
   //  At this point the registration method is ready to be executed. The
   //  optimizer is the component that drives the execution of the registration.
-  //  However, the \code{ImageRegistrationMethod} class orchestrates the ensemble in
-  //  order to make sure that everything is in place before the control is
-  //  passed to the optimizer.
+  //  However, the \doxygen{ImageRegistrationMethod} class orchestrates the
+  //  ensemble in order to make sure that everything is in place before the
+  //  control is passed to the optimizer.
   //
   //  It is usually desirable to fine tune the parameters of the optimizer.
   //  Each optimizer have particular parameters that must be interpreted in the
   //  context of the optimization strategy it implements. The optimizer used in
-  //  this example is a variant of gradient descent that attempts to prevent
-  //  it from taken steps which are too large.  
-  //  At each iteration this optimizer will take
-  //  a step along the direction of the \code{ImageToImageMetric} derivative. The
-  //  initial length of the step is defined by the user. Each time that the
-  //  direction of the derivative changes abruptly the optimizer assumes that a
-  //  local extrema has been passed and reacts by reducing the step length by a
-  //  half. After several reductions of the step length the optimizer may be
-  //  moving in a very restricted area of the transform parameters space. The
-  //  user can define how small the step length should be to consider convergence
-  //  has been reached. This is equivalent to defining the precision with
-  //  which the final transform is to be known.
+  //  this example is a variant of gradient descent that attempts to prevent it
+  //  from taken steps which are too large.  At each iteration this optimizer
+  //  will take a step along the direction of the \doxygen{ImageToImageMetric}
+  //  derivative. The initial length of the step is defined by the user. Each
+  //  time that the direction of the derivative changes abruptly the optimizer
+  //  assumes that a local extrema has been passed and reacts by reducing the
+  //  step length by a half. After several reductions of the step length the
+  //  optimizer may be moving in a very restricted area of the transform
+  //  parameters space. The user can define how small the step length should be
+  //  to consider convergence has been reached. This is equivalent to defining
+  //  the precision with which the final transform is to be known.
   //
   //  The initial step length is defined with the method
   //  \code{SetMaximumStepLength()}, while the tolerance for convergence is
@@ -393,10 +394,9 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  In the case of the \code{itk::TranslationTransform}, there is a straightforward
-  //  interpretation of the parameters. 
-  //  Each element of the array corresponds to
-  //  a translation along one of the dimension of space.
+  //  In the case of the \doxygen{TranslationTransform}, there is a
+  //  straightforward interpretation of the parameters.  Each element of the
+  //  array corresponds to a translation along one of the dimension of space.
   //
   //  Software Guide : EndLatex 
 
@@ -483,12 +483,12 @@ int main( int argc, char **argv )
   //  
   //  It is common, as a last step of a registration task, to use the resulting
   //  transform to map the moving image into the fixed image space.  This is
-  //  easily done with the \code{itk::ResampleImageFilter}. Please refer to
+  //  easily done with the \doxygen{ResampleImageFilter}. Please refer to
   //  section \ref{sec:ResampleImageFilter} for details on the use of this
   //  filter.  First a \code{ResampleImageFilter} type is instantiated using
   //  the image types. It is convenient to use the fixed image type as the
-  //  output type since it is likely that the transformed moving image 
-  //  will be compared with the fixed image.
+  //  output type since it is likely that the transformed moving image will be
+  //  compared with the fixed image.
   //
   //  Software Guide : EndLatex 
 
@@ -536,7 +536,7 @@ int main( int argc, char **argv )
   //  Software Guide : BeginLatex
   //  
   //  As described in section \ref{sec:ResampleImageFilter}, the
-  //  \code{ResampleImageFilter} requires additional parameters to be
+  //  \doxygen{ResampleImageFilter} requires additional parameters to be
   //  specified. In particular the spacing, origin and size of the output
   //  image. The default pixel value is also set to a distinct gray level in
   //  order to make visible the regions that are outside of the mapped image. 
@@ -573,7 +573,7 @@ int main( int argc, char **argv )
   //  Software Guide : BeginLatex
   //  
   //  The output of the filter is passed to a writer that will store the image
-  //  in a file. A \code{CastImageFilter} is placed in between in order to
+  //  in a file. An \doxygen{CastImageFilter} is placed in between in order to
   //  convert the pixel type of the resampled image to the final type used by
   //  the writer. The types of the cast and writer filters are instantiated
   //  below.
@@ -689,7 +689,7 @@ int main( int argc, char **argv )
   //  \ref{fig:ImageRegistration1Output} left shows the result of resampling
   //  the moving image in order to map it onto the fixed image space. The top
   //  and right borders of the image appear in the gray level selected with the
-  //  \code{SetDefaultPixelValue()} in the \code{ResampleImageFilter}. The
+  //  \code{SetDefaultPixelValue()} in the \doxygen{ResampleImageFilter}. The
   //  center image shows the squared differences between the fixed image and
   //  the moving image. The right image shows the squared differences between
   //  the fixed image and the transformed moving image.  Both difference images

@@ -17,22 +17,20 @@
 
 // Software Guide : BeginLatex
 //
-// In this example, we will solve the our simple multi-modality problem
-// using another implementation of mutual information. One of main 
-// difference between \code{MattesMutualInformationImageToImageMetric}
-// and \code{MutualInformationImageToImageMetric} is than only one
-// spatial sample set is used for the whole registration process instead
-// of using new samples every iteration. The use of a single sample
-// set results in a much smoother cost function and hence allows
-// the use of more intelligent optimizers. In this example, we
-// will use \code{RegularStepGradientDescentOptimizer}.
-// Another noticeable difference is that pre-normalization of the
-// images is not necessary as the metric rescales internally when
-// building up the discrete density functions. 
-// Other differences between
-// the two mutual information implementation are described in detail
-// in section \ref{sec:MutualInformationMetric}. First, we include the
-// header files of the components used in this example:
+// In this example, we will solve the our simple multi-modality problem using
+// another implementation of mutual information. One of main difference between
+// \doxygen{MattesMutualInformationImageToImageMetric} and
+// \doxygen{MutualInformationImageToImageMetric} is than only one spatial
+// sample set is used for the whole registration process instead of using new
+// samples every iteration. The use of a single sample set results in a much
+// smoother cost function and hence allows the use of more intelligent
+// optimizers. In this example, we will use
+// \doxygen{RegularStepGradientDescentOptimizer}.  Another noticeable
+// difference is that pre-normalization of the images is not necessary as the
+// metric rescales internally when building up the discrete density functions.
+// Other differences between the two mutual information implementation are
+// described in detail in section \ref{sec:MutualInformationMetric}. First, we
+// include the header files of the components used in this example:
 //
 // \index{itk::ImageRegistrationMethod!Multi-Modality|textbf}
 // Software Guide : EndLatex 
@@ -179,7 +177,7 @@ int main( int argc, char **argv )
   //  smooth and does not contain much detail, then using approximatedly
   //  one percent of the pixels will do. On the other hand, if the images
   //  are detailed, it may be necessary to use a much higher proportion,
-  //  say 20 percent.
+  //  say $20$ percent.
   //
   //  \index{itk::MattesMutualInformationImageToImageMetric!SetNumberOfHistogramBins()}
   //  \index{itk::MattesMutualInformationImageToImageMetric!SetNumberOfSpatialSamples()}
@@ -282,7 +280,7 @@ int main( int argc, char **argv )
   //  
   //  Let's execute this example using the same multi-modality images
   //  as before.
-  //  The registration converged after 24 iterations and produce as result the
+  //  The registration converged after $24$ iterations and produce as result the
   //  parameters:
   //
   //  \begin{verbatim}
@@ -378,10 +376,10 @@ int main( int argc, char **argv )
   //  Comparing these trace plot with Figures 
   //  \ref{fig:ImageRegistration2TraceTranslations} and 
   //  \ref{fig:ImageRegistration2TraceMetric} we can see that the measures
-  //  produced by \code{MattesMutualInformationImageToImageMetric} is smoother
-  //  than that of \code{MutualInformationImageToImageMetric}. This smoothness
+  //  produced by \doxygen{MattesMutualInformationImageToImageMetric} is smoother
+  //  than that of \doxygen{MutualInformationImageToImageMetric}. This smoothness
   //  allows the use of more sophisticated optimizers such as
-  //  the \code{RegularStepGradientDescentOptimizer} which efficiently zones
+  //  the \doxygen{RegularStepGradientDescentOptimizer} which efficiently zones
   //  into the optimal value.
   //
   //

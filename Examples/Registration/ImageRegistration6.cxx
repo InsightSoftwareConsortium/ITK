@@ -17,26 +17,26 @@
 
 // Software Guide : BeginLatex
 //
-// This example illustrates the use of the \code{CenteredRigid2DTransform} for
-// performing registration. The code of this example is for the most part
+// This example illustrates the use of the \doxygen{CenteredRigid2DTransform}
+// for performing registration. The code of this example is for the most part
 // identical to the one presented in section~\ref{sec:RigidRegistrationIn2D}.
 // Even though this current example is done in $2D$, the class
-// \code{CenteredTransformInitializer} is quite generic and could be used in
+// \doxygen{CenteredTransformInitializer} is quite generic and could be used in
 // other dimensions. The objective of the initializer class is to simplify the
 // computation of the center of rotation and translation required to initialize
-// certains transforms, like the \code{CenteredRigid2DTransform}. The
+// certains transforms, like the \doxygen{CenteredRigid2DTransform}. The
 // initializer accepts two images and one transform as inputs. The images are
 // considered to be the fixed and moving images of a registration problem,
 // while the transform is the one used to register the images.
 //
-// The \code{CenteredRigid2DTransform} supports two modes of operation. In the
+// The \doxygen{CenteredRigid2DTransform} supports two modes of operation. In the
 // first mode, the centers of the images are computed as space coordinates
 // using the image origin, size and spacing. The center of the moving image is
 // assigned as rotation center to the transform and the vector between both
 // image centers is passed as initial translation to the transform. In the
 // second mode, the image centers are not computed geometrically but using the
 // moments of the intensity gray levels. The center of mass of each image is
-// computed using the helper class \code{itk::ImageMomentsCalculator}.  The
+// computed using the helper class \doxygen{ImageMomentsCalculator}.  The
 // center of mass of the moving image is passed as rotation center to the
 // transform while the vector between the centers of mass of the fixed and
 // moving images is passed as initial translation to the transform. This second
@@ -236,7 +236,7 @@ int main( int argc, char **argv )
   //  
   //  The input images are taken from readers. It is not necessary here to
   //  explicitly call \code{Update()} on the readers since the
-  //  \code{CenteredTransformInitializer} will do it as part of its
+  //  \doxygen{CenteredTransformInitializer} will do it as part of its
   //  computations. The following code instantiates the type of the
   //  initializer. This class is templated over the fixed and moving image type
   //  as well as the transform type. An initializer is then constructed by
@@ -444,7 +444,7 @@ int main( int argc, char **argv )
   // 
   //  Note that the reported translation is not the translation of $(13,17)$
   //  that we may naively expecting. The reason is that the $5$ parameters of
-  //  the \code{CenteredRigid2DTransform} are redundant. The actual movement in
+  //  the \doxygen{CenteredRigid2DTransform} are redundant. The actual movement in
   //  space is described by only $3$ parameters. This means that there are
   //  infinite combinations of rotation center and translations that will
   //  represent the same actual movement in space. It it more illustrative in

@@ -27,15 +27,15 @@
 // \index{itk::ImageRegistrationMethod!Multi-Modality|textbf}
 //
 // The following example illustrates in a minimal program how multiple imaging
-// modalities can be registered using Insight components. The first
-// difference is the use of \code{MutualInformationImageToImageMetric} as the
-// cost-function to be optimized and the second difference is the use
-// of \code{GradientDescentOptimizer}. Due to the stochastic nature of
-// the way the metric measure is computed, the values are too noisy to
-// work successfully with \code{RegularStepGradientDescentOptimizer}.
-// Therefore we will use the simpler \code{GradientDescentOptimizer} with
-// a user defined learning rate. The following headers declare the basic
-// components of the registration method.
+// modalities can be registered using Insight components. The first difference
+// is the use of \doxygen{MutualInformationImageToImageMetric} as the
+// cost-function to be optimized and the second difference is the use of
+// \doxygen{GradientDescentOptimizer}. Due to the stochastic nature of the way
+// the metric measure is computed, the values are too noisy to work
+// successfully with \doxygen{RegularStepGradientDescentOptimizer}.  Therefore
+// we will use the simpler \doxygen{GradientDescentOptimizer} with a user
+// defined learning rate.  The following headers declare the basic components
+// of the registration method.
 //
 // Software Guide : EndLatex 
 
@@ -55,7 +55,7 @@
 //  
 //  One way of simplifying the computation of the mutual information is
 //  to normalize the statistical distribution of the two input images. The
-//  filter \code{itk::NormalizeImageFilter} is the perfect tool for this task.
+//  filter \doxygen{NormalizeImageFilter} is the perfect tool for this task.
 //  It rescales the intensities of the input images in order to produce an
 //  output image with zero mean and unit variance. This filter has been
 //  discussed on section \ref{sec:CastingImageFilters}.
@@ -233,15 +233,14 @@ int main( int argc, char **argv )
   //  Software Guide : BeginLatex
   //  
   //  The metric requires a number of parameters to be selected. Among them,
-  //  the standard deviation of the Gaussian kernel for the fixed image
-  //  density estimate, the standard deviation of the kernel for the moving
-  //  image density and the number of samples use to compute the
-  //  densities and entropy values. Details on the concept behind 
-  //  the computation of the metric can be found in section 
-  //  \ref{sec:MutualInformationMetric}. Our experience with the toolkit
-  //  has found that a kernel standard deviation of 0.4 works well for images 
-  //  which has normalized to mean of zero and unit variance. 
-  //  We will follow this empricial rule in this example.
+  //  the standard deviation of the Gaussian kernel for the fixed image density
+  //  estimate, the standard deviation of the kernel for the moving image
+  //  density and the number of samples use to compute the densities and
+  //  entropy values. Details on the concept behind the computation of the
+  //  metric can be found in section \ref{sec:MutualInformationMetric}. Our
+  //  experience with the toolkit has found that a kernel standard deviation of
+  //  $0.4$ works well for images which has normalized to mean of zero and unit
+  //  variance.  We will follow this empricial rule in this example.
   //
   //  \index{itk::MutualInformationImageToImageMetric!SetFixedImageStandardDeviation()}
   //  \index{itk::MutualInformationImageToImageMetric!SetMovingImageStandardDeviation()}
@@ -326,14 +325,13 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  Since larger values of mutual information indicates better matches
-  //  than smaller values, we need to maximize the cost function in this 
-  //  example.
-  //  By default the \code{GradientDescentOptimizer} is set to minimize the value
-  //  of the cost-function. It is henceforth necessary to modify its default
-  //  behavior by invoking the \code{MaximizeOn()} method.
-  //  Additionally, we need to define the optimizer's step size using
-  //  the \code{SetLearningRate()} method.
+  //  Since larger values of mutual information indicates better matches than
+  //  smaller values, we need to maximize the cost function in this example.
+  //  By default the \doxygen{GradientDescentOptimizer} is set to minimize the
+  //  value of the cost-function. It is henceforth necessary to modify its
+  //  default behavior by invoking the \code{MaximizeOn()} method.
+  //  Additionally, we need to define the optimizer's step size using the
+  //  \code{SetLearningRate()} method.
   //
   //  \index{itk::GradientDescentOptimizer!MaximizeOn()}
   //  \index{itk::ImageRegistrationMethod!Maximize vs Minimize}

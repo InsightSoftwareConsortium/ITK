@@ -17,12 +17,12 @@
 
 // Software Guide : BeginLatex
 //
-// This example illustrates the use of the \code{Similarity2DTransform} for
+// This example illustrates the use of the \doxygen{Similarity2DTransform} for
 // performing registration in $2D$. The code of this example is for the most
 // part identical to the one presented in
 // \ref{sec:InitializingRegistrationWithMoments}.  The main difference is the
-// use of the \code{Similarity2DTransform} here instead of the
-// \code{CenteredRigid2DTransform}.
+// use of the \doxygen{Similarity2DTransform} here instead of the
+// \doxygen{CenteredRigid2DTransform}.
 //
 // A similarity transform can be seen as a composition of rotations,
 // translations and uniform scaling. It preseves angles and map lines into
@@ -231,7 +231,7 @@ int main( int argc, char **argv )
   //  Software Guide : BeginLatex
   //  
   //  In this example, we use again the helper class
-  //  \code{CenteredTransformInitializer} in order to compute a reasonable
+  //  \doxygen{CenteredTransformInitializer} in order to compute a reasonable
   //  value for the initial center of rotation and the translation.
   //
   //  Software Guide : EndLatex 
@@ -325,7 +325,7 @@ int main( int argc, char **argv )
   //  Software Guide : BeginLatex
   //  
   //  We set also the normal parameters of the optimization method. In this
-  //  case we are using A \code{RegularStepGradientDescentOptimizer}. Below, we
+  //  case we are using A \doxygen{RegularStepGradientDescentOptimizer}. Below, we
   //  define the optimization parameters like initial step length, minimal step
   //  length and number of iterations. These last two act as stopping criteria
   //  for the optimization.

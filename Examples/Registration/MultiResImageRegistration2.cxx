@@ -19,7 +19,7 @@
 //
 //  This example illustrates the use of more complex components of the
 //  registration framework. In particular, it introduces the use of the
-//  \code{itk::AffineTransform} and the importance of fine tunning the scale
+//  \doxygen{AffineTransform} and the importance of fine tunning the scale
 //  parameters of the optimizer.
 //
 // \index{itk::ImageRegistrationMethod!AffineTransform}
@@ -31,7 +31,7 @@
 // shearing or any combination of them. Details about the affine transform can be
 // seen in section~\ref{sec:AffineTransform}.
 //
-// In order to use the \code{AffineTransform} class the following header should
+// In order to use the \doxygen{AffineTransform} class the following header should
 // be included.
 //
 // \index{itk::AffineTransform!Header}

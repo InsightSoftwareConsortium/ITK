@@ -23,24 +23,24 @@
 // order to avoid this situation it is quite helpful to track the evolution of
 // the registration as it progresses. The following section illustrates the
 // mechanisms provided in ITK for monitoring the activity of the
-// \code{ImageRegistrationMethod} class.
+// \doxygen{ImageRegistrationMethod} class.
 //
 // Insight implements the \emph{Observer/Command} pattern design
 // \cite{Gamma1995}. The classes involved in this implementation are the
-// \code{itk::Object}, \code{itk::Command} and \code{itk::Event} classes. The
-// \code{itk::Object} class is the base class of most ITK objects. This class
-// holds a linked list of pointers to event observers. The role of observers
-// is played by the \code{itk::Command} class.  Observer register themselves
-// with an \code{itk::Object} declaring that they are interested in receiving
-// notice when a particular event happens. A set of events are represented by
-// the hierarchy of the \code{itk::Event} class. Typical events are
-// \code{Start}, \code{End}, \code{Progress} and \code{Iteration}.
+// \doxygen{Object}, \doxygen{Command} and \doxygen{EventObject} classes. The
+// \doxygen{Object} class is the base class of most ITK objects. This class
+// holds a linked list of pointers to event observers. The role of observers is
+// played by the \doxygen{Command} class.  Observer register themselves with
+// an \doxygen{Object} declaring that they are interested in receiving notice
+// when a particular event happens. A set of events are represented by the
+// hierarchy of the \doxygen{Event} class. Typical events are \code{Start},
+// \code{End}, \code{Progress} and \code{Iteration}.
 //
-// Registration is controlled by an \code{itk::Optimizer} which in general
-// executes an iterative process. Most \code{Optimizer} invoke an
+// Registration is controlled by an \doxygen{Optimizer} which in general
+// executes an iterative process. Most \doxygen{Optimizer} classes invoke an
 // \code{itk::IterationEvent} at the end of each iteration. When an event is
 // invoked by an object, this object goes through its list of registered
-// observers (\code{itk::Command}s) and checks whether any one of them declared
+// observers (\doxygen{Command}s) and checks whether any one of them declared
 // to be interested in the current event type. Whenever such an observer is
 // found, its corresponding \code{Execute()} method is invoked.  In this
 // context, \code{Execute()} methods should be considered as \emph{callbacks}.
@@ -77,7 +77,7 @@
 //
 //  The following code illustrates a simple way of creating a new
 //  Observer/Command capable of monitoring a registration process. This new
-//  class derives from the \code{itk::Command} class and provides a specific
+//  class derives from the \doxygen{Command} class and provides a specific
 //  implementation of the \code{Execute()} method.  First, the header file of
 //  the \code{Command} class must be included.
 //
@@ -93,7 +93,7 @@
 //  Software Guide : BeginLatex
 //
 //  Our custom command class is called \code{CommandIterationUpdate}. It
-//  derives from the \code{itk::Command} class and declares for convenience the
+//  derives from the \doxygen{Command} class and declares for convenience the
 //  types \code{Self} and \code{Superclass}. This facilitate to standarize some
 //  further code in macros.
 //
@@ -157,7 +157,7 @@ public:
 
   //  Software Guide : BeginLatex
   //
-  //  Since this \code{Command} object will be observing the optimizer, the
+  //  Since this \doxygen{Command} object will be observing the optimizer, the
   //  following typedefs are useful for converting pointers when the \code{Execute()}
   //  method is invoked.  Note the use of \code{const} on the declaration of
   //  \code{OptimizerPointer}.  This is relevant since, in this case, the
@@ -215,9 +215,9 @@ public:
 
   //  Software Guide : BeginLatex
   //
-  //  Note that the first argument is a pointer to an \code{itk::Object} even
+  //  Note that the first argument is a pointer to an \doxygen{Object} even
   //  though the actual object invoking the event is probably a subclass of
-  //  \code{itk::Object}. In our case we know that the actual object is an
+  //  \doxygen{Object}. In our case we know that the actual object is an
   //  optimizer. We have then good reasons to risk a \code{dynamic\_cast} to the
   //  real type of the object. 
   //
@@ -272,7 +272,7 @@ public:
    
   //  Software Guide : BeginLatex
   //
-  //  This concludes our revision of the minimal \code{Command} class capable
+  //  This concludes our revision of the minimal \doxygen{Command} class capable
   //  of observing our registration method.  We can now move on to configure a
   //  registration process.
   //
@@ -387,7 +387,7 @@ int main( int argc, char **argv )
   //
   //  Once all the registration components are in place we can create one
   //  instance of our observer. This is done with the standard \code{New()}
-  //  method and assignment to a \code{SmartPointer}.
+  //  method and assignment to a \doxygen{SmartPointer}.
   //
   //  Software Guide : EndLatex 
 
