@@ -19,6 +19,7 @@
 
 #include "itkUnaryFunctorImageFilter.h"
 #include "itkConceptChecking.h"
+#include "itkSimpleDataObjectDecorator.h"
 
 namespace itk
 {
@@ -108,6 +109,9 @@ public:
   /** The input pixel type must support comparison operators. */
   itkConceptMacro(PixelTypeComparable, (Concept::Comparable<InputPixelType>));
 
+  /** Type of DataObjects to use for scalar inputs */
+  typedef typename SimpleDataObjectDecorator<InputPixelType> InputPixelObjectType;
+  
   /** Set the "outside" pixel value. The default value 
    * NumericTraits<OutputPixelType>::Zero. */
   itkSetMacro(OutsideValue,OutputPixelType);
@@ -126,13 +130,18 @@ public:
    * is NumericTraits<InputPixelType>::NonpositiveMin(). The default upper
    * threshold is NumericTraits<InputPixelType>::max. An execption is thrown
    * if the lower threshold is greater than the upper threshold. */
-  itkSetMacro( UpperThreshold, InputPixelType );
-  itkSetMacro( LowerThreshold, InputPixelType );
+  virtual void SetUpperThreshold(const InputPixelType threshold);
+  virtual void SetUpperThresholdInput( const InputPixelObjectType *);
+  virtual void SetLowerThreshold(const InputPixelType threshold);
+  virtual void SetLowerThresholdInput( const InputPixelObjectType *);
                  
   /** Get the threshold values. */
-  itkGetMacro( UpperThreshold, InputPixelType );
-  itkGetMacro( LowerThreshold, InputPixelType );
-
+  virtual InputPixelType GetUpperThreshold() const;
+  virtual InputPixelObjectType *GetUpperThresholdInput();
+  virtual const InputPixelObjectType *GetUpperThresholdInput() const;
+  virtual InputPixelType GetLowerThreshold() const;
+  virtual InputPixelObjectType *GetLowerThresholdInput();
+  virtual const InputPixelObjectType *GetLowerThresholdInput() const;
   
 protected:
   BinaryThresholdImageFilter();
@@ -147,8 +156,6 @@ private:
   BinaryThresholdImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  InputPixelType      m_LowerThreshold;
-  InputPixelType      m_UpperThreshold;
   OutputPixelType     m_InsideValue;
   OutputPixelType     m_OutsideValue;
 

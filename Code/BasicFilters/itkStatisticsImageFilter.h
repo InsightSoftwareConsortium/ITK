@@ -20,6 +20,8 @@
 #include "itkImageToImageFilter.h"
 #include "itkNumericTraits.h"
 #include "itkArray.h"
+#include "itkSimpleDataObjectDecorator.h"
+
 
 namespace itk {
 
@@ -69,36 +71,55 @@ public:
 
   /** Type to use form computations. */
   typedef typename NumericTraits<PixelType>::RealType RealType;
+
+  /** Smart Pointer type to a DataObject. */
+  typedef DataObject::Pointer DataObjectPointer;
+
+  /** Type of DataObjects used for scalar outputs */
+  typedef typename SimpleDataObjectDecorator<RealType> RealObjectType;
   
   /** Return the computed Minimum. */
-  itkGetMacro(Minimum,RealType);
-
+  RealType GetMinimum() const
+    { return this->GetMinimumOutput()->Get(); }
+  RealObjectType* GetMinimumOutput();
+  const RealObjectType* GetMinimumOutput() const;
+  
   /** Return the computed Maximum. */
-  itkGetMacro(Maximum,RealType);
+  RealType GetMaximum() const
+    { return this->GetMaximumOutput()->Get(); }
+  RealObjectType* GetMaximumOutput();
+  const RealObjectType* GetMaximumOutput() const;
 
   /** Return the computed Mean. */
-  itkGetMacro(Mean,RealType);
+  RealType GetMean() const
+    { return this->GetMeanOutput()->Get(); }
+  RealObjectType* GetMeanOutput();
+  const RealObjectType* GetMeanOutput() const;
 
   /** Return the computed Standard Deviation. */
-  itkGetMacro(Sigma,RealType);
+  RealType GetSigma() const
+    { return this->GetSigmaOutput()->Get(); }
+  RealObjectType* GetSigmaOutput();
+  const RealObjectType* GetSigmaOutput() const;
 
   /** Return the computed Variance. */
-  itkGetMacro(Variance,RealType);
+  RealType GetVariance() const
+    { return this->GetVarianceOutput()->Get(); }
+  RealObjectType* GetVarianceOutput();
+  const RealObjectType* GetVarianceOutput() const;
 
   /** Return the compute Sum. */
-  itkGetMacro(Sum,RealType);
+  RealType GetSum() const
+    { return this->GetSumOutput()->Get(); }
+  RealObjectType* GetSumOutput();
+  const RealObjectType* GetSumOutput() const;
+
+  /** Make a DataObject of the correct type to be used as the specified
+   * output. */
+  virtual DataObjectPointer MakeOutput(unsigned int idx);
 
 protected:
-  StatisticsImageFilter(): m_ThreadSum(1), m_SumOfSquares(1), m_Count(1), m_ThreadMin(1), m_ThreadMax(1)
-  {
-    m_Minimum = NumericTraits<RealType>::max();
-    m_Maximum = NumericTraits<RealType>::NonpositiveMin();
-    m_Mean = NumericTraits<RealType>::max();
-    m_Sigma = NumericTraits<RealType>::max();
-    m_Variance = NumericTraits<RealType>::max();
-    m_Sum = NumericTraits<RealType>::Zero;
-  };
-  
+  StatisticsImageFilter();
   ~StatisticsImageFilter(){};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
@@ -125,13 +146,6 @@ protected:
 private:
   StatisticsImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
-  RealType m_Minimum;
-  RealType m_Maximum;
-  RealType m_Mean;
-  RealType m_Sigma;
-  RealType m_Variance;
-  RealType m_Sum;
 
   Array<RealType> m_ThreadSum;
   Array<RealType> m_SumOfSquares;
