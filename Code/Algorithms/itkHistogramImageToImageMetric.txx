@@ -190,7 +190,7 @@ HistogramImageToImageMetric<TFixedImage,TMovingImage>
                         DerivativeType& derivative) const
 {
   value = GetValue(parameters);
-  GetDerivative(parameters, derivative);
+  this->GetDerivative(parameters, derivative);
 }
 
 template <class TFixedImage, class TMovingImage>
