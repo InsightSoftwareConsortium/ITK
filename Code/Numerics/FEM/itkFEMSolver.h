@@ -103,12 +103,12 @@ public:
    * \note Interpolation grid must be reinitialized each time a mesh changes.
    *
    * \param size Vector that represents number of points on a grid in each dimension.
-   * \param v1 Lower limit of a bounding box of a grid.
-   * \param v2 Upper limit of a bounding box of a grid.
+   * \param bb1 Lower limit of a bounding box of a grid.
+   * \param bb2 Upper limit of a bounding box of a grid.
    *
    * \sa GetInterpolationGrid
    */
-  void InitializeInterpolationGrid(const VectorType& size, const VectorType& v1, const VectorType& v2);
+  void InitializeInterpolationGrid(const VectorType& size, const VectorType& bb1, const VectorType& bb2);
 
   /**
    * Same as InitializeInterpolationGrid(size, {0,0...}, size);
