@@ -3,18 +3,22 @@
 #include <itkSecondDerivativeRecursiveGaussianImageFilter.h>
 #include <itkImageRegionIteratorWithIndex.h>
 #include <itkSphereSource.h>
-#include <itkBalloonForceFilter.h>
-#include <itkPoint.h>
+#include <itkDeformableMesh3DFilter.h>
 #include <itkMesh.h>
 #include <time.h>
+#include <itkGradientRecursiveGaussianImageFilter.h>
+#include <itkCovariantVector.h>
 
-int WIDTH = 100;
-int HEIGHT = 100;
-int DEPTH = 1;
-int SEEDX = 50;
-int SEEDY = 50;
 
-time_t btime,etime;
+int WIDTH = 50;
+int HEIGHT = 50;
+int DEPTH = 50;
+
+/* seed point */
+int SEEDX = 25;//83;
+int SEEDY = 25;//92;
+int SEEDZ = 25;//3;
+
 int main() 
 {
 
@@ -34,19 +38,32 @@ int main()
   typedef itk::Size<myDimension>        mySizeType;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion<myDimension>     myRegionType;
+  typedef itk::ImageRegion<myDimension> myRegionType;
 
   // Declare the type of the Mesh
-  typedef itk::Mesh<float>            DMesh;
+  typedef itk::Mesh<float>   DMesh;
 
-  unsigned char *testImage = new unsigned char[WIDTH*HEIGHT*DEPTH];
+  typedef DMesh::PointType   OPointType;
 
-  typedef itk::SphereSource<DMesh>            SphereSourceType;
-  typedef itk::BalloonForceFilter<DMesh, DMesh>     BFilter;
+  // Declare the type of the gradient image
+  typedef itk::CovariantVector<float, myDimension> myGradientType;
+  typedef itk::Image<myGradientType, myDimension>  myGradientImageType;
+
+
+  unsigned short *TestImage = new unsigned short[WIDTH*HEIGHT];
+  unsigned char  *Test = new unsigned char[WIDTH*HEIGHT*DEPTH];
+
+
+  typedef itk::SphereSource<DMesh>                   SphereSourceType;
+  typedef itk::DeformableMesh3DFilter<DMesh, DMesh>  BFilter;
+//  typedef itk::SphereSource<DMesh>            SphereSourceType;
+//  typedef itk::BalloonForceFilter<DMesh, DMesh>     BFilter;
 
   outImageType::Pointer ptimg=outImageType::New();
-  outImageType::Pointer gdimg=outImageType::New();
+  myGradientImageType::Pointer gdimg=myGradientImageType::New();
   outImageType::Pointer outputimg = outImageType::New();
+//  outImageType::Pointer gdimg=outImageType::New();
+//  outImageType::Pointer outputimg = outImageType::New();
 
   outImageType::SizeType outsize={{WIDTH,HEIGHT,DEPTH}};
   outImageType::IndexType index=outImageType::IndexType::ZeroIndex;
@@ -54,14 +71,20 @@ int main()
   outregion.SetSize(outsize);
   outregion.SetIndex(index);
 
+  myGradientImageType::SizeType gdsize={{WIDTH,HEIGHT,DEPTH}};
+  myGradientImageType::IndexType gdindex=myGradientImageType::IndexType::ZeroIndex;
+  myGradientImageType::RegionType gdregion;
+  gdregion.SetSize(gdsize);
+  gdregion.SetIndex(gdindex);
+  
   ptimg->SetLargestPossibleRegion( outregion );
   ptimg->SetBufferedRegion( outregion );
   ptimg->SetRequestedRegion( outregion );
   ptimg->Allocate();
 
-  gdimg->SetLargestPossibleRegion( outregion );
-  gdimg->SetBufferedRegion( outregion );
-  gdimg->SetRequestedRegion( outregion );
+  gdimg->SetLargestPossibleRegion( gdregion );
+  gdimg->SetBufferedRegion( gdregion );
+  gdimg->SetRequestedRegion( gdregion );
   gdimg->Allocate();
 
   outputimg->SetLargestPossibleRegion( outregion );
@@ -72,11 +95,7 @@ int main()
   // Create the image
   myImageType::Pointer inputImage  = myImageType::New();
 
-  mySizeType size;
-  size[0] = 100;
-  size[1] = 100;
-  size[2] = 1;
-
+  mySizeType size={{WIDTH,HEIGHT,DEPTH}};
   myIndexType start;
   start = myIndexType::ZeroIndex;
 
@@ -92,18 +111,41 @@ int main()
 
   itk::ImageRegionIteratorWithIndex <myImageType> it(inputImage, region);
   it.GoToBegin();
-  while( !it.IsAtEnd()) {    
-    it.Set(0.0);
+
+//  for local testing on image files (256*256*1 RGB)
+/*  unsigned short outImage[WIDTH*HEIGHT*DEPTH];
+
+  FILE *input;
+
+  input = fopen(INFILE, "rb");
+
+  float ss;
+  int k=0;
+  for (int i=0; i<DEPTH; i++) {
+    fread(TestImage, 2, WIDTH*HEIGHT, input);
+    k = 0;
+    while( k < WIDTH*HEIGHT ) {    
+      ss=(float)TestImage[k];
+      it.Set(ss);
+      k++;
+      ++it;
+    }
+  }
+  fclose(input);
+*/
+  while( !it.IsAtEnd() ) 
+  {
+    it.Set( 0.0 );
     ++it;
   }
 
-  size[0] = 60;
-  size[1] = 60;
-  size[2] = 1;
+  size[0] = 30;
+  size[1] = 30;
+  size[2] = 30;
 
-  start[0] = 20;
-  start[1] = 20;
-  start[2] = 0;
+  start[0] = 10;
+  start[1] = 10;
+  start[2] = 10;
 
   // Create one iterator for an internal region
   region.SetSize( size );
@@ -117,60 +159,43 @@ int main()
     ++itb;
   }
 
-  // Declare the type for the  Smoothing  filter
-  typedef itk::RecursiveGaussianImageFilter<
-                                      myImageType,
-                                      myImageType,
-                                      float       >  mySmoothingFilterType;
+  typedef itk::GradientRecursiveGaussianImageFilter<
+                                            myImageType,
+                                            myGradientImageType,
+                                            float       >  myFilterType;
             
-
   // Create a  Filter                                
-  mySmoothingFilterType::Pointer filter = mySmoothingFilterType::New();
+  myFilterType::Pointer filter = myFilterType::New();
 
 
   // Connect the input images
-  filter->SetInput( inputImage );
-  filter->SetSigma( 2.0 );
-  filter->SetDirection( 0 );  // apply along Z
+  filter->SetInput( inputImage ); 
 
+  // Set sigma
+  filter->SetSigma( 2.0 );
   
   // Execute the filter
-  std::cout << "Executing Smoothing filter...";
   filter->Update();
 
-
-  size[0] = 100;
-  size[1] = 100;
-  size[2] = 1;
-
-  start[0] = 0;
-  start[1] = 0;
-  start[2] = 0;
-
-  // Create one iterator for an internal region
-  region.SetSize( size );
-  region.SetIndex( start );
-  itk::ImageRegionIteratorWithIndex <myImageType> outit(filter->GetOutput(), region);
+  itk::ImageRegionIteratorWithIndex <myGradientImageType> outit(filter->GetOutput(), gdregion);
   outit.GoToBegin();
-  it.GoToBegin();
-  while( !outit.IsAtEnd()) {    
-    it.Set(outit.Get());
-    ++outit;
-  ++it;
-  }
-
-  filter->SetDirection( 1 );
-  filter->Update();
 
   std::cout << " Done !" << std::endl;
 
+/*
+
+  FILE *grgoutput=fopen("../../../../insight/local_copy/Jaw_grg_uint8.raw", "wb");  
+
   outit.GoToBegin();
-  int k = 0;
-  while( !outit.IsAtEnd()) {    
-    testImage[k] = (unsigned char)outit.Get();
-  k++;
+  k = 0;
+  while( !outit.IsAtEnd()) {  
+    TestImage[k] = (unsigned char)(sqrt(outit.Get()[0]*outit.Get()[0]+outit.Get()[1]*outit.Get()[1]+outit.Get()[2]*outit.Get()[2]));
+    k++;
     ++outit;
   }
+
+  fwrite(TestImage, 1, HEIGHT*WIDTH*DEPTH, grgoutput);
+  fclose(grgoutput);
 
   k = 0;
   float grad;
@@ -183,49 +208,88 @@ int main()
   } else {
     outit.Set(0);
   }
-  ++outit;
-  k++;
-  }
+
+*/
 
 // allocating the input image data.
   BFilter::Pointer m_bfilter = BFilter::New();
   SphereSourceType::Pointer m_spheresource = SphereSourceType::New();
   m_bfilter->SetInput(m_spheresource->GetOutput());
 
-  itk::Point<float,3> center; center = SEEDX,SEEDY,0;
-  m_spheresource->SetCenter(center);
-  m_spheresource->SetResolutionX(1);
-  m_spheresource->SetResolutionY(200);
-  itk::Point<float,3> scale; scale = 10,10,1;
-  m_spheresource->SetScale(scale);
+  OPointType m_spherecenter;
+  OPointType m_scale;
+  m_spherecenter[0] = (double) SEEDX;
+  m_spherecenter[1] = (double) SEEDY;
+  m_spherecenter[2] = (double) SEEDZ;
+  m_scale[0] = 3.0;
+  m_scale[1] = 3.0;
+  m_scale[2] = 3.0;
+  m_spheresource->SetCenter(m_spherecenter);
+  m_spheresource->SetResolutionX(5);
+  m_spheresource->SetResolutionY(30);
+  m_spheresource->SetSquareness1(0.5);
+  m_spheresource->SetSquareness2(0.5);
+  int ry = 5;
+  m_spheresource->SetScale(m_scale);
   m_spheresource->Update();
 
-  m_bfilter->SetCenter(SEEDX, SEEDY, 0);
+  myIndexType m_center={{SEEDX, SEEDY, SEEDZ}};
+  m_bfilter->SetCenter(m_center);
   m_bfilter->SetNeighborRadius(5);
-//  m_bfilter->SetStepThreshold1(20);
-//  m_bfilter->SetStepThreshold2(30);
-
+  m_bfilter->SetStiffnessV(0.00001);
+  m_bfilter->SetStiffnessH(0.04);
+  m_bfilter->SetTimeStep(0.001);
+  m_bfilter->SetStepThreshold1(20);
+  m_bfilter->SetStepThreshold2(30);
   itk::ImageRegionIteratorWithIndex <outImageType> ptit(ptimg, outregion);
 
+// for local testing
+/*
+  input = fopen(PTFILE, "rb");
   k = 0;
   ptit.GoToBegin();
-  while( !ptit.IsAtEnd()) { 
-    ptit.Set((unsigned short)0);
-  k++;
+  for (int i=0; i<DEPTH; i++) {
+    fread(TestImage, 2, WIDTH*HEIGHT, input);
+    k = 0;
+    while( k < WIDTH*HEIGHT ) {
+      ptit.Set(TestImage[k]);
+      k++;
+      ++ptit;
+    }
+  }
+  fclose(input);
+
+  FILE *ptoutput=fopen("../../../../insight/local_copy/Jaw_pt_uint8.raw", "wb");  
+
+  ptit.GoToBegin();
+  k = 0;
+  while( !ptit.IsAtEnd()) {    
+    TestImage[k] = (unsigned char)(ptit.Get());
+    k++;
     ++ptit;
   }
 
-  size[0] = 56;
-  size[1] = 56;
-  size[2] = 1;
+  fwrite(TestImage, 1, HEIGHT*WIDTH*DEPTH, ptoutput);
+  fclose(ptoutput);
+*/  
+  ptit.GoToBegin();
+  while( !ptit.IsAtEnd() ) 
+  {
+    ptit.Set( 0 );
+    ++ptit;
+  }
 
-  start[0] = 22;
-  start[1] = 22;
-  start[2] = 0;
+  outsize[0] = 30;
+  outsize[1] = 30;
+  outsize[2] = 30;
+
+  index[0] = 10;
+  index[1] = 10;
+  index[2] = 10;
 
   // Create one iterator for an internal region
-  outregion.SetSize( size );
-  outregion.SetIndex( start );
+  outregion.SetSize( outsize );
+  outregion.SetIndex( index );
   itk::ImageRegionIteratorWithIndex <outImageType> ptitb(ptimg, outregion);
 
   // Initialize the content the internal region
@@ -236,45 +300,114 @@ int main()
     ++ptitb;
   }
 
+  outsize[0] = 50;
+  outsize[1] = 50;
+  outsize[2] = 50;
+
+  index[0] = 0;
+  index[1] = 0;
+  index[2] = 0;
+
   outregion.SetSize(outsize);
   outregion.SetIndex(index);
 
-  itk::ImageRegionIteratorWithIndex <outImageType> gdit(gdimg, outregion);
+  itk::ImageRegionIteratorWithIndex <myGradientImageType> gdit(gdimg, gdregion);
 
-  k = 0;
+  int k = 0;
   gdit.GoToBegin();
   outit.GoToBegin();
   while( !gdit.IsAtEnd()) { 
     gdit.Set(outit.Get());
-  k++;
+    k++;
     ++gdit;
-  ++outit;
+    ++outit;
   }
 
   m_bfilter->SetPotential(ptimg);
   m_bfilter->SetGradient(gdimg);
   m_bfilter->SetImageOutput(outputimg);
-  m_bfilter->SetResolution(1, 200, 1);
+  m_bfilter->SetXResolution(5);
+  m_bfilter->SetYResolution(30);
+  m_bfilter->SetZResolution(1);
   m_bfilter->Initialize();
   m_bfilter->SetStiffnessMatrix();
 
-  for (k=0; k<30; k++) {
+  DMesh::PointsContainerPointer     points;
+  DMesh::PointsContainer::Iterator  pointsit;
+  DMesh::CellsContainerPointer      cells;
+  DMesh::CellsContainer::Iterator   cellsit;
+  DMesh::PointType                  node;
+//  const unsigned long *tp;
+
+  for (k=0; k<50; k++) {
     m_bfilter->ComputeNormals();
-    if (k > 20) m_bfilter->GradientFit();
-    else m_bfilter->ComputeForce();
-    m_bfilter->ComputeDt();
+
+//    m_bfilter->ComputeForce();
+//    m_bfilter->ComputeDt();
+    m_bfilter->InitialFit();
     m_bfilter->Advance();
+
+    if (k == 20) m_bfilter->NodeAddition();
     m_bfilter->NodesRearrange();
-  m_bfilter->ComputeOutput();
-  }
   
+    m_bfilter->ComputeOutput();
+  
+  }
+
+//  FILE *output=fopen("../../../../insight/ftp/colon/df_colon.raw", "wb");  
+//  FILE *dmoutput=fopen("../../../../insight/ftp/colon/dm_colon.dm", "w+"); 
+  points = m_bfilter->GetOutput()->GetPoints();
+  pointsit = points->Begin();
+  cells = m_bfilter->GetOutput()->GetCells();
+  cellsit = cells->Begin();
+
+  int i = 0;
+  while ( i < HEIGHT*WIDTH*DEPTH ) {
+    Test[i] = 0;
+    i++;
+  }
+
+//  int num_pt = m_bfilter->GetOutput()->GetNumberOfPoints();
+//  fprintf(dmoutput, "%d\n", num_pt);
+//  fprintf(dmoutput, "%d %d\n", 30, ry);
+
+  i = 0;
+  while ( pointsit != points->End() ) {
+    node = pointsit.Value();
+//  if ((k > 40) && (k<80) ) //node[2] = 1;
+//  else { 
+//    if (k < 80) node[2] = 2;
+//    else node[2] = 3;
+//  }
+    Test[((int)(node[2]))*WIDTH*HEIGHT+((int)(node[1]))*WIDTH+((int)(node[0]))]=255;
+//  fprintf(dmoutput, "%f %f %f\n", node[0], node[1], node[2]);
+    ++pointsit;
+    i++;
+  }
+/*
+  i=0;
+  int num_cell = m_bfilter->GetOutput()->GetNumberOfCells();
+  fprintf(dmoutput, "%d\n", num_cell);
+  while( i < m_bfilter->GetOutput()->GetNumberOfCells()) {
+    tp = cellsit.Value()->GetPointIds();
+//  type = celldatait.Value();
+    fprintf(dmoutput, "%d %d %d %f\n", tp[0], tp[1], tp[2], 1.0);
+    ++cellsit;
+//  ++celldatait;
+    i++;
+  }
+*/
+//  fwrite(Test, 1, HEIGHT*WIDTH*DEPTH, output);
+//  fclose(output);
+//  fclose(dmoutput);
+//  }
 //  time(&btime);
 //  m_bfilter->Update();
 //  time(&etime);
 
-  std::cout<<"Finished: "<<etime-btime<<" seconds."<<std::endl;
+//  std::cout<<"Finished: "<<etime-btime<<" seconds."<<std::endl;
   
-  // All objects should be automatically destroyed at this point
+// All objects should be automatically destroyed at this point
   return 0;
 
 }
