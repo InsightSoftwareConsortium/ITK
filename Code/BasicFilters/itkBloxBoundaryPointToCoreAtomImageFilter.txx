@@ -109,7 +109,7 @@ BloxBoundaryPointToCoreAtomImageFilter< dim >
 template< unsigned int dim >
 void
 BloxBoundaryPointToCoreAtomImageFilter< dim >
-::FindCoreAtomsAtBoundaryPoint(BloxBoundaryPointItem<NDimensions>* pBPOne)
+::FindCoreAtomsAtBoundaryPoint(BloxBoundaryPointItem<dim>* pBPOne)
 {
 
   typedef BloxBoundaryPointItem<NDimensions> TBPItemType;
@@ -234,8 +234,6 @@ BloxBoundaryPointToCoreAtomImageFilter< dim >
           // Store the new core atom in the correct spot
           m_OutputPtr->GetPixel(coreAtomPos).push_back(pCoreAtom);
 
-          m_NumCoreAtoms++;
-
           } // end if face-to-faceness meets criteria
         } // end iterate through boundary points in pixel
       } // end iterate through the conic shell
@@ -249,22 +247,6 @@ BloxBoundaryPointToCoreAtomImageFilter< dim >
 {
   Superclass::PrintSelf(os,indent);
   
-  unsigned int i;
-
-  os << indent << "Boundary point image origin: [";
-  for (i=0; i < NDimensions - 1; i++)
-    {
-    os << m_BPImageOrigin[i] << ", ";
-    }
-  os << "]" << std::endl;
-
-  os << indent << "Boundary point image spacing: [";
-  for (i=0; i < NDimensions - 1; i++)
-    {
-    os << m_BPImageSpacing[i] << ", ";
-    }
-  os << "]" << std::endl;
-
   os << indent << "Minimum core atom search distance: " << m_DistanceMin << std::endl;
   os << indent << "Maximum core atom search distance: " << m_DistanceMax << std::endl;
   os << indent << "Core atom search epsilon: " << m_Epsilon << std::endl;

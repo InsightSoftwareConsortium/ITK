@@ -122,12 +122,6 @@ private:
   /** Pointers to input and output images */
   InputImageConstPointer  m_InputPtr;
   OutputImagePointer      m_OutputPtr;
-
-  /** The origin of the boundary point image. */
-  const double* m_BPImageOrigin;
-
-  /** The spacing of the boundary point image. */
-  const double* m_BPImageSpacing;
   
   /** Parameters used to establish conic shell iterator regions.
    * See the documentation for itkConicShellInteriorExteriorSpatialFunction
@@ -136,9 +130,6 @@ private:
   double m_DistanceMax;
   double m_Epsilon;
   bool m_Polarity;
-  
-  /** Keep track of how many core atoms we found (for debugging) */
-  unsigned long int m_NumCoreAtoms;
 };
 
 } // end namespace itk
