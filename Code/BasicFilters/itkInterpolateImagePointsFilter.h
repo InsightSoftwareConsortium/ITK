@@ -23,6 +23,7 @@
 
 #include "itkBSplineInterpolateImageFunction.h"
 #include "itkImageToImageFilter.h"
+#include "itkImageToImageFilterDetail.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
 
@@ -88,16 +89,16 @@ public:
   itkNewMacro( Self );
 
   /** ImageDimension enumeration. */
-  enum { ImageDimension = TInputImage::ImageDimension };
+  itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension );
 
-  /** Typedefs to describe and access input image */
+  /** Typedefs from the Superclass */
   typedef typename Superclass::InputImageType InputImageType;
   typedef typename Superclass::OutputImageType OutputImageType;
   typedef typename Superclass::InputImagePointer InputImagePointer;
 
   /** Typedefs to describe and access output image. */
   typedef typename TOutputImage::Pointer OutputImagePointer;
-  typedef itk::ImageRegionIterator<InputImageType> OutputImageIterator;
+  typedef ImageRegionIterator<InputImageType> OutputImageIterator;
   typedef typename OutputImageType::RegionType             OutputImageRegionType;
 
   /** Image pixel value typedef. */
@@ -110,11 +111,10 @@ public:
   typedef typename InterpolatorType::ContinuousIndexType    ContinuousIndexType;
 
   /** Typedefs to describe and access coordinate images */
-  typedef Image< TCoordType, ImageDimension >               CoordImageType;
+  typedef Image< TCoordType, itkGetStaticConstMacro(ImageDimension) > CoordImageType;
 
   /** Typedef for region copier */
-  typedef typename ImageToImageFilterDetail
-    ::ImageRegionCopier<ImageDimension,ImageDimension>     RegionCopierType; 
+  typedef ImageToImageFilterDetail::ImageRegionCopier<itkGetStaticConstMacro(ImageDimension),itkGetStaticConstMacro(ImageDimension)>     RegionCopierType; 
 
   /** SetInputImage is used to set the image to be interpolated.
     * Note that this should be used instead of the direct setInput
@@ -162,7 +162,7 @@ private:
 
   /** Typedefs to describe and access coordinate images */
   typedef typename CoordImageType::Pointer CoordImageTypePointer;
-  typedef itk::ImageRegionConstIterator<CoordImageType>   CoordImageIterator;
+  typedef ImageRegionConstIterator<CoordImageType>   CoordImageIterator;
   typedef typename CoordImageType::RegionType              CoordImageRegionType;
 
   InterpolateImagePointsFilter( const Self& ); //purposely not implemented
