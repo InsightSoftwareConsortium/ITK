@@ -50,8 +50,9 @@ namespace itk
 template <unsigned int VImageDimension>
 SphereSpatialFunction<VImageDimension>::SphereSpatialFunction()
 {
-  m_Radius = 1;
-  m_Center.fill(0.0);
+  m_Radius = 1.0;
+
+  m_Center.Fill(0.0);
 }
 
 template <unsigned int VImageDimension>
@@ -63,13 +64,13 @@ SphereSpatialFunction<VImageDimension>::~SphereSpatialFunction()
 template <unsigned int VImageDimension>
 SphereSpatialFunction<VImageDimension>::TFunctionValueType
 SphereSpatialFunction<VImageDimension>
-::Evaluate(TVectorType* position)
+::Evaluate(TPositionType position)
 {
   double acc = 0;
 
   for(int i = 0; i < VImageDimension; i++)
   {
-    acc += (position->get(i) - m_Center.get(i))*(position->get(i) - m_Center.get(i));
+    acc += (position[i] - m_Center[i]) * (position[i] - m_Center[i]);
   }
 
   acc -= m_Radius*m_Radius;

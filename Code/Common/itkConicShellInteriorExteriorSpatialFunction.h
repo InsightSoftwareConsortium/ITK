@@ -42,7 +42,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkConicShellInteriorExteriorSpatialFunction_h
 #define __itkConicShellInteriorExteriorSpatialFunction_h
 
-#include "vnl/vnl_vector_fixed.h"
+#include "vnl/vnl_vector.h"
+#include "itkPoint.h"
 #include "itkInteriorExteriorSpatialFunction.h"
 
 namespace itk
@@ -90,7 +91,12 @@ public:
   typedef InteriorExteriorSpatialFunction<VImageDimension> Superclass;
 
   typedef typename Superclass::TFunctionValueType TFunctionValueType;
-  typedef typename Superclass::TVectorType TVectorType;
+  typedef typename Superclass::TPositionType TPositionType;
+
+  /**
+   * The type of vector used to store the gradient info
+   * */
+  typedef CovariantVector<double, VImageDimension> TGradientType;
   
   /** 
    * Smart pointer typedef support.
@@ -108,13 +114,16 @@ public:
   /**
    * Evaluates the function at a given position
    */
-  TFunctionValueType Evaluate(TVectorType* position);
+  TFunctionValueType Evaluate(TPositionType position);
 
-  itkGetMacro( Origin, TVectorType);
-  itkSetMacro( Origin, TVectorType);
+  itkGetMacro( Origin, TPositionType);
+  itkSetMacro( Origin, TPositionType);
 
-  itkGetMacro( OriginGradient, TVectorType);
-  itkSetMacro( OriginGradient, TVectorType);
+  TGradientType GetOriginGradient() {return m_OriginGradient;}
+  void SetOriginGradient(TGradientType grad) {m_OriginGradient = grad;}
+
+  //itkGetMacro( OriginGradient, TGradientType);
+  //itkSetMacro( OriginGradient, TGradientType);
 
   itkGetMacro( DistanceMin, double);
   itkSetMacro( DistanceMin, double);
@@ -141,12 +150,12 @@ private:
   /**
    * The origin of the conic shell
    */
-  TVectorType m_Origin;
+  TPositionType m_Origin;
 
   /**
    * The gradient at the origin
    */
-  TVectorType m_OriginGradient;
+  TGradientType m_OriginGradient;
 
   double m_DistanceMin;
   double m_DistanceMax;

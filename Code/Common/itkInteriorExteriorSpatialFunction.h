@@ -73,7 +73,7 @@ class ITK_EXPORT InteriorExteriorSpatialFunction : public
    * Vector typedef - use this type to pass an evaluation
    * location to the function
    */
-  typedef vnl_vector_fixed<double, VImageDimension> TVectorType;
+  typedef Point<double, VImageDimension> TPositionType;
 
   /**
    * The type of data that is returned by an evaluate() call
@@ -112,7 +112,7 @@ class ITK_EXPORT InteriorExteriorSpatialFunction : public
   * 0 means outside the function
   * The actual definition of inside/outside is left up to the subclass
   */
-  virtual TFunctionValueType Evaluate(TVectorType* position) = 0;
+  virtual TFunctionValueType Evaluate(TPositionType position) = 0;
 
 protected:
   InteriorExteriorSpatialFunction();

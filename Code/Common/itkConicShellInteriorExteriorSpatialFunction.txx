@@ -41,8 +41,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkConicShellInteriorExteriorSpatialFunction_txx
 #define __itkConicShellInteriorExteriorSpatialFunction_txx
 
-#include "vnl/vnl_vector.h"
-#include "vnl/vnl_vector_fixed.h"
 #include "itkConicShellInteriorExteriorSpatialFunction.h"
 
 namespace itk
@@ -51,8 +49,9 @@ namespace itk
 template <unsigned int VImageDimension>
 ConicShellInteriorExteriorSpatialFunction<VImageDimension>::ConicShellInteriorExteriorSpatialFunction()
 {
-  m_Origin.fill(0.0);
-  m_OriginGradient.fill(0.0);
+  m_Origin.Fill(0.0);
+  m_OriginGradient.Fill(0.0);
+
   m_DistanceMin = 0;
   m_DistanceMax = 0;
   m_Polarity = 0;
@@ -68,7 +67,7 @@ ConicShellInteriorExteriorSpatialFunction<VImageDimension>::~ConicShellInteriorE
 template <unsigned int VImageDimension>
 ConicShellInteriorExteriorSpatialFunction<VImageDimension>::TFunctionValueType
 ConicShellInteriorExteriorSpatialFunction<VImageDimension>
-::Evaluate(TVectorType* position)
+::Evaluate(TPositionType position)
 {
   // As from the header...
   /*
@@ -95,24 +94,26 @@ ConicShellInteriorExteriorSpatialFunction<VImageDimension>
   // O means the direction that the gradient is pointing,
   // 1 means the opposite direction
 
+  typedef Vector<double, VImageDimension> TVectorType;
+
   // Normalize the origin gradient
-  m_OriginGradient.normalize();
+  m_OriginGradient.Get_vnl_vector().normalize();
 
   // Compute the vector from the origin to the point we're testing
-  TVectorType vecOriginToTest = *position - m_Origin;
+  TVectorType vecOriginToTest = position - m_Origin;
 
   // Compute the length of this vector
-  double vecDistance = vecOriginToTest.magnitude();
+  double vecDistance = vecOriginToTest.Get_vnl_vector().magnitude();
 
   // Check to see if this an allowed distance
   if( !( (vecDistance > m_DistanceMin)&&(vecDistance < m_DistanceMax) ) )
     return 0; // not inside the conic shell
 
   // Normalize it
-  vecOriginToTest.normalize();
+  vecOriginToTest.Get_vnl_vector().normalize();
 
   // Now compute the dot product
-  double dotprod = dot_product(m_OriginGradient, vecOriginToTest);
+  double dotprod = dot_product(m_OriginGradient.Get_vnl_vector(), vecOriginToTest.Get_vnl_vector());
 
   if(m_Polarity==1)
     dotprod = dotprod * -1;

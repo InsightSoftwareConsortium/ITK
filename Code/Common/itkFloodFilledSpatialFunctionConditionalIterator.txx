@@ -185,12 +185,12 @@ bool
 FloodFilledSpatialFunctionConditionalIterator<TImage, TFunction>
 ::IsPixelIncluded(IndexType index)
 {
-  VectorType vector;
+  PositionType position;
 
   for (int ii = 0; ii < NDimensions; ++ii)
-    vector[ii] = index[ii]*m_ImageSpacing[ii]+m_ImageOrigin[ii];
+    position[ii] = index[ii]*m_ImageSpacing[ii]+m_ImageOrigin[ii];
 
-  return m_Function->Evaluate(&vector);
+  return m_Function->Evaluate(position);
 }
 
 } // end namespace itk

@@ -42,7 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkSpatialFunction_h
 
 #include "itkObject.h"
-#include "vnl/vnl_vector_fixed.h"
+#include "itkPoint.h"
 
 namespace itk
 {
@@ -68,10 +68,10 @@ class ITK_EXPORT SpatialFunction : public Object
   public:
 
  /**
-   * Vector typedef - use this type to pass an evaluation
+   * Point typedef - use this type to pass an evaluation
    * location to the function
    */
-  typedef vnl_vector_fixed<double, VImageDimension> TVectorType;
+  typedef Point<double, VImageDimension> TPositionType;
 
   /**
    * The type of data that is returned by an evaluate() call
@@ -108,7 +108,7 @@ class ITK_EXPORT SpatialFunction : public Object
   * Evaluate the function at a given position. Remember, position is
   * represented by a TVectorType object, which uses VNL vector syntax
   */
-  virtual TFunctionValueType Evaluate(TVectorType* position) = 0;
+  virtual TFunctionValueType Evaluate(TPositionType position) = 0;
 
 protected:
   SpatialFunction();

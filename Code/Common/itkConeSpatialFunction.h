@@ -41,7 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkConeSpatialFunction_h
 #define __itkConeSpatialFunction_h
 
-#include "vnl/vnl_vector_fixed.h"
+#include "itkPoint.h"
 #include "itkInteriorExteriorSpatialFunction.h"
 
 namespace itk
@@ -73,7 +73,7 @@ public:
   typedef InteriorExteriorSpatialFunction<VImageDimension> Superclass;
 
   typedef typename Superclass::TFunctionValueType TFunctionValueType;
-  typedef typename Superclass::TVectorType TVectorType;
+  typedef typename Superclass::TPositionType TPositionType;
   
   /** 
    * Smart pointer typedef support.
@@ -91,7 +91,7 @@ public:
   /**
    * Evaluates the function at a given position
    */
-  TFunctionValueType Evaluate(TVectorType* position);
+  TFunctionValueType Evaluate(TPositionType position);
 
   /**
    * Get the angle of the Cone

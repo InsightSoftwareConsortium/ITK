@@ -42,7 +42,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkSphereSpatialFunction_h
 #define __itkSphereSpatialFunction_h
 
-#include "vnl/vnl_vector_fixed.h"
 #include "itkInteriorExteriorSpatialFunction.h"
 
 namespace itk
@@ -79,7 +78,7 @@ public:
   typedef SmartPointer<const Self>  ConstPointer;
   
   typedef typename Superclass::TFunctionValueType TFunctionValueType;
-  typedef typename Superclass::TVectorType TVectorType;
+  typedef typename Superclass::TPositionType TPositionType;
 
   itkTypeMacro(SphereSpatialFunction,InteriorExteriorSpatialFunction);
 
@@ -91,14 +90,14 @@ public:
   /**
    * Evaluates the function at a given position
    */
-  TFunctionValueType Evaluate(TVectorType* position);
+  TFunctionValueType Evaluate(TPositionType position);
 
   /**
    * Get and set the center of the sphere
    */
 
-  itkGetMacro( Center, TVectorType);
-  itkSetMacro( Center, TVectorType);
+  itkGetMacro( Center, TPositionType);
+  itkSetMacro( Center, TPositionType);
 
   /**
    * Get and set the radius of the sphere
@@ -119,7 +118,7 @@ private:
   /**
    * The center of the sphere
    */
-  TVectorType m_Center;
+  TPositionType m_Center;
 
   /**
    * The radius of the sphere

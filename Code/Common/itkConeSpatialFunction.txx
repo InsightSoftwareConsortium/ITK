@@ -41,7 +41,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkConeSpatialFunction_txx
 #define __itkConeSpatialFunction_txx
 
-#include "vnl/vnl_vector_fixed.h"
 #include <math.h>
 #include "itkConeSpatialFunction.h"
 
@@ -65,12 +64,12 @@ ConeSpatialFunction<VImageDimension>::~ConeSpatialFunction()
 template <unsigned int VImageDimension>
 ConeSpatialFunction<VImageDimension>::TFunctionValueType
 ConeSpatialFunction<VImageDimension>
-::Evaluate(TVectorType* position)
+::Evaluate(TPositionType position)
 {
   double tanTheta = tan( m_Angle*3.1415926/180 );
 
-  double result = position->get(1)*position->get(1) + position->get(2)*position->get(2)
-    - position->get(0)*position->get(0)*tanTheta*tanTheta;
+  double result = position[1]*position[1] + position[2]*position[2]
+    - position[0]*position[0]*tanTheta*tanTheta;
 
   if (result <= 0)
     return 1;
