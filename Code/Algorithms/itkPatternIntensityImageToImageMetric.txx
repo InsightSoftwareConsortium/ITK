@@ -30,6 +30,7 @@ template <class TFixedImage, class TMovingImage>
 PatternIntensityImageToImageMetric<TFixedImage,TMovingImage>
 ::PatternIntensityImageToImageMetric()
 {
+  m_Lambda = 1.0;
 }
 
 
@@ -42,6 +43,7 @@ PatternIntensityImageToImageMetric<TFixedImage,TMovingImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf( os, indent );
+  os << "Lambda factor = " << m_Lambda << std::endl;
 }
 
 /*
@@ -95,7 +97,7 @@ PatternIntensityImageToImageMetric<TFixedImage,TMovingImage>
       FixedValue     = ti.Get();
       m_NumberOfPixelsCounted++;
       const double diff = MovingValue - FixedValue; 
-      measure += 1.0f / ( 1.0f + diff * diff ); 
+      measure += 1.0f / ( 1.0f + m_Lambda* ( diff * diff ) ); 
       }
 
     ++ti;
