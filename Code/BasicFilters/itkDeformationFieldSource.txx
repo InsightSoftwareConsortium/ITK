@@ -194,7 +194,7 @@ DeformationFieldSource<TOutputImage>
     OutputPixelType displacement;
     for( unsigned int i=0; i < ImageDimension; i++)
       {
-      displacement[i] = interpolatedDeformation[i];
+      displacement[i] = interpolatedDeformation[i] - outputPoint[i];
       }
 
     outIt.Set( displacement );
