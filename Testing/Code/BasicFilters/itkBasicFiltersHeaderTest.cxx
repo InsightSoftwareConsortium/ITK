@@ -118,6 +118,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkRecursiveGaussianImageFilter.txx"
 #include "itkRecursiveSeparableImageFilter.txx"
 #include "itkReflectImageFilter.txx"
+#include "itkReflectiveImageRegionConstIterator.txx"
 #include "itkReflectiveImageRegionIterator.txx"
 #include "itkResampleImageFilter.txx"
 #include "itkRescaleIntensityImageFilter.txx"
