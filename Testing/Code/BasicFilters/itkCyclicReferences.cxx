@@ -135,7 +135,7 @@ int main()
   itk::ShrinkImageFilter<FloatImage2DType,FloatImage2DType>::Pointer shrink;
   shrink = itk::ShrinkImageFilter<FloatImage2DType,FloatImage2DType>::New();
   shrink->SetInput(random->GetOutput());
-  shrink->SetShrinkFactor(2);
+  shrink->SetShrinkFactors(2);
   DeleteEvent deleteShrink;
   itk::MemberCommand<DeleteEvent>::Pointer deleteShrinkCommand;
   deleteShrinkCommand = itk::MemberCommand<DeleteEvent>::New();

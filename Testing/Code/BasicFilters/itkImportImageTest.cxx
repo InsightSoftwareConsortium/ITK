@@ -75,7 +75,7 @@ int main()
   itk::ShrinkImageFilter<ImportImageFilter::OutputImageType, ShortImage >::Pointer shrink;
   shrink = itk::ShrinkImageFilter<ImportImageFilter::OutputImageType, ShortImage>::New();
   shrink->SetInput( import->GetOutput() );
-  shrink->SetShrinkFactor(2);
+  shrink->SetShrinkFactors(2);
   shrink->Update();
 
   //
@@ -92,9 +92,9 @@ int main()
   for (; !iterator2.IsAtEnd(); ++iterator2)
     {
     std::cout << "Pixel " << iterator2.GetIndex() << " = " << iterator2.Get() << std::endl;
-    if ( iterator2.Get() != ((shrink->GetShrinkFactor() * iterator2.GetIndex()[0])
+    if ( iterator2.Get() != ((shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0])
                         + (region.GetSize()[0]
-                           * shrink->GetShrinkFactor() * iterator2.GetIndex()[1])))
+                           * shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[1])))
       {
       passed = false;
       }
