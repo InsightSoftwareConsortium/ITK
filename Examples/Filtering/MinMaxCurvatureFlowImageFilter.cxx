@@ -17,10 +17,14 @@
 
 //  Software Guide : BeginLatex
 //
-//  \itkpiccaption[MinMaxCurvatureFlow computation]{Elements involved in the
-//  computation of min-max curvature flow.
-//  \label{fig:MinMaxCurvatureFlowFunctionDiagram}}
-//  \parpic(6cm,4cm)[r]{\includegraphics[width=5cm]{MinMaxCurvatureFlowFunctionDiagram.eps}}
+//
+// \begin{figure}
+// \center
+// \includegraphics[width=0.5\textwidth]{MinMaxCurvatureFlowFunctionDiagram.eps}
+// \itkcaption[MinMaxCurvatureFlow computation]{Elements involved in the
+//  computation of min-max curvature flow.}
+// \label{fig:MinMaxCurvatureFlowFunctionDiagram}
+// \end{figure}
 //
 //  The MinMax curvature flow filter applies a variant of the curvature flow
 //  algorithm where diffusion is turned on or off depending of the scale of the
@@ -60,7 +64,7 @@
 // compute the threshold value in the equation above. The integer radius of
 // the neighborhood is selected by the user.
 //
-//  \index{itk::MinMaxCurvatureFlowImageFilter|textbf}
+//  \index{itk::MinMax\-Curvature\-Flow\-Image\-Filter}
 //
 //  Software Guide : EndLatex 
 
@@ -75,7 +79,7 @@
 //  The first step required to use the \doxygen{MinMaxCurvatureFlowImageFilter}
 //  is to include its header file.
 //
-//  \index{itk::MinMaxCurvatureFlowImageFilter!header}
+//  \index{itk::MinMax\-Curvature\-Flow\-Image\-Filter!header}
 //
 //  Software Guide : EndLatex 
 
@@ -119,9 +123,9 @@ int main( int argc, char * argv[] )
   //  using both the input image and the output image types. The filter is
   //  then created using the \code{New()} method.
   //
-  //  \index{itk::MinMaxCurvatureFlowImageFilter!instantiation}
-  //  \index{itk::MinMaxCurvatureFlowImageFilter!New()}
-  //  \index{itk::MinMaxCurvatureFlowImageFilter!Pointer}
+  //  \index{itk::MinMax\-Curvature\-Flow\-Image\-Filter!instantiation}
+  //  \index{itk::MinMax\-Curvature\-Flow\-Image\-Filter!New()}
+  //  \index{itk::MinMax\-Curvature\-Flow\-Image\-Filter!Pointer}
   //
   //  Software Guide : EndLatex 
 
@@ -165,11 +169,11 @@ int main( int argc, char * argv[] )
   //  to the border of the neighborhood. Then the filter can be executed by
   //  invoking \code{Update()}.
   //
-  //  \index{itk::MinMaxCurvatureFlowImageFilter!Update()}
-  //  \index{itk::MinMaxCurvatureFlowImageFilter!SetTimeStep()}
-  //  \index{itk::MinMaxCurvatureFlowImageFilter!SetNumberOfIterations()}
-  //  \index{SetTimeStep()!itk::MinMaxCurvatureFlowImageFilter}
-  //  \index{SetNumberOfIterations()!itk::MinMaxCurvatureFlowImageFilter}
+  //  \index{itk::MinMax\-Curvature\-Flow\-Image\-Filter!Update()}
+  //  \index{itk::MinMax\-Curvature\-Flow\-Image\-Filter!SetTimeStep()}
+  //  \index{itk::MinMax\-Curvature\-Flow\-Image\-Filter!SetNumberOfIterations()}
+  //  \index{SetTimeStep()!itk::MinMax\-Curvature\-Flow\-Image\-Filter}
+  //  \index{SetNumberOfIterations()!itk::MinMax\-Curvature\-Flow\-Image\-Filter}
   //
   //  Software Guide : EndLatex 
 
