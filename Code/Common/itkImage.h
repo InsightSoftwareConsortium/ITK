@@ -312,7 +312,7 @@ public:
     // Update the output index
     for (unsigned int i = 0 ; i < VImageDimension ; i++)
       { 
-      index[i] = static_cast<long>(inputPoint[i]);
+      index[i] = static_cast<TCoordRep>(inputPoint[i]);
       }
     
     // Now, check to see if the index is within allowed bounds
