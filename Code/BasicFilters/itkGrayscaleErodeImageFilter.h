@@ -96,13 +96,16 @@ public:
   typedef typename Superclass::KernelType KernelType;
 
 protected:
+  GrayscaleErodeImageFilter() {};
+  ~GrayscaleErodeImageFilter() {};
+
   /** Evaluate image neighborhood with kernel to find the new value 
    * for the center pixel value.
    *
    * It will return the minimum value of the image pixels whose corresponding
    * element in the structuring element is positive. */
   virtual PixelType Evaluate(const SmartNeighborhoodIteratorType &nit,
-                             const KernelType &kernel)=0;
+                             const KernelType &kernel);
 
 } ; // end of class
 

@@ -98,6 +98,9 @@ public:
   typedef typename Superclass::KernelType KernelType;
 
 protected:
+  GrayscaleDilateImageFilter() {};
+  ~GrayscaleDilateImageFilter() {};
+
   /** Evaluate image neighborhood with kernel to find the new value 
    * for the center pixel value
    *

@@ -45,6 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk {
 
+
 template<class TInputImage, class TOutputImage, class TKernel>
 GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>::PixelType
 GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>
