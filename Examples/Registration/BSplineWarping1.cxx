@@ -126,8 +126,8 @@ int main( int argc, char * argv[] )
 //  as template parameters the type for coordinates representation, the
 //  dimension of the space, and the order of the BSpline. 
 // 
-//  \index{BSplineDeformableTransform|New}
-//  \index{BSplineDeformableTransform|Instantiation}
+//  \index{BSplineDeformableTransform!New}
+//  \index{BSplineDeformableTransform!Instantiation}
 //
 //  Software Guide : EndLatex 
 
