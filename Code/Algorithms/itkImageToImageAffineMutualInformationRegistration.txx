@@ -186,6 +186,7 @@ ImageToImageAffineMutualInformationRegistration<TReference, TTarget>
 
   // setup the optimizer
   m_Optimizer->SetMaximize();
+  m_Optimizer->SetLearningRate( m_LearningRate );
   m_Optimizer->SetScale( m_ScalingWeights );
   m_Optimizer->SetNumberOfIterations( m_NumberOfIterations );
   m_Optimizer->SetInitialPosition( m_Parameters );
