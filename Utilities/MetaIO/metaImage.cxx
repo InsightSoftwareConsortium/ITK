@@ -765,6 +765,10 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
       ElementDataFileName("LOCAL");
       }
     }
+  else
+    {
+    ElementDataFileName(_dataName);
+    }
   
   if(_headName != NULL)
     {
