@@ -23,6 +23,7 @@
 #include "itkProcessObject.h"
 #include "itkSceneSpatialObject.h"
 #include "itkMetaEvent.h"
+#include <itkDefaultStaticMeshTraits.h>
 
 namespace itk
 {
