@@ -73,3 +73,6 @@ TARGET_LINK_LIBRARIES(WeightedSampleStatistics ITKCommon)
 ADD_EXECUTABLE(ImageHistogram1 ImageHistogram1.cxx )
 TARGET_LINK_LIBRARIES(ImageHistogram1 ITKIO ITKCommon )
 
+ADD_EXECUTABLE(ImageHistogram2 ImageHistogram2.cxx )
+TARGET_LINK_LIBRARIES(ImageHistogram2 ITKIO ITKCommon )
+
