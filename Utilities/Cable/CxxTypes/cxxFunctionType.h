@@ -62,6 +62,11 @@ public:
   static FunctionType* SafeDownCast(Type*);
   static const FunctionType* SafeDownCast(const Type*);
   
+  const CvQualifiedType& GetReturnType() const
+    { return m_ReturnType; }
+  const CvQualifiedTypes& GetArgumentTypes() const
+    { return m_Arguments; }
+  
   virtual String GenerateName(const String& indirection,
                               bool isConst, bool isVolatile) const;
 protected:
