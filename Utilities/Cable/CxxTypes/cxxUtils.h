@@ -42,10 +42,15 @@
  */
 #if defined(_WIN32) || defined(WIN32) /* Win32 version */
 
-#define _cxx_IMPORT __declspec( dllimport )
-#define _cxx_EXPORT __declspec( dllexport )
+#  ifdef _cxx_DLL
+#    define _cxx_EXPORT __declspec(dllexport)
+#  else
+#    define _cxx_EXPORT __declspec(dllimport)
+#  endif
 
-#include "cxxDllAllocator.h"
+#  define _cxxUtils_DllAllocator_include
+#  include "cxxDllAllocator.h"
+#  undef _cxxUtils_DllAllocator_include
 
 namespace _cxx_
 {
@@ -58,8 +63,7 @@ typedef std::basic_string<char, std::char_traits<char>, DllAllocator<char> >  St
 
 #else /* UNIX version */
 
-#define _cxx_IMPORT
-#define _cxx_EXPORT
+#  define _cxx_EXPORT
 
 namespace _cxx_
 {

@@ -25,7 +25,7 @@ extern "C" { _wrap_EXPORT int Wrap_Init(Tcl_Interp*); }
  * Initialize the given Tcl interpreter for use with the wrapping
  * facilitator.
  */
-_wrap_EXPORT int Main_Wrap_Init(Tcl_Interp* interp)
+int Main_Wrap_Init(Tcl_Interp* interp)
 {
   // Initialize the Tcl interpreter.
   if(Tcl_Init(interp) == TCL_ERROR)

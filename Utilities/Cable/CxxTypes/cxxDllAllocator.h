@@ -16,6 +16,10 @@
 #ifndef _cxxDllAllocator_h
 #define _cxxDllAllocator_h
 
+#ifndef _cxxUtils_DllAllocator_include
+do_not_include_cxxDllAllocator_directly__use_cxxUtils;
+#endif
+
 #include <memory>
 
 namespace _cxx_
@@ -29,8 +33,8 @@ class DllAllocator;
  */
 template <> class DllAllocator<void>: public std::allocator<void> {};
 
-__declspec ( dllexport ) void* DllAllocate(size_t length, DllAllocator<void>::const_pointer);
-__declspec ( dllexport ) void DllDeallocate(void* buffer, size_t);
+_cxx_EXPORT void* DllAllocate(size_t length, DllAllocator<void>::const_pointer);
+_cxx_EXPORT void DllDeallocate(void* buffer, size_t);
 
 /**
  * Define a replacement for the std::allocator class that is DLL-boundary

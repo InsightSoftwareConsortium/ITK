@@ -14,9 +14,7 @@
 
 =========================================================================*/
 
-#include "cxxDllAllocator.h"
-
-#include <stdlib.h>
+#include "cxxUtils.h"
 
 namespace _cxx_
 {

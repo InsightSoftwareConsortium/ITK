@@ -17,3 +17,4 @@ cxxTypedefType
 
 SOURCE_FILES_REQUIRE(WIN32 SOURCES_BEGIN cxxDllAllocator)
 
+WIN32_DEFINES(-D_cxx_DLL)

@@ -20,8 +20,21 @@
 // This also includes cxxUtils.h which does some work for us.
 #include "cxxTypeSystem.h"
 
-// Get the DLL export definition from the CxxTypes package.
-#define _wrap_EXPORT _cxx_EXPORT
+/**
+ * Setup a few utilities used by almost all source files.  There are some
+ * differences between UNIX and Win32 platforms that are addressed here.
+ */
+#if defined(_WIN32) || defined(WIN32) /* Win32 version */
+#  ifdef _wrap_DLL
+#    define _wrap_EXPORT __declspec(dllexport)
+#  else
+#    define _wrap_EXPORT __declspec(dllimport)
+#  endif
+#  define WRAPPER_EXPORT __declspec(dllexport)
+#else /* UNIX version */
+#  define _wrap_EXPORT
+#  define WRAPPER_EXPORT
+#endif
 
 // Include Tcl headers.
 #include <tcl.h>

@@ -15,3 +15,4 @@ LINK_LIBRARIES(
 CxxTypes
 )
 
+WIN32_DEFINES(-D_wrap_DLL)
