@@ -140,6 +140,7 @@ HexahedronCell< TCellInterface >
       return false;
       }
     }
+    return false;
 }
 
 /**

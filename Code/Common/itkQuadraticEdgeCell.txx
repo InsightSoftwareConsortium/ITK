@@ -112,6 +112,7 @@ QuadraticEdgeCell< TCellInterface >
       return false;
       }
     }
+    return false;
 }
 
 

@@ -129,7 +129,7 @@ TriangleCell< TCellInterface >
       return false;
       }
     }
-
+    return false;
 }
 
 

@@ -144,6 +144,7 @@ TetrahedronCell< TCellInterface >
       return false;
       }
     }
+    return false;
 }
 
 
