@@ -36,8 +36,13 @@ public:
   static const unsigned int M = 11;   // Maximum dimension of problem
   static const unsigned int T = 2500; // Max. number of terms in a polynomial
 #else
+#ifdef __BORLANDC__
+  enum { M = 11 };   // Maximum dimension of problem
+  enum { T = 800 }; // Maximum number of terms in a polynomial
+#else
   enum { M = 11 };   // Maximum dimension of problem
   enum { T = 2500 }; // Maximum number of terms in a polynomial
+#endif
 #endif
 
   // Constructor---------------------------------------------------------------
