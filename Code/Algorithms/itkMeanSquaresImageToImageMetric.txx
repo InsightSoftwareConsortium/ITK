@@ -129,7 +129,7 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
                                           FixedImageType> FixedIteratorType;
 
   typedef  itk::ImageRegionConstIteratorWithIndex<
-                                        typename Superclass::GradientImageType> GradientIteratorType;
+                                        Superclass::GradientImageType> GradientIteratorType;
 
 
   FixedIteratorType ti( fixedImage, this->GetFixedImageRegion() );
@@ -242,7 +242,7 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
                                           FixedImageType> FixedIteratorType;
 
   typedef  itk::ImageRegionConstIteratorWithIndex<
-                                        typename Superclass::GradientImageType> GradientIteratorType;
+                                        Superclass::GradientImageType> GradientIteratorType;
 
 
   FixedIteratorType ti( fixedImage, this->GetFixedImageRegion() );
