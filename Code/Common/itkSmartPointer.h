@@ -98,14 +98,6 @@ public:
      }
 
    /*
-    * Cast to bool
-    */
-   operator bool () const 
-     { 
-       return m_Pointer != (T*)0; 
-     }
-
-   /*
     * Template comparison operators.
     */
    template <typename R>
