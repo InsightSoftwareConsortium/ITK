@@ -15,6 +15,18 @@
 
 =========================================================================*/
 
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS: {BrainProtonDensitySlice.png}
+//    OUTPUTS: {LaplacianRecursiveGaussianImageFilterOutput3.png}
+//    3
+//  Software Guide : EndCommandLineArgs
+
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS: {BrainProtonDensitySlice.png}
+//    OUTPUTS: {LaplacianRecursiveGaussianImageFilterOutput5.png}
+//    5
+//  Software Guide : EndCommandLineArgs
+
 //  Software Guide : BeginLatex
 //
 //  This example illustrates how to use the

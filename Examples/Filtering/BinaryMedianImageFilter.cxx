@@ -15,6 +15,12 @@
 
 =========================================================================*/
 
+//  Software Guide : eginCommandLineArgs
+//    INPUTS: {BrainProtonDensitySlice.png}
+//    OUTPUTS: {BinaryMedianImageFilterOutput.png}
+//    2
+//  Software Guide : ndCommandLineArgs
+
 //  Software Guide : BeginLatex
 //
 //  The \doxygen{BinaryMedianImageFilter} is commonly used as a robust approach
