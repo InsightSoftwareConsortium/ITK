@@ -84,6 +84,24 @@ of the uncompressed pixel data from which the compressed data is derived
  * You may also wish to include "jerror.h".
  */
 
+#if defined(__sgi) && !defined(__GNUC__)
+// Try to get rid of the warning:
+//cc-3505 CC: WARNING File = /usr/include/internal/setjmp_core.h, Line = 74
+//  setjmp not marked as unknown_control_flow because it is not declared as a
+//          function
+//
+//  #pragma unknown_control_flow (setjmp)
+#  if   (_COMPILER_VERSION >= 730)
+#  pragma set woff 3505
+#  endif
+#endif
+#ifdef _MSC_VER
+// Let us get rid of this funny warning on /W4:
+// warning C4611: interaction between '_setjmp' and C++ object
+// destruction is non-portable
+#pragma warning( disable : 4611 )
+#endif
+
 #include <setjmp.h>
 #include <fstream>
 #include "jdatasrc.cxx"
@@ -607,6 +625,10 @@ bool gdcm_read_JPEG_file ( std::ifstream* fp, void* image_buffer )
  * On some systems you may need to set up a signal handler to ensure that
  * temporary files are deleted if the program is interrupted.  See libjpeg.doc.
  */
+#ifdef _MSC_VER
+// Put the warning back
+#pragma warning( default : 4611 )
+#endif
  
 //----------------------------------------------------------------------------
 
