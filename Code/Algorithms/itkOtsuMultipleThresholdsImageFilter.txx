@@ -51,7 +51,7 @@ OtsuMultipleThresholdsImageFilter<TInputImage, TOutputImage>
   histogramGenerator->Compute();
 
   // Compute the multiple Otsu Thresholds for the input image
-  typedef typename OtsuMultipleThresholdsCalculator< HistogramGeneratorType::HistogramType > OtsuType;
+  typedef OtsuMultipleThresholdsCalculator< HistogramGeneratorType::HistogramType > OtsuType;
   typename OtsuType::Pointer otsuThresholdCalculator = OtsuType::New();
   otsuThresholdCalculator->SetInputHistogram( histogramGenerator->GetOutput() );
   otsuThresholdCalculator->SetNumberOfThresholds( m_NumberOfThresholds );
