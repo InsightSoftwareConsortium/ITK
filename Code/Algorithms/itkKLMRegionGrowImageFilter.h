@@ -21,7 +21,7 @@
 #include "itkImageToImageFilter.h"
 #include "itkRegionGrowImageFilter.h"
 #include "itkKLMSegmentationRegion.h"
-#include "itkRGBPixelorderKLM.h"
+#include "itkSegmentationBorder.h"
 #include <algorithm>
 #include <functional>
 
@@ -252,15 +252,15 @@ public:
   /**
    * Type definition for the smart border type.
    */
-  typedef RGBPixelorderKLM<TInputImage,TOutputImage>    BorderType;
+  typedef SegmentationBorder<TInputImage,TOutputImage>    BorderType;
 
   /**
    * Type definition for the smart border pointers object.
    */
-  typedef DynamicBorderArrayKLM<BorderType>  RGBPixelorderKLMPtr;
+  typedef DynamicBorderArrayKLM<BorderType>  SegmentationBorderPtr;
 
   /**
-   * Set the desired threshold parameter for lambda. See itkRGBPixelorderKLM 
+   * Set the desired threshold parameter for lambda. See itkSegmentationBorder 
    * documentation for details regarding this parameter.
    */
   itkSetMacro(MaxLambda, unsigned int);
@@ -376,11 +376,11 @@ private:
   unsigned int     m_InitRegionArea;
 
   KLMSegmentationRegion<TInputImage,TOutputImage> *m_pRegions;   
-  RGBPixelorderKLM<TInputImage,TOutputImage> *m_pBorders;
+  SegmentationBorder<TInputImage,TOutputImage> *m_pBorders;
 
-  RGBPixelorderKLMPtr                        *m_pBordersDynPtrs;
-  RGBPixelorderKLMPtr                        *m_pBordersCandidateDynPtr;
-  RGBPixelorderKLM<TInputImage,TOutputImage> *m_pBorderCandidate;
+  SegmentationBorderPtr                        *m_pBordersDynPtrs;
+  SegmentationBorderPtr                        *m_pBordersCandidateDynPtr;
+  SegmentationBorder<TInputImage,TOutputImage> *m_pBorderCandidate;
 
   /**
    * Function responsible for merging two regions using energy-based 

@@ -18,7 +18,6 @@
 
 #include "itkObject.h"
 #include "itkSegmentationRegion.h"
-//#include "itkRGBPixelorderKLM.h"
 
 #include "vnl/vnl_vector.h"
 #include "vnl/vnl_matrix.h"
@@ -45,7 +44,7 @@ namespace itk
  * Data structures for a regions
  * =============================
  * A region is defined as a closed area in the image that is surrounded
- * by a list of borders objects (see itkRGBPixelorderKLM class).  
+ * by a list of borders objects (see itkKLMSegmentationBorder class).  
  *
  * Shown below is an initial 4x3 grid size partition of a 8x9
  * image. The initial region blocks are labeled in hexadecimal, and
@@ -88,7 +87,7 @@ namespace itk
  *
  */
 template <class TInputImage, class TOutputImage>
-class RGBPixelorderKLM;
+class KLMSegmentationBorder;
 
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT KLMSegmentationRegion : public SegmentationRegion<TInputImage,TOutputImage>
@@ -153,7 +152,7 @@ public:
    * associated with a current region.
    */             
   typedef 
-    std::vector< RGBPixelorderKLM<TInputImage,TOutputImage>* > 
+    std::vector< KLMSegmentationBorder<TInputImage,TOutputImage>* > 
       RegionBorderVecType;
 
   /**
@@ -173,30 +172,30 @@ public:
   /**
    * Set the border associated with a region.
    */
-  void SetRegionBorder(RGBPixelorderKLM<TInputImage,TOutputImage> *pNewRegionBorder);
+  void SetRegionBorder(KLMSegmentationBorder<TInputImage,TOutputImage> *pNewRegionBorder);
 
   /**
    * get the first border associated with a region.
    */
-  RGBPixelorderKLM<TInputImage,TOutputImage> *GetFirstRegionBorder();
+  KLMSegmentationBorder<TInputImage,TOutputImage> *GetFirstRegionBorder();
 
   /**
    * Delete a region border
    */
-  void DeleteRegionBorder(RGBPixelorderKLM<TInputImage,
+  void DeleteRegionBorder(KLMSegmentationBorder<TInputImage,
                                       TOutputImage> *pBorderCandidate);
   /**
    * Insert a region border
    */
   void InsertRegionBorder(RegionBorderVecIterator it,
-                          RGBPixelorderKLM<TInputImage,
+                          KLMSegmentationBorder<TInputImage,
                                       TOutputImage> *pBorderCandidate);
 
   /**
    * Reorder the region borders given a candidate border after region 
    * merging
    */
-  void ReorderRegionBorders(RGBPixelorderKLM<TInputImage,
+  void ReorderRegionBorders(KLMSegmentationBorder<TInputImage,
                                         TOutputImage> *pBorderCandidate);
 
   /**

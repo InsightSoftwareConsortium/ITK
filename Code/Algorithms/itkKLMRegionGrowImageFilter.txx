@@ -467,7 +467,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   //----------------------------------------------------------------------
   m_nBorders = ( nColSquareBlocks - 1 ) * nRowSquareBlocks +
                ( nRowSquareBlocks - 1 ) * nColSquareBlocks;
-  m_pBorders = new RGBPixelorderKLM<TInputImage,TOutputImage> [m_nBorders];
+  m_pBorders = new SegmentationBorder<TInputImage,TOutputImage> [m_nBorders];
 
   /* 
   the following initialization of the horizontal and vertical
@@ -509,7 +509,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 
   // horizontal border initialization 
 
-  RGBPixelorderKLM<TInputImage,TOutputImage> *pcurrentBorder;
+  SegmentationBorder<TInputImage,TOutputImage> *pcurrentBorder;
 
   pcurrentBorder      = m_pBorders;
   m_TotalBorderLength = 0;
@@ -640,7 +640,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 
   // Allocate memory to store the array of pointers that point to the
   // static border objects
-  m_pBordersDynPtrs = new RGBPixelorderKLMPtr [m_nBorders];
+  m_pBordersDynPtrs = new SegmentationBorderPtr [m_nBorders];
 
   for( int k = 0; k < m_nBorders; k++ )
     m_pBordersDynPtrs[ k ].m_Pointer = ( m_pBorders + k );
@@ -875,7 +875,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   KLMSegmentationRegion<TInputImage,TOutputImage> *ptmpRegion;  
 
   typedef 
-    std::vector< RGBPixelorderKLM<TInputImage,TOutputImage>* > RegionBorderVecT;
+    std::vector< SegmentationBorder<TInputImage,TOutputImage>* > RegionBorderVecT;
   typedef RegionBorderVecT::iterator RegionBorderVecIt;
 
   //Point the old region iterators to the appropriate region border to the 

@@ -68,7 +68,7 @@ KLMSegmentationRegion<TInputImage,TOutputImage>
 template<class TInputImage, class TOutputImage>
 void
 KLMSegmentationRegion<TInputImage,TOutputImage>
-::SetRegionBorder( RGBPixelorderKLM<TInputImage,TOutputImage> *pnewRegionBorder )
+::SetRegionBorder( KLMSegmentationBorder<TInputImage,TOutputImage> *pnewRegionBorder )
 {
 
   // If this is the first border being added to the region
@@ -120,7 +120,7 @@ KLMSegmentationRegion<TInputImage,TOutputImage>
 //----------------------------------------------------------------------
 
 template<class TInputImage, class TOutputImage>
-RGBPixelorderKLM<TInputImage,TOutputImage> *
+KLMSegmentationBorder<TInputImage,TOutputImage> *
 KLMSegmentationRegion<TInputImage,TOutputImage>
 ::GetFirstRegionBorder()
 {
@@ -134,7 +134,7 @@ KLMSegmentationRegion<TInputImage,TOutputImage>
 template<class TInputImage, class TOutputImage>
 void
 KLMSegmentationRegion<TInputImage,TOutputImage>
-::DeleteRegionBorder( RGBPixelorderKLM<TInputImage,TOutputImage> *pBorderCandidate )
+::DeleteRegionBorder( KLMSegmentationBorder<TInputImage,TOutputImage> *pBorderCandidate )
 {
 
   if( pBorderCandidate == NULL )
@@ -179,7 +179,7 @@ KLMSegmentationRegion<TInputImage,TOutputImage>
 template<class TInputImage, class TOutputImage>
 void
 KLMSegmentationRegion<TInputImage,TOutputImage>
-::ReorderRegionBorders( RGBPixelorderKLM<TInputImage,TOutputImage> *pBorderCandidate )
+::ReorderRegionBorders( KLMSegmentationBorder<TInputImage,TOutputImage> *pBorderCandidate )
 {
   // Ensure that the border candidate is not a null pointer
   if( pBorderCandidate == NULL )
@@ -251,7 +251,7 @@ template<class TInputImage, class TOutputImage>
 void
 KLMSegmentationRegion<TInputImage,TOutputImage>
 ::InsertRegionBorder(RegionBorderVecIterator RegionBorderVecIt,
-                     RGBPixelorderKLM<TInputImage,TOutputImage> *pBorderCandidate )
+                     KLMSegmentationBorder<TInputImage,TOutputImage> *pBorderCandidate )
 {
   // Ensure that the border candidate is not a null pointer
   if( pBorderCandidate == NULL )
