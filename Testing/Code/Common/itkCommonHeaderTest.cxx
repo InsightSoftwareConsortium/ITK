@@ -97,6 +97,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkObjectFactory.h"
 #include "itkObjectFactoryBase.h"
 #include "itkOutputWindow.h"
+#include "itkPhysicalImage.h"
+#include "itkPhysicalImageAdaptor.h"
 #include "itkPixelTraits.h"
 #include "itkPoint.h"
 #include "itkPointLocator.h"
