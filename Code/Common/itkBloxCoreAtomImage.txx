@@ -101,12 +101,12 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
     }
 
   // Compute mean core atom diameter
-  itk::ImageRegionIterator<Self> bloxit = 
+  itk::ImageRegionIterator<Self> bloxIt = 
     itk::ImageRegionIterator<Self>(this, this->GetLargestPossibleRegion() );
 
-  for(bloxit.GoToBegin(); !bloxit.IsAtEnd(); ++bloxit)
+  for(bloxIt.GoToBegin(); !bloxIt.IsAtEnd(); ++bloxIt)
     {
-      ( &bloxit.Value() )->CalcMeanCoreAtomDiameter();
+      ( &bloxIt.Value() )->CalcMeanCoreAtomDiameter();
     }
 
  
@@ -170,8 +170,6 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
   // If the seed position is inside the image, go ahead and process it
   if( this->ConvertPhysicalToDataCoords(seedPos, seedIndex) )
     {
-    //std::cout << "Successfully created a conical iterator\n";
-
     // Create and initialize a spatial function iterator
     typedef itk::FloodFilledSpatialFunctionConditionalIterator<TBoundaryPointImage, TFunctionType> TSphereItType;
     TSphereItType sfi = TSphereItType(m_BoundaryPointImage, spatialFunc, seedIndex);
@@ -214,14 +212,10 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
         // Calculate face-to-faceness
         double faceToFaceness = dot_product(G1.Get_vnl_vector(), C12.Get_vnl_vector() ) *
           dot_product(G2.Get_vnl_vector(), C21.Get_vnl_vector() );
-        
-        //std::cout << "Face to faceness = " << faceToFaceness << "\n";
 
         // If face-to-faceness meets threshold criteria
         if( faceToFaceness > (1.0 - m_Epsilon) )
           {
-          //std::cout << "Passed, face to faceness = " << faceToFaceness << "\n";
-
           // Figure out the center of the core atom
           TPositionType coreAtomCenter = P1 + (P2 - P1) / 2;
 
@@ -250,11 +244,7 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>
           } // end if face-to-faceness meets criteria
         } // end iterate through boundary points in pixel
       } // end iterate through the conic shell
-  } // end if the seed position for the conic shell is in the image
-  else
-    {
-    //std::cout << "Index not in image\n";
-    }
+   } // end if the seed position for the conic shell is in the image
 }
 
 template<class TBoundaryPointImage, class TImageTraits>
@@ -292,12 +282,12 @@ void
 BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>::
 DoEigenanalysis()
 {
-  itk::ImageRegionIterator<Self> bloxit = 
+  itk::ImageRegionIterator<Self> bloxIt = 
     itk::ImageRegionIterator<Self>(this, this->GetLargestPossibleRegion() );
 
-  for(bloxit.GoToBegin(); !bloxit.IsAtEnd(); ++bloxit)
+  for(bloxIt.GoToBegin(); !bloxIt.IsAtEnd(); ++bloxIt)
     {
-      ( &bloxit.Value() )->DoCoreAtomEigenanalysis();
+      ( &bloxIt.Value() )->DoCoreAtomEigenanalysis();
     }
 }
 
@@ -307,7 +297,7 @@ BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>::
 DoCoreAtomVoting()
 {
   // Iterator to access all pixels in the image
-  ImageRegionIterator<Self> bloxit = 
+  ImageRegionIterator<Self> bloxIt = 
     ImageRegionIterator<Self>(this, this->GetLargestPossibleRegion() );
 
   // Pointer for accessing pixels
@@ -317,10 +307,14 @@ DoCoreAtomVoting()
   BloxCoreAtomPixel<NDimensions>::TEigenvalueType eigenvalues;
   BloxCoreAtomPixel<NDimensions>::TEigenvectorType eigenvectors;
 
-  for(bloxit.GoToBegin(); !bloxit.IsAtEnd(); ++bloxit)
+  for(bloxIt.GoToBegin(); !bloxIt.IsAtEnd(); ++bloxIt)
     {
     // Get a pointer to the pixel
-    pPixel = &bloxit.Value();
+    pPixel = &bloxIt.Value();
+
+    // If there are no core atoms in this pixel, it doesn't get to vote
+    if( pPixel->empty() )
+      continue;
 
     // Get eigenanalysis results
     eigenvalues = pPixel->GetEigenvalues();
@@ -355,11 +349,27 @@ DoCoreAtomVoting()
 
     // Build the ellipsoid voting region
     typedef EllipsoidInteriorExteriorSpatialFunction<double, NDimensions> TVoteFunctionType;
-
     TVoteFunctionType::Pointer ellipsoid = TVoteFunctionType::New();
 
     ellipsoid->SetOrientations(eigenvectors);
     ellipsoid->SetAxes(axisLengthArray);
+
+    // Create an iterator to traverse the ellipsoid region
+    typedef FloodFilledSpatialFunctionConditionalIterator
+      <Self, TVoteFunctionType> TItType;
+
+    // The seed position for the ellipsoid is the current pixel's index in data space
+    // since this is always at the center of the voting ellipsoid
+    Self::IndexType seedPos = bloxIt.GetIndex();
+    
+    // Instantiate the iterator
+    TItType sfi = TItType(this, ellipsoid, seedPos);
+
+    // Iterate through the ellipsoid and cast votes
+    for( ; !( sfi.IsAtEnd() ); ++sfi)
+      {
+
+      }
     }
 }
 

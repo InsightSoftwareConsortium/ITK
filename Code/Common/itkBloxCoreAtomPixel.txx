@@ -104,9 +104,9 @@ bool
 BloxCoreAtomPixel<NDimensions>
 ::DoCoreAtomEigenanalysis()
 {
+  // Don't attemp Eigenanalysis on an empty blox
   if( this->empty() )
   {
-    std::cout << "No core atoms in blox\n";
     return false;
   }
 
