@@ -82,8 +82,8 @@ protected:
   virtual ~DICOMImageIO2();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  DICOMParser* Parser;
-  DICOMAppHelper* AppHelper; 
+  DICOMParser    *      m_Parser;
+  DICOMAppHelper *      m_AppHelper; 
 
   void ReadDataCallback(doublebyte group,
                         doublebyte element,
@@ -91,7 +91,7 @@ protected:
                         unsigned char* val,
                         quadbyte len);
 
-  unsigned char* ImageDataBuffer;
+  unsigned char* m_ImageDataBuffer;
 
 private:
   DICOMImageIO2(const Self&); //purposely not implemented

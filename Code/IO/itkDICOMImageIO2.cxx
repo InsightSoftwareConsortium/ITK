@@ -45,27 +45,27 @@ DICOMImageIO2::DICOMImageIO2()
   this->SetNumberOfDimensions(2);
   m_PixelType  = UCHAR;
   m_ByteOrder = BigEndian;
-  this->Parser = new DICOMParser();
-  this->AppHelper = new DICOMAppHelper();
+  m_Parser = new DICOMParser();
+  m_AppHelper = new DICOMAppHelper();
 }
 
 
 /** Destructor */
 DICOMImageIO2::~DICOMImageIO2()
 {
-  delete this->Parser;
-  delete this->AppHelper;
+  delete m_Parser;
+  delete m_AppHelper;
 }
 
 bool DICOMImageIO2::CanReadFile( const char* filename ) 
 { 
-  bool open = Parser->OpenFile( filename);
+  bool open = m_Parser->OpenFile( filename);
   if (!open)
     {
     std::cerr << "Couldn't open file: " << filename << std::endl;
     return false;
     }
-  bool magic = Parser->IsDICOMFile();
+  bool magic = m_Parser->IsDICOMFile();
   return magic;
 }
 
@@ -84,16 +84,16 @@ void DICOMImageIO2::ReadDataCallback( doublebyte,
     {
     imageBytes = len;
     }
-  memcpy(this->ImageDataBuffer, val, imageBytes);
+  memcpy( m_ImageDataBuffer, val, imageBytes );
 }
 
 void DICOMImageIO2::Read(void* buffer)
 {
-  Parser->ClearAllDICOMTagCallbacks();
-  AppHelper->RegisterCallbacks(Parser);
-  AppHelper->RegisterPixelDataCallback(Parser);
+  m_Parser->ClearAllDICOMTagCallbacks();
+  m_AppHelper->RegisterCallbacks(m_Parser);
+  m_AppHelper->RegisterPixelDataCallback(m_Parser);
     
-  bool open = Parser->OpenFile(m_FileName.c_str());
+  bool open = m_Parser->OpenFile(m_FileName.c_str());
   if (!open)
     {
     std::cerr << "Couldn't open file: " << m_FileName << std::endl;
@@ -101,12 +101,12 @@ void DICOMImageIO2::Read(void* buffer)
     }
 
   // Should ReadHeader() be Read() since more than just a header is read?
-  Parser->ReadHeader();
+  m_Parser->ReadHeader();
 
   Array<float> imagePosition(3);
-  imagePosition[0] = AppHelper->GetImagePositionPatient()[0];
-  imagePosition[1] = AppHelper->GetImagePositionPatient()[1];
-  imagePosition[2] = AppHelper->GetImagePositionPatient()[2];
+  imagePosition[0] = m_AppHelper->GetImagePositionPatient()[0];
+  imagePosition[1] = m_AppHelper->GetImagePositionPatient()[1];
+  imagePosition[2] = m_AppHelper->GetImagePositionPatient()[2];
 
   EncapsulateMetaData<Array<float> >(this->GetMetaDataDictionary(),
                                      "ITK_ImageOrigin",
@@ -117,11 +117,11 @@ void DICOMImageIO2::Read(void* buffer)
   unsigned long imageDataLength = 0;
 
 
-  AppHelper->GetImageData(newData, newType, imageDataLength);
+  m_AppHelper->GetImageData(newData, newType, imageDataLength);
   memcpy(buffer, newData, imageDataLength);
 
   // Clean up
-  AppHelper->Clear();
+  m_AppHelper->Clear();
 }
 
 
@@ -130,22 +130,22 @@ void DICOMImageIO2::Read(void* buffer)
  */
 void DICOMImageIO2::ReadImageInformation()
 {
-  Parser->ClearAllDICOMTagCallbacks();
-  AppHelper->RegisterCallbacks(Parser);
+  m_Parser->ClearAllDICOMTagCallbacks();
+  m_AppHelper->RegisterCallbacks(m_Parser);
 
-  bool open = Parser->OpenFile(m_FileName.c_str());
+  bool open = m_Parser->OpenFile(m_FileName.c_str());
   if (!open)
     {
     std::cerr << "Couldn't open file: " << m_FileName << std::endl;
     return;
     }
 
-  Parser->ReadHeader();
+  m_Parser->ReadHeader();
 
-  float* spacing = AppHelper->GetPixelSpacing();
-  float* origin  = AppHelper->GetImagePositionPatient();
+  float* spacing = m_AppHelper->GetPixelSpacing();
+  float* origin  = m_AppHelper->GetImagePositionPatient();
 
-  int* dims = AppHelper->GetDimensions();
+  int* dims = m_AppHelper->GetDimensions();
 
   
   for (int i = 0; i < 2; i++)
@@ -155,11 +155,11 @@ void DICOMImageIO2::ReadImageInformation()
     this->SetDimensions(i, dims[i]);
     }
 
-  int numBits = AppHelper->GetBitsAllocated();
-  bool sign = AppHelper->RescaledImageDataIsSigned();
+  int numBits = m_AppHelper->GetBitsAllocated();
+  bool sign = m_AppHelper->RescaledImageDataIsSigned();
 
-  bool isFloat = AppHelper->RescaledImageDataIsFloat();
-  int num_comp = AppHelper->GetNumberOfComponents();
+  bool isFloat = m_AppHelper->RescaledImageDataIsFloat();
+  int num_comp = m_AppHelper->GetNumberOfComponents();
       
   if (isFloat)  // Float
     {
@@ -217,7 +217,7 @@ void DICOMImageIO2::ReadImageInformation()
   this->SetNumberOfComponents(num_comp);
 
   // Cleanup
-  AppHelper->Clear();
+  m_AppHelper->Clear();
 }
 
 /** Print Self Method */
