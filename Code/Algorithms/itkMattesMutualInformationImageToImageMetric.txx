@@ -41,9 +41,9 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 ::MattesMutualInformationImageToImageMetric()
 {
 
-  std::cout << "Construct" << std::endl;
   m_NumberOfSpatialSamples = 500;
   m_NumberOfHistogramBins = 50;
+  m_InterpolationOvershootFraction = 0.10;
 
   m_ComputeGradient = false; // don't use the default gradient for now
 
@@ -173,6 +173,15 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
           m_MovingImageMax = sample;
         }
     }
+
+
+  /** Extend the dynamic range for the moving image to take into 
+   * interpolation overshoots.
+   */
+  double extension = m_InterpolationOvershootFraction * 
+    ( m_MovingImageMax - m_MovingImageMin );
+  m_MovingImageMin -= extension;
+  m_MovingImageMax += extension;
 
   itkDebugMacro( "FixedImageMin: " << m_FixedImageMin << std::endl );
   itkDebugMacro( "MovingImageMin: " << m_MovingImageMin << std::endl );
@@ -423,23 +432,17 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
     // Get moving image value
     MovingImagePointType mappedPoint;
+    bool sampleOk;
 
-    mappedPoint = m_Transform->TransformPoint( (*fiter).FixedImagePointValue );
-
-    // Check if mapped point inside image buffer
-    bool sampleOk = m_Interpolator->IsInsideBuffer( mappedPoint );
+    this->TransformPoint( (*fiter).FixedImagePointValue, mappedPoint, sampleOk );
 
     if( sampleOk )
       {
 
       ++nSamples; 
 
-      // Get interpolated moving image value and derivatives
+      // Get interpolated moving image value
       double movingImageValue = m_Interpolator->Evaluate( mappedPoint );
-
-      ImageDerivativesType movingImageGradientValue;
-      this->CalculateDerivatives( mappedPoint, movingImageGradientValue );
-
 
       /**
        * Compute this sample's contribution to the marginal and joint distributions.
@@ -470,6 +473,8 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
           << std::endl
           << "movingImageParzenWindowTerm: " << movingImageParzenWindowTerm
           << " movingImageParzenWindowIndex: " << movingImageParzenWindowIndex
+          << std::endl
+          << "Try increasing InterpolationOvershootFraction"
           << std::endl )
         }
 
@@ -693,28 +698,10 @@ DerivativeType& derivative) const
 
     // Get moving image value
     MovingImagePointType mappedPoint;
-    bool insideBSValidRegion;
+    bool sampleOk;
 
-    if ( !m_TransformIsBSpline )
-      {
-      mappedPoint = m_Transform->TransformPoint( 
-        (*fiter).FixedImagePointValue );
-      }
-    else
-      {
-      m_BSplineTransform->TransformPoint( (*fiter).FixedImagePointValue,
-        mappedPoint, m_BSplineTransformWeights, m_BSplineTransformIndices, insideBSValidRegion );
-      }
+    this->TransformPoint( (*fiter).FixedImagePointValue, mappedPoint, sampleOk );
 
-    // Check if mapped point inside image buffer
-    bool sampleOk = m_Interpolator->IsInsideBuffer( mappedPoint );
-
-    if ( m_TransformIsBSpline )
-      {
-      // Check if mapped point is within the support region of a grid point.
-      // This is neccessary for computing the metric gradient
-      sampleOk = sampleOk && insideBSValidRegion;
-      }
 
     if( sampleOk )
       {
@@ -725,7 +712,7 @@ DerivativeType& derivative) const
       double movingImageValue = m_Interpolator->Evaluate( mappedPoint );
 
       ImageDerivativesType movingImageGradientValue;
-      this->CalculateDerivatives( mappedPoint, movingImageGradientValue );
+      this->ComputeImageDerivatives( mappedPoint, movingImageGradientValue );
 
 
       /**
@@ -757,6 +744,8 @@ DerivativeType& derivative) const
           << std::endl
           << "movingImageParzenWindowTerm: " << movingImageParzenWindowTerm
           << " movingImageParzenWindowIndex: " << movingImageParzenWindowIndex
+          << std::endl
+          << "Try increasing InterpolationOvershootFraction"
           << std::endl )
         }
 
@@ -801,74 +790,10 @@ DerivativeType& derivative) const
         double cubicBSplineDerivativeValue = 
           m_CubicBSplineDerivativeKernel->Evaluate( movingImageParzenWindowArg );
 
-        // Update bins in the PDF derivatives for the current intensity pair
-        jointPDFDerivativesIndex[0] = fixedImageParzenWindowIndex;
-        jointPDFDerivativesIndex[1] = pdfMovingIndex;
+        // Compute PDF derivative contribution.
+        this->ComputePDFDerivatives( (*fiter).FixedImagePointValue, fixedImageParzenWindowIndex,
+          pdfMovingIndex, movingImageGradientValue, cubicBSplineDerivativeValue );
 
-       if( !m_TransformIsBSpline )
-          {
-
-          /**
-           * Generic version which works for all transforms.
-           */
-
-          // Compute the transform Jacobian.
-          typedef typename TransformType::JacobianType JacobianType;
-          const JacobianType& jacobian = 
-            m_Transform->GetJacobian( (*fiter).FixedImagePointValue );
-
-          for ( unsigned int mu = 0; mu < m_NumberOfParameters; mu++ )
-            {
-              double innerProduct = 0.0;
-              for ( unsigned int dim = 0; dim < FixedImageDimension; dim++ )
-                {
-                innerProduct += jacobian[dim][mu] * 
-                  movingImageGradientValue[dim];
-                }
-
-               // Index into the correct parameter slice of 
-              // the jointPDFDerivative volume.
-              jointPDFDerivativesIndex[2] = mu;
-
-              JointPDFDerivativesValueType & pdfDerivative =
-                m_JointPDFDerivatives->GetPixel( jointPDFDerivativesIndex );
-              pdfDerivative -= innerProduct * cubicBSplineDerivativeValue;
-
-            }
-
-          }
-        else
-          {
-
-          /**
-           * If the transform is of type BSplineDeformableTransform,
-           * we can obtain a speed up by only processing the affected parameters.
-           */
-          for( unsigned int dim = 0; dim < FixedImageDimension; dim++ )
-            {
-
-            /* Get correct index in parameter space */
-            long offset = dim * m_NumParametersPerDim;
-
-            for( unsigned int mu = 0; mu < m_NumBSplineWeights; mu++ )
-              {
-
-              /* The array weights contains the Jacobian values in a 1-D array 
-               * (because for each parameter the Jacobian is non-zero in only 1 of the
-               * possible dimensions) which is multiplied by the moving image gradient. */
-              double innerProduct = movingImageGradientValue[dim] * m_BSplineTransformWeights[mu];
-
-              /* Index into the correct parameter slices of the jointPDFDerivative volume. */
-              jointPDFDerivativesIndex[2] = m_BSplineTransformIndices[mu] + offset;
-
-              JointPDFDerivativesValueType & pdfDerivative =
-                m_JointPDFDerivatives->GetPixel( jointPDFDerivativesIndex );
-              pdfDerivative -= innerProduct * cubicBSplineDerivativeValue;
-                        
-              } //end mu for loop
-            } //end dim for loop
-
-          } // end if-block transform is BSpline
 
         }  //end parzen windowing for loop
 
@@ -1048,7 +973,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 template < class TFixedImage, class TMovingImage >
 void
 MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
-::CalculateDerivatives( 
+::ComputeImageDerivatives( 
 const MovingImagePointType& mappedPoint, 
 ImageDerivativesType& gradient ) const
 {
@@ -1076,6 +1001,132 @@ ImageDerivativesType& gradient ) const
         m_DerivativeCalculator->EvaluateAtIndex( mappedIndex, j );
       }
     }
+
+}
+
+
+/**
+ * Transform a point from FixedImage domain to MovingImage domain.
+ * This function also checks if mapped point is within support region. 
+ */
+template < class TFixedImage, class TMovingImage >
+void
+MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
+::TransformPoint( 
+const FixedImagePointType& fixedImagePoint, 
+MovingImagePointType& mappedPoint,
+bool& sampleOk ) const
+{
+
+  bool insideBSValidRegion;
+
+  if ( !m_TransformIsBSpline )
+    {
+    mappedPoint = m_Transform->TransformPoint( fixedImagePoint );
+    }
+  else
+    {
+    m_BSplineTransform->TransformPoint( fixedImagePoint,
+      mappedPoint, m_BSplineTransformWeights, m_BSplineTransformIndices, insideBSValidRegion );
+    }
+
+  // Check if mapped point inside image buffer
+  sampleOk = m_Interpolator->IsInsideBuffer( mappedPoint );
+
+  if ( m_TransformIsBSpline )
+    {
+    // Check if mapped point is within the support region of a grid point.
+    // This is neccessary for computing the metric gradient
+    sampleOk = sampleOk && insideBSValidRegion;
+    }
+
+}
+
+
+/**
+ * Compute PDF derivatives contribution for each parameter
+ */
+template < class TFixedImage, class TMovingImage >
+void
+MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
+::ComputePDFDerivatives( 
+const FixedImagePointType& fixedImagePoint, 
+int fixedImageParzenWindowIndex,
+int pdfMovingIndex,
+const ImageDerivativesType& movingImageGradientValue,
+double cubicBSplineDerivativeValue ) const
+{
+
+  JointPDFDerivativesIndexType    jointPDFDerivativesIndex;
+
+  // Update bins in the PDF derivatives for the current intensity pair
+  jointPDFDerivativesIndex[0] = fixedImageParzenWindowIndex;
+  jointPDFDerivativesIndex[1] = pdfMovingIndex;
+
+  if( !m_TransformIsBSpline )
+  {
+
+  /**
+   * Generic version which works for all transforms.
+   */
+
+  // Compute the transform Jacobian.
+  typedef typename TransformType::JacobianType JacobianType;
+  const JacobianType& jacobian = 
+    m_Transform->GetJacobian( fixedImagePoint );
+
+  for ( unsigned int mu = 0; mu < m_NumberOfParameters; mu++ )
+    {
+      double innerProduct = 0.0;
+      for ( unsigned int dim = 0; dim < FixedImageDimension; dim++ )
+        {
+        innerProduct += jacobian[dim][mu] * 
+          movingImageGradientValue[dim];
+        }
+
+       // Index into the correct parameter slice of 
+      // the jointPDFDerivative volume.
+      jointPDFDerivativesIndex[2] = mu;
+
+      JointPDFDerivativesValueType & pdfDerivative =
+        m_JointPDFDerivatives->GetPixel( jointPDFDerivativesIndex );
+      pdfDerivative -= innerProduct * cubicBSplineDerivativeValue;
+
+    }
+
+  }
+  else
+  {
+
+  /**
+   * If the transform is of type BSplineDeformableTransform,
+   * we can obtain a speed up by only processing the affected parameters.
+   */
+  for( unsigned int dim = 0; dim < FixedImageDimension; dim++ )
+    {
+
+    /* Get correct index in parameter space */
+    long offset = dim * m_NumParametersPerDim;
+
+    for( unsigned int mu = 0; mu < m_NumBSplineWeights; mu++ )
+      {
+
+      /* The array weights contains the Jacobian values in a 1-D array 
+       * (because for each parameter the Jacobian is non-zero in only 1 of the
+       * possible dimensions) which is multiplied by the moving image gradient. */
+      double innerProduct = movingImageGradientValue[dim] * m_BSplineTransformWeights[mu];
+
+      /* Index into the correct parameter slices of the jointPDFDerivative volume. */
+      jointPDFDerivativesIndex[2] = m_BSplineTransformIndices[mu] + offset;
+
+      JointPDFDerivativesValueType & pdfDerivative =
+        m_JointPDFDerivatives->GetPixel( jointPDFDerivativesIndex );
+      pdfDerivative -= innerProduct * cubicBSplineDerivativeValue;
+            
+      } //end mu for loop
+    } //end dim for loop
+
+  } // end if-block transform is BSpline
 
 }
 

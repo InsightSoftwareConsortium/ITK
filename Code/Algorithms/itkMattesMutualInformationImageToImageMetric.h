@@ -63,9 +63,12 @@ namespace itk
  *
  * The calculations are based on the method of Mattes et al [1,2]
  * where the probability density distribution are estimated using
- * Parzen histograms. A zero order (box car) BSpline kernel is used
- * for the fixed image intensity pdf and a third order BSpline
- * kernel is used for the moving image intensity pdf.
+ * Parzen histograms. Since the fixed image PDF does not contribute
+ * to the derivatives, it does not need to be smooth. Hence, 
+ * a zero order (box car) BSpline kernel is used
+ * for the fixed image intensity PDF. On the other hand, to ensure
+ * smoothness a third order BSpline kernel is used for the 
+ * moving image intensity PDF.
  *
  * On Initialize(), the FixedImage is uniformly sampled within
  * the FixedImageRegion. The number of samples used can be set
@@ -172,11 +175,20 @@ public:
     1, NumericTraits<unsigned long>::max() );
   itkGetMacro( NumberOfSpatialSamples, unsigned long); 
 
-  /** Number of bins to used in the histogram */
+  /** Number of bins to used in the histogram. Typical value is 50. */
   itkSetClampMacro( NumberOfHistogramBins, unsigned long,
     1, NumericTraits<unsigned long>::max() );
   itkGetMacro( NumberOfHistogramBins, unsigned long);   
   
+  /** The interpolation overshoot fraction.
+   *  Some interpolation method can return results which are beyond
+   *  the moving image minimum and maximum. This fraction of the
+   *  the dynamic range is used to take into account the interpolation
+   *  over- and under- shoots so that each sample can fall into
+   *  a valid histogram bin.
+   */
+  itkSetClampMacro( InterpolationOvershootFraction, double, 0.0, 1.0 );
+  itkGetMacro( InterpolationOvershootFraction, double );
 
 protected:
 
@@ -245,6 +257,7 @@ private:
 
   /** Variables to define the marginal and joint histograms. */
   unsigned long m_NumberOfHistogramBins;
+  double        m_InterpolationOvershootFraction;
   double m_FixedImageMin;
   double m_FixedImageMax;
   double m_MovingImageMin;
@@ -272,7 +285,7 @@ private:
     itkGetStaticConstMacro(MovingImageDimension) > ImageDerivativesType;
 
   /** Compute image derivatives at a point. */
-  void CalculateDerivatives( const MovingImagePointType& mappedPoint,
+  virtual void ComputeImageDerivatives( const MovingImagePointType& mappedPoint,
     ImageDerivativesType& gradient ) const;
 
   /** Boolean to indicate if the interpolator BSpline. */
@@ -295,6 +308,16 @@ private:
   /** Pointer to central difference calculator. */
   typename DerivativeFunctionType::Pointer m_DerivativeCalculator;
 
+  /** Transform a point from FixedImage domain to MovingImage domain.
+   * This function also checks if mapped point is within support region. */
+  virtual void TransformPoint( const FixedImagePointType& fixedImagePoint,
+    MovingImagePointType& mappedPoint, bool& sampleWithinSupportRegion ) const;
+
+  /** Compute PDF derivative contribution for each parameter. */
+  virtual void ComputePDFDerivatives( const FixedImagePointType& fixedImagePoint,
+    int fixedImageParzenWindowIndex, int movingImageParzenWindowIndex,
+    const ImageDerivativesType& movingImageGradientValue,
+    double cubicBSplineDerivativeValue ) const;
 
   /**
    * Types and variables related to BSpline deformable transforms.
