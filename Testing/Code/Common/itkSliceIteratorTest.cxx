@@ -145,11 +145,6 @@ main()
       ip->SetLargestPossibleRegion(reg);
       ip->Allocate();
       
-      std::slice islice(9, 20, 20);  // slice the image down the middle
-      itk::SliceIterator<int, itk::Image<int, 2> > imagesi(ip, islice);
-      // we can't do anything with it though, since image::operator[] is not
-      // defined
-      
       FillRegionSequential<int, 2>(ip);
       PrintRegion<int,2>(ip);
       
@@ -162,9 +157,6 @@ main()
           temp.PrintSelf();
           PrintSlice(hnsi);
           PrintSlice(vnsi);
-          std::cout <<  temp.InnerProduct(op) << std::endl;
-          std::cout <<  it.InnerProduct(op)   << std::endl;
-          
         }
   }
   catch (itk::ExceptionObject &err)
@@ -172,5 +164,5 @@ main()
       (&err)->Print(std::cerr);
       return 2;
     }
-  return 1;
+  return EXIT_SUCCESS;
 }
