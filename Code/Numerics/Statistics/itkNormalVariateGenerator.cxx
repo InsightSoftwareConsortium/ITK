@@ -15,6 +15,7 @@
 
 =========================================================================*/
 #include <vnl/vnl_math.h>
+#include <math.h>
 
 #include "itkNormalVariateGenerator.h"
 

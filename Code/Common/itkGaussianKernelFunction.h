@@ -19,6 +19,7 @@
 
 #include "itkKernelFunction.h"
 #include "vnl/vnl_math.h"
+#include <math.h>
 
 namespace itk
 {
