@@ -20,6 +20,7 @@
 #include "itkFiniteDifferenceImageFilter.h"
 #include "itkMultiThreader.h"
 #include "itkNarrowBand.h"
+#include "itkBarrier.h"
 #include "itkObjectStore.h"
 
 namespace itk {
@@ -208,7 +209,7 @@ protected:
     m_IsoSurfaceValue = 0.0;
     m_Step    = 0;
     m_Touched = false;
-    m_TouchedForThread = NULL;
+    m_Barrier = Barrier::New();
   }
   
   virtual ~NarrowBandImageFilterBase() {}
@@ -249,12 +250,22 @@ protected:
   /* This function clears all pixels from the narrow band */
   void ClearNarrowBand ();
   
+  /** Thread synchronization methods. */
+  void WaitForAll();
+
+ /** This is the default, high-level algorithm for calculating finite
+   * difference solutions.  It calls virtual methods in its subclasses
+   * to implement the major steps of the algorithm. */
+  virtual void GenerateData();
+  
   /* Variables to control reinitialization */
   unsigned int m_ReinitializationFrequency;
   unsigned int m_Step;
   bool m_Touched;
   bool * m_TouchedForThread;
   ValueType m_IsoSurfaceValue;
+  
+  typename Barrier::Pointer m_Barrier;
 
 private:
   NarrowBandImageFilterBase(const Self&); //purposely not implemented
@@ -262,7 +273,7 @@ private:
 
   /** Structure for passing information into static callback methods.  Used in
    * the subclasses' threading mechanisms. */
-  struct NarrowBandFDThreadStruct
+  struct NarrowBandImageFilterBaseThreadStruct
   {
     NarrowBandImageFilterBase *Filter;
     TimeStepType TimeStep;
@@ -277,25 +288,30 @@ private:
    */
   virtual void AllocateUpdateBuffer() {};
   
-  /** This method applies changes from the m_NarrowBand to the output using
-   * the ThreadedAPplyUpdate() method and a multithreading mechanism.  "dt" is
-   * the time step to use for the update of each pixel. */
-  virtual void ApplyUpdate(TimeStepType dt);
   
-  static ITK_THREAD_RETURN_TYPE ApplyUpdateThreaderCallback( void *arg );
+  /** This method gives support for a multithread iterative scheme. */
+  static ITK_THREAD_RETURN_TYPE IterateThreaderCallback( void *arg );
   
-  /** This method populates m_NarrowBand with changes for each pixel in the
-   * output using the ThreadedCalculateChange() method and a multithreading
-   * mechanism. Returns value is a time step to be used for the update. */
-  virtual TimeStepType CalculateChange();
-  
-  static ITK_THREAD_RETURN_TYPE CalculateChangeThreaderCallback( void *arg );
-  
+  /** This method is a thread implementation of the iterative scheme implemented
+   * in itkFiniteDifferenceImageFilter::GenerateData. It relies on ThreadedApplyUpdate
+   * and ThreadedCalculateChange to update the solution at every iteration. */ 
+  virtual void ThreadedIterate(void *arg, const ThreadRegionType &regionToProcess,
+                          int threadId);
+
+ /** This method applies changes from the m_NarrowBand to the output using
+   * the ThreadedApplyUpdate() method and a multithreading mechanism.  "dt" is
+   * the time step to use for the update of each pixel. */  
   virtual void ThreadedApplyUpdate(TimeStepType dt,
                                    const ThreadRegionType &regionToProcess,
                                    int threadId);
+  virtual void ApplyUpdate(TimeStepType dt){}
+
+  /** This method populates m_NarrowBand with changes for each pixel in the
+   * output using the ThreadedCalculateChange() method and a multithreading
+   * mechanism. Returns value is a time step to be used for the update. */
   virtual TimeStepType ThreadedCalculateChange(const ThreadRegionType &regionToProcess,
                                                int threadId);
+  virtual TimeStepType CalculateChange() {return 0;}
   
 };
 
