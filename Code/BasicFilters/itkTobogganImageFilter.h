@@ -64,6 +64,8 @@ public:
   typedef typename InputImageType::RegionType RegionType;
   typedef typename InputImageType::SizeType   SizeType;
   typedef typename InputImageType::IndexType  IndexType;
+  typedef typename InputImageType::Pointer    InputImagePointer;
+  typedef typename OutputImageType::Pointer   OutputImagePointer;
   
   /** Standard super class typedef support. */
   typedef ImageToImageFilter< InputImageType, OutputImageType > Superclass;

@@ -83,7 +83,7 @@ TobogganImageFilter<TInputImage>
   // Zero the buffer
   typedef typename OutputImageType::OffsetType::OffsetValueType OffsetValueType;
   typedef Image<OffsetValueType, ImageDimension> DirectionImageType;
-  DirectionImageType::Pointer DirectionImage = DirectionImageType::New();
+  typename DirectionImageType::Pointer DirectionImage = DirectionImageType::New();
 
   typename DirectionImageType::RegionType tempRegion;
   tempRegion.SetSize( outputImage->GetLargestPossibleRegion().GetSize() );
@@ -112,12 +112,7 @@ TobogganImageFilter<TInputImage>
       IndexType CurrentPositionIndex;
       unsigned int Dimension;
       int t;
-      bool FoundNewClass = false;
       bool FoundMinimum = false;
-
-      // cerr << "Starting loop at " << inIt.GetIndex()
-      // << " Value is: " << MinimumNeighborValue << endl;
-      
 
       CurrentPositionIndex = outIt.GetIndex();
       do
