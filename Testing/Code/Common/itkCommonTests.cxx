@@ -66,6 +66,7 @@ REGISTER_TEST(itkMapContainerTest );
 REGISTER_TEST(itkMahalanobisDistanceThresholdImageFunctionTest );
 REGISTER_TEST(itkMaximumDecisionRuleTest );
 REGISTER_TEST(itkMaximumRatioDecisionRuleTest );
+REGISTER_TEST(itkMedialNodeCorrespondencesTest );
 REGISTER_TEST(itkMeanImageFunctionTest );
 REGISTER_TEST(itkMedianImageFunctionTest );
 REGISTER_TEST(itkMemoryLeakTest );
