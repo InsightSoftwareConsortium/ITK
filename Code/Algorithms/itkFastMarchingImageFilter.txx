@@ -293,7 +293,7 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
   // process points on the heap
   NodeType node;
   double currentValue;
-  double oldValue = -m_LargeValue;
+  double oldValue = -(double)m_LargeValue;
 
   double oldProgress = 0;
 
@@ -497,7 +497,7 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
       {
       aa += 1.0;
       bb += node.GetValue();
-      cc += vnl_math_sqr( node.GetValue() );
+      cc += vnl_math_sqr( (double)node.GetValue() );
 
       discrim = vnl_math_sqr( bb ) - aa * cc;
       if ( discrim < 0.0 )

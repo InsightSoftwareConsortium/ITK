@@ -330,7 +330,7 @@ LevelSetNeighborhoodExtractor<TLevelSet>
       break;
       }
 
-    distance += 1.0 / vnl_math_sqr( neighNode.GetValue() );
+    distance += 1.0 / vnl_math_sqr( (double)neighNode.GetValue() );
     }
 
   if( distance == 0.0 )
