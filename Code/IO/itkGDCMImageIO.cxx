@@ -293,6 +293,11 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
     // Do not copy field from private (unknown) dictionary.
     // In the longer term we might want to (but we need the Private dictionary
     // from manufacturer)
+     if (tag->second->GetVR().find("SQ") == 0)
+     {
+       // skip DICOM SeQuence, otherwise following cast will crash
+       continue;
+     }
 #if GDCM_MAJOR_VERSION == 0 && GDCM_MINOR_VERSION <= 5
     std::string temp = ((gdcmValEntry*)(tag->second))->GetValue();
 #else
