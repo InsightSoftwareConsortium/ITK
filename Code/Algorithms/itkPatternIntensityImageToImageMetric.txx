@@ -111,10 +111,10 @@ PatternIntensityImageToImageMetric<TFixedImage,TMovingImage>
   TransformParametersType testPoint;
   testPoint = parameters;
 
-  derivative = DerivativeType( this->GetNumberOfParameters() );
+  const unsigned int numberOfParameters = this->GetNumberOfParameters();
+  derivative = DerivativeType( numberOfParameters );
 
-  const unsigned int dimension = FixedImageType::ImageDimension;
-  for( unsigned int i=0; i<dimension; i++) 
+  for( unsigned int i=0; i<numberOfParameters; i++) 
     {
     testPoint[i] -= delta;
     const MeasureType valuep0 = this->GetValue( testPoint );
