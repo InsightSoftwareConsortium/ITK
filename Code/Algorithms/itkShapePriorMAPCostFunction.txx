@@ -97,6 +97,7 @@ ShapePriorMAPCostFunction<TFeatureImage,TOutputPixel>
    MeasureType output = counter * m_Weights[0];
 
 //  std::cout << output << " ";
+//  std::cout << std::endl;
   return output;
 
 }
@@ -119,7 +120,8 @@ ShapePriorMAPCostFunction<TFeatureImage,TOutputPixel>
     }
   measure *= m_Weights[2];
 
- // std::cout << measure << " " << std::endl;
+//  std::cout << parameters << ": ";
+//  std::cout << measure << " ";
   return measure;
 
 }

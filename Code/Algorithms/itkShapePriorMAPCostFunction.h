@@ -104,7 +104,7 @@ public:
    * LogInsideTerm, LogGradientTerm, LogShapePriorTerm and LogPosePriorTerm.*/
   typedef FixedArray<double,4> WeightsType;
   itkSetMacro( Weights, WeightsType );
-  itkGetMacro( Weights, WeightsType );  
+  itkGetConstMacro( Weights, WeightsType );  
 
   /** Compute the inside term component of the MAP cost function. 
    * In particular, the method sums the number of pixels inside
