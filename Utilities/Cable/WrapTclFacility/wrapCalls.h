@@ -221,49 +221,14 @@ struct ReturnReferenceTo
 
 
 /**
- * Convert the given Argument to an object of T.
- * Get the wrapper's conversion function from the Argument's type to T.
- * If none exists, an exception is thrown.
+ * Functor to convert an Argument to an object of T.
  */
 template <typename T>
 class ArgumentAsInstanceOf
 {
 public:
-  ArgumentAsInstanceOf(const WrapperBase* wrapper): m_Wrapper(wrapper) {}
-  ~ArgumentAsInstanceOf() {}
-  
-  T operator()(const Argument& argument)
-    {
-    // 8.3.5/3 Top level cv-qualifiers on target type never matter for
-    // conversions.  They only affect the parameter inside the function body.
-    const Type* to = CvType<T>::type.GetType();
-    
-    // Get the argument's type from which we must convert.
-    CvQualifiedType from = argument.GetType();
-    
-    // A pointer to the conversion function.
-    ConversionFunction cf = NULL;
-    
-    // If the types are the same, use the identity conversion function.
-    if(to->Id() == from.GetType()->Id())
-      {
-      cf = Converter::ObjectIdentity<T>::GetConversionFunction();
-      }
-    else
-      {
-      // We don't have a trivial conversion.  Try to lookup the
-      // conversion function.
-      cf = m_Wrapper->GetConversionFunction(from, to);
-      // If not, we don't know how to do the conversion.
-      if(!cf)
-        {
-        throw _wrap_UnknownConversionException(from.GetName(), to->Name());
-        }
-      }
-    
-    // Perform the conversion and return the result.
-    return ConvertTo<T>::From(argument.GetValue(), cf);
-    }
+  ArgumentAsInstanceOf(const WrapperBase* wrapper): m_Wrapper(wrapper) {}  
+  T operator()(const Argument&);
 private:
   /**
    * The Wrapper for which this is handling an argument.
@@ -273,52 +238,14 @@ private:
 
 
 /**
- * Convert the given Argument to a pointer to T.
+ * Functor to convert an Argument to a pointer to T.
  */
 template <typename T>
 class ArgumentAsPointerTo
 {
 public:
-  ArgumentAsPointerTo(const WrapperBase* wrapper): m_Wrapper(wrapper) {}
-  ~ArgumentAsPointerTo() {}
-  
-  T* operator()(const Argument& argument)
-    {
-    // 8.3.5/3 Top level cv-qualifiers on target type never matter for
-    // conversions.  They only affect the parameter inside the function body.
-    const PointerType* to =
-      PointerType::SafeDownCast(CvType<T*>::type.GetType());
-    
-    // Get the argument's type from which we must convert.
-    CvQualifiedType from = argument.GetType();
-    
-    // A pointer to the conversion function.
-    ConversionFunction cf = NULL;
-    
-    // If the "from" type is a pointer and the conversion is a valid
-    // cv-qualifier adjustment, use the pointer identity conversion
-    // function.
-    if(from.GetType()->IsEitherPointerType()
-       && Conversions::IsValidQualificationConversion(PointerType::SafeDownCast(from.GetType()),
-                                                      PointerType::SafeDownCast(to)))
-      {
-      cf = Converter::PointerIdentity<T>::GetConversionFunction();
-      }
-    else
-      {
-      // We don't have a trivial conversion.  Try to lookup the
-      // conversion function.
-      cf = m_Wrapper->GetConversionFunction(from, to);
-      // If not, we don't know how to do the conversion.
-      if(!cf)
-        {
-        throw _wrap_UnknownConversionException(from.GetName(), to->Name());
-        }
-      }
-    
-    // Perform the conversion and return the result.
-    return ConvertTo<T*>::From(argument.GetValue(), cf);
-    }
+  ArgumentAsPointerTo(const WrapperBase* wrapper): m_Wrapper(wrapper) {}  
+  T* operator()(const Argument&);
 private:
   /**
    * The Wrapper for which this is handling an argument.
@@ -328,8 +255,8 @@ private:
 
 
 /**
- * Convert the given Argument to a pointer to T.  This version can optionally
- * point to an array of T.
+ * Functor to convert an Argument to a pointer to T.  This version can
+ * optionally point to an array of T.
  */
 template <typename T>
 class ArgumentAsPointerTo_array
@@ -338,56 +265,7 @@ public:
   ArgumentAsPointerTo_array(const WrapperBase* wrapper):
     m_Wrapper(wrapper), m_Array(NULL) {}
   ~ArgumentAsPointerTo_array() { if(m_Array) { delete [] m_Array; } }
-
-  T* operator()(const Argument& argument)
-    {
-    // 8.3.5/3 Top level cv-qualifiers on target type never matter for
-    // conversions.  They only affect the parameter inside the function body.
-    const PointerType* to =
-      PointerType::SafeDownCast(CvType<T*>::type.GetType());
-    
-    // Get the argument's type from which we must convert.
-    CvQualifiedType from = argument.GetType();
-    
-    // A pointer to the conversion function.
-    ConversionFunction cf = NULL;
-    
-    // If the "from" type is a pointer and the conversion is a valid
-    // cv-qualifier adjustment, use the pointer identity conversion
-    // function.
-    if(from.GetType()->IsEitherPointerType()
-       && Conversions::IsValidQualificationConversion(PointerType::SafeDownCast(from.GetType()),
-                                                      PointerType::SafeDownCast(to)))
-      {
-      cf = Converter::PointerIdentity<T>::GetConversionFunction();
-      }
-    else if(from.IsArrayType()
-            && (ArrayType::SafeDownCast(from.GetType())->GetElementType() == CvType<T>::type))
-      {
-      const Argument* elements = reinterpret_cast<const Argument*>(argument.GetValue().object);
-      unsigned long length = ArrayType::SafeDownCast(from.GetType())->GetLength();
-      m_Array = new NoCvT[length];
-      for(unsigned int i = 0; i < length; ++i)
-        {
-        m_Array[i] = ElementFor(m_Wrapper)(elements[i]);
-        }
-      return m_Array;
-      }
-    else
-      {
-      // We don't have a trivial conversion.  Try to lookup the
-      // conversion function.
-      cf = m_Wrapper->GetConversionFunction(from, to);
-      // If not, we don't know how to do the conversion.
-      if(!cf)
-        {
-        throw _wrap_UnknownConversionException(from.GetName(), to->Name());
-        }
-      }
-    
-    // Perform the conversion and return the result.
-    return ConvertTo<T*>::From(argument.GetValue(), cf);
-    }
+  T* operator()(const Argument&);
 private:
   /**
    * The Wrapper for which this is handling an argument.
@@ -405,52 +283,14 @@ private:
 
 
 /**
- * Convert the given Argument to a pointer to function T.
+ * Functor to convert an Argument to a pointer to function of type T.
  */
 template <typename T>
 class ArgumentAsPointerToFunction
 {
 public:
-  ArgumentAsPointerToFunction(const WrapperBase* wrapper): m_Wrapper(wrapper) {}
-  ~ArgumentAsPointerToFunction() {}
-  
-  T* operator()(const Argument& argument)
-    {
-    // 8.3.5/3 Top level cv-qualifiers on target type never matter for
-    // conversions.  They only affect the parameter inside the function body.
-    const PointerType* to =
-      PointerType::SafeDownCast(CvType<T>::type.GetType());
-    
-    // Get the argument's type from which we must convert.
-    CvQualifiedType from = argument.GetType();
-    
-    // A pointer to the conversion function.
-    ConversionFunction cf = NULL;
-    
-    // If the "from" type is a pointer and the conversion is a valid
-    // cv-qualifier adjustment, use the pointer identity conversion
-    // function.
-    if(from.GetType()->IsEitherPointerType()
-       && Conversions::IsValidQualificationConversion(PointerType::SafeDownCast(from.GetType()),
-                                                      PointerType::SafeDownCast(to)))
-      {
-      cf = Converter::FunctionPointer<T*>::GetConversionFunction();
-      }
-    else
-      {
-      // We don't have a trivial conversion.  Try to lookup the
-      // conversion function.
-      cf = m_Wrapper->GetConversionFunction(from, to);
-      // If not, we don't know how to do the conversion.
-      if(!cf)
-        {
-        throw _wrap_UnknownConversionException(from.GetName(), to->Name());
-        }
-      }
-    
-    // Perform the conversion and return the result.
-    return ConvertTo<T*>::From(argument.GetValue(), cf);
-    }
+  ArgumentAsPointerToFunction(const WrapperBase* wrapper): m_Wrapper(wrapper) {}  
+  T* operator()(const Argument&);
 private:
   /**
    * The Wrapper for which this is handling an argument.
@@ -460,61 +300,14 @@ private:
 
 
 /**
- * Convert the given Argument to a reference to T.
+ * Functor to convert an Argument to a reference to T.
  */
 template <typename T>
 class ArgumentAsReferenceTo
 {
 public:
   ArgumentAsReferenceTo(const WrapperBase* wrapper): m_Wrapper(wrapper) {}
-  ~ArgumentAsReferenceTo() {}
-  
-  T& operator()(const Argument& argument)
-    {
-    // 8.3.5/3 Top level cv-qualifiers on target type never matter for
-    // conversions.  They only affect the parameter inside the function body.
-    const ReferenceType* to =
-      ReferenceType::SafeDownCast(CvType<T&>::type.GetType());
-    
-    // Get the argument's type from which we must convert.
-    CvQualifiedType from = argument.GetType();
-    
-    // If the "from" type is a ReferenceType, dereference it.
-    if(from.GetType()->IsReferenceType())
-      {
-      from = ReferenceType::SafeDownCast(from.GetType())->GetReferencedType();
-      }
-    
-    // A pointer to the conversion function.
-    ConversionFunction cf = NULL;
-
-    // If the "to" type is a reference to the "from" type use the
-    // reference identity conversion function.
-    if(Conversions::ReferenceCanBindAsIdentity(from, to))
-      {
-      cf = Converter::ReferenceIdentity<T>::GetConversionFunction();
-      }
-    // See if there is a derived-to-base conversion.
-    else if(Conversions::ReferenceCanBindAsDerivedToBase(from, to))
-      {
-      // TODO: Handle different cv-qualifications.
-      cf = m_Wrapper->GetConversionFunction(from, to);
-      }
-    else
-      {
-      // We don't have a trivial conversion.  Try to lookup the
-      // conversion function.
-      cf = m_Wrapper->GetConversionFunction(from, to);
-      }
-    // Make sure we know how to do the conversion.
-    if(!cf)
-      {
-      throw _wrap_UnknownConversionException(from.GetName(), to->Name());
-      }
-    
-    // Perform the conversion and return the result.
-    return ConvertTo<T&>::From(argument.GetValue(), cf);
-    }
+  T& operator()(const Argument&);
 private:
   /**
    * The Wrapper for which this is handling an argument.
@@ -524,9 +317,9 @@ private:
 
 
 /**
- * A function object to convert an Argument to a reference to const T.
- * In this case, a temporary may be constructed that must persist throughout
- * the call to a wrapped function.
+ * Functor to convert an Argument to a reference to const T.
+ * This version is separate from ArgumentAsReferenceTo since a temporary
+ * may be constructed.
  */
 template <typename T>
 class ArgumentAsReferenceTo_const
@@ -535,67 +328,8 @@ public:
   ArgumentAsReferenceTo_const(const WrapperBase* wrapper):
     m_Wrapper(wrapper), m_Temporary(NULL) {}
   ~ArgumentAsReferenceTo_const()
-    { if(m_Temporary) { delete const_cast<T*>(m_Temporary); } }
-  
-  const T& operator()(const Argument& argument)
-    {
-    // 8.3.5/3 Top level cv-qualifiers on target type never matter for
-    // conversions.  They only affect the parameter inside the function body.
-    const ReferenceType* to =
-      ReferenceType::SafeDownCast(CvType<const T&>::type.GetType());
-    
-    // Get the argument's type from which we must convert.
-    CvQualifiedType from = argument.GetType();
-    
-    // If the "from" type is a ReferenceType, dereference it.
-    if(from.GetType()->IsReferenceType())
-      {
-      from = ReferenceType::SafeDownCast(from.GetType())->GetReferencedType();
-      }
-    
-    // A pointer to the conversion function.
-    ConversionFunction cf = NULL;
-
-    // If the "to" type is a reference to the "from" type use the
-    // reference identity conversion function.
-    if(Conversions::ReferenceCanBindAsIdentity(from, to))
-      {
-      cf = Converter::ReferenceIdentity<T>::GetConversionFunction();
-      }
-    // See if there is a derived-to-base conversion.
-    else if(Conversions::ReferenceCanBindAsDerivedToBase(from, to))
-      {
-      // TODO: Handle different cv-qualifications.
-      cf = m_Wrapper->GetConversionFunction(from, to);
-      }
-    else
-      {
-      // We don't have a trivial conversion.  Try to lookup the
-      // conversion function.
-      cf = m_Wrapper->GetConversionFunction(from, to);
-      if(!cf)
-        {
-        // There is no direct conversion function.  Try to lookup one
-        // that uses a temporary.
-        const Type* toType = CvType<T>::type.GetType();
-        cf = m_Wrapper->GetConversionFunction(from, toType);
-        if(cf)
-          {
-          m_Temporary = ConvertToTemporaryOf<T>::From(argument.GetValue(), cf);
-          return *m_Temporary;
-          }
-        }
-      }
-    // Make sure we know how to do the conversion.
-    if(!cf)
-      {
-      throw _wrap_UnknownConversionException(from.GetName(), to->Name());
-      }
-    
-    // Perform the conversion and return the result.
-    return ConvertTo<const T&>::From(argument.GetValue(), cf);
-    }
-  
+    { if(m_Temporary) { delete const_cast<T*>(m_Temporary); } }  
+  const T& operator()(const Argument&);
 private:
   /**
    * The Wrapper for which this is handling an argument.
@@ -607,8 +341,11 @@ private:
    */
   const T* m_Temporary;
 };
-
-
+ 
 } // namespace _wrap_
+
+#ifndef _wrap_MANUAL_INSTANTIATION
+#include "wrapCalls.txx"
+#endif
 
 #endif
