@@ -23,14 +23,6 @@ PURPOSE.  See the above copyright notices for more information.
 #include "vnl/vnl_math.h"
 
 
-#if 0
-#include "iomanip.h"
-#include "stdio.h"
-
-#define DEBUG_RAY_CAST_INTERPOLATOR_PATH
-#define DEBUG_RAY_CAST_INTERPOLATOR
-#endif
-
 namespace itk
 {
 
@@ -203,16 +195,6 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
     = m_BoundingCorner[6][2] 
     = m_BoundingCorner[7][2] = position[2] + size[2];
 
-#ifdef DEBUG_RAY_CAST_INTERPOLATOR_PATH
-  int i;
-  cout << endl << "Corners of volume: " << endl;
-  fo r(i=0; i<8; i++) 
-    cout << "   " << setw(4) << i 
-         << setw(8) << setprecision(4) << m_BoundingCorner[i][0] << ", "
-         << setw(8) << setprecision(4) << m_BoundingCorner[i][1] << ", "
-         << setw(8) << setprecision(4) << m_BoundingCorner[i][2] << endl;
-#endif
-
   // Set the corners of the volume to the new bounding box
 
   this->CalcPlanesAndCorners();
@@ -237,26 +219,27 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
         
   for (j=0; j<6; j++) 
     {                                // loop around for planes
-    switch (j) {                // which corners to take
-    case 0:
-      c1=1; c2=2; c3=3;;
-      break;
-    case 1:
-      c1=4; c2=5; c3=6;
-      break;
-    case 2:
-      c1=5; c2=3; c3=7;
-      break;
-    case 3:
-      c1=2; c2=4; c3=6;
-      break;
-    case 4:
-      c1=1; c2=5; c3=0;
-      break;
-    case 5:
-      c1=3; c2=7; c3=2;
-      break;
-    }
+    switch (j)
+      {                // which corners to take
+      case 0:
+        c1=1; c2=2; c3=3;;
+        break;
+      case 1:
+        c1=4; c2=5; c3=6;
+        break;
+      case 2:
+        c1=5; c2=3; c3=7;
+        break;
+      case 3:
+        c1=2; c2=4; c3=6;
+        break;
+      case 4:
+        c1=1; c2=5; c3=0;
+        break;
+      case 5:
+        c1=3; c2=7; c3=2;
+        break;
+      }
 
     
     double line1x, line1y, line1z;
@@ -300,17 +283,6 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
       }
     }
 
-#ifdef DEBUG_RAY_CAST_INTERPOLATOR_PATH
-  cout << endl << "Planes of volume: " << endl;
-  for (j=0; j<6; j++)
-    { 
-    cout << "   " << setw(4) << j
-         << setw(8) << setprecision(4) << m_BoundingPlane[j][0] << ", "
-         << setw(8) << setprecision(4) << m_BoundingPlane[j][1] << ", "
-         << setw(8) << setprecision(4) << m_BoundingPlane[j][2] << ", "
-         << setw(8) << setprecision(4) << m_BoundingPlane[j][3] << endl;
-    }
-#endif
 }
 
 
@@ -333,18 +305,6 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
         
   int i,j, k; 
   int NoSides = 6;  // =6 to allow truncation: =4 to remove truncated rays
-
-
-#ifdef DEBUG_RAY_CAST_INTERPOLATOR_PATH
-  cout << endl << "Ray position: "
-       << setw(24) << setprecision(16) << m_CurrentRayPositionInMM[0] << ", "
-       << setw(24) << setprecision(16) << m_CurrentRayPositionInMM[1] << ", "
-       << setw(24) << setprecision(16) << m_CurrentRayPositionInMM[2]
-       << endl << "Ray direction: "
-       << setw(24) << setprecision(16) << m_RayDirectionInMM[0] << ", "
-       << setw(24) << setprecision(16) << m_RayDirectionInMM[1] << ", "
-       << setw(24) << setprecision(16) << m_RayDirectionInMM[2] << endl << endl;
-#endif
 
   // Calculate intercept of ray with planes
 
@@ -370,13 +330,6 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
       interceptz[j] = m_CurrentRayPositionInMM[2] + d[j]*m_RayDirectionInMM[2];
       
       noInterFlag[j] = 1;  //OK
-        
-#ifdef DEBUG_RAY_CAST_INTERPOLATOR_PATH
-      cout << "Plane " << setw(1) << j << " intercept: "
-           << setw(24) << setprecision(16) << interceptx[j] << ", "
-           << setw(24) << setprecision(16) << intercepty[j] << ", "
-           << setw(24) << setprecision(16) << interceptz[j] << endl;
-#endif
       }
     else
       {
@@ -506,9 +459,6 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
     {
     std::cerr << "WARNING: No. of sides crossed equals: " << nSidesCrossed << std::endl;
     }
-#ifdef DEBUG_RAY_CAST_INTERPOLATOR_PATH
-  std::cout << endl << "No. of sides crossed: " << nSidesCrossed << std::endl;
-#endif
 
   // If 'nSidesCrossed' is larger than 2, this means that the ray goes through
   // a corner of the volume and due to rounding errors, the ray is 
@@ -546,18 +496,6 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
       }
     nSidesCrossed = 2;
     }
-
-#ifdef DEBUG_RAY_CAST_INTERPOLATOR_PATH
-  cout << endl 
-       << "Start coordinate (mm):      "
-       << setw(12) << setprecision(6) << m_RayStartCoordInMM[0] << ", "
-       << setw(12) << setprecision(6) << m_RayStartCoordInMM[1] << ", "
-       << setw(12) << setprecision(6) << m_RayStartCoordInMM[2] << endl 
-       << "End coordinate (mm):        " 
-       << setw(12) << setprecision(6) << m_RayEndCoordInMM[0] << ", "
-       << setw(12) << setprecision(6) << m_RayEndCoordInMM[1] << ", "
-       << setw(12) << setprecision(6) << m_RayEndCoordInMM[2] << endl;
-#endif
 
   if (nSidesCrossed == 2 )
     {
@@ -661,31 +599,6 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
   m_RayVoxelEndPosition[1] = m_RayEndCoordInMM[1]/m_VoxelDimensionInY;
   m_RayVoxelEndPosition[2] = m_RayEndCoordInMM[2]/m_VoxelDimensionInZ;
 
-#ifdef DEBUG_RAY_CAST_INTERPOLATOR
-  printf("m_RayVoxelStartPosition[0] %24.16f = %24.16f/%24.16f\n", 
-         m_RayVoxelStartPosition[0], m_RayStartCoordInMM[0], m_VoxelDimensionInX);
-  printf("m_RayVoxelEndPosition[0] %24.16f = %24.16f/%24.16f\n\n", 
-         m_RayVoxelEndPosition[0], m_RayEndCoordInMM[0], m_VoxelDimensionInX);
-  
-  printf("m_RayVoxelStartPosition[1] %24.16f = %24.16f/%24.16f\n", 
-         m_RayVoxelStartPosition[1], m_RayStartCoordInMM[1], m_VoxelDimensionInY);
-  printf("m_RayVoxelEndPosition[1] %24.16f = %24.16f/%24.16f\n\n", 
-         m_RayVoxelEndPosition[1], m_RayEndCoordInMM[1], m_VoxelDimensionInY);
-  
-  printf("m_RayVoxelStartPosition[2] %24.16f = %24.16f/%24.16f\n", 
-         m_RayVoxelStartPosition[2], m_RayStartCoordInMM[2], m_VoxelDimensionInZ);
-  printf("m_RayVoxelEndPosition[2] %24.16f = %24.16f/%24.16f\n\n", 
-         m_RayVoxelEndPosition[2], m_RayEndCoordInMM[2], m_VoxelDimensionInZ);
-  
-  cout << "Start coordinate (vox):     "
-       << setw(12) << setprecision(6) << m_RayVoxelStartPosition[0] << ", "
-       << setw(12) << setprecision(6) << m_RayVoxelStartPosition[1] << ", "
-       << setw(12) << setprecision(6) << m_RayVoxelStartPosition[2] << endl 
-       << "End coordinate (vox):       " 
-       << setw(12) << setprecision(6) << m_RayVoxelEndPosition[0] << ", "
-       << setw(12) << setprecision(6) << m_RayVoxelEndPosition[1] << ", "
-       << setw(12) << setprecision(6) << m_RayVoxelEndPosition[2] << endl;
-#endif
 }
 
 
@@ -700,38 +613,11 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 {
   double xNum, yNum, zNum;
 
-#ifdef DEBUG_RAY_CAST_INTERPOLATOR
-  printf("start[0] = %24.16f\n(int)start[0] = %d\nfloor(start[0]) = %f\n", 
-         m_RayVoxelStartPosition[0], 
-         (int)m_RayVoxelStartPosition[0], floor(m_RayVoxelStartPosition[0]));
-
-  cout << "No. of voxels prior to dirn calc: " << m_TotalRayVoxelPlanes << endl
-       << "Start posn prior to dirn calc: "
-       << setw(12) << setprecision(6) << m_RayVoxelStartPosition[0] << ", "
-       << setw(12) << setprecision(6) << m_RayVoxelStartPosition[1] << ", "
-       << setw(12) << setprecision(6) << m_RayVoxelStartPosition[2] << endl 
-       << "End posn prior to dirn calc:   " 
-       << setw(12) << setprecision(6) << m_RayVoxelEndPosition[0] << ", "
-       << setw(12) << setprecision(6) << m_RayVoxelEndPosition[1] << ", "
-       << setw(12) << setprecision(6) << m_RayVoxelEndPosition[2] << endl 
-       << "Step size prior to dirn calc:   " 
-       << setw(12) << setprecision(6) << m_VoxelIncrement[0] << ", "
-       << setw(12) << setprecision(6) << m_VoxelIncrement[1] << ", "
-       << setw(12) << setprecision(6) << m_VoxelIncrement[2] << endl;
-#endif
-
   // Calculate the number of voxels in each direction
 
   xNum = fabs(m_RayVoxelStartPosition[0] - m_RayVoxelEndPosition[0]);
   yNum = fabs(m_RayVoxelStartPosition[1] - m_RayVoxelEndPosition[1]);
   zNum = fabs(m_RayVoxelStartPosition[2] - m_RayVoxelEndPosition[2]);
-
-#ifdef DEBUG_RAY_CAST_INTERPOLATOR
-  cout << "No. voxels in each direction:   " 
-       << setw(12) << setprecision(6) << xNum << ", "
-       << setw(12) << setprecision(6) << yNum << ", "
-       << setw(12) << setprecision(6) << zNum << endl;
-#endif
 
   // The direction iterated in is that with the greatest number of voxels
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -740,11 +626,6 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 
   if( (xNum >= yNum) && (xNum >= zNum) ) 
     {
-
-#ifdef DEBUG_RAY_CAST_INTERPOLATOR  
-    cout << "Iterating in 'x' direction" << endl;
-#endif
-
     if( m_RayVoxelStartPosition[0] < m_RayVoxelEndPosition[0] ) 
       { 
       m_VoxelIncrement[0] = 1;
@@ -805,10 +686,6 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
   else if( (yNum >= xNum) && (yNum >= zNum) ) 
     {
 
-#ifdef DEBUG_RAY_CAST_INTERPOLATOR  
-    cout << "Iterating in 'y' direction" << endl;
-#endif
-
     if( m_RayVoxelStartPosition[1] < m_RayVoxelEndPosition[1] ) 
       {
       m_VoxelIncrement[1] = 1;
@@ -861,10 +738,6 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
   else 
     {
 
-#ifdef DEBUG_RAY_CAST_INTERPOLATOR  
-    cout << "Iterating in 'z' direction" << endl;
-#endif
-
     if( m_RayVoxelStartPosition[2] < m_RayVoxelEndPosition[2] ) 
       {
       m_VoxelIncrement[2] = 1;
@@ -911,21 +784,6 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 
     m_TraversalDirection = TRANSVERSE_IN_Z;
     }
-
-#ifdef DEBUG_RAY_CAST_INTERPOLATOR
-  cout << "Voxel increment:   " 
-       << setw(12) << setprecision(6) << m_VoxelIncrement[0] << ", "
-       << setw(12) << setprecision(6) << m_VoxelIncrement[1] << ", "
-       << setw(12) << setprecision(6) << m_VoxelIncrement[2] << endl
-       << "Adjusted start coord (vox): "
-       << setw(12) << setprecision(6) << m_RayVoxelStartPosition[0] << ", "
-       << setw(12) << setprecision(6) << m_RayVoxelStartPosition[1] << ", "
-       << setw(12) << setprecision(6) << m_RayVoxelStartPosition[2] << endl 
-       << "Adjusted end coord (vox):   " 
-       << setw(12) << setprecision(6) << m_RayVoxelEndPosition[0] << ", "
-       << setw(12) << setprecision(6) << m_RayVoxelEndPosition[1] << ", "
-       << setw(12) << setprecision(6) << m_RayVoxelEndPosition[2] << endl << endl;
-#endif
 }
 
 
@@ -942,22 +800,6 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 
   int Istart[3];
   int Idirn[3];
-
-#ifdef DEBUG_RAY_CAST_INTERPOLATOR
-  cout << "No. of voxels prior to clipping: " << m_TotalRayVoxelPlanes << endl
-       << "Start posn prior to clipping: "
-       << setw(12) << setprecision(6) << m_RayVoxelStartPosition[0] << ", "
-       << setw(12) << setprecision(6) << m_RayVoxelStartPosition[1] << ", "
-       << setw(12) << setprecision(6) << m_RayVoxelStartPosition[2] << endl 
-       << "End posn prior to clipping:   " 
-       << setw(12) << setprecision(6) << m_RayVoxelEndPosition[0] << ", "
-       << setw(12) << setprecision(6) << m_RayVoxelEndPosition[1] << ", "
-       << setw(12) << setprecision(6) << m_RayVoxelEndPosition[2] << endl 
-       << "Step size prior to clipping:   " 
-       << setw(12) << setprecision(6) << m_VoxelIncrement[0] << ", "
-       << setw(12) << setprecision(6) << m_VoxelIncrement[1] << ", "
-       << setw(12) << setprecision(6) << m_VoxelIncrement[2] << endl;
-#endif
 
   if (m_TraversalDirection == TRANSVERSE_IN_X) 
     {
@@ -998,19 +840,6 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
     Istart[1] = (int) floor(m_RayVoxelStartPosition[1]);
     Istart[2] = (int) floor(m_RayVoxelStartPosition[2]);
 
-#ifdef DEBUG_RAY_CAST_INTERPOLATOR
-    cout << endl << "Start test position (vox): " << endl 
-
-         << "Istart[0]: " << Istart[0] << " = (int) floor(" 
-         << m_RayVoxelStartPosition[0] << ")" << endl
-
-         << "Istart[1]: " << Istart[1] << " = (int) floor(" 
-         << m_RayVoxelStartPosition[1] << ")" << endl
-
-         << "Istart[2]: " << Istart[2] << " = (int) floor(" 
-         << m_RayVoxelStartPosition[2] << ")" << endl;
-#endif
-
     if( (Istart[0] >= 0) && (Istart[0] + Idirn[0] < m_NumberOfVoxelsInX) &&
         (Istart[1] >= 0) && (Istart[1] + Idirn[1] < m_NumberOfVoxelsInY) &&
         (Istart[2] >= 0) && (Istart[2] + Idirn[2] < m_NumberOfVoxelsInZ) ) 
@@ -1036,22 +865,6 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
     Istart[2] = (int) floor(m_RayVoxelStartPosition[2] 
                             + m_TotalRayVoxelPlanes*m_VoxelIncrement[2]);
   
-#ifdef DEBUG_RAY_CAST_INTERPOLATOR
-    cout << endl << "End test position (vox): " << endl 
-
-         << "Istart[0]: " << Istart[0] << " = (int) floor(" 
-         << m_RayVoxelStartPosition[0] << " + " 
-         << m_TotalRayVoxelPlanes*m_VoxelIncrement[0] << ")" << endl
-
-         << "Istart[1]: " << Istart[1] << " = (int) floor(" 
-         << m_RayVoxelStartPosition[1] << " + " 
-         << m_TotalRayVoxelPlanes*m_VoxelIncrement[1] << ")" << endl
-
-         << "Istart[2]: " << Istart[2] << " = (int) floor(" 
-         << m_RayVoxelStartPosition[2] << " + " 
-         << m_TotalRayVoxelPlanes*m_VoxelIncrement[2] << ")" << endl;
-#endif
-
     if( (Istart[0] >= 0) && (Istart[0] + Idirn[0] < m_NumberOfVoxelsInX) &&
         (Istart[1] >= 0) && (Istart[1] + Idirn[1] < m_NumberOfVoxelsInY) &&
         (Istart[2] >= 0) && (Istart[2] + Idirn[2] < m_NumberOfVoxelsInZ) ) 
@@ -1066,18 +879,6 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 
     } while ( (! (startOK && endOK)) && (m_TotalRayVoxelPlanes > 1) );
 
-
-#ifdef DEBUG_RAY_CAST_INTERPOLATOR
-  cout << endl << "Start within volume (vox): "
-       << setw(12) << setprecision(6) << m_RayVoxelStartPosition[0] << ", "
-       << setw(12) << setprecision(6) << m_RayVoxelStartPosition[1] << ", "
-       << setw(12) << setprecision(6) << m_RayVoxelStartPosition[2]
-       << endl << "End within volume (vox):   " 
-       << setw(12) << setprecision(6) << m_RayVoxelEndPosition[0] << ", "
-       << setw(12) << setprecision(6) << m_RayVoxelEndPosition[1] << ", "
-       << setw(12) << setprecision(6) << m_RayVoxelEndPosition[2] 
-       << endl << "Valid ray?:   " << (startOK && endOK) << endl;
-#endif
 
   return (startOK && endOK);
 }
@@ -1532,20 +1333,6 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
   /* Step along the ray as quickly as possible 
      integrating the interpolated intensities. */
 
-#ifdef DEBUG_RAY_CAST_INTERPOLATOR
-  cout.setf(ios::fixed);
-
-  cout << endl << "Number of voxels: " << this->GetNumberOfVoxels() << endl
-    
-       << "   " << setw(4) << "n" << " ("
-    
-       << setw(8) << "x" << ", "
-       << setw(8) << "y" << ", "
-       << setw(8) << "z" << ") "
-    
-       << setw(8) << "value" << endl;
-#endif
-
   for (m_NumVoxelPlanesTraversed=0; 
        m_NumVoxelPlanesTraversed<m_TotalRayVoxelPlanes; 
        m_NumVoxelPlanesTraversed++) 
@@ -1564,12 +1351,6 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
      apart so account for this by scaling by the distance moved. */
 
   integral *= this->GetRayPointSpacing();
-
-#ifdef DEBUG_RAY_CAST_INTERPOLATOR
-  cout << "Integrated intensities above threshold: " << integral << endl
-       << "(scaled by ray point spacing: " << this->GetRayPointSpacing() << ")" 
-       << endl;
-#endif
 
   return true;
 }
