@@ -279,7 +279,8 @@ M_Read(void)
 
 
   int* posDim= new int[m_NDims];
-  for(int i= 0; i < m_NDims; i++)
+  int i;
+  for(i= 0; i < m_NDims; i++)
   {
     posDim[i] = -1;
   }
