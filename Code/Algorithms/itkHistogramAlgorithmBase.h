@@ -25,7 +25,7 @@
 namespace itk
 { 
   
-/** \class itkHistogramAlgorithmBase
+/** \class HistogramAlgorithmBase
  * \brief base class for algorithms operating on histograms
  *
  * You plug in the target sample data using SetInputHistogram method. Then call
