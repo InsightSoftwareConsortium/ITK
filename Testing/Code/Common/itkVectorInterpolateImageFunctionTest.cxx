@@ -233,8 +233,10 @@ int itkVectorInterpolateImageFunctionTest(int, char* [] )
   passed = TestGeometricPoint( interp, point, true, output );
 
   if( !passed ) flag = 1;
-
-  image->TransformPhysicalPointToIndex( point, index );
+ 
+  index[0] = 10;
+  index[1] = 20;
+  index[3] = 40;
   if ( interp->EvaluateAtIndex( index ) != output )
     {
     std::cout << "Index: " << index;
