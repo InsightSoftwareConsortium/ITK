@@ -969,6 +969,20 @@ SpatialObject< TDimension >
   this->Modified();
 }
 
+template< unsigned int TDimension >
+void
+SpatialObject< TDimension >
+::SetSpacing( const SpacingType & spacing )
+{
+   double spacingValues[ TDimension ];
+   for(unsigned int i=0; i<TDimension; i++)
+      {
+      spacingValues[i] = spacing[i];
+      }  
+   this->SetSpacing( spacingValues );
+}
+
+
 } // end of namespace itk
 
 #endif // __SpatialObject_txx

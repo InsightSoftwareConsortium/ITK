@@ -86,6 +86,8 @@ public:
   typedef CovariantVector<ScalarType, TDimension > CovariantVectorType; 
   typedef VectorType * VectorPointer;
 
+  typedef Vector<double, TDimension > SpacingType;
+
   typedef CovariantVector< double, TDimension > OutputVectorType; 
   typedef OutputVectorType * OutputVectorPointer;
 
@@ -451,6 +453,9 @@ public:
   /** Get the spacing of the spatial object. */
   virtual const double* GetSpacing() const 
   {return m_IndexToObjectTransform->GetScaleComponent();}
+
+  /** Set the spacing of the spatial object using the type from the image. */
+  void SetSpacing( const SpacingType & spacing );
 
   /** Set/Get a flag to tell if the scene manages the memory */
   itkSetMacro(SceneManageMemory,bool);
