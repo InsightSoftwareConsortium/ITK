@@ -78,6 +78,9 @@ foreach f { .in .out .th } {
 # Setup pipeline.
 
 set reader [itk::create ImageFileReaderUS2]
+  $reader AddObserver [itk::EndEvent] [itk::createTclCommand {
+    setProgress 0
+  }]
 
 # Convert the unsigned-short input into float data.
 set inConverter [itk::create RescaleIntensityImageFilterUS2F2]
@@ -163,11 +166,12 @@ proc selectInputFile {} {
              {{All Files} *      }}
 
   # Get the input file with a selection dialog.
-  set fileName [ tk_getOpenFile -title "Select Input File" -filetypes $types ]
+  set fname [ tk_getOpenFile -title "Select Input File" -filetypes $types ]
 
-  if {$fileName == ""} { return }
+  if {$fname == ""} { return }
 
   # Setup the reader's file name.
+  set fileName $fname
   $reader SetFileName $fileName
   
   # Make sure the image size information is up to date.
