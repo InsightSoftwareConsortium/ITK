@@ -19,7 +19,7 @@ enum RepresentationType
   Undefined_id=0,
   
   ArrayType_id, ClassType_id, PointerType_id, PointerToMemberType_id,
-  ReferenceType_id, FundamentalType_id, FunctionType_id
+  ReferenceType_id, FundamentalType_id, FunctionType_id, TypedefType_id
 };
 
 class TypeSystem;
@@ -35,7 +35,7 @@ class TypeSystem;
 #include "cxxPointerType.h"
 #include "cxxPointerToMemberType.h"
 #include "cxxReferenceType.h"
+#include "cxxTypedefType.h"
 
 
 #endif
-

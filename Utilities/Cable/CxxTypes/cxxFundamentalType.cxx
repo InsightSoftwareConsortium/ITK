@@ -15,7 +15,8 @@ FundamentalType
 
 
 /**
- *
+ * Test whether this type with the given cv-qualifiers can convert to
+ * the given CvQualifiedType.
  */
 bool
 FundamentalType

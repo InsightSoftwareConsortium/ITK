@@ -31,6 +31,8 @@ private:
    */
   CvQualifiedType m_ReferencedType;
   
+  bool CanConvertFromArrayType(const CvQualifiedType&, bool, bool) const;
+  
   friend TypeSystem;
 };
 

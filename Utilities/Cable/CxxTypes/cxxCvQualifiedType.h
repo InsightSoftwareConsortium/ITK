@@ -18,10 +18,8 @@ public:
   typedef CvQualifiedType Self;
   
   CvQualifiedType(const Type*);
+  CvQualifiedType(const Type*, bool, bool);
   CvQualifiedType(const Self&);
-  
-  void SetConst(bool value)    { m_Const = value; }
-  void SetVolatile(bool value) { m_Volatile = value; }
   
   bool IsConst() const    { return m_Const; }
   bool IsVolatile() const { return m_Volatile; }

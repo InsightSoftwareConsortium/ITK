@@ -18,6 +18,19 @@ CvQualifiedType
 
 
 /**
+ * This constructor takes a pointer to the type to which these qualifiers
+ * refer, and settings for the const and volatile cv-qualifier flags.
+ */
+CvQualifiedType
+::CvQualifiedType(const Type* in_type, bool in_const, bool in_volatile):
+  m_Type(in_type),
+  m_Const(in_const),
+  m_Volatile(in_volatile)
+{
+}
+
+
+/**
  * Copy constructor.
  */
 CvQualifiedType

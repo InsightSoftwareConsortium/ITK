@@ -16,7 +16,10 @@ public:
   typedef ArrayType Self;
   
   virtual RepresentationType GetRepresentationType() const;
-
+  
+  const CvQualifiedType& GetElementType() const
+    { return m_ElementType; }
+  
 protected:
   virtual bool CanConvertTo(const CvQualifiedType&, bool, bool) const;
   

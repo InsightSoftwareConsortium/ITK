@@ -18,9 +18,12 @@ public:
    * Retrieve what kind of Type this is.
    */
   virtual RepresentationType GetRepresentationType() const = 0;
+  
+  virtual CvQualifiedType GetCvQualifiedType(bool, bool) const;
+
+  virtual bool CanConvertTo(const CvQualifiedType&, bool, bool) const = 0;
 
 protected:
-  virtual bool CanConvertTo(const CvQualifiedType&, bool, bool) const = 0;
 
   Type() {}
   virtual ~Type() {}

@@ -23,7 +23,7 @@ ReferenceType
   m_ReferencedType(in_type)
 {
 }
-  
+
 
 /**
  * Test whether this type with the given cv-qualifiers can convert to
