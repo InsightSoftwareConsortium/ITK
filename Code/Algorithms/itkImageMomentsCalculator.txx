@@ -75,11 +75,6 @@ void
 ImageMomentsCalculator<TImage>::
 ComputeMoments( const ImageType * image )
 {
-
-  TransformPointer indexToPhysical =
-              image->GetIndexToPhysicalTransform().GetPointer() ;
-
-
   m_M0 = 0.0;
   m_M1.Fill( 0.0 );
   m_M2.Fill( 0.0 );
@@ -94,9 +89,9 @@ ComputeMoments( const ImageType * image )
   while( !it.IsAtEnd() )
     {
     double value = it.Value();
-    IndexType index = it.GetIndex();
-    Point<double,ImageDimension>    indexPosition;
-    typename TransformType::OutputPointType  physicalPosition;
+    
+    IndexType indexPosition = it.GetIndex();
+    Point<double, ImageDimension> physicalPosition;
 
     for(unsigned int i=0; i<ImageType::ImageDimension; i++)
     {
@@ -115,8 +110,8 @@ ComputeMoments( const ImageType * image )
       }
     }
 
-    physicalPosition = indexToPhysical->TransformPoint( indexPosition );
-      
+    image->TransformIndexToPhysicalPoint(indexPosition, physicalPosition);  
+    
     for(unsigned int i=0; i<ImageDimension; i++)
     {
       m_Cg[i] += physicalPosition[i] * value; 

@@ -83,10 +83,6 @@ public:
   /** Standard image type pointer within this class. */
   typedef typename ImageType::Pointer ImagePointer;
 
-  /** Standard transform type for this class. */
-  typedef typename ImageType::TransformType          TransformType;
-  typedef typename TransformType::Pointer            TransformPointer;
-
   /** Affine transform for mapping to and from principal axis */
   typedef AffineTransform<double,itkGetStaticConstMacro(ImageDimension)> AffineTransformType;
   typedef typename AffineTransformType::Pointer      AffineTransformPointer;
