@@ -17,7 +17,7 @@
 #define __itkRegistrator3D2DRecursive_h
 
 #include <itkRegistrator3D2D.h>
-#include <itkKalmanFilter.h>
+#include <itkKalmanLinearEstimator.h>
 
 namespace itk
 {
@@ -80,7 +80,7 @@ private:
    * estimate the 6 parameters of the rigid transformation
    * for one iteration of the registration process.
    */
-  KalmanFilter<double,6>   Estimator;
+  KalmanLinearEstimator<double,6>   Estimator;
 
 };
 
