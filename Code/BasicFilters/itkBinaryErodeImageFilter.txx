@@ -128,12 +128,13 @@ BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>
         {
         // case #4, center pixel is "off"
         return nit.GetCenterPixel();
+        }
       }
     }
 } 
 
 template<class TInputImage, class TOutputImage, class TKernel>
-BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>::RegionType
+void
 BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>
 ::PrintSelf(std::ostream &os, Indent indent) const
 {
