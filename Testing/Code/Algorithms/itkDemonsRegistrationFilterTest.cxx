@@ -218,7 +218,7 @@ int main()
   command = itk::SimpleMemberCommand<ShowProgressObject>::New();
   command->SetCallbackFunction(&progressWatch,
                                &ShowProgressObject::ShowProgress);
-  registrator->AddObserver(itk::Command::ProgressEvent, command);
+  registrator->AddObserver( itk::ProgressEvent(), command);
  
   registrator->Update();
 
