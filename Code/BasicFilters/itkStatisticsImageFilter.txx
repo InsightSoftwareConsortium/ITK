@@ -34,7 +34,7 @@ StatisticsImageFilter<TInputImage>
   if ( this->GetInput() )
     {
     InputImagePointer image =
-        const_cast< typename Superclass::InputImageType * >( this->GetInput() );
+      const_cast< typename Superclass::InputImageType * >( this->GetInput() );
     image->SetRequestedRegionToLargestPossibleRegion();
     }
 }
@@ -56,7 +56,7 @@ StatisticsImageFilter<TInputImage>
 {
   // Pass the input through as the output
   InputImagePointer image =
-      const_cast< TInputImage * >( this->GetInput() );
+    const_cast< TInputImage * >( this->GetInput() );
   this->GraftOutput( image );
 }
 
