@@ -298,7 +298,7 @@ ADD_TEST( MedianImageFilterTest ${FILTERING_EXAMPLES}
         1
 )
 
-ADD_TEST( ResampleImageFilterTest1 ${FILTERING_EXAMPLES}
+ADD_TEST( ResampleImageFilterTest1 ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ResampleImageFilterTest1.png
             ${TEMP}/ResampleImageFilterTest1.png
   ResampleImageFilterTest
@@ -307,7 +307,7 @@ ADD_TEST( ResampleImageFilterTest1 ${FILTERING_EXAMPLES}
         0
 )
 
-ADD_TEST( ResampleImageFilterTest2 ${FILTERING_EXAMPLES}
+ADD_TEST( ResampleImageFilterTest2 ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ResampleImageFilterTest2.png
             ${TEMP}/ResampleImageFilterTest2.png
   ResampleImageFilterTest
@@ -316,7 +316,7 @@ ADD_TEST( ResampleImageFilterTest2 ${FILTERING_EXAMPLES}
         1
 )
 
-ADD_TEST( ResampleImageFilterTest3 ${FILTERING_EXAMPLES}
+ADD_TEST( ResampleImageFilterTest3 ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ResampleImageFilterTest3.png
             ${TEMP}/ResampleImageFilterTest3.png
   ResampleImageFilterTest
@@ -325,7 +325,7 @@ ADD_TEST( ResampleImageFilterTest3 ${FILTERING_EXAMPLES}
         2
 )
 
-ADD_TEST( ResampleImageFilterTest4 ${FILTERING_EXAMPLES}
+ADD_TEST( ResampleImageFilterTest4 ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ResampleImageFilterTest4.png
             ${TEMP}/ResampleImageFilterTest4.png
   ResampleImageFilterTest
@@ -334,7 +334,7 @@ ADD_TEST( ResampleImageFilterTest4 ${FILTERING_EXAMPLES}
         3
 )
 
-ADD_TEST( ResampleImageFilter2Test1 ${FILTERING_EXAMPLES}
+ADD_TEST( ResampleImageFilter2Test1 ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ResampleImageFilter2Test1.png
             ${TEMP}/ResampleImageFilter2Test1.png
   ResampleImageFilter2Test
@@ -343,7 +343,7 @@ ADD_TEST( ResampleImageFilter2Test1 ${FILTERING_EXAMPLES}
         0
 )
 
-ADD_TEST( ResampleImageFilter2Test2 ${FILTERING_EXAMPLES}
+ADD_TEST( ResampleImageFilter2Test2 ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ResampleImageFilter2Test2.png
             ${TEMP}/ResampleImageFilter2Test2.png
   ResampleImageFilter2Test
@@ -352,7 +352,7 @@ ADD_TEST( ResampleImageFilter2Test2 ${FILTERING_EXAMPLES}
         1
 )
 
-ADD_TEST( ResampleImageFilter2Test3 ${FILTERING_EXAMPLES}
+ADD_TEST( ResampleImageFilter2Test3 ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ResampleImageFilter2Test3.png
             ${TEMP}/ResampleImageFilter2Test3.png
   ResampleImageFilter2Test
@@ -361,7 +361,7 @@ ADD_TEST( ResampleImageFilter2Test3 ${FILTERING_EXAMPLES}
         2
 )
 
-ADD_TEST( ResampleImageFilter2Test4 ${FILTERING_EXAMPLES}
+ADD_TEST( ResampleImageFilter2Test4 ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ResampleImageFilter2Test4.png
             ${TEMP}/ResampleImageFilter2Test4.png
   ResampleImageFilter2Test
@@ -370,7 +370,7 @@ ADD_TEST( ResampleImageFilter2Test4 ${FILTERING_EXAMPLES}
         3
 )
 
-ADD_TEST( ResampleImageFilter2Test5 ${FILTERING_EXAMPLES}
+ADD_TEST( ResampleImageFilter2Test5 ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ResampleImageFilter2Test5.png
             ${TEMP}/ResampleImageFilter2Test5.png
   ResampleImageFilter2Test
@@ -379,7 +379,7 @@ ADD_TEST( ResampleImageFilter2Test5 ${FILTERING_EXAMPLES}
         3
 )
 
-ADD_TEST( ResampleImageFilter3Test1 ${FILTERING_EXAMPLES}
+ADD_TEST( ResampleImageFilter3Test1 ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ResampleImageFilter3Test1.png
             ${TEMP}/ResampleImageFilter3Test1.png
   ResampleImageFilter3Test
@@ -388,7 +388,7 @@ ADD_TEST( ResampleImageFilter3Test1 ${FILTERING_EXAMPLES}
         0
 )
 
-ADD_TEST( ResampleImageFilter4Test ${FILTERING_EXAMPLES}
+ADD_TEST( ResampleImageFilter4Test ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ResampleImageFilter4Test.png
             ${TEMP}/ResampleImageFilter4Test.png
   ResampleImageFilter4Test
@@ -397,7 +397,7 @@ ADD_TEST( ResampleImageFilter4Test ${FILTERING_EXAMPLES}
         20
 )
 
-ADD_TEST( ResampleImageFilter5Test ${FILTERING_EXAMPLES}
+ADD_TEST( ResampleImageFilter5Test ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ResampleImageFilter5Test.png
             ${TEMP}/ResampleImageFilter5Test.png
   ResampleImageFilter5Test
