@@ -1,6 +1,5 @@
-
 // This is vxl/vnl/vnl_math.cxx
-#if defined(__BORLANDC__)
+#if defined(__BORLANDC__) 
 extern "C" {
 #include "math.h"
 }
@@ -109,7 +108,7 @@ bool vnl_math_isfinite(double x) { return finite(x); }
 bool vnl_math_isfinite(long double x) { return finite(x); }
 #endif
 
-#if defined(_MSC_VER) || defined(__BORLANDC__)
+#if defined(_MSC_VER) || defined(__BORLANDC__) || defined(__APPLE_CC__)
 inline bool isnan(double x)
 {
   return !(x == x);
