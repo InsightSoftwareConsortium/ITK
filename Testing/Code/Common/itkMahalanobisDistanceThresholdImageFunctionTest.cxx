@@ -68,8 +68,11 @@ int itkMahalanobisDistanceThresholdImageFunctionTest(int, char* [] )
   function->SetThreshold( threshold ); 
 
 
-  vnl_matrix<double> Covariance( Dimension, Dimension );
-  vnl_vector<double> Mean( Dimension );
+  typedef vnl_matrix<double> CovarianceType;
+  typedef vnl_vector<double> MeanType;
+
+  CovarianceType Covariance( Dimension, Dimension );
+  MeanType  Mean( Dimension );
 
   Mean[0] = 10.0;
   Mean[1] = 20.0;
@@ -93,7 +96,24 @@ int itkMahalanobisDistanceThresholdImageFunctionTest(int, char* [] )
 
   belongs = function->EvaluateAtIndex( index );
   std::cout << "function->EvaluateAtIndex( index ): " << belongs << std::endl;
+  if( !belongs )
+    {
+    std::cerr << "Error in EvaluateAtIndex() we were expecting true and got false" << std::endl;
+    return EXIT_FAILURE;
+    }
 
+  const double distance = function->EvaluateDistanceAtIndex( index );
+  std::cout << "function->EvaluateDistanceAtIndex( index ): " << distance << std::endl;
+
+  const double expectedDistance = 0.244949;
+  if( fabs(distance - expectedDistance) > 1e-5 )
+    {
+    std::cerr << "Error in distance computation in EvaluateDistanceAtIndex() !!" << std::endl;
+    std::cerr << "Expected distance value = " << expectedDistance << std::endl;
+    std::cerr << "Distance obtained value = " << distance << std::endl;
+    return EXIT_FAILURE;
+    }
+  
   // Test Evaluate
   FunctionType::PointType point;
   point[0] = 25;
@@ -103,6 +123,25 @@ int itkMahalanobisDistanceThresholdImageFunctionTest(int, char* [] )
   belongs2 = function->Evaluate(point);
   std::cout << "function->Evaluate(point): " << belongs2 << std::endl;
 
+  if( !belongs2 )
+    {
+    std::cerr << "Error in Evaluate() we were expecting true and got false" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+
+  const double distance2 = function->EvaluateDistance(point);
+  std::cout << "function->EvaluateDistance(point): " << distance2 << std::endl;
+
+  if( fabs(distance2 - expectedDistance) > 1e-5 )
+    {
+    std::cerr << "Error in distance computation in EvaluateDistance() !!" << std::endl;
+    std::cerr << "Expected distance value = " << expectedDistance << std::endl;
+    std::cerr << "Distance obtained value = " << distance2 << std::endl;
+    return EXIT_FAILURE;
+    }
+  
+
   // Test EvaluateAtContinuousIndex
   FunctionType::ContinuousIndexType cindex;
   cindex[0] = 25;
@@ -111,6 +150,13 @@ int itkMahalanobisDistanceThresholdImageFunctionTest(int, char* [] )
   FunctionType::OutputType belongs3;
   belongs3 = function->EvaluateAtContinuousIndex(cindex);
   std::cout << "function->EvaluateAtContinuousIndex(cindex): " << belongs3 << std::endl;
+
+  if( !belongs3 )
+    {
+    std::cerr << "Error in EvaluateAtContinuousIndex() we were expecting true and got false" << std::endl;
+    return EXIT_FAILURE;
+    }
+
 
   // Test GetConstReferenceMacro
   const double & getThreshold = function->GetThreshold();
