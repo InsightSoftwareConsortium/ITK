@@ -73,6 +73,9 @@ TARGET_LINK_LIBRARIES(LaplacianRecursiveGaussianImageFilter1 ITKCommon ITKBasicF
 ADD_EXECUTABLE(LaplacianRecursiveGaussianImageFilter2 LaplacianRecursiveGaussianImageFilter2.cxx )
 TARGET_LINK_LIBRARIES(LaplacianRecursiveGaussianImageFilter2 ITKCommon ITKBasicFilters ITKIO)
 
+ADD_EXECUTABLE(ScaleSpaceGenerator2D ScaleSpaceGenerator2D.cxx )
+TARGET_LINK_LIBRARIES(ScaleSpaceGenerator2D ITKCommon ITKBasicFilters ITKIO)
+
 ADD_EXECUTABLE(BinomialBlurImageFilter BinomialBlurImageFilter.cxx )
 TARGET_LINK_LIBRARIES(BinomialBlurImageFilter ITKCommon ITKBasicFilters ITKIO)
 
