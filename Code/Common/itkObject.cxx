@@ -126,8 +126,8 @@ InvokeEvent( const EventObject & event,
       i != m_Observers.end(); ++i)
     {
     const EventObject * e =  (*i)->m_Event;
-    if(  typeid( *e ) == typeid( AnyEvent ) || 
-         typeid( *e ) == typeid(   event  )    )
+    if( typeid( *e ) == (    typeid( event ) )  ||
+        typeid( *e ).before( typeid( event ) )  )
       {
       (*i)->m_Command->Execute(self, event);
       }
@@ -143,8 +143,8 @@ InvokeEvent( const EventObject & event,
       i != m_Observers.end(); ++i)
     {
     const EventObject * e =  (*i)->m_Event;
-    if( typeid( *e ) == typeid( AnyEvent ) || 
-        typeid( *e ) == typeid(   event  )     )
+    if( typeid( *e ) == (    typeid( event ) )  ||
+        typeid( *e ).before( typeid( event ) )  )
       {
       (*i)->m_Command->Execute(self, event);
       }
@@ -175,8 +175,8 @@ HasObserver(const EventObject & event) const
       i != m_Observers.end(); ++i)
     {
     const EventObject * e =  (*i)->m_Event;
-    if( typeid( *e ) == typeid( AnyEvent ) || 
-        typeid( *e ) == typeid(   event  )     )
+    if( typeid( *e ) == (    typeid( event ) )  ||
+        typeid( *e ).before( typeid( event ) )  )
       {
       return true;
       }
