@@ -11,6 +11,7 @@ SET(FEM_TESTS ${CXX_TEST_PATH}/itkFEMTests)
 SET(FEM_SRCS
 itkFEMElementTest.cxx
 itkFEMExceptionTest.cxx
+itkFEMGenerateMeshTest.cxx
 itkFEMLinearSystemWrapperItpackTest.cxx
 itkFEMLinearSystemWrapperVNLTest.cxx
 itkFEMLinearSystemWrapperDenseVNLTest.cxx
@@ -43,6 +44,7 @@ ADD_TEST(itkFEMLinearSystemWrapperVNLTest  ${FEM_TESTS} itkFEMLinearSystemWrappe
 ADD_TEST(itkFEMLinearSystemWrapperDenseVNLTest  ${FEM_TESTS} itkFEMLinearSystemWrapperDenseVNLTest)
 
 ADD_TEST(itkFEMExceptionTest ${FEM_TESTS} itkFEMExceptionTest)
+ADD_TEST(itkFEMGenerateMeshTest ${FEM_TESTS} itkFEMGenerateMeshTest)
 
 #ADD_TEST(itkFEMBar2DTest ${FEM_TESTS} itkFEMBar2DTest)
 
@@ -54,6 +56,8 @@ ADD_TEST(itkFEMExceptionTest ${FEM_TESTS} itkFEMExceptionTest)
 #ADD_EXECUTABLE(itkFEMExceptionTest itkFEMExceptionTest.cxx)
 #TARGET_LINK_LIBRARIES(itkFEMElementTestMenu ITKCommon ITKNumerics ITKFEM)
 #TARGET_LINK_LIBRARIES(itkFEMExceptionTest ITKCommon ITKFEM)
+#ADD_EXECUTABLE(itkFEMGenerateMeshTest itkFEMGenerateMeshTest.cxx)
+#TARGET_LINK_LIBRARIES(itkFEMGenerateMeshTest ITKCommon ITKNumerics ITKFEM)
 
 # To create the standard ITK test program, uncomment the line below
 ADD_EXECUTABLE(itkFEMTests itkFEMTests.cxx ${FEM_SRCS})
