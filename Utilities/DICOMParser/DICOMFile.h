@@ -101,17 +101,9 @@ class DICOMFile
   //
   // Convert the data to signed long.
   //
-  static long ReturnAsSignedLong(unsigned char* data, bool byteswap)
+  static long ReturnAsSignedLong(unsigned char* data, bool )
   {
     unsigned char* data2 = data;
-    /*
-    if (byteswap)
-      {
-      int data_len = 4;
-      data2 = new unsigned char[data_len];
-      swapShorts((ushort*)data,(ushort*)data2,4);
-      } 
-    */
     return atol((char*) data2);
   }
   
@@ -119,74 +111,36 @@ class DICOMFile
   //
   // Convert the data to unsigned long.
   //
-  static ulong ReturnAsUnsignedLong(unsigned char* data, bool byteswap)
+  static ulong ReturnAsUnsignedLong(unsigned char* data, bool )
   {
     unsigned char* data2 = data;
-    /*
-    if (byteswap)
-      {
-      int data_len = 4;
-      data2 = new unsigned char[data_len];
-      swapShorts((ushort*)data,(ushort*)data2,4);
-      }
-      */
     return atol((char*) data2);
   }
   
   //
   // Convert data to unsigned short.
   //
-  static ushort ReturnAsUnsignedShort(unsigned char* data, bool byteswap)
+  static ushort ReturnAsUnsignedShort(unsigned char* data, bool )
   {
     unsigned char* data2 = data;
-    /*
-    if (byteswap)
-      {
-      int data_len = 2;
-      data2 = new unsigned char[data_len];
-      swapShorts((ushort*)data,(ushort*)data2,2);
-      }
-      */
     return *((doublebyte*)data2);
   }
   
   //
   // Convert data to signed short.
   // 
-  static short int ReturnAsSignedShort(unsigned char* data, bool byteswap)
+  static short int ReturnAsSignedShort(unsigned char* data, bool )
   {
     unsigned char* data2 = data;
-    /*
-    if (byteswap)
-      {
-      int data_len = 2;
-      data2 = new unsigned char[data_len];
-      swapShorts((ushort*)data,(ushort*)data,2);
-      }
-      */
     return *((short int*)data2);
   }
 
   //
   // Convert data to int.
   //
-  static int ReturnAsInteger(unsigned char* data, bool byteswap)
+  static int ReturnAsInteger(unsigned char* data, bool)
   {
     unsigned char* data2 = data;
-    /*
-    if (byteswap)
-      {
-      int data_len = 2;
-      data2 = new unsigned char[data_len];
-      swapShorts((ushort*) data, (ushort*) data2, 2);
-      }
-    */
-    //
-    // istrstream destroys the data during formatted input.
-    //
-    // int len = strlen((char*) data);
-    // char* data2 = new char[len];
-    // strncpy((char*) data2, (char*) data, len);
 
     std::istrstream in_string((char*) data2);
     int val = 0;
