@@ -64,7 +64,7 @@ public:
     {m_Process = o;}
   void ShowProgress()
     {std::cout << "Progress " << m_Process->GetProgress() << std::endl;}
-  TClassifier::Pointer m_Process;
+  typename TClassifier::Pointer m_Process;
 };
 
 
