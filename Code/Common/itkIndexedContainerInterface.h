@@ -145,20 +145,33 @@ public:
   virtual void DeleteIndex(ElementIdentifier)=0;
   
   /**
+   * Support iteration operations through a container.
+   * Dereferencing the iterator must provide an object with the following
+   * methods:
+   *   ElementIdentifier Index(void) const;
+   *   Element&          Value(void);
+   */
+  class Iterator {}; 
+
+  /**
    * Support const iteration operations through a container.
-   *
-   * Dereferencing the iterator must produce a pair whose first member is the
-   * element identifier, and whose second is the element itself.
-   * This is similar to STL map iterators.
-   *
-   * For front-ends to STL containers that already have a conforming iterator
-   * type (like the STL map), the following typedef can be used instead
-   * of creating an iterator by hand:
-   *
-   * typedef UnderlyingContainer::const_iterator  ConstIterator; 
+   * Dereferencing the iterator must provide an object with the following
+   * methods:
+   *   ElementIdentifier Index(void) const;
+   *   const Element&    Value(void) const;
    */
   class ConstIterator {}; 
   
+  /**
+   * Get a begin iterator for the container.
+   */  
+  virtual Iterator Begin()=0;
+  
+  /**
+   * Get an end iterator for the container.
+   */
+  virtual Iterator End()=0;
+
   /**
    * Get a begin const iterator for the container.
    */  

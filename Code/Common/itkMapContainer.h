@@ -42,7 +42,7 @@ namespace itk
 template <typename TElementIdentifier, typename TElement>
 class MapContainer:
   public Object,
-  public std::map< TElementIdentifier , TElement >
+  private std::map< TElementIdentifier , TElement >
 {
 public:
   /**
@@ -114,13 +114,42 @@ public:
   itkNewMacro(Self);
   
   /**
-   * The const iterator type for the map.
-   */
-  typedef Map::const_iterator  ConstIterator;
-  /**
    * The non-const iterator type for the map.
    */
-  typedef Map::iterator  Iterator;
+  class Iterator: public Map::iterator
+  {
+  public:
+    Iterator(const Map::iterator& i): Map::iterator(i) {}
+    Iterator& operator* ()    { return *this; }
+    Iterator* operator-> ()   { return this; }
+    /**
+     * Get the index into the MapContainer associated with this iterator.
+     */
+    ElementIdentifier Index(void) const { return (*this)->first; }
+    /**
+     * Get the value at this iterator's location in the MapContainer.
+     */
+    Element& Value(void) { return (*this)->second; }
+  };
+  
+  /**
+   * The const iterator type for the map.
+   */
+  class ConstIterator: public Map::const_iterator
+  {
+  public:
+    ConstIterator(const Map::const_iterator& ci): Map::const_iterator(ci) {}
+    ConstIterator& operator* ()    { return *this; }
+    ConstIterator* operator-> ()   { return this; }
+    /**
+     * Get the index into the MapContainer associated with this iterator.
+     */
+    ElementIdentifier Index(void) const { return (*this)->first; }
+    /**
+     * Get the value at this iterator's location in the MapContainer.
+     */
+    const Element& Value(void) const { return (*this)->second; }
+  };
   
   /**
    * Declare the public interface routines.

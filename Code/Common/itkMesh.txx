@@ -26,13 +26,13 @@ Mesh<TPixelType,TMeshType>
 {
   Object::PrintSelf(os, indent);
   os << indent << "Number Of Points: " 
-     << ((m_PointsContainer.GetPointer()) ?  m_PointsContainer->size() : 0) << std::endl;
+     << ((m_PointsContainer.GetPointer()) ?  m_PointsContainer->Size() : 0) << std::endl;
     os << indent << "Number Of Cell Links: " 
-       << ((m_CellLinksContainer) ?  m_CellLinksContainer->size() : 0) << std::endl;
+       << ((m_CellLinksContainer) ?  m_CellLinksContainer->Size() : 0) << std::endl;
     os << indent << "Number Of Cells: " 
-       << ((m_CellsContainer) ?  m_CellsContainer->size() : 0) << std::endl;
+       << ((m_CellsContainer) ?  m_CellsContainer->Size() : 0) << std::endl;
     os << indent << "Size of Cell Data Container: " 
-       << ((m_CellDataContainer) ?  m_CellDataContainer->size() : 0) << std::endl;
+       << ((m_CellDataContainer) ?  m_CellDataContainer->Size() : 0) << std::endl;
     os << indent << "Size of boundary container vector: " << m_BoundariesContainers.size() << std::endl;
     os << indent << "Size of boundaries data container vector: " 
        << m_BoundaryDataContainers.size() << std::endl;
@@ -755,7 +755,7 @@ unsigned long
 Mesh<TPixelType,TMeshType>
 ::GetNumberOfPoints(void)
 {  
-  return m_PointsContainer->size();
+  return m_PointsContainer->Size();
 }
 
 
@@ -767,7 +767,7 @@ unsigned long
 Mesh<TPixelType,TMeshType>
 ::GetNumberOfCells(void)
 {  
-  return m_CellsContainer->size();;
+  return m_CellsContainer->Size();;
 }
 
 
@@ -1085,13 +1085,13 @@ Mesh<TPixelType,TMeshType>
   for(CellsContainerIterator i = m_CellsContainer->Begin();
       i != m_CellsContainer->End(); ++i)
     {
-    if((*i).second.GetPointer())
+    if(i->Value().GetPointer())
       {
-      (*i).second->Accept((*i).first, mv);
+      i->Value()->Accept(i->Index(), mv);
       }
     else
       {
-      itkDebugMacro("Null cell at " << (*i).first);
+      itkDebugMacro("Null cell at " << i->Index());
       }
     }
 }
@@ -1132,8 +1132,8 @@ Mesh<TPixelType,TMeshType>
   for(CellsContainerIterator cellItr = m_CellsContainer->Begin() ;
       cellItr != m_CellsContainer->End() ; ++cellItr)
     {
-    CellIdentifier cellId = (*cellItr).first;
-    Cell::Pointer cell    = (*cellItr).second;
+    CellIdentifier cellId = cellItr->Index();
+    Cell::Pointer cell    = cellItr->Value();
     
     /**
      * For each point, make sure the cell links container has its index,

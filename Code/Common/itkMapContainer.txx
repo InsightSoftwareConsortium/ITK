@@ -165,7 +165,7 @@ MapContainer< TElementIdentifier , TElement >::ConstIterator
 MapContainer< TElementIdentifier , TElement >
 ::Begin(void) const
 {
-  return this->Map::begin();
+  return ConstIterator(this->Map::begin());
 }
 
 
@@ -177,7 +177,7 @@ MapContainer< TElementIdentifier , TElement >::ConstIterator
 MapContainer< TElementIdentifier , TElement >
 ::End(void) const
 {
-  return this->Map::end();
+  return ConstIterator(this->Map::end());
 }
 
 
@@ -189,7 +189,7 @@ MapContainer< TElementIdentifier , TElement >::Iterator
 MapContainer< TElementIdentifier , TElement >
 ::Begin(void) 
 {
-  return this->Map::begin();
+  return Iterator(this->Map::begin());
 }
 
 
@@ -201,7 +201,7 @@ MapContainer< TElementIdentifier , TElement >::Iterator
 MapContainer< TElementIdentifier , TElement >
 ::End(void) 
 {
-  return this->Map::end();
+  return Iterator(this->Map::end());
 }
 
 

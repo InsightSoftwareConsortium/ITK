@@ -209,7 +209,7 @@ VectorContainer< TElementIdentifier , TElement >
 
 
 /**
- * Get a begin const iterator for the vector.
+ * Get a begin iterator for the vector.
  */
 template <typename TElementIdentifier, typename TElement>
 VectorContainer< TElementIdentifier , TElement >::Iterator
@@ -221,7 +221,7 @@ VectorContainer< TElementIdentifier , TElement >
 
 
 /**
- * Get an end const iterator for the vector.
+ * Get an end iterator for the vector.
  */
 template <typename TElementIdentifier, typename TElement>
 VectorContainer< TElementIdentifier , TElement >::Iterator

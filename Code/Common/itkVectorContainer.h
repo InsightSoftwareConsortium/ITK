@@ -46,7 +46,7 @@ template <
   >
 class VectorContainer: 
   public Object,
-  public std::vector<TElement>
+  private std::vector<TElement>
 {
 public:
   /**
@@ -70,6 +70,7 @@ private:
    * Quick access to the STL vector type that was inherited.
    */
   typedef std::vector<Element>  Vector;
+  typedef Vector::size_type     size_type;  
   
 protected:
   /**
@@ -115,88 +116,87 @@ public:
    */
   itkNewMacro(Self);
   
-  /**
-   * The type created by the dereference of a ConstIterator.
-   */
-  typedef std::pair< const ElementIdentifier , Element >  ConstValueType;
-
-  /**
-   * The type created by the dereference of a Iterator.
-   */
-  typedef std::pair< ElementIdentifier , Element >  ValueType;
+  class ConstIterator;
   
   /**
-   * A const iterator simulates the STL map container style iterator
-   * to make it look like the index is stored in the container with
-   * the element in a pair. 
-   */
-  class ConstIterator
-  {
-  public:
-    /**
-     * Standard "Self" typedef.
-     */
-    typedef ConstIterator Self;
-
-    ConstIterator(ElementIdentifier p, const Vector::const_iterator& r):
-      iter(r), pos(p) {}
-    ConstIterator(const Self& r): iter(r.iter), pos(r.pos) {}
-    ConstIterator& operator=(const Self& r) { iter = r.iter; }
-    const ConstValueType operator* () const { return ConstValueType(pos, *iter); }
-    ConstIterator& operator++()    { ++iter; ++pos; return *this; }
-    ConstIterator  operator++(int) { Self tmp = *this; ++iter; ++pos; return tmp; }
-    ConstIterator& operator--()    { --iter; --pos; return *this; }
-    ConstIterator  operator--(int) { Self tmp = *this; --iter; --pos; return tmp; }
-    bool operator==(const Self& r) const { return (iter == r.iter); }
-    bool operator!=(const Self& r) const { return (iter != r.iter); }
-    
-  private:
-    /**
-     * The real STL vector iterator.
-     */
-    Vector::const_iterator iter;
-    
-    /**
-     * The simulated other-half of the ValueType pair.
-     */
-    ElementIdentifier pos;
-  };
-  /**
-   * A non const iterator simulates simulates the STL map container style
-   * iterator to make it look like the index is stored in the container
-   * with the element in a pair.
+   * Simulate STL-map style iteration where dereferencing the iterator
+   * gives access to both the index and the value.
    */
   class Iterator
   {
   public:
-    /**
-     * Standard "Self" typedef.
-     */
-    typedef Iterator Self;
+    Iterator() {}
+    Iterator(size_type d, const Vector::iterator& i): m_Pos(d), m_Iter(i) {}
+    
+    Iterator& operator* ()    { return *this; }
+    Iterator* operator-> ()   { return this; }
+    Iterator& operator++ ()   { ++m_Pos; ++m_Iter; return *this; }
+    Iterator operator++ (int) { Iterator temp(*this); ++m_Pos; ++m_Iter; return temp; }
+    Iterator& operator-- ()   { --m_Pos; --m_Iter; return *this; }
+    Iterator operator-- (int) { Iterator temp(*this); --m_Pos; --m_Iter; return temp; }
 
-    Iterator(ElementIdentifier p, const Vector::iterator& r):
-      iter(r), pos(p) {}
-    Iterator(const Self& r): iter(r.iter), pos(r.pos) {}
-    Iterator& operator=(const Self& r) { iter = r.iter; }
-    ValueType operator* ()  { return ValueType(pos, *iter); }
-    Iterator& operator++()    { ++iter; ++pos; return *this; }
-    Iterator  operator++(int) { Self tmp = *this; ++iter; ++pos; return tmp; }
-    Iterator& operator--()    { --iter; --pos; return *this; }
-    Iterator  operator--(int) { Self tmp = *this; --iter; --pos; return tmp; }
-    bool operator==(const Self& r)  { return (iter == r.iter); }
-    bool operator!=(const Self& r)  { return (iter != r.iter); }
+    bool operator == (const Iterator& r) const { return m_Iter == r.m_Iter; }
+    bool operator != (const Iterator& r) const { return m_Iter != r.m_Iter; }
+    bool operator == (const ConstIterator& r) const { return m_Iter == r.m_Iter; }
+    bool operator != (const ConstIterator& r) const { return m_Iter != r.m_Iter; }
+    
+    /**
+     * Get the index into the VectorContainer associated with this iterator.
+     */
+    ElementIdentifier Index(void) const { return m_Pos; }
+    
+    /**
+     * Get the value at this iterator's location in the VectorContainer.
+     */
+    Element& Value(void) { return *m_Iter; }
     
   private:
-    /**
-     * The real STL vector iterator.
-     */
-    Vector::iterator iter;
+    size_type m_Pos;
+    Vector::iterator m_Iter;
+    friend class ConstIterator;
+  };
+
+  
+  /**
+   * Simulate STL-map style const iteration where dereferencing the iterator
+   * gives read access to both the index and the value.
+   */
+  class ConstIterator
+  {
+  public:
+    ConstIterator() {}
+    ConstIterator(size_type d, const Vector::const_iterator& i): m_Pos(d), m_Iter(i) {}
+    ConstIterator(const Iterator& r) { m_Pos = r.m_Pos; m_Iter = r.m_Iter; }
+    
+    ConstIterator& operator* ()    { return *this; }
+    ConstIterator* operator-> ()   { return this; }
+    ConstIterator& operator++ ()   { ++m_Pos; ++m_Iter; return *this; }
+    ConstIterator operator++ (int) { ConstIterator temp(*this); ++m_Pos; ++m_Iter; return temp; }
+    ConstIterator& operator-- ()   { --m_Pos; --m_Iter; return *this; }
+    ConstIterator operator-- (int) { ConstIterator temp(*this); --m_Pos; --m_Iter; return temp; }
+
+    Iterator& operator = (Iterator& r) { m_Pos = r.m_Pos; m_Iter = r.m_Iter; return r; }
+    
+    bool operator == (const Iterator& r) const { return m_Iter == r.m_Iter; }
+    bool operator != (const Iterator& r) const { return m_Iter != r.m_Iter; }
+    bool operator == (const ConstIterator& r) const { return m_Iter == r.m_Iter; }
+    bool operator != (const ConstIterator& r) const { return m_Iter != r.m_Iter; }
     
     /**
-     * The simulated other-half of the ValueType pair.
+     * Get the index into the VectorContainer associated with this iterator.
      */
-    ElementIdentifier pos;
-  };
+    ElementIdentifier Index(void) const { return m_Pos; }
+    
+    /**
+     * Get the value at this iterator's location in the VectorContainer.
+     */
+    const Element& Value(void) const { return *m_Iter; }
+    
+  private:
+    size_type m_Pos;
+    Vector::const_iterator m_Iter;
+    friend class Iterator;
+  };  
   
   /**
    * Declare the public interface routines.
