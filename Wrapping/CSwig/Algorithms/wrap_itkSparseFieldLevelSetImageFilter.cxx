@@ -16,7 +16,6 @@
 =========================================================================*/
 #include "itkImage.h"
 #include "itkSparseFieldLevelSetImageFilter.h"
-#include "itkLevelSetFunction.h"
 
 #ifdef CABLE_CONFIGURATION
 #include "itkCSwigMacros.h"
@@ -27,11 +26,6 @@ namespace _cable_
   const char* const group = ITK_WRAP_GROUP(itkSparseFieldLevelSetImageFilter);
   namespace wrappers
   {
-    
-    ITK_WRAP_OBJECT1(LevelSetFunction,image::F2,itkLevelSetFunctionF2);
-    ITK_WRAP_OBJECT1(LevelSetFunction,image::F3,itkLevelSetFunctionF3);
-
-
     ITK_WRAP_OBJECT2(SparseFieldLevelSetImageFilter,image::F2,image::F2,
                      itkSparseFieldLevelSetImageFilterF2F2);
     ITK_WRAP_OBJECT2(SparseFieldLevelSetImageFilter,image::F3,image::F3,
