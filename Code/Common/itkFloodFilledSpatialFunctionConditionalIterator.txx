@@ -75,7 +75,7 @@ FloodFilledSpatialFunctionConditionalIterator<TImage, TFunction>
   tempPtr->Allocate();
 
   m_IsAtEnd = false;
-};
+}
 
 template<class TImage, class TFunction>
 void

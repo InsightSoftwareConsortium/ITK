@@ -356,7 +356,7 @@ public:
     const WeightContainerType & weights );
 };
   
-};  // end namespace itk
+}  // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkPoint.txx"
