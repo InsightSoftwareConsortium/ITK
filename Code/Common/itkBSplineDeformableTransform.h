@@ -258,7 +258,7 @@ public:
    * Parameter indices for the i-th dimension can be obtained by adding
    * ( i * this->GetNumberOfParametersPerDimension() ) to the indices array.
    */
-  void TransformPoint( const InputPointType & inputPoint,
+  virtual void TransformPoint( const InputPointType & inputPoint,
                        OutputPointType & outputPoint,
                        WeightsType & weights,
                        ParameterIndexArrayType & indices, 
@@ -308,7 +308,7 @@ protected:
 
 
   BSplineDeformableTransform();
-  ~BSplineDeformableTransform();
+  virtual ~BSplineDeformableTransform();
 
   /** Allow subclasses to access and manipulate the weights function. */
   itkSetObjectMacro( WeightsFunction, WeightsFunctionType );
