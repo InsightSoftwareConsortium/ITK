@@ -17,6 +17,8 @@ itkVTKImageIOFactory.cxx
 itkVTKImageIO.cxx
 itkDicomImageIOFactory.cxx
 itkDicomImageIO.cxx
+itkGiplImageIOFactory.cxx
+itkGiplImageIO.cxx
 )
 
 IF(GLUT_FOUND)
