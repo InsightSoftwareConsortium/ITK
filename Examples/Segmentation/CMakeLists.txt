@@ -3,6 +3,7 @@
 #
 
 PROJECT(ImageSegmentation)
+INCLUDE_REGULAR_EXPRESSION("^.*$")
 
 ADD_EXECUTABLE(ConfidenceConnected ConfidenceConnected.cxx )
 TARGET_LINK_LIBRARIES(ConfidenceConnected ITKNumerics ITKIO)
