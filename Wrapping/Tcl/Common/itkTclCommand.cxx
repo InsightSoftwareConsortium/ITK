@@ -78,14 +78,14 @@ const char* TclCommand::GetCommandString() const
 
 
 ///! Execute the callback to the Tcl interpreter.
-void TclCommand::Execute(Object*, unsigned long)
+void TclCommand::Execute(Object*, const EventObject &)
 {
   this->TclExecute();
 }
 
 
 ///! Execute the callback to the Tcl interpreter with a const LightObject
-void TclCommand::Execute(const Object*, unsigned long)
+void TclCommand::Execute(const Object*, const EventObject & )
 {
   this->TclExecute();
 }
