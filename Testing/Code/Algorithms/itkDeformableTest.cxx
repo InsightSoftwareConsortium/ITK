@@ -190,7 +190,7 @@ int itkDeformableTest(int, char**)
   typedef itk::GradientRecursiveGaussianImageFilter<
                                             myImageType,
                                             myGradientImageType
-                                                  >  myFilterType;
+                                            >  myFilterType;
             
 
   // Create a  Filter                                

@@ -382,6 +382,8 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     ++points;
     ++displacements;
   } 
+
+  s[0] = 0;
 }
 
 /* Copy the content of m_Location into the Output. */
@@ -538,7 +540,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 
     mag = sqrt (vec_for[0]*vec_for[0] + vec_for[1]*vec_for[1]+ vec_for[2]*vec_for[2]);
     if (mag > 0.5) 
-      for (int i=0; i<3; i++) vec_for[i] = vec_for[i]/mag;
+      for (int i=0; i<3; i++) vec_for[i] = (0.5 * vec_for[i])/mag;
     forces.Value() = vec_for;
 
     ++forces;
@@ -546,6 +548,8 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     ++locations;
     ++normals;
   }
+
+  mag = 0.0;
 }
 
 /* Compute normals. */
