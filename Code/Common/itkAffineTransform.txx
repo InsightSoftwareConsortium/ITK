@@ -33,6 +33,7 @@ AffineTransform():Superclass(SpaceDimension,ParametersDimension)
   m_Matrix.SetIdentity();
   m_Offset.Fill( 0 );
   m_Singular = false;
+  m_InverseMatrix.SetIdentity();
 }
 
 
