@@ -19,7 +19,7 @@ template<class TPixel, unsigned int VDimension, class TAllocator,
     class TDerefAllocator>
 void
 NeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator>
-::PrintSelf(ostream &os, Indent indent) const
+::PrintSelf(std::ostream &os, Indent indent) const
 {
   int i;
   os << indent;
@@ -110,10 +110,10 @@ void NeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator>
   Iterator Nit;
   TPixel * Iit;
   unsigned long loop[VDimension];
-  const Size<VDimension> size = this->GetSize();
+  const SizeType size = this->GetSize();
   const unsigned long *OffsetTable = m_Image->GetOffsetTable();
   memset(loop, 0, sizeof(long) * VDimension);
-  const Size<VDimension> radius = this->GetRadius();
+  const SizeType radius = this->GetRadius();
   
   // Find first "upper-left-corner"  pixel address of neighborhood
   Iit = m_Buffer + m_Image->ComputeOffset(offset);
