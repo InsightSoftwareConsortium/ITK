@@ -59,10 +59,9 @@ public:
            
   enum { SpaceDimension = 4 }; // number of parameters 
   
-  BoundaryProfileCostFunction()
-  {
-    
-  }
+  BoundaryProfileCostFunction(){}
+
+  ~BoundaryProfileCostFunction(){}
             
   void Initialize(unsigned int setRangeDimension)
   {
@@ -77,7 +76,7 @@ public:
   {
     int temp = 0;
     double erfValue = 0;
-    double slope;
+    double slope = 0;
  
     double y[300] = 
     {
@@ -245,6 +244,7 @@ void
 BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 ::SetInput1(const SourceImageType * image1 ) 
 {
+
   // Process object is not const-correct so the const casting is required.
   SetNthInput(1,  const_cast<SourceImageType *>( image1 ) );
 }
@@ -432,6 +432,7 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
           BloxBoundaryProfileItem<NDimensions>* boundaryProfile = new BloxBoundaryProfileItem<NDimensions>;
 
           // Set boundary parameters
+          
           boundaryProfile->SetProfileLength(static_cast<unsigned int>(m_UniqueAxis));
           boundaryProfile->SetLowerIntensity((double)m_FinalParameters[0]);
           boundaryProfile->SetUpperIntensity((double)m_FinalParameters[1]);
@@ -561,14 +562,14 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
   
   try 
     {
-  Optimizer->SetCostFunction( costFunction.GetPointer() );
+    Optimizer->SetCostFunction( costFunction.GetPointer() );
     }
   catch( ExceptionObject & e )
     {
     std::cout << "Exception thrown ! " << std::endl;
     std::cout << "An error ocurred during Optimization" << std::endl;
     std::cout << e << std::endl;
-  return EXIT_FAILURE;
+    return EXIT_FAILURE;
     }
   
   const double F_Tolerance      = 1e-15;  // Function value tolerance
@@ -597,7 +598,7 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
   OptimizerType::ParametersType currentValue(BoundaryProfileCostFunction::SpaceDimension);
 
   currentValue = initialValue;
-
+  
   Optimizer->SetInitialPosition( currentValue );
 
   try 
@@ -610,7 +611,7 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
     std::cout << "An error ocurred during Optimization" << std::endl;
     std::cout << "Location    = " << e.GetLocation()    << std::endl;
     std::cout << "Description = " << e.GetDescription() << std::endl;
-  return EXIT_FAILURE;
+    return EXIT_FAILURE;
     }
 
   OptimizerType::ParametersType finalPosition;
@@ -621,6 +622,8 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
   m_FinalParameters[2] = finalPosition[2];
   m_FinalParameters[3] = finalPosition[3];
 
+  delete [] vnlOptimizer;
+
   return EXIT_SUCCESS;
 
 }
@@ -630,12 +633,7 @@ void
 BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 ::NormalizeSplatAccumulator()
 {  
-   m_NormalizedAccumulator = new double[m_NumberOfBins];
-
-  for(unsigned int i = 0; i < m_NumberOfBins; ++i)
-    {
-    m_NormalizedAccumulator[i] = 0;
-    }
+  m_NormalizedAccumulator = new double[m_NumberOfBins];
 
   for(unsigned int i = 0; i < m_NumberOfBins; ++i)
     {      

@@ -136,7 +136,13 @@ public:
 
 protected:
   BloxBoundaryPointImageToBloxBoundaryProfileImageFilter();
-  virtual ~BloxBoundaryPointImageToBloxBoundaryProfileImageFilter() {};
+  ~BloxBoundaryPointImageToBloxBoundaryProfileImageFilter()
+  {
+    delete [] m_Accumulator;
+    delete [] m_Normalizer;
+    delete [] m_NormalizedAccumulator;
+    delete [] m_FinalParameters;
+  };
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Method for forming the BloxBoundaryProfileImage */
