@@ -39,9 +39,24 @@ IF(UNIX)
   )
 ENDIF(UNIX)
 
-ADD_TEST(itkFEMElementTestMenu itkFEMTests itkFEMElementTestMenu)
-ADD_TEST(itkFEMElementTest itkFEMTests itkFEMElementTest)
-ADD_TEST(itkFEMBar2DTest itkFEMTests itkFEMBar2DTest)
+#ADD_TEST(itkFEMElementTestMenu itkFEMTests itkFEMElementTestMenu)
+
+ADD_TEST(C0HexahedralElement-NodalLoads-MFCs itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/hexa2.fem)
+ADD_TEST(C0HexahedralElement-NoLoads itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/hexa3.fem)
+ADD_TEST(C0HexahedralElement-GravityLoad-BCs itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/hexa4-grav.fem)
+ADD_TEST(C0QuadElement-NodalLoads-MFCs itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/quad2-small.fem)
+ADD_TEST(C0QuadElement-NoLoads itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/quad4.fem)
+ADD_TEST(C0QuadElement-EdgeLoad-MFCs itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/quad_1_edge.fem)
+ADD_TEST(C0TetrahedralElement-NodalLoads-MFCs itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/tetra2.fem)
+ADD_TEST(C0TetrahedralElement-NoLoads itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/tetra3.fem)
+ADD_TEST(C0QuadElementTrapezoidalGeometry-NoLoads itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/trapezoid.fem)
+ADD_TEST(C0TriangularElement-NodalLoads-MFCs itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/tri2.fem)
+ADD_TEST(C0TriangularElement-NoLoads itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/tri3.fem)
+ADD_TEST(Truss itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/truss.fem)
+ADD_TEST(Truss-NoLoads itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/truss_noload.fem)
+
+
+#ADD_TEST(itkFEMBar2DTest itkFEMTests itkFEMBar2DTest)
 
 # NOTE: the two commands below are mutually exclusive!  Do not
 # uncomment both at the same time!
