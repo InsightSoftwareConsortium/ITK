@@ -49,10 +49,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
-template <class TInputImage, class TOutputImage>
-class VoronoiSegmentationImageFilter:
-public ImageToImageFilter<TInputImage,TOutputImage>
-{
 /** \class VoronoiSegmentationImageFilter
  * 
  * Perform the segmentation of 2D images (single channel) by Voronoi Diagram.
@@ -70,6 +66,11 @@ public ImageToImageFilter<TInputImage,TOutputImage>
  *
  * \ingroup HybridSegmentation 
  */
+
+template <class TInputImage, class TOutputImage>
+class VoronoiSegmentationImageFilter:
+public ImageToImageFilter<TInputImage,TOutputImage>
+{
 public:
   /**
    * Standard "Self" typedef.
