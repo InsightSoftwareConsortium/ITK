@@ -24,6 +24,7 @@ template< class TSample >
 KdTreeGenerator< TSample >
 ::KdTreeGenerator()
 {
+  m_SourceSample = 0 ;
   m_Subsample = SubsampleType::New() ;
 }
 
@@ -34,7 +35,16 @@ KdTreeGenerator< TSample >
 {
   Superclass::PrintSelf(os,indent);
   
-  os << indent << "Source Sample: " << m_SourceSample << std::endl ;
+  os << indent << "Source Sample: " ;
+  if ( m_SourceSample != 0 )
+    {
+    os << m_SourceSample << std::endl ;
+    }
+  else
+    {
+    os << "not set." << std::endl ;
+    }
+
   os << indent << "Bucket Size: " << m_BucketSize << std::endl ;
 }
 
