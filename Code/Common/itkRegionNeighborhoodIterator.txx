@@ -63,7 +63,7 @@ void RegionNeighborhoodIterator<TPixel, VDimension, TAllocator,
 ::SetBound(const SizeType& size)
 {
   const unsigned long *offset     = m_Image->GetOffsetTable();
-  Size<VDimension> bufferSize = m_Image->GetBufferedRegion().GetSize();
+  SizeType bufferSize = m_Image->GetBufferedRegion().GetSize();
 
   // Set the bounds and the wrapping offsets
   for (unsigned int i=0; i<VDimension; ++i)
