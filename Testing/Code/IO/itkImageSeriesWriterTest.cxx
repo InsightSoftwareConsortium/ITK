@@ -90,6 +90,8 @@ int itkImageSeriesWriterTest(int ac, char* av[])
   sprintf (format, "%s/series.%%d.%s", av[2], av[3]); 
   writer->SetSeriesFormat(format);
 
+  writer->SetMetaDataDictionaryArray( reader->GetMetaDataDictionaryArray() );
+
   try
     {
     writer->Update();

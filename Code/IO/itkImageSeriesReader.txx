@@ -23,14 +23,31 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkExceptionObject.h"
-#include "itkMetaDataDictionary.h"
-#include "itkMetaDataObject.h"
 #include "itkArray.h"
 #include "vnl/vnl_math.h"
 #include "itkProgressReporter.h"
+#include "itkMetaDataObject.h"
 
 namespace itk
 {
+
+// Destructor
+template <class TOutputImage>
+ImageSeriesReader<TOutputImage>
+::~ImageSeriesReader()
+{
+  // Clear the eventual previous content of the MetaDictionary array
+  if( m_MetaDataDictionaryArray.size() )
+    {
+    for(unsigned int i=0; i<m_MetaDataDictionaryArray.size(); i++)
+      {
+      // each element is a raw pointer, delete them.
+      delete m_MetaDataDictionaryArray[i];
+      }
+    }
+  m_MetaDataDictionaryArray.clear();
+}
+
 
 template <class TOutputImage>
 void ImageSeriesReader<TOutputImage>
@@ -49,6 +66,7 @@ void ImageSeriesReader<TOutputImage>
     os << indent << "ImageIO: (null)" << "\n";
     }
 }
+
 
 template <class TOutputImage>
 void ImageSeriesReader<TOutputImage>
@@ -213,6 +231,18 @@ void ImageSeriesReader<TOutputImage>
 
   ImageRegionIterator<TOutputImage> ot (output, requestedRegion );
 
+
+  // Clear the eventual previous content of the MetaDictionary array
+  if( m_MetaDataDictionaryArray.size() )
+    {
+    for(unsigned int i=0; i<m_MetaDataDictionaryArray.size(); i++)
+      {
+      // each element is a raw pointer, delete them.
+      delete m_MetaDataDictionaryArray[i];
+      }
+    }
+  m_MetaDataDictionaryArray.clear();
+
   int numberOfFiles = static_cast<int>(m_FileNames.size());
   for (int i = (m_ReverseOrder ? numberOfFiles - 1 : 0);
        i != (m_ReverseOrder ? -1 : numberOfFiles);
@@ -226,6 +256,11 @@ void ImageSeriesReader<TOutputImage>
       reader->SetImageIO(m_ImageIO);
       }
     reader->UpdateLargestPossibleRegion();
+
+    // Deep copy the MetaDataDictionary into the array
+    DictionaryRawPointer  newDictionary = new DictionaryType;
+    *newDictionary = m_ImageIO->GetMetaDataDictionary();
+    m_MetaDataDictionaryArray.push_back( newDictionary );
 
     if (reader->GetOutput()->GetRequestedRegion().GetSize() != validSize)
       {
@@ -250,6 +285,20 @@ void ImageSeriesReader<TOutputImage>
     progress.CompletedPixel();
     }
 }
+
+
+template <class TOutputImage>
+typename 
+ImageSeriesReader<TOutputImage>::DictionaryArrayRawPointer 
+ImageSeriesReader<TOutputImage>
+::GetMetaDataDictionaryArray() const
+{
+  return & m_MetaDataDictionaryArray;
+}
+
+
+
+
 
 } //namespace ITK
 

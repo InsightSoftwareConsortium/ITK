@@ -98,7 +98,13 @@ public:
   typedef typename OutputImageType::RegionType OutputImageRegionType; 
   typedef ImageFileWriter<TOutputImage> WriterType;
   typedef std::vector< std::string >   FileNamesContainer;
-  
+
+  /** The pixel type of the output image. */
+  typedef MetaDataDictionary                   DictionaryType;
+  typedef MetaDataDictionary *                 DictionaryRawPointer;
+  typedef std::vector< DictionaryRawPointer >  DictionaryArrayType;
+  typedef const DictionaryArrayType *          DictionaryArrayRawPointer;
+ 
   /** Set/Get the image input of this writer.  */
   void SetInput(const InputImageType *input);
   const InputImageType *GetInput(void);
@@ -176,6 +182,10 @@ public:
   }
 
 
+  /** Set the array of MetaDataDictionaries this is an optinal entry,
+   *  mostly intended to be used when writing DICOM slices.  */
+  itkSetMacro( MetaDataDictionaryArray, DictionaryArrayRawPointer);
+      
 protected:
   ImageSeriesWriter();
   ~ImageSeriesWriter();
@@ -206,6 +216,9 @@ private:
   std::string     m_SeriesFormat;
   unsigned long   m_StartIndex;
   unsigned long   m_IncrementIndex;
+
+  /** Array of MetaDataDictionary used for passing information to each slice */
+  DictionaryArrayRawPointer  m_MetaDataDictionaryArray;
 };
 
   

@@ -24,6 +24,7 @@
 #include "itkImageRegion.h"
 #include <vector>
 #include <string>
+#include "itkMetaDataDictionary.h"
 
 namespace itk
 {
@@ -65,6 +66,12 @@ public:
 
   /** The pixel type of the output image. */
   typedef typename TOutputImage::PixelType OutputImagePixelType;
+
+   /** The pixel type of the output image. */
+  typedef MetaDataDictionary                   DictionaryType;
+  typedef MetaDataDictionary *                 DictionaryRawPointer;
+  typedef std::vector< DictionaryRawPointer >  DictionaryArrayType;
+  typedef const DictionaryArrayType *          DictionaryArrayRawPointer;
   
   /** Set the vector of strings that contains the file names. Files
    * are processed in sequential order. */
@@ -122,8 +129,12 @@ public:
    * enlarge the RequestedRegion to the size of the image on disk. */
   virtual void EnlargeOutputRequestedRegion(DataObject *output);
   
+  /** Get access to the Array of MetaDataDictionaries */
+  DictionaryArrayRawPointer GetMetaDataDictionaryArray() const;
+  
 protected:
   ImageSeriesReader() : m_ImageIO(0), m_ReverseOrder(false) {};
+  ~ImageSeriesReader();
   void PrintSelf(std::ostream& os, Indent indent) const;
   
   /** Does the real work. */
@@ -141,6 +152,10 @@ protected:
   /** The number of independent variables in the images that comprise
    *  the series. */
   int m_NumberOfDimensionsInImage;
+
+  /** Array of MetaDataDictionaries. This allows to hold information from the
+   * ImageIO objects after reading every sub image in the series */
+  DictionaryArrayType m_MetaDataDictionaryArray;
 
 private:
   ImageSeriesReader(const Self&); //purposely not implemented

@@ -36,7 +36,7 @@ ImageSeriesWriter<TInputImage,TOutputImage>
 ::ImageSeriesWriter():
   m_ImageIO(0), m_UserSpecifiedImageIO(false),
   m_SeriesFormat("%d"),
-  m_StartIndex(1), m_IncrementIndex(1)
+  m_StartIndex(1), m_IncrementIndex(1),m_MetaDataDictionaryArray(NULL)
 {
 }
 
@@ -373,6 +373,7 @@ ImageSeriesWriter<TInputImage,TOutputImage>
   os << indent << "StartIndex: " << m_StartIndex << std::endl;
   os << indent << "IncrementIndex: " << m_IncrementIndex << std::endl;
   os << indent << "SeriesFormat: " << m_SeriesFormat << std::endl;
+  os << indent << "MetaDataDictionaryArray: " << m_MetaDataDictionaryArray << std::endl;
 
 }
 
