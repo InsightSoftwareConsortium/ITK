@@ -35,6 +35,17 @@ namespace itk
  * some internal private data members that are used to manage streaming
  * of data.
  *
+ * Memory management in an ImageSource is slightly different than a
+ * standard ProcessObject.  ProcessObject's always release the bulk
+ * data associated with their output prior to GenerateData() being
+ * called. ImageSources default to not releasing the bulk data incase
+ * that particular memory block is large enough to hold the new output
+ * values.  This avoids unnecessary deallocation/allocation
+ * sequences. ImageSource's can be forced to use a memory management
+ * model similar to the default ProcessObject behaviour by calling
+ * ProcessObject::ReleaseDataBeforeUpdateFlagOn().  A user may want to
+ * set this flag to limit peak memory usage during a pipeline update.
+ *
  * \ingroup DataSources
  */
 template <class TOutputImage>
@@ -209,13 +220,6 @@ protected:
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                             int threadId );
 
-
-  /** This method is intentionally left blank. ImageSource's need not
-   * Initialize their containers. The Image::Allocate() method (called
-   * from GenerateData()) will resize the container if more memory is
-   * needed.  Otherwise, the memory can be reused.
-   */
-  virtual void PrepareOutputs() {};
 
   /** The GenerateData method normally allocates the buffers for all of the
    * outputs of a filter. Some filters may want to override this default

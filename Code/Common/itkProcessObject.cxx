@@ -42,6 +42,8 @@ ProcessObject
   
   m_Threader = MultiThreader::New();
   m_NumberOfThreads = m_Threader->GetNumberOfThreads();
+
+  m_ReleaseDataBeforeUpdateFlag = true;
 }
 
 /**
@@ -353,6 +355,18 @@ ProcessObject
   return m_Outputs[i].GetPointer();
 }
 
+const DataObject *
+ProcessObject
+::GetOutput(unsigned int i) const
+{
+  if (m_Outputs.size() < i+1)
+    {
+    return NULL;
+    }
+  
+  return m_Outputs[i].GetPointer();
+}
+
 
 /**
  *
@@ -360,6 +374,18 @@ ProcessObject
 DataObject *
 ProcessObject
 ::GetInput(unsigned int i)
+{
+  if (m_Inputs.size() < i+1)
+    {
+    return NULL;
+    }
+  
+  return m_Inputs[i].GetPointer();
+}
+
+const DataObject *
+ProcessObject
+::GetInput(unsigned int i) const
 {
   if (m_Inputs.size() < i+1)
     {
@@ -389,7 +415,7 @@ ProcessObject
  */
 bool 
 ProcessObject
-::GetReleaseDataFlag()
+::GetReleaseDataFlag() const
 {
   if (this->GetOutput(0))
     {
@@ -437,6 +463,12 @@ ProcessObject
   os << indent << "Number Of Threads: "
      << m_NumberOfThreads << std::endl;
 
+  os << indent << "ReleaseDataFlag: " 
+     << (this->GetReleaseDataFlag() ? "On" : "Off") << std::endl;
+
+  os << indent << "ReleaseDataBeforeUpdateFlag: "
+     << (m_ReleaseDataBeforeUpdateFlag ? "On" : "Off") << std::endl;
+  
   if ( m_Inputs.size())
     {
     std::vector<DataObjectPointer>::size_type idx;
@@ -552,7 +584,7 @@ ProcessObject
     /**
      * Since we are in a loop, we will want to update. But if
      * we don't modify this filter, then we will not execute
-     * because our InformationTime will be more recent than
+     * because our OutputInformationMTime will be more recent than
      * the MTime of our output.
      */
     this->Modified();
@@ -561,9 +593,9 @@ ProcessObject
 
   /**
    * We now wish to set the PipelineMTime of each output DataObject to
-   * the largest of this ProcessObject's InformationMTime, all input
-   * DataObject's PipelineMTime, and all input's MTime.  We begin with
-   * the InformationMTime of this ProcessObject.
+   * the largest of this ProcessObject's MTime, all input DataObject's
+   * PipelineMTime, and all input's MTime.  We begin with the MTime of
+   * this ProcessObject.
    */
   t1 = this->GetMTime();
 
@@ -613,7 +645,7 @@ ProcessObject
    * necessary. Otherwise, we may cause this source to be modified which
    * will cause it to execute again on the next update.
    */
-  if (t1 > m_InformationTime.GetMTime())
+  if (t1 > m_OutputInformationMTime.GetMTime())
     {
     for (idx = 0; idx < m_Outputs.size(); ++idx)
       {
@@ -625,6 +657,11 @@ ProcessObject
       }
     
     this->GenerateOutputInformation();
+
+    /**
+     * Keep track of the last time GenerateOutputInformation() was called
+     */
+    m_OutputInformationMTime.Modified();
     }
 }
 
@@ -736,11 +773,14 @@ ProcessObject
 {  
   unsigned int idx;
   
-  for (idx = 0; idx < m_Outputs.size(); idx++)
+  if (this->GetReleaseDataBeforeUpdateFlag())
     {
-    if (m_Outputs[idx])
+    for (idx = 0; idx < m_Outputs.size(); idx++)
       {
-      m_Outputs[idx]->PrepareForNewData(); 
+      if (m_Outputs[idx])
+        {
+        m_Outputs[idx]->PrepareForNewData(); 
+        }
       }
     }
 }
@@ -786,6 +826,11 @@ ProcessObject
     }
 
   /**
+   * Prepare all the outputs. This may deallocate previous bulk data.
+   */
+  this->PrepareOutputs();
+
+  /**
    * Propagate the update call - make sure everything we
    * might rely on is up-to-date
    * Must call PropagateRequestedRegion before UpdateOutputData if multiple 
@@ -811,11 +856,6 @@ ProcessObject
       }
     }
     
-  /**
-   * Prepare all the outputs. This may Allocate/Deallocate bulk data.
-   */
-  this->PrepareOutputs();
-
   /**
    * Tell all Observers that the filter is starting
    */
@@ -879,12 +919,6 @@ ProcessObject
    */
   this->ReleaseInputs();
   
-  /**
-   * Information gets invalidated as soon as Update is called,
-   * so validate it again here.
-   */
-  m_InformationTime.Modified();
-
   // Mark that we are no longer updating the data in this filter
   m_Updating = false;
 }

@@ -39,6 +39,11 @@ ImageSource<TOutputImage>
     = static_cast<TOutputImage*>(this->MakeOutput(0).GetPointer()); 
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput(0, output.GetPointer());
+
+  // Set the default behavior of an image source to NOT release its
+  // output bulk data prior to GenerateData() in case that bulk data
+  // can be reused (an thus avoid a costly deallocate/allocate cycle).
+  this->ReleaseDataBeforeUpdateFlagOff();
 }
 
 /**
