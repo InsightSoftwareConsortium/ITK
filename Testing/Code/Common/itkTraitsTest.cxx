@@ -7,7 +7,7 @@
 // program will fail if that's the case. (For example, the 
 // std::numeric_limits<>::min() collides with the min() macro.)
 
-main ()
+int main ()
 {
   // Test some numeric traits
   float min = itk::NumericTraits<float>::min();
@@ -33,7 +33,6 @@ main ()
   itk::Vector<long>::ValueType vectorMax = fooLong;
   
   itk::Image<unsigned char,2>::Pointer i2 = itk::Image<unsigned char,2>::New();
-  
-
+  return EXIT_SUCCESS;
 }
 
