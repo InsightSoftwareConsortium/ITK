@@ -129,11 +129,14 @@ while { ![eof $Build] } \
   {
     set Type Error
     incr Report(Error)
-  }
-  if { $hasWarning } \
+  } \
+  else \
   {
-    set Type Warning
-    incr Report(Warning)
+    if { $hasWarning } \
+    {
+      set Type Warning
+      incr Report(Warning)
+    }
   }
   if { $hasError || $hasWarning } \
   {
