@@ -6,6 +6,6 @@
 #include "parseUtils.h"
 #include "configRep.h"
 
-extern Configuration::Pointer ParseConfigXML(FILE*);
+extern WrapperConfiguration::Pointer ParseConfigXML(FILE*);
 
 #endif

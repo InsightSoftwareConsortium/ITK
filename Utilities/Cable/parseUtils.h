@@ -22,11 +22,11 @@ public:
 
   virtual void Print(FILE* f) const
     {
-      fprintf(f, "Unknown parse error.\n");
+      fprintf(f, "Unknown exception during parse.\n");
     }
   void PrintLocation(FILE* f) const
     {
-      fprintf(f, "An error occured in source file \"%s\", line %d:\n",
+      fprintf(f, "An exception occured in source file \"%s\", line %d:\n",
               m_File.c_str(), m_Line);
     }
 private:
@@ -123,34 +123,5 @@ public:
 private:
   std::map<String, String>  m_Attrs;
 };
-
-
-/**
- * Map from element name to its beginning handler.
- */
-typedef std::map<String, void (*)(const Attributes&)>  BeginHandlers;
-
-/**
- * Map from element name to its ending handler.
- */
-typedef std::map<String, void (*)(void)>  EndHandlers;
-
-
-/**
- * Parser's user data.  Stores pointers to begin and end handlers.
- */
-class HandlersPair
-{
-public:
-  HandlersPair(BeginHandlers* b, EndHandlers* e):
-    beginHandlers(b), endHandlers(e) {}
-
-  BeginHandlers*  beginHandlers;
-  EndHandlers*    endHandlers;
-};
-
-extern void StartElement(void *, const char *, const char **);
-extern void EndElement(void *, const char *);
-
 
 #endif

@@ -6,7 +6,6 @@ INCLUDES = -I$(EXPAT)/xmlparse -I$(EXPAT)/xmltok
 
 PARSER_OBJS= parseSourceXML.o \
              parseConfigXML.o \
-             parseUtils.o \
              internalRep.o \
              configRep.o \
              $(EXPAT)/xmlparse/hashtable.o \
@@ -26,7 +25,6 @@ all: generateWrappers
 -include configRep.d
 -include parseSourceXML.d
 -include parseConfigXML.d
--include parseUtils.d
 -include displayTree.d
 -include generateTcl.d
 

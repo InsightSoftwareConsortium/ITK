@@ -157,7 +157,7 @@ private:
  * Define a reference-counted object type.
  * All classes derived from this must have protected constructors,
  * destructors, and assignment operators.  They must be created with
- * a static New(), and deleted with a Delete() method.
+ * a static New() method.
  */
 class Object
 {
@@ -196,14 +196,6 @@ public:
         {
         delete this;
         }
-    }
-
-  /**
-   * Decrement object's reference count.
-   */
-  virtual void Delete(void)
-    {
-      this->Unregister();
     }
 
 protected:

@@ -8,7 +8,7 @@
 /**
  * Convert the given string to a valid C identifier.
  */
-String GetValid_C_Identifier(const String& in_name)
+static String GetValid_C_Identifier(const String& in_name)
 {
   static const char* builtin[][2]
     = { {"+", "__plus"},
