@@ -202,7 +202,7 @@ template<class TScalarType, unsigned int NDimensions,
          class TParameters, class TJacobianType >
 void
 AzimuthElevationToCartesianTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
-SetRT3DParameters(const double sampleSize, 
+SetAzimuthElevationToCartesianParameters(const double sampleSize, 
                   const double firstSampleDistance,
                   const long maxAzimuth, 
                   const long maxElevation,
@@ -221,12 +221,12 @@ template<class TScalarType, unsigned int NDimensions,
          class TParameters, class TJacobianType >
 void
 AzimuthElevationToCartesianTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
-SetRT3DParameters(const double sampleSize, 
+SetAzimuthElevationToCartesianParameters(const double sampleSize, 
                   const double firstSampleDistance,
                   const long maxAzimuth, 
                   const long maxElevation )
 {
-  SetRT3DParameters(sampleSize, firstSampleDistance, maxAzimuth, maxElevation, 1, 1);
+  SetAzimuthElevationToCartesianParameters(sampleSize, firstSampleDistance, maxAzimuth, maxElevation, 1, 1);
 }
 
 

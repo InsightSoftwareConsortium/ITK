@@ -189,14 +189,14 @@ public:
      * Set the transformation parameters
      *
      **/
-    void SetRT3DParameters( const double sampleSize, 
+    void SetAzimuthElevationToCartesianParameters( const double sampleSize, 
                             const double blanking,
                             const long maxAzimuth, 
                             const long maxElevation, 
                             const double azimuthAngleSeparation,
                             const double elevationAngleSeparation);
 
-    void SetRT3DParameters( const double sampleSize, 
+    void SetAzimuthElevationToCartesianParameters( const double sampleSize, 
                             const double blanking,
                             const long maxAzimuth, 
                             const long maxElevation);
