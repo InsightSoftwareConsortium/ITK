@@ -22,6 +22,7 @@
 #include "itkSimpleImageRegionIterator.h"
 #include "itkImageIOFactory.h"
 #include "itkConvertPixelBuffer.h"
+#include "itkImageRegion.h"
 
 
 namespace itk
@@ -65,11 +66,13 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>::PrintSelf(std::ostream& 
 
 
 template <class TOutputImage, class ConvertPixelTraits>
-void ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
+void ImageFileReader<TOutputImage, ConvertPixelTraits>
+::GenerateOutputInformation(void)
 {
+
   typename TOutputImage::Pointer output = this->GetOutput();
 
-  itkDebugMacro(<<"Reading file " << m_FileName);
+  itkDebugMacro(<<"Reading file for GenerateOutputInformation()" << m_FileName);
   
   // Check to see if we can read the file given the name or prefix
   //
@@ -119,7 +122,7 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
     throw e;
     }
   
-  Size dimSize;
+  SizeType dimSize;
   double spacing[ TOutputImage::ImageDimension ];
   double origin[ TOutputImage::ImageDimension ];
 
@@ -138,38 +141,60 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
   IndexType start;
   start = IndexType::ZeroIndex;
 
-  Region region;
+  ImageRegionType region;
   region.SetSize(dimSize);
   region.SetIndex(start);
+ 
+  output->SetLargestPossibleRegion(region);
+  output->SetRequestedRegion(region);
+  output->SetBufferedRegion(region);
+  output->Allocate();
+
+}
+
+
+
+
+template <class TOutputImage, class ConvertPixelTraits>
+void ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
+{
+
+  typename TOutputImage::Pointer output = this->GetOutput();
+  // Tell the ImageIO to read the file
+  //
+  OutputImagePixelType *buffer = 
+    output->GetPixelContainer()->GetBufferPointer();
+  m_ImageIO->SetFileName(m_FileName.c_str());
 
   ImageIORegion ioRegion(TOutputImage::ImageDimension);
   
   ImageIORegion::SizeType ioSize = ioRegion.GetSize();
   ImageIORegion::IndexType ioStart = ioRegion.GetIndex();
 
+  SizeType dimSize;
+  for(unsigned int i=0; i<TOutputImage::ImageDimension; i++)
+    {
+    dimSize[i] = m_ImageIO->GetDimensions(i);
+    }
+
   for(unsigned int i = 0; i < dimSize.GetSizeDimension(); ++i)
     {
     ioSize[i] = dimSize[i];
     }
+
+  typedef typename TOutputImage::IndexType   IndexType;
+  IndexType start;
+  start = IndexType::ZeroIndex;
   for(unsigned int i = 0; i < start.GetIndexDimension(); ++i)
     {
     ioStart[i] = start[i];
     }
+
   ioRegion.SetSize(ioSize);
   ioRegion.SetIndex(ioStart);
 
   itkDebugMacro (<< "ioRegion: " << ioRegion);
-  
-  output->SetLargestPossibleRegion(region);
-  output->SetRequestedRegion(region);
-  output->SetBufferedRegion(region);
-  output->Allocate();
-  
-  // Tell the ImageIO to read the file
-  //
-  OutputImagePixelType *buffer = 
-    output->GetPixelContainer()->GetBufferPointer();
-  m_ImageIO->SetFileName(m_FileName.c_str());
+ 
   m_ImageIO->SetIORegion(ioRegion);
 
   if ( m_ImageIO->GetPixelType() == typeid(TOutputImage::PixelType) &&
@@ -185,6 +210,7 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
     {
     // note: char is used here because the buffer is read in bytes
     // regardles of the actual type of the pixels.
+    ImageRegionType region = output->GetBufferedRegion();
     char * loadBuffer = 
       new char[m_ImageIO->GetImageSizeInBytes()];
     m_ImageIO->Read(loadBuffer);
@@ -195,6 +221,8 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
     delete [] loadBuffer;
     }
 }
+
+
 
 
 template <class TOutputImage, class ConvertPixelTraits>

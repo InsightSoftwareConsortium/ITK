@@ -88,10 +88,10 @@ public:
   itkTypeMacro(ImageFileReader, ImageSource);
 
   /** The size of the output image. */
-  typedef Size<TOutputImage::ImageDimension>  Size;
+  typedef Size<TOutputImage::ImageDimension>  SizeType;
 
   /** The region of the output image. */
-  typedef ImageRegion<TOutputImage::ImageDimension>  Region;
+  typedef ImageRegion<TOutputImage::ImageDimension>  ImageRegionType;
 
   /** The pixel type of the output image. */
   typedef typename TOutputImage::PixelType OutputImagePixelType;
@@ -118,6 +118,10 @@ public:
    * instance that is created. */
   itkSetObjectMacro(ImageIO,ImageIOBase);
   itkGetObjectMacro(ImageIO,ImageIOBase);
+  
+  /** Prepare the allocation of the output image during the first back
+      propagation of the pipeline */
+  virtual void GenerateOutputInformation(void);
   
 protected:
   ImageFileReader();
