@@ -22,7 +22,7 @@
 
 namespace itk 
 {
-  template< unsigned short NDimensions, class TransformType, class OutputType >
+  template< unsigned int NDimensions, class TransformType, class OutputType >
   unsigned int 
   SpatialObject< NDimensions, TransformType, OutputType >
   ::GetDimension( void )
@@ -30,7 +30,7 @@ namespace itk
     return NDimensions; 
   }
 
-  template< unsigned short NDimensions, class TransformType, class OutputType >
+  template< unsigned int NDimensions, class TransformType, class OutputType >
   void
   SpatialObject< NDimensions, TransformType, OutputType >
   ::DerivativeAt( const PointType & point, short unsigned int order, OutputVectorType & value )
@@ -81,7 +81,7 @@ namespace itk
       }
   }
 
-  template< unsigned short NDimensions, class TransformType, class OutputType >
+  template< unsigned int NDimensions, class TransformType, class OutputType >
   SpatialObject< NDimensions, TransformType, OutputType >::PropertyPointer
   SpatialObject< NDimensions, TransformType, OutputType >
   ::GetProperty( void )
@@ -89,7 +89,7 @@ namespace itk
     return m_Property; 
   }
 
-  template< unsigned short NDimensions, class TransformType, class OutputType >
+  template< unsigned int NDimensions, class TransformType, class OutputType >
   void 
   SpatialObject< NDimensions, TransformType, OutputType >
   ::SetProperty( PropertyPointer property)
@@ -97,7 +97,7 @@ namespace itk
     m_Property = property; 
   }
 
-  template< unsigned short NDimensions, class TransformType, class OutputType >
+  template< unsigned int NDimensions, class TransformType, class OutputType >
   const SpatialObject< NDimensions, TransformType, OutputType >::Self & 
   SpatialObject< NDimensions, TransformType, OutputType >
   ::GetParent( void )
@@ -105,7 +105,7 @@ namespace itk
     return m_Parent;
   }
 
-  template< unsigned short NDimensions, class TransformType, class OutputType >  
+  template< unsigned int NDimensions, class TransformType, class OutputType >  
   void 
   SpatialObject< NDimensions, TransformType, OutputType >
   ::SetParent( Pointer parent )
@@ -114,7 +114,7 @@ namespace itk
     RebuildAllTransformLists();
   }
 
-  template< unsigned short NDimensions, class TransformType, class OutputType >
+  template< unsigned int NDimensions, class TransformType, class OutputType >
   bool
   SpatialObject< NDimensions, TransformType, OutputType >
   ::HasParent( void )
@@ -125,7 +125,7 @@ namespace itk
       return false;
   }
 
-  template< unsigned short NDimensions, class TransformType, class OutputType >
+  template< unsigned int NDimensions, class TransformType, class OutputType >
   SpatialObject< NDimensions, TransformType, OutputType >
   ::SpatialObject( void )
   {
@@ -141,7 +141,7 @@ namespace itk
     BuildGlobalToLocalTransformList(m_GlobalToLocalTransformList,false);
   }
 
-  template< unsigned short NDimensions, class TransformType, class OutputType >
+  template< unsigned int NDimensions, class TransformType, class OutputType >
   SpatialObject< NDimensions, TransformType, OutputType >
   ::~SpatialObject( void )
   {
@@ -153,7 +153,7 @@ namespace itk
   }
 
 
-  template< unsigned short NDimensions, class TransformType, class OutputType >
+  template< unsigned int NDimensions, class TransformType, class OutputType >
   void 
   SpatialObject< NDimensions, TransformType, OutputType >
   ::PrintSelf( std::ostream& os, Indent indent ) const
@@ -188,7 +188,7 @@ namespace itk
     os << m_Property << std::endl;
   }
   
-  template< unsigned short NDimensions, class TransformType, class OutputType >
+  template< unsigned int NDimensions, class TransformType, class OutputType >
   void
   SpatialObject< NDimensions, TransformType, OutputType >
   ::SetBounds( BoundingBoxPointer bounds )
@@ -196,7 +196,7 @@ namespace itk
     m_Bounds = bounds; 
   }
 
-  template< unsigned short NDimensions, class TransformType, class OutputType >
+  template< unsigned int NDimensions, class TransformType, class OutputType >
   SpatialObject< NDimensions, TransformType, OutputType >::BoundingBoxPointer
   SpatialObject< NDimensions, TransformType, OutputType >
   ::GetBounds( void )
@@ -204,7 +204,7 @@ namespace itk
     return m_Bounds;
   }
 
-  template< unsigned short NDimensions, class TransformType, class OutputType >
+  template< unsigned int NDimensions, class TransformType, class OutputType >
   void
   SpatialObject< NDimensions, TransformType, OutputType >
   ::BuildLocalToGlobalTransformList( TransformListPointer list, bool init )
@@ -221,7 +221,7 @@ namespace itk
       }
   }
 
-  template< unsigned short NDimensions, class TransformType, class OutputType >
+  template< unsigned int NDimensions, class TransformType, class OutputType >
   void
   SpatialObject< NDimensions, TransformType, OutputType >
   ::BuildGlobalToLocalTransformList( TransformListPointer list, bool init )
@@ -238,7 +238,7 @@ namespace itk
       }
   }
 
-  template< unsigned short NDimensions, class TransformType, class OutputType >
+  template< unsigned int NDimensions, class TransformType, class OutputType >
   void 
   SpatialObject< NDimensions, TransformType, OutputType >
   ::SetLocalToGlobalTransform( TransformPointer transform )
@@ -247,7 +247,7 @@ namespace itk
     RebuildLocalToGlobalTransformList();
   }
 
-  template< unsigned short NDimensions, class TransformType, class OutputType >
+  template< unsigned int NDimensions, class TransformType, class OutputType >
   const SpatialObject< NDimensions, TransformType, OutputType >::TransformPointer
   SpatialObject< NDimensions, TransformType, OutputType >
   ::GetLocalToGlobalTransform( void )
@@ -255,7 +255,7 @@ namespace itk
     return m_LocalToGlobalTransform;
   }
 
-  template< unsigned short NDimensions, class TransformType, class OutputType >
+  template< unsigned int NDimensions, class TransformType, class OutputType >
   void 
   SpatialObject< NDimensions, TransformType, OutputType >
   ::SetGlobalToLocalTransform( TransformPointer transform )
@@ -264,7 +264,7 @@ namespace itk
     RebuildGlobalToLocalTransformList();
   }
 
-  template< unsigned short NDimensions, class TransformType, class OutputType >
+  template< unsigned int NDimensions, class TransformType, class OutputType >
   const SpatialObject< NDimensions, TransformType, OutputType >::TransformPointer
   SpatialObject< NDimensions, TransformType, OutputType >
   ::GetGlobalToLocalTransform( void )
@@ -272,7 +272,7 @@ namespace itk
     return m_GlobalToLocalTransform;
   }
 
-  template< unsigned short NDimensions, class TransformType, class OutputType >
+  template< unsigned int NDimensions, class TransformType, class OutputType >
   const SpatialObject< NDimensions, TransformType, OutputType >::TransformListPointer
   SpatialObject< NDimensions, TransformType, OutputType >
   ::GetLocalToGlobalTransformList( void )
@@ -280,7 +280,7 @@ namespace itk
     return m_LocalToGlobalTransformList;
   }
 
-  template< unsigned short NDimensions, class TransformType, class OutputType >
+  template< unsigned int NDimensions, class TransformType, class OutputType >
   const SpatialObject< NDimensions, TransformType, OutputType >::TransformListPointer
   SpatialObject< NDimensions, TransformType, OutputType >
   ::GetGlobalToLocalTransformList( void )
@@ -288,7 +288,7 @@ namespace itk
     return m_GlobalToLocalTransformList;
   }
 
-  template< unsigned short NDimensions, class TransformType, class OutputType >
+  template< unsigned int NDimensions, class TransformType, class OutputType >
   SpatialObject< NDimensions, TransformType, OutputType >::PointType
   SpatialObject< NDimensions, TransformType, OutputType >
   ::TransformPointToLocalCoordinate( PointType p )
@@ -308,7 +308,7 @@ namespace itk
     return p2;
   }
 
-  template< unsigned short NDimensions, class TransformType, class OutputType >
+  template< unsigned int NDimensions, class TransformType, class OutputType >
   SpatialObject< NDimensions, TransformType, OutputType >::PointType
   SpatialObject< NDimensions, TransformType, OutputType >
   ::TransformPointToGlobalCoordinate( PointType p )
@@ -328,7 +328,7 @@ namespace itk
     return p2;
   }
 
-  template< unsigned short NDimensions, class TransformType, class OutputType >
+  template< unsigned int NDimensions, class TransformType, class OutputType >
   unsigned long 
   SpatialObject< NDimensions, TransformType, OutputType >
   ::GetMTime( void ) const
@@ -344,7 +344,7 @@ namespace itk
     return latestTime;
   }
 
-  template< unsigned short NDimensions, class TransformType, class OutputType >
+  template< unsigned int NDimensions, class TransformType, class OutputType >
   void 
   SpatialObject< NDimensions, TransformType, OutputType >
   ::RebuildLocalToGlobalTransformList( void )
@@ -352,7 +352,7 @@ namespace itk
     BuildLocalToGlobalTransformList(m_LocalToGlobalTransformList,false);
   }
 
-  template< unsigned short NDimensions, class TransformType, class OutputType >
+  template< unsigned int NDimensions, class TransformType, class OutputType >
   void 
   SpatialObject< NDimensions, TransformType, OutputType >
   ::RebuildGlobalToLocalTransformList( void )
@@ -360,7 +360,7 @@ namespace itk
     BuildGlobalToLocalTransformList(m_GlobalToLocalTransformList,false);
   }
 
-  template< unsigned short NDimensions, class TransformType, class OutputType >
+  template< unsigned int NDimensions, class TransformType, class OutputType >
   void 
   SpatialObject< NDimensions, TransformType, OutputType >
   ::RebuildAllTransformLists( void )
