@@ -41,6 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkMRISlabIdentifier_txx
 #define __itkMRISlabIdentifier_txx
 
+#include <algorithm>
 #include <vector>
 #include "itkMRISlabIdentifier.h"
 #include "itkImageRegionIterator.h"
@@ -124,15 +125,15 @@ namespace itk
         ImageRegionIterator<TInputImage> iter(m_Image, region) ;
         iter.GoToBegin() ;
 
-        fill(mins.begin(), mins.end(), 1000) ;
+        std::fill(mins.begin(), mins.end(), 1000) ;
         while (!iter.IsAtEnd())
           {
             pixel = iter.Get() ;
             if (pixel > 0)
               {
                 target = 
-                  find_if(mins.begin(), mins.end(), 
-                          bind2nd(greater<ImagePixelType>(), pixel)) ;
+                  std::find_if(mins.begin(), mins.end(), 
+                          std::bind2nd(std::greater<ImagePixelType>(), pixel)) ;
                 *target = pixel ;
               }
             ++iter ;
