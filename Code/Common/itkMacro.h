@@ -176,7 +176,7 @@ namespace itk
 /** Get a smart const pointer to an object.  Creates the member 
  * Get"name"() (e.g., GetPoints()). */
 #define itkGetConstObjectMacro(name,type) \
-  virtual typename type::ConstPointer Get##name () \
+  virtual typename type::ConstPointer Get##name () const \
   { \
     itkDebugMacro("returning " #name " address " << this->m_##name ); \
     return this->m_##name; \
