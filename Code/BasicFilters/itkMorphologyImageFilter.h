@@ -105,9 +105,6 @@ public:
   /** Runtime information support. */
   itkTypeMacro(MorphologyImageFilter, ImageToImageFilter);
   
-  /** Standard New method. */
-  itkNewMacro(Self);  
-
   /** Image related typedefs. */
   typedef typename TInputImage::RegionType RegionType ;
   typedef typename TInputImage::SizeType SizeType ;

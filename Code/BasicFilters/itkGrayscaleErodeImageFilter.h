@@ -86,9 +86,6 @@ public:
   /** Declaration of pixel type. */
   typedef typename Superclass::PixelType PixelType;
 
-  /** Declaration of image kernel iterator type. */
-  typedef typename Superclass::ImageKernelIteratorType ImageKernelIteratorType;
-
   /** Kernel (structuring element) iterator. */
   typedef typename Superclass::KernelIteratorType  KernelIteratorType;
 
