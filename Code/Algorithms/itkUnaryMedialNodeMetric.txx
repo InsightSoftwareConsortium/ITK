@@ -53,29 +53,25 @@ UnaryMedialNodeMetric<VDimensions>
   eigenvalueA = m_MedialNodeA->GetVotedEigenvalues();
   eigenvalueB = m_MedialNodeB->GetVotedEigenvalues();
 
-  double differenceTemp = 0;
   double difference = 0;
-
-  double eigenResult = 0;
-  double scaleResult = 0;
 
   // Iterate through N-1 dimensions and compute the sum of 
   // the difference in eigenvalue squared. N-1 
   // eigenvalues are independent.
   for(int i = 0; i < VDimensions - 1; ++i)
     {
-    differenceTemp = (eigenvalueA(i) - eigenvalueB(i));
+    double differenceTemp = (eigenvalueA(i) - eigenvalueB(i));
     difference += pow(differenceTemp,2);
     }
 
   // Eigenvalue term for the metric.
-  eigenResult = 1-(2*difference);
+  double eigenResult = 1-(2*difference);
 
   // Compute the scale term for the metric.
   double scaleA = m_MedialNodeA->GetMeanCoreAtomDiameter();
   double scaleB = m_MedialNodeB->GetMeanCoreAtomDiameter();
 
-  scaleResult = 1 - abs( (scaleA - scaleB)/(scaleA + scaleB) );
+  double scaleResult = 1 - fabs( (scaleA - scaleB)/(scaleA + scaleB) );
 
   // The final metric calculation.
   m_MetricResult = eigenResult * scaleResult;
