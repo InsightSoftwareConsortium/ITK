@@ -69,6 +69,15 @@ $optimizer  SetNumberOfIterations  200
 $registration StartRegistration 
 
 
+# Get the final parameters of the transformation
+set finalParameters [$registration GetLastTransformParameters]
+
+
+# Print them out
+puts "Final Registration Parameters "
+puts "Translation X =  [$finalParameters () 0]"
+puts "Translation Y =  [$finalParameters () 1]"
+
 
 # Now, 
 # we use the final transform for resampling the
