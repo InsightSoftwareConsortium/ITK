@@ -53,7 +53,7 @@
                   &lt;td>
                     &lt;a href="</xsl:text>
     <xsl:value-of select="$DashboardDir"/>
-    <xsl:text disable-output-escaping="yes">/Update.html">&lt;img src="</xsl:text>
+    <xsl:text disable-output-escaping="yes">Update.html">&lt;img src="</xsl:text>
     <xsl:value-of select="$IconDir"/>
     <xsl:text disable-output-escaping="yes">/Updates.gif" border="0">&lt;/img>&lt;/a>
                   &lt;/td>
