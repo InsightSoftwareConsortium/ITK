@@ -358,7 +358,7 @@ Brains2MaskImageIO
     exception.SetDescription("Error in OctreeCreation");
     throw exception;
     }
-  std::ofstream output(this->m_FileName.c_str());
+  std::ofstream output(this->m_FileName.c_str(), std::ios::out | std::ios::binary );
   if(output.fail())
     {
     ExceptionObject exception(__FILE__, __LINE__);
