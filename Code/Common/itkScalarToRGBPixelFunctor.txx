@@ -32,7 +32,10 @@ ScalarToRGBPixelFunctor<TScalar>
   for (unsigned int i = 0; i < l && i < 3; ++i)
     {      m_Index[i] = i;    }
 
+  m_IsBigEndian = true;
+#ifndef ITK_WORDS_BIGENDIAN
   m_IsBigEndian = false;
+#endif
 }
 
   
@@ -55,11 +58,11 @@ ScalarToRGBPixelFunctor<TScalar>
         { ((unsigned char *)(&tmp))[i] = bytes[j];    }
       buf = tmp;
     }
-
-  ans[0] = static_cast<RGBComponentType>(bytes[m_Index[0]] * 2 + bytes[m_Index[1]] * 4);
-  ans[1] = static_cast<RGBComponentType>(bytes[m_Index[0]] * 3 );
-  ans[2] = static_cast<RGBComponentType>(bytes[m_Index[2]] * 5);
-
+  
+  ans[0] = static_cast<RGBComponentType>( bytes[m_Index[0]] * 3 );
+  ans[1] = static_cast<RGBComponentType>( (bytes[m_Index[0]] + bytes[m_Index[1]]) * 5 );
+  ans[2] = static_cast<RGBComponentType>( (bytes[m_Index[0]] + bytes[m_Index[2]])  );
+                                         
   return ans;
 }
 
