@@ -154,7 +154,7 @@ set thViewer [itk::createImageViewer2D .th.viewer [$threshold GetOutput] \
 proc updatePipelines {} {
   global denoiser threshold
   global inViewer outViewer thViewer
-  global niters timestep thLow fileName
+  global niters timestep thLow thHigh fileName
   
   if {$fileName == ""} { return }
 
@@ -162,6 +162,7 @@ proc updatePipelines {} {
   $denoiser SetNumberOfIterations $niters
   $denoiser SetTimeStep $timestep
   $threshold SetLowerThreshold $thLow
+  $threshold SetUpperThreshold $thHigh
 
   # Bring the input viewer up to date.
   $inViewer Draw
