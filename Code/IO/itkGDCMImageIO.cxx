@@ -412,7 +412,11 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
     }
     else if ( gdcm::ValEntry* v = dynamic_cast<gdcm::ValEntry*>(d) )
     {   
-      EncapsulateMetaData<std::string>(dico, v->GetName(), v->GetValue() );
+      // Only copying field from the public DICOM dictionary
+      if( v->GetName() != "unkn" )
+      {
+        EncapsulateMetaData<std::string>(dico, v->GetName(), v->GetValue() );
+      }
     }
     //else
     // We skip pb of SQ recursive exploration, and we do not copy binary entries
