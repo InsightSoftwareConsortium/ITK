@@ -17,6 +17,7 @@
 #define _itkShrinkImageFilter_txx
 
 #include "itkShrinkImageFilter.h"
+#include "itkImageRegionIterator.h"
 #include "itkObjectFactory.h"
 
 namespace itk
