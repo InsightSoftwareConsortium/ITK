@@ -266,9 +266,6 @@ protected:
   /** Flag which sets the inward/outward direction of positive propagation speed.*/
   bool m_UseNegativeFeatures;
 
-  /** Combined Scalar parameter for propagation and advection speed.*/
-  //  ValueType m_FeatureScaling;
-
   /** Scalar parameter for curvature.*/
   ValueType m_CurvatureScaling;
 
