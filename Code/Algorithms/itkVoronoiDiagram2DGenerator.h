@@ -58,20 +58,20 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 /** \class VoronoiDiagram2DGenerator
- * \brief Implement the Sweep Line Algorithm for constructing the 2D Voronoi
- * Diagram.
+ * \brief Implement the Sweep Line Algorithm for the construction of the 
+ *        2D Voronoi Diagram.
  *
- * Reference:
+ * Detailed informations of this method can be found in:
  * "A sweepline algorithm for Voronoi diagrams." 
  * S. Fortune, Algorithmica 2, 153-174, 1987.
  *
- * Parameters need to assigned before constructing:
- * 1. size of the region.
- * 2. the seed points (can be randomly set).
+ * Input parameters are:
+ * (1) Size of the region.
+ * (2) Seed points coordinates. These coordinates can also be randomly set.
  *
  * Template parameters for VoronoiDiagram2DGenerator:
  *
- * TCoordType: the type associated with the coordniation of the seeds and the 
+ * TCoordType: the type associated with the coordination of the seeds and the 
  *  resulting vertices.
  */
 template <typename TCoordType>
@@ -121,7 +121,7 @@ public:
   /** Update the Voronoi Diagram after adding seed(s). */
   void UpdateDiagram(void);
 
-  /** The boundary that enclose the whold voronoi diagram. */
+  /** The boundary that enclose the whole voronoi diagram. */
   void SetBoundary(PointType vorsize);
   void SetOrigin(PointType vorsize);
 
@@ -149,7 +149,7 @@ private:
   SeedsType m_Seeds;
 
   static bool comp(PointType arg1,PointType arg2);
-  /** Small datastructures for Fortune's Method
+  /** Small data structures for Fortune's Method
    * and some public variables/methods not for external access. */ 
   class FortuneSite{
   public:

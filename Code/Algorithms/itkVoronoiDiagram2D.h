@@ -58,7 +58,7 @@ namespace itk
 /** \class VoronoiDiagram2D
  * \brief Implements the 2-Dimensional Voronoi Diagram.
  * 
- * given a set of seed points, the Voronoi Diagram partition the plane into
+ * Given a set of seed points, the Voronoi Diagram partitions the plane into
  * regions, each region is a collection of all pixels that is closest to one
  * particular seed point than to other seed points.
  * VoronoiDiagram2D is a mesh structure for storing the Voronoi Diagram, 

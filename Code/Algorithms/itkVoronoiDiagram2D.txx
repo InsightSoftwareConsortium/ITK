@@ -70,7 +70,7 @@ PrintSelf(std::ostream& os, Indent indent) const
 }
 
 
-/* set the seed points, specify the number of seeds as "num" */
+/* Set the seed points, specify the number of seeds as "num". */
 template <typename TCoordRepType>
 void
 VoronoiDiagram2D<TCoordRepType>::
@@ -84,7 +84,7 @@ SetSeeds(int num,  SeedsIterator begin)
   m_NumberOfSeeds = num;
 }
 
-/* set the rectangle that enclosing the Voronoi Diagram. */
+/* Set the rectangle that encloses the Voronoi Diagram. */
 template <typename TCoordRepType>
 void
 VoronoiDiagram2D<TCoordRepType>::
