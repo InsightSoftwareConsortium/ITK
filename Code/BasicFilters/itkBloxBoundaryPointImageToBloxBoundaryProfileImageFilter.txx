@@ -382,11 +382,10 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
           itkDebugMacro(<< "BloxBoundaryProfileImage::FindBoundaryProfilesAtBoundaryPoint - Inappropriate splat method");
         }
 
-      // Normalize the splat accumulator with the normalizer
-      this->NormalizeSplatAccumulator();
+        // Normalize the splat accumulator with the normalizer
+        this->NormalizeSplatAccumulator();
 
-        // Fit the intensity profile to a Cumulative Gaussian with
-        // Levenberg-Marquardt Optimizer. Source of memory leaks?!?!?
+        // Fit the profile with the Cumulative Gaussian Optimizer
         if(this->FitProfile() == EXIT_SUCCESS)
           {
 
@@ -409,7 +408,7 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
             boundaryProfile->SetStandardDeviationNormalized();
             boundaryProfile->SetOptimalBoundaryLocation(spatialFunctionOriginVector.Get_vnl_vector(), orientationVNL.Get_vnl_vector());
             boundaryProfile->SetBoundaryPoint( (*bpiterator) );
-            boundaryProfile->SetGradient((*bpiterator)->GetGradient());
+            boundaryProfile->SetGradient(&(*bpiterator)->GetGradient());
 
             PositionType optimalBoundaryLocation;
             for(unsigned int i = 0; i < NDimensions; i++)

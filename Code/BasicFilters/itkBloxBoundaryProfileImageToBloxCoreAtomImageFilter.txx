@@ -175,7 +175,7 @@ BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TSourceImage, dim >
     spatialFunctionOriginVector.Set_vnl_vector( spatialFunctionOrigin.Get_vnl_vector() );
 
     // Set the gradient of the conic shell to the current boundary point gradient
-    FunctionGradientType spatialFunctionGradient = pBPOne->GetGradient();
+    FunctionGradientType spatialFunctionGradient = pBPOne->GetGradient2();
     spatialFunc->SetOriginGradient(spatialFunctionGradient);
 
     // Create a seed position for the spatial function iterator we'll use shortly
@@ -231,8 +231,8 @@ BloxBoundaryProfileImageToBloxCoreAtomImageFilter< TSourceImage, dim >
           C21 = C21 / C21.GetNorm();
 
           // Get the gradients of the two boundary points
-          GradientType G1 = ( (BProfileItemType*)pBPOne )->GetGradient();
-          GradientType G2 = ( (BProfileItemType*)pBPTwo )->GetGradient();
+          GradientType G1 = ( (BProfileItemType*)pBPOne )->GetGradient2();
+          GradientType G2 = ( (BProfileItemType*)pBPTwo )->GetGradient2();
 
           G1 = G1 / G1.GetNorm();
           G2 = G2 / G2.GetNorm();
