@@ -59,6 +59,31 @@ OPTION(ITK_CSWIG_PYTHON "Build cswig Python wrapper support (requires CableSwig)
 #OPTION(ITK_CSWIG_JAVA "Build cswig Java wrapper support (Not working.)" OFF)
 
 #-----------------------------------------------------------------------------
+# Find wrapping language API libraries.
+IF(ITK_CSWIG_TCL)
+  INCLUDE(${CMAKE_ROOT}/Modules/FindTCL.cmake)
+
+  # Hide useless settings provided by FindTCL.
+  FOREACH(entry TCL_LIBRARY_DEBUG
+                TK_LIBRARY_DEBUG
+                TCL_STUB_LIBRARY
+                TCL_STUB_LIBRARY_DEBUG
+                TK_STUB_LIBRARY
+                TK_STUB_LIBRARY_DEBUG
+                TK_WISH)
+    SET(${entry} "${${entry}}" CACHE INTERNAL "This value is not used by ITK.")
+  ENDFOREACH(entry)
+ENDIF(ITK_CSWIG_TCL)
+
+IF(ITK_CSWIG_PYTHON)
+  INCLUDE(${CMAKE_ROOT}/Modules/FindPythonLibs.cmake)
+ENDIF(ITK_CSWIG_PYTHON)
+
+IF(ITK_CSWIG_JAVA)
+  INCLUDE(${CMAKE_ROOT}/Modules/FindJNI.cmake)
+ENDIF(ITK_CSWIG_JAVA)
+
+#-----------------------------------------------------------------------------
 # Do we need CableSwig?
 SET(ITK_NEED_CableSwig 0)
 IF(ITK_CSWIG_TCL)

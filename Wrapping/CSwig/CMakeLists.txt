@@ -10,32 +10,6 @@ IF(${CMAKE_MAKE_PROGRAM} MATCHES make)
   SET(ITK_PYTHON_NEEDS_DEPENDS 0)
 ENDIF(${CMAKE_MAKE_PROGRAM} MATCHES make)
 
-# find python and tcl
-IF(ITK_CSWIG_PYTHON)
-  INCLUDE (${CMAKE_ROOT}/Modules/FindPythonLibs.cmake)
-ENDIF(ITK_CSWIG_PYTHON)
-
-IF(ITK_CSWIG_JAVA)
-  INCLUDE (${CMAKE_ROOT}/Modules/FindJNI.cmake)
-ENDIF(ITK_CSWIG_JAVA)
-
-#-----------------------------------------------------------------------------
-# Configure Tcl support.
-IF(ITK_CSWIG_TCL)
-  INCLUDE(${CMAKE_ROOT}/Modules/FindTCL.cmake)
-
-  # Hide useless settings provided by FindTCL.
-  FOREACH(entry TCL_LIBRARY_DEBUG
-                TK_LIBRARY_DEBUG
-                TCL_STUB_LIBRARY
-                TCL_STUB_LIBRARY_DEBUG
-                TK_STUB_LIBRARY
-                TK_STUB_LIBRARY_DEBUG
-                TK_WISH)
-    SET(${entry} "${${entry}}" CACHE INTERNAL "This value is not used by ITK.")
-  ENDFOREACH(entry)
-ENDIF(ITK_CSWIG_TCL)
-
 FIND_PROGRAM(PYTHON_EXECUTABLE
   NAMES python2.3 python2.2 python2.1 python2.0 python1.6 python1.5 python
   PATHS

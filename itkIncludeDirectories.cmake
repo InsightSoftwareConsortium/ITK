@@ -2,6 +2,22 @@
 # Include directories for other projects installed on the system.
 SET(ITK_INCLUDE_DIRS_SYSTEM "")
 
+IF(ITK_CSWIG_TCL)
+  SET(ITK_INCLUDE_DIRS_SYSTEM ${ITK_INCLUDE_DIRS_SYSTEM} ${TCL_INCLUDE_PATH})
+ENDIF(ITK_CSWIG_TCL)
+
+IF(ITK_CSWIG_PYTHON)
+  # Python include directory.
+  SET(ITK_INCLUDE_DIRS_SYSTEM ${ITK_INCLUDE_DIRS_SYSTEM}
+    ${PYTHON_INCLUDE_PATH})
+ENDIF(ITK_CSWIG_PYTHON)
+
+IF(ITK_CSWIG_JAVA)
+  # Java include directories.
+  SET(ITK_INCLUDE_DIRS_SYSTEM ${ITK_INCLUDE_DIRS_SYSTEM}
+      ${JAVA_INCLUDE_PATH} ${JAVA_INCLUDE_PATH2} ${JAVA_AWT_INCLUDE_PATH})
+ENDIF(ITK_CSWIG_JAVA)
+
 #-----------------------------------------------------------------------------
 # Include directories from the build tree.
 SET(ITK_INCLUDE_DIRS_BUILD_TREE ${ITK_BINARY_DIR})
