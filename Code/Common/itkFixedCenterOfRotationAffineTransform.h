@@ -54,12 +54,6 @@ public:
   /** New macro for creation of through a Smart Pointer   */
   itkNewMacro( Self );
   
-  /** Dimension of the domain space. */
-  itkStaticConstMacro(SpaceDimension, unsigned int, NDimensions);
-  itkStaticConstMacro(ParametersDimension, unsigned int,
-                      NDimensions*(NDimensions+1));
-  
-    
   /** Types taken from the Superclass */
   typedef typename Superclass::ParametersType            ParametersType;
   typedef typename Superclass::JacobianType              JacobianType;
@@ -87,7 +81,8 @@ public:
 
   /** Set and Get the center of rotation */
   void SetCenterOfRotationComponent(const InputPointType &cor);
-  itkGetConstReferenceMacro( CenterOfRotationComponent, InputPointType );
+  InputPointType GetCenterOfRotationComponent(void) const
+    { return this->GetCenter(); };
    
   /** Set the scale of the transform */
   virtual void SetScaleComponent( const double scale[NDimensions] );
@@ -105,25 +100,12 @@ public:
 
   /** Get offset of the transform*/
   const OffsetType & GetOffsetComponent(void) const 
-                                      { return m_OffsetComponent; }
+    { return this->GetTranslation(); }
 
   /** Set matrix of the AffineTransform
    *  This reinitializes the different components, i.e ScaleComponent,
    *  OffsetComponent, etc ...*/
   void SetMatrix(const MatrixType &matrix);
-
-  /** Set offset (origin) of the Affine Transform.
-   *  This reinitializes the different components, i.e ScaleComponent,
-   *  OffsetComponent, etc ...*/
-  void SetOffset(const OffsetType &offset);
-
-  /** Set the transformation from a container of parameters.
-   * The first (NDimension x NDimension) parameters define the
-   * matrix and the last NDimension parameters the translation. */
-  void SetParameters( const ParametersType & parameters );
-
-  /** Get the Transformation Parameters. */
-  const ParametersType& GetParameters(void) const;
 
 protected:
   /** Construct an FixedCenterOfRotationAffineTransform object */
@@ -137,15 +119,11 @@ private:
   FixedCenterOfRotationAffineTransform(const Self & other);
   const Self & operator=( const Self & );
   
-  InputPointType      m_CenterOfRotationComponent;
   double              m_ScaleComponent[NDimensions];
   MatrixType          m_MatrixComponent;
   MatrixType          m_ScaleMatrixComponent;
-  OffsetType          m_OffsetComponent;
 
   void RecomputeMatrix();
-  void RecomputeOffset();
-
 
 }; //class FixedCenterOfRotationAffineTransform
   

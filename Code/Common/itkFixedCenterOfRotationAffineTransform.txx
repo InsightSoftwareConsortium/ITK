@@ -32,9 +32,7 @@ FixedCenterOfRotationAffineTransform<TScalarType, NDimensions>::
 FixedCenterOfRotationAffineTransform()
   :Superclass(SpaceDimension,ParametersDimension)
 {
-  m_CenterOfRotationComponent.Fill( 0 );
   m_MatrixComponent.SetIdentity();
-  m_OffsetComponent.Fill( 0 );
   
   for (unsigned int i=0; i<NDimensions; i++)
     {
@@ -66,19 +64,9 @@ PrintSelf(std::ostream &os, Indent indent) const
 
   unsigned int i;
 
-  os << indent << "CenterOfRotationComponent : ";
-  for (i = 0; i < NDimensions; i++) 
-    {
-    os << m_CenterOfRotationComponent[i] << " ";
-    }
-  os << std::endl;
-
   os << indent << "Matrix Component:";
   os << m_MatrixComponent << std::endl;
 
-  os << indent << "Offset Component:";
-  os << m_OffsetComponent << std::endl;
-  
   os << indent << "ScaleMatrix Component:";
   os << m_ScaleMatrixComponent << std::endl;
   
@@ -99,7 +87,6 @@ FixedCenterOfRotationAffineTransform<TScalarType, NDimensions>
 { 
   m_MatrixComponent = matrix;
   this->RecomputeMatrix();
-  this->RecomputeOffset();
 }
 
 /** Set the scale of the transformation */
@@ -134,24 +121,7 @@ void
 FixedCenterOfRotationAffineTransform<TScalarType, NDimensions>
 ::SetCenterOfRotationComponent(const InputPointType &cor)
 {
-  
-  unsigned int i; 
-  for (i=0; i<NDimensions; i++)
-    {
-    if ( cor[i] != m_CenterOfRotationComponent[i] )
-      {
-      break;
-      }
-    } 
-  if ( i < NDimensions ) 
-    { 
-    for (i=0; i<NDimensions; i++)
-      {
-      m_CenterOfRotationComponent[i] = cor[i];
-      }
-    }
- 
-  this->RecomputeOffset();
+  this->SetCenter(cor);
 }
 
    
@@ -162,8 +132,7 @@ void
 FixedCenterOfRotationAffineTransform<TScalarType, NDimensions>
 ::SetOffsetComponent(const OffsetType &offset)
 {
-  m_OffsetComponent = offset;
-  this->RecomputeOffset();
+  this->SetTranslation(offset);
 }
 
 /** Recompute the affine matrix 
@@ -177,23 +146,6 @@ RecomputeMatrix(void)
   this->Modified();
 }
   
-/** Recompute the offset
- *  R(Sx+CoR)+O */
-template<class TScalarType, unsigned int NDimensions>
-void
-FixedCenterOfRotationAffineTransform<TScalarType, NDimensions>::
-RecomputeOffset(void)
-{
-  InputPointType pt = m_MatrixComponent*m_CenterOfRotationComponent;
-  OffsetType offset;
-  for (unsigned int i=0; i<NDimensions; i++)
-    {
-    offset[i] = -pt[i] + m_CenterOfRotationComponent[i] + m_OffsetComponent[i];
-    } 
-  Superclass::SetOffset(offset);
-  this->Modified();
-}
-
 // Set the parameters in order to fit an Identity transform
 template<class TScalarType, unsigned int NDimensions>
 void
@@ -201,9 +153,7 @@ FixedCenterOfRotationAffineTransform<TScalarType, NDimensions>::
 SetIdentity( void ) 
 { 
   this->Superclass::SetIdentity();
-  m_CenterOfRotationComponent.Fill( 0 );
   m_MatrixComponent.SetIdentity();
-  m_OffsetComponent.Fill( 0 );
   
   for (unsigned int i=0; i<NDimensions; i++)
     {
@@ -213,7 +163,6 @@ SetIdentity( void )
   this->RecomputeMatrix();
   this->Modified();  
 }
-
 
 
 /** Set matrix of the AffineTransform
@@ -231,94 +180,6 @@ SetMatrix(const MatrixType &matrix)
     m_ScaleComponent[i] = 1;
     }
   m_ScaleMatrixComponent.SetIdentity();
-  this->m_MatrixMTime.Modified();
-  this->Modified();
-}
-
-
-/** Set offset (origin) of the Affine Transform.
- *  This reinitializes the different components, i.e ScaleComponent,
- *  OffsetComponent, etc ...*/
-template<class TScalarType, unsigned int NDimensions>
-void
-FixedCenterOfRotationAffineTransform<TScalarType, NDimensions>::
-SetOffset(const OffsetType &offset)
-{ 
-  m_CenterOfRotationComponent.Fill(0);
-  m_OffsetComponent = offset;
-  Superclass::SetOffset(offset); 
-  this->Modified(); 
-}
-
-// Get parameters
-template<class TScalarType, unsigned int NDimensions>
-const typename FixedCenterOfRotationAffineTransform<TScalarType, NDimensions>::ParametersType &
-FixedCenterOfRotationAffineTransform<TScalarType, NDimensions>::
-GetParameters( void ) const
-{
-  // Transfer the linear part
-  unsigned int par = 0;
-
-  MatrixType matrix = this->GetMatrix();
-  OffsetType offset = this->GetOffset();
-
-  for(unsigned int row=0; row<NDimensions; row++) 
-    {
-    for(unsigned int col=0; col<NDimensions; col++) 
-      {
-      this->m_Parameters[par] = matrix[row][col];
-      ++par;
-      }
-    }
-
-  // Transfer the constant part without the center of rotation
-  InputPointType pt = matrix*m_CenterOfRotationComponent;
-  for(unsigned int i=0; i<NDimensions; i++) 
-    {
-    this->m_Parameters[par] = offset[i]+pt[i]-m_CenterOfRotationComponent[i];
-    ++par;
-    }
-
-  return this->m_Parameters;
-}
-
-/** Set parameters of the transformation 
- *  The center of rotation should be set before calling
- *  SetParameters() */
-template<class TScalarType, unsigned int NDimensions>
-void
-FixedCenterOfRotationAffineTransform<TScalarType, NDimensions>::
-SetParameters( const ParametersType & parameters )
-{
-  // Transfer the linear part
-  unsigned int par = 0;
-
-  this->m_Parameters = parameters;
-  MatrixType matrix;
-  OffsetType offset;
-
-  for(unsigned int row=0; row<NDimensions; row++) 
-    {
-    for(unsigned int col=0; col<NDimensions; col++) 
-      {
-      matrix[row][col] = this->m_Parameters[par];
-      ++par;
-      }
-    }
-
-  Superclass::SetMatrix(matrix);
-
-  // Transfer the constant part
-  InputPointType pt = matrix*m_CenterOfRotationComponent;
-  for (unsigned int i=0; i<NDimensions; i++)
-    {
-    offset[i] = -pt[i] + m_CenterOfRotationComponent[i] + this->m_Parameters[par];
-    par++;
-    } 
-
-  Superclass::SetOffset(offset);
- 
-  // Recompute the inverse
   this->m_MatrixMTime.Modified();
   this->Modified();
 }
