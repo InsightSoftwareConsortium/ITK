@@ -127,7 +127,7 @@ void ItpackSparseMatrix::Initialize()
   }
 
   /* initialize sparse matrix storage via itpack routine */
-  itpack::sbini_( &m_N, &m_NZ, &(m_IA[0]), &(m_JA[0]), &(m_A[0]), &(m_IWORK[0]) );
+  itpack::sbini_( &m_N, &m_NZ, m_IA, m_JA, m_A, m_IWORK );
   
   /* set info flags */
   m_MatrixInitialized = 1;
@@ -191,7 +191,7 @@ void ItpackSparseMatrix::Finalize()
   //this->PrintCompressedRow();
 
   /* finalize */
-  itpack::sbend_( &m_N, &m_NZ, &(m_IA[0]), &(m_JA[0]), &(m_A[0]), &(m_IWORK[0]) );
+  itpack::sbend_( &m_N, &m_NZ, m_IA, m_JA, m_A, m_IWORK );
   
   //this->PrintCompressedRow();
   //std::cout << "sbend_ " << m_IER << std::endl;
@@ -214,7 +214,7 @@ void ItpackSparseMatrix::UnFinalize()
 
   integer IER = 0;
 
-  itpack::sbagn_(&m_N, &m_NZ, &(m_IA[0]), &(m_JA[0]), &(m_A[0]), &(m_IWORK[0]), &m_LEVEL, &m_NOUT, &IER);
+  itpack::sbagn_(&m_N, &m_NZ, m_IA, m_JA, m_A, m_IWORK, &m_LEVEL, &m_NOUT, &IER);
 
   if (IER > 0)
   {
@@ -258,7 +258,7 @@ void ItpackSparseMatrix::Set(integer i, integer j, doublereal value)
   integer IER;
   integer fortranI = i+1;
   integer fortranJ = j+1;
-  itpack::sbsij_(&m_N, &m_NZ, &(m_IA[0]), &(m_JA[0]), &(m_A[0]), &(m_IWORK[0]), &fortranI, &fortranJ, &value, &m_MODE, &m_LEVEL, &m_NOUT, &IER);
+  itpack::sbsij_(&m_N, &m_NZ, m_IA, m_JA, m_A, m_IWORK, &fortranI, &fortranJ, &value, &m_MODE, &m_LEVEL, &m_NOUT, &IER);
 
   if (IER > 700)
   {
@@ -305,7 +305,7 @@ void ItpackSparseMatrix::Add(integer i, integer j, doublereal value)
   integer IER;
   integer fortranI = i+1;
   integer fortranJ = j+1;
-  itpack::sbsij_(&m_N, &m_NZ, &(m_IA[0]), &(m_JA[0]), &(m_A[0]), &(m_IWORK[0]), &fortranI, &fortranJ, &value, &m_MODE, &m_LEVEL, &m_NOUT, &IER);
+  itpack::sbsij_(&m_N, &m_NZ, m_IA, m_JA, m_A, m_IWORK, &fortranI, &fortranJ, &value, &m_MODE, &m_LEVEL, &m_NOUT, &IER);
   
   if (IER > 700)
   {
@@ -394,8 +394,8 @@ void ItpackSparseMatrix::mult(doublereal* vector, doublereal* result)
   int j;
 
   /* prepare result vector */
-  delete [] result;
-  result = new doublereal [ m_N ];
+  //delete [] result;
+  //result = new doublereal [ m_N ];
   for (i=0; i<m_N; i++)
   {
     result[i] = 0.0;
