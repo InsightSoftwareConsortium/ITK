@@ -190,23 +190,36 @@ int main()
    SmartIteratorType it2d(sz2, image2D, image2D->GetRequestedRegion());
 
    SmartIteratorType::NeighborhoodType tempN;
+   SmartIteratorType::NeighborhoodType temp2N;
+   temp2N = it2d.GetNeighborhood(); // initialize
 
    it2d = it2d.End();
    --it2d;
    tempN = it2d.GetNeighborhood();
-   
+
+
    printn(tempN.GetBufferReference(), tempN.GetSize());
+
+
+   std::cout << " ________________________________________ " << std::endl;
 
    itk::ZeroFluxNeumannBoundaryCondition<ImageType2D> neumann;
    for (int yak = 0; yak < 2; ++yak)
      {
        for (it2d = it2d.Begin(); it2d < it2d.End(); ++it2d)
          {
+           for (unsigned int ii = 0; ii < temp2N.Size(); ++ii)
+             {
+               temp2N[ii] = it2d.GetPixel(ii);
+             }
+           std::cout << " ________________________________________ " << std::endl; 
            printn(it2d.GetNeighborhood().GetBufferReference(),
                   it2d.GetNeighborhood().GetSize() );
-           std::cout << std::endl;
+           std::cout << "  +++++ " << std::endl;
+           printn(temp2N.GetBufferReference(), temp2N.GetSize());
+           std::cout << "________________________________________"<< std::endl;
          }
-       std::cout << "________________________________________"<< std::endl;
+       
        it2d.OverrideBoundaryCondition(&neumann);
      }
 

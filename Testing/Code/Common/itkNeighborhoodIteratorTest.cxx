@@ -155,9 +155,9 @@ int main()
    szN[2] = 1;
    szN[3] = 1;
 
-   itk::RegionNeighborhoodIterator<ImageType2D> rni2D(sz2, image2D,
-                                                      image2D->GetRequestedRegion());
-  itk::RegionNeighborhoodIterator<ImageType3D> rni3D(sz3, image3D,
+  itk::RegionNeighborhoodIterator<ImageType2D> rni2D(sz2, image2D,
+                                 image2D->GetRequestedRegion());
+  itk::SmartRegionNeighborhoodIterator<ImageType3D> rni3D(sz3, image3D,
                                             image3D->GetRequestedRegion());
   itk::RegionNeighborhoodIterator<ImageTypeND> rniND(szN, imageND,
                                             imageND->GetRequestedRegion());
@@ -169,6 +169,13 @@ int main()
   rni2D.Begin().Print(std::cout);
   std::cout << std::endl;
   rni2D.End().Print(std::cout);
+
+  println("Testing ComputeInternalIndex");
+  rni3D.Print(std::cout);
+  for (unsigned int ia_1 = 0; ia_1 < rni3D.Size(); ++ia_1)
+    {
+      std::cout << ia_1 << "--> " << rni3D.ComputeInternalIndex(ia_1);
+    }
 
   int i=0;
   println("2d forward iteration");
