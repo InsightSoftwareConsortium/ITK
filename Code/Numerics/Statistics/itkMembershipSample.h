@@ -34,7 +34,7 @@ namespace itk{
  *
  * This class does not store any measurement data. In a sense, you can
  * think it as an additional information to basic samples (such as Histogram,
- * PointSetListSampleAdaptor, and ImageListSampleAdaptor). The additional
+ * PointSetListSampleAdaptor, and ImageToListAdaptor). The additional
  * information is a class label for a measurement vector. Obviously without
  * such basic types of sample, this one is meaningless. You can call any
  * basic methods that has been defined in the Sample class such as 
@@ -71,8 +71,8 @@ public:
   typedef typename TSample::MeasurementType MeasurementType;
   typedef typename TSample::InstanceIdentifier InstanceIdentifier;
   typedef typename TSample::FrequencyType FrequencyType ;
-  typedef typename TSample::SizeType SizeType ;
-  typedef typename TSample::SizeValueType SizeValueType ;
+//    typedef typename TSample::SizeType SizeType ;
+//    typedef typename TSample::SizeValueType SizeValueType ;
   
   /** MeasurementVectorSize enum from super class */
   enum { MeasurementVectorSize = TSample::MeasurementVectorSize } ;
@@ -94,50 +94,40 @@ public:
   
   SamplePointer GetSample() ;
   
-  void SetNumberOfClasses(size_t numberOfClasses) ;
+  void SetNumberOfClasses(int numberOfClasses) ;
   
-  size_t GetNumberOfClasses() ;
+  int GetNumberOfClasses() const ;
 
-  size_t GetNumberOfInstances() ;
+  int GetNumberOfInstances() const ;
 
-  inline void AddInstance(unsigned int classLabel, InstanceIdentifier id) ;
+  void AddInstance(const unsigned int &classLabel, const InstanceIdentifier &id) ;
   
-  inline unsigned int GetClassLabel(InstanceIdentifier id) ;
+  unsigned int GetClassLabel(const InstanceIdentifier &id) const ;
 
-  void GenerateClassSamples() ;
+  int GetClassSampleSize(const unsigned int &classLabel) const ;
 
-  size_t GetClassSampleSize(unsigned int classLabel) ;
-
-  ClassSamplePointer GetClassSample(unsigned int classLabel) ;
+  ClassSamplePointer GetClassSample(const unsigned int &classLabel) ;
   
-  /** returns SizeType object whose each element is the number of
-   * elements in each dimension */
-  SizeType GetSize() ;
+  /** returns the number of elements in each dimension */
+  int Size() const ;
   
-  /** returns SizeValueType value that is the number of elements in the
-   * 'dimension' dimension. */
-  SizeValueType GetSize(unsigned int dimension) ;
+  /** returns the number of elements in the 'dimension' dimension. */
+  int Size(const unsigned int &dimension) const;
   
   /** retunrs the measurement of the instance which is identified 
    * by the 'id' */
-  inline MeasurementVectorType GetMeasurementVector(const InstanceIdentifier 
-                                                    id) ;
-  
-  /** returns the frequency of the instance which is identified by the 'id' */
-  inline FrequencyType GetFrequency(const InstanceIdentifier id) ;
+  MeasurementVectorType& GetMeasurementVector(const InstanceIdentifier &id) ;
   
   /** returns the measurement element which is the 'n'-th element 
    * in the 'd' dimension of the measurement vector */
-  inline MeasurementType GetMeasurement(const unsigned int d, 
-                                        const unsigned long n) ;
-  
-  /** returns the frequency of the 'n'-th element in the 'd' dimension 
-   * of the measurement vector */
-  inline FrequencyType GetFrequency(const unsigned int d, 
-                                    const unsigned long n) ;
+  MeasurementType& GetMeasurement(const InstanceIdentifier &id, 
+                                  const unsigned int &dimension) ;
 
+  /** returns the frequency of the instance which is identified by the 'id' */
+  FrequencyType GetFrequency(const InstanceIdentifier &id) const ;
+  
   /** returns the total frequency for the 'd' dimension */
-  FrequencyType GetTotalFrequency(const unsigned int d) ;
+  FrequencyType GetTotalFrequency(const unsigned int &d) const ;
   
   class Iterator;
   friend class Iterator;
@@ -162,19 +152,19 @@ public:
        m_Sample(membershipSample->GetSample())
     {}
     
-    const FrequencyType GetFrequency() 
+    FrequencyType GetFrequency() const
     { return  m_Sample->GetFrequency(m_Id) ; }
     
-    MeasurementVectorType GetMeasurementVector()
+    MeasurementVectorType& GetMeasurementVector()
     { return m_Sample->GetMeasurementVector() ; } 
     
-    MeasurementType GetMeasurement(int dim)
-    { return m_Sample->GetMeasurement(dim, m_Id) ; }
+    MeasurementType& GetMeasurement(int dimension)
+    { return m_Sample->GetMeasurement(m_Id, dimension) ; }
     
-    InstanceIdentifier GetInstanceIdentifier()   
+    InstanceIdentifier GetInstanceIdentifier() const
     { return m_Id ; }
 
-    unsigned int GetClassLabel()
+    unsigned int GetClassLabel() const
     { return m_MembershipSample->GetClassLabel(m_Id) ; }
 
     Iterator& operator++() 
@@ -238,8 +228,8 @@ private:
   SamplePointer m_Sample ;
   unsigned int m_CurrentClassLabel ;
   ClassLabelHolder m_ClassLabelHolder ;
-  size_t m_NumberOfClasses ;
-  std::vector< size_t > m_ClassSampleSizes ;
+  int m_NumberOfClasses ;
+  std::vector< int > m_ClassSampleSizes ;
   std::vector< ClassSamplePointer > m_ClassSamples ;
 } ; // end of class
 
