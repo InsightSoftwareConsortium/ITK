@@ -19,6 +19,7 @@
 #include "itkDicomImageIOFactory.h"
 #include "itkMetaImageIOFactory.h"
 #include "itkPNGImageIOFactory.h"
+#include "itkVTKImageIOFactory.h"
 #include "itkMutexLock.h"
 
 namespace itk
@@ -77,6 +78,7 @@ ImageIOFactory::RegisterBuiltInFactories()
     ObjectFactoryBase::RegisterFactory( DicomImageIOFactory::New() ); 
     ObjectFactoryBase::RegisterFactory( MetaImageIOFactory::New() ); 
     ObjectFactoryBase::RegisterFactory( PNGImageIOFactory::New() ); 
+    ObjectFactoryBase::RegisterFactory( VTKImageIOFactory::New() ); 
     firstTime = false;
     }
 
