@@ -167,6 +167,10 @@ public:
   /** Type definition for the input image pixel type. */
   typedef typename TInputImage::PixelType     InputImagePixelType;
 
+  /** Type definition for the input image iterator type. */
+  typedef 
+    ImageRegionIterator<TInputImage> InputImageIterator;
+
   /** Type definition for a double matrix. */
   typedef vnl_matrix<double> CodebookMatrixOfDoubleType; 
 
@@ -254,15 +258,15 @@ private:
   int  WithCodebookUseGLA(); // GLA stands for the Generalized Lloyd Algorithm
   int  WithoutCodebookUseLBG(); //LBG stands for the Lindo Buzo Gray Algorithm
 
-  void nearest_neighbor_search_basic(double *distortion);
+  void NearestNeighborSearchBasic(double *distortion);
   
-  void splitcodewords(int currentSize, 
+  void SplitCodewords(int currentSize, 
                       int numDesired, 
                       int scale);
   
-  void perturb(double *oldCodeword, 
-                       int scale, 
-                       double *newCodeword);
+  void Perturb(double *oldCodeword, 
+               int scale, 
+               double *newCodeword);
 
   CodebookMatrixOfDoubleType  m_Codebook;
 

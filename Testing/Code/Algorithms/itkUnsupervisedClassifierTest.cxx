@@ -204,6 +204,7 @@ int main()
 
   applyKmeansClusterer->SetCodebook(inCDBK);
   applyKmeansClusterer->Cluster();
+  applyKmeansClusterer->Print(std::cout);
   //applyKMeansClusterer->PrintKmeansAlgorithmResults();
 
   //Validation with initial Kmeans estimate provided as input by the user

@@ -284,7 +284,7 @@ KmeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
   do 
     {
     // encode all of the input vectors using the given codebook 
-    nearest_neighbor_search_basic(&distortion);
+    NearestNeighborSearchBasic(&distortion);
 
     // check for lack of convergence 
     if ( olddistortion < distortion ) 
@@ -374,7 +374,7 @@ KmeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
         }
 
       // split the required number of codewords
-      splitcodewords( m_CurrentNumberOfCodewords - emptycells, 
+      SplitCodewords( m_CurrentNumberOfCodewords - emptycells, 
                       emptycells, pass );
 
       olddistortion = distortion;
@@ -389,7 +389,7 @@ KmeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
 template<class TInputImage, class TClassifiedImage>
 void 
 KmeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
-::nearest_neighbor_search_basic( double *distortion )
+::NearestNeighborSearchBasic( double *distortion )
 {
   //itkDebugMacro(<<"Start nearest_neighbor_search_basic()");
 
@@ -416,86 +416,77 @@ KmeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
   // Declare the iterators for the image and the codebook
   //-----------------------------------------------------------------
   InputImageType  inputImage = this->GetInputImage();
+  InputImageIterator inputImageIt( inputImage, inputImage->GetBufferedRegion() );
+  inputImageIt.GoToBegin();
 
-  typedef typename TInputImage::PixelType    InputPixel;
-
-  typedef
-    ImageRegionIterator<TInputImage> InputIterator;
-
-  InputIterator inIt( inputImage, inputImage->GetBufferedRegion() );
-
-  InputIterator imgIt     =  inIt.Begin();
-  InputPixel *tempImgIt   = &(imgIt.Value()); // dangerous!
-  InputPixel *inImgIt     = &(imgIt.Value()); // dangerous!
-
-//-----------------------------------------------------------------
-// Calculate the number of vectors in the input data set
-//-----------------------------------------------------------------
+  //-----------------------------------------------------------------
+  // Calculate the number of vectors in the input data set
+  //-----------------------------------------------------------------
 
   ImageSizeType size = inputImage->GetBufferedRegion().GetSize();
-
-  // unused:  unsigned long *temp =new unsigned long [TInputImage::ImageDimension];
 
   unsigned int totalNumVecsInInput = 1;
   for( unsigned int i = 0; i < TInputImage::ImageDimension; i++ ) 
     totalNumVecsInInput *= (unsigned long) size[i];
 
-//-----------------------------------------------------------------
-//Loop through the input image vectors
-//-----------------------------------------------------------------
+  //-----------------------------------------------------------------
+  //Loop through the input image vectors
+  //-----------------------------------------------------------------
 
   InputPixelVectorType   inputImagePixelVector; 
 
-  for (unsigned int n = 0; n < totalNumVecsInInput; n++) {
+  for (unsigned int n = 0; n < totalNumVecsInInput; n++) 
+    {
 
-  // make tempvector point to one vector 
-  tempImgIt = inImgIt + n;
+    // keep convention that ties go to lower index 
+    bestdistortion = m_DoubleMaximum;
+    bestcodeword = 0;    
 
-  // keep convention that ties go to lower index 
-  bestdistortion = m_DoubleMaximum;
-  bestcodeword = 0;    
+    for ( unsigned int i = 0; i < m_CurrentNumberOfCodewords; i++ ) 
+      { 
+      // find the best codeword 
+      tempdistortion = 0.0;
+      inputImagePixelVector = inputImageIt.Get();
 
-  for ( unsigned int i = 0; i < m_CurrentNumberOfCodewords; i++ ) 
-    { 
-    // find the best codeword 
-    tempdistortion = 0.0;
-    inputImagePixelVector = *tempImgIt;
+      for ( unsigned int j = 0; j < m_VectorDimension; j++ ) 
+        {
+        diff = ( double ) ( inputImagePixelVector[j] - m_Codebook[i][j] ); 
+        tempdistortion += diff*diff;
 
-    for ( unsigned int j = 0; j < m_VectorDimension; j++ ) 
-      {
-      diff = ( double ) ( inputImagePixelVector[j] - m_Codebook[i][j] ); 
-      tempdistortion += diff*diff;
+        if ( tempdistortion > bestdistortion ) break;
+        }
 
-      if ( tempdistortion > bestdistortion ) break;
+      if ( tempdistortion < bestdistortion ) 
+        {
+        bestdistortion = tempdistortion;
+        bestcodeword = i;
+        }
+
+      // if the bestdistortion is 0.0, the best codeword is found
+      if ( bestdistortion == 0.0 ) break;
       }
 
-    if ( tempdistortion < bestdistortion ) 
-      {
-      bestdistortion = tempdistortion;
-      bestcodeword = i;
-      }
+    m_CodewordHistogram[bestcodeword][0] += 1;
+    m_CodewordDistortion[bestcodeword][0] += bestdistortion;
+    *distortion += bestdistortion;
 
-    // if the bestdistortion is 0.0, the best codeword is found
-    if ( bestdistortion == 0.0 ) break;
-    }
+    //inputImagePixelVector = *tempImgIt;
+    inputImagePixelVector = inputImageIt.Get();
 
-  m_CodewordHistogram[bestcodeword][0] += 1;
-  m_CodewordDistortion[bestcodeword][0] += bestdistortion;
-  *distortion += bestdistortion;
+    for (unsigned int j = 0; j < m_VectorDimension; j++ ) 
+      m_Centroid[bestcodeword][j] += inputImagePixelVector[j];
+    
+    ++inputImageIt;
 
-  inputImagePixelVector = *tempImgIt;
-
-  for (unsigned int j = 0; j < m_VectorDimension; j++ ) 
-    m_Centroid[bestcodeword][j] += inputImagePixelVector[j];
-
-  } // all training vectors have been encoded 
+    } // all training vectors have been encoded 
 
   // compute table frequency and distortion 
   for ( unsigned int i = 0; i < m_CurrentNumberOfCodewords; i++ ) 
     {
-    if ( m_CodewordHistogram[i][0] > 0 ) {
-    m_CodewordDistortion[i][0] /= (double) m_CodewordHistogram[i][0];
-    }
+    if ( m_CodewordHistogram[i][0] > 0 ) 
+      {
+      m_CodewordDistortion[i][0] /= (double) m_CodewordHistogram[i][0];
+      }
     }
 
   // compute centroid 
@@ -509,7 +500,6 @@ KmeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
     }
 
   // normalize the distortions 
-
   *distortion /= ( double ) totalNumVecsInInput;
 
   // check for bizarre errors 
@@ -527,7 +517,7 @@ KmeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
 template<class TInputImage, class TClassifiedImage>
 void 
 KmeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
-::splitcodewords( int currentSize, int numDesired, int scale )
+::SplitCodewords( int currentSize, int numDesired, int scale )
 {
   double *newCodebookData = ( double * ) new double[m_VectorDimension];
   double *inCodebookData  = ( double * ) new double[m_VectorDimension];
@@ -537,7 +527,7 @@ KmeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
     for(unsigned int j = 0; j < m_VectorDimension; j++ )
       inCodebookData[j] = m_Codebook[i][j];
 
-    perturb(inCodebookData, scale, newCodebookData);
+    Perturb(inCodebookData, scale, newCodebookData);
 
     for(unsigned int j=0; j< m_VectorDimension; j++)
       m_Codebook[i+currentSize][j] = newCodebookData[j];
@@ -551,7 +541,7 @@ KmeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
 template<class TInputImage, class TClassifiedImage>
 void 
 KmeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
-::perturb(double *oldCodeword, 
+::Perturb(double *oldCodeword, 
           int scale, 
           double *newCodeword)
 {
@@ -634,7 +624,7 @@ KmeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
     Reallocate( oldSize, j);
 
   // initialize the new codewords 
-    splitcodewords( tmp_ncodewords, ( j - tmp_ncodewords ), (int) 0 );
+    SplitCodewords( tmp_ncodewords, ( j - tmp_ncodewords ), (int) 0 );
 
     // if error, do not continue 
 
