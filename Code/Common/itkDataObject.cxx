@@ -433,6 +433,7 @@ DataObject
 ::DataHasBeenGenerated()
 {
   m_DataReleased = 0;
+  this->Modified();
   m_UpdateMTime.Modified();
 }
 
