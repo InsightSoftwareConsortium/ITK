@@ -60,7 +60,14 @@ public:
   bool
   operator!=(const ImageIterator<TPixel,TImageDimension> &it) const
     {
-    return true;
+    if ( &it != this )
+      {
+      return true;
+      }
+    else
+      {
+      return false;
+      }
     }
 
   /**
