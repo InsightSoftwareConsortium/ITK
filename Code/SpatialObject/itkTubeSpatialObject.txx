@@ -148,22 +148,36 @@ TubeSpatialObject< TDimension, TTubePointType >
       }
     else
       {
+      // First we compute the bounding box in the index space
+      typename BoundingBoxType::Pointer bb = BoundingBoxType::New();
       PointType ptMin = (*it).GetPosition()-(*it).GetRadius();
-      ptMin = this->GetIndexToWorldTransform()->TransformPoint(ptMin);
       PointType ptMax = (*it).GetPosition()+(*it).GetRadius();
-      ptMax = this->GetIndexToWorldTransform()->TransformPoint(ptMax);
+      bb->SetMinimum(ptMin);
+      bb->SetMaximum(ptMax);
+
+      ptMin = this->GetIndexToWorldTransform()->TransformPoint(ptMin);
       const_cast<BoundingBoxType *>(this->GetBounds())->SetMinimum(ptMin);
+      ptMax = this->GetIndexToWorldTransform()->TransformPoint(ptMax);
       const_cast<BoundingBoxType *>(this->GetBounds())->SetMaximum(ptMax);
+
       it++;
       while(it!= end) 
        {
         PointType ptMin = (*it).GetPosition()-(*it).GetRadius();
-        ptMin = this->GetIndexToWorldTransform()->TransformPoint(ptMin);
         PointType ptMax = (*it).GetPosition()+(*it).GetRadius();
-        ptMax = this->GetIndexToWorldTransform()->TransformPoint(ptMax);
-        const_cast<BoundingBoxType *>(this->GetBounds())->ConsiderPoint(ptMin);
-        const_cast<BoundingBoxType *>(this->GetBounds())->ConsiderPoint(ptMax);
+        bb->ConsiderPoint(ptMin);
+        bb->ConsiderPoint(ptMax);
         it++;
+        }
+
+      typedef typename BoundingBoxType::PointsContainer PointsContainer;
+      const PointsContainer * corners = bb->GetCorners();
+      typename BoundingBoxType::PointsContainer::const_iterator it = corners->begin();
+      while(it != corners->end())
+        {
+        PointType pnt = this->GetIndexToWorldTransform()->TransformPoint(*it);
+        const_cast<BoundingBoxType *>(this->GetBounds())->ConsiderPoint(pnt);       
+        ++it;
         }
       }
     }

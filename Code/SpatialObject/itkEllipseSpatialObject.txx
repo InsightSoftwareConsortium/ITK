@@ -132,28 +132,40 @@ EllipseSpatialObject< TDimension >
   if( this->GetBoundingBoxChildrenName().empty() 
       || strstr(typeid(Self).name(), this->GetBoundingBoxChildrenName().c_str()) )
     {
-    PointType pnt;
-    PointType pnt2;
-    for(unsigned int i=0; i<TDimension;i++) 
-      {   
-      pnt[i]=-m_Radius[i];
-      pnt2[i]=m_Radius[i];
-      } 
-    
     // we need to set the minimum and maximum of the bounding box
-    // the center is always inside the bounding box.
+    // the center is always inside the bounding box.  
     PointType center;
     center.Fill(0);
     center = this->GetIndexToWorldTransform()->TransformPoint(center);
-    
     const_cast<BoundingBoxType *>(this->GetBounds())->SetMinimum(center);
     const_cast<BoundingBoxType *>(this->GetBounds())->SetMaximum(center);
-     
-    pnt = this->GetIndexToWorldTransform()->TransformPoint(pnt);
-    pnt2 = this->GetIndexToWorldTransform()->TransformPoint(pnt2);
-         
-    const_cast<BoundingBoxType *>(this->GetBounds())->ConsiderPoint(pnt);
-    const_cast<BoundingBoxType *>(this->GetBounds())->ConsiderPoint(pnt2);
+
+    // First we compute the bounding box in the index space
+    typename BoundingBoxType::Pointer bb = BoundingBoxType::New();
+
+    PointType pntMin;
+    PointType pntMax;
+    unsigned int i;
+    for(i=0; i<TDimension;i++)
+      {
+      pntMin[i]=-m_Radius[i];
+      pntMax[i]=m_Radius[i];
+      }
+    
+    bb->SetMinimum(pntMin);
+    bb->SetMaximum(pntMax);
+
+    bb->ComputeBoundingBox();
+
+    typedef typename BoundingBoxType::PointsContainer PointsContainer;
+    const PointsContainer * corners = bb->GetCorners();
+    typename BoundingBoxType::PointsContainer::const_iterator it = corners->begin();
+    while(it != corners->end())
+      {
+      PointType pnt = this->GetIndexToWorldTransform()->TransformPoint(*it);
+      const_cast<BoundingBoxType *>(this->GetBounds())->ConsiderPoint(pnt);       
+      ++it;
+      }
     }
   return true;
 } 
