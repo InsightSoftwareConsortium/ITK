@@ -8,7 +8,8 @@ INCLUDE_DIRECTORIES(${ITK_BINARY_DIR}/Wrapping/CSwig/Tcl)
 ADD_EXECUTABLE(itkwish itkTclAppInit.cxx)
 TARGET_LINK_LIBRARIES(itkwish
   ITKAlgorithmsTcl
-  ITKBasicFiltersTcl
+  ITKBasicFiltersATcl
+  ITKBasicFiltersBTcl
   ITKIOTcl
   ITKNumericsTcl
   ITKCommonTcl

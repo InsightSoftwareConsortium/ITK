@@ -31,7 +31,7 @@ namespace eval itk {
     ConfigureTclPackage ITKNumericsTcl     $version
     ConfigureTclPackage ITKCommonTcl       $version
     ConfigureTclPackage ITKIOTcl           $version
-    ConfigureTclPackage ITKBasicFiltersTcl $version
+    ConfigureTclPackage ITKBasicFiltersATcl $version
     ConfigureTclPackage ITKBasicFiltersBTcl $version
     ConfigureTclPackage ITKAlgorithmsTcl   $version
 

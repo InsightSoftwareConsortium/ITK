@@ -71,7 +71,8 @@ extern "C"
   int Itknumericstcl_Init(Tcl_Interp*);
   int Itkcommontcl_Init(Tcl_Interp*);
   int Itkiotcl_Init(Tcl_Interp*);
-  int Itkbasicfilterstcl_Init(Tcl_Interp*);
+  int Itkbasicfiltersatcl_Init(Tcl_Interp*);
+  int Itkbasicfiltersbtcl_Init(Tcl_Interp*);
   int Itkalgorithmstcl_Init(Tcl_Interp*);
 }
 
@@ -113,7 +114,8 @@ int itkTclAppInit(Tcl_Interp* interp)
   if(Itknumericstcl_Init(interp) != TCL_OK) { return TCL_ERROR; }
   if(Itkcommontcl_Init(interp) != TCL_OK) { return TCL_ERROR; }
   if(Itkiotcl_Init(interp) != TCL_OK) { return TCL_ERROR; }
-  if(Itkbasicfilterstcl_Init(interp) != TCL_OK) { return TCL_ERROR; }
+  if(Itkbasicfiltersatcl_Init(interp) != TCL_OK) { return TCL_ERROR; }
+  if(Itkbasicfiltersbtcl_Init(interp) != TCL_OK) { return TCL_ERROR; }
   if(Itkalgorithmstcl_Init(interp) != TCL_OK) { return TCL_ERROR; }
   
   // Initialize all ITK Tcl packages.

@@ -261,13 +261,14 @@ SET(SWIG_INC ${SWIG_INC} -I${ITK_TOP}/Wrapping/CSwig)
 SET(SWIG_INC ${SWIG_INC} -I${ITK_TOP}/Wrapping/CSwig/Common)
 SET(SWIG_INC ${SWIG_INC} -I${ITK_TOP}/Wrapping/CSwig/VXLNumerics)
 SET(SWIG_INC ${SWIG_INC} -I${ITK_TOP}/Wrapping/CSwig/Numerics)
-SET(SWIG_INC ${SWIG_INC} -I${ITK_TOP}/Wrapping/CSwig/BasicFilters)
+SET(SWIG_INC ${SWIG_INC} -I${ITK_TOP}/Wrapping/CSwig/BasicFiltersA)
+SET(SWIG_INC ${SWIG_INC} -I${ITK_TOP}/Wrapping/CSwig/BasicFiltersB)
 SET(SWIG_INC ${SWIG_INC} -I${ITK_TOP}/Wrapping/CSwig/IO)
 SET(SWIG_INC ${SWIG_INC} -I${ITK_TOP}/Wrapping/CSwig/Algorithms)
 ADD_DEFINITIONS(-DSWIG_GLOBAL)
 
 SET(ITK_KITS VXLNumerics Common Numerics
-  BasicFilters BasicFiltersB IO Algorithms
+  BasicFiltersA BasicFiltersB IO Algorithms
   )
 SUBDIRS(SwigRuntime ${ITK_KITS} Tests)
 IF(ITK_CSWIG_JAVA) 

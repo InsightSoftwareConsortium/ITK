@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    wrap_ITKBasicFilters.cxx
+  Module:    wrap_ITKBasicFiltersA.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
