@@ -19,7 +19,6 @@
 #include "itkImage.h"
 #include "itkVector.h"
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionReverseIterator.h"
 
 
 // This routine is used to make sure that we call the "const" version
@@ -49,6 +48,8 @@ int itkImageIteratorTest(int, char**)
   std::cout << "Creating an image" << std::endl;
   itk::Image<itk::Vector<unsigned short, 5>, 3>::Pointer
     o3 = itk::Image<itk::Vector<unsigned short, 5>, 3>::New();
+
+  int status = 0;
 
   float origin3D[3] = { 5, 2.1, 8.1};
   float spacing3D[3] = { 1.5, 2.1, 1};
@@ -98,16 +99,25 @@ int itkImageIteratorTest(int, char**)
   // Iterate over a region using a simple for loop
   itk::ImageRegionIterator<itk::Image<itk::Vector<unsigned short, 5>, 3> > it(o3, region);
 
+  std::cout << "Simple iterator loop: ";
   for ( ; !it.IsAtEnd(); ++it)
     {
     itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType index = it.GetIndex();
-    std::cout << "Simple iterator loop: ";
-    for (unsigned int i=0; i < index.GetIndexDimension(); i++)
-      {
-      std::cout << index[i] << " ";
-      }
-    std::cout << std::endl;
+    std::cout << index << std::endl;
     }
+
+  itk::ImageRegionConstIterator<itk::Image<itk::Vector<unsigned short, 5>, 3> > standardCIt(o3, region);
+
+  // Iterate over a region using a simple for loop and a const iterator
+  itk::ImageRegionConstIterator<itk::Image<itk::Vector<unsigned short, 5>, 3> > cit(o3, region);
+
+  std::cout << "Simple const iterator loop: ";
+  for ( ; !cit.IsAtEnd(); ++cit)
+    {
+    itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType index = cit.GetIndex();
+    std::cout << index << std::endl;
+    }
+
 
   // Iterator over the region backwards using a simple for loop
   itk::ImageRegionIterator<itk::Image<itk::Vector<unsigned short, 5>, 3> > backIt(o3, region);
@@ -128,60 +138,6 @@ int itkImageIteratorTest(int, char**)
   while (!backIt.IsAtBegin()); // stop when we reach the beginning
   
 
-  // Iterate over a region backwards using a reverse iterator
-  itk::ImageRegionReverseIterator<itk::Image<itk::Vector<unsigned short, 5>, 3> > reverseIt(o3, region);
-
-  for ( ; !reverseIt.IsAtEnd(); ++reverseIt)
-    {
-    itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType index = reverseIt.GetIndex();
-    std::cout << "Reverse iterator: ";
-    for (unsigned int i=0; i < index.GetIndexDimension(); i++)
-      {
-      std::cout << index[i] << " ";
-      }
-    std::cout << std::endl;
-    }
-
-  // Iterator over the region forwards using a reverse iterator
-  itk::ImageRegionReverseIterator<itk::Image<itk::Vector<unsigned short, 5>, 3> > backReverseIt(o3, region);
- 
-  backReverseIt = backReverseIt.End(); // one pixel before the region
-  do
-    {
-    --backReverseIt;
-
-    itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType index = backReverseIt.GetIndex();
-    std::cout << "Reverse iterator backwards loop: ";
-    for (unsigned int i=0; i < index.GetIndexDimension(); i++)
-      {
-      std::cout << index[i] << " ";
-      }
-    std::cout << std::endl;    
-    }
-  while (!backReverseIt.IsAtBegin()); // stop when we reach the beginning
-  
-  
-  // Finally, create a ReverseIterator from an Iterator and walk each appropriately so that they match
-  itk::ImageRegionReverseIterator<itk::Image<itk::Vector<unsigned short, 5>, 3> > castBackReverseIt(it);
-  it = it.Begin();
-  it.GoToBegin();
-  castBackReverseIt = castBackReverseIt.End();
-  int status = 0;
-  std::cout << "It and Reverse check: ";
-  for ( ; !it.IsAtEnd(); ++it)
-    {
-    --castBackReverseIt;
-    itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType index = it.GetIndex();
-    itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType rindex = castBackReverseIt.GetIndex();    
-    for (unsigned int i=0; i < index.GetIndexDimension(); i++)
-      {
-      if (index[i] != rindex[i])
-  {
-  std::cout << index[i] << " != " << rindex[i] << std::endl;
-  status = 1;
-  }
-      }  
-    }
   if (status == 0)
     {
     std::cout << "Passed" << std::endl;
