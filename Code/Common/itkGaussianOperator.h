@@ -119,11 +119,11 @@ public:
    *  large variances will yield very large kernel sizes.  This value can be
    *  used to truncate a kernel in such instances.  A warning will be given on
    *  truncation of the kernel. */
-  void SetMaximumKernelWidth( int n )
+  void SetMaximumKernelWidth( unsigned int n )
     {    m_MaximumKernelWidth = n; }
 
   /** Returns the maximum allowed kernel width. */
-  int GetMaximumKernelWidth() const
+  unsigned int GetMaximumKernelWidth() const
     {   return m_MaximumKernelWidth; }
   
   /** Prints some debugging information. */
@@ -168,7 +168,7 @@ private:
   /** Maximum kernel size allowed.  This value is used to truncate a kernel 
    *  that has grown too large.  A warning is given when the specified maximum
    *  error causes the kernel to exceed this size. */
-  int m_MaximumKernelWidth;
+  unsigned int m_MaximumKernelWidth;
 
   /** For compatibility with itkWarningMacro */
   const char *GetNameOfClass()
