@@ -20,6 +20,7 @@
 #include <time.h>
 
 #include <itkImage.h>
+#include <itkIndex.h>
 #include "itkDilateObjectMorphologyImageFilter.h"
 #include "itkBinaryErodeImageFilter.h"
 #include "itkBinaryDilateImageFilter.h"
@@ -138,8 +139,8 @@ int itkObjectMorphologyImageFilterTest(int, char* [] )
   myKernelType ball;
   myKernelType::SizeType ballSize;
   ballSize[0] = 5;
-  ballSize[1] = 5;
-  ballSize[2] = 5;
+  ballSize[1] = 4;
+  ballSize[2] = 3;
   ball.SetRadius(ballSize);
   ball.CreateStructuringElement();
   
@@ -201,24 +202,43 @@ int itkObjectMorphologyImageFilterTest(int, char* [] )
   myIteratorType itBin(outputBinImage, outputBinImage->GetBufferedRegion());
   std::cout << "Test for Dilate equality..." << std::endl;
   start = clock();
+  itObj.GoToBegin();
+  itBin.GoToBegin();
+  int count = 0;
   while( !itObj.IsAtEnd() && !itBin.IsAtEnd() ) 
     {
     if(itObj.Get() != itBin.Get())
       {
       std::cerr << "Error: Dilated images differ!" << std::endl;
+      std::cerr << "   Slice = " << count/(size[1]*size[0]) << std::endl;
+      int x, y;
+      itk::Index<3> i;
+      i[2] = count/(size[1]*size[0]);
+      for(y=0; y<size[1]; y++)
+        {
+        i[1] = y;
+        for(x=0; x<size[0]; x++)
+          {
+          i[0] = x;
+          std::cerr << outputImage->GetPixel(i)
+                    << outputBinImage->GetPixel(i) << " ";
+          }
+        std::cerr << std::endl;
+        }
       return -1;
       }
     ++itObj;
     ++itBin;
+    ++count;
     }
   end = clock();
   elapsedTime = (end - start) / (double) CLOCKS_PER_SEC;
   std::cout << "  Success: " << std::endl;
   std::cout << "    Time = " << elapsedTime << std::endl;
    
-  ballSize[0] = 1;
-  ballSize[1] = 1;
-  ballSize[2] = 1;
+  ballSize[0] = 2;
+  ballSize[1] = 2;
+  ballSize[2] = 2;
   ball.SetRadius(ballSize);
   ball.CreateStructuringElement();
   
@@ -279,6 +299,7 @@ int itkObjectMorphologyImageFilterTest(int, char* [] )
   myIteratorType it2Bin(outputBin2Image, outputBin2Image->GetBufferedRegion());
   std::cout << "Test for Erode equality..." << std::endl;
   start = clock();
+  count = 0;
   while( !it2Obj.IsAtEnd() ) 
     {
     if(it2Obj.Get() != it2Bin.Get())
@@ -286,10 +307,26 @@ int itkObjectMorphologyImageFilterTest(int, char* [] )
       std::cout << "As expected: Error: Eroded images differ!" << std::endl;
       std::cout << "  Please see documentation - ErodeObject and BinaryErode";
       std::cout << std::endl << "    produce different results" << std::endl;
+      std::cout << "   Slice = " << count/(size[1]*size[0]) << std::endl;
+      int x, y;
+      itk::Index<3> i;
+      i[2] = count/(size[1]*size[0]);
+      for(y=0; y<size[1]; y++)
+        {
+        i[1] = y;
+        for(x=0; x<size[0]; x++)
+          {
+          i[0] = x;
+          std::cout << output2Image->GetPixel(i)
+                    << outputBin2Image->GetPixel(i) << " ";
+          }
+        std::cout << std::endl;
+        }
       break;
       }
     ++it2Obj;
     ++it2Bin;
+    ++count;
     }
   end = clock();
   elapsedTime = (end - start) / (double) CLOCKS_PER_SEC;
