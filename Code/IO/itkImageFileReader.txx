@@ -209,7 +209,17 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
   ITK_CONVERT_BUFFER_IF_BLOCK( double)
   else
     {
-    itkErrorMacro(<<"Couldn't convert pixel type");
+    itkErrorMacro(<<"Couldn't convert pixel type: "
+    << std::endl << "    " << m_ImageIO->GetPixelType().name()
+    << std::endl << "to one of: "
+    << std::endl << "    " << typeid(unsigned char).name()
+    << std::endl << "    " << typeid(char).name()
+    << std::endl << "    " << typeid(unsigned short).name()
+    << std::endl << "    " << typeid(short).name()
+    << std::endl << "    " << typeid(unsigned int).name()
+    << std::endl << "    " << typeid(int).name()
+    << std::endl << "    " << typeid(float).name()
+    << std::endl << "    " << typeid(double).name());    
     return;
     }
 #undef ITK_CONVERT_BUFFER_IF_BLOCK
