@@ -19,7 +19,7 @@
 #include "itkObject.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkNormalizedCorrelationImageToImageMetric.h"
-#include "itkGradientDescentOptimizer.h"
+#include "itkRegularStepGradientDescentOptimizer.h"
 #include "itkImage.h"
 #include "itkImageMapper.h"
 #include "itkAffineRegistrationTransform.h"
@@ -110,7 +110,7 @@ public:
   /**
    *  Type of the Optimizer 
    */
-   typedef GradientDescentOptimizer<MetricType>           OptimizerType;
+   typedef RegularStepGradientDescentOptimizer<MetricType>           OptimizerType;
 
 
   /**
