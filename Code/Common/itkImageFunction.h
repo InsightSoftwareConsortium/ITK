@@ -103,7 +103,7 @@ public:
   /**
    * Get the input image.
    */
-  typename InputImageType::ConstPointer GetInputImage() const
+  typename const InputImageType::Pointer & GetInputImage() const
     { return m_Image; }
 
 
