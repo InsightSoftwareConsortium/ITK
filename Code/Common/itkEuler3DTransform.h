@@ -48,8 +48,8 @@ public:
   itkTypeMacro( Euler3DTransform, Rigid3DTransform );
 
   /** Dimension of parameters. */
-  enum { SpaceDimension = 3, 
-         ParametersDimension = 6 };
+  itkStaticConstMacro( SpaceDimension, unsigned int, 3 ); 
+  itkStaticConstMacro( ParametersDimension, unsigned int, 6 ); 
 
   /** Scalar type. */
   typedef typename Superclass::ScalarType  ScalarType;
@@ -60,13 +60,7 @@ public:
   /** Jacobian type. */
   typedef typename Superclass::JacobianType  JacobianType;
 
-  /** VnlQuaternion type. */
-  typedef typename Superclass::VnlQuaternionType  VnlQuaternionType;
-
-  /** Versor type. */
-  typedef typename Superclass::VersorType  VersorType;
-  typedef typename VersorType::VectorType  AxisType;
-  typedef typename VersorType::ValueType   AngleType;
+  typedef typename Superclass::ScalarType   AngleType;
   
   /** Offset type. */
   typedef typename Superclass::OffsetType  OffsetType;
@@ -96,7 +90,16 @@ public:
   const ParametersType& GetParameters(void) const;
 
   /** Set the rotational part of the transform. */
-  void SetRotation(TScalarType angleX,TScalarType angleY,TScalarType angleZ);
+  void SetRotation(ScalarType angleX,ScalarType angleY,ScalarType angleZ);
+  itkGetMacro(AngleX, ScalarType);
+  itkGetMacro(AngleY, ScalarType);
+  itkGetMacro(AngleZ, ScalarType);
+
+  void SetCenter( const InputPointType & center );
+  itkGetConstReferenceMacro( Center, InputPointType );
+
+  void SetTranslation( const OutputVectorType & translation );
+  itkGetConstReferenceMacro( Translation, OutputVectorType );
   
   /** This method computes the Jacobian matrix of the transformation.
    * given point or vector, returning the transformed point or
@@ -115,10 +118,14 @@ public:
 
 protected:
   Euler3DTransform();
+  Euler3DTransform(unsigned int OutputSpaceDimension,
+                   unsigned int ParametersDimension);
   ~Euler3DTransform(){};
   void PrintSelf(std::ostream &os, Indent indent) const;
 
   /** Compute the components of the rotation matrix in the superclass. */
+  void ComputeMatrixAndOffset(void);
+
   void ComputeMatrix(void);
   void ComputeAnglesFromMatrix(void);
 
@@ -126,10 +133,13 @@ private:
   Euler3DTransform(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  TScalarType m_AngleX; 
-  TScalarType m_AngleY; 
-  TScalarType m_AngleZ;
+  ScalarType  m_AngleX; 
+  ScalarType  m_AngleY; 
+  ScalarType  m_AngleZ;
   bool        m_ComputeZYX;
+
+  InputPointType m_Center;
+  OutputVectorType m_Translation;
 
 }; //class Euler3DTransform
 

@@ -26,10 +26,27 @@ namespace itk
 // Constructor with default arguments
 template <class TScalarType>
 Euler3DTransform<TScalarType>
-::Euler3DTransform()
+::Euler3DTransform():Superclass(SpaceDimension, ParametersDimension)
 {
   m_ComputeZYX = false;
   m_AngleX = m_AngleY = m_AngleZ = 0.0;
+  m_Translation.Fill( 0.0 );
+  m_Center.Fill( 0.0 );
+  this->ComputeMatrixAndOffset();
+}
+
+// Constructor with arguments
+template <class TScalarType>
+Euler3DTransform<TScalarType>
+::Euler3DTransform(unsigned int SpaceDimension,
+                   unsigned int ParametersDimension)
+:Superclass(SpaceDimension, ParametersDimension)
+{
+  m_ComputeZYX = false;
+  m_AngleX = m_AngleY = m_AngleZ = 0.0;
+  m_Translation.Fill( 0.0 );
+  m_Center.Fill( 0.0 );
+  this->ComputeMatrixAndOffset();
 }
 
 // Copy Constructor
@@ -38,6 +55,13 @@ Euler3DTransform<TScalarType>
 ::Euler3DTransform( const Self & other )
 {
   // call the superclass copy constructor
+  m_ComputeZYX = other.m_ComputeZYX;
+  m_AngleX = other.m_AngleX;
+  m_AngleY = other.m_AngleY;
+  m_AngleZ = other.m_AngleZ;
+  m_Translation = other.m_Translation;
+  m_Center = other.m_Center;
+  this->ComputeMatrixAndOffset();
 }
 
 // Set Parameters
@@ -54,15 +78,12 @@ Euler3DTransform<TScalarType>
   m_AngleZ = parameters[2];
  
   // Transfer the translation part
-  OffsetType offset;
   for(unsigned int i=0; i < SpaceDimension; i++) 
     {
-    offset[i] = parameters[i+3];
+    m_Translation[i] = parameters[i+SpaceDimension];
     }
 
-  this->SetOffset( offset );
-
-  ComputeMatrix();
+  this->ComputeMatrixAndOffset();
 
   itkDebugMacro(<<"After setting paramaters ");
 }
@@ -80,7 +101,7 @@ Euler3DTransform<TScalarType>
   m_Parameters[2] = m_AngleZ;
   for( unsigned int i=0; i < SpaceDimension; i++ )
     {
-    m_Parameters[i+3] = this->GetOffset()[i];
+    m_Parameters[i+SpaceDimension] = m_Translation[i];
     }
 
   return m_Parameters;
@@ -96,7 +117,25 @@ Euler3DTransform<TScalarType>
   m_AngleX = angleX;
   m_AngleY = angleY;
   m_AngleZ = angleZ;
-  ComputeMatrix();
+  this->ComputeMatrixAndOffset();
+}
+
+template <class TScalarType>
+void
+Euler3DTransform<TScalarType>
+::SetCenter( const InputPointType & center )
+{
+  m_Center = center;
+  this->ComputeMatrixAndOffset();
+}
+
+template <class TScalarType>
+void
+Euler3DTransform<TScalarType>
+::SetTranslation( const OutputVectorType & translation )
+{
+  m_Translation = translation;
+  this->ComputeMatrixAndOffset();
 }
 
 
@@ -189,7 +228,7 @@ Euler3DTransform<TScalarType>
 template <class TScalarType>
 void
 Euler3DTransform<TScalarType>
-::ComputeMatrix( void )
+::ComputeMatrixAndOffset( void )
 {
   // need to check if angles are in the right order
   const double cx = cos(m_AngleX);
@@ -228,6 +267,17 @@ Euler3DTransform<TScalarType>
 
   m_InverseMatrix = m_RotationMatrix.GetTranspose();
 
+  OffsetType offset;
+  for(unsigned int i=0; i<SpaceDimension; i++)
+    {
+    offset[i] = m_Translation[i] + m_Center[i];  
+    for(unsigned int j=0; j<3; j++)
+      {
+      offset[i] -= m_RotationMatrix[i][j] * m_Center[j];
+      }
+    }
+  this->SetOffset( offset );
+
 }
 
 
@@ -247,32 +297,37 @@ GetJacobian( const InputPointType & p ) const
 
   m_Jacobian.Fill(0.0);
 
+  const double px = p[0] - m_Center[0];
+  const double py = p[1] - m_Center[1];
+  const double pz = p[2] - m_Center[2];
+
+
   if ( m_ComputeZYX )
     {
-    m_Jacobian[0][0] = (cz*sy*cx+sz*sx)*p[1]+(-cz*sy*sx+sz*cx)*p[2];
-    m_Jacobian[1][0] = (sz*sy*cx-cz*sx)*p[1]+(-sz*sy*sx-cz*cx)*p[2];
-    m_Jacobian[2][0] = (cy*cx)*p[1]+(-cy*sx)*p[2];  
+    m_Jacobian[0][0] = (cz*sy*cx+sz*sx)*py+(-cz*sy*sx+sz*cx)*pz;
+    m_Jacobian[1][0] = (sz*sy*cx-cz*sx)*py+(-sz*sy*sx-cz*cx)*pz;
+    m_Jacobian[2][0] = (cy*cx)*py+(-cy*sx)*pz;  
     
-    m_Jacobian[0][1] = (-cz*sy)*p[0]+(cz*cy*sx)*p[1]+(cz*cy*cx)*p[2];
-    m_Jacobian[1][1] = (-sz*sy)*p[0]+(sz*cy*sx)*p[1]+(sz*cy*cx)*p[2];
-    m_Jacobian[2][1] = (-cy)*p[0]+(-sy*sx)*p[1]+(-sy*cx)*p[2];
+    m_Jacobian[0][1] = (-cz*sy)*px+(cz*cy*sx)*py+(cz*cy*cx)*pz;
+    m_Jacobian[1][1] = (-sz*sy)*px+(sz*cy*sx)*py+(sz*cy*cx)*pz;
+    m_Jacobian[2][1] = (-cy)*px+(-sy*sx)*py+(-sy*cx)*pz;
     
-    m_Jacobian[0][2] = (-sz*cy)*p[0]+(-sz*sy*sx-cz*cx)*p[1]+(-sz*sy*cx+cz*sx)*p[2];
-    m_Jacobian[1][2] = (cz*cy)*p[0]+(cz*sy*sx-sz*cx)*p[1]+(cz*sy*cx+sz*sx)*p[2];  
+    m_Jacobian[0][2] = (-sz*cy)*px+(-sz*sy*sx-cz*cx)*py+(-sz*sy*cx+cz*sx)*pz;
+    m_Jacobian[1][2] = (cz*cy)*px+(cz*sy*sx-sz*cx)*py+(cz*sy*cx+sz*sx)*pz;  
     m_Jacobian[2][2] = 0;
     }
   else
     {
-    m_Jacobian[0][0] = (-sz*cx*sy)*p[0] + (sz*sx)*p[1] + (sz*cx*cy)*p[2];
-    m_Jacobian[1][0] = (cz*cx*sy)*p[0] + (-cz*sx)*p[1] + (-cz*cx*cy)*p[2];
-    m_Jacobian[2][0] = (sx*sy)*p[0] + (cx)*p[1] + (-sx*cy)*p[2];  
+    m_Jacobian[0][0] = (-sz*cx*sy)*px + (sz*sx)*py + (sz*cx*cy)*pz;
+    m_Jacobian[1][0] = (cz*cx*sy)*px + (-cz*sx)*py + (-cz*cx*cy)*pz;
+    m_Jacobian[2][0] = (sx*sy)*px + (cx)*py + (-sx*cy)*pz;  
     
-    m_Jacobian[0][1] = (-cz*sy-sz*sx*cy)*p[0] + (cz*cy-sz*sx*sy)*p[2];
-    m_Jacobian[1][1] = (-sz*sy+cz*sx*cy)*p[0] + (sz*cy+cz*sx*sy)*p[2];
-    m_Jacobian[2][1] = (-cx*cy)*p[0] + (-cx*sy)*p[2];
+    m_Jacobian[0][1] = (-cz*sy-sz*sx*cy)*px + (cz*cy-sz*sx*sy)*pz;
+    m_Jacobian[1][1] = (-sz*sy+cz*sx*cy)*px + (sz*cy+cz*sx*sy)*pz;
+    m_Jacobian[2][1] = (-cx*cy)*px + (-cx*sy)*pz;
     
-    m_Jacobian[0][2] = (-sz*cy-cz*sx*sy)*p[0] + (-cz*cx)*p[1] + (-sz*sy+cz*sx*cy)*p[2];
-    m_Jacobian[1][2] = (cz*cy-sz*sx*sy)*p[0] + (-sz*cx)*p[1] + (cz*sy+sz*sx*cy)*p[2];
+    m_Jacobian[0][2] = (-sz*cy-cz*sx*sy)*px + (-cz*cx)*py + (-sz*sy+cz*sx*cy)*pz;
+    m_Jacobian[1][2] = (cz*cy-sz*sx*sy)*px + (-sz*cx)*py + (cz*sy+sz*sx*cy)*pz;
     m_Jacobian[2][2] = 0;
     }
  
@@ -300,8 +355,9 @@ PrintSelf(std::ostream &os, Indent indent) const
      << " AngleY=" << m_AngleY  
      << " AngleZ=" << m_AngleZ  
      << std::endl;
-
   os << indent << "m_ComputeZYX = " << m_ComputeZYX << std::endl;
+  os << indent << "Center = " << m_Center << std::endl;
+  os << indent << "Translation = " << m_Translation << std::endl;
 }
 
 } // namespace
