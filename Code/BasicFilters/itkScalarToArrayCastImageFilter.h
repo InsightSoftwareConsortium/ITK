@@ -38,48 +38,31 @@ namespace itk
  * \ingroup IntensityImageFilters  Multithreaded
  */
 
-namespace Functor {  
-  
-  template< class TInput, class TOutput>
-  class ScalarToArrayCast
-  {
-  public:
-    ScalarToArrayCast() {}
-    ~ScalarToArrayCast() {}
-    inline TOutput operator()( const TInput & A )
-      {
-      typedef typename TOutput::ValueType OutputValueType;
-
-      TOutput value;
-      value[0] = static_cast<OutputValueType>( A );
-      return value;
-    }
-  }; 
-}
 
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT ScalarToArrayCastImageFilter :
-    public
-    UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Functor::ScalarToArrayCast< typename TInputImage::PixelType, 
-                         typename TOutputImage::PixelType>   >
+    public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
   typedef ScalarToArrayCastImageFilter  Self;
-  typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-    Functor::ScalarToArrayCast< typename TInputImage::PixelType, 
-    typename TOutputImage::PixelType> >  Superclass;
+  typedef ImageToImageFilter< TInputImage, TOutputImage >  Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /** Method for creation through the object factory. */
+  /** Standard class macros */
   itkNewMacro(Self);
-  
-protected:
-  ScalarToArrayCastImageFilter() {}
-  virtual ~ScalarToArrayCastImageFilter() {}
+  itkTypeMacro(ScalarToArrayCastImageFilter, ImageToImageFilter) ;
 
+  typedef typename Superclass::OutputImageRegionType OutputImageRegionType ;
+  typedef typename TOutputImage::PixelType OutputImagePixelType ;
+protected:
+  ScalarToArrayCastImageFilter() ;
+  virtual ~ScalarToArrayCastImageFilter() {}
+  
+  void ThreadedGenerateData(const OutputImageRegionType &outputRegionForThread,
+                            int threadId) ;
+ 
 private:
   ScalarToArrayCastImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
@@ -88,5 +71,8 @@ private:
 
 } // end namespace itk
 
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkScalarToArrayCastImageFilter.txx"
+#endif
 
 #endif
