@@ -110,7 +110,7 @@ int main()
   registrationMethod->SetReference(imgReference);
   registrationMethod->SetTarget(imgTarget);
 
-  registrationMethod->GetOptimizer()->SetMaximumStepLength( 1.0  );
+  registrationMethod->GetOptimizer()->SetMaximumStepLength( 10.0  );
   registrationMethod->GetOptimizer()->SetMinimumStepLength( 1e-3 );
   registrationMethod->GetOptimizer()->SetGradientMagnitudeTolerance( 1e-8 );
   registrationMethod->GetOptimizer()->SetMaximumNumberOfIterations( 200 );
