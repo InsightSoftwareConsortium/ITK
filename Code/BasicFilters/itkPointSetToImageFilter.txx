@@ -160,10 +160,10 @@ PointSetToImageFilter<TInputPointSet,TOutputImage>
   for(i=0;i<InputPointSetDimension;i++)
     {
     size[i] = (unsigned long)(bb->GetBounds()[2*i+1]-bb->GetBounds()[2*i]);
-    origin[i]=0;
+    origin[i]= 0; //bb->GetBounds()[2*i];
     }
-  
 
+  
   typename OutputImageType::RegionType region;
   
   // If the size of the output has been explicitly specified, the filter
@@ -208,6 +208,25 @@ PointSetToImageFilter<TInputPointSet,TOutputImage>
   if (specified)
     {
     OutputImage->SetSpacing(this->m_Spacing);         // set spacing
+    }
+
+    
+  specified = false;
+  for (i = 0; i < OutputImageDimension; i++)
+    {
+    if (m_Origin[i] != 0)
+      {
+      specified = true;
+      break;
+      }
+    }
+
+  if (specified)
+    {
+    for (i = 0; i < OutputImageDimension; i++)
+      {
+      origin[i] = m_Origin[i];         // set origin
+      }
     }
 
   OutputImage->SetOrigin(origin);   //   and origin
