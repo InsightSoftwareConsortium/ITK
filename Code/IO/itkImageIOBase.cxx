@@ -17,6 +17,7 @@
 #include "itkImageIOBase.h"
 #include "itkRGBPixel.h"
 #include "itkRGBAPixel.h"
+#include "itkOffset.h"
 
 
 namespace itk
