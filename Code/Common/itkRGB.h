@@ -16,6 +16,10 @@
 #ifndef __itkRGB_h
 #define __itkRGB_h
 
+// Undefine an eventual RGB macro
+#ifdef RGB
+#undef RGB
+#endif
 
 namespace itk
 {
