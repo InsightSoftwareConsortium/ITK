@@ -1,0 +1,53 @@
+# ITK Tcl package configuration.
+#
+# This file is moved by a CMake CONFIGURE_FILE command into a file in the
+# build directory called "pkgIndex.tcl".
+#
+# If you edit this file, do not use the syntax "${var}" to refer to
+# a Tcl variable, only to CMake variables.  CMake will replace any such
+# construct with the value of the named CMake variable, or with the empty
+# string if the names don't match.
+
+namespace eval itk {
+  #
+  # This procedure will help configure other ITK Tcl packages.
+  # Call it with:
+  #   package = the name of the package
+  #   version = the version number of the package
+  #   subdir  = the subdirectory under Wrapping/Tcl where the
+  #             package is built
+  #
+  proc ConfigureTclPackage {package version subdir} {
+    set libPrefix "${ITK_LIBNAME_PREFIX}"
+    set libPath [file join "${ITK_TCL_PACKAGE_DIR}" \
+                           "${ITK_MSDEV_CONFIG_DIR}"]
+    set libName $package
+    set libExt [info sharedlibextension]
+    set libFile [file join $libPath "$libPrefix$libName$libExt"]
+    
+    package ifneeded $package $version "
+      if {\[catch { load $libFile } errorMessage \]} \
+         { puts \$errorMessage } \
+      else { package provide $package $version }
+    "
+  }
+  
+  # Procedure to drive configuration of all packages.
+  proc ConfigureItkTclPackages {version} {
+    # Configure ITK Tcl packages.
+    ConfigureTclPackage VXLNumericsTcl $version Numerics
+    ConfigureTclPackage ITKCommonTcl   $version Common
+    
+    package ifneeded itk $version "
+      package require VXLNumericsTcl $version
+      package require ITKCommonTcl $version
+      package provide itk $version
+    "
+  }
+  
+  # Make sure the procedure can be called.
+  namespace export ConfigureItkTclPackages
+}
+
+# Configure packages with version 0.7.
+itk::ConfigureItkTclPackages 0.7
