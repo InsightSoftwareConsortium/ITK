@@ -17,7 +17,7 @@
 
 // Software Guide : BeginLatex
 //
-// The \code{itk::ImageLinearIteratorWithIndex} is designed for line-by-line
+// The \doxygen{ImageLinearIteratorWithIndex} is designed for line-by-line
 // processing of an image.  It walks a linear path along a selected image
 // direction parallel to one of the coordinate axes of the image. This
 // iterator allows developers to work with an image as a set of parallel lines
@@ -74,7 +74,7 @@
 // \end{itemize}
 //
 // The following code example shows how to use the
-// \code{itk::ImageLinearIteratorWithIndex}.  It implements the same
+// \doxygen{ImageLinearIteratorWithIndex}.  It implements the same
 // algorithm as in the previous example, flipping an image across its $x$-axis.
 // Two line iterators are iterated in opposite directions across the $x$-axis.
 // After a line is processed, the iterators are stepped to the next line (down the
@@ -111,7 +111,7 @@ int main( int argc, char ** argv )
 // Software Guide : BeginLatex
 //
 // The RGB Image and pixel types are defined as in the previous example.  The 
-// \code{itk::ImageLinearIteratorWithIndex} class and its const version each have
+// \doxygen{ImageLinearIteratorWithIndex} class and its const version each have
 // single template parameters, the image type.
 //
 // Software Guide : EndLatex
@@ -216,7 +216,7 @@ int main( int argc, char ** argv )
 //
 // Running this example on \code{VisibleWomanEyeSlice.png} produces
 // the same output image shown in
-// figure~\ref{fig:ImageRegionIteratorWithIndex}.
+// figure~\ref{fig:ImageRegionIteratorWithIndexExample}.
 //
 // \index{itk::ImageLinearIteratorWithIndex!example of using|)}
 // Software Guide : EndLatex
