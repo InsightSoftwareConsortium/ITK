@@ -68,6 +68,8 @@ See COPYRIGHT.txt for copyright details.
 #include "itkRegularExpressionSeriesFileNames.h"
 #include "itkSiemensVisionImageIO.h"
 #include "itkSiemensVisionImageIOFactory.h"
+#include "itkSpatialObjectReader.txx"
+#include "itkSpatialObjectWriter.txx"
 #include "itkStimulateImageIO.h"
 #include "itkStimulateImageIOFactory.h"
 #include "itkVOLImageIO.h"
