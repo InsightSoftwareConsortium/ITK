@@ -27,6 +27,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 ::KLMRegionGrowImageFilter(void):
   m_MaximumLambda(1000),
   m_NumberOfRegions(0),
+  m_InternalLambda(0),
   m_InitialNumberOfRegions(0),
   m_BorderCandidate(NULL),
   m_InitialRegionArea(0)
