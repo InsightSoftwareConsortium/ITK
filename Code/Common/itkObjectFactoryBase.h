@@ -23,8 +23,8 @@
 
 namespace itk
 {
-/** /class ObjectFactorBase
- * /brief Create instances of classes using an object factory.
+/** \class ObjectFactorBase
+ * \brief Create instances of classes using an object factory.
  *
  * ObjectFactoryBase is used to create itk objects. The base class
  * ObjectFactoryBase contains a static method CreateInstance() that is
