@@ -1,15 +1,16 @@
+#include <vcl_cmath.h>
 #include <vcl_cstdlib.h>
 #include <vcl_iostream.h>
+#include <vcl_complex.h>
 
 #include <vnl/vnl_test.h>
-#include <vnl/vnl_complex.h>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_double_3.h>
 #include <vnl/vnl_matops.h>
 #include <vnl/algo/vnl_svd.h>
 
 vnl_matrix<double> solve_with_warning(const vnl_matrix<double>& M,
-				      const vnl_matrix<double>& B)
+                                      const vnl_matrix<double>& B)
 // Solve LS problem M x = B, warning if M is nearly singular.
 {
   // Take svd of vnl_matrix<double> M, trim the singular values at 1e-8,
@@ -28,13 +29,13 @@ void test_hilbert()
   for(int i = 0; i < 5; ++i)
     for(int j = 0; j < 5; ++j)
       H(i,j) = 1.0 / (i+j+1); // sic, because i,j are zero based
-  
+
   vcl_cout << "H = [ " << H << "]\n";
 
   vnl_svd<double> svd(H);
-  
+
   vcl_cout << "rcond(H) = " << svd.well_condition() << vcl_endl;
-  
+
   vnl_matrix<double> Hinv = svd.inverse();
 
   vnl_matrix<double> X = Hinv * H;
@@ -44,9 +45,9 @@ void test_hilbert()
   vnl_matrix<double> I(5,5);
   I = 0.0;
   I.fill_diagonal(1.0);
-  
+
   vnl_matrix<double> res = X - I;
-  Assert("Hilbert recomposition residual", res.fro_norm() < 1.1e-10);
+  vnl_test_assert("Hilbert recomposition residual", res.fro_norm() < 1.1e-10);
 }
 
 // Test recovery of parameters of least-squares parabola fit.
@@ -55,7 +56,7 @@ void test_ls()
   double a = 0.15;
   double b = 1.2;
   double c = 3.1;
-  
+
   // Generate parabola design matrix
   vnl_matrix<double> D(100, 3);
   for(int n = 0; n < 100; ++n) {
@@ -84,11 +85,11 @@ void test_ls()
 
   vnl_double_3 T(a,b,c);
   vcl_cout << "residual = " << (A - T).squared_magnitude() << vcl_endl;
-  Assert("Least squares residual", (A - T).squared_magnitude() < 0.005);
-}  
+  vnl_test_assert("Least squares residual", (A - T).squared_magnitude() < 0.005);
+}
 
 // temporarily unused
-double test_fmatrix() 
+double test_fmatrix()
 {
   double pdata[] = {
     2, 0, 0, 0,
@@ -99,14 +100,14 @@ double test_fmatrix()
   vnl_svd<double> svd(P);
   vnl_matrix<double> N = svd.nullspace();
   vcl_cout << "null(P) = " << N << vcl_endl;
-  
+
   vcl_cout << "P * null(P) = " << P*N << vcl_endl;
-  
-  return sqrt(dot_product(P*N, P*N));
+
+  return vcl_sqrt(dot_product(P*N, P*N));
 }
 
 // Test nullspace extraction of rank=2 3x4 matrix.
-void test_pmatrix() 
+void test_pmatrix()
 {
   double pdata[] = {
     2, 0, 0, 0,
@@ -118,29 +119,29 @@ void test_pmatrix()
 
   vnl_matrix<double> res = svd.recompose() - P;
   vcl_cout << "Recomposition residual = " << res.fro_norm() << vcl_endl;
-  Assert("PMatrix recomposition residual", res.fro_norm() < 1e-12);
+  vnl_test_assert("PMatrix recomposition residual", res.fro_norm() < 1e-12);
   vcl_cout << " Inv = " << svd.inverse() << vcl_endl;
 
-  Assert("singularities = 2", svd.singularities() == 2);
-  Assert("rank = 2", svd.rank() == 2);
+  vnl_test_assert("singularities = 2", svd.singularities() == 2);
+  vnl_test_assert("rank = 2", svd.rank() == 2);
 
   vnl_matrix<double> N = svd.nullspace();
-  Assert("nullspace dimension", N.columns() == 2);
+  vnl_test_assert("nullspace dimension", N.columns() == 2);
   vcl_cout << "null(P) = \n" << N << vcl_endl;
-  
+
   vnl_matrix<double> PN = P*N;
   vcl_cout << "P * null(P) = \n" << PN << vcl_endl;
   vcl_cout << "nullspace residual = " << PN.fro_norm() << vcl_endl;
-  Assert("P nullspace residual", PN.fro_norm() < 1e-12);
-  
+  vnl_test_assert("P nullspace residual", PN.fro_norm() < 1e-12);
+
   vnl_vector<double> n = svd.nullvector();
   vcl_cout << "nullvector residual = " << (P*n).magnitude() << vcl_endl;
-  Assert("P nullvector residual", (P*n).magnitude() < 1e-12);
+  vnl_test_assert("P nullvector residual", (P*n).magnitude() < 1e-12);
 
   vnl_vector<double> l = svd.left_nullvector();
   vcl_cout << "left_nullvector(P) = " << l << vcl_endl;
   vcl_cout << "left_nullvector residual = " << (l*P).magnitude() << vcl_endl;
-  Assert("P left nullvector residual", (l*P).magnitude() < 1e-12);
+  vnl_test_assert("P left nullvector residual", (l*P).magnitude() < 1e-12);
 }
 
 void test_I()
@@ -155,14 +156,6 @@ void test_I()
   vcl_cout << svd;
 }
 
-// a templated function may not call a static function.
-#define STATIC /*static*/
-STATIC double double_random() { return rand()/double(RAND_MAX); }
-STATIC void fill_random(float &x)  { x = double_random(); }
-STATIC void fill_random(double &x) { x = double_random(); }
-STATIC void fill_random(vnl_float_complex &x)  { x = vnl_float_complex (double_random(), double_random()); }
-STATIC void fill_random(vnl_double_complex &x) { x = vnl_double_complex(double_random(), double_random()); }
-
 template <class T>
 void test_svd_recomposition(char const *type, double maxres, T * /*tag*/)
 {
@@ -170,25 +163,23 @@ void test_svd_recomposition(char const *type, double maxres, T * /*tag*/)
   vcl_cout << "----- testing vnl_svd<" << type << "> recomposition -----" << vcl_endl;
 
   vnl_matrix<T> A(5,5);
-  for (unsigned i = 0; i < A.rows(); ++i)
-    for (unsigned j = 0; j < A.columns(); ++j)
-      fill_random(A(i, j));
-  
+  vnl_test_fill_random(A.begin(), A.end());
+
   vcl_cout << "A = [ " << vcl_endl << A << "]" << vcl_endl;
   vnl_svd<T> svd(A);
-  
+
   vnl_matrix<T> B=svd.recompose();
   vcl_cout << "B = [ " << vcl_endl << B << "]" << vcl_endl;
-  
+
   double residual=(A - B).fro_norm();
   vcl_cout << "residual=" << residual << vcl_endl;
-  Assert("vnl_svd<float> recomposition residual", residual < maxres);
+  vnl_test_assert("vnl_svd<float> recomposition residual", residual < maxres);
 }
 
 template void test_svd_recomposition(char const *, double, float *);
 template void test_svd_recomposition(char const *, double, double *);
-template void test_svd_recomposition(char const *, double, vnl_float_complex *);
-template void test_svd_recomposition(char const *, double, vnl_double_complex *);
+template void test_svd_recomposition(char const *, double, vcl_complex<float> *);
+template void test_svd_recomposition(char const *, double, vcl_complex<double> *);
 
 // Driver
 void test_svd()
@@ -199,8 +190,8 @@ void test_svd()
   test_I();
   test_svd_recomposition("float",              1e-5 , (float*)0);
   test_svd_recomposition("double",             1e-10, (double*)0);
-  test_svd_recomposition("vnl_float_complex",  1e-5 , (vnl_float_complex*)0);
-  test_svd_recomposition("vnl_double_complex", 1e-10, (vnl_double_complex*)0);
+  test_svd_recomposition("vcl_complex<float>",  1e-5 , (vcl_complex<float>*)0);
+  test_svd_recomposition("vcl_complex<double>", 1e-10, (vcl_complex<double>*)0);
 }
 
 TESTMAIN(test_svd);

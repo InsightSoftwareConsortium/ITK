@@ -2,10 +2,11 @@
 // have inclusion guards. The
 // C and C++ standards say so.
 
-// .NAME vcl_cassert
-// .INCLUDE vcl_cassert.h
-// .FILE vcl_cassert.cxx
-// @author fsm@robots.ox.ac.uk
+// This is vcl_cassert.h
+
+//:
+// \file 
+// \author fsm@robots.ox.ac.uk
 
 #include "vcl_compiler.h"
 

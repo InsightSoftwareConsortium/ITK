@@ -3,7 +3,7 @@
 #pragma implementation
 #endif
 //
-// Class: vnl_lbfgs
+// vnl_lbfgs
 // Author: Andrew W. Fitzgibbon, Oxford RRG
 // Created: 22 Aug 99
 //
@@ -14,7 +14,7 @@
 #include <vcl_cstdio.h>   // sprintf()
 #include <vcl_iostream.h>
 
-// -- Default constructor.
+//: Default constructor.
 // memory is set to 5, line_search_accuracy to 0.9.
 // Calls init_parameters
 vnl_lbfgs::vnl_lbfgs():
@@ -23,7 +23,7 @@ vnl_lbfgs::vnl_lbfgs():
   init_parameters();
 }
 
-// -- Constructor. f is the cost function to be minimized.
+//: Constructor. f is the cost function to be minimized.
 // Calls init_parameters
 vnl_lbfgs::vnl_lbfgs(vnl_cost_function& f):
   f_(&f)
@@ -31,7 +31,7 @@ vnl_lbfgs::vnl_lbfgs(vnl_cost_function& f):
   init_parameters();
 }
 
-// -- Called by constructors.
+//: Called by constructors.
 // Memory is set to 5, line_search_accuracy to 0.9, default_step_length to 1.
 void vnl_lbfgs::init_parameters()
 {
@@ -61,7 +61,7 @@ static struct {
 // C        to a small value. A typical small value is 0.1.  Restriction:
 // C        GTOL should be greater than 1.D-04.
 
-  
+
 // C    STPMIN and STPMAX are non-negative DOUBLE PRECISION variables which
 // C        specify lower and uper bounds for the step in the line search.
 // C        Their default values are 1.D-20 and 1.D+20, respectively. These
@@ -95,13 +95,12 @@ bool vnl_lbfgs::minimize(vnl_vector<double>& x)
 
   // Workspace
   vnl_vector<double> diag(n);
-  
+
   vnl_vector<double> w(n * (2*m+1)+2*m);
-  
   vcl_cout << "vnl_lbfgs: n = "<< n <<", memory = "<< m <<", Workspace = "<< w.size()
        << "[ "<< ( w.size() / 128.0 / 1024.0) <<" MB], ErrorScale = "
        << f_->reported_error(1) <<", xnorm = "<< x.magnitude() << vcl_endl;
-  
+
   bool we_trace = (verbose_ && !trace);
 
   if (we_trace)
@@ -109,12 +108,12 @@ bool vnl_lbfgs::minimize(vnl_vector<double>& x)
 
   double best_f = 0;
   vnl_vector<double> best_x;
-  
+
   bool ok = true;
   this->num_evaluations_ = 0;
   int iflag = 0;
   for(;;) {
-    // We do not wish to provide the diagonal matrices Hk0, and therefore set DIAGCO to FALSE. 
+    // We do not wish to provide the diagonal matrices Hk0, and therefore set DIAGCO to FALSE.
     int diagco = 0;
 
     // Set these every iter in case user changes them to bail out
@@ -142,17 +141,17 @@ bool vnl_lbfgs::minimize(vnl_vector<double>& x)
       int limit = 100;
       int limit_tail = 10;
       if (l > limit + limit_tail) {
-	vcl_cerr << " [ Showing only first " <<limit<< " components ]\n";
-	l = limit;
+        vcl_cerr << " [ Showing only first " <<limit<< " components ]\n";
+        l = limit;
       }
       vcl_cerr.form("%6s %20s %20s %20s %20s\n", "i", "x", "g", "fdg", "dg");
       vcl_cerr.form("%6s %20s %20s %20s %20s\n", "-", "-", "-", "---", "--");
       for(int i = 0; i < l; ++i)
-	vcl_cerr.form("%6d %20g %20g %20g %20g\n", i, x[i], g[i], fdg[i], g[i] - fdg[i]);
+        vcl_cerr.form("%6d %20g %20g %20g %20g\n", i, x[i], g[i], fdg[i], g[i] - fdg[i]);
       if (n > limit) {
-	vcl_cerr << "   ...\n";
-	for(int i = n - limit_tail; i < n; ++i)
-	  vcl_cerr.form("%6d %20g %20g %20g %20g\n", i, x[i], g[i], fdg[i], g[i] - fdg[i]);
+        vcl_cerr << "   ...\n";
+        for(int i = n - limit_tail; i < n; ++i)
+          vcl_cerr.form("%6d %20g %20g %20g %20g\n", i, x[i], g[i], fdg[i], g[i] - fdg[i]);
       }
 #endif
       vcl_cerr << "   ERROR = " << (fdg - g).squared_magnitude() / vcl_sqrt(double(n)) << "\n";
@@ -161,11 +160,11 @@ bool vnl_lbfgs::minimize(vnl_vector<double>& x)
     iprint[0] = trace ? 1 : -1; // -1 no o/p, 0 start and end, 1 every iter.
     iprint[1] = 0; // 1 prints X and G
     lbfgs_(&n, &m, x.data_block(), &f, g.data_block(), &diagco, diag.data_block(),
-	   iprint, &eps, &local_xtol, w.data_block(), &iflag);
-    
+           iprint, &eps, &local_xtol, w.data_block(), &iflag);
+
     if (we_trace)
       vcl_cerr << iflag << ":" << f_->reported_error(f) << " ";
-      
+
     if (iflag == 0) {
       // Successful return
       this->end_error_ = f;
@@ -181,7 +180,7 @@ bool vnl_lbfgs::minimize(vnl_vector<double>& x)
       x = best_x;
       break;
     }
-    
+
     if (++this->num_evaluations_ > get_max_function_evals()) {
       failure_code_ = FAILED_TOO_MANY_ITERATIONS;
       ok = false;
@@ -190,6 +189,6 @@ bool vnl_lbfgs::minimize(vnl_vector<double>& x)
     }
   }
   if (we_trace) vcl_cerr << "done\n";
-  
+
   return ok;
 }

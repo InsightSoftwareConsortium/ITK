@@ -5,8 +5,8 @@
 
 extern "C"
 int sggsvd_(char const *jobu, char const *jobv, char const *jobq, int *m, int *n, int *p,
-	    int *k, int *l, float *a, int *lda, float *b, int *ldb,
-	    float *alpha, float *beta, float *u, int *ldu, float *v,
+            int *k, int *l, float *a, int *lda, float *b, int *ldb,
+            float *alpha, float *beta, float *u, int *ldu, float *v,
             int *ldv, float *q, int *ldq, float *work, int *iwork,
             int *info);
 
@@ -20,7 +20,7 @@ int main() {
 
   sggsvd_("U", "V", "Q", &m, &n, &p, &k, &l, AA, &n, BB, &n, Alpha, Beta,
           U, &n, V, &n, Q, &n, Work, Iwork, &info);
-  
+
   printf("k = %d, l = %d, info = %d\n", k, l, info);
   if (k!=0 || l!=3) {
     printf("*** Failed: (k,l) must be (0,3), not (%1d,%1d)\n", k, l);

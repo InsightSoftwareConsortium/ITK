@@ -41,7 +41,7 @@ public:
     powell_->pub_report_eval(e);
     return e;
   }
-  
+
   void uninit(double lambda, vnl_vector<double>& out) {
     for(unsigned int i = 0; i < n_; ++i)
       out[i] = x0_[i] + lambda * dx_[i];
@@ -78,7 +78,7 @@ vnl_powell::minimize(vnl_vector<double>& p)
     for (int i=0;i<n;i++) {
       // xit = ith column of xi
       for(int j = 0; j < n; ++j)
-	xit[j] = xi[j][i];
+        xit[j] = xi[j][i];
       double fptt = fret;
 
       // 1D minimization along xi
@@ -91,10 +91,10 @@ vnl_powell::minimize(vnl_vector<double>& p)
       fret = brent.minimize_given_bounds(bx, xx, ax, linmin_ftol, &xx);
       f1d.uninit(xx, p);
       // Now p is minimizer along xi
-      
+
       if (fabs(fptt-fret) > del) {
-	del = fabs(fptt-fret);
-	ibig = i;
+        del = fabs(fptt-fret);
+        ibig = i;
       }
     }
 
@@ -106,31 +106,31 @@ vnl_powell::minimize(vnl_vector<double>& p)
     if (num_iterations_ == unsigned(maxfev)) {
       return FAILED_TOO_MANY_ITERATIONS;
     }
-    
+
     for (int j=0;j<n;++j) {
       ptt[j]=2.0*p[j]-pt[j];
       xit[j]=p[j]-pt[j];
       pt[j]=p[j];
     }
-    
+
     double fptt = functor_->f(ptt);
     report_eval(fret);
     if (fptt < fp) {
       double t=2.0*(fp-2.0*fret+fptt)*vnl_math_sqr(fp-fret-del)-del*vnl_math_sqr(fp-fptt);
       if (t < 0.0) {
-	f1d.init(p, xit);
-	vnl_brent brent(&f1d);
+        f1d.init(p, xit);
+        vnl_brent brent(&f1d);
         double ax = 0.0;
-	double xx = 1.0;
-	double bx;
-	brent.bracket_minimum(&ax, &xx, &bx);
-	fret = brent.minimize_given_bounds(bx, xx, ax, linmin_ftol, &xx);
-	f1d.uninit(xx, p);
+        double xx = 1.0;
+        double bx;
+        brent.bracket_minimum(&ax, &xx, &bx);
+        fret = brent.minimize_given_bounds(bx, xx, ax, linmin_ftol, &xx);
+        f1d.uninit(xx, p);
 
-	for (int j=0;j<n;j++) {
-	  xi[j][ibig]=xi[j][n-1];
-	  xi[j][n-1]=xit[j];
-	}
+        for (int j=0;j<n;j++) {
+          xi[j][ibig]=xi[j][n-1];
+          xi[j][n-1]=xit[j];
+        }
 //        MATLABPRINT(xi);
       }
     }
