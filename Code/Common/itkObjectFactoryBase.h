@@ -199,7 +199,7 @@ public:
   };
 
 protected:
-  virtual void PrintSelf(std::ostream& os, Indent indent);
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
   /**
    * Register object creation information with the factory.

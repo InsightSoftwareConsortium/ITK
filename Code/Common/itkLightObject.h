@@ -111,7 +111,7 @@ public:
   /** 
    * Cause the object to print itself out.
    */
-  void Print(std::ostream& os);
+  void Print(std::ostream& os) const;
 
   /** 
    * This method is called when itkErrorMacro executes. It allows 
@@ -219,9 +219,9 @@ protected:
    * instead) but used in the hierarchical print process to combine the
    * output of several classes. 
    */
-  virtual void PrintSelf(std::ostream& os, Indent indent);
-  virtual void PrintHeader(std::ostream& os, Indent indent);
-  virtual void PrintTrailer(std::ostream& os, Indent indent);
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintHeader(std::ostream& os, Indent indent) const;
+  virtual void PrintTrailer(std::ostream& os, Indent indent) const;
 
   /**
    * Number of uses of this object by other objects.

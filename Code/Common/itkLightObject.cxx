@@ -255,7 +255,7 @@ LightObject
  */
 void 
 LightObject
-::Print(std::ostream& os)
+::Print(std::ostream& os) const
 {
   Indent indent;
 
@@ -364,7 +364,7 @@ LightObject
  */
 void 
 LightObject
-::PrintSelf(std::ostream& os, Indent indent)
+::PrintSelf(std::ostream& os, Indent indent) const
 {
   os << indent << "Reference Count: " << m_ReferenceCount << std::endl;
 }
@@ -375,7 +375,7 @@ LightObject
  */
 void 
 LightObject
-::PrintHeader(std::ostream& os, Indent indent)
+::PrintHeader(std::ostream& os, Indent indent) const
 {
   os << indent << this->GetClassName() << " (" << this << ")\n";
 }
@@ -386,7 +386,7 @@ LightObject
  */
 void 
 LightObject
-::PrintTrailer(std::ostream& os, Indent indent)
+::PrintTrailer(std::ostream& os, Indent indent) const
 {
   os << indent << std::endl;
 }
@@ -399,7 +399,7 @@ LightObject
  * interesting to print out.
  */
 std::ostream& 
-operator<<(std::ostream& os, LightObject& o)
+operator<<(std::ostream& os, const LightObject& o)
 {
   o.Print(os);
   return os;
