@@ -295,7 +295,7 @@ void TIFFImageIO::ReadGenericImage( void *out,
   else if(m_ComponentType == USHORT)
     {
     isize /= 2;
-    unsigned short* image = reinterpret_cast<unsigned short*>(out);
+    unsigned short* image;
     for ( row = 0; row < (int)height; row ++ )
       {
       if (TIFFReadScanline(m_InternalImage->Image, buf, row, 0) <= 0)
