@@ -1252,8 +1252,8 @@ y at the bounds\002)";
     if (*iprint >= 0) {
   if (*prjctd) {
 //      s_wsle(&io___81);
-//      do_lio(&c__9, &c__1, "The initial X is infeasible.  Restart with\
- its projection.", (ftnlen)58);
+//      do_lio(&c__9, &c__1, "The initial X is infeasible.  Restart with its projection.", 
+//        (ftnlen)58);
 //      e_wsle();
   }
   if (! (*cnstnd)) {
@@ -3988,6 +3988,9 @@ L1000:
     dsave[11] = stmax;
     dsave[12] = width;
     dsave[13] = width1;
+
+  return 0;
+
 } /* dcsrch_ */
 
 /* ====================== The end of dcsrch ============================== */
@@ -4266,6 +4269,9 @@ doublereal *stpmin, *stpmax;
     }
 /*     Compute the new step. */
     *stp = stpf;
+
+  return 0;
+
 } /* dcstep_ */
 
 /* ====================== The end of dcstep ============================== */
