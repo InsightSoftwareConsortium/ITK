@@ -7,6 +7,7 @@ itkAnalyzeImageIOTest.cxx
 itkConvertBufferTest.cxx
 itkDicomImageIOTest.cxx
 itkDICOMImageIO2Test.cxx
+itkGEImageIOTest.cxx
 itkGiplImageIOTest.cxx
 itkImageSeriesIOTest.cxx
 itkMetaImageIOTest.cxx
@@ -94,6 +95,28 @@ ADD_TEST(itkDICOMImageIO2Test ${IO_TESTS}
                                   false ${ITK_DATA_ROOT}/Input/ramp.gipl)
   ADD_TEST(itkAnalyzeIOShouldSucceed ${IO_TESTS} itkAnalyzeImageIOTest2
                                   true ${ITK_DATA_ROOT}/Input/LittleEndian.hdr)
+  ADD_TEST(itkGE4 ${IO_TESTS} itkGEImageIOTest true 
+		  GE4 ${ITK_DATA_ROOT}/Input/test_ge4/19771.002.001)
+  ADD_TEST(itkGE5 ${IO_TESTS} itkGEImageIOTest true 
+		  GE5 ${ITK_DATA_ROOT}/Input/test_ge5/113766.003.001)
+  ADD_TEST(itkGEAdw ${IO_TESTS} itkGEImageIOTest true 
+		  GEAdw ${ITK_DATA_ROOT}/Input/test_geadw/I.001)
+  ADD_TEST(itkSiemens ${IO_TESTS} itkGEImageIOTest true 
+		  Siemens ${ITK_DATA_ROOT}/Input/test_siemens/3868-2-100.ima)
+
+  ADD_TEST(itkGE4Fail ${IO_TESTS} itkGEImageIOTest false 
+		  GE4 
+		  ${ITK_DATA_ROOT}/Input/test_ge5/113766.003.001)
+  ADD_TEST(itkGE5Fail ${IO_TESTS} itkGEImageIOTest false 
+		  GE5 
+		  ${ITK_DATA_ROOT}/Input/test_ge4/19771.002.001)
+  ADD_TEST(itkGEAdwFail ${IO_TESTS} itkGEImageIOTest false 
+		  GEAdw 
+		  ${ITK_DATA_ROOT}/Input/test_siemens/3868-2-100.ima)
+  ADD_TEST(itkSiemensFail ${IO_TESTS} itkGEImageIOTest false 
+		  Siemens 
+		  ${ITK_DATA_ROOT}/Input/test_geadw/I.001)
+
 ENDIF(ITK_DATA_ROOT)
 
 IF(ITK_BINARY_DIR)
