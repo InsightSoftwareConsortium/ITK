@@ -40,7 +40,8 @@ public:
   
   void Print(std::ostream& os) const
     {
-      os << "Missing element attribute: " << m_Missing.c_str();
+      os << "Missing element attribute: " << m_Missing.c_str()
+         << std::endl;
     }
 private:
   String m_Missing;

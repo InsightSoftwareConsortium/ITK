@@ -73,17 +73,17 @@ private:
   std::map<String, CodeBlock::Pointer>  m_DeleteMethods;
 
   /**
-   * Set of named ArgumentSet s that have been defined.
+   * Set of named Set s that have been defined.
    */
-  std::map<String, ArgumentSet::Pointer>  m_ArgumentSets;
+  std::map<String, Set::Pointer>  m_Sets;
 
   // Access functions for element stack.
-  ConfigureObject::Pointer CurrentElement();
+  ConfigureObject::Pointer TopParseElement();
   Package::Pointer         CurrentPackage();
   Dependencies::Pointer    CurrentDependencies();
   CodeBlock::Pointer       CurrentCodeBlock();
-  ArgumentSet::Pointer     CurrentArgumentSet();
-  Argument::Pointer        CurrentArgument();
+  Set::Pointer             CurrentSet();
+  Element::Pointer         CurrentElement();
   Headers::Pointer         CurrentHeaders();
 
   // Element stack utilities.
@@ -95,22 +95,24 @@ private:
   void begin_Dependencies(const Attributes&);
   void begin_CreateMethod(const Attributes&);
   void begin_DeleteMethod(const Attributes&);
-  void begin_ArgumentSet(const Attributes&);
-  void begin_Argument(const Attributes&);
+  void begin_Set(const Attributes&);
+  void begin_Element(const Attributes&);
   void begin_Headers(const Attributes&);
   void begin_File(const Attributes&);
   void begin_Directory(const Attributes&);
+  void begin_WrapperSet(const Attributes&);
   
   // The element end handlers.
   void end_Package();
   void end_Dependencies();
   void end_CreateMethod();
   void end_DeleteMethod();
-  void end_ArgumentSet();
-  void end_Argument();
+  void end_Set();
+  void end_Element();
   void end_Headers();
   void end_File();
   void end_Directory();
+  void end_WrapperSet();
   
   // Element map utilities.
   static void InitializeHandlers();
@@ -135,7 +137,7 @@ private:
   static void BeginCdataSectionHandler_proxy(void*);
   static void EndCdataSectionHandler_proxy(void*);
   
-  void GenerateArgumentCombinations(const Argument*);
+  void GenerateElementCombinations(const Element*, Set*);
 };
 
 } // namespace configuration

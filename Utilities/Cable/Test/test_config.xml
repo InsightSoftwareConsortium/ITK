@@ -9,29 +9,47 @@
     <File name="itkVersion.h"/>
   </Headers>
 
-  <ArgumentSet name="Dimension">
-    <Argument tag="1">1</Argument>
-    <Argument tag="2">2</Argument>
-    <Argument tag="3">3</Argument>
-  </ArgumentSet>
+  <Set name="Dimension">
+    <Element tag="1">1</Element>
+    <Element tag="2">2</Element>
+    <Element tag="3">3</Element>
+  </Set>
 
-  <ArgumentSet name="Integer">
-    <Argument tag="I">int</Argument>
-  </ArgumentSet>
+  <Set name="Integer">
+    <Element tag="i">int</Element>
+  </Set>
 
-  <ArgumentSet name="BasicScalarType">
-    <Argument tag="F">float</Argument>
-    <ArgumentSet name="Integer"/>
-  </ArgumentSet>
+  <Set name="BasicScalarType">
+    <Element tag="f">float</Element>
+    <Set name="Integer"/>
+  </Set>
 
-  <CreateMethod name="operator new">
-    <![CDATA[
-             return new _wrap_TypeName;
-             ]]>
+  <CreateMethod name="New()">
+    <![CDATA[ 
+             _wrap_TypeName::Pointer newObject = _wrap_TypeName::New();
+             newObject->Register();
+             return newObject.GetPointer();
+            ]]>
   </CreateMethod>
+  
+  <DeleteMethod name="Delete()">
+    <![CDATA[
+             static_cast<_wrap_TypeName*>(object)->Delete();
+            ]]>
+  </DeleteMethod>
 
-  <ArgumentSet name="VectorOfScalar">
-    <Argument tag="Vector"><![CDATA[vector<$BasicScalarType, $Dimension>]]></Argument>
-  </ArgumentSet>
+  <Set name="ImageType">
+    <Element tag="Image"><![CDATA[Image<$BasicScalarType, $Dimension> ]]></Element>
+  </Set>
+
+  <WrapperSet>
+    <!-- 
+      <Create method="New()"/>
+      <Delete method="Delete()"/>
+      -->
+    <Set name="ImageType"/>
+    <Element tag="Directory">Directory</Element>
+    <Element tag="Pair"><![CDATA[pair<$ImageType, $BasicScalarType> ]]></Element>
+  </WrapperSet>
 
 </Package>

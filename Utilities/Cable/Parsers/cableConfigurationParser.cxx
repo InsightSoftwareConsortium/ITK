@@ -201,7 +201,7 @@ void
 Parser
 ::CharacterDataHandler(const XML_Char *data, int length)
 {
-  this->CurrentElement()->AddCharacterData(data, length, m_CdataSectionFlag);
+  this->TopParseElement()->AddCharacterData(data, length, m_CdataSectionFlag);
 }
 
 
@@ -210,10 +210,28 @@ Parser
  */
 ConfigureObject::Pointer
 Parser
-::CurrentElement()
+::TopParseElement()
 {
   return m_ElementStack.top();
 }
+
+
+/**
+ * An unknown Set has been referenced with a $ token.
+ */
+class UnknownSetException: public ParseException
+{
+public:
+  UnknownSetException(const String& unknown):
+    ParseException(), m_Unknown(unknown) {}
+  void Print(std::ostream& os) const
+    {
+      os << "Unknown Set \"" << m_Unknown.c_str() << "\""
+         << std::endl;
+    }
+private:
+  String m_Unknown;
+};
 
 
 /**
@@ -282,32 +300,33 @@ Parser
 
 
 /**
- * Get the current ArgumentSet off the top of the element stack.
+ * Get the current Set off the top of the element stack.
  */
-ArgumentSet::Pointer
+Set::Pointer
 Parser
-::CurrentArgumentSet()
+::CurrentSet()
 {
-  if(!m_ElementStack.top()->IsArgumentSet())
-    throw ElementStackTypeException("ArgumentSet",
+  if(!m_ElementStack.top()->IsSet()
+     && !m_ElementStack.top()->IsWrapperSet())
+    throw ElementStackTypeException("Set",
                                     m_ElementStack.top()->GetClassName());
 
-  return dynamic_cast<ArgumentSet*>(m_ElementStack.top().RealPointer());
+  return dynamic_cast<Set*>(m_ElementStack.top().RealPointer());
 }
 
 
 /**
- * Get the current Argument off the top of the element stack.
+ * Get the current Element off the top of the element stack.
  */
-Argument::Pointer
+Element::Pointer
 Parser
-::CurrentArgument()
+::CurrentElement()
 {
-  if(!m_ElementStack.top()->IsArgument())
-    throw ElementStackTypeException("Argument",
+  if(!m_ElementStack.top()->IsElement())
+    throw ElementStackTypeException("Element",
                                     m_ElementStack.top()->GetClassName());
 
-  return dynamic_cast<Argument*>(m_ElementStack.top().RealPointer());
+  return dynamic_cast<Element*>(m_ElementStack.top().RealPointer());
 }
 
 
@@ -486,97 +505,99 @@ Parser
 
 
 /**
- * Begin handler for ArgumentSet element.
+ * Begin handler for Set element.
  */
 void
 Parser
-::begin_ArgumentSet(const Attributes& atts)
+::begin_Set(const Attributes& atts)
 {
   String name = atts.Get("name");
   
-  if(this->CurrentElement()->IsArgumentSet())
+  if(this->TopParseElement()->IsSet()
+     || this->TopParseElement()->IsWrapperSet())
     {
-    // The ArgumentSet is being referenced inside another set.
-    if(m_ArgumentSets.count(name) > 0)
+    // The Set is being referenced inside another set.
+    if(m_Sets.count(name) > 0)
       {
-      // Copy all the arguments over to it.
-      this->CurrentArgumentSet()->Add(m_ArgumentSets[name]);
+      // Copy all the elements over to it.
+      this->CurrentSet()->Add(m_Sets[name]);
       }
     else
       {
-      // The referenced argument set does not exist.  Complain.
-      std::cerr << "ArgumentSet \"" << name.c_str() << "\" does not exist!"
-                << std::endl;
+      // The referenced element set does not exist.  Complain.
+      throw UnknownSetException(name);
       }
     
-    // Put a dummy element on the stack to be popped off by end_ArgumentSet().
+    // Put a dummy element on the stack to be popped off by end_Set().
     this->PushElement(0);
     }
   else
     {
-    // Create a new ArgumentSet.
-    ArgumentSet::Pointer newArgumentSet = ArgumentSet::New();
+    // Create a new Set.
+    Set::Pointer newSet = Set::New();
     
-    // Save the ArgumentSet by this name.
-    m_ArgumentSets[name] = newArgumentSet;
+    // Save the Set by this name.
+    m_Sets[name] = newSet;
     
-    // Put new ArgumentSet on the stack so it can be filled.
-    this->PushElement(newArgumentSet);
+    // Put new Set on the stack so it can be filled.
+    this->PushElement(newSet);
     }
 }
 
 
 /**
- * End handler for ArgumentSet element.
+ * End handler for Set element.
  */
 void
 Parser
-::end_ArgumentSet()
+::end_Set()
 {
-  if(this->CurrentElement())
+  if(this->TopParseElement())
     {
-    // Print out the arguments defined.
-    this->CurrentArgumentSet()->Print(std::cout);
-    std::cout << "----end_ArgumentSet----" << std::endl;
+    std::cout << "----begin Set----" << std::endl;
+    // Print out the elements defined.
+    this->CurrentSet()->Print(std::cout);
+    std::cout << "----end Set----" << std::endl;
     }
   
-  // Take the ArgumentSet off the stack.
+  // Take the Set off the stack.
   this->PopElement();
 }
 
 
 /**
- * Begin handler for Argument element.
+ * Begin handler for Element element.
  */
 void
 Parser
-::begin_Argument(const Attributes& atts)
+::begin_Element(const Attributes& atts)
 {
   String tag = atts.Get("tag");
   
-  // Create a new Argument.
-  Argument::Pointer newArgument = Argument::New(tag);
+  // Create a new Element.
+  Element::Pointer newElement = Element::New(tag);
   
-  // Put new Argument on the stack so it can be filled with code.
-  this->PushElement(newArgument);
+  // Put new Element on the stack so it can be filled with code.
+  this->PushElement(newElement);
 }
 
 
 /**
- * End handler for Argument element.
+ * End handler for Element element.
  */
 void
 Parser
-::end_Argument()
+::end_Element()
 {
-  // Hold onto the finished Argument as it is popped off the stack.
-  Argument::Pointer finishedArgument = this->CurrentArgument();
+  // Hold onto the finished Element as it is popped off the stack.
+  Element::Pointer finishedElement = this->CurrentElement();
   
-  // Take the Argument off the stack.
+  // Take the Element off the stack.
   this->PopElement();
 
-  // Add the argument to the current ArgumentSet.
-  this->GenerateArgumentCombinations(finishedArgument);
+  // Add the element to the current Set.
+  this->GenerateElementCombinations(finishedElement,
+                                    this->CurrentSet().RealPointer());
 }
 
 
@@ -664,6 +685,44 @@ Parser
 
 
 /**
+ * Begin handler for WrapperSet element.
+ */
+void
+Parser
+::begin_WrapperSet(const Attributes&)
+{
+  // Create a new WrapperSet.
+  WrapperSet::Pointer newWrapperSet = WrapperSet::New();
+    
+  // Save the WrapperSet.
+  //m_WrapperSets.insert(newWrapperSet);
+    
+  // Put new WrapperSet on the stack so it can be filled.
+  this->PushElement(newWrapperSet);
+}
+
+
+/**
+ * End handler for WrapperSet element.
+ */
+void
+Parser
+::end_WrapperSet()
+{
+  if(this->TopParseElement())
+    {
+    std::cout << "----begin WrapperSet----" << std::endl;
+    // Print out the elements defined.
+    this->CurrentSet()->Print(std::cout);
+    std::cout << "----end WrapperSet----" << std::endl;
+    }
+  
+  // Take the WrapperSet off the stack.
+  this->PopElement();
+}
+
+
+/**
  * Map of Parser element begin handlers.
  */
 Parser::BeginHandlers Parser::beginHandlers;
@@ -690,21 +749,23 @@ Parser
   beginHandlers["Dependencies"] = &Parser::begin_Dependencies;
   beginHandlers["CreateMethod"] = &Parser::begin_CreateMethod;
   beginHandlers["DeleteMethod"] = &Parser::begin_DeleteMethod;
-  beginHandlers["ArgumentSet"]  = &Parser::begin_ArgumentSet;
-  beginHandlers["Argument"]     = &Parser::begin_Argument;
+  beginHandlers["Set"]          = &Parser::begin_Set;
+  beginHandlers["Element"]      = &Parser::begin_Element;
   beginHandlers["Headers"]      = &Parser::begin_Headers;
   beginHandlers["File"]         = &Parser::begin_File;
   beginHandlers["Directory"]    = &Parser::begin_Directory;
+  beginHandlers["WrapperSet"]   = &Parser::begin_WrapperSet;
 
   endHandlers["Package"]      = &Parser::end_Package;
   endHandlers["Dependencies"] = &Parser::end_Dependencies;
   endHandlers["CreateMethod"] = &Parser::end_CreateMethod;
   endHandlers["DeleteMethod"] = &Parser::end_DeleteMethod;
-  endHandlers["ArgumentSet"]  = &Parser::end_ArgumentSet;
-  endHandlers["Argument"]     = &Parser::end_Argument;
+  endHandlers["Set"]          = &Parser::end_Set;
+  endHandlers["Element"]      = &Parser::end_Element;
   endHandlers["Headers"]      = &Parser::end_Headers;
   endHandlers["File"]         = &Parser::end_File;
   endHandlers["Directory"]    = &Parser::end_Directory;
+  endHandlers["WrapperSet"]   = &Parser::end_WrapperSet;
   
   initialized = true;
 }
@@ -765,72 +826,141 @@ Parser
 }
 
 
-class NamePortion
+/**
+ * Represent a substitution for Parser::GenerateElementCombinations().
+ * A ReplacePortion refers to an instance of this class.  As
+ * GenerateElementCombinations() iterates through a Set of elements for
+ * substitution, it sets this instance to represent a each, one at a time.
+ */
+class Substitution
 {
 public:
-  virtual const String& GetPortion() const =0;
-  virtual ~NamePortion() {}
-};
-
-
-class StringNamePortion: public NamePortion
-{
-public:
-  StringNamePortion(const String& in_string): m_String(in_string) {}
-  virtual const String& GetPortion() const
+  Substitution() {}
+  Substitution(const String& in_tag, const String& in_code):
+    m_Tag(in_tag), m_Code(in_code) {}
+  void Set(const String& in_tag, const String& in_code)
     {
-      return m_String;
+      m_Tag = in_tag;
+      m_Code = in_code;
     }
-  virtual ~StringNamePortion() {}
+  const String& GetTag() const
+    { return m_Tag; }
+  const String& GetCode() const
+    { return m_Code; }
+  
 private:
-  String m_String;
-};
-
-class ReplaceNamePortion: public NamePortion
-{
-public:
-  ReplaceNamePortion(const String& in_string): m_String(in_string) {}
-  virtual const String& GetPortion() const
-    {
-      return m_String;
-    }
-  virtual ~ReplaceNamePortion() {}
-private:
-  const String& m_String;
+  String m_Tag;
+  String m_Code;
 };
 
 
 /**
- * Given an Argument, generate all the combinations of ArgumentSet
- * substitutions possbile based on $ tokens in the Argument's code.
+ * Interface to the parts of an input string of code, possibly with
+ * $SomeSetName tokens in it.  An indivitual Portion will be either a
+ * StringPortion, which has no substitutions, or a ReplacePortion, which has
+ * only a substitution, and no hard-coded text.
+ *
+ * This is used by Parser::GenerateElementCombinations() to hold the pieces
+ * of a string after the set substitution tokens have been extracted.
+ */
+class Portion
+{
+public:
+  /**
+   * Get the C++ code corresponding to this Portion of a string.
+   */
+  virtual String GetCode() const =0;
+  /**
+   * Get the tag corresponding to this Portion of a string.  This is empty
+   * for StringPortion, and holds a real tag for ReplacePortion.
+   */
+  virtual String GetTag() const =0;
+  virtual ~Portion() {}
+};
+
+
+/**
+ * Represent a hard-coded part of an input string, that has no substitutions
+ * in it.  The tag for this part of a string is always empty.
+ */
+class StringPortion: public Portion
+{
+public:
+  StringPortion(const String& in_code): m_Code(in_code) {}
+  virtual String GetCode() const
+    { return m_Code; }
+  virtual String GetTag() const
+    { return ""; }
+  virtual ~StringPortion() {}
+private:
+  /**
+   * Hold this Portion's contribution to the output string.
+   */
+  String m_Code;
+};
+
+
+/**
+ * Represent the "$SomeSetName" portion of an input string.  This has a
+ * reference to the Substitution holding the real output to generate.
+ */
+class ReplacePortion: public Portion
+{
+public:
+  ReplacePortion(const Substitution& in_substitution):
+    m_Substitution(in_substitution) {}
+  virtual String GetCode() const
+    { return m_Substitution.GetCode(); }
+  virtual String GetTag() const
+    { return m_Substitution.GetTag(); }
+  virtual ~ReplacePortion() {}
+private:
+  /**
+   * Refer to the real Substitution for this Portion's contribution.
+   */
+  const Substitution& m_Substitution;
+};
+
+
+/**
+ * Given an Element, generate all the combinations of Set
+ * substitutions possbile based on $ tokens in the Element's code.
  */
 void
 Parser
-::GenerateArgumentCombinations(const Argument* in_argument)
+::GenerateElementCombinations(const Element* in_element,
+                              Set* out_set)
 {
-  typedef std::list<NamePortion*>  Portions;
-  typedef std::map<String, String*>  Substitutions;
+  typedef std::list<Portion*>  Portions;
+  typedef std::map<String, Substitution* >  Substitutions;
   Portions      portions;
   Substitutions substitutions;
-
-  String in_string = in_argument->GetCode();
   
-  String s;
+  // The input code supplied in the source file.
+  String in_string = in_element->GetCode();
+  
+  // Break the input code into blocks alternating between literal code and
+  // set-substitution tokens (like $SomeSetName).
+  String currentPortion;
   for(String::const_iterator c=in_string.begin(); c != in_string.end(); ++c)
     {
+    // Look for the '$' to mark the beginning of a token.
     if(*c != '$')
       {
-      s.insert(s.end(), *c);
+      currentPortion.insert(currentPortion.end(), *c);
       }
     else
       {
-      if(s.length() > 0)
+      // If there is a portion of the string, record it.
+      if(currentPortion.length() > 0)
         {
-        portions.push_back(new StringNamePortion(s));
-        s = "";
+        portions.push_back(new StringPortion(currentPortion));
+        currentPortion = "";
         }
-      // Get argument set name token.
+      // Get element set name token.
+      String setName = "";
       ++c;
+      // Look for all characters that can be part of a C++ identifier.
       while(c != in_string.end())
         {
         char ch = *c;
@@ -839,7 +969,7 @@ Parser
            || ((ch >= '0') && (ch <= '9'))
            || (ch == '_'))
           {
-          s.insert(s.end(), ch);
+          setName.insert(setName.end(), ch);
           ++c;
           }
         else
@@ -847,49 +977,66 @@ Parser
           break;
           }
         }
-      if(s.length() > 0)
+      // We have a complete set name.  Make sure it is valid.
+      if((setName.length() > 0)
+         && (m_Sets.count(setName) > 0)
+         && (out_set != m_Sets[setName]))
         {
-        String* sub;
-        if(substitutions.count(s) == 0)
+        // We have a valid set name.  Prepare the substitution entry
+        // for it.
+        Substitution* sub;
+        if(substitutions.count(setName) == 0)
           {
-          sub = new String();
-          substitutions[s] = sub;
+          sub = new Substitution();
+          substitutions[setName] = sub;
           }
         else
           {
-          sub = substitutions[s];
+          sub = substitutions[setName];
           }
-        portions.push_back(new ReplaceNamePortion(*sub));
-        s = "";
+        portions.push_back(new ReplacePortion(*sub));
+        setName = "";
         }
-      else
+      else   
         {
-        // Error: No token after $
+        // Invalid set name.  Complain.
+        throw UnknownSetException(setName);
         }
+      // Begin the next portion of the string with this character,
+      // the first after the end of the setName.
       if(c != in_string.end())
-        s.insert(s.end(), *c);
+        currentPortion.insert(currentPortion.end(), *c);
       }
     }
   
-  if(s.length() > 0)
+  // If there is a final portion of the string, record it.
+  if(currentPortion.length() > 0)
     {
-    portions.push_back(new StringNamePortion(s));
+    portions.push_back(new StringPortion(currentPortion));
     }
 
   // If there are no substitutions to be made, just generate this
   // single combination.
   if(substitutions.empty())
     {
-    this->CurrentArgumentSet()->Add(in_argument->GetTag(),
-                                    in_argument->GetCode());
+    out_set->Add(in_element->GetTag(), in_element->GetCode());
     return;
     }
   
-  // We must generate all combinations of argument substitutions.
+  // We must generate all combinations of element substitutions.
   
-  typedef std::pair<ArgumentSet::ConstIterator,
-                    ArgumentSet::ConstIterator>  ArgumentSetIteratorPair;
-  std::list<ArgumentSetIteratorPair> argumentSets;
+  // A pair of iterators into a Set.  The first is the current spot, and
+  // the second is the ending iterator.
+  typedef std::pair<Set::ConstIterator,
+                    Set::ConstIterator>  SetIteratorPair;
+  
+  // Prepare a "stack" of element set iterator pairs that will keep track
+  // of all combinations of substitutions to be done.
+  std::list<SetIteratorPair> elementSets;
+  
+  // Keep track of the current substitution level.  Combinations are only
+  // generated at the inner-most substitution level since bindings have
+  // been assigned for all substitutions.
   Substitutions::const_iterator substitution = substitutions.begin();
   
   bool done = false;
@@ -898,42 +1045,63 @@ Parser
     if(substitution == substitutions.end())
       {
       // We are at the end of the list of substitutions.
-      if(argumentSets.back().first != argumentSets.back().second)
+      if(elementSets.back().first != elementSets.back().second)
         {
+        // Prepare the substitution for the current spot in this element set.
         --substitution;
-        *(substitution->second) = argumentSets.back().first->second;
+        substitution->second->Set(elementSets.back().first->first,
+                                  elementSets.back().first->second);
         ++substitution;
-        // Generate this combination.
-        String s;
+
+        // Generate this combination's output.
+        String tag = in_element->GetTag();
+        String code;
+        // Put together all the pieces, with substitutions.
         for(Portions::const_iterator i = portions.begin();
             i != portions.end(); ++i)
-          s.append((*i)->GetPortion());
-        std::cout << s.c_str() << std::endl;
+          {
+          tag.append((*i)->GetTag());
+          code.append((*i)->GetCode());
+          }
+        // Add this combination to the output set.
+        out_set->Add(tag, code);
         
-        // Increment to the next argument in this set.
-        ++(argumentSets.back().first);
+        // Increment to the next spot in this unfinished element set.
+        ++(elementSets.back().first);
         }
       else
         {
-        // We have finished this set of combinations.
-        // Walk back through the list until we find an unfinished set
-        // of arguments.
-        while(argumentSets.back().first == argumentSets.back().second)
+        // We have finished this set of combinations.  That is, we have
+        // finished iterating through the elements in the inner-most
+        // set of substitution elements.
+
+        // Walk back through the list of substitutions until we find an
+        // unfinished set.
+        while(elementSets.back().first == elementSets.back().second)
           {
-          argumentSets.pop_back();
+          // Pop off finished element set.
+          elementSets.pop_back();
+          // Corresponding back-step in substitution list.
           --substitution;
-          if(argumentSets.empty())
+          
+          // If the outermost element set has been finished,
+          // then we are done.
+          if(elementSets.empty())
             {
             // We have finished all combinations.
             done = true;
             break;
             }
-          ++(argumentSets.back().first);
+
+          // Not done, so increment to the next spot in this unfinished element set.
+          ++(elementSets.back().first);
           }
         if(!done)
           {
           --substitution;
-          *(substitution->second) = argumentSets.back().first->second;
+          // Prepare the substitution for the current spot in this element set.
+          substitution->second->Set(elementSets.back().first->first,
+                                    elementSets.back().first->second);
           ++substitution;
           }
         }
@@ -942,28 +1110,29 @@ Parser
       {
       // We are not at the end of the list of substitutions.
       // Move on to the next one.
-      if(m_ArgumentSets.count(substitution->first) == 0)
-        {
-        std::cerr << "Cannot find ArgumentSet \""
-                  << substitution->first.c_str() << "\"" << std::endl;
-        return;
-        }
-      argumentSets.push_back(
-        ArgumentSetIteratorPair(m_ArgumentSets[substitution->first]->Begin(),
-                                m_ArgumentSets[substitution->first]->End()));
-      *(substitution->second) = argumentSets.back().first->second;
+      // Prepare to iterate over all elements in the next set of substitutions.
+      elementSets.push_back(
+        SetIteratorPair(m_Sets[substitution->first]->Begin(),
+                                m_Sets[substitution->first]->End()));
+      // Prepare the substitution for the current spot in this element set.
+      substitution->second->Set(elementSets.back().first->first,
+                                elementSets.back().first->second);
       ++substitution;
       }
     }
   
   // Free the string portions that were allocated.
   for(Portions::iterator i=portions.begin(); i != portions.end(); ++i)
+    {
     delete *i;
+    }
   
   // Free the substitutions that were allocated.
   for(Substitutions::iterator i = substitutions.begin();
       i != substitutions.end(); ++i)
+    {
     delete i->second;
+    }
 }
 
 } // namespace configuration

@@ -109,31 +109,31 @@ CodeBlock
 
 
 /**
- * Create a new Argument and return a pointer to it.
+ * Create a new Element and return a pointer to it.
  */
-Argument::Pointer
-Argument
+Element::Pointer
+Element
 ::New(const String& tag)
 {
-  return new Argument(tag);
+  return new Element(tag);
 }
 
 
 /**
- * Constructor sets up the tag of the Argument.
+ * Constructor sets up the tag of the Element.
  */
-Argument
-::Argument(const String& tag):
+Element
+::Element(const String& tag):
   m_Tag(tag)
 {
 }
 
 
 /**
- * Get the tag associated with this argument.
+ * Get the tag associated with this element.
  */
 const String&
-Argument
+Element
 ::GetTag() const
 {
   return m_Tag;
@@ -141,49 +141,60 @@ Argument
 
 
 /**
- * Create a new ArgumentSet and return a pointer to it.
+ * Create a new Set and return a pointer to it.
  */
-ArgumentSet::Pointer
-ArgumentSet
+Set::Pointer
+Set
 ::New()
 {
-  return new ArgumentSet;
+  return new Set;
 }
 
 
 /**
- * Add a new argument to the set. 
+ * Add a new element to the set. 
  */
 void
-ArgumentSet
+Set
 ::Add(const String& tag, const String& code)
 {
-  m_Arguments[tag] = code;
+  m_Elements[tag] = code;
 }
 
 
 /**
- * Add all the arguments in the given ArgumentSet to this one.
+ * Add all the elements in the given Set to this one.
  */
 void
-ArgumentSet
-::Add(const ArgumentSet* argumentSet)
+Set
+::Add(const Set* elementSet)
 {
-  m_Arguments.insert(argumentSet->Begin(), argumentSet->End());
+  m_Elements.insert(elementSet->Begin(), elementSet->End());
 }
 
 
 /**
- * Print the argument set to the given stream.
+ * Print the element set to the given stream.
  */
 void
-ArgumentSet
+Set
 ::Print(std::ostream& os) const
 {
   for(ConstIterator a = this->Begin(); a != this->End(); ++a)
     {
     os << a->first.c_str() << ": " << a->second.c_str() << std::endl;
     }
+}
+
+
+/**
+ * Create a new WrapperSet and return a pointer to it.
+ */
+WrapperSet::Pointer
+WrapperSet
+::New()
+{
+  return new WrapperSet;
 }
 
 
