@@ -17,6 +17,7 @@ ADD_TEST(itkSubsampleTest ${STATISTICS_TESTS} itkSubsampleTest)
 ADD_TEST(itkMembershipSampleTest ${STATISTICS_TESTS} itkMembershipSampleTest)
 ADD_TEST(itkImageToListAdaptorTest ${STATISTICS_TESTS} itkImageToListAdaptorTest)
 ADD_TEST(itkListSampleTest ${STATISTICS_TESTS} itkListSampleTest)
+ADD_TEST(itkListSampleToHistogramFilterTest ${STATISTICS_TESTS} itkListSampleToHistogramFilterTest)
 ADD_TEST(itkListSampleToHistogramGeneratorTest ${STATISTICS_TESTS} itkListSampleToHistogramGeneratorTest)
 ADD_TEST(itkHistogramTest ${STATISTICS_TESTS} itkHistogramTest)
 ADD_TEST(itkDenseFrequencyContainerTest ${STATISTICS_TESTS} itkDenseFrequencyContainerTest)
@@ -45,6 +46,7 @@ itkSubsampleTest.cxx
 itkMembershipSampleTest.cxx
 itkImageToListAdaptorTest.cxx
 itkListSampleTest.cxx
+itkListSampleToHistogramFilterTest.cxx
 itkListSampleToHistogramGeneratorTest.cxx
 itkHistogramTest.cxx
 itkDenseFrequencyContainerTest.cxx

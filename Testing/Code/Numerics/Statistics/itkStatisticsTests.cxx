@@ -12,6 +12,7 @@ void RegisterTests()
   REGISTER_TEST(itkHistogramTest);
   REGISTER_TEST(itkImageToListAdaptorTest);
   REGISTER_TEST(itkListSampleTest);
+  REGISTER_TEST(itkListSampleToHistogramFilterTest);
   REGISTER_TEST(itkListSampleToHistogramGeneratorTest);
   REGISTER_TEST(itkMembershipSampleTest);
   REGISTER_TEST(itkSubsampleTest);
