@@ -80,7 +80,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkNeighborhoodBase.h"
 #include "itkNeighborhoodIterator.h"
 #include "itkNeighborhoodOperator.h"
-#include "itkNew.h"
 #include "itkNumericTraits.h"
 #include "itkObject.h"
 #include "itkObjectFactory.h"

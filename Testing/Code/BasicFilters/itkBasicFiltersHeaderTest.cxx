@@ -43,6 +43,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkTernaryMagnitudeImageFilter.h"
 #include "itkTernaryMagnitudeSquaredImageFilter.h"
 #include "itkThresholdImageFilter.h"
+#include "itkUnaryImageFilter.h"
 #include "itkVTKImageReader.h"
 #include "itkVTKImageWriter.h"
 #include "itkVectorAnisotropicDiffusionImageFilter.h"
