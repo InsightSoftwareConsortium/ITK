@@ -87,11 +87,12 @@ public:
   /** Methods from itk:LightObject. */
   static Pointer New() { return new Self;}
   LightObject::Pointer CreateObject() { return T::New(); }
-  };
-
+  
 private:
   CreateObjectFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented  
+};
+
 } // end namespace itk
 
 #endif
