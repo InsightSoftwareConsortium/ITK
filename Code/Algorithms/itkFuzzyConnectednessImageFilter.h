@@ -48,7 +48,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk{
 
-/** \class FuzzyConnectednessImageFilter
+/** /class FuzzyConnectednessImageFilter
  * 
  * Perform the segmentation by single channel fuzzy connectedness.
  * Used as a node of the segmentation toolkits.
@@ -70,10 +70,12 @@ namespace itk{
  *
  * 1. use SetInput to import the input image object
  * 2. use SetParameter, SetSeed, SetThreshold to set the parameters
- * 3. run ExcuteSegment to perform the segmenation
- * 4. threshold can be set after the segmentation, and no computation
- *     will be redo. need MakeSegmentObject to update the result.
+ * 3. run GenerateData() to perform the segmenation
+ * 4. threshold can be set using UpdateThreshold after the segmentation, and no computation
+ *    will be redo. no need to run GenerateData. But if SetThreshold was used. MakeSegmentObject()
+ *    should be called to get the updated result.
  * 5. use GetOutput to obtain the resulted binary image Object.
+ * 6. GetFuzzyScene gives the pointer of Image<unsigned short> for the fuzzy scene.
  *
  * Detail information about this algorithm can be found in:
  *  "Fuzzy Connectedness and Object Definition: Theory, Algorithms,
@@ -191,15 +193,20 @@ public:
    */
   void SetSeed(const IndexType & seed);
 	
-  /**
-   * Perform the segmentation.
-   */
-  void ExcuteSegment();
+ /**
+  * Standard pipeline method.
+  */
+  void GenerateData();
 
   /**
    * Update the binary result. (needed after update the threshold)
    */
   void MakeSegmentObject();
+
+  /**
+   * a simple combining of set threshold and makesegmentobject.
+   */
+  void UpdateThreshold(double x);
 
 protected:
   FuzzyConnectednessImageFilter();
