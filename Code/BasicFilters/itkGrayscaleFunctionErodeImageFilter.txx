@@ -24,13 +24,13 @@ namespace itk {
 template<class TInputImage, class TOutputImage, class TKernel>
 GrayscaleFunctionErodeImageFilter<TInputImage, TOutputImage, TKernel>::PixelType
 GrayscaleFunctionErodeImageFilter<TInputImage, TOutputImage, TKernel>
-::Evaluate(const SmartNeighborhoodIteratorType &nit,
+::Evaluate(const NeighborhoodIteratorType &nit,
            const KernelType &kernel)
 {
   PixelType min = NumericTraits<PixelType>::max();
   PixelType temp = min ;
   
-  typename SmartNeighborhoodIteratorType::ConstIterator neigh_it;
+  typename NeighborhoodIteratorType::ConstIterator neigh_it;
   KernelIteratorType kernel_it;
   const KernelIteratorType kernelEnd = kernel.End();
 
@@ -52,5 +52,35 @@ GrayscaleFunctionErodeImageFilter<TInputImage, TOutputImage, TKernel>
   return min; 
 } 
 
+template<class TInputImage, class TOutputImage, class TKernel>
+GrayscaleFunctionErodeImageFilter<TInputImage, TOutputImage, TKernel>::PixelType
+GrayscaleFunctionErodeImageFilter<TInputImage, TOutputImage, TKernel>
+::Evaluate(const SmartNeighborhoodIteratorType &nit,
+           const KernelType &kernel)
+{
+  unsigned int i;
+  PixelType min = NumericTraits<PixelType>::max();
+  PixelType temp = min ;
+  
+  KernelIteratorType kernel_it;
+  const KernelIteratorType kernelEnd = kernel.End();
+
+  for (i=0, kernel_it=kernel.Begin(); kernel_it<kernelEnd; ++kernel_it, ++i)
+    {
+    // if structuring element is positive, use the pixel under that element
+    // in the image minus the structuring element value
+    if (*kernel_it > 0)
+      {
+      // subtract the structuring element value to the pixel value
+      temp = nit.GetPixel(i) - (PixelType) *kernel_it;
+
+      if (temp < min)
+        min = temp ;
+      }
+    }
+  
+  return min; 
+} 
+  
 }// end namespace itk
 #endif

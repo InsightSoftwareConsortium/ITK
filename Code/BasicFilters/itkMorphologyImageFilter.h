@@ -92,6 +92,8 @@ public:
   enum { ImageDimension = TInputImage::ImageDimension } ;
 
   /** Neighborhood iterator type. */
+  typedef ConstNeighborhoodIterator<TInputImage> 
+    NeighborhoodIteratorType ;
   typedef ConstSmartNeighborhoodIterator<TInputImage> 
     SmartNeighborhoodIteratorType ;
 
@@ -128,8 +130,15 @@ protected:
                               int threadId) ;
 
   /** Evaluate image neighborhood with kernel to find the new value 
-   * for the center pixel value. */
+   * for the center pixel value. This version is used for non-boundary
+   * pixels. */
   virtual PixelType Evaluate(const SmartNeighborhoodIteratorType &nit,
+                             const KernelType &kernel)=0;
+
+  /** Evaluate image neighborhood with kernel to find the new value 
+   * for the center pixel value. This version is used for boundary
+   * pixels. */
+  virtual PixelType Evaluate(const NeighborhoodIteratorType &nit,
                              const KernelType &kernel)=0;
 
 private:

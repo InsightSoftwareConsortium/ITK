@@ -31,10 +31,10 @@ BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>
 template<class TInputImage, class TOutputImage, class TKernel>
 BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>::PixelType
 BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>
-::Evaluate(const SmartNeighborhoodIteratorType &nit,
+::Evaluate(const NeighborhoodIteratorType &nit,
            const KernelType &kernel)
 {
-  SmartNeighborhoodIteratorType::ConstIterator neigh_it;
+  NeighborhoodIteratorType::ConstIterator neigh_it;
   KernelIteratorType kernel_it;
   const KernelIteratorType kernelEnd = kernel.End();
 
@@ -58,6 +58,40 @@ BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>
   // appopriate "background" value for center pixel
   return nit.GetCenterPixel();
 } 
+
+
+template<class TInputImage, class TOutputImage, class TKernel>
+BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>::PixelType
+BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>
+::Evaluate(const SmartNeighborhoodIteratorType &nit,
+           const KernelType &kernel)
+{
+  unsigned int i;
+  KernelIteratorType kernel_it;
+  const KernelIteratorType kernelEnd = kernel.End();
+
+  for (i=0, kernel_it=kernel.Begin(); kernel_it<kernelEnd; ++kernel_it, ++i)
+    {
+    // if structuring element is positive, use the pixel under that element
+    // in the image
+    if (*kernel_it > 0)
+      {
+      // if the pixel is the DilateValue, then we can exit early
+      // note that we use GetPixel() on the SmartNeighborhoodInterator
+      // to respect the boundary conditions
+      if (nit.GetPixel(i) == m_DilateValue)
+        {
+        return m_DilateValue;
+        }
+      }
+    }
+
+  // if we got here, we never saw a pixel that had the DilateValue in
+  // the structuring element, return the centerValue which is the most
+  // appopriate "background" value for center pixel
+  return nit.GetCenterPixel();
+} 
+
 
 template<class TInputImage, class TOutputImage, class TKernel>
 void

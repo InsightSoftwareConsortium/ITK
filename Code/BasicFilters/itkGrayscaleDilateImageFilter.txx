@@ -25,13 +25,13 @@ namespace itk {
 template<class TInputImage, class TOutputImage, class TKernel>
 GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>::PixelType
 GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>
-::Evaluate(const SmartNeighborhoodIteratorType &nit,
+::Evaluate(const NeighborhoodIteratorType &nit,
            const KernelType &kernel)
 {
   PixelType max = NumericTraits<PixelType>::NonpositiveMin();
   PixelType temp = max ;
 
-  typename SmartNeighborhoodIteratorType::ConstIterator neigh_it;
+  typename NeighborhoodIteratorType::ConstIterator neigh_it;
   KernelIteratorType kernel_it;
   const KernelIteratorType kernelEnd = kernel.End();
 
@@ -51,6 +51,36 @@ GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>
   
   return max ;
 } 
+
+template<class TInputImage, class TOutputImage, class TKernel>
+GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>::PixelType
+GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>
+::Evaluate(const SmartNeighborhoodIteratorType &nit,
+           const KernelType &kernel)
+{
+  unsigned int i;
+  PixelType max = NumericTraits<PixelType>::NonpositiveMin();
+  PixelType temp = max ;
+
+  KernelIteratorType kernel_it;
+  const KernelIteratorType kernelEnd = kernel.End();
+
+  for (i=0, kernel_it=kernel.Begin(); kernel_it<kernelEnd; ++kernel_it, ++i)
+    {
+    // if structuring element is positive, use the pixel under that element
+    // in the image
+    if (*kernel_it > 0)
+      {
+      temp = nit.GetPixel(i);
+
+      if (temp > max)
+        max = temp ;
+      }
+    }
+  
+  return max ;
+} 
+
 
 }// end namespace itk
 #endif

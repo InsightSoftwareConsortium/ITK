@@ -68,6 +68,7 @@ public:
   typedef typename Superclass::KernelIteratorType  KernelIteratorType;
 
   /** Neighborhood iterator type. */
+  typedef typename Superclass::NeighborhoodIteratorType NeighborhoodIteratorType ;
   typedef typename Superclass::SmartNeighborhoodIteratorType SmartNeighborhoodIteratorType ;
 
   /** Kernel typedef. */
@@ -81,7 +82,17 @@ protected:
    * for the center pixel value
    *
    * It will return the maximum value of the image pixels whose corresponding
-   * element in the structuring element is positive. */
+   * element in the structuring element is positive. This version of
+   * Evaluate is used for non-boundary pixels. */
+  PixelType Evaluate(const NeighborhoodIteratorType &nit,
+                     const KernelType &kernel);
+
+  /** Evaluate image neighborhood with kernel to find the new value 
+   * for the center pixel value
+   *
+   * It will return the maximum value of the image pixels whose corresponding
+   * element in the structuring element is positive. This version of
+   * Evaluate is used for boundary pixels. */
   PixelType Evaluate(const SmartNeighborhoodIteratorType &nit,
                      const KernelType &kernel);
   

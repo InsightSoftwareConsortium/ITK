@@ -85,6 +85,8 @@ public:
   typedef typename Superclass::PixelType PixelType;
 
   /** Neighborhood iterator type */
+  typedef ConstNeighborhoodIterator<TInputImage> 
+    NeighborhoodIteratorType ;
   typedef ConstSmartNeighborhoodIterator<TInputImage> 
     SmartNeighborhoodIteratorType ;
 
@@ -112,10 +114,21 @@ protected:
    *
    * It will return the DilateValue if any of the image pixels in the
    * neighborhood have the DilateValue and that pixel's corresponding
-   * element in the structuring element is positive and */
-  PixelType Evaluate(const SmartNeighborhoodIteratorType &nit,
+   * element in the structuring element is positive. This version
+   * of Evaluate is used for non-boundary pixels. */
+  PixelType Evaluate(const NeighborhoodIteratorType &nit,
                      const KernelType &kernel);
 
+  /** Evaluate image neighborhood with kernel to find the new value 
+   * for the center pixel value
+   *
+   * It will return the DilateValue if any of the image pixels in the
+   * neighborhood have the DilateValue and that pixel's corresponding
+   * element in the structuring element is positive. This version
+   * of Evaluate is used for boundary pixels. */
+  PixelType Evaluate(const SmartNeighborhoodIteratorType &nit,
+                     const KernelType &kernel);
+  
 private:
   BinaryDilateImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
