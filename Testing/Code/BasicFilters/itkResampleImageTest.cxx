@@ -79,6 +79,17 @@ int itkResampleImageTest(int, char* [] )
   resample->SetTransform(aff);
   resample->SetInterpolator(interp);
 
+  index.Fill( 0 );
+  resample->SetOutputStartIndex( index );
+
+  ImageType::PointType origin;
+  origin.Fill( 0.0 );
+  resample->SetOutputOrigin( origin );
+ 
+  ImageType::SpacingType spacing;
+  spacing.Fill( 1.0 );
+  resample->SetOutputSpacing( spacing );
+
   // Run the resampling filter
   resample->Update();
 
@@ -113,6 +124,9 @@ int itkResampleImageTest(int, char* [] )
   std::cout << "Interpolator: " << resample->GetInterpolator() << std::endl;
   std::cout << "Size: " << resample->GetSize() << std::endl;
   std::cout << "DefaultPixelValue: " << resample->GetDefaultPixelValue() << std::endl;
+  std::cout << "OutputOrigin: " << resample->GetOutputOrigin() << std::endl;
+  std::cout << "OutputSpacing: " << resample->GetOutputSpacing() << std::endl;
+  std::cout << "OutputStartIndex: " << resample->GetOutputStartIndex() << std::endl;
 
   // Exercise error handling
   
