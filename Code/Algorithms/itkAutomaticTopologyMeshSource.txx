@@ -151,7 +151,7 @@ AutomaticTopologyMeshSource<TOutputMesh>
   IdentifierType* cellIDPlusOne = &m_CellsHashTable[ pointIDs ];
   IdentifierType cellID;
   
-  if( cellIDPlusOne != 0 )
+  if( *cellIDPlusOne != 0 )
     {
     cellID = *cellIDPlusOne - 1;
     }
