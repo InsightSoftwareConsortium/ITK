@@ -178,37 +178,11 @@ public:
   
 protected:
 
-  /**
-   * Constructor
-   */
-  CurvatureFlowImageFilter()
-    {
-      m_Iterations = 0;
-      m_TimeStep   = 0.125f;
-
-      typename CurvatureFlowFunctionType::Pointer p;
-      p = CurvatureFlowFunctionType::New();
-      this->SetDifferenceEquation( p );
-    }
-
-  /**
-   * Destructor 
-   */
+  CurvatureFlowImageFilter();
   ~CurvatureFlowImageFilter() {}
-
   CurvatureFlowImageFilter(const Self&) {}
   void operator=(const Self&) {}
-
-  /**
-   * Standard PrintSelf method.
-   */
-  void PrintSelf(std::ostream& os, Indent indent) const
-    {
-      Superclass::PrintSelf(os, indent);
-      os << indent << "CurvatureFlowImageFilter";
-      os << indent << "No. iterations: " << m_Iterations;
-      os << indent << "Time step: " << m_TimeStep;
-    }
+  void PrintSelf(std::ostream& os, Indent indent) const;
   
   /**
    * Supplies the halting criteria for this class of filters.  The
@@ -222,16 +196,9 @@ protected:
 
   /**
    * Initialize the state of filter and equation before each iteration.
+   * Progress feeback is implemented as part of this method.
    */
-  virtual void InitializeIteration()
-    {
-      CurvatureFlowFunctionType *f = 
-        dynamic_cast<CurvatureFlowFunctionType *>
-        (this->GetDifferenceEquation().GetPointer());
-      f->SetTimeStep( m_TimeStep );
-
-      this->Superclass::InitializeIteration();           
-    }
+  virtual void InitializeIteration();
   
 private:
 
@@ -241,5 +208,9 @@ private:
 };
 
 } // end namspace itk
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkCurvatureFlowImageFilter.txx"
+#endif
 
 #endif
