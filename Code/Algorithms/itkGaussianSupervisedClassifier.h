@@ -51,6 +51,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <math.h>
 #include <float.h>
 #include "itkImageRegionIterator.h"
+#include "itkExceptionObject.h"
 
 
 namespace itk

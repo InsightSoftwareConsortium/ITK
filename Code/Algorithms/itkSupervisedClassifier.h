@@ -42,6 +42,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _itkSupervisedClassifier_h
 
 #include "itkClassifier.h"
+#include "itkExceptionObject.h"
+
 namespace itk
 {
 
