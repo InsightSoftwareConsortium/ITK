@@ -105,7 +105,13 @@ public:
    * Method for execute the algorithm
    */
    void GenerateData(void);
-  
+   
+  /**
+   *  Region
+   */
+  typedef typename TOutputImage::Region ImageRegion;
+
+
   /**
    * Connect one of the operands for pixel-wise addition
    */
