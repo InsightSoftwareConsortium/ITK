@@ -21,9 +21,6 @@ std::vector<TPixel>
 DerivativeOperator<TPixel, VDimension>
 ::GenerateCoefficients()
 {
-  // This routine only fills in the scalar portion of the pixels. This works
-  // for all native data types and Scalar<>'s.  A different operator is
-  // probably required for derivatives of vector and composite types.
   int i;
   int j;
   int h;
@@ -62,11 +59,9 @@ DerivativeOperator<TPixel, VDimension>
         coeff[j] = next;	    
       }
 
-    // Copy scalar values into a TPixel array, a useless exercise for native
-    // types but necessary to support itk::Scalar<>.
     for (i=0; i<w; ++i)
       {
-        ScalarTraits<TPixel>::SetScalar(coeffP[i], coeff[i]);
+        coeffP[i] = coeff[i];
       }
     return coeffP;
     
