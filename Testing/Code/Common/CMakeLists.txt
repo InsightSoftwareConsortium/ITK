@@ -1,4 +1,7 @@
 EXECUTABLES = \
+itkIteratorTests \
+itkFilterImageAnisotropicDiffusionTest \
+itkFilterImageSingleOperatorTest \
 itkBasicArchitectureTest \
 itkScalarTest \
 itkVectorTest \
