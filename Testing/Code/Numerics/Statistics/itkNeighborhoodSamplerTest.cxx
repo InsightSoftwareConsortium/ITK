@@ -27,7 +27,7 @@ PURPOSE.  See the above copyright notices for more information.
 #define NO_OF_DIMENSIONS 2
 typedef double ValueType ;
 
-int itkNeighborhoodSamplerTest(int argc, char* argv[] )
+int itkNeighborhoodSamplerTest(int , char* )
 {
   namespace stat = itk::Statistics ;
 
