@@ -88,41 +88,41 @@ class DICOMAppHelper
                                     unsigned char* val,
                                     quadbyte len) ;
 
-  virtual void DICOMAppHelper::HeightCallback(doublebyte group,
-                                              doublebyte element,
-                                              DICOMParser::VRTypes type,
-                                              unsigned char* val,
-                                              quadbyte len);
+  virtual void HeightCallback(doublebyte group,
+                              doublebyte element,
+                              DICOMParser::VRTypes type,
+                              unsigned char* val,
+                              quadbyte len);
 
-  virtual void DICOMAppHelper::WidthCallback( doublebyte group,
-                                              doublebyte element,
-                                              DICOMParser::VRTypes type,
-                                              unsigned char* val,
-                                              quadbyte len);
+  virtual void WidthCallback( doublebyte group,
+                              doublebyte element,
+                              DICOMParser::VRTypes type,
+                              unsigned char* val,
+                              quadbyte len);
 
-  virtual void DICOMAppHelper::PixelRepresentationCallback(doublebyte group,
-                                                           doublebyte element,
-                                                           DICOMParser::VRTypes type,
-                                                           unsigned char* val,
-                                                           quadbyte len);
+  virtual void PixelRepresentationCallback(doublebyte group,
+                                           doublebyte element,
+                                           DICOMParser::VRTypes type,
+                                           unsigned char* val,
+                                           quadbyte len);
 
-  virtual void DICOMAppHelper::PhotometricInterpretationCallback(doublebyte,
-                                                                 doublebyte,
-                                                                 DICOMParser::VRTypes,
-                                                                 unsigned char* val,
-                                                                 quadbyte len);
-
-  virtual void DICOMAppHelper::PixelDataCallback(doublebyte,
+  virtual void PhotometricInterpretationCallback(doublebyte,
                                                  doublebyte,
                                                  DICOMParser::VRTypes,
                                                  unsigned char* val,
                                                  quadbyte len);
 
-  virtual void DICOMAppHelper::PixelOffsetCallback( doublebyte,
-                                                    doublebyte,
-                                                    DICOMParser::VRTypes,
-                                                    unsigned char* val,
-                                                    quadbyte);
+  virtual void PixelDataCallback(doublebyte,
+                                 doublebyte,
+                                 DICOMParser::VRTypes,
+                                 unsigned char* val,
+                                 quadbyte len);
+
+  virtual void PixelOffsetCallback( doublebyte,
+                                    doublebyte,
+                                    DICOMParser::VRTypes,
+                                    unsigned char* val,
+                                    quadbyte);
 
   float* GetPixelSpacing()
     {
