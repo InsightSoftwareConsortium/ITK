@@ -19,7 +19,7 @@
 #include "itkDerivativeOperator.h"
 #include "itkNullImageToImageFilterDriver.txx"
 
-main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
   try
     {
