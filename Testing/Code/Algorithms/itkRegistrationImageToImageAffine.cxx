@@ -1,6 +1,3 @@
-//-------------------------------------------
-//
-//  Example of the registration hierarchy
 //
 //-------------------------------------------
 
@@ -8,7 +5,7 @@
 #include <itkImage.h>
 #include <itkVectorContainer.h>
 #include <itkRegistrationTransform.h>
-#include <itkAffineTransform.h>
+#include <itkAffineRegistrationTransform.h>
 #include <itkRegistrationMapperImage.h>
 #include <itkSimilarityRegistrationMetric.h>
 #include <itkOptimizer.h>
@@ -22,10 +19,10 @@ int main()
   typedef itk::VectorContainer< unsigned short,
                                 double >      ParameterType;
 
-  typedef itk::AffineTransform< 2 > TransfromType;
+  typedef itk::AffineRegistrationTransform< 2 > TransformType;
   
   typedef itk::RegistrationMapperImage< ImageType,
-                                   TransfromType
+                                   TransformType
                                              >  MapperType;
 
   typedef itk::SimilarityRegistrationMetric< ImageType,
@@ -42,7 +39,7 @@ int main()
 
   ImageType::Pointer          reference         = ImageType::New();
   ImageType::Pointer          target            = ImageType::New();
-  TransfromType::Pointer      transformation    = TransfromType::New();
+  TransformType::Pointer      transformation    = TransformType::New();
   RegistrationType::Pointer   registration      = RegistrationType::New();
 
   ImageType::SizeType size;
@@ -74,6 +71,4 @@ int main()
   return 0;
 
 }
-
-
 
