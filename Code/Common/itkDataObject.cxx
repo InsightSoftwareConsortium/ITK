@@ -136,7 +136,7 @@ DataObject
 {
   itkDebugMacro(<< this->GetClassName() << " (" << this
                 << "): returning Source address " << this->m_Source );
-  return this->m_Source; \
+  return this->m_Source;
 }
 
 
