@@ -676,22 +676,21 @@ void GDCMImageIO::PrintSelf(std::ostream& os, Indent indent) const
   os << indent << "SeriesInstanceUID: " << m_SeriesInstanceUID << "\n";
   os << indent << "FrameOfReferenceInstanceUID: " << m_FrameOfReferenceInstanceUID << "\n";
 
-  char name[512];
-  this->GetPatientName(name); os << indent << "Patient Name:" << name << std::endl;
-  this->GetPatientID(name); os << indent << "Patient ID:" << name << std::endl;
-  this->GetPatientSex(name); os << indent << "Patient Sex:" << name << std::endl;
-  this->GetPatientAge(name); os << indent << "Patient Age:" << name << std::endl;
-  this->GetStudyID(name); os << indent << "Study ID:" << name << std::endl;
-  this->GetPatientDOB(name); os << indent << "Patient DOB:" << name << std::endl;
-  this->GetStudyDescription(name); os << indent << "Study Description:" << name << std::endl;
-  this->GetBodyPart(name); os << indent << "Body Part:" << name << std::endl;
-  this->GetNumberOfSeriesInStudy(name); os << indent << "Number Of Series In Study:" << name << std::endl;
-  this->GetNumberOfStudyRelatedSeries(name); os << indent << "Number Of Study Related Series:" << name << std::endl;
-  this->GetStudyDate(name); os << indent << "Study Date:" << name << std::endl;
-  this->GetModality(name); os << indent << "Modality:" << name << std::endl;
-  this->GetManufacturer(name); os << indent << "Manufacturer:" << name << std::endl;
-  this->GetInstitution(name); os << indent << "Institution:" << name << std::endl;
-  this->GetModel(name); os << indent << "Model:" << name << std::endl;
+  os << indent << "Patient Name:" << m_PatientName << std::endl;
+  os << indent << "Patient ID:" << m_PatientID << std::endl;
+  os << indent << "Patient Sex:" << m_PatientSex << std::endl;
+  os << indent << "Patient Age:" << m_PatientAge << std::endl;
+  os << indent << "Study ID:" << m_StudyID << std::endl;
+  os << indent << "Patient DOB:" << m_PatientDOB << std::endl;
+  os << indent << "Study Description:" << m_StudyDescription << std::endl;
+  os << indent << "Body Part:" << m_BodyPart << std::endl;
+  os << indent << "Number Of Series In Study:" << m_NumberOfSeriesInStudy << std::endl;
+  os << indent << "Number Of Study Related Series:" << m_NumberOfStudyRelatedSeries << std::endl;
+  os << indent << "Study Date:" << m_StudyDate << std::endl;
+  os << indent << "Modality:" << m_Modality << std::endl;
+  os << indent << "Manufacturer:" << m_Manufacturer << std::endl;
+  os << indent << "Institution:" << m_Institution << std::endl;
+  os << indent << "Model:" << m_Model << std::endl;
 
 
 }
