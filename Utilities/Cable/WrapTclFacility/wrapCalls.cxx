@@ -63,7 +63,7 @@ void Return<unsigned long>::From(unsigned long result, WrapperBase* wrapper)
 
 void Return<float>::From(float result, WrapperBase* wrapper)
 {
-  double doubleValue;
+  double doubleValue = result;
   Tcl_SetDoubleObj(Tcl_GetObjResult(wrapper->GetInterpreter()), doubleValue);
 }  
 
