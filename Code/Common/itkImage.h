@@ -21,6 +21,7 @@
 #include "itkSize.h"
 #include "itkImageRegion.h"
 #include "itkPixelTraits.h"
+#include "itkDataAccessor.h"
 #include <valarray>
 
 namespace itk
@@ -89,6 +90,25 @@ public:
    * or other operations.
    */
   typedef TPixel PixelType;
+
+
+  /** 
+   * Internal Pixel representation. Used to maintain a uniform API
+   * with Image Adaptors and allow to keep a particular internal
+   * representation of data while showing a different external 
+   * representation.
+   */
+  typedef TPixel InternalPixelType;
+
+
+
+  /** 
+   *  Accessor type that convert data between internal and external
+   *  representations.
+   */
+  typedef itk::DataAccessor< InternalPixelType, PixelType > AccessorType;
+
+
 
   /** 
    * Pixel (scalar) value typedef support. The scalar value is the native
