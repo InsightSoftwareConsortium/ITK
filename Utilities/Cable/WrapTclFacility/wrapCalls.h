@@ -126,7 +126,7 @@ struct ReturnPointerTo
  * object.
  */
 template <>
-struct ReturnPointerTo<char>
+struct _wrap_EXPORT ReturnPointerTo<char>
 { static void From(char* result, WrapperBase* wrapper); };
 
 
@@ -135,7 +135,7 @@ struct ReturnPointerTo<char>
  * Tcl String object.
  */
 template <>
-struct ReturnPointerTo<const char>
+struct _wrap_EXPORT ReturnPointerTo<const char>
 { static void From(const char* result, WrapperBase* wrapper); };
 
 
