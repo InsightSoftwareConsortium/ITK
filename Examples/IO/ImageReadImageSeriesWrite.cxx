@@ -35,7 +35,7 @@ int main( int argc, char *argv[] )
 {
   if (argc < 3 )
     {
-    std::cout << "Usage: WriteOutPNG3D inputFile outputPrefix" << std::endl;
+    std::cout << "Usage: ImageReadImageSeriesWrite inputFile outputPrefix" << std::endl;
     return EXIT_FAILURE;
     }
 
