@@ -203,7 +203,7 @@ M_SetupWriteFields(void)
 
   MET_FieldRecordType * mF;
 
-  if(m_ParentPoint>=0)
+  if(m_ParentPoint>=0 && m_ParentID>=0)
     {
     mF = new MET_FieldRecordType;
     MET_InitWriteField(mF, "ParentPoint", MET_INT,m_ParentPoint);
