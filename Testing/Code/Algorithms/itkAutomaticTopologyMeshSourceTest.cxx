@@ -279,8 +279,6 @@ itkAutomaticTopologyMeshSourceTest(int, char* [] )
     }
   std::cout << "\n";
 
-#if 0
-
   for( i = 0; i < mesh->GetNumberOfCells(); i++ )
     {
     typedef MeshType::CellAutoPointer CellAutoPointer;
@@ -313,7 +311,7 @@ itkAutomaticTopologyMeshSourceTest(int, char* [] )
           }
         std::cout << "\n";
 
-        mesh->GetCellBoundaryFeatureNeighbors( 1, i, 0, &cellSet );
+        mesh->GetCellNeighbors( i, &cellSet );
         std::cout << "Neighbors having edge as boundary: ";
         for( NeighborSet::iterator neighborIter = cellSet.begin();
              neighborIter != cellSet.end(); ++neighborIter )
@@ -325,8 +323,6 @@ itkAutomaticTopologyMeshSourceTest(int, char* [] )
         }
       }
     }
-
-#endif
 
   // Check that the right number of points has been added.
 
