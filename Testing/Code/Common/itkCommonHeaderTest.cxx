@@ -124,6 +124,10 @@ See COPYRIGHT.txt for copyright details.
 #include "itkNeighborhoodInnerProduct.h"
 #include "itkNeighborhoodIterator.h"
 #include "itkNeighborhoodOperator.h"
+<<<<<<< itkCommonHeaderTest.cxx
+#include "itkNthElementPixelAccessor.h"
+=======
+>>>>>>> 1.43
 #include "itkNthElementImageAdaptor.h"
 #include "itkNthElementPixelAccessor.h"
 #include "itkNumericTraits.h"
