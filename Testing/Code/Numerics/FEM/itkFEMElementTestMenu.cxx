@@ -106,7 +106,7 @@ int itkFEMElementTestMenu(int argc, char** argv)
       strcat(fname, filelist[ch]);
     }
     // Accept a user-specified file
-    else if (loc = strstr(argv[1], "-f")) {
+    else if ( (loc = strstr(argv[1], "-f")) ) {
 
       std::cout << "User-specified file..." << std::endl;
       
