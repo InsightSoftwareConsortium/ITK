@@ -12,7 +12,8 @@
 
   See COPYRIGHT.txt for copyright details.
 
-=========================================================================*/#ifndef _itkStatDenseHistogram_txx
+=========================================================================*/
+#ifndef _itkStatDenseHistogram_txx
 #define _itkStatDenseHistogram_txx
 
 #include "itkStatDenseHistogram.h"
