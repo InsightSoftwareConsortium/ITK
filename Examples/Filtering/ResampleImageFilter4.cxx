@@ -18,7 +18,10 @@
 //  Software Guide : BeginLatex
 //
 //  The following example illustrates how to rotate an image around its center.
+//  In this particular case an \code{itk::AffineTransform} is used to map the
+//  input space into the output space.
 //
+//  \index{itk::AffineTransform!resampling}
 //
 //  Software Guide : EndLatex 
 
@@ -27,9 +30,18 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkResampleImageFilter.h"
-#include "itkAffineTransform.h"
 #include "itkLinearInterpolateImageFunction.h"
 
+
+//  Software Guide : BeginLatex
+//
+//  The header of the Affine transform is included below.
+//
+//  Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
+#include "itkAffineTransform.h"
+// Software Guide : EndCodeSnippet
 
 
 int main( int argc, char ** argv )
@@ -68,9 +80,25 @@ int main( int argc, char ** argv )
 
   FilterType::Pointer filter = FilterType::New();
 
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  The transform type is instantiated using the coordinate representation
+  //  type and the space dimension. Then a transform object is constructed with
+  //  the \code{New()} method and passed to a smart pointer.
+  //
+  //  \index{itk::AffineTransform!instantiation}
+  //  \index{itk::AffineTransform!New()}
+  //  \index{itk::AffineTransform!Pointer}
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
   typedef itk::AffineTransform< double, Dimension >  TransformType;
 
   TransformType::Pointer transform = TransformType::New();
+  // Software Guide : EndCodeSnippet
  
 
   typedef itk::LinearInterpolateImageFunction< 
@@ -115,10 +143,19 @@ int main( int argc, char ** argv )
   //  Rotations are performed around the origin of physical coordinates --- not
   //  the image origin nor the image center. Hence, the process of positioning
   //  the output image frame as it is shown in Figure
-  //  \ref{fig:ResampleImageFilterTransformComposition6} requires three steps.
-  //  First, the image origin must be moved to the origin of the coordinate
-  //  system, this is done by applying a translation equal to the negative
-  //  values of the image origin.
+  //  \ref{fig:ResampleImageFilterOutput10} requires three steps.  First, the
+  //  image origin must be moved to the origin of the coordinate system, this
+  //  is done by applying a translation equal to the negative values of the
+  //  image origin.
+  //
+  // \begin{figure}
+  // \center
+  // \includegraphics[height=6cm]{BrainProtonDensitySliceBorder20.eps}
+  // \includegraphics[height=6cm]{ResampleImageFilterOutput10.eps}
+  // \caption{Effect of the Resample filter rotating an image}
+  // \label{fig:ResampleImageFilterOutput10}
+  // \end{figure}
+  //
   //
   //  \index{itk::AffineTransform!Translate()}
   //
@@ -142,7 +179,11 @@ std::cout << "imageCenterY = " << imageCenterY << std::endl;
 
   //  Software Guide : BeginLatex
   //
+  //  In a second step, the rotation is specified using the method
+  //  \code{Rotate2D()}.
   //  
+  //  \index{itk::AffineTransform!Rotate2D()}
+  //
   //  Software Guide : EndLatex 
   
   // Software Guide : BeginCodeSnippet
@@ -179,7 +220,14 @@ std::cout << "imageCenterY = " << imageCenterY << std::endl;
 
  
 
-  
+  //  Software Guide : BeginLatex
+  //
+  //  The output of the resampling filter is connected to a writer and the
+  //  execution of the pipeline is triggered by a writer update.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
   try 
     {
     writer->Update();
@@ -189,6 +237,7 @@ std::cout << "imageCenterY = " << imageCenterY << std::endl;
     std::cerr << "Exception catched !" << std::endl;
     std::cerr << excep << std::endl;
     }
+  // Software Guide : EndCodeSnippet
 
 
  
