@@ -332,7 +332,7 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage>
         }
       }
     }
-  catch( ProcessAborted  & except )
+  catch( ProcessAborted  &  )
     {
     // User aborted filter excecution Here we catch an exception thrown by the
     // progress reporter and rethrow it with the correct line number and file
