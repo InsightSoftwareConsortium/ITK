@@ -58,15 +58,6 @@ typedef    signed char   int8_t;
 typedef  unsigned char    uint8_t;
 typedef  unsigned short   uint16_t;
 typedef  unsigned int     uint32_t;
-
-#if defined(ITK_SIZEOF_LONG_LONG)
-typedef  unsigned long long uint64_t;
-#endif
-#if defined( ITK_SIZEOF___INT64 ) && !defined( ITK_SIZEOF_LONG_LONG )
-typedef  unsigned __int64 uint64_t;
-#endif
-
-
 #define UINT32_MAX    (4294967295U)
 #endif
 
