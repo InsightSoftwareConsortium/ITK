@@ -197,7 +197,7 @@ bool
 ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 ::IsObjectPixelOnBoundary(const InputNeighborhoodIteratorType &iNIter)
   {
-  static const unsigned int s = (unsigned int)pow(3, ImageDimension);
+  static const unsigned int s = (unsigned int)pow(static_cast<float>(3), static_cast<float>(ImageDimension));
 
   unsigned int i;
   for(i=0; i<s; i++)
@@ -217,7 +217,7 @@ bool
 ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 ::IsObjectPixelOnBoundary(const InputSmartNeighborhoodIteratorType &iSNIter)
   {
-  static const unsigned int s = (unsigned int)pow(3, ImageDimension);
+  static const unsigned int s = (unsigned int)pow(static_cast<float>(3), static_cast<float>(ImageDimension));
 
   unsigned int i;
   for(i=0; i<s; i++)
