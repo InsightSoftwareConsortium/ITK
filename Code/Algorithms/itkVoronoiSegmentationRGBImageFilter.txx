@@ -32,19 +32,19 @@ VoronoiSegmentationRGBImageFilter(){
   unsigned int i;
   for(i=0;i<6;i++){
     m_Mean[i] = 0;
-    m_Var[i] = 0;
+    m_STD[i] = 0;
     m_MeanTolerance[i] = 10;
-    m_VarTolerance[i] = 10;
+    m_STDTolerance[i] = 10;
     m_MeanPercentError[i] = 0.10;
-    m_VarPercentError[i] = 1.5;
+    m_STDPercentError[i] = 1.5;
   }
-//testing RGB for both mean and variance. (default).
+//testing RGB for both mean and STD. (default).
   m_TestMean[0] = 0;
   m_TestMean[1] = 1;
   m_TestMean[2] = 2;
-  m_TestVar[0] = 0;
-  m_TestVar[1] = 1;
-  m_TestVar[2] = 2;
+  m_TestSTD[0] = 0;
+  m_TestSTD[1] = 1;
+  m_TestSTD[2] = 2;
   m_MaxValueOfRGB = 256;
 }
 
@@ -67,10 +67,10 @@ SetMeanPercentError(double x[6]){
 template <class TInputImage, class TOutputImage>
 void
 VoronoiSegmentationRGBImageFilter <TInputImage,TOutputImage>::
-SetVarPercentError(double x[6]){
+SetSTDPercentError(double x[6]){
   for(unsigned int i=0;i<6;i++){
-    m_VarPercentError[i] = x[i];
-    m_VarTolerance[i] = x[i]*m_Var[i];
+    m_STDPercentError[i] = x[i];
+    m_STDTolerance[i] = x[i]*m_STD[i];
   }
 }
 
@@ -157,17 +157,17 @@ TestHomogeneity(IndexList Plist)
     }
   }
 
-  double savemean[6],savevar[6];
+  double savemean[6],saveSTD[6];
   if(num > 1){
     for(i=0;i<6;i++){
       savemean[i] = addp[i]/num;
-      savevar[i] = sqrt((addpp[i] - (addp[i]*addp[i])/(num) )/(num-1));
+      saveSTD[i] = sqrt((addpp[i] - (addp[i]*addp[i])/(num) )/(num-1));
   }
   }
   else{
     for(i=0;i<6;i++){
       savemean[i] = 0;
-      savevar[i] = -1;
+      saveSTD[i] = -1;
   }
   }
 
@@ -177,13 +177,13 @@ TestHomogeneity(IndexList Plist)
   double savem,savev;
   while (ok && (j < 3)){
   savem = savemean[m_TestMean[j]] - m_Mean[m_TestMean[j]];
-  savev = savevar[m_TestVar[j]] - m_Var[m_TestVar[j]];
+  savev = saveSTD[m_TestSTD[j]] - m_STD[m_TestSTD[j]];
   if( (savem < -m_MeanTolerance[m_TestMean[j]]) ||
         (savem > m_MeanTolerance[m_TestMean[j]]) ){
     ok = 0;
   }
-  if( (savev < -m_VarTolerance[m_TestVar[j]]) ||
-      (savev > m_VarTolerance[m_TestVar[j]]) ){
+  if( (savev < -m_STDTolerance[m_TestSTD[j]]) ||
+      (savev > m_STDTolerance[m_TestSTD[j]]) ){
       ok = 0;
     }
     j++;
@@ -275,19 +275,19 @@ TakeAPrior(BinaryObjectImage* aprior)
   }
 
   double b_Mean[6];
-  double b_Var[6];
+  double b_STD[6];
   float diffMean[6];
-  float diffVar[6];
+  float diffSTD[6];
   for(i=0;i<6;i++){
     m_Mean[i] = objaddp[i]/objnum;
-    m_Var[i] = sqrt((objaddpp[i] - (objaddp[i]*objaddp[i])/objnum)/(objnum-1));
-    m_VarTolerance[i] = m_Var[i]*m_VarPercentError[i];
+    m_STD[i] = sqrt((objaddpp[i] - (objaddp[i]*objaddp[i])/objnum)/(objnum-1));
+    m_STDTolerance[i] = m_STD[i]*m_STDPercentError[i];
     b_Mean[i] = bkgaddp[i]/bkgnum;
-    b_Var[i] = sqrt((bkgaddpp[i] - (bkgaddp[i]*bkgaddp[i])/bkgnum)/(bkgnum-1));
+    b_STD[i] = sqrt((bkgaddpp[i] - (bkgaddp[i]*bkgaddp[i])/bkgnum)/(bkgnum-1));
   diffMean[i] = (b_Mean[i]-m_Mean[i])/m_Mean[i];
   if(diffMean[i] < 0) diffMean[i] = -diffMean[i];
-  diffVar[i] = (b_Var[i]-m_Var[i])/m_Var[i];
-  if(diffVar[i] < 0) diffVar[i] = -diffVar[i];
+  diffSTD[i] = (b_STD[i]-m_STD[i])/m_STD[i];
+  if(diffSTD[i] < 0) diffSTD[i] = -diffSTD[i];
     if(m_UseBackgroundInAPrior)
       m_MeanTolerance[i] = diffMean[i]*m_Mean[i]*m_MeanDeviation;
     else
@@ -298,7 +298,7 @@ TakeAPrior(BinaryObjectImage* aprior)
 /* a-prior doen's make too much sense */
     for(i=0;i<6;i++){
       m_MeanTolerance[i] = 0;
-      m_VarTolerance[i] = 0;
+      m_STDTolerance[i] = 0;
     } 
   }
 
@@ -318,11 +318,11 @@ TakeAPrior(BinaryObjectImage* aprior)
   for(j=0;j<3;j++){
     k=0;
     for(i=1;i<6-j;i++){
-      if(diffVar[tmp1[i]]>diffVar[tmp1[k]]){
+      if(diffSTD[tmp1[i]]>diffSTD[tmp1[k]]){
       k=i;
     }   
     }
-  m_TestVar[j]=tmp1[k];
+  m_TestSTD[j]=tmp1[k];
     tmp1[k]=tmp1[5-j];
   }
 }

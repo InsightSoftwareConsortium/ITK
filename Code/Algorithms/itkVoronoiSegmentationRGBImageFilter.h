@@ -32,7 +32,7 @@ namespace itk
  * a prior binary mask, the algorithm will decide which 3 channels out of the 
  * 6 channels will be used for homogeneity testing. 
  * the homogeneity testing requires all the three testing channels to have the  
- * similar mean and variance value from the gold-standard in the sense that the 
+ * similar mean and standard deviation value from the gold-standard in the sense that the 
  * difference will be under the tolerance value. 
  * 
  * Input parameters are: 
@@ -83,15 +83,15 @@ public:
 
   /** \todo Document. */
   void SetMeanPercentError(double x[6]);
-  void SetVarPercentError(double x[6]);
+  void SetSTDPercentError(double x[6]);
   void GetMeanPercentError(double x[6]){for(int i=0;i<6;i++) x[i]=m_MeanPercentError[i];};
-  void GetVarPercentError(double x[6]){for(int i=0;i<6;i++) x[i]=m_VarPercentError[i];};
+  void GetSTDPercentError(double x[6]){for(int i=0;i<6;i++) x[i]=m_STDPercentError[i];};
   void GetMean(double x[6]){for(int i=0;i<6;i++) x[i]=m_Mean[i];};
-  void GetVar(double x[6]){for(int i=0;i<6;i++) x[i]=m_Var[i];};
+  void GetSTD(double x[6]){for(int i=0;i<6;i++) x[i]=m_STD[i];};
   void SetMean(double x[6]){for(int i=0;i<6;i++) m_Mean[i]=x[i];};
-  void SetVar(double x[6]){for(int i=0;i<6;i++) m_Var[i]=x[i];};
+  void SetSTD(double x[6]){for(int i=0;i<6;i++) m_STD[i]=x[i];};
   void GetMeanTolerance(double x[6]){for(int i=0;i<6;i++) x[i]=m_MeanTolerance[i];};
-  void GetVarTolerance(double x[6]){for(int i=0;i<6;i++) x[i]=m_VarTolerance[i];};
+  void GetSTDTolerance(double x[6]){for(int i=0;i<6;i++) x[i]=m_STDTolerance[i];};
 
   /** Maximum value of the RGB, needed for color space coversions.
    * default as 8 bit per channel, if it is different, need to be
@@ -99,23 +99,23 @@ public:
   itkSetMacro(MaxValueOfRGB,double);
   itkGetMacro(MaxValueOfRGB,double);
 
-  /** Set the three channels to test the mean and var respectivley
+  /** Set the three channels to test the mean and STD respectivley
    * 0:red, 1:green, 2:blue, 3:hue, 4:chroma, 5:value. */
   void SetTestMean(unsigned int t1,unsigned int t2,unsigned int t3){
     m_TestMean[0] = t1;
     m_TestMean[1] = t2;
     m_TestMean[2] = t3;
   }
-  void SetTestVar(unsigned int t1,unsigned int t2,unsigned int t3){
-    m_TestVar[0] = t1;
-    m_TestVar[1] = t2;
-    m_TestVar[2] = t3;
+  void SetTestSTD(unsigned int t1,unsigned int t2,unsigned int t3){
+    m_TestSTD[0] = t1;
+    m_TestSTD[1] = t2;
+    m_TestSTD[2] = t3;
   }
   void GetTestMean(unsigned int x[3]){
     x[0]=m_TestMean[0];x[1]=m_TestMean[1];x[2]=m_TestMean[2];
   }
-  void GetTestVar(unsigned int x[3]){
-    x[0]=m_TestVar[0];x[1]=m_TestVar[1];x[2]=m_TestVar[2];
+  void GetTestSTD(unsigned int x[3]){
+    x[0]=m_TestSTD[0];x[1]=m_TestSTD[1];x[2]=m_TestSTD[2];
   }
   void TakeAPrior(BinaryObjectImage* aprior);
 
@@ -128,14 +128,14 @@ protected:
 
 private:
   double m_Mean[6];
-  double m_Var[6];  //actually it is the STD of the object. (sqrt(Var)).
+  double m_STD[6];  
   double m_MeanTolerance[6];
-  double m_VarTolerance[6];
+  double m_STDTolerance[6];
   double m_MeanPercentError[6];
-  double m_VarPercentError[6];
+  double m_STDPercentError[6];
   double m_MaxValueOfRGB;
   unsigned int m_TestMean[3];
-  unsigned int m_TestVar[3];
+  unsigned int m_TestSTD[3];
   typename RGBHCVImage::Pointer m_WorkingImage;
 
   virtual bool TestHomogeneity(IndexList Plist);

@@ -84,9 +84,9 @@ int itkVoronoiSegmentationImageFilterTest(int, char**){
 
   testVorseg->SetInput(inputIMG);
   testVorseg->SetMean(520);
-  testVorseg->SetVar(20);
+  testVorseg->SetSTD(20);
   testVorseg->SetMeanTolerance(10);
-  testVorseg->SetVarTolerance(20);
+  testVorseg->SetSTDTolerance(20);
   testVorseg->SetNumberOfSeeds(400);
   testVorseg->SetSteps(5);
 

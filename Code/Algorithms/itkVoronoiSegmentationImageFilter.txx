@@ -31,8 +31,8 @@ VoronoiSegmentationImageFilter <TInputImage,TOutputImage>
 ::VoronoiSegmentationImageFilter()
 {
   m_MeanPercentError = 0.10;
-  m_VarPercentError = 1.5;
-  m_Mean = m_Var = m_MeanTolerance = m_VarTolerance = 0.0;
+  m_STDPercentError = 1.5;
+  m_Mean = m_STD = m_MeanTolerance = m_STDTolerance = 0.0;
 }
 
 /* destructor */
@@ -55,10 +55,10 @@ VoronoiSegmentationImageFilter <TInputImage,TOutputImage>
 template <class TInputImage, class TOutputImage>
 void
 VoronoiSegmentationImageFilter <TInputImage,TOutputImage>
-::SetVarPercentError(double x)
+::SetSTDPercentError(double x)
 {
-  m_VarPercentError = x;
-  m_VarTolerance = x*m_Var;
+  m_STDPercentError = x;
+  m_STDTolerance = x*m_STD;
 }
 
 template <class TInputImage, class TOutputImage>
@@ -78,22 +78,22 @@ VoronoiSegmentationImageFilter <TInputImage,TOutputImage>
     addpp=addpp+getp*getp;
     }
 
-  double savemean,savevar;
+  double savemean,saveSTD;
   if(num > 1)
     {
     savemean = addp/num;
-    savevar = sqrt((addpp - (addp*addp)/(num) )/(num-1));
+    saveSTD = sqrt((addpp - (addp*addp)/(num) )/(num-1));
     }
   else
     {
     savemean = 0;
-    savevar = -1;
+    saveSTD = -1;
     }
 
   savemean -= m_Mean;
-  savevar -= m_Var;
+  saveSTD -= m_STD;
   if( (savemean>-m_MeanTolerance) && (savemean<m_MeanTolerance) 
-      && (savevar<m_VarTolerance) )
+      && (saveSTD<m_STDTolerance) )
     {
     return 1;
     }
@@ -194,7 +194,7 @@ VoronoiSegmentationImageFilter <TInputImage,TOutputImage>
   }
 
   m_Mean = addp/num;
-  m_Var = sqrt((addpp - (addp*addp)/num)/(num-1));
+  m_STD = sqrt((addpp - (addp*addp)/num)/(num-1));
   float b_Mean = addb/numb;
 
   if(m_UseBackgroundInAPrior)
@@ -205,7 +205,7 @@ VoronoiSegmentationImageFilter <TInputImage,TOutputImage>
     {
     m_MeanTolerance = m_Mean*m_MeanPercentError;
     }
-  m_VarTolerance = m_Var*m_VarPercentError;
+  m_STDTolerance = m_STD*m_STDPercentError;
 }
 
 } //end namespace

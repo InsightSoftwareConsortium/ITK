@@ -29,7 +29,7 @@ namespace itk
  * 
  * Perform the segmentation of 2D images (single channel) by Voronoi Diagram.
  * Used as a node of the segmentation toolkits.
- * The homogeneity operator here is the testing of mean and variance value.
+ * The homogeneity operator here is the testing of mean and standar deviation value.
  * By setting the tolerance level, the "internal" region was defined as those
  * that is closed to the gold-standard value in the sense that the difference
  * is within the tolerance value.
@@ -81,28 +81,28 @@ public:
   itkSetMacro(Mean, double);
   itkGetMacro(Mean, double);
 
-  /** Set/Get the estimation of the variance of the pixel value for the
+  /** Set/Get the estimation of the STD of the pixel value for the
    *  object. */
-  itkSetMacro(Var, double);
-  itkGetMacro(Var, double);
+  itkSetMacro(STD, double);
+  itkGetMacro(STD, double);
 
   /** Set/Get the Tolearance of Mean for classifying the regions. */
   itkSetMacro(MeanTolerance, double);
   itkGetMacro(MeanTolerance, double);
 
-  /** Set the Tolearance of Variance for classifying the regions. */
-  itkSetMacro(VarTolerance, double);
+  /** Set the Tolearance of STD for classifying the regions. */
+  itkSetMacro(STDTolerance, double);
 
   /** Get the Tolearance of Variance for classifying the regions. */
-  itkGetMacro(VarTolerance, double);
+  itkGetMacro(STDTolerance, double);
   
   /** Set/Get the mean percent error. */
   void SetMeanPercentError(double x);
   itkGetMacro(MeanPercentError, double);
 
-  /** Set/Get the variance percent error. */
-  itkGetMacro(VarPercentError, double);
-  void SetVarPercentError(double x);
+  /** Set/Get the STD percent error. */
+  itkGetMacro(STDPercentError, double);
+  void SetSTDPercentError(double x);
 
   /** Take a prior from other segmentation node, should be an
    * binary object. */
@@ -115,9 +115,9 @@ protected:
 
 private:
   double m_Mean;
-  double m_Var;
+  double m_STD;
   double m_MeanTolerance;
-  double m_VarTolerance;
+  double m_STDTolerance;
   double m_MeanPercentError;
   double m_VarPercentError;
 
