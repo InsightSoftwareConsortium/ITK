@@ -106,7 +106,7 @@ public:
   /** Get the internal list of children */
   virtual ChildrenListType& GetChildrenList() {return m_Children;}
 
-  /** Set thhe data of the node */
+  /** Set the data of the node */
   //virtual void SetData(TValueType data) {m_Data = data;}
 
 protected:
@@ -114,7 +114,7 @@ protected:
   TreeNode();
   virtual ~TreeNode();
   TValueType m_Data;
-  typename TreeNode<TValueType>::Pointer m_Parent;
+  Pointer m_Parent;
   ChildrenListType m_Children;
 };
 
