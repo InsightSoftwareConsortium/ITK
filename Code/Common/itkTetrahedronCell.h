@@ -39,16 +39,14 @@ namespace itk
  *     Type information of mesh containing cell.
  * \ingroup MeshObjects
  */
-template <
-  typename TPixelType,
-  typename TCellTraits
-  >
-class TetrahedronCell: public CellInterface< TPixelType , TCellTraits >
+template < typename TCellInterface >
+class TetrahedronCell: public TCellInterface
 {
 public:
   /** Standard class typedefa. */
   typedef TetrahedronCell     Self;
-  typedef CellInterface<TPixelType,TCellTraits>  Superclass;
+  typedef TCellInterface      Superclass;
+//  typedef CellInterface<TPixelType,TCellTraits>  Superclass;
 //  typedef SmartPointer<Self>  Pointer;
 //  typedef SmartPointer<const Self>  ConstPointer;
   typedef       Self * Pointer;
@@ -62,37 +60,35 @@ public:
   itkTypeMacro(TetrahedronCell, CellInterface);
 
   /** Save the PixelType template parameter. */
-  typedef TPixelType                                PixelType;
+  typedef typename Superclass::PixelType              PixelType;
   
   /** Save the CellTraits template parameter. */
-  typedef TCellTraits                                 CellTraits;
+  typedef typename Superclass::CellTraits             CellTraits;
 
   /** Pick-up typedefs from superclass */
   typedef typename CellTraits::CellFeatureIdentifier  CellFeatureIdentifier;
-  typedef CellFeatureIdentifier  CellFeatureCount;
-  typedef typename CellInterface<TPixelType,TCellTraits>::PointIdIterator 
-                   PointIdIterator;
-  typedef typename CellInterface<TPixelType,TCellTraits>::PointIdConstIterator
-                   PointIdConstIterator;
+  typedef CellFeatureIdentifier                       CellFeatureCount;
+  typedef typename Superclass::PointIdIterator        PointIdIterator;
+  typedef typename Superclass::PointIdConstIterator   PointIdConstIterator;
   
   /** Save some template parameter from cell traits. */
-  typedef typename CellTraits::CoordRepType         CoordRepType;
-  typedef typename CellTraits::PointIdentifier  PointIdentifier;
-  typedef typename CellInterface<TPixelType,TCellTraits>::Pointer CellPointer;
+  typedef typename CellTraits::CoordRepType                       CoordRepType;
+  typedef typename CellTraits::PointIdentifier                    PointIdentifier;
+  typedef typename CellInterface<PixelType,CellTraits>::Pointer   CellPointer;
   
   /** Save some template parameter from cell traits. */
   enum { PointDimension = CellTraits::PointDimension };
 
   /** The type of boundary for this tetrahedron's vertices. */
-  typedef VertexBoundary< TPixelType , TCellTraits >    Vertex;
+  typedef VertexBoundary< TCellInterface >              Vertex;
   typedef typename Vertex::Pointer VertexPointer;
   
   /** The type of boundary for this tetrahedron's edges. */
-  typedef LineBoundary< TPixelType , TCellTraits >      Edge;
+  typedef LineBoundary< TCellInterface >                Edge;
   typedef typename Edge::Pointer EdgePointer;
   
   /** The type of boundary for this tetrahedron's faces. */
-  typedef TriangleBoundary< TPixelType , TCellTraits >  Face;
+  typedef TriangleBoundary< TCellInterface >            Face;
   typedef typename Face::Pointer FacePointer;
     
   /** Tetrahedron-specific topology numbers. */
@@ -151,9 +147,9 @@ public:
 /** \class TetrahedronBoundary
  * Create a boundary-wrapped version of the TetrahedronCell.
  */
-template <typename TPixelType, typename TCellTraits>
+template <typename TCellInterface>
 class TetrahedronBoundary:
-  public CellBoundary< TetrahedronCell< TPixelType , TCellTraits > >
+  public CellBoundary< TetrahedronCell< TCellInterface > >
 {
 public:
   /** Standard class typedefs. */

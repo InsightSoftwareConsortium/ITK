@@ -72,8 +72,9 @@ public:
   
   /** Define the triangular cell types which forms the surface of the model
    * and will be used in FEM application. */
-  typedef TriangleCell<OPixelType, CellTraits> TriCell;
-  typedef typename TriCell::Pointer TriCellPointer;
+  typedef CellInterface<OPixelType, CellTraits>   CellInterfaceType;
+  typedef TriangleCell<CellInterfaceType>         TriCell;
+  typedef typename TriCell::Pointer               TriCellPointer;
 
   itkSetMacro(ResolutionX, unsigned int);
   itkSetMacro(ResolutionY, unsigned int);

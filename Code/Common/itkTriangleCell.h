@@ -41,16 +41,14 @@ namespace itk
  * \ingroup MeshObjects
  */
 
-template <
-  typename TPixelType,
-  typename TCellTraits
-  >
-class TriangleCell: public CellInterface< TPixelType , TCellTraits >
+template < typename TCellInterface >
+class TriangleCell: public TCellInterface
 {
 public:
   /** Standard class typedefs. */
   typedef TriangleCell        Self;
-  typedef CellInterface<TPixelType,TCellTraits>  Superclass;
+  typedef TCellInterface      Superclass;
+//  typedef CellInterface<TPixelType,TCellTraits>  Superclass;
 //  typedef SmartPointer<Self>  Pointer;
 //  typedef SmartPointer<const Self>  ConstPointer;
   typedef       Self *    Pointer;
@@ -64,33 +62,31 @@ public:
   itkTypeMacro(TriangleCell, CellInterface);
   
   /** Save the PixelType template parameter. */
-  typedef TPixelType                                PixelType;
+  typedef typename Superclass::PixelType              PixelType;
   
   /** Save the CellTraits template parameter. */
-  typedef TCellTraits                                 CellTraits;
+  typedef typename Superclass::CellTraits             CellTraits;
 
   /** Pick-up typedefs from superclass */
   typedef typename CellTraits::CellFeatureIdentifier  CellFeatureIdentifier;
-  typedef CellFeatureIdentifier  CellFeatureCount;
-  typedef typename CellInterface<TPixelType,TCellTraits>::PointIdIterator 
-                   PointIdIterator;
-  typedef typename CellInterface<TPixelType,TCellTraits>::PointIdConstIterator
-                   PointIdConstIterator;
+  typedef CellFeatureIdentifier                       CellFeatureCount;
+  typedef typename Superclass::PointIdIterator        PointIdIterator;
+  typedef typename Superclass::PointIdConstIterator   PointIdConstIterator;
   
   /** Save some template parameter information. */
-  typedef typename CellTraits::CoordRepType         CoordRepType;
-  typedef typename CellTraits::PointIdentifier  PointIdentifier;
-  typedef typename CellInterface<TPixelType,TCellTraits>::Pointer CellPointer;
+  typedef typename CellTraits::CoordRepType                     CoordRepType;
+  typedef typename CellTraits::PointIdentifier                  PointIdentifier;
+  typedef typename CellInterface<PixelType,CellTraits>::Pointer CellPointer;
   
   /** Save some template parameter information. */
   enum { PointDimension = CellTraits::PointDimension };
 
   /** The type of boundary for this triangle's vertices. */
-  typedef VertexBoundary< TPixelType , TCellTraits >  Vertex;
+  typedef VertexBoundary< TCellInterface >            Vertex;
   typedef typename Vertex::Pointer VertexPointer;
   
   /** The type of boundary for this triangle's edges. */
-  typedef LineBoundary< TPixelType , TCellTraits >    Edge;
+  typedef LineBoundary< TCellInterface >              Edge;
   typedef typename Edge::Pointer EdgePointer;
     
   /** Triangle-specific topology numbers. */
@@ -145,9 +141,9 @@ public:
 /** \class TriangleBoundary
  * Create a boundary-wrapped version of the TriangleCell.
  */
-template <typename TPixelType, typename TCellTraits>
+template <typename TCellInterface>
 class TriangleBoundary:
-  public CellBoundary< TriangleCell< TPixelType , TCellTraits > >
+  public CellBoundary< TriangleCell< TCellInterface > >
 {
 public:
   /** Standard class typedefs. */

@@ -45,34 +45,30 @@ namespace itk
  *     Type information of mesh containing cell.
  * \ingroup MeshObjects
  */
-template <
-  typename TPixelType,
-  typename TCellTraits
-  >
-class PolygonCell: public CellInterface< TPixelType , TCellTraits >
+template < typename TCellInterface >
+class PolygonCell: public TCellInterface
 {
 public:
   /** Standard class typedefs. */
   typedef PolygonCell  Self;
-  typedef CellInterface<TPixelType,TCellTraits>  Superclass;
+  typedef TCellInterface  Superclass;
+//  typedef CellInterface<TPixelType,TCellTraits>  Superclass;
 //  typedef SmartPointer<Self>  Pointer;
 //  typedef SmartPointer<const Self>  ConstPointer;
   typedef       Self * Pointer;
   typedef const Self * ConstPointer;
     
   /** Save the PixelType template parameter. */
-  typedef TPixelType                                PixelType;
+  typedef typename Superclass::PixelType              PixelType;
   
   /** Save the CellTraits template parameter. */
-  typedef TCellTraits                                 CellTraits;
+  typedef typename Superclass::CellTraits             CellTraits;
 
   /** Extract typedefs from superclass. */
   typedef typename CellTraits::CellFeatureIdentifier  CellFeatureIdentifier;
-  typedef CellFeatureIdentifier  CellFeatureCount;
-  typedef typename CellInterface<TPixelType,TCellTraits>::PointIdIterator 
-                   PointIdIterator;
-  typedef typename CellInterface<TPixelType,TCellTraits>::PointIdConstIterator
-                   PointIdConstIterator;
+  typedef CellFeatureIdentifier                       CellFeatureCount;
+  typedef typename Superclass::PointIdIterator        PointIdIterator;
+  typedef typename Superclass::PointIdConstIterator   PointIdConstIterator;
   
   /** Save some template parameter information. */
   typedef typename CellTraits::CoordRepType         CoordRepType;
@@ -83,14 +79,14 @@ public:
   enum { CellDimension = 2 };
     
   /** Define a typedef to the cell interface. */
-  typedef typename CellInterface<TPixelType,TCellTraits>::Pointer CellPointer;
+  typedef typename CellInterface<PixelType,CellTraits>::Pointer CellPointer;
 
   /** The type of boundary for this voronoi cell's vertices. */
-  typedef VertexBoundary< TPixelType , TCellTraits >  Vertex;
-  typedef typename Vertex::Pointer VertexPointer;
+  typedef VertexBoundary< TCellInterface >  Vertex;
+  typedef typename Vertex::Pointer          VertexPointer;
   
   /** The type of boundary for this voronoi cell's edges. */
-  typedef LineBoundary< TPixelType , TCellTraits >    Edge;
+  typedef LineBoundary< TCellInterface >    Edge;
   typedef typename Edge::Pointer EdgePointer;
   typedef FixedArray<int,2> EdgeInfo;
   typedef std::deque<EdgeInfo> EdgeInfoDQ;
@@ -154,9 +150,9 @@ private:
  *
  * \ingroup MeshObjects
  */
-template <typename TPixelType, typename TCellTraits>
+template <typename TCellInterface >
 class PolygonBoundary:
-  public CellBoundary< PolygonCell< TPixelType , TCellTraits > >
+  public CellBoundary< PolygonCell< TCellInterface > >
 {
 public:
   /** Standard class typedefs. */

@@ -38,9 +38,10 @@ typedef Mesh::CellTraits  CellTraits;
  * use the defaults for the other parameters.  Note that a cell's template
  * parameters must match those of the mesh into which it is inserted.
  */
-typedef itk::LineBoundary<int, CellTraits>     LineBoundary;
-typedef itk::TetrahedronCell<int, CellTraits>  TetraCell;
-typedef itk::HexahedronCell<int, CellTraits>   HexaCell;
+typedef itk::CellInterface< int, CellTraits >    CellInterfaceType;
+typedef itk::LineBoundary<CellInterfaceType>     LineBoundary;
+typedef itk::TetrahedronCell<CellInterfaceType>  TetraCell;
+typedef itk::HexahedronCell<CellInterfaceType>   HexaCell;
 
 /**
  * Typedef the generic cell type for the mesh.  It is an abstract class,

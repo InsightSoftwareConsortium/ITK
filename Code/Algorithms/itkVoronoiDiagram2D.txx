@@ -146,21 +146,24 @@ NeighborIdsEnd(int seeds)
 template <typename TCoordRepType>
 VoronoiDiagram2D<TCoordRepType>::VertexIterator 
 VoronoiDiagram2D<TCoordRepType>::
-VertexBegin(void){
+VertexBegin(void)
+{
   return f_VertexList.begin();
 }
 
 template <typename TCoordRepType>
 VoronoiDiagram2D<TCoordRepType>::VertexIterator 
 VoronoiDiagram2D<TCoordRepType>::
-VertexEnd(void){
+VertexEnd(void)
+{
   return f_VertexList.end();
 }
 
 template <typename TCoordRepType>
 VoronoiDiagram2D<TCoordRepType>::PointType 
 VoronoiDiagram2D<TCoordRepType>::
-GetSeed(int SeedID){
+GetSeed(int SeedID)
+{
   PointType answer;
   answer[0]=m_Seeds[SeedID][0];
   answer[1]=m_Seeds[SeedID][1];
@@ -170,24 +173,28 @@ GetSeed(int SeedID){
 template <typename TCoordRepType>
 void
 VoronoiDiagram2D<TCoordRepType>::
-Reset(void){
+Reset(void)
+{
   VoronoiRegions.clear();
   VoronoiRegions.resize(m_NumberOfSeeds);
   m_CellNeighborsID.resize(m_NumberOfSeeds);
 
-  for(unsigned int i = 0; i < m_NumberOfSeeds; i++){
-    VoronoiRegions[i] = Cell::New();
-  m_CellNeighborsID[i].clear();
-  }  
+  for(unsigned int i = 0; i < m_NumberOfSeeds; i++)
+    {
+    VoronoiRegions[i] = CellType::New();
+    m_CellNeighborsID[i].clear();
+    }  
 }
 
 template <typename TCoordRepType>
 void
 VoronoiDiagram2D<TCoordRepType>::
-InsertCells(void){
-  for(unsigned int i = 0; i < m_NumberOfSeeds; i++){
+InsertCells(void)
+{
+  for(unsigned int i = 0; i < m_NumberOfSeeds; i++)
+    {
     this->SetCell(i, VoronoiRegions[i]);
-  }  
+    }  
 }
 
 }//end namespace

@@ -41,16 +41,14 @@ namespace itk
  * \ingroup MeshObjects
  */
 
-template <
-  typename TPixelType,
-  typename TCellTraits
-  >
-class LineCell: public CellInterface< TPixelType , TCellTraits >
+template < typename TCellInterface >
+class LineCell: public TCellInterface
 {
 public:
   /** Standard class typedefs. */
   typedef LineCell            Self;
-  typedef CellInterface<TPixelType,TCellTraits>  Superclass;
+  typedef TCellInterface      Superclass;
+//  typedef CellInterface<TPixelType,TCellTraits>  Superclass;
 //  typedef SmartPointer<Self>  Pointer;
 //  typedef SmartPointer<const Self>  ConstPointer;
   typedef       Self *    Pointer;
@@ -64,30 +62,28 @@ public:
   itkTypeMacro(LineCell, CellInterface);
 
   /** Save the PixelType template parameter. */
-  typedef TPixelType                                PixelType;
+  typedef typename Superclass::PixelType              PixelType;
   
   /** Save the CellTraits template parameter. */
-  typedef TCellTraits                                 CellTraits;
+  typedef typename Superclass::CellTraits             CellTraits;
 
   /** Pick-up typedefs from superclass */
   typedef typename CellTraits::CellFeatureIdentifier  CellFeatureIdentifier;
-  typedef CellFeatureIdentifier  CellFeatureCount;
-  typedef typename CellInterface<TPixelType,TCellTraits>::PointIdIterator 
-                   PointIdIterator;
-  typedef typename CellInterface<TPixelType,TCellTraits>::PointIdConstIterator
-                   PointIdConstIterator;
+  typedef CellFeatureIdentifier                       CellFeatureCount;
+  typedef typename Superclass::PointIdIterator        PointIdIterator;
+  typedef typename Superclass::PointIdConstIterator   PointIdConstIterator;
   
   /** Save some template parameter information. */
-  typedef typename CellTraits::CoordRepType         CoordRepType;
-  typedef typename CellTraits::PointIdentifier  PointIdentifier;
-  typedef typename CellInterface<TPixelType,TCellTraits>::Pointer CellPointer;
+  typedef typename CellTraits::CoordRepType                     CoordRepType;
+  typedef typename CellTraits::PointIdentifier                  PointIdentifier;
+  typedef typename CellInterface<PixelType,CellTraits>::Pointer CellPointer;
     
   /** Save some template parameter information. */
   enum { PointDimension = CellTraits::PointDimension };
 
   /** The type of boundary for this lines's vertices. */
-  typedef VertexBoundary< TPixelType , TCellTraits >  Vertex;
-  typedef typename Vertex::Pointer VertexPointer;
+  typedef VertexBoundary< TCellInterface >            Vertex;
+  typedef typename Vertex::Pointer                    VertexPointer;
     
   /** Line-specific topology numbers. */
   enum { NumberOfPoints   = 2,
@@ -136,9 +132,9 @@ protected:
  *
  * \ingroup MeshObjects
  */
-template <typename TPixelType, typename TCellTraits>
+template <typename TCellInterface>
 class LineBoundary:
-  public CellBoundary< LineCell< TPixelType , TCellTraits > >
+  public CellBoundary< LineCell< TCellInterface > >
 {
 public:
   /** Standard class typedefs. */

@@ -666,7 +666,6 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 {
   int i; 
   const unsigned long *tp;
-  typename TriCell::Pointer testCell = TriCell::New();
 
   InputCellsContainerPointer  myCells = m_Locations->GetCells();
   InputCellsContainerIterator cells = myCells->Begin();
@@ -779,36 +778,17 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   InputPointType x, y, z, d;
   unsigned long tripoints[3];
 
-  InputPointsContainerPointer  myForces = m_Forces->GetPoints();
-  InputPointsContainerIterator forces = myForces->Begin();
-
-  InputPointsContainerPointer  myPoints = m_Locations->GetPoints();
-  InputPointsContainerIterator points = myPoints->Begin();
-
-  InputPointsContainerPointer  myNormals = m_Normals->GetPoints();
-  InputPointsContainerIterator normals = myNormals->Begin();
-
-  InputPointsContainerPointer  myDerives = m_Derives->GetPoints();
-  InputPointsContainerIterator derives = myDerives->Begin();
-
-  InputPointsContainerPointer  myDisplacements = m_Displacements->GetPoints();
-  InputPointsContainerIterator displacements = myDisplacements->Begin();
   InputPointDataContainerPointer    myForceData = m_Forces->GetPointData();
-
   myForceData->Reserve(m_NumNodes);
 
   InputCellsContainerPointer    myCells = m_Locations->GetCells();
-
   myCells->Reserve(m_NumCells);
-  InputCellsContainerIterator   cells = myCells->Begin(); 
 
   InputCellDataContainerPointer    myCellData = m_Locations->GetCellData();
   myCellData->Reserve(m_NumCells);
-  InputCellDataContainerIterator   celldata = myCellData->Begin(); 
 
   InputCellsContainerPointer       myOutCells = m_Output->GetCells();
   myOutCells->Reserve(m_NumCells);
-  InputCellsContainerIterator      outcells = myOutCells->Begin();   
 
   InputCellDataContainerPointer       myOutCellData = m_Output->GetCellData();
   myOutCellData->Reserve(m_NumCells);
@@ -1181,7 +1161,6 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 
     InputPointsContainerPointer     myForces = m_Forces->GetPoints();
     myForces->Reserve(m_NumNodes);
-    InputPointsContainerIterator    forces = myForces->Begin();
 
     InputPointsContainerPointer     myDerives = m_Derives->GetPoints();
     myDerives->Reserve(m_NumNodes);
@@ -1191,7 +1170,6 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   
     InputCellDataContainerPointer   myCellData = m_Locations->GetCellData();
     myCellData->Reserve(m_NumCells);
-    InputCellDataContainerIterator  celldata = myCellData->Begin();  
 
     normals = myNormals->Begin();
 
@@ -1834,7 +1812,8 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   ++locations;
   locations.Value() = v_northpole;
 
-  if ( m_NewNode == 1 ) {
+  if ( m_NewNode == 1 ) 
+    {
     m_YResolution = m_YResolution*2;
 
     v3[0] = 0;
@@ -1842,21 +1821,23 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     v3[2] = 0;
     i = 0;
     displacements = myDisplacements->Begin();
-    while ( i < m_NumNodes ) {
+    while ( i < m_NumNodes ) 
+      {
       displacements.Value() = v3;
       ++displacements;
       i++;
-    }
+      }
 
     myForces->Reserve(m_NumNodes);
-    for (int i=0; i<m_NumNodes; i++) {
+    for (int i=0; i<m_NumNodes; i++) 
+      {
       m_Locations->SetPointData(i, 0);
       m_Forces->SetPointData(i, 0);
-    }
+      }
     m_NewNode = 0;
-    Reset();
-    SetStiffnessMatrix();
-  }
+    this->Reset();
+    this->SetStiffnessMatrix();
+    }
 
   free(length);
 }
@@ -2263,40 +2244,50 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   double distance = 0.0;
   int k1, k2, k, l;
 
-  if (i > j) {
+  if (i > j) 
+    {
     k1 = j;
     k2 = i;
-  } else {
+    } 
+  else 
+    {
     k2 = j;
     k1 = i;
-  }
+    }
   
   k = 0;
-  while ( k < k2+1 ) {
+  while ( k < k2+1 ) 
+    {
     l = 0;
     if (k == k1) slice1 = locations;
     if (k == k2) slice2 = locations;
-    while (l < m_YResolution ) {
+    while (l < m_YResolution ) 
+      {
       ++locations;
       l++;
-    }
+      }
     k++;
-  }
+    }
 
   k = 0;
   l = 0;
-  while (l < m_YResolution) {
+  while (l < m_YResolution) 
+    {
     d1 = slice1.Value();
     d2 = slice2.Value();
     distance += d1[2]-d2[2];
     ++slice1;
     ++slice2;
     l++;
-  }
+    }
 
   distance = abs(distance/m_YResolution);
 
-  if (distance > m_SliceDistanceThreshold) this->SliceAddition(k2, distance); 
+  if (distance > m_SliceDistanceThreshold) 
+    {
+    this->SliceAddition(k2, distance); 
+    }
+
 }
 
 } /* end namespace itk. */

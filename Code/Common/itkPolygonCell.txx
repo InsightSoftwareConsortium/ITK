@@ -28,9 +28,9 @@ namespace itk
 /**
  * Standard CellInterface:
  */
-template <typename TPixelType, typename TCellTraits>
-PolygonCell< TPixelType , TCellTraits >::CellPointer
-PolygonCell< TPixelType , TCellTraits >
+template <typename TCellInterface>
+PolygonCell< TCellInterface >::CellPointer
+PolygonCell< TCellInterface >
 ::MakeCopy(void)
 {
 
@@ -44,9 +44,9 @@ PolygonCell< TPixelType , TCellTraits >
  * Standard CellInterface:
  * Get the topological dimension of this cell.
  */
-template <typename TPixelType, typename TCellTraits>
+template <typename TCellInterface>
 int
-PolygonCell< TPixelType , TCellTraits >
+PolygonCell< TCellInterface >
 ::GetDimension(void) const
 {
   return Self::CellDimension;
@@ -57,9 +57,9 @@ PolygonCell< TPixelType , TCellTraits >
  * Standard CellInterface:
  * Get the number of points required to define the cell.
  */
-template <typename TPixelType, typename TCellTraits>
+template <typename TCellInterface>
 int
-PolygonCell< TPixelType , TCellTraits >
+PolygonCell< TCellInterface >
 ::GetNumberOfPoints(void) const
 {
   return m_PointIds.size();
@@ -70,9 +70,9 @@ PolygonCell< TPixelType , TCellTraits >
  * Standard CellInterface:
  * Get the number of boundary features of the given dimension.
  */
-template <typename TPixelType, typename TCellTraits>
-PolygonCell< TPixelType , TCellTraits >::CellFeatureCount
-PolygonCell< TPixelType , TCellTraits >
+template <typename TCellInterface>
+PolygonCell< TCellInterface >::CellFeatureCount
+PolygonCell< TCellInterface >
 ::GetNumberOfBoundaryFeatures(int dimension) const
 {
   switch (dimension)
@@ -90,9 +90,9 @@ PolygonCell< TPixelType , TCellTraits >
  * cell feature Id.
  * The Id can range from 0 to GetNumberOfBoundaryFeatures(dimension)-1.
  */
-template <typename TPixelType, typename TCellTraits>
-PolygonCell< TPixelType , TCellTraits >::CellPointer
-PolygonCell< TPixelType , TCellTraits >
+template <typename TCellInterface>
+PolygonCell< TCellInterface >::CellPointer
+PolygonCell< TCellInterface >
 ::GetBoundaryFeature(int dimension, CellFeatureIdentifier featureId)
 {
   switch (dimension)
@@ -110,9 +110,9 @@ PolygonCell< TPixelType , TCellTraits >
  * iterator can be incremented and safely de-referenced enough times to 
  * get all the point ids needed by the cell.
  */ 
-template <typename TPixelType, typename TCellTraits>
+template <typename TCellInterface>
 void
-PolygonCell< TPixelType , TCellTraits >
+PolygonCell< TCellInterface >
 ::SetPointIds(int dummy, int num, PointIdConstIterator first)
 {
   PointIdConstIterator ii(first);
@@ -127,9 +127,9 @@ PolygonCell< TPixelType , TCellTraits >
 /**
  * after input the points in order, generate the edge connections
  */
-template <typename TPixelType, typename TCellTraits>
+template <typename TCellInterface>
 void
-PolygonCell< TPixelType , TCellTraits >
+PolygonCell< TCellInterface >
 ::BuildEdges(void)
 {
   if( m_PointIds.size() > 0 )
@@ -156,9 +156,9 @@ PolygonCell< TPixelType , TCellTraits >
  * iterator can be incremented and safely de-referenced enough times to 
  * get all the point ids needed by the cell.
  */ 
-template <typename TPixelType, typename TCellTraits>
+template <typename TCellInterface>
 void
-PolygonCell< TPixelType , TCellTraits >
+PolygonCell< TCellInterface >
 ::SetPointIds(PointIdConstIterator first)
 {
 }
@@ -166,9 +166,9 @@ PolygonCell< TPixelType , TCellTraits >
 /** 
  * Add one points to the points list
  */
-template <typename TPixelType, typename TCellTraits>
+template <typename TCellInterface>
 void
-PolygonCell< TPixelType , TCellTraits >
+PolygonCell< TCellInterface >
 ::AddPointId(PointIdentifier ptID)
 {
   m_PointIds.push_back(ptID);
@@ -177,9 +177,9 @@ PolygonCell< TPixelType , TCellTraits >
 /**
  * clear all the point and edge informations
  */
-template <typename TPixelType, typename TCellTraits>
+template <typename TCellInterface>
 void
-PolygonCell< TPixelType , TCellTraits >
+PolygonCell< TCellInterface >
 ::ClearPoints(void)
 {
   m_PointIds.clear();
@@ -193,9 +193,9 @@ PolygonCell< TPixelType , TCellTraits >
  * define the cell.  The position *last is NOT referenced, so it can safely
  * be one beyond the end of an array or other container.
  */ 
-template <typename TPixelType, typename TCellTraits>
+template <typename TCellInterface>
 void
-PolygonCell< TPixelType , TCellTraits >
+PolygonCell< TCellInterface >
 ::SetPointIds(PointIdConstIterator first, PointIdConstIterator last)
 {
   m_PointIds.erase(m_PointIds.begin(), m_PointIds.end());
@@ -207,9 +207,9 @@ PolygonCell< TPixelType , TCellTraits >
  * Standard CellInterface:
  * Set an individual point identifier in the cell.
  */ 
-template <typename TPixelType, typename TCellTraits>
+template <typename TCellInterface>
 void
-PolygonCell< TPixelType , TCellTraits >
+PolygonCell< TCellInterface >
 ::SetPointId(int localId, PointIdentifier ptId)
 {
   if(m_PointIds.size() < (unsigned int)(localId + 1)) {
@@ -223,9 +223,9 @@ PolygonCell< TPixelType , TCellTraits >
  * Standard CellInterface:
  * Get a begin iterator to the list of point identifiers used by the cell.
  */
-template <typename TPixelType, typename TCellTraits>
-PolygonCell< TPixelType , TCellTraits >::PointIdIterator
-PolygonCell< TPixelType , TCellTraits >
+template <typename TCellInterface>
+PolygonCell< TCellInterface >::PointIdIterator
+PolygonCell< TCellInterface >
 ::PointIdsBegin(void)
 {
   return &*(m_PointIds.begin());
@@ -237,9 +237,9 @@ PolygonCell< TPixelType , TCellTraits >
  * Get a const begin iterator to the list of point identifiers used
  * by the cell.
  */ 
-template <typename TPixelType, typename TCellTraits>
-PolygonCell< TPixelType , TCellTraits >::PointIdConstIterator
-PolygonCell< TPixelType , TCellTraits >
+template <typename TCellInterface>
+PolygonCell< TCellInterface >::PointIdConstIterator
+PolygonCell< TCellInterface >
 ::PointIdsBegin(void) const
 {
   return &*(m_PointIds.begin());
@@ -250,9 +250,9 @@ PolygonCell< TPixelType , TCellTraits >
  * Standard CellInterface:
  * Get an end iterator to the list of point identifiers used by the cell.
  */ 
-template <typename TPixelType, typename TCellTraits>
-PolygonCell< TPixelType , TCellTraits >::PointIdIterator
-PolygonCell< TPixelType , TCellTraits >
+template <typename TCellInterface>
+PolygonCell< TCellInterface >::PointIdIterator
+PolygonCell< TCellInterface >
 ::PointIdsEnd(void)
 {
   return &*(m_PointIds.end());
@@ -264,9 +264,9 @@ PolygonCell< TPixelType , TCellTraits >
  * Get a const end iterator to the list of point identifiers used
  * by the cell.
  */ 
-template <typename TPixelType, typename TCellTraits>
-PolygonCell< TPixelType , TCellTraits >::PointIdConstIterator
-PolygonCell< TPixelType , TCellTraits >
+template <typename TCellInterface>
+PolygonCell< TCellInterface >::PointIdConstIterator
+PolygonCell< TCellInterface >
 ::PointIdsEnd(void) const
 {
   return &*(m_PointIds.end());
@@ -277,9 +277,9 @@ PolygonCell< TPixelType , TCellTraits >
  * Polygon-specific:
  * Get the number of vertices defining the Polygon.
  */
-template <typename TPixelType, typename TCellTraits>
-PolygonCell< TPixelType , TCellTraits >::CellFeatureCount
-PolygonCell< TPixelType , TCellTraits >
+template <typename TCellInterface>
+PolygonCell< TCellInterface >::CellFeatureCount
+PolygonCell< TCellInterface >
 ::GetNumberOfVertices(void) const
 {
   return m_PointIds.size();
@@ -289,9 +289,9 @@ PolygonCell< TPixelType , TCellTraits >
  * Polygon-specific:
  * Get the number of edges defined for the Polygon.
  */
-template <typename TPixelType, typename TCellTraits>
-PolygonCell< TPixelType , TCellTraits >::CellFeatureCount
-PolygonCell< TPixelType , TCellTraits >
+template <typename TCellInterface>
+PolygonCell< TCellInterface >::CellFeatureCount
+PolygonCell< TCellInterface >
 ::GetNumberOfEdges(void) const
 {
   return m_Edges.size();
@@ -302,9 +302,9 @@ PolygonCell< TPixelType , TCellTraits >
  * Get the vertex specified by the given cell feature Id.
  * The Id can range from 0 to GetNumberOfVertices()-1.
  */ 
-template <typename TPixelType, typename TCellTraits>
-PolygonCell< TPixelType , TCellTraits >::VertexPointer
-PolygonCell< TPixelType , TCellTraits >
+template <typename TCellInterface>
+PolygonCell< TCellInterface >::VertexPointer
+PolygonCell< TCellInterface >
 ::GetVertex(CellFeatureIdentifier vertexId)
 {
   VertexPointer vert(Vertex::New());
@@ -319,9 +319,9 @@ PolygonCell< TPixelType , TCellTraits >
  * Get the edge specified by the given cell feature Id.
  * The Id can range from 0 to GetNumberOfEdges()-1.
  */ 
-template <typename TPixelType, typename TCellTraits>
-PolygonCell< TPixelType , TCellTraits >::EdgePointer
-PolygonCell< TPixelType , TCellTraits >
+template <typename TCellInterface>
+PolygonCell< TCellInterface >::EdgePointer
+PolygonCell< TCellInterface >
 ::GetEdge(CellFeatureIdentifier edgeId)
 {
   EdgePointer edge(Edge::New());

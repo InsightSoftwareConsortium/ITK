@@ -40,16 +40,14 @@ namespace itk
  * \ingroup MeshObjects
  */
 
-template <
-  typename TPixelType,
-  typename TCellTraits
-  >
-class VertexCell: public CellInterface< TPixelType , TCellTraits >
+template < typename TCellInterface >
+class VertexCell: public TCellInterface
 {
 public:
   /** Standard class typedefs. */
   typedef VertexCell          Self;
-  typedef CellInterface<TPixelType,TCellTraits>  Superclass;
+  typedef TCellInterface      Superclass;
+//  typedef CellInterface<TPixelType,TCellTraits>  Superclass;
 //  typedef SmartPointer<Self>  Pointer;
 //  typedef SmartPointer<const Self>  ConstPointer;
   typedef       Self * Pointer;
@@ -60,15 +58,15 @@ public:
   itkTypeMacro(VertexCell, CellInterface);
 
   /** Save the PixelType template parameter. */
-  typedef TPixelType                                PixelType;
+  typedef typename Superclass::PixelType                     PixelType;
   
   /** Save the CellTraits template parameter. */
-  typedef TCellTraits                                 CellTraits;
+  typedef typename Superclass::CellTraits                    CellTraits;
 
   /** Save some template parameter information. */
-  typedef typename CellTraits::CoordRepType         CoordRepType;
-  typedef typename CellTraits::PointIdentifier  PointIdentifier;
-  typedef typename CellInterface<TPixelType,TCellTraits>::Pointer CellPointer;
+  typedef typename CellTraits::CoordRepType                       CoordRepType;
+  typedef typename CellTraits::PointIdentifier                    PointIdentifier;
+  typedef typename CellInterface<PixelType,CellTraits>::Pointer   CellPointer;
   
   /** Save some template parameter information. */
   enum { PointDimension = CellTraits::PointDimension };
@@ -83,11 +81,9 @@ public:
   
   /** Pick-up typedefs from superclass or classes that we use. */
   typedef typename CellTraits::CellFeatureIdentifier  CellFeatureIdentifier;
-  typedef CellFeatureIdentifier  CellFeatureCount;
-  typedef typename CellInterface<TPixelType,TCellTraits>::PointIdIterator 
-                   PointIdIterator;
-  typedef typename CellInterface<TPixelType,TCellTraits>::PointIdConstIterator
-                   PointIdConstIterator;
+  typedef CellFeatureIdentifier                       CellFeatureCount;
+  typedef typename Superclass::PointIdIterator        PointIdIterator;
+  typedef typename Superclass::PointIdConstIterator   PointIdConstIterator;
   
   /** Implement the standard CellInterface. */
   virtual typename Superclass::CellType GetType(void) const 
@@ -131,9 +127,9 @@ protected:
 /** \class VertexBoundary
  * Create a boundary-wrapped version of the VertexCell.
  */
-template <typename TPixelType, typename TCellTraits>
+template <typename TCellInterface>
 class VertexBoundary:
-  public CellBoundary< VertexCell< TPixelType , TCellTraits > >
+  public CellBoundary< VertexCell< TCellInterface > >
 {
 public:
   /** Standard class typdefs. */

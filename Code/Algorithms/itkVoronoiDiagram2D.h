@@ -125,18 +125,19 @@ public:
   typedef typename
           BoundaryDataContainer::ConstIterator  BoundaryDataContainerIterator;
   typedef typename
-     PointCellLinksContainer::const_iterator  PointCellLinksContainerIterator;
-  typedef CellFeatureIdentifier  CellFeatureCount;
-  typedef PolygonCell<PixelType,CellTraits>  Cell;
-  typedef typename PolygonCell<PixelType,CellTraits>::Pointer  CellPointer;
+     PointCellLinksContainer::const_iterator        PointCellLinksContainerIterator;
+  typedef CellFeatureIdentifier                     CellFeatureCount;
+  typedef CellInterface<PixelType,CellTraits>       CellInterfaceType;
+  typedef PolygonCell<CellInterfaceType>            CellType;
+  typedef typename CellType::Pointer                CellPointer;
   typedef Point<int,2> EdgeInfo;
   typedef std::deque<EdgeInfo> EdgeInfoDQ;
-  typedef Cell BoundaryType;
+  typedef CellType BoundaryType;
   typedef CellPointer BoundaryPointer;
-  typedef typename Cell::MultiVisitor CellMultiVisitorType;
+  typedef typename CellType::MultiVisitor CellMultiVisitorType;
   typedef std::vector<PointType> SeedsType;
   typedef typename SeedsType::iterator SeedsIterator;
-  typedef LineBoundary <PixelType, CellTraits> Edge;
+  typedef LineBoundary <CellInterfaceType> Edge;
   typedef typename Edge::Pointer EdgePointer;
   typedef std::list<PointType> PointList;
   typedef std::vector<int> INTvector;

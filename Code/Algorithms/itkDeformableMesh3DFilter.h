@@ -102,7 +102,8 @@ public:
   typedef typename InputMeshType::CellTraits        CellTraits;
   typedef typename InputMeshType::PointType         InputPointType;
   typedef typename InputMeshType::PixelType         PixelType;
-  typedef TriangleCell<PixelType, CellTraits>  TriCell;
+  typedef CellInterface<PixelType,CellTraits>       CellInterfaceType;
+  typedef TriangleCell<CellInterfaceType>           TriCell;
 
   /** Image and Image iterator definition. */
   typedef CovariantVector<PixelType, 3>        GradientType;
