@@ -223,7 +223,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
 }
 
 template<class TInputImage, class TLabelImage>
-typename NumericTraits<typename TInputImage::PixelType>::RealType
+typename NumericTraits<ITK_TYPENAME TInputImage::PixelType>::RealType
 LabelStatisticsImageFilter<TInputImage, TLabelImage>
 ::GetMinimum(LabelPixelType label) const
 {
@@ -241,7 +241,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
 }
 
 template<class TInputImage, class TLabelImage>
-typename NumericTraits<typename TInputImage::PixelType>::RealType
+typename NumericTraits<ITK_TYPENAME TInputImage::PixelType>::RealType
 LabelStatisticsImageFilter<TInputImage, TLabelImage>
 ::GetMaximum(LabelPixelType label) const
 {
@@ -259,7 +259,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
 }
 
 template<class TInputImage, class TLabelImage>
-typename NumericTraits<typename TInputImage::PixelType>::RealType
+typename NumericTraits<ITK_TYPENAME TInputImage::PixelType>::RealType
 LabelStatisticsImageFilter<TInputImage, TLabelImage>
 ::GetMean(LabelPixelType label) const
 {
@@ -277,7 +277,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
 }
 
 template<class TInputImage, class TLabelImage>
-typename NumericTraits<typename TInputImage::PixelType>::RealType
+typename NumericTraits<ITK_TYPENAME TInputImage::PixelType>::RealType
 LabelStatisticsImageFilter<TInputImage, TLabelImage>
 ::GetSum(LabelPixelType label) const
 {
@@ -295,7 +295,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
 }
 
 template<class TInputImage, class TLabelImage>
-typename NumericTraits<typename TInputImage::PixelType>::RealType
+typename NumericTraits<ITK_TYPENAME TInputImage::PixelType>::RealType
 LabelStatisticsImageFilter<TInputImage, TLabelImage>
 ::GetSigma(LabelPixelType label) const
 {
@@ -313,7 +313,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
 }
 
 template<class TInputImage, class TLabelImage>
-typename NumericTraits<typename TInputImage::PixelType>::RealType
+typename NumericTraits<ITK_TYPENAME TInputImage::PixelType>::RealType
 LabelStatisticsImageFilter<TInputImage, TLabelImage>
 ::GetVariance(LabelPixelType label) const
 {
