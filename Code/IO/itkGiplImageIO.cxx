@@ -1050,7 +1050,7 @@ GiplImageIO
       {
       if (m_IsCompressed)
         {
-        ::gzwrite( m_Internal->m_GzFile,(char*)(buffer), numberOfBytes);
+        ::gzwrite( m_Internal->m_GzFile,const_cast<void *>(buffer), numberOfBytes);
         }
       else
         {
