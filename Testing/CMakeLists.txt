@@ -40,6 +40,19 @@ ELSE(ITK_BINARY_DIR)
     IF(ITK_CSWIG_TCL)
       FIND_PROGRAM(ITKWISH_EXECUTABLE itkwish ${ITK_DIR}/bin "${ITK_DIR}/../../bin")
     ENDIF(ITK_CSWIG_TCL)
+    IF(ITK_CSWIG_PYTHON)
+      FIND_PROGRAM(PYTHON_EXECUTABLE
+        NAMES python python2.3 python2.2 python2.1 python2.0 python1.6 python1.5
+        PATHS
+        [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\2.3\\InstallPath]
+        [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\2.2\\InstallPath]
+        [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\2.1\\InstallPath]
+        [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\2.0\\InstallPath]
+        [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\1.6\\InstallPath]
+        [HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\1.5\\InstallPath]
+        )
+      MARK_AS_ADVANCED(PYTHON_EXECUTABLE)
+    ENDIF(ITK_CSWIG_PYTHON)
   ELSE(ITK_FOUND)
     MESSAGE("ITK not found.  Please set ITK_DIR")
   ENDIF(ITK_FOUND)
