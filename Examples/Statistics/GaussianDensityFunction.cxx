@@ -61,7 +61,7 @@ int main()
   // [0, 0], and the covariance matrix is:
   // \[
   // \begin{pmatrix}
-  // 4 & 0 \\
+  // 4 & 0 \cr
   // 0 & 4
   // \end{pmatrix}
   // \]
