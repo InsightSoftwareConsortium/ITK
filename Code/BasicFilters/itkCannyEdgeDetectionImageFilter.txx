@@ -91,12 +91,12 @@ CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>
 
   typename TInputImage::ConstPointer input = this->GetInput();
 
-  m_UpdateBuffer->SetLargestPossibleRegion(input->GetLargestPossibleRegion());
+  m_UpdateBuffer->CopyInformation( input );
   m_UpdateBuffer->SetRequestedRegion(input->GetRequestedRegion());
   m_UpdateBuffer->SetBufferedRegion(input->GetBufferedRegion());
   m_UpdateBuffer->Allocate();
   
-  m_UpdateBuffer1->SetLargestPossibleRegion(input->GetLargestPossibleRegion());
+  m_UpdateBuffer1->CopyInformation( input );
   m_UpdateBuffer1->SetRequestedRegion(input->GetRequestedRegion());
   m_UpdateBuffer1->SetBufferedRegion(input->GetBufferedRegion());
   m_UpdateBuffer1->Allocate();  
