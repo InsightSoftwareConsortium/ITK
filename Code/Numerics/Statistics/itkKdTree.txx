@@ -85,13 +85,19 @@ KdTree< TSample >
     new KdTreeTerminalNode< TSample >() ;
 
   m_DistanceMetric = DistanceMetricType::New() ;
+
+  m_Root = 0 ;
 }
 
 template< class TSample >
 KdTree< TSample >
 ::~KdTree()
 {
-  DeleteNode(m_Root) ;
+  if ( m_Root != 0 )
+    {
+    DeleteNode(m_Root) ;
+    }
+  
   delete m_EmptyTerminalNode ;
 }
 
@@ -104,7 +110,46 @@ KdTree< TSample >
   
   os << indent << "Source Sample: " << m_Sample << std::endl ;
   os << indent << "Bucket Size: " << m_BucketSize << std::endl ;
-  os << indent << "Root Node: " << &m_Root << std::endl ;
+  os << indent << "Root Node: " ;
+  if ( m_Root != 0 )
+    {
+    os << m_Root << std::endl ;
+    }
+  else
+    {
+    os << "not set." << std::endl ;
+    }
+}
+
+template< class TSample >
+void
+KdTree< TSample >
+::DeleteNode(KdTreeNodeType *node)
+{
+  if ( node->IsTerminal() )
+    {
+    // terminal node
+    if (node == m_EmptyTerminalNode)
+      {
+      // empty node
+      return ;
+      }
+    delete node ;
+    return ;
+    }
+
+  // non-terminal node
+  if ( node->Left() != 0 )
+    {
+    DeleteNode(node->Left()) ;
+    }
+
+  if ( node->Right() != 0 )
+    {
+    DeleteNode(node->Right()) ;
+    }
+
+  delete node ;
 }
 
 template< class TSample >
@@ -442,28 +487,6 @@ KdTree< TSample >
 }
 
 
-template< class TSample >
-void
-KdTree< TSample >
-::DeleteNode(KdTreeNodeType *node)
-{
-  if ( node->IsTerminal() )
-    {
-    // terminal node
-    if (node == m_EmptyTerminalNode)
-      {
-      // empty node
-      return ;
-      }
-    delete node ;
-    return ;
-    }
-
-  // non-terminal node
-  DeleteNode(node->Left()) ;
-  DeleteNode(node->Right()) ;
-  delete node ;
-}
 
 template< class TSample >
 void
