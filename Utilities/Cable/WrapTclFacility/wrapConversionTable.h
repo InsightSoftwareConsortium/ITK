@@ -29,7 +29,7 @@ namespace _wrap_
  * will return something, but they are all cast to this for storage
  * in the table.
  */
-typedef void (*ConversionFunction)(const void*);
+typedef void (*ConversionFunction)(void*);
 
 
 /**
@@ -85,7 +85,7 @@ namespace Converter
 template <typename To>
 struct ObjectIdentity
 {
-  static To Convert(const void* in)
+  static To Convert(void* in)
     {
     return *static_cast<To*>(in);
     }
@@ -102,7 +102,7 @@ struct ObjectIdentity
 template <typename From, typename To>
 struct ObjectDerivedToBase
 {
-  static To Convert(const void* in)
+  static To Convert(void* in)
     {
     return static_cast<To>(*static_cast<From*>(in));
     }
@@ -119,7 +119,7 @@ struct ObjectDerivedToBase
 template <typename From, typename To>
 struct ConversionOperator
 {
-  static To Convert(const void* in)
+  static To Convert(void* in)
     {
     return static_cast<From*>(in)->operator To();
     }
@@ -136,7 +136,7 @@ struct ConversionOperator
 template <typename From, typename To>
 struct ConversionByConstructor
 {
-  static To Convert(const void* in)
+  static To Convert(void* in)
     {
     return To(*static_cast<From*>(in));
     }
@@ -154,7 +154,7 @@ struct ConversionByConstructor
 template <typename From, typename To>
 struct ObjectReinterpret
 {
-  static To Convert(const void* in)
+  static To Convert(void* in)
     {
     return reinterpret_cast<To>(*static_cast<From*>(in));
     }
@@ -173,7 +173,7 @@ struct ObjectReinterpret
 template <typename From, typename To>
 struct PointerDerivedToBase
 {
-  static To* Convert(const void* in)
+  static To* Convert(void* in)
     {
     return static_cast<To*>(static_cast<From*>(in));
     }
@@ -187,14 +187,60 @@ struct PointerDerivedToBase
 // Conversion functions returning references:
 
 /**
+ * A few details needed for the CastHack class.
+ * The sizeof(check) hack is adapted from the boost type_traits library in
+ * cb_type_traits.h.
+ */
+namespace CastHackDetails
+{
+  template <int> struct void_caster;
+  template <> struct void_caster<0> { inline static void* Cast(void* v) { return v; } };
+  template <> struct void_caster<1> { inline static const void* Cast(void* v) { return const_cast<const void*>(v); } };
+  
+  struct Checker
+  {
+    typedef char (&no)[1];
+    typedef char (&yes)[2];
+    static no check(void*);
+    static yes check(const void*);
+  };
+};
+
+
+/**
+ * A bug in GCC 2.95.3 prevents static_cast from adding a const like this:
+ * void* v; const int* i = static_cast<const int*>(v);
+ * However, we can't use a const_cast to add it because it is not allowed
+ * when we aren't really adding a const.  This class creates an inline
+ * function to add a const_cast if T is a const type.
+ *
+ * A simple "is_const" class uses partial specialization.  Therefore,
+ * we use this ultra-hack version.
+ */
+template <typename T>
+class CastHack
+{
+private:
+  static T t;
+  enum { isconst = (sizeof(CastHackDetails::Checker::check(&t))
+                    == sizeof(CastHackDetails::Checker::yes)) };
+public:
+  typedef CastHackDetails::void_caster<isconst> Caster;
+};
+
+
+/**
  * A conversion function for reference identity.
  */
 template <typename To>
 struct ReferenceIdentity
 {
-  static To& Convert(const void* in)
+  static To& Convert(void* in)
     {
-    return *static_cast<To*>(in);
+    // This should be
+    // return *static_cast<To*>(in);
+    // but GCC doesn't like static_cast to add a const qualifier.
+    return *static_cast<To*>(CastHack<To>::Caster::Cast(in));
     }
   inline static ConversionFunction GetConversionFunction()
     {
@@ -209,7 +255,7 @@ struct ReferenceIdentity
 template <typename From, typename To>
 struct ReferenceDerivedToBase
 {
-  static To& Convert(const void* in)
+  static To& Convert(void* in)
     {
     return static_cast<To&>(*static_cast<From*>(in));
     }
@@ -232,7 +278,7 @@ struct ConvertTo
 {
   inline static T From(void* object, ConversionFunction cf)
     {
-    return (reinterpret_cast<T(*)(const void*)>(cf))(object);
+    return (reinterpret_cast<T(*)(void*)>(cf))(object);
     }
 };
 
