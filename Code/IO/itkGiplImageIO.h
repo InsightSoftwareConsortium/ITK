@@ -19,7 +19,7 @@
 
 #include <fstream>
 #include "itkImageIOBase.h"
-
+#include <stdio.h>
 
 namespace itk
 {
