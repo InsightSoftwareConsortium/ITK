@@ -20,9 +20,9 @@ namespace itk
 /**
  * Get the interpolation order of the cell.  Usually linear.
  */
-template <typename TPixelType, typename TCellType>
+template <typename TPixelType, typename TCellTraits>
 int
-CellInterface< TPixelType , TCellType >
+CellInterface< TPixelType , TCellTraits >
 ::GetInterpolationOrder(void)
 {
   return 1;
@@ -34,9 +34,9 @@ CellInterface< TPixelType , TCellType >
  * SetPointIds(first) on another cell.  This is equivalent to
  * PointIdsBegin() const.
  */
-template <typename TPixelType, typename TCellType>
-CellInterface< TPixelType , TCellType >::PointIdConstIterator
-CellInterface< TPixelType , TCellType >
+template <typename TPixelType, typename TCellTraits>
+CellInterface< TPixelType , TCellTraits >::PointIdConstIterator
+CellInterface< TPixelType , TCellTraits >
 ::GetPointIds(void) const
 {
   return this->PointIdsBegin();
@@ -46,9 +46,9 @@ CellInterface< TPixelType , TCellType >
 /**
  * By default, a cell is not a boundary.
  */
-template <typename TPixelType, typename TCellType>
+template <typename TPixelType, typename TCellTraits>
 bool
-CellInterface< TPixelType , TCellType >
+CellInterface< TPixelType , TCellTraits >
 ::IsBoundary(void)
 {
   return false;
@@ -58,9 +58,9 @@ CellInterface< TPixelType , TCellType >
 /**
  * This is only part of the boundary interface.  The call is ignored.
  */
-template <typename TPixelType, typename TCellType>
+template <typename TPixelType, typename TCellTraits>
 void
-CellInterface< TPixelType , TCellType >
+CellInterface< TPixelType , TCellTraits >
 ::AddUsingCell(CellIdentifier)
 {
 }
@@ -69,9 +69,9 @@ CellInterface< TPixelType , TCellType >
 /**
  * This is only part of the boundary interface.  The call is ignored.
  */
-template <typename TPixelType, typename TCellType>
+template <typename TPixelType, typename TCellTraits>
 void
-CellInterface< TPixelType , TCellType >
+CellInterface< TPixelType , TCellTraits >
 ::RemoveUsingCell(CellIdentifier)
 {
 }
@@ -81,9 +81,9 @@ CellInterface< TPixelType , TCellType >
  * By default, the cell is not a boundary, so it has no using cells.
  * This will always return false for a cell.
  */
-template <typename TPixelType, typename TCellType>
+template <typename TPixelType, typename TCellTraits>
 bool
-CellInterface< TPixelType , TCellType >
+CellInterface< TPixelType , TCellTraits >
 ::IsUsingCell(CellIdentifier)
 {
   return false;
@@ -93,9 +93,9 @@ CellInterface< TPixelType , TCellType >
 /**
  * This is only part of the boundary interface.  The call is ignored.
  */
-template <typename TPixelType, typename TCellType>
+template <typename TPixelType, typename TCellTraits>
 int
-CellInterface< TPixelType , TCellType >
+CellInterface< TPixelType , TCellTraits >
 ::GetNumUsingCells(void)
 {
   return 0;
@@ -105,9 +105,9 @@ CellInterface< TPixelType , TCellType >
 /**
  * This is only part of the boundary interface.  The call is ignored.
  */
-template <typename TPixelType, typename TCellType>
-CellInterface< TPixelType , TCellType >::UsingCellsContainerIterator
-CellInterface< TPixelType , TCellType >
+template <typename TPixelType, typename TCellTraits>
+CellInterface< TPixelType , TCellTraits >::UsingCellsContainerIterator
+CellInterface< TPixelType , TCellTraits >
 ::UsingCellsBegin(void)
 {
   return UsingCellsContainerIterator();
@@ -117,9 +117,9 @@ CellInterface< TPixelType , TCellType >
 /**
  * This is only part of the boundary interface.  The call is ignored.
  */
-template <typename TPixelType, typename TCellType>
-CellInterface< TPixelType , TCellType >::UsingCellsContainerIterator
-CellInterface< TPixelType , TCellType >
+template <typename TPixelType, typename TCellTraits>
+CellInterface< TPixelType , TCellTraits >::UsingCellsContainerIterator
+CellInterface< TPixelType , TCellTraits >
 ::UsingCellsEnd(void)
 {
   return UsingCellsContainerIterator();

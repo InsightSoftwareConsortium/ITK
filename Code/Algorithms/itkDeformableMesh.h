@@ -44,7 +44,7 @@ public:
    * Typedefs are not inherited.
    * Get typedef from superclass.
    */
-  typedef Superclass::CellType CellType;
+  typedef Superclass::CellTraits CellTraits;
   
   /**
    * Method for creation through the object factory.
@@ -62,7 +62,7 @@ public:
  * parameters must match those of the mesh into which it is inserted.
  */
 
-  typedef itk::TriangleCell<PixelType, CellType>	   TriCell;
+  typedef itk::TriangleCell<PixelType, CellTraits>	   TriCell;
   typedef typename TriCell::Pointer TriCellPointer;
 
 

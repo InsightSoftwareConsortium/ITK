@@ -20,7 +20,7 @@ using namespace itk;
 typedef itk::DeformableMesh<float>  DMesh;
 typedef itk::Mesh<float>  MyMesh;
 typedef itk::BalloonForceFilter<DMesh, DMesh> BFilter;
-typedef itk::TriangleCell<DMesh::PixelType, DMesh::CellType>	   TriCell;
+typedef itk::TriangleCell<DMesh::PixelType, DMesh::CellTraits>	   TriCell;
 typedef itk::Image<unsigned short,3> IImage;
 
 int main(void)

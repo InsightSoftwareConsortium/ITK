@@ -21,9 +21,9 @@ namespace itk
 /**
  * Standard CellInterface:
  */
-template <typename TPixelType, typename TCelltype>
-VertexCell< TPixelType , TCelltype >::CellPointer
-VertexCell< TPixelType , TCelltype >
+template <typename TPixelType, typename TCellTraits>
+VertexCell< TPixelType , TCellTraits >::CellPointer
+VertexCell< TPixelType , TCellTraits >
 ::MakeCopy(void)
 {
   CellPointer newCell(Self::New());
@@ -36,9 +36,9 @@ VertexCell< TPixelType , TCelltype >
  * Standard CellInterface:
  * Get the topological dimension of this cell.
  */
-template <typename TPixelType, typename TCellType>
+template <typename TPixelType, typename TCellTraits>
 int
-VertexCell< TPixelType , TCellType >
+VertexCell< TPixelType , TCellTraits >
 ::GetDimension(void)
 {
   return Self::CellDimension;
@@ -49,9 +49,9 @@ VertexCell< TPixelType , TCellType >
  * Standard CellInterface:
  * Get the number of points required to define the cell.
  */
-template <typename TPixelType, typename TCelltype>
+template <typename TPixelType, typename TCellTraits>
 int
-VertexCell< TPixelType , TCelltype >
+VertexCell< TPixelType , TCellTraits >
 ::GetNumberOfPoints(void)
 {
   return Self::NumberOfPoints;
@@ -62,9 +62,9 @@ VertexCell< TPixelType , TCelltype >
  * Standard CellInterface:
  * A vertex has no boundary entities of any dimension.
  */
-template <typename TPixelType, typename TCellType>
-VertexCell< TPixelType , TCellType >::CellFeatureCount
-VertexCell< TPixelType , TCellType >
+template <typename TPixelType, typename TCellTraits>
+VertexCell< TPixelType , TCellTraits >::CellFeatureCount
+VertexCell< TPixelType , TCellTraits >
 ::GetNumberOfBoundaryFeatures(int)
 {
   return 0;
@@ -75,9 +75,9 @@ VertexCell< TPixelType , TCellType >
  * Standard CellInterface:
  * A vertex has no boundary entities.  Just return null.
  */
-template <typename TPixelType, typename TCellType>
-VertexCell< TPixelType , TCellType >::CellPointer
-VertexCell< TPixelType , TCellType >
+template <typename TPixelType, typename TCellTraits>
+VertexCell< TPixelType , TCellTraits >::CellPointer
+VertexCell< TPixelType , TCellTraits >
 ::GetBoundaryFeature(int, CellFeatureIdentifier)
 {
   return CellPointer(NULL);
@@ -90,9 +90,9 @@ VertexCell< TPixelType , TCellType >
  * iterator can be incremented and safely de-referenced enough times to 
  * get all the point ids needed by the cell.
  */
-template <typename TPixelType, typename TCelltype>
+template <typename TPixelType, typename TCellTraits>
 void
-VertexCell< TPixelType , TCelltype >
+VertexCell< TPixelType , TCellTraits >
 ::SetPointIds(PointIdConstIterator first)
 {
   PointIdConstIterator ii(first);
@@ -110,9 +110,9 @@ VertexCell< TPixelType , TCelltype >
  * define the cell.  The position *last is NOT referenced, so it can safely
  * be one beyond the end of an array or other container.
  */
-template <typename TPixelType, typename TCelltype>
+template <typename TPixelType, typename TCellTraits>
 void
-VertexCell< TPixelType , TCelltype >
+VertexCell< TPixelType , TCellTraits >
 ::SetPointIds(PointIdConstIterator first, PointIdConstIterator last)
 {
   int localId=0;
@@ -129,9 +129,9 @@ VertexCell< TPixelType , TCelltype >
  * Standard CellInterface:
  * Set an individual point identifier in the cell.
  */
-template <typename TPixelType, typename TCelltype>
+template <typename TPixelType, typename TCellTraits>
 void
-VertexCell< TPixelType , TCelltype >
+VertexCell< TPixelType , TCellTraits >
 ::SetPointId(int localId, PointIdentifier ptId)
 {
   m_PointIds[localId] = ptId;
@@ -142,9 +142,9 @@ VertexCell< TPixelType , TCelltype >
  * Standard CellInterface:
  * Get a begin iterator to the list of point identifiers used by the cell.
  */
-template <typename TPixelType, typename TCelltype>
-VertexCell< TPixelType , TCelltype >::PointIdIterator
-VertexCell< TPixelType , TCelltype >
+template <typename TPixelType, typename TCellTraits>
+VertexCell< TPixelType , TCellTraits >::PointIdIterator
+VertexCell< TPixelType , TCellTraits >
 ::PointIdsBegin(void)
 {
   return &m_PointIds[0];
@@ -156,9 +156,9 @@ VertexCell< TPixelType , TCelltype >
  * Get a const begin iterator to the list of point identifiers used
  * by the cell.
  */
-template <typename TPixelType, typename TCelltype>
-VertexCell< TPixelType , TCelltype >::PointIdConstIterator
-VertexCell< TPixelType , TCelltype >
+template <typename TPixelType, typename TCellTraits>
+VertexCell< TPixelType , TCellTraits >::PointIdConstIterator
+VertexCell< TPixelType , TCellTraits >
 ::PointIdsBegin(void) const
 {
   return &m_PointIds[0];
@@ -169,9 +169,9 @@ VertexCell< TPixelType , TCelltype >
  * Standard CellInterface:
  * Get an end iterator to the list of point identifiers used by the cell.
  */
-template <typename TPixelType, typename TCelltype>
-VertexCell< TPixelType , TCelltype >::PointIdIterator
-VertexCell< TPixelType , TCelltype >
+template <typename TPixelType, typename TCellTraits>
+VertexCell< TPixelType , TCellTraits >::PointIdIterator
+VertexCell< TPixelType , TCellTraits >
 ::PointIdsEnd(void)
 {
   return &m_PointIds[Self::NumberOfPoints];
@@ -183,9 +183,9 @@ VertexCell< TPixelType , TCelltype >
  * Get a const end iterator to the list of point identifiers used
  * by the cell.
  */
-template <typename TPixelType, typename TCelltype>
-VertexCell< TPixelType , TCelltype >::PointIdConstIterator
-VertexCell< TPixelType , TCelltype >
+template <typename TPixelType, typename TCellTraits>
+VertexCell< TPixelType , TCellTraits >::PointIdConstIterator
+VertexCell< TPixelType , TCellTraits >
 ::PointIdsEnd(void) const
 {
   return &m_PointIds[Self::NumberOfPoints];
@@ -196,9 +196,9 @@ VertexCell< TPixelType , TCelltype >
  * Vertex-specific:
  * Set the identifier of the point defining the vertex.
  */
-template <typename TPixelType, typename TCellType>
+template <typename TPixelType, typename TCellTraits>
 void
-VertexCell< TPixelType , TCellType >
+VertexCell< TPixelType , TCellTraits >
 ::SetPointId(PointIdentifier ptId)
 {
   m_PointIds[0] = ptId;
@@ -209,9 +209,9 @@ VertexCell< TPixelType , TCellType >
  * Vertex-specific:
  * Get the identifier of the point defining the vertex.
  */
-template <typename TPixelType, typename TCellType>
-VertexCell< TPixelType , TCellType >::PointIdentifier
-VertexCell< TPixelType , TCellType >
+template <typename TPixelType, typename TCellTraits>
+VertexCell< TPixelType , TCellTraits >::PointIdentifier
+VertexCell< TPixelType , TCellTraits >
 ::GetPointId(void)
 {
   return m_PointIds[0];

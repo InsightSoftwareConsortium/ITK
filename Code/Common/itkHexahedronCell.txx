@@ -21,9 +21,9 @@ namespace itk
 /**
  * Standard CellInterface:
  */
-template <typename TPixelType, typename TCelltype>
-HexahedronCell< TPixelType , TCelltype >::CellPointer
-HexahedronCell< TPixelType , TCelltype >
+template <typename TPixelType, typename TCellTraits>
+HexahedronCell< TPixelType , TCellTraits >::CellPointer
+HexahedronCell< TPixelType , TCellTraits >
 ::MakeCopy(void)
 {
   CellPointer newCell(Self::New());
@@ -35,9 +35,9 @@ HexahedronCell< TPixelType , TCelltype >
  * Standard CellInterface:
  * Get the topological dimension of this cell.
  */
-template <typename TPixelType, typename TCelltype>
+template <typename TPixelType, typename TCellTraits>
 int
-HexahedronCell< TPixelType , TCelltype >
+HexahedronCell< TPixelType , TCellTraits >
 ::GetDimension(void)
 {
   return Self::CellDimension;
@@ -47,9 +47,9 @@ HexahedronCell< TPixelType , TCelltype >
  * Standard CellInterface:
  * Get the number of points required to define the cell.
  */
-template <typename TPixelType, typename TCelltype>
+template <typename TPixelType, typename TCellTraits>
 int
-HexahedronCell< TPixelType , TCelltype >
+HexahedronCell< TPixelType , TCellTraits >
 ::GetNumberOfPoints(void)
 {
   return Self::NumberOfPoints;
@@ -59,9 +59,9 @@ HexahedronCell< TPixelType , TCelltype >
  * Standard CellInterface:
  * Get the number of boundary features of the given dimension.
  */
-template <typename TPixelType, typename TCelltype>
-HexahedronCell< TPixelType , TCelltype >::CellFeatureCount
-HexahedronCell< TPixelType , TCelltype >
+template <typename TPixelType, typename TCellTraits>
+HexahedronCell< TPixelType , TCellTraits >::CellFeatureCount
+HexahedronCell< TPixelType , TCellTraits >
 ::GetNumberOfBoundaryFeatures(int dimension)
 {
   switch (dimension)
@@ -79,9 +79,9 @@ HexahedronCell< TPixelType , TCelltype >
  * cell feature Id.
  * The Id can range from 0 to GetNumberOfBoundaryFeatures(dimension)-1.
  */
-template <typename TPixelType, typename TCelltype>
-HexahedronCell< TPixelType , TCelltype >::CellPointer
-HexahedronCell< TPixelType , TCelltype >
+template <typename TPixelType, typename TCellTraits>
+HexahedronCell< TPixelType , TCellTraits >::CellPointer
+HexahedronCell< TPixelType , TCellTraits >
 ::GetBoundaryFeature(int dimension, CellFeatureIdentifier featureId)
 {
   switch (dimension)
@@ -99,9 +99,9 @@ HexahedronCell< TPixelType , TCelltype >
  * iterator can be incremented and safely de-referenced enough times to 
  * get all the point ids needed by the cell.
  */
-template <typename TPixelType, typename TCelltype>
+template <typename TPixelType, typename TCellTraits>
 void
-HexahedronCell< TPixelType , TCelltype >
+HexahedronCell< TPixelType , TCellTraits >
 ::SetPointIds(PointIdConstIterator first)
 {
   PointIdConstIterator ii(first);
@@ -118,9 +118,9 @@ HexahedronCell< TPixelType , TCelltype >
  * define the cell.  The position *last is NOT referenced, so it can safely
  * be one beyond the end of an array or other container.
  */
-template <typename TPixelType, typename TCelltype>
+template <typename TPixelType, typename TCellTraits>
 void
-HexahedronCell< TPixelType , TCelltype >
+HexahedronCell< TPixelType , TCellTraits >
 ::SetPointIds(PointIdConstIterator first, PointIdConstIterator last)
 {
   int localId=0;
@@ -136,9 +136,9 @@ HexahedronCell< TPixelType , TCelltype >
  * Standard CellInterface:
  * Set an individual point identifier in the cell.
  */
-template <typename TPixelType, typename TCelltype>
+template <typename TPixelType, typename TCellTraits>
 void
-HexahedronCell< TPixelType , TCelltype >
+HexahedronCell< TPixelType , TCellTraits >
 ::SetPointId(int localId, PointIdentifier ptId)
 {
   m_PointIds[localId] = ptId;
@@ -148,9 +148,9 @@ HexahedronCell< TPixelType , TCelltype >
  * Standard CellInterface:
  * Get a begin iterator to the list of point identifiers used by the cell.
  */
-template <typename TPixelType, typename TCelltype>
-HexahedronCell< TPixelType , TCelltype >::PointIdIterator
-HexahedronCell< TPixelType , TCelltype >
+template <typename TPixelType, typename TCellTraits>
+HexahedronCell< TPixelType , TCellTraits >::PointIdIterator
+HexahedronCell< TPixelType , TCellTraits >
 ::PointIdsBegin(void)
 {
   return &m_PointIds[0];
@@ -161,9 +161,9 @@ HexahedronCell< TPixelType , TCelltype >
  * Get a const begin iterator to the list of point identifiers used
  * by the cell.
  */
-template <typename TPixelType, typename TCelltype>
-HexahedronCell< TPixelType , TCelltype >::PointIdConstIterator
-HexahedronCell< TPixelType , TCelltype >
+template <typename TPixelType, typename TCellTraits>
+HexahedronCell< TPixelType , TCellTraits >::PointIdConstIterator
+HexahedronCell< TPixelType , TCellTraits >
 ::PointIdsBegin(void) const
 {
   return &m_PointIds[0];
@@ -173,9 +173,9 @@ HexahedronCell< TPixelType , TCelltype >
  * Standard CellInterface:
  * Get an end iterator to the list of point identifiers used by the cell.
  */
-template <typename TPixelType, typename TCelltype>
-HexahedronCell< TPixelType , TCelltype >::PointIdIterator
-HexahedronCell< TPixelType , TCelltype >
+template <typename TPixelType, typename TCellTraits>
+HexahedronCell< TPixelType , TCellTraits >::PointIdIterator
+HexahedronCell< TPixelType , TCellTraits >
 ::PointIdsEnd(void)
 {
   return &m_PointIds[Self::NumberOfPoints];
@@ -186,9 +186,9 @@ HexahedronCell< TPixelType , TCelltype >
  * Get a const end iterator to the list of point identifiers used
  * by the cell.
  */
-template <typename TPixelType, typename TCelltype>
-HexahedronCell< TPixelType , TCelltype >::PointIdConstIterator
-HexahedronCell< TPixelType , TCelltype >
+template <typename TPixelType, typename TCellTraits>
+HexahedronCell< TPixelType , TCellTraits >::PointIdConstIterator
+HexahedronCell< TPixelType , TCellTraits >
 ::PointIdsEnd(void) const
 {
   return &m_PointIds[Self::NumberOfPoints];
@@ -198,9 +198,9 @@ HexahedronCell< TPixelType , TCelltype >
  * Hexahedron-specific:
  * Get the number of vertices defining the hexahedron.
  */
-template <typename TPixelType, typename TCelltype>
-HexahedronCell< TPixelType , TCelltype >::CellFeatureCount
-HexahedronCell< TPixelType , TCelltype >
+template <typename TPixelType, typename TCellTraits>
+HexahedronCell< TPixelType , TCellTraits >::CellFeatureCount
+HexahedronCell< TPixelType , TCellTraits >
 ::GetNumberOfVertices(void)
 {
   return Self::NumberOfVertices;
@@ -210,9 +210,9 @@ HexahedronCell< TPixelType , TCelltype >
  * Hexahedron-specific:
  * Get the number of edges defined for the hexahedron.
  */
-template <typename TPixelType, typename TCelltype>
-HexahedronCell< TPixelType , TCelltype >::CellFeatureCount
-HexahedronCell< TPixelType , TCelltype >
+template <typename TPixelType, typename TCellTraits>
+HexahedronCell< TPixelType , TCellTraits >::CellFeatureCount
+HexahedronCell< TPixelType , TCellTraits >
 ::GetNumberOfEdges(void)
 {
   return Self::NumberOfEdges;
@@ -222,9 +222,9 @@ HexahedronCell< TPixelType , TCelltype >
  * Hexahedron-specific:
  * Get the number of faces defined for the hexahedron.
  */
-template <typename TPixelType, typename TCelltype>
-HexahedronCell< TPixelType , TCelltype >::CellFeatureCount
-HexahedronCell< TPixelType , TCelltype >
+template <typename TPixelType, typename TCellTraits>
+HexahedronCell< TPixelType , TCellTraits >::CellFeatureCount
+HexahedronCell< TPixelType , TCellTraits >
 ::GetNumberOfFaces(void)
 {
   return Self::NumberOfFaces;
@@ -235,9 +235,9 @@ HexahedronCell< TPixelType , TCelltype >
  * Get the vertex specified by the given cell feature Id.
  * The Id can range from 0 to GetNumberOfVertices()-1.
  */
-template <typename TPixelType, typename TCelltype>
-HexahedronCell< TPixelType , TCelltype >::VertexPointer
-HexahedronCell< TPixelType , TCelltype >
+template <typename TPixelType, typename TCellTraits>
+HexahedronCell< TPixelType , TCellTraits >::VertexPointer
+HexahedronCell< TPixelType , TCellTraits >
 ::GetVertex(CellFeatureIdentifier vertexId)
 {
   Vertex::Pointer vert(Vertex::New());
@@ -252,9 +252,9 @@ HexahedronCell< TPixelType , TCelltype >
  * Get the edge specified by the given cell feature Id.
  * The Id can range from 0 to GetNumberOfEdges()-1.
  */
-template <typename TPixelType, typename TCelltype>
-HexahedronCell< TPixelType , TCelltype >::EdgePointer
-HexahedronCell< TPixelType , TCelltype >
+template <typename TPixelType, typename TCellTraits>
+HexahedronCell< TPixelType , TCellTraits >::EdgePointer
+HexahedronCell< TPixelType , TCellTraits >
 ::GetEdge(CellFeatureIdentifier edgeId)
 {
   Edge::Pointer edge(Edge::New());
@@ -272,9 +272,9 @@ HexahedronCell< TPixelType , TCelltype >
  * Get the face specified by the given cell feature Id.
  * The Id can range from 0 to GetNumberOfFaces()-1.
  */
-template <typename TPixelType, typename TCelltype>
-HexahedronCell< TPixelType , TCelltype >::FacePointer
-HexahedronCell< TPixelType , TCelltype >
+template <typename TPixelType, typename TCellTraits>
+HexahedronCell< TPixelType , TCellTraits >::FacePointer
+HexahedronCell< TPixelType , TCellTraits >
 ::GetFace(CellFeatureIdentifier faceId)
 {
   Face::Pointer face(Face::New());
@@ -290,9 +290,9 @@ HexahedronCell< TPixelType , TCelltype >
 /**
  * The hexahedron's topology data: Edges.
  */
-template <typename TPixelType, typename TCelltype>
+template <typename TPixelType, typename TCellTraits>
 const int
-HexahedronCell< TPixelType , TCelltype >
+HexahedronCell< TPixelType , TCellTraits >
 ::m_Edges[12][2] = { {0,1}, {1,2}, {3,2}, {0,3}, 
                      {4,5}, {5,6}, {7,6}, {4,7},
                      {0,4}, {1,5}, {3,7}, {2,6} };
@@ -300,9 +300,9 @@ HexahedronCell< TPixelType , TCelltype >
 /**
  * The hexahedron's topology data: Faces.
  */
-template <typename TPixelType, typename TCelltype>
+template <typename TPixelType, typename TCellTraits>
 const int
-HexahedronCell< TPixelType , TCelltype >
+HexahedronCell< TPixelType , TCellTraits >
 ::m_Faces[6][4] = { {0,4,7,3}, {1,2,6,5},
                     {0,1,5,4}, {3,7,6,2},
                     {0,3,2,1}, {4,5,6,7} };

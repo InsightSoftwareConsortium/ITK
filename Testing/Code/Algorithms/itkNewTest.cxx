@@ -94,7 +94,7 @@ int main ( int argc, char* argv[] )
   // Call New and Print on as many classes as possible
 
   // CellInterfaceVisitorImplementation
-  itk::CellInterfaceVisitorImplementation<float, itk::Mesh<float>::CellType, Bogus, Bogus>::Pointer CIVI = itk::CellInterfaceVisitorImplementation<float, itk::Mesh<float>::CellType, Bogus, Bogus>::New();
+  itk::CellInterfaceVisitorImplementation<float, itk::Mesh<float>::CellTraits, Bogus, Bogus>::Pointer CIVI = itk::CellInterfaceVisitorImplementation<float, itk::Mesh<float>::CellTraits, Bogus, Bogus>::New();
 
   // CreateObjectFunction
   // itk::CreateObjectFunction<itk::Mesh<int> >::Pointer COF = itk::CreateObjectFunction<itk::Mesh<int> >::New();

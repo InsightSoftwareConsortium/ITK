@@ -22,7 +22,7 @@
 #include "itkSmartPointer.h"
 #include "itkPoint.h"
 #include "itkCellInterface.h"
-#include "itkDefaultStaticMeshType.h"
+#include "itkDefaultStaticMeshTraits.h"
 #include "itkMapContainer.h"
 #include "itkPointLocator.h"
 #include "itkBoundingBox.h"
@@ -40,38 +40,39 @@ namespace itk
  * Mesh implements the N-dimensional mesh structure for ITK.  It provides
  * an API to perform operations on points, cells, boundaries, etc., but
  * does not tie down the underlying implementation and storage.  A
- * "MeshType" structure is used to define the container and identifier
- * types that will be used to access the mesh.  See DefaultStaticMeshType
+ * "MeshTraits" structure is used to define the container and identifier
+ * types that will be used to access the mesh.  See DefaultStaticMeshTraits
  * for the set of type definitions needed.  All types that are defined
- * in the "MeshType" structure will have duplicate typedefs in the resulting
+ * in the "MeshTraits" structure will have duplicate typedefs in the resulting
  * mesh itself.
  *
  * Mesh has two template parameters.  The first is the pixel type, or the
  * type of data stored (optionally) with points, cells, and/or boundaries.
- * The second is the "MeshType" structure controlling type information for
+ * The second is the "MeshTraits" structure controlling type information for
  * the mesh.  Most users will be happy with the defaults, and will not have
  * to worry about this second argument.
  *
- * One of the most important parts of using this mesh is how to create cells
- * to insert into it.  The cells for the mesh take two template parameters.
- * The first is the pixel type, and should correspond exactly to that type
- * given to the mesh.  The second is a "CellType" which holds a sub-set of the
- * "MeshType" structure definitions, and is also a member of them.  Any
- * cell which is to be inserted to a mesh should have MeshType::CellType
- * as its second template parameter.
+ * One of the most important parts of using this mesh is how to create
+ * cells to insert into it.  The cells for the mesh take two template
+ * parameters.  The first is the pixel type, and should correspond
+ * exactly to that type given to the mesh.  The second is a
+ * "CellTraits" which holds a sub-set of the "MeshTraits" structure
+ * definitions, and is also a member of them.  Any cell which is to be
+ * inserted to a mesh should have MeshTraits::CellTraits as its second
+ * template parameter.
  *
  * Template parameters for Mesh:
  *
  * TPixelType =
  *     The type stored as data for an entity (cell, point, or boundary).
  *
- * TMeshType =
+ * TMeshTraits =
  *     Type information structure for the mesh.
  */
   
 template <
   typename TPixelType,
-  typename TMeshType = DefaultStaticMeshType< TPixelType >
+  typename TMeshTraits = DefaultStaticMeshTraits< TPixelType >
   >
 class Mesh: public DataObject
 {
@@ -112,30 +113,30 @@ public:
   /** 
    * Hold on to the type information specified by the template parameters.
    */
-  typedef TMeshType   MeshType;
-  typedef typename MeshType::PixelType                PixelType;  
+  typedef TMeshTraits   MeshTraits;
+  typedef typename MeshTraits::PixelType                PixelType;  
 
   /** 
-   * Convenient typedefs obtained from TMeshType template parameter.
+   * Convenient typedefs obtained from TMeshTraits template parameter.
    */
-  enum {PointDimension = MeshType::PointDimension};
-  enum {MaxTopologicalDimension = MeshType::MaxTopologicalDimension};
-  typedef typename MeshType::CoordRepType             CoordRepType;  
-  typedef typename MeshType::InterpolationWeightType  InterpolationWeightType;
-  typedef typename MeshType::PointIdentifier          PointIdentifier;
-  typedef typename MeshType::CellIdentifier           CellIdentifier;
-  typedef typename MeshType::BoundaryIdentifier       BoundaryIdentifier;
-  typedef typename MeshType::CellFeatureIdentifier    CellFeatureIdentifier;
-  typedef typename MeshType::PointType                PointType;
-  typedef typename MeshType::PointsContainer          PointsContainer;
-  typedef typename MeshType::CellType                 CellType;
-  typedef typename MeshType::CellsContainer           CellsContainer;
-  typedef typename MeshType::PointCellLinksContainer  PointCellLinksContainer;
-  typedef typename MeshType::CellLinksContainer       CellLinksContainer;
-  typedef typename MeshType::PointDataContainer       PointDataContainer;
-  typedef typename MeshType::CellDataContainer        CellDataContainer;  
-  typedef typename MeshType::BoundariesContainer      BoundariesContainer;
-  typedef typename MeshType::BoundaryDataContainer    BoundaryDataContainer;
+  enum {PointDimension = MeshTraits::PointDimension};
+  enum {MaxTopologicalDimension = MeshTraits::MaxTopologicalDimension};
+  typedef typename MeshTraits::CoordRepType             CoordRepType;  
+  typedef typename MeshTraits::InterpolationWeightType  InterpolationWeightType;
+  typedef typename MeshTraits::PointIdentifier          PointIdentifier;
+  typedef typename MeshTraits::CellIdentifier           CellIdentifier;
+  typedef typename MeshTraits::BoundaryIdentifier       BoundaryIdentifier;
+  typedef typename MeshTraits::CellFeatureIdentifier    CellFeatureIdentifier;
+  typedef typename MeshTraits::PointType                PointType;
+  typedef typename MeshTraits::PointsContainer          PointsContainer;
+  typedef typename MeshTraits::CellTraits               CellTraits;
+  typedef typename MeshTraits::CellsContainer           CellsContainer;
+  typedef typename MeshTraits::PointCellLinksContainer  PointCellLinksContainer;
+  typedef typename MeshTraits::CellLinksContainer       CellLinksContainer;
+  typedef typename MeshTraits::PointDataContainer       PointDataContainer;
+  typedef typename MeshTraits::CellDataContainer        CellDataContainer;  
+  typedef typename MeshTraits::BoundariesContainer      BoundariesContainer;
+  typedef typename MeshTraits::BoundaryDataContainer    BoundaryDataContainer;
 
   /**
    * Used to support geometric operations on the toolkit.
@@ -191,8 +192,8 @@ public:
   /**
    * The base cell type for cells in this mesh.
    */
-  typedef CellInterface<PixelType,CellType>  Cell;
-  typedef typename CellInterface<PixelType,CellType>::Pointer  CellPointer;
+  typedef CellInterface<PixelType,CellTraits>  Cell;
+  typedef typename CellInterface<PixelType,CellTraits>::Pointer  CellPointer;
 
   /**
    * It happens that boundaries are also cells.

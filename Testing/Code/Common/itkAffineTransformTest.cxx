@@ -34,7 +34,7 @@ void PrintVector( const VectorType & v )
 }
 
 
-main(
+int main(
     int argc,
     char *argv[])
 {

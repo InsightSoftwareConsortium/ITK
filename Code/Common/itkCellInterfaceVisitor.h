@@ -23,7 +23,7 @@ namespace itk
 // forward reference CellInterface
 template <
   typename TPixelType,
-  typename TCellType
+  typename TCellTraits
 > 
 class CellInterface;
   
@@ -36,7 +36,7 @@ class CellInterface;
  */
 template <
   typename TPixelType,
-  typename TCellType
+  typename TCellTraits
 >  
 class CellInterfaceVisitor : public LightObject
 {
@@ -69,7 +69,7 @@ public:
   /** 
    * This method is called by each cell as it visits this visitor.
    */
-  virtual void VisitFromCell(unsigned long cellId, CellInterface<TPixelType, TCellType>*) = 0;
+  virtual void VisitFromCell(unsigned long cellId, CellInterface<TPixelType, TCellTraits>*) = 0;
   /**
    *  Return the index of the CellTopology.
    */
@@ -97,7 +97,7 @@ protected:
  * Template parameters for CellInterfaceVisitorImplementation:
  * TPixelType = see CellInterface
  *
- * TCellType = see CellInterface
+ * TCellTraits = see CellInterface
  *
  * CellTopology = The specific type of cell that needs to be visited.
  *
@@ -106,12 +106,12 @@ protected:
  */
 template<
 typename TPixelType,
-  typename TCellType,
+  typename TCellTraits,
   class CellTopology,
   class UserVisitor 
 >
 class CellInterfaceVisitorImplementation : 
-    public CellInterfaceVisitor<TPixelType, TCellType>, public UserVisitor
+    public CellInterfaceVisitor<TPixelType, TCellTraits>, public UserVisitor
 {
 public:
   /**
@@ -143,7 +143,7 @@ public:
    * Call the method Visit from the UserVisitor template parameter that
    * this class inherits from.  I am my own gradpa...
    */
-  void VisitFromCell(unsigned long cellId, CellInterface<TPixelType, TCellType>* c)
+  void VisitFromCell(unsigned long cellId, CellInterface<TPixelType, TCellTraits>* c)
     {
       this->UserVisitor::Visit(cellId, (CellTopology*)c);
     }

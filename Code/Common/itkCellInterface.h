@@ -29,9 +29,9 @@
 // by the MultiVisitor class
 #define itkCellVisitMacro(TopologyId) \
   static int GetTopologyId() {return TopologyId;}\
-  virtual void Accept(unsigned long cellid, typename CellInterface<TPixelType, TCellType>::MultiVisitor* mv)\
+  virtual void Accept(unsigned long cellid, typename CellInterface<TPixelType, TCellTraits>::MultiVisitor* mv)\
     {\
-      CellInterfaceVisitor<TPixelType, TCellType>::Pointer v = mv->GetVisitor(TopologyId);\
+      CellInterfaceVisitor<TPixelType, TCellTraits>::Pointer v = mv->GetVisitor(TopologyId);\
       if(v)\
         {\
         v->VisitFromCell(cellid, this);\
@@ -52,12 +52,12 @@ namespace itk
  *
  * TPixelType = The type stored with an entity (cell, point, or boundary).
  *
- * TCellType = Type information for cell.
+ * TCellTraits = Type information for cell.
  */
   
 template <
   typename TPixelType,
-  typename TCellType
+  typename TCellTraits
   >
 class CellInterface: public LightObject
 {
@@ -84,22 +84,22 @@ public:
   typedef TPixelType                                PixelType;
   
   /**
-   * Save the CellType template parameter.
+   * Save the CellTraits template parameter.
    */
-  typedef TCellType                                 CellType;
+  typedef TCellTraits                                 CellTraits;
 
   /**
    * Save type information for this cell.
    */
-  typedef typename CellType::CoordRepType            CoordRepType;
-  typedef typename CellType::InterpolationWeightType InterpolationWeightType;
-  typedef typename CellType::PointIdentifier         PointIdentifier;
-  typedef typename CellType::CellIdentifier          CellIdentifier;
-  typedef typename CellType::CellFeatureIdentifier   CellFeatureIdentifier;
-  typedef typename CellType::PointType               PointType;
-  typedef typename CellType::PointsContainer         PointsContainer;
-  typedef typename CellType::UsingCellsContainer     UsingCellsContainer;
-  enum { PointDimension = CellType::PointDimension };
+  typedef typename CellTraits::CoordRepType            CoordRepType;
+  typedef typename CellTraits::InterpolationWeightType InterpolationWeightType;
+  typedef typename CellTraits::PointIdentifier         PointIdentifier;
+  typedef typename CellTraits::CellIdentifier          CellIdentifier;
+  typedef typename CellTraits::CellFeatureIdentifier   CellFeatureIdentifier;
+  typedef typename CellTraits::PointType               PointType;
+  typedef typename CellTraits::PointsContainer         PointsContainer;
+  typedef typename CellTraits::UsingCellsContainer     UsingCellsContainer;
+  enum { PointDimension = CellTraits::PointDimension };
 
   /**
    * An iterator through the UsingCellsContainer.
@@ -146,7 +146,7 @@ public:
      *  Visitor type, because VisualC++ 6.0 does not like
      *  Visitor being a nested type of CellInterfaceVisitor
      */
-    typedef CellInterfaceVisitor<TPixelType, TCellType> VisitorType;
+    typedef CellInterfaceVisitor<TPixelType, TCellTraits> VisitorType;
 
     /**
      * Standard "Self" typedef.
@@ -441,11 +441,11 @@ protected:
  * During a mesh type definition, after the appropriate types and values
  * have been defined, just have the line:
  \verbatim
- typedef MakeCellTypeMacro  CellType;
+ typedef MakeCellTraitsMacro  CellTraits;
  \endverbatim
  *
- * MakeCellTypeMacro is a macro front-end to automatically fill in the template
- * parameters for the CellTypeInfo structure inside a mesh type structure
+ * MakeCellTraitsMacro is a macro front-end to automatically fill in the template
+ * parameters for the CellTraitsInfo structure inside a mesh type structure
  * definition.
  */
 template <int VPointDimension, typename TCoordRep,
@@ -453,7 +453,7 @@ template <int VPointDimension, typename TCoordRep,
   typename TCellIdentifier, typename TCellFeatureIdentifier,
   typename TPoint, typename TPointsContainer,
   typename TUsingCellsContainer>
-class CellTypeInfo
+class CellTraitsInfo
 {
 public:
   enum { PointDimension = VPointDimension };
@@ -467,8 +467,8 @@ public:
   typedef TUsingCellsContainer    UsingCellsContainer;
 };
 
-#define MakeCellTypeMacro \
-  CellTypeInfo<PointDimension, CoordRepType, InterpolationWeightType,  \
+#define MakeCellTraitsMacro \
+  CellTraitsInfo<PointDimension, CoordRepType, InterpolationWeightType,  \
                PointIdentifier, CellIdentifier, CellFeatureIdentifier, \
                PointType, PointsContainer, UsingCellsContainer>
 

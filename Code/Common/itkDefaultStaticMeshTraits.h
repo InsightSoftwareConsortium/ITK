@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkDefaultDynamicMeshType.h
+  Module:    itkDefaultStaticMeshTraits.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -13,27 +13,23 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#ifndef __itkDefaultDynamicMeshType_h
-#define __itkDefaultDynamicMeshType_h
+#ifndef __itkDefaultStaticMeshTraits_h
+#define __itkDefaultStaticMeshTraits_h
 
 #include "itkCellInterface.h"
-#include "itkMapContainer.h"
+#include "itkVectorContainer.h"
 #include <set>
 
 namespace itk
 {
 
-/** \class DefaultDynamicMeshType
- * DefaultDynamicMeshType is a simple structure that holds type information
+/** \class DefaultStaticMeshTraits
+ * DefaultStaticMeshTraits is a simple structure that holds type information
  * for a mesh and its cells.  It is used to avoid the passing of many
  * template parameters while still enjoying the benefits of generic
  * programming.
  *
- * Unlike DefaultStaticMeshType, this version of the MeshType structure is designed
- * to create Mesh instances that will have many insert and delete operations
- * done on them.
- *
- * Template parameters for DefaultDynamicMeshType:
+ * Template parameters for DefaultStaticMeshTraits:
  *
  * TPixelType =
  *    The type stored as data for an entity (cell, point, or boundary).
@@ -45,7 +41,7 @@ namespace itk
  *    Max topological dimension of a cell that can be inserted into this mesh.
  *
  * TCoordRep =
- *    Numerical type to store each coordinate value.
+ *    Numerical type with which to represent each coordinate value.
  *
  * TInterpolationWeight =
  *    Numerical type to store interpolation weights.
@@ -58,13 +54,13 @@ template <
   typename TCoordRep = float,
   typename TInterpolationWeight = float
   >
-class DefaultDynamicMeshType
+class DefaultStaticMeshTraits
 {
 public:
   /**
    * Standard "Self" typedef.
    */
-  typedef DefaultDynamicMeshType  Self;
+  typedef DefaultStaticMeshTraits  Self;
   
   /**
    * Just save all the template parameters.
@@ -110,7 +106,7 @@ public:
    * The container type for use in storing points.  It must conform to
    * the IndexedContainer interface.
    */
-  typedef MapContainer< PointIdentifier , PointType >  PointsContainer;
+  typedef VectorContainer< PointIdentifier , PointType >  PointsContainer;
 
   /**
    * The container type that will be used to store boundary links
@@ -120,64 +116,63 @@ public:
   
   /**
    * The information needed for a cell type is now defined, so we can
-   * define the cell type.
+   * define the cell type. We use a macro defined in itkCellInterface.
    */
-  typedef MakeCellTypeMacro                           CellType;
+  typedef MakeCellTraitsMacro                     CellTraits;
   
   /**
    * The interface to cells to be used by the mesh.
    * This should not be changed.
    */
-  typedef CellInterface< PixelType , CellType >  Cell;
+  typedef CellInterface< PixelType , CellTraits >  Cell;
   typedef typename Cell::Pointer CellPointer;
   
   /**
    * The container type for use in storing cells.  It must conform to
    * the IndexedContainer interface.
    */
-  typedef MapContainer< CellIdentifier , CellPointer >
+  typedef VectorContainer< CellIdentifier , CellPointer >
         CellsContainer;
   
   /**
    * The CellLinks container should be a container of PointCellLinksContainer,
    * which should be a container conforming to the STL "set" interface.
    */
-  typedef std::set< CellIdentifier >
-        PointCellLinksContainer;
+  typedef std::set< CellIdentifier >     PointCellLinksContainer;
 
   /**
-   * The container type for use in storing point links back to cells.]
+   * The container type for use in storing point links back to cells.
    * It must conform to the IndexedContainer interface.
    */
-  typedef MapContainer< PointIdentifier , PointCellLinksContainer >
+  typedef VectorContainer< PointIdentifier , PointCellLinksContainer >
         CellLinksContainer;
 
   /**
    * The container type for use in storing point data.  It must conform to
    * the IndexedContainer interface.
    */
-  typedef MapContainer< PointIdentifier , PixelType >
+  typedef VectorContainer< PointIdentifier , PixelType >
         PointDataContainer;
 
   /**
    * The container type for use in storing cell data.  It must conform to
    * the IndexedContainer interface.
    */
-  typedef MapContainer< CellIdentifier , PixelType >
+  typedef VectorContainer< CellIdentifier , PixelType >
         CellDataContainer;
 
   /**
    * The container type for use in storing explicitly created
    * boundaries.  It must conform to the IndexedContainer interface.
    */
-  typedef MapContainer< BoundaryIdentifier , CellPointer >
+  typedef VectorContainer< BoundaryIdentifier , CellPointer >
         BoundariesContainer;
 
   /**
    * The container type for use in storing data for explicitly
    * created boundaries.  It must conform to the IndexedContainer interface.
    */
-  typedef MapContainer< BoundaryIdentifier , PixelType >
+  typedef VectorContainer< BoundaryIdentifier , PixelType >
         BoundaryDataContainer;
 };
 

@@ -71,8 +71,8 @@ public:
   typedef itk::Vector<float, 3> FloatVector;
   typedef itk::Vector<int, 3> IntVector;
   typedef typename TInputMesh::Cell  Cell;
-  typedef typename TInputMesh::CellType  CellType;
-  typedef itk::TriangleCell<float, CellType>	   TriCell;
+  typedef typename TInputMesh::CellTraits  CellTraits;
+  typedef itk::TriangleCell<float, CellTraits>	   TriCell;
   typedef typename TInputMesh::PointType  IPT;
   typedef typename TInputMesh::PixelType  PT;
 

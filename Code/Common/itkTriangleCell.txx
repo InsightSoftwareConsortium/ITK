@@ -21,9 +21,9 @@ namespace itk
 /**
  * Standard CellInterface:
  */
-template <typename TPixelType, typename TCelltype>
-TriangleCell< TPixelType , TCelltype >::CellPointer
-TriangleCell< TPixelType , TCelltype >
+template <typename TPixelType, typename TCellTraits>
+TriangleCell< TPixelType , TCellTraits >::CellPointer
+TriangleCell< TPixelType , TCellTraits >
 ::MakeCopy(void)
 {
   CellPointer newCell(Self::New());
@@ -36,9 +36,9 @@ TriangleCell< TPixelType , TCelltype >
  * Standard CellInterface:
  * Get the topological dimension of this cell.
  */
-template <typename TPixelType, typename TCellType>
+template <typename TPixelType, typename TCellTraits>
 int
-TriangleCell< TPixelType , TCellType >
+TriangleCell< TPixelType , TCellTraits >
 ::GetDimension(void)
 {
   return Self::CellDimension;
@@ -49,9 +49,9 @@ TriangleCell< TPixelType , TCellType >
  * Standard CellInterface:
  * Get the number of points required to define the cell.
  */
-template <typename TPixelType, typename TCelltype>
+template <typename TPixelType, typename TCellTraits>
 int
-TriangleCell< TPixelType , TCelltype >
+TriangleCell< TPixelType , TCellTraits >
 ::GetNumberOfPoints(void)
 {
   return Self::NumberOfPoints;
@@ -62,9 +62,9 @@ TriangleCell< TPixelType , TCelltype >
  * Standard CellInterface:
  * Get the number of boundary features of the given dimension.
  */
-template <typename TPixelType, typename TCellType>
-TriangleCell< TPixelType , TCellType >::CellFeatureCount
-TriangleCell< TPixelType , TCellType >
+template <typename TPixelType, typename TCellTraits>
+TriangleCell< TPixelType , TCellTraits >::CellFeatureCount
+TriangleCell< TPixelType , TCellTraits >
 ::GetNumberOfBoundaryFeatures(int dimension)
 {
   switch (dimension)
@@ -82,9 +82,9 @@ TriangleCell< TPixelType , TCellType >
  * cell feature Id.
  * The Id can range from 0 to GetNumberOfBoundaryFeatures(dimension)-1.
  */
-template <typename TPixelType, typename TCellType>
-TriangleCell< TPixelType , TCellType >::CellPointer
-TriangleCell< TPixelType , TCellType >
+template <typename TPixelType, typename TCellTraits>
+TriangleCell< TPixelType , TCellTraits >::CellPointer
+TriangleCell< TPixelType , TCellTraits >
 ::GetBoundaryFeature(int dimension, CellFeatureIdentifier featureId)
 {
   switch (dimension)
@@ -102,9 +102,9 @@ TriangleCell< TPixelType , TCellType >
  * iterator can be incremented and safely de-referenced enough times to 
  * get all the point ids needed by the cell.
  */
-template <typename TPixelType, typename TCelltype>
+template <typename TPixelType, typename TCellTraits>
 void
-TriangleCell< TPixelType , TCelltype >
+TriangleCell< TPixelType , TCellTraits >
 ::SetPointIds(PointIdConstIterator first)
 {
   PointIdConstIterator ii(first);
@@ -122,9 +122,9 @@ TriangleCell< TPixelType , TCelltype >
  * define the cell.  The position *last is NOT referenced, so it can safely
  * be one beyond the end of an array or other container.
  */
-template <typename TPixelType, typename TCelltype>
+template <typename TPixelType, typename TCellTraits>
 void
-TriangleCell< TPixelType , TCelltype >
+TriangleCell< TPixelType , TCellTraits >
 ::SetPointIds(PointIdConstIterator first, PointIdConstIterator last)
 {
   int localId=0;
@@ -141,9 +141,9 @@ TriangleCell< TPixelType , TCelltype >
  * Standard CellInterface:
  * Set an individual point identifier in the cell.
  */
-template <typename TPixelType, typename TCelltype>
+template <typename TPixelType, typename TCellTraits>
 void
-TriangleCell< TPixelType , TCelltype >
+TriangleCell< TPixelType , TCellTraits >
 ::SetPointId(int localId, PointIdentifier ptId)
 {
   m_PointIds[localId] = ptId;
@@ -154,9 +154,9 @@ TriangleCell< TPixelType , TCelltype >
  * Standard CellInterface:
  * Get a begin iterator to the list of point identifiers used by the cell.
  */
-template <typename TPixelType, typename TCelltype>
-TriangleCell< TPixelType , TCelltype >::PointIdIterator
-TriangleCell< TPixelType , TCelltype >
+template <typename TPixelType, typename TCellTraits>
+TriangleCell< TPixelType , TCellTraits >::PointIdIterator
+TriangleCell< TPixelType , TCellTraits >
 ::PointIdsBegin(void)
 {
   return &m_PointIds[0];
@@ -168,9 +168,9 @@ TriangleCell< TPixelType , TCelltype >
  * Get a const begin iterator to the list of point identifiers used
  * by the cell.
  */
-template <typename TPixelType, typename TCelltype>
-TriangleCell< TPixelType , TCelltype >::PointIdConstIterator
-TriangleCell< TPixelType , TCelltype >
+template <typename TPixelType, typename TCellTraits>
+TriangleCell< TPixelType , TCellTraits >::PointIdConstIterator
+TriangleCell< TPixelType , TCellTraits >
 ::PointIdsBegin(void) const
 {
   return &m_PointIds[0];
@@ -181,9 +181,9 @@ TriangleCell< TPixelType , TCelltype >
  * Standard CellInterface:
  * Get an end iterator to the list of point identifiers used by the cell.
  */
-template <typename TPixelType, typename TCelltype>
-TriangleCell< TPixelType , TCelltype >::PointIdIterator
-TriangleCell< TPixelType , TCelltype >
+template <typename TPixelType, typename TCellTraits>
+TriangleCell< TPixelType , TCellTraits >::PointIdIterator
+TriangleCell< TPixelType , TCellTraits >
 ::PointIdsEnd(void)
 {
   return &m_PointIds[Self::NumberOfPoints];
@@ -195,9 +195,9 @@ TriangleCell< TPixelType , TCelltype >
  * Get a const end iterator to the list of point identifiers used
  * by the cell.
  */
-template <typename TPixelType, typename TCelltype>
-TriangleCell< TPixelType , TCelltype >::PointIdConstIterator
-TriangleCell< TPixelType , TCelltype >
+template <typename TPixelType, typename TCellTraits>
+TriangleCell< TPixelType , TCellTraits >::PointIdConstIterator
+TriangleCell< TPixelType , TCellTraits >
 ::PointIdsEnd(void) const
 {
   return &m_PointIds[Self::NumberOfPoints];
@@ -208,9 +208,9 @@ TriangleCell< TPixelType , TCelltype >
  * Triangle-specific:
  * Get the number of vertices defining the triangle.
  */
-template <typename TPixelType, typename TCellType>
-TriangleCell< TPixelType , TCellType >::CellFeatureCount
-TriangleCell< TPixelType , TCellType >
+template <typename TPixelType, typename TCellTraits>
+TriangleCell< TPixelType , TCellTraits >::CellFeatureCount
+TriangleCell< TPixelType , TCellTraits >
 ::GetNumberOfVertices(void)
 {
   return Self::NumberOfVertices;
@@ -221,9 +221,9 @@ TriangleCell< TPixelType , TCellType >
  * Triangle-specific:
  * Get the number of edges defined for the triangle.
  */
-template <typename TPixelType, typename TCellType>
-TriangleCell< TPixelType , TCellType >::CellFeatureCount
-TriangleCell< TPixelType , TCellType >
+template <typename TPixelType, typename TCellTraits>
+TriangleCell< TPixelType , TCellTraits >::CellFeatureCount
+TriangleCell< TPixelType , TCellTraits >
 ::GetNumberOfEdges(void)
 {
   return Self::NumberOfEdges;
@@ -234,9 +234,9 @@ TriangleCell< TPixelType , TCellType >
  * Get the vertex specified by the given cell feature Id.
  * The Id can range from 0 to GetNumberOfVertices()-1.
  */
-template <typename TPixelType, typename TCellType>
-TriangleCell< TPixelType , TCellType >::VertexPointer
-TriangleCell< TPixelType , TCellType >
+template <typename TPixelType, typename TCellTraits>
+TriangleCell< TPixelType , TCellTraits >::VertexPointer
+TriangleCell< TPixelType , TCellTraits >
 ::GetVertex(CellFeatureIdentifier vertexId)
 {
   VertexPointer vert(Vertex::New());
@@ -250,9 +250,9 @@ TriangleCell< TPixelType , TCellType >
  * Get the edge specified by the given cell feature Id.
  * The Id can range from 0 to GetNumberOfEdges()-1.
  */
-template <typename TPixelType, typename TCellType>
-TriangleCell< TPixelType , TCellType >::EdgePointer
-TriangleCell< TPixelType , TCellType >
+template <typename TPixelType, typename TCellTraits>
+TriangleCell< TPixelType , TCellTraits >::EdgePointer
+TriangleCell< TPixelType , TCellTraits >
 ::GetEdge(CellFeatureIdentifier edgeId)
 {
   EdgePointer edge(Edge::New());
@@ -269,9 +269,9 @@ TriangleCell< TPixelType , TCellType >
 /**
  * The triangle's topology data: Edges
  */
-template <typename TPixelType, typename TCellType>
+template <typename TPixelType, typename TCellTraits>
 const int
-TriangleCell< TPixelType , TCellType >
+TriangleCell< TPixelType , TCellTraits >
 ::m_Edges[3][2] = { {0,1}, {1,2}, {2,0} };
 
 } // end namespace itk

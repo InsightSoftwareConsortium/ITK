@@ -21,9 +21,9 @@ namespace itk
 /**
  * Standard CellInterface:
  */
-template <typename TPixelType, typename TCelltype>
-LineCell< TPixelType , TCelltype >::CellPointer
-LineCell< TPixelType , TCelltype >
+template <typename TPixelType, typename TCellTraits>
+LineCell< TPixelType , TCellTraits >::CellPointer
+LineCell< TPixelType , TCellTraits >
 ::MakeCopy(void)
 {
   CellPointer newCell(Self::New());
@@ -36,9 +36,9 @@ LineCell< TPixelType , TCelltype >
  * Standard CellInterface:
  * Get the topological dimension of this cell.
  */
-template <typename TPixelType, typename TCellType>
+template <typename TPixelType, typename TCellTraits>
 int
-LineCell< TPixelType , TCellType >
+LineCell< TPixelType , TCellTraits >
 ::GetDimension(void)
 {
   return Self::CellDimension;
@@ -49,9 +49,9 @@ LineCell< TPixelType , TCellType >
  * Standard CellInterface:
  * Get the number of points required to define the cell.
  */
-template <typename TPixelType, typename TCelltype>
+template <typename TPixelType, typename TCellTraits>
 int
-LineCell< TPixelType , TCelltype >
+LineCell< TPixelType , TCellTraits >
 ::GetNumberOfPoints(void)
 {
   return Self::NumberOfPoints;
@@ -62,9 +62,9 @@ LineCell< TPixelType , TCelltype >
  * Standard CellInterface:
  * Get the number of boundary entities of the given dimension.
  */
-template <typename TPixelType, typename TCellType>
-LineCell< TPixelType , TCellType >::CellFeatureCount
-LineCell< TPixelType , TCellType >
+template <typename TPixelType, typename TCellTraits>
+LineCell< TPixelType , TCellTraits >::CellFeatureCount
+LineCell< TPixelType , TCellTraits >
 ::GetNumberOfBoundaryFeatures(int dimension)
 {
   switch (dimension)
@@ -81,9 +81,9 @@ LineCell< TPixelType , TCellType >
  * cell feature Id.
  * The Id can range from 0 to GetNumberOfBoundaryFeatures(dimension)-1.
  */
-template <typename TPixelType, typename TCellType>
-LineCell< TPixelType , TCellType >::CellPointer
-LineCell< TPixelType , TCellType >
+template <typename TPixelType, typename TCellTraits>
+LineCell< TPixelType , TCellTraits >::CellPointer
+LineCell< TPixelType , TCellTraits >
 ::GetBoundaryFeature(int dimension, CellFeatureIdentifier featureId)
 {
   switch (dimension)
@@ -100,9 +100,9 @@ LineCell< TPixelType , TCellType >
  * iterator can be incremented and safely de-referenced enough times to 
  * get all the point ids needed by the cell.
  */
-template <typename TPixelType, typename TCelltype>
+template <typename TPixelType, typename TCellTraits>
 void
-LineCell< TPixelType , TCelltype >
+LineCell< TPixelType , TCellTraits >
 ::SetPointIds(PointIdConstIterator first)
 {
   PointIdConstIterator ii(first);
@@ -118,9 +118,9 @@ LineCell< TPixelType , TCelltype >
  * define the cell.  The position *last is NOT referenced, so it can safely
  * be one beyond the end of an array or other container.
  */
-template <typename TPixelType, typename TCelltype>
+template <typename TPixelType, typename TCellTraits>
 void
-LineCell< TPixelType , TCelltype >
+LineCell< TPixelType , TCellTraits >
 ::SetPointIds(PointIdConstIterator first, PointIdConstIterator last)
 {
   int localId=0;
@@ -137,9 +137,9 @@ LineCell< TPixelType , TCelltype >
  * Standard CellInterface:
  * Set an individual point identifier in the cell.
  */
-template <typename TPixelType, typename TCelltype>
+template <typename TPixelType, typename TCellTraits>
 void
-LineCell< TPixelType , TCelltype >
+LineCell< TPixelType , TCellTraits >
 ::SetPointId(int localId, PointIdentifier ptId)
 {
   m_PointIds[localId] = ptId;
@@ -150,9 +150,9 @@ LineCell< TPixelType , TCelltype >
  * Standard CellInterface:
  * Get a begin iterator to the list of point identifiers used by the cell.
  */
-template <typename TPixelType, typename TCelltype>
-LineCell< TPixelType , TCelltype >::PointIdIterator
-LineCell< TPixelType , TCelltype >
+template <typename TPixelType, typename TCellTraits>
+LineCell< TPixelType , TCellTraits >::PointIdIterator
+LineCell< TPixelType , TCellTraits >
 ::PointIdsBegin(void)
 {
   return &m_PointIds[0];
@@ -164,9 +164,9 @@ LineCell< TPixelType , TCelltype >
  * Get a const begin iterator to the list of point identifiers used
  * by the cell.
  */
-template <typename TPixelType, typename TCelltype>
-LineCell< TPixelType , TCelltype >::PointIdConstIterator
-LineCell< TPixelType , TCelltype >
+template <typename TPixelType, typename TCellTraits>
+LineCell< TPixelType , TCellTraits >::PointIdConstIterator
+LineCell< TPixelType , TCellTraits >
 ::PointIdsBegin(void) const
 {
   return &m_PointIds[0];
@@ -177,9 +177,9 @@ LineCell< TPixelType , TCelltype >
  * Standard CellInterface:
  * Get an end iterator to the list of point identifiers used by the cell.
  */
-template <typename TPixelType, typename TCelltype>
-LineCell< TPixelType , TCelltype >::PointIdIterator
-LineCell< TPixelType , TCelltype >
+template <typename TPixelType, typename TCellTraits>
+LineCell< TPixelType , TCellTraits >::PointIdIterator
+LineCell< TPixelType , TCellTraits >
 ::PointIdsEnd(void)
 {
   return &m_PointIds[Self::NumberOfPoints];
@@ -191,9 +191,9 @@ LineCell< TPixelType , TCelltype >
  * Get a const end iterator to the list of point identifiers used
  * by the cell.
  */
-template <typename TPixelType, typename TCelltype>
-LineCell< TPixelType , TCelltype >::PointIdConstIterator
-LineCell< TPixelType , TCelltype >
+template <typename TPixelType, typename TCellTraits>
+LineCell< TPixelType , TCellTraits >::PointIdConstIterator
+LineCell< TPixelType , TCellTraits >
 ::PointIdsEnd(void) const
 {
   return &m_PointIds[Self::NumberOfPoints];
@@ -204,9 +204,9 @@ LineCell< TPixelType , TCelltype >
  * Line-specific:
  * Get the number of vertices for this line.
  */
-template <typename TPixelType, typename TCellType>
-LineCell< TPixelType , TCellType >::CellFeatureCount
-LineCell< TPixelType , TCellType >
+template <typename TPixelType, typename TCellTraits>
+LineCell< TPixelType , TCellTraits >::CellFeatureCount
+LineCell< TPixelType , TCellTraits >
 ::GetNumberOfVertices(void)
 {
   return Self::NumberOfPoints;
@@ -218,9 +218,9 @@ LineCell< TPixelType , TCellType >
  * Get the vertex specified by the given cell feature Id.
  * The Id can range from 0 to GetNumberOfVertices()-1.
  */
-template <typename TPixelType, typename TCellType>
-LineCell< TPixelType , TCellType >::VertexPointer
-LineCell< TPixelType , TCellType >
+template <typename TPixelType, typename TCellTraits>
+LineCell< TPixelType , TCellTraits >::VertexPointer
+LineCell< TPixelType , TCellTraits >
 ::GetVertex(CellFeatureIdentifier vertexId)
 {
   VertexPointer vert(Vertex::New());

@@ -34,16 +34,16 @@ See COPYRIGHT.txt for copyright details.
  * for the other template parameters.
  */
 typedef itk::Mesh<int>  Mesh;
-typedef Mesh::CellType  CellType;
+typedef Mesh::CellTraits  CellTraits;
 
 /**
  * Define a few cell types which uses a PixelType of "int".  Again,
  * use the defaults for the other parameters.  Note that a cell's template
  * parameters must match those of the mesh into which it is inserted.
  */
-typedef itk::LineBoundary<int, CellType>     LineBoundary;
-typedef itk::TetrahedronCell<int, CellType>  TetraCell;
-typedef itk::HexahedronCell<int, CellType>   HexaCell;
+typedef itk::LineBoundary<int, CellTraits>     LineBoundary;
+typedef itk::TetrahedronCell<int, CellTraits>  TetraCell;
+typedef itk::HexahedronCell<int, CellTraits>   HexaCell;
 
 /**
  * Typedef the generic cell type for the mesh.  It is an abstract class,
@@ -54,7 +54,7 @@ typedef Cell        Boundary;
 
 /**
  * The type of point stored in the mesh. Because mesh was instantiated
- * with defaults (itkDefaultStaticMeshType), the point dimension is 3 and
+ * with defaults (itkDefaultStaticMeshTraits), the point dimension is 3 and
  * the coordinate representation is float.
  */
 typedef Mesh::PointType  PointType;
