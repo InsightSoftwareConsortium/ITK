@@ -10521,7 +10521,7 @@ L50:
     integer i__1, i__2;
 
     /* Local variables */
-    static integer jajj, ibgn, iend, nb, ii, jj, nr;
+    static integer jajj, ibgn, iend, /*nb,*/ ii, jj, nr;
     static doublereal sum;
 
 
@@ -10550,7 +10550,7 @@ L50:
     --a;
 
     /* Function Body */
-    nb = *nnb; nb;
+//    nb = *nnb;
     nr = *nnr;
     i__1 = nr;
     for (ii = 1; ii <= i__1; ++ii) {
