@@ -381,6 +381,21 @@ protected:
    */
   virtual void ReleaseInputs();
 
+  /**
+   * Cache the state of any ReleaseDataFlag's on the inputs. While the
+   * filter is executing, we need to set the ReleaseDataFlag's on the
+   * inputs to false in case the current filter is implemented using a
+   * mini-pipeline (which will try to release the inputs).  After the
+   * filter finishes, we restore the state of the ReleaseDataFlag's
+   * before the call to ReleaseInputs().
+   */
+  virtual void CacheInputReleaseDataFlags();
+
+  /**
+   * Restore the cached input ReleaseDataFlags.
+   */
+  virtual void RestoreInputReleaseDataFlags();
+  
   /** These ivars are made protected so filters like itkStreamingImageFilter
    * can access them directly. */
   
@@ -398,6 +413,9 @@ private:
   /** An array of the inputs to the filter. */
   std::vector<DataObjectPointer> m_Inputs;
   unsigned int m_NumberOfRequiredInputs;
+
+  /** An array that caches the ReleaseDataFlags of the inputs */
+  std::vector<bool> m_CachedInputReleaseDataFlags;
   
   /** An array of the outputs to the filter. */
   std::vector<DataObjectPointer> m_Outputs;

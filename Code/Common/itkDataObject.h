@@ -300,7 +300,10 @@ public:
 
   /** Turn on/off a flag to control whether this object's data is released
    * after being used by a filter.  */
-  itkSetMacro(ReleaseDataFlag,bool);
+  void SetReleaseDataFlag(bool flag)
+    {
+      m_ReleaseDataFlag = flag;
+    }
   itkGetConstReferenceMacro(ReleaseDataFlag,bool);
   itkBooleanMacro(ReleaseDataFlag);
   

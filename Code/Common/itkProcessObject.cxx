@@ -876,7 +876,17 @@ ProcessObject
         }
       }
     }
-    
+
+  /**
+   * Cache the state of any ReleaseDataFlag's on the inputs. While the
+   * filter is executing, we need to set the ReleaseDataFlag's on the
+   * inputs to false in case the current filter is implemented using a
+   * mini-pipeline (which will try to release the inputs).  After the
+   * filter finishes, we restore the state of the ReleaseDataFlag's
+   * before the call to ReleaseInputs().
+   */
+  this->CacheInputReleaseDataFlags();
+  
   /**
    * Tell all Observers that the filter is starting
    */
@@ -910,11 +920,13 @@ ProcessObject
       excp = excp;
       this->InvokeEvent( AbortEvent() );
       this->ResetPipeline();
+      this->RestoreInputReleaseDataFlags();
       throw ProcessAborted(__FILE__,__LINE__);
       }
     catch( ExceptionObject& excp )
       {
       this->ResetPipeline();
+      this->RestoreInputReleaseDataFlags();
       throw excp;
       }
     }
@@ -946,6 +958,11 @@ ProcessObject
     }
   
   /**
+   * Restore the state of any input ReleaseDataFlags
+   */
+  this->RestoreInputReleaseDataFlags();
+  
+  /**
    * Release any inputs if marked for release
    */
   this->ReleaseInputs();
@@ -955,6 +972,50 @@ ProcessObject
 }
 
 
+/**
+ *
+ */
+void
+ProcessObject
+::CacheInputReleaseDataFlags()
+{
+  unsigned int idx;
+  
+  m_CachedInputReleaseDataFlags.resize( m_Inputs.size() );
+  for (idx = 0; idx < m_Inputs.size(); ++idx)
+    {
+    if (m_Inputs[idx])
+      {
+      m_CachedInputReleaseDataFlags[idx]=m_Inputs[idx]->GetReleaseDataFlag();
+      m_Inputs[idx]->ReleaseDataFlagOff();
+      }
+    else
+      {
+      m_CachedInputReleaseDataFlags[idx] = false;
+      }
+    }
+} 
+
+
+/**
+ *
+ */
+void
+ProcessObject
+::RestoreInputReleaseDataFlags()
+{
+  unsigned int idx;
+  
+  for (idx = 0;
+       idx < m_Inputs.size() && idx < m_CachedInputReleaseDataFlags.size();
+       ++idx)
+    {
+    if (m_Inputs[idx])
+      {
+      m_Inputs[idx]->SetReleaseDataFlag(m_CachedInputReleaseDataFlags[idx]);
+      }
+    }
+} 
 
 /**
  * Default implementation - copy information from first input to all outputs
