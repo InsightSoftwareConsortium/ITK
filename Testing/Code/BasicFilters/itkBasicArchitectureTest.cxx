@@ -89,7 +89,7 @@ public:
 class AllEvents
 {
 public:
-  void WatchEvents(itk::LightObject *caller, unsigned long event)
+  void WatchEvents(itk::Object *caller, unsigned long event)
     {
       const char* eventName = 0;
       switch(event)
