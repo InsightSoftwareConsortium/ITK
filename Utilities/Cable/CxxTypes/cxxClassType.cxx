@@ -167,7 +167,7 @@ void ClassType::GetAllSuperclasses(ClassTypes& result) const
         
         // Every class but the initial one should be added to the
         // result.
-        result.push_back(curClass);
+        result.push_back(*parent);
         }
       }
     }
