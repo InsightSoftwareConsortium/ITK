@@ -65,7 +65,21 @@ struct VOLFileWrapper
 
 bool VOLImageIO::CanReadFile(const char* file) 
 { 
-   return this->ReadHeader(file);
+
+	VOLFileWrapper volfp(file); 
+  FILE* fp = volfp.m_FilePointer;
+  if(!fp)
+		{
+    return false;
+		}
+
+	ReadData(fp, &file_type, sizeof(file_type), 0);
+  if (file_type != VOL_MAGIC_NUMBER)
+		{
+    return false;
+		}
+
+  return true;
 }
   
 const std::type_info& VOLImageIO::GetPixelType() const
@@ -127,8 +141,18 @@ void VOLImageIO::Load(void* buffer)
 				}
 			}
 		}
-
 	delete imgset;
+	m_Spacing[0] = 1.0;
+  m_Spacing[1] = 1.0;
+	m_Spacing[2] = 1.0;
+  m_Spacing[3] = 1.0;
+	
+
+  m_Origin[0] = 0.0;
+  m_Origin[1] = 0.0;
+  m_Origin[2] = 0.0;
+  m_Origin[3] = 0.0;
+
 }
 
 const double* VOLImageIO::GetOrigin() const
@@ -163,27 +187,21 @@ void VOLImageIO::PrintSelf(std::ostream& os, Indent indent) const
 }
 
 void VOLImageIO::ReadImageInformation()
-{
-  this->ReadHeader(m_FileName.c_str());
-}
-
-  
-bool VOLImageIO::ReadHeader(const char* fname)
 { 
-  VOLFileWrapper volfp(fname); 
+  VOLFileWrapper volfp(m_FileName.c_str()); 
   FILE* fp = volfp.m_FilePointer;
   if(!fp)
 		{
     itkErrorMacro("Error VOLImageIO could not open file: " 
                   << this->GetFileName());
-    return false;
+    return;
 		}
 
 	ReadData(fp, &file_type, sizeof(file_type), 0);
   if (file_type != VOL_MAGIC_NUMBER)
 		{
     itkErrorMacro("Error File is not .VOL type" << this->GetFileName());
-    return false;
+    return;
 		}
 
 	ReadData(fp, &file_type, sizeof(file_type), 0);
@@ -279,7 +297,7 @@ bool VOLImageIO::ReadHeader(const char* fname)
 
   this->ComputeStrides();
 
-	return true;
+	return;
 }
 
 

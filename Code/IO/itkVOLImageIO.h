@@ -120,7 +120,6 @@ protected:
   VOLImageIO(const Self&) {}
   void operator=(const Self&) {}
 
-	bool ReadHeader(const char* fname);
   void PrintSelf(std::ostream& os, Indent indent) const;
 	ComponentType		m_VOLPixelType;
   double m_Spacing[4] ;
