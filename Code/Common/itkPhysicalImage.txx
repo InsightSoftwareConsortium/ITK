@@ -276,10 +276,11 @@ PhysicalImage<TPixel, VImageDimension, TImageTraits>
   // Standard call to the superclass' method
   Superclass::CopyInformation(data);
 
-  // Attempt to cast data to a PhysicalImage
-  Self *phyData;
+  // Attempt to cast data to an ImageBase.  All subclasses of ImageBase
+  // respond to GetSpacing(), GetOrigin()
+  ImageBase<VImageDimension> *phyData;
   
-  phyData = dynamic_cast<Self*>(data);
+  phyData = dynamic_cast<ImageBase<VImageDimension>*>(data);
 
   if (phyData)
     {
@@ -289,26 +290,10 @@ PhysicalImage<TPixel, VImageDimension, TImageTraits>
     }
   else
     {
-    // Attempt to cast data to an Image. This is a special case.  While an
-    // Image does not have any real meta-data, a PhysicalImage does know
-    // how to extract spacing an origin from an Image.
-    Superclass *imgData;
-
-    imgData = dynamic_cast<Superclass*>(data);
-
-    if (imgData)
-      {
-      // Copy the origin and spacing
-      this->SetSpacing( imgData->GetSpacing() );
-      this->SetOrigin( imgData->GetOrigin() );
-      }
-    else
-      {
-      // pointer could not be cast back down
-      std::cerr << "itk::PhysicalImage::CopyInformation() cannot cast "
-                << typeid(data).name() << " to "
-                << typeid(PhysicalImage*).name() << std::endl;
-      }
+    // pointer could not be cast back down
+    std::cerr << "itk::PhysicalImage::CopyInformation() cannot cast "
+              << typeid(data).name() << " to "
+              << typeid(ImageBase<VImageDimension>*).name() << std::endl;
     }
 }
 

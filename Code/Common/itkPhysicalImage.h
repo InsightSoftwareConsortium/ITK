@@ -288,9 +288,12 @@ public:
    * PhysicalImage has more meta-data than its superclasses Image or
    * ImageBase.  Thus, it must provide its own version of
    * CopyInformation() in order to set its Spacing and Origin to match
-   * the input parameter.  Note, PhysicalImage only knows how extract
-   * information from another PhysicalImage or from an Image.  If
-   * "data" is another datatype, this method may not do anything.
+   * the input parameter.  This implementation of CopyInformation()
+   * casts the input parameter to an ImageBase. If successful,
+   * this method call GetSpacing() and GetOrigin() on its input
+   * (since all subclasses of ImageBase are guarenteed to respond to
+   * GetSpacing() and GetOrigin()). If "data" is another datatype, this
+   * method may not do anything.
    */
   virtual void CopyInformation(DataObject *data);
 

@@ -280,23 +280,6 @@ public:
   const AccessorType & GetDataAccessor( void ) const
     { return m_DataAccessor; }
     
-  /** 
-   * Get the spacing (size of a pixel) of the image. The
-   * spacing is the geometric distance between image samples.
-   * The value returned is a pointer to a double array.
-   * For Image, the data spacing is always unity.  If a different
-   * data spacing is needed, use PhysicalImage.
-   */
-  virtual const double* GetSpacing() const;
-
-  /**
-   * Get the origin of the image. The origin is the geometric
-   * coordinates of the index (0,0).  The value returned is a pointer
-   * to a double array.  For Image, the origin is always (0,0).
-   * If a different origin is needed, use PhysicalImage.  
-   */
-  virtual const double * GetOrigin() const;
-  
 
 protected:
   Image();

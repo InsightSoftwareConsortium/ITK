@@ -78,6 +78,47 @@ ImageBase<VImageDimension>
   this->DataObject::Initialize();
 }
 
+/**
+ *
+ */
+template<unsigned int VImageDimension>
+const double * 
+ImageBase<VImageDimension>
+::GetSpacing() const
+{
+  // Use a static local variable so the storage for the response is
+  // always available
+  static double spacing[VImageDimension];
+  static bool initialized = false;
+
+  if (!initialized)
+    {
+    initialized = true;
+    for (int i=0; i < VImageDimension; i++)
+      {
+      spacing[i] = 1.0;
+      }
+    }
+
+  return spacing;
+}
+
+
+/**
+ *
+ */
+template<unsigned int VImageDimension>
+const double * 
+ImageBase<VImageDimension>
+::GetOrigin() const
+{
+  // Use a static local variable so the storage for the response is
+  // always available
+  static const double origin[VImageDimension] = {0.0};
+
+  return origin;
+}
+
 //----------------------------------------------------------------------------
 template<unsigned int VImageDimension>
 void
