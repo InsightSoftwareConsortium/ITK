@@ -83,6 +83,8 @@ int testMetaUtils(int argc, char *argv[])
   else
     std::cout << "PASSED" << std::endl;
 
+  delete [] wordArray;
+
   char fName[80];
   sprintf(fName, "this/is/a/test.com");
 
@@ -148,7 +150,9 @@ int testMetaUtils(int argc, char *argv[])
 
   std::vector<MET_FieldRecordType *>::iterator fieldIter;
   for(fieldIter=mFields.begin(); fieldIter!=mFields.end(); fieldIter++)
+    {
     delete *fieldIter;
+    }
   mFields.clear();
 
   //
@@ -224,5 +228,13 @@ int testMetaUtils(int argc, char *argv[])
   else
     std::cout << "DirNames not defined" << std::endl;
 
+  delete [] names;
+
+  for(fieldIter=mFields.begin(); fieldIter!=mFields.end(); fieldIter++)
+    {
+    delete *fieldIter;
+    }
+
+  std::cout << "[DONE]" << std::endl;
   return 0;
   }
