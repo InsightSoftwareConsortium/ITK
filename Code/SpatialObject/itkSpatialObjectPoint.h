@@ -72,6 +72,7 @@ public:
   /** Set/Get color of the point */
   const PixelType & GetColor( void ) const;
   void SetColor(const PixelType & color );
+  void SetColor(float r, float g, float b, float a=1);
 
   /** Set/Get red color of the point */
   void SetRed( float r );

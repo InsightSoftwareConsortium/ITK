@@ -60,6 +60,18 @@ SpatialObjectPoint< TPointDimension >
   m_Color = color; 
 }
 
+/** Set the color of the point */
+template< unsigned int TPointDimension >
+void 
+SpatialObjectPoint< TPointDimension >
+::SetColor(float r, float g, float b, float a)
+{ 
+  m_Color.SetRed(r);
+  m_Color.SetGreen(g);
+  m_Color.SetBlue(b);
+  m_Color.SetAlpha(a); 
+}
+
 /** Set the red channel of the point */
 template< unsigned int TPointDimension >
 void
@@ -131,24 +143,6 @@ SpatialObjectPoint< TPointDimension >
 { 
   return m_Color.GetAlpha(); 
 }
-
-/** Get a reference to the point */
-/*template< unsigned int TPointDimension >
-typename SpatialObjectPoint< TPointDimension >::Self & 
-SpatialObjectPoint< TPointDimension >
-::GetReference( void )
-{
-  return *this;
-}*/
-
-/** Get a pointer to the point */
-/*template< unsigned int TPointDimension >
-typename SpatialObjectPoint< TPointDimension >::Pointer 
-SpatialObjectPoint< TPointDimension >
-::GetPointer( void )
-{
-  return this;
-}*/
     
 /** Set the Identification number of a point */
 template< unsigned int TPointDimension >
