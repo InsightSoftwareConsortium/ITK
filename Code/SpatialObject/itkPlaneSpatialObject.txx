@@ -27,7 +27,7 @@ template< unsigned int TDimension >
 PlaneSpatialObject<TDimension >
 ::PlaneSpatialObject()
 {
-  strcpy(m_TypeName,"PlaneSpatialObject");
+  m_TypeName = "PlaneSpatialObject";
   m_Dimension = TDimension;
 } 
 
@@ -49,7 +49,7 @@ PlaneSpatialObject< TDimension >
     
   if(name == NULL || strstr(typeid(Self).name(), name) )
     {
-    const TransformType * giT = GetGlobalIndexTransform(); 
+    const TransformType * giT = GetWorldToIndexTransform(); 
     PointType transformedPoint = giT->TransformPoint(point); 
     
     bool inside = true;
@@ -76,16 +76,17 @@ PlaneSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 PlaneSpatialObject<TDimension >
-::ComputeBoundingBox( unsigned int depth, char * name ) 
+::ComputeBoundingBox(void) const
 { 
   itkDebugMacro( "Computing tube bounding box" );
   bool ret = false;
 
   if( this->GetMTime() > m_BoundsMTime )
     { 
-    ret = Superclass::ComputeBoundingBox(depth, name);
+    ret = Superclass::ComputeBoundingBox();
 
-    if(name == NULL || strstr(typeid(Self).name(), name) )
+    if( m_BoundingBoxChildrenName.empty() 
+       || strstr(typeid(Self).name(), m_BoundingBoxChildrenName.c_str()) )
       {
       PointType pnt;
       PointType pnt2;

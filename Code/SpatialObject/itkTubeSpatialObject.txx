@@ -32,7 +32,7 @@ TubeSpatialObject< TDimension >
 ::TubeSpatialObject()  
 { 
   m_Dimension = TDimension;
-  strcpy(m_TypeName,"TubeSpatialObject");
+  m_TypeName = "TubeSpatialObject";
   m_Property->SetRed(1); 
   m_Property->SetGreen(0); 
   m_Property->SetBlue(0); 
@@ -115,19 +115,20 @@ TubeSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool 
 TubeSpatialObject< TDimension >  
-::ComputeBoundingBox( unsigned int depth, char * name ) 
+::ComputeBoundingBox() const
 { 
   itkDebugMacro( "Computing tube bounding box" );
   bool ret = false;
 
   if( (this->GetMTime() > m_BoundsMTime) || (m_BoundsMTime==0) )
     {
-    ret = Superclass::ComputeBoundingBox(depth, name);
+    ret = Superclass::ComputeBoundingBox();
 
-    if(name == NULL || strstr(typeid(Self).name(), name) )
+    if( m_BoundingBoxChildrenName.empty() 
+       || strstr(typeid(Self).name(), m_BoundingBoxChildrenName.c_str()) )
       {
-      typename PointListType::iterator it  = m_Points.begin();
-      typename PointListType::iterator end = m_Points.end();
+      typename PointListType::const_iterator it  = m_Points.begin();
+      typename PointListType::const_iterator end = m_Points.end();
 
       if(it == end)
         {
@@ -179,7 +180,7 @@ TubeSpatialObject< TDimension >
     typename PointListType::const_iterator end = m_Points.end(); 
     typename PointListType::const_iterator min;  
   
-    const TransformType * giT = GetGlobalIndexTransform();
+    const TransformType * giT = GetWorldToIndexTransform();
     PointType transformedPoint = giT->TransformPoint(point);
   
     if( m_Bounds->IsInside(transformedPoint) )
@@ -212,7 +213,7 @@ TubeSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool  
 TubeSpatialObject< TDimension >  
-::CalcTangent( void ) 
+::ComputeTangentAndNormals( void ) 
 { 
   itkDebugMacro( "Computing the tangent vectors of the tube" );
  
@@ -275,11 +276,59 @@ TubeSpatialObject< TDimension >
   t = (*it2).GetTangent();
   (*it1).SetTangent(t);
  
+
+  // Compute the normal
+  VectorType n1;
+  VectorType n2; 
+    
+  it1 = m_Points.begin(); 
+ 
+  while(it1 != m_Points.end())
+  {
+    t = (*it1).GetTangent(); 
+ 
+    if (TDimension == 2)
+    { 
+      t = (*it1).GetTangent(); 
+      n1[0] = -t[1];
+      n1[1] = t[0];
+      (*it1).SetV1(n1); 
+    }
+ 
+    it1++;
+  }
+ 
+  it1 = m_Points.begin();
+  it2 = it1;
+  it2++;
+  n1 = (*it2).GetV1();
+  (*it1).SetV1(n1);
+   
+  if (TDimension == 3)
+  {
+    n2 = (*it2).GetV2();
+    (*it1).SetV2(n2);
+  }
+   
+  it1 = m_Points.end();
+  it1--;
+  it2 = it1;
+  it2--;
+  n1 = (*it2).GetV1();
+  (*it1).SetV1(n1);
+   
+  if (TDimension == 3)
+  {
+    n2 = (*it2).GetV2();
+    (*it1).SetV2(n2);  
+  }
+
+
   return true; 
 } 
 
 /** Compute the normal of the tangent of the centerline of the tube */ 
-template< unsigned int TDimension >
+/*template< unsigned int TDimension >
 bool  
 TubeSpatialObject< TDimension >  
 ::CalcNormal( void ) 
@@ -290,7 +339,6 @@ TubeSpatialObject< TDimension >
   {
     return false; 
   }
- 
   VectorType t;
   VectorType n1;
   VectorType n2; 
@@ -340,6 +388,7 @@ TubeSpatialObject< TDimension >
  
   return true; 
 } 
+*/
 
 /** Return true if the tube is evaluable at a given point */
 template< unsigned int TDimension >

@@ -86,7 +86,7 @@ public:
                  unsigned int depth=0, char *name = NULL ) const;
 
   /** Compute the boundaries of the Landmark. */
-  bool ComputeBoundingBox( unsigned int depth=0, char *name = NULL );
+  bool ComputeBoundingBox( void ) const;
 
 protected:
 

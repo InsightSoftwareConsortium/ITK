@@ -29,7 +29,7 @@ template< unsigned int TDimension, class PixelType >
 ImageSpatialObject< TDimension,  PixelType >
 ::ImageSpatialObject()
 {
-  strcpy(m_TypeName,"ImageSpatialObject");
+  m_TypeName = "ImageSpatialObject";
   m_Image = ImageType::New();
   m_SlicePosition = new int[TDimension];
   for(unsigned int i=0;i<TDimension;i++)
@@ -65,7 +65,7 @@ ImageSpatialObject< TDimension,  PixelType >
 {
   if( name == NULL || strstr(typeid(Self).name(), name) )
     {
-    const TransformType * giT = GetGlobalIndexTransform();
+    const TransformType * giT = GetWorldToIndexTransform();
     PointType p = giT->TransformPoint(point);
     if(m_Bounds->IsInside( p))
       {
@@ -86,7 +86,7 @@ ImageSpatialObject< TDimension,  PixelType >
 {
   if( IsEvaluableAt( point, 0, name ) )
     {
-    const TransformType * giT = GetGlobalIndexTransform();
+    const TransformType * giT = GetWorldToIndexTransform();
     PointType p = giT->TransformPoint(point);
 
     IndexType index;
@@ -117,14 +117,15 @@ ImageSpatialObject< TDimension,  PixelType >
 template< unsigned int TDimension, class PixelType >
 bool
 ImageSpatialObject< TDimension,  PixelType >
-::ComputeBoundingBox( unsigned int depth, char * name )
+::ComputeBoundingBox() const
 {
 
   if( this->GetMTime() > m_BoundsMTime )
     { 
-    bool ret = Superclass::ComputeBoundingBox(depth, name);
+    bool ret = Superclass::ComputeBoundingBox();
 
-    if(name == NULL || strstr(typeid(Self).name(), name) )
+    if( m_BoundingBoxChildrenName.empty() 
+        || strstr(typeid(Self).name(), m_BoundingBoxChildrenName.c_str()) )
       {
       typename ImageType::RegionType region =
                m_Image->GetLargestPossibleRegion();

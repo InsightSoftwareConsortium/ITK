@@ -89,7 +89,7 @@ public:
                   unsigned int depth=0, char *name=NULL) const;
  
   /** Compute the boundaries of the iamge spatial object. */
-  bool ComputeBoundingBox( unsigned int depth=0, char *name=NULL);
+  bool ComputeBoundingBox() const;
 
   /** Returns the latest modified time of the object and its component. */
   unsigned long GetMTime( void ) const;

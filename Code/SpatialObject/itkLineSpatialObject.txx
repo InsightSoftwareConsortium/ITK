@@ -32,7 +32,7 @@ LineSpatialObject< TDimension >
 ::LineSpatialObject()  
 { 
   m_Dimension = TDimension;
-  strcpy(m_TypeName,"LineSpatialObject");
+  m_TypeName = "LineSpatialObject";
   m_Property->SetRed(1); 
   m_Property->SetGreen(0); 
   m_Property->SetBlue(0); 
@@ -95,19 +95,20 @@ LineSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool 
 LineSpatialObject< TDimension >  
-::ComputeBoundingBox( unsigned int depth, char * name ) 
+::ComputeBoundingBox() const
 { 
   itkDebugMacro( "Computing tube bounding box" );
   bool ret = false;
 
   if( this->GetMTime() > m_BoundsMTime )
     {
-    ret = Superclass::ComputeBoundingBox(depth, name);
+    ret = Superclass::ComputeBoundingBox();
 
-    if(name == NULL || strstr(typeid(Self).name(), name) )
+    if( m_BoundingBoxChildrenName.empty() 
+      || strstr(typeid(Self).name(), m_BoundingBoxChildrenName.c_str()) )
       {
-      typename PointListType::iterator it  = m_Points.begin();
-      typename PointListType::iterator end = m_Points.end();
+      typename PointListType::const_iterator it  = m_Points.begin();
+      typename PointListType::const_iterator end = m_Points.end();
   
       if(it == end)
         {
@@ -150,7 +151,7 @@ LineSpatialObject< TDimension >
     typename PointListType::const_iterator it = m_Points.begin();
     typename PointListType::const_iterator itEnd = m_Points.end();
     
-    const TransformType *giT = GetGlobalIndexTransform();
+    const TransformType *giT = GetWorldToIndexTransform();
     PointType transformedPoint = giT->TransformPoint(point);
   
     if( m_Bounds->IsInside(transformedPoint) )

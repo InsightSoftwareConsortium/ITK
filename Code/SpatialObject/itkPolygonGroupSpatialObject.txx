@@ -120,7 +120,9 @@ IsInside( const PointType & point,unsigned int depth,char * name) const
 {
   // want to encompass all children, at least 2 levels, but to be
   // safe say 4;
-  const_cast<Self *>(this)->ComputeBoundingBox(4,NULL);
+  const_cast<Self *>(this)->SetBoundingBoxChildrenDepth(4);
+  const_cast<Self *>(this)->SetBoundingBoxChildrenName("");
+  const_cast<Self *>(this)->ComputeBoundingBox();
   BoundingBoxType *bounds = const_cast<Self *>(this)->GetBoundingBox();
   if(!bounds->IsInside(point))
     {
