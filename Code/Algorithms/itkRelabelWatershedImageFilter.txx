@@ -36,7 +36,7 @@ RelabelWatershedImageFilter<TInputImage, TOutputImage>
     ::RelabelImage(output,
                    WatershedImageFilter<TInputImage, TOutputImage>
                    ::ExtractEquivalencyTable(this->GetInput()->GetMergeList(),
-                                             m_Level));
+                             (m_Level * this->GetInput()->GetMaxDepth())));
 }
 
 } // end namespace itk

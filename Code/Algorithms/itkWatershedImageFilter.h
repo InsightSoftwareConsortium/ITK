@@ -117,9 +117,13 @@ public:
   
   MergeListType GetMergeList() const
   {    return m_MergeHeirarchy;  }
+
+  itkSetMacro(MaxDepth, InputScalarType);
+  itkGetMacro(MaxDepth, InputScalarType);
   
 private:
   MergeListType m_MergeHeirarchy;
+  InputScalarType m_MaxDepth;
   
 };
 
