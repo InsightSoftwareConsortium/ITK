@@ -174,7 +174,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Typical values for the time step are $0.25$ in $2D$ images and $0.125$ in
+  //  Typical values for the time step are $0.125$ in $2D$ images and $0.0625$ in
   //  $3D$ images. The number of iterations can be usually around $5$, more
   //  iterations will result in further smoothing and will increase linearly
   //  the computing time.

@@ -185,7 +185,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Typical values for the time step are $0.25$ in $2D$ images and $0.125$ in
+  //  Typical values for the time step are $0.125$ in $2D$ images and $0.0625$ in
   //  $3D$ images. The number of iterations can be usually around $10$, more
   //  iterations will result in further smoothing and will increase linearly
   //  the computing time. The radius of the stencil can be typically $1$. The
@@ -237,7 +237,7 @@ int main( int argc, char * argv[] )
   //
   //  Figure \ref{fig:BinaryMinMaxCurvatureFlowImageFilterInputOutput} illustrates
   //  the effect of this filter on a MRI proton density image of the brain. In
-  //  this example the filter was run with a time step of $0.25$, $10$ iterations,
+  //  this example the filter was run with a time step of $0.125$, $10$ iterations,
   //  a stencil radius of $1$ and a threshold of $128$.  
   //
   //  Software Guide : EndLatex 

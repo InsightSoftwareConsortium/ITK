@@ -233,7 +233,7 @@ int main( int argc, char * argv[] )
   //  \ref{fig:RGBVectorGradientAnisotropicDiffusionImageFilterInputOutput}
   //  illustrates the effect of this filter on a RGB image from a cryogenic
   //  section of the Visible Woman data set.  In this example the filter was
-  //  run with a time step of $0.25$, and $20$ iterations.  The input image has
+  //  run with a time step of $0.125$, and $20$ iterations.  The input image has
   //  $570 \times 670$ pixels and the processing took $4$ minutes on a Pentium
   //  4 2Ghz. 
   //
