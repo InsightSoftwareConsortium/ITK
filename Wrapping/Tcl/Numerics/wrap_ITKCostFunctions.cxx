@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    wrap_itkImageFileReader.cxx
+  Module:    wrap_ITKCostFunctions.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,12 +14,30 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include "itkImageFileReader.h"
-#include "itkImage.h"
+#include "itkCostFunction.h"
+#include "itkSingleValuedCostFunction.h"
 
 #ifdef CABLE_CONFIGURATION
-#include "wrap_ITKIO.h"
+#include "wrap_ITKNumerics.h"
 
-ITK_WRAP_IMAGE_SOURCE(ImageFileReader);
+namespace _cable_
+{
+  const char* const group = ITK_WRAP_GROUP(ITKCostFunctions);
+  namespace wrappers
+  {
+    namespace itk
+    {
+      ITK_WRAP_OBJECT_TYPEDEF(CostFunction);
+      ITK_WRAP_OBJECT_TYPEDEF(SingleValuedCostFunction);
+    }
+  }
+}
+
+void force_instantiate()
+{
+  using namespace _cable_::wrappers::itk;
+  ITK_WRAP_OBJECT_SIZEOF(CostFunction);
+  ITK_WRAP_OBJECT_SIZEOF(SingleValuedCostFunction);
+}
 
 #endif

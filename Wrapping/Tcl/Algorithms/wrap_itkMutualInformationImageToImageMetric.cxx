@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    wrap_itkImageFileReader.cxx
+  Module:    wrap_itkMutualInformationImageToImageMetric.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,12 +14,12 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include "itkImageFileReader.h"
 #include "itkImage.h"
+#include "itkMutualInformationImageToImageMetric.h"
 
 #ifdef CABLE_CONFIGURATION
-#include "wrap_ITKIO.h"
+#include "wrap_ITKAlgorithms.h"
 
-ITK_WRAP_IMAGE_SOURCE(ImageFileReader);
+ITK_WRAP_IMAGE_TO_IMAGE(MutualInformationImageToImageMetric);
 
 #endif

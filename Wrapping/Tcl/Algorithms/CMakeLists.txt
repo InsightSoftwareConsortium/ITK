@@ -6,6 +6,11 @@ ADD_LIBRARY(ITKAlgorithmsTcl)
 
 ITK_WRAP_TCL(ITKAlgorithmsTcl
   wrap_ITKAlgorithms.cxx
+  wrap_itkImageToImageMetric.cxx
+  wrap_itkMeanSquaresImageToImageMetric.cxx
+  wrap_itkMutualInformationImageToImageMetric.cxx
+  wrap_itkNormalizedCorrelationImageToImageMetric.cxx
+  wrap_itkPatternIntensityImageToImageMetric.cxx
 )
 
 TARGET_LINK_LIBRARIES(ITKAlgorithmsTcl

@@ -17,9 +17,9 @@
 #ifndef _wrap_VXLNumerics_h
 #define _wrap_VXLNumerics_h
 
+#include "wrap_ITKMacro.h"
+
 #define ITK_WRAP_PACKAGE "VXLNumericsTcl"
-#define ITK_WRAP_PACKAGE_VERSION "0.7"
-#define ITK_WRAP_GROUP(x) ITK_WRAP_PACKAGE "_" #x
 
 #define ITK_WRAP_VNL_TYPEDEF(type) \
   typedef ::type<double>                    type##_double; \

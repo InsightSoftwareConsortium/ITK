@@ -3,6 +3,7 @@ INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Wrapping/Tcl/Numerics)
 ADD_LIBRARY(ITKNumericsTcl)
 ITK_WRAP_TCL(ITKNumericsTcl
   wrap_ITKNumerics.cxx
+  wrap_ITKCostFunctions.cxx
 )
 
 TARGET_LINK_LIBRARIES(ITKNumericsTcl ITKNumerics ${CABLE_TCL_LIBRARY})

@@ -22,6 +22,11 @@ namespace _cable_
   const char* const package_version = ITK_WRAP_PACKAGE_VERSION;
   const char* const groups[] =
   {
+    ITK_WRAP_GROUP(itkImageToImageMetric),
+    ITK_WRAP_GROUP(itkMeanSquaresImageToImageMetric),
+    ITK_WRAP_GROUP(itkMutualInformationImageToImageMetric),
+    ITK_WRAP_GROUP(itkNormalizedCorrelationImageToImageMetric),
+    ITK_WRAP_GROUP(itkPatternIntensityImageToImageMetric)
   };
 }
 #endif

@@ -30,14 +30,6 @@
 #ifdef CABLE_CONFIGURATION
 #include "wrap_ITKCommon.h"
 
-#define ITK_WRAP_BASE_TYPEDEF(x) \
-  typedef ::itk::x x; \
-  typedef ::itk::x::Pointer x##_Pointer
-
-#define ITK_WRAP_BASE_SIZEOF(x) \
-  sizeof(x); \
-  sizeof(x##_Pointer)
-
 namespace _cable_
 {
   const char* const group = ITK_WRAP_GROUP(ITKBase);
@@ -45,17 +37,17 @@ namespace _cable_
   {
     namespace itk
     {
-      ITK_WRAP_BASE_TYPEDEF(Command);
-      ITK_WRAP_BASE_TYPEDEF(DataObject);
-      ITK_WRAP_BASE_TYPEDEF(Directory);
-      ITK_WRAP_BASE_TYPEDEF(ImageIO);
-      ITK_WRAP_BASE_TYPEDEF(LightObject);
-      ITK_WRAP_BASE_TYPEDEF(Object);
-      ITK_WRAP_BASE_TYPEDEF(LightProcessObject);
-      ITK_WRAP_BASE_TYPEDEF(ProcessObject);
-      ITK_WRAP_BASE_TYPEDEF(OutputWindow);
-      ITK_WRAP_BASE_TYPEDEF(Version);
-      ITK_WRAP_BASE_TYPEDEF(ImageIO);
+      ITK_WRAP_OBJECT_TYPEDEF(Command);
+      ITK_WRAP_OBJECT_TYPEDEF(DataObject);
+      ITK_WRAP_OBJECT_TYPEDEF(Directory);
+      ITK_WRAP_OBJECT_TYPEDEF(ImageIO);
+      ITK_WRAP_OBJECT_TYPEDEF(LightObject);
+      ITK_WRAP_OBJECT_TYPEDEF(Object);
+      ITK_WRAP_OBJECT_TYPEDEF(LightProcessObject);
+      ITK_WRAP_OBJECT_TYPEDEF(ProcessObject);
+      ITK_WRAP_OBJECT_TYPEDEF(OutputWindow);
+      ITK_WRAP_OBJECT_TYPEDEF(Version);
+      ITK_WRAP_OBJECT_TYPEDEF(ImageIO);
       typedef ::itk::TimeStamp TimeStamp;
     }
   }
@@ -64,17 +56,17 @@ namespace _cable_
 void force_instantiate()
 {
   using namespace _cable_::wrappers::itk;
-  ITK_WRAP_BASE_SIZEOF(Command);
-  ITK_WRAP_BASE_SIZEOF(DataObject);
-  ITK_WRAP_BASE_SIZEOF(Directory);
-  ITK_WRAP_BASE_SIZEOF(ImageIO);
-  ITK_WRAP_BASE_SIZEOF(LightObject);
-  ITK_WRAP_BASE_SIZEOF(Object);
-  ITK_WRAP_BASE_SIZEOF(LightProcessObject);
-  ITK_WRAP_BASE_SIZEOF(ProcessObject);
-  ITK_WRAP_BASE_SIZEOF(OutputWindow);
-  ITK_WRAP_BASE_SIZEOF(Version);
-  ITK_WRAP_BASE_SIZEOF(ImageIO);
+  ITK_WRAP_OBJECT_SIZEOF(Command);
+  ITK_WRAP_OBJECT_SIZEOF(DataObject);
+  ITK_WRAP_OBJECT_SIZEOF(Directory);
+  ITK_WRAP_OBJECT_SIZEOF(ImageIO);
+  ITK_WRAP_OBJECT_SIZEOF(LightObject);
+  ITK_WRAP_OBJECT_SIZEOF(Object);
+  ITK_WRAP_OBJECT_SIZEOF(LightProcessObject);
+  ITK_WRAP_OBJECT_SIZEOF(ProcessObject);
+  ITK_WRAP_OBJECT_SIZEOF(OutputWindow);
+  ITK_WRAP_OBJECT_SIZEOF(Version);
+  ITK_WRAP_OBJECT_SIZEOF(ImageIO);
   sizeof(TimeStamp);
 }
 
