@@ -42,7 +42,8 @@ OUTPUT_LANGUAGE       = English
 # top of each HTML page. The value NO (the default) enables the index and 
 # the value YES disables it. 
 
-DISABLE_INDEX         = NO
+DISABLE_INDEX         = YES
+
 
 # If the EXTRACT_ALL tag is set to YES doxygen will assume all entities in 
 # documentation are documented, even if no documentation was available. 
