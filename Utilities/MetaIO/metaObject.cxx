@@ -1507,7 +1507,7 @@ bool MetaObject
     return false;
     }
 #else
-  m_WriteStream->open(m_FileName, std::ios::binary | std::ios::out);
+  m_WriteStream->open(m_FileName, std::ios::binary | std::ios::out | std::ios::in);
   if(!m_WriteStream->is_open())
     {
     delete m_WriteStream;
