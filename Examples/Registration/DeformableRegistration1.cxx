@@ -268,7 +268,7 @@ int main(int argc, char *argv[])
 //  Software Guide : BeginLatex
 // 
 //  In order to initialize the mesh of elements, we must first create
-//  "dummy" material and element objects and assign them to the
+//  ``dummy'' material and element objects and assign them to the
 //  registration filter.  These objects are subsequently used to
 //  either read a predefined mesh from a file or generate a mesh using
 //  the software.  The values assigned to the fields within the
