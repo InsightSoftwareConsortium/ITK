@@ -156,7 +156,7 @@ OutputType trueValue )
 
 }
 
-int itkRGBInterpolateImageFunctionTest(int, char* [] )
+int itkVectorInterpolateImageFunctionTest(int, char* [] )
 {
   int flag = 0;
 
@@ -205,9 +205,13 @@ int itkRGBInterpolateImageFunctionTest(int, char* [] )
   InterpolatorType::Pointer interp = InterpolatorType::New();
   interp->SetInputImage( image );
   interp->Print( std::cout );
+  
+  typedef InterpolatorType::Superclass GenericInterpolatorType;
+  std::cout << interp->GenericInterpolatorType::GetNameOfClass() << std::endl;
+  std::cout << interp->GetNameOfClass() << std::endl;
 
   /* Test evaluation at continuous indices and corresponding
-     gemetric points */
+     geometric points */
   std::cout << "Evaluate at: " << std::endl;
   OutputType output;
   ContinuousIndexType cindex;
@@ -229,6 +233,16 @@ int itkRGBInterpolateImageFunctionTest(int, char* [] )
   passed = TestGeometricPoint( interp, point, true, output );
 
   if( !passed ) flag = 1;
+
+  image->TransformPhysicalPointToIndex( point, index );
+  if ( interp->EvaluateAtIndex( index ) != output )
+    {
+    std::cout << "Index: " << index;
+    std::cout << "Value: " << interp->EvaluateAtIndex(index) << std::endl;
+    std::cout << "Error: true value should be " << output << std::endl;
+    flag = 1;
+    }
+  
   
   // position at the image border
   {

@@ -57,16 +57,11 @@ CentralDifferenceImageFunction<TInputImage,TCoordRep>
   
   double derivative = 0.0;
 
-  if( !m_Image || dim > ImageDimension - 1 )
+  if( dim > ImageDimension - 1 )
     {
     return ( derivative );
     }
   
-  if ( !this->IsInsideBuffer( index ) )
-    {
-    return ( derivative );
-    }
-
   IndexType neighIndex = index;
 
   const typename InputImageType::SizeType& size =

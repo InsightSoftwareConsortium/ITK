@@ -70,14 +70,26 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       InputImageType::ImageDimension);
 
-  /** Evalulate the function at specified index */
+  /** Evalulate the function at specified index.
+   *
+   *  No bounds checking is done.
+   *  The point is assume to lie within the image buffer.
+   *
+   *  ImageFunction::IsInsideBuffer() can be used to check bounds before
+   * calling the method. */
   virtual double EvaluateAtIndex( const IndexType& index ) const
     { return ( this->EvaluateAtIndex( index, 0 ) ); }
   virtual double EvaluateAtIndex( const IndexType& index, 
     unsigned int dim ) const;
   
-  /** Evaluate the function at non-integer positions */
-  virtual double Evaluate( const PointType& point ) const
+  /** Evalulate the function at non-integer positions.
+   *
+   *  No bounds checking is done.
+   *  The point is assume to lie within the image buffer.
+   *
+   *  ImageFunction::IsInsideBuffer() can be used to check bounds before
+   * calling the method. */
+   virtual double Evaluate( const PointType& point ) const
     { 
       IndexType index;
       this->ConvertPointToNearestIndex( point, index );

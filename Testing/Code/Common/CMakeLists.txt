@@ -30,6 +30,7 @@ ADD_TEST(itkBSplineKernelFunctionTest ${COMMON_TESTS} itkBSplineKernelFunctionTe
 ADD_TEST(itkByteSwapTest ${COMMON_TESTS} itkByteSwapTest)
 ADD_TEST(itkCenteredRigid2DTransformTest ${COMMON_TESTS} itkCenteredRigid2DTransformTest)
 ADD_TEST(itkCenteredAffineTransformTest ${COMMON_TESTS} itkCenteredAffineTransformTest)
+ADD_TEST(itkCentralDifferenceImageFunctionTest ${COMMON_TESTS} itkCentralDifferenceImageFunctionTest)
 ADD_TEST(itkConstNeighborhoodIteratorTest ${COMMON_TESTS} itkConstNeighborhoodIteratorTest)
 ADD_TEST(itkConstShapedNeighborhoodIteratorTest ${COMMON_TESTS} itkConstShapedNeighborhoodIteratorTest)
 ADD_TEST(itkCovariantVectorGeometryTest ${COMMON_TESTS} itkCovariantVectorGeometryTest)
@@ -170,6 +171,7 @@ itkBSplineKernelFunctionTest.cxx
 itkByteSwapTest.cxx
 itkCenteredRigid2DTransformTest.cxx
 itkCenteredAffineTransformTest.cxx
+itkCentralDifferenceImageFunctionTest.cxx
 itkChainCodePath2DTest.cxx
 itkChainCodePathTest.cxx
 itkConstNeighborhoodIteratorTest.cxx

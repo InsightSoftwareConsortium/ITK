@@ -25,6 +25,7 @@ REGISTER_TEST(itkBSplineKernelFunctionTest );
 REGISTER_TEST(itkByteSwapTest );
 REGISTER_TEST(itkCenteredRigid2DTransformTest );
 REGISTER_TEST(itkCenteredAffineTransformTest );
+REGISTER_TEST(itkCentralDifferenceImageFunctionTest );
 REGISTER_TEST(itkChainCodePath2DTest );
 REGISTER_TEST(itkChainCodePathTest );
 REGISTER_TEST(itkConstNeighborhoodIteratorTest );
