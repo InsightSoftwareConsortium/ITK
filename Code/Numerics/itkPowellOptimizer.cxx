@@ -205,7 +205,7 @@ PowellOptimizer
 void
 PowellOptimizer
 ::BracketedLineOptimize(double ax, double bx, double cx,
-                        double fa, double fb, double fc,
+                        double itkNotUsed(fa), double fb, double itkNotUsed(fc),
                         double * extX, double * extVal) 
 {
   double a, b;
