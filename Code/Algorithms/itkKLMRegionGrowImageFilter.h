@@ -118,7 +118,10 @@ namespace itk
  * image with the region labels (segmentation image) is returned at 
  * users request by calling GetLabelledImage() function. This function
  * returns a reference to the labelled image determined using the KLM 
- * algorithm. 
+ * algorithm. The algorithm supports 2D and 3D data sets only. The input 
+ * image dimensions must be exact multiples of the user specified gridsizes.
+ * Appropriate padding must be performed by the user if any image which
+ * are not mutliples of the gridsizes are used.
  *
  * For more information about the algorithm, see G. Koepfler, C. Lopez
  * and J. M. Morel, ``A Multiscale Algorithm for Image Segmentation by

@@ -622,10 +622,12 @@ void
 KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 ::ApplyKLM()
 {
+  //Maximum number of regions requested must be greater than 0
   if( this->GetMaxNumRegions() <= 0 )
     {
     throw ExceptionObject(__FILE__, __LINE__);
     }
+
 
   enum { imageDimension = TInputImage::ImageDimension };
 
@@ -638,6 +640,39 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   m_imgWidth  = inputImageSize[0];
   m_imgHeight = inputImageSize[1];
   if( TInputImage::ImageDimension > 2 ) m_imgDepth = inputImageSize[2];
+
+  //--------------------------------------------------------------------------
+  // Check for dimensionality and Grid sizes in each dimension
+  // The algorithm requires the image dimensions to be multiple of 
+  // the user specified grid sizes.
+  //--------------------------------------------------------------------------
+  if ( imageDimension >= 2 ) 
+    {
+      if( m_imgWidth % (this->GetRowGridSize()) != 0 )
+        {
+        throw ExceptionObject(__FILE__, __LINE__);
+        }
+      if( m_imgHeight % (this->GetColGridSize()) != 0 )
+        {
+        throw ExceptionObject(__FILE__, __LINE__);
+        }
+    }
+
+  if ( imageDimension == 3 ) 
+    {
+      if( m_imgDepth % (this->GetSliceGridSize()) != 0 )
+        {
+        throw ExceptionObject(__FILE__, __LINE__);
+        }
+    }
+
+  // Algorithm not supported for data greater than 3D
+  if ( imageDimension > 3 )
+    {
+    throw ExceptionObject(__FILE__, __LINE__);
+    }
+
+ //--------------------------------------------------------------------------
 
   if( ( imageDimension == 2 ) || ( m_imgDepth == 1 ) ) 
     {
@@ -1081,9 +1116,12 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   //----------------------------------------------------------------------
   //Allocate and intialize memory to the borders
   //----------------------------------------------------------------------
-  m_nBorders = ( nColSquareBlocks - 1 ) * nRowSquareBlocks +
-               ( nRowSquareBlocks - 1 ) * nColSquareBlocks +
-               ( nSliceSquareBlocks - 1 ) * nSliceSquareBlocks;
+  m_nBorders = ( nColSquareBlocks - 1 ) * 
+               nRowSquareBlocks * nSliceSquareBlocks +
+               ( nRowSquareBlocks - 1 ) * 
+               nColSquareBlocks * nSliceSquareBlocks +
+               ( nSliceSquareBlocks - 2 ) * 
+               nRowSquareBlocks * nColSquareBlocks;
 
   // Allow a singe region to pass through; this memory would not be
   // used but the memory allocation and free routine will throw 
@@ -1259,7 +1297,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   //Slice border initialization
    borderLengthTmp = rowGridSize * colGridSize;
 
-  for( unsigned int s = nSliceSquareBlocks -1; s >=1; s-- )
+  for( unsigned int s = nSliceSquareBlocks -1; s > 1; s-- )
     {
     for( unsigned int r = 0; r < nRowSquareBlocks; r++ )
       {
@@ -1321,7 +1359,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
       colGridSize * sliceGridSize +
     ( nColSquareBlocks - 1 ) * nRowSquareBlocks * nSliceSquareBlocks * 
       rowGridSize * sliceGridSize +
-    ( nSliceSquareBlocks - 1 ) * nRowSquareBlocks * nColSquareBlocks * 
+    ( nSliceSquareBlocks - 2 ) * nRowSquareBlocks * nColSquareBlocks * 
       rowGridSize * colGridSize;
 
   // Verification of the initialization process

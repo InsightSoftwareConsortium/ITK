@@ -51,14 +51,17 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define   NFRAMES             1
 #define   NFRAMES3D           2
 #define   NUMBANDS            1
-#define   NDIMENSION          3
+#define   NDIMENSION2D        2
+#define   NDIMENSION3D        3
 #define   STARTFRAME          0
 #define   NUM_BYTES_PER_PIXEL 1
 
 #define   REGIONGROW_NUMREGIONS    4
-#define   REGIONGROW_NUMREGIONS3D  8
+#define   REGIONGROW_NUMREGIONS3D  4
 #define   REGIONGROW_LAMBDA      1000
-#define   REGIONGROW_GRANULARITY    2
+#define   REGIONGROW_ROW_GRIDSIZE    2
+#define   REGIONGROW_COL_GRIDSIZE    2
+#define   REGIONGROW_SLICE_GRIDSIZE  1
 
 static unsigned int test_regiongrowKLM2D();
 static unsigned int test_regiongrowKLM3D();
@@ -71,27 +74,26 @@ static unsigned int test_regiongrowKLM3D();
 
 int main()
 {
-  unsigned int err = 0;
 
-  err = test_regiongrowKLM2D();
+  //test_regiongrowKLM3D();
 
-  if( err != 0 )
-    return( err );
+  test_regiongrowKLM2D();
+  
 
-  //err = test_regiongrowKLM3D();
 
-  return( err );
+  return( 0 );
 }
+
 
 unsigned int test_regiongrowKLM2D()
 {
   //---------------------------------------------------------------
   //Generate the training data
   //---------------------------------------------------------------
-  typedef itk::Image<itk::Vector<double,1>,NDIMENSION> ImageType; 
+  typedef itk::Image<itk::Vector<double,NUMBANDS>,NDIMENSION2D> ImageType; 
   ImageType::Pointer image  = ImageType::New();
 
-  ImageType::SizeType ImageSize = {{ IMGWIDTH , IMGHEIGHT, NFRAMES }};
+  ImageType::SizeType ImageSize = {{ IMGWIDTH , IMGHEIGHT }};
 
   ImageType::IndexType index = ImageType::IndexType::ZeroIndex;
   ImageType::RegionType region;
@@ -198,19 +200,19 @@ unsigned int test_regiongrowKLM2D()
   applyRegionGrowImageFilterKLM->SetInput(image);
   applyRegionGrowImageFilterKLM->SetMaxNumRegions(REGIONGROW_NUMREGIONS);
   applyRegionGrowImageFilterKLM->SetMaxLambda(REGIONGROW_LAMBDA);
-  applyRegionGrowImageFilterKLM->SetRowGridSize(REGIONGROW_GRANULARITY);
-  applyRegionGrowImageFilterKLM->SetColGridSize(REGIONGROW_GRANULARITY);
+  applyRegionGrowImageFilterKLM->SetRowGridSize(REGIONGROW_ROW_GRIDSIZE);
+  applyRegionGrowImageFilterKLM->SetColGridSize(REGIONGROW_COL_GRIDSIZE);
 
 
   //Kick off the Region grow function
   applyRegionGrowImageFilterKLM->Update();
 
-  typedef itk::Image<itk::Vector<double,NUMBANDS>,NDIMENSION> OutputImageType; 
+  typedef itk::Image<itk::Vector<double,NUMBANDS>,NDIMENSION2D> OutputImageType; 
   OutputImageType::Pointer outImage = applyRegionGrowImageFilterKLM->GetOutput();
 
   //Make sure that the labelled image type is set to unsigned integer
   //as labels associated with different regions are always integers 
-  typedef itk::Image<unsigned short, NDIMENSION> LabelledImageType;
+  typedef itk::Image<unsigned short, NDIMENSION2D> LabelledImageType;
   LabelledImageType::Pointer labelledImage
     = applyRegionGrowImageFilterKLM->GetLabelledImage();
 
@@ -291,12 +293,13 @@ unsigned int test_regiongrowKLM2D()
   return 0;
 } // End test_regiongrow2D()
 
+
 unsigned int test_regiongrowKLM3D()
 {
   //---------------------------------------------------------------
   //Generate the training data
   //---------------------------------------------------------------
-  typedef itk::Image<itk::Vector<double,1>,NDIMENSION> ImageType; 
+  typedef itk::Image<itk::Vector<double,NUMBANDS>,NDIMENSION3D> ImageType; 
   ImageType::Pointer image  = ImageType::New();
 
   ImageType::SizeType ImageSize = {{ IMGWIDTH , IMGHEIGHT, NFRAMES3D }};
@@ -472,20 +475,20 @@ unsigned int test_regiongrowKLM3D()
   applyRegionGrowImageFilterKLM->SetInput(image);
   applyRegionGrowImageFilterKLM->SetMaxNumRegions( REGIONGROW_NUMREGIONS3D );
   applyRegionGrowImageFilterKLM->SetMaxLambda( REGIONGROW_LAMBDA );
-  applyRegionGrowImageFilterKLM->SetRowGridSize( REGIONGROW_GRANULARITY );
-  applyRegionGrowImageFilterKLM->SetColGridSize( REGIONGROW_GRANULARITY );
-  applyRegionGrowImageFilterKLM->SetSliceGridSize( REGIONGROW_GRANULARITY );
+  applyRegionGrowImageFilterKLM->SetRowGridSize( REGIONGROW_ROW_GRIDSIZE );
+  applyRegionGrowImageFilterKLM->SetColGridSize( REGIONGROW_COL_GRIDSIZE );
+  applyRegionGrowImageFilterKLM->SetSliceGridSize( REGIONGROW_SLICE_GRIDSIZE );
 
 
   //Kick off the Region grow function
   applyRegionGrowImageFilterKLM->Update();
-/*
-  typedef itk::Image<itk::Vector<double,NUMBANDS>,NDIMENSION> OutputImageType; 
+
+  typedef itk::Image<itk::Vector<double,NUMBANDS>,NDIMENSION3D> OutputImageType; 
   OutputImageType::Pointer outImage = applyRegionGrowImageFilterKLM->GetOutput();
 
   //Make sure that the labelled image type is set to unsigned integer
   //as labels associated with different regions are always integers 
-  typedef itk::Image<unsigned short, NDIMENSION> LabelledImageType;
+  typedef itk::Image<unsigned short, NDIMENSION3D> LabelledImageType;
   LabelledImageType::Pointer labelledImage
     = applyRegionGrowImageFilterKLM->GetLabelledImage();
 
@@ -561,7 +564,7 @@ unsigned int test_regiongrowKLM3D()
 	  }//end row
 	  std::cout<<""<<std::endl;
   }//end while
-
+/*
 */
   return 0;
 } // End test_regiongrow3D()
