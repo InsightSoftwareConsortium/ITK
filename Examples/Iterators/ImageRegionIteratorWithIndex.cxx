@@ -14,6 +14,10 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+//  Software Guide : BeginCommandLineArgs
+//     INPUTS: {VisibleWomanEyeSlice.png} 
+//     OUTPUTS: {ImageRegionIteratorWithIndexOutput.png}
+//  Software Guide : EndCommandLineArgs
 
 // Software Guide : BeginLatex
 //

@@ -14,6 +14,17 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+//  Software Guide : BeginCommandLineArgs
+//  INPUTS: {VisibleWomanEyeSlice.png}
+//  OUTPUTS: {WatershedSegmentation1Output1.png}
+//  2 10 0 0.05 1
+//  Software Guide : EndCommandLineArgs
+//  Software Guide : BeginCommandLineArgs
+//  INPUTS: {VisibleWomanEyeSlice.png}
+//  OUTPUTS: {WatershedSegmentation1Output2.png}
+//  2 10 0.001 0.15 0
+//  Software Guide : EndCommandLineArgs
+//  
 #ifdef _MSC_VER
 #pragma warning ( disable : 4786 )
 #endif
