@@ -156,6 +156,7 @@ PatternIntensityImageToImageMetric<TFixedImage,TMovingImage>
 {
   Superclass::PrintSelf( os, indent );
   os << indent << "Lambda: " << m_Lambda << std::endl;
+  os << indent << "Dimension: " << m_SpaceDimension << std::endl;
 }
 
 
