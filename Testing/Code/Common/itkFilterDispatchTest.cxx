@@ -130,9 +130,11 @@ void ExampleImageFilter<TInputImage, TOutputImage>
   // Make sure the correct Execute() method has been called.
   if((ImageDimension == 2) || (ImageDimension == 3))
     {
-    std::cerr << "N-d filter implementation called for " << ImageDimension
+    std::cout << "Error: N-d filter implementation called for "
+              << ImageDimension
               << "-d filter, even though specific implementation exists."
               << std::endl;
+    std::cout << "The test has failed." << std::endl;
     exit(1);
     }
 }	 
@@ -152,8 +154,10 @@ void ExampleImageFilter<TInputImage, TOutputImage>
   // Make sure the correct Execute() method has been called.
   if(ImageDimension != 2)
     {
-    std::cerr << "2-d filter implementation called for " << ImageDimension
+    std::cout << "Error: 2-d filter implementation called for "
+              << ImageDimension
               << "-d filter." << std::endl;
+    std::cout << "The test has failed." << std::endl;
     exit(1);
     }
 }
@@ -173,8 +177,10 @@ void ExampleImageFilter<TInputImage, TOutputImage>
   // Make sure the correct Execute() method has been called.
   if(ImageDimension != 3)
     {
-    std::cerr << "3-d filter implementation called for " << ImageDimension
+    std::cout << "Error: 3-d filter implementation called for "
+              << ImageDimension
               << "-d filter." << std::endl;
+    std::cout << "The test has failed." << std::endl;
     exit(1);
     }
 }
@@ -231,6 +237,8 @@ int main(void)
 
   std::cout << "Executing 5-d filter: ";
   filter5d->Update();
+  
+  std::cout << "The test has passed." << std::endl;
   
   return 0;
 }
