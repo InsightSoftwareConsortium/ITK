@@ -42,22 +42,6 @@ int itkConstNeighborhoodIteratorTest(int, char**)
   it.SetLocation(loc);
   it.Print(std::cout);
 
-  println("Testing GetNeighborhood()");
-  it.GetNeighborhood().Print(std::cout);
-
-  println("Testing GetCenterPixel()");
-  std::cout << it.GetCenterPixel() << std::endl;
-
-  println("Testing GetCenterPointer()");
-  std::cout << it.GetCenterPointer() << " = "
-            << *(it.GetCenterPointer()) << std::endl;
-
-  println("Testing GetPixel()");
-  std::cout << it.GetPixel(6) << std::endl;
-
-  println("Testing GetIndex()");
-  std::cout << it.GetIndex() << std::endl;
-
   println("Testing GoToBegin()");
   it.GoToBegin();
   it.Print(std::cout);
@@ -88,5 +72,74 @@ int itkConstNeighborhoodIteratorTest(int, char**)
       printnb<itk::ConstNeighborhoodIterator<TestImageType> >(it, false);
     }
 
+  println("Moving iterator using SetLocation()");
+  it.SetLocation(loc);
+  it.Print(std::cout);
+  
+  println("Testing GetNeighborhood()");
+  it.GetNeighborhood().Print(std::cout);
+
+  println("Printing neighborhood using GetPixel(i), GetPixel(offset) and GetIndex(i), and GetIndex(offset).");
+  for (unsigned int j = 0; j < it.Size(); ++j)
+    {
+      std::cout << "GetOffset(" << j << ")=" << it.GetOffset(j);
+      std::cout << " GetPixel(" << j << ")=" << it.GetPixel(j);
+      std::cout << " GetPixel(" << it.GetOffset(j) << ")=" << it.GetPixel(it.GetOffset(j));
+      std::cout << " GetIndex(" << j << ")=" << it.GetIndex(j) ;
+      std::cout << " GetIndex(" << it.GetOffset(j) << ")=" << it.GetIndex(it.GetOffset(j));
+      std::cout << std::endl;
+    }
+  
+  println("Testing GetCenterPixel()");
+  std::cout << it.GetCenterPixel() << std::endl;
+
+  println("Testing GetCenterPointer()");
+  std::cout << it.GetCenterPointer() << " = "
+            << *(it.GetCenterPointer()) << std::endl;
+
+  println("Testing GetIndex()");
+  std::cout << it.GetIndex() << std::endl;
+
+  println("Testing GetNext(3)");
+  std::cout << it.GetNext(3) << std::endl;
+
+  println("Testing GetNext(2)");
+  std::cout << it.GetNext(2) << std::endl;
+
+  println("Testing GetNext(1)");
+  std::cout << it.GetNext(1) << std::endl;
+
+  println("Testing GetNext(0) = GetNext(0,1)");
+  std::cout << it.GetNext(0) << "=" << it.GetNext(0,1) <<  std::endl;
+
+  println("Testing GetNext(0, 1)");
+  std::cout << it.GetNext(0,1) << std::endl;
+
+  println("Testing GetNext(1, 1)");
+  std::cout << it.GetNext(1,1) << std::endl;
+
+  println("Testing GetPrevious(3)");
+  std::cout << it.GetPrevious(3) << std::endl;
+
+  println("Testing GetPrevious(2)");
+  std::cout << it.GetPrevious(2) << std::endl;
+
+  println("Testing GetPrevious(1)");
+  std::cout << it.GetPrevious(1) << std::endl;
+
+  println("Testing GetPrevious(0) = GetPrevious(0,1)");
+  std::cout << it.GetPrevious(0) << "=" << it.GetPrevious(0,1) <<  std::endl;
+
+  println("Testing GetPrevious(0, 1)");
+  std::cout << it.GetPrevious(0,1) << std::endl;
+
+  println("Testing GetPrevious(1, 1)");
+  std::cout << it.GetPrevious(1,1) << std::endl;  
+
+  println("Testing GetBoundingBoxAsImageRegion");
+  std::cout << it.GetBoundingBoxAsImageRegion() << std::endl;
+  
   return 0;
+  
+  
 }
