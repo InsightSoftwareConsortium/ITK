@@ -24,8 +24,8 @@
     This test computes the normalized mutual information between the two
     images.
 */
-int itkNormalizedMutualInformationHistogramImageToImageMetricTest(int argc,
-  char* argv[])
+int itkNormalizedMutualInformationHistogramImageToImageMetricTest(int,
+  char* [])
 {
   try {
     // Create two simple images.

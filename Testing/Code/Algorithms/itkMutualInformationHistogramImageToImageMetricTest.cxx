@@ -23,8 +23,7 @@
 /** This test uses two 2D-Gaussians (standard deviation RegionSize/2).
     This test computes the mutual information between the two images.
 */
-int itkMutualInformationHistogramImageToImageMetricTest(int argc,
-  char* argv[])
+int itkMutualInformationHistogramImageToImageMetricTest(int , char* [])
 {
   try {
     // Create two simple images.

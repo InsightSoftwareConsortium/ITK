@@ -23,8 +23,7 @@
 /** This test uses two 2D-Gaussians (standard deviation RegionSize/2).
     This test computes the correlation coefficient between the two images.
 */
-int itkCorrelationCoefficientHistogramImageToImageMetricTest(int argc,
-  char* argv[])
+int itkCorrelationCoefficientHistogramImageToImageMetricTest(int, char* [])
 {
   try {
     // Create two simple images.
