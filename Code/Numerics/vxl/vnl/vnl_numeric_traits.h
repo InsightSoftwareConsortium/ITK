@@ -24,7 +24,16 @@
 // this is an empty class template.
 // only the specializations make sense.
 template <class T>
-class vnl_numeric_traits;
+class vnl_numeric_traits
+{
+public:
+  static const T zero VCL_STATIC_CONST_INIT_FLOAT(0.0);
+  static const T one VCL_STATIC_CONST_INIT_FLOAT(1.0);
+  typedef T abs_t;
+  typedef T double_t;
+  typedef T real_t;
+};
+
 ////: Additive identity
 //  static const T zero;
 //
