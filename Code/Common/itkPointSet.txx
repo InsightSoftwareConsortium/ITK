@@ -431,6 +431,34 @@ PointSet<TPixelType, VDimension, TMeshTraits>
 
 //----------------------------------------------------------------------------
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
+void
+PointSet<TPixelType, VDimension, TMeshTraits>
+::SetRequestedRegion(const RegionType &region)
+{
+  if (m_RequestedRegion != region)
+    {
+    m_RequestedRegion = region;
+    m_RequestedRegionInitialized = true;
+    }
+}
+
+
+//----------------------------------------------------------------------------
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
+void
+PointSet<TPixelType, VDimension, TMeshTraits>
+::SetBufferedRegion(const RegionType &region)
+{
+  if (m_BufferedRegion != region)
+    {
+    m_BufferedRegion = region;
+    this->Modified();
+    }
+}
+
+
+//----------------------------------------------------------------------------
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 bool 
 PointSet<TPixelType, VDimension, TMeshTraits>
 ::RequestedRegionIsOutsideOfTheBufferedRegion()

@@ -129,6 +129,9 @@ public:
   typedef typename
           PointDataContainer::ConstIterator     PointDataContainerIterator;
     
+  /** Type used to define Regions */
+  typedef int                                   RegionType;
+
   /** Get the maximum number of regions that this data can be
    * separated into. */
   int GetMaximumNumberOfRegions() const
@@ -201,6 +204,15 @@ public:
    * castable to a PointSet. */
   virtual void SetRequestedRegion(DataObject *data);
 
+  /** Set/Get the Requested region */
+  virtual void SetRequestedRegion( const RegionType & region );
+  itkGetMacro( RequestedRegion, RegionType );
+
+  /** Set/Get the Buffered region */
+  virtual void SetBufferedRegion( const RegionType & region );
+  itkGetMacro( BufferedRegion, RegionType );
+
+
 protected:
   /** Constructor for use by New() method. */
   PointSet();
@@ -219,9 +231,9 @@ protected:
   // and number of regions = 1;
   int m_MaximumNumberOfRegions;
   int m_NumberOfRegions;
-  int m_BufferedRegion;
   int m_RequestedNumberOfRegions;
-  int m_RequestedRegion;
+  RegionType m_BufferedRegion;
+  RegionType m_RequestedRegion;
 
 private:
   PointSet(const Self&); //purposely not implemented
