@@ -4,3 +4,6 @@ PROJECT(ImageRegistration)
 ADD_EXECUTABLE(ImageRegistration1 ImageRegistration1.cxx )
 TARGET_LINK_LIBRARIES(ImageRegistration1 ITKCommon ITKNumerics VXLNumerics ITKIO)
 
+ADD_EXECUTABLE(ImageRegistration2 ImageRegistration2.cxx )
+TARGET_LINK_LIBRARIES(ImageRegistration2 ITKCommon ITKNumerics VXLNumerics ITKIO)
+
