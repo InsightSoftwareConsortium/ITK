@@ -531,7 +531,8 @@ int IPLCommonImageIO
   lclock = (timespec_t *) clock;
   asciiTime = ctime (&(lclock->tv_sec));
 #else
-  asciiTime = ctime ((time_t *) (clock));
+  time_t tclock = (time_t) *((int *) clock);
+  asciiTime = ctime (&tclock);
 #endif
 
   strncpy (timeString, asciiTime, 64);
