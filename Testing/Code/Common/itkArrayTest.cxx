@@ -16,61 +16,22 @@
 =========================================================================*/
 #include <iostream>
 
-#include "itkFixedArray.h"
+#include "itkArray.h"
 
 // Explicit instantiation to make sure all methods are compiled.
-template class itk::FixedArray<float, 3>;
+template class itk::Array<float>;
 
-void Set_c_Array(int x[3])
+
+
+int itkArray2Test(int, char**)
 {
-  x[0] = 1;
-  x[1] = 2;
-  x[2] = 3;
-}
 
-void Print_Array(itk::FixedArray<int, 3> x, std::ostream& os)
-{
-  os << '{' << x[0] << ',' << x[1] << ',' << x[2] << '}' << std::endl;
-}
+  typedef itk::Array<float>  FloatArrayType;
+  typedef itk::Array<double> DoubleArrayType;
 
-void Print_c_ArrayConst(const int x[3], std::ostream& os)
-{
-  os << '{' << x[0] << ',' << x[1] << ',' << x[2] << '}' << std::endl;
-}
+  FloatArrayType  fa(10);
+  DoubleArrayType da(10);
 
-void Print_Array5(itk::FixedArray<int, 5> x, std::ostream& os)
-{
-  os << '{' << x[0] << ',' << x[1] << ',' << x[2] << ','
-     << x[3] << ',' << x[4] << '}' << std::endl;
-}
+  return EXIT_SUCCESS;
 
-int itkArrayTest(int, char**)
-{
-  // Test out many combinations of using c-style arrays and FixedArray
-  
-  int c_Array1[3] = {0,0,0};
-  
-  Set_c_Array(c_Array1);
-  Print_Array(c_Array1, std::cout);
-  Print_c_ArrayConst(c_Array1, std::cout);
-
-  int c_Array2[3] = {0,0,0};
-  Print_Array(c_Array2, std::cout);
-  
-  int array3Init[3] = {4,4,4};
-  itk::FixedArray<int, 3> array3 = array3Init;
-  Print_Array(array3, std::cout);
-  Print_c_ArrayConst(array3.GetDataPointer(), std::cout);
-
-  Set_c_Array(array3.GetDataPointer());
-  Print_Array(array3, std::cout);
-
-  itk::FixedArray<int, 3> array4;
-  Print_Array(array4, std::cout);
-  
-  // Test operator!= and operator==
-  if ( array4 != array4 ) return 1; //should be equal
-  if ( !(array4 == array4) ) return 1; //should be equal
-
-  return 0;
 }
