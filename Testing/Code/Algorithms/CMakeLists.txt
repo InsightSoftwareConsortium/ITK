@@ -33,6 +33,7 @@ itkLevelSetShapeDetectionTest
 itkMRFLabellerTest
 itkMutualInformationMetricTest
 itkNewTest
+itkPointSetToImageTranslationNormalizedCorrelationRegistrationTest
 itkRegionGrow2DTest
 itkSupervisedClassifierTest
 itkTraitsTest
