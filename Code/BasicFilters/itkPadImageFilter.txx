@@ -228,7 +228,7 @@ PadImageFilter<TInputImage,TOutputImage>
   for (i = 0; i < TOutputImage::ImageDimension; i++)
     {
       outputSize[i] = inputSize[i] + m_PadLowerBound[i] + m_PadUpperBound [i];
-      outputStartIndex[i] = inputStartIndex[i] - (long) m_PadLowerBound[i];
+      outputStartIndex[i] = inputStartIndex[i] - static_cast<long>(m_PadLowerBound[i]);
     }
 
   typename TOutputImage::RegionType outputLargestPossibleRegion;

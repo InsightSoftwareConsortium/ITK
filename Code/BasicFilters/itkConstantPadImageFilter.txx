@@ -82,7 +82,7 @@ ConstantPadImageFilter<TInputImage,TOutputImage>
 template <class TInputImage, class TOutputImage>
 int
 ConstantPadImageFilter<TInputImage,TOutputImage>
-::GenerateNextRegion(int *regIndices, int *regLimit, 
+::GenerateNextRegion(long *regIndices, long *regLimit, 
 		     OutputImageIndexType *indices, 
 		     OutputImageSizeType *sizes, 
 		     OutputImageRegionType& outputRegion)
@@ -153,8 +153,8 @@ ConstantPadImageFilter<TInputImage,TOutputImage> // support progress methods/cal
   // can handle other blockings imposed by the mirror and wrap algorithms.
   OutputImageIndexType indices[3];
   OutputImageSizeType sizes[3];
-  int regIndices[ImageDimension];
-  int regLimit[ImageDimension];
+  long regIndices[ImageDimension];
+  long regLimit[ImageDimension];
 
   for (dimCtr=0; dimCtr<ImageDimension; dimCtr++) 
     {
@@ -178,9 +178,9 @@ ConstantPadImageFilter<TInputImage,TOutputImage> // support progress methods/cal
       // image, or the start of the output image.
       indices[1][dimCtr] = outputIndex[dimCtr];
 
-      if ((inputIndex[dimCtr]+ (int)inputSize[dimCtr]) > outputIndex[dimCtr])
+      if ((inputIndex[dimCtr]+ static_cast<long>(inputSize[dimCtr])) > outputIndex[dimCtr])
 	{
-	  indices[2][dimCtr] = inputIndex[dimCtr]+ (int) inputSize[dimCtr];
+	  indices[2][dimCtr] = inputIndex[dimCtr]+ static_cast<long>(inputSize[dimCtr]);
 	} 
       else
 	{
@@ -189,21 +189,21 @@ ConstantPadImageFilter<TInputImage,TOutputImage> // support progress methods/cal
 
       // Size 0 is the area from index 0 to the end of the input or the 
       // output, whichever comes first.
-      if ((inputIndex[dimCtr]+(int)inputSize[dimCtr]) 
-	  < (outputIndex[dimCtr]+(int)outputSize[dimCtr])) 
+      if ((inputIndex[dimCtr]+static_cast<long>(inputSize[dimCtr])) 
+	  < (outputIndex[dimCtr]+static_cast<long>(outputSize[dimCtr]))) 
 	{
-	  sizeTemp = inputIndex[dimCtr] + (int) inputSize[dimCtr] 
+	  sizeTemp = inputIndex[dimCtr] + static_cast<long>(inputSize[dimCtr]) 
 	    - indices[0][dimCtr];
 	}
       else
 	{
-	  sizeTemp = outputIndex[dimCtr] + (int) outputSize[dimCtr] 
+	  sizeTemp = outputIndex[dimCtr] + static_cast<long>(outputSize[dimCtr]) 
 	    - indices[0][dimCtr];
 	}
 	sizes[0][dimCtr] = ((sizeTemp > 0) ? sizeTemp:0);
       // Size 1 is all the output that preceeds the input, and Size 2 is
       // all the output that succeeds the input.
-      if ((outputIndex[dimCtr]+(int) outputSize[dimCtr]) > indices[0][dimCtr])
+      if ((outputIndex[dimCtr]+static_cast<long>(outputSize[dimCtr])) > indices[0][dimCtr])
 	{
 	  sizeTemp = indices[0][dimCtr] - outputIndex[dimCtr];
 	}
@@ -212,7 +212,7 @@ ConstantPadImageFilter<TInputImage,TOutputImage> // support progress methods/cal
 	  sizeTemp = outputSize[dimCtr];
 	}
 	sizes[1][dimCtr] = ((sizeTemp > 0) ? sizeTemp:0);
-    sizeTemp = outputIndex[dimCtr] + (int) outputSize[dimCtr]
+        sizeTemp = outputIndex[dimCtr] + static_cast<long>(outputSize[dimCtr])
 	- indices[2][dimCtr];
 	sizes[2][dimCtr] = ((sizeTemp > 0) ? sizeTemp:0);
 	

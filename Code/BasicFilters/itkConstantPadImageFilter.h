@@ -146,7 +146,7 @@ protected:
    * and size (where the current region and maximum region for each dimension
    * is encoded in regIndices and regLimit), choose the next output region.
    */ 
-  int GenerateNextRegion(int *regIndices, int *regLimit, 
+  int GenerateNextRegion(long *regIndices, long *regLimit, 
 			 OutputImageIndexType *indices, 
 			 OutputImageSizeType *sizes, 
 			 OutputImageRegionType& outputRegion);

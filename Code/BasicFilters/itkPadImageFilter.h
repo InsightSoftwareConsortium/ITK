@@ -120,10 +120,10 @@ public:
   /**
    * Set/Get the output image padding.  Default is no padding (same as input).
    */
-  itkSetVectorMacro(PadLowerBound, const unsigned int, ImageDimension);
-  itkSetVectorMacro(PadUpperBound, const unsigned int, ImageDimension);
-  itkGetVectorMacro(PadLowerBound, const unsigned int, ImageDimension);
-  itkGetVectorMacro(PadUpperBound, const unsigned int, ImageDimension);
+  itkSetVectorMacro(PadLowerBound, const unsigned long, ImageDimension);
+  itkSetVectorMacro(PadUpperBound, const unsigned long, ImageDimension);
+  itkGetVectorMacro(PadLowerBound, const unsigned long, ImageDimension);
+  itkGetVectorMacro(PadUpperBound, const unsigned long, ImageDimension);
                  
   /** 
    * PadImageFilter produces an image which is a different resolution
@@ -154,8 +154,8 @@ public:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
-  unsigned int m_PadLowerBound[ImageDimension];
-  unsigned int m_PadUpperBound[ImageDimension];
+  unsigned long m_PadLowerBound[ImageDimension];
+  unsigned long m_PadUpperBound[ImageDimension];
 };
 
   

@@ -143,18 +143,18 @@ protected:
  * and size (where the current region and maximum region for each dimension
  * is encoded in regIndices and regLimit), choose the next input region.
  */ 
-  int GenerateNextInputRegion(int *regIndices, int *regLimit, 
-			      std::vector<int> indices[], 
-			      std::vector<int> sizes[], 
+  int GenerateNextInputRegion(long *regIndices, long *regLimit, 
+			      std::vector<long> indices[], 
+			      std::vector<long> sizes[], 
 			      InputImageRegionType& outputRegion);
 /**
  * Given an n dimensional list of output region breakpoints in indices
  * and size (where the current region and maximum region for each dimension
  * is encoded in regIndices and regLimit), choose the next output region.
  */ 
-  int GenerateNextOutputRegion(int *regIndices, int *regLimit, 
-			       std::vector<int> indices[], 
-			       std::vector<int> sizes[], 
+  int GenerateNextOutputRegion(long *regIndices, long *regLimit, 
+			       std::vector<long> indices[], 
+			       std::vector<long> sizes[], 
 			       OutputImageRegionType& outputRegion);
 
 /**
@@ -163,7 +163,7 @@ protected:
  * a way to adjust width of the area while forcing alignment to the
  * start or end location.
  */
-  int FindRegionsInArea(int start, int end, int size, int offset);
+  int FindRegionsInArea(long start, long end, long size, long offset);
 
 /**
  * Generate region 0 (inter-region) information.  Based on the indices
@@ -173,12 +173,12 @@ protected:
  * side of this region.  The algorithmic complications are necessary
  * to support the streaming interface and multithreading.
  */
-  int BuildInterRegions(std::vector<int>& inputRegionStart, 
-                        std::vector<int>& outputRegionStart,
-                        std::vector<int>& inputRegionSizes, 
-                        std::vector<int>& outputRegionSizes,
-                        int inputIndex, int outputIndex,
-                        int inputSize, int outputSize, int numRegs, 
+  int BuildInterRegions(std::vector<long>& inputRegionStart, 
+                        std::vector<long>& outputRegionStart,
+                        std::vector<long>& inputRegionSizes, 
+                        std::vector<long>& outputRegionSizes,
+                        long inputIndex, long outputIndex,
+                        long inputSize, long outputSize, int numRegs, 
                         int & regCtr);
 
 /**
@@ -191,12 +191,12 @@ protected:
  * complications are necessary to support the streaming interface 
  * and multithreading.
  */
-  int BuildPreRegions(std::vector<int>& inputRegionStart, 
-                      std::vector<int>& outputRegionStart,
-                      std::vector<int>& inputRegionSizes, 
-                      std::vector<int>& outputRegionSizes,
-                      int inputIndex, int outputIndex,
-                      int inputSize, int outputSize, int numRegs, 
+  int BuildPreRegions(std::vector<long>& inputRegionStart, 
+                      std::vector<long>& outputRegionStart,
+                      std::vector<long>& inputRegionSizes, 
+                      std::vector<long>& outputRegionSizes,
+                      long inputIndex, long outputIndex,
+                      long inputSize, long outputSize, int numRegs, 
                       int & regCtr);
 
 /**
@@ -209,17 +209,28 @@ protected:
  * complications are necessary to support the streaming interface 
  * and multithreading.
  */
-int BuildPostRegions(std::vector<int>& inputRegionStart, 
-                     std::vector<int>& outputRegionStart,
-                     std::vector<int>& inputRegionSizes, 
-                     std::vector<int>& outputRegionSizes,
-                     int inputIndex, int outputIndex,
-                     int inputSize, int outputSize, 
+int BuildPostRegions(std::vector<long>& inputRegionStart, 
+                     std::vector<long>& outputRegionStart,
+                     std::vector<long>& inputRegionSizes, 
+                     std::vector<long>& outputRegionSizes,
+                     long inputIndex, long outputIndex,
+                     long inputSize, long outputSize, 
                      int numRegs, int & regCtr);
+
+/** 
+ * WrapPadImageFilter needs a different input requested region than
+ * output requested region.  As such, WrapPadImageFilter needs to
+ * provide an implementation for GenerateInputRequestedRegion() in
+ * order to inform the pipeline execution model.
+ *
+ * \sa ProcessObject::GenerateInputRequestedRegion() 
+ * \sa PadImageFilter::GenerateInputRequestedRegion() 
+ */
+virtual void GenerateInputRequestedRegion();
 
 };
   
-  
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
