@@ -57,7 +57,7 @@ public:
   void SetID(const int newID);
 
   /** Return a pointer to the point object.*/
-  PointType GetPosition( void ) const;
+  const PointType & GetPosition( void ) const;
 
   /** Set the point object. Couldn't use macros for these methods. */
   void SetPosition(const PointType & newX);

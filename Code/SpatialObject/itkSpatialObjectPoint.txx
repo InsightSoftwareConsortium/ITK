@@ -177,7 +177,7 @@ SpatialObjectPoint< TPointDimension >
 
 /** Return the position of a point */
 template< unsigned int TPointDimension >
-typename SpatialObjectPoint< TPointDimension >::PointType 
+const typename SpatialObjectPoint< TPointDimension >::PointType &
 SpatialObjectPoint< TPointDimension >
 ::GetPosition( void ) const
 {
