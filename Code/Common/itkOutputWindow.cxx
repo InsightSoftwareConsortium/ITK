@@ -136,9 +136,13 @@ OutputWindow
 OutputWindow* 
 OutputWindow
 ::New()
-{
-  OutputWindow* ret = OutputWindow::GetInstance();
-  return ret;
+{ 
+  if ( ! OutputWindow::m_Instance )
+    {
+    OutputWindow::m_Instance = new OutputWindow;
+    }
+  
+  return OutputWindow::m_Instance;
 }
 
 
