@@ -51,7 +51,7 @@ namespace itk {
  *    speed function will be calculated.  For most applications, this is the
  *    image that you want to segment. The desired isosurface in your seed image
  *    should lie within the region of your feature image that you are trying to
- *    segment.Note that this filter does no preprocessing of the feature image
+ *    segment. Note that this filter does no preprocessing of the feature image
  *    before thresholding.
  *
  *    \par
@@ -59,9 +59,9 @@ namespace itk {
  *
  *    \par OUTPUTS
  *    The filter outputs a single, scalar, real-valued image.
- *    Positive *values in the output image are inside the segmentated region
- *    and negative *values in the image are outside of the inside region.  The
- *    zero crossings of *the image correspond to the position of the level set
+ *    Positive values in the output image are inside the segmentated region
+ *    and negative values in the image are outside of the inside region.  The
+ *    zero crossings of the image correspond to the position of the level set
  *    front.
  *
  *   \par
