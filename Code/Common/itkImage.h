@@ -179,6 +179,7 @@ public:
    * the image.
    */
   typedef AffineTransform<double, ImageDimension> AffineTransformType;
+  typedef typename AffineTransformType::Pointer   AffineTransformPointer;
 
   /** 
    * Definition of the Point type used for settin the origin
@@ -316,7 +317,7 @@ public:
    * transformation from index coordinates to physical coordinates
    * determined by the origin and spacing of this image.
    */
-  AffineTransformType::Pointer GetIndexToPhysicalTransform(void) const;
+  AffineTransformPointer GetIndexToPhysicalTransform(void) const;
 
   /** 
    * Get the physical-to-index coordinate transformation
@@ -325,7 +326,7 @@ public:
    * transformation from physical coordinates to index coordinates
    * determined by the origin and spacing of this image.
    */
-  AffineTransformType::Pointer GetPhysicalToIndexTransform(void) const;
+  AffineTransformPointer GetPhysicalToIndexTransform(void) const;
 
   /**
    * Get the cotinuous index from a physical point

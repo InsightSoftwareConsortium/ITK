@@ -239,7 +239,7 @@ Image<TPixel, VImageDimension, TImageTraits>
 
 //---------------------------------------------------------------------------
 template<class TPixel, unsigned int VImageDimension, class TImageTraits>
-typename Image<TPixel, VImageDimension, TImageTraits>::AffineTransformType::Pointer
+typename Image<TPixel, VImageDimension, TImageTraits>::AffineTransformPointer
 Image<TPixel, VImageDimension, TImageTraits>
 ::GetIndexToPhysicalTransform(void) const
 {
@@ -255,7 +255,7 @@ Image<TPixel, VImageDimension, TImageTraits>
     offset[i]    = m_Origin [i];
     }
 
-  AffineTransformType::Pointer result = AffineTransformType::New();
+  AffineTransformPointer result = AffineTransformType::New();
   
   result->SetMatrix(matrix);
   result->SetOffset(offset);
@@ -267,7 +267,7 @@ Image<TPixel, VImageDimension, TImageTraits>
 
 //---------------------------------------------------------------------------
 template<class TPixel, unsigned int VImageDimension, class TImageTraits>
-typename Image<TPixel, VImageDimension, TImageTraits>::AffineTransformType::Pointer
+typename Image<TPixel, VImageDimension, TImageTraits>::AffineTransformPointer
 Image<TPixel, VImageDimension, TImageTraits>
 ::GetPhysicalToIndexTransform(void) const
 {
@@ -284,7 +284,7 @@ Image<TPixel, VImageDimension, TImageTraits>
     offset[i]    = -m_Origin[i] / m_Spacing[i];
     }
 
-  AffineTransformType::Pointer result = AffineTransformType::New();
+  AffineTransformPointer result = AffineTransformType::New();
 
   result->SetMatrix(matrix);
   result->SetOffset(offset);
