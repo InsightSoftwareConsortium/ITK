@@ -143,6 +143,8 @@ DICOMSeriesFileNames
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+
+  os << indent << "Directory: " << m_Directory << std::endl;
   for (unsigned int i = 0; i < m_FileNames.size(); i++)
     {
     os << indent << "Filenames[" << i << "]: " << m_FileNames[i] << std::endl;
