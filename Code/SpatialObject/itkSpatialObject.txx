@@ -19,6 +19,7 @@
 #define __SpatialObject_txx
 
 #include "itkSpatialObject.h"
+#include <algorithm>
 
 namespace itk 
 {
