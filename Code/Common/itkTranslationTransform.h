@@ -134,7 +134,7 @@ public:
    * This method creates and returns a new TranslationTransform object
    * which is the inverse of self.  If self is not invertible,
    * an exception is thrown.  */
-  TranslationTransform::Pointer Inverse(void) const;
+ typename TranslationTransform::Pointer Inverse(void) const;
 
   /** Compute the Jacobian Matrix of the transformation at one point */
   virtual const JacobianType & GetJacobian(const InputPointType  &point ) const;

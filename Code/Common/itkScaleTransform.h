@@ -147,7 +147,7 @@ public:
    * This method creates and returns a new ScaleTransform object
    * which is the inverse of self.  If self is not invertible,
    * an exception is thrown. */
-  ScaleTransform::Pointer Inverse(void) const;
+  typename ScaleTransform::Pointer Inverse(void) const;
 
   /** Set the transformation to an Identity
    *

@@ -98,7 +98,7 @@ public:
    * This method creates and returns a new CenteredAffineTransform object
    * which is the inverse of self.  If self is not invertible,
    * an exception is thrown.   **/
-  CenteredAffineTransform::Pointer Inverse(void) const;
+  typename CenteredAffineTransform::Pointer Inverse(void) const;
 
   /** Print contents of an CenteredAffineTransform */
   void PrintSelf(std::ostream &s, Indent indent) const;
