@@ -26,7 +26,7 @@
 //
 // \index{itk::ImageRegistrationMethod!Multi-Modality|textbf}
 //
-// The following example illustrates a minimal example of how multple imaging
+// The following example illustrates in a minimal program how multple imaging
 // modalities can be registered using Insight components. The first remarkable
 // difference is the use of \code{MutualInformationImageToImageMetric} as the
 // cost-function to be optimized. The following headers declare the basic
@@ -432,19 +432,6 @@ int main( int argc, char **argv )
 
 
 
-  //  Software Guide : BeginLatex
-  //  
-  // \begin{figure}
-  // \center
-  // \includegraphics[width=4.5cm]{ImageRegistration1Output.eps}
-  // \caption{Mapped moving image and its difference with the fixed image
-  // before and after registration} \label{fig:ImageRegistration1Output}
-  // \end{figure}
-  //
-  //  Software Guide : EndLatex 
-
-
-
 
   //  Software Guide : BeginLatex
   //  
@@ -503,28 +490,6 @@ int main( int argc, char **argv )
   // Software Guide : EndCodeSnippet
 
 
-
-  //  Software Guide : BeginLatex
-  //  
-  // \begin{figure}
-  // \center
-  // \includegraphics[height=6cm]{ImageRegistration1TraceTranslations.eps}
-  // \includegraphics[height=6cm]{ImageRegistration1TraceMetric.eps}
-  // \caption{Sequence of translations and metric values at each iteration of the optimizer.}
-  // \label{fig:ImageRegistration1Trace}
-  // \end{figure}
-  //
-  //  It is always useful to keep in mind that registration is essentially an
-  //  optimization problem. Figure \ref{fig:ImageRegistration1Trace} helps to
-  //  reinforce this notion by showing the trace of translations and values of
-  //  the image metric at each iteration of the optimizer. It can be seen from
-  //  the left figure that the step length is progressively reduced as the
-  //  optimizer gets closer to the metric extrema. The right plot shows clearly
-  //  how the metric value is decreasing as the optimization advances. The log
-  //  plot helps to hightlight the normal oscilations of the optimizer around
-  //  the extrema value.
-  //
-  //  Software Guide : EndLatex 
 
 
   return 0;
