@@ -43,13 +43,30 @@ namespace itk
  * in the "MeshTraits" structure will have duplicate typedefs in the resulting
  * mesh itself.
  *
+ * Mesh is an adaptive, evolving structure. Typically points and cells
+ * are created, with the cells referring to their defining points. If 
+ * additional topological information is required, then BuildCellLinks() is
+ * called and links from the points back to the cells that use them are
+ * created. This allows implicit topological information about the faces
+ * and edges of the cells to be determined. (For example, a "face" neighbor
+ * to a cell can be determined by intersection the sets of cells that use
+ * the points defining the face. This is an inherent assumption on the
+ * manifold relationship of the cells in the mesh.) In some cases, either
+ * because the mesh is non-manifold, becasue we wish to explicitly store
+ * information with the faces and edges of the mesh, or because performance
+ * requirements demand that boundaries are explicitly represented (the set
+ * intersection does not need to be performed); then Mesh can be further
+ * extended by adding explicit boundary representations.
+ *
  * \par Usage
- * Mesh has two template parameters.  The first is the pixel type, or the
+ * Mesh has three template parameters.  The first is the pixel type, or the
  * type of data stored (optionally) with points, cells, and/or boundaries.
- * The second is the "MeshTraits" structure controlling type information for
- * the mesh.  Most users will be happy with the defaults, and will not have
- * to worry about this second argument.
- * \par 
+ * The second is the geometric dimension of the points defining the mesh. This
+ * also limits the maximum topological dimension of the cells that can be
+ * inserted. The third template parameter is the "MeshTraits" structure
+ * controlling type information for the mesh.  Most users will be happy 
+ * with the defaults, and will not have to worry about this third argument.
+ *  
  * One of the most important parts of using this mesh is how to create
  * cells to insert into it.  The cells for the mesh take two template
  * parameters.  The first is the pixel type, and should correspond
@@ -58,12 +75,12 @@ namespace itk
  * definitions, and is also a member of them.  Any cell which is to be
  * inserted to a mesh should have MeshTraits::CellTraits as its second
  * template parameter.
- * \par 
+ *  
  * Template parameters for Mesh:
- * \par 
+ *  
  * TPixelType =
  *     The type stored as data for an entity (cell, point, or boundary).
- * \par 
+ *  
  * TMeshTraits =
  *     Type information structure for the mesh.
  *
