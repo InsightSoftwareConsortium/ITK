@@ -285,9 +285,9 @@ int itkDeformableTest(int , char *[])
 
   DMesh::Pointer norm_tmp = m_dfilter->GetNormals();
 
-  std::cout << m_dfilter;
+//  std::cout << m_dfilter;
  
-  std::cout << "Mesh Source: " << m_bmmeshsource;
+//  std::cout << "Mesh Source: " << m_bmmeshsource;
 
 // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;
