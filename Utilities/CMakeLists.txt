@@ -1,4 +1,4 @@
-SUBDIRS(zlib png MetaIO GlutMaster DICOMParser)
+SUBDIRS(zlib png MetaIO DICOMParser)
 IF(VXL_FROM_UTILITIES)
   SUBDIRS(vxl)
 ENDIF(VXL_FROM_UTILITIES)

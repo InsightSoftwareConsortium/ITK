@@ -17,11 +17,6 @@ itkFEMLinearSystemWrapperVNLTest.cxx
 itkFEMLinearSystemWrapperDenseVNLTest.cxx
 )
 
-IF(FEM_VISUALIZATION)
-# Define the macro that includes all the required functions and include MFC support
-ADD_DEFINITIONS( -DFEM_BUILD_VISUALIZATION /D "_AFXDLL" )
-ENDIF(FEM_VISUALIZATION)
-
 #ADD_TEST(itkFEMElementTestMenu ${FEM_TESTS} itkFEMElementTestMenu)
 
 ADD_TEST(itkFEMC0HexahedralElement-NodalLoads-BCs ${FEM_TESTS} itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/hexa2.fem)

@@ -1,9 +1,6 @@
 [submodule "Auxiliary"]
 	path = Auxiliary
 	url = git://itk.org/ITKApps.git
-[submodule "Applications"]
-	path = Applications
-	url = git://itk.org/ITKApps.git
 [submodule "Testing/Data"]
 	path = Testing/Data
 	url = git://itk.org/ITKData.git

@@ -94,17 +94,6 @@ IF (BUILD_TESTING)
 FIND_PATH (ITK_DATA_ROOT ITKData.readme ${ITK_SOURCE_DIR}/Testing/Data $ENV{ITK_DATA_ROOT})
 ENDIF (BUILD_TESTING)
 
-# Build the Auxiliary subdirectory. It has its own 
-# checking for dependencies on third party libraries
-SUBDIRS(Auxiliary)
-
-
-# Add an option to build or not build the Applications
-OPTION(BUILD_APPLICATIONS "Build the applications directory")
-IF(BUILD_APPLICATIONS)
-  SUBDIRS(Applications)
-ENDIF(BUILD_APPLICATIONS)
-
 # Add an option to build or not build the Examples
 OPTION(BUILD_EXAMPLES "Build the Examples directory" 1)
 IF(BUILD_EXAMPLES)
@@ -160,56 +149,6 @@ IF(NOT UNIX)
   ENDIF(WIN32)
  ENDIF(NOT VXL_FROM_UTILITIES)
 ENDIF(NOT UNIX)
-
-# Add an option to use or not use VTK
-OPTION(USE_VTK "Use VTK (The Visualization Toolkit) (some applications need this)" 0)
-IF(USE_VTK)
-  INCLUDE (${CMAKE_ROOT}/Modules/FindVTK.cmake)
-  IF (USE_VTK_FILE)
-    INCLUDE (${USE_VTK_FILE})
-      SET(HAS_VTK 1)
-    # Test for VTK using std libs
-    IF(NOT VTK_USE_ANSI_STDLIB)
-      MESSAGE(
-	"Warning. Your VTK was not built with the VTK_USE_ANSI_STDLIB option ON.\n"
-        "Link errors may occur.  Consider re-building VTK with this option ON.\n"
-        "For MSVC 6, you MUST turn on the VTK option.  ITK will not link otherwise.")
-    ENDIF(NOT VTK_USE_ANSI_STDLIB)
-    # Test for VTK building Hybrid
-    IF(VTK_USE_HYBRID)
-      SET(HAS_VTK_HYBRID 1 CACHE INTERNAL "VTK Hybrid libraries are available")
-    ELSE( VTK_USE_HYBRID )
-      MESSAGE ("Warning. Your VTK was not built with the VTK_USE_HYBRID option ON. \nPlease reconfigure and recompile VTK with this option before trying to use it with ITK.")
-    ENDIF( VTK_USE_HYBRID )
-  ELSE (USE_VTK_FILE)
-    MESSAGE("The UseVTK.cmake file was not found. You will not be able to build code requiring VTK")
-    SET(HAS_VTK 0 CACHE INTERNAL "Use VTK: The Visualization Toolkit, this is required for some applications but not for the ITK toolkit")
-  ENDIF (USE_VTK_FILE)
-ELSE(USE_VTK)
-  SET(HAS_VTK 0)
-ENDIF(USE_VTK)
-
-
-# Look for OpenGL
-INCLUDE (${ITK_SOURCE_DIR}/Utilities/ITKFindOpenGL.cmake)
-
-# Add an option to use or not use GLUT
-OPTION(USE_GLUT "Use GLUT, this enables a very simple image viewer" 0)
-IF(USE_GLUT)
-  # Look for GLUT and if found build the simple image viewer
-  INCLUDE (${ITK_SOURCE_DIR}/Utilities/ITKFindGLUT.cmake)
-ENDIF(USE_GLUT)
-
-# Add an option to use or not use FLTK (http://www.fltk.org)
-OPTION(USE_FLTK "Use FLTK (The Fast Light Toolkit) for GUI (some applications need this)" 0)
-IF(USE_FLTK)
-  INCLUDE (${CMAKE_ROOT}/Modules/FindFLTK.cmake)
-  IF(FLTK_VERSION_1.0.11)
-    MESSAGE(SEND_ERROR "FLTK Version 1.0.11 is no longer supported in ITK. Please upgrade to FLTK version 1.1")
-  ENDIF(FLTK_VERSION_1.0.11)
-ELSE(USE_FLTK)
-  SET (HAS_FLTK 0)
-ENDIF(USE_FLTK)
 
 # Copy the UseITK.cmake file to the binary tree for backward compatability.
 CONFIGURE_FILE(${ITK_SOURCE_DIR}/UseITK.cmake.in
