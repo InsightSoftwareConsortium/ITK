@@ -18,7 +18,6 @@ PURPOSE.  See the above copyright notices for more information.
 #ifndef __ITKOCTREE_H__
 #define __ITKOCTREE_H__
 
-#include <cstdlib>
 #include "itkOctreeNode.h"
 #include "itkImage.h"
 /*
