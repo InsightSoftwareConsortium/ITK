@@ -176,20 +176,21 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
     // 1) We were "referred" to this pixel by another pixel in a neighborhood check
     // 2) We're coming back to this pixel after checking its neighbors' neighbors
     // If we haven't yet visited this pixel, see if it's inside the function
-    if( tempPtr->GetPixel(m_IndexStack.top() ) == 0)
+    const IndexType topIndex = m_IndexStack.top();
+    if( tempPtr->GetPixel( topIndex ) == 0)
       {
       // Is this pixel inside the function?
-      if ( this->IsPixelIncluded( m_IndexStack.top() ) )
+      if ( this->IsPixelIncluded( topIndex ) )
         {
         // if it is, mark as inside
-        tempPtr->SetPixel( m_IndexStack.top(), 2);
+        tempPtr->SetPixel( topIndex, 2);
         // kick out of this function, since we found a new pixel
         return;
         }
       else
         {
         // pixel is not inside the function, mark it
-        tempPtr->SetPixel( m_IndexStack.top(), 1);
+        tempPtr->SetPixel( topIndex, 1);
         // pop off this pixel
         m_IndexStack.pop();
         continue;
@@ -213,11 +214,14 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
         // build the index of a neighbor
         for(unsigned int k=0; k<NDimensions; k++)
           {
+          const IndexType & topIndex = m_IndexStack.top();
           if( i!=k )
-            tempIndex.m_Index[k] = m_IndexStack.top().m_Index[k];
+            {
+            tempIndex.m_Index[k] = topIndex[k];
+            }
           else
             {
-            tempIndex.m_Index[k] = m_IndexStack.top().m_Index[k] + j;
+            tempIndex.m_Index[k] = topIndex[k] + j;
             if( (tempIndex.m_Index[k] < 0) || 
                 (tempIndex.m_Index[k] >= static_cast<long int>(m_ImageSize[k])) )
               {
@@ -254,9 +258,10 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
     if(m_FoundUncheckedNeighbor==false)
       {
       // Mark the pixel as finished
-      if( tempPtr->GetPixel( m_IndexStack.top() )==2 )
+      const IndexType & topIndex = m_IndexStack.top();
+      if( tempPtr->GetPixel( topIndex  )==2 )
         {
-        tempPtr->SetPixel( m_IndexStack.top(), 3);
+        tempPtr->SetPixel( topIndex, 3);
         }
       
       // Move the stack up
