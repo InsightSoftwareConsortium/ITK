@@ -490,7 +490,7 @@ template< class TMeasurement, unsigned int VMeasurementVectorSize,
 inline typename Histogram< TMeasurement, VMeasurementVectorSize, 
            TFrequencyContainer >::FrequencyType
 Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
-::GetTotalFrequency(const unsigned int &dimension) const
+::GetTotalFrequency(const unsigned int &) const
 {
   return m_FrequencyContainer->GetTotalFrequency() ;
 }
@@ -537,7 +537,6 @@ Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
     {
       n = size - 1 ;
       InstanceIdentifier m = NumericTraits< InstanceIdentifier >::Zero;
-      p_n_prev = NumericTraits< double >::One ;
       p_n      = NumericTraits< double >::One ;
       do 
         {

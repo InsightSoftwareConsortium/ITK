@@ -125,8 +125,8 @@ public:
 
   /** This method returns the derivative of the cost function corresponding
     * to the specified parameters.   */ 
-  virtual void GetDerivative( const ParametersType & parameters,
-                                    DerivativeType & derivative ) const 
+  virtual void GetDerivative( const ParametersType &,
+                                    DerivativeType & ) const 
   { /* not implemented */ }
 
 protected:

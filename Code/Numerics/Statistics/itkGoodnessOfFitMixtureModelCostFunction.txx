@@ -90,12 +90,12 @@ typename GoodnessOfFitMixtureModelCostFunction< TInputSample >::MeasureType
 GoodnessOfFitMixtureModelCostFunction< TInputSample >
 ::GetValue(const ParametersType &parameters) const
 {
-  unsigned int i = 0 ; 
+  unsigned int i;
 
   double value = 0.0 ;
  
   unsigned int index = 0 ;
-  unsigned int paramSize = 0 ;
+  unsigned int paramSize;
   ComponentType* component ;
   for ( unsigned int  componentIndex = 0 ; componentIndex < m_Components.size() ;
         componentIndex++ )

@@ -361,7 +361,7 @@ GoodnessOfFitComponentBase< TInputHistogram >
   HistogramType::Iterator e_iter = m_ExpectedHistogram->Begin() ;
   HistogramType::Iterator e_last = m_ExpectedHistogram->End() ;
   int i = 0 ;
-  float frequency = 0.0f ;
+  float frequency;
   while (e_iter != e_last)
     {
       frequency = 

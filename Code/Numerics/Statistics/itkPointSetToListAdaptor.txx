@@ -61,7 +61,7 @@ PointSetToListAdaptor< TPointSet >
 template < class TPointSet >
 unsigned int
 PointSetToListAdaptor< TPointSet >
-::Size(const unsigned int &dimension) const
+::Size(const unsigned int &) const
 {
   return m_PointsContainer->Size() ;
 }
@@ -95,7 +95,7 @@ PointSetToListAdaptor< TPointSet >
 template < class TPointSet >
 inline typename PointSetToListAdaptor< TPointSet >::FrequencyType
 PointSetToListAdaptor< TPointSet >
-::GetFrequency(const InstanceIdentifier &id) const 
+::GetFrequency(const InstanceIdentifier &) const 
 {
   return 1 ;
 }
@@ -103,7 +103,7 @@ PointSetToListAdaptor< TPointSet >
 template < class TPointSet >
 typename PointSetToListAdaptor< TPointSet >::FrequencyType
 PointSetToListAdaptor< TPointSet >
-::GetTotalFrequency(const unsigned int &dim) const
+::GetTotalFrequency(const unsigned int &) const
 { 
   return this->Size() ; 
 }

@@ -77,7 +77,7 @@ WeightedCovarianceCalculator< TSample >
 ::GenerateData() 
 {
   m_Output->GetVnlMatrix().fill(0.0) ;
-  double weight = 0.0 ;
+  double weight;
   double totalWeight = 0.0 ;
   
   unsigned int row, col ;
