@@ -587,7 +587,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
 template <class TInputImage, class TOutputImage>
 void
 VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
-::FillPolygon(PointTypeDeque vertlist)
+::FillPolygon(PointTypeDeque vertlist, OutputPixelType color)
 {
   IndexType idx;
 
@@ -686,7 +686,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
     for(i=static_cast<int>(ceil(beginx));i<=static_cast<int>(floor(endx));i++)
       {
       idx[0]=i;
-      this->GetOutput()->SetPixel(idx,1);  
+      this->GetOutput()->SetPixel(idx,color);  
       }
     idx[1]=idx[1]+1;
     }
@@ -700,7 +700,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
       for(i=static_cast<int>(ceil(beginx));i<=static_cast<int>(floor(endx));i++)
         {
         idx[0]=i;
-        this->GetOutput()->SetPixel(idx,1);  
+        this->GetOutput()->SetPixel(idx,color);  
         }
       endx+=rightDx;
       beginx+=leftDx;        
@@ -773,7 +773,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
         for(i=static_cast<int>(ceil(beginx));i<=static_cast<int>(floor(endx));i++)
           {
           idx[0]=i;
-          this->GetOutput()->SetPixel(idx,1);  
+          this->GetOutput()->SetPixel(idx,color);  
           }
         endx+=rightDx;
         beginx+=leftDx;        
@@ -818,7 +818,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>
       for(i=static_cast<int>(ceil(beginx));i<=static_cast<int>(floor(endx));i++)
         {
         idx[0]=i;
-        this->GetOutput()->SetPixel(idx,1);  
+        this->GetOutput()->SetPixel(idx,color);  
         }
       endx+=rightDx;
       beginx+=leftDx;        

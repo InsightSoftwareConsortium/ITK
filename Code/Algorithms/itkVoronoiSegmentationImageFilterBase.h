@@ -85,6 +85,7 @@ public:
   typedef typename TInputImage::SizeType SizeType;
   typedef typename TInputImage::RegionType RegionType;
   typedef typename TInputImage::PixelType PixelType;
+  typedef typename TOutputImage::PixelType OutputPixelType;
   typedef VoronoiDiagram2D<double> VoronoiDiagram;
   typedef VoronoiDiagram2DGenerator<double> VoronoiDiagramGenerator;
   typedef typename VoronoiDiagram::PointType PointType;
@@ -226,7 +227,7 @@ protected:
   void GetPixelIndexFromPolygon(PointTypeDeque VertList, IndexList *PixelPool);
   virtual bool TestHomogeneity(IndexList&){return 1;}
   
-  void FillPolygon(PointTypeDeque vertlist);
+  void FillPolygon(PointTypeDeque vertlist, OutputPixelType color=1);
   
   // Draw a straight line to the output image.
   void drawLine(PointType p1,PointType p2);
