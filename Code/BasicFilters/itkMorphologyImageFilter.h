@@ -167,8 +167,11 @@ public:
   itkGetConstReferenceMacro(Kernel, KernelType);
   
   /**
-   * Make sure that the input requested region should include the output 
-   * requested region + kernel radius 
+   * MorphologyImageFilters need to make sure they request enough of an
+   * input image to account for the structuring element size.  The input
+   * requested region is expanded by the radius of the structuring element.
+   * If the request extends past the LargestPossibleRegion for the input,
+   * the request is cropped by the LargestPossibleRegion.
    */
   void GenerateInputRequestedRegion() ;
 
@@ -193,25 +196,6 @@ protected:
   virtual PixelType Evaluate(const SmartNeighborhoodIteratorType &nit,
                              const KernelType &kernel)=0;
 
-  /**
-   * Return the region that includes region (output requested region)
-   * + radius (kernel radius)
-   */
-  RegionType EnlargeImageRegion(RegionType region,
-                                RadiusType radius) ;
-
-  /**
-   * Return the region that is big enough to include the new requested region
-   * after the above enlargement but smaller than the largest possible region
-   * of the input image. 
-   *
-   * NOTE:
-   * If the current input requested region includes the new requested region,
-   * then it keeps the original requested region
-   */
-  RegionType EnlargeImageRegion(RegionType current,
-                                RegionType largest,
-                                RegionType requested) ;
 
 private:
   /**

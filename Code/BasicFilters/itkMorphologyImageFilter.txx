@@ -62,30 +62,76 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
-
-  // get pointers to the input and output
-  InputImagePointer  input = this->GetInput();
-  OutputImagePointer output = this->GetOutput();
-
-  if ( !input || !output )
-    {
-      return;
-    }
-
-  InputImageRegionType inputRequestedRegion = input->GetRequestedRegion() ;
-  OutputImageRegionType outputRequestedRegion = output->GetRequestedRegion() ;
   
-  InputImageRegionType tempRegion ;
-  InputImageRegionType tempRegion2 ;
-  tempRegion = 
-    EnlargeImageRegion(outputRequestedRegion, m_Kernel->GetRadius()) ;
-  tempRegion2 = 
-    EnlargeImageRegion(inputRequestedRegion, 
-                       input->GetLargestPossibleRegion(),
-                       tempRegion) ;
+  // get pointers to the input and output
+  InputImagePointer  inputPtr = this->GetInput();
+  OutputImagePointer outputPtr = this->GetOutput();
+  
+  if ( !inputPtr || !outputPtr )
+    {
+    return;
+    }
+  
+  // we need to compute the input requested region (size and start index)
+  int i;
+  const typename TOutputImage::SizeType& outputRequestedRegionSize
+    = outputPtr->GetRequestedRegion().GetSize();
+  const typename TOutputImage::IndexType& outputRequestedRegionStartIndex
+    = outputPtr->GetRequestedRegion().GetIndex();
+  
+  typename TInputImage::SizeType  inputRequestedRegionSize;
+  typename TInputImage::IndexType inputRequestedRegionStartIndex;
 
-  input->SetRequestedRegion(tempRegion2) ;
+  const typename TInputImage::SizeType  inputLargestPossibleRegionSize
+    = inputPtr->GetLargestPossibleRegion().GetSize();
+  const typename TInputImage::IndexType inputLargestPossibleRegionStartIndex
+    = inputPtr->GetLargestPossibleRegion().GetIndex();
+
+  long crop=0;
+  for (i = 0; i < TInputImage::ImageDimension; i++)
+    {
+    inputRequestedRegionSize[i]
+      = outputRequestedRegionSize[i] + 2 * m_Operator.GetRadius(i);
+    inputRequestedRegionStartIndex[i]
+      = outputRequestedRegionStartIndex[i] - m_Operator.GetRadius(i);
+
+    // crop the requested region to the largest possible region
+    //
+
+    // first check the start index
+    if (inputRequestedRegionStartIndex[i]
+        < inputLargestPossibleRegionStartIndex[i])
+      {
+      // how much do we need to adjust
+      crop = inputLargestPossibleRegionStartIndex[i]
+        - inputRequestedRegionStartIndex[i];
+
+      // adjust the start index and the size of the requested region
+      inputRequestedRegionStartIndex[i] += crop;
+      inputRequestedRegionSize[i] -= crop;
+      }
+    // now check the final size
+    if (inputRequestedRegionStartIndex[i] + inputRequestedRegionSize[i] 
+        > inputLargestPossibleRegionStartIndex[i]
+        + inputLargestPossibleRegionSize[i])
+      {
+      // how much do we need to adjust
+      crop = inputRequestedRegionStartIndex[i] + inputRequestedRegionSize[i] 
+        - inputLargestPossibleRegionStartIndex[i]
+        - inputLargestPossibleRegionSize[i];
+
+      // adjust the size
+      inputRequestedRegionSize[i] -= crop;
+      }
+    }
+  
+  typename TInputImage::RegionType inputRequestedRegion;
+  inputRequestedRegion.SetSize( inputRequestedRegionSize );
+  inputRequestedRegion.SetIndex( inputRequestedRegionStartIndex );
+  
+  inputPtr->SetRequestedRegion( inputRequestedRegion );
 }
+
 
 template<class TInputImage, class TOutputImage, class TKernel>
 void
@@ -116,106 +162,6 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
     }
 }
 
-template<class TInputImage, class TOutputImage, class TKernel>
-MorphologyImageFilter<TInputImage, TOutputImage, TKernel>::RegionType
-MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
-::EnlargeImageRegion(RegionType region,
-                     RadiusType radius)
-{
-  int i;
-  SizeType size = region.GetSize();
-  IndexType index = region.GetIndex();
-  
-  SizeType  tempSize;
-  IndexType tempIndex;
-  
-  for (i = 0; i < ImageDimension; i++)
-    {
-     tempSize[i] = size[i] + radius[i] * 2 ;
-     tempIndex[i] = index[i] - radius[i] ;
-    }
-
-  RegionType ret ;
-  ret.SetIndex(tempIndex) ;
-  ret.SetSize(tempSize) ;
-
-  return ret ;
-}
-
-template<class TInputImage, class TOutputImage, class TKernel>
-MorphologyImageFilter<TInputImage, TOutputImage, TKernel>::RegionType
-MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
-::EnlargeImageRegion(RegionType current,
-                     RegionType largest,
-                     RegionType requested)
-{
-  int i ;
-
-  SizeType currentSize = current.GetSize() ;
-  SizeType largestSize = largest.GetSize() ;
-  SizeType requestedSize = requested.GetSize() ;
-  
-  IndexType currentIndex = current.GetIndex() ;
-  IndexType largestIndex = largest.GetIndex() ;
-  IndexType requestedIndex = requested.GetIndex() ;
-
-  // index for the bottom right pixel + 1  
-  IndexType currentLastP1Index = currentIndex + currentSize ;
-  IndexType largestLastP1Index = largestIndex + largestSize ;
-  IndexType requestedLastP1Index = requestedIndex + requestedSize ;
-
-  SizeType tempSize ;
-  IndexType tempIndex ;
-
-  for (i = 0 ; i < ImageDimension ; i++)
-    {
-      if (requestedIndex[i] < largestIndex[i])
-        {
-          tempIndex[i] = largestIndex[i] ;
-          if (requestedLastP1Index[i] > largestLastP1Index[i])
-            tempSize[i] = largestLastP1Index[i] - largestIndex[i]  ;
-          else
-            tempSize[i] = requestedLastP1Index[i] - largestIndex[i]  ;
-        }
-      else if (requestedIndex[i] < currentIndex[i]) 
-        {
-          tempIndex[i] = requestedIndex[i] ;
-          
-          if (requestedLastP1Index[i] > largestLastP1Index[i])
-            tempSize[i] = largestLastP1Index[i] - largestIndex[i]  ;
-          else
-            tempSize[i] = requestedLastP1Index[i] - largestIndex[i]  ;
-        }
-      else if (requestedIndex[i] >= largestLastP1Index[i] - 1)
-        {
-          tempIndex[i] = largestLastP1Index[i] - 1 ;
-          tempSize[i] = 0 ;
-        }
-      else
-        {
-          // requestedIndex is in the range [currentIndex, largestLastP1Index)
-          tempIndex[i] = currentIndex[i] ;
-
-          if (requestedLastP1Index[i] > currentLastP1Index[i])
-            {
-              if (requestedLastP1Index[i] > largestLastP1Index[i])
-                tempSize[i] = largestLastP1Index[i] - largestIndex[i]  ;
-              else
-                tempSize[i] = requestedLastP1Index[i] - largestIndex[i]  ;
-            }
-          else
-            {
-              tempSize[i] = currentSize[i] ;
-            }
-        }
-    }
-
-  RegionType ret ;
-  ret.SetIndex(tempIndex) ;
-  ret.SetSize(tempSize) ;
-  
-  return ret ;
-}
 
 
 template<class TInputImage, class TOutputImage, class TKernel>
