@@ -40,7 +40,7 @@ UnsharpMaskLevelSetImageFilter <TInputImage, TOutputImage>
   this->SetNormalProcessUnsharpWeight (1);
   this->SetMaxNormalIteration(25);
   this->SetMaxRefitIteration(100);
-  this->SetMaxFilterIteration(99);
+  m_MaxFilterIteration = 99;
   m_Function->Initialize(radius);
 }
 

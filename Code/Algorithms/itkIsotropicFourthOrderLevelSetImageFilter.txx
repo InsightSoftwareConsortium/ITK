@@ -38,7 +38,7 @@ IsotropicFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>
   this->SetNormalProcessType (0);  // isotropic diffusion 
   this->SetMaxNormalIteration(25);
   this->SetMaxRefitIteration(100);
-  this->SetMaxFilterIteration(1000);
+  m_MaxFilterIteration = 1000;
   m_Function->Initialize(radius);
 }
 

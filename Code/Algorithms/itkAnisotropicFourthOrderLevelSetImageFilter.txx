@@ -40,7 +40,7 @@ AnisotropicFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>
   this->SetNormalProcessConductance (0.2);  
   this->SetMaxNormalIteration(25);
   this->SetMaxRefitIteration(100);
-  this->SetMaxFilterIteration(1000);
+  m_MaxFilterIteration = 1000;
   m_Function->Initialize(radius);
 }
 
