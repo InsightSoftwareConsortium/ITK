@@ -170,6 +170,7 @@ DICOMAppHelper::DICOMAppHelper()
   this->StudyIDCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->StudyDescriptionCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->BodyPartCB  = new DICOMMemberCallback<DICOMAppHelper>;
+  this->NumberOfSeriesInStudyCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->NumberOfStudyRelatedSeriesCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->StudyDateCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->ModalityCB = new DICOMMemberCallback<DICOMAppHelper>;
@@ -231,16 +232,18 @@ DICOMAppHelper::~DICOMAppHelper()
   delete this->PatientIDCB;
   delete this->PatientSexCB;
   delete this->PatientAgeCB;
-  delete  this->PatientDOBCB;
-  delete  this->StudyIDCB;
-  delete  this->StudyDescriptionCB;
-  delete  this->BodyPartCB;
-  delete  this->NumberOfStudyRelatedSeriesCB;
+  delete this->PatientDOBCB;
+  delete this->StudyIDCB;
+  delete this->StudyDescriptionCB;
+  delete this->BodyPartCB;
+  delete this->NumberOfSeriesInStudyCB;
+  delete this->NumberOfStudyRelatedSeriesCB;
   delete this->StudyDateCB;
   delete this->ModalityCB;
   delete this->ManufacturerCB;
   delete this->InstitutionCB;
   delete this->ModelCB;
+
   delete this->DefaultCB;
 
   delete this->Implementation;
@@ -354,6 +357,9 @@ void DICOMAppHelper::RegisterCallbacks(DICOMParser* parser)
   BodyPartCB->SetCallbackFunction(this, &DICOMAppHelper::BodyPartCallback);
   parser->AddDICOMTagCallback(0x0018, 0x0015, DICOMParser::VR_CS, BodyPartCB);
 
+  NumberOfSeriesInStudyCB->SetCallbackFunction(this, &DICOMAppHelper::NumberOfSeriesInStudyCallback);
+  parser->AddDICOMTagCallback(0x0020, 0x1000, DICOMParser::VR_IS, NumberOfSeriesInStudyCB);
+
   NumberOfStudyRelatedSeriesCB->SetCallbackFunction(this, &DICOMAppHelper::NumberOfStudyRelatedSeriesCallback);
   parser->AddDICOMTagCallback(0x0020, 0x1206, DICOMParser::VR_IS, NumberOfStudyRelatedSeriesCB);
 
@@ -374,8 +380,6 @@ void DICOMAppHelper::RegisterCallbacks(DICOMParser* parser)
 
   // Add in default callbacks for tags we need to see but not cache
   //parser->AddDICOMTagCallback(0x3006, 0x0012, DICOMParser::VR_DS, DefaultCB);
-  
-
   DICOMTagInfo dicom_tags[] = {
     {0x0002, 0x0002, DICOMParser::VR_UI, "Media storage SOP class uid"},
     {0x0002, 0x0003, DICOMParser::VR_UI, "Media storage SOP inst uid"},
@@ -397,6 +401,7 @@ void DICOMAppHelper::RegisterCallbacks(DICOMParser* parser)
     {0x0020, 0x0010, DICOMParser::VR_SH, "Study ID"},
     {0x0008, 0x1030, DICOMParser::VR_LO, "Study Description"},
     {0x0018, 0x0015, DICOMParser::VR_CS, "Body Part"},
+    {0x0020, 0x1000, DICOMParser::VR_IS, "Number of series in study"},
     {0x0020, 0x1206, DICOMParser::VR_IS, "Number of study related series"},
     {0x0018, 0x0050, DICOMParser::VR_FL, "slice thickness"},
     {0x0018, 0x0060, DICOMParser::VR_FL, "kV"},
@@ -1711,7 +1716,25 @@ void DICOMAppHelper::BodyPartCallback(DICOMParser *,
     m_BodyPart[0] = '\0';
     }
 } 
-  
+
+
+void DICOMAppHelper::NumberOfSeriesInStudyCallback(DICOMParser *,
+                                   doublebyte,
+                                   doublebyte,
+                                   DICOMParser::VRTypes,
+                                   unsigned char* val,
+                                   quadbyte len)
+{
+  if (val)
+    {
+    strncpy(m_NumberOfSeriesInStudy, (const char*)val, len < 512 ? len : 511);
+    }
+  else
+    {
+    m_NumberOfSeriesInStudy[0] = '\0';
+    }
+} 
+
 void DICOMAppHelper::NumberOfStudyRelatedSeriesCallback(DICOMParser *,
                                    doublebyte,
                                    doublebyte,

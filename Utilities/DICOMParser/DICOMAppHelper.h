@@ -347,6 +347,13 @@ public:
                                       unsigned char* val,
                                       quadbyte);
    
+   virtual void NumberOfSeriesInStudyCallback( DICOMParser *parser,
+                                      doublebyte,
+                                      doublebyte,
+                                      DICOMParser::VRTypes,
+                                      unsigned char* val,
+                                      quadbyte);
+    
    virtual void NumberOfStudyRelatedSeriesCallback( DICOMParser *parser,
                                       doublebyte,
                                       doublebyte,
@@ -388,7 +395,7 @@ public:
                                       DICOMParser::VRTypes,
                                       unsigned char* val,
                                       quadbyte);
-
+  
   virtual void DefaultCallback( DICOMParser *parser,
                                 doublebyte,
                                 doublebyte,
@@ -588,6 +595,14 @@ public:
     strcpy(part, m_BodyPart);
     }
 
+  /** Get the number of series in the study processed by the
+      DICOMParser. */
+  void GetNumberOfSeriesInStudy(char* number)
+    {
+    strcpy(number, m_NumberOfSeriesInStudy);
+    }
+
+
  /** Get the number of study related series processed by the
       DICOMParser. */
   void GetNumberOfStudyRelatedSeries(char* number)
@@ -716,6 +731,7 @@ public:
   char m_StudyID[512];   
   char m_StudyDescription[512];
   char m_BodyPart[512];
+  char m_NumberOfSeriesInStudy[512];
   char m_NumberOfStudyRelatedSeries[512];
   char m_PatientSex[512];
   char m_PatientAge[512];
@@ -783,8 +799,8 @@ public:
   DICOMMemberCallback<DICOMAppHelper>* StudyIDCB;
   DICOMMemberCallback<DICOMAppHelper>* StudyDescriptionCB;
   DICOMMemberCallback<DICOMAppHelper>* BodyPartCB;
+  DICOMMemberCallback<DICOMAppHelper>* NumberOfSeriesInStudyCB;
   DICOMMemberCallback<DICOMAppHelper>* NumberOfStudyRelatedSeriesCB;
-
 
   //
   // Implementation contains stl templated classes that 
