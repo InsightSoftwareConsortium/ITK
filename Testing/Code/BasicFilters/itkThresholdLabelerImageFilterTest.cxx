@@ -116,7 +116,7 @@ int itkThresholdLabelerImageFilterTest( int argc, char * argv[] )
 
   // check if labels coincide with expected labels
   bool passed = true;
-  int count = 0;
+
   for (indexIter = yindexes.begin(), i=0; indexIter != yindexes.end(); ++indexIter, ++i) 
     {
     index[0] = 0;
