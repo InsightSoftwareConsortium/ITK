@@ -16,11 +16,11 @@
 =========================================================================*/
 #ifndef __itkNarrowBandImageFilterBase_txx_
 #define __itkNarrowBandImageFilterBase_txx_
+
 #include "itkNarrowBandImageFilterBase.h"
 #include "itkShiftScaleImageFilter.h"
 
 namespace itk {
-
 
 template <class TInputImage, class TOutputImage>
 void
@@ -29,7 +29,7 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
 {
   while (!m_NarrowBand->Empty()) 
     {
-      m_NarrowBand->Clear();
+    m_NarrowBand->Clear();
     }
 }
 
@@ -38,7 +38,6 @@ void
 NarrowBandImageFilterBase<TInputImage, TOutputImage>
 ::CopyInputToOutput()
 {
-
   //   First need to subtract the iso-surface value from the input image.
   typedef ShiftScaleImageFilter<InputImageType, OutputImageType> ShiftScaleFilterType;
   typename ShiftScaleFilterType::Pointer shiftScaleFilter = ShiftScaleFilterType::New();
@@ -46,7 +45,6 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
   shiftScaleFilter->SetShift( - m_IsoSurfaceValue );
   shiftScaleFilter->Update();  
   this->GraftOutput(shiftScaleFilter->GetOutput());
-
 }
 
 
@@ -55,12 +53,12 @@ void
 NarrowBandImageFilterBase<TInputImage, TOutputImage>
 ::Initialize () 
 {
-
+  
   m_Step = 0;
-
+  
   ClearNarrowBand(); 
   CreateNarrowBand();
-    
+  
   // SetNarrowBand is expected to be defined in a subclass.
   // It should use the InsertNarrowBandNode function, which takes care of 
   // memory management issues, to create the desired narrow band. 
@@ -72,7 +70,6 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
   // partitions. This assumes that the band will not be changed until another
   // call to Initialize(). Any reinitialization function also must call the
   // SplitRegions function.
-
 }
 
 template <class TInputImage, class TOutputImage>
@@ -80,9 +77,9 @@ void
 NarrowBandImageFilterBase<TInputImage, TOutputImage>
 ::InitializeIteration()
 {
-  
-//Check if we have to reinitialize the narrowband
-  if (m_Touched || ((this->GetElapsedIterations() >0) &&(this->m_Step == m_ReinitializationFrequency )))
+  //Check if we have to reinitialize the narrowband
+  if (m_Touched || ((this->GetElapsedIterations() >0)
+                    && (this->m_Step == m_ReinitializationFrequency )))
     {
     //Reinitialize the narrowband properly
     CreateNarrowBand();
@@ -90,7 +87,6 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
     m_Touched = false;
     }
 }
-
 
 template<class TInputImage, class TOutputImage>
 void
@@ -108,7 +104,7 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
   this->GetMultiThreader()->SingleMethodExecute();
   m_Step++;
 }
- 
+
 template<class TInputImage, class TOutputImage>
 ITK_THREAD_RETURN_TYPE
 NarrowBandImageFilterBase<TInputImage, TOutputImage>
@@ -116,25 +112,24 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
 {
   NarrowBandFDThreadStruct * str;
   int total, threadId, threadCount;
-
+  
   threadId = ((MultiThreader::ThreadInfoStruct *)(arg))->ThreadID;
   threadCount = ((MultiThreader::ThreadInfoStruct *)(arg))->NumberOfThreads;
-
+  
   str = (NarrowBandFDThreadStruct *)(((MultiThreader::ThreadInfoStruct *)(arg))->UserData);
-
+  
   // Execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
   // Use GetSplitRegion to access partition previously computed by
   // the SplitRegions function in the SparseFieldLayer class.
   ThreadRegionType splitRegion;
   total = str->Filter->GetSplitRegion(threadId, threadCount, splitRegion);
-    
   
   if (threadId < total)
     {
-      str->Filter->ThreadedApplyUpdate(str->TimeStep, splitRegion, threadId);
+    str->Filter->ThreadedApplyUpdate(str->TimeStep, splitRegion, threadId);
     }
-
+  
   return ITK_THREAD_RETURN_VALUE;
 }
 
@@ -152,13 +147,13 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
   typename OutputImageType::PixelType newvalue;
   for (it=regionToProcess.first; it != regionToProcess.last; ++it)
     {
-      oldvalue = image->GetPixel(it->m_Index);
-      newvalue = oldvalue + dt * it->m_Data;
-      //Check whether solution is out the inner band or not
-      m_Touched = ((m_Touched) || ( !(it->m_NodeState & INNER_MASK)
-                                    && ( (oldvalue>0)!=(newvalue>0))));
-      image->SetPixel(it->m_Index, image->GetPixel(it->m_Index)+dt * it->m_Data);
-         
+    oldvalue = image->GetPixel(it->m_Index);
+    newvalue = oldvalue + dt * it->m_Data;
+    //Check whether solution is out the inner band or not
+    m_Touched = ((m_Touched) || ( !(it->m_NodeState & INNER_MASK)
+                                  && ( (oldvalue>0)!=(newvalue>0))));
+    image->SetPixel(it->m_Index, image->GetPixel(it->m_Index)+dt * it->m_Data);
+    
     }
 }
 
@@ -181,7 +176,7 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
 {
   int threadCount;
   TimeStepType dt;
-
+  
   // Set up for multithreaded processing.
   NarrowBandFDThreadStruct str;
   str.Filter = this;
@@ -190,7 +185,7 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
   this->GetMultiThreader()->SetNumberOfThreads(this->GetNumberOfThreads());
   this->GetMultiThreader()->SetSingleMethod(this->CalculateChangeThreaderCallback,
                                             &str);
-
+  
   // Initialize the list of time step values that will be generated by the
   // various threads.  There is one distinct slot for each possible thread,
   // so this data structure is thread-safe.  All of the time steps calculated
@@ -200,17 +195,17 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
   str.ValidTimeStepList = new bool[threadCount];
   for (int i =0; i < threadCount; ++i)
     {      str.ValidTimeStepList[i] = false;    } 
-
+  
   // Multithread the execution
   this->GetMultiThreader()->SingleMethodExecute();
-
+  
   // Resolve the single value time step to return.  The default implementation
   // of ResolveTimeStep is to return the lowest value in the list that it is
   // given.  This method can be overridden to create another implementation.
   dt = this->ResolveTimeStep(str.TimeStepList, str.ValidTimeStepList, threadCount);
   delete [] str.TimeStepList;
   delete [] str.ValidTimeStepList;
-
+  
   return  dt;
 }
 
@@ -221,12 +216,12 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
 {
   NarrowBandFDThreadStruct * str;
   int total, threadId, threadCount;
-
+  
   threadId = ((MultiThreader::ThreadInfoStruct *)(arg))->ThreadID;
   threadCount = ((MultiThreader::ThreadInfoStruct *)(arg))->NumberOfThreads;
-
+  
   str = (NarrowBandFDThreadStruct *)(((MultiThreader::ThreadInfoStruct *)(arg))->UserData);
-
+  
   // Execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
   // Use GetSplitRegion to access partition previously computed by
@@ -236,11 +231,11 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
   
   if (threadId < total)
     { 
-      str->TimeStepList[threadId]
-        = str->Filter->ThreadedCalculateChange(splitRegion, threadId);
-      str->ValidTimeStepList[threadId] = true;
+    str->TimeStepList[threadId]
+      = str->Filter->ThreadedCalculateChange(splitRegion, threadId);
+    str->ValidTimeStepList[threadId] = true;
     }
-
+  
   return ITK_THREAD_RETURN_VALUE;  
 }
 
@@ -256,14 +251,14 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
   typedef typename OutputImageType::SizeValueType   SizeValueType;
   typedef typename OutputImageType::IndexType  IndexType;
   typedef typename OutputImageType::IndexValueType  IndexValueType;
-
+  
   typedef typename FiniteDifferenceFunctionType::NeighborhoodType
     NeighborhoodIteratorType;
   
   typename OutputImageType::Pointer output = this->GetOutput();
   TimeStepType timeStep;
   void *globalData;
-
+  
   // Get the FiniteDifferenceFunction to use in calculations.
   const typename FiniteDifferenceFunctionType::Pointer df
     = this->GetDifferenceFunction();
@@ -274,14 +269,14 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
   // object at each calculation so that the function object can use it to
   // determine a time step for this iteration.
   globalData = df->GetGlobalDataPointer();
-
+  
   typename NarrowBandType::Iterator bandIt;
   NeighborhoodIteratorType outputIt(radius, output, output->GetRequestedRegion());
-
+  
   for (bandIt = regionToProcess.first; bandIt != regionToProcess.last; ++bandIt)
     {
-      outputIt.SetLocation(bandIt->m_Index);
-      bandIt->m_Data = df->ComputeUpdate(outputIt, globalData);
+    outputIt.SetLocation(bandIt->m_Index);
+    bandIt->m_Data = df->ComputeUpdate(outputIt, globalData);
     }
   
   // Ask the finite difference function to compute the time step for
@@ -289,7 +284,7 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
   // ask it to free the global data memory.
   timeStep = df->ComputeGlobalTimeStep(globalData);
   df->ReleaseGlobalDataPointer(globalData);
-
+  
   return timeStep;
 }
 

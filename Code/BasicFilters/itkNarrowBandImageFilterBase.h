@@ -79,15 +79,15 @@ public:
   typedef typename Superclass::InputImageType  InputImageType;
   typedef typename Superclass::OutputImageType OutputImageType;
   typedef typename Superclass::FiniteDifferenceFunctionType FiniteDifferenceFunctionType;
-
+  
   /** Dimensionality of input and output data is assumed to be the same.
    * It is inherited from the superclass. */
   itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
-
+  
   /** The pixel type of the output image will be used in computations.
    * Inherited from the superclass. */
   typedef typename Superclass::PixelType PixelType;
-
+  
   /** The value type of a time step.  Inherited from the superclass. */
   typedef typename Superclass::TimeStepType TimeStepType;
 
@@ -112,8 +112,7 @@ public:
 
   /** Root Mean Square Change between successive iterations */
   //  itkGetMacro( RMSChange, ValueType);
-
-
+  
   /** This function is used to insert a pixel index into the narrow band  The
    *   entire narrow band can be constructed using this method.  Usually,
    *   however, the narrow band is initialized and reinitialized automatically
@@ -123,7 +122,6 @@ public:
     m_NarrowBand->PushBack(node); // add new node 
     this->Modified();
   };
-  
   void InsertNarrowBandNode (IndexType &index)
   {
     BandNodeType tmpnode;
@@ -131,7 +129,6 @@ public:
     m_NarrowBand->PushBack(tmpnode);
     this->Modified();
   };
-  
   void InsertNarrowBandNode (IndexType &index, PixelType &value, signed char &nodestate)
   {
     BandNodeType tmpnode;
@@ -142,45 +139,45 @@ public:
     m_NarrowBand->PushBack(tmpnode);
     this->Modified();
   }; 
-
+  
   /** Set the narrow band total radius. The narrow band width will be twice
-   this value (positive and negative distance to the zero level set).
-   The default value is 3.
+      this value (positive and negative distance to the zero level set).
+      The default value is 3.
   */
   void SetNarrowBandTotalRadius (float val)
-    {
-     if (m_NarrowBand->GetTotalRadius() != val)
-       {
-       m_NarrowBand->SetTotalRadius(val);    
-       this->Modified();
-       }
-    }
-    
+  {
+    if (m_NarrowBand->GetTotalRadius() != val)
+      {
+      m_NarrowBand->SetTotalRadius(val);    
+      this->Modified();
+      }
+  }
+  
   /** Get the narrow band total radius. */
   float GetNarrowBandTotalRadius()
-    {
+  {
     return m_NarrowBand->GetTotalRadius();
-    }
+  }
   
   /** Set the narrow band inner radius. The inner radius is the safe are
-  where the level set can be computed.
-  The default value is 1.
+      where the level set can be computed.
+      The default value is 1.
   */
   void SetNarrowBandInnerRadius (float val)
-    {
+  {
     if (m_NarrowBand->GetInnerRadius() != val)
       {
       m_NarrowBand->SetInnerRadius(val);
       this->Modified();
       }
-    }
-  
+  }
+
   /** Get the narrow band inner radius. */
   float GetNarrowBandInnerRadius()
-    {
+  {
     return m_NarrowBand->GetInnerRadius();
-    }
-             
+  }
+  
   /** This is the virtual method called by Initialize to set the band of operation.
    *  It is left to the subclasses to define this functionality. 
    *  This function can make use of above InsertNarrowBandNode function to create a
@@ -188,19 +185,18 @@ public:
    */
   virtual void CreateNarrowBand (){};
   
-  
   virtual void SetNarrowBand(NarrowBandType * ptr)
   {
-  
-  if ( m_NarrowBand != ptr )
-    {
-     m_NarrowBand = ptr;
-     this->Modified();
-    }   
+    
+    if ( m_NarrowBand != ptr )
+      {
+      m_NarrowBand = ptr;
+      this->Modified();
+      }   
   };
-
+  
   virtual void CopyInputToOutput ();
-
+  
 protected: 
   typename NarrowBandType::Pointer m_NarrowBand;
   NarrowBandImageFilterBase() 
@@ -212,10 +208,10 @@ protected:
     m_Step    = 0;
     m_Touched = false;
   }
-
+  
   virtual ~NarrowBandImageFilterBase() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
-
+  
   /** The type of region used in multithreading.  Defines a subregion of the
       narrowband. */
   struct ThreadRegionType 
@@ -223,11 +219,11 @@ protected:
     typename NarrowBandType::Iterator first; // this is the actual first element
     typename NarrowBandType::Iterator last;  // this is one past the actual last //element
   };
-
+  
   /** A list of subregions of the narrowband which are passed to each thread
    * for parallel processing. */
-  //typename ListType::RegionListType m_RegionList;
   std::vector<RegionType> m_RegionList;
+  
   /** This function returns a single region (of the narrow band list) for use
       in multi-threading */
   int GetSplitRegion (int i, int num, ThreadRegionType &splitRegion);
@@ -237,14 +233,16 @@ protected:
    *  the band for multi-threading.
    */
   virtual void Initialize();
-
-  /** This method check the narrow band state each iteration and reinitialize the narrow band if it is appropiate calling CreateNarrowBand and SplitRegions to pre-partion the band for multi-threading.
+  
+  /** This method check the narrow band state each iteration and reinitialize
+      the narrow band if it is appropiate calling CreateNarrowBand and
+      SplitRegions to pre-partion the band for multi-threading.
   */
   virtual void InitializeIteration();
-
+  
   /* This function clears all pixels from the narrow band */
   void ClearNarrowBand ();
-
+  
   unsigned int m_ReinitializationFrequency;
   unsigned int m_CheckFrequency;
   unsigned int m_Step;
@@ -264,7 +262,7 @@ private:
     TimeStepType *TimeStepList;
     bool *ValidTimeStepList;
   };
-
+  
   /* This class does not use AllocateUpdateBuffer to allocate memory for its 
    * narrow band. This is taken care of in SetNarrowBand, and InsertNarrowBandNode
    * functions. This function is here for compatability with the 
@@ -276,14 +274,14 @@ private:
    * the ThreadedAPplyUpdate() method and a multithreading mechanism.  "dt" is
    * the time step to use for the update of each pixel. */
   virtual void ApplyUpdate(TimeStepType dt);
-
+  
   static ITK_THREAD_RETURN_TYPE ApplyUpdateThreaderCallback( void *arg );
   
   /** This method populates m_NarrowBand with changes for each pixel in the
    * output using the ThreadedCalculateChange() method and a multithreading
    * mechanism. Returns value is a time step to be used for the update. */
   virtual TimeStepType CalculateChange();
-
+  
   static ITK_THREAD_RETURN_TYPE CalculateChangeThreaderCallback( void *arg );
   
   virtual void ThreadedApplyUpdate(TimeStepType dt,
@@ -291,7 +289,7 @@ private:
                                    int threadId);
   virtual TimeStepType ThreadedCalculateChange(const ThreadRegionType &regionToProcess,
                                                int threadId);
-
+  
 };
 
 }// end namespace itk
