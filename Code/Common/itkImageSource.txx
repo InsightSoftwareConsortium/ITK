@@ -103,16 +103,6 @@ ImageSource<TOutputImage>
   this->ProcessObject::SetNthOutput(0, output);
 }
 
-/**
- *
- */
-template<class TOutputImage>
-void 
-ImageSource<TOutputImage>
-::GenerateInputRequestedRegion()
-{
-  Superclass::GenerateInputRequestedRegion();
-}
 
 /**
  *

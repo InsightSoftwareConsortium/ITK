@@ -111,20 +111,6 @@ protected:
   void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
   
-  /** 
-   * What is the input requested region that is required to produce the
-   * output requested region? By default, the largest possible region is
-   * always required but this is overridden in many subclasses. For instance,
-   * for an image processing filter where an output pixel is a simple function
-   * of an input pixel, the input requested region will be set to the output
-   * requested region.  For an image processing filter where an output pixel
-   * is a function of the pixels in a neighborhood of an input pixel, then
-   * the input requested region will need to be larger than the output
-   * requested region (to avoid introducing artificial boundary conditions).
-   *
-   * \sa ProcessObject::GenerateInputRequestedRegion()
-   */
-  virtual void GenerateInputRequestedRegion();
   
   /**
    * A version of GenerateData specific for image processing filters.  This
@@ -180,7 +166,7 @@ protected:
    * control to ThreadedGenerateData().
    */
   static ITK_THREAD_RETURN_TYPE ThreaderCallback( void *arg );
-  
+
   /**
    * Internal structure used for passing image data into the threading library
    */
