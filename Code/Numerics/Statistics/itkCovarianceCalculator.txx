@@ -84,6 +84,7 @@ CovarianceCalculator< TSample >
   vnl_vector< double > diff ;
   diff.resize(Dimension) ;
   typename TSample::MeasurementVectorType measurements ;
+  // fills the lower triangle and the diagonal cells in the covariance matrix
   while (iter != m_Sample->End())
     {
       frequency = iter.GetFrequency() ;
@@ -96,12 +97,21 @@ CovarianceCalculator< TSample >
 
       for ( row = 0; row < Dimension ; row++)
         {
-          for ( col = 0; col < Dimension ; col++)
+          for ( col = 0; col < row + 1 ; col++)
             {
               m_Output(row,col) += frequency * diff[row] * diff[col] ;
             }
         }
       ++iter ;
+    }
+
+  // fills the upper triangle using the lower triangle  
+  for (row = 1 ; row < Dimension ; row++)
+    {
+      for (col = 0 ; col < row ; col++)
+        {
+          m_Output(col, row) = m_Output(row, col) ;
+        } 
     }
   
   m_Output /= totalFrequency ;
