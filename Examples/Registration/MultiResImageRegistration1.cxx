@@ -86,13 +86,13 @@
 // \code{MultiResolutionImageRegistrationMethod} invoke a
 // \code{itk::IterationEvent}. The registration components can be changed by
 // implementing an \code{itk::Command} which is registered to respond to the
-// event. A brief description of event and commands was previously presented in
-// section \ref{sec:MonitoringImageRegistration}.
+// event. A brief description the interaction between events and commands
+// was previously presented in section \ref{sec:MonitoringImageRegistration}.
 //
-// We will illustrate this mechanism in the following example by changing the
+// We will illustrate this mechanism in this example by changing the
 // parameters of the optimizer between each resolution level by way of a simple
-// interface command. First, the header file of the \code{Command} class needs
-// to be included.
+// interface command. First, we include the header file of the \code{Command} 
+// class.
 //
 // Software Guide : EndLatex 
 
@@ -106,7 +106,6 @@
 // \code{RegistrationIterfaceCommand}. It derives from the 
 // \code{itk::Command} class and is templated over the 
 // multi-resolution registration type.
-// \code{RegistrationInterfaceCommand}
 //
 // Software Guide : EndLatex
 
@@ -119,7 +118,7 @@ class RegistrationInterfaceCommand : public itk::Command
 // Software Guide : BeginLatex
 //
 // We then define \code{Self}, \code{Superclass}, \code{Pointer},
-// \code{New()} and constructor in a similar fashion to
+// \code{New()} and a constructor in a similar fashion to
 // \code{CommandIterationUpdate} class in section 
 // \ref{sec:MonitoringImageRegistration}.
 //
@@ -323,29 +322,29 @@ int main( int argc, char **argv )
   typedef itk::MattesMutualInformationImageToImageMetric< 
                                     InternalImageType, 
                                     InternalImageType >   MetricType;
-  typedef itk::MultiResolutionPyramidImageFilter<
-                                    InternalImageType,
-                                    InternalImageType >   FixedImagePyramidType;
+  typedef itk::MultiResolutionImageRegistrationMethod< 
+                                    InternalImageType, 
+                                    InternalImageType >   RegistrationType;
   // Software Guide: EndCodeSnippet
 
   //  Software Guide : BeginLatex
   //
   // In the multi-resolution framework, a
   // \code{MultiResolutionPyramidImageFilter} is used to create a pyramid of
-  // downsampled images. The size of each downsample image is specified by the
-  // user in the form of schedule of shrink factors. A description of the
-  // filter and multi-resolution schedules are described in detail in section
+  // downsampled images. The size of each downsampled image is specified by the
+  // user in the form of a schedule of shrink factors. A description of the
+  // filter and the format of the schedules are described in detail in section
   // \ref{sec:ImagePyramids}. For this example, we will simply use the default
-  // schedule. 
+  // schedules. 
   // 
   //  Software Guide : EndLatex 
   // Software Guide : BeginCodeSnippet
   typedef itk::MultiResolutionPyramidImageFilter<
                                     InternalImageType,
+                                    InternalImageType >   FixedImagePyramidType;
+  typedef itk::MultiResolutionPyramidImageFilter<
+                                    InternalImageType,
                                     InternalImageType >   MovingImagePyramidType;
-  typedef itk::MultiResolutionImageRegistrationMethod< 
-                                    InternalImageType, 
-                                    InternalImageType >   RegistrationType;
  
   // Software Guide: EndCodeSnippet
 
@@ -388,7 +387,7 @@ int main( int argc, char **argv )
   //  
   //  The fixed and moving images are read in from file. Before connecting
   //  these images to the registration we need to cast them to the internal
-  //  image type using \code{CastImageFilter} objects.
+  //  image type using \code{CastImageFilters}.
   //
   //  Software Guide : EndLatex 
   // Software Guide : BeginCodeSnippet
