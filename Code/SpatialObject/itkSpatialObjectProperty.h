@@ -69,14 +69,18 @@ namespace itk{
     void SetName( char * name );
     StringType GetName( void ) const;
 
+    unsigned long GetMTime(void){return m_MTime;}
+
   protected:
 
     void PrintSelf(std::ostream &os, Indent indent) const;
+    void Modified(void){m_MTime++;}
 
   private:    
 
     PixelType m_Color;
     StringType m_Name;
+    unsigned long m_MTime;
 
   };
 
