@@ -30,6 +30,7 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageSeriesWriter.h"
+#include "itkNumericSeriesFileNames.h"
 
 int main( int argc, char *argv[] )
 {
@@ -93,10 +94,25 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The writer requires a string in the form of a \code{printf()} format in
-  //  order to have a template for generating the filenames of all the output
-  //  slices. Here we compose this string using a prefix taken from the command
-  //  line arguments and adding the extension for PNG files.
+  //  The writer requires a list of filenames to be generated. This list can be
+  //  produced with the help of the \doxygen{NumericSeriesFileNames} class.
+  //
+  //
+  //  Software Guide : EndLatex 
+ 
+  // Software Guide : BeginCodeSnippet
+  typedef itk::NumericSeriesFileNames    NameGeneratorType;
+
+  NameGeneratorType::Pointer nameGenerator = NameGeneratorType::New();
+  // Software Guide : EndCodeSnippet
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  The \code{NumericSeriesFileNames} class requires an input string in order
+  //  to have a template for generating the filenames of all the output slices.
+  //  Here we compose this string using a prefix taken from the command line
+  //  arguments and adding the extension for PNG files.
   //
   //  Software Guide : EndLatex 
 
@@ -105,20 +121,61 @@ int main( int argc, char *argv[] )
   std::string format = argv[2];
   format += "%03d.";
   format += argv[3];   // filename extension
+
+  nameGenerator->SetSeriesFormat( format.c_str() );
   // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
   //
-  //  Finally we trigger the execution of the pipeline with the Update()
-  //  method on the writer. At this point the slices of the image will be
-  //  saved in individual files containing a single slice per file.
+  //  The input string is going to be used for generating filenames by setting
+  //  the values of the first and last slice. This can be done by collecting
+  //  information from the input image. Note that before attempting to take any
+  //  image information from the reader, its execution must be triggered with
+  //  the invokation of the \code{Update()} method, and since this invokation
+  //  can potentially throw exceptions, it must be put inside a
+  //  \code{try/catch} block.
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  try
+    {
+    reader->Update();
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cerr << "Exception thrown while reading the image" << std::endl;
+    std::cerr << excp << std::endl;
+    }
+
+  ImageType::ConstPointer inputImage = reader->GetOutput();
+  ImageType::RegionType   region     = inputImage->GetLargestPossibleRegion();
+  ImageType::IndexType    start      = region.GetIndex(); 
+  ImageType::SizeType     size       = region.GetSize(); 
+
+  const unsigned int first = start[2];
+  const unsigned int last  = start[2] + size[2] - 1;
+
+  nameGenerator->SetStartIndex( first );
+  nameGenerator->SetEndIndex( last );
+  nameGenerator->SetIncrementIndex( 1 );
+  // Software Guide : EndCodeSnippet
+
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  Finally the list of filename can be passed to the writer and we trigger
+  //  the execution of the pipeline with the Update() method on the writer. At
+  //  this point the slices of the image will be saved in individual files
+  //  containing a single slice per file.
   //
   //  Software Guide : EndLatex 
 
 
   // Software Guide : BeginCodeSnippet
-  writer->SetSeriesFormat( format.c_str() );
+  writer->SetFileNames( nameGenerator->GetFileNames() );
   writer->SetStartIndex( 0 );
   writer->SetIncrementIndex( 1 );
   // Software Guide : EndCodeSnippet
