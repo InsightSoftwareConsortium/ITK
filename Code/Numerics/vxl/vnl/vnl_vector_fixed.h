@@ -7,6 +7,19 @@
 #include <vnl/vnl_vector_ref.h>
 #include <vnl/vnl_c_vector.h>
 
+
+template <class T, int n>
+class vnl_vector_fixed;
+
+template <class T, int n>
+vnl_vector_fixed<T,n> element_product VCL_NULL_TMPL_ARGS (vnl_vector_fixed<T,n> const&,
+                                                          vnl_vector_fixed<T,n> const&);
+
+template <class T, int n>
+vnl_vector_fixed<T,n> element_quotient VCL_NULL_TMPL_ARGS (vnl_vector_fixed<T,n> const&,
+                                                           vnl_vector_fixed<T,n> const&);
+
+
 //:
 // \file
 // \brief Fixed length stack-stored vnl_vector
@@ -196,7 +209,8 @@ vcl_ostream &operator<<(vcl_ostream &os, vnl_vector_fixed<T, n> const &v) {
 #endif
 
 //                                        what's this?
-#if !defined (VCL_SUNPRO_CC) || ! defined (_ODI_OSSG_)
+#if !defined (VCL_SUNPRO_CC) && ! defined (_ODI_OSSG_)
+
 vnl_vector_fixed<double,3> cross_3d (vnl_vector_fixed<double,3> const& vect1,
                                      vnl_vector_fixed<double,3> const& vect2);
 vnl_vector_fixed<float,3> cross_3d (vnl_vector_fixed<float,3> const& vect1,

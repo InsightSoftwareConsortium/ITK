@@ -22,8 +22,8 @@ macro(z, vnl_netlib::doublecomplex_t);
 #undef macro
 
 //--------------------------------------------------------------------------------
-
-static bool test_heavily = false;
+#define test_heavily false
+//static bool test_heavily = false;
 
 // awf : REMEMBER TO CHANGE DOC COMMENT IN vnl_svd.h if you change anything
 // fsm : errh... which one of them ?
