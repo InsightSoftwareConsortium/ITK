@@ -172,8 +172,7 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Kernel: " << (m_Kernel ? "(None)" : m_Kernel)
-     << std::endl;
+  os << indent << "Kernel: " << m_Kernel << std::endl;
 }
 
 }// end namespace itk
