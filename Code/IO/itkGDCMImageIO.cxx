@@ -186,70 +186,78 @@ void GDCMImageIO::Read(void* buffer)
 
   gdcm::FileHelper gfile( m_FileName );
   size_t size = gfile.GetImageDataSize();
-  //== this->GetImageSizeInComponents()
   unsigned char *source = (unsigned char*)gfile.GetImageData();
 
-  switch(m_ComponentType)
+  // We can rescale pixel only in grayscale image
+  if( m_NumberOfComponents == 1 )
     {
-    case UCHAR:
+    switch(m_ComponentType)
       {
-      unsigned char *ucbuffer = (unsigned char*)buffer;
-      unsigned char *ucsource = (unsigned char*)source;
-      RescaleFunction(ucbuffer, ucsource, m_RescaleSlope, m_RescaleIntercept, size);
+      case UCHAR:
+        {
+        unsigned char *ucbuffer = (unsigned char*)buffer;
+        unsigned char *ucsource = (unsigned char*)source;
+        RescaleFunction(ucbuffer, ucsource, m_RescaleSlope, m_RescaleIntercept, size);
+        }
+        break;
+      case CHAR:
+        {
+        char *cbuffer = (char*)buffer;
+        char *csource = (char*)source;
+        RescaleFunction(cbuffer, csource, m_RescaleSlope, m_RescaleIntercept, size);
+        }
+        break;
+      case USHORT:
+        {
+        unsigned short *usbuffer = (unsigned short*)buffer;
+        unsigned short *ussource = (unsigned short*)source;
+        RescaleFunction(usbuffer, ussource, m_RescaleSlope, m_RescaleIntercept, size);
+        }
+        break;
+      case SHORT:
+        {
+        short *sbuffer = (short*)buffer;
+        short *ssource = (short*)source;
+        RescaleFunction(sbuffer, ssource, m_RescaleSlope, m_RescaleIntercept, size);
+        }
+        break;
+      case UINT:
+        {
+        unsigned int *uibuffer = (unsigned int*)buffer;
+        unsigned int *uisource = (unsigned int*)source;
+        RescaleFunction(uibuffer, uisource, m_RescaleSlope, m_RescaleIntercept, size);
+        }
+        break;
+      case INT:
+        {
+        int *ibuffer = (int*)buffer;
+        int *isource = (int*)source;
+        RescaleFunction(ibuffer, isource, m_RescaleSlope, m_RescaleIntercept, size);
+        }
+        break;
+      case FLOAT:
+        {
+        // Particular case for PET image that need to be return as FLOAT image
+        float *fbuffer = (float*)buffer;
+        unsigned short *fsource = (unsigned short*)source;
+        RescaleFunction(fbuffer, fsource, m_RescaleSlope, m_RescaleIntercept, size);
+        }
+        break;
+      case DOUBLE:
+        {
+        double *dbuffer = (double*)buffer;
+        double *dsource = (double*)source;
+        RescaleFunction(dbuffer, dsource, m_RescaleSlope, m_RescaleIntercept, size);
+        }
+        break;
+       default:
+        itkExceptionMacro(<< "Unknown component type :" << m_ComponentType);
       }
-      break;
-    case CHAR:
-      {
-      char *cbuffer = (char*)buffer;
-      char *csource = (char*)source;
-      RescaleFunction(cbuffer, csource, m_RescaleSlope, m_RescaleIntercept, size);
-      }
-      break;
-    case USHORT:
-      {
-      unsigned short *usbuffer = (unsigned short*)buffer;
-      unsigned short *ussource = (unsigned short*)source;
-      RescaleFunction(usbuffer, ussource, m_RescaleSlope, m_RescaleIntercept, size);
-      }
-      break;
-    case SHORT:
-      {
-      short *sbuffer = (short*)buffer;
-      short *ssource = (short*)source;
-      RescaleFunction(sbuffer, ssource, m_RescaleSlope, m_RescaleIntercept, size);
-      }
-      break;
-    case UINT:
-      {
-      unsigned int *uibuffer = (unsigned int*)buffer;
-      unsigned int *uisource = (unsigned int*)source;
-      RescaleFunction(uibuffer, uisource, m_RescaleSlope, m_RescaleIntercept, size);
-      }
-      break;
-    case INT:
-      {
-      int *ibuffer = (int*)buffer;
-      int *isource = (int*)source;
-      RescaleFunction(ibuffer, isource, m_RescaleSlope, m_RescaleIntercept, size);
-      }
-      break;
-    case FLOAT:
-      {
-      // Particular case for PET image that need to be return as FLOAT image
-      float *fbuffer = (float*)buffer;
-      unsigned short *fsource = (unsigned short*)source;
-      RescaleFunction(fbuffer, fsource, m_RescaleSlope, m_RescaleIntercept, size);
-      }
-      break;
-    case DOUBLE:
-      {
-      double *dbuffer = (double*)buffer;
-      double *dsource = (double*)source;
-      RescaleFunction(dbuffer, dsource, m_RescaleSlope, m_RescaleIntercept, size);
-      }
-      break;
-     default:
-      itkExceptionMacro(<< "Unknown component type :" << m_ComponentType);
+    }
+  else
+    {
+    // This is a RGB buffer, only do a straight copy:
+    memcpy(buffer, source, size);
     }
 
 //  NOTE: source should not be deleted. gdcm controls the pointer.
@@ -273,41 +281,44 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
   // since the reading of the file is done by gdcm.
   // But we do need to set up the data type for downstream filters:
 
+  int numComp = header.GetNumberOfScalarComponents();
+  this->SetNumberOfComponents(numComp);
+  if (numComp == 1)
+    {
+    this->SetPixelType(SCALAR);
+    }
+  else
+    {
+    this->SetPixelType(RGB);
+    }
   std::string type = header.GetPixelType();
   if( type == "8U")
     {
-    SetPixelType(SCALAR);
     SetComponentType(UCHAR);
     }
   else if( type == "8S")
     {
-    SetPixelType(SCALAR);
     SetComponentType(CHAR);
     }
   else if( type == "16U")
     {
-    SetPixelType(SCALAR);
     SetComponentType(USHORT);
     }
   else if( type == "16S")
     {
-    SetPixelType(SCALAR);
     SetComponentType(SHORT);
     }
   else if( type == "32U")
     {
-    SetPixelType(SCALAR);
     SetComponentType(UINT);
     }
   else if( type == "32S")
     {
-    SetPixelType(SCALAR);
     SetComponentType(INT);
     }
   else if ( type == "FD" )
     {
     //64 bits Double image
-    SetPixelType(SCALAR);
     SetComponentType(DOUBLE);
     }
   else
@@ -506,46 +517,56 @@ void GDCMImageIO::Write(const void* buffer)
   std::string bitsStored;
   std::string highBit;
   std::string pixelRep;
-  switch (this->GetComponentType())
+
+  if( m_NumberOfComponents == 1 )
     {
-    case CHAR:
-      bitsAllocated = "8"; // Bits Allocated
-      bitsStored    = "8"; // Bits Stored
-      highBit       = "7"; // High Bit
-      // 8bits DICOM cannot be signed
-      pixelRep      = "1"; //Pixel Representation
-      break;
+    gfile->SetWriteTypeToDcmExplVR();
 
-    case UCHAR:
-      bitsAllocated = "8"; // Bits Allocated
-      bitsStored    = "8"; // Bits Stored
-      highBit       = "7"; // High Bit
-      pixelRep      = "0"; //Pixel Representation
-      break;
+    switch (this->GetComponentType())
+      {
+      case CHAR:
+        bitsAllocated = "8"; // Bits Allocated
+        bitsStored    = "8"; // Bits Stored
+        highBit       = "7"; // High Bit
+        pixelRep      = "1"; //Pixel Representation
+        break;
 
-    case SHORT:
-      bitsAllocated = "16"; // Bits Allocated
-      bitsStored    = "16"; // Bits Stored
-      highBit       = "15"; // High Bit
-      pixelRep      = "1"; //Pixel Representation
-      break;    
+      case UCHAR:
+        bitsAllocated = "8"; // Bits Allocated
+        bitsStored    = "8"; // Bits Stored
+        highBit       = "7"; // High Bit
+        pixelRep      = "0"; //Pixel Representation
+        break;
 
-    case USHORT:
-      bitsAllocated = "16"; // Bits Allocated
-      bitsStored    = "16"; // Bits Stored
-      highBit       = "15"; // High Bit
-      pixelRep      = "1"; //Pixel Representation
-      break;
+      case SHORT:
+        bitsAllocated = "16"; // Bits Allocated
+        bitsStored    = "16"; // Bits Stored
+        highBit       = "15"; // High Bit
+        pixelRep      = "1";  //Pixel Representation
+        break;    
 
-    default:
-      itkExceptionMacro(<<"DICOM does not support this component type");
+      case USHORT:
+        bitsAllocated = "16"; // Bits Allocated
+        bitsStored    = "16"; // Bits Stored
+        highBit       = "15"; // High Bit
+        pixelRep      = "1";  //Pixel Representation
+        break;
+
+      default:
+        itkExceptionMacro(<<"DICOM does not support this component type");
+      }
+
+    // Write component specific information in the header:
+    header->InsertValEntry( bitsAllocated, 0x0028, 0x0100 ); //Bits Allocated
+    header->InsertValEntry( bitsStored, 0x0028, 0x0101 ); //Bits Stored
+    header->InsertValEntry( highBit, 0x0028, 0x0102 ); //High Bit
+    header->InsertValEntry( pixelRep, 0x0028, 0x0103 ); //Pixel Representation
     }
-
-  // Write component specific information in the header:
-  header->InsertValEntry( bitsAllocated, 0x0028, 0x0100 ); //Bits Allocated
-  header->InsertValEntry( bitsStored, 0x0028, 0x0101 ); //Bits Stored
-  header->InsertValEntry( highBit, 0x0028, 0x0102 ); //High Bit
-  header->InsertValEntry( pixelRep, 0x0028, 0x0103 ); //Pixel Representation
+  else
+    {
+    // Write the image as RGB DICOM
+    gfile->SetWriteModeToRGB();
+    }
 
   if( !m_KeepOriginalUID )
   {
@@ -573,16 +594,17 @@ void GDCMImageIO::Write(const void* buffer)
   memcpy(imageData, buffer, numberOfBytes);
  
   // Here we are passing directly a pointer, this should
-  gfile->SetUserData( imageData, numberOfBytes );
-
-  gfile->SetWriteTypeToDcmExplVR();
+  gfile->SetUserData( imageData, numberOfBytes);
   if( ! gfile->Write( m_FileName ) )
     {
     itkExceptionMacro(<< "Cannot write requested file:" << m_FileName );
     }
 
-  // DO NOT DELETE "imageData" since GDCM will delete it when the
-  // GdcmHeader is deleted.
+  // Clean up
+  if( gfile->GetUserData() && gfile->GetUserDataSize()>0 )
+  {
+     delete[] gfile->GetUserData();
+  }
 
   delete gfile;
   delete header;
