@@ -52,6 +52,7 @@ public:
   typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
+  typedef typename Superclass::InputImageRegionType InputImageRegionType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
