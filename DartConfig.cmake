@@ -33,3 +33,4 @@ SET (SMTP_MAILHOST "public.kitware.com")
 SET (CONTINUOUS_MONITOR_LIST "lorensen@crd.ge.com millerjv@crd.ge.com")
 SET (CONTINUOUS_BASE_URL "http://www.itk.org/Testing")
 
+MARK_AS_ADVANCED(BUILD_DOXYGEN)
