@@ -162,9 +162,8 @@ int main()
       PrintRegion<int,2>(ip);
       
       itk::SmartRegionNeighborhoodIterator<int,2> it(hoodRadius, ip, reg);
-      const itk::SmartRegionNeighborhoodIterator<int,2> itEnd = it.End();
       
-      for (it = it.Begin(); it < itEnd; ++it)
+      for (it = it.Begin(); !it.IsAtEnd(); ++it)
         {
           temp = it.GetNeighborhood();
           temp.PrintSelf();

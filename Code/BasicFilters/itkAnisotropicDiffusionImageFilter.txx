@@ -13,6 +13,7 @@
   See COPYRIGHT.txt for copyright details.
 
   =========================================================================*/
+#include "itkImageTraits.h"
 #include "itkRegionNonBoundaryNeighborhoodIterator.h"
 #include "itkRegionBoundaryNeighborhoodIterator.h"
 #include "itkDerivativeOperator.h"
@@ -27,9 +28,9 @@ void UpdateStrategyScalar<TImage>
 {
   TImage *ip = static_cast<TImage *>(d1);
   TImage *op = static_cast<TImage *>(d2);
-  ImageRegionIterator<typename TImage::ScalarValueType, TImage::ImageDimension>
+  ImageRegionIterator<ImageTraits<TImage>::ScalarValueType, ImageTraits<TImage>::ImageDimension>
     in(ip, op->GetRequestedRegion());
-  ImageRegionIterator<typename TImage::ScalarValueType, TImage::ImageDimension>
+  ImageRegionIterator<ImageTraits<TImage>::ScalarValueType, ImageTraits<TImage>::ImageDimension>
     out(op, op->GetRequestedRegion());
   in = in.Begin();
   out = out.Begin();
@@ -47,9 +48,9 @@ void CopyStrategyScalar<TImage>::operator()(void *d1, void *d2) const
 {
   TImage *ip = static_cast<TImage *>(d1);
   TImage *op = static_cast<TImage *>(d2);
-  ImageRegionIterator<typename TImage::ScalarValueType, TImage::ImageDimension>
+  ImageRegionIterator<ImageTraits<TImage>::ScalarValueType, ImageTraits<TImage>::ImageDimension>
     in(ip, op->GetRequestedRegion());
-  ImageRegionIterator<typename TImage::ScalarValueType, TImage::ImageDimension>
+  ImageRegionIterator<ImageTraits<TImage>::ScalarValueType, ImageTraits<TImage>::ImageDimension>
     out(op, op->GetRequestedRegion());
   in = in.Begin();
   out = out.Begin();
@@ -136,7 +137,7 @@ TPixel AvgGradMagSquared<TPixel, VDimension>
   counter     = 0;
   const RNI_type iterator_end = iterator_list[0].End();
   for (iterator_list[0] = iterator_list[0].Begin();
-       iterator_list[0] < iterator_end; ++counter)
+       !iterator_list[0].IsAtEnd(); ++counter)
     {
       for (unsigned int i = 0; i < VDimension; ++i)
         {

@@ -86,6 +86,30 @@ struct ITK_EXPORT ImageTraits
    */
   typedef typename TImage::PixelContainer        PixelContainer;
   typedef typename TImage::PixelContainerPointer PixelContainerPointer;
+
+  /** 
+   * Pixel (scalar) value typedef support. The scalar value is the native
+   * type that the scalar portion of the pixels are composed of; usually 
+   * something like float, int, etc. ScalarTraits typically needs to be
+   * specialized for a given PixelType. If a PixelType does not have
+   * scalar values, ScalarTraits provides an opportunity to define what
+   * the scalar type would be if the PixelType had scalars.  For instance,
+   * the ScalarValueType for a PixelType that only has a vector may be
+   * defined to match the vector value type.
+   */
+  typedef typename TImage::ScalarValueType ScalarValueType;
+
+  /** 
+   * Pixel (vector) value typedef support. The vector value is the native
+   * type that the vector portion of the pixels are composed of; usually 
+   * something like float, int, etc. VectorTraits typically needs to be
+   * specialized for a given PixelType. If a PixelType does not have
+   * vector values, VectorTraits provides an opportunity to define what
+   * the vector value type would be if the PixelType had a vector.  For
+   * instance, the VectorValueType for a PixelType that only has a scalar may
+   * be defined to match the vector value type.
+   */
+  typedef typename TImage::VectorValueType VectorValueType;
 };
 
   

@@ -62,8 +62,7 @@ GradientMagnitudeStrategy<TInnerProduct, TIterator>
     }
 
   // Process
-  const TIterator _end = it.End();
-  for (it = it.Begin(); it != _end; ++it)
+  for (it = it.Begin(); !it.IsAtEnd(); ++it)
     {
       a = NumericTraits<ScalarValueType>::Zero;
       for (i = 0; i < ImageDimension; ++i)

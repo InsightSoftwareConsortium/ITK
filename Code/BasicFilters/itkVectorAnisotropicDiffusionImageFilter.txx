@@ -185,8 +185,7 @@ void AnisoDiffuseVector2D<TInnerProduct, TIterator>
   std::slice yd_slice(1, 3, 5);
   
   // process the image
-  const TIterator it_end = it.End();
-  for (it = it.Begin(); it < it_end; ++it)
+  for (it = it.Begin(); !it.IsAtEnd(); ++it)
     {
       Cx_gradmag  = NumericTraits<VectorValueType>::Zero;
       Cy_gradmag  = NumericTraits<VectorValueType>::Zero;
@@ -291,8 +290,7 @@ void AnisoDiffuseVectorND<TInnerProduct, TIterator>
    
 
  // process the image
-  const TIterator it_end = it.End();
-  for (it = it.Begin(); it < it_end; ++it)
+  for (it = it.Begin(); !it.IsAtEnd(); ++it)
     {
       for (unsigned int i = 0; i < D; ++i) // calculate all derivatives
         {

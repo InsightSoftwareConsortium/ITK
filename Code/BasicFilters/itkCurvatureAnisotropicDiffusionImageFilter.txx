@@ -84,8 +84,7 @@ void AnisoDiffuseCurve2D<TInnerProduct, TIterator>
   std::slice yd_slice(1, 3, 5);
 
   // Process the image
-  const TIterator it_end = it.End();
-  for (it = it.Begin(); it < it_end; ++it)
+  for (it = it.Begin(); !it.IsAtEnd(); ++it)
     {
       // Centralized differences
       dx_forward = it.GetPixel(6) - it.GetPixel(7);

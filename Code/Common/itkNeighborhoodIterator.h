@@ -341,7 +341,7 @@ public:
   {
     return  (*this)[this->size()>>1] < it[this->size()>>1];
   }
- 
+
   /**
    * Returns a boolean < comparison of the memory addresses of the center
    * elements of two NeighborhoodIterators of like pixel type and

@@ -54,6 +54,11 @@ public:
   typedef DerivativeOperator Self;
 
   /**
+   * Standard "Superclass" typedef.
+   */
+  typedef NeighborhoodOperator<TPixel, VDimension>  Superclass;
+
+  /**
    * NeighborhoodOperator typedef support.
    */
   typedef NeighborhoodOperator<TPixel, VDimension> NeighborhoodOperator;
@@ -82,7 +87,7 @@ public:
   void PrintSelf()  // Note: This method is for devel/debugging
   {             // and should probably be removed at some point.
                 //  jc 10-06-00
-    NeighborhoodOperator::PrintSelf();
+    Superclass::PrintSelf();
     std::cout << "DerivativeOperator" << std::endl;
     std::cout << "\tOrder = " << m_Order << std::endl;
   }
