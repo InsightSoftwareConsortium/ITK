@@ -62,13 +62,23 @@ void itkObjectFactoryBase::RegisterDefaults()
 // Load all libraries in ITK_AUTOLOAD_PATH
 void itkObjectFactoryBase::LoadDynamicFactories()
 {
-  // follow PATH convensions
+  // follow PATH conventions
 #ifdef _WIN32
   char PathSeparator = ';';
 #else
   char PathSeparator = ':';
 #endif
-  std::string LoadPath = getenv("ITK_AUTOLOAD_PATH");
+  
+  std::string LoadPath;
+  if (getenv("ITK_AUTOLOAD_PATH"))
+    {
+    LoadPath = getenv("ITK_AUTOLOAD_PATH");
+    }
+  else
+    {
+    return;
+    }
+
   if(LoadPath.size() == 0)
     {
     return;
@@ -300,6 +310,7 @@ itkObject* itkObjectFactoryBase::CreateObject(const char* itkclassname)
     {
     return (*pos).second.m_CreateObject->CreateObject();
     }
+  return 0;
 }
 
 //----------------------------------------------------------------------------
