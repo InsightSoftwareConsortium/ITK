@@ -13,6 +13,9 @@
 #     PURPOSE.  See the above copyright notices for more information.
 #
 
+# Need Tk.
+package require Tk
+
 # Define ITK Tcl interactor.
 namespace eval itk::interact {
 
