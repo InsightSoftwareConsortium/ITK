@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFloodFilledSpatialFunctionConditionalIterator.txx
+  Module:    itkFloodFilledImageFunctionConditionalIterator.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,25 +14,22 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkFloodFilledSpatialFunctionConditionalIterator_txx
-#define _itkFloodFilledSpatialFunctionConditionalIterator_txx
+#ifndef _itkFloodFilledImageFunctionConditionalIterator_txx
+#define _itkFloodFilledImageFunctionConditionalIterator_txx
 
-#include "itkFloodFilledSpatialFunctionConditionalIterator.h"
+#include "itkFloodFilledImageFunctionConditionalIterator.h"
 
 namespace itk
 {
 template<class TImage, class TFunction>
 bool
-FloodFilledSpatialFunctionConditionalIterator<TImage, TFunction>
+FloodFilledImageFunctionConditionalIterator<TImage, TFunction>
 ::IsPixelIncluded(IndexType index)
 {
   FunctionInputType position;
 
-  // Get the physical location of this point
-  m_Image->TransformIndexToPhysicalPoint(index, position);
-
   // Evaluate the function at this point
-  return m_Function->Evaluate(position);
+  return m_Function->EvaluateAtIndex(index);
 }
 
 } // end namespace itk

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFloodFilledSpatialFunctionConditionalIterator.h
+  Module:    itkFloodFilledImageFunctionConditionalIterator.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkFloodFilledSpatialFunctionConditionalIterator_h
-#define __itkFloodFilledSpatialFunctionConditionalIterator_h
+#ifndef __itkFloodFilledImageFunctionConditionalIterator_h
+#define __itkFloodFilledImageFunctionConditionalIterator_h
 
 #include "itkFloodFilledFunctionConditionalIterator.h"
 
@@ -23,18 +23,18 @@ namespace itk
 {
 
 /**
- * \class FloodFilledSpatialFunctionConditionalIterator
- * \brief Iterates over a flood-filled spatial function. 
+ * \class FloodFilledImageFunctionConditionalIterator
+ * \brief Iterates over a flood-filled image function. 
  *
  * \ingroup ImageIterators
  *
  */
 template<class TImage, class TFunction>
-class FloodFilledSpatialFunctionConditionalIterator: public FloodFilledFunctionConditionalIterator<TImage, TFunction>
+class FloodFilledImageFunctionConditionalIterator: public FloodFilledFunctionConditionalIterator<TImage, TFunction>
 {
 public:
   /** Standard class typedefs. */
-  typedef FloodFilledSpatialFunctionConditionalIterator Self;
+  typedef FloodFilledImageFunctionConditionalIterator Self;
   typedef FloodFilledFunctionConditionalIterator<TImage, TFunction> Superclass;
   /** Type of function */
   typedef Superclass::FunctionType FunctionType;
@@ -68,11 +68,11 @@ public:
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
-  FloodFilledSpatialFunctionConditionalIterator(ImageType *imagePtr,
+  FloodFilledImageFunctionConditionalIterator(ImageType *imagePtr,
                                      FunctionType *fnPtr,
                                      IndexType startIndex): Superclass(imagePtr, fnPtr, startIndex) {};
   /** Default Destructor. */
-  virtual ~FloodFilledSpatialFunctionConditionalIterator() {};
+  virtual ~FloodFilledImageFunctionConditionalIterator() {};
 
   /** Compute whether the index of interest should be included in the flood */
   bool IsPixelIncluded(IndexType index);
@@ -84,7 +84,7 @@ protected: //made protected so other iterators can access
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkFloodFilledSpatialFunctionConditionalIterator.txx"
+#include "itkFloodFilledImageFunctionConditionalIterator.txx"
 #endif
 
 #endif 
