@@ -32,8 +32,18 @@ void CannySegmentationLevelSetFunction<TImageType, TFeatureImageType>
   // Create a distance transform to the canny edges
   this->CalculateDistanceImage();
 
-  // This distance transform becomes the speed image
-  this->SetSpeedImage(m_Distance->GetOutput());
+ // Copy the distance transform into the speed image.  This causes the level
+  // set to grow in zero gradient directions (i.e. expand along an isosurface).
+  ImageRegionIterator<ImageType> it_d(this->GetSpeedImage(),
+                                      this->GetSpeedImage()->GetRequestedRegion());
+  ImageRegionConstIterator<ImageType> it_da(m_Distance->GetOutput(),
+                                            this->GetSpeedImage()->GetRequestedRegion());
+  
+  for (; ! it_d.IsAtEnd(); ++it_d, ++it_da)
+    {
+    it_d.Set(it_da.Get());
+    }
+
 }
 
 template <class TImageType, class TFeatureImageType>
