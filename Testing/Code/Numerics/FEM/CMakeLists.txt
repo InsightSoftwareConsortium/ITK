@@ -53,7 +53,7 @@ ADD_TEST(itkFEMC0TriangularElement-NodalLoads-MFCs itkFEMTests itkFEMElementTest
 ADD_TEST(itkFEMC0TriangularElement-NoLoads itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/tri3.fem)
 ADD_TEST(itkFEMTruss itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/truss.fem)
 ADD_TEST(itkFEMTruss-NoLoads itkFEMTests itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/truss_noload.fem)
-ADD_TEST(itkFEMLinearSystemWrapperItpackTest  itkFEMTests)
+ADD_TEST(itkFEMLinearSystemWrapperItpackTest  itkFEMTests itkFEMLinearSystemWrapperItpackTest)
 
 #ADD_TEST(itkFEMBar2DTest itkFEMTests itkFEMBar2DTest)
 
