@@ -136,7 +136,6 @@ int testPolygonGroupEquivalence(PolygonGroup3DPointer &p1,
 }
 int itkPolygonGroupSpatialObjectXMLFileTest(int ac, char *av[])
 {
-    return EXIT_FAILURE;
   if(ac < 2)
     {
     std::cerr << "Usage: " << av[0] << " XMLfile\n";
@@ -147,12 +146,12 @@ int itkPolygonGroupSpatialObjectXMLFileTest(int ac, char *av[])
   PolygonGroup3DPointer PGroupFromFile;
   if(buildPolygonGroup(PolygonGroup) != 0 || PolygonGroup.IsNull())
     {
-    return -1;
+    std::cerr << "Error building polygon group" << std::endl;
+    return EXIT_FAILURE;
     }
 
   std::string xmlfilename(av[1]);
   xmlfilename = xmlfilename + "/PolygonGroupSpatialObjectXMLFileTest.xml";
-
   try
     {
     itk::PolygonGroupSpatialObjectXMLFileWriter::Pointer pw =
@@ -165,7 +164,7 @@ int itkPolygonGroupSpatialObjectXMLFileTest(int ac, char *av[])
   catch(itk::ExceptionObject &)
     {
     std::cerr << "Error Creating file" << std::endl;
-    return -1;
+    return EXIT_FAILURE;
     }
 
   try
@@ -178,13 +177,13 @@ int itkPolygonGroupSpatialObjectXMLFileTest(int ac, char *av[])
     if(PGroupFromFile.IsNull())
       {
       std::cerr << "Error retrieving object pointer" << std::endl;
-      return -1;
+      return EXIT_FAILURE;
       }
     }
   catch(itk::ExceptionObject &)
     {
     std::cerr << "Error Reading file" << std::endl;
-    return -1;
+    return EXIT_FAILURE;
     }
   itksys::SystemTools::RemoveFile(xmlfilename.c_str());
   return testPolygonGroupEquivalence(PolygonGroup,PGroupFromFile);
