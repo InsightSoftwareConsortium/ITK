@@ -49,21 +49,49 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <iostream>
 
+/**
+ * This function defines the test image pattern.
+ * The pattern is a 3D gaussian in the middle
+ * and some directional pattern on the outside.
+ */
+double F( double x, double y, double z )
+{
+  const double s = 50;
+  double value = 200.0 * exp( - ( x*x + y*y + z*z )/(s*s) );
+  x -= 8; y += 3; z += 0;
+  double r = vnl_math_sqrt( x*x + y*y + z*z );
+  if( r > 35 )
+    {
+    value = 2 * ( vnl_math_abs( x ) + 
+      0.8 * vnl_math_abs( y ) +
+      0.5 * vnl_math_abs( z ) );
+    }
+  if( r < 4 )
+    {
+    value = 400;
+    }
+
+  return value;
+
+}
+
+
 int main()
 {
 
 //------------------------------------------------------------
 // Create two simple images
-// Two Gaussians with one translated (7,3) pixels from another
+// Translate and dilate one of the image
 //------------------------------------------------------------
 
-  //Allocate Images
-  typedef itk::Image<unsigned char,2>           ReferenceType;
-  typedef itk::Image<unsigned char,2>           TargetType;
+  // Allocate Images
+  typedef float PixelType;
+  typedef itk::Image<PixelType,3>           ReferenceType;
+  typedef itk::Image<PixelType,3>           TargetType;
   enum { ImageDimension = ReferenceType::ImageDimension };
 
-  ReferenceType::SizeType size = {{100,100}};
-  ReferenceType::IndexType index = {{0,0}};
+  ReferenceType::SizeType size = {{100,100,40}};
+  ReferenceType::IndexType index = {{0,0,0}};
   ReferenceType::RegionType region;
   region.SetSize( size );
   region.SetIndex( index );
@@ -80,38 +108,44 @@ int main()
   imgTarget->SetRequestedRegion( region );
   imgTarget->Allocate();
 
-  // Fill images with a 2D gaussian
+  // Fill images with a 3D gaussian with some directional pattern
+  // in the background
   typedef  itk::ImageRegionIterator<ReferenceType>
     ReferenceIteratorType;
   typedef  itk::ImageRegionIterator<TargetType>
     TargetIteratorType;
 
-  itk::Point<double,2> center;
+  itk::Point<double,3> center;
   center[0] = (double)region.GetSize()[0]/2.0;
   center[1] = (double)region.GetSize()[1]/2.0;
+  center[2] = (double)region.GetSize()[2]/2,0;
 
   const double s = (double)region.GetSize()[0]/2.0;
 
-  itk::Point<double,2>  p;
-  itk::Vector<double,2> d;
+  itk::Point<double,3>  p;
+  itk::Vector<double,3> d;
 
-  // Set the displacement
-  itk::Vector<double,2> displacement;
+  // Set the displacement and scale
+  itk::Vector<double,3> displacement;
   displacement[0] = 7;
-  displacement[1] =	3;
+  displacement[1] = 3;
+  displacement[2] = 2;
+// Twenty percent dilation
+  double scale[3] = { 0.80, 1.0, 1.0 };
 
   ReferenceIteratorType ri(imgReference,region);
   TargetIteratorType ti(imgTarget,region);
+
   while(!ri.IsAtEnd())
   {
     p[0] = ri.GetIndex()[0];
     p[1] = ri.GetIndex()[1];
-	  d = p-center;
-	  d += displacement;
-	  const double x = d[0];
-	  const double y = d[1];
-    const double value = 200.0 * exp( - ( x*x + y*y )/(s*s) );
-    ri.Set( static_cast<ReferenceType::PixelType>( value ) );
+    p[2] = ri.GetIndex()[2];
+    d = p-center;
+    const double x = d[0] * scale[0] + displacement[0];
+    const double y = d[1] * scale[1] + displacement[1];
+    const double z = d[2] * scale[2] + displacement[2];
+    ri.Set( (PixelType) F(x,y,z) );
     ++ri;
   }
 
@@ -120,23 +154,25 @@ int main()
   {
     p[0] = ti.GetIndex()[0];
     p[1] = ti.GetIndex()[1];
+    p[2] = ti.GetIndex()[2];
     d = p-center;
     const double x = d[0];
     const double y = d[1];
-    const double value = 200.0 * exp( - ( x*x + y*y )/(s*s) );
-    ti.Set( static_cast<TargetType::PixelType>( value ) );
+    const double z = d[2];
+    ti.Set( (PixelType) F(x,y,z) );
     ++ti;
   }
 
   // set image origin to be center of the image
-  double transCenter[2];
-  for( unsigned int j = 0; j < 2; j++ )
+  double transCenter[3];
+  for( unsigned int j = 0; j < 3; j++ )
     {
-    transCenter[j] = -0.5 * double(size[j] - 1);
+    transCenter[j] = -0.5 * double(size[j]);
     }
 
   imgReference->SetOrigin( transCenter );
   imgTarget->SetOrigin( transCenter );
+
 
 //-----------------------------------------------------------
 // Set up a the registrator
@@ -158,7 +194,7 @@ int main()
 
   ScaleType scales;
   scales.Fill( 1.0 );
-  for( unsigned j = 4; j < 6; j++ )
+  for( unsigned j = 9; j < 12; j++ )
     {
     scales[j] = 0.0001;
     }
@@ -188,7 +224,7 @@ int main()
   // reduce learning rate as we go
 
   unsigned int iter[3]  = {300,300,300};
-  double       rates[3] = {5e-5, 1e-5, 1e-6};
+  double       rates[3] = {5e-4, 1e-4, 1e-5};
 
   for( unsigned int i = 0; i < 3; i++ )
     {
@@ -229,24 +265,31 @@ int main()
   // check results to see if it is within range
   //
   bool pass = true;
-  double trueParameters[6] = { 1, 0, 0, 1, 0, 0 };
-  trueParameters[4] = - displacement[0];
-  trueParameters[5] = - displacement[1];
-  for( unsigned int j = 0; j < 4; j++ )
+  double trueParameters[12] = { 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 };
+  trueParameters[ 0] = 1/scale[0];
+  trueParameters[ 4] = 1/scale[1];
+  trueParameters[ 8] = 1/scale[2];
+  trueParameters[ 9] = - displacement[0]/scale[0];
+  trueParameters[10] = - displacement[1]/scale[1];
+  trueParameters[11] = - displacement[2]/scale[2];
+  std::cout << "True solution is: ";
+  for ( unsigned int j = 0; j < 12; j++)
+      std::cout << trueParameters[j] << "  ";
+  std::cout << std::endl;
+  for( unsigned int j = 0; j < 9; j++ )
     {
     if( vnl_math_abs( solution[j] - trueParameters[j] ) > 0.02 )
       {
       pass = false;
       }
     }
-  for( unsigned int j = 4; j < 6; j++ )
+  for( unsigned int j = 9; j < 12; j++ )
     {
     if( vnl_math_abs( solution[j] - trueParameters[j] ) > 1.0 )
       {
       pass = false;
       }
     }
-
   if( !pass )
     {
     std::cout << "Test failed." << std::endl;
