@@ -119,16 +119,20 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
   output->SetOrigin( m_ImageIO->GetOrigin() );
   output->SetSpacing( m_ImageIO->GetSpacing() );
 
-  const TOutputImage::IndexValueType startPosition[] = { 0, 0, 0 };
-  typename TOutputImage::IndexType start;
-  start.SetIndex( startPosition );
+  typedef typename TOutputImage::IndexType   IndexType;
+
+  IndexType start;
+  start = IndexType::ZeroIndex;
 
   Region region;
   region.SetSize(dimSize);
   region.SetIndex(start);
+
   ImageIORegion ioRegion(TOutputImage::ImageDimension);
+  
   ImageIORegion::SizeType ioSize = ioRegion.GetSize();
   ImageIORegion::IndexType ioStart = ioRegion.GetIndex();
+
   for(unsigned int i = 0; i < dimSize.GetSizeDimension(); ++i)
     {
     ioSize[i] = dimSize[i];
