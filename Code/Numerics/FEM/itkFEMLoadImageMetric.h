@@ -133,7 +133,6 @@ public:
   /** Implements the LoadGrav Fg function using the selected image metric. */
   VectorType Fg(VectorType);
 
-  void SetSolution(Solution::Pointer ptr) {  m_Solution2=ptr; }
   void SetSolution(Solution::ConstPointer ptr) {  m_Solution=ptr; }
   Solution::ConstPointer GetSolution() {  return m_Solution; }
 
@@ -144,7 +143,7 @@ public:
   Float GetMetric (VectorType  InVec);
   
   // FIXME - WE ASSUME THE 2ND VECTOR (INDEX 1) HAS THE INFORMATION WE WANT
-  Float GetSolution(unsigned int i,unsigned int which){  return m_Solution2->GetSolutionValue(i,which); }
+  Float GetSolution(unsigned int i,unsigned int which){  return m_Solution->GetSolutionValue(i,which); }
   
   LoadImageMetric(); // cannot be private until we always use smart pointers
   
@@ -154,7 +153,6 @@ public:
 protected:
 
 private:
-  Solution::Pointer   m_Solution2;
   Solution::ConstPointer   m_Solution;
   typename MetricBaseTypePointer                         m_Metric;
   typename TransformBaseType::Pointer                 m_Transform;
