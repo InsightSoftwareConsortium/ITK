@@ -133,7 +133,7 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
   typedef ImageRegionIterator<TOutputImage> OutputIterator;
 
   // Create a progress reporter
-  ProgressReporter progress(this, 0, (outputPtr->GetRequestedRegion().GetNumberOfPixels()) * m_Repetitions * 2);
+  ProgressReporter progress(this, 0, (outputPtr->GetRequestedRegion().GetNumberOfPixels()) * m_Repetitions * 2 * NDimensions);
   
   // Copy the input image to the temporary image
   TempIterator tempIt = TempIterator(tempPtr,
