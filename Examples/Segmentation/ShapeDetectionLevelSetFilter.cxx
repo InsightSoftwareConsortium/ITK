@@ -359,7 +359,8 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   typedef  itk::ShapeDetectionLevelSetImageFilter< InternalImageType, 
                               InternalImageType >    ShapeDetectionFilterType;
-  ShapeDetectionFilterType::Pointer shapeDetection = ShapeDetectionFilterType::New();                              
+  ShapeDetectionFilterType::Pointer 
+    shapeDetection = ShapeDetectionFilterType::New();                              
   // Software Guide : EndCodeSnippet
 
 

@@ -105,7 +105,8 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   typedef itk::ImageFileReader<RGBImageType> FileReaderType;
-  typedef itk::VectorCastImageFilter<RGBImageType, VectorImageType> CastFilterType;
+  typedef itk::VectorCastImageFilter<RGBImageType, VectorImageType> 
+    CastFilterType;
   typedef itk::VectorGradientAnisotropicDiffusionImageFilter<VectorImageType,
     VectorImageType>  DiffusionFilterType;
   typedef itk::VectorGradientMagnitudeImageFilter<VectorImageType>
@@ -150,7 +151,8 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  GradientMagnitudeFilterType::Pointer gradient = GradientMagnitudeFilterType::New();
+  GradientMagnitudeFilterType::Pointer 
+    gradient = GradientMagnitudeFilterType::New();
   gradient->SetUsePrincipleComponents(atoi(argv[7]));
   // Software Guide : EndCodeSnippet
 

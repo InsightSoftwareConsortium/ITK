@@ -169,8 +169,8 @@ int main( int argc, char * argv [] )
   typedef itk::ScalarToArrayCastImageFilter< 
                      ImageType, ArrayImageType > ScalarToArrayFilterType;
 
-  ScalarToArrayFilterType::Pointer scalarToArrayFilter = ScalarToArrayFilterType::New();
-
+  ScalarToArrayFilterType::Pointer 
+    scalarToArrayFilter = ScalarToArrayFilterType::New();
   scalarToArrayFilter->SetInput( reader->GetOutput() );
 // Software Guide : EndCodeSnippet
 
@@ -293,8 +293,6 @@ int main( int argc, char * argv [] )
     MembershipFunctionPointer membershipFunction = 
                                          MembershipFunctionType::New();
 
-    // we only care about one component of the centroid because it is indeed a
-    // one-dimensional vector.
     centroid[0] = atof( argv[i+numberOfArgumentsBeforeMeans] ); 
 
     membershipFunction->SetCentroid( centroid );
@@ -417,7 +415,7 @@ int main( int argc, char * argv [] )
 //
 // Software Guide : EndLatex 
 
-// Software Guide : EndCodeSnippet
+// Software Guide : BeginCodeSnippet
   typedef MRFFilterType::OutputImageType  OutputImageType;
 
   typedef itk::ImageFileWriter< OutputImageType > WriterType;
