@@ -180,16 +180,6 @@ public:
     1, NumericTraits<unsigned long>::max() );
   itkGetMacro( NumberOfHistogramBins, unsigned long);   
   
-  /** The interpolation overshoot fraction.
-   *  Some interpolation method can return results which are beyond
-   *  the moving image minimum and maximum. This fraction of the
-   *  the dynamic range is used to take into account the interpolation
-   *  over- and under- shoots so that each sample can fall into
-   *  a valid histogram bin.
-   */
-  itkSetClampMacro( InterpolationOvershootFraction, double, 0.0, 1.0 );
-  itkGetMacro( InterpolationOvershootFraction, double );
-
 protected:
 
   MattesMutualInformationImageToImageMetric();
@@ -257,11 +247,12 @@ private:
 
   /** Variables to define the marginal and joint histograms. */
   unsigned long m_NumberOfHistogramBins;
-  double        m_InterpolationOvershootFraction;
   double m_FixedImageMin;
   double m_FixedImageMax;
   double m_MovingImageMin;
   double m_MovingImageMax;
+  double m_MovingImageTrueMin;
+  double m_MovingImageTrueMax;
   double m_FixedImageBinSize;
   double m_MovingImageBinSize;
 
@@ -311,7 +302,8 @@ private:
   /** Transform a point from FixedImage domain to MovingImage domain.
    * This function also checks if mapped point is within support region. */
   virtual void TransformPoint( const FixedImagePointType& fixedImagePoint,
-    MovingImagePointType& mappedPoint, bool& sampleWithinSupportRegion ) const;
+    MovingImagePointType& mappedPoint, bool& sampleWithinSupportRegion,
+    double& movingImageValue ) const;
 
   /** Compute PDF derivative contribution for each parameter. */
   virtual void ComputePDFDerivatives( const FixedImagePointType& fixedImagePoint,

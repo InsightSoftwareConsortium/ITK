@@ -43,7 +43,6 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
   m_NumberOfSpatialSamples = 500;
   m_NumberOfHistogramBins = 50;
-  m_InterpolationOvershootFraction = 0.10;
 
   m_ComputeGradient = false; // don't use the default gradient for now
 
@@ -174,17 +173,13 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
         }
     }
 
+  m_MovingImageTrueMin = m_MovingImageMin;
+  m_MovingImageTrueMax = m_MovingImageMax;
 
-  /** Extend the dynamic range for the moving image to take into 
-   * interpolation overshoots.
-   */
-  double extension = m_InterpolationOvershootFraction * 
-    ( m_MovingImageMax - m_MovingImageMin );
-  m_MovingImageMin -= extension;
-  m_MovingImageMax += extension;
-
-  itkDebugMacro( "FixedImageMin: " << m_FixedImageMin << std::endl );
-  itkDebugMacro( "MovingImageMin: " << m_MovingImageMin << std::endl );
+  itkDebugMacro( " FixedImageMin: " << m_FixedImageMin << 
+    " FixedImageMax: " << m_FixedImageMax << std::endl );
+  itkDebugMacro( " MovingImageMin: " << m_MovingImageMin << 
+    " MovingImageMax: " << m_MovingImageMax << std::endl );
 
 
   /**
@@ -213,10 +208,13 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     static_cast<double>( m_NumberOfHistogramBins - 2 * padding );
   m_MovingImageMin -= static_cast<double>( padding ) * m_MovingImageBinSize;
 
+
+  itkDebugMacro( " FixedImageMin: " << m_FixedImageMin << 
+    " FixedImageMax: " << m_FixedImageMax << std::endl );
+  itkDebugMacro( " MovingImageMin: " << m_MovingImageMin << 
+    " MovingImageMax: " << m_MovingImageMax << std::endl );
   itkDebugMacro( "FixedImageBinSize: " << m_FixedImageBinSize );
   itkDebugMacro( "MovingImageBinSize; " << m_MovingImageBinSize );
-  itkDebugMacro( "FixedImageMin: " << m_FixedImageMin );
-  itkDebugMacro( "MovingImageMin; " << m_MovingImageMin );
   
   /**
    * Allocate memory for the fixed image sample container.
@@ -343,11 +341,11 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     itkDebugMacro( "Transform is BSplineDeformable" );
     }
 
-    if ( m_TransformIsBSpline )
-      {
-      m_BSplineTransformWeights = BSplineTransformWeightsType( m_NumBSplineWeights );
-      m_BSplineTransformIndices = BSplineTransformIndexArrayType( m_NumBSplineWeights );
-      }
+  if ( m_TransformIsBSpline )
+    {
+    m_BSplineTransformWeights = BSplineTransformWeightsType( m_NumBSplineWeights );
+    m_BSplineTransformIndices = BSplineTransformIndexArrayType( m_NumBSplineWeights );
+    }
 
 }
 
@@ -433,16 +431,15 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     // Get moving image value
     MovingImagePointType mappedPoint;
     bool sampleOk;
+    double movingImageValue;
 
-    this->TransformPoint( (*fiter).FixedImagePointValue, mappedPoint, sampleOk );
+    this->TransformPoint( (*fiter).FixedImagePointValue, mappedPoint, 
+      sampleOk, movingImageValue );
 
     if( sampleOk )
       {
 
       ++nSamples; 
-
-      // Get interpolated moving image value
-      double movingImageValue = m_Interpolator->Evaluate( mappedPoint );
 
       /**
        * Compute this sample's contribution to the marginal and joint distributions.
@@ -473,8 +470,6 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
           << std::endl
           << "movingImageParzenWindowTerm: " << movingImageParzenWindowTerm
           << " movingImageParzenWindowIndex: " << movingImageParzenWindowIndex
-          << std::endl
-          << "Try increasing InterpolationOvershootFraction"
           << std::endl )
         }
 
@@ -699,17 +694,16 @@ DerivativeType& derivative) const
     // Get moving image value
     MovingImagePointType mappedPoint;
     bool sampleOk;
+    double movingImageValue;
 
-    this->TransformPoint( (*fiter).FixedImagePointValue, mappedPoint, sampleOk );
+    this->TransformPoint( (*fiter).FixedImagePointValue, mappedPoint, 
+      sampleOk, movingImageValue );
 
 
     if( sampleOk )
       {
 
       ++nSamples; 
-
-      // Get interpolated moving image value and derivatives
-      double movingImageValue = m_Interpolator->Evaluate( mappedPoint );
 
       ImageDerivativesType movingImageGradientValue;
       this->ComputeImageDerivatives( mappedPoint, movingImageGradientValue );
@@ -744,8 +738,6 @@ DerivativeType& derivative) const
           << std::endl
           << "movingImageParzenWindowTerm: " << movingImageParzenWindowTerm
           << " movingImageParzenWindowIndex: " << movingImageParzenWindowIndex
-          << std::endl
-          << "Try increasing InterpolationOvershootFraction"
           << std::endl )
         }
 
@@ -1015,7 +1007,8 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 ::TransformPoint( 
 const FixedImagePointType& fixedImagePoint, 
 MovingImagePointType& mappedPoint,
-bool& sampleOk ) const
+bool& sampleOk,
+double& movingImageValue ) const
 {
 
   bool insideBSValidRegion;
@@ -1038,6 +1031,18 @@ bool& sampleOk ) const
     // Check if mapped point is within the support region of a grid point.
     // This is neccessary for computing the metric gradient
     sampleOk = sampleOk && insideBSValidRegion;
+    }
+
+  if ( sampleOk )
+    {
+    movingImageValue = m_Interpolator->Evaluate( mappedPoint );
+    }
+
+  if ( movingImageValue < m_MovingImageTrueMin || 
+    movingImageValue > m_MovingImageTrueMax )
+    {
+    // need to throw out this sample as it will not fall into a valid bin
+    sampleOk = false;
     }
 
 }

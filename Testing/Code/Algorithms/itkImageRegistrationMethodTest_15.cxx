@@ -21,7 +21,7 @@
 #include "itkImageRegistrationMethod.h"
 #include "itkAffineTransform.h"
 #include "itkMattesMutualInformationImageToImageMetric.h"
-#include "itkLinearInterpolateImageFunction.h"
+#include "itkBSplineInterpolateImageFunction.h"
 #include "itkGradientDescentOptimizer.h"
 
 #include "itkTextOutput.h"
@@ -42,7 +42,7 @@ double F( itk::Vector<double,3> & v );
  *   - MattesMutualInformation
  *   - AffineTransform
  *   - GradientDescentOptimizer
- *   - LinearInterpolateImageFunction
+ *   - BSplineInterpolateImageFunction
  *
  *  The test image pattern consists of a 3D gaussian in the middle
  *  with some directional pattern on the outside.
@@ -107,7 +107,7 @@ int itkImageRegistrationMethodTest_15(int, char**)
                                     MovingImageType >    MetricType;
 
   // Interpolation technique
-  typedef itk:: LinearInterpolateImageFunction< 
+  typedef itk:: BSplineInterpolateImageFunction< 
                                     MovingImageType,
                                     double          >    InterpolatorType;
 

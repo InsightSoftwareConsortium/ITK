@@ -21,6 +21,8 @@
 #include "itkAffineTransform.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkBSplineInterpolateImageFunction.h"
+#include "itkTextOutput.h"
+
 
 #include <iostream>
 
@@ -160,7 +162,9 @@ TInterpolator * interpolator )
   metric->SetFixedImageRegion( region );
 
   // initialize the metric before use
+  metric->DebugOn();
   metric->Initialize();
+  metric->DebugOff();
 
 //------------------------------------------------------------
 // Set up a affine transform parameters
@@ -292,8 +296,10 @@ int itkMattesMutualInformationImageToImageMetricTest(int, char**)
 {
 
   int failed;
-
   typedef itk::Image<unsigned char,2> ImageType;
+
+  itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
+
 
   // Test metric with a linear interpolator
   typedef itk::LinearInterpolateImageFunction< ImageType, double >
