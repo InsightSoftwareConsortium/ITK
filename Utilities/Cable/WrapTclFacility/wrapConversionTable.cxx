@@ -66,9 +66,34 @@ ConversionTable::GetConversion(const CvQualifiedType& from,
     return i->second;
     }
   
-  // If the "from" type is not a reference type, we can try adding qualifiers
-  // to it.
-  if(!from.GetType()->IsReferenceType())
+  // If the "from" type is a reference type, we can try adding
+  // qualifiers to the type it references.
+  if(from.GetType()->IsReferenceType())
+    {
+    CvQualifiedType referencedType =
+      ReferenceType::SafeDownCast(from.GetType())->GetReferencedType();
+    conversionKey = ConversionKey(TypeInfo::GetReferenceType(referencedType.GetMoreQualifiedType(true, false)), to);
+    i = m_ConversionMap.find(conversionKey);
+    if(i != m_ConversionMap.end())
+      {
+      return i->second;
+      }
+    conversionKey = ConversionKey(TypeInfo::GetReferenceType(referencedType.GetMoreQualifiedType(false, true)), to);
+    i = m_ConversionMap.find(conversionKey);
+    if(i != m_ConversionMap.end())
+      {
+      return i->second;
+      }
+    conversionKey = ConversionKey(TypeInfo::GetReferenceType(referencedType.GetMoreQualifiedType(true, true)), to);
+    i = m_ConversionMap.find(conversionKey);
+    if(i != m_ConversionMap.end())
+      {
+      return i->second;
+      }
+    }
+  // If the "from" type is not a reference type, we can try adding
+  // qualifiers to it.
+  else
     {
     // Try adding a const qualifier to the "from" type.
     conversionKey = ConversionKey(from.GetMoreQualifiedType(true, false), to);
