@@ -153,6 +153,14 @@ namespace itk {
         {
         return true;
         }
+      IteratorType it = begin();
+      IteratorType itend = end();
+      while(it != itend)
+        {
+        if(std::string(filename) == (*it)->GetimageFileName())
+          return true;
+        it++;
+        }
       m_List.push_back(new IPLFileSortInfo(filename,
                                         sliceLocation,
                                         offset,
