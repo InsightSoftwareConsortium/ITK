@@ -37,6 +37,7 @@ int itkExtractImageTest(int, char**)
   
   // typedefs to simplify the syntax
   typedef itk::Image<short, 2>   ShortImage;
+  typedef itk::Image<short, 1>   LineImage;
   
   // Test the creation of an image with native type
   ShortImage::Pointer if2 = ShortImage::New();
@@ -210,6 +211,16 @@ int itkExtractImageTest(int, char**)
             }
         }
     }
+
+
+  // Try extracting a single row
+  itk::ExtractImageFilter<ShortImage, LineImage>::Pointer lineExtract;
+  lineExtract = itk::ExtractImageFilter<ShortImage, LineImage>::New();
+  lineExtract->SetInput( if2 );
+  lineExtract->Update();
+
+  // need to put in code to check whether the proper region was extracted.
+  //
   
   if (passed)
     {
@@ -220,6 +231,6 @@ int itkExtractImageTest(int, char**)
       std::cout << "ExtractImageFilter case 2 failed." << std::endl;
       return EXIT_FAILURE;
     }
-  
+
   return EXIT_SUCCESS;
 }
