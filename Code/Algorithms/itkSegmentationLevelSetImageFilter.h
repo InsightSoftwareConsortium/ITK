@@ -62,6 +62,14 @@ namespace itk {
  * The (RequestedRegion) size of the seed image must, however, match the
  * (RequestedRegion) size of the feature image.
  *
+ * You must identify the initial front (surface) in the input image.  You do
+ * this by specifying its isovalue through the method SetIsoSurfaceValue(float
+ * f).  The algorithm will then initialize its solution using the front represented by
+ * value f.  Note that the front is always represented by isosurface zero in
+ * the output and not the isosurface you specified for the input.  This is
+ * because, for simplicity, the filter will shift your input image so that the
+ * active front has zero values. 
+ *
  * \par
  * Depending on the particular application and filter that you are using, the
  * feature image should be preprocessed with some type of noise reduction
