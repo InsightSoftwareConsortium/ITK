@@ -81,9 +81,9 @@ CxxGenerator
   String instantiationFile = "Cxx/"+package->GetName()+"_cxx.cxx";
   
   // Open the output files.
-  ofstream wrapperStream(wrapperFile.c_str());
+  std::ofstream wrapperStream(wrapperFile.c_str());
   if(!wrapperStream) { return; }
-  ofstream instantiationStream(instantiationFile.c_str());
+  std::ofstream instantiationStream(instantiationFile.c_str());
   if(!instantiationStream) { return; }
   
   // Write the standard #ifndef/#define pair in the header file.
