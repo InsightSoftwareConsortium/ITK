@@ -51,19 +51,10 @@ int itkNumericsPrintTest(int , char* [])
   std::cout << "----------CacheableScalarFunction " << CacheableScalarFunctionObj;
   delete CacheableScalarFunctionObj;
 
-  itk::CompositeValleyFunction * CompositeValleyFunctionObj =
-    new itk::CompositeValleyFunction(3,3);
-  std::cout << "----------CompositeValleyFunction " << CompositeValleyFunctionObj;
-  delete CompositeValleyFunctionObj;
-
   itk::ConjugateGradientOptimizer::Pointer ConjugateGradientOptimizerObj =
     itk::ConjugateGradientOptimizer::New();
   std::cout << "----------ConjugateGradientOptimizer " << ConjugateGradientOptimizerObj;
-#if 0
-  itk::CostFunction::Pointer CostFunctionObj =
-    itk::CostFunction::New();
-  std::cout << "----------CostFunction " << CostFunctionObj;
-#endif
+
   itk::GradientDescentOptimizer::Pointer GradientDescentOptimizerObj =
     itk::GradientDescentOptimizer::New();
   std::cout << "----------GradientDescentOptimizer " << GradientDescentOptimizerObj;
@@ -75,19 +66,6 @@ int itkNumericsPrintTest(int , char* [])
   itk::LevenbergMarquardtOptimizer::Pointer LevenbergMarquardtOptimizerObj =
     itk::LevenbergMarquardtOptimizer::New();
   std::cout << "----------LevenbergMarquardtOptimizer " << LevenbergMarquardtOptimizerObj;
-
-  itk::MultipleValuedNonLinearOptimizer::Pointer MultipleValuedNonLinearOptimizerObj =
-    itk::MultipleValuedNonLinearOptimizer::New();
-  std::cout << "----------MultipleValuedNonLinearOptimizer " << MultipleValuedNonLinearOptimizerObj;
-#if 0
-  itk::MultipleValuedNonLinearVnlOptimizer::Pointer MultipleValuedNonLinearVnlOptimizerObj =
-    itk::MultipleValuedNonLinearVnlOptimizer::New();
-  std::cout << "----------MultipleValuedNonLinearVnlOptimizer " << MultipleValuedNonLinearVnlOptimizerObj;
-#endif
-  itk::MultipleValuedVnlCostFunctionAdaptor * MultipleValuedVnlCostFunctionAdaptorObj =
-    new itk::MultipleValuedVnlCostFunctionAdaptor(3,3);
-  std::cout << "----------MultipleValuedVnlCostFunctionAdaptor " << MultipleValuedVnlCostFunctionAdaptorObj;
-  delete MultipleValuedVnlCostFunctionAdaptorObj;
 
   typedef itk::MultivariateLegendrePolynomial PolynomialType;
   const unsigned int dimension = 3;
@@ -118,14 +96,6 @@ int itkNumericsPrintTest(int , char* [])
     itk::RegularStepGradientDescentOptimizer::New();
   std::cout << "----------RegularStepGradientDescentOptimizer " << RegularStepGradientDescentOptimizerObj;
 
-  itk::SingleValuedNonLinearOptimizer::Pointer SingleValuedNonLinearOptimizerObj =
-    itk::SingleValuedNonLinearOptimizer::New();
-  std::cout << "----------SingleValuedNonLinearOptimizer " << SingleValuedNonLinearOptimizerObj;
-#if 0
-  itk::SingleValuedNonLinearVnlOptimizer::Pointer SingleValuedNonLinearVnlOptimizerObj =
-    itk::SingleValuedNonLinearVnlOptimizer::New();
-  std::cout << "----------SingleValuedNonLinearVnlOptimizer " << SingleValuedNonLinearVnlOptimizerObj;
-#endif
   itk::SingleValuedVnlCostFunctionAdaptor * SingleValuedVnlCostFunctionAdaptorObj =
     new itk::SingleValuedVnlCostFunctionAdaptor(3);
   std::cout << "----------SingleValuedVnlCostFunctionAdaptor " << SingleValuedVnlCostFunctionAdaptorObj;
