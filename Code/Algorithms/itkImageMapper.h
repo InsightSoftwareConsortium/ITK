@@ -58,17 +58,25 @@ public:
   /** 
    * Smart pointer typedef support 
    */
-  typedef SmartPointer<Self>   Pointer;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
+
 
   /**
    * Typedef of the Point used to represent coordinates
    */
    typedef typename TTransformation::PointType   PointType;
 
+
+   /**
+   * Typedef of transformation parameters
+   */
+   typedef typename TTransformation::ParametersType   ParametersType;
+
+   
   /**
    * Typedef of the exception
-   */
+    */
    typedef MapperException   ExceptionType;
 
 
@@ -125,7 +133,7 @@ public:
 
 
 
-  enum { SpaceDimension = TTransformation::ParametersDimension};
+  enum { SpaceDimension = TTransformation::ParametersDimension };
 
   
 
