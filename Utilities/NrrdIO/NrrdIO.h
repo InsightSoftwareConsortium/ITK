@@ -21,6 +21,7 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -41,16 +42,15 @@ extern "C" {
 /* define TEEM_API */
 #define TEEM_BUILD 1
 #if defined(_WIN32) && !defined(__CYGWIN__) && !defined(TEEM_STATIC)
-#  if defined(TEEM_BUILD) 
+#  if defined(TEEM_BUILD)
 #    define TEEM_API extern __declspec(dllexport)
-#  else 
+#  else
 #    define TEEM_API extern __declspec(dllimport)
 #  endif
 #else /* TEEM_STATIC || UNIX */
 #  define TEEM_API extern
 #endif
 
- 
 #if defined(_MSC_VER)
 /* get rid of some warnings on VC++ */
 #  pragma warning ( disable : 4244 )
@@ -91,34 +91,34 @@ typedef struct {
   char name[AIR_STRLEN_SMALL];
                /* what are these things? */
   int M;       /* If "val" is NULL, the the valid enum values are from 1 to M
-            (represented by strings str[1] through str[M]), and the
-            unknown/invalid value is 0.  If "val" is non-NULL, the
-            valid enum values are from val[1] to val[M] (but again, 
-      represented by strings str[1] through str[M]), and the
-      unknown/invalid value is val[0].  In both cases, str[0]
-      is the string to represent an unknown/invalid value */
+                  (represented by strings str[1] through str[M]), and the
+                  unknown/invalid value is 0.  If "val" is non-NULL, the
+                  valid enum values are from val[1] to val[M] (but again, 
+                  represented by strings str[1] through str[M]), and the
+                  unknown/invalid value is val[0].  In both cases, str[0]
+                  is the string to represent an unknown/invalid value */
   char (*str)[AIR_STRLEN_SMALL]; 
                /* "canonical" textual representation of the enum values */
   int *val;    /* non-NULL iff valid values in the enum are not [1..M], and/or
-      if value for unknown/invalid is not zero */
+                  if value for unknown/invalid is not zero */
   char (*desc)[AIR_STRLEN_MED];
                /* desc[i] is a short description of the enum values represented
-      by str[i] (thereby starting with the unknown value), to be
-      used to by things like hest */
+                  by str[i] (thereby starting with the unknown value), to be
+                  used to by things like hest */
   char (*strEqv)[AIR_STRLEN_SMALL];  
                /* All the variations in strings recognized in mapping from
-      string to value (the values in valEqv).  This **MUST** be
-      terminated by a zero-length string ("") so as to signify
-      the end of the list.  This should not contain the string
-      for unknown/invalid.  If "strEqv" is NULL, then mapping
-      from string to value is done by traversing "str", and 
-      "valEqv" is ignored. */
+                  string to value (the values in valEqv).  This **MUST** be
+                  terminated by a zero-length string ("") so as to signify
+                  the end of the list.  This should not contain the string
+                  for unknown/invalid.  If "strEqv" is NULL, then mapping
+                  from string to value is done by traversing "str", and 
+                  "valEqv" is ignored. */
   int *valEqv; /* The values corresponding to the strings in strEqv; there
-      should be one integer for each non-zero-length string in
-      strEqv: strEqv[i] is a valid string representation for
-      value valEqv[i]. This should not contain the value for
-      unknown/invalid.  This "valEqv" is ignored if "strEqv" is
-      NULL. */
+                  should be one integer for each non-zero-length string in
+                  strEqv: strEqv[i] is a valid string representation for
+                  value valEqv[i]. This should not contain the value for
+                  unknown/invalid.  This "valEqv" is ignored if "strEqv" is
+                  NULL. */
   int sense;   /* require case matching on strings */
 } airEnum;
 TEEM_API int airEnumUnknown(airEnum *enm);
@@ -127,7 +127,7 @@ TEEM_API char *airEnumStr(airEnum *enm, int val);
 TEEM_API char *airEnumDesc(airEnum *enm, int val);
 TEEM_API int airEnumVal(airEnum *enm, const char *str);
 TEEM_API char *airEnumFmtDesc(airEnum *enm, int val, int canon,
-            const char *fmt);
+                              const char *fmt);
 
 /*
 ******** airEndian enum
@@ -150,19 +150,19 @@ TEEM_API const int airMyEndian;
 typedef struct {
   void *data,         /* where the data is */
     **dataP;          /* (possibly NULL) address of user's data variable,
-       kept in sync with internal "data" variable */
+                         kept in sync with internal "data" variable */
   int len,            /* length of array: # units for which there is
-             considered to be data (which is <= total # units
-             allocated).  The # bytes which contain data is
-             len*unit.  Always updated (unlike "*lenP") */
+                         considered to be data (which is <= total # units
+                         allocated).  The # bytes which contain data is
+                         len*unit.  Always updated (unlike "*lenP") */
     *lenP,            /* (possibly NULL) address of user's length variable,
-       kept in sync with internal "len" variable */
+                         kept in sync with internal "len" variable */
     incr,             /* the granularity of the changes in amount of space
-       allocated: when the length reaches a multiple of
-       "incr", then the array is resized */
+                         allocated: when the length reaches a multiple of
+                         "incr", then the array is resized */
     size;             /* array is allocated to have "size" increments, or,
-       size*incr elements, or, 
-       size*incr*unit bytes */
+                         size*incr elements, or, 
+                         size*incr*unit bytes */
   size_t unit;        /* the size in bytes of one element in the array */
 
   /* the following are all callbacks useful for maintaining either an array
@@ -186,9 +186,9 @@ typedef struct {
 } airArray;
 TEEM_API airArray *airArrayNew(void **dataP, int *lenP, size_t unit, int incr);
 TEEM_API void airArrayStructCB(airArray *a, void (*initCB)(void *),
-             void (*doneCB)(void *));
+                               void (*doneCB)(void *));
 TEEM_API void airArrayPointerCB(airArray *a, void *(*allocCB)(void),
-        void *(*freeCB)(void *));
+                                void *(*freeCB)(void *));
 TEEM_API int airArraySetLen(airArray *a, int newlen);
 TEEM_API int airArrayIncrLen(airArray *a, int delta);
 TEEM_API airArray *airArrayNix(airArray *a);
@@ -238,7 +238,7 @@ TEEM_API float airFPPartsToVal_f(int sign, int exp, int frac);
 TEEM_API void airFPValToParts_f(int *signP, int *expP, int *fracP, float v);
 TEEM_API double airFPPartsToVal_d(int sign, int exp, airULLong frac);
 TEEM_API void airFPValToParts_d(int *signP, int *expP, airULLong *fracP,
-        double v);
+                                double v);
 TEEM_API float airFPGen_f(int cls);
 TEEM_API double airFPGen_d(int cls);
 TEEM_API int airFPClass_f(float val);
@@ -282,22 +282,22 @@ TEEM_API double airAtod(const char *str);
 TEEM_API int airSingleSscanf(const char *str, const char *fmt, void *ptr);
 TEEM_API airEnum *airBool;
 TEEM_API int airParseStrB(int *out, const char *s,
-        const char *ct, int n, ... /* nothing used */);
+                          const char *ct, int n, ... /* nothing used */);
 TEEM_API int airParseStrI(int *out, const char *s,
-        const char *ct, int n, ... /* nothing used */);
+                          const char *ct, int n, ... /* nothing used */);
 TEEM_API int airParseStrF(float *out, const char *s,
-        const char *ct, int n, ... /* nothing used */);
+                          const char *ct, int n, ... /* nothing used */);
 TEEM_API int airParseStrD(double *out, const char *s,
-        const char *ct, int n, ... /* nothing used */);
+                          const char *ct, int n, ... /* nothing used */);
 TEEM_API int airParseStrC(char *out, const char *s,
-        const char *ct, int n, ... /* nothing used */);
+                          const char *ct, int n, ... /* nothing used */);
 TEEM_API int airParseStrS(char **out, const char *s,
-        const char *ct, int n, ... /* REQUIRED, even if n>1:
-              int greedy */);
+                          const char *ct, int n, ... /* REQUIRED, even if n>1:
+                                                        int greedy */);
 TEEM_API int airParseStrE(int *out, const char *s,
-        const char *ct, int n, ... /* REQ'ED: airEnum *e */);
+                          const char *ct, int n, ... /* REQ'ED: airEnum *e */);
 TEEM_API int (*airParseStr[AIR_TYPE_MAX+1])(void *, const char *,
-              const char *, int, ...);
+                                            const char *, int, ...);
 
 /* string.c */
 TEEM_API char *airStrdup(const char *s);
@@ -327,7 +327,7 @@ enum {
   airInsane_nInfExists,    /*  3: AIR_EXISTS(negative infinity) was true */
   airInsane_NaNExists,     /*  4: AIR_EXISTS(NaN) was true */
   airInsane_FltDblFPClass, /*  5: double -> float assignment messed up the
-             airFPClass_f() of the value */
+                               airFPClass_f() of the value */
   airInsane_QNaNHiBit,     /*  6: airMyQNaNHiBit is wrong */
   airInsane_dio,           /*  7: airMyDio set to something invalid */
   airInsane_32Bit,         /*  8: airMy32Bit is wrong */
@@ -397,7 +397,7 @@ typedef struct {
 } airMop;
 TEEM_API airArray *airMopNew(void);
 TEEM_API void airMopAdd(airArray *arr,
-          void *ptr, airMopper mop, int when);
+                      void *ptr, airMopper mop, int when);
 TEEM_API void airMopSub(airArray *arr, void *ptr, airMopper mop);
 TEEM_API void airMopMem(airArray *arr, void *_ptrP, int when);
 TEEM_API void airMopUnMem(airArray *arr, void *_ptrP);
@@ -480,19 +480,18 @@ TEEM_API void airMopDebug(airArray *arr);
 **
 ** There are two performance consequences of using airExists_d(x):
 ** 1) Its a function call (but WIN32 can __inline it)
-** 2) (via AIR_EXISTS_G) It requires bit-wise operations on 64-bit
+** 2) (via AIR_EXISTS_D) It requires bit-wise operations on 64-bit
 ** ints, which might be terribly slow.
 **
 ** The reason for using airExists_d and not airExists_f is for
 ** doubles > FLT_MAX: airExists_f would say these are infinity.
 */
-/* #if defined(_WIN32) || defined(__ICC) || defined(__SGI_CC) */
+#if 1
 #define AIR_EXISTS(x) (airExists_d(x))
-/* #else
+#else
 #define AIR_EXISTS(x) (!((x) - (x)))
 #endif
-*/
- 
+
 /*
 ******** AIR_EXISTS_F(x)
 **
@@ -532,7 +531,7 @@ TEEM_API void airMopDebug(airArray *arr);
 ** works when the argument really is a float, and when floats are 4-bytes
 */
 #define AIR_ISNAN_F(x) (((*(unsigned int*)&(x) & 0x7f800000)==0x7f800000) && \
-       (*(unsigned int*)&(x) & 0x007fffff))
+                         (*(unsigned int*)&(x) & 0x007fffff))
 
 /*
 ******** AIR_MAX(a,b), AIR_MIN(a,b), AIR_ABS(a)
@@ -549,7 +548,7 @@ TEEM_API void airMopDebug(airArray *arr);
 ** the sort of compare that qsort() wants for ascending sort
 */
 #define AIR_COMPARE(a,b) ((a) < (b)     \
-              ? -1          \
+                          ? -1          \
                           : ((a) > (b) \
                              ? 1        \
                              : 0))
@@ -573,10 +572,10 @@ TEEM_API void airMopDebug(airArray *arr);
 ** interval defined by the first and third arguments
 */
 #define AIR_CLAMP(a,b,c) ((b) < (a)        \
-         ? (a)           \
-         : ((b) > (c)    \
-            ? (c)        \
-            : (b)))
+                           ? (a)           \
+                           : ((b) > (c)    \
+                              ? (c)        \
+                              : (b)))
 
 /*
 ******** AIR_MOD(i, N)
@@ -733,7 +732,7 @@ extern "C" {
 #endif
 
 #define BIFF_MAXKEYLEN 128  /* maximum allowed key length (not counting 
-             the null termination) */
+                               the null termination) */
 
 TEEM_API void biffSet(const char *key, const char *err);
 TEEM_API void biffAdd(const char *key, const char *err);
@@ -741,7 +740,7 @@ TEEM_API void biffMaybeAdd(const char *key, const char *err, int useBiff);
 TEEM_API int biffCheck(const char *key);
 TEEM_API void biffDone(const char *key);
 TEEM_API void biffMove(const char *destKey, const char *err,
-           const char *srcKey);
+                       const char *srcKey);
 TEEM_API char *biffGet(const char *key);
 TEEM_API char *biffGetDone(const char *key);
 
@@ -770,15 +769,15 @@ extern "C" {
 #define NRRD_EXT_EPS    ".eps"
 
 #define NRRD_KERNEL_PARMS_NUM 8    /* max # arguments to a kernel-
-              this is weird: it isn't the max
-              of any of the NrrdKernels
-              defined by the nrrd library
-              (that is more like 3), but is
-              the max number of parms of any
-              NrrdKernel used by anyone using
-              teem, such as in gage.
-              Enforcing one global max
-              simplifies implementation. */
+                                      this is weird: it isn't the max
+                                      of any of the NrrdKernels
+                                      defined by the nrrd library
+                                      (that is more like 3), but is
+                                      the max number of parms of any
+                                      NrrdKernel used by anyone using
+                                      teem, such as in gage.
+                                      Enforcing one global max
+                                      simplifies implementation. */
 
 /* 
 ** For the 64-bit integer types (not standard except in C99), we try
@@ -832,18 +831,18 @@ extern "C" {
 #define NRRD_COMMENT_INCR 16
 #define NRRD_KEYVALUE_INCR 32
 #define NRRD_PNM_COMMENT "# NRRD>"    /* this is designed to be robust against
-                 the mungling that xv does, but no
-                 promises for any other image
-           programs */
+                                         the mungling that xv does, but no
+                                         promises for any other image
+                                         programs */
 
 #define NRRD_PNG_FIELD_KEY "NRRD"     /* this is the key used for getting nrrd
-                 fields into/out of png comments */
+                                         fields into/out of png comments */
 #define NRRD_PNG_COMMENT_KEY "NRRD#"  /* this is the key used for getting nrrd
-                 comments into/out of png comments */
+                                         comments into/out of png comments */
 
 #define NRRD_UNKNOWN  "???"           /* how to represent something unknown in
-                 a field of the nrrd header, when it
-                 being unknown is not an error */
+                                         a field of the nrrd header, when it
+                                         being unknown is not an error */
 
 #ifdef __cplusplus
 }
@@ -912,8 +911,8 @@ enum {
   nrrdBoundaryBleed,    /* 2: copy the last/first value out as needed */
   nrrdBoundaryWrap,     /* 3: wrap-around */
   nrrdBoundaryWeight,   /* 4: normalize the weighting on the existing samples;
-         ONLY sensible for a strictly positive kernel
-         which integrates to unity (as in blurring) */
+                           ONLY sensible for a strictly positive kernel
+                           which integrates to unity (as in blurring) */
   nrrdBoundaryLast
 };
 #define NRRD_BOUNDARY_MAX  4
@@ -950,8 +949,8 @@ enum {
 #define NRRD_TYPE_MAX       11
 #define NRRD_TYPE_SIZE_MAX   8    /* max(sizeof()) over all scalar types */
 #define NRRD_TYPE_BIGGEST double  /* this should be a basic C type which
-             requires for storage the maximum size
-             of all the basic C types */
+                                     requires for storage the maximum size
+                                     of all the basic C types */
 
 /*
 ******** nrrdEncodingType enum
@@ -991,13 +990,13 @@ enum {
 enum {
   nrrdCenterUnknown,
   nrrdCenterNode,            /* 1: samples at corners of things
-        (how "voxels" are usually imagined)
-        |\______/|\______/|\______/|
-        X        X        X        X   */
+                                (how "voxels" are usually imagined)
+                                |\______/|\______/|\______/|
+                                X        X        X        X   */
   nrrdCenterCell,            /* 2: samples at middles of things
-        (characteristic of histogram bins)
-         \___|___/\___|___/\___|___/
-             X        X        X       */
+                                (characteristic of histogram bins)
+                                 \___|___/\___|___/\___|___/
+                                     X        X        X       */
   nrrdCenterLast
 };
 #define NRRD_CENTER_MAX         2
@@ -1236,16 +1235,16 @@ typedef struct {
   int size;                      /* number of elements along each axis */
   double spacing;                /* if non-NaN, distance between samples */
   double min, max;               /* if non-NaN, range of positions spanned
-            by the samples on this axis.  Obviously,
-            one can set "spacing" to something
-            incompatible with min and max: the idea
-            is that only one (min and max, or
-            spacing) should be taken to be significant
-            at any time. */
+                                    by the samples on this axis.  Obviously,
+                                    one can set "spacing" to something
+                                    incompatible with min and max: the idea
+                                    is that only one (min and max, or
+                                    spacing) should be taken to be significant
+                                    at any time. */
   int center;                    /* cell vs. node centering (value should be
-            one of nrrdCenter{Unknown,Node,Cell} */
+                                    one of nrrdCenter{Unknown,Node,Cell} */
   int kind;                      /* what kind of information is along this
-            axis (from the nrrdKind* enum) */
+                                    axis (from the nrrdKind* enum) */
   char *label;                   /* short info string for each axis */
   char *unit;                    /* short string for identifying units */
 } NrrdAxisInfo;
@@ -1269,10 +1268,10 @@ typedef struct {
   ** All per-axis specific information
   */
   NrrdAxisInfo axis[NRRD_DIM_MAX]; /* axis[0] is the fastest axis in the scan-
-              line ordering, the one who's coordinates
-              change the fastest as the elements are
-              accessed in the order in which they
-              appear in memory */
+                                      line ordering, the one who's coordinates
+                                      change the fastest as the elements are
+                                      accessed in the order in which they
+                                      appear in memory */
 
   /* 
   ** Information of dubious standing- descriptive of whole array, but
@@ -1282,10 +1281,10 @@ typedef struct {
   char *content;                   /* brief account of what this data is */
   int blockSize;                   /* for nrrdTypeBlock:, block byte size */
   double oldMin, oldMax;           /* if non-NaN, and if nrrd is of integral
-              type, extremal values for the array
-              BEFORE it was quantized */
+                                      type, extremal values for the array
+                                      BEFORE it was quantized */
   void *ptr;                       /* never read or set by nrrd; use/abuse
-              as you see fit */
+                                      as you see fit */
 
   /* 
   ** Comments.  Read from, and written to, header.
@@ -1313,8 +1312,8 @@ struct NrrdEncoding_t;
 typedef struct {
   char name[AIR_STRLEN_SMALL];    /* short identifying string */
   int isImage,    /* this format is intended solely for "2D" images, which
-         controls the invocation of _nrrdReshapeUpGrayscale()
-         if nrrdStateGrayscaleImage3D */
+                     controls the invocation of _nrrdReshapeUpGrayscale()
+                     if nrrdStateGrayscaleImage3D */
     readable,     /* we can read as well as write this format */
     usesDIO;      /* this format can use Direct IO */
 
@@ -1328,7 +1327,7 @@ typedef struct {
   /* (for writing) returns non-zero if a given nrrd/encoding pair will fit
      in this format */
   int (*fitsInto)(const Nrrd *nrrd, const struct NrrdEncoding_t *encoding, 
-       int useBiff);
+                   int useBiff);
 
   /* (for reading) returns non-zero if what has been read in so far 
      is recognized as the beginning of this format */
@@ -1368,86 +1367,86 @@ typedef struct NrrdEncoding_t {
 */
 typedef struct NrrdIoState_t {
   char *path,               /* allows us to remember the directory
-             from whence this nrrd was "load"ed, or
-             to whence this nrrd is "save"ed, MINUS the
-             trailing "/", so as to facilitate games with
-             header-relative data files */
+                               from whence this nrrd was "load"ed, or
+                               to whence this nrrd is "save"ed, MINUS the
+                               trailing "/", so as to facilitate games with
+                               header-relative data files */
     *base,                  /* when "save"ing a nrrd into seperate
-             header and data, the name of the header
-             file (e.g. "output.nhdr") MINUS the ".nhdr".
-             This is  massaged to produce a header-
-             relative data filename.  */
+                               header and data, the name of the header
+                               file (e.g. "output.nhdr") MINUS the ".nhdr".
+                               This is  massaged to produce a header-
+                               relative data filename.  */
     *dataFN,                /* ON READ: no semantics 
-             ON WRITE: name to be saved in the "data file"
-             field of the nrrd, either verbatim from
-             "unu make -h", or, internally, created based
-             on detached header path and name */
+                               ON WRITE: name to be saved in the "data file"
+                               field of the nrrd, either verbatim from
+                               "unu make -h", or, internally, created based
+                               on detached header path and name */
     *line;                  /* buffer for saving one line from file */
   
   int lineLen,              /* allocated size of line, including the
-             last character for \0 */
+                               last character for \0 */
     pos;                    /* line[pos] is beginning of stuff which
-             still has yet to be parsed */
+                               still has yet to be parsed */
 
   FILE *dataFile;           /* if non-NULL, where the data is to be
-             read from or written to.  If NULL, data
-             will be read from current file */
+                               read from or written to.  If NULL, data
+                               will be read from current file */
 
   int endian,               /* endian-ness of the data in file, for
-             those encoding/type combinations for
-             which it matters (from nrrdEndian) */
+                               those encoding/type combinations for
+                               which it matters (from nrrdEndian) */
     lineSkip,               /* if dataFile non-NULL, the number of
-             lines in dataFile that should be
-             skipped over (so as to bypass another
-             form of ASCII header preceeding raw
-             data) */
+                               lines in dataFile that should be
+                               skipped over (so as to bypass another
+                               form of ASCII header preceeding raw
+                               data) */
     byteSkip,               /* exactly like lineSkip, but bytes
-             instead of lines.  First the lines are
-             skipped, then the bytes */
+                               instead of lines.  First the lines are
+                               skipped, then the bytes */
     seen[NRRD_FIELD_MAX+1], /* for error checking in header parsing */
     detachedHeader,         /* ON READ+WRITE: nrrd is split into distinct
-             header and data (for nrrd format only) */
+                               header and data (for nrrd format only) */
     bareText,               /* when writing a plain text file, is there any
-             effort made to record the nrrd struct
-             info in the text file */
+                               effort made to record the nrrd struct
+                               info in the text file */
     charsPerLine,           /* when writing ASCII data in which we
-             intend only to write a huge long list
-             of numbers whose text formatting
-             implies nothing, then how many
-             characters do we limit ourselves to per
-             line */
+                               intend only to write a huge long list
+                               of numbers whose text formatting
+                               implies nothing, then how many
+                               characters do we limit ourselves to per
+                               line */
     valsPerLine,            /* when writing ASCII data in which we DO
-             intend to sigify (or at least hint at)
-             something with the formatting, then
-             what is the max number of values to
-             write on a line */
+                               intend to sigify (or at least hint at)
+                               something with the formatting, then
+                               what is the max number of values to
+                               write on a line */
     skipData,               /* if non-zero (all formats):
-             ON READ: don't allocate memory for, and don't
-             read in, the data portion of the file (but we
-             do verify that for nrrds, detached datafiles
-             can be opened).  Note: Does NOT imply 
-             keepNrrdDataFileOpen.  Warning: resulting
-             nrrd struct will have "data" pointer NULL.
-             ON WRITE: don't write data portion of file
-             (for nrrds, don't even try to open detached
-             datafiles).  Warning: can result in broken
-             noncomformant files.
-             (be careful with this) */
+                               ON READ: don't allocate memory for, and don't
+                               read in, the data portion of the file (but we
+                               do verify that for nrrds, detached datafiles
+                               can be opened).  Note: Does NOT imply 
+                               keepNrrdDataFileOpen.  Warning: resulting
+                               nrrd struct will have "data" pointer NULL.
+                               ON WRITE: don't write data portion of file
+                               (for nrrds, don't even try to open detached
+                               datafiles).  Warning: can result in broken
+                               noncomformant files.
+                               (be careful with this) */
     keepNrrdDataFileOpen,   /* ON READ: don't close nio->dataFile when
-             you otherwise would, when reading the
-             nrrd format Probably used in conjunction with
-             skipData.  (currently for "unu data")
-             ON WRITE: no semantics */
+                               you otherwise would, when reading the
+                               nrrd format Probably used in conjunction with
+                               skipData.  (currently for "unu data")
+                               ON WRITE: no semantics */
     zlibLevel,              /* zlib compression level (0-9, -1 for
-             default[6], 0 for no compression). */
+                               default[6], 0 for no compression). */
     zlibStrategy,           /* zlib compression strategy, can be one
-             of the nrrdZlibStrategy enums, default is
-             nrrdZlibStrategyDefault. */
+                               of the nrrdZlibStrategy enums, default is
+                               nrrdZlibStrategyDefault. */
     bzip2BlockSize;         /* block size used for compression, 
-             roughly equivalent to better but slower
-             (1-9, -1 for default[9]). */
+                               roughly equivalent to better but slower
+                               (1-9, -1 for default[9]). */
   void *oldData;            /* ON READ: data pointer that may have already been
-             allocated for the right size to hold the data */
+                               allocated for the right size to hold the data */
   size_t oldDataSize;       /* ON READ: size of data pointed to by oldData */
   /* format and encoding.  These are initialized to nrrdFormatUnknown
      and nrrdEncodingUnknown, respectively. USE THESE VALUES for 
@@ -1504,17 +1503,17 @@ TEEM_API Nrrd *nrrdNix(Nrrd *nrrd);
 TEEM_API Nrrd *nrrdEmpty(Nrrd *nrrd);
 TEEM_API Nrrd *nrrdNuke(Nrrd *nrrd);
 TEEM_API int nrrdWrap_nva(Nrrd *nrrd, void *data, int type,
-        int dim, const int *size);
+                          int dim, const int *size);
 TEEM_API int nrrdWrap(Nrrd *nrrd, void *data, int type, int dim,
-          ... /* sx, sy, .., axis(dim-1) size */);
+                      ... /* sx, sy, .., axis(dim-1) size */);
 TEEM_API int nrrdCopy(Nrrd *nout, const Nrrd *nin);
 TEEM_API int nrrdAlloc_nva(Nrrd *nrrd, int type, int dim, const int *size);
 TEEM_API int nrrdAlloc(Nrrd *nrrd, int type, int dim,
-           ... /* sx, sy, .., axis(dim-1) size */);
+                       ... /* sx, sy, .., axis(dim-1) size */);
 TEEM_API int nrrdMaybeAlloc_nva(Nrrd *nrrd, int type, int dim,
-        const int *size);
+                                const int *size);
 TEEM_API int nrrdMaybeAlloc(Nrrd *nrrd, int type, int dim,
-          ... /* sx, sy, .., axis(dim-1) size */);
+                            ... /* sx, sy, .., axis(dim-1) size */);
 TEEM_API int nrrdPPM(Nrrd *, int sx, int sy);
 TEEM_API int nrrdPGM(Nrrd *, int sx, int sy);
 
@@ -1522,21 +1521,21 @@ TEEM_API int nrrdPGM(Nrrd *, int sx, int sy);
 /* axis.c */
 TEEM_API int nrrdKindSize(int kind);
 TEEM_API int nrrdAxisInfoCopy(Nrrd *nout, const Nrrd *nin,
-            const int *axmap, int bitflag);
+                              const int *axmap, int bitflag);
 TEEM_API void nrrdAxisInfoSet_nva(Nrrd *nin, int axInfo, const void *info);
 TEEM_API void nrrdAxisInfoSet(Nrrd *nin, int axInfo,
-            ... /* const void* */);
+                              ... /* const void* */);
 TEEM_API void nrrdAxisInfoGet_nva(const Nrrd *nrrd, int axInfo, void *info);
 TEEM_API void nrrdAxisInfoGet(const Nrrd *nrrd, int axInfo,
-            ... /* void* */);
+                              ... /* void* */);
 TEEM_API double nrrdAxisInfoPos(const Nrrd *nrrd, int ax, double idx);
 TEEM_API double nrrdAxisInfoIdx(const Nrrd *nrrd, int ax, double pos);
 TEEM_API void nrrdAxisInfoPosRange(double *loP, double *hiP,
-           const Nrrd *nrrd, int ax,
-           double loIdx, double hiIdx);
+                                   const Nrrd *nrrd, int ax,
+                                   double loIdx, double hiIdx);
 TEEM_API void nrrdAxisInfoIdxRange(double *loP, double *hiP,
-           const Nrrd *nrrd, int ax,
-           double loPos, double hiPos);
+                                   const Nrrd *nrrd, int ax,
+                                   double loPos, double hiPos);
 TEEM_API void nrrdAxisInfoSpacingSet(Nrrd *nrrd, int ax);
 TEEM_API void nrrdAxisInfoMinMaxSet(Nrrd *nrrd, int ax, int defCenter);
 
@@ -1546,8 +1545,8 @@ TEEM_API const char *nrrdBiffKey;
 TEEM_API int nrrdPeripheralInit(Nrrd *nrrd);
 TEEM_API int nrrdPeripheralCopy(Nrrd *nout, const Nrrd *nin);
 TEEM_API int nrrdContentSet(Nrrd *nout, const char *func,
-          const Nrrd *nin, const char *format,
-          ... /* printf-style arg list */ );
+                            const Nrrd *nin, const char *format,
+                            ... /* printf-style arg list */ );
 TEEM_API void nrrdDescribe(FILE *file, const Nrrd *nrrd);
 TEEM_API int nrrdCheck(const Nrrd *nrrd);
 TEEM_API int nrrdElementSize(const Nrrd *nrrd);
@@ -1567,7 +1566,7 @@ TEEM_API int nrrdKeyValueSize(const Nrrd *nrrd);
 TEEM_API int nrrdKeyValueAdd(Nrrd *nrrd, const char *key, const char *value);
 TEEM_API char *nrrdKeyValueGet(const Nrrd *nrrd, const char *key);
 TEEM_API void nrrdKeyValueIndex(const Nrrd *nrrd, 
-            char **keyP, char **valueP, int ki);
+                              char **keyP, char **valueP, int ki);
 TEEM_API int nrrdKeyValueErase(Nrrd *nrrd, const char *key);
 TEEM_API void nrrdKeyValueClear(Nrrd *nrrd);
 TEEM_API int nrrdKeyValueCopy(Nrrd *nout, const Nrrd *nin);
@@ -1606,9 +1605,9 @@ TEEM_API int nrrdRead(Nrrd *nrrd, FILE *file, NrrdIoState *io);
 /* write.c */
 TEEM_API int nrrdIoStateSet(NrrdIoState *io, int parm, int value);
 TEEM_API int nrrdIoStateEncodingSet(NrrdIoState *io,
-            const NrrdEncoding *encoding);
+                                    const NrrdEncoding *encoding);
 TEEM_API int nrrdIoStateFormatSet(NrrdIoState *io, 
-          const NrrdFormat *format);
+                                  const NrrdFormat *format);
 TEEM_API int nrrdIoStateGet(NrrdIoState *io, int parm);
 TEEM_API const NrrdEncoding *nrrdIoStateEncodingGet(NrrdIoState *io);
 TEEM_API const NrrdFormat *nrrdIoStateFormatGet(NrrdIoState *io);

@@ -96,7 +96,7 @@ _nrrdBlockEndian(void *_data, size_t N) {
   char me[]="_nrrdBlockEndian";
   
   fprintf(stderr, "%s: WARNING: can't fix endiannes of nrrd type %s\n", me,
-    airEnumStr(nrrdType, nrrdTypeBlock));
+          airEnumStr(nrrdType, nrrdTypeBlock));
 }
 
 void

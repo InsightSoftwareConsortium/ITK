@@ -109,7 +109,7 @@ _nrrdReadNrrdParse_dimension (Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
   _PARSE_ONE_VAL(nrrd->dim, "%d", "int");
   if (!AIR_IN_CL(1, nrrd->dim, NRRD_DIM_MAX)) {
     sprintf(err, "%s: dimension %d outside valid range [1,%d]",
-      me, nrrd->dim, NRRD_DIM_MAX);
+            me, nrrd->dim, NRRD_DIM_MAX);
     biffMaybeAdd(NRRD, err, useBiff); return 1;
   }
   return 0;
@@ -129,7 +129,7 @@ _nrrdReadNrrdParse_dimension (Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
 #define _CHECK_GOT_ALL_VALUES \
   if (nrrd->dim != ret) { \
     sprintf(err, "%s: parsed %d values, but dimension is %d",  \
-      me, ret, nrrd->dim); \
+            me, ret, nrrd->dim); \
     biffMaybeAdd(NRRD, err, useBiff); return 1; \
   }
 
@@ -230,7 +230,7 @@ _nrrdReadNrrdParse_centers (Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
     tok = airStrtok(!i ? info : NULL, _nrrdFieldSep, &last);
     if (!tok) {
       sprintf(err, "%s: couldn't extract string for center %d of %d",
-        me, i+1, nrrd->dim);
+              me, i+1, nrrd->dim);
       biffMaybeAdd(NRRD, err, useBiff); return 1;
     }
     if (!strcmp(tok, NRRD_UNKNOWN)) {
@@ -239,12 +239,12 @@ _nrrdReadNrrdParse_centers (Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
     }
     if (!(nrrd->axis[i].center = airEnumVal(nrrdCenter, tok))) {
       sprintf(err, "%s: couldn't parse \"%s\" center %d of %d",
-        me, tok, i+1, nrrd->dim);
+              me, tok, i+1, nrrd->dim);
       biffMaybeAdd(NRRD, err, useBiff); return 1;
     }
     /*
     fprintf(stderr, "!%s: nrrd->axis[%d].center = %d\n",
-      me, i, nrrd->axis[i].center);
+            me, i, nrrd->axis[i].center);
     */
   }
   return 0;
@@ -263,7 +263,7 @@ _nrrdReadNrrdParse_kinds (Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
     tok = airStrtok(!i ? info : NULL, _nrrdFieldSep, &last);
     if (!tok) {
       sprintf(err, "%s: couldn't extract string for kind %d of %d",
-        me, i+1, nrrd->dim);
+              me, i+1, nrrd->dim);
       biffMaybeAdd(NRRD, err, useBiff); return 1;
     }
     if (!strcmp(tok, NRRD_UNKNOWN)) {
@@ -272,12 +272,12 @@ _nrrdReadNrrdParse_kinds (Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
     }
     if (!(nrrd->axis[i].kind = airEnumVal(nrrdKind, tok))) {
       sprintf(err, "%s: couldn't parse \"%s\" kind %d of %d",
-        me, tok, i+1, nrrd->dim);
+              me, tok, i+1, nrrd->dim);
       biffMaybeAdd(NRRD, err, useBiff); return 1;
     }
     /*
     fprintf(stderr, "!%s: nrrd->axis[%d].kind = %d\n",
-      me, i, nrrd->axis[i].kind);
+            me, i, nrrd->axis[i].kind);
     */
   }
   return 0;
@@ -344,7 +344,7 @@ int
 _nrrdReadNrrdParse_labels (Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
   char me[]="_nrrdReadNrrdParse_labels", err[AIR_STRLEN_MED];
   char *h;  /* this is the "here" pointer which gradually progresses
-         through all the labels (for all axes) */
+               through all the labels (for all axes) */
   int i;
   char *info;
 
@@ -357,7 +357,7 @@ _nrrdReadNrrdParse_labels (Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
   for (i=0; i<=nrrd->dim-1; i++) {
     if (!( nrrd->axis[i].label = _nrrdGetQuotedString(&h, useBiff) )) {
       sprintf(err, "%s: couldn't get get label %d of %d\n",
-        me, i+1, nrrd->dim);
+              me, i+1, nrrd->dim);
       biffMaybeAdd(NRRD, err, useBiff); return 1;
     }
   }
@@ -381,7 +381,7 @@ _nrrdReadNrrdParse_units (Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
   for (i=0; i<=nrrd->dim-1; i++) {
     if (!( nrrd->axis[i].unit = _nrrdGetQuotedString(&h, useBiff) )) {
       sprintf(err, "%s: couldn't get get unit %d of %d\n",
-        me, i+1, nrrd->dim);
+              me, i+1, nrrd->dim);
       biffMaybeAdd(NRRD, err, useBiff); return 1;
     }
   }
@@ -438,8 +438,8 @@ _nrrdReadNrrdParse_block_size (Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
   /*
   if (nrrdTypeBlock != nrrd->type) {
     sprintf(err, "%s: known type (%s) is not %s", me,
-      airEnumStr(nrrdType, nrrd->type),
-      airEnumStr(nrrdType, nrrdTypeBlock));
+            airEnumStr(nrrdType, nrrd->type),
+            airEnumStr(nrrdType, nrrdTypeBlock));
     biffMaybeAdd(NRRD, err, useBiff); return 1;
   }
   */
@@ -516,7 +516,7 @@ _nrrdReadNrrdParse_data_file (Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
     /* data file directory is relative to header directory */
     if (!nio->path) {
       sprintf(err, "%s: nrrd file refers to header-relative data file "
-        "\"%s\", but don't know path of header", me, info);
+              "\"%s\", but don't know path of header", me, info);
       biffMaybeAdd(NRRD, err, useBiff); return 1;
     }
     info += strlen(_nrrdRelativePathFlag);
@@ -527,7 +527,7 @@ _nrrdReadNrrdParse_data_file (Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
   }
   if (!(nio->dataFile = fopen(dataName, "rb"))) {
     sprintf(err, "%s: fopen(\"%s\",\"rb\") failed: %s",
-      me, dataName, strerror(errno));
+            me, dataName, strerror(errno));
     biffMaybeAdd(NRRD, err, useBiff); return 1;
   }
   /* the seperate data file will be closed elsewhere */
@@ -576,7 +576,7 @@ _nrrdReadNrrdParse_keyvalue (Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
   keysep = strstr(line, ":=");
   if (!keysep) {
     sprintf(err, "%s: didn't see \":=\" key/value delimiter in \"%s\"",
-      me, line);
+            me, line);
     free(line); biffMaybeAdd(NRRD, err, useBiff); return 1;
   }
   keysep[0] = 0;

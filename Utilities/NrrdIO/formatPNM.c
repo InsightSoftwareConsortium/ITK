@@ -34,16 +34,16 @@ int
 _nrrdFormatPNM_nameLooksLike(const char *filename) {
   
   return (airEndsWith(filename, NRRD_EXT_PGM)
-    || airEndsWith(filename, NRRD_EXT_PPM));
+          || airEndsWith(filename, NRRD_EXT_PPM));
 }
 
 int
 _nrrdFormatPNM_fitsInto(const Nrrd *nrrd, const NrrdEncoding *encoding,
-      int useBiff) {
+                        int useBiff) {
   char me[]="_nrrdFormatPNM_fitsInto", err[AIR_STRLEN_MED];
   
   sprintf(err, "%s: Sorry, %s format not available in NrrdIO",
-    me, nrrdFormatPNM->name);
+          me, nrrdFormatPNM->name);
   biffMaybeAdd(NRRD, err, useBiff); 
   return AIR_FALSE;
 
@@ -61,7 +61,7 @@ _nrrdFormatPNM_read(FILE *file, Nrrd *nrrd, NrrdIoState *nio) {
   char me[]="_nrrdReadPNM", err[AIR_STRLEN_MED];
 
   sprintf(err, "%s: Sorry, %s format not available in NrrdIO",
-    me, nrrdFormatPNM->name);
+          me, nrrdFormatPNM->name);
   biffAdd(NRRD, err);
   return 1;
 }
@@ -72,7 +72,7 @@ _nrrdFormatPNM_write(FILE *file, const Nrrd *_nrrd, NrrdIoState *nio) {
   char me[]="_nrrdFormatPNM_write", err[AIR_STRLEN_MED];
 
   sprintf(err, "%s: Sorry, %s format not available in NrrdIO",
-    me, nrrdFormatPNM->name);
+          me, nrrdFormatPNM->name);
   biffAdd(NRRD, err);
   return 1;
 }

@@ -43,7 +43,7 @@ _nrrdEncodingAscii_read(Nrrd *nrrd, NrrdIoState *nio) {
   }
   if (nrrdTypeBlock == nrrd->type) {
     sprintf(err, "%s: can't read nrrd type %s from ascii", me,
-      airEnumStr(nrrdType, nrrdTypeBlock));
+            airEnumStr(nrrdType, nrrdTypeBlock));
     biffAdd(NRRD, err); return 1;
   }
   num = nrrdElementNumber(nrrd);
@@ -56,26 +56,26 @@ _nrrdEncodingAscii_read(Nrrd *nrrd, NrrdIoState *nio) {
   for (I=0; I<num; I++) {
     if (1 != fscanf(nio->dataFile, "%s", numbStr)) {
       sprintf(err, "%s: couldn't parse element " _AIR_SIZE_T_FMT
-        " of " _AIR_SIZE_T_FMT, me, I+1, num);
+              " of " _AIR_SIZE_T_FMT, me, I+1, num);
       biffAdd(NRRD, err); return 1;
     }
     if (nrrd->type >= nrrdTypeInt) {
       /* sscanf supports putting value directly into this type */
       if (1 != airSingleSscanf(numbStr, nrrdTypePrintfStr[nrrd->type], 
-             (void*)(data + I*size))) {
-  sprintf(err, "%s: couln't parse %s " _AIR_SIZE_T_FMT
-    " of " _AIR_SIZE_T_FMT " (\"%s\")", me,
-    airEnumStr(nrrdType, nrrd->type),
-    I+1, num, numbStr);
-  biffAdd(NRRD, err); return 1;
+                               (void*)(data + I*size))) {
+        sprintf(err, "%s: couln't parse %s " _AIR_SIZE_T_FMT
+                " of " _AIR_SIZE_T_FMT " (\"%s\")", me,
+                airEnumStr(nrrdType, nrrd->type),
+                I+1, num, numbStr);
+        biffAdd(NRRD, err); return 1;
       }
     } else {
       /* sscanf value into an int first */
       if (1 != airSingleSscanf(numbStr, "%d", &tmp)) {
-  sprintf(err, "%s: couln't parse element " _AIR_SIZE_T_FMT
-    " of " _AIR_SIZE_T_FMT " (\"%s\")",
-    me, I+1, num, numbStr);
-  biffAdd(NRRD, err); return 1;
+        sprintf(err, "%s: couln't parse element " _AIR_SIZE_T_FMT
+                " of " _AIR_SIZE_T_FMT " (\"%s\")",
+                me, I+1, num, numbStr);
+        biffAdd(NRRD, err); return 1;
       }
       nrrdIInsert[nrrd->type](data, I, tmp);
     }
@@ -97,7 +97,7 @@ _nrrdEncodingAscii_write(const Nrrd *nrrd, NrrdIoState *nio) {
   }
   if (nrrdTypeBlock == nrrd->type) {
     sprintf(err, "%s: can't write nrrd type %s to ascii", me,
-      airEnumStr(nrrdType, nrrdTypeBlock));
+            airEnumStr(nrrdType, nrrdTypeBlock));
     biffAdd(NRRD, err); return 1;
   }
   /* this shouldn't actually be necessary ... */
@@ -114,17 +114,17 @@ _nrrdEncodingAscii_write(const Nrrd *nrrd, NrrdIoState *nio) {
     if (1 == nrrd->dim) {
       fprintf(nio->dataFile, "%s\n", buff);
     } else if (nrrd->dim == 2 
-         && nrrd->axis[0].size <= nio->valsPerLine) {
+               && nrrd->axis[0].size <= nio->valsPerLine) {
       fprintf(nio->dataFile, "%s%c", buff,
-        (I+1)%(nrrd->axis[0].size) ? ' ' : '\n');
+              (I+1)%(nrrd->axis[0].size) ? ' ' : '\n');
     } else {
       bufflen = strlen(buff);
       if (linelen+bufflen+1 <= nio->charsPerLine) {
-  fprintf(nio->dataFile, "%s%s", I ? " " : "", buff);
-  linelen += (I ? 1 : 0) + bufflen;
+        fprintf(nio->dataFile, "%s%s", I ? " " : "", buff);
+        linelen += (I ? 1 : 0) + bufflen;
       } else {
-  fprintf(nio->dataFile, "\n%s", buff);
-  linelen = bufflen;
+        fprintf(nio->dataFile, "\n%s", buff);
+        linelen = bufflen;
       }
     }
     data += size;

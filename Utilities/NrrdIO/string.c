@@ -135,7 +135,7 @@ airStrntok(const char *_s, const char *ct) {
       n++;
       t = airStrtok(NULL, ct, &l);
     }
-    airFree(s);
+    airFree(s);  /* no NULL assignment to s, else compile warnings */
   }
   return n;
 }
@@ -228,8 +228,8 @@ airOneLinify(char *s) {
     }
     if (!isprint(s[i])) {
       for (j=i; j<=len-1; j++) {
-  /* this will copy the '\0' at the end */
-  s[j] = s[j+1];
+        /* this will copy the '\0' at the end */
+        s[j] = s[j+1];
       }
       i--;
       continue;
@@ -240,7 +240,7 @@ airOneLinify(char *s) {
   for (i=0; i<=len-1; i++) {
     while (' ' == s[i] && ' ' == s[i+1]) {
       for (j=i+1; j<=len-1; j++) {
-  s[j] = s[j+1];
+        s[j] = s[j+1];
       }
     }
   }
@@ -324,14 +324,14 @@ airOneLine(FILE *file, char *line, int size) {
   int c=0, i;
   
   if (!(size >= 3  /* need room for a character and a Windows newline */
-  && line && file)) {
+        && line && file)) {
     return -1;
   }
   /* c is always set at least once, but not so for any char in line[]  */
   for (i=0;
        (i <= size-2              /* room for line[i] and \0 after that */
-  && EOF != (c=getc(file)) /* didn't hit EOF trying to read char */
-  && c != '\n');           /* char isn't newline */
+        && EOF != (c=getc(file)) /* didn't hit EOF trying to read char */
+        && c != '\n');           /* char isn't newline */
        ++i) {
     line[i] = c;
   }
@@ -354,15 +354,15 @@ airOneLine(FILE *file, char *line, int size) {
     /* but see if we were about to get a "\n" */
     if ('\n' == c) {
       if ('\r' == line[i-1]) {
-  /* newline was "\r\n" */
-  i--;
+        /* newline was "\r\n" */
+        i--;
       } 
       line[i] = '\0';
       return i+1;
     } else {
       /* weren't about to get a "\n", we really did run out of buffer */
       if (EOF != c) {
-  ungetc(c, file);  /* we're allowed one ungetc on ANY stream */
+        ungetc(c, file);  /* we're allowed one ungetc on ANY stream */
       }
       line[size-1] = '\0';
       return size+1;

@@ -38,11 +38,11 @@ _nrrdFormatVTK_nameLooksLike(const char *fname) {
 
 int
 _nrrdFormatVTK_fitsInto(const Nrrd *nrrd, const NrrdEncoding *encoding,
-      int useBiff) {
+                        int useBiff) {
   char me[]="_nrrdFormatVTK_fitsInto", err[AIR_STRLEN_MED];
   
   sprintf(err, "%s: Sorry, %s format not available in NrrdIO",
-    me, nrrdFormatVTK->name);
+          me, nrrdFormatVTK->name);
   biffMaybeAdd(NRRD, err, useBiff); 
   return AIR_FALSE;
 
@@ -60,7 +60,7 @@ _nrrdFormatVTK_read(FILE *file, Nrrd *nrrd, NrrdIoState *nio) {
   char me[]="_nrrdReadVTK", err[AIR_STRLEN_MED];
 
   sprintf(err, "%s: Sorry, %s format not available in NrrdIO",
-    me, nrrdFormatVTK->name);
+          me, nrrdFormatVTK->name);
   biffAdd(NRRD, err);
   return 1;
 }
@@ -71,7 +71,7 @@ _nrrdFormatVTK_write(FILE *file, const Nrrd *_nrrd, NrrdIoState *nio) {
   char me[]="_nrrdFormatVTK_write", err[AIR_STRLEN_MED];
 
   sprintf(err, "%s: Sorry, %s format not available in NrrdIO",
-    me, nrrdFormatVTK->name);
+          me, nrrdFormatVTK->name);
   biffAdd(NRRD, err);
   return 1;
 }

@@ -38,7 +38,7 @@
 typedef struct {
   char key[BIFF_MAXKEYLEN+1]; /* the key */
   char **err;                 /* array of error strings; the err array itself
-         is NOT null-terminated */
+                                 is NOT null-terminated */
   int num;                    /* length of "err" == # strings stored */
   airArray *AA;               /* air array for err and num */
 } _biffEntry;
@@ -62,7 +62,7 @@ _biffInit() {
 
   if (!_biffAA) {
     _biffAA = airArrayNew((void**)&_biffErr, &_biffNum, 
-        sizeof(_biffEntry*), _BIFF_INCR);
+                          sizeof(_biffEntry*), _BIFF_INCR);
     if (!_biffAA) {
       fprintf(stderr, "%s: PANIC: couldn't allocate internal data\n", me);
       exit(1);
@@ -86,7 +86,7 @@ _biffCheckKey(const char *key) {
   }
   if (strlen(key) > BIFF_MAXKEYLEN) {
     fprintf(stderr, "%s: PANIC: key \"%s\" exceeds %d chars\n",
-      me, key, BIFF_MAXKEYLEN);
+            me, key, BIFF_MAXKEYLEN);
     exit(1);
   }
 }
@@ -105,9 +105,9 @@ _biffFindKey(const char *key) {
   if (_biffNum) {
     for (i=0; i<=_biffNum-1; i++) {
       /* printf("HEY: comparing key[%d]=\"%s\" to \"%s\"\n", 
-   i, _biffErr[i]->key, key); */
+         i, _biffErr[i]->key, key); */
       if (!strcmp(_biffErr[i]->key, key))
-  break;
+        break;
     }
     if (i == _biffNum) {
       i = -1;
@@ -220,7 +220,7 @@ _biffAddErr(_biffEntry *e, const char *err) {
   /* printf("%s: HEY(before): err[%s]->num = %d\n", me, e->key, e->num); */
   if (-1 == airArrayIncrLen(e->AA, 1)) {
     fprintf(stderr, "%s: PANIC: couldn't add message for key %s\n",
-      me, e->key);
+            me, e->key);
     exit(1);
   }
   /* printf("%s: HEY(after): err[%s]->num = %d\n", me, e->key, e->num); */
@@ -348,7 +348,7 @@ biffGet(const char *key) {
     sprintf(buf, "[%s] %s\n", key, e->err[i]);
     strcat(ret, buf);
   }
-  free(buf);
+  free(buf); /* no NULL assignment, else compile warnings */
 
   return(ret);
 }

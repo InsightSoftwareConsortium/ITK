@@ -38,11 +38,11 @@ _nrrdFormatEPS_nameLooksLike(const char *filename) {
 
 int
 _nrrdFormatEPS_fitsInto(const Nrrd *nrrd, const NrrdEncoding *encoding,
-      int useBiff) {
+                        int useBiff) {
   char me[]="_nrrdFormatEPS_fitsInto", err[AIR_STRLEN_MED];
   
   sprintf(err, "%s: Sorry, %s format not available in NrrdIO",
-    me, nrrdFormatEPS->name);
+          me, nrrdFormatEPS->name);
   biffMaybeAdd(NRRD, err, useBiff); 
   return AIR_FALSE;
 
@@ -60,7 +60,7 @@ _nrrdFormatEPS_read(FILE *file, Nrrd *nrrd, NrrdIoState *nio) {
   char me[]="_nrrdReadEPS", err[AIR_STRLEN_MED];
 
   sprintf(err, "%s: Sorry, %s format not available in NrrdIO",
-    me, nrrdFormatEPS->name);
+          me, nrrdFormatEPS->name);
   biffAdd(NRRD, err);
   return 1;
 }
@@ -71,7 +71,7 @@ _nrrdFormatEPS_write(FILE *file, const Nrrd *_nrrd, NrrdIoState *nio) {
   char me[]="_nrrdFormatEPS_write", err[AIR_STRLEN_MED];
 
   sprintf(err, "%s: Sorry, %s format not available in NrrdIO",
-    me, nrrdFormatEPS->name);
+          me, nrrdFormatEPS->name);
   biffAdd(NRRD, err);
   return 1;
 }

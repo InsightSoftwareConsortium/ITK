@@ -11,6 +11,8 @@ while (<>) {
     s|#include "biff.h"|#include "NrrdIO.h"|g;
     s|#include "nrrd.h"|#include "NrrdIO.h"|g;
     s|#include <teem(.*)>|#include "teem$1"|g;
+    s|\/\* NrrdIO-hack-000 \*\/|#define TEEM_BUILD 1|g;
+    s|#ifdef _WIN32 \/\* NrrdIO-hack-001 \*\/|#if 1|g;
     print if $printing;
     $printing = 1 if (m/END non-NrrdIO/);
 }

@@ -98,7 +98,7 @@ airArrayNew(void **dataP, int *lenP, size_t unit, int incr) {
 */
 void 
 airArrayStructCB(airArray *a, 
-     void (*initCB)(void *), void (*doneCB)(void *)) {
+                 void (*initCB)(void *), void (*doneCB)(void *)) {
 
   if (a) {
     a->initCB = initCB;
@@ -115,7 +115,7 @@ airArrayStructCB(airArray *a,
 */
 void
 airArrayPointerCB(airArray *a, 
-      void *(*allocCB)(void), void *(*freeCB)(void *)) {
+                  void *(*allocCB)(void), void *(*freeCB)(void *)) {
 
   if (a) {
     a->initCB = NULL;
@@ -155,10 +155,10 @@ airArraySetLen(airArray *a, int newlen) {
     for (i=a->len-1; i>=newlen; i--) {
       addr = (char*)(a->data) + i*a->unit;
       if (a->freeCB) {
-  (a->freeCB)(*((void**)addr));
+        (a->freeCB)(*((void**)addr));
       }
       else {
-  (a->doneCB)(addr);
+        (a->doneCB)(addr);
       }
     }
   }
@@ -171,12 +171,12 @@ airArraySetLen(airArray *a, int newlen) {
       newdata = calloc(newsize*a->incr, a->unit);
       /*
       printf("       did calloc(%d,%d) --> %p\n",
-       newsize*a->incr, a->unit, newdata);
+             newsize*a->incr, a->unit, newdata);
       */
       if (!newdata)
-  return 1;
+        return 1;
       memcpy(newdata, a->data, AIR_MIN(a->len*a->unit, 
-               newsize*a->incr*a->unit));
+                                       newsize*a->incr*a->unit));
       free(a->data);
       _airSetData(a, newdata);
     }
@@ -195,10 +195,10 @@ airArraySetLen(airArray *a, int newlen) {
     for (i=newlen; i<=a->len-1; i++) {
       addr = (char*)(a->data) + i*a->unit;
       if (a->allocCB) {
-  *((void**)addr) = (a->allocCB)();
+        *((void**)addr) = (a->allocCB)();
       }
       else {
-  (a->initCB)(addr);
+        (a->initCB)(addr);
       }
     }
   }

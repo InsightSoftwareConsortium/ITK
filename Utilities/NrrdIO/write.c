@@ -40,7 +40,7 @@ nrrdIoStateSet (NrrdIoState *nio, int parm, int value) {
   }
   if (!( AIR_IN_OP(nrrdIoStateUnknown, parm, nrrdIoStateLast) )) {
     sprintf(err, "%s: identifier %d not in valid range [%d,%d]", me,
-      parm, nrrdIoStateUnknown+1, nrrdIoStateLast-1);
+            parm, nrrdIoStateUnknown+1, nrrdIoStateLast-1);
     biffAdd(NRRD, err); return 1;
   }
   switch (parm) {
@@ -111,7 +111,7 @@ nrrdIoStateEncodingSet (NrrdIoState *nio, const NrrdEncoding *encoding) {
   }
   if (!encoding->available()) {
     sprintf(err, "%s: %s encoding isn't actually available", me,
-      encoding->name);
+            encoding->name);
     nio->encoding = nrrdEncodingUnknown;
     biffAdd(NRRD, err); return 1;
   }
@@ -213,10 +213,10 @@ _nrrdFieldInteresting (const Nrrd *nrrd, NrrdIoState *nio, int field) {
   int d, ret;
   
   if (!( nrrd
-   && AIR_IN_CL(1, nrrd->dim, NRRD_DIM_MAX)
-   && nio
-   && nio->encoding
-   && AIR_IN_OP(nrrdField_unknown, field, nrrdField_last) )) {
+         && AIR_IN_CL(1, nrrd->dim, NRRD_DIM_MAX)
+         && nio
+         && nio->encoding
+         && AIR_IN_OP(nrrdField_unknown, field, nrrdField_last) )) {
     return 0;
   }
 
@@ -327,15 +327,15 @@ _nrrdFieldInteresting (const Nrrd *nrrd, NrrdIoState *nio, int field) {
 */
 void
 _nrrdSprintFieldInfo (char **strP, char *prefix,
-          const Nrrd *nrrd, NrrdIoState *nio, int field) {
+                      const Nrrd *nrrd, NrrdIoState *nio, int field) {
   char me[]="_nrrdSprintFieldInfo", buff[AIR_STRLEN_MED];
   const char *fs;
   int i, D, fslen, fdlen, endi;
 
   if (!( strP && prefix
-   && nrrd 
-   && AIR_IN_CL(1, nrrd->dim, NRRD_DIM_MAX)
-   && AIR_IN_OP(nrrdField_unknown, field, nrrdField_last) )) {
+         && nrrd 
+         && AIR_IN_CL(1, nrrd->dim, NRRD_DIM_MAX)
+         && AIR_IN_OP(nrrdField_unknown, field, nrrdField_last) )) {
     return;
   }
   if (!_nrrdFieldInteresting(nrrd, nio, field)) {
@@ -349,7 +349,7 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
   case nrrdField_comment:
   case nrrdField_keyvalue:
     fprintf(stderr, "%s: CONFUSION: why are you calling me on \"%s\"?\n", me,
-      airEnumStr(nrrdField, nrrdField_comment));
+            airEnumStr(nrrdField, nrrdField_comment));
     *strP = airStrdup("");
     break;
   case nrrdField_type:
@@ -363,12 +363,12 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
   case nrrdField_endian:
     if (airEndianUnknown != nio->endian) {
       /* we know a specific endianness because either it was recorded as
-   part of "unu make -h", or it was set (and data was possibly
-   altered) as part of "unu save" */
+         part of "unu make -h", or it was set (and data was possibly
+         altered) as part of "unu save" */
       endi = nio->endian;
     } else {
       /* we record our current architecture's endian because we're
-   going to writing out data */
+         going to writing out data */
       endi = AIR_ENDIAN;
     }
     *strP = malloc(fslen + strlen(airEnumStr(airEndian, endi)));
@@ -416,9 +416,9 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
     sprintf(*strP, "%s%s:", prefix, fs);
     for (i=0; i<D; i++) {
       sprintf(buff, " %s",
-        (nrrd->axis[i].center 
-         ? airEnumStr(nrrdCenter, nrrd->axis[i].center)
-         : NRRD_UNKNOWN));
+              (nrrd->axis[i].center 
+               ? airEnumStr(nrrdCenter, nrrd->axis[i].center)
+               : NRRD_UNKNOWN));
       strcat(*strP, buff);
     }
     break;
@@ -427,9 +427,9 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
     sprintf(*strP, "%s%s:", prefix, fs);
     for (i=0; i<D; i++) {
       sprintf(buff, " %s",
-        (nrrd->axis[i].kind
-         ? airEnumStr(nrrdKind, nrrd->axis[i].kind)
-         : NRRD_UNKNOWN));
+              (nrrd->axis[i].kind
+               ? airEnumStr(nrrdKind, nrrd->axis[i].kind)
+               : NRRD_UNKNOWN));
       strcat(*strP, buff);
     }
     break;
@@ -443,7 +443,7 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
     for (i=0; i<D; i++) {
       strcat(*strP, " \"");
       if (airStrlen(nrrd->axis[i].label)) {
-  strcat(*strP, nrrd->axis[i].label);
+        strcat(*strP, nrrd->axis[i].label);
       }
       strcat(*strP, "\"");
     }
@@ -458,7 +458,7 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
     for (i=0; i<D; i++) {
       strcat(*strP, " \"");
       if (airStrlen(nrrd->axis[i].unit)) {
-  strcat(*strP, nrrd->axis[i].unit);
+        strcat(*strP, nrrd->axis[i].unit);
       }
       strcat(*strP, "\"");
     }
@@ -467,7 +467,7 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
   case nrrdField_number:
     *strP = malloc(fslen + 30);
     sprintf(*strP, "%s%s: " _AIR_SIZE_T_FMT, prefix, fs, 
-      nrrdElementNumber(nrrd));
+            nrrdElementNumber(nrrd));
     break;
   case nrrdField_content:
     airOneLinify(nrrd->content);
@@ -526,7 +526,7 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
 */
 void
 _nrrdFprintFieldInfo (FILE *file, char *prefix,
-          const Nrrd *nrrd, NrrdIoState *nio, int field) {
+                      const Nrrd *nrrd, NrrdIoState *nio, int field) {
   char *line=NULL;
 
   _nrrdSprintFieldInfo(&line, prefix, nrrd, nio, field);
@@ -550,7 +550,7 @@ _nrrdEncodingMaybeSet(NrrdIoState *nio) {
   }
   if (!nio->encoding->available()) {
     sprintf(err, "%s: %s encoding not available in this teem build", 
-      me, nio->encoding->name);
+            me, nio->encoding->name);
     biffAdd(NRRD, err); return 1;
   }
   return 0;
@@ -564,7 +564,7 @@ _nrrdEncodingMaybeSet(NrrdIoState *nio) {
 */
 int
 _nrrdFormatMaybeGuess (const Nrrd *nrrd, NrrdIoState *nio,
-           const char *filename) {
+                       const char *filename) {
   char me[]="_nrrdFormatMaybeGuess", err[AIR_STRLEN_MED], mesg[AIR_STRLEN_MED];
   int fi, guessed, available, fits;
 
@@ -574,11 +574,11 @@ _nrrdFormatMaybeGuess (const Nrrd *nrrd, NrrdIoState *nio,
   }
   if (nrrdFormatUnknown == nio->format) {
     for (fi = nrrdFormatTypeUnknown+1; 
-   fi < nrrdFormatTypeLast; 
-   fi++) {
+         fi < nrrdFormatTypeLast; 
+         fi++) {
       if (nrrdFormatArray[fi]->nameLooksLike(filename)) {
-  nio->format = nrrdFormatArray[fi];
-  break;
+        nio->format = nrrdFormatArray[fi];
+        break;
       }
     }
     if (nrrdFormatUnknown == nio->format) {
@@ -594,12 +594,12 @@ _nrrdFormatMaybeGuess (const Nrrd *nrrd, NrrdIoState *nio,
   /* !available ==> !fits, by the nature of fitsInto() */
   if (!( available && fits )) {
     sprintf(mesg, "can not use %s format: %s", nio->format->name,
-      (!available 
-       ? "not available in this teem build"
-       : "array doesn\'t fit"));
+            (!available 
+             ? "not available in this teem build"
+             : "array doesn\'t fit"));
     if (guessed) {
       if (nrrdStateVerboseIO) {
-  fprintf(stderr, "(%s: %s --> saving to NRRD format)\n", me, mesg);
+        fprintf(stderr, "(%s: %s --> saving to NRRD format)\n", me, mesg);
       }
       nio->format = nrrdFormatNRRD;
     } else {
@@ -625,7 +625,7 @@ _nrrdFormatMaybeSet(NrrdIoState *nio) {
   }
   if (!nio->format->available()) {
     sprintf(err, "%s: %s format not available in this teem build", 
-      me, nio->format->name);
+            me, nio->format->name);
     biffAdd(NRRD, err); return 1;
   }
   return 0;
@@ -734,7 +734,7 @@ nrrdSave (const char *filename, const Nrrd *nrrd, NrrdIoState *nio) {
 
   if (!( file = airFopen(filename, stdout, "wb") )) {
     sprintf(err, "%s: couldn't fopen(\"%s\",\"wb\"): %s", 
-      me, filename, strerror(errno));
+            me, filename, strerror(errno));
     biffAdd(NRRD, err); airMopError(mop); return 1;
   }
   airMopAdd(mop, file, (airMopper)airFclose, airMopAlways);

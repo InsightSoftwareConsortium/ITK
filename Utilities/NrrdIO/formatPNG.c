@@ -38,11 +38,11 @@ _nrrdFormatPNG_nameLooksLike(const char *filename) {
 
 int
 _nrrdFormatPNG_fitsInto(const Nrrd *nrrd, const NrrdEncoding *encoding,
-      int useBiff) {
+                        int useBiff) {
   char me[]="_nrrdFormatPNG_fitsInto", err[AIR_STRLEN_MED];
   
   sprintf(err, "%s: Sorry, %s format not available in NrrdIO",
-    me, nrrdFormatPNG->name);
+          me, nrrdFormatPNG->name);
   biffMaybeAdd(NRRD, err, useBiff); 
   return AIR_FALSE;
 
@@ -60,7 +60,7 @@ _nrrdFormatPNG_read(FILE *file, Nrrd *nrrd, NrrdIoState *nio) {
   char me[]="_nrrdReadPNG", err[AIR_STRLEN_MED];
 
   sprintf(err, "%s: Sorry, %s format not available in NrrdIO",
-    me, nrrdFormatPNG->name);
+          me, nrrdFormatPNG->name);
   biffAdd(NRRD, err);
   return 1;
 }
@@ -71,7 +71,7 @@ _nrrdFormatPNG_write(FILE *file, const Nrrd *_nrrd, NrrdIoState *nio) {
   char me[]="_nrrdFormatPNG_write", err[AIR_STRLEN_MED];
 
   sprintf(err, "%s: Sorry, %s format not available in NrrdIO",
-    me, nrrdFormatPNG->name);
+          me, nrrdFormatPNG->name);
   biffAdd(NRRD, err);
   return 1;
 }

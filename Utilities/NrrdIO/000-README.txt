@@ -34,7 +34,7 @@ General information -------------------------------------------------------
 ** files in the NrrdIO distribution, and not to any files in the Teem
 ** distribution.
 
-NrrdIO is a modified and highly abbreviated version of the Teem, which
+NrrdIO is a modified and highly abbreviated version of the Teem. NrrdIO
 contains only the source files (or portions thereof) required for
 creating and destroying nrrds, and for getting them into and out of
 files.  The NrrdIO sources are created from the Teem sources by using

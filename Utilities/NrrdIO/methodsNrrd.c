@@ -85,7 +85,7 @@ nrrdIoStateNix (NrrdIoState *nio) {
   nio->base = airFree(nio->base);
   nio->dataFN = airFree(nio->dataFN);
   nio->line = airFree(nio->line);
-  airFree(nio);
+  airFree(nio);  /* no NULL assignment, else compile warnings */
   /* the NrrdIoState never owned nio->oldData; we don't free it */
   return NULL;
 }
@@ -158,7 +158,7 @@ nrrdNew (void) {
   /* create comment airArray (even though it starts empty) */
   nrrd->cmt = NULL;
   nrrd->cmtArr = airArrayNew((void**)(&(nrrd->cmt)), NULL, 
-           sizeof(char *), NRRD_COMMENT_INCR);
+                             sizeof(char *), NRRD_COMMENT_INCR);
   if (!nrrd->cmtArr)
     return NULL;
   airArrayPointerCB(nrrd->cmtArr, airNull, airFree);
@@ -166,7 +166,7 @@ nrrdNew (void) {
   /* create key/value airArray (even thought it starts empty) */
   nrrd->kvp = NULL;
   nrrd->kvpArr = airArrayNew((void**)(&(nrrd->kvp)), NULL, 
-           2*sizeof(char *), NRRD_KEYVALUE_INCR);
+                             2*sizeof(char *), NRRD_KEYVALUE_INCR);
   if (!nrrd->kvpArr)
     return NULL;
   /* no airArray callbacks for now */
@@ -202,7 +202,7 @@ nrrdNix (Nrrd *nrrd) {
     nrrd->cmtArr = airArrayNix(nrrd->cmtArr);
     nrrdKeyValueClear(nrrd);
     nrrd->kvpArr = airArrayNix(nrrd->kvpArr);
-    airFree(nrrd);
+    airFree(nrrd);  /* no NULL assignment, else compile warnings */
   }
   return NULL;
 }
@@ -253,13 +253,13 @@ _nrrdSizeCheck (int dim, const int *size, int useBiff) {
   for (d=0; d<dim; d++) {
     if (!(size[d] > 0)) {
       sprintf(err, "%s: invalid size (%d) for axis %d (dim = %d)",
-        me, size[d], d, dim);
+              me, size[d], d, dim);
       biffMaybeAdd(NRRD, err, useBiff); return 1;
     }
     num *= size[d];
     if (num/size[d] != pre) {
       sprintf(err, "%s: total # of elements too large to be represented in "
-        "type size_t, so too large for current architecture", me);
+              "type size_t, so too large for current architecture", me);
       biffMaybeAdd(NRRD, err, useBiff); return 1;
     }
     pre *= size[d];
@@ -438,7 +438,7 @@ nrrdCopy (Nrrd *nout, const Nrrd *nin) {
       biffAdd(NRRD, err); return 1;
     }
     memcpy(nout->data, nin->data,
-     nrrdElementNumber(nin)*nrrdElementSize(nin));
+           nrrdElementNumber(nin)*nrrdElementSize(nin));
   } else {
     /* someone is trying to copy structs without data, fine fine fine */
     nout->data = NULL;
@@ -513,13 +513,13 @@ nrrdAlloc_nva (Nrrd *nrrd, int type, int dim, const int *size) {
   if (nrrdTypeBlock == type) {
     if (!(0 < nrrd->blockSize)) {
       sprintf(err, "%s: given nrrd->blockSize %d invalid", 
-        me, nrrd->blockSize);
+              me, nrrd->blockSize);
       biffAdd(NRRD, err); return 1;
     }
   }
   if (!AIR_IN_CL(1, dim, NRRD_DIM_MAX)) {
     sprintf(err, "%s: dim (%d) not in valid range [1,%d]",
-      me, dim, NRRD_DIM_MAX);
+            me, dim, NRRD_DIM_MAX);
     biffAdd(NRRD, err); return 1;
   }
 
@@ -536,7 +536,7 @@ nrrdAlloc_nva (Nrrd *nrrd, int type, int dim, const int *size) {
   nrrd->data = calloc(num, esize);
   if (!(nrrd->data)) {
     sprintf(err, "%s: calloc(" _AIR_SIZE_T_FMT ",%d) failed", 
-      me, num, nrrdElementSize(nrrd));
+            me, num, nrrdElementSize(nrrd));
     biffAdd(NRRD, err); return 1 ;
   }
 
@@ -605,7 +605,7 @@ nrrdMaybeAlloc_nva (Nrrd *nrrd, int type, int dim, const int *size) {
     }
     if (!(0 < nrrd->blockSize)) {
       sprintf(err, "%s: given nrrd->blockSize %d invalid", 
-        me, nrrd->blockSize);
+              me, nrrd->blockSize);
       biffAdd(NRRD, err); return 1;
     }
     elementSizeWant = nrrd->blockSize;
@@ -630,12 +630,12 @@ nrrdMaybeAlloc_nva (Nrrd *nrrd, int type, int dim, const int *size) {
     }
     sizeHave = nrrdElementNumber(nrrd) * nrrdElementSize(nrrd);
     /* fprintf(stderr, "##%s: sizeHave = %d * %d = %d\n", me,
-      (int)(nrrdElementNumber(nrrd)),
-      (int)(nrrdElementSize(nrrd)), (int)sizeHave); */
+            (int)(nrrdElementNumber(nrrd)),
+            (int)(nrrdElementSize(nrrd)), (int)sizeHave); */
     sizeWant = numWant * elementSizeWant;
     /* fprintf(stderr, "##%s: sizeWant = %d * %d = %d\n", me,
-      (int)(numWant),
-      (int)(elementSizeWant), (int)sizeWant); */
+            (int)(numWant),
+            (int)(elementSizeWant), (int)sizeWant); */
     need = sizeHave != sizeWant;
     /* fprintf(stderr, "##%s: need = %d\n", me, need); */
   }

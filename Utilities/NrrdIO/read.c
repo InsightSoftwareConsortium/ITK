@@ -56,7 +56,7 @@ _nrrdOneLine (int *lenP, NrrdIoState *nio, FILE *file) {
 
   if (!( lenP && nio && file)) {
     sprintf(err, "%s: got NULL pointer (%p, %p, %p)", me,
-      lenP, nio, file);
+            lenP, nio, file);
     biffAdd(NRRD, err); return 1;
   }
   if (0 == nio->lineLen) {
@@ -144,7 +144,7 @@ _nrrdCalloc (Nrrd *nrrd, NrrdIoState *nio) {
     nrrd->data = calloc(nrrdElementNumber(nrrd), nrrdElementSize(nrrd));
     if (!nrrd->data) {
       sprintf(err, "%s: couldn't calloc(" _AIR_SIZE_T_FMT
-        ", %d)", me, nrrdElementNumber(nrrd), nrrdElementSize(nrrd));
+              ", %d)", me, nrrdElementNumber(nrrd), nrrdElementSize(nrrd));
       biffAdd(NRRD, err); return 1;
     }
   }
@@ -192,7 +192,7 @@ nrrdByteSkip (Nrrd *nrrd, NrrdIoState *nio) {
   if (-1 == nio->byteSkip) {
     if (nrrdEncodingRaw != nio->encoding) {
       sprintf(err, "%s: can't backwards byte skipping in %s encoding",
-        me, nio->encoding->name);
+              me, nio->encoding->name);
       biffAdd(NRRD, err); return 1;
     }
     if (stdin == nio->dataFile) {
@@ -202,20 +202,20 @@ nrrdByteSkip (Nrrd *nrrd, NrrdIoState *nio) {
     numbytes = nrrdElementNumber(nrrd)*nrrdElementSize(nrrd);
     if (fseek(nio->dataFile, -((long)numbytes), SEEK_END)) {
       sprintf(err, "%s: failed to fseek(dataFile, " _AIR_SIZE_T_FMT
-        ", SEEK_END)", me, numbytes);
+              ", SEEK_END)", me, numbytes);
       biffAdd(NRRD, err); return 1;      
     }
     if (nrrdStateVerboseIO) {
       fprintf(stderr, "(%s: actually skipped %d bytes)\n",
-        me, (int)ftell(nio->dataFile));
+              me, (int)ftell(nio->dataFile));
     }
   } else {
     for (i=1; i<=nio->byteSkip; i++) {
       skipRet = fgetc(nio->dataFile);
       if (EOF == skipRet) {
-  sprintf(err, "%s: hit EOF skipping byte %d of %d",
-    me, i, nio->byteSkip);
-  biffAdd(NRRD, err); return 1;
+        sprintf(err, "%s: hit EOF skipping byte %d of %d",
+                me, i, nio->byteSkip);
+        biffAdd(NRRD, err); return 1;
       }
     }
   }
@@ -264,11 +264,11 @@ nrrdRead (Nrrd *nrrd, FILE *file, NrrdIoState *nio) {
      free() this memory will be decided later */
   nio->oldData = nrrd->data;
   nio->oldDataSize = (nio->oldData 
-          ? nrrdElementNumber(nrrd)*nrrdElementSize(nrrd) 
-          : 0);
+                      ? nrrdElementNumber(nrrd)*nrrdElementSize(nrrd) 
+                      : 0);
   /*
   fprintf(stderr, "!%s: nio->oldData = %p, oldDataSize = %d\n", me,
-    nio->oldData, (int)(nio->oldDataSize));
+          nio->oldData, (int)(nio->oldDataSize));
   */
   nrrd->data = NULL;
 
@@ -295,7 +295,7 @@ nrrdRead (Nrrd *nrrd, FILE *file, NrrdIoState *nio) {
   }
   if (nrrdFormatUnknown == nio->format) {
     sprintf(err, "%s: couldn't parse \"%s\" as magic or beginning of "
-      "any recognized format", me, nio->line);
+            "any recognized format", me, nio->line);
     biffAdd(NRRD, err); airMopError(mop); return 1;
   }
   
@@ -406,7 +406,7 @@ nrrdLoad (Nrrd *nrrd, const char *filename, NrrdIoState *nio) {
 
   if (!( file = airFopen(filename, stdin, "rb") )) {
     sprintf(err, "%s: fopen(\"%s\",\"rb\") failed: %s", 
-      me, filename, strerror(errno));
+            me, filename, strerror(errno));
     biffAdd(NRRD, err); airMopError(mop); return 2;
   }
   airMopAdd(mop, file, (airMopper)airFclose, airMopOnError);

@@ -59,7 +59,7 @@ void
 nrrdKeyValueIndex(const Nrrd *nrrd, char **keyP, char **valueP, int ki) {
   
   if (!( nrrd && keyP && valueP 
-   && AIR_IN_CL(0, ki, nrrd->kvpArr->len-1) )) {
+         && AIR_IN_CL(0, ki, nrrd->kvpArr->len-1) )) {
     if (keyP) *keyP = NULL;
     if (valueP) *valueP = NULL;
     return;
@@ -215,7 +215,7 @@ _nrrdFwriteEscaped(FILE *file, const char *str) {
 */
 int
 _nrrdKeyValueFwrite(FILE *file, const char *prefix, 
-        const char *key, const char *value) {
+                    const char *key, const char *value) {
   
   if (!( file && key && value )) {
     return 1;

@@ -52,7 +52,7 @@ _nrrdEncodingGzip_read(Nrrd *nrrd, NrrdIoState *nio) {
   size = bsize;
   if (num != bsize/nrrdElementSize(nrrd)) {
     fprintf(stderr,
-      "%s: PANIC: \"size_t\" can't represent byte-size of data.\n", me);
+            "%s: PANIC: \"size_t\" can't represent byte-size of data.\n", me);
     exit(1);
   }
 
@@ -76,7 +76,7 @@ _nrrdEncodingGzip_read(Nrrd *nrrd, NrrdIoState *nio) {
     /* Check to see if a single byte was able to be read. */
     if (_nrrdGzRead(gzfin, &b, 1, &read) != 0 || read != 1) {
       sprintf(err, "%s: hit an error skipping byte %d of %d",
-        me, i, nio->byteSkip);
+              me, i, nio->byteSkip);
       biffAdd(NRRD, err);
       return 1;
     }
@@ -131,8 +131,8 @@ _nrrdEncodingGzip_read(Nrrd *nrrd, NrrdIoState *nio) {
   /* Check to see if we got out as much as we thought we should. */
   if (total_read != size) {
     sprintf(err, "%s: expected " _AIR_SIZE_T_FMT " bytes and received "
-      _AIR_SIZE_T_FMT " bytes",
-      me, size, total_read);
+            _AIR_SIZE_T_FMT " bytes",
+            me, size, total_read);
     biffAdd(NRRD, err);
     return 1;
   }
@@ -171,7 +171,7 @@ _nrrdEncodingGzip_write(const Nrrd *nrrd, NrrdIoState *nio) {
   size = bsize;
   if (num != bsize/nrrdElementSize(nrrd)) {
     fprintf(stderr,
-      "%s: PANIC: \"size_t\" can't represent byte-size of data.\n", me);
+            "%s: PANIC: \"size_t\" can't represent byte-size of data.\n", me);
     exit(1);
   }
 
@@ -218,7 +218,7 @@ _nrrdEncodingGzip_write(const Nrrd *nrrd, NrrdIoState *nio) {
   
   /* Ok, now we can begin writing. */
   while ((error = _nrrdGzWrite(gzfout, data, block_size, &wrote)) == 0 
-   && wrote > 0) {
+         && wrote > 0) {
     /* Increment the data pointer to the next available spot. */
     data += wrote;
     total_written += wrote;
@@ -250,8 +250,8 @@ _nrrdEncodingGzip_write(const Nrrd *nrrd, NrrdIoState *nio) {
   /* Check to see if we got out as much as we thought we should. */
   if (total_written != size) {
     sprintf(err, "%s: expected to write " _AIR_SIZE_T_FMT " bytes, but only "
-      "wrote " _AIR_SIZE_T_FMT,
-      me, size, total_written);
+            "wrote " _AIR_SIZE_T_FMT,
+            me, size, total_written);
     biffAdd(NRRD, err);
     return 1;
   }
@@ -259,7 +259,7 @@ _nrrdEncodingGzip_write(const Nrrd *nrrd, NrrdIoState *nio) {
   return 0;
 #else
   sprintf(err, "%s: sorry, this nrrd not compiled with zlib "
-    "(needed for gzip) enabled", me);
+          "(needed for gzip) enabled", me);
   biffAdd(NRRD, err); return 1;
 #endif
 }

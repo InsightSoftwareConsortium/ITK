@@ -45,7 +45,7 @@ _nrrdEncodingRaw_read(Nrrd *nrrd, NrrdIoState *nio) {
   size = bsize;
   if (num != bsize/nrrdElementSize(nrrd)) {
     fprintf(stderr,
-      "%s: PANIC: \"size_t\" can't represent byte-size of data.\n", me);
+            "%s: PANIC: \"size_t\" can't represent byte-size of data.\n", me);
     exit(1);
   }
 
@@ -61,11 +61,11 @@ _nrrdEncodingRaw_read(Nrrd *nrrd, NrrdIoState *nio) {
       && !(nio->oldData && bsize == nio->oldDataSize) ) {
     if (nio->format->usesDIO) {
       if (3 <= nrrdStateVerboseIO) {
-  fprintf(stderr, "with direct I/O ");
+        fprintf(stderr, "with direct I/O ");
       }
       if (2 <= nrrdStateVerboseIO) {
-  fprintf(stderr, "... ");
-  fflush(stderr);
+        fprintf(stderr, "... ");
+        fflush(stderr);
       }
     }
     /* airDioRead includes the memory allocation */
@@ -77,8 +77,8 @@ _nrrdEncodingRaw_read(Nrrd *nrrd, NrrdIoState *nio) {
   } else {
     if (airNoDio_okay == dio && nio->oldData && bsize == nio->oldDataSize) {
       if (nrrdStateVerboseIO) {
-  fprintf(stderr,
-    "%s: sorry, too lazy to use existing memory for DIO\n", me); 
+        fprintf(stderr,
+                "%s: sorry, too lazy to use existing memory for DIO\n", me); 
       }
     }
     if (_nrrdCalloc(nrrd, nio)) {
@@ -87,35 +87,35 @@ _nrrdEncodingRaw_read(Nrrd *nrrd, NrrdIoState *nio) {
     }
     if (AIR_DIO && nio->format->usesDIO) {
       if (3 <= nrrdStateVerboseIO) {
-  fprintf(stderr, "with fread()");
-  if (4 <= nrrdStateVerboseIO) {
-    fprintf(stderr, " (why no DIO: %s)", airNoDioErr(dio));
-  }
+        fprintf(stderr, "with fread()");
+        if (4 <= nrrdStateVerboseIO) {
+          fprintf(stderr, " (why no DIO: %s)", airNoDioErr(dio));
+        }
       }
       if (2 <= nrrdStateVerboseIO) {
-  fprintf(stderr, " ... ");
-  fflush(stderr);
+        fprintf(stderr, " ... ");
+        fflush(stderr);
       }
     }
     ret = fread(nrrd->data, nrrdElementSize(nrrd), num, nio->dataFile);
     if (ret != num) {
       sprintf(err, "%s: fread() got only " _AIR_SIZE_T_FMT " %d-byte things, "
-        "not " _AIR_SIZE_T_FMT ,
-        me, ret, nrrdElementSize(nrrd), num);
+              "not " _AIR_SIZE_T_FMT ,
+              me, ret, nrrdElementSize(nrrd), num);
       biffAdd(NRRD, err); return 1;
     }
   }
   car = fgetc(nio->dataFile);
   if (EOF != car) {
     fprintf(stderr, "%s: WARNING: finished reading raw data, "
-      "but file not at EOF\n", me);
+            "but file not at EOF\n", me);
     ungetc(car, nio->dataFile);
   }
   if (nrrdStateVerboseIO && nio->byteSkip && stdin != nio->dataFile) {
     savePos = ftell(nio->dataFile);
     if (!fseek(nio->dataFile, 0, SEEK_END)) {
       fprintf(stderr, "(%s: used %g%% of file for nrrd data)\n",
-        me, (double)100*bsize/(ftell(nio->dataFile) + 1));
+              me, (double)100*bsize/(ftell(nio->dataFile) + 1));
       fseek(nio->dataFile, savePos, SEEK_SET);
     }
   }
@@ -150,11 +150,11 @@ _nrrdEncodingRaw_write(const Nrrd *nrrd, NrrdIoState *nio) {
   if (airNoDio_okay == dio) {
     if (nio->format->usesDIO) {
       if (3 <= nrrdStateVerboseIO) {
-  fprintf(stderr, "with direct I/O ");
+        fprintf(stderr, "with direct I/O ");
       }
       if (2 <= nrrdStateVerboseIO) {
-  fprintf(stderr, "... ");
-  fflush(stderr);
+        fprintf(stderr, "... ");
+        fflush(stderr);
       }
     }
     ret = airDioWrite(nio->dataFile, nrrd->data, size);
@@ -165,22 +165,22 @@ _nrrdEncodingRaw_write(const Nrrd *nrrd, NrrdIoState *nio) {
   } else {
     if (AIR_DIO && nio->format->usesDIO) {
       if (3 <= nrrdStateVerboseIO) {
-  fprintf(stderr, "with fwrite()");
-  if (4 <= nrrdStateVerboseIO) {
-    fprintf(stderr, " (why no DIO: %s)", airNoDioErr(dio));
-  }
+        fprintf(stderr, "with fwrite()");
+        if (4 <= nrrdStateVerboseIO) {
+          fprintf(stderr, " (why no DIO: %s)", airNoDioErr(dio));
+        }
       }
       if (2 <= nrrdStateVerboseIO) {
-  fprintf(stderr, " ... ");
-  fflush(stderr);
+        fprintf(stderr, " ... ");
+        fflush(stderr);
       }
     }
     ret = fwrite(nrrd->data, nrrdElementSize(nrrd),
-     nrrdElementNumber(nrrd), nio->dataFile);
+                 nrrdElementNumber(nrrd), nio->dataFile);
     if (ret != nrrdElementNumber(nrrd)) {
       sprintf(err, "%s: fwrite() wrote only " _AIR_SIZE_T_FMT 
-        " %d-byte things, not " _AIR_SIZE_T_FMT ,
-        me, ret, nrrdElementSize(nrrd), nrrdElementNumber(nrrd));
+              " %d-byte things, not " _AIR_SIZE_T_FMT ,
+              me, ret, nrrdElementSize(nrrd), nrrdElementNumber(nrrd));
       biffAdd(NRRD, err); return 1;
     }
     fflush(nio->dataFile);

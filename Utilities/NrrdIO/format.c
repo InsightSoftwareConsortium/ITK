@@ -61,12 +61,12 @@ _nrrdFormatUnknown_nameLooksLike(const char *filename) {
 
 int
 _nrrdFormatUnknown_fitsInto(const Nrrd *nrrd, const NrrdEncoding *encoding,
-          int useBiff) {
+                            int useBiff) {
   char me[]="_nrrdFormatUnknown_fitsInto", err[AIR_STRLEN_MED];
   
   if (!(nrrd && encoding)) {
     sprintf(err, "%s: got NULL nrrd (%p) or encoding (%p)",
-      me, nrrd, encoding);
+            me, nrrd, encoding);
     biffMaybeAdd(NRRD, err, useBiff); 
     return AIR_FALSE;
   }

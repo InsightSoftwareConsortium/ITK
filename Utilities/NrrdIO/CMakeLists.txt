@@ -10,7 +10,7 @@ INCLUDE_REGULAR_EXPRESSION("^.*.h$")
 
 SET(nrrdio_SRCS comment.c enumsNrrd.c mop.c string.c 754.c defaultsNrrd.c
 parseAir.c dio.c format.c parseNrrd.c formatEPS.c encoding.c
-formatNRRD.c preamble.c encodingAscii.c formatPNG.c encodingBzip2.c
+formatNRRD.c encodingAscii.c formatPNG.c encodingBzip2.c
 formatPNM.c accessors.c encodingGzip.c formatText.c 
 array.c encodingHex.c formatVTK.c read.c arraysNrrd.c encodingRaw.c 
 gzio.c reorder.c write.c axis.c endianAir.c  keyvalue.c

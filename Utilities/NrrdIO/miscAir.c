@@ -192,7 +192,7 @@ airSinglePrintf(FILE *file, char *str, const char *_fmt, ...) {
   if (isF || isD) {
     if (isF) {
       /* use "double" instead of "float" because var args are _always_
-   subject to old-style C type promotions: float promotes to double */
+         subject to old-style C type promotions: float promotes to double */
       valF = (float)(va_arg(ap, double));
       cls = airFPClass_f(valF);
     }
@@ -206,13 +206,13 @@ airSinglePrintf(FILE *file, char *str, const char *_fmt, ...) {
     case airFP_POS_INF:
     case airFP_NEG_INF:
       if (isF) {
-  memcpy(conv, "%s", 2);
+        memcpy(conv, "%s", 2);
       }
       else {
-  /* this sneakiness allows us to replace a 3-character conversion
-     sequence for a double (such as %lg) with a 3-character conversion
-     for a string, which we know has at most 4 characters */
-  memcpy(conv, "%4s", 3);
+        /* this sneakiness allows us to replace a 3-character conversion
+           sequence for a double (such as %lg) with a 3-character conversion
+           for a string, which we know has at most 4 characters */
+        memcpy(conv, "%4s", 3);
       }
       break;
     }
@@ -230,10 +230,10 @@ airSinglePrintf(FILE *file, char *str, const char *_fmt, ...) {
       break;
     default:
       if (isF) {
-  ret = PRINT(file, str, fmt, valF);
+        ret = PRINT(file, str, fmt, valF);
       }
       else {
-  ret = PRINT(file, str, fmt, valD);
+        ret = PRINT(file, str, fmt, valD);
       }
       break;
     }

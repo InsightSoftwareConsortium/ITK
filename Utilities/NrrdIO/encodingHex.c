@@ -100,12 +100,12 @@ _nrrdEncodingHex_read(Nrrd *nrrd, NrrdIoState *nio) {
   if (nibIdx != nibNum) {
     if (EOF == car) {
       sprintf(err, "%s: hit EOF getting "
-        "byte " _AIR_SIZE_T_FMT " of " _AIR_SIZE_T_FMT,
-        me, nibIdx/2, nibNum/2);
+              "byte " _AIR_SIZE_T_FMT " of " _AIR_SIZE_T_FMT,
+              me, nibIdx/2, nibNum/2);
     } else {
       sprintf(err, "%s: hit invalid character ('%c') getting "
-        "byte " _AIR_SIZE_T_FMT " of " _AIR_SIZE_T_FMT,
-        me, car, nibIdx/2, nibNum/2);
+              "byte " _AIR_SIZE_T_FMT " of " _AIR_SIZE_T_FMT,
+              me, car, nibIdx/2, nibNum/2);
     }
     biffAdd(NRRD, err); return 1;
   }
@@ -125,8 +125,8 @@ _nrrdEncodingHex_write(const Nrrd *nrrd, NrrdIoState *nio) {
   byteNum = nrrdElementNumber(nrrd)*nrrdElementSize(nrrd);
   for (byteIdx=0; byteIdx<byteNum; byteIdx++) {
     fprintf(nio->dataFile, "%c%c",
-      _nrrdWriteHexTable[(*data)>>4],
-      _nrrdWriteHexTable[(*data)&15]);
+            _nrrdWriteHexTable[(*data)>>4],
+            _nrrdWriteHexTable[(*data)&15]);
     if (34 == byteIdx%35)
       fprintf(nio->dataFile, "\n");
     data++;

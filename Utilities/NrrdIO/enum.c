@@ -54,8 +54,8 @@ _airEnumIndex(airEnum *enm, int val) {
   if (enm->val) {
     for (i=1; i<=enm->M; i++) {
       if (val == enm->val[i]) {
-  ret = i;
-  break;
+        ret = i;
+        break;
       }
     }
   } else {
@@ -104,10 +104,10 @@ airEnumVal(airEnum *enm, const char *str) {
       strncpy(test, enm->strEqv[i], AIR_STRLEN_SMALL);
       test[AIR_STRLEN_SMALL-1] = '\0';
       if (!enm->sense)
-  airToLower(test);
+        airToLower(test);
       if (!strcmp(test, strCpy)) {
-  free(strCpy);
-  return enm->valEqv[i];
+        free(strCpy);
+        return enm->valEqv[i];
       }
     }
   }
@@ -117,10 +117,10 @@ airEnumVal(airEnum *enm, const char *str) {
       strncpy(test, enm->str[i], AIR_STRLEN_SMALL);
       test[AIR_STRLEN_SMALL-1] = '\0';
       if (!enm->sense)
-  airToLower(test);
+        airToLower(test);
       if (!strcmp(test, strCpy)) {
-  free(strCpy);
-  return enm->val ? enm->val[i] : i;
+        free(strCpy);
+        return enm->val ? enm->val[i] : i;
       }      
     }
   }
@@ -160,13 +160,13 @@ airEnumFmtDesc(airEnum *enm, int val, int canon, const char *fmt) {
     len = strlen(_ident);
     for (i=0; strlen(enm->strEqv[i]); i++) {
       if (val != enm->valEqv[i]) {
-  /* this isn't a string representing the value we care about */
-  continue;
+        /* this isn't a string representing the value we care about */
+        continue;
       }
       if (strlen(enm->strEqv[i]) < len) {
-  /* this one is shorter */
-  len = strlen(enm->strEqv[i]);
-  _ident = enm->strEqv[i];
+        /* this one is shorter */
+        len = strlen(enm->strEqv[i]);
+        _ident = enm->strEqv[i];
       }
     }
   }
@@ -176,7 +176,7 @@ airEnumFmtDesc(airEnum *enm, int val, int canon, const char *fmt) {
   }
   desc = enm->desc[_airEnumIndex(enm, val)];
   buff = (char *)calloc(strlen(fmt) + strlen(ident) + strlen(desc) + 1,
-      sizeof(char));
+                        sizeof(char));
   if (buff) {
     sprintf(buff, fmt, ident, desc);
   }

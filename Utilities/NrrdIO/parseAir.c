@@ -328,13 +328,13 @@ airParseStrE(int *out, const char *_s, const char *ct, int n, ...) {
     for (i=0; i<=n-1; i++) {
       tmp = airStrtok(i ? NULL : s, ct, &last);
       if (!tmp) {
-  airMopError(mop);
-  return i;
+        airMopError(mop);
+        return i;
       }
       out[i] = airEnumVal(enm, tmp);
       if (airEnumUnknown(enm) == out[i]) {
-  airMopError(mop);
-  return i;
+        airMopError(mop);
+        return i;
       }
     }
   }
@@ -344,7 +344,7 @@ airParseStrE(int *out, const char *_s, const char *ct, int n, ...) {
 
 int
 (*airParseStr[AIR_TYPE_MAX+1])(void *, const char *,
-             const char *, int, ...) = {
+                               const char *, int, ...) = {
   NULL,
   (int (*)(void *, const char *, const char *, int, ...))airParseStrB,
   (int (*)(void *, const char *, const char *, int, ...))airParseStrI,

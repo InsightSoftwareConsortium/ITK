@@ -235,7 +235,7 @@ _nrrdFieldValidInText[NRRD_FIELD_MAX+1] = {
   1, /* nrrdField_content */
   0, /* nrrdField_number */
   0, /* nrrdField_type: decided AGAINST plain text holding general type 
-  (but I forget why ...) */
+        (but I forget why ...) */
   0, /* nrrdField_block_size */
   1, /* nrrdField_dimension: but can only be 1 or 2 */
   0, /* nrrdField_sizes */

@@ -1,25 +1,4 @@
-/*
-  NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998 University of Utah
- 
-  This software is provided 'as-is', without any express or implied
-  warranty.  In no event will the authors be held liable for any
-  damages arising from the use of this software.
- 
-  Permission is granted to anyone to use this software for any
-  purpose, including commercial applications, and to alter it and
-  redistribute it freely, subject to the following restrictions:
- 
-  1. The origin of this software must not be misrepresented; you must
-     not claim that you wrote the original software. If you use this
-     software in a product, an acknowledgment in the product
-     documentation would be appreciated but is not required.
- 
-  2. Altered source versions must be plainly marked as such, and must
-     not be misrepresented as being the original software.
- 
-  3. This notice may not be removed or altered from any source distribution.
-*/
+
 
 #ifdef _WIN32
 #include <io.h>
@@ -69,7 +48,7 @@ typedef union {
 
 /* keyvalue.c */
 extern int _nrrdKeyValueFwrite(FILE *file, const char *prefix,
-             const char *key, const char *value);
+                               const char *key, const char *value);
 
 /* formatXXX.c */
 extern const NrrdFormat _nrrdFormatNRRD;
@@ -100,16 +79,16 @@ extern int _nrrdFieldRequired[NRRD_FIELD_MAX+1];
 /* simple.c */
 extern char *_nrrdContentGet(const Nrrd *nin);
 extern int _nrrdContentSet_nva(Nrrd *nout, const char *func,
-             char *content, const char *format,
-             va_list arg);
+                               char *content, const char *format,
+                               va_list arg);
 extern int _nrrdContentSet(Nrrd *nout, const char *func,
-         char *content, const char *format, ...);
+                           char *content, const char *format, ...);
 
 
 /* axis.c */
 extern int _nrrdKindAltered(int kindIn);
 extern void _nrrdAxisInfoCopy(NrrdAxisInfo *dest, const NrrdAxisInfo *src,
-            int bitflag);
+                              int bitflag);
 extern void _nrrdAxisInfoInit(NrrdAxisInfo *axis);
 extern int _nrrdCenter(int center);
 extern int _nrrdCenter2(int center, int def);
@@ -127,19 +106,19 @@ extern void _nrrdSplitName(char **dirP, char **baseP, const char *name);
 
 /* write.c */
 extern int _nrrdFieldInteresting (const Nrrd *nrrd, NrrdIoState *nio,
-          int field);
+                                  int field);
 extern void _nrrdSprintFieldInfo(char **strP, char *prefix,
-         const Nrrd *nrrd, NrrdIoState *nio,
-         int field);
+                                 const Nrrd *nrrd, NrrdIoState *nio,
+                                 int field);
 extern void _nrrdFprintFieldInfo(FILE *file, char *prefix,
-         const Nrrd *nrrd, NrrdIoState *nio,
-         int field);
+                                 const Nrrd *nrrd, NrrdIoState *nio,
+                                 int field);
 extern int _nrrdReshapeDownGrayscale(Nrrd *nimg);
 
 /* parseNrrd.c */
 extern int (*_nrrdReadNrrdParseInfo[NRRD_FIELD_MAX+1])(Nrrd *nrrd,
-                   NrrdIoState *nio,
-                   int useBiff);
+                                                       NrrdIoState *nio,
+                                                       int useBiff);
 extern int _nrrdReadNrrdParseField(Nrrd *nrrd, NrrdIoState *nio, int useBiff);
 
 /* methods.c */
@@ -154,9 +133,9 @@ extern int _nrrdCopyShallow (Nrrd *nout, const Nrrd *nin);
 extern gzFile _nrrdGzOpen(FILE* fd, const char *mode);
 extern int _nrrdGzClose(gzFile file);
 extern int _nrrdGzRead(gzFile file, voidp buf, unsigned int len,
-           unsigned int* read);
+                       unsigned int* read);
 extern int _nrrdGzWrite(gzFile file, const voidp buf, unsigned int len,
-      unsigned int* written);
+                        unsigned int* written);
 #endif
 
 /* ccmethods.c */

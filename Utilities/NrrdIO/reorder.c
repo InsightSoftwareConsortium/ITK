@@ -44,12 +44,12 @@ nrrdAxesInsert(Nrrd *nout, const Nrrd *nin, int ax) {
   }
   if (!AIR_IN_CL(0, ax, nin->dim)) {
     sprintf(err, "%s: given axis (%d) outside valid range [0, %d]",
-      me, ax, nin->dim);
+            me, ax, nin->dim);
     biffAdd(NRRD, err); return 1;
   }
   if (NRRD_DIM_MAX == nin->dim) {
     sprintf(err, "%s: given nrrd already at NRRD_DIM_MAX (%d)",
-      me, NRRD_DIM_MAX);
+            me, NRRD_DIM_MAX);
     biffAdd(NRRD, err); return 1;
   }
   if (nout != nin) {
@@ -62,7 +62,7 @@ nrrdAxesInsert(Nrrd *nout, const Nrrd *nin, int ax) {
   nout->dim = 1 + nin->dim;
   for (d=nin->dim-1; d>=ax; d--) {
     _nrrdAxisInfoCopy(&(nout->axis[d+1]), &(nin->axis[d]),
-          NRRD_AXIS_INFO_NONE);
+                      NRRD_AXIS_INFO_NONE);
   }
   /* the ONLY thing we can say about the new axis is its size */
   _nrrdAxisInfoInit(&(nout->axis[ax]));

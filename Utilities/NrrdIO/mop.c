@@ -186,11 +186,11 @@ airMopDebug(airArray *arr) {
 
   mops = arr->data;
   printf("airMopDebug: _________________________ mop stack for 0x%p:\n",
-   (void*)arr);
+         (void*)arr);
   for (i=arr->len-1; i>=0; i--) {
     printf("% 4d: ", i);
     if (NULL == mops[i].mop && NULL == mops[i].ptr
-  && airMopNever == mops[i].when) {
+        && airMopNever == mops[i].when) {
       printf("no-op\n");
       continue;
     }
@@ -206,7 +206,7 @@ airMopDebug(airArray *arr) {
     }
     if (_airMopPrint == mops[i].mop) {
       printf("_airMopPrint(\"%s\" == 0x%p)\n",
-       (char*)(mops[i].ptr), (void*)(mops[i].ptr));
+             (char*)(mops[i].ptr), (void*)(mops[i].ptr));
       continue;
     }
     if (airFreeP == mops[i].mop) {
@@ -237,9 +237,9 @@ airMopDone(airArray *arr, int error) {
   mops = arr->data;
   for (i=arr->len-1; i>=0; i--) {
     if (mops[i].ptr
-  && (airMopAlways == mops[i].when
-      || (airMopOnError == mops[i].when && error)
-      || (airMopOnOkay == mops[i].when && !error))) {
+        && (airMopAlways == mops[i].when
+            || (airMopOnError == mops[i].when && error)
+            || (airMopOnOkay == mops[i].when && !error))) {
       mops[i].mop(mops[i].ptr);
     }
   }

@@ -34,17 +34,17 @@ int
 _nrrdFormatText_nameLooksLike(const char *fname) {
   
   return (airEndsWith(fname, NRRD_EXT_TEXT)
-    || airEndsWith(fname, ".text")
-    || airEndsWith(fname, ".ascii"));
+          || airEndsWith(fname, ".text")
+          || airEndsWith(fname, ".ascii"));
 }
 
 int
 _nrrdFormatText_fitsInto(const Nrrd *nrrd, const NrrdEncoding *encoding,
-      int useBiff) {
+                        int useBiff) {
   char me[]="_nrrdFormatText_fitsInto", err[AIR_STRLEN_MED];
   
   sprintf(err, "%s: Sorry, %s format not available in NrrdIO",
-    me, nrrdFormatText->name);
+          me, nrrdFormatText->name);
   biffMaybeAdd(NRRD, err, useBiff); 
   return AIR_FALSE;
 
@@ -62,7 +62,7 @@ _nrrdFormatText_read(FILE *file, Nrrd *nrrd, NrrdIoState *nio) {
   char me[]="_nrrdReadText", err[AIR_STRLEN_MED];
 
   sprintf(err, "%s: Sorry, %s format not available in NrrdIO",
-    me, nrrdFormatText->name);
+          me, nrrdFormatText->name);
   biffAdd(NRRD, err);
   return 1;
 }
@@ -73,7 +73,7 @@ _nrrdFormatText_write(FILE *file, const Nrrd *_nrrd, NrrdIoState *nio) {
   char me[]="_nrrdFormatText_write", err[AIR_STRLEN_MED];
 
   sprintf(err, "%s: Sorry, %s format not available in NrrdIO",
-    me, nrrdFormatText->name);
+          me, nrrdFormatText->name);
   biffAdd(NRRD, err);
   return 1;
 }
