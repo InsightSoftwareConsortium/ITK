@@ -156,6 +156,39 @@ int main()
 
     std::cout << " PASSED !" << std::endl;
   }
+
+ {
+    std::cout << "Test for Square Root...";
+    VersorType qa;
+    VectorType xa;
+    
+    ValueType angle = atan(1.0)*30.0/45.0;
+    ValueType sin2a = sin( angle/2.0 );
+    
+    xa[0] = 0.7;
+    xa[1] = 0.3;
+    xa[2] = 0.1;
+    
+    xa.Normalize();
+
+    xa *= sin2a;
+
+    qa.Set( xa, angle );
+        
+    VersorType qb;
+ 
+    qb = qa.SquareRoot();
+
+    if( fabs( qa.GetAngle() - 2.0 * qb.GetAngle() ) > epsilon ) 
+      {
+      std::cout << "Error in Square Root ! " << std::endl;
+      std::cout << "Angle = " << qb.GetAngle();
+      std::cout << " it should be " << qa.GetAngle() / 2.0 << std::endl;
+      return EXIT_FAILURE;
+      } 
+    std::cout << " PASSED !" << std::endl;
+  }
+
   {
     std::cout << "Test for Transforming a vector...";
     VersorType qa;
