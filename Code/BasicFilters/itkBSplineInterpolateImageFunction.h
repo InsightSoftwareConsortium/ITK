@@ -28,6 +28,7 @@
 #include "vnl/vnl_matrix.h"
 
 #include "itkBSplineDecompositionImageFilter.h"
+#include "itkConceptChecking.h"
 
 namespace itk
 {
@@ -64,7 +65,10 @@ namespace itk
  *
  * \ingroup 
  */
-template <class TImageType, class TCoordRep = float>
+template <
+class TImageType, 
+class TCoordRep = float,
+class TCoefficientType = double >
 class ITK_EXPORT BSplineInterpolateImageFunction : 
   public InterpolateImageFunction<TImageType,TCoordRep> 
 {
@@ -104,7 +108,7 @@ public:
   typedef itk::ImageLinearIteratorWithIndex<TImageType> Iterator;
 
   /** Internal Coefficient typedef support */
-  typedef double CoefficientDataType;
+  typedef TCoefficientType CoefficientDataType;
   typedef itk::Image<CoefficientDataType, 
                      itkGetStaticConstMacro(ImageDimension)
                                                     > CoefficientImageType;
@@ -160,7 +164,7 @@ protected:
   typename TImageType::SizeType       m_DataLength;  // Image size
   unsigned int                        m_SplineOrder; // User specified spline order (3rd or cubic is the default)
 
-  typename CoefficientImageType::Pointer       m_Coefficients; // Spline coefficients  
+  typename CoefficientImageType::ConstPointer       m_Coefficients; // Spline coefficients  
 
 private:
   /** Determines the weights for interpolation of the value x */
