@@ -20,6 +20,7 @@
 #define GDCMDOCENTRYSET_H
 
 #include "gdcmException.h"
+#include <fstream>
 
 namespace gdcm 
 {
