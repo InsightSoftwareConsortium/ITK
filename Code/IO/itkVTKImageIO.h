@@ -20,8 +20,9 @@
 #ifndef __itkVTKImageIO_h
 #define __itkVTKImageIO_h
 
-#include "itkImageIOBase.h"
 #include <fstream>
+#include "itkImageIOBase.h"
+
 
 namespace itk
 {

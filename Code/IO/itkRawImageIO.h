@@ -17,6 +17,7 @@
 #ifndef __itkRawImageIO_h
 #define __itkRawImageIO_h
 
+#include <fstream>
 #include "itkImageIOBase.h"
 #include "itkIndex.h"
 #include "itkImageRegion.h"
@@ -24,7 +25,7 @@
 #include "itkByteSwapper.h"
 #include "itkVersion.h"
 #include <string>
-#include <fstream>
+
 
 namespace itk
 {
