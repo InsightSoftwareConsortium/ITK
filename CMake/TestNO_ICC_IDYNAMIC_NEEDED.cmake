@@ -14,12 +14,12 @@ MACRO(TESTNO_ICC_IDYNAMIC_NEEDED VARIABLE LOCAL_TEST_DIR)
     IF(HAVE_${VARIABLE}) #Test compiled, either working intel w/o -i_dynamic, or another compiler
       IF(${VARIABLE})   #Intel icc compiler, -i_dynamic not needed
         FILE(APPEND ${CMAKE_BINARY_DIR}/CMakeError.log
-                    "Intel icc compiler found, -i_dynamic not needed")
+                    "-i_dynamic not needed, (Not Intel icc, or this version of Intel icc does not conflict with OS glibc.")
         MESSAGE(STATUS "Intel icc compiler found, -i_dynamic not needed")
       ELSE(${VARIABLE}) #The compiler is not Intel icc
         FILE(APPEND ${CMAKE_BINARY_DIR}/CMakeError.log
-                    "The compiler is not Intel icc")
-        MESSAGE(STATUS "The compiler is not Intel icc")
+                    "The compiler ERROR--This should never happen")
+        MESSAGE(STATUS "The compiler ERROR--This should never happen")
       ENDIF(${VARIABLE})
     ELSE(HAVE_${VARIABLE})  #Test did not compile, either badly broken compiler, or intel -i_dynamic needed
       FILE(APPEND ${CMAKE_BINARY_DIR}/CMakeError.log

@@ -5,5 +5,5 @@
         int main(int argc, char * argv[]) { return 1; }
 #else //__INTEL_COMPILER
         // If not the INTEL compiler, just fall though to simplest program
-        int main(int argc, char * argv[]) { return 0; }
+        int main(int argc, char * argv[]) { return 1; }
 #endif //__INTEL_COMPILER
