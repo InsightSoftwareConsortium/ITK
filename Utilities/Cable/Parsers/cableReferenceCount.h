@@ -175,7 +175,7 @@ private:
  * destructors, and assignment operators.  They must be created with
  * a static New() method.
  */
-class Object
+class PARSERS_EXPORT Object
 {
 public:
   typedef Object                    Self;
