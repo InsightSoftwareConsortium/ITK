@@ -349,7 +349,7 @@ M_Read(void)
     char c = ' ';
     while( (c!='\n') && (!m_ReadStream->eof()))
     {
-      c = m_ReadStream->get();// to avoid unrecognize charactere
+      c = m_ReadStream->get();// to avoid unrecognized characters
     }
   }
 

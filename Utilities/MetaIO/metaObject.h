@@ -28,16 +28,16 @@ class MetaObject
       FieldsContainerType m_UserDefinedReadFields;
       char  m_FileName[255];
 
-      char  m_Comment[255];         // "Comment = "          ""
+      char  m_Comment[255];           // "Comment = "          ""
 
       char  m_ObjectTypeName[255];    // "ObjectType = "     defined by suffix
       char  m_ObjectSubTypeName[255]; // "ObjectSubType = "  defined by suffix
 
-      int   m_NDims;                // "NDims = "            required
+      int   m_NDims;                  // "NDims = "            required
 
-      float m_Offset[10];         // "Offset = "         0,0,0
-      float m_Rotation[100];      // "Rotation = "      1,0,0, 0,1,0, 0,0,1
-      float m_CenterOfRotation[10];     // CenterOfRotation
+      float m_Offset[10];             // "Offset = "         0,0,0
+      float m_Rotation[100];          // "Rotation = "      1,0,0, 0,1,0, 0,0,1
+      float m_CenterOfRotation[10];   // CenterOfRotation
 
       MET_OrientationEnumType m_AnatomicalOrientation[10];
 
@@ -45,7 +45,7 @@ class MetaObject
 
       float m_Color[4];             // "Color = "            1.0, 0.0, 0.0, 1.0
  
-      int   m_ID;          // "ID = "               0
+      int   m_ID;                   // "ID = "               0
 
       int   m_ParentID;             // "ParentID = "         -1
 

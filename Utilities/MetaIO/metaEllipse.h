@@ -58,7 +58,7 @@ class MetaEllipse : public MetaObject
     void  Radius(float radius);
     void  Radius(float r1,float r2);
     void  Radius(float r1,float r2, float r3);
-    const float* Radius(void);
+    const float* Radius(void) const;
 
 
   ////

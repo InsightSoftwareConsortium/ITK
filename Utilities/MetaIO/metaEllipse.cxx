@@ -109,7 +109,7 @@ Radius(float r1,float r2, float r3)
 }
 
 const float*  MetaEllipse::
-Radius(void)
+Radius(void) const 
 {
   return m_Radius;
 }

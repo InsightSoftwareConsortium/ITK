@@ -2,6 +2,7 @@ ADD_LIBRARY(ITKMetaIO
   metaBlob.cxx
   metaEllipse.cxx
   metaGroup.cxx
+  metaGaussian.cxx
   metaImage.cxx
   metaImageUtils.cxx
   metaLandmark.cxx

@@ -9,6 +9,7 @@
 #include <metaScene.h>
 #include <metaTube.h>
 #include <metaEllipse.h>
+#include <metaGaussian.h>
 #include <metaImage.h>
 #include <metaBlob.h>
 #include <metaLandmark.h>
@@ -156,6 +157,14 @@ Read(const char *_headerName)
       MetaEllipse* ellipse = new MetaEllipse();
       ellipse->ReadStream(m_NDims,m_ReadStream);
       m_ObjectList.push_back(ellipse);
+    }
+
+    else if(!strncmp(MET_ReadType(*m_ReadStream),"Gaussian",8) ||
+            (MET_ReadType(*m_ReadStream) == NULL && !strcmp(suf, "gau")))
+    {
+      MetaGaussian* gaussian = new MetaGaussian();
+      gaussian->ReadStream(m_NDims,m_ReadStream);
+      m_ObjectList.push_back(gaussian);
     }
     
     else if(!strncmp(MET_ReadType(*m_ReadStream),"Image",5) ||
