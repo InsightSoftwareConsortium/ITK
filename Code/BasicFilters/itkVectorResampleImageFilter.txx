@@ -44,7 +44,7 @@ VectorResampleImageFilter<TInputImage, TOutputImage>
   
   m_Transform = IdentityTransform<double, ImageDimension>::New();
   m_Interpolator = VectorLinearInterpolateImageFunction<InputImageType, double>::New();
-  m_DefaultPixelValue = 0;
+  m_DefaultPixelValue.Fill(0);
 }
 
 
@@ -128,7 +128,6 @@ VectorResampleImageFilter<TInputImage,TOutputImage>
 
   // Connect input image to interpolator
   m_Interpolator->SetInputImage( this->GetInput() );
-
 }
 
 
@@ -163,11 +162,12 @@ VectorResampleImageFilter<TInputImage,TOutputImage>
   PointType outputPoint;         // Coordinates of current output pixel
   PointType inputPoint;          // Coordinates of current input pixel
 
-  // Support for progress methods/callbacks
-  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
-        
   const int numberOfComponents = PixelType::Dimension;
+
+  // Support for progress methods/callbacks
+  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels(), 10);
         
+
   // Walk the output region
   for (i=0; !outIt.IsAtEnd(); ++outIt, i++ )
     {
@@ -196,7 +196,6 @@ VectorResampleImageFilter<TInputImage,TOutputImage>
 
     progress.CompletedPixel();
     }
-
   return;
 }
 
