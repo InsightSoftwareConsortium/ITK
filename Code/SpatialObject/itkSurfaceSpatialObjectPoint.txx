@@ -28,7 +28,6 @@ SurfaceSpatialObjectPoint< TPointDimension >
 ::SurfaceSpatialObjectPoint( void ) 
 { 
   m_ID = 0;
-  m_NumDimensions = TPointDimension;
   m_Normal.Fill(0);
 }
 
@@ -97,7 +96,6 @@ SurfaceSpatialObjectPoint< TPointDimension >
 ::operator=(const SurfaceSpatialObjectPoint & rhs) 
 {
   m_ID = rhs.m_ID;
-  m_NumDimensions = rhs.m_NumDimensions;
   m_X = rhs.m_X;
   return * this;
 }

@@ -32,8 +32,7 @@ SpatialObjectPoint< TPointDimension >
   m_Color.SetGreen(0);
   m_Color.SetBlue(0);
   m_Color.SetAlpha(1);
-  m_NumDimensions = TPointDimension;
-  for(unsigned int i=0;i<m_NumDimensions;i++)
+  for(unsigned int i=0;i<TPointDimension;i++)
     {
     m_X[i]=0;
     }
@@ -166,14 +165,6 @@ SpatialObjectPoint< TPointDimension >
   return m_ID;
 }
 
-/** Return the number of dimension of a point */
-template< unsigned int TPointDimension >
-unsigned short int 
-SpatialObjectPoint< TPointDimension >
-::GetNumDimensions( void ) const
-{
-  return m_NumDimensions;
-}
 
 /** Return the position of a point */
 template< unsigned int TPointDimension >
@@ -222,7 +213,6 @@ SpatialObjectPoint< TPointDimension >
 ::operator=(const SpatialObjectPoint & rhs) 
 {
   m_ID = rhs.m_ID;
-  m_NumDimensions = rhs.m_NumDimensions;
   m_X = rhs.m_X;
   m_Color = rhs.m_Color ;
   return * this;
@@ -249,11 +239,11 @@ SpatialObjectPoint< TPointDimension >
   os << m_Color.GetBlue() << " ";
   os << m_Color.GetAlpha() << std::endl;
   os << indent << "Position: ";
-  for(unsigned int i=1;i<m_NumDimensions;i++)
+  for(unsigned int i=1;i<TPointDimension;i++)
     {
     os << m_X[i-1] << "," ;
     }
-  os <<  m_X[m_NumDimensions-1] << std::endl;
+  os <<  m_X[TPointDimension-1] << std::endl;
 }
 
 

@@ -28,7 +28,6 @@ LineSpatialObjectPoint< TPointDimension >
 ::LineSpatialObjectPoint( void ) 
 { 
   m_ID = 0;
-  m_NumDimensions = TPointDimension;
   for(unsigned int i=0;i<TPointDimension-1;i++)
     {
     VectorType normal;
@@ -83,7 +82,6 @@ LineSpatialObjectPoint< TPointDimension >
 ::operator=(const LineSpatialObjectPoint & rhs) 
 {
   m_ID = rhs.m_ID;
-  m_NumDimensions = rhs.m_NumDimensions;
   m_X = rhs.m_X;
   return * this;
 }

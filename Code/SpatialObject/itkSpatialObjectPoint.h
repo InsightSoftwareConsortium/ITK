@@ -64,9 +64,6 @@ public:
   void SetPosition(const double x0, const double x1);
   void SetPosition(const double x0, const double x1, const double x2);
 
-  /** Get # of dimensions */
-  unsigned short int GetNumDimensions( void ) const;
-
   /** Copy one SpatialObjectPoint to another */
   Self & operator=(const SpatialObjectPoint & rhs);
 
@@ -107,9 +104,6 @@ protected:
 
   /** Color of the point */
   PixelType m_Color;
-
-  /** # of dimensions */
-  unsigned short int m_NumDimensions;
 
 };
 
