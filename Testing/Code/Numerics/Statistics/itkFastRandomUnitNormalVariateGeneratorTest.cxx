@@ -31,7 +31,7 @@ int itkFastRandomUnitNormalVariateGeneratorTest(int, char**)
   GeneratorType::Pointer generator = GeneratorType::New();
 
     
-  const unsigned long randomSeed = 14543UL; // any number to initialize the seed.
+  const int randomSeed = 14543 ; // any number to initialize the seed.
 
   generator->Initialize( randomSeed );
 
