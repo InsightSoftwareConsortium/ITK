@@ -17,6 +17,7 @@
 #ifndef __itkImageIORegion_h
 #define __itkImageIORegion_h
 
+#include <algorithm>
 #include "itkRegion.h"
 #include "itkObjectFactory.h"
 
