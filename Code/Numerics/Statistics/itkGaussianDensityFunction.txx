@@ -53,22 +53,6 @@ GaussianDensityFunction< TMeasurementVector >
 template < class TMeasurementVector >
 void 
 GaussianDensityFunction< TMeasurementVector >
-::SetMean(MeanType* mean)
-{
-  m_Mean = mean ;
-}
-
-template < class TMeasurementVector >
-GaussianDensityFunction< TMeasurementVector >::MeanType*
-GaussianDensityFunction< TMeasurementVector >
-::GetMean()
-{
-  return m_Mean ;
-}
-
-template < class TMeasurementVector >
-void 
-GaussianDensityFunction< TMeasurementVector >
 ::SetCovariance(CovarianceType* cov)
 {
   m_Covariance = cov; 
@@ -81,16 +65,16 @@ GaussianDensityFunction< TMeasurementVector >
   double det = vnl_determinant(m_Covariance->GetVnlMatrix());
  
   // calculate coefficient C of multivariate gaussian
-  // p(x) = C exp(-0.5 * (x-u) * inv(covariance) * (x-u)')
-  m_PreFactor = 1.0 / pow( pow(2.0 * vnl_math::pi, 
-                               double(VectorDimension)), 
-                           0.5 ) * sqrt(fabs(det) );
+  m_PreFactor = 1.0 / (sqrt(det) * 
+                       pow(sqrt(2.0 * vnl_math::pi), double(VectorDimension))) ;
+
+
 }
 
 template < class TMeasurementVector >
 GaussianDensityFunction< TMeasurementVector >::CovarianceType*
 GaussianDensityFunction< TMeasurementVector >
-::GetCovariance()
+::GetCovariance() const
 {
   return m_Covariance ;
 }
@@ -112,6 +96,7 @@ GaussianDensityFunction< TMeasurementVector >
     tempVector[i] = measurement[i] - (*m_Mean)[i] ;
     }
 
+
   // Compute |y - mean | * inverse(cov) 
   for (unsigned int i = 0 ; i < VectorDimension ; i++)
     {
@@ -122,6 +107,7 @@ GaussianDensityFunction< TMeasurementVector >
       }
     tempVector2[i] = temp ;
     }
+
 
   // Compute |y - mean | * inverse(cov) * |y - mean|^T 
   temp = 0 ;
