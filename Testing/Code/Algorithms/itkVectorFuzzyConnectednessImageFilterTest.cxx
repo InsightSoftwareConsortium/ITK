@@ -34,7 +34,8 @@ double object_cov1[FEATURES_NUM][FEATURES_NUM] =
   {255.27, 340.36, 268.36},
   {340.36,514.63, 422.18},
   {268.36,422.18, 358.63},
-}
+};
+
 double object_cov2[FEATURES_NUM][FEATURES_NUM] = 
 {
   {213.54,  -28.63, -21.27},
