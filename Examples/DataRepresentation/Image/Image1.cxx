@@ -17,9 +17,9 @@
 
 // Software Guide : BeginLatex
 //
-// This example illustrates the use of the itk::Image class
-// the following code is the minimal procedure to instantiate,
-// declare and create an image class.
+// This example illustrates the use of the itk::Image class.
+// The following code is the minimal procedure required to 
+// instantiate, declare and create an image class.\\
 //
 // First, the header file of the Image class must be included.
 //
@@ -94,6 +94,7 @@ int main()
   // 
   // Software Guide : BeginCodeSnippet 
   ImageType::IndexType start;
+
   start[0] =   0;  // first index on X
   start[1] =   0;  // first index on Y
   start[2] =   0;  // first index on Z
@@ -101,7 +102,7 @@ int main()
 
   // Software Guide : BeginLatex
   // Having defined the starting index and the image size, these
-  // two parameters are used to create an ImageRegion objete which
+  // two parameters are used to create an ImageRegion object which
   // basically handles both concepts together. The region is initalized
   // with the starting index and size of the image.
   // Software Guide : EndLatex 
