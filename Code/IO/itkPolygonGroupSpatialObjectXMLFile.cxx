@@ -43,7 +43,7 @@ CanReadFile(const char *name)
 
 void 
 PolygonGroupSpatialObjectXMLFileReader::
-StartElement(const char * name,const char **atts)
+StartElement(const char * name,const char ** itkNotUsed(atts))
 {
 #if 0
   std::cout << "<" << name << " " ;
@@ -182,7 +182,7 @@ CharacterDataHandler(const char *inData, int inLength)
 
 int
 PolygonGroupSpatialObjectXMLFileWriter::
-CanWriteFile(const char *name)
+CanWriteFile(const char * itkNotUsed(name))
 {
   return true;                  // not sure what else to say
 }
