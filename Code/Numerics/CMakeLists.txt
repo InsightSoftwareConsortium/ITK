@@ -36,3 +36,4 @@ ADD_LIBRARY(ITKNumerics ${ITKNumerics_SRCS})
 TARGET_LINK_LIBRARIES (ITKNumerics ITKCommon VXLNumerics)
 
 INSTALL_TARGETS(/lib/InsightToolkit ITKNumerics)
+INSTALL_FILES(/include/InsightToolkit/Numerics "(\\.h|\\.txx)$")

@@ -135,4 +135,4 @@ IF(USE_FLTK)
   ENDIF(FLTK_VERSION_1.0.11)
 ENDIF(USE_FLTK)
 
-
+INSTALL_FILES(/include/InsightToolkit ".h" "itkConfigure")

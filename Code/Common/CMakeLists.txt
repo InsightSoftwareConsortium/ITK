@@ -58,3 +58,4 @@ ENDIF(UNIX)
 
 
 INSTALL_TARGETS(/lib/InsightToolkit ITKCommon)
+INSTALL_FILES(/include/InsightToolkit/Common "(\\.h|\\.txx)$")

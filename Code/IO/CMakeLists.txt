@@ -28,3 +28,4 @@ ADD_LIBRARY(ITKIO ${ITKIO_SRCS})
 TARGET_LINK_LIBRARIES(ITKIO ITKCommon itkpng itkzlib MetaIO)
 
 INSTALL_TARGETS(/lib/InsightToolkit ITKIO)
+INSTALL_FILES(/include/InsightToolkit/IO "(\\.h|\\.txx)$")

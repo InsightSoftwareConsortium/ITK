@@ -1,2 +1,1 @@
-SUBDIRS(Numerics Common BasicFilters IO Algorithms )
-
+SUBDIRS(Numerics Common BasicFilters IO Algorithms SpatialObject)

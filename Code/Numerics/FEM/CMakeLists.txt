@@ -203,11 +203,12 @@ SOURCE_GROUP("ITPACK" itpack*)
 
 
 # Build the library
-ADD_LIBRARY(FEM ${FEM_SRCS})
-TARGET_LINK_LIBRARIES(FEM VXLNumerics
+ADD_LIBRARY(ITKFEM ${FEM_SRCS})
+TARGET_LINK_LIBRARIES(ITKFEM VXLNumerics
                       ITKNumerics
                       ITKCommon
                       ITKBasicFilters
                       ITKIO)
 
-
+INSTALL_TARGETS(/lib/InsightToolkit ITKFEM)
+INSTALL_FILES(/include/InsightToolkit/Numerics/FEM "(\\.h|\\.txx)$")
