@@ -582,16 +582,35 @@ namespace itk
   bool AnalyzeImageIO::CanWriteFile(const char * FileNameToWrite)
   {
     m_FileName=FileNameToWrite;
-    if(m_FileName != "" &&
-       // DataFile Name Given*/
-       (m_FileName.find(".img") < m_FileName.length() ||  
-        // HeaderFile Name Given
-        m_FileName.find(".hdr") < m_FileName.length() || 
-        //Compressed Images
-        m_FileName.find(".img.gz") < m_FileName.length())) 
+    if(  m_FileName == "" )
       {
-        return true;
+      return false;
       }
+
+    // Data file name given?
+    std::string::size_type imgPos = m_FileName.rfind(".img");
+    if ((imgPos != std::string::npos)
+        && (imgPos == m_FileName.length() - 4))
+      {
+      return true;
+      }
+
+    // Header file given?
+    std::string::size_type hdrPos = m_FileName.rfind(".hdr");
+    if ((hdrPos != std::string::npos)
+        && (hdrPos == m_FileName.length() - 4))
+      {
+      return true;
+      }
+
+    // Compressed image given?
+    std::string::size_type imggzPos = m_FileName.rfind(".img.gz");
+    if ((imggzPos != std::string::npos)
+        && (imggzPos == m_FileName.length() - 7))
+      {
+      return true;
+      }
+    
     return false;
   }
 
@@ -988,36 +1007,40 @@ namespace itk
     //
     // only try to read HDR files
     std::string ext = GetExtension(HeaderFileName);
-    if(ext == std::string("gz")) 
-      {
-        ext = GetExtension(GetRootName(HeaderFileName));
-      }
+    if(ext == std::string("gz"))
+    {
+      ext = GetExtension(GetRootName(HeaderFileName));
+    }
     if(ext != std::string("hdr") && ext != std::string("img"))
+    {
       return false;
-      
+    }
+
     std::ifstream   local_InputStream;
-    local_InputStream.open( HeaderFileName.c_str(), std::ios::in | std::ios::binary );
-    if( local_InputStream.fail() ) 
-      {
-        ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("File cannot be read");
-        throw exception;
-      }
+    local_InputStream.open( HeaderFileName.c_str(), 
+        std::ios::in | std::ios::binary );
+    if( local_InputStream.fail() )
+    {
+      return false;
+    }
     local_InputStream.read( (char *)&(this->m_hdr), sizeof(struct dsr) );
-    if( local_InputStream.eof() ) 
-      {
-        ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Unexpected end of file");
-        throw exception;
-      }
+    if( local_InputStream.fail() )
+    {
+      return false;
+    }
     local_InputStream.close();
+
     // if the machine and file endianess are different
     // perform the byte swapping on it
-    this->m_MachineByteOrder=this->CheckAnalyzeEndian(this->m_hdr);
-    if( this->m_MachineByteOrder != this->m_ByteOrder  ) 
-      {
-        this->SwapHeaderBytesIfNecessary( &(this->m_hdr) );
-      }
+    this->m_ByteOrder = this->CheckAnalyzeEndian(this->m_hdr);
+    this->SwapHeaderBytesIfNecessary( &(this->m_hdr) );
+    if(this->m_hdr.dime.compressed==1)
+    {
+      return false;
+      //    ExceptionObject exception(__FILE__, __LINE__);
+      //    exception.SetDescription("Unix compress file is not supported.");
+      //    throw exception;
+    }
     return true;
   }
 
