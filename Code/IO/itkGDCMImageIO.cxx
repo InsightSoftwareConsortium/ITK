@@ -334,6 +334,7 @@ void GDCMImageIO::Write(const void* buffer)
 
   MetaDataDictionary & dico = this->GetMetaDataDictionary();
   std::vector<std::string> keys = dico.GetKeys();
+  //std::cerr << keys.size() << std::endl;
 
   for( std::vector<std::string>::const_iterator it = keys.begin();
       it != keys.end(); ++it )
@@ -344,7 +345,7 @@ void GDCMImageIO::Write(const void* buffer)
     // Convert DICOM name to DICOM (group,element)
     gdcmDictEntry *dictEntry =
        m_GdcmHeader->GetPubDict()->GetDictEntryByName(*it);
-    //m_GdcmHeader->ReplaceOrCreateByNumber( temp,dictEntry->GetGroup(), dictEntry->GetElement());
+    m_GdcmHeader->ReplaceOrCreateByNumber( temp,dictEntry->GetGroup(), dictEntry->GetElement());
   }
   
   /* we should use iterator on map since it is faster and avoid duplicating data
