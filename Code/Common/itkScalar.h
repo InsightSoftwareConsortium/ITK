@@ -80,7 +80,20 @@ public:
    * \sa SetScalar()
    */
   T& GetScalar()
-    { return m_Scalar; }
+  { return m_Scalar; }
+
+  /**
+   * Operator to get (cast) the scalar value. This version can be used as
+   * an rvalue.
+   */
+  operator T& ()
+  { return m_Scalar; };
+
+  /**
+   * Operator to get the scalar value as an lvalue.
+   */
+  operator const T& () const
+  { return m_Scalar; };
 
   /**
    * Set the scalar value.
@@ -88,6 +101,11 @@ public:
    */
   void SetScalar(const T &val) { m_Scalar = val; }
 
+  /**
+   * Operator to set the scalar value.
+   */
+  operator= (const T &val) { m_Scalar = val; }
+  
 private:
   T m_Scalar;
 };
