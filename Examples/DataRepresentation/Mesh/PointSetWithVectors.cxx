@@ -46,7 +46,7 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  \piccaption[2]{Vectors as PixelType.\label{fig:PointSetWithVectors}}
+  //  \piccaption[PointSet with Vectors as PixelType]{Vectors as PixelType.\label{fig:PointSetWithVectors}}
   //  \parpic(6cm,4cm)[r]{\includegraphics[width=4cm]{PointSetWithVectors.eps}}
   //
   //  The \doxygen{Vector} class is templated over the type used to represent
