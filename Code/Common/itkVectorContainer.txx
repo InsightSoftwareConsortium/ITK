@@ -158,7 +158,7 @@ VectorContainer< TElementIdentifier , TElement >
     this->VectorType::resize(id+1);
     this->Modified();
     }
-  else if(id >= 0)
+  else if(id > 0)
     {
     /**
      * No expansion was necessary.  Just overwrite the index's entry with
