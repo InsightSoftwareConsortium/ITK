@@ -70,12 +70,12 @@ main()
   //  source.  Two new types are \code{IdentifierType} and
   //  \code{IdentifierArrayType}.  Every cell in a mesh has an
   //  identifier, whose type is determined by the mesh traits.
-  //  \code{AutomaticTopologyMeshSource} requires that the identifier
+  //  \doxygen{AutomaticTopologyMeshSource} requires that the identifier
   //  type of all vertices and cells be \code{unsigned long}, which is
   //  already the default.  However, if you created a new mesh traits
   //  class to use string tags as identifiers, the resulting mesh
-  //  would not be compatible with \code{AutomaticTopologyMeshSource}.
-  //  An \code{IdentifierArrayType} is simply an \doxygen{itk::Array}
+  //  would not be compatible with \doxygen{AutomaticTopologyMeshSource}.
+  //  An \code{IdentifierArrayType} is simply an \doxygen{Array}
   //  of \code{IdentifierType} objects.
   //
   //  \index{itk::AutomaticTopologyMeshSource!IdentifierType}
@@ -120,10 +120,10 @@ main()
   //  Software Guide : BeginLatex
   //
   //  The function
-  //  \doxygen{itk::AutomaticTopologyMeshSource::AddTetrahedron()}
+  //  \code{AutomaticTopologyMeshSource::AddTetrahedron()}
   //  takes point identifiers as parameters; the identifiers must
   //  correspond to points that have already been added.
-  //  \doxygen{itk::AutomaticTopologyMeshSource::AddPoint() returns
+  //  \code{AutomaticTopologyMeshSource::AddPoint()} returns
   //  the appropriate identifier type for the point being added.  It
   //  first checks to see if the point is already in the mesh.  If so,
   //  it returns the ID of the point in the mesh, and if not, it
