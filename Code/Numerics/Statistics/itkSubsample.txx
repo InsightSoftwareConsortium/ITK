@@ -26,7 +26,31 @@ template< class TSample >
 Subsample< TSample >
 ::Subsample()
 {
+  m_Sample = 0 ;
   m_TotalFrequency = NumericTraits< FrequencyType >::Zero ;
+  m_ActiveDimension = 0 ;
+}
+
+template< class TSample >
+void
+Subsample< TSample >
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+
+  os << indent << "Sample: " ;
+  if ( m_Sample != 0 )
+    {
+    os << m_Sample << std::endl ;
+    }
+  else
+    {
+    os << "not set." << std::endl ;
+    }
+
+  os << indent << "TotalFrequency: " << m_TotalFrequency << std::endl ;
+  os << indent << "ActiveDimension: " << m_ActiveDimension << std::endl ;
+  os << indent << "InstanceIdentifierHolder : " << &m_IdHolder << std::endl ;
 }
 
 template< class TSample >
@@ -63,16 +87,6 @@ Subsample< TSample >
   m_IdHolder[index2] = temp ;
 }
 
-template< class TSample >
-void
-Subsample< TSample >
-::PrintSelf(std::ostream& os, Indent indent) const
-{
-  Superclass::PrintSelf(os,indent);
-  
-  os << indent << "Sample: " << m_Sample << std::endl ;
-  os << indent << "InstanceIdentifierHolder : " << &m_IdHolder << std::endl ;
-}
 } // end of namespace Statistics 
 } // end of namespace itk
 
