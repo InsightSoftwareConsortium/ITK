@@ -120,7 +120,7 @@ public:
   /** A hash table holding flat region data structures.   */
   typedef itk::hash_map<unsigned long, flat_region_t,
                         itk::hash<unsigned long> > flat_hash_t;
-  typedef flat_hash_t::value_type FlatHashValueType;
+  typedef typename flat_hash_t::value_type FlatHashValueType;
   
   /** Itk typedefs and macros defining smart pointer and type identification.
    */
