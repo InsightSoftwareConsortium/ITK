@@ -226,21 +226,51 @@ int itkExtractImageTest(int, char**)
       return EXIT_FAILURE;
     }
 
-  // Try extracting a single row
+  //Case 3: Try extracting a single row
   itk::ExtractImageFilter<ShortImage, LineImage>::Pointer lineExtract;
   lineExtract = itk::ExtractImageFilter<ShortImage, LineImage>::New();
   lineExtract->SetInput( if2 );
 
-  LineImage::IndexType lineIndex = {{2}};
-  LineImage::SizeType lineSize = {{3}};
-  LineImage::RegionType lineRegion;
-  lineRegion.SetIndex( lineIndex );
-  lineRegion.SetSize( lineSize );
+  extractIndex[0] = 2;
+  extractIndex[1] = 0;
+  extractSize[0] = 0;
+  extractSize[1] = 3;
+  extractRegion.SetIndex( extractIndex );
+  extractRegion.SetSize( extractSize );
 
-  lineExtract->SetExtractionRegion( lineRegion );
+  lineExtract->SetExtractionRegion( extractRegion );
   lineExtract->UpdateLargestPossibleRegion();
 
   std::cout << "After 1D extraction. " << std::endl;
+  
+  //test the dimension collapse
+  LineImage::RegionType requestedLineRegion;
+  
+  requestedLineRegion = lineExtract->GetOutput()->GetRequestedRegion();
+  
+  itk::ImageRegionIterator<LineImage>
+    iteratorLineIn(lineExtract->GetOutput(), requestedLineRegion);
+
+  ShortImage::IndexType testIndex;
+  for (; !iteratorLineIn.IsAtEnd(); ++iteratorLineIn)
+    {
+    LineImage::PixelType linePixelValue = iteratorLineIn.Get();
+    testIndex[0] = extractIndex[0];
+    testIndex[1] = iteratorLineIn.GetIndex()[0];
+    if (linePixelValue != if2->GetPixel(testIndex))
+      {
+      passed = false;
+      }
+    }
+  if (passed)
+    {
+      std::cout << "ExtractImageFilter case 3 passed." << std::endl;
+    }
+  else
+    {
+      std::cout << "ExtractImageFilter case 3 failed." << std::endl;
+      return EXIT_FAILURE;
+    }
   
   return EXIT_SUCCESS;
 }
