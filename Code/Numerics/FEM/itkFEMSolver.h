@@ -124,9 +124,9 @@ public:
    */
   void UpdateDisplacements();
 
-  Float GetSolution(int i)
+  Float GetSolution(unsigned int i)
   {
-    return m_ls->GetX(i);
+    return m_ls->GetSolutionValue(i);
   }
 
 protected:

@@ -340,7 +340,8 @@ void Solver::AssembleK() {
    * Since we're using the Lagrange multiplier method to apply the MFC,
    * each constraint adds a new global DOF.
    */
-  m_ls->InitA(NGFN+NMFC);
+  m_ls->SetSystemOrder(NGFN+NMFC);
+  m_ls->InitializeMatrix();
 
   /**
    * Step over all elements
@@ -371,7 +372,7 @@ void Solver::AssembleK() {
          */
         if ( Ke(j,k)!=Float(0.0) )
         {
-          m_ls->AddA( (*e)->GetDegreeOfFreedom(j), (*e)->GetDegreeOfFreedom(k), Ke(j,k) );
+          m_ls->AddMatrixValue( (*e)->GetDegreeOfFreedom(j), (*e)->GetDegreeOfFreedom(k), Ke(j,k) );
         }
 
       }
@@ -401,8 +402,8 @@ void Solver::AssembleK() {
         throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleK()","Illegal GFN!");
       }
 
-      m_ls->SetA(gfn, NGFN+(*c)->Index, q->value);
-      m_ls->SetA(NGFN+(*c)->Index, gfn, q->value);  // this is a symetric matrix...
+      m_ls->SetMatrixValue(gfn, NGFN+(*c)->Index, q->value);
+      m_ls->SetMatrixValue(NGFN+(*c)->Index, gfn, q->value);  // this is a symetric matrix...
 
     }
   }
@@ -421,7 +422,7 @@ void Solver::AssembleF(int dim) {
   if (NGFN<=0) return;
   
   /** Initialize the master force vector */
-  m_ls->InitB();
+  m_ls->InitializeVector();
 
   /**
    * Convert the external loads to the nodal loads and
@@ -462,7 +463,7 @@ void Solver::AssembleF(int dim) {
          * FIXME: We assume that the implementation of force vector inside the LoadNode class is correct for given
          * number of dimensions.
          */
-        m_ls->AddB(l1->m_element->GetDegreeOfFreedomAtPoint(l1->m_pt,dof) , l1->F[dof+l1->m_element->GetNumberOfDegreesOfFreedomPerPoint()*dim]);
+        m_ls->AddVectorValue(l1->m_element->GetDegreeOfFreedomAtPoint(l1->m_pt,dof) , l1->F[dof+l1->m_element->GetNumberOfDegreesOfFreedomPerPoint()*dim]);
       }
 
       // that's all there is to DOF loads, go to next load in an array
@@ -499,7 +500,7 @@ void Solver::AssembleF(int dim) {
             }
 
             // update the master force vector (take care of the correct isotropic dimensions)
-            m_ls->AddB(el0->GetDegreeOfFreedom(j) , Fe(j+dim*Ne));
+            m_ls->AddVectorValue(el0->GetDegreeOfFreedom(j) , Fe(j+dim*Ne));
           }
         }
       
@@ -522,7 +523,7 @@ void Solver::AssembleF(int dim) {
             }
 
             // update the master force vector (take care of the correct isotropic dimensions)
-            m_ls->AddB((*e)->GetDegreeOfFreedom(j) , Fe(j+dim*Ne));
+            m_ls->AddVectorValue((*e)->GetDegreeOfFreedom(j) , Fe(j+dim*Ne));
 
           }
 
@@ -539,7 +540,7 @@ void Solver::AssembleF(int dim) {
      */
     if ( LoadBCMFC::Pointer l1=dynamic_cast<LoadBCMFC*>(&*l0) ) {
 
-      m_ls->SetB(NGFN+l1->Index , l1->rhs[dim]);
+      m_ls->SetVectorValue(NGFN+l1->Index , l1->rhs[dim]);
 
       // skip to next load in an array
       continue;
@@ -574,6 +575,7 @@ void Solver::DecomposeK()
  */  
 void Solver::Solve()
 {
+  m_ls->InitializeSolution();
   m_ls->Solve();
 }
 
@@ -591,8 +593,8 @@ void Solver::UpdateDisplacements() {
    * solution vector back to node objects.
    */
   Node::solution.clear();
-  for(int i=0;i<NGFN;i++)
-    Node::solution.push_back(m_ls->GetX(i));
+  for(unsigned int i=0;i<NGFN;i++)
+    Node::solution.push_back(m_ls->GetSolutionValue(i));
 
 }
 
