@@ -67,7 +67,7 @@ public:
   /**
    * Standard "Superclass" typedef
    */
-  typedef ImageFunction<TInputImage, double> Superclass;
+  typedef ImageFunction<TInputImage, double > Superclass;
 
   /**
    * Smart pointer typedef support.
@@ -81,14 +81,19 @@ public:
   itkNewMacro(Self);
 
   /**
+   * Dimension of the underlying image.
+   */
+  enum { ImageDimension = InputImageType::ImageDimension };
+
+  /**
    * InputImageType typedef support.
    */
   typedef TInputImage InputImageType;
 
   /**
-   * Dimension of the underlying image.
+   * OutputType typdef support.
    */
-  enum { ImageDimension = InputImageType::ImageDimension };
+  typedef typename Superclass::OutputType OutputType;
 
   /**
    * Index typedef support.
@@ -101,19 +106,21 @@ public:
   virtual void SetInputImage( InputImageType * ptr );
 
   /**
+   * Set the image spacing
+   */
+  void SetImageSpacing( const double * spacing );
+
+  /**
    * Evalulate the function at specified index
    */
   virtual double Evaluate( const IndexType& index ) const
-    {
-    return ( this->Evaluate( index, 0 ) );
-    }
+    { return ( this->Evaluate( index, 0 ) ); }
 
-  virtual double Evaluate( const IndexType& index, 
-                           unsigned int dim = 0 ) const;
+  virtual double Evaluate( const IndexType& index, unsigned int dim ) const;
 
 
 protected:
-  CentralDerivativeImageFunction(){};
+  CentralDerivativeImageFunction();
   CentralDerivativeImageFunction( const Self& ){};
 
   ~CentralDerivativeImageFunction(){};
@@ -123,6 +130,7 @@ protected:
 
 private:
   Size<ImageDimension>    m_ImageSize;
+  IndexType               m_ImageStart;
   double                  m_ImageSpacing[ImageDimension];
 
 };

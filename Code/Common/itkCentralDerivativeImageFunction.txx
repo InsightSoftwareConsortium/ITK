@@ -44,6 +44,22 @@ namespace itk
 {
 
 /**
+ * Constructor
+ */
+template <class TInputImage>
+CentralDerivativeImageFunction<TInputImage>
+::CentralDerivativeImageFunction()
+{
+  for( unsigned int j = 0; j < ImageDimension; j++ )
+    {
+    m_ImageSpacing[j] = 1.0;
+    m_ImageSize[j] = 0;
+    m_ImageStart[j] = 0;
+    }
+}
+
+
+/**
  *
  */
 template <class TInputImage>
@@ -54,14 +70,25 @@ CentralDerivativeImageFunction<TInputImage>
   this->Superclass::SetInputImage( ptr );
 
   m_ImageSize = 
-    this->GetInputImage()->GetLargestPossibleRegion().GetSize();
+    m_Image->GetBufferedRegion().GetSize();
 
+  m_ImageStart =
+    m_Image->GetBufferedRegion().GetIndex();  
+}
+
+
+/**
+ *
+ */
+template <class TInputImage>
+void
+CentralDerivativeImageFunction<TInputImage>
+::SetImageSpacing( const double * spacing )
+{
   for( unsigned int j = 0; j < ImageDimension; j++ )
     {
-    m_ImageSpacing[j] =
-      this->GetInputImage()->GetSpacing()[j];
+    m_ImageSpacing[j] = spacing[j];
     }
-  
 }
 
 
@@ -89,35 +116,41 @@ const IndexType& index,
 unsigned int dim ) const
 {
   
+  double derivative = 0.0;
+
   if( !m_Image || dim > ImageDimension - 1 )
     {
-    return 0.0;
+    return ( derivative );
     }
   
   for( unsigned int j = 0; j < ImageDimension; j++ )
     {
-    if( index[j] > m_ImageSize[j] - 1 )
-      return 0.0;
+    if( index[j] < m_ImageStart[j] ||
+        index[j] >= m_ImageStart[j] + m_ImageSize[j] - 1 )
+      {
+      return ( derivative );
+      }
     }
 
+  IndexType neighIndex = index;
 
-  double derivative = 0.0;
-  IndexType neighIndex = index ;
 
-  if( index[dim] < 1 || index[dim] > m_ImageSize[dim] - 2 )
+  // bounds checking
+  if( index[dim] < m_ImageStart[dim] + 1 ||
+      index[dim] >= m_ImageStart[dim] + m_ImageSize[dim] - 1 )
     {
-    // index out of range; return immediately
-    return( derivative );
+      return ( derivative );
     }
-
+  
+  // compute derivative
   neighIndex[dim] += 1;
   derivative = m_Image->GetPixel( neighIndex );
 
   neighIndex[dim] -= 2;
   derivative -= m_Image->GetPixel( neighIndex );
 
-  derivative *= 0.5;
-  derivative /= m_ImageSpacing[dim];
+  derivative *= 0.5 / m_ImageSpacing[dim];
+
 
   return ( derivative );
 
