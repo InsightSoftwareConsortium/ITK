@@ -69,7 +69,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Self, Object);
+  itkTypeMacro(SimplexMeshVolumeCalculator, Object);
 
   typedef TInputMesh                                              InputMeshType;
   typedef typename InputMeshType::Pointer                         InputMeshPointer;
