@@ -94,6 +94,12 @@ public:
   typedef std::vector< MembershipCalculatorPointer > 
     MembershipCalculatorVectorType ;
 
+  /** typedefs from TSample object */
+  typedef typename TSample::MeasurementType MeasurementType ;
+  typedef typename TSample::MeasurementVectorType MeasurementVectorType ;
+
+  enum { MeasurementVectorSize = TSample::MeasurementVectorSize } ;
+
   /** Sets the target data that will be classified by this */
   void SetSample(SamplePointer sample) ;
 
@@ -102,6 +108,12 @@ public:
 
   /** Stores a MembershipCalculator of a class in its internal vector */
   unsigned int AddMembershipCalculator(MembershipCalculatorPointer function) ;
+
+  size_t GetNumberOfClasses() 
+  { return m_MembershipCalculators.size() ; }
+
+  MembershipCalculatorVectorType GetMembershipCalculatorVector()
+  { return m_MembershipCalculators ; } 
 
   /** Stores the decision rule that makes the real decision using 
    * informations from MembershipCalculators and other prior knowledge */
