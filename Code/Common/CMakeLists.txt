@@ -4,6 +4,7 @@ itkCommand
 itkDataObject 
 itkDirectory 
 itkDynamicLoader 
+itkEventObject 
 itkExceptionObject 
 itkFastMutexLock 
 itkFileOutputWindow
