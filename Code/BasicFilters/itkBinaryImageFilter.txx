@@ -29,7 +29,6 @@ template <class TInputImage1, class TInputImage2,
 BinaryImageFilter<TInputImage1,TInputImage2,TOutputImage,TFunction>
 ::BinaryImageFilter()
 {
-  this->m_OutputImage = GetOutput();
 }
 
 
@@ -42,7 +41,6 @@ void
 BinaryImageFilter<TInputImage1,TInputImage2,TOutputImage,TFunction>
 ::SetInput1( TInputImage1 * image1 ) 
 {
-  this->m_Image1 = image1;
   SetNthInput(0, image1 );
 }
 
@@ -56,7 +54,6 @@ void
 BinaryImageFilter<TInputImage1,TInputImage2,TOutputImage,TFunction>
 ::SetInput2( TInputImage2 * image2 ) 
 {
-  this->m_Image2 = image2;
   SetNthInput(1, image2 );
 }
 
@@ -73,26 +70,39 @@ void
 BinaryImageFilter<TInputImage1,TInputImage2,TOutputImage,TFunction>
 ::GenerateData( void )
 {
+  
+  TOutputImage::Pointer outputImage = dynamic_cast<TOutputImage *>(
+                      (ProcessObject::GetOutput( 0 )).GetPointer());
 
-  m_OutputImage->SetLargestPossibleRegion( 
-      m_Image1->GetLargestPossibleRegion() );
+  TInputImage1::Pointer inputImage1  = 
+				dynamic_cast<TInputImage1  *>(
+                      (ProcessObject::GetInput(  0 )).GetPointer());
 
-  m_OutputImage->SetBufferedRegion( 
-      m_Image1->GetBufferedRegion() );
+  TInputImage2::Pointer inputImage2  = 
+				dynamic_cast<TInputImage2  *>(
+                      (ProcessObject::GetInput(  1 )).GetPointer());
 
-  m_OutputImage->SetRequestedRegion( 
-      m_Image1->GetRequestedRegion() );
 
-  m_OutputImage->Allocate();
+  outputImage->SetLargestPossibleRegion( 
+      inputImage1->GetLargestPossibleRegion() );
 
-  RegionType region  = this->m_OutputImage->GetRequestedRegion();
-  RegionType region1 = this->m_Image1->GetRequestedRegion();
-  RegionType region2 = this->m_Image2->GetRequestedRegion();
+  outputImage->SetBufferedRegion( 
+      inputImage1->GetBufferedRegion() );
 
-  Image1Iterator it1( this->m_Image1, region1 );
-  Image2Iterator it2( this->m_Image2, region2 );
+  outputImage->SetRequestedRegion( 
+      inputImage1->GetRequestedRegion() );
 
-  ImageOutputIterator ot( this->m_OutputImage, region );
+  outputImage->Allocate();
+
+  typedef typename TOutputImage::RegionType RegionType;
+
+  RegionType region  = outputImage->GetRequestedRegion();
+  RegionType region1 = inputImage1->GetRequestedRegion();
+  RegionType region2 = inputImage2->GetRequestedRegion();
+
+  SimpleImageRegionIterator< TInputImage1 > it1( inputImage1, region1 );
+  SimpleImageRegionIterator< TInputImage2 > it2( inputImage2, region2 );
+  SimpleImageRegionIterator< TOutputImage > ot(  outputImage, region  );
 
   it1.Begin();
   it2.Begin();

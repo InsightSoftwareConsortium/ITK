@@ -56,42 +56,6 @@ public:
 
 
   /**
-   *  Pointer type for first input image
-   */
-  typedef typename TInputImage1::Pointer Image1Pointer;
-
-  /**
-   *  Pointer type for second input image
-   */
-  typedef typename TInputImage2::Pointer Image2Pointer;
-
-  /**
-   *  Pointer type for output image
-   */
-  typedef typename TOutputImage::Pointer ImageOutputPointer;
-
-  /**
-   *  Region
-   */
-  typedef typename TOutputImage::RegionType RegionType;
-
-  /**
-   *  Iterator type for first input image
-   */
-  typedef SimpleImageRegionIterator< TInputImage1 > Image1Iterator;
-
-  /**
-   *  Iterator type for second input image
-   */
-  typedef SimpleImageRegionIterator< TInputImage2 > Image2Iterator;
-
-  /**
-   *  Iterator type for output image
-   */
-  typedef SimpleImageRegionIterator< TOutputImage > ImageOutputIterator;
-
-
-  /**
    * Method for creation through the object factory.
    */
   itkNewMacro(Self);
@@ -112,11 +76,6 @@ public:
    void SetInput2( TInputImage2 * image2);
 
 protected:
-
-  Image1Pointer m_Image1;
-  Image2Pointer m_Image2;
-
-  ImageOutputPointer m_OutputImage;
 
   BinaryImageFilter();
   virtual ~BinaryImageFilter() {};

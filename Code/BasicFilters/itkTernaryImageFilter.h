@@ -51,51 +51,8 @@ public:
   /** 
    * Smart pointer typedef support.
    */
-  typedef SmartPointer<Self>   Pointer;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-  /**
-   *  Pointer type for first input image
-   */
-  typedef typename TInputImage1::Pointer Image1Pointer;
-
-  /**
-   *  Pointer type for second input image
-   */
-  typedef typename TInputImage2::Pointer Image2Pointer;
-
-  /**
-   *  Pointer type for third input image
-   */
-  typedef typename TInputImage3::Pointer Image3Pointer;
-
-
-  /**
-   *  Pointer type for output image
-   */
-  typedef typename TOutputImage::Pointer ImageOutputPointer;
-
-  /**
-   *  Iterator type for first input image
-   */
-  typedef SimpleImageRegionIterator< TInputImage1 > Image1Iterator;
-
-  /**
-   *  Iterator type for second input image
-   */
-  typedef SimpleImageRegionIterator< TInputImage2 > Image2Iterator;
-
-  /**
-   *  Iterator type for third input image
-   */
-  typedef SimpleImageRegionIterator< TInputImage3 > Image3Iterator;
-
-
-  /**
-   *  Iterator type for output image
-   */
-  typedef SimpleImageRegionIterator< TOutputImage > ImageOutputIterator;
-
 
   /**
    * Method for creation through the object factory.
@@ -107,11 +64,6 @@ public:
    */
    void GenerateData(void);
    
-  /**
-   *  Region
-   */
-  typedef typename TOutputImage::RegionType RegionType;
-
   /**
    * Connect one of the operands for pixel-wise addition
    */
@@ -129,12 +81,6 @@ public:
 
 
 protected:
-
-  Image1Pointer m_Image1;
-  Image2Pointer m_Image2;
-  Image3Pointer m_Image3;
-
-  ImageOutputPointer m_OutputImage;
 
   TernaryImageFilter();
   virtual ~TernaryImageFilter() {};
