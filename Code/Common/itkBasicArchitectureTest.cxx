@@ -17,8 +17,9 @@ See COPYRIGHT.txt for copyright details.
 #include "itkImage.h"
 #include "itkScalar.h"
 #include "itkVector.h"
-#include "itkShrinkImage.h"
 #include "itkRandomImage.h"
+#include "itkShrinkImage.h"
+#include "itkVTKImageWriter.h"
 
 template <class T, unsigned int TImageDimension>
 int IterateOverImage( itkImageIterator<T, TImageDimension> it, unsigned int dim = 0)
@@ -114,6 +115,28 @@ int IterateOverImage( itkImageIterator<T, TImageDimension> it, unsigned int dim 
 
 int main()
 {
+  // Begin by creating a simple pipeline
+  //
+  // Create a source
+  itkRandomImage< itkImage<itkScalar<float>,2> >::Pointer random;
+  random = itkRandomImage< itkImage<itkScalar<float>,2> >::New();
+
+  // Create a filter
+  itkShrinkImage< itkImage<itkScalar<float>,2>, itkImage<itkScalar<float>,2> >::Pointer shrink;
+  shrink = itkShrinkImage< itkImage<itkScalar<float>,2>, itkImage<itkScalar<float>,2> >::New();
+  shrink->SetInput(random->GetOutput());
+
+  // Create a mapper
+  itkVTKImageWriter< itkImage<itkScalar<float>,2> >::Pointer writer;
+  writer = itkVTKImageWriter< itkImage<itkScalar<float>,2> >::New();
+  writer->SetInput(shrink->GetOutput());
+  writer->SetFileName("junkImage.vtk");
+  writer->SetFileTypeToASCII();
+  writer->Write();
+
+  // Next create some images and manipulate it.
+  //
+  // Create an image.
   itkImage<itkScalar<float>, 2>::Pointer
     o2 = itkImage<itkScalar<float>, 2>::New();
 
@@ -126,17 +149,6 @@ int main()
   spacing[0] = 1.5;
   spacing[1] = 2.1;
   
-  // Create a source
-  itkRandomImage< itkImage<itkScalar<float>,2> >::Pointer random;
-  random = itkRandomImage< itkImage<itkScalar<float>,2> >::New();
-
-  // Create a filter
-  itkShrinkImage< itkImage<itkScalar<float>,2>, itkImage<itkScalar<float>,2> >::Pointer shrink;
-  shrink = itkShrinkImage< itkImage<itkScalar<float>,2>, itkImage<itkScalar<float>,2> >::New();
-  shrink->SetInput(o2);
-
-  // Create a mapper
-
   //  o2->SetDimension(2);
   o2->SetSize(size);
   o2->SetOrigin(origin);
@@ -161,10 +173,8 @@ int main()
 
   std::cout << "Scalar pixel value is: " << scalar.GetScalar() << std::endl;
 
-
   itkImage<itkVector<unsigned short, 5>, 3>::Pointer
     o3 = itkImage<itkVector<unsigned short, 5>, 3>::New();
-
 
   unsigned long size3D[3];
   float origin3D[3], spacing3D[3];
@@ -219,5 +229,6 @@ int main()
 
   return 1;
 }
+
 
 

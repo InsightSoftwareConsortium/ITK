@@ -17,7 +17,7 @@
 
 //------------------------------------------------------------------------
 template <class TInputImage>
-itkVTKImageWriter<TInputImage>::Pointer itkVTKImageWriter
+itkVTKImageWriter<TInputImage>::Pointer itkVTKImageWriter<TInputImage>
 ::New()
 {
   return itkVTKImageWriter::Pointer(new itkVTKImageWriter<TInputImage>);
@@ -28,7 +28,7 @@ template <class TInputImage>
 void itkVTKImageWriter<TInputImage>
 ::WriteData()
 {
-
+}
 
 //----------------------------------------------------------------------------
 template <class TInputImage>
@@ -38,4 +38,5 @@ void itkVTKImageWriter<TInputImage>
   itkImageWriter<TInputImage>::PrintSelf(os,indent);
 
 }
+
 

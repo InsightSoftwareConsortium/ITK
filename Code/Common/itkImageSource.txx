@@ -42,7 +42,7 @@ template<class TOutputImage>
 TOutputImage *itkImageSource<TOutputImage>
 ::GetOutput()
 {
-  if (this->NumberOfOutputs < 1)
+  if (this->GetNumberOfOutputs() < 1)
     {
     return 0;
     }

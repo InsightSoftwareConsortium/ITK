@@ -528,6 +528,12 @@ void itkProcessObject::SetReleaseDataFlag(bool val)
     }
 }
 
+void itkProcessObject::Update()
+{
+  itkDebugMacro(<<"Updating");
+}
+
+
 void itkProcessObject::PrintSelf(std::ostream& os, itkIndent indent)
 {
   itkObject::PrintSelf(os,indent);

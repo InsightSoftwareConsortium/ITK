@@ -128,4 +128,19 @@ if ( ivarValue != value ) \
   return ivarObjectPtr;\
 }
 
+// Macros for setting strings. These macros depend on using
+// the standard "string" class.
+#define itkSetStringMacro(ivarValue,str) \
+{\
+  ivarValue = str;\
+}
+
+// Macros for getting strings. These macros depend on using
+// the standard "string" class (i.e., the class must respond
+// to data() invocation).
+#define itkGetStringMacro(ivarValue) \
+{\
+  return ivarValue.data();\
+}
+
 #endif

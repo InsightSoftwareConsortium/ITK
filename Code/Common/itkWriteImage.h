@@ -16,24 +16,19 @@
 /**
  * itkImageWriter is the base class for writers that write images.
  */
-#ifndef __itkVTKImageWriter_h
-#define __itkVTKImageWriter_h
+#ifndef __itkImageWriter_h
+#define __itkImageWriter_h
 
 #include "itkWriter.h"
 
 template <class TInputImage>
-class ITK_EXPORT itkVTKImageWriter : public itkImageWriter
+class ITK_EXPORT itkImageWriter : public itkWriter
 {
 public:
   /** 
    * Smart pointer typedef support.
    */
-  typedef itkSmartPointer< itkVTKImageWriter<TInputImage> > Pointer;
-
-  /** 
-   * Create the image writer.
-   */
-  static Pointer New();
+  typedef itkSmartPointer< itkImageWriter<TInputImage> > Pointer;
 
   /** 
    * Set the input image of this writer. 
@@ -46,10 +41,10 @@ public:
   TInputImage *GetInput();
 
 protected:
-  itkVTKImageWriter() {};
-  ~itkVTKImageWriter() {};
-  itkVTKImageWriter(const itkVTKImageWriter&) {};
-  void operator=(const itkVTKImageWriter&) {};
+  itkImageWriter() {};
+  ~itkImageWriter() {};
+  itkImageWriter(const itkImageWriter&) {};
+  void operator=(const itkImageWriter&) {};
   void PrintSelf(std::ostream& os, itkIndent indent);
 
 private:

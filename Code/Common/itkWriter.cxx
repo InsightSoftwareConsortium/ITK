@@ -15,27 +15,22 @@
 =========================================================================*/
 #include "itkWriter.h"
 
-//------------------------------------------------------------------------
-itkWriter::Pointer itkWriter::New()
-{
-  return itkWriter::Pointer(new itkWriter);
-}
-
 //----------------------------------------------------------------------------
 itkWriter::itkWriter()
 {
-  m_FileName = 0;
+  m_FileName = "";
   m_FileType = ITK_ASCII;
 }
 
 //----------------------------------------------------------------------------
 itkWriter::~itkWriter()
 {
-  if ( m_FileName )
-    {
-    delete [] m_FileName;
-    m_FileName = NULL;
-    }
+}
+
+void itkWriter::Write()
+{
+  this->Update();
+  this->WriteData();
 }
 
 //----------------------------------------------------------------------------
@@ -44,9 +39,9 @@ void itkWriter::PrintSelf(std::ostream& os, itkIndent indent)
   itkProcessObject::PrintSelf(os,indent);
 
   os << indent << "File Name: " 
-     << (m_FileName ? m_FileName : "(none)") << std::endl;
+     << (m_FileName.data() ? m_FileName.data() : "(none)") << std::endl;
 
-  if ( m_FileType == VTK_BINARY )
+  if ( m_FileType == ITK_BINARY )
     {
     os << indent << "File Type: BINARY\n";
     }

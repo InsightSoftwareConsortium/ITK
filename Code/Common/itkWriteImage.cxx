@@ -15,14 +15,6 @@
 =========================================================================*/
 #include "itkImageWriter.h"
 
-//------------------------------------------------------------------------
-template <class TInputImage>
-itkImageWriter<TInputImage>::Pointer itkImageWriter
-::New()
-{
-  return itkImageWriter::Pointer(new itkImageWriter<TInputImage>);
-}
-
 //----------------------------------------------------------------------------
 template <class TInputImage>
 void itkImageWriter<TInputImage>
@@ -50,6 +42,7 @@ void itkImageWriter<TInputImage>
 ::PrintSelf(std::ostream& os, itkIndent indent)
 {
   itkWriter::PrintSelf(os,indent);
-
+  
 }
+
 

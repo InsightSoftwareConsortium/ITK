@@ -27,7 +27,7 @@ See COPYRIGHT.txt for copyright details.
 template <class T, unsigned int TImageDimension=2>
 class ITK_EXPORT itkImage : public itkImageBase
 {
- public:
+public:
   /** Smart pointer typedef support */
   typedef itkSmartPointer< itkImage<T, TImageDimension> > Pointer;
 
@@ -89,7 +89,7 @@ class ITK_EXPORT itkImage : public itkImageBase
   const T& GetPixel(const Index &index);
 
 
- private:
+private:
   itkImage();
   virtual ~itkImage();
 

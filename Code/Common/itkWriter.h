@@ -21,6 +21,7 @@
 #define __itkWriter_h
 
 #include "itkProcessObject.h"
+#include <string>
 
 #define ITK_ASCII 0
 #define ITK_BINARY 1
@@ -34,15 +35,10 @@ public:
   typedef itkSmartPointer<itkWriter> Pointer;
 
   /** 
-   * Create the source with one input initially 
-   */
-  static Pointer New();
-
-  /** 
    * Specify the name of the output file.
    */
-  void SetFileName(const char *string) 
-    {itkSetStringMacro(m_FileName,string);}
+  void SetFileName(const char *str) 
+    {itkSetStringMacro(m_FileName,str);}
   
   /** 
    * Get the name of the output file.
@@ -54,7 +50,7 @@ public:
    * Specify the output file type as either ASCII or binary.
    */
   void SetFileType(int type) 
-    {itkSetClampMacro(m_FileType,type,VTK_ASCII,VTK_BINARY);}
+    {itkSetClampMacro(m_FileType,type,ITK_ASCII,ITK_BINARY);}
   
   /** 
    * Get the file type.
@@ -71,6 +67,13 @@ public:
    */
   void SetFileTypeToBinary() {this->SetFileType(ITK_BINARY);}
 
+  /** 
+   * A special version of the Update() method for writers.
+   * It insures the pipeline is up-to-date and invokes the
+   * WriteData() method.
+   */
+  virtual void Write();
+
 protected:
   itkWriter();
   ~itkWriter();
@@ -83,10 +86,9 @@ protected:
 
   void Execute() {this->WriteData();}
   
-  
 private:
-  char *m_FileName;
-  int   m_FileType;
+  std::string m_FileName;
+  int         m_FileType;
   
 };
 

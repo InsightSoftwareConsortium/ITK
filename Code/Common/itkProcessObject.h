@@ -141,6 +141,14 @@ public:
   void UpdateProgress(float amount);
   
   /** 
+   * Bring this filter up-to-date before execution. Update() checks modified
+   * time against last execution time, and re-executes object if necessary. 
+   * A side effect of this method is that the whole pipeline may execute
+   * in order to bring this filter up-to-date.
+   */
+  virtual void Update();
+
+  /** 
    * Turn on/off flag to control whether this object's data is released
    * after being used by a source. 
    */
