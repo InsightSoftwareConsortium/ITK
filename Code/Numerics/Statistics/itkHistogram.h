@@ -366,7 +366,7 @@ public:
     InstanceIdentifier m_Id;
     
     // Pointer of DenseFrequencyContainer
-    Pointer m_Histogram ;
+    Self* m_Histogram ;
   } ; // end of iterator class
 
 protected:
