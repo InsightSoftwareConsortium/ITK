@@ -37,6 +37,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkConceptChecking.h"
 #include "itkConstantBoundaryCondition.h"
 #include "itkContinuousImageFunction.h"
+#include "itkContinuousIndex.h"
 #include "itkCosImageAdaptor.h"
 #include "itkCovariantVector.h"
 #include "itkCreateObjectFunction.h"
