@@ -720,6 +720,10 @@ CannyEdgeDetectionImageFilter<TInputImage,TOutputImage>
             << m_Variance << std::endl;
   os << "MaximumError: "
             << m_MaximumError << std::endl;
+  os << indent << "Threshold: "
+     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>
+    (m_Threshold)
+     << std::endl;
   os << indent << "UpperThreshold: "
      << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>
     (m_UpperThreshold)
