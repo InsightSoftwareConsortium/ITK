@@ -119,7 +119,7 @@ int main( int argc, char *argv[] )
   if( argc < 4 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << "ImageAdaptor1   inputFileName outputComponentFileName ";
+    std::cerr << "ImageAdaptor3   inputFileName outputComponentFileName ";
     std::cerr << " indexOfComponentToExtract" << std::endl;
     return -1;
     }

@@ -92,7 +92,7 @@ int main( int argc, char *argv[] )
   if( argc < 3 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << "ImageAdaptor1   inputRGBFileName outputRedChannelFileName" << std::endl;
+    std::cerr << "ImageAdaptor2   inputRGBFileName outputRedChannelFileName" << std::endl;
     return -1;
     }
 
