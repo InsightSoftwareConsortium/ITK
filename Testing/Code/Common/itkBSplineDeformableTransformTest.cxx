@@ -449,6 +449,28 @@ int itkBSplineDeformableTransformTest1()
     }
 
 
+  /**
+   * Exercise the SetIdentity() Method
+   */
+  {
+    TransformType::Pointer transform = TransformType::New();
+    transform->SetGridSpacing( spacing );
+    transform->SetGridOrigin( origin );
+    transform->SetGridRegion( region );
+    transform->SetIdentity();
+    TransformType::ParametersType parameters = transform->GetParameters();
+    const unsigned int numberOfParameters = transform->GetNumberOfParameters();
+    for(unsigned int i=0; i<numberOfParameters; i++)
+      {
+      if( fabs( parameters[i] ) > 1e-10 )
+        {
+        std::cerr << "SetIdentity failed, parameters are not null after invoking SetIdentity() " << std::endl;
+        return EXIT_FAILURE;
+        }
+      }
+  } // end of SetIdentity() test
+  
+
   std::cout << "Test passed." << std::endl;  
   return EXIT_SUCCESS;
 
