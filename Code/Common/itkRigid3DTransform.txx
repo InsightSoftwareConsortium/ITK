@@ -79,7 +79,7 @@ SetRotationMatrix(const MatrixType & matrix )
     }
 
   m_RotationMatrix = matrix;
-
+  m_InverseMatrix = m_RotationMatrix.GetTranspose();
   this->Modified(); 
 }
 
