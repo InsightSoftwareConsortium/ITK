@@ -15,15 +15,79 @@
   =========================================================================*/
 #include "itkRegionNeighborhoodIterator.h"
 #include "itkRegionBoundaryNeighborhoodIterator.h"
+#include "itkRegionNonBoundaryNeighborhoodIterator.h"
 #include "itkDerivativeOperator.h"
+#include "itkNeighborhoodAlgorithm.h"
+
 namespace itk
 {
 
+template<class TInnerProduct, class TIterator>
+void
+GradientMagnitudeStrategy<TInnerProduct, TIterator>
+::operator()(ImageType *in, ImageType *out) const
+{
+  int i;
+  ScalarValueType a, g;
+  TInnerProduct IP;
+  NeighborhoodAlgorithm::CalculateOutputWrapOffsetModifiers<ImageType> OM;
+  
+  // Set up operators
+  DerivativeOperator<PixelType, ImageDimension> op;
+   op.SetDirection(0);
+   op.SetOrder(1);
+   op.CreateDirectional();
+
+  // Calculate iterator radius
+  Size<ImageDimension> radius;
+  for (i = 0; i < ImageDimension; ++i) radius[i]  = op.GetRadius()[0];
+
+  // Create an iterator. The output buffer pointer of the iterator is set
+  // up to account for any differences in the buffer size of the two images.
+  long int *mod = new long int[ImageDimension];
+  TIterator it(radius, in, in->GetRequestedRegion());
+  it.SetOutputBuffer(out->GetBufferPointer() +
+                     out->ComputeOffset(it.GetRegion().GetIndex()));
+  OM(mod, in, out);
+  it.SetOutputWrapOffsetModifier(mod);
+  delete[] mod;
+  
+  // Slice the iterator
+  std::slice x_slice[ImageDimension];
+  const unsigned long center = it.size() / 2;
+  for (i = 0; i < ImageDimension; ++i)
+    {
+      x_slice[i] = std::slice( center - it.GetStride(i) * radius[i],
+                               op.GetSize()[0], it.GetStride(i));
+    }
+
+  // Process
+  const TIterator _end = it.End();
+  for (it = it.Begin(); it != _end; ++it)
+    {
+      a = NumericTraits<ScalarValueType>::Zero;
+      for (i = 0; i < ImageDimension; ++i)
+        {
+          g = IP(x_slice[i], it, op);
+          a += g * g;
+        }
+      *(it.GetOutputBuffer()) = ::sqrt(a);     
+    }
+}
+ 
 template< class TPixel, unsigned int VDimension>
 void
 FilterImageGradientMagnitude<TPixel, VDimension>
 ::GenerateData()
 {
+  typedef RegionBoundaryNeighborhoodIterator<TPixel, VDimension>    RBI;
+  typedef RegionNonBoundaryNeighborhoodIterator<TPixel, VDimension> RNI;
+  typedef NeighborhoodAlgorithm::IteratorInnerProduct<RNI> SNIP;
+  typedef NeighborhoodAlgorithm::BoundsCheckingIteratorInnerProduct<RBI> SBIP;
+  
+  GradientMagnitudeStrategy<SNIP, RNI> f1;
+  GradientMagnitudeStrategy<SBIP, RBI> f2;
+  
   // Allocate output
   typename ImageType::Pointer output = this->GetOutput();
   typename ImageType::Pointer input  = this->GetInput();
@@ -32,98 +96,9 @@ FilterImageGradientMagnitude<TPixel, VDimension>
   output->SetBufferedRegion(output->GetRequestedRegion());
   output->Allocate();
 
-  // Copy input to output so that non-scalar pixels are passed through?
-  
   // Filter
-  RegionNeighborhoodIterator<TPixel, VDimension> rni;
-  RegionBoundaryNeighborhoodIterator<TPixel, VDimension> bni;
-  this->GradientMagnitude(&rni, input, output, false);
-  this->GradientMagnitude(&bni, input, output, true);
-}
-
-template< class TPixel, unsigned int VDimension>
-void
-FilterImageGradientMagnitude<TPixel, VDimension>
-::GradientMagnitude(NeighborhoodIterator<TPixel, VDimension> *it,
-                    ImageType *input,
-                    ImageType *output,
-                    bool IncludeBoundaryPixels) 
-{
-  // Set up operators
-  DerivativeOperator<TPixel, VDimension> op;
-   op.SetDirection(0);
-   op.SetOrder(1);
-   op.CreateDirectional();
-
-  // Calculate iterator radius
-  Size<VDimension> radius;
-  for (int i = 0; i < VDimension; ++i)
-    {
-      radius[i]  = op.GetRadius()[0];
-      //      std::cout << "HoodRadius =" << radius[i] << std::endl;
-    }
-
-   // Set up iteration region
-  ImageRegion<VDimension> region;
-  Size<VDimension> sz;
-  Index<VDimension> idx;
-  
-  if (IncludeBoundaryPixels)
-    {
-      region = output->GetRequestedRegion();
-    }
-  else
-    {
-      for (int i = 0; i < VDimension; ++i)
-        {
-          sz[i] = output->GetRequestedRegion().GetSize()[i]
-            -   2 * radius[i];
-          idx[i] = output->GetRequestedRegion().GetIndex()[i]
-            + radius[i];
-        }
-      region.SetSize(sz);
-      region.SetIndex(idx);
-    }
-  
-  // Initialize the iterator
-  it->Initialize(radius, input, region);
-
-  // Set the output buffer and its parameters
-  long bufferSizeDifference[VDimension];
-  for (int i = 0; i < VDimension; ++i)
-    {
-      bufferSizeDifference[i] = output->GetBufferedRegion().GetSize()[i]
-        - input->GetBufferedRegion().GetSize()[i];
-    }
-  it->SetOutputBuffer(output->GetBufferPointer()
-                      + output->ComputeOffset(it->GetRegion().GetIndex()));
-  it->SetOutputWrapOffsetModifier(bufferSizeDifference);
-  
-  // Slice the iterator
-  std::slice x_slice[VDimension];
-  const unsigned long center = it->size() / 2;
-  for (int i = 0; i < VDimension; ++i)
-    {
-      x_slice[i] = std::slice( center - it->GetStride(i) * radius[i],
-                               op.GetSize()[0], it->GetStride(i));
-    }
-
-  // Process
-  typename ScalarTraits<TPixel>::ScalarValueType accumulator;
-  typename ScalarTraits<TPixel>::ScalarValueType grad;
-  for (it->SetToBegin(); ! it->IsAtEnd(); it->operator++())
-    {
-      accumulator = NumericTraits<typename
-                           ScalarTraits<TPixel>::ScalarValueType>::Zero;
-      for (int i = 0; i < VDimension; ++i)
-        {
-          grad = it->SlicedInnerProduct(x_slice[i], op);
-          accumulator += grad * grad;;
-        }
-      *(it->GetOutputBuffer()) = std::sqrt(accumulator);
-     
-    }
-
+  f1(input, output);
+  f2(input, output);
 }
   
 } // end namespace itk

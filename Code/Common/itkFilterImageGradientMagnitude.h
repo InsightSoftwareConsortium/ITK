@@ -22,6 +22,19 @@
 
 namespace itk
 {
+
+template<class TInnerProduct, class TIterator>
+struct GradientMagnitudeStrategy
+{
+  typedef typename TIterator::ImageType ImageType;
+  typedef typename ImageType::PixelType PixelType;
+  typedef typename ImageType::ScalarValueType ScalarValueType;
+  enum {ImageDimension = ImageType::ImageDimension };
+  
+  GradientMagnitudeStrategy() {}
+  void operator()(ImageType *, ImageType *) const;
+};
+
 /**
  * \class FilterImageGradientMagnitude
  * \brief Computes the gradient magnitude of an image region at each pixel.
@@ -80,13 +93,6 @@ protected:
   virtual ~FilterImageGradientMagnitude() {}
   FilterImageGradientMagnitude(const Self&) {}
   void operator=(const Self&) {}
-
-  /**
-   * Computes the gradient magnitude by convolving along each axial direction
-   * with a first-order derivative operator.
-   */
-  void GradientMagnitude(NeighborhoodIterator<TPixel, VDimension>*,
-                         ImageType*, ImageType*, bool);
 };
   
 } // end namespace itk
