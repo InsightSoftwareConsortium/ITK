@@ -289,10 +289,69 @@ int itkSpatialObjectToImageRegistrationTest(int, char* [] )
   typedef itk::Euler2DTransform<> TransformType;
   TransformType::Pointer transform = TransformType::New();
 
+  bool catching = false;
+  try
+    {
+    registration->StartRegistration();
+    }
+  catch(...)
+    {
+      catching = true;
+    }
+
+  if(!catching)
+    {
+      std::cout<<"Test failed!"<<std::endl;
+      return EXIT_FAILURE;
+    }
+
   registration->SetFixedImage(image);
+  
+  catching = false;
+  try
+    {
+    registration->StartRegistration();
+    }
+  catch(...)
+    {
+      catching = true;
+    }
+
+  if(!catching)
+    {
+      std::cout<<"Test failed!"<<std::endl;
+      return EXIT_FAILURE;
+    }
+
   registration->SetMovingSpatialObject(group);
-  registration->SetTransform(transform);
-  registration->SetInterpolator(interpolator.GetPointer());
+
+  catching = false;
+  try
+    {
+    registration->StartRegistration();
+    }
+  catch(...)
+    {
+      catching = true;
+    }
+
+  if(!catching)
+    {
+      std::cout<<"Test failed!"<<std::endl;
+      return EXIT_FAILURE;
+    }
+
+  registration->SetMetric(metric);
+
+  catching = false;
+  try
+    {
+    registration->StartRegistration();
+    }
+  catch(...)
+    {
+      catching = true;
+    }
 
 
   /** Setup the optimizer */
@@ -334,10 +393,46 @@ int itkSpatialObjectToImageRegistrationTest(int, char* [] )
   callback->SetOptimizer( optimizer );
 
   registration->SetOptimizer(optimizer);
-  registration->SetMetric(metric);
+
+  catching = false;
+  try
+    {
+    registration->StartRegistration();
+    }
+  catch(...)
+    {
+      catching = true;
+    }
+
+  if(!catching)
+    {
+      std::cout<<"Test failed!"<<std::endl;
+      return EXIT_FAILURE;
+    }
+
+
+   registration->SetTransform(transform);
+
+  catching = false;
+  try
+    {
+    registration->StartRegistration();
+    }
+  catch(...)
+    {
+      catching = true;
+    }
+
+  if(!catching)
+    {
+      std::cout<<"Test failed!"<<std::endl;
+      return EXIT_FAILURE;
+    }
+
+  registration->SetInterpolator(interpolator.GetPointer());
 
   registration->StartRegistration();
-
+ 
   RegistrationType::ParametersType finalParameters 
                                  = registration->GetLastTransformParameters();
 
@@ -347,7 +442,7 @@ int itkSpatialObjectToImageRegistrationTest(int, char* [] )
   {
     if(finalParameters[i]>1) // if we are not within 1 pixel the registration fails
     {
-    std::cout<<"Test failed!"<<std::endl;
+      std::cout<<"Test failed!"<<std::endl;
       return EXIT_FAILURE;
     }
   }
