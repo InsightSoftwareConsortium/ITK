@@ -94,9 +94,11 @@ protected:
   /** Compute G(x)
    * For the elastic body spline, this is:
    * G(x) = [alpha*r(x)^2*I - 3*x*x']*r(x)
+   * \f$ G(x) = [\alpha*r(x)^2*I - 3*x*x']*r(x) \f$
    * where
    * alpha is a constant
    * r(x) = Euclidean norm = sqrt[x1^2 + x2^2 + x3^2]
+   * \f[ r(x) = \sqrt{ x_1^2 + x_2^2 + x_3^2 }  \f]
    * I = identity matrix */
   const GMatrixType & ComputeG(const InputVectorType& x) const;
 
