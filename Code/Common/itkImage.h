@@ -22,6 +22,7 @@ See COPYRIGHT.txt for copyright details.
 #define __itkImage_h
 
 #include "itkImageBase.h"
+#include <vector>
 
 template <class T>
 class ITK_EXPORT itkImage : public itkImageBase
@@ -33,9 +34,30 @@ public:
   /** Create an empty image. */
   static itkImage<T>::Pointer New();
 
-private:
+  /**
+   * Allocate the image memory. Dimension and Size must be set a priori.
+   */
+  void Allocate();
+
+  /**
+   * Set a pixel
+   */
+  void SetPixel(int *, const T& value);
   
+  /**
+   * Get a pixel
+   */
+  const T& GetPixel(int *);
+
+ private:
+  itkImage();
+  virtual ~itkImage();
+
+  std::vector<T> *m_Data;
+
 };
+
+#include "itkImage.cxx"
 
 #endif
 

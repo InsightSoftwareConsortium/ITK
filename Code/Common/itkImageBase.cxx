@@ -23,7 +23,7 @@ itkImageBase::Pointer itkImageBase::New()
 //-------------------------------------------------------------------------
 itkImageBase::itkImageBase()
 {
-  m_Dimensions = 0;
+  m_Size = 0;
   m_Spacing = 0;
   m_Origin = 0;
 }
@@ -37,9 +37,9 @@ itkImageBase::~itkImageBase()
 //-------------------------------------------------------------------------
 void itkImageBase::Initialize()
 {
-  if ( m_Dimensions != 0 )
+  if ( m_Size != 0 )
     {
-    delete [] m_Dimensions;
+    delete [] m_Size;
     delete [] m_Spacing;
     delete [] m_Origin;
     }
@@ -56,7 +56,7 @@ void itkImageBase::SetDimension(int dim)
     this->Initialize();
 
     this->itkDataObject::SetDimension(dim);
-    m_Dimensions = new int [dim];
+    m_Size = new int [dim];
     m_Spacing = new float [dim];
     m_Origin = new float [dim];
     
@@ -65,15 +65,15 @@ void itkImageBase::SetDimension(int dim)
 }
 
 //-------------------------------------------------------------------------
-void itkImageBase::SetDimensions(int *dims)
+void itkImageBase::SetSize(int *size)
 {
   bool modified;
 
   for (int i=0; i<this->GetDimension(); i++)
     {
-    if ( m_Dimensions[i] != dims[i] )
+    if ( m_Size[i] != size[i] )
       {
-      m_Dimensions[i] = dims[i];
+      m_Size[i] = size[i];
       modified = true;
       }
     }

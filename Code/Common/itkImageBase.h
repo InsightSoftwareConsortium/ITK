@@ -38,10 +38,13 @@ public:
   /** Overload itkDataObject method.*/
   virtual void SetDimension(int dim);
 
-  /** Set the dimensions of the image. This method assumes that
+  /** Set the size of the image. This method assumes that
    *  the dimension of the data has been set. */
-  void SetDimensions(int *dims);
+  void SetSize(int *size);
 
+  /** Get the size of the iamge. */
+  const int *GetSize() const {return m_Size;} ;
+  
   /** Set the dimensions of the image. This method assumes that
    *  the dimension of the data has been set. */
   void SetSpacing(float *spacing);
@@ -50,6 +53,7 @@ public:
    *  the dimension of the data has been set. */
   void SetOrigin(float *origin);
 
+
 protected:
   itkImageBase();
   ~itkImageBase();
@@ -57,7 +61,7 @@ protected:
   void operator=(const itkImageBase&) {};
 
 private:
-  int   *m_Dimensions;
+  int   *m_Size;
   float *m_Spacing;
   float *m_Origin;
   

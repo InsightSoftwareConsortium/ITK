@@ -49,8 +49,6 @@
 
 #include <memory.h>
 
-namespace itk {
-  
 template<class T, int TVectorDimension=3>
 class itkVector {
  public:
@@ -62,7 +60,7 @@ class itkVector {
    * when a data type holds a scalar and vector of different types.
    * \sa itkScalarVector
    */
-  typedef typename T vector_value_type;
+  typedef T vector_value_type;
 
   /**
    * Get the dimension (size) of the vector.
@@ -133,5 +131,4 @@ class itkVector {
   T m_Vector[TVectorDimension];
 };
 
-}
 #endif 

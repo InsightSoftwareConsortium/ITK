@@ -44,8 +44,6 @@
 #ifndef __itkScalar_h
 #define __itkScalar_h
 
-namespace itk {
-  
 template<class T>
 class itkScalar {
  public:
@@ -57,7 +55,7 @@ class itkScalar {
    * when a data type holds a scalar and a vector of different types.
    * \sa itkScalarVector
    */
-  typedef typename T scalar_value_type;
+  typedef T scalar_value_type;
 
   /**
    * Get the scalar value.
@@ -75,5 +73,4 @@ class itkScalar {
   T m_Scalar;
 };
 
-}
 #endif 
