@@ -120,10 +120,10 @@ public:
     }
 
   /** Get the lower threshold value. */
-  itkGetMacro(Lower,PixelType);
+  itkGetConstMacro(Lower,PixelType);
 
   /** Get the upper threshold value. */
-  itkGetMacro(Upper,PixelType);
+  itkGetConstMacro(Upper,PixelType);
 
   /** Values greater than or equal to the value are inside. */
   void ThresholdAbove(PixelType thresh);
