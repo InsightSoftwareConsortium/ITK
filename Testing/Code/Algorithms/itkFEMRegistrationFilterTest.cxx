@@ -182,21 +182,21 @@ int itkFEMRegistrationFilterTest(int, char* [] )
     ElementType::LoadImplementationFunctionPointer fp = &iml::ImplementImageMetricLoad;
     DispatcherType::RegisterVisitor((ImageLoadType*)0,fp);
   }
+  
+  for (int met=0; met<6; met++)
+  {
 
   typedef itk::fem::FEMRegistrationFilter<ImageType,ImageType> RegistrationType;
   RegistrationType::Pointer registrator = RegistrationType::New();
+  registrator->SetFixedImage( fixed );
+  registrator->SetMovingImage( moving );
   
   registrator->DoMultiRes(true);
   registrator->SetNumLevels(1);
   registrator->SetMaxLevel(1);
   registrator->SetMovingImage( moving );
   registrator->SetFixedImage( fixed );
-  registrator->ChooseMetric(5);
-  registrator->ChooseMetric(4);
-  registrator->ChooseMetric(3);
-  registrator->ChooseMetric(2);
-  registrator->ChooseMetric(1);
-  registrator->ChooseMetric(0);
+  registrator->ChooseMetric((float)met);
   unsigned int maxiters=5;  
   float e=1.e6;
   float p=1.e5;
@@ -242,10 +242,11 @@ int itkFEMRegistrationFilterTest(int, char* [] )
     {
       //fixme - changes to femparray cause it to fail : old version works
     std::cout << "Caught an exception: " << std::endl;
+    return EXIT_FAILURE;
     //    std::cout << err << std::endl;
     //throw err;
     }
-
+  }
   /*
   // get warped reference image
   // ---------------------------------------------------------
