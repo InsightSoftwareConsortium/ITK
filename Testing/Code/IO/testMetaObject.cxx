@@ -68,7 +68,7 @@ int testMetaObject(int , char *[])
     return 1;
   }
 
-  delete name;
+  delete [] name;
 
   int* array = static_cast<int*>(tObj.GetUserField("MyArray"));
 
@@ -81,7 +81,7 @@ int testMetaObject(int , char *[])
     }
   }
 
-  delete array;
+  delete [] array;
 
   float* matrix = static_cast<float*>(tObj.GetUserField("MyMatrix"));
   for(i=0; i<4; i++)

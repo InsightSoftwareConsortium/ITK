@@ -61,6 +61,7 @@ int testMetaScene(int , char * [])
   e1->ID(0);
   e1->Radius(3);
   e1->Write("ellipse.elp");
+  delete e1;
 
   std::cout << "[OK]" << std::endl;
 
