@@ -32,7 +32,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkPolygonGroupOrientation.h"
 #include "itkPolygonGroupSpatialObject.txx"
 #include "itkPolygonSpatialObject.txx"
-#include "itkScene.txx"
+#include "itkSceneSpatialObject.txx"
 #include "itkSpatialObject.txx"
 #include "itkSpatialObjectPoint.txx"
 #include "itkSpatialObjectProperty.txx"

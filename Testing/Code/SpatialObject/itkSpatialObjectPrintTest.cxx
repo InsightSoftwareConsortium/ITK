@@ -29,7 +29,7 @@
 #include "itkPolygonGroupOrientation.h"
 #include "itkPolygonGroupSpatialObject.h"
 #include "itkPolygonSpatialObject.h"
-#include "itkScene.h"
+#include "itkSceneSpatialObject.h"
 #include "itkSpatialObject.h"
 #include "itkSpatialObjectPoint.h"
 #include "itkSpatialObjectProperty.h"
@@ -86,8 +86,8 @@ int itkSpatialObjectPrintTest(int , char* [])
     itk::PolygonSpatialObject<3>::New();
   std::cout << "----------PolygonSpatialObject " << PolygonSpatialObjectObj;
 
-  itk::Scene<3>::Pointer SceneObj =
-    itk::Scene<3>::New();
+  itk::SceneSpatialObject<3>::Pointer SceneObj =
+    itk::SceneSpatialObject<3>::New();
   std::cout << "----------Scene " << SceneObj;
 
   itk::SpatialObject<3>::Pointer SpatialObjectObj =

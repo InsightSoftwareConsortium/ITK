@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkSceneTest.cxx
+  Module:    itkSceneSpatialObjectTest.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -20,25 +20,25 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-/** This is a test file for the itkScene class. */
-#include "itkScene.h"
+/** This is a test file for the itkSceneSpatialObject class. */
+#include "itkSceneSpatialObject.h"
 #include "itkEllipseSpatialObject.h"
 
-int itkSceneTest(int, char* [])
+int itkSceneSpatialObjectTest(int, char* [])
 {
-  // Create the scene
-  typedef itk::Scene<3>  SceneType;
-  SceneType::Pointer scene = SceneType::New();
+  // Create the SceneSpatialObject
+  typedef itk::SceneSpatialObject<3>  SceneSpatialObjectType;
+  SceneSpatialObjectType::Pointer SceneSpatialObject = SceneSpatialObjectType::New();
 
-  // Create two ellipses to put in the scene
+  // Create two ellipses to put in the SceneSpatialObject
   typedef itk::EllipseSpatialObject<3>   EllipseType;
   EllipseType::Pointer ellipse1 = EllipseType::New();
   EllipseType::Pointer ellipse2 = EllipseType::New();
 
-  scene->AddSpatialObject(ellipse1);
-  scene->AddSpatialObject(ellipse2);
+  SceneSpatialObject->AddSpatialObject(ellipse1);
+  SceneSpatialObject->AddSpatialObject(ellipse2);
 
-  if(scene->GetNumberOfObjects() !=2 )
+  if(SceneSpatialObject->GetNumberOfObjects() !=2 )
   {
     std::cout << "[FAILURE]" << std::endl;
     return EXIT_FAILURE;
@@ -46,8 +46,8 @@ int itkSceneTest(int, char* [])
 
   std::cout << "[PASSED]" << std::endl;
 
-  scene->GetMTime(); // coverage
-  std::cout << scene << std::endl;
+  SceneSpatialObject->GetMTime(); // coverage
+  std::cout << SceneSpatialObject << std::endl;
 
   // Test spatial objects for coverage
   typedef itk::SpatialObject<3> SpatialObjectType;
