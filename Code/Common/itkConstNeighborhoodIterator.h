@@ -29,6 +29,7 @@
 #include "itkNeighborhood.h"
 #include "itkImageBoundaryCondition.h"
 #include "itkExceptionObject.h"
+#include "itkBoundingBox.h"
 
 namespace itk {
 
@@ -63,24 +64,25 @@ public:
   /** Standard class typedefs. */
   typedef ConstNeighborhoodIterator Self;
   typedef Neighborhood<InternalPixelType *, itkGetStaticConstMacro(Dimension)> Superclass;
-  
-  /** Typedef support for common objects */
+
+  /** Inherit typedefs from superclass */
+  typedef typename Superclass::OffsetType OffsetType;
+  typedef typename OffsetType::OffsetValueType OffsetValueType;
+  typedef typename Superclass::RadiusType RadiusType;  
   typedef typename Superclass::SizeType SizeType;
   typedef typename Superclass::SizeValueType SizeValueType;
+  typedef typename Superclass::Iterator Iterator;
+  typedef typename Superclass::ConstIterator ConstIterator;
+  
+  /** Typedef support for common objects */
   typedef TImage ImageType;
   typedef typename TImage::RegionType RegionType;
   typedef Index<itkGetStaticConstMacro(Dimension)> IndexType;
   typedef typename IndexType::IndexValueType IndexValueType;
-  typedef Offset<itkGetStaticConstMacro(Dimension)> OffsetType;
-  typedef typename OffsetType::OffsetValueType OffsetValueType;
-  typedef typename Superclass::RadiusType RadiusType;
   typedef Neighborhood<PixelType, itkGetStaticConstMacro(Dimension)> NeighborhoodType;
-  typedef typename Superclass::Iterator Iterator;
-    
-  /** Support for internal iterator types.  Only const iteration is supported
-   * in this class. */
-  typedef typename Superclass::ConstIterator ConstIterator;
-
+  typedef BoundingBox< unsigned long, itkGetStaticConstMacro(Dimension), IndexValueType >
+            BoundingBoxType;
+  
   /** Typedef for generic boundary condition pointer */
   typedef ImageBoundaryCondition<ImageType> *ImageBoundaryConditionPointerType;
 
@@ -141,21 +143,53 @@ public:
    * returning a Neighborhood of pixel values. */
   virtual NeighborhoodType GetNeighborhood() const;
 
-  /** Returns the current memory location of the internal output
-   * pointer that is synchronized with the iterator.
-   * \sa SetOutputBuffer */
-  InternalPixelType *GetOutputBuffer() const
-    {    return m_OutputBuffer;  }
-  
-  /** Returns the offsets that will be used to adjust for differences in input
-   * and output buffer sizes. */
-  OffsetType GetOutputWrapOffsetModifier() const
-    {  return m_OutputWrapOffsetModifier;  }
-
-  /** Returns the pixel value referenced at a linear array location. */
-  virtual PixelType GetPixel(const unsigned long i) const
+  /** Returns the pixel value located at a linear array location i. */
+  virtual PixelType GetPixel(const unsigned i) const
     {  return *(this->operator[](i));  }
 
+  /** Returns the pixel value located at the itk::Offset o from the center of
+      the neighborhood. */
+  virtual PixelType GetPixel(const OffsetType &o) const
+  { return *(this->operator[](o)); }
+
+  /** Returns the pixel value located i pixels distant from the neighborhood center in
+      the positive specified ``axis'' direction. No bounds checking is done on
+      the size of the neighborhood. */
+  virtual PixelType GetNext(const unsigned axis, const unsigned i)
+  {    return (this->GetPixel(this->GetCenterNeighborhoodIndex()
+                           + (i * this->GetStride(axis)))); }
+
+  /** Returns the pixel value located one pixel distant from the neighborhood center in
+      the specifed positive axis direction. No bounds checking is done on the
+      size of the neighborhood. */
+  virtual PixelType GetNext(const unsigned axis)
+  {    return (this->GetPixel(this->GetCenterNeighborhoodIndex()
+                           + this->GetStride(axis))); }
+
+  /** Returns the pixel value located i pixels distant from the neighborhood center in
+      the negative specified ``axis'' direction. No bounds checking is done on
+      the size of the neighborhood. */
+  virtual PixelType GetPrevious(const unsigned axis, const unsigned i)
+  { return (this->GetPixel(this->GetCenterNeighborhoodIndex()
+                           - (i * this->GetStride(axis)))); }
+  
+  /** Returns the pixel value located one pixel distant from the neighborhood center in
+      the specifed negative axis direction. No bounds checking is done on the
+      size of the neighborhood. */
+  virtual PixelType GetPrevious(const unsigned axis)
+  { return (this->GetPixel(this->GetCenterNeighborhoodIndex()
+                           - this->GetStride(axis))); } 
+  
+  /** Returns the image index for neighbor pixel at offset o from the center of
+      the neighborhood. */
+  virtual IndexType GetIndex(const OffsetType &o) const
+  { return (this->GetIndex() + o); }
+
+  /** Returns the image index for neighbor pixel at index i in the
+      neighborhood. */
+  virtual IndexType GetIndex(const unsigned i) const
+  { return (this->GetIndex() + this->GetOffset(i)); }
+  
   /**  Returns the region of iteration. */
   RegionType GetRegion() const
     { return m_Region; }
@@ -164,6 +198,17 @@ public:
    * the image. */
   IndexType GetBeginIndex() const
     { return m_BeginIndex; }
+
+
+  /** Returns the bounding box for region spanned by this neighborhood */
+  //  typename BoundingBoxType::Pointer GetBoundingBox() const
+  // { return 
+  // }
+
+  /** Returns a bounding box for the region spanned by this neighborhood
+      represented by an itk::ImageRegion */
+  RegionType GetBoundingBoxAsImageRegion() const;
+
   
   /** Returns the offsets used to wrap across dimensional boundaries. */
   OffsetType GetWrapOffset() const
@@ -283,30 +328,12 @@ public:
       this->SetPixelPointers(position);
     }
   
-  /** Sets the internal pointer to a memory buffer that is incremented
-   * in synch with the center of the ConstNeighborhoodIterator.  This
-   * internal pointer can be used to guarantees spatial fidelity between
-   * inputs and outputs to an algorithm that uses ConstNeighborhoodIterators.
-   * \sa GetOutputBuffer */
-  void SetOutputBuffer(InternalPixelType *i)
-    {    m_OutputBuffer = i;   }
-
-  /** Sets the offsets that will be used to adjust for any differences in input
-   * and output buffer sizes. */
-  void SetOutputWrapOffsetModifier( const OffsetType &modifiers);
-
   /** Resets the boundary condition to the internal, default conditions
    * specified by the template parameter. */
   virtual void ResetBoundaryCondition()
     { /* default case is do nothing */ }
  
 protected:
-  /** Computes the internal table of stride lengths. */
-  void ComputeStrideTable()
-    {
-      for (unsigned int i = 0; i < Dimension; ++i)
-        { m_StrideTable[i] = this->GetStride(i); }
-    }
   
   /** Default method for setting the coordinate location of the iterator.
    * Loop indicies correspond to the actual Image region index. */
@@ -358,26 +385,8 @@ protected:
   /** Array of loop counters used during iteration. */
   IndexType m_Loop;
  
-  /** A pointer to an output buffer that, if set, is moved in synch with
-   * the center position of the ConstNeighborhoodIterator.
-   *
-   * The output buffer is assumed to be the same size as the itk::Image buffer
-   * on which the ConstNeighborhoodIterator is defined.  Scalar output can be
-   * written directly to the synchronized pointer location.  */
-  InternalPixelType *m_OutputBuffer;
-  
-  /** Modifiers that compensate for the difference in the sizes of the input
-   * and output buffers.  m_OutputBuffer will be incremented by these
-   * additional values when wrapping across dimensional boundaries during
-   * iteration. */
-  OffsetType m_OutputWrapOffsetModifier;
-  
   /** The region over which iteration is defined. */
   RegionType m_Region;
-
-  /** A table containing the stride length (step size in memory units)
-   * for each dimension.  Computed once at construction. */
-  unsigned long m_StrideTable[Dimension];
 
   /** The internal array of offsets that provide support for regions of interest.
    * An offset for each dimension is necessary to shift pointers when wrapping

@@ -30,12 +30,24 @@ ConstNeighborhoodIterator<TImage>
   r = (unsigned long)n;
   for (long i = D-1; i >= 0 ; --i)
     {
-      ans[i] = static_cast<OffsetValueType>(r / m_StrideTable[i]);
-      r = r % m_StrideTable[i];
+      ans[i] = static_cast<OffsetValueType>(r / this->GetStride(i));
+      r = r % this->GetStride(i);
     }
   return ans;
 }
- 
+
+template <class TImage>
+typename ConstNeighborhoodIterator<TImage>::RegionType
+ConstNeighborhoodIterator<TImage>
+::GetBoundingBoxAsImageRegion() const
+{
+  RegionType ans;
+  ans.SetIndex(this->GetIndex(0));
+  ans.SetSize(this->GetSize());
+  
+  return ans;
+}
+
 template<class TImage>
 ConstNeighborhoodIterator<TImage>
 ::ConstNeighborhoodIterator()
@@ -50,13 +62,9 @@ ConstNeighborhoodIterator<TImage>
   m_End   = 0;
   m_EndIndex.Fill(0);
   m_Loop.Fill(0);
-  m_OutputBuffer = 0;
-  m_OutputWrapOffsetModifier.Fill(0);
   m_Region.SetIndex(zeroIndex);
   m_Region.SetSize(zeroSize);
   
-  for (unsigned int i = 0; i < Dimension; ++i)
-    { m_StrideTable[i] = 0; }
   m_WrapOffset.Fill(0);
 }
 
@@ -72,11 +80,7 @@ ConstNeighborhoodIterator<TImage>
   m_End        = orig.m_End;
   m_EndIndex   = orig.m_EndIndex;
   m_Loop       = orig.m_Loop;
-  m_OutputBuffer = orig.m_OutputBuffer;
-  m_OutputWrapOffsetModifier = orig.m_OutputWrapOffsetModifier;
   m_Region     = orig.m_Region;
-  for (unsigned int i = 0; i < Dimension; ++i)
-    { m_StrideTable[i] = orig.m_StrideTable[i]; }
   m_WrapOffset = orig.m_WrapOffset;
 }
 
@@ -134,8 +138,6 @@ void ConstNeighborhoodIterator<TImage>
 { 
   m_ConstImage = ptr;
   m_Region = region;
-  m_OutputBuffer = 0;
-  m_OutputWrapOffsetModifier.Fill(0);
   const IndexType regionIndex = region.GetIndex();
 
   this->SetRadius(radius);
@@ -148,7 +150,6 @@ void ConstNeighborhoodIterator<TImage>
 
   m_End = ptr->GetBufferPointer() + ptr->ComputeOffset( m_EndIndex );
     
-  this->ComputeStrideTable();
 }
 
 template<class TImage>
@@ -164,12 +165,8 @@ ConstNeighborhoodIterator<TImage>
   m_End          = orig.m_End;
   m_EndIndex     = orig.m_EndIndex;
   m_Loop         = orig.m_Loop;
-  m_OutputBuffer = orig.m_OutputBuffer;
-  m_OutputWrapOffsetModifier = orig.m_OutputWrapOffsetModifier;
   m_Region       = orig.m_Region;
   m_BeginIndex = orig.m_BeginIndex;
-  for (unsigned int i = 0; i < Dimension; ++i)
-    m_StrideTable[i] = orig.m_StrideTable[i];
   m_WrapOffset = orig.m_WrapOffset;
 
   return *this;
@@ -189,10 +186,6 @@ ConstNeighborhoodIterator<TImage>
     {
       (*it)++;
     }
-  if (m_OutputBuffer)
-    {
-      ++m_OutputBuffer;
-    }
   
   // Check loop bounds, wrap & add pointer offsets if needed.
   for (i=0; i<Dimension; ++i)
@@ -204,11 +197,6 @@ ConstNeighborhoodIterator<TImage>
           for (it = Superclass::Begin(); it < _end; ++it)
             {
               (*it) += m_WrapOffset[i];
-            }
-          if (m_OutputBuffer)
-            {
-              m_OutputBuffer += m_WrapOffset[i]
-                + m_OutputWrapOffsetModifier[i];
             }
         }        
       else break;
@@ -230,10 +218,6 @@ ConstNeighborhoodIterator<TImage>
     {
       (*it)--;
     }
-  if (m_OutputBuffer)
-    {
-      --m_OutputBuffer;
-    }
   
   // Check loop bounds, wrap & add pointer offsets if needed.
   for (i=0; i<Dimension; ++i)
@@ -244,11 +228,6 @@ ConstNeighborhoodIterator<TImage>
           for (it = Superclass::Begin(); it < _end; ++it)
             {
               (*it) -= m_WrapOffset[i];
-            }
-          if (m_OutputBuffer)
-            {
-              m_OutputBuffer -= m_WrapOffset[i]
-                + m_OutputWrapOffsetModifier[i];
             }
         }        
       else
@@ -283,9 +262,6 @@ ConstNeighborhoodIterator<TImage>
   for (i=0; i < Dimension; ++i) os << m_Bound[i] << " ";
   os << "}, m_WrapOffset = { ";
   for (i=0; i < Dimension; ++i) os << m_WrapOffset[i] << " ";
-  os << "}, m_OutputWrapOffsetModifier = { ";
-  for (i=0; i < Dimension; ++i) os << m_OutputWrapOffsetModifier[i] << " ";
-  os << "}, m_OutputBuffer = " << m_OutputBuffer;
 
   os << ", m_Begin = " << m_Begin;
   os << ", m_End = " << m_End;
@@ -313,14 +289,6 @@ void ConstNeighborhoodIterator<TImage>
   
 }
 
-template<class TImage>
-void 
-ConstNeighborhoodIterator<TImage>
-::SetOutputWrapOffsetModifier(const OffsetType &o)
-{
-  for (unsigned int i = 0; i < Dimension; ++i)
-    {      m_OutputWrapOffsetModifier[i] = o[i];    }
-}
 
 template<class TImage>
 void ConstNeighborhoodIterator<TImage>

@@ -60,10 +60,6 @@ ConstRandomAccessNeighborhoodIterator<TImage>
     {
       (*it) += accumulator;
     }
-  if (m_OutputBuffer)
-    {
-      m_OutputBuffer += accumulator;
-    }
 
   // Update loop counter values
   m_Loop += idx;
@@ -99,10 +95,6 @@ ConstRandomAccessNeighborhoodIterator<TImage>
   for (it = this->Begin(); it < _end; ++it)
     {
       (*it) -= accumulator;
-    }
-  if (m_OutputBuffer)
-    {
-      m_OutputBuffer -= accumulator;
     }
 
   // Update loop counter values
