@@ -83,6 +83,6 @@ CABLE_OPEN_NAMESPACE(itk)
   # List the instantiations for this package.
   CABLE_INSTANTIATE_CLASS(
     "$(ifFunc)ImageFilter<$ImageType, $ImageType >"
-    "PlaheImageFilter<$PixelType, $Dimension>"
   )
 CABLE_CLOSE_NAMESPACE(itk)
+
