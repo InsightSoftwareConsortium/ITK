@@ -1,3 +1,4 @@
+
 //-------------------------------------------
 //
 //  Example of the registration hierarchy
@@ -9,7 +10,7 @@
 #include <itkPoint.h>
 #include <itkVectorContainer.h>
 #include <itkRegistrationTransform.h>
-#include <itkAffineTransform.h>
+#include <itkAffineRegistrationTransform.h>
 #include <itkRegistrationMapper.h>
 #include <itkSimilarityRegistrationMetric.h>
 #include <itkOptimizer.h>
@@ -25,7 +26,7 @@ int main()
   typedef itk::VectorContainer< unsigned short,
                                 double >      ParameterType;
 
-  typedef itk::AffineTransform< 3 > TransfromType;
+  typedef itk::AffineRegistrationTransform< 3 > TransfromType;
   
   typedef itk::VectorContainer< unsigned long, 
                                 Point3DType >    ReferenceType;
@@ -77,6 +78,4 @@ int main()
   return 0;
 
 }
-
-
 
