@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkGenericClassifier.txx
+  Module:    itkSampleClassifier.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkSymmetricEllipsoidInteriorExteriorSpatialFunction_cpp
-#define __itkSymmetricEllipsoidInteriorExteriorSpatialFunction_cpp
+#ifndef __itkSymmetricEllipsoidInteriorExteriorSpatialFunction_txx
+#define __itkSymmetricEllipsoidInteriorExteriorSpatialFunction_txx
 
 #include "itkSymmetricEllipsoidInteriorExteriorSpatialFunction.h"
 #include <math.h>

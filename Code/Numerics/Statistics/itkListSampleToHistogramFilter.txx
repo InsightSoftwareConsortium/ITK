@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkListSampleToHistogramImporter.txx
+  Module:    itkListSampleToHistogramFilter.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$

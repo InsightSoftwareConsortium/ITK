@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkImageListSampleAdaptor.txx
+  Module:    itkImageToListAdaptor.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
