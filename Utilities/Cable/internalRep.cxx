@@ -13,8 +13,13 @@ String GetValid_C_Identifier(const String& in_name)
   static const char* builtin[][2]
     = { {"+", "__plus"},
         {"+=", "__aplus"},
+        {"*=", "__amul"},
+        {"/=", "__adiv"},
         {"-", "__minus"},
         {"-=", "__aminus"},
+        {"=", "__aeq"},
+        {"==", "__eq"},
+        {"()", "__func"},
         {0, 0} };
   
   for(int i=0; builtin[i][0]; ++i)
@@ -35,15 +40,12 @@ String GetValid_C_Identifier(const String& in_name)
       case ',': break;
       case '/': name << 'd'; break;
       case ':': name << 'c'; break;
-      case '(': name << "lp"; break;
-      case ')': name << "rp"; break;
       case '<': name << "la"; break;
       case '>': name << "ra"; break;
       case '[': name << "ls"; break;
       case ']': name << "rs"; break;
       case '*': name << "p"; break;
       case '&': name << "r"; break;
-      case '=': name << "e"; break;
       default:  name << *ch; break;
       }
     }
