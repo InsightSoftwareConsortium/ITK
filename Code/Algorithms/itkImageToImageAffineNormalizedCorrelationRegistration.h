@@ -176,28 +176,6 @@ public:
 
 
   /**
-   * Set the Target
-   */
-   void SetTarget( TargetType * );
-
-   
-  /**
-   * Set the Reference
-   */
-   void SetReference( ReferenceType * );
-
-  /**
-   * Get the Reference
-   */
-   itkGetMacro( Reference, ReferencePointer );
-   
-  /**
-   * Get the Target
-   */
-   itkGetMacro( Target, TargetPointer );
-
-
-  /**
    * Get the Transformation
    */
    itkGetMacro( Transformation, TransformationPointer );
@@ -227,8 +205,6 @@ protected:
 
 private:
 
-  TargetPointer              m_Target;
-  ReferencePointer           m_Reference;
   TransformationPointer      m_Transformation;
   MapperPointer              m_Mapper;  
   MetricPointer              m_Metric;
