@@ -60,8 +60,8 @@ public:
  * cell is added, all of its boundary features are determined and
  * added as well.
  *
- * The main methods are of the form Add<it>Object</it>, where
- * <it>Object</it> can be Point, Vertex, Triangle, Quadrilateral,
+ * The main methods are of the form Add<i>Thing</i>, where
+ * <i>Thing</i> can be Point, Vertex, Triangle, Quadrilateral,
  * Tetrahedron, or Hexahedron.  Each of these methods has several
  * overloaded forms, permitting multiple ways to specify the object
  * being added.  When called, each of these methods first checks to
@@ -92,7 +92,7 @@ public:
  * 
  * For meshes generated using this filter, only one cell can be added
  * for any given set of vertices.  If a, b, c, and d are identifiers
- * for four points in R^3, Then (a, b, c, d) and (a, c, d, b)
+ * for four points in R^3, then (a, b, c, d) and (a, c, d, b)
  * determine two different quadrilaterals (at least one of which is
  * either degenerate or nonplanar).  If you call
  * \begincode
