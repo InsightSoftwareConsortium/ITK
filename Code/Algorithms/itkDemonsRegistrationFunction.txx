@@ -87,8 +87,7 @@ DemonsRegistrationFunction<TReference,TTarget,TDeformationField>
 {
   if( !m_Reference || !m_Target || !m_ReferenceInterpolator )
     {
-    itkErrorMacro( << "Reference, Target and/or Interpolator not set" );
-    throw ExceptionObject(__FILE__,__LINE__);
+    itkExceptionMacro( << "Reference, Target and/or Interpolator not set" );
     }
 
   // cache target image information

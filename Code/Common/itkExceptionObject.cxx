@@ -15,6 +15,7 @@
 
 =========================================================================*/
 #include "itkExceptionObject.h"
+#include "itkIndent.h"
 
 namespace itk
 {
@@ -25,37 +26,12 @@ ExceptionObject
 {
   Indent indent;
 
-  this->PrintHeader(os,0); 
-  this->PrintSelf(os, indent.GetNextIndent());
-  this->PrintTrailer(os,0);
-}  
-  
-/**
- * Define a default print header for all objects.
- */
-void 
-ExceptionObject
-::PrintHeader(std::ostream& os, Indent indent) const
-{
+  // Print header
   os << std::endl;
   os << indent << "itk::" << this->GetNameOfClass() << " (" << this << ")\n";
-}
 
-
-/**
- * Define a default print trailer for all objects.
- */
-void 
-ExceptionObject
-::PrintTrailer(std::ostream& os, Indent indent) const
-{
-  os << indent << std::endl;
-}
-
-void
-ExceptionObject
-::PrintSelf(std::ostream& os, Indent indent) const
-{
+  // Print self
+  indent.GetNextIndent();
   if (! m_Location.empty()) 
     {
     os << indent << "Location: \"" << m_Location << "\" " << std::endl;
@@ -71,6 +47,9 @@ ExceptionObject
     {
     os << indent << "Description: " << m_Description << std::endl;  
     }
-}
+
+  // Print trailer
+  os << indent << std::endl;
+}  
 
 } // end namespace itk

@@ -84,7 +84,7 @@ void
 DataObjectError
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
-  ExceptionObject::PrintSelf( os, indent );
+  ExceptionObject::Print( os );
     
   os << indent << "Data object: ";
   if (m_DataObject)

@@ -60,18 +60,19 @@ public:
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  virtual bool CanWriteFile(const char*)
-    { return false; }
+  virtual bool CanWriteFile(const char*);
 
   /** Writes the data to disk from the memory buffer provided. Make sure
-   * that the IORegions has been set properly. */
-  virtual void Write(void* buffer)
-    { return; }
+   * that the IORegion has been set properly. */
+  virtual void Write(void* buffer);
 
 protected:
   PNGImageIO();
   ~PNGImageIO();
   void PrintSelf(std::ostream& os, Indent indent) const;
+
+  void WriteSlice(std::string& fileName, void* buffer,
+                  unsigned long offset);
 
 private:
   PNGImageIO(const Self&); //purposely not implemented

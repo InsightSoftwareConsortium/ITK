@@ -102,7 +102,7 @@ ThresholdImageFilter<TImage>
 {
   if (lower > upper)
     {
-    itkErrorMacro(<<"Lower threshold cannot be greater than upper threshold.");
+    itkExceptionMacro(<<"Lower threshold cannot be greater than upper threshold.");
     return;
     }
   

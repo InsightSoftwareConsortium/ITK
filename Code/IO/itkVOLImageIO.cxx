@@ -90,7 +90,7 @@ void VOLImageIO::Read(void* buffer)
   FILE* fp = volfp.m_FilePointer;
   if(!fp)
     {
-    itkErrorMacro("Error VOLImageIO could not open file: " 
+    itkExceptionMacro("Error VOLImageIO could not open file: " 
     << this->GetFileName());
     return;
     }
@@ -254,7 +254,7 @@ void VOLImageIO::ReadImageInformation()
   FILE* fp = volfp.m_FilePointer;
   if(!fp)
     {
-    itkErrorMacro("Error VOLImageIO could not open file: " 
+    itkExceptionMacro("Error VOLImageIO could not open file: " 
                   << this->GetFileName());
     return;
     }
@@ -266,7 +266,7 @@ void VOLImageIO::ReadImageInformation()
   else if (strcmp(m_File_rev, "V2.3       ")==0)  ReadVersion2_3(fp);
   else
     {
-    itkErrorMacro("Cannot read version " << m_File_rev << " in file " 
+    itkExceptionMacro("Cannot read version " << m_File_rev << " in file " 
                   << this->GetFileName() << " -- will try to read as V2.3");
     ReadVersion2_3(fp);
     }

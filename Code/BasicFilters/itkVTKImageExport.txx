@@ -71,7 +71,7 @@ VTKImageExport<TInputImage>::VTKImageExport()
     }
   else
     {
-    itkErrorMacro(<<"Type currently not supported");
+    itkExceptionMacro(<<"Type currently not supported");
     }
 }
 

@@ -224,7 +224,7 @@ ImageBase<VImageDimension>
   else
     {
     // pointer could not be cast back down
-    itkErrorMacro( << "itk::ImageBase::CopyInformation() cannot cast "
+    itkExceptionMacro( << "itk::ImageBase::CopyInformation() cannot cast "
                    << typeid(data).name() << " to "
                    << typeid(ImageBase*).name() );
     }
@@ -286,7 +286,7 @@ ImageBase<VImageDimension>
          ((requestedRegionIndex[i] + static_cast<long>(requestedRegionSize[i]))
           > (largestPossibleRegionIndex[i]+static_cast<long>(largestPossibleRegionSize[i]))))
       {
-      itkErrorMacro( << "Region does not lie within the image" );
+      itkExceptionMacro( << "Region does not lie within the image" );
       retval = false;
       }
     }
@@ -338,7 +338,7 @@ ImageBase<VImageDimension>
   else
     {
     // pointer could not be cast back down
-    itkErrorMacro( << "itk::ImageBase::SetRequestedRegion(DataObject*) cannot cast " << typeid(data).name() << " to " << typeid(ImageBase*).name() );
+    itkExceptionMacro( << "itk::ImageBase::SetRequestedRegion(DataObject*) cannot cast " << typeid(data).name() << " to " << typeid(ImageBase*).name() );
     }
 }
 

@@ -265,7 +265,7 @@ KmeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
     // check for lack of convergence 
     if ( olddistortion < distortion ) 
       {
-      itkErrorMacro(<<"Distortion is increasing, not decreasing");
+      itkExceptionMacro(<<"Distortion is increasing, not decreasing");
       throw ExceptionObject(__FILE__, __LINE__); // GLA_NOT_CONVERGED;
       }
 
@@ -357,7 +357,7 @@ KmeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
       pass++;
       } // end else
     } while ( pass <= m_MaxSplitAttempts );
-  itkErrorMacro(<<"Fatal error");
+  itkExceptionMacro(<<"Fatal error");
   throw ExceptionObject(__FILE__, __LINE__); //return GLA_NOT_CONVERGED;
 
 }// end localfn_GLA
@@ -481,8 +481,7 @@ KmeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
   // check for bizarre errors 
   if ( *distortion < 0.0 ) 
     {
-    itkErrorMacro(<<"Computational overflow");
-    throw ExceptionObject(__FILE__, __LINE__);
+    itkExceptionMacro(<<"Computational overflow");
     }
 
   //itkDebugMacro(<<"Done nearest_neighbor_search_basic()");

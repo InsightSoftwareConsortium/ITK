@@ -26,7 +26,7 @@
  * available for built-in types; for string classe; vector arrays;
  * object pointers; and debug, warning, and error printout information. 
  */
-
+  
 #ifndef __itkMacro_h
 #define __itkMacro_h
 
@@ -36,24 +36,19 @@
 #include <string>
 #include <strstream>
 
+#include "itkExceptionObject.h"
+
 /** \namespace itk
- * \brief The "itk" namespace contains all classes defined for Insight. */
+ * \brief The "itk" namespace contains all Insight Segmentation and
+ * Registration Toolkit (ITK) classes. There are several nested namespaces
+ * within the itk:: namespace. */
 namespace itk
 {
-} // end namespace itk
-
-namespace itk
-{
-  /** Error codes for exceptions */
-  const int BoundsError=10;
-  const int InvalidDimension=11;
-} // end namespace itk
-
+} // end namespace itk - this is here for documentation purposes
 
 /** A convenience macro marks variables as not being used by a method,
  * avoiding compile-time warnings. */
 #define itkNotUsed(x)
-
 
 /** Set built-in type.  Creates member Set"name"() (e.g., SetVisibility()); */
 #define itkSetMacro(name,type) \
@@ -67,7 +62,6 @@ namespace itk
       } \
   } 
 
-
 /** Get built-in type.  Creates member Get"name"() (e.g., GetVisibility()); */
 #define itkGetMacro(name,type) \
   virtual type Get##name () \
@@ -75,7 +69,6 @@ namespace itk
     itkDebugMacro("returning " << #name " of " << this->m_##name ); \
     return this->m_##name; \
   }
-
 
 /** Get built-in type.  Creates member Get"name"() (e.g., GetVisibility());
  * This is the "const" form of the itkGetMacro.  It should be used unless
@@ -87,7 +80,6 @@ namespace itk
     return this->m_##name; \
   }
 
-
 /** Get built-in type.  Creates member Get"name"() (e.g., GetVisibility());
  * This is the "const" form of the itkGetMacro.  It should be used unless
  * the member can be changed through the "Get" access routine.
@@ -98,7 +90,6 @@ namespace itk
     itkDebugMacro("returning " << #name " of " << this->m_##name ); \
     return this->m_##name; \
   }
-
 
 /** Set character string.  Creates member Set"name"() 
  * (e.g., SetFilename(char *)). The macro assumes that
@@ -141,7 +132,6 @@ namespace itk
       this->Modified(); \
       } \
   } 
-
 
 /** Set pointer to object; uses Object reference counting methodology.
  * Creates method Set"name"() (e.g., SetPoints()). Note that using
@@ -255,11 +245,28 @@ static Pointer New(void) \
   return smartPtr; \
 }
 
+/** Define the virtual constructor without object factory creation method.
+ *
+ * This routine assigns the raw pointer to a smart pointer and then calls
+ * UnRegister() on the rawPtr to compensate for LightObject's constructor
+ * initializing an object's reference count to 1 (needed for proper
+ * initialization of process objects and data objects cycles). */
+#define itkFactorylessNewMacro(x) \
+static Pointer New(void) \
+{ \
+  Pointer smartPtr; \
+  x *rawPtr = new x; \
+  smartPtr = rawPtr; \
+  rawPtr->UnRegister(); \
+  return smartPtr; \
+}
+
 /** Macro used to add standard methods to all classes, mainly type
  * information. */
 #define itkTypeMacro(thisClass,superclass) \
     virtual const char *GetNameOfClass() const \
-        {return #thisClass;}
+        {return #thisClass;} 
+
 
 namespace itk
 {
@@ -313,28 +320,42 @@ extern ITK_EXPORT void OutputWindowDisplayDebugText(const char*);
 }
 #endif
 
-/** This macro is used to print error information (i.e., usually a condition
- * that results in program failure). This macro is normally coupled with
- * exceptions. Example usage looks like:
- * itkErrorMacro(<< "this is error info" << this->SomeVariable); */
-#ifdef ITK_LEAN_AND_MEAN
-#define itkErrorMacro(x)
-#else
-#define itkErrorMacro(x) \
-{ if (itk::Object::GetGlobalWarningDisplay()) \
-    { char *itkmsgbuff; std::ostrstream itkmsg; \
-      itkmsg << "ERROR: In " __FILE__ ", line " << __LINE__ << "\n" \
-             << this->GetNameOfClass() << " (" << this << "): " x  \
-             << "\n\n" << std::ends; \
-      itkmsgbuff = itkmsg.str(); \
-      itk::OutputWindowDisplayErrorText(itkmsgbuff); \
-      itkmsg.rdbuf()->freeze(0);} \
-}
-#endif
+/** The exception macro support is defined here */
+/** The ewxception macro is used to print error information (i.e., usually 
+ * a condition that results in program failure). Example usage looks like:
+ * itkExceptionMacro(<< "this is error info" << this->SomeVariable); */
+namespace itk
+{
+namespace ExceptionMacroDetail
+{
+  class OStrStreamCleanup
+  {
+  public:
+    OStrStreamCleanup(std::ostrstream& ostr): m_OStrStream(ostr) {}
+    ~OStrStreamCleanup() { m_OStrStream.rdbuf()->freeze(0); }
+  protected:
+    std::ostrstream& m_OStrStream;
+  };
+}//namespace ExceptionMacroDetail
+}//namespace itk
+  
+#define itkExceptionMacro(x) \
+  { \
+  std::ostrstream message; \
+  itk::ExceptionMacroDetail::OStrStreamCleanup messageCleanup(message); \
+  message << "itk::ERROR: " << this->GetNameOfClass() \
+          << "(" << this << "): " x << std::ends; \
+  throw itk::ExceptionObject(__FILE__, __LINE__, message.str()); \
+  }
 
-/** This macro is used to print information where no "this->" pointer is
- * available (e.g., static method or function). Example usage looks like:
- * itkGenericOutputMacro(<< "this is output info" << SomeVariable); */
+#define itkGenericExceptionMacro(x) \
+  { \
+  std::ostrstream message; \
+  itk::ExceptionMacroDetail::OStrStreamCleanup messageCleanup(message); \
+  message << "itk::ERROR: " x << std::ends; \
+  throw itk::ExceptionObject(__FILE__, __LINE__, message.str()); \
+  }
+
 #ifdef ITK_LEAN_AND_MEAN
 #define itkGenericOutputMacro(x)
 #else
@@ -350,6 +371,6 @@ extern ITK_EXPORT void OutputWindowDisplayDebugText(const char*);
 #endif
 
 
-#endif
+#endif //end of itkMacro.h
 
 

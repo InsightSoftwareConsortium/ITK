@@ -789,7 +789,7 @@ ProcessObject
   m_Progress = 0.0;
   if (m_Inputs.size() < m_NumberOfRequiredInputs)
     {
-    itkErrorMacro(<< "At least " << m_NumberOfRequiredInputs 
+    itkExceptionMacro(<< "At least " << m_NumberOfRequiredInputs 
                   << " inputs are required but only " << m_Inputs.size() 
                   << " are specified");
     }

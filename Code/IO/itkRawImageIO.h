@@ -31,8 +31,9 @@ namespace itk
 /** \class RawImageIO
  * \brief Read and write raw binary images.
  *
- * This class reads 2D or 3D images. Because raw data has little useful 
- * information, the user is responsible for specifying pixel type, 
+ * This class reads and writes 2D or 3D images. Because raw data has 
+ * little useful information built into the format,
+ * so the user is responsible for specifying pixel type, 
  * dimensions, spacing, origin, header type, and so on. (Note: the
  * pixel type and image dimension is defined via the template parameter.)
  *
@@ -68,10 +69,8 @@ public:
   /** The number of dimensions stored in a file. Defaults to two. If two,
    * each file contains one "slice". If three, each file will contain one
    * "volume". */
-  
   itkSetMacro(FileDimensionality, unsigned long);
   itkGetMacro(FileDimensionality, unsigned long);
-
   
   /** Get the type of the pixel.  */
   virtual const std::type_info& GetPixelType() const
@@ -86,18 +85,16 @@ public:
   /*-------- This part of the interface deals with reading data. ------ */
 
   /** Determine the file type. Returns true if this ImageIOBase can read the
-   * file specified. */
+   * file specified. Always returns false because we don't want to use
+   * this reader unless absolutely sure (i.e., manual ImageIO creation). */
   virtual bool CanReadFile(const char*) 
-    {return true;}
+    {return false;}
 
   /** Binary files have no image information to read. This must be set by the
    * user of the class. */
   virtual void ReadImageInformation() 
     {return;}
 
-  /** Reads data from disk into internal memory (the RequestedRegionData). */
-  virtual void Read();
-  
   /** Reads the data from disk into the memory buffer provided. */
   virtual void Read(void* buffer);
 
@@ -115,15 +112,13 @@ public:
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
-  /** Determine the file type. Returns true if this ImageIO can read the
-   * file specified. */
-  virtual bool CanWriteFile(const char*)
-    { return false; }
+  /** Returns true if this ImageIO can write the specified file. 
+   * False is only returned when the file name is not specified. Otherwise
+   * true is always returned. */
+  virtual bool CanWriteFile(const char*);
 
-  /** Writes the data to disk from the memory buffer provided. Make sure
-   * that the IORegions has been set properly. */
-  virtual void Write(void* buffer)
-    { return; }
+  /** Writes the data to disk from the memory buffer provided. */
+  virtual void Write(void* buffer);
 
 protected:
   RawImageIO();
@@ -131,13 +126,13 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   //void ComputeInternalFileName(unsigned long slice);
-  void OpenFile();
+  void OpenFileForReading(std::ifstream& is);
+  void OpenFileForWriting(std::ofstream& os);
   
 private:
   RawImageIO(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  std::ifstream m_File;
   std::string   m_FilePrefix;
   std::string   m_FilePattern;
   std::string   m_InternalFileName;
@@ -155,6 +150,9 @@ public:
   RawImageIOFactory();
   const char* GetITKSourceVersion();
   const char* GetDescription() const;
+
+  /** Method for class instantiation. */
+  itkFactorylessNewMacro(Self);
 
 protected:
   typedef RawImageIO<TPixel,VImageDimension> myProductType;

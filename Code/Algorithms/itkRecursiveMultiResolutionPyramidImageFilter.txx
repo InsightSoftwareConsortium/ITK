@@ -220,7 +220,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
   TOutputImage * refOutputPtr = static_cast<TOutputImage*>( ptr );
   if( !refOutputPtr )
     {
-    itkErrorMacro( << "Could not cast ptr to TOutputImage*." );
+    itkExceptionMacro( << "Could not cast ptr to TOutputImage*." );
     }
 
   // find the index for this output
@@ -364,7 +364,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
   InputImagePointer  inputPtr = this->GetInput();
   if ( !inputPtr )
     {
-    itkErrorMacro( << "Input has not been set." );
+    itkExceptionMacro( << "Input has not been set." );
     }
 
   // compute baseIndex and baseSize

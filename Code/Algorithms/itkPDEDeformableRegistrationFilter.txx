@@ -172,7 +172,7 @@ PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
 
   if( !refPtr || !targetPtr )
     {
-    itkErrorMacro( << "Reference and/or Target image not set" );
+    itkExceptionMacro( << "Reference and/or Target image not set" );
     throw ExceptionObject(__FILE__,__LINE__);
     }
 
@@ -188,7 +188,7 @@ PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
     }
   catch( ... )
     {
-    itkErrorMacro(<<"FiniteDifferenceFunction not of type PDEDeformableRegistrationFilterFunction");
+    itkExceptionMacro(<<"FiniteDifferenceFunction not of type PDEDeformableRegistrationFilterFunction");
     throw ExceptionObject( __FILE__, __LINE__ );
     }
 

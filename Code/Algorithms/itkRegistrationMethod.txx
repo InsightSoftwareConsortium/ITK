@@ -105,8 +105,8 @@ void
 RegistrationMethod<TTraits>
 ::StartRegistration( void )
 { 
-  itkErrorMacro(<< "RegistrationMethod::StartRegistration::" );
-  itkErrorMacro(<< "This method should have been overloaded" );
+  itkExceptionMacro(<< "RegistrationMethod::StartRegistration::" );
+  itkExceptionMacro(<< "This method should have been overloaded" );
 
 }
 

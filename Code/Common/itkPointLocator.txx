@@ -80,7 +80,7 @@ PointLocator<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
     }
   if ( !newPts  )
     {
-    vtkErrorMacro(<<"Must define points for point insertion");
+    itkExceptionMacro(<<"Must define points for point insertion");
     return 0;
     }
   if (this->Points)

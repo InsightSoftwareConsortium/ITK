@@ -51,7 +51,7 @@ Writer
   // make sure input is available
   if ( !this->GetInput(0) )
     {
-    itkErrorMacro(<< "No input!");
+    itkExceptionMacro(<< "No input!");
     return;
     }
 

@@ -114,7 +114,7 @@ const std::type_info& ImageIOBase::GetPixelType() const
     case RGBA:
       return typeid(RGBAPixel<unsigned char>);
     case UNKNOWN:
-      itkErrorMacro ("Unknown pixel type: " << m_PixelType);
+      itkExceptionMacro ("Unknown pixel type: " << m_PixelType);
     }
   return typeid(ImageIOBase::UnknownType);
 }
@@ -195,7 +195,7 @@ bool ImageIOBase::SetPixelType(const std::type_info& ptype)
     }
   else
     {
-    itkErrorMacro("Pixel type currently not supported.");
+    itkExceptionMacro("Pixel type currently not supported.");
     this->SetPixelType(ImageIOBase::UNKNOWN);
     this->SetComponentType(ImageIOBase::UNKNOWN);
     return false;
@@ -214,7 +214,6 @@ void ImageIOBase::ComputeStrides()
     m_Strides[i] = m_Dimensions[i-2] * m_Strides[i-1];
     }
 }
-
 
 // Calculates the image size in PIXELS
 unsigned int ImageIOBase::GetImageSizeInPixels() const
@@ -303,7 +302,7 @@ ImageIOBase::ConvertToTypeInfo(IODataType t ) const
     case RGBA:
       return typeid(RGBAPixel<unsigned char>);
     default:
-      itkErrorMacro ("Invalid type: " << m_PixelType );
+      itkExceptionMacro ("Invalid type: " << m_PixelType );
     }
   return typeid(ImageIOBase::UnknownType);
 }
@@ -338,10 +337,9 @@ ImageIOBase::GetSizeOfType(IODataType t) const
     case RGBA:
       return sizeof(RGBAPixel<unsigned char>);
     case UNKNOWN:
-      itkErrorMacro ("Unknown pixel type: " << t);
+      itkExceptionMacro ("Unknown pixel type: " << t);
     }
   return 0;
-
 }
 
 unsigned int ImageIOBase::GetPixelSize() const
@@ -373,7 +371,7 @@ unsigned int ImageIOBase::GetPixelSize() const
     case RGBA:
       return sizeof(RGBAPixel<unsigned char>);
     case UNKNOWN:
-      itkErrorMacro ("Unknown pixel type: " << m_ComponentType);
+      itkExceptionMacro ("Unknown pixel type: " << m_ComponentType);
     }
 
   return 0;
@@ -408,7 +406,7 @@ unsigned int ImageIOBase::GetComponentSize() const
     case RGBA:
       return sizeof(RGBAPixel<unsigned char>);
     case UNKNOWN:
-      itkErrorMacro ("Unknown pixel type: " << m_ComponentType);
+      itkExceptionMacro ("Unknown pixel type: " << m_ComponentType);
     }
 
   return 0;
@@ -444,7 +442,7 @@ std::string ImageIOBase::ReturnTypeAsString(IODataType t) const
     case RGBA:
       return (s = "rgba");
     case UNKNOWN:
-      itkErrorMacro ("Unknown pixel type: " << t);
+      itkExceptionMacro ("Unknown pixel type: " << t);
     }
   return (s="unknown");
 
@@ -532,6 +530,97 @@ void ImageIOBase::WriteBufferAsASCII(std::ostream& os, void *buffer,
       {
       double *buf = reinterpret_cast<double*>(buffer);
       WriteBuffer(os, buf, numComp);
+      }
+      break;
+
+    default:
+      ;
+    }
+
+}
+
+
+template <class TComponent>
+static void ReadBuffer(std::istream& is, TComponent *buffer, unsigned int num)
+{
+  TComponent *ptr = buffer;
+  for (unsigned int i=0; i < num; i++, ptr++)
+    {
+    is >> *ptr;
+    }
+}
+
+void ImageIOBase::ReadBufferAsASCII(std::istream& is, void *buffer, 
+                                    IODataType ctype, unsigned int numComp)
+{
+  switch (ctype)
+    {
+    case UCHAR:
+      {
+      unsigned char *buf = reinterpret_cast<unsigned char*>(buffer);
+      ReadBuffer(is, buf, numComp);
+      }
+      break;
+    case CHAR:
+      {
+      char *buf = reinterpret_cast<char*>(buffer);
+      ReadBuffer(is, buf, numComp);
+      }
+      break;
+
+    case USHORT:
+      {
+      unsigned short *buf = reinterpret_cast<unsigned short*>(buffer);
+      ReadBuffer(is, buf, numComp);
+      }
+      break;
+
+    case SHORT:
+      {
+      short *buf = reinterpret_cast<short*>(buffer);
+      ReadBuffer(is, buf, numComp);
+      }
+      break;
+
+    case UINT:
+      {
+      unsigned int *buf = reinterpret_cast<unsigned int*>(buffer);
+      ReadBuffer(is, buf, numComp);
+      }
+      break;
+
+    case INT:
+      {
+      int *buf = reinterpret_cast<int*>(buffer);
+      ReadBuffer(is, buf, numComp);
+      }
+      break;
+
+    case ULONG:
+      {
+      unsigned long *buf = reinterpret_cast<unsigned long*>(buffer);
+      ReadBuffer(is, buf, numComp);
+      }
+      break;
+
+    case LONG:
+      {
+      long *buf = reinterpret_cast<long*>(buffer);
+      ReadBuffer(is, buf, numComp);
+      }
+      break;
+
+    case FLOAT:
+      {
+      float *buf = reinterpret_cast<float*>(buffer);
+      ReadBuffer(is, buf, numComp);
+      }
+      break;
+
+    case DOUBLE:
+      {
+      double *buf = reinterpret_cast<double*>(buffer);
+      ReadBuffer(is, buf, numComp);
       }
       break;
 

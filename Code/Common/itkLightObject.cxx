@@ -105,7 +105,7 @@ LightObject
 
 
 /**
- * This method is called when itkErrorMacro executes. It allows 
+ * This method is called when itkExceptionMacro executes. It allows 
  * the debugger to break on error.
  */
 void 
@@ -175,7 +175,7 @@ LightObject
    */
   if ( m_ReferenceCount > 0)
     {
-    itkErrorMacro(<< "Trying to delete object with non-zero reference count.");
+    itkExceptionMacro(<< "Trying to delete object with non-zero reference count.");
     }
 }
 

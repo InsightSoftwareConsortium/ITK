@@ -768,7 +768,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
     // for an invalid value 
     if ( m_NumberOfBorders <= 0 ) 
       {
-      itkErrorMacro(<<  "KLM Algorithm error");
+      itkExceptionMacro(<<  "KLM Algorithm error");
       }// end if
 
     }// end while
@@ -1038,7 +1038,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
        ( ( nRowSquareBlocks - 1 ) * nColSquareBlocks * colGridSize +
          ( nColSquareBlocks - 1 ) * nRowSquareBlocks * rowGridSize ) ) 
     {
-    itkErrorMacro(<< "Initialization is incorrect");
+    itkExceptionMacro(<< "Initialization is incorrect");
     throw ExceptionObject(__FILE__, __LINE__);
     }// end if
   else
@@ -1432,7 +1432,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   // Verification of the initialization process
   if ( m_TotalBorderLength != actualBorderLength )
     {
-    itkErrorMacro( << "Initialization is incorrect");
+    itkExceptionMacro( << "Initialization is incorrect");
     throw ExceptionObject(__FILE__, __LINE__);
     }// end if
   else
@@ -1656,7 +1656,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
     }// end if
   else
     {
-    itkErrorMacro( << "Inappropriate region labelling. ");
+    itkExceptionMacro( << "Inappropriate region labelling. ");
     throw ExceptionObject(__FILE__, __LINE__);
     }// end else
   
@@ -1865,7 +1865,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 
     else
       {
-      itkErrorMacro( << "Invalid border");
+      itkExceptionMacro( << "Invalid border");
       }// end else
 
     // Go to the next region border pointed by the iterator
@@ -1969,7 +1969,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 
       else 
         {
-        itkErrorMacro( << "Invalid border");
+        itkExceptionMacro( << "Invalid border");
         throw ExceptionObject(__FILE__, __LINE__);
         }// end else
 
@@ -2039,7 +2039,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
       }// end else if
     else 
       {
-      itkErrorMacro( << "Invalid Region Border");
+      itkExceptionMacro( << "Invalid Region Border");
       }// end else
 
     }// end of while

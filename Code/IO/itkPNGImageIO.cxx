@@ -24,9 +24,9 @@ namespace itk
 // fclose on destruct
 struct PNGFileWrapper
 {
-  PNGFileWrapper(const char* fname)
+  PNGFileWrapper(const char* fname, const char *openMode)
     {
-      m_FilePointer = fopen(fname, "rb");
+      m_FilePointer = fopen(fname, openMode);
     }
   FILE* m_FilePointer;
   ~PNGFileWrapper()
@@ -38,11 +38,9 @@ struct PNGFileWrapper
     }
 };
 
-  
-  
 bool PNGImageIO::CanReadFile(const char* file) 
 { 
-  PNGFileWrapper pngfp(file);
+  PNGFileWrapper pngfp(file,"rb");
   FILE* fp = pngfp.m_FilePointer;
   if(!fp)
     {
@@ -79,7 +77,7 @@ bool PNGImageIO::CanReadFile(const char* file)
     return false;
     }
   png_destroy_read_struct(&png_ptr, &info_ptr,
-                          (png_infopp)NULL);
+                          &end_info);
   
   return true;
 }
@@ -102,12 +100,13 @@ const std::type_info& PNGImageIO::GetPixelType() const
     case DOUBLE:
     case RGB:
     case RGBA:
+    default:
       {
-      itkErrorMacro ("Invalid type: " << m_PixelType << ", only unsigned char and unsigned short are allowed.");
+      itkExceptionMacro ("Invalid type: " << m_PixelType << ", only unsigned char and unsigned short are allowed.");
       return this->ConvertToTypeInfo(m_PixelType);      
       }
     case UNKNOWN:
-      itkErrorMacro ("Unknown pixel type: " << m_PixelType);
+      itkExceptionMacro ("Unknown pixel type: " << m_PixelType);
     }
   return typeid(ImageIOBase::UnknownType);
 }
@@ -133,7 +132,8 @@ unsigned int PNGImageIO::GetComponentSize() const
     case RGBA:
     case UNKNOWN:
       {
-      itkErrorMacro ("Invalid type: " << m_PixelType << ", only unsigned char and unsigned short are allowed.");
+      itkExceptionMacro ("Invalid type: " << m_PixelType 
+                  << ", only unsigned char and unsigned short are allowed.");
       return 0;
       }
     }
@@ -144,11 +144,11 @@ unsigned int PNGImageIO::GetComponentSize() const
 void PNGImageIO::Read(void* buffer)
 {
   // use this class so return will call close
-  PNGFileWrapper pngfp(this->GetFileName()); 
+  PNGFileWrapper pngfp(this->GetFileName(),"rb"); 
   FILE* fp = pngfp.m_FilePointer;
   if(!fp)
     {
-    itkErrorMacro("Error PNGImageIO could not open file: " 
+    itkExceptionMacro("Error PNGImageIO could not open file: " 
                   << this->GetFileName());
     return;
     }
@@ -157,7 +157,7 @@ void PNGImageIO::Read(void* buffer)
   bool is_png = !png_sig_cmp(header, 0, 8);
   if(!is_png)
     {
-    itkErrorMacro("Error File is not png type" << this->GetFileName());
+    itkExceptionMacro("Error File is not png type" << this->GetFileName());
     return;
     }
   png_structp png_ptr = png_create_read_struct
@@ -165,7 +165,7 @@ void PNGImageIO::Read(void* buffer)
      NULL, NULL);
   if (!png_ptr)
     {
-    itkErrorMacro("Error File is not png type" << this->GetFileName());
+    itkExceptionMacro("Error File is not png type" << this->GetFileName());
     return;
     }
   
@@ -174,7 +174,7 @@ void PNGImageIO::Read(void* buffer)
     {
     png_destroy_read_struct(&png_ptr,
                             (png_infopp)NULL, (png_infopp)NULL);
-    itkErrorMacro("Error File is not png type" << this->GetFileName());
+    itkExceptionMacro("Error File is not png type" << this->GetFileName());
     return;
     }
 
@@ -183,7 +183,7 @@ void PNGImageIO::Read(void* buffer)
     {
     png_destroy_read_struct(&png_ptr, &info_ptr,
                             (png_infopp)NULL);
-    itkErrorMacro("Error File is not png type" << this->GetFileName());
+    itkExceptionMacro("Error File is not png type" << this->GetFileName());
     return;
     }
   
@@ -193,21 +193,21 @@ void PNGImageIO::Read(void* buffer)
   png_read_info(png_ptr, info_ptr);
 
   png_uint_32 width, height;
-  int bit_depth, color_type, interlace_type;
+  int bitDepth, colorType, interlaceType;
   int compression_type, filter_method;
   png_get_IHDR(png_ptr, info_ptr, 
                &width, &height,
-               &bit_depth, &color_type, &interlace_type,
+               &bitDepth, &colorType, &interlaceType,
                &compression_type, &filter_method);
 
   // convert palettes to RGB
-  if (color_type == PNG_COLOR_TYPE_PALETTE)
+  if (colorType == PNG_COLOR_TYPE_PALETTE)
     {
     png_set_palette_to_rgb(png_ptr);
     }
 
   // minimum of a byte per pixel
-  if (color_type == PNG_COLOR_TYPE_GRAY && bit_depth < 8) 
+  if (colorType == PNG_COLOR_TYPE_GRAY && bitDepth < 8) 
     {
     png_set_gray_1_2_4_to_8(png_ptr);
     }
@@ -218,7 +218,7 @@ void PNGImageIO::Read(void* buffer)
     png_set_tRNS_to_alpha(png_ptr);
     }
 
-  if (bit_depth > 8)
+  if (bitDepth > 8)
     {
 #ifndef ITK_WORDS_BIGENDIAN
     png_set_swap(png_ptr);
@@ -235,7 +235,7 @@ void PNGImageIO::Read(void* buffer)
   png_bytep *row_pointers = new png_bytep [height];
   for (unsigned int ui = 0; ui < height; ++ui)
     {
-    row_pointers[ui] = tempImage + rowbytes*ui;
+    row_pointers[height - ui - 1] = tempImage + rowbytes*ui;
     }
   png_read_image(png_ptr, row_pointers);
   delete [] row_pointers;
@@ -267,7 +267,7 @@ void PNGImageIO::PrintSelf(std::ostream& os, Indent indent) const
 void PNGImageIO::ReadImageInformation()
 {
   // use this class so return will call close
-  PNGFileWrapper pngfp(m_FileName.c_str());
+  PNGFileWrapper pngfp(m_FileName.c_str(),"rb");
   FILE* fp = pngfp.m_FilePointer;
   if(!fp)
     {
@@ -310,21 +310,21 @@ void PNGImageIO::ReadImageInformation()
   png_read_info(png_ptr, info_ptr);
 
   png_uint_32 width, height;
-  int bit_depth, color_type, interlace_type;
+  int bitDepth, colorType, interlaceType;
   int compression_type, filter_method;
   png_get_IHDR(png_ptr, info_ptr, 
                &width, &height,
-               &bit_depth, &color_type, &interlace_type,
+               &bitDepth, &colorType, &interlaceType,
                &compression_type, &filter_method);
 
   // convert palettes to RGB
-  if (color_type == PNG_COLOR_TYPE_PALETTE)
+  if (colorType == PNG_COLOR_TYPE_PALETTE)
     {
     png_set_palette_to_rgb(png_ptr);
     }
 
   // minimum of a byte per pixel
-  if (color_type == PNG_COLOR_TYPE_GRAY && bit_depth < 8) 
+  if (colorType == PNG_COLOR_TYPE_GRAY && bitDepth < 8) 
     {
     png_set_gray_1_2_4_to_8(png_ptr);
     }
@@ -338,9 +338,9 @@ void PNGImageIO::ReadImageInformation()
   // update the info now that we have defined the filters
   png_read_update_info(png_ptr, info_ptr);
   this->SetNumberOfDimensions(2);
-  this->m_Dimensions[0] = width;
-  this->m_Dimensions[1] = height;
-  if (bit_depth <= 8)
+  m_Dimensions[0] = width;
+  m_Dimensions[1] = height;
+  if (bitDepth <= 8)
     {
     m_PixelType = UCHAR;
     }
@@ -350,7 +350,7 @@ void PNGImageIO::ReadImageInformation()
     }
   this->SetNumberOfComponents(png_get_channels(png_ptr, info_ptr));
   png_destroy_read_struct(&png_ptr, &info_ptr,
-                          (png_infopp)NULL);
+                          &end_info);
 
   m_Spacing[0] = 1.0;  // Is there any spacing information
   m_Spacing[1] = 1.0;  // in PNG ?
@@ -360,5 +360,141 @@ void PNGImageIO::ReadImageInformation()
   return;
 }
 
+bool PNGImageIO::CanWriteFile(const char*)
+{
+  if ( m_FileName != "" &&
+       m_FileName.find(".png") < m_FileName.length() )
+    {
+    return true;
+    }
+  return false;
+}
+
+void PNGImageIO::Write(void* buffer)
+{
+  ImageIORegion ioRegion = this->GetIORegion();
+
+  // Check the image region for proper dimensions, etc.
+  unsigned int numDims = this->GetNumberOfDimensions();
+  if ( numDims < 2 || numDims > 3 )
+    {
+    itkExceptionMacro(<<"PNG Writer can only write 2 or 3-dimensional images");
+    return;
+    }
+  
+  // loop over the z axis and write the slices
+  std::string fileName;
+  int numSlices = (numDims < 3 ? 1 : this->GetDimensions(2));
+  unsigned long sliceSize = this->GetDimensions(0)*this->GetDimensions(1);
+  
+  for ( int fileNum=0; fileNum < numSlices; fileNum++ )
+    {
+    // determine the name
+    if ( m_FileName != "" )
+      {
+      fileName = m_FileName;
+      }
+    else 
+      {
+      fileName = m_FilePrefix;
+      fileName += "." + fileNum;
+      }
+    this->WriteSlice(fileName,buffer,fileNum*sliceSize);
+    }
+
+}
+
+void PNGImageIO::WriteSlice(std::string& fileName, void* buffer, 
+                            unsigned long offset)
+{
+  unsigned char *outPtr = (unsigned char *) buffer;
+
+  // use this class so return will call close
+  PNGFileWrapper pngfp(fileName.c_str(),"wb");
+  FILE* fp = pngfp.m_FilePointer;
+  if(!fp)
+    {
+    itkExceptionMacro("Unable to open file " << fileName);
+    }
+
+  int bitDepth;
+  switch (this->GetComponentType())
+    {
+    case UCHAR:
+      bitDepth = 8;
+      break;
+
+    case USHORT:
+      bitDepth = 16;
+      break;
+
+    default:
+      itkExceptionMacro(<<"PNG supports unsigned char and unsigned short");
+      ;
+    }
+  
+  png_structp png_ptr = png_create_write_struct
+    (PNG_LIBPNG_VER_STRING, (png_voidp)NULL, NULL, NULL);
+  if (!png_ptr)
+    {
+    itkExceptionMacro(<<"Unable to write PNG file!");
+    }
+  
+  png_infop info_ptr = png_create_info_struct(png_ptr);
+  if (!info_ptr)
+    {
+    png_destroy_write_struct(&png_ptr,
+                             (png_infopp)NULL);
+    itkExceptionMacro(<<"Unable to write PNG file!");
+    }
+
+  png_init_io(png_ptr, fp);
+  
+  png_uint_32 width, height;
+  width = this->GetDimensions(0);
+  height = this->GetDimensions(1);
+
+  int colorType;
+  unsigned int numComp = this->GetNumberOfComponents();
+  switch ( numComp )
+    {
+    case 1: colorType = PNG_COLOR_TYPE_GRAY;
+      break;
+    case 2: colorType = PNG_COLOR_TYPE_GRAY_ALPHA;
+      break;
+    case 3: colorType = PNG_COLOR_TYPE_RGB;
+      break;
+    default: colorType = PNG_COLOR_TYPE_RGB_ALPHA;
+      break;
+    }
+  
+  png_set_IHDR(png_ptr, info_ptr, width, height,
+               bitDepth, colorType, PNG_INTERLACE_NONE,
+               PNG_COMPRESSION_TYPE_DEFAULT, 
+               PNG_FILTER_TYPE_DEFAULT);
+  // interlaceType - PNG_INTERLACE_NONE or
+  //                 PNG_INTERLACE_ADAM7
+    
+  png_write_info(png_ptr, info_ptr);
+  // default is big endian
+  if (bitDepth > 8)
+    {
+#ifndef ITK_WORDS_BIGENDIAN
+    png_set_swap(png_ptr);
+#endif
+    }
+  png_byte **row_pointers = new png_byte *[height];
+  int rowInc = width*numComp*bitDepth/8;
+  for (int ui = 0; ui < height; ui++)
+    {
+    row_pointers[height - ui - 1] = (png_byte *)outPtr;
+    outPtr = (unsigned char *)outPtr + rowInc;
+    }
+  png_write_image(png_ptr, row_pointers);
+  png_write_end(png_ptr, info_ptr);
+
+  delete [] row_pointers;
+  png_destroy_write_struct(&png_ptr, &info_ptr);
+}
 
 } // end namespace itk

@@ -148,7 +148,7 @@ public:
   /** Set initial deformation field. */
   virtual void SetInitialDeformationField( DeformationFieldType * ptr )
     {
-    itkErrorMacro( << "This feature not implemented yet"  );
+    itkExceptionMacro( << "This feature not implemented yet"  );
     // this->SetInput( ptr ); 
     }
 

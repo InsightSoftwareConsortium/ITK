@@ -14,38 +14,13 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#ifndef _itkRawImageIO_txx
+#define _itkRawImageIO_txx
 #include "itkRawImageIO.h"
 #include "itkByteSwapper.h"
 
 namespace itk
 {
-
-template <class TPixel, unsigned int VImageDimension>
-RawImageIOFactory<TPixel,VImageDimension>::RawImageIOFactory()
-{
-  myProductType::Pointer m_MyProduct = myProductType::New();
-  RawImageIO<TPixel,VImageDimension>::FileExtensionsListType& extensionsList =
-    m_MyProduct->GetSupportedFileExtensions();
-
-  for (int i = 0; i < extensionsList.size(); i++)
-    {
-    RegisterOverride(m_MyProduct->GetSupportedFileExtensions()[i].c_str(),
-                     "RawImageIO", "Create RawImageIO", true,
-                     CreateObjectFunction<RawImageIO<TPixel,VImageDimension> >::New());
-    }
-}
-
-template <class TPixel, unsigned int VImageDimension>
-const char* RawImageIOFactory<TPixel,VImageDimension>::GetITKSourceVersion()
-{
-  return ITK_SOURCE_VERSION;
-}
-
-template <class TPixel, unsigned int VImageDimension>
-const char* RawImageIOFactory<TPixel,VImageDimension>::GetDescription() const
-{
-  return "RawImageIOFactory - Object factory with registry";
-}
 
 template <class TPixel, unsigned int VImageDimension>
 RawImageIO<TPixel,VImageDimension>::RawImageIO() 
@@ -70,6 +45,7 @@ RawImageIO<TPixel,VImageDimension>::RawImageIO()
   m_ImageMask = 0xffff;
   m_ByteOrder = ImageIOBase::BigEndian;
   m_FileDimensionality = 2;
+  m_FileType = Binary;
 }
 
 template <class TPixel, unsigned int VImageDimension>
@@ -89,89 +65,83 @@ void RawImageIO<TPixel,VImageDimension>::PrintSelf(std::ostream& os, Indent inde
 template <class TPixel, unsigned int VImageDimension>
 unsigned long RawImageIO<TPixel,VImageDimension>::GetHeaderSize()
 {
+  std::ifstream file;
+
   if ( m_FileName == "" && m_FilePattern == "" )
     {
-    itkErrorMacro(<<"Either a FileName or FilePattern must be specified.");
-    return 0;
+    itkExceptionMacro(<<"Either a FileName or FilePattern must be specified.");
     }
 
   if ( ! m_ManualHeaderSize )
     {
-//    m_PixelType = typeid(PixelType);
+    if ( m_FileType == ASCII ) return 0; //cannot determine it
+
     this->ComputeStrides();
 
     // make sure we figure out a filename to open
-    this->OpenFile();
+    this->OpenFileForReading(file);
     
     // Get the size of the header from the size of the image
-    m_File.seekg(0,std::ios::end);
+    file.seekg(0,std::ios::end);
     
-    return (unsigned long)((unsigned long)m_File.tellg() - 
-      (unsigned long)m_Strides[m_FileDimensionality + 1]);
+    m_HeaderSize = (unsigned long)((unsigned long)file.tellg() - 
+                   (unsigned long)m_Strides[m_FileDimensionality + 1]);
     }
 
   return m_HeaderSize;
 }
 
-/**
 template <class TPixel, unsigned int VImageDimension>
-void RawImageIO<TPixel,VImageDimension>::ComputeInternalFileName(unsigned long slice)
-{
-  char buf[2048];
-
-  if ( m_FileName == "" && m_FilePattern == "" )
-    {
-    itkErrorMacro(<<"Either a FileName or FilePattern must be specified.");
-    return;
-    }
-
-  // make sure we figure out a filename to open
-  if ( m_FileName != "" )
-    {
-    sprintf(buf, "%s", m_FileName.c_str());
-    m_InternalFileName = buf;
-    }
-  else 
-    {
-    if ( m_FilePrefix != "" )
-      {
-      sprintf (buf, m_FilePattern.c_str(), m_FilePrefix.c_str(), slice);
-      }
-    else
-      {
-      sprintf (buf, m_FilePattern.c_str(), slice);
-      }
-    m_InternalFileName = buf;
-    }
-}
-*/
-
-template <class TPixel, unsigned int VImageDimension>
-void RawImageIO<TPixel,VImageDimension>::OpenFile()
+void RawImageIO<TPixel,VImageDimension>::OpenFileForReading(std::ifstream& is)
 {
   if ( m_FileName == "" && m_FilePattern == "")
     {
-    itkErrorMacro(<<"Either a FileName or FilePattern must be specified.");
-    return;
+    itkExceptionMacro(<<"Either a FileName or FilePattern must be specified.");
     }
 
   // Close file from any previous image
-  if ( m_File.is_open() )
+  if ( is.is_open() )
     {
-    m_File.close();
+    is.close();
     }
   
   // Open the new file
   itkDebugMacro(<< "Initialize: opening file " << m_FileName);
 #ifdef _WIN32
-  m_File.open(m_FileName.c_str(), std::ios::in | std::ios::binary);
+  is.open(m_FileName.c_str(), std::ios::in | std::ios::binary);
 #else
-  m_File.open(m_FileName.c_str(), std::ios::in);
+  is.open(m_FileName.c_str(), std::ios::in);
 #endif
-  if ( m_File.fail() )
+  if ( is.fail() )
     {
-    itkErrorMacro(<< "Could not open file: " << m_FileName);
-    return;
+    itkExceptionMacro(<< "Could not open file: " << m_FileName);
+    }
+}
+
+template <class TPixel, unsigned int VImageDimension>
+void RawImageIO<TPixel,VImageDimension>::OpenFileForWriting(std::ofstream& os)
+{
+  if ( m_FileName == "" && m_FilePattern == "")
+    {
+    itkExceptionMacro(<<"Either a FileName or FilePattern must be specified.");
+    }
+
+  // Close file from any previous image
+  if ( os.is_open() )
+    {
+    os.close();
+    }
+  
+  // Open the new file
+  itkDebugMacro(<< "Initialize: opening file " << m_FileName);
+#ifdef _WIN32
+  os.open(m_FileName.c_str(), std::ios::out | std::ios::binary);
+#else
+  os.open(m_FileName.c_str(), std::ios::out);
+#endif
+  if ( os.fail() )
+    {
+    itkExceptionMacro(<< "Could not open file: " << m_FileName);
     }
 }
 
@@ -192,28 +162,38 @@ template <class TPixel, unsigned int VImageDimension>
 void RawImageIO<TPixel,VImageDimension>
 ::Read(void *buffer)
 {
+  std::ifstream file;
+
   // Open the file
-  this->OpenFile();
-  
+  this->OpenFileForReading(file);
   this->ComputeStrides();
   
   // Offset into file
   unsigned long streamStart = this->GetHeaderSize();
-  m_File.seekg((long)streamStart, std::ios::beg);
-  if ( m_File.fail() )
+  file.seekg((long)streamStart, std::ios::beg);
+  if ( file.fail() )
     {
-    itkErrorMacro(<<"File seek failed");
-    return;
+    itkExceptionMacro(<<"File seek failed");
     }
 
   itkDebugMacro(<< "Reading " << m_Strides[m_FileDimensionality + 1] << " bytes");
   
-  // Read the image
-  m_File.read((char *)buffer, m_Strides[m_FileDimensionality + 1]);
-  if ( m_File.fail() )
+  if ( m_FileType == Binary )
     {
-    itkErrorMacro(<<"Read failed: Wanted " << m_Strides[m_FileDimensionality + 1] << " bytes, but read " << m_File.gcount() << " bytes.");
-    return;
+    // Read the image (binary)
+    file.read((char *)buffer, m_Strides[m_FileDimensionality + 1]);
+    if ( file.fail() )
+      {
+      itkExceptionMacro(<<"Read failed: Wanted " 
+                        << m_Strides[m_FileDimensionality + 1]
+                        << " bytes, but read " 
+                        << file.gcount() << " bytes.");
+      }
+    }
+  else
+    {
+    this->ReadBufferAsASCII(file, buffer, this->GetComponentType(),
+                            this->GetImageSizeInComponents());
     }
   
   itkDebugMacro(<< "Reading Done");
@@ -232,20 +212,45 @@ void RawImageIO<TPixel,VImageDimension>
 }
 
 template <class TPixel, unsigned int VImageDimension>
-void RawImageIO<TPixel,VImageDimension>
-::Read()
+bool RawImageIO<TPixel,VImageDimension>
+::CanWriteFile(const char*)
 {
+  if ( m_FileName == "" )
+    {
+    return false;
+    }
 
+  return true;
+}
+
+template <class TPixel, unsigned int VImageDimension>
+void RawImageIO<TPixel,VImageDimension>
+::Write(void* buffer)
+{
+  std::ofstream file;
+
+  // Open the file
+  //
+  this->OpenFileForWriting(file);
+
+  // Set up for reading
+  this->SetPixelType(typeid(PixelType));
   this->ComputeStrides();
   
-  // Generate the buffer internally
-  m_RequestedRegionData = (void*)new char[m_Strides[VImageDimension+2]];
-  
-  // Read the image
-  this->Read (m_RequestedRegionData);
-  
+  // Actually do the writing
+  //
+  if ( m_FileType == ASCII )
+    {
+    this->WriteBufferAsASCII(file, buffer, this->GetComponentType(),
+                             this->GetImageSizeInComponents());
+    }
+  else //binary
+    {
+    file.write(static_cast<char*>(buffer), this->GetImageSizeInBytes());
+    }
 }
 
 
 
 } // namespace itk
+#endif
