@@ -29,7 +29,8 @@ namespace itk {
  * Martin Styner, University of North Carolina at Chapel Hill, 
  * and his colleagues.
  *
- * You should run Initialize() function before call Run() function.
+ * You should run Initialize() function before call GetNormalVariate()
+ * function.
  *
  * The followings are original comments.
  *
