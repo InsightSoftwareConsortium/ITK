@@ -22,7 +22,6 @@
 #include "dbh.h"
 #include <zlib.h>
 
-#include <cstdio>
 #include <stdlib.h>
 
 //From uiig library "The University of Iowa Imaging Group-UIIG"
