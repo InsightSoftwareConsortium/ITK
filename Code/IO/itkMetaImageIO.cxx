@@ -198,10 +198,7 @@ void
 MetaImageIO
 ::WriteImageInformation(void)
   {
-  } 
-
-
-
+  }
 
 
 /**
@@ -210,8 +207,66 @@ MetaImageIO
 void 
 MetaImageIO
 ::Write( const void* buffer) 
-  { 
+  {
+  int nDims = this->GetNumberOfDimensions();
+
+  bool binaryData = false;
+  if(this->GetFileType() == Binary)
+    {
+    binaryData = true;
+    }
+
+  int nChannels = this->GetNumberOfComponents();
+
+  MET_ValueEnumType eType = MET_OTHER;
+  switch(m_PixelType)
+    {
+    default:
+    case UNKNOWN:
+          eType = MET_OTHER;
+          break;
+    case CHAR:
+          eType = MET_CHAR;
+          break;
+    case UCHAR:
+          eType = MET_UCHAR;
+          break;
+    case SHORT:
+          eType = MET_SHORT;
+          break;
+    case USHORT:
+          eType = MET_USHORT;
+          break;
+    case INT:
+          eType = MET_INT;
+          break;
+    case UINT:
+          eType = MET_UINT;
+          break;
+    case FLOAT:
+          eType = MET_FLOAT;
+          break;
+    case DOUBLE:
+          eType = MET_DOUBLE;
+          break;
+    }
   
+  int i;
+  int * dSize = new int[nDims];
+  float * eSpacing = new float[nDims];
+  float * eOrigin = new float[nDims];
+  for(i=0; i<nDims; i++)
+    {
+    dSize[i] = this->GetDimensions(i);
+    eSpacing[i] = this->GetSpacing(i);
+    eOrigin[i] = this->GetOrigin(i);
+    } 
+
+  m_MetaImage.InitializeEssential(nDims, dSize, eSpacing, eType, nChannels,
+                                  (void *)buffer);
+  m_MetaImage.Position(eOrigin);
+
+  m_MetaImage.Write(m_FileName.c_str());
   } 
 
 
