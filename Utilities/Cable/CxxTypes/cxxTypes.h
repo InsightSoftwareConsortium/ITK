@@ -1,7 +1,20 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    cxxTypes.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+
+  Copyright (c) 2000 National Library of Medicine
+  All rights reserved.
+
+  See COPYRIGHT.txt for copyright details.
+
+=========================================================================*/
 #ifndef _cxxTypes_h
 #define _cxxTypes_h
-
-#pragma warning (disable: 4786)
 
 #include <string>
 
