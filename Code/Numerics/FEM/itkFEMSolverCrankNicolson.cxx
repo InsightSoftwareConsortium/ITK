@@ -104,9 +104,7 @@ std::cout << "Begin Assembly." << std::endl;
       for(int k=0; k<Ne; k++) 
       {
         /* error checking. all GFN should be =>0 and <NGFN */
-        if ( (*e)->GetDegreeOfFreedom(j) < 0 ||
-             (*e)->GetDegreeOfFreedom(j) >= NGFN ||
-             (*e)->GetDegreeOfFreedom(k) < 0 ||
+        if ( (*e)->GetDegreeOfFreedom(j) >= NGFN ||
              (*e)->GetDegreeOfFreedom(k) >= NGFN  )
         {
           throw FEMExceptionSolution(__FILE__,__LINE__,"SolverCrankNicolson::AssembleK()","Illegal GFN!");
@@ -120,12 +118,10 @@ std::cout << "Begin Assembly." << std::endl;
         if ( Ke(j,k)!=Float(0.0) || Me(j,k) != Float(0.0) )
         {
           // left hand side matrix
-          Float temp1=Ke(j,k), temp2=Me(j,k);
           Float lhsval=(Me(j,k) + m_alpha*m_deltaT*Ke(j,k));
           m_ls->AddMatrixValue( (*e)->GetDegreeOfFreedom(j) , 
                     (*e)->GetDegreeOfFreedom(k), 
                     lhsval, SumMatrixIndex );
-          //if (j==k) std::cout << temp1 << " " << temp2 << endl;
           // right hand side matrix
           Float rhsval=(Me(j,k) - (1.-m_alpha)*m_deltaT*Ke(j,k));
           m_ls->AddMatrixValue( (*e)->GetDegreeOfFreedom(j) , 
@@ -153,9 +149,6 @@ std::cout << "Begin Assembly." << std::endl;
 void SolverCrankNicolson::AssembleFforTimeStep(int dim) {
 /* if no DOFs exist in a system, we have nothing to do */
   if (NGFN<=0) return;
-
-  unsigned int i=0;
-  Float temp=0.0;
  
   AssembleF(dim); // assuming assemblef uses index 0 in vector!
 
@@ -186,7 +179,6 @@ void SolverCrankNicolson::AssembleFforTimeStep(int dim) {
   // Now set the solution and force vector to fit the BCs
   for( BCTermType::iterator q=bcterm.begin(); q!=bcterm.end(); q++)
   { 
-    Float t1=q->first;  Float t2=q->second;
     m_ls->SetVectorValue(q->first,q->second,ForceTIndex); 
   }
 
@@ -232,7 +224,7 @@ void SolverCrankNicolson::AddToDisplacements()
    */
   Float mins=0.0, maxs=0.0;
   Float mins2=0.0, maxs2=0.0;
-  for(int i=0;i<NGFN;i++)
+  for(unsigned int i=0;i<NGFN;i++)
   {  
     
     Float temp=m_ls->GetSolutionValue(i,SolutionTIndex);
@@ -257,7 +249,7 @@ void SolverCrankNicolson::AddToDisplacements()
 void SolverCrankNicolson::PrintDisplacements() 
 {
   cout <<  " printing current displacements " << endl;
-  for(int i=0;i<NGFN;i++)
+  for(unsigned int i=0;i<NGFN;i++)
   {  
     cout << m_ls->GetVectorValue(i,SolutionTMinus1Index) << endl;
   }
@@ -266,7 +258,7 @@ void SolverCrankNicolson::PrintDisplacements()
 void SolverCrankNicolson::PrintForce() 
 {
   cout <<  " printing current forces " << endl;
-  for(int i=0;i<NGFN;i++)
+  for(unsigned int i=0;i<NGFN;i++)
   {  
     cout << m_ls->GetVectorValue(i,ForceTIndex) << endl;
   }
