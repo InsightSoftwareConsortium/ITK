@@ -1,7 +1,7 @@
 PROJECT(DICOMParser)
 
-SET(DICOMParserLibSrcFiles DICOMFile.cxx DICOMParser.cxx)
-SET(DICOMAppFiles DICOMAppHelper.cxx main.cxx)
+SET(DICOMParserLibSrcFiles DICOMFile.cxx DICOMParser.cxx DICOMAppHelper.cxx)
+SET(DICOMAppFiles main.cxx)
 
 ADD_LIBRARY(DICOMParser ${DICOMParserLibSrcFiles})
 ADD_EXECUTABLE(DICOMApp ${DICOMAppFiles})
@@ -13,7 +13,7 @@ IF(UNIX)
   TARGET_LINK_LIBRARIES (DICOMApp  -lm )
 ENDIF(UNIX)
 
-TARGET_LINK_LIBRARIES(DICOMApp DICOMParser)
+TARGET_LINK_LIBRARIES(DICOMApp DICOMParser ITKIO ITKCommon)
 SET(LIBRARY_OUTPUT_PATH ${DICOMParser_BINARY_DIR}/bin CACHE INTERAL "single output directory for all libraries")
 SET(EXECUTABLE_OUTPUT_PATH ${DICOMParser_BINARY_DIR}/bin CACHE INTERAL "single output directory for all executables")
 MARK_AS_ADVANCED(LIBRARY_OUTPUT_PATH EXECUTABLE_OUTPUT_PATH)
