@@ -218,6 +218,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkOffset.h"
 #include "itkOneWayEquivalencyTable.h"
 #include "itkOutputWindow.h"
+#include "itkPCAShapeSignedDistanceFunction.txx"
 #include "itkParametricPath.txx"
 #include "itkPath.txx"
 #include "itkPathConstIterator.txx"
