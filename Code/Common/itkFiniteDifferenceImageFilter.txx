@@ -20,6 +20,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkExceptionObject.h"
+#include "itkEventObject.h"
 
 namespace itk {
 
@@ -56,7 +57,7 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>
   // directly on the output image and the update buffer.
   this->CopyInputToOutput();
 
-  //Do the overall initialization
+  // Perform any other necessary pre-iteration initialization.
   this->Initialize();
 
   // Allocate the internal update buffer.  This takes place entirely within
@@ -74,6 +75,9 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>
     dt = this->CalculateChange();
     this->ApplyUpdate(dt);
     ++m_ElapsedIterations;
+
+    // Invoke the iteration event.
+    this->InvokeEvent( IterationEvent() );
     }
 
   // Any further processing of the solution can be done here.
