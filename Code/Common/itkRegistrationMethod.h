@@ -20,16 +20,16 @@
 
 namespace itk
 {
-  
-/** \class RegistrationMethod
+
+/**
+ * \class RegistrationMethod
  * \brief Base class for registration methods
  *
  * This Class define the generic interface for a registration method.
  * The basic elements of a registration method are:
- *
- * - Metric to compare the reference and the target
- * - Transformation used to register the reference against the target
- * - Optimization method used to search for the best transformation
+ *   - Metric to compare the reference and the target
+ *   - Transformation used to register the reference against the target
+ *   - Optimization method used to search for the best transformation
  * 
  * Registration is not limited to Images, and for this reason
  * this class is templated over the type of the reference object,
