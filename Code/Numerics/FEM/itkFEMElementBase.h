@@ -287,6 +287,19 @@ public:
   virtual void GetMassMatrix( MatrixType& Me ) const;
 
   /**
+   * Compute and return landmark contribution to element stiffness
+   * matrix (Le) in global coordinate system.
+   *
+   *     b             T
+   * int   (1/eta)^2  N(x) N(x) dx
+   *     a
+   *
+   * where (eta ) is the landmark weight.  Implementation is similar
+   * to GetMassMatrix.
+   */
+  virtual void GetLandmarkContributionMatrix(float eta, MatrixType& Le) const;
+
+  /**
    * Compute and return the element load vector for a given external load.
    * The class of load object determines the type of load acting on the
    * elemnent. Basically this is the contribution of this element on the right

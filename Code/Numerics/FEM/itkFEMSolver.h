@@ -200,6 +200,15 @@ public:
   virtual void AssembleElementMatrix(Element::Pointer e);
 
   /**
+   * Add the contribution of the landmark-containing elements to the
+   * correct position in the master stiffess matrix. Since more
+   * complex Solver classes may need to assemble many matrices and may
+   * also do some funky stuff to them, this function is virtual and
+   * can be overriden in a derived solver class.
+   */
+  virtual void AssembleLandmarkContribution(const Element::Pointer e, float);
+
+  /**
    * Apply the boundary conditions to the system.
    *
    * \note This function must be called after AssembleK().

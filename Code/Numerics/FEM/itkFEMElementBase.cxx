@@ -201,6 +201,44 @@ void Element::GetStiffnessMatrix(MatrixType& Ke) const
   }
 }
 
+void Element::GetLandmarkContributionMatrix(float eta, MatrixType& Le) const
+{
+  // Provides the contribution of a landmark to the element stiffness
+  // matrix
+  Le = MatrixType( this->GetNumberOfDegreesOfFreedom(), this->GetNumberOfDegreesOfFreedom(), 0.0 );
+
+  const unsigned int NnDOF=this->GetNumberOfDegreesOfFreedomPerNode();
+  const unsigned int Nnodes=this->GetNumberOfNodes();
+  const unsigned int NDOF = GetNumberOfDegreesOfFreedom();
+  const unsigned int Nip=this->GetNumberOfIntegrationPoints(0);
+
+  Le.resize(NDOF,NDOF); // resize the target matrix object
+  Le.fill(0.0);
+
+  Float w;
+  VectorType ip, shape;
+
+  for(unsigned int i=0; i<Nip; i++)
+  {
+    this->GetIntegrationPointAndWeight(i,ip,w,0);
+    shape=this->ShapeFunctions(ip);
+    
+    for(unsigned int ni=0; ni<Nnodes; ni++)
+    {
+      for(unsigned int nj=0; nj<Nnodes; nj++)
+      {
+        Float m=w*shape[ni]*shape[nj];
+        for(unsigned int d=0; d<NnDOF; d++)
+        {
+          Le[ni*NnDOF+d][nj*NnDOF+d]+=m;
+        }
+      }
+    }
+  }
+
+  Le = Le / (eta * eta);
+}
+
 
 Element::Float Element::GetElementDeformationEnergy( MatrixType& LocalSolution ) const
 {

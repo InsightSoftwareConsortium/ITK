@@ -27,6 +27,7 @@
 #include "itkFEMElementBase.h"
 #include "itkFEMLoadBC.h"
 #include "itkFEMLoadBCMFC.h"
+#include "itkFEMLoadLandmark.h"
 
 #include "itkImageRegionIterator.h"
 
@@ -297,6 +298,17 @@ void Solver::AssembleK()
     this->AssembleElementMatrix(&**e);
   }
 
+  /*
+   * Step over all the loads again to add the landmark contributions
+   * to the appropriate place in the stiffness matrix
+   */
+  for(LoadArray::iterator l2=load.begin(); l2!=load.end(); l2++) {
+    if ( LoadLandmark::Pointer l3=dynamic_cast<LoadLandmark*>( &(*(*l2))) ) {
+      Element::Pointer ep = const_cast<Element*>( l3->el[0] );
+      this->AssembleLandmarkContribution( ep , l3->eta );
+    }
+  }
+
   this->FinalizeMatrixAfterAssembly();
 
 }
@@ -311,6 +323,42 @@ void Solver::InitializeMatrixForAssembly(unsigned int N)
   this->m_ls->InitializeMatrix();
 }
 
+
+void Solver::AssembleLandmarkContribution(Element::Pointer e, float eta)
+{
+  // Copy the element "landmark" matrix for faster access.
+  Element::MatrixType Le;
+  e->GetLandmarkContributionMatrix(eta, Le);
+
+  // ... same for number of DOF
+  int Ne=e->GetNumberOfDegreesOfFreedom();
+
+  // step over all rows in element matrix
+  for(int j=0; j<Ne; j++)
+  {
+    // step over all columns in element matrix
+    for(int k=0; k<Ne; k++) 
+    {
+      // error checking. all GFN should be =>0 and <NGFN
+      if ( e->GetDegreeOfFreedom(j) >= NGFN ||
+           e->GetDegreeOfFreedom(k) >= NGFN  )
+      {
+        throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleLandmarkContribution()","Illegal GFN!");
+      }
+
+      /*
+       * Here we finaly update the corresponding element
+       * in the master stiffness matrix. We first check if 
+       * element in Le is zero, to prevent zeros from being 
+       * allocated in sparse matrix.
+       */
+      if ( Le[j][k]!=Float(0.0) )
+      {
+        this->m_ls->AddMatrixValue( e->GetDegreeOfFreedom(j), e->GetDegreeOfFreedom(k), Le[j][k] );
+      }
+    }
+  }
+}
 
 
 

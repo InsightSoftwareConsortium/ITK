@@ -26,6 +26,7 @@
 #include "itkFEMLoadElementBase.h"
 #include "itkFEMLoadBC.h"
 #include "itkFEMLoadBCMFC.h"
+#include "itkFEMLoadLandmark.h"
 
 namespace itk {
 namespace fem {
@@ -115,7 +116,7 @@ std::cout << "Begin Assembly." << std::endl;
         if ( (*e)->GetDegreeOfFreedom(j) >= NGFN ||
              (*e)->GetDegreeOfFreedom(k) >= NGFN  )
         {
-          throw FEMExceptionSolution(__FILE__,__LINE__,"SolverCrankNicolson::AssembleK()","Illegal GFN!");
+          throw FEMExceptionSolution(__FILE__,__LINE__,"SolverCrankNicolson::AssembleKandM()","Illegal GFN!");
         }
         
         /* Here we finaly update the corresponding element
@@ -141,6 +142,48 @@ std::cout << "Begin Assembly." << std::endl;
 
     }
 
+  }
+
+  /*
+   * Step over all the loads to add the landmark contributions to the
+   * appropriate place in the stiffness matrix
+   */
+  for(LoadArray::iterator l2=load.begin(); l2!=load.end(); l2++) {
+    if ( LoadLandmark::Pointer l3=dynamic_cast<LoadLandmark*>( &(*(*l2))) ) {
+      Element::Pointer ep = const_cast<Element*>( l3->el[0] );
+
+      Element::MatrixType Le;
+      ep->GetLandmarkContributionMatrix( l3->eta, Le );
+      
+      int Ne = ep->GetNumberOfDegreesOfFreedom();
+      
+      // step over all rows in element matrix
+      for (int j=0; j<Ne; j++) { 
+        // step over all columns in element matrix
+          for (int k=0; k<Ne; k++) {
+            // error checking, all GFN should be >=0 and < NGFN
+            if ( ep->GetDegreeOfFreedom(j) >= NGFN ||
+                 ep->GetDegreeOfFreedom(k) >= NGFN ) {
+                throw FEMExceptionSolution(__FILE__,__LINE__,"SolverCrankNicolson::AssembleKandM()","Illegal GFN!");
+            }
+    
+          // Now update the corresponding element in the master
+          // stiffness matrix and omit the zeros for the sparseness
+          if ( Le(j,k)!=Float(0.0) ) {
+            // lhs matrix
+            lhsval = m_alpha*m_deltaT*Le(j,k);
+            m_ls->AddMatrixValue( ep->GetDegreeOfFreedom(j),
+                                ep->GetDegreeOfFreedom(k),
+                                lhsval, SumMatrixIndex );
+            //rhs matrix
+            rhsval = (1.-m_alpha)*m_deltaT*Le(j,k);
+            m_ls->AddMatrixValue( ep->GetDegreeOfFreedom(j),
+                                ep->GetDegreeOfFreedom(k),
+                                rhsval, DifferenceMatrixIndex );
+            }
+        }
+      }
+    }
   }
 
   /* step over all types of BCs */
