@@ -205,13 +205,13 @@ public:
   /** Directly Set/Get the array of weights used in the gradient calculations.
       Note that calling UseImageSpacingOn will clobber these values.*/
   void SetDerivativeWeights(TRealType data[]);
-  itkGetVectorMacro(DerivativeWeights, const TRealType, ImageDimension);
+  itkGetVectorMacro(DerivativeWeights, const TRealType, itk::GetImageDimension<TInputImage>::ImageDimension);
 
   /** Set/Get the array of weightings for the different components of the
       vector.  Default values are 1.0.  When UsePrincipleComponents = true, then
       these weights are not used */
-  itkSetVectorMacro(ComponentWeights, TRealType, ImageDimension);
-  itkGetVectorMacro(ComponentWeights, const TRealType, ImageDimension);
+  itkSetVectorMacro(ComponentWeights, TRealType, itk::GetVectorDimension<InputPixelType>::VectorDimension);
+  itkGetVectorMacro(ComponentWeights, const TRealType, itk::GetVectorDimension<InputPixelType>::VectorDimension);
   
   /** Set/Get principle components calculation mode.  When this is set to TRUE/ON,
       the gradient calculation will involve a priniciple component analysis of
@@ -254,8 +254,6 @@ protected:
 
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  // Function is defined here because the templating confuses gcc 2.96 when defined
-  // in .txx file. jc 1/29/03
   TRealType NonPCEvaluateAtNeighborhood(const ConstNeighborhoodIteratorType &it) const
   {
     unsigned i, j;
@@ -311,11 +309,11 @@ protected:
   }
   
   /** The weights used to scale derivatives during processing */
-  TRealType m_DerivativeWeights[ImageDimension];
+  TRealType m_DerivativeWeights[itk::GetImageDimension<TInputImage>::ImageDimension];
 
   /** If UsePrincipleComponents = off, then these weights are used to scale
       vector component values when they are combined to produce  a scalar.  */
-  TRealType m_ComponentWeights[VectorDimension];
+  TRealType m_ComponentWeights[itk::GetVectorDimension<InputPixelType>::VectorDimension];
   
 private:
   bool m_UseImageSpacing;

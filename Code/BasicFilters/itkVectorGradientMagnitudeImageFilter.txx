@@ -27,6 +27,7 @@
 
 namespace itk
 {
+
 template <typename TInputImage, typename TRealType, typename TOutputImage>
 void
 VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>
