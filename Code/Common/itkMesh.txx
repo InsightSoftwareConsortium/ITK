@@ -634,6 +634,9 @@ Mesh<TPixelType, VDimension, TMeshTraits>
 {
   Superclass::Initialize();
 
+  this->ReleaseCellsMemory();
+  this->ReleaseBoundariesMemory();
+
   m_CellsContainer = 0;
   m_CellDataContainer = 0;
   m_CellLinksContainer = 0;
@@ -968,12 +971,194 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   m_BoundariesContainers(BoundariesContainerVector(MaxTopologicalDimension)),
   m_BoundaryDataContainers(BoundaryDataContainerVector(MaxTopologicalDimension)),
   m_BoundaryAssignmentsContainers(
-    BoundaryAssignmentsContainerVector(MaxTopologicalDimension))
+    BoundaryAssignmentsContainerVector(MaxTopologicalDimension)),
+  m_CellsAllocationMethod(CellsAllocationMethodUndefined),
+  m_BoundariesAllocationMethod(BoundariesAllocationMethodUndefined)
 {
 
 }
 
 
+
+/**
+ * Mesh Destructor takes care of releasing the memory of Cells
+ * and CellBoundaries objects for which normal pointers are
+ * stored.
+ */
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
+Mesh<TPixelType, VDimension, TMeshTraits>
+::~Mesh()
+{
+  this->ReleaseCellsMemory();
+  this->ReleaseBoundariesMemory();
+}
+
+
+
+/**
+ * Releasing the memory of Cells aobjects for which normal pointers 
+ * are stored. The method used for memory release is based on information 
+ * provided by the user who is the only who know how the memory was allocated.
+ */
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
+void
+Mesh<TPixelType, VDimension, TMeshTraits>
+::ReleaseCellsMemory(void)
+{
+  // Cells are stored as normal pointers in the CellContainer.
+  //
+  // The following cases are assumed here: 
+  //
+  // 0) The user forgot to tell the mesh how he allocated  the memory.
+  //    In this case an exception is thrown. There is now way the mesh
+  //    can guess how to correctly release the memory. 
+  // 1) The user allocated the cells as an static array and then 
+  //    passed pointers to the mesh. The mesh doesn't have to release
+  //    any memory in this case. The user however has to be careful
+  //    in making sure that the mesh is not used out of the scope in
+  //    which the static array of cells is valid.(e.g. the pointer
+  //    of the mesh should not be passed as a return parameter...)
+  // 2) the user allocated the Cells as a big array so the 
+  //    memory has to be released by getting the pointer to
+  //    the first cell in the array and calling "delete [] cells"
+  // 3) the user allocated the Cells on a cell-by-cell basis
+  //    so every cell has to be deleted using   "delete cell"
+  //
+  if( m_CellsContainer && m_CellsContainer->GetReferenceCount()==1 ) 
+    {
+    switch( m_CellsAllocationMethod )
+    {
+    case CellsAllocationMethodUndefined:
+      {
+      // The user forgot to tell the mesh about how he allocated 
+      // the cells. No responsible guess can be made here. Call for help.
+      itkGenericExceptionMacro(<<"Cells Allocation Method was not specified. See SetCellsAllocationMethod()");
+      break;
+      }
+    case CellsAllocatedAsStaticArray:
+      {
+      // The cells will be naturally destroyed when
+      // the original array goes out of scope.
+      break;
+      }
+    case CellsAllocatedAsADynamicArray:
+      {
+      // the pointer to the first Cell is assumed to be the 
+      // base pointer of the array
+      CellsContainerIterator first = m_CellsContainer->Begin();
+      Cell * baseOfCellsArray = first->Value();
+      delete [] baseOfCellsArray;
+      }
+    case CellsAllocatedDynamicallyCellByCell:
+      {
+      // It is assumed that every cell was allocated independently.
+      // A Cell iterator is created for going through the cells 
+      // deleting one by one.
+      CellsContainerIterator cell  = m_CellsContainer->Begin();
+      CellsContainerIterator end   = m_CellsContainer->End();
+      while( cell != end )
+        {
+        const Cell * cellToBeDeleted = cell->Value();
+        delete cellToBeDeleted;
+        ++cell; 
+        }
+      }
+    }
+    }
+}
+
+
+
+/**
+ * Releasing the memory of Boundary Cells objects for which normal pointers 
+ * are stored. The method used for memory release is based on information 
+ * provided by the user who is the only who know how the memory was allocated.
+ */
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
+void
+Mesh<TPixelType, VDimension, TMeshTraits>
+::ReleaseBoundariesMemory(void)
+{
+  // Boundaries are stored as normal pointers in the CellContainer.
+  //
+  // The following cases are assumed here: 
+  //
+  // 0) The user forgot to tell the mesh how he allocated  the memory.
+  //    In this case an exception is thrown. There is now way the mesh
+  //    can guess how to correctly release the memory. 
+  // 1) The user allocated the boundary cells as an static array and then 
+  //    passed pointers to the mesh. The mesh doesn't have to release
+  //    any memory in this case. The user however has to be careful
+  //    in making sure that the mesh is not used out of the scope in
+  //    which the static array of boundary cells is valid.(e.g. the pointer
+  //    of the mesh should not be passed as a return parameter...)
+  // 2) the user allocated the Boundaries as a big array so the 
+  //    memory has to be released by getting the pointer to
+  //    the first boundary cell in the array and calling "delete [] cells"
+  // 3) the user allocated the Boundaries on a cell-by-cell basis
+  //    so every boundary cell has to be deleted using   "delete cell"
+  //
+
+  if( m_BoundariesContainers.size() == 0 )
+    {
+    return; // there is nothing to be released
+    }
+
+  // boundaries are grouped by Dimension in a std::vector of BoundariesContainerPointer.
+  BoundariesContainerVector::iterator bcp = m_BoundariesContainers.begin();
+  BoundariesContainerVector::iterator end = m_BoundariesContainers.begin();
+
+  while( bcp != end )
+    {
+    BoundariesContainerPointer boundariesContainer = *bcp;
+    if( boundariesContainer && boundariesContainer->GetReferenceCount()==1 ) 
+      {
+      switch( m_BoundariesAllocationMethod )
+      {
+      case BoundariesAllocationMethodUndefined:
+        {
+        // The user forgot to tell the mesh about how he allocated 
+        // the cells. No responsible guess can be made here. Call for help.
+        itkGenericExceptionMacro(<<"Boundaries Allocation Method was not specified. See SetBoundariesAllocationMethod()");
+        break;
+        }
+      case BoundariesAllocatedAsStaticArray:
+        {
+        // The cells will be naturally destroyed when
+        // the original array goes out of scope.
+        break;
+        }
+      case BoundariesAllocatedAsADynamicArray:
+        {
+        // the pointer to the first Cell is assumed to be the 
+        // base pointer of the array
+        BoundariesContainerIterator first = boundariesContainer->Begin();
+        Cell * baseOfBoundariesArray = first->Value();
+        delete [] baseOfBoundariesArray;
+        }
+      case BoundariesAllocatedDynamicallyCellByCell:
+        {
+        // It is assumed that every cell was allocated independently.
+        // A Cell iterator is created for going through the cells 
+        // deleting one by one.
+        BoundariesContainerIterator cell  = boundariesContainer->Begin();
+        BoundariesContainerIterator end   = boundariesContainer->End();
+        while( cell != end )
+          {
+          const Cell * cellToBeDeleted = cell->Value();
+          delete cellToBeDeleted;
+          ++cell; 
+          }
+        }
+      }
+      }
+    ++bcp;
+  }
+}
+
+
+
+ 
 //----------------------------------------------------------------------------
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void 

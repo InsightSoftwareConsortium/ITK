@@ -118,6 +118,20 @@ public:
   enum {PointDimension = MeshTraits::PointDimension};
   enum {MaxTopologicalDimension = MeshTraits::MaxTopologicalDimension};
   
+  /** Enum defining the possible methods used to allocate memory for the Cells */
+  typedef  enum {     CellsAllocationMethodUndefined,
+                      CellsAllocatedAsStaticArray, 
+                      CellsAllocatedAsADynamicArray,
+                      CellsAllocatedDynamicallyCellByCell
+                                                } CellsAllocationMethodType;
+ 
+  /** Enum defining the possible methods used to allocate memory for Boundary Boundaries */
+  typedef  enum {     BoundariesAllocationMethodUndefined,
+                      BoundariesAllocatedAsStaticArray, 
+                      BoundariesAllocatedAsADynamicArray,
+                      BoundariesAllocatedDynamicallyCellByCell
+                                                } BoundariesAllocationMethodType;
+
   /** Convenient typedefs obtained from TMeshTraits template parameter. */
   typedef typename MeshTraits::CoordRepType            CoordRepType;  
   typedef typename MeshTraits::InterpolationWeightType InterpolationWeightType;
@@ -385,16 +399,44 @@ public:
    *  castable to a Mesh. */
   virtual void SetRequestedRegion(DataObject *data);
 
+  /** Set/Get the identification of the method used to allocate cells
+      \warning Failure to call this method correctly will lead to memory leaks
+      and/or segmentation faults because the cell memory will not be erased or
+      will be erased with an improper method.  */
+  itkSetMacro( CellsAllocationMethod, CellsAllocationMethodType );  
+  itkGetConstMacro( CellsAllocationMethod, CellsAllocationMethodType );  
+
+  /** Set/Get the identification of the method used to allocate Boundary cells
+      \warning Failure to call this method correctly will lead to memory leaks
+      and/or segmentation faults because the boundary cell memory will not be 
+      erased or will be erased with an improper method.  */
+  itkSetMacro( BoundariesAllocationMethod, BoundariesAllocationMethodType );  
+  itkGetConstMacro( BoundariesAllocationMethod, BoundariesAllocationMethodType );  
+
+
 protected:
   /** Constructor for use by New() method. */
   Mesh();
-  ~Mesh() {}
+  ~Mesh();
   void PrintSelf(std::ostream& os, Indent indent) const;
+  
+  /** Release the memory allocated for the cells pointers. This is done
+      based on information provided by the user through the method
+      SetCellsAllocationMethod()   */
+  void ReleaseCellsMemory(void);
+
+  /** Release the memory allocated for the Bondary cells pointers. 
+      This is done based on information provided by the user through 
+      the method SetBoundariesAllocationMethod()   */
+  void ReleaseBoundariesMemory(void);
   
 private:
   Mesh(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
+  CellsAllocationMethodType             m_CellsAllocationMethod;
+  BoundariesAllocationMethodType        m_BoundariesAllocationMethod;
+
 }; // End Class: Mesh
 
 } // end namespace itk
@@ -404,3 +446,6 @@ private:
 #endif
   
 #endif
+
+
+
