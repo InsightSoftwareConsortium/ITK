@@ -104,7 +104,7 @@ public:
    * The type of point used by the mesh.  This should never change from
    * this setting, regardless of the mesh type.
    */
-  typedef Point< PointDimension , CoordRepType >  PointType;
+  typedef Point< CoordRepType, PointDimension >  PointType;
 
   /**
    * The container type for use in storing points.  It must conform to
