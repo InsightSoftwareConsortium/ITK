@@ -381,11 +381,12 @@ public:
    * If the RequestedRegion is not within the LargestPossibleRegion,
    * then the filter cannot possibly satisfy the request. This method
    * returns true if the request can be satisfied (even if it will be
-   * necessary to read or generate data outside the current
-   * RequestedRegion) and returns false otherwise.  This method is
-   * used by PropagateRequestedRegion().  PropagateRequestedRegion()
-   * throws a InvalidRequestedRegionError exception if the requested
-   * region is not within the LargestPossibleRegion.  */
+   * necessary to process the entire LargestPossibleRegion) and
+   * returns false otherwise.  This method is used by
+   * PropagateRequestedRegion().  PropagateRequestedRegion() throws a
+   * InvalidRequestedRegionError exception if the requested region is
+   * not within the LargestPossibleRegion.
+   */
   virtual bool VerifyRequestedRegion() = 0;
 
   /**
@@ -454,15 +455,21 @@ private:
 
   /** 
    * Connect the specified process object to the data object. This
-   * should only be called from a process object. 
+   * should only be called from a process object. The second parameter
+   * indicates which of the source's outputs corresponds to this data
+   * object.
    */
   void ConnectSource(ProcessObject *s, unsigned int idx) const;
 
   /** 
-   * Disconnect the specified process object from the data object. This
-   * should only be called from a process object. An application should
-   * call DataObject::DisconnectPipeline() if it wants to disconnect a data 
-   * object from a pipeline.
+   * Disconnect the specified process object from the data
+   * object. This should only be called from a process object. An
+   * application should call DataObject::DisconnectPipeline() if it
+   * wants to disconnect a data object from a pipeline. The second
+   * parameter indicates which of the source's outputs corresponds to
+   * this data object. If the specified source output index does not
+   * match the index cached when the data object was connected to the
+   * pipeline (see ConnectSource), then nothing is done.
    */
   void DisconnectSource(ProcessObject *s, unsigned int idx) const;
   
