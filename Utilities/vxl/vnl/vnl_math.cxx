@@ -89,13 +89,20 @@ const float vnl_math::float_eps        VCL_STATIC_CONST_INIT_FLOAT_DEFN( 1.19209
 const float vnl_math::float_sqrteps    VCL_STATIC_CONST_INIT_FLOAT_DEFN( 3.4526698307e-4f );
 
 //--------------------------------------------------------------------------------
-#if !defined(VNL_HAS_NO_FINITE) && !defined(VCL_SGI_CC_7) && !defined(__alpha__) && !defined(VCL_WIN32)
+#if !defined(VNL_HAS_NO_FINITE) && !defined(VCL_SGI_CC_7) && !defined(__alpha__) && !defined(VCL_WIN32) && !defined(__ICL)
 //: Return true iff x is "Not a Number"
 bool vnl_math_isnan(float x) { return x != x; } // causes "floating exception" on alpha & sgi
 //: Return true iff x is "Not a Number"
 bool vnl_math_isnan(double x) { return x != x; }
 //: Return true iff x is "Not a Number"
 bool vnl_math_isnan(long double x) { return x != x; }
+#elif defined(__ICL)
+//: Return true iff x is "Not a Number"
+bool vnl_math_isnan(float x) { return isnan(x); } // causes "floating exception" on alpha & sgi
+//: Return true iff x is "Not a Number"
+bool vnl_math_isnan(double x) { return isnan(x); }
+//: Return true iff x is "Not a Number"
+bool vnl_math_isnan(long double x) { return isnan(x); }
 #else
 // Auxiliary function to simplify notation
 # ifndef DEBUG
