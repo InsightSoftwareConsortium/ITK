@@ -66,7 +66,7 @@ int main(
     typedef itk::AzimuthElevationToCartesianTransform<> AzimuthElevationToCartesianTransformType;
 
     AzimuthElevationToCartesianTransformType::Pointer transform = AzimuthElevationToCartesianTransformType::New();
-    transform->SetAzimuthElevationToCartesianParameters(1,5,45,45);
+    transform->SetAzimuthElevationToCartesianParameters(1.0,5.0,45.0,45.0);
     PointType p;
     p[0] = 3;
     p[1] = 3;
