@@ -24,7 +24,7 @@ namespace itk
 template <class TCostFunction>
 ConjugateGradientOptimizer<TCostFunction>
 ::ConjugateGradientOptimizer():
-  m_ConjugateGradient(m_CostFunction)
+  m_ConjugateGradient(m_CostFunctionAdaptor)
 {
 }
 

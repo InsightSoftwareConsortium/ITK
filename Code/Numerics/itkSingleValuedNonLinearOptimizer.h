@@ -132,7 +132,7 @@ public:
    * Set the cost Function of type TCostFunction
    */
   void SetCostFunction( TCostFunction * costFunction ) 
-    { m_CostFunction.SetCostFunction( costFunction ); }
+    { m_CostFunctionAdaptor.SetCostFunction( costFunction ); }
     
   
 
@@ -145,7 +145,7 @@ protected:
 
 protected:
 
-  VnlCostFunctionAdaptor            m_CostFunction;
+  VnlCostFunctionAdaptor            m_CostFunctionAdaptor;
 
 };
 
