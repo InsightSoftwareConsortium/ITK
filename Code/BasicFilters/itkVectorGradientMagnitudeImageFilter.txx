@@ -220,7 +220,7 @@ VectorGradientMagnitudeImageFilter< TInputImage, TRealType, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                        int threadId)
 {
-  unsigned int i;
+
   ZeroFluxNeumannBoundaryCondition<RealVectorImageType> nbc;
   ConstNeighborhoodIteratorType bit;
   ImageRegionIterator<TOutputImage> it;
