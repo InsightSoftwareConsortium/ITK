@@ -235,6 +235,7 @@ GradientVectorFlowImageFilter<TInputImage, TOutputImage>
       m_vec[i] = m_vec[i] + r*internalIt.Get();
       outputIt.Set(m_vec);
       intermediateIt.Set(m_vec);
+      ++intermediateIt;
       ++internalIt;
       ++outputIt; 
     }
