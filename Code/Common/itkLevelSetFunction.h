@@ -19,9 +19,6 @@
 
 #include "itkFiniteDifferenceFunction.h"
 #include "vnl/vnl_matrix_fixed.h"
-// To do: propagate non-const ComputeUpdate also documentation
-//         modify Dense solver to allow state changes in function objects &
-//         threaded sparse field
 
 namespace itk {
 
