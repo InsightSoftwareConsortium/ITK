@@ -24,7 +24,7 @@
 namespace itk
 {
 
-/** \class ProcessObject
+/** \class Writer
  * \brief The base class for all data writers.
  *
  * Writer is the base class for all Insight data writers. You can specify
