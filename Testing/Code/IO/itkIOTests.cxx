@@ -11,6 +11,7 @@ void RegisterTests()
   REGISTER_TEST(itkDICOMImageIO2Test);
   REGISTER_TEST(itkAnalyzeImageIOTest);
   REGISTER_TEST(itkGiplImageIOTest);
+  REGISTER_TEST(itkIOPrintTest);
   REGISTER_TEST(itkMetaImageIOTest);
   REGISTER_TEST(itkPNGImageIOTest);
   REGISTER_TEST(itkVOLImageIOTest);
