@@ -37,6 +37,7 @@ int itkHistogramTest(int, char* [] )
   lowerBound.Fill(0.0) ;
   upperBound.Fill(1024.0) ;
   histogram->Initialize(size, lowerBound, upperBound ) ;
+  histogram->SetToZero();
   HistogramType::MeasurementType interval = 
     (upperBound[0] - lowerBound[0]) / 
     static_cast< HistogramType::MeasurementType >(size[0]) ;
@@ -135,6 +136,7 @@ int itkHistogramTest(int, char* [] )
 
   // initializes a 64 x 64 x 64 histogram with equal size interval
   sparseHistogram->Initialize(size, lowerBound, upperBound ) ;
+  sparseHistogram->SetToZero();
   interval = (upperBound[0] - lowerBound[0]) / 
     static_cast< SparseHistogramType::MeasurementType >(size[0]) ;
 
