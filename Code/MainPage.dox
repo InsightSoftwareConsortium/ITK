@@ -18,6 +18,15 @@
  *
  * http://public.kitware.com/Insight/Web/index.htm
  *
+ * \section howto How to use this documentation
+ *
+ * The following documentation describe the API of the Toolkit. The best way 
+ * to start getting familiar with the toolkit is to follow the link to Modules,
+ * it will introduce you to the hierarchy of classes organized according to 
+ * their functionality. Next, you may want to follow the Related Pages link, in
+ * which some details about the design are described, in particular the use of
+ * the data pipe line model and the philosophy of iterators.
+ *
  */
 
 
