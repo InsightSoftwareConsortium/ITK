@@ -26,6 +26,7 @@ CABLE_CLASS_SET(Kernel "itk::Neighborhood<$Float, $Dimension>")
 CABLE_CLASS_SET(Params "itk::Point<$Float, $Dimension>")
 CABLE_CLASS_SET(Jacobian "itk::Matrix<$Float, 3, 3>")
 CABLE_CLASS_SET(Transform "itk::AffineTransform<$Float>")
+CABLE_CLASS_SET(TransformDouble "itk::AffineTransform<$Double>")
 
 ADD_LIBRARY(ITKAlgorithmsTestTcl)
 
@@ -45,7 +46,7 @@ CABLE_WRAP_TCL(ITKAlgorithmsTestTcl
   "itk::GeodesicActiveContourImageFilter<$Image,$Image,$Image>"
 #  "itk::GibbsPriorFilter<$Image,$Image>"
 #  "itk::HybridFilter<$Image,$Image,$Mesh,$Mesh>"
-#  "itk::ImageMapper<$Image, $Transform>"
+   "itk::ImageMapper<$Image3D, $TransformDouble>"
 #  "itkImageMomentsCalculator<$Image>"
   "itk::ImageToImageAffineMeanSquaresGradientDescentRegistration<$Image3D,$Image3D>"
   "itk::ImageToImageAffineMeanSquaresRegularStepGradientDescentRegistration<$Image3D,$Image3D>"
