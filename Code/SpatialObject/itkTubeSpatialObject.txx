@@ -376,6 +376,37 @@ TubeSpatialObject< TDimension, PipelineDimension >
   return latestMTime;
 }
 
+
+/** Return a list of tubes given a certain depth.
+ *  maximumDepth = 0 corresponds to an infinite depth.
+ *  maximumDepth = 1 returns tubes children.
+ *  currentDepth variable doesn't have to be changed/provided. */
+template< unsigned int TDimension, unsigned int PipelineDimension >
+TubeSpatialObject< TDimension, PipelineDimension > ::TubeListType *
+TubeSpatialObject< TDimension, PipelineDimension > 
+::GetTubes( unsigned int maximumDepth , unsigned int currentDepth ) const
+{
+  TubeListType * tubes = new TubeListType;
+
+  typename ChildrenListType::const_iterator childrenListIt = m_Children.begin();
+  while(childrenListIt != m_Children.end())
+  {    
+    // Check if the child is really a tube
+    if( (!strncmp(typeid(**childrenListIt).name(),"class itk::TubeSpatialObject",26)))
+    {
+      tubes->push_back(dynamic_cast<TubeSpatialObject<TDimension>*>(*childrenListIt)); // add the tube 
+      if( (currentDepth < maximumDepth-1) || (maximumDepth == 0) ) // check for other possible children
+      {
+        currentDepth++;
+        tubes->merge(*dynamic_cast<TubeSpatialObject<TDimension>*>((*childrenListIt))->GetTubes(maximumDepth,currentDepth));
+      }
+    }
+    childrenListIt++;
+  }
+    
+  return tubes;
+}
+
 } // end namespace itk 
 
 #endif // end __itkTubeSpatialObject_txx

@@ -51,6 +51,7 @@ public:
   typedef SmartPointer < const Self >                  ConstPointer;
   typedef double                                       ScalarType;
   typedef itk::TubeSpatialObjectPoint< TDimension >    TubePointType;
+  typedef std::list<Pointer>                           TubeListType;
   typedef std::list < TubePointType >                  PointListType;
   typedef PointListType *                              PointListPointer;
   typedef typename Superclass::PointType               PointType;
@@ -103,10 +104,18 @@ public:
    *  and all of its components */
   unsigned long GetMTime( void ) const;
 
+  /** Set/Get the parent point which corresponds to the 
+   *  position of the point in the parent's points list */
+  itkSetMacro(ParentPoint,int);
+  itkGetMacro(ParentPoint,int);
+
+  TubeListType * GetTubes( unsigned int maximumDepth , unsigned int currentDepth ) const;
+
 protected:
 
   PointListType     m_Points;
   TimeStamp         m_BoundsMTime; 
+  int               m_ParentPoint;
 
   TubeSpatialObject();
   virtual ~TubeSpatialObject();
