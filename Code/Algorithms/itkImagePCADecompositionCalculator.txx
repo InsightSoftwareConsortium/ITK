@@ -109,6 +109,7 @@ ImagePCADecompositionCalculator<TInputImage, TBasisImage>
       i++;
     }
 m_BasisMatrixCalculated = true;
+m_ImageAsVector.set_size(m_NumPixels);
 }
 
 /*
@@ -123,14 +124,13 @@ ImagePCADecompositionCalculator<TInputImage, TBasisImage>
     itkExceptionMacro("Input image must be the same size as the basis images!");
     }
   
-  m_ImageAsVector = BasisVectorType(m_NumPixels);
-  
   ImageRegionConstIterator<InputImageType> image_it(m_Image,
                                                     m_Image->GetRequestedRegion());
-  int i = 0;
-  for (image_it.GoToBegin(); !image_it.IsAtEnd(); ++image_it)
+  typename BasisVectorType::iterator vector_it;
+  for (image_it.GoToBegin(), vector_it = m_ImageAsVector.begin();
+       !image_it.IsAtEnd(); ++image_it, ++vector_it)
     {
-      m_ImageAsVector(i++) = static_cast<BasisPixelType> (image_it.Get());
+      *vector_it = static_cast<BasisPixelType> (image_it.Get());
     }
 }
 

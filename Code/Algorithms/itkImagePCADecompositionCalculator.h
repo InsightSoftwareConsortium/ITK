@@ -48,8 +48,7 @@ namespace itk
  * \warning This method assumes that the input image consists of scalar pixel
  * types.
  *
- * \warning All images (input and basis) must be the same size. This is not 
- * checked at runtime. 
+ * \warning All images (input and basis) must be the same size.
  *
  * \author Zachary Pincus
  *
