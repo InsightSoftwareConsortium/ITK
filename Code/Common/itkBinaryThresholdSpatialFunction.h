@@ -62,7 +62,7 @@ public:
   typedef typename Superclass::OutputType OutputType;
 
   /** InputType typedef support. */
-  typedef typename Superclass::InputType InputType;
+  typedef typename TFunction::InputType InputType;
   
   /** Underlying function type. */
   typedef TFunction FunctionType;
