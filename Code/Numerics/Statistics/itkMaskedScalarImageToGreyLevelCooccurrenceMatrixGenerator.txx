@@ -21,8 +21,7 @@
 
 #include "itkNumericTraits.h"
 #include "itkImageRegionConstIterator.h"
-#include "itkConstShapedNeighborhoodIterator.h"
-#include "itkNeighborhoodAlgorithm.h"
+#include "itkConstNeighborhoodIterator.h"
 
 namespace itk {
   namespace Statistics {
@@ -42,7 +41,6 @@ namespace itk {
     THistogramFrequencyContainer >::
     FillHistogram(RadiusType radius, RegionType region)
       {
-      
       if (m_ImageMask.IsNull())
         {
         // If there's no mask set, just use the (faster) superclass method
@@ -52,64 +50,67 @@ namespace itk {
       
       // Iterate over all of those pixels and offsets, adding each 
       // co-occurrence pair to the histogram
-      typedef ImageRegionConstIterator<ImageType>
-      RegionIteratorType;
       
-      typedef ConstShapedNeighborhoodIterator<ImageType>
-        ShapedNeighborhoodIteratorType;
+      typedef ConstNeighborhoodIterator<ImageType> NeighborhoodIteratorType;
+      NeighborhoodIteratorType neighborIt, maskNeighborIt;
+      neighborIt = NeighborhoodIteratorType(radius, m_Image, region);
+      maskNeighborIt = NeighborhoodIteratorType(radius, m_ImageMask, region);
       
-      
-      ShapedNeighborhoodIteratorType shapedIt, shapedMaskIt;
-      RegionIteratorType regionIt, regionMaskIt;
-      
-      shapedIt = ShapedNeighborhoodIteratorType(radius, m_Image, region);
-      regionIt = RegionIteratorType(m_Image, region);
-      
-      shapedMaskIt = ShapedNeighborhoodIteratorType(radius, m_ImageMask, region);
-      regionMaskIt = RegionIteratorType(m_ImageMask, region);
-      
-      MeasurementVectorType cooccur;
-      typename OffsetVector::ConstIterator offsets;
-      for(offsets = m_Offsets->Begin(); offsets != m_Offsets->End(); offsets++)
+      for (neighborIt.GoToBegin(), maskNeighborIt.GoToBegin();
+           !neighborIt.IsAtEnd(); ++neighborIt, ++maskNeighborIt) 
         {
-        shapedIt.ActivateOffset(offsets.Value());
-        shapedMaskIt.ActivateOffset(offsets.Value());
-        }
-      
-      for (shapedIt.GoToBegin(), regionIt.GoToBegin(), shapedMaskIt.GoToBegin(), 
-           regionMaskIt.GoToBegin(); !shapedIt.IsAtEnd(); 
-           ++shapedIt, ++regionIt, ++shapedMaskIt, ++regionMaskIt) 
-        {
-
-        if (regionMaskIt.Get() != m_InsidePixelValue)
+        
+        if (maskNeighborIt.GetCenterPixel() != m_InsidePixelValue)
           {
           continue; // Go to the next loop if we're not in the mask
           }
-        const PixelType center_pixel_intensity = regionIt.Get();
         
-        typename ShapedNeighborhoodIteratorType::ConstIterator neighborhoodIt,
-          neighborhoodMaskIt;
-        for (neighborhoodIt = shapedIt.Begin(), neighborhoodMaskIt = shapedMaskIt.Begin();
-             !neighborhoodIt.IsAtEnd(); ++neighborhoodIt, ++neighborhoodMaskIt)
+        const PixelType centerPixelIntensity = neighborIt.GetCenterPixel();
+        if (centerPixelIntensity < m_Min || 
+            centerPixelIntensity > m_Max)
           {
-
-          if (neighborhoodMaskIt.Get() != m_InsidePixelValue)
+          continue; // don't put a pixel in the histogram if the value
+                    // is out-of-bounds.
+          }
+        
+        typename OffsetVector::ConstIterator offsets;
+        for(offsets = m_Offsets->Begin(); offsets != m_Offsets->End(); offsets++)
+          {
+          
+          if (maskNeighborIt.GetPixel(offsets.Value()) != m_InsidePixelValue)
             {
-            continue; // Go to the next loop if we're not in the mask.
+            continue; // Go to the next loop if we're not in the mask
             }
-          const PixelType pixel_intensity = neighborhoodIt.Get();
+          
+          bool pixelInBounds;
+          const PixelType pixelIntensity = 
+            neighborIt.GetPixel(offsets.Value(), pixelInBounds);
+          
+          if (!pixelInBounds)
+            {
+            continue; // don't put a pixel in the histogram if it's out-of-bounds.
+            }
+          
+          if (pixelIntensity < m_Min || 
+              pixelIntensity > m_Max)
+            {
+            continue; // don't put a pixel in the histogram if the value
+                      // is out-of-bounds.
+            }
+          
           // Now make both possible co-occurrence combinations and increment the
           // histogram with them.
-          cooccur[0] = center_pixel_intensity;
-          cooccur[1] = pixel_intensity;
+          MeasurementVectorType cooccur;
+          cooccur[0] = centerPixelIntensity;
+          cooccur[1] = pixelIntensity;
           m_Histogram->IncreaseFrequency(cooccur, 1);
-          cooccur[1] = center_pixel_intensity;
-          cooccur[0] = pixel_intensity;
+          cooccur[1] = centerPixelIntensity;
+          cooccur[0] = pixelIntensity;
           m_Histogram->IncreaseFrequency(cooccur, 1);
           }
         }
       }
-      
+    
     template< class TImageType, class THistogramFrequencyContainer >
     void
     MaskedScalarImageToGreyLevelCooccurrenceMatrixGenerator< TImageType,
