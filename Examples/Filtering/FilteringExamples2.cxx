@@ -12,6 +12,7 @@ REGISTER_TEST(ResampleImageFilter2Test);
 REGISTER_TEST(ResampleImageFilter3Test);
 REGISTER_TEST(ResampleImageFilter4Test);
 REGISTER_TEST(ResampleImageFilter5Test);
+REGISTER_TEST(ResampleImageFilter8Test);
 REGISTER_TEST(SigmoidImageFilterTest);
 REGISTER_TEST(SmoothingRecursiveGaussianImageFilterTest);
 REGISTER_TEST(SmoothingRecursiveGaussianImageFilter2Test);
@@ -40,6 +41,10 @@ REGISTER_TEST(ResampleVolumesToBeIsotropicTest);
 #undef main
 #define main ResampleImageFilter5Test
 #include "ResampleImageFilter5.cxx"
+
+#undef main
+#define main ResampleImageFilter8Test
+#include "ResampleImageFilter8.cxx"
 
 #undef main
 #define main LaplacianSharpeningImageFilterTest

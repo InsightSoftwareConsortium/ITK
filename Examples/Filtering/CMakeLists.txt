@@ -411,6 +411,16 @@ ADD_TEST( ResampleImageFilter5Test ${FILTERING_EXAMPLES2}
         10 1.2
 )
 
+ADD_TEST( ResampleImageFilter8Test ${FILTERING_EXAMPLES2}
+  --compare ${BASELINE}/ResampleImageFilter8Test.png
+            ${TEMP}/ResampleImageFilter8Test.png
+  ResampleImageFilter8Test
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${TEMP}/ResampleImageFilter8Test.png
+        45
+)
+
+
 ADD_TEST( SigmoidImageFilterTest ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/SigmoidImageFilter.png
             ${TEMP}/SigmoidImageFilter.png
