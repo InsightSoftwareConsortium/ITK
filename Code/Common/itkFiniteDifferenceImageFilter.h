@@ -17,7 +17,7 @@
 #ifndef __itkFiniteDifferenceImageFilter_h_
 #define __itkFiniteDifferenceImageFilter_h_
 
-#include "itkImageToImageFilter.h"
+#include "itkInPlaceImageFilter.h"
 #include "itkFiniteDifferenceFunction.h"
 
 namespace itk {
@@ -120,17 +120,17 @@ namespace itk {
  * \sa DenseFiniteDifferenceImageFilter */
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT FiniteDifferenceImageFilter  
-  : public ImageToImageFilter<TInputImage, TOutputImage>
+  : public InPlaceImageFilter<TInputImage, TOutputImage>
 {
 public:
   /** Standard class typedefs. */
   typedef FiniteDifferenceImageFilter Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
+  typedef InPlaceImageFilter<TInputImage, TOutputImage> Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
   /** Run-time type information (and related methods) */
-  itkTypeMacro(FiniteDifferenceImageFilter, ImageToImageFilter );
+  itkTypeMacro(FiniteDifferenceImageFilter, InPlaceImageFilter );
   
   /** Input and output image types. */
   typedef TInputImage  InputImageType;
@@ -212,6 +212,7 @@ protected:
     m_RMSChange = 0.0;
     m_State = UNINITIALIZED;
     m_ManualReinitialization = false;
+    this->InPlaceOff();
   }
   ~FiniteDifferenceImageFilter() {}
   void PrintSelf(std::ostream& os, Indent indent) const;

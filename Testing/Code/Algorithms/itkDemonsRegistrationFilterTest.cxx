@@ -25,6 +25,7 @@
 #include "itkNearestNeighborInterpolateImageFunction.h"
 #include "itkCommand.h"
 #include "vnl/vnl_math.h"
+#include "itkVectorCastImageFilter.h"
 
 
 namespace{
@@ -158,6 +159,11 @@ int itkDemonsRegistrationFilterTest(int, char* [] )
   zeroVec.Fill( 0.0 );
   initField->FillBuffer( zeroVec );
 
+  typedef itk::VectorCastImageFilter<FieldType,FieldType> CasterType;
+  CasterType::Pointer caster = CasterType::New();
+  caster->SetInput( initField );
+  caster->InPlaceOff();
+
   //-------------------------------------------------------------
   std::cout << "Run registration and warp moving" << std::endl;
 
@@ -165,12 +171,15 @@ int itkDemonsRegistrationFilterTest(int, char* [] )
     RegistrationType;
   RegistrationType::Pointer registrator = RegistrationType::New();
 
-  registrator->SetInitialDeformationField( initField );
+  registrator->SetInitialDeformationField( caster->GetOutput() );
   registrator->SetMovingImage( moving );
   registrator->SetFixedImage( fixed );
   registrator->SetNumberOfIterations( 150 );
   registrator->SetStandardDeviations( 2.0 );
   registrator->SetStandardDeviations( 1.0 );
+
+  // turn on inplace execution
+  registrator->InPlaceOn();
 
   typedef RegistrationType::DemonsRegistrationFunctionType FunctionType;
   FunctionType * fptr;
@@ -278,7 +287,7 @@ int itkDemonsRegistrationFilterTest(int, char* [] )
   passed = false;
   try
     {
-    registrator->SetInput( initField );
+    registrator->SetInput( caster->GetOutput() );
     registrator->SetMovingImage( NULL );
     registrator->Update();
     }

@@ -32,9 +32,7 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>
   if (this->GetState() == UNINITIALIZED)
     {
     // Allocate the output image
-    typename TOutputImage::Pointer output = this->GetOutput();
-    output->SetBufferedRegion(output->GetRequestedRegion());
-    output->Allocate();
+    this->AllocateOutputs();
 
     // Copy the input image to the output image.  Algorithms will operate
     // directly on the output image and the update buffer.

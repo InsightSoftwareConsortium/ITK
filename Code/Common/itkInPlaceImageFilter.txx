@@ -119,7 +119,11 @@ InPlaceImageFilter<TInputImage, TOutputImage>
     ProcessObject::ReleaseInputs();
     
     // Release input 0 by default since we overwrote it
-    const_cast<TInputImage*>(this->GetInput())->ReleaseData();
+    TInputImage * ptr = const_cast<TInputImage*>( this->GetInput() );
+    if( ptr )
+      {
+      ptr->ReleaseData();
+      }
     }
   else
     {

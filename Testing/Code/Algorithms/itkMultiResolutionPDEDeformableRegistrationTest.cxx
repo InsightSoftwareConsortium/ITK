@@ -244,6 +244,9 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int, char* [] )
   registrator->GetRegistrationFilter()->
     AddObserver(itk::ProgressEvent(), innerCommand);
 
+  // make registration inplace
+  registrator->GetRegistrationFilter()->InPlaceOn();
+
   registrator->Update();
 
  
