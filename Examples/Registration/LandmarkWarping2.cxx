@@ -29,9 +29,6 @@
 
 
 // Software Guide : BeginCodeSnippet
-#include "itkImageFileReader.h" 
-#include "itkImageFileWriter.h" 
-
 #include "itkVector.h"
 #include "itkImage.h"
 #include "itkImageRegionIteratorWithIndex.h"
@@ -196,6 +193,7 @@ int main( int argc, char * argv[] )
     {
     std::cerr << "Exception thrown " << std::endl;
     std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
     }
 
 
