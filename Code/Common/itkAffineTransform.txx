@@ -570,6 +570,40 @@ RecomputeInverse( void )
 
 
 
+
+// Get parameters
+template<class TScalarType, unsigned int NDimensions>
+const AffineTransform<TScalarType, NDimensions>::ParametersType &
+AffineTransform<TScalarType, NDimensions>::
+GetParameters( void ) const
+{
+
+  // Transfer the linear part
+  unsigned int par = 0;
+
+  for(unsigned int row=0; row<NDimensions; row++) 
+  {
+    for(unsigned int col=0; col<NDimensions; col++) 
+    {
+      m_Parameters[par] = m_Matrix[row][col];
+      ++par;
+    }
+  }
+
+  // Transfer the constant part
+  for(unsigned int i=0; i<NDimensions; i++) 
+  {
+    m_Parameters[par] = m_Offset[i];
+    ++par;
+  }
+
+  return m_Parameters;
+
+}
+
+
+
+
 // Set parameters
 template<class TScalarType, unsigned int NDimensions>
 void
@@ -580,11 +614,13 @@ SetParameters( const ParametersType & parameters )
   // Transfer the linear part
   unsigned int par = 0;
 
+  m_Parameters = parameters;
+
   for(unsigned int row=0; row<NDimensions; row++) 
   {
     for(unsigned int col=0; col<NDimensions; col++) 
     {
-      m_Matrix[row][col] = parameters[par];
+      m_Matrix[row][col] = m_Parameters[par];
       ++par;
     }
   }
@@ -592,7 +628,7 @@ SetParameters( const ParametersType & parameters )
   // Transfer the constant part
   for(unsigned int i=0; i<NDimensions; i++) 
   {
-    m_Offset[i] = parameters[par];
+    m_Offset[i] = m_Parameters[par];
     ++par;
   }
 

@@ -200,6 +200,9 @@ public:
    * This is typically used by optimizers. **/
   void SetParameters( const ParametersType & parameters );
 
+  /** Get the Transformation Parameters. */
+  const ParametersType& GetParameters(void) const;
+
   /** Compose with another AffineTransform
    *
    * This method composes self with another AffineTransform of the
