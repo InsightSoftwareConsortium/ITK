@@ -108,6 +108,16 @@ int itkSceneSpatialObjectTest(int, char* [])
     return EXIT_FAILURE;
   }
   std::cout << "[PASSED]" << std::endl;
+
+
+  std::cout << "Testing Add/Remove: ";
+  SceneSpatialObjectType::Pointer SceneSpatialObject2 = SceneSpatialObjectType::New();
+  EllipseType::Pointer ellipseaddremove = EllipseType::New();
+  SceneSpatialObject2->AddSpatialObject(ellipseaddremove);
+  SceneSpatialObject2->RemoveSpatialObject(ellipseaddremove);
+
+  std::cout << "[PASSED]" << std::endl;
+
   std::cout << "[DONE]" << std::endl;
 
   return EXIT_SUCCESS;
