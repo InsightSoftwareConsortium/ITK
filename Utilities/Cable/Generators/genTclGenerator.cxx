@@ -144,7 +144,7 @@ void TclGenerator::GenerateWrappers()
     "{\n"
     "void InitializeTypeRepresentations()\n"
     "{\n";
-  m_CvTypeGenerator.GenerateInitalizations(m_Output);  
+  m_CvTypeGenerator.GenerateInitializations(m_Output);  
   m_Output <<
     "}\n"
     "void InitializeConversions(Tcl_Interp* interp)\n"
@@ -778,9 +778,9 @@ void TclGenerator::WriteConversionIntitialization() const
       c != m_ClassesForDerivedToBase.end(); ++c)
     {
     const cxx::ClassType* derived = *c;
-    cxx::ClassTypeSet superclasses;
+    cxx::ClassTypes superclasses;
     derived->GetAllSuperclasses(superclasses);
-    for(cxx::ClassTypeSet::const_iterator b = superclasses.begin();
+    for(cxx::ClassTypes::const_iterator b = superclasses.begin();
         b != superclasses.end(); ++b)
       {
       const cxx::ClassType* base = *b;

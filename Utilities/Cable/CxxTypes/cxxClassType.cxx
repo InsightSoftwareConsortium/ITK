@@ -40,6 +40,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 =========================================================================*/
 #include "cxxClassType.h"
 
+#include <queue>
+
 namespace _cxx_
 {
 
@@ -132,17 +134,38 @@ ClassTypes::const_iterator ClassType::ParentsEnd() const
 
 /**
  * Find all the superclasses through any inheritance chain.
+ * This overly complicated implementation is used to get around problems
+ * with DLLs and MSVC's implementation of STL.
  */
-void ClassType::GetAllSuperclasses(ClassTypeSet& result) const
+void ClassType::GetAllSuperclasses(ClassTypes& result) const
 {
-  for(ClassTypes::const_iterator parent = m_Parents.begin();
-      parent != m_Parents.end(); ++parent)
+  // A queue to do a BFS of this class and its parents.
+  std::queue<const ClassType*> classQueue;
+
+  // Record queued classes so that we don't repeat any.
+  std::set<const ClassType*> queued;
+  
+  // Start with the search at this class.
+  classQueue.push(this);
+  queued.insert(this);
+  while(!classQueue.empty())
     {
-    // Insert our immediate parent.
-    result.insert(*parent);
+    // Get the next class off the queue.
+    const ClassType* curClass = classQueue.front(); classQueue.pop();
+    result.push_back(curClass);
     
-    // Insert our parent's superclasses.
-    (*parent)->GetAllSuperclasses(result);
+    // Add the class's parents to the queue.
+    for(ClassTypes::const_iterator parent = curClass->ParentsBegin();
+        parent != curClass->ParentsEnd(); ++parent)
+      {
+      // Only queue the parent class if it has not yet been queued.
+      // This prevents duplication in the case of diamond inheritance.
+      if(queued.find(*parent) == queued.end())
+        {
+        classQueue.push(*parent);
+        queued.insert(*parent);
+        }
+      }
     }
 }
 
