@@ -24,6 +24,7 @@ itkTimeStamp
 itkVersion 
 itkImageIOCommon
 itkImageIO
+itkLightProcessObject
 )
 
 SOURCE_FILES_REQUIRE(WIN32 SOURCES_BEGIN itkWin32OutputWindow)
