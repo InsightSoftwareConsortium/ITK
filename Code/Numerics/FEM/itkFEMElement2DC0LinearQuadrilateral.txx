@@ -173,7 +173,7 @@ Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>
 template<unsigned int VNumberOfDegreesOfFreedomPerNode>
 Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>::VectorType
 Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>
-::GetLocalFromGlobalCoordinates( VectorType& pt ) const
+::GetLocalFromGlobalCoordinates( const VectorType& pt ) const
 {
 
   Float x1, x2, x3, x4, y1, y2, y3, y4, xce, yce, xb, yb, xcn, ycn,
