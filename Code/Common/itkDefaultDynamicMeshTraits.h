@@ -43,6 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkCellInterface.h"
 #include "itkMapContainer.h"
+#include "itkPoint.h"
 #include <set>
 
 namespace itk
