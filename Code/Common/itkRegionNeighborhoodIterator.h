@@ -19,7 +19,6 @@
 #include "itkNeighborhoodIterator.h"
 #include "itkVectorComponentDataAccessor.h"
 
-
 namespace itk {
 
 /**
@@ -44,16 +43,17 @@ namespace itk {
  * \sa Neighborhood
  * \sa NeighborhoodAlgorithm
  */
-template<class TPixel, unsigned int VDimension = 2>
+ 
+template<class TPixel, unsigned int VDimension =2>
 class RegionNeighborhoodIterator
-  :  public NeighborhoodIterator<TPixel, VDimension>
+ : public NeighborhoodIterator<TPixel, VDimension>
 {
 public:
   /** 
    * Standard "Self" typedef support.
    */
   typedef RegionNeighborhoodIterator Self;
-
+  
   /**
    * Standard Superclass typedef
    */
@@ -88,12 +88,12 @@ public:
    * Run-time type information (and related methods).
    */
   itkTypeMacro(RegionNeighborhoodIterator, NeighborhoodIterator);
-
+  
   /**
    * Default constructor
    */
-  RegionNeighborhoodIterator() : NeighborhoodIterator<TPixel, VDimension>() {};
-  
+  RegionNeighborhoodIterator() {};
+
   /**
   * Constructor establishes a neighborhood of iterators of a specified
   * dimension to walk a particular image and a particular region of
@@ -102,21 +102,36 @@ public:
   RegionNeighborhoodIterator(const SizeType &radius,
                              ImageType *ptr,
                              const RegionType &region)
-    : NeighborhoodIterator<TPixel, VDimension>(radius, ptr, region)
   {
-    this->SetBound(region.GetSize());
+    this->Initialize(radius, ptr, region);
   }
 
   /**
    * Return an iterator for the beginning of the region.
    */
-  Self Begin();
+  Self Begin() const;
 
   /**
    * Return an iterator for the end of the region.
    */
-  Self End();
+  Self End() const; 
 
+  /**
+   * 
+   */
+  void SetEnd()
+  {
+    m_EndPointer = this->End().operator[](this->size()>>1);
+  }
+  
+  /**
+   *
+   */
+  void SetToBegin()
+  {
+    *this = this->Begin();
+  }
+  
   /**
    * Returns a Neighborhood object with values of the image pixels that
    * are referenced by the NeighborhoodIterator's internal pointers.
@@ -165,14 +180,16 @@ public:
    */
   Self &operator=(const Self& orig)
   {
-    Superclass::operator=(orig);
+    NeighborhoodIterator<TPixel, VDimension>::operator=(orig);
     return *this;
   }
+  
 protected:
   /**
    * Sets the loop upper boundaries for iteration.
    */
   void SetBound(const SizeType &);
+
 };
   
 } // namespace itk

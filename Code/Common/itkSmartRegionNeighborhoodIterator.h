@@ -61,6 +61,11 @@ public:
   itkTypeMacro(SmartRegionNeighborhoodIterator, NeighborhoodIterator);
 
   /**
+   * Default constructor.
+   */
+  SmartRegionNeighborhoodIterator() {};
+  
+  /**
    * itk::Image typedef support.
    */
   typedef Image<TPixel, VDimension> ImageType;
@@ -93,20 +98,34 @@ public:
   SmartRegionNeighborhoodIterator(const SizeType& radius,
                                   ImageType *ptr,
                                   const RegionType& region)
-    : NeighborhoodIterator<TPixel, VDimension>(radius, ptr, region)
   {
-    this->SetBound(region.GetSize());
+    this->Initialize(radius, ptr, region);
   }
 
   /**
    * Return an iterator for the beginning of the region.
    */
-  Self Begin();
+  Self Begin() const;
 
   /**
    * Return an iterator for the end of the region.
    */
-  Self End();
+  Self End() const;
+
+ /**
+   * 
+   */
+  virtual void SetEnd()
+  {
+    m_EndPointer = this->End().operator[](this->size()>>1);
+  }
+  /**
+   *
+   */
+  virtual void SetToBegin()
+  {
+    *this = this->Begin();
+  }
 
   /**
    * "Dereferences" the iterator. Returns the Neighborhood of values in the
@@ -205,7 +224,6 @@ protected:
    */
   bool m_InBounds[VDimension];
 
-private:
 };
 
 } // namespace itk

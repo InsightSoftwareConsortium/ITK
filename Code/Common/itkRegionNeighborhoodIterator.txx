@@ -97,8 +97,7 @@ RegionNeighborhoodIterator<TPixel, VDimension>
   
   for (it = &(v[0]), this_it = this->begin(); it < _end; ++it, ++this_it)
     {
-      sum += ScalarTraits<TPixel>::GetScalar(*it) *
-        ScalarTraits<TPixel>::GetScalar(**this_it); 
+      sum += *it * **this_it;
     }
   return sum;
 }
@@ -135,15 +134,13 @@ RegionNeighborhoodIterator<TPixel, VDimension>
 {
   ScalarValueType sum = NumericTraits<ScalarValueType>::Zero;
   TPixel *it;
-  typename Self::SliceIteratorType slice_it(this, s);
+  typename RegionNeighborhoodIterator::SliceIteratorType slice_it(this, s);
 
   slice_it[0];
   const TPixel *itEnd = &(v[v.size()]);
   for (it = &(v[0]); it < itEnd; ++it, ++slice_it)
     {
-      //sum += *it * **slice_it;
-      sum += ScalarTraits<TPixel>::GetScalar(*it) *
-        ScalarTraits<TPixel>::GetScalar(**slice_it);
+      sum += *it * **slice_it;
     }
 
   return sum;
@@ -158,7 +155,6 @@ RegionNeighborhoodIterator<TPixel, VDimension>
                &accessor)
 {
   ScalarValueType sum = NumericTraits<ScalarValueType>::Zero;
-  
   ScalarValueType *it;
   typename Self::SliceIteratorType slice_it(this, s);
 
@@ -173,15 +169,13 @@ RegionNeighborhoodIterator<TPixel, VDimension>
   return sum;
 }
 
-
-
 template<class TPixel, unsigned int VDimension>
 RegionNeighborhoodIterator<TPixel, VDimension>
 RegionNeighborhoodIterator<TPixel, VDimension>
-::Begin()
+::Begin() const
 {
   //Copy the current iterator
-  Self it( *this );
+  RegionNeighborhoodIterator it( *this );
 
   // Set the position to the m_BeginOffset
   it.SetLocation( this->m_StartIndex );
@@ -192,21 +186,21 @@ RegionNeighborhoodIterator<TPixel, VDimension>
 template<class TPixel, unsigned int VDimension>
 RegionNeighborhoodIterator<TPixel, VDimension>
 RegionNeighborhoodIterator<TPixel, VDimension>
-::End()
+::End() const
 {
   IndexType endIndex;
   
   // Copy the current iterator
-  Self it( *this );
+  RegionNeighborhoodIterator it( *this );
 
   // Calculate the end index
-  endIndex.m_Index[0] = m_Bound[0];
-  for (int i = 1; i< VDimension; ++i)
+  for (int i = 0; i< VDimension; ++i)
     {
       endIndex.m_Index[i] = m_Bound[i] -1;
     }
   it.SetLocation( endIndex );
 
+  ++it;
   return it;
 }
 

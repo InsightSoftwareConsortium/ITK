@@ -188,9 +188,7 @@ SmartRegionNeighborhoodIterator<TPixel, VDimension>
       for (it = &(v[0]), this_it = this->begin();
            it < _end; ++it, ++this_it)
         {
-          //sum += *it * **this_it;
-          sum += ScalarTraits<TPixel>::GetScalar(*it) *
-            ScalarTraits<TPixel>::GetScalar(**this_it);
+          sum += *it * **this_it;
         }
     }
   else
@@ -242,8 +240,8 @@ SmartRegionNeighborhoodIterator<TPixel, VDimension>::ScalarValueType
 SmartRegionNeighborhoodIterator<TPixel, VDimension>
 ::SlicedInnerProduct(const std::slice &s, std::valarray<TPixel> &v)
 {
-  //NumericTraits<TPixel>::AccumulateType sum = NumericTraits<TPixel>::Zero;
   ScalarValueType sum = NumericTraits<ScalarValueType>::Zero;
+
   TPixel *it;
   typename Self::SliceIteratorType slice_it(this, s);
   slice_it[0];
@@ -253,8 +251,7 @@ SmartRegionNeighborhoodIterator<TPixel, VDimension>
     {
       for (it = &(v[0]); it < itEnd; ++it, ++slice_it)
         {
-          sum += ScalarTraits<TPixel>::GetScalar(*it)
-            * ScalarTraits<TPixel>::GetScalar(**slice_it); 
+          sum += *it * **slice_it;
         }
     }
   else
@@ -357,7 +354,7 @@ void SmartRegionNeighborhoodIterator<TPixel, VDimension>
 template<class TPixel, unsigned int VDimension>
 SmartRegionNeighborhoodIterator<TPixel, VDimension>
 SmartRegionNeighborhoodIterator<TPixel, VDimension>
-::Begin()
+::Begin() const 
 {
   //Copy the current iterator
   Self it( *this );
@@ -371,7 +368,7 @@ SmartRegionNeighborhoodIterator<TPixel, VDimension>
 template<class TPixel, unsigned int VDimension>
 SmartRegionNeighborhoodIterator<TPixel, VDimension>
 SmartRegionNeighborhoodIterator<TPixel, VDimension>
-::End()
+::End() const
 {
   IndexType endIndex;
   
@@ -379,8 +376,7 @@ SmartRegionNeighborhoodIterator<TPixel, VDimension>
   Self it( *this );
 
   // Calculate the end index
-  endIndex.m_Index[0] = m_Bound[0];
-  for (int i = 1; i< VDimension; ++i)
+  for (int i = 0; i< VDimension; ++i)
     {
       endIndex.m_Index[i] = m_Bound[i] -1;
     }
@@ -388,6 +384,7 @@ SmartRegionNeighborhoodIterator<TPixel, VDimension>
   // Set the position to the m_BeginOffset
   it.SetLocation( endIndex );
 
+  ++it;
   return it;
 }
 
