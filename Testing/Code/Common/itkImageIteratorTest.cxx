@@ -30,7 +30,7 @@ int IterateOverRegion( itk::ImageBufferIterator<T, VImageDimension> it,
                        unsigned int dim = VImageDimension-1)
 {
   T value;
-  int i, j;
+  unsigned int i, j;
   
   if (dim > 0)
     {
@@ -232,7 +232,7 @@ int main()
     {
     itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType index = it.GetIndex();
     std::cout << "Simple iterator loop: ";
-    for (int i=0; i < index.GetIndexDimension(); i++)
+    for (unsigned int i=0; i < index.GetIndexDimension(); i++)
       {
       std::cout << index[i] << " ";
       }
