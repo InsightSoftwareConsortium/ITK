@@ -21,25 +21,11 @@
 #include <iostream>
 
 #include "itkMultiThreader.h"
+#include "itkTextOutput.h"
 
-#include "itkOutputWindow.h"
 namespace
 {
   
-// this class is used to send output to stdout and not the itk window
-class TextOutput : public itk::OutputWindow
-{
-public: 
-  typedef TextOutput              Self;
-  typedef itk::SmartPointer<Self>  Pointer;
-  typedef itk::SmartPointer<const Self>  ConstPointer;
-  itkNewMacro(TextOutput);
-  virtual void DisplayText(const char* s)
-    {
-      std::cout << s << std::endl;
-    }
-};
-
 
 /**
  * This function defines the test image pattern.
@@ -72,7 +58,7 @@ double F( double x, double y, double z )
 int itkMultiResolutionMutualInformationRigidRegistrationTest(int, char**)
 {
 
-   itk::OutputWindow::SetInstance(TextOutput::New().GetPointer());
+   itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
 
 
 std::cout << "GlobalDefault: ";

@@ -17,27 +17,13 @@
 #include "itkFastMarchingImageFilter.h"
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"
-#include "itkOutputWindow.h"
+#include "itkTextOutput.h"
 
 #include "vnl/vnl_math.h"
-
-// this class is used to send output to stdout and not the itk window
-class TextOutput : public itk::OutputWindow
-{
-public:
-  typedef TextOutput              Self;
-  typedef itk::SmartPointer<Self>  Pointer;
-  typedef itk::SmartPointer<const Self>  ConstPointer;
-  itkNewMacro(TextOutput);
-  virtual void DisplayText(const char* s)
-    { std::cout << s << std::endl; }
-};
-
-
 int itkFastMarchingTest(int, char**)
 {
 
-  itk::OutputWindow::SetInstance(TextOutput::New().GetPointer());
+  itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
 
   // create a fastmarching object
   typedef float PixelType;

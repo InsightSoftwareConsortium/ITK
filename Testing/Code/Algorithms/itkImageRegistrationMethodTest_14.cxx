@@ -21,28 +21,13 @@
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkQuaternionRigidTransformGradientDescentOptimizer.h"
 
-#include "itkOutputWindow.h"
+#include "itkTextOutput.h"
 #include "itkImageRegionIterator.h"
 #include "itkCommandIterationUpdate.h"
 
 namespace
 {
 
-/*
-// this class is used to send output to stdout and not the itk window
-class TextOutput : public itk::OutputWindow
-{
-public:
-  typedef TextOutput              Self;
-  typedef itk::SmartPointer<Self>  Pointer;
-  typedef itk::SmartPointer<const Self>  ConstPointer;
-  itkNewMacro(TextOutput);
-  virtual void DisplayText(const char* s)
-    {
-      std::cout << s << std::endl;
-    }
-};
-*/
 
 
 double F( itk::Vector<double,3> & v );
@@ -117,7 +102,7 @@ double F( itk::Vector<double,3> & v );
 int itkImageRegistrationMethodTest_14(int, char**)
 {
 
-//  itk::OutputWindow::SetInstance(TextOutput::New().GetPointer());
+  itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
 
   bool pass = true;
 
