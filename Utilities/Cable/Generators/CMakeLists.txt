@@ -7,5 +7,3 @@ genGeneratorBase
 genTclGenerator
 genCvTypeGenerator
 )
-
-LINK_LIBRARIES(CableParsers CxxTypes Expat)

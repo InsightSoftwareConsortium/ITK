@@ -1,20 +1,21 @@
 INCLUDE(${CMAKE_ROOT}/Modules/FindTCL.cmake)
 
-SET(BUILD_SHARED_LIBS ON)
-
 INCLUDE_DIRECTORIES(
 ${TCL_INCLUDE_PATH}
 ${CABLE_SOURCE_DIR}/WrapTclFacility
 )
 
-LINK_DIRECTORIES(${CABLE_BINARY_DIR}/WrapTclFacility)
+LINK_DIRECTORIES(
+${CABLE_BINARY_DIR}/CxxTypes/Shared
+${CABLE_BINARY_DIR}/WrapTclFacility
+)
 
 LINK_LIBRARIES(
 ${TCL_LIBRARY}
 CxxTypes
 )
 
-ADD_LIBRARY(WrapTclFacility
+ADD_LIBRARY(WrapTclFacility SHARED
 wrapArgument
 wrapCalls
 wrapConstructor

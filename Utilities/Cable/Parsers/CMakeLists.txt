@@ -5,5 +5,3 @@ cableSourceParser
 cableSourceRepresentation
 cableXmlAttributes
 )
-
-LINK_LIBRARIES(CxxTypes Expat)

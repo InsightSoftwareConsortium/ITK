@@ -179,7 +179,8 @@ void TclGenerator::GenerateWrappers()
  */
 void TclGenerator::GeneratePackageInitializer()
 {
-  String tclName = m_CableConfiguration->GetPackageName();
+  String packageName = m_CableConfiguration->GetPackageName();
+  String tclName = packageName;
   String::iterator c = tclName.begin();
   if(c != tclName.end())
     {
@@ -233,7 +234,7 @@ void TclGenerator::GeneratePackageInitializer()
   
   m_Output <<
     "  \n"
-    "  return Tcl_PkgProvide(interp, \"" << tclName.c_str() << "\", \"1.0\");\n"
+    "  return Tcl_PkgProvide(interp, \"" << packageName.c_str() << "\", \"1.0\");\n"
     "}\n"
     "\n";
 }

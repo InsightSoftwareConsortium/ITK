@@ -1,21 +1,6 @@
-SOURCE_FILES(CxxTypes_SRCS
-cxxArrayType
-cxxClassType
-cxxConversions
-cxxCvQualifiedType
-cxxEnumerationType
-cxxFunctionType
-cxxFundamentalType
-cxxPointerToMemberType
-cxxPointerType
-cxxReferenceType
-cxxType
-cxxTypeSystem
-)
+SUBDIRS(Static)
 
-IF (WIN32)
-    SOURCE_FILES(CxxTypes_SRCS cxxDllAllocator)
-ENDIF (WIN32)
-
-ADD_LIBRARY(CxxTypes SHARED CxxTypes_SRCS)
-ADD_DEFINITIONS(-D_cxx_SHARED)
+# If building the Tcl wrapping facility, we need a shared CxxTypes library.
+IF(CABLE_TCL_FACILITY)
+  SUBDIRS(Shared)
+ENDIF(CABLE_TCL_FACILITY)
