@@ -393,7 +393,7 @@ void Solver::AssembleK() {
     for(LoadBCMFC::LhsType::iterator q=(*c)->lhs.begin(); q!=(*c)->lhs.end(); q++) {
       
       /** obtain the GFN of DOF that is in the MFC */
-      int gfn=q->m_element->GetDegreeOfFreedom(q->dof);
+      Element::DegreeOfFreedomIDType gfn=q->m_element->GetDegreeOfFreedom(q->dof);
 
       /** error checking. all GFN should be =>0 and <NGFN */
       if ( gfn<0 || gfn>=NGFN )
@@ -456,7 +456,7 @@ void Solver::AssembleF(int dim) {
       for(unsigned int dof=0; dof < (l1->m_element->GetNumberOfDegreesOfFreedomPerPoint()); dof++)
       {
         // error checking
-        if ( l1->m_element->GetDegreeOfFreedomAtPoint(l1->m_pt,dof) < 0 || l1->m_element->GetDegreeOfFreedomAtPoint(l1->m_pt,dof) >= NGFN )
+        if ( l1->m_element->GetDegreeOfFreedomAtPoint(l1->m_pt,dof) >= NGFN )
         {
           throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleF()","Illegal GFN!");
         }
@@ -494,7 +494,7 @@ void Solver::AssembleF(int dim) {
           // call the Fe() function of the element that we are applying the load to.
           // we pass a pointer to the load object as a paramater.
           vnl_vector<Float> Fe = el0->Fe(Element::LoadElementPointer(l1));
-          int Ne=el0->GetNumberOfDegreesOfFreedom();          // ... element's number of DOF
+          unsigned int Ne=el0->GetNumberOfDegreesOfFreedom();          // ... element's number of DOF
           for(unsigned int j=0; j<Ne; j++)    // step over all DOF
           {
             // error checking
@@ -517,7 +517,7 @@ void Solver::AssembleF(int dim) {
         for(ElementArray::iterator e=el.begin(); e!=el.end(); e++) // step over all elements in a system
         {
           vnl_vector<Float> Fe=(*e)->Fe(Element::LoadElementPointer(l1));  // ... element's force vector
-          int Ne=(*e)->GetNumberOfDegreesOfFreedom();          // ... element's number of DOF
+          unsigned int Ne=(*e)->GetNumberOfDegreesOfFreedom();          // ... element's number of DOF
 
           for(unsigned int j=0; j<Ne; j++)        // step over all DOF
           {

@@ -61,7 +61,7 @@ public:
    * is required by derived class.
    */
   LinearSystemWrapper() 
-    : m_NumberOfMatrices(1), m_NumberOfVectors(1), m_NumberOfSolutions(1),
+    : m_Order(0), m_NumberOfMatrices(1), m_NumberOfVectors(1), m_NumberOfSolutions(1),
     m_PrimaryMatrixSetupFunction(0), m_PrimaryVectorSetupFunction(0), m_PrimarySolutionSetupFunction(0) {}
 
   /**
@@ -310,22 +310,10 @@ public:
 
 protected:
 
-  /** 
-   * Function used to prepare primary matrix for numerical solving 
-   */
-  void (*m_PrimaryMatrixSetupFunction)(LinearSystemWrapper *lsw);
+  /** Order of linear system */
+  int m_Order;
 
-  /** 
-   * Function used to prepare primary vector for numerical solving 
-   */
-  void (*m_PrimaryVectorSetupFunction)(LinearSystemWrapper *lsw);
-
-  /** 
-   * Function used to prepare primary matrix for numerical solving 
-   */
-  void (*m_PrimarySolutionSetupFunction)(LinearSystemWrapper *lsw);
-
-  /** 
+  /**
    * Number of matrices used by system 
    */
   unsigned int m_NumberOfMatrices;
@@ -340,8 +328,20 @@ protected:
    */
   unsigned int m_NumberOfSolutions;
 
-  /** Order of linear system */
-  int m_Order;
+  /** 
+   * Function used to prepare primary matrix for numerical solving 
+   */
+  void (*m_PrimaryMatrixSetupFunction)(LinearSystemWrapper *lsw);
+
+  /** 
+   * Function used to prepare primary vector for numerical solving 
+   */
+  void (*m_PrimaryVectorSetupFunction)(LinearSystemWrapper *lsw);
+
+  /** 
+   * Function used to prepare primary matrix for numerical solving 
+   */
+  void (*m_PrimarySolutionSetupFunction)(LinearSystemWrapper *lsw);
 
 private:
 
