@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkTableLookupClassifier.txx
+  Module:    itkTableLookupSampleClassifier.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,42 +38,48 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef __itkTableLookupClassifier_txx
-#define __itkTableLookupClassifier_txx
+#ifndef __itkTableLookupSampleClassifier_txx
+#define __itkTableLookupSampleClassifier_txx
 
 
 namespace itk{ 
   namespace Statistics{
 
 template< class TSample, class TMembershipCalculator, class TDecisionRule >
-TableLookupClassifier< TSample, TMembershipCalculator, TDecisionRule >
-::TableLookupClassifier()
+TableLookupSampleClassifier< TSample, TMembershipCalculator, TDecisionRule >
+::TableLookupSampleClassifier()
 {
   m_LookupTable = 0 ;
 }
 
 template< class TSample, class TMembershipCalculator, class TDecisionRule >
 void
-TableLookupClassifier< TSample, TMembershipCalculator, TDecisionRule >
-::SetLookupTableLowerBound(CachedMeasurementVectorType lower)
+TableLookupSampleClassifier< TSample, TMembershipCalculator, TDecisionRule >
+::SetLookupTableLowerBound(MeasurementVectorType lower)
 {
-  m_LowerBound = lower ;
+  for (unsigned int i = 0 ; i < MeasurementVectorSize ; i++)
+    {
+      m_LowerBound[i] = lower[i] ;
+    }
 }
 
 template< class TSample, class TMembershipCalculator, class TDecisionRule >
 void
-TableLookupClassifier< TSample, TMembershipCalculator, TDecisionRule >
-::SetLookupTableUpperBound(CachedMeasurementVectorType upper)
+TableLookupSampleClassifier< TSample, TMembershipCalculator, TDecisionRule >
+::SetLookupTableUpperBound(MeasurementVectorType upper)
 {
-  m_UpperBound = upper ;
+  for (unsigned int i = 0 ; i < MeasurementVectorSize ; i++)
+    {
+      m_UpperBound[i] = upper[i] ;
+    }
 }
 
 template< class TSample, class TMembershipCalculator, class TDecisionRule >
 void
-TableLookupClassifier< TSample, TMembershipCalculator, TDecisionRule >
+TableLookupSampleClassifier< TSample, TMembershipCalculator, TDecisionRule >
 ::PrepareLookupTable()
 {
-  size_t i ;
+  int i ;
   RegionType region ;
   SizeType size ;
   m_LookupTable = LookupTableType::New() ;
@@ -90,7 +96,7 @@ TableLookupClassifier< TSample, TMembershipCalculator, TDecisionRule >
   m_LookupTable->Allocate() ;
 
   std::vector< double > discriminantScores ;
-  size_t numberOfClasses = GetNumberOfClasses() ;
+  int numberOfClasses = GetNumberOfClasses() ;
   discriminantScores.resize(numberOfClasses) ;
 
   CachedMeasurementVectorType cachedMeasurementVector ;
@@ -119,41 +125,40 @@ TableLookupClassifier< TSample, TMembershipCalculator, TDecisionRule >
 
 template< class TSample, class TMembershipCalculator, class TDecisionRule >
 void
-TableLookupClassifier< TSample, TMembershipCalculator, TDecisionRule >
+TableLookupSampleClassifier< TSample, TMembershipCalculator, TDecisionRule >
 ::GenerateData()
 {
-  unsigned int i ;
-  
   if (m_LookupTable == 0)
     {
       PrepareLookupTable() ;
     }
 
   typename TSample::Iterator iter = GetSample()->Begin() ;
-  typename TSample::Iterator last = GetSample()->End() ;
+  typename TSample::Iterator end = GetSample()->End() ;
   typename TSample::MeasurementVectorType measurements ;
+  unsigned int numberOfClasses = GetMembershipCalculatorVector().size() ;
   CachedMeasurementVectorType temp ;
   OutputPointer output = GetOutput() ;
-
-  while (iter != last)
+  unsigned int classLabel ;
+  output->SetNumberOfClasses(numberOfClasses) ;
+  while (iter != end)
     {
       measurements = iter.GetMeasurementVector() ;
-      for (size_t i = 0 ; i < MeasurementVectorSize ; i++)
+      for (int i = 0 ; i < MeasurementVectorSize ; i++)
         {
           temp[i] = measurements[i] ;
         }
-      m_LookupTable->GetPixel(temp) ;
-      output->AddInstance(m_LookupTable->GetPixel(temp), iter.GetInstanceIdentifier()) ;
+      classLabel = m_LookupTable->GetPixel(temp) ;
+      output->AddInstance(classLabel, iter.GetInstanceIdentifier()) ;
       ++iter ;
     }
 }
 
 template< class TSample, class TMembershipCalculator, class TDecisionRule >
 void
-TableLookupClassifier< TSample, TMembershipCalculator, TDecisionRule >
+TableLookupSampleClassifier< TSample, TMembershipCalculator, TDecisionRule >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
-  unsigned int i ;
   Superclass::PrintSelf(os,indent);
 }
   } // end of namespace Statistics 

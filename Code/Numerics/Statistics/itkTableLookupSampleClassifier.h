@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkTableLookupClassifier.h
+  Module:    itkTableLookupSampleClassifier.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,22 +38,22 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef __itkTableLookupClassifier_h
-#define __itkTableLookupClassifier_h
+#ifndef __itkTableLookupSampleClassifier_h
+#define __itkTableLookupSampleClassifier_h
 
 #include <vector>
 
-#include "itkGenericClassifier.h"
+#include "itkSampleClassifier.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
 namespace itk{ 
 namespace Statistics{
 
-/** \class TableLookupClassifier 
+/** \class TableLookupSampleClassifier 
  *  \brief Integration point for MembershipCalculator, DecisionRule, and 
  * target sample data with a pre-calculated look up table.
  *
- * This classifier is identical to the GenericClassifier except 
+ * This classifier is identical to the SampleClassifier except 
  * that it creates a look-up table which stores a mapping between
  * a measurement vector and its corresponding class labels. After
  * this step, classification of target data becomes a look up operation
@@ -95,20 +95,20 @@ namespace Statistics{
  */
 
 template< class TSample, class TMembershipCalculator, class TDecisionRule >
-class ITK_EXPORT TableLookupClassifier : 
-    public GenericClassifier< TSample, TMembershipCalculator, TDecisionRule >
+class ITK_EXPORT TableLookupSampleClassifier : 
+    public SampleClassifier< TSample, TMembershipCalculator, TDecisionRule >
 {
 public:
   /** Standard class typedef*/
-  typedef TableLookupClassifier Self;
-  typedef GenericClassifier< TSample, TMembershipCalculator, TDecisionRule > Superclass;
+  typedef TableLookupSampleClassifier Self;
+  typedef SampleClassifier< TSample, TMembershipCalculator, TDecisionRule > Superclass;
   typedef SmartPointer<Self> Pointer;
 
   /** Standard macros */
-  itkTypeMacro(TableLookupClassifier, GenericClassifier);
+  itkTypeMacro(TableLookupSampleClassifier, SampleClassifier);
   itkNewMacro(Self) ;
 
-  /** Common typedefs for classifiers which are Inherited from GenericClassifier class */
+  /** Common typedefs for classifiers which are Inherited from SampleClassifier class */
   typedef typename Superclass::SampleType SampleType ;
   typedef typename Superclass::SamplePointer SamplePointer ;
   typedef typename Superclass::MembershipCalculatorType MembershipCalculatorType ;
@@ -132,17 +132,17 @@ public:
   typedef LookupTableType::SizeType SizeType ;
 
   /** sets the upper boundary for the lookup table construction */
-  void SetLookupTableLowerBound(CachedMeasurementVectorType lower) ;
+  void SetLookupTableLowerBound(MeasurementVectorType lower) ;
 
   /** sets the upper boundary for the lookup table construction */
-  void SetLookupTableUpperBound(CachedMeasurementVectorType upper) ;
+  void SetLookupTableUpperBound(MeasurementVectorType upper) ;
 
   /** Starts the classification process */
   void GenerateData() ;
 
 protected:
-  TableLookupClassifier() ;
-  virtual ~TableLookupClassifier() {}
+  TableLookupSampleClassifier() ;
+  virtual ~TableLookupSampleClassifier() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   void PrepareLookupTable() ;
@@ -159,7 +159,7 @@ private:
 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTableLookupClassifier.txx"
+#include "itkTableLookupSampleClassifier.txx"
 #endif
 
 #endif
