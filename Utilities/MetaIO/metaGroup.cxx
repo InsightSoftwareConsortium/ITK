@@ -90,10 +90,6 @@ M_SetupReadFields(void)
   if(META_DEBUG) std::cout << "MetaGroup: M_SetupReadFields" << std::endl;
 
   MetaObject::M_SetupReadFields();
-
-  MET_FieldRecordType * mF;
-
-  int nDimsRecNum = MET_GetFieldRecordNumber("NDims", &m_Fields);
 }
 
 void MetaGroup::
@@ -101,25 +97,27 @@ M_SetupWriteFields(void)
 {
   strcpy(m_ObjectTypeName,"Group");
   MetaObject::M_SetupWriteFields();
-
-  MET_FieldRecordType * mF;
 }
 
 
 bool MetaGroup::
 M_Read(void)
 {
-  if(META_DEBUG) std::cout << "MetaGroup: M_Read: Loading Header" << std::endl;
+  if(META_DEBUG) 
+    {
+    std::cout << "MetaGroup: M_Read: Loading Header" << std::endl;
+    }
   
   if(!MetaObject::M_Read())
-  {
+    {
     std::cout << "MetaGroup: M_Read: Error parsing file" << std::endl;
     return false;
-  }
+    }
 
-  if(META_DEBUG) std::cout << "MetaGroup: M_Read: Parsing Header" << std::endl;
- 
-  MET_FieldRecordType * mF;
+  if(META_DEBUG)
+    {
+    std::cout << "MetaGroup: M_Read: Parsing Header" << std::endl;
+    }
  
   return true;
 }

@@ -87,7 +87,7 @@ ImageSpatialObject< NDimensions,  PixelType, PipelineDimension >
     PointType p = point;
     TransformPointToLocalCoordinate(p);
     IndexType index;
-    for(int i=0; i<NDimensions; i++)
+    for(unsigned int i=0; i<NDimensions; i++)
       {
       index[i] = (int)p[i];
       }
