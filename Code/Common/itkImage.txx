@@ -41,12 +41,6 @@ Image<TPixel, VImageDimension>
     m_Spacing[i] = 1.0;
     m_Origin[i] = 0.0;
     }
-
-  typedef AffineTransform< double,  VImageDimension > AffineTransformType;
-
-  m_IndexToPhysicalTransform = AffineTransformType::New();
-  m_PhysicalToIndexTransform = AffineTransformType::New();
-
 }
 
 
@@ -121,7 +115,6 @@ Image<TPixel, VImageDimension>
 }
     
 
-
 //----------------------------------------------------------------------------
 template<class TPixel, unsigned int VImageDimension>
 void 
@@ -142,7 +135,6 @@ Image<TPixel, VImageDimension>
       {
       m_Spacing[i] = spacing[i];
       }
-    this->RebuildTransforms();
     }
 }
 
@@ -166,7 +158,6 @@ Image<TPixel, VImageDimension>
       {
       m_Spacing[i] = spacing[i];
       }
-  this->RebuildTransforms();
     }
 }
 
@@ -193,7 +184,6 @@ Image<TPixel, VImageDimension>
       {
       m_Origin[i] = origin[i];
       }
-    this->RebuildTransforms();
     }
 }
 
@@ -218,96 +208,9 @@ Image<TPixel, VImageDimension>
       {
       m_Origin[i] = origin[i];
       }
-    this->RebuildTransforms();
     }
 }
 
-
-//---------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension>
-void 
-Image<TPixel, VImageDimension>
-::RebuildTransforms() throw ( std::exception )
-{
-  typedef AffineTransform< double, VImageDimension > AffineTransformType;
-
-  typename AffineTransformType::MatrixType matrix;
-  typename AffineTransformType::OffsetType offset;
-
-  for (unsigned int i = 0; i < VImageDimension; i++)
-    {
-    for (unsigned int j = 0; j < VImageDimension; j++)
-      {
-      matrix[i][j] = 0.0;
-      }
-    matrix[i][i] = m_Spacing[i];
-    offset[i]    = m_Origin [i];
-    }
-
-  // Create a new transform if one doesn't already exist
-  if ( !m_IndexToPhysicalTransform )
-    {
-    m_IndexToPhysicalTransform = 
-                AffineTransformType::New().GetPointer();
-    }
-
-  // WARNING this will throw an exception if the 
-  // actual Transform stored in the image is not an
-  // Affine Transform !!
-  typename AffineTransformType::Pointer affineTransform =
-           dynamic_cast< AffineTransformType * >( 
-               m_IndexToPhysicalTransform.GetPointer() );
-
-  affineTransform->SetMatrix(matrix);
-  affineTransform->SetOffset(offset);
-
-  for (unsigned int i = 0; i < VImageDimension; i++)
-    {
-    for (unsigned int j = 0; j < VImageDimension; j++)
-      {
-      matrix[i][j] = 0.0;
-      }
-    matrix[i][i] = 1.0 / m_Spacing[i];
-    offset[i]    = -m_Origin[i] / m_Spacing[i];
-    }
-
-  // Create a new transform if one doesn't already exist
-  if( !m_PhysicalToIndexTransform  )
-    {
-    m_PhysicalToIndexTransform = 
-                AffineTransformType::New().GetPointer();
-    }
-  
-
-  affineTransform = dynamic_cast< AffineTransformType * >( 
-                              m_PhysicalToIndexTransform.GetPointer() );
-
-  affineTransform->SetMatrix(matrix);
-  affineTransform->SetOffset(offset);
-
-  this->Modified();
-
-}
-
-
-//---------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension>
-typename Image<TPixel, VImageDimension>::TransformPointer
-Image<TPixel, VImageDimension>
-::GetIndexToPhysicalTransform(void) const
-{     
-  return m_IndexToPhysicalTransform.GetPointer();
-}
-
-
-//---------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension>
-typename Image<TPixel, VImageDimension>::TransformPointer
-Image<TPixel, VImageDimension>
-::GetPhysicalToIndexTransform(void) const
-{
-  return m_PhysicalToIndexTransform.GetPointer();
-}
 
 //----------------------------------------------------------------------------
 template<class TPixel, unsigned int VImageDimension>
@@ -365,14 +268,6 @@ Image<TPixel, VImageDimension>
   os << m_Spacing[i] << "]" << std::endl;
 
   os << indent << "PixelContainer: " << m_Buffer << std::endl;
-  if (m_IndexToPhysicalTransform)
-    {       
-    os << indent << "IndexToPhysicalTransform: " << m_IndexToPhysicalTransform << std::endl;
-    }
-  if (m_PhysicalToIndexTransform)
-    {
-    os << indent << "PhysicalToIndexTransform: " << m_PhysicalToIndexTransform << std::endl;
-    }
 }
 
 

@@ -23,7 +23,6 @@
 #include "itkDefaultPixelAccessor.h"
 #include "itkPoint.h"
 #include "itkContinuousIndex.h"
-#include "itkTransform.h"
 
 namespace itk
 {
@@ -132,16 +131,6 @@ public:
   
   /** A pointer to the pixel container. */
   typedef typename PixelContainer::Pointer PixelContainerPointer;
-
-  /** 
-   *  Typedefs of the Transform Base class associated with the image
-   *  This transform facilitate the mapping between Indexes and PhysicalPoints.
-   *  The Image keeps a SmartPointer to a Transform (the base class). Any Transform 
-   *  deriving from itk::Transform can be associated to this pointer.
-   */
-   typedef Transform< double, VImageDimension, VImageDimension > TransformType;
-   typedef typename TransformType::Pointer                       TransformPointer;
-
 
   /** Allocate the image memory. The image Dimension and Size must 
    * already been set. */
@@ -252,61 +241,20 @@ public:
    * \sa GetOrigin() */
   virtual void SetOrigin( const double origin[VImageDimension] );
   virtual void SetOrigin( const float origin[VImageDimension] );
-  
-  /** Get the index-to-physical coordinate transformation
-   *
-   * This method returns an Transform which defines the
-   * transformation from index coordinates to physical coordinates
-   * determined by the origin and spacing of this image. */
-  TransformPointer GetIndexToPhysicalTransform(void) const;
-
-  /** Get the physical-to-index coordinate transformation
-   *
-   * This method returns an Transform which defines the
-   * transformation from physical coordinates to index coordinates
-   * determined by the origin and spacing of this image. */
-  TransformPointer GetPhysicalToIndexTransform(void) const;
-
-  /** Gets and sets for affine transforms. */
-  itkSetObjectMacro(IndexToPhysicalTransform, TransformType );
-  itkSetObjectMacro(PhysicalToIndexTransform, TransformType );
-    
-  /** Rebuild affine transforms based on origin and spacing 
-   * \warning This method assumes that Transforms in the image
-   * are Affine Transforms. If you require to use an image with
-   * different kind of transform you will have to derive a new
-   * image class from itk::Image and make sure to overload this
-   * method  */
-  virtual void RebuildTransforms(void) throw ( std::exception );  
 
   /** \brief Get the continuous index from a physical point
    *
    * Returns true if the resulting index is within the image, false otherwise.
-   * Since this function internally uses Tranform, it is
-   * templated over coordinate value type (TCoordRep); using float or
-   * double for the coordinate value type is recommended.
-   * \todo
-   * In future, when MS Visual C++ supports out-of-class member templates,
-   * move function definition to itkImage.txx file.
    * \sa Transform */
   template<class TCoordRep> 
   bool TransformPhysicalPointToContinuousIndex(
               const Point<TCoordRep, VImageDimension>& point, 
               ContinuousIndex<TCoordRep, VImageDimension>& index   ) const
     {
-    // If no current transforms exist, throw an exception
-    if ( !m_PhysicalToIndexTransform ) 
-      { 
-      itkExceptionMacro("The Image lacks a PhysicalToIndexTransform");
-      }
-
-    typename TransformType::InputPointType inputPoint =
-                          m_PhysicalToIndexTransform->TransformPoint(point) ;
-
     // Update the output index
     for (unsigned int i = 0 ; i < VImageDimension ; i++)
       { 
-      index[i] = static_cast<TCoordRep>(inputPoint[i]);
+      index[i] = static_cast<TCoordRep>( (point[i]- m_Origin[i]) / m_Spacing[i] );
       }
     
     // Now, check to see if the index is within allowed bounds
@@ -319,33 +267,18 @@ public:
   /** Get the index (discrete) from a physical point.
    * Floating point index results are truncated to integers.
    * Returns true if the resulting index is within the image, false otherwise
-   * Since this function internally uses a Tranform, it is
-   * templated over coordinate value type (TCoordRep); using float or
-   * double for the coordinate value type is recommended.
-   * \todo
-   * In future, when MS Visual C++ supports out-of-class member templates,
-   * move function definition to itkImage.txx file.
    * \sa Transform */
   template<class TCoordRep> 
   bool TransformPhysicalPointToIndex(
             const Point<TCoordRep, VImageDimension>& point, 
             IndexType & index                                ) const
     {
-    // If no current transforms exist, throw an exception
-    if ( !m_PhysicalToIndexTransform ) 
-      { 
-      itkExceptionMacro("The Image lacks a PhysicalToIndexTransform");
-      }
-
-    typename TransformType::InputPointType inputPoint =
-                          m_PhysicalToIndexTransform->TransformPoint(point) ;
-
     typedef typename IndexType::IndexValueType IndexValueType;
 
     // Update the output index
     for (unsigned int i = 0 ; i < VImageDimension ; i++)
       { 
-      index[i] = static_cast<IndexValueType>(inputPoint[i]);
+      index[i] = static_cast<IndexValueType>( (point[i]- m_Origin[i]) / m_Spacing[i] );
       }
     
     // Now, check to see if the index is within allowed bounds
@@ -358,49 +291,21 @@ public:
   /** Get a physical point (in the space which 
    * the origin and spacing infomation comes from) 
    * from a continuous index (in the index space) 
-   *
-   * Since this function internally uses a Tranform, it is
-   * templated over coordinate value type (TCoordRep); using float or
-   * double for the coorinate value type is recommended.
-   *
-   * \todo In future, when MS Visual C++ supports out-of-class member 
-   * templates, move function definition to itkImage.txx file.
    * \sa Transform */
   template<class TCoordRep> 
   void TransformContinuousIndexToPhysicalPoint( 
             const ContinuousIndex<TCoordRep, VImageDimension>& index, 
             Point<TCoordRep, VImageDimension>& point        ) const
     {
-    // If no current transforms exist, throw an exception
-    if ( !m_IndexToPhysicalTransform ) 
-      { 
-      itkExceptionMacro("The Image lacks a IndexToPhysicalTransform");
-      }
-
-    typename TransformType::InputPointType inputPoint;
-
-    // Update the input index
     for (unsigned int i = 0 ; i < VImageDimension ; i++)
-      { inputPoint[i] = index[i]; }
-
-    // Transform the point
-    typename TransformType::OutputPointType outputPoint =
-      m_IndexToPhysicalTransform->TransformPoint(inputPoint) ;
-  
-    // Update the output point
-    point = outputPoint;
+      {
+      point[i] = static_cast<TCoordRep>(m_Origin[i] + m_Spacing[i] * index[i]);
+      }
     }
 
   /** Get a physical point (in the space which 
    * the origin and spacing infomation comes from) 
    * from a discrete index (in the index space) 
-   *
-   * Since this function internally uses a Tranform, it is
-   * templated over coordinate value type (TCoordRep); using float or
-   * double for the coorinate value type is recommended.
-   *
-   * \todo In future, when MS Visual C++ supports out-of-class member 
-   * templates, move function definition to itkImage.txx file.
    *
    * \sa Transform */
   template<class TCoordRep> 
@@ -408,27 +313,9 @@ public:
                       const IndexType & index, 
                       Point<TCoordRep, VImageDimension>& point ) const 
     {
-    if ( !m_IndexToPhysicalTransform ) 
-      { 
-      itkExceptionMacro("The Image lacks a IndexToPhysicalTransform");
-      }
-
-    typename TransformType::InputPointType inputPoint;
-
-    // Update the input index
     for (unsigned int i = 0 ; i < VImageDimension ; i++)
-      { 
-      inputPoint[i] = index[i]; 
-      }
-
-    // Transform the point
-    typename TransformType::OutputPointType outputPoint =
-      m_IndexToPhysicalTransform->TransformPoint(inputPoint) ;
-  
-    // Update the output point
-    for (unsigned int i = 0 ; i < VImageDimension ; ++i)
-      { 
-      point[i] = outputPoint[i]; 
+      {
+      point[i] = static_cast<TCoordRep>(m_Origin[i] + m_Spacing[i] * index[i]);
       }
     }
 
@@ -461,10 +348,6 @@ private:
 
   /** Memory for the current buffer. */
   PixelContainerPointer m_Buffer;
-
-  /** Transforms used to convert between data and physical space. */
-  TransformPointer  m_IndexToPhysicalTransform;
-  TransformPointer  m_PhysicalToIndexTransform;
 };
 
 } // end namespace itk
