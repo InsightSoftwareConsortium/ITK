@@ -152,7 +152,7 @@ int main( int argc, char ** argv )
 //
 // The output is rescaled and written as in the previous example.  Applying
 // this example in the $x$ and $y$-directions produces the images at the center
-// and right of figure~\ref{fig:NeighborhoodExample1}.
+// and right of figure~\ref{fig:NeighborhoodExamples1}.
 // 
 // Software Guide : EndLatex
 

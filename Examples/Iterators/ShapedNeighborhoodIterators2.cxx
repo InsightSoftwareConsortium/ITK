@@ -153,6 +153,21 @@ int main( int argc, char ** argv )
 // \code{Insight\Examples\Data\BinaryImage.png}.  Applying erosion and dilation
 // in sequence effects the morphological operations of opening and closing.
 //
+//
+// \begin{figure} \centering
+// \includegraphics[width=0.18\textwidth]{BinaryImage.eps}
+// \includegraphics[width=0.18\textwidth]{ShapedNeighborhoodIterators1a.eps}
+// \includegraphics[width=0.18\textwidth]{ShapedNeighborhoodIterators1b.eps}
+// \includegraphics[width=0.18\textwidth]{ShapedNeighborhoodIterators1c.eps}
+// \includegraphics[width=0.18\textwidth]{ShapedNeighborhoodIterators1d.eps}
+// \itkcaption[Binary image morphology]{The effects of morphological operations
+// on a binary image using a circular structuring element of size 4.  From left
+// to right are the original image, erosion, dilation, opening, and closing.
+// The opening operation is erosion of the image followed by dilation.  Closing
+// is dilation of the image followed by erosion.} 
+// \protect\label{fig:ShapedNeighborhoodExample2}
+// \end{figure}
+//
 // Software Guide : EndLatex
   
   typedef itk::ImageFileWriter< ImageType > WriterType;

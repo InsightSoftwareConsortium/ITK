@@ -207,7 +207,7 @@ int main( int argc, char ** argv )
 // iterator to find the local miminim in the image from several different seed
 // points.  The minimum is at the center of the image.  The effects of noise in
 // the image are seen as small perturbations in the paths.}
-// \protect\label{fig:NeighborhoodExamples6}
+// \protect\label{fig:NeighborhoodExample6}
 // \end{figure}
 //
 // Software Guide : EndLatex

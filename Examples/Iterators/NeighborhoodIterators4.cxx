@@ -170,7 +170,7 @@ int main( int argc, char ** argv )
 // convolution filtering with a Guassian kernel of increasing standard
 // deviation $\sigma$.  From left to right, $\sigma = 0$, $\sigma = 1$, $\sigma
 // = 2$, $\sigma = 5$}
-// \protect\label{fig:NeighborhoodExamples4}
+// \protect\label{fig:NeighborhoodExample4}
 // \end{figure}
 //
 // Software Guide : EndLatex
