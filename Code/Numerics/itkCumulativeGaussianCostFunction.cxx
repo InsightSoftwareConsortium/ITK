@@ -34,6 +34,7 @@ CumulativeGaussianCostFunction
 CumulativeGaussianCostFunction
 ::~CumulativeGaussianCostFunction()
 {
+  delete m_OriginalDataArray;
 }
 
 void
