@@ -26,7 +26,7 @@ inline ostream& operator<<(ostream &o, const itk::Vector<float, 3> &v)
   return o;
 }
 
-main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
   try
     {
@@ -56,7 +56,7 @@ main(int argc, char *argv[])
   catch(itk::ExceptionObject &err)
     {
       (&err)->Print(std::cerr);
-      return 2;
+      return 1;
     } 
-  return 1;   
+  return 0;   
 }
