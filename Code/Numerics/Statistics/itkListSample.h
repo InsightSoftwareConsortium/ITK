@@ -82,18 +82,18 @@ public:
 
   /** returns the number of measurement vectors in this container*/
   unsigned int Size() const
-  { return m_InternalContainer.size() ; }
+  { return static_cast<unsigned int>( m_InternalContainer.size() ); }
 
   /** returns the number of measurement vectors int this container.
    * The size of each dimension in any subclass of ListSampleBase
    * doen't vary. However, the dimension's size of histogram can be
    * different from other dimensions */
   unsigned int Size(const unsigned int &dimension) const
-  { return m_InternalContainer.size() ; }
+  { return static_cast<unsigned int>( m_InternalContainer.size() ); }
 
   /** returns the number of measurement vectors int this container */
   unsigned int GetNumberOfInstances() const 
-  { return m_InternalContainer.size() ; }
+  { return static_cast<unsigned int>( m_InternalContainer.size() ); }
 
   /** returns the measurement vector that is specified by the instance
    * identifier argument. */
@@ -115,7 +115,7 @@ public:
 
   /** returns the size of this container */
   FrequencyType GetTotalFrequency(const unsigned int &dimension) const
-  { return m_InternalContainer.size() ; }
+  { return static_cast<FrequencyType>( m_InternalContainer.size() ); }
 
   /** iterator support */
   class Iterator;

@@ -150,7 +150,7 @@ protected:
 
     /** returns the number of candidate = k */
     int Size()
-    { return m_Candidates.size() ; }
+    { return static_cast<int>( m_Candidates.size() ); }
 
     /** Initialize the centeroids with the argument.
      * At each iteration, this should be called before filtering*/

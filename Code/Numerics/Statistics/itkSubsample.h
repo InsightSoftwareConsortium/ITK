@@ -93,12 +93,12 @@ public:
    * elements in each dimension */
   unsigned int Size() const
   { 
-    return m_IdHolder.size() ;
+    return static_cast<unsigned int>( m_IdHolder.size() );
   }
 
   unsigned int Size(const unsigned int &) const
   {
-    return m_IdHolder.size() ;
+    return static_cast<unsigned int>( m_IdHolder.size() );
   }
 
   unsigned int GetNumberOfInstances() const ;

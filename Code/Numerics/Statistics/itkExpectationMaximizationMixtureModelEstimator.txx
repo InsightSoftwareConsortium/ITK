@@ -92,7 +92,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
 ::AddComponent(ComponentType* component)
 {
   m_ComponentVector.push_back(component) ;
-  return m_ComponentVector.size() ;
+  return static_cast<int>( m_ComponentVector.size() );
 }
 
 template< class TSample >
@@ -100,7 +100,7 @@ int
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::GetNumberOfComponents()
 {
-  return m_ComponentVector.size() ;
+  return static_cast<int>( m_ComponentVector.size() );
 }
 
 template< class TSample >
@@ -141,7 +141,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
     }
 
   double temp ;
-  int numberOfComponents = m_ComponentVector.size() ;
+  int numberOfComponents = static_cast<int>( m_ComponentVector.size() );
   std::vector< double > tempWeights(numberOfComponents) ;
 
   typename TSample::Iterator iter = m_Sample->Begin() ;

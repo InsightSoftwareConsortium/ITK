@@ -193,7 +193,7 @@ struct KdTreeTerminalNode: public KdTreeNode< TSample >
   { return 0 ; }
 
   unsigned int Size()
-  { return m_InstanceIdentifiers.size() ; }
+  { return static_cast<unsigned int>( m_InstanceIdentifiers.size() ); }
 
   void GetWeightedCenteroid(CenteroidType &)
   { /* do nothing */ } 
@@ -268,7 +268,8 @@ public:
       m_Identifiers[m_FarthestNeighborIndex] = id ;
       m_Distances[m_FarthestNeighborIndex] = distance ;
       double farthestDistance = NumericTraits< double >::min() ;
-      for ( unsigned int i = 0 ; i < m_Distances.size() ; i++ )
+      const unsigned int size = static_cast<unsigned int>( m_Distances.size() );
+      for ( unsigned int i = 0 ; i < size; i++ )
         {
           if ( m_Distances[i] > farthestDistance )
             {
