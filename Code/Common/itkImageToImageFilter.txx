@@ -31,7 +31,6 @@ namespace itk
 template <class TInputImage, class TOutputImage>
 ImageToImageFilter<TInputImage,TOutputImage>
 ::ImageToImageFilter()
-  : m_RegionCopier()
 {
   // Modify superclass default values, can be overridden by subclasses
   this->SetNumberOfRequiredInputs(1);
@@ -133,7 +132,7 @@ ImageToImageFilter<TInputImage,TOutputImage>
       // dimension, the input a higher dimension than the output, and the
       // input a lower dimension than the output.
       InputImageRegionType inputRegion;
-      m_RegionCopier(inputRegion, this->GetOutput()->GetRequestedRegion());
+      this->CallCopyRegion(inputRegion, this->GetOutput()->GetRequestedRegion());
       input->SetRequestedRegion( inputRegion );
       }
     }  
@@ -142,11 +141,20 @@ ImageToImageFilter<TInputImage,TOutputImage>
 template<class TInputImage, class TOutputImage>
 void 
 ImageToImageFilter<TInputImage,TOutputImage>
+::CallCopyRegion(ImageRegion<InputImageDimension> &destRegion,
+                 const ImageRegion<OutputImageDimension> &srcRegion)
+{
+  RegionCopierType regionCopier;
+  regionCopier(destRegion, srcRegion);
+}
+
+
+template<class TInputImage, class TOutputImage>
+void 
+ImageToImageFilter<TInputImage,TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  
-  os << indent << "RegionCopier: " << m_RegionCopier << std::endl;
 }
 
 

@@ -123,18 +123,10 @@ public:
   typedef
      ImageToImageFilterDetail::ImageRegionCopier<InputImageDimension,
                                         OutputImageDimension> RegionCopierType;
-  
-  /** Set the function object used for copying output regions (start
-   * index and size) to input regions. These methods are protected because
-   * the general user should not be changing the region copier.*/
-  itkSetMacro(RegionCopier, RegionCopierType);
-  itkGetMacro(RegionCopier, RegionCopierType);
 
-private:
-  ImageToImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
-  /** Function object used for dispatching to various routines to
+  /** This function calls the actual region copier to do the mapping from
+   * output image space to input image space.  It uses a 
+   * Function object used for dispatching to various routines to
    * copy an output region (start index and size) to an input region.
    * For most filters, this is a trivial copy because most filters
    * require the input dimension to match the output dimension.
@@ -169,7 +161,12 @@ private:
    * filter can control "where" in the input image the output subimage
    * is extracted (as opposed to mapping to first few dimensions of
    * the input). */
-  RegionCopierType m_RegionCopier;
+  virtual void CallCopyRegion(ImageRegion<InputImageDimension> &destRegion,
+                              const ImageRegion<OutputImageDimension> &srcRegion);
+
+private:
+  ImageToImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 };
 
 } // end namespace itk
