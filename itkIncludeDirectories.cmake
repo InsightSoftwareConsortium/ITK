@@ -59,6 +59,16 @@ IF(NOT ITK_USE_SYSTEM_VXL)
     )
 ENDIF(NOT ITK_USE_SYSTEM_VXL)
 
+# Patended include directories added only if the user explicitly enabled the
+# ITK_USE_PATENTED option. Users are responsible for getting a license from the
+# patent holders in order to use any of those methods.
+IF(ITK_USE_PATENTED)
+  SET(ITK_INCLUDE_DIRS_BUILD_TREE ${ITK_INCLUDE_DIRS_BUILD_TREE}
+    ${ITK_SOURCE_DIR}/Code/Patented
+    )
+ENDIF(ITK_USE_PATENTED)
+
+
 #-----------------------------------------------------------------------------
 # Include directories needed for .cxx files in ITK.  These include
 # directories will NOT be available to user projects.
@@ -96,6 +106,15 @@ IF(NOT ITK_USE_SYSTEM_VXL)
     ${ITK_INSTALL_INCLUDE_DIR}/Utilities/vxl/core
     )
 ENDIF(NOT ITK_USE_SYSTEM_VXL)
+
+# Patended include directories added only if the user explicitly enabled the
+# ITK_USE_PATENTED option. Users are responsible for getting a license from the
+# patent holders in order to use any of those methods.
+IF(ITK_USE_PATENTED)
+  SET(ITK_INCLUDE_DIRS_INSTALL_TREE ${ITK_INCLUDE_DIRS_INSTALL_TREE}
+    ${ITK_INSTALL_INCLUDE_DIR}/Code/Patented
+    )
+ENDIF(ITK_USE_PATENTED)
 
 #-----------------------------------------------------------------------------
 # Include directories for 3rd-party utilities provided by ITK.

@@ -105,6 +105,11 @@ ENDIF( ITK_EXPLICIT_INSTANTIATION )
 #OPTION(ITK_CSWIG_PERL "Build cswig Perl wrapper support " OFF)
 
 #-----------------------------------------------------------------------------
+# ITK build patented algorithms
+OPTION(ITK_USE_PATENTED "Build algorithms that are covered with Patents. It is YOUR responsibility to obbtain a license from the patent holder in order to user these methods." OFF)
+MARK_AS_ADVANCED(ITK_USE_PATENTED)
+
+#-----------------------------------------------------------------------------
 # Do we need CableSwig?
 SET(ITK_NEED_CableSwig 0)
 
