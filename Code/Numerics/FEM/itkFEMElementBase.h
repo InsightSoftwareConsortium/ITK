@@ -664,7 +664,7 @@ public:
 };
 
 // Make sure that Element::Node class is registered with the object factory.
-static INITClass Initializer_ElementNode(Element::Node::CLID);
+static INITClass Initializer_ElementNode(Element::Node::CLID());
 
 // Alias for Element::Node class
 typedef Element::Node Node;

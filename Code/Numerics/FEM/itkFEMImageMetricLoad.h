@@ -274,6 +274,12 @@ private:
   MetricBaseTypePointer                               m_Metric;
   typename TransformBaseType::Pointer                 m_Transform;
   typename InterpolatorType::Pointer                  m_Interpolator;
+
+private:
+  /** Dummy static int that enables automatic registration
+      with FEMObjectFactory. */
+  static const int DummyCLID;
+
 };
 
 

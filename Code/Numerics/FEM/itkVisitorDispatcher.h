@@ -161,18 +161,16 @@ public:
   typedef TVisitFunctionPointerType VisitFunctionPointerType;
 
   /**
-   * Type that holds class IDs. Pointer to type_info object provides a
-   * unique identifier for each class.
+   * Type that holds class IDs.
    */
-  typedef const std::type_info* ClassIDType;
+  typedef int ClassIDType;
 
   /**
    * Type that holds array of pairs of class ID and pointer to visit
    * functions.
    *
    * FIXME: Maybe std::map is not the most efficient way of storing these
-   *        pointers. Change this to some other array if necessary. Maybe try
-   *        keeping the class IDs within classes.
+   *        pointers.
    */
   typedef std::map<ClassIDType, VisitFunctionPointerType> VisitorsArrayType;
 
@@ -186,6 +184,10 @@ public:
    * To automatically register visitor on library initialization, you
    * would call this function immediatly after defining an
    * implementation function class.
+   *
+   * Visitor class must define a static member function "int CLID()" that
+   * returns the class ID and a virtual member int ClassID() that does
+   * the same.
    *
    *   bool Dummy = VisitorDispatcher<Bar,Load>::RegisterVisitor((LoadGrav*)0, &LoadGravImpl);
    * 
@@ -207,7 +209,7 @@ public:
     typedef TVisitorClass VisitorClass;
     bool status;
     Instance().m_MutexLock.Lock();
-    status=Instance().visitors.insert(VisitorsArrayType::value_type(&typeid(VisitorClass),visitor_function)).second;
+    status=Instance().visitors.insert(VisitorsArrayType::value_type(VisitorClass::CLID(),visitor_function)).second;
     Instance().m_MutexLock.Unlock();
     if ( status )
     {
@@ -299,7 +301,7 @@ typename VisitorDispatcher<TVisitedClass, TVisitorBase, TVisitFunctionPointerTyp
 VisitorDispatcher<TVisitedClass, TVisitorBase, TVisitFunctionPointerType>
 ::Visit(VisitorBasePointer l)
 {
-  typename VisitorsArrayType::const_iterator i = Instance().visitors.find(&typeid(*l));
+  typename VisitorsArrayType::const_iterator i = Instance().visitors.find(l->ClassID());
   if( i==Instance().visitors.end() )
   {
     // Visitor function not found... FIXME: write the proper error handler.

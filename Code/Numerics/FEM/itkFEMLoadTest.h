@@ -60,14 +60,34 @@ public:
     Superclass::Write(f);
   }
 
+private:
+  /** Dummy static int that enables automatic registration
+      with FEMObjectFactory. */
+  static const int DummyCLID;
+
 };
 
-// Register the class with ObjectFactory and initialize the CLID
-// We also try to compose a nice name for each class. In case
-// there are many templates, you may want to use just
-// "typeid(LoadTest<TClass>).name()" instead.
+
+
+
+// Provide the templated code for CLID function, that is 
+// otherwise generated automaticly with FEM_CLASS_REGISTER
+// macro.
 template<class TClass>
-const int LoadTest<TClass>::CLID=FEMOF::Register( LoadTest::NewB, (std::string("LoadTest(")+typeid(TClass).name()+")").c_str() );
+int LoadTest<TClass>::CLID(void) 
+{
+  static const int CLID_ = FEMOF::Register( LoadTest::NewB, (std::string("LoadTest(")
+                +typeid(TClass).name()+")").c_str());
+  return CLID_;
+}
+
+// Make sure that the class is registered with FEMObjectFactory
+// by calling CLID() static member function each time the class
+// is instantiated for a specific template parameter TClass.
+template<class TClass>
+const int LoadTest<TClass>::DummyCLID=LoadTest<TClass>::CLID();
+
+
 
 
 

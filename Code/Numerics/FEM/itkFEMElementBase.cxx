@@ -494,7 +494,7 @@ const Element::Float Element::gaussWeight[gaussMaxOrder+1][gaussMaxOrder]=
 
 
 // Register Node class with FEMObjectFactory
-const int Element::Node::CLID=FEMObjectFactory<Element::Node::Baseclass>::Register( Element::Node::NewB, "Node" );
+FEM_CLASS_REGISTER(Node);
 
 
 

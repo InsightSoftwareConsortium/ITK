@@ -164,17 +164,17 @@ private:  // everything that follows from here is private by default (like in th
     /** Create a new object from the existing one  */ \
     virtual Baseclass::Pointer Clone() const \
       { return new Self(*this); }            \
-    /** Class ID for FEM object factory */   \
-    static const int CLID;                   \
-    /** Virtual function to access the class ID */ \
-    virtual int ClassID() const              \
-      { return CLID; }                       \
     /** Object creation in an itk compatible way */ \
     static Pointer New()                     \
       { return new Self(); }                 \
     /** Same as New() but returns pointer to base class */ \
     static Baseclass::Pointer NewB()         \
       { return New(); }                      \
+    /** Class ID for FEM object factory */   \
+    static int CLID(void);                   \
+    /** Virtual function to access the class ID */ \
+    virtual int ClassID() const              \
+      { return CLID(); }                     \
   private:  // everything that follows from here is private by default (like in the beginning of class)
 #else
   #define FEM_CLASS(thisClass,parentClass)   \
@@ -186,16 +186,16 @@ private:  // everything that follows from here is private by default (like in th
       { Pointer o=new Self(*this);           \
         o->SetReferenceCount(1);             \
         return o; }                          \
-    /** Class ID for FEMObjectFactory */     \
-    static const int CLID;                   \
-    /** Virtual function to access the class ID */ \
-    virtual int ClassID() const              \
-      { return CLID; }                       \
     /** Object creation through itk's objectfactory  */ \
     itkNewMacro(Self)                        \
     /** Same as New() but returns pointer to base class */ \
     static Baseclass::Pointer NewB()         \
       { return New(); }                      \
+    /** Class ID for FEM object factory */   \
+    static int CLID(void)                    \
+    /** Virtual function to access the class ID */ \
+    virtual int ClassID() const              \
+      { return CLID(); }                     \
   private:  // everything that follows from here is private by default (like in the beginning of class)
 #endif
 
@@ -211,14 +211,20 @@ private:  // everything that follows from here is private by default (like in th
  * automatic if #FEM_CLASS macro was used when declaring a class.
  * CLID is initialized to a value assigned by the FEMObjectFactory.
  *
+ * This macro provides the definition for CLID static member function
+ * of a class. This function can't be defined inline.
+ *
  * \param thisClass Name of the class that needs to be registered with
  *        FEMObjectFactory.
  *
  * \note Call this macro after the class definition is complete in .cxx
  *       file but still within itk::fem namespace.
  */
+// FIXME: Remove definition, when no longer required.
 #define FEM_CLASS_REGISTER(thisClass) \
-  const int thisClass::CLID=FEMObjectFactory<thisClass::Baseclass>::Register( thisClass::NewB, #thisClass);
+  int thisClass::CLID(void) \
+  { static const int CLID_ = FEMObjectFactory<thisClass::Baseclass>::Register( thisClass::NewB, #thisClass); \
+    return CLID_; }
 
 
 
@@ -262,7 +268,7 @@ struct INITClass {
  *       within itk::fem namespace.
  */
 #define FEM_CLASS_INIT(thisClass) \
-  static INITClass Initializer_##thisClass(thisClass::CLID);
+  static INITClass Initializer_##thisClass(thisClass::CLID());
 
 
 

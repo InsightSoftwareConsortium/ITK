@@ -287,9 +287,16 @@ ImageMetricLoad<TReference , TTarget>::GetMetric
 
 
 template<class TReference,class TTarget> 
-const int ImageMetricLoad<TReference,TTarget>::CLID=
-FEMOF::Register( ImageMetricLoad::NewB,(std::string("ImageMetricLoad(")
-                +typeid(TReference).name()+typeid(TTarget).name()+")").c_str());
+int ImageMetricLoad<TReference,TTarget>::CLID()
+{
+  static const int CLID_ = FEMOF::Register( ImageMetricLoad::NewB,(std::string("ImageMetricLoad(")
+                +typeid(TReference).name()+","+typeid(TTarget).name()+")").c_str());
+  return CLID_;
+}
+
+
+template<class TReference,class TTarget> 
+const int ImageMetricLoad<TReference,TTarget>::DummyCLID=ImageMetricLoad<TReference,TTarget>::CLID();
 
 
 } // end namespace fem
