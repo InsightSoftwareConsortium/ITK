@@ -32,6 +32,8 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 ::GradientRecursiveGaussianImageFilter()
 {
 
+  m_NormalizeAcrossScale = false;
+
   for( unsigned int i = 0; i<ImageDimension-1; i++ )
   {
     m_SmoothingFilters[ i ] = GaussianFilterType::New();
