@@ -1,3 +1,5 @@
 import itkbase
-from VXLNumericsPython import *
 
+data = itkbase.preimport()
+from VXLNumericsPython import *
+itkbase.postimport(data)

@@ -52,35 +52,59 @@ LINK_DIRECTORIES(.)
 OPTION(BUILD_SHARED_LIBS "Build ITK with shared libraries." OFF)
 SET(ITK_BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS})
 
-# if the source for CableSwig is found in the Utilities directory
-# then use that 
-UTILITY_SOURCE(CSWIG cswig Utilities/CableSwig/Executables/cableSwigMain.cxx)
-UTILITY_SOURCE(CABLE_INDEX cableidx Utilities/CableSwig/Executables/cableidx.cxx)
-UTILITY_SOURCE(GCCXML gccxml Utilities/CableSwig/GCC_XML/xml.c)
-
 OPTION(ITK_CSWIG_TCL "Build cswig Tcl wrapper support (requires CableSwig)." OFF)
 OPTION(ITK_CSWIG_PYTHON "Build cswig Python wrapper support (requires CableSwig)." OFF)
 # Java support is not complete and the option should not be used
 # until it has been completed.
 #OPTION(ITK_CSWIG_JAVA "Build cswig Java wrapper support (Not working.)" OFF)
 
-SET(ITK_NEEDS_SHARED_LIBS 0)
+#-----------------------------------------------------------------------------
+# Do we need CableSwig?
+SET(ITK_NEED_CableSwig 0)
 IF(ITK_CSWIG_TCL)
-  SET(ITK_NEEDS_SHARED_LIBS 1)
+  SET(ITK_NEED_CableSwig 1)
 ENDIF(ITK_CSWIG_TCL)
 IF(ITK_CSWIG_PYTHON)
-  SET(ITK_NEEDS_SHARED_LIBS 1)
+  SET(ITK_NEED_CableSwig 1)
 ENDIF(ITK_CSWIG_PYTHON)
 IF(ITK_CSWIG_JAVA)
-  SET(ITK_NEEDS_SHARED_LIBS 1)
+  SET(ITK_NEED_CableSwig 1)
 ENDIF(ITK_CSWIG_JAVA)
 
-IF(ITK_NEEDS_SHARED_LIBS)
+IF(ITK_NEED_CableSwig)
   IF(NOT BUILD_SHARED_LIBS)
     MESSAGE(FATAL_ERROR "Wrapping requires a shared build, change BUILD_SHARED_LIBS to ON")
   ENDIF(NOT BUILD_SHARED_LIBS)
-ENDIF(ITK_NEEDS_SHARED_LIBS)
+ENDIF(ITK_NEED_CableSwig)
 
+#-----------------------------------------------------------------------------
+# Find CableSwig if necessary.
+IF(ITK_NEED_CableSwig)
+  IF(EXISTS ${ITK_SOURCE_DIR}/Utilities/CableSwig)
+    # CableSwig is included in the source distribution.
+    SET(ITK_BUILD_CABLESWIG 1)
+    SET(CableSwig_DIR ${ITK_BINARY_DIR}/Utilities/CableSwig)
+    SET(CableSwig_FOUND 1)
+    SET(CableSwig_INSTALL_ROOT /lib/InsightToolkit/CSwig)
+    INCLUDE(${CableSwig_DIR}/CableSwigConfig.cmake OPTIONAL) 
+  ELSE(EXISTS ${ITK_SOURCE_DIR}/Utilities/CableSwig)
+    # CableSwig is not included in the source distribution.  Find it.
+    FIND_PACKAGE(CableSwig)
+    
+    # Hack for CMake 1.6 compatability.
+    IF(${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} LESS 1.7)
+      SET(CableSwig_FOUND ${CABLESWIG_FOUND})
+      SET(CableSwig_DIR ${CABLESWIG_DIR})
+    ENDIF(${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} LESS 1.7)
+  ENDIF(EXISTS ${ITK_SOURCE_DIR}/Utilities/CableSwig)
+  
+  IF(NOT CableSwig_FOUND)
+    # We have not found CableSwig.  Complain.
+    MESSAGE(FATAL_ERROR "CableSwig is required for CSwig Wrapping.")
+  ENDIF(NOT CableSwig_FOUND)
+ENDIF(ITK_NEED_CableSwig)
+
+#-----------------------------------------------------------------------------
 IF(WIN32)
    IF(BUILD_SHARED_LIBS)
      SET(ITK_COMMON_BUILD_TYPE "SHARED")

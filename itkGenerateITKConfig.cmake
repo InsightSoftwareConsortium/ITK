@@ -24,6 +24,15 @@ SET(ITK_INCLUDE_DIRS_CONFIG
   ${ITK_INCLUDE_DIRS_SYSTEM}
 )
 
+# The CableSwig configuration directory.
+IF(ITK_NEED_CableSwig)
+  # Use the same CableSwig we used.
+  SET(ITK_CableSwig_DIR_CONFIG ${CableSwig_DIR})
+ELSE(ITK_NEED_CableSwig)
+  # No wrapping was done.  Do not provide a CableSwig setting.
+  SET(ITK_CableSwig_DIR_CONFIG "")
+ENDIF(ITK_NEED_CableSwig)
+
 #-----------------------------------------------------------------------------
 # Configure ITKConfig.cmake for the build tree.
 CONFIGURE_FILE(${ITK_SOURCE_DIR}/ITKConfig.cmake.in
@@ -51,6 +60,21 @@ SET(ITK_INCLUDE_DIRS_CONFIG
 
 # Link directories.
 SET(ITK_LIBRARY_DIRS_CONFIG ${CMAKE_INSTALL_PREFIX}/lib/InsightToolkit)
+
+# The CableSwig configuration directory.
+IF(ITK_NEED_CableSwig)
+  IF(ITK_BUILD_CABLESWIG)
+    # We built an internal CableSwig.
+    SET(ITK_CableSwig_DIR_CONFIG
+      ${CMAKE_INSTALL_PREFIX}${CableSwig_INSTALL_ROOT}/lib/CableSwig)
+  ELSE(ITK_BUILD_CABLESWIG)
+    # We built with an external CableSwig.
+    SET(ITK_CableSwig_DIR_CONFIG ${CableSwig_DIR})
+  ENDIF(ITK_BUILD_CABLESWIG)
+ELSE(ITK_NEED_CableSwig)
+  # No wrapping was done.  Do not provide a CableSwig setting.
+  SET(ITK_CableSwig_DIR_CONFIG "")
+ENDIF(ITK_NEED_CableSwig)
 
 #-----------------------------------------------------------------------------
 # Configure ITKConfig.cmake for the install tree.

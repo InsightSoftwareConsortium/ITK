@@ -1,5 +1,10 @@
 PROJECT(WrapITK)
 
+# We have found CableSwig.  Use the settings.
+SET(CABLE_INDEX ${CableSwig_cableidx_EXE})
+SET(CSWIG ${CableSwig_cswig_EXE})
+SET(GCCXML ${CableSwig_gccxml_EXE})
+
 SET(ITK_PYTHON_NEEDS_DEPENDS 1)
 IF(${CMAKE_MAKE_PROGRAM} MATCHES make)
   SET(ITK_PYTHON_NEEDS_DEPENDS 0)
@@ -43,78 +48,6 @@ FIND_PROGRAM(PYTHON_EXECUTABLE
 )
 MARK_AS_ADVANCED(PYTHON_EXECUTABLE)
 
-IF(CSWIG)
-  GET_FILENAME_COMPONENT(CSWIG_PATH ${CSWIG} PATH)
-ENDIF(CSWIG)
-
-IF(GCCXML)
-  GET_FILENAME_COMPONENT(GCCXML_PATH ${GCCXML} PATH)
-ENDIF(GCCXML)
-
-IF(CABLE_INDEX)
-  GET_FILENAME_COMPONENT(CABLE_INDEX_PATH ${CABLE_INDEX} PATH)
-ENDIF(CABLE_INDEX)
-
-
-# if any one of the three are set, then look for the others
-# in the same directory
-# also look in the registry entries for cmake last build
-# so if CableSwig was built on the same machine recently
-# it can be found automatically
-SET(CMAKE_SEARCH_PATHS
-    ${CSWIG_PATH} ${GCCXML_PATH} ${CABLE_INDEX_PATH} 
-    [HKEY_CURRENT_USER\\Software\\Kitware\\CMakeSetup\\Settings\\StartPath;WhereBuild1]/bin
-    [HKEY_CURRENT_USER\\Software\\Kitware\\CMakeSetup\\Settings\\StartPath;WhereBuild2]/bin
-    [HKEY_CURRENT_USER\\Software\\Kitware\\CMakeSetup\\Settings\\StartPath;WhereBuild3]/bin
-    [HKEY_CURRENT_USER\\Software\\Kitware\\CMakeSetup\\Settings\\StartPath;WhereBuild4]/bin
-    [HKEY_CURRENT_USER\\Software\\Kitware\\CMakeSetup\\Settings\\StartPath;WhereBuild5]/bin
-    [HKEY_CURRENT_USER\\Software\\Kitware\\CMakeSetup\\Settings\\StartPath;WhereBuild6]/bin
-    [HKEY_CURRENT_USER\\Software\\Kitware\\CMakeSetup\\Settings\\StartPath;WhereBuild7]/bin
-    [HKEY_CURRENT_USER\\Software\\Kitware\\CMakeSetup\\Settings\\StartPath;WhereBuild8]/bin
-    [HKEY_CURRENT_USER\\Software\\Kitware\\CMakeSetup\\Settings\\StartPath;WhereBuild9]/bin
-    [HKEY_CURRENT_USER\\Software\\Kitware\\CMakeSetup\\Settings\\StartPath;WhereBuild10]/bin
-)
-FOREACH(DIR ${CMAKE_SEARCH_PATHS} )
-   SET(CMAKE_SEARCH_PATHS ${CMAKE_SEARCH_PATHS} ${DIR}/Debug)
-   SET(CMAKE_SEARCH_PATHS ${CMAKE_SEARCH_PATHS} ${DIR}/Release)
-   SET(CMAKE_SEARCH_PATHS ${CMAKE_SEARCH_PATHS} ${DIR}/RelWithDebInfo)
-   SET(CMAKE_SEARCH_PATHS ${CMAKE_SEARCH_PATHS} ${DIR}/MinSizeRel)
-ENDFOREACH(DIR)
-
-
-# find cswig, gccxml, and cableidx programs
-FIND_PROGRAM(CSWIG
-  NAMES 
-  cswig
-  PATHS
-  ${CMAKE_SEARCH_PATHS}
-  ${CYGWIN_INSTALL_PATH}/bin
-  /bin
-  /usr/bin 
-  /usr/local/bin
-)
-
-FIND_PROGRAM(GCCXML
-  NAMES 
-  gccxml
-  PATHS
-  ${CMAKE_SEARCH_PATHS}
-  ${CYGWIN_INSTALL_PATH}/bin
-  /bin
-  /usr/bin 
-  /usr/local/bin
-)
-
-FIND_PROGRAM(CABLE_INDEX
-  NAMES 
-  cableidx
-  PATHS
-  ${CMAKE_SEARCH_PATHS}
-  ${CYGWIN_INSTALL_PATH}/bin
-  /bin
-  /usr/bin 
-  /usr/local/bin
-)
 SET(CSWIG_EXTRA_LINKFLAGS )
 IF(CMAKE_BUILD_TOOL MATCHES "(msdev|devenv|nmake)")
   SET(CSWIG_EXTRA_LINKFLAGS "/IGNORE:4049")
@@ -326,18 +259,17 @@ ENDIF(ITK_CSWIG_CONFIGURATION_TYPES)
 # Configure pkgIndex.tcl for the install tree.
 
 SET(ITK_CSWIG_SCRIPT_DIR "[file dirname [info script]]")
-SET(ITK_CSWIG_PACKAGE_DIR "[file dirname [info script]]")
-SET(ITK_CSWIG_DATA_ROOT "[file dirname [info script]]/Data")
+SET(ITK_CSWIG_PACKAGE_DIR "[file dirname [file dirname [info script]]]")
+SET(ITK_CSWIG_DATA_ROOT "[file dirname [file dirname [info script]]]/Data")
 SET(ITK_CSWIG_TEST_ROOT "<NO_DEFAULT>")
 CONFIGURE_FILE("${ITK_SOURCE_DIR}/Wrapping/CSwig/Tcl/pkgIndex.tcl.in"
                "${ITK_BINARY_DIR}/Wrapping/CSwig/Tcl/InstallOnly/Hide/pkgIndex.tcl"
                IMMEDIATE @ONLY)
-INSTALL_FILES(/lib/InsightToolkit FILES
+INSTALL_FILES(/lib/InsightToolkit/tcl FILES
               "${ITK_BINARY_DIR}/Wrapping/CSwig/Tcl/InstallOnly/Hide/pkgIndex.tcl")
 
-
-SET(ITK_CSWIG_SCRIPT_DIR "'${ITK_BINARY_DIR}/Wrapping/CSwig/Python'")
-
+#-----------------------------------------------------------------------------
+# Configure python packages.
 IF(ITK_CSWIG_CONFIGURATION_TYPES)
   FOREACH(config ${ITK_CSWIG_CONFIGURATION_TYPES})
     SET(ITK_CSWIG_PACKAGE_DIR "'${ITK_CSWIG_PACKAGE_DIR_BUILD}/${config}'")
@@ -422,7 +354,7 @@ IF(PYTHON_EXECUTABLE)
       ENDFOREACH(file)
     ENDIF(ITK_CSWIG_CONFIGURATION_TYPES)
   ENDIF ("${ITK_BINARY_DIR}" MATCHES "^${ITK_SOURCE_DIR}$")
-
+  
   # Byte compile the Python files.
   WRITE_FILE(${ITK_BINARY_DIR}/Wrapping/CSwig/Python/compile_all_itk
         "import compileall\n"
@@ -450,4 +382,26 @@ ENDIF(PYTHON_EXECUTABLE)
 IF(ITK_CSWIG_TCL)
   SUBDIRS(Tcl)
 ENDIF(ITK_CSWIG_TCL)
-               
+
+IF(UNIX)
+  # Ultra-hackery to install the generated python files.  This is not
+  # officially supported by cmake and abuses the implementation of
+  # make install.  Good luck figuring out how this works.
+  CONFIGURE_FILE(${WrapITK_SOURCE_DIR}/pythonfiles.sh.in
+    ${WrapITK_BINARY_DIR}/pythonfiles.sh @ONLY IMMEDIATE)
+  EXEC_PROGRAM(chmod ${WrapITK_BINARY_DIR} ARGS 755 pythonfiles.sh)
+  INSTALL_FILES(/lib/InsightToolkit FILES "`${WrapITK_BINARY_DIR}/pythonfiles.sh`")
+  
+  # Install the package python files.
+  FOREACH(file ${ITK_PYTHON_FILES})
+    INSTALL_FILES(/lib/InsightToolkit/python FILES
+      "${ITK_BINARY_DIR}/Wrapping/CSwig/Python/${file}.py")
+  ENDFOREACH(file)
+  
+  SET(ITK_CSWIG_PACKAGE_DIR "os.path.dirname(selfpath)")
+  CONFIGURE_FILE("${ITK_SOURCE_DIR}/Wrapping/CSwig/Python/itkbase.py.in"
+                 "${ITK_BINARY_DIR}/Wrapping/CSwig/Python/InstallOnly/itkbase.py"
+                 @ONLY IMMEDIATE)
+  INSTALL_FILES(/lib/InsightToolkit/python FILES
+    "${ITK_BINARY_DIR}/Wrapping/CSwig/Python/InstallOnly/itkbase.py")
+ENDIF(UNIX)

@@ -70,6 +70,7 @@ IF(ITK_CSWIG_TCL)
     OUTPUTS ${WrapITK_BINARY_DIR}/Common/SwigExtras_wrapTcl.cxx
     DEPENDS ${ITK_TOP}/Wrapping/CSwig/Common/SwigExtras.i)
   TARGET_LINK_LIBRARIES(ITKCommonTcl ${TCL_LIBRARY} ITKCommon VXLNumericsTcl SwigRuntimeTcl )
+  INSTALL_TARGETS(/lib/InsightToolkit ITKCommonTcl)
 ENDIF(ITK_CSWIG_TCL)
 
 
@@ -94,6 +95,7 @@ IF(ITK_CSWIG_PYTHON)
     ADD_DEPENDENCIES(_ITKCommonPython _VXLNumericsPython)
   ENDIF(ITK_PYTHON_NEEDS_DEPENDS)
   TARGET_LINK_LIBRARIES(_ITKCommonPython ${PYTHON_LIBRARY} ITKCommon SwigRuntimePython)
+  INSTALL_TARGETS(/lib/InsightToolkit _ITKCommonPython)
 ENDIF(ITK_CSWIG_PYTHON)
 
 IF(ITK_CSWIG_JAVA) 

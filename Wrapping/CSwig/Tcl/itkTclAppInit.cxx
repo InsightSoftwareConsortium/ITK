@@ -100,7 +100,7 @@ int itkTclAppInit(Tcl_Interp* interp)
     // just assume the user has configured TCLLIBPATH correctly.
     char pkgIndexScript[] =
       "set itkTclAppInit_pkgIndex_tcl \\\n"
-      "  [file join [file dirname [info nameofexecutable]] pkgIndex.tcl]\n"
+      "  [file join [file dirname [info nameofexecutable]] tcl pkgIndex.tcl]\n"
       "if {[file exists $itkTclAppInit_pkgIndex_tcl]} {\n"
       "  source $itkTclAppInit_pkgIndex_tcl\n"
       "}\n"
