@@ -1,13 +1,13 @@
 /*=========================================================================
 
-  Program:   itkUNC
+  Program:   Insight Segmentation & Registration Toolkit
   Module:    itkHoughTransform2DCirclesImageFilter.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
 
-  Copyright (c) 2002 CADDLab @ UNC. All rights reserved.
-  See itkUNCCopyright.txt for details.
+  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
      This software is distributed WITHOUT ANY WARRANTY; without even 
      the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
@@ -29,7 +29,7 @@ namespace itk
 {
 
 /**
- * \class HoughTransformLines2DImageFilter
+ * \class HoughTransformCircles2DImageFilter
  * \brief Performs the Hough Transform to find circles in a 2D image.
  *  
  * This filter derives from the base class ImageToImageFilter
@@ -43,6 +43,7 @@ namespace itk
  *  When the filter found a "correct" point, it computes the gradient at this 
  * point and draw a regular narrow-banded circle using the minimum and maximum 
  * radius given by the user, and fill in the array of radii.
+ * The SweepAngle value can be adjusted to improve the segmentation.
  *
  * \ingroup ImageFeatureExtraction 
  *
@@ -83,6 +84,11 @@ public:
   /** Typedef to describe the output image region type. */
   typedef typename InputImageType::RegionType OutputImageRegionType;
 
+  /** Circle typedef */
+  typedef EllipseSpatialObject<2>       CircleType;
+  typedef typename CircleType::Pointer CirclePointer;
+  typedef std::list<CirclePointer>     CirclesListType;
+
   /** Run-time type information (and related methods). */
   itkTypeMacro( HoughTransform2DCirclesImageFilter, ImageToImageFilter );
 
@@ -117,6 +123,26 @@ public:
   /** Get the scale value */
   itkGetMacro(SigmaGradient,double);
 
+   /** Get the list of circles. This recomputes the circles */
+  CirclesListType & GetCircles(unsigned int n=0);
+
+  /** Set/Get the number of circles to extract */
+  itkSetMacro(NumberOfCircles,unsigned int);
+  itkGetMacro(NumberOfCircles,unsigned int);
+
+  /** Set/Get the radius of the disc to remove from the accumulator
+   *  for each circle found */
+  itkSetMacro(DiscRadiusRatio,float);
+  itkGetMacro(DiscRadiusRatio,float);
+
+  /** Set the variance of the gaussian bluring for the accumulator */
+  itkSetMacro(Variance,float);
+  itkGetMacro(Variance,float);
+  
+  /** Set the sweep angle */
+  itkSetMacro(SweepAngle,float);
+  itkGetMacro(SweepAngle,float);
+
 protected:
 
   HoughTransform2DCirclesImageFilter();
@@ -129,12 +155,18 @@ protected:
 
 private:
 
+  float  m_SweepAngle;
   double m_MinimumRadius;
   double m_MaximumRadius;
   double m_Threshold;
   double m_SigmaGradient;
   OutputImagePointer m_RadiusImage;
-
+  CirclesListType m_CirclesList;
+  unsigned int  m_NumberOfCircles;
+  float         m_DiscRadiusRatio;
+  float         m_Variance;
+  unsigned long m_OldModifiedTime;
+  unsigned long m_OldNumberOfCircles;
 
 };
 
