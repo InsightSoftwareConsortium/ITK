@@ -119,6 +119,7 @@ ENDIF(USE_SCSL)
 
 
 ADD_TEST(itkMIRegistrationFunctionTest ${ALGORITHMS_TESTS2} itkMIRegistrationFunctionTest)
+ADD_TEST(itkSymmetricalDemonsRegistrationFilterTest ${ALGORITHMS_TESTS2} itkSymmetricalDemonsRegistrationFilterTest)
 ADD_TEST(itkVectorFuzzyConnectednessImageFilterTest ${ALGORITHMS_TESTS2} itkVectorFuzzyConnectednessImageFilterTest)
 ADD_TEST(itkVoronoiDiagram2DTest ${ALGORITHMS_TESTS2} itkVoronoiDiagram2DTest)
 ADD_TEST(itkVoronoiSegmentationImageFilterTest ${ALGORITHMS_TESTS2} itkVoronoiSegmentationImageFilterTest)
@@ -234,6 +235,7 @@ itkCompareHistogramImageToImageMetricTest
 itkKullbackLeiblerCompareHistogramImageToImageMetricTest.cxx
 itkMIRegistrationFunctionTest.cxx
 itkPointSetToPointSetRegistrationTest.cxx
+itkSymmetricalDemonsRegistrationFilterTest.cxx
 itkVectorFuzzyConnectednessImageFilterTest.cxx
 itkVectorThresholdSegmentationLevelSetImageFilterTest.cxx
 itkVoronoiDiagram2DTest.cxx
