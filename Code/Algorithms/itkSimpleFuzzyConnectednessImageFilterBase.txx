@@ -28,6 +28,9 @@ template <class TInputImage, class TOutputImage>
 SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
 ::SimpleFuzzyConnectednessImageFilterBase()
 {
+  m_Threshold = 1.0;
+  m_Seed.Fill(0);
+  m_Weight = 1.0;
 }
 
 template <class TInputImage, class TOutputImage>
