@@ -60,8 +60,19 @@ const int itkInvalidDimension=11;
     itkDebugMacro(<< this->GetClassName() << " (" << this \
                   << "): returning " << #name " of " << this->m_##name ); \
     return this->m_##name; \
-  } 
+  }
 
+// Get built-in type.  Creates member Get"name"() (e.g., GetVisibility());
+// This is the "const" form of the itkGetMacro.  It should be used unless
+// the member can be changed through the "Get" access routine.
+//
+#define itkGetConstMacro(name,type) \
+  virtual const type Get##name () const \
+  { \
+    itkDebugMacro(<< this->GetClassName() << " (" << this \
+                  << "): returning " << #name " of " << this->m_##name ); \
+    return this->m_##name; \
+  }
 
 // Set character string.  Creates member Set"name"() 
 // (e.g., SetFilename(char *));
