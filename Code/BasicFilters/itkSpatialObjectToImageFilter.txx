@@ -32,13 +32,11 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
   m_ChildrenDepth = 1;
   m_Size.Fill(0);
   
-  m_Spacing[0] = 1.0;
-  m_Spacing[1] = 1.0;
-  m_Spacing[2] = 1.0;
-
-  m_Origin[0] = 0;
-  m_Origin[1] = 0;
-  m_Origin[2] = 0;
+  for (unsigned int i = 0; i < OutputImageDimension; i++)
+    {
+    m_Spacing[i] = 1.0;
+    m_Origin[i] = 0;
+    }
 
   m_InsideValue = 0;
   m_OutsideValue = 0;
@@ -220,6 +218,7 @@ void
 SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
 ::GenerateData(void)
 {
+  unsigned int i;
   itkDebugMacro(<< "SpatialObjectToImageFilter::Update() called");
 
   // Get the input and output pointers 
@@ -230,7 +229,7 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
   double origin[ObjectDimension];
   SizeType size;
 
-  for(unsigned int i=0;i<ObjectDimension;i++)
+  for(i=0;i<ObjectDimension;i++)
     {
     size[i] = (long unsigned int)(InputObject->GetBoundingBox()->GetMaximum()[i]
                                   - InputObject->GetBoundingBox()->GetMinimum()[i]);
@@ -245,9 +244,17 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
   // will set the output size to the explicit size, otherwise the size from the spatial
   // object's bounding box will be used as default.
 
-  if(   m_Size[0] != 0
-        ||  m_Size[1] != 0
-        ||  m_Size[2] != 0 )
+  bool specified = false;
+  for (i = 0; i < OutputImageDimension; i++)
+    {
+    if (m_Size[i] != 0)
+      {
+      specified = true;
+      break;
+      }
+    }
+
+  if (specified)
     {
     region.SetSize( m_Size );
     }
@@ -265,9 +272,17 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
   // will set the output spacing to that explicit spacing, otherwise the spacing from
   // the spatial object is used as default.
   
-  if(   m_Spacing[0] != 1.0
-        ||  m_Spacing[1] != 1.0
-        ||  m_Spacing[2] != 1.0 )
+  specified = false;
+  for (i = 0; i < OutputImageDimension; i++)
+    {
+    if (m_Spacing[i] != 0)
+      {
+      specified = true;
+      break;
+      }
+    }
+
+  if (specified)
     {
     OutputImage->SetSpacing(this->m_Spacing);         // set spacing
     }
