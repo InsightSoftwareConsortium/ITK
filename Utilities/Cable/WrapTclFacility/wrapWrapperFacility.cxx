@@ -138,6 +138,8 @@ void WrapperFacility::InitializeForInterpreter()
                        &TypeOfCommandFunction, 0, 0);
   Tcl_CreateObjCommand(m_Interpreter, "wrap::Delete",
                        &DeleteCommandFunction, 0, 0);
+  Tcl_CreateObjCommand(m_Interpreter, "wrap::Interpreter",
+                       &InterpreterCommandFunction, 0, 0);
   
   Tcl_PkgProvide(m_Interpreter, "WrapTclFacility", "1.0");
 }
@@ -297,6 +299,19 @@ int WrapperFacility::DeleteCommand(int objc, Tcl_Obj* CONST objv[]) const
 }
 
 
+/**
+ * This implements the wrapper facility command "wrap::Interpreter".
+ * It returns a pointer to the Tcl interpreter itself that can be
+ * passed as an argument of type "Tcl_Interp*" of a wrapped function
+ * or method.
+ */
+int WrapperFacility::InterpreterCommand(int, Tcl_Obj* CONST[]) const
+{
+  Tcl_SetPointerObj(Tcl_GetObjResult(m_Interpreter),
+                    Pointer(m_Interpreter, CvPredefinedType<Tcl_Interp>::type));
+}
+
+
 int WrapperFacility
 ::ListMethodsCommandFunction(ClientData clientData, Tcl_Interp* interp,
                              int objc, Tcl_Obj* CONST objv[])
@@ -323,6 +338,16 @@ int WrapperFacility
   WrapperFacility* wrapperFacility =
     WrapperFacility::GetForInterpreter(interp);
   return wrapperFacility->DeleteCommand(objc, objv);
+}
+
+
+int WrapperFacility
+::InterpreterCommandFunction(ClientData clientData, Tcl_Interp* interp,
+                             int objc, Tcl_Obj* CONST objv[])
+{
+  WrapperFacility* wrapperFacility =
+    WrapperFacility::GetForInterpreter(interp);
+  return wrapperFacility->InterpreterCommand(objc, objv);
 }
 
 

@@ -75,9 +75,15 @@ _wrap_DEFINE_FUNDAMENTAL_CVTYPES(unsigned long);
 _wrap_DEFINE_FUNDAMENTAL_CVTYPES(float);
 _wrap_DEFINE_FUNDAMENTAL_CVTYPES(double);
 _wrap_DEFINE_FUNDAMENTAL_CVTYPES(long double);
-_wrap_DEFINE_FUNDAMENTAL_CVTYPES(char*);  
+_wrap_DEFINE_FUNDAMENTAL_CVTYPES(char*);
 //@}
 
+/*@{
+ * The actual CvQualifiedType instance for this Tcl-related type.
+ */
+CvQualifiedType CvPredefinedType<Tcl_Interp>::type;
+CvQualifiedType CvPredefinedType<Tcl_Interp*>::type;
+//@}
   
 /**
  * There is exactly one TypeSystem in the wrapper facility.
@@ -93,7 +99,7 @@ CvPredefinedType<T>::type = GetFundamentalType(FundamentalType::ID, false, false
 CvPredefinedType<const T>::type = GetFundamentalType(FundamentalType::ID, true, false); \
 CvPredefinedType<volatile T>::type = GetFundamentalType(FundamentalType::ID, false, true); \
 CvPredefinedType<const volatile T>::type = GetFundamentalType(FundamentalType::ID, true, true)
-  
+
 /**
  * Setup the type representations of the predefined, fundamental types.
  */
@@ -127,6 +133,8 @@ void TypeInfo::Initialize()
   _wrap_GENERATE_FUNDAMENTAL_CVTYPES(float, Float);
   _wrap_GENERATE_FUNDAMENTAL_CVTYPES(double, Double);
   _wrap_GENERATE_FUNDAMENTAL_CVTYPES(long double, LongDouble);
+  CvPredefinedType<Tcl_Interp>::type  = GetClassType("Tcl_Interp", false, false);
+  CvPredefinedType<Tcl_Interp*>::type  = GetPointerType(CvPredefinedType<Tcl_Interp>::type, false, false);
   CvPredefinedType<char*>::type  = GetPointerType(CvPredefinedType<char>::type, false, false);
   CvPredefinedType<const char*>::type  = GetPointerType(CvPredefinedType<const char>::type, false, false);
   CvPredefinedType<volatile char*>::type  = GetPointerType(CvPredefinedType<volatile char>::type, false, false);

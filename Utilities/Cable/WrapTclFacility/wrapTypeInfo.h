@@ -127,6 +127,13 @@ _wrap_DECLARE_FUNDAMENTAL_CVTYPES(char*);
 
 // We are done with this macro.  Don't let it leak out of this header.
 #undef _wrap_DECLARE_FUNDAMENTAL_CVTYPES  
+
+/*@{
+ * A specialization for a Tcl-related type.
+ */
+template <> struct _wrap_EXPORT CvPredefinedType<Tcl_Interp> { static CvQualifiedType type; };
+template <> struct _wrap_EXPORT CvPredefinedType<Tcl_Interp*> { static CvQualifiedType type; };
+//@}
   
 } // namespace _wrap_
 

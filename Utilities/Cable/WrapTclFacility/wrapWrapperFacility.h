@@ -52,7 +52,11 @@ class InstanceTable;
 class WrapperBase;
 
 /**
- *
+ * An instance of this class is associated with each interpreter.  It
+ * provides the basic wrapper facility commands in the "wrap::"
+ * namespace.  It keeps track of the InstanceTable, ConversionTable,
+ * and set of wrapper classes that have been setup for the
+ * interpreter.
  */
 class _wrap_EXPORT WrapperFacility
 {
@@ -77,15 +81,18 @@ private:
 
   void Initialize();
   void InitializeForInterpreter();
-  int ListMethodsCommand(int, Tcl_Obj*CONST[]) const ;
-  int TypeOfCommand(int, Tcl_Obj*CONST[]) const ;
-  int DeleteCommand(int, Tcl_Obj*CONST[]) const ;
+  int ListMethodsCommand(int, Tcl_Obj*CONST[]) const;
+  int TypeOfCommand(int, Tcl_Obj*CONST[]) const;
+  int DeleteCommand(int, Tcl_Obj*CONST[]) const;
+  int InterpreterCommand(int, Tcl_Obj*CONST[]) const;
   static int ListMethodsCommandFunction(ClientData, Tcl_Interp*,
                                         int, Tcl_Obj*CONST[]);
   static int TypeOfCommandFunction(ClientData, Tcl_Interp*,
                                    int, Tcl_Obj*CONST[]);
   static int DeleteCommandFunction(ClientData, Tcl_Interp*,
                                    int, Tcl_Obj*CONST[]);
+  static int InterpreterCommandFunction(ClientData, Tcl_Interp*,
+                                        int, Tcl_Obj*CONST[]);
 
   typedef std::map<const Type*, WrapperBase*>  WrapperMap;
   /**
