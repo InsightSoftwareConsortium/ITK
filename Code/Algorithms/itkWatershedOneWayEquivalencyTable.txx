@@ -57,15 +57,15 @@ void OneWayEquivalencyTable::Flatten()
 unsigned long OneWayEquivalencyTable::RecursiveLookup(const unsigned a) const
 {
   unsigned long ans = a;
-  unsigned long last_ans;
+  unsigned long last_ans=a;
   while ( this->IsEntry(ans) )
     {
-      ans = this->Lookup(ans);
-      if (ans == a )
-        {
-           return last_ans; // about to cycle again.
-        }
-      last_ans = ans;
+    ans = this->Lookup(ans);
+    if (ans == a )
+      {
+      return last_ans; // about to cycle again.
+      }
+    last_ans = ans;
     }
  
   return ans;

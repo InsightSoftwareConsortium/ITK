@@ -368,7 +368,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   double res = 0.0;
 
   LabelledImageIndexType offsetIndex3D = LabelledImageIndexType::ZeroIndex;
-  LabelledImagePixelType labelledPixel;
+  LabelledImagePixelType labelledPixel = 0;
 
   const unsigned int size     = m_ImageWidth * m_ImageHeight * m_ImageDepth;
   const unsigned int frame    = m_ImageWidth * m_ImageHeight;
