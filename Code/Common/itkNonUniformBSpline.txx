@@ -32,7 +32,7 @@
 #include "vnl/algo/vnl_matrix_inverse.h"
 
 
-#define DEBUG_TUBE
+#define DEBUG_SPLINE
 
 namespace itk  
 { 
@@ -43,6 +43,7 @@ template< unsigned int TDimension >
 NonUniformBSpline< TDimension > 
 ::NonUniformBSpline()  
 { 
+  // Cubic bspline => 4th order
   m_SplineOrder = 3;
   m_SpatialDimension = TDimension;
 } 
@@ -93,8 +94,6 @@ void
 NonUniformBSpline< TDimension >  
 ::SetPoints( PointListType & points )  
 {
-  // in this function, passing a null pointer as argument will
-  // just clear the list...
   m_Points.clear();
          
   typename PointListType::iterator it,end;
@@ -134,60 +133,6 @@ NonUniformBSpline< TDimension >
       
   this->Modified();
 }
-
-/*
-template< unsigned int TDimension >
-double  
-NonUniformBSpline< TDimension >  
-::NonUniformBSplineFunctionOrder1(int i, double t) const
-{
-  double xi = m_Knots[i];
-  double xi1 = m_Knots[i+1];
-
-  if (xi <= t && t < xi1)
-    {
-    return 1;
-    }
-  else
-    {
-    return 0;
-    }
-}
-
-template< unsigned int TDimension >
-double  
-NonUniformBSpline< TDimension > 
-::NonUniformBSplineFunctionRecursive(unsigned int order, int i, double t) const
-{
-  if (order == 1)
-    {
-    return NonUniformBSplineFunctionOrder1(i, t);
-    }
-
-  int k = m_SplineOrder;
-
-  double xi = m_Knots[i];
-  double xik = m_Knots[i+k];
-  double xik1 = m_Knots[i+k-1];
-  double xi1 = m_Knots[i+1];
-
-  double N1 = NonUniformBSplineFunctionRecursive(order-1, i, t);
-  double N2 = NonUniformBSplineFunctionRecursive(order-1,i+1, t);
-  
-  double val1 = 0.0;
-  double val2 = 0.0;
-  if (xik1 != xi)
-    {
-    val1 = (t - xi) * N1 / (xik1 - xi);
-    }
-  if (xik != xi1)
-    {  
-    val2 = (xik - t) * N2 / (xik - xi1);
-    }
-
-  return (val1 + val2);
-}
-*/
 
 template< unsigned int TDimension >
 double  
@@ -264,6 +209,7 @@ NonUniformBSpline< TDimension >
   //
   // Debug printouts
   //
+#ifdef DEBUG_SPLINE
   std::cout << "Total chord length : " << total_chord_length << std::endl;
 
   std::cout << "Chord length : " << std::endl;
@@ -282,6 +228,7 @@ NonUniformBSpline< TDimension >
       std::cout << *aiter3 << std::endl;
       }
   std::cout << std::endl;
+#endif
 }
 
 template< unsigned int TDimension >
@@ -305,7 +252,7 @@ NonUniformBSpline< TDimension >::ComputeControlPoints()
 {
   unsigned int dim = m_Points[0].GetPointDimension();
 
-#ifdef DEBUG_TUBE
+#ifdef DEBUG_SPLINE
   std::cout << "Points have dimension : " << dim  << std::endl;
 #endif  
 
@@ -330,7 +277,7 @@ NonUniformBSpline< TDimension >::ComputeControlPoints()
       rr++;
       }
 
-#ifdef DEBUG_TUBE
+#ifdef DEBUG_SPLINE
   std::cout << std::endl << "Data matrix" << std::endl;
   std::cout << data_matrix << std::endl;
 #endif
@@ -352,17 +299,17 @@ NonUniformBSpline< TDimension >::ComputeControlPoints()
     }
   N_matrix(m_Points.size()-1, num_basis_functions-1) = 1.0;
 
-#ifdef DEBUG_TUBE
+#ifdef DEBUG_SPLINE
   std::cout << "Basis function matrix : " << std::endl;
   std::cout << N_matrix << std::endl;
 #endif
 
   vnl_matrix<double> B = vnl_matrix_inverse<double>(N_matrix.transpose() * N_matrix) * N_matrix.transpose() * data_matrix;
 
-#ifndef DEBUG_TUBE
+//#ifdef DEBUG_SPLINE
   std::cout << "Control point matrix : " << std::endl;
   std::cout << B << std::endl;
-#endif
+//#endif
 
   m_ControlPoints.clear();
 
@@ -389,9 +336,16 @@ NonUniformBSpline< TDimension >
 ::EvaluateSpline(const itk::Array<double> & p) const
 {
   double t = p[0];
-  double N = 0.0;
 
-  itk::Point<double, TDimension> pt;
+  return EvaluateSpline(t);
+}
+
+template< unsigned int TDimension >
+itk::Point<double, TDimension >
+NonUniformBSpline< TDimension >
+::EvaluateSpline(double t) const
+{
+  double N = 0.0;
 
   int i = 0;
 
@@ -402,9 +356,6 @@ NonUniformBSpline< TDimension >
         cpiter != m_ControlPoints.end();
         cpiter++)
     {
-    //
-    // 
-    //
     ControlPointType pt = *cpiter;
     vnl_vector<double> v = pt.Get_vnl_vector();
 
@@ -421,9 +372,11 @@ NonUniformBSpline< TDimension >
     }
 
   ControlPointType sum(array);
+#ifdef DEBUG_SPLINE
+  std::cout << "Result : " << result << std::endl;
+  std::cout << "Sum : " << sum << std::endl;
+#endif
   
-  //std::cout << sum << std::endl;
-   
   return sum;
 }
 

@@ -107,7 +107,7 @@ class NonUniformBSpline
   The parameterization is always between 0 and 1.
   */
   PointType  EvaluateSpline(const Array<double> & p) const;
-  PointType  Evaluate( double t );
+  PointType  EvaluateSpline( double t ) const;
 
   /**
   Compute the control points.
