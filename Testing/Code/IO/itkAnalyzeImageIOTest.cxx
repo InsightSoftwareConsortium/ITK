@@ -33,6 +33,17 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkAnalyzeImageIO.h"
 #include <stdio.h>
 
+#if defined(_WIN32) && (defined(_MSC_VER) || defined(__BORLANDC__))
+#include <stdlib.h>
+#define _unlink unlink
+#else
+#include <unistd.h>
+#endif
+static inline int Remove(const char *fname)
+{
+  return unlink(fname);
+}
+
 const unsigned char RPI=16;        /*Bit pattern 0 0 0  10000*/
 const unsigned char LEFT=128;      /*Bit pattern 1 0 0  00000*/
 const unsigned char ANTERIOR=64;   /*Bit pattern 0 1 0  00000*/
@@ -138,7 +149,7 @@ template <typename T> int MakeImage()
         message += "\n";
         message += ex.GetDescription();
         std::cerr << message << std::endl;
-        std::remove(filename);
+        Remove(filename);
         return -1;
     }
 
@@ -155,10 +166,10 @@ template <typename T> int MakeImage()
   catch (itk::ExceptionObject e)
     {
       e.Print(std::cerr) ;
-      std::remove(filename);
+      Remove(filename);
       return -1;
     }
-  std::remove(filename);
+  Remove(filename);
   return 0;
 }
 
