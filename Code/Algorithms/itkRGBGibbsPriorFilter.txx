@@ -72,6 +72,10 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
     {
     delete [] m_RegionCount;
     }
+  if (m_LabelStatus)
+    {
+    delete [] m_LabelStatus;
+    }
 }
 /** Set the labelled image. */
 template<typename TInputImage, typename TClassifiedImage>
