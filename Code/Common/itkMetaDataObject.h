@@ -181,8 +181,14 @@ namespace itk
       {
         return false;
       }
+#if (defined(__sgi) && !defined(__GNUC__))
+      outval =
+        reinterpret_cast<MetaDataObject <T> *>(Dictionary[key].GetPointer())->GetMetaDataObjectValue();
+#else
       outval =
         dynamic_cast<MetaDataObject <T> *>(Dictionary[key].GetPointer())->GetMetaDataObjectValue();
+
+#endif
       //                                 --------------- ^^^^^^^^^^^^
       //                                 SmartPointer    MetaDataObject<T>*
       return true;
