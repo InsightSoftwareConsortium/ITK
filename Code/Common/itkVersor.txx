@@ -171,7 +171,7 @@ Versor<T>
   const itk::NumericTraits< T >::AccumulateType 
                         square = ratio.m_W * ratio.m_W;
   
-  const double epsilon = 1e-30;
+  const double epsilon = 1e-300;
 
   if( fabs( 1.0f - square ) < epsilon )
     {
@@ -327,6 +327,25 @@ Versor<T>
 }
  
 
+/**
+ *  Compute the Exponential of the quaternion
+ */
+template<class T>
+Versor<T>
+Versor<T>
+::Exponential( ValueType exponent ) const
+{
+
+  Self result;
+  
+  result.Set( this->GetAxis(), 
+              this->GetAngle() * exponent );
+
+  return result;
+
+}
+ 
+
 
 /**
  * Set Axis and Angle (in radians)
@@ -384,6 +403,68 @@ Versor<T>
 }
  
 
+
+/**
+ * Set rotation around X axis 
+ */
+template<class T>
+void
+Versor<T>
+::SetRotationAroundX( ValueType angle )
+{
+
+  const ValueType sinangle2 = sin( angle / 2.0 );
+  const ValueType cosangle2 = cos( angle / 2.0 );
+  
+  m_X = sinangle2;
+  m_Y = NumericTraits< T >::Zero;
+  m_Z = NumericTraits< T >::Zero;
+  m_W = cosangle2;
+
+}
+ 
+
+
+/**
+ * Set rotation around Y axis 
+ */
+template<class T>
+void
+Versor<T>
+::SetRotationAroundY( ValueType angle )
+{
+
+  const ValueType sinangle2 = sin( angle / 2.0 );
+  const ValueType cosangle2 = cos( angle / 2.0 );
+  
+  m_X = NumericTraits< T >::Zero;
+  m_Y = sinangle2;
+  m_Z = NumericTraits< T >::Zero;
+  m_W = cosangle2;
+
+}
+ 
+
+
+/**
+ * Set rotation around Z axis 
+ */
+template<class T>
+void
+Versor<T>
+::SetRotationAroundZ( ValueType angle )
+{
+
+  const ValueType sinangle2 = sin( angle / 2.0 );
+  const ValueType cosangle2 = cos( angle / 2.0 );
+  
+  m_X = NumericTraits< T >::Zero;
+  m_Y = NumericTraits< T >::Zero;
+  m_Z = sinangle2;
+  m_W = cosangle2;
+
+}
+ 
 
 
 /**

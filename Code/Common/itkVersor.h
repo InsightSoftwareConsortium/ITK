@@ -259,6 +259,45 @@ public:
  
 
   /**
+   * Sets a rotation around the X axis using the parameter
+   * as angle in radians. This is a method provided for 
+   * convinience to initialize a rotation. The effect of
+   * this methods is not cumulative with any value previously
+   * stored in the Versor.
+   * \sa Set
+   * \sa SetRotationAroundY
+   * \sa SetRotationAroundZ
+   */
+  void SetRotationAroundX( ValueType angle );
+ 
+ 
+  /**
+   * Sets a rotation around the Y axis using the parameter
+   * as angle in radians. This is a method provided for 
+   * convinience to initialize a rotation. The effect of
+   * this methods is not cumulative with any value previously
+   * stored in the Versor.
+   * \sa Set
+   * \sa SetRotationAroundX
+   * \sa SetRotationAroundZ
+   */
+  void SetRotationAroundY( ValueType angle );
+ 
+ 
+  /**
+   * Sets a rotation around the Y axis using the parameter
+   * as angle in radians. This is a method provided for 
+   * convinience to initialize a rotation. The effect of
+   * this methods is not cumulative with any value previously
+   * stored in the Versor.
+   * \sa Set
+   * \sa SetRotationAroundX
+   * \sa SetRotationAroundY
+   */
+  void SetRotationAroundZ( ValueType angle );
+ 
+
+  /**
    * Transform a Vector
    */
    VectorType Transform( const VectorType & v ) const;
@@ -293,6 +332,15 @@ public:
    */
    Self SquareRoot(void) const;
 
+   
+  /**
+   * Compute the Exponential of the unit quaternion
+   * Exponentiation by a factor is equivalent to 
+   * multiplication of the rotaion angle of the quaternion
+   */
+   Self Exponential( ValueType exponent ) const;
+
+
 private:
 
    /** 
@@ -321,9 +369,9 @@ template< class T>
 ITK_EXPORT std::ostream& operator<<( std::ostream& os, 
                                      const Versor<T> & v)
 {
-  os << "[";
-  os << v.GetX() << ", " << v.GetY () << ", " << v.GetZ() << ", " << v.GetW();
-  os << "]" << std::endl;
+  os << "[ ";
+  os << v.GetX() << ", " << v.GetY() << ", ";
+  os << v.GetZ() << ", " << v.GetW() << " ]";
   return os;
 }
 
