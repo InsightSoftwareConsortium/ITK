@@ -90,7 +90,7 @@ SmartRegionNeighborhoodIterator<TPixel, VDimension>
           
           else  // Boundary condition here
             {
-              *ans_it = NumericTraits<TPixel>::Zero;
+              *ans_it = NumericTraits<TPixelScalarValueType>::Zero;
             }
           
           for (i=0; i<VDimension; ++i)  // Update index
@@ -268,15 +268,13 @@ void SmartRegionNeighborhoodIterator<TPixel, VDimension>
 
 template<class TPixel, unsigned int VDimension>
 void SmartRegionNeighborhoodIterator<TPixel, VDimension>
-::SetBound(const Size& size)
+::SetBound(const SizeType& size)
 {
-  const unsigned long *radius     = this->GetRadius().m_Size;
+  Size<VDimension> radius  = this->GetRadius();
   const unsigned long *offset     = m_Image->GetOffsetTable();
   const Index imageRRStart  = m_Image->GetRequestedRegion().GetIndex();
-  const unsigned long *imageRRSize
-    = m_Image->GetRequestedRegion().GetSize().m_Size;
-  const unsigned long *imageBufferSize
-    = m_Image->GetBufferedRegion().GetSize().m_Size;
+  Size<VDimension> imageRRSize = m_Image->GetRequestedRegion().GetSize();
+  Size<VDimension> imageBufferSize = m_Image->GetBufferedRegion().GetSize();
 
   // Set the bounds and the wrapping offsets. Inner bounds are the loop
   // indicies where the iterator will begin to overlap the edge of the image

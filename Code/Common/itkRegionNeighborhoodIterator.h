@@ -62,7 +62,6 @@ public:
   typedef itk::Image<TPixel, VDimension>        Image;
   typedef itk::Index<VDimension>                Index;
   typedef itk::Neighborhood<TPixel, VDimension> Neighborhood;
-  typedef itk::Size<VDimension>                 Size;
   typedef itk::ImageRegion<VDimension>          Region;
 
   /**
@@ -85,7 +84,7 @@ public:
   * dimension to walk a particular image and a particular region of
   * that image.
   */
-  RegionNeighborhoodIterator(const Size &radius,
+  RegionNeighborhoodIterator(const SizeType &radius,
                              Image *ptr,
                              const Region &region)
     : NeighborhoodIterator<TPixel, VDimension>(radius, ptr, region)
@@ -151,7 +150,7 @@ protected:
   /**
    * Sets the loop upper boundaries for iteration.
    */
-  void SetBound(const Size &);
+  void SetBound(const SizeType &);
 };
   
 } // namespace itk

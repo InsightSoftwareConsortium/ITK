@@ -60,7 +60,6 @@ public:
   typedef itk::Index<VDimension>                Index;
   typedef itk::Neighborhood<TPixel, VDimension> Neighborhood;
   typedef itk::ImageRegion<VDimension>          Region;
-  typedef itk::Size<VDimension>                 Size;
   
   /** 
    * Run-time type information (and related methods).
@@ -72,7 +71,7 @@ public:
    * dimension to walk a particular image and a particular region of
    * that image.
    */ 
-  SmartRegionNeighborhoodIterator(const Size& radius,
+  SmartRegionNeighborhoodIterator(const SizeType& radius,
                                   Image *ptr,
                                   const Region& region)
     : NeighborhoodIterator<TPixel, VDimension>(radius, ptr, region)
@@ -141,7 +140,7 @@ protected:
   /**
    * Sets loop boundaries for iteration.
    */
-  void SetBound(const Size&);
+  void SetBound(const SizeType&);
 
   /**
    * Returns false if the iterator overlaps region boundaries, true
