@@ -29,7 +29,7 @@ namespace itk
 template <class TScalarType,unsigned int NDimensions, class TParameters>
 CenteredAffineRegistrationTransform<TScalarType,NDimensions,TParameters>
 ::CenteredAffineRegistrationTransform()
-{ 
+{
   m_DomainTransformationCenter.Fill( 0 );
   m_RangeTransformationCenter.Fill( 0 );
 }
@@ -52,7 +52,8 @@ CenteredAffineRegistrationTransform<TScalarType,NDimensions,TParameters>
  * Assignment Operator
  */
 template <class TScalarType,unsigned int NDimensions, class TParameters>
-const CenteredAffineRegistrationTransform<TScalarType,NDimensions,TParameters> &
+const
+CenteredAffineRegistrationTransform<TScalarType,NDimensions,TParameters> &
 CenteredAffineRegistrationTransform<TScalarType,NDimensions,TParameters>
 ::operator=( const Self & other )
 {
@@ -65,7 +66,8 @@ CenteredAffineRegistrationTransform<TScalarType,NDimensions,TParameters>
  * Transform a Point
  */
 template <class TScalarType,unsigned int NDimensions, class TParameters>
-CenteredAffineRegistrationTransform<TScalarType,NDimensions,TParameters>::PointType
+CenteredAffineRegistrationTransform<TScalarType,NDimensions,TParameters>
+::PointType
 CenteredAffineRegistrationTransform<TScalarType,NDimensions,TParameters>
 ::Transform( const PointType & point ) const
 {
@@ -84,16 +86,16 @@ CenteredAffineRegistrationTransform<TScalarType,NDimensions,TParameters>
 {
 
   m_Parameters = parameters;
-  
+
   typename AffineTransformType::MatrixType  linear;
   typename AffineTransformType::VectorType  constant;
-  
+
   // Transfer the linear part
   unsigned int par = 0;
 
-  for(unsigned int row=0; row<NDimensions; row++) 
+  for(unsigned int row=0; row<NDimensions; row++)
   {
-    for(unsigned int col=0; col<NDimensions; col++) 
+    for(unsigned int col=0; col<NDimensions; col++)
     {
       linear[row][col] = m_Parameters[par];
       ++par;
@@ -104,9 +106,10 @@ CenteredAffineRegistrationTransform<TScalarType,NDimensions,TParameters>
   temp = linear * m_DomainTransformationCenter;
 
   // Transfer the constant part
-  for(unsigned int i=0; i<NDimensions; i++) 
+  for(unsigned int i=0; i<NDimensions; i++)
   {
-    constant[i] = m_Parameters[par] + m_RangeTransformationCenter[i] - temp[i];
+    constant[i] = m_Parameters[par] +
+      m_RangeTransformationCenter[i] - temp[i];
     ++par;
   }
 
@@ -115,15 +118,17 @@ CenteredAffineRegistrationTransform<TScalarType,NDimensions,TParameters>
 
 }
 
-
-// Compute the Jacobian of the transformation
-// It follows the same order of Parameters vector 
-template<class ScalarType, int NDimensions, class TParameters>
-const CenteredAffineRegistrationTransform<ScalarType, NDimensions,TParameters>::JacobianType &
-CenteredAffineRegistrationTransform<ScalarType, NDimensions,TParameters>::
-GetJacobian( const PointType & p ) const
+/**
+ *  Compute the Jacobian of the transformation
+ */
+template<class TScalarType, int NDimensions, class TParameters>
+const
+CenteredAffineRegistrationTransform<TScalarType, NDimensions,TParameters>
+::JacobianType &
+CenteredAffineRegistrationTransform<TScalarType, NDimensions,TParameters>
+::GetJacobian( const PointType & p ) const
 {
-  
+
   // The Jacobian of the affine transform is composed of
   // subblocks of diagonal matrices, each one of them having
   // a constant value in the diagonal.
@@ -131,12 +136,12 @@ GetJacobian( const PointType & p ) const
   m_Jacobian.Fill( 0.0 );
 
   unsigned int blockOffset = 0;
-  
-  for(unsigned int block=0; block < SpaceDimension; block++) 
+
+  for(unsigned int block=0; block < SpaceDimension; block++)
   {
-    for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
+    for(unsigned int dim=0; dim < SpaceDimension; dim++ )
     {
-       m_Jacobian[ block ][ blockOffset + dim ] = 
+       m_Jacobian[ block ][ blockOffset + dim ] =
         p[dim] - m_DomainTransformationCenter[dim];
     }
 
@@ -144,7 +149,7 @@ GetJacobian( const PointType & p ) const
 
   }
 
-  for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
+  for(unsigned int dim=0; dim < SpaceDimension; dim++ )
   {
      m_Jacobian[ dim ][ blockOffset + dim ] = 1.0;
   }
@@ -158,4 +163,12 @@ GetJacobian( const PointType & p ) const
 } // end namespace itk
 
 #endif
+
+
+
+
+
+
+
+
 
