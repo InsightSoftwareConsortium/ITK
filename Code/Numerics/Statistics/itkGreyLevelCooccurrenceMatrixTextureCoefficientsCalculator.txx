@@ -4,7 +4,7 @@
 #include "itkGreyLevelCooccurrenceMatrixTextureCoefficientsCalculator.h"
 
 #include "itkNumericTraits.h"
-#include <cmath>
+#include "vnl/vnl_math.h"
 
 namespace itk {
   namespace Statistics {
@@ -37,7 +37,7 @@ namespace itk {
         m_Inertia = m_ClusterShade = m_ClusterProminence = m_HaralickCorrelation = 0;
       
       double pixelVarianceSquared = pixelVariance * pixelVariance;
-      double log2 = std::log(2.);
+      double log2 = vcl_log(2.);
       for (HistogramIterator hit = m_Histogram->Begin();
            hit != m_Histogram->End(); ++hit)
         {
@@ -49,7 +49,7 @@ namespace itk {
         
         IndexType index = m_Histogram->GetIndex(hit.GetInstanceIdentifier());
         m_Energy += frequency * frequency;
-        m_Entropy -= (frequency > 0.0001) ? frequency * std::log(frequency) / log2 : 0;
+        m_Entropy -= (frequency > 0.0001) ? frequency * vcl_log(frequency) / log2 : 0;
         m_Correlation += ( (index[0] - pixelMean) * (index[1] - pixelMean) * frequency)
           / pixelVarianceSquared;
         m_InverseDifferenceMoment += frequency /

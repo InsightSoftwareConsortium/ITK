@@ -17,7 +17,7 @@ namespace itk {
     ScalarImageToGreyLevelCooccurrenceMatrixGenerator< TImageType,
     THistogramFrequencyContainer >::
     ScalarImageToGreyLevelCooccurrenceMatrixGenerator() : 
-    m_BinsPerAxis(DEFAULT_BINS_PER_AXIS), m_Normalize(false)
+    m_BinsPerAxis(itkGetStaticConstMacro(DefaultBinsPerAxis)), m_Normalize(false)
       {
       m_LowerBound.Fill(NumericTraits<PixelType>::min());
       m_UpperBound.Fill(NumericTraits<PixelType>::max() + 1);

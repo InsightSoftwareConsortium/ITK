@@ -3,7 +3,7 @@
 
 #include "itkScalarImageTextureCalculator.h"
 #include "itkNeighborhood.h"
-#include <cmath>
+#include "vnl/vnl_math.h"
 
 namespace itk {
   namespace Statistics {
@@ -30,7 +30,7 @@ namespace itk {
       // Set the offset directions to their defaults: half of all the possible
       // directions 1 pixel away. (The other half is included by symmetry.)
       // We use a neighborhood iterator to calculate the appropriate offsets.
-      typedef Neighborhood<typename ImageType::PixelType, ::itk::GetImageDimension< 
+      typedef Neighborhood<ImageType::PixelType, ::itk::GetImageDimension< 
         ImageType >::ImageDimension > NeighborhoodType;
       NeighborhoodType hood;
       hood.SetRadius(1);
@@ -94,7 +94,7 @@ namespace itk {
         M(1) = x(1), M(k) = M(k-1) + (x(k) - M(k-1) ) / k
         S(1) = 0, S(k) = S(k-1) + (x(k) - M(k-1)) * (x(k) - M(k))
         for 2 <= k <= n, then
-        sigma = sqrt(S(n) / n) (or divide by n-1 for sample SD instead of
+        sigma = vcl_sqrt(S(n) / n) (or divide by n-1 for sample SD instead of
                                 population SD).
         */
       
@@ -123,7 +123,7 @@ namespace itk {
         }
       for (featureNum = 0; featureNum < numFeatures; featureNum++)
         {
-        tempFeatureDevs[featureNum] = std::sqrt(tempFeatureDevs[featureNum] / numOffsets);
+        tempFeatureDevs[featureNum] = vcl_sqrt(tempFeatureDevs[featureNum] / numOffsets);
         
         m_FeatureMeans->push_back(tempFeatureMeans[featureNum]);
         m_FeatureStandardDeviations->push_back(tempFeatureDevs[featureNum]);

@@ -111,7 +111,7 @@ class ScalarImageToGreyLevelCooccurrenceMatrixGenerator : public Object
     typedef typename HistogramType::MeasurementVectorType   MeasurementVectorType;
     
     
-    static const unsigned int DEFAULT_BINS_PER_AXIS = 256;
+    itkStaticConstMacro(DefaultBinsPerAxis, unsigned int, 256);
     
     /** Triggers the Computation of the histogram */
     void Compute( void );
