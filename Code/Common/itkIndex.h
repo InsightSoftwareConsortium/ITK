@@ -274,7 +274,7 @@ std::ostream & operator<<(std::ostream &os, const Index<VIndexDimension> &ind)
 template<unsigned int VIndexDimension>
 const Index<VIndexDimension>
 Index<VIndexDimension>
-::ZeroIndex = {0};
+::ZeroIndex = {{0}};
 
 } // end namespace itk
 
