@@ -371,15 +371,32 @@ public:
   /** Interface to cells. */
   CellFeatureCount GetNumberOfCellBoundaryFeatures(int dimension,
                                                    CellIdentifier) const;
+
+  /** Get the boundary feature of the given dimension of the given cell
+   * corresponding to the given feature identifier. */
   bool GetCellBoundaryFeature(int dimension, CellIdentifier,
                        CellFeatureIdentifier, BoundaryAutoPointer & ) const;
+
+  /** Get the set of cells neighboring the given cell across the given boundary
+   * feature.  Returns the number of neighbors found.  If cellSet is not NULL,
+   * the set of cell pointers is filled in with identifiers of the neighboring
+   * cells. */
   unsigned long GetCellBoundaryFeatureNeighbors(
     int dimension, CellIdentifier, CellFeatureIdentifier,
     std::set<CellIdentifier>* cellSet);
   
+  /**
+   * Check if there is an explicitly assigned boundary feature for the
+   * given dimension and cell- and cell-feature-identifiers.  If there is,
+   * a pointer to it is given back through "boundary" (if it isn't 0) and
+   * true is returned.  Otherwise, false is returned.
+   */
   bool GetAssignedCellBoundaryIfOneExists(int dimension, CellIdentifier,
                                           CellFeatureIdentifier,
                                           BoundaryAutoPointer& ) const;
+
+  /** Dynamically build the links from points back to their using cells.  This
+   * information is stored in the cell links container, not in the points. */
   void BuildCellLinks(void);
     
   /** Get the bounding box of a cell in the mesh. The user
