@@ -37,35 +37,38 @@ namespace itk
  * \sa NeighborhoodOperator
  */
 
-template <class TPixel, unsigned int VDimension=2>
+template <class TInputImage, class TOutputImage >
 class ITK_EXPORT DiscreteGaussianImageFilter :
-    public ImageToImageFilter< Image<TPixel, VDimension>,
-                               Image<TPixel, VDimension> > 
+    public ImageToImageFilter< TInputImage, TOutputImage > 
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard "Self" & superclass typedef.
    */
   typedef DiscreteGaussianImageFilter Self;
-  
-  typedef Image<TPixel, VDimension>  InputImageType;
-  typedef Image<TPixel, VDimension>  OutputImageType;
-  
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+
   /**
-   * Standard super class typedef support.
+   * Image type information
    */
-  typedef ImageToImageFilter< InputImageType, OutputImageType > Superclass;
+  typedef TInputImage  InputImageType;
+  typedef TOutputImage OutputImageType;
+
+  /**
+   * Extract some information from the image types.  Dimensionality
+   * of the two images is assumed to be the same.
+   */
+  typedef typename TOutputImage::PixelType OutputPixelType;
+  typedef typename TOutputImage::InternalPixelType OutputInternalPixelType;
+  typedef typename TInputImage::PixelType InputPixelType;
+  typedef typename TInputImage::InternalPixelType InputInternalPixelType;
+  enum { ImageDimension = TOutputImage::ImageDimension };
   
   /** 
    * Smart pointer typedef support 
    */
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-
-  /**
-   * Image type typedef support
-   */
-  typedef Image<TPixel, VDimension> ImageType;
   
   /**
    * Run-time type information (and related methods)
@@ -85,10 +88,10 @@ public:
   /**
    * Standard get/set macros for filter parameters.
    */
-  itkSetVectorMacro(Variance, float, VDimension);
-  itkGetVectorMacro(Variance, const float, VDimension);
-  itkSetVectorMacro(MaximumError, float, VDimension);
-  itkGetVectorMacro(MaximumError, const float, VDimension);
+  itkSetVectorMacro(Variance, float, ImageDimension);
+  itkGetVectorMacro(Variance, const float, ImageDimension);
+  itkSetVectorMacro(MaximumError, float, ImageDimension);
+  itkGetVectorMacro(MaximumError, const float, ImageDimension);
 
   /**
    * Convenience get/set methods for setting all dimensional parameters to the
@@ -96,14 +99,14 @@ public:
    */
   void SetVariance(const float v)
   {
-    float vArray[VDimension];
-    for (int i = 0; i<VDimension; ++i) { vArray[i] = v; }
+    float vArray[ImageDimension];
+    for (unsigned int i = 0; i<ImageDimension; ++i) { vArray[i] = v; }
     this->SetVariance(vArray);
   }
   void SetMaximumError(const float v)
   {
-    float vArray[VDimension];
-    for (int i = 0; i<VDimension; ++i) { vArray[i] = v; }
+    float vArray[ImageDimension];
+    for (unsigned int i = 0; i<ImageDimension; ++i) { vArray[i] = v; }
     this->SetMaximumError(vArray);
   }
   
@@ -117,21 +120,20 @@ protected:
   DiscreteGaussianImageFilter(const Self&) {}
   void operator=(const Self&) {}
 
-  static void ImageRegionCopy(Image<TPixel, VDimension> *, Image<TPixel,
-                              VDimension> *);
+  static void ImageRegionCopy(OutputImageType *, InputImageType *);
 
 private:
   /**
    * The variance of the gaussian blurring kernel in each dimensional direction.
    */
-  float m_Variance[VDimension];
+  float m_Variance[ImageDimension];
 
   /**
    * The maximum error of the gaussian blurring kernel in each dimensional
    * direction. For definition of maximum error, see GaussianOperator.
    * \sa GaussianOperator
    */
-  float m_MaximumError[VDimension];  
+  float m_MaximumError[ImageDimension];  
 };
   
 } // end namespace itk

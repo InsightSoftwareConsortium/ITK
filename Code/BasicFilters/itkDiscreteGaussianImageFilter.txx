@@ -19,15 +19,14 @@
 namespace itk
 {
 
-template< class TPixel, unsigned int VDimension>
+template< class TInputImage, class TOutputImage >
 void
-DiscreteGaussianImageFilter<TPixel, VDimension>
-::ImageRegionCopy(Image<TPixel, VDimension> *imgT,
-                  Image<TPixel, VDimension> *input)
+DiscreteGaussianImageFilter< TInputImage, TOutputImage >
+::ImageRegionCopy(TOutputImage *imgT, TInputImage *input)
 {
-  ImageRegionIterator<TPixel, VDimension> in_it(input,
+  ImageRegionIterator<OutputPixelType, ImageDimension> in_it(input,
                                                 imgT->GetRequestedRegion());
-  ImageRegionIterator<TPixel, VDimension> out_it(imgT,
+  ImageRegionIterator<OutputPixelType, ImageDimension> out_it(imgT,
                                                 imgT->GetRequestedRegion());
   for (in_it = in_it.Begin(), out_it = out_it.Begin(); in_it < in_it.End();
        ++in_it, ++out_it)
@@ -37,20 +36,19 @@ DiscreteGaussianImageFilter<TPixel, VDimension>
 }
 
   
-template< class TPixel, unsigned int VDimension>
+template< class TInputImage, class TOutputImage >
 void
-DiscreteGaussianImageFilter<TPixel, VDimension>
+DiscreteGaussianImageFilter<TInputImage, TOutputImage>
 ::GenerateData()
 {
-  typedef Image<TPixel, VDimension> ImageType;
-  ImageType::Pointer input = this->GetInput();
-  ImageType::Pointer output = this->GetOutput();
-  ImageType::Pointer swapPtrA, swapPtrB, swapPtrC;
+  typename TInputImage::Pointer input = this->GetInput();
+  typename TOutputImage::Pointer output = this->GetOutput();
+  typename TOutputImage::Pointer swapPtrA, swapPtrB, swapPtrC;
   
   output->SetBufferedRegion(output->GetRequestedRegion());
   output->Allocate();
 
-  ImageType::Pointer imgT = ImageType::New();
+  typename TOutputImage::Pointer imgT = TOutputImage::New();
   imgT->SetLargestPossibleRegion(output->GetLargestPossibleRegion());
   imgT->SetRequestedRegion(output->GetRequestedRegion());
   imgT->SetBufferedRegion(output->GetBufferedRegion());
@@ -58,15 +56,15 @@ DiscreteGaussianImageFilter<TPixel, VDimension>
 
   Self::ImageRegionCopy(imgT, input);
 
-  GaussianOperator<VDimension> *oper;
+  GaussianOperator<ImageDimension> *oper;
   NeighborhoodOperatorImageFilter<InputImageType, OutputImageType>::Pointer filter;
 
   swapPtrA = imgT;
   swapPtrB = output;
-  for (int i = 0; i < VDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       // Filter
-      oper = new GaussianOperator<VDimension>;
+      oper = new GaussianOperator<ImageDimension>;
       oper->SetDirection(i);
       oper->SetVariance(m_Variance[i]);
       oper->SetMaximumError(m_MaximumError[i]);
@@ -78,15 +76,15 @@ DiscreteGaussianImageFilter<TPixel, VDimension>
       filter->SetOutput(swapPtrB);
       filter->Update();
 
-      delete oper;
-      filter->Delete();
+      //      delete oper;       pipeline problems cause seg fault? --3/13/01
+      //      filter->Delete();
 
       swapPtrC = swapPtrB;
       swapPtrB = swapPtrA;
       swapPtrA = swapPtrC;
     }
 
-  if ((VDimension % 2) == 0)
+  if ((ImageDimension % 2) == 0)
     { 
       Self::ImageRegionCopy(output, imgT);
     }
