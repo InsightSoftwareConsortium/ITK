@@ -106,7 +106,8 @@ NormalizedCorrelationImageToImageMetric<TTarget,TMapper>
     return 100000;
   } 
 
-  m_MatchMeasure = sab / sqrt( saa * sbb );
+  // The sign is changed because the optimization method looks for minima
+  m_MatchMeasure = -sab / sqrt( saa * sbb );
   std::cout<<"m_MatchMeasure= "<<m_MatchMeasure<<std::endl; 
   return m_MatchMeasure;
 
@@ -125,7 +126,7 @@ NormalizedCorrelationImageToImageMetric<TTarget,TMapper>
 ::GetDerivative( const ParametersType & parameters )
 {
 
-  const double delta = 0.00011;
+  const double delta = 0.001;
   ParametersType testPoint;
   testPoint = parameters;
 
@@ -135,11 +136,11 @@ NormalizedCorrelationImageToImageMetric<TTarget,TMapper>
     const MeasureType valuep0 = GetValue( testPoint );
     testPoint[i] += 2*delta;
     const MeasureType valuep1 = GetValue( testPoint );
-    m_MatchMeasureDerivatives[i] = (valuep1 - valuep0 ) / ( 2 * delta );
-    m_MatchMeasureDerivatives[i] /= 1e5;  // FIX this is an arbitrary value
+    m_MatchMeasureDerivatives[i] = (valuep1 - valuep0 ) / ( 2.0 * delta );
     testPoint[i] = parameters[i];
   }
-
+  std::cout << "NormalizedCorrelation Derivative = ";
+  std::cout << m_MatchMeasureDerivatives << std::endl;
   return m_MatchMeasureDerivatives;
 
 }
