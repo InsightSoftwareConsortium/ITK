@@ -26,8 +26,8 @@
 #include "itkVector.h"
 #include "itkCovariantVector.h"
 #include "itkExceptionObject.h" 
-#include "itkSpatialObjectProperty.h" 
- 
+#include <list> 
+
 namespace itk  
 { 
 
@@ -41,9 +41,7 @@ namespace itk
 * An object has a list of transformations to transform local coordinates to 
 * the corresponding coordinates in the real world coordinates system, and a
 * list of inverse transformation to go backward.
-* Each object can be plug to a composite spatial object, and it will then
-* be affected by all modifications ( translation, rotation,...)
-* applied to its parent object.
+* Any spatial objects can be plugged to a spatial object. 
 * To implement your own spatial object, you need to derive from the following class,
 * which imply the definition of just a few pure virtual function, like for instance
 * ValueAt(), IsEvaluableAt(), and IsInside() which are specific to each particular
@@ -69,9 +67,6 @@ public:
   
   typedef SmartPointer< Self > Pointer;
   typedef SmartPointer< const Self > ConstPointer;
-
-  typedef SpatialObjectProperty< float > PropertyType; 
-  typedef typename PropertyType::Pointer  PropertyPointer; 
   
   typedef Point < ScalarType, NDimensions > PointType; 
   typedef PointType * PointPointer; 
@@ -84,7 +79,7 @@ public:
 
   typedef TTransform            TransformType;
   typedef typename TransformType::Pointer  TransformPointer;
-  typedef const TransformType *  TransformConstPointer;
+  typedef const TransformType*             TransformConstPointer;
   
   typedef std::list< const TransformType * > TransformListType;
   typedef TransformListType * TransformListPointer;
@@ -94,6 +89,7 @@ public:
   typedef BoundingBox< unsigned long int, NDimensions, ScalarType, VectorContainerType > BoundingBoxType; 
   typedef typename BoundingBoxType::Pointer BoundingBoxPointer; 
 
+  typedef std::list< Self * > ChildrenListType; 
 
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
@@ -107,137 +103,107 @@ public:
   /** Get the bounding box of the object. */
   BoundingBoxType * GetBounds( void ); 
 
-  /*
-  * Returns a pointer to the property object applied
-  * to this class.
-  */
-  PropertyType * GetProperty( void );
-
-  /*
-  * Set the property applied to the object.
-  */
-  void SetProperty( const PropertyType * property ); 
-
-  void SetLocalToGlobalTransform( const TransformType * transform ); 
+  void SetLocalToGlobalTransform( TransformType * transform ); 
   const TransformType * GetLocalToGlobalTransform( void ); 
   
-  void SetGlobalToLocalTransform( const TransformType * transform ); 
-  const TransformType * GetGlobalToLocalTransform( void ); 
+  void SetGlobalToLocalTransform( TransformType * transform ); 
+  const TransformType * GetGlobalToLocalTransform( void );
 
-
-  /** 
-  * Returns a degree of membership to the object. 
-  * That's useful for fuzzy objects.
-  */ 
-  virtual void ValueAt( const PointType & point, double & value ) = 0; //purposely not implemented
+  /** Returns a degree of membership to the object. 
+   *  That's useful for fuzzy objects. */ 
+  virtual void ValueAt( const PointType & point, double & value ); //purposely not implemented
      
-  /*
-  * return ture if the object provides a method to evaluate the value 
-  * at the specified point, else otherwise.
-  */
-  virtual bool IsEvaluableAt( const PointType & point ) = 0; // purposely not implemented
+  /** Return tru if the object provides a method to evaluate the value 
+   *  at the specified point, else otherwise. */
+  virtual bool IsEvaluableAt( const PointType & point ); // purposely not implemented
 
-  /** 
-  * Test whether a point is inside or outside the object. 
-  */ 
-  virtual bool IsInside( const PointType & point ) = 0; // purposely not implemented
+  /** Test whether a point is inside or outside the object. */ 
+  virtual bool IsInside( const PointType & point ); // purposely not implemented
 
-  /**
-  * Set the pointer to the parent object in the tree hierarchy
-  * used for the spatial object patter.
-  */
+  /** Set the pointer to the parent object in the tree hierarchy
+   *  used for the spatial object patter. */
   void SetParent( const Self * parent );
 
-  /**
-  * Return true if the object has a parent object. Basically, only
-  * the root object , or some isolated objects should return false.
-  */
+  /** Return true if the object has a parent object. Basically, only
+   *  the root object , or some isolated objects should return false. */
   bool HasParent( void ) const;
 
-  /**
-  * Return the n-th order derivative value at the specified point.
-  */
+  /** Return the n-th order derivative value at the specified point. */
   virtual void DerivativeAt( const PointType & point, short unsigned int order, OutputVectorType & value );
 
-  /** 
-  * Returns the coordinates of the point passed as argument in the object
-  * local coordinate system.
-  */
+  /** Returns the coordinates of the point passed as argument in the object
+   * local coordinate system. */
   void TransformPointToLocalCoordinate( PointType & p ) const;
 
-  /** 
-  * Returns the coordinates of the point passed as argument in the object
-  * local coordinate system.
-  */
+  /** Returns the coordinates of the point passed as argument in the object
+   * local coordinate system. */
   void TransformPointToGlobalCoordinate( PointType & p ) const; 
 
-  /**
-  * Build the list of local to global transforms to applied to the SpatialObject.
-  * If init equals false, then the list will be initialized.
-  */
+  /** Build the list of local to global transforms to applied to the SpatialObject.
+   *  If init equals false, then the list will be initialized. */
   void BuildLocalToGlobalTransformList( TransformListPointer list, bool init ) const;
 
-  /**
-  * Build the list of global to local transforms applied to the SpatialObject.
-  * If init equals false, then the list will be initialized.
-  */
+  /** Build the list of global to local transforms applied to the SpatialObject.
+   * If init equals false, then the list will be initialized. */
   void BuildGlobalToLocalTransformList( TransformListPointer list, bool init ) const;
 
-  /**
-  * Returns the list of local to global transforms.
-  */
+  /** Returns the list of local to global transforms. */
   TransformListPointer GetLocalToGlobalTransformList( void );
 
-  /**
-  * Returns the list of global to local transforms.
-  */
+  /** Returns the list of global to local transforms. */
   TransformListPointer GetGlobalToLocalTransformList( void );
 
-  /** 
-  * This function has to be implemented in the deriving class. 
-  * It should provide a method to get the boundaries of 
-  * a specific object. Basically, this function need to be called
-  * every time one of the object component is changed. 
-  */ 
-  virtual void ComputeBounds( void ) = 0; // purposely not implemented 
+  /** This function has to be implemented in the deriving class. 
+   *  It should provide a method to get the boundaries of 
+   *  a specific object. Basically, this function need to be called
+   *  every time one of the object component is changed.  */ 
+  virtual void ComputeBounds( void ); // purposely not implemented 
 
-  /**
-  * Returns the latest modified time of the spatial object, and 
-  * any of its components.
-  */
+  /** Returns the latest modified time of the spatial object, and 
+   * any of its components. */
   unsigned long GetMTime( void ) const;
 
-  /**
-  * Rebuild the list of transform applied to the object to switch from the local
-  * coordinate system, to the real world coordinate system.
-  */
+  /** Rebuild the list of transform applied to the object to switch 
+   *  from the local coordinate system, to the real world coordinate system. */
   virtual void RebuildLocalToGlobalTransformList( void ) const;
 
-  /**
-  * Rebuild the list of transforms applied to the object to switch from the real
-  * world coordinate systemn to the local coordinate system.
-  */
+  /** Rebuild the list of transforms applied to the object to switch from the real
+   *  world coordinate systemn to the local coordinate system. */
   virtual void RebuildGlobalToLocalTransformList( void ) const;
 
-  /**
-  * Rebuild all the transforms list. Basically, this function is performed every time
-  * an object is plugged or unplugged to a hierarchy of objects.
-  */
+  /** Rebuild all the transforms list. Basically, this function is performed every time
+   * an object is plugged or unplugged to a hierarchy of objects. */
   virtual void RebuildAllTransformLists( void ) const;
 
+  /** Add an object to the list of children. */ 
+  void AddSpatialObject( Self * pointer ); 
+     
+  /** Remove the object passed as arguments from the list of 
+   * children. May this function 
+   * should return a false value if the object to remove is 
+   * not found in the list. */ 
+  void RemoveSpatialObject( Self * object ); 
+
+  /** Returns a list of pointer to the children affiliated to this object. */ 
+  ChildrenListType & GetChildren( void );
+
+  /** Returns the number of children currently assigned to the composite object. */ 
+  unsigned int GetNumberOfChildren( void ); 
+
+  /** Set the list of pointers to children to the list passed as argument. */ 
+  void SetChildren( ChildrenListType & children ); 
 
 protected: 
 
   BoundingBoxPointer m_Bounds; 
-  PropertyPointer m_Property; 
   ConstPointer m_Parent; 
   TimeStamp m_BoundsMTime;
 
   TransformListPointer m_LocalToGlobalTransformList;
   TransformListPointer m_GlobalToLocalTransformList;
 
-  TransformConstPointer m_LocalToGlobalTransform; 
-  TransformConstPointer m_GlobalToLocalTransform; 
+  TransformPointer m_LocalToGlobalTransform; 
+  TransformPointer m_GlobalToLocalTransform; 
 
   /** Constructor. */ 
   SpatialObject(); 
@@ -246,6 +212,10 @@ protected:
   virtual ~SpatialObject(); 
 
   virtual void PrintSelf( std::ostream& os, Indent indent ) const; 
+
+  /** List of the children object plug to the composite 
+   *  spatial object. */
+  ChildrenListType m_Children; 
 
 }; 
 
