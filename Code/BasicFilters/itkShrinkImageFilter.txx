@@ -75,11 +75,11 @@ ShrinkImageFilter<TInputImage,TOutputImage>
   // to an output pixel
   typename TOutputImage::IndexType outputIndex;
   typename TInputImage::IndexType inputIndex;
-  typename TOutputImage::IndexType factorIndex;
+  typename TOutputImage::SizeType factorSize;
 
   for (i=0; i < TInputImage::ImageDimension; i++)
     {
-    factorIndex[i] = m_ShrinkFactor;
+    factorSize[i] = m_ShrinkFactor;
     }
 
   // support progress methods/callbacks
@@ -102,7 +102,7 @@ ShrinkImageFilter<TInputImage,TOutputImage>
     outputIndex = outIt.GetIndex();
 
     // determine the input pixel location associated with this output pixel
-    inputIndex = outputIndex * factorIndex;
+    inputIndex = outputIndex * factorSize;
 
     // copy the input pixel to the output
     outIt.Set( inputPtr->GetPixel(inputIndex) );

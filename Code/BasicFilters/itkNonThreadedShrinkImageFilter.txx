@@ -78,11 +78,11 @@ NonThreadedShrinkImageFilter<TInputImage,TOutputImage>
   // to an output pixel
   typename TOutputImage::IndexType outputIndex;
   typename TInputImage::IndexType inputIndex;
-  typename TInputImage::IndexType factorIndex;
+  typename TInputImage::SizeType factorSize;
 
   for (int i=0; i < TInputImage::ImageDimension; i++)
     {
-    factorIndex[i] = m_ShrinkFactor;
+    factorSize[i] = m_ShrinkFactor;
     }
 
   // walk the output image, and sample the input image
@@ -92,7 +92,7 @@ NonThreadedShrinkImageFilter<TInputImage,TOutputImage>
     outputIndex = outIt.GetIndex();
 
     // determine the input pixel location associated with this output pixel
-    inputIndex = outputIndex * factorIndex;
+    inputIndex = outputIndex * factorSize;
 
     // copy the input pixel to the output
     outIt.Set( inputPtr->GetPixel(inputIndex) );
@@ -159,24 +159,24 @@ NonThreadedShrinkImageFilter<TInputImage,TOutputImage>
   // we need to compute the output spacing, the output image size, and the
   // output image start index
   int i;
-  const float              *inputSpacing = inputPtr->GetSpacing();
+  const double              *inputSpacing = inputPtr->GetSpacing();
   const typename TInputImage::SizeType&   inputSize
     = inputPtr->GetLargestPossibleRegion().GetSize();
   const typename TInputImage::IndexType&  inputStartIndex
     = inputPtr->GetLargestPossibleRegion().GetIndex();
   
-  float                     outputSpacing[TOutputImage::ImageDimension];
+  double                     outputSpacing[TOutputImage::ImageDimension];
   typename TOutputImage::SizeType         outputSize;
   typename TOutputImage::IndexType        outputStartIndex;
   
   for (i = 0; i < TOutputImage::ImageDimension; i++)
     {
-    outputSpacing[i] = inputSpacing[i] * (float) m_ShrinkFactor;
+    outputSpacing[i] = inputSpacing[i] * (double) m_ShrinkFactor;
     outputSize[i] = (unsigned int)
-      floor( ((float)(inputSize[i] - m_ShrinkFactor + 1))
-             / (float) m_ShrinkFactor);
+      floor( ((double)(inputSize[i] - m_ShrinkFactor + 1))
+             / (double) m_ShrinkFactor);
     outputStartIndex[i] = (int)
-      ceil( (float) inputStartIndex[i] / (float) m_ShrinkFactor );
+      ceil( (double) inputStartIndex[i] / (double) m_ShrinkFactor );
     }
 
   outputPtr->SetSpacing( outputSpacing );
