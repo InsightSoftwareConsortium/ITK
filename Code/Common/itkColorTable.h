@@ -18,9 +18,7 @@
 #define __itkColorTable_h
 
 #include <itkObject.h>
-#include <stdio.h>
 #include <itkRGBPixel.h>
-#include <itkObjectFactory.h>
 
 namespace itk 
 {
@@ -50,13 +48,21 @@ public:
   void    useDiscrete(void);
   void    useGray(int n=256);
   void    useHeat(int n=256);
-  int     size(void);
-  RGBPixel<TPixel>*          color(int c);
+
+  itkGetMacro(NumberOfColors, unsigned int);
+  unsigned int     size(void);
+
+  RGBPixel<TPixel>*          GetColor(unsigned int colorId);
+  RGBPixel<TPixel>*          color(unsigned int c);
+
+  bool    SetColor(unsigned int c, TPixel r, TPixel g, TPixel b, const char * name="UserDefined");
   
   /** Given the position in the table and the color 
    * returns the value. \todo Needs renaming. */
-  TPixel  color(int c, char rgb);
-  char *  colorName(int c);
+  TPixel  GetColorComponent(unsigned int colorId, char rgb);
+  TPixel  color(unsigned int c, char rgb);
+  char *  GetColorName(unsigned int colorId);
+  char *  colorName(unsigned int c);
 
   unsigned int GetClosestColorTableId(TPixel r, TPixel g, TPixel b);
    
@@ -64,7 +70,7 @@ protected:
   ColorTable();
   virtual ~ColorTable();
 
-  int                  m_NumberOfColors;
+  unsigned int         m_NumberOfColors;
   RGBPixel<TPixel> *   m_Color;
   char **              m_ColorName;
 
