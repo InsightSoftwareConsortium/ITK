@@ -19,25 +19,20 @@
 //
 // The following example illustrates the use of the
 // \doxygen{NeighborhoodConnectedImageFilter}.  This filter is a close variant
-// of the \doxygen{ConnectedThresholdImageFilter}. The main difference between
-// these two filters is that the ConnectedThresholdImageFilter
-// accepts a pixel in the region if its intensity is in the interval defined by
-// two user-provided threshold values. The
-// NeighborhoodConnectedImageFilter, on the other hand, will only
-// accept a pixel if \textbf{all} its neighbors have intensities that fit in
-// the interval. The size of the neighborhood to be considered around each
-// pixel is defined by a user-provided integer radius. 
+// of the \doxygen{ConnectedThresholdImageFilter}. On one hand, the
+// ConnectedThresholdImageFilter accepts a pixel in the region if its intensity
+// is in the interval defined by two user-provided threshold values.  The
+// NeighborhoodConnectedImageFilter, on the other hand, will only accept a
+// pixel if \textbf{all} its neighbors have intensities that fit in the
+// interval. The size of the neighborhood to be considered around each pixel is
+// defined by a user-provided integer radius. 
 //
-// The reason for considering the neighborhood intensities instead of only
-// the current pixel intensity is that isolated pixels are less likely to be
-// accepted in the region. This can be seen as a preemptive mathematical
-// morphology operation that is similar to using the
-// ConnectedThresholdImageFilter and then applying a combination of
-// erosion and dilation with a structuring element of the same radius used
-// for the neighborhood provided to the NeighborhoodConnectedImageFilter.
-//
-// This filter is more resistant to the presence of noise in the input image
-// and may not require any initial filtering to smooth the image.
+// The reason for considering the neighborhood intensities instead of only the
+// current pixel intensity is that small structures are less likely to be
+// accepted in the region. The operation of this filter is equivalent to
+// applying the ConnectedThresholdImageFilter followed by mathematical
+// morphology erosion using a structuring element of the same shape as
+// the neighborhood provided to the NeighborhoodConnectedImageFilter.
 //
 // Software Guide : EndLatex 
 
