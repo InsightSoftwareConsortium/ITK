@@ -27,6 +27,7 @@ ADD_TEST(itkBinaryMedianImageFilterTest ${BASIC_FILTERS_TESTS} itkBinaryMedianIm
 ADD_TEST(itkBinaryThresholdImageFilterTest ${BASIC_FILTERS_TESTS} itkBinaryThresholdImageFilterTest)
 ADD_TEST(itkBSplineInterpolateImageFunctionTest ${BASIC_FILTERS_TESTS} itkBSplineInterpolateImageFunctionTest)
 ADD_TEST(itkBSplineResampleImageFilterTest ${BASIC_FILTERS_TESTS} itkBSplineResampleImageFilterTest)
+ADD_TEST(itkBSplineResampleImageFunctionTest ${BASIC_FILTERS_TESTS} itkBSplineResampleImageFunctionTest)
 ADD_TEST(itkBloxBoundaryPointImageTest ${BASIC_FILTERS_TESTS} itkBloxBoundaryPointImageTest)
 ADD_TEST(itkBloxCoreAtomTest ${BASIC_FILTERS_TESTS} itkBloxCoreAtomTest)
 ADD_TEST(itkChangeInformationImageFilterTest ${BASIC_FILTERS_TESTS} itkChangeInformationImageFilterTest)
@@ -146,6 +147,7 @@ itkBinaryMedianImageFilterTest.cxx
 itkBinaryThresholdImageFilterTest.cxx
 itkBSplineInterpolateImageFunctionTest.cxx
 itkBSplineResampleImageFilterTest.cxx
+itkBSplineResampleImageFunctionTest.cxx
 itkBloxBoundaryPointImageTest.cxx
 itkBloxCoreAtomTest.cxx
 itkConfidenceConnectedImageFilterTest.cxx
