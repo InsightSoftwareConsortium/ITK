@@ -84,11 +84,11 @@ typedef MeshType::ConstPointer   MeshConstPointer;
 typedef MeshType::PointType      PointType;
 
 
-typedef MeshType::PointsContainer::iterator           PointsIterator;
-typedef MeshType::PointDataContainer::iterator        CellsIterator;
+// typedef MeshType::PointsContainer::iterator           PointsIterator;
+// typedef MeshType::PointDataContainer::iterator        CellsIterator;
 
-//typedef MeshType::PointsContainer::Iterator           PointsIterator;
-//typedef MeshType::PointDataContainer::Iterator        CellsIterator;
+typedef MeshType::PointsContainer::Iterator           PointsIterator;
+typedef MeshType::PointDataContainer::Iterator        CellsIterator;
 
 
 
@@ -105,8 +105,8 @@ int main(void)
 
   while( point != endpoint )
     {
-    point->second;
-    // point.Value();
+//    point->second;
+    point.Value();
     point++;
     }
 
