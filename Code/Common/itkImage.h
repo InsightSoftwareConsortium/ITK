@@ -346,7 +346,7 @@ public:
 
     // Update the output index
     for (unsigned int i = 0 ; i < VImageDimension ; i++)
-      { index[i] = inputPoint[i]; }
+      { index[i] = static_cast<long>(inputPoint[i]); }
     
     // Now, check to see if the index is within allowed bounds
     // Get the image size
@@ -354,7 +354,7 @@ public:
     const unsigned long* mySize = sizeObject.GetSize();
 
     // Check to see if the index is valid
-    for (int ii = 0; ii < VImageDimension; ++ii)
+    for (unsigned int ii = 0; ii < VImageDimension; ++ii)
       {
       if( (index[ii] < 0) || (index[ii] >= mySize[ii]) )
         { return false; }
