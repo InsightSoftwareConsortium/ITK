@@ -1,7 +1,13 @@
 
-#ifdef WIN32
-#pragma warning(disable:4786)
-#endif
+
+#ifdef _MSC_VER
+#pragma warning ( disable : 4514 )
+#pragma warning ( disable : 4786 )
+#pragma warning ( disable : 4503 )
+#pragma warning ( disable : 4710 )
+#pragma warning ( push, 3 )
+#endif 
+
 
 #include <stdlib.h>
 #if !defined(__MWERKS__)
@@ -393,11 +399,11 @@ void DICOMParser::ReadNextRecord(doublebyte& group, doublebyte& element, DICOMPa
       }
 
     std::vector<DICOMCallback*> * cbVector = mv.second;
-    for (std::vector<DICOMCallback*>::iterator iter = cbVector->begin();
-         iter != cbVector->end();
-         iter++)
+    for (std::vector<DICOMCallback*>::iterator cbiter = cbVector->begin();
+         cbiter != cbVector->end();
+         cbiter++)
       {
-      (*iter)->Execute(this,      // parser
+      (*cbiter)->Execute(this,      // parser
                        ge.first,  // group
                        ge.second,  // element
                        callbackType,  // type
@@ -733,3 +739,17 @@ void DICOMParser::ClearAllDICOMTagCallbacks()
 
   this->Map.clear();
 }
+
+DICOMParser::DICOMParser(const DICOMParser&)
+{
+  std::cerr << "DICOMParser copy constructor should not be called!" << std::endl;
+}
+
+void DICOMParser::operator=(const DICOMParser&)
+{
+  std::cerr << "DICOMParser assignment operator should not be called!" << std::endl;
+}
+
+#ifdef _MSC_VER
+#pragma warning ( pop )
+#endif

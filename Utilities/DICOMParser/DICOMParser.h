@@ -1,21 +1,22 @@
 
-#ifndef DICOMParser_h_
-#define DICOMParser_h_
+#ifndef __DICOMParser_h_
+#define __DICOMParser_h_
 
-#ifdef WIN32
-#pragma warning(disable:4786)
-#endif
+
+#ifdef _MSC_VER
+#pragma warning ( disable : 4514 )
+#pragma warning ( push, 3 )
+#endif 
+
 
 #include <map>
 #include <utility> 
 #include <fstream>
 #include <vector>
 
-#include "DICOMHeaderValues.h"
 #include "DICOMFile.h"
 #include "DICOMTypes.h"
 #include "DICOMParserMap.h"
-// #include "DICOMCallback.h"
 
 class DICOMCallback;
 template <class T> class DICOMMemberCallback;
@@ -224,6 +225,13 @@ class DICOMParser
 
   DICOMMemberCallback<DICOMParser>* TransferSyntaxCB;
 
+ private:
+  DICOMParser(const DICOMParser&);  
+  void operator=(const DICOMParser&); 
 };
 
-#endif   // DICOMParser_h_
+#ifdef _MSC_VER
+#pragma warning ( pop )
+#endif
+
+#endif   // __DICOMParser_h_
