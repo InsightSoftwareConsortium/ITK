@@ -858,11 +858,13 @@ Context
     TypeOfObject resultType = result->GetTypeOfObject();
     if((resultType == Class_id) || (resultType == Struct_id) || (resultType == Union_id))
       {
-      return dynamic_cast<Class*>(result);
+      Class *c = dynamic_cast<Class*>(result);
+      return c;
       }
     else if(resultType == Typedef_id)
       {
-      return dynamic_cast<Typedef*>(result)->GetClass(this->GetGlobalNamespace());
+      Class* c = dynamic_cast<Typedef*>(result)->GetClass(this->GetGlobalNamespace());
+      return c;
       }
     }
   std::cerr << "Couldn't find class with qualified name: \"" << name.c_str() << "\"" << std::endl;
@@ -985,53 +987,6 @@ Namespace
   // Context lookup function.
   return this->Context::LookupName(first, last);
 }
-
-
-#if 0
-/**
- * Lookup the given name starting in this class's scope.
- *
- * This internal version takes iterators into a Qualifiers describing
- * the name.
- */
-Named*
-Class
-::LookupName(QualifiersConstIterator first,
-             QualifiersConstIterator last) const
-{
-  // If there is no name, we cannot look it up.
-  if(first == last)
-    {
-    return NULL;
-    }
-  
-  // Get an iterator to the second member of the list (may be the end).
-  QualifiersConstIterator second = first; ++second;
-  
-  // Try to look up the highest level qualifier in this class.
-  Class::Pointer classKey = Class::New(*first, Public);
-  
-  ClassContainer::const_iterator classIter = m_Classes.find(classKey);
-  if(classIter != m_Classes.end())
-    {
-    // We have found a class.
-    Class* c = classIter->RealPointer();
-    if(second == last)
-      {
-      // This was the last qualifier.  This is the target.
-      return c;
-      }
-    else
-      {
-      // Lookup the rest of the name in the class.
-      return c->LookupName(second, last);
-      }
-    }
-  
-  // Didn't find the first qualifier in our scope.
-  return NULL;
-}
-#endif
 
 
 /**
