@@ -537,11 +537,11 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
       ita.Set(zero_affinity);
     }
 
-  for(int i = 0;i<ImageDimension;i++)
+  for(unsigned int i = 0;i<ImageDimension;i++)
     {
       max_index[i] = static_cast<typename IndexType::IndexValueType>(m_Size[i]-1);
     }
-  for(int i = 0;i<ImageDimension;i++)
+  for(unsigned int i = 0;i<ImageDimension;i++)
     {
       itf.GoToBegin();
       ita.GoToBegin();
@@ -623,7 +623,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
       unsigned short pmax,pmin,dimensionValue;
 
       pmax = m_FuzzyConnImage->GetPixel(current);
-      for(int i = 0;i<ImageDimension;i++)
+      for(unsigned int i = 0;i<ImageDimension;i++)
         {
           index1 = current;
           if(index1[i] < max_index[i])
@@ -738,7 +738,7 @@ void VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
   Compute_Filter();
 
   volume_size = 1;
-  for(int i = 0;i<ImageDimension;i++)
+  for(unsigned int i = 0;i<ImageDimension;i++)
     {
       volume_size = volume_size*static_cast<int>(m_Size[i]);
     } 
