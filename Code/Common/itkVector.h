@@ -88,7 +88,7 @@ class itkVector {
     {
     itkVector<T, TVectorDimension> result;
     for (unsigned int i=0; i < TVectorDimension; i++)
-      { result = m_Vector[i] + vec.m_Vector[i]; }
+      { result[i] = m_Vector[i] + vec.m_Vector[i]; }
     return result;
     }
 
@@ -111,7 +111,7 @@ class itkVector {
     {
     itkVector<T, TVectorDimension> result;
     for (unsigned int i=0; i < TVectorDimension; i++)
-      { result = m_Vector[i] - vec.m_Vector[i]; }
+      { result[i] = m_Vector[i] - vec.m_Vector[i]; }
     return result;
     }
 
