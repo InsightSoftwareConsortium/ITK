@@ -2,7 +2,6 @@
 
 *.dsp           -crlf
 *.jpg           -crlf
-*.pdf           -crlf
 *.sh             crlf=input
 Configure.tcl.in  crlf=input
 configure        crlf=input
