@@ -22,7 +22,6 @@
             &lt;/td>
           &lt;/tr>
         &lt;/table>
-      &lt;/font>
       &lt;/body>
     &lt;/html>
     </xsl:text>
@@ -37,8 +36,7 @@
     <xsl:param name="TestsIcon">Tests.gif</xsl:param>
     <xsl:param name="CoverageIcon">Coverage.gif</xsl:param>
     <xsl:param name="HomeIcon">Home.gif</xsl:param>
-
-    <xsl:text disable-output-escaping="yes">
+    <xsl:text disable-output-escaping="yes">&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
     &lt;html>
       &lt;head>
         &lt;title>
@@ -48,27 +46,27 @@
         &lt;/title>
       &lt;/head>
       &lt;body bgcolor="#ffffff">
-        &lt;font face="Arial,Helvetica">
-        &lt;table border="0" cellpading="0" cellspacing="2" width="100%">
+      &lt;basefont face="Arial,Helvetica">&lt;/basefont>
+        &lt;table border="0" cellpadding="0" cellspacing="2" width="100%">
           &lt;tr>
             &lt;td width="140">
       &lt;a href="</xsl:text><xsl:value-of select="$DashboardDir"/><xsl:text disable-output-escaping="yes">/Dashboard.html">
-              &lt;img src="</xsl:text>
+    &lt;img alt="Insight Logo/Homepage link" src="</xsl:text>
     <xsl:value-of select="$IconDir"/>
     <xsl:text disable-output-escaping="yes">/Logo.gif" border="0">&lt;/img>&lt;/a>
             &lt;/td>
             &lt;td bgcolor="#6699cc" valign="top">
-   &lt;h2>&lt;font color="#ffffff"></xsl:text><xsl:value-of select="$Title"/><xsl:text disable-output-escaping="yes">&lt;/h2>&lt;h3></xsl:text><xsl:value-of select="$DashboardDate"/><xsl:text disable-output-escaping="yes">&lt;/font>&lt;/h3>
+   &lt;font color="#ffffff">&lt;h2></xsl:text><xsl:value-of select="$Title"/><xsl:text disable-output-escaping="yes">&lt;/h2>&lt;h3></xsl:text><xsl:value-of select="$DashboardDate"/><xsl:text disable-output-escaping="yes">&lt;/h3>&lt;/font>
            &lt;/td>
           &lt;/tr>
           &lt;tr>
-            &lt;td valign="top" halign="center">
-              &lt;table width="100%" halign="center">
+            &lt;td valign="top" align="center">
+              &lt;table width="100%" align="center">
                 &lt;tr>
                   &lt;td align="center">
                     &lt;a href="</xsl:text>
     <xsl:value-of select="$DashboardDir"/>
-    <xsl:text disable-output-escaping="yes">/Update.html">&lt;img src="</xsl:text>
+    <xsl:text disable-output-escaping="yes">/Update.html">&lt;img alt="Updates" src="</xsl:text>
     <xsl:value-of select="$IconDir"/>/<xsl:value-of select="$UpdatesIcon"/> <xsl:text disable-output-escaping="yes">" border="0">&lt;/img>&lt;/a>
                   &lt;/td>
                 &lt;/tr>
@@ -76,21 +74,21 @@
                   &lt;td align="center">
                     &lt;a href="</xsl:text>
     <xsl:value-of select="$DashboardDir"/>
-    <xsl:text disable-output-escaping="yes">/TestOverview.html">&lt;img src="</xsl:text>
+    <xsl:text disable-output-escaping="yes">/TestOverview.html">&lt;img alt="Test Overview" src="</xsl:text>
     <xsl:value-of select="$IconDir"/>/<xsl:value-of select="$TestsIcon"/><xsl:text disable-output-escaping="yes">" border="0">&lt;/img>&lt;/a>
                   &lt;/td>
                 &lt;/tr>
                 &lt;tr>
 		&lt;td align="center">
                 &lt;a href="http://public.kitware.com/cgi-bin/itkcvsweb.cgi/Insight/">
-    &lt;img src="</xsl:text>
+    &lt;img alt="CVS Access" src="</xsl:text>
     <xsl:value-of select="$IconDir"/>
     <xsl:text disable-output-escaping="yes">/CVS.gif" border="0">&lt;/img>&lt;/a>
                   &lt;/td>
 &lt;/tr>
 		&lt;tr>
 		&lt;td align="center">
-                    &lt;a href="http://public.kitware.com/Insight/Doxygen/html/">&lt;img src="</xsl:text>
+                    &lt;a href="http://public.kitware.com/Insight/Doxygen/html/">&lt;img alt="Doxygen" src="</xsl:text>
     <xsl:value-of select="$IconDir"/>
     <xsl:text disable-output-escaping="yes">/Doxygen.gif" border="0">&lt;/img>&lt;/a>
                   &lt;/td>
@@ -100,7 +98,7 @@
                     &lt;a href="</xsl:text>
     <xsl:value-of select="$DashboardDir"/>
     <xsl:text disable-output-escaping="yes">/Dashboard.html">
-&lt;img src="</xsl:text>
+&lt;img alt="Dashboard Home" src="</xsl:text>
     <xsl:value-of select="$IconDir"/>/<xsl:value-of select="$HomeIcon"/><xsl:text disable-output-escaping="yes">" border="0">&lt;/img>&lt;/a>
 
                   &lt;/td>
@@ -224,8 +222,8 @@ function tree_close() {
 	current = ""
 	initState = ""
 	for (i = 1; i < db.length; i++) { 
-	initState += "0"
-	current += "0"
+	initState += db[i].open
+	current += db[i].open
 	}
 	setCurrState(initState)
 	}

@@ -68,7 +68,9 @@
         <xsl:for-each select="BuildStamp">
           <xsl:sort select="Build/SiteName"/>
           <xsl:sort select="Build/BuildName"/>
-          <xsl:if test="contains(Build/BuildStamp,'Nightly')">
+          <xsl:sort select="Testing/SiteName"/>
+          <xsl:sort select="Testing/BuildName"/>
+          <xsl:if test="contains(Build/BuildStamp,'Nightly') or contains(Testing/BuildStamp,'Nightly')">
             <xsl:call-template name="BuildStamp"/>
           </xsl:if>
         </xsl:for-each>
@@ -85,7 +87,7 @@
           <xsl:for-each select="BuildStamp">
             <xsl:sort select="Build/SiteName"/>
             <xsl:sort select="Build/BuildName"/>
-            <xsl:if test="not ( contains(Build/BuildStamp,'Nightly') )">
+            <xsl:if test="not ( contains(Build/BuildStamp,'Nightly') or contains(Testing/BuildStamp,'Nightly') ) and count(Build/SiteName | Testing/Sitename)">
               <xsl:call-template name="BuildStamp"/>
             </xsl:if>
           </xsl:for-each>
@@ -96,10 +98,9 @@
       </xsl:otherwise>
     </xsl:choose>
     <xsl:if test="count(BuildStamp/Build/BuildStamp)">
-      <tr><td colspan="9"><h3>Totals</h3></td></tr>
       <tr>
-        <td>
-          <xsl:text disable-output-escaping="yes">&amp;nbsp;&amp;nbsp;&amp;nbsp;</xsl:text>
+        <td align="left">
+          Totals
         </td>
         <td align="center">
           <xsl:value-of select="count(BuildStamp/Build/BuildStamp)"/> Builds
@@ -244,10 +245,24 @@
 
     <tr>
       <td align="left">
-        <xsl:value-of select="Build/SiteName"/>
+        <xsl:choose>
+          <xsl:when test="count(Build/SiteName)">
+            <xsl:value-of select="Build/SiteName"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="Testing/SiteName"/>
+          </xsl:otherwise>
+        </xsl:choose>
       </td>
       <td align="left">
-        <xsl:value-of select="Build/BuildName"/>
+        <xsl:choose>
+          <xsl:when test="count(Build/BuildName)">
+            <xsl:value-of select="Build/BuildName"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="Testing/BuildName"/>
+          </xsl:otherwise>
+        </xsl:choose>
       </td>
       <td align="right">
         <xsl:choose>
@@ -309,7 +324,16 @@
         <b><a><xsl:attribute name="HREF"><xsl:value-of select="$URLBase"/>/Test.html</xsl:attribute><xsl:value-of select="Testing/NotRunCount"/></a></b>
         <xsl:text disable-output-escaping="yes">&amp;nbsp;&amp;nbsp;&amp;nbsp;</xsl:text>
       </td>
-      <td><xsl:value-of select="Build/StartDateTime"/></td>
+      <td>
+        <xsl:choose>
+          <xsl:when test="count(Build/StartDateTime)">
+            <xsl:value-of select="Build/StartDateTime"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="Testing/StartDateTime"/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </td>
       <td><xsl:value-of select="TestSubmissionDateTime"/></td>
     </tr>
     
