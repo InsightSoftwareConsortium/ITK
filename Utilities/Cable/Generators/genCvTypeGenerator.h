@@ -63,7 +63,7 @@ namespace gen
  *  GenerateDataDeclarations() produces:
  *   CvQualifiedType CvType< Foo >::type; 
  *   CvQualifiedType CvType< Foo* >::type;
- *  GenerateInitalizations() produces:
+ *  GenerateInitializations() produces:
  *   CvType< Foo >::type = TypeInfo::GetClassType("Foo", false, false);
  *   CvType< Foo* >::type = TypeInfo::GetPointerType(CvType< Foo >::type, false, false);
  */
@@ -72,7 +72,7 @@ class GENERATORS_EXPORT CvTypeGenerator
 public:
   void GenerateClasses(std::ostream&) const;
   void GenerateDataDeclarations(std::ostream&) const;
-  void GenerateInitalizations(std::ostream&) const;
+  void GenerateInitializations(std::ostream&) const;
   void Add(const cxx::CvQualifiedType&);
 private:
   void AddFunctionTypes(const cxx::FunctionType*);  

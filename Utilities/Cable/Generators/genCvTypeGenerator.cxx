@@ -82,7 +82,7 @@ void CvTypeGenerator::GenerateDataDeclarations(std::ostream& os) const
  * Generate the CvType specialization initialization code for all the
  * types known to this generator.
  */
-void CvTypeGenerator::GenerateInitalizations(std::ostream& os) const
+void CvTypeGenerator::GenerateInitializations(std::ostream& os) const
 {
   for(TypeOrdering::const_iterator t = m_TypeOrdering.begin();
       t != m_TypeOrdering.end(); ++t)
