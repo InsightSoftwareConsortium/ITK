@@ -3,7 +3,8 @@
   Program:   Insight Segmentation & Registration Toolkit
   Module:    itkDICOMImageSeriesTest.cxx
   Language:  C++
-  Date:      $Date$
+  Date:      $Date$xgoto-l
+
   Version:   $Revision$
 
   Copyright (c) 2002 Insight Consortium. All rights reserved.
@@ -14,7 +15,7 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include "itkDICOMImageIO2Factory.h"
+#include "itkDICOMImageIO2.h"
 #include "itkImageSeriesReader.h"
 #include "itkDICOMSeriesFileNames.h"
 #include "../BasicFilters/itkFilterWatcher.h"
@@ -31,8 +32,7 @@ int itkDICOMImageSeriesTest(int ac, char* av[])
   typedef itk::Image<unsigned short,3> Image3DType;
   typedef itk::ImageSeriesReader<Image3DType> ReaderType;
 
-  // Register on factory capable of creating DicomImage readers
-  itk::DICOMImageIO2Factory::RegisterOneFactory();
+  itk::DICOMImageIO2::Pointer io = itk::DICOMImageIO2::New();
 
   // Get the DICOM filenames from the directory
   itk::DICOMSeriesFileNames::Pointer names = itk::DICOMSeriesFileNames::New();
@@ -40,6 +40,7 @@ int itkDICOMImageSeriesTest(int ac, char* av[])
   
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileNames(names->GetFileNames());
+  reader->SetImageIO(io);
   std::cout << names;
 
   FilterWatcher watcher(reader);
@@ -51,6 +52,7 @@ int itkDICOMImageSeriesTest(int ac, char* av[])
       reader->ReverseOrderOn();
       }
     reader->Update();
+    reader->GetOutput()->Print(std::cout);
     }
   catch (itk::ExceptionObject &ex)
     {
