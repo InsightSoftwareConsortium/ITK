@@ -29,7 +29,7 @@ namespace itk
 {
 
 /**
- * \class HoughTransformCircles2DImageFilter
+ * \class HoughTransform2DCirclesImageFilter
  * \brief Performs the Hough Transform to find circles in a 2D image.
  *  
  * This filter derives from the base class ImageToImageFilter
