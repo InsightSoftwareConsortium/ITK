@@ -36,6 +36,8 @@ AutomaticTopologyMeshSource<TOutputMesh>
 
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput(0, m_OutputMesh.GetPointer());
+
+  this->ReleaseDataBeforeUpdateFlagOff(); // Prevents destruction of the current mesh output
 }
 
 template<class TOutputMesh>

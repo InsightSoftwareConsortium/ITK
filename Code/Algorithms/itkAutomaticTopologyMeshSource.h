@@ -311,11 +311,6 @@ public:
                                 const CoordinateType p6[ PointDimension ],
                                 const CoordinateType p7[ PointDimension ] );
 
-  /** The update method is a no-op for this source.  The value of the
-   *  output only changes in response to calls of the Add[object]()
-   *  methods above. */
-  void Update() {};
-
 
   class IdentifierArrayHashFunction
   {
@@ -375,7 +370,8 @@ protected:
   AutomaticTopologyMeshSource();
   ~AutomaticTopologyMeshSource();
 
-  // void GenerateData();
+  void GenerateData() {}; // GenerateData is a no-op, since the entries 
+                          // are controlled manually
 
 private:
   AutomaticTopologyMeshSource(const Self&);  //purposely not implemented
