@@ -558,6 +558,14 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
 template<class TInputImage, class TClassifiedImage>
 void
 GibbsPriorFilter<TInputImage, TClassifiedImage>
+::Advance()
+{
+  this->GenerateData();
+}
+
+template<class TInputImage, class TClassifiedImage>
+void
+GibbsPriorFilter<TInputImage, TClassifiedImage>
 ::GenerateData()
 {
   //First run the Gaussian classifier calculator and
@@ -640,14 +648,16 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
   int numIter = 0;
   do
   {
-    std::cout << "Iteration No." << numIter << std::endl;
+//    std::cout << "Iteration No." << numIter << std::endl;
 
     m_ErrorCounter = 0;
     MinimizeFunctional(); // minimize f_1 and f_3;
     numIter += 1;
-	std::cout << "Error Num:" << m_ErrorCounter << std::endl;
+//	std::cout << "Error Num:" << m_ErrorCounter << std::endl;
   } 
   while(( numIter < m_MaxNumIter ) && ( m_ErrorCounter >maxNumPixelError ) ); 
+
+  RegionEraser();
 
   m_ErrorCounter = 0;
   srand ((unsigned)time(NULL));   
@@ -659,10 +669,10 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
 	  GibbsTotalEnergy(randomPixel); // minimized f_2;
 	}
   }
-  std::cout << "Gibbs Error Num:" << m_ErrorCounter << std::endl;
+//  std::cout << "Gibbs Error Num:" << m_ErrorCounter << std::endl;
 
 // erase noise regions in the image
-  RegionEraser();
+//  RegionEraser();
 }// ApplyMRFImageFilter
 
 template<class TInputImage, class TClassifiedImage>
@@ -718,6 +728,7 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
 //  srand ((unsigned)time(NULL));   
 //  for (int i = 0; i < size; i++ ) {
 //    int randomPixel = (int) size*rand()/32768;
+
   int i = 0;
   labelledImageIt.Begin();
   inputImageIt.Begin();
@@ -733,10 +744,10 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
       ChangedPixelVec[0] = GreyScalarBoundary(offsetIndex3D);
 	  if (OriginPixelVec[0] != ChangedPixelVec[0]) {
 		inputImageIt.Set(ChangedPixelVec);
-		m_ErrorCounter++;
+//		m_ErrorCounter++;
 	  }
 		double *dist = m_ClassifierPtr->GetPixelDistance( ChangedPixelVec );
-/*		double minDist = 1e+20;
+		double minDist = 1e+20;
         int pixLabel = -1;
 
         for( int index = 0; index < m_NumClasses; index++ )
@@ -747,12 +758,12 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
                   pixLabel = index;
           }// if
         }// for
-*/
+/*
 		if ( dist[2] < (double)(m_BoundaryGradient) ) { 
 		  labelledImageIt.Set( 2 );
 		} else labelledImageIt.Set( 1 );
-
-/*        labelledPixel = 
+*/
+        labelledPixel = 
           ( LabelledImagePixelType ) labelledImageIt.Get();
 
         //Check if the label has changed then set the change flag in all the 
@@ -762,7 +773,7 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
 		  outLabelledPix = pixLabel;
           labelledImageIt.Set( outLabelledPix );
 		  m_ErrorCounter++;
-		}*/		
+		}		
 //	  } 
 
     }
@@ -799,17 +810,19 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
 
   i = 0;
   int l = 0;
+  int label;
   while ( !labelledImageIt.IsAtEnd() ) {
-	if (( m_Region[i] == 0 ) && ((labelledImageIt.Get() == 1) /*||
+    label = labelledImageIt.Get();
+	if (( m_Region[i] == 0 ) && ((label != m_ObjectLabel) /*||
 		(labelledImageIt.Get() == 2)*/)) {
 //      if (labelledImageIt.Get() == 1) {
-		if (LabelRegion(i, ++l, 1) < m_ClusterSize) {
+		if (LabelRegion(i, ++l, label) < m_ClusterSize) {
 		  for (j = 0; j < size; j++) {
 			offsetIndex3D[2] = j / frame;
 			offsetIndex3D[1] = (j % frame) / m_imgHeight;
 			offsetIndex3D[0] = (j % frame) % m_imgHeight;
 			if (m_Region[j] == l) {
-			  m_LabelledImage->SetPixel(offsetIndex3D, 2);
+			  m_LabelledImage->SetPixel(offsetIndex3D, m_ObjectLabel);
 			  m_Region[j] = 0;
 		    }
 		  }

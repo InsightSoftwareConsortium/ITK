@@ -124,6 +124,7 @@ public:
   void SetDisplacements(TInputMesh* displace);
   void SetDerives(TInputMesh* derive);
   void SetPotential(ImagePointer potential);
+  void SetImageOutput(ImagePointer outputimg);
   void NodeAddition(int i);
   void GapSearch();
 
@@ -163,9 +164,17 @@ protected:
   int		m_NumCells;
   int		m_NumNewNodes;
   float		m_NewNodes[200][4];
+  int		m_imgWidth;
+  int		m_imgHeight;
+  int		m_imgDepth;
 
-  ImagePointer		m_Potential;
+  ImagePointer		m_Potential;   // for calculate of image force
+
+  // for Gibbs Prior Model parameters' recalculation 
+  ImagePointer		m_ImageOutput; 
   unsigned short	m_ObjectLabel;
+
+  typedef ImageType::SizeType PotentialSizeType;
   
 };
 
