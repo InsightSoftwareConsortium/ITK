@@ -175,6 +175,7 @@ public:
    * the pixel data. */
   typedef typename TImage::PixelContainer        PixelContainer;
   typedef typename TImage::PixelContainerPointer PixelContainerPointer;
+  typedef typename TImage::PixelContainerConstPointer PixelContainerConstPointer;
   
   /** Return a pointer to the container. */
   PixelContainerPointer GetPixelContainer()

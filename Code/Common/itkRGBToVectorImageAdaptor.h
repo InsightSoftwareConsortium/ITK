@@ -54,6 +54,12 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro( RGBToVectorImageAdaptor, ImageAdaptor );
 
+  /** PixelContainer typedef support. Used to construct a container for
+   * the pixel data. */
+  typedef typename Superclass::PixelContainer        PixelContainer;
+  typedef typename Superclass::PixelContainerPointer PixelContainerPointer;
+  typedef typename Superclass::PixelContainerConstPointer PixelContainerConstPointer;
+  
  protected:
   RGBToVectorImageAdaptor() {}
   virtual ~RGBToVectorImageAdaptor() {}
