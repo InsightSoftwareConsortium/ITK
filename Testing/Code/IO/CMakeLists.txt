@@ -7,15 +7,18 @@ itkAnalyzeImageIOTest.cxx
 itkConvertBufferTest.cxx
 itkDicomImageIOTest.cxx
 itkDICOMImageIO2Test.cxx
+itkDICOMSeriesFileNamesTest.cxx
+itkDICOMImageSeriesTest.cxx
 itkGEImageIOTest.cxx
 itkGiplImageIOTest.cxx
-itkImageSeriesIOTest.cxx
 itkMetaImageIOTest.cxx
+itkNumericSeriesFileNamesTest.cxx
 itkPNGImageIOTest.cxx
 itkRawImageIOTest.cxx
 itkRawImageIOTest2.cxx
 itkRawImageIOTest3.cxx
 itkRawImageIOTest4.cxx
+itkRegularExpressionSeriesFileNamesTest.cxx
 itkVOLImageIOTest.cxx
 itkVTKImageIOTest.cxx
 testMetaUtils.cxx
@@ -40,7 +43,6 @@ ADD_TEST(testMetaBlob ${IO_TESTS} testMetaBlob)
 ADD_TEST(testMetaSurface ${IO_TESTS} testMetaSurface)
 ADD_TEST(testMetaLine ${IO_TESTS} testMetaLine)
 ADD_TEST(testMetaScene ${IO_TESTS} testMetaScene)
-ADD_TEST(itkImageSeriesIOTest ${IO_TESTS} itkImageSeriesIOTest ${TEMP})
 ADD_TEST(itkVTKImageIOTest ${IO_TESTS} itkVTKImageIOTest
                            ${TEMP}/test1.vtk ${TEMP}/test2.vtk)
 ADD_TEST(itkRawImageIOTest ${IO_TESTS} itkRawImageIOTest
@@ -95,6 +97,17 @@ ADD_TEST(itkDICOMImageIO2Test ${IO_TESTS}
   itkDICOMImageIO2Test
             ${ITK_DATA_ROOT}/Input/dicom-sc_cs-1.dcm
             ${ITK_TEST_OUTPUT_DIR}/itkDICOMImageIO2Test.png)
+
+ADD_TEST(itkDICOMImageSeriesTest ${IO_TESTS} 
+  itkDICOMImageSeriesTest
+            ${ITK_DATA_ROOT}/Input/DicomSeries 0)
+ADD_TEST(itkDICOMSeriesFileNamesTest ${IO_TESTS} 
+  itkDICOMSeriesFileNamesTest
+            ${ITK_DATA_ROOT}/Input/DicomSeries)
+
+ADD_TEST(itkNumericSeriesFileNamesTest ${IO_TESTS} 
+  itkNumericSeriesFileNamesTest)
+
   ADD_TEST(itkDicomDifficultFile ${IO_TESTS} itkDicomImageIOTest
            ${ITK_DATA_ROOT}/Input/012345.002.050
            ${ITK_TEST_OUTPUT_DIR}/itkDicomDifficultFile.png)
