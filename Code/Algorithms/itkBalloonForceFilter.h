@@ -13,8 +13,9 @@
 #define __itkBalloonForceFilter_h
 
 #include "itkMeshToMeshFilter.h"
-#include <vnl_matrix_fixed.h>
-#include "itkmesh.h"
+#include "vnl/vnl_matrix_fixed.h"
+#include "vnl/vnl_math.h"
+#include "itkMesh.h"
 #include "itkVector.h"
 #include "itkTriangleCell.h"
 #include "itkImage.h"
@@ -69,11 +70,11 @@ public:
 
   typedef itk::Vector<float, 3> FloatVector;
   typedef itk::Vector<int, 3> IntVector;
-  typedef TInputMesh::Cell  Cell;
-  typedef TInputMesh::CellType  CellType;
+  typedef typename TInputMesh::Cell  Cell;
+  typedef typename TInputMesh::CellType  CellType;
   typedef itk::TriangleCell<float, CellType>	   TriCell;
-  typedef TInputMesh::PointType  IPT;
-  typedef TInputMesh::PixelType  PT;
+  typedef typename TInputMesh::PointType  IPT;
+  typedef typename TInputMesh::PixelType  PT;
 
   /** 
    * Some functions.
@@ -103,11 +104,11 @@ protected:
   /** 
    * These meshes are defined to hold the vectors as force, etc.
    */
-  TInputMesh::Pointer Forces; 
-  TInputMesh::Pointer Normals;
-  TInputMesh::Pointer Displacements;
-  TInputMesh::Pointer Derives;
-  TInputMesh::Pointer Locations;
+  InputMeshPointer Forces; 
+  InputMeshPointer Normals;
+  InputMeshPointer Displacements;
+  InputMeshPointer Derives;
+  InputMeshPointer Locations;
 
   /** 
    * Three different kinds of stiffness matrix.

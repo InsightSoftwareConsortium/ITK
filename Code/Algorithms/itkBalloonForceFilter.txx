@@ -121,17 +121,17 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   Locations = this->GetInput(0);
   const int npoints = Locations->GetNumberOfPoints();
 	
-  TInputMesh::PointsContainerPointer      myForces = Forces->GetPoints();
+  typename TInputMesh::PointsContainerPointer      myForces = Forces->GetPoints();
   myForces->Reserve(npoints);
-  TInputMesh::PointsContainer::Iterator   forces = myForces->Begin();
+  typename TInputMesh::PointsContainer::Iterator   forces = myForces->Begin();
 
-  TInputMesh::PointsContainerPointer      myDerives = Derives->GetPoints();
+  typename TInputMesh::PointsContainerPointer      myDerives = Derives->GetPoints();
   myDerives->Reserve(npoints);
-  TInputMesh::PointsContainer::Iterator   derives = myDerives->Begin();
+  typename TInputMesh::PointsContainer::Iterator   derives = myDerives->Begin();
 
-  TInputMesh::PointsContainerPointer      myDisplacements = Displacements->GetPoints();
+  typename TInputMesh::PointsContainerPointer      myDisplacements = Displacements->GetPoints();
   myDisplacements->Reserve(npoints);
-  TInputMesh::PointsContainer::Iterator   displacements = myDisplacements->Begin();
+  typename TInputMesh::PointsContainer::Iterator   displacements = myDisplacements->Begin();
   
   Stiffness[0] = 0.000001; 
   Stiffness[1] = 0.04; 
@@ -169,9 +169,9 @@ void
 BalloonForceFilter<TInputMesh, TOutputMesh>
 ::SetStiffnessMatrix () 
 { 
-  TInputMesh::CellDataContainerPointer myCellData = Locations->GetCellData();
+  typename TInputMesh::CellDataContainerPointer myCellData = Locations->GetCellData();
   myCellData = Locations->GetCellData();
-  TInputMesh::CellDataContainer::Iterator celldata = myCellData->Begin();
+  typename TInputMesh::CellDataContainer::Iterator celldata = myCellData->Begin();
 
   unsigned long CellNum;
   CellNum = Locations->GetNumberOfCells();
@@ -299,16 +299,16 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   y_pt = &y;
   z_pt = &z;
 
-  TInputMesh::PointsContainerPointer Points;
+  typename TInputMesh::PointsContainerPointer Points;
   Points = Locations->GetPoints();
-  TInputMesh::PointsContainer::Iterator   points = Points->Begin();
+  typename TInputMesh::PointsContainer::Iterator   points = Points->Begin();
 
-  TInputMesh::PointsContainerPointer      myForces = Forces->GetPoints();
-  TInputMesh::PointsContainer::Iterator   forces = myForces->Begin();
+  typename TInputMesh::PointsContainerPointer      myForces = Forces->GetPoints();
+  typename TInputMesh::PointsContainer::Iterator   forces = myForces->Begin();
 /*
   m_size = Potential->GetLargestPossibleRegion().GetSize();
   IndexType index = IndexType::ZeroIndex;
-  ImageType::RegionType region;
+  typename ImageType::RegionType region;
   region.SetSize(m_size);
   region.SetIndex(index);
   Potential->SetLargestPossibleRegion( region );
@@ -417,22 +417,22 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 {
   int i; 
   const unsigned long *tp;
-  Cell::Pointer testCell(TriCell::New());
+  typename Cell::Pointer testCell(TriCell::New());
   int npts = 3, *pts;
 
-  TInputMesh::CellsContainerPointer myCells;
+  typename TInputMesh::CellsContainerPointer myCells;
   myCells = Locations->GetCells();
-  TInputMesh::CellsContainer::Iterator cells = myCells->Begin();
+  typename TInputMesh::CellsContainer::Iterator cells = myCells->Begin();
 
-  TInputMesh::PointsContainerPointer      myForces = Forces->GetPoints();
-  TInputMesh::PointsContainer::Iterator   forces = myForces->Begin();
+  typename  TInputMesh::PointsContainerPointer      myForces = Forces->GetPoints();
+  typename TInputMesh::PointsContainer::Iterator   forces = myForces->Begin();
 
-  TInputMesh::PointsContainerPointer      myDerives = Derives->GetPoints();
-  TInputMesh::PointsContainer::Iterator   derives = myDerives->Begin();
+  typename TInputMesh::PointsContainerPointer      myDerives = Derives->GetPoints();
+  typename TInputMesh::PointsContainer::Iterator   derives = myDerives->Begin();
 /*
-  TInputMesh::CellDataContainerPointer myCellData = m_Mesh->GetCellData();
+  typename TInputMesh::CellDataContainerPointer myCellData = m_Mesh->GetCellData();
   myCellData = Locations->GetCellData();
-  TInputMesh::CellDataContainer::Iterator celldata = myCellData->Begin();
+  typename TInputMesh::CellDataContainer::Iterator celldata = myCellData->Begin();
 */
   const int ncells = Locations->GetNumberOfCells();
 
@@ -538,14 +538,14 @@ void
 BalloonForceFilter<TInputMesh, TOutputMesh>
 ::Reset()
 {
-  TInputMesh::PointsContainerPointer      myForces = Forces->GetPoints();
-  TInputMesh::PointsContainer::Iterator   forces = myForces->Begin();
+  typename TInputMesh::PointsContainerPointer      myForces = Forces->GetPoints();
+  typename TInputMesh::PointsContainer::Iterator   forces = myForces->Begin();
 
-  TInputMesh::PointsContainerPointer      myDerives = Derives->GetPoints();
-  TInputMesh::PointsContainer::Iterator   derives = myDerives->Begin();
+  typename TInputMesh::PointsContainerPointer      myDerives = Derives->GetPoints();
+  typename TInputMesh::PointsContainer::Iterator   derives = myDerives->Begin();
 
-  TInputMesh::PointsContainerPointer      myDisplacements = Displacements->GetPoints();
-  TInputMesh::PointsContainer::Iterator   displacements = myDisplacements->Begin();
+  typename TInputMesh::PointsContainerPointer      myDisplacements = Displacements->GetPoints();
+  typename TInputMesh::PointsContainer::Iterator   displacements = myDisplacements->Begin();
   
   const int npoints = Locations->GetNumberOfPoints()-2;
   int i; 
@@ -578,15 +578,15 @@ template <typename TInputMesh, typename TOutputMesh>
 void
 BalloonForceFilter<TInputMesh, TOutputMesh>
 ::Advance(){
-  TInputMesh::PointType s, ds; 
+  typename TInputMesh::PointType s, ds; 
   const int npoints = Forces->GetNumberOfPoints(); 
   int i;
 
-  TInputMesh::PointsContainerPointer      myDerives = Derives->GetPoints();
-  TInputMesh::PointsContainer::Iterator   derives = myDerives->Begin();
+  typename TInputMesh::PointsContainerPointer      myDerives = Derives->GetPoints();
+  typename TInputMesh::PointsContainer::Iterator   derives = myDerives->Begin();
 
-  TInputMesh::PointsContainerPointer      myDisplacements = Displacements->GetPoints();
-  TInputMesh::PointsContainer::Iterator   displacements = myDisplacements->Begin();  
+  typename TInputMesh::PointsContainerPointer      myDisplacements = Displacements->GetPoints();
+  typename TInputMesh::PointsContainer::Iterator   displacements = myDisplacements->Begin();  
  
   i = 0;
   while( derives != myDerives->End() ) {
@@ -606,14 +606,14 @@ template <typename TInputMesh, typename TOutputMesh>
 void
 BalloonForceFilter<TInputMesh, TOutputMesh>
 ::ComputeOutput(){
-  TInputMesh::PointType s, d, ds;
+  typename TInputMesh::PointType s, d, ds;
   const int npoints = Forces->GetNumberOfPoints(); 
 
-  TInputMesh::PointsContainerPointer      myPoints = Locations->GetPoints();
-  TInputMesh::PointsContainer::Iterator   points = myPoints->Begin();
+  typename TInputMesh::PointsContainerPointer      myPoints = Locations->GetPoints();
+  typename TInputMesh::PointsContainer::Iterator   points = myPoints->Begin();
 
-  TInputMesh::PointsContainerPointer      myDisplacements = Displacements->GetPoints();
-  TInputMesh::PointsContainer::Iterator   displacements = myDisplacements->Begin();  
+  typename TInputMesh::PointsContainerPointer      myDisplacements = Displacements->GetPoints();
+  typename TInputMesh::PointsContainer::Iterator   displacements = myDisplacements->Begin();  
   
   while( displacements != myDisplacements->End() ) {
 	d = displacements.Value();
