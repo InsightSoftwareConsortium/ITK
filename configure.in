@@ -632,6 +632,14 @@ AC_ARG_WITH(buildname,
          [  --with-buildname        name of build used for testing],
          [buildname_specified=$withval], [buildname_specified=none])
 
+AC_ARG_WITH(buildname-prefix,
+         [  --with-buildname-prefix        prefix to the name of build used for testing],
+         [buildnameprefix_specified=$withval], [buildnameprefix_specified=none])
+
+AC_ARG_WITH(buildname-suffix,
+         [  --with-buildname-suffix        suffix to the name of build used for testing],
+         [buildnamesuffix_specified=$withval], [buildnamesuffix_specified=none])
+
 # Determine the site (domain) name
 AC_PATH_PROG(HOSTNAME, hostname, hostname, $PATH:/usr/bsd:/usr/sbin:/usr/bin:/bin:/sbin)
 AC_PATH_PROG(NSLOOKUP, nslookup, nslookup, $PATH:/usr/bin:/usr/sbin:/usr/local/bin)
@@ -654,6 +662,13 @@ BUILDNAME=`echo $BUILDNAME | tr [\(\/] _ | tr -d \)`
 if test ! "$buildname_specified" = none; then
 	BUILDNAME=$buildname_specified
 fi
+if test ! "$buildnamesuffix_specified" = none; then
+	BUILDNAME=$BUILDNAME$buildnamesuffix_specified
+fi
+if test ! "$buildnameprefix_specified" = none; then
+	BUILDNAME=$buildnameprefix_specified$BUILDNAME
+fi
+
 AC_SUBST(BUILDNAME)
 
 
