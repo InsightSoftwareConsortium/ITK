@@ -90,10 +90,13 @@ std::cout << "Begin Assembly." << std::endl;
   /*
    * Step over all elements
    */
+
   for(ElementArray::iterator e=el.begin(); e!=el.end(); e++)
   {
-    vnl_matrix<Float> Ke=(*e)->Ke();  /*Copy the element stiffness matrix for faster access. */
-    vnl_matrix<Float> Me=(*e)->Me();  /*Copy the element mass matrix for faster access. */
+    vnl_matrix<Float> Ke;
+    (*e)->GetStiffnessMatrix(Ke);  /*Copy the element stiffness matrix for faster access. */
+    vnl_matrix<Float> Me;
+    (*e)->GetMassMatrix(Me);  /*Copy the element mass matrix for faster access. */
     int Ne=(*e)->GetNumberOfDegreesOfFreedom();          /*... same for element DOF */
 
     /* step over all rows in in element matrix */
@@ -123,9 +126,12 @@ std::cout << "Begin Assembly." << std::endl;
                     lhsval, SumMatrixIndex );
           // right hand side matrix
           Float rhsval=(Me(j,k) - (1.-m_alpha)*m_deltaT*Ke(j,k));
+          rhsval=1.0; // BUG FIXME
           m_ls->AddMatrixValue( (*e)->GetDegreeOfFreedom(j) , 
                     (*e)->GetDegreeOfFreedom(k), 
                     rhsval, DifferenceMatrixIndex );
+
+          if (k == 0 && j == 0) std::cout << " ke " << Ke(j,k) << " me " << Me(j,k) << std::endl;
         }
       }
 

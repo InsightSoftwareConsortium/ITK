@@ -214,7 +214,10 @@ public:
   Float GetMetric (VectorType  InVec);
   
   // FIXME - WE ASSUME THE 2ND VECTOR (INDEX 1) HAS THE INFORMATION WE WANT
-  Float GetSolution(unsigned int i,unsigned int which=0){  return m_Solution->GetSolutionValue(i,which); }
+  Float GetSolution(unsigned int i,unsigned int which=0)
+  {  
+    return m_Solution->GetSolutionValue(i,which); 
+  }
   
   void InitializeMetric(void);
   ImageMetricLoad(); // cannot be private until we always use smart pointers

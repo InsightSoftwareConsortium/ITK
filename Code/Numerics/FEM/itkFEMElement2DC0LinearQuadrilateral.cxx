@@ -27,8 +27,7 @@ namespace itk {
 namespace fem {
 
 
-Element2DC0LinearQuadrilateral::MatrixType 
-Element2DC0LinearQuadrilateral::Me() const
+void Element2DC0LinearQuadrilateral::GetMassMatrix( MatrixType& Me ) const
 {
   // Number of DOFs
   const unsigned int NDOF = GetNumberOfDegreesOfFreedom();
@@ -39,7 +38,6 @@ Element2DC0LinearQuadrilateral::Me() const
  */
 
   Float RhoC=1.0;
-  MatrixType Me;
   Me.resize(NDOF,NDOF); // resize the target matrix object
   Me.fill(0.0);
   unsigned int Nip=this->GetNumberOfIntegrationPoints(0);  
@@ -66,7 +64,6 @@ Element2DC0LinearQuadrilateral::Me() const
     Me+=detJ*w*RhoC; //N.transpose()*N*RhoC; // this is efficient for 2D Quad.
   }
 
-  return Me;
 }
 
 

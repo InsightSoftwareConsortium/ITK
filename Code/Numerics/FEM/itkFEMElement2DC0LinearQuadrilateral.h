@@ -49,7 +49,7 @@ public:
    * 
    *
    */
-  MatrixType Me() const;
+  void GetMassMatrix(MatrixType& Me) const;
 
 
 //////////////////////////////////////////////////////////////////////////
