@@ -267,8 +267,8 @@ GetIndexToPhysicalTransform()
 {
     AffineTransformType::MatrixType matrix;
     AffineTransformType::VectorType offset;
-    for (int i = 0; i < VImageDimension; i++) {
-        for (int j = 0; j < VImageDimension; j++)
+    for (unsigned int i = 0; i < VImageDimension; i++) {
+        for (unsigned int j = 0; j < VImageDimension; j++)
             matrix[i][j] = 0.0;
         matrix[i][i] = m_Spacing[i];
         offset[i]    = m_Origin [i];
@@ -291,8 +291,8 @@ GetPhysicalToIndexTransform()
     AffineTransformType::MatrixType matrix;
     AffineTransformType::VectorType offset;
 
-    for (int i = 0; i < VImageDimension; i++) {
-        for (int j = 0; j < VImageDimension; j++)
+    for (unsigned int i = 0; i < VImageDimension; i++) {
+        for (unsigned int j = 0; j < VImageDimension; j++)
             matrix[i][j] = 0.0;
         matrix[i][i] = 1.0 / m_Spacing[i];
         offset[i]    = -m_Origin[i] / m_Spacing[i];

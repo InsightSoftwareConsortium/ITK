@@ -15,7 +15,7 @@ void FileIO::Reset(const bool freeDynamic)
   m_PixelType = ITK_DOUBLE;
   m_ComponentsPerPixel = 0;
   m_NumDimensions = 0;
-  for (int i=0; i < ITK_MAX_DIMENSIONS; i++)
+  for (unsigned int i=0; i < ITK_MAX_DIMENSIONS; i++)
   {
     m_Dimensions[i] = 0;
     m_Strides[i] = 0;
@@ -51,7 +51,7 @@ void FileIO::PrintSelf(std::ostream& os, Indent indent)
   os << indent << "# Components/Pixel: " << m_ComponentsPerPixel;
   os << ", PixelType: " << AtomicPixelTypeToString(m_PixelType) << std::endl;
   os << indent << "Dimensions: ";
-  for (int i=0; i < m_NumDimensions; i++)
+  for (unsigned int i=0; i < m_NumDimensions; i++)
   {
     os << m_Dimensions[i] << " ";
   }
