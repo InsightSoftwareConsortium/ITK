@@ -37,7 +37,7 @@ namespace function {
     ~Exp() {};
     inline TOutput operator()( const TInput & A )
     {
-      return (TOutput)exp(A);
+      return (TOutput)exp((double)A);
     }
   }; 
 
