@@ -1,4 +1,4 @@
-SUBDIRS(Numerics Common BasicFilters IO Algorithms SpatialObject )
+SUBDIRS(Numerics Common BasicFilters IO Algorithms )
 
 IF(UNIX)
   LINK_LIBRARIES (
