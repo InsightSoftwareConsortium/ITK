@@ -47,6 +47,90 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk
 {
 
+template <class TInputImage, class TOutputImage>
+void 
+DerivativeImageFilter<TInputImage,TOutputImage>
+::GenerateInputRequestedRegion()
+{
+  // call the superclass' implementation of this method
+  Superclass::GenerateInputRequestedRegion();
+  
+  // get pointers to the input and output
+  InputImagePointer  inputPtr = this->GetInput();
+  OutputImagePointer outputPtr = this->GetOutput();
+  
+  if ( !inputPtr || !outputPtr )
+    {
+    return;
+    }
+
+  // Build an operator so that we can determine the kernel size
+  DerivativeOperator<OutputPixelType, ImageDimension> oper;
+   oper.SetDirection(m_Direction);
+   oper.SetOrder(m_Order);
+   oper.CreateDirectional();
+  
+  // we need to compute the input requested region (size and start index)
+  int i;
+  const typename TOutputImage::SizeType& outputRequestedRegionSize
+    = outputPtr->GetRequestedRegion().GetSize();
+  const typename TOutputImage::IndexType& outputRequestedRegionStartIndex
+    = outputPtr->GetRequestedRegion().GetIndex();
+  
+  typename TInputImage::SizeType  inputRequestedRegionSize;
+  typename TInputImage::IndexType inputRequestedRegionStartIndex;
+
+  const typename TInputImage::SizeType  inputLargestPossibleRegionSize
+    = inputPtr->GetLargestPossibleRegion().GetSize();
+  const typename TInputImage::IndexType inputLargestPossibleRegionStartIndex
+    = inputPtr->GetLargestPossibleRegion().GetIndex();
+
+  long crop=0;
+  for (i = 0; i < TInputImage::ImageDimension; i++)
+    {
+    inputRequestedRegionSize[i]
+      = outputRequestedRegionSize[i] + 2 * oper.GetRadius(i);
+    inputRequestedRegionStartIndex[i]
+      = outputRequestedRegionStartIndex[i] - oper.GetRadius(i);
+
+    // crop the requested region to the largest possible region
+    //
+
+    // first check the start index
+    if (inputRequestedRegionStartIndex[i]
+        < inputLargestPossibleRegionStartIndex[i])
+      {
+      // how much do we need to adjust
+      crop = inputLargestPossibleRegionStartIndex[i]
+        - inputRequestedRegionStartIndex[i];
+
+      // adjust the start index and the size of the requested region
+      inputRequestedRegionStartIndex[i] += crop;
+      inputRequestedRegionSize[i] -= crop;
+      }
+    // now check the final size
+    if (inputRequestedRegionStartIndex[i] + inputRequestedRegionSize[i] 
+        > inputLargestPossibleRegionStartIndex[i]
+        + inputLargestPossibleRegionSize[i])
+      {
+      // how much do we need to adjust
+      crop = inputRequestedRegionStartIndex[i] + inputRequestedRegionSize[i] 
+        - inputLargestPossibleRegionStartIndex[i]
+        - inputLargestPossibleRegionSize[i];
+
+      // adjust the size
+      inputRequestedRegionSize[i] -= crop;
+      }
+    }
+  
+  typename TInputImage::RegionType inputRequestedRegion;
+  inputRequestedRegion.SetSize( inputRequestedRegionSize );
+  inputRequestedRegion.SetIndex( inputRequestedRegionStartIndex );
+  
+  inputPtr->SetRequestedRegion( inputRequestedRegion );
+}
+
+
 template< class TInputImage, class TOutputImage >
 void
 DerivativeImageFilter< TInputImage, TOutputImage >

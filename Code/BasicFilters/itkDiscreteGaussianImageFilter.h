@@ -134,6 +134,18 @@ public:
     this->SetMaximumError(vArray);
   }
   
+  /**
+   * DiscreteGaussianImageFilter needs a larger input requested region
+   * than the output requested region (larger by the size of the
+   * Gaussian kernel).  As such, DiscreteGaussianImageFilter needs to
+   * provide an implementation for GenerateInputRequestedRegion() in
+   * order to inform the pipeline execution model.
+   *
+   * \sa ImageToImageFilter::GenerateInputRequestedRegion()
+   */
+  virtual void GenerateInputRequestedRegion();
+
+
 protected:
   DiscreteGaussianImageFilter()
   {
@@ -145,7 +157,11 @@ protected:
   void operator=(const Self&) {}
 
   /**
-   * Standard pipeline method.
+   * Standard pipeline method. While this class does not implement a
+   * ThreadedGenerateData(), its GenerateData() delegates all
+   * calculations to an NeighborhoodOperatorImageFilter.  Since the
+   * NeighborhoodOperatorImageFilter is multithreaded, this filter is
+   * multithreaded by default.
    */
   void GenerateData();
 

@@ -63,7 +63,99 @@ DiscreteGaussianImageFilter< TInputImage, TOutputImage >
     }
 }
 
+template <class TInputImage, class TOutputImage>
+void 
+DiscreteGaussianImageFilter<TInputImage,TOutputImage>
+::GenerateInputRequestedRegion()
+{
+  // call the superclass' implementation of this method
+  Superclass::GenerateInputRequestedRegion();
   
+  // get pointers to the input and output
+  InputImagePointer  inputPtr = this->GetInput();
+  OutputImagePointer outputPtr = this->GetOutput();
+  
+  if ( !inputPtr || !outputPtr )
+    {
+    return;
+    }
+
+
+  // Build an operator so that we can determine the kernel size
+  GaussianOperator<OutputPixelType, ImageDimension> oper;
+  
+  // we need to compute the input requested region (size and start index)
+  int i;
+  const typename TOutputImage::SizeType& outputRequestedRegionSize
+    = outputPtr->GetRequestedRegion().GetSize();
+  const typename TOutputImage::IndexType& outputRequestedRegionStartIndex
+    = outputPtr->GetRequestedRegion().GetIndex();
+  
+  typename TInputImage::SizeType  inputRequestedRegionSize;
+  typename TInputImage::IndexType inputRequestedRegionStartIndex;
+
+  const typename TInputImage::SizeType  inputLargestPossibleRegionSize
+    = inputPtr->GetLargestPossibleRegion().GetSize();
+  const typename TInputImage::IndexType inputLargestPossibleRegionStartIndex
+    = inputPtr->GetLargestPossibleRegion().GetIndex();
+
+  long crop=0;
+  long ithRadius;
+  for (i = 0; i < TInputImage::ImageDimension; i++)
+    {
+    // Determine the size of the operator in this dimension.  Note that the
+    // Gaussian is built as a 1D operator in each of the specified directions.
+    oper.SetDirection(i);
+    oper.SetVariance(m_Variance[i]);
+    oper.SetMaximumError(m_MaximumError[i]);
+    oper.CreateDirectional();
+
+    ithRadius = oper.GetRadius(i);
+
+    // pad the input requested region along this dimension by the ithRadius
+    inputRequestedRegionSize[i]
+      = outputRequestedRegionSize[i] + 2 * ithRadius;
+    inputRequestedRegionStartIndex[i]
+      = outputRequestedRegionStartIndex[i] - ithRadius;
+
+    // crop the requested region to the largest possible region
+    //
+
+    // first check the start index
+    if (inputRequestedRegionStartIndex[i]
+        < inputLargestPossibleRegionStartIndex[i])
+      {
+      // how much do we need to adjust
+      crop = inputLargestPossibleRegionStartIndex[i]
+        - inputRequestedRegionStartIndex[i];
+
+      // adjust the start index and the size of the requested region
+      inputRequestedRegionStartIndex[i] += crop;
+      inputRequestedRegionSize[i] -= crop;
+      }
+    // now check the final size
+    if (inputRequestedRegionStartIndex[i] + inputRequestedRegionSize[i] 
+        > inputLargestPossibleRegionStartIndex[i]
+        + inputLargestPossibleRegionSize[i])
+      {
+      // how much do we need to adjust
+      crop = inputRequestedRegionStartIndex[i] + inputRequestedRegionSize[i] 
+        - inputLargestPossibleRegionStartIndex[i]
+        - inputLargestPossibleRegionSize[i];
+
+      // adjust the size
+      inputRequestedRegionSize[i] -= crop;
+      }
+    }
+  
+  typename TInputImage::RegionType inputRequestedRegion;
+  inputRequestedRegion.SetSize( inputRequestedRegionSize );
+  inputRequestedRegion.SetIndex( inputRequestedRegionStartIndex );
+  
+  inputPtr->SetRequestedRegion( inputRequestedRegion );
+}
+
+
 template< class TInputImage, class TOutputImage >
 void
 DiscreteGaussianImageFilter<TInputImage, TOutputImage>

@@ -105,11 +105,6 @@ public:
   itkNewMacro(Self);
 
   /**
-   * Standard pipeline method.
-   */
-  void GenerateData();
-
-  /**
    * Standard get/set macros for filter parameters.
    */
   itkSetMacro(Order, unsigned int);
@@ -117,11 +112,31 @@ public:
   itkSetMacro(Direction, unsigned int);
   itkGetMacro(Direction, unsigned int);
   
+  /**
+   * DerivativeImageFilter needs a larger input requested region than
+   * the output requested region (larger in the direction of the
+   * derivative).  As such, DerivativeImageFilter needs to provide an
+   * implementation for GenerateInputRequestedRegion() in order to
+   * inform the pipeline execution model.
+   *
+   * \sa ImageToImageFilter::GenerateInputRequestedRegion()
+   */
+  virtual void GenerateInputRequestedRegion();
+
 protected:
   DerivativeImageFilter() {}
   virtual ~DerivativeImageFilter() {}
   DerivativeImageFilter(const Self&) {}
   void operator=(const Self&) {}
+
+  /**
+   * Standard pipeline method. While this method does not implement a
+   * ThreadedGenerateData(), its GenerateData() delegates all
+   * calculations to an NeighborhoodOperatorImageFilter.  Since the
+   * NeighborhoodOperatorImageFilter is multithreaded, this filter is
+   * multithreaded by default.
+   */
+  void GenerateData();
 
 private:
   /**
