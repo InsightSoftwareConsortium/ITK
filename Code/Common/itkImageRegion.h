@@ -221,7 +221,7 @@ public:
       SizeType  size = region.GetSize();
       for(unsigned int i=0; i<ImageDimension; i++) 
         {
-        endCorner[i] = beginCorner[i] + size[i];
+        endCorner[i] = beginCorner[i] + size[i] - 1;
         }
       if( ! this->IsInside( endCorner ) )
         {
