@@ -69,7 +69,7 @@ public:
    * \param Nel  Vector specifying the number of elements in each dimension.
    */
   static void Rectangular(
-                          typename ElementType::ConstPointer e0,
+                          const ElementType* e0,
                           Solver& S,
                           VectorType& orig,
                           VectorType& size,
@@ -78,33 +78,22 @@ public:
 
 };
 
+// Explicit instatiations must be declared before they are used.
+class Element2DC0LinearQuadrilateral;
+template<>
+void
+GenerateMesh<Element2DC0LinearQuadrilateral>
+::Rectangular( const ElementType* e0, Solver& S, VectorType& orig, VectorType& size, VectorType& Nel);
+
+class Element3DC0LinearHexahedron;
+template<>
+void
+GenerateMesh<Element3DC0LinearHexahedron>
+::Rectangular( const ElementType* e0, Solver& S, VectorType& orig, VectorType& size, VectorType& Nel);
+
 
 
 
 }} // end namespace itk::fem
-
-
-
-
-// SGI's compiler requires declaration of specialized functions.
-#ifdef __sgi
-
-#include "itkFEMElement2DC0LinearQuadrilateral.h"
-#include "itkFEMElement3DC0LinearHexahedron.h"
-
-template<>
-void
-itk::fem::GenerateMesh<itk::fem::Element2DC0LinearQuadrilateral>
-::Rectangular( ElementType::ConstPointer e0, Solver& S, VectorType& orig, VectorType& size, VectorType& Nel);
-
-template<>
-void
-itk::fem::GenerateMesh<itk::fem::Element3DC0LinearHexahedron>
-::Rectangular( ElementType::ConstPointer e0, Solver& S, VectorType& orig, VectorType& size, VectorType& Nel);
-
-#endif // #ifndef __sgi
-
-
-
 
 #endif // #ifndef __itkFEMGenerateMesh_h
