@@ -1607,8 +1607,8 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
       centerIndex = layerIt->m_Index;
       centerValue = m_OutputImage->GetPixel(centerIndex);
       
-      new_value = this->CalculateUpdateValue(centerIndex, dt,
-                                             centerValue, layerIt->m_Value);
+      new_value = this->ThreadedCalculateUpdateValue(ThreadId, centerIndex, dt,
+                                                     centerValue, layerIt->m_Value);
       
       // If this index needs to be moved to another layer, then search its
       // neighborhood for indicies that need to be pulled up/down into the
