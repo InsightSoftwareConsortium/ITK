@@ -7,6 +7,7 @@
 void RegisterTests()
 {
   REGISTER_TEST(itkConvertBufferTest);
+  REGISTER_TEST(itkDicomImageIOTest);
   REGISTER_TEST(itkMetaImageIOTest);
   REGISTER_TEST(itkPNGImageIOTest);
   REGISTER_TEST(itkVOLImageIOTest);
