@@ -747,7 +747,6 @@ void Solver::AssembleF(int dim) {
  */  
 void Solver::DecomposeK()
 {
-  std::cout<<"Decomposing the K\n";
 }
 
 
@@ -758,9 +757,19 @@ void Solver::DecomposeK()
  */  
 void Solver::Solve()
 {
-  std::cout<<"Initializing the solution vector\n";
+  // Check if master stiffness matrix and master force vector were
+  // properly initialized.
+  if(!m_ls->IsMatrixInitialized())
+  {
+    throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::Solve()","Master stiffness matrix was not initialized!");
+  }
+  if(!m_ls->IsVectorInitialized())
+  {
+    throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::Solve()","Master force vector was not initialized!");
+  }
+
+  // Solve the system of linear equations
   m_ls->InitializeSolution();
-  std::cout<<"Solving the system of linear equations\n";
   m_ls->Solve();
 }
 
