@@ -170,7 +170,7 @@ template <class TInputImage, class TOutputImage>
 void 
 IsoContourDistanceImageFilter<TInputImage,TOutputImage>
 ::ThreadedGenerateDataFull(const OutputImageRegionType& outputRegionForThread,
-                       int threadId)
+                       int itkNotUsed(threadId))
 {
   typedef typename InputImageType::ConstPointer ImageConstPointer;
   typedef typename OutputImageType::Pointer OutputPointer;
@@ -331,8 +331,8 @@ IsoContourDistanceImageFilter<TInputImage,TOutputImage>
 template <class TInputImage, class TOutputImage>
 void 
 IsoContourDistanceImageFilter<TInputImage,TOutputImage>
-::ThreadedGenerateDataBand(const OutputImageRegionType& outputRegionForThread,
-                       int threadId)
+::ThreadedGenerateDataBand(const OutputImageRegionType& itkNotUsed(outputRegionForThread),
+                           int threadId)
 {
 
   typename InputImageType::ConstPointer inputPtr = this->GetInput();
