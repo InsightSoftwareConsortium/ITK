@@ -33,7 +33,6 @@ NeighborhoodConnectedImageFilter<TInputImage, TOutputImage>
 {
   m_Lower = NumericTraits<InputImagePixelType>::NonpositiveMin();
   m_Upper = NumericTraits<InputImagePixelType>::max();
-  m_Seed.Fill(0);
   m_ReplaceValue = NumericTraits<OutputImagePixelType>::One;
   m_Radius.Fill(1);
 }
@@ -98,7 +97,7 @@ NeighborhoodConnectedImageFilter<TInputImage,TOutputImage>
     function->SetInputImage ( inputImage );
     function->ThresholdBetween ( m_Lower, m_Upper );
     function->SetRadius (m_Radius);
-  IteratorType it = IteratorType ( outputImage, function, m_Seed );
+  IteratorType it = IteratorType ( outputImage, function, m_Seeds );
 
   while( !it.IsAtEnd())
     {

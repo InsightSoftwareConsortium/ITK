@@ -63,14 +63,23 @@ public:
   
   void PrintSelf ( std::ostream& os, Indent indent ) const;
 
+  /** Clear the seeds */
+  void ClearSeeds()
+  {
+    m_Seeds.clear();
+    this->Modified();
+  }
   /** Set seed point. */
   void SetSeed(const IndexType & seed)
   {
-    if ( m_Seed != seed )
-      {
-      m_Seed = seed;
-      this->Modified();
-      }
+    this->ClearSeeds();
+    this->AddSeed ( seed );
+  }
+  /** Add a seed point */
+  void AddSeed ( const IndexType & seed )
+  {
+    m_Seeds.push_back ( seed );
+    this->Modified();
   };
 
   /** Set/Get the lower threshold. The default is 0. */
@@ -97,7 +106,7 @@ public:
 protected:
   NeighborhoodConnectedImageFilter();
   ~NeighborhoodConnectedImageFilter(){};
-  IndexType m_Seed;
+  std::vector<IndexType> m_Seeds;
   InputImagePixelType m_Lower;
   InputImagePixelType m_Upper;
   OutputImagePixelType m_ReplaceValue;
