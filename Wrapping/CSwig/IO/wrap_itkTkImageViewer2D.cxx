@@ -17,9 +17,14 @@
 #include "itkTkImageViewer2D.h"
 
 #ifdef CABLE_CONFIGURATION
-#include "wrap_ITKIO.h"
-
-ITK_WRAP_CONFIG_GROUP(itkTkImageViewer2D);
-ITK_WRAP_OBJECT(TkImageViewer2D);
+#include "itkCSwigMacros.h"
+namespace _cable_
+{
+  const char* const group = ITK_WRAP_GROUP(itkTkImageViewer2D);
+  namespace wrappers
+  {
+    ITK_WRAP_OBJECT(TkImageViewer2D);
+  }
+}
 
 #endif

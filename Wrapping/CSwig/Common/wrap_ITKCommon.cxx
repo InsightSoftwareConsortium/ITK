@@ -37,6 +37,9 @@ namespace _cable_
     ITK_WRAP_GROUP(itkIndex),
     ITK_WRAP_GROUP(itkPoint),
     ITK_WRAP_GROUP(itkSize),
+#ifdef TCL_WRAP
+    "SwigGetTclInterp",
+#endif
     ITK_WRAP_GROUP(itkVector)
   };
 }

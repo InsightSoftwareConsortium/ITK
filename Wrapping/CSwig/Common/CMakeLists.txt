@@ -42,7 +42,17 @@ SET_SOURCE_FILES_PROPERTIES(${WRAP_TCL_SOURCES} ${WRAP_PYTHON_SOURCES} GENERATED
 
 IF(ITK_CSWIG_TCL)
   # add the library
-  ADD_LIBRARY(ITKCommonTcl SHARED ${WRAP_TCL_SOURCES})
+  SET_SOURCE_FILES_PROPERTIES(SwigGetTclInterp_wrap.cxx GENERATED)
+  ADD_LIBRARY(ITKCommonTcl SHARED ${WRAP_TCL_SOURCES} SwigGetTclInterp_wrap.cxx)
+  ADD_CUSTOM_COMMAND(
+    COMMENT "run native swig on SwigGetTclInterp.i"
+    SOURCE ${ITK_TOP}/Wrapping/CSwig/Common/SwigGetTclInterp.i
+    COMMAND ${CSWIG} 
+    ARGS -nocable -c ${IGNORE_WARNINGS} -o ${WrapITK_BINARY_DIR}/Common/SwigGetTclInterp_wrap.cxx
+         -c++ ${ITK_TOP}/Wrapping/CSwig/Common/SwigGetTclInterp.i
+    TARGET ITKCommonTcl
+    OUTPUTS ${WrapITK_BINARY_DIR}/Common/SwigGetTclInterp_wrap.cxx
+    DEPENDS ${ITK_TOP}/Wrapping/CSwig/Common/SwigGetTclInterp.i)
   TARGET_LINK_LIBRARIES(ITKCommonTcl ${TCL_LIBRARY} ITKCommon VXLNumericsTcl SwigRuntimeTcl )
 ENDIF(ITK_CSWIG_TCL)
 
