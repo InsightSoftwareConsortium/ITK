@@ -95,7 +95,7 @@ public:
 
   typedef Array< double > ProportionVectorType ;
 
-  void SetInitialProportions(ProportionVectorType* propotion) ;
+  void SetInitialProportions(ProportionVectorType &propotion) ;
 
   ProportionVectorType* GetInitialProportions() ;
 
@@ -104,6 +104,9 @@ public:
   void SetMaximumIteration(int numberOfIterations) ;
   
   int GetMaximumIteration() ;
+
+  int GetCurrentIteration() 
+  { return m_CurrentIteration ; }
 
   int AddComponent(ComponentPointer component) ;
 
@@ -134,9 +137,10 @@ private:
   SamplePointer m_Sample ;
 
   int m_MaxIteration ;
+  int m_CurrentIteration ;
   TERMINATION_CODE m_TerminationCode ;
   ComponentVectorType m_ComponentVector ;
-  ProportionVectorType* m_InitialProportions ;
+  ProportionVectorType m_InitialProportions ;
   ProportionVectorType m_Proportions ;
 } ; // end of class
 
