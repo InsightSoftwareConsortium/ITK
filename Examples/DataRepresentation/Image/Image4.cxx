@@ -34,7 +34,7 @@
 // useless but also hazardous.
 //
 // \begin{figure} \center
-// \includegraphics[width=15cm]{ImageOriginAndSpacing.eps}
+// \includegraphics[width=\textwidth]{ImageOriginAndSpacing.eps}
 // \caption{Geometrical concepts associated with the ITK image.}
 // \label{fig:ImageOriginAndSpacing}
 // \end{figure}
