@@ -12,7 +12,7 @@
 #include <itkImageAdaptor.h>
 #include <itkImageRegionIteratorWithIndex.h>
 #include <itkRedPixelAccessor.h>
-#include <itkAdd2ImageFilter.h>
+#include <itkAddImageFilter.h>
 
 
 int main()
@@ -50,7 +50,7 @@ int main()
                                      myRGBPixelImageType >   myRGBPixelIteratorType;
 
 
-  typedef itk::Add2ImageFilter< myAdaptorType, 
+  typedef itk::AddImageFilter< myAdaptorType, 
                                myFloatImageType, 
                                myFloatImageType >       myFilterType;
 

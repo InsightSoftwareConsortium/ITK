@@ -12,7 +12,7 @@
 #include <itkImageAdaptor.h>
 #include <itkImageRegionIteratorWithIndex.h>
 #include <itkNthElementImageAdaptor.h>
-#include <itkAdd2ImageFilter.h>
+#include <itkAddImageFilter.h>
 #include <itkVector.h>
 
 
@@ -50,7 +50,7 @@ int main()
                          myContainerPixelImageType >   myContainerPixelIteratorType;
 
 
-  typedef itk::Add2ImageFilter< myAdaptorType, 
+  typedef itk::AddImageFilter< myAdaptorType, 
                                myFloatImageType, 
                                myFloatImageType >       myFilterType;
 
