@@ -19,11 +19,11 @@
 #ifndef __itkShrinkImage_h
 #define __itkShrinkImage_h
 
-#include "itkImageToImageFilter.h"
+#include "itkFilterImageToImage.h"
 
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT itkShrinkImage : 
-  public itkImageToImageFilter<TInputImage,TOutputImage>
+  public itkFilterImageToImage<TInputImage,TOutputImage>
 {
 public:
   /** 

@@ -28,9 +28,7 @@ itkShrinkImage<TInputImage,TOutputImage>
     {
     return ret;
     }
-  return 
-    itkShrinkImage<TInputImage,TOutputImage>::Pointer(
-      new itkShrinkImage<TInputImage,TOutputImage>);
+  return new itkShrinkImage<TInputImage,TOutputImage>;
 }
 
 //----------------------------------------------------------------------------
@@ -47,7 +45,7 @@ void
 itkShrinkImage<TInputImage,TOutputImage>
 ::PrintSelf(std::ostream& os, itkIndent indent)
 {
-  itkImageToImageFilter<TInputImage,TOutputImage>::PrintSelf(os,indent);
+  itkFilterImageToImage<TInputImage,TOutputImage>::PrintSelf(os,indent);
 
   os << indent << "Shrink Factor: " << m_ShrinkFactor << std::endl;
 }
