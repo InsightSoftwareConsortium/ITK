@@ -83,9 +83,11 @@ public:
   typedef typename Superclass::OutputVnlVectorType  OutputVnlVectorType;
   
   /** Set the transformation from a container of parameters
-   * This is typically used by optimizers.
-   * There are 3 parameters. The first one represents the
-   * rotation and the last two represents the offset. */
+    * This is typically used by optimizers.
+    * There are 6 parameters. The first one represents the
+    * scale, the second represents the angle of rotation, the next
+    * two represent the center of the rotation
+    * and the last two represent the translation. */
   void SetParameters( const ParametersType & parameters );
 
   /** Set the Scale part of the transform. */
@@ -93,11 +95,11 @@ public:
 
   /** Get the parameters that uniquely define the transform
    * This is typically used by optimizers.
-   * There are 4 parameters. The first one represents the
-   * rotation, the second one the scale and the last 
-   * two represent the offset. */
-  const ParametersType & GetParameters( void ) const;
-
+   * There are 6 parameters. The first one represents the
+   * scale, the second represents the angle of rotation, the next
+   * two represent the center of the rotation
+   * and the last two represent the translation. */
+  const ParametersType & GetParameters( void ) const; 
  
   /** This method computes the Jacobian matrix of the transformation.
    * given point or vector, returning the transformed point or
