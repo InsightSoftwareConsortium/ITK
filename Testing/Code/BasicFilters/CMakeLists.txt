@@ -93,6 +93,7 @@ ADD_TEST(itkNaryAddImageFilterTest ${BASIC_FILTERS_TESTS} itkNaryAddImageFilterT
 ADD_TEST(itkNeighborhoodOperatorImageFilterTest ${BASIC_FILTERS_TESTS} itkNeighborhoodOperatorImageFilterTest)
 ADD_TEST(itkNormalizeImageFilterTest ${BASIC_FILTERS_TESTS} itkNormalizeImageFilterTest)
 ADD_TEST(itkObjectMorphologyImageFilterTest ${BASIC_FILTERS_TESTS} itkObjectMorphologyImageFilterTest)
+ADD_TEST(itkPathToChainCodePathFilterTest ${COMMON_TESTS} itkPathToChainCodePathFilterTest)
 ADD_TEST(itkPermuteAxesImageFilterTest ${BASIC_FILTERS_TESTS} itkPermuteAxesImageFilterTest)
 ADD_TEST(itkPlaheImageFilterTest ${BASIC_FILTERS_TESTS} itkPlaheImageFilterTest)
 ADD_TEST(itkRGBToVectorAdaptImageFilterTest.cxx ${BASIC_FILTERS_TESTS} itkRGBToVectorAdaptImageFilterTest)
@@ -441,6 +442,7 @@ itkNeighborhoodOperatorImageFilterTest.cxx
 itkNormalizeImageFilterTest.cxx
 itkObjectMorphologyImageFilterTest.cxx
 itkPasteImageFilterTest.cxx
+itkPathToChainCodePathFilterTest.cxx
 itkPromoteDimensionImageTest.cxx
 itkPermuteAxesImageFilterTest.cxx
 itkPlaheImageFilterTest.cxx

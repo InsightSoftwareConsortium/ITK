@@ -125,6 +125,7 @@ void RegisterTests()
   REGISTER_TEST(itkNormalizeImageFilterTest  );
   REGISTER_TEST(itkObjectMorphologyImageFilterTest );
   REGISTER_TEST(itkPasteImageFilterTest );
+  REGISTER_TEST(itkPathToChainCodePathFilterTest );
   REGISTER_TEST(itkPermuteAxesImageFilterTest );
   REGISTER_TEST(itkPromoteDimensionImageTest);
   REGISTER_TEST(itkPlaheImageFilterTest );

@@ -143,6 +143,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkPadImageFilter.txx"
 #include "itkParametricSpaceToImageSpaceMeshFilter.txx"
 #include "itkPasteImageFilter.txx"
+#include "itkPathToChainCodePathFilter.txx"
 #include "itkPermuteAxesImageFilter.txx"
 #include "itkPlaheImageFilter.txx"
 #include "itkRandomImageSource.txx"
