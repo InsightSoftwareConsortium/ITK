@@ -30,6 +30,8 @@ MetaImage(const char *_headerName)
   {
   if(META_DEBUG) std::cout << "MetaImage()" << std::endl;
   Clear();
+  m_AutoFreeElementData = 0;
+  m_ElementData = NULL;
   MetaImage::Read(_headerName);
   }
 
@@ -40,6 +42,8 @@ MetaImage(MetaImage *_im)
   {
   if(META_DEBUG) std::cout << "MetaImage()" << std::endl;
   MetaImage::Clear();
+  m_AutoFreeElementData = 0;
+  m_ElementData = NULL;
   InitializeEssential(_im->NDims(), 
                       _im->DimSize(),
                       _im->ElementSpacing(),
@@ -61,6 +65,8 @@ MetaImage(int _nDims,
   {
   if(META_DEBUG) std::cout << "MetaImage()" << std::endl;
   MetaImage::Clear();
+  m_AutoFreeElementData = 0;
+  m_ElementData = NULL;
   InitializeEssential(_nDims, 
                       _dimSize, 
                       _elementSpacing,
@@ -78,6 +84,8 @@ MetaImage(int _x, int _y,
 :MetaObject()
   {
   if(META_DEBUG) std::cout << "MetaImage()" << std::endl;
+  m_AutoFreeElementData = 0;
+  m_ElementData = NULL;
   int ds[2];
   ds[0] = _x;
   ds[1] = _y;
@@ -102,6 +110,8 @@ MetaImage(int _x, int _y, int _z,
 :MetaObject()
   {
   if(META_DEBUG) std::cout << "MetaImage()" << std::endl;
+  m_AutoFreeElementData = 0;
+  m_ElementData = NULL;
   int ds[3];
   ds[0] = _x;
   ds[1] = _y;
