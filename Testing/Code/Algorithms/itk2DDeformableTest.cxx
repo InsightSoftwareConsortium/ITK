@@ -200,11 +200,9 @@ int itk2DDeformableTest(int, char**)
 
   size[0] = 60;
   size[1] = 60;
-  size[2] = 60;
 
   start[0] = 20;
   start[1] = 20;
-  start[2] = 20;
 
   // Create one iterator for an internal region
   region.SetSize( size );
