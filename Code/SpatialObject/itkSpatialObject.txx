@@ -252,7 +252,6 @@ typename SpatialObject< TDimension >::BoundingBoxType *
 SpatialObject< TDimension >
 ::GetBoundingBox() const
 { 
-//  this->ComputeBoundingBox();
   return m_Bounds.GetPointer();
 }
 
@@ -499,46 +498,27 @@ SpatialObject< TDimension >
 {
   itkDebugMacro( "Computing Bounding Box" );
   this->ComputeLocalBoundingBox();
-  //if( this->GetMTime() > m_BoundsMTime )
-  //  {
-    if( m_BoundingBoxChildrenDepth > 0 && m_TreeNode)
-      {
-      typedef typename TreeNodeType::ChildrenListType ChildrenListType; 
-      ChildrenListType* children = m_TreeNode->GetChildren(0);
-      typename ChildrenListType::const_iterator it = children->begin();
-      typename ChildrenListType::const_iterator itEnd = children->end();
-      /*if(it != itEnd)
-        {
-        (*it)->Get()->SetBoundingBoxChildrenDepth(m_BoundingBoxChildrenDepth-1);
-        (*it)->Get()->SetBoundingBoxChildrenName(m_BoundingBoxChildrenName);
-        (*it)->Get()->ComputeBoundingBox();
-        
-        //itk::Point<double,TDimension> ptMin = (*it)->Get()->GetIndexToWorldTransform()->TransformPoint((*it)->Get()->GetBoundingBox()->GetMinimum());
-        //itk::Point<double,TDimension> ptMax = (*it)->Get()->GetIndexToWorldTransform()->TransformPoint((*it)->Get()->GetBoundingBox()->GetMaximum());
-        m_Bounds->SetMinimum((*it)->Get()->GetBoundingBox()->GetMinimum());
-        m_Bounds->SetMaximum((*it)->Get()->GetBoundingBox()->GetMaximum());
-        it++;
-*/
-        while(it!=itEnd)
-          {
-          (*it)->Get()->SetBoundingBoxChildrenDepth(m_BoundingBoxChildrenDepth-1);
-          (*it)->Get()->SetBoundingBoxChildrenName(m_BoundingBoxChildrenName);
-          (*it)->Get()->ComputeBoundingBox();
 
-          //itk::Point<double,TDimension> ptMin = (*it)->Get()->GetIndexToWorldTransform()->TransformPoint((*it)->Get()->GetBoundingBox()->GetMinimum());
-          //itk::Point<double,TDimension> ptMax = (*it)->Get()->GetIndexToWorldTransform()->TransformPoint((*it)->Get()->GetBoundingBox()->GetMaximum());
-          //m_Bounds->ConsiderPoint(ptMin);
-          //m_Bounds->ConsiderPoint(ptMax);  
-          m_Bounds->ConsiderPoint((*it)->Get()->GetBoundingBox()->GetMinimum());
-          m_Bounds->ConsiderPoint((*it)->Get()->GetBoundingBox()->GetMaximum());
-          it++;
-          }
-        //m_BoundsMTime = this->GetMTime();
-        delete children;
-        return true;
-  //      }
-  //      delete children;
+  if( m_BoundingBoxChildrenDepth > 0 && m_TreeNode)
+    {
+    typedef typename TreeNodeType::ChildrenListType ChildrenListType; 
+    ChildrenListType* children = m_TreeNode->GetChildren(0);
+    typename ChildrenListType::const_iterator it = children->begin();
+    typename ChildrenListType::const_iterator itEnd = children->end();
+    
+    while(it!=itEnd)
+      {
+      (*it)->Get()->SetBoundingBoxChildrenDepth(m_BoundingBoxChildrenDepth-1);
+      (*it)->Get()->SetBoundingBoxChildrenName(m_BoundingBoxChildrenName);
+      (*it)->Get()->ComputeBoundingBox();
+
+      m_Bounds->ConsiderPoint((*it)->Get()->GetBoundingBox()->GetMinimum());
+      m_Bounds->ConsiderPoint((*it)->Get()->GetBoundingBox()->GetMaximum());
+      it++;
       }
+      delete children;
+      return true;
+    }
 
     typename BoundingBoxType::PointType pnt;
     pnt.Fill( itk::NumericTraits< ITK_TYPENAME 
@@ -547,22 +527,6 @@ SpatialObject< TDimension >
     m_Bounds->SetMaximum(pnt);
     m_BoundsMTime = this->GetMTime();
     return false;
-/*    }
-  else
-    {
-    typename BoundingBoxType::PointType pnt;
-    pnt.Fill( itk::NumericTraits< ITK_TYPENAME 
-              BoundingBoxType::PointType::ValueType>::Zero );
-    if(m_Bounds->GetMinimum() == pnt &&
-       m_Bounds->GetMaximum() == pnt)
-      {
-      return false;
-      }
-    else
-      {
-      return true;
-      }
-    }*/
 }
   
 /** Get the children list.
@@ -591,28 +555,6 @@ SpatialObject< TDimension >
 
   delete children;
   return childrenSO;
-
-  /*ChildrenListType * children = new ChildrenListType;
-
-  typename ChildrenListType::const_iterator childrenListIt = 
-    m_Children.begin();
-  typename ChildrenListType::const_iterator childrenListEnd = 
-    m_Children.end();
-
-  while( childrenListIt != childrenListEnd )
-    {
-    if( name == NULL || strstr(typeid(**childrenListIt).name(), name) )
-      {
-      children->push_back(*childrenListIt);
-      }
-    if( depth > 0 )
-      {
-      ChildrenListType * nextchildren = (**childrenListIt).GetChildren(depth-1, name);  
-      children->merge(*nextchildren);
-      delete nextchildren;
-      }
-    childrenListIt++;
-    }*/
 }
 
 /** Set children list*/
@@ -621,22 +563,12 @@ void
 SpatialObject< TDimension >
 ::SetChildren( ChildrenListType & children )
 { 
- /* if(!m_TreeNode) // if no node container we create one
-    {
-    m_TreeNode = SpatialObjectTreeNode<TDimension>::New();
-    m_TreeNode->SetData(this);
-    }*/
-
   // Add children
   typename ChildrenListType::iterator it = children.begin();
   typename ChildrenListType::iterator itEnd = children.end();
   
   while(it != itEnd)
     {
-    // Create a container
-    //TreeNodeType::Pointer TreeNode = TreeNodeType::New();
-    //TreeNode->SetData(*it);
-    //TreeNode->SetNodeToParentNodeTrans
     static_cast<TreeNodeType*>(m_TreeNode.GetPointer())->AddChild((*it)->GetTreeNode());  
     it++;
     }
@@ -998,4 +930,3 @@ SpatialObject< TDimension >
 } // end of namespace itk
 
 #endif // __SpatialObject_txx
-
