@@ -79,6 +79,10 @@ Semaphore::Semaphore ()
 #ifdef ITK_USE_WIN32_THREADS
   m_Sema = 0;
 #endif
+
+#ifdef ITK_USE_PTHREADS
+  m_PThreadsSemaphoreRemoved = false;
+#endif
 }
   
 void Semaphore::Initialize(unsigned int value)
@@ -115,6 +119,8 @@ void Semaphore::Initialize(unsigned int value)
   
 #endif
 #ifdef ITK_USE_PTHREADS
+
+m_PThreadsSemaphoreRemoved = false;
 
 #if defined sun
   if ( sema_init(&m_Sema, 0, value, NULL ) != 0 )
@@ -253,7 +259,10 @@ Semaphore::~Semaphore()
     }
 #endif
 #ifdef ITK_USE_PTHREADS  
-  this->Remove();
+  if(!m_PThreadsSemaphoreRemoved)
+    {
+    this->Remove();
+    }
 #endif
 #endif
   
@@ -289,7 +298,7 @@ void Semaphore::Remove()
 #endif
 
 #ifdef ITK_USE_PTHREADS
-
+m_PThreadsSemaphoreRemoved = true;
 #ifdef sun
   if ( sema_destroy(&m_Sema) != 0 )
     {
@@ -300,14 +309,10 @@ void Semaphore::Remove()
 #ifndef __sgi
 #ifndef __APPLE__
   // IRIX pthreads implementation of sem_destroy is buggy
-  if(m_Sema != 0) 
+  if ( sem_destroy(&m_Sema) != 0 )
     {
-    if ( sem_destroy(&m_Sema) != 0 )
-      {
-      itkExceptionMacro( << "sem_destroy call failed. " );
-      }
+    itkExceptionMacro( << "sem_destroy call failed. " );
     }
-  m_Sema = 0;
 #endif
 #endif
 

@@ -171,6 +171,11 @@ private:
   std::string m_SemaphoreName;
 #endif
 
+/** When using pthread the semaphore cannot be removed twice so we use a flag */
+#ifdef ITK_USE_PTHREADS
+  bool m_PThreadsSemaphoreRemoved;
+#endif
+
 };
  
 }//itk
