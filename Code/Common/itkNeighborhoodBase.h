@@ -68,6 +68,11 @@ public:
   typedef Size<VDimension> SizeType;
 
   /**
+   * Pixel typedef support
+   */
+  typedef TPixel PixelType;
+  
+  /**
    * Slice iterator typedef support
    */
   typedef SliceIterator<TPixel, Self> SliceIteratorType;
