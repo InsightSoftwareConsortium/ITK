@@ -19,6 +19,7 @@ ADD_TEST(itkAbsImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkAbsImageFilte
 ADD_TEST(itkAdaptImageFilterTest ${BASIC_FILTERS_TESTS} itkAdaptImageFilterTest)
 ADD_TEST(itkAdaptImageFilterTest2 ${BASIC_FILTERS_TESTS} itkAdaptImageFilterTest2)
 ADD_TEST(itkAddImageFilterTest ${BASIC_FILTERS_TESTS} itkAddImageFilterTest)
+ADD_TEST(itkAndImageFilterTest ${BASIC_FILTERS_TESTS} itkAndImageFilterTest)
 ADD_TEST(itkAsinImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkAsinImageFilterAndAdaptorTest)
 ADD_TEST(itkAtanImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkAtanImageFilterAndAdaptorTest)
 ADD_TEST(itkBSplineDecompositionImageFilterTest ${BASIC_FILTERS_TESTS} itkBSplineDecompositionImageFilterTest)
@@ -164,6 +165,7 @@ ADD_TEST(itkVectorExpandImageFilterTest ${BASIC_FILTERS_TESTS} itkVectorExpandIm
 ADD_TEST(itkVectorNeighborhoodOperatorImageFilterTest ${BASIC_FILTERS_TESTS} itkVectorNeighborhoodOperatorImageFilterTest)
 ADD_TEST(itkWarpImageFilterTest ${BASIC_FILTERS_TESTS} itkWarpImageFilterTest)
 ADD_TEST(itkWrapPadImageTest ${BASIC_FILTERS_TESTS} itkWrapPadImageTest)
+ADD_TEST(itkXorImageFilterTest ${BASIC_FILTERS_TESTS} itkXorImageFilterTest)
 ADD_TEST(itkZeroCrossingBasedEdgeDetectionImageFilterTest ${BASIC_FILTERS_TESTS} itkZeroCrossingBasedEdgeDetectionImageFilterTest)
 ADD_TEST(itkZeroCrossingImageFilterTest ${BASIC_FILTERS_TESTS} itkZeroCrossingImageFilterTest)
 
@@ -397,6 +399,7 @@ itkAdaptImageFilterTest.cxx
 itkAdaptImageFilterTest2.cxx
 itkAdaptiveHistogramEqualizationImageFilterTest.cxx
 itkAddImageFilterTest.cxx
+itkAndImageFilterTest.cxx
 itkAsinImageFilterAndAdaptorTest.cxx
 itkAtanImageFilterAndAdaptorTest.cxx
 itkBSplineDecompositionImageFilterTest.cxx
@@ -548,6 +551,7 @@ itkVectorNeighborhoodOperatorImageFilterTest.cxx
 itkVectorConfidenceConnectedImageFilterTest.cxx
 itkWarpImageFilterTest.cxx
 itkWrapPadImageTest.cxx
+itkXorImageFilterTest.cxx
 itkZeroCrossingBasedEdgeDetectionImageFilterTest.cxx
 itkZeroCrossingImageFilterTest.cxx
 
