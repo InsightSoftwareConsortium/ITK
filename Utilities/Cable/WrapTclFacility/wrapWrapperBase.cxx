@@ -416,6 +416,17 @@ WrapperBase::ResolveOverload(const CvQualifiedTypes& argumentTypes,
         // argument/parameter pair.
         continue;
         }
+      else if((to->IsArrayType() && from.GetType()->IsPointerType())
+              && Conversions::IsValidQualificationConversion(
+                PointerType::SafeDownCast(from.GetType()),
+                PointerType::SafeDownCast(TypeInfo
+                                          ::GetPointerType(ArrayType::SafeDownCast(to)->GetElementType(),
+                                                           false, false).GetType())))
+        {
+        // This conversion can be done, move on to the next
+        // argument/parameter pair.
+        continue;
+        }
       else if(this->GetConversionFunction(from, to) == NULL)
         {
         // This conversion cannot be done.
