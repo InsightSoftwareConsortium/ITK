@@ -67,7 +67,6 @@ public:
   void UseCostFunctionGradientOff() { this->SetUseCostFunctionGradient( false ); };
   bool GetUseCostFunctionGradient() const;
 
-
 protected:
   MultipleValuedNonLinearVnlOptimizer();
   virtual ~MultipleValuedNonLinearVnlOptimizer();
@@ -82,7 +81,7 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   CostFunctionAdaptorType * m_CostFunctionAdaptor;
-
+  bool                      m_UseGradient;
 };
 
 } // end namespace itk

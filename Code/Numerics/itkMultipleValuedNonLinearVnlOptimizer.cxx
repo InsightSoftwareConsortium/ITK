@@ -29,6 +29,7 @@ MultipleValuedNonLinearVnlOptimizer
 ::MultipleValuedNonLinearVnlOptimizer()
 {
   m_CostFunctionAdaptor = 0;
+  m_UseGradient = true;
 }
 
 
@@ -65,6 +66,8 @@ MultipleValuedNonLinearVnlOptimizer
 
   m_CostFunctionAdaptor = adaptor; 
 
+  this->SetUseCostFunctionGradient(m_UseGradient);
+
 }
 
 
@@ -89,7 +92,7 @@ MultipleValuedNonLinearVnlOptimizer
     }
   else
     {
-    itkGenericExceptionMacro("Calling SetUseCostFunctionGradient() but CostFunction has not been provided yet");  
+    m_UseGradient = useGradient;
     }
 }
 
@@ -107,11 +110,9 @@ MultipleValuedNonLinearVnlOptimizer
     }
   else
     {
-    itkGenericExceptionMacro("Calling GetUseCostFunctionGradient() but CostFunction has not been provided yet");  
+    return m_UseGradient;
     }
 }
-
-
 
 
 
