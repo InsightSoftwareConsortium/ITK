@@ -6,6 +6,10 @@
 #
 # ITK_VERSION_STRING    - The ITK version number in "major.minor" format.
 #
+# ITK_USE_FILE          - A CMake source file that can be included
+#                         to set the include directories, library
+#                         directories, and preprocessor macros.
+#
 # ITK_INCLUDE_DIRS      - Include directories for ITK headers.
 # ITK_LIBRARY_DIRS      - Link directories for ITK libraries.
 # ITK_DEFINITIONS       - Preprocessor macros needed for including ITK headers.
@@ -68,6 +72,9 @@ SET(ITK_DEFINITIONS "@ITK_DEFINITIONS@")
 
 # The ITK version number
 SET(ITK_VERSION_STRING "@ITK_VERSION_STRING@")
+
+# The location of the UseITK.cmake file.
+SET(ITK_USE_FILE "@ITK_USE_FILE@")
 
 # The C compiler used to build ITK.
 SET(ITK_C_COMPILER "@CMAKE_C_COMPILER@")

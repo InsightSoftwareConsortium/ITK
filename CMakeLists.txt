@@ -135,10 +135,15 @@ IF(USE_FLTK)
   ENDIF(FLTK_VERSION_1.0.11)
 ENDIF(USE_FLTK)
 
+# Copy the UseITK.cmake file to the binary tree for backward compatability.
+CONFIGURE_FILE(${ITK_SOURCE_DIR}/UseITK.cmake
+               ${ITK_BINARY_DIR}/UseITK.cmake COPYONLY IMMEDIATE)
+
 INSTALL_FILES(/include/InsightToolkit ".h" "itkConfigure")
+INSTALL_FILES(/lib/InsightToolkit ".cmake" "UseITK")
 
 #-----------------------------------------------------------------------------
-# Some common settings for UseITK.cmake file configuration.
+# Some common settings for ITKConfig.cmake file configuration.
 
 # The preprocessor definitions.
 IF(CMAKE_USE_PTHREADS)
@@ -161,7 +166,7 @@ IF(NOT ITK_USE_SYSTEM_STDLIB)
 ENDIF(NOT ITK_USE_SYSTEM_STDLIB)
 
 #-----------------------------------------------------------------------------
-# Configure UseITK.cmake for the build tree.
+# Configure ITKConfig.cmake for the build tree.
 
 # The include directories.
 SET(ITK_INCLUDE_DIRS
@@ -186,13 +191,13 @@ IF(NOT ITK_USE_SYSTEM_STDLIB)
   SET(ITK_INCLUDE_DIRS ${ITK_INCLUDE_DIRS} "${ITK_SOURCE_DIR}/Utilities/stdlib")
 ENDIF(NOT ITK_USE_SYSTEM_STDLIB)
 
-# Configure the UseITK.cmake file.
 SET(ITK_LIBRARY_DIRS "${ITK_LIBRARY_PATH}")
+SET(ITK_USE_FILE "${ITK_BINARY_DIR}/UseITK.cmake")
 CONFIGURE_FILE("${ITK_SOURCE_DIR}/ITKConfig.cmake.in"
                "${ITK_BINARY_DIR}/ITKConfig.cmake" IMMEDIATE @ONLY)
 
 #-----------------------------------------------------------------------------
-# Configure UseITK.cmake for the install tree.
+# Configure ITKConfig.cmake for the install tree.
 
 SET(ITK_INSTALL_INCLUDE_DIR "${CMAKE_INSTALL_PREFIX}/include/InsightToolkit")
 SET(ITK_INCLUDE_DIRS
@@ -218,5 +223,6 @@ IF(NOT ITK_USE_SYSTEM_STDLIB)
 ENDIF(NOT ITK_USE_SYSTEM_STDLIB)
 
 SET(ITK_LIBRARY_DIRS "${CMAKE_INSTALL_PREFIX}/lib/InsightToolkit")
+SET(ITK_USE_FILE "${CMAKE_INSTALL_PREFIX}/lib/InsightToolkit/UseITK.cmake")
 CONFIGURE_FILE("${ITK_SOURCE_DIR}/ITKConfig.cmake.in"
                "${ITK_BINARY_DIR}/Utilities/ITKConfig.cmake" IMMEDIATE @ONLY)
