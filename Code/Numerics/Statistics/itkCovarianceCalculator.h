@@ -68,15 +68,20 @@ public:
 
 protected:
   CovarianceCalculator() ;
-  virtual ~CovarianceCalculator() {}
+  virtual ~CovarianceCalculator() ;
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Calculates the covariance and save it */
   void GenerateData() ;
 
+  void ComputeCovarianceWithGivenMean() ;
+
+  void ComputeCovarianceWithoutGivenMean() ;
+
 private:
   OutputType m_Output ;
   MeanType* m_Mean ;
+  MeanType* m_InternalMean ;
 } ; // end of class
     
   } // end of namespace Statistics 
