@@ -91,8 +91,6 @@ int main(int ac, char* av[])
     return EXIT_FAILURE;
     }
 
-
-
   // Rescale intensities and rewrite the image in another format
   //
   typedef unsigned char WritePixelType;
@@ -151,6 +149,8 @@ int main(int ac, char* av[])
     std::cerr << e.GetLocation() << std::endl;
     return EXIT_FAILURE;
     }
+
+  gdcmImageIO->Print(std::cout);
 
   return EXIT_SUCCESS;
 
