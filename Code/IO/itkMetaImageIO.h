@@ -77,7 +77,7 @@ public:
    */
   virtual bool CanReadFile(const char*) ;
 
-  ///! Set the spacing and diemention information for the set filename.
+  ///! Set the spacing and dimention information for the set filename.
   virtual void ReadImageInformation();
   
   /**
@@ -114,7 +114,6 @@ protected:
   
 private:
 
-  bool ReadHeader(const char* fname);
   void PrintSelf(std::ostream& os, Indent indent) const;
   ComponentType m_MetaPixelType;
   double m_Spacing[10];

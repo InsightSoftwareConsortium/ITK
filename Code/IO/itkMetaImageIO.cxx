@@ -86,12 +86,133 @@ MetaImageIO::GetOrigin() const
 
  
 
- 
-bool MetaImageIO::CanReadFile(const char* file) 
+// This method will only test if the header looks like a
+// MetaImage.  Some code is redundant with ReadImageInformation
+// a StateMachine could provide a better implementation
+bool MetaImageIO::CanReadFile( const char* filename ) 
 { 
-  const bool acceptableHeader = this->ReadHeader(file);
-  m_Ifstream.close();
-  return acceptableHeader;
+  
+  unsigned int dimensions = 0;
+
+  std::ifstream inputStream;
+
+  inputStream.open( filename );
+
+  if( inputStream.fail() )
+  {
+    return false;
+  }
+
+  char key[8000];
+
+  while( !inputStream.eof() )
+  {
+
+  inputStream >> key;
+
+  if( inputStream.eof() )
+    {
+    return false;
+    }
+
+  if( strcmp(key,"NDims")==0 ) 
+    {
+    inputStream >> key;
+    if( strcmp( key, "=" ) != 0 ) 
+      {
+      //missing "=" 
+      return false;
+      }
+    inputStream >> dimensions;
+    continue;
+    }
+
+  if( strcmp(key,"DimSize")==0 ) 
+    {
+    inputStream >> key;
+    if( strcmp( key, "=" ) != 0 ) 
+      {
+      //missing "=" 
+      return false;
+      }
+    unsigned int sizeInADimension;
+    for( unsigned int dim=0; dim < dimensions; dim++ )
+      {
+      inputStream >> sizeInADimension;
+      }
+    continue;
+    }
+
+  if( strcmp(key,"ElementSize")==0 ) 
+    {
+    inputStream >> key;
+    if( strcmp( key, "=" ) != 0 ) 
+      {
+      //missing "=" 
+      return false;
+      }
+    float spacingInADimension;
+    for( unsigned int dim=0; dim < dimensions; dim++ )
+      {
+      inputStream >> spacingInADimension;
+      }
+    continue;
+    }
+
+  if( strcmp(key,"ElementNBits")==0 ) 
+    {
+    inputStream >> key;
+    if( strcmp( key, "=" ) != 0 ) 
+      {
+      //missing "=" 
+      return false;
+      }
+    unsigned long elmentNumberOfBits;
+    inputStream >> elmentNumberOfBits;
+    continue;
+    }
+
+  
+  if( strcmp(key,"ElementType")==0 ) 
+    {
+    inputStream >> key;
+    if( strcmp( key, "=" ) != 0 ) 
+      {
+      //missing "=" 
+      return false;
+      }
+    char elementType[512];
+    inputStream >> elementType;
+    continue;
+    }
+
+  if( strcmp( key, "ElementDataFile" ) == 0 )
+    {
+    inputStream >> key;
+    if( strcmp( key, "=" ) != 0 ) 
+      {
+      //missing "=" 
+      return false;
+      }
+    inputStream >> key;
+    if( strcmp( key, "LOCAL" ) != 0 ) 
+      {
+      //missing "=" 
+      return false;
+      }
+    // end of header : succesful read
+    return true;
+    }
+
+    // Unknown code, get the rest of the line
+    inputStream.getline(key,2000,'\n');
+
+  }
+
+  
+  return false;
+
+
 }
   
 
@@ -187,13 +308,15 @@ void MetaImageIO::Load(void* buffer)
 
 
 
-bool MetaImageIO::ReadHeader(const char* fname)
+void MetaImageIO::ReadImageInformation()
 {
-  m_Ifstream.open( fname );
+  m_Ifstream.open( m_FileName.c_str() );
 
   if( m_Ifstream.fail() )
   {
-    return false;
+    ExceptionObject exception(__FILE__, __LINE__);
+    exception.SetDescription("File cannot be read");
+    throw exception;
   }
 
   char key[8000];
@@ -205,7 +328,9 @@ bool MetaImageIO::ReadHeader(const char* fname)
 
   if( m_Ifstream.eof() )
     {
-    return false;
+    ExceptionObject exception(__FILE__, __LINE__);
+    exception.SetDescription("Unexpected end of file");
+    throw exception;
     }
 
   if( strcmp(key,"NDims")==0 ) 
@@ -214,8 +339,9 @@ bool MetaImageIO::ReadHeader(const char* fname)
     m_Ifstream >> key;
     if( strcmp( key, "=" ) != 0 ) 
       {
-      //missing "=" 
-      return false;
+      ExceptionObject exception(__FILE__, __LINE__);
+      exception.SetDescription("Missing \"=\" after NDims");
+      throw exception;
       }
     m_Ifstream >> dimension;
     this->SetNumberOfDimensions( dimension );
@@ -227,8 +353,9 @@ bool MetaImageIO::ReadHeader(const char* fname)
     m_Ifstream >> key;
     if( strcmp( key, "=" ) != 0 ) 
       {
-      //missing "=" 
-      return false;
+      ExceptionObject exception(__FILE__, __LINE__);
+      exception.SetDescription("Missing \"=\" after DimSize");
+      throw exception;
       }
     for( unsigned int dim=0; dim< this->GetNumberOfDimensions(); dim++ )
       {
@@ -242,8 +369,9 @@ bool MetaImageIO::ReadHeader(const char* fname)
     m_Ifstream >> key;
     if( strcmp( key, "=" ) != 0 ) 
       {
-      //missing "=" 
-      return false;
+      ExceptionObject exception(__FILE__, __LINE__);
+      exception.SetDescription("Missing \"=\" after ElementSize");
+      throw exception;
       }
     for( unsigned int dim=0; dim< this->GetNumberOfDimensions(); dim++ )
       {
@@ -257,8 +385,9 @@ bool MetaImageIO::ReadHeader(const char* fname)
     m_Ifstream >> key;
     if( strcmp( key, "=" ) != 0 ) 
       {
-      //missing "=" 
-      return false;
+      ExceptionObject exception(__FILE__, __LINE__);
+      exception.SetDescription("Missing \"=\" after ElementNBits");
+      throw exception;
       }
     unsigned long elmentNumberOfBits;
     m_Ifstream >> elmentNumberOfBits;
@@ -271,8 +400,9 @@ bool MetaImageIO::ReadHeader(const char* fname)
     m_Ifstream >> key;
     if( strcmp( key, "=" ) != 0 ) 
       {
-      //missing "=" 
-      return false;
+      ExceptionObject exception(__FILE__, __LINE__);
+      exception.SetDescription("Missing \"=\" after ElementType");
+      throw exception;
       }
     char elementType[512];
     m_Ifstream >> elementType;
@@ -281,39 +411,39 @@ bool MetaImageIO::ReadHeader(const char* fname)
       {
       m_ComponentType = UCHAR;
       }
-    if( strcmp( elementType, "MET_CHAR" ) == 0 )
+    else if( strcmp( elementType, "MET_CHAR" ) == 0 )
       {
       m_ComponentType = CHAR;
       }
-    if( strcmp( elementType, "MET_USHORT" ) == 0 )
+    else if( strcmp( elementType, "MET_USHORT" ) == 0 )
       {
       m_ComponentType = USHORT;
       }
-    if( strcmp( elementType, "MET_SHORT" ) == 0 )
+    else if( strcmp( elementType, "MET_SHORT" ) == 0 )
       {
       m_ComponentType = SHORT;
       }
-    if( strcmp( elementType, "MET_UINT" ) == 0 )
+    else if( strcmp( elementType, "MET_UINT" ) == 0 )
       {
       m_ComponentType = UINT;
       }
-    if( strcmp( elementType, "MET_INT" ) == 0 )
+    else if( strcmp( elementType, "MET_INT" ) == 0 )
       {
       m_ComponentType = INT;
       }
-    if( strcmp( elementType, "MET_ULONG" ) == 0 )
+    else if( strcmp( elementType, "MET_ULONG" ) == 0 )
       {
       m_ComponentType = ULONG;
       }
-    if( strcmp( elementType, "MET_LONG" ) == 0 )
+    else if( strcmp( elementType, "MET_LONG" ) == 0 )
       {
       m_ComponentType = LONG;
       }
-    if( strcmp( elementType, "MET_UFLOAT" ) == 0 )
+    else if( strcmp( elementType, "MET_UFLOAT" ) == 0 )
       {
       m_ComponentType = FLOAT;
       }
-    if( strcmp( elementType, "MET_DOUBLE" ) == 0 )
+    else if( strcmp( elementType, "MET_DOUBLE" ) == 0 )
       {
       m_ComponentType = DOUBLE;
       }
@@ -326,37 +456,33 @@ bool MetaImageIO::ReadHeader(const char* fname)
     m_Ifstream >> key;
     if( strcmp( key, "=" ) != 0 ) 
       {
-      //missing "=" 
-      return false;
+      ExceptionObject exception(__FILE__, __LINE__);
+      exception.SetDescription("Missing \"=\" after ElementDataFile");
+      throw exception;
       }
     m_Ifstream >> key;
     if( strcmp( key, "LOCAL" ) != 0 ) 
       {
-      //missing "=" 
-      return false;
+      ExceptionObject exception(__FILE__, __LINE__);
+      exception.SetDescription("Lecture of non LOCAL files is not implemented yet");
+      throw exception;
       }
-    // end of header : succesful read
-    this->SetFileName(fname); 
-    return true;
+    else 
+      {
+      // That is the end of the header
+      return;
+      }
     }
-
 
     // Unknown code, get the rest of the line
     m_Ifstream.getline(key,2000,'\n');
 
   }
-
   
-  return false;
-
 }
 
 
 
-void MetaImageIO::ReadImageInformation()
-{
-  this->ReadHeader(m_FileName.c_str());
-}
 
 
 } // end namespace itk
