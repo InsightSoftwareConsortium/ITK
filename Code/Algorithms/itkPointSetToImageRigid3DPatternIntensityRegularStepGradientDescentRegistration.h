@@ -57,6 +57,9 @@ namespace itk
 /**
  *  Traits class that defines the different types to be
  *  used by this registration method
+ *
+ *  It is expected that the reference will be an itk::Image and the
+ *  target will be an itk::PointSet or an itk::Mesh class
  */
 template <class TReference, class TTarget>
 class ITK_EXPORT
@@ -72,14 +75,20 @@ public:
   /** Image dimensions. */
   enum { ImageDimension = ReferenceType::ImageDimension};
 
+  /**  Type of the point used to represent coordinates in space */
+  typedef typename TargetType::PointType   PointType;
+    
+  /**  Type used to represent space coordinates */
+  typedef typename PointType::CoordRepType      CoordinatesType;
+    
   /**  Type of the transformation. */
-  typedef VersorRigid3DTransform< double > TransformationType;
+  typedef VersorRigid3DTransform< CoordinatesType > TransformationType;
     
   /** Parameters dimension. */
   enum { ParametersDimension = TransformationType::ParametersDimension }; 
 
   /**  Type of the parameters. */
-  typedef Point<double,ParametersDimension>   ParametersType;
+  typedef Point< double,ParametersDimension>   ParametersType;
 
   /**  Type of the mapper. */
   typedef ImageMapper<ReferenceType,TransformationType>  MapperType;
