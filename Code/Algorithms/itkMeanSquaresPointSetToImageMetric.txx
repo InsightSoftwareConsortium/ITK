@@ -122,8 +122,6 @@ MeanSquaresPointSetToImageMetric<TFixedPointSet,TMovingImage>
     itkExceptionMacro( << "Fixed image has not been assigned" );
     }
 
-  const unsigned int dimension = FixedPointSetDimension;
-
   m_NumberOfPixelsCounted = 0;
 
   this->SetTransformParameters( parameters );
@@ -232,8 +230,6 @@ MeanSquaresPointSetToImageMetric<TFixedPointSet,TMovingImage>
     {
     itkExceptionMacro( << "Fixed image has not been assigned" );
     }
-
-  const unsigned int dimension = FixedPointSetDimension;
 
   m_NumberOfPixelsCounted = 0;
   MeasureType measure = NumericTraits< MeasureType >::Zero;

@@ -92,6 +92,12 @@ int itkBrains2MaskTest(int ac, char *av[])
   itk::ImageIOBase::Pointer io;
   io = itk::Brains2MaskImageIO::New();
 
+  if(ac < 2)
+    {
+    std::cout << "Must specify directory containing Brains2Test.mask"
+              << std::endl;
+    return -1;
+    }
   std::string fileName(av[1]);
   fileName = fileName + "/Brains2Test.mask";
 

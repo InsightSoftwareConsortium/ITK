@@ -65,7 +65,7 @@ int itkNeighborhoodOperatorTest(int, char* [] )
   a.CreateOperator();
   a.Print(std::cout);
 
-  int i;
+  unsigned int i;
   
   println("Testing SobelOperator2D");
   itk::SobelOperator<float, 2, vnl_vector<float> > c;

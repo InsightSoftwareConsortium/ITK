@@ -228,7 +228,7 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
     inimage=true;
     for (unsigned int dd=0; dd<ImageDimension; dd++)
     {
-      if ( index[dd] < 0 || index[dd] > imagesize[dd]-1 ) inimage=false;
+      if ( index[dd] < 0 || index[dd] > static_cast<typename IndexType::IndexValueType>(imagesize[dd]-1) ) inimage=false;
     }
     if (inimage)
     {
@@ -308,7 +308,7 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
     float d=0.0;
     for (unsigned int dd=0; dd<ImageDimension; dd++)
     {
-      if ( index[dd] < 0 || index[dd] > imagesize[dd]-1 ) inimage=false;
+      if ( index[dd] < 0 || index[dd] > static_cast<typename IndexType::IndexValueType>(imagesize[dd]-1) ) inimage=false;
       d+=(index[dd]-oindex[dd])*(index[dd]-oindex[dd]);
     }
     
@@ -391,7 +391,7 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
     float d=0.0;
     for (unsigned int dd=0; dd<ImageDimension; dd++)
     {
-      if ( index[dd] < 0 || index[dd] > imagesize[dd]-1 ) inimage=false;
+      if ( index[dd] < 0 || index[dd] > static_cast<typename IndexType::IndexValueType>(imagesize[dd]-1) ) inimage=false;
       d+=(index[dd]-oindex[dd])*(index[dd]-oindex[dd]);
     }
     if (inimage  && sqrt(d) <= 1.0)
@@ -569,7 +569,7 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 // end where we may switch fixed and moving
 
 // this can also be stored away
-      for (int i=0; i<ImageDimension;i++)
+      for (unsigned int i=0; i<ImageDimension;i++)
       derivative[i]+= ( fixedGradientsB[bsamples][i] - fixedGradientsA[asamples][i] ) * weight;
 
       } // end of sample A loop
@@ -1102,7 +1102,7 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
     inimage=true;
     for (unsigned int dd=0; dd<ImageDimension; dd++)
     {
-      if ( index[dd] < 0 || index[dd] > imagesize[dd]-1 ) inimage=false;
+      if ( index[dd] < 0 || index[dd] > static_cast<typename IndexType::IndexValueType>(imagesize[dd]-1) ) inimage=false;
     }
     if (inimage)
     {
@@ -1174,7 +1174,7 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
     float d=0.0;
     for (unsigned int dd=0; dd<ImageDimension; dd++)
     {
-      if ( index[dd] < 0 || index[dd] > imagesize[dd]-1 ) inimage=false;
+      if ( index[dd] < 0 || index[dd] > static_cast<typename IndexType::IndexValueType>(imagesize[dd]-1) ) inimage=false;
       d+=(index[dd]-oindex[dd])*(index[dd]-oindex[dd]);
     }
     if (inimage  && sqrt(d) <= 1.0)
@@ -1357,7 +1357,7 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
 
 // this can also be stored away
-      for (int i=0; i<ImageDimension;i++)
+      for (unsigned int i=0; i<ImageDimension;i++)
       {
         invderivative[i]+= ( movingGradientsB[bsamples][i] - movingGradientsA[asamples][i] ) * invweight; 
         derivative[i]+= ( fixedGradientsB[bsamples][i] - fixedGradientsA[asamples][i] ) * weight;

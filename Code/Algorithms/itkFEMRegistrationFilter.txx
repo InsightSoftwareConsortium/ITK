@@ -1934,7 +1934,7 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::FindBracketingTriplet(Solv
   Float Tiny=1.e-20;
   
   Float ax, bx, cx;
-  ax=0.0; bx=1.; cx;
+  ax=0.0; bx=1.;
   Float fc;
   Float fa=fabs(EvaluateResidual(mySolver, ax));
   Float fb=fabs(EvaluateResidual(mySolver, bx));

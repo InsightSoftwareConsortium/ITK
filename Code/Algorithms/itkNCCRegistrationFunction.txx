@@ -168,7 +168,7 @@ NCCRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
     bool inimage=true;
     for (unsigned int dd=0; dd<ImageDimension; dd++)
     {
-      if ( index[dd] < 0 || index[dd] > imagesize[dd]-1 ) inimage=false;
+      if ( index[dd] < 0 || index[dd] > static_cast<typename IndexType::IndexValueType>(imagesize[dd]-1) ) inimage=false;
     }
     
     if (inimage)
