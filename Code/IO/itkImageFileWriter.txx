@@ -136,7 +136,7 @@ ImageFileWriter<TInputImage>
     m_ImageIO->SetSpacing(i,spacing[i]);
     m_ImageIO->SetOrigin(i,origin[i]);
     }
-
+  itkDebugMacro( <<"Region to write = " << ioRegion );
   this->Write(ioRegion);        
 }
 
@@ -243,14 +243,15 @@ ImageFileWriter<TInputImage>
 {
   const InputImageType * input = this->GetInput();
 
-  itkDebugMacro(<<"Writing file" << m_FileName);
+  itkDebugMacro(<<"Writing file: " << m_FileName);
   
   // Make sure that the image is the right type and no more than 
   // four components.
   typedef typename InputImageType::PixelType ScalarType;
 
   // Set the pixel and component type; the number of components.
-  m_ImageIO->SetPixelType(typeid(ScalarType));  
+  const int ret =  m_ImageIO->SetPixelType(typeid(ScalarType));  
+  itkDebugMacro(<<" PixelType is supported: " << ret );
 
   // Setup the image IO for writing.
   //
