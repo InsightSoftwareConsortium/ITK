@@ -74,11 +74,11 @@ NormalizedCorrelationPointSetToImageMetric<TTarget,TMapper>
   double ReferenceValue;
   double TargetValue;
 
-  typedef  typename  TargetType::PointsContainerPointer     
-                                              PointsContainerPointerType;
+  typedef  typename  TargetType::PointsContainerConstPointer     
+                                              PointsContainerConstPointerType;
 
-  typedef  typename  TargetType::PointDataContainerPointer 
-                                              PointsDataContainerPointerType;
+  typedef  typename  TargetType::PointDataContainerConstPointer 
+                                              PointsDataContainerConstPointerType;
 
   typedef  typename  TargetType::PointsContainer     
                                               PointsContainerType;
@@ -87,13 +87,13 @@ NormalizedCorrelationPointSetToImageMetric<TTarget,TMapper>
                                               PointsDataContainerType;
 
 
-  typename  PointsContainerType::Iterator       pt;
-  typename  PointsDataContainerType::Iterator   vl;
+  typename  PointsContainerType::ConstIterator       pt;
+  typename  PointsDataContainerType::ConstIterator   vl;
 
   TargetConstPointer target = Superclass::GetTarget();
 
-  PointsContainerPointerType       points = target->GetPoints();
-  PointsDataContainerPointerType   data   = target->GetPointData();
+  PointsContainerConstPointerType       points = target->GetPoints();
+  PointsDataContainerConstPointerType   data   = target->GetPointData();
 
   pt = points->Begin();
   vl = data->Begin();
