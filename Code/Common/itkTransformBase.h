@@ -70,7 +70,7 @@ public:
   virtual void SetFixedParameters( const ParametersType & ) = 0;
 
   /** Get the fixed parameters. */
-  virtual const ParametersType& GetFixedParameters( ) const = 0;
+  virtual const ParametersType& GetFixedParameters( ) = 0;
 
   /** Generate a platform independant name */
   virtual std::string GetTransformTypeAsString() const = 0;

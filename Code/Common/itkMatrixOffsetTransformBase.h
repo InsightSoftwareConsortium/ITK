@@ -274,7 +274,7 @@ public:
   virtual void SetFixedParameters( const ParametersType & );
 
   /** Get the Fixed Parameters. */
-  virtual const ParametersType& GetFixedParameters(void) const;
+  virtual const ParametersType& GetFixedParameters(void);
 
 
   /** Compose with another MatrixOffsetTransformBase

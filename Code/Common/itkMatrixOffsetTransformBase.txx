@@ -323,12 +323,12 @@ const typename MatrixOffsetTransformBase<TScalarType,
                                      NInputDimensions,
                                      NOutputDimensions>::ParametersType &
 MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
-  ::GetFixedParameters(void) const
+  ::GetFixedParameters(void)
 {
   this->m_FixedParameters.SetSize ( NInputDimensions );
   for ( unsigned int i = 0; i < NInputDimensions; i++ )
     {
-    this->m_FixedParameters[i] = m_Center[i];
+    this->m_FixedParameters[i] = this->m_Center[i];
     }
   return this->m_FixedParameters;
 }
