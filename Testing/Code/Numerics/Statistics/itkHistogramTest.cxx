@@ -119,6 +119,89 @@ int itkHistogramTest(int, char* [] )
     }
 
 
+  // Histogram with SparseFrequencyContainer
+  typedef itk::Statistics::Histogram< MeasurementType, 3, 
+    itk::Statistics::SparseFrequencyContainer< float > > SparseHistogramType ;
+  SparseHistogramType::Pointer sparseHistogram = SparseHistogramType::New() ;
+
+  // initializes a 64 x 64 x 64 histogram with equal size interval
+  sparseHistogram->Initialize(size, lowerBound, upperBound ) ;
+  interval = (upperBound[0] - lowerBound[0]) / 
+    static_cast< SparseHistogramType::MeasurementType >(size[0]) ;
+
+  measurements.Fill(512.0) ;
+  index.Fill(32) ;
+  if (index != sparseHistogram->GetIndex(measurements))
+    {
+    pass = false ;
+    whereFail = "Sparse Histogram: GetIndex(MeasurementVectorType&)" ;
+    }
+  
+  id = sparseHistogram->GetInstanceIdentifier(index);
+  if (index != sparseHistogram->GetIndex(id))
+    {
+    pass = false ;
+    whereFail = "Sparse Histogram: GetIndex(InstanceIdentifier&)" ;
+    }
+
+  index.Fill(100) ;
+  
+  if (!sparseHistogram->IsIndexOutOfBounds(index))
+    {
+    pass = false ;
+    whereFail = "Sparse Histogram: IsIndexOutOfBound(IndexType)" ;
+    }
+
+  if (totalSize != sparseHistogram->Size())
+    {
+    pass = false ;
+    whereFail = "Sparse Histogram: Size()" ;
+    }
+
+  if (size != sparseHistogram->GetSize())
+    {
+    pass = false ;
+    whereFail = "Sparse Histogram: GetSize()" ;
+    }
+
+  if ((lowerBound[0] + interval * 31) != sparseHistogram->GetBinMin(0,31))
+    {
+    pass = false ;
+    whereFail = "Sparse Histogram: GetBinMin(Dimension, nthBin)" ;
+    }
+
+  if ((lowerBound[0] + interval * 32) != sparseHistogram->GetBinMax(0,31))
+    {
+    pass = false ;
+    whereFail = "Sparse Histogram: GetBinMax(Dimension, nthBin)" ;
+    }
+
+  for (id = 0 ; 
+       id < static_cast< SparseHistogramType::InstanceIdentifier >(totalSize) ;
+       id++)
+    {
+    sparseHistogram->SetFrequency(id, 1) ;
+    sparseHistogram->IncreaseFrequency(id, 1) ;
+    if (sparseHistogram->GetFrequency(id) != 2)
+      {
+      pass = false ;
+      whereFail = 
+        "SetFrequency(InstanceIdentifier, 1) + IncreaseFrequency(InstanceIdentifier, 1) + GetFrequency(InstanceIdentifier)" ;
+      }
+    }
+
+  if (sparseHistogram->Quantile(0, 0.5) != 512.0)
+    {
+    pass = false ;
+    whereFail = "Sparse Histogram: Quantile(Dimension, percent)" ;
+    }
+
+  if( !pass )
+    {
+    std::cout << "Test failed in" << whereFail << "." << std::endl;
+    return EXIT_FAILURE;
+    }
+
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
 
