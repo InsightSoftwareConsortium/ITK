@@ -158,6 +158,7 @@ genparamfile <- function(inputFile, outputFile, noCases, mutationScale)
     classStatTable <- read.table(inputFile, header=TRUE) ;
     
     noMeasurements = countmeasurements(classStatTable) ;
+    print(noMeasurements) ;
                                         #generates parameters based on the class statisics
                                         # and the parameter mutation scales.
     if ( file.access(outputFile, mode=0) == -1 )
