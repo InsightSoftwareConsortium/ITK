@@ -494,13 +494,10 @@ int GetMacAddrSys ( unsigned char *addr )
 #ifdef __sun
    //The POSIX version is broken anyway on Solaris, plus would require full
    //root power
-   int                     i;
    struct  arpreq          parpreq;
-   struct  sockaddr_in     sa, *psa;
-   struct  in_addr         inaddr;
+   struct  sockaddr_in     *psa;
    struct  hostent         *phost;
    char                    hostname[MAXHOSTNAMELEN];
-   unsigned char           *ptr;
    char                    **paddrs;
    int                     sock, status=0;
 
