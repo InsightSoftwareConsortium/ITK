@@ -61,6 +61,10 @@ namespace _cable_
     //Unsigned char to/from unsigned short 2D
     ITK_WRAP_OBJECT2(ImageToImageFilter, image::US2, image::UC2, itkImageToImageFilterUS2UC2);
     ITK_WRAP_OBJECT2(ImageToImageFilter, image::UC2, image::US2, itkImageToImageFilterUC2US2);
+
+    // Image to Image of vectors
+    ITK_WRAP_OBJECT2(ImageToImageFilter, image::F2 , image::VF2 ,itkImageToImageFilterF2VF2 );
+    ITK_WRAP_OBJECT2(ImageToImageFilter, image::US2, image::VF2, itkImageToImageFilterUS2VF2);
   }
 }
 #endif

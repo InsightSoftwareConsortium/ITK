@@ -35,6 +35,8 @@ namespace _cable_
     ITK_WRAP_OBJECT2(FiniteDifferenceImageFilter, image::SC2, image::SC2, itkFiniteDifferenceImageFilterSC2SC2);
     ITK_WRAP_OBJECT2(FiniteDifferenceImageFilter, image::SS2, image::SS2, itkFiniteDifferenceImageFilterSS2SS2);
     ITK_WRAP_OBJECT2(FiniteDifferenceImageFilter, image::SI2, image::SI2, itkFiniteDifferenceImageFilterSI2SI2);
+    ITK_WRAP_OBJECT2(FiniteDifferenceImageFilter, image::F2 , image::VF2 ,itkFiniteDifferenceImageFilterF2VF2 );
+    ITK_WRAP_OBJECT2(FiniteDifferenceImageFilter, image::US2, image::VF2, itkFiniteDifferenceImageFilterUS2VF2);
 
     //===========3D Wrapped Filters==============
     ITK_WRAP_OBJECT2(FiniteDifferenceImageFilter, image::F3 , image::F3 , itkFiniteDifferenceImageFilterF3F3  );
@@ -45,6 +47,8 @@ namespace _cable_
     ITK_WRAP_OBJECT2(FiniteDifferenceImageFilter, image::SC3, image::SC3, itkFiniteDifferenceImageFilterSC3SC3);
     ITK_WRAP_OBJECT2(FiniteDifferenceImageFilter, image::SS3, image::SS3, itkFiniteDifferenceImageFilterSS3SS3);
     ITK_WRAP_OBJECT2(FiniteDifferenceImageFilter, image::SI3, image::SI3, itkFiniteDifferenceImageFilterSI3SI3);
+    ITK_WRAP_OBJECT2(FiniteDifferenceImageFilter, image::F3 , image::VF3 ,itkFiniteDifferenceImageFilterF3VF3);
+    ITK_WRAP_OBJECT2(FiniteDifferenceImageFilter, image::US3, image::VF3, itkFiniteDifferenceImageFilterUS3VF3);
   }
 }
 #endif
