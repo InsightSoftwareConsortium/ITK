@@ -49,6 +49,9 @@ TARGET_LINK_LIBRARIES(DiscreteGaussianImageFilter ITKCommon ITKBasicFilters ITKI
 ADD_EXECUTABLE(SmoothingRecursiveGaussianImageFilter SmoothingRecursiveGaussianImageFilter.cxx )
 TARGET_LINK_LIBRARIES(SmoothingRecursiveGaussianImageFilter ITKCommon ITKBasicFilters ITKIO)
 
+ADD_EXECUTABLE(SmoothingRecursiveGaussianImageFilter2 SmoothingRecursiveGaussianImageFilter2.cxx )
+TARGET_LINK_LIBRARIES(SmoothingRecursiveGaussianImageFilter2 ITKCommon ITKBasicFilters ITKIO)
+
 ADD_EXECUTABLE(BinomialBlurImageFilter BinomialBlurImageFilter.cxx )
 TARGET_LINK_LIBRARIES(BinomialBlurImageFilter ITKCommon ITKBasicFilters ITKIO)
 
@@ -250,6 +253,15 @@ ADD_TEST( SmoothingRecursiveGaussianImageFilterTest ${FILTERING_EXAMPLES}
   SmoothingRecursiveGaussianImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/SmoothingRecursiveGaussianImageFilter.png
+        3
+)
+
+ADD_TEST( SmoothingRecursiveGaussianImageFilterTest ${FILTERING_EXAMPLES}
+  --compare ${BASELINE}/SmoothingRecursiveGaussianImageFilter2.png
+            ${TEMP}/SmoothingRecursiveGaussianImageFilter2.png
+  SmoothingRecursiveGaussianImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${TEMP}/SmoothingRecursiveGaussianImageFilter2.png
         3
 )
 
