@@ -53,10 +53,7 @@ public:
   
   class Argument;
   CvQualifiedType GetObjectType(Tcl_Obj* obj) const;
-  void GetArgument(Tcl_Obj* obj, Argument& argument) const;
-  bool InstanceExists(const String& name) const;
-  void* GetInstanceObject(const String& name) const;
-  CvQualifiedType GetInstanceType(const String& name) const;
+  Argument GetObjectArgument(Tcl_Obj* obj) const;
   ConversionFunction GetConversionFunction(const CvQualifiedType& from,
                                            const Type* to) const;
   
@@ -157,6 +154,8 @@ class _wrap_EXPORT WrapperBase::Argument
 {
 public:
   Argument();
+  Argument(const Argument&);
+  Argument& operator=(const Argument&);
 
   void* GetValue() const;
   const CvQualifiedType& GetType() const;
@@ -168,6 +167,9 @@ public:
   void SetToPointer(void* v, const CvQualifiedType& pointerType);
 
 private:
+  enum ArgumentId { Uninitialized_id=0, Object_id, bool_id, int_id,
+                    long_id, double_id, Pointer_id };                      
+  
   /**
    * The pointer to the actual object.
    */
@@ -177,6 +179,11 @@ private:
    * The type of the object.
    */
   CvQualifiedType m_Type;
+
+  /**
+   * Which type of Argument this is.
+   */
+  ArgumentId m_ArgumentId;
   
   /**
    * If a temporary is needed to hold the value extracted from the
@@ -201,15 +208,18 @@ private:
 class _wrap_EXPORT WrapperBase::MethodBase
 {
 public:
-  typedef std::vector<const Type*> ArgumentTypes;
+  typedef std::vector<const Type*> ParameterTypes;
   MethodBase(const String& name,
              const CvQualifiedType& implicit,
              const CvQualifiedType& returnType,
-             const ArgumentTypes& argumentTypes);
+             const ParameterTypes& parameterTypes);
   virtual ~MethodBase();
 
   const String& GetName() const;
   String GetMethodPrototype() const;
+  unsigned long GetNumberOfParameters() const;
+  ParameterTypes::const_iterator ParametersBegin() const;
+  ParameterTypes::const_iterator ParametersEnd() const;
   
   /**
    * This is called by the overload resolution algorithm when this
@@ -234,14 +244,10 @@ protected:
   CvQualifiedType m_ReturnType;
   
   /**
-   * The argument types of the method.  These may be needed for
+   * The parameter types of the method.  These may be needed for
    * overload resolution.
    */
-  ArgumentTypes m_ArgumentTypes;
-  
-  // We want the WrapperBase to be able to look at our members for
-  // doing overload resolution.
-  friend WrapperBase;
+  ParameterTypes m_ParameterTypes;
 };
 
 
