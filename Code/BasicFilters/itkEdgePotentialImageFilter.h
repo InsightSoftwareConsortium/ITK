@@ -22,7 +22,7 @@
 namespace itk
 {
   
-/** \class EdgePotentialmageFilter
+/** \class EdgePotentialImageFilter
  *
  * \brief Computes the edge potential of an image from the image gradient.
  *
