@@ -12,6 +12,7 @@ void RegisterTests()
 {
   vnl_sample_reseed(8775070);
   REGISTER_TEST(ImageRegistration13Test);
+  REGISTER_TEST(ImageRegistration14Test);
 }
 
 #undef main
@@ -19,4 +20,10 @@ void RegisterTests()
 #undef CommandIterationUpdate
 #define CommandIterationUpdate CommandIterationUpdate5
 #include "ImageRegistration13.cxx"
+
+#undef main
+#define main  ImageRegistration14Test
+#undef CommandIterationUpdate
+#define CommandIterationUpdate CommandIterationUpdate6
+#include "ImageRegistration14.cxx"
 
