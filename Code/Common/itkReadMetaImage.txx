@@ -56,7 +56,7 @@ ReadMetaImage<TOutputImage>
   
   typename TOutputImage::Pointer m_OutputImage( GetOutput() );
 
-  m_OutputImage->SetSpacing( m_MetaImage.ElemSpacing() );
+  m_OutputImage->SetSpacing( m_MetaImage.ElemSize() );
 
   unsigned long dimSize[ TOutputImage::ImageDimension ];
 
