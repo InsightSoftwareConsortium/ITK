@@ -41,7 +41,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkMultiThreader.h"
 #include "itkObjectFactory.h"
+#ifndef _WIN32
 #include <unistd.h>
+#endif
 
 // These are the includes necessary for multithreaded rendering on an SGI
 // using the sproc() call
