@@ -95,18 +95,18 @@ int main()
   image3D->Allocate();
   imageND->Allocate();
 
-  itk::ImageRegionIterator<float, 2> it2D(image2D,
+  itk::ImageRegionIterator<ImageType2D> it2D(image2D,
                                           image2D->GetRequestedRegion());
-  itk::ImageRegionIterator<float, 3> it3D(image3D,
+  itk::ImageRegionIterator<ImageType3D> it3D(image3D,
                                           image3D->GetRequestedRegion());
-  itk::ImageRegionIterator<float, 4> itND(imageND,
+  itk::ImageRegionIterator<ImageTypeND> itND(imageND,
                                           imageND->GetRequestedRegion());
 
   println("Initializing some images");
   
-  for (it2D = it2D.Begin(); it2D != it2D.End(); ++it2D) *it2D = 1.0f;
-  for (it3D = it3D.Begin(); it3D != it3D.End(); ++it3D) *it3D = 1.0f;
-  for (itND = itND.Begin(); itND != itND.End(); ++itND) *itND = 1.0f;
+  for (it2D = it2D.Begin(); it2D != it2D.End(); ++it2D) it2D.Set( 1.0f );
+  for (it3D = it3D.Begin(); it3D != it3D.End(); ++it3D) it3D.Set( 1.0f );
+  for (itND = itND.Begin(); itND != itND.End(); ++itND) itND.Set( 1.0f );
 
   // Set up some neighborhood iterators
   println("Setting up some neighborhood iterators");

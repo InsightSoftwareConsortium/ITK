@@ -7,7 +7,6 @@ test_matrix
 test_matrix_fixed 
 test_rnpoly_roots 
 test_sparse_matrix 
-test_qsvd 
 test_sample 
 test_functions 
 test_numeric_limits 

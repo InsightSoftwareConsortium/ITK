@@ -123,12 +123,15 @@ int main()
 
   // ImageRegionIterator
   start = clock();
-  itk::ImageRegionIterator<itk::Scalar<unsigned short>, 3> it(o3, region);
+  itk::ImageRegionIterator<ScalarImage> it(o3, region);
 
+  itk::Scalar<unsigned short> scalar;
+  scalar = 5;
+  
   i = 0;
   for ( ; !it.IsAtEnd(); ++it)
     {
-    *it = 5;
+    it.Set( scalar );
     ++i;
     }
   end = clock();
@@ -150,7 +153,7 @@ int main()
   i = 0;
   for ( it2.Begin(); !it2.IsAtEnd(); ++it2)
     {
-//    it2 = itk::Scalar<unsigned short> (5);
+    it2.Set( scalar );
     ++i;
     }
   end = clock();

@@ -65,8 +65,7 @@ int main()
 
   enum { imageDimension = ImageType::ImageDimension };
   typedef
-    itk::ImageRegionIterator< ImagePixelType, imageDimension> 
-	  ImageIterator;
+    itk::ImageRegionIterator< ImageType > ImageIterator;
 
   ImageIterator 
 	inIt( image, image->GetBufferedRegion() );
@@ -89,57 +88,57 @@ int main()
   //--------------------------------------------------------------------------
   // Fill the row no. 1
   //--------------------------------------------------------------------------
-  *inIt = 03; ++inIt; 
-  *inIt = 03; ++inIt;
-  *inIt = 30; ++inIt; 
-  *inIt = 30; ++inIt; 
-  *inIt = 20; ++inIt; 
-  *inIt = 20; ++inIt;
+  inIt.Set( 03 ); ++inIt; 
+  inIt.Set( 03 ); ++inIt;
+  inIt.Set( 30 ); ++inIt; 
+  inIt.Set( 30 ); ++inIt; 
+  inIt.Set( 20 ); ++inIt; 
+  inIt.Set( 20 ); ++inIt;
   //--------------------------------------------------------------------------
   // Fill the row no. 2
   //--------------------------------------------------------------------------
-  *inIt = 03; ++inIt; 
-  *inIt = 03; ++inIt;
-  *inIt = 30; ++inIt; 
-  *inIt = 30; ++inIt; 
-  *inIt = 20; ++inIt; 
-  *inIt = 20; ++inIt;
+  inIt.Set( 03 ); ++inIt; 
+  inIt.Set( 03 ); ++inIt;
+  inIt.Set( 30 ); ++inIt; 
+  inIt.Set( 30 ); ++inIt; 
+  inIt.Set( 20 ); ++inIt; 
+  inIt.Set( 20 ); ++inIt;
   //--------------------------------------------------------------------------
   // Fill the row no. 3
   //--------------------------------------------------------------------------
-  *inIt = 04; ++inIt; 
-  *inIt = 04; ++inIt;
-  *inIt = 40; ++inIt; 
-  *inIt = 40; ++inIt; 
-  *inIt = 40; ++inIt; 
-  *inIt = 40; ++inIt;
+  inIt.Set( 04 ); ++inIt; 
+  inIt.Set( 04 ); ++inIt;
+  inIt.Set( 40 ); ++inIt; 
+  inIt.Set( 40 ); ++inIt; 
+  inIt.Set( 40 ); ++inIt; 
+  inIt.Set( 40 ); ++inIt;
   //--------------------------------------------------------------------------
   // Fill the row no. 4
   //--------------------------------------------------------------------------
-  *inIt = 04; ++inIt; 
-  *inIt = 04; ++inIt;
-  *inIt = 40; ++inIt; 
-  *inIt = 40; ++inIt; 
-  *inIt = 40; ++inIt; 
-  *inIt = 40; ++inIt;
+  inIt.Set( 04 ); ++inIt; 
+  inIt.Set( 04 ); ++inIt;
+  inIt.Set( 40 ); ++inIt; 
+  inIt.Set( 40 ); ++inIt; 
+  inIt.Set( 40 ); ++inIt; 
+  inIt.Set( 40 ); ++inIt;
   //--------------------------------------------------------------------------
   // Fill the row no. 5
   //--------------------------------------------------------------------------
-  *inIt = 03; ++inIt; 
-  *inIt = 03; ++inIt;
-  *inIt = 02; ++inIt; 
-  *inIt = 02; ++inIt; 
-  *inIt = 04; ++inIt; 
-  *inIt = 04; ++inIt;
+  inIt.Set( 03 ); ++inIt; 
+  inIt.Set( 03 ); ++inIt;
+  inIt.Set( 02 ); ++inIt; 
+  inIt.Set( 02 ); ++inIt; 
+  inIt.Set( 04 ); ++inIt; 
+  inIt.Set( 04 ); ++inIt;
   //--------------------------------------------------------------------------
   // Fill the row no. 6
   //--------------------------------------------------------------------------
-  *inIt = 03; ++inIt; 
-  *inIt = 03; ++inIt;
-  *inIt = 02; ++inIt; 
-  *inIt = 02; ++inIt; 
-  *inIt = 04; ++inIt; 
-  *inIt = 04; ++inIt;
+  inIt.Set( 03 ); ++inIt; 
+  inIt.Set( 03 ); ++inIt;
+  inIt.Set( 02 ); ++inIt; 
+  inIt.Set( 02 ); ++inIt; 
+  inIt.Set( 04 ); ++inIt; 
+  inIt.Set( 04 ); ++inIt;
   //--------------------------------------------------------------------------
   // Test code for the Region Grow algorithm
   //----------------------------------------------------------------------
@@ -194,8 +193,7 @@ int main()
 
   enum { labelledImageDimension = LabelledImageType::ImageDimension };
   typedef
-    itk::ImageRegionIterator< LabelledImagePixelType, labelledImageDimension> 
-	  LabelImageIterator;
+    itk::ImageRegionIterator< LabelledImageType > LabelImageIterator;
 
   LabelImageIterator 
 	labelIt( labelledImage, labelledImage->GetBufferedRegion() );
@@ -210,7 +208,7 @@ int main()
   {
     pixelLabel = 
 	    (unsigned short)  
-        itk::ScalarTraits<LabelledImagePixelType>::GetScalar(*labelIt);
+        itk::ScalarTraits<LabelledImagePixelType>::GetScalar( labelIt.Get() );
 
     if(pixelLabel > maxpixelLabel)
 	    maxpixelLabel = pixelLabel;
@@ -246,7 +244,7 @@ int main()
     for(int k=0; k<IMGWIDTH;k++)
 	  {
 	    pixelLabel = 
-	      (unsigned short)  itk::ScalarTraits<LabelledImagePixelType>::GetScalar(*labelIt);
+	      (unsigned short)  itk::ScalarTraits<LabelledImagePixelType>::GetScalar(labelIt.Get());
 	    std::cout << pixelLabel;
 	    ++labelIt;
 	  }//end row

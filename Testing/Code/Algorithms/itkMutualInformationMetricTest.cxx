@@ -62,9 +62,9 @@ int main()
   imgTarget->Allocate();
 
   // Fill images with a 2D gaussian
-  typedef  itk::ImageRegionIterator<ReferenceType::PixelType,2>
+  typedef  itk::ImageRegionIterator<ReferenceType>
     ReferenceIteratorType;
-  typedef  itk::ImageRegionIterator<TargetType::PixelType,2>
+  typedef  itk::ImageRegionIterator<TargetType>
     TargetIteratorType;
 
   itk::Point<double,2> center;
@@ -92,7 +92,7 @@ int main()
 	  d += displacement;
 	  const double x = d[0];
 	  const double y = d[1];
-    *ri = (unsigned char) ( 200.0 * exp( - ( x*x + y*y )/(s*s) ) );
+    ri.Set( (unsigned char) ( 200.0 * exp( - ( x*x + y*y )/(s*s) ) ) );
     ++ri;
   }
 
@@ -105,7 +105,7 @@ int main()
 	d = p-center;
 	const double x = d[0];
 	const double y = d[1];
-    *ti = (unsigned char) ( 200.0 * exp( - ( x*x + y*y )/(s*s) ) );
+    ti.Set( (unsigned char) ( 200.0 * exp( - ( x*x + y*y )/(s*s) ) ) );
     ++ti;
   }
 

@@ -26,7 +26,7 @@ See COPYRIGHT.txt for copyright details.
 // "BasisIndex" API to move an iterator. Note the type of iterator passed
 // to this routine is converted to an ImageBufferIterator.
 template <typename T, unsigned int VImageDimension>
-int IterateOverRegion( itk::ImageBufferIterator<T, VImageDimension> it,
+int IterateOverRegion( itk::ImageBufferIterator<itk::PhysicalImage<T, VImageDimension> > it,
                        unsigned int dim = VImageDimension-1)
 {
   T value;
@@ -34,7 +34,7 @@ int IterateOverRegion( itk::ImageBufferIterator<T, VImageDimension> it,
   
   if (dim > 0)
     {
-    itk::ImageBufferIterator<T, VImageDimension>::IndexType basisIndex;
+    itk::ImageBufferIterator<itk::PhysicalImage<T, VImageDimension> >::IndexType basisIndex;
 
     try
       {
@@ -74,7 +74,7 @@ int IterateOverRegion( itk::ImageBufferIterator<T, VImageDimension> it,
     for (j=0; j < it.GetRegion().GetSize()[dim]; j++)
       {
       std::cout << "IterateOverImage(): ";
-      itk::ImageIterator<T, VImageDimension>::IndexType index=it.GetIndex();
+      itk::ImageIterator<itk::PhysicalImage<T, VImageDimension> >::IndexType index=it.GetIndex();
       for (unsigned int ii=0; ii < index.GetIndexDimension(); ii++)
         {
         std::cout << index[ii] << " ";
@@ -82,7 +82,7 @@ int IterateOverRegion( itk::ImageBufferIterator<T, VImageDimension> it,
       std::cout << std::endl;
       
       // set the pixel using iterator notation
-      *it = value;
+      it.Set( value );
 
       // Increment the iterator
       try
@@ -108,7 +108,7 @@ int IterateOverRegion( itk::ImageBufferIterator<T, VImageDimension> it,
 // "Increment" API to move an iterator. Note the type of iterator passed
 // to this routine is converted to an ImageBufferIterator.
 template <typename T, unsigned int VImageDimension>
-int IterateOverRegion2( itk::ImageBufferIterator<T, VImageDimension> it,
+int IterateOverRegion2( itk::ImageBufferIterator<itk::PhysicalImage<T, VImageDimension> > it,
                        unsigned int dim = VImageDimension-1)
 {
   T value;
@@ -130,7 +130,7 @@ int IterateOverRegion2( itk::ImageBufferIterator<T, VImageDimension> it,
     for (j=0; j < it.GetRegion().GetSize()[dim]; j++)
       {
       std::cout << "IterateOverRegion2(): ";
-      itk::ImageIterator<T, VImageDimension>::IndexType index=it.GetIndex();
+      itk::ImageIterator<itk::PhysicalImage<T, VImageDimension> >::IndexType index=it.GetIndex();
       for (unsigned int ii=0; ii < index.GetIndexDimension(); ii++)
         {
         std::cout << index[ii] << " ";
@@ -138,7 +138,7 @@ int IterateOverRegion2( itk::ImageBufferIterator<T, VImageDimension> it,
       std::cout << std::endl;
       
       // set the pixel using iterator notation
-      *it = value;
+      it.Set( value );
 
       // Increment the iterator.
       // Can't use ++it since operator++ will wrap around the region.
@@ -212,10 +212,10 @@ int main()
   TestConstPixelAccess(*o3, *o3);
 
   
-  itk::ImageIterator<itk::Vector<unsigned short, 5>, 3> standardIt(o3, region);
+  itk::ImageIterator<itk::PhysicalImage<itk::Vector<unsigned short, 5>, 3> > standardIt(o3, region);
 
-  itk::ImageBufferIterator<itk::Vector<unsigned short, 5>, 3> bufferIt = standardIt;
-  itk::ImageBufferIterator<itk::Vector<unsigned short, 5>, 3> bufferIt2(standardIt);
+  itk::ImageBufferIterator<itk::PhysicalImage<itk::Vector<unsigned short, 5>, 3> > bufferIt = standardIt;
+  itk::ImageBufferIterator<itk::PhysicalImage<itk::Vector<unsigned short, 5>, 3> > bufferIt2(standardIt);
 
   // Call a recursive routine that will loop over an N-dimensional region.
   // We are forcing a conversion from a ImageIterator to a ImageBufferIterator.
@@ -226,7 +226,7 @@ int main()
   IterateOverRegion2<itk::Vector<unsigned short, 5>, 3>( standardIt );
   
   // Iterate over a region using a simple for loop
-  itk::ImageRegionIterator<itk::Vector<unsigned short, 5>, 3> it(o3, region);
+  itk::ImageRegionIterator<itk::PhysicalImage<itk::Vector<unsigned short, 5>, 3> > it(o3, region);
 
   for ( ; !it.IsAtEnd(); ++it)
     {

@@ -37,12 +37,14 @@ int main()
   if2->SetBufferedRegion( region );
   if2->Allocate();
 
-  itk::ImageRegionIterator<itk::Scalar<short>, 2> iterator(if2, region);
+  itk::ImageRegionIterator<ShortImage> iterator(if2, region);
 
   short i=0;
+  itk::Scalar<short> scalar;
   for (; !iterator.IsAtEnd(); ++iterator, ++i)
     {
-    *iterator = i;
+    scalar = i;
+    iterator.Set( scalar );
     }
   
   // Create a filter
@@ -59,14 +61,15 @@ int main()
   ShortImage::RegionType requestedRegion;
   requestedRegion = shrink->GetOutput()->GetRequestedRegion();
   
-  itk::ImageRegionIterator<itk::Scalar<short>, 2>
+  itk::ImageRegionIterator<ShortImage>
     iterator2(shrink->GetOutput(), requestedRegion);
 
   bool passed = true;
   for (; !iterator2.IsAtEnd(); ++iterator2)
     {
-    std::cout << "Pixel " << iterator2.GetIndex() << " = " << *iterator2 << std::endl;
-    if ( *iterator2 != ((shrink->GetShrinkFactor() * iterator2.GetIndex()[0])
+    std::cout << "Pixel " << iterator2.GetIndex() << " = " << iterator2.Get()
+              << std::endl;
+    if ( iterator2.Get() != ((shrink->GetShrinkFactor() * iterator2.GetIndex()[0])
                         + (region.GetSize()[0]
                            * shrink->GetShrinkFactor() * iterator2.GetIndex()[1])))
       {

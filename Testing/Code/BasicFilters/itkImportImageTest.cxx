@@ -16,7 +16,6 @@ See COPYRIGHT.txt for copyright details.
 #include <iostream>
 #include "itkPhysicalImage.h"
 #include "itkImageRegionIterator.h"
-#include "itkScalar.h"
 #include "itkShrinkImageFilter.h"
 #include "itkImportPhysicalImageFilter.h"
 
@@ -31,7 +30,7 @@ int main()
 
   // typdefs to simplify the syntax
   typedef itk::ImportPhysicalImageFilter<short, 2>          ImportImageFilter;
-  typedef itk::PhysicalImage<itk::Scalar<short>, 2>   ShortImage;
+  typedef itk::PhysicalImage<short, 2>   ShortImage;
     
   // Create an ImportImageFilter filter
   ImportImageFilter::Pointer import;
@@ -61,14 +60,14 @@ int main()
   ShortImage::RegionType requestedRegion;
   requestedRegion = shrink->GetOutput()->GetRequestedRegion();
   
-  itk::ImageRegionIterator<itk::Scalar<short>, 2>
+  itk::ImageRegionIterator<ShortImage>
     iterator2(shrink->GetOutput(), requestedRegion);
 
   bool passed = true;
   for (; !iterator2.IsAtEnd(); ++iterator2)
     {
-    std::cout << "Pixel " << iterator2.GetIndex() << " = " << *iterator2 << std::endl;
-    if ( *iterator2 != ((shrink->GetShrinkFactor() * iterator2.GetIndex()[0])
+    std::cout << "Pixel " << iterator2.GetIndex() << " = " << iterator2.Get() << std::endl;
+    if ( iterator2.Get() != ((shrink->GetShrinkFactor() * iterator2.GetIndex()[0])
                         + (region.GetSize()[0]
                            * shrink->GetShrinkFactor() * iterator2.GetIndex()[1])))
       {

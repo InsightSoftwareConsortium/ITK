@@ -39,12 +39,12 @@ void filln(itk::Image<float, 2> *img)
   float i, j;
   i=j=0.0f;
   
-  itk::ImageRegionIterator<float, 2> it(img, img->GetRequestedRegion());
+  itk::ImageRegionIterator<itk::Image<float, 2> > it(img, img->GetRequestedRegion());
 
   it.Begin();
   while( ! it.IsAtEnd() )
     {
-      *it = 100.0 * j + i;
+      it.Set(100.0 * j + i);
       ++it;
       i = i +1.0f;
       if ( (unsigned long)i % img->GetRequestedRegion().GetSize()[0] ==0 )
@@ -129,19 +129,19 @@ int main()
   image3D->Allocate();
   imageND->Allocate();
 
-  itk::ImageRegionIterator<float, 2> it2D(image2D,
+  itk::ImageRegionIterator<ImageType2D> it2D(image2D,
                                           image2D->GetRequestedRegion());
-  itk::ImageRegionIterator<float, 3> it3D(image3D,
+  itk::ImageRegionIterator<ImageType3D> it3D(image3D,
                                           image3D->GetRequestedRegion());
-  itk::ImageRegionIterator<float, 4> itND(imageND,
+  itk::ImageRegionIterator<ImageTypeND> itND(imageND,
                                           imageND->GetRequestedRegion());
 
   println("Initializing some images");
   
   //  for (it2D = it2D.Begin(); it2D != it2D.End(); ++it2D) *it2D = 1.0f;
   filln(image2D);
-  for (it3D = it3D.Begin(); it3D != it3D.End(); ++it3D) *it3D = 1.0f;
-  for (itND = itND.Begin(); itND != itND.End(); ++itND) *itND = 1.0f;
+  for (it3D = it3D.Begin(); it3D != it3D.End(); ++it3D) it3D.Set(1.0f);
+  for (itND = itND.Begin(); itND != itND.End(); ++itND) itND.Set(1.0f);
   
   println("Initializing smart neighborhood iterators");
   itk::Size<2> sz2;

@@ -68,7 +68,7 @@ int main()
 
   enum { VecImageDimension = VecImageType::ImageDimension };
   typedef
-    itk::ImageRegionIterator< VecPixelType, VecImageDimension> VecIterator;
+    itk::ImageRegionIterator< VecImageType > VecIterator;
 
   VecIterator outIt( vecImage, vecImage->GetBufferedRegion() );
   outIt = outIt.Begin();
@@ -78,37 +78,38 @@ int main()
   //--------------------------------------------------------------------------
 
   //Vector no. 1
-  (*outIt) = 21,9; ++outIt;
+  VecPixelType vec;
+  vec = 21,9; outIt.Set( vec ); ++outIt;
   //Vector no. 2
-  (*outIt) = 10,20; ++outIt;
+  vec = 10,20; outIt.Set( vec ); ++outIt;
   //Vector no. 3
-  (*outIt) = 8,21; ++outIt;
+  vec = 8,21; outIt.Set( vec ); ++outIt;
   //Vector no. 4
-  (*outIt) = 10,23; ++outIt;
+  vec = 10,23; outIt.Set( vec ); ++outIt;
   //Vector no. 5
-  (*outIt) = 12,21; ++outIt;
+  vec = 12,21; outIt.Set( vec ); ++outIt;
   //Vector no. 6
-  (*outIt) = 11,12; ++outIt;
+  vec = 11,12; outIt.Set( vec ); ++outIt;
   //Vector no. 7
-  (*outIt) = 15,22; ++outIt;
+  vec = 15,22; outIt.Set( vec ); ++outIt;
   //Vector no. 8
-  (*outIt) = 9,10; ++outIt;
+  vec = 9,10; outIt.Set( vec ); ++outIt;
   //Vector no. 9
-  (*outIt) = 19,10; ++outIt;
+  vec = 19,10; outIt.Set( vec ); ++outIt;
   //Vector no. 10
-  (*outIt) = 19,10; ++outIt;
+  vec = 19,10; outIt.Set( vec ); ++outIt;
   //Vector no. 11
-  (*outIt) = 21,21; ++outIt;
+  vec = 21,21; outIt.Set( vec ); ++outIt;
   //Vector no. 12
-  (*outIt) = 11,20; ++outIt;
+  vec = 11,20; outIt.Set( vec ); ++outIt;
   //Vector no. 13
-  (*outIt) = 8,18; ++outIt;
+  vec = 8,18; outIt.Set( vec ); ++outIt;
   //Vector no. 14
-  (*outIt) = 18,10; ++outIt;
+  vec = 18,10; outIt.Set( vec ); ++outIt;
   //Vector no. 15
-  (*outIt) = 22,10; ++outIt;
+  vec = 22,10; outIt.Set( vec ); ++outIt;
   //Vector no. 16
-  (*outIt) = 24,23; ++outIt;
+  vec = 24,23; outIt.Set( vec ); ++outIt;
 
   //---------------------------------------------------------------
   //Input the codebook

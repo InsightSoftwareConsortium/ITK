@@ -35,7 +35,7 @@ void AdaptorSupportedIteratorSpeed(itk::Image<float, 3> *img)
 
 void NoAdaptorSupportIteratorSpeed(itk::Image<float, 3> *img)
 {
-  itk::ImageRegionIterator<float, 3>
+  itk::ImageRegionIterator<itk::Image<float, 3> >
     it (img, img->GetRequestedRegion());
 
   it.Begin();
@@ -61,13 +61,14 @@ void AdaptorSupportedModifyScalars(itk::Image<float, 3> *img)
 
 void NoAdaptorSupportModifyScalars(itk::Image<float, 3> *img)
 {
-  itk::ImageRegionIterator<float, 3>
+  itk::ImageRegionIterator<itk::Image<float, 3> >
     it (img, img->GetRequestedRegion());
 
   it.Begin();
   while( ! it.IsAtEnd() )
     {
-      *it += 3.435f;
+      // *it += 3.435f;
+      it.Set(it.Get() + 3.435f);
       ++it;
     }
 }
@@ -112,15 +113,23 @@ void NoAdaptorSupportModifyVectors(itk::Image<itk::Vector<float, 3>, 3> *img)
   typedef itk::Vector<float, 3> VectorType;
   const unsigned int N = 3;
   unsigned int i;
+  VectorType temp_vector;
   
-  itk::ImageRegionIterator<VectorType, 3>
+  itk::ImageRegionIterator<itk::Image<VectorType, 3> >
     it (img, img->GetRequestedRegion());
   
   it.Begin();
   while( ! it.IsAtEnd() )
     {
-      for (i = 0; i<N; ++i)  (*it)[i] += 3.435f;
-       ++it;
+      temp_vector = it.Get();
+
+      for (i = 0; i<N; ++i) temp_vector[i] += 3.435f;
+
+      it.Set(temp_vector);
+      ++it;
+
+      //      for (i = 0; i<N; ++i)  (*it)[i] += 3.435f;
+      //       ++it;
     }
 }
 
@@ -131,6 +140,24 @@ void BypassAdaptorSupportModifyVectors(itk::Image<itk::Vector<float, 3>, 3> *img
   unsigned int i;
   
   itk::SimpleImageRegionIterator< itk::Image<VectorType, 3> >
+    it (img, img->GetRequestedRegion());
+  
+  it.Begin();
+  while( ! it.IsAtEnd() )
+    {
+      for (i = 0; i<N; ++i)  (it.Value())[i] += 3.435f;
+       ++it;
+    }
+}
+
+
+void BypassNoAdaptorSupportModifyVectors(itk::Image<itk::Vector<float, 3>, 3> *img)
+{
+  typedef itk::Vector<float, 3> VectorType;
+  const unsigned int N = 3;
+  unsigned int i;
+  
+  itk::ImageRegionIterator< itk::Image<VectorType, 3> >
     it (img, img->GetRequestedRegion());
   
   it.Begin();
@@ -228,6 +255,14 @@ int main()
   std::cout << (stop - start) << "\t compensated = " << (stop-start) -
     adaptor_comp <<std::endl;
   
+  std::cout << "Modifying vector image bypassing adaptor api using"
+            << " non-adaptor iterator...\t";
+  start = clock();
+  BypassNoAdaptorSupportModifyVectors(vector_image);
+  stop = clock();
+  std::cout << (stop - start) << "\t compensated = " << (stop-start) -
+    adaptor_comp <<std::endl;
+
   std::cout << "Modifying vector image bypassing adaptor api using"
             << " adaptor iterator...\t";
   start = clock();

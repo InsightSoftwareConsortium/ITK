@@ -29,7 +29,7 @@ int main()
    */
 
   // create a fastmarching object
-  typedef itk::Image<itk::Scalar<float>,2> FloatImage;
+  typedef itk::Image<float,2> FloatImage;
   typedef itk::FastMarchingImageFilter<FloatImage> FastMarcherType;
 
   FastMarcherType::Pointer marcher = FastMarcherType::New();
@@ -59,13 +59,13 @@ int main()
 
   // walk the marcher output
   FloatImage::Pointer levelSet = marcher->GetOutput();
-  itk::ImageRegionIterator<itk::Scalar<float>,2>
+  itk::ImageRegionIterator<FloatImage>
     iterator( levelSet, levelSet->GetBufferedRegion() );
 
   iterator = iterator.Begin();
   for( ; !iterator.IsAtEnd(); ++iterator )
     {
-      *iterator -= 8.0;
+    iterator.Set( iterator.Get() - 8.0 );
     }
 
 
@@ -78,12 +78,12 @@ int main()
     levelSet->GetBufferedRegion() );
   edgeImg->Allocate();
 
-  itk::ImageRegionIterator<itk::Scalar<float>,2>
+  itk::ImageRegionIterator<FloatImage>
     edgeIter( edgeImg, edgeImg->GetBufferedRegion() );
 
   for(edgeIter = edgeIter.Begin() ; !edgeIter.IsAtEnd(); ++edgeIter )
     {
-    *edgeIter = 1.0;
+    edgeIter.Set( 1.0 );
     }
 
   /* -----------------------------------------------

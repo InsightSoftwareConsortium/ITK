@@ -55,7 +55,7 @@ int main()
 
   // check the results
   FloatImage::Pointer output = marcher->GetOutput();
-  itk::ImageRegionIterator<itk::Scalar<float>,2>
+  itk::ImageRegionIterator<FloatImage>
     iterator( output, output->GetBufferedRegion() );
 
   iterator = iterator.Begin();
@@ -77,7 +77,7 @@ int main()
       }
     distance = vnl_math_sqrt( distance );
 
-    output = itk::ScalarTraits<PixelType>::GetScalar( *iterator );
+    output = itk::ScalarTraits<PixelType>::GetScalar( iterator.Get() );
 
     if( vnl_math_abs( output ) / distance > 1.42 )
       {
