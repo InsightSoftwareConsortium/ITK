@@ -73,7 +73,7 @@ public:
 
   /** Parameters type for optimizier (coefficients type for bias
    * field estimate). */
-  typedef Superclass::ParametersType    ParametersType ;
+  typedef typename Superclass::ParametersType    ParametersType ;
 
   /** Not used, but expected by SingleValuedNonLinearOptimizer class. */
   typedef Superclass::DerivativeType    DerivativeType;
@@ -242,7 +242,7 @@ public:
   /** Energy function type defintion. */
   typedef MRIBiasEnergyFunction<TInputImage, ImageMaskType, BiasFieldType> 
                                                           EnergyFunctionType;
-  typedef EnergyFunctionType::Pointer                     EnergyFunctionPointer;
+  typedef typename EnergyFunctionType::Pointer            EnergyFunctionPointer;
 
   /** Optimizer type definition. */
   typedef OnePlusOneEvolutionaryOptimizer< 
