@@ -18,7 +18,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkArray.h"
 
 // Explicit instantiation to make sure all methods are compiled.
-template itk::Array<float, 3>;
+template class itk::Array<float, 3>;
 
 void Set_c_Array(int x[3])
 {
