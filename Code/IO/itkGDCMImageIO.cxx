@@ -263,9 +263,12 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
 
   m_Spacing[0] = GdcmHeader->GetXSpacing();
   m_Spacing[1] = GdcmHeader->GetYSpacing();
-  //  m_Spacing[2] = GdcmHeader->GetZSpacing();
+  // I have to figure out how to find the dimension (2 or 3) of the DICOM image:
+  // m_Spacing[2] = GdcmHeader->GetZSpacing();
   m_Spacing[2] = 0;
 
+  m_Origin.resize(3); //very important
+  // Since SetNumberOfDimensions only reallocate for dim == 2
   m_Origin[0] = GdcmHeader->GetXOrigin();
   m_Origin[1] = GdcmHeader->GetYOrigin();
   m_Origin[2] = GdcmHeader->GetZOrigin();
