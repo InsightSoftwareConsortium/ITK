@@ -31,6 +31,21 @@ TARGET_LINK_LIBRARIES(NeighborhoodIterators3 ITKCommon ITKIO ITKMetaIO itkzlib i
 ADD_EXECUTABLE(NeighborhoodIterators4 NeighborhoodIterators4.cxx)
 TARGET_LINK_LIBRARIES(NeighborhoodIterators4 ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
 
+ADD_EXECUTABLE(NeighborhoodIterators5 NeighborhoodIterators5.cxx)
+TARGET_LINK_LIBRARIES(NeighborhoodIterators5 ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
+
+ADD_EXECUTABLE(NeighborhoodIterators6 NeighborhoodIterators6.cxx)
+TARGET_LINK_LIBRARIES(NeighborhoodIterators6 ITKAlgorithms ITKBasicFilters ITKCommon ITKIO 
+                                                           ITKMetaIO itkzlib itkpng)
+
+ADD_EXECUTABLE(ShapedNeighborhoodIterators1 ShapedNeighborhoodIterators1.cxx)
+TARGET_LINK_LIBRARIES(ShapedNeighborhoodIterators1 ITKAlgorithms ITKBasicFilters ITKCommon ITKIO 
+                                                           ITKMetaIO itkzlib itkpng)
+
+ADD_EXECUTABLE(ShapedNeighborhoodIterators2 ShapedNeighborhoodIterators2.cxx)
+TARGET_LINK_LIBRARIES(ShapedNeighborhoodIterators2 ITKAlgorithms ITKBasicFilters ITKCommon ITKIO 
+                                                           ITKMetaIO itkzlib itkpng)
+
 SET(ITERATORS_EXAMPLES ${CXX_TEST_PATH}/IteratorsExamples)
 
 SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Iterators)
