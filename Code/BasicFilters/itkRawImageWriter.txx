@@ -45,8 +45,7 @@ static void WriteDataArray(std::ofstream& f, TInputImage *image,
   // thread.
   typedef typename TInputImage::PixelType InputImagePixelType;
   typedef
-    ImageRegionIterator<InputImagePixelType, TInputImage::ImageDimension>
-    InputIterator;
+    ImageRegionIterator<TInputImage> InputIterator;
 
   typename TInputImage::RegionType region = image->GetLargestPossibleRegion();
 
@@ -60,7 +59,7 @@ static void WriteDataArray(std::ofstream& f, TInputImage *image,
         {
         f << std::endl;
         }
-      f << *inIt << " ";
+      f << inIt.Get() << " ";
       }
     }
   else
@@ -69,7 +68,7 @@ static void WriteDataArray(std::ofstream& f, TInputImage *image,
     scalarType foo;
     for ( int i=0; !inIt.IsAtEnd(); ++inIt, i++ )
       {
-      foo = (scalarType) *inIt;
+      foo = (scalarType) inIt.Get();
       if ( byteOrder == RawImageWriter<TInputImage>::BigEndian )
         {
         ByteSwapper<scalarType>::SwapBE(&foo);

@@ -401,13 +401,13 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
   typedef typename TInputImage::PixelType    InputPixel;
 
   typedef
-    ImageRegionIterator<InputPixel,TInputImage::ImageDimension> InputIterator;
+    ImageRegionIterator<TInputImage> InputIterator;
 
   InputIterator inIt( inputImage, inputImage->GetBufferedRegion() );
 
   InputIterator imgIt     =  inIt.Begin();
-  InputPixel *tempImgIt   = &(*imgIt);
-  InputPixel *inImgIt     = &(*imgIt);
+  InputPixel *tempImgIt   = &(imgIt.Value()); // dangerous!
+  InputPixel *inImgIt     = &(imgIt.Value()); // dangerous!
 
   //-----------------------------------------------------------------
   // Calculate the number of vectors in the input data set

@@ -168,7 +168,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 
   // define iterators
   typedef 
-    ImageRegionIterator<PixelType,SetDimension> IteratorType;
+    ImageRegionIterator<LevelSetType::LevelSetImageType> IteratorType;
 
   IteratorType inputIt( inputPtr,
     inputPtr->GetBufferedRegion() );
@@ -178,7 +178,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
   IteratorType tempIt;
 
   typedef
-    ImageRegionIterator<TAuxValue,SetDimension> AuxIteratorType;
+    ImageRegionIterator<AuxImageType> AuxIteratorType;
 
   AuxIteratorType auxTempIt[VAuxDimension];
   AuxIteratorType auxOutputIt[VAuxDimension];
@@ -230,14 +230,14 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 
   while( !inputIt.IsAtEnd() )
     {
-    value = (double) ScalarTraits<PixelType>::GetScalar( *inputIt );
+    value = (double) ScalarTraits<PixelType>::GetScalar( inputIt.Get() );
     if( value - levelSetValue > 0 )
       {
-      *outputIt = *tempIt;
+      outputIt.Set( tempIt.Get() );
 
       for( unsigned int k = 0; k < VAuxDimension; k++ )
         {
-        *(auxOutputIt[k]) = *(auxTempIt[k]);
+        auxOutputIt[k].Set( auxTempIt[k].Get() );
         }
 
      }
@@ -268,15 +268,15 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 
   while( !inputIt.IsAtEnd() )
     {
-    value = (double) ScalarTraits<PixelType>::GetScalar( *inputIt );
+    value = (double) ScalarTraits<PixelType>::GetScalar( inputIt.Get() );
     if( value - levelSetValue <= 0 )
       {
-      value = (double) ScalarTraits<PixelType>::GetScalar( *tempIt );
-      *outputIt = -1.0 * value;
+      value = (double) ScalarTraits<PixelType>::GetScalar( tempIt.Get() );
+      outputIt.Set( -1.0 * value );
 
       for( unsigned int k = 0; k < VAuxDimension; k++ )
         {
-        *(auxOutputIt[k]) = *(auxTempIt[k]);
+        auxOutputIt[k].Set( auxTempIt[k].Get() );
         }
       }
 
@@ -312,7 +312,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 
   // define iterators
   typedef 
-    ImageRegionIterator<PixelType,SetDimension> IteratorType;
+    ImageRegionIterator<LevelSetType::LevelSetImageType> IteratorType;
 
   IteratorType inputIt( inputPtr,
     inputPtr->GetBufferedRegion() );
@@ -326,7 +326,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
   ScalarTraits<PixelType>::SetScalar(posInfinity, 
     NumericTraits<ScalarValueType>::max());
   ScalarTraits<PixelType>::SetScalar(negInfinity, 
-    -1.0 * NumericTraits<ScalarValueType>::max());
+    NumericTraits<ScalarValueType>::NonpositiveMin());
 
   // set all internal pixels to minus infinity and 
   // all external pixels to positive infinity
@@ -337,14 +337,14 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 
   while( !inputIt.IsAtEnd() )
     {
-    value = (double) ScalarTraits<PixelType>::GetScalar( *inputIt );
+    value = (double) ScalarTraits<PixelType>::GetScalar( inputIt.Get() );
     if( value - levelSetValue <= 0 )
       {
-      *outputIt = negInfinity;
+      outputIt.Set( negInfinity );
       }
     else
       {
-      *outputIt = posInfinity;
+      outputIt.Set( posInfinity );
       }
 
     ++inputIt;
@@ -356,7 +356,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
   ScalarTraits<TAuxValue>::SetScalar(zeroPixel, 0.0 );
 
   typedef
-    ImageRegionIterator<TAuxValue,SetDimension> AuxIteratorType;
+    ImageRegionIterator<AuxImageType> AuxIteratorType;
 
   AuxIteratorType auxOutputIt[VAuxDimension];
 
@@ -372,7 +372,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
     {
     for( unsigned int k = 0; k < VAuxDimension; k++ )
       {
-      *(auxOutputIt[k]) = zeroPixel;
+      auxOutputIt[k].Set(zeroPixel);
       ++(auxOutputIt[k]);
 
       }

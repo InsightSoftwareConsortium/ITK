@@ -110,13 +110,13 @@ RandomImageSource<TOutputImage>
   typename TOutputImage::Pointer image=this->GetOutput(0);
   image->SetBufferedRegion( image->GetRequestedRegion() );
 
-  ScalarImageRegionIterator<OutputImagePixelType, TOutputImage::ImageDimension>
+  ScalarImageRegionIterator<TOutputImage>
     scalarIterator(image, outputRegionForThread);
 
   for ( ; !scalarIterator.IsAtEnd(); ++scalarIterator)
     {
-    *scalarIterator = (scalarType) vnl_sample_uniform(
-                                   (double)m_Min,(double)m_Max);
+    scalarIterator.Set( (scalarType) vnl_sample_uniform(
+                                   (double)m_Min,(double)m_Max) );
     }
 }
 

@@ -213,8 +213,7 @@ static void WriteDataArray(std::ostream *fp, TInputImage *image, int fileType)
   // thread.
   typedef typename TInputImage::PixelType InputImagePixelType;
   typedef
-    ImageRegionIterator<InputImagePixelType, TInputImage::ImageDimension>
-    InputIterator;
+    ImageRegionIterator<TInputImage> InputIterator;
 
   typename TInputImage::RegionType region = image->GetLargestPossibleRegion();
 
@@ -228,7 +227,7 @@ static void WriteDataArray(std::ostream *fp, TInputImage *image, int fileType)
         {
         *fp << std::endl;
         }
-      *fp << *inIt << " ";
+      *fp << inIt.Get() << " ";
       }
     }
   else
@@ -236,7 +235,7 @@ static void WriteDataArray(std::ostream *fp, TInputImage *image, int fileType)
     typedef typename TInputImage::ScalarValueType scalarType;
     for ( int i=0; !inIt.IsAtEnd(); ++inIt, i++ )
       {
-      scalarType foo = *inIt;
+      scalarType foo = inIt.Get();
       ByteSwapper<scalarType>::SwapBE(&foo);
       fp->write((char *)&foo, sizeof(scalarType));
       }

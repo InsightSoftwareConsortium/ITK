@@ -154,8 +154,8 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 
   OutputImageIterator  outputIt    = outputImageIt.Begin();
 
-  OutputImagePixelType *tempImgIt  = &(*outputIt);
-  OutputImagePixelType *outImgIt   = &(*outputIt);
+  OutputImagePixelType *tempImgIt  = &(outputIt.Value()); // dangerous!
+  OutputImagePixelType *outImgIt   = &(outputIt.Value()); // dangerous!
   
   //---------------------------------------------------------------------
   //Calculate the initial number of regions 
@@ -256,8 +256,8 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
     labelImageIt(labelImagePtr, labelImagePtr->GetBufferedRegion());
 
   LabelImageIterator  labelIt    = labelImageIt.Begin();
-  LabelImagePixelType *tempImgIt = &(*labelIt);
-  LabelImagePixelType *outImgIt  = &(*labelIt);
+  LabelImagePixelType *tempImgIt = &(labelIt.Value()); // dangerous!
+  LabelImagePixelType *outImgIt  = &(labelIt.Value()); // dangerous!
 
   //---------------------------------------------------------------------
   // Loop through the regions and fill the regions with the labels
@@ -717,8 +717,8 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   //Varible to store the input pixel vector value
   InputImageVectorType inputPixelVec;
 
-  InputImagePixelType *tempImgIt   = &( *inputIt );
-  InputImagePixelType *inImgIt     = &( *inputIt );
+  InputImagePixelType *tempImgIt   = &( inputIt.Value() ); // dangerous!
+  InputImagePixelType *inImgIt     = &( inputIt.Value() ); // dangerous!
 
 
   //Calculate V[0] for the constant model facet for the Region Grow

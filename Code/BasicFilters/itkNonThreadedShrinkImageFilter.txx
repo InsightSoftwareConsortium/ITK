@@ -69,8 +69,7 @@ NonThreadedShrinkImageFilter<TInputImage,TOutputImage>
 
   // Define/declare an iterator that will walk the output region
   typedef
-    ImageRegionIterator<typename TOutputImage::PixelType, TOutputImage::ImageDimension>
-    OutputIterator;
+    ImageRegionIterator<TOutputImage> OutputIterator;
 
   OutputIterator outIt = OutputIterator(outputPtr,
                                         outputPtr->GetRequestedRegion());
@@ -96,7 +95,7 @@ NonThreadedShrinkImageFilter<TInputImage,TOutputImage>
     inputIndex = outputIndex * factorIndex;
 
     // copy the input pixel to the output
-    *outIt = inputPtr->GetPixel(inputIndex);
+    outIt.Set( inputPtr->GetPixel(inputIndex) );
     }
 }
 

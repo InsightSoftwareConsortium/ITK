@@ -103,7 +103,7 @@ CurvatureFlowImageFilter<TLevelSet>
 
     // Define/declare an iterator that will walk the output region
     typedef
-      ImageRegionIterator<PixelType,SetDimension> IteratorType;
+      ImageRegionIterator<LevelSetImageType> IteratorType;
 
     IteratorType outIt = IteratorType( outputBuffer, 
       outputBuffer->GetBufferedRegion() );
@@ -121,7 +121,7 @@ CurvatureFlowImageFilter<TLevelSet>
       outIt != outIt.End(); ++outIt, ++inIt)
       {
 
-      value = (double) ScalarTraits<PixelType>:: GetScalar(*inIt);
+      value = (double) ScalarTraits<PixelType>:: GetScalar(inIt.Get());
 
       inputIndex = outIt.GetIndex();
 
@@ -131,7 +131,7 @@ CurvatureFlowImageFilter<TLevelSet>
       value += timeStep * curvature * magnitude;
 
       ScalarTraits<PixelType>::SetScalar(outputPixel, value );
-      *outIt = outputPixel;
+      outIt.Set(outputPixel);
 
       }
 

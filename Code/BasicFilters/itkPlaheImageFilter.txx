@@ -72,18 +72,18 @@ PlaheImageFilter<TPixel, VImageDimension>
     }
   region.SetIndex(index);
   region.SetSize(size);
-  ImageRegionIterator<TPixel,VImageDimension> itInput(input, region);
+  ImageRegionIterator<ImageType> itInput(input, region);
 
   // Calculate min and max gray level of an input image
   itInput = itInput.Begin();
-  double min = *itInput;
-  double max = *itInput;
+  double min = itInput.Get();
+  double max = itInput.Get();
   while( !itInput.IsAtEnd() )
     {
-    if ( min > *itInput )
-      min = *itInput;
-    if ( max < *itInput )
-      max = *itInput;
+    if ( min > itInput.Get() )
+      min = itInput.Get();
+    if ( max < itInput.Get() )
+      max = itInput.Get();
     ++itInput;
     }
 
@@ -98,7 +98,7 @@ PlaheImageFilter<TPixel, VImageDimension>
   inputFloat->Allocate();
 
   // iterator which traverse the float type image
-  ImageRegionIterator<float, VImageDimension> itFloat(inputFloat, region); 
+  ImageRegionIterator<Image<float, VImageDimension> > itFloat(inputFloat, region); 
 
   float iscale = max - min;
   float scale = (float)1/iscale;
@@ -109,7 +109,7 @@ PlaheImageFilter<TPixel, VImageDimension>
   itInput = itInput.Begin();
   while( !itInput.IsAtEnd() )
     {
-    *itFloat = scale*(max - *itInput)-0.5;
+    itFloat.Set( scale*(max - itInput.Get())-0.5 );
     ++itFloat;
     ++itInput;
     }
@@ -126,7 +126,7 @@ PlaheImageFilter<TPixel, VImageDimension>
   itFloat = itFloat.Begin();
   while ( !itFloat.IsAtEnd() )
     {
-    row.insert( FloatFloatMapType::value_type(*itFloat,0 ) );
+    row.insert( FloatFloatMapType::value_type( itFloat.Get(),0 ) );
     ++itFloat;
     }
   typedef std::map < float, FloatFloatMapType > ArrayMapType;
@@ -135,7 +135,7 @@ PlaheImageFilter<TPixel, VImageDimension>
   itFloat = itFloat.Begin();
   while ( !itFloat.IsAtEnd() )
     {
-    array = CumulativeArray.insert( ArrayMapType::value_type(*itFloat,row ) );
+    array = CumulativeArray.insert( ArrayMapType::value_type(itFloat.Get(),row ) );
     // if CumulativeArray is too big to assign, stop assigning
     // the cumulative function will be used to evaluate pixels
     if ( !array.second )
@@ -191,7 +191,7 @@ PlaheImageFilter<TPixel, VImageDimension>
   // Iterators which will travel the center area, not boundary of the image.
   // "it" is for input image and itOut is for output image
   SimpleImageRegionIterator<ImageFloatType> it(inputFloat, region);
-  ImageRegionIterator<TPixel, VImageDimension> itOut(output, region);
+  ImageRegionIterator<Image<TPixel, VImageDimension> > itOut(output, region);
  
   // Assign the size of the window
   float sum;
@@ -220,19 +220,20 @@ PlaheImageFilter<TPixel, VImageDimension>
       }
     region.SetIndex(index);
     region.SetSize(size);
-    ImageRegionIterator<float, VImageDimension> itWin(inputFloat, region);
+    ImageRegionIterator<Image<float, VImageDimension> >
+      itWin(inputFloat, region);
     itWin.Begin();
 
     while ( !itWin.IsAtEnd() )
       {
-      itMap = count.find(*itWin);
+      itMap = count.find(itWin.Get());
       if ( itMap != count.end() )
         {
-        count[*itWin] = count[*itWin] + kernel;
+        count[itWin.Get()] = count[itWin.Get()] + kernel;
         }
       else
         {
-        count.insert(MapType::value_type(*itWin,kernel));
+        count.insert(MapType::value_type(itWin.Get(),kernel));
         }
 
       ++itWin;
@@ -251,7 +252,7 @@ PlaheImageFilter<TPixel, VImageDimension>
         sum = sum + itMap->second*CumulativeArray[f][itMap->first];
         ++itMap;
         }
-      *itOut = (TPixel)(iscale*(sum+0.5) + min);
+      itOut.Set( (TPixel)(iscale*(sum+0.5) + min) );
       ++itOut;
       ++it;
       }
@@ -265,7 +266,7 @@ PlaheImageFilter<TPixel, VImageDimension>
         sum = sum + itMap->second*CumulativeFunction(f,itMap->first);
         ++itMap;
         }
-      *itOut = (TPixel)(iscale*(sum+0.5) + min);
+      itOut.Set((TPixel)(iscale*(sum+0.5) + min));
       ++itOut;
       ++it;
       }

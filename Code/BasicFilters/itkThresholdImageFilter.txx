@@ -133,11 +133,9 @@ ThresholdImageFilter<TImage>
   // Define/declare an iterator that will walk the output region for this
   // thread.
   typedef
-    ImageRegionIterator<InputImagePixelType, TImage::ImageDimension>
-    InputIterator;
+    ImageRegionIterator<TImage> InputIterator;
   typedef
-    ImageRegionIterator<OutputImagePixelType, TImage::ImageDimension>
-    OutputIterator;
+    ImageRegionIterator<TImage> OutputIterator;
 
   InputIterator  inIt(inputPtr, outputRegionForThread);
   OutputIterator outIt(outputPtr, outputRegionForThread);
@@ -159,17 +157,17 @@ ThresholdImageFilter<TImage>
       this->UpdateProgress((float)i/(float(updateVisits)*10.0));
       }
 
-    if (m_Lower <= *inIt && *inIt <= m_Upper)
+    if (m_Lower <= inIt.Get() && inIt.Get() <= m_Upper)
       {
       // pixel passes to output unchanged and is replaced by m_OutsideValue in
       // the inverse output image
-      *outIt = *inIt;
-      *outInverseIt = m_OutsideValue;
+      outIt.Set( inIt.Get() );
+      outInverseIt.Set( m_OutsideValue );
       }
     else
       {
-      *outIt = m_OutsideValue;
-      *outInverseIt = *inIt;
+      outIt.Set( m_OutsideValue );
+      outInverseIt.Set( inIt.Get() );
       }
     }
   

@@ -27,14 +27,14 @@ void
 DiscreteGaussianImageFilter< TInputImage, TOutputImage >
 ::ImageRegionCopy(TOutputImage *imgT, TInputImage *input)
 {
-  ImageRegionIterator<OutputPixelType, ImageDimension> in_it(input,
-                                                imgT->GetRequestedRegion());
-  ImageRegionIterator<OutputPixelType, ImageDimension> out_it(imgT,
-                                                imgT->GetRequestedRegion());
+  ImageRegionIterator<TInputImage> in_it(input,
+                                         imgT->GetRequestedRegion());
+  ImageRegionIterator<TOutputImage> out_it(imgT,
+                                           imgT->GetRequestedRegion());
   for (in_it = in_it.Begin(), out_it = out_it.Begin(); in_it < in_it.End();
        ++in_it, ++out_it)
     {
-      *out_it = *in_it;
+    out_it.Set( in_it.Get() );
     }
 }
 

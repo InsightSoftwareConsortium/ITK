@@ -153,6 +153,8 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
   this->AllocateBuffers();
   this->CopyInputToInputBuffer();
 
+  LevelSetType::PixelType tempPixel;
+  
   unsigned int numberOfIterations = this->GetNumberOfIterations();
   double timeStepSize = this->GetTimeStepSize();
 
@@ -185,7 +187,7 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
 
       // Define iterators
     typedef
-      ImageRegionIterator<PixelType,SetDimension> IteratorType;
+      ImageRegionIterator<LevelSetImageType> IteratorType;
   
     IteratorType inBuffIt = IteratorType( inputBuffer, 
       inputBuffer->GetBufferedRegion() );
@@ -193,7 +195,7 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
       outputBuffer->GetBufferedRegion() );
 
     typedef
-      ImageRegionIterator<EdgePixelType,SetDimension> 
+      ImageRegionIterator<EdgeImageType> 
         SpeedIteratorType;
 
     SpeedIteratorType speedIt = SpeedIteratorType( extVelPtr, 
@@ -224,14 +226,16 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
       updateValue += m_LengthPenaltyStrength * curvature * magnitude;
 
       speed = (double) ScalarTraits<EdgePixelType>::
-        GetScalar( *speedIt );
+        GetScalar( speedIt.Get() );
 
       updateValue *= timeStepSize * speed; 
     
-      value = (double) ScalarTraits<PixelType>::GetScalar( *inBuffIt );
+      value = (double) ScalarTraits<PixelType>::GetScalar( inBuffIt.Get() );
       value += updateValue;
 
-      ScalarTraits<PixelType>::SetScalar( *outBuffIt, value );
+      tempPixel = outBuffIt.Get();
+      ScalarTraits<PixelType>::SetScalar( tempPixel, value );
+      outBuffIt.Set( tempPixel );
 
       ++outBuffIt;
       ++inBuffIt;
@@ -265,7 +269,7 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
 
   // copy input to output
   typedef
-     ImageRegionIterator<PixelType,SetDimension> IteratorType;
+     ImageRegionIterator<LevelSetImageType> IteratorType;
   
   IteratorType inIt = IteratorType( inputPtr, 
     inputPtr->GetBufferedRegion() );
@@ -277,7 +281,7 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
   
   while( !inIt.IsAtEnd() )
     {
-    *outIt = *inIt;
+    outIt.Set( inIt.Get() );
     ++inIt;
     ++outIt;
     }

@@ -55,8 +55,8 @@ namespace itk
  *         }
  *
  */
-template<typename TPixel, unsigned int VImageDimension=2, class TPixelContainer=ValarrayImageContainer<unsigned long, TPixel> >
-class ImageRegionIterator : public ImageIterator<TPixel, VImageDimension, TPixelContainer>
+template<typename TImage>
+class ImageRegionIterator : public ImageIterator<TImage>
 {
 public:
   /**
@@ -67,48 +67,63 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef ImageIterator<TPixel,VImageDimension,TPixelContainer>  Superclass;
+  typedef ImageIterator<TImage>  Superclass;
+
+  /**
+   * Dimension of the image the iterator walks.  This enum is needed so that
+   * functions that are templated over image iterator type (as opposed to
+   * being templated over pixel type and dimension) can have compile time
+   * access to the dimension of the image that the iterator walks.
+   */
+  enum { ImageIteratorDimension = Superclass::ImageIteratorDimension };
 
   /** 
    * Index typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
-   * Note that we have to rescope Index back to itk::Index to that is it not
-   * confused with ImageIterator::Index.
    */
-  typedef Index<VImageDimension> IndexType;
+  typedef typename Superclass::IndexType IndexType;
 
   /** 
    * Size typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
-   * Note that we have to rescope Size back to itk::Size to that is it not
-   * confused with ImageIterator::Size.
    */
-  typedef Size<VImageDimension> SizeType;
+  typedef typename Superclass::SizeType SizeType;
+
+  /** 
+   * Region typedef support.
+   */
+  typedef typename Superclass::RegionType   RegionType;
 
   /**
    * Image typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
-   * Note that we have to rescope Image back to itk::Image to that is it not
-   * confused with ImageIterator::Image.
    */
-  typedef Image<TPixel, VImageDimension, TPixelContainer> ImageType;
+  typedef typename Superclass::ImageType ImageType;
 
   /** 
    * PixelContainer typedef support. Used to refer to the container for
    * the pixel data. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
    */
-  typedef TPixelContainer PixelContainer;
+  typedef typename Superclass::PixelContainer PixelContainer;
   typedef typename PixelContainer::Pointer PixelContainerPointer;
 
   /**
-   * Region typedef support. While this was already typdef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc.
-   * Note that we have to rescope Region back to itk::ImageRegion so that is
-   * it not confused with ImageIterator::Index.
+   * Internal Pixel Type
    */
-  typedef ImageRegion<VImageDimension> RegionType;
-  
+  typedef typename Superclass::InternalPixelType   InternalPixelType;
+
+  /**
+   * External Pixel Type
+   */
+  typedef typename Superclass::PixelType   PixelType;
+
+  /** 
+   *  Accessor type that convert data between internal and external
+   *  representations.
+   */
+  typedef typename Superclass::AccessorType     AccessorType;
+
   /** 
    * Run-time type information (and related methods).
    */
@@ -117,7 +132,7 @@ public:
   /**
    * Default constructor. Needed since we provide a cast constructor.
    */
-  ImageRegionIterator() : ImageIterator<TPixel, VImageDimension, TPixelContainer>() { m_SpanEndOffset = 0; }
+  ImageRegionIterator() : ImageIterator<TImage>() { m_SpanEndOffset = 0; }
   
   /**
    * Constructor establishes an iterator to walk a particular image and a
@@ -125,7 +140,7 @@ public:
    */
   ImageRegionIterator(ImageType *ptr,
                       const RegionType &region)
-    : ImageIterator<TPixel, VImageDimension, TPixelContainer>(ptr, region)
+    : ImageIterator<TImage>(ptr, region)
   { m_SpanEndOffset = m_BeginOffset + m_Region.GetSize()[0]; }
 
   /**
@@ -136,9 +151,9 @@ public:
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageRegionIterator.
    */
-  ImageRegionIterator( const ImageIterator<TPixel, VImageDimension, TPixelContainer> &it)
+  ImageRegionIterator( const ImageIterator<TImage> &it)
   {
-    this->ImageIterator<TPixel,VImageDimension,TPixelContainer>::operator=(it);
+    this->ImageIterator<TImage>::operator=(it);
     IndexType ind = this->GetIndex();
     m_SpanEndOffset = m_Offset + m_Region.GetSize()[0] 
       - (ind[0] - m_Region.GetIndex()[0]);
@@ -176,12 +191,12 @@ public:
       --m_Offset;
       
       // Get the index of the last pixel on the span (row)
-      ImageIterator<TPixel, VImageDimension, TPixelContainer>::IndexType
+      ImageIterator<TImage>::IndexType
         ind = m_Image->ComputeIndex( m_Offset );
 
-      const ImageIterator<TPixel, VImageDimension, TPixelContainer>::IndexType&
+      const ImageIterator<TImage>::IndexType&
         startIndex = m_Region.GetIndex();
-      const ImageIterator<TPixel, VImageDimension, TPixelContainer>::SizeType&
+      const ImageIterator<TImage>::SizeType&
         size = m_Region.GetSize();
 
       // Increment along a row, then wrap at the end of the region row.
@@ -191,7 +206,7 @@ public:
       // Check to see if we are past the last pixel in the region
       // Note that ++ind[0] moves to the next pixel along the row.
       done = (++ind[0] == startIndex[0] + size[0]);
-      for (unsigned int i=1; done && i < VImageDimension; i++)
+      for (unsigned int i=1; done && i < ImageIteratorDimension; i++)
         {
         done = (ind[i] == startIndex[i] + size[i] - 1);
         }
@@ -201,7 +216,7 @@ public:
       dim = 0;
       if (!done)
         {
-        while ( (dim < VImageDimension - 1)
+        while ( (dim < ImageIteratorDimension - 1)
                 && (ind[dim] > startIndex[dim] + size[dim] - 1) )
           {
           ind[dim] = startIndex[dim];

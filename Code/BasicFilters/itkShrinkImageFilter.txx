@@ -67,8 +67,7 @@ ShrinkImageFilter<TInputImage,TOutputImage>
   // Define/declare an iterator that will walk the output region for this
   // thread.
   typedef
-    ImageRegionIterator<OutputImagePixelType, TOutputImage::ImageDimension>
-    OutputIterator;
+    ImageRegionIterator<TOutputImage> OutputIterator;
 
   OutputIterator outIt(outputPtr, outputRegionForThread);
 
@@ -106,7 +105,7 @@ ShrinkImageFilter<TInputImage,TOutputImage>
     inputIndex = outputIndex * factorIndex;
 
     // copy the input pixel to the output
-    *outIt = inputPtr->GetPixel(inputIndex);
+    outIt.Set( inputPtr->GetPixel(inputIndex) );
     }
 }
 

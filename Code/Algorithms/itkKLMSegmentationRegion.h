@@ -144,8 +144,7 @@ public:
    * Type definition for the image iterators to be used.
    */
   typedef
-    ImageRegionIterator< InputImagePixelType, TInputImage::ImageDimension>  
-      InputImageIterator;
+    ImageRegionIterator< TInputImage > InputImageIterator;
 
   /**
    * Type definition for vector container that stores the borders

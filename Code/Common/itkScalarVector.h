@@ -127,7 +127,7 @@ public:
 
 private:
   TScalar m_Scalar;
-  vnl_vector_fixed<TVector, TVectorDimension> m_Vector;
+  VectorType m_Vector;
 };
 
   

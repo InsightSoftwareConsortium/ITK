@@ -84,22 +84,25 @@ void UpdateStrategyVector<TInputImage, TOutputImage>
   
   TInputImage *ip = static_cast<TInputImage *>(d1);
   TOutputImage *op = static_cast<TOutputImage *>(d2);
-  ImageRegionIterator<PixelType, ImageDimension>
+  ImageRegionIterator<TInputImage>
     in(ip,op->GetRequestedRegion());
-  ImageRegionIterator<PixelType, ImageDimension>
+  ImageRegionIterator<TOutputImage>
     out(op, op->GetRequestedRegion());
 
   in.Begin();
   out.Begin();
   // Update each component of the output
+  PixelType otmp;
   while (! in.IsAtEnd() )
     {
-      for (unsigned int i = 0; i < VectorDimension; ++i)
-        {
-          (*out)[i] += (*in)[i] * m_Multiplier;
-        }
-      ++out;
-      ++in;
+    otmp = out.Get();
+    for (unsigned int i = 0; i < VectorDimension; ++i)
+      {
+       otmp[i] += in.Get()[i] * m_Multiplier;
+      }
+    out.Set( otmp );
+    ++out;
+    ++in;
     }
   
 }
@@ -114,22 +117,25 @@ void CopyStrategyVector<TInputImage, TOutputImage>
     
   TInputImage *ip = static_cast<TInputImage *>(d1);
   TOutputImage *op = static_cast<TOutputImage *>(d2);
-  ImageRegionIterator<PixelType, ImageDimension>
+  ImageRegionIterator<TInputImage>
     in(ip,op->GetRequestedRegion()); 
-  ImageRegionIterator<PixelType, ImageDimension>
+  ImageRegionIterator<TOutputImage>
     out(op, op->GetRequestedRegion());
   in = in.Begin();
   out = out.Begin();
   
   // Update each component of the output
+  PixelType otmp;
   while (! in.IsAtEnd() )
     {
-      for (unsigned int i = 0; i < VectorDimension; ++i)
-        {
-          (*out)[i] = (*in)[i];
-        }
-      ++out;
-      ++in;
+    otmp = out.Get();
+    for (unsigned int i = 0; i < VectorDimension; ++i)
+      {
+      otmp[i] = in.Get()[i];
+      }
+    out.Set( otmp );
+    ++out;
+    ++in;
     }
 }
   

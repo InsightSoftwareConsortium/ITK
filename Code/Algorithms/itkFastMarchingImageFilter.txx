@@ -160,7 +160,7 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
 
 
   // set all output value to infinity
-  typedef ImageRegionIterator<PixelType, SetDimension> 
+  typedef ImageRegionIterator<LevelSetImageType>
     OutputIterator;
   
   OutputIterator outIt ( m_OutputLevelSet,
@@ -171,12 +171,12 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
   
   for( outIt = outIt.Begin(); !outIt.IsAtEnd(); ++outIt )
     {
-    *outIt = outputPixel;
+    outIt.Set( outputPixel );
     }
 
 
   // set all points type to FarPoint
-  typedef ImageRegionIterator< LabelImageType::PixelType, SetDimension> 
+  typedef ImageRegionIterator< LabelImageType > 
     LabelIterator;
 
   LabelIterator typeIt( m_LabelImage,
@@ -184,7 +184,7 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
 
   for( typeIt = typeIt.Begin(); !typeIt.IsAtEnd(); ++typeIt )
     {
-    *typeIt = FarPoint;
+    typeIt.Set( FarPoint );
     }
 
 

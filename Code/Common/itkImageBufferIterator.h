@@ -46,8 +46,8 @@ namespace itk
  * Index[0] = col, Index[1] = row, Index[2] = slice, etc.
  *
  */
-template<typename TPixel, unsigned int VImageDimension=2, class TPixelContainer=ValarrayImageContainer<unsigned long, TPixel> >
-class ImageBufferIterator : public ImageIterator<TPixel, VImageDimension>
+template<typename TImage>
+class ImageBufferIterator : public ImageIterator<TImage>
 {
 public:
   /**
@@ -58,57 +58,72 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef ImageIterator<TPixel,VImageDimension,TPixelContainer>  Superclass;
+  typedef ImageIterator<TImage>  Superclass;
 
-  /** 
-   * Run-time type information (and related methods).
+  /**
+   * Dimension of the image the iterator walks.  This enum is needed so that
+   * functions that are templated over image iterator type (as opposed to
+   * being templated over pixel type and dimension) can have compile time
+   * access to the dimension of the image that the iterator walks.
    */
-  itkTypeMacro(ImageBufferIterator, ImageIterator);
+  enum { ImageIteratorDimension = Superclass::ImageIteratorDimension };
 
   /** 
    * Index typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
-   * Note that we have to rescope Index back to itk::Index to that is it not
-   * confused with ImageIterator::Index.
    */
-  typedef Index<VImageDimension> IndexType;
+  typedef typename Superclass::IndexType IndexType;
 
   /** 
    * Size typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
-   * Note that we have to rescope Size back to itk::Size to that is it not
-   * confused with ImageIterator::Size.
    */
-  typedef Size<VImageDimension> SizeType;
+  typedef typename Superclass::SizeType SizeType;
+
+  /** 
+   * Region typedef support.
+   */
+  typedef typename Superclass::RegionType   RegionType;
 
   /**
    * Image typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
-   * Note that we have to rescope Image back to itk::Image so that is it not
-   * confused with ImageIterator::Image.
    */
-  typedef Image<TPixel, VImageDimension, TPixelContainer> ImageType;
+  typedef typename Superclass::ImageType ImageType;
 
   /** 
    * PixelContainer typedef support. Used to refer to the container for
    * the pixel data. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
    */
-  typedef TPixelContainer PixelContainer;
+  typedef typename Superclass::PixelContainer PixelContainer;
   typedef typename PixelContainer::Pointer PixelContainerPointer;
 
   /**
-   * Region typedef support. While this was already typdef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc.
-   * Note that we have to rescope Region back to itk::ImageRegion so that is
-   * it not confused with ImageIterator::Index.
+   * Internal Pixel Type
    */
-  typedef ImageRegion<VImageDimension> RegionType;
+  typedef typename Superclass::InternalPixelType   InternalPixelType;
+
+  /**
+   * External Pixel Type
+   */
+  typedef typename Superclass::PixelType   PixelType;
+
+  /** 
+   *  Accessor type that convert data between internal and external
+   *  representations.
+   */
+  typedef typename Superclass::AccessorType     AccessorType;
+
+  /** 
+   * Run-time type information (and related methods).
+   */
+  itkTypeMacro(ImageBufferIterator, ImageIterator);
 
   /**
    * Default constructor. Needed since we provide a cast constructor.
    */
-  ImageBufferIterator() : ImageIterator<TPixel, VImageDimension, TPixelContainer>() {}
+  ImageBufferIterator() : ImageIterator<TImage>() {}
 
   /**
    * Constructor establishes an iterator to walk a particular image and a
@@ -116,7 +131,7 @@ public:
    */
   ImageBufferIterator(ImageType *ptr,
                       const RegionType& region)
-    : ImageIterator<TPixel, VImageDimension, TPixelContainer>(ptr, region) {}
+    : ImageIterator<TImage>(ptr, region) {}
   
   /**
    * Constructor that can be used to cast from an ImageIterator to an
@@ -126,8 +141,8 @@ public:
    * returns ImageIterators and uses constructors to cast from an
    * an ImageIterator to a ImageBufferIterator.
    */
-  ImageBufferIterator( const ImageIterator<TPixel, VImageDimension, TPixelContainer> &it)
-    { this->ImageIterator<TPixel, VImageDimension, TPixelContainer>::operator=(it); }
+  ImageBufferIterator( const ImageIterator<TImage> &it)
+    { this->ImageIterator<TImage>::operator=(it); }
 
   /**
    * Increment an iterator by an index. This models a random access
@@ -139,7 +154,7 @@ public:
   {
     const unsigned long *offsetTable = m_Image->GetOffsetTable();
     
-    for (unsigned int i=0; i < VImageDimension; i++)
+    for (unsigned int i=0; i < ImageIteratorDimension; i++)
       {
 	m_Offset += (vec[i] * offsetTable[i]);
       }
@@ -182,7 +197,7 @@ public:
   {
     const unsigned long *offsetTable = m_Image->GetOffsetTable();
     
-    for (unsigned int i=0; i < VImageDimension; i++)
+    for (unsigned int i=0; i < ImageIteratorDimension; i++)
       {
 	m_Offset -= (vec[i] * offsetTable[i]);
       }
@@ -226,7 +241,7 @@ public:
 
     const unsigned long *offsetTable = m_Image->GetOffsetTable();
     
-    for (unsigned int i=0; i < VImageDimension; i++)
+    for (unsigned int i=0; i < ImageIteratorDimension; i++)
       {
       result.m_Offset += (vec[i] * offsetTable[i]);
       }
@@ -278,7 +293,7 @@ public:
 
     const unsigned long *offsetTable = m_Image->GetOffsetTable();
     
-    for (unsigned int i=0; i < VImageDimension; i++)
+    for (unsigned int i=0; i < ImageIteratorDimension; i++)
       {
       result.m_Offset -= (vec[i] * offsetTable[i]);
       }

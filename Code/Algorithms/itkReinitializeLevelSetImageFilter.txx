@@ -169,7 +169,7 @@ ReinitializeLevelSetImageFilter<TLevelSet>
 
   // define iterators
   typedef 
-    ImageRegionIterator<PixelType,SetDimension> IteratorType;
+    ImageRegionIterator<LevelSetImageType> IteratorType;
 
   IteratorType inputIt( inputPtr,
     inputPtr->GetBufferedRegion() );
@@ -198,10 +198,10 @@ ReinitializeLevelSetImageFilter<TLevelSet>
 
   while( !inputIt.IsAtEnd() )
     {
-    value = (double) ScalarTraits<PixelType>::GetScalar( *inputIt );
+    value = (double) ScalarTraits<PixelType>::GetScalar( inputIt.Get() );
     if( value - m_LevelSetValue > 0 )
       {
-      *outputIt = *tempIt;
+      outputIt.Set( tempIt.Get() );
       }
 
     ++inputIt;
@@ -219,11 +219,11 @@ ReinitializeLevelSetImageFilter<TLevelSet>
 
   while( !inputIt.IsAtEnd() )
     {
-    value = (double) ScalarTraits<PixelType>::GetScalar( *inputIt );
+    value = (double) ScalarTraits<PixelType>::GetScalar( inputIt.Get() );
     if( value - m_LevelSetValue <= 0 )
       {
-      value = (double) ScalarTraits<PixelType>::GetScalar( *tempIt );
-      *outputIt = -1.0 * value;
+      value = (double) ScalarTraits<PixelType>::GetScalar( tempIt.Get() );
+      outputIt.Set( -1.0 * value );
       }
 
     ++inputIt;
@@ -248,7 +248,7 @@ ReinitializeLevelSetImageFilter<TLevelSet>
 
   // define iterators
   typedef 
-    ImageRegionIterator<PixelType,SetDimension> IteratorType;
+    ImageRegionIterator<LevelSetImageType> IteratorType;
 
   IteratorType inputIt( inputPtr,
     inputPtr->GetBufferedRegion() );
@@ -262,7 +262,7 @@ ReinitializeLevelSetImageFilter<TLevelSet>
   ScalarTraits<PixelType>::SetScalar(posInfinity, 
     NumericTraits<ScalarValueType>::max());
   ScalarTraits<PixelType>::SetScalar(negInfinity, 
-    -1.0 * NumericTraits<ScalarValueType>::max());
+    NumericTraits<ScalarValueType>::NonpositiveMin());
 
   // set all internal pixels to minus infinity and 
   // all external pixels to positive infinity
@@ -273,14 +273,14 @@ ReinitializeLevelSetImageFilter<TLevelSet>
 
   while( !inputIt.IsAtEnd() )
     {
-    value = (double) ScalarTraits<PixelType>::GetScalar( *inputIt );
+    value = (double) ScalarTraits<PixelType>::GetScalar( inputIt.Get() );
     if( value - m_LevelSetValue <= 0 )
       {
-      *outputIt = negInfinity;
+      outputIt.Set( negInfinity );
       }
     else
       {
-      *outputIt = posInfinity;
+      outputIt.Set( posInfinity );
       }
 
     ++inputIt;

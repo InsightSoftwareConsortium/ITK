@@ -52,9 +52,12 @@ public:
   inline void Set(TType & output, const TType & input) const
     {output = input;}
 
-  inline const TType & Get( const TType & input ) const
+  inline TType & Get( TType & input ) const
     {return input;}
 
+  inline const TType & Get( const TType & input ) const
+    {return input;}
+  
 };
 
   

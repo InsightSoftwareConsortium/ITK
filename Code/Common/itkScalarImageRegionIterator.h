@@ -32,9 +32,9 @@ namespace itk
  * portion of a pixel.  
  */
 
-template<class TPixel, unsigned int VImageDimension=2, class TPixelContainer=ValarrayImageContainer<unsigned long, TPixel> >
+template<class TImage>
 class ScalarImageRegionIterator : 
-public ImageRegionIterator<TPixel,VImageDimension> 
+public ImageRegionIterator<TImage>
 {
 public:
   /**
@@ -45,50 +45,73 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef ImageRegionIterator<TPixel,VImageDimension,TPixelContainer>  Superclass;
+  typedef ImageRegionIterator<TImage>  Superclass;
 
-  /** 
-   * Run-time type information (and related methods).
+  /**
+   * Dimension of the image the iterator walks.  This enum is needed so that
+   * functions that are templated over image iterator type (as opposed to
+   * being templated over pixel type and dimension) can have compile time
+   * access to the dimension of the image that the iterator walks.
    */
-  itkTypeMacro(ScalarImageRegionIterator, ImageRegionIterator);
+  enum { ImageIteratorDimension = Superclass::ImageIteratorDimension };
 
   /** 
    * Index typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
-   * Note that we have to rescope Index back to itk::Index to that is it not
-   * confused with ImageIterator::Index.
    */
-  typedef Index<VImageDimension> IndexType;
+  typedef typename Superclass::IndexType IndexType;
+
+  /** 
+   * Size typedef support. While this was already typdef'ed in the superclass
+   * it needs to be redone here for this subclass to compile properly with gcc.
+   */
+  typedef typename Superclass::SizeType SizeType;
+
+  /** 
+   * Region typedef support.
+   */
+  typedef typename Superclass::RegionType   RegionType;
 
   /**
    * Image typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
-   * Note that we have to rescope Image back to itk::Image to that is it not
-   * confused with ImageIterator::Image.
    */
-  typedef Image<TPixel, VImageDimension, TPixelContainer> ImageType;
+  typedef typename Superclass::ImageType ImageType;
 
   /** 
    * PixelContainer typedef support. Used to refer to the container for
    * the pixel data. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
    */
-  typedef TPixelContainer PixelContainer;
+  typedef typename Superclass::PixelContainer PixelContainer;
   typedef typename PixelContainer::Pointer PixelContainerPointer;
 
   /**
-   * Region typedef support. While this was already typdef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc.
-   * Note that we have to rescope Region back to itk::ImageRegion so that is
-   * it not confused with ImageIterator::Index.
+   * Internal Pixel Type
    */
-  typedef ImageRegion<VImageDimension> RegionType;
+  typedef typename Superclass::InternalPixelType   InternalPixelType;
+
+  /**
+   * External Pixel Type
+   */
+  typedef typename Superclass::PixelType   PixelType;
+
+  /** 
+   *  Accessor type that convert data between internal and external
+   *  representations.
+   */
+  typedef typename Superclass::AccessorType     AccessorType;
+
+  /** 
+   * Run-time type information (and related methods).
+   */
+  itkTypeMacro(ScalarImageRegionIterator, ImageRegionIterator);
 
   /**
    * Default constructor. Needed since we provide a cast constructor.
    */
   ScalarImageRegionIterator()
-    : ImageRegionIterator<TPixel, VImageDimension, TPixelContainer>() {}
+    : ImageRegionIterator<TImage>() {}
   
   /**
    * Constructor establishes an iterator to walk a particular image and a
@@ -96,7 +119,7 @@ public:
    */
   ScalarImageRegionIterator(ImageType *ptr,
                             const RegionType &region)
-    : ImageRegionIterator<TPixel, VImageDimension, TPixelContainer>(ptr, region) {}
+    : ImageRegionIterator<TImage>(ptr, region) {}
 
   /**
    * Constructor that can be used to cast from an ImageIterator to an
@@ -106,17 +129,26 @@ public:
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ScalarImageRegionIterator.
    */
-  ScalarImageRegionIterator( const ImageIterator<TPixel, VImageDimension, TPixelContainer> &it)
-    { this->ImageIterator<TPixel, VImageDimension, TPixelContainer>::operator=(it); }
+  ScalarImageRegionIterator( const ImageIterator<TImage> &it)
+    { this->ImageIterator<TImage>::operator=(it); }
 
   /**
-   * Dereference the iterator, returns a reference to the pixel. Used to set
-   * or get the value referenced by the index.
+   * Get the pixel value
    */
-   typename ScalarTraits<TPixel>::ScalarValueType& operator*()
-    { 
-    return ScalarTraits<TPixel>::GetScalar(*( m_Buffer + m_Offset )); 
-    }
+  typename ScalarTraits<PixelType>::ScalarValueType Get(void) const  
+  { return ScalarTraits<PixelType>
+      ::GetScalar(m_DataAccessor.Get(*(m_Buffer + m_Offset))); }
+  
+  /**
+   * Set the pixel value
+   */
+  void Set( const ScalarTraits<PixelType>::ScalarValueType value) const  
+  {
+    PixelType p;
+    ScalarTraits<PixelType>::SetScalar( p, value );
+    m_DataAccessor.Set(*(m_Buffer + m_Offset), p);
+  }
+
   
   /**
    * Define operator= for native types.

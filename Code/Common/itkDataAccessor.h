@@ -52,7 +52,7 @@ public:
   inline void Set(TInternalType & output, const TExternalType & input) const
     {output = (TInternalType) input;}
 
-  inline const TExternalType & Get( const TInternalType & input ) const
+  inline TExternalType Get( const TInternalType & input ) const
     {return (TExternalType)input;}
 
 };

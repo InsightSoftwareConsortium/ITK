@@ -191,7 +191,7 @@ LevelSetImageFilter<TLevelSet>
 
   // Define iterators
   typedef
-    ImageRegionIterator<PixelType,SetDimension> IteratorType;
+    ImageRegionIterator<LevelSetImageType> IteratorType;
 
   IteratorType inIt = IteratorType( 
     inputPtr, inputPtr->GetBufferedRegion() );
@@ -202,7 +202,7 @@ LevelSetImageFilter<TLevelSet>
   
   while( !inIt.IsAtEnd() )
     {
-    *inBuffIt = *inIt;
+    inBuffIt.Set( inIt.Get() );
     ++inBuffIt;
     ++inIt;
     }
@@ -231,7 +231,7 @@ LevelSetImageFilter<TLevelSet>
 
   // Define iterators
   typedef
-     ImageRegionIterator<PixelType,SetDimension> IteratorType;
+     ImageRegionIterator<LevelSetImageType> IteratorType;
 
   IteratorType outIt = IteratorType( 
     outputPtr, outputPtr->GetBufferedRegion() );
@@ -243,7 +243,7 @@ LevelSetImageFilter<TLevelSet>
   
   while( !outIt.IsAtEnd() )
     {
-    *outIt = *outBuffIt;
+    outIt.Set( outBuffIt.Get() );
     ++outIt;
     ++outBuffIt;
     }

@@ -174,8 +174,7 @@ LevelSetNeighborhoodExtractor<TLevelSet>
 ::GenerateDataFull()
 {
 
-  typedef ImageRegionIterator<PixelType,SetDimension>
-    InputIterator;
+  typedef ImageRegionIterator<LevelSetImageType> InputIterator;
 
   InputIterator inIt ( m_InputLevelSet,
                        m_InputLevelSet->GetBufferedRegion() );

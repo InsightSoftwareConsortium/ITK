@@ -167,7 +167,7 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
 
     // Define iterators
     typedef
-       ImageRegionIterator<PixelType,SetDimension> IteratorType;
+       ImageRegionIterator<LevelSetImageType> IteratorType;
   
     IteratorType inIt = IteratorType( inputBuffer, 
       inputBuffer->GetBufferedRegion() );
@@ -175,14 +175,14 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
       outputBuffer->GetBufferedRegion() );
 
     typedef
-      ImageRegionIterator<EdgePixelType,SetDimension> 
+      ImageRegionIterator<EdgeImageType> 
         SpeedIteratorType;
 
     SpeedIteratorType speedIt = SpeedIteratorType( edgeImage, 
       edgeImage->GetBufferedRegion() );
 
     typedef
-      ImageRegionIterator<DerivPixelType,SetDimension> 
+      ImageRegionIterator<DerivImageType> 
         DerivIteratorType;
     DerivIteratorType derivIt[SetDimension];
 
@@ -224,13 +224,13 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
       updateValue += curvature * magnitude;
 
       speed = (double) ScalarTraits<EdgePixelType>::
-        GetScalar( *speedIt );
+        GetScalar( speedIt.Get() );
       updateValue *= speed;
 
       for( unsigned int j = 0; j < SetDimension; j++ )
         {
         deriv = (double) ScalarTraits<DerivPixelType>::
-          GetScalar( *(derivIt[j]) );
+          GetScalar( derivIt[j].Get() );
 
         inUpwind->SetSpeed( -1.0 * deriv );
 
@@ -239,10 +239,10 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
 
       updateValue *= timeStepSize; 
     
-      value = (double) ScalarTraits<PixelType>::GetScalar( *inIt );
+      value = (double) ScalarTraits<PixelType>::GetScalar( inIt.Get() );
       value += updateValue;
 
-      ScalarTraits<PixelType>::SetScalar( *outIt, value );
+      ScalarTraits<PixelType>::SetScalar( outIt.Get(), value );
 
       ++outIt;
       ++inIt;
@@ -288,7 +288,7 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
 
   // copy input to output
   typedef
-     ImageRegionIterator<PixelType,SetDimension> IteratorType;
+     ImageRegionIterator<LevelSetImageType> IteratorType;
   
   IteratorType inIt = IteratorType( 
     inputPtr, inputPtr->GetBufferedRegion() );
@@ -300,7 +300,7 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
   
   while( !inIt.IsAtEnd() )
     {
-    *outIt = *inIt;
+    outIt.Set( inIt.Get() );
     ++inIt;
     ++outIt;
     }

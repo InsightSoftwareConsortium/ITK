@@ -195,8 +195,7 @@ public:
    * Type definition for the image iterators to be used.
    */
   typedef
-    ImageRegionIterator< InputImagePixelType, TInputImage::ImageDimension>  
-      InputImageIterator;
+    ImageRegionIterator< TInputImage > InputImageIterator;
 
   /**
    * Type definition for the output image.
@@ -212,8 +211,7 @@ public:
    * Type definition for the output image iterators. 
    */
   typedef
-    ImageRegionIterator< OutputImagePixelType,TOutputImage::ImageDimension>  
-      OutputImageIterator;
+    ImageRegionIterator< TOutputImage > OutputImageIterator;
 
   /**
    * Type definition for the output image pixel vector type.
@@ -241,7 +239,7 @@ public:
    * Type definition for the labelled image iterators. 
    */
   typedef
-    ImageRegionIterator< LabelImagePixelType,LabelImageDimension>  
+    ImageRegionIterator< LabelImageType >
       LabelImageIterator;
 
   /**

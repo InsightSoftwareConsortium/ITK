@@ -158,15 +158,15 @@ WatershedImageFilter<TInputImage, TOutputImage>
 ::CopyOutputToOutput(OutputImageType *output, OutputImageType *input)
 {
   typedef typename TOutputImage::PixelType PixelType;
-  ImageRegionIterator<PixelType, ImageDimension>
+  ImageRegionIterator<TInputImage>
     in_it(input, output->GetRequestedRegion());
-  ImageRegionIterator<PixelType, ImageDimension>
+  ImageRegionIterator<TOutputImage>
     out_it(output, output->GetRequestedRegion());
 
   out_it = out_it.Begin();
   for (in_it = in_it.Begin(); in_it  < in_it.End(); ++in_it, ++out_it)
     {
-      *out_it = *in_it;
+    out_it.Set( in_it.Get() );
     }
 }
 
@@ -480,15 +480,15 @@ WatershedImageFilter<TInputImage, TOutputImage>
 ::FindMinMax(InputImageType* img, InputScalarType &minImageValue,
              InputScalarType &maxImageValue)
 {
-  ImageRegionIterator<InputScalarType, ImageDimension>
+  ImageRegionIterator<InputImageType>
     it(img, img->GetRequestedRegion());
 
   minImageValue = NumericTraits<InputScalarType>::Zero;
   maxImageValue = NumericTraits<InputScalarType>::Zero;
   for (it = it.Begin(); it < it.End(); ++it)
     {
-      if (*it < minImageValue) minImageValue = *it;
-      if (*it > maxImageValue) maxImageValue = *it;
+      if (it.Get() < minImageValue) minImageValue = it.Get();
+      if (it.Get() > maxImageValue) maxImageValue = it.Get();
     }  
 }
 
@@ -498,16 +498,16 @@ WatershedImageFilter<TInputImage, TOutputImage>
 ::MinimumThresholdImage(const InputScalarType minimumValue,
                    InputImageType *in, InputImageType *out)
 {
-  ImageRegionIterator<InputScalarType, ImageDimension>
+  ImageRegionIterator<InputImageType>
     it_in(in, out->GetRequestedRegion());
-  ImageRegionIterator<InputScalarType, ImageDimension>
+  ImageRegionIterator<InputImageType>
     it_out(out, out->GetRequestedRegion());
 
   for (it_in = it_in.Begin(), it_out = it_out.Begin(); it_in < it_in.End();
        ++it_in, ++it_out)
     {
-      if (*it_in < minimumValue) *it_out =  minimumValue;
-      else *it_out = *it_in;
+      if (it_in.Get() < minimumValue) it_out.Set( minimumValue );
+      else it_out.Set( it_in.Get() );
     }
 }
 
@@ -571,7 +571,7 @@ WatershedImageFilter<TInputImage, TOutputImage>
   RandomAccessNeighborhoodIterator<InputImageType> valueIt(hoodRadius, input, output->GetRequestedRegion());
   RandomAccessNeighborhoodIterator<OutputImageType> labelIt(zeroRadius, output, output->GetRequestedRegion());
   
-  ImageRegionIterator<typename TInputImage::PixelType, ImageDimension>
+  ImageRegionIterator<OutputImageType>
     it(output, output->GetRequestedRegion());
 
   std::stack< OutputScalarType * > updateStack;
@@ -599,7 +599,7 @@ WatershedImageFilter<TInputImage, TOutputImage>
   // Search the image and trace the unlabeled pixels to a labeled region.
   for (it = it.Begin(); it < it.End(); ++it)
     {
-      if (*it == UNLABELED_PIXEL) // Not part of a flat region or single
+      if (it.Get() == UNLABELED_PIXEL) // Not part of a flat region or single
         {                         // pixel minimum.
           valueIt.SetLocation(it.GetIndex());
           labelIt.SetLocation(it.GetIndex());
@@ -754,12 +754,12 @@ WatershedImageFilter<TInputImage, TOutputImage>
 ::RelabelImage(OutputImageType *img, const LabelTableType &map)
 {
   LabelTableType::const_iterator temp;
-  ImageRegionIterator<typename TOutputImage::PixelType, ImageDimension>
+  ImageRegionIterator<OutputImageType>
     it(img, img->GetRequestedRegion());
   for ( it = it.Begin(); it < it.End(); ++it)
     {
-      temp = map.find(*it);
-      if (temp != map.end()) { *it = (*temp).second; }
+      temp = map.find(it.Get());
+      if (temp != map.end()) { it.Set( (*temp).second ); }
     }
   
 }

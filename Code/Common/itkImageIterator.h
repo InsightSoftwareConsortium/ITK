@@ -51,7 +51,7 @@ namespace itk
  *
  * 
  */
-template<typename TPixel, unsigned int VImageDimension=2, class TPixelContainer=ValarrayImageContainer<unsigned long, TPixel> >
+template<typename TImage>
 class ImageIterator {
 public:
   /**
@@ -65,35 +65,52 @@ public:
    * being templated over pixel type and dimension) can have compile time
    * access to the dimension of the image that the iterator walks.
    */
-  enum { ImageIteratorDimension = VImageDimension };
+  enum { ImageIteratorDimension = TImage::ImageDimension };
 
   /** 
    * Index typedef support.
    */
-  typedef Index<VImageDimension> IndexType;
+  typedef typename TImage::IndexType  IndexType;
 
   /** 
    * Size typedef support.
    */
-  typedef Size<VImageDimension> SizeType;
+  typedef typename TImage::SizeType    SizeType;
+
+  /** 
+   * Region typedef support.
+   */
+  typedef typename TImage::RegionType   RegionType;
 
   /**
    * Image typedef support.
    */
-  typedef Image<TPixel, VImageDimension, TPixelContainer> ImageType;
+  typedef TImage   ImageType;
 
   /** 
    * PixelContainer typedef support. Used to refer to the container for
-   * the pixel data.
+   * the pixel data. While this was already typdef'ed in the superclass
+   * it needs to be redone here for this subclass to compile properly with gcc.
    */
-  typedef TPixelContainer PixelContainer;
+  typedef typename TImage::PixelContainer PixelContainer;
   typedef typename PixelContainer::Pointer PixelContainerPointer;
 
   /**
-   * Region typedef support.
+   * Internal Pixel Type
    */
-  typedef ImageRegion<VImageDimension> RegionType;
-  
+  typedef typename TImage::InternalPixelType   InternalPixelType;
+
+  /**
+   * External Pixel Type
+   */
+  typedef typename TImage::PixelType   PixelType;
+
+  /** 
+   *  Accessor type that convert data between internal and external
+   *  representations.
+   */
+  typedef typename TImage::AccessorType     AccessorType;
+
   /**
    * Default Constructor. Need to provide a default constructor since we
    * provide a copy constructor.
@@ -125,6 +142,7 @@ public:
     m_Offset = it.m_Offset;
     m_BeginOffset = it.m_BeginOffset;
     m_EndOffset = it.m_EndOffset;
+    m_DataAccessor = it.m_DataAccessor;
   }
 
   /**
@@ -145,12 +163,14 @@ public:
     // Compute the end offset
     IndexType ind(m_Region.GetIndex());
     SizeType size(m_Region.GetSize());
-    for (unsigned int i=0; i < VImageDimension; ++i)
+    for (unsigned int i=0; i < TImage::ImageDimension; ++i)
       {
       ind[i] += (size[i] - 1);
       }
     m_EndOffset = m_Image->ComputeOffset( ind );
     m_EndOffset++;
+
+    m_DataAccessor = ptr->GetDataAccessor();
   }
   
   /**
@@ -166,6 +186,7 @@ public:
     m_Offset = it.m_Offset;
     m_BeginOffset = it.m_BeginOffset;
     m_EndOffset = it.m_EndOffset;
+    m_DataAccessor = it.m_DataAccessor;
 
     return *this;
   }
@@ -174,7 +195,7 @@ public:
    * Get the dimension (size) of the index.
    */
   static unsigned int GetImageIteratorDimension() 
-    {return VImageDimension;}
+    {return TImage::ImageDimension;}
 
   /**
    * Comparison operator. Two iterators are the same if they "point to" the
@@ -271,11 +292,32 @@ public:
     { return m_Region; };
 
   /**
-   * Dereference the iterator, returns a reference to the pixel. Used to set
-   * or get the value referenced by the index.
+   * Get the pixel value
    */
-  TPixel& operator*() const  
-    { return *( m_Buffer + m_Offset ); }
+  PixelType & Get(void) const  
+    { return m_DataAccessor.Get(*(m_Buffer+m_Offset)); }
+  
+  /**
+   * Set the pixel value
+   */
+  void Set( const PixelType & value) const  
+    { m_DataAccessor.Set(*(m_Buffer+m_Offset),value); }
+
+  /**
+   * Return a const reference to the pixel 
+   * This method will provide the fastest access to pixel
+   * data, but it will NOT support ImageAdaptors.
+   */
+  const PixelType & Value(void) const  
+    { return *(m_Buffer+m_Offset); }
+ 
+  /**
+   * Return a reference to the pixel 
+   * This method will provide the fastest access to pixel
+   * data, but it will NOT support ImageAdaptors.
+   */
+  PixelType & Value(void) 
+    { return *(m_Buffer+m_Offset); }
 
   /**
    * Return an iterator for the beginning of the region.
@@ -311,7 +353,9 @@ protected: //made protected so other iterators can access
   unsigned long  m_BeginOffset;
   unsigned long  m_EndOffset;
 
-  TPixel        *m_Buffer;
+  InternalPixelType        *m_Buffer;
+
+  AccessorType           m_DataAccessor;
 };
 
 } // end namespace itk
