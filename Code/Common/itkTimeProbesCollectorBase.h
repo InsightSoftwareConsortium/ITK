@@ -36,7 +36,7 @@ public:
   typedef std::map<IdType,TimeProbe> MapType;
 
   TimeProbesCollectorBase();
-  ~TimeProbesCollectorBase();
+  virtual ~TimeProbesCollectorBase();
 
   virtual void Start(const char *);
   virtual void Stop(const char *);
