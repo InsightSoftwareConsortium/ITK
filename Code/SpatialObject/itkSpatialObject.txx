@@ -117,7 +117,8 @@ SpatialObject< TDimension >
       p2=point;
       
       // should get the spacing from the transform
-      const double* spacing = this->GetIndexToObjectTransform()->GetScaleComponent();
+      const double* spacing = this->GetIndexToObjectTransform()
+                                  ->GetScaleComponent();
       p1[i]-=spacing[i];
       p2[i]+=spacing[i];
 
@@ -168,7 +169,8 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 SpatialObject< TDimension >
-::IsEvaluableAt( const PointType & point, unsigned int depth, char * name ) const
+::IsEvaluableAt( const PointType & point, unsigned int depth,
+                 char * name ) const
 {
   if( depth > 0 )
     {
@@ -237,11 +239,15 @@ SpatialObject< TDimension >
   os << "Bounding Box:" << std::endl;
   os << indent << m_Bounds << std::endl;
   os << "Geometric properties:" << std::endl;
-  os << indent << "Object to World Transform: " << m_ObjectToWorldTransform << std::endl;
-  os << indent << "Index to World Transform: " << m_IndexToWorldTransform << std::endl;
+  os << indent << "Object to World Transform: " << m_ObjectToWorldTransform 
+     << std::endl;
+  os << indent << "Index to World Transform: " << m_IndexToWorldTransform 
+     << std::endl;
   os << std::endl << std::endl;
-  os << indent << "Bounding Box Children Depth: " << m_BoundingBoxChildrenDepth << std::endl;
-  os << indent << "Bounding Box Children Name: " << m_BoundingBoxChildrenName << std::endl;
+  os << indent << "Bounding Box Children Depth: " << m_BoundingBoxChildrenDepth 
+     << std::endl;
+  os << indent << "Bounding Box Children Name: " << m_BoundingBoxChildrenName 
+     << std::endl;
   os << "Object properties: " << std::endl;
   os << m_Property << std::endl;
 }
@@ -275,7 +281,8 @@ SpatialObject< TDimension >
   if(m_TreeNode->Remove(pointer->GetTreeNode()))
     {
     typename ChildrenListType::iterator pos;
-    pos = std::find(m_InternalChildrenList.begin(), m_InternalChildrenList.end(), pointer );
+    pos = std::find(m_InternalChildrenList.begin(),
+                    m_InternalChildrenList.end(), pointer );
     if ( pos != m_InternalChildrenList.end() ) 
       {
       m_InternalChildrenList.erase(pos);
@@ -295,7 +302,8 @@ void
 SpatialObject< TDimension >
 ::SetObjectToParentTransform(TransformType * transform )
 {
-  static_cast<TreeNodeType*>(m_TreeNode.GetPointer())->SetNodeToParentNodeTransform(transform);
+  static_cast<TreeNodeType*>(
+       m_TreeNode.GetPointer())->SetNodeToParentNodeTransform(transform);
   ComputeObjectToWorldTransform();
 }
 
@@ -305,19 +313,36 @@ void
 SpatialObject< TDimension >
 ::ComputeObjectToWorldTransform( )
 {
-  // The ObjectToParentTransform is the combination of the ObjectToNodeTransform and the NodeToParentNodeTransform
+  // The ObjectToParentTransform is the combination of the
+  //    ObjectToNodeTransform and the NodeToParentNodeTransform
   m_ObjectToParentTransform->SetIdentity(); 
-  m_ObjectToParentTransform->Compose(m_AffineGeometryFrame->GetObjectToNodeTransform(),false);
-  m_ObjectToParentTransform->Compose(static_cast<TreeNodeType*>(m_TreeNode.GetPointer())->GetNodeToParentNodeTransform(),false);
+  m_ObjectToParentTransform->SetCenter(
+       m_AffineGeometryFrame->GetObjectToNodeTransform()->GetCenter());
+  m_ObjectToParentTransform->Compose(
+       m_AffineGeometryFrame->GetObjectToNodeTransform(),false);
+  m_ObjectToParentTransform->Compose(
+       static_cast<TreeNodeType*>(
+            m_TreeNode.GetPointer())->GetNodeToParentNodeTransform(),false);
 
-  m_ObjectToWorldTransform->SetMatrix(m_AffineGeometryFrame->GetObjectToNodeTransform()->GetMatrix());
-  m_ObjectToWorldTransform->SetOffset(m_AffineGeometryFrame->GetObjectToNodeTransform()->GetOffset());
+  m_ObjectToWorldTransform->SetCenter(
+       m_AffineGeometryFrame->GetObjectToNodeTransform()->GetCenter());
+  m_ObjectToWorldTransform->SetMatrix(
+       m_AffineGeometryFrame->GetObjectToNodeTransform()->GetMatrix());
+  m_ObjectToWorldTransform->SetOffset(
+       m_AffineGeometryFrame->GetObjectToNodeTransform()->GetOffset());
 
-  m_IndexToWorldTransform->SetMatrix(m_AffineGeometryFrame->GetIndexToObjectTransform()->GetMatrix());
-  m_IndexToWorldTransform->SetOffset(m_AffineGeometryFrame->GetIndexToObjectTransform()->GetOffset());
+  m_IndexToWorldTransform->SetCenter(
+       m_AffineGeometryFrame->GetIndexToObjectTransform()->GetCenter());
+  m_IndexToWorldTransform->SetMatrix(
+       m_AffineGeometryFrame->GetIndexToObjectTransform()->GetMatrix());
+  m_IndexToWorldTransform->SetOffset(
+       m_AffineGeometryFrame->GetIndexToObjectTransform()->GetOffset());
 
-  static_cast<TreeNodeType*>(m_TreeNode.GetPointer())->ComputeNodeToWorldTransform();
-  m_ObjectToWorldTransform->Compose(static_cast<TreeNodeType*>(m_TreeNode.GetPointer())->GetNodeToWorldTransform(),false);
+  static_cast<TreeNodeType*>(m_TreeNode.GetPointer())
+       ->ComputeNodeToWorldTransform();
+  m_ObjectToWorldTransform->Compose(
+       static_cast<TreeNodeType*>(
+            m_TreeNode.GetPointer())->GetNodeToWorldTransform(),false);
 
   m_IndexToWorldTransform->Compose(this->GetObjectToWorldTransform(),false);
   
@@ -359,7 +384,8 @@ typename SpatialObject< TDimension >::TransformType *
 SpatialObject< TDimension >
 ::GetObjectToParentTransform( void )
 {
-  return static_cast<TreeNodeType*>(m_TreeNode.GetPointer())->GetNodeToParentNodeTransform();
+  return static_cast<TreeNodeType*>(
+       m_TreeNode.GetPointer())->GetNodeToParentNodeTransform();
   //return m_ObjectToNodeTransform.GetPointer();
 }
 
@@ -369,7 +395,8 @@ const typename SpatialObject< TDimension >::TransformType *
 SpatialObject< TDimension >
 ::GetObjectToParentTransform( void ) const
 {
-  return static_cast<TreeNodeType*>(m_TreeNode.GetPointer())->GetNodeToParentNodeTransform();
+  return static_cast<TreeNodeType*>(
+       m_TreeNode.GetPointer())->GetNodeToParentNodeTransform();
 }
 
 /** Get the local transformation */
