@@ -33,31 +33,17 @@
   </Set>
 
   <Namespace name="itk" prefix_seperator="">
-    <Code name="New()">
-      <![CDATA[ 
-               _wrap_TypeName::Pointer newObject = _wrap_TypeName::New();
-               newObject->Register();
-               return newObject.GetPointer();
-              ]]>
-    </Code>
-    
-    <Code name="Delete()">
-      <![CDATA[
-               static_cast<_wrap_TypeName*>(object)->Delete();
-              ]]>
-    </Code>
     <Set name="ImageType">
       <Element tag="Image"><![CDATA[Image<$BasicScalarType, $Dimension>]]></Element>
     </Set>
+
+    <WrapperSet>
+      <Element tag="Directory">Directory</Element>
+      <Set name="ImageType"/>
+    </WrapperSet>
   </Namespace>
 
   <WrapperSet>
-    <!--
-    <Method purpose="create" code="New()"/>
-    <Method purpose="create" code="Delete()"/>
-    -->
-    <Set name="::itk::ImageType"/>
-    <Element tag="Directory">Directory</Element>
     <Element tag="Pair"><![CDATA[pair<$itk::ImageType, $Dimension>]]></Element>
   </WrapperSet>
 
