@@ -1439,8 +1439,8 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     normals.Value() = s;
     ++normals;
     k++;
-    l2 += length/d;
-    l1 -= length/d;
+    l2 += length;
+    l1 -= length;
   }
 
   locations = myLocations->Begin();
