@@ -115,8 +115,8 @@ public:
   typedef typename VoronoiDiagram::SeedsType SeedsType;
   typedef typename VoronoiDiagram::SeedsIterator SeedsIterator;
   typedef typename VoronoiDiagram::NeighborIdIterator NeighborIdIterator;
-  typedef typename VoronoiDiagram::VorEdgeIterator EdgeIterator;
-  typedef typename VoronoiDiagram::VorEdge EdgeInfo;
+  typedef typename VoronoiDiagram::VoronoiEdgeIterator EdgeIterator;
+  typedef typename VoronoiDiagram::VoronoiEdge EdgeInfo;
   typedef std::vector<PointType> PointTypeVector;
   typedef std::deque<PointType> PointTypeDeque;
   typedef itk::Image<bool,2>  BinaryObjectImage;
@@ -224,6 +224,10 @@ public:
 protected:
   VoronoiSegmentationImageFilterBase();
   ~VoronoiSegmentationImageFilterBase();
+  VoronoiSegmentationImageFilterBase(const Self&) {}
+  void operator=(const Self&) {}
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+
 
   void GenerateData(void); //general pipeline function.
 

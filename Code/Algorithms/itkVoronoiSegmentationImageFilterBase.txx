@@ -67,6 +67,22 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>::
 ~VoronoiSegmentationImageFilterBase(){
 }
 
+template <class TInputImage, class TOutputImage>
+void
+VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage>::
+PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "Number Of Seeds: " 
+     << m_NumberOfSeeds << std::endl;
+
+  os << indent << "Minimum Region for Split: " 
+     << m_MinRegion << std::endl;
+
+  os << indent << "Number Of Steps to Run: (0 means runs until no region to split) " 
+     << m_Steps << std::endl;
+}
+
 /* initialization for the segmentation */
 template <class TInputImage, class TOutputImage>
 void
@@ -323,7 +339,7 @@ ClassifyDiagram(void)
 	currPitEnd = currCell->PointIdsEnd();
 	VertList.clear();
 	for(currPit=currCell->PointIdsBegin();currPit!=currPitEnd;++currPit){
-	  m_WorkingVD->GetPointId((*currPit),&(currP));
+	  m_WorkingVD->GetPoint((*currPit),&(currP));
 	  VertList.push_back(currP);
 	}
 
@@ -366,8 +382,8 @@ GenerateAddingSeeds(void)
 	if( ((m_Label[seeds[0]]==2)||(m_Label[seeds[1]]==2))
 	  && (m_NumberOfPixels[seeds[0]]>m_MinRegion)
 	  && (m_NumberOfPixels[seeds[1]]>m_MinRegion) ){
-	  adds[0] = (eit->m_left[0] + eit->m_right[0])*0.5;
-	  adds[1] = (eit->m_left[1] + eit->m_right[1])*0.5;
+	  adds[0] = (eit->m_Left[0] + eit->m_Right[0])*0.5;
+	  adds[1] = (eit->m_Left[1] + eit->m_Right[1])*0.5;
 	  m_SeedsToAdded.push_back(adds);
 	}
   }
@@ -467,7 +483,7 @@ MakeSegmentBoundary(void)
       nitend = m_WorkingVD->NeighborIdsEnd(i);
 	    for(nit=m_WorkingVD->NeighborIdsBegin(i);nit!=nitend;++nit){
 	      if(((*nit)>i)&&(m_Label[*nit]==2)){
-		      drawLine(m_WorkingVD->getSeed(i),m_WorkingVD->getSeed(*nit));
+		      drawLine(m_WorkingVD->GetSeed(i),m_WorkingVD->GetSeed(*nit));
 		      i=i;
 	      }
 	    }
@@ -498,7 +514,7 @@ MakeSegmentObject(void)
       currPitEnd = currCell->PointIdsEnd();
 	  VertList.clear();
 	  for(currPit=currCell->PointIdsBegin();currPit!=currPitEnd;++currPit){
-	    m_WorkingVD->GetPointId((*currPit),&(currP));
+	    m_WorkingVD->GetPoint((*currPit),&(currP));
 	    VertList.push_back(currP);
 	  }
 	  FillPolygon(VertList);
