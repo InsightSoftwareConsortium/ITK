@@ -136,4 +136,6 @@ vnl_powell::minimize(vnl_vector<double>& p)
     }
     report_iter();
   }
+
+  return ERROR_FAILURE;
 }
