@@ -67,7 +67,7 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
 ::GetMTime() const
 {
   unsigned long mtime = Superclass::GetMTime();
-  unsigned long m = mtime;
+  unsigned long m;
 
 
   // Some of the following should be removed once ivars are put in the

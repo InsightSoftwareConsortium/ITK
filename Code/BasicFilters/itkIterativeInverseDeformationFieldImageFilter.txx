@@ -107,7 +107,7 @@ namespace itk{
       FieldInterpolatorOutputType forwardVector;
       double spacing = inputPtr->GetSpacing()[0];
       double smallestError = 0;
-      int stillSamePoint = 0;
+      int stillSamePoint;
       unsigned int counter = 0;
       unsigned int tmp_counter = 0;
       InputImageRegionType region = inputPtr->GetLargestPossibleRegion();
