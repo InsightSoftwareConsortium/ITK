@@ -64,6 +64,9 @@ TARGET_LINK_LIBRARIES(DeformableRegistration4 ITKNumerics ITKIO)
 ADD_EXECUTABLE(DeformableRegistration5 DeformableRegistration5.cxx )
 TARGET_LINK_LIBRARIES(DeformableRegistration5 ITKNumerics ITKIO)
 
+ADD_EXECUTABLE(DeformableRegistration6 DeformableRegistration6.cxx )
+TARGET_LINK_LIBRARIES(DeformableRegistration6 ITKNumerics ITKIO)
+
 ADD_EXECUTABLE(DeformationFieldInitialization DeformationFieldInitialization.cxx )
 TARGET_LINK_LIBRARIES(DeformationFieldInitialization ITKNumerics ITKIO)
 
@@ -210,6 +213,15 @@ ADD_TEST(DeformableRegistration4Test ${REGISTRATION_EXAMPLES6}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBSplined10.png
         ${TEMP}/DeformableRegistration4Test.png
+)
+
+ADD_TEST(DeformableRegistration6Test ${REGISTRATION_EXAMPLES6}
+  --compare ${BASELINE}/DeformableRegistration6Test.png
+            ${TEMP}/DeformableRegistration6Test.png
+  DeformableRegistration4Test
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBSplined10.png
+        ${TEMP}/DeformableRegistration6Test.png
 )
 
 ADD_TEST(BSplineWarping1Test ${REGISTRATION_EXAMPLES6}

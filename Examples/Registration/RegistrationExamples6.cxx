@@ -13,6 +13,8 @@ void RegisterTests()
   vnl_sample_reseed(8775070);
   REGISTER_TEST(DeformableRegistration4Test);
   REGISTER_TEST(BSplineWarping1Test);
+  vnl_sample_reseed(8775070);
+  REGISTER_TEST(DeformableRegistration6Test);
 }
 
 #undef main
@@ -26,3 +28,11 @@ void RegisterTests()
 #undef CommandIterationUpdate
 #define CommandIterationUpdate CommandIterationUpdate16
 #include "BSplineWarping1.cxx"
+
+#undef main
+#define main  DeformableRegistration6Test
+#undef CommandIterationUpdate
+#define CommandIterationUpdate CommandIterationUpdate17
+#include "DeformableRegistration6.cxx"
+
+
