@@ -1,7 +1,7 @@
 # This is the root ITK CMakeLists file.
 CMAKE_MINIMUM_REQUIRED(VERSION 1.8)
 PROJECT(ITK)
-INCLUDE_REGULAR_EXPRESSION("^(itk|vtk|vnl|vcl|vxl|f2c|netlib|ce|itpack|DICOM|meta|png|dbh|tif|jpeg|zlib).*$")
+INCLUDE_REGULAR_EXPRESSION("^([Nn]rrd|itk|vtk|vnl|vcl|vxl|f2c|netlib|ce|itpack|DICOM|meta|png|dbh|tif|jpeg|zlib).*$")
 SOURCE_GROUP("XML Files" REGULAR_EXPRESSION "[.]xml$")
 
 # Don't build anything unless the version of CMake is high enough.
