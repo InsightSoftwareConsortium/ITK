@@ -55,12 +55,6 @@ public:
    enum { ImageDimension = ReferenceType::ImageDimension };
 
   /**
-   * Parameters Dimension
-   */
-   enum { ParametersDimension = 7 }; // one quaternion + one vector
-
-
-  /**
    *  Type of the parameters
    */
    typedef Point<double,ParametersDimension>   ParametersType;
@@ -69,7 +63,12 @@ public:
    *  Type of the Transformation
    */
    typedef Rigid3DPerspectiveTransform< double > TransformationType;
-	  
+
+	/**
+   * Parameters Dimension
+   */
+   enum { ParametersDimension = TransformationType::ParametersDimension }; 
+  
   /**
    *  Type of the Mapper
    */
