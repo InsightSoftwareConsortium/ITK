@@ -48,18 +48,26 @@ ImageClassifierBase<TInputImage, TClassifiedImage>
 {
   Superclass::PrintSelf(os,indent);
 
-  unsigned int i;
   os << indent << "General Image Classifier / Clusterer" << std::endl;
   os << indent << "ClassifiedImage: ";
   os << m_ClassifiedImage.GetPointer() << std::endl;
   os << indent << "InputImage: ";
   os << m_InputImage.GetPointer() << std::endl;
+
+  signed int i;
+  const unsigned int length = m_PixelMembershipValue.size();
+  const signed int last = (unsigned int) length - 1;
+
   os << indent << "Pixel membership: [" ;
-  for ( i = 0; i < m_PixelMembershipValue.size() - 1; i++)
+  for ( i = 0; i < last; i++)
     {
     os << m_PixelMembershipValue[i] << ", ";
     }
-  os << m_PixelMembershipValue[i] << "]" << std::endl;
+  if ( length >= 1 )
+    {
+    os << m_PixelMembershipValue[last];
+    }
+  os << "]" << std::endl;
 
 }// end PrintSelf
 
