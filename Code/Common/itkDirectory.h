@@ -58,7 +58,7 @@ public:
   bool Load(const char* dir);
 
   /** Return the number of files in the current directory. */
-  int GetNumberOfFiles() { return m_Files.size();}
+  unsigned int GetNumberOfFiles() { return m_Files.size();}
 
   /** Return the file at the given index, the indexing is 0 based */
   const char* GetFile(unsigned int index);
