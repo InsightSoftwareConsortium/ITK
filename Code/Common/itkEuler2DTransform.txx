@@ -122,7 +122,7 @@ Euler2DTransform<TScalarType>
 template <class TScalarType>
 void
 Euler2DTransform<TScalarType>
-::Compose(const Self *other, bool pre)
+::Compose(const Superclass *other, bool pre)
 {
   Superclass::Compose(other,pre);
   this->ComputeAngleFromMatrix();
