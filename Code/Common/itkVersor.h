@@ -71,8 +71,22 @@ public:
   /** Vnl Vector type.  */
   typedef  vnl_vector_fixed<T,3>   VnlVectorType;
 
+  /** Vnl Quaternion type.  */
+  typedef  vnl_quaternion<T>       VnlQuaternionType;
+
   /** Get a vnl_quaternion with a copy of the internal memory block. */
   vnl_quaternion<T> GetVnlQuaternion( void ) const;
+
+  /** Set the Versor from a Quaternion 
+   \warning After assignment, the corresponding quaternion will 
+            be normalized in order to get a consistent Versor.  */
+  void Set( const VnlQuaternionType & ); 
+
+  /** Set the Versor from Quaternion components.
+   \warning After assignment, the corresponding quaternion will 
+            be normalized in order to get a consistent Versor.  */
+  void Set( T x, T y, T z, T w );  
+
 
   /** Default constructor creates a null versor 
    * (representing 0 degrees  rotation). */
@@ -89,6 +103,17 @@ public:
    * versor. */
   const Self& operator*=(const Self & v);
 
+  /** Get Tensor part of the Versor. 
+   * Given that Versors are normalized quaternions this value
+   * is expected to be 1.0 always  */
+  ValueType GetTensor(void) const;
+
+  /** Normalize the Versor.
+   * Given that Versors are normalized quaternions this method
+   * is provided only for convinience when it is suspected that
+   * a versor could be out of the unit sphere.   */
+  void Normalize(void);
+
   /** Get Conjugate versor.  Returns the versor that produce
    * a rotation by the same angle but in opposite direction. */
   Self GetConjugate(void) const;
@@ -101,6 +126,9 @@ public:
   /** Versor operator*.  Performs the composition of two versors.
    * this operation is NOT commutative. */
   Self operator*(const Self &vec) const;
+
+  /** Versor operator/.  Performs the division of two versors. */
+  Self operator/(const Self &vec) const;
 
   /** Versor operator==  Performs the comparison between two versors.
    * this operation uses and arbitrary threshold for the comparison.  */

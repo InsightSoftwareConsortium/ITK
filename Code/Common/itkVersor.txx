@@ -112,6 +112,19 @@ Versor<T>
 
 
 /**
+ * Division Operator
+ */
+template<class T>
+Versor<T> 
+Versor<T>
+::operator/( const Self & v) const
+{
+  return *this * v.GetReciprocal();
+}
+
+
+
+/**
  * Composition Operator
  */
 template<class T>
@@ -213,6 +226,52 @@ Versor<T>
   return result;
 }
  
+
+
+
+/**
+ * Get Tensor part
+ */
+template<class T>
+Versor<T>::ValueType
+Versor<T>
+::GetTensor( void ) const
+{
+  
+  const ValueType tensor = 
+    static_cast< ValueType > (
+      sqrt( m_X*m_X + m_Y*m_Y + m_Z*m_Z + m_W*m_W ) );
+
+  return tensor;
+}
+ 
+
+
+/**
+ * Normalize
+ */
+template<class T>
+void
+Versor<T>
+::Normalize( void ) 
+{
+  const ValueType tensor = this->GetTensor();
+
+  if( fabs( tensor ) < 1e-20 )
+  {
+    ExceptionObject except;
+    except.SetDescription("Attempt to normalize a itk::Versor with zero tensor");
+    except.SetLocation(__FILE__);
+    throw except;
+  }
+  m_X /=  tensor;
+  m_Y /=  tensor;
+  m_Z /=  tensor;
+  m_W /=  tensor;
+
+}
+ 
+
 
 
 
@@ -392,6 +451,45 @@ Versor<T>
 
 }
  
+
+
+/**
+ * Set the Versor from four components.
+ * After assignment, the quaternion is normalized
+ * in order to get a consistent Versor (unit quaternion).
+ */
+template<class T>
+void
+Versor<T>
+::Set( T x, T y, T z, T w )
+{
+  m_X = x;
+  m_Y = y;
+  m_Z = z;
+  m_W = r;
+  this->Normalize();
+}
+
+
+
+/**
+ * Set from a vnl_quaternion
+ * After assignment, the quaternion is normalized
+ * in order to get a consistent Versor (unit quaternion).
+ */
+template<class T>
+void
+Versor<T>
+::Set( const VnlQuaternionType & quaternion )
+{
+  m_X = quaternion.x();
+  m_Y = quaternion.y();
+  m_Z = quaternion.z();
+  m_W = quaternion.r();
+  this->Normalize();
+}
+
+
 
 
 /**
