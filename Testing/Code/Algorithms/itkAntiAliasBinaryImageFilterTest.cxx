@@ -107,6 +107,10 @@ int itkAntiAliasBinaryImageFilterTest(int , char * [] )
   antialiaser->SetInput(image);
   antialiaser->SetMaximumRMSError(0.02);
 
+  // For increased code coverage.  Does nothing.
+  antialiaser->GetMaximumRMSError();
+  
+
   // Generally a good idea to set this value as a safeguard against infinte
   // loops if the MaximumRMSError has been set too low.
   antialiaser->SetMaximumIterations(100);
@@ -143,6 +147,10 @@ int itkAntiAliasBinaryImageFilterTest(int , char * [] )
       // Repeat just to make sure we reinitialize properly.
       antialiaser->SetMaximumIterations(200);
       antialiaser->Update();
+      
+      antialiaser->GetLowerBinaryValue();
+      antialiaser->GetUpperBinaryValue();
+      
       std::cout << "Maximum RMS change value threshold was: 0.02 " << std::endl;
       std::cout << "Last RMS change value was: " << antialiaser->GetRMSChange() << std::endl;
       return 0;
