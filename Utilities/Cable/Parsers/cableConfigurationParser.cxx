@@ -102,12 +102,12 @@ Parser
     }
   else
     {
-    throw UnknownElementTagException(__FILE__, __LINE__, name);
+    throw UnknownElementTagException(name);
     }
   }
   catch (const ParseException& e)
     {
-    e.PrintLocation(std::cerr);
+    e.PrintLocation(std::cerr, m_XML_Parser, "configuration");
     e.Print(std::cerr);
     }
   catch (const String& e)
@@ -141,12 +141,12 @@ Parser
     }
   else
     {
-    throw UnknownElementTagException(__FILE__, __LINE__, name);
+    throw UnknownElementTagException(name);
     }
   }
   catch (const ParseException& e)
     {
-    e.PrintLocation(std::cerr);
+    e.PrintLocation(std::cerr, m_XML_Parser, "configuration");
     e.Print(std::cerr);
     }
   catch (const String& e)
@@ -192,6 +192,8 @@ Parser
  *
  * Such a segment is of the form:
  * <![CDATA[....]]>
+ * or just
+ * ....
  * "data" will be ...., one line at a time.
  * "data" will NOT be '\0' terminated, but "length" specifies how much.
  */
@@ -199,11 +201,7 @@ void
 Parser
 ::CharacterDataHandler(const XML_Char *data, int length)
 {
-//  Parser* parser = static_cast<Parser*>(in_parser);
-//  if(parser->GetCdataSectionFlag())// && CurrentCodeBlock())
-//    {
-    //CurrentCodeBlock()->AddLine(data, length);
-//    }
+  this->CurrentElement()->AddCharacterData(data, length, m_CdataSectionFlag);
 }
 
 
@@ -212,7 +210,7 @@ Parser
  */
 ConfigureObject::Pointer
 Parser
-::CurrentElement(void)
+::CurrentElement()
 {
   return m_ElementStack.top();
 }
@@ -224,9 +222,8 @@ Parser
 class ElementStackTypeException: public ParseException
 {
 public:
-  ElementStackTypeException(const char* file, int line,
-                            const char* e, const char* t):
-    ParseException(file, line), m_Expected(e), m_Got(t) {}
+  ElementStackTypeException(const char* e, const char* t):
+    ParseException(), m_Expected(e), m_Got(t) {}
   void Print(std::ostream& os) const
     {
       os << "Expected \"" << m_Expected.c_str()
@@ -244,10 +241,10 @@ private:
  */
 Package::Pointer
 Parser
-::CurrentPackage(void)
+::CurrentPackage()
 {
-  if(m_ElementStack.top()->GetTypeOfObject() != Package_id)
-    throw ElementStackTypeException(__FILE__, __LINE__, "Package",
+  if(!m_ElementStack.top()->IsPackage())
+    throw ElementStackTypeException("Package",
                                     m_ElementStack.top()->GetClassName());
 
   return dynamic_cast<Package*>(m_ElementStack.top().RealPointer());
@@ -259,13 +256,73 @@ Parser
  */
 Dependencies::Pointer
 Parser
-::CurrentDependencies(void)
+::CurrentDependencies()
 {
-  if(m_ElementStack.top()->GetTypeOfObject() != Dependencies_id)
-    throw ElementStackTypeException(__FILE__, __LINE__, "Dependencies",
+  if(!m_ElementStack.top()->IsDependencies())
+    throw ElementStackTypeException("Dependencies",
                                     m_ElementStack.top()->GetClassName());
 
   return dynamic_cast<Dependencies*>(m_ElementStack.top().RealPointer());
+}
+
+
+/**
+ * Get the current CodeBlock off the top of the element stack.
+ */
+CodeBlock::Pointer
+Parser
+::CurrentCodeBlock()
+{
+  if(!m_ElementStack.top()->IsCodeBlock())
+    throw ElementStackTypeException("CodeBlock",
+                                    m_ElementStack.top()->GetClassName());
+
+  return dynamic_cast<CodeBlock*>(m_ElementStack.top().RealPointer());
+}
+
+
+/**
+ * Get the current ArgumentSet off the top of the element stack.
+ */
+ArgumentSet::Pointer
+Parser
+::CurrentArgumentSet()
+{
+  if(!m_ElementStack.top()->IsArgumentSet())
+    throw ElementStackTypeException("ArgumentSet",
+                                    m_ElementStack.top()->GetClassName());
+
+  return dynamic_cast<ArgumentSet*>(m_ElementStack.top().RealPointer());
+}
+
+
+/**
+ * Get the current Argument off the top of the element stack.
+ */
+Argument::Pointer
+Parser
+::CurrentArgument()
+{
+  if(!m_ElementStack.top()->IsArgument())
+    throw ElementStackTypeException("Argument",
+                                    m_ElementStack.top()->GetClassName());
+
+  return dynamic_cast<Argument*>(m_ElementStack.top().RealPointer());
+}
+
+
+/**
+ * Get the current Headers off the top of the element stack.
+ */
+Headers::Pointer
+Parser
+::CurrentHeaders()
+{
+  if(!m_ElementStack.top()->IsHeaders())
+    throw ElementStackTypeException("Headers",
+                                    m_ElementStack.top()->GetClassName());
+
+  return dynamic_cast<Headers*>(m_ElementStack.top().RealPointer());
 }
 
 
@@ -285,7 +342,7 @@ Parser
  */
 void
 Parser
-::PopElement(void)
+::PopElement()
 {
   m_ElementStack.pop();
 
@@ -338,12 +395,17 @@ Parser
 ::begin_Dependencies(const Attributes&)
 {
   Package* package = this->CurrentPackage();
+  
+  // See if the package already has a Dependencies instance.
   Dependencies::Pointer dependencies = package->GetDependencies();
   if(!dependencies)
     {
+    // Need to create a new Dependencies and give it to the package.
     dependencies = Dependencies::New();
     package->SetDependencies(dependencies);
     }
+  
+  // Put the Dependencies on the stack so packages can be added.
   this->PushElement(dependencies);
 }
 
@@ -356,6 +418,238 @@ Parser
 ::end_Dependencies()
 {
   this->PopElement();
+}
+
+
+/**
+ * Begin handler for CreateMethod element.
+ */
+void
+Parser
+::begin_CreateMethod(const Attributes& atts)
+{
+  String name = atts.Get("name");
+  
+  // Create a new CodeBlock to hold the lines of code.
+  CodeBlock::Pointer newCodeBlock = CodeBlock::New();
+  
+  // Save the CodeBlock by this name.
+  m_CreateMethods[name] = newCodeBlock;
+  
+  // Put new CodeBlock on the stack so it can be filled with lines.
+  this->PushElement(newCodeBlock);
+}
+
+
+/**
+ * End handler for CreateMethod element.
+ */
+void
+Parser
+::end_CreateMethod()
+{
+  // Take the CodeBlock off the stack.
+  this->PopElement();
+}
+
+
+/**
+ * Begin handler for DeleteMethod element.
+ */
+void
+Parser
+::begin_DeleteMethod(const Attributes& atts)
+{
+  String name = atts.Get("name");
+  
+  // Create a new CodeBlock to hold the lines of code.
+  CodeBlock::Pointer newCodeBlock = CodeBlock::New();
+  
+  // Save the CodeBlock by this name.
+  m_DeleteMethods[name] = newCodeBlock;
+  
+  // Put new CodeBlock on the stack so it can be filled with lines.
+  this->PushElement(newCodeBlock);
+}
+
+
+/**
+ * End handler for DeleteMethod element.
+ */
+void
+Parser
+::end_DeleteMethod()
+{
+  // Take the CodeBlock off the stack.
+  this->PopElement();
+}
+
+
+/**
+ * Begin handler for ArgumentSet element.
+ */
+void
+Parser
+::begin_ArgumentSet(const Attributes& atts)
+{
+  String name = atts.Get("name");
+  
+  if(this->CurrentElement()->IsArgumentSet())
+    {
+    // The ArgumentSet is being referenced inside another set.
+    if(m_ArgumentSets.count(name) > 0)
+      {
+      // Copy all the arguments over to it.
+      this->CurrentArgumentSet()->Add(m_ArgumentSets[name]);
+      }
+    else
+      {
+      // The referenced argument set does not exist.  Complain.
+      std::cerr << "ArgumentSet \"" << name.c_str() << "\" does not exist!"
+                << std::endl;
+      }
+    
+    // Put a dummy element on the stack to be popped off by end_ArgumentSet().
+    this->PushElement(0);
+    }
+  else
+    {
+    // Create a new ArgumentSet.
+    ArgumentSet::Pointer newArgumentSet = ArgumentSet::New();
+    
+    // Save the ArgumentSet by this name.
+    m_ArgumentSets[name] = newArgumentSet;
+    
+    // Put new ArgumentSet on the stack so it can be filled.
+    this->PushElement(newArgumentSet);
+    }
+}
+
+
+/**
+ * End handler for ArgumentSet element.
+ */
+void
+Parser
+::end_ArgumentSet()
+{
+  // Take the ArgumentSet off the stack.
+  this->PopElement();
+}
+
+
+/**
+ * Begin handler for Argument element.
+ */
+void
+Parser
+::begin_Argument(const Attributes& atts)
+{
+  String tag = atts.Get("tag");
+  
+  // Create a new Argument.
+  Argument::Pointer newArgument = Argument::New(tag);
+  
+  // Add the argument to the current set.
+  this->CurrentArgumentSet()->Add(newArgument);
+  
+  // Put new Argument on the stack so it can be filled with code.
+  this->PushElement(newArgument);
+}
+
+
+/**
+ * End handler for Argument element.
+ */
+void
+Parser
+::end_Argument()
+{
+  // Take the Argument off the stack.
+  this->PopElement();
+}
+
+
+/**
+ * Begin handler for Headers element.
+ */
+void
+Parser
+::begin_Headers(const Attributes& atts)
+{
+  Package* package = this->CurrentPackage();
+
+  // See if the package already has a Headers instance.
+  Headers::Pointer headers = package->GetHeaders();
+  if(!headers)
+    {
+    // Need to create a new Headers and give it to the package.
+    headers = Headers::New();
+    package->SetHeaders(headers);
+    }
+  
+  // Put the Headers on the stack so files and directories can be added.
+  this->PushElement(headers);
+}
+
+
+/**
+ * End handler for Headers element.
+ */
+void
+Parser
+::end_Headers()
+{
+  // Take the Headers off the stack.
+  this->PopElement();
+}
+
+
+/**
+ * Begin handler for File element.
+ */
+void
+Parser
+::begin_File(const Attributes& atts)
+{
+  String name = atts.Get("name");
+
+  // Add the file to the current set of headers.
+  this->CurrentHeaders()->AddFile(name);
+}
+
+
+/**
+ * End handler for File element.
+ */
+void
+Parser
+::end_File()
+{
+}
+
+
+/**
+ * Begin handler for Directory element.
+ */
+void
+Parser
+::begin_Directory(const Attributes& atts)
+{
+  String name = atts.Get("name");
+  
+  // Add the directory to the current set of headers.
+  this->CurrentHeaders()->AddDirectory(name);
+}
+
+
+/**
+ * End handler for Directory element.
+ */
+void
+Parser
+::end_Directory()
+{
 }
 
 
@@ -376,7 +670,7 @@ Parser::EndHandlers Parser::endHandlers;
  */
 void
 Parser
-::InitializeHandlers(void)
+::InitializeHandlers()
 {
   // Make sure we only initialize the maps once.
   static bool initialized = false;  
@@ -384,34 +678,25 @@ Parser
   
   beginHandlers["Package"]      = &Parser::begin_Package;
   beginHandlers["Dependencies"] = &Parser::begin_Dependencies;
+  beginHandlers["CreateMethod"] = &Parser::begin_CreateMethod;
+  beginHandlers["DeleteMethod"] = &Parser::begin_DeleteMethod;
+  beginHandlers["ArgumentSet"]  = &Parser::begin_ArgumentSet;
+  beginHandlers["Argument"]     = &Parser::begin_Argument;
+  beginHandlers["Headers"]      = &Parser::begin_Headers;
+  beginHandlers["File"]         = &Parser::begin_File;
+  beginHandlers["Directory"]    = &Parser::begin_Directory;
 
   endHandlers["Package"]      = &Parser::end_Package;
   endHandlers["Dependencies"] = &Parser::end_Dependencies;
+  endHandlers["CreateMethod"] = &Parser::end_CreateMethod;
+  endHandlers["DeleteMethod"] = &Parser::end_DeleteMethod;
+  endHandlers["ArgumentSet"]  = &Parser::end_ArgumentSet;
+  endHandlers["Argument"]     = &Parser::end_Argument;
+  endHandlers["Headers"]      = &Parser::end_Headers;
+  endHandlers["File"]         = &Parser::end_File;
+  endHandlers["Directory"]    = &Parser::end_Directory;
   
   initialized = true;
-}
-
-
-
-
-/**
- * Passes call through to real parser object according to first argument.
- */
-void
-Parser
-::BeginCdataSectionHandler_proxy(void* parser)
-{
-  static_cast<Parser*>(parser)->BeginCdataSectionHandler();
-}
-
-/**
- * Passes call through to real parser object according to first argument.
- */
-void
-Parser
-::EndCdataSectionHandler_proxy(void* parser)
-{
-  static_cast<Parser*>(parser)->EndCdataSectionHandler();
 }
 
 
@@ -445,6 +730,28 @@ Parser
 ::CharacterDataHandler_proxy(void* parser,const XML_Char *data, int length)
 {
   static_cast<Parser*>(parser)->CharacterDataHandler(data, length);
+}
+
+
+/**
+ * Passes call through to real parser object according to first argument.
+ */
+void
+Parser
+::BeginCdataSectionHandler_proxy(void* parser)
+{
+  static_cast<Parser*>(parser)->BeginCdataSectionHandler();
+}
+
+
+/**
+ * Passes call through to real parser object according to first argument.
+ */
+void
+Parser
+::EndCdataSectionHandler_proxy(void* parser)
+{
+  static_cast<Parser*>(parser)->EndCdataSectionHandler();
 }
 
 

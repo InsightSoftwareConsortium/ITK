@@ -57,23 +57,23 @@ private:
   Namespace::Pointer  m_GlobalNamespace;
   
   // Access functions for element stack.
-  InternalObject::Pointer CurrentElement(void);
-  Context::Pointer        CurrentContext(void);
-  Namespace::Pointer      CurrentNamespace(void);
-  Class::Pointer          CurrentClass(void);
-  Type::Pointer           CurrentType(void);
-  Function::Pointer       CurrentFunction(void);
-  Argument::Pointer       CurrentArgument(void);
-  PointerType::Pointer    CurrentPointerType(void);
-  ReferenceType::Pointer  CurrentReferenceType(void);
-  FunctionType::Pointer   CurrentFunctionType(void);
-  MethodType::Pointer     CurrentMethodType(void);
-  OffsetType::Pointer     CurrentOffsetType(void);
-  ArrayType::Pointer      CurrentArrayType(void);
+  InternalObject::Pointer CurrentElement();
+  Context::Pointer        CurrentContext();
+  Namespace::Pointer      CurrentNamespace();
+  Class::Pointer          CurrentClass();
+  Type::Pointer           CurrentType();
+  Function::Pointer       CurrentFunction();
+  Argument::Pointer       CurrentArgument();
+  PointerType::Pointer    CurrentPointerType();
+  ReferenceType::Pointer  CurrentReferenceType();
+  FunctionType::Pointer   CurrentFunctionType();
+  MethodType::Pointer     CurrentMethodType();
+  OffsetType::Pointer     CurrentOffsetType();
+  ArrayType::Pointer      CurrentArrayType();
   
   // Element stack utilities.
   void PushElement(InternalObject* element);
-  void PopElement(void);
+  void PopElement();
 
   // The element begin handlers.
   void begin_GlobalNamespace(const Attributes&);
@@ -170,7 +170,7 @@ private:
   /**
    * Map from element name to its ending handler.
    */
-  typedef std::map<String, void (Self::*)(void)>  EndHandlers;  
+  typedef std::map<String, void (Self::*)()>  EndHandlers;  
   
   static BeginHandlers beginHandlers;
   static EndHandlers   endHandlers;  

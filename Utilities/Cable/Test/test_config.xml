@@ -3,4 +3,23 @@
   <Dependencies>
     <Package name="Numbers"/>
   </Dependencies>
+
+  <Headers>
+    <Directory name="Code/Common"/>
+    <File name="itkVersion.h"/>
+  </Headers>
+
+  <File name="itkVersion.h"/>
+
+  <ArgumentSet name="BasicScalarType">
+    <Argument tag="F">float</Argument>
+  </ArgumentSet>
+
+  <CreateMethod name="operator new">
+    <![CDATA[
+             return new _wrap_TypeName;
+             ]]>
+  </CreateMethod>
+
+
 </Package>

@@ -17,20 +17,21 @@ typedef std::string String;
 class ParseException
 {
 public:
-  ParseException(const char* file, int line): m_File(file), m_Line(line) {}
+  ParseException() {}
 
   virtual void Print(std::ostream& os) const
     {
       os << "Unknown exceptions during parse." << std::endl;
     }
-  void PrintLocation(std::ostream& os) const
+
+  void PrintLocation(std::ostream& os, XML_Parser parser,
+                     const char* source = 0) const
     {
-      os << "An exception occured in source file \"" << m_File.c_str()
-         << "\", line " << m_Line << std::endl;
+      if(source) os << source << ": ";
+      os << "Error at line " << XML_GetCurrentLineNumber(parser)
+         << ", column " << XML_GetCurrentColumnNumber(parser)
+         << std::endl;
     }
-private:
-  String m_File;
-  int m_Line;
 };
 
 
@@ -40,9 +41,8 @@ private:
 class UnknownElementTagException: public ParseException
 {
 public:
-  UnknownElementTagException(const char* file, int line,
-                             const char* unknown):
-    ParseException(file, line), m_Unknown(unknown) {}
+  UnknownElementTagException(const char* unknown):
+    ParseException(), m_Unknown(unknown) {}
 
   void Print(std::ostream& os) const
     {

@@ -56,31 +56,64 @@ private:
    * Store the package configuration instance.
    */
   Package::Pointer m_Package;
-
+  
   /**
    * Flag for whether a CDATA section is being parsed.
    */
   bool m_CdataSectionFlag;
+  
+  /**
+   * Set of named CreateMethod s that have been defined.
+   */
+  std::map<String, CodeBlock::Pointer>  m_CreateMethods;
+  
+  /**
+   * Set of named DeleteMethod s that have been defined.
+   */
+  std::map<String, CodeBlock::Pointer>  m_DeleteMethods;
+
+  /**
+   * Set of named ArgumentSet s that have been defined.
+   */
+  std::map<String, ArgumentSet::Pointer>  m_ArgumentSets;
 
   // Access functions for element stack.
-  ConfigureObject::Pointer CurrentElement(void);  
-  Package::Pointer         CurrentPackage(void);  
-  Dependencies::Pointer   CurrentDependencies(void);  
-  
+  ConfigureObject::Pointer CurrentElement();
+  Package::Pointer         CurrentPackage();
+  Dependencies::Pointer    CurrentDependencies();
+  CodeBlock::Pointer       CurrentCodeBlock();
+  ArgumentSet::Pointer     CurrentArgumentSet();
+  Argument::Pointer        CurrentArgument();
+  Headers::Pointer         CurrentHeaders();
+
   // Element stack utilities.
   void PushElement(ConfigureObject* element);
-  void PopElement(void);
+  void PopElement();
 
   // The element begin handlers.
   void begin_Package(const Attributes&);
   void begin_Dependencies(const Attributes&);
+  void begin_CreateMethod(const Attributes&);
+  void begin_DeleteMethod(const Attributes&);
+  void begin_ArgumentSet(const Attributes&);
+  void begin_Argument(const Attributes&);
+  void begin_Headers(const Attributes&);
+  void begin_File(const Attributes&);
+  void begin_Directory(const Attributes&);
   
   // The element end handlers.
   void end_Package();
   void end_Dependencies();
+  void end_CreateMethod();
+  void end_DeleteMethod();
+  void end_ArgumentSet();
+  void end_Argument();
+  void end_Headers();
+  void end_File();
+  void end_Directory();
   
   // Element map utilities.
-  static void InitializeHandlers();  
+  static void InitializeHandlers();
   
   /**
    * Map from element name to its beginning handler.
@@ -90,17 +123,17 @@ private:
   /**
    * Map from element name to its ending handler.
    */
-  typedef std::map<String, void (Self::*)(void)>  EndHandlers;
+  typedef std::map<String, void (Self::*)()>  EndHandlers;
 
   static BeginHandlers beginHandlers;
   static EndHandlers   endHandlers;  
 
   // Proxy functions for call-backs from XML Parser.
-  static void BeginCdataSectionHandler_proxy(void*);
-  static void EndCdataSectionHandler_proxy(void*);
   static void BeginElement_proxy(void*, const char *, const char **);
   static void EndElement_proxy(void*, const char *);
   static void CharacterDataHandler_proxy(void*,const XML_Char *, int);
+  static void BeginCdataSectionHandler_proxy(void*);
+  static void EndCdataSectionHandler_proxy(void*);
 };
 
 } // namespace configuration

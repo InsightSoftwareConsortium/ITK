@@ -30,7 +30,7 @@ Attributes
     }
   else
     {
-    throw UnknownAttributeException(__FILE__, __LINE__, a.c_str());
+    throw MissingAttributeException(a.c_str());
     }
 }
 

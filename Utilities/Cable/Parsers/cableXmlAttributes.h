@@ -32,19 +32,18 @@ private:
 /**
  * An attribute requested from an element begin tag is not known.
  */
-class UnknownAttributeException: public ParseException
+class MissingAttributeException: public ParseException
 {
 public:
-  UnknownAttributeException(const char* file, int line,
-                            const char* unknown):
-    ParseException(file, line), m_Unknown(unknown) {}
+  MissingAttributeException(const char* missing):
+    ParseException(), m_Missing(missing) {}
   
   void Print(std::ostream& os) const
     {
-      os << "Unknown element attribute: " << m_Unknown.c_str();
+      os << "Missing element attribute: " << m_Missing.c_str();
     }
 private:
-  String m_Unknown;
+  String m_Missing;
 };
 
 

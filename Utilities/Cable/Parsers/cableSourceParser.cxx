@@ -97,12 +97,12 @@ Parser
     }
   else
     {
-    throw UnknownElementTagException(__FILE__, __LINE__, name);
+    throw UnknownElementTagException(name);
     }
   }
   catch (const ParseException& e)
     {
-    e.PrintLocation(std::cerr);
+    e.PrintLocation(std::cerr, m_XML_Parser, "source");
     e.Print(std::cerr);
     }
   catch (const String& e)
@@ -136,12 +136,12 @@ Parser
     }
   else
     {
-    throw UnknownElementTagException(__FILE__, __LINE__, name);
+    throw UnknownElementTagException(name);
     }
   }
   catch (const ParseException& e)
     {
-    e.PrintLocation(std::cerr);
+    e.PrintLocation(std::cerr, m_XML_Parser, "source");
     e.Print(std::cerr);
     }
   catch (const String& e)
@@ -162,7 +162,7 @@ Parser
  */
 InternalObject::Pointer
 Parser
-::CurrentElement(void)
+::CurrentElement()
 {
   return m_ElementStack.top();
 }
@@ -174,9 +174,8 @@ Parser
 class ElementStackTypeException: public ParseException
 {
 public:
-  ElementStackTypeException(const char* file, int line,
-                            const char* e, TypeOfObject t):
-    ParseException(file, line), m_Expected(e), m_Got(t) {}
+  ElementStackTypeException(const char* e, TypeOfObject t):
+    ParseException(), m_Expected(e), m_Got(t) {}
   void Print(std::ostream& os) const
     {
       os << "Expected \"" << m_Expected.c_str()
@@ -193,14 +192,14 @@ private:
  */
 Context::Pointer
 Parser
-::CurrentContext(void)
+::CurrentContext()
 {
   TypeOfObject t = m_ElementStack.top()->GetTypeOfObject();
   if((t != Namespace_id)
      && (t != Class_id)
      && (t != Struct_id)
      && (t != Union_id))
-    throw ElementStackTypeException(__FILE__, __LINE__, "Any Context", t);
+    throw ElementStackTypeException("Any Context", t);
   
   return dynamic_cast<Context*>(m_ElementStack.top().RealPointer());
 }
@@ -211,11 +210,11 @@ Parser
  */
 Namespace::Pointer
 Parser
-::CurrentNamespace(void)
+::CurrentNamespace()
 {
   TypeOfObject t = m_ElementStack.top()->GetTypeOfObject();
   if((t != Namespace_id))
-    throw ElementStackTypeException(__FILE__, __LINE__, "Namespace", t);
+    throw ElementStackTypeException("Namespace", t);
   
   return dynamic_cast<Namespace*>(m_ElementStack.top().RealPointer());
 }
@@ -226,13 +225,13 @@ Parser
  */
 Class::Pointer
 Parser
-::CurrentClass(void)
+::CurrentClass()
 {
   TypeOfObject t = m_ElementStack.top()->GetTypeOfObject();
   if((t != Class_id)
      && (t != Struct_id)
      && (t != Union_id))
-    throw ElementStackTypeException(__FILE__, __LINE__, "Any Class", t);
+    throw ElementStackTypeException("Any Class", t);
   
   return dynamic_cast<Class*>(m_ElementStack.top().RealPointer());
 }
@@ -243,7 +242,7 @@ Parser
  */
 Type::Pointer
 Parser
-::CurrentType(void)
+::CurrentType()
 {
   TypeOfObject t = m_ElementStack.top()->GetTypeOfObject();
   if((t != NamedType_id)
@@ -253,7 +252,7 @@ Parser
      && (t != MethodType_id)
      && (t != OffsetType_id)
      && (t != ArrayType_id))
-    throw ElementStackTypeException(__FILE__, __LINE__, "Any Type", t);
+    throw ElementStackTypeException("Any Type", t);
   
   return dynamic_cast<Type*>(m_ElementStack.top().RealPointer());
 }
@@ -264,7 +263,7 @@ Parser
  */
 Function::Pointer
 Parser
-::CurrentFunction(void)
+::CurrentFunction()
 {
   TypeOfObject t = m_ElementStack.top()->GetTypeOfObject();
   if((t != Function_id)
@@ -274,7 +273,7 @@ Parser
     && (t != Converter_id)
     && (t != OperatorFunction_id)
     && (t != OperatorMethod_id))
-    throw ElementStackTypeException(__FILE__, __LINE__, "Any Function", t);
+    throw ElementStackTypeException("Any Function", t);
 
   return dynamic_cast<Function*>(m_ElementStack.top().RealPointer());
 }
@@ -285,11 +284,11 @@ Parser
  */
 Argument::Pointer
 Parser
-::CurrentArgument(void)
+::CurrentArgument()
 {
   TypeOfObject t = m_ElementStack.top()->GetTypeOfObject();
   if((t != Argument_id))
-    throw ElementStackTypeException(__FILE__, __LINE__, "Argument", t);
+    throw ElementStackTypeException("Argument", t);
 
   return dynamic_cast<Argument*>(m_ElementStack.top().RealPointer());
 }
@@ -300,11 +299,11 @@ Parser
  */
 PointerType::Pointer
 Parser
-::CurrentPointerType(void)
+::CurrentPointerType()
 {
   TypeOfObject t = m_ElementStack.top()->GetTypeOfObject();
   if((t != PointerType_id))
-    throw ElementStackTypeException(__FILE__, __LINE__, "PointerType", t);
+    throw ElementStackTypeException("PointerType", t);
   
   return dynamic_cast<PointerType*>(m_ElementStack.top().RealPointer());
 }
@@ -315,11 +314,11 @@ Parser
  */
 ReferenceType::Pointer
 Parser
-::CurrentReferenceType(void)
+::CurrentReferenceType()
 {
   TypeOfObject t = m_ElementStack.top()->GetTypeOfObject();
   if((t != ReferenceType_id))
-    throw ElementStackTypeException(__FILE__, __LINE__, "ReferenceType", t);
+    throw ElementStackTypeException("ReferenceType", t);
   
   return dynamic_cast<ReferenceType*>(m_ElementStack.top().RealPointer());
 }
@@ -330,12 +329,12 @@ Parser
  */
 FunctionType::Pointer
 Parser
-::CurrentFunctionType(void)
+::CurrentFunctionType()
 {
   TypeOfObject t = m_ElementStack.top()->GetTypeOfObject();
   if((t != FunctionType_id)
      && (t != MethodType_id))
-    throw ElementStackTypeException(__FILE__, __LINE__, "Any FunctionType", t);
+    throw ElementStackTypeException("Any FunctionType", t);
   
   return dynamic_cast<FunctionType*>(m_ElementStack.top().RealPointer());
 }
@@ -346,11 +345,11 @@ Parser
  */
 MethodType::Pointer
 Parser
-::CurrentMethodType(void)
+::CurrentMethodType()
 {
   TypeOfObject t = m_ElementStack.top()->GetTypeOfObject();
   if(t != MethodType_id)
-    throw ElementStackTypeException(__FILE__, __LINE__, "MethodType", t);
+    throw ElementStackTypeException("MethodType", t);
   
   return dynamic_cast<MethodType*>(m_ElementStack.top().RealPointer());
 }
@@ -361,11 +360,11 @@ Parser
  */
 OffsetType::Pointer
 Parser
-::CurrentOffsetType(void)
+::CurrentOffsetType()
 {
   TypeOfObject t = m_ElementStack.top()->GetTypeOfObject();
   if((t != OffsetType_id))
-    throw ElementStackTypeException(__FILE__, __LINE__, "OffsetType", t);
+    throw ElementStackTypeException("OffsetType", t);
   
   return dynamic_cast<OffsetType*>(m_ElementStack.top().RealPointer());
 }
@@ -376,11 +375,11 @@ Parser
  */
 ArrayType::Pointer
 Parser
-::CurrentArrayType(void)
+::CurrentArrayType()
 {
   TypeOfObject t = m_ElementStack.top()->GetTypeOfObject();
   if((t != ArrayType_id))
-    throw ElementStackTypeException(__FILE__, __LINE__, "ArrayType", t);
+    throw ElementStackTypeException("ArrayType", t);
   
   return dynamic_cast<ArrayType*>(m_ElementStack.top().RealPointer());
 }
@@ -401,7 +400,7 @@ Parser
  */
 void
 Parser
-::PopElement(void)
+::PopElement()
 {
   m_ElementStack.pop();
 
@@ -437,7 +436,7 @@ Parser
 ::begin_GlobalNamespace(const Attributes& atts)
 {
   m_GlobalNamespace = Namespace::New("");
-  PushElement(m_GlobalNamespace);
+  this->PushElement(m_GlobalNamespace);
 }
 
 /**
@@ -445,7 +444,7 @@ Parser
  */
 void
 Parser
-::end_GlobalNamespace(void)
+::end_GlobalNamespace()
 {
   // We want the global namespace left on the stack.  Don't pop it off.
 }
@@ -463,7 +462,7 @@ Parser
   Namespace::Pointer newNamespace = Namespace::New(name);
   
   CurrentNamespace()->AddNamespace(newNamespace);
-  PushElement(newNamespace);
+  this->PushElement(newNamespace);
 }
 
 /**
@@ -471,9 +470,9 @@ Parser
  */
 void
 Parser
-::end_Namespace(void)
+::end_Namespace()
 {
-  PopElement();
+  this->PopElement();
 }
 
 
@@ -487,7 +486,7 @@ Parser
   UnimplementedNameHolder::Pointer newUnimplementedNameHolder
     = UnimplementedNameHolder::New();
   
-  PushElement(newUnimplementedNameHolder);
+  this->PushElement(newUnimplementedNameHolder);
 }
 
 /**
@@ -495,9 +494,9 @@ Parser
  */
 void
 Parser
-::end_NamespaceAlias(void)
+::end_NamespaceAlias()
 {
-  PopElement();
+  this->PopElement();
 }
 
 
@@ -513,7 +512,7 @@ Parser
   
   // Only need typedef to absorb its internal information.  It will be
   // lost when it is popped off the stack by end_Typedef().
-  PushElement(newUnimplementedTypeHolder);
+  this->PushElement(newUnimplementedTypeHolder);
 }
 
 /**
@@ -521,9 +520,9 @@ Parser
  */
 void
 Parser
-::end_Typedef(void)
+::end_Typedef()
 {
-  PopElement();
+  this->PopElement();
 }
 
 
@@ -547,7 +546,7 @@ Parser
   Class::Pointer newClass = Class::New(name, access);
   
   CurrentContext()->AddClass(newClass);
-  PushElement(newClass);
+  this->PushElement(newClass);
 }
 
 /**
@@ -555,9 +554,9 @@ Parser
  */
 void
 Parser
-::end_Class(void)
+::end_Class()
 {
-  PopElement();
+  this->PopElement();
 }
 
 
@@ -581,7 +580,7 @@ Parser
   Struct::Pointer newStruct = Struct::New(name, access);
 
   CurrentContext()->AddClass(newStruct);
-  PushElement(newStruct);
+  this->PushElement(newStruct);
 }
 
 /**
@@ -589,9 +588,9 @@ Parser
  */
 void
 Parser
-::end_Struct(void)
+::end_Struct()
 {
-  PopElement();
+  this->PopElement();
 }
 
 
@@ -615,7 +614,7 @@ Parser
   Union::Pointer newUnion = Union::New(name, access);
   
   CurrentContext()->AddClass(newUnion);
-  PushElement(newUnion);
+  this->PushElement(newUnion);
 }
 
 /**
@@ -623,9 +622,9 @@ Parser
  */
 void
 Parser
-::end_Union(void)
+::end_Union()
 {
-  PopElement();
+  this->PopElement();
 }
 
 
@@ -647,7 +646,7 @@ Parser
   Constructor::Pointer newConstructor = Constructor::New(access);
 
   CurrentClass()->AddMethod(newConstructor);
-  PushElement(newConstructor);
+  this->PushElement(newConstructor);
 }
 
 /**
@@ -655,9 +654,9 @@ Parser
  */
 void
 Parser
-::end_Constructor(void)
+::end_Constructor()
 {
-  PopElement();
+  this->PopElement();
 }
 
 
@@ -679,7 +678,7 @@ Parser
   Destructor::Pointer newDestructor = Destructor::New(access);
   
   CurrentClass()->AddMethod(newDestructor);
-  PushElement(newDestructor);
+  this->PushElement(newDestructor);
 }
 
 /**
@@ -687,9 +686,9 @@ Parser
  */
 void
 Parser
-::end_Destructor(void)
+::end_Destructor()
 {
-  PopElement();
+  this->PopElement();
 }
 
 
@@ -711,7 +710,7 @@ Parser
   Converter::Pointer newConverter = Converter::New(access);
   
   CurrentClass()->AddMethod(newConverter);
-  PushElement(newConverter);
+  this->PushElement(newConverter);
 }
 
 /**
@@ -719,9 +718,9 @@ Parser
  */
 void
 Parser
-::end_Converter(void)
+::end_Converter()
 {
-  PopElement();
+  this->PopElement();
 }
 
 
@@ -737,7 +736,7 @@ Parser
   OperatorFunction::Pointer newOperatorFunction = OperatorFunction::New(name);
   
   CurrentNamespace()->AddFunction(newOperatorFunction);
-  PushElement(newOperatorFunction);
+  this->PushElement(newOperatorFunction);
 }
 
 /**
@@ -745,9 +744,9 @@ Parser
  */
 void
 Parser
-::end_OperatorFunction(void)
+::end_OperatorFunction()
 {
-  PopElement();
+  this->PopElement();
 }
 
 
@@ -770,7 +769,7 @@ Parser
   OperatorMethod::Pointer newOperatorMethod = OperatorMethod::New(name, access);
   
   CurrentClass()->AddMethod(newOperatorMethod);
-  PushElement(newOperatorMethod);
+  this->PushElement(newOperatorMethod);
 }
 
 /**
@@ -778,9 +777,9 @@ Parser
  */
 void
 Parser
-::end_OperatorMethod(void)
+::end_OperatorMethod()
 {
-  PopElement();
+  this->PopElement();
 }
 
 
@@ -804,7 +803,7 @@ Parser
   Method::Pointer newMethod = Method::New(name, access, is_static);
   
   CurrentClass()->AddMethod(newMethod);
-  PushElement(newMethod);
+  this->PushElement(newMethod);
 }
 
 /**
@@ -812,9 +811,9 @@ Parser
  */
 void
 Parser
-::end_Method(void)
+::end_Method()
 {
-  PopElement();
+  this->PopElement();
 }
 
 
@@ -830,7 +829,7 @@ Parser
   Function::Pointer newFunction = Function::New(name);
   
   CurrentNamespace()->AddFunction(newFunction);
-  PushElement(newFunction);
+  this->PushElement(newFunction);
 }
 
 /**
@@ -838,9 +837,9 @@ Parser
  */
 void
 Parser
-::end_Function(void)
+::end_Function()
 {
-  PopElement();
+  this->PopElement();
 }
 
 
@@ -866,7 +865,7 @@ Parser
     {
     CurrentFunction()->AddArgument(newArgument);
     }
-  PushElement(newArgument);
+  this->PushElement(newArgument);
 }
 
 
@@ -875,9 +874,9 @@ Parser
  */
 void
 Parser
-::end_Argument(void)
+::end_Argument()
 {
-  PopElement();
+  this->PopElement();
 }
 
 
@@ -902,7 +901,7 @@ Parser
     CurrentFunction()->SetReturns(newReturns);
     }
   
-  PushElement(newReturns);
+  this->PushElement(newReturns);
 }
 
 /**
@@ -910,9 +909,9 @@ Parser
  */
 void
 Parser
-::end_Returns(void)
+::end_Returns()
 {
-  PopElement();
+  this->PopElement();
 }
 
 
@@ -930,7 +929,7 @@ Parser
  */
 void
 Parser
-::end_DefaultArgument(void)
+::end_DefaultArgument()
 {
 }
 
@@ -961,7 +960,7 @@ Parser
  */
 void
 Parser
-::end_Ellipsis(void)
+::end_Ellipsis()
 {
 }
 
@@ -978,7 +977,7 @@ Parser
   
   // Only need typedef to absorb its internal information.  It will be
   // lost when it is popped off the stack by end_Variable().
-  PushElement(newUnimplementedTypeHolder);
+  this->PushElement(newUnimplementedTypeHolder);
 }
 
 /**
@@ -986,9 +985,9 @@ Parser
  */
 void
 Parser
-::end_Variable(void)
+::end_Variable()
 {
-  PopElement();
+  this->PopElement();
 }
 
 
@@ -1006,7 +1005,7 @@ Parser
  */
 void
 Parser
-::end_Initializer(void)
+::end_Initializer()
 {
 }
 
@@ -1023,7 +1022,7 @@ Parser
   
   // Only need typedef to absorb its internal information.  It will be
   // lost when it is popped off the stack by end_Field().
-  PushElement(newUnimplementedTypeHolder);
+  this->PushElement(newUnimplementedTypeHolder);
 }
 
 /**
@@ -1031,9 +1030,9 @@ Parser
  */
 void
 Parser
-::end_Field(void)
+::end_Field()
 {
-  PopElement();
+  this->PopElement();
 }
 
 
@@ -1049,7 +1048,7 @@ Parser
   
   // Only need typedef to absorb its internal information.  It will be
   // lost when it is popped off the stack by end_Enum().
-  PushElement(newUnimplementedTypeHolder);
+  this->PushElement(newUnimplementedTypeHolder);
 }
 
 /**
@@ -1057,9 +1056,9 @@ Parser
  */
 void
 Parser
-::end_Enum(void)
+::end_Enum()
 {
-  PopElement();
+  this->PopElement();
 }
 
 
@@ -1073,7 +1072,7 @@ Parser
   NamedType::Pointer newNamedType = NamedType::New();
 
   CurrentElement()->SetInternalType(newNamedType);
-  PushElement(newNamedType);
+  this->PushElement(newNamedType);
 }
 
 /**
@@ -1081,9 +1080,9 @@ Parser
  */
 void
 Parser
-::end_NamedType(void)
+::end_NamedType()
 {
-  PopElement();  
+  this->PopElement();  
 }
 
 
@@ -1097,7 +1096,7 @@ Parser
   PointerType::Pointer newPointerType = PointerType::New();
   
   CurrentElement()->SetInternalType(newPointerType);
-  PushElement(newPointerType);
+  this->PushElement(newPointerType);
 }
 
 /**
@@ -1105,9 +1104,9 @@ Parser
  */
 void
 Parser
-::end_PointerType(void)
+::end_PointerType()
 {
-  PopElement();
+  this->PopElement();
 }
 
 
@@ -1121,7 +1120,7 @@ Parser
   ReferenceType::Pointer newReferenceType = ReferenceType::New();
   
   CurrentElement()->SetInternalType(newReferenceType);
-  PushElement(newReferenceType);
+  this->PushElement(newReferenceType);
 }
 
 /**
@@ -1129,9 +1128,9 @@ Parser
  */
 void
 Parser
-::end_ReferenceType(void)
+::end_ReferenceType()
 {
-  PopElement();
+  this->PopElement();
 }
 
 
@@ -1145,7 +1144,7 @@ Parser
   FunctionType::Pointer newFunctionType = FunctionType::New();
   
   CurrentElement()->SetInternalType(newFunctionType);
-  PushElement(newFunctionType);
+  this->PushElement(newFunctionType);
 }
 
 /**
@@ -1153,9 +1152,9 @@ Parser
  */
 void
 Parser
-::end_FunctionType(void)
+::end_FunctionType()
 {
-  PopElement();
+  this->PopElement();
 }
 
 
@@ -1169,7 +1168,7 @@ Parser
   MethodType::Pointer newMethodType = MethodType::New();
   
   CurrentElement()->SetInternalType(newMethodType);
-  PushElement(newMethodType);
+  this->PushElement(newMethodType);
 }
 
 /**
@@ -1177,9 +1176,9 @@ Parser
  */
 void
 Parser
-::end_MethodType(void)
+::end_MethodType()
 {
-  PopElement();
+  this->PopElement();
 }
 
 
@@ -1193,7 +1192,7 @@ Parser
   OffsetType::Pointer newOffsetType = OffsetType::New();
   
   CurrentElement()->SetInternalType(newOffsetType);
-  PushElement(newOffsetType);
+  this->PushElement(newOffsetType);
 }
 
 /**
@@ -1201,9 +1200,9 @@ Parser
  */
 void
 Parser
-::end_OffsetType(void)
+::end_OffsetType()
 {
-  PopElement();
+  this->PopElement();
 }
 
 
@@ -1219,7 +1218,7 @@ Parser
   ArrayType::Pointer newArrayType = ArrayType::New(min, max);
   
   CurrentElement()->SetInternalType(newArrayType);
-  PushElement(newArrayType);
+  this->PushElement(newArrayType);
 }
 
 /**
@@ -1227,9 +1226,9 @@ Parser
  */
 void
 Parser
-::end_ArrayType(void)
+::end_ArrayType()
 {
-  PopElement();
+  this->PopElement();
 }
 
 
@@ -1251,7 +1250,7 @@ Parser
  */
 void
 Parser
-::end_QualifiedName(void)
+::end_QualifiedName()
 {
 }
 
@@ -1267,7 +1266,7 @@ Parser
   NameQualifier::Pointer newNameQualifier = NameQualifier::New(name);
 
   CurrentElement()->SetInternalQualifiedName(newNameQualifier);
-  PushElement(newNameQualifier);
+  this->PushElement(newNameQualifier);
 }
 
 /**
@@ -1275,9 +1274,9 @@ Parser
  */
 void
 Parser
-::end_NameQualifier(void)
+::end_NameQualifier()
 {
-  PopElement();
+  this->PopElement();
 }
 
 
@@ -1298,7 +1297,7 @@ Parser
   BaseClass::Pointer newBaseClass = BaseClass::New(access);
 
   CurrentClass()->AddBaseClass(newBaseClass);
-  PushElement(newBaseClass);
+  this->PushElement(newBaseClass);
 }
 
 /**
@@ -1306,9 +1305,9 @@ Parser
  */
 void
 Parser
-::end_BaseClass(void)
+::end_BaseClass()
 {
-  PopElement();
+  this->PopElement();
 }
 
 
@@ -1332,7 +1331,7 @@ Parser
     CurrentOffsetType()->SetBaseType(newBaseType);
     }
   
-  PushElement(newBaseType);
+  this->PushElement(newBaseType);
 }
 
 /**
@@ -1340,9 +1339,9 @@ Parser
  */
 void
 Parser
-::end_BaseType(void)
+::end_BaseType()
 {
-  PopElement();
+  this->PopElement();
 }
 
 
@@ -1360,7 +1359,7 @@ Parser
  */
 void
 Parser
-::end_Instantiation(void)
+::end_Instantiation()
 {
 }
 
@@ -1379,7 +1378,7 @@ Parser
  */
 void
 Parser
-::end_TemplateArgument(void)
+::end_TemplateArgument()
 {
 }
 
@@ -1398,7 +1397,7 @@ Parser
  */
 void
 Parser
-::end_External(void)
+::end_External()
 {
 }
 
@@ -1417,7 +1416,7 @@ Parser
  */
 void
 Parser
-::end_IncompleteType(void)
+::end_IncompleteType()
 {
 }
 
@@ -1442,7 +1441,7 @@ Parser
  */
 void
 Parser
-::end_Location(void)
+::end_Location()
 {
 }
 
@@ -1465,7 +1464,7 @@ Parser
  */
 void
 Parser
-::end_CV_Qualifiers(void)
+::end_CV_Qualifiers()
 {
 }
 
@@ -1484,7 +1483,7 @@ Parser
  */
 void
 Parser
-::end_Unimplemented(void)
+::end_Unimplemented()
 {
 }
 
@@ -1507,7 +1506,7 @@ Parser::EndHandlers Parser::endHandlers;
  */
 void
 Parser
-::InitializeHandlers(void)
+::InitializeHandlers()
 {
   // Make sure we only initialize the maps once.
   static bool initialized = false;
