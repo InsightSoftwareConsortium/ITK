@@ -18,15 +18,15 @@
 //  Software Guide : BeginLatex
 //
 //  The classical method of smoothing an image by convolution with a Gaussian
-//  kernel has the drawback of providing low performance as the $\sigma$ of
-//  the Gaussian increases. This is due to the larger size of the kernel
+//  kernel has the drawback that it is slow when the standard deviation $\sigma$ of
+//  the Gaussian is large.  This is due to the larger size of the kernel,
 //  which results in a higher number of computations per pixel.
 //
 //  The \doxygen{RecursiveGaussianImageFilter} implements an approximation of
 //  convolution with the Gaussian and its derivatives by using
-//  IIR\footnote{Infinte Impulsional Response} filters. In practice this filter
-//  requires a constant number of operations for approximating the convolution.
-//  This is independent of the $\sigma$ value \cite{Deriche1990,Deriche1993}.
+//  IIR\footnote{Infinite Impulsional Response} filters. In practice this filter
+//  requires a constant number of operations for approximating the convolution,
+//  regardless of the $\sigma$ value \cite{Deriche1990,Deriche1993}.
 //
 //  \index{itk::RecursiveGaussianImageFilter}
 //
@@ -75,7 +75,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  With them, the input and output image types can be instantiated.
+  //  The input and output image types are instantiated using the pixel types.
   //
   //  Software Guide : EndLatex 
 
@@ -110,9 +110,9 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  This filter applies the approximation of the convolution along a single
-  //  dimension. It is then necessary to concatenate several of these filters
-  //  in order to produce smoothing in all directions. We create then a pair
-  //  of filters since we have a $2D$ image to process here. The filters are
+  //  dimension. It is therefore necessary to concatenate several of these filters
+  //  to produce smoothing in all directions.  In this example, we create a pair
+  //  of filters since we are processing a $2D$ image.  The filters are
   //  created by invoking the \code{New()} method and assigning the result to
   //  a \doxygen{SmartPointer}.
   //
@@ -146,12 +146,12 @@ int main( int argc, char * argv[] )
   //
   //  The \doxygen{RecursiveGaussianImageFilter} can approximate the
   //  convolution with the Gaussian or with its first and second
-  //  derivatives. We should hence select here one of these options by using
-  //  the \code{SetOrder()} method. Note that the argument is an \code{enum}
-  //  whose values can be \code{ZeroOrder}, \code{FirstOrder} and
-  //  \code{SecondOrder}. For example, for computing the derivative along $X$
-  //  we should select \code{FirstOrder} along $X$ and \code{ZeroOrder} along
-  //  $Y$. Here we want to smooth in $X$ and $Y$ so we select
+  //  derivatives. We select one of these options by using the
+  //  \code{SetOrder()} method. Note that the argument is an \code{enum} whose
+  //  values can be \code{ZeroOrder}, \code{FirstOrder} and
+  //  \code{SecondOrder}. For example, to compute the $x$ partial derivative we
+  //  should select \code{FirstOrder} for $x$ and \code{ZeroOrder} for
+  //  $y$. Here we want only to smooth in $x$ and $y$, so we select
   //  \code{ZeroOrder} in both directions.
   //
   //  \index{RecursiveGaussianImageFilter!SetOrder()}
@@ -184,13 +184,12 @@ int main( int argc, char * argv[] )
   //          \frac{ 1 }{ \sigma^2  \sqrt{ 2 \pi } }
   //  \end{equation}
   //
-  //  The \doxygen{RecursiveGaussianImageFilter} has a boolean flag that
-  //  allows users to select between both normalization options. This is done
-  //  with the method \code{SetNormalizeAcrossScale()}. For analyzing an
-  //  image across scale-space you want to enable this flag. In current
-  //  example it doesn't have any impact since we are actually renormalizing
-  //  the output to the dynamic range of the reader, so we simply disable the
-  //  flag here.
+  //  The \doxygen{RecursiveGaussianImageFilter} has a boolean flag that allows
+  //  users to select between these two normalization options. Selection is
+  //  done with the method \code{SetNormalizeAcrossScale()}. Enable this flag
+  //  to analyzing an image across scale-space.  In the current example, this
+  //  setting has no impact because we are actually renormalizing the output to
+  //  the dynamic range of the reader, so we simply disable the flag.
   //
   //  \index{RecursiveGaussianImageFilter!SetNormalizeAcrossScale()}
   //
@@ -205,13 +204,13 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  The input image can be obtained from the output of another
-  //  filter. Here, an image reader is used as source. The image is passed to
-  //  the $X$ filter and then to the $Y$ filter. The reason for keeping these
+  //  filter. Here, an image reader is used as the source. The image is passed to
+  //  the $x$ filter and then to the $y$ filter. The reason for keeping these
   //  two filters separate is that it is usual in scale-space applications to
   //  compute not only the smoothing but also combinations of derivatives at
   //  different orders and smoothing. Some factorization is possible when
   //  separate filters are used to generate the intermediate results. Here
-  //  this capability is less interesting though since we only want to smooth
+  //  this capability is less interesting, though, since we only want to smooth
   //  the image in all directions.
   //
   //  Software Guide : EndLatex 
@@ -224,11 +223,11 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  It is now time for selecting the $\sigma$ of the Gaussian to use for
-  //  smoothing the data. Note that $\sigma$ has to be passed to both filters
-  //  and that sigma is considered to be in millimeters. That is, at the
-  //  moment of applying the smoothing process, the filter will take into
-  //  account the spacing values defined in the image.
+  //  It is now time to select the $\sigma$ of the Gaussian used to smooth the
+  //  data.  Note that $\sigma$ must be passed to both filters and that sigma
+  //  is considered to be in millimeters. That is, at the moment of applying
+  //  the smoothing process, the filter will take into account the spacing
+  //  values defined in the image.
   //
   //  \index{itk::RecursiveGaussianImageFilter!SetSigma()}
   //  \index{SetSigma()!itk::RecursiveGaussianImageFilter}
@@ -281,18 +280,18 @@ int main( int argc, char * argv[] )
   // \center
   // \includegraphics[width=0.44\textwidth]{SmoothingRecursiveGaussianImageFilterOutput3.eps}
   // \includegraphics[width=0.44\textwidth]{SmoothingRecursiveGaussianImageFilterOutput5.eps}
-  // \itkcaption[RecursiveGaussianImageFilter output]{Effect of the
+  // \itkcaption[Output of the RecursiveGaussianImageFilter.]{Effect of the
   // RecursiveGaussianImageFilter on a slice from a MRI proton density image
   // of the brain.}
   // \label{fig:RecursiveGaussianImageFilterInputOutput}
   // \end{figure}
   //
-  //  Figure \ref{fig:RecursiveGaussianImageFilterInputOutput} illustrates
-  //  the effect of this filter on a MRI proton density image of the brain
-  //  using a $\sigma$ value of $3$ (left) and a value of $5$ (right).  The
-  //  figure shows how the attenuation of noise can be regulated by selecting
-  //  the appropriate sigma.  This type of scale-tunable filter is suitable
-  //  for performing scale-space analysis.
+  //  Figure~\ref{fig:RecursiveGaussianImageFilterInputOutput} illustrates the
+  //  effect of this filter on a MRI proton density image of the brain using
+  //  $\sigma$ values of $3$ (left) and $5$ (right).  The figure shows how the
+  //  attenuation of noise can be regulated by selecting the appropriate
+  //  standard deviation.  This type of scale-tunable filter is suitable for
+  //  performing scale-space analysis.
   //
   //  Software Guide : EndLatex 
 
