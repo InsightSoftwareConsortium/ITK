@@ -233,6 +233,9 @@ int main( int argc, char *argv[] )
   const double  meanEstimation      = confidenceConnectedFilter->GetMean();
   const double  varianceEstimation  = confidenceConnectedFilter->GetVariance();
 
+  std::cout << "Mean     estimation = " << meanEstimation     << std::endl;
+  std::cout << "Variance estimation = " << varianceEstimation << std::endl;
+
 
   //  Software Guide : BeginLatex
   //  
