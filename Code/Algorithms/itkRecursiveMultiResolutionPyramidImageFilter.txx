@@ -79,6 +79,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
   OutputImagePointer swapPtr;
   typename TOutputImage::RegionType  LPRegion;
 
+  smoother->SetUseImageSpacing( false );
   smoother->SetMaximumError( m_MaximumError );
   shrinker->SetInput( smoother->GetOutput() );
 
