@@ -136,7 +136,7 @@
 #include <vcl_config_headers.h>
 
 // This *needs* to come after vcl_config_headers.h
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(__INTEL_COMPILER)
 # ifdef VCL_GCC_30
 #  define GNU_LIBSTDCXX_V3 1
 # elif !defined(GNU_LIBSTDCXX_V3) && defined(VCL_GCC_295) && VCL_CXX_HAS_HEADER_ISTREAM
