@@ -23,22 +23,22 @@ See COPYRIGHT.txt for copyright details.
 int main()
 {
   // Create a source
-  itk::RandomImageSource< itk::Image<itk::Scalar<float>,2> >::Pointer random;
-  random = itk::RandomImageSource< itk::Image<itk::Scalar<float>,2> >::New();
+  itk::RandomImageSource< itk::Image<float,2> >::Pointer random;
+  random = itk::RandomImageSource< itk::Image<float,2> >::New();
 
   // Create a neighborhood
-  itk::Neighborhood< itk::Scalar<float>, 2> neighborhood;
+  itk::Neighborhood< float, 2> neighborhood;
   neighborhood.SetRadius(1);
 
   // Create a filter
-  itk::FilterImageSingleOperator< itk::Scalar<float>, 2>::Pointer filter;
-  filter = itk::FilterImageSingleOperator< itk::Scalar<float>, 2>::New();
+  itk::FilterImageSingleOperator< float, 2>::Pointer filter;
+  filter = itk::FilterImageSingleOperator< float, 2>::New();
   filter->SetInput( random->GetOutput() );
   filter->SetOperator( neighborhood );
   
   // Create a mapper
-  itk::WriteVTKImage< itk::Image<itk::Scalar<float>,2> >::Pointer writer;
-  writer = itk::WriteVTKImage< itk::Image<itk::Scalar<float>,2> >::New();
+  itk::WriteVTKImage< itk::Image<float,2> >::Pointer writer;
+  writer = itk::WriteVTKImage< itk::Image<float,2> >::New();
   writer->SetInput(filter->GetOutput());
   writer->SetFileName("junkImage.vtk");
   writer->SetFileTypeToASCII();
