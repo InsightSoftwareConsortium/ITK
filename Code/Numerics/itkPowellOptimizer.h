@@ -162,6 +162,15 @@ protected:
                                        double fa, double fb, double fc,
                                        double * extX, double * extVal);
 
+  itkGetMacro(SpaceDimension, unsigned int);
+  itkSetMacro(SpaceDimension, unsigned int);
+
+  itkSetMacro(CurrentIteration, unsigned int);
+
+  itkGetMacro(Stop, bool);
+  itkSetMacro(Stop, bool);
+
+
 private:
 
   unsigned int       m_SpaceDimension;
