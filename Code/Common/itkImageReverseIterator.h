@@ -82,13 +82,14 @@ public:
   
   /** Set the pixel value */
   void Set( const PixelType & value) const  
-    { m_PixelAccessor.Set(*(const_cast<InternalPixelType *>(m_Position)),value); }
+    { m_PixelAccessor.Set(* const_cast<InternalPixelType *>((m_Buffer+m_Offset)),value); }
 
   /** Return a reference to the pixel 
    * This method will provide the fastest access to pixel
    * data, but it will NOT support ImageAdaptors. */
   PixelType & Value(void) 
-    { return *(const_cast<InternalPixelType *>(m_Position)); }
+    { return *(m_Buffer+m_Offset); }
+
  
 protected:
   /** the construction from a const iterator is declared protected
