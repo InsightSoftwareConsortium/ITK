@@ -416,7 +416,7 @@ int main()
   //
   //  \index{CellType::PointIdsBegin()}
   //  \index{CellType::PointIdsEnd()}
-  //  \index{CellType::PointIdIterator()}
+  //  \index{CellType::PointIdIterator}
   //  \index{PointIdIterator}
   //  \index{PointIdsBegin()}
   //  \index{PointIdsEnd()}
