@@ -211,6 +211,8 @@ void MetaImageIO::ReadImageInformation()
       this->SetPixelType( USHORT );
       this->SetComponentType( USHORT );
       break;
+    case MET_LONG:
+    case MET_ULONG:
     case MET_INT:
     case MET_INT_ARRAY:
       this->SetPixelType( INT );
@@ -336,6 +338,12 @@ MetaImageIO
       break;
     case USHORT:
       eType = MET_USHORT;
+      break;
+    case LONG:
+      eType = MET_LONG;
+      break;
+    case ULONG:
+      eType = MET_ULONG;
       break;
     case INT:
       eType = MET_INT;
