@@ -48,7 +48,7 @@ namespace itk{
  * the method, you should first plug in a basic type sample using the
  * SetSample method
  */
- 
+  
 template< class TSample >
 class ITK_EXPORT MembershipSample : 
       public Sample< typename TSample::MeasurementType, 
@@ -64,7 +64,7 @@ public:
   /** Standard macros */ 
   itkTypeMacro(MembershipSample, Sample);
   itkNewMacro(Self) ;
-
+  
   /** Typedefs for Measurement vector, measurement, Instance Identifier, 
    * frequency, size, size element value from the template argument TSample*/
   typedef typename TSample::MeasurementVectorType MeasurementVectorType;
@@ -73,38 +73,43 @@ public:
   typedef typename TSample::FrequencyType FrequencyType ;
   typedef typename TSample::SizeType SizeType ;
   typedef typename TSample::SizeValueType SizeValueType ;
-
+  
   /** MeasurementVectorSize enum from super class */
   enum { MeasurementVectorSize = TSample::MeasurementVectorSize } ;
-
+  
   /** Smart pointer to the actual sample data holder */
   typedef typename TSample::Pointer SamplePointer ;
-
+  
   /** Typedef for the storage that holds a class label for each instance.
-   * The relationship between instances and class label is one-to-onw */
-  typedef std::map< InstanceIdentifier, unsigned int > ClassLabelHolder ;
-
+   * The relationship between instances and class label is one-to-one */
+  typedef std::vector< unsigned int > ClassLabelHolder ;
+  
   /** Typedef for each subsample that stores instance identifers of instances
    * that belong to a class */
   typedef Subsample< TSample > ClassSampleType ;
   typedef typename ClassSampleType::Pointer ClassSamplePointer ;
-
+  
   /** Plug in the actual sample data */
   void SetSample(SamplePointer sample) ;
-
+  
   SamplePointer GetSample() ;
+  
+  void SetNumberOfClasses(size_t numberOfClasses) ;
+  
+  size_t GetNumberOfClasses() ;
 
-  unsigned int GetNumberOfClasses() ;
-
-  bool ClassLabelExists(unsigned int classLabel) ;
+  size_t GetNumberOfInstances() ;
 
   inline void AddInstance(unsigned int classLabel, InstanceIdentifier id) ;
+  
+  inline unsigned int GetClassLabel(InstanceIdentifier id) ;
 
-  inline unsigned int GetClassLabel(InstanceIdentifier id) 
-    throw (ExceptionObject) ;
+  void GenerateClassSamples() ;
+
+  size_t GetClassSampleSize(unsigned int classLabel) ;
 
   ClassSamplePointer GetClassSample(unsigned int classLabel) ;
-
+  
   /** returns SizeType object whose each element is the number of
    * elements in each dimension */
   SizeType GetSize() ;
@@ -112,19 +117,20 @@ public:
   /** returns SizeValueType value that is the number of elements in the
    * 'dimension' dimension. */
   SizeValueType GetSize(unsigned int dimension) ;
-
-  /** retunrs the measurement of the instance which is identified by the 'id' */
+  
+  /** retunrs the measurement of the instance which is identified 
+   * by the 'id' */
   inline MeasurementVectorType GetMeasurementVector(const InstanceIdentifier 
                                                     id) ;
-
+  
   /** returns the frequency of the instance which is identified by the 'id' */
   inline FrequencyType GetFrequency(const InstanceIdentifier id) ;
-
+  
   /** returns the measurement element which is the 'n'-th element 
    * in the 'd' dimension of the measurement vector */
   inline MeasurementType GetMeasurement(const unsigned int d, 
                                         const unsigned long n) ;
-
+  
   /** returns the frequency of the 'n'-th element in the 'd' dimension 
    * of the measurement vector */
   inline FrequencyType GetFrequency(const unsigned int d, 
@@ -138,63 +144,85 @@ public:
   
   Iterator Begin()
   { 
-    Iterator iter(m_ClassLabelHolder.begin(), this) ;
+    Iterator iter(0, this) ;
     return iter; 
   }
   
   Iterator  End()        
   {
-    Iterator iter(m_ClassLabelHolder.end(), this) ; 
+    Iterator iter(GetNumberOfInstances() - 1, this) ; 
     return iter; 
   }
   
   class Iterator
   {
   public:
-    Iterator(typename ClassLabelHolder::iterator iter, Pointer membershipSample)
-      :m_Iter(iter), m_MemebershipSample(membershipSample),
+    Iterator(InstanceIdentifier id, Pointer membershipSample)
+      :m_Id(id), m_MembershipSample(membershipSample),
        m_Sample(membershipSample->GetSample())
     {}
     
     const FrequencyType GetFrequency() 
-    { return  m_Sample->GetFrequency(m_Iter->first) ; }
+    { return  m_Sample->GetFrequency(m_Id) ; }
     
     MeasurementVectorType GetMeasurementVector()
-    { return m_Sample->GetMeasurementVector(m_Iter->first) ; } 
+    { return m_Sample->GetMeasurementVector() ; } 
     
     MeasurementType GetMeasurement(int dim)
-    { return m_Sample->GetMeasurement(dim, m_Iter->first) ; }
+    { return m_Sample->GetMeasurement(dim, m_Id) ; }
     
     InstanceIdentifier GetInstanceIdentifier()   
-    { return m_Iter->first ; }
+    { return m_Id ; }
 
     unsigned int GetClassLabel()
-    { return m_Iter->second ; }
+    { return m_MembershipSample->GetClassLabel(m_Id) ; }
 
     Iterator& operator++() 
     { 
-      ++m_Iter ;
+      ++m_Id ;
       return *this ;
     }
     
     bool operator!=(const Iterator& it) 
-    { return (m_Iter != it.m_Iter) ; }
-    
+    { 
+      if (m_Id != it.m_Id || 
+          m_MembershipSample != it.m_MembershipSample ||
+          m_Sample != it.m_Sample)
+        {
+          return true ;
+        }
+      else
+        {
+          return false ;
+        }
+    }
+
     bool operator==(const Iterator& it) 
-    { return (m_Iter == it.m_Iter) ; }
+    { 
+      if (m_Id == it.m_Id && 
+          m_MembershipSample == it.m_MembershipSample &&
+          m_Sample == it.m_Sample)
+        {
+          return true ;
+        }
+      else
+        {
+          return false ;
+        }
+    }
     
-    Iterator& operator=(const Iterator& iter)
+    Iterator& operator=(const Iterator& it)
     {
-      m_Iter = iter.m_Iter;
-      m_MemebershipSample = iter.m_MemebershipSample ;
-      m_Sample = iter.m_Sample ;
+      m_Id = it.m_Id;
+      m_MembershipSample = it.m_MembershipSample ;
+      m_Sample = it.m_Sample ;
     }
     
   private:
-    // Iterator pointing to ImageListSampleAdaptor
-    typename ClassLabelHolder::iterator m_Iter ;  
+    // identifier for the instance
+    InstanceIdentifier m_Id ;  
     // Pointer to MemebershipSample object
-    Pointer m_MemebershipSample ;
+    Pointer m_MembershipSample ;
     SamplePointer m_Sample ;
   } ;
 
@@ -210,7 +238,9 @@ private:
   SamplePointer m_Sample ;
   unsigned int m_CurrentClassLabel ;
   ClassLabelHolder m_ClassLabelHolder ;
-  std::set< unsigned int > m_ClassLabels ;
+  size_t m_NumberOfClasses ;
+  std::vector< size_t > m_ClassSampleSizes ;
+  std::vector< ClassSamplePointer > m_ClassSamples ;
 } ; // end of class
 
 
