@@ -294,6 +294,12 @@ public:
   /**
    * Get the offset table.  The offset table gives increments for moving
    * from one pixel to next in the current row, column, slice, etc..
+   * This table if of size [VImageDimension+1], because its values are
+   * computed progressively as:  {1, N1, N1*N2, N1*N2*N3,...,(N1*...*Nn)}
+   * Where the values {N1,...,Nn} are the elements of the BufferSize array.
+   * The last element of the OffsetTable is equivalent to the BufferSize.
+   * Having a [VImageDimension+1] size array, simplifies the implementation 
+   * of some data accessing algorithms.
    */
   const unsigned long *GetOffsetTable() const { return m_OffsetTable; };
   
@@ -348,7 +354,7 @@ private:
   // memory for the current buffer
   std::valarray<TPixel> *m_Buffer;
   
-  unsigned long   m_OffsetTable[VImageDimension];
+  unsigned long   m_OffsetTable[VImageDimension+1];
 
   unsigned long   m_ImageSize[VImageDimension];
   unsigned long   m_BufferSize[VImageDimension];
