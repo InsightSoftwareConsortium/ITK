@@ -18,20 +18,20 @@
 // Software Guide : BeginLatex
 //
 // In medical imaging applications, the general shape, location and 
-// orientation of a anatomical structure of interest is sometimes
+// orientation of an anatomical structure of interest is typically
 // known \emph{a priori}. This information can be used to aid the
 // segmentation process especially when image contrast is low or
 // when the object boundary is not distinct.
 //
-// In \cite{Leventon2000}, Leventon \emph{et al.} extended the edge-based
+// In \cite{Leventon2000}, Leventon \emph{et al.} extended the
 // geodesic active contours method with an additional shape-influenced term in
 // the driving PDE. The \doxygen{GeodesicActiveContourShapePriorLevelSetFilter}
 // is a generalization of Leventon's approach and its use is illustrated 
 // in the following example.
 //
 // To support shape-guidance, the generic level set 
-// equation~\ref{eqn:LevelSetEquation}is extended to incorporate a shape-influence 
-// term:
+// equation(~\ref{eqn:LevelSetEquation}) is extended to incorporate a 
+// shape guidance term:
 //
 // \begin{equation}
 // \label{eqn:ShapeInfluenceTerm}
@@ -39,19 +39,19 @@
 // \end{equation}
 //
 // where $\psi^{*}$ is the signed distance function of the ``best-fit'' shape
-// with respect to the shape model. The new term has the effect of driving the
-// contour towards the best-fit shape and scalar $\xi$ weights the influence
+// with respect to a shape model. The new term has the effect of driving the
+// contour towards the best-fit shape. The scalar $\xi$ weights the influence
 // of the shape term in the overall evolution. In general, the best-fit shape
-// is not known and has to be iteratively estimated in conjunction with the
-// contour evolution.
+// is not known ahead of time and has to be iteratively estimated in 
+// conjunction with the contour evolution.
 //
-// As with the GeodesicActiveContourLevelSetImageFilter, the 
+// As with the \doxygen{GeodesicActiveContourLevelSetImageFilter}, the 
 // GeodesicActiveContourShapePriorLevelSetImageFilter expects two input
 // images: the first is an initial level set and the second a feature image
 // that represents the image edge potential. The configuration of this
-// example is quite similar to the example on the use of the
-// GeodesicActiveContourLevelSetImageFilter and hence the description will focus
-// on the new objects involved in the segmentation process as shown
+// example is quite similar to the example in 
+// Section~\ref{{sec:GeodesicActiveContourImageFilter}}and hence the description 
+// will focus on the new objects involved in the segmentation process as shown
 // in Figure~\ref{fig:GeodesicActiveContourShapePriorCollaborationDiagram}.
 //
 // \begin{figure} \center
@@ -67,11 +67,13 @@
 // of the shape, to be explained later. 
 // The centered image is then smoothed using non-linear diffusion to 
 // remove noise and the gradient magnitude is computed from the smoothed image. 
-// For simplicity, this example using then uses the \doxygen{BoundedReciprocalImageFilter}
+// For simplicity, this example uses the \doxygen{BoundedReciprocalImageFilter}
 // to produce the edge potential image.
 //
-// The \doxygen{FastMarchingImageFilter} creates an initial level set using a
-// user specified seed position and initial contour radius which then passed
+// The \doxygen{FastMarchingImageFilter} creates an initial level set using two
+// user specified seed positions and initial contour radius. Two seeds are
+// use in this example to facilitate the segmentation of long narrow objects.
+// The output of the FastMarchingImageFilter is passed
 // as the input to the GeodesicActiveContourShapePriorLevelSetImageFilter.
 // At then end of the segmentation process, the output level set is passed
 // to the \doxygen{BinaryThresholdImageFilter} to produce a binary mask
@@ -82,16 +84,14 @@
 // are used for shape modeling and estimation.
 // The \doxygen{PCAShapeSignedDistanceFunction} represents a statistical
 // shape model defined by a mean signed distance and the first $K$ 
-// prinicpal components modes and the \doxygen{Euler2DTransform} is used
+// prinicpal components modes; while the \doxygen{Euler2DTransform} is used
 // to represent the pose of the shape. In this implementation, the
 // best-fit shape estimation problem is reformulated as minimization problem
 // where the \doxygen{ShapePriorMAPCostFunction} is the cost function to
-// to optimized. In this example, 
-// we will use the \doxygen{OnePlusOneEvolutionaryOptimizer} to perform
-// the minimization.
+// to optimized using the \doxygen{OnePlusOneEvolutionaryOptimizer}.
 //
-// It should be noted that, although a particular shape model, transform
-// cost function and optimizer is used in this example, the implementation
+// It should be noted that, although particular shape model, transform
+// cost function and optimizer are used in this example, the implementation
 // is generic allowing different instances of these components to be
 // plugged in. This flexible allows a user to talior the behavoir of the
 // segmentation to suit the circumstances of a targeted application. 
@@ -191,12 +191,14 @@ public:
 
 int main( int argc, char *argv[] )
 {
-  if( argc < 14 )
+  if( argc < 16 )
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " inputImage  outputImage";
-    std::cerr << " seedX seedY initialDistance";
+    std::cerr << " seed1X seed1Y";
+    std::cerr << " seed2X seed2Y";
+    std::cerr << " initialDistance";
     std::cerr << " sigma";
     std::cerr << " propagationScaling shapePriorScaling";
     std::cerr << " meanShapeImage numberOfModes shapeModeFilePattern";
@@ -327,7 +329,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   // In this example, we will use the bounded reciprocal $1/(1+x)$ of
-  // the image gradient as the edge potential feature image.
+  // the image gradient magnitude as the edge potential feature image.
   //
   //  Software Guide : EndLatex 
 
@@ -343,7 +345,7 @@ int main( int argc, char *argv[] )
   
   //  Software Guide : BeginLatex
   //  
-  //  For the GeodesicActiveContourShapePriorLevelSetImageFilter, scaling parameters
+  //  In the GeodesicActiveContourShapePriorLevelSetImageFilter, scaling parameters
   //  are used to trade off between the propagation (inflation), the
   //  curvature (smoothing), the advection terms and the shape influence term. 
   //  These parameters are set
@@ -362,8 +364,8 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex 
 
-  const double propagationScaling = atof( argv[7] );
-  const double shapePriorScaling  = atof( argv[8] );
+  const double propagationScaling = atof( argv[9] );
+  const double shapePriorScaling  = atof( argv[10] );
 
   //  Software Guide : BeginCodeSnippet
   geodesicActiveContour->SetPropagationScaling( propagationScaling );
@@ -383,23 +385,23 @@ int main( int argc, char *argv[] )
   //  algorithm before the zero set leaks through the regions of low gradient
   //  in the contour of the anatomical structure to be segmented.
 
-  geodesicActiveContour->SetMaximumRMSError( 0.008 );
-  geodesicActiveContour->SetNumberOfIterations( 1000 );
+  geodesicActiveContour->SetMaximumRMSError( 0.005 );
+  geodesicActiveContour->SetNumberOfIterations( 800 );
 
   //  Software Guide : BeginLatex
   //
-  //  Each iteration the current ``best-fit'' shape is estimated from the
+  //  Each iteration, the current ``best-fit'' shape is estimated from the
   //  edge potential image and the current contour. To increase speed, only 
   //  information within the sparse field layers of the current contour is used
   //  in the estimation. The default number of sparse field layers is same as
   //  the ImageDimension which does not contain enough information to get 
   //  a reliable best-fit shape estimation. Thus, we override the default and
-  //  set the number of layers to 8.
+  //  set the number of layers to 4.
   //
   //  Software Guide : EndLatex 
 
   //  Software Guide : BeginCodeSnippet
-  geodesicActiveContour->SetNumberOfLayers( 8 );
+  geodesicActiveContour->SetNumberOfLayers( 4 );
   //  Software Guide : EndCodeSnippet 
 
 
@@ -441,7 +443,7 @@ int main( int argc, char *argv[] )
   //  the range of influence of the image edges. This filter has been discussed
   //  in Section~\ref{sec:GradientMagnitudeRecursiveGaussianImageFilter}
 
-  const double sigma = atof( argv[6] );
+  const double sigma = atof( argv[8] );
   gradientMagnitude->SetSigma(  sigma  );
   
 
@@ -477,7 +479,7 @@ int main( int argc, char *argv[] )
   //  command line arguments. The rule of thumb for the user is to select this
   //  value as the distance from the seed points at which she want the initial
   //  contour to be.
-  const double initialDistance = atof( argv[5] );
+  const double initialDistance = atof( argv[7] );
 
   NodeType node;
 
@@ -493,6 +495,10 @@ int main( int argc, char *argv[] )
   seeds->Initialize();
   seeds->InsertElement( 0, node );
 
+  seedPosition[0] = atoi( argv[5] );
+  seedPosition[1] = atoi( argv[6] );
+  node.SetIndex( seedPosition );
+  seeds->InsertElement( 1, node );
 
   //  The set of seed nodes is passed now to the
   //  FastMarchingImageFilter with the method
@@ -571,7 +577,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Next, we define the statistical shape model. In this example, 
+  //  Next, we define the shape model. In this example, 
   //  we use an implicit shape model based the principcal components 
   //  such that:
   //
@@ -580,9 +586,9 @@ int main( int argc, char *argv[] )
   //  \end{equation}
   //
   //  where $\mu(\mathbf{x})$ is the mean signed distance computed from training
-  //  data and $u_k(\mathbf{x})$ are the first $K$ principal components of the
-  //  offset (signed distance - mean). The coefficient $\alpha_k$ form the
-  //  \emph{shape} parameters. 
+  //  set of segmented objects and $u_k(\mathbf{x})$ are the first $K$ principal components of the
+  //  offset (signed distance - mean). The coefficient $\{\alpha_k\}$ form the
+  //  set of \emph{shape} parameters. 
   //
   //  \index{itk::PCAShapeSignedDistanceFunction!New()}
   //  \index{itk::PCAShapeSignedDistanceFunction!SetNumberOfPrincipalComponents()}
@@ -590,7 +596,7 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
 
-  const unsigned int numberOfPCAModes = atoi( argv[10] );
+  const unsigned int numberOfPCAModes = atoi( argv[12] );
 
   // Software Guide : BeginCodeSnippet
   typedef itk::PCAShapeSignedDistanceFunction<
@@ -606,7 +612,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  In this example, we will read the mean shape and
-  //  principal mode signed distance images from file. We will assume that 
+  //  principal mode images from file. We will assume that 
   //  the filenames of the mode images form a numeric series starting from index 0. 
   //
   //  \index{itk::PCAShapeSignedDistanceFunction!SetMeanImage()}
@@ -616,7 +622,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   ReaderType::Pointer meanShapeReader = ReaderType::New();
-  meanShapeReader->SetFileName( argv[9] );
+  meanShapeReader->SetFileName( argv[11] );
   meanShapeReader->Update();
 
   std::vector<InternalImageType::Pointer> shapeModeImages( numberOfPCAModes );
@@ -626,7 +632,7 @@ int main( int argc, char *argv[] )
 
   fileNamesCreator->SetStartIndex( 0 );
   fileNamesCreator->SetEndIndex( numberOfPCAModes - 1 );
-  fileNamesCreator->SetSeriesFormat( argv[11] );
+  fileNamesCreator->SetSeriesFormat( argv[13] );
   const std::vector<std::string> & shapeModeFileNames = 
           fileNamesCreator->GetFileNames();
 
@@ -665,7 +671,7 @@ int main( int argc, char *argv[] )
   // Next we instantiated a Euler2DTransform and connect it to the
   // PCASignedDistanceFunction. The transform represent 
   // the pose of the shape. The parameters of the transform
-  // forms the \emph{pose} parameters.
+  // forms the set of \emph{pose} parameters.
   //
   //  \index{itk::PCAShapeSignedDistanceFunction!SetTransform()}
   //  \index{itk::ShapeSignedDistanceFunction!SetTransform()}
@@ -679,13 +685,69 @@ int main( int argc, char *argv[] )
   shape->SetTransform( transform );
   // Software Guide : EndCodeSnippet
 
-  // set up the cost function
+  // Software Guide : BeginLatex
+  //
+  // Before updating the level set at each iteration, the parameters
+  // of the current best-fit shape is estimated by minimizing the
+  // ShapePriorMAPCostFunction. The cost function is composed of
+  // four terms: contour fit, image fit, shape prior and pose prior.
+  // The user can specify the weights applied to the term. 
+  //
+  //  \index{itk::ShapePriorMAPCostFunction!SetWeights()}
+  //
+  // Software Guide : EndLatex
+
+  // Software Guide : BeginCodeSnippet
   typedef itk::ShapePriorMAPCostFunction<
                               InternalImageType,
                               InternalPixelType >     CostFunctionType;
 
   CostFunctionType::Pointer costFunction = CostFunctionType::New();
 
+  CostFunctionType::WeightsType weights;
+  weights[0] =  1.0;  // weight for contour fit term
+  weights[1] =  20.0; // weight for image fit term
+  weights[2] =  1.0;  // weight for shape prior term
+  weights[3] =  1.0;  // weight for pose prior term
+
+  costFunction->SetWeights( weights );
+  // Software Guide : EndCodeSnippet
+
+  // Software Guide : BeginLatex
+  //
+  // Contour fit measure the likelihood of seeing the current
+  // evolving contour for a given set of shape/pose parameters. 
+  // This is computed by counting the number of pixels inside
+  // the current contour but outside the current shape.
+  //
+  // Image fit measure the likelihood of seeing certain image
+  // features for a given set of shape/pose parameters. This is
+  // computed by assuming that ( 1 - edge potential ) approximates
+  // a zero-mean, unit variancce Gaussian along the normal of
+  // the evolving contour. Image fit is then computed by computing
+  // the Laplacian goodness of fit of the Gaussian:
+  //
+  // \begin{equation}
+  // \sum \left( G(\psi(\mathbf{x})) - |1 - g(\mathbf{x})| \right)^2
+  // \end{equation}
+  //
+  // where $G$ is a zero-mean, unit variance Gaussian and $g$ is
+  // the edge potential feature image.
+  //
+  // The pose parameters are assumed to have an uniform distribution
+  // and hence does not contribute to the cost function. 
+  // The shape parameters are assumed to have a Gaussian distribution. 
+  // The parameter of the distribution is defined by the user. Since we
+  // assumed the the principal modes have already been normalized, 
+  // the distribution has zero mean and unit-variance.
+  //
+  //  \index{itk::ShapePriorMAPCostFunction!SetShapeParameterMeans()}
+  //  \index{itk::ShapePriorMAPCostFunction!SetShapeParameterStandardDeviations()}
+  //
+  //
+  // Software Guide : EndLatex
+
+  // Software Guide : BeginCodeSnippet
   CostFunctionType::ArrayType mean(   shape->GetNumberOfShapeParameters() );
   CostFunctionType::ArrayType stddev( shape->GetNumberOfShapeParameters() );
 
@@ -693,68 +755,133 @@ int main( int argc, char *argv[] )
   stddev.Fill( 1.0 );
   costFunction->SetShapeParameterMeans( mean );
   costFunction->SetShapeParameterStandardDeviations( stddev );
+  // Software Guide : EndCodeSnippet
 
-  CostFunctionType::WeightsType weights;
-  weights[0] =  1.0;  // weight for contour fit term
-  weights[1] = 20.0;  // weight for image fit term
-  weights[2] =  1.0;  // weight for shape prior term
-  weights[3] =  1.0;  // weight for pose prior term
+  // Software Guide : BeginLatex
+  //
+  // In this example, we will use the OnePlusOneEvolutionaryOptimizer
+  // to optimize the cost function.
+  //
+  // Software Guide : EndLatex
 
-  costFunction->SetWeights( weights );
-
-  // set up the optimizer
+  // Software Guide : BeginCodeSnippet
   typedef itk::OnePlusOneEvolutionaryOptimizer    OptimizerType;
   OptimizerType::Pointer optimizer = OptimizerType::New();
+  // Software Guide : EndCodeSnippet
 
+  // Software Guide : BeginLatex
+  //
+  // The evolutionary optimization algorithm is based on testing
+  // random permutations of the parameters. As such, we need to provide
+  // the optimizer a random number generator. In the following lines,
+  // we create a \doxygen{NormalVariateGenerator}, seed it and
+  // connect it to the optimizer.
+  //
+  //  \index{itk::Statistics::NormalVariateGenerator!Initialize()}
+  //  \index{itk::OnePlusOneEvolutionaryOptimizer!SetNormalVariateGenerator()}
+  //
+  // Software Guide : EndLatex
+
+  // Software Guide : BeginCodeSnippet
+  typedef itk::Statistics::NormalVariateGenerator GeneratorType;
+  GeneratorType::Pointer generator = GeneratorType::New() ;
+
+  generator->Initialize( 20020702 ) ;
+
+  optimizer->SetNormalVariateGenerator( generator ) ;
+  // Software Guide : EndCodeSnippet
+
+
+  // Software Guide : BeginLatex
+  //
+  // The cost function has $K+3$ parameters. The first $K$ 
+  // parameters are the prinicpal component multipliers, follow
+  // by the 2D rotation parameter (in radians) and the x- and
+  // y- translation parameters (in mm).  We need to carefully
+  // scale the different types of parameters to compensate
+  // for the different dynamic ranges of the parameters.
+  //
+  //  \index{itk::OnePlusOneEvolutionaryOptimizer!SetScales()}
+  //
+  // Software Guide : EndLatex
+
+  // Software Guide : BeginCodeSnippet
   OptimizerType::ScalesType scales( shape->GetNumberOfParameters() );
   scales.Fill( 1.0 );
   for( unsigned int k = 0; k < numberOfPCAModes; k++ )
     {
-    scales[k] = 20.0;  // scales for the component multiplier
+    scales[k] = 20.0;  // scales for the pca mode multiplier
     }
-  scales[numberOfPCAModes] = 100.0;  // scale for 2D rotation
+  scales[numberOfPCAModes] = 350.0;  // scale for 2D rotation
   optimizer->SetScales( scales );
+  // Software Guide : EndCodeSnippet
 
-  // set up random number generator
-  typedef itk::Statistics::NormalVariateGenerator GeneratorType;
-  GeneratorType::Pointer generator = GeneratorType::New() ;
-  generator->Initialize( 20020702 ) ;
-  optimizer->SetNormalVariateGenerator( generator ) ;
+  // Software Guide : BeginLatex
+  //
+  // Next, we specify the initial radius, the shrink and
+  // grow mutation factors and termination criteria of the optimizer. 
+  // Since the best-fit shape is re-estimated each iteration of 
+  // the curve evolution, we do not need to spend time to find the true
+  // minimizing solution each time; we only need to head towards it. As such,
+  // we only require a small number of optimizer iterations.
+  //
+  //  \index{itk::OnePlusOneEvolutionaryOptimizer!Initialize()}
+  //  \index{itk::OnePlusOneEvolutionaryOptimizer!SetEpsilon()}
+  //  \index{itk::OnePlusOneEvolutionaryOptimizer!SetMaximumIteration()}
+  //
+  // Software Guide : EndLatex
 
-  // initialization
+  // Software Guide : BeginCodeSnippet
   double initRadius = 1.05;
   double grow = 1.1 ;
   double shrink = pow(grow, -0.25) ;
   optimizer->Initialize(initRadius, grow, shrink) ;
 
-  // minimal search radius
-  optimizer->SetEpsilon(1.0e-6) ;
+  optimizer->SetEpsilon(1.0e-6) ; // minimal search radius
 
-  // max iteration
   optimizer->SetMaximumIteration(15) ;
+  // Software Guide : EndCodeSnippet
 
-  // Set up the initial parameters
+  // Software Guide : BeginLatex
+  //
+  // Before starting the algorithm we need to also supply the initial
+  // best-fit shape estimate. In this example, we start with an un-rotated mean shape
+  // with the initial x- and y- translation specified through command-line
+  // arguments.
+  //
+  // Software Guide : EndLatex
+
+  // Software Guide : BeginCodeSnippet
   ShapeFunctionType::ParametersType parameters( shape->GetNumberOfParameters() );
   parameters.Fill( 0.0 );
-  parameters[numberOfPCAModes + 1] = atof( argv[12] ); // startX
-  parameters[numberOfPCAModes + 2] = atof( argv[13] ); // startY
+  parameters[numberOfPCAModes + 1] = atof( argv[14] ); // startX
+  parameters[numberOfPCAModes + 2] = atof( argv[15] ); // startY
+  // Software Guide : EndCodeSnippet
 
-  // connect all the components up to the filter
+  // Software Guide : BeginLatex
+  //
+  // Finally, we connect all the components to the filter and add our
+  // observer.
+  //
+  // Software Guide : EndLatex
+
+  // Software Guide : BeginCodeSnippet
   geodesicActiveContour->SetShapeFunction( shape );
   geodesicActiveContour->SetCostFunction( costFunction );
   geodesicActiveContour->SetOptimizer( optimizer );
   geodesicActiveContour->SetInitialParameters( parameters );
 
-  //  Plug an observer onto the filter
   typedef CommandIterationUpdate<GeodesicActiveContourFilterType> CommandType;
   CommandType::Pointer observer = CommandType::New();
   geodesicActiveContour->AddObserver( itk::IterationEvent(), observer );
+  // Software Guide : EndCodeSnippet
+
   
   //  Software Guide : BeginLatex
   //  
   //  The invocation of the \code{Update()} method on the writer triggers the
   //  execution of the pipeline.  As usual, the call is placed in a
-  //  \code{try/catch} block should any errors occur or exceptions be thrown.
+  //  \code{try/catch} block to handle exceptions should errors occur.
   //
   //  Software Guide : EndLatex 
 
@@ -824,6 +951,58 @@ int main( int argc, char *argv[] )
   evaluator->Modified();
   writer->SetFileName( "GeodesicActiveContourShapePriorImageFilterOutput6.png" );
   writer->Update();
+
+
+  //  Software Guide : BeginLatex
+  //
+  // Deviating from previous examples, we will demostrate this example using 
+  // the \code{BrainMidSagittalSlice.png} image 
+  // (left of Figure~\ref{fig:GeodesicActiveContourShapePriorImageFilterOutput})
+  // from the \code{Examples/Data} directory.
+  // The aim is to segment the corpus callosum from the image using a shape model
+  // defined by \code{CorpusCallosumMeanShape.mha} and the first three prinicpal
+  // components \code{CorpusCallosumMode0.mha}, \code{CorpusCallosumMode1.mha} and 
+  // \code{CorpusCallosumMode1.mha}. Segmentation results with and without shape
+  // guidance are shown in 
+  // Figure~\ref{fig:GeodesicActiveContourShapePriorImageFilterOutput2}.
+  //
+  // A sigma value of $1.0$ was used to compute the image gradient and the
+  // propagation and shape prior scaling are respectively set to $0.5$ and $0.02$.
+  // An initial level set was created by placing one seed point in the
+  // rostrum $(60,102)$ and 
+  // one in the splenium $(120, 85)$ of the corpus callosum with
+  // an initial radius of $6$ pixels at each seed position.
+  // The best-fit shape was initially placed with a translation of
+  // $(10,0)mm$ so that it roughly overlapped
+  // the corpus callosum in the image as shown on the right of
+  // Figure~\ref{fig:GeodesicActiveContourShapePriorImageFilterOutput}.
+  //
+  // 
+  // \begin{figure} \center
+  // \includegraphics[width=0.30\textwidth]{BrainMidSagittalSlice.eps}
+  // \includegraphics[width=0.30\textwidth]{GeodesicActiveContourShapePriorImageFilterOutput5.eps}
+  // \itkcaption[GeodesicActiveContourImageFilter segmentations]{Images generated by the
+  // segmentation process based on the GeodesicActiveContourImageFilter. From left to
+  // right: segmentation of the left ventricle, segmentation of the right
+  // ventricle, segmentation of the white matter, attempt of segmentation of
+  // the gray matter.}
+  // \label{fig:GeodesicActiveContourShapePriorImageFilterOutput}
+  // \end{figure}
+  //
+  // \begin{figure} \center
+  // \includegraphics[width=0.30\textwidth]{GeodesicActiveContourShapePriorImageFilterOutput1.eps}
+  // \includegraphics[width=0.30\textwidth]{GeodesicActiveContourShapePriorImageFilterOutput2.eps}
+  // \includegraphics[width=0.30\textwidth]{GeodesicActiveContourShapePriorImageFilterOutput6.eps}
+  // \itkcaption[GeodesicActiveContourImageFilter segmentations]{Images generated by the
+  // segmentation process based on the GeodesicActiveContourImageFilter. From left to
+  // right: segmentation of the left ventricle, segmentation of the right
+  // ventricle, segmentation of the white matter, attempt of segmentation of
+  // the gray matter.}
+  // \label{fig:GeodesicActiveContourShapePriorImageFilterOutput2}
+  // \end{figure}
+ 
+  //
+  //  Software Guide : EndLatex 
 
 
   return 0;
