@@ -3,8 +3,8 @@
   Program:   Insight Segmentation & Registration Toolkit (ITK)
   Module:    itkNumericsHeaderTest.cxx
   Language:  C++
-  Date:      $$
-  Version:   $$
+  Date:      $Date$
+  Version:   $Revision$
 
 
 Copyright (c) 2000 National Library of Medicine
