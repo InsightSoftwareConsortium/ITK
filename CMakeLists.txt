@@ -16,7 +16,7 @@ INCLUDE (${CMAKE_ROOT}/Modules/Testing.cmake)
 # DROP_SITE_PASSWORD and TRIGGER_SITE.
 # 
 IF (BUILD_TESTING)
-  SUBDIRS(TESTING)
+  SUBDIRS(Testing)
 
   SET (DROP_SITE "public.kitware.com")
   SET (DROP_LOCATION "/incoming")
