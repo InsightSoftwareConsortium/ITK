@@ -17,6 +17,8 @@
 =========================================================================*/
 #include "itkPNGImageIO.h"
 #include "png.h"
+#include "itkRGBPixel.h"
+#include "itkRGBAPixel.h"
 
 namespace itk
 {
@@ -121,10 +123,12 @@ const std::type_info& PNGImageIO::GetPixelType() const
     case DOUBLE:
       return typeid(double);
     case RGB:
+      return typeid(RGBPixel<unsigned char>);
     case RGBA:
+      return typeid(RGBAPixel<unsigned char>);
     default:
       {
-      itkExceptionMacro ("Invalid type: " << m_PixelType << ", only unsigned char and unsigned short are allowed.");
+      itkExceptionMacro ("Invalid type: " << m_PixelType << ", only unsigned char, unsigned short, RGB<unsigned char> are allowed.");
       return this->ConvertToTypeInfo(m_PixelType);      
       }
     case UNKNOWN:
@@ -159,7 +163,9 @@ unsigned int PNGImageIO::GetComponentSize() const
     case DOUBLE:
       return sizeof(double);
     case RGB:
+      return sizeof(unsigned char);
     case RGBA:
+      return sizeof(unsigned char);
     case UNKNOWN:
       {
       itkExceptionMacro ("Invalid type: " << m_PixelType 
