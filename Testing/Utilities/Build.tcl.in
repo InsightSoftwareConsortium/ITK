@@ -191,6 +191,7 @@ if { $LogCompressionStatus } \
 {
   error $CompressionResult
 }
+
 set BuildLog [open $BuildLogCompressedFilename r]
 fconfigure $BuildLog -translation binary
 
@@ -202,7 +203,7 @@ puts $Out "\t<EndDateTime>[clock format [clock seconds]]</EndDateTime>"
 puts $Out "</Build>"
 puts $Out "</Site>"
 
-
+close $Build
 close $BuildLog
 close $Out
 
