@@ -664,8 +664,6 @@ void
 BalloonForceFilter<TInputMesh, TOutputMesh>
 ::Reset()
 {
-//  typename TriCell::Pointer				insertCell(TriCell::New()); 
-
   int i, j, cell=0; 
   float status, d[3] = {0,0,0}, z;
   IPT x;
@@ -702,7 +700,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   myDisplacements->Reserve(m_NumNodes);
   typename TInputMesh::PointsContainer::Iterator	displacements = myDisplacements->Begin();
   
-  typename TInputMesh::TriCell::Pointer				insertCell(TInputMesh::TriCell::New()); 
+  typename TriCell::Pointer				insertCell(TriCell::New()); 
 
   while ( m_NumNewNodes != 0) {
 	if ( (j-1) > (int)(m_NewNodes[m_NumNewNodes-1][3]) ) {
