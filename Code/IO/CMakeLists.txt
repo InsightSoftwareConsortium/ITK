@@ -1,7 +1,13 @@
 SET(ITKIO_SRCS
   itkAnalyzeImageIO.cxx
   itkAnalyzeImageIOFactory.cxx
-  itkDICOMImageIO2.cxx
+  itkB2HeaderBase.cxx
+  itkB2HeaderFactory.cxx
+  itkB2IPLHeaderInfo.cxx
+  itkB2MaskHeaderInfo.cxx
+  itkB2MaskImageIO.cxx
+  itkB2MaskImageIOFactory.cxx
+   itkDICOMImageIO2.cxx
   itkDICOMImageIO2Factory.cxx
   itkDicomImageIO.cxx
   itkDicomImageIOFactory.cxx
