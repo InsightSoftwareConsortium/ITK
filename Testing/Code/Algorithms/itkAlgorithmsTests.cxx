@@ -8,6 +8,7 @@ void RegisterTests()
 {
 REGISTER_TEST(itkAlgorithmsPrintTest  );
 REGISTER_TEST(itkAlgorithmsPrintTest2  );
+REGISTER_TEST(itkAlgorithmsPrintTest3  );
 REGISTER_TEST(itkAntiAliasBinaryImageFilterTest );
 REGISTER_TEST(itkAutomaticTopologyMeshSourceTest );
 REGISTER_TEST(itkAntiAliasBinaryImageFilterTest  );
