@@ -52,13 +52,13 @@ namespace itk
 
 /** \class ProcessObject
  * \brief ProcessObject is the base class for all process objects (source,
-          filters, mappers) in the Insight data processing pipeline.
+ *        filters, mappers) in the Insight data processing pipeline.
  *
  * ProcessObject is an abstract object that specifies behavior and
  * interface of visualization network process objects (sources, filters,
  * mappers). Source objects are creators of visualization data; filters
- * input, process, and output visualization data; and mappers transform data
- * into another form (like rendering primitives or write data to a file).
+ * input, process, and output image data; and mappers transform data
+ * into another form (like transforming coordinates or writing data to a file).
  *
  * A major role of ProcessObject is to define the inputs and outputs
  * of a filter. More than one input and/or output may exist for a given
@@ -67,7 +67,7 @@ namespace itk
  * inputs or outputs is just ignored.
  *
  * ProcessObject invokes the following events: 
- * , Command::StartEvent, Command::EndEvent
+ * Command::StartEvent, Command::EndEvent
  * These are convenience events you can use for any purpose
  * (e.g., debugging info, highlighting/notifying user interface, etc.) 
  * See Command and LightObject for information on using AddObserver.
@@ -129,6 +129,7 @@ public:
    * Smart Pointer type to a DataObject.
    */
   typedef DataObject::Pointer DataObjectPointer;
+
   /** 
    * STL Array of SmartPointers to DataObjects
    */
@@ -145,8 +146,8 @@ public:
     {return m_Inputs.size();}
 
   /** 
-   * Return an array with all the inputs of this process object.
-   * This is useful for tracing back in the pipeline to contruct
+   * Return an array with all the outputs of this process object.
+   * This is useful for tracing forward in the pipeline to contruct
    * graphs etc. 
    */
   DataObjectPointerArray GetOutputs()
@@ -173,22 +174,25 @@ public:
   
   /** 
    * Set the execution progress of a process object. The progress is
-   * a floating number between (0,1), 0 meaning no progress; 1 meaning
-   * the filter has completed execution.
+   * a floating number in [0,1] with 0 meaning no progress and 1 meaning
+   * the filter has completed execution.  The ProgressEvent is NOT
+   * invoked.
    */
   itkSetClampMacro(Progress,float,0.0,1.0);
 
   /** 
    * Get the execution progress of a process object. The progress is
-   * a floating number between (0,1), 0 meaning no progress; 1 meaning
+   * a floating number in [0,1] with 0 meaning no progress and 1 meaning
    * the filter has completed execution.
    */
   itkGetConstReferenceMacro(Progress,float);
 
   /** 
-   * Update the progress of the process object. If a ProgressMethod exists,
-   * executes it.  Then set the Progress ivar to amount. The parameter amount
-   * should range between (0,1). 
+   * Update the progress of the process object.
+   *
+   * Sets the Progress ivar to amount and invokes any observers for
+   * the ProgressEvent. The parameter amount should be in [0,1] and is
+   * the cumulative (not incremental) progress.
    */
   void UpdateProgress(float amount);
   
@@ -283,14 +287,15 @@ public:
    * be set?  By default, all the outputs are set to the same requested
    * region.  If a filter needs to produce different requested regions
    * for each output, for instance an image processing filter producing
-   * several outputs are different resolutions, then that filter may
+   * several outputs at different resolutions, then that filter may
    * override this method and set the requested regions appropriatedly.
    */
   virtual void GenerateOutputRequestedRegion(DataObject *output);
 
   /** 
-   * Turn on/off flag to control whether this object's data is released
-   * after being used by a source. 
+   * Turn on/off the flags to control whether the data belonging to the
+   * outputs of this ProcessObject are released after being used by a
+   * source by ProcessObjects further downstream.
    */
   virtual void SetReleaseDataFlag(bool flag);
   virtual bool GetReleaseDataFlag();

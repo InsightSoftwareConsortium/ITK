@@ -137,8 +137,11 @@ ProcessObject
 
 
 /**
- * Adds an input to the first null position in the input list.
- * Expands the list memory if necessary
+ * Remove an input.
+ *
+ * Removes the first occurence of the given OutputObject from the
+ * inputs to this ProcessObject.  If it's the last object on the
+ * list, shortens the list.
  */
 void 
 ProcessObject
@@ -365,7 +368,7 @@ ProcessObject
 
 /**
  * Update the progress of the process object. If a ProgressMethod exists, 
- * executes it. Then set the Progress ivar to amount. The parameter amount 
+ * execute it. Then set the Progress ivar to amount. The parameter amount 
  * should range between (0,1).
  */
 void 
@@ -505,8 +508,10 @@ ProcessObject
     }
 
   /**
-   * The MTime of this source will be used in determine the PipelineMTime
-   * for the outputs
+   * We now wish to set the PipelineMTime of each output DataObject to
+   * the largest of this ProcessObject's InformationMTime, all input
+   * DataObject's PipelineMTime, and all input's MTime.  We begin with
+   * the InformationMTime of this ProcessObject.
    */
   t1 = this->GetMTime();
 
@@ -745,6 +750,8 @@ ProcessObject
   /**
    * If we ended due to aborting, push the progress up to 1.0 (since
    * it probably didn't end there)
+   *
+   * FIXME: Comment doesn't match the code.
    */
   if ( !m_AbortGenerateData )
     {
@@ -755,7 +762,7 @@ ProcessObject
   this->InvokeEvent(Command::EndEvent);
 
   /**
-   * Now we have to mark the data as up to data.
+   * Now we have to mark the data as up to date.
    */
   for (idx = 0; idx < m_Outputs.size(); ++idx)
     {
