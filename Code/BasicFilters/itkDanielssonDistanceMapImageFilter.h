@@ -168,14 +168,6 @@ private:
   bool                  m_SquaredDistance;
   bool                  m_InputIsBinary;
 
-  /** \class DIS SquaredEuclideanDistanceCalculator
-   *
-   *  This is a helper class that computes the squared distance. */
-  template <unsigned int VDimension>  
-  class SquaredDistance
-  {
-  }; // end of SquaredDistance class
-
 }; // end of DanielssonDistanceMapImageFilter class
 
 } //end namespace itk
