@@ -48,6 +48,7 @@ RegionNeighborhoodIterator<TPixel, VDimension, TAllocator, TDerefAllocator>
   Iterator this_it;
   const Iterator _end = this->end();
   typename NeighborhoodType::Iterator N_it;
+  N_it = N.begin();
   
   for (this_it = this->begin(); this_it < _end; this_it++, N_it++)
     {
