@@ -65,7 +65,7 @@ GrayscaleErodeImageFilter<TInputImage, TOutputImage, TKernel>
     // in the image
     if (*kernel_it > 0)
       {
-      temp = *neigh_it;
+      temp = **neigh_it;
 
       if (temp < min)
         min = temp ;

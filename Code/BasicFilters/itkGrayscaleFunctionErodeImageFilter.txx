@@ -66,7 +66,7 @@ GrayscaleFunctionErodeImageFilter<TInputImage, TOutputImage, TKernel>
     if (*kernel_it > 0)
       {
       // subtract the structuring element value to the pixel value
-      temp = *neigh_it - (PixelType) *kernel_it;
+      temp = **neigh_it - (PixelType) *kernel_it;
 
       if (temp < min)
         min = temp ;

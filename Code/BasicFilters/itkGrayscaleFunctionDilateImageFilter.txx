@@ -66,7 +66,7 @@ GrayscaleFunctionDilateImageFilter<TInputImage, TOutputImage, TKernel>
     if (*kernel_it > 0)
       {
       // add the structuring element value to the pixel value
-      temp = *neigh_it + (PixelType) *kernel_it;
+      temp = **neigh_it + (PixelType) *kernel_it;
 
       if (temp > max)
         max = temp ;
