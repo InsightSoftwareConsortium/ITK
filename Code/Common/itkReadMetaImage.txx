@@ -52,7 +52,7 @@ ReadMetaImage<TOutputImage>
     throw ExceptionObject();
   }
      
-  TOutputImage::Pointer m_OutputImage( GetOutput() );
+  typename TOutputImage::Pointer m_OutputImage( GetOutput() );
 
   m_OutputImage->SetSpacing( m_MetaImage.ElemSize() );
 
@@ -68,21 +68,22 @@ ReadMetaImage<TOutputImage>
   m_OutputImage->Allocate();
 
   const long startPosition[] = { 0, 0, 0 };
-  TOutputImage::Index start;
+  typename TOutputImage::Index start;
   start.SetIndex( startPosition );
      
   m_OutputImage->SetImageStartIndex( start );
   m_OutputImage->SetBufferStartIndex( start );
 
-  typedef itk::ImageRegionSimpleIterator<TOutputImage::PixelType,
+  typedef typename TOutputImage::PixelType  PixelType;
+
+  typedef itk::ImageRegionSimpleIterator<PixelType,
                   TOutputImage::ImageDimension> IteratorType;
   
   IteratorType it(m_OutputImage,
                   m_OutputImage->GetBufferStartIndex(),
                   m_OutputImage->GetBufferSize() );
 
-  TOutputImage::PixelType * source = 
-                      (TOutputImage::PixelType *)m_MetaImage.Get();
+  PixelType * source = (PixelType *)m_MetaImage.Get();
 
   
   it.Begin();
