@@ -56,20 +56,6 @@ PointSetToImageTranslationMeanSquaresGradientDescentRegistration<TReference, TTa
 { 
 }
 
-
-/**
- * Constructor
- */
-template <class TReference, class TTarget>
-PointSetToImageTranslationMeanSquaresGradientDescentRegistration<TReference, TTarget>
-::PointSetToImageTranslationMeanSquaresGradientDescentRegistration( const Self & other )
-:Superclass( other )
-{
-  m_Parameters       = other.m_Parameters;
-}
-
-
-
 /**
  * Destructor
  */
@@ -78,23 +64,6 @@ PointSetToImageTranslationMeanSquaresGradientDescentRegistration<TReference,  TT
 ::~PointSetToImageTranslationMeanSquaresGradientDescentRegistration()
 {
 }
-
-
-
-/**
- * Assignment Operator
- */
-template <class TReference, class TTarget>
-const PointSetToImageTranslationMeanSquaresGradientDescentRegistration< TReference, TTarget> &
-PointSetToImageTranslationMeanSquaresGradientDescentRegistration< TReference, TTarget>
-::operator=( const Self & other )
-{
-  Superclass::operator=( other );
-  m_Parameters       = other.m_Parameters;
-  return *this;
-}
-
-
 
 /**
  * Starts the Registration Process

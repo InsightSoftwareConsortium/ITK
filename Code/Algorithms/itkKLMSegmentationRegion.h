@@ -253,34 +253,15 @@ public:
    */
   void PrintRegionInfo();
 
-  /**
-   * Constructor
-   */
-  KLMSegmentationRegion();
-
-  /**
-   * Destructor
-   */
-  ~KLMSegmentationRegion();
-
-  /**
-   * Copy constructor
-   */
-  KLMSegmentationRegion(const Self&) {}
-
-  /**
-   * Assignment operator
-   */
-  void operator=(const Self&) {}
-
 protected:
-  /**
-   * Print self identity
-   */      
+  KLMSegmentationRegion();
+  ~KLMSegmentationRegion();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
-
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   RegionBorderVecType    m_RegionBorderVec;
 
 }; // class SegmentationRegion

@@ -181,8 +181,6 @@ protected:
         NumericTraits<ScalarValueType>::Zero;
     }
   ~LevelSetEquation() {}
-  LevelSetEquation(const Self&) {}
-  void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const
   {
     os << indent << "LevelSetEquation";
@@ -228,6 +226,11 @@ protected:
    * gamma
    */
   ScalarValueType m_CurvatureWeight;
+
+private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
 
 };
 

@@ -181,10 +181,11 @@ public:
 protected:
   MRASlabIdentifier() ;
   virtual ~MRASlabIdentifier() {} 
-  MRASlabIdentifier(const Self&) {}
-  void operator=(const Self&) {}
   
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   /**
    * target image pointer that MRASlabIdentifier will use  
    */

@@ -246,15 +246,13 @@ public:
 
 
 protected:
-
   ImageToImageTranslationNormalizedCorrelationGradientDescentRegistration();
   virtual ~ImageToImageTranslationNormalizedCorrelationGradientDescentRegistration();
-  ImageToImageTranslationNormalizedCorrelationGradientDescentRegistration(const Self&);
-  const Self & operator=(const Self&);
- 
 
 private:
-
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   ParametersType             m_Parameters;
   double                     m_TranslationScale;
 

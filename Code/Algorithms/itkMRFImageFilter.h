@@ -304,29 +304,8 @@ public:
   virtual void SetBeta( vnl_vector<double> BetaMatrix );
       
 protected:
-  /**
-   * Constructor
-   */
   MRFImageFilter();
-
-  /**
-   * Destructor
-   */
   ~MRFImageFilter();
-
-  /**
-   * Copy constructor
-   */
-  MRFImageFilter(const Self&) {}
-
-  /**
-   * Assignment operator
-   */
-  void operator=(const Self&) {}
-
-  /**
-   * Print self identity
-   */      
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /**
@@ -353,6 +332,9 @@ protected:
   virtual void GenerateOutputInformation();
 
 private:            
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   typedef typename TInputImage::SizeType InputImageSizeType;
 
   InputImageType         m_InputImage;

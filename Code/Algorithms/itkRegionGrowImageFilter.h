@@ -199,32 +199,14 @@ public:
   virtual void MergeRegions(){};
 
 protected:
-  /**
-   * Constructor
-   */
   RegionGrowImageFilter();
-
-  /**
-   * Destructor
-   */
   ~RegionGrowImageFilter();
-
-  /**
-   * Copy constructor
-   */
-  RegionGrowImageFilter(const Self&) {}
-
-  /**
-   * Assignment operator
-   */
-  void operator=(const Self&) {}
-
-  /**
-   * Print self identity
-   */      
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   unsigned int    m_MaxNumRegions;
   unsigned int    m_RowGridSize;
   unsigned int    m_ColGridSize;

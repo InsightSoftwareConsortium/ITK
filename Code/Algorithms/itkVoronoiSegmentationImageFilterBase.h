@@ -233,8 +233,6 @@ public:
 protected:
   VoronoiSegmentationImageFilterBase();
   ~VoronoiSegmentationImageFilterBase();
-  VoronoiSegmentationImageFilterBase(const Self&) {}
-  void operator=(const Self&) {}
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
 
@@ -278,6 +276,9 @@ protected:
   //used for drawing the intermedia Voronoi Diagram. 
   void drawVDline(VDImagePointer result,PointType p1,PointType p2, unsigned char color);
   
+private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
   
 };
 

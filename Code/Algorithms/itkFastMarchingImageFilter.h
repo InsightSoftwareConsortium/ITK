@@ -301,8 +301,6 @@ public:
 protected:
   FastMarchingImageFilter();
   ~FastMarchingImageFilter(){};
-  FastMarchingImageFilter( const Self& ) {};
-  void operator= ( const Self& ) {};
   void PrintSelf( std::ostream& os, Indent indent ) const;
 
   virtual void Initialize();
@@ -324,6 +322,9 @@ protected:
   virtual void EnlargeOutputRequestedRegion(DataObject *output);
 
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   NodeContainerPointer                          m_AlivePoints;
   NodeContainerPointer                          m_TrialPoints;
 

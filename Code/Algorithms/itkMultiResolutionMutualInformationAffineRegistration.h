@@ -223,11 +223,8 @@ public:
 
 
 protected:
-
   MultiResolutionMutualInformationAffineRegistration();
   ~MultiResolutionMutualInformationAffineRegistration(){};
-  MultiResolutionMutualInformationAffineRegistration(const Self&);
-  const Self & operator=(const Self&);
   void PrintSelf(std::ostream&os, Indent indent) const;
 
   /**
@@ -242,7 +239,9 @@ protected:
   virtual void OneLevelPostRegistration(unsigned int level);
 
 private:
-
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   std::vector<double>           m_LearningRates;
   std::vector<unsigned int>     m_NumberOfIterations;
 

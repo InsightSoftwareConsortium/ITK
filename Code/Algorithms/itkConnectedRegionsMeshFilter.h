@@ -208,14 +208,15 @@ public:
 protected:
   ConnectedRegionsMeshFilter();
   virtual ~ConnectedRegionsMeshFilter() {}
-  ConnectedRegionsMeshFilter(const Self&) {}
-  void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   virtual void GenerateData();
   void PropagateConnectedWave();
 
 private:  
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   int                        m_ExtractionMode;
   InputMeshPointType         m_ClosestPoint;
   std::vector<unsigned long> m_SeedList;

@@ -56,20 +56,6 @@ PointSetToImageTranslationPatternIntensityRegularStepGradientDescentRegistration
 { 
 }
 
-
-/**
- * Constructor
- */
-template <class TReference, class TTarget>
-PointSetToImageTranslationPatternIntensityRegularStepGradientDescentRegistration<TReference, TTarget>
-::PointSetToImageTranslationPatternIntensityRegularStepGradientDescentRegistration( const Self & other )
-:Superclass( other )
-{
-  m_Parameters       = other.m_Parameters;
-}
-
-
-
 /**
  * Destructor
  */
@@ -78,23 +64,6 @@ PointSetToImageTranslationPatternIntensityRegularStepGradientDescentRegistration
 ::~PointSetToImageTranslationPatternIntensityRegularStepGradientDescentRegistration()
 {
 }
-
-
-
-/**
- * Assignment Operator
- */
-template <class TReference, class TTarget>
-const PointSetToImageTranslationPatternIntensityRegularStepGradientDescentRegistration< TReference, TTarget> &
-PointSetToImageTranslationPatternIntensityRegularStepGradientDescentRegistration< TReference, TTarget>
-::operator=( const Self & other )
-{
-  Superclass::operator=( other );
-  m_Parameters       = other.m_Parameters;
-  return *this;
-}
-
-
 
 /**
  * Starts the Registration Process

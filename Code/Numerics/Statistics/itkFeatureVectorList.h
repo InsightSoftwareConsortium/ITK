@@ -123,11 +123,8 @@ public:
   }
 
 protected:
- 
   FeatureVectorList() ;
   virtual ~FeatureVectorList() {};
-  FeatureVectorList(const Self&) {};
-  void operator=(const Self&) {};
  
   /**
    * generates sorted data for the 'dimension'
@@ -135,6 +132,9 @@ protected:
   void GenerateSortedDimensionData(unsigned int dimension) ;
 
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   typedef std::vector< FeatureElementType > SortedDimensionData ;
   SortedDimensionData m_SortedDimensionData ;
   unsigned int m_SortedDimension ;

@@ -58,19 +58,6 @@ PointSetToImageTranslationNormalizedCorrelationRegularStepGradientDescentRegistr
 
 
 /**
- * Constructor
- */
-template <class TReference, class TTarget>
-PointSetToImageTranslationNormalizedCorrelationRegularStepGradientDescentRegistration<TReference, TTarget>
-::PointSetToImageTranslationNormalizedCorrelationRegularStepGradientDescentRegistration( const Self & other )
-:Superclass( other )
-{
-  m_Parameters       = other.m_Parameters;
-}
-
-
-
-/**
  * Destructor
  */
 template <class TReference, class TTarget>
@@ -78,22 +65,6 @@ PointSetToImageTranslationNormalizedCorrelationRegularStepGradientDescentRegistr
 ::~PointSetToImageTranslationNormalizedCorrelationRegularStepGradientDescentRegistration()
 {
 }
-
-
-
-/**
- * Assignment Operator
- */
-template <class TReference, class TTarget>
-const PointSetToImageTranslationNormalizedCorrelationRegularStepGradientDescentRegistration< TReference, TTarget> &
-PointSetToImageTranslationNormalizedCorrelationRegularStepGradientDescentRegistration< TReference, TTarget>
-::operator=( const Self & other )
-{
-  Superclass::operator=( other );
-  m_Parameters       = other.m_Parameters;
-  return *this;
-}
-
 
 
 /**

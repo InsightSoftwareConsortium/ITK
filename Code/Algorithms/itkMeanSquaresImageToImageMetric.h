@@ -167,11 +167,12 @@ public:
        MeasureType & Value, DerivativeType  & Derivative );
 
 protected:
-
   MeanSquaresImageToImageMetric();
   virtual ~MeanSquaresImageToImageMetric() {};
-  MeanSquaresImageToImageMetric(const Self&) {}
-  void operator=(const Self&) {}
+
+private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
 };
 

@@ -225,11 +225,8 @@ public:
   itkSetObjectMacro( CostFunction, CostFunctionType );
 
 protected:
-
   GradientDescentOptimizer();
   virtual ~GradientDescentOptimizer() {};
-  GradientDescentOptimizer(const Self&) {}
-  void operator=(const Self&) {}
 
   // made protected so subclass can access
   DerivativeType                m_Gradient; 
@@ -237,7 +234,9 @@ protected:
   double                        m_LearningRate;
 
 private:
-
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   bool                          m_Stop;
   double                        m_Value;
   StopConditionType             m_StopCondition;

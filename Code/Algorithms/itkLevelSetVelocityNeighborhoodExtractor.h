@@ -156,14 +156,14 @@ public:
 protected:
   LevelSetVelocityNeighborhoodExtractor();
   ~LevelSetVelocityNeighborhoodExtractor(){};
-  LevelSetVelocityNeighborhoodExtractor( const Self& ) {};
-  void operator= ( const Self& ) {};
   void PrintSelf( std::ostream& os, Indent indent ) const;
 
   virtual void Initialize();
   virtual double CalculateDistance( Index & index );
 
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
   typename AuxValueContainer::Pointer    m_AuxInsideValues;
   typename AuxValueContainer::Pointer    m_AuxOutsideValues;

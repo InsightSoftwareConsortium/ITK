@@ -192,14 +192,13 @@ public:
   itkSetObjectMacro( CostFunction, CostFunctionType );
 
 protected:
-
   RegularStepGradientDescentOptimizer();
   virtual ~RegularStepGradientDescentOptimizer() {};
-  RegularStepGradientDescentOptimizer(const Self&) {}
-  void operator=(const Self&) {}
 
 private:
-
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   DerivativeType                m_Gradient; 
   DerivativeType                m_PreviousGradient; 
 

@@ -156,7 +156,6 @@ public:
 
 
 protected:
-
   Optimizer() 
     {
     m_Transform = TransformType::New();
@@ -168,10 +167,7 @@ protected:
       }
 
     };
-
   virtual ~Optimizer() {};
-  Optimizer(const Self&) {}
-  void operator=(const Self&) {}
 
   /**
    *   Set the current position 
@@ -180,6 +176,8 @@ protected:
 
 
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
   
   ParametersType          m_InitialPosition;
   ParametersType          m_CurrentPosition;

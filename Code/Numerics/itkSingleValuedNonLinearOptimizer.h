@@ -110,17 +110,14 @@ public:
    */
   typedef typename TCostFunction::DerivativeType DerivativeType;
 
-
- 
 protected:
-
-
   SingleValuedNonLinearOptimizer() {};
   virtual ~SingleValuedNonLinearOptimizer() {}
-  SingleValuedNonLinearOptimizer(const Self&) {}
-  void operator=(const Self&) {}
- 
 
+private: 
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
 };
 
 } // end namespace itk

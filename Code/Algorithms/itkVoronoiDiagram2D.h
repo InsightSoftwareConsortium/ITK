@@ -288,12 +288,13 @@ public:
 protected:
   VoronoiDiagram2D();
   ~VoronoiDiagram2D();
-  VoronoiDiagram2D(const Self&) {}
-  void operator=(const Self&) {}
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
   
   
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   SeedsType m_Seeds;
   unsigned int m_NumberOfSeeds;
   std::vector<CellPointer> VoronoiRegions;

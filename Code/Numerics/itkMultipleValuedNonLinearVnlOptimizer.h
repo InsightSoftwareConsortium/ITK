@@ -298,16 +298,15 @@ public:
   
 
 protected:
-
   MultipleValuedNonLinearVnlOptimizer();
   virtual ~MultipleValuedNonLinearVnlOptimizer() {};
-  MultipleValuedNonLinearVnlOptimizer(const Self&) {}
-  void operator=(const Self&) {}
-
-protected:
 
   VnlCostFunctionAdaptor            m_CostFunctionAdaptor;
 
+private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
 };
 
 } // end namespace itk

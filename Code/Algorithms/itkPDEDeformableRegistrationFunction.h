@@ -145,8 +145,6 @@ protected:
   }
 
   ~PDEDeformableRegistrationFunction() {}
-  PDEDeformableRegistrationFunction(const Self&) {}
-  void operator=(const Self&) {}
 
   void PrintSelf(std::ostream& os, Indent indent) const
   {
@@ -168,6 +166,10 @@ protected:
    */
   TargetPointer                   m_Target;
 
+private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
 };
 
 

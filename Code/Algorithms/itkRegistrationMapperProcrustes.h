@@ -143,16 +143,17 @@ public:
 
   
 protected:
+  RegistrationMapperProcrustes();
+  virtual ~RegistrationMapperProcrustes() {};
 
+private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   DomainPointer            m_Domain;
   TransformationPointer    m_Transformation;
 
-  RegistrationMapperProcrustes();
-  virtual ~RegistrationMapperProcrustes() {};
-  RegistrationMapperProcrustes(const Self&) {}
-  void operator=(const Self&) {}
-
-
+  
 };
 
 } // end namespace itk

@@ -336,14 +336,13 @@ public:
   itkGetMacro( NumberOfIterations, unsigned int );
 
 protected:
-
   ImageToImageAffineMutualInformationGradientDescentRegistration();
   virtual ~ImageToImageAffineMutualInformationGradientDescentRegistration();
-  ImageToImageAffineMutualInformationGradientDescentRegistration(const Self&);
-  const Self & operator=(const Self&);
 
 private:
-
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   ParametersType             m_Parameters;
 
   // -------------------------------

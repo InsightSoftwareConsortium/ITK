@@ -227,8 +227,6 @@ public:
 protected:
   MultiResolutionRegistration();
   ~MultiResolutionRegistration() {};
-  MultiResolutionRegistration(const Self&) {};
-  void operator=(const Self&) {};
   void PrintSelf(std::ostream&os, Indent indent) const;
 
   /**
@@ -252,7 +250,9 @@ protected:
   virtual void OneLevelRegistration(unsigned int level);
 
 private:
-
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   unsigned int               m_NumberOfLevels;
   unsigned int               m_CurrentLevel;
   RegistrationPointer        m_InternalRegistrationMethod;

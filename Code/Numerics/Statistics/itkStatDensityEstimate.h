@@ -145,13 +145,13 @@ public:
   };
 
 protected:
- 
   DensityEstimate() {};
   virtual ~DensityEstimate() {};
-  DensityEstimate(const Self&) {};
-  void operator=(const Self&) {};
 
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   MapType m_Density;
 
 };

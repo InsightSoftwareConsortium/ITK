@@ -246,15 +246,14 @@ public:
 
 
 protected:
-
   ImageToImageTranslationMeanSquaresRegularStepGradientDescentRegistration();
   virtual ~ImageToImageTranslationMeanSquaresRegularStepGradientDescentRegistration();
-  ImageToImageTranslationMeanSquaresRegularStepGradientDescentRegistration(const Self&);
-  const Self & operator=(const Self&);
  
 
 private:
-
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   ParametersType             m_Parameters;
   double                     m_TranslationScale;
 

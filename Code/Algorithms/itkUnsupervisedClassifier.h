@@ -134,32 +134,14 @@ public:
     double * results )=0;
 
 protected:
-  /**
-   * Constructor
-   */
   UnsupervisedClassifier();
-
-  /**
-   * Destructor
-   */
   ~UnsupervisedClassifier();
-
-  /**
-   * Copy constructor
-   */
-  UnsupervisedClassifier(const Self&) {}
-
-  /**
-   * Print self identity
-   */      
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /**
-   * Assignment operator
-   */
-  void operator=(const Self&) {}
-
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   unsigned int        m_NumClasses;
 
 }; // class UnsupervisedClassifier

@@ -194,14 +194,16 @@ public:
    bool IsInside( const InputPointType & point );
 
 protected:
-
   InterpolatorPointer           m_Interpolator;
   mutable OutputPointType       m_CurrentPoint;
 
   ImageMapper();
   ~ImageMapper(){};
-  ImageMapper(const Self&) {}
-  void operator=(const Self&) {}
+
+private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
 
 };
 

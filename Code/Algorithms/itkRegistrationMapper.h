@@ -142,18 +142,14 @@ public:
    */
   itkGetObjectMacro( Transform,TransformType);
   
-
-
 protected:
-  
   RegistrationMapper();
   virtual ~RegistrationMapper() {};
-  RegistrationMapper(const Self&) {}
-  void operator=(const Self&) {}
-
 
 private:
-
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   DomainConstPointer       m_Domain;
   TransformPointer         m_Transform;
 

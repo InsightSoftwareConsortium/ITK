@@ -144,14 +144,13 @@ public:
 
 
 protected:
-
   ImageToImageMomentsAlignmentCalculator();
   virtual ~ImageToImageMomentsAlignmentCalculator();
-  ImageToImageMomentsAlignmentCalculator(const Self&);
-  const Self & operator=(const Self&);
   
 private:
-   
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   ReferenceConstPointer     m_Reference;
   TargetConstPointer        m_Target;
   AffineTransformType       m_OutputTransform;

@@ -255,14 +255,13 @@ public:
     
 
 protected:
-
   SingleValuedNonLinearVnlOptimizer();
   virtual ~SingleValuedNonLinearVnlOptimizer() {};
-  SingleValuedNonLinearVnlOptimizer(const Self&) {}
-  void operator=(const Self&) {}
 
 protected:
-
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   VnlCostFunctionAdaptor            m_CostFunctionAdaptor;
 
 };

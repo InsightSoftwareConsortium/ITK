@@ -177,8 +177,6 @@ protected:
   
   LevelSet2DEquation() {}
   ~LevelSet2DEquation() {}
-  LevelSet2DEquation(const Self&) {}
-  void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const
   {
     os << indent << "LevelSet2DEquation";
@@ -192,6 +190,9 @@ protected:
   static double m_DT;
 
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   /**
    * First order derivative operator
    */

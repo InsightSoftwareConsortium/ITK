@@ -57,21 +57,6 @@ ImageToImageAffinePatternIntensityRegularStepGradientDescentRegistration<TRefere
   m_TranslationScale = 100.0; 
 }
 
-
-/**
- * Constructor
- */
-template <class TReference, class TTarget>
-ImageToImageAffinePatternIntensityRegularStepGradientDescentRegistration<TReference, TTarget>
-::ImageToImageAffinePatternIntensityRegularStepGradientDescentRegistration( const Self & other )
-  :Superclass( other )
-{
-  m_Parameters       = other.m_Parameters;
-  m_TranslationScale = other.m_TranslationScale;
-}
-
-
-
 /**
  * Destructor
  */
@@ -80,25 +65,6 @@ ImageToImageAffinePatternIntensityRegularStepGradientDescentRegistration<TRefere
 ::~ImageToImageAffinePatternIntensityRegularStepGradientDescentRegistration()
 {
 }
-
-
-
-/**
- * Assignment Operator
- */
-template <class TReference, class TTarget>
-const ImageToImageAffinePatternIntensityRegularStepGradientDescentRegistration< TReference, TTarget> &
-ImageToImageAffinePatternIntensityRegularStepGradientDescentRegistration< TReference, TTarget>
-::operator=( const Self & other )
-{
-  Superclass::operator=( other );
-  m_Parameters       = other.m_Parameters;
-  m_TranslationScale = other.m_TranslationScale;
-  return *this;
-}
-
-
-
 
 /**
  * Starts the Registration Process

@@ -125,13 +125,13 @@ public:
 
 
 protected:
-
   QuaternionRigidTransformGradientDescentOptimizer();
   virtual ~QuaternionRigidTransformGradientDescentOptimizer() {};
-  QuaternionRigidTransformGradientDescentOptimizer(const Self&) {}
-  void operator=(const Self&) {}
 
-
+private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
 };
 
 } // end namespace itk

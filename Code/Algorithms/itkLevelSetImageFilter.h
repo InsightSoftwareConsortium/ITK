@@ -191,8 +191,6 @@ public:
 protected:
   LevelSetImageFilter();
   ~LevelSetImageFilter(){};
-  LevelSetImageFilter(const Self&){};
-  void operator=(const Self&) {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /**
@@ -257,6 +255,9 @@ protected:
   virtual void EnlargeOutputRequestedRegion(DataObject * output);
 
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   NodeContainerPointer m_InputNarrowBand;
   double m_TimeStepSize;
   bool   m_NarrowBanding;

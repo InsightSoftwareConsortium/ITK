@@ -159,8 +159,6 @@ public:
 protected:
   VoronoiDiagram2DGenerator();
   ~VoronoiDiagram2DGenerator();
-  VoronoiDiagram2DGenerator(const Self&) {}
-  void operator=(const Self&) {}
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
 
@@ -170,6 +168,9 @@ protected:
   void GenerateData(void);
 
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   unsigned int m_NumberOfSeeds;
   PointType m_VorBoundary;
   OutputType m_OutputVD;

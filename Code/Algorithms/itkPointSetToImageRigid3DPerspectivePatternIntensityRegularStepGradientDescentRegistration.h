@@ -209,15 +209,13 @@ public:
 
 
 protected:
-
   PointSetToImageRigid3DPerspectivePatternIntensityRegularStepGradientDescentRegistration();
   virtual ~PointSetToImageRigid3DPerspectivePatternIntensityRegularStepGradientDescentRegistration();
-  PointSetToImageRigid3DPerspectivePatternIntensityRegularStepGradientDescentRegistration(const Self&);
-  const Self & operator=(const Self&);
- 
 
 private:
-
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   ParametersType             m_Parameters;
 
 };

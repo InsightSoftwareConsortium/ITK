@@ -60,40 +60,12 @@ RegistrationMethod<TTraits>
 
 
 /**
- * Constructor
- */
-template <class TTraits>
-RegistrationMethod<TTraits>
-::RegistrationMethod( const Self & other )
-{
-  m_Metric          =   other.m_Metric;
-  m_Optimizer       =   other.m_Optimizer;
-}
-
-
-
-/**
  * Destructor
  */
 template <class TTraits>
 RegistrationMethod<TTraits>
 ::~RegistrationMethod()
 {
-}
-
-
-
-/**
- * Assignment Operator
- */
-template <class TTraits>
-const RegistrationMethod< TTraits > &
-RegistrationMethod< TTraits >
-::operator=( const Self & other )
-{
-  m_Metric          =   other.m_Metric;
-  m_Optimizer       =   other.m_Optimizer;
-  return *this;
 }
 
 

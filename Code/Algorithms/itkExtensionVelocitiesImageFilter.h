@@ -137,8 +137,6 @@ public:
 protected:
   ExtensionVelocitiesImageFilter();
   ~ExtensionVelocitiesImageFilter(){};
-  ExtensionVelocitiesImageFilter(const Self&){};
-  void operator=(const Self&) {};
 
   virtual void GenerateDataFull();
   virtual void GenerateDataNarrowBand();
@@ -148,6 +146,8 @@ protected:
   virtual void EnlargeOutputRequestedRegion( DataObject * );
 
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
   typedef LevelSetVelocityNeighborhoodExtractor<TLevelSet,TAuxValue,VAuxDimension> 
     LocatorType;

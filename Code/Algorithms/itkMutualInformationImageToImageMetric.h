@@ -302,14 +302,13 @@ public:
     { return m_KernelFunction; }
 
 protected:
-
   MutualInformationImageToImageMetric();
   virtual ~MutualInformationImageToImageMetric() {};
-  MutualInformationImageToImageMetric(const Self&) {}
-  void operator=(const Self&) {}
 
 private:
-
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   /**
    * A spatial sample consists of
    *   the target domain point,

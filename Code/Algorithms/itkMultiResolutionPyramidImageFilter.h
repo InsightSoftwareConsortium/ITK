@@ -270,8 +270,6 @@ public:
 protected:
   MultiResolutionPyramidImageFilter();
   ~MultiResolutionPyramidImageFilter() {};
-  MultiResolutionPyramidImageFilter(const Self&) {};
-  void operator=(const Self&) {};
   void PrintSelf(std::ostream&os, Indent indent) const;
 
   /** 
@@ -283,6 +281,10 @@ protected:
   unsigned int    m_NumberOfLevels;
   ScheduleType    m_Schedule;
 
+private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
 };
 
 

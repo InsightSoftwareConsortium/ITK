@@ -291,29 +291,8 @@ public:
   void PrintKmeansAlgorithmResults();
 
 protected:
-  /**
-   * Constructor
-   */
   KMeansUnsupervisedClassifier();
-
-  /**
-   * Destructor
-   */
   ~KMeansUnsupervisedClassifier();
-
-  /**
-   * Copy constructor
-   */
-  KMeansUnsupervisedClassifier(const Self&) {}
-
-  /**
-   * Assignment operator
-   */
-  void operator=(const Self&) {}
-
-  /**
-   * Print self identity
-   */      
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /**
@@ -322,6 +301,9 @@ protected:
   void Allocate();
 
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   typedef typename TInputImage::SizeType ImageSizeType;
 
   //Set up the vector to store the image  data

@@ -69,20 +69,6 @@ ImageToImageTranslationNormalizedCorrelationRegularStepGradientDescentRegistrati
 
 
 /**
- * Constructor
- */
-template <class TReference, class TTarget>
-ImageToImageTranslationNormalizedCorrelationRegularStepGradientDescentRegistration<TReference, TTarget>
-::ImageToImageTranslationNormalizedCorrelationRegularStepGradientDescentRegistration( const Self & other )
-  :Superclass( other )
-{
-  m_Parameters       = other.m_Parameters;
-  m_TranslationScale = other.m_TranslationScale;
-}
-
-
-
-/**
  * Destructor
  */
 template <class TReference, class TTarget>
@@ -90,24 +76,6 @@ ImageToImageTranslationNormalizedCorrelationRegularStepGradientDescentRegistrati
 ::~ImageToImageTranslationNormalizedCorrelationRegularStepGradientDescentRegistration()
 {
 }
-
-
-
-/**
- * Assignment Operator
- */
-template <class TReference, class TTarget>
-const ImageToImageTranslationNormalizedCorrelationRegularStepGradientDescentRegistration< TReference, TTarget> &
-ImageToImageTranslationNormalizedCorrelationRegularStepGradientDescentRegistration< TReference, TTarget>
-::operator=( const Self & other )
-{
-  Superclass::operator=( other );
-  m_Parameters       = other.m_Parameters;
-  m_TranslationScale = other.m_TranslationScale;
-  return *this;
-}
-
-
 
 
 /**

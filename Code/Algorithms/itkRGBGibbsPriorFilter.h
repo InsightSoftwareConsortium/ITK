@@ -195,8 +195,6 @@ public:
 protected:
   RGBGibbsPriorFilter();
   ~RGBGibbsPriorFilter() {};
-  RGBGibbsPriorFilter(const Self&) {};
-  void operator=(const Self&) {};
 
   void Allocate();
 
@@ -208,6 +206,9 @@ protected:
 //  void Allocate();
 
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   typedef typename TInputImage::SizeType InputImageSizeType;
   typename ClassifierType::Pointer m_ClassifierPtr;
 

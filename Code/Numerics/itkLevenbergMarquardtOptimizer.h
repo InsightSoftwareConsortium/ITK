@@ -146,12 +146,13 @@ public:
  
 
 protected:
-
   LevenbergMarquardtOptimizer();
   virtual ~LevenbergMarquardtOptimizer() {};
-  LevenbergMarquardtOptimizer(const Self&) {}
-  void operator=(const Self&) {}
 
+private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   InternalOptimizerType     m_LevenbergMarquardt;
 
 };

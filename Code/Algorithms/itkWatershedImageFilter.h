@@ -317,8 +317,6 @@ protected:
     this->ProcessObject::SetNthOutput(1,output.GetPointer());
   }
   virtual ~WatershedImageFilter() {}
-  WatershedImageFilter(const Self&) {}
-  void operator=(const Self&) {}
 
   /**
    * Convenience type for storing pairs of segment labels.
@@ -560,6 +558,9 @@ protected:
   static void CopyOutputToOutput(OutputImageType *,OutputImageType *);
   
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   friend class RelabelWatershedImageFilter<InputImageType,OutputImageType>;
   
   /**

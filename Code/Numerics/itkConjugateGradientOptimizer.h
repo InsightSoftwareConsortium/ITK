@@ -131,14 +131,13 @@ public:
 
 
 protected:
-
   ConjugateGradientOptimizer();
   virtual ~ConjugateGradientOptimizer() {};
-  ConjugateGradientOptimizer(const Self&) {}
-  void operator=(const Self&) {}
 
 private:
-
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   /**
    *  The vnl optimization method for Conjugate Gradient
    */

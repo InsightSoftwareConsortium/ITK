@@ -281,8 +281,6 @@ public:
 protected:
   MultiResolutionPDEDeformableRegistration();
   ~MultiResolutionPDEDeformableRegistration() {}
-  MultiResolutionPDEDeformableRegistration(const Self&) {}
-  void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /**
@@ -316,7 +314,9 @@ protected:
   virtual void EnlargeOutputRequestedRegion( DataObject *ptr );
 
 private:
-
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   RegistrationPointer        m_RegistrationFilter;
   ReferencePyramidPointer    m_ReferencePyramid;
   TargetPyramidPointer       m_TargetPyramid;

@@ -232,18 +232,14 @@ public:
    */
    void StartRegistration(void);
 
-
-
 protected:
-
   PointSetToImageTranslationNormalizedCorrelationRegularStepGradientDescentRegistration();
   virtual ~PointSetToImageTranslationNormalizedCorrelationRegularStepGradientDescentRegistration();
-  PointSetToImageTranslationNormalizedCorrelationRegularStepGradientDescentRegistration(const Self&);
-  const Self & operator=(const Self&);
- 
 
 private:
-
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   ParametersType             m_Parameters;
 
 };

@@ -33,19 +33,6 @@ PointSetToImageRigid3DPatternIntensityRegularStepGradientDescentRegistration<TRe
 
 
 /**
- * Constructor
- */
-template <class TReference, class TTarget>
-PointSetToImageRigid3DPatternIntensityRegularStepGradientDescentRegistration<TReference, TTarget>
-::PointSetToImageRigid3DPatternIntensityRegularStepGradientDescentRegistration( const Self & other )
-:Superclass( other )
-{
-  m_Parameters       = other.m_Parameters;
-}
-
-
-
-/**
  * Destructor
  */
 template <class TReference, class TTarget>
@@ -53,23 +40,6 @@ PointSetToImageRigid3DPatternIntensityRegularStepGradientDescentRegistration<TRe
 ::~PointSetToImageRigid3DPatternIntensityRegularStepGradientDescentRegistration()
 {
 }
-
-
-
-/**
- * Assignment Operator
- */
-template <class TReference, class TTarget>
-const PointSetToImageRigid3DPatternIntensityRegularStepGradientDescentRegistration< TReference, TTarget> &
-PointSetToImageRigid3DPatternIntensityRegularStepGradientDescentRegistration< TReference, TTarget>
-::operator=( const Self & other )
-{
-  Superclass::operator=( other );
-  m_Parameters       = other.m_Parameters;
-  return *this;
-}
-
-
 
 /**
  * Starts the Registration Process

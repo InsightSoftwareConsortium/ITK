@@ -113,12 +113,13 @@ public:
   
 
 protected:
-
   MultipleValuedNonLinearOptimizer() {};
   virtual ~MultipleValuedNonLinearOptimizer() {};
-  MultipleValuedNonLinearOptimizer(const Self&) {}
-  void operator=(const Self&) {}
 
+private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
 };
 
 } // end namespace itk

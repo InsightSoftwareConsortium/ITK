@@ -368,29 +368,8 @@ public:
                                          int   regionSliceGridSize );
 
 protected:
-  /**
-   * Constructor
-   */
   KLMRegionGrowImageFilter();
-
-  /**
-   * Destructor
-   */
   ~KLMRegionGrowImageFilter();
-
-  /**
-   * Copy constructor
-   */
-  KLMRegionGrowImageFilter(const Self&) {}
-
-  /**
-   * Assignment operator
-   */
-  void operator=(const Self&) {}
-
-  /**
-   * Print self identity
-   */      
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   virtual void GenerateData();
@@ -429,6 +408,9 @@ protected:
     LabelImageType *labelImagePtr );
 
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   typedef typename TInputImage::SizeType InputImageSize;
   typedef typename KLMSegmentationRegion<TInputImage,TOutputImage>::Pointer 
     KLMSegmentationRegionPtr;

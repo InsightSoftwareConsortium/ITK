@@ -182,8 +182,6 @@ public:
 protected:
   BalloonForce3DFilter();
   ~BalloonForce3DFilter() {};
-  BalloonForce3DFilter(const BalloonForce3DFilter&) {};
-  void operator=(const BalloonForce3DFilter&) {};
   virtual void GenerateData();
 //  void PrintSelf(std::ostream& os, Indent indent);
 
@@ -238,7 +236,12 @@ protected:
   unsigned short  m_ObjectLabel;
 
   typedef ImageType::SizeType PotentialSizeType;
+
+private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
   
+
 };
 
 } // end namespace itk

@@ -217,8 +217,6 @@ public:
 protected:
   PDEDeformableRegistrationFilter();
   ~PDEDeformableRegistrationFilter() {}
-  PDEDeformableRegistrationFilter(const Self&) {}
-  void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /**
@@ -278,7 +276,9 @@ protected:
   virtual void GenerateInputRequestedRegion();
 
 private:
-
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   /**
    * Number of iterations to be performed.
    */

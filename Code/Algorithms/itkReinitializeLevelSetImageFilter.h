@@ -191,8 +191,6 @@ public:
 protected:
   ReinitializeLevelSetImageFilter();
   ~ReinitializeLevelSetImageFilter(){};
-  ReinitializeLevelSetImageFilter(const Self&){};
-  void operator=(const Self&) {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   typedef LevelSetNeighborhoodExtractor<TLevelSet> LocatorType;
@@ -210,6 +208,9 @@ protected:
     { m_OutputNarrowBand = ptr; }
 
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   double                                m_LevelSetValue;
 
   typename LocatorType::Pointer         m_Locator;

@@ -59,44 +59,12 @@ RegistrationTransform<TMetric, TOptimizationMethod>
 
 
 /**
- * Constructor
- */
-template <class TMetric, class TOptimizationMethod>
-RegistrationTransform<TMetric, TOptimizationMethod>
-::RegistrationTransform( const Self & other )
-{
-  m_Reference       =   other.m_Reference;
-  m_Target          =   other.m_Target;
-  m_Transformation  =   other.m_Transformation;
-  m_Metric          =   other.m_Metric;
-}
-
-
-
-/**
  * Destructor
  */
 template <class TMetric, class TOptimizationMethod>
 RegistrationTransform<TMetric, TOptimizationMethod>
 ::~RegistrationTransform()
 {
-}
-
-
-
-/**
- * Assignment Operator
- */
-template <class TMetric, class TOptimizationMethod>
-const RegistrationTransform<TMetric, TOptimizationMethod> &
-RegistrationTransform<TMetric, TOptimizationMethod>
-::operator=( const Self & other )
-{
-  m_Reference       =   other.m_Reference;
-  m_Target          =   other.m_Target;
-  m_Transformation  =   other.m_Transformation;
-  m_Metric          =   other.m_Metric;
-  return *this;
 }
 
 

@@ -59,20 +59,6 @@ ImageToImageAffineNormalizedCorrelationGradientDescentRegistration<TReference, T
 
 
 /**
- * Constructor
- */
-template <class TReference, class TTarget>
-ImageToImageAffineNormalizedCorrelationGradientDescentRegistration<TReference, TTarget>
-::ImageToImageAffineNormalizedCorrelationGradientDescentRegistration( const Self & other )
-  :Superclass( other )
-{
-  m_Parameters       = other.m_Parameters;
-  m_TranslationScale = other.m_TranslationScale;
-}
-
-
-
-/**
  * Destructor
  */
 template <class TReference, class TTarget>
@@ -80,24 +66,6 @@ ImageToImageAffineNormalizedCorrelationGradientDescentRegistration<TReference,  
 ::~ImageToImageAffineNormalizedCorrelationGradientDescentRegistration()
 {
 }
-
-
-
-/**
- * Assignment Operator
- */
-template <class TReference, class TTarget>
-const ImageToImageAffineNormalizedCorrelationGradientDescentRegistration< TReference, TTarget> &
-ImageToImageAffineNormalizedCorrelationGradientDescentRegistration< TReference, TTarget>
-::operator=( const Self & other )
-{
-  Superclass::operator=( other );
-  m_Parameters       = other.m_Parameters;
-  m_TranslationScale = other.m_TranslationScale;
-  return *this;
-}
-
-
 
 
 /**

@@ -59,20 +59,6 @@ ImageToImageAffineMeanSquaresRegularStepGradientDescentRegistration<TReference, 
 
 
 /**
- * Constructor
- */
-template <class TReference, class TTarget>
-ImageToImageAffineMeanSquaresRegularStepGradientDescentRegistration<TReference, TTarget>
-::ImageToImageAffineMeanSquaresRegularStepGradientDescentRegistration( const Self & other )
-  :Superclass( other )
-{
-  m_Parameters       = other.m_Parameters;
-  m_TranslationScale = other.m_TranslationScale;
-}
-
-
-
-/**
  * Destructor
  */
 template <class TReference, class TTarget>
@@ -80,23 +66,6 @@ ImageToImageAffineMeanSquaresRegularStepGradientDescentRegistration<TReference, 
 ::~ImageToImageAffineMeanSquaresRegularStepGradientDescentRegistration()
 {
 }
-
-
-
-/**
- * Assignment Operator
- */
-template <class TReference, class TTarget>
-const ImageToImageAffineMeanSquaresRegularStepGradientDescentRegistration< TReference, TTarget> &
-ImageToImageAffineMeanSquaresRegularStepGradientDescentRegistration< TReference, TTarget>
-::operator=( const Self & other )
-{
-  Superclass::operator=( other );
-  m_Parameters       = other.m_Parameters;
-  m_TranslationScale = other.m_TranslationScale;
-  return *this;
-}
-
 
 
 

@@ -232,8 +232,6 @@ public:
 protected:
   GibbsPriorFilter();
   ~GibbsPriorFilter() {};
-//  GibbsPriorFilter(const GibbsPriorFilter&) {};
-//  void operator=(const GibbsPriorFilter&) {};
 
   virtual void MinimizeFunctional();
   virtual void GenerateData();
@@ -302,6 +300,9 @@ protected:
 
 //  void Execute();
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   typedef typename TInputImage::SizeType InputImageSizeType;
 };
 

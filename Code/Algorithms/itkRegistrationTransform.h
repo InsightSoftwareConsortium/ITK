@@ -224,15 +224,13 @@ public:
 
 
 protected:
-
   RegistrationTransform();
   virtual ~RegistrationTransform();
-  RegistrationTransform(const Self&);
-  const Self & operator=(const Self&);
-
 
 private:
-
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   TargetConstPointer         m_Target;
   ReferenceConstPointer      m_Reference;
   TransformationPointer      m_Transformation;

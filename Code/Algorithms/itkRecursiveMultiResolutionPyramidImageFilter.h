@@ -152,8 +152,6 @@ public:
 protected:
   RecursiveMultiResolutionPyramidImageFilter();
   ~RecursiveMultiResolutionPyramidImageFilter() {};
-  RecursiveMultiResolutionPyramidImageFilter(const Self&) {};
-  void operator=(const Self&) {};
   void PrintSelf(std::ostream&os, Indent indent) const;
 
   /**
@@ -161,6 +159,10 @@ protected:
    */
   void GenerateData();
 
+private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
 };
 
 

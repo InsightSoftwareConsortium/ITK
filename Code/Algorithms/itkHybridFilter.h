@@ -142,8 +142,6 @@ public:
 protected:
   HybridFilter();
   virtual ~HybridFilter() {};
-  HybridFilter(const Self&) {}
-  void operator=(const Self&) {}
   
   /**
    * Generate Data
@@ -151,6 +149,9 @@ protected:
   virtual void GenerateData();
 
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   BalloonForceFilterPointer   m_BalloonForceFilter;
   GibbsPriorFilterPointer   m_GibbsPriorFilter;
   int m_IterNum;

@@ -71,12 +71,12 @@ public:
   /**
    * Standard "Self" typedef.
    */
-  typedef RegistrationMapper<TImage,TTransformation>  Self;
+  typedef RegistrationMapperImage<TImage,TTransformation>  Self;
 
   /**
    * Standard "Superclass" typedef.
    */
-  typedef RegistrationMapper< TImage, TTransformation >  Superclass;
+  typedef RegistrationMapper<TImage, TTransformation>  Superclass;
 
   /** 
    * Smart pointer typedef support 
@@ -132,10 +132,12 @@ public:
 
 protected:
   RegistrationMapperImage();
-  ~RegistrationMapperImage(){};
-  RegistrationMapperImage(const Self&) {}
-  void operator=(const Self&) {}
+  ~RegistrationMapperImage() {}
 
+private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   mutable IndexType         m_CurrentIndex;
 
 

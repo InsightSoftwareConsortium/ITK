@@ -65,20 +65,6 @@ ImageToImageRigidMutualInformationGradientDescentRegistration<TReference, TTarge
 
 }
 
-
-/**
- * Constructor
- */
-template <class TReference, class TTarget>
-ImageToImageRigidMutualInformationGradientDescentRegistration<TReference, TTarget>
-::ImageToImageRigidMutualInformationGradientDescentRegistration( const Self & other )
-:Superclass( other )
-{
-  m_Parameters = other.m_Parameters;
-}
-
-
-
 /**
  * Destructor
  */
@@ -87,22 +73,6 @@ ImageToImageRigidMutualInformationGradientDescentRegistration<TReference,  TTarg
 ::~ImageToImageRigidMutualInformationGradientDescentRegistration()
 {
 }
-
-
-
-/**
- * Assignment Operator
- */
-template <class TReference, class TTarget>
-const ImageToImageRigidMutualInformationGradientDescentRegistration< TReference, TTarget> &
-ImageToImageRigidMutualInformationGradientDescentRegistration< TReference, TTarget>
-::operator=( const Self & other )
-{
-  Superclass::operator=( other );
-  m_Parameters = other.m_Parameters;
-  return *this;
-}
-
 
 /**
  * Starts the Registration Process

@@ -186,13 +186,14 @@ public:
 protected:
   BalloonForceFilter();
   ~BalloonForceFilter() {}
-  BalloonForceFilter(const Self&) {}
-  void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   virtual void GenerateData();
 
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
 /** 
  * These meshes are defined to hold the vectors as force, etc.
  */

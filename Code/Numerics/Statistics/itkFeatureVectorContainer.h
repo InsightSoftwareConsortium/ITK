@@ -213,10 +213,11 @@ public:
 protected:
   FeatureVectorContainer() {}
   virtual ~FeatureVectorContainer() {}
-  FeatureVectorContainer(const Self&) {}
-  void operator=(const Self&) {}
   
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   bool m_Sorted ;
   bool m_SupportingFrequency ;
   bool m_AllowingDuplicates ;

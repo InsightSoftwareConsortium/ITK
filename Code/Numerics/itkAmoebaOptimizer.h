@@ -158,12 +158,13 @@ public:
   
 
 protected:
-
   AmoebaOptimizer();
   virtual ~AmoebaOptimizer() {};
-  AmoebaOptimizer(const Self&) {}
-  void operator=(const Self&) {}
 
+private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   InternalOptimizerType             m_Amoeba;
 
 };

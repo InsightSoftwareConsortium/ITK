@@ -212,12 +212,12 @@ protected:
 
   PointSetToImageRigid3DPatternIntensityRegularStepGradientDescentRegistration();
   virtual ~PointSetToImageRigid3DPatternIntensityRegularStepGradientDescentRegistration();
-  PointSetToImageRigid3DPatternIntensityRegularStepGradientDescentRegistration(const Self&);
-  const Self & operator=(const Self&);
  
 
 private:
-
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   ParametersType             m_Parameters;
 
 };

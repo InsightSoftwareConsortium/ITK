@@ -204,8 +204,6 @@ public:
 protected:
   ShapeDetectionLevelSetFilter();
   ~ShapeDetectionLevelSetFilter(){};
-  ShapeDetectionLevelSetFilter(const Self&){};
-  void operator=(const Self&) {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   virtual void AllocateOutput();
@@ -218,6 +216,9 @@ protected:
     { m_OutputNarrowBand = ptr; }
 
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   typedef typename TEdgeImage::PixelType EdgePixelType;
   typedef 
     ExtensionVelocitiesImageFilter<TLevelSet,EdgePixelType,1> 

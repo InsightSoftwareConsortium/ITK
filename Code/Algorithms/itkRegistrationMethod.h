@@ -190,15 +190,14 @@ public:
 
 
 protected:
-
   RegistrationMethod();
   virtual ~RegistrationMethod();
-  RegistrationMethod(const Self&);
-  const Self & operator=(const Self&);
  
 
 private:
-
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   typename MetricType::Pointer              m_Metric;
   typename OptimizerType::Pointer           m_Optimizer;
 

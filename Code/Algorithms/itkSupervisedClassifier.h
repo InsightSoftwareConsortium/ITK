@@ -178,30 +178,9 @@ public:
   virtual void PrintResults(){};
 
 protected: 
-  /**
-   * Constructor
-   */
   SupervisedClassifier();
-
-  /**
-   * Destructor
-   */
   ~SupervisedClassifier();
-
-  /**
-   * Copy constructor
-   */
-  SupervisedClassifier(const Self&) {}
-
-  /**
-   * Print self identity
-   */      
   void PrintSelf(std::ostream& os, Indent indent) const;
-
-  /**
-   * Assignment operator
-   */
-  void operator=(const Self&) {}
 
   /**
    * Allocate memory for the classified image
@@ -209,6 +188,9 @@ protected:
   void Allocate();
 
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   typedef typename TInputImage::SizeType InputImageSizeType;
         
   TrainingImageType   m_TrainingImage;

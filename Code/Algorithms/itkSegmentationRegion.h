@@ -158,33 +158,15 @@ public:
    */
   VecDblType GetMeanRegionIntensity();
 
-  /**
-   * Constructor
-   */
+protected: 
   SegmentationRegion();
-
-  /**
-   * Destructor
-   */
   ~SegmentationRegion();
-
-  /**
-   * Copy constructor
-   */
-  SegmentationRegion(const Self&) {}
-
-  /**
-   * Assignment operator
-   */
-  void operator=(const Self&) {}
-
-protected:
-  /**
-   * Print self identity
-   */      
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   unsigned int    m_RegionLabel;
   unsigned int    m_RegionArea;
   unsigned int    m_UniqueLabel; 

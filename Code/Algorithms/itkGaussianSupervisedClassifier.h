@@ -240,32 +240,14 @@ public:
     double * results);
 
 protected:
-  /**
-   * Constructor
-   */
   GaussianSupervisedClassifier();
-
-  /**
-   * Destructor
-   */
   ~GaussianSupervisedClassifier();
-
-  /**
-   * Copy constructor
-   */
-  GaussianSupervisedClassifier(const Self&) {}
-
-  /**
-   * Assignment operator
-   */
-  void operator=(const Self&) {}
-
-  /**
-   * Print self identity
-   */      
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   typedef vnl_matrix<double> MatrixType; 
   typedef vnl_vector<double> VectorType;
   typedef vnl_matrix_fixed<double,1,VectorDimension> ColumnVectorType;

@@ -197,22 +197,18 @@ public:
 
 
 protected:
-
   SimilarityRegistrationMetric();
   virtual ~SimilarityRegistrationMetric() {};
-  SimilarityRegistrationMetric(const Self&) {}
-  void operator=(const Self&) {}
-
-private:
-
-  TargetConstPointer          m_Target;
-  MapperPointer               m_Mapper;
-
-protected:
 
   MeasureType                 m_MatchMeasure;
   DerivativeType              m_MatchMeasureDerivatives;
 
+private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
+  TargetConstPointer          m_Target;
+  MapperPointer               m_Mapper;
 
 };
 

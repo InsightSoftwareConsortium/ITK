@@ -120,33 +120,15 @@ public:
    */
   virtual void ApplySegmentationBorder(){};
 
-  /**
-   * Constructor
-   */
-  SegmentationBorder();
-
-  /**
-   * Destructor
-   */
-  ~SegmentationBorder();
-
-  /**
-   * Copy constructor
-   */
-  SegmentationBorder(const Self&) {}
-
-  /**
-   * Assignment operator
-   */
-  void operator=(const Self&) {}
-
 protected:
-  /**
-   * Print self identity
-   */      
+  SegmentationBorder();
+  ~SegmentationBorder();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   unsigned int m_BorderLength;
 
 }; // class SegmentationBorder

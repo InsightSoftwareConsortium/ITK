@@ -196,8 +196,6 @@ public:
 protected:
   GeodesicActiveContourImageFilter();
   ~GeodesicActiveContourImageFilter(){};
-  GeodesicActiveContourImageFilter(const Self&){};
-  void operator=(const Self&) {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   virtual void GenerateDataFull();
@@ -205,6 +203,9 @@ protected:
   virtual void GenerateInputRequestedRegion();
 
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   typedef ReinitializeLevelSetImageFilter<TLevelSet> ExtenderType;
   typedef typename TEdgeImage::PixelType EdgePixelType;
   typedef typename TDerivImage::PixelType DerivPixelType;

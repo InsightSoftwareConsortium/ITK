@@ -87,19 +87,6 @@ ImageToImageAffineMutualInformationGradientDescentRegistration<TReference, TTarg
 
 
 /**
- * Constructor
- */
-template <class TReference, class TTarget>
-ImageToImageAffineMutualInformationGradientDescentRegistration<TReference, TTarget>
-::ImageToImageAffineMutualInformationGradientDescentRegistration( const Self & other )
-:Superclass( other )
-{
-  m_Parameters = other.m_Parameters;
-}
-
-
-
-/**
  * Destructor
  */
 template <class TReference, class TTarget>
@@ -107,22 +94,6 @@ ImageToImageAffineMutualInformationGradientDescentRegistration<TReference,  TTar
 ::~ImageToImageAffineMutualInformationGradientDescentRegistration()
 {
 }
-
-
-
-/**
- * Assignment Operator
- */
-template <class TReference, class TTarget>
-const ImageToImageAffineMutualInformationGradientDescentRegistration< TReference, TTarget> &
-ImageToImageAffineMutualInformationGradientDescentRegistration< TReference, TTarget>
-::operator=( const Self & other )
-{
-  Superclass::operator=( other );
-  m_Parameters = other.m_Parameters;
-  return *this;
-}
-
 
 /**
  * Starts the Registration Process

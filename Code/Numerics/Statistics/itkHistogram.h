@@ -449,9 +449,6 @@ public:
 protected:
   Histogram() ;
   virtual ~Histogram() {}
-  Histogram(const Self&) {}
-  void operator=(const Self&) {}
-  
 
   // The number of bins for each each dimension
   SizeType m_Size ;
@@ -463,6 +460,9 @@ protected:
   std::vector< std::vector<float> > m_Max ;
   
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
   InstanceIdentifier  m_OffsetTable[FeatureDimension + 1] ;
   FrequencyContainerPointer m_FrequencyContainer ;
 } ; // end of class

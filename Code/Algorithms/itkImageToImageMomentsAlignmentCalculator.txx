@@ -35,20 +35,6 @@ ImageToImageMomentsAlignmentCalculator<TReference, TTarget>
 
 
 /**
- * Constructor
- */
-template <class TReference, class TTarget>
-ImageToImageMomentsAlignmentCalculator<TReference, TTarget>
-::ImageToImageMomentsAlignmentCalculator( const Self & other )
-{
-  m_Reference       =   other.m_Reference;
-  m_Target          =   other.m_Target;
-}
-
-
-
-
-/**
  * Destructor
  */
 template <class TReference, class TTarget>
@@ -56,21 +42,6 @@ ImageToImageMomentsAlignmentCalculator<TReference,  TTarget>
 ::~ImageToImageMomentsAlignmentCalculator()
 {
 }
-
-
-/**
- * Assignment Operator
- */
-template <class TReference, class TTarget>
-const ImageToImageMomentsAlignmentCalculator< TReference, TTarget> &
-ImageToImageMomentsAlignmentCalculator< TReference, TTarget>
-::operator=( const Self & other )
-{
-  m_Reference       =   other.m_Reference;
-  m_Target          =   other.m_Target;
-  return *this;
-}
-
 
 
 /**
