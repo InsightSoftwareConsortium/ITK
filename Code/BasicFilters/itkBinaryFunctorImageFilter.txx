@@ -99,8 +99,8 @@ BinaryFunctorImageFilter<TInputImage1, TInputImage2, TOutputImage, TFunction>
   while( !inputIt1.IsAtEnd() ) 
     {
     outputIt.Set( m_Functor( inputIt1.Get(), inputIt2.Get() ) );
-    ++inputIt1;
     ++inputIt2;
+    ++inputIt1;
     ++outputIt;
     progress.CompletedPixel(); // potential exception thrown here
     }
