@@ -301,11 +301,15 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
 
   while(!it.IsAtEnd())
     {
+     
+    
+    // ValueAt requires the point to be in physical coordinate i.e
     for(unsigned int i=0;i<ObjectDimension;i++)
       {
-      point[i]=it.GetIndex()[i];
+      point[i]=(it.GetIndex()[i]*m_Spacing[i])+m_Origin[i];
       }
     double val =0;
+
     InputObject->ValueAt(point,val,99999);
     if(   m_InsideValue != 0 
           ||  m_OutsideValue != 0 )
