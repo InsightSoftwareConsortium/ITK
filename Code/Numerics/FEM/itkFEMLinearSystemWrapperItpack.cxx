@@ -923,7 +923,10 @@ FEMExceptionItpackSolver::FEMExceptionItpackSolver(const char *file, unsigned in
   buf << "Error: " << solverError << '\0';
 
   SetDescription(buf.str());
+  buf.freeze(false);
+
   SetLocation(location);
+
 }
 
 
