@@ -55,9 +55,6 @@ ContinuousImageFunction<TInputImage,TOutput>
   m_GeometricEnd.Fill( -1.0 );
   m_BufferStart.Fill( 0.0 );
   m_BufferEnd.Fill( -1.0 );
-
-  m_ImageOrigin.Fill( 0.0 );
-  m_ImageSpacing.Fill( 1.0 );
   
 }
 
@@ -75,55 +72,8 @@ ContinuousImageFunction<TInputImage,TOutput>
   this->Modified();
 
   m_Image = ptr;
-  this->ComputeBufferLimits();
-
-}
-
-
-/**
- *
- */
-template <class TInputImage, class TOutput>
-void
-ContinuousImageFunction<TInputImage,TOutput>
-::SetImageSpacing( const VectorType& spacing )
-{
-
-  bool changed = false;
-  for( unsigned int j = 0; j < ImageDimension; j++ )
-    {
-    if( spacing[j] != m_ImageSpacing[j] ) changed = true;
-    }
-
-  if( !changed ) return;
-
-  this->Modified();
-
-  m_ImageSpacing = spacing;
-  this->ComputeBufferLimits();
-
-}
-
-
-/**
- *
- */
-template <class TInputImage, class TOutput>
-void
-ContinuousImageFunction<TInputImage,TOutput>
-::SetImageOrigin( const PointType& origin )
-{
-  bool changed = false;
-  for( unsigned int j = 0; j < ImageDimension; j++ )
-    {
-    if( origin[j] != m_ImageOrigin[j] ) changed = true;
-    }
-
-  if( !changed ) return;
-
-  this->Modified();
-
-  m_ImageOrigin = origin;
+  m_ImageOrigin = ptr->GetOrigin();
+  m_ImageSpacing = ptr->GetSpacing();
   this->ComputeBufferLimits();
 
 }

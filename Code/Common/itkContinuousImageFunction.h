@@ -58,9 +58,6 @@ namespace itk
  *
  * The input image is set via method SetInputImage().
  * The Evaluate() method evaluates the function at an point.
- * Optionally, image origin and spacing can be specify via methods
- * SetImageOrigin() and SetImageSpacing. The default origin is 0 and
- * spacing is 1.0 for all dimension.
  *
  */
 template <
@@ -144,28 +141,6 @@ public:
     { return m_Image.GetPointer(); }
 
   /**
-   * Set the image spacing
-   */
-  void SetImageSpacing( const VectorType& spacing );
-
-  /**
-   * Get the image spacing
-   */
-  const VectorType& GetImageSpacing() const
-    { return m_ImageSpacing; }
-
-  /**
-   * Set the image origin
-   */
-  void SetImageOrigin( const PointType& spacing );
-
-  /**
-   * Get the image origin
-   */
-  const PointType& GetImageOrigin() const
-    { return m_ImageOrigin; } 
-
-  /**
    * Evaluate the function at a geometric point position
    */
   virtual TOutput Evaluate( const PointType& point ) const = 0;
@@ -219,8 +194,8 @@ protected:
   ContinuousIndexType     m_BufferStart;
   ContinuousIndexType     m_BufferEnd;
 
-  PointType               m_ImageOrigin;
-  VectorType              m_ImageSpacing;
+  const double *          m_ImageOrigin;
+  const double *          m_ImageSpacing;
 
 
   /**
