@@ -188,7 +188,7 @@ namespace itk
             det *= eigenval(i,i);
         }
         for ( int i = 0; i < VRank; ++i) {
-            m_pa[VRank-1][i] *= real(det);
+            m_pa[VRank-1][i] *= std::real(det);
         }
 	
 	/* Remember that the moments are valid */
