@@ -273,6 +273,7 @@ MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
 
     // get the results
     m_LastTransformParameters = m_Optimizer->GetCurrentPosition();
+    m_Transform->SetParameters( m_LastTransformParameters );
 
     // setup the initial parameters for next level
     if ( m_CurrentLevel < m_NumberOfLevels - 1 )
