@@ -34,7 +34,7 @@ SingleValuedNonLinearOptimizer
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-  os << indent << "Cost Function " << m_CostFunction << std::endl;
+  os << indent << "Cost Function: " << m_CostFunction.GetPointer() << std::endl;
 }
 
 
