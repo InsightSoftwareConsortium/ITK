@@ -52,55 +52,19 @@ public:
   typedef typename Superclass::MeasurementVectorType MeasurementVectorType;
   typedef typename Superclass::MeasurementType MeasurementType;
   typedef typename Superclass::FrequencyType FrequencyType ;
-//    typedef typename Superclass::SizeType SizeType ;
-//    typedef typename Superclass::SizeValueType SizeValueType ;
   typedef typename Superclass::InstanceIdentifier InstanceIdentifier;
 
   /** VMeasurementVectorSize template argument alias */
   enum { MeasurementVectorSize = VMeasurementVectorSize } ;
-
-  /** returns the measurement element which is the 'n'-th element 
-   * in the 'd' dimension of the measurement vector*/
-  virtual MeasurementType& GetMeasurement(const InstanceIdentifier &id,
-                                          const unsigned int &dimension) = 0 ;
-  /** returns 'p'-th percentile.
-   *
-   * If t = p * total frequency of the dimension,
-   * i = integer part of t,
-   * the percentile value =  
-   * (i + 1 - t) * sorted data[i] of the dimension  + 
-   * (t - i) * sorted data[i + 1] of the dimension ;
-   *
-   * If the "forceSortedDimensionDataGeneration" flag is true, 
-   * the dimension of the sorted data is differ from the "dimension",
-   * argument, or sorted data is not available, it generates sorted data.
-   * for the dimension */
-  double Quantile(unsigned int dimension, double p, 
-                  bool forceSortedDimensionDataGeneration = false) ;
-
-  /** To save memery space, if the sorted data is no longer needed,
-   * then call release memory */
-  void ClearSortedDimenensionData()
-  {
-    m_SortedDimensionData.clear();
-    m_SortedDimension = MeasurementVectorSize ;
-  }
 
 protected:
   ListSample() ;
   virtual ~ListSample() {};
   void PrintSelf(std::ostream& os, Indent indent) const; 
   
-  /** generates sorted data for the 'dimension' */
-  void GenerateSortedDimensionData(unsigned int dimension) ;
-
 private:
   ListSample(const Self&) ; //purposely not implemented
   void operator=(const Self&) ; //purposely not implemented
-
-  typedef std::vector< MeasurementType > SortedDimensionData ;
-  SortedDimensionData m_SortedDimensionData ;
-  unsigned int m_SortedDimension ;
 };
 
   } // end of namespace Statistics 
