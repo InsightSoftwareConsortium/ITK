@@ -82,11 +82,11 @@ public:
   * Standard Get/Set macros for filter parameters
   */
   itkSetMacro(Alpha, float);
-  itkGetMacro(Alpha, const float); 
+  itkGetMacro(Alpha, float);
   itkSetMacro(Beta, float);
-  itkGetMacro(Beta, const float);  
+  itkGetMacro(Beta, float);
   itkSetVectorMacro(Window, unsigned int, VImageDimension);
-  itkGetVectorMacro(Window, const unsigned int, VImageDimension); 
+  itkGetVectorMacro(Window, const unsigned int, VImageDimension);
 
 private:
  /**
