@@ -31,12 +31,22 @@ template <>
 class NumericTraits<RGBPixel<unsigned char> > {
 public:
   typedef RGBPixel<unsigned char> ValueType;
-  typedef RGBPixel<unsigned int> PrintType;
+  typedef RGBPixel<unsigned char> PrintType;
   typedef RGBPixel<unsigned char> AbsType;
   typedef RGBPixel<unsigned short> AccumulateType;
   typedef RGBPixel<double> RealType;
-  static const RGBPixel<unsigned char> ITKCommon_EXPORT Zero();
-  static const RGBPixel<unsigned char> ITKCommon_EXPORT One();
+  static const RGBPixel<unsigned char> ITKCommon_EXPORT ZeroValue()
+      {
+      RGBPixel<unsigned char> value;
+      value.Fill( NumericTraits<unsigned char>::Zero );
+      return value;
+      }
+  static const RGBPixel<unsigned char> ITKCommon_EXPORT One()
+      {
+      RGBPixel<unsigned char> value;
+      value.Fill( NumericTraits<unsigned char>::One );
+      return value;
+      }
 
 };
 
