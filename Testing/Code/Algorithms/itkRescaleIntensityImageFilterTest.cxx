@@ -26,7 +26,7 @@ int itkRescaleIntensityImageFilterTest(int, char**)
 {
   std::cout << "itkRescaleIntensityImageFilterTest Start" << std::endl;
 
-  typedef itk::Image<char,3> TestInputImage;
+  typedef itk::Image<float,3> TestInputImage;
   typedef itk::Image<float,3> TestOutputImage;
 
   TestInputImage::Pointer    inputImage  = TestInputImage::New();
@@ -37,20 +37,9 @@ int itkRescaleIntensityImageFilterTest(int, char**)
   region.SetIndex (index);
   region.SetSize (size);
 
-  // first try a constant image
-  double fillValue = -100.0;
-  inputImage->SetRegions( region );
-  inputImage->Allocate();
-  inputImage->FillBuffer( static_cast< TestInputImage::PixelType >( fillValue ) );
 
   typedef itk::RescaleIntensityImageFilter<TestInputImage,TestOutputImage> FilterType;
   FilterType::Pointer filter = FilterType::New();
-
-  filter->DebugOn();
-
-  // Filter the image
-  filter->SetInput (inputImage);
-  filter->UpdateLargestPossibleRegion();
 
   // Now generate a real image
 
@@ -66,7 +55,6 @@ int itkRescaleIntensityImageFilterTest(int, char**)
 
   source->SetMin( static_cast< TestInputImage::PixelType >( minValue ) );
   source->SetMax( static_cast< TestInputImage::PixelType >( maxValue ) );
-  std::cout << source;
   
   filter->SetInput(source->GetOutput());
 
@@ -86,10 +74,11 @@ int itkRescaleIntensityImageFilterTest(int, char**)
     }
   
   typedef itk::MinimumMaximumImageCalculator< TestOutputImage > CalculatorType;
-
   CalculatorType::Pointer calculator  =  CalculatorType::New();
 
   calculator->SetImage( filter->GetOutput() );
+
+  calculator->Compute();
 
   const double tolerance = 1e-7;
 
@@ -112,7 +101,7 @@ int itkRescaleIntensityImageFilterTest(int, char**)
     return EXIT_FAILURE;
     }
 
-  
+  std::cout << "Test PASSED ! " << std::endl;
   return EXIT_SUCCESS;
 
 }
