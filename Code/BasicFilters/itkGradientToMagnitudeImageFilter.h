@@ -17,74 +17,70 @@
 #ifndef __itkGradientToMagnitudeImageFilter_h
 #define __itkGradientToMagnitudeImageFilter_h
 
-#include "itkImageFunction.h"
-#include "itkImageRegionIterator.h"
-#include "itkImageToImageFilter.h"
-#include "itkPixelTraits.h"
-#include "itkSize.h"
+#include "itkUnaryFunctorImageFilter.h"
 
 namespace itk
 {
-
+  
 /** \class GradientToMagnitudeImageFilter
- * \brief Converts a gradient image to a magnitude of gradient image
- * 
- * \ingroup GradientFilters
+ *
+ * \brief Take an image of vectors as input and produce an image with the
+ *  magnitude of those vectors.
+ *
+ * The filter expect the input image pixel type to be a vector and 
+ * the output image pixel type to be a scalar.
+ *
+ * This filter assumes that the PixelType of the input image is a VectorType
+ * that provides a GetNorm() method.
+ *
+ * \ingroup IntensityImageFilters  Multithreaded
  */
-template<typename TInputImage, typename TOutputImage >
+
+namespace Functor {  
+  
+  template< class TInput, class TOutput>
+    class GradientMagnitude
+    {
+    public:
+      GradientMagnitude() {}
+      ~GradientMagnitude() {}
+
+      inline TOutput operator()( const TInput & A )
+      {
+        return static_cast<TOutput>( A.GetNorm() );
+      }
+    }; 
+}
+ 
+template <class TInputImage, class TOutputImage>
 class ITK_EXPORT GradientToMagnitudeImageFilter :
-   public ImageToImageFilter<TInputImage, TOutputImage>
-{
-public:
-  /** Standard class typedefs. */
-  typedef GradientToMagnitudeImageFilter Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  public
+  UnaryFunctorImageFilter<TInputImage,TOutputImage, 
+  Functor::GradientMagnitude< typename TInputImage::PixelType, 
+                         typename TOutputImage::PixelType>   >
+  {
+  public:
+    /** Standard class typedefs. */
+    typedef GradientToMagnitudeImageFilter Self;
+    typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
+      Functor::GradientMagnitude< typename TInputImage::PixelType, 
+      typename TOutputImage::PixelType> > Superclass;
+    typedef SmartPointer<Self> Pointer;
+    typedef SmartPointer<const Self> ConstPointer;
+    
+    /** Method for creation through the object factory. */
+    itkNewMacro(Self);
 
-  /** Method for creation through the object factory. */
-  itkNewMacro(Self);  
-
-  /** Run-time type information (and related methods). */
-  itkTypeMacro( GradientToMagnitudeImageFilter, ImageToImageFilter );
-
-  /** Number of dimensions, */
-  itkStaticConstMacro(NDimensions, unsigned int, TInputImage::ImageDimension);
-
-  /** Image size typedef. */
-  typedef typename TInputImage::SizeType SizeType;
-
-  /** Image index typedef. */
-  typedef typename TOutputImage::IndexType IndexType;
-
-  /** Image pixel value typedef. */
-  typedef typename TOutputImage::PixelType OutputImagePixelType;
-  typedef typename TInputImage::PixelType  InputImagePixelType;
-  // the input pixel type is expected to have components.
-  typedef typename InputImagePixelType::ValueType InputValueType;
-  typedef typename NumericTraits<InputValueType>::RealType RealType;
-
-  /** Typedef to describe the output image region type. */
-  typedef typename TOutputImage::RegionType OutputImageRegionType;
-
-protected:
-  /** Method for evaluating the implicit function over the image. */
-  void GenerateData();
-
-  GradientToMagnitudeImageFilter();
-  virtual ~GradientToMagnitudeImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
-
-private:
-  GradientToMagnitudeImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
-};
-
+  protected:
+    GradientToMagnitudeImageFilter() {}
+    virtual ~GradientToMagnitudeImageFilter() {}
+    
+  private:
+    GradientToMagnitudeImageFilter(const Self&); //purposely not implemented
+    void operator=(const Self&); //purposely not implemented
+  };
+ 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkGradientToMagnitudeImageFilter.txx"
-#endif
 
 #endif
