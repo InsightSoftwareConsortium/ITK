@@ -159,17 +159,37 @@ int main()
 
   // do the registration
   // reduce learning rate as we go
-  registrationMethod->SetNumberOfIterations( 300 );
-  registrationMethod->SetLearningRate( 5e-5 );
-  registrationMethod->StartRegistration();
+  unsigned int iter[3]  = {300,300,300};
+  double       rates[3] = {5e-5, 1e-5, 1e-6};
 
-  registrationMethod->SetNumberOfIterations( 300 );
-  registrationMethod->SetLearningRate( 1e-5 );
-  registrationMethod->StartRegistration();
+  for( unsigned int i = 0; i < 3; i++ )
+    {
+    registrationMethod->SetNumberOfIterations( iter[i] );
+    registrationMethod->SetLearningRate( rates[i] );
 
-  registrationMethod->SetNumberOfIterations( 300 );
-  registrationMethod->SetLearningRate( 1e-6 );
-  registrationMethod->StartRegistration();
+    try
+      {
+      registrationMethod->StartRegistration();
+      }
+    catch(itk::ExceptionObject& err)
+      {
+      // caught an exception object
+      std::cout << "Caught an ExceptionObject" << std::endl;
+      std::cout << err.GetLocation() << std::endl;
+      std::cout << err.GetDescription() << std::endl;
+      std::cout << "Test failed." << std::endl;
+      return EXIT_FAILURE;
+
+      }
+    catch(...)
+      {
+      // caught some other error
+      std::cout << "Caught unknown exception" << std::endl;
+      std::cout << "Test failed. " << std::endl;
+      return EXIT_FAILURE;
+      }
+
+    }
 
 
   // get the results
@@ -206,6 +226,57 @@ int main()
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;
     }
+
+  // check for parzen window exception
+  double oldValue = registrationMethod->GetMetric()->GetReferenceStandardDeviation();
+  registrationMethod->GetMetric()->SetReferenceStandardDeviation( 0.005 );
+  
+  try
+    {
+    pass = false;
+    registrationMethod->StartRegistration();
+    }
+  catch(itk::ExceptionObject& err)
+    {
+    std::cout << "Caught expected ExceptionObject" << std::endl;
+    std::cout << err.GetLocation() << std::endl;
+    std::cout << err.GetDescription() << std::endl;
+    pass = true;
+    }
+
+  if( !pass )
+    {
+    std::cout << "Should have caught an exception" << std::endl;
+    std::cout << "Test failed." << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // check for mapped out of image error
+  registrationMethod->GetMetric()->SetReferenceStandardDeviation( oldValue );
+
+  solution[5] = 1000;
+  registrationMethod->SetParameters(solution);
+  
+  try
+    {
+    pass = false;
+    registrationMethod->StartRegistration();
+    }
+  catch(itk::ExceptionObject& err)
+    {
+    std::cout << "Caught expected ExceptionObject" << std::endl;
+    std::cout << err.GetLocation() << std::endl;
+    std::cout << err.GetDescription() << std::endl;
+    pass = true;
+    }
+
+  if( !pass )
+    {
+    std::cout << "Should have caught an exception" << std::endl;
+    std::cout << "Test failed." << std::endl;
+    return EXIT_FAILURE;
+    }
+
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
