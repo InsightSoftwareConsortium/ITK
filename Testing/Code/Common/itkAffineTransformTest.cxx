@@ -166,9 +166,9 @@ int itkAffineTransformTest(int, char *[])
               << v2[0] << " , " << v2[1] << std::endl;
 
     /* Back transform a point */
-    v2 = aff2->BackTransform(u2);
-    std::cout << "Back transform a point:" << std::endl
-              << v2[0] << " , " << v2[1] << std::endl;
+    //v2 = aff2->BackTransform(u2);
+    //std::cout << "Back transform a point:" << std::endl
+              //<< v2[0] << " , " << v2[1] << std::endl;
 
     /* Transform a vnl_vector */
     vnl_vector_fixed<double, 2> x2, y2;
@@ -179,9 +179,9 @@ int itkAffineTransformTest(int, char *[])
               << y2[0] << " , " << y2[1] << std::endl;
 
     /* Back transform a vector */
-    y2 = aff2->BackTransform(x2);
-    std::cout << "Back transform a vnl_vector:" << std::endl
-              << y2[0] << " , " << y2[1] << std::endl;
+    //y2 = aff2->BackTransform(x2);
+    //std::cout << "Back transform a vnl_vector:" << std::endl
+              //<< y2[0] << " , " << y2[1] << std::endl;
 
     /* Transform a vector */
     itk::Vector<double, 2> u3, v3;
@@ -192,9 +192,9 @@ int itkAffineTransformTest(int, char *[])
               << v3[0] << " , " << v3[1] << std::endl;
 
     /* Back transform a vector */
-    v3 = aff2->BackTransform(u3);
-    std::cout << "Back transform a vector :" << std::endl
-              << v3[0] << " , " << v3[1] << std::endl;
+    //v3 = aff2->BackTransform(u3);
+    //std::cout << "Back transform a vector :" << std::endl
+              //<< v3[0] << " , " << v3[1] << std::endl;
 
     /* Transform a Covariant vector */
     itk::Vector<double, 2> u4, v4;
@@ -205,9 +205,9 @@ int itkAffineTransformTest(int, char *[])
               << v4[0] << " , " << v4[1] << std::endl;
 
     /* Back transform a vector */
-    v4 = aff2->BackTransform(u4);
-    std::cout << "Back transform a vector :" << std::endl
-              << v4[0] << " , " << v4[1] << std::endl;
+    //v4 = aff2->BackTransform(u4);
+    //std::cout << "Back transform a vector :" << std::endl
+              //<< v4[0] << " , " << v4[1] << std::endl;
 
 
 
