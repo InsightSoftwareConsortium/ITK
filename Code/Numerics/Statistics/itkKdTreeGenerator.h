@@ -69,8 +69,8 @@ public:
 
   void SetBucketSize(int size) ;
 
-  OutputPointer GetOutput()
-  { return m_Tree ; }
+  OutputType* GetOutput()
+  { return m_Tree.GetPointer() ; }
 
   void GenerateData() ;
 
