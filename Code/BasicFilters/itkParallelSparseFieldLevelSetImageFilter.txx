@@ -249,7 +249,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   
   // Allocate the layers of the sparse field.
   m_Layers.reserve(2 * m_NumberOfLayers + 1);
-  for (i = 0; i < 2 * m_NumberOfLayers + 1; ++i)
+  for (i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; ++i)
     {
     m_Layers.push_back( LayerType::New() );
     }
@@ -372,8 +372,8 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
       
       for(unsigned int j = 0; j < static_cast<unsigned int>(ImageDimension); j++)
         {
-        if(center_index[j] <= startIndex[j] || center_index[j]
-           >= startIndex[j]+ regionSize[j]-1)
+        if ( center_index[j] <= startIndex[j] || center_index[j]
+             >= startIndex[j]+ regionSize[j]-1)
           {
           bounds_status = false;
           break;
@@ -779,7 +779,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   
   // Allocate the layers for the sparse field.
   m_Data[ThreadId].m_Layers.reserve(2 * m_NumberOfLayers + 1);
-  for (i = 0; i < 2 * m_NumberOfLayers + 1; ++i)
+  for (i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; ++i)
     {
       m_Data[ThreadId].m_Layers.push_back( LayerType::New() );
     }
@@ -793,7 +793,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   // Layers used as buffers for transfering pixels during load balancing
   m_Data[ThreadId].m_LoadTransferBufferLayers
     = new LayerListType[2*m_NumberOfLayers+1];
-  for (i = 0; i < 2 * m_NumberOfLayers + 1; i++)
+  for (i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; i++)
     {
     m_Data[ThreadId].m_LoadTransferBufferLayers[i].reserve( m_NumOfThreads );
     
@@ -831,7 +831,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   m_Data[ThreadId].m_InterNeighborNodeTransferBufferLayers[1]
     = new LayerPointerType * [m_NumberOfLayers + 1];
   
-  for (i= 0; i < m_NumberOfLayers + 1; i++)
+  for (i= 0; i < static_cast<unsigned int>(m_NumberOfLayers) + 1; i++)
     {
     m_Data[ThreadId].m_InterNeighborNodeTransferBufferLayers[0][i] =
       new LayerPointerType[m_NumOfThreads];
@@ -839,7 +839,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
       new LayerPointerType[m_NumOfThreads];
     }
   
-  for (i= 0; i < m_NumberOfLayers + 1; i++)
+  for (i= 0; i < static_cast<unsigned int>(m_NumberOfLayers) + 1; i++)
     {
     for (j= 0; j < m_NumOfThreads; j++)
       {
@@ -874,7 +874,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   
   LayerNodeType * nodePtr, * nodeTempPtr;
   
-  for (unsigned int i = 0; i < 2 * m_NumberOfLayers + 1; i++)
+  for (unsigned int i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; i++)
     {
     typename LayerType::Iterator layerIt = m_Layers[i]->Begin();
     typename LayerType::Iterator layerEnd= m_Layers[i]->End();
@@ -948,7 +948,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   //  m_Barrier->Remove ();
   
   // Delete initial nodes, the node pool, the layers.
-  for (i = 0; i < 2*m_NumberOfLayers+1; i++)
+  for (i = 0; i < 2* static_cast<unsigned int>(m_NumberOfLayers)+1; i++)
     {
     // return all the nodes in layer i to the main node pool
     LayerNodeType * nodePtr= 0;
@@ -973,7 +973,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
     delete [] m_Data[ThreadId].m_ZHistogram;
     
     // 1. delete nodes on the thread layers
-    for (i = 0; i < 2*m_NumberOfLayers+1; i++)
+    for (i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; i++)
       {
       // return all the nodes in layer i to thread-i's node pool
       LayerNodeType * nodePtr;
@@ -989,7 +989,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
     
     // 2. cleanup the LoadTransferBufferLayers: empty all and return the nodes
     // to the pool 
-    for (i = 0; i < 2 * m_NumberOfLayers + 1; i++)
+    for (i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; i++)
       {
       for (j= 0; j < m_NumOfThreads; j++)
         {
@@ -1032,7 +1032,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
       }
     
     // check if all last layers are empty and then delete them
-    for (i = 0; i < m_NumberOfLayers + 1; i++)
+    for (i = 0; i < static_cast<unsigned int>(m_NumberOfLayers) + 1; i++)
       {
       delete [] m_Data[ThreadId].m_InterNeighborNodeTransferBufferLayers[0][i];
       delete [] m_Data[ThreadId].m_InterNeighborNodeTransferBufferLayers[1][i];
@@ -1452,7 +1452,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   
   // Update the rest of the layer values
   unsigned int i;
-  for (i = 1; i < (2 * m_NumberOfLayers + 1) - 2; i += 2)
+  for (i = 1; i < (2 * static_cast<unsigned int>(m_NumberOfLayers) + 1) - 2; i += 2)
     {
     j = i+1;
     this->ThreadedPropagateLayerValues(i, i+2,   i+4,   1, ThreadId);
@@ -2257,7 +2257,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 
   unsigned int i, j;
   // cleanup the layers first
-  for (i = 0; i < 2 * m_NumberOfLayers + 1; i++)
+  for (i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; i++)
     {
     for (j= 0; j < m_NumOfThreads; j++)
       {
@@ -2272,7 +2272,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
     }
   
   LayerNodeType * nodePtr;
-  for (i = 0; i < 2 * m_NumberOfLayers + 1; i++) // for all layers
+  for (i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; i++) // for all layers
     {
     typename LayerType::Iterator layerIt  = m_Data[ThreadId].m_Layers[i]->Begin();
     typename LayerType::Iterator layerEnd = m_Data[ThreadId].m_Layers[i]->End();
@@ -2308,7 +2308,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   
   ////////////////////////////////////////////////////
   // 3.
-  for (i = 0; i < 2 * m_NumberOfLayers + 1; i++)
+  for (i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; i++)
     {
     // check all other threads
     for (j= 0; j < m_NumOfThreads; j++)
