@@ -50,7 +50,7 @@ public:
   typedef SmartPointer<const Self>  ConstPointer;
     
   /** Run-time type information (and related methods). */
-  itkTypeMacro( ThinPlateSplineKernelTransform, KernelTransform );
+  itkTypeMacro( ElasticBodySplineKernelTransform, KernelTransform );
 
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro( Self );
