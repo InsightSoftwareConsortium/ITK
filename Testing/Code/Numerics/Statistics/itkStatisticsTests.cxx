@@ -22,4 +22,5 @@ void RegisterTests()
   REGISTER_TEST(itkExpectationMaximizationMixtureModelEstimatorTest);
   REGISTER_TEST(itkGoodnessOfFitMixtureModelCostFunctionTest);
   REGISTER_TEST(itkSampleClassifierTest) ;
+  REGISTER_TEST(itkNeighborhoodSamplerTest) ;
 }
