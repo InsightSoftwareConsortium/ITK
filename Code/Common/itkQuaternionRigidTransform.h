@@ -96,11 +96,28 @@ public:
     { return m_Rotation; }
 
 
+  /** Set the parameters to the IdentityTransform */
+  virtual void SetIdentity(void);
+
+  /** Compute the Jacobian Matrix of the transformation at one point */
   /** Set the rotation of the rigid transform.
    * This method sets the rotation of a QuaternionRigidTransform to a
    * value specified by the user. */
   void SetRotation(const VnlQuaternionType &rotation);
 
+
+  /** Set and Get the center of rotation */
+  void SetCenter( const InputPointType & center );
+  itkGetConstReferenceMacro( Center, InputPointType );
+
+  /** Set and Get the Translation to be applied after rotation */
+  void SetTranslation( const OutputVectorType & translation );
+  itkGetConstReferenceMacro( Translation, OutputVectorType );
+  
+  /** Compute the offset using the rotation center, the matrix
+   *  and the final translation. This method MUST be called before
+   *  using the transform for any mapping. */
+  virtual void ComputeOffset(void);
 
   /** Set the transformation from a container of parameters.
    * This is typically used by optimizers.
@@ -108,7 +125,7 @@ public:
    * quaternion and the last three represents the
    * offset. */
   void SetParameters( const ParametersType & parameters );
-  itkGetConstReferenceMacro(Parameters, ParametersType);
+  virtual const ParametersType & GetParameters() const;
 
   /** Compute the Jacobian of the transformation.
    * This method computes the Jacobian matrix of the transformation.
@@ -128,6 +145,13 @@ private:
 
   /** Rotation of the transformation. */
   VnlQuaternionType   m_Rotation;
+
+  /** Center of rotation */
+  InputPointType      m_Center;
+
+  /** Translation */
+  OutputVectorType    m_Translation;
+
 
 }; //class QuaternionRigidTransform
 
