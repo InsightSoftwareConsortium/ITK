@@ -35,6 +35,7 @@ void RegisterTests()
   REGISTER_TEST(itkFlipImageFilterTest );
   REGISTER_TEST(itkFloodFillIteratorTest );
   REGISTER_TEST(itkGaussianImageSourceTest );
+  REGISTER_TEST(itkHardConnectedComponentImageFilterTest );
   REGISTER_TEST(itkImageAdaptorNthElementTest );
   REGISTER_TEST(itkImageAdaptorPipeLineTest );
   REGISTER_TEST(itkImageToParametricSpaceFilterTest );
