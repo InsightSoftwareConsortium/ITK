@@ -38,6 +38,24 @@ int itkEuler3DTransformTest(int,char *[] )
   typedef itk::Euler3DTransform<double>  EulerTransformType;
   EulerTransformType::Pointer eulerTransform = EulerTransformType::New();
   
+
+  // Testing Identity
+  std::cout << "Testing identity transform: ";
+  eulerTransform->SetIdentity();
+
+  EulerTransformType::OffsetType offset = eulerTransform->GetOffset();
+  if( offset[0] != 0.0 
+     || offset[1] != 0.0 
+     || offset[2] != 0.0 
+    )
+  {
+     std::cout << "[ FAILED ]" << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  std::cout << "[ PASSED ]" << std::endl;
+
+
   // 15 degrees in radians
   const double angleX = 15.0 * atan( 1.0f ) / 45.0; 
   const double cx = cos(angleX);
@@ -115,8 +133,6 @@ int itkEuler3DTransformTest(int,char *[] )
   eulerTransform->SetOffset( ioffset );
   std::cout << "eulerTransform: " << eulerTransform;
   
-  std::cout << "Parameters: " << eulerTransform->GetParameters() << std::endl;
-
   q = p + ioffset;
       
   r = eulerTransform->TransformPoint( p );
@@ -139,6 +155,58 @@ int itkEuler3DTransformTest(int,char *[] )
   {
     std::cout << " [ PASSED ] " << std::endl;
   }
+
+
+   // Testing Parameters
+  std::cout << "Testing Set/Get Parameters: " ;
+  EulerTransformType::ParametersType parameters(6);
+  for(unsigned int i=0;i<6;i++)
+  {
+    parameters[i]=i;
+  }
+    
+  eulerTransform->SetParameters(parameters);
+  EulerTransformType::ParametersType parameters_result = eulerTransform->GetParameters();
+  
+  if( parameters_result[0] != 0.0
+      || parameters_result[1] != 1.0
+      || parameters_result[2] != 2.0
+      || parameters_result[3] != 3.0
+      || parameters_result[4] != 4.0
+      || parameters_result[5] != 5.0
+    )
+  {
+    std::cout << " [ FAILED ] " << std::endl;
+    return EXIT_FAILURE; 
+  }
+  std::cout << " [ PASSED ] " << std::endl;
+
+
+  // Testing Jacobian
+  std::cout << "Testing Jacobian: ";
+  for(unsigned int i=0;i<3;i++)
+  {
+    pInit[i]=0;
+  }
+
+  EulerTransformType::JacobianType  jacobian = eulerTransform->GetJacobian(pInit);
+  
+  if( jacobian[0][0] != 0.0 || jacobian[0][1] != 0.0 
+      || jacobian[0][2] != 0.0 ||jacobian[0][3] != 1.0
+      || jacobian[0][4] != 0.0 ||jacobian[0][5] != 0.0
+      || jacobian[1][0] != 0.0 || jacobian[1][1] != 0.0 
+      || jacobian[1][2] != 0.0 ||jacobian[1][3] != 0.0
+      || jacobian[1][4] != 1.0 ||jacobian[1][5] != 0.0
+      || jacobian[2][0] != 0.0 || jacobian[2][1] != 0.0 
+      || jacobian[2][2] != 0.0 ||jacobian[2][3] != 0.0
+      || jacobian[2][4] != 0.0 ||jacobian[2][5] != 1.0
+    )
+  {
+    std::cout << " [ FAILED ] " << std::endl;
+    return EXIT_FAILURE; 
+  }
+  std::cout << " [ PASSED ] " << std::endl;
+
 
   return EXIT_SUCCESS;
 

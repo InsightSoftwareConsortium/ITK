@@ -42,6 +42,7 @@ int itkRigid2DTransformTest(int ,char * [] )
   /* Create a 2D identity transformation and show its parameters */
   {
     TransformType::Pointer  identityTransform = TransformType::New();
+    identityTransform->SetIdentity();
     TransformType::OffsetType offset = identityTransform->GetOffset();
     std::cout << "Vector from instantiating an identity transform:  ";
     std::cout << offset << std::endl;

@@ -25,14 +25,50 @@
 int itkTransformTest(int, char* [] )
 {
 
-
-
   typedef  itk::Transform<double,3,3>      TransformType;
+  TransformType::Pointer transform = TransformType::New();
 
-  // itk::Transform cannot be instantiated because has
-  // abstract methods.
-    
+  TransformType::InputPointType pnt;
+  transform->TransformPoint(pnt);
 
+  TransformType::InputVectorType  vec;
+  transform->TransformVector(vec);
+
+  TransformType::InputVnlVectorType   vec_vnl;
+  transform->TransformVector(vec_vnl);
+
+  TransformType::InputCovariantVectorType    covec;
+  transform->TransformCovariantVector(covec);
+
+  TransformType::ParametersType parameters(6);
+  try
+    {
+    transform->SetParameters(parameters);
+    }
+  catch( itk::ExceptionObject & e )
+    {
+    std::cerr << e << std::endl;
+    }
+
+  try
+    {
+    transform->GetParameters();
+    }
+  catch( itk::ExceptionObject & e )
+    {
+    std::cerr << e << std::endl;
+    }
+
+  try
+    {
+    transform->GetJacobian(pnt);
+    }
+  catch( itk::ExceptionObject & e )
+    {
+    std::cerr << e << std::endl;
+    }
+
+  std::cout << "[ PASSED ]" << std::endl;
   return EXIT_SUCCESS;
 
 }

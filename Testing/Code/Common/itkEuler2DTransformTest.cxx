@@ -38,6 +38,21 @@ int itkEuler2DTransformTest(int,char *[] )
   typedef itk::Euler2DTransform<double>  EulerTransformType;
   EulerTransformType::Pointer eulerTransform = EulerTransformType::New();
   
+  // Testing Identity
+  std::cout << "Testing identity transform: ";
+  eulerTransform->SetIdentity();
+
+  EulerTransformType::OffsetType offset = eulerTransform->GetOffset();
+  if( offset[0] != 0.0 
+     || offset[1] != 0.0 
+    )
+  {
+     std::cout << "[ FAILED ]" << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  std::cout << "[ PASSED ]" << std::endl;
+
   // 15 degrees in radians
   const double angle = 15.0 * atan( 1.0f ) / 45.0; 
   const double sinth = sin( angle );
@@ -109,6 +124,36 @@ int itkEuler2DTransformTest(int,char *[] )
   {
     std::cout << " [ PASSED ] " << std::endl;
   }
+
+  // Testing Parameters
+  std::cout << "Testing Parameters: " ;
+  EulerTransformType::ParametersType paramaters = eulerTransform->GetParameters();
+  
+  if( paramaters[0] != 0.0
+      || paramaters[1] != 1.0
+      || paramaters[2] != 4.0
+    )
+  {
+    std::cout << " [ FAILED ] " << std::endl;
+    return EXIT_FAILURE; 
+  }
+  std::cout << " [ PASSED ] " << std::endl;
+
+
+  // Testing Jacobian
+  std::cout << "Testing Jacobian: ";
+  EulerTransformType::JacobianType  jacobian = eulerTransform->GetJacobian(pInit);
+  
+  if( jacobian[0][0] != -10.0 || jacobian[0][1] != 1.0 
+      || jacobian[0][2] != 0.0 ||jacobian[0][3] != 0.0
+      || jacobian[1][0] != 10.0 || jacobian[1][1] != 0.0 
+      || jacobian[1][2] != 1.0 ||jacobian[1][3] != 0.0
+    )
+  {
+    std::cout << " [ FAILED ] " << std::endl;
+    return EXIT_FAILURE; 
+  }
+  std::cout << " [ PASSED ] " << std::endl;
 
   return EXIT_SUCCESS;
 
