@@ -49,13 +49,14 @@ set Counter 0
 
 
 set Queue [glob [file join Code *] [file join CMake *]]
+set Queue [list Code CMake]
 set id "File[incr Counter]"
 set TopLevelID $id
 set Coverage($id,FileList) [list]
 set Coverage($id,DirList) [list]
-set Coverage($id,Name) Code
-set Coverage($id,FullPath) Code
-set Coverage(Code,ID) $id
+set Coverage($id,Name) .
+set Coverage($id,FullPath) .
+set Coverage(.,ID) $id
 
 # puts $Queue
 while { [llength $Queue] != 0 } \
