@@ -109,7 +109,7 @@ private:
 
   unsigned long  m_Size[TOutputImage::ImageDimension];    //size of the output image
   double         m_Spacing[TOutputImage::ImageDimension]; //spacing
-  double         m_Origin[TOutputImage::ImageDimension];;  //origin
+  double         m_Origin[TOutputImage::ImageDimension];  //origin
 
   /** Parameters for the Gaussian. */
   

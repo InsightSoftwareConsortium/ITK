@@ -82,6 +82,9 @@ public:
   typedef TInputImage  InputImageType;
   typedef TOutputImage OutputImageType;
 
+  /** Superclass typedefs. */
+  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
+
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
   typedef typename TOutputImage::PixelType OutputPixelType;
