@@ -22,6 +22,11 @@
 #include "itkGE4ImageIO.h"
 #include "itkGE5ImageIO.h"
 #include "itkSiemensVisionImageIO.h"
+#include "itkGEAdwImageIOFactory.h"
+#include "itkGE4ImageIOFactory.h"
+#include "itkGE5ImageIOFactory.h"
+#include "itkSiemensVisionImageIOFactory.h"
+#include "itkImageIOFactory.h"
 #include "itkExceptionObject.h"
 #include "itkImageFileReader.h"
 #include "itkImage.h"
@@ -30,6 +35,35 @@
 typedef itk::Image<signed short, 3> ImageType ;
 typedef ImageType::Pointer ImagePointer ;
 typedef itk::ImageFileReader< ImageType > ImageReaderType ;
+
+int itkGEImageIOFactoryTest(int ac, char * av[])
+{
+  static bool firstTime = true;
+  if(firstTime) 
+    {
+    itk::ObjectFactoryBase::RegisterFactory(itk::GEAdwImageIOFactory::New() );
+    itk::ObjectFactoryBase::RegisterFactory(itk::GE4ImageIOFactory::New() );
+    itk::ObjectFactoryBase::RegisterFactory(itk::GE5ImageIOFactory::New() );
+    itk::ObjectFactoryBase::RegisterFactory(itk::SiemensVisionImageIOFactory::New() );
+    firstTime = false;
+    }
+  char *filename = *++av;
+
+  ImagePointer input ;
+  ImageReaderType::Pointer imageReader = ImageReaderType::New() ;
+
+  try
+    {
+    imageReader->SetFileName(filename);
+    imageReader->Update() ;
+    input = imageReader->GetOutput() ;
+    }
+  catch (itk::ExceptionObject e)
+    {
+    return 1;
+    }
+  return 0;
+}
 
 int itkGEImageIOTest(int ac, char * av[])
 {

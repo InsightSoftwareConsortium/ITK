@@ -19,7 +19,9 @@
 #include "itkExceptionObject.h"
 #include "itkNumericTraits.h"
 #include "itkImageRegionIterator.h"
+#include "itkImageIOFactory.h"
 #include "itkBrains2MaskImageIO.h"
+#include "itkBrains2MaskImageIOFactory.h"
 #include "stdlib.h"
 #include <itksys/SystemTools.hxx>
 #include "itkImageFileWriter.h"
@@ -157,6 +159,23 @@ int itkBrains2MaskTest(int ac, char *av[])
       return -1;
       }
     }
+  catch(itk::ExceptionObject & ex)
+    {
+    ex.Print(std::cerr);
+    return -1;
+    }
+  //
+  // test the factory interface. This ImageIO class doesn't get
+  // added to the list of Builtin factories, so add it explicitly, and
+  // then try and open the mask file.
+  itk::ObjectFactoryBase::RegisterFactory(itk::Brains2MaskImageIOFactory::New() );
+  try
+    {
+    ImageReaderType::Pointer imageReader = ImageReaderType::New();
+    imageReader->SetFileName(fileName.c_str());
+    imageReader->Update();
+    readImage = imageReader->GetOutput();
+    }  
   catch(itk::ExceptionObject & ex)
     {
     ex.Print(std::cerr);

@@ -173,6 +173,15 @@ ADD_TEST(itkGiplImageIOTest2 ${IO_TESTS} itkGiplImageIOTest
 
   ADD_TEST(itkBrains2MaskTest ${IO_TESTS} itkBrains2MaskTest  ${ITK_TEST_OUTPUT_DIR} )
 
+  ADD_TEST(itkGE4FactoryTest ${IO_TESTS} itkGEImageIOFactoryTest 
+  	${ITK_DATA_ROOT}/Input/test_ge4/19771.002.001)
+  ADD_TEST(itkGE5FactoryTest  ${IO_TESTS} itkGEImageIOFactoryTest
+  	${ITK_DATA_ROOT}/Input/test_ge5/113766.003.001)
+  ADD_TEST(itkGEAdwFactoryTest  ${IO_TESTS} itkGEImageIOFactoryTest
+  	${ITK_DATA_ROOT}/Input/test_geadw/I.001)
+  ADD_TEST(itkSiemensFactoryTest  ${IO_TESTS} itkGEImageIOFactoryTest
+  	${ITK_DATA_ROOT}/Input/test_siemens/3868-2-100.ima)
+
 ENDIF(ITK_DATA_ROOT)
 
 IF(ITK_BINARY_DIR)
