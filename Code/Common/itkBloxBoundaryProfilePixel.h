@@ -14,7 +14,7 @@ class ITK_EXPORT BloxBoundaryProfilePixel : public BloxPixel< BloxBoundaryProfil
 {
 public:
   /** Run-time type information (and related methods). */
-  itkTypeMacro( BloxBoundaryProfilePixel, BloxItem );
+  itkTypeMacro( BloxBoundaryProfilePixel, BloxPixel );
 
   /** The type of boundary profile item we process. */
   typedef BloxBoundaryProfilePixel<NDimensions> BoundaryProfileItemType;
