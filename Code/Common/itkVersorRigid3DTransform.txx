@@ -87,14 +87,14 @@ VersorRigid3DTransform<TScalarType>
   // Transfer the center part
   for(unsigned int i=0; i < SpaceDimension; i++) 
     {
-    m_Center[i] = parameters[i+3];
+    m_Center[i] = parameters[i+SpaceDimension];
     }
 
    
   // Transfer the translation part
   for(unsigned int j=0; j < SpaceDimension; j++) 
     {
-    m_Translation[j] = parameters[j+6];
+    m_Translation[j] = parameters[j+2*SpaceDimension];
     }
 
  
@@ -103,6 +103,48 @@ VersorRigid3DTransform<TScalarType>
 
   itkDebugMacro(<<"After setting paramaters ");
 }
+
+
+
+//
+// Get Parameters
+// 
+// Parameters are ordered as:
+//
+// p[0:2] = right part of the versor (axis times sin(t/2))
+// p[3:5} = center of rotation coordinates
+// p[6:8} = translation components
+//
+
+template <class TScalarType>
+const typename VersorRigid3DTransform<TScalarType>::ParametersType &
+VersorRigid3DTransform<TScalarType>
+::GetParameters( void ) const
+{
+  itkDebugMacro( << "Getting parameters ");
+
+  m_Parameters[0] = m_Versor.GetX();
+  m_Parameters[1] = m_Versor.GetY();
+  m_Parameters[2] = m_Versor.GetZ();
+
+  // Transfer the center of rotation 
+  for(unsigned int i=0; i < SpaceDimension; i++) 
+  {
+    m_Parameters[i+SpaceDimension] = m_Center[i];
+  }
+
+  // Transfer the translation
+  for(unsigned int j=0; j < SpaceDimension; j++) 
+  {
+    m_Parameters[j+2*SpaceDimension] = m_Translation[j];
+  }
+
+  itkDebugMacro(<<"After getting parameters " << m_Parameters );
+
+  return m_Parameters;
+}
+
+
 
 
 // Set Rotational Part
@@ -239,13 +281,21 @@ GetJacobian( const InputPointType & p ) const
   m_Jacobian[2][3] = - m_Jacobian[0][1];
 
 
-  // compute derivatives for the translation part
+  // compute derivatives for the rotation center 
   unsigned int blockOffset = 4;  
   for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
     {
      m_Jacobian[ dim ][ blockOffset + dim ] = 1.0;
     }
 
+  // compute derivatives for the translation part
+  blockOffset += 3;
+  for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
+    {
+    m_Jacobian[ dim ][ blockOffset + dim ] = 1.0;
+    }
+
+  
   return m_Jacobian;
 
 }
