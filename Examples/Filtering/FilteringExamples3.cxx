@@ -10,8 +10,6 @@
 void RegisterTests()
 {
 REGISTER_TEST(MorphologicalImageEnhancementTest);
-REGISTER_TEST(OtsuThresholdImageFilterTest);
-REGISTER_TEST(OtsuMultipleThresholdImageFilterTest);
 REGISTER_TEST(AntiAliasBinaryImageFilterTest);
 REGISTER_TEST(CannyEdgeDetectionImageFilterTest);
 REGISTER_TEST(FlipImageFilterTest);
@@ -27,14 +25,6 @@ REGISTER_TEST(ResampleImageFilter7Test);
 #undef main
 #define main MorphologicalImageEnhancementTest
 #include "MorphologicalImageEnhancement.cxx"
-
-#undef main
-#define main OtsuThresholdImageFilterTest
-#include "OtsuThresholdImageFilter.cxx"
-
-#undef main
-#define main OtsuMultipleThresholdImageFilterTest
-#include "OtsuMultipleThresholdImageFilter.cxx"
 
 #undef main
 #define main AntiAliasBinaryImageFilterTest

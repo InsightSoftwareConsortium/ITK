@@ -182,6 +182,7 @@ SET(FILTERING_EXAMPLES ${CXX_TEST_PATH}/FilteringExamples)
 SET(FILTERING_EXAMPLES2 ${CXX_TEST_PATH}/FilteringExamples2)
 SET(FILTERING_EXAMPLES3 ${CXX_TEST_PATH}/FilteringExamples3)
 SET(FILTERING_EXAMPLES4 ${CXX_TEST_PATH}/FilteringExamples4)
+SET(FILTERING_EXAMPLES5 ${CXX_TEST_PATH}/FilteringExamples5)
 
 SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Filtering)
 SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
@@ -643,7 +644,7 @@ ADD_TEST( MorphologicalImageEnhancementTest ${FILTERING_EXAMPLES3}
         3
 )
 
-ADD_TEST( OtsuThresholdImageFilterTest ${FILTERING_EXAMPLES3}
+ADD_TEST( OtsuThresholdImageFilterTest ${FILTERING_EXAMPLES5}
   --compare ${BASELINE}/OtsuThresholdImageFilter.png
             ${TEMP}/OtsuThresholdImageFilter.png
   OtsuThresholdImageFilterTest
@@ -652,7 +653,7 @@ ADD_TEST( OtsuThresholdImageFilterTest ${FILTERING_EXAMPLES3}
         255 0
 )
 
-ADD_TEST( OtsuMultipleThresholdImageFilterTest ${FILTERING_EXAMPLES3}
+ADD_TEST( OtsuMultipleThresholdImageFilterTest ${FILTERING_EXAMPLES5}
   --compare ${BASELINE}/OtsuMultipleThresholdOutput002.png
             ${TEMP}/OtsuMultipleThresholdOutput002.png
   OtsuMultipleThresholdImageFilterTest
@@ -807,6 +808,8 @@ TARGET_LINK_LIBRARIES(FilteringExamples3 ITKIO ITKBasicFilters ITKCommon)
 ADD_EXECUTABLE(FilteringExamples4 FilteringExamples4.cxx)
 TARGET_LINK_LIBRARIES(FilteringExamples4 ITKIO ITKBasicFilters ITKCommon)
 
+ADD_EXECUTABLE(FilteringExamples5 FilteringExamples5.cxx)
+TARGET_LINK_LIBRARIES(FilteringExamples5 ITKIO ITKBasicFilters ITKCommon)
 
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
 

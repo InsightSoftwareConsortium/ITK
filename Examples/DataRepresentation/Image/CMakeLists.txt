@@ -36,6 +36,8 @@ ADD_EXECUTABLE(ImageAdaptor4 ImageAdaptor4.cxx )
 TARGET_LINK_LIBRARIES(ImageAdaptor4 ITKCommon ITKIO)
 
 SET(IMAGE_EXAMPLES ${CXX_TEST_PATH}/ImageExamples)
+SET(IMAGE_EXAMPLES2 ${CXX_TEST_PATH}/ImageExamples2)
+SET(IMAGE_EXAMPLES3 ${CXX_TEST_PATH}/ImageExamples3)
 
 IF( NOT ITK_DISABLE_CXX_TESTING )
 
@@ -60,23 +62,23 @@ ADD_TEST(Image5Test ${IMAGE_EXAMPLES}
   Image5Test ${TEMP}/Image5Test.mhd
 )
 
-ADD_TEST(ImageAdaptor1Test ${IMAGE_EXAMPLES}
+ADD_TEST(ImageAdaptor1Test ${IMAGE_EXAMPLES2}
   ImageAdaptor1Test ${ITK_SOURCE_DIR}/Examples/Data/BrainMidSagittalSlice.png
 )
 
-ADD_TEST(ImageAdaptor2Test ${IMAGE_EXAMPLES}
+ADD_TEST(ImageAdaptor2Test ${IMAGE_EXAMPLES2}
   ImageAdaptor2Test
     ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
     ${TEMP}/ImageAdaptor2Test.png
 )
 
-ADD_TEST(ImageAdaptor3Test ${IMAGE_EXAMPLES}
+ADD_TEST(ImageAdaptor3Test ${IMAGE_EXAMPLES2}
   ImageAdaptor3Test
     ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
     ${TEMP}/ImageAdaptor3Test.mhd 2
 )
 
-ADD_TEST(ImageAdaptor4Test ${IMAGE_EXAMPLES}
+ADD_TEST(ImageAdaptor4Test ${IMAGE_EXAMPLES3}
   ImageAdaptor4Test
     ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
     ${TEMP}/ImageAdaptor4Test.png 127
@@ -93,6 +95,12 @@ ADD_TEST(VectorImageTest ${IMAGE_EXAMPLES}
 
 ADD_EXECUTABLE(ImageExamples ImageExamples.cxx )
 TARGET_LINK_LIBRARIES(ImageExamples ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
+
+ADD_EXECUTABLE(ImageExamples2 ImageExamples2.cxx )
+TARGET_LINK_LIBRARIES(ImageExamples2 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
+
+ADD_EXECUTABLE(ImageExamples3 ImageExamples3.cxx )
+TARGET_LINK_LIBRARIES(ImageExamples3 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
 
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
 
