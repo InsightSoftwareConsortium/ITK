@@ -59,7 +59,7 @@ namespace itk
  * ProcessObject::UpdateOutputInformation().
  *
  * 
- * \ingroup ImageFilters
+ * \ingroup GeometricTransforms
  *
  */
 template <class TInputImage, class TOutputImage>

@@ -58,6 +58,8 @@ namespace itk
  * This class reads 2D or 3D images.
  *
  * \sa FileIOToImageFilter
+ * 
+ * \ingroup IOFilters
  * */
 
   template <class TPixel, unsigned int VImageDimension=2>

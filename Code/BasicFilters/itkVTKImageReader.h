@@ -52,6 +52,8 @@ namespace itk
  * VTKImageReader reads VTK-formatted data files. This class requires
  * that the VTK dataset type is STRUCTURED_POINTS, and only the scalar
  * point data is read (1-4 components).
+ *
+ * \ingroup IOFilters
  */
 template <class TOutputImage>
 class ITK_EXPORT VTKImageReader : public ImageSource<TOutputImage>

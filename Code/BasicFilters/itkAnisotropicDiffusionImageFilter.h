@@ -52,9 +52,7 @@ namespace itk {
  * AnisotropicDiffusionImageFilter
  *
  *
- * \ingroup ImageFilters
- *
- *
+ * \ingroup ImageEnhancement
  *
  *
  */

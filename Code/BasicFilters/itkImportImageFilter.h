@@ -59,7 +59,7 @@ namespace itk
  * the output image.  The filter prescribes a ImageImportContainer to be
  * be used as the pixel container for the output image.
  * 
- * \ingroup ImageFilters
+ * \ingroup IOFilters
  *
  */
 

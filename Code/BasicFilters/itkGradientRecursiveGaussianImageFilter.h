@@ -55,7 +55,7 @@ namespace itk
  * filters
  *
  * 
- * \ingroup ImageFilters
+ * \ingroup ImageFeatureExtraction
  *
  */
 template <class TInputImage, class TOutputImage, class TComputation>

@@ -54,7 +54,7 @@ namespace itk
  * Equalization."  J.Alex Stark. IEEE Transactions on Image Processing, 
  * May 2000.
  * 
- * \ingroup ImageFilters
+ * \ingroup ImageEnhancement
  *
  */
 

@@ -51,7 +51,7 @@ namespace itk {
 /**
  * \class Curvature2DAnisotropicDiffusionEquation
  *  
- *
+ * \ingroup Operators 
  *
  * \todo Convert this class to ND and write a 2DCurvatureAnis....Equation
  */ 

@@ -50,7 +50,7 @@ namespace itk {
 /**
  * \class CurvatureAnisotropicDiffusionImageFilter
  *
- *  \ingroup ImageFilters
+ * \ingroup ImageEnhancement 
  *
  *\todo Document.
  */

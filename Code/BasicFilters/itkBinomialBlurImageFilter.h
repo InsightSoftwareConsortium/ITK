@@ -57,7 +57,8 @@ namespace itk
  * image dimension. The net result after n-iterations approaches
  * convultion with a gaussian.
  * 
- * \ingroup IntensityImageFilters
+ * \ingroup ImageEnhancement
+ * \ingroup ImageFeatureExtraction 
  *
  * */
 

@@ -54,8 +54,8 @@ namespace itk
  * approximating the first derivative of a Gaussian.  This class implements
  * the recursive filtering method proposed by R.Deriche in IEEE-PAMI Vol.12,
  * No.1, January 1990, pp 78-87.  
- * 
- * \ingroup ImageFilters
+ *
+ * \ingroup ImageFeatureExtraction
  *
  */
 template <class TInputImage, class TOutputImage, class TComputation>

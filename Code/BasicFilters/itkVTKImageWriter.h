@@ -53,6 +53,8 @@ namespace itk
  * VTKImageWriter writes 1-3D images in VTK file format. You can specify
  * binary or ASCII output types. The class is limited in the type of
  * scalars that are supported: all native types with up to four components.
+ *
+ * \ingroup IOFilters
  */
 template <class TInputImage>
 class ITK_EXPORT VTKImageWriter : public ImageWriter<TInputImage>

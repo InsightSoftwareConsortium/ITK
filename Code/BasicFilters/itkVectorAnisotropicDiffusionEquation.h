@@ -54,6 +54,8 @@ namespace itk {
  *                 Since we are talking about vector anisotropic diffusion,
  *                 this is the type of an element of the vector (float, etc.)
  *
+ *  \ingroup Operators
+ *
  * \todo DOCUMENT!
  */ 
 template <class TImage>

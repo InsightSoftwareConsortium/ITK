@@ -57,7 +57,7 @@ namespace itk
  * \sa NeighborhoodOperator
  * \sa NeighborhoodIterator
  * 
- * \ingroup IntensityImageFilters
+ * \ingroup ImageFeatureExtraction 
  *
  */
 

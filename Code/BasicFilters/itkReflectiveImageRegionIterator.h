@@ -54,11 +54,13 @@ namespace itk
  * over the image type.  ReflectiveImageRegionIterator is constrained to
  * walk only within the specified region.
  *
- * ReflectiveImageRegioIterator will perform two passes over the image
+ * ReflectiveImageRegionIterator will perform two passes over the image
  * along each dimension. It is useful for algorithms that require to 
  * go back and forth (once) over the data. 
  *
  * \sa DanielssonDistanceMapImageFilter
+ *
+ * \ingroup Iterators 
  *
  * */
 template<typename TImage>

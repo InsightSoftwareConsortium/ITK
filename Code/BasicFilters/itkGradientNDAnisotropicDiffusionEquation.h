@@ -51,7 +51,7 @@ namespace itk {
 /**
  * \class GradientNDAnisotropicDiffusionEquation
  *  
- *
+ * \ingroup Operators
  *
  * \todo Convert this class to ND and write a NDGradientAnis....Equation
  */ 

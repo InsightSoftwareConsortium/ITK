@@ -72,6 +72,8 @@ namespace itk
  *
  * This filter is implemented as a multithreaded filter.  It provides a 
  * ThreadedGenerateData() method for its implementation.
+ *
+ * \ingroup GeometricTransforms
  */
 template <
     class TInputImage,
@@ -225,8 +227,6 @@ protected:
    * ThreadedGenerateData can only write to the portion of the output image
    * specified by the parameter "outputRegionForThread"
    *
-   * 
-   * \ingroup ImageFilters
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()

@@ -50,7 +50,8 @@ namespace itk {
 /**
  * \class VectorGradientAnisotropicDiffusionImageFilter
  * 
- * \ingroup ImageFilters
+ * \ingroup ImageEnhancement
+ * \ingroup FeatureExtraction
  *
  *\todo Document.
  */

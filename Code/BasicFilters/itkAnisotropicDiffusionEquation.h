@@ -87,6 +87,8 @@ namespace itk {
  * \reference
  * \reference
  *
+ * \ingroup Operators
+ *
  * \todo Documentation, references */
 template <class TImage>
 class AnisotropicDiffusionEquation :

@@ -61,7 +61,8 @@ namespace itk
  * \sa Neighborhood
  * \sa NeighborhoodOperator
  * 
- * \ingroup ImageFilters
+ * \ingroup ImageEnhancement 
+ * \ingroup ImageFeatureExtraction 
  *
  */
 

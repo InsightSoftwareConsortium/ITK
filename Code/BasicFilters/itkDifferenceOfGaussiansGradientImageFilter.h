@@ -51,8 +51,7 @@ namespace itk
  * \class DifferenceOfGaussiansGradientImageFilter
  * \brief Performs difference-of-gaussians gradient detection
  *
- * 
- * \ingroup ImageFilters
+ * \ingroup ImageFeatureExtraction 
  *
  * */
 

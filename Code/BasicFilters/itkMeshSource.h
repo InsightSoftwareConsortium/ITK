@@ -54,6 +54,8 @@ namespace itk
  * that returns a pointer to the output mesh. The class also defines
  * some internal private data memebers that are used to manage streaming
  * of data.
+ *
+ * \ingroup DataSources
  */
 template <class TOutputMesh>
 class ITK_EXPORT MeshSource : public ProcessObject

@@ -48,6 +48,7 @@ namespace itk {
 
 /**
  * \todo DOCUMENT!
+ * \ingroup Operators
  */ 
 template <class TImage>
 class ScalarAnisotropicDiffusionEquation :

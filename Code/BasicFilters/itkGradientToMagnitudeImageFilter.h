@@ -54,7 +54,7 @@ namespace itk
  * \brief Converts a gradient image to a magnitude of gradient image
  *
  * 
- * \ingroup ImageFilters
+ * \ingroup ImageFeatureExtraction
  *
  * */
 

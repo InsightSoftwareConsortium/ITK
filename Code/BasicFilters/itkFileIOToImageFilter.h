@@ -51,6 +51,8 @@ namespace itk
 
 /**
  * \brief Base exception class for IO conflicts
+ *
+ * \ingroup IOFilters
  */
 class FileIOException : public ExceptionObject 
 {
@@ -76,7 +78,7 @@ public:
  *  can be registered (even at run time) without having to modify the
  *  code in this class.
  *
- * \ingroup ImageFilters
+ *  \ingroup IOFilters
  *
  */
 template <class TOutputImage>

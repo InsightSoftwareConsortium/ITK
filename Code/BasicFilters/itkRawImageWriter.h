@@ -56,6 +56,8 @@ namespace itk
  * then slice, then volume, etc.) You can specify
  * binary or ASCII output types, as well as the byte order (little
  * endian or big endian).
+ *
+ * \ingroup IOFilters
  */
 template <class TInputImage>
 class ITK_EXPORT RawImageWriter : public ImageWriter<TInputImage>

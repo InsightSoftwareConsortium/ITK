@@ -52,6 +52,8 @@ namespace itk
  *
  * RandomImageSource generates an image of random scalar values.
  * The output image may be of any dimension. 
+ *
+ * \ingroup DataSources
  */
 template <typename TOutputImage>
 class ITK_EXPORT RandomImageSource : public ImageSource<TOutputImage>
