@@ -104,10 +104,8 @@ public:
   /**
    * Typedef for generic boundary condition pointer
    */
-  typedef ImageBoundaryCondition<OutputImageType,
-    Neighborhood<typename OutputImageType::InternalPixelType *,
-    OutputImageType::ImageDimension> > *
-  ImageBoundaryConditionPointerType;
+  typedef ImageBoundaryCondition<OutputImageType> *
+   ImageBoundaryConditionPointerType;
   
   /**
    * Run-time type information (and related methods)
