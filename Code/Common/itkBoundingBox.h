@@ -104,10 +104,12 @@ public:
   /** Method that actually computes bounding box. */
   bool ComputeBoundingBox(void) const;
 
-  /** Get the bounding box. NULL is returned if the bounding box cannot be
-   * computed. (This may happen if the user never specifies something to
-   * compute the bounding box from.) */
-  itkGetConstMacro( Bounds, BoundsArrayType );
+  /** Get the bounding box.  This method should only be invoked after
+ * ComputeBoundingBox(), otherwise the Bounds values will not be up to date.
+ * Note that many methods in this class invoke ComputeBoundingBox() internally,
+ * for example GetMinimum(), GetMaximum(), GetCenter(), GetDiagonalLength2().
+ * Therefore it is safe to invoke GetBounds() after any of those methods. */
+  itkGetConstReferenceMacro( Bounds, BoundsArrayType );
 
   /** Get the center of the bounding box. Returns NULL if bounding box
    * cannot be computed. */
