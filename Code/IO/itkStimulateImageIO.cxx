@@ -30,6 +30,8 @@ StimulateImageIO::StimulateImageIO()
   this->SetNumberOfDimensions(4);
   m_ByteOrder = BigEndian;
   m_FileType = Binary;
+  m_DisplayRange[0] = 0;
+  m_DisplayRange[1] = 0;
 }
 
 StimulateImageIO::~StimulateImageIO()
