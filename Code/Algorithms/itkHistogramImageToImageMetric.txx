@@ -226,9 +226,21 @@ HistogramImageToImageMetric<TFixedImage,TMovingImage>
       {
       typename Superclass::InputPointType inputPoint;
       fixedImage->TransformIndexToPhysicalPoint(index, inputPoint);
-        
+          
+      if( this->m_FixedImageMask && !this->m_FixedImageMask->IsInside( inputPoint ) )
+        {
+        ++ti;
+        continue;
+        }
+
       typename Superclass::OutputPointType transformedPoint =
         this->m_Transform->TransformPoint(inputPoint);
+
+      if( this->m_MovingImageMask && !this->m_MovingImageMask->IsInside( transformedPoint ) )
+        {
+        ++ti;
+        continue;
+        }
 
       if ( this->m_Interpolator->IsInsideBuffer(transformedPoint) )
         {
