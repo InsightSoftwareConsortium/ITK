@@ -67,8 +67,10 @@ namespace fem {
  *       derived Element classes.
  */
 #define HANDLE_ELEMENT_LOADS() \
-  virtual VectorType GetLoadVector( LoadElementPointer l ) const \
-  { return VisitorDispatcher<Self,LoadElementType,VectorType (*)(Self::ConstPointer,LoadElementPointer)>::Visit(l)(this,l); }
+  /** Pointer type that specifies functions that can handle loads on this element */ \
+  typedef void (*LoadImplementationFunctionPointer)(Self::ConstPointer,Element::LoadPointer, Element::VectorType& ); \
+  virtual void GetLoadVector( Element::LoadPointer l, Element::VectorType& Fe ) const \
+  { VisitorDispatcher<Self,Element::LoadType, LoadImplementationFunctionPointer>::Visit(l)(this,l,Fe); }
 
 
 
@@ -106,11 +108,11 @@ public:
    * within the element's declaration or definition, ALWAYS use this typedef
    * instead.
    * When calling the GetLoadVector(...) function from outside, you should
-   * ALWAYS first convert the argument to Element::LoadElementPointer. See
+   * ALWAYS first convert the argument to Element::LoadPointer. See
    * code of function Solver::AssembleF(...) for more info.
    */
-  typedef FEMLightObject LoadElementType;
-  typedef LoadElementType::Pointer LoadElementPointer;
+  typedef FEMLightObject LoadType;
+  typedef LoadType::Pointer LoadPointer;
 
   /**
    * Type that stores global ID's of degrees of freedom.
@@ -300,9 +302,12 @@ public:
    *        implements a load must be registered with the VisitorDispactcher
    *        class.
    *
+   * \param l Pointer to a load object.
+   * \param Fe Reference to vector object that will store nodal forces.
+   *
    * \sa VisitorDispatcher
    */
-  virtual VectorType GetLoadVector( LoadElementPointer l ) const = 0;
+  virtual void GetLoadVector( LoadPointer l, VectorType& Fe ) const = 0;
 
   /**
    * Compute the strain displacement matrix at local point.

@@ -64,8 +64,8 @@ public:
   typedef typename Superclass::Float Float;
   typedef typename Superclass::MatrixType MatrixType;
   typedef typename Superclass::VectorType VectorType;
-  typedef typename Superclass::LoadElementType LoadElementType;
-  typedef typename Superclass::LoadElementPointer LoadElementPointer;
+  typedef typename Superclass::LoadType LoadType;
+  typedef typename Superclass::LoadPointer LoadPointer;
   typedef typename Superclass::NodeIDType NodeIDType;
   typedef typename Superclass::DegreeOfFreedomIDType DegreeOfFreedomIDType;
   typedef typename Superclass::Node Node;

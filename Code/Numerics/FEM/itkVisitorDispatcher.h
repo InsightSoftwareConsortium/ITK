@@ -112,14 +112,17 @@ namespace fem {
  *                  registered class that is derived from TVisitorBase.
  *
  *  - TVisitFunctionPointerType Type of visit functions. Visitor dispatcher
- *                  stores an array of pointers to these functions.
+ *                  stores an array of pointers to these functions. Default
+ *                  function pointer type is provided.
  * 
  * \note Template parameter TVisitFunctionPointerType in general doesn't
  *       have to be a pointer to function. In fact, it can be any type
  *       Object of this type will be returned, when calling the
  *       VisitorDispatcher::Visit function.
  */
-template<class TVisitedClass, class TVisitorBase, class TVisitFunctionPointerType>
+template< class TVisitedClass,
+          class TVisitorBase,
+          class TVisitFunctionPointerType=void (*)(TVisitedClass::ConstPointer, TVisitorBase::Pointer) >
 class VisitorDispatcher
 {
 public:
@@ -202,7 +205,7 @@ public:
     {
       // Visitor class was successfully registered
 //      std::cout<<"Visitor "<<typeid(VisitorClass).name()<<" ("<<typeid(VisitedClass).name()<<") registered.\n";
-//      std::cout<<"Debug info: "<<typeid(TVisitedClass).name()<<", "<<typeid(TVisitorBase).name()<<", "<<typeid(TReturnType).name()<<"\n";
+//      std::cout<<"Visitor registered:\n  Visitee:"<<typeid(TVisitedClass).name()<<"\n  Visitor:"<<typeid(TVisitorClass).name()<<"\n  Func   :"<<typeid(VisitFunctionPointerType).name()<<"\n\n";
     }
     else
     {

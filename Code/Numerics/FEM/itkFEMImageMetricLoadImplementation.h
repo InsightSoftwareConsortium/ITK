@@ -48,7 +48,7 @@ class ImageMetricLoadImplementation
 {
 public:
   
-  static Element::VectorType ImplementImageMetricLoad(Element2DC0LinearQuadrilateralStress::ConstPointer element, Element::LoadElementPointer load)
+  static void ImplementImageMetricLoad(Element2DC0LinearQuadrilateralStress::ConstPointer element, Element::LoadPointer load, Element::VectorType& Fe )
   {
     // We must dynamically cast the given load pointer to the
     // correct templated load class, which is given as
@@ -68,10 +68,12 @@ public:
     const unsigned int Ndofs=element->GetNumberOfDegreesOfFreedomPerNode();
     const unsigned int Nnodes=element->GetNumberOfNodes();
 
-    Element::VectorType Fe(element->GetNumberOfDegreesOfFreedom()*2,0.0),
-                         force(Ndofs,0.0),
+    Element::VectorType  force(Ndofs,0.0),
                          ip,gip,gsol,force_tmp,shapeF;
     Element::Float w,detJ;
+
+    Fe.resize(element->GetNumberOfDegreesOfFreedom()*2);
+    Fe.fill(0.0);
 
     for(unsigned int i=0; i<Nip; i++)
     {
@@ -104,8 +106,6 @@ public:
 
     }
 
-    return Fe;
-
   }
 
 private:
@@ -119,7 +119,7 @@ private:
 // corresponding Load class.
 template<class TLoadClass>
 const bool ImageMetricLoadImplementation<TLoadClass>::registered=
-VisitorDispatcher<Element2DC0LinearQuadrilateralStress,Element::LoadElementType, Element::VectorType (*)(Element2DC0LinearQuadrilateralStress::ConstPointer,Element::LoadElementPointer)>
+VisitorDispatcher<Element2DC0LinearQuadrilateralStress,Element::LoadType, Element2DC0LinearQuadrilateralStress::LoadImplementationFunctionPointer>
   ::RegisterVisitor((TLoadClass*)0, &ImageMetricLoadImplementation<TLoadClass>::ImplementImageMetricLoad);
 
 

@@ -36,9 +36,9 @@ namespace fem {
  * It is also assumed, that element's local DOFs are numbered with respect
  * to node ID. If this is not the case, you should not use this function.
  */
-Element::VectorType
+void
 LoadImplementationGenericBodyLoad
-::Implementation(Element::ConstPointer element, LoadGrav::Pointer load)
+::Implementation(Element::ConstPointer element, LoadGrav::Pointer load, Element::VectorType& Fe)
 {
   // Order of integration
   // FIXME: Allow changing the order of integration by setting a 
@@ -49,9 +49,12 @@ LoadImplementationGenericBodyLoad
   const unsigned int Ndofs=element->GetNumberOfDegreesOfFreedomPerNode();
   const unsigned int Nnodes=element->GetNumberOfNodes();
 
-  Element::VectorType Fe(element->GetNumberOfDegreesOfFreedom(),0.0),
-                         force(Ndofs,0.0),
-                         ip,gip,force_tmp,shapeF;
+  Element::VectorType force(Ndofs,0.0),
+                      ip,gip,force_tmp,shapeF;
+
+  Fe.resize(element->GetNumberOfDegreesOfFreedom());
+  Fe.fill(0.0);
+
   Element::Float w,detJ;
 
   for(unsigned int i=0; i<Nip; i++)
@@ -83,8 +86,6 @@ LoadImplementationGenericBodyLoad
     }
 
   }
-
-  return Fe;
 
 }
 

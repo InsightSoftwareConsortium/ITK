@@ -45,11 +45,11 @@ namespace fem {
 
 /* This macro makes registering Load implementations easier. */
 #define REGISTER_LOAD_EX(ElementClass,LoadClass,FunctionName) \
-  VisitorDispatcher<ElementClass, ElementClass::LoadElementType, ElementClass::VectorType (*)(ElementClass::ConstPointer,ElementClass::LoadElementPointer)> \
+  VisitorDispatcher<ElementClass, ElementClass::LoadType, ElementClass::LoadImplementationFunctionPointer> \
   ::RegisterVisitor((LoadClass*)0, &FunctionName);
 /* Use this macro to also automatically declare load implementation function. */
 #define REGISTER_LOAD(ElementClass,LoadClass,FunctionName) \
-  extern ElementClass::VectorType FunctionName(ElementClass::ConstPointer, ElementClass::LoadElementPointer); \
+  extern void FunctionName(ElementClass::ConstPointer, ElementClass::LoadPointer, ElementClass::VectorType& ); \
   REGISTER_LOAD_EX(ElementClass,LoadClass,FunctionName)
 
 

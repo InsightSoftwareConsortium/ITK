@@ -51,7 +51,7 @@ template<class TLoadClass>
 class LoadImplementationTest
 {
 public:
-  static Element::VectorType impl(Element2DC0LinearLineStress::ConstPointer element, Element::LoadElementPointer load)
+  static void impl(Element2DC0LinearLineStress::ConstPointer element, Element::LoadPointer load, Element::VectorType& Fe)
   {
     // We must dynamically cast the given load pointer to the
     // correct templated load class, which is given as
@@ -60,10 +60,6 @@ public:
     if ( !l0 ) throw FEMException(__FILE__, __LINE__, "FEM error");
 
     cout<<"Load object's data:"<<l0->data<<"\n";
-
-    Element::VectorType F(element->GetNumberOfDegreesOfFreedom());
-
-    return F;
   }
 private:
   static const bool registered;
@@ -76,7 +72,7 @@ private:
 // corresponding Load class.
 template<class TLoadClass>
 const bool LoadImplementationTest<TLoadClass>::registered=
-  VisitorDispatcher<Element2DC0LinearLineStress,Element::LoadElementType,Element2DC0LinearLineStress::VectorType (*)(Element2DC0LinearLineStress::ConstPointer,Element::LoadElementPointer)>
+  VisitorDispatcher<Element2DC0LinearLineStress,Element::LoadType,Element2DC0LinearLineStress::LoadImplementationFunctionPointer>
   ::RegisterVisitor((TLoadClass*)0, &LoadImplementationTest<TLoadClass>::impl);
 
 

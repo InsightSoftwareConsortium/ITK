@@ -55,7 +55,7 @@ public:
    * FIXME: Add concept checking.
    */
   template<class TElementClassConstPointer>
-  inline static Element::VectorType HandleLoad(TElementClassConstPointer e, Element::LoadElementPointer l)
+  static void HandleLoad(TElementClassConstPointer e, Element::LoadPointer l, Element::VectorType& Fe)
   {
     // Check if we really got a LoadGrav object
     LoadGrav::Pointer l0=dynamic_cast<LoadGrav*>(&*l);
@@ -68,7 +68,7 @@ public:
     // Statically cast the passed pointer to the element base class and
     // call the real load implementation with the correct pointer types.
     // If cast fails, the passed pointer was of incompatible class.
-    return Implementation(e,l0);
+    Implementation(e,l0,Fe);
   }
 
 private:
@@ -80,7 +80,7 @@ private:
    * It is also assumed, that element's local DOFs are numbered with respect
    * to node ID. If this is not the case, you should not use this function.
    */
-  static Element::VectorType Implementation(Element::ConstPointer element, LoadGrav::Pointer load);
+  static void Implementation(Element::ConstPointer element, LoadGrav::Pointer load, Element::VectorType& Fe);
 
   /**
    * Private constructor prohibits creation of objects of this class

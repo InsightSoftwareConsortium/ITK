@@ -359,6 +359,9 @@ void Solver::AssembleElementMatrix(Element::Pointer e)
  */
 void Solver::AssembleF(int dim) {
 
+  // Vector that stores element nodal loads
+  Element::VectorType Fe; 
+
   // Type that stores IDs of fixed DOF together with the values to
   // which they were fixed.
   typedef std::map<Element::DegreeOfFreedomIDType,Float> BCTermType;
@@ -439,9 +442,9 @@ void Solver::AssembleF(int dim) {
         {
 
           const Element* el0=(*i);
-          // call the Fe() function of the element that we are applying the load to.
-          // we pass a pointer to the load object as a paramater.
-          Element::VectorType Fe = el0->GetLoadVector(Element::LoadElementPointer(l1));
+          // Call the Fe() function of the element that we are applying the load to.
+          // We pass a pointer to the load object as a paramater and a reference to the nodal loads vector.
+          el0->GetLoadVector(Element::LoadPointer(l1),Fe);
           unsigned int Ne=el0->GetNumberOfDegreesOfFreedom();          // ... element's number of DOF
           for(unsigned int j=0; j<Ne; j++)    // step over all DOF
           {
@@ -464,7 +467,7 @@ void Solver::AssembleF(int dim) {
          */
         for(ElementArray::iterator e=el.begin(); e!=el.end(); e++) // step over all elements in a system
         {
-          Element::VectorType Fe=(*e)->GetLoadVector(Element::LoadElementPointer(l1));  // ... element's force vector
+          (*e)->GetLoadVector(Element::LoadPointer(l1),Fe);  // ... element's force vector
           unsigned int Ne=(*e)->GetNumberOfDegreesOfFreedom();          // ... element's number of DOF
 
           for(unsigned int j=0; j<Ne; j++)        // step over all DOF

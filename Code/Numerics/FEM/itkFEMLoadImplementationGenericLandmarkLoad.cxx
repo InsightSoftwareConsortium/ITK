@@ -31,16 +31,18 @@ namespace fem {
 /*
  * Handles LandmarkLoad on 2D linear quad stress element
  */
-Element::VectorType
+void
 LoadImplementationGenericLandmarkLoad
-::Implementation(Element::ConstPointer element, LoadLandmark::Pointer load)
+::Implementation(Element::ConstPointer element, LoadLandmark::Pointer load, Element::VectorType& Fe)
 {
   const unsigned int NnDOF=element->GetNumberOfDegreesOfFreedomPerNode();
   const unsigned int Nnodes=element->GetNumberOfNodes();
 
-  Element::VectorType Fe( element->GetNumberOfDegreesOfFreedom(), 0.0 );
   Element::VectorType force( NnDOF, 0.0 ), disp( NnDOF, 0.0 );
   Element::VectorType shapeF;
+
+  Fe.resize(element->GetNumberOfDegreesOfFreedom());
+  Fe.fill(0.0);
 
   // Retrieve the local coordinate at which the force acts
   Element::VectorType pt = load->GetPoint();
@@ -66,7 +68,6 @@ LoadImplementationGenericLandmarkLoad
     }
   }
   
-  return Fe;
 }
 
 
