@@ -157,7 +157,7 @@ public:
   /**
    * Standard print method.
    */
-  virtual void PrintSelf(ostream &os, Indent i) const
+  virtual void PrintSelf(std::ostream &os, Indent i) const
   {
     os << i << "RandomAccessNeighborhoodIterator" << std::endl;
     Superclass::PrintSelf(os, i.GetNextIndent());
