@@ -109,10 +109,13 @@ public:
   itkSetMacro(ConductanceParameter, double);
   itkGetMacro(ConductanceParameter, double);
 
-  /** The following parameters are not used at this time.  Setting them will
-      have no effect on the output */
+  /** Set/Get the interval at which a new scaling for the conductance term is
+      calculated.  */
   itkSetMacro(ConductanceScalingUpdateInterval, unsigned int);
   itkGetMacro(ConductanceScalingUpdateInterval, unsigned int);
+
+  /** The following parameters are not used at this time.  Setting them will
+      have no effect on the output */
   itkSetMacro(ConductanceScalingParameter, double);
   itkGetMacro(ConductanceScalingParameter, double);
 
