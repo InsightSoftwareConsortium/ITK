@@ -28,12 +28,16 @@ namespace _cable_
   {
     namespace point
     {
-    typedef ::itk::Point< float, 2 > F2;
-    typedef ::itk::Point< float, 3 > F3;
+    typedef ::itk::Point< float,  2 > F2;
+    typedef ::itk::Point< float,  3 > F3;
+    typedef ::itk::Point< double, 2 > D2;
+    typedef ::itk::Point< double, 3 > D3;
     }
     // wrap FunctionBase 
     ITK_WRAP_OBJECT2(FunctionBase, point::F2, double, itkFunctionBaseF2D);
     ITK_WRAP_OBJECT2(FunctionBase, point::F3, double, itkFunctionBaseF3D);
+    ITK_WRAP_OBJECT2(FunctionBase, point::D2, double, itkFunctionBaseD2D);
+    ITK_WRAP_OBJECT2(FunctionBase, point::D3, double, itkFunctionBaseD3D);
   }
 }
 
