@@ -48,6 +48,9 @@ public:
   /** Return the type of this native type. */
   typedef T ValueType; 
 
+  /** Return the type that can be printed. */
+  typedef T PrintType; 
+
   /** Return value of abs(). */
   typedef T AbsType; 
 
@@ -85,6 +88,7 @@ template <>
 class NumericTraits<bool> : public ITK_NUMERIC_LIMITS<bool> {
 public:
   typedef bool ValueType;
+  typedef bool PrintType;
   typedef unsigned char AbsType;
   typedef unsigned char AccumulateType;
   static const bool Zero;
@@ -104,12 +108,16 @@ template <>
 class NumericTraits<char> : public ITK_NUMERIC_LIMITS<char> {
 public:
   typedef char ValueType;
+  typedef int PrintType;
   typedef unsigned char AbsType;
   typedef short AccumulateType;
+  typedef double RealType;
   static const char Zero;
   static const char One;
 
-  static char NonpositiveMin() { return min(); }
+  static char min() { return 0; }
+  static char max() { return 127; }
+  static char NonpositiveMin() { return -128; }
   static bool IsPositive(char val) { return val > Zero; }
   static bool IsNonpositive(char val) { return val <= Zero; }
   static bool IsNegative(char val) { return val < Zero; }
@@ -124,6 +132,7 @@ template <>
 class NumericTraits<unsigned char> : public ITK_NUMERIC_LIMITS<unsigned char> {
 public:
   typedef unsigned char ValueType;
+  typedef int PrintType;
   typedef unsigned char AbsType;
   typedef unsigned short AccumulateType;
   typedef double RealType;
@@ -144,6 +153,7 @@ template <>
 class NumericTraits<short> : public ITK_NUMERIC_LIMITS<short> {
 public:
   typedef short ValueType;
+  typedef short PrintType;
   typedef unsigned short AbsType;
   typedef int AccumulateType;
   typedef double RealType;
@@ -165,6 +175,7 @@ template <>
 class NumericTraits<unsigned short> : public ITK_NUMERIC_LIMITS<unsigned short> {
 public:
   typedef unsigned short ValueType;
+  typedef unsigned short PrintType;
   typedef unsigned short AbsType;
   typedef unsigned int AccumulateType;
   typedef double RealType;
@@ -185,6 +196,7 @@ template <>
 class NumericTraits<int> : public ITK_NUMERIC_LIMITS<int> {
 public:
   typedef int ValueType;
+  typedef int PrintType;
   typedef unsigned int AbsType;
   typedef long AccumulateType;
   typedef double RealType;
@@ -206,6 +218,7 @@ template <>
 class NumericTraits<unsigned int> : public ITK_NUMERIC_LIMITS<unsigned int> {
 public:
   typedef unsigned int ValueType;
+  typedef unsigned int PrintType;
   typedef unsigned int AbsType;
   typedef unsigned int AccumulateType;
   typedef double RealType;
@@ -227,6 +240,7 @@ template <>
 class NumericTraits<long> : public ITK_NUMERIC_LIMITS<long> {
 public:
   typedef long ValueType;
+  typedef long PrintType;
   typedef unsigned long AbsType;
   typedef long AccumulateType;
   typedef double RealType;
@@ -248,6 +262,7 @@ template <>
 class NumericTraits<unsigned long> : public ITK_NUMERIC_LIMITS<unsigned long> {
 public:
   typedef unsigned long ValueType;
+  typedef unsigned long PrintType;
   typedef unsigned long AbsType;
   typedef unsigned long AccumulateType;
   typedef double RealType;
@@ -269,6 +284,7 @@ template <>
 class NumericTraits<float> : public ITK_NUMERIC_LIMITS<float> {
 public:
   typedef float ValueType;
+  typedef float PrintType;
   typedef float AbsType;
   typedef double AccumulateType;
   typedef double RealType;
@@ -290,6 +306,7 @@ template <>
 class NumericTraits<double> : public ITK_NUMERIC_LIMITS<double> {
 public:
   typedef double ValueType;
+  typedef double PrintType;
   typedef double AbsType;
   typedef double AccumulateType;
   typedef double RealType;
@@ -311,6 +328,7 @@ template <>
 class NumericTraits<long double> : public ITK_NUMERIC_LIMITS<long double> {
 public:
   typedef long double ValueType;
+  typedef long double PrintType;
   typedef long double AbsType;
   typedef long double AccumulateType;
   typedef long double RealType;
