@@ -735,16 +735,23 @@ int main( int argc, char *argv[] )
   //  structures by providing seeds in the appropriate locations. The following
   //  table presents the parameters used for some structures.
   //
+  //  \begin{table}
   //  \begin{center}
-  //  \begin{tabular}{|l|c|c|c|c|c|c|c|}
+  //  \begin{tabular}{|l|c|c|c|c|c|c|p{2cm}|}
   //  \hline
-  //  Structure    & Seed Index & $\sigma$ & $\alpha$ & $\beta$ & Threshold & Stopping & Output Image \\ \hline \\ \hline
-  //  Left Ventricle  & $(81,114)$ & 1.0 & -0.5 & 3.0  & 100 & 100 & First  in Figure \ref{fig:FastMarchingImageFilterOutput2} \\  \hline
-  //  Right Ventricle & $(99,114)$ & 1.0 & -0.5 & 3.0  & 100 & 100 & Second in Figure \ref{fig:FastMarchingImageFilterOutput2} \\  \hline 
-  //  White matter    & $(56, 92)$ & 1.0 & -0.3 & 2.0  & 200 & 100 & Third  in Figure \ref{fig:FastMarchingImageFilterOutput2} \\  \hline
-  //  Gray matter     & $(40, 90)$ & 0.5 & -0.3 & 2.0  & 200 & 100 & Fourth in Figure \ref{fig:FastMarchingImageFilterOutput2} \\  \hline
+  //  Structure    & Seed Index & $\sigma$ & $\alpha$ & $\beta$ & Threshold & Output Image from left \\ \hline 
+  //  Left Ventricle  & $(81,114)$ & 1.0 & -0.5 & 3.0  & 100 & First   \\  \hline
+  //  Right Ventricle & $(99,114)$ & 1.0 & -0.5 & 3.0  & 100 & Second  \\  \hline 
+  //  White matter    & $(56, 92)$ & 1.0 & -0.3 & 2.0  & 200 & Third   \\  \hline
+  //  Gray matter     & $(40, 90)$ & 0.5 & -0.3 & 2.0  & 200 & Fourth  \\  \hline
   //  \end{tabular}
   //  \end{center}
+  //  \itkcaption[FastMarching segmentation example parameters]{Parameters used
+  //  for segmenting some brain structures shown in
+  //  Figure~\ref{fig:FastMarchingImageFilterOutput2} using the filter
+  //  \doxygen{FastMarchingImageFilter}. All of them used a stopping value of
+  //  100.\label{tab:FastMarchingImageFilterOutput2}}
+  //  \end{table}
   //
   //  Figure~\ref{fig:FastMarchingImageFilterOutput} presents the intermediate
   //  outputs of the pipeline illustrated in
