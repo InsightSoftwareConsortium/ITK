@@ -22,31 +22,89 @@
 #include "itkRegionNeighborhoodIterator.h"
 #include "itkRegionBoundaryNeighborhoodIterator.h"
 #include "itkImage.h"
-
+#include "itkExceptionObject.h"
 namespace itk
 {
-
+  
 namespace NeighborhoodAlgorithm
 {
-
 /**
+ * Walks across the region defined in the iterator argument and
+ * calculates the inner product of each pixel neighborhood
+ * with the operator.  Writes scalar output to the corresponding
+ * pixel in the output image.
  *
+ * Assumes that the output image region, buffer, and image sizes and starting
+ * indicies match those of the input image.
+ *
+ * This function handles boundary conditions.
  */
 template < class TPixel, unsigned long VDimension>
 void
-DoInnerProductOverRegion(Image<TPixel, VDimension> *,
-                         Image<TPixel, VDimension> *,
-                         Neighborhood<TPixel, VDimension> &);
+DoUnSynchedInnerProduct(Image<TPixel, VDimension> *in,
+                      Image<TPixel, VDimension> *out,
+                      Neighborhood<TPixel, VDimension> &op);
 
 /**
+ * Walks across the region defined in the iterator argument and
+ * calculates the inner product of each pixel neighborhood
+ * with the operator.  Writes scalar output to the corresponding
+ * pixel in the output image.
  *
- */  
+ * The output image buffer size and
+ * starting index must match the output image region size and
+ * starting index ( output region must be contiguous in memory ).
+ * Output region size and starting index must match input region
+ * size and starting index.
+ *
+ * This function does not handle boundary conditions.
+ */
+template < class TNeighborhoodIterator, class TImageIterator, class TNeighborhood>
+void
+DoUnsynchedInnerProduct(TNeighborhoodIterator &it, TImageIterator op,
+                        TNeighborhood &oper)
+{
+  const TNeighborhoodIterator itEnd = it.End();
+  for (it = it.Begin(); it < itEnd; ++it, ++op) *op = it.InnerProduct(oper);
+}
+  
+/**
+ * Walks across the region defined in the iterator argument and
+ * calculates the inner product of each pixel neighborhood
+ * with the operator.  Writes scalar output to the corresponding
+ * pixel in the output image.
+ *
+ * Assumes that the output image region, buffer, and image sizes and starting
+ * indicies match those of the input image.
+ *
+ * This function does not handle boundary conditions.
+ */
+template < class TIterator, class TNeighborhood>
+void
+DoSynchedInnerProduct(TIterator &it, TNeighborhood &oper)
+{
+  const TIterator itEnd = it.End();
+  for (it = it.Begin(); it < itEnd; ++it)
+    *( it.GetOutputBuffer() ) = it.InnerProduct(oper);
+}
+
+/**
+ * Walks across the region defined in the iterator argument and
+ * calculates the inner product of each pixel neighborhood
+ * with the operator.  Writes scalar output to the corresponding
+ * pixel in the output image.
+ *
+ * Assumes that the output image region, buffer, and image sizes and starting
+ * indicies match those of the input image.
+ *
+ * This function handles boundary conditions.
+ */
 template < class TPixel, unsigned long VDimension>
 void
-DoInnerProductOverRegion(Image<TPixel, VDimension> *,
-                         Image<TPixel, VDimension> *,
-                         NeighborhoodOperatorList<TPixel, VDimension> &);
-
+DoSynchedInnerProduct(Image<TPixel, VDimension> *in,
+                      Image<TPixel, VDimension> *out,
+                      Neighborhood<TPixel, VDimension> &op);
+  
 } // end namespace NeighborhoodAlgorithm
   
 } // end namespace itk
@@ -56,5 +114,3 @@ DoInnerProductOverRegion(Image<TPixel, VDimension> *,
 #endif
 
 #endif
-
-
