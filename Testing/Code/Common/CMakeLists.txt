@@ -15,10 +15,12 @@ itkCommonHeaderTest
 itkHashTableTest
 itkImageAdaptorTest
 itkImageIteratorTest
+itkImageLinearIteratorTest
 itkIteratorTests
 itkMatrixTest
 itkMemoryLeakTest
 itkMeshTest
+itkMeshFstreamTest
 itkNeighborhoodTest
 itkNeighborhoodAlgorithmTest
 itkNeighborhoodIteratorTest
@@ -49,10 +51,12 @@ ADD_EXECUTABLE(itkCommonHeaderTest itkCommonHeaderTest)
 ADD_EXECUTABLE(itkHashTableTest itkHashTableTest)
 ADD_EXECUTABLE(itkImageAdaptorTest itkImageAdaptorTest)
 ADD_EXECUTABLE(itkImageIteratorTest itkImageIteratorTest)
+ADD_EXECUTABLE(itkImageLinearIteratorTest itkImageLinearIteratorTest)
 ADD_EXECUTABLE(itkIteratorTests itkIteratorTests)
 ADD_EXECUTABLE(itkMatrixTest itkMatrixTest)
 ADD_EXECUTABLE(itkMemoryLeakTest itkMemoryLeakTest)
 ADD_EXECUTABLE(itkMeshTest itkMeshTest)
+ADD_EXECUTABLE(itkMeshFstreamTest itkMeshFstreamTest)
 ADD_EXECUTABLE(itkNeighborhoodTest itkNeighborhoodTest)
 ADD_EXECUTABLE(itkNeighborhoodAlgorithmTest itkNeighborhoodAlgorithmTest)
 ADD_EXECUTABLE(itkNeighborhoodIteratorTest itkNeighborhoodIteratorTest)
