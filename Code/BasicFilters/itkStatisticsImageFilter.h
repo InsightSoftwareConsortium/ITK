@@ -19,6 +19,7 @@
 
 #include "itkImageToImageFilter.h"
 #include "itkNumericTraits.h"
+#include "itkArray.h"
 
 namespace itk {
 
@@ -84,38 +85,17 @@ public:
   itkGetMacro(Variance,RealType);
 
 protected:
-  StatisticsImageFilter(): m_Sum(0), m_SumOfSquares(0), m_Count(0), m_ThreadMax(0), m_ThreadMin(0)
+  StatisticsImageFilter(): m_Sum(1), m_SumOfSquares(1), m_Count(1), m_ThreadMax(1), m_ThreadMin(1)
     {
       m_Minimum = NumericTraits<RealType>::max();
       m_Maximum = NumericTraits<RealType>::NonpositiveMin();
       m_Mean = NumericTraits<RealType>::max();
       m_Sigma = NumericTraits<RealType>::max();
       m_Variance = NumericTraits<RealType>::max();
+      
     };
   
-  ~StatisticsImageFilter()
-    {
-      if (m_Sum)
-        {
-        delete [] m_Sum;
-        }
-      if (m_SumOfSquares)
-        {
-        delete [] m_SumOfSquares;
-        }
-      if (m_Count)
-        {
-        delete [] m_Count;
-        }
-      if (m_ThreadMin)
-        {
-        delete [] m_ThreadMin;
-        }
-      if (m_ThreadMax)
-        {
-        delete [] m_ThreadMax;
-        }
-    };
+  ~StatisticsImageFilter(){};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Pass the input through unmodified. Do this by Grafting in the AllocateOutputs method. */
@@ -145,11 +125,11 @@ protected:
   RealType m_Sigma;
   RealType m_Variance;
 
-  RealType *m_Sum;
-  RealType *m_SumOfSquares;
-  long      *m_Count;
-  RealType *m_ThreadMin;
-  RealType *m_ThreadMax;
+  Array<RealType> m_Sum;
+  Array<RealType> m_SumOfSquares;
+  Array<long>     m_Count;
+  Array<RealType> m_ThreadMin;
+  Array<RealType> m_ThreadMax;
 
 } ; // end of class
 

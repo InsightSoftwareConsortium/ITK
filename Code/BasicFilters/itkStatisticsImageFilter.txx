@@ -50,46 +50,21 @@ void
 StatisticsImageFilter<TInputImage>
 ::BeforeThreadedGenerateData()
 {
-  unsigned int i;
   int numberOfThreads = this->GetNumberOfThreads();
 
-  // Free the prior thread temporaries
-  if (m_Count)
-    {
-    delete [] m_Count;
-    }
-  if (m_SumOfSquares)
-    {
-    delete [] m_SumOfSquares;
-    }
-  if (m_Sum)
-    {
-    delete [] m_Sum;
-    }
-  if (m_ThreadMin)
-    {
-    delete [] m_ThreadMin;
-    }
-  if (m_ThreadMax)
-    {
-    delete [] m_ThreadMax;
-    }
-  //  Allocate and initialize the thread temporaries
-  m_Count = new long[numberOfThreads];
-  m_Sum = new RealType[numberOfThreads];
-  m_SumOfSquares = new RealType[numberOfThreads];
-  m_ThreadMin = new RealType[numberOfThreads];
-  m_ThreadMax = new RealType[numberOfThreads];
+  // Resize the thread temporaries
+  m_Count.resize(numberOfThreads);
+  m_SumOfSquares.resize(numberOfThreads);
+  m_Sum.resize(numberOfThreads);
+  m_ThreadMin.resize(numberOfThreads);
+  m_ThreadMax.resize(numberOfThreads);
   
-  for (i = 0; i <numberOfThreads; i++)
-    {
-    m_Count[i] = NumericTraits<long>::Zero;
-    m_Sum[i] = NumericTraits<RealType>::Zero;
-    m_SumOfSquares[i] = NumericTraits<RealType>::Zero;
-    m_ThreadMin[i] = NumericTraits<RealType>::max();
-    m_ThreadMax[i] = NumericTraits<RealType>::NonpositiveMin();
-    }
-
+  // Initialize the temporaries
+  m_Count.Fill(NumericTraits<long>::Zero);
+  m_Sum.Fill(NumericTraits<RealType>::Zero);
+  m_SumOfSquares.Fill(NumericTraits<RealType>::Zero);
+  m_ThreadMin.Fill(NumericTraits<RealType>::max());
+  m_ThreadMax.Fill(NumericTraits<RealType>::NonpositiveMin());
 }
 
 template<class TInputImage>
