@@ -53,8 +53,9 @@ int itkRawImageIOTest(int argc, char* argv[])
   // is templated on the input type.
   //
   itk::RawImageIO<unsigned short,2>::Pointer io;
-  io = itk::RawImageIO<unsigned short,2>::New();\
-//  io->SetFileTypeToASCII();
+  io = itk::RawImageIO<unsigned short,2>::New();
+
+  //  io->SetFileTypeToASCII();
 
   // Write out the image
   itk::ImageFileWriter<ImageType>::Pointer writer;
@@ -62,14 +63,33 @@ int itkRawImageIOTest(int argc, char* argv[])
   writer->SetInput(random->GetOutput());
   writer->SetFileName(argv[1]);
   writer->SetImageIO(io);
-  writer->Write();
+
+  try
+    {
+    writer->Update();
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cerr << "Error while writing the image " << argv[1] << std::endl;
+    std::cerr << excp << std::endl;
+    }
 
   // Create a source object (in this case a reader)
   itk::ImageFileReader<ImageType>::Pointer reader;
   reader = itk::ImageFileReader<ImageType>::New();
   reader->SetImageIO(io);
   reader->SetFileName(argv[1]);
-  reader->Update();
+
+  try
+    {
+    reader->Update();
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cerr << "Error while reading the image " << argv[1] << std::endl;
+    std::cerr << excp << std::endl;
+    }
+
 
   // Compare pixel by pixel in memory
 
@@ -101,7 +121,17 @@ int itkRawImageIOTest(int argc, char* argv[])
   writer->SetInput(reader->GetOutput());
   writer->SetFileName(argv[2]);
   writer->SetInput(reader->GetOutput());
-  writer->Write();
+
+  try
+    {
+    writer->Update();
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cerr << "Error while writing the image " << argv[2] << std::endl;
+    std::cerr << excp << std::endl;
+    }
+
 
   std::cerr << "Test PASSED ! " << std::endl;
   return EXIT_SUCCESS;
