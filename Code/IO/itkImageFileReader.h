@@ -55,7 +55,7 @@ namespace itk
 class ImageFileReaderException : public ExceptionObject 
 {
 public:
-  /** Run-time information. *.
+  /** Run-time information. */
   itkTypeMacro( ImageFileReaderException, ExceptionObject );
 
   /** Constructor. */
