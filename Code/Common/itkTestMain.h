@@ -252,29 +252,75 @@ int RegressionTestImage (char *testImageFilename, char *baselineImageFilename)
 
     ::itk::OStringStream diffName;
       diffName << testImageFilename << ".diff.png";
-    rescale->SetInput(diff->GetOutput());
+    try
+      {
+      rescale->SetInput(diff->GetOutput());
+      rescale->Update();
+      }
+    catch (...)
+      {
+      std::cerr << "Error during rescale of " << diffName.str() << std::endl;
+      }
     writer->SetFileName(diffName.str().c_str());
-    writer->Update();
+    try
+      {
+      writer->Update();
+      }
+    catch (...)
+      {
+      std::cerr << "Error during write of " << diffName.str() << std::endl;
+      }
 
     std::cout << "<DartMeasurementFile name=\"DifferenceImage\" type=\"image/png\">";
     std::cout << diffName.str();
     std::cout << "</DartMeasurementFile>" << std::endl;
 
     ::itk::OStringStream baseName;
-      baseName << testImageFilename << ".base.png";
-    rescale->SetInput(baselineReader->GetOutput());
-    writer->SetFileName(baseName.str().c_str());
-    writer->Update();
+    baseName << testImageFilename << ".base.png";
+    try
+      {
+      rescale->SetInput(baselineReader->GetOutput());
+      rescale->Update();
+      }
+    catch (...)
+      {
+      std::cerr << "Error during rescale of " << baseName.str() << std::endl;
+      }
+    try
+      {
+      writer->SetFileName(baseName.str().c_str());
+      writer->Update();
+      }
+    catch (...)
+      {
+      std::cerr << "Error during write of " << baseName.str() << std::endl;
+      }
 
     std::cout << "<DartMeasurementFile name=\"BaselineImage\" type=\"image/png\">";
     std::cout << baseName.str();
     std::cout << "</DartMeasurementFile>" << std::endl;
 
     ::itk::OStringStream testName;
-      testName << testImageFilename << ".test.png";
-    rescale->SetInput(testReader->GetOutput());
-    writer->SetFileName(testName.str().c_str());
-    writer->Update();
+    testName << testImageFilename << ".test.png";
+    try
+      {
+      rescale->SetInput(testReader->GetOutput());
+      rescale->Update();
+      }
+    catch (...)
+      {
+      std::cerr << "Error during rescale of " << testName.str()
+                << std::endl;
+      }
+    try
+      {
+      writer->SetFileName(testName.str().c_str());
+      writer->Update();
+      }
+    catch (...)
+      {
+      std::cerr << "Error during write of " << testName.str() << std::endl;
+      }
 
     std::cout << "<DartMeasurementFile name=\"TestImage\" type=\"image/png\">";
     std::cout << testName.str();
