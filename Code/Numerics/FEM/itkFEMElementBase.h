@@ -314,7 +314,7 @@ public:
    *
    * \sa GetIntegrationPoint()
    */
-  virtual unsigned int GetNumberOfIntegrationPoints( void ) const { return 0; }// = 0;
+  virtual unsigned int GetTotalNumberOfIntegrationPoints( void ) const { return 0; }// = 0;
 
 
 

@@ -44,12 +44,12 @@ void
 Element2DStress<TBaseClass>
 ::GetStrainDisplacementMatrix(MatrixType& B, const MatrixType& shapeDgl) const
 {
-  int p;
+  unsigned int p;
   unsigned int Nn=this->GetNumberOfNodes();
   B.resize(3,2*Nn);
   
   // Copy the shape function derivatives to the B matrix.
-  for (int i=0; i<Nn; i++) {
+  for (unsigned int i=0; i<Nn; i++) {
     // Compute B index
     p = i << 1;
 

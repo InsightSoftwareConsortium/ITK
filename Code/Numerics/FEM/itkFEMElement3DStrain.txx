@@ -43,7 +43,7 @@ template<class TBaseClass>
 void Element3DStrain<TBaseClass>
 ::GetStrainDisplacementMatrix(MatrixType& B, const MatrixType& shapeDgl) const
 {
-  int p;
+  unsigned int p;
   unsigned int Nn=2*this->GetNumberOfNodes();
   B.resize(6,Nn);
 
@@ -54,7 +54,7 @@ void Element3DStrain<TBaseClass>
   // Copy the shape function derivatives wrt global coordinates
   // in right position in B matrix.
 
-  for (int i=0; i<Nn; i++) {  
+  for (unsigned int i=0; i<Nn; i++) {  
     p = i / 3;
     
     switch(i % 3) {

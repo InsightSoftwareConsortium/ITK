@@ -73,7 +73,7 @@ void Element::GetStiffnessMatrix(MatrixType& Ke) const
 
   Ke.resize(N,N); // resize the target matrix object
   Ke.fill(0.0);
-  unsigned int Nip=this->GetNumberOfIntegrationPoints();
+  unsigned int Nip=this->GetTotalNumberOfIntegrationPoints();
 
   VectorType ip;
   MatrixType J;
