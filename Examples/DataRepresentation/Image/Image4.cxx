@@ -270,6 +270,10 @@ int main()
   if ( isInside )
     {
     ImageType::PixelType pixelValue = image->GetPixel( pixelIndex );
+
+    pixelValue += 5;
+
+    image->SetPixel( pixelValue );
     }
   // Software Guide : EndCodeSnippet 
 

@@ -96,31 +96,32 @@ int main()
   // Software Guide : BeginLatex
   //
   // Having defined a pixel position with an index it is then possible to
-  // access the content of the pixel in the image.  The \code{SetPixel()}
-  // method allows to set the value of the pixels.
+  // access the content of the pixel in the image.  The \code{GetPixel()}
+  // method allows to get the value of the pixels.
   //
-  // \index{itk::Image!SetPixel()}
+  // \index{itk::Image!GetPixel()}
   // 
   // Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  ImageType::PixelType   pixelValue = 149;
+  ImageType::PixelType   pixelValue = image->GetPixel( pixelIndex );
 
-  image->SetPixel(   pixelIndex,   pixelValue  );
   // Software Guide : EndCodeSnippet
 
 
   // Software Guide : BeginLatex
   //
-  // While the \code{GetPixel()} method allows to read the
+  // While the \code{SetPixel()} method allows to set the
   // value of the pixel.
   //
-  // \index{itk::Image!GetPixel()}
+  // \index{itk::Image!SetPixel()}
   //
   // Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  ImageType::PixelType value = image->GetPixel( pixelIndex );
+  pixelValue = 149;
+
+  image->SetPixel(   pixelIndex,   pixelValue  );
   // Software Guide : EndCodeSnippet
 
 
