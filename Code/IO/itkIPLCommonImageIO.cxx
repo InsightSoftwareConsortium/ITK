@@ -489,7 +489,7 @@ double IPLCommonImageIO
 }
 
 int IPLCommonImageIO
-::AddElementToList(char const * const filename, const float sliceLocation, const int itkNotUsed(offset), const int XDim, const int YDim, const int Key1, const int Key2 )
+::AddElementToList(char const * const filename, const float sliceLocation, const int offset, const int XDim, const int YDim, const int Key1, const int Key2 )
 {
   if(m_fnlist->NumFiles() == 0)
     {
@@ -507,7 +507,7 @@ int IPLCommonImageIO
     return 1;  //It is OK for keys to not match,  Just don't add.
     }
   m_fnlist->AddElementToList(filename,sliceLocation,
-                            0,XDim,YDim,0,Key1,Key2);
+                            offset,XDim,YDim,0,Key1,Key2);
   return 1;
 }
 
