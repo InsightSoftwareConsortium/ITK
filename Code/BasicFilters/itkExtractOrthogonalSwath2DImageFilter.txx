@@ -17,7 +17,7 @@
 #ifndef _itkExtractOrthogonalSwath2DImageFilter_txx
 #define _itkExtractOrthogonalSwath2DImageFilter_txx
 #include "itkExtractOrthogonalSwath2DImageFilter.h"
-#include "itkImageRegionIterator.h"
+#include "itkImageRegionIteratorWithIndex.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkProgressReporter.h"
 #include "itkNumericTraits.h"
@@ -169,7 +169,7 @@ ExtractOrthogonalSwath2DImageFilter<TImage>
   // support progress methods/callbacks
   ProgressReporter progress(this, 0,  outputRegion.GetNumberOfPixels() );
   
-  typedef ImageRegionIterator<ImageType> OutputIterator;
+  typedef ImageRegionIteratorWithIndex<ImageType> OutputIterator;
   typedef LinearInterpolateImageFunction<ImageType,double> InterpolatorType;
   ImageIndexType                        index;                     
   double                                orthogonalOffset;          
