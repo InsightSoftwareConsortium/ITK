@@ -38,7 +38,9 @@ namespace itk
 * \sa TubeSpatialObjectPoint 
 */
 
-template < unsigned int TDimension = 3 >
+template < unsigned int TDimension = 3, 
+typename TTubePointType = TubeSpatialObjectPoint<TDimension>
+>
 class TubeSpatialObject 
   :public PointBasedSpatialObject< TDimension >
 {
@@ -50,7 +52,7 @@ public:
   typedef SmartPointer < Self >                        Pointer;
   typedef SmartPointer < const Self >                  ConstPointer;
   typedef double                                       ScalarType;
-  typedef itk::TubeSpatialObjectPoint< TDimension >    TubePointType;
+  typedef TTubePointType                               TubePointType;
   typedef std::vector< TubePointType >                 PointListType;
   typedef PointListType *                              PointListPointer;
   typedef typename Superclass::PointType               PointType;
@@ -69,19 +71,19 @@ public:
   itkTypeMacro( Self, Superclass );
     
   /** Returns a reference to the list of the tube points.*/
-  PointListType & GetPoints( void );
+  virtual PointListType & GetPoints( void );
 
   /** Returns a reference to the list of the tube points.*/
-  const PointListType & GetPoints( void ) const;
+  virtual const PointListType & GetPoints( void ) const;
 
   /** Set the list of tube points.*/
-  void SetPoints( PointListType & newPoints );
+  virtual void SetPoints( PointListType & newPoints );
 
   /** Return a point in the list given the index */
-  const SpatialObjectPointType* GetPoint(unsigned long id) const {return &(m_Points[id]);}
+  virtual const SpatialObjectPointType* GetPoint(unsigned long id) const {return &(m_Points[id]);}
   
   /** Return the number of points in the list */
-  unsigned long GetNumberOfPoints(void) const {return m_Points.size();}
+  virtual unsigned long GetNumberOfPoints(void) const {return m_Points.size();}
 
   /** Set the type of tube end-type: 0 = flat, 1 = rounded */
   itkSetMacro(EndType,unsigned int);

@@ -81,10 +81,6 @@ MetaTubeConverter<NDimensions>
 
     pnt.SetPosition(point);
     pnt.SetRadius((*it2)->m_R);
-    pnt.SetMedialness((*it2)->m_Medialness);
-    pnt.SetRidgeness((*it2)->m_Ridgeness); 
-    pnt.SetBranchness((*it2)->m_Branchness);
-    pnt.SetMark((*it2)->m_Mark);  
 
     for(unsigned int i=0;i<ndims;i++)
       {
@@ -103,10 +99,6 @@ MetaTubeConverter<NDimensions>
       t[i]=(*it2)->m_T[i];
       }
     pnt.SetTangent(t);
-
-    pnt.SetAlpha1((*it2)->m_Alpha1);
-    pnt.SetAlpha2((*it2)->m_Alpha2);
-    pnt.SetAlpha3((*it2)->m_Alpha3);
    
     pnt.SetRed((*it2)->m_Color[0]);
     pnt.SetGreen((*it2)->m_Color[1]);
@@ -147,13 +139,6 @@ MetaTubeConverter<NDimensions>
       
     pnt->m_ID = (*i).GetID();
     pnt->m_R=(*i).GetRadius();
-    pnt->m_Alpha1=(*i).GetAlpha1();
-    pnt->m_Alpha2=(*i).GetAlpha2();
-    pnt->m_Alpha3=(*i).GetAlpha3();
-    pnt->m_Medialness=(*i).GetMedialness();
-    pnt->m_Ridgeness=(*i).GetRidgeness();
-    pnt->m_Branchness=(*i).GetBranchness();
-    pnt->m_Mark=(*i).GetMark();
 
     for(unsigned int d=0;d<NDimensions;d++)
     {
@@ -180,14 +165,13 @@ MetaTubeConverter<NDimensions>
   }
 
 
-    
   if(NDimensions == 2)
   {
-    tube->PointDim("x y r rn mn bn mk v1x v1y tx ty a1 a2 red green blue alpha id");
+    tube->PointDim("x y r v1x v1y tx ty red green blue alpha id");
   }
   else
   {
-    tube->PointDim("x y z r rn mn bn mk v1x v1y v1z v2x v2y v2z tx ty tz a1 a2 a3 red green blue alpha id");
+    tube->PointDim("x y z r v1x v1y v1z v2x v2y v2z tx ty tz red green blue alpha id");
   }
 
   float color[4];

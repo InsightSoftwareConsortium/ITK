@@ -83,48 +83,6 @@ public:
   /** Set R */
   void SetRadius(const float newR);
 
-  /** Get Medialness */
-  float GetMedialness( void ) const;
-
-  /** Set Medialness */
-  void SetMedialness(const float newMedialness);
-
-  /** Get Ridgeness */
-  float GetRidgeness( void ) const;
-
-  /** Set Ridgeness */
-  void SetRidgeness(const float newRidgeness);
-
-  /** Get Branchness */
-  float GetBranchness( void ) const;
-
-  /** Set Branchness */
-  void SetBranchness(const float newBranchness);
-
-  /** Get Mark */
-  bool GetMark( void ) const;
-
-  /** Set Mark */
-  void SetMark(const bool newMark);
-
-  /** Get Alpha1 */
-  float GetAlpha1( void ) const;
-
-  /** Set Alpha1 */
-  void SetAlpha1(const float newAlpha);
-
-  /** Get Alpha2 */
-  float GetAlpha2( void ) const;
-
-  /** Set Alpha2 */
-  void SetAlpha2(const float newAlpha);
-
-  /** Get Alpha3 */
-  float GetAlpha3( void ) const;
-
-  /** Set Alpha3 */
-  void SetAlpha3(const float newAlpha);
-
   /** Get # of dimensions */
   unsigned short int GetNumDimensions( void ) const;
 
@@ -137,29 +95,8 @@ protected:
   CovariantVectorType m_Normal1;
   CovariantVectorType m_Normal2;
 
-  /** First of 3 alpha values */
-  float m_Alpha1;
-
-  /** Second of 3 alpha values */
-  float m_Alpha2;
-
-  /** Third of 3 alpha values */
-  float m_Alpha3;
-
   /** The radius of the tube point */
   float m_R;
-
-  /** The medialness of the tube point */
-  float m_Medialness;
-
-  /** The ridgeness of the tube point */
-  float m_Ridgeness;
-
-  /** The branchness of the tube point */
-  float m_Branchness;
-
-  /** Is the tube point marked (selected) ? */
-  bool m_Mark;
 
   /** # of dimensions */
   unsigned short int m_NumDimensions;

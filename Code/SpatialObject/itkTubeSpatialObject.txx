@@ -27,8 +27,8 @@ namespace itk
 { 
 
 /** Constructor */
-template< unsigned int TDimension >
-TubeSpatialObject< TDimension > 
+template< unsigned int TDimension, typename TTubePointType >
+TubeSpatialObject< TDimension, TTubePointType >
 ::TubeSpatialObject()  
 { 
   m_ParentPoint = -1;
@@ -44,17 +44,17 @@ TubeSpatialObject< TDimension >
 } 
  
 /** Destructor */
-template< unsigned int TDimension >
-TubeSpatialObject< TDimension >  
+template< unsigned int TDimension, typename TTubePointType >
+TubeSpatialObject< TDimension, TTubePointType >  
 ::~TubeSpatialObject()
 { 
 } 
  
 
 /** Get the list of points composing the tube */
-template< unsigned int TDimension >
-typename TubeSpatialObject< TDimension >::PointListType &  
-TubeSpatialObject< TDimension > 
+template< unsigned int TDimension, typename TTubePointType >
+typename TubeSpatialObject< TDimension, TTubePointType >::PointListType &  
+TubeSpatialObject< TDimension, TTubePointType > 
 ::GetPoints() 
 { 
   itkDebugMacro( "Getting TubePoint list" );
@@ -63,9 +63,9 @@ TubeSpatialObject< TDimension >
 
 
 /** Get the list of points composing the tube */
-template< unsigned int TDimension >
-const typename TubeSpatialObject< TDimension >::PointListType &  
-TubeSpatialObject< TDimension > 
+template< unsigned int TDimension, typename TTubePointType >
+const typename TubeSpatialObject< TDimension, TTubePointType >::PointListType &  
+TubeSpatialObject< TDimension, TTubePointType > 
 ::GetPoints() const
 { 
   itkDebugMacro( "Getting TubePoint list" );
@@ -73,9 +73,9 @@ TubeSpatialObject< TDimension >
 } 
 
 /** Set the list of points composing the tube */
-template< unsigned int TDimension >
+template< unsigned int TDimension, typename TTubePointType >
 void  
-TubeSpatialObject< TDimension >  
+TubeSpatialObject< TDimension, TTubePointType >  
 ::SetPoints( PointListType & points )  
 {
   // in this function, passing a null pointer as argument will
@@ -95,18 +95,18 @@ TubeSpatialObject< TDimension >
 }
 
 /** Remove the list of tube points */
-template< unsigned int TDimension >
+template< unsigned int TDimension, typename TTubePointType >
 void  
-TubeSpatialObject< TDimension >  
+TubeSpatialObject< TDimension, TTubePointType >  
 ::Clear(void)
 {
   m_Points.clear();
 }
 
 /** Print the object */ 
-template< unsigned int TDimension >
+template< unsigned int TDimension, typename TTubePointType >
 void  
-TubeSpatialObject< TDimension >  
+TubeSpatialObject< TDimension, TTubePointType >  
 ::PrintSelf( std::ostream& os, Indent indent ) const 
 { 
   os << indent << "TubeSpatialObject(" << this << ")" << std::endl; 
@@ -118,9 +118,9 @@ TubeSpatialObject< TDimension >
 } 
  
 /** Compute the bounds of the tube */  
-template< unsigned int TDimension >
+template< unsigned int TDimension, typename TTubePointType >
 bool 
-TubeSpatialObject< TDimension >  
+TubeSpatialObject< TDimension, TTubePointType >  
 ::ComputeLocalBoundingBox() const
 { 
   itkDebugMacro( "Computing tube bounding box" );
@@ -173,9 +173,9 @@ TubeSpatialObject< TDimension >
 /** Test whether a point is inside or outside the object 
  *  For computational speed purposes, it is faster if the method does not
  *  check the name of the class and the current depth */ 
-template< unsigned int TDimension >
+template< unsigned int TDimension, typename TTubePointType >
 bool 
-TubeSpatialObject< TDimension >
+TubeSpatialObject< TDimension, TTubePointType >
 ::IsInside( const PointType & point) const
 {
   double minSquareDist=999999.0;
@@ -271,9 +271,9 @@ TubeSpatialObject< TDimension >
 
 
 /** Return true if the given point is inside the tube */
-template< unsigned int TDimension >
+template< unsigned int TDimension, typename TTubePointType >
 bool 
-TubeSpatialObject< TDimension >  
+TubeSpatialObject< TDimension, TTubePointType >  
 ::IsInside( const PointType & point, unsigned int depth, char * name) const
 {
   itkDebugMacro( "Checking the point [" << point << "] is inside the tube" );
@@ -298,9 +298,9 @@ TubeSpatialObject< TDimension >
 }
 
 /** Remove duplicate points */
-template< unsigned int TDimension >
+template< unsigned int TDimension, typename TTubePointType >
 unsigned int  
-TubeSpatialObject< TDimension > 
+TubeSpatialObject< TDimension, TTubePointType > 
 ::RemoveDuplicatePoints(unsigned int step)
 {
   unsigned int nPoints = 0;
@@ -339,9 +339,9 @@ TubeSpatialObject< TDimension >
 
 
 /** Compute the tangent of the centerline of the tube */ 
-template< unsigned int TDimension >
+template< unsigned int TDimension, typename TTubePointType >
 bool  
-TubeSpatialObject< TDimension >  
+TubeSpatialObject< TDimension, TTubePointType >  
 ::ComputeTangentAndNormals( void ) 
 { 
   itkDebugMacro( "Computing the tangent vectors of the tube" );
@@ -484,9 +484,9 @@ TubeSpatialObject< TDimension >
 } 
 
 /** Return true if the tube is evaluable at a given point */
-template< unsigned int TDimension >
+template< unsigned int TDimension, typename TTubePointType >
 bool
-TubeSpatialObject< TDimension > 
+TubeSpatialObject< TDimension, TTubePointType > 
 ::IsEvaluableAt( const PointType & point, unsigned int depth, char * name ) const
 {
   itkDebugMacro( "Checking if the tube is evaluable at " << point );
@@ -494,9 +494,9 @@ TubeSpatialObject< TDimension >
 }
 
 /** Return the value of the tube at a specified point */
-template< unsigned int TDimension >
+template< unsigned int TDimension, typename TTubePointType >
 bool
-TubeSpatialObject< TDimension > 
+TubeSpatialObject< TDimension, TTubePointType > 
 ::ValueAt( const PointType & point, double & value, unsigned int depth,
            char * name ) const
 {
