@@ -67,11 +67,11 @@ namespace itk
  * Other values can be set via the SetNumberOfSpatialSamples() method.
  *
  * Quality of the density estimate depends on the choice of the
- * kernel's variance. Optimal choice will depend on the images.
+ * kernel's standard deviation. Optimal choice will depend on the images.
  * It is can be shown that around the optimal variance, the mutual
  * information estimate is relatively insensitive to small changes
- * of the variance. In our experiments, we have found that a
- * variance of 0.4 works well for images normalized to have a mean
+ * of the standard deviation. In our experiments, we have found that a
+ * standard deviation of 0.4 works well for images normalized to have a mean
  * of zero and standard deviation of 1.0.
  * The variance can be set via methods SetFixedImageStandardDeviation()
  * and SetMovingImageStandardDeviation().
