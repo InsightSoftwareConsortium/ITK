@@ -19,6 +19,7 @@
 #include "gdcmBinEntry.h"
 #include "gdcmDebug.h"
 #include <fstream>
+#include <ios> // for std::ios_base
 
 namespace gdcm 
 {
