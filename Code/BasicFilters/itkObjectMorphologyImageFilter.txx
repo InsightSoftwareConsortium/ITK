@@ -199,12 +199,26 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
   PixelType tf;
   unsigned int i;
   bool isInside = true;
-  for(i=0; i<s; i++)
+  if(m_UseBoundaryCondition)
     {
-    tf = iNIter.GetPixel(i, isInside);
-    if(tf != m_ObjectValue && (m_UseBoundaryCondition || isInside))
+    for(i=0; i<s; i++)
       {
-      return true;
+      tf = iNIter.GetPixel(i);
+      if(tf != m_ObjectValue)
+        {
+        return true;
+        }
+      }
+    }
+  else
+    {
+    for(i=0; i<s; i++)
+      {
+      tf = iNIter.GetPixel(i, isInside);
+      if(tf != m_ObjectValue && isInside)
+        {
+        return true;
+        }
       }
     }
 
