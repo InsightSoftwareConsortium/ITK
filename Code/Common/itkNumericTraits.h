@@ -86,7 +86,6 @@ public:
   typedef bool PrintType;
   typedef unsigned char AbsType;
   typedef unsigned char AccumulateType;
-  typedef int           RealType;
   static const bool ITKCommon_EXPORT Zero;
   static const bool ITKCommon_EXPORT One;
 
