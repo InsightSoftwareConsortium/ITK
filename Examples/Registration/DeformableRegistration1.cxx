@@ -187,7 +187,6 @@ int main(int argc, char *argv[])
   // Read the image files
   typedef itk::ImageFileReader< fileImageType >      FileSourceType;
   typedef fileImageType::PixelType PixType;
-  const unsigned int ImageDimension=fileImageType::ImageDimension;
 
   FileSourceType::Pointer reffilter = FileSourceType::New();
   reffilter->SetFileName( (X->GetMovingFile()).c_str() );
