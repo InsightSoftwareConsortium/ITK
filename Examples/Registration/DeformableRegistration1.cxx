@@ -39,9 +39,9 @@
 #include "itkFEM.h"
 #include "itkFEMRegistrationFilter.h"
        
-//#include "itkFEMFiniteDifferenceFunctionLoad.h"
-
 // Software Guide : EndCodeSnippet
+
+//#include "itkFEMFiniteDifferenceFunctionLoad.h"
 
 
 //  Software Guide : BeginLatex
@@ -89,11 +89,11 @@ typedef itk::fem::Element3DC0LinearTetrahedronMembrane  Element3DType2;
 //  Software Guide : EndLatex
 
 
-//  Software Guide : BeginCodeSnippet
-
-typedef itk::fem::FiniteDifferenceFunctionLoad<ImageType,ImageType>     ImageLoadType;
 //typedef itk::fem::ImageMetricLoad<ImageType,ImageType>     ImageLoadType;
 
+//  Software Guide : BeginCodeSnippet
+
+typedef itk::fem::FiniteDifferenceFunctionLoad<ImageType,ImageType> ImageLoadType;
 template class itk::fem::ImageMetricLoadImplementation<ImageLoadType>;
 
 typedef ElementType::LoadImplementationFunctionPointer     LoadImpFP;
@@ -141,9 +141,9 @@ int main(int argc, char *argv[])
 
 //  Software Guide : BeginLatex
 //  
-//  The \doxygen{FEMImageMetricLoad} must be registered before it
+//  The \subdoxygen{ImageMetricLoad} must be registered before it
 //  can be used correctly with a particular element type.  An example
-//  of this is shown below for \code{ElementType}.  Similar
+//  of this is shown below for ElementType.  Similar
 //  definitions are required for all other defined element types.
 //
 //  Software Guide : EndLatex
@@ -338,7 +338,7 @@ int main(int argc, char *argv[])
 //
 //  We can also output the displacement fields resulting from the
 //  registration, we can call \code{WriteDisplacementField()} with the
-//  desired vector component as an argument.  For a 2D registration,
+//  desired vector component as an argument.  For a $2D$ registration,
 //  you would want to write out both the $x$ and $y$ displacements, and
 //  this requires two calls to the aforementioned function.
 //
