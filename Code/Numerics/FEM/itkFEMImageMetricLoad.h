@@ -144,13 +144,13 @@ public:
   typedef   ImageToImageMetric<TargetType,ReferenceType > MetricBaseType;
   typedef typename MetricBaseType::Pointer             MetricBaseTypePointer;
 
-  typedef   MutualInformationImageToImageMetric<  TargetType, ReferenceType  > MutualInformationMetricType;
+  typedef   MutualInformationImageToImageMetric<  ReferenceType, TargetType   > MutualInformationMetricType;
 
-  typedef   MeanSquaresImageToImageMetric< TargetType, ReferenceType  > MeanSquaresMetricType;
+  typedef   MeanSquaresImageToImageMetric< ReferenceType, TargetType   > MeanSquaresMetricType;
 
-  typedef   NormalizedCorrelationImageToImageMetric< TargetType,  ReferenceType  > NormalizedCorrelationMetricType;
+  typedef   NormalizedCorrelationImageToImageMetric< ReferenceType, TargetType  > NormalizedCorrelationMetricType;
 
-  typedef   PatternIntensityImageToImageMetric<  TargetType, ReferenceType  > PatternIntensityMetricType;
+  typedef   PatternIntensityImageToImageMetric<  ReferenceType, TargetType   > PatternIntensityMetricType;
 
 //  typedef  MutualInformationMetricType             DefaultMetricType;
 //  typedef  NormalizedCorrelationMetricType             DefaultMetricType;
