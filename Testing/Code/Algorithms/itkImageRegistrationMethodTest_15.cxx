@@ -233,7 +233,7 @@ int itkImageRegistrationMethodTest_15(int, char**)
 
   metric->SetNumberOfHistogramBins( 50 );
 
-  for( int j = 0; j < dimension; j++ )
+  for( unsigned int j = 0; j < dimension; j++ )
     {
     size[j] -= 4;
     index[j] += 2;
