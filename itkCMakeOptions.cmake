@@ -20,6 +20,7 @@ ${ITK_SOURCE_DIR}/Code/SpatialObject
 ${ITK_SOURCE_DIR}/Utilities/png
 ${ITK_SOURCE_DIR}/Utilities/zlib
 ${ITK_SOURCE_DIR}/Utilities/MetaIO
+${ITK_SOURCE_DIR}/Utilities/MetaIO/SpatialObject
 ${ITK_SOURCE_DIR}/Utilities/DICOMParser
 ${ITK_BINARY_DIR} 
 )
