@@ -94,19 +94,19 @@ Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
 {
   this->Initialize(size) ;
 
-  MeasurementType interval ;
+  float interval ;
   for ( int i = 0 ; i < MeasurementVectorSize ; i++)
     {
-      interval = (upperBound[i] - lowerBound[i]) / 
+      interval = (float) (upperBound[i] - lowerBound[i]) / 
         static_cast< MeasurementType >(size[i]) ;
       // Set the min vector and max vector
       for (unsigned int j = 0; j < (size[i] - 1) ; j++)
         {
-          this->SetBinMin(i, j, lowerBound[i] + j * interval) ;
-          this->SetBinMax(i, j, lowerBound[i] + (j + 1) * interval);
+          this->SetBinMin(i, j, lowerBound[i] +  ((float)j * interval)) ;
+          this->SetBinMax(i, j, lowerBound[i] +  (((float)j + 1) * interval));
         }
       this->SetBinMin(i, size[i] - 1, 
-                           lowerBound[i] + (size[i] - 1) * interval) ;
+                           lowerBound[i] + (((float) size[i] - 1) * interval)) ;
       this->SetBinMax(i, size[i] - 1, 
                            upperBound[i]) ;
     }
@@ -305,7 +305,7 @@ template< class TMeasurement, unsigned int VMeasurementVectorSize,
 inline typename Histogram< TMeasurement, VMeasurementVectorSize, 
   TFrequencyContainer >::MeasurementVectorType&
 Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
-::GetHistogramMinFromValue(const MeasurementVectorType &measurement) const
+::GetHistogramMinFromValue(const MeasurementVectorType &measurement) 
 {
   for ( int i = 0; i < MeasurementVectorSize; i++ )
     {
@@ -319,7 +319,7 @@ template< class TMeasurement, unsigned int VMeasurementVectorSize,
 inline typename Histogram< TMeasurement, VMeasurementVectorSize,
   TFrequencyContainer >::MeasurementVectorType&
 Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
-::GetHistogramMaxFromValue(const MeasurementVectorType &measurement) const
+::GetHistogramMaxFromValue(const MeasurementVectorType &measurement) 
 {
   for ( int i=0; i < MeasurementVectorSize; i++ )
     {
@@ -334,13 +334,13 @@ template< class TMeasurement, unsigned int VMeasurementVectorSize,
 inline typename Histogram< TMeasurement, VMeasurementVectorSize,
   TFrequencyContainer >::MeasurementVectorType&
 Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
-::GetHistogramMinFromIndex(const IndexType &index) const
+::GetHistogramMinFromIndex(const IndexType &index) 
 {
   for ( int i=0; i < MeasurementVectorSize; i++ )
     {
-    m_TempMeasurmentVector[i] = this->GetBinMin(i, index[i]) ;
+    m_TempMeasurementVector[i] = this->GetBinMin(i, index[i]) ;
     }
-  return m_TempMeasurmentVector ;
+  return m_TempMeasurementVector ;
 }
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize,
@@ -348,7 +348,7 @@ template< class TMeasurement, unsigned int VMeasurementVectorSize,
 inline typename Histogram< TMeasurement, VMeasurementVectorSize,
   TFrequencyContainer >::MeasurementVectorType&
 Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
-::GetHistogramMaxFromIndex(const IndexType &index) const
+::GetHistogramMaxFromIndex(const IndexType &index) 
 {
   for ( int i=0; i < MeasurementVectorSize; i++ )
     {
