@@ -33,7 +33,12 @@
 #include "itkDifferenceOfGaussiansGradientImageFilter.h"
 #include "itkGradientToMagnitudeImageFilter.h"
 
-// Main for testing BloxImage/BloxPixel storage
+/*
+This file tests:
+  itkDifferenceOfGaussiansGradientImageFilter
+  itkGradientToMagnitudeImageFilter
+*/
+
 int itkDifferenceOfGaussiansGradientTest(int, char* [] )
 {
   const unsigned int dim = 3;
@@ -119,7 +124,7 @@ int itkDifferenceOfGaussiansGradientTest(int, char* [] )
 
   printf("Spatial function iterator created, sphere drawn\n");
 
-  //--------------------Do blurring and edge detection----------------
+  //--------------------Do blurring----------------
   typedef TImageType TOutputType;
   
   // Create a binomial blur filter
@@ -138,7 +143,9 @@ int itkDifferenceOfGaussiansGradientTest(int, char* [] )
   // Execute the filter
   binfilter->Update();
   printf("Binomial blur filter updated\n");
-
+  
+  //------------Finally we can test the DOG filter------------
+  
   // Create a differennce of gaussians gradient filter
   typedef itk::DifferenceOfGaussiansGradientImageFilter<TOutputType,
     double> TDOGFilterType;
@@ -146,6 +153,10 @@ int itkDifferenceOfGaussiansGradientTest(int, char* [] )
 
   // We're filtering the output of the binomial filter
   DOGFilter->SetInput(blurredImage);
+  
+  // Test the get/set macro for width
+  DOGFilter->SetWidth(4);
+  unsigned int theWidth = DOGFilter->GetWidth();
 
   // Get the output of the gradient filter
   TDOGFilterType::TOutputImage::Pointer gradientImage = DOGFilter->GetOutput();
@@ -153,7 +164,7 @@ int itkDifferenceOfGaussiansGradientTest(int, char* [] )
   // Go!
   DOGFilter->Update();
 
-  //-------------Compute gradient magnitude and write image-------------
+  //-------------Test gradient magnitude-------------
   typedef itk::GradientToMagnitudeImageFilter<TDOGFilterType::TOutputImage,
     itk::Image<unsigned char, dim> > TGradMagType;
 
