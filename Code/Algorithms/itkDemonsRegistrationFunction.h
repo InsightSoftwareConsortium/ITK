@@ -208,6 +208,9 @@ private:
   /** Constant used to guard against division by zero. */
   double                          m_EpsilonDenominator;
 
+  /** Minimum intensity difference threshold. */
+  double                          m_MinimumIntensityDifferenceThreshold;
+
 };
 
 
