@@ -28,7 +28,7 @@ class Reference
 {
 public:
   Reference(): m_Object(NULL), m_Type(NULL) {}
-  Reference(void* object, Type* type):
+  Reference(void* object, const CvQualifiedType& type):
     m_Object(object), m_Type(type) {}
   
   /**
@@ -39,7 +39,7 @@ public:
   /**
    * Get the type of the object.
    */
-  const Type* GetType() const { return m_Type; }
+  const CvQualifiedType& GetType() const { return m_Type; }
 
   String GetStringRep() const;
   bool SetFromStringRep(const String&);
@@ -53,7 +53,7 @@ private:
   /**
    * The type of the object.
    */
-  Type* m_Type;
+  CvQualifiedType m_Type;
 };
 
 

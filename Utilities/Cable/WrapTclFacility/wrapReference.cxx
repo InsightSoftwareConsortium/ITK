@@ -26,8 +26,10 @@ namespace _wrap_
  */
 String Reference::GetStringRep() const
 {
-  char addrBuf[(sizeof(m_Object)*2+sizeof(m_Type)*2)+6];
-  sprintf(addrBuf, "_ref%p_%p", m_Object, m_Type);
+  char addrBuf[(sizeof(m_Object)*2+sizeof(const Type*)*2)+7];
+  const Type* type = m_Type.GetType();
+  int ocv = (m_Type.IsConst() << 1) | m_Type.IsVolatile();
+  sprintf(addrBuf, "_ref_%p_%p%d", m_Object, type, ocv);
   return String(addrBuf);
 }
 
@@ -39,9 +41,16 @@ String Reference::GetStringRep() const
 bool Reference::SetFromStringRep(const String& refStr)
 {
   m_Object = NULL;
-  m_Type = NULL;
-  sscanf(refStr.c_str(), "_ref%p_%p",&m_Object, &m_Type);
-  return ((m_Object != NULL) && (m_Type != NULL));
+  Type* type = NULL;
+  int ocv = 0; // cv-qualifier flags of object.
+  sscanf(refStr.c_str(), "_ref_%p_%p%d", &m_Object, &type, &ocv);
+  if(type)
+    {
+    bool isConst = ((ocv >> 1) & 1) == 1;
+    bool isVolatile = (ocv & 1) == 1;
+    m_Type = type->GetCvQualifiedType(isConst, isVolatile);
+    }
+  return ((m_Object != NULL) && (type != NULL));
 }
 
 // Implement a new object type for Tcl.  It is just a Reference object.

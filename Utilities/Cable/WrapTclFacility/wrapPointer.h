@@ -27,9 +27,12 @@ namespace _wrap_
 class Pointer
 {
 public:
-  Pointer(): m_Object(NULL), m_Type(NULL) {}
-  Pointer(void* object, Type* type):
-    m_Object(object), m_Type(type) {}
+  Pointer(): m_Object(NULL), m_Type(NULL),
+             m_Const(false), m_Volatile(false) {}
+  Pointer(void* object, const CvQualifiedType& type,
+          bool isConst, bool isVolatile):
+    m_Object(object), m_Type(type),
+    m_Const(isConst), m_Volatile(isVolatile) {}
   
   /**
    * Get the pointer to the object.
@@ -39,8 +42,18 @@ public:
   /**
    * Get the type of the object.
    */
-  const Type* GetType() const { return m_Type; }
-
+  const CvQualifiedType& GetType() const { return m_Type; }
+  
+  /**
+   * Return whether this pointer type is const-qualified.
+   */
+  bool IsConst() const { return m_Const; }
+  
+  /**
+   * Return whether this pointer type is volatile-qualified.
+   */
+  bool IsVolatile() const { return m_Volatile; }
+  
   String GetStringRep() const;
   bool SetFromStringRep(const String& ptrStr);
   
@@ -53,7 +66,17 @@ private:
   /**
    * The type of the object.
    */
-  Type* m_Type;
+  CvQualifiedType m_Type;
+  
+  /**
+   * Whether this pointer type has a const qualifier.
+   */
+  bool m_Const;
+  
+  /**
+   * Whether this pointer type has a volatile qualifier.
+   */
+  bool m_Volatile;
 };
 
 /**

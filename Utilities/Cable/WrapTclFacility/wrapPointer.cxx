@@ -26,8 +26,11 @@ namespace _wrap_
  */
 String Pointer::GetStringRep() const
 {
-  char addrBuf[(sizeof(m_Object)*2+sizeof(m_Type)*2)+6];
-  sprintf(addrBuf, "_ptr%p_%p", m_Object, m_Type);
+  char addrBuf[(sizeof(m_Object)*2+sizeof(const Type*)*2)+9];
+  const Type* type = m_Type.GetType();
+  int pcv = (m_Const << 1) | m_Volatile;
+  int ocv = (m_Type.IsConst() << 1) | m_Type.IsVolatile();
+  sprintf(addrBuf, "_ptr%d_%p_%p%d", pcv, m_Object, type, ocv);
   return String(addrBuf);
 }
 
@@ -39,9 +42,19 @@ String Pointer::GetStringRep() const
 bool Pointer::SetFromStringRep(const String& ptrStr)
 {
   m_Object = NULL;
-  m_Type = NULL;
-  sscanf(ptrStr.c_str(), "_ptr%p_%p",&m_Object, &m_Type);
-  return ((m_Object != NULL) && (m_Type != NULL));
+  Type* type = NULL;
+  int pcv = 0; // cv-qualifier flags of pointer.
+  int ocv = 0; // cv-qualifier flags of object.
+  sscanf(ptrStr.c_str(), "_ptr%d_%p_%p%d", &pcv, &m_Object, &type, &ocv);
+  m_Const =  ((pcv >> 1) & 1) == 1;
+  m_Volatile = (pcv & 1) == 1;
+  if(type)
+    {
+    bool isConst = ((ocv >> 1) & 1) == 1;
+    bool isVolatile = (ocv & 1) == 1;
+    m_Type = type->GetCvQualifiedType(isConst, isVolatile);
+    }
+  return ((m_Object != NULL) && (type != NULL));
 }  
 
 // Implement a new object type for Tcl.  It is just a Pointer object.
