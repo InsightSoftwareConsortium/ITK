@@ -98,7 +98,6 @@ class TTarget,
 class TMapper >
 class ITK_EXPORT MutualInformationImageToImageMetric :
   public SimilarityRegistrationMetric< 
-    typename TMapper::DomainType,
     TTarget, TMapper, double,
     CovariantVector< double, TMapper::SpaceDimension > >
 {
@@ -148,7 +147,7 @@ public:
    * Standard "Superclass" typedef.
    */
   typedef SimilarityRegistrationMetric< 
-      ReferenceType, TargetType, MapperType, 
+      TargetType, MapperType, 
       MeasureType, DerivativeType >  Superclass;
 
   /**
