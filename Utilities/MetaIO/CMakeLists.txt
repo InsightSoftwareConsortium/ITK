@@ -11,6 +11,7 @@ ADD_LIBRARY(ITKMetaIO
   metaBlob.cxx
   metaSurface.cxx
   metaLine.cxx
+  metaLandmark.cxx
 )
 
 INSTALL_TARGETS(/lib/InsightToolkit ITKMetaIO)

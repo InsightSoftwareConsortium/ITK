@@ -14,6 +14,7 @@
 #include <metaLine.h>
 #include <metaGroup.h>
 #include <metaSurface.h>
+#include <metaLandmark.h>
 //
 // MetaScene Constructors
 //
@@ -134,7 +135,14 @@ Read(const char *_headerName)
   for(int i=0;i<m_NObjects;i++)
   {
     
-    if(!strncmp(MET_ReadType(*m_ReadStream),"Tube",4))
+    if(!strncmp(MET_ReadType(*m_ReadStream),"Landmark",8))
+    {
+      MetaLandmark* landmark = new MetaLandmark();
+      landmark->ReadStream(m_NDims,m_ReadStream);
+      m_ObjectList.push_back(landmark);
+    }
+
+    else if(!strncmp(MET_ReadType(*m_ReadStream),"Tube",4))
     {
       MetaTube* tube = new MetaTube();
       tube->ReadStream(m_NDims,m_ReadStream);
@@ -183,6 +191,7 @@ Read(const char *_headerName)
       m_ObjectList.push_back(group);
     }
   }
+
 
   m_ReadStream->close();
 

@@ -42,10 +42,17 @@ public:
                  unsigned int depth=MaximumDepth,
                  char * spatialObjectTypeName=NULL);
 
+  void SetSaveTransform(bool arg) 
+  { m_SaveTransform = arg ; }
+
+  bool GetSaveTransform() 
+  { return m_SaveTransform ; }
+
 private:
 
   typedef itk::SpatialObject<NDimensions> SpatialObjectType;
   typedef typename SpatialObjectType::Pointer SpatialObjectPointer;
+  typedef typename SpatialObjectType::TransformType TransformType ;
 
   typedef std::list<MetaObject*>     MetaObjectListType;
 
@@ -54,6 +61,12 @@ private:
                               char * name=NULL);
 
   ScenePointer CreateSpatialObjectScene( MetaScene * scene );
+
+  void SetTransform(MetaObject* obj, TransformType* transform) ;
+
+  bool m_SaveTransform ;
+  float m_Orientation[100] ;
+  float m_Position[10] ;
 
 };
 

@@ -56,6 +56,12 @@ public:
   /** Get the filename */
   itkGetStringMacro(FullFileName);
 
+  void SetSaveTransform(bool arg)
+  { m_MetaToSpatialConverter.SetSaveTransform(arg) ; }
+
+  bool GetSaveTransform()
+  { return m_MetaToSpatialConverter.GetSaveTransform(arg) ; }
+
   /** Set the Input  */
   void SetInput(SpatialObjectType * input){m_SpatialObject=input;}
 
