@@ -102,7 +102,7 @@ int itkWarpVectorImageFilterTest(int, char* [] )
   input->Allocate();
 
 
-  int j;
+  unsigned int j;
   ImagePattern<ImageDimension> pattern;
   pattern.offset = 64;
   for( j = 0; j < ImageDimension; j++ )
