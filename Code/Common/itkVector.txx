@@ -153,9 +153,9 @@ Vector<T, TVectorDimension>
  *
  */
 template<class T, unsigned int TVectorDimension>
-const Vector<T, TVectorDimension> &
+const Vector<T, TVectorDimension>::Self &
 Vector<T, TVectorDimension>
-::operator+=( const Vector<T, TVectorDimension> & vec )
+::operator+=( const Self & vec )
 {
   for( unsigned int i=0; i<TVectorDimension; i++) 
   {
@@ -169,9 +169,9 @@ Vector<T, TVectorDimension>
  *
  */
 template<class T, unsigned int TVectorDimension>
-const Vector<T, TVectorDimension> &
+const Vector<T, TVectorDimension>::Self &
 Vector<T, TVectorDimension>
-::operator-=( const Vector<T, TVectorDimension> & vec )
+::operator-=( const Self & vec )
 {
   for( unsigned int i=0; i<TVectorDimension; i++) 
   {
@@ -205,7 +205,7 @@ Vector<T, TVectorDimension>
 template<class T, unsigned int TVectorDimension>
 Vector<T, TVectorDimension> 
 Vector<T, TVectorDimension>
-::operator+( const Vector<T, TVectorDimension> & vec ) const
+::operator+( const Self & vec ) const
 {
   Self result;
   for( unsigned int i=0; i<TVectorDimension; i++) 
@@ -223,7 +223,7 @@ Vector<T, TVectorDimension>
 template<class T, unsigned int TVectorDimension>
 Vector<T, TVectorDimension> 
 Vector<T, TVectorDimension>
-::operator-( const Vector<T, TVectorDimension> & vec )  const
+::operator-( const Self & vec )  const
 {
   Self result;
   for( unsigned int i=0; i<TVectorDimension; i++) 
