@@ -262,7 +262,7 @@ void PointCast( const TPointA & pa, TPointB & pb  )
   {
   for(unsigned int i=0; i<TPointA::PointDimension; i++)
     {
-    pb[i] = static_cast< TPointB::ValueType >( pa[i] );
+    pb[i] = static_cast< typename TPointB::ValueType >( pa[i] );
     }
    }
 
