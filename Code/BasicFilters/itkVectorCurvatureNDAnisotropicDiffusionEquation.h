@@ -121,8 +121,8 @@ private:
 
   /** Slices for the ND neighborhood. */
   std::slice  x_slice[ImageDimension];
-  std::slice xa_slice[ImageDimension];
-  std::slice xd_slice[ImageDimension];
+  std::slice xa_slice[ImageDimension][ImageDimension];
+  std::slice xd_slice[ImageDimension][ImageDimension];
 
   /** Derivative operator */
   DerivativeOperator<ScalarValueType, ImageDimension> dx_op;
@@ -130,6 +130,14 @@ private:
   /** Modified global average gradient magnitude term. */
   double m_k;
 
+  /**
+   *
+   */
+  static double m_MIN_NORM;
+
+  /**
+   * 
+   */
   unsigned long m_Center;
   unsigned long m_Stride[ImageDimension];
 
