@@ -41,6 +41,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkNeighborhoodInnerProduct_txx
 #define __itkNeighborhoodInnerProduct_txx
 
+#include "itkNumericTraits.h"
+
 namespace itk {
 
 template<class TImage>
