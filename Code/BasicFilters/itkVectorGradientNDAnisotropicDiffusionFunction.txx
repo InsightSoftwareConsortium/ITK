@@ -124,8 +124,16 @@ VectorGradientNDAnisotropicDiffusionFunction<TImage>
             }
         }
       
-      Cx[i]  = ::exp( GradMag   / m_K );
-      Cxd[i] = ::exp( GradMag_d / m_K ); 
+      if (m_K == 0.0)
+        {       
+        Cx[i] = 0.0;
+        Cxd[i] = 0.0;
+        }
+      else
+        {
+        Cx[i]  = ::exp( GradMag   / m_K );
+        Cxd[i] = ::exp( GradMag_d / m_K ); 
+        }
     }
 
   // Compute update value  
