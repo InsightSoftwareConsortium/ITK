@@ -199,6 +199,15 @@ void VTKImageIO::InternalReadImageInformation(std::ifstream& file)
   file.getline(line,255);
   text = line;
 
+  // set values in case we don't find them
+  this->SetNumberOfDimensions(3);
+  m_Spacing[0] = 1.0;
+  m_Spacing[1] = 1.0;
+  m_Spacing[2] = 1.0;
+  m_Origin[0] = 0.0;
+  m_Origin[1] = 0.0;
+  m_Origin[2] = 1.0;
+
   if ( text.find("DIMENSIONS") < text.length() || 
        text.find("dimensions") < text.length() )
     {
@@ -220,15 +229,6 @@ void VTKImageIO::InternalReadImageInformation(std::ifstream& file)
     {
     itkExceptionMacro(<<"No dimensions defined");
     }
-
-  // set values in case we don't find them
-  m_Spacing[0] = 1.0;
-  m_Spacing[1] = 1.0;
-  m_Spacing[2] = 1.0;
-
-  m_Origin[0] = 0.0;
-  m_Origin[1] = 0.0;
-  m_Origin[2] = 0.0;
 
   file.getline(line,255);
   text = line;
