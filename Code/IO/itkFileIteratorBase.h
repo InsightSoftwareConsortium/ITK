@@ -17,6 +17,10 @@
 #ifndef __itkFileIteratorBase_h
 #define __itkFileIteratorBase_h
 
+#ifdef _MSC_VER
+#pragma warning ( disable : 4786 )
+#endif
+
 #include "itkObject.h"
 #include "itkObjectFactory.h"
 

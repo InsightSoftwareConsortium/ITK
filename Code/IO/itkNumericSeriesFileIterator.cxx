@@ -17,6 +17,10 @@
 #ifndef _itkNumericSeriesFileIterator_h
 #define _itkNumericSeriesFileIterator_h
 
+#ifdef _MSC_VER
+#pragma warning ( disable : 4786 )
+#endif
+
 #include <itkkwsys/SystemTools.hxx>
 #include "itkNumericSeriesFileIterator.h"
 //#include "itkIOCommon.h"

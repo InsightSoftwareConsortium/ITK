@@ -31,6 +31,10 @@ PURPOSE.  See the above copyright notices for more information.
 #ifndef __itkGE5ImageIO_h
 #define __itkGE5ImageIO_h
 
+#ifdef _MSC_VER
+#pragma warning ( disable : 4786 )
+#endif
+
 #include <fstream>
 #include "itkImageIOBase.h"
 #include "itkIPLCommonImageIO.h"

@@ -17,6 +17,10 @@ PURPOSE.  See the above copyright notices for more information.
 #ifndef __itkGEAdwImageIOFactory_h
 #define __itkGEAdwImageIOFactory_h
 
+#ifdef _MSC_VER
+#pragma warning ( disable : 4786 )
+#endif
+
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"
 

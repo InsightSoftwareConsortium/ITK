@@ -17,6 +17,10 @@
 #ifndef __itkDicomImageIO_h
 #define __itkDicomImageIO_h
 
+#ifdef _MSC_VER
+#pragma warning ( disable : 4786 )
+#endif
+
 #include <fstream>
 #include "itkImageIOBase.h"
 

@@ -17,6 +17,10 @@
 #ifndef __itkDICOMImageIO2Factory_h
 #define __itkDICOMImageIO2Factory_h
 
+#ifdef _MSC_VER
+#pragma warning ( disable : 4786 )
+#endif
+
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"
 

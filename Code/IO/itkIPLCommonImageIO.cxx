@@ -13,6 +13,10 @@
   PURPOSE.  See the above copyright notices for more information.
 
   =========================================================================*/
+#ifdef _MSC_VER
+#pragma warning ( disable : 4786 )
+#endif
+
 #include <itkkwsys/SystemTools.hxx>
 #include "itkIOCommon.h"
 #include "itkIPLCommonImageIO.h"
