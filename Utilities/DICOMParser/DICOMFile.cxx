@@ -28,24 +28,8 @@
 #include "DICOMConfig.h"
 #include "DICOMFile.h"
 
-DICOMFile::DICOMFile() : InputStream()
+DICOMFile::DICOMFile() : DICOMSource(), InputStream()
 {
-  /* Are we little or big endian?  From Harbison&Steele.  */
-  union
-  {
-    long l;
-    char c[sizeof (long)];
-  } u;
-  u.l = 1;
-  PlatformIsBigEndian = (u.c[sizeof (long) - 1] == 1);
-  if (PlatformIsBigEndian)
-    {
-    PlatformEndian = "BigEndian";
-    }
-  else
-    {
-    PlatformEndian = "LittleEndian";
-    }
 }
 
 DICOMFile::~DICOMFile()
@@ -54,15 +38,8 @@ DICOMFile::~DICOMFile()
 }
 
 DICOMFile::DICOMFile(const DICOMFile& in)
+  : DICOMSource(in)
 {
-  if (strcmp(in.PlatformEndian, "LittleEndian") == 0)
-    {
-    PlatformEndian = "LittleEndian";
-    }
-  else
-    {
-    PlatformEndian = "BigEndian";
-    }
   //
   // Some compilers can't handle. Comment out for now.
   //
@@ -71,14 +48,8 @@ DICOMFile::DICOMFile(const DICOMFile& in)
 
 void DICOMFile::operator=(const DICOMFile& in)
 {
-  if (strcmp(in.PlatformEndian, "LittleEndian") == 0)
-    {
-    PlatformEndian = "LittleEndian";
-    }
-  else
-    {
-    PlatformEndian = "BigEndian";
-    }
+  DICOMSource::operator=(in);
+
   //
   // Some compilers can't handle. Comment out for now.
   //
@@ -147,137 +118,7 @@ void DICOMFile::SkipToStart()
 void DICOMFile::Read(void* ptr, long nbytes) 
 {
   InputStream.read((char*)ptr, nbytes);
-  // dicom_stream::cout << (char*) ptr << dicom_stream::endl;
-}
-
-doublebyte DICOMFile::ReadDoubleByte() 
-{
-  doublebyte sh = 0;
-  int sz = sizeof(doublebyte);
-  this->Read((char*)&(sh),sz); 
-  if (PlatformIsBigEndian) 
-    {
-    sh = swapShort(sh);
-    }
-  return(sh);
-}
-
-doublebyte DICOMFile::ReadDoubleByteAsLittleEndian() 
-{
-  doublebyte sh = 0;
-  int sz = sizeof(doublebyte);
-  this->Read((char*)&(sh),sz); 
-  if (PlatformIsBigEndian)
-    {
-    sh = swapShort(sh);
-    }
-  return(sh);
-}
-
-quadbyte DICOMFile::ReadQuadByte() 
-{
-  quadbyte sh;
-  int sz = sizeof(quadbyte);
-  this->Read((char*)&(sh),sz);
-  if (PlatformIsBigEndian) 
-    {
-    sh = swapLong(sh);
-    }
-  return(sh);
-}
-
-quadbyte DICOMFile::ReadNBytes(int len) 
-{
-  quadbyte ret = -1;
-  switch (len) 
-    {
-    case 1:
-      char ch;
-      this->Read(&ch,1);  //from Image
-      ret =(quadbyte) ch;
-      break;
-    case 2:
-      ret =(quadbyte) ReadDoubleByte();
-      break;
-    case 4:
-      ret = ReadQuadByte();
-      break;
-    default:
-      dicom_stream::cerr << "Unable to read " << len << " bytes" << dicom_stream::endl;
-      break;
-    }
-  return (ret);
-}
-
-float DICOMFile::ReadAsciiFloat(int len) 
-{
-  float ret=0.0;
-
-
-  char* val = new char[len+1];
-  this->Read(val,len);
-  val[len] = '\0';
-
-#if 0
-  //
-  // istrstream destroys the data during formatted input.
-  //
-  int len2 = static_cast<int> (strlen((char*) val));
-  char* val2 = new char[len2];
-  strncpy(val2, (char*) val, len2);
-
-  dicom_stream::istrstream data(val2);
-  data >> ret;
-  delete [] val2;
-#else
-  sscanf(val,"%e",&ret);
-#endif
-
-  dicom_stream::cout << "Read ASCII float: " << ret << dicom_stream::endl;
-
-  delete [] val;
-  return (ret);
-}
-
-int DICOMFile::ReadAsciiInt(int len) 
-{
-  int ret=0;
-
-  char* val = new char[len+1];
-  this->Read(val,len);
-  val[len] = '\0';
-
-#if 0
-  //
-  // istrstream destroys the data during formatted input.
-  //
-  int len2 = static_cast<int> (strlen((char*) val));
-  char* val2 = new char[len2];
-  strncpy(val2, (char*) val, len2);
-
-  dicom_stream::istrstream data(val2);
-  data >> ret;
-  delete [] val2;
-#else
-  sscanf(val,"%d",&ret);
-#endif
-
-  dicom_stream::cout << "Read ASCII int: " << ret << dicom_stream::endl;
-
-  delete [] val;
-  return (ret);
-}
-
-char* DICOMFile::ReadAsciiCharArray(int len) 
-{
-  if (len <= 0)
-    {
-    return NULL;
-    }
-  char* val = new char[len + 1];
-  this->Read(val, len);
-  val[len] = 0; // NULL terminate.
-  return val;
+  // dicom_stream::cout << "DICOMFile::Read " <<  (char*) ptr << dicom_stream::endl;
 }
 
 #ifdef _MSC_VER

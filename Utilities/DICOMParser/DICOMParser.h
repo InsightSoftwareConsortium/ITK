@@ -39,6 +39,7 @@
 #include "DICOMTypes.h"
 #include "DICOMParserMap.h"
 
+class DICOMBuffer;
 class DICOMCallback;
 template <class T> class DICOMMemberCallback;
 
@@ -83,10 +84,16 @@ class DICOM_EXPORT DICOMParser
   bool ReadHeader();
 
   //
-  // Static method that returns true if DICOMFile is opened 
-  // to a file that contains a DICOM image.
+  // This method can kick off the parser on a provided DICOM source
+  // (either a DICOMFile or DICOMBuffer)
   //
-  static bool IsDICOMFile(DICOMFile* file);
+  bool ReadHeader(DICOMSource &source);
+
+  //
+  // Static method that returns true if a DICOMSource
+  // contains a DICOM image.
+  //
+  static bool IsDICOMFile(DICOMSource &file);
 
   bool IsDICOMFile()
     {
@@ -94,7 +101,7 @@ class DICOM_EXPORT DICOMParser
       {
       return false;
       }
-    return DICOMParser::IsDICOMFile(this->DataFile);
+    return DICOMParser::IsDICOMFile(*(this->DataFile));
     }
 
   //
@@ -192,13 +199,18 @@ class DICOM_EXPORT DICOMParser
   // Check to see if the type is a valid DICOM type.  If not, figure
   // out the right thing to do next (i.e. compute the element length).
   //
-  bool IsValidRepresentation(doublebyte rep, quadbyte& len, VRTypes &mytype);
-
+  bool IsValidRepresentation(DICOMSource &source, doublebyte rep, quadbyte& len, VRTypes &mytype);
+  
   //
   // Reads a record.
   //
-  void ReadNextRecord(doublebyte& group, doublebyte& element, DICOMParser::VRTypes& mytype);
+  void ReadNextRecord(DICOMSource &source, doublebyte& group, doublebyte& element, DICOMParser::VRTypes& mytype);
 
+  //
+  // Parse a sequence from a memory block
+  //
+  void ParseSequence(unsigned char *buffer, quadbyte len);
+  
   //
   // Sets up the type map.
   //

@@ -13,7 +13,7 @@ ENDIF(WIN32)
 
 IF(ITK_SOURCE_DIR)
    # Inside ITK, use its setting.
-   SET(DICOM_ANSI_STDLIB ${ITK_USE_ANSI_STDLIB})
+   SET(DICOM_ANSI_STDLIB 1)
 ELSE(ITK_SOURCE_DIR)
    # Not inside ITK, use ANSI streams.
    SET(DICOM_ANSI_STDLIB 1)
@@ -26,7 +26,7 @@ SET(DICOM_NO_STD_NAMESPACE ${CMAKE_NO_STD_NAMESPACE})
 CONFIGURE_FILE(${DICOMParser_SOURCE_DIR}/DICOMCMakeConfig.h.in
                ${DICOMParser_BINARY_DIR}/DICOMCMakeConfig.h)
 
-ADD_LIBRARY(ITKDICOMParser DICOMFile.cxx DICOMParser.cxx DICOMAppHelper.cxx)
+ADD_LIBRARY(ITKDICOMParser DICOMSource.cxx DICOMBuffer.cxx DICOMFile.cxx DICOMParser.cxx DICOMAppHelper.cxx)
 
 INSTALL_TARGETS(/lib/InsightToolkit ITKDICOMParser)
 INSTALL_FILES(/include/InsightToolkit "(\\.h|\\.txx)$")

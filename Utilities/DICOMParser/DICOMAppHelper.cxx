@@ -100,6 +100,10 @@ DICOMAppHelper::DICOMAppHelper()
   this->RescaleOffsetCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->RescaleSlopeCB = new DICOMMemberCallback<DICOMAppHelper>;
   this->PixelDataCB = new DICOMMemberCallback<DICOMAppHelper>;
+  this->ROIContourSequenceCB = new DICOMMemberCallback<DICOMAppHelper>;
+  this->ContourSequenceCB = new DICOMMemberCallback<DICOMAppHelper>;
+  this->ContourDataCB = new DICOMMemberCallback<DICOMAppHelper>;
+  this->NumberOfContourPointsCB = new DICOMMemberCallback<DICOMAppHelper>;
 
   this->Implementation = new DICOMAppHelperImplementation;
 }
@@ -142,6 +146,10 @@ DICOMAppHelper::~DICOMAppHelper()
   delete this->RescaleOffsetCB;
   delete this->RescaleSlopeCB;
   delete this->PixelDataCB;
+  delete this->ROIContourSequenceCB;
+  delete this->ContourSequenceCB;
+  delete this->ContourDataCB;
+  delete this->NumberOfContourPointsCB;
 
   delete this->Implementation;
 }
@@ -198,6 +206,19 @@ void DICOMAppHelper::RegisterCallbacks(DICOMParser* parser)
   RescaleSlopeCB->SetCallbackFunction(this, &DICOMAppHelper::RescaleSlopeCallback);
   parser->AddDICOMTagCallback(0x0028, 0x1053, DICOMParser::VR_FL, RescaleSlopeCB);
 
+  ROIContourSequenceCB->SetCallbackFunction(this, &DICOMAppHelper::ROIContourSequenceCallback);
+  parser->AddDICOMTagCallback(0x3006, 0x0039, DICOMParser::VR_SQ, ROIContourSequenceCB);
+
+  ContourSequenceCB->SetCallbackFunction(this, &DICOMAppHelper::ContourSequenceCallback);
+  parser->AddDICOMTagCallback(0x3006, 0x0040, DICOMParser::VR_SQ, ContourSequenceCB);
+
+  NumberOfContourPointsCB->SetCallbackFunction(this, &DICOMAppHelper::NumberOfContourPointsCallback);
+  parser->AddDICOMTagCallback(0x3006, 0x0046, DICOMParser::VR_IS, NumberOfContourPointsCB);
+
+  ContourDataCB->SetCallbackFunction(this, &DICOMAppHelper::ContourDataCallback);
+  parser->AddDICOMTagCallback(0x3006, 0x0050, DICOMParser::VR_DS, ContourDataCB);
+  
+
   DICOMTagInfo dicom_tags[] = {
     {0x0002, 0x0002, DICOMParser::VR_UI, "Media storage SOP class uid"},
     {0x0002, 0x0003, DICOMParser::VR_UI, "Media storage SOP inst uid"},
@@ -226,7 +247,11 @@ void DICOMAppHelper::RegisterCallbacks(DICOMParser* parser)
     {0x0028, 0x0030, DICOMParser::VR_FL, "pixel spacing"},
     {0x0028, 0x0100, DICOMParser::VR_US, "Bits allocated"},
     {0x0028, 0x0120, DICOMParser::VR_UL, "pixel padding"},
-    {0x0028, 0x1052, DICOMParser::VR_FL, "pixel offset"}
+    {0x0028, 0x1052, DICOMParser::VR_FL, "pixel offset"},
+    {0x3006, 0x0039, DICOMParser::VR_SQ, "ROI Contour Sequence"},
+    {0x3006, 0x0040, DICOMParser::VR_SQ, "Contour Sequence"},
+    {0x3006, 0x0046, DICOMParser::VR_IS, "Number Of Contour Points"},
+    {0x3006, 0x0050, DICOMParser::VR_DS, "Contour Data"}
   };
 
   int num_tags = sizeof(dicom_tags)/sizeof(DICOMTagInfo);
@@ -248,7 +273,7 @@ void DICOMAppHelper::RegisterCallbacks(DICOMParser* parser)
     dicom_stl::pair<const dicom_stl::pair<doublebyte, doublebyte>, DICOMTagInfo> mapPair(gePair, tagStruct);
     this->Implementation->TagMap.insert(mapPair);
 
-#ifdef DEBUG_DICOM_APP_HELPER
+#ifdef aDEBUG_DICOM_APP_HELPER
     //
     // Make callback
     //
@@ -761,6 +786,7 @@ void DICOMAppHelper::PixelDataCallback( DICOMParser *,
   
   bool isFloat = this->RescaledImageDataIsFloat();
 
+    dicom_stream::cout << this->RescaleSlope << ", " << this->RescaleOffset << dicom_stream::endl;
   if (isFloat)
     {
 #ifdef DEBUG_DICOM_APP_HELPER
@@ -859,6 +885,75 @@ void DICOMAppHelper::PixelDataCallback( DICOMParser *,
     }
 }
 
+
+void DICOMAppHelper::ROIContourSequenceCallback( DICOMParser *,
+                                        doublebyte,
+                                        doublebyte,
+                                        DICOMParser::VRTypes,
+                                        unsigned char* data,
+                                        quadbyte len)
+{
+
+#ifdef DEBUG_DICOM_APP_HELPER
+  dicom_stream::cout << "ROIContourSequence : " << len << dicom_stream::endl;
+#endif
+
+}
+
+void DICOMAppHelper::ContourSequenceCallback( DICOMParser *,
+                                        doublebyte,
+                                        doublebyte,
+                                        DICOMParser::VRTypes,
+                                        unsigned char* data,
+                                        quadbyte len)
+{
+
+#ifdef DEBUG_DICOM_APP_HELPER
+  dicom_stream::cout << "ContourSequence : " << len << dicom_stream::endl;
+#endif
+
+}
+
+void DICOMAppHelper::ContourDataCallback( DICOMParser *,
+                                        doublebyte,
+                                        doublebyte,
+                                        DICOMParser::VRTypes,
+                                        unsigned char* data,
+                                        quadbyte len)
+{
+
+  float p[3];
+  sscanf( (char*)(data), "%f\\%f\\%f", &p[0], &p[1], &p[2]);
+  // Need to cache the point somewhere.  Could keep track of all
+  // points on all contours
+
+#ifdef DEBUG_DICOM_APP_HELPER
+  dicom_stream::cout << "ContourData : " ;
+  dicom_stream::cout << "[" << p[0] << ", " << p[1] << ", " << p[2] << "]" << dicom_stream::endl;
+#endif
+
+}
+
+void DICOMAppHelper::NumberOfContourPointsCallback( DICOMParser *,
+                                                    doublebyte,
+                                                    doublebyte,
+                                                    DICOMParser::VRTypes,
+                                                    unsigned char* data,
+                                                    quadbyte len)
+{
+
+  int n;
+  sscanf( (char*)(data), "%d", &n);
+  // Need to cache the number of points for the contour
+
+#ifdef DEBUG_DICOM_APP_HELPER
+  dicom_stream::cout << "NumberOfContourPoints : " ;
+  dicom_stream::cout << n << dicom_stream::endl;
+#endif
+
+}
+
+
 void DICOMAppHelper::RegisterPixelDataCallback(DICOMParser* parser)
 {
   this->PixelDataCB->SetCallbackFunction(this, &DICOMAppHelper::PixelDataCallback);
@@ -878,6 +973,7 @@ void DICOMAppHelper::RescaleOffsetCallback( DICOMParser *parser,
   dicom_stream::cout << "Pixel offset: " << this->RescaleOffset << dicom_stream::endl;
 #endif
 }
+
 
 const char* DICOMAppHelper::TransferSyntaxUIDDescription(const char* uid)
 {

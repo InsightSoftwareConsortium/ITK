@@ -234,6 +234,36 @@ public:
                                       unsigned char* val,
                                       quadbyte);
 
+  virtual void ROIContourSequenceCallback( DICOMParser *parser,
+                                           doublebyte,
+                                           doublebyte,
+                                           DICOMParser::VRTypes,
+                                           unsigned char* val,
+                                           quadbyte);
+
+  virtual void ContourSequenceCallback( DICOMParser *parser,
+                                        doublebyte,
+                                        doublebyte,
+                                        DICOMParser::VRTypes,
+                                        unsigned char* val,
+                                        quadbyte);
+
+  virtual void ContourDataCallback( DICOMParser *parser,
+                                    doublebyte,
+                                    doublebyte,
+                                    DICOMParser::VRTypes,
+                                    unsigned char* val,
+                                    quadbyte);
+
+  virtual void NumberOfContourPointsCallback( DICOMParser *parser,
+                                              doublebyte,
+                                              doublebyte,
+                                              DICOMParser::VRTypes,
+                                              unsigned char* val,
+                                              quadbyte);
+  
+  
+
   /** Register all the standard callbacks with the DICOM Parser.  This
    * associates a callback with each (group, element) tag pair in the
    * header of the file whose data needs to be cached. */
@@ -411,6 +441,11 @@ public:
   int Dimensions[2];
   float ImagePositionPatient[3];
 
+  short VolumeSliceSize;
+  short VolumeSliceCount;
+  long VolumeVoxelCount;
+  long VolumeSegmentCount;
+
   // map from series UID to vector of files in the series 
   // dicom_stl::map<dicom_stl::string, dicom_stl::vector<dicom_stl::string>, ltstdstr> SeriesUIDMap;
 
@@ -449,6 +484,11 @@ public:
   DICOMMemberCallback<DICOMAppHelper>* RescaleOffsetCB;
   DICOMMemberCallback<DICOMAppHelper>* RescaleSlopeCB;
   DICOMMemberCallback<DICOMAppHelper>* PixelDataCB;
+  DICOMMemberCallback<DICOMAppHelper>* ROIContourSequenceCB;
+  DICOMMemberCallback<DICOMAppHelper>* ContourSequenceCB;
+  DICOMMemberCallback<DICOMAppHelper>* ContourDataCB;
+  DICOMMemberCallback<DICOMAppHelper>* NumberOfContourPointsCB;
+  
 
   //
   // Implementation contains stl templated classes that 

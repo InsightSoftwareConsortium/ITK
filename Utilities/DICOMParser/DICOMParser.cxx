@@ -42,7 +42,7 @@
 #include "DICOMConfig.h"
 #include "DICOMParser.h"
 #include "DICOMCallback.h"
-
+#include "DICOMBuffer.h"
 
 // Define DEBUG_DICOM to get debug messages sent to dicom_stream::cerr
 // #define DEBUG_DICOM
@@ -155,8 +155,14 @@ DICOMParser::~DICOMParser() {
 
 }
 
-bool DICOMParser::ReadHeader() {
-  bool dicom = this->IsDICOMFile(this->DataFile);
+bool DICOMParser::ReadHeader()
+{
+  return this->ReadHeader(*this->DataFile);
+}
+
+bool DICOMParser::ReadHeader(DICOMSource &source)
+{
+  bool dicom = this->IsDICOMFile(source);
   if (!dicom)
     {
     return false;
@@ -175,17 +181,16 @@ bool DICOMParser::ReadHeader() {
   this->Implementation->Elements.clear();
   this->Implementation->Datatypes.clear();
 
-  long fileSize = DataFile->GetSize();
+  long fileSize = source.GetSize();
   do 
     {
-    this->ReadNextRecord(group, element, datatype);
+    this->ReadNextRecord(source, group, element, datatype);
 
     this->Implementation->Groups.push_back(group);
     this->Implementation->Elements.push_back(element);
     this->Implementation->Datatypes.push_back(datatype);
 
-    } while ((DataFile->Tell() >= 0) && (DataFile->Tell() < fileSize));
-
+    } while ((source.Tell() >= 0) && (source.Tell() < fileSize));
 
   return true;
 }
@@ -194,10 +199,11 @@ bool DICOMParser::ReadHeader() {
 // read magic number from file
 // return true if this is your image type, false if it is not
 //
-bool DICOMParser::IsDICOMFile(DICOMFile* file) {
+bool DICOMParser::IsDICOMFile(DICOMSource &source)
+{
   char magic_number[4];    
-  file->SkipToStart();
-  file->Read((void*)magic_number,4);
+  source.SkipToStart();
+  source.Read((void*)magic_number,4);
   if (CheckMagic(magic_number)) 
     {
     return(true);
@@ -205,8 +211,8 @@ bool DICOMParser::IsDICOMFile(DICOMFile* file) {
   // try with optional skip
   else 
     {
-    file->Skip(OPTIONAL_SKIP-4);
-    file->Read((void*)magic_number,4);
+    source.Skip(OPTIONAL_SKIP-4);
+    source.Read((void*)magic_number,4);
     if (CheckMagic(magic_number)) 
       {
       return true;
@@ -221,9 +227,9 @@ bool DICOMParser::IsDICOMFile(DICOMFile* file) {
       // Try it anyways...
       //
 
-      file->SkipToStart();
+      source.SkipToStart();
 
-      doublebyte group = file->ReadDoubleByte();
+      doublebyte group = source.ReadDoubleByte();
       bool dicom;
       if (group == 0x0002 || group == 0x0008)
         {
@@ -235,7 +241,7 @@ bool DICOMParser::IsDICOMFile(DICOMFile* file) {
         {
         dicom = false;
         }
-      file->SkipToStart();
+      source.SkipToStart();
 
       return dicom;
 #endif  // DICOMPARSER_IGNORE_MAGIC_NUMBER
@@ -245,7 +251,7 @@ bool DICOMParser::IsDICOMFile(DICOMFile* file) {
 }
 
 
-bool DICOMParser::IsValidRepresentation(doublebyte rep, quadbyte& len, VRTypes &mytype)
+bool DICOMParser::IsValidRepresentation(DICOMSource &source, doublebyte rep, quadbyte& len, VRTypes &mytype)
 {
   switch (rep)
     {
@@ -272,16 +278,20 @@ bool DICOMParser::IsValidRepresentation(doublebyte rep, quadbyte& len, VRTypes &
     case DICOMParser::VR_US:
     case DICOMParser::VR_SS:
     case DICOMParser::VR_FD:
-      len = DataFile->ReadDoubleByte();
+      len = source.ReadDoubleByte();
       mytype = VRTypes(rep);
       return true;
 
     case DICOMParser::VR_OB: // OB - LE
     case DICOMParser::VR_OW:
     case DICOMParser::VR_UN:      
+      source.ReadDoubleByte();
+      len = source.ReadQuadByte();
+      mytype = VRTypes(rep);
+      return true;
     case DICOMParser::VR_SQ:
-      DataFile->ReadDoubleByte();
-      len = DataFile->ReadQuadByte();
+      source.ReadDoubleByte();
+      len = source.ReadQuadByte();
       mytype = VRTypes(rep);
       return true;
 
@@ -290,46 +300,28 @@ bool DICOMParser::IsValidRepresentation(doublebyte rep, quadbyte& len, VRTypes &
       //
       // Need to comment out in new paradigm.
       //
-      DataFile->Skip(-2);
-      len = DataFile->ReadQuadByte();
+      source.Skip(-2);
+      len = source.ReadQuadByte();
       mytype = DICOMParser::VR_UNKNOWN;
       return false;  
     }
 }
 
-void DICOMParser::ReadNextRecord(doublebyte& group, doublebyte& element, DICOMParser::VRTypes& mytype)
+
+void DICOMParser::ReadNextRecord(DICOMSource &source, doublebyte& group, doublebyte& element,
+                                 DICOMParser::VRTypes& mytype)
 {
-  //
-  // WE SHOULD IMPLEMENT THIS ALGORITHM.
-  //
-  // FIND A WAY TO STOP IF THERE ARE NO MORE CALLBACKS.
-  //
-  // DO WE NEED TO ENSURE THAT WHEN A CALLBACK IS ADDED THAT 
-  // THE IMPLICIT TYPE MAP IS UPDATED?  ONLY IF THERE ISN'T
-  // A VALUE IN THE IMPLICIT TYPE MAP.
-  //
-  // New algorithm:
-  //
-  // 1. Read group & element
-  // 2. ParseExplicitRecord
-  //      a. Check to see if the next doublebyte is a valid datatype
-  //      b. If the type is valid, lookup type to find the size of
-  //              the length field.
-  // 3.   If ParseExplicitRecord fails, ParseImplicitRecord
-  //      a. Lookup implicit datatype
-  // 4. Check to see if there is a registered callback for the group,element.
-  // 5. If there are callbacks, read the data and call them, otherwise
-  //      skip ahead to the next record.
-  //
-  //
+  // dicom_stream::cout << "ReadNextRecord() " << dicom_stream::endl;
 
-  group = DataFile->ReadDoubleByte();
-  element = DataFile->ReadDoubleByte();
+  group = source.ReadDoubleByte();
+  element = source.ReadDoubleByte();
 
-  doublebyte representation = DataFile->ReadDoubleByteAsLittleEndian();
+  // dicom_stream::cout << dicom_stream::hex << group << ", " << element << dicom_stream::endl;
+  
+  doublebyte representation = source.ReadDoubleByteAsLittleEndian();
   quadbyte length = 0;
   mytype = DICOMParser::VR_UNKNOWN;
-  this->IsValidRepresentation(representation, length, mytype);
+  this->IsValidRepresentation(source, representation, length, mytype);
 
   DICOMParserMap::iterator iter = 
     Implementation->Map.find(DICOMMapKey(group,element));
@@ -341,7 +333,7 @@ void DICOMParser::ReadNextRecord(doublebyte& group, doublebyte& element, DICOMPa
     //
     // Only read the data if there's a registered callback.
     //
-    unsigned char* tempdata = (unsigned char*) DataFile->ReadAsciiCharArray(length);
+    unsigned char* tempdata = (unsigned char*) source.ReadAsciiCharArray(length);
 
     DICOMMapKey ge = (*iter).first;
     callbackType = VRTypes(((*iter).second.first));
@@ -362,76 +354,35 @@ void DICOMParser::ReadNextRecord(doublebyte& group, doublebyte& element, DICOMPa
     dicom_stl::pair<const DICOMMapKey,DICOMMapValue> p = *iter;
     DICOMMapValue mv = p.second;
 
-    bool doSwap = (this->ToggleByteSwapImageData ^ this->DataFile->GetPlatformIsBigEndian()) && callbackType == VR_OW;
+    bool doSwap = (this->ToggleByteSwapImageData ^ source.GetPlatformIsBigEndian()) && callbackType == VR_OW;
 
     if (group == 0x7FE0 &&
         element == 0x0010 )
       {
       if (doSwap)
         {
-#ifdef DEBUG_DICOM
-        dicom_stream::cout << "==============================" << dicom_stream::endl;
-        dicom_stream::cout << "TOGGLE BS FOR IMAGE" << dicom_stream::endl;
-        dicom_stream::cout << " ToggleByteSwapImageData : " << this->ToggleByteSwapImageData << dicom_stream::endl;
-        dicom_stream::cout << " DataFile Byte Swap : " << this->DataFile->GetPlatformIsBigEndian() << dicom_stream::endl;
-        dicom_stream::cout << "==============================" << dicom_stream::endl;
-#endif
-        DICOMFile::swapShorts((ushort*) tempdata, (ushort*) tempdata, length/sizeof(ushort));
-        }
-      else
-        {
-#ifdef DEBUG_DICOM
-        dicom_stream::cout << "==============================" << dicom_stream::endl;
-        dicom_stream::cout << " AT IMAGE DATA " << dicom_stream::endl;
-        dicom_stream::cout << " ToggleByteSwapImageData : " << this->ToggleByteSwapImageData << dicom_stream::endl;
-        dicom_stream::cout << " DataFile Byte Swap : " << this->DataFile->GetPlatformIsBigEndian() << dicom_stream::endl;
-
-        int t2 = int((0x0000FF00 & callbackType) >> 8);
-        int t1 = int((0x000000FF & callbackType));
-
-        if (t1 == 0 && t2 == 0)
-          {
-          t1 = '?';
-          t2 = '?';
-          }
-
-        char ct2(t2);
-        char ct1(t1);
-        dicom_stream::cout << " Callback type : " << ct1 << ct2 << dicom_stream::endl;
-
-        dicom_stream::cout << "==============================" << dicom_stream::endl;
-#endif
+        DICOMSource::swapShorts((ushort*) tempdata, (ushort*) tempdata, length/sizeof(ushort));
         }
       }
     else
       {
-      if (this->DataFile->GetPlatformIsBigEndian() == true)  
+      if (source.GetPlatformIsBigEndian() == true)  
         { 
         switch (callbackType)
           {
           case DICOMParser::VR_OW:
           case DICOMParser::VR_US:
           case DICOMParser::VR_SS:
-            DICOMFile::swapShorts((ushort*) tempdata, (ushort*) tempdata, length/sizeof(ushort));
-            // dicom_stream::cout << "16 bit byte swap needed!" << dicom_stream::endl;
+            DICOMSource::swapShorts((ushort*) tempdata, (ushort*) tempdata, length/sizeof(ushort));
             break;
           case DICOMParser::VR_FL:
           case DICOMParser::VR_FD:
-            // dicom_stream::cout << "Float byte swap needed!" << dicom_stream::endl;
-            /*
-            if (this->DataFile->GetPlatformIsBigEndian())
-              {
-              DICOMFile::swapShorts((ushort*) tempdata, (ushort*) tempdata, length/sizeof(ushort));
-              }
-            */
             break;
           case DICOMParser::VR_SL:
           case DICOMParser::VR_UL:
-            DICOMFile::swapLongs((ulong*) tempdata, (ulong*) tempdata, length/sizeof(ulong));
-            // dicom_stream::cout << "32 bit byte swap needed!" << dicom_stream::endl;
+            DICOMSource::swapLongs((ulong*) tempdata, (ulong*) tempdata, length/sizeof(ulong));
             break;
           case DICOMParser::VR_AT:
-            // dicom_stream::cout << "ATTRIBUTE Byte swap needed!" << dicom_stream::endl;
             break;
           default:
             break;
@@ -452,6 +403,12 @@ void DICOMParser::ReadNextRecord(doublebyte& group, doublebyte& element, DICOMPa
                        length);  // length
       }
 
+    // If the datatype was a sequence, then recurse down the sequence
+    if (callbackType == DICOMParser::VR_SQ)
+      {
+      this->ParseSequence(tempdata, length);
+      }
+
     delete [] tempdata;
     }
   else
@@ -462,14 +419,74 @@ void DICOMParser::ReadNextRecord(doublebyte& group, doublebyte& element, DICOMPa
     //
     if (length > 0) 
       {
-      DataFile->Skip(length);
+      source.Skip(length);
       }
 #ifdef DEBUG_DICOM
     this->DumpTag(this->ParserOutputFile, group, element, mytype, (unsigned char*) "Unread.", length);
 #endif
-  }
+    }
+}
 
+void DICOMParser::ParseSequence(unsigned char *buffer, quadbyte len)
+{
+  // dicom_stream::cout << dicom_stream::dec << "ParseSequence(), len = " << len << dicom_stream::endl;
 
+  // Create a DICOM wrapper around the buffer
+  DICOMBuffer DataBuffer(buffer, len);
+
+  doublebyte dataelementtag[2];
+  quadbyte itemLength;
+  char *itemValue=0;
+
+  while (DataBuffer.Tell() < len)
+    {
+    // Read the data element tag.  Should be FFFEE0000
+    dataelementtag[0] = DataBuffer.ReadDoubleByte();
+    dataelementtag[1] = DataBuffer.ReadDoubleByte();
+    
+    if (dataelementtag[0] != 0xfffe || dataelementtag[1] != 0xe000)
+      {
+      dicom_stream::cerr << "DICOMParser:: sequence missing data element tag.  Skipping rest of sequence." << dicom_stream::endl;
+      return;
+      }
+    
+    itemLength = DataBuffer.ReadQuadByte();
+    //dicom_stream::cout << "itemLength = " << dicom_stream::hex << itemLength << dicom_stream::dec << dicom_stream::endl;
+    
+    if (itemLength == 0xFFFFFFFF)
+      {
+      // undetermined length.  punt for now
+      dicom_stream::cerr << "DICOMParser:: sequence of undetermined length.  Skipping sequence." << dicom_stream::endl;
+      return;
+      }
+    else
+      {
+      // Get the block of data for this item
+      itemValue = DataBuffer.ReadAsciiCharArray(itemLength);
+
+      // Wrap this data block into a DICOMBuffer
+      DICOMBuffer tBuffer((unsigned char *)itemValue, itemLength);
+
+      // Parse the DICOMBuffer
+      while (tBuffer.Tell() < itemLength)
+        {
+        doublebyte group=0;
+        doublebyte element=0;
+        DICOMParser::VRTypes datatype = DICOMParser::VR_UNKNOWN;
+        
+        this->ReadNextRecord(tBuffer, group, element, datatype);
+
+        this->Implementation->Groups.push_back(group);
+        this->Implementation->Elements.push_back(element);
+        this->Implementation->Datatypes.push_back(datatype);
+        }
+      
+      delete [] itemValue;
+      }
+    } 
+
+  return;
+  
 }
 
 void DICOMParser::InitTypeMap()
@@ -575,6 +592,14 @@ void DICOMParser::DumpTag(dicom_stream::ostream& out, doublebyte group, doubleby
     {
     out << "Image data not printed." ;
     }
+  else if (group == 0x0047 && element == 0x20d1)
+    {
+    out << "Volume segment list not printed.";
+    }
+  else if (group == 0x0047 && element == 0x20d3)
+    {
+    out << "Volume density list not printed.";
+    }
   else
     {
     out << (tempdata ? (char*) tempdata : "NULL");
@@ -653,9 +678,9 @@ bool DICOMParser::ParseExplicitRecord(doublebyte, doublebyte,
                                       quadbyte& length, 
                                       VRTypes& represent)
 {
-  doublebyte representation = DataFile->ReadDoubleByte();
+  doublebyte representation = this->DataFile->ReadDoubleByte();
 
-  bool valid = this->IsValidRepresentation(representation, length, represent);
+  bool valid = this->IsValidRepresentation(*this->DataFile, representation, length, represent);
 
   if (valid)
     {
@@ -679,7 +704,7 @@ bool DICOMParser::ParseImplicitRecord(doublebyte group, doublebyte element,
   //
   // length?
   //
-  length = DataFile->ReadQuadByte();
+  length = this->DataFile->ReadQuadByte();
   return false;
 }
 

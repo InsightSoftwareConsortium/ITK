@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   DICOMParser
-  Module:    DICOMFile.h
+  Module:    DICOMBuffer.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -16,8 +16,8 @@
 
 =========================================================================*/
 
-#ifndef __DICOMFILE_H_
-#define __DICOMFILE_H_
+#ifndef __DICOMBUFFER_H_
+#define __DICOMBUFFER_H_
 
 #ifdef _MSC_VER
 #pragma warning ( disable : 4514 )
@@ -26,6 +26,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <iostream>
+#include <fstream>
 #include <string>
 
 #include "DICOMTypes.h"
@@ -33,38 +35,26 @@
 #include "DICOMSource.h"
 
 //
-// DICOM data source that is file.
+// DICOM data source that is a memory buffer.
 //
-class DICOM_EXPORT DICOMFile : public DICOMSource
+class DICOM_EXPORT DICOMBuffer : public DICOMSource
 {
  public:
-  DICOMFile();
-  virtual ~DICOMFile();
+  DICOMBuffer(unsigned char *buffer, long length);
+  virtual ~DICOMBuffer();
   
   //
-  // Open a file with filename.  Returns a bool
-  // that is true if the file is successfully
-  // opened.
-  //
-  bool Open(const dicom_stl::string& filename);
-  
-  //
-  // Close a file.
-  //
-  void Close();
-  
-  //
-  // Return the position in the file.
+  // Return the position in the buffer.
   //
   long Tell();
   
   // 
-  // Move to a particular position in the file.
+  // Move to a particular position in the buffer.
   //
   void SkipToPos(long);
   
   //
-  // Return the size of the file.
+  // Return the size of the buffer.
   //
   long GetSize();
   
@@ -74,7 +64,7 @@ class DICOM_EXPORT DICOMFile : public DICOMSource
   void Skip(long);
   
   //
-  // Skip to the beginning of the file.
+  // Skip to the beginning of the buffer.
   //
   void SkipToStart();
   
@@ -84,16 +74,15 @@ class DICOM_EXPORT DICOMFile : public DICOMSource
   void Read(void* data, long len);
   
  protected:
-  DICOMFile(const DICOMFile&);
-  void operator=(const DICOMFile&);  
+  DICOMBuffer(const DICOMBuffer&);
+  void operator=(const DICOMBuffer&);  
 
-  //
-  // Internal storage for the file pointer.
-  //
-  dicom_stream::ifstream InputStream;
+  unsigned char *Buffer;
+  long Length;
+  long Position;
   
-
- private:
+private:
+  DICOMBuffer();
 
 };
 
@@ -101,6 +90,6 @@ class DICOM_EXPORT DICOMFile : public DICOMSource
 #pragma warning ( pop )
 #endif
 
-#endif // __DICOMFILE_H_
+#endif // __DICOMBUFFER_H_
 
 
