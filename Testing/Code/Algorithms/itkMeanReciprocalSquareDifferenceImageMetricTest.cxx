@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkPatternIntensityImageMetricTest.cxx
+  Module:    itkMeanReciprocalSquareDifferenceImageMetricTest.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -18,7 +18,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkTranslationTransform.h"
 #include "itkLinearInterpolateImageFunction.h"
-#include "itkPatternIntensityImageToImageMetric.h"
+#include "itkMeanReciprocalSquareDifferenceImageToImageMetric.h"
 #include "itkGaussianImageSource.h"
 
 #include <iostream>
@@ -27,12 +27,12 @@
  *  This test uses two 2D-Gaussians (standard deviation RegionSize/2)
  *  One is shifted by 5 pixels from the other.
  *
- *  This test computes the PatternIntensity value and derivatives
+ *  This test computes the MeanReciprocalSquareDifference value and derivatives
  *  for various shift values in (-10,10).
  *
  */
 
-int itkPatternIntensityImageMetricTest(int, char* [] )
+int itkMeanReciprocalSquareDifferenceImageMetricTest(int, char* [] )
 {
 
 //------------------------------------------------------------
@@ -90,7 +90,7 @@ int itkPatternIntensityImageMetricTest(int, char* [] )
 //-----------------------------------------------------------
 // Set up  the Metric
 //-----------------------------------------------------------
-  typedef itk::PatternIntensityImageToImageMetric<  
+  typedef itk::MeanReciprocalSquareDifferenceImageToImageMetric<  
                                        FixedImageType, 
                                        MovingImageType >   
                                                     MetricType;
