@@ -95,7 +95,15 @@ String FunctionType::GenerateDeclaration(const String& name,
                                          bool isConst, bool) const
 {
   String arguments = this->GenerateArgumentString();
-  String outerString = "("+name+"( "+arguments+" ))";
+  String outerString;
+  if(name.length() > 0)
+    {
+    outerString = name+"("+arguments+")"+this->GetRightCvString(isConst, false);
+    }
+  else
+    {
+    outerString = "(("+arguments+"))"+this->GetRightCvString(isConst, false);
+    }
   return m_ReturnType.GenerateName(outerString);
 }
 
