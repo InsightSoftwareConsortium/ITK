@@ -88,9 +88,9 @@ public:
   typedef typename Superclass::OutputVnlVectorType  OutputVnlVectorType;
   
   /** Set/Get the transformation from a container of parameters
-   * This is typically used by optimizers.
-   * There are 6 parameters. The first three represent the
-   * versor and the last three represents the offset. */
+   * This is typically used by optimizers.  There are 6 parameters. The first
+   * three represent the angles to rotate around the coordinate axis, and the
+   * last three represents the offset. */
   void SetParameters( const ParametersType & parameters );
   const ParametersType& GetParameters(void) const;
 
