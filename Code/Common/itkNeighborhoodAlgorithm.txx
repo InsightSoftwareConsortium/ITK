@@ -332,10 +332,9 @@ Neighborhood<TPixel, VDimension>
 ConvolveND(Neighborhood<TPixel, VDimension> &A,
          Neighborhood<TPixel, VDimension> &B, int Mode)
 {
-  typedef Neighborhood<TPixel, VDimension> Neighborhood;
+  typedef Neighborhood<TPixel, VDimension> NeighborhoodType;
   
   int iDim;
-  int i;  
   unsigned long BOffset[VDimension];
   int iLoop[VDimension];
   int jLoop[VDimension];
@@ -349,10 +348,10 @@ ConvolveND(Neighborhood<TPixel, VDimension> &A,
   bool jLoopNotDone;
   unsigned int ChangedIdx;
   
-  Neighborhood N;
-  Neighborhood::Iterator Np;
-  Neighborhood::Iterator Ap[VDimension];
-  Neighborhood::Iterator Bp[VDimension];
+  NeighborhoodType N;
+  typename NeighborhoodType::Iterator Np;
+  typename NeighborhoodType::Iterator Ap[VDimension];
+  typename NeighborhoodType::Iterator Bp[VDimension];
   unsigned long radius[VDimension];
   
   int ARadius[VDimension];
@@ -361,8 +360,8 @@ ConvolveND(Neighborhood<TPixel, VDimension> &A,
   int BSize[VDimension];
   unsigned long AStride[VDimension];
   unsigned long BStride[VDimension];
-  const Neighborhood::Iterator ApBegin = A.Begin();
-  const Neighborhood::Iterator BpEnd = B.End() - 1;
+  const typename NeighborhoodType::Iterator ApBegin = A.Begin();
+  const typename NeighborhoodType::Iterator BpEnd = B.End() - 1;
 
   for (iDim = 0; iDim < VDimension; ++iDim)
     {
@@ -503,7 +502,7 @@ Convolve3D(Neighborhood<TPixel, VDimension> &A,
            Neighborhood<TPixel, VDimension> &B, int Mode)
 {
   enum {COL, ROW, SLI};
-  typedef Neighborhood<TPixel, VDimension> Neighborhood;
+  typedef Neighborhood<TPixel, VDimension> NeighborhoodType;
   
   register unsigned int is;
   register unsigned int ir;
@@ -529,15 +528,15 @@ Convolve3D(Neighborhood<TPixel, VDimension> &A,
   int overlapRStart;
   int overlapCStart;
 
-  Neighborhood N;
+  NeighborhoodType N;
   unsigned long radius[VDimension];
-  Neighborhood::Iterator Np;
-  Neighborhood::Iterator Ap_0;
-  Neighborhood::Iterator Bp_0;
-  Neighborhood::Iterator Ap_1;
-  Neighborhood::Iterator Bp_1;
-  Neighborhood::Iterator Ap;
-  Neighborhood::Iterator Bp;
+  typename NeighborhoodType::Iterator Np;
+  typename NeighborhoodType::Iterator Ap_0;
+  typename NeighborhoodType::Iterator Bp_0;
+  typename NeighborhoodType::Iterator Ap_1;
+  typename NeighborhoodType::Iterator Bp_1;
+  typename NeighborhoodType::Iterator Ap;
+  typename NeighborhoodType::Iterator Bp;
 
   const int ARadiusS = (int) A.GetRadius()[SLI];
   const int ARadiusR = (int) A.GetRadius()[ROW];
@@ -555,8 +554,8 @@ Convolve3D(Neighborhood<TPixel, VDimension> &A,
   const unsigned long BStrideS = B.GetStride(SLI);
   const unsigned long AStrideR = A.GetStride(ROW);
   const unsigned long BStrideR = B.GetStride(ROW);
-  const Neighborhood::Iterator ApBegin = A.Begin();
-  const Neighborhood::Iterator BpEnd = B.End() - 1;
+  const typename NeighborhoodType::Iterator ApBegin = A.Begin();
+  const typename NeighborhoodType::Iterator BpEnd = B.End() - 1;
   
 
   if (Mode == 0) // Result radius is increased over A::Radius by B::Radius
@@ -677,7 +676,7 @@ Convolve2D(Neighborhood<TPixel, VDimension> &A,
            Neighborhood<TPixel, VDimension> &B, int Mode)
 {
   enum {COL, ROW};
-  typedef Neighborhood<TPixel, VDimension> Neighborhood;
+  typedef Neighborhood<TPixel, VDimension> NeighborhoodType;
   
   register unsigned int ir;
   register unsigned int ic;
@@ -695,13 +694,13 @@ Convolve2D(Neighborhood<TPixel, VDimension> &A,
   int overlapRStart;
   int overlapCStart;
   unsigned long radius[VDimension];
-  Neighborhood N;
+  NeighborhoodType N;
 
-  Neighborhood::Iterator Np;
-  Neighborhood::Iterator Ap_1;
-  Neighborhood::Iterator Bp_1;
-  Neighborhood::Iterator Ap;
-  Neighborhood::Iterator Bp;
+  typename NeighborhoodType::Iterator Np;
+  typename NeighborhoodType::Iterator Ap_1;
+  typename NeighborhoodType::Iterator Bp_1;
+  typename NeighborhoodType::Iterator Ap;
+  typename NeighborhoodType::Iterator Bp;
 
   const int ARadiusR = (int) A.GetRadius()[ROW];
   const int ARadiusC = (int) A.GetRadius()[COL];
@@ -713,8 +712,8 @@ Convolve2D(Neighborhood<TPixel, VDimension> &A,
   const int ASizeC    = ARadiusC*2 +1;
   const unsigned long AStride = A.GetStride(ROW);
   const unsigned long BStride = B.GetStride(ROW);
-  const Neighborhood::Iterator ApBegin = A.Begin();
-  const Neighborhood::Iterator BpEnd = B.End() - 1;
+  const typename NeighborhoodType::Iterator ApBegin = A.Begin();
+  const typename NeighborhoodType::Iterator BpEnd = B.End() - 1;
 
   if (Mode == 0) // Result radius is increased over A::Radius by B::Radius
     {
@@ -798,12 +797,12 @@ Neighborhood<TPixel, VDimension>
 Convolve1D(Neighborhood<TPixel, VDimension> &A,
            Neighborhood<TPixel, VDimension> &B, int Mode)
 {
-  typedef Neighborhood<TPixel, VDimension> Neighborhood;
+  typedef Neighborhood<TPixel, VDimension> NeighborhoodType;
   
-  Neighborhood N;
-  Neighborhood::Iterator Ap;
-  Neighborhood::Iterator Bp;
-  Neighborhood::Iterator Np;
+  NeighborhoodType N;
+  typename NeighborhoodType::Iterator Ap;
+  typename NeighborhoodType::Iterator Bp;
+  typename NeighborhoodType::Iterator Np;
   unsigned int j;
   unsigned int overlap;
   unsigned int dist;
