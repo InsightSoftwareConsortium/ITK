@@ -8,3 +8,4 @@ cableSourceRepresentation
 cableXmlAttributes
 )
 
+WIN32_DEFINES(-DPARSERS_DLL)

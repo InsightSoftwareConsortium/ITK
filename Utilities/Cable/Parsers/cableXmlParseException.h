@@ -26,8 +26,6 @@
 namespace xml
 {
 
-typedef std::string String;
-
 /**
  * Define the interface to exceptions thrown during parsing.
  */

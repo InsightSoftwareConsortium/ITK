@@ -26,7 +26,6 @@
 namespace cxx = _cxx_;
 
 #include <stdio.h>
-#include <string>
 #include <vector>
 #include <set>
 #include <strstream>
@@ -39,8 +38,6 @@ namespace cxx = _cxx_;
 
 namespace source
 {
-
-typedef std::string String;
 
 String GetValid_C_Identifier(const String& in_name);
 
@@ -297,7 +294,7 @@ typedef BaseClassContainer::const_iterator  BaseClassesIterator;
  * A singe instance of the TypeSystem will be used to register all
  * cxx type representations.
  */
-extern cxx::TypeSystem typeSystem;
+extern PARSERS_EXPORT cxx::TypeSystem typeSystem;
 
 /**
  * Store cv-qualifiers for a type.

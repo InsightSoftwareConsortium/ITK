@@ -16,20 +16,21 @@
 #ifndef _cableWin32Header_h
 #define _cableWin32Header_h
 
-// add in the Windows variants
-#if (defined(_WIN32) || defined(WIN32)) && !defined(__CYGWIN__)
+// Include cxxUtils.h which does some work for us.
+#include "cxxUtils.h"
 
-// for-loop scoping hack
-#define for if(false) {} else for
-
-//
-// Disable some common warnings in MS VC++
-//
-
-// 'identifier' : identifier was truncated to 'number' characters in the
-// debug information
-#pragma warning ( disable : 4786 )
-
+#if defined(_WIN32) || defined(WIN32) /* Win32 version */
+#  ifdef PARSERS_DLL
+#    define PARSERS_EXPORT __declspec(dllexport)
+#  else
+#    define PARSERS_EXPORT __declspec(dllimport)
+#  endif
+#else /* UNIX version */
+#  define PARSERS_EXPORT
 #endif
+
+// Get the String type from cxxUtils.h.  We don't have to worry about
+// a name conflict here.
+typedef _cxx_::String String;
 
 #endif

@@ -27,8 +27,6 @@
 namespace configuration
 {
 
-typedef std::string String;
-
 
 /**
  * Enumeration of identifiers for object types.
