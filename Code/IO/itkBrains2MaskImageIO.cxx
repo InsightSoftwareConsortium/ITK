@@ -157,7 +157,10 @@ void Brains2MaskImageIO::Read(void* buffer)
   //Actually start reading the octree
   unsigned int octreeHdr[6];
   //Need to gobble up the end of line character here and move one more byte.
+  //Except for Borland where the operator>> has already gobbled the endline char
+#if !defined(__BORLANDC__)
   local_InputStream.ignore();
+#endif
   local_InputStream.read((char *)octreeHdr,6*sizeof(unsigned int));
   if(this->m_ByteOrder != this->m_MachineByteOrder)
     {
