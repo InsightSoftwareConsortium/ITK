@@ -41,6 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _itkImageFunction_txx
 
 #include "itkImageFunction.h"
+#include "itkOffset.h"
 #include "vnl/vnl_math.h"
 
 namespace itk
@@ -83,13 +84,6 @@ ImageFunction<TInputImage, TOutput>
 const InputImageType * ptr )
 {
 
-  if( m_Image == ptr ) 
-    {
-    return;
-    }
-  
-  this->Modified();
-
   // set the input image
   m_Image = ptr;
 
@@ -97,6 +91,19 @@ const InputImageType * ptr )
     {
     m_Origin = m_Image->GetOrigin();
     m_Spacing = m_Image->GetSpacing();
+
+    const typename InputImageType::SizeType & size =
+      m_Image->GetBufferedRegion().GetSize();
+
+    Offset<ImageDimension> offset;
+    offset.Fill( -1 );
+   
+    m_BufferStart = m_Image->GetBufferedRegion().GetIndex();
+    m_BufferEnd = m_BufferStart + size + offset;
+
+    this->ConvertIndexToPoint( m_BufferStart, m_GeometricStart );
+    this->ConvertIndexToPoint( m_BufferEnd, m_GeometricEnd );
+
     }
     
 }
@@ -111,15 +118,10 @@ ImageFunction<TInputImage, TOutput>
 ::IsInsideBuffer(
 const IndexType& index ) const
 {
-  const typename InputImageType::SizeType & size =
-    m_Image->GetBufferedRegion().GetSize();
-  const typename InputImageType::IndexType & start =
-    m_Image->GetBufferedRegion().GetIndex();
-
   for( int j = 0; j < ImageDimension; j++ )
     {
-    if( index[j] < start[j] ||
-        index[j] > start[j] + (signed long) size[j] - 1 )
+    if( index[j] < m_BufferStart[j] ||
+        index[j] > m_BufferEnd[j] )
       {
       return false;
       }
@@ -137,15 +139,10 @@ ImageFunction<TInputImage, TOutput>
 ::IsInsideBuffer(
 const ContinuousIndexType& index ) const
 {
-  const typename InputImageType::SizeType & size =
-    m_Image->GetBufferedRegion().GetSize();
-  const typename InputImageType::IndexType & start =
-    m_Image->GetBufferedRegion().GetIndex();
-
   for( int j = 0; j < ImageDimension; j++ )
     {
-    if( index[j] < (double) start[j] ||
-        index[j] > (double)( start[j] + size[j] - 1 ) )
+    if( index[j] < (double) m_BufferStart[j] ||
+        index[j] > (double) m_BufferEnd[j] )
       {
       return false;
       }
@@ -163,9 +160,15 @@ ImageFunction<TInputImage, TOutput>
 ::IsInsideBuffer(
 const PointType& point ) const
 {
-  ContinuousIndexType index;
-  this->ConvertPointToContinuousIndex( point, index );
-  return( this->IsInsideBuffer( index ) );
+  for( int j = 0; j < ImageDimension; j++ )
+    {
+    if( point[j] < m_GeometricStart[j] ||
+        point[j] > m_GeometricEnd[j] )
+      {
+      return false;
+      }
+    }
+  return true;
 }
 
 

@@ -62,6 +62,11 @@ namespace itk
  * respectively evaluates the function at an geometric point,
  * image index and continuous image index.
  *
+ * \warning Image BufferedRegion information is cached during
+ * in SetInputImage( image ). If the image BufferedRegion has changed
+ * one must call SetInputImage( image ) again to update the cache 
+ * to the current values.
+ *
  * \sa Point
  * \sa Index
  * \sa Continuous
@@ -147,6 +152,9 @@ public:
 
   /** 
    * Set the input image.
+   * \warning this method caches BufferedRegion information.
+   * If the BufferedRegion has changed, user must call
+   * SetInputImage again to update cached values.
    */
   virtual void SetInputImage( const InputImageType * ptr );
 
@@ -235,6 +243,10 @@ protected:
    */
   const double * m_Origin;
   const double * m_Spacing;
+  PointType      m_GeometricStart;
+  PointType      m_GeometricEnd;
+  IndexType      m_BufferStart;
+  IndexType      m_BufferEnd;
 
 private:
 
