@@ -34,6 +34,7 @@ IF (BUILD_TESTING)
 
   # Dart server configuration 
   SET (CVS_WEB_URL "http://${DROP_SITE}/cgi-bin/itkcvsweb.cgi/Insight/" CACHE INTERNAL "URL for revision control system")
+  SET (CVS_WEB_CVSROOT "Insight" CACHE INTERNAL "Symbolic name for the CVSROOT in cvsweb")
   SET (DOXYGEN_URL "http://${DROP_SITE}/Insight/Doxygen/html/" CACHE INTERNAL "URL for source code documentation")
   SET (GNATS_WEB_URL "http://${DROP_SITE}/cgi-bin/gnatsweb.pl/Insight/" CACHE INTERNAL "URL for bug tracker")
 ENDIF (BUILD_TESTING)
