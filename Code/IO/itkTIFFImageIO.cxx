@@ -247,24 +247,9 @@ void TIFFImageIO::ReadGenericImage( void *out,
     return;
     }
 
-  switch ( this->GetFormat() )
-    {
-    default:
-    case TIFFImageIO::GRAYSCALE:
-    case TIFFImageIO::PALETTE_GRAYSCALE:
-      inc = 1;
-      break;
-    case TIFFImageIO::RGB_: 
-      inc = m_InternalImage->SamplesPerPixel;
-      break;
-    case TIFFImageIO::PALETTE_RGB:
-      inc = 3;
-      break;
-    }
-
   if(m_ComponentType == UCHAR)
     {
-    unsigned char* image = reinterpret_cast<unsigned char*>(out);
+    unsigned char* image;
     for ( row = 0; row < (int)height; row ++ )
       {
       if (TIFFReadScanline(m_InternalImage->Image, buf, row, 0) <= 0)
@@ -275,11 +260,11 @@ void TIFFImageIO::ReadGenericImage( void *out,
           
       if (m_InternalImage->Orientation == ORIENTATION_TOPLEFT)
         {
-        image = reinterpret_cast<unsigned char*>(out) + row * isize * inc;
+        image = reinterpret_cast<unsigned char*>(out) + row * isize;
         }
       else
         {
-        image = reinterpret_cast<unsigned char*>(out) + isize * (height - (row + 1)) * inc;
+        image = reinterpret_cast<unsigned char*>(out) + isize * (height - (row + 1));
         }
 
       for (cc = 0; cc < isize; 
