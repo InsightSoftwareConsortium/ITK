@@ -34,3 +34,9 @@ IF (USE_VTK_FILE)
   )
 ENDIF (USE_VTK_FILE)
 
+IF (TCL_TCLSH)
+ADD_TEST(PrintSelf-Algorithms ${TCL_TCLSH}
+         ${ITK_SOURCE_DIR}/Utilities/Dart/PrintSelfCheck.tcl  
+         ${ITK_SOURCE_DIR}/Code/IO)
+ENDIF (TCL_TCLSH)
+
