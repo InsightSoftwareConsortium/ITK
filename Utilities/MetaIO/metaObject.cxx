@@ -938,7 +938,7 @@ M_SetupWriteFields(void)
 
   // check for zero matrix
   bool isAllZero = true ;
-  if(valSet)
+  if(!isIdentity)
     {
       for(i=0; i<m_NDims*m_NDims; i++)
         {
