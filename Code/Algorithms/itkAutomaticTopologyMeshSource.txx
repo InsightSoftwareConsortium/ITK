@@ -27,55 +27,6 @@
 namespace itk
 {
 
-unsigned long
-IdentifierArrayHashFunction
-::operator()(
-  Array< unsigned long > identifierArray
-  ) const 
-{
-  typedef unsigned long Ulong;
-
-  Ulong size = identifierArray.Size();
-
-  std::sort( identifierArray.begin(), identifierArray.end() );
-
-  Ulong hash = 0;
-  Ulong* id = &identifierArray[ 0 ];
-
-  while( size-- )
-    {
-    hash += *id++;
-    hash = (hash << 7) | (hash >> 25); // Rotate left by 7.
-    }
-
-  return hash;
-
-}
-
-bool
-IdentifierArrayEqualsFunction
-::operator()(
-  Array< unsigned long > identifierArray1,
-  Array< unsigned long > identifierArray2
-  ) const
-{
-  typedef unsigned long Ulong;
-
-  
-  Ulong size1 = identifierArray1.Size();
-  Ulong size2 = identifierArray2.Size();
-
-  if( size1 != size2 )
-    {
-    return false;
-    }
-
-  std::sort( identifierArray1.begin(), identifierArray1.end() );
-  std::sort( identifierArray2.begin(), identifierArray2.end() );
-
-  return ( identifierArray1 == identifierArray2 );
-
-}
 
 template<class TOutputMesh>
 AutomaticTopologyMeshSource<TOutputMesh>
@@ -801,3 +752,4 @@ AutomaticTopologyMeshSource< TOutputMesh >
 } /** end namespace itk. */
 
 #endif
+
