@@ -69,7 +69,7 @@ QuaternionRigidRegistrationTransform<TScalarType,TParameters>::OutputPointType
 QuaternionRigidRegistrationTransform<TScalarType,TParameters>
 ::Transform( const InputPointType & point ) const
 {
-  return m_RigidTransform.Transform( point );
+  return m_RigidTransform.TransformPoint( point );
 }
 
 
