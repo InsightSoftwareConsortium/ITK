@@ -15,7 +15,8 @@ itkOutputWindow \
 itkProcessObject \
 itkTimeStamp \
 itkVersion \
-itkWriter 
+itkWriter \
+itkIdentifierTraits
 
 WIN32_CLASSES =\
 itkWin32OutputWindow 

@@ -86,7 +86,7 @@ itkImageIterator<TPixel, TImageDimension>
 {
   itkImageIterator<TPixel, TImageDimension> result( *this ); // copy all the ivars
   result.m_Index = m_Index - vec;
-
+  
   const long *tmpIndex = result.m_Index.GetIndex();
   for (unsigned int i=0; i < TImageDimension; i++)
     {

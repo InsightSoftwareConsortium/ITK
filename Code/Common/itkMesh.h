@@ -13,137 +13,310 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/**
- * itkMesh represents unstrucured data such as polygonal or finite element
- * meshes. The conceptual model of the mesh is a hierarchically arranged set
- * of entities, ranging through vertex, edge, face, and region (with
- * n-dimensional hyper-regions possible). Each entity of dimension n refers
- * to face (or boundary) entities of dimension (n-1). The meshes can vary in
- * dimensionality, for example, representing a mixed mesh of tetrahedra and
- * quadrilaterals. Other important functionality incudes the ability to
- * associate a "pixel type" with each entity (e.g., itkScalar). This
- * information can be used in a variety of ways including associating scalar,
- * vector, and/or other attribute data with each entity; controlling entity
- * "visibility"; and grouping of entities. (The functionality of this
- * information depends on the nature of the pixel type.)
- *
- * An itkMesh is created from a set of n-dimensional entities. Each entity in
- * turn is created from other entities of dimension n-1. This proceeds
- * recursively until an entity type of VERTEX is encountered. In this
- * hierarchy, an entity is instantiated with two template parameters: one
- * defines the pixel type associated with the entity, and the other the pixel
- * types of the entities forming its n-1 boundary. A vertex is defined by its
- * dimension (which must match TMeshDimension), its representation type
- * (e.g., float), and an associated pixel type. This class itkMesh is created
- * with a single template parameter. The type TPixelEntity is the pixel type
- * associated with the entities forming the mesh.  
- */
-
 #ifndef __itkMesh_h
 #define __itkMesh_h
 
-#include "itkMeshBase.h"
+#include <vector>
 
-template <class TPixelEntity, unsigned int TMeshDimension=2>
-class ITK_EXPORT itkMesh : public itkMeshBase
+#include "itkObject.h"
+#include "itkSmartPointer.h"
+#include "itkSetGet.h"
+#include "itkContainerInterfaces.h"
+#include "itkPoint.h"
+#include "itkCell.h"
+#include "itkMeshType.h"
+#include "itkIdentifierTraits.h"
+#include "itkAutoVectorContainer.h"
+#include "itkMapContainer.h"
+
+/**
+ * itkMesh ....
+ */
+
+template <
+  /**
+   * The type associated with a point, cell, or boundary for use in storing
+   * its data.
+   */
+  typename TPixelType,
+
+  /**
+   * Type information structure.
+   */
+  typename TMeshType = itkMeshTypeDefault
+  >
+class itkMesh: public itkObject
 {
 public:
-  /** 
-   * Smart pointer typedef support. 
+  /**
+   * Smart pointer typedef support.
    */
-  typedef typename itkSmartPointer<itkMesh> Pointer;
-
-  /** 
-   * Create an empty image. 
-   */
-  static Pointer New();
-
-  /** 
-   * Run-time type information (and related methods).
-   */
-  itkTypeMacro(itkMesh, itkDataObject);
-
-  /** 
-   * Restore object to initialized state.
-   */
-  void Initialize();
-
+  typedef itkMesh                Self;
+  typedef itkSmartPointer<Self>  Pointer;
   
+  /**
+   * Hold on to the type information specified by the template parameters.
+   */
+  typedef TPixelType  PixelType;
+  typedef TMeshType   MeshType;
+  enum { PointDimension = MeshType::PointDimension };
+  enum { MaxTopologicalDimension = MeshType::MaxTopologicalDimension };
+  typedef typename MeshType::CoordRep                 CoordRep;
+  typedef typename MeshType::CellIdentifier           CellIdentifier;
+  typedef typename MeshType::PointIdentifier          PointIdentifier;
+  typedef typename MeshType::BoundaryIdentifier       BoundaryIdentifier;
+  typedef typename MeshType::CellFeatureID            CellFeatureID;
+  typedef typename MeshType::PointCellLinksContainer  PointCellLinksContainer;
+  
+  /**
+   * Define the type of point stored in this mesh.
+   */
+  typedef itkPoint< PointDimension , CoordRep >  Point;
+  
+  /**
+   * Define a type that points to a cell of any type.
+   */
+  typedef itkCell< PixelType , MeshType >  Cell;
+  typedef Cell::Pointer                    CellPointer;
+  
+  /**
+   * Define a type that points to a cell boundary.  It happens to be
+   * that such boundaries are cells also.
+   */
+  typedef CellPointer  BoundaryPointer;
+  
+  /**
+   * Define a type that points to the container of cell links stored for
+   * each point in the cell links container.
+   */
+  typedef typename PointCellLinksContainer::Pointer
+        PointCellLinksContainerPointer;
+  
+  /**
+   * An explicit cell boundary assignment can be accessed through the cell
+   * identifier to which the assignment is made, and the feature ID of the
+   * boundary feature within the cell that is being assigned.
+   *
+   * This class provides a pair of these identifiers with appropriate
+   * comparison operators available for use of the IDs in sorted container
+   * classes.
+   */
+  class BoundaryAssignmentID
+  {
+  public:
+    typedef BoundaryAssignmentID Self;
+  
+    /**
+     * The Cell's identification.
+     */
+    CellIdentifier cellID;
+  
+    /**
+     * The identification of the feature within the cell.
+     */
+    CellFeatureID  featureID;
+  
+    /**
+     * Most containers require a "<" operator to be defined for their
+     * key types.
+     */
+    bool operator < (const Self& r)
+      {
+	return ((cellID < r.cellID) ||
+		((cellID == r.cellID) && (featureID < r.featureID)));
+      }
+  
+    /**
+     * Most containers require a "==" operator to be defined for their
+     * key types.
+     */
+    bool operator == (const Self& r)
+      {
+	return ((cellID == r.cellID) && (featureID == r.featureID));
+      }
+  }; // End Class: itkMesh::BoundaryAssignmentID
 
 protected:
-  itkMesh();
-  ~itkMesh();
-  itkMesh(const itkMesh&) {};
-  void operator=(const itkMesh&) {};
-  virtual void PrintSelf(std::ostream& os, itkIndent indent);
+  /**
+   * An object containing points used by the mesh.  Individual points are
+   * accessed through point identifiers.
+   */
+  typedef itkIndexedContainer< PointIdentifier , Point >
+        PointsContainer;
+  PointsContainer::Pointer  m_Points;
 
-private:
+  /**
+   * An object containing data associated with the mesh's points.
+   * Optionally, this can be NULL, indicating that no data are associated with
+   * the points.  The data for a point can be accessed through its point
+   * identifier.
+   */
+  typedef itkIndexedContainer< PointIdentifier , PixelType >
+        PointDataContainer;
+  PointDataContainer::Pointer  m_PointData;
+
+  /**
+   * An object containing parent cell links for each point.  Since a point
+   * can be used by multiple cells, each point identifier accesses another
+   * container which holds the cell identifiers
+   */
+  typedef itkIndexedContainer< PointIdentifier , PointCellLinksContainerPointer >
+        CellLinksContainer;
+  CellLinksContainer::Pointer  m_CellLinks;
   
-};
+  /**
+   * An object containing cells used by the mesh.  Individual cellss are
+   * accessed through cell identifiers.
+   */
+  typedef itkIndexedContainer< CellIdentifier , CellPointer >
+        CellsContainer;
+  CellsContainer::Pointer  m_Cells;
+  
+  /**
+   * An object containing data associated with the mesh's cells.
+   * Optionally, this can be NULL, indicating that no data are associated with
+   * the cells.  The data for a cell can be accessed through its cell
+   * identifier.
+   */
+  typedef itkIndexedContainer< CellIdentifier , PixelType >
+        CellDataContainer;
+  CellDataContainer::Pointer  m_CellData;
+  
+  /**
+   * Since multiple cells can be assigned the same boundary (when they are
+   * neighbors, for example), the boundaries themselves are stored by
+   * containers in the Boundaries vector, which is indexed by the
+   * topological dimension of a boundary.  Individual cells are assigned
+   * boundary identifiers through the BoundaryAssignments vector.  These
+   * identifiers are used to access the container in this vector corresponding
+   * to the topological dimension of the boundary.
+   */
+  typedef itkIndexedContainer< BoundaryIdentifier , BoundaryPointer >
+        BoundariesContainer;
+  typedef std::vector< BoundariesContainer::Pointer >
+        BoundariesContainerVector;
+  BoundariesContainerVector  m_Boundaries;
 
+  /**
+   * If any information is to be stored with boundaries, it is placed in
+   * a container in this vector.  The vector is indexed by the topological
+   * dimension of the boundary.  A boundary identifier is used to access
+   * the actual data corresponding to a boundary in the container
+   * corresponding to its dimension.
+   */
+  typedef itkIndexedContainer< BoundaryIdentifier , PixelType >
+        BoundaryDataContainer;  
+  typedef std::vector< BoundaryDataContainer::Pointer >
+        BoundaryDataContainerVector;
+  BoundaryDataContainerVector  m_BoundaryData;
+
+  /**
+   * A vector of objects containing explicit cell boundary assignments.
+   * The vector is indexed by the topological dimension of the cell boundary.
+   * The container for each topological dimension holds boundary identifiers
+   * of the assigned boundaries.  The containers are keyed by
+   * BoundaryAssignmentID objects (see above).  The boundary identifiers
+   * can be used to access the boundaries themselves in the containers
+   * stored in the Boundaries vector.  They can also be used to access
+   * the data stored by a particular boundary through the containers in
+   * the BoundaryData vector.
+   */
+  typedef itkIndexedContainer< BoundaryAssignmentID , BoundaryIdentifier >
+        BoundaryAssignmentsContainer;
+  typedef std::vector< BoundaryAssignmentsContainer::Pointer >
+        BoundaryAssignmentsContainerVector;
+  BoundaryAssignmentsContainerVector  m_BoundaryAssignments;
+  
+  /**
+   * Define the mesh's public interface.  This includes access routines along
+   * with specific mesh operations.
+   */
+public:
+  static Pointer New(void);  
+  
+  /**
+   * Define Set/Get access routines for each internal container.
+   */
+  virtual void SetPointsContainer(PointsContainer*);
+  virtual PointsContainer::Pointer GetPointsContainer(void);
+
+  virtual void SetPointDataContainer(PointDataContainer*);
+  virtual PointDataContainer::Pointer GetPointDataContainer(void);
+
+  virtual void SetCellLinksContainer(CellLinksContainer*);
+  virtual CellLinksContainer::Pointer GetCellLinksContainer(void);
+
+  virtual void SetCellsContainer(CellsContainer*);
+  virtual CellsContainer::Pointer GetCellsContainer(void);
+
+  virtual void SetCellDataContainer(CellDataContainer*);
+  virtual CellDataContainer::Pointer GetCellDataContainer(void);
+
+  virtual void SetBoundariesContainer(int, BoundariesContainer*);
+  virtual BoundariesContainer::Pointer GetBoundariesContainer(int);
+
+  virtual void SetBoundaryDataContainer(int, BoundaryDataContainer*);
+  virtual BoundaryDataContainer::Pointer GetBoundaryDataContainer(int);
+  
+  virtual void SetBoundaryAssignmentsContainer(int, BoundaryAssignmentsContainer*);
+  virtual BoundaryAssignmentsContainer::Pointer GetBoundaryAssignmentsContainer(int);
+
+  /**
+   * Access routines to fill the Points container, and get information
+   * from it.
+   */
+  void SetPoint(PointIdentifier, Point);
+  bool GetPoint(PointIdentifier, Point*) const;
+
+  /**
+   * Access routines to fill the Coints container, and get information
+   * from it.
+   */
+  void SetCell(CellIdentifier, Cell*);
+  bool GetCell(CellIdentifier, CellPointer*) const;
+  
+  /**
+   * Standard part of itkObject class.  Used for debugging output.
+   */
+  virtual const char *GetClassName() const { return "itkMesh"; }
+
+  /**
+   * Define some internal utility methods.
+   */
+protected:
+  /**
+   * Constructor for use by New() method.
+   */
+  itkMesh();
+  
+  /**
+   * Routines to create default versions of each internal mesh container.
+   * If the user has not provided one of the internal containers when it is
+   * needed, the corresponding routine from below is called upon to construct
+   * the container.
+   *
+   * Most of the defaults are different depending on whether their identifiers
+   * are of integral type.  The choice is made based on the identifier's
+   * traits.
+   *
+   * Boundary assignment containers are always indexed by BoundaryAssignmentID.
+   * This is not an integral type.  Therefore, there is only one default
+   * construction routine.
+   */ 
+  PointsContainer::Pointer ConstructDefaultPoints(void);
+  PointDataContainer::Pointer ConstructDefaultPointData(void);
+  CellLinksContainer::Pointer ConstructDefaultCellLinks(void);
+  CellsContainer::Pointer ConstructDefaultCells(void);
+  CellDataContainer::Pointer ConstructDefaultCellData(void);
+  BoundariesContainer::Pointer ConstructDefaultBoundaries(void);
+  BoundaryDataContainer::Pointer ConstructDefaultBoundaryData(void);
+  BoundaryAssignmentsContainer::Pointer ConstructDefaultBoundaryAssignments(void);
+  
+  friend class itkCell< PixelType , MeshType >;
+}; // End Class: itkMesh
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkMesh.cxx"
 #endif
-
-#ifndef _MESH_H_
-#define _MESH_H_
-
-// Algorithm Oriented Mesh Database - B. Kaan Karamete Mar. 2000
-
-#ifdef DEBUG
-#define _DEBUG_
-#endif
-
-#include "dEntity.h"
-#include "dEntities.h"
-#include "dEntityContainer.h"
-class dIDGenerator;
-
-class dMesh  {
- private:
-  dMeshContainer* e[4]; 
-  dIDGenerator* idgen;
- public:
-  dMesh();
-  int isCreated(dEntity::EntityType) const ;
-  void createContainer(dEntity::EntityType) ;
-  int entityExists(dEntity*);
-  dEntity* entityExists(dEntity::EntityType,
-                        dLowerEntityContainer* ents)  ;
-
-  dEntity* createEntity(dEntity::EntityType,
-			dLowerEntityContainer*,dEntity* klas=0);
- 
-  dMeshContainer::iter firstEntityIter(dEntity::EntityType etype) ;
-  dMeshContainer::iter lastEntityIter(dEntity::EntityType etype) ;
-  dMeshContainer::iter nextEntityIter(dEntity::EntityType etype,
-                        dMeshContainer::iter) ;
-
-  dVertex* createVertex(double x, double y, double z,dEntity* klas=0);
-  dEdge* createEdge(dVertex* v1, dVertex* v2, dEntity* klas=0);
-  dFace* createFace(dVertex* v1, dVertex* v2, dVertex* v3, dEntity* klas=0);
-  dRegion* createRegion(dVertex* v1, dVertex* v2, dVertex* v3, dVertex* v4,
-			dEntity* klas=0,dElement::ElementType e=dElement::TETRAHEDRON);
-  int createFromTo(dEntity::EntityType from, dEntity::EntityType To);
-
-  // Important Note: when deleted an entity from mesh 
-  // the higher order attachments of lowerorder entities of that entity 
-  // are checked to also remove the entity.
-
-  int setEntityID();
-  void getEntityID(int id);
-
-  void deleteVertex(dVertex* vertex);
-  void deleteEdge(dEdge* edge);
-  void deleteFace(dFace* face);
-  void deleteRegion(dRegion* region);
-
-  dMeshContainer::iter begin(dEntity::EntityType) ;
-  dMeshContainer::iter end(dEntity::EntityType) ;
-
-  int size(dEntity::EntityType etype) const;
-  dEntity* get(dEntity::EntityType etype, int i);
-  virtual ~dMesh();
-};
-
-typedef dMesh dModel;
 
 #endif

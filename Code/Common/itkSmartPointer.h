@@ -45,8 +45,8 @@ public:
    */
   itkSmartPointer (const itkSmartPointer<T> &p)
     { 
-    m_Pointer = p.m_Pointer; 
-    this->Register(); 
+      m_Pointer = p.m_Pointer; 
+      this->Register(); 
     }
   
   /** 
