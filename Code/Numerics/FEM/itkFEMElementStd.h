@@ -51,6 +51,10 @@ namespace fem {
  *                    functions. Therefore the abstract geometrical elements
  *                    are normally templated over this number.
  *
+ *   VNumberOfSpatialDimensions - Number of dimensions of space in which the
+ *                    element is defined. This is also the size of a vector
+ *                    returned by GetNodeCoordinates() member funtion.
+ *
  *   TBaseClass - Class from which ElementStd is derived. TBaseClass must
  *                be derived from the Element base class. This enables you
  *                to use this class at any level of element definition.
