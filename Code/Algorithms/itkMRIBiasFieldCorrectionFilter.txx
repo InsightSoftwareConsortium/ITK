@@ -1,17 +1,17 @@
 /*=========================================================================
 
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkMRIBiasFieldCorrectionFilter.txx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
+Program:   Insight Segmentation & Registration Toolkit
+Module:    itkMRIBiasFieldCorrectionFilter.txx
+Language:  C++
+Date:      $Date$
+Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+Copyright (c) 2002 Insight Consortium. All rights reserved.
+See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
+This software is distributed WITHOUT ANY WARRANTY; without even 
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #ifndef __itkMRIBiasFieldCorrectionFilter_txx
@@ -128,8 +128,8 @@ MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>
 
 // =========== MRIBiasFieldCorrectionFilter members ==================
 
-template<class TInputImage, class TOutputImage>
-MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
+template<class TInputImage, class TOutputImage, class TMaskImage>
+MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
 ::MRIBiasFieldCorrectionFilter()
 {
   m_InputMask = 0 ;
@@ -138,7 +138,8 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
   m_BiasMultiplicative = true ;
   m_BiasFieldDegree = 3 ;
   m_OptimizerInitialRadius = 1 ;
-  m_OptimizerMaximumIteration = 100 ;
+  m_VolumeCorrectionMaximumIteration = 100 ;
+  m_InterSliceCorrectionMaximumIteration = 100 ;
   m_OptimizerGrowthFactor = 0 ;
   m_OptimizerShrinkFactor = 0 ;
     
@@ -155,15 +156,15 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
   m_GeneratingOutput = true ;
 }
 
-template<class TInputImage, class TOutputImage>
-MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
+template<class TInputImage, class TOutputImage, class TMaskImage>
+MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
 ::~MRIBiasFieldCorrectionFilter()
 {
 }
   
-template<class TInputImage, class TOutputImage>
+template<class TInputImage, class TOutputImage, class TMaskImage>
 void
-MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
+MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
 ::SetInputMask(ImageMaskPointer inputMask)
 {
   if (this->CheckMaskImage(inputMask))
@@ -172,9 +173,9 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
     throw ExceptionObject(__FILE__, __LINE__) ;
 }
 
-template<class TInputImage, class TOutputImage>
+template<class TInputImage, class TOutputImage, class TMaskImage>
 void 
-MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
+MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
 ::SetOutputMask(ImageMaskPointer outputMask)
 {
   if (this->CheckMaskImage(outputMask))
@@ -185,9 +186,9 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
 
 
 
-template<class TInputImage, class TOutputImage>
+template<class TInputImage, class TOutputImage, class TMaskImage>
 void 
-MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
+MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
 ::Initialize() throw (ExceptionObject)
 {
   // if the bias is multiplicative, we will use logarithm
@@ -253,21 +254,30 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
         m_Optimizer->Initialize(m_OptimizerInitialRadius) ;
     }
 
-  m_Optimizer->SetMaximumIteration(m_OptimizerMaximumIteration) ;
 }
 
 
-template<class TInputImage, class TOutputImage>
+template<class TInputImage, class TOutputImage, class TMaskImage>
 void 
-MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
+MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
 ::EstimateBiasField(BiasFieldType* bias,
                     InputImageRegionType region)
 {
+  itkDebugMacro(<< "Estimating bias field ");
   m_EnergyFunction->SetBiasField(bias) ;
   m_EnergyFunction->SetRegion(region) ;
-  BiasFieldType::CoefficientVectorType  coefficients = 
-    bias->GetCoefficients();
-  EnergyFunctionType::ParametersType initialPosition( coefficients.size() );
+
+  int noOfBiasFieldCoefficients = bias->GetNumberOfCoefficients() ;
+  BiasFieldType::CoefficientArrayType coefficients(noOfBiasFieldCoefficients) ;
+  const BiasFieldType::CoefficientArrayType* tempCoefficients = 
+    bias->GetCoefficients() ;
+
+  for (int k = 0 ; k < noOfBiasFieldCoefficients ; k++)
+    {
+      coefficients[k] = (*tempCoefficients)[k] ;
+    }
+
+  EnergyFunctionType::ParametersType initialPosition( noOfBiasFieldCoefficients );
   for(unsigned int i=0; i < coefficients.size(); i++ )
     {
       initialPosition[i] = coefficients[i];
@@ -278,30 +288,26 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
 }
 
 
-template<class TInputImage, class TOutputImage>
+template<class TInputImage, class TOutputImage, class TMaskImage>
 void 
-MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
+MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
 ::CorrectImage(BiasFieldType* bias,
                InputImageRegionType region)
 {
+  itkDebugMacro(<< "Correcting the image ");
   typedef InternalImagePixelType Pixel ;
-
   ImageRegionIterator<InternalImageType> iIter(m_InternalInput, region) ;
-  
   BiasFieldType::SimpleForwardIterator bIter(bias) ;
 
-  //    ImageRegionIterator<OutputImageType> oIter(m_I, region) ;
-
   bIter.Begin() ;
-  //    oIter.GoToBegin() ;
   iIter.GoToBegin() ;
 
-  ImageMaskPointer outputMask = this->GetOutputMask() ;
-  if (outputMask)
+  if (m_OutputMask != 0)
     {
-      ImageRegionIterator<ImageMaskType> mIter(outputMask, region) ;
+      itkDebugMacro(<< "Output mask is being used") ;
+      ImageRegionIterator<ImageMaskType> mIter(m_OutputMask, region) ;
       mIter.GoToBegin() ;
-      while (!iIter.IsAtEnd())
+      while (!bIter.IsAtEnd())
         {
           double inputPixel = iIter.Get() ;
           double diff = inputPixel - bIter.Get() ;
@@ -314,18 +320,17 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
               iIter.Set( (Pixel) inputPixel) ;
             }
           ++mIter ;
-          // ++oIter ;
           ++bIter ;
           ++iIter ;
         }
     }
   else
     {
-      while (!iIter.IsAtEnd())
+      itkDebugMacro(<< "Output mask is not being used") ;
+      while (!bIter.IsAtEnd())
         {
           double diff = iIter.Get() - bIter.Get() ;
           iIter.Set( (Pixel) diff) ;
-          //++oIter ;
           ++bIter ;
           ++iIter ;
         }
@@ -333,9 +338,9 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
 }
 
   
-template<class TInputImage, class TOutputImage>
+template<class TInputImage, class TOutputImage, class TMaskImage>
 void 
-MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
+MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
 ::CorrectInterSliceIntensityInhomogeneity(InputImageRegionType region)
 {
   long lastSlice = region.GetIndex()[m_SlicingDirection] + 
@@ -346,13 +351,15 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
   size[m_SlicingDirection] = 1 ;
   sliceRegion.SetSize(size) ;
   BiasFieldType::DomainSizeType biasSize ;
+
+  m_Optimizer->SetMaximumIteration(m_InterSliceCorrectionMaximumIteration) ;
   while (index[m_SlicingDirection] < lastSlice)
     {
       itkDebugMacro(<< "    -- slice : " << index[m_SlicingDirection] );
 
       this->GetBiasFieldSize(sliceRegion, biasSize) ;
-      BiasFieldType* bias = new BiasFieldType(biasSize.size(), 0, biasSize) ;
       sliceRegion.SetIndex(index) ;
+      BiasFieldType* bias = new BiasFieldType(biasSize.size(), 0, biasSize) ;
       this->EstimateBiasField(bias, sliceRegion) ;
       this->CorrectImage(bias, sliceRegion) ;
       index[m_SlicingDirection] += 1 ;
@@ -361,9 +368,9 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
 }
 
 
-template<class TInputImage, class TOutputImage>
+template<class TInputImage, class TOutputImage, class TMaskImage>
 void 
-MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
+MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
 ::GenerateData()
 {
   m_InternalInput = InternalImageType::New() ;
@@ -401,7 +408,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
 
   this->AdjustSlabRegions(m_Slabs, this->GetOutput()->GetRequestedRegion()) ;
   itkDebugMacro(<< "After adjustment, ther are " << m_Slabs.size() 
-  << " slabs.");
+                << " slabs.");
 
   SlabRegionVectorIteratorType iter = m_Slabs.begin();
     
@@ -443,12 +450,22 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
             {
               bias->SetCoefficients(m_BiasFieldCoefficients) ;
             }
-            
+          m_Optimizer->SetMaximumIteration(m_VolumeCorrectionMaximumIteration) ;
           this->EstimateBiasField(bias, *iter) ;
-          m_EstimatedBiasFieldCoefficients = bias->GetCoefficients() ;
           m_BiasFieldDimension = bias->GetDimension() ;
           m_NoOfBiasFieldCoefficients = bias->GetNumberOfCoefficients() ;
           m_BiasFieldDomainSize = bias->GetDomainSize() ;
+  
+          itkDebugMacro(<< "   - copying coefficients" << m_NoOfBiasFieldCoefficients) ;    
+          const BiasFieldType::CoefficientArrayType* tempCoefficients = 
+            bias->GetCoefficients() ;
+          m_EstimatedBiasFieldCoefficients = 
+            BiasFieldType::CoefficientArrayType(m_NoOfBiasFieldCoefficients) ;
+          for (int k = 0 ; k < m_NoOfBiasFieldCoefficients ; k++)
+            {
+              m_EstimatedBiasFieldCoefficients[k] = (*tempCoefficients)[k] ;
+            }
+
           this->CorrectImage(bias, *iter) ;
           delete bias ;
           itkDebugMacro(<< "  Bias corrected." );
@@ -473,9 +490,9 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
 }
 
 // energy function related members
-template<class TInputImage, class TOutputImage>
+template<class TInputImage, class TOutputImage, class TMaskImage>
 void 
-MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
+MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
 ::SetTissueClassStatistics( const Array<double> & means, 
                             const Array<double> & sigmas) 
   throw (ExceptionObject)
@@ -504,9 +521,9 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
 }
 
 // protected members
-template<class TInputImage, class TOutputImage>
+template<class TInputImage, class TOutputImage, class TMaskImage>
 bool 
-MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
+MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
 ::CheckMaskImage(ImageMaskPointer mask)
 {
   if (this->GetNumberOfOutputs() != 1)
@@ -525,9 +542,9 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
 }
 
 
-template<class TInputImage, class TOutputImage>
+template<class TInputImage, class TOutputImage, class TMaskImage>
 void 
-MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
+MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
 ::Log1PImage(InternalImagePointer source,
              InternalImagePointer target)
 {
@@ -538,7 +555,8 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
   ImageRegionIterator<InternalImageType> t_iter(target, region) ;
     
   InternalImagePixelType pixel ;
-
+  s_iter.GoToBegin() ;
+  t_iter.GoToBegin() ;
   while (!s_iter.IsAtEnd())
     {
       pixel = s_iter.Get() ;
@@ -553,9 +571,9 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
     }
 }
 
-template<class TInputImage, class TOutputImage>
+template<class TInputImage, class TOutputImage, class TMaskImage>
 void 
-MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
+MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
 ::ExpImage(InternalImagePointer source,
            InternalImagePointer target)
 {
@@ -567,6 +585,8 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
     
   InternalImagePixelType pixel ;
 
+  s_iter.GoToBegin() ;
+  t_iter.GoToBegin() ;
   while (!s_iter.IsAtEnd())
     {
       pixel = s_iter.Get() ;
@@ -578,30 +598,40 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
     }
 }
 
-template<class TInputImage, class TOutputImage>
+template<class TInputImage, class TOutputImage, class TMaskImage>
 void 
-MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
+MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
 ::GetBiasFieldSize(InputImageRegionType region,
                    BiasFieldType::DomainSizeType& biasSize)
 {
   InputImageSizeType size = region.GetSize() ;
   long dim = 0 ;
-  biasSize.clear() ;
   int biasDim = 0 ;
+
   for(dim = 0 ; dim < ImageDimension ; dim++)
     {
       if (size[dim] > 1)
         {
-          biasSize.resize(biasDim + 1) ;
+          biasDim++ ;
+        }
+    }
+
+  biasSize = BiasFieldType::DomainSizeType(biasDim) ;
+
+  biasDim = 0 ;
+  for(dim = 0 ; dim < ImageDimension ; dim++)
+    {
+      if (size[dim] > 1)
+        {
           biasSize[biasDim] = size[dim] ;
           biasDim++ ;
         }
     }
 }
 
-template<class TInputImage, class TOutputImage>
+template<class TInputImage, class TOutputImage, class TMaskImage>
 void 
-MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage>
+MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
 ::AdjustSlabRegions(SlabRegionVectorType& slabs, 
                     OutputImageRegionType requestedRegion) 
 {
