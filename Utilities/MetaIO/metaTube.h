@@ -140,6 +140,9 @@ class MetaTube : public MetaObject
 
     PointListType &  GetPoints(void) {return m_PointList;}
     const PointListType &  GetPoints(void) const {return m_PointList;}
+    
+    MET_ValueEnumType ElementType(void) const;
+    void  ElementType(MET_ValueEnumType _elementType);
 
   ////
   //
@@ -169,7 +172,7 @@ class MetaTube : public MetaObject
     char m_PointDim[255]; // "PointDim = "       "x y z r"
 
     PointListType m_PointList;
-
+    MET_ValueEnumType m_ElementType;
   };
 
 
