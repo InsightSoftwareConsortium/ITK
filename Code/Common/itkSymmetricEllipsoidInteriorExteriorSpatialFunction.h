@@ -115,12 +115,6 @@ public:
   itkSetMacro(Center, InputType);
 
   /**
-   * Get the vector ratio. The ratio of the point's projection onto the 
-   * unique axis to the unique axis length.
-   */
-  itkGetMacro(VectorRatio, VectorType);  
-
-  /**
    * Set the orientation vector of the ellipsoid's unique axis and axes lengths.
    * Must be normalized!!!!!
    */
