@@ -29,17 +29,6 @@ DeformableMesh<PixelType>
 {
 }
 
-
-template <typename PixelType>
-void
-DeformableMesh<PixelType>
-::SetCenter(int a, int b, int c)
-{
-  Center[0] = a;
-  Center[1] = b;
-  Center[2] = c;
-}
-
 template <typename PixelType>
 void
 DeformableMesh<PixelType>
@@ -62,14 +51,21 @@ DeformableMesh<PixelType>
 template <typename PixelType>
 void
 DeformableMesh<PixelType>
+::SetCenter(int a, int b, int c)
+{
+  Center[0] = a;
+  Center[1] = b;
+  Center[2] = c;
+}
+
+template <typename PixelType>
+void
+DeformableMesh<PixelType>
 ::SetDefault()
 {
   Scale[0] = 1.0;
   Scale[1] = 1.0;
   Scale[2] = 1.0;
-  Center[0] = 0.0;
-  Center[1] = 0.0;
-  Center[2] = 0.0;
   Resolution[0] = 8;
   Resolution[1] = 18;
 }
