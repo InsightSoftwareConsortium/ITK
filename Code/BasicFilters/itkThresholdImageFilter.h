@@ -83,6 +83,21 @@ public:
    */
   itkGetMacro(OutsideValue,PixelType);
                  
+  /**
+   * The values greater than or equal to the value are set to OutsideValue
+   */
+  void ThresholdAbove(PixelType &thresh);
+  
+  /**
+   * The values less than or equal to the value are set to OutsideValue
+   */
+  void ThresholdBelow(PixelType &thresh);
+
+  /**
+   * The values outside the range are set to OutsideValue
+   */
+  void ThresholdOutside(PixelType &lower, PixelType &upper);
+
   /** 
    * Some typedefs to handle the second output.
    */
@@ -99,7 +114,8 @@ public:
   /** 
    * Set the image output of this process object. 
    */
-  void SetInverseOutput(OutputImageType *output);
+  void SetInverseOutput(OutputImageType *output)
+    { this->SetNthOutput(1, output); };
 
 protected:
   ThresholdImageFilter();
@@ -125,6 +141,8 @@ protected:
 
 private:
   PixelType m_OutsideValue;
+  PixelType m_Lower;
+  PixelType m_Upper;
 };
 
   
