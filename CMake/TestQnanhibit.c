@@ -10,15 +10,15 @@
 int
 main(int argc, char *argv[])
 {
-#if defined(__BORLANDC__)
-  // Disable floating point exceptions in Borland
-  _control87(MCW_EM, MCW_EM);
-#endif // defined(__BORLANDC__)
-
   char *me;
   float qnan, zero;
   int i;
 
+#if defined(__BORLANDC__)
+  // Disable floating point exceptions in Borland
+  _control87(MCW_EM, MCW_EM);
+#endif // defined(__BORLANDC__)
+  
   me = argv[0];
   if (sizeof(float) != sizeof(int))
     {
