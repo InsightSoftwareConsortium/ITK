@@ -54,7 +54,7 @@ public:
   
   /** Run-time type information (and related methods). */
   typedef Object Superclass;
-  itkTypeMacro(Self, Superclass);
+  itkTypeMacro(SpatialObjectReader, Object);
 
   /** Load a scene file. */
   void Update(void);

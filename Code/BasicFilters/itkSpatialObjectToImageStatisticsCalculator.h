@@ -42,7 +42,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Self, Object);
+  itkTypeMacro(SpatialObjectToImageStatisticsCalculator, Object);
 
   /** Type definitions for the input image. */
   typedef TInputImage  ImageType;

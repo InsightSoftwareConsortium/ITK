@@ -49,7 +49,7 @@ public XMLReader<PGroupSpatialObjectType>
   typedef std::vector<PointType> PointListType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Self,Superclass);
+  itkTypeMacro(PolygonGroupSpatialObjectXMLFileReader, XMLReader);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

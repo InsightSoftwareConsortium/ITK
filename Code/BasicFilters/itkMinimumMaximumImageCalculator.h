@@ -44,7 +44,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Self, Object);
+  itkTypeMacro(MinimumMaximumImageCalculator, Object);
 
   /** Type definition for the input image. */
   typedef TInputImage  ImageType;
