@@ -85,7 +85,7 @@ public:
   itkTypeMacro(SegmentationRegion,Object);
 
   /** Type definition for an double vector. */
-  typedef vnl_matrix<double> VecDblType;
+  typedef vnl_matrix<double> VectorOfDoubleType;
 
   /** Define a virtual SegmentationRegion function that is meant to be
    * used in derived classes if some operation needs to be
@@ -108,8 +108,8 @@ public:
   itkGetMacro(UniqueLabel, unsigned int);
 
   /** Set/Get the mean pixel intensity in the region. */
-  void SetMeanRegionIntensity(VecDblType averageRegionIntensity);
-  VecDblType GetMeanRegionIntensity();
+  itkSetMacro(MeanRegionIntensity, VectorOfDoubleType)
+  itkGetMacro(MeanRegionIntensity, VectorOfDoubleType);
 
 protected: 
   SegmentationRegion();
@@ -123,7 +123,7 @@ private:
   unsigned int    m_RegionLabel;
   unsigned int    m_RegionArea;
   unsigned int    m_UniqueLabel; 
-  VecDblType      m_MeanVec; 
+  VectorOfDoubleType      m_MeanRegionIntensity; 
 
 }; // class SegmentationRegion
 

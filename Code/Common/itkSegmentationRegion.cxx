@@ -53,7 +53,7 @@ SegmentationRegion
   m_RegionArea(0),
   m_UniqueLabel(0)
 {
-  m_MeanVec = 0;
+  m_MeanRegionIntensity = 0;
 }
 
 
@@ -78,29 +78,6 @@ SegmentationRegion
   os << indent << "Area of the region      : " << m_RegionArea  << std::endl;
 
 }// end PrintSelf
-
-
-
-void
-SegmentationRegion
-::SetMeanRegionIntensity( VecDblType averageRegionIntensity )
-{
-
-  m_MeanVec = averageRegionIntensity;
-
-}// end SetMeanRegionIntensity()
-
-
-
-
-SegmentationRegion::VecDblType
-SegmentationRegion
-::GetMeanRegionIntensity()
-{
-
-  return m_MeanVec;
-
-}// end GetMeanRegionIntensity()
 
 } // namespace itk
 

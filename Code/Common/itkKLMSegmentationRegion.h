@@ -121,7 +121,7 @@ class ITK_EXPORT KLMSegmentationRegion : public SegmentationRegion
 {
 private:
   /** Type definition for an double vector. */
-  typedef vnl_matrix<double> VecDblType;
+  typedef vnl_matrix<double> VectorOfDoubleType;
 
 public:
   /** Standard class typedefs. */
@@ -139,14 +139,14 @@ public:
   /** Type definition for vector container that stores the borders
    * associated with a current region. */             
   typedef std::vector< KLMSegmentationBorder* > 
-      RegionBorderVecType;
+      RegionBorderVectorType;
 
   /** Type definition for the region border vector iterators to be used. */
-  typedef RegionBorderVecType::iterator RegionBorderVecIterator;
+  typedef RegionBorderVectorType::iterator RegionBorderVectorIterator;
 
   /** Set the region with parameter values
    * defining the region. */
-  void SetRegion(VecDblType regionMeanIntensity, 
+  void SetRegion(VectorOfDoubleType regionMeanIntensity, 
                  unsigned int regionArea,
                  unsigned int label);
 
@@ -162,7 +162,7 @@ public:
   /** Delete a region border. */
   void DeleteRegionBorder(KLMSegmentationBorder *pBorderCandidate);
   /** Insert a region border. */
-  void InsertRegionBorder(RegionBorderVecIterator it,
+  void InsertRegionBorder(RegionBorderVectorIterator it,
                           KLMSegmentationBorder *pBorderCandidate);
 
   /** Reorder the region borders given a candidate border after region 
@@ -171,11 +171,11 @@ public:
 
   /** Get a head pointer to the vector containter storing the borders
    * associated with a region. */
-  RegionBorderVecIterator GetRegionBorderItBegin();
+  RegionBorderVectorIterator GetRegionBorderItBegin();
 
   /** Get a tail pointer to the vector containter storing the borders
    * associated with a region. */
-  RegionBorderVecIterator GetRegionBorderItEnd();
+  RegionBorderVectorIterator GetRegionBorderItEnd();
 
   /** Recalculate the lambda values for all the borders defining the region
    * and resort the entire border list in decending order of the lambda
@@ -194,7 +194,7 @@ private:
   KLMSegmentationRegion(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-  RegionBorderVecType    m_RegionBorderVec;
+  RegionBorderVectorType    m_RegionBorderVector;
 
 }; // class SegmentationRegion
 
