@@ -189,8 +189,8 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int, char**)
 
   RegistrationType::Pointer registrator = RegistrationType::New();
 
-  registrator->SetReference( reference );
-  registrator->SetTarget( target );
+  registrator->SetMovingImage( reference );
+  registrator->SetFixedImage( target );
  
   unsigned int numLevel = 5;
   unsigned int numIterations[10];
@@ -303,7 +303,7 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int, char**)
   std::cout << "Test when last shrink factors are not ones." << std::endl;
 
   registrator->SetNumberOfLevels( 1 );
-  registrator->GetTargetPyramid()->SetStartingShrinkFactors( 2 );
+  registrator->GetFixedImagePyramid()->SetStartingShrinkFactors( 2 );
 
   unsigned int n = 5;
   registrator->SetNumberOfIterations( &n );

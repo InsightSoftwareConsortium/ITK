@@ -17,6 +17,7 @@
 #ifndef _itkDemonsRegistrationFunction_txx_
 #define _itkDemonsRegistrationFunction_txx_
 
+#include "itkDemonsRegistrationFunction.h"
 #include "itkExceptionObject.h"
 #include "vnl/vnl_math.h"
 
@@ -25,8 +26,8 @@ namespace itk {
 /*
  * Default constructor
  */
-template <class TReference, class TTarget, class TDeformationField>
-DemonsRegistrationFunction<TReference,TTarget,TDeformationField>
+template <class TFixedImage, class TMovingImage, class TDeformationField>
+DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::DemonsRegistrationFunction()
 {
 
@@ -40,17 +41,17 @@ DemonsRegistrationFunction<TReference,TTarget,TDeformationField>
 
   m_TimeStep = 1.0;
   m_EpsilonDenominator = 1e-9;
-  m_Reference = NULL;
-  m_Target = NULL;
-  m_TargetSpacing = NULL;
-  m_TargetOrigin = NULL;
-  m_TargetGradientCalculator = GradientCalculatorType::New();
+  m_MovingImage = NULL;
+  m_FixedImage = NULL;
+  m_FixedImageSpacing = NULL;
+  m_FixedImageOrigin = NULL;
+  m_FixedImageGradientCalculator = GradientCalculatorType::New();
 
 
   typename DefaultInterpolatorType::Pointer interp =
     DefaultInterpolatorType::New();
 
-  m_ReferenceInterpolator = static_cast<InterpolatorType*>(
+  m_MovingImageInterpolator = static_cast<InterpolatorType*>(
     interp.GetPointer() );
 
 
@@ -60,17 +61,17 @@ DemonsRegistrationFunction<TReference,TTarget,TDeformationField>
 /*
  * Standard "PrintSelf" method.
  */
-template <class TReference, class TTarget, class TDeformationField>
+template <class TFixedImage, class TMovingImage, class TDeformationField>
 void
-DemonsRegistrationFunction<TReference,TTarget,TDeformationField>
+DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "ReferenceIterpolator: ";
-  os << m_ReferenceInterpolator.GetPointer() << std::endl;
-  os << indent << "TargetGradientCalculator: ";
-  os << m_TargetGradientCalculator.GetPointer() << std::endl;
+  os << indent << "MovingImageIterpolator: ";
+  os << m_MovingImageInterpolator.GetPointer() << std::endl;
+  os << indent << "FixedImageGradientCalculator: ";
+  os << m_FixedImageGradientCalculator.GetPointer() << std::endl;
   os << indent << "EpsilonDenominator: ";
   os << m_EpsilonDenominator << std::endl;
 
@@ -80,26 +81,26 @@ DemonsRegistrationFunction<TReference,TTarget,TDeformationField>
 /*
  * Set the function state values before each iteration
  */
-template <class TReference, class TTarget, class TDeformationField>
+template <class TFixedImage, class TMovingImage, class TDeformationField>
 void
-DemonsRegistrationFunction<TReference,TTarget,TDeformationField>
+DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::InitializeIteration()
 {
-  if( !m_Reference || !m_Target || !m_ReferenceInterpolator )
+  if( !m_MovingImage || !m_FixedImage || !m_MovingImageInterpolator )
     {
-    itkExceptionMacro( << "Reference, Target and/or Interpolator not set" );
+    itkExceptionMacro( << "MovingImage, FixedImage and/or Interpolator not set" );
     throw ExceptionObject(__FILE__,__LINE__);
     }
 
-  // cache target image information
-  m_TargetSpacing    = m_Target->GetSpacing();
-  m_TargetOrigin     = m_Target->GetOrigin();
+  // cache fixed image information
+  m_FixedImageSpacing    = m_FixedImage->GetSpacing();
+  m_FixedImageOrigin     = m_FixedImage->GetOrigin();
 
   // setup gradient calculator
-  m_TargetGradientCalculator->SetInputImage( m_Target );
+  m_FixedImageGradientCalculator->SetInputImage( m_FixedImage );
 
-  // setup reference interpolator
-  m_ReferenceInterpolator->SetInputImage( m_Reference );
+  // setup moving image interpolator
+  m_MovingImageInterpolator->SetInputImage( m_MovingImage );
 
 }
 
@@ -107,9 +108,10 @@ DemonsRegistrationFunction<TReference,TTarget,TDeformationField>
 /*
  * Compute update at a non boundary neighbourhood
  */
-template <class TReference, class TTarget, class TDeformationField>
-DemonsRegistrationFunction<TReference,TTarget,TDeformationField>::PixelType
-DemonsRegistrationFunction<TReference,TTarget,TDeformationField>
+template <class TFixedImage, class TMovingImage, class TDeformationField>
+DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
+::PixelType
+DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::ComputeUpdate(const NeighborhoodType &it, void * globalData,
                 const FloatOffsetType& offset) const
 {
@@ -119,43 +121,43 @@ DemonsRegistrationFunction<TReference,TTarget,TDeformationField>
 
   IndexType index = it.GetIndex();
 
-  // Get target related information
-  double targetValue;
-  CovariantVectorType targetGradient;
-  double targetGradientSquaredMagnitude = 0;
+  // Get fixed image related information
+  double fixedValue;
+  CovariantVectorType fixedGradient;
+  double fixedGradientSquaredMagnitude = 0;
 
   // Note: no need to check the index is within
-  // target buffer. This is done by the external filter.
-  targetValue = (double) m_Target->GetPixel( index );
+  // fixed image buffer. This is done by the external filter.
+  fixedValue = (double) m_FixedImage->GetPixel( index );
   for( int j = 0; j < ImageDimension; j++ )
     {
-    targetGradient[j] = m_TargetGradientCalculator->EvaluateAtIndex( index, j );
-    targetGradientSquaredMagnitude += vnl_math_sqr( targetGradient[j] );
+    fixedGradient[j] = m_FixedImageGradientCalculator->EvaluateAtIndex( index, j );
+    fixedGradientSquaredMagnitude += vnl_math_sqr( fixedGradient[j] );
     } 
 
-  // Get reference related information
-  double refValue;
+  // Get moving image related information
+  double movingValue;
   PointType mappedPoint;
 
   for( j = 0; j < ImageDimension; j++ )
     {
-     mappedPoint[j] = double( index[j] ) * m_TargetSpacing[j] + 
-      m_TargetOrigin[j];
+     mappedPoint[j] = double( index[j] ) * m_FixedImageSpacing[j] + 
+      m_FixedImageOrigin[j];
      mappedPoint[j] += it.GetCenterPixel()[j];
     }
-  if( m_ReferenceInterpolator->IsInsideBuffer( mappedPoint ) )
+  if( m_MovingImageInterpolator->IsInsideBuffer( mappedPoint ) )
     {
-    refValue = m_ReferenceInterpolator->Evaluate( mappedPoint );
+    movingValue = m_MovingImageInterpolator->Evaluate( mappedPoint );
     }
   else
     {
-    refValue = 0.0;
+    movingValue = 0.0;
     }
 
   // Compute update
-  double speedValue = targetValue - refValue;
+  double speedValue = fixedValue - movingValue;
   double denominator = vnl_math_sqr( speedValue ) + 
-    targetGradientSquaredMagnitude;
+    fixedGradientSquaredMagnitude;
 
   if ( denominator < m_EpsilonDenominator )
     {
@@ -168,7 +170,7 @@ DemonsRegistrationFunction<TReference,TTarget,TDeformationField>
 
   for( j = 0; j < ImageDimension; j++ )
     {
-    update[j] = speedValue * targetGradient[j] * m_TargetSpacing[j] / 
+    update[j] = speedValue * fixedGradient[j] * m_FixedImageSpacing[j] / 
       denominator;
     }
 
@@ -181,9 +183,10 @@ DemonsRegistrationFunction<TReference,TTarget,TDeformationField>
 /*
  * Compute update at a boundary neighbourhood
  */
-template <class TReference, class TTarget, class TDeformationField>
-DemonsRegistrationFunction<TReference,TTarget,TDeformationField>::PixelType
-DemonsRegistrationFunction<TReference,TTarget,TDeformationField>
+template <class TFixedImage, class TMovingImage, class TDeformationField>
+DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
+::PixelType
+DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::ComputeUpdate(const BoundaryNeighborhoodType &it, void * globalData,
                 const FloatOffsetType& offset) const
 {

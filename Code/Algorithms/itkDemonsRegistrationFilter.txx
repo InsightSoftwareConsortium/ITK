@@ -23,8 +23,8 @@ namespace itk {
 /*
  * Default constructor
  */
-template <class TReference, class TTarget, class TDeformationField>
-DemonsRegistrationFilter<TReference,TTarget,TDeformationField>
+template <class TFixedImage, class TMovingImage, class TDeformationField>
+DemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::DemonsRegistrationFilter()
 {
  
@@ -40,9 +40,9 @@ DemonsRegistrationFilter<TReference,TTarget,TDeformationField>
 /*
  * Set the function state values before each iteration
  */
-template <class TReference, class TTarget, class TDeformationField>
+template <class TFixedImage, class TMovingImage, class TDeformationField>
 void
-DemonsRegistrationFilter<TReference,TTarget,TDeformationField>
+DemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::InitializeIteration()
 {
  

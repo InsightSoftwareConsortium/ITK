@@ -180,8 +180,8 @@ private:
   MutualInformationImageToImageMetric(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-  /** A spatial sample consists of the target domain point, the target value
-   *   and that point, and the corresponding reference value. */
+  /** A spatial sample consists of the fixed domain point, the fixed image value
+   *   at that point, and the corresponding moving image value. */
   class SpatialSample
   {
   public:

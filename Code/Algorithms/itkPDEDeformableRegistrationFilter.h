@@ -28,19 +28,19 @@ namespace itk {
  *
  * PDEDeformableRegistrationFilter is a base case for filter implementing
  * a PDE deformable algorithm that register two images by computing the 
- * deformation field which will map a reference image onto a target image.
+ * deformation field which will map a moving image onto a fixed image.
  *
  * A deformation field is represented as a image whose pixel type is some
  * vector type with at least N elements, where N is the dimension of
- * the target image. The vector type must support element access via operator
+ * the fixed image. The vector type must support element access via operator
  * []. It is assumed that the vector elements behave like floating point
  * scalars.
  *
- * This class is templated over the Reference image type, Target image type
- * and the Deformation Field type.
+ * This class is templated over the fixed image type, moving image type
+ * and the deformation Field type.
  *
- * The input reference and target images are set via methods SetReference
- * and SetTarget respectively. An initial deformation field maybe set via
+ * The input fixed and moving images are set via methods SetFixedImage
+ * and SetMovingImage respectively. An initial deformation field maybe set via
  * SetInitialDeformationField or SetInput. If no initial field is set,
  * a zero field is used as the initial condition.
  *
@@ -56,13 +56,13 @@ namespace itk {
  * This class make use of the finite difference solver hierarchy. Update
  * for each iteration is computed using a PDEDeformableRegistrationFunction.
  *
- * \warning This filter assumes that the reference type, target type
+ * \warning This filter assumes that the fixed image type, moving image type
  * and deformation field type all have the same number of dimensions.
  * 
  * \sa PDEDeformableRegistrationFunction.
  * \ingroup DeformableImageRegistration
  */
-template<class TReference, class TTarget, class TDeformationField>
+template<class TFixedImage, class TMovingImage, class TDeformationField>
 class ITK_EXPORT PDEDeformableRegistrationFilter : 
   public DenseFiniteDifferenceImageFilter<TDeformationField,TDeformationField>
 {
@@ -81,15 +81,15 @@ public:
   itkTypeMacro( PDEDeformableRegistrationFilter, 
     DenseFiniteDifferenceImageFilter );
 
-  /** Reference image type. */
-  typedef TReference   ReferenceType;
-  typedef typename ReferenceType::Pointer  ReferencePointer;
-  typedef typename ReferenceType::ConstPointer  ReferenceConstPointer;
+  /** FixedImage image type. */
+  typedef TFixedImage   FixedImageType;
+  typedef typename FixedImageType::Pointer  FixedImagePointer;
+  typedef typename FixedImageType::ConstPointer  FixedImageConstPointer;
 
-  /** Target image type. */
-  typedef TTarget    TargetType;
-  typedef typename TargetType::Pointer  TargetPointer;
-  typedef typename TargetType::ConstPointer  TargetConstPointer;
+  /** MovingImage image type. */
+  typedef TMovingImage    MovingImageType;
+  typedef typename MovingImageType::Pointer  MovingImagePointer;
+  typedef typename MovingImageType::ConstPointer  MovingImageConstPointer;
   
   /** Deformation field type. */
   typedef TDeformationField    DeformationFieldType;
@@ -100,23 +100,23 @@ public:
     FiniteDifferenceFunctionType;
 
   /** PDEDeformableRegistrationFilterFunction type. */
-  typedef PDEDeformableRegistrationFunction<ReferenceType,TargetType,
+  typedef PDEDeformableRegistrationFunction<FixedImageType,MovingImageType,
     DeformationFieldType>  PDEDeformableRegistrationFunctionType;
 
   /** Inherit some enums and typedefs from the superclass. */
   enum{ ImageDimension = Superclass::ImageDimension };
 
-  /** Set the reference image. */
-  void SetReference( const ReferenceType * ptr );
+  /** Set the fixed image. */
+  void SetFixedImage( const FixedImageType * ptr );
 
-  /** Get the reference image. */
-  ReferenceConstPointer GetReference(void);
+  /** Get the fixed image. */
+  FixedImageConstPointer GetFixedImage(void);
 
-  /** Set the target image. */
-  void SetTarget( const TargetType * ptr );
+  /** Set the moving image. */
+  void SetMovingImage( const MovingImageType * ptr );
 
-  /** Get the target image. */
-  TargetConstPointer GetTarget(void);
+  /** Get the moving image. */
+  MovingImageConstPointer GetMovingImage(void);
 
   /** Set initial deformation field. */
   void SetInitialDeformationField( DeformationFieldType * ptr )
@@ -175,14 +175,14 @@ protected:
   /** By default the output deformation field has the same Spacing, Origin
    * and LargestPossibleRegion as the input/initial deformation field.  If
    * the initial deformation field is not set, the output information is
-   * copied from the target image. */
+   * copied from the fixed image. */
   virtual void GenerateOutputInformation();
 
-  /** It is difficult to compute in advance the input reference region
+  /** It is difficult to compute in advance the input moving image region
    * required to compute the requested output region. Thus the safest
-   * thing to do is to request for the whole refernce image.
+   * thing to do is to request for the whole moving image.
    *
-   * For the target and deformation field, the input requested region
+   * For the fixed image and deformation field, the input requested region
    * set to be the same as that of the output requested region. */
   virtual void GenerateInputRequestedRegion();
 

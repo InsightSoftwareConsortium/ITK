@@ -178,8 +178,8 @@ int itkDemonsRegistrationFilterTest(int, char**)
   RegistrationType::Pointer registrator = RegistrationType::New();
 
   registrator->SetInitialDeformationField( initField );
-  registrator->SetReference( reference );
-  registrator->SetTarget( target );
+  registrator->SetMovingImage( reference );
+  registrator->SetFixedImage( target );
   registrator->SetNumberOfIterations( 150 );
   registrator->SetStandardDeviations( 1.0 );
   registrator->Print( std::cout );

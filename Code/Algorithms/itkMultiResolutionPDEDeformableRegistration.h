@@ -21,7 +21,7 @@
 #include "itkImageToImageFilter.h"
 #include "itkPDEDeformableRegistrationFilter.h"
 #include "itkDemonsRegistrationFilter.h"
-#include "itkRecursiveMultiResolutionPyramidImageFilter.h"
+#include "itkMultiResolutionPyramidImageFilter.h"
 #include "itkVectorExpandImageFilter.h"
 
 #include <vector>
@@ -37,30 +37,30 @@ namespace itk
  *
  * At each resolution level a PDEDeformableRegistrationFilter is used
  * to register two images by computing the deformation field which will 
- * map a reference image onto a target image.
+ * map a moving image onto a fixed image.
  *
  * A deformation field is represented as a image whose pixel type is some
  * vector type with at least N elements, where N is the dimension of
- * the target image. The vector type must support element access via operator
+ * the fixed image. The vector type must support element access via operator
  * []. It is assumed that the vector elements behave like floating point
  * scalars.
  *
  * The internal PDEDeformationRegistrationFilter can be set using
  * SetRegistrationFilter. By default a DemonsRegistrationFilter is used.
  *
- * The input reference and target images are set via methods SetReference
- * and SetTarget respectively. An initial deformation field maybe set via
+ * The input fixed and moving images are set via methods SetFixedImage
+ * and SetMovingImage respectively. An initial deformation field maybe set via
  * SetInitialDeformationField or SetInput. If no initial field is set
  * a zero field is used as the initial condition.
  *
- * MultiResolutionPyramidImageFilters are used to downsample the target
- * and reference images. A VectorExpandImageFilter is used to upsample
+ * MultiResolutionPyramidImageFilters are used to downsample the fixed
+ * and moving images. A VectorExpandImageFilter is used to upsample
  * the deformation as we move from a coarse to fine solution.
  *
- * This class is templated over the Reference image type, Target image type,
+ * This class is templated over the fixed image type, moving image type,
  * the Deformation Field type.
  *
- * \warning This class assumes that the reference, target and deformation
+ * \warning This class assumes that the fixed, moving and deformation
  * field image types all have the same number of dimensions.
  *
  * \sa PDEDeformableRegistrationFilter
@@ -72,7 +72,7 @@ namespace itk
  *
  * \ingroup DeformableImageRegistration
  */
-template <class TReference, class TTarget, class TDeformationField>
+template <class TFixedImage, class TMovingImage, class TDeformationField>
 class MultiResolutionPDEDeformableRegistration :
   public ImageToImageFilter <TDeformationField, TDeformationField>
 {
@@ -91,22 +91,22 @@ public:
   itkTypeMacro( MultiResolutionPDEDeformableRegistration, 
     ImageToImageFilter );
 
-  /** Reference image type. */
-  typedef TReference ReferenceType;
-  typedef typename ReferenceType::Pointer ReferencePointer;
-  typedef typename ReferenceType::ConstPointer ReferenceConstPointer;
+  /** Fixed image type. */
+  typedef TFixedImage FixedImageType;
+  typedef typename FixedImageType::Pointer FixedImagePointer;
+  typedef typename FixedImageType::ConstPointer FixedImageConstPointer;
 
-  /** Target image type. */
-  typedef TTarget TargetType;
-  typedef typename TargetType::Pointer TargetPointer;
-  typedef typename TargetType::ConstPointer TargetConstPointer;
+  /** Moving image type. */
+  typedef TMovingImage MovingImageType;
+  typedef typename MovingImageType::Pointer MovingImagePointer;
+  typedef typename MovingImageType::ConstPointer MovingImageConstPointer;
 
   /** Deformation field image type. */
   typedef TDeformationField DeformationFieldType;
   typedef typename DeformationFieldType::Pointer DeformationFieldPointer;
 
   /** ImageDimension. */
-  enum { ImageDimension = TargetType::ImageDimension };
+  enum { ImageDimension = FixedImageType::ImageDimension };
 
   /** Internal float image type. */
   typedef Image<float,ImageDimension> FloatImageType;
@@ -120,32 +120,32 @@ public:
   typedef DemonsRegistrationFilter<
     FloatImageType, FloatImageType, DeformationFieldType > DefaultRegistrationType;
 
-  /** The reference multi-resolution image pyramid type. */
-  typedef RecursiveMultiResolutionPyramidImageFilter<
-    ReferenceType, FloatImageType > ReferencePyramidType;
-  typedef typename ReferencePyramidType::Pointer ReferencePyramidPointer;
+  /** The fixed multi-resolution image pyramid type. */
+  typedef MultiResolutionPyramidImageFilter<
+    FixedImageType, FloatImageType > FixedImagePyramidType;
+  typedef typename FixedImagePyramidType::Pointer FixedImagePyramidPointer;
 
-  /** The target multi-resolution image pyramid type. */
-  typedef RecursiveMultiResolutionPyramidImageFilter<
-    TargetType, FloatImageType > TargetPyramidType;
-  typedef typename TargetPyramidType::Pointer TargetPyramidPointer;
+  /** The moving multi-resolution image pyramid type. */
+  typedef MultiResolutionPyramidImageFilter<
+    MovingImageType, FloatImageType > MovingImagePyramidType;
+  typedef typename MovingImagePyramidType::Pointer MovingImagePyramidPointer;
    
   /** The deformation field expander type. */
   typedef VectorExpandImageFilter<
     DeformationFieldType, DeformationFieldType > FieldExpanderType;
   typedef typename FieldExpanderType::Pointer  FieldExpanderPointer;
 
-  /** Set the reference image. */
-  virtual void SetReference( const ReferenceType * ptr );
+  /** Set the fixed image. */
+  virtual void SetFixedImage( const FixedImageType * ptr );
 
-  /** Get the reference image. */
-  ReferenceConstPointer GetReference(void);
+  /** Get the fixed image. */
+  FixedImageConstPointer GetFixedImage(void);
 
-  /** Set the target image. */
-  virtual void SetTarget( const TargetType * ptr );
+  /** Set the moving image. */
+  virtual void SetMovingImage( const MovingImageType * ptr );
 
-  /** Get the target image. */
-  TargetConstPointer GetTarget(void);
+  /** Get the moving image. */
+  MovingImageConstPointer GetMovingImage(void);
 
   /** Set initial deformation field. */
   virtual void SetInitialDeformationField( DeformationFieldType * ptr )
@@ -164,17 +164,17 @@ public:
   /** Get the internal registrator. */
   itkGetObjectMacro( RegistrationFilter, RegistrationType );
   
-  /** Set the reference image pyramid. */
-  itkSetObjectMacro( ReferencePyramid, ReferencePyramidType );
+  /** Set the fixed image pyramid. */
+  itkSetObjectMacro( FixedImagePyramid, FixedImagePyramidType );
 
-  /** Get the reference image pyramid. */
-  itkGetObjectMacro( ReferencePyramid, ReferencePyramidType );
+  /** Get the fixed image pyramid. */
+  itkGetObjectMacro( FixedImagePyramid, FixedImagePyramidType );
 
-  /** Set the target image pyramid. */
-  itkSetObjectMacro( TargetPyramid, TargetPyramidType );
+  /** Set the moving image pyramid. */
+  itkSetObjectMacro( MovingImagePyramid, MovingImagePyramidType );
 
-  /** Get the target image pyramid. */
-  itkGetObjectMacro( TargetPyramid, TargetPyramidType );
+  /** Get the moving image pyramid. */
+  itkGetObjectMacro( MovingImagePyramid, MovingImagePyramidType );
 
   /** Set number of multi-resolution levels. */
   virtual void SetNumberOfLevels( unsigned int num );
@@ -203,7 +203,7 @@ protected:
 
   /** The current implementation of this class does not support
    * streaming. As such it requires the largest possible region
-   * for the reference, target and input deformation field. */
+   * for the moving, fixed and input deformation field. */
   virtual void GenerateInputRequestedRegion();
 
   /** By default, the output deformation field has the same
@@ -211,7 +211,7 @@ protected:
    * deformation field.
    *
    * If the initial deformation field is not set, the output
-   * information is copoed from the target image. */
+   * information is copied from the fixed image. */
   virtual void GenerateOutputInformation();
 
   /** The current implementation of this class does not supprot
@@ -224,8 +224,8 @@ private:
   void operator=(const Self&); //purposely not implemented
   
   RegistrationPointer        m_RegistrationFilter;
-  ReferencePyramidPointer    m_ReferencePyramid;
-  TargetPyramidPointer       m_TargetPyramid;
+  FixedImagePyramidPointer   m_FixedImagePyramid;
+  MovingImagePyramidPointer  m_MovingImagePyramid;
   FieldExpanderPointer       m_FieldExpander;
 
   unsigned int               m_NumberOfLevels;

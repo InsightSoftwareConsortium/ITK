@@ -17,6 +17,8 @@
 #ifndef _itkPDEDeformableRegistrationFilter_txx_
 #define _itkPDEDeformableRegistrationFilter_txx_
 
+#include "itkPDEDeformableRegistrationFilter.h"
+
 #include "itkExceptionObject.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageLinearIteratorWithIndex.h"
@@ -32,8 +34,8 @@ namespace itk {
 /*
  * Default constructor
  */
-template <class TReference, class TTarget, class TDeformationField>
-PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
+template <class TFixedImage, class TMovingImage, class TDeformationField>
+PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::PDEDeformableRegistrationFilter()
 {
  
@@ -54,55 +56,55 @@ PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
 
 
 /*
- * Set the reference image.
+ * Set the fixed image.
  */
-template <class TReference, class TTarget, class TDeformationField>
+template <class TFixedImage, class TMovingImage, class TDeformationField>
 void
-PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
-::SetReference(
-const ReferenceType * ptr )
+PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
+::SetFixedImage(
+const FixedImageType * ptr )
 {
-  this->ProcessObject::SetNthInput( 1, const_cast< ReferenceType * >( ptr ) );
+  this->ProcessObject::SetNthInput( 1, const_cast< FixedImageType * >( ptr ) );
 }
 
 
 /*
- * Get the reference image.
+ * Get the fixed image.
  */
-template <class TReference, class TTarget, class TDeformationField>
-PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
-::ReferenceConstPointer
-PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
-::GetReference()
+template <class TFixedImage, class TMovingImage, class TDeformationField>
+PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
+::FixedImageConstPointer
+PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
+::GetFixedImage()
 {
-  return dynamic_cast< const ReferenceType * >
+  return dynamic_cast< const FixedImageType * >
     ( this->ProcessObject::GetInput( 1 ).GetPointer() );
 }
 
 
 /*
- * Set the target image.
+ * Set the moving image.
  */
-template <class TReference, class TTarget, class TDeformationField>
+template <class TFixedImage, class TMovingImage, class TDeformationField>
 void
-PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
-::SetTarget(
-const TargetType * ptr )
+PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
+::SetMovingImage(
+const MovingImageType * ptr )
 {
-  this->ProcessObject::SetNthInput( 2, const_cast< TargetType * >( ptr ) );
+  this->ProcessObject::SetNthInput( 2, const_cast< MovingImageType * >( ptr ) );
 }
 
 
 /*
- * Get the target image.
+ * Get the moving image.
  */
-template <class TReference, class TTarget, class TDeformationField>
-PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
-::TargetConstPointer
-PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
-::GetTarget()
+template <class TFixedImage, class TMovingImage, class TDeformationField>
+PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
+::MovingImageConstPointer
+PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
+::GetMovingImage()
 {
-  return dynamic_cast< TargetType * >
+  return dynamic_cast< MovingImageType * >
     ( this->ProcessObject::GetInput( 2 ).GetPointer() );
 }
 
@@ -110,9 +112,9 @@ PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
 /*
  * Set the standard deviations.
  */
-template <class TReference, class TTarget, class TDeformationField>
+template <class TFixedImage, class TMovingImage, class TDeformationField>
 void
-PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
+PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::SetStandardDeviations(
 double value )
 {
@@ -140,9 +142,9 @@ double value )
 /*
  * Standard PrintSelf method.
  */
-template <class TReference, class TTarget, class TDeformationField>
+template <class TFixedImage, class TMovingImage, class TDeformationField>
 void
-PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
+PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -161,18 +163,18 @@ PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
 /*
  * Set the function state values before each iteration
  */
-template <class TReference, class TTarget, class TDeformationField>
+template <class TFixedImage, class TMovingImage, class TDeformationField>
 void
-PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
+PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::InitializeIteration()
 {
 
-  ReferenceConstPointer refPtr = this->GetReference();
-  TargetConstPointer targetPtr = this->GetTarget();
+  MovingImageConstPointer movingPtr = this->GetMovingImage();
+  FixedImageConstPointer fixedPtr = this->GetFixedImage();
 
-  if( !refPtr || !targetPtr )
+  if( !movingPtr || !fixedPtr )
     {
-    itkExceptionMacro( << "Reference and/or Target image not set" );
+    itkExceptionMacro( << "Fixed and/or moving image not set" );
     throw ExceptionObject(__FILE__,__LINE__);
     }
 
@@ -182,8 +184,8 @@ PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
     PDEDeformableRegistrationFunctionType *f = 
       dynamic_cast<PDEDeformableRegistrationFunctionType *>
       (this->GetDifferenceFunction().GetPointer());
-    f->SetReference( refPtr );
-    f->SetTarget( targetPtr );
+    f->SetFixedImage( fixedPtr );
+    f->SetMovingImage( movingPtr );
     this->Superclass::InitializeIteration();           
     }
   catch( ... )
@@ -212,9 +214,9 @@ PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
  * If the initial deformation is not set, the output is
  * fill with zero vectors.
  */
-template <class TReference, class TTarget, class TDeformationField>
+template <class TFixedImage, class TMovingImage, class TDeformationField>
 void
-PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
+PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::CopyInputToOutput()
 {
 
@@ -245,9 +247,9 @@ PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
 }
 
 
-template <class TReference, class TTarget, class TDeformationField>
+template <class TFixedImage, class TMovingImage, class TDeformationField>
 void
-PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
+PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::GenerateOutputInformation()
 {
 
@@ -263,7 +265,7 @@ PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
  else if( this->GetInput(2) )
   {
   // Initial deforamtion field is not set. 
-  // Copy information from the target image.
+  // Copy information from the fixed image.
   for (unsigned int idx = 0; idx < 
     this->GetNumberOfOutputs(); ++idx )
     {
@@ -279,39 +281,39 @@ PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
 }
 
 
-template <class TReference, class TTarget, class TDeformationField>
+template <class TFixedImage, class TMovingImage, class TDeformationField>
 void
-PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
+PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::GenerateInputRequestedRegion()
 {
 
   // call the superclass's implementation
   Superclass::GenerateInputRequestedRegion();
 
-  // request the largest possible region for the reference image
-  ReferencePointer refPtr = 
-      const_cast< ReferenceType * >( this->GetReference().GetPointer() );
-  if( refPtr )
+  // request the largest possible region for the moving image
+  MovingImagePointer movingPtr = 
+      const_cast< MovingImageType * >( this->GetMovingImage().GetPointer() );
+  if( movingPtr )
     {
-    refPtr->SetRequestedRegionToLargestPossibleRegion();
+    movingPtr->SetRequestedRegionToLargestPossibleRegion();
     }
   
   // just propagate up the output requested region for
-  // the target image and initial deformation field.
+  // the fixed image and initial deformation field.
   DeformationFieldPointer inputPtr = 
       const_cast< DeformationFieldType * >( this->GetInput().GetPointer() );
   DeformationFieldPointer outputPtr = this->GetOutput();
-  TargetPointer targetPtr = 
-        const_cast< TargetType *>( this->GetTarget().GetPointer() );
+  FixedImagePointer fixedPtr = 
+        const_cast< FixedImageType *>( this->GetFixedImage().GetPointer() );
 
   if( inputPtr )
     {
     inputPtr->SetRequestedRegion( outputPtr->GetRequestedRegion() );
     }
 
-  if( targetPtr )
+  if( fixedPtr )
     {
-    targetPtr->SetRequestedRegion( outputPtr->GetRequestedRegion() );
+    fixedPtr->SetRequestedRegion( outputPtr->GetRequestedRegion() );
     }
 
 }
@@ -320,9 +322,9 @@ PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
 /*
  * Copy one deformation field into the buffer or another field
  */
-template <class TReference, class TTarget, class TDeformationField>
+template <class TFixedImage, class TMovingImage, class TDeformationField>
 void
-PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
+PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::CopyDeformationField(
 DeformationFieldType * input,
 DeformationFieldType * output
@@ -343,9 +345,9 @@ DeformationFieldType * output
 /*
  * Smooth deformation using a separable Gaussian kernel
  */
-template <class TReference, class TTarget, class TDeformationField>
+template <class TFixedImage, class TMovingImage, class TDeformationField>
 void
-PDEDeformableRegistrationFilter<TReference,TTarget,TDeformationField>
+PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::SmoothDeformationField()
 {
 

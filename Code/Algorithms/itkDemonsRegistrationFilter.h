@@ -27,19 +27,19 @@ namespace itk {
  *
  * DemonsRegistrationFilter implements the demons deformable algorithm that 
  * register two images by computing the deformation field which will map a 
- * reference image onto a target image.
+ * moving image onto a fixed image.
  *
  * A deformation field is represented as a image whose pixel type is some
  * vector type with at least N elements, where N is the dimension of
- * the target image. The vector type must support element access via operator
+ * the fixed image. The vector type must support element access via operator
  * []. It is assumed that the vector elements behave like floating point
  * scalars.
  *
- * This class is templated over the Reference image type, Target image type
+ * This class is templated over the fixed image type, moving image type
  * and the deformation field type.
  *
- * The input reference and target images are set via methods SetReference
- * and SetTarget respectively. An initial deformation field maybe set via
+ * The input fixed and moving images are set via methods SetFixedImage
+ * and SetMovingImage respectively. An initial deformation field maybe set via
  * SetInitialDeformationField or SetInput. If no initial field is set,
  * a zero field is used as the initial condition.
  *
@@ -51,22 +51,22 @@ namespace itk {
  * This class make use of the finite difference solver hierarchy. Update
  * for each iteration is computed in DemonsRegistrationFunction.
  *
- * \warning This filter assumes that the reference type, target type
+ * \warning This filter assumes that the fixed image type, moving image type
  * and deformation field type all have the same number of dimensions.
  * 
  * \sa DemonsRegistrationFunction 
  * \ingroup DeformableImageRegistration MultiThreaded
  */
-template<class TReference, class TTarget, class TDeformationField>
+template<class TFixedImage, class TMovingImage, class TDeformationField>
 class ITK_EXPORT DemonsRegistrationFilter : 
-  public PDEDeformableRegistrationFilter< TReference, TTarget,
+  public PDEDeformableRegistrationFilter< TFixedImage, TMovingImage,
     TDeformationField>
 {
 public:
   /** Standard class typedefs. */
   typedef DemonsRegistrationFilter    Self;
   typedef PDEDeformableRegistrationFilter<
-    TReference, TTarget,TDeformationField>    Superclass;
+    TFixedImage, TMovingImage,TDeformationField>    Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
@@ -77,13 +77,13 @@ public:
   itkTypeMacro( DemonsRegistrationFilter, 
     PDEDeformableRegistrationFilter );
 
-  /** Reference image type. */
-  typedef typename Superclass::ReferenceType   ReferenceType;
-  typedef typename Superclass::ReferencePointer  ReferencePointer;
+  /** FixedImage image type. */
+  typedef typename Superclass::FixedImageType   FixedImageType;
+  typedef typename Superclass::FixedImagePointer  FixedImagePointer;
 
-  /** Target image type. */
-  typedef typename Superclass::TargetType    TargetType;
-  typedef typename Superclass::TargetPointer  TargetPointer;
+  /** MovingImage image type. */
+  typedef typename Superclass::MovingImageType    MovingImageType;
+  typedef typename Superclass::MovingImagePointer  MovingImagePointer;
   
   /** Deformation field type. */
   typedef typename Superclass::DeformationFieldType 
@@ -96,7 +96,7 @@ public:
     FiniteDifferenceFunctionType;
 
   /** DemonsRegistrationFilterFunction type. */
-  typedef DemonsRegistrationFunction<ReferenceType,TargetType,
+  typedef DemonsRegistrationFunction<FixedImageType,MovingImageType,
     DeformationFieldType>  DemonsRegistrationFunctionType;
 
 protected:

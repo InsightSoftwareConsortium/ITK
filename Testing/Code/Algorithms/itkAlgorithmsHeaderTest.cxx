@@ -67,7 +67,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkMultiResolutionImageRegistrationMethod.txx"
 #include "itkMultiResolutionPDEDeformableRegistration.txx"
 #include "itkMultiResolutionPyramidImageFilter.txx"
-#include "itkMultiResolutionRegistration.txx"
 #include "itkMutualInformationImageToImageMetric.txx"
 #include "itkNormalizedCorrelationImageToImageMetric.txx"
 #include "itkNormalizedCorrelationPointSetToImageMetric.txx"

@@ -26,16 +26,16 @@ namespace itk {
  * This is an abstract base class for all PDE functions which drives a
  * deformable registration algorithm. It is used by 
  * PDEDeformationRegistrationFilter subclasses to compute the
- * output deformation field which will map a reference image onto
- * a target image.
+ * output deformation field which will map a moving image onto
+ * a fixed image.
  *
- * This class is templated over the Reference image type, Target image type
+ * This class is templated over the fixed image type, moving image type
  * and the deformation field type.
  *
  * \sa PDEDeformableRegistrationFilter
  * \ingroup FiniteDifferenceFunctions
  */
-template<class TReference, class TTarget, class TDeformationField>
+template<class TFixedImage, class TMovingImage, class TDeformationField>
 class ITK_EXPORT PDEDeformableRegistrationFunction : 
   public FiniteDifferenceFunction<TDeformationField>
 {
@@ -50,40 +50,40 @@ public:
   itkTypeMacro( PDEDeformableRegistrationFunction, 
     FiniteDifferenceFunction );
 
-  /** Reference image type. */
-  typedef TReference   ReferenceType;
-  typedef typename ReferenceType::ConstPointer  ReferencePointer;
+  /** MovingImage image type. */
+  typedef TMovingImage   MovingImageType;
+  typedef typename MovingImageType::ConstPointer  MovingImagePointer;
 
-  /** Target image type. */
-  typedef TTarget    TargetType;
-  typedef typename TargetType::ConstPointer  TargetPointer;
+  /** FixedImage image type. */
+  typedef TFixedImage    FixedImageType;
+  typedef typename FixedImageType::ConstPointer  FixedImagePointer;
   
   /** Deformation field type. */
   typedef TDeformationField    DeformationFieldType;
   typedef typename DeformationFieldType::Pointer   
     DeformationFieldTypePointer;
 
-  /** Set the reference image.  */
-  void SetReference( const ReferenceType * ptr )
-    { m_Reference = ptr; }
+  /** Set the moving image.  */
+  void SetMovingImage( const MovingImageType * ptr )
+    { m_MovingImage = ptr; }
 
-  /** Set the reference image. */
-  ReferencePointer GetReference()
-    { return m_Reference; }
+  /** Get the moving image. */
+  MovingImagePointer GetMovingImage()
+    { return m_MovingImage; }
 
-  /** Set the target. */
-  void SetTarget( const TargetType * ptr )
-    { m_Target = ptr; }
+  /** Set the fixed image. */
+  void SetFixedImage( const FixedImageType * ptr )
+    { m_FixedImage = ptr; }
 
-  /** Get the target. */
-  TargetPointer GetTarget()
-    { return m_Target; }
+  /** Get the fixed image. */
+  FixedImagePointer GetFixedImage()
+    { return m_FixedImage; }
 
 protected:
   PDEDeformableRegistrationFunction()
     {
-      m_Reference = NULL;
-      m_Target = NULL;
+      m_MovingImage = NULL;
+      m_FixedImage = NULL;
     }
 
   ~PDEDeformableRegistrationFunction() {}
@@ -91,18 +91,18 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const
   {
     Superclass::PrintSelf(os, indent);
-    os << indent << "Reference: ";
-    os << m_Reference.GetPointer() << std::endl;
-    os << indent << "Target: ";
-    os << m_Target.GetPointer() << std::endl;
+    os << indent << "MovingImage: ";
+    os << m_MovingImage.GetPointer() << std::endl;
+    os << indent << "FixedImage: ";
+    os << m_FixedImage.GetPointer() << std::endl;
 
   };
 
-  /** The reference (from) image. */
-  ReferencePointer                m_Reference;
+  /** The moving image. */
+  MovingImagePointer                m_MovingImage;
   
-  /** The target (to) image. */
-  TargetPointer                   m_Target;
+  /** The fixed image. */
+  FixedImagePointer                   m_FixedImage;
 
 private:
   PDEDeformableRegistrationFunction(const Self&); //purposely not implemented

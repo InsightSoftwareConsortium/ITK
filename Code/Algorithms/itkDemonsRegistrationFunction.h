@@ -31,34 +31,34 @@ namespace itk {
  *
  * This class encapsulate the PDE which drives the demons registration 
  * algorithm. It is used by DemonsRegistrationFilter to compute the 
- * output deformation field which will map a reference image onto a
- * a target image.
+ * output deformation field which will map a moving image onto a
+ * a fixed image.
  *
- * Non-integer reference image values are obtained by using
+ * Non-integer moving image values are obtained by using
  * interpolation. The default interpolator is of type
  * LinearInterpolateImageFunction. The user may set other
- * interpolators via method SetReferenceInterpolator. Note that the input
+ * interpolators via method SetMovingImageInterpolator. Note that the input
  * interpolator must derive from baseclass InterpolateImageFunction.
  *
- * This class is templated over the Reference image type, Target image type,
+ * This class is templated over the fixed image type, moving image type,
  * and the deformation field type.
  *
- * \warning This filter assumes that the reference type, target type
+ * \warning This filter assumes that the fixed image type, moving image type
  * and deformation field type all have the same number of dimensions.
  *
  * \sa DemonsRegistrationFilter
  * \ingroup FiniteDifferenceFunctions
  */
-template<class TReference, class TTarget, class TDeformationField>
+template<class TFixedImage, class TMovingImage, class TDeformationField>
 class ITK_EXPORT DemonsRegistrationFunction : 
-  public PDEDeformableRegistrationFunction< TReference,
-    TTarget, TDeformationField>
+  public PDEDeformableRegistrationFunction< TFixedImage,
+    TMovingImage, TDeformationField>
 {
 public:
   /** Standard class typedefs. */
   typedef DemonsRegistrationFunction    Self;
-  typedef PDEDeformableRegistrationFunction< TReference,
-    TTarget, TDeformationField >    Superclass;
+  typedef PDEDeformableRegistrationFunction< TFixedImage,
+    TMovingImage, TDeformationField >    Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
@@ -69,15 +69,15 @@ public:
   itkTypeMacro( DemonsRegistrationFunction, 
     PDEDeformableRegistrationFunction );
 
-  /** Reference image type. */
-  typedef typename Superclass::ReferenceType     ReferenceType;
-  typedef typename Superclass::ReferencePointer  ReferencePointer;
+  /** MovingImage image type. */
+  typedef typename Superclass::MovingImageType     MovingImageType;
+  typedef typename Superclass::MovingImagePointer  MovingImagePointer;
 
-  /** Target image type. */
-  typedef typename Superclass::TargetType     TargetType;
-  typedef typename Superclass::TargetPointer  TargetPointer;
-  typedef typename TargetType::IndexType      IndexType;
-  typedef typename TargetType::SizeType       SizeType;
+  /** FixedImage image type. */
+  typedef typename Superclass::FixedImageType     FixedImageType;
+  typedef typename Superclass::FixedImagePointer  FixedImagePointer;
+  typedef typename FixedImageType::IndexType      IndexType;
+  typedef typename FixedImageType::SizeType       SizeType;
   
   /** Deformation field type. */
   typedef typename Superclass::DeformationFieldType    DeformationFieldType;
@@ -98,26 +98,26 @@ public:
 
   /** Interpolator type. */
   typedef double CoordRepType;
-  typedef InterpolateImageFunction<ReferenceType,CoordRepType> InterpolatorType;
+  typedef InterpolateImageFunction<MovingImageType,CoordRepType> InterpolatorType;
   typedef typename InterpolatorType::Pointer         InterpolatorPointer;
   typedef typename InterpolatorType::PointType       PointType;
-  typedef LinearInterpolateImageFunction<ReferenceType,CoordRepType>
+  typedef LinearInterpolateImageFunction<MovingImageType,CoordRepType>
     DefaultInterpolatorType;
 
   /** Covariant vector type. */
   typedef CovariantVector<double,ImageDimension> CovariantVectorType;
 
   /** Gradient calculator type. */
-  typedef CentralDifferenceImageFunction<TargetType> GradientCalculatorType;
+  typedef CentralDifferenceImageFunction<FixedImageType> GradientCalculatorType;
   typedef typename GradientCalculatorType::Pointer   GradientCalculatorPointer;
 
-  /** Set the reference interpolator. */
-  void SetReferenceInterpolator( InterpolatorType * ptr )
-    { m_ReferenceInterpolator = ptr; }
+  /** Set the moving image interpolator. */
+  void SetMovingImageInterpolator( InterpolatorType * ptr )
+    { m_MovingImageInterpolator = ptr; }
 
-  /** Get the reference interpolator. */
-  InterpolatorPointer GetReferenceInterpolator()
-    { return m_ReferenceInterpolator; }
+  /** Get the moving image interpolator. */
+  InterpolatorPointer GetMovingImageInterpolator()
+    { return m_MovingImageInterpolator; }
 
   /** This class uses a constant timestep of 1. */
   virtual TimeStepType ComputeGlobalTimeStep(void *GlobalData) const
@@ -155,29 +155,29 @@ protected:
   ~DemonsRegistrationFunction() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /** Target image neighborhood iterator type. */
-  typedef ConstNeighborhoodIterator<TargetType> TargetNeighborhoodIteratorType;
+  /** FixedImage image neighborhood iterator type. */
+  typedef ConstNeighborhoodIterator<FixedImageType> FixedImageNeighborhoodIteratorType;
 
   /** A global data type for this class of equation. Used to store
-   * iterators for the target image. */
+   * iterators for the fixed image. */
   struct GlobalDataStruct
    {
-   TargetNeighborhoodIteratorType   m_TargetIterator;
+   FixedImageNeighborhoodIteratorType   m_FixedImageIterator;
    };
 
 private:
   DemonsRegistrationFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-  /** Cache target image information. */
-  const double *                  m_TargetSpacing;
-  const double *                  m_TargetOrigin;
+  /** Cache fixed image information. */
+  const double *                  m_FixedImageSpacing;
+  const double *                  m_FixedImageOrigin;
 
-  /** Function to compute derivatives of the target image. */
-  GradientCalculatorPointer       m_TargetGradientCalculator;
+  /** Function to compute derivatives of the fixed image. */
+  GradientCalculatorPointer       m_FixedImageGradientCalculator;
 
-  /** Function to interpolate the reference image. */
-  InterpolatorPointer             m_ReferenceInterpolator;
+  /** Function to interpolate the moving image. */
+  InterpolatorPointer             m_MovingImageInterpolator;
 
   /** The global timestep. */
   TimeStepType                    m_TimeStep;
