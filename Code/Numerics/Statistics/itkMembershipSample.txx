@@ -33,6 +33,7 @@ MembershipSample< TSample >
 ::SetSample(SamplePointer sample)
 {
   m_Sample = sample ; 
+  m_ClassLabelHolder.resize(m_Sample->GetNumberOfInstances()) ;
 }
 
 template< class TSample >
@@ -44,27 +45,29 @@ MembershipSample< TSample >
 } 
 
 template< class TSample >
-unsigned int
+void
 MembershipSample< TSample >
-::GetNumberOfClasses()
+::SetNumberOfClasses(size_t numberOfClasses)
 {
-  return m_ClassLabels.size() ;
+  m_NumberOfClasses = numberOfClasses ;
+  m_ClassSampleSizes.resize(m_NumberOfClasses) ;
+  m_ClassSamples.resize(m_NumberOfClasses) ;
 }
 
 template< class TSample >
-bool
+size_t
 MembershipSample< TSample >
-::ClassLabelExists(unsigned int classLabel)
+::GetNumberOfClasses()
 {
-  
-  if (m_ClassLabels.find(classLabel) != m_ClassLabels.end())
-    {
-      return true ;
-    }
-  else
-    {
-      return false ;
-    }
+  return m_NumberOfClasses ;
+}
+
+template< class TSample >
+size_t
+MembershipSample< TSample >
+::GetNumberOfInstances()
+{
+  return m_Sample->GetNumberOfInstances() ;
 }
 
 template< class TSample >
@@ -72,47 +75,56 @@ void
 MembershipSample< TSample >
 ::AddInstance(unsigned int classLabel, InstanceIdentifier id) 
 { 
-  if (m_ClassLabels.find(classLabel) == m_ClassLabels.end())
-    {
-      m_ClassLabels.insert(classLabel) ;
-    }
-  
   m_ClassLabelHolder[id] = classLabel ; 
 }
 
 template< class TSample >
 unsigned int 
 MembershipSample< TSample >
-::GetClassLabel(InstanceIdentifier id) throw (ExceptionObject)
+::GetClassLabel(InstanceIdentifier id)
 {
-  ClassLabelHolder::iterator iter = m_ClassLabelHolder.find(id) ;
-  if (iter != m_ClassLabelHolder.end())
+  return m_ClassLabelHolder[id] ;
+}
+
+template< class TSample >
+void 
+MembershipSample< TSample >
+::GenerateClassSamples()
+{
+  unsigned int classLabel ;
+
+  for (size_t i = 0 ; i < m_NumberOfClasses ; i++)
     {
-      return iter->second ;
+      m_ClassSamples[i] = ClassSampleType::New() ;
+      (m_ClassSamples[i])->SetSample(this->GetSample()) ;
+      m_ClassSampleSizes[i] = 0 ;
     }
-  else
+  
+  Iterator iter = this->Begin() ;
+  while (iter != this->End())
     {
-      throw ExceptionObject(__FILE__, __LINE__) ;
+      classLabel = iter.GetClassLabel() ;
+      (m_ClassSamples[classLabel])->AddInstance(iter.GetInstanceIdentifier()) ;
+      m_ClassSampleSizes[classLabel] += 1 ;
+      ++iter ;
     }
 }
+
+template< class TSample >
+size_t
+MembershipSample< TSample >
+::GetClassSampleSize(unsigned int classLabel)
+{
+  return m_ClassSampleSizes[classLabel] ;
+}
+
 
 template< class TSample >
 MembershipSample< TSample >::ClassSamplePointer
 MembershipSample< TSample >
 ::GetClassSample(unsigned int classLabel)
 {
-  ClassSamplePointer classSample = ClassSampleType::New() ;
-  classSample->SetSample(this->GetSample()) ;
-  Iterator iter = this->Begin() ;
-  while (iter != this->End())
-    {
-      if (iter.GetClassLabel() == classLabel)
-        {
-          classSample->AddInstance(iter.GetInstanceIdentifier()) ;
-        }
-      ++iter ;
-    }
-  return classSample ; 
+  return m_ClassSamples[classLabel] ; 
 }
 
 template< class TSample >
@@ -181,16 +193,10 @@ MembershipSample< TSample >
   os << indent << "Sample: " << m_Sample << std::endl;
   os << indent << "CurrentClassLabel: " << m_CurrentClassLabel << std::endl;
   os << indent << "ClassLabelHolder: " << &m_ClassLabelHolder << std::endl;
-  os << indent << "ClassLabels: [0, " << m_ClassLabels.size() <<  ")" ;
 }
   } // end of namespace Statistics 
 } // end of namespace itk
 
 #endif
-
-
-
-
-
 
 
