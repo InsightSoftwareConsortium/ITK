@@ -35,8 +35,20 @@ ${CMAKE_SOURCE_DIR}/itkConfigure.h.in
 ${CMAKE_BINARY_DIR}/itkConfigure.h)
 
 CONFIGURE_FILE_NOAUTOCONF(
-${CMAKE_SOURCE_DIR}/Code/Insight3DParty/vxl/vcl/vcl_config-vc60.h
-${CMAKE_BINARY_DIR}/Code/Insight3DParty/vxl/vcl/vcl_config.h)
+${CMAKE_SOURCE_DIR}/Code/Numerics/vxl/vcl/config.win32-vc60/vxl_config.h
+${CMAKE_BINARY_DIR}/Code/Numerics/vxl/vxl_config.h)
+
+CONFIGURE_FILE_NOAUTOCONF(
+${CMAKE_SOURCE_DIR}/Code/Numerics/vxl/vcl/config.win32-vc60/vcl_config_compiler.h
+${CMAKE_BINARY_DIR}/Code/Numerics/vxl/vcl/vcl_config_compiler.h)
+
+CONFIGURE_FILE_NOAUTOCONF(
+${CMAKE_SOURCE_DIR}/Code/Numerics/vxl/vcl/config.win32-vc60/vcl_config_headers.h
+${CMAKE_BINARY_DIR}/Code/Numerics/vxl/vcl/vcl_config_headers.h)
+
+CONFIGURE_FILE_NOAUTOCONF(
+${CMAKE_SOURCE_DIR}/Code/Numerics/vxl/vcl/config.win32-vc60/vcl_config_manual.h
+${CMAKE_BINARY_DIR}/Code/Numerics/vxl/vcl/vcl_config_manual.h)
 
 CONFIGURE_FILE_NOAUTOCONF(
 ${CMAKE_SOURCE_DIR}/Testing/Utilities/Build.tcl.in
