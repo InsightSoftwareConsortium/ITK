@@ -658,6 +658,19 @@ void DICOMAppHelper::SeriesDescriptionCallback(DICOMParser *,
                                        unsigned char* val,
                                        quadbyte ) 
 {
+  if (len == 0)
+    {
+#ifdef DEBUG_DICOM_APP_HELPER  
+    dicom_stream::cout << "Series Description: (EMPTY)" << dicom_stream::endl;
+#endif
+
+    // clear the cached series uid
+    this->CurrentSeriesDescription = dicom_stl::string();
+    
+    // just return, don't bother updating the internal databases of UID's
+    return;
+    }
+
   char* newString = (char*) val;
   dicom_stl::string newStdString(newString);
 
