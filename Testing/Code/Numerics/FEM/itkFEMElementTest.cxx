@@ -20,7 +20,7 @@
 
 #include <iostream>
 #include <fstream>
-#include <cmath>
+
 //#include <strings>
 
 using namespace std;
