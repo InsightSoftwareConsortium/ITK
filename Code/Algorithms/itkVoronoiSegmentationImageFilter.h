@@ -101,6 +101,9 @@ public:
   itkNewMacro(Self);
 
 
+  typedef typename Superclass::BinaryObjectImage BinaryObjectImage;
+  typedef typename Superclass::IndexList IndexList;
+
   /**
    * Set the Estimation of the mean pixel value for the object.
    */
@@ -129,7 +132,7 @@ public:
    */
   itkGetMacro(MeanTolerance, double);
 
-	/**
+  /**
    * Set the Tolearance of Variance for classifying the regions
    */
   itkSetMacro(VarTolerance, double);

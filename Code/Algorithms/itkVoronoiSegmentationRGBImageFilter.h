@@ -105,6 +105,9 @@ public:
   itkNewMacro(Self);
 
 
+  typedef typename Superclass::BinaryObjectImage BinaryObjectImage;
+  typedef typename Superclass::IndexList IndexList;
+
   typedef Vector<float,6> RGBHCVPixel;
   typedef Image<RGBHCVPixel> RGBHCVImage;
 
