@@ -23,9 +23,10 @@
 //
 // The Gaussian probability density function
 // (\subdoxygen{Statistics}{GaussianDensityFunction} requires two
-// distribution parameters --- the mean vector and the covariance matrix.
+// distribution parameters---the mean vector and the covariance matrix.
 //
 // We include the header files for the class and the \doxygen{Vector}.
+//
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
@@ -34,8 +35,10 @@
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
-// We define the type of the measurement vector that will be input of
+//
+// We define the type of the measurement vector that will be input to
 // the Gaussian density function.
+//
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
@@ -44,21 +47,21 @@ typedef itk::Vector< float, 2 > MeasurementVectorType;
 
 int main()
 {
-
   // Software Guide : BeginLatex
+  //
   // The instantiation of the function is done through the usual
   // \code{New()} method and a smart pointer.
+  //
   // Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::GaussianDensityFunction< 
-                                            MeasurementVectorType 
-                                                        > DensityFunctionType;
-
+  typedef itk::Statistics::GaussianDensityFunction< MeasurementVectorType > 
+    DensityFunctionType;
   DensityFunctionType::Pointer densityFunction = DensityFunctionType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
+  //
   // We create the two distribution parameters and set them. The mean is
   // [0, 0], and the covariance matrix is:
   // \[
@@ -69,6 +72,7 @@ int main()
   // \]
   // We get the probability density for the measurement vector: [0, 0]
   // using the \code{Evaluate(measurement vector)} method and print it out.
+ `//
   // Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet

@@ -26,8 +26,9 @@
 // example, we will use the \subdoxygen{Statistics}{ListSample} as the input
 // sample.
 //
-// We include the header files for the \code{ListSample} and the
-// \code{NeighborhoodSample} classes.
+// We include the header files for the ListSample and the
+// \subdoxygen{Statistics}{NeighborhoodSample} classes.
+//
 // Software Guide : EndLatex 
 
 
@@ -50,17 +51,18 @@
 int main()
 {
   // Software Guide : BeginLatex
-  // The following code snippet will create a \code{ListSample} object
+  //
+  // The following code snippet will create a ListSample object
   // with two-component int measurement vectors and put the measurement
   // vectors: [1,1] - 1 time, [2,2] - 2 times, [3,3] - 3 times, [4,4] -
   // 4 times, [5,5] - 5 times into the \code{listSample}.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef int MeasurementType;
   typedef itk::Vector< MeasurementType , 2 > MeasurementVectorType;
   typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
-
   SampleType::Pointer sample = SampleType::New();
 
   MeasurementVectorType mv;
@@ -79,20 +81,19 @@ int main()
 
   // Software Guide : BeginLatex
   //
-  // We plug-in the sample to the \code{sampler} using the
+  // We plug-in the sample to the NeighborhoodSampler using the
   // \code{SetInputSample(sample*)}. The two required inputs for the
-  // \code{sampler} are a center and a radius. We set these two inputs using
-  // the \code{SetCenter(center vector*)} and the \code{SetRadius(double*)}
-  // methods respectively. And then we call the \code{Update()} method to
-  // generate the \code{Subsample} object. This sampling procedure subsamples
-  // measurement vectors within a hyper-spherical kernel that is centered at
-  // the \code{center} and has the radius, \code{radius}.
+  // NeighborhoodSampler are a center and a radius. We set these two inputs
+  // using the \code{SetCenter(center vector*)} and the
+  // \code{SetRadius(double*)} methods respectively. And then we call the
+  // \code{Update()} method to generate the Subsample object. This
+  // sampling procedure subsamples measurement vectors within a
+  // hyper-spherical kernel that has the center and radius specified.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::Statistics::NeighborhoodSampler< SampleType > SamplerType;
-  
   SamplerType::Pointer sampler = SamplerType::New();
 
   sampler->SetInputSample( sample );
@@ -109,9 +110,11 @@ int main()
 
   
   // Software Guide : BeginLatex
+  //
   // The \code{SamplerType::OutputType} is in fact
   // \subdoxygen{Statistics}{Subsample}. The following code prints out
   // the resampled measurement vectors.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet

@@ -16,6 +16,7 @@
 =========================================================================*/
 
 // Software Guide : BeginLatex
+//
 // \index{Statistics!Mixture model estimation}
 // \index{Statistics!Expectation maximization}
 //
@@ -26,7 +27,7 @@
 // maximization (EM) process to generates parameter estimates for a two
 // Gaussian component mixture model.
 //
-// The Bayesian plug-in classifier example (see the section
+// The Bayesian plug-in classifier example (see Section
 // \ref{sec:BayesianPluginClassifier}) used two Gaussian probability
 // density functions (PDF) to model two Gaussian distribution classes (two
 // models for two class). However, in some cases, we want to model a
@@ -42,11 +43,11 @@
 //       $\alpha_{i}$ is the proportion of the component, 
 //       and $f_{i}$ is the probability density function of the component.
 //
-// Now the task is to find the parameters( the component PDF's
+// Now the task is to find the parameters(the component PDF's
 // parameters and the proportion values) to maximize the likelihood of
 // the parameters. If we know which component a measurement vector
-// belongs to, the solutions for this problem is easy to solve:
-// however, we don't know the membership of each measurement
+// belongs to, the solutions to this problem is easy to solve.
+// However, we don't know the membership of each measurement
 // vector. Therefore, we use the expectation of membership instead of
 // the exact membership. The EM process splits into two steps:
 // \begin{enumerate}
@@ -57,21 +58,21 @@
 // parameters.}
 // \end{enumerate}
 //
-// The E step is basically a step that calculates the \textit{a posteriori}
+// The E step is basically a step that calculates the \emph{a posteriori}
 // probability for each measurement vector.
 //
 // The M step is dependant on the type of each PDF. Most of
 // distributions belonging to exponential family such as Poisson,
 // Binomial, Exponential, and Normal distributions have analytical
-// solutions for updating the parameter set.Our
+// solutions for updating the parameter set. The
 // \subdoxygen{Statistics}{ExpectationMaximizationMixtureModelEstimator}
 // class assumes that such type of components.
 //
-// For example, to update a Gaussian distribution 
-// We use the \subdoxygen{Statistics}{ListSample} as the sample (test
-// and training). The \subdoxygen{Vector} is our measurement vector
-// class. To store measurement vectors into two separate sample
-// container, we use the \subdoxygen{Statistics}{Subsample} objects. 
+// In the following example we use the \subdoxygen{Statistics}{ListSample} as
+// the sample (test and training). The \subdoxygen{Vector} is our measurement
+// vector class. To store measurement vectors into two separate sample
+// container, we use the \subdoxygen{Statistics}{Subsample} objects.
+//
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
@@ -80,7 +81,9 @@
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
+//
 // The following two files provides us the parameter estimation algorithms.
+//
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
@@ -89,8 +92,10 @@
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
+//
 // We will fill the sample with random variables from two normal 
 // distribution using the \subdoxygen{Statistics}{NormalVariateGenerator}.
+//
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
@@ -100,42 +105,43 @@
 int main()
 {
   // Software Guide : BeginLatex
-  // Since the \code{NormalVariateGenerator} class only supports 1-D, we
+  //
+  // Since the NormalVariateGenerator class only supports 1-D, we
   // define our measurement vector type as a one component vector. We
-  // then, create a \code{ListSample} object for data inputs.
+  // then, create a ListSample object for data inputs.
   // 
-  // We also create two \code{Subsample} objects that will store the
+  // We also create two Subsample objects that will store the
   // measurement vectors in the \code{sample} into two separate sample
-  // containers. Each \code{Subsample} object stores only the
+  // containers. Each Subsample object stores only the
   // measurement vectors belonging to a single class. This
   // \textit{class sample} will be used by the parameter estimation
   // algorithms.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   unsigned int numberOfClasses = 2;
   typedef itk::Vector< double, 1 > MeasurementVectorType;
-  
   typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
   SampleType::Pointer sample = SampleType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
   //
-  // The following code snippet creates a \code{NormalVariateGenerator} object.
+  // The following code snippet creates a NormalVariateGenerator object.
   // Since the random variable generator returns values according to the
-  // standard normal distribution (The mean is zero, and the standard deviation
-  // is one), before pushing random values into the \code{sample}, we change
-  // the mean and standard deviation. We want two normal (Gaussian)
+  // standard normal distribution (the mean is zero, and the standard
+  // deviation is one) before pushing random values into the \code{sample},
+  // we change the mean and standard deviation. We want two normal (Gaussian)
   // distribution data. We have two for loops. Each for loop uses different
   // mean and standard deviation. Before we fill the \code{sample} with the
-  // second distribution data, we call \code{Initialize( random seed )} method,
-  // to recreate the pool of random variables in the \code{normalGenerator}. In
-  // the two for loop, we fill the two class samples with measurement vectors
-  // using the \code{AddInstance} method.
+  // second distribution data, we call \code{Initialize()} method to recreate
+  // the pool of random variables in the \code{normalGenerator}. In the
+  // second for loop, we fill the two class samples with measurement vectors
+  // using the \code{AddInstance()} method.
   //
   // To see the probability density plots from the two distribution,
-  // refer to the figure \ref{fig:TwoNormalDensityFunctionPlot}.
+  // refer to Figure~\ref{fig:TwoNormalDensityFunctionPlot}.
   //
   // Software Guide : EndLatex
 
@@ -165,11 +171,13 @@ int main()
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
+  //
   // In the following code snippet notice that the template argument
-  // for the \code{MeanCalculator} and \code{CovarianceCalculator} is
-  // \code{ClassSampleType} that is \code{Subsample} instead of
-  // \code{SampleType} that is \code{ListSample}. It is because the
+  // for the MeanCalculator and CovarianceCalculator is
+  // \code{ClassSampleType} (i.e., type of Subsample) instead of
+  // \code{SampleType} (i.e., type of ListSample). This is because the
   // parameter estimation algorithms are applied to the class sample. 
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
@@ -185,8 +193,8 @@ int main()
   params[1] = 850.0;
   initialParameters[1] = params;
 
-  typedef itk::Statistics::GaussianMixtureModelComponent< 
-                                                     SampleType > ComponentType;
+  typedef itk::Statistics::GaussianMixtureModelComponent< SampleType > 
+    ComponentType;
 
   std::vector< ComponentType::Pointer > components;
   for ( unsigned int i = 0 ; i < numberOfClasses ; i++ )
@@ -198,14 +206,14 @@ int main()
   // Software Guide : EndCodeSnippet
   
   // Software Guide : BeginLatex
+  //
   // We run the estimator.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::Statistics::ExpectationMaximizationMixtureModelEstimator< 
-                                                           SampleType 
-                                                              > EstimatorType;
-
+                           SampleType > EstimatorType;
   EstimatorType::Pointer estimator = EstimatorType::New();
 
   estimator->SetSample( sample );
@@ -227,20 +235,20 @@ int main()
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
+  //
   // We then print out the estimated parameters.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-   for ( unsigned int i = 0 ; i < numberOfClasses ; i++ )
+  for ( unsigned int i = 0 ; i < numberOfClasses ; i++ )
     {
     std::cout << "Cluster[" << i << "]" << std::endl;
     std::cout << "    Parameters:" << std::endl;
     std::cout << "         " << (components[i])->GetFullParameters() 
               << std::endl;
     std::cout << "    Proportion: ";
-    std::cout << "         " << (*estimator->GetProportions())[i] 
-              << std::endl;
-    
+    std::cout << "         " << (*estimator->GetProportions())[i] << std::endl;
     }
   // Software Guide : EndCodeSnippet
   

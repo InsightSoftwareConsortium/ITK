@@ -20,36 +20,34 @@
 //
 // \index{itk::Statistics::KdTree\-Based\-Kmeans\-Estimator}
 //
-// The k-means clustering is popular among clustering algorithms
-// because it is simple and usually converges to a reasonable
-// solution. The k-means algorithm works as follows:
+// K-means clustering is a popular clustering algorithm because it is simple
+// and usually converges to a reasonable solution. The k-means algorithm
+// works as follows:
 //
 // \begin{enumerate}
-//   \item{gets the initial k means input from the user.} 
-//   \item{assigns each measurement vector in a sample container to its
-// closest mean among the k number of means. (i.e. update the membership of
-// each measurement vectors to the nearest of the k clusters)}  
-//   \item{calculate each cluster's mean from the newly assigned
-// measurement vectors. (updates the centroid (mean) of k clusters)}
-//   \item{repeats the step 2 and step 3 until it meets the termination
+//   \item{Obtains the initial k means input from the user.} 
+//   \item{Assigns each measurement vector in a sample container to its
+// closest mean among the k number of means (i.e., update the membership of
+// each measurement vectors to the nearest of the k clusters).}
+//   \item{Calculates each cluster's mean from the newly assigned
+// measurement vectors (updates the centroid (mean) of k clusters).}
+//   \item{Repeats step 2 and step 3 until it meets the termination
 // criteria.}
 // \end{enumerate}
 //
 // The most common termination criteria is that if there is no
 // measurement vector that changes its cluster membership from the
-// previous iteration, then stop.
+// previous iteration, then the algorithm stops.
 //
-// The \subdoxygen{Statistics}{KdTreeBasedKmeansEstimator} is a
-// variation of this logic. The k-means clustering algorithm is
-// computationally very expensive because it has to recalculate the
-// mean at each iteration. To update the mean values, we have to
-// calculate the distance between k means and each and every measurement
-// vectors. To reduce such distance calculation, the
-// \code{KdTreeBasedKmeansEstimator} uses a special data structure:
-// the k-d tree (\subdoxygen{Statistics}{KdTree}) with additional
-// information. The additional information includes the number and the
-// vector sum of measurement vectors under each node under the tree
-// architecture.
+// The \subdoxygen{Statistics}{KdTreeBasedKmeansEstimator} is a variation of
+// this logic. The k-means clustering algorithm is computationally very
+// expensive because it has to recalculate the mean at each iteration. To
+// update the mean values, we have to calculate the distance between k means
+// and each and every measurement vector. To reduce the computational burden,
+// the KdTreeBasedKmeansEstimator uses a special data structure: the
+// k-d tree (\subdoxygen{Statistics}{KdTree}) with additional
+// information. The additional information includes the number and the vector
+// sum of measurement vectors under each node under the tree architecture.
 //
 // With such additional information and the k-d tree data structure,
 // we can reduce the computational cost of the distance calculation
@@ -62,7 +60,8 @@
 //
 // We use the \subdoxygen{Statistics}{ListSample} as the input sample, the
 // \doxygen{Vector} as the measurement vector. The following code
-// snippet includes them.
+// snippet includes their header files.
+//
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
@@ -73,12 +72,12 @@
 // Software Guide : BeginLatex
 //
 // Since our k-means algorithm requires a \subdoxygen{Statistics}{KdTree}
-// object as an input, we include the \code{KdTree} class header file. As
-// mentioned above, we need a k-d tree with the vector sum and the number of
-// measurement vectors. Therefore we uses the
+// object as an input, we include the KdTree class header file. As mentioned
+// above, we need a k-d tree with the vector sum and the number of
+// measurement vectors. Therefore we use the
 // \subdoxygen{Statistics}{WeightedCentroidKdTreeGenerator} instead of the
 // \subdoxygen{Statistics}{KdTreeGenerator} that generate a k-d tree without
-// such additional information. 
+// such additional information.
 //
 // Software Guide : EndLatex
 
@@ -88,22 +87,26 @@
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
-// The \code{KdTreeBasedKmeansEstimator} class is the implementation of the
+//
+// The KdTreeBasedKmeansEstimator class is the implementation of the
 // k-means algorithm. It does not create k clusters. Instead, it
 // returns the mean estimates for the k clusters.
-// the k mean values. // Software Guide : EndLatex
+//
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkKdTreeBasedKmeansEstimator.h"
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
+//
 // To generate the clusters, we must create k instances of
-// \subdoxygen{Statistaics}{EuclideanDistance} function as the
-// membership functions for each cluster and plug that with a sample
-// into an \subdoxygen{Statistics}{SampleClassifier} object to get a
-// \subdoxygen{Statistics}{MembershipSample} that stores pairs of
-// measurement vectors and their associated class labels (k labels).
+// \subdoxygen{Statistaics}{EuclideanDistance} function as the membership
+// functions for each cluster and plug that---along with a sample---into an
+// \subdoxygen{Statistics}{SampleClassifier} object to get a
+// \subdoxygen{Statistics}{MembershipSample} that stores pairs of measurement
+// vectors and their associated class labels (k labels).
+//
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
@@ -113,8 +116,10 @@
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
+//
 // We will fill the sample with random variables from two normal
 // distribution using the \subdoxygen{Statistics}{NormalVariateGenerator}.
+//
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
@@ -124,20 +129,22 @@
 int main()
 {
   // Software Guide : BeginLatex
+  //
   // Since the \code{NormalVariateGenerator} class only supports 1-D, we
   // define our measurement vector type as one component vector. We
   // then, create a \code{ListSample} object for data inputs.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::Vector< double, 1 > MeasurementVectorType;
-  
   typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
   SampleType::Pointer sample = SampleType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // The following code snippet creates a \code{NormalVariateGenerator}
+  //
+  // The following code snippet creates a NormalVariateGenerator
   // object. Since the random variable generator returns values
   // according to the standard normal distribution (The mean is zero,
   // and the standard deviation is one), before pushing random values
@@ -145,12 +152,12 @@ int main()
   // deviation. We want two normal (Gaussian) distribution data. We have
   // two for loops. Each for loop uses different mean and standard
   // deviation. Before we fill the \code{sample} with the second
-  // distribution data, we call \code{Initialize( random seed )} method,
+  // distribution data, we call \code{Initialize(random seed)} method,
   // to recreate the pool of random variables in the
   // \code{normalGenerator}.
   //
   // To see the probability density plots from the two distribution,
-  // refer to the figure \ref{fig:TwoNormalDensityFunctionPlot}.
+  // refer to the Figure~\ref{fig:TwoNormalDensityFunctionPlot}.
   //
   // \begin{figure} 
   //   \center
@@ -188,20 +195,16 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
-
   // Software Guide : BeginLatex
   //
   // We create a k-d tree. To see the details on the k-d tree generation, see
-  // the section \ref{sec:KdTree}.
+  // the Section~\ref{sec:KdTree}.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::WeightedCentroidKdTreeGenerator< 
-                                                      SampleType  
-                                                            > TreeGeneratorType;
-
+  typedef itk::Statistics::WeightedCentroidKdTreeGenerator< SampleType > 
+    TreeGeneratorType;
   TreeGeneratorType::Pointer treeGenerator = TreeGeneratorType::New();
   
   treeGenerator->SetSample( sample );
@@ -211,37 +214,35 @@ int main()
 
 
   // Software Guide : BeginLatex
+  //
   // Once we have the k-d tree, it is a simple procedure to produce k
   // mean estimates. 
   //
-  // We create the \code{KdTreeBasedKmeansEstimator}. Then, we
-  // provide the initial mean values using the \code{SetParameters(
-  // array of mean values )}. Since we are dealing with two normal
-  // distribution in a 1-D space, the size of the mean value array is
-  // two. The first element is the first mean value, and the second is
-  // the second mean value. If we used two normal in a 2-D space, the
-  // size of array should be four, and the first two elements are the
+  // We create the KdTreeBasedKmeansEstimator. Then, we provide the initial
+  // mean values using the \code{SetParameters()}. Since we are dealing with
+  // two normal distribution in a 1-D space, the size of the mean value array
+  // is two. The first element is the first mean value, and the second is the
+  // second mean value. If we used two normal distributions in a 2-D space,
+  // the size of array would be four, and the first two elements would be the
   // two components of the first normal distribution's mean vector. We
-  // plug-in the k-d tree using the \code{SetKdTree( k-d tree * )}.
+  // plug-in the k-d tree using the \code{SetKdTree()}.
   //
   // The remining two methods specify the termination condition. The
   // estimation process stops when the number of iterations reaches the
-  // maximum iteration value set by the \code{SetMaximumIteration(
-  // unsigned int)}, or the distances between the newly calculated mean
-  // (centroid) values and previous ones are within the threshold set
-  // by the \code{SetCentroidPositionChangesThreshold( double )}. The
-  // final step is to call \code{StartOptimization()} method.
+  // maximum iteration value set by the \code{SetMaximumIteration()}, or the
+  // distances between the newly calculated mean (centroid) values and
+  // previous ones are within the threshold set by the
+  // \code{SetCentroidPositionChangesThreshold()}. The final step is
+  // to call the \code{StartOptimization()} method.
   //
   // The for loop will print out the mean estimates from the estimation
   // process. 
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef TreeGeneratorType::KdTreeType TreeType;
-
-  typedef itk::Statistics::KdTreeBasedKmeansEstimator< 
-                                                TreeType > EstimatorType;
-
+  typedef itk::Statistics::KdTreeBasedKmeansEstimator<TreeType> EstimatorType;
   EstimatorType::Pointer estimator = EstimatorType::New();
 
   EstimatorType::ParametersType initialMeans(2);
@@ -259,11 +260,9 @@ int main()
   for ( unsigned int i = 0 ; i < 2 ; ++i )
     {
     std::cout << "cluster[" << i << "] " << std::endl;
-    std::cout << "    estimated mean : " 
-              << estimatedMeans[i] << std::endl;
+    std::cout << "    estimated mean : " << estimatedMeans[i] << std::endl;
     }
   // Software Guide : EndCodeSnippet
-  
 
 
   // Software Guide : BeginLatex
@@ -275,37 +274,32 @@ int main()
   //
   // Since the k-means algorithm is an minimum distance classifier using
   // the estimated k means and the measurement vectors. We use the
-  // \code{EuclideanDistance} class as membership functions. Our choice
+  // EuclideanDistance class as membership functions. Our choice
   // for the decision rule is the
-  // \subdoxygen{Statistics}{MinimumDecisionRule} which returns the
+  // \subdoxygen{Statistics}{MinimumDecisionRule} that returns the
   // index of the membership functions that have the smallest value for
   // a measurement vector.
   //
-  // After creating a \code{SampleClassifier} object and a
-  // \code{MinimumDecisionRule} object, we plug-in the
-  // \code{decisionRule} and the \code{sample} to the classifier. Then,
-  // we must specify the number of classes that will be considered using
-  // the \code{SetNumberOfClasses(unsigned int)} method. 
+  // After creating a SampleClassifier object and a MinimumDecisionRule
+  // object, we plug-in the \code{decisionRule} and the \code{sample} to the
+  // classifier. Then, we must specify the number of classes that will be
+  // considered using the \code{SetNumberOfClasses()} method.
   //
-  // The rest of the following code snippet shows how to use
-  // user-specified class labels. The classification result will be
-  // stored in a \code{MembershipSample} object, and for each
-  // measurement vector, its class label will be one of the two class
-  // labels, 100 and 200 (\code{unsigned int}).
+  // The remainder of the following code snippet shows how to use
+  // user-specified class labels. The classification result will be stored in
+  // a MembershipSample object, and for each measurement vector, its
+  // class label will be one of the two class labels, 100 and 200
+  // (\code{unsigned int}).
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::EuclideanDistance< 
-                                       MeasurementVectorType 
-                                                      > MembershipFunctionType;
-  
+  typedef itk::Statistics::EuclideanDistance< MeasurementVectorType > 
+    MembershipFunctionType;
   typedef itk::MinimumDecisionRule DecisionRuleType;
-
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
   
   typedef itk::Statistics::SampleClassifier< SampleType > ClassifierType;
-
   ClassifierType::Pointer classifier = ClassifierType::New();
 
   classifier->SetDecisionRule( (itk::DecisionRuleBase::Pointer) decisionRule);
@@ -321,16 +315,17 @@ int main()
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
+  //
   // The \code{classifier} is almost ready to do the classification
   // process except that it needs two membership functions that
   // represents two clusters resprectively.
   //
-  // In this example, the two clusters are modeled by two Euclidean
-  // distance funtions. The distance function (model) has only one
-  // parameter, its mean (centroid) set by the \code{SetOrigin}
-  // method. To plug-in two distance functions, we call the
-  // \code{AddMembershipFunction} method. Then the \code{Update()}
-  // method call will do the classification.
+  // In this example, the two clusters are modeled by two Euclidean distance
+  // funtions. The distance function (model) has only one parameter, its mean
+  // (centroid) set by the \code{SetOrigin()} method. To plug-in two distance
+  // functions, we call the \code{AddMembershipFunction()} method. Then
+  // invocation of the \code{Update()} method will perform the
+  // classification.
   // 
   // Software Guide : EndLatex
 
@@ -353,8 +348,10 @@ int main()
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
+  //
   // The following code snippet prints out the measurement vectors and
   // their class labels in the \code{sample}.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
@@ -369,6 +366,7 @@ int main()
     ++iter;
     }
   // Software Guide : EndCodeSnippet
+
   return 0;
 }
 

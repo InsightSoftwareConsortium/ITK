@@ -20,14 +20,15 @@
 //
 // The \doxygen{MaximumDecisionRule} returns the index of the largest
 // disciminant score among the discriminant scores in the vector of
-// discriminat scores that is the input argument of the \code{Evaluate}
+// discriminat scores that is the input argument of the \code{Evaluate()}
 // method.
 //
-// We include the header files for the class and the
-// \doxygen{MaximumDecisionRule}. We also include the header file for
-// thte \code{std::vector} class that will be the container for the
-// discriminant scores.
-// Software Guide : EndLatex 
+// To begin the example, we include the header files for the class and the
+// \doxygen{MaximumDecisionRule}. We also include the header file for thte
+// \code{std::vector} class that will be the container for the discriminant
+// scores.  
+//
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkMaximumDecisionRule.h"
@@ -36,7 +37,6 @@
 
 int main()
 {
-
   // Software Guide : BeginLatex
   //
   // The instantiation of the function is done through the usual
@@ -46,10 +46,8 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   typedef itk::MaximumDecisionRule DecisionRuleType;
-
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
   // Software Guide : EndCodeSnippet
-
 
 
   // Software Guide : BeginLatex

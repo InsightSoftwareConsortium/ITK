@@ -18,14 +18,13 @@
 // Software Guide : BeginLatex
 // \index{itk::Statistics::MinimumDecisionRule}
 //
-// The \code{Eavaluate()} method of the \doxygen{MinimumDecisionRule}
+// The \code{Evaluate()} method of the \doxygen{MinimumDecisionRule}
 // returns the index of the smallest disciminant score among the
 // vector of discriminant scores that it receives as input.
 //
-// We include the header files for the class and the
-// \doxygen{MinimumDecisionRule}. We also include the header file for
-// the \code{std::vector} class that will be the container for the
-// discriminant scores.
+// To begin this example, we include the class header file.  We also include
+// the header file for the \code{std::vector} class that will be the
+// container for the discriminant scores.
 //
 // Software Guide : EndLatex 
 
@@ -36,17 +35,17 @@
 
 int main()
 {
-
   // Software Guide : BeginLatex
+  //
   // The instantiation of the function is done through the usual
   // \code{New()} method and a smart pointer.
+  //
   // Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
   typedef itk::MinimumDecisionRule DecisionRuleType;
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
   // Software Guide : EndCodeSnippet
-
 
 
   // Software Guide : BeginLatex

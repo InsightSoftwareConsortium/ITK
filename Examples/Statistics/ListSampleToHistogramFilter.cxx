@@ -23,11 +23,10 @@
 // Sometimes we want to work with a histogram instead of a list of
 // measurement vectors (e.g. \subdoxygen{Statistics}{ListSample},
 // \subdoxygen{Statistics}{ImageToListAdaptor}, or
-// \subdoxygen{Statistics}{PointSetToListSample}) because of less
-// memory use or analysis purpose. In such cases, we can import data
-// from a list type sample to a \subdoxygen{Statistics}{Histogram}
-// object using the
-// \subdoxygen{Statistics}{ListSampleToHistogramFilter}.
+// \subdoxygen{Statistics}{PointSetToListSample}) to use less memory or to
+// perform a particular type od analysis. In such cases, we can import data
+// from a list type sample to a \subdoxygen{Statistics}{Histogram} object
+// using the \subdoxygen{Statistics}{ListSampleToHistogramFilter}.
 //
 // We use a ListSample object as the input for the filter. We include the
 // header files for the ListSample and Histogram classes, as well as the
@@ -57,7 +56,7 @@ int main()
 {
   // Software Guide : BeginLatex
   //
-  // The following code snippet will create a ListSample object with
+  // The following code snippet creates a ListSample object with
   // two-component \code{int} measurement vectors and put the measurement
   // vectors: [1,1] - 1 time, [2,2] - 2 times, [3,3] - 3 times, [4,4] - 4
   // times, [5,5] - 5 times into the \code{listSample}.
@@ -83,7 +82,6 @@ int main()
       }
     }
   // Software Guide : EndCodeSnippet
-
 
 
   // Software Guide : BeginLatex

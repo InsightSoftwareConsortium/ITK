@@ -27,7 +27,8 @@
 // To use the class in a project, we must link the \code{itkStatistics}
 // library to the project.
 //
-// We include the header file for the class.
+// To begin the example we include the header file for the class.
+//
 // Software Guide : EndLatex 
 
 
@@ -39,17 +40,15 @@ int main()
 {
   // Software Guide : BeginLatex
   //
-  // The \code{NormalVariateGenerator} is a non-templated class. We simply call
-  // the \code{New} method to create an instance. Then, we provide the seed
+  // The NormalVariateGenerator is a non-templated class. We simply call
+  // the \code{New()} method to create an instance. Then, we provide the seed
   // value using the \code{Initialize(seed value)}.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::Statistics::NormalVariateGenerator GeneratorType;
-
   GeneratorType::Pointer generator = GeneratorType::New();
-
   generator->Initialize( (int) 2003 );
 
   for ( unsigned int i = 0 ; i < 50 ; ++i )

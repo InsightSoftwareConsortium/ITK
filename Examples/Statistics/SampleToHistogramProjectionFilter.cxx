@@ -20,16 +20,18 @@
 // \index{Statistics!Projecting mesurement vectors to 1-D histogram}
 // \index{itk::Statistics::Sample\-To\-Histogram\-Projection\-Filter}
 //
-// This filter projects measurement vectors of a sample onto a vector and fills
-// up a 1-D \subdoxygen{Statistics}{Histogram}. The histram will be formed
-// around the mean value set by the \code{SetMean} method. The histogram's
-// measurement values are the distance between the mean and the projected
-// measurement vectors normalized by the standard deviation set by the
-// \code{SetStandardDeviation()} method.  Such histogram can be used to analyze
-// the multi-dimensional distribution or examine the \emph{goodness-of-fit} of a
-// projected distribution (histogram) with its expected distribution.
+// The \subdoxygen{Statistics{{SampleToHistogramProjectionFilter} projects
+// measurement vectors of a sample onto a vector and fills up a 1-D
+// \subdoxygen{Statistics}{Histogram}. The histram will be formed around the
+// mean value set by the \code{SetMean()} method. The histogram's measurement
+// values are the distance between the mean and the projected measurement
+// vectors normalized by the standard deviation set by the
+// \code{SetStandardDeviation()} method.  Such histogram can be used to
+// analyze the multi-dimensional distribution or examine the
+// \emph{goodness-of-fit} of a projected distribution (histogram) with its
+// expected distribution.
 //
-// We will use the \code{ListSample} as the input sample.
+// We will use the ListSample as the input sample.
 //
 // Software Guide : EndLatex 
 
@@ -53,47 +55,49 @@
 int main()
 {
   // Software Guide : BeginLatex
-  // The following code snippet will create a \code{ListSample} object
+  //
+  // The following code snippet will create a ListSample object
   // with two-component int measurement vectors and put the measurement
   // vectors: [1,1] - 1 time, [2,2] - 2 times, [3,3] - 3 times, [4,4] -
   // 4 times, [5,5] - 5 times into the \code{listSample}.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef int MeasurementType;
   typedef itk::Vector< MeasurementType , 2 > MeasurementVectorType;
   typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
-
   SampleType::Pointer sample = SampleType::New();
 
   MeasurementVectorType mv;
   for ( unsigned int i = 1 ; i < 6 ; i++ )
     {
-      for ( unsigned int j = 0 ; j < 2 ; j++ )
-        {
-          mv[j] = ( MeasurementType ) i;
-        }
-      for ( unsigned int j = 0 ; j < i ; j++ )
-        {
-          sample->PushBack(mv);
-        }
+    for ( unsigned int j = 0 ; j < 2 ; j++ )
+      {
+      mv[j] = ( MeasurementType ) i;
+      }
+    for ( unsigned int j = 0 ; j < i ; j++ )
+      {
+      sample->PushBack(mv);
+      }
     }
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
+  //
   // We create a histogram that has six bins. The histogram's range is
   // [-2, 2). Since the \code{sample} has measurement vectors between
   // [1, 1] and [5,5], The histogram does not seem to cover the whole
-  // range. However, the \code{SampleToHistogramProjectionFilter}
+  // range. However, the SampleToHistogramProjectionFilter
   // normalizes the measurement vectors with the given mean and the
   // standard deviation. Therefore, the projected value is approximately
   // the distance between the measurement vector and the mean divided by
   // the standard deviation. 
+  // 
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::Statistics::Histogram< float, 1 > HistogramType;
-
   HistogramType::Pointer histogram = HistogramType::New();
 
   HistogramType::SizeType size;
@@ -113,10 +117,8 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::SampleToHistogramProjectionFilter<
-                                                      SampleType, float 
-                                                               > ProjectorType;
-  
+  typedef itk::Statistics::SampleToHistogramProjectionFilter<SampleType, float>
+    ProjectorType;
   ProjectorType::Pointer projector = ProjectorType::New();
 
   projector->SetInputSample( sample );
@@ -131,7 +133,7 @@ int main()
   // \begin{equation}
   // y = \frac{\sum^{d}_{i=0} (x_{i} - \mu_{i})\alpha_{i}}{\sigma}
   // \end{equation}
-  // where, y is the projected value, $x$ is the $i$th component of the
+  // where, $y$ is the projected value, $x$ is the $i$th component of the
   // measurement vector, $\mu_{i}$ is the $i$th component of the mean vector,
   // $\alpha_{i}$ is the $i$th component of the projection axis (a
   // vector), and $\sigma$ is the standard deviation. 
@@ -142,7 +144,7 @@ int main()
   // measurment vector falls into a bin, depending on its closeness to the
   // adjacent bins, the frequencies of the adjacent bins will be also updated
   // with weights. If we do not want to use the bin overlapping function, we do
-  // not call the \code{SetHistogramBinOverlap(double)} method. The defalut
+  // not call the \code{SetHistogramBinOverlap(double)} method. The default
   // value for the histogram bin overlap is zero, so without calling the
   // method, the filter will not use bin overlapping \cite{Aylward1997a}
   // \cite{Aylward1997b}.
@@ -166,8 +168,6 @@ int main()
   projector->SetHistogramBinOverlap( 0.25 );
   projector->Update();
   // Software Guide : EndCodeSnippet
-
-
 
 
   // Software Guide : BeginLatex

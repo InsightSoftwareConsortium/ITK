@@ -25,16 +25,17 @@
 // methods, the \code{SetOrigin(measurement vector)} and the
 // \code{Evaluate(mesaurement vector)}. The \code{Evaluate()} method returns
 // the distance between its argument (a measurement vector) and the measurement
-// vector set by the \code{SetOrigin} method.
+// vector set by the \code{SetOrigin()} method.
 //
-// In addition to the two methods, \code{EuclideanDistance} has two more
-// methods that return the distance of two measurements -
+// In addition to the two methods, EuclideanDistance has two more
+// methods that return the distance of two measurements ---
 // \code{Evaluate(measurement vector, measurement vector)} and the
-// coordinate distance between two measurements (not vectors) -
+// coordinate distance between two measurements (not vectors) ---
 // \code{Evaluate(measurement, measurement)}. The argument type of the
 // latter method is the type of the component of the measurement vector.
 // 
 // We include the header files for the class and the \doxygen{Vector}.
+//
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
@@ -43,9 +44,11 @@
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
+//
 // We define the type of the measurement vector that will be input of
 // the Euclidean distance function. As a result, the measurement type
 // is \code{float}.
+//
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
@@ -54,27 +57,28 @@ typedef itk::Vector< float, 2 > MeasurementVectorType;
 
 int main()
 {
-
   // Software Guide : BeginLatex
+  //
   // The instantiation of the function is done through the usual
   // \code{New()} method and a smart pointer.
+  //
   // Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::EuclideanDistance< 
-                                        MeasurementVectorType 
-                                                         > DistanceMetricType;
-
+  typedef itk::Statistics::EuclideanDistance< MeasurementVectorType > 
+    DistanceMetricType;
   DistanceMetricType::Pointer distanceMetric = DistanceMetricType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
+  //
   // We create three measurement vectors, the \code{originPoint},
   // the \code{queryPointA}, and the \code{queryPointB}. The type of the
   // \code{originPoint} is fixed in the
   // \subdoxygen{Statistics}{DistanceMetric} base class as
   // \code{itk::Vector< double, length of the measurement vector of the
   // each distance metric instance>}.
+  //
   // Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
@@ -93,17 +97,16 @@ int main()
   // Software Guide : EndCodeSnippet 
 
 
-
   // Software Guide : BeginLatex 
   //
   // In the following code snippet, we show the uses of the three different
-  // \code{Evaluate} methods.  
+  // \code{Evaluate()} methods.  
   //
   // Software Guide : EndLatex 
   
   // Software Guide : BeginCodeSnippet 
   distanceMetric->SetOrigin( originPoint );
-  std::cout << "Euclidean distance between the origin and the query point A = " 
+  std::cout << "Euclidean distance between the origin and the query point A = "
             << distanceMetric->Evaluate( queryPointA ) 
             << std::endl;
   

@@ -20,19 +20,18 @@
 // \index{Statistics!Convert ListSample to Histogram}
 // \index{itk::Statistics::List\-Sample\-To\-Histogram\-Generator}
 //
-// We decribed how to import data from a \code{ListSample} to a
-// \code{Histogram} in the section
-// \ref{sec:ListSampleToHistogramFilter}. For the similar purpose,
-// we can use \subdoxygen{Statistics}{ListSampleToHistogramGenerator}
-// without any predefined \code{Histogram} object. With this
-// generator, we only provide the size of the histogram and the type
-// of the measurement vectors in the histogram. The generator will
-// automatically find the lower and upper space bound and create equal
-// interval bins in the histogram.
+// In previous sections (Section~\ref{sec:ListSampleToHistogramFilter} we
+// decribed how to import data from a \subdoxygen{Statistics}{ListSample} to
+// a \subdoxygen{Statistics}{Histogram}. An alternative way of creating a
+// histogram is to use
+// \subdoxygen{Statistics}{ListSampleToHistogramGenerator}.  With this
+// generator, we only provide the size of the histogram and the type of the
+// measurement vectors in the histogram. The generator will automatically
+// find the lower and upper space bound and create equal interval bins in the
+// histogram.
 //
-// We use a \code{ListSample} object as the input for the filter. We
-// include the header files for the \code{ListSample},
-// \code{Histogram}, and the filter.
+// We use a ListSample object as the input for the filter. We include the
+// header files for the ListSample, Histogram, and the filter itself.
 //
 // Software Guide : EndLatex 
 
@@ -43,9 +42,11 @@
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
+//
 // We need another header for measurement vectors. We are going to use
 // the \doxygen{Vector} class which is a subclass of the \doxygen{FixedArray}
 // in this example. 
+//
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
@@ -55,17 +56,18 @@
 int main()
 {
   // Software Guide : BeginLatex
-  // The following code snippet will create a \code{ListSample} object
+  //
+  // The following code snippet will create a ListSample object
   // with two-component int measurement vectors and put the measurement
   // vectors: [1,1] - 1 time, [2,2] - 2 times, [3,3] - 3 times, [4,4] -
-  // 4 times, [5,5] - 5 times into the \code{listSample}.
+  // 4 times, [5,5] - 5 times into the ListSample.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef int MeasurementType;
   typedef itk::Vector< MeasurementType , 2 > MeasurementVectorType;
   typedef itk::Statistics::ListSample< MeasurementVectorType > ListSampleType;
-
   ListSampleType::Pointer listSample = ListSampleType::New();
 
   MeasurementVectorType mv;
@@ -84,29 +86,25 @@ int main()
 
   // Software Guide : BeginLatex
   //
-  // The \code{generator} will find the lower bound and upper bound
-  // from the input sample and create equal interval bins. Since a
-  // \code{Histogram} object does not include the upper bound value
-  // and we want to include [5,5] measurement vector, we increase the
-  // upper-bound by the calculated bin interval / 10.0 (divider). The
-  // divider is set by the \code{SetMarginalScale(float)} method. If
-  // you want to create a non-uniform histogram, you should use the
-  // \subdoxygen{Statistics}{ListSampleToHistogramFilter} (see section
-  // \ref{sec:ListSampleToHistogramFilter}). The filter is not
-  // creating a \code{Histogram} object. Instead, users should create
-  // a \code{Histogram} object with varying intervals and use the
-  // filter to fill the \code{Histogram} objects with the measurement
-  // vectors from a \code{ListSample} object.
+  // The ListSampleToHistogramGenerator will find the lower and upper bound
+  // from the input sample and create equal interval bins. Since a Histogram
+  // object does not include the upper bound value and we want to include
+  // [5,5] measurement vector, we increase the upper-bound by the calculated
+  // bin interval/10.0 (divider). The divider is set by the
+  // \code{SetMarginalScale(float)} method. If you want to create a
+  // non-uniform histogram, you should use the ListSampleToHistogramFilter
+  // (see Section~\ref{sec:ListSampleToHistogramFilter}). The filter does not
+  // create a Histogram object. Instead, users should create a
+  // Histogram object with varying intervals and use the filter to
+  // fill the Histogram objects with the measurement vectors from a
+  // ListSample object.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef float HistogramMeasurementType;
-  typedef itk::Statistics::ListSampleToHistogramGenerator< 
-                                                ListSampleType, 
-                                                HistogramMeasurementType 
-                                                                > GeneratorType;
-  
+  typedef itk::Statistics::ListSampleToHistogramGenerator< ListSampleType, 
+                           HistogramMeasurementType > GeneratorType;
   GeneratorType::Pointer generator = GeneratorType::New();
 
   GeneratorType::HistogramType::SizeType size;
@@ -119,8 +117,10 @@ int main()
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
+  //  
   // The following code prints out the content of the resulting
   // histogram.
+  //  
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
@@ -132,7 +132,6 @@ int main()
               << " frequency = " << iter.GetFrequency() << std::endl;
     ++iter;
     }
-
   std::cout << "Size = " << histogram->Size() << std::endl;
   std::cout << "Total frequency = " 
             << histogram->GetTotalFrequency() << std::endl;

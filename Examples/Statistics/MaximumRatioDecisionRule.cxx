@@ -24,14 +24,14 @@
 //   \frac{f_{i}(\overrightarrow{x})}{f_{j}(\overrightarrow{x})} >
 //   \frac{K_{j}}{K_{i}} \textrm{ for all } j \not= i 
 // \end{equation} 
-//where the $i$ is the index of a class which has membership function
-//$f_{i}$ and its prior value (usually, the \textit{a priori}
+// where the $i$ is the index of a class which has membership function
+// $f_{i}$ and its prior value (usually, the \emph{a priori}
 // probability of the class) is $K_{i}$ 
 //
-// We include the header files for the class and the
-// \doxygen{MaximumRatioDecisionRule}. We also include the header file
-// for the \code{std::vector} class that will be the container for the
+// We include the header files for the class as well as the header file for
+// the \code{std::vector} class that will be the container for the
 // discriminant scores.  
+//
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
@@ -42,24 +42,25 @@
 int main()
 {
   // Software Guide : BeginLatex
+  //
   // The instantiation of the function is done through the usual
   // \code{New()} method and a smart pointer.
+  //
   // Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
   typedef itk::MaximumRatioDecisionRule DecisionRuleType;
-
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
   // Software Guide : EndCodeSnippet
 
 
-
-
   // Software Guide : BeginLatex
+  //
   // We create the discriminant score vector and fill it with three
-  // values. We also create a vector (\code{aPrioris}) for the \textit{a
+  // values. We also create a vector (\code{aPrioris}) for the \emph{a
   // priori} values. The \code{Evaluate( discriminantScores )} will
   // return 1. 
+  //
   // Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
