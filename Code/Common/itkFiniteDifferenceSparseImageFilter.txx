@@ -1,3 +1,19 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkFiniteDifferenceSparseImageFilter.txx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+     =========================================================================*/
 #ifndef __itkFiniteDifferenceSparseImageFilter_txx_
 #define __itkFiniteDifferenceSparseImageFilter_txx_ 
 
@@ -7,7 +23,7 @@ namespace itk {
 
 template <class TInputImageType, class TSparseOutputImageType>
 FiniteDifferenceSparseImageFilter <TInputImageType, TSparseOutputImageType>
-::FiniteDifferenceSparseImageFilter ()
+::FiniteDifferenceSparseImageFilter()
 {
   m_SparseFunction = 0;
   m_PrecomputeFlag = false;
@@ -25,7 +41,7 @@ FiniteDifferenceSparseImageFilter <TInputImageType, TSparseOutputImageType>
 template <class TInputImageType, class TSparseOutputImageType>
 void
 FiniteDifferenceSparseImageFilter <TInputImageType, TSparseOutputImageType>
-::SetSparseFunction (SparseFunctionType *sf)
+::SetSparseFunction( SparseFunctionType *sf )
 {
   m_SparseFunction = sf;
   Superclass::SetDifferenceFunction (sf);
@@ -34,7 +50,7 @@ FiniteDifferenceSparseImageFilter <TInputImageType, TSparseOutputImageType>
 template <class TInputImageType, class TSparseOutputImageType>
 void
 FiniteDifferenceSparseImageFilter <TInputImageType, TSparseOutputImageType>
-::Initialize ()
+::Initialize()
 {
   m_RegionList=(this->GetOutput()->GetNodeList())
     ->SplitRegions(this->GetNumberOfThreads());
@@ -49,7 +65,7 @@ FiniteDifferenceSparseImageFilter <TInputImageType, TSparseOutputImageType>
 template <class TInputImageType, class TSparseOutputImageType>
 int 
 FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>
-::GetSplitRegion (int i, int num, ThreadRegionType &splitRegion) 
+::GetSplitRegion( int i, int num, ThreadRegionType &splitRegion ) 
 {
   splitRegion.first = m_RegionList[i].first;
   splitRegion.last = m_RegionList[i].last;
@@ -61,7 +77,7 @@ FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>
 template<class TInputImageType, class TSparseOutputImageType>
 void
 FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>
-::ApplyUpdate(TimeStepType dt)
+::ApplyUpdate( TimeStepType dt )
 {
   // Set up for multithreaded processing.
   FDThreadStruct str;
@@ -105,8 +121,8 @@ FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>
 template <class TInputImageType, class TSparseOutputImageType>
 void
 FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>
-::ThreadedApplyUpdate(TimeStepType dt, const ThreadRegionType &regionToProcess,
-                      int)
+::ThreadedApplyUpdate( TimeStepType dt, const ThreadRegionType &regionToProcess,
+                       int)
 {
   typename NodeListType::Iterator it;
   
@@ -250,7 +266,7 @@ template <class TInputImageType, class TSparseOutputImageType>
 typename FiniteDifferenceSparseImageFilter<TInputImageType,
                                            TSparseOutputImageType>::TimeStepType
 FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>
-::ThreadedCalculateChange(const ThreadRegionType &regionToProcess, int)
+::ThreadedCalculateChange( const ThreadRegionType &regionToProcess, int )
 {
   typedef typename SparseOutputImageType::SizeType   SizeType;
   typedef typename SparseOutputImageType::IndexType  IndexType;
@@ -294,7 +310,7 @@ FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>
 template <class TInputImageType, class TSparseOutputImageType>
 void
 FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>
-::ThreadedPrecalculateChange(const ThreadRegionType &regionToProcess, int)
+::ThreadedPrecalculateChange( const ThreadRegionType &regionToProcess, int )
 {
   typedef typename SparseOutputImageType::SizeType   SizeType;
   typedef typename FiniteDifferenceFunctionType::NeighborhoodType

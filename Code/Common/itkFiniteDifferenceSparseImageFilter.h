@@ -1,3 +1,19 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkFiniteDifferenceSparseImageFilter.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+     =========================================================================*/
 #ifndef __itkFiniteDifferenceSparseImageFilter_h_
 #define __itkFiniteDifferenceSparseImageFilter_h_ 
 
@@ -88,17 +104,17 @@ public:
   SparseFunctionType;
 
   /** Sets the function object that will be called for computing updates. */
-  void SetSparseFunction (SparseFunctionType *sf);
+  void SetSparseFunction( SparseFunctionType *sf );
 
 protected:
-  FiniteDifferenceSparseImageFilter ();
-  ~FiniteDifferenceSparseImageFilter () {}
+  FiniteDifferenceSparseImageFilter();
+  ~FiniteDifferenceSparseImageFilter() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** This method splits the active pixels of the sparse image into equal size
    *  lists for multi-threading. These lists remain constant throughout the
    *  operation of this filter.*/
-  virtual void Initialize ();
+  virtual void Initialize();
   
   /** This class does not use AllocateUpdateBuffer to allocate memory for its 
    *  narrow band. All memory is handled through the SparseImage class. */
@@ -106,7 +122,7 @@ protected:
 
   /** This function can be used to implements constraints on the range of data
    * values. Default is no constraint. */
-  virtual NodeDataType DataConstraint (const NodeDataType &data) const 
+  virtual NodeDataType DataConstraint( const NodeDataType &data ) const 
   { return data; }
 
   itkSetMacro(PrecomputeFlag, bool);
@@ -124,11 +140,11 @@ private:
 
 protected:
   /** This function returns a single region for use in multi-threading. */
-  int GetSplitRegion (int i, int num, ThreadRegionType &splitRegion);
+  int GetSplitRegion( int i, int num, ThreadRegionType &splitRegion );
   
   /** This function updates the m_Data variable in the output image nodes using
       the update values computed by CalculateChange. */
-  virtual void ApplyUpdate(TimeStepType dt);
+  virtual void ApplyUpdate( TimeStepType dt );
   
   /** Multi-threaded implementation of ApplyUpdate. */
   static ITK_THREAD_RETURN_TYPE ApplyUpdateThreaderCallback( void *arg );
