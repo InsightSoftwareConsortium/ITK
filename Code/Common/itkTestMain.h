@@ -19,7 +19,6 @@
 
 =========================================================================*/
 
-
 // This file is used to create TestDriver executables
 // These executables are able to register a function pointer to a string name
 // in a lookup table.   By including this file, it creates a main function
@@ -156,7 +155,7 @@ int main(int ac, char* av[] )
 int RegressionTestImage (char *testImageFilename, char *baselineImageFilename)
 {
   // Use the factory mechanism to read the test and baseline files and convert them to double
-  typedef itk::Image<float,10> ImageType;
+  typedef itk::Image<double,10> ImageType;
   typedef itk::Image<unsigned char,10> OutputType;
   typedef itk::Image<unsigned char,2> DiffOutputType;
   typedef itk::ImageFileReader<ImageType> ReaderType;
