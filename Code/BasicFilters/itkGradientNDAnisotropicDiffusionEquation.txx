@@ -100,8 +100,8 @@ GradientNDAnisotropicDiffusionEquation<TImage>
     {
       dx_forward[i] = it.GetPixel(m_Center + m_Stride[i])
         - it.GetPixel(m_Center);
-      dx_backward[i]= it.GetPixel(m_Center - m_Stride[i])
-        - it.GetPixel(m_Center);
+      dx_backward[i]=  it.GetPixel(m_Center)
+        - it.GetPixel(m_Center - m_Stride[i]);
 
       dx[i]         = m_InnerProduct(x_slice[i], it, dx_op);
       dx_aug[i]     = m_InnerProduct(xa_slice[i],it, dx_op);
@@ -125,7 +125,7 @@ GradientNDAnisotropicDiffusionEquation<TImage>
       Cxd[i]= exp((dx_backward[i] * dx_backward[i] + accum_d)/ m_k);
       dx_forward[i]  *= Cx[i];
       dx_backward[i] *= Cxd[i];
-      delta += dx_forward[i] + dx_backward[i];
+      delta += dx_forward[i] - dx_backward[i];
     }
   
   return ( delta );
@@ -154,8 +154,8 @@ GradientNDAnisotropicDiffusionEquation<TImage>
     {
       dx_forward[i] = it.GetPixel(m_Center + m_Stride[i])
         - it.GetPixel(m_Center);
-      dx_backward[i]= it.GetPixel(m_Center - m_Stride[i])
-        - it.GetPixel(m_Center);
+      dx_backward[i]=  it.GetPixel(m_Center)
+        - it.GetPixel(m_Center - m_Stride[i]);
 
       dx[i]         = m_SmartInnerProduct(x_slice[i], it, dx_op);
       dx_aug[i]     = m_SmartInnerProduct(xa_slice[i],it, dx_op);
@@ -179,7 +179,7 @@ GradientNDAnisotropicDiffusionEquation<TImage>
       Cxd[i]= exp((dx_backward[i] * dx_backward[i] + accum_d)/ m_k);
       dx_forward[i]  *= Cx[i];
       dx_backward[i] *= Cxd[i];
-      delta += dx_forward[i] + dx_backward[i];
+      delta += dx_forward[i] - dx_backward[i];
     }
   
   return ( delta );

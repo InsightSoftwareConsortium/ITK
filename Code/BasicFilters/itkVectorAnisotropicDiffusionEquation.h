@@ -47,7 +47,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace itk {
 
 /** \class VectorAnisotropicDiffusionEquation
- * \brief need one
+ * 
  * Requirements:
  *      1) Image PixelType must have an internal typedef of ValueType,
  *            i.e. TImage::PixelType::ValueType must be defined as the
@@ -57,7 +57,6 @@ namespace itk {
  *
  *  \ingroup Operators
  *
- * \todo DOCUMENT!
  */ 
 template <class TImage>
 class VectorAnisotropicDiffusionEquation :
@@ -84,6 +83,7 @@ public:
   typedef typename Superclass::RadiusType       RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
   typedef typename Superclass::BoundaryNeighborhoodType BoundaryNeighborhoodType;
+
   /** Inherit some parameters from the superclass type */
   enum { ImageDimension = Superclass::ImageDimension };
   enum { VectorDimension = PixelType::VectorDimension };
