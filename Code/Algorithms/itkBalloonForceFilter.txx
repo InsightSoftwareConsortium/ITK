@@ -348,8 +348,6 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   InputPointDataContainerPointer    myPointData = m_Locations->GetPointData();
   InputPointDataContainerIterator   pointstatus = myPointData->Begin();
 
-  int slicediv = this->m_Resolution; 
-
   i = 0;
   
   while( i != m_NumberOfNodes - 2 )
@@ -1200,16 +1198,9 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 ::NodesRearrange()
 {
   int i, j, k;
-  float dis, l1, l2, *d_PixelTyper, d;
+  float dis, l1, l2, d;
   float length;
   IPixelType v1, v2, v3, v4;
-  IPixelType* v1_PixelType;
-  IPixelType* v2_PixelType;
-  IPixelType* v3_PixelType;
-  d_PixelTyper = &d;
-  v1_PixelType = &v1;
-  v2_PixelType = &v2;
-  v3_PixelType = &v3;
 
   typename TInputMesh::PointType s, s1, d1, d2;
 
