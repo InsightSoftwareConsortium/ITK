@@ -189,12 +189,12 @@ ImageMetricLoad<TReference , TTarget>::Fe
   VectorType OutVec;
   
   for( unsigned int k = 0; k < ImageDimension; k++ ) {
-    //if ( vnl_math_isnan(Gpos[k])  || vnl_math_isinf(Gpos[k]) ||
-    //    vnl_math_isnan(Gsol[k])  || vnl_math_isinf(Gsol[k]) ||
-    //     fabs(Gpos[k]) > 1.e33  || fabs(Gsol[k]) > 1.e33  ) 
-    //{
+    if ( vnl_math_isnan(Gpos[k])  || vnl_math_isinf(Gpos[k]) ||
+        vnl_math_isnan(Gsol[k])  || vnl_math_isinf(Gsol[k]) ||
+         fabs(Gpos[k]) > 1.e33  || fabs(Gsol[k]) > 1.e33  ) 
+    {
       OutVec.resize(ImageDimension);  OutVec.fill(0.0);  return OutVec;
-    //}
+    }
   }
 //  OutVec=this->MetricFiniteDiff(Gpos,Gsol); // gradient direction
 //  OutVec=this->GetPolynomialFitToMetric(Gpos,Gsol); // gradient direction
