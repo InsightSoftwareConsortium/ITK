@@ -113,7 +113,7 @@ int itkImagePCADecompositionCalculatorTest(int, char* [] )
   
   image4->SetRegions( region );
   image4->Allocate();
-  
+
   // setup the iterators
   InputImageIterator image4It( image4, image4->GetBufferedRegion() );
   
@@ -144,10 +144,10 @@ int itkImagePCADecompositionCalculatorTest(int, char* [] )
   image3It.Set( 2 ); ++image3It;
 
   //Image no. 4
-  image3It.Set( 0 ); ++image3It;
-  image3It.Set( 3 ); ++image3It;
-  image3It.Set( 3 ); ++image3It;
-  image3It.Set( 0 ); ++image3It;
+  image4It.Set( 0 ); ++image4It;
+  image4It.Set( 3 ); ++image4It;
+  image4It.Set( 3 ); ++image4It;
+  image4It.Set( 0 ); ++image4It;
   
   //----------------------------------------------------------------------
   // Test code for the Decomposition Calculator
