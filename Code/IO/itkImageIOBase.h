@@ -171,8 +171,6 @@ public:
 protected:
   ImageIOBase();
   ~ImageIOBase();
-  ImageIOBase(const Self&) {}
-  void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   ///! Utility methods for working with ComponentType.
@@ -295,6 +293,10 @@ protected:
    * next slice. Returns m_Strides[3].
    */
   unsigned int GetSliceStride () const;
+
+private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
 };
 

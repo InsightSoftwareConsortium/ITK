@@ -104,9 +104,10 @@ protected:
   ~VOLImageIOFactory();
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
-  VOLImageIOFactory(const VOLImageIOFactory&) {};
-  void operator=(const VOLImageIOFactory&) {};
-
+private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
 };
 
 } // end namespace itk

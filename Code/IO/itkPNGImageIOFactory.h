@@ -96,15 +96,14 @@ public:
   }
   
 protected:
-  
   PNGImageIOFactory();
   ~PNGImageIOFactory();
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
-  PNGImageIOFactory(const PNGImageIOFactory&) {};
-  void operator=(const PNGImageIOFactory&) {};
-
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
 };
 extern "C"   
 #ifdef _WIN32  

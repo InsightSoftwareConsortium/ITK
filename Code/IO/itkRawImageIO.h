@@ -211,14 +211,15 @@ public:
 protected:
   RawImageIO();
   ~RawImageIO();
-  RawImageIO(const Self&) {}
-  void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   //void ComputeInternalFileName(unsigned long slice);
   void OpenFile();
   
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   std::ifstream m_File;
   std::string   m_FilePrefix;
   std::string   m_FilePattern;

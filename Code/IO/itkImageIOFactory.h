@@ -83,15 +83,14 @@ public:
   static ImageIOBasePointer CreateImageIO(const char* path);
 
 protected:
-
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
-
   ImageIOFactory();
   ~ImageIOFactory();
-  ImageIOFactory(const ImageIOFactory&) {};
-  void operator=(const ImageIOFactory&) {};
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
 };
   
   

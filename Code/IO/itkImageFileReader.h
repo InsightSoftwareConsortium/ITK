@@ -148,8 +148,6 @@ public:
 protected:
   ImageFileReader();
   ~ImageFileReader();
-  ImageFileReader(const Self&) {}
-  void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
   
   // Convert a block of pixels from one type to another
@@ -164,6 +162,10 @@ protected:
   std::string m_FileName;
   std::string m_FilePrefix;
   std::string m_FilePattern;
+  
+private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
   
 };
 

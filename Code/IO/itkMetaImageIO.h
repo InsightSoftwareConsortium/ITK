@@ -137,25 +137,19 @@ public:
 protected:
   MetaImageIO();
   ~MetaImageIO();
-  MetaImageIO(const Self&) {}
-  void operator=(const Self&) {}
-  
-  
-private:
-
   void PrintSelf(std::ostream& os, Indent indent) const;
   
-  void SwapBytesIfNecessary(void* buffer, unsigned long numberOfPixels);
+private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
   
+  void SwapBytesIfNecessary(void* buffer, unsigned long numberOfPixels);
   bool GetSeparatorCharacter(std::ifstream & ifs) const;
 
   ComponentType m_MetaPixelType;
-
   double m_Spacing[10];
   double m_Origin[10];
-
   ByteOrder      m_ImageByteOrder;
-
   std::ifstream   m_Ifstream;
   
 };

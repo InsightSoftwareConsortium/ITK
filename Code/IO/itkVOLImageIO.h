@@ -216,10 +216,8 @@ public:
 protected:
   VOLImageIO();
   ~VOLImageIO();
-  VOLImageIO(const Self&) {}
-  void operator=(const Self&) {}
-
   void PrintSelf(std::ostream& os, Indent indent) const;
+
   ComponentType   m_VOLPixelType;
   double m_Spacing[4] ;
   double m_Origin[4] ;
@@ -229,6 +227,8 @@ protected:
 
 
 private:
+  Self(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
   /**
    *  All of the information read in from the header file
