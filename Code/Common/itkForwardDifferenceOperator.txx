@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef _itkForwardDifferenceOperator_txx
 #define _itkForwardDifferenceOperator_txx
+#include "itkForwardDifferenceOperator.h"
 
 #include "itkNumericTraits.h"
 

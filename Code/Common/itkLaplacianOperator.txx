@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef _itkLaplacianOperator_txx
 #define _itkLaplacianOperator_txx
+#include "itkLaplacianOperator.h"
 
 namespace itk
 {

@@ -14,6 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#ifndef _itkKernelTransform_txx
+#define _itkKernelTransform_txx
 #include "itkKernelTransform.h"
 
 namespace itk
@@ -315,3 +317,4 @@ PrintSelf(std::ostream& os, Indent indent) const
 }
 } // namespace itk
 
+#endif

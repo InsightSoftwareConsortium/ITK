@@ -14,8 +14,9 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkNeighborhoodInnerProduct_txx
-#define __itkNeighborhoodInnerProduct_txx
+#ifndef _itkNeighborhoodInnerProduct_txx
+#define _itkNeighborhoodInnerProduct_txx
+#include "itkNeighborhoodInnerProduct.h"
 
 #include "itkNumericTraits.h"
 

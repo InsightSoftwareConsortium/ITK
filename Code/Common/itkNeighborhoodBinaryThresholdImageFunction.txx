@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef _itkNeighborhoodBinaryThresholdImageFunction_txx
 #define _itkNeighborhoodBinaryThresholdImageFunction_txx
+#include "itkNeighborhoodBinaryThresholdImageFunction.h"
 
 #include "itkNumericTraits.h"
 #include "itkConstSmartNeighborhoodIterator.h"

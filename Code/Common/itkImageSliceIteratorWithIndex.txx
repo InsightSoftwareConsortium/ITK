@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef _itkImageSliceIteratorWithIndex_txx
 #define _itkImageSliceIteratorWithIndex_txx
+#include "itkImageSliceIteratorWithIndex.h"
 
 
 namespace itk

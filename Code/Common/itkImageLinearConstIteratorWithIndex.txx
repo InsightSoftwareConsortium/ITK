@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef _itkImageLinearConstIteratorWithIndex_txx
 #define _itkImageLinearConstIteratorWithIndex_txx
+#include "itkImageLinearConstIteratorWithIndex.h"
 
 #include "itkSimpleImageRegionIterator.h"
 

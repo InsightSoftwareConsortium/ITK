@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef _itkMedianImageFunction_txx
 #define _itkMedianImageFunction_txx
+#include "itkMedianImageFunction.h"
 
 #include "itkNumericTraits.h"
 #include "itkConstSmartNeighborhoodIterator.h"

@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef _itkNeighborhoodAlgorithm_txx
 #define _itkNeighborhoodAlgorithm_txx
+#include "itkNeighborhoodAlgorithm.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegion.h"
 #include "itkConstSliceIterator.h"

@@ -14,8 +14,10 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkVectorNeighborhoodInnerProduct_txx
-#define __itkVectorNeighborhoodInnerProduct_txx
+#ifndef _itkVectorNeighborhoodInnerProduct_txx
+#define _itkVectorNeighborhoodInnerProduct_txx
+#include "itkVectorNeighborhoodInnerProduct.h"
+
 
 namespace itk {
 

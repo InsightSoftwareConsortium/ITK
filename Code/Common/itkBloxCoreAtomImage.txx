@@ -18,6 +18,8 @@
 #define __itkBloxCoreAtomImage_txx
 
 #include <iostream>
+#include "itkBloxCoreAtomImage.h"
+
 #include "itkImageRegionIterator.h"
 #include "itkConicShellInteriorExteriorSpatialFunction.h"
 #include "itkEllipsoidInteriorExteriorSpatialFunction.h"

@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef _itkUpwindDerivativeImageFunction_txx
 #define _itkUpwindDerivativeImageFunction_txx
+#include "itkUpwindDerivativeImageFunction.h"
 
 namespace itk
 {

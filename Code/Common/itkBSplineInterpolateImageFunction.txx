@@ -17,6 +17,9 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#ifndef _itkBSplineInterpolateImageFunction_txx
+#define _itkBSplineInterpolateImageFunction_txx
+#include "itkBSplineInterpolateImageFunction.h"
 #include "itkImageLinearIteratorWithIndex.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"
@@ -556,3 +559,4 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep>
 
 } // namespace itk
 
+#endif

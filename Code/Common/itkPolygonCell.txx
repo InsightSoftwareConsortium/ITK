@@ -19,6 +19,7 @@
 =========================================================================*/
 #ifndef _itkPolygonCell_txx
 #define _itkPolygonCell_txx
+#include "itkPolygonCell.h"
 
 
 namespace itk

@@ -14,6 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#ifndef _itkThinPlateSplineKernelTransform_txx
+#define _itkThinPlateSplineKernelTransform_txx
 #include "itkThinPlateSplineKernelTransform.h"
 
 namespace itk
@@ -35,3 +37,4 @@ ComputeG(const InputVectorType & x) const
 }
 
 } // namespace itk
+#endif

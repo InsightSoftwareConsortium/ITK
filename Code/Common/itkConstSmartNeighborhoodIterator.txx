@@ -16,6 +16,8 @@
 =========================================================================*/
 #ifndef _itkConstSmartNeighborhoodIterator_txx
 #define _itkConstSmartNeighborhoodIterator_txx
+#include "itkConstSmartNeighborhoodIterator.h"
+
 namespace itk {
 
 template<class TImage, class TBoundaryCondition>

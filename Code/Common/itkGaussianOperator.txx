@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef _itkGaussianOperator_txx
 #define _itkGaussianOperator_txx
+#include "itkGaussianOperator.h"
 namespace itk
 {
 

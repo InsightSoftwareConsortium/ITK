@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef _itkMeanImageFunction_txx
 #define _itkMeanImageFunction_txx
+#include "itkMeanImageFunction.h"
 
 #include "itkNumericTraits.h"
 #include "itkConstSmartNeighborhoodIterator.h"

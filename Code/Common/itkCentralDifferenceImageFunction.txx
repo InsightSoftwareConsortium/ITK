@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef _itkCentralDifferenceImageFunction_txx
 #define _itkCentralDifferenceImageFunction_txx
+#include "itkCentralDifferenceImageFunction.h"
 
 namespace itk
 {

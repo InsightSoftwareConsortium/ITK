@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef _itkBinaryBallStructuringElement_txx
 #define _itkBinaryBallStructuringElement_txx
+#include "itkBinaryBallStructuringElement.h"
 
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"

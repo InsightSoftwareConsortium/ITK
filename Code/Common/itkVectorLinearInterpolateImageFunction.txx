@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef _itkVectorLinearInterpolateImageFunction_txx
 #define _itkVectorLinearInterpolateImageFunction_txx
+#include "itkVectorLinearInterpolateImageFunction.h"
 
 #include "vnl/vnl_math.h"
 

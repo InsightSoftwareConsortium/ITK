@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef _itkBackwardDifferenceOperator_txx
 #define _itkBackwardDifferenceOperator_txx
+#include "itkBackwardDifferenceOperator.h"
 namespace itk
 {
 

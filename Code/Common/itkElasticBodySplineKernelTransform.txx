@@ -14,6 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#ifndef _itkElasticBodySplineKernelTransform_txx
+#define _itkElasticBodySplineKernelTransform_txx
 #include "itkElasticBodySplineKernelTransform.h"
 
 namespace itk
@@ -50,3 +52,4 @@ ElasticBodySplineKernelTransform<TScalarType, NDimensions>
 }
 
 } // namespace itk
+#endif

@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef _itkVarianceImageFunction_txx
 #define _itkVarianceImageFunction_txx
+#include "itkVarianceImageFunction.h"
 
 #include "itkNumericTraits.h"
 #include "itkConstSmartNeighborhoodIterator.h"

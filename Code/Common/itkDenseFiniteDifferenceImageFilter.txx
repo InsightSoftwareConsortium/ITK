@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef __itkDenseFiniteDifferenceImageFilter_txx_
 #define __itkDenseFiniteDifferenceImageFilter_txx_
+#include "itkDenseFiniteDifferenceImageFilter.h"
 
 #include <list>
 #include "itkImageRegionIterator.h"

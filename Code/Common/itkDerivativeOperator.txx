@@ -16,6 +16,8 @@
 =========================================================================*/
 #ifndef _itkDerivativeOperator_txx
 #define _itkDerivativeOperator_txx
+#include "itkDerivativeOperator.h"
+
 namespace itk
 {
 

@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef _itkRandomAccessNeighborhoodIterator_txx
 #define _itkRandomAccessNeighborhoodIterator_txx
+#include "itkRandomAccessNeighborhoodIterator.h"
 namespace itk {
 
 template<class TImage>
