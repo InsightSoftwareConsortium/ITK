@@ -59,22 +59,22 @@ int WriteTestFiles(void)
   std::ofstream little_hdr("LittleEndian.hdr", std::ofstream::binary);
   if(!little_hdr.is_open())
     return -1;
-  little_hdr.write((const char *)LittleEndian_hdr,sizeof(LittleEndian_hdr));
+  little_hdr.write(reinterpret_cast<const char *>(LittleEndian_hdr),sizeof(LittleEndian_hdr));
   little_hdr.close();
   std::ofstream little_img("LittleEndian.img", std::ofstream::binary);
   if(!little_img.is_open())
     return -1;
-  little_img.write((const char *)LittleEndian_img,sizeof(LittleEndian_img));
+  little_img.write(reinterpret_cast<const char *>(LittleEndian_img),sizeof(LittleEndian_img));
   little_img.close();
   std::ofstream big_hdr("BigEndian.hdr", std::ofstream::binary);
   if(!big_hdr.is_open())
     return -1;
-  big_hdr.write((const char *)BigEndian_hdr,sizeof(BigEndian_hdr));
+  big_hdr.write(reinterpret_cast<const char *>(BigEndian_hdr),sizeof(BigEndian_hdr));
   big_hdr.close();
   std::ofstream big_img("BigEndian.img", std::ofstream::binary);
   if(!big_img.is_open())
     return -1;
-  big_img.write((const char *)BigEndian_img,sizeof(BigEndian_img));
+  big_img.write(reinterpret_cast<const char *>(BigEndian_img),sizeof(BigEndian_img));
   big_img.close();
   return 0;
 }
@@ -92,9 +92,9 @@ int TestByteSwap(void)
   typedef itk::Image<double, 3> ImageType ;
   typedef itk::ImageFileReader< ImageType > ImageReaderType ;
   if(WriteTestFiles() == -1)
-  {
-    return -1;
-  }
+    {
+      return -1;
+    }
 
   ImageType::Pointer little;
   ImageType::Pointer big;
@@ -102,42 +102,42 @@ int TestByteSwap(void)
   itk::ImageFileReader<ImageType>::Pointer imageReader =
     itk::ImageFileReader<ImageType>::New();
   try
-  {
-    imageReader->SetFileName("LittleEndian.hdr") ;
-    imageReader->Update() ;
-    little = imageReader->GetOutput() ;
-    imageReader->SetFileName("BigEndian.hdr") ;
-    imageReader->Update() ;
-    big = imageReader->GetOutput();
-  }
+    {
+      imageReader->SetFileName("LittleEndian.hdr") ;
+      imageReader->Update() ;
+      little = imageReader->GetOutput() ;
+      imageReader->SetFileName("BigEndian.hdr") ;
+      imageReader->Update() ;
+      big = imageReader->GetOutput();
+    }
   catch (itk::ExceptionObject e)
-  {
-    e.Print(std::cerr) ;
-    RemoveByteSwapTestFiles();
-    return -1;
-  }
+    {
+      e.Print(std::cerr) ;
+      RemoveByteSwapTestFiles();
+      return -1;
+    }
   rval = 0;
   try
-  {
-    itk::ImageRegionConstIterator<ImageType> littleIter(little,
-        little->GetLargestPossibleRegion());
-    itk::ImageRegionConstIterator<ImageType> bigIter(big,
-        big->GetLargestPossibleRegion());
-    while(!littleIter.IsAtEnd())
     {
-      if(littleIter.Get() != bigIter.Get())
-        break;
-      ++littleIter;
-      ++bigIter;
+      itk::ImageRegionConstIterator<ImageType> littleIter(little,
+                                                          little->GetLargestPossibleRegion());
+      itk::ImageRegionConstIterator<ImageType> bigIter(big,
+                                                       big->GetLargestPossibleRegion());
+      while(!littleIter.IsAtEnd())
+        {
+          if(littleIter.Get() != bigIter.Get())
+            break;
+          ++littleIter;
+          ++bigIter;
+        }
+      if(!littleIter.IsAtEnd() || !bigIter.IsAtEnd())
+        rval = -1;
     }
-    if(!littleIter.IsAtEnd() || !bigIter.IsAtEnd())
-      rval = -1;
-  }
   catch ( itk::ExceptionObject & ex )
-  {
-    std::cerr << "Error filling array" << ex.GetDescription() << std::endl;
-    rval= -1;
-  }
+    {
+      std::cerr << "Error filling array" << ex.GetDescription() << std::endl;
+      rval= -1;
+    }
 
   RemoveByteSwapTestFiles();
   return rval;
@@ -166,18 +166,18 @@ template <typename T> int MakeImage(void)
   { //Fill in entire image
     itk::ImageRegionIterator<ImageType> ri(img,region);
     try
-    {
-      while(!ri.IsAtEnd())
       {
-        ri.Set( RPI );
-        ++ri;
+        while(!ri.IsAtEnd())
+          {
+            ri.Set( RPI );
+            ++ri;
+          }
       }
-    }
     catch ( itk::ExceptionObject & ex )
-    {
-      std::cerr << "Error filling array" << ex.GetDescription() << std::endl;
-      return -1;
-    }
+      {
+        std::cerr << "Error filling array" << ex.GetDescription() << std::endl;
+        return -1;
+      }
   }
   { //Fill in left half
     const typename ImageType::IndexType RPIindex = {{0,0,0}};
@@ -187,10 +187,10 @@ template <typename T> int MakeImage(void)
     RPIregion.SetIndex( RPIindex );
     itk::ImageRegionIterator<ImageType > RPIiterator(img,RPIregion);
     while(!RPIiterator.IsAtEnd())
-    {
-      RPIiterator.Set( RPIiterator.Get() + LEFT );
-      ++RPIiterator;
-    }
+      {
+        RPIiterator.Set( RPIiterator.Get() + LEFT );
+        ++RPIiterator;
+      }
   }
   { //Fill in anterior half
     const typename ImageType::IndexType RPIindex = {{0,5,0}};
@@ -200,10 +200,10 @@ template <typename T> int MakeImage(void)
     RPIregion.SetIndex( RPIindex );
     itk::ImageRegionIterator<ImageType > RPIiterator(img,RPIregion);
     while(!RPIiterator.IsAtEnd())
-    {
-      RPIiterator.Set( RPIiterator.Get() + ANTERIOR );
-      ++RPIiterator;
-    }
+      {
+        RPIiterator.Set( RPIiterator.Get() + ANTERIOR );
+        ++RPIiterator;
+      }
   }
   { //Fill in superior half
     const typename ImageType::IndexType RPIindex = {{0,0,5}};
@@ -213,10 +213,10 @@ template <typename T> int MakeImage(void)
     RPIregion.SetIndex( RPIindex );
     itk::ImageRegionIterator<ImageType > RPIiterator(img,RPIregion);
     while(!RPIiterator.IsAtEnd())
-    {
-      RPIiterator.Set( RPIiterator.Get() + SUPERIOR );
-      ++RPIiterator;
-    }
+      {
+        RPIiterator.Set( RPIiterator.Get() + SUPERIOR );
+        ++RPIiterator;
+      }
   }
   typedef itk::ImageFileWriter< ImageType >      ImageWriterType;
   typename ImageWriterType::Pointer ImageWriterPointer =
@@ -233,35 +233,35 @@ template <typename T> int MakeImage(void)
     ImageWriterPointer->Write();
   }
   catch ( itk::ExceptionObject & ex )
-  {
-    std::string message;
-    message = "Problem found while writing image ";
-    message += filename;
-    message += "\n";
-    message += ex.GetLocation();
-    message += "\n";
-    message += ex.GetDescription();
-    std::cerr << message << std::endl;
-    Remove(filename);
-    return -1;
-  }
+    {
+      std::string message;
+      message = "Problem found while writing image ";
+      message += filename;
+      message += "\n";
+      message += ex.GetLocation();
+      message += "\n";
+      message += ex.GetDescription();
+      std::cerr << message << std::endl;
+      Remove(filename);
+      return -1;
+    }
 
   //typedef itk::ImageFileReader< ImageType > ImageReaderType ;
   typename ImageType::Pointer input;
   typename itk::ImageFileReader<ImageType>::Pointer imageReader =
     itk::ImageFileReader<ImageType>::New();
   try
-  {
-    imageReader->SetFileName(filename) ;
-    imageReader->Update() ;
-    input = imageReader->GetOutput() ;
-  }
+    {
+      imageReader->SetFileName(filename) ;
+      imageReader->Update() ;
+      input = imageReader->GetOutput() ;
+    }
   catch (itk::ExceptionObject e)
-  {
-    e.Print(std::cerr) ;
-    Remove(filename);
-    return -1;
-  }
+    {
+      e.Print(std::cerr) ;
+      Remove(filename);
+      return -1;
+    }
   Remove(filename);
   return 0;
 }
@@ -270,97 +270,139 @@ template <typename T> int MakeImage(void)
 
 int itkAnalyzeImageIOTest(int ac, char* av[])
 {
+  int rval = 0;
+
   if(ac > 1) //This is a mechanism for reading unsigned char images for testing.
-  {
-    typedef itk::Image<unsigned char, 3> ImageType ;
-    ImageType::Pointer input;
-    itk::ImageFileReader<ImageType>::Pointer imageReader =
-      itk::ImageFileReader<ImageType>::New();
-    for(int imagenameindex=1; imagenameindex < ac; imagenameindex++)
     {
-      //std::cout << "Attempting to read " << av[imagenameindex] << std::endl;
-      try
-      {
-        imageReader->SetFileName(av[imagenameindex]) ;
-        imageReader->Update() ;
-        input=imageReader->GetOutput() ;
-      }
-      catch (itk::ExceptionObject e)
-      {
-        e.Print(std::cerr) ;
-        return -1;
-      }
+      typedef itk::Image<unsigned char, 3> ImageType ;
+      ImageType::Pointer input;
+      itk::ImageFileReader<ImageType>::Pointer imageReader =
+        itk::ImageFileReader<ImageType>::New();
+      for(int imagenameindex=1; imagenameindex < ac; imagenameindex++)
+        {
+          //std::cout << "Attempting to read " << av[imagenameindex] << std::endl;
+          try
+            {
+              imageReader->SetFileName(av[imagenameindex]) ;
+              imageReader->Update() ;
+              input=imageReader->GetOutput() ;
+            }
+          catch (itk::ExceptionObject e)
+            {
+              e.Print(std::cerr) ;
+              rval = 0;
+            }
+        }
     }
-  }
   else //This is the mechanism for doing internal testing of all data types.
-  {
-    int rval = 0;
-    int cur_return;
-    cur_return = MakeImage<char>();
-    if(cur_return != 0)
     {
-      std::cerr << "Error writing Analyze file type char" << std::endl;
+      int cur_return;
+      cur_return = MakeImage<char>();
+      if(cur_return != 0)
+        {
+          std::cerr << "Error writing Analyze file type char" << std::endl;
+        }
+      else
+        {
+          rval += cur_return;
+        }
+      cur_return = MakeImage<unsigned char>();
+      if(cur_return != 0)
+        {
+          std::cerr << "Error writing Analyze file type unsigned char" << std::endl;
+        }
+      else
+        {
+          rval += cur_return;
+        }
+      cur_return = MakeImage<short>();
+      if(cur_return != 0)
+        {
+          std::cerr << "Error writing Analyze file type short" << std::endl;
+        }
+      else
+        {
+          rval += cur_return;
+        }
+      cur_return = MakeImage<unsigned short>();
+      if(cur_return != 0)
+        {
+          std::cerr << "Error writing Analyze file type unsigned short" << std::endl;
+        }
+      else
+        {
+          rval += cur_return;
+        }
+      cur_return = MakeImage<int>();
+      if(cur_return != 0)
+        {
+          std::cerr << "Error writing Analyze file type int" << std::endl;
+        }
+      else
+        {
+          rval += cur_return;
+        }
+      cur_return = MakeImage<float>();
+      if(cur_return != 0)
+        {
+          std::cerr << "Error writing Analyze file type float" << std::endl;
+        }
+      else
+        {
+          rval += cur_return;
+        }
+      // awaiting a double precision byte swapper
+      cur_return = MakeImage<double>();
+      if(cur_return != 0)
+        {
+          std::cerr << "Error writing Analyze file type double" << std::endl;
+        }
+      else
+        {
+          rval += cur_return;
+        }
+      rval += TestByteSwap();
     }
-    else
+  return rval;
+}
+
+int itkAnalyzeImageIOTest2(int ac, char* av[])
+{
+  if(ac != 3)
+    return 1;
+  char *arg1 = av[1];
+  char *arg2 = av[2];
+  int test_success = 0;
+  typedef itk::Image<signed short, 3> ImageType ;
+  typedef ImageType::Pointer ImagePointer ;
+  typedef itk::ImageFileReader< ImageType > ImageReaderType ;
+
+
+
+  itk::AnalyzeImageIO::Pointer io = itk::AnalyzeImageIO::New();
+  ImageReaderType::Pointer imageReader = ImageReaderType::New();
+  ImagePointer input;
+  try 
     {
-      rval += cur_return;
+      imageReader->SetImageIO(io);
+      imageReader->SetFileName(arg2);
+      imageReader->Update();
+      input = imageReader->GetOutput();
     }
-    cur_return = MakeImage<unsigned char>();
-    if(cur_return != 0)
+  catch (itk::ExceptionObject e)
     {
-      std::cerr << "Error writing Analyze file type unsigned char" << std::endl;
+      test_success = 1;
     }
-    else
+  
+
+
+  if(strcmp(arg1, "true") == 0)
     {
-      rval += cur_return;
+      return test_success;
     }
-    cur_return = MakeImage<short>();
-    if(cur_return != 0)
+  else
     {
-      std::cerr << "Error writing Analyze file type short" << std::endl;
+      return !test_success;
     }
-    else
-    {
-      rval += cur_return;
-    }
-    cur_return = MakeImage<unsigned short>();
-    if(cur_return != 0)
-    {
-      std::cerr << "Error writing Analyze file type unsigned short" << std::endl;
-    }
-    else
-    {
-      rval += cur_return;
-    }
-    cur_return = MakeImage<int>();
-    if(cur_return != 0)
-    {
-      std::cerr << "Error writing Analyze file type int" << std::endl;
-    }
-    else
-    {
-      rval += cur_return;
-    }
-    cur_return = MakeImage<float>();
-    if(cur_return != 0)
-    {
-      std::cerr << "Error writing Analyze file type float" << std::endl;
-    }
-    else
-    {
-      rval += cur_return;
-    }
-    // awaiting a double precision byte swapper
-    cur_return = MakeImage<double>();
-    if(cur_return != 0)
-    {
-      std::cerr << "Error writing Analyze file type double" << std::endl;
-    }
-    else
-    {
-      rval += cur_return;
-    }
-    rval += TestByteSwap();
-    return rval;
-  }
+
 }

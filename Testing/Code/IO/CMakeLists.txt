@@ -66,7 +66,10 @@ IF(ITK_DATA_ROOT)
   ADD_TEST(itkAnalyzeIOLittleEndian ${IO_TESTS} itkAnalyzeImageIOTest
            ${ITK_DATA_ROOT}/Input/LittleEndian.hdr)
   ADD_TEST(itkAnalyzeIOInternalTests ${IO_TESTS} itkAnalyzeImageIOTest)
-
+  ADD_TEST(itkAnalyzeIOShouldFail ${IO_TESTS} itkAnalyzeImageIOTest2
+                                  false ${ITK_DATA_ROOT}/Input/ramp.gipl)                                
+  ADD_TEST(itkAnalyzeIOShouldSucceed ${IO_TESTS} itkAnalyzeImageIOTest2
+                                  true ${ITK_DATA_ROOT}/Input/LittleEndian.hdr)                          
 ENDIF(ITK_DATA_ROOT)
 
 IF(ITK_BINARY_DIR)
