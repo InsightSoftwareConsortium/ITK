@@ -155,7 +155,7 @@ TransformPoint(const InputPointType & point) const
   {
   const OffsetType & offset = this->GetOffset();
   const MatrixType & matrix = this->GetMatrix();
-  int i;
+  unsigned int i;
   OutputVectorType vect1;
   for(i=0; i<NDimensions; i++)
     {
