@@ -858,7 +858,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   typename FiniteDifferenceFunctionType::FloatOffsetType offset;
   ValueType norm_grad_phi_squared, dx_forward, dx_backward, forwardValue,
     backwardValue, centerValue;
-  unsigned i, center;
+  unsigned i;
   const ValueType MIN_NORM      = 1.0e-6; 
   void *globalData = df->GetGlobalDataPointer();
   
@@ -866,7 +866,6 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   NeighborhoodIterator<OutputImageType> outputIt(df->GetRadius(),
                     this->GetOutput(), this->GetOutput()->GetRequestedRegion());
   TimeStepType timeStep;
-  center = outputIt.Size() / 2;
 
   if ( m_BoundsCheckingActive == false )
     {
