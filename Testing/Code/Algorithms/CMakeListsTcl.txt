@@ -2,6 +2,7 @@ CABLE_CLASS_SET(Float float)
 CABLE_CLASS_SET(Double double)
 CABLE_CLASS_SET(ULong "unsigned long")
 CABLE_CLASS_SET(Dimension 2)
+CABLE_CLASS_SET(Dimension3 3)
 CABLE_CLASS_SET(Image "itk::Image<$Float,$Dimension>")
 CABLE_CLASS_SET(Image3D "itkImage_float_3:itk::Image<float, 3>")
 CABLE_CLASS_SET(CovariantVector "itk::CovariantVector<$Float,$Dimension>")
@@ -14,6 +15,7 @@ CABLE_CLASS_SET(RGBImage "itk::Image<$RGBPix,$Dimension>")
 CABLE_CLASS_SET(Container "itk::ValarrayImageContainer<unsigned long, $Float>")
 CABLE_CLASS_SET(VecPix "itk::Vector<$Float>")
 CABLE_CLASS_SET(VecImage "itk::Image<$VecPix,$Dimension>")
+CABLE_CLASS_SET(VecImage3D "itk::Image<$VecPix,$Dimension3>")
 CABLE_CLASS_SET(BloxPix "itk::BloxPixel<$Float>")
 CABLE_CLASS_SET(BloxPixImage "itk::Image<$BloxPix, $Dimension>")
 CABLE_CLASS_SET(ComponentAccessor
@@ -30,9 +32,9 @@ CABLE_CLASS_SET(Jacobian "itk::Matrix<$Float, 3, 3>")
 CABLE_CLASS_SET(Transform "itk::AffineTransform<$Float>")
 CABLE_CLASS_SET(TransformDouble "itk::AffineTransform<$Double>")
 
-ADD_LIBRARY(ITKAlgorithmsTestTcl)
+ADD_LIBRARY(ITKAlgorithmsTestTcl1)
 
-CABLE_WRAP_TCL(ITKAlgorithmsTestTcl
+CABLE_WRAP_TCL(ITKAlgorithmsTestTcl1
   "itk::BalloonForceFilter<$Mesh,$Mesh>"
   "itk::Classifier<$Image, $Image>"
   "itk::ConnectedRegionsMeshFilter<$Mesh,$Mesh>"
@@ -46,13 +48,17 @@ CABLE_WRAP_TCL(ITKAlgorithmsTestTcl
   "itk::FuzzyConnectednessRGBImageFilter<$RGBImage,$RGBImage>"
   "itk::GaussianSupervisedClassifier<$VecImage,$Image>"
   "itk::GeodesicActiveContourImageFilter<$Image,$Image,$Image>"
-  "itk::GibbsPriorFilter<$Image,$Image>"
+  "itk::GibbsPriorFilter<$VecImage3D,$Image3D>"
   "itk::HybridFilter<$Image,$Image,$Mesh,$Mesh>"
-   "itk::ImageMapper<$Image3D, $TransformDouble>"
-  "itkImageMomentsCalculator<$Image>"
+  "itk::ImageMapper<$Image3D, $TransformDouble>"
+  "itk::ImageMomentsCalculator<$Image>"
   "itk::ImageToImageAffineMeanSquaresGradientDescentRegistration<$Image3D,$Image3D>"
   "itk::ImageToImageAffineMeanSquaresRegularStepGradientDescentRegistration<$Image3D,$Image3D>"
   "itk::ImageToImageAffineMutualInformationGradientDescentRegistration<$Image3D,$Image3D>"
+)
+ADD_LIBRARY(ITKAlgorithmsTestTcl2)
+
+CABLE_WRAP_TCL(ITKAlgorithmsTestTcl2
   "itk::ImageToImageAffineNormalizedCorrelationGradientDescentRegistration<$Image3D,$Image3D>"
   "itk::ImageToImageAffineNormalizedCorrelationRegularStepGradientDescentRegistration<$Image3D,$Image3D>"
   "itk::MRIBiasFieldCorrectionFilter<$Image,$Image>"
@@ -71,15 +77,12 @@ CABLE_WRAP_TCL(ITKAlgorithmsTestTcl
   "itk::LevelSetImageFilter<$Image>"
   "itk::LevelSetNeighborhoodExtractor<$Image>"
   "itk::LevelSetVelocityNeighborhoodExtractor<$Image,$Float>"
-  "itk::MRFImageFilter<$Image,$Image>"
-  "itk::PointSetToImageTranslationMeanSquaresGradientDescentRegistration<$Image3D,$PointSet>"
-  "itk::PointSetToImageTranslationMeanSquaresRegularStepGradientDescentRegistration<$Image3D,$PointSet>"
-  "itk::PointSetToImageTranslationNormalizedCorrelationGradientDescentRegistration<$Image3D,$PointSet>"
-  "itk::PointSetToImageTranslationNormalizedCorrelationRegularStepGradientDescentRegistration<$Image3D,$PointSet>"
-  "itk::PointSetToImageTranslationPatternIntensityRegularStepGradientDescentRegistration<$Image3D,$PointSet>"
-  "itk::PointSetToImageRigid3DPatternIntensityRegularStepGradientDescentRegistration<$Image3D,$PointSet>"
-  "itk::PointSetToImageRigid3DPerspectivePatternIntensityRegularStepGradientDescentRegistration<$Image3D,$PointSet>"
-  "itk::RGBGibbsPriorFilter<$Image,$Image>"
+  "itk::MRFImageFilter<$VecImage3D,$Image3D>"
+  "itk::RGBGibbsPriorFilter<$VecImage3D,$Image3D>"
+)
+ADD_LIBRARY(ITKAlgorithmsTestTcl3)
+
+CABLE_WRAP_TCL(ITKAlgorithmsTestTcl3
   "itk::MultiResolutionMutualInformationAffineRegistration<$Image3D,$Image3D>"
   "itk::CurvatureFlowFunction<$Image>"
   "itk::RegionGrowImageFilter<$Image,$Image>"
@@ -100,6 +103,10 @@ CABLE_WRAP_TCL(ITKAlgorithmsTestTcl
   "itk::BalloonForce3DFilter<$Mesh,$Mesh>"
   "itk::LevelSet2DFunction<$Image>"
   "itk::LevelSetFunction<$Image>"
+)
+ADD_LIBRARY(ITKAlgorithmsTestTcl4)
+
+CABLE_WRAP_TCL(ITKAlgorithmsTestTcl4
   "itk::MRASlabIdentifier<$Image>"
   "itk::SphereSource<$Mesh>"
   "itk::VoronoiSegmentationImageFilterBase<$Image,$Image>"
@@ -110,7 +117,34 @@ CABLE_WRAP_TCL(ITKAlgorithmsTestTcl
   "itk::DeformableMesh3DFilter<$DefMesh,$DefMesh>"
 )
 
-TARGET_LINK_LIBRARIES(ITKAlgorithmsTestTcl
+TARGET_LINK_LIBRARIES(ITKAlgorithmsTestTcl1
+ITKCommon
+ITKBasicFilters
+ITKIO
+VXLNumerics
+${CABLE_TCL_LIBRARY}
+${TCL_LIBRARY}
+)
+
+TARGET_LINK_LIBRARIES(ITKAlgorithmsTestTcl2
+ITKCommon
+ITKBasicFilters
+ITKIO
+VXLNumerics
+${CABLE_TCL_LIBRARY}
+${TCL_LIBRARY}
+)
+
+TARGET_LINK_LIBRARIES(ITKAlgorithmsTestTcl3
+ITKCommon
+ITKBasicFilters
+ITKIO
+VXLNumerics
+${CABLE_TCL_LIBRARY}
+${TCL_LIBRARY}
+)
+
+TARGET_LINK_LIBRARIES(ITKAlgorithmsTestTcl4
 ITKCommon
 ITKBasicFilters
 ITKIO
