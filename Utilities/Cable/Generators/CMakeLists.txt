@@ -2,6 +2,7 @@ SOURCE_FILES(CableGenerators_SRCS
 genCxxGenerator
 genGeneratorBase
 genTclGenerator
+genCvTypeGenerator
 )
 
 INCLUDE_DIRECTORIES(
