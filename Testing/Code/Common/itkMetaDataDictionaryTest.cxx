@@ -144,7 +144,7 @@ int itkMetaDataDictionaryTest(int argc, char * argv[])
   itk::EncapsulateMetaData<const char *>(MyDictionary,"charconst*","Value String");
   const char * value="Value String";
   itk::EncapsulateMetaData<const char *>(MyDictionary,"charconst*2",value);
-  itk::EncapsulateMetaData<std::string>(MyDictionary,"srtringfromcharconst*","Value Never Seen");
+  itk::EncapsulateMetaData<std::string>(MyDictionary,"srtringfromcharconst*",std::string("Value Never Seen"));
 
   //Other gotchas with the Dictionary
   char * StrandedMemory=new char[2345];
