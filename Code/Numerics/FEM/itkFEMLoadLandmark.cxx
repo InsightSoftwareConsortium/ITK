@@ -34,9 +34,6 @@ void LoadLandmark::Read( std::istream& f, void* info )
   vnl_vector<Float> pu;
   vnl_vector<Float> pd;
   bool isFound = false;
-  Element::ArrayType el;
-
-  std::cout << "loadlandmark\n";
 
   // Convert the info pointer to a usable objects
   ReadInfoType::ElementArrayPointer elements=static_cast<ReadInfoType*>(info)->m_el;
@@ -51,7 +48,7 @@ void LoadLandmark::Read( std::istream& f, void* info )
   SkipWhiteSpace(f); f>>n1; if(!f) goto out;
   pu.resize(n1);  
   this->m_pt.resize(n1);
-  
+
   // read the undeformed point in global coordinates
   SkipWhiteSpace(f); f>>pu; if(!f) goto out;
 
@@ -74,8 +71,7 @@ void LoadLandmark::Read( std::istream& f, void* info )
 
   // Compute & store the local coordinates of the undeformed point and
   // the pointer to the element
-  el = ( *elements );
-  for (Element::ArrayType::iterator n = el.begin(); n!=el.end() && !isFound; n++) {
+  for (Element::ArrayType::const_iterator n = elements->begin(); n!=elements->end() && !isFound; n++) {
     if ( (*n)->GetLocalFromGlobalCoordinates(pu, this->m_pt) ) { 
       isFound = true; 
       this->el.push_back( ( *n ) );
@@ -92,10 +88,6 @@ out:
   if( !f )
   {
     throw FEMExceptionIO(__FILE__,__LINE__,"LoadLandmark::Read()","Error reading landmark load!");
-  }
-  else
-  {
-    throw FEMExceptionIO(__FILE__,__LINE__,"LoadLandmark::Read()","Discrepancy in landmark dimensions!");
   }
 }
 
