@@ -237,8 +237,11 @@ int main( int argc, char **argv )
   //  
   //  The parameters of the FuzzySegmentationFilter are defined here. A seed
   //  point is provided in order to initialize the region to be grown.
-  //  Estimated values for the mean and standard deviation of the object intensities are
-  //  also provided, a threshold value for generate the binary object is preset.
+  //  Estimated values for the mean and standard deviation of the object
+  //  intensities are also provided, a threshold value for generate the binary
+  //  object is preset.  Details on the influence that the mean and standard
+  //  deviation on the computation of the segmentation can be found in
+  //  \cite{Imielinska2000b}.
   //
   //  \index{itk::SimpleFuzzyConnectednessScalarImageFilter!SetObjectsSeed()}
   //  \index{itk::SimpleFuzzyConnectednessScalarImageFilter!SetMean()}
