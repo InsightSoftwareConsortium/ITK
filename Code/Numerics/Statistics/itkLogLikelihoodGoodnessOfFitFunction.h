@@ -65,7 +65,7 @@ protected:
   LogLikelihoodGoodnessOfFitFunction() ;
   virtual ~LogLikelihoodGoodnessOfFitFunction(){} ;
 
-  /** calculates the loglikelihood ratio statistics
+  /** calculates the loglikelihood ratio statistics */
   virtual void GenerateData() ;
 
 private:
