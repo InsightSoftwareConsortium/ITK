@@ -35,6 +35,8 @@ PasteImageFilter<TInputImage>
 ::PasteImageFilter() 
 {
   this->ProcessObject::SetNumberOfRequiredInputs(2);
+
+  m_DestinationIndex.Fill(0);
 }
 
 
