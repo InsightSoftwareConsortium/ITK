@@ -23,7 +23,7 @@
 #include <itkImageRegionIteratorWithIndex.h>
 
 
-int itkSmoothingRecursiveGaussianFilterTest(int, char* [] ) 
+int itkSmoothingRecursiveGaussianImageFilterTest(int, char* [] ) 
 {
 
   // Define the dimension of the images
