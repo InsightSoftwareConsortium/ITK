@@ -42,6 +42,8 @@ BinaryMask3DMeshSource<TOutputMesh>
   m_LastFrameIndex = 0;
   m_CurrentRowIndex = 0;
   m_CurrentFrameIndex = 0;
+  m_CurrentFrame = 0;
+  m_CurrentRow = 0;
   m_LastRowNum = 0;
   m_LastFrameNum = 0;
   m_CurrentRowNum = 200;
@@ -50,6 +52,30 @@ BinaryMask3DMeshSource<TOutputMesh>
   this->GetOutput()->GetCells()->Reserve(m_CellLimit);
 
   m_ObjectValue = NumericTraits< unsigned short >::Zero;
+}
+
+template<class TOutputMesh>
+BinaryMask3DMeshSource<TOutputMesh>
+::~BinaryMask3DMeshSource()
+{
+  int i;
+
+  if (m_CurrentFrame)
+    {
+    for (i = 0; i < 2000; i++)
+      {
+      free(m_CurrentFrame[i]);
+      }
+    free (m_CurrentFrame);
+    }
+  if (m_CurrentRow)
+    {
+    for (i = 0; i < 200; i++)
+      {
+      free(m_CurrentRow[i]);
+      }
+    free (m_CurrentRow);
+    }
 }
 
 template<class TOutputMesh>
@@ -994,17 +1020,36 @@ BinaryMask3DMeshSource<TOutputMesh>
 
   unsigned char vertexindex;
 
+  if (m_CurrentRow)
+    {
+    for (i = 0; i < 200; i++)
+      {
+      free(m_CurrentRow[i]);
+      }
+    free (m_CurrentRow);
+    }
   m_CurrentRow = ( unsigned long ** ) malloc( 200*sizeof(unsigned long *) );  
-  for ( i=0; i<200; i++ ) m_CurrentRow[i] = ( unsigned long * ) malloc( 2*sizeof( unsigned long ) );
-  m_CurrentFrame = ( unsigned long ** ) malloc( 2000*sizeof(unsigned short *) );  
-  for ( i=0; i<2000; i++ ) m_CurrentFrame[i] = ( unsigned long * ) malloc( 2*sizeof( unsigned long ) );
-//  m_LastRow = ( unsigned long ** ) malloc( 200*sizeof(unsigned long *) );  
-//  for ( i=0; i<200; i++ ) m_LastRow[i] = ( unsigned long * ) malloc( 2*sizeof( unsigned long ) );
-//  m_LastFrame = ( unsigned long ** ) malloc( 2000*sizeof(unsigned long *) );  
-//  for ( i=0; i<2000; i++ ) m_LastFrame[i] = ( unsigned long * ) malloc( 2*sizeof( unsigned long ) );
+  for ( i=0; i<200; i++ )
+    {
+    m_CurrentRow[i] = ( unsigned long * ) malloc( 2*sizeof( unsigned long ) );
+    }
 
+  if (m_CurrentFrame)
+    {
+    for (i = 0; i < 2000; i++)
+      {
+      free(m_CurrentFrame[i]);
+      }
+    free (m_CurrentFrame);
+    }
+  m_CurrentFrame = ( unsigned long ** ) malloc( 2000*sizeof(unsigned short *) );  
+  for ( i=0; i<2000; i++ )
+    {
+    m_CurrentFrame[i] = ( unsigned long * ) malloc( 2*sizeof( unsigned long ) );
+    }
   i = 0;
-  while ( !it4.IsAtEnd() ) {
+  while ( !it4.IsAtEnd() )
+    {
     vertexindex = 0;
     
     if ( it1.Value() == m_ObjectValue ) vertexindex += 1;  
@@ -1017,19 +1062,23 @@ BinaryMask3DMeshSource<TOutputMesh>
     ++it4;
 
 
-    if (( i % m_ImageWidth < m_ImageWidth - 1 ) && ((i % (m_ImageWidth*m_ImageHeight)) / m_ImageWidth < m_ImageHeight - 1) ) {
+    if (( i % m_ImageWidth < m_ImageWidth - 1 ) && ((i % (m_ImageWidth*m_ImageHeight)) / m_ImageWidth < m_ImageHeight - 1) )
+      {
       if ( it1.Value() == m_ObjectValue ) vertexindex += 2;  
       if ( it2.Value() == m_ObjectValue ) vertexindex += 4;  
       if ( it3.Value() == m_ObjectValue ) vertexindex += 32;  
       if ( it4.Value() == m_ObjectValue ) vertexindex += 64;
-    } else {
-      if ((i % (m_ImageWidth*m_ImageHeight)) / m_ImageWidth == m_ImageHeight - 1) {
+      }
+    else
+      {
+      if ((i % (m_ImageWidth*m_ImageHeight)) / m_ImageWidth == m_ImageHeight - 1)
+        {
         if ( vertexindex > 50 ) vertexindex -= 128;
         if ( ((vertexindex > 7) && (vertexindex < 10)) || (vertexindex > 17) ) vertexindex -= 8;
         if ( it1.Value() == m_ObjectValue ) vertexindex += 2; 
         if ( it3.Value() == m_ObjectValue ) vertexindex += 32;  
+        }
       }
-    }
 
     for ( j=0; j<14; j++ ) m_CurrentVoxel[j] = 0;
    

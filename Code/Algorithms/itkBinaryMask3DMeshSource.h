@@ -98,7 +98,7 @@ public:
 
 protected:
   BinaryMask3DMeshSource();
-  ~BinaryMask3DMeshSource() {};
+  ~BinaryMask3DMeshSource();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   void GenerateData();
