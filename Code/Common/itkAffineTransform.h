@@ -376,6 +376,15 @@ public:
    *  m_Singular is set to true if the inverse cannot be computed */
   MatrixType GetInverseMatrix() const;
 
+  /** Find inverse of an affine transformation   
+    *   
+    * This method creates and returns a new AffineTransform object   
+    * which is the inverse of self.  If self is not invertible,   
+    * an exception is thrown.   
+    * \deprecated Use GetInverse() instead. */   
+   typename AffineTransform::Pointer Inverse(void) const; 
+
+
 protected:
   /** Construct an AffineTransform object
    *
