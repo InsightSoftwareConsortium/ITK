@@ -28,8 +28,10 @@ proc GetLog { File } \
 # clock format [clock scan today] -format "%Y-%m-%d 23:00 %Z" -gmt 1
 
 set UpdateCommand "$cvs update -d -P -A"
-set UpdateStatus [catch { exec $UpdateCommand >& update.tmp } ]
+set UpdateStatus [catch { eval exec $UpdateCommand >& update.tmp } result]
+
 puts $Out "\t<UpdateCommand>$UpdateCommand</UpdateCommand>"
+puts $Out "\t<UpdateReturnStatus>[XMLSafeString $result]</UpdateReturnStatus>"
 
 set Update [open update.tmp r]
 
