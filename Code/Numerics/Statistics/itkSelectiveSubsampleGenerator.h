@@ -25,26 +25,24 @@ namespace itk{
   namespace Statistics{
 
 /** \class SelectiveSubsampleGenerator
- * \brief SelectiveSubsampleGenerator generates a MembershipSample object
- * using a class mask sample.
+ * \brief SelectiveSubsampleGenerator generates a Subsample object
+ * that includes measurement vectors that belong to the classes that
+ * are specified by the SetSelectedClassLabels method.
  *
- * You can see it as a filter that takes two samples as input and generates 
- * a MembershipSample. There are two class template arguments first one 
- * is the type of basic sample that has measurement vectors in it, and
- * the second one is the type of sample that its measurement vectors has 
- * only one component - class label. What it does is that it merges 
- * measurement vectors and class labels in a single MembershipSample
- * object.
+ * To instantiate an object of this class you have to provide two 
+ * template arguments: the type of the input sample and the type of 
+ * class mask sample. 
+ * 
+ * The input sample is a sample that has all the measurement vectors and
+ * the class mask sample contains class labels for their corresponding
+ * measurement vectors in the input sample. Therefore, the sizes of both
+ * should be the same.
  *
- * To get the MembershipSample object you should plug in the input sample
- * and the class mask sample using SetInput and SetClassMask methods 
- * respectively.
+ * To generate a subsample that a part of the input sample that belongs
+ * to a set of classes, you should call SetSelectedClassLabels method 
+ * with the class labels that you want to include in the output. 
  *
- * NOTE: This generator expects the class labels in the class mask sample
- * to be integer value where the value starts 0 and increases without
- * any missing value between 0 to the last class label value.
- *
- * \sa MembershipSample
+ * \sa Subsample
  */
 
 template< class TInputSample, class TClassMaskSample >
