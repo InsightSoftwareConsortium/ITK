@@ -27,9 +27,6 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
   m_nBorders(0),
   m_NumRegions(0),
   m_InitRegionArea(0),
-  m_pRegions(NULL),
-  m_pBorders(NULL),
-  m_pBordersDynPtrs(NULL),
   m_pBordersCandidateDynPtr(NULL),
   m_pBorderCandidate(NULL)
 {
