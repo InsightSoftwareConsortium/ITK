@@ -177,6 +177,11 @@ public:
     return SpaceDimension;
   }
 
+  unsigned int GetNumberOfValues(void) const
+  {
+    return RangeDimension;
+  }
+
 private:
 
   mutable MeasureType       m_Measure;
