@@ -107,6 +107,8 @@ OnePlusOneEvolutionaryOptimizer
   ScalesType scales = this->GetScales() ;
   for (unsigned int iter = 0 ; iter < m_MaximumIteration ; iter++) 
     {
+      m_CurrentIteration = iter ;
+
       for (unsigned int i=0 ; i < spaceDimension ; i++) 
         {
           f_norm[i] = m_RandomGenerator->GetVariate() / scales[i] ;
@@ -193,6 +195,7 @@ OnePlusOneEvolutionaryOptimizer
   os << indent << "Shrink Fractor   " << m_ShrinkFactor     << std::endl;
   os << indent << "Initialized      " << m_Initialized      << std::endl;
   os << indent << "Measure          " << m_CurrentCost << std::endl;
+  os << indent << "Iteration        " << m_CurrentIteration << std::endl;
 
 }
 

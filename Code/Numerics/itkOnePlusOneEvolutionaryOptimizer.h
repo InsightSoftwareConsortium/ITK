@@ -108,6 +108,7 @@ public:
   MeasureType GetCurrentCost()
   { return m_CurrentCost ; }
 
+  itkGetConstMacro( CurrentIteration, unsigned int) ;
   /** Start optimization.
    * Optimization will stop when it meets either of two termination conditions,
    * the maximum iteration limit or epsilon (minimal search radius)  */
@@ -125,6 +126,9 @@ private:
 
   /** Maximum iteration limit. */
   unsigned int m_MaximumIteration ;
+
+  /** Current iteration */
+  unsigned int m_CurrentIteration ;
 
   /** The minimal size of search radius 
    * (frobenius_norm of covariance matrix). */ 
@@ -144,7 +148,6 @@ private:
 
   /** Internal storage for the value type / used as a cache  */
   MeasureType       m_CurrentCost;
-
 } ; // end of class
 
 } // end of namespace itk
