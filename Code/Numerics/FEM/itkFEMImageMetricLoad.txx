@@ -200,7 +200,7 @@ ImageMetricLoad<TReference , TTarget>::Fe
   //m_Metric->GetValueAndDerivative( parameters, measure, derivative );
     m_Metric->GetDerivative( parameters, derivative );
   }
-  catch( itk::ExceptionObject & e )
+  catch( ... )
   {
   // do nothing we don't care if the metric lies outside the image sometimes
   //std::cerr << e << std::endl;
@@ -271,7 +271,7 @@ ImageMetricLoad<TReference , TTarget>::GetMetric
   { 
   measure=m_Metric->GetValue( parameters);
   }
-  catch( itk::ExceptionObject & e )
+  catch( ... )
   {
   // do nothing we dont care if the metric lies outside the image sometimes
   //std::cerr << e << std::endl;
