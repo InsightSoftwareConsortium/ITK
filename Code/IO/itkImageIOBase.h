@@ -81,8 +81,8 @@ public:
 
   /** Enums used to manipulate the pixel and component type. (Typically a 
    * pixel is assumed to be made up of one or more components.) */
-  typedef  enum {UNKNOWN,UCHAR,CHAR,USHORT,SHORT,UINT,INT,ULONG,LONG,FLOAT,DOUBLE} 
-           ComponentType;
+  typedef  enum {UNKNOWN,UCHAR,CHAR,USHORT,SHORT,UINT,INT,ULONG,LONG,
+                 FLOAT,DOUBLE} ComponentType;
 
   /** Set the filename. */
   itkSetStringMacro(FileName);
@@ -94,11 +94,12 @@ public:
   virtual void SetDimensions(unsigned int i, unsigned int dim);
   virtual unsigned int GetDimensions(unsigned int i) const;
   
-  /** Specify the region of the image data to either read or write. The IORegion
-   * specifies the part of the image to read or write. Regions are defined with
-   * an index and a size vector. These vectors define the start (lower-left corner)
-   * and length of the region within the image. Make sure that the IORegion lies
-   * within the image. */
+  /** Specify the region of the image data to either read or
+   * write. The IORegion specifies the part of the image to read or
+   * write. Regions are defined with an index and a size vector. These
+   * vectors define the start (lower-left corner) and length of the
+   * region within the image. Make sure that the IORegion lies within
+   * the image. */
   itkSetMacro(IORegion, ImageIORegion);
   itkGetMacro(IORegion, ImageIORegion);
 
@@ -108,8 +109,8 @@ public:
   virtual const double GetOrigin(unsigned int i) const
     { return 0.0; }
 
-  /** Set/Get the image spacing on an axis-by-axis basis. The SetSpacing() method 
-   * is required when writing the image. */
+  /** Set/Get the image spacing on an axis-by-axis basis. The
+   * SetSpacing() method is required when writing the image. */
   virtual void SetSpacing(unsigned int i, double spacing) {}
   virtual const double GetSpacing(unsigned int i) const
     { return 1.0; }
