@@ -361,15 +361,6 @@ Object
   return this->m_SubjectImplementation->AddObserver(event,cmd);
 }
 
-unsigned long
-Object
-::AddObserver(const char *eventname,Command *cmd)
-{
-  const EventObject * event = 
-         EventObject::CreateEventFromString( eventname );
-  return this->AddObserver(*event, cmd);
-  delete event;
-}
 
 Command*
 Object
@@ -413,25 +404,8 @@ Object
     }
 }
 
-void 
-Object
-::InvokeEvent(const char *eventname )
-{
-  const EventObject * event = 
-            EventObject::CreateEventFromString( eventname );
-  this->InvokeEvent( *event );
-  delete event; 
-}
 
-void 
-Object
-::InvokeEvent(const char *eventname) const
-{
-  const EventObject * event = 
-            EventObject::CreateEventFromString( eventname );
-  this->InvokeEvent( *event );
-  delete event; 
-}
+
 
 bool
 Object
@@ -444,17 +418,7 @@ Object
   return false;
 }
 
-bool
-Object
-::HasObserver( const char *eventname ) const
-{
-  const EventObject * event = 
-            EventObject::CreateEventFromString( eventname );
 
-  const bool result = this->HasObserver( *event );
-  
-  delete event; 
-}
 
 /**
  * Create an object with Debug turned off and modified time initialized 

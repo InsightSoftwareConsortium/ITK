@@ -157,11 +157,7 @@ public:
    */
   unsigned long AddObserver(const EventObject & event, Command *);
 
-  /**
-   * Add observer based on the string name of the event.
-   */
-  unsigned long AddObserver(const char *event, Command *);
-  
+ 
   /** 
    * Get the command associated with the given tag.  NOTE: This returns
    * a pointer to a Command, but it is safe to asign this to a
@@ -182,18 +178,6 @@ public:
    */
   void InvokeEvent( const EventObject & ) const;
  
-  /**
-   * Call Execute on all the Commands observing this event, convert the
-   * string to id first.  
-   */
-  void InvokeEvent(const char *event);
-
-  /**
-   * Call Execute on all the Commands observing this event, convert the
-   * string to id first.  
-   * The actions triggered by this call doesn't modify this object.
-   */
-  void InvokeEvent(const char *event) const;
 
   /**
    * Remove the observer with this tag value.
@@ -205,10 +189,6 @@ public:
    */
   bool HasObserver( const EventObject & event ) const;
 
-  /**
-   * Return true if an observer is registered for this event.
-   */
-  bool HasObserver(const char *event) const;
   
 protected:
   Object(); 
