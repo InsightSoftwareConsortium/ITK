@@ -71,12 +71,15 @@ public:
   /** Standard macros */
   itkTypeMacro(ListSample, Sample);
 
-  /** MeasurementVector typedef from superclass */
+  /** Superclass typedefs for Measurement vector, measurement, Instance Identifier, 
+   * frequency, size, size element value */
   typedef typename Superclass::MeasurementVectorType MeasurementVectorType;
- 
-  /** InstanceIdentifier typedef from superclass. */
+  typedef typename Superclass::MeasurementType MeasurementType;
   typedef typename Superclass::InstanceIdentifier InstanceIdentifier;
-  
+  typedef typename Superclass::FrequencyType FrequencyType ;
+  typedef typename Superclass::SizeType SizeType ;
+  typedef typename Superclass::SizeValueType SizeValueType ;
+
   /** VMeasurementVectorSize template argument alias */
   enum { MeasurementVectorSize = VMeasurementVectorSize } ;
 

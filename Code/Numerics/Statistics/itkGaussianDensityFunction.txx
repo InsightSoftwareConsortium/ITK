@@ -87,7 +87,7 @@ GaussianDensityFunction< TMeasurementVector >
  
   // calculate coefficient C of multivariate gaussian
   // p(x) = C exp(-0.5 * (x-u) * inv(covariance) * (x-u)')
-  m_PreFactor = double(1.0) / pow( pow(2.0*PI, m_VectorSize), 1/2.0)*sqrt(fabs(det) );
+  m_PreFactor = double(1.0) / pow( pow(2.0*PI, double(m_VectorSize)), 1/2.0)*sqrt(fabs(det) );
 }
 
 template < class TMeasurementVector >

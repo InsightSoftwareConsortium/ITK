@@ -156,71 +156,45 @@ class ITK_EXPORT ImageListSampleAdaptor :
       public ListSample< TMeasurement, VMeasurementVectorSize >
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs */
   typedef ImageListSampleAdaptor Self;
-  
-  /**
-   * Standard "Superclass" typedef
-   */
   typedef ListSample<TMeasurement, VMeasurementVectorSize> Superclass;
+  typedef SmartPointer<Self> Pointer;
   
-  /** 
-   * Smart pointer typedef support 
-   */
-  typedef SmartPointer<Self>   Pointer;
-  
-  /**
-   * Run-time type information (and related methods).
-   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(ImageListSampleAdaptor, ListSample) ;
   
-  /**
-   * Method for creation through the object factory.
-   */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self) ;
   
-  /**
-   * Image typedef support
-   */
+  /** Image typedef support */
   typedef TImage ImageType;
   
-  /** 
-   * Image Pointer typedef support
-   */
+  /**  * Image Pointer typedef support */
   typedef typename ImageType::Pointer ImagePointer ;
   
-  /**
-   * Dimension of the Data
-   */
+  /** Dimension of the Data */
   enum { MeasurementVectorSize = VMeasurementVectorSize } ;
 
-  /**
-   * MeasurementVector Coordinate Representation typedef support
-   */
-  typedef TMeasurement MeasurementType;
+  /** MeasurementVector Coordinate Representation typedef support */
+  typedef TMeasurement MeasurementType ;
 
-  /**
-   * Image Iterator typedef support
-   */
-  typedef ImageRegionIterator<ImageType> IteratorType; 
+  /** Image Iterator typedef support */
+  typedef ImageRegionIterator<ImageType> IteratorType ; 
   
+  /** Image class typedefs for index and pixel */
   typedef typename ImageType::IndexType IndexType ;
   typedef typename ImageType::PixelType PixelType ;
+
+  /** Superclass typedefs for Measurement vector, measurement, Instance Identifier, 
+   * frequency, size, size element value */
   typedef typename Superclass::MeasurementVectorType MeasurementVectorType;
   typedef typename Superclass::InstanceIdentifier InstanceIdentifier;
-  
-  /**
-   * 
-   */
-  typedef Superclass::FrequencyType FrequencyType ;
-  typedef Superclass::SizeType SizeType ;
-  typedef Superclass::SizeValueType SizeValueType ;
+  typedef typename Superclass::FrequencyType FrequencyType ;
+  typedef typename Superclass::SizeType SizeType ;
+  typedef typename Superclass::SizeValueType SizeValueType ;
 
-  /**
-   * returns a Size object with the size of each dimension
-   */
+  /** returns a Size object with the size of each dimension */
   SizeType GetSize() 
   {
     unsigned long length = m_Image->GetPixelContainer()->Size() ;
@@ -233,40 +207,28 @@ public:
     return size ;
   }
 
-  /**
-   * returns the size of the 'dimension' dimension
-   * in the ListSample subclasses, the size of each dimension
-   * is equal to the number of instance. And the size is all same over
-   * all dimensions.
-   */
+  /** returns the size of the 'dimension' dimension 
+   * in the ListSample subclasses, the size of each dimension 
+   * is equal to the number of instance. And the size is all same over all dimensions. */
   SizeValueType GetSize(unsigned int dimension) 
   {
     return static_cast< SizeValueType >(m_Image->GetPixelContainer()->Size()) ;
   }
 
-  /**
-   * returns the index that is uniquely labelled by an instance identifier
-   * The corresponding id is the offset of the index 
-   * This method uses ImageBase::ComputeIndex() method
-   */
+  /** returns the index that is uniquely labelled by an instance identifier 
+   * The corresponding id is the offset of the index  
+   * This method uses ImageBase::ComputeIndex() method */
   IndexType GetIndex(const InstanceIdentifier id)  ;
 
-  /**
-   * returns the instance identifier of the cell that is indexed by the 
-   * index.
-   * The corresponding instance identifier is the offset of the index 
-   * This method uses ImageBase::ComputeIndex() method
-   */
+  /** returns the instance identifier of the cell that is indexed by the  
+   * index. The corresponding instance identifier is the offset of the index  
+   * This method uses ImageBase::ComputeIndex() method */
   InstanceIdentifier GetInstanceIdentifier(const IndexType index)  ;
 
-  /**
-   * Method to set the image
-   */
+  /** Method to set the image */
   void SetImage(ImagePointer image) { m_Image = image ; }
 
-  /**
-   * Method to get the image
-   */
+  /** Method to get the image */
   ImagePointer GetImage() { return m_Image ; }  
   
   void SetMeasurementVector(IndexType index, MeasurementVectorType measurement)
@@ -286,16 +248,11 @@ public:
     return m_Accessor.GetMeasurementVector(m_Image->GetPixel(index)) ;
   }
 
-  /**
-   * Method to get the measurement from list using an instance identifier
-   */
+  /** Method to get the measurement from list using an instance identifier */
   MeasurementVectorType GetMeasurementVector(const InstanceIdentifier id) 
   { return GetMeasurementVector(GetIndex(id)) ; }
 
-  /**
-   * Method to get a measurement element the measurement 
-   * from this container
-   */
+  /** Method to get a measurement element the measurement from this container */
   MeasurementType GetMeasurement(const IndexType index, 
                                        const unsigned int dim) 
   { 
@@ -303,10 +260,8 @@ public:
   }
   
 
-  /**
-   * Method to get the frequency from list.  It always returns 1 if there is
-   * an element, if not, error will occur.
-   */
+  /** Method to get the frequency from list.  It always returns 1 if there is 
+   * an element, if not, error will occur. */
   FrequencyType GetFrequency(const IndexType index) 
   {
     m_Image->GetPixel(index);
@@ -326,17 +281,13 @@ public:
     SetMeasurement(GetIndex(n), dimension, value ) ;
   }
 
-  /**
-   * Method to get the measurement from list using an instance identifier
-   */
+  /** Method to get the measurement from list using an instance identifier */
   MeasurementType GetMeasurement(const unsigned int dimension,
                                        const unsigned long n) 
   { return GetMeasurement(GetIndex(n), dimension) ; }
 
-  /**
-   * returns the frequency of the 'n'-th element in the 'd' dimension 
-   * of the measurement vector
-   */
+  /** returns the frequency of the 'n'-th element in the 'd' dimension  
+   * of the measurement vector */
   FrequencyType GetFrequency(const unsigned int dimension,
                              const unsigned long n)  
   { return GetFrequency(GetIndex(n)) ; }

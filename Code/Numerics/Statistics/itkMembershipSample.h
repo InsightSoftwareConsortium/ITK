@@ -89,6 +89,18 @@ public:
   itkTypeMacro(MembershipSample, Sample);
   itkNewMacro(Self) ;
 
+  /** Typedefs for Measurement vector, measurement, Instance Identifier, 
+   * frequency, size, size element value from the template argument TSample*/
+  typedef typename TSample::MeasurementVectorType MeasurementVectorType;
+  typedef typename TSample::MeasurementType MeasurementType;
+  typedef typename TSample::InstanceIdentifier InstanceIdentifier;
+  typedef typename TSample::FrequencyType FrequencyType ;
+  typedef typename TSample::SizeType SizeType ;
+  typedef typename TSample::SizeValueType SizeValueType ;
+
+  /** MeasurementVectorSize enum from super class */
+  enum { MeasurementVectorSize = TSample::MeasurementVectorSize } ;
+
   /** Smart pointer to the actual sample data holder */
   typedef typename TSample::Pointer SamplePointer ;
 
@@ -99,7 +111,7 @@ public:
   /** Typedef for each subsample that stores instance identifers of instances
    * that belong to a class */
   typedef Subsample< TSample > ClassSampleType ;
-  typedef ClassSampleType::Pointer ClassSamplePointer ;
+  typedef typename ClassSampleType::Pointer ClassSamplePointer ;
 
   /** Plug in the actual sample data */
   void SetSample(SamplePointer sample) ;

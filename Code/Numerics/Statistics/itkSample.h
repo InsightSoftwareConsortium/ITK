@@ -99,123 +99,74 @@ template < class TMeasurement = float,
 class ITK_EXPORT Sample : public Object
 {
 public:
-  /**
-   * Standard "Self" typedef.
-   */
+  /** Standard class typedefs */
   typedef Sample  Self;
-  
-  /** 
-   * Run-time type information (and related methods).
-   */
+
+  /** Run-time type information (and related methods) */
   itkTypeMacro(Sample, Object);
 
-  /**
-   * MeasurementVector typedef support
-   */ 
+  /** MeasurementVector typedef support */ 
   typedef Point<TMeasurement, VMeasurementVectorSize> MeasurementVectorType ;
 
-  /**
-   * typedef for each element in a measurement vector
-   */ 
+  /** typedef for each element in a measurement vector*/ 
   typedef TMeasurement MeasurementType ;
 
-  /**
-   * Alias for the number of measurement vector components 
-   */
+  /** Alias for the number of measurement vector components */
   enum { MeasurementVectorSize = VMeasurementVectorSize } ;
 
-  /**
-   * frequency value typedef
-   */
+  /** frequency value typedef*/
   typedef float FrequencyType ;
 
-  /**
-   * Instance Identifier typedef support
+  /** Instance Identifier typedef support
    * this identifier will be unique sequential id for each measurement vector
-   * in a Sample subclass.
-   */ 
+   * in a Sample subclass.*/ 
   typedef unsigned long InstanceIdentifier ;
 
-  /**
-   * size value type 
-   */
+  /** size value type */
   typedef Size< VMeasurementVectorSize > SizeType ;
-  typedef SizeType::SizeValueType SizeValueType ;
+  typedef typename SizeType::SizeValueType SizeValueType ;
 
-  /**
-   * returns SizeType object whose each element is the number of
-   * elements in each dimension
-   */
+  /** returns SizeType object whose each element is the number of* elements in each dimension*/
   virtual SizeType GetSize() = 0 ;
   
-  /**
-   * returns SizeValueType value that is the number of elements in the
-   * 'dimension' dimension.
-   */
+  /** returns SizeValueType value that is the number of elements in the* 'dimension' dimension.*/
   virtual SizeValueType GetSize(unsigned int dimension) = 0 ;
 
 
-  /**
-   * retunrs the measurement of the instance which is identified by the 'id'
-   */
+  /** retunrs the measurement of the instance which is identified by the 'id'*/
   virtual MeasurementVectorType GetMeasurementVector(const InstanceIdentifier id)  = 0 ;
 
-  /**
-   * returns the frequency of the instance which is identified by the 'id'
-   */
+  /** returns the frequency of the instance which is identified by the 'id'*/
   virtual FrequencyType GetFrequency(const InstanceIdentifier id)  = 0 ;
 
-  /**
-   * returns the measurement element which is the 'n'-th element 
-   * in the 'd' dimension of the measurement vector
-   */
+  /** returns the measurement element which is the 'n'-th element 
+   * in the 'd' dimension of the measurement vector*/
   virtual MeasurementType GetMeasurement(const unsigned int d, 
                                                const unsigned long n) = 0 ;
   
-  /**
-   * returns the frequency of the 'n'-th element in the 'd' dimension 
-   * of the measurement vector
-   */
+  /** returns the frequency of the 'n'-th element in the 'd' dimension * of the measurement vector*/
   virtual FrequencyType GetFrequency(const unsigned int d,
                                      const unsigned long n)  = 0 ;
 
-  /**
-   * returns the total frequency for the 'd' dimension
-   */
+  /** returns the total frequency for the 'd' dimension*/
   virtual FrequencyType GetTotalFrequency(const unsigned int d)  = 0 ;
 
-  /**
-   * if a subclass of this class has its data sorted, return true
-   * else, false.
-   */
+  /** if a subclass of this class has its data sorted, return true* else, false.*/
   bool IsSorted() { return m_Sorted ; }
 
-  /**
-   * sets the Sorted flag
-   */
+  /** sets the Sorted flag*/
   void SetSortedFlag(bool flag) { m_Sorted = flag ; }
 
-  /**
-   * if a subclass of this class has frequency values associated with
-   * each measurement and support GetFrequency mehtod, returns true,
-   * else, false.
-   */
+  /** if a subclass of this class has frequency values associated with* each measurement and support GetFrequency mehtod, returns true,* else, false.*/
   bool IsSupportingFrequency() { return m_SupportingFrequency ; }
 
-  /**
-   * sets the SupportingFrequency flag
-   */
+  /** sets the SupportingFrequency flag*/
   void SetSupportingFrequencyFlag(bool flag) { m_SupportingFrequency = flag ; }
 
-  /**
-   * if a subclass of this class allowes duplicate measurement vectors, returns
-   * true, else, false.
-   */
+  /** if a subclass of this class allowes duplicate measurement vectors, returns* true, else, false.*/
   bool IsAllowingDuplicates() { return m_AllowingDuplicates ; }
 
-  /**
-   * sets the AllowingDuplicates flag
-   */
+  /** sets the AllowingDuplicates flag*/
   void SetAllowingDuplicatesFlag(bool flag) { m_AllowingDuplicates = flag ; }
   
 protected:

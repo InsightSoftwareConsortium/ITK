@@ -112,7 +112,7 @@ public:
 
   /** Output type for GetClassSample method */
   typedef Subsample< TSample > ClassSampleType ;
-  typedef ClassSampleType::Pointer ClassSamplePointer ;
+  typedef typename ClassSampleType::Pointer ClassSamplePointer ;
 
   /** Container of pointers of the subsamples for all classes */ 
   typedef std::vector< ClassSamplePointer > ClassSampleVectorType ;

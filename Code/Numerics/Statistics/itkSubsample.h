@@ -52,48 +52,40 @@ class ITK_EXPORT Subsample :
                      TSample::MeasurementVectorSize >
 {
 public:
- /**
-  * Standard "Self" typedef.
-  */
+  /** Standard class typedefs */
   typedef Subsample Self;
-
-  /**
-   * Standard smart pointer typedef
-   */
-  typedef SmartPointer< Self > Pointer ;
-
- /**
-  * Standard Superclass typedef
-  */
   typedef Sample< typename TSample::MeasurementType, 
                   TSample::MeasurementVectorSize > Superclass ;
+  typedef SmartPointer< Self > Pointer ;
 
- /** 
-  * Run-time type information (and related methods).
-  */
+  /** Run-time type information (and related methods).*/
   itkTypeMacro(Subsample, Sample);
 
-  /**
-   * standard New() method support
-   */
+  /** standard New() method support */
   itkNewMacro(Self) ;
 
-  /**
-   * Smart pointer to the actual sample data holder
-   */
+  /** Smart pointer to the actual sample data holder */
   typedef typename TSample::Pointer SamplePointer ;
+  
+  /** Typedefs for Measurement vector, measurement, Instance Identifier, 
+   * frequency, size, size element value from the template argument TSample*/
+  typedef typename TSample::MeasurementVectorType MeasurementVectorType;
+  typedef typename TSample::MeasurementType MeasurementType;
+  typedef typename TSample::InstanceIdentifier InstanceIdentifier;
+  typedef typename TSample::FrequencyType FrequencyType ;
+  typedef typename TSample::SizeType SizeType ;
+  typedef typename TSample::SizeValueType SizeValueType ;
 
-  /**
-   * Type of the storage for instances that belong to the class
+  /** MeasurementVectorSize enum from super class */
+  enum { MeasurementVectorSize = TSample::MeasurementVectorSize } ;
+
+  /** Type of the storage for instances that belong to the class 
    * represented by a Subsample object. A Subsample object stores
    * only the InstanceIdentifiers. The actual data is still in the Sample
-   * object
-   */
+   * object */
   typedef std::vector< InstanceIdentifier > InstanceIdentifierHolder ;
 
-  /**
-   * Plug in the actual sample data
-   */
+  /** Plug in the actual sample data */
   void SetSample(SamplePointer sample)
   { m_Sample = sample ; }
 
@@ -103,10 +95,8 @@ public:
   void AddInstance(InstanceIdentifier id)
   { m_IdHolder.push_back(id) ; }
 
-  /**
-   * returns SizeType object whose each element is the number of
-   * elements in each dimension
-   */
+  /** returns SizeType object whose each element is the number of
+   * elements in each dimension */
   SizeType GetSize()
   { 
     SizeType size ;
@@ -117,42 +107,30 @@ public:
     return size ;
   }
   
-  /**
-   * returns SizeValueType value that is the number of elements in the
-   * 'dimension' dimension.
-   */
+  /** returns SizeValueType value that is the number of elements in the
+   * 'dimension' dimension. */
   SizeValueType GetSize(unsigned int dimension) 
   { return m_IdHolder.size() ; }
 
-  /**
-   * retunrs the measurement of the instance which is identified by the 'id'
-   */
+  /** retunrs the measurement of the instance which is identified by the 'id' */
   MeasurementVectorType GetMeasurementVector(const InstanceIdentifier id)
   { return m_Sample->GetMeasurementVector(id) ; }
 
-  /**
-   * returns the frequency of the instance which is identified by the 'id'
-   */
+  /** returns the frequency of the instance which is identified by the 'id' */
   FrequencyType GetFrequency(const InstanceIdentifier id)
   { return m_Sample->GetFrequency(id) ; }
 
-  /**
-   * returns the measurement element which is the 'n'-th element 
-   * in the 'd' dimension of the measurement vector
-   */
+  /** returns the measurement element which is the 'n'-th element 
+   * in the 'd' dimension of the measurement vector */
   MeasurementType GetMeasurement(const unsigned int d, const unsigned long n) 
   { return m_Sample->GetMeasurement(d, n) ; }
   
-  /**
-   * returns the frequency of the 'n'-th element in the 'd' dimension 
-   * of the measurement vector
-   */
+  /** returns the frequency of the 'n'-th element in the 'd' dimension  
+   * of the measurement vector */
   FrequencyType GetFrequency(const unsigned int d, const unsigned long n)
   { return m_Sample->GetFrequency(d, n) ; }
 
-  /**
-   * returns the total frequency for the 'd' dimension
-   */
+  /** returns the total frequency for the 'd' dimension */
   FrequencyType GetTotalFrequency(const unsigned int d)
   { return m_Sample->GetTotalFrequency(d) ; }
   
