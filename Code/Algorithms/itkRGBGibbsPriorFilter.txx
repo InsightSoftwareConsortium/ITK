@@ -53,9 +53,11 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
     m_Region(NULL),
     m_RegionCount(NULL),
     m_CliqueWeight_1(0.0),
-    m_CliqueWeight_2(-1.2),
+    m_CliqueWeight_2(0.0),
     m_CliqueWeight_3(0.0),
-    m_CliqueWeight_4(0.0)
+    m_CliqueWeight_4(0.0),
+    m_CliqueWeight_5(0.0),
+    m_CliqueWeight_6(0.0)
 {
   m_StartPoint[0] = m_StartPoint[1] = m_StartPoint[2] = 0;
 }
@@ -261,8 +263,8 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   unsigned int neighborcount=0;
 
   offsetIndex3D[2] = i / frame;
-  offsetIndex3D[1] = (i % frame) / m_ImageHeight;
-  offsetIndex3D[0] = (i % frame) % m_ImageHeight;
+  offsetIndex3D[1] = (i % frame) / rowsize;
+  offsetIndex3D[0] = (i % frame) % rowsize;
 
   if ((i > rowsize - 1)&&((i%rowsize) != rowsize - 1)&&
       (i < size - rowsize)&&((i%rowsize) != 0)) {
@@ -378,8 +380,8 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   const unsigned int rowsize  = m_ImageWidth;
 
   
-  offsetIndex3D[1] = (i % frame) / m_ImageHeight;
-  offsetIndex3D[0] = (i % frame) % m_ImageHeight;
+  offsetIndex3D[1] = (i % frame) / rowsize;
+  offsetIndex3D[0] = (i % frame) % rowsize;
   
   if (k != 0) 
     {
@@ -472,7 +474,12 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
       }
     }
 
-  return res;
+  if ( simnum==8 )
+      {
+      return res -= m_CliqueWeight_4;
+      }
+    else return res -=m_CliqueWeight_6; 
+
 }
 
 template<class TInputImage, class TClassifiedImage>
@@ -560,6 +567,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   RegionEraser();
 
   std::cout<<"Region eraser finished! " <<std::endl; 
+/*
   const unsigned int size = m_ImageWidth * m_ImageHeight * m_ImageDepth;
   const unsigned int rowsize = m_ImageWidth;
 
@@ -572,10 +580,11 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
     if ((randomPixel > (rowsize - 1)) && (randomPixel < (size - rowsize)) 
         && (randomPixel%rowsize != 0) && (randomPixel%rowsize != rowsize-1)) 
       {
-      GibbsTotalEnergy(randomPixel); /* minimized f_2; */
+      GibbsTotalEnergy(randomPixel); /* minimized f_2; *//*
       }
     m_Temp++;
     }
+*/
 }
 
 template<class TInputImage, class TClassifiedImage>
@@ -621,8 +630,8 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
     {
 
     offsetIndex3D[2] =  i / frame;
-    offsetIndex3D[1] = (i % frame) / m_ImageHeight;
-    offsetIndex3D[0] = (i % frame) % m_ImageHeight;
+    offsetIndex3D[1] = (i % frame) / rowsize;
+    offsetIndex3D[0] = (i % frame) % rowsize;
 
     if ((i > (rowsize - 1)) && (i < (size - rowsize)) 
         && (i%rowsize != 0) && (i%rowsize != rowsize-1)) 
@@ -779,8 +788,8 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   m_Region[i] = l;
 
   offsetIndex3D[2] = i / frame;
-  offsetIndex3D[1] = (i % frame) / m_ImageHeight;
-  offsetIndex3D[0] = (i % frame) % m_ImageHeight;
+  offsetIndex3D[1] = (i % frame) / rowsize;
+  offsetIndex3D[0] = (i % frame) % rowsize;
 
   if (offsetIndex3D[0] > 0) 
     {

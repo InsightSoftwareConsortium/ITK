@@ -152,6 +152,11 @@ public:
   itkGetMacro(CliqueWeight_3, double);
   itkSetMacro(CliqueWeight_4, double);
   itkGetMacro(CliqueWeight_4, double);
+  itkSetMacro(CliqueWeight_5, double);
+  itkGetMacro(CliqueWeight_5, double);
+  itkSetMacro(CliqueWeight_6, double);
+  itkGetMacro(CliqueWeight_6, double);
+
 
   /** Specify the type of matrix to use. */
   typedef vnl_matrix<double> MatrixType; 
@@ -205,10 +210,12 @@ private:
   unsigned short    *m_RegionCount;  /** for region erase. */
 
   /** weights for different clique configuration. */
-  double m_CliqueWeight_1;  /** weight for cliques that all pixels are of the same kind */
-  double m_CliqueWeight_2;  /** weight for clique that has a boundary */
-  double m_CliqueWeight_3;  /** for future usage */
-  double m_CliqueWeight_4;  /** for future usage */
+  double m_CliqueWeight_1;  /** weight for cliques that v/h smooth boundayr */
+  double m_CliqueWeight_2;  /** weight for clique that has an intermadiate smooth boundary */
+  double m_CliqueWeight_3;  /** weight for clique that has a diagonal smooth boundary */
+  double m_CliqueWeight_4;  /** weight for clique consists only object pixels */
+  double m_CliqueWeight_5;  /** weight for clique consists only background pixels */
+  double m_CliqueWeight_6;  /** weight for clique other than these */
 
   /** calculate H_2. */
   void  GibbsTotalEnergy(int i); 
