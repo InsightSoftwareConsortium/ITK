@@ -21,7 +21,8 @@ namespace fem {
  * Compute the image based gravity load - implemented in the derived class.
  */
 template<class TReference,class TTarget>
-vnl_vector<Float> LoadImagePairBase<TReference , TTarget>::Fg(vnl_vector<Float> InVec) {
+vnl_vector<Float> LoadImagePairBase<TReference , TTarget>::Fg(vnl_vector<Float> InVec) 
+{
   
   vnl_vector<Float> OutVec(ImageDimension,0.0);
  
@@ -45,7 +46,7 @@ template<class TReference,class TTarget>
 void LoadImagePairBase<TReference , TTarget>::SetReferenceImage(ReferenceType* R ) 
 { 
   m_RefImage = R; 
-   // GET DATA SIZE  BUG!! FIXME!! MUST BE BETTER WAY TO GET SIZE
+// GET DATA SIZE  BUG!! FIXME!! MUST BE BETTER WAY TO GET SIZE
   RefRegionIteratorType Iter (m_RefImage,m_RefImage->GetLargestPossibleRegion() );
   Iter.GoToEnd();
   typename ReferenceType::IndexType Ind = Iter.GetIndex();    
@@ -54,12 +55,13 @@ void LoadImagePairBase<TReference , TTarget>::SetReferenceImage(ReferenceType* R
 
 template<class TReference,class TTarget>
 void LoadImagePairBase<TReference , TTarget>::SetTargetImage(TargetType* T ) 
-{    // GET DATA SIZE  BUG!! FIXME!! MUST BE BETTER WAY TO GET SIZE
+{    
   m_TarImage=T; 
+// GET DATA SIZE  BUG!! FIXME!! MUST BE BETTER WAY TO GET SIZE
   TarRegionIteratorType Iter (m_TarImage,m_TarImage->GetLargestPossibleRegion() );
   Iter.GoToEnd();
   typename ReferenceType::IndexType Ind = Iter.GetIndex();   
-  for (int i=0; i< ImageDimension; i++) m_RefSize[i]=Ind[i]+1; 
+  for (int i=0; i< ImageDimension; i++) m_TarSize[i]=Ind[i]+1; 
 };
 
 
