@@ -50,7 +50,6 @@ int main()
 {
   itk::XMLFileOutputWindow::Pointer logger = itk::XMLFileOutputWindow::New();
   logger->SetInstance(logger);
-  logger->Delete();
   
   // typedefs to simplify the syntax
   typedef itk::Image<short, 2>   ShortImage;
@@ -132,7 +131,15 @@ int main()
   if (passed)
     {
     std::cout << "ImageStreamingFilter test passed." << std::endl;
-    return EXIT_SUCCESS;
+    try
+      {
+      return EXIT_SUCCESS;
+      }
+    catch (...)
+      {
+      std::cout << "Caught an exception on exit" << std::endl;
+      return EXIT_FAILURE;
+      }
     }
   else
     {
