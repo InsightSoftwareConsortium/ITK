@@ -56,6 +56,9 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>
   // directly on the output image and the update buffer.
   this->CopyInputToOutput();
 
+  //Do the overall initialization
+  this->Initialize();
+
   // Allocate the internal update buffer.  This takes place entirely within
   // the subclass, since this class cannot define an update buffer type.
   this->AllocateUpdateBuffer();

@@ -206,6 +206,12 @@ protected:
   /** This method returns true when the current iterative solution of the
    * equation has met the criteria to stop solving.  Defined by a subclass. */
   virtual bool Halt() = 0;
+  /** This method is optionally defined by a subclass and is called before
+   * the loop of iterations of calculate_change & upate. It does the global
+   * initialization, i.e. in the SparseFieldLevelSetImageFilter, initialize 
+   * the list of layers. 
+   * */
+  virtual void Initialize() { };
 
   /** This method is optionally defined by a subclass and is called immediately
    * prior to each iterative CalculateChange-ApplyUpdate cycle.  It can be
