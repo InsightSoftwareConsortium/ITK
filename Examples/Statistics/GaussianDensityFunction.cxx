@@ -70,7 +70,7 @@ int main()
   // 0 & 4
   // \end{pmatrix}
   // \]
-  // We get the probability density for the measurement vector: [0, 0]
+  // We obtain the probability density for the measurement vector: [0, 0]
   // using the \code{Evaluate(measurement vector)} method and print it out.
   //
   // Software Guide : EndLatex 
