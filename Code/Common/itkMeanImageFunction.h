@@ -36,6 +36,8 @@ namespace itk
  * This class is templated over the input image type and the
  * coordinate representation type (e.g. float or double).
  *
+ * \sa VectorMeanImageFunction
+ * 
  * \ingroup ImageFunctions
  */
 template <class TInputImage, class TCoordRep = float >
