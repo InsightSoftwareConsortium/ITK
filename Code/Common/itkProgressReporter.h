@@ -91,6 +91,10 @@ protected:
   unsigned long m_CurrentPixel;
   unsigned long m_PixelsPerUpdate;
   unsigned long m_PixelsBeforeUpdate;
+
+private:
+  ProgressReporter(); //purposely not implemented
+
 };
 
 } // end namespace itk
