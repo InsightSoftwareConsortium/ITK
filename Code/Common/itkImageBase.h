@@ -30,6 +30,8 @@
 namespace itk
 {
 
+
+
 /** \class ImageBase
  * \brief Base class for templated image classes.
  *
@@ -276,6 +278,19 @@ private:
   RegionType          m_RequestedRegion;
   RegionType          m_BufferedRegion;
 };
+
+
+
+
+/** Helper class used as a workaround for VC++ deficiency in 
+  * extracting integer members of template parameters    */
+template < typename TImageType, unsigned int V = TImageType::ImageDimension>
+struct ExtractImageDimension
+{
+  enum { ImageDimension = V };
+};
+
+
 
 } // end namespace itk
 
