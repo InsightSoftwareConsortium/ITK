@@ -87,7 +87,7 @@ REGISTER_TEST(itkScaleTransformTest );
 REGISTER_TEST(itkSplineKernelTransformTest );
 REGISTER_TEST(itkEllipsoidInteriorExteriorSpatialFunctionTest );
 REGISTER_TEST(itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest );
-REGISTER_TEST(itkSystemInformationTest );
+//This is a separate executable REGISTER_TEST(itkSystemInformationTest );
 REGISTER_TEST(itkMetaDataDictionaryTest );
 REGISTER_TEST(itkSTLThreadTest );
 }
