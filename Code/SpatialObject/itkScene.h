@@ -18,7 +18,7 @@
 #ifndef __Scene_h 
 #define __Scene_h 
 
-#include "itkNDimensionalSpatialObject.h"  
+#include "itkSpatialObject.h"  
  
 #include <list>
 
@@ -26,7 +26,7 @@ namespace itk
 { 
 
 /** \class Scene
-* \brief a Scene has a list of NDimensionalSpatialObjects
+* \brief a Scene has a list of SpatialObjects
 *
 * This class represent a Scene object to which it's possible
 * to plug any kind of spatial object.
@@ -34,14 +34,14 @@ namespace itk
 * \also SpatialObject
 */ 
  
-template <unsigned int PipelineDimension = 3>
+template <unsigned int SpaceDimension = 3>
 class Scene 
 : public Object
 { 
  
 public: 
 
-  typedef Scene<PipelineDimension> Self; 
+  typedef Scene<SpaceDimension> Self; 
   typedef Object Superclass; 
   typedef Superclass::Pointer SuperclassPointer; 
   typedef SmartPointer< Self > Pointer; 

@@ -35,10 +35,10 @@ namespace itk
 * \also SpatialObjectPoint
 */
 
-template < unsigned int TDimension = 3 , unsigned int PipelineDimension = 3 >
+template < unsigned int TDimension = 3 , unsigned int SpaceDimension = 3 >
 class BlobSpatialObject 
 :public SpatialObject<  TDimension,  
-                        PipelineDimension
+                        SpaceDimension
                      >
 {
 
@@ -46,7 +46,7 @@ public:
 
   typedef BlobSpatialObject                          Self;
   typedef SpatialObject< TDimension,
-                         PipelineDimension
+                         SpaceDimension
                        >                              Superclass;
   typedef SmartPointer < Self >                       Pointer;
   typedef SmartPointer < const Self >                 ConstPointer;
@@ -74,20 +74,22 @@ public:
 
   /** Returns true if the Blob is evaluable at the requested point, 
    *  false otherwise. */
-  bool IsEvaluableAt( const PointType & point, bool includeChildren=false );
+  bool IsEvaluableAt( const PointType & point, 
+                      unsigned int depth=0, char *name = NULL );
 
   /** Returns the value of the Blob at that point.
    *  Currently this function returns a binary value,
    *  but it might want to return a degree of membership
    *  in case of fuzzy Blobs. */
   void ValueAt( const PointType & point, double & value,
-                bool includeChildren=false );
+                unsigned int depth=0, char *name = NULL );
 
   /** Returns true if the point is inside the Blob, false otherwise. */
-  bool IsInside( const PointType & point, bool includeChildren=false ) const;
+  bool IsInside( const PointType & point,
+                 unsigned int depth=0, char *name = NULL ) const;
 
   /** Compute the boundaries of the Blob. */
-  bool ComputeBoundingBox( bool includeChildren = false );
+  bool ComputeBoundingBox( unsigned int depth=0, char *name = NULL );
 
 protected:
 

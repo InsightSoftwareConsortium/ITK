@@ -49,18 +49,20 @@ namespace itk
 */ 
  
 template< unsigned int NDimensions = 3, 
-          unsigned int PipelineDimension = 3 
+          unsigned int SpaceDimension = 3 
         > 
 class SpatialObject 
-:public NDimensionalSpatialObject<PipelineDimension>
+:public NDimensionalSpatialObject<SpaceDimension>
 { 
 
 public: 
 
   typedef double ScalarType;
 
-  typedef SpatialObject<NDimensions,PipelineDimension> Self;
-  typedef NDimensionalSpatialObject<PipelineDimension> Superclass; 
+  itkStaticConstMacro(MaximumDepth, unsigned int, 9999999);
+
+  typedef SpatialObject<NDimensions,SpaceDimension> Self;
+  typedef NDimensionalSpatialObject<SpaceDimension> Superclass; 
   
   typedef SmartPointer< Self > Pointer;
   typedef SmartPointer< const Self > ConstPointer;
@@ -128,16 +130,19 @@ public:
   /** Returns a degree of membership to the object. 
    *  That's useful for fuzzy objects. */ 
   virtual void ValueAt( const PointType & point, double & value,
-                        bool includeChildren=true ); 
+                        unsigned int depth=MaximumDepth,
+                        char * name = NULL);
      
   /** Return tru if the object provides a method to evaluate the value 
    *  at the specified point, else otherwise. */
   virtual bool IsEvaluableAt( const PointType & point,
-                              bool includeChildren=true );
+                              unsigned int depth=MaximumDepth,
+                              char * name = NULL);
 
   /** Test whether a point is inside or outside the object. */ 
   virtual bool IsInside( const PointType & point,
-                         bool includeChildren=true ) const; 
+                         unsigned int depth=MaximumDepth,
+                         char * name = NULL) const;
 
   /** Set the pointer to the parent object in the tree hierarchy
    *  used for the spatial object patter. */
@@ -145,9 +150,10 @@ public:
 
   /** Return the n-th order derivative value at the specified point. */
   void DerivativeAt( const PointType & point,
-                             short unsigned int order,
-                             OutputVectorType & value,
-                             bool includeChildren=true );
+                     short unsigned int order,
+                     OutputVectorType & value,
+                     unsigned int depth=MaximumDepth,
+                     char * name = NULL);
 
   /** Returns the coordinates of the point passed as argument in the object
    * local coordinate system. */
@@ -164,7 +170,8 @@ public:
    *  It should provide a method to get the boundaries of 
    *  a specific object. Basically, this function need to be called
    *  every time one of the object component is changed.  */ 
-  virtual bool ComputeBoundingBox( bool includeChildren=true ); 
+  virtual bool ComputeBoundingBox( unsigned int depth=MaximumDepth,
+                                   char * name = NULL);
 
   /** Set the Spacing of the spatial object */
   void SetSpacing( const double spacing[ObjectDimension] );
@@ -203,14 +210,14 @@ public:
   void RemoveSpatialObject( Self * object ); 
 
   /** Returns a list of pointer to the children affiliated to this object. 
-   * A depth of 0 recurses to return children of children, etc.   A depth
-   * of 1 returns the immediate childred. A depth of 2 returns the children
-   * and those children's children. */ 
-  virtual ChildrenListType * GetChildren( unsigned int depth=0,
+   * A depth of 0 returns the immediate childred. A depth of 1 returns the
+   * children and those children's children. */ 
+  virtual ChildrenListType * GetChildren( unsigned int depth=MaximumDepth,
                                           char * name = NULL);
 
   /** Returns the number of children currently assigned to the object. */ 
-  unsigned int GetNumberOfChildren( bool includeChildren=true ); 
+  unsigned int GetNumberOfChildren( unsigned int depth=MaximumDepth,
+                                    char * name = NULL);
 
   /** Set the list of pointers to children to the list passed as argument. */ 
   void SetChildren( ChildrenListType & children ); 

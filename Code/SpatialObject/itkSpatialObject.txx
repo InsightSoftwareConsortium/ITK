@@ -27,8 +27,8 @@ namespace itk
 {
 
 /** Constructor */
-template< unsigned int NDimensions, unsigned int PipelineDimension >
-SpatialObject< NDimensions, PipelineDimension>
+template< unsigned int NDimensions, unsigned int SpaceDimension >
+SpatialObject< NDimensions, SpaceDimension>
 ::SpatialObject( void )
 {
   m_ParentId=-1;
@@ -52,17 +52,17 @@ SpatialObject< NDimensions, PipelineDimension>
 }
 
 /** Destructor */
-template< unsigned int NDimensions, unsigned int PipelineDimension >
-SpatialObject< NDimensions, PipelineDimension>
+template< unsigned int NDimensions, unsigned int SpaceDimension >
+SpatialObject< NDimensions, SpaceDimension>
 ::~SpatialObject( void )
 {
   this->Clear();
 }
 
 /** Clear the spatial object by deleting all lists of children and subchildren */
-template< unsigned int NDimensions, unsigned int PipelineDimension >
+template< unsigned int NDimensions, unsigned int SpaceDimension >
 void
-SpatialObject< NDimensions, PipelineDimension>
+SpatialObject< NDimensions, SpaceDimension>
 ::Clear(void)
 {
   // Call the Clear function of every child
@@ -81,9 +81,9 @@ SpatialObject< NDimensions, PipelineDimension>
 
 
 /** Set the spacing of the object */
-template< unsigned int NDimensions, unsigned int PipelineDimension >
+template< unsigned int NDimensions, unsigned int SpaceDimension >
 void
-SpatialObject< NDimensions, PipelineDimension>
+SpatialObject< NDimensions, SpaceDimension>
 ::SetSpacing(const double spacing[ObjectDimension] )
 {
   unsigned int i; 
@@ -105,9 +105,9 @@ SpatialObject< NDimensions, PipelineDimension>
 
 
 /** Set the Scale of the spatial object */
-template< unsigned int NDimensions, unsigned int PipelineDimension >
+template< unsigned int NDimensions, unsigned int SpaceDimension >
 void
-SpatialObject< NDimensions, PipelineDimension>
+SpatialObject< NDimensions, SpaceDimension>
 ::SetScale(const double scale[ObjectDimension] )
 {
   unsigned int i; 
@@ -129,26 +129,26 @@ SpatialObject< NDimensions, PipelineDimension>
 
 
 /** Return the Derivative at a point given the order of the derivative */
-template< unsigned int NDimensions, unsigned int PipelineDimension >
+template< unsigned int NDimensions, unsigned int SpaceDimension >
 void
-SpatialObject< NDimensions, PipelineDimension>
+SpatialObject< NDimensions, SpaceDimension>
 ::DerivativeAt( const PointType & point, short unsigned int order,
-                OutputVectorType & value, bool includeChildren )
+                OutputVectorType & value, unsigned int depth, char * name )
   {
-  if( !IsEvaluableAt(point, includeChildren) )
+  if( !IsEvaluableAt(point, depth, name) )
     {
     itk::ExceptionObject e("SpatialObject.txx");
-    e.SetLocation("SpatialObject< NDimensions, PipelineDimension>::DerivateAt(\
+    e.SetLocation("SpatialObject< NDimensions, SpaceDimension>::DerivateAt(\
                    const PointType, unsigned short, OutputVectorType & )");
     e.SetDescription("This spatial object is not evaluable at the point");
     throw e;
     }
 
-  double r;
-
   if( order == 0 )
     {
-    ValueAt(point,r, includeChildren);
+    double r;
+
+    ValueAt(point, r, depth, name);
     value.Fill(r);
     }
   else
@@ -168,8 +168,8 @@ SpatialObject< NDimensions, PipelineDimension>
 
       try
         {
-        DerivativeAt(p1,order-1,v1, includeChildren);
-        DerivativeAt(p2,order-1,v2, includeChildren);
+        DerivativeAt(p1,order-1,v1, depth, name);
+        DerivativeAt(p2,order-1,v2, depth, name);
         } 
       catch( itk::ExceptionObject e )
         {
@@ -182,19 +182,19 @@ SpatialObject< NDimensions, PipelineDimension>
   }
 
 /** Return if a point is inside the object or its children */
-template< unsigned int NDimensions, unsigned int PipelineDimension >
+template< unsigned int NDimensions, unsigned int SpaceDimension >
 bool
-SpatialObject< NDimensions, PipelineDimension>
-::IsInside( const PointType &  point, bool includeChildren) const
+SpatialObject< NDimensions, SpaceDimension>
+::IsInside( const PointType &  point, unsigned int depth, char * name) const
 {
-  if(includeChildren)
+  if( depth > 0 )
     {
     typename ChildrenListType::const_iterator it = m_Children.begin();
     typename ChildrenListType::const_iterator end = m_Children.end();
     
     while(it!=end)
       {
-      if( (*it)->IsInside(point) ) 
+      if( (*it)->IsInside(point, depth-1, name) ) 
         {
         return true;
         }
@@ -206,19 +206,19 @@ SpatialObject< NDimensions, PipelineDimension>
 }
 
 /** Return if the object is evaluable at a point */
-template< unsigned int NDimensions, unsigned int PipelineDimension >
+template< unsigned int NDimensions, unsigned int SpaceDimension >
 bool
-SpatialObject< NDimensions, PipelineDimension>
-::IsEvaluableAt( const PointType & point, bool includeChildren )
+SpatialObject< NDimensions, SpaceDimension>
+::IsEvaluableAt( const PointType & point, unsigned int depth, char * name )
 {
-  if(includeChildren)
+  if( depth > 0 )
     {
     typename ChildrenListType::iterator it = m_Children.begin();
     typename ChildrenListType::iterator end = m_Children.end();
     
     while(it!=end)
       {
-      if( (*it)->IsEvaluableAt(point) ) 
+      if( (*it)->IsEvaluableAt(point, depth-1, name) ) 
         {
         return true;
         }
@@ -230,22 +230,23 @@ SpatialObject< NDimensions, PipelineDimension>
 }
 
 /** Return the value of the object at a point */
-template< unsigned int NDimensions, unsigned int PipelineDimension >
+template< unsigned int NDimensions, unsigned int SpaceDimension >
 void
-SpatialObject< NDimensions, PipelineDimension>
-::ValueAt( const PointType & point, double & value, bool includeChildren )
+SpatialObject< NDimensions, SpaceDimension>
+::ValueAt( const PointType & point, double & value, unsigned int depth,
+           char * name )
 {
   bool evaluable = false;
-  if(includeChildren)
+  if( depth > 0 )
     {
     typename ChildrenListType::iterator it = m_Children.begin();
     typename ChildrenListType::iterator end = m_Children.end();
   
     while(it!=end)
       {
-      if( (*it)->IsEvaluableAt(point) )
+      if( (*it)->IsEvaluableAt(point, depth-1, name) )
         {
-        (*it)->ValueAt(point,value); 
+        (*it)->ValueAt(point,value, depth-1, name); 
         evaluable = true;
         break;
         }
@@ -263,9 +264,9 @@ SpatialObject< NDimensions, PipelineDimension>
 }
 
 /** Set the parent of the object */
-template< unsigned int NDimensions, unsigned int PipelineDimension >  
+template< unsigned int NDimensions, unsigned int SpaceDimension >  
 void 
-SpatialObject< NDimensions, PipelineDimension>
+SpatialObject< NDimensions, SpaceDimension>
 ::SetParent( const Superclass * parent )
 {
   m_Parent = parent;
@@ -273,9 +274,9 @@ SpatialObject< NDimensions, PipelineDimension>
 
 
 /** Print self */
-template< unsigned int NDimensions, unsigned int PipelineDimension >
+template< unsigned int NDimensions, unsigned int SpaceDimension >
 void 
-SpatialObject< NDimensions, PipelineDimension>
+SpatialObject< NDimensions, SpaceDimension>
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf(os, indent);
@@ -304,27 +305,27 @@ SpatialObject< NDimensions, PipelineDimension>
 }
   
 /** Set the bounds of the object */
-template< unsigned int NDimensions, unsigned int PipelineDimension >
+template< unsigned int NDimensions, unsigned int SpaceDimension >
 void
-SpatialObject< NDimensions, PipelineDimension>
+SpatialObject< NDimensions, SpaceDimension>
 ::SetBoundingBox( BoundingBoxPointer bounds )
 { 
   m_Bounds = bounds; 
 }
 
 /** Get the bounds of the object */
-template< unsigned int NDimensions, unsigned int PipelineDimension >
-typename SpatialObject< NDimensions, PipelineDimension>::BoundingBoxType *
-SpatialObject< NDimensions, PipelineDimension>
+template< unsigned int NDimensions, unsigned int SpaceDimension >
+typename SpatialObject< NDimensions, SpaceDimension>::BoundingBoxType *
+SpatialObject< NDimensions, SpaceDimension>
 ::GetBoundingBox( void ) const
 { 
   return m_Bounds.GetPointer();
 }
 
 /** Add a child to the object */
-template< unsigned int NDimensions, unsigned int PipelineDimension >
+template< unsigned int NDimensions, unsigned int SpaceDimension >
 void
-SpatialObject< NDimensions, PipelineDimension> 
+SpatialObject< NDimensions, SpaceDimension> 
 ::AddSpatialObject( Self * pointer )
 {
   pointer->Register(); // increase the reference count.
@@ -349,9 +350,9 @@ SpatialObject< NDimensions, PipelineDimension>
 }
 
 /** Remove a child to the object */
-template< unsigned int NDimensions, unsigned int PipelineDimension >
+template< unsigned int NDimensions, unsigned int SpaceDimension >
 void
-SpatialObject< NDimensions, PipelineDimension>
+SpatialObject< NDimensions, SpaceDimension>
 ::RemoveSpatialObject( Self * pointer )
 {
   bool found = false;
@@ -403,9 +404,9 @@ SpatialObject< NDimensions, PipelineDimension>
 }
 
 /** Set the local to global transformation */
-template< unsigned int NDimensions, unsigned int PipelineDimension >
+template< unsigned int NDimensions, unsigned int SpaceDimension >
 void 
-SpatialObject< NDimensions, PipelineDimension>
+SpatialObject< NDimensions, SpaceDimension>
 ::SetTransform(TransformType * transform )
 {
   m_Transform = transform;
@@ -413,9 +414,9 @@ SpatialObject< NDimensions, PipelineDimension>
 }
 
 /** Compute the Global Transform */
-template< unsigned int NDimensions, unsigned int PipelineDimension >
+template< unsigned int NDimensions, unsigned int SpaceDimension >
 void 
-SpatialObject< NDimensions, PipelineDimension>
+SpatialObject< NDimensions, SpaceDimension>
 ::ComputeGlobalTransform( )
 {
 
@@ -451,9 +452,9 @@ SpatialObject< NDimensions, PipelineDimension>
   {
     for(unsigned int i=0;i<NDimensions;i++)
     {
-      m_GlobalScale[i] *= dynamic_cast<const SpatialObject<NDimensions, PipelineDimension>*>(m_Parent)->GetGlobalScale()[i];
+      m_GlobalScale[i] *= dynamic_cast<const SpatialObject<NDimensions, SpaceDimension>*>(m_Parent)->GetGlobalScale()[i];
     }
-    m_GlobalTransform->Compose(dynamic_cast<const SpatialObject<NDimensions, PipelineDimension>*>(m_Parent)->GetGlobalTransform(),false);
+    m_GlobalTransform->Compose(dynamic_cast<const SpatialObject<NDimensions, SpaceDimension>*>(m_Parent)->GetGlobalTransform(),false);
   }
 
   
@@ -469,18 +470,18 @@ SpatialObject< NDimensions, PipelineDimension>
 
 
 /** Get the local transformation */
-template< unsigned int NDimensions, unsigned int PipelineDimension >
-typename SpatialObject< NDimensions, PipelineDimension>::TransformType *
-SpatialObject< NDimensions, PipelineDimension>
+template< unsigned int NDimensions, unsigned int SpaceDimension >
+typename SpatialObject< NDimensions, SpaceDimension>::TransformType *
+SpatialObject< NDimensions, SpaceDimension>
 ::GetTransform( void )
 {
   return m_Transform.GetPointer();
 }
 
 /** Get the local transformation (const)*/
-template< unsigned int NDimensions, unsigned int PipelineDimension >
-const typename SpatialObject< NDimensions, PipelineDimension>::TransformType *
-SpatialObject< NDimensions, PipelineDimension>
+template< unsigned int NDimensions, unsigned int SpaceDimension >
+const typename SpatialObject< NDimensions, SpaceDimension>::TransformType *
+SpatialObject< NDimensions, SpaceDimension>
 ::GetTransform( void ) const
 {
   return m_Transform.GetPointer();
@@ -488,9 +489,9 @@ SpatialObject< NDimensions, PipelineDimension>
 
 
 /** Set the global to local transformation */
-template< unsigned int NDimensions, unsigned int PipelineDimension >
+template< unsigned int NDimensions, unsigned int SpaceDimension >
 void 
-SpatialObject< NDimensions, PipelineDimension>
+SpatialObject< NDimensions, SpaceDimension>
 ::SetGlobalTransform(TransformType * transform )
 {
   m_GlobalTransform = transform;
@@ -499,69 +500,69 @@ SpatialObject< NDimensions, PipelineDimension>
 
 
 /** Compute the Transform when the global tranform as been set*/
-template< unsigned int NDimensions, unsigned int PipelineDimension >
+template< unsigned int NDimensions, unsigned int SpaceDimension >
 void 
-SpatialObject< NDimensions, PipelineDimension>
+SpatialObject< NDimensions, SpaceDimension>
 ::ComputeTransform( )
 {
   m_Transform = m_GlobalTransform;
 
   if(m_Parent)
   {
-    m_Transform->Compose(dynamic_cast<const SpatialObject<NDimensions, PipelineDimension>*>(m_Parent)->GetGlobalTransform()->Inverse(),true);
+    m_Transform->Compose(dynamic_cast<const SpatialObject<NDimensions, SpaceDimension>*>(m_Parent)->GetGlobalTransform()->Inverse(),true);
   }
 }
 
 
 /** Get the global transformation */
-template< unsigned int NDimensions, unsigned int PipelineDimension >
-typename SpatialObject< NDimensions, PipelineDimension>::TransformType *
-SpatialObject< NDimensions, PipelineDimension>
+template< unsigned int NDimensions, unsigned int SpaceDimension >
+typename SpatialObject< NDimensions, SpaceDimension>::TransformType *
+SpatialObject< NDimensions, SpaceDimension>
 ::GetGlobalTransform( void )
 {
   return m_GlobalTransform.GetPointer();
 }
 
 /** Get the global transformation (const)*/
-template< unsigned int NDimensions, unsigned int PipelineDimension >
-const typename SpatialObject< NDimensions, PipelineDimension>::TransformType *
-SpatialObject< NDimensions, PipelineDimension>
+template< unsigned int NDimensions, unsigned int SpaceDimension >
+const typename SpatialObject< NDimensions, SpaceDimension>::TransformType *
+SpatialObject< NDimensions, SpaceDimension>
 ::GetGlobalTransform( void ) const
 {
   return m_GlobalTransform.GetPointer();
 }
 
 /** Get the Global to Local transformation list */
-template< unsigned int NDimensions, unsigned int PipelineDimension >
-typename SpatialObject< NDimensions, PipelineDimension>::TransformListType &
-SpatialObject< NDimensions, PipelineDimension>
+template< unsigned int NDimensions, unsigned int SpaceDimension >
+typename SpatialObject< NDimensions, SpaceDimension>::TransformListType &
+SpatialObject< NDimensions, SpaceDimension>
 ::GetGlobalTransformList( void )
 {
   return m_GlobalTransformList;
 }
 
 /** Transform a point to the local coordinate frame */
-template< unsigned int NDimensions, unsigned int PipelineDimension >
+template< unsigned int NDimensions, unsigned int SpaceDimension >
 void
-SpatialObject< NDimensions, PipelineDimension>
+SpatialObject< NDimensions, SpaceDimension>
 ::TransformPointToLocalCoordinate( PointType & p ) const
 {
   p = m_GlobalTransform->Inverse()->TransformPoint(p);
 }
 
 /** Transform a point to the global coordinate frame */
-template< unsigned int NDimensions, unsigned int PipelineDimension >
+template< unsigned int NDimensions, unsigned int SpaceDimension >
 void
-SpatialObject< NDimensions, PipelineDimension>
+SpatialObject< NDimensions, SpaceDimension>
 ::TransformPointToGlobalCoordinate( PointType & p ) const
 {
   p = m_GlobalTransform->TransformPoint(p);
 }
 
 /** Get the modification time  */
-template< unsigned int NDimensions, unsigned int PipelineDimension >
+template< unsigned int NDimensions, unsigned int SpaceDimension >
 unsigned long 
-SpatialObject< NDimensions, PipelineDimension>
+SpatialObject< NDimensions, SpaceDimension>
 ::GetMTime( void ) const
 {
   unsigned long latestTime = Object::GetMTime();
@@ -590,29 +591,29 @@ SpatialObject< NDimensions, PipelineDimension>
 }
 
 /** Compute boundary of the object */
-template< unsigned int NDimensions, unsigned int PipelineDimension >
+template< unsigned int NDimensions, unsigned int SpaceDimension >
 bool
-SpatialObject< NDimensions, PipelineDimension>
-::ComputeBoundingBox( bool includeChildren )
+SpatialObject< NDimensions, SpaceDimension>
+::ComputeBoundingBox( unsigned int depth, char * name )
   {
   itkDebugMacro( "Computing Bounding Box" );
 
   if( this->GetMTime() > m_BoundsMTime )
     {
-    if(includeChildren)
+    if( depth > 0 )
       {
       typename ChildrenListType::iterator it = m_Children.begin();
       typename ChildrenListType::iterator end = m_Children.end();
       if(it != end)
         {
-        (*it)->ComputeBoundingBox();
+        (*it)->ComputeBoundingBox(depth-1, name);
         m_Bounds->SetMinimum((*it)->GetBoundingBox()->GetMinimum());
         m_Bounds->SetMaximum((*it)->GetBoundingBox()->GetMaximum());
         it++;
 
         while(it!=end)
           {
-          (*it)->ComputeBoundingBox();
+          (*it)->ComputeBoundingBox(depth-1, name);
           m_Bounds->ConsiderPoint((*it)->GetBoundingBox()->GetMinimum());
           m_Bounds->ConsiderPoint((*it)->GetBoundingBox()->GetMaximum());
           it++;
@@ -650,25 +651,28 @@ SpatialObject< NDimensions, PipelineDimension>
 /** Get the children list.
  * User is responsible for freeing the list, but not the elements of
  * the list. */
-template< unsigned int NDimensions, unsigned int PipelineDimension >
-typename SpatialObject< NDimensions, PipelineDimension>::ChildrenListType *
-SpatialObject< NDimensions, PipelineDimension>
+template< unsigned int NDimensions, unsigned int SpaceDimension >
+typename SpatialObject< NDimensions, SpaceDimension>::ChildrenListType *
+SpatialObject< NDimensions, SpaceDimension>
 ::GetChildren( unsigned int depth, 
                char * name)
 {
   ChildrenListType * children = new ChildrenListType;
 
-  typename ChildrenListType::const_iterator childrenListIt =
+  typename ChildrenListType::const_iterator childrenListIt = 
            m_Children.begin();
-  while( childrenListIt != m_Children.end() )
+  typename ChildrenListType::const_iterator childrenListEnd = 
+           m_Children.end();
+
+  while( childrenListIt != childrenListEnd )
     {
     if( name == NULL || strstr(typeid(**childrenListIt).name(), name) )
       {
       children->push_back(*childrenListIt);
       }
-    if( depth > 1 || depth == 0)
+    if( depth > 0 )
       {
-      children->merge(*((**childrenListIt).GetChildren(depth--, name)));
+      children->merge(*((**childrenListIt).GetChildren(depth-1, name)));
       }
     childrenListIt++;
     }
@@ -677,9 +681,9 @@ SpatialObject< NDimensions, PipelineDimension>
 }
 
 /** Set children list*/
-template< unsigned int NDimensions, unsigned int PipelineDimension >
+template< unsigned int NDimensions, unsigned int SpaceDimension >
 void
-SpatialObject< NDimensions, PipelineDimension>
+SpatialObject< NDimensions, SpaceDimension>
 ::SetChildren( ChildrenListType & children )
 { 
   m_Children = children;
@@ -697,46 +701,41 @@ SpatialObject< NDimensions, PipelineDimension>
 }
 
 /** Get the number of children */
-template< unsigned int NDimensions, unsigned int PipelineDimension >
+template< unsigned int NDimensions, unsigned int SpaceDimension >
 unsigned int
-SpatialObject< NDimensions, PipelineDimension>
-::GetNumberOfChildren( bool includeChildren )
+SpatialObject< NDimensions, SpaceDimension>
+::GetNumberOfChildren( unsigned int depth, char * name )
 {
-  if(!includeChildren)
-    {
-    return m_Children.size();
-    }
-  else
-    {
-    unsigned int cnt = m_Children.size();
+  unsigned int cnt = m_Children.size();
 
+  if( depth > 0 )
+    {
     typename ChildrenListType::const_iterator it = m_Children.begin();
     typename ChildrenListType::const_iterator end = m_Children.end();
     
     while(it != end)
       {
-      cnt += (*it)->GetNumberOfChildren( true );
+      cnt += (*it)->GetNumberOfChildren( depth-1, name );
       it++;
       }
-
-    return cnt;
     }
 
+  return cnt;
 } 
 
 /** Return the Modified time of the LocalToGlobalTransform */
-template< unsigned int NDimensions, unsigned int PipelineDimension >
+template< unsigned int NDimensions, unsigned int SpaceDimension >
 unsigned long
-SpatialObject< NDimensions, PipelineDimension>
+SpatialObject< NDimensions, SpaceDimension>
 ::GetTransformMTime(void)
 {
   return m_Transform->GetMTime();
 }
 
 /** Return the Modified time of the GlobalToLocalTransform */
-template< unsigned int NDimensions, unsigned int PipelineDimension >
+template< unsigned int NDimensions, unsigned int SpaceDimension >
 unsigned long
-SpatialObject< NDimensions, PipelineDimension>
+SpatialObject< NDimensions, SpaceDimension>
 ::GetGlobalTransformMTime(void)
 {
   return m_GlobalTransform->GetMTime();

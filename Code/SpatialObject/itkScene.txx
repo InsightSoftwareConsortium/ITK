@@ -25,23 +25,23 @@ namespace itk
 {
   
 /** Constructor */
-template <unsigned int PipelineDimension>
-Scene<PipelineDimension>
+template <unsigned int SpaceDimension>
+Scene<SpaceDimension>
 ::Scene()
 {
 }
 
 /** Destructor */
-template <unsigned int PipelineDimension>
-Scene<PipelineDimension>
+template <unsigned int SpaceDimension>
+Scene<SpaceDimension>
 ::~Scene()
 {
 }
 
 /** Add a spatial object to the scene */
-template <unsigned int PipelineDimension>
+template <unsigned int SpaceDimension>
 void 
-Scene<PipelineDimension>
+Scene<SpaceDimension>
 ::AddSpatialObject( NDimensionalSpatialObject<> * pointer )
 {
   m_Objects.push_back( pointer );
@@ -49,9 +49,9 @@ Scene<PipelineDimension>
 }
 
 /** Remove a spatial object from the scene */
-template <unsigned int PipelineDimension>
+template <unsigned int SpaceDimension>
 void 
-Scene<PipelineDimension>
+Scene<SpaceDimension>
 ::RemoveSpatialObject( NDimensionalSpatialObject<> * pointer )
 {
   ObjectListType::iterator it;    
@@ -74,9 +74,9 @@ Scene<PipelineDimension>
 
 
 /** Return the modification time of the scene */
-template <unsigned int PipelineDimension>
+template <unsigned int SpaceDimension>
 unsigned long
-Scene<PipelineDimension>
+Scene<SpaceDimension>
 ::GetMTime( void ) const
 {
   ObjectListType::const_iterator it = m_Objects.begin();
@@ -97,36 +97,36 @@ Scene<PipelineDimension>
 }
 
 /** Return the children list */
-template <unsigned int PipelineDimension>
-typename Scene<PipelineDimension>::ObjectListType &
-Scene<PipelineDimension>
+template <unsigned int SpaceDimension>
+typename Scene<SpaceDimension>::ObjectListType &
+Scene<SpaceDimension>
 ::GetObjects( void )
 {
   return m_Objects;
 }
 
 /** Set the children list */
-template <unsigned int PipelineDimension>
+template <unsigned int SpaceDimension>
 void
-Scene<PipelineDimension>
+Scene<SpaceDimension>
 ::SetObjects( ObjectListType & children )
 { 
   m_Objects = children;
 }
 
 /** Return the number of objects in the scene */
-template <unsigned int PipelineDimension>
+template <unsigned int SpaceDimension>
 unsigned int
-Scene<PipelineDimension>
+Scene<SpaceDimension>
 ::GetNumberOfObjects( void )
 {
   return m_Objects.size();
 } 
 
 /** Print the object */
-template <unsigned int PipelineDimension>
+template <unsigned int SpaceDimension>
 void
-Scene<PipelineDimension>
+Scene<SpaceDimension>
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
   os << indent << "Number of objects: " 
@@ -148,9 +148,9 @@ Scene<PipelineDimension>
 
 /** Return a SpatialObject in the scene 
  *  given a parent ID */
-template <unsigned int PipelineDimension>
+template <unsigned int SpaceDimension>
 NDimensionalSpatialObject<> *
-Scene<PipelineDimension>
+Scene<SpaceDimension>
 ::GetObjectById(int Id)
 {
   ObjectListType::iterator it = m_Objects.begin();

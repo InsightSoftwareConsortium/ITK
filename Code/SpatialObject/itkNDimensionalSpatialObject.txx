@@ -24,8 +24,8 @@ namespace itk
 {
 
 /** Constructor */
-template <unsigned int PipelineDimension>
-NDimensionalSpatialObject<PipelineDimension>
+template <unsigned int SpaceDimension>
+NDimensionalSpatialObject<SpaceDimension>
 ::NDimensionalSpatialObject()
 {
   strcpy(m_TypeName,"NDimensionalSpatialObject");
@@ -36,34 +36,34 @@ NDimensionalSpatialObject<PipelineDimension>
 }
 
 /** Destructor */
-template <unsigned int PipelineDimension>
-NDimensionalSpatialObject<PipelineDimension>
+template <unsigned int SpaceDimension>
+NDimensionalSpatialObject<SpaceDimension>
 ::~NDimensionalSpatialObject()
 {
 }
 
 /** Get the parent of the spatial object */
-template <unsigned int PipelineDimension>
-const NDimensionalSpatialObject<PipelineDimension> *
-NDimensionalSpatialObject<PipelineDimension>
+template <unsigned int SpaceDimension>
+const NDimensionalSpatialObject<SpaceDimension> *
+NDimensionalSpatialObject<SpaceDimension>
 ::GetParent( void ) const
 {
   return m_Parent;
 }
 
 /** Set the parent of the spatial object */
-template <unsigned int PipelineDimension>
+template <unsigned int SpaceDimension>
 void
-NDimensionalSpatialObject<PipelineDimension>
+NDimensionalSpatialObject<SpaceDimension>
 ::SetParent( const Self * parent )
 {
   m_Parent = parent;
 }
 
 /** Return true if the spatial object has a parent */
-template <unsigned int PipelineDimension>
+template <unsigned int SpaceDimension>
 bool
-NDimensionalSpatialObject<PipelineDimension>
+NDimensionalSpatialObject<SpaceDimension>
 ::HasParent( void ) const
 {
   if( m_Parent )
@@ -77,9 +77,9 @@ NDimensionalSpatialObject<PipelineDimension>
 }
 
 /** Set the largest possible region */
-template <unsigned int PipelineDimension>
+template <unsigned int SpaceDimension>
 void
-NDimensionalSpatialObject<PipelineDimension>
+NDimensionalSpatialObject<SpaceDimension>
 ::SetLargestPossibleRegion(const RegionType &region)
 {
   if (m_LargestPossibleRegion != region)
@@ -90,9 +90,9 @@ NDimensionalSpatialObject<PipelineDimension>
 }
 
 /** Update the Output information */
-template <unsigned int PipelineDimension>
+template <unsigned int SpaceDimension>
 void
-NDimensionalSpatialObject<PipelineDimension>
+NDimensionalSpatialObject<SpaceDimension>
 ::UpdateOutputInformation()
 {
   if (this->GetSource())
@@ -119,9 +119,9 @@ NDimensionalSpatialObject<PipelineDimension>
   m_LastRequestedRegionWasOutsideOfTheBufferedRegion = 0;
 }
 
-template <unsigned int PipelineDimension>
+template <unsigned int SpaceDimension>
 void
-NDimensionalSpatialObject<PipelineDimension>
+NDimensionalSpatialObject<SpaceDimension>
 ::SetRequestedRegionToLargestPossibleRegion()
 {
   m_RequestedRegion = m_LargestPossibleRegion;
@@ -129,9 +129,9 @@ NDimensionalSpatialObject<PipelineDimension>
 }
 
 
-template <unsigned int PipelineDimension>
+template <unsigned int SpaceDimension>
 void
-NDimensionalSpatialObject<PipelineDimension>
+NDimensionalSpatialObject<SpaceDimension>
 ::CopyInformation(const DataObject *data)
 {
   // Standard call to the superclass' method
@@ -157,9 +157,9 @@ NDimensionalSpatialObject<PipelineDimension>
 }
 
 
-template <unsigned int PipelineDimension>
+template <unsigned int SpaceDimension>
 bool
-NDimensionalSpatialObject<PipelineDimension>
+NDimensionalSpatialObject<SpaceDimension>
 ::RequestedRegionIsOutsideOfTheBufferedRegion()
 {
   unsigned int i;
@@ -182,9 +182,9 @@ NDimensionalSpatialObject<PipelineDimension>
 }
 
 
-template <unsigned int PipelineDimension>
+template <unsigned int SpaceDimension>
 void
-NDimensionalSpatialObject<PipelineDimension>
+NDimensionalSpatialObject<SpaceDimension>
 ::SetBufferedRegion(const RegionType &region)
 {
   if (m_BufferedRegion != region)
@@ -196,9 +196,9 @@ NDimensionalSpatialObject<PipelineDimension>
 }
 
 
-template <unsigned int PipelineDimension>
+template <unsigned int SpaceDimension>
 bool
-NDimensionalSpatialObject<PipelineDimension>
+NDimensionalSpatialObject<SpaceDimension>
 ::VerifyRequestedRegion()
 {
   bool retval = true;
@@ -228,9 +228,9 @@ NDimensionalSpatialObject<PipelineDimension>
   return retval;
 }
 
-template <unsigned int PipelineDimension>
+template <unsigned int SpaceDimension>
 void
-NDimensionalSpatialObject<PipelineDimension>
+NDimensionalSpatialObject<SpaceDimension>
 ::SetRequestedRegion(const RegionType &region)
 {
   if (m_RequestedRegion != region)
@@ -242,9 +242,9 @@ NDimensionalSpatialObject<PipelineDimension>
 }
 
 
-template <unsigned int PipelineDimension>
+template <unsigned int SpaceDimension>
 void
-NDimensionalSpatialObject<PipelineDimension>
+NDimensionalSpatialObject<SpaceDimension>
 ::SetRequestedRegion(DataObject *data)
 {
   NDimensionalSpatialObject *imgData;
@@ -264,9 +264,9 @@ NDimensionalSpatialObject<PipelineDimension>
 }
 
 
-template <unsigned int PipelineDimension>
+template <unsigned int SpaceDimension>
 void
-NDimensionalSpatialObject<PipelineDimension>
+NDimensionalSpatialObject<SpaceDimension>
 ::ComputeOffsetTable()
 {
   double num=1;
@@ -281,26 +281,26 @@ NDimensionalSpatialObject<PipelineDimension>
 }
 
 
-template <unsigned int PipelineDimension>
-typename NDimensionalSpatialObject<PipelineDimension>::PropertyType * 
-NDimensionalSpatialObject<PipelineDimension>
+template <unsigned int SpaceDimension>
+typename NDimensionalSpatialObject<SpaceDimension>::PropertyType * 
+NDimensionalSpatialObject<SpaceDimension>
 ::GetProperty( void )
 { 
   return m_Property; 
 }
 
 
-template <unsigned int PipelineDimension>
+template <unsigned int SpaceDimension>
 void
-NDimensionalSpatialObject<PipelineDimension>
+NDimensionalSpatialObject<SpaceDimension>
 ::SetProperty( const PropertyType * property)
 { 
   m_Property = property; 
 }
 
-template <unsigned int PipelineDimension>
+template <unsigned int SpaceDimension>
 void
-NDimensionalSpatialObject<PipelineDimension>
+NDimensionalSpatialObject<SpaceDimension>
 ::Update(void)
 {
   this->Modified();

@@ -37,16 +37,16 @@ namespace itk
 
 template < unsigned int NDimensions = 3,
            class PixelType = RGBPixel< char > ,
-           unsigned int PipelineDimension = 3
+           unsigned int SpaceDimension = 3
          >
 class ImageSpatialObject 
-: public SpatialObject< NDimensions , PipelineDimension >
+: public SpatialObject< NDimensions , SpaceDimension >
 {
 
 public:
  
   typedef double ScalarType; 
-  typedef ImageSpatialObject< NDimensions, PixelType , PipelineDimension > Self;
+  typedef ImageSpatialObject< NDimensions, PixelType , SpaceDimension > Self;
   typedef SpatialObject< NDimensions > Superclass;
   typedef SmartPointer< Self > Pointer;
   typedef SmartPointer< const Self > ConstPointer;
@@ -76,19 +76,21 @@ public:
 
   /** Return true if the object is evaluable at the requested point, 
    *  and else otherwise. */
-  bool IsEvaluableAt( const PointType & point, bool includeChildren=false );
+  bool IsEvaluableAt( const PointType & point, 
+                      unsigned int depth=0, char *name=NULL);
 
   /** Returns the value of the image at the requested point. 
    *  If the point is not inside the object, then an exception is thrown.
    * \also ExceptionObject */
   void ValueAt( const PointType & point, double & value, 
-                bool includeChildren=false );
+                unsigned int depth=0, char *name=NULL);
   
   /** Returns true if the point is inside, false otherwise. */
-  bool IsInside( const PointType & point, bool includeChildren=false ) const;
+  bool IsInside( const PointType & point,
+                  unsigned int depth=0, char *name=NULL) const;
  
   /** Compute the boundaries of the iamge spatial object. */
-  bool ComputeBoundingBox( bool includeChildren=false );
+  bool ComputeBoundingBox( unsigned int depth=0, char *name=NULL);
 
   /** Returns the latest modified time of the object and its component. */
   unsigned long GetMTime( void ) const;

@@ -29,8 +29,8 @@ namespace itk
 {
 
 /** Constructor */
-template< unsigned int TDimension , unsigned int PipelineDimension >
-BlobSpatialObject< TDimension, PipelineDimension > 
+template< unsigned int TDimension , unsigned int SpaceDimension >
+BlobSpatialObject< TDimension, SpaceDimension > 
 ::BlobSpatialObject()  
 { 
   m_Dimension = TDimension;
@@ -42,16 +42,16 @@ BlobSpatialObject< TDimension, PipelineDimension >
 } 
 
 /** Destructor */ 
-template< unsigned int TDimension , unsigned int PipelineDimension >
-BlobSpatialObject< TDimension, PipelineDimension >  
+template< unsigned int TDimension , unsigned int SpaceDimension >
+BlobSpatialObject< TDimension, SpaceDimension >  
 ::~BlobSpatialObject()
 { 
 } 
  
 /** Get the list of points which are defining the blob */
-template< unsigned int TDimension , unsigned int PipelineDimension >
-typename BlobSpatialObject< TDimension, PipelineDimension > ::PointListType &  
-BlobSpatialObject< TDimension, PipelineDimension > 
+template< unsigned int TDimension , unsigned int SpaceDimension >
+typename BlobSpatialObject< TDimension, SpaceDimension > ::PointListType &  
+BlobSpatialObject< TDimension, SpaceDimension > 
 ::GetPoints() 
 { 
   itkDebugMacro( "Getting BlobPoint list" );
@@ -59,9 +59,9 @@ BlobSpatialObject< TDimension, PipelineDimension >
 } 
 
 /** Get the list of points which are defining the blob */
-template< unsigned int TDimension , unsigned int PipelineDimension >
-const typename BlobSpatialObject< TDimension, PipelineDimension > ::PointListType &  
-BlobSpatialObject< TDimension, PipelineDimension > 
+template< unsigned int TDimension , unsigned int SpaceDimension >
+const typename BlobSpatialObject< TDimension, SpaceDimension > ::PointListType &  
+BlobSpatialObject< TDimension, SpaceDimension > 
 ::GetPoints() const
 { 
   itkDebugMacro( "Getting BlobPoint list" );
@@ -69,9 +69,9 @@ BlobSpatialObject< TDimension, PipelineDimension >
 } 
 
 /** Set the points which are defining the Blob structure */
-template< unsigned int TDimension , unsigned int PipelineDimension >
+template< unsigned int TDimension , unsigned int SpaceDimension >
 void  
-BlobSpatialObject< TDimension, PipelineDimension >  
+BlobSpatialObject< TDimension, SpaceDimension >  
 ::SetPoints( PointListType & points )  
 {
   // in this function, passing a null pointer as argument will
@@ -91,9 +91,9 @@ BlobSpatialObject< TDimension, PipelineDimension >
 } 
  
 /** Print the blob spatial object */
-template< unsigned int TDimension , unsigned int PipelineDimension >
+template< unsigned int TDimension , unsigned int SpaceDimension >
 void  
-BlobSpatialObject< TDimension, PipelineDimension >  
+BlobSpatialObject< TDimension, SpaceDimension >  
 ::PrintSelf( std::ostream& os, Indent indent ) const 
 { 
   os << indent << "BlobSpatialObject(" << this << ")" << std::endl; 
@@ -103,39 +103,42 @@ BlobSpatialObject< TDimension, PipelineDimension >
 } 
   
 /** Compute the bounds of the blob */ 
-template< unsigned int TDimension , unsigned int PipelineDimension >
+template< unsigned int TDimension , unsigned int SpaceDimension >
 bool 
-BlobSpatialObject< TDimension, PipelineDimension >  
-::ComputeBoundingBox( bool includeChildren ) 
+BlobSpatialObject< TDimension, SpaceDimension >  
+::ComputeBoundingBox( unsigned int depth, char * name )
 { 
   itkDebugMacro( "Computing blob bounding box" );
   bool ret = false;
 
   if( this->GetMTime() > m_BoundsMTime )
     {
-    ret = Superclass::ComputeBoundingBox(includeChildren);
+    ret = Superclass::ComputeBoundingBox(depth, name);
 
-    typename PointListType::iterator it  = m_Points.begin();
-    typename PointListType::iterator end = m_Points.end();
-
-    if(it == end)
+    if( name == NULL || strstr(typeid(Self).name(), name) )
       {
-      return ret;
-      }
-    else
-      {
-      if(!ret)
+      typename PointListType::iterator it  = m_Points.begin();
+      typename PointListType::iterator end = m_Points.end();
+  
+      if(it == end)
         {
-        m_Bounds->SetMinimum((*it).GetPosition());
-        m_Bounds->SetMaximum((*it).GetPosition());
-        it++;
+        return ret;
         }
-      while(it!= end) 
-        {  
-        m_Bounds->ConsiderPoint((*it).GetPosition());
-        it++;
+      else
+        {
+        if(!ret)
+          {
+          m_Bounds->SetMinimum((*it).GetPosition());
+          m_Bounds->SetMaximum((*it).GetPosition());
+          it++;
+          }
+        while(it!= end) 
+          {  
+          m_Bounds->ConsiderPoint((*it).GetPosition());
+          it++;
+          }
+        ret = true;
         }
-      ret = true;
       }
 
     m_BoundsMTime = this->GetMTime();
@@ -146,60 +149,67 @@ BlobSpatialObject< TDimension, PipelineDimension >
 
 /** Test if the given point is inside the blob
  *  Note: ComputeBoundingBox should be called before. */
-template< unsigned int TDimension , unsigned int PipelineDimension >
+template< unsigned int TDimension , unsigned int SpaceDimension >
 bool 
-BlobSpatialObject< TDimension, PipelineDimension >  
-::IsInside( const PointType & point, bool includeChildren ) const
+BlobSpatialObject< TDimension, SpaceDimension >  
+::IsInside( const PointType & point, unsigned int depth, char * name ) const
 {
   itkDebugMacro( "Checking the point [" << point << "] is inside the blob" );
-  typename PointListType::const_iterator it = m_Points.begin();
-    
-  PointType transformedPoint = point;
-  TransformPointToLocalCoordinate(transformedPoint);
 
-  if( m_Bounds->IsInside(transformedPoint) )
+  if( name == NULL || strstr(typeid(Self).name(), name) )
     {
-    while(it != m_Points.end())
+    typename PointListType::const_iterator it = m_Points.begin();
+    typename PointListType::const_iterator itEnd = m_Points.end();
+    
+    PointType transformedPoint = point;
+    TransformPointToLocalCoordinate(transformedPoint);
+  
+    if( m_Bounds->IsInside(transformedPoint) )
       {
-      if((*it).GetPosition() == transformedPoint)
+      while(it != itEnd)
         {
-        return true;
+        if((*it).GetPosition() == transformedPoint)
+          {
+          return true;
+          }
+        it++;
         }
-      it++;
       }
     }
-  return Superclass::IsInside(point, includeChildren);
+
+  return Superclass::IsInside(point, depth, name);
 } 
 
 /** Return true if the blob is evaluable at a given point 
  *  i.e if the point is defined in the points list        */
-template< unsigned int TDimension , unsigned int PipelineDimension >
+template< unsigned int TDimension , unsigned int SpaceDimension >
 bool
-BlobSpatialObject< TDimension, PipelineDimension > 
-::IsEvaluableAt( const PointType & point, bool includeChildren )
+BlobSpatialObject< TDimension, SpaceDimension > 
+::IsEvaluableAt( const PointType & point, unsigned int depth, char * name )
 {
    itkDebugMacro( "Checking if the blob is evaluable at " << point );
-   return IsInside(point, includeChildren);
+   return IsInside(point, depth, name);
 }
 
 
 /** Return 1 if the point is in the points list */
-template< unsigned int TDimension , unsigned int PipelineDimension >
+template< unsigned int TDimension , unsigned int SpaceDimension >
 void
-BlobSpatialObject< TDimension, PipelineDimension > 
-::ValueAt( const PointType & point, double & value, bool includeChildren )
+BlobSpatialObject< TDimension, SpaceDimension > 
+::ValueAt( const PointType & point, double & value, unsigned int depth,
+           char * name )
 {
   itkDebugMacro( "Getting the value of the blob at " << point );
-  if( IsInside(point, false) )
+  if( IsInside(point, 0, name) )
     {
     value = 1;
     return;
     }
   else
     {
-    if( Superclass::IsEvaluableAt(point, includeChildren) )
+    if( Superclass::IsEvaluableAt(point, depth, name) )
       {
-      Superclass::ValueAt(point, value, includeChildren);
+      Superclass::ValueAt(point, value, depth, name);
       return;
       }
     else

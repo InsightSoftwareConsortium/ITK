@@ -27,8 +27,8 @@ namespace itk
 { 
 
 /** Constructor */
-template< unsigned int TDimension , unsigned int PipelineDimension >
-SurfaceSpatialObject< TDimension, PipelineDimension > 
+template< unsigned int TDimension , unsigned int SpaceDimension >
+SurfaceSpatialObject< TDimension, SpaceDimension > 
 ::SurfaceSpatialObject()  
 { 
   m_Dimension = TDimension;
@@ -41,16 +41,16 @@ SurfaceSpatialObject< TDimension, PipelineDimension >
 } 
 
 /** Destructor */ 
-template< unsigned int TDimension , unsigned int PipelineDimension >
-SurfaceSpatialObject< TDimension, PipelineDimension >  
+template< unsigned int TDimension , unsigned int SpaceDimension >
+SurfaceSpatialObject< TDimension, SpaceDimension >  
 ::~SurfaceSpatialObject()
 { 
 } 
  
 /** Get the list of points composing the surface */
-template< unsigned int TDimension , unsigned int PipelineDimension >
-typename SurfaceSpatialObject< TDimension, PipelineDimension > ::PointListType &  
-SurfaceSpatialObject< TDimension, PipelineDimension > 
+template< unsigned int TDimension , unsigned int SpaceDimension >
+typename SurfaceSpatialObject< TDimension, SpaceDimension > ::PointListType &  
+SurfaceSpatialObject< TDimension, SpaceDimension > 
 ::GetPoints() 
 { 
   itkDebugMacro( "Getting SurfacePoint list" );
@@ -58,9 +58,9 @@ SurfaceSpatialObject< TDimension, PipelineDimension >
 } 
  
 /** Set the list of points composing the surface */
-template< unsigned int TDimension , unsigned int PipelineDimension >
+template< unsigned int TDimension , unsigned int SpaceDimension >
 void  
-SurfaceSpatialObject< TDimension, PipelineDimension >  
+SurfaceSpatialObject< TDimension, SpaceDimension >  
 ::SetPoints( PointListType & points )  
 {
   // in this function, passing a null pointer as argument will
@@ -80,9 +80,9 @@ SurfaceSpatialObject< TDimension, PipelineDimension >
 }
  
 /** Print the surface object */
-template< unsigned int TDimension , unsigned int PipelineDimension >
+template< unsigned int TDimension , unsigned int SpaceDimension >
 void  
-SurfaceSpatialObject< TDimension, PipelineDimension >  
+SurfaceSpatialObject< TDimension, SpaceDimension >  
 ::PrintSelf( std::ostream& os, Indent indent ) const 
 { 
   os << indent << "SurfaceSpatialObject(" << this << ")" << std::endl; 
@@ -92,39 +92,42 @@ SurfaceSpatialObject< TDimension, PipelineDimension >
 } 
 
 /** Compute the bounds of the surface */
-template< unsigned int TDimension , unsigned int PipelineDimension >
+template< unsigned int TDimension , unsigned int SpaceDimension >
 bool 
-SurfaceSpatialObject< TDimension, PipelineDimension >  
-::ComputeBoundingBox( bool includeChildren ) 
+SurfaceSpatialObject< TDimension, SpaceDimension >  
+::ComputeBoundingBox( unsigned int depth, char * name ) 
 { 
   itkDebugMacro( "Computing surface bounding box" );
   bool ret = false;
 
   if( this->GetMTime() > m_BoundsMTime )
     {
-    ret = Superclass::ComputeBoundingBox(includeChildren);
+    ret = Superclass::ComputeBoundingBox(depth, name);
 
-    typename PointListType::iterator it  = m_Points.begin();
-    typename PointListType::iterator end = m_Points.end();
-
-    if(it == end)
+    if(name == NULL || strstr(typeid(Self).name(), name) )
       {
-      return ret;
-      }
-    else
-      {
-      if(!ret)
+      typename PointListType::iterator it  = m_Points.begin();
+      typename PointListType::iterator end = m_Points.end();
+  
+      if(it == end)
         {
-        m_Bounds->SetMinimum((*it).GetPosition());
-        m_Bounds->SetMaximum((*it).GetPosition());
-        it++;
+        return ret;
         }
-      while(it!= end) 
-        {     
-        m_Bounds->ConsiderPoint((*it).GetPosition());
-        it++;
+      else
+        {
+        if(!ret)
+          {
+          m_Bounds->SetMinimum((*it).GetPosition());
+          m_Bounds->SetMaximum((*it).GetPosition());
+          it++;
+          }
+        while(it!= end) 
+          {     
+          m_Bounds->ConsiderPoint((*it).GetPosition());
+          it++;
+          }
+        ret = true;
         }
-      ret = true;
       }
 
     m_BoundsMTime = this->GetMTime();
@@ -134,59 +137,65 @@ SurfaceSpatialObject< TDimension, PipelineDimension >
 } 
 
 /** Return true is the given point is on the surface */
-template< unsigned int TDimension , unsigned int PipelineDimension >
+template< unsigned int TDimension , unsigned int SpaceDimension >
 bool 
-SurfaceSpatialObject< TDimension, PipelineDimension >  
-::IsInside( const PointType & point, bool includeChildren ) const
+SurfaceSpatialObject< TDimension, SpaceDimension >  
+::IsInside( const PointType & point, unsigned int depth, char * name ) const
 {
   itkDebugMacro( "Checking the point [" << point << "is on the surface" );
-  typename PointListType::const_iterator it = m_Points.begin();
-  
-  PointType transformedPoint = point;
-  TransformPointToLocalCoordinate(transformedPoint);
 
-  if( m_Bounds->IsInside(transformedPoint) )
+  if(name == NULL || strstr(typeid(Self).name(), name) )
     {
-    while(it != m_Points.end())
+    typename PointListType::const_iterator it = m_Points.begin();
+    typename PointListType::const_iterator itEnd = m_Points.end();
+    
+    PointType transformedPoint = point;
+    TransformPointToLocalCoordinate(transformedPoint);
+  
+    if( m_Bounds->IsInside(transformedPoint) )
       {
-      if((*it).GetPosition() == transformedPoint)
+      while(it != itEnd)
         {
-        return true;
+        if((*it).GetPosition() == transformedPoint)
+          {
+          return true;
+          }
+        it++;
         }
-      it++;
       }
     }
 
-  return Superclass::IsInside(point, includeChildren);
+  return Superclass::IsInside(point, depth, name);
 } 
 
 /** Return true if the surface is evaluable at a specified point */
-template< unsigned int TDimension , unsigned int PipelineDimension >
+template< unsigned int TDimension , unsigned int SpaceDimension >
 bool
-SurfaceSpatialObject< TDimension, PipelineDimension > 
-::IsEvaluableAt( const PointType & point, bool includeChildren )
+SurfaceSpatialObject< TDimension, SpaceDimension > 
+::IsEvaluableAt( const PointType & point, unsigned int depth, char * name )
 {
   itkDebugMacro( "Checking if the surface is evaluable at " << point );
-  return IsInside(point, includeChildren);
+  return IsInside(point, depth, name);
 }
 
 /** Return 1 if the point is on the surface */
-template< unsigned int TDimension , unsigned int PipelineDimension >
+template< unsigned int TDimension , unsigned int SpaceDimension >
 void
-SurfaceSpatialObject< TDimension, PipelineDimension > 
-::ValueAt( const PointType & point, double & value, bool includeChildren )
+SurfaceSpatialObject< TDimension, SpaceDimension > 
+::ValueAt( const PointType & point, double & value, unsigned int depth,
+           char * name )
 {
   itkDebugMacro( "Getting the value of the surface at " << point );
-  if( IsInside(point, false) )
+  if( IsInside(point, 0, name) )
     {
     value = 1;
     return;
     }
   else
     {
-    if( Superclass::IsEvaluableAt(point, includeChildren) )
+    if( Superclass::IsEvaluableAt(point, depth, name) )
       {
-      Superclass::ValueAt(point, value, includeChildren);
+      Superclass::ValueAt(point, value, depth, name);
       return;
       }
     else

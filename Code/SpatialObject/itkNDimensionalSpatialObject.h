@@ -34,34 +34,34 @@ namespace itk
  * \class NDimensionalSpatialObject
  * \brief Implementation of the composite pattern
  * This class permits the creation of NDimensional Spatial
- * Objects whitout any template parameters (except the Pipeline Dimension)
- * In order to satisfy Pipeline requirement, this class uses 
+ * Objects whitout any template parameters (except the Space Dimension)
+ * In order to satisfy Space requirement, this class uses 
  * the image region.
  * \also SpatialObject
  */
-template <unsigned int PipelineDimension = 3>
+template <unsigned int SpaceDimension = 3>
 class NDimensionalSpatialObject
 :public DataObject
 { 
 
 public: 
 
-  typedef NDimensionalSpatialObject<PipelineDimension> Self;
+  typedef NDimensionalSpatialObject<SpaceDimension> Self;
   typedef DataObject Superclass; 
   
   typedef SmartPointer< Self > Pointer;
   typedef SmartPointer< const Self > ConstPointer;
 
   /** Index typedef support. An index is used to access pixel values. */
-  typedef Index<PipelineDimension>  IndexType;
+  typedef Index<SpaceDimension>  IndexType;
   typedef typename IndexType::IndexValueType  IndexValueType;
   
   /** Offset typedef support. An offset represent relative position
    * between indices. */
-  typedef Offset<PipelineDimension>  OffsetType;
+  typedef Offset<SpaceDimension>  OffsetType;
   typedef typename OffsetType::OffsetValueType OffsetValueType;
-  typedef ImageRegion<PipelineDimension> RegionType;
-  typedef Size<PipelineDimension>    SizeType; 
+  typedef ImageRegion<SpaceDimension> RegionType;
+  typedef Size<SpaceDimension>    SizeType; 
   typedef SpatialObjectProperty< float > PropertyType; 
   typedef typename PropertyType::Pointer  PropertyPointer; 
 

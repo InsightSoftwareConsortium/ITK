@@ -27,8 +27,8 @@ namespace itk
 { 
 
 /** Constructor */
-template< unsigned int TDimension , unsigned int PipelineDimension >
-GroupSpatialObject< TDimension, PipelineDimension > 
+template< unsigned int TDimension , unsigned int SpaceDimension >
+GroupSpatialObject< TDimension, SpaceDimension > 
 ::GroupSpatialObject()  
 { 
   m_Dimension = TDimension;
@@ -41,17 +41,17 @@ GroupSpatialObject< TDimension, PipelineDimension >
 } 
  
 /** Destructor */
-template< unsigned int TDimension , unsigned int PipelineDimension >
-GroupSpatialObject< TDimension, PipelineDimension >  
+template< unsigned int TDimension , unsigned int SpaceDimension >
+GroupSpatialObject< TDimension, SpaceDimension >  
 ::~GroupSpatialObject()
 { 
 } 
  
 
 /** Print the object */ 
-template< unsigned int TDimension , unsigned int PipelineDimension >
+template< unsigned int TDimension , unsigned int SpaceDimension >
 void  
-GroupSpatialObject< TDimension, PipelineDimension >  
+GroupSpatialObject< TDimension, SpaceDimension >  
 ::PrintSelf( std::ostream& os, Indent indent ) const 
 { 
   os << indent << "GroupSpatialObject(" << this << ")" << std::endl; 

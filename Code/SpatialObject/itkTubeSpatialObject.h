@@ -38,15 +38,15 @@ namespace itk
 * \also TubeSpatialObjectPoint 
 */
 
-template < unsigned int TDimension = 3 , unsigned int PipelineDimension = 3 >
+template < unsigned int TDimension = 3 , unsigned int SpaceDimension = 3 >
 class TubeSpatialObject 
-:public SpatialObject< TDimension, PipelineDimension >
+:public SpatialObject< TDimension, SpaceDimension >
 {
 
 public:
 
   typedef TubeSpatialObject                            Self;
-  typedef SpatialObject< TDimension,PipelineDimension> Superclass;
+  typedef SpatialObject< TDimension,SpaceDimension> Superclass;
   typedef SmartPointer < Self >                        Pointer;
   typedef SmartPointer < const Self >                  ConstPointer;
   typedef double                                       ScalarType;
@@ -86,21 +86,21 @@ public:
   /** Returns true if the tube is evaluable at the requested point, 
    *  false otherwise. */
   bool IsEvaluableAt( const PointType & point,
-                      bool includeChildren=false );
+                      unsigned int depth=0, char * name=NULL);
 
   /** Returns the value of the tube at that point.
    *  Currently this function returns a binary value,
    *  but it might want to return a degree of membership
    *  in case of fuzzy tubes. */
   void ValueAt( const PointType & point, double & value,
-                bool includeChildren=false );
+                unsigned int depth=0, char * name=NULL);
 
   /** Returns true if the point is inside the tube, false otherwise. */
   bool IsInside( const PointType & point,
-                 bool includeChildren=false ) const;
+                 unsigned int depth=0, char * name=NULL) const;
 
   /** Compute the boundaries of the tube. */
-  bool ComputeBoundingBox( bool includeChildren=false );
+  bool ComputeBoundingBox( unsigned int depth=0, char * name=NULL);
 
   /** Set/Get the parent point which corresponds to the 
    *  position of the point in the parent's points list */

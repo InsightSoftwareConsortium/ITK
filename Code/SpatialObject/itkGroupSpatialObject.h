@@ -31,15 +31,15 @@ namespace itk
 *
 */
 
-template < unsigned int TDimension = 3 , unsigned int PipelineDimension = 3 >
+template < unsigned int TDimension = 3 , unsigned int SpaceDimension = 3 >
 class GroupSpatialObject 
-:public SpatialObject< TDimension, PipelineDimension >
+:public SpatialObject< TDimension, SpaceDimension >
 {
 
 public:
 
   typedef GroupSpatialObject                           Self;
-  typedef SpatialObject< TDimension,PipelineDimension> Superclass;
+  typedef SpatialObject< TDimension,SpaceDimension> Superclass;
   typedef SmartPointer < Self >                        Pointer;
   typedef SmartPointer < const Self >                  ConstPointer;
   typedef double                                       ScalarType;

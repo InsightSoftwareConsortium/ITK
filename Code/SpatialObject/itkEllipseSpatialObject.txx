@@ -23,8 +23,8 @@ namespace itk
 { 
 
 /** Constructor */
-template< unsigned int NDimensions , unsigned int PipelineDimension >
-EllipseSpatialObject<NDimensions, PipelineDimension >
+template< unsigned int NDimensions , unsigned int SpaceDimension >
+EllipseSpatialObject<NDimensions, SpaceDimension >
 ::EllipseSpatialObject()
 {
   strcpy(m_TypeName,"EllipseSpatialObject");
@@ -33,17 +33,17 @@ EllipseSpatialObject<NDimensions, PipelineDimension >
 } 
 
 /** Destructor */
-template< unsigned int NDimensions , unsigned int PipelineDimension >
-EllipseSpatialObject<NDimensions, PipelineDimension >
+template< unsigned int NDimensions , unsigned int SpaceDimension >
+EllipseSpatialObject<NDimensions, SpaceDimension >
 ::~EllipseSpatialObject()  
 {
   
 }
 
 /** Set all radii to the same radius value */
-template< unsigned int NDimensions , unsigned int PipelineDimension >
+template< unsigned int NDimensions , unsigned int SpaceDimension >
 void
-EllipseSpatialObject<NDimensions, PipelineDimension >
+EllipseSpatialObject<NDimensions, SpaceDimension >
 ::SetRadius(double radius)
 {
   for(unsigned int i=0;i<NumberOfDimension;i++)
@@ -54,9 +54,9 @@ EllipseSpatialObject<NDimensions, PipelineDimension >
 
 /** Test if the projection of the point is inside the projection
  *  of the ellipse */
-template< unsigned int NDimensions , unsigned int PipelineDimension >
+template< unsigned int NDimensions , unsigned int SpaceDimension >
 bool
-EllipseSpatialObject<NDimensions, PipelineDimension >
+EllipseSpatialObject<NDimensions, SpaceDimension >
 ::IsInsideProjection(double x, double y, unsigned int i) const
 {
   double distance=sqrt(x*x+y*y);
@@ -80,69 +80,73 @@ EllipseSpatialObject<NDimensions, PipelineDimension >
 
 
 /** Test if the given point is inside the ellipse */
-template< unsigned int NDimensions , unsigned int PipelineDimension >
+template< unsigned int NDimensions , unsigned int SpaceDimension >
 bool 
-EllipseSpatialObject< NDimensions, PipelineDimension > 
-::IsInside( const PointType & point, bool includeChildren ) const 
+EllipseSpatialObject< NDimensions, SpaceDimension > 
+::IsInside( const PointType & point, unsigned int depth, char * name ) const 
 {
   itkDebugMacro( "Checking the point [" << point << "is inside the tube" );
     
-  PointType transformedPoint = point;
-  TransformPointToLocalCoordinate(transformedPoint);
-
-  double r = 0;
-  for(unsigned int i=0;i<NDimensions-1;i++)
+  if(name == NULL || strstr(typeid(Self).name(), name) )
     {
-    r += (transformedPoint[i]*transformedPoint[i])/(m_Radius[i]*m_Radius[i]);
+    PointType transformedPoint = point;
+    TransformPointToLocalCoordinate(transformedPoint);
+  
+    double r = 0;
+    for(unsigned int i=0;i<NDimensions-1;i++)
+      {
+      r += (transformedPoint[i]*transformedPoint[i])/(m_Radius[i]*m_Radius[i]);
+      }
+  
+    if(r<1)
+      {
+      return true;
+      }
     }
 
-  if(r<1)
-    {
-    return true;
-    }
-  else
-    {
-    return Superclass::IsInside(point, includeChildren);
-    }
+   return Superclass::IsInside(point, depth, name);
 } 
 
 /** Compute the bounds of the ellipse */
-template< unsigned int NDimensions , unsigned int PipelineDimension >
+template< unsigned int NDimensions , unsigned int SpaceDimension >
 bool
-EllipseSpatialObject<NDimensions, PipelineDimension >
-::ComputeBoundingBox( bool includeChildren ) 
+EllipseSpatialObject<NDimensions, SpaceDimension >
+::ComputeBoundingBox( unsigned int depth, char * name ) 
 { 
   itkDebugMacro( "Computing tube bounding box" );
 
   if( this->GetMTime() > m_BoundsMTime )
     { 
-    bool ret = Superclass::ComputeBoundingBox(includeChildren);
+    bool ret = Superclass::ComputeBoundingBox(depth, name);
 
-    PointType pnt;
-    PointType pnt2;
-    for(unsigned int i=0; i<NDimensions;i++) 
-      {   
-      if(m_Radius[i]>0)
+    if(name == NULL || strstr(typeid(Self).name(), name) )
+      {
+      PointType pnt;
+      PointType pnt2;
+      for(unsigned int i=0; i<NDimensions;i++) 
+        {   
+        if(m_Radius[i]>0)
+          {
+          pnt[i]=m_Radius[i];
+          pnt2[i]=-m_Radius[i];
+          }
+        else
+          {
+          pnt[i]=-m_Radius[i];
+          pnt2[i]=m_Radius[i];
+          }
+        } 
+    
+      if(!ret)
         {
-        pnt[i]=m_Radius[i];
-        pnt2[i]=-m_Radius[i];
+        m_Bounds->SetMinimum(pnt);
+        m_Bounds->SetMaximum(pnt2);
         }
       else
         {
-        pnt[i]=-m_Radius[i];
-        pnt2[i]=m_Radius[i];
+        m_Bounds->ConsiderPoint(pnt);
+        m_Bounds->ConsiderPoint(pnt2);
         }
-      } 
-
-    if(!ret)
-      {
-      m_Bounds->SetMinimum(pnt);
-      m_Bounds->SetMaximum(pnt2);
-      }
-    else
-      {
-      m_Bounds->ConsiderPoint(pnt);
-      m_Bounds->ConsiderPoint(pnt2);
       }
 
     m_BoundsMTime = this->GetMTime();
@@ -153,32 +157,33 @@ EllipseSpatialObject<NDimensions, PipelineDimension >
 
 
 /** Returns if the ellipse os evaluable at one point */
-template< unsigned int NDimensions , unsigned int PipelineDimension >
+template< unsigned int NDimensions , unsigned int SpaceDimension >
 bool
-EllipseSpatialObject<NDimensions, PipelineDimension >
-::IsEvaluableAt( const PointType & point, bool includeChildren )
+EllipseSpatialObject<NDimensions, SpaceDimension >
+::IsEvaluableAt( const PointType & point, unsigned int depth, char * name )
 {
   itkDebugMacro( "Checking if the ellipse is evaluable at " << point );
-  return IsInside(point, includeChildren);
+  return IsInside(point, depth, name);
 }
 
 /** Returns the value at one point */
-template< unsigned int NDimensions , unsigned int PipelineDimension >
+template< unsigned int NDimensions , unsigned int SpaceDimension >
 void
-EllipseSpatialObject<NDimensions, PipelineDimension >
-::ValueAt( const PointType & point, double & value, bool includeChildren )
+EllipseSpatialObject<NDimensions, SpaceDimension >
+::ValueAt( const PointType & point, double & value, unsigned int depth,
+           char * name )
 {
-  itkDebugMacro( "Getting the value of the tube at " << point );
-  if( IsInside(point, false) )
+  itkDebugMacro( "Getting the value of the ellipse at " << point );
+  if( IsInside(point, 0, name) )
     {
     value = 1;
     return;
     }
   else
     {
-    if( Superclass::IsEvaluableAt(point, includeChildren) )
+    if( Superclass::IsEvaluableAt(point, depth, name) )
       {
-      Superclass::ValueAt(point, value, includeChildren);
+      Superclass::ValueAt(point, value, depth, name);
       return;
       }
     else
@@ -193,9 +198,9 @@ EllipseSpatialObject<NDimensions, PipelineDimension >
 }
 
 /** Print Self function */
-template< unsigned int NDimensions , unsigned int PipelineDimension >
+template< unsigned int NDimensions , unsigned int SpaceDimension >
 void 
-EllipseSpatialObject< NDimensions, PipelineDimension >
+EllipseSpatialObject< NDimensions, SpaceDimension >
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
 
