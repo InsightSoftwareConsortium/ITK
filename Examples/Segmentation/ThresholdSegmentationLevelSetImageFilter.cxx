@@ -17,7 +17,7 @@
 
 // Software Guide : BeginLatex
 //
-// \index{itk::ThresholdSegmentationLevelSetImageFilter}
+// \index{itk::Threshold\-Segmentation\-Level\-Set\-Image\-Filter}
 //
 // The \doxygen{ThresholdSegmentationLevelSetImageFilter} is an extension of threshold
 // connected-component segmentation to the level-set framework.  The goal is to
@@ -177,10 +177,10 @@ int main( int argc, char *argv[] )
   //  and \code{SetCurvatureScaling()}. Both terms are set to 1.0 in this
   //  example.
   //
-  //  \index{itk::ThresholdSegmentationLevelSetImageFilter!SetPropagationScaling()}
-  //  \index{itk::SegmentationLevelSetImageFilter!SetPropagationScaling()}
-  //  \index{itk::ThresholdSegmentationLevelSetImageFilter!SetCurvatureScaling()}
-  //  \index{itk::SegmentationLevelSetImageFilter!SetCurvatureScaling()}
+  //  \index{itk::Threshold\-Segmentation\-Level\-Set\-Image\-Filter!SetPropagationScaling()}
+  //  \index{itk::Segmentation\-Level\-Set\-Image\-Filter!SetPropagationScaling()}
+  //  \index{itk::Threshold\-Segmentation\-Level\-Set\-Image\-Filter!SetCurvatureScaling()}
+  //  \index{itk::Segmentation\-Level\-Set\-Image\-Filter!SetCurvatureScaling()}
   //
   //  Software Guide : EndLatex 
 
