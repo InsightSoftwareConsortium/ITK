@@ -29,13 +29,13 @@ float AvgGradMagSquaredVector<TImage>
   VectorValueType accumulator, val;
   float ans;
   unsigned long counter;
-  int i, k;
+  unsigned int i, k;
   NeighborhoodAlgorithm::VectorComponentIteratorInnerProduct<RNI_type> IP;
   RNI_type it[ImageDimension];
   DerivativeOperator<VectorValueType, ImageDimension> op[ImageDimension];
 
   // set up the derivative operators and their iterators
-  for (i = 0; i < ImageDimension; ++i)
+  for ( i = 0; i < ImageDimension; ++i)
     {
       op[i].SetOrder(1);
       op[i].SetDirection(i);
@@ -89,7 +89,7 @@ void UpdateStrategyVector<TImage>
   // Update each component of the output
   while (! in.IsAtEnd() )
     {
-      for (int i = 0; i < PixelType::VectorDimension; ++i)
+      for (unsigned int i = 0; i < PixelType::VectorDimension; ++i)
         {
           (*out)[i] += (*in)[i] * m_Multiplier;
         }
@@ -117,7 +117,7 @@ void CopyStrategyVector<TImage>
   // Update each component of the output
   while (! in.IsAtEnd() )
     {
-      for (int i = 0; i < PixelType::VectorDimension; ++i)
+      for (unsigned int i = 0; i < PixelType::VectorDimension; ++i)
         {
           (*out)[i] = (*in)[i];
         }
@@ -133,7 +133,7 @@ void AnisoDiffuseVector2D<TInnerProduct, TIterator>
 {
   enum { X=0, Y=1 };
   const unsigned int N = VectorDimension;
-  int j;
+  unsigned int j;
   
   typename ImageType::Pointer input = static_cast<ImageType*>(d1);
   typename ImageType::Pointer output= static_cast<ImageType*>(d2);
@@ -254,7 +254,7 @@ void AnisoDiffuseVectorND<TInnerProduct, TIterator>
   // set up the iterator
   Size<ImageDimension> hR;
   hR[0] = 2;
-  for (int i = 1; i < ImageDimension; ++i) hR[i] = 1; 
+  for (unsigned int i = 1; i < ImageDimension; ++i) hR[i] = 1; 
 
   TIterator it(hR, input, input->GetRequestedRegion());
   it.SetOutputBuffer(output->GetBufferPointer()
