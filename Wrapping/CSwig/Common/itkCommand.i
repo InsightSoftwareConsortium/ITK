@@ -3,4 +3,6 @@
 // CableSwig
 class itkCommand
 {
+public:
+  virtual ~itkCommand() {}
 };
