@@ -120,7 +120,6 @@ WeightedCovarianceCalculator< TSample >
 {
   m_Output->GetVnlMatrix().fill(0.0) ;
   double weight;
-  double frequency ;
   double sumWeight = 0.0 ;
   double sumSquaredWeight = 0.0 ;
   

@@ -44,7 +44,6 @@ void
 CovarianceCalculator< TSample >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
-  unsigned int i;
   Superclass::PrintSelf(os,indent);
 
   os << indent << "Output: " << m_Output << std::endl;
