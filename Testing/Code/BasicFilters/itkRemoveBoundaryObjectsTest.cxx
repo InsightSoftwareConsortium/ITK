@@ -79,8 +79,8 @@ int itkRemoveBoundaryObjectsTest( int argc, char * argv[] )
   FillholeFilterType::Pointer  fillhole = FillholeFilterType::New();
 
   // Create the xor and not filter
-  XorFilterType::Pointer xor = XorFilterType::New();
-  NotFilterType::Pointer not = NotFilterType::New();
+  XorFilterType::Pointer xorfilter = XorFilterType::New();
+  NotFilterType::Pointer notfilter = NotFilterType::New();
   
   // Setup the input and output files
   reader->SetFileName( argv[1] );
@@ -90,13 +90,13 @@ int itkRemoveBoundaryObjectsTest( int argc, char * argv[] )
   fillhole->SetInput( reader->GetOutput() );
 
   // Setup the xor and not
-  xor->SetInput1( fillhole->GetOutput() );
-  xor->SetInput2( reader->GetOutput() );
+  xorfilter->SetInput1( fillhole->GetOutput() );
+  xorfilter->SetInput2( reader->GetOutput() );
 
-  not->SetInput( xor->GetOutput() );
+  notfilter->SetInput( xorfilter->GetOutput() );
   
   // Run the filter
-  rescaler->SetInput( not->GetOutput() );
+  rescaler->SetInput( notfilter->GetOutput() );
   rescaler->SetOutputMinimum(   0 );
   rescaler->SetOutputMaximum( 255 );
   writer->SetInput( rescaler->GetOutput() );
