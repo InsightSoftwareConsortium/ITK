@@ -48,15 +48,15 @@ SET(libgdcm_la_SOURCES
    ${GDCM_BINARY_DIR}/src/gdcmDefaultDicts.cxx
    )
 
-ADD_LIBRARY(gdcm ${libgdcm_la_SOURCES} )
+ADD_LIBRARY(itkgdcm ${libgdcm_la_SOURCES} )
 IF(UNIX)
-  TARGET_LINK_LIBRARIES(gdcm 
+  TARGET_LINK_LIBRARIES(itkgdcm 
     itkjpeg8 
     itkjpeg12
     itkjpeg16
   )
 ELSE(UNIX)
-  TARGET_LINK_LIBRARIES(gdcm 
+  TARGET_LINK_LIBRARIES(itkgdcm 
     itkjpeg8 
     itkjpeg12
     itkjpeg16
@@ -64,9 +64,5 @@ ELSE(UNIX)
   )
 ENDIF(UNIX)
 
-#The following is not working because when a header file is not found it tries 
-#to find one in the binary dir
-#INSTALL_FILES(/include .h ${libgdcm_la_SOURCES})
 INSTALL_FILES(/include "\\.h$")
-
-INSTALL_TARGETS(/lib/ gdcm)
+INSTALL_TARGETS(/lib/ itkgdcm)
