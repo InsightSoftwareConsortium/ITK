@@ -669,11 +669,11 @@ std::string Util::GetMACAddress()
    int stat = GetMacAddrSys(d.addr);
    if (stat == 0)
    {
-      // fill with zero to fit on 15 bytes.
+      // we fit on 15 bytes maximum < 256^6.
 #if defined(_MSC_VER) || defined(__BORLANDC__)
-      return Format("%015I64u", d.n);
+      return Format("%I64u", d.n);
 #else
-      return Format("%015llu", d.n);
+      return Format("%llu", d.n);
 #endif
    }
    else
@@ -770,6 +770,7 @@ std::string Util::CreateUniqueUID(const std::string &root)
    append += Util::GetCurrentDateTime();
 
    //Also add a mini random number just in case:
+   //srand(GetCurrentProcessID());
    int r = (int) (100.0*rand()/RAND_MAX);
    append += Format("%02d", r);
 
