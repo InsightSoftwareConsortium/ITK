@@ -31,6 +31,8 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
 ::ImageRegistrationMethod()
 {
 
+  this->SetNumberOfRequiredOutputs( 1 );  // for the Transform
+
   m_FixedImage   = 0; // has to be provided by the user.
   m_MovingImage  = 0; // has to be provided by the user.
   m_Transform    = 0; // has to be provided by the user.
@@ -47,6 +49,12 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
 
   m_FixedImageRegionDefined = false;
 
+
+  TransformOutputPointer transformDecorator = 
+                 static_cast< TransformOutputType * >( 
+                                  this->MakeOutput(0).GetPointer() );
+
+  this->ProcessObject::SetNthOutput( 0, transformDecorator.GetPointer() );
 }
 
 
@@ -214,6 +222,31 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
   os << indent << "Fixed Image Region: " << m_FixedImageRegion << std::endl;
   os << indent << "Initial Transform Parameters: " << m_InitialTransformParameters << std::endl;
   os << indent << "Last    Transform Parameters: " << m_LastTransformParameters << std::endl;
+}
+
+
+
+/*
+ * Generate Data
+ */
+template < typename TFixedImage, typename TMovingImage >
+void
+ImageRegistrationMethod<TFixedImage,TMovingImage>
+::GenerateData()
+{
+  this->StartRegistration();
+}
+
+
+/*
+ *  Get Output
+ */
+template < typename TFixedImage, typename TMovingImage >
+const typename ImageRegistrationMethod<TFixedImage,TMovingImage>::TransformOutputType *
+ImageRegistrationMethod<TFixedImage,TMovingImage>
+::GetOutput() const
+{
+  return static_cast< const TransformOutputType * >( this->ProcessObject::GetOutput(0) );
 }
 
 

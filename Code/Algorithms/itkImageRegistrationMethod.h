@@ -21,6 +21,7 @@
 #include "itkImage.h"
 #include "itkImageToImageMetric.h"
 #include "itkSingleValuedNonLinearOptimizer.h"
+#include "itkDataObjectDecorator.h"
 
 namespace itk
 {
@@ -92,6 +93,12 @@ public:
   typedef  typename MetricType::TransformType      TransformType;
   typedef  typename TransformType::Pointer         TransformPointer;
 
+  /** Type for the output: Using Decorator pattern for enabling
+   *  the Transform to be passed in the data pipeline */
+  typedef  DataObjectDecorator< TransformType >    TransformOutputType;
+  typedef typename TransformOutputType::Pointer    TransformOutputPointer;
+  typedef typename TransformOutputType::ConstPointer    TransformOutputConstPointer;
+  
   /**  Type of the Interpolator. */
   typedef  typename MetricType::InterpolatorType   InterpolatorType;
   typedef  typename InterpolatorType::Pointer      InterpolatorPointer;
@@ -163,10 +170,18 @@ public:
   /** Initialize by setting the interconnects between the components. */
   virtual void Initialize() throw (ExceptionObject);
 
+  /** Returns the transform resulting from the registration process  */
+  const TransformOutputType * GetOutput() const;
+
+    
 protected:
   ImageRegistrationMethod();
   virtual ~ImageRegistrationMethod() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
+
+  /** Method invoked by the pipeline in order to trigger the computation of the registration. */
+  void  GenerateData ();
+
 
 private:
   ImageRegistrationMethod(const Self&); //purposely not implemented
