@@ -32,7 +32,7 @@ namespace fem {
 
 
 /**
- * Handles LandmarkLoad over 2D linear quad stress element
+ * Handles LandmarkLoad on 2D linear quad stress element
  */
 Element::VectorType LoadImplementationLandmarkLoadOnElement2DC0LinearQuadrilateralStress(Element2DC0LinearQuadrilateralStress::ConstPointer element, Element::LoadElementPointer load)
 {
