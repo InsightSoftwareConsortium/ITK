@@ -115,13 +115,13 @@ PatternIntensityImageToImageMetric<TTarget,TMapper>
 
   if(count == 0) 
   {
-    std::cout << "All the mapped image is outside !" << std::endl;
+    std::cerr << "All the mapped image is outside !" << std::endl;
     return 100000;
   } 
 
   // Negative sign to produce a metric to minimize
   m_MatchMeasure = -m_MatchMeasure;     
-  std::cout<<"m_MatchMeasure= "<<m_MatchMeasure<<std::endl; 
+
   return m_MatchMeasure;
 
 }

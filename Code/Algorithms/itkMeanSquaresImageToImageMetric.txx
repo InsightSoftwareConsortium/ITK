@@ -68,8 +68,6 @@ MeanSquaresImageToImageMetric<TTarget,TMapper>
 ::GetValue( const ParametersType & parameters )
 {
 
-  std::cout << "GetValue( " << parameters << " ) = ";
-
   TargetConstPointer target = Superclass::GetTarget();
 
   typename TTarget::RegionType  targetRegion = target->GetLargestPossibleRegion();
@@ -116,12 +114,11 @@ MeanSquaresImageToImageMetric<TTarget,TMapper>
 
   if(count == 0) 
   {
-    std::cout << "All the mapped image is outside !" << std::endl;
+    std::cerr << "All the mapped image is outside !" << std::endl;
     return 100000;
   } 
 
   m_MatchMeasure = m_MatchMeasure / ( count * 1e2 );     
-  std::cout<<" m_MatchMeasure= "<<m_MatchMeasure<<std::endl; 
   return m_MatchMeasure;
 
 }

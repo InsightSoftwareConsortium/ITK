@@ -67,7 +67,6 @@ MeanSquaresPointSetToImageMetric<TTarget,TMapper>
 ::GetValue( const ParametersType & parameters )
 {
 
-  std::cout << "GetValue( " << parameters << " ) = ";
 
   typename TargetType::PointType point;  
 
@@ -130,13 +129,12 @@ MeanSquaresPointSetToImageMetric<TTarget,TMapper>
 
   if(count == 0) 
   {
-    std::cout << "All the mapped image is outside !" << std::endl;
+    std::cerr << "All the mapped image is outside !" << std::endl;
     return 100000;
   } 
 
   // The sign is changed because the optimization method looks for minima
   m_MatchMeasure = m_MatchMeasure / ( count * 1e2 );     
-  std::cout<<"m_MatchMeasure= "<<m_MatchMeasure<<std::endl; 
   return m_MatchMeasure;
 
 }
@@ -167,8 +165,6 @@ MeanSquaresPointSetToImageMetric<TTarget,TMapper>
     m_MatchMeasureDerivatives[i] = (valuep1 - valuep0 ) / ( 2.0 * delta );
     testPoint[i] = parameters[i];
   }
-  std::cout << "MeanSquares Derivative = ";
-  std::cout << m_MatchMeasureDerivatives << std::endl;
   return m_MatchMeasureDerivatives;
 
 }
