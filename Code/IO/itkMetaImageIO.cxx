@@ -318,6 +318,9 @@ MetaImageIO
     case DOUBLE:
           eType = MET_DOUBLE;
           break;
+    case OFFSET:
+          eType = MET_INT_ARRAY;
+          break;      
     }
   
   int i;
