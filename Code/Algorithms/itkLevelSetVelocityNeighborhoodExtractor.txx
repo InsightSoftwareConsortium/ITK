@@ -57,7 +57,7 @@ LevelSetVelocityNeighborhoodExtractor<TLevelSet,TAuxValue,VAuxDimension>
     {
     os << m_AuxImage[j].GetPointer() << ", ";
     }
-  os << m_AuxImage[j].GetPointer() << "]";
+  os << m_AuxImage[j].GetPointer() << "]" << std::endl;
   os << indent << "AuxInsideValues: " << 
     m_AuxInsideValues.GetPointer() << std::endl;
   os << indent << "AuxOutsideValues: " << 

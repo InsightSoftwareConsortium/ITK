@@ -132,10 +132,7 @@ LevelSetNeighborhoodExtractor<TLevelSet>
 {
   if( !m_InputLevelSet ) 
     { 
-    ExceptionObject err(__FILE__, __LINE__);
-    err.SetLocation( "GenerateData" );
-    err.SetDescription( "Input level set in NULL" );
-    throw err;
+    itkExceptionMacro( << "Input level set is NULL" );
     }
 
   this->Initialize();
@@ -203,10 +200,7 @@ LevelSetNeighborhoodExtractor<TLevelSet>
 {
   if ( !m_InputNarrowBand )
     {
-    ExceptionObject err(__FILE__, __LINE__);
-    err.SetLocation("GenerateDataNarrowBand");
-    err.SetDescription("InputNarrowBand has not been set" );
-    throw err;
+    itkExceptionMacro( << "InputNarrowBand has not been set" );
     }
 
   typename NodeContainer::ConstIterator pointsIter;
