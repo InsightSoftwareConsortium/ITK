@@ -28,6 +28,9 @@ TARGET_LINK_LIBRARIES(BinaryThresholdImageFilter ITKCommon ITKIO)
 ADD_EXECUTABLE(BinaryMedianImageFilter BinaryMedianImageFilter.cxx )
 TARGET_LINK_LIBRARIES(BinaryMedianImageFilter ITKCommon ITKIO)
 
+ADD_EXECUTABLE(VotingBinaryHoleFillingImageFilter VotingBinaryHoleFillingImageFilter.cxx )
+TARGET_LINK_LIBRARIES(VotingBinaryHoleFillingImageFilter ITKCommon ITKIO)
+
 ADD_EXECUTABLE(OtsuThresholdImageFilter OtsuThresholdImageFilter.cxx )
 TARGET_LINK_LIBRARIES(OtsuThresholdImageFilter ITKCommon ITKIO)
 
@@ -217,6 +220,30 @@ ADD_TEST( BinaryMedianImageFilterTest3 ${FILTERING_EXAMPLES2}
   BinaryMedianImageFilterTest
         ${BASELINE}/BinaryThresholdImageFilter.png
         ${TEMP}/BinaryMedianImageFilter3.png
+        3 3
+)
+ADD_TEST( VotingBinaryHoleFillingImageFilterTest1 ${FILTERING_EXAMPLES2}
+  --compare ${BASELINE}/VotingBinaryHoleFillingImageFilter1.png
+            ${TEMP}/VotingBinaryHoleFillingImageFilter1.png
+  VotingBinaryHoleFillingImageFilterTest
+        ${BASELINE}/BinaryThresholdImageFilter.png
+        ${TEMP}/VotingBinaryHoleFillingImageFilter1.png
+        1 1
+)
+ADD_TEST( VotingBinaryHoleFillingImageFilterTest2 ${FILTERING_EXAMPLES2}
+  --compare ${BASELINE}/VotingBinaryHoleFillingImageFilter2.png
+            ${TEMP}/VotingBinaryHoleFillingImageFilter2.png
+  VotingBinaryHoleFillingImageFilterTest
+        ${BASELINE}/BinaryThresholdImageFilter.png
+        ${TEMP}/VotingBinaryHoleFillingImageFilter2.png
+        2 2
+)
+ADD_TEST( VotingBinaryHoleFillingImageFilterTest3 ${FILTERING_EXAMPLES2}
+  --compare ${BASELINE}/VotingBinaryHoleFillingImageFilter3.png
+            ${TEMP}/VotingBinaryHoleFillingImageFilter3.png
+  VotingBinaryHoleFillingImageFilterTest
+        ${BASELINE}/BinaryThresholdImageFilter.png
+        ${TEMP}/VotingBinaryHoleFillingImageFilter3.png
         3 3
 )
 ADD_TEST( BinomialBlurImageFilterTest ${FILTERING_EXAMPLES}
