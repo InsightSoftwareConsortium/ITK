@@ -223,6 +223,7 @@ void DICOMAppHelper::SeriesUIDCallback(doublebyte,
     strcpy(filename, this->FileName);
 
     (*iter).second.push_back(filename);
+    delete [] newString;
     }
 } 
 
