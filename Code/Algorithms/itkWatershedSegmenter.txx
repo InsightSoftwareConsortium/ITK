@@ -220,7 +220,7 @@ void Segmenter<TInputImage>::GenerateData()
   //
   output->SetBufferedRegion(thresholdImage->GetBufferedRegion());
   output->Allocate();
-  Self::SetImageValues(output, output->GetBufferedRegion(), Self::NULL_LABEL);
+  Self::SetOutputImageValues(output, output->GetBufferedRegion(), Self::NULL_LABEL);
 
   //
   // Now we can create appropriate boundary regions for analyzing the
@@ -1032,10 +1032,10 @@ void Segmenter<TInputImage>
     sz[i] = 1;
     reg.SetIndex(idx);
     reg.SetSize(sz);
-    Segmenter::SetImageValues(img, reg, value);
+    Segmenter::SetInputImageValues(img, reg, value);
     idx[i] = region.GetSize()[i] + region.GetIndex()[i] - 1;  // HIGH face
     reg.SetIndex(idx);
-    Segmenter::SetImageValues(img, reg, value);
+    Segmenter::SetInputImageValues(img, reg, value);
     }
 }
 
@@ -1046,7 +1046,7 @@ void Segmenter<TInputImage>
 */
 template <class TInputImage>
 void Segmenter<TInputImage>
-::SetImageValues(InputImageTypePointer img,
+::SetInputImageValues(InputImageTypePointer img,
                  ImageRegionType region,
                  InputPixelType value)
 {
@@ -1059,9 +1059,10 @@ void Segmenter<TInputImage>
     }
 }
 
+
 template <class TInputImage>
 void Segmenter<TInputImage>
-::SetImageValues(OutputImageTypePointer img,
+::SetOutputImageValues(OutputImageTypePointer img,
                  ImageRegionType region,
                  unsigned long value)
 {

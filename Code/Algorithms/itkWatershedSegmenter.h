@@ -332,11 +332,11 @@ protected:
   static void MergeFlatRegions(flat_region_table_t &, EquivalencyTable::Pointer);
     
   /** Helper functions for filling in regions with values   */
-  static void SetImageValues(InputImageTypePointer img,
+  static void SetInputImageValues(InputImageTypePointer img,
                              const ImageRegionType region,
                              InputPixelType value);
 
-  static void SetImageValues(OutputImageTypePointer img,
+  static void SetOutputImageValues(OutputImageTypePointer img,
                              const ImageRegionType region,
                              unsigned long value);
 
