@@ -108,7 +108,7 @@ ShiftScaleImageFilter<TInputImage, TOutputImage>
       }
     else
       {
-      ot.Set(value);
+      ot.Set( static_cast<OutputImagePixelType>( value ) );
       }
     ++it;
     ++ot;
