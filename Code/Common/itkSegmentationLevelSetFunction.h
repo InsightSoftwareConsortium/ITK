@@ -72,7 +72,7 @@ public:
 
 
   /** Define a scalar interpolator */
-  typedef LinearInterpolateImageFunction<FeatureImageType>  InterpolatorType;
+  typedef LinearInterpolateImageFunction<ImageType>  InterpolatorType;
 
   /** Define a vector interpolator */
   typedef VectorLinearInterpolateImageFunction<VectorImageType> VectorInterpolatorType;
