@@ -36,7 +36,7 @@ void
 KdTreeBasedKmeansValidationApp< TPixel, VMeasurementVectorSize >
 ::GenerateSample()
 {
-  m_SampleGenerator.SetOutputSampleType(SampleGeneratorType::WEIGHTED_CENTEROID_KD_TREE) ;
+  m_SampleGenerator.SetOutputSampleType(SampleGeneratorType::WEIGHTED_CENTROID_KD_TREE) ;
   m_SampleGenerator.SetKdTreeBucketSize(m_KdTreeBucketSize) ;
   m_SampleGenerator.SetImageFileNames(m_ImageFileNames) ;
   if ( m_MaskImageSliceOffset == -1 )

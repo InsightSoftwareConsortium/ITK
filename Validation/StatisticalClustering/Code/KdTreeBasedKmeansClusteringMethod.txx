@@ -37,7 +37,7 @@ KdTreeBasedKmeansClusteringMethod< TKdTree >
 
   m_KmeansEstimator->SetKdTree(m_KdTree) ;
   m_KmeansEstimator->SetMaximumIteration(m_MaximumIteration) ;
-  //  m_KmeansEstimator->SetCenteroidPositionChangesThreshold(0.0) ;
+  //  m_KmeansEstimator->SetCentroidPositionChangesThreshold(0.0) ;
   m_KmeansEstimator->SetParameters(m_InitialParameters) ;
 
   m_ProcessBegin = clock() ;

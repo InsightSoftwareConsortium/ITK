@@ -33,7 +33,7 @@
 #include "itkHistogram.h"
 #include "itkSubsample.h"
 #include "itkListSampleToHistogramFilter.h"
-#include "itkWeightedCenteroidKdTreeGenerator.h"
+#include "itkWeightedCentroidKdTreeGenerator.h"
 
 template< class TImage, class TClassMaskImage, class TVectorImage >
 class ValidationSampleGenerator
@@ -62,7 +62,7 @@ public:
   typedef itk::Statistics::ListSampleToHistogramFilter< SubsampleType, 
                                                         HistogramType > ImporterType ;
 
-  typedef itk::Statistics::WeightedCenteroidKdTreeGenerator< SubsampleType > TreeGeneratorType ;
+  typedef itk::Statistics::WeightedCentroidKdTreeGenerator< SubsampleType > TreeGeneratorType ;
 
   typedef itk::Statistics::KdTree< SubsampleType > KdTreeType ;
 
@@ -84,12 +84,12 @@ public:
    *  LIST_SAMPLE                -- implies VECTOR_IMAGE
    *  HISTOGRAM                  -- implies VECTOR_IMAGE &
    *                                           LIST_SAMPLE 
-   *  WEIGHTED_CENTEROID_KD_TREE -- implies VECTOR_IMAGE,
+   *  WEIGHTED_CENTROID_KD_TREE -- implies VECTOR_IMAGE,
    *                                        LIST_SAMPLE */
   enum SampleTypeEnum { VECTOR_IMAGE,
                         LIST_SAMPLE,
                         HISTOGRAM,
-                        WEIGHTED_CENTEROID_KD_TREE } ;
+                        WEIGHTED_CENTROID_KD_TREE } ;
                             
   void SetOutputSampleType(SampleTypeEnum outputType)
   { m_OutputSampleType = outputType ; }
@@ -181,7 +181,7 @@ protected:
   void Normalize() ;
   void GenerateListSample() ;
   void GenerateHistogram() ;
-  void GenerateWeightedCenteroidKdTree() ;
+  void GenerateWeightedCentroidKdTree() ;
 
 private:
   /** inputs */

@@ -119,10 +119,10 @@ ValidationSampleGenerator< TImage, TClassMaskImage, TVectorImage >
       return ;
     }
 
-  if ( m_OutputSampleType == WEIGHTED_CENTEROID_KD_TREE )
+  if ( m_OutputSampleType == WEIGHTED_CENTROID_KD_TREE )
     {
       std::cout << "DEBUG: Generating the k-d tree..." << std::endl ;
-      this->GenerateWeightedCenteroidKdTree() ;
+      this->GenerateWeightedCentroidKdTree() ;
       return ;
     }
 }
@@ -515,7 +515,7 @@ ValidationSampleGenerator< TImage, TClassMaskImage, TVectorImage >
 template< class TImage, class TClassMaskImage, class TVectorImage >
 void
 ValidationSampleGenerator< TImage, TClassMaskImage, TVectorImage >
-::GenerateWeightedCenteroidKdTree()
+::GenerateWeightedCentroidKdTree()
 {
   m_TreeGenerator->SetSample(m_Subsample) ;
   m_TreeGenerator->SetBucketSize(m_KdTreeBucketSize) ;
