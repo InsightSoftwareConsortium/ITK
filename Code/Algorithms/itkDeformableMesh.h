@@ -1,38 +1,23 @@
 #ifndef __itkdeformablemesh_h
 #define __itkdeformablemesh_h
 
-#include <vnl/vnl_matrix_fixed.h>
-#include "itkMesh.h"
+#include <vnl_matrix_fixed.h>
+#include "itkmesh.h"
 #include "itkVector.h"
 #include "itkTriangleCell.h"
 
 namespace itk
 {
 
-/** \class DeformableMesh
+/** \class FilterMeshToMesh
  * \brief 
  *
- * DeformableMesh is a class that define the geometry of the deformable
- * models used in segmentation work.
- *
- * The DeformableMesh is derive from the class mesh. Its basic shape is
- * a sphere with triangular cells on the surface. Each node can deform
- * under the effect of global force or the local forces and perform global
- * deformation or the local deformation.
- *
- * User can use SetResolution method to set the resolution in 2 direction.
- * The stiffness matrix of the is defined in itkBalloonForceFilter, we will
- * decide later where is the best to define the stiffness matrix.
- *
- * The filter is templated over the type of meshes.
- *
- * \sa itkBalloonForceFilter
+ * FilterMeshToMesh is the base class for all process objects that output
+ * mesh data, and require mesh data as input. Specifically, this class
+ * defines the SetInput() method for defining the input to a filter.
  */
-template <
-  class TPixelType,
-  class TMeshType = DefaultStaticMeshType< TPixelType >
->
-class ITK_EXPORT DeformableMesh : public Mesh<TPixelType,TMeshType>
+template <class PixelType>
+class ITK_EXPORT DeformableMesh : public Mesh<PixelType>
 {
 public:
   /**
@@ -43,7 +28,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef Mesh<TPixelType,TMeshType> Superclass;
+  typedef Mesh<PixelType> Superclass;
 
   /** 
    * Smart pointer typedef support 
@@ -61,15 +46,18 @@ public:
   itkTypeMacro(DeformableMesh,Mesh);
 
 /**
- * Define a few cell types which uses a TPixelType of "int".  Again,
+ * Define a few cell types which uses a PixelType of "int".  Again,
  * use the defaults for the other parameters.  Note that a cell's template
  * parameters must match those of the mesh into which it is inserted.
  */
 
-  typedef TMeshType   MeshType;
-  typedef typename MeshType::CellType CellType;
-  typedef itk::TriangleCell<TPixelType, CellType>	   TriCell;
+  typedef itk::TriangleCell<PixelType, CellType>	   TriCell;
 
+
+/**
+ * Typedef the generic cell type for the mesh.  It is an abstract class,
+ * so we can only use information from it, like get its pointer type.
+ */
 
   void SetResolution(int a, int b);
   void SetCenter(int a, int b, int c);
@@ -89,4 +77,7 @@ protected:
 };
 
 } // end namespace itk
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkDeformableMesh.txx"
+#endif
 #endif
