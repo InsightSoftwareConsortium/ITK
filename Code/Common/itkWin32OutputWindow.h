@@ -64,7 +64,7 @@ public:
                                   WPARAM wParam, LPARAM lParam);
 protected: 
   Win32OutputWindow() {}
-  virtual ~Win32OutputWindow() {}
+  virtual ~Win32OutputWindow();
   
   void PromptText(const char* text);
   static void AddText(const char*);

@@ -27,6 +27,15 @@ namespace itk
  */
 HWND Win32OutputWindow::m_OutputWindow = 0;
 
+Win32OutputWindow
+::~Win32OutputWindow()
+{
+  if (Win32OutputWindow::m_OutputWindow)
+    {
+    DestroyWindow(Win32OutputWindow::m_OutputWindow);
+    Win32OutputWindow::m_OutputWindow = NULL;
+    }
+}
 /**
  *
  */
@@ -57,6 +66,13 @@ Win32OutputWindow
     case WM_DESTROY:
       Win32OutputWindow::m_OutputWindow = NULL;
       Object::GlobalWarningDisplayOff();
+      break;
+    case WM_CLOSE:
+      if (Win32OutputWindow::m_OutputWindow)
+        {
+        DestroyWindow(Win32OutputWindow::m_OutputWindow);
+        Win32OutputWindow::m_OutputWindow = NULL;
+        }
       break;
     case WM_CREATE:
       break;
