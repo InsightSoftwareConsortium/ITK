@@ -36,7 +36,9 @@ namespace itk
  */
 template <class TInputImage,class TOutput=double>
 class ITK_EXPORT GaussianDerivativeImageFunction :
-public ImageFunction< TInputImage, Vector<TOutput,::itk::GetImageDimension<TInputImage>::ImageDimension> >
+  public ImageFunction< TInputImage,
+    Vector<TOutput,::itk::GetImageDimension<TInputImage>::ImageDimension>,
+    TOutput >
 {
 public:
 
@@ -44,7 +46,9 @@ public:
   typedef GaussianDerivativeImageFunction Self;
 
   /** Standard "Superclass" typedef*/
-  typedef ImageFunction<TInputImage,Vector<TOutput,::itk::GetImageDimension<TInputImage>::ImageDimension> > Superclass;
+  typedef ImageFunction<TInputImage,
+    Vector<TOutput,::itk::GetImageDimension<TInputImage>::ImageDimension>,
+    TOutput > Superclass;
 
   /** Smart pointer typedef support. */
   typedef SmartPointer<Self> Pointer;
@@ -59,8 +63,9 @@ public:
   /** InputImageType typedef support.*/
   typedef TInputImage                                 InputImageType;
   typedef typename InputImageType::PixelType          InputPixelType;
-  typedef typename Superclass::IndexType              IndexType;
-  typedef typename Superclass::ContinuousIndexType    ContinuousIndexType;
+  typedef typename InputImageType::IndexType IndexType;
+  typedef ContinuousIndex<TOutput,itkGetStaticConstMacro(ImageDimension)>
+          ContinuousIndexType;
 
 
   /** Dimension of the underlying image. */
@@ -83,8 +88,7 @@ public:
   typedef typename GaussianFunctionType::Pointer GaussianFunctionPointer;
 
   /** Point typedef support. */
-  typedef typename Superclass::PointType PointType;
-
+  typedef Point<TOutput,itkGetStaticConstMacro(ImageDimension)> PointType;
   
   /** Evalutate the  in the given dimension at specified point */
   virtual OutputType Evaluate(const PointType& point) const;
