@@ -1,5 +1,6 @@
 #include "vnl_svd.h"
 
+#include <vcl_cmath.h>   // vcl_abs()
 #include <vcl_fstream.h>
 #include <vcl_cstdlib.h> // abort()
 #include <vcl_complex.h>
@@ -89,8 +90,11 @@ vnl_svd<T>::vnl_svd(vnl_matrix<T> const& M, double zero_out_tol):
     }
 
     for(int j = 0; j < mm; ++j)
+      {
+      vcl_cout << "wspace = " << wspace(j) << vcl_endl;
       W_(j, j) = vcl_abs(wspace(j)); // we get rid of complexness here.
-
+      }
+      
     for(int j = mm; j < n_; ++j)
       W_(j, j) = 0;
 
