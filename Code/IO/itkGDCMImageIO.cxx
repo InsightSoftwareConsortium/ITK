@@ -178,7 +178,7 @@ void RescaleFunction(TBuffer* buffer, TSource *source,
                      double slope, double intercept, size_t size)
 {
   size /= sizeof(TSource);
-  for(int i=0; i<size; i++)
+  for(unsigned int i=0; i<size; i++)
    {
    buffer[i] = (TBuffer)(source[i]*slope + intercept);
    }
