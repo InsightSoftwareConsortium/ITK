@@ -138,6 +138,7 @@ public:
     ForceTMinus1Index=2;                  // vector
     SolutionVectorTMinus1Index=3;         // vector
     DiffMatrixBySolutionTMinus1Index=4;   // vector
+    ForceTotalIndex=5;                    // vector
     SolutionTIndex=0;                   // solution
     TotalSolutionIndex=1;               // solution
     SolutionTMinus1Index=2;       // solution
@@ -153,6 +154,7 @@ public:
   Float m_alpha;
 
   unsigned int ForceTIndex;
+  unsigned int ForceTotalIndex;
   unsigned int ForceTMinus1Index;
   unsigned int SolutionTIndex;
   unsigned int SolutionTMinus1Index;
