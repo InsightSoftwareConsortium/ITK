@@ -609,7 +609,7 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
     derivative=derivative/updatenorm;
     } 
  
-  return derivative/m_GradientStep;
+  return derivative*m_GradientStep;
 }
 
 
