@@ -23,6 +23,7 @@
 
 #include <vcl_iosfwd.h>
 #include <vnl/vnl_numeric_traits.h>
+#include <vcl_cmath.h> // for vcl_sqrt
 
 // avoid messing about with aux_* functions for gcc 2.7 -- fsm
 template <class T, class S> void vnl_c_vector_one_norm(T const *p, unsigned n, S *out);
