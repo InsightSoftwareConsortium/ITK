@@ -81,9 +81,6 @@ public:
   typedef typename Superclass::DefaultBoundaryConditionType DefaultBoundaryConditionType;
   typedef typename Superclass::ImageBoundaryConditionPointerType ImageBoundaryConditionPointerType;
 
-  /** Set kernel (structuring element). */
-  itkSetMacro(Kernel, KernelType);
-
 protected:
   GrayscaleMorphologicalOpeningImageFilter();
   ~GrayscaleMorphologicalOpeningImageFilter() {};
