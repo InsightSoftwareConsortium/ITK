@@ -64,6 +64,10 @@ $optimizer  SetMinimumStepLength  0.01
 $optimizer  SetNumberOfIterations  200
 
 
+$optimizer AddObserver [itk::IterationEvent] [itk::createTclCommand {
+  set currentParameters [$transform GetParameters]
+  puts "X= [$currentParameters () 0]   Y=[$currentParameters () 1]"
+}]
 
 # Here the registration is done
 $registration StartRegistration 
