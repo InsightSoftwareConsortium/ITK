@@ -359,13 +359,13 @@ extern ITK_EXPORT void OutputWindowDisplayText(const char*);
 #define itkDebugMacro(x)
 #else
 #define itkDebugMacro(x) \
-{ if (this->GetDebug() && Object::GetGlobalWarningDisplay()) \
+{ if (this->GetDebug() && itk::Object::GetGlobalWarningDisplay()) \
     { char *itkmsgbuff; std::ostrstream itkmsg; \
       itkmsg << "Debug: In " __FILE__ ", line " << __LINE__ << "\n" \
              << this->GetClassName() << " (" << this << "): " x  \
              << "\n\n" << std::ends; \
       itkmsgbuff = itkmsg.str(); \
-      OutputWindowDisplayText(itkmsgbuff); \
+      itk::OutputWindowDisplayText(itkmsgbuff); \
       itkmsg.rdbuf()->freeze(0);} \
 }
 #endif
@@ -380,13 +380,13 @@ extern ITK_EXPORT void OutputWindowDisplayText(const char*);
 #define itkWarningMacro(x)
 #else
 #define itkWarningMacro(x) \
-{ if (Object::GetGlobalWarningDisplay()) \
+{ if (itk::Object::GetGlobalWarningDisplay()) \
     { char *itkmsgbuff; std::ostrstream itkmsg; \
       itkmsg << "WARNING: In " __FILE__ ", line " << __LINE__ << "\n" \
              << this->GetClassName() << " (" << this << "): " x  \
              << "\n\n" << std::ends; \
       itkmsgbuff = itkmsg.str(); \
-      OutputWindowDisplayText(itkmsgbuff); \
+      itk::OutputWindowDisplayText(itkmsgbuff); \
       itkmsg.rdbuf()->freeze(0);} \
 }
 #endif
@@ -401,13 +401,13 @@ extern ITK_EXPORT void OutputWindowDisplayText(const char*);
 #define itkErrorMacro(x)
 #else
 #define itkErrorMacro(x) \
-{ if (Object::GetGlobalWarningDisplay()) \
+{ if (itk::Object::GetGlobalWarningDisplay()) \
     { char *itkmsgbuff; std::ostrstream itkmsg; \
       itkmsg << "ERROR: In " __FILE__ ", line " << __LINE__ << "\n" \
              << this->GetClassName() << " (" << this << "): " x  \
              << "\n\n" << std::ends; \
       itkmsgbuff = itkmsg.str(); \
-      OutputWindowDisplayText(itkmsgbuff); \
+      itk::OutputWindowDisplayText(itkmsgbuff); \
       itkmsg.rdbuf()->freeze(0);} \
 }
 #endif
@@ -421,12 +421,12 @@ extern ITK_EXPORT void OutputWindowDisplayText(const char*);
 #define itkGenericOutputMacro(x)
 #else
 #define itkGenericOutputMacro(x) \
-{ if (Object::GetGlobalWarningDisplay()) \
+{ if (itk::Object::GetGlobalWarningDisplay()) \
     { char *itkmsgbuff; std::ostrstream itkmsg; \
       itkmsg << "WARNING: In " __FILE__ ", line " << __LINE__ << "\n" \
              x << "\n\n" << std::ends; \
       itkmsgbuff = itkmsg.str(); \
-      OutputWindowDisplayText(itkmsgbuff); \
+      itk::OutputWindowDisplayText(itkmsgbuff); \
       itkmsg.rdbuf()->freeze(0);} \
 }
 #endif
