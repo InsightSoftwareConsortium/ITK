@@ -13,7 +13,7 @@ static void realit_(doublereal *sss, integer *nz, integer *iflag);
 
 /* Common Block Declarations */
 
-struct {
+static struct {
     doublereal p[101], qp[101], k[101], qk[101], svk[101], sr, si, u, v, a, b,
              c, d, a1, a2, a3, a6, a7, e, f, g, h, szr, szi, lzr, lzi;
     real eta, are, mre;
