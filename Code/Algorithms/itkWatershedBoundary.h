@@ -150,23 +150,27 @@ public:
   itkNewMacro(Self);
   itkTypeMacro(Boundary, DataObject);
 
+  /** The following averts an internal compiler error on microsoft compilers */
+  typedef typename face_t::Pointer FacePointer;
+
+  
   /** Returns the face at the specified index  */
-  typename face_t::Pointer GetFace(const IndexType &idx)
+  FacePointer GetFace(const IndexType &idx)
     {      return this->GetFace(idx.first, idx.second);    }
 
   /** Returns the face at the specified index, where dimension is
    * the number of the axial dimension and highlow is 0 for the LOW
    * face and 1 for the HIGH face.   */ 
-  typename face_t::Pointer GetFace(unsigned dimension, unsigned highlow)
+  FacePointer GetFace(unsigned dimension, unsigned highlow)
     {
       if (highlow == 0) return m_Faces[dimension].first;
       else return m_Faces[dimension].second;
     }
 
-  void SetFace(typename face_t::Pointer f, const IndexType &idx)
+  void SetFace(FacePointer f, const IndexType &idx)
     { this->SetFace(f, idx.first, idx.second); }
   
-  void SetFace(typename face_t::Pointer f, unsigned dimension, unsigned highlow)
+  void SetFace(FacePointer f, unsigned dimension, unsigned highlow)
     {
       if (highlow ==0 ) m_Faces[dimension].first = f;
       else m_Faces[dimension].second = f;
@@ -220,7 +224,7 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** The Nx2 matrix of faces of this boundary.   */
-  std::vector<std::pair<typename face_t::Pointer, typename face_t::Pointer> > m_Faces;
+  std::vector<std::pair<FacePointer, FacePointer> > m_Faces;
 
   /** The Nx2 matrix flat region connections associated with
    * this boundary.   */

@@ -51,9 +51,9 @@ Boundary<TScalarType, TDimension>
 ::Boundary()
 {
   unsigned int i;
-  typename face_t::Pointer p;
+  FacePointer p;
   flat_hash_t f;
-  std::pair<typename face_t::Pointer, typename face_t::Pointer> i_pair;
+  std::pair<FacePointer, FacePointer> i_pair;
   std::pair<flat_hash_t, flat_hash_t> c_pair;
   std::pair<bool, bool> v_pair;
 
