@@ -82,18 +82,9 @@ public:
 protected:
   VectorCurvatureAnisotropicDiffusionImageFilter()
     {
-      if ( ImageDimension == 2) 
-        {
-        VectorCurvature2DAnisotropicDiffusionEquation<UpdateBufferType>::Pointer p        
-          = VectorCurvature2DAnisotropicDiffusionEquation<UpdateBufferType>::New();
-        this->SetDifferenceEquation(p);
-        }
-      else
-        {
-        VectorCurvatureNDAnisotropicDiffusionEquation<UpdateBufferType>::Pointer q
-          = VectorCurvatureNDAnisotropicDiffusionEquation<UpdateBufferType>::New();
-        this->SetDifferenceEquation(q);
-        }
+      VectorCurvatureNDAnisotropicDiffusionEquation<UpdateBufferType>::Pointer q
+        = VectorCurvatureNDAnisotropicDiffusionEquation<UpdateBufferType>::New();
+      this->SetDifferenceEquation(q);
     }
   ~VectorCurvatureAnisotropicDiffusionImageFilter() {}
 
