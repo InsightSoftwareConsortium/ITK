@@ -102,8 +102,10 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage >
     
     typename TransformType::InputPointType centerFixed;
     
-    centerFixed[0] = fixedOrigin[0] + fixedSpacing[0] * fixedSize[0] / 2.0;
-    centerFixed[1] = fixedOrigin[1] + fixedSpacing[1] * fixedSize[1] / 2.0;
+    for( unsigned int k=0; k<InputSpaceDimension; k++ )
+      {
+      centerFixed[k] = fixedOrigin[k] + fixedSpacing[k] * fixedSize[k] / 2.0;
+      }
 
 
     const typename MovingImageType::SpacingType&
@@ -116,8 +118,10 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage >
     
     typename TransformType::InputPointType centerMoving;
     
-    centerMoving[0] = movingOrigin[0] + movingSpacing[0] * movingSize[0] / 2.0;
-    centerMoving[1] = movingOrigin[1] + movingSpacing[1] * movingSize[1] / 2.0;
+    for( unsigned int m=0; m<InputSpaceDimension; m++ )
+      {
+      centerMoving[m] = movingOrigin[m] + movingSpacing[m] * movingSize[m] / 2.0;
+      }
 
     for( unsigned int i=0; i<InputSpaceDimension; i++)
       {
