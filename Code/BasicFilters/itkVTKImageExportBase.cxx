@@ -61,6 +61,20 @@ VTKImageExportBase::GetWholeExtentCallback() const
   return &VTKImageExportBase::WholeExtentCallbackFunction;
 }
 
+VTKImageExportBase::CallbackTypeProxy
+VTKImageExportBase::GetOriginCallback() const
+{
+  return CallbackTypeProxy(&VTKImageExportBase::OriginCallbackFunction,
+                           &VTKImageExportBase::FloatOriginCallbackFunction);
+}
+
+VTKImageExportBase::CallbackTypeProxy
+VTKImageExportBase::GetSpacingCallback() const
+{
+  return CallbackTypeProxy(&VTKImageExportBase::SpacingCallbackFunction,
+                           &VTKImageExportBase::FloatSpacingCallbackFunction);
+}
+
 VTKImageExportBase::ScalarTypeCallbackType
 VTKImageExportBase::GetScalarTypeCallback() const
 {
@@ -168,6 +182,30 @@ int* VTKImageExportBase::WholeExtentCallbackFunction(void* userData)
 {
   return static_cast<VTKImageExportBase*>(userData)->
     WholeExtentCallback();
+}
+
+double* VTKImageExportBase::OriginCallbackFunction(void* userData)
+{
+  return static_cast<VTKImageExportBase*>(userData)->
+    OriginCallback();
+}
+
+float* VTKImageExportBase::FloatOriginCallbackFunction(void* userData)
+{
+  return static_cast<VTKImageExportBase*>(userData)->
+    FloatOriginCallback();
+}
+
+double* VTKImageExportBase::SpacingCallbackFunction(void* userData)
+{
+  return static_cast<VTKImageExportBase*>(userData)->
+    SpacingCallback();
+}
+
+float* VTKImageExportBase::FloatSpacingCallbackFunction(void* userData)
+{
+  return static_cast<VTKImageExportBase*>(userData)->
+    FloatSpacingCallback();
 }
 
 const char* VTKImageExportBase::ScalarTypeCallbackFunction(void* userData)

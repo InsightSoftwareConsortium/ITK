@@ -51,17 +51,46 @@ public:
   typedef void (*UpdateInformationCallbackType)(void*);
   typedef int (*PipelineModifiedCallbackType)(void*);
   typedef int* (*WholeExtentCallbackType)(void*);
+  typedef double* (*SpacingCallbackType)(void*);
+  typedef double* (*OriginCallbackType)(void*);
   typedef const char* (*ScalarTypeCallbackType)(void*); 
   typedef int (*NumberOfComponentsCallbackType)(void*);
   typedef void (*PropagateUpdateExtentCallbackType)(void*, int*);
   typedef void (*UpdateDataCallbackType)(void*);
   typedef int* (*DataExtentCallbackType)(void*);
   typedef void* (*BufferPointerCallbackType)(void*);
+
+  /** Compatibility for VTK older than 4.4.  */
+  typedef float* (*FloatSpacingCallbackType)(void*);
+  typedef float* (*FloatOriginCallbackType)(void*);
+
+  /** Provide compatibility between VTK 4.4 and earlier versions.  */
+  class CallbackTypeProxy
+  {
+  public:
+    typedef double* (*DoubleCallbackType)(void*);
+    typedef float* (*FloatCallbackType)(void*);
+    operator DoubleCallbackType()
+      {
+      return m_DoubleCallback;
+      }
+    operator FloatCallbackType()
+      {
+      return m_FloatCallback;
+      }
+    CallbackTypeProxy(DoubleCallbackType d, FloatCallbackType f):
+      m_DoubleCallback(d), m_FloatCallback(f) {}
+  private:
+    DoubleCallbackType m_DoubleCallback;
+    FloatCallbackType m_FloatCallback;
+  };
   
   /** Get a pointer to function to set as a callback in vtkImageImport. */
   UpdateInformationCallbackType     GetUpdateInformationCallback() const;
   PipelineModifiedCallbackType      GetPipelineModifiedCallback() const;
   WholeExtentCallbackType           GetWholeExtentCallback() const;
+  CallbackTypeProxy                 GetSpacingCallback() const;
+  CallbackTypeProxy                 GetOriginCallback() const;
   ScalarTypeCallbackType            GetScalarTypeCallback() const;
   NumberOfComponentsCallbackType    GetNumberOfComponentsCallback() const;
   PropagateUpdateExtentCallbackType GetPropagateUpdateExtentCallback() const;
@@ -83,6 +112,10 @@ protected:
   /** These callbacks are image-type specific, and are implemented
    * in VTKImageExport. */
   virtual int* WholeExtentCallback()=0;
+  virtual double* SpacingCallback()=0;
+  virtual double* OriginCallback()=0;
+  virtual float* FloatSpacingCallback()=0;
+  virtual float* FloatOriginCallback()=0;
   virtual const char* ScalarTypeCallback()=0;
   virtual int NumberOfComponentsCallback()=0;
   virtual void PropagateUpdateExtentCallback(int*)=0;
@@ -99,6 +132,10 @@ private:
   static void UpdateInformationCallbackFunction(void*);
   static int PipelineModifiedCallbackFunction(void*);
   static int* WholeExtentCallbackFunction(void*);
+  static double* SpacingCallbackFunction(void*);
+  static double* OriginCallbackFunction(void*);
+  static float* FloatSpacingCallbackFunction(void*);
+  static float* FloatOriginCallbackFunction(void*);
   static const char* ScalarTypeCallbackFunction(void*); 
   static int NumberOfComponentsCallbackFunction(void*);
   static void PropagateUpdateExtentCallbackFunction(void*, int*);

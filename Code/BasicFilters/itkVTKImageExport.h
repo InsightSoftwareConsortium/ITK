@@ -48,7 +48,7 @@ namespace itk
  * \ingroup IOFilters
  * \sa VTKImageExportBase
  */
-template <class TInputImage, typename TVTKRealType=float>
+template <class TInputImage>
 class ITK_EXPORT VTKImageExport: public VTKImageExportBase
 {
 public:
@@ -64,24 +64,8 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Typedef for VTK interface.  VTK 4.2 uses floats for positions,
-   * VTK 4.4 uses doubles. */
-  typedef TVTKRealType vtkRealType;
-  typedef vtkRealType VTKSpacingType;
-  typedef vtkRealType VTKOriginType;
-
   /** The type of the input image. */
   typedef TInputImage InputImageType;
-  
-  /** The function pointer type expected for a callback. These
-   * callbacks depend on the "RealType" used by VTK, so they cannot be
-   * defined in the superclass. */
-  typedef TVTKRealType * (*SpacingCallbackType)(void*);
-  typedef TVTKRealType * (*OriginCallbackType)(void*);
-  
-  /** Get a pointer to function to set as a callback in vtkImageImport. */
-  SpacingCallbackType               GetSpacingCallback() const;
-  OriginCallbackType                GetOriginCallback() const;
 
   /** Set the input image of this image exporter. */
   void SetInput(const InputImageType*);
@@ -101,8 +85,10 @@ protected:
   InputImageType * GetInput(void);
   
   int* WholeExtentCallback();
-  virtual VTKSpacingType * SpacingCallback();
-  virtual VTKOriginType  * OriginCallback();
+  double* SpacingCallback();
+  double* OriginCallback();
+  float* FloatSpacingCallback();
+  float* FloatOriginCallback();
   const char* ScalarTypeCallback();
   int NumberOfComponentsCallback();
   void PropagateUpdateExtentCallback(int*);
@@ -113,17 +99,13 @@ private:
   VTKImageExport(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  /** Actual function sent to VTK as a callback.  Casts the user data
-   * to a VTKImageExportBase pointer and invokes the corresponding
-   * virtual method in that instance. */
-  static VTKSpacingType * SpacingCallbackFunction(void*);
-  static VTKOriginType  * OriginCallbackFunction(void*);
-
   std::string m_ScalarTypeName;
   int m_WholeExtent[6];
   int m_DataExtent[6];
-  VTKSpacingType m_DataSpacing[3];
-  VTKOriginType  m_DataOrigin[3];
+  double m_DataSpacing[3];
+  double m_DataOrigin[3];
+  float m_FloatDataSpacing[3];
+  float m_FloatDataOrigin[3];
 };
 
 } // end namespace itk
