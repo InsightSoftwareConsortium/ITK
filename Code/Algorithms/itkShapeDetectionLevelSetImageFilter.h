@@ -70,6 +70,9 @@ namespace itk {
  *    smoother the resulting contour. To follow the implementation in Malladi's paper,
  *    set the PropagtionScaling to 1.0 and CurvatureScaling to \f$ \epsilon \f$.
  *
+ *    Note that there is no advection term for this filter. Setting the 
+ *    advection scaling will have no effect.
+ *
  *    \par OUTPUTS
  *    The filter outputs a single, scalar, real-valued image.
  *    Negative values in the output image are inside the segmentated region
