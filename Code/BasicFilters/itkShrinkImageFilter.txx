@@ -174,7 +174,7 @@ ShrinkImageFilter<TInputImage,TOutputImage>
 
   // support progress methods/callbacks
   unsigned long updateVisits = 0;
-  unsigned long totalPixels;
+  unsigned long totalPixels = 0;
   if ( threadId == 0 )
     {
     totalPixels = 
