@@ -30,17 +30,17 @@ const signed char vnl_numeric_traits<signed char>::one = 1;
 const unsigned short vnl_numeric_traits<unsigned short>::zero = 0;
 const unsigned short vnl_numeric_traits<unsigned short>::one = 1;
 
-const signed short vnl_numeric_traits<signed short>::zero = 0;
-const signed short vnl_numeric_traits<signed short>::one = 1;
+const short vnl_numeric_traits<short>::zero = 0;
+const short vnl_numeric_traits<short>::one = 1;
 
 const unsigned int vnl_numeric_traits<unsigned int>::zero = 0;
 const unsigned int vnl_numeric_traits<unsigned int>::one = 1;
 
-const signed int vnl_numeric_traits<signed int>::zero = 0;
-const signed int vnl_numeric_traits<signed int>::one = 1;
+const int vnl_numeric_traits<int>::zero = 0;
+const int vnl_numeric_traits<int>::one = 1;
 
-const signed long vnl_numeric_traits<signed long>::zero = 0;
-const signed long vnl_numeric_traits<signed long>::one = 1;
+const long vnl_numeric_traits<long>::zero = 0;
+const long vnl_numeric_traits<long>::one = 1;
 
 const unsigned long vnl_numeric_traits<unsigned long>::zero = 0;
 const unsigned long vnl_numeric_traits<unsigned long>::one = 1;

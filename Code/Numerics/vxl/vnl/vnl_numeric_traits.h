@@ -103,10 +103,10 @@ public:
 };
 
 VCL_DEFINE_SPECIALIZATION
-class vnl_numeric_traits<signed short> {
+class vnl_numeric_traits<short> {
 public:
-  static const signed short zero VCL_STATIC_CONST_INIT_INT(0);
-  static const signed short one VCL_STATIC_CONST_INIT_INT(1);
+  static const short zero VCL_STATIC_CONST_INIT_INT(0);
+  static const short one VCL_STATIC_CONST_INIT_INT(1);
   typedef unsigned short abs_t;
   typedef signed int double_t;
   typedef double real_t;
@@ -123,10 +123,10 @@ public:
 };
 
 VCL_DEFINE_SPECIALIZATION
-class vnl_numeric_traits<signed int> {
+class vnl_numeric_traits<int> {
 public:
-  static const signed int zero VCL_STATIC_CONST_INIT_INT(0);
-  static const signed int one VCL_STATIC_CONST_INIT_INT(1);
+  static const int zero VCL_STATIC_CONST_INIT_INT(0);
+  static const int one VCL_STATIC_CONST_INIT_INT(1);
   typedef unsigned int abs_t;
   typedef signed int double_t;
   typedef double real_t;
