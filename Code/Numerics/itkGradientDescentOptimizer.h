@@ -67,7 +67,7 @@ namespace itk
  *
  * \sa RegularStepGradientDescentOptimizer
  * 
- * \ingroup Numerics
+ * \ingroup Numerics Optimizers
  */  
 template <class TCostFunction>
 class ITK_EXPORT GradientDescentOptimizer : 
@@ -148,14 +148,20 @@ public:
   /**
    * Select to Minimize the cost function
    */
-  void    SetMinimize(void) 
+  void    MinimizeOn(void) 
               { m_Maximize = false; }
+
+  void    MinimizeOff(void) 
+              { m_Maximize = true; }
 
   /**
    * Select to Maximize the cost function
    */
-  void    SetMaximize(void)
+  void    MaximizeOn(void)
               { m_Maximize = true; }
+
+  void    MaximizeOff(void)
+              { m_Maximize = false; }
 
   /**
    * Get the Maximize flag
