@@ -326,6 +326,9 @@ PowellOptimizer
         fv = fu;
         }
       }
+
+    this->InvokeEvent( IterationEvent() );
+
     }
 
   *extX = x;
