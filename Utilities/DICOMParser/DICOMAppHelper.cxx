@@ -835,12 +835,13 @@ void DICOMAppHelper::GetSliceNumberFilenamePairs(std::vector<std::pair<int, std:
        p.second = std::string(*fileIter);
        int slice_number = -1;
        std::map<std::string, int, ltstdstr>::iterator sn_iter = SliceNumberMap.find(*fileIter);
+       // Only store files that have a valid slice number
        if (sn_iter != SliceNumberMap.end())
         {
         slice_number = (*sn_iter).second;
+        p.first = slice_number;
+        v.push_back(p);
         }
-       p.first = slice_number;
-       v.push_back(p);
        }
   std::sort(v.begin(), v.end(), lt_pair_int_string());
 }
