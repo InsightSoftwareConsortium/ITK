@@ -63,6 +63,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkGrayscaleErodeImageFilter.txx"
 #include "itkGrayscaleFunctionDilateImageFilter.txx"
 #include "itkGrayscaleFunctionErodeImageFilter.txx"
+#include "itkHardConnectedComponentImageFilter.txx"
 #include "itkImageToMeshFilter.txx"
 #include "itkImageToParametricSpaceFilter.txx"
 #include "itkImportImageFilter.txx"
