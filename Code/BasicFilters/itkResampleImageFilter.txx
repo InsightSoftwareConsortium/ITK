@@ -213,9 +213,9 @@ ResampleImageFilter<TInputImage,TOutputImage, TTransform, TInterpolator>
   const unsigned long totalVisits = 100L;
   if ( threadId == 0 )
     {
-    updateVisits = 
+    updateVisits = static_cast<unsigned long>( 
       outputPtr->GetRequestedRegion().GetNumberOfPixels() /
-                                static_cast<float>( totalVisits );
+                                static_cast<float>( totalVisits ) );
     }
         
   // Walk the output region
