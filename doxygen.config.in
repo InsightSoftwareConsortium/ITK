@@ -557,7 +557,26 @@ PREDEFINED  =  "itkNotUsed(x)="\
                "itkTypeMacro(thisClass,superclass)= \
                   virtual const char *GetClassName() const;" \
                "ITK_NUMERIC_LIMITS= \
-                  std::numeric_limits"
+                  std::numeric_limits" \
+               "FEM_CLASS_SP(thisClass,parentClass)= \
+                  public:                                               \
+                    /** Standard "Self" typedef.*/                      \
+                    typedef thisClass Self;                             \
+                    /** Standard "Superclass" typedef. */               \
+                    typedef parentClass Superclass;                     \
+                    /** Pointer or SmartPointer to an object. */        \
+                    typedef Self* Pointer;                              \
+                    /** Const pointer or SmartPointer to an object. */  \
+                    typedef const Self* ConstPointer;                   \
+                  private:"                                             \
+               "FEM_CLASS(thisClass,parentClass)= \
+                  FEM_CLASS_SP(thisClass,parentClass)                   \
+                  public:                                               \
+                    /** Create a new object from the existing one  */   \
+                    virtual Baseclass::Pointer Clone() const;           \
+                    /** Class ID for FEMObjectFactory */                \
+                    static const int OFID;                              \
+                  private:"
 
 # If the EXPAND_ONLY_PREDEF and MACRO_EXPANSION tags are both set to YES 
 # then the macro expansion is limited to the macros specified with the 
