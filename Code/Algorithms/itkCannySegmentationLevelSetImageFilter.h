@@ -141,7 +141,7 @@ public:
   typedef typename Superclass::OutputImageType OutputImageType;
   typedef typename Superclass::FeatureImageType FeatureImageType;
   typedef typename Superclass::VectorImageType VectorImageType;
-  typedef typename Superclass::VectorImageType SpeedImageType;
+  typedef typename Superclass::SpeedImageType  SpeedImageType;
   
   /** Type of the segmentation function */
   typedef ::itk::CannySegmentationLevelSetFunction<OutputImageType,
