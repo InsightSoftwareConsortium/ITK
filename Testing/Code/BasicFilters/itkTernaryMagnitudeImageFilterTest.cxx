@@ -141,7 +141,7 @@ int main()
   // Connect the input images
   filter->SetInput1( inputImageA ); 
   filter->SetInput2( inputImageB );
-  filter->SetInput3( inputImageB );
+  filter->SetInput3( inputImageC );
 
   // Get the Smart Pointer to the Filter Output 
   myImageType4::Pointer outputImage = filter->GetOutput();
