@@ -35,7 +35,38 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
   m_Order = ZeroOrder;
 }
 
+/**
+ *   Explicitly set a zeroth order derivative
+ */
+template <typename TInputImage, typename TOutputImage>
+void
+RecursiveGaussianImageFilter<TInputImage,TOutputImage>
+::SetZeroOrder()
+{
+  m_Order = ZeroOrder;
+}
 
+/**
+ *   Explicitly set a first order derivative
+ */
+template <typename TInputImage, typename TOutputImage>
+void
+RecursiveGaussianImageFilter<TInputImage,TOutputImage>
+::SetFirstOrder()
+{
+  m_Order = FirstOrder;
+}
+
+/**
+ *   Explicitly set a second order derivative
+ */
+template <typename TInputImage, typename TOutputImage>
+void
+RecursiveGaussianImageFilter<TInputImage,TOutputImage>
+::SetSecondOrder()
+{
+  m_Order = SecondOrder;
+}
 
 
 /**
@@ -213,3 +244,4 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
 } // end namespace itk
 
 #endif
+

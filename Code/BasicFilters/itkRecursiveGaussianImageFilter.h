@@ -98,6 +98,15 @@ public:
     */
   itkSetMacro( Order, OrderEnumType );
   itkGetMacro( Order, OrderEnumType );
+
+  /** Explicitly set a zeroth order derivative */
+  void SetZeroOrder();
+
+  /** Explicitly set a first order derivative */
+  void SetFirstOrder();
+
+  /** Explicitly set a second order derivative */
+  void SetSecondOrder();
   
    
 protected:
@@ -138,3 +147,4 @@ private:
 #endif
 
 #endif
+
