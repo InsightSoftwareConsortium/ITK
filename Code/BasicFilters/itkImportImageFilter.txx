@@ -116,7 +116,7 @@ ImportImageFilter<TPixel, VImageDimension>
 {
   OutputImagePointer outputPtr = this->GetOutput();
 
-  return outputPtr->GetImportPointer();
+  return outputPtr->GetPixelContainer()->GetImportPointer();
 }
 
 
