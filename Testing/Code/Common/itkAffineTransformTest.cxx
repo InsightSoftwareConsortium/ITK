@@ -55,8 +55,6 @@ int itkAffineTransformTest(
     /* FIXME: This code exercises most of the methods but doesn't
        actually check that the results are correct. */
     any = 0;
-    std::cout << "The AffineTransform class is still being implemented"
-              << std::endl;
 
     /* Create a 2D identity transformation and show its parameters */
     typedef itk::Point<double,6> ParametersType;
