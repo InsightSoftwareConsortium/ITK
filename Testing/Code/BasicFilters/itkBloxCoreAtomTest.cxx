@@ -213,6 +213,8 @@ int main()
 
   // Now allocate memory for the bloxBoundaryPointImage
   bloxBoundaryPointImage->Allocate();
+
+  std::cout << "Finding boundary points\n";
   
   // Fill the BloxBoundaryPointImage with boundary points
   bloxBoundaryPointImage->SetThreshold(128);
@@ -245,10 +247,15 @@ int main()
   coreAtomImage->SetBufferedRegion( coreatomregion );
   coreAtomImage->SetRequestedRegion( coreatomregion );
   coreAtomImage->Allocate();
-  
+
+  std::cout << "Finding core atoms\n";
+
   coreAtomImage->FindCoreAtoms();
 
   //--------------------Analyze core atom population---------------------
+
+  std::cout << "Performing Eigenanalysis\n";
+  
   coreAtomImage->DoEigenanalysis();
 
   return EXIT_SUCCESS;
