@@ -128,9 +128,10 @@ const std::type_info& PNGImageIO::GetPixelType() const
       itkErrorMacro ("Invalid type: " << m_PixelType << ", only unsigned char and unsigned short are allowed.");
       return this->ConvertToTypeInfo(m_PixelType);      
       }
-    default:
-      return typeid(unsigned char);
+    case UNKNOWN:
+      itkErrorMacro ("Unknown pixel type: " << m_PixelType);
     }
+  return typeid(ImageIOBase::UnknownType);
 }
 
   
@@ -150,6 +151,7 @@ unsigned int PNGImageIO::GetComponentSize() const
     case LONG:
     case FLOAT:
     case DOUBLE:
+    case UNKNOWN:
       {
       itkErrorMacro ("Invalid type: " << m_PixelType << ", only unsigned char and unsigned short are allowed.");
       return 0;
