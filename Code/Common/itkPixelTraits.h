@@ -18,6 +18,7 @@
 
 #include "itkNumericTraits.h"
 #include "itkRGBPixel.h"
+#include "itkIndex.h"
 
 namespace itk
 {
@@ -229,6 +230,20 @@ public:
   static void SetScalar(double& data, ScalarValueType const& v) {data = v;}
 };
 
+
+/** \class ScalarTraits<Index<unsigned int VDimension>>
+ * \brief Define (pixel) scalar traits for type <Index<unsigned int VDimension> >.
+ */
+template <unsigned int VDimension>
+class ScalarTraits< Index<VDimension> > {
+public:
+  typedef  Index<VDimension>  ValueType;
+  typedef  Index<VDimension>  ScalarValueType;
+  static ScalarValueType& GetScalar( Index<VDimension> & v) {return v;}
+  static void SetScalar( Index<VDimension> & data, ScalarValueType const& v) {data = v;}
+};
+
+
 /** \class ScalarTraits<RGBPixel<float>>
  * \brief Define (pixel) scalar traits for type <RGBPixel<float>.
  */
@@ -403,6 +418,19 @@ public:
   typedef double VectorValueType;
   static VectorValueType& GetVector(double& v) {return v;}
   static void SetVector(double& data, VectorValueType const& v) {data = v;}
+};
+
+
+/** \class VectorTraits<Index<unsigned int VDimension>>
+ * \brief Define (pixel) vector traits for type Index<unsigned int VDimension>
+ */
+template <unsigned int VDimension>
+class VectorTraits< Index<VDimension> > {
+public:
+  typedef Index<VDimension> ValueType;
+  typedef Index<VDimension> VectorValueType;
+  static VectorValueType& GetVector(Index<VDimension>& v) {return v;}
+  static void SetVector(Index<VDimension>& data, VectorValueType const & v) {data = v;}
 };
 
 
