@@ -29,7 +29,8 @@
 
 namespace
 {
-  
+
+/*  
 // this class is used to send output to stdout and not the itk window
 class TextOutput : public itk::OutputWindow
 {
@@ -43,7 +44,7 @@ public:
       std::cout << s << std::endl;
     }
 };
-
+*/
 
 double F( itk::Vector<double,3> & v );
 }
@@ -81,7 +82,7 @@ double F( itk::Vector<double,3> & v );
 int itkMultiResolutionImageRegistrationMethodTest_2(int, char**)
 {
 
-  itk::OutputWindow::SetInstance(TextOutput::New().GetPointer());
+//  itk::OutputWindow::SetInstance(TextOutput::New().GetPointer());
 
   bool pass = true;
 

@@ -24,6 +24,7 @@
 
 #include "itkOutputWindow.h"
 
+/*
 // this class is used to send output to stdout and not the itk window
 class TextOutput : public itk::OutputWindow
 {
@@ -37,6 +38,7 @@ public:
       std::cout << s << std::endl;
     }
 };
+*/
 
 /** 
  *  This program test one instantiation of the 
@@ -48,7 +50,7 @@ public:
 int itkMultiResolutionImageRegistrationMethodTest(int, char**)
 {
 
-  itk::OutputWindow::SetInstance(TextOutput::New().GetPointer());
+//  itk::OutputWindow::SetInstance(TextOutput::New().GetPointer());
 
   bool pass = true;
 
