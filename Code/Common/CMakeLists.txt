@@ -26,6 +26,6 @@ itkLightProcessObject
 
 IF (WIN32)
   SOURCE_FILES(ITKCommon_SRCS itkWin32OutputWindow)
-ELSE (WIN32)
+ENDIF (WIN32)
 
-ADD_LIBRARY(ITKCommon ITKCommon_SRCS)
+ADD_LIBRARY(ITKCommon2 ITKCommon_SRCS)
