@@ -36,7 +36,7 @@ RegistrationMapperImage<TImage,TTransformation>::PixelType
 RegistrationMapperImage<TImage,TTransformation>
 ::Evaluate( const PointType & point )
 {
-  PointType mappedPoint = m_Transformation->Transform( point );
+  PointType mappedPoint = m_Transformation->TransformPoint( point );
 
   double * spacing  = m_Domain->GetSpacing();
   RegionType region = m_Domain->GetRequestedRegion();
