@@ -994,8 +994,11 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
         }
       }
     }
-  m_LayerNodeStore->Clear();
-  m_Layers.clear();
+  if (m_LayerNodeStore)
+    {
+    m_LayerNodeStore->Clear();
+    m_Layers.clear();
+    }
 
   if (m_Data != 0)
     {
