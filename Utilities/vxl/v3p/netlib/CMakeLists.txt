@@ -291,6 +291,12 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
   SET_SOURCE_FILES_PROPERTIES(zlarfx.c COMPILE_FLAGS -Os)
 ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 
+IF(CMAKE_C_COMPILER MATCHES "icc")
+  # Disable floating point size warnings.  They are present in this
+  # source file on purpose.
+  SET_SOURCE_FILES_PROPERTIES(rpoly.c COMPILE_FLAGS -wd239,264)
+ENDIF(CMAKE_C_COMPILER MATCHES "icc")
+
 ADD_LIBRARY( itknetlib ${netlib_sources} )
 
 IF(UNIX)
