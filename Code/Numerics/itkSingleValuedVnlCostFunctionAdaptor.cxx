@@ -98,7 +98,7 @@ SingleValuedVnlCostFunctionAdaptor
     }
     
   m_CostFunction->GetDerivative( parameters, externalGradient );
-  ConvertExternalToInternalGradient( externalGradient, gradient);
+  this->ConvertExternalToInternalGradient( externalGradient, gradient);
 
 }
   
@@ -128,8 +128,14 @@ SingleValuedVnlCostFunctionAdaptor
     }
   
   m_CostFunction->GetValueAndDerivative( parameters, measure, externalGradient );
-  ConvertExternalToInternalGradient( externalGradient, *g );
-  *f = static_cast<InternalMeasureType>( measure );  
+  if( g ) // sometimes Vnl doesn't pass a valid pointer
+    {
+    this->ConvertExternalToInternalGradient( externalGradient, *g );
+    }
+  if( f ) // paranoids have longer lives...
+    {
+    *f = static_cast<InternalMeasureType>( measure );  
+    }
 }
   
 
