@@ -71,9 +71,12 @@ int main( int argc, char *argv[] )
   typedef   unsigned char   PixelType;
   typedef   float           AccumulatorPixelType;
   const     unsigned int    Dimension = 2;
+
   typedef itk::Image< PixelType, Dimension >  ImageType;
+
   ImageType::IndexType m_Index;
-  typedef itk::Image< AccumulatorPixelType, Dimension > AccumulatorImageType;  
+
+  typedef itk::Image< AccumulatorPixelType, Dimension > AccumulatorImageType;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -83,7 +86,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
   // Software Guide : BeginCodeSnippet
   typedef  itk::ImageFileReader< ImageType > ReaderType;
+
   ReaderType::Pointer reader = ReaderType::New();
+
   reader->SetFileName( argv[1] );
   try
     {
@@ -101,36 +106,50 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  Once the image is loaded, we apply a \doxygen{GradientMagnitudeImageFilter} to segment edges.
-  //  This needs to cast the input image using a \doxygen{CastImageFilter}.
+  //  Once the image is loaded, we apply a
+  //  \doxygen{GradientMagnitudeImageFilter} to segment edges.  This needs to
+  //  cast the input image using a \doxygen{CastImageFilter}.
   //
   //  Software Guide : EndLatex 
   // Software Guide : BeginCodeSnippet
   typedef itk::CastImageFilter< 
                         ImageType, 
-                        AccumulatorImageType    >    CastingFilterType;
+                        AccumulatorImageType >    CastingFilterType;
   
   CastingFilterType::Pointer caster = CastingFilterType::New();
 
   std::cout << "Applying gradient magnitude filter" << std::endl;
-  typedef itk::GradientMagnitudeImageFilter<AccumulatorImageType,
-                                            AccumulatorImageType> GradientFilterType;
+
+  typedef itk::GradientMagnitudeImageFilter<
+                                  AccumulatorImageType,
+                                  AccumulatorImageType
+                                                > GradientFilterType;
+
   GradientFilterType::Pointer gradFilter =  GradientFilterType::New();
+
   caster->SetInput(m_Image);
   gradFilter->SetInput(caster->GetOutput());
   gradFilter->Update();
   // Software Guide : EndCodeSnippet
 
+
+
   //  Software Guide : BeginLatex
   //  
-  //  The next step is to apply a threshold filter on the gradient magnitude image to keep only
-  //  bright values. Only pixels with a high value will be used by the HoughTransformFilter.
+  //  The next step is to apply a threshold filter on the gradient magnitude
+  //  image to keep only bright values. Only pixels with a high value will be
+  //  used by the HoughTransformFilter.
   //
   //  Software Guide : EndLatex 
+
   // Software Guide : BeginCodeSnippet
   std::cout << "Thresholding" << std::endl;
-  typedef itk::ThresholdImageFilter<AccumulatorImageType> ThresholdFilterType;
+
+  typedef itk::ThresholdImageFilter< 
+                             AccumulatorImageType > ThresholdFilterType;
+
   ThresholdFilterType::Pointer threshFilter = ThresholdFilterType::New();
+
   threshFilter->SetInput( gradFilter->GetOutput());
   threshFilter->SetOutsideValue(0);
   unsigned char thresh_below = 0;
@@ -147,9 +166,11 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
   // Software Guide : BeginCodeSnippet
   std::cout << "Computing Hough Map" << std::endl;
-  typedef itk::HoughTransform2DLinesImageFilter<AccumulatorPixelType,
-                                                AccumulatorPixelType>   
-                                                         HoughTransformFilterType;
+  typedef itk::HoughTransform2DLinesImageFilter<
+                                          AccumulatorPixelType,
+                                          AccumulatorPixelType
+                                                     >  HoughTransformFilterType;
+
   HoughTransformFilterType::Pointer houghFilter = HoughTransformFilterType::New();
   // Software Guide : EndCodeSnippet
 
@@ -187,7 +208,8 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  We can then allocate an image to draw the resulting lines as binary objects.
+  //  We can then allocate an image to draw the resulting lines as binary
+  //  objects.
   //
   //  Software Guide : EndLatex 
   // Software Guide : BeginCodeSnippet
@@ -212,11 +234,17 @@ int main( int argc, char *argv[] )
   //  We iterate through the list of lines and we draw them.
   //
   //  Software Guide : EndLatex 
+
   // Software Guide : BeginCodeSnippet
-  HoughTransformFilterType::LinesListType::const_iterator it_lines = lines.begin();
-  while(it_lines != lines.end())
-  {  
+  typedef HoughTransformFilterType::LinesListType::const_iterator LineIterator;
+
+  LineIterator it_lines = lines.begin();
+  while( it_lines != lines.end() )
+    {  
   // Software Guide : EndCodeSnippet
+
+
+
   //  Software Guide : BeginLatex
   //  
   //  We get the list of points which consists of two points to represent a straight line.
@@ -225,10 +253,10 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex 
   // Software Guide : BeginCodeSnippet
-    HoughTransformFilterType::LineType::PointListType 
-                                              points_list = (*it_lines)->GetPoints();
-    HoughTransformFilterType::LineType::PointListType::const_iterator 
-                                              it_points = points_list.begin();
+  typedef HoughTransformFilterType::LineType::PointListType  PointListType;
+
+    PointListType                   points_list = (*it_lines)->GetPoints();
+    PointListType::const_iterator   it_points = points_list.begin();
     
     double u[2];
     u[0] = (*it_points).GetPosition()[0];
@@ -239,8 +267,8 @@ int main( int argc, char *argv[] )
     v[1] = u[1]-(*it_points).GetPosition()[1];
 
     double norm = sqrt(v[0]*v[0]+v[1]*v[1]);
-    v[0]/=norm;
-    v[1]/=norm;
+    v[0] /= norm;
+    v[1] /= norm;
   // Software Guide : EndCodeSnippet
   //  Software Guide : BeginLatex
   //  
@@ -249,22 +277,24 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
   // Software Guide : BeginCodeSnippet
     itk::Size<2> size = m_OutputImage->GetLargestPossibleRegion().GetSize();
-    float diag = sqrt((float)(size[0]*size[0]+size[1]*size[1]));
-    for(int i=static_cast<int>(-diag);i<static_cast<int>(diag);i++)
-    {
+
+    float diag = sqrt((float)( size[0]*size[0] + size[1]*size[1] ));
+
+    for(int i=static_cast<int>(-diag); i<static_cast<int>(diag); i++)
+      {
       m_Index[0]=(long int)(u[0]+i*v[0]);
       m_Index[1]=(long int)(u[1]+i*v[1]);
 
-      if(m_Index[0]>=0 
-         && m_Index[0]<(long)m_OutputImage->GetLargestPossibleRegion().GetSize()[0]
-         && m_Index[1]>=0 
-         && m_Index[1]<(long)m_OutputImage->GetLargestPossibleRegion().GetSize()[1])
-      {
-        m_OutputImage->SetPixel(m_Index,255);
+      OutputImageType::RegionType region =
+                          m_OutputImage->GetLargestPossibleRegion();
+
+      if( region.IsInside( m_Index ) )
+        {
+        m_OutputImage->SetPixel( m_Index, 255 );
+        }
       }
-    }
     it_lines++;
-  }
+    }
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -274,13 +304,15 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
   // Software Guide : BeginCodeSnippet
   typedef  itk::ImageFileWriter<  OutputImageType  > WriterType;
+
   WriterType::Pointer writer = WriterType::New();
+
   writer->SetFileName( argv[2] );
-  writer->SetInput(m_OutputImage);
+  writer->SetInput( m_OutputImage );
 
   try
     {
-      writer->Update();
+    writer->Update();
     }
   catch( itk::ExceptionObject & excep )
     {
