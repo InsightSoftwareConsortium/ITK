@@ -10,7 +10,6 @@ void RegisterTests()
   vnl_sample_reseed(8775070);
   REGISTER_TEST(itkAlgorithmsPrintTest  );
   REGISTER_TEST(itkAlgorithmsPrintTest2  );
-  REGISTER_TEST(itkAlgorithmsPrintTest3  );
   REGISTER_TEST(itkCompareHistogramImageToImageMetricTest   );
   REGISTER_TEST(itkDeformableSimplexMesh3DFilterTest   );
   REGISTER_TEST(itkDeformableSimplexMesh3DBalloonForceFilterTest  );
