@@ -645,3 +645,12 @@ TARGET_LINK_LIBRARIES(itkBasicFiltersTests ITKIO ITKNumerics ITKBasicFilters)
 
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
 
+IF(ITK_CSWIG_PYTHON)
+
+  ADD_TEST(CastImageFilterPython ${PYTHON_EXECUTABLE}
+           ${ITK_SOURCE_DIR}/Examples/Filtering/CastImageFilter.py
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+           ${ITK_TEST_OUTPUT_DIR}/CastImageFilterPythonTest.png )
+
+ENDIF(ITK_CSWIG_PYTHON)
+
