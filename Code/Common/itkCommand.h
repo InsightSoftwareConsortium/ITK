@@ -140,6 +140,7 @@ public:
    * pointer to a member function that takes a LightObject* and the event
    */
   typedef  void (T::*TMemberFunctionPointer)(LightObject*, unsigned long);
+  typedef  void (T::*TConstMemberFunctionPointer)(const LightObject*, unsigned long);
   
   /**
    * Standard "Self" typedef.
@@ -188,13 +189,14 @@ public:
    */
   virtual void Execute( const LightObject *caller, unsigned long event)
     { 
-      ((*m_This).*(m_MemberFunction))(caller, event);
+      ((*m_This).*(m_ConstMemberFunction))(caller, event);
     }
 
 
 protected:
   T* m_This;
   TMemberFunctionPointer m_MemberFunction;
+  TConstMemberFunctionPointer m_ConstMemberFunction;
   MemberCommand(){}; 
   virtual ~MemberCommand(){}; 
   MemberCommand(const Self&) {}
@@ -276,9 +278,10 @@ class CStyleCommand : public Command
 {
 public:
   typedef  void (*FunctionPointer)(LightObject*, unsigned long, void*);
-  typedef  void (*FunctionPointer2)(const LightObject*, unsigned long, void*);
+  typedef  void (*ConstFunctionPointer)(const LightObject*, unsigned long, void*);
   typedef  void (*DeleteDataFunctionPointer)(void*);
-   /**
+
+  /**
    * Standard "Self" typedef.
    */
   typedef CStyleCommand         Self;
@@ -313,8 +316,8 @@ public:
   void SetCallback(FunctionPointer f)
     {m_Callback = f;}
 
-  void SetCallback2(FunctionPointer2 f)
-    {m_Callback2 = f;}
+  void SetConstCallback(ConstFunctionPointer f)
+    {m_ConstCallback = f;}
 
 
   /**
@@ -339,9 +342,9 @@ public:
    */
   void Execute(const LightObject *caller, unsigned long event)
     {
-    if (m_Callback2)
+    if (m_ConstCallback)
       {
-      m_Callback2(caller, event, m_ClientData );
+      m_ConstCallback(caller, event, m_ClientData );
       }
     };
 
@@ -351,6 +354,7 @@ protected:
     { 
       m_ClientData = 0;
       m_Callback = 0; 
+      m_ConstCallback = 0; 
       m_ClientDataDeleteCallback = 0;
     }
   ~CStyleCommand() 
@@ -362,7 +366,7 @@ protected:
     };
   void *m_ClientData;
   FunctionPointer m_Callback;
-  FunctionPointer2 m_Callback2;
+  ConstFunctionPointer m_ConstCallback;
   DeleteDataFunctionPointer m_ClientDataDeleteCallback;
 };
 
