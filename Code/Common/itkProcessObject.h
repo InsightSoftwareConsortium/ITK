@@ -248,8 +248,8 @@ protected:
   virtual void SetNthInput(unsigned int num, itkDataObject *input);
   virtual void AddInput(itkDataObject *input);
   virtual void RemoveInput(itkDataObject *input);
-  itkSetMacro(NumberOfRequiredInputs,int);
-  itkGetMacro(NumberOfRequiredInputs,int);
+  itkSetMacro(NumberOfRequiredInputs,unsigned int);
+  itkGetMacro(NumberOfRequiredInputs,unsigned int);
 
   // protected methods for setting outputs.
   virtual void SetNthOutput(unsigned int num, itkDataObject *output);
@@ -291,7 +291,7 @@ protected:
 private:
 
   itkDataObject **m_Inputs;     // An Array of the inputs to the filter
-  int m_NumberOfInputs;
+  unsigned int m_NumberOfInputs;
   unsigned int m_NumberOfRequiredInputs;
 
   itkDataObject **m_Outputs;   // An Array of the outputs to the filter
