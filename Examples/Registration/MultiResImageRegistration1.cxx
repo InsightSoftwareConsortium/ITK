@@ -26,10 +26,9 @@
 // multi-modality registration problem. In addition to the 
 // two input Images, a Transform, a Metric, an Interpolator and
 // an Optimizer, the multi-resolution frameworks also require
-// two Image Pyramids for creating the sequence downsampled images. 
-// The following headers declare the basic components of 
-// the registration method.
-//
+// two Image Pyramids for creating the sequence of downsampled images. 
+// First we include the headers of the registration components we
+// will use.
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
@@ -55,7 +54,7 @@
 // \code{MultiResolutionImageRegistrationMethod} solves a registration problem
 // in a coarse to fine manner as illustrated in Figure
 // \ref{fig:MultiResRegistrationConcept}. The registration is first performed
-// at the coarsest level using the images for the first level of the fixed and
+// at the coarsest level using the images of the first level of the fixed and
 // moving image pyramids. The transform parameters determined by the
 // registration are then used to initialize registration at the next finer
 // level using images from the second level of the pyramids. This process is
@@ -73,11 +72,12 @@
 
 // Software Guide : BeginLatex
 //
-// In a typical registration scenario, a user will typically want to tweak
+// In a typical registration scenario, a user will want to tweak
 // component settings or even swap out components between multi-resolution
-// levels. For example, when optimizing at a coarse, it may be possible to take
+// levels. For example, when optimizing at a coarse resolution, 
+// it may be possible to take
 // more aggressive step sizes and have a more relaxed convergence criterion.
-// Another scheme, may be to use a simple translation transform for the initial
+// Another possible scheme is to use a simple translation transform for the initial
 // coarse registration and upgrade to an affine transform at the finer levels.
 //
 // Tweaking of the components between resolution levels can be done using ITK's
