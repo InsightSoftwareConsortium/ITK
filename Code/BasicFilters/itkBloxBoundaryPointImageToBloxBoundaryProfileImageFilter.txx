@@ -622,10 +622,7 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
   m_FinalParameters[2] = finalPosition[2];
   m_FinalParameters[3] = finalPosition[3];
 
-  delete [] vnlOptimizer;
-
   return EXIT_SUCCESS;
-
 }
 
 template< typename TSourceImage >
