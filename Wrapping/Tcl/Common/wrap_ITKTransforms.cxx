@@ -17,6 +17,7 @@
 #include "itkAffineTransform.h"
 #include "itkAzimuthElevationToCartesianTransform.h"
 #include "itkBSplineDeformableTransform.h"
+#include "itkCenteredRigid2DTransform.h"
 #include "itkElasticBodyReciprocalSplineKernelTransform.h"
 #include "itkElasticBodySplineKernelTransform.h"
 #include "itkEuler2DTransform.h"
@@ -50,6 +51,7 @@
 
 ITK_WRAP_CONFIG_GROUP(ITKTransforms);
 
+ITK_WRAP_TRANSFORM_1(CenteredRigid2DTransform);
 ITK_WRAP_TRANSFORM_1(Euler2DTransform);
 ITK_WRAP_TRANSFORM_1(QuaternionRigidTransform);
 ITK_WRAP_TRANSFORM_1(Rigid2DTransform);
