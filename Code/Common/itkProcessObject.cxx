@@ -48,6 +48,22 @@ ProcessObject
 ProcessObject
 ::~ProcessObject()
 {
+  // Tell each output that we are going away.  If other objects have a 
+  // reference to one of these outputs, the data object will not be deleted
+  // when the process object is deleted.  However, the data object's source
+  // will still point back to the now nonexistent process object if we do not
+  // clean things up now.
+  int idx;
+  for (idx = 0; idx < m_Outputs.size(); ++idx)
+    {
+    if (m_Outputs[idx])
+      {
+      // let the output know we no longer want to associate with the object
+      m_Outputs[idx]->DisconnectSource(this, idx);
+      // let go of our reference to the data object
+      m_Outputs[idx] = 0;
+      }
+    }
 }
 
 typedef DataObject *DataObjectPointer;
@@ -177,7 +193,9 @@ ProcessObject
     return;
     }
 
-  // Set the position in the m_Outputs containing output to 0
+  // let the output know we no longer want to associate with the object
+  (*pos)->DisconnectSource(this, pos - m_Outputs.begin());
+  // let go of our reference to the data object
   *pos = 0;
 
   // if that was the last output, then shrink the list
@@ -204,7 +222,7 @@ ProcessObject
     {
     return;
     }
-  
+
   // Expand array if necessary.
   if (idx >= m_Outputs.size())
     {
@@ -213,14 +231,25 @@ ProcessObject
 
   if ( m_Outputs[idx] )
     {
-    m_Outputs[idx]->SetSource(0);
+    m_Outputs[idx]->DisconnectSource(this, idx);
     }
 
   if (output)
     {
-    output->SetSource(this);
-    m_Outputs[idx] = output;
+    output->ConnectSource(this, idx);
     }
+  // save the current reference (which releases the previous reference)
+  m_Outputs[idx] = output;
+
+  // if we are clearing an output, we need to create a new blank output
+  // so we are prepared for the next Update()
+//   if (!m_Outputs[idx])
+//     {
+//     itkDebugMacro( << this->GetClassName() << " (" 
+//                    << this << "): creating new output object." );
+//     DataObjectPointer newOutput = ...
+//     this->SetNthOutput(idx, newOutput);
+//     }
 
   this->Modified();
 }
@@ -235,23 +264,29 @@ ProcessObject
 {
   unsigned int idx;
   
-  if (output)
-    {
-    output->SetSource(this);
-    }
-  this->Modified();
-  
   for (idx = 0; idx < m_Outputs.size(); ++idx)
     {
     if (m_Outputs[idx] == 0)
       {
       m_Outputs[idx] = output;
+
+      if (output)
+        {
+        output->ConnectSource(this, idx);
+        }
+      this->Modified();
+  
       return;
       }
     }
   
   this->SetNumberOfOutputs(m_Outputs.size() + 1);
   m_Outputs[m_Outputs.size() - 1] = output;
+  if (output)
+    {
+    output->ConnectSource(this, m_Outputs.size()-1);
+    }
+  this->Modified();
 }
 
 /**
@@ -934,69 +969,7 @@ ProcessObject
     }
 }
 
-//----------------------------------------------------------------------------
-// This code determines the number of external (or net) references to the cycle
-// of mutual references between data objects and process objects.
-//
-int 
-ProcessObject
-::GetNetReferenceCount() const
-{
-  int refCount=this->GetReferenceCount();
-  
-  std::vector<DataObjectPointer>::size_type idx;
-  for ( idx = 0; idx < m_Outputs.size(); ++idx)
-    {
-    if ( m_Outputs[idx] )
-      {
-      // subtract one (per each data object) because the data object references me
-      refCount -= 1;
-      
-      // Now take into account the reference counts on the data objects.
-      // Subtract one because I refer to the data object.
-      refCount += m_Outputs[idx]->GetReferenceCount() - 1;
-      }
-    }
-  return refCount;
-}
 
-//----------------------------------------------------------------------------
-void 
-ProcessObject
-::UnRegister() const
-{
-  // Determine the number of external references to the expected reference
-  // count cycle between the process objects and its outputs.
-  int refCount = this->GetNetReferenceCount();
-
-  // We are decrementing the external reference count by 1. So if the net 
-  // (external) reference count (combined process/data object count)
-  // is <= 1, then we are going to be destroyed.
-  if ( refCount <= 1 ) 
-    {
-    // The following magic statement temporarily ups the reference
-    // count so that the SetSource() method, which results in a recursive
-    // UnRegister(), does not enter into this if(refCount<=1) loop the
-    // next time. We UnRegister() when we are done with the outputs.
-    Superclass::Register();
-
-    // Break reference count cycle to output
-    std::vector<DataObjectPointer>::size_type idx;
-    for (idx = 0; idx < m_Outputs.size(); ++idx)
-      {
-      if ( m_Outputs[idx] )
-        {
-        m_Outputs[idx]->SetSource(0); //side effect: recursively unregister me!
-        }
-      }//for all outputs
-
-    // Release block for recursive UnRegister()
-    Superclass::UnRegister();
-    }//if deleting
-
-  // Cycle is broken, propagate normal behavior to superclass
-  Superclass::UnRegister();
-}
 
 
 } // end namespace itk

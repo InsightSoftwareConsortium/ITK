@@ -32,6 +32,7 @@ DataObject::
 DataObject()
 {
   m_Source = 0;
+  m_SourceOutputIndex = 0;
 
   // We have to assume that if a user is creating the data on their own,
   // then they will fill it with valid data.
@@ -41,8 +42,6 @@ DataObject()
 
   m_PipelineMTime = 0;
   
-  m_UnderConstruction = false;
-
   m_RequestedRegionInitialized = false;
 }
 
@@ -112,17 +111,53 @@ DataObject
 //
 void 
 DataObject
-::SetSource(ProcessObject *arg) const
+::DisconnectPipeline() const
 {
   itkDebugMacro( << this->GetClassName() << " (" 
-                 << this << "): setting Source to " << arg ); 
+                 << this << "): disconnecting from the pipeline." );
 
-  if ( m_Source != arg ) 
+  // disconnect ourselves from the current process object
+  if (m_Source)
     {
-    m_Source = arg; 
-    this->Modified(); 
+    m_Source->SetNthOutput(m_SourceOutputIndex, 0);
+    }
+
+  this->Modified(); 
+}
+
+
+void
+DataObject
+::DisconnectSource(ProcessObject *arg, unsigned int idx) const
+{
+  itkDebugMacro( << this->GetClassName() << " (" 
+                 << this << "): disconnecting source  " << arg
+                 << ", source output index " << idx);
+
+  if ( m_Source == arg && m_SourceOutputIndex == idx)
+    {
+    m_Source = 0;
+    m_SourceOutputIndex = 0;
+    this->Modified();
     }
 }
+
+void
+DataObject
+::ConnectSource(ProcessObject *arg, unsigned int idx) const
+{
+  itkDebugMacro( << this->GetClassName() << " (" 
+                 << this << "): connecting source  " << arg
+                 << ", source output index " << idx);
+
+  if ( m_Source != arg || m_SourceOutputIndex != idx)
+    {
+    m_Source = arg;
+    m_SourceOutputIndex = idx;
+    this->Modified();
+    }
+}
+
 
 //----------------------------------------------------------------------------
 
@@ -133,6 +168,15 @@ DataObject
   itkDebugMacro(<< this->GetClassName() << " (" << this
                 << "): returning Source address " << m_Source );
   return m_Source;
+}
+
+unsigned int
+DataObject
+::GetSourceOutputIndex() const
+{
+  itkDebugMacro(<< this->GetClassName() << " (" << this
+                << "): returning Source index " << m_SourceOutputIndex );
+  return m_SourceOutputIndex;
 }
 
 
@@ -146,14 +190,13 @@ DataObject
   if ( m_Source )
     {
     os << indent << "Source: " << m_Source << "\n";
+    os << indent << "Source output index: " << m_SourceOutputIndex << "\n";
     }
   else
     {
     os << indent << "Source: (none)\n";
+    os << indent << "Source output index:  0\n";
     }
-
-  os << indent << "Under Construction: " 
-     << (m_UnderConstruction ? "On\n" : "Off\n");
 
   os << indent << "Release Data: " 
      << (m_ReleaseDataFlag ? "On\n" : "Off\n");
@@ -297,63 +340,5 @@ DataObject
   return 0;
 }
 
-//----------------------------------------------------------------------------
-// The net reference count is the number of external references to the data object/
-// process object cycle. Note that ProcessObject::GetNetReferenceCount() is the
-// method that actually computes the number of reference counts, we delegate it
-// to this method.
-int 
-DataObject
-::GetNetReferenceCount() const
-{
-  if ( m_Source )
-    {
-    return m_Source->GetNetReferenceCount();
-    }
-  else
-    {
-    return this->GetReferenceCount();
-    }
-}
-
-//----------------------------------------------------------------------------
-void 
-DataObject
-::UnRegister() const
-{
-  // Determine the number of external references to the expected reference
-  // count cycle between the process objects and its outputs.
-  int refCount = this->GetNetReferenceCount();
-
-  // We are decrementing the external reference count by 1. So if the net 
-  // (external) reference count (combined process/data object count)
-  // is <= 1, then we are going to be destroyed.
-  if ( refCount <= 1 && ! m_UnderConstruction ) 
-    {
-    // The following magic statement temporarily ups the reference
-    // count so that the SetSource() method, which results in a recursive
-    // UnRegister(), does not enter into this if(refCount<=1) loop the
-    // next time. We UnRegister() when we are done with the outputs.
-    Superclass::Register();
-
-    // Break reference count cycle to source
-    if ( m_Source.GetPointer() )
-      {
-      this->SetSource(0); //side effect: unregisters the source!
-      }
-
-    // Release block for recursive UnRegister()
-    Superclass::UnRegister();
-    }//if deleting
-
-  // Turn off the flag indicating first time construction
-  if ( m_UnderConstruction )
-    {
-    m_UnderConstruction = false;
-    }
-
-  // Cycle is broken, propagate normal behavior to superclass
-  Superclass::UnRegister();
-}
 
 } // end namespace itk

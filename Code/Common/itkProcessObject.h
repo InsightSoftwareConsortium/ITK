@@ -281,20 +281,6 @@ public:
   MultiThreader::Pointer GetMultiThreader()
     {return m_Threader;}
   
-  /** 
-   * Handle the process object/data object reference-counting loop. 
-   */
-  virtual void UnRegister() const;
-
-  /** 
-   * Get the net reference count. This is the number of
-   * external references to the DatObject/SourceObject pair.
-   * (An external reference is a reference via a smart pointer.)
-   * This is used to break reference-counting loops. (If the
-   * number of external references is 0, then the 
-   * DataObject/SourceObject objects can be deleted.)
-   */
-  virtual int GetNetReferenceCount() const;
 
 protected:
   ProcessObject();
@@ -391,6 +377,10 @@ private:
   MultiThreader::Pointer m_Threader;
   int m_NumberOfThreads;
 
+  /**
+   * Friends of ProcessObject
+   */
+  friend DataObject;
 };
 
 } // end namespace itk

@@ -19,6 +19,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkObject.h"
 #include "itkObjectFactory.h"
 #include "itkSmartPointerForwardReference.h"
+#include "itkWeakPointer.h"
 
 namespace itk
 {
@@ -61,10 +62,14 @@ public:
    */
   itkTypeMacro(DataObject,Object);
 
-  /** 
-   * Set the process object creating this data object. 
+  /**
+   * Separate this data object from the pipeline.  This routine disconnects
+   * a data object from the upstream pipeline. Hence an Update() from
+   * downstream will not propagate back past this data object.  To completely
+   * isolate this data object from the pipeline, the application must remove
+   * this data object from any filters which it is connected as the input.
    */
-  void SetSource(ProcessObject *s) const;
+  void DisconnectPipeline() const;
   
   /** 
    * Get the process object that generated this data object.
@@ -75,9 +80,18 @@ public:
    * DataObject and ProcessObject causes compile problems. Also,
    * a forward reference smart pointer is returned, not a smart pointer, 
    * because of the circular dependency between the process and data object.)
+   *
+   * GetSource() returns a SmartPointerForwardReference and not a WeakPointer
+   * because it is assumed the code calling GetSource() wants to hold a
+   * long term reference to the source.
    */
   SmartPointerForwardReference<ProcessObject> GetSource() const;
-  
+
+  /**
+   * Which of the source's outputs corresponds to this data object?
+   */
+  unsigned int GetSourceOutputIndex() const;
+    
   /** 
    * Restore the data object to its initial state. This means releasing
    * memory.
@@ -167,28 +181,6 @@ public:
    */
   virtual void SetRequestedRegion(DataObject *data) = 0;
   
-  /** 
-   * Handle the process object/data object reference-counting loop. 
-   */
-  virtual void UnRegister() const;
-
-  /** 
-   * Get the net reference count. This is the number of
-   * external references to the DatObject/SourceObject pair.
-   * (An external reference is a reference via a smart pointer.)
-   * This is used to break reference-counting loops. (If the
-   * number of external references is 0, then the 
-   * DataObject/SourceObject objects can be deleted.)
-   */
-  virtual int GetNetReferenceCount() const;
-
-  /**
-   * Turn on and off the UnderConstruction ivar. Set by a
-   * process object during construction to avoid nasty
-   * reference counting behavior.
-   */
-  void UnderConstructionOn() const
-    {m_UnderConstruction = true;}
   
 protected:
   DataObject();
@@ -206,8 +198,9 @@ protected:
 
 private:
   //Who generated this data?
-  mutable SmartPointerForwardReference<ProcessObject> m_Source; 
-
+  mutable WeakPointer<ProcessObject> m_Source; 
+  mutable unsigned int m_SourceOutputIndex;
+  
   //When was this data last generated?
   TimeStamp m_UpdateTime;  
 
@@ -226,13 +219,29 @@ private:
   // This supports distributed processing (i.e., asynchronous updates).
   float m_Locality;  
   
-  // Special ivar used during construction by data objects to prevent
-  // nasty cyclic reference counting behavior.
-  mutable bool m_UnderConstruction;
-
   // Static member that controls global data release after use by filter.
   //
   static bool m_GlobalReleaseDataFlag;
+
+  /** 
+   * Connect the specified process object to the data object. This
+   * should only be called from a process object. 
+   */
+  void ConnectSource(ProcessObject *s, unsigned int idx) const;
+
+  /** 
+   * Disconnect the specified process object from the data object. This
+   * should only be called from a process object. An application should
+   * call DataObject::DisconnectPipeline() if it wants to disconnect a data 
+   * object from a pipeline.
+   */
+  void DisconnectSource(ProcessObject *s, unsigned int idx) const;
+  
+  /**
+   * Friends of DataObject
+   */
+  friend ProcessObject;
+
 };
 
 } // end namespace itk
