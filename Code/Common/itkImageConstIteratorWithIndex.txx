@@ -131,6 +131,8 @@ ImageConstIteratorWithIndex<TImage>
 
   m_PixelAccessor = m_Image->GetPixelAccessor();
 
+  GoToBegin();
+
 }
  
 
