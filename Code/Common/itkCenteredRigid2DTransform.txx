@@ -159,7 +159,7 @@ CenteredRigid2DTransform<TScalarType>
 template <class TScalarType>
 void
 CenteredRigid2DTransform<TScalarType>
-::SetCenterOfRotation( const InputPointType & center )
+::SetCenter( const InputPointType & center )
 {
   m_Center = center;
   this->ComputeMatrixAndOffset();

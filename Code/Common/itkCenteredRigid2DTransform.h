@@ -128,7 +128,7 @@ public:
   itkGetConstReferenceMacro( Angle, TScalarType );
   
   /** Set and Get the center of rotation */
-  void SetCenterOfRotation( const InputPointType & center );
+  void SetCenter( const InputPointType & center );
   itkGetConstReferenceMacro( Center, InputPointType );
 
   /** Set and Get the Translation to be applied after rotation */

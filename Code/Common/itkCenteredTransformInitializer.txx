@@ -117,7 +117,7 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage >
 
     }
 
-  m_Transform->SetCenterOfRotation( rotationCenter );
+  m_Transform->SetCenter( rotationCenter );
 
   m_Transform->SetTranslation( translationVector );
 
