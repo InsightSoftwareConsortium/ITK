@@ -24,6 +24,7 @@
 #include "gdcm/src/gdcmFile.h"
 #include "gdcm/src/gdcmHeader.h"
 #include <fstream>
+#include <math.h>   //for fabs on SGI
 
 namespace itk
 {
