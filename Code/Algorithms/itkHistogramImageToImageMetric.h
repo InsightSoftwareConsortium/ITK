@@ -82,57 +82,34 @@ public:
 
   /** Sets the histogram size. Note this function must be called before
       \c Initialize(). */
-  inline void SetHistogramSize(const HistogramSizeType & size)
-    {
-      m_HistogramSize = size;
-    }
+  itkSetMacro( HistogramSize, HistogramSizeType );
 
   /** Gets the histogram size. */
-  inline const HistogramSizeType & GetHistogramSize() const
-    {
-      return m_HistogramSize;
-    }
+  itkGetConstReferenceMacro( HistogramSize, HistogramSizeType );
 
   /** The padding value. */
-  inline void SetPaddingValue(FixedImagePixelType const padding)
-    {
-      m_PaddingValue = padding;
-    }
+  itkSetMacro( PaddingValue, FixedImagePixelType );
 
   /** Returns the padding value. */
-  inline FixedImagePixelType GetPaddingValue() const
-    {
-      return m_PaddingValue;
-    }
+  itkGetConstReferenceMacro( PaddingValue, FixedImagePixelType );
 
   /** Set whether the padding value should be used to determine which pixels
       should be ignored when calculating the similarity measure. Those pixels
       in the fixed image which have the padding value will be ignored. */
-  inline void UsePaddingValue(bool use = true)
-    {
-      m_UsePaddingValue = use;
-    }
+  itkSetMacro( UsePaddingValue, bool );
+  itkGetMacro( UsePaddingValue, bool );
 
   /** Sets the step length used to calculate the derivative. */
-  inline void SetDerivativeStepLength(double length)
-    {
-      m_DerivativeStepLength = length;
-    }
+  itkSetMacro( DerivativeStepLength, double );
 
   /** Returns the step length used to calculate the derivative. */
-  inline double GetDerivativeStepLength()
-    {
-      return m_DerivativeStepLength;
-    }
+  itkGetMacro( DerivativeStepLength, double );
 
   /** The scales type. */
   typedef Array<double> ScalesType;
 
   /** Sets the derivative step length scales. */
-  inline void SetDerivativeStepLengthScales(ScalesType const& scales)
-    {
-      m_DerivativeStepLengthScales = scales;
-    }
+  itkSetMacro( DerivativeStepLengthScales, ScalesType );
 
   /** Returns the derivate step length scales. */
   itkGetConstReferenceMacro(DerivativeStepLengthScales, ScalesType);
