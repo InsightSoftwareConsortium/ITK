@@ -14,51 +14,56 @@ See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
 /**
- * itkDataObject is the base class for all data objects in the Insight
+ * DataObject is the base class for all data objects in the Insight
  * data processing pipeline. A data object is an object that represents
- * and provides access to data. itkProcessObjects operate on data object,
- * producing new data objects as output. itkProcessObject and itkDataObject
+ * and provides access to data. ProcessObjects operate on data object,
+ * producing new data objects as output. ProcessObject and DataObject
  * can be connected together into data flow pipelines.
  * 
- * \sa itkProcessObject
- * \sa itkImageBase
- * \sa itkMeshBase
+ * \sa ProcessObject
+ * \sa ImageBase
+ * \sa MeshBase
  */
 
 #ifndef __itkDataObject_h
 #define __itkDataObject_h
 
 #include "itkObject.h"
+#include "itkObjectFactory.h"
 
-class itkProcessObject;
+namespace itk
+{
 
-class ITK_EXPORT itkDataObject : public itkObject
+class ProcessObject;
+
+class ITK_EXPORT DataObject : public Object
 {
 public:
   /** 
    * Smart pointer typedef support.
    */
-  typedef itkSmartPointer<itkDataObject> Pointer;
+  typedef DataObject          Self;
+  typedef SmartPointer<Self>  Pointer;
 
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(itkDataObject,itkObject);
+  itkTypeMacro(DataObject,Object);
 
-  /** 
-   * Instantiate object.
+  /**
+   * Method for creation through the object factory.
    */
-  static Pointer New();
+  itkNewMacro(Self);
 
   /** 
    * Set the source object creating this data object. 
    */
-  void SetSource(itkProcessObject *s);
+  void SetSource(ProcessObject *s);
   
   /** 
    * Get the source object creating this data object. 
    */
-  itkGetObjectMacro(Source,itkProcessObject);
+  itkGetObjectMacro(Source,ProcessObject);
   
   /** 
    * Set the dimension (number of independent variables) of the data.
@@ -89,7 +94,7 @@ public:
   /** 
    * Turn on/off a flag to control whether every object releases its data
    * after being used by a filter. Being a global flag, it controls the
-   * behavior of all itkDataObjects and itkProcessObjects.
+   * behavior of all DataObjects and ProcessObjects.
    */
   static void SetGlobalReleaseDataFlag(const bool val);
   static bool GetGlobalReleaseDataFlag();
@@ -148,7 +153,7 @@ public:
   typedef enum {ITK_UNSTRUCTURED_EXTENT,ITK_STRUCTURED_EXTENT} ExtentType;
   
   virtual int GetExtentType() 
-    {return itkDataObject::ITK_UNSTRUCTURED_EXTENT;}
+    {return DataObject::ITK_UNSTRUCTURED_EXTENT;}
   void SetUpdateExtentToWholeExtent();
   virtual void PrepareForNewData() 
     {this->Initialize();};
@@ -157,7 +162,7 @@ public:
   unsigned long GetEstimatedPipelineMemorySize();
   virtual unsigned long GetEstimatedMemorySize();
   virtual unsigned long GetActualMemorySize();
-  void CopyInformation(itkDataObject *data);
+  void CopyInformation(DataObject *data);
   virtual bool UpdateExtentIsOutsideOfTheExtent();
   virtual bool VerifyUpdateExtent();
 
@@ -188,16 +193,16 @@ public:
     {return this->GetReferenceCount();}
 
 protected:
-  itkDataObject();
-  ~itkDataObject();
-  itkDataObject(const itkDataObject&) {};
-  void operator=(const itkDataObject&) {};
-  void PrintSelf(std::ostream& os, itkIndent indent);
+  DataObject();
+  ~DataObject();
+  DataObject(const Self&) {}
+  void operator=(const Self&) {}
+  void PrintSelf(std::ostream& os, Indent indent);
 
 private:
-  itkProcessObject *m_Source; ///Who generated this data as output?
+  ProcessObject *m_Source; ///Who generated this data as output?
 
-  itkTimeStamp m_UpdateTime;  ///When was this data last generated?
+  TimeStamp m_UpdateTime;  ///When was this data last generated?
 
   bool m_ReleaseDataFlag; ///Data will release after use by a filter if on
   bool m_DataReleased; ///Keep track of data release during network execution
@@ -242,6 +247,13 @@ private:
   // Was the update extent propagated down the pipeline
   bool m_LastUpdateExtentWasOutsideOfTheExtent;
 
+  
+  /**
+   * Static member that controls global data release after use by filter
+   */
+  static bool m_GlobalReleaseDataFlag;
 };
 
+} // namespace itk
+  
 #endif

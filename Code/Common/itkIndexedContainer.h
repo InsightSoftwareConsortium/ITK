@@ -53,8 +53,8 @@ public:
   /**
    * Smart pointer typedef support.
    */
-  typedef IndexedContainer         Self;
-  typedef itkSmartPointer< Self >  Pointer;
+  typedef IndexedContainer      Self;
+  typedef SmartPointer< Self >  Pointer;
 
   /**
    * Save the template parameters.

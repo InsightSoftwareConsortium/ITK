@@ -14,7 +14,7 @@
 
 =========================================================================*/
 /**
- * itkWriteVTKImage writes 1-3D images in VTK file format. You can specify
+ * WriteVTKImage writes 1-3D images in VTK file format. You can specify
  * binary or ASCII output types.
  */
 #ifndef __itkWriteVTKImage_h
@@ -23,25 +23,29 @@
 #include "itkWriteImage.h"
 #include <vector>
 
+namespace itk
+{
+
 template <class TInputImage>
-class ITK_EXPORT itkWriteVTKImage : public itkWriteImage<TInputImage>
+class ITK_EXPORT WriteVTKImage : public WriteImage<TInputImage>
 {
 public:
   /** 
    * Smart pointer typedef support.
    */
-  typedef itkSmartPointer< itkWriteVTKImage<TInputImage> > Pointer;
+  typedef WriteVTKImage       Self;
+  typedef SmartPointer<Self>  Pointer;
 
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(itkWriteVTKImage,itkImageWriter);
+  itkTypeMacro(WriteVTKImage,ImageWriter);
 
-  /** 
-   * Create the VTK image writer.
+  /**
+   * Method for creation through the object factory.
    */
-  static Pointer New();
-
+  itkNewMacro(Self);
+  
   /**
    * Enums used to specify VTK file types.
    */
@@ -61,20 +65,20 @@ public:
    * Specify the output file type as ASCII (the default).
    */
   void SetFileTypeToASCII() 
-    {this->SetFileType(itkWriteVTKImage::VTK_ASCII);}
+    {this->SetFileType(WriteVTKImage::VTK_ASCII);}
 
   /** 
    * Specify the output file type to binary.
    */
   void SetFileTypeToBinary() 
-    {this->SetFileType(itkWriteVTKImage::VTK_BINARY);}
+    {this->SetFileType(WriteVTKImage::VTK_BINARY);}
 
 protected:
-  itkWriteVTKImage();
-  ~itkWriteVTKImage() {};
-  itkWriteVTKImage(const itkWriteVTKImage&) {};
-  void operator=(const itkWriteVTKImage&) {};
-  void PrintSelf(std::ostream& os, itkIndent indent);
+  WriteVTKImage();
+  ~WriteVTKImage() {}
+  WriteVTKImage(const Self&) {}
+  void operator=(const Self&) {}
+  void PrintSelf(std::ostream& os, Indent indent);
 
   void WriteData();
   
@@ -86,10 +90,11 @@ private:
   std::ostream *OpenVTKFile();
   bool WriteVTKHeader(std::ostream *fp);
   bool WriteVTKImageData(std::ostream *fp, TInputImage *input);
-  void CloseVTKFile(std::ostream *fp);
-  
+  void CloseVTKFile(std::ostream *fp);  
 };
 
+} // namespace itk
+  
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkWriteVTKImage.txx"
 #endif

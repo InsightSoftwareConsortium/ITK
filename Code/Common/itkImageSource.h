@@ -14,7 +14,7 @@
 
 =========================================================================*/
 /**
- * itkImageSource is the base class for all process objects that output
+ * ImageSource is the base class for all process objects that output
  * image data.
  */
 #ifndef __itkImageSource_h
@@ -22,24 +22,28 @@
 
 #include "itkProcessObject.h"
 
+namespace itk
+{
+
 template <class TOutputImage>
-class ITK_EXPORT itkImageSource : public itkProcessObject
+class ITK_EXPORT ImageSource : public ProcessObject
 {
 public:
   /** 
    * Smart pointer typedef support.
    */
-  typedef itkSmartPointer< itkImageSource<TOutputImage> > Pointer;
+  typedef ImageSource         Self;
+  typedef SmartPointer<Self>  Pointer;
 
-  /** 
-   * Create the source with one output initially 
+  /**
+   * Method for creation through the object factory.
    */
-  static Pointer New();
+  itkNewMacro(Self);  
 
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(itkImageSource,itkProcessObject);
+  itkTypeMacro(ImageSource,ProcessObject);
 
   /** 
    * Get the image output of this process object. 
@@ -53,31 +57,33 @@ public:
   void SetOutput(TOutputImage *output);
 
 protected:
-  itkImageSource();
-  virtual ~itkImageSource() {};
-  itkImageSource(const itkImageSource&) {};
-  void operator=(const itkImageSource&) {};
-  void PrintSelf(std::ostream& os, itkIndent indent);
+  ImageSource();
+  virtual ~ImageSource() {}
+  ImageSource(const Self&) {}
+  void operator=(const Self&) {}
+  void PrintSelf(std::ostream& os, Indent indent);
   
-  // Update extent of Image is specified in pieces.  
-  // Since all DataObjects should be able to set UpdateExent as pieces,
-  // just copy output->UpdateExtent  all Inputs.
-  void ComputeInputUpdateExtents(itkDataObject *output);
+  /**
+   * Update extent of Image is specified in pieces.  
+   * Since all DataObjects should be able to set UpdateExent as pieces,
+   * just copy output->UpdateExtent  all Inputs.
+   */
+  void ComputeInputUpdateExtents(DataObject *output);
   
 private:
-  // Used by streaming: The extent of the output being processed
-  // by the execute method. Set in the ComputeInputUpdateExtents method.
+  /**
+   * Used by streaming: The extent of the output being processed
+   * by the execute method. Set in the ComputeInputUpdateExtents method.
+   */
   int m_ExecutePiece;
   int m_ExecuteNumberOfPieces;
 };
+
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkImageSource.txx"
 #endif
 
 #endif
-
-
-
-
-
+  

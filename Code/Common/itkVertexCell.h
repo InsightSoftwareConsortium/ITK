@@ -46,8 +46,8 @@ public:
   /**
    * Smart pointer typedef support.
    */
-  typedef VertexCell             Self;
-  typedef itkSmartPointer<Self>  Pointer;
+  typedef VertexCell          Self;
+  typedef SmartPointer<Self>  Pointer;
 
   /**
    * Save some template parameter information.
@@ -88,7 +88,7 @@ public:
   virtual PointIdentifier GetCellPoint(void);
 
   /**
-   * Standard part of itkObject class.  Used for debugging output.
+   * Standard part of Object class.  Used for debugging output.
    */
   itkTypeMacro(VertexCell, CellInterface);
 
@@ -108,10 +108,13 @@ class VertexBoundary:
   public CellBoundary< VertexCell< TPixelType , TCellType > >
 {
 public:
-  typedef VertexBoundary         Self;
-  typedef itkSmartPointer<Self>  Pointer;
+  typedef VertexBoundary      Self;
+  typedef SmartPointer<Self>  Pointer;
   
-  static Pointer New(void);
+  /**
+   * Method for creation through the object factory.
+   */
+  itkNewMacro(Self);  
   
   itkTypeMacro(VertexBoundary, CellBoundary);
 };

@@ -14,9 +14,9 @@
 
 =========================================================================*/
 /**
- * itkIndent is used to control indentation during the chaining print 
+ * Indent is used to control indentation during the chaining print 
  * process. This way nested objects can correctly indent themselves.
- * This class works with the print methods defined in itkObject (i.e.,
+ * This class works with the print methods defined in Object (i.e.,
  * the public method Print() and the protected methods PrintSelf(),
  * PrintHeader(), and PrintTrailer().
  */
@@ -27,13 +27,18 @@
 #include "itkWin32Header.h"
 #include <iostream>
 
-class ITK_EXPORT itkIndent
+namespace itk
+{
+
+class ITK_EXPORT Indent
 {
 public:
+  typedef Indent  Self;
+
   /**
-   * Create an instance of this class.
+   * Method for creation through the object factory.
    */
-  static itkIndent *New();
+  static Self* New();
   
   /**
    * Destroy this instance.
@@ -43,26 +48,28 @@ public:
   /** 
    * Construct the object with an initial indentation level.
    */
-  itkIndent(int ind=0) {m_Indent=ind;}
+  Indent(int ind=0) {m_Indent=ind;}
 
   /**
    * Return the name of the class.
    */
-  static const char *GetClassName() {return "itkIndent";}
+  static const char *GetClassName() {return "Indent";}
 
   /** 
    * Determine the next indentation level. Keep indenting by two until the 
    * a maximum of forty spaces is reached. 
    */
-  itkIndent GetNextIndent();
+  Indent GetNextIndent();
 
   /** 
    * Print out the indentation. Basically output a bunch of spaces. 
    */
-  friend ITK_EXPORT std::ostream& operator<<(std::ostream& os, itkIndent& o); 
+  friend ITK_EXPORT std::ostream& operator<<(std::ostream& os, Indent& o); 
 
 private:
   int m_Indent;
 };
 
+} // namespace itk
+  
 #endif

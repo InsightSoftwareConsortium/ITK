@@ -14,46 +14,42 @@
 
 =========================================================================*/
 #include "itkFilterImageToImage.h"
-#include "itkObjectFactory.h"
 
-//------------------------------------------------------------------------
-template <class TInputImage, class TOutputImage>
-itkFilterImageToImage<TInputImage,TOutputImage>::Pointer 
-itkFilterImageToImage<TInputImage,TOutputImage>
-::New()
+
+namespace itk
 {
-  itkFilterImageToImage<TInputImage,TOutputImage>* ret = 
-    itkObjectFactory< itkFilterImageToImage<TInputImage,TOutputImage> >::Create();
-  if ( ret )
-    {
-    return ret;
-    }
-  return new itkFilterImageToImage<TInputImage, TOutputImage>();
-}
-
-//----------------------------------------------------------------------------
+  
+/**
+ *
+ */
 template <class TInputImage, class TOutputImage>
-itkFilterImageToImage<TInputImage,TOutputImage>
-::itkFilterImageToImage()
+FilterImageToImage<TInputImage,TOutputImage>
+::FilterImageToImage()
 {
   // Modify superclass default values, can be overridden by subclasses
   this->SetNumberOfRequiredInputs(1);
 
 }
 
-//----------------------------------------------------------------------------
+
+/**
+ *
+ */
 template <class TInputImage, class TOutputImage>
 void 
-itkFilterImageToImage<TInputImage,TOutputImage>
+FilterImageToImage<TInputImage,TOutputImage>
 ::SetInput(TInputImage *input)
 {
-  this->itkProcessObject::SetNthInput(0, input);
+  this->ProcessObject::SetNthInput(0, input);
 }
 
-//----------------------------------------------------------------------------
+
+/**
+ *
+ */
 template <class TInputImage, class TOutputImage>
 TInputImage *
-itkFilterImageToImage<TInputImage,TOutputImage>
+FilterImageToImage<TInputImage,TOutputImage>
 ::GetInput()
 {
   if (this->NumberOfInputs < 1)
@@ -65,29 +61,27 @@ itkFilterImageToImage<TInputImage,TOutputImage>
 }
 
   
+/**
+ *
+ */
 template <class TInputImage, class TOutputImage>
 TInputImage *
-itkFilterImageToImage<TInputImage,TOutputImage>
+FilterImageToImage<TInputImage,TOutputImage>
 ::GetInput(unsigned int idx)
 {
-  return static_cast<TInputImage *>(this->itkProcessObject::GetInput(idx));
+  return static_cast<TInputImage *>(this->ProcessObject::GetInput(idx));
 }
 
-//----------------------------------------------------------------------------
+
+/**
+ *
+ */
 template <class TInputImage, class TOutputImage>
 void 
-itkFilterImageToImage<TInputImage,TOutputImage>
-::PrintSelf(std::ostream& os, itkIndent indent)
+FilterImageToImage<TInputImage,TOutputImage>
+::PrintSelf(std::ostream& os, Indent indent)
 {
-  itkImageSource<TOutputImage>::PrintSelf(os,indent);
+  ImageSource<TOutputImage>::PrintSelf(os,indent);
 }
 
-  
-
-
-
-
-
-
-
-
+} // namespace itk

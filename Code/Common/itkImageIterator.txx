@@ -16,18 +16,21 @@
 
 // #include "itkImageIterator.h"
 
+namespace itk
+{
+
 /**
-   * Add two indices and perform a bounds check. This method models a
-   * random access ImageIterator. If the iterator would be outside of the
-   * bounds, an exception (itkBoundsError) is thrown.
-   * \sa itkClampedImageIterator
-   */
+ * Add two indices and perform a bounds check. This method models a
+ * random access ImageIterator. If the iterator would be outside of the
+ * bounds, an exception (BoundsError) is thrown.
+ * \sa ClampedImageIterator
+ */
 template<class TPixel, unsigned int TImageDimension>
-const itkImageIterator<TPixel, TImageDimension>
-itkImageIterator<TPixel, TImageDimension>
+const ImageIterator<TPixel, TImageDimension>
+ImageIterator<TPixel, TImageDimension>
 ::Add(const Index &vec)
 {
-  itkImageIterator<TPixel, TImageDimension> result( *this ); // copy all the ivars
+  ImageIterator<TPixel, TImageDimension> result( *this ); // copy all the ivars
   result.m_Index = m_Index + vec;
 
   const long *tmpIndex = result.m_Index.GetIndex();
@@ -35,11 +38,11 @@ itkImageIterator<TPixel, TImageDimension>
     {
     if (tmpIndex[i] < m_RegionIndexOrigin[i])
       {
-      throw itkBoundsError;
+      throw BoundsError;
       }
     else if (tmpIndex[i] >= m_RegionIndexOrigin[i] + m_RegionSize[i])
       {
-      throw itkBoundsError;
+      throw BoundsError;
       }
     }
   result.ComputeOffset();
@@ -49,11 +52,11 @@ itkImageIterator<TPixel, TImageDimension>
 /**
    * Increment an index by an index and perform a bounds check.
    * This method models a random access ImageIterator. If the iterator would
-   * be outside of the bounds, and exception (itkBoundsError) is thrown.
+   * be outside of the bounds, and exception (BoundsError) is thrown.
    */
 template<class TPixel, unsigned int TImageDimension>
-const itkImageIterator<TPixel, TImageDimension> &
-itkImageIterator<TPixel, TImageDimension>
+const ImageIterator<TPixel, TImageDimension> &
+ImageIterator<TPixel, TImageDimension>
 ::Increment(const Index &vec)
 {
   m_Index += vec;
@@ -63,11 +66,11 @@ itkImageIterator<TPixel, TImageDimension>
     {
     if (tmpIndex[i] < m_RegionIndexOrigin[i])
       {
-      throw itkBoundsError;
+      throw BoundsError;
       }
     else if (tmpIndex[i] >= m_RegionIndexOrigin[i] + m_RegionSize[i])
       {
-      throw itkBoundsError;
+      throw BoundsError;
       }
     }
   this->ComputeOffset();
@@ -77,14 +80,14 @@ itkImageIterator<TPixel, TImageDimension>
 /**
    * Subtract two indices and perform a bounds check. This method models a
    * random access ImageIterator. If the iterator would be outside the bounds,
-   * an exception (itkBoundsError) is thrown.
+   * an exception (BoundsError) is thrown.
    */
 template<class TPixel, unsigned int TImageDimension>
-const itkImageIterator<TPixel, TImageDimension>
-itkImageIterator<TPixel, TImageDimension>
+const ImageIterator<TPixel, TImageDimension>
+ImageIterator<TPixel, TImageDimension>
 ::Subtract(const Index &vec)
 {
-  itkImageIterator<TPixel, TImageDimension> result( *this ); // copy all the ivars
+  ImageIterator<TPixel, TImageDimension> result( *this ); // copy all the ivars
   result.m_Index = m_Index - vec;
   
   const long *tmpIndex = result.m_Index.GetIndex();
@@ -92,11 +95,11 @@ itkImageIterator<TPixel, TImageDimension>
     {
     if (tmpIndex[i] < m_RegionIndexOrigin[i])
       {
-      throw itkBoundsError;
+      throw BoundsError;
       }
     else if (tmpIndex[i] >= m_RegionIndexOrigin[i] + m_RegionSize[i])
       {
-      throw itkBoundsError;
+      throw BoundsError;
       }
     }
   result.ComputeOffset();
@@ -106,11 +109,11 @@ itkImageIterator<TPixel, TImageDimension>
 /**
    * Decrement an index by an index and perform a bounds check.  This method
    * models a random access ImageIterator. If the iterator would be outside
-   * the bounds, an exception (itkBoundsError) is thrown.
+   * the bounds, an exception (BoundsError) is thrown.
    */
 template<class TPixel, unsigned int TImageDimension>
-const itkImageIterator<TPixel, TImageDimension> &
-itkImageIterator<TPixel, TImageDimension>
+const ImageIterator<TPixel, TImageDimension> &
+ImageIterator<TPixel, TImageDimension>
 ::Decrement(const Index &vec)
 {
   m_Index -= vec;
@@ -120,16 +123,15 @@ itkImageIterator<TPixel, TImageDimension>
     {
     if (tmpIndex[i] < m_RegionIndexOrigin[i])
       {
-      throw itkBoundsError;
+      throw BoundsError;
       }
     else if (tmpIndex[i] >= m_RegionIndexOrigin[i] + m_RegionSize[i])
       {
-      throw itkBoundsError;
+      throw BoundsError;
       }
     }
   this->ComputeOffset();
   return *this;
 }
 
-
-
+} // namespace itk

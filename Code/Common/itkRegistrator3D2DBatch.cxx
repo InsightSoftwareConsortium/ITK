@@ -17,6 +17,8 @@
 #include <vnl/algo/vnl_svd.h>
 #include <vnl/vnl_fastops.h>
 
+namespace itk
+{
 
 
 /*********************************************************************
@@ -24,7 +26,7 @@
  *        Creator
  *
  *********************************************************************/
-itkRegistrator3D2DBatch::itkRegistrator3D2DBatch()
+Registrator3D2DBatch::Registrator3D2DBatch()
 {
 
   PlanarError = 0;
@@ -39,19 +41,19 @@ itkRegistrator3D2DBatch::itkRegistrator3D2DBatch()
  *        Destructor
  *
  *********************************************************************/
-itkRegistrator3D2DBatch::~itkRegistrator3D2DBatch()
+Registrator3D2DBatch::~Registrator3D2DBatch()
 {
   if( Jacobian ) 
-  {
+    {
     delete Jacobian;
     Jacobian = 0;
-  }
+    }
 
   if( PlanarError ) 
-  {
+    {
     delete PlanarError;
     PlanarError = 0;
-  }
+    }
 
 }
 
@@ -62,7 +64,7 @@ itkRegistrator3D2DBatch::~itkRegistrator3D2DBatch()
  *          Compute Jacobian
  *
  *****************************************************/
-void itkRegistrator3D2DBatch::ComputeJacobian(void) 
+void Registrator3D2DBatch::ComputeJacobian(void) 
 {
 
   Transform3D cameraTotal = intrinsicTransform * extrinsicTransform *
@@ -73,7 +75,7 @@ void itkRegistrator3D2DBatch::ComputeJacobian(void)
   Potential  = 0.0;
   const double pr2 = potentialRange * potentialRange;
 
-	const unsigned int numPoints = AssociatedPoints.size();
+  const unsigned int numPoints = AssociatedPoints.size();
 
 
   // this section performs only the minimum set of operations
@@ -102,7 +104,7 @@ void itkRegistrator3D2DBatch::ComputeJacobian(void)
   vnl_matrix<double> & mJacobian = *Jacobian;
   
   for(unsigned int i=0; i<AssociatedPoints.size(); i+= 2) 
-  {
+    {
 
     const Point3D pp = AssociatedPoints[i].GetPoint3D();
 
@@ -148,7 +150,7 @@ void itkRegistrator3D2DBatch::ComputeJacobian(void)
     sumSquares += squaredDistance;
     Potential  += 1.0/(1.0+(squaredDistance/pr2));
 
-  }
+    }
     
   MeanSquareError = sumSquares  / (double)(numPoints * 2);
 
@@ -163,43 +165,43 @@ void itkRegistrator3D2DBatch::ComputeJacobian(void)
  *          Perform Registration 
  *
  *****************************************************/
-void itkRegistrator3D2DBatch::PerformRegistration(void) 
+void Registrator3D2DBatch::PerformRegistration(void) 
 {
 
-	const double StableConvergenceRate = 1e-7;
+  const double StableConvergenceRate = 1e-7;
   MeanSquareError = InTolerance - Tolerance;
 	
   double oldMeanSquareError = 0.0;
 
   if( AssociatedPoints.empty() ) 
-  {
-    throw itkRegistrator3D2DException("There are no associated points");
-  }
-
-
-	// Initialize vectors;
-	{
-	for(unsigned int i = 0; i<6; i++) {
-		Delta[i] = 0.0;
-		}
-	}
-
-  numberOfIterations = 0;
-	while (  numberOfIterations < maxNumberOfIterations )
-  {
-	
-		if (MeanSquareError < Tolerance) 
     {
-      stopRegistration = true;
-      break;
+    throw Registrator3D2DException("There are no associated points");
     }
 
-		Transform3D translationCorrection;
+
+  // Initialize vectors;
+  {
+  for(unsigned int i = 0; i<6; i++) {
+  Delta[i] = 0.0;
+  }
+  }
+
+  numberOfIterations = 0;
+  while (  numberOfIterations < maxNumberOfIterations )
+    {
+	
+    if (MeanSquareError < Tolerance) 
+      {
+      stopRegistration = true;
+      break;
+      }
+
+    Transform3D translationCorrection;
     // translationCorrection.Translate(Delta[0],Delta[1],Delta[2]);
 
-		Transform3D rotationCorrectionX;
-		Transform3D rotationCorrectionY;
-		Transform3D rotationCorrectionZ;
+    Transform3D rotationCorrectionX;
+    Transform3D rotationCorrectionY;
+    Transform3D rotationCorrectionZ;
     // rotationCorrectionX.RotateX(Delta[3]);
     // rotationCorrectionY.RotateY(Delta[4]);
     // rotationCorrectionZ.RotateZ(Delta[5]);
@@ -212,44 +214,44 @@ void itkRegistrator3D2DBatch::PerformRegistration(void)
     ComputeJacobian();		
 
 
-		if( MeanSquareError < Tolerance ) {
-			StopRegistration();
-			break;
-			}
+    if( MeanSquareError < Tolerance ) {
+    StopRegistration();
+    break;
+    }
 
-		if (MeanSquareError > InTolerance) 
-    {
+    if (MeanSquareError > InTolerance) 
+      {
       stopRegistration = true;
       break;
-    }
+      }
 	
     const double ConvergenceRate = 
-		fabs(MeanSquareError-oldMeanSquareError)/MeanSquareError;
+      fabs(MeanSquareError-oldMeanSquareError)/MeanSquareError;
 
     if( ConvergenceRate < StableConvergenceRate )
-    {
+      {
       StopRegistration();
       break;
-    }
+      }
 
 
-		oldMeanSquareError = MeanSquareError;
+    oldMeanSquareError = MeanSquareError;
 
 
-		// do a least squares solution modification
+    // do a least squares solution modification
     try 
-    {
+      {
       LeastSquareSolution();
-    }
+      }
     catch( exception e ) 
-    {
-	    cerr << e.what() << endl;
+      {
+      cerr << e.what() << endl;
       break;
-    }
+      }
 
 
     numberOfIterations++;
-  }
+    }
 
 	
 }
@@ -273,25 +275,25 @@ void itkRegistrator3D2DBatch::PerformRegistration(void)
  *		the current projection of the associated 3D points
  *
  ****************************************************************/
-void itkRegistrator3D2DBatch::LeastSquareSolution(void)
+void Registrator3D2DBatch::LeastSquareSolution(void)
 {
 
-	const int dof = 6;
-	const int colSize = 2*AssociatedPoints.size();
+  const int dof = 6;
+  const int colSize = 2*AssociatedPoints.size();
 
   if( colSize == 0 ) return;
 
   vnl_matrix<double> M(dof,dof);
 
-	// compute Jacobian^t * Jacobian
-	// this matrix is column ordered
-	// in a one dimensional array
+  // compute Jacobian^t * Jacobian
+  // this matrix is column ordered
+  // in a one dimensional array
   vnl_fastops::AtA(*Jacobian, &M);
 
   // Add Uncertainties
   for(int c=0; c<dof; c++) {
-    M[c][c] += Uncertain[c];
-    }
+  M[c][c] += Uncertain[c];
+  }
 
   vnl_vector<double> JP = (*Jacobian) * (*PlanarError);
 
@@ -310,9 +312,9 @@ void itkRegistrator3D2DBatch::LeastSquareSolution(void)
  *      Load associated points
  *
  *****************************************************/
-void itkRegistrator3D2DBatch::LoadAssociatedPoints(const vector<PairPoint3D2D> & externalList)
+void Registrator3D2DBatch::LoadAssociatedPoints(const vector<PairPoint3D2D> & externalList)
 {	
-  itkRegistrator3D2D::LoadAssociatedPoints( externalList );
+  Registrator3D2D::LoadAssociatedPoints( externalList );
   Allocate();
 }
 
@@ -326,44 +328,40 @@ void itkRegistrator3D2DBatch::LoadAssociatedPoints(const vector<PairPoint3D2D> &
  *      Allocate memory for internal arrays
  *
  *****************************************************/
-void itkRegistrator3D2DBatch::Allocate(void)
+void Registrator3D2DBatch::Allocate(void)
 {
 
-	const unsigned int numPoints = AssociatedPoints.size();
+  const unsigned int numPoints = AssociatedPoints.size();
   const unsigned int column    = numPoints * 2;
 
   if( Jacobian ) 
-  {
+    {
     delete Jacobian;
-  }
+    }
   
   try 
-  {
+    {
     Jacobian = new vnl_matrix<double>(6,column);
-  }
+    }
   catch(...) 
-  {
-		throw itkRegistrator3D2DException("Registration Iterations: memory allocation for Jacobian");
-  }
+    {
+    throw Registrator3D2DException("Registration Iterations: memory allocation for Jacobian");
+    }
 
 
   if( PlanarError )
-  {
+    {
     delete PlanarError;
-  }
+    }
 
   try 
-  {
+    {
     PlanarError = new vnl_vector<double>(column);
-  }
+    }
   catch(...)
-  {
-		throw itkRegistrator3D2DException("Registration Iterations: memory allocation for PlanarError");
-  }
-
-
-
+    {
+    throw Registrator3D2DException("Registration Iterations: memory allocation for PlanarError");
+    }
 }
 
-
-
+} // namespace itk

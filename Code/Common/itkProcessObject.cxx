@@ -17,23 +17,14 @@
 #include "itkDataObject.h"
 #include "itkObjectFactory.h"
 
-//------------------------------------------------------------------------
-itkProcessObject::Pointer 
-itkProcessObject
-::New()
+namespace itk
 {
-  itkProcessObject *ret = itkObjectFactory<itkProcessObject>::Create();
-  if ( ret )
-    {
-    return ret;
-    }
-  return new itkProcessObject;
-}
 
-//------------------------------------------------------------------------
-// Instantiate object with no start, end, or progress methods.
-itkProcessObject
-::itkProcessObject()
+/**
+ * Instantiate object with no start, end, or progress methods.
+ */
+ProcessObject
+::ProcessObject()
 {
   m_NumberOfInputs = 0;
   m_NumberOfRequiredInputs = 0;
@@ -58,9 +49,12 @@ itkProcessObject
   m_Updating = false;
 }
 
-// Destructor for the itkProcessObject class
-itkProcessObject
-::~itkProcessObject()
+
+/**
+ * Destructor for the ProcessObject class
+ */
+ProcessObject
+::~ProcessObject()
 {
   if ((m_StartMethodArg)&&(m_StartMethodArgDelete))
     {
@@ -108,15 +102,17 @@ itkProcessObject
     }
 }
 
-typedef itkDataObject *itkDataObjectPointer;
-//----------------------------------------------------------------------------
-// Called by constructor to set up input array.
+typedef DataObject *DataObjectPointer;
+
+/**
+ * Called by constructor to set up input array.
+ */
 void 
-itkProcessObject
+ProcessObject
 ::SetNumberOfInputs(unsigned int num)
 {
   unsigned int idx;
-  itkDataObjectPointer *inputs;
+  DataObjectPointer *inputs;
 
   // in case nothing has changed.
   if (num == m_NumberOfInputs)
@@ -125,7 +121,7 @@ itkProcessObject
     }
   
   // Allocate new arrays.
-  inputs = new itkDataObjectPointer[num];
+  inputs = new DataObjectPointer[num];
 
   // Initialize with NULLs.
   for (idx = 0; idx < num; ++idx)
@@ -158,8 +154,8 @@ itkProcessObject
 // Adds an input to the first null position in the input list.
 // Expands the list memory if necessary
 void 
-itkProcessObject
-::AddInput(itkDataObject *input)
+ProcessObject
+::AddInput(DataObject *input)
 {
   unsigned int idx;
   
@@ -186,8 +182,8 @@ itkProcessObject
 // Adds an input to the first null position in the input list.
 // Expands the list memory if necessary
 void 
-itkProcessObject
-::RemoveInput(itkDataObject *input)
+ProcessObject
+::RemoveInput(DataObject *input)
 {
   unsigned int idx;
   
@@ -226,8 +222,8 @@ itkProcessObject
 //----------------------------------------------------------------------------
 // Set an Input of this filter. 
 void 
-itkProcessObject
-::SetNthInput(unsigned int idx, itkDataObject *input)
+ProcessObject
+::SetNthInput(unsigned int idx, DataObject *input)
 {
   if (idx < 0)
     {
@@ -262,8 +258,8 @@ itkProcessObject
 }
 
 void 
-itkProcessObject
-::RemoveOutput(itkDataObject *output)
+ProcessObject
+::RemoveOutput(DataObject *output)
 {
   unsigned int idx;
   
@@ -305,10 +301,10 @@ itkProcessObject
 // tricky because we have to manage the double pointers and keep
 // them consistent.
 void 
-itkProcessObject
-::SetNthOutput(unsigned int idx, itkDataObject *newOutput)
+ProcessObject
+::SetNthOutput(unsigned int idx, DataObject *newOutput)
 {
-  itkDataObject *oldOutput;
+  DataObject *oldOutput;
   
   if (idx < 0)
     {
@@ -338,7 +334,7 @@ itkProcessObject
   
   if (newOutput)
     {
-    itkProcessObject *newOutputOldSource = newOutput->GetSource();
+    ProcessObject *newOutputOldSource = newOutput->GetSource();
 
     // Register the newOutput so it does not get deleted.
     // Don't set the link yet until previous links is disconnected.
@@ -359,8 +355,8 @@ itkProcessObject
 // Adds an output to the first null position in the output list.
 // Expands the list memory if necessary
 void 
-itkProcessObject
-::AddOutput(itkDataObject *output)
+ProcessObject
+::AddOutput(DataObject *output)
 {
   unsigned int idx;
   
@@ -386,11 +382,11 @@ itkProcessObject
 
 // Called by constructor to set up output array.
 void 
-itkProcessObject
+ProcessObject
 ::SetNumberOfOutputs(unsigned int num)
 {
   unsigned int idx;
-  itkDataObject **outputs;
+  DataObject **outputs;
 
   // in case nothing has changed.
   if (num == m_NumberOfOutputs)
@@ -399,7 +395,7 @@ itkProcessObject
     }
   
   // Allocate new arrays.
-  outputs = new itkDataObject *[num];
+  outputs = new DataObject *[num];
 
   // Initialize with NULLs.
   for (idx = 0; idx < num; ++idx)
@@ -429,8 +425,8 @@ itkProcessObject
 }
 
 //----------------------------------------------------------------------------
-itkDataObject *
-itkProcessObject
+DataObject *
+ProcessObject
 ::GetOutput(unsigned int i)
 {
   if (m_NumberOfOutputs < i+1)
@@ -442,8 +438,8 @@ itkProcessObject
 }
 
 //----------------------------------------------------------------------------
-itkDataObject *
-itkProcessObject
+DataObject *
+ProcessObject
 ::GetInput(unsigned int i)
 {
   if (m_NumberOfInputs < i+1)
@@ -459,7 +455,7 @@ itkProcessObject
 // executes it. Then set the Progress ivar to amount. The parameter amount 
 // should range between (0,1).
 void 
-itkProcessObject
+ProcessObject
 ::UpdateProgress(float amount)
 {
   m_Progress = amount;
@@ -472,7 +468,7 @@ itkProcessObject
 //------------------------------------------------------------------------
 // Specify function to be called before object executes.
 void 
-itkProcessObject
+ProcessObject
 ::SetStartMethod(void (*f)(void *), void *arg)
 {
   if ( f != m_StartMethod || arg != m_StartMethodArg )
@@ -491,7 +487,7 @@ itkProcessObject
 //------------------------------------------------------------------------
 // Specify function to be called to show progress of filter
 void 
-itkProcessObject
+ProcessObject
 ::SetProgressMethod(void (*f)(void *), void *arg)
 {
   if ( f != m_ProgressMethod || arg != m_ProgressMethodArg )
@@ -510,7 +506,7 @@ itkProcessObject
 //------------------------------------------------------------------------
 // Specify function to be called after object executes.
 void 
-itkProcessObject
+ProcessObject
 ::SetEndMethod(void (*f)(void *), void *arg)
 {
   if ( f != m_EndMethod || arg != m_EndMethodArg )
@@ -530,7 +526,7 @@ itkProcessObject
 //------------------------------------------------------------------------
 // Set the arg delete method. This is used to free user memory.
 void 
-itkProcessObject
+ProcessObject
 ::SetStartMethodArgDelete(void (*f)(void *))
 {
   if ( f != m_StartMethodArgDelete)
@@ -543,7 +539,7 @@ itkProcessObject
 //------------------------------------------------------------------------
 // Set the arg delete method. This is used to free user memory.
 void 
-itkProcessObject
+ProcessObject
 ::SetProgressMethodArgDelete(void (*f)(void *))
 {
   if ( f != m_ProgressMethodArgDelete)
@@ -556,7 +552,7 @@ itkProcessObject
 //------------------------------------------------------------------------
 // Set the arg delete method. This is used to free user memory.
 void 
-itkProcessObject
+ProcessObject
 ::SetEndMethodArgDelete(void (*f)(void *))
 {
   if ( f != m_EndMethodArgDelete)
@@ -568,7 +564,7 @@ itkProcessObject
 
 //----------------------------------------------------------------------------
 bool 
-itkProcessObject
+ProcessObject
 ::GetReleaseDataFlag()
 {
   if (this->GetOutput(0))
@@ -581,7 +577,7 @@ itkProcessObject
 
 //----------------------------------------------------------------------------
 void 
-itkProcessObject
+ProcessObject
 ::SetReleaseDataFlag(bool val)
 {
   unsigned int idx;
@@ -596,10 +592,10 @@ itkProcessObject
 }
 
 void 
-itkProcessObject
-::PrintSelf(std::ostream& os, itkIndent indent)
+ProcessObject
+::PrintSelf(std::ostream& os, Indent indent)
 {
-  itkObject::PrintSelf(os,indent);
+  Object::PrintSelf(os,indent);
 
   os << indent << "Number Of Required Inputs: "
      << m_NumberOfRequiredInputs << std::endl;
@@ -655,7 +651,7 @@ itkProcessObject
 
 //----------------------------------------------------------------------------
 void 
-itkProcessObject
+ProcessObject
 ::Update()
 {
   if (this->GetOutput(0))
@@ -667,13 +663,13 @@ itkProcessObject
 
 //----------------------------------------------------------------------------
 void 
-itkProcessObject
+ProcessObject
 ::UpdateInformation()
 {
   unsigned long t1, t2;
   unsigned int idx;
-  itkDataObject *input;
-  itkDataObject *output;
+  DataObject *input;
+  DataObject *output;
 
   // Watch out for loops in the pipeline
   if ( m_Updating )
@@ -743,8 +739,8 @@ itkProcessObject
 
 //----------------------------------------------------------------------------
 void 
-itkProcessObject
-::PropagateUpdateExtent(itkDataObject *output)
+ProcessObject
+::PropagateUpdateExtent(DataObject *output)
 {
   // check flag to avoid executing forever if there is a loop
   if (m_Updating)
@@ -786,8 +782,8 @@ itkProcessObject
 // just a portion of the input data.
 
 void 
-itkProcessObject
-::ComputeInputUpdateExtents( itkDataObject *itkNotUsed(output) )
+ProcessObject
+::ComputeInputUpdateExtents( DataObject *itkNotUsed(output) )
 {
   for (unsigned int idx = 0; idx < m_NumberOfInputs; ++idx)
     {
@@ -800,7 +796,7 @@ itkProcessObject
 
 //----------------------------------------------------------------------------
 void 
-itkProcessObject
+ProcessObject
 ::TriggerAsynchronousUpdate()
 {
   // check flag to avoid executing forever if there is a loop
@@ -823,8 +819,8 @@ itkProcessObject
 
 //----------------------------------------------------------------------------
 void 
-itkProcessObject
-::UpdateData(itkDataObject *itkNotUsed(output))
+ProcessObject
+::UpdateData(DataObject *itkNotUsed(output))
 {
   unsigned int idx;
 
@@ -928,8 +924,8 @@ itkProcessObject
 
 //----------------------------------------------------------------------------
 void 
-itkProcessObject
-::ComputeEstimatedPipelineMemorySize(itkDataObject *output,
+ProcessObject
+::ComputeEstimatedPipelineMemorySize(DataObject *output,
                                      unsigned long size[3] )
 {
   unsigned long outputSize[2];
@@ -1029,8 +1025,8 @@ itkProcessObject
 // that will produce mesh (unstructured) output since the
 // output itself cannot estimate its own size.
 void 
-itkProcessObject
-::ComputeEstimatedOutputMemorySize( itkDataObject *output,
+ProcessObject
+::ComputeEstimatedOutputMemorySize( DataObject *output,
                                           unsigned long *itkNotUsed(inputSize),
                                           unsigned long size[2] )
 {
@@ -1061,10 +1057,10 @@ itkProcessObject
 
 // Default implementation - copy information from first input to all outputs
 void 
-itkProcessObject
+ProcessObject
 ::ExecuteInformation()
 {
-  itkDataObject *input, *output;
+  DataObject *input, *output;
 
   if (m_Inputs && m_Inputs[0])
     {
@@ -1083,7 +1079,7 @@ itkProcessObject
 
 //----------------------------------------------------------------------------
 void 
-itkProcessObject
+ProcessObject
 ::UpdateWholeExtent()
 {
   this->UpdateInformation();
@@ -1095,3 +1091,4 @@ itkProcessObject
     }
 }
 
+} // namespace itk

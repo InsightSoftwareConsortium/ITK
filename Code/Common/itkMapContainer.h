@@ -17,7 +17,7 @@
  * MapContainer
  *
  * Define a front-end to the STL "map" container that conforms to the
- * IndexedContainer interface.  This is a full-fleged itkObject, so
+ * IndexedContainer interface.  This is a full-fleged Object, so
  * there is modification time, debug, and reference count information.
  */
 #ifndef __itkMapContainer_h
@@ -44,15 +44,15 @@ namespace itk
 
 template <typename TElementIdentifier, typename TElement>
 class MapContainer:
-  public itkObject,
+  public Object,
   public std::map< TElementIdentifier , TElement >
 {
 public:
   /**
    * Smart pointer typedef support.
    */
-  typedef MapContainer           Self;
-  typedef itkSmartPointer<Self>  Pointer;
+  typedef MapContainer        Self;
+  typedef SmartPointer<Self>  Pointer;
 
   /**
    * Save the template parameters.
@@ -70,7 +70,7 @@ protected:
   /**
    * Provide pass-through constructors corresponding to all the STL
    * map constructors.  These are for internal use only since this is also
-   * an itkObject which must be constructed through the "New()" routine.
+   * an Object which must be constructed through the "New()" routine.
    */
   MapContainer():
     Map() {}

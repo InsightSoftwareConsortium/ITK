@@ -13,45 +13,48 @@
   
   ==========================================================================*/
 /**
- * itkScalar is a templated class that holds a single scalar value.
- * itkScalar can be used as the data type held at each pixel in an itkImage
- * or at each vertex (or cell) of an itkMesh. The template parameter can be
+ * Scalar is a templated class that holds a single scalar value.
+ * Scalar can be used as the data type held at each pixel in an Image
+ * or at each vertex (or cell) of an Mesh. The template parameter can be
  * any data type that behaves like a primitive (or atomic) data type (int,
  * short, float, complex).  itk filters that rely on scalar data assume the
  * data type held at each pixel or each vertex responds to
  * GetScalar()/SetScalar() methods. If not, a compile time error will occur.
  *
- * For efficiency sake, itkScalar does not define a default constructor, a
+ * For efficiency sake, Scalar does not define a default constructor, a
  * copy constructor, or an operator=. We rely on the compiler to provide
  * efficient bitwise copies.
  *
- * If you wish more complex pixel types, you can use itkVector, which
+ * If you wish more complex pixel types, you can use Vector, which
  * represents an array values of the same data type. There is also an
- * itkScalarVector, which supports (for a given pixel) a single scalar value
+ * ScalarVector, which supports (for a given pixel) a single scalar value
  * plus an array of vector values. (The scalar and vectors can be of
  * different data type.)
  * 
- * \sa itkImage
- * \sa itkMesh
- * \sa itkVector
- * \sa itkScalarVector 
+ * \sa Image
+ * \sa Mesh
+ * \sa Vector
+ * \sa ScalarVector 
  */
 
 #ifndef __itkScalar_h
 #define __itkScalar_h
 
+namespace itk
+{
+
 template<class T>
-class itkScalar {
+class Scalar {
 public:
   /**
    * ValueType can be used to declare a variable that is the same type
-   * as the data held in an itkScalar.
+   * as the data held in an Scalar.
    */
   typedef T ValueType;
 
   /**
    * ScalarType can be used to declare a variable that is the same type
-   * as the data held in an itkScalar.
+   * as the data held in an Scalar.
    */
   typedef T ScalarType;
 
@@ -79,4 +82,6 @@ private:
   T m_Scalar;
 };
 
+} // namespace itk
+  
 #endif 

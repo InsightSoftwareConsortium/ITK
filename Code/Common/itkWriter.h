@@ -14,7 +14,7 @@
 
 =========================================================================*/
 /**
- * itkWriter is the base class for all Insight data writers. You can specify
+ * Writer is the base class for all Insight data writers. You can specify
  * binary or ASCII output types, as well as the output file name.
  */
 #ifndef __itkWriter_h
@@ -25,18 +25,22 @@
 #define ITK_ASCII 0
 #define ITK_BINARY 1
 
-class ITK_EXPORT itkWriter : public itkProcessObject
+namespace itk
+{
+
+class ITK_EXPORT Writer : public ProcessObject
 {
 public:
   /** 
    * Smart pointer typedef support.
    */
-  typedef itkSmartPointer<itkWriter> Pointer;
+  typedef Writer              Self;
+  typedef SmartPointer<Self>  Pointer;
 
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(itkWriter,itkProcessObject);
+  itkTypeMacro(Writer,ProcessObject);
 
   /** 
    * Specify the name of the output file.
@@ -56,11 +60,11 @@ public:
   virtual void Write();
 
 protected:
-  itkWriter();
-  ~itkWriter();
-  itkWriter(const itkWriter&) {};
-  void operator=(const itkWriter&) {};
-  void PrintSelf(std::ostream& os, itkIndent indent);
+  Writer();
+  ~Writer();
+  Writer(const Self&) {}
+  void operator=(const Self&) {}
+  void PrintSelf(std::ostream& os, Indent indent);
 
   // All writers must respond to WriteData().
   virtual void WriteData() = 0;
@@ -72,9 +76,8 @@ private:
   
 };
 
+  
+} // namespace itk
+  
 #endif
-
-
-
-
-
+  

@@ -22,33 +22,37 @@
 
 #include "itkObject.h"
 
-class ITK_EXPORT itkOutputWindow : public itkObject
+namespace itk
+{
+
+class ITK_EXPORT OutputWindow : public Object
 {
 public:
   /** 
    * Smart pointer typedef support. 
    */
-  typedef itkSmartPointer<itkOutputWindow> Pointer;
+  typedef OutputWindow        Self;
+  typedef SmartPointer<Self>  Pointer;
 
   /** 
    * This is a singleton pattern New.  There will only be ONE
-   * reference to a itkOutputWindow object per process.  Clients that
+   * reference to a OutputWindow object per process.  Clients that
    * call this must call Delete on the object so that the reference
    * counting will work.   The single instance will be unreferenced when
    * the program exits.
    */
-  static itkOutputWindow* New();
+  static OutputWindow* New();
 
   /**
    * Return the singleton instance with no reference counting.
    */
-  static itkOutputWindow* GetInstance();
+  static OutputWindow* GetInstance();
 
   /**
    * Supply a user defined output window. Call ->Delete() on the supplied
    * instance after setting it.
    */
-  static void SetInstance(itkOutputWindow *instance);
+  static void SetInstance(OutputWindow *instance);
 
   /**
    * Send a string to display.
@@ -65,15 +69,17 @@ public:
   itkBooleanMacro(PromptUser);
 
 protected:
-  itkOutputWindow();
-  virtual ~itkOutputWindow();
-  itkOutputWindow(const itkOutputWindow&) {};
-  void operator=(const itkOutputWindow&) {};
-  virtual void PrintSelf(std::ostream& os, itkIndent indent);
+  OutputWindow();
+  virtual ~OutputWindow();
+  OutputWindow(const Self&) {}
+  void operator=(const Self&) {}
+  virtual void PrintSelf(std::ostream& os, Indent indent);
 
 private:
   bool m_PromptUser;
-  static itkOutputWindow* m_Instance;
+  static OutputWindow* m_Instance;
 };
+  
+} // namespace itk
 
 #endif

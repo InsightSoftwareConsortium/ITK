@@ -15,19 +15,24 @@
 =========================================================================*/
 #include "itkWriteImage.h"
 
-//----------------------------------------------------------------------------
+namespace itk
+{
+
+/**
+ *
+ */
 template <class TInputImage>
 void 
-itkWriteImage<TInputImage>
+WriteImage<TInputImage>
 ::SetInput(TInputImage *input)
 {
-  this->itkProcessObject::SetNthInput(0, input);
+  this->ProcessObject::SetNthInput(0, input);
 }
 
-//----------------------------------------------------------------------------
+
 template <class TInputImage>
 TInputImage *
-itkWriteImage<TInputImage>
+WriteImage<TInputImage>
 ::GetInput()
 {
   if (this->GetNumberOfInputs() < 1)
@@ -35,17 +40,20 @@ itkWriteImage<TInputImage>
     return 0;
     }
   
-  return static_cast<TInputImage *>(this->itkProcessObject::GetInput(0));
+  return static_cast<TInputImage *>(this->ProcessObject::GetInput(0));
 }
 
-//----------------------------------------------------------------------------
+
+/**
+ *
+ */
 template <class TInputImage>
 void 
-itkWriteImage<TInputImage>
-::PrintSelf(std::ostream& os, itkIndent indent)
+WriteImage<TInputImage>
+::PrintSelf(std::ostream& os, Indent indent)
 {
-  itkWriter::PrintSelf(os,indent);
+  Writer::PrintSelf(os,indent);
   
 }
 
-
+} // namespace itk

@@ -24,22 +24,29 @@
 #define __itkDirectory_h
 
 #include "itkObject.h"
+#include "itkObjectFactory.h"
+#include <iostream>
 #include <string>
 #include <vector>
 
-class ITK_EXPORT itkDirectory : public itkObject
+namespace itk
+{
+
+class ITK_EXPORT Directory : public Object
 {
 public:
+  typedef Directory           Self;
+  typedef SmartPointer<Self>  Pointer;
+  
   /**
-   * Create a new itkDirectory object.
+   * Method for creation through the object factory.
    */
-  static itkDirectory *New() 
-    {return new itkDirectory;};
+  itkNewMacro(Self);
 
   /**
    * Return the class name as a string.
    */
-  itkTypeMacro(itkDirectory,itkObject);
+  itkTypeMacro(Directory,Object);
 
   /**
    * Load the specified directory and load the names of the files
@@ -59,15 +66,17 @@ public:
   const char* GetFile(unsigned int index);
 
 protected:
-  itkDirectory();
-  ~itkDirectory() ;
-  itkDirectory(const itkDirectory&) {};
-  void operator=(const itkDirectory&) {};
-  virtual void PrintSelf(std::ostream& os, itkIndent indent);
+  Directory();
+  ~Directory() ;
+  Directory(const Self&) {}
+  void operator=(const Self&) {}
+  virtual void PrintSelf(std::ostream& os, Indent indent);
 
 private:
   std::vector<std::string> m_Files; // Array of Files
   std::string m_Path;               // Path to Open'ed directory
 };
 
+} // namespace itk
+  
 #endif

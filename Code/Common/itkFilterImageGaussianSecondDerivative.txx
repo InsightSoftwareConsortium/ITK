@@ -14,53 +14,33 @@
 
 =========================================================================*/
 #include "itkFilterImageGaussianSecondDerivative.h"
-#include "itkObjectFactory.h"
 
-
-//------------------------------------------------------------------------
-template <class TInputImage, class TOutputImage, class TComputation>
-itkFilterImageGaussianSecondDerivative<TInputImage,TOutputImage, TComputation>::Pointer 
-itkFilterImageGaussianSecondDerivative<TInputImage,TOutputImage, TComputation>
-::New()
+namespace itk
 {
-  itkFilterImageGaussianSecondDerivative<TInputImage,TOutputImage,TComputation>* ret = 
-    itkObjectFactory< itkFilterImageGaussianSecondDerivative<TInputImage,TOutputImage,TComputation> >::Create();
-  if ( ! ret )
-  {
-    ret = new itkFilterImageGaussianSecondDerivative< TInputImage, TOutputImage, TComputation >();
-  }
-  
-  return ret;
 
-}
-
-
-
-//----------------------------------------
-//   Compute filter for Gaussian kernel
-//----------------------------------------
+/**
+ * Compute filter for Gaussian kernel
+ */
 template <class TInputImage, class TOutputImage, class TComputation>
-void itkFilterImageGaussianSecondDerivative<TInputImage,TOutputImage, TComputation>
+void
+FilterImageGaussianSecondDerivative<TInputImage,TOutputImage, TComputation>
 ::SetUp(TComputation dd)
 {
-
   a0 = TComputation( -1.3310 );
-	a1 = TComputation(  3.6610 );
-	b0 = TComputation(  1.2400 );
-	b1 = TComputation(  1.3140 );
-	c0 = TComputation(  0.3225 );
-	c1 = TComputation( -1.7380 );
-	w0 = TComputation(  0.7480 );
-	w1 = TComputation(  2.1660 );
-
-	const TComputation sigmad = cSigma/dd;
+  a1 = TComputation(  3.6610 );
+  b0 = TComputation(  1.2400 );
+  b1 = TComputation(  1.3140 );
+  c0 = TComputation(  0.3225 );
+  c1 = TComputation( -1.7380 );
+  w0 = TComputation(  0.7480 );
+  w1 = TComputation(  2.1660 );
+  
+  const TComputation sigmad = cSigma/dd;
 //K = 1.0/(sigmad*sigmad*sqrt(2.0*(4.0*atan(1.0))));
-	K = 1.0 / ( sigmad * sqrt( 2.0 * ( 4.0 * atan( 1.0 ) ) ) );
-
-	const bool symmetric = true;
-	ComputeFilterCoefficients(symmetric);
-
+  K = 1.0 / ( sigmad * sqrt( 2.0 * ( 4.0 * atan( 1.0 ) ) ) );
+  
+  const bool symmetric = true;
+	ComputeFilterCoefficients(symmetric);	
 }
 
-
-
+} // namespace itk

@@ -69,14 +69,14 @@ template <
   typename TPixelType,
   typename TMeshType = MeshTypeDefault< TPixelType >
   >
-class Mesh: public itkObject
+class Mesh: public Object
 {
 public:
   /**
    * Smart pointer typedef support.
    */
   typedef Mesh                Self;
-  typedef itkSmartPointer<Self>  Pointer;
+  typedef SmartPointer<Self>  Pointer;
   
   /**
    * Hold on to the type information specified by the template parameters.
@@ -396,9 +396,9 @@ public:
   void BuildCellLinks(void);
   
   /**
-   * Standard part of itkObject class.  Used for debugging output.
+   * Standard part of Object class.  Used for debugging output.
    */
-  itkTypeMacro(Mesh, itkObject);
+  itkTypeMacro(Mesh, Object);
 
   /**
    * Define some internal utility methods.

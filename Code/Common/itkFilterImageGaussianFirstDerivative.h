@@ -26,42 +26,38 @@
 
 #include "itkFilterImageGaussian.h"
 
-template <class TInputImage, class TOutputImage, class TComputation>
-class ITK_EXPORT itkFilterImageGaussianFirstDerivative : public
-                  itkFilterImageGaussian<TInputImage,TOutputImage,TComputation> 
 
+namespace itk
+{
+  
+template <class TInputImage, class TOutputImage, class TComputation>
+class ITK_EXPORT FilterImageGaussianFirstDerivative:
+    public FilterImageGaussian<TInputImage,TOutputImage,TComputation>
 {
   /** 
    * Smart pointer typedef support 
    */
-  typedef itkSmartPointer<
-    itkFilterImageGaussianFirstDerivative<TInputImage,TOutputImage,TComputation> >
-    Pointer;
-
-  /** 
-   * Create the source with one output initially 
+  typedef FilterImageGaussianFirstDerivative  Self;
+  typedef SmartPointer<Self>                  Pointer;
+  
+  /**
+   * Method for creation through the object factory.
    */
-  static Pointer New();
-
-
+  itkNewMacro(Self);  
+  
 protected:
-
+  FilterImageGaussianFirstDerivative() {};
+  virtual ~FilterImageGaussianFirstDerivative() {};  
+  
   /**
    * Set up the coefficients of the filter to approximate a specific kernel.
    * typically it can be used to approximate a gaussian or one of its
    * derivatives.
    */
-	virtual void SetUp(TComputation dd);
-
-public:
-	itkFilterImageGaussianFirstDerivative() {};
-	virtual ~itkFilterImageGaussianFirstDerivative() {};
-
-private:  
-
+  virtual void SetUp(TComputation dd);
 };
-
-
+  
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkFilterImageGaussianFirstDerivative.txx"

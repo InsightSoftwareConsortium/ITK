@@ -14,14 +14,14 @@
   ==========================================================================*/
 
 /**
- * itkIndex is a templated class to represent a multi-dimensional index.  
- * itkIndex is templated over the dimension of the index.
+ * Index is a templated class to represent a multi-dimensional index.  
+ * Index is templated over the dimension of the index.
  *
- * For efficiency sake, itkIndex does not define a default constructor, a
+ * For efficiency sake, Index does not define a default constructor, a
  * copy constructor, or an operator=. We rely on the compiler to provide
  * efficient bitwise copies.
  *
- * Should there be an itkBoundedIndex to handle bounds checking? Or should
+ * Should there be an BoundedIndex to handle bounds checking? Or should
  * there be an API to perform bounded increments in the iterator.
  */
 
@@ -31,9 +31,16 @@
 
 #include <memory>
 
+#include "itkExceptionObject.h"
+
+namespace itk
+{
+
 template<unsigned int TIndexDimension=2>
-class itkIndex {
+class Index {
 public:
+  typedef Index  Self;
+  
   /**
    * Get the dimension (size) of the index.
    */
@@ -42,10 +49,10 @@ public:
   /**
    * Add two indices. This method models a random access Index.
    */
-  const itkIndex<TIndexDimension>
-  operator+(const itkIndex<TIndexDimension> &vec)
+  const Self
+  operator+(const Self &vec)
     {
-    itkIndex<TIndexDimension> result;
+    Self result;
     for (unsigned int i=0; i < TIndexDimension; i++)
       { result[i] = m_Index[i] + vec.m_Index[i]; }
     return result;
@@ -54,8 +61,8 @@ public:
   /**
    * Increment index by an index. This method models a random access Index.
    */
-  const itkIndex<TIndexDimension> &
-  operator+=(const itkIndex<TIndexDimension> &vec)
+  const Self &
+  operator+=(const Self &vec)
     {
     for (unsigned int i=0; i < TIndexDimension; i++)
       { m_Index[i] += vec.m_Index[i]; }
@@ -65,10 +72,10 @@ public:
   /**
    * Subtract two indices. This method models a random access Index.
    */
-  const itkIndex<TIndexDimension>
-  operator-(const itkIndex<TIndexDimension> &vec)
+  const Self
+  operator-(const Self &vec)
     {
-    itkIndex<TIndexDimension> result;
+    Self result;
     for (unsigned int i=0; i < TIndexDimension; i++)
       { result[i] = m_Index[i] - vec.m_Index[i]; }
     return result;
@@ -77,8 +84,8 @@ public:
   /**
    * Decrement index by an index. This method models a random access Index.
    */
-  const itkIndex<TIndexDimension> &
-  operator-=(const itkIndex<TIndexDimension> &vec)
+  const Self &
+  operator-=(const Self &vec)
     {
     for (unsigned int i=0; i < TIndexDimension; i++)
       { m_Index[i] -= vec.m_Index[i]; }
@@ -113,13 +120,13 @@ public:
    * is positioned in the location specified by the parameter "dim". Valid
    * values of "dim" are 0, ..., TIndexDimension-1.
    *
-   * This routine will throw an exception (itkInvalidDimension) if
+   * This routine will throw an exception (InvalidDimension) if
    * "dim" > dimension of the index.
    */
-  static itkIndex<TIndexDimension> GetBasisIndex(unsigned int dim); 
+  static Self GetBasisIndex(unsigned int dim); 
 
 public:
-  virtual void PrintSelf(std::ostream& os, itkIndent indent);
+  virtual void PrintSelf(std::ostream& os, Indent indent);
 
 private:
   unsigned long m_Index[TIndexDimension];
@@ -127,8 +134,8 @@ private:
 
 template<unsigned int TIndexDimension>
 void 
-itkIndex<TIndexDimension>
-::PrintSelf(std::ostream& os, itkIndent indent)
+Index<TIndexDimension>
+::PrintSelf(std::ostream& os, Indent indent)
 {
   unsigned int i;
   
@@ -141,20 +148,22 @@ itkIndex<TIndexDimension>
 }
 
 template<unsigned int TIndexDimension>
-itkIndex<TIndexDimension> 
-itkIndex<TIndexDimension>
+Index<TIndexDimension> 
+Index<TIndexDimension>
 ::GetBasisIndex(unsigned int dim)
 {
   if (dim >= TIndexDimension)
     {
-    throw itkInvalidDimension;
+    throw InvalidDimension;
     }
   
-  itkIndex<TIndexDimension> ind;
+  Self ind;
   
   memset(ind.m_Index, 0, sizeof(long)*TIndexDimension);
   ind.m_Index[dim] = 1;
   return ind;
 }
+
+} // namespace itk
 
 #endif 

@@ -13,9 +13,9 @@
   
 ==========================================================================*/
 /**
- * itkImageScalarIterator is a templated class to represent a
+ * ImageScalarIterator is a templated class to represent a
  * multi-dimensional iterator. It is a specialized form of
- * itkImageIterator that invokes the GetScalar() method. GetScalar() is
+ * ImageIterator that invokes the GetScalar() method. GetScalar() is
  * used when you want to write a filter that processes only the scalar
  * portion of a pixel.  
  */
@@ -26,19 +26,24 @@
 #include "itkImageIterator.h"
 #include "itkPixelTraits.h"
 
+namespace itk
+{
+
 template<class TPixel, unsigned int TImageDimension=2>
-class itkImageScalarIterator : public itkImageIterator<TPixel,TImageDimension> {
+class ImageScalarIterator : public ImageIterator<TPixel,TImageDimension> {
 public:
+  typedef ImageScalarIterator  Self;
+  
   /**
    * Dereference the iterator, returns a reference to the pixel. Used to set
    * or get the value referenced by the index.
    */
    typename TPixel::ScalarType& operator*()
     { 
-    return itkScalarTraits<TPixel>::GetScalar(*( m_Image + m_Offset )); 
+    return ScalarTraits<TPixel>::GetScalar(*( m_Image + m_Offset )); 
     }
   bool
-  operator!=(const itkImageScalarIterator<TPixel,TImageDimension> &it) const
+  operator!=(const Self& it) const
     {
     return m_Offset != it.m_Offset;
     }
@@ -55,12 +60,10 @@ public:
    */
   void operator=(const double v)
     { 
-    }
-  
+    }  
   
 };
 
-#endif 
-
-
-
+} // namespace itk
+  
+#endif

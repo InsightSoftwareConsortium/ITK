@@ -15,18 +15,23 @@
 =========================================================================*/
 // #include "itkIdentifierTraits.h"
 
-const bool itkIdentifierTraits<char>::IsIntegralType = true;
+namespace itk
+{
 
-const bool itkIdentifierTraits<unsigned char>::IsIntegralType = true;
+const bool IdentifierTraits<char>::IsIntegralType = true;
 
-const bool itkIdentifierTraits<short>::IsIntegralType = true;
+const bool IdentifierTraits<unsigned char>::IsIntegralType = true;
 
-const bool itkIdentifierTraits<unsigned short>::IsIntegralType = true;
+const bool IdentifierTraits<short>::IsIntegralType = true;
 
-const bool itkIdentifierTraits<int>::IsIntegralType = true;
+const bool IdentifierTraits<unsigned short>::IsIntegralType = true;
 
-const bool itkIdentifierTraits<unsigned int>::IsIntegralType = true;
+const bool IdentifierTraits<int>::IsIntegralType = true;
 
-const bool itkIdentifierTraits<long>::IsIntegralType = true;
+const bool IdentifierTraits<unsigned int>::IsIntegralType = true;
 
-const bool itkIdentifierTraits<unsigned long>::IsIntegralType = true;
+const bool IdentifierTraits<long>::IsIntegralType = true;
+
+const bool IdentifierTraits<unsigned long>::IsIntegralType = true;
+  
+}

@@ -16,45 +16,43 @@
 #include "itkShrinkImage.h"
 #include "itkObjectFactory.h"
 
-//------------------------------------------------------------------------
-template <class TInputImage, class TOutputImage>
-itkShrinkImage<TInputImage,TOutputImage>::Pointer 
-itkShrinkImage<TInputImage,TOutputImage>
-::New()
+namespace itk
 {
-  itkShrinkImage<TInputImage,TOutputImage>* ret = 
-    itkObjectFactory< itkShrinkImage<TInputImage,TOutputImage> >::Create();
-  if ( ret )
-    {
-    return ret;
-    }
-  return new itkShrinkImage<TInputImage,TOutputImage>;
-}
 
-//----------------------------------------------------------------------------
+/**
+ *
+ */
 template <class TInputImage, class TOutputImage>
-itkShrinkImage<TInputImage,TOutputImage>
-::itkShrinkImage()
+ShrinkImage<TInputImage,TOutputImage>
+::ShrinkImage()
 {
   m_ShrinkFactor = 1;
 }
 
-//----------------------------------------------------------------------------
+
+/**
+ *
+ */
 template <class TInputImage, class TOutputImage>
 void 
-itkShrinkImage<TInputImage,TOutputImage>
-::PrintSelf(std::ostream& os, itkIndent indent)
+ShrinkImage<TInputImage,TOutputImage>
+::PrintSelf(std::ostream& os, Indent indent)
 {
-  itkFilterImageToImage<TInputImage,TOutputImage>::PrintSelf(os,indent);
+  FilterImageToImage<TInputImage,TOutputImage>::PrintSelf(os,indent);
 
   os << indent << "Shrink Factor: " << m_ShrinkFactor << std::endl;
 }
 
-//----------------------------------------------------------------------------
+
+/**
+ *
+ */
 template <class TInputImage, class TOutputImage>
 void 
-itkShrinkImage<TInputImage,TOutputImage>
+ShrinkImage<TInputImage,TOutputImage>
 ::Execute()
 {
   itkDebugMacro(<<"Actually executing");
 }
+
+} // namespace itk

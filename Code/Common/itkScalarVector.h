@@ -13,9 +13,9 @@
   
 ==========================================================================*/
 /**
- * itkScalarVector is a templated class that holds a scalar value plus an
- * array of values (a vector).  itkScalarVector can be used as the data type
- * held at each pixel in an itkImage or at each vertex of an itkMesh. There
+ * ScalarVector is a templated class that holds a scalar value plus an
+ * array of values (a vector).  ScalarVector can be used as the data type
+ * held at each pixel in an Image or at each vertex of an Mesh. There
  * are three template parameters: the type of scalar, the type of vector, and
  * the number of components of the vector. The types can be any data type
  * that behaves like a primitive (or atomic) data type (int, short, float,
@@ -25,17 +25,17 @@
  * each pixel or each vertex responds to GetVector()/SetVector() methods. If
  * not, a compile time error will occur.
  *
- * itkScalarVector is not a dynamically extendible array like std::vector. It
+ * ScalarVector is not a dynamically extendible array like std::vector. It
  * is intended to be used like a mathematical vector.
  *
- * If you wish a simpler pixel types, you can use itkScalar, which represents
- * a single data value at a pixel. YOu can also use itkVector, which supports
+ * If you wish a simpler pixel types, you can use Scalar, which represents
+ * a single data value at a pixel. YOu can also use Vector, which supports
  * (for a given pixel) an array of vector values.
  * 
- * \sa itkImage
- * \sa itkMesh
- * \sa itkScalar
- * \sa itkVector 
+ * \sa Image
+ * \sa Mesh
+ * \sa Scalar
+ * \sa Vector 
  */
 
 #ifndef __itkScalarVector_h
@@ -43,24 +43,27 @@
 
 #include <memory.h>
 
+namespace itk
+{
+
 template<class TScalar, class TVector, unsigned int TVectorDimension=3>
-class itkScalarVector {
+class ScalarVector {
 public:
   /**
    * ValueType can be used to declare a variable that is the same type
-   * as the data held in the scalar portion of the itkScalarVector.  
+   * as the data held in the scalar portion of the ScalarVector.  
    */
   typedef typename TScalar ValueType;
 
   /**
    * ValueType can be used to declare a variable that is the same type
-   * as the data held in the scalar portion of the itkScalarVector.  
+   * as the data held in the scalar portion of the ScalarVector.  
    */
   typedef typename TScalar ScalarValueType;
 
   /**
    * ValueType can be used to declare a variable that is the same type
-   * as the data held in the scalar portion of the itkScalarVector.  
+   * as the data held in the scalar portion of the ScalarVector.  
    */
   typedef typename TVector VectorValueType;
 
@@ -103,4 +106,7 @@ private:
   TVector m_Vector[TVectorDimension];
 };
 
+  
+} // namespace itk
+  
 #endif 

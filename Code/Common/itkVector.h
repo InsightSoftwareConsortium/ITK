@@ -13,28 +13,28 @@
   
 ==========================================================================*/
 /**
- * itkVector is a templated class that holds a single vector (i.e., an array
- * of values).  itkVector can be used as the data type held at each pixel in
- * an itkImage or at each vertex of an itkMesh. The template parameter T can
+ * Vector is a templated class that holds a single vector (i.e., an array
+ * of values).  Vector can be used as the data type held at each pixel in
+ * an Image or at each vertex of an Mesh. The template parameter T can
  * be any data type that behaves like a primitive (or atomic) data type (int,
  * short, float, complex).  The TVectorDimension defines the number of
  * components in the vector array. itk filters that rely on vector data
  * assume the data type held at each pixel or each vertex responds to
  * GetVector()/SetVector() methods. If not, a compile time error will occur.
  *
- * itkVector is not a dynamically extendible array like std::vector. It is
+ * Vector is not a dynamically extendible array like std::vector. It is
  * intended to be used like a mathematical vector.
  *
- * If you wish a simpler pixel types, you can use itkScalar, which represents
+ * If you wish a simpler pixel types, you can use Scalar, which represents
  * a single data value at a pixel. There is also the more complex type
- * itkScalarVector, which supports (for a given pixel) a single scalar value
+ * ScalarVector, which supports (for a given pixel) a single scalar value
  * plus an array of vector values. (The scalar and vectors can be of
  * different data type.)
  * 
- * \sa itkImage
- * \sa itkMesh
- * \sa itkVector
- * \sa itkScalarVector 
+ * \sa Image
+ * \sa Mesh
+ * \sa Vector
+ * \sa ScalarVector 
  */
 
 #ifndef __itkVector_h
@@ -42,12 +42,17 @@
 
 #include <memory.h>
 
+namespace itk
+{
+
 template<class T, unsigned int TVectorDimension=3>
-class itkVector {
+class Vector {
  public:
+  typedef Vector  Self;
+  
   /**
    * ValueType can be used to declare a variable that is the same type
-   * as the data held in an itkVector.  
+   * as the data held in an Vector.  
    */
   typedef T ValueType;
 
@@ -74,10 +79,10 @@ class itkVector {
   /**
    * Add a vector to this vector and return a new vector.
    */
-  const itkVector<T, TVectorDimension>
-  operator+(const itkVector<T, TVectorDimension> &vec)
+  const Self
+  operator+(const Self &vec)
     {
-    itkVector<T, TVectorDimension> result;
+    Self result;
     for (unsigned int i=0; i < TVectorDimension; i++)
       { result[i] = m_Vector[i] + vec.m_Vector[i]; }
     return result;
@@ -86,8 +91,8 @@ class itkVector {
   /**
    * Add a vector to this vector, modifying the value of this vector.
    */
-  const itkVector<T, TVectorDimension> &
-  operator+=(const itkVector<T, TVectorDimension> &vec)
+  const Self &
+  operator+=(const Self &vec)
     {
     for (unsigned int i=0; i < TVectorDimension; i++)
       { m_Vector[i] += vec.m_Vector[i]; }
@@ -97,10 +102,10 @@ class itkVector {
   /**
    * Subtract a vector from this vector and return a new vector.
    */
-  const itkVector<T, TVectorDimension>
-  operator-(const itkVector<T, TVectorDimension> &vec)
+  const Self
+  operator-(const Self &vec)
     {
-    itkVector<T, TVectorDimension> result;
+    Self result;
     for (unsigned int i=0; i < TVectorDimension; i++)
       { result[i] = m_Vector[i] - vec.m_Vector[i]; }
     return result;
@@ -109,8 +114,8 @@ class itkVector {
   /**
    * Subtract a vector from this vector, modifying the value of this vector.
    */
-  const itkVector<T, TVectorDimension> &
-  operator-=(const itkVector<T, TVectorDimension> &vec)
+  const Self &
+  operator-=(const Self &vec)
     {
     for (unsigned int i=0; i < TVectorDimension; i++)
       { m_Vector[i] -= vec.m_Vector[i]; }
@@ -120,5 +125,8 @@ class itkVector {
  private:
   T m_Vector[TVectorDimension];
 };
+
+  
+} // namespace itk
 
 #endif 

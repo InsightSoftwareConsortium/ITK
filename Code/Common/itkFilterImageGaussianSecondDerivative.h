@@ -14,7 +14,7 @@
 
 =========================================================================*/
 /**
- * itkFilterImageGaussianSecondDerivative convolves an image with
+ * FilterImageGaussianSecondDerivative convolves an image with
  * a kernel approximating the first derivative of a gaussian.
  * 
  * This class implements the recursive filtering
@@ -26,42 +26,37 @@
 
 #include "itkFilterImageGaussian.h"
 
-template <class TInputImage, class TOutputImage, class TComputation>
-class ITK_EXPORT itkFilterImageGaussianSecondDerivative : public
-                  itkFilterImageGaussian<TInputImage,TOutputImage,TComputation> 
+namespace itk
+{
 
+template <class TInputImage, class TOutputImage, class TComputation>
+class ITK_EXPORT FilterImageGaussianSecondDerivative:
+  public FilterImageGaussian<TInputImage,TOutputImage,TComputation>
 {
   /** 
    * Smart pointer typedef support 
    */
-  typedef itkSmartPointer<
-    itkFilterImageGaussian<TInputImage,TOutputImage,TComputation> >
-    Pointer;
+  typedef FilterImageGaussianSecondDerivative  Self;
+  typedef SmartPointer<Self>                   Pointer;
 
-  /** 
-   * Create the source with one output initially 
+  /**
+   * Method for creation through the object factory.
    */
-  static Pointer New();
-
+  itkNewMacro(Self);
 
 protected:
-
+  FilterImageGaussianSecondDerivative();
+  virtual ~FilterImageGaussianSecondDerivative() {};
+  
   /**
    * Set up the coefficients of the filter to approximate a specific kernel.
    * typically it can be used to approximate a gaussian or one of its
    * derivatives.
    */
-	virtual void SetUp(TComputation dd);
-
-public:
-	itkFilterImageGaussianSecondDerivative();
-	virtual ~itkFilterImageGaussianSecondDerivative() {};
-
-private:  
-
+  virtual void SetUp(TComputation dd);
 };
 
-
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkFilterImageGaussianSecondDerivative.txx"

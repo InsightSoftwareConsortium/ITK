@@ -14,7 +14,7 @@
 
 =========================================================================*/
 /**
- * itkNumericTraits is used to extend the traits associated with native types
+ * NumericTraits is used to extend the traits associated with native types
  * such as float, char, int, and so on. These traits are extensions of the
  * standard <numeric_limits> defined by the C++ compilers. Some of the added
  * traits include minimum and maximum value; accumulation type; etc.  
@@ -31,8 +31,11 @@
 #define ITK_NUMERIC_LIMITS vnl_numeric_limits
 #endif
 
+namespace itk
+{
+
 template <class T>
-class itkNumericTraits : public ITK_NUMERIC_LIMITS<T> {
+class NumericTraits : public ITK_NUMERIC_LIMITS<T> {
 public:
   /* Return the type of this native type */
   typedef T ValueType; 
@@ -51,7 +54,7 @@ public:
 };
 
 template <>
-class itkNumericTraits<bool> : public ITK_NUMERIC_LIMITS<bool> {
+class NumericTraits<bool> : public ITK_NUMERIC_LIMITS<bool> {
 public:
   typedef bool ValueType;
   typedef unsigned char AbsType;
@@ -61,7 +64,7 @@ public:
 };
 
 template <>
-class itkNumericTraits<char> : public ITK_NUMERIC_LIMITS<char> {
+class NumericTraits<char> : public ITK_NUMERIC_LIMITS<char> {
 public:
   typedef char ValueType;
   typedef unsigned char AbsType;
@@ -71,7 +74,7 @@ public:
 };
 
 template <>
-class itkNumericTraits<unsigned char> : public ITK_NUMERIC_LIMITS<unsigned char> {
+class NumericTraits<unsigned char> : public ITK_NUMERIC_LIMITS<unsigned char> {
 public:
   typedef unsigned char ValueType;
   typedef unsigned char AbsType;
@@ -81,7 +84,7 @@ public:
 };
 
 template <>
-class itkNumericTraits<short> : public ITK_NUMERIC_LIMITS<short> {
+class NumericTraits<short> : public ITK_NUMERIC_LIMITS<short> {
 public:
   typedef short ValueType;
   typedef unsigned short AbsType;
@@ -91,7 +94,7 @@ public:
 };
 
 template <>
-class itkNumericTraits<unsigned short> : public ITK_NUMERIC_LIMITS<unsigned short> {
+class NumericTraits<unsigned short> : public ITK_NUMERIC_LIMITS<unsigned short> {
 public:
   typedef unsigned short ValueType;
   typedef unsigned short AbsType;
@@ -101,7 +104,7 @@ public:
 };
 
 template <>
-class itkNumericTraits<int> : public ITK_NUMERIC_LIMITS<int> {
+class NumericTraits<int> : public ITK_NUMERIC_LIMITS<int> {
 public:
   typedef int ValueType;
   typedef unsigned int AbsType;
@@ -111,7 +114,7 @@ public:
 };
 
 template <>
-class itkNumericTraits<unsigned int> : public ITK_NUMERIC_LIMITS<unsigned int> {
+class NumericTraits<unsigned int> : public ITK_NUMERIC_LIMITS<unsigned int> {
 public:
   typedef unsigned int ValueType;
   typedef unsigned int AbsType;
@@ -121,7 +124,7 @@ public:
 };
 
 template <>
-class itkNumericTraits<long> : public ITK_NUMERIC_LIMITS<long> {
+class NumericTraits<long> : public ITK_NUMERIC_LIMITS<long> {
 public:
   typedef long ValueType;
   typedef unsigned long AbsType;
@@ -131,7 +134,7 @@ public:
 };
 
 template <>
-class itkNumericTraits<unsigned long> : public ITK_NUMERIC_LIMITS<unsigned long> {
+class NumericTraits<unsigned long> : public ITK_NUMERIC_LIMITS<unsigned long> {
 public:
   typedef unsigned long ValueType;
   typedef unsigned long AbsType;
@@ -141,7 +144,7 @@ public:
 };
 
 template <>
-class itkNumericTraits<float> : public ITK_NUMERIC_LIMITS<float> {
+class NumericTraits<float> : public ITK_NUMERIC_LIMITS<float> {
 public:
   typedef float ValueType;
   typedef float AbsType;
@@ -151,7 +154,7 @@ public:
 };
 
 template <>
-class itkNumericTraits<double> : public ITK_NUMERIC_LIMITS<double> {
+class NumericTraits<double> : public ITK_NUMERIC_LIMITS<double> {
 public:
   typedef double ValueType;
   typedef double AbsType;
@@ -161,7 +164,7 @@ public:
 };
 
 template <>
-class itkNumericTraits<long double> : public ITK_NUMERIC_LIMITS<long double> {
+class NumericTraits<long double> : public ITK_NUMERIC_LIMITS<long double> {
 public:
   typedef long double ValueType;
   typedef long double AbsType;
@@ -169,5 +172,7 @@ public:
   static const long double Zero;
   static const long double One;
 };
+
+} // namespace itk
 
 #endif // __itkNumericTraits_h

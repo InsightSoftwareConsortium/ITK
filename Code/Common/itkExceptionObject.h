@@ -20,21 +20,24 @@
 #include <string>
 #include "itkObject.h"
 
-class itkExceptionObject
+namespace itk
+{
+
+class ExceptionObject
 {
 public:
   /**
    * Constructor and copy constructor.  Note that these functions will be
    * called when children are instantiated..
    */
-  itkExceptionObject() { };
+  ExceptionObject() { };
 
   /**
    * Virtual destructor needed 
    */
-  virtual ~itkExceptionObject() {};
+  virtual ~ExceptionObject() {};
 
-  itkExceptionObject( const itkExceptionObject &orig )
+  ExceptionObject( const ExceptionObject &orig )
   {
     this->m_Location    = orig.m_Location;
     this->m_Description = orig.m_Description;
@@ -43,14 +46,14 @@ public:
   /**
    * Assignment and equivalence operators.
    */
-  itkExceptionObject &operator= ( const itkExceptionObject &orig )
+  ExceptionObject &operator= ( const ExceptionObject &orig )
   {
     this->m_Location    = orig.m_Location;
     this->m_Description = orig.m_Description;
     return *this;
   }
   
-  virtual bool operator==( const itkExceptionObject &orig )
+  virtual bool operator==( const ExceptionObject &orig )
   {
     if ( this->m_Location    == orig.m_Location &&
          this->m_Description == orig.m_Description ) 
@@ -86,7 +89,7 @@ public:
   /**
    * Return the name of the class.
    */
-  static const char *GetClassName() {return "itkExceptionObject";}
+  static const char *GetClassName() {return "ExceptionObject";}
   
 private:
   /**
@@ -98,35 +101,35 @@ private:
 };
 
 /**
- * Generic inserter operator for itkExceptionObject and its subclasses.
+ * Generic inserter operator for ExceptionObject and its subclasses.
  *
  */
-inline std::ostream& operator<<(std::ostream& os, itkExceptionObject &e)
+inline std::ostream& operator<<(std::ostream& os, ExceptionObject &e)
 {
   (&e)->Print(os);
   return os;
 }
 
 /**
- * Specific exception types that are subclasses of itkExceptionObject follow
+ * Specific exception types that are subclasses of ExceptionObject follow
  */
 
-class itkRangeError : public itkExceptionObject
+class RangeError : public ExceptionObject
 {
 public:
-  itkTypeMacro(itkRangeError, itkExceptionObject);
+  itkTypeMacro(RangeError, ExceptionObject);
 };
 
-class itkInvalidArgumentError : public itkExceptionObject
+class InvalidArgumentError : public ExceptionObject
 {
 public:
-  itkTypeMacro(itkInvalidArgumentError, itkExceptionObject);
+  itkTypeMacro(InvalidArgumentError, ExceptionObject);
 };
 
-class itkIncompatibleOperandsError : public itkExceptionObject
+class IncompatibleOperandsError : public ExceptionObject
 {
 public:
-  itkTypeMacro(itkIncompatibleOperandsError, itkExceptionObject);
+  itkTypeMacro(IncompatibleOperandsError, ExceptionObject);
 };
 
 
@@ -135,22 +138,22 @@ public:
  * data fields.
  */
 /*
-class itkSampleError : public itkExceptionObject
+class SampleError : public ExceptionObject
 {
 private:
   int m_ExtraInfo;
 public:
   // Constructor and copy constructor:  Be sure parent constructors are called.
-  itkSampleError () : itkExceptionObject(), m_ExtraInfo(0) {}
-  itkSampleError (const itkSampleError& orig) : itkExceptionObject(orig)
+  SampleError () : ExceptionObject(), m_ExtraInfo(0) {}
+  SampleError (const SampleError& orig) : ExceptionObject(orig)
   {
         this->m_ExtraInfo = orig.m_ExtraInfo;
   }
 
   // Assignment operator:  Be sure parent assignment operator is called.
-  itkSampleError &operator= ( const itkSampleError &orig )
+  SampleError &operator= ( const SampleError &orig )
   { 
-        itkExceptionObject::operator= ( orig );
+        ExceptionObject::operator= ( orig );
         this->m_ExtraInfo = orig.m_ExtraInfo;
         return *this;
   }
@@ -163,13 +166,16 @@ public:
   // print function is used to print basic information.
   void Print(std::ostream& os)  const
   {
-        itkExceptionObject::Print( os );
+        ExceptionObject::Print( os );
         os << std::endl << "\tExtra info: " << m_ExtraInfo;
   }
 
-  itkTypeMacro(itkSampleError, itkExceptionObject);
+  itkTypeMacro(SampleError, ExceptionObject);
 
 };
 */
+
+} // namespace itk
+
 #endif
 

@@ -14,11 +14,11 @@
 
 =========================================================================*/
 /**
- * itkPixelTraits is used to determine characteristics of particular pixel
+ * PixelTraits is used to determine characteristics of particular pixel
  * types. Pixels are can be user-defined types (not just the native types),
  * and may consist of a scalar portion and a vector portion. Depending on how
  * you want to treat the pixel (as either a scalar or vector), you can use
- * the itkScalarTraits and itkVectorTraits to determine characteristics of
+ * the ScalarTraits and VectorTraits to determine characteristics of
  * the pixel.  
  */
 
@@ -27,8 +27,11 @@
 
 #include "itkNumericTraits.h"
 
+namespace itk
+{
+
 template <class T>
-class itkScalarTraits {
+class ScalarTraits {
 public:
   /* 
    * Reflect the value type from the underlying (usually native type)
@@ -45,13 +48,13 @@ public:
    * Support the GetScalar / SetScalar methods. These are the
    * default implemnentations if the template is not specialized.
    */
-  static itkNumericTraits<typename T::ValueType>::ValueType& GetScalar(T& v) {return v.GetScalar();}
+  static NumericTraits<typename T::ValueType>::ValueType& GetScalar(T& v) {return v.GetScalar();}
   //static ScalarType& GetScalar(T& v) {return v.GetScalar();}
   static void SetScalar(T& v, ScalarType const&d) {v.SetScalar(d);}
 };
 
 template <class T>
-class itkVectorTraits {
+class VectorTraits {
 public:
   /* 
    * Reflect the value type from the underlying (usually native type)
@@ -72,11 +75,13 @@ public:
   static void SetVector(T& v, VectorType const&d) {v.SetVector(d);}
 };
 
-// -----------------------------------------------------------------------
-// The following are specializations of the itkScalarTraits for the native
-// types.
+
+/**
+ * The following are specializations of the ScalarTraits for the native
+ * types.
+ */
 template <>
-class itkScalarTraits<bool> {
+class ScalarTraits<bool> {
 public:
   typedef bool ValueType;
   typedef bool ScalarType;
@@ -85,7 +90,7 @@ public:
 };
 
 template <>
-class itkScalarTraits<unsigned char> {
+class ScalarTraits<unsigned char> {
 public:
   typedef unsigned char ValueType;
   typedef unsigned char ScalarType;
@@ -94,7 +99,7 @@ public:
 };
 
 template <>
-class itkScalarTraits<signed char> {
+class ScalarTraits<signed char> {
 public:
   typedef signed char ValueType;
   typedef signed char ScalarType;
@@ -103,7 +108,7 @@ public:
 };
 
 template <>
-class itkScalarTraits<unsigned short> {
+class ScalarTraits<unsigned short> {
 public:
   typedef unsigned short ValueType;
   typedef unsigned short ScalarType;
@@ -112,7 +117,7 @@ public:
 };
 
 template <>
-class itkScalarTraits<signed short> {
+class ScalarTraits<signed short> {
 public:
   typedef signed short ValueType;
   typedef signed short ScalarType;
@@ -121,7 +126,7 @@ public:
 };
 
 template <>
-class itkScalarTraits<unsigned int> {
+class ScalarTraits<unsigned int> {
 public:
   typedef unsigned int ValueType;
   typedef unsigned int ScalarType;
@@ -130,7 +135,7 @@ public:
 };
 
 template <>
-class itkScalarTraits<signed int> {
+class ScalarTraits<signed int> {
 public:
   typedef signed int ValueType;
   typedef signed int ScalarType;
@@ -139,7 +144,7 @@ public:
 };
 
 template <>
-class itkScalarTraits<signed long> {
+class ScalarTraits<signed long> {
 public:
   typedef signed long ValueType;
   typedef signed long ScalarType;
@@ -148,7 +153,7 @@ public:
 };
 
 template <>
-class itkScalarTraits<unsigned long> {
+class ScalarTraits<unsigned long> {
 public:
   typedef unsigned long ValueType;
   typedef unsigned long ScalarType;
@@ -157,7 +162,7 @@ public:
 };
 
 template <>
-class itkScalarTraits<float> {
+class ScalarTraits<float> {
 public:
   typedef float ValueType;
   typedef float ScalarType;
@@ -166,7 +171,7 @@ public:
 };
 
 template <>
-class itkScalarTraits<double> {
+class ScalarTraits<double> {
 public:
   typedef double ValueType;
   typedef double ScalarType;
@@ -174,11 +179,13 @@ public:
   static void SetScalar(double& data, ScalarType const& v) {data = v;}
 };
 
-// -----------------------------------------------------------------------
-// The following are specializations of the itkVectorTraits for the native
-// types.
+
+/**
+ * The following are specializations of the VectorTraits for the native
+ * types.
+ */
 template <>
-class itkVectorTraits<bool> {
+class VectorTraits<bool> {
 public:
   typedef bool ValueType;
   typedef bool VectorType;
@@ -187,7 +194,7 @@ public:
 };
 
 template <>
-class itkVectorTraits<unsigned char> {
+class VectorTraits<unsigned char> {
 public:
   typedef unsigned char ValueType;
   typedef unsigned char VectorType;
@@ -196,7 +203,7 @@ public:
 };
 
 template <>
-class itkVectorTraits<signed char> {
+class VectorTraits<signed char> {
 public:
   typedef signed char ValueType;
   typedef signed char VectorType;
@@ -205,7 +212,7 @@ public:
 };
 
 template <>
-class itkVectorTraits<unsigned short> {
+class VectorTraits<unsigned short> {
 public:
   typedef unsigned short ValueType;
   typedef unsigned short VectorType;
@@ -214,7 +221,7 @@ public:
 };
 
 template <>
-class itkVectorTraits<signed short> {
+class VectorTraits<signed short> {
 public:
   typedef signed short ValueType;
   typedef signed short VectorType;
@@ -223,7 +230,7 @@ public:
 };
 
 template <>
-class itkVectorTraits<unsigned int> {
+class VectorTraits<unsigned int> {
 public:
   typedef unsigned int ValueType;
   typedef unsigned int VectorType;
@@ -232,7 +239,7 @@ public:
 };
 
 template <>
-class itkVectorTraits<signed int> {
+class VectorTraits<signed int> {
 public:
   typedef signed int ValueType;
   typedef signed int VectorType;
@@ -241,7 +248,7 @@ public:
 };
 
 template <>
-class itkVectorTraits<signed long> {
+class VectorTraits<signed long> {
 public:
   typedef signed long ValueType;
   typedef signed long VectorType;
@@ -250,7 +257,7 @@ public:
 };
 
 template <>
-class itkVectorTraits<unsigned long> {
+class VectorTraits<unsigned long> {
 public:
   typedef unsigned long ValueType;
   typedef unsigned long VectorType;
@@ -259,7 +266,7 @@ public:
 };
 
 template <>
-class itkVectorTraits<float> {
+class VectorTraits<float> {
 public:
   typedef float ValueType;
   typedef float VectorType;
@@ -268,7 +275,7 @@ public:
 };
 
 template <>
-class itkVectorTraits<double> {
+class VectorTraits<double> {
 public:
   typedef double ValueType;
   typedef double VectorType;
@@ -276,5 +283,6 @@ public:
   static void SetVector(double& data, VectorType const& v) {data = v;}
 };
 
+} // namespace itk
 
 #endif // __itkPixelTraits_h

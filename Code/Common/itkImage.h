@@ -14,10 +14,10 @@
 
 =========================================================================*/
 /**
- * itkImage is the templated image class. The class is templated over the
+ * Image is the templated image class. The class is templated over the
  * pixel type and the image dimension (i.e., the image class is
  * n-dimensional). The pixel type may be one of the native types; or it can
- * be a Insight-defined class type such as itkScalar or itkVector; or a
+ * be a Insight-defined class type such as Scalar or Vector; or a
  * user-defined type. Note that depending on the type of pixel that you use,
  * the process objects (i.e., those filters processing data objects), may not
  * operate on the image and/or pixel type. This becomes apparant at run-time
@@ -35,14 +35,18 @@
 #include "itkPixelTraits.h"
 #include <vector>
 
+namespace itk
+{
+
 template <class TPixel, unsigned int TImageDimension=2>
-class ITK_EXPORT itkImage : public itkImageBase
+class ITK_EXPORT Image : public ImageBase
 {
 public:
   /** 
    * Smart pointer typedef support.
    */
-  typedef itkSmartPointer< itkImage<TPixel, TImageDimension> > Pointer;
+  typedef Image               Self;
+  typedef SmartPointer<Self>  Pointer;
 
   /** 
    * Pixel typedef support. Used to declare pixel type in filters
@@ -55,41 +59,41 @@ public:
    * type that the scalar portion of the pixels are composed of; usually 
    * something like float, int, etc.  
    */
-  typedef typename itkScalarTraits<TPixel>::ValueType ScalarValueType;
+  typedef typename ScalarTraits<TPixel>::ValueType ScalarValueType;
 
   /** 
    * Pixel (vector) value typedef support. The vector value is the native
    * type that the vector portion of the pixels are composed of; usually 
    * something like float, int, etc.  
    */
-  typedef typename itkVectorTraits<TPixel>::ValueType VectorValueType;
+  typedef typename VectorTraits<TPixel>::ValueType VectorValueType;
 
   /** 
    * Iterator typedef support. An iterator is used to traverse
    * the image.
    */
-  typedef itkImageIterator<TPixel, TImageDimension> Iterator;
+  typedef ImageIterator<TPixel, TImageDimension> Iterator;
 
   /** 
    * Index typedef support. An index is used to access pixel values.
    */
-  typedef itkIndex<TImageDimension> Index;
+  typedef Index<TImageDimension>  Index;
   
   /** 
    * Scalar iterator typedef support. An iterator is used to traverse
    * the image using GetScalar().
    */
-  typedef itkImageScalarIterator<TPixel,TImageDimension> ScalarIterator;
+  typedef ImageScalarIterator<TPixel,TImageDimension> ScalarIterator;
 
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(itkImage, itkImageBase);
+  itkTypeMacro(Image, ImageBase);
 
-  /** 
-   * Create an empty image. 
+  /**
+   * Method for creation through the object factory.
    */
-  static Pointer New();
+  itkNewMacro(Self);  
 
   /**
    * Allocate the image memory. Dimension and Size must be set a priori.
@@ -163,16 +167,19 @@ public:
   ScalarIterator ScalarEnd();
 
 protected:
-  itkImage();
-  virtual ~itkImage();
-  itkImage(const itkImage&) {};
-  void operator=(const itkImage&) {};
-  void PrintSelf(std::ostream& os, itkIndent indent);
+  Image();
+  virtual ~Image();
+  Image(const Self&) {}
+  void operator=(const Self&) {}
+  void PrintSelf(std::ostream& os, Indent indent);
 
 private:
   std::vector<TPixel> *m_Data;
 };
 
+  
+} // namespace itk
+  
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkImage.txx"
 #endif

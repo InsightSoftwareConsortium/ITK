@@ -14,8 +14,8 @@
 
 =========================================================================*/
 /**
- * itkObject is the second-highest level base class for most itk objects.
- * It extends the base object functionality of itkLightObject by
+ * Object is the second-highest level base class for most itk objects.
+ * It extends the base object functionality of LightObject by
  * implementing debug flags/methods and modification time tracking.
  */
 
@@ -30,25 +30,27 @@
 #include "itkTimeStamp.h"
 #include "itkIndent.h"
 
-class ITK_EXPORT itkObject: public itkLightObject
+namespace itk
+{
+
+class ITK_EXPORT Object: public LightObject
 {
 public:
   /** 
    * Smart pointer typedef support.
    */
-  typedef itkObject              Self;
-  typedef itkSmartPointer<Self>  Pointer;
+  typedef Object              Self;
+  typedef SmartPointer<Self>  Pointer;
 
-  /** 
-   * Create an object with Debug turned off, modified time initialized to
-   * zero, and reference count set to 1. 
+  /**
+   * Method for creation through the object factory.
    */
   static Pointer New();
 
   /** 
    * Standard part of all itk objects.
    */
-  itkTypeMacro(itkObject, itkLightObject);
+  itkTypeMacro(Object, LightObject);
 
   /** 
    * Turn debugging output on. 
@@ -116,14 +118,14 @@ public:
   static bool GetGlobalWarningDisplay();
 
   static void GlobalWarningDisplayOn()
-    { itkObject::SetGlobalWarningDisplay(true); }
+    { Object::SetGlobalWarningDisplay(true); }
   static void GlobalWarningDisplayOff()
-    { itkObject::SetGlobalWarningDisplay(false); }
+    { Object::SetGlobalWarningDisplay(false); }
   
 protected:
-  itkObject(); 
-  virtual ~itkObject(); 
-  itkObject(const Self&) {}
+  Object(); 
+  virtual ~Object(); 
+  Object(const Self&) {}
   void operator=(const Self&) {}
 
   /** 
@@ -132,9 +134,9 @@ protected:
    * instead) but used in the hierarchical print process to combine the
    * output of several classes. 
    */
-  virtual void PrintSelf(std::ostream& os, itkIndent indent);
-  virtual void PrintHeader(std::ostream& os, itkIndent indent);
-  virtual void PrintTrailer(std::ostream& os, itkIndent indent);
+  virtual void PrintSelf(std::ostream& os, Indent indent);
+  virtual void PrintHeader(std::ostream& os, Indent indent);
+  virtual void PrintTrailer(std::ostream& os, Indent indent);
 
 private:
   /**
@@ -145,13 +147,15 @@ private:
   /**
    * Keep track of modification time.
    */
-  itkTimeStamp m_MTime;
+  TimeStamp m_MTime;
   
   /**
    * Global object debug flag.
    */
   static bool m_GlobalWarningDisplay;
 };
+  
+} // namespace itk
 
 #endif
 

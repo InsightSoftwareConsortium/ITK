@@ -19,41 +19,49 @@
 #endif
 #include "itkObjectFactory.h"
 
-itkOutputWindow* itkOutputWindow::m_Instance = 0;
+namespace itk
+{
+  
+OutputWindow* OutputWindow::m_Instance = 0;
 
-// Prompting off by default
-itkOutputWindow
-::itkOutputWindow()
+/**
+ * Prompting off by default
+ */
+OutputWindow
+::OutputWindow()
 {
   m_PromptUser = 0;
 }
 
-itkOutputWindow
-::~itkOutputWindow()
+OutputWindow
+::~OutputWindow()
 {
 }
 
 void 
-itkOutputWindowDisplayText(const char* message)
+OutputWindowDisplayText(const char* message)
 {
-  itkOutputWindow::GetInstance()->DisplayText(message);
+  OutputWindow::GetInstance()->DisplayText(message);
 }
 
 void 
-itkOutputWindow
-::PrintSelf(std::ostream& os, itkIndent indent)
+OutputWindow
+::PrintSelf(std::ostream& os, Indent indent)
 {
-  this->itkObject::PrintSelf(os, indent);
+  this->Object::PrintSelf(os, indent);
 
-  os << indent << "itkOutputWindow (single instance): "
-     << (void*)itkOutputWindow::m_Instance << std::endl;
+  os << indent << "OutputWindow (single instance): "
+     << (void*)OutputWindow::m_Instance << std::endl;
 
   os << indent << "Prompt User: " << (m_PromptUser ? "On\n" : "Off\n");
 }
 
-// default implementation outputs to cerr only
+
+/**
+ * default implementation outputs to cerr only
+ */
 void 
-itkOutputWindow
+OutputWindow
 ::DisplayText(const char* txt)
 {
   std::cerr << txt;
@@ -65,61 +73,74 @@ itkOutputWindow
     std::cin >> c;
     if ( c == 'y' || c == 'Y' )
       {
-      itkObject::GlobalWarningDisplayOff(); 
+      Object::GlobalWarningDisplayOff(); 
       }
     }
 }
 
-// Return the single instance of the itkOutputWindow
-itkOutputWindow* 
-itkOutputWindow
+/**
+ * Return the single instance of the OutputWindow
+ */
+OutputWindow* 
+OutputWindow
 ::GetInstance()
 {
-  if ( !itkOutputWindow::m_Instance )
+  if ( !OutputWindow::m_Instance )
     {
-    // Try the factory first
+    /**
+     * Try the factory first
+     */
 
-    // if the factory did not provide one, then create it here
-    if( ! itkOutputWindow::m_Instance )
+    /**
+     * if the factory did not provide one, then create it here
+     */
+    if( ! OutputWindow::m_Instance )
       {
 #ifdef _WIN32    
-      itkOutputWindow::m_Instance = itkWin32OutputWindow::New();
+      OutputWindow::m_Instance = Win32OutputWindow::New();
 #else
-      itkOutputWindow::m_Instance = itkOutputWindow::New();
+      OutputWindow::m_Instance = OutputWindow::New();
 #endif
       }
     }
-  // return the instance
-  return itkOutputWindow::m_Instance;
+  /**
+   * return the instance
+   */
+  return OutputWindow::m_Instance;
 }
 
 void 
-itkOutputWindow
-::SetInstance(itkOutputWindow* instance)
+OutputWindow
+::SetInstance(OutputWindow* instance)
 {
-  if ( itkOutputWindow::m_Instance == instance )
+  if ( OutputWindow::m_Instance == instance )
     {
     return;
     }
 
-  // preferably this will be NULL
-  if ( itkOutputWindow::m_Instance )
+  /**
+   * preferably this will be NULL
+   */
+  if ( OutputWindow::m_Instance )
     {
-    itkOutputWindow::m_Instance->Delete();;
-    itkOutputWindow::m_Instance = NULL;
+    OutputWindow::m_Instance->Delete();;
+    OutputWindow::m_Instance = NULL;
     }
 
-  itkOutputWindow::m_Instance = instance;
+  OutputWindow::m_Instance = instance;
 
 }
 
-// Up the reference count so it behaves like New
-itkOutputWindow* 
-itkOutputWindow
+/**
+ * Up the reference count so it behaves like New
+ */
+OutputWindow* 
+OutputWindow
 ::New()
 {
-  itkOutputWindow* ret = itkOutputWindow::GetInstance();
+  OutputWindow* ret = OutputWindow::GetInstance();
   return ret;
 }
 
 
+} // namespace itk

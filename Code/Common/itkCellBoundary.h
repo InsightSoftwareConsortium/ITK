@@ -41,8 +41,8 @@ public:
   /**
    * Smart pointer typedef support.
    */
-  typedef CellBoundary            Self;
-  typedef itkSmartPointer<Self>   Pointer;
+  typedef CellBoundary         Self;
+  typedef SmartPointer<Self>   Pointer;
   
   /**
    * Save template parameter information.

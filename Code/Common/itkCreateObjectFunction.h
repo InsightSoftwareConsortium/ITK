@@ -14,7 +14,7 @@
 
 =========================================================================*/
 /**
- * itkCreateObjectFunction is used to create callback functions that
+ * CreateObjectFunction is used to create callback functions that
  * create itkObjects for use with the itkObjectFactory.
  */
 #ifndef __itkCreaetObjectFunction_h
@@ -22,26 +22,33 @@
 
 #include "itkObject.h"
 
+namespace itk
+{
 
-class itkCreateObjectFunctionBase : public itkObject
+class CreateObjectFunctionBase: public Object
 {
 public:
-  typedef itkSmartPointer<itkCreateObjectFunctionBase> Pointer;
-  virtual itkLightObject* CreateObject() = 0;
+  typedef CreateObjectFunctionBase  Self;
+  typedef SmartPointer<Self>        Pointer;
+  virtual LightObject* CreateObject() = 0;
 };
 
-
 template <class T>
-class itkCreateObjectFunction : public itkCreateObjectFunctionBase
+class CreateObjectFunction : public CreateObjectFunctionBase
 {
 public:
+  typedef CreateObjectFunction  Self;
+  typedef SmartPointer<Self>    Pointer;
+  
   // Methods from itkObject
-  static Pointer New() { return new itkCreateObjectFunction<T>;}
-  itkLightObject* CreateObject()
+  static Pointer New() { return new Self;}
+  LightObject* CreateObject()
     {
       return T::New();
     }
 };
+
+} // namespace itk
 
 #endif
 

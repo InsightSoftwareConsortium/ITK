@@ -14,32 +14,36 @@
 
 =========================================================================*/
 /**
- * itkShrinkImage reduces the size of an image by an integer factor.
+ * ShrinkImage reduces the size of an image by an integer factor.
  */
 #ifndef __itkShrinkImage_h
 #define __itkShrinkImage_h
 
 #include "itkFilterImageToImage.h"
 
+namespace itk
+{
+
 template <class TInputImage, class TOutputImage>
-class ITK_EXPORT itkShrinkImage : 
-  public itkFilterImageToImage<TInputImage,TOutputImage>
+class ITK_EXPORT ShrinkImage:
+    public FilterImageToImage<TInputImage,TOutputImage>
 {
 public:
   /** 
    * Smart pointer typedef support.
    */
-  typedef itkSmartPointer< itkShrinkImage<TInputImage,TOutputImage> > Pointer;
+  typedef ShrinkImage         Self;
+  typedef SmartPointer<Self>  Pointer;
 
-  /** 
-   * Create the source with one output initially.
+  /**
+   * Method for creation through the object factory.
    */
-  static Pointer New();
+  itkNewMacro(Self);  
 
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(itkShrinkImage, itkFilterImageToImage);
+  itkTypeMacro(ShrinkImage, FilterImageToImage);
 
   /** 
    * Set the shrink factor. The default value is 1.
@@ -52,11 +56,11 @@ public:
   itkGetMacro(ShrinkFactor,unsigned int);
                  
 protected:
-  itkShrinkImage();
-  ~itkShrinkImage() {};
-  itkShrinkImage(const itkShrinkImage&) {};
-  void operator=(const itkShrinkImage&) {};
-  void PrintSelf(std::ostream& os, itkIndent indent);
+  ShrinkImage();
+  ~ShrinkImage() {};
+  ShrinkImage(const Self&) {}
+  void operator=(const Self&) {}
+  void PrintSelf(std::ostream& os, Indent indent);
   
   void Execute();
 
@@ -64,8 +68,11 @@ private:
   unsigned int m_ShrinkFactor;
 };
 
+  
+} // namespace itk
+  
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkShrinkImage.txx"
 #endif
-
+  
 #endif

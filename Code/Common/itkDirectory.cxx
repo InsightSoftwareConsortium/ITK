@@ -15,33 +15,53 @@
 =========================================================================*/
 #include "itkDirectory.h"
 
-//----------------------------------------------------------------------------
-itkDirectory
-::itkDirectory() 
+namespace itk
+{
+
+
+/**
+ *
+ */
+Directory
+::Directory() 
 {
 }
 
-//----------------------------------------------------------------------------
-itkDirectory
-::~itkDirectory() 
+/**
+ *
+ */
+Directory
+::~Directory() 
 {
 }
 
-//----------------------------------------------------------------------------
+/*
+ostream& operator << (ostream& os, string& s)
+{
+  os << s.c_str();
+  return os;
+}
+*/
+
+/**
+ *
+ */
 void 
-itkDirectory
-::PrintSelf(std::ostream& os, itkIndent indent)
+Directory
+::PrintSelf(std::ostream& os, Indent indent)
 { 
-  itkObject::PrintSelf(os, indent);
-  os << indent << "Directory for: " <<  m_Path << "\n";
+  Object::PrintSelf(os, indent);
+  os << indent << "Directory for: " << m_Path << "\n";
   os << indent << "Contains the following files:\n";
   indent = indent.GetNextIndent();
   for(std::vector<std::string>::iterator i = m_Files.begin();
       i != m_Files.end(); ++i)
     {
-    os << indent << *i << "\n";
+    os << indent << (*i) << "\n";
     }
 }
+
+} // namespace itk
 
 // First microsoft compilers
 
@@ -56,9 +76,14 @@ itkDirectory
 #include <sys/stat.h>
 #include <sys/types.h>
 
-//----------------------------------------------------------------------------
+namespace itk
+{
+  
+/**
+ *
+ */
 bool 
-itkDirectory
+Directory
 ::Load(const char* name)
 {
   char* buf;
@@ -94,6 +119,8 @@ itkDirectory
   return _findclose(srchHandle) != -1;
 }
 
+} // namespace itk
+
 #else
 
 // Now the POSIX style directory access
@@ -101,9 +128,14 @@ itkDirectory
 #include <sys/types.h>
 #include <dirent.h>
 
-//----------------------------------------------------------------------------
+namespace itk
+{
+  
+/**
+ *
+ */
 bool 
-itkDirectory
+Directory
 ::Load(const char* name)
 {
   DIR* dir = opendir(name);
@@ -123,19 +155,27 @@ itkDirectory
   return 1;
 }
 
+} // namespace itk
+
 #endif
 
-
-//----------------------------------------------------------------------------
+namespace itk
+{
+  
+/**
+ *
+ */
 const char* 
-itkDirectory
+Directory
 ::GetFile(unsigned int index)
 {
   if ( index >= m_Files.size() )
     {
-    itkErrorMacro( << "Bad index for GetFile on itkDirectory\n");
+    itkErrorMacro( << "Bad index for GetFile on itk::Directory\n");
     return 0;
     }
   
   return m_Files[index].c_str();
 }
+
+} // namespace itk

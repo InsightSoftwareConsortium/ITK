@@ -17,48 +17,45 @@
 #include "itkPixelTraits.h"
 #include "itkObjectFactory.h"
 
-//------------------------------------------------------------------------
-template <class TOutputImage>
-itkRandomImageSource<TOutputImage>::Pointer 
-itkRandomImageSource<TOutputImage>
-::New()
+namespace itk
 {
-  itkRandomImageSource<TOutputImage>* ret = 
-    itkObjectFactory< itkRandomImageSource<TOutputImage> >::Create();
-  if ( ret )
-    {
-    return ret;
-    }
-  return new itkRandomImageSource<TOutputImage>;
-}
 
-//----------------------------------------------------------------------------
+/**
+ *
+ */
 template <class TOutputImage>
-itkRandomImageSource<TOutputImage>
-::itkRandomImageSource()
+RandomImageSource<TOutputImage>
+::RandomImageSource()
 {
   m_Size = new unsigned long [TOutputImage::GetImageDimension()];
   m_Spacing = new float [TOutputImage::GetImageDimension()];
-  m_Origin = new float [TOutputImage::GetImageDimension()];
-  
+  m_Origin = new float [TOutputImage::GetImageDimension()];  
 }
 
-//----------------------------------------------------------------------------
+
+/**
+ *
+ */
 template <class TOutputImage>
 void 
-itkRandomImageSource<TOutputImage>
-::PrintSelf(std::ostream& os, itkIndent indent)
+RandomImageSource<TOutputImage>
+::PrintSelf(std::ostream& os, Indent indent)
 {
-  itkImageSource<TOutputImage>::PrintSelf(os,indent);
-
+  ImageSource<TOutputImage>::PrintSelf(os,indent);
 }
 
-// Microsoft compiler defines these and screws up the traits
+
+/**
+ * Microsoft compiler defines these and screws up the traits
+ */
 
 //----------------------------------------------------------------------------
+/**
+ *
+ */
 template <class TOutputImage>
 void 
-itkRandomImageSource<TOutputImage>
+RandomImageSource<TOutputImage>
 ::Execute()
 {
   typedef typename TOutputImage::ScalarValueType scalarType;
@@ -66,8 +63,8 @@ itkRandomImageSource<TOutputImage>
   TOutputImage *image=this->GetOutput(0);
   unsigned int N = image->GetImageDimension();
 
-  scalarType min = itkNumericTraits<scalarType>::min();
-  scalarType max = itkNumericTraits<scalarType>::max();
+  scalarType min = NumericTraits<scalarType>::min();
+  scalarType max = NumericTraits<scalarType>::max();
   typename TOutputImage::ScalarIterator scalarIterator = image->ScalarBegin();
   typename TOutputImage::ScalarIterator scalarEnd = image->ScalarEnd();
 
@@ -78,5 +75,6 @@ itkRandomImageSource<TOutputImage>
     {
     *scalarIterator = (min + max) / 2.0;
     }
-  
 }
+
+} // namespace itk

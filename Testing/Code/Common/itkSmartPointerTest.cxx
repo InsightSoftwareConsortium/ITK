@@ -19,7 +19,7 @@ See COPYRIGHT.txt for copyright details.
 class itkTestObject
 {
 public:
-  typedef itkSmartPointer<itkTestObject> Pointer;
+  typedef itk::SmartPointer<itkTestObject> Pointer;
   static itkTestObject::Pointer New();
   virtual void Register()
     {
@@ -74,7 +74,7 @@ itkTestObject::Pointer itkTestObject::New()
 class itkTestObjectSubClass : public itkTestObject
 {
 public:
-  typedef itkSmartPointer<itkTestObjectSubClass> Pointer;
+  typedef itk::SmartPointer<itkTestObjectSubClass> Pointer;
   static Pointer New();
 };
 

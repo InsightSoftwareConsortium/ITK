@@ -17,25 +17,16 @@ See COPYRIGHT.txt for copyright details.
 #include "itkProcessObject.h"
 #include "itkObjectFactory.h"
 
-itkDataObject::Pointer 
-itkDataObject
-::New()
+namespace itk
 {
-  itkDataObject *ret = itkObjectFactory<itkDataObject>::Create();
-  if ( ret )
-    {
-    return ret;
-    }
-  return new itkDataObject;
-}
 
 // Initialize static member that controls global data release 
 // after use by filter
-static bool itkDataObjectGlobalReleaseDataFlag = false;
+bool DataObject::m_GlobalReleaseDataFlag = false;
 
 //----------------------------------------------------------------------------
-itkDataObject::
-itkDataObject()
+DataObject::
+DataObject()
 {
   m_Dimension = 0; //unspecified
 
@@ -64,8 +55,8 @@ itkDataObject()
 }
 
 //----------------------------------------------------------------------------
-itkDataObject
-::~itkDataObject()
+DataObject
+::~DataObject()
 {
   if ( m_WholeExtent )
     {
@@ -81,7 +72,7 @@ itkDataObject
 
 //----------------------------------------------------------------------------
 void 
-itkDataObject
+DataObject
 ::Initialize()
 {
 // We don't modify ourselves because the "ReleaseData" methods depend upon
@@ -91,7 +82,7 @@ itkDataObject
 
 //----------------------------------------------------------------------------
 void 
-itkDataObject
+DataObject
 ::SetDimension(unsigned int dim)
 {
   if ( m_WholeExtent )
@@ -109,27 +100,27 @@ itkDataObject
 
 //----------------------------------------------------------------------------
 void 
-itkDataObject
+DataObject
 ::SetGlobalReleaseDataFlag(bool val)
 {
-  if (val == itkDataObjectGlobalReleaseDataFlag)
+  if (val == m_GlobalReleaseDataFlag)
     {
     return;
     }
-  itkDataObjectGlobalReleaseDataFlag = val;
+  m_GlobalReleaseDataFlag = val;
 }
 
 //----------------------------------------------------------------------------
 bool 
-itkDataObject
+DataObject
 ::GetGlobalReleaseDataFlag()
 {
-  return itkDataObjectGlobalReleaseDataFlag;
+  return m_GlobalReleaseDataFlag;
 }
 
 //----------------------------------------------------------------------------
 void 
-itkDataObject
+DataObject
 ::ReleaseData()
 {
   this->Initialize();
@@ -138,10 +129,10 @@ itkDataObject
 
 //----------------------------------------------------------------------------
 bool 
-itkDataObject
+DataObject
 ::ShouldIReleaseData() const
 {
-  if ( itkDataObjectGlobalReleaseDataFlag || m_ReleaseDataFlag )
+  if ( m_GlobalReleaseDataFlag || m_ReleaseDataFlag )
     {
     return true;
     }
@@ -154,15 +145,15 @@ itkDataObject
 //----------------------------------------------------------------------------
 
 void 
-itkDataObject
-::SetSource(itkProcessObject *arg)
+DataObject
+::SetSource(ProcessObject *arg)
 {
   itkDebugMacro( << this->GetClassName() << " (" 
                  << this << "): setting Source to " << arg ); 
 
   if (m_Source != arg) 
     {
-    itkProcessObject *tmp = m_Source;
+    ProcessObject *tmp = m_Source;
     m_Source = arg; 
     if (m_Source != 0) 
       { 
@@ -179,7 +170,7 @@ itkDataObject
 
 //----------------------------------------------------------------------------
 void 
-itkDataObject
+DataObject
 ::UnRegister()
 {
   // detect the circular loop source <-> data
@@ -192,17 +183,17 @@ itkDataObject
     this->SetSource(0);
     }
   
-  this->itkObject::UnRegister();
+  this->Object::UnRegister();
 }
 
 //----------------------------------------------------------------------------
 void 
-itkDataObject
-::PrintSelf(std::ostream& os, itkIndent indent)
+DataObject
+::PrintSelf(std::ostream& os, Indent indent)
 {
   unsigned int i;
         
-  itkObject::PrintSelf(os,indent);
+  Object::PrintSelf(os,indent);
 
   os << indent << "Dimension: " << m_Dimension << std::endl;
 
@@ -222,7 +213,7 @@ itkDataObject
      << (m_DataReleased ? "True\n" : "False\n");
   
   os << indent << "Global Release Data: " 
-     << (itkDataObjectGlobalReleaseDataFlag ? "On\n" : "Off\n");
+     << (m_GlobalReleaseDataFlag ? "On\n" : "Off\n");
 
   os << indent << "PipelineMTime: " << m_PipelineMTime << std::endl;
   os << indent << "UpdateTime: " << m_UpdateTime << std::endl;
@@ -254,7 +245,7 @@ itkDataObject
 
 //----------------------------------------------------------------------------
 void 
-itkDataObject
+DataObject
 ::Update()
 {
   this->UpdateInformation();
@@ -265,7 +256,7 @@ itkDataObject
 
 //----------------------------------------------------------------------------
 void 
-itkDataObject
+DataObject
 ::UpdateInformation()
 {
   if (m_Source)
@@ -308,7 +299,7 @@ itkDataObject
 
 //----------------------------------------------------------------------------
 void 
-itkDataObject
+DataObject
 ::PropagateUpdateExtent()
 {
   // If we need to update due to PipelineMTime, or the fact that our
@@ -339,7 +330,7 @@ itkDataObject
 
 //----------------------------------------------------------------------------
 void 
-itkDataObject
+DataObject
 ::TriggerAsynchronousUpdate()
 {
   // If we need to update due to PipelineMTime, or the fact that our
@@ -357,7 +348,7 @@ itkDataObject
 
 //----------------------------------------------------------------------------
 void 
-itkDataObject
+DataObject
 ::UpdateData()
 {
   // If we need to update due to PipelineMTime, or the fact that our
@@ -375,7 +366,7 @@ itkDataObject
 
 //----------------------------------------------------------------------------
 void 
-itkDataObject
+DataObject
 ::SetUpdateExtentToWholeExtent()
 {
   switch ( this->GetExtentType() )
@@ -400,7 +391,7 @@ itkDataObject
 
 //----------------------------------------------------------------------------
 void 
-itkDataObject
+DataObject
 ::DataHasBeenGenerated()
 {
   m_DataReleased = 0;
@@ -409,7 +400,7 @@ itkDataObject
 
 //----------------------------------------------------------------------------
 void 
-itkDataObject
+DataObject
 ::ComputeEstimatedPipelineMemorySize(unsigned long sizes[3])
 {
   if ( m_Source )
@@ -427,7 +418,7 @@ itkDataObject
 
 //----------------------------------------------------------------------------
 unsigned long 
-itkDataObject
+DataObject
 ::GetEstimatedPipelineMemorySize()
 {
   unsigned long sizes[3];
@@ -445,7 +436,7 @@ itkDataObject
 
 //----------------------------------------------------------------------------
 unsigned long 
-itkDataObject
+DataObject
 ::GetEstimatedMemorySize()
 {
   // This should be implemented in a subclass. If not, default to
@@ -455,7 +446,7 @@ itkDataObject
 
 //----------------------------------------------------------------------------
 unsigned long 
-itkDataObject
+DataObject
 ::GetActualMemorySize()
 {
   return 0;
@@ -463,8 +454,8 @@ itkDataObject
 
 //----------------------------------------------------------------------------
 void 
-itkDataObject
-::CopyInformation(itkDataObject *data)
+DataObject
+::CopyInformation(DataObject *data)
 {
   if ( this->GetExtentType() == ITK_STRUCTURED_EXTENT &&
        data->GetExtentType() == ITK_STRUCTURED_EXTENT )
@@ -480,7 +471,7 @@ itkDataObject
 
 
 bool 
-itkDataObject
+DataObject
 ::UpdateExtentIsOutsideOfTheExtent()
 {
   unsigned int i;
@@ -515,7 +506,7 @@ itkDataObject
 }
 
 bool 
-itkDataObject
+DataObject
 ::VerifyUpdateExtent()
 {
   bool retval = true;
@@ -564,3 +555,5 @@ itkDataObject
 
   return retval;
 }
+
+} // namespace itk

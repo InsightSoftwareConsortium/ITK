@@ -16,44 +16,41 @@
 #include "itkReadVTKImage.h"
 #include "itkObjectFactory.h"
 
-//------------------------------------------------------------------------
-template <class TOutputImage>
-itkReadVTKImage<TOutputImage>::Pointer itkReadVTKImage<TOutputImage>
-::New()
+namespace itk
 {
-  itkReadVTKImage<TOutputImage>* ret = 
-    itkObjectFactory< itkReadVTKImage<TOutputImage> >::Create();
-  if ( ret )
-    {
-    return ret;
-    }
-  return new itkReadVTKImage<TOutputImage>;
-}
 
-//----------------------------------------------------------------------------
+/**
+ *
+ */
 template <class TOutputImage>
-itkReadVTKImage<TOutputImage>
-::itkReadVTKImage()
+ReadVTKImage<TOutputImage>
+::ReadVTKImage()
 {
   m_FileName = "";
 }
 
-//----------------------------------------------------------------------------
+
+/**
+ *
+ */
 template <class TOutputImage>
 void 
-itkReadVTKImage<TOutputImage>
+ReadVTKImage<TOutputImage>
 ::Execute()
 {
 }
 
-//----------------------------------------------------------------------------
+
+/**
+ *
+ */
 template <class TOutputImage>
 void 
-itkReadVTKImage<TOutputImage>
-::PrintSelf(std::ostream& os, itkIndent indent)
+ReadVTKImage<TOutputImage>
+::PrintSelf(std::ostream& os, Indent indent)
 {
-  itkImageSource<TOutputImage>::PrintSelf(os,indent);
+  ImageSource<TOutputImage>::PrintSelf(os,indent);
 
 }
 
-
+} // namespace itk

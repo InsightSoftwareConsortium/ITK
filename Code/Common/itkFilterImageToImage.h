@@ -14,7 +14,7 @@
 
 =========================================================================*/
 /**
- * itkFilterImageToImage is the base class for all process objects that output
+ * FilterImageToImage is the base class for all process objects that output
  * image data, and require image data as input.
  */
 #ifndef __itkFilterImageToImage_h
@@ -22,25 +22,28 @@
 
 #include "itkImageSource.h"
 
+namespace itk
+{
+
 template <class TInputImage, class TOutputImage>
-class ITK_EXPORT itkFilterImageToImage : public itkImageSource<TOutputImage>
+class ITK_EXPORT FilterImageToImage : public ImageSource<TOutputImage>
 {
 public:
   /** 
    * Smart pointer typedef support 
    */
-  typedef itkSmartPointer< itkFilterImageToImage<TInputImage,TOutputImage> >
-    Pointer;
+  typedef FilterImageToImage  Self;
+  typedef SmartPointer<Self>  Pointer;
 
-  /** 
-   * Create the source with one output initially 
+  /**
+   * Method for creation through the object factory.
    */
-  static Pointer New();
-
+  itkNewMacro(Self);
+  
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(itkFilterImageToImage,itkImageSource);
+  itkTypeMacro(FilterImageToImage,ImageSource);
 
   /** 
    * Set the image input of this process object. 
@@ -54,21 +57,18 @@ public:
   TInputImage *GetInput(unsigned int idx);
 
 protected:
-  itkFilterImageToImage();
-  ~itkFilterImageToImage() {};
-  itkFilterImageToImage(const itkFilterImageToImage&) {};
-  void operator=(const itkFilterImageToImage&) {};
-  void PrintSelf(std::ostream& os, itkIndent indent);
+  FilterImageToImage();
+  ~FilterImageToImage() {};
+  FilterImageToImage(const FilterImageToImage&) {};
+  void operator=(const FilterImageToImage&) {};
+  void PrintSelf(std::ostream& os, Indent indent);
   
 };
+
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkFilterImageToImage.txx"
 #endif
 
 #endif
-
-
-
-
-

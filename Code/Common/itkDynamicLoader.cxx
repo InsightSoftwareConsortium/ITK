@@ -21,7 +21,7 @@
 // 3. Windows which uses LoadLibrary
 // 4. Most unix systems which use dlopen (default )
 // Each part of the ifdef contains a complete implementation for
-// the static methods of itkDynamicLoader.  
+// the static methods of DynamicLoader.  
 
 
 // ---------------------------------------------------------------
@@ -30,25 +30,28 @@
 #define ITKDYNAMICLOADER_DEFINED 1
 #include <dl.h>
 
+namespace itk
+{
+
 //----------------------------------------------------------------------------
-itkLibHandle 
-itkDynamicLoader
+LibHandle 
+DynamicLoader
 ::OpenLibrary(const char* libname )
 {
   return shl_load(libname, BIND_DEFERRED | DYNAMIC_PATH, 0L);
 }
 
 int 
-itkDynamicLoader::
-CloseLibrary(itkLibHandle lib)
+DynamicLoader::
+CloseLibrary(LibHandle lib)
 {
   return 0;
 }
 
 //----------------------------------------------------------------------------
 void* 
-itkDynamicLoader
-::GetSymbolAddress(itkLibHandle lib, const char* sym)
+DynamicLoader
+::GetSymbolAddress(LibHandle lib, const char* sym)
 { 
   void* addr;
   int status;
@@ -59,7 +62,7 @@ itkDynamicLoader
 
 //----------------------------------------------------------------------------
 const char* 
-itkDynamicLoader
+DynamicLoader
 ::LibPrefix()
 { 
   return "lib";
@@ -67,7 +70,7 @@ itkDynamicLoader
 
 //----------------------------------------------------------------------------
 const char* 
-itkDynamicLoader
+DynamicLoader
 ::LibExtension()
 {
   return ".sl";
@@ -75,11 +78,14 @@ itkDynamicLoader
 
 //----------------------------------------------------------------------------
 const char* 
-itkDynamicLoader
+DynamicLoader
 ::LastError()
 {
   return 0;
 }
+
+} // namespace itk
+
 #endif
 
 
@@ -92,9 +98,12 @@ itkDynamicLoader
 #include <Threads.h>
 #include <Timer.h>
 
+namespace itk
+{
+
 //----------------------------------------------------------------------------
-itkLibHandle 
-itkDynamicLoader
+LibHandle 
+DynamicLoader
 ::OpenLibrary(const char* libname )
 {
     Str63 libName;
@@ -111,16 +120,16 @@ itkDynamicLoader
 
 //----------------------------------------------------------------------------
 int 
-itkDynamicLoader
-::CloseLibrary(itkLibHandle lib)
+DynamicLoader
+::CloseLibrary(LibHandle lib)
 {
   return 0;
 }
 
 //----------------------------------------------------------------------------
 void* 
-itkDynamicLoader
-::GetSymbolAddress(itkLibHandle lib, const char* sym)
+DynamicLoader
+::GetSymbolAddress(LibHandle lib, const char* sym)
 { 
   Str255 symName;
   symName[0] = strlen(sym);
@@ -133,7 +142,7 @@ itkDynamicLoader
 
 //----------------------------------------------------------------------------
 const char* 
-itkDynamicLoader
+DynamicLoader
 ::LibPrefix()
 { 
   return "";
@@ -141,7 +150,7 @@ itkDynamicLoader
 
 //----------------------------------------------------------------------------
 const char* 
-itkDynamicLoader
+DynamicLoader
 ::LibExtension()
 {
   return ".lib";
@@ -149,11 +158,14 @@ itkDynamicLoader
 
 //----------------------------------------------------------------------------
 const char* 
-itkDynamicLoader
+DynamicLoader
 ::LastError()
 {
   return 0;
 }
+
+} // namespace itk
+
 #endif
 
 // ---------------------------------------------------------------
@@ -162,9 +174,12 @@ itkDynamicLoader
 #include <windows.h>
 #define ITKDYNAMICLOADER_DEFINED 1
 
+namespace itk
+{
+  
 //----------------------------------------------------------------------------
-itkLibHandle 
-itkDynamicLoader
+LibHandle 
+DynamicLoader
 ::OpenLibrary(const char* libname )
 {
   return LoadLibrary(libname);
@@ -172,23 +187,23 @@ itkDynamicLoader
 
 //----------------------------------------------------------------------------
 int 
-itkDynamicLoader
-::CloseLibrary(itkLibHandle lib)
+DynamicLoader
+::CloseLibrary(LibHandle lib)
 {
   return (int)FreeLibrary(lib);
 }
 
 //----------------------------------------------------------------------------
 void* 
-itkDynamicLoader
-::GetSymbolAddress(itkLibHandle lib, const char* sym)
+DynamicLoader
+::GetSymbolAddress(LibHandle lib, const char* sym)
 { 
   return GetProcAddress(lib, sym);
 }
 
 //----------------------------------------------------------------------------
 const char* 
-itkDynamicLoader
+DynamicLoader
 ::LibPrefix()
 { 
   return "";
@@ -196,7 +211,7 @@ itkDynamicLoader
 
 //----------------------------------------------------------------------------
 const char* 
-itkDynamicLoader
+DynamicLoader
 ::LibExtension()
 {
   return ".dll";
@@ -204,7 +219,7 @@ itkDynamicLoader
 
 //----------------------------------------------------------------------------
 const char* 
-itkDynamicLoader
+DynamicLoader
 ::LastError()
 {
    DWORD errcode = GetLastError();
@@ -228,6 +243,8 @@ itkDynamicLoader
   return str;
 }
 
+} // namespace itk
+
 #endif
 
 // ---------------------------------------------------------------
@@ -238,9 +255,12 @@ itkDynamicLoader
 // Setup for most unix machines
 #include <dlfcn.h>
 
+namespace itk
+{
+  
 //----------------------------------------------------------------------------
-itkLibHandle 
-itkDynamicLoader
+LibHandle 
+DynamicLoader
 ::OpenLibrary(const char* libname )
 {
   return dlopen(libname, RTLD_LAZY);
@@ -248,23 +268,23 @@ itkDynamicLoader
 
 //----------------------------------------------------------------------------
 int 
-itkDynamicLoader
-::CloseLibrary(itkLibHandle lib)
+DynamicLoader
+::CloseLibrary(LibHandle lib)
 {
   return (int)dlclose(lib);
 }
 
 //----------------------------------------------------------------------------
 void* 
-itkDynamicLoader
-::GetSymbolAddress(itkLibHandle lib, const char* sym)
+DynamicLoader
+::GetSymbolAddress(LibHandle lib, const char* sym)
 { 
   return dlsym(lib, sym);
 }
 
 //----------------------------------------------------------------------------
 const char* 
-itkDynamicLoader
+DynamicLoader
 ::LibPrefix()
 { 
   return "lib";
@@ -272,7 +292,7 @@ itkDynamicLoader
 
 //----------------------------------------------------------------------------
 const char* 
-itkDynamicLoader
+DynamicLoader
 ::LibExtension()
 {
   return ".so";
@@ -280,9 +300,12 @@ itkDynamicLoader
 
 //----------------------------------------------------------------------------
 const char* 
-itkDynamicLoader
+DynamicLoader
 ::LastError()
 {
   return dlerror(); 
 }
+
+} // namespace itk
+
 #endif

@@ -47,8 +47,8 @@ public:
   /**
    * Smart pointer typedef support.
    */
-  typedef LineCell               Self;
-  typedef itkSmartPointer<Self>  Pointer;
+  typedef LineCell            Self;
+  typedef SmartPointer<Self>  Pointer;
 
   /**
    * Save some template parameter information.
@@ -96,7 +96,7 @@ public:
   virtual Vertex::Pointer GetCellVertex(CellFeatureIdentifier);
 
   /**
-   * Standard part of itkObject class.  Used for debugging output.
+   * Standard part of Object class.  Used for debugging output.
    */
   itkTypeMacro(LineCell, CellInterface);
 
@@ -116,10 +116,13 @@ class LineBoundary:
   public CellBoundary< LineCell< TPixelType , TCellType > >
 {
 public:
-  typedef LineBoundary           Self;
-  typedef itkSmartPointer<Self>  Pointer;
+  typedef LineBoundary        Self;
+  typedef SmartPointer<Self>  Pointer;
   
-  static Pointer New(void);
+  /**
+   * Method for creation through the object factory.
+   */
+  itkNewMacro(Self);
   
   itkTypeMacro(LineBoundary, CellBoundary);
 };

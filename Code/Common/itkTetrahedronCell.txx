@@ -68,7 +68,7 @@ TetrahedronCell< TPixelType , TCellType >
 
 
 /**
- * Standard itkCell API:
+ * Standard CellInterface API:
  * Set the cell's internal point list to the list of identifiers provided.
  */
 template <typename TPixelType, typename TCellType>
@@ -82,7 +82,7 @@ TetrahedronCell< TPixelType , TCellType >
 
 
 /**
- * Standard itkCell API:
+ * Standard CellInterface API:
  * Use this to set all the points in the cell.  It is assumed that the
  * range [first, last) is exactly the size needed for this cell type.
  * The position *last is NOT referenced, so it can safely be one beyond
@@ -254,16 +254,5 @@ const int
 TetrahedronCell< TPixelType , TCellType >
 ::m_Faces[4][3] = { {0,1,3}, {1,2,3}, {2,0,3}, {0,2,1} };
 
-
-/**
- * Object factory for the boundary version of this cell type.
- */
-template <typename TPixelType, typename TCellType>
-TetrahedronBoundary< TPixelType , TCellType >::Pointer
-TetrahedronBoundary< TPixelType , TCellType >
-::New(void)
-{
-  return new Self;
-}
 
 } // namespace itk

@@ -14,11 +14,11 @@
 
 =========================================================================*/
 /** 
- * itkTimeStamp records a unique time when the method Modified() is 
+ * TimeStamp records a unique time when the method Modified() is 
  *  executed. This time is guaranteed to be monotonically increasing.
  *  Classes use this object to record modified and/or execution time.
  *  There is built in support for the binary < and > comparison
- *  operators between two itkTimeStamp objects. 
+ *  operators between two TimeStamp objects. 
  */
 
 #ifndef __itkTimeStamp_h
@@ -26,20 +26,25 @@
 
 #include "itkWin32Header.h"
 
-class ITK_EXPORT itkTimeStamp 
+namespace itk
+{
+
+class ITK_EXPORT TimeStamp 
 {
 public:
+  typedef TimeStamp  Self;
+  
   /** 
    * Create an instance of this class. We don't want to use reference
    * counting.
    */
-  static itkTimeStamp *New();
+  static Self* New();
 
   /** 
    * Constructor must remain public because classes instantiate
-   * itkTimeStamps implicitly in their construction. 
+   * TimeStamps implicitly in their construction. 
    */
-  itkTimeStamp() 
+  TimeStamp() 
     {m_ModifiedTime = 0;}
 
   /** 
@@ -52,7 +57,7 @@ public:
    * The class name as a string. 
    */
   static const char *GetClassName() 
-    {return "itkTimeStamp";}
+    {return "TimeStamp";}
 
   /** 
    * Set this objects time to the current time. The current time is just a
@@ -74,9 +79,9 @@ public:
   /** 
    * Support comparisons of time stamp objects directly. 
    */
-  int operator>(itkTimeStamp& ts) 
+  int operator>(TimeStamp& ts) 
     {return (m_ModifiedTime > ts.m_ModifiedTime);}
-  int operator<(itkTimeStamp& ts) 
+  int operator<(TimeStamp& ts) 
     {return (m_ModifiedTime < ts.m_ModifiedTime);}
 
   /** 
@@ -89,4 +94,7 @@ private:
   unsigned long m_ModifiedTime;
 };
 
+  
+} // namespace itk
+  
 #endif

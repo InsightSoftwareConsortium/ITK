@@ -16,15 +16,17 @@
 #ifndef __itkIdentifierTraits_h
 #define __itkIdentifierTraits_h
 
+namespace itk
+{
 
 /**
- * itkIdentifierTraits
+ * IdentifierTraits
  *
  * Type information for identifier types used to index various itk containers.
  */
 
 template <typename T>
-class itkIdentifierTraits
+class IdentifierTraits
 {
 public:
   /**
@@ -39,61 +41,62 @@ public:
  * Create specialized trait sets for each pre-defined identifier type.
  */
 template <>
-class itkIdentifierTraits<char>
+class IdentifierTraits<char>
 {
 public:
   static const bool IsIntegralType;
 };
 
 template <>
-class itkIdentifierTraits<unsigned char>
+class IdentifierTraits<unsigned char>
 {
 public:
   static const bool IsIntegralType;
 };
 
 template <>
-class itkIdentifierTraits<short>
+class IdentifierTraits<short>
 {
 public:
   static const bool IsIntegralType;
 };
 
 template <>
-class itkIdentifierTraits<unsigned short>
+class IdentifierTraits<unsigned short>
 {
 public:
   static const bool IsIntegralType;
 };
 
 template <>
-class itkIdentifierTraits<int>
+class IdentifierTraits<int>
 {
 public:
   static const bool IsIntegralType;
 };
 
 template <>
-class itkIdentifierTraits<unsigned int>
+class IdentifierTraits<unsigned int>
 {
 public:
   static const bool IsIntegralType;
 };
 
 template <>
-class itkIdentifierTraits<long>
+class IdentifierTraits<long>
 {
 public:
   static const bool IsIntegralType;
 };
 
 template <>
-class itkIdentifierTraits<unsigned long>
+class IdentifierTraits<unsigned long>
 {
 public:
   static const bool IsIntegralType;
 };
 
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkIdentifierTraits.txx"

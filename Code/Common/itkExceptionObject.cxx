@@ -15,7 +15,10 @@
 =========================================================================*/
 #include "itkExceptionObject.h"
 
-void itkExceptionObject::Print(std::ostream& os) const
+namespace itk
+{
+  
+void ExceptionObject::Print(std::ostream& os) const
 {
   os << "itk: Exception detected ";
   if (! m_Location.empty()) 
@@ -29,3 +32,5 @@ void itkExceptionObject::Print(std::ostream& os) const
     os << std::endl << "\t" << m_Description;  
     }
 }
+
+} // namespace itk

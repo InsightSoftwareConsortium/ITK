@@ -14,7 +14,7 @@
 
 =========================================================================*/
 /**
- * itkKalmanFilter class implements a linear recursive estimator. 
+ * KalmanFilter class implements a linear recursive estimator. 
  * The class is templated over the type of the parameters to be estimated 
  * and over the number of parameters. Recursive estimation is a fast mechanism
  * for getting information about a system for which we only have access to
@@ -27,8 +27,11 @@
 #include <vnl/vnl_vector_fixed.h>
 #include <vnl/vnl_matrix_fixed.h>
 
+namespace itk
+{
+
 template <class T, unsigned int TEstimatorDimension>
-class itkKalmanFilter 
+class KalmanFilter 
 {
 public:
 
@@ -75,9 +78,9 @@ public:
    * \sa clearVariance
    */
   void clearEstimation(void) 
-  {
-    Estimator = 0;
-  }
+    {
+      Estimator = 0;
+    }
 
 
   /**
@@ -87,19 +90,19 @@ public:
    * \sa clearEstimation
    */
   void clearVariance(void)
-  {
-    const unsigned int N = TEstimatorDimension * TEstimatorDimension;
-    for(unsigned int i=0; i<N; i++) 
     {
-      Variance(i) = 0.0;
-    }
+      const unsigned int N = TEstimatorDimension * TEstimatorDimension;
+      for(unsigned int i=0; i<N; i++) 
+	{
+	Variance(i) = 0.0;
+	}
 
-    for(unsigned int j=0; j<N; j++) 
-    {
-      Variance(j,j) = 1.0;
-    }
+      for(unsigned int j=0; j<N; j++) 
+	{
+	Variance(j,j) = 1.0;
+	}
 
-  }
+    }
 
 
   /**
@@ -111,19 +114,19 @@ public:
    * \sa clearEstimation
    */
   void setVariance(const T & var = 1.0) 
-  {
-    const unsigned int N = TEstimatorDimension * TEstimatorDimension;
-    for(unsigned int i=0; i<N; i++) 
     {
-      Variance(i) = 0.0;
-    }
+      const unsigned int N = TEstimatorDimension * TEstimatorDimension;
+      for(unsigned int i=0; i<N; i++) 
+	{
+	Variance(i) = 0.0;
+	}
 
-    for(unsigned int j=0; j<N; j++) 
-    {
-      Variance(j,j) = var;
-    }
+      for(unsigned int j=0; j<N; j++) 
+	{
+	Variance(j,j) = var;
+	}
 
-  }
+    }
 
 
   /**
@@ -136,9 +139,9 @@ public:
    * \sa clearEstimation
    */
   void setVariance(const Matrix & m)
-  {
+    {
       Variance = m;
-  }
+    }
 
 
   
@@ -147,9 +150,9 @@ public:
    * \sa Estimator
    */ 
   const Vector & getEstimator(void) const
-  {
-    return Estimator;
-  }
+    {
+      return Estimator;
+    }
 
 
   /**
@@ -157,9 +160,9 @@ public:
    * \sa Variance
    */
   const Matrix & getVariance(void) const
-  {
-    return Variance;
-  }
+    {
+      return Variance;
+    }
   
 
 
@@ -190,64 +193,55 @@ private:
    * \sa getVariance
    */ 
   Matrix Variance;
-
-
 };
 
 
-
-
+/**
+ *
+ */
 template <class T, unsigned int TEstimatorDimension>
-void itkKalmanFilter<T,TEstimatorDimension>::updateWithNewMeasure(
-                                            const T & newMeasure,
-                                            const Vector & newPredictor )
+void
+KalmanFilter<T,TEstimatorDimension>
+::updateWithNewMeasure(const T & newMeasure, const Vector & newPredictor )
 {
-
   T measurePrediction      = dot_product( newPredictor , Estimator );
-
+  
   T errorMeasurePrediction = newMeasure - measurePrediction;
 
   Vector Corrector = Variance * newPredictor;
 
   for( unsigned int j=0; j<TEstimatorDimension; j++) 
-  {
+    {
     Estimator(j) += Corrector(j) * errorMeasurePrediction;
-  }
+    }
   
   updateVariance( newPredictor );
-
 }
 
 
-
-
-
-
+/**
+ *
+ */
 template <class T, unsigned int TEstimatorDimension>
-void itkKalmanFilter<T,TEstimatorDimension>::updateVariance( const Vector & newPredictor )
-{
-  
+void
+KalmanFilter<T,TEstimatorDimension>
+::updateVariance( const Vector & newPredictor )
+{  
   Vector aux =  Variance * newPredictor;
 
   T denominator = 1.0/(1.0 +  dot_product( aux , newPredictor ) );
 
   unsigned pos = 0;
   for( unsigned int col=0; col<TEstimatorDimension; col++) 
-  {
-    for( unsigned int row=0; row<TEstimatorDimension; row++) 
     {
+    for( unsigned int row=0; row<TEstimatorDimension; row++) 
+      {
       Variance(pos) -= aux(col)*aux(row)*denominator;
       pos++;
+      }
     }
-  }
-  
 }
 
-
-
-
+} // namespace itk
 
 #endif
-
-
-

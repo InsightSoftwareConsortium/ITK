@@ -17,9 +17,9 @@
  * This class is used for error and debug message output on the windows
  * platform. It creates a read only EDIT control to display the
  * output. This class should not be used directly. It should
- * only be used through the interface of itkOutputWindow.  This class
+ * only be used through the interface of OutputWindow.  This class
  * only handles one output window per process.  If the window is destroyed,
- * the itkObject::GlobalWarningDisplayOff() function is called.  The
+ * the Object::GlobalWarningDisplayOff() function is called.  The
  * window is created the next time text is written to the window.
  */
 
@@ -29,18 +29,22 @@
 #include "itkOutputWindow.h"
 #include <windows.h>
 
-class ITK_EXPORT itkWin32OutputWindow : public itkOutputWindow
+namespace itk
+{
+
+class ITK_EXPORT Win32OutputWindow : public OutputWindow
 {
 public:
   /** 
    * Smart pointer typedef support.
    */
-  typedef itkSmartPointer<itkWin32OutputWindow> Pointer;
+  typedef Win32OutputWindow   Self;
+  typedef SmartPointer<Self>  Pointer;
 
-  /** 
-   * Create the object.
+  /**
+   * Method for creation through the object factory.
    */
-  static itkWin32OutputWindow* New();
+  itkNewMacro(Self);  
 
   /** 
    * Put the text into the display window.
@@ -51,15 +55,18 @@ public:
   static LRESULT APIENTRY WndProc(HWND hWnd, UINT message, 
                                   WPARAM wParam, LPARAM lParam);
 protected: 
-  itkWin32OutputWindow() {}; 
-  virtual ~itkWin32OutputWindow() {}; 
-  itkWin32OutputWindow(const itkWin32OutputWindow&) {};
-  void operator=(const itkWin32OutputWindow&) {};
+  Win32OutputWindow() {}
+  virtual ~Win32OutputWindow() {}
+  Win32OutputWindow(const Self&) {}
+  void operator=(const Self&) {}
   
   void PromptText(const char* text);
   static void AddText(const char*);
   static int Initialize();
   static HWND m_OutputWindow;
 };
-
+ 
+  
+} // namespace itk
+  
 #endif

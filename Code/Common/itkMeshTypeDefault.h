@@ -14,7 +14,7 @@
 
 =========================================================================*/
 /**
- * itkMeshTypeDefault is a simple structure that holds type information
+ * MeshTypeDefault is a simple structure that holds type information
  * for a mesh and its cells.  It is used to avoid the passing of many
  * template parameters while still enjoying the benefits of generic
  * programming.

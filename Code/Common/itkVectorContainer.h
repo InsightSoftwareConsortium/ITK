@@ -17,7 +17,7 @@
  * VectorContainer
  *
  * Define a front-end to the STL "vector" container that conforms to the
- * IndexedContainer interface.  This is a full-fleged itkObject, so
+ * IndexedContainer interface.  This is a full-fleged Object, so
  * there is modification time, debug, and reference count information.
  */
 #ifndef __itkVectorContainer_h
@@ -47,15 +47,15 @@ template <
   typename TElement
   >
 class VectorContainer: 
-  public itkObject,
+  public Object,
   public std::vector<TElement>
 {
 public:
   /**
    * Smart pointer typedef support.
    */
-  typedef VectorContainer        Self;
-  typedef itkSmartPointer<Self>  Pointer;
+  typedef VectorContainer     Self;
+  typedef SmartPointer<Self>  Pointer;
   
   /**
    * Save the template parameters.
@@ -73,7 +73,7 @@ protected:
   /**
    * Provide pass-through constructors corresponding to all the STL
    * vector constructors.  These are for internal use only since this is also
-   * an itkObject which must be constructed through the "New()" routine.
+   * an Object which must be constructed through the "New()" routine.
    */
   VectorContainer():
     Vector() {}

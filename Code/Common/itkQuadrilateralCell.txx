@@ -66,7 +66,7 @@ QuadrilateralCell< TPixelType , TCellType >
 
 
 /**
- * Standard itkCell API:
+ * Standard CellInterface API:
  * Set the cell's internal point list to the list of identifiers provided.
  */
 template <typename TPixelType, typename TCellType>
@@ -80,7 +80,7 @@ QuadrilateralCell< TPixelType , TCellType >
 
 
 /**
- * Standard itkCell API:
+ * Standard CellInterface API:
  * Use this to set all the points in the cell.  It is assumed that the
  * range [first, last) is exactly the size needed for this cell type.
  * The position *last is NOT referenced, so it can safely be one beyond
@@ -215,17 +215,5 @@ template <typename TPixelType, typename TCellType>
 const int
 QuadrilateralCell< TPixelType , TCellType >
 ::m_Edges[4][2] = { {0,1}, {1,2}, {2,3}, {3,0} };
-
-
-/**
- * Object factory for the boundary version of this cell type.
- */
-template <typename TPixelType, typename TCellType>
-QuadrilateralBoundary< TPixelType , TCellType >::Pointer
-QuadrilateralBoundary< TPixelType , TCellType >
-::New(void)
-{
-  return new Self;
-}
 
 } // namespace itk

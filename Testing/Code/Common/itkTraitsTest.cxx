@@ -10,29 +10,29 @@
 main ()
 {
   // Test some numeric traits
-  float min = itkNumericTraits<float>::min();
-  unsigned short max = itkNumericTraits<unsigned short>::max();
+  float min = itk::NumericTraits<float>::min();
+  unsigned short max = itk::NumericTraits<unsigned short>::max();
 
   char adder=10;
-  itkNumericTraits<char>::AccumulateType addItUp = itkNumericTraits<char>::Zero;
+  itk::NumericTraits<char>::AccumulateType addItUp = itk::NumericTraits<char>::Zero;
   for (int i=0; i<100; i++)
     {
     addItUp += adder;
     }
   
   // Test some pixel traits
-  itkScalarTraits<float>::ValueType foo = min; //should be float
-  itkVectorTraits<long>::ValueType fooLong = itkNumericTraits<long>::max();
+  itk::ScalarTraits<float>::ValueType foo = min; //should be float
+  itk::VectorTraits<long>::ValueType fooLong = itk::NumericTraits<long>::max();
   
-  itkScalar<float> scalar;
-  itkScalar<float>::ValueType s = scalar.GetScalar();
-  itkVector<unsigned short> vector;
-  const itkVector<unsigned short>::ValueType *v = vector.GetVector();
+  itk::Scalar<float> scalar;
+  itk::Scalar<float>::ValueType s = scalar.GetScalar();
+  itk::Vector<unsigned short> vector;
+  const itk::Vector<unsigned short>::ValueType *v = vector.GetVector();
   
-  itkScalar<float>::ValueType scalarMin = min;
-  itkVector<long>::ValueType vectorMax = fooLong;
+  itk::Scalar<float>::ValueType scalarMin = min;
+  itk::Vector<long>::ValueType vectorMax = fooLong;
   
-  itkImage<unsigned char,2>::Pointer i2 = itkImage<unsigned char,2>::New();
+  itk::Image<unsigned char,2>::Pointer i2 = itk::Image<unsigned char,2>::New();
   
 
 }

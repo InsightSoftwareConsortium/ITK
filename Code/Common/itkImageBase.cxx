@@ -14,39 +14,37 @@
 
 =========================================================================*/
 #include "itkImageBase.h"
-#include "itkObjectFactory.h"
 
-itkImageBase::Pointer 
-itkImageBase
-::New()
+namespace itk
 {
-  itkImageBase *ret = itkObjectFactory<itkImageBase>::Create();
-  if ( ret )
-    {
-    return ret;
-    }
-  return new itkImageBase;
-}
-
-//-------------------------------------------------------------------------
-itkImageBase
-::itkImageBase()
+  
+/**
+ *
+ */
+ImageBase
+::ImageBase()
 {
   m_Size = 0;
   m_Spacing = 0;
   m_Origin = 0;
 }
 
-//-------------------------------------------------------------------------
-itkImageBase
-::~itkImageBase()
+
+/**
+ *
+ */
+ImageBase
+::~ImageBase()
 {
   this->Initialize();
 }
 
-//-------------------------------------------------------------------------
+
+/**
+ *
+ */
 void 
-itkImageBase
+ImageBase
 ::Initialize()
 {
   if ( m_Size != 0 )
@@ -55,19 +53,22 @@ itkImageBase
     delete [] m_Spacing;
     delete [] m_Origin;
     }
-  this->itkDataObject::Initialize();
+  this->DataObject::Initialize();
 }
 
-//-------------------------------------------------------------------------
+
+/**
+ *
+ */
 void 
-itkImageBase
+ImageBase
 ::SetDimension(unsigned int dim)
 {
   if ( dim != this->GetDimension() )
     {
     this->Initialize();
 
-    this->itkDataObject::SetDimension(dim);
+    this->DataObject::SetDimension(dim);
     m_Size = new unsigned long [dim];
     m_Spacing = new float [dim];
     m_Origin = new float [dim];
@@ -76,9 +77,12 @@ itkImageBase
     }
 }
 
-//-------------------------------------------------------------------------
+
+/**
+ *
+ */
 void 
-itkImageBase
+ImageBase
 ::SetSize(unsigned long *size)
 {
   bool modified = false;
@@ -99,8 +103,11 @@ itkImageBase
 }
 
 //-------------------------------------------------------------------------
+/**
+ *
+ */
 void 
-itkImageBase
+ImageBase
 ::SetSpacing(float *spacing)
 {
   bool modified = false;
@@ -120,9 +127,12 @@ itkImageBase
     }
 }
 
-//-------------------------------------------------------------------------
+
+/**
+ *
+ */
 void 
-itkImageBase
+ImageBase
 ::SetOrigin(float *origin)
 {
   bool modified = false;
@@ -142,15 +152,15 @@ itkImageBase
     }
 }
 
-//-------------------------------------------------------------------------
+
+/**
+ *
+ */
 void 
-itkImageBase
-::PrintSelf(std::ostream& os, itkIndent indent)
+ImageBase
+::PrintSelf(std::ostream& os, Indent indent)
 {
-  itkDataObject::PrintSelf(os,indent);
-  
+  DataObject::PrintSelf(os,indent);
 }
 
-  
-  
-
+} // namespace itk

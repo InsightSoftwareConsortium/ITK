@@ -13,42 +13,36 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#include "itkImageSource.h"
-#include "itkObjectFactory.h"
+// #include "itkImageSource.h"
 
-//------------------------------------------------------------------------
-template<class TOutputImage>
-itkImageSource<TOutputImage>::Pointer 
-itkImageSource<TOutputImage>
-::New()
+namespace itk
 {
-  itkImageSource<TOutputImage>* ret = 
-    itkObjectFactory< itkImageSource<TOutputImage> >::Create();
-  if ( ret )
-    {
-    return ret;
-    }
-  return new itkImageSource<TOutputImage>;
-}
 
-//----------------------------------------------------------------------------
+/**
+ *
+ */
 template<class TOutputImage>
-itkImageSource<TOutputImage>
-::itkImageSource()
+ImageSource<TOutputImage>
+::ImageSource()
 {
-  // Create the output
+  /**
+   * Create the output
+   */
   typename TOutputImage::Pointer output = TOutputImage::New();
-  this->itkProcessObject::SetNumberOfRequiredOutputs(1);
-  this->itkProcessObject::SetNthOutput(0, output.GetPointer());
+  this->ProcessObject::SetNumberOfRequiredOutputs(1);
+  this->ProcessObject::SetNthOutput(0, output.GetPointer());
 
   m_ExecutePiece = 0;
   m_ExecuteNumberOfPieces = 0;
 }
 
-//----------------------------------------------------------------------------
+
+/**
+ *
+ */
 template<class TOutputImage>
 TOutputImage *
-itkImageSource<TOutputImage>
+ImageSource<TOutputImage>
 ::GetOutput()
 {
   if (this->GetNumberOfOutputs() < 1)
@@ -60,47 +54,50 @@ itkImageSource<TOutputImage>
 }
 
   
-//----------------------------------------------------------------------------
+/**
+ *
+ */
 template<class TOutputImage>
 TOutputImage *
-itkImageSource<TOutputImage>
+ImageSource<TOutputImage>
 ::GetOutput(unsigned int idx)
 {
-  return static_cast<TOutputImage *>(this->itkProcessObject::GetOutput(idx));
+  return static_cast<TOutputImage *>(this->ProcessObject::GetOutput(idx));
 }
 
-//----------------------------------------------------------------------------
+
+/**
+ *
+ */
 template<class TOutputImage>
 void 
-itkImageSource<TOutputImage>
+ImageSource<TOutputImage>
 ::SetOutput(TOutputImage *output)
 {
-  this->itkProcessObject::SetNthOutput(0, output);
+  this->ProcessObject::SetNthOutput(0, output);
 }
 
-//----------------------------------------------------------------------------
+
+/**
+ *
+ */
 template<class TOutputImage>
 void 
-itkImageSource<TOutputImage>
-::ComputeInputUpdateExtents(itkDataObject *data)
+ImageSource<TOutputImage>
+::ComputeInputUpdateExtents(DataObject *data)
 {
 }
 
-//----------------------------------------------------------------------------
+
+/**
+ *
+ */
 template<class TOutputImage>
 void 
-itkImageSource<TOutputImage>
-::PrintSelf(std::ostream& os, itkIndent indent)
+ImageSource<TOutputImage>
+::PrintSelf(std::ostream& os, Indent indent)
 {
-  itkProcessObject::PrintSelf(os,indent);
+  this->ProcessObject::PrintSelf(os,indent);
 }
 
-  
-
-
-
-
-
-
-
-
+} // namespace itk

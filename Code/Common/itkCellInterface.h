@@ -41,14 +41,14 @@ template <
   typename TPixelType,
   typename TCellType
   >
-class CellInterface: public itkLightObject
+class CellInterface: public LightObject
 {
 public:
   /** 
    * Smart pointer typedef support.
    */
-  typedef CellInterface          Self;
-  typedef itkSmartPointer<Self>  Pointer;
+  typedef CellInterface       Self;
+  typedef SmartPointer<Self>  Pointer;
   
   /**
    * Save type information for this cell.
@@ -141,7 +141,7 @@ public:
   /**
    * ITK standard routines.
    */
-  itkTypeMacro(CellInterface, itkLightObject);
+  itkTypeMacro(CellInterface, LightObject);
 
 protected:
   /**

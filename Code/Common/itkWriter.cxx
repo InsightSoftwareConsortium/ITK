@@ -16,21 +16,33 @@
 #include "itkWriter.h"
 #include "itkDataObject.h"
 
-//----------------------------------------------------------------------------
-itkWriter
-::itkWriter()
+namespace itk
+{
+
+/**
+ *
+ */
+Writer
+::Writer()
 {
   m_FileName = "";
 }
 
-//----------------------------------------------------------------------------
-itkWriter
-::~itkWriter()
+
+/**
+ *
+ */
+Writer
+::~Writer()
 {
 }
 
+
+/**
+ *
+ */
 void 
-itkWriter
+Writer
 ::Write()
 {
   // make sure input is available
@@ -59,15 +71,19 @@ itkWriter
     }
 }
 
-//----------------------------------------------------------------------------
+
+/**
+ *
+ */
 void 
-itkWriter
-::PrintSelf(std::ostream& os, itkIndent indent)
+Writer
+::PrintSelf(std::ostream& os, Indent indent)
 {
-  itkProcessObject::PrintSelf(os,indent);
+  ProcessObject::PrintSelf(os,indent);
 
   os << indent << "File Name: " 
      << (m_FileName.data() ? m_FileName.data() : "(none)") << std::endl;
 
 }
 
+} // namespace itk

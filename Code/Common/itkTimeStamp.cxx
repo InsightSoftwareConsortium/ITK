@@ -14,37 +14,34 @@
 
 =========================================================================*/
 #include "itkTimeStamp.h"
-#include "itkObjectFactory.h"
 
-//-------------------------------------------------------------------------
-itkTimeStamp *
-itkTimeStamp
+namespace itk
+{
+
+/**
+ * Instance creation.
+ */
+TimeStamp*
+TimeStamp
 ::New()
 {
-  itkTimeStamp *ret = itkObjectFactory<itkTimeStamp>::Create();
-  if ( ret )
-    {
-    return ret;
-    }
-  return new itkTimeStamp;
+  return new Self;
 }
-
-// Initialize static member
-//
+  
+  
+/**
+ * Make sure the new time stamp is greater than all others so far.
+ */
 void 
-itkTimeStamp
+TimeStamp
 ::Modified()
 {
-  static unsigned long itkTimeStampTime = 0; 
-  m_ModifiedTime = ++itkTimeStampTime;
+  /**
+   * Initialize static member
+   */
+  unsigned long timeStampTime = 0;
+  
+  m_ModifiedTime = ++timeStampTime;
 }
 
-
-
-
-
-
-
-
-
-
+} // namespace itk

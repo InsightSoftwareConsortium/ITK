@@ -14,7 +14,7 @@
 
 =========================================================================*/
 /**
- * itkRandomImageSource generates an image of random scalar values.
+ * RandomImageSource generates an image of random scalar values.
  * The output image may be of any dimension. The scalar values are
  * inserted into the image via a scalar iterator (i.e., the pixel type
  * must support GetScalar()/SetScalar()).
@@ -24,25 +24,29 @@
 
 #include "itkImageSource.h"
 
+namespace itk
+{
+
 template <class TOutputImage>
-class ITK_EXPORT itkRandomImageSource : public itkImageSource<TOutputImage>
+class ITK_EXPORT RandomImageSource : public ImageSource<TOutputImage>
 {
 public:
   /** 
    * Smart pointer typedef support.
    */
-  typedef itkSmartPointer< itkRandomImageSource<TOutputImage> > Pointer;
-
+  typedef RandomImageSource   Self;
+  typedef SmartPointer<Self>  Pointer;
+  
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(itkRandomImageSource,itkImageSource);
+  itkTypeMacro(RandomImageSource,ImageSource);
 
-  /** 
-   * Create the source with one output initially.
+  /**
+   * Method for creation through the object factory.
    */
-  static Pointer New();
-
+  itkNewMacro(Self);
+  
   /** 
    * Specify the size of the output image.
    */
@@ -75,11 +79,11 @@ public:
   
   
 protected:
-  itkRandomImageSource();
-  ~itkRandomImageSource() {};
-  itkRandomImageSource(const itkRandomImageSource&) {};
-  void operator=(const itkRandomImageSource&) {};
-  void PrintSelf(std::ostream& os, itkIndent indent);
+  RandomImageSource();
+  ~RandomImageSource() {};
+  RandomImageSource(const RandomImageSource&) {};
+  void operator=(const RandomImageSource&) {};
+  void PrintSelf(std::ostream& os, Indent indent);
   
   void Execute();
 
@@ -89,6 +93,8 @@ private:
   float         *m_Origin;  //origin
 
 };
+
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkRandomImageSource.txx"

@@ -42,10 +42,11 @@
 
 #include <itkRegistrator3D2D.h>
 
-
-class itkRegistrator3D2DBatch : public itkRegistrator3D2D  
+namespace itk
 {
 
+class Registrator3D2DBatch : public Registrator3D2D  
+{
 private:
 
    /** 
@@ -69,13 +70,13 @@ public:
   /**
    * Constructor of a registrator object
    */
-  itkRegistrator3D2DBatch();
+  Registrator3D2DBatch();
 
 
   /**
    * Destructor of a registrator object
    */
-  ~itkRegistrator3D2DBatch();
+  ~Registrator3D2DBatch();
 
 
   /**
@@ -112,16 +113,9 @@ private:
    * This method solve the Least Square Problem using Levenberg-Marquard
    * method.
    */
-  void LeastSquareSolution(void); 
-
-
-
+  void LeastSquareSolution(void);
 };
 
-
-
+} // namespace itk
 
 #endif
-
-
-

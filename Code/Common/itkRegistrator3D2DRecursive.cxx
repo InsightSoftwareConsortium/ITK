@@ -15,14 +15,15 @@
 =========================================================================*/
 #include "itkRegistrator3D2DRecursive.h"
 
-
+namespace itk
+{
 
 /*********************************************************************
  *
  *        Creator
  *
  *********************************************************************/
-itkRegistrator3D2DRecursive::itkRegistrator3D2DRecursive()
+Registrator3D2DRecursive::Registrator3D2DRecursive()
 {
 
 }
@@ -34,7 +35,7 @@ itkRegistrator3D2DRecursive::itkRegistrator3D2DRecursive()
  *        Destructor
  *
  *********************************************************************/
-itkRegistrator3D2DRecursive::~itkRegistrator3D2DRecursive()
+Registrator3D2DRecursive::~Registrator3D2DRecursive()
 {
 
 }
@@ -46,43 +47,43 @@ itkRegistrator3D2DRecursive::~itkRegistrator3D2DRecursive()
  *          Perform Registration 
  *
  *****************************************************/
-void itkRegistrator3D2DRecursive::PerformRegistration(void) 
+void Registrator3D2DRecursive::PerformRegistration(void) 
 {
 
-	const double StableConvergenceRate = 1e-7;
+  const double StableConvergenceRate = 1e-7;
   MeanSquareError = InTolerance - Tolerance;
 	
   double oldMeanSquareError = 0.0;
 
   if( AssociatedPoints.empty() ) 
-  {
-    throw itkRegistrator3D2DException("There are no associated points");
-  }
-
-
-	// Initialize vectors;
-	{
-	for(unsigned int i = 0; i<6; i++) {
-		Delta[i] = 0.0;
-		}
-	}
-
-  numberOfIterations = 0;
-	while (  numberOfIterations < maxNumberOfIterations )
-  {
-	
-		if( MeanSquareError < Tolerance ) 
     {
-      stopRegistration = true;
-      break;
+    throw Registrator3D2DException("There are no associated points");
     }
 
-		Transform3D translationCorrection;
+
+  // Initialize vectors;
+  {
+  for(unsigned int i = 0; i<6; i++) {
+  Delta[i] = 0.0;
+  }
+  }
+
+  numberOfIterations = 0;
+  while (  numberOfIterations < maxNumberOfIterations )
+    {
+	
+    if( MeanSquareError < Tolerance ) 
+      {
+      stopRegistration = true;
+      break;
+      }
+
+    Transform3D translationCorrection;
     // translationCorrection.Translate(Delta[0],Delta[1],Delta[2]);
 
-		Transform3D rotationCorrectionX;
-		Transform3D rotationCorrectionY;
-		Transform3D rotationCorrectionZ;
+    Transform3D rotationCorrectionX;
+    Transform3D rotationCorrectionY;
+    Transform3D rotationCorrectionZ;
     // rotationCorrectionX.RotateX(Delta[3]);
     // rotationCorrectionY.RotateY(Delta[4]);
     // rotationCorrectionZ.RotateZ(Delta[5]);
@@ -93,44 +94,44 @@ void itkRegistrator3D2DRecursive::PerformRegistration(void)
     cumulatedCorrectionTransform *= rotationCorrectionZ;
 
 
-		if( MeanSquareError < Tolerance ) {
-			StopRegistration();
-			break;
-			}
+    if( MeanSquareError < Tolerance ) {
+    StopRegistration();
+    break;
+    }
 
-		if( MeanSquareError > InTolerance ) 
-    {
+    if( MeanSquareError > InTolerance ) 
+      {
       stopRegistration = true;
       break;
-    }
+      }
 	
     const double ConvergenceRate = 
-		fabs(MeanSquareError-oldMeanSquareError)/MeanSquareError;
+      fabs(MeanSquareError-oldMeanSquareError)/MeanSquareError;
 
     if( ConvergenceRate < StableConvergenceRate )
-    {
+      {
       StopRegistration();
       break;
-    }
+      }
 
 
-		oldMeanSquareError = MeanSquareError;
+    oldMeanSquareError = MeanSquareError;
 
 
-		// Do a least squares solution 
+    // Do a least squares solution 
     try 
-    {
+      {
       RecursiveEstimation();
-    }
+      }
     catch( exception e ) 
-    {
-	    cerr << e.what() << endl;
+      {
+      cerr << e.what() << endl;
       break;
-    }
+      }
 
 
     numberOfIterations++;
-  }
+    }
 
 	
 }
@@ -156,7 +157,7 @@ void itkRegistrator3D2DRecursive::PerformRegistration(void)
  *    the estimator is keep instead.
  *
  ****************************************************************/
-void itkRegistrator3D2DRecursive::RecursiveEstimation(void)
+void Registrator3D2DRecursive::RecursiveEstimation(void)
 {
 
   Transform3D cameraTotal = intrinsicTransform * extrinsicTransform *
@@ -167,7 +168,7 @@ void itkRegistrator3D2DRecursive::RecursiveEstimation(void)
   Potential  = 0.0;
   const double pr2 = potentialRange * potentialRange;
 
-	const unsigned int numPoints = AssociatedPoints.size();
+  const unsigned int numPoints = AssociatedPoints.size();
 
 
   // this section performs only the minimum set of operations
@@ -193,16 +194,16 @@ void itkRegistrator3D2DRecursive::RecursiveEstimation(void)
   const double Ww = cameraTotal(3,3);
 
 
-	const unsigned int dof = 6;
+  const unsigned int dof = 6;
 
   Estimator.clearEstimation();
 
   vnl_matrix<double> variance(dof,dof);
   variance.set_identity();
   for(unsigned int diag=0; diag<dof; diag++)
-  {
+    {
     variance[diag][diag] = Uncertain[diag];
-  }
+    }
 
 
   Estimator.setVariance( variance );
@@ -211,7 +212,7 @@ void itkRegistrator3D2DRecursive::RecursiveEstimation(void)
   vnl_vector_fixed<double,6>  PredictorY;
 
   for( unsigned int i=0; i<numPoints; i++) 
-  {
+    {
 
     const Point3D pp = AssociatedPoints[i].GetPoint3D();
 
@@ -257,7 +258,7 @@ void itkRegistrator3D2DRecursive::RecursiveEstimation(void)
     Estimator.updateWithNewMeasure( dx, PredictorX );
     Estimator.updateWithNewMeasure( dy, PredictorY );
 
-  }
+    }
 
   Delta = Estimator.getEstimator();
 
@@ -266,7 +267,4 @@ void itkRegistrator3D2DRecursive::RecursiveEstimation(void)
 
 }
 
-
-
-
-
+} // namespace itk

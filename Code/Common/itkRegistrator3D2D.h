@@ -45,8 +45,10 @@
 #include <vnl/vnl_matrix_fixed.h>
 #include <itkExceptionObject.h>
 
+namespace itk
+{
 
-class itkRegistrator3D2D  
+class Registrator3D2D  
 {
 
 public:  
@@ -88,9 +90,9 @@ public:
   public:
     PairPoint3D2D() { }
     PairPoint3D2D(const Point2D & ip2, const Point3D & ip3 ) 
-    { 
-      p2=ip2; p3=ip3; 
-    }
+      { 
+	p2=ip2; p3=ip3; 
+      }
     const Point2D & GetPoint2D(void) const { return p2; }
     const Point3D & GetPoint3D(void) const { return p3; }
 
@@ -234,7 +236,7 @@ protected:
    * rotation aroud them.
    *
    */
-	vnl_vector_fixed<double,6> Delta;
+  vnl_vector_fixed<double,6> Delta;
 
 
   /** 
@@ -246,7 +248,7 @@ protected:
    * \sa Delta
    *
    */
-	vnl_vector_fixed<double,6> Uncertain;
+  vnl_vector_fixed<double,6> Uncertain;
 
 
   /**
@@ -263,13 +265,13 @@ public:
   /**
    * Constructor of a registrator object
    */
-  itkRegistrator3D2D();
+  Registrator3D2D();
 
 
   /**
    * Destructor of a registrator object
    */
-  virtual ~itkRegistrator3D2D();
+  virtual ~Registrator3D2D();
 
   /**
    * Initialize the registration process
@@ -277,7 +279,7 @@ public:
   virtual void PerformRegistration( void ) = 0;
 
 
-   /**
+  /**
    * This method set a bool flag that stops the iterative process of
    * registration. 
    */
@@ -401,48 +403,39 @@ public:
    * the registration doesn't converges and needs to be reinitialized
    */ 
   void ResetRegistration( void );
-
-
 };
-
-
-
+  
 
 /**
  *
- *  itkRegistrator3D2DException manages the errors produced during the 
- *  registration process. It derives from itkExeptionObject.
+ *  Registrator3D2DException manages the errors produced during the 
+ *  registration process. It derives from ExeptionObject.
  *  
  */
-class itkRegistrator3D2DException : public itkExceptionObject {
+class Registrator3D2DException : public ExceptionObject {
 public:
 
   /**
    * Creator of a Registration Exception. The message should contain a brief
    * descrption of the problem.
-   * \sa itkExeptionObject
+   * \sa ExeptionObject
    */
-	itkRegistrator3D2DException(const char * message) 
-  {
-    SetLocation("itkRegistrator3D2D");
-    SetDescription(message);
-  }
+  Registrator3D2DException(const char * message) 
+    {
+      SetLocation("Registrator3D2D");
+      SetDescription(message);
+    }
 
 
   /**
    * Virtual destructor of the exception class. Does nothing.
    */
-  virtual ~itkRegistrator3D2DException() 
-  {
-  }
-
-
+  virtual ~Registrator3D2DException() 
+    {
+    }
 };
 
-
-
+} // namespace itk
 
 #endif
-
-
-
+  

@@ -14,7 +14,7 @@
 
 =========================================================================*/
 /**
- * itkFilterImageGaussian is the base class for recursive filters that
+ * FilterImageGaussian is the base class for recursive filters that
  * approximate convolution with the gaussian kernel.
  * This class implements the recursive filtering
  * method proposed by R.Deriche in IEEE-PAMI
@@ -26,20 +26,25 @@
 
 #include "itkFilterImageToImage.h"
 
+namespace itk
+{
+  
 template <class TInputImage, class TOutputImage, class TComputation>
-class ITK_EXPORT itkFilterImageGaussian : public
-                  itkFilterImageToImage<TInputImage,TOutputImage> 
+class ITK_EXPORT FilterImageGaussian :
+    public FilterImageToImage<TInputImage,TOutputImage> 
 
 {
   /** 
    * Smart pointer typedef support 
    */
-  typedef itkSmartPointer< itkFilterImageGaussian<TInputImage,TOutputImage,TComputation> > Pointer;
+  typedef FilterImageGaussian  Self;
+  typedef SmartPointer<Self>   Pointer;
 
-  /** 
-   * Create the source with one output initially 
+  /**
+   * Method for creation through the object factory.
    */
-  static Pointer New();
+  itkNewMacro(Self);
+  
 
 
 protected:
@@ -77,8 +82,8 @@ protected:
 	void FilterDataArray(TComputation *outs,const TComputation *data,unsigned int ln);
 
 public:
-	itkFilterImageGaussian();
-	virtual ~itkFilterImageGaussian() {};
+	FilterImageGaussian();
+	virtual ~FilterImageGaussian() {};
   itkGetMacro(Sigma,TComputation);
   itkSetMacro(Sigma,TComputation);
 
@@ -102,14 +107,10 @@ private:
 
 };
 
-
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkFilterImageGaussian.txx"
 #endif
 
 #endif
-
-
-
-

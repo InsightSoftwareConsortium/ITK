@@ -14,16 +14,16 @@
   ==========================================================================*/
 
 /**
- * itkImageIterator is a templated class to represent a multi-dimensional
- * iterator. itkImageIterator is templated over the dimension of the image
+ * ImageIterator is a templated class to represent a multi-dimensional
+ * iterator. ImageIterator is templated over the dimension of the image
  * and the data type of the image.
  *
- * For efficiency sake, itkImageIterator does not define a default constructor,
+ * For efficiency sake, ImageIterator does not define a default constructor,
  * a copy constructor, or an operator=. We rely on the compiler to provide
  * efficient bitwise copies.
  *
- * Note that itkImageIterator knows about the organization of the image data.
- * This class may need to be wholly contained by itkImage.
+ * Note that ImageIterator knows about the organization of the image data.
+ * This class may need to be wholly contained by Image.
  *
  */
 
@@ -34,13 +34,18 @@
 #include <memory.h>
 #include "itkIndex.h"
 
+namespace itk
+{
+
 template<class TPixel, unsigned int TImageDimension=2>
-class itkImageIterator {
+class ImageIterator {
 public:
+  typedef ImageIterator  Self;
+  
   /** 
    * Index typedef support 
    */
-  typedef itkIndex<TImageDimension> Index;
+  typedef Index<TImageDimension>  Index;
 
   /**
    * Get the dimension (size) of the index.
@@ -53,7 +58,7 @@ public:
    * No bounds checking is performed.
    */
   bool
-  operator!=(const itkImageIterator<TPixel,TImageDimension> &it) const
+  operator!=(const ImageIterator<TPixel,TImageDimension> &it) const
     {
     return true;
     }
@@ -62,10 +67,10 @@ public:
    * Add two indices. This method models a random access ImageIterator.
    * No bounds checking is performed.
    */
-  const itkImageIterator<TPixel, TImageDimension>
+  const ImageIterator<TPixel, TImageDimension>
   operator+(const Index &vec)
     {
-    itkImageIterator<TPixel, TImageDimension> result( *this ); // copy all the ivars
+    ImageIterator<TPixel, TImageDimension> result( *this ); // copy all the ivars
     result.m_Index = m_Index + vec;  
     result.ComputeOffset();
     return result;
@@ -75,7 +80,7 @@ public:
    * Increment an index by an index. This method models a random access
    * ImageIterator. No bounds checking is performed.
    */
-  const itkImageIterator<TPixel, TImageDimension> &
+  const ImageIterator<TPixel, TImageDimension> &
   operator+=(const Index &vec)
     {
     m_Index += vec;
@@ -87,10 +92,10 @@ public:
    * Subtract two indices. This method models a random access ImageIterator.
    * No bounds checking is performed.
    */
-  const itkImageIterator<TPixel, TImageDimension>
+  const ImageIterator<TPixel, TImageDimension>
   operator-(const Index &vec)
     {
-    itkImageIterator<TPixel, TImageDimension> result( *this ); // copy all the ivars
+    ImageIterator<TPixel, TImageDimension> result( *this ); // copy all the ivars
     result.m_Index = m_Index - vec;
     result.ComputeOffset();
     return result;
@@ -100,7 +105,7 @@ public:
    * Decrement an index by an index. This method models a random access
    * ImageIterator. No bounds checking is performed.
    */
-  const itkImageIterator<TPixel, TImageDimension> &
+  const ImageIterator<TPixel, TImageDimension> &
   operator-=(const Index &vec)
     {
     m_Index -= vec;
@@ -114,10 +119,10 @@ public:
    * This method models a random access ImageIterator. No bounds checking 
    * is performed.
    */
-  const itkImageIterator<TPixel, TImageDimension>
+  const ImageIterator<TPixel, TImageDimension>
   operator+(long delta)
     {
-    itkImageIterator<TPixel, TImageDimension> result( *this ); // copy all the ivars
+    ImageIterator<TPixel, TImageDimension> result( *this ); // copy all the ivars
     result.m_Index[TImageDimension-1] += delta;
     result.m_Offset += delta;
     return result;
@@ -129,7 +134,7 @@ public:
    * method models a random access ImageIterator. No bounds checking is 
    * performed.
    */
-  const itkImageIterator<TPixel, TImageDimension> &
+  const ImageIterator<TPixel, TImageDimension> &
   operator+=(long delta)
     {
     m_Index[TImageDimension-1] += delta;
@@ -143,10 +148,10 @@ public:
    * This method models a random access ImageIterator. No bounds checking 
    * is performed.
    */
-  const itkImageIterator<TPixel, TImageDimension>
+  const ImageIterator<TPixel, TImageDimension>
   operator-(long delta)
     {
-    itkImageIterator<TPixel, TImageDimension> result( *this ); // copy all the ivars
+    ImageIterator<TPixel, TImageDimension> result( *this ); // copy all the ivars
     result.m_Index[TImageDimension-1] -= delta;
     result.m_Offset -= delta;
     return result;
@@ -158,7 +163,7 @@ public:
    * method models a random access ImageIterator. No bounds checking is 
    * performed.
    */
-  const itkImageIterator<TPixel, TImageDimension> &
+  const ImageIterator<TPixel, TImageDimension> &
   operator-=(long delta)
     {
     m_Index[TImageDimension-1] -= delta;
@@ -173,7 +178,7 @@ public:
    * performed. The prefix form of this operator is more efficient.
    * \sa operator++(int)
    */
-  const itkImageIterator<TPixel, TImageDimension> &
+  const ImageIterator<TPixel, TImageDimension> &
   operator++()
     {
     m_Index[TImageDimension-1]++;
@@ -188,10 +193,10 @@ public:
    * performed. The prefix form of this operator is more efficient.
    * \sa operator++()
    */
-  const itkImageIterator<TPixel, TImageDimension> 
+  const ImageIterator<TPixel, TImageDimension> 
   operator++(int)
     {
-    itkImageIterator<TPixel, TImageDimension> result( *this ); // copy all ivars
+    ImageIterator<TPixel, TImageDimension> result( *this ); // copy all ivars
     m_Index[TImageDimension-1]++;
     m_Offset++;
     return result;
@@ -204,7 +209,7 @@ public:
    * performed. The prefix form of this operator is more efficient.
    * \sa operator--(int)
    */
-  const itkImageIterator<TPixel, TImageDimension> &
+  const ImageIterator<TPixel, TImageDimension> &
   operator--()
     {
     m_Index[TImageDimension-1]--;
@@ -219,10 +224,10 @@ public:
    * performed. The prefix form of this operator is more efficient.
    * \sa operator--()
    */
-  const itkImageIterator<TPixel, TImageDimension> 
+  const ImageIterator<TPixel, TImageDimension> 
   operator--(int)
     {
-    itkImageIterator<TPixel,  TImageDimension> result( *this ); // copy all ivars
+    ImageIterator<TPixel,  TImageDimension> result( *this ); // copy all ivars
     m_Index[TImageDimension-1]--;
     m_Offset--;
     return result;
@@ -231,34 +236,34 @@ public:
   /**
    * Add two indices and perform a bounds check. This method models a
    * random access ImageIterator. If the iterator would be outside of the
-   * bounds, an exception (itkBoundsError) is thrown.
-   * \sa itkClampedImageIterator
+   * bounds, an exception (BoundsError) is thrown.
+   * \sa ClampedImageIterator
    */
-  const itkImageIterator<TPixel, TImageDimension> Add(const Index &vec);
+  const ImageIterator<TPixel, TImageDimension> Add(const Index &vec);
 
   /**
    * Increment an index by an index and perform a bounds check.
    * This method models a random access ImageIterator. If the iterator would
-   * be outside of the bounds, and exception (itkBoundsError) is thrown.
-   * \sa itkClampedImageIterator
+   * be outside of the bounds, and exception (BoundsError) is thrown.
+   * \sa ClampedImageIterator
    */
-  const itkImageIterator<TPixel, TImageDimension> &Increment(const Index &vec);
+  const ImageIterator<TPixel, TImageDimension> &Increment(const Index &vec);
 
   /**
    * Subtract two indices and perform a bounds check. This method models a
    * random access ImageIterator. If the iterator would be outside the bounds,
-   * an exception (itkBoundsError) is thrown.
-   * \sa itkClampedImageIterator
+   * an exception (BoundsError) is thrown.
+   * \sa ClampedImageIterator
    */
-  const itkImageIterator<TPixel, TImageDimension> Subtract(const Index &vec);
+  const ImageIterator<TPixel, TImageDimension> Subtract(const Index &vec);
 
   /**
    * Decrement an index by an index and perform a bounds check.  This method
    * models a random access ImageIterator. If the iterator would be outside
-   * the bounds, an exception (itkBoundsError) is thrown.
-   * \sa itkClampedImageIterator
+   * the bounds, an exception (BoundsError) is thrown.
+   * \sa ClampedImageIterator
    */
-  const itkImageIterator<TPixel, TImageDimension> &Decrement(const Index &vec);
+  const ImageIterator<TPixel, TImageDimension> &Decrement(const Index &vec);
   
   /**
    * Get the index. This provides a read only reference to the index.
@@ -328,6 +333,7 @@ protected: //made protected so other iterators can access
   long           m_RegionIndexOrigin[TImageDimension];
 };
 
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkImageIterator.txx"

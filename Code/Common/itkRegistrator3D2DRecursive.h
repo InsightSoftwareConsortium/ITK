@@ -43,8 +43,10 @@
 #include <itkRegistrator3D2D.h>
 #include <itkKalmanFilter.h>
 
+namespace itk
+{
 
-class itkRegistrator3D2DRecursive : public itkRegistrator3D2D   
+class Registrator3D2DRecursive : public Registrator3D2D   
 {
 
 public:
@@ -52,13 +54,13 @@ public:
   /**
    * Constructor of a registrator object
    */
-  itkRegistrator3D2DRecursive();
+  Registrator3D2DRecursive();
 
 
   /**
    * Destructor of a registrator object
    */
-  ~itkRegistrator3D2DRecursive();
+  ~Registrator3D2DRecursive();
 
 
   /**
@@ -80,18 +82,13 @@ private:
    * estimate the 6 parameters of the rigid transformation
    * for one iteration of the registration process.
    */
-  itkKalmanFilter<double,6>   Estimator;
+  KalmanFilter<double,6>   Estimator;
 
 
 };
 
-
-
-
-
-
+  
+} // namespace itk
 
 #endif
-
-
-
+  

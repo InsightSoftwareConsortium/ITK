@@ -14,9 +14,9 @@
 
 =========================================================================*/
 /**
- * itkObjectFactoryBase is used to create itk objects. The base class
- * itkObjectFactoryBase contains a static method CreateInstance() that is
- * used to create itk objects from the list of registerd itkObjectFactoryBase
+ * ObjectFactoryBase is used to create itk objects. The base class
+ * ObjectFactoryBase contains a static method CreateInstance() that is
+ * used to create itk objects from the list of registerd ObjectFactoryBase
  * sub-classes.  The first time CreateInstance() is called, all dll's or
  * shared libraries in the environment variable ITK_AUTOLOAD_PATH are loaded
  * into the current process.  The C function itkLoad is called on each dll.
@@ -34,30 +34,37 @@
 #include "itkCreateObjectFunction.h"
 #include <list>
 #include <vector>
-class itkOverRideMap;
 
-class ITK_EXPORT itkObjectFactoryBase : public itkObject
+namespace itk
+{
+  
+class OverRideMap;
+
+class ITK_EXPORT ObjectFactoryBase : public Object
 {
 public:  
   /** 
    * Smart pointer typedef support.
    */
-  typedef itkSmartPointer<itkObjectFactoryBase> Pointer;
+  typedef ObjectFactoryBase   Self;
+  typedef SmartPointer<Self>  Pointer;
 
-  // Class Methods used to interface with the registered factories
+  /**
+   * Class Methods used to interface with the registered factories
+   */
   
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(itkObjectFactoryBase, itkObject);
+  itkTypeMacro(ObjectFactoryBase, Object);
 
   /**
    * Create and return an instance of the named itk object.
-   * Each loaded itkObjectFactoryBase will be asked in the order
+   * Each loaded ObjectFactoryBase will be asked in the order
    * the factory was in the ITK_AUTOLOAD_PATH.  After the
    * first factory returns the object no other factories are asked.
    */
-  static itkLightObject* CreateInstance(const char* itkclassname);
+  static LightObject* CreateInstance(const char* itkclassname);
 
   /**
    * Re-check the ITK_AUTOLOAD_PATH for new factory libraries.
@@ -68,12 +75,12 @@ public:
   /**
    * Register a factory so it can be used to create itk objects.
    */
-  static void RegisterFactory(itkObjectFactoryBase* );
+  static void RegisterFactory(ObjectFactoryBase* );
 
   /**
    * Remove a factory from the list of registered factories.
    */
-  static void UnRegisterFactory(itkObjectFactoryBase*);
+  static void UnRegisterFactory(ObjectFactoryBase*);
 
   /**
    * Unregister all factories.
@@ -84,12 +91,12 @@ public:
    * Return the list of all registered factories.  This is NOT a copy,
    * do not remove items from this list!
    */
-  static std::list<itkObjectFactoryBase*> GetRegisteredFactories();
+  static std::list<ObjectFactoryBase*> GetRegisteredFactories();
 
   /**
-   * All sub-classes of itkObjectFactoryBase should must return the version of 
+   * All sub-classes of ObjectFactoryBase should must return the version of 
    * ITK they were built with.  This should be implemented with the macro
-   * ITK_SOURCE_VERSION and NOT a call to itkVersion::GetITKSourceVersion.
+   * ITK_SOURCE_VERSION and NOT a call to Version::GetITKSourceVersion.
    * As the version needs to be compiled into the file as a string constant.
    * This is critical to determine possible incompatible dynamic factory loads.
    */
@@ -143,9 +150,8 @@ public:
    * This returns the path to a dynamically loaded factory.
    */
   const char* GetLibraryPath();
-
 protected:
-  virtual void PrintSelf(std::ostream& os, itkIndent indent);
+  virtual void PrintSelf(std::ostream& os, Indent indent);
 
   /**
    * Register object creation information with the factory.
@@ -154,33 +160,33 @@ protected:
 			const char* overrideClassName,
 			const char* description,
 			bool enableFlag,
-			itkCreateObjectFunctionBase* createFunction);
+			CreateObjectFunctionBase* createFunction);
 		
   /**
-   * This method is provioded by sub-classes of itkObjectFactoryBase.
+   * This method is provioded by sub-classes of ObjectFactoryBase.
    * It should create the named itk object or return 0 if that object
    * is not supported by the factory implementation.
    */
-  virtual itkLightObject* CreateObject(const char* itkclassname );
+  virtual LightObject* CreateObject(const char* itkclassname );
   
-  itkObjectFactoryBase();
-  ~itkObjectFactoryBase();
-  itkObjectFactoryBase(const itkObjectFactoryBase&) {};
-  void operator=(const itkObjectFactoryBase&) {};
+  ObjectFactoryBase();
+  ~ObjectFactoryBase();
+  ObjectFactoryBase(const ObjectFactoryBase&) {};
+  void operator=(const ObjectFactoryBase&) {};
 public:
   struct OverrideInformation
   {
     std::string m_Description;
     std::string m_OverrideWithName;
     bool m_EnabledFlag;
-    itkCreateObjectFunctionBase::Pointer m_CreateObject;
+    CreateObjectFunctionBase::Pointer m_CreateObject;
   };
 protected:
-  itkOverRideMap* m_OverrideMap;
+  OverRideMap* m_OverrideMap;
 
 private:
   /**
-   * Initialize the static members of itkObjectFactoryBase.   RegisterDefaults
+   * Initialize the static members of ObjectFactoryBase.   RegisterDefaults
    * is called here.
    */
   static void Initialize();
@@ -203,7 +209,7 @@ private:
   /** 
    * list of registered factories
    */
-  static std::list<itkObjectFactoryBase*>* m_RegisteredFactories; 
+  static std::list<ObjectFactoryBase*>* m_RegisteredFactories; 
   
   /** 
    * member variables for a factory set by the base class
@@ -213,5 +219,7 @@ private:
   unsigned long m_LibraryDate;
   std::string m_LibraryPath;
 };
+
+} // namespace itk
 
 #endif

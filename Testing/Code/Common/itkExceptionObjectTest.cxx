@@ -32,7 +32,7 @@ bool mammal::operator== (mammal &o)
 {
   if ( this->GetType() != o.GetType() )
     {
-    itkIncompatibleOperandsError e;
+    itk::IncompatibleOperandsError e;
     e.SetLocation("bool mammal::operator==(mammal&, mammal&)");
     e.SetDescription("Cannot compare mammals of unequal type");
     throw e;
@@ -55,7 +55,7 @@ int lookup(const int& i)
   static int table[5] = { 23,42,42,32,12 };
   if ( ! ( 0 <= i && i < 5 ) )
     {
-    itkRangeError e;
+    itk::RangeError e;
     e.SetLocation("int lookup(const int& )");
     e.SetDescription("Attempted to access out-of-bounds array element");
     throw e;
@@ -66,15 +66,15 @@ int lookup(const int& i)
 
 main()
 {
-  // SOME BASIC TESTS OF THE itkExceptionObject 's
+  // SOME BASIC TESTS OF THE itk::ExceptionObject 's
   
-  itkRangeError E;
+  itk::RangeError E;
   E.SetLocation("main()");
   E.SetDescription("E");
   std::cout << E << std::endl;
-  itkRangeError F(E);
+  itk::RangeError F(E);
   std::cout << F << std::endl;
-  itkRangeError G;
+  itk::RangeError G;
   G.SetLocation("main()");
   G.SetDescription("G");
   std::cout << "F==G? " << (F==G) << std::endl;
@@ -82,10 +82,10 @@ main()
   std::cout << F << std::endl;
   std::cout << "F==G? " << (F==G) << std::endl;
 
-  itkRangeError *Ep  = new itkRangeError;
+  itk::RangeError *Ep  = new itk::RangeError;
   Ep->SetLocation("main()");
   Ep->SetDescription("Ep");
-  itkRangeError *Fp = new itkRangeError;
+  itk::RangeError *Fp = new itk::RangeError;
   *Fp = *Ep;
   delete Ep;
   std::cout << *Fp << std::endl;
@@ -95,7 +95,7 @@ main()
     lookup(4);  // OK
     lookup(12); // ERROR
     }
-  catch (itkExceptionObject &e) 
+  catch (itk::ExceptionObject &e) 
     { 
     std::cout << e << std::endl; 
     }
@@ -108,30 +108,30 @@ main()
     jane == john;  // OK
     hal == john;   // ERROR
     }
-  catch (itkIncompatibleOperandsError &e) 
+  catch (itk::IncompatibleOperandsError &e) 
     { 
     std::cout << e << std::endl; 
     }
 
   /*
   // SAMPLE ERROR STUFF
-  itkSampleError Se;
+  itk::SampleError Se;
   Se.SetLocation("SE LOCATION");
   Se.SetDescription("SE DESCRIPTION");
-  itkSampleError Sf(Se);
-  itkSampleError Sg;
+  itk::SampleError Sf(Se);
+  itk::SampleError Sg;
   Sg = Sf;
   std::cout << Sg << std::endl;
   
 
   try
 	{
-	  itkSampleError E;
+	  itk::SampleError E;
 	  E.SetLocation("djibouti");
 	  E.SetDescription("sample error");
 	  throw E;
 	}
-  catch (itkExceptionObject &e) { std::cout << e << std::endl; }
+  catch (itk::ExceptionObject &e) { std::cout << e << std::endl; }
   */
   
 }

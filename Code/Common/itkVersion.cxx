@@ -14,20 +14,8 @@
 
 =========================================================================*/
 #include "itkVersion.h"
-#include "itkObjectFactory.h"
 
-//------------------------------------------------------------------------
-itkVersion* 
-itkVersion
-::New()
+namespace itk
 {
-  itkVersion *ret = itkObjectFactory<itkVersion>::Create();
-  if ( ret )
-    {
-    return ret;
-    }
-  return new itkVersion;
-}
-
-
-
+  
+} // namespace itk

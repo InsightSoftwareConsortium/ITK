@@ -14,7 +14,7 @@
 
 =========================================================================*/
 /**
- * itkLightObject is the highest level base class for most itk objects. It
+ * LightObject is the highest level base class for most itk objects. It
  * implements reference counting, call-backs, and API for object printing.
  */
 
@@ -29,17 +29,20 @@
 #include "itkIndent.h"
 #include "itkMacro.h"
 
-class ITK_EXPORT itkLightObject 
+namespace itk
+{
+
+class ITK_EXPORT LightObject 
 {
 public:
   /** 
    * Smart pointer typedef support.
    */
-  typedef itkLightObject         Self;
-  typedef itkSmartPointer<Self>  Pointer;
+  typedef LightObject         Self;
+  typedef SmartPointer<Self>  Pointer;
 
-  /** 
-   * Create an object with reference count set to 1. 
+  /**
+   * Method for creation through the object factory.
    */
   static Pointer New();
 
@@ -55,7 +58,7 @@ public:
    * (implemented in New()) to instantiate objects of a named type. Also
    * used for debugging and other output information. 
    */
-  virtual const char *GetClassName() const {return "itkLightObject";}
+  virtual const char *GetClassName() const {return "LightObject";}
 
 #ifdef _WIN32
   /** 
@@ -105,9 +108,9 @@ public:
   virtual void SetDeleteMethod(void (*f)(void *));
   
 protected:
-  itkLightObject(); 
-  virtual ~itkLightObject(); 
-  itkLightObject(const Self&) {}
+  LightObject(); 
+  virtual ~LightObject(); 
+  LightObject(const Self&) {}
   void operator=(const Self&) {}
 
   /** 
@@ -116,9 +119,9 @@ protected:
    * instead) but used in the hierarchical print process to combine the
    * output of several classes. 
    */
-  virtual void PrintSelf(std::ostream& os, itkIndent indent);
-  virtual void PrintHeader(std::ostream& os, itkIndent indent);
-  virtual void PrintTrailer(std::ostream& os, itkIndent indent);
+  virtual void PrintSelf(std::ostream& os, Indent indent);
+  virtual void PrintHeader(std::ostream& os, Indent indent);
+  virtual void PrintTrailer(std::ostream& os, Indent indent);
 
   /**
    * Number of uses of this object by other objects.
@@ -132,5 +135,6 @@ protected:
   void (*m_DeleteMethod)(void *);
 };
 
+} // namespace itk
+  
 #endif
-

@@ -47,8 +47,8 @@ public:
   /**
    * Smart pointer typedef support.
    */
-  typedef QuadrilateralCell      Self;
-  typedef itkSmartPointer<Self>  Pointer;
+  typedef QuadrilateralCell   Self;
+  typedef SmartPointer<Self>  Pointer;
   
   /**
    * Save some template parameter information.
@@ -111,7 +111,7 @@ public:
   virtual Edge::Pointer GetCellEdge(CellFeatureIdentifier);
 
   /**
-   * Standard part of itkObject class.  Used for debugging output.
+   * Standard part of Object class.  Used for debugging output.
    */
   itkTypeMacro(QuadrilateralCell, CellInterface);
   
@@ -136,10 +136,13 @@ class QuadrilateralBoundary:
   public CellBoundary< QuadrilateralCell< TPixelType , TCellType > >
 {
 public:
-  typedef QuadrilateralBoundary     Self;
-  typedef itkSmartPointer<Self>     Pointer;
+  typedef QuadrilateralBoundary  Self;
+  typedef SmartPointer<Self>     Pointer;
   
-  static Pointer New(void);
+  /**
+   * Method for creation through the object factory.
+   */
+  itkNewMacro(Self);
   
   itkTypeMacro(QuadrilateralBoundary, CellBoundary);
 };

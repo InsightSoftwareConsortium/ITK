@@ -27,61 +27,71 @@
 #include <algorithm>
 #include <map>
 
+namespace itk
+{
 
-
-// Add this for the SGI compiler which does not seem
-// to provide a default implementation as it should.
-bool operator==(const itkObjectFactoryBase::OverrideInformation& rhs, 
-		const itkObjectFactoryBase::OverrideInformation& lhs)
+/**
+ * Add this for the SGI compiler which does not seem
+ * to provide a default implementation as it should.
+ */
+bool operator==(const ObjectFactoryBase::OverrideInformation& rhs, 
+		const ObjectFactoryBase::OverrideInformation& lhs)
 {
   return (rhs.m_Description == lhs.m_Description
 	  && rhs.m_OverrideWithName == lhs.m_OverrideWithName);
 }
 
-// Add this for the SGI compiler which does not seem
-// to provide a default implementation as it should.
-bool operator<(const itkObjectFactoryBase::OverrideInformation& rhs, 
-		const itkObjectFactoryBase::OverrideInformation& lhs)
+/**
+ * Add this for the SGI compiler which does not seem
+ * to provide a default implementation as it should.
+ */
+bool operator<(const ObjectFactoryBase::OverrideInformation& rhs, 
+		const ObjectFactoryBase::OverrideInformation& lhs)
 {
   return (rhs.m_Description < lhs.m_Description
 	  && rhs.m_OverrideWithName < lhs.m_OverrideWithName);
 }
 
 
-// Create a sub class to shrink the size of the symbols
-// Also, so a forward reference can be put in itkObjectFactoryBase.h
-// and a pointer member can be used.  This avoids other
-// classes including <map> and getting long symbol warnings.
-typedef std::multimap<std::string, itkObjectFactoryBase::OverrideInformation> itkStringOverMap;
+/**
+ * Create a sub class to shrink the size of the symbols
+ * Also, so a forward reference can be put in ObjectFactoryBase.h
+ * and a pointer member can be used.  This avoids other
+ * classes including <map> and getting long symbol warnings.
+ */
+typedef std::multimap<std::string, ObjectFactoryBase::OverrideInformation> StringOverMap;
 
-class itkOverRideMap : public itkStringOverMap
+class OverRideMap : public StringOverMap
 {
 public:
 };
 
 
-// Initialize static list of factories.
-//
-std::list<itkObjectFactoryBase*>* 
-  itkObjectFactoryBase::m_RegisteredFactories = 0;
+/**
+ * Initialize static list of factories.
+ */
+std::list<ObjectFactoryBase*>* 
+  ObjectFactoryBase::m_RegisteredFactories = 0;
 
-//----------------------------------------------------------------------------
-// Create an instance of a named itk object using the loaded
-// factories
-itkLightObject* 
-itkObjectFactoryBase
+
+/**
+ * Create an instance of a named itk object using the loaded
+ * factories
+ */
+LightObject* 
+ObjectFactoryBase
 ::CreateInstance(const char* itkclassname)
 {
-  if ( !itkObjectFactoryBase::m_RegisteredFactories )
+  if ( !ObjectFactoryBase::m_RegisteredFactories )
     {
-    itkObjectFactoryBase::Initialize();
+    ObjectFactoryBase::Initialize();
     }
   
-  for ( std::list<itkObjectFactoryBase*>::iterator 
+  for ( std::list<ObjectFactoryBase*>::iterator 
       i = m_RegisteredFactories->begin();
       i != m_RegisteredFactories->end(); ++i )
     {
-    itkLightObject* newobject = (*i)->CreateObject(itkclassname);
+    LightObject* newobject = (*i)->CreateObject(itkclassname);
     if(newobject)
       {
       return newobject;
@@ -90,40 +100,49 @@ itkObjectFactoryBase
   return 0;
 }
 
-//----------------------------------------------------------------------------
-// A one time initialization method.   
+
+/**
+ * A one time initialization method.
+ */
 void 
-itkObjectFactoryBase
+ObjectFactoryBase
 ::Initialize()
 {
-  // Don't do anything if we are already initialized
-  if ( itkObjectFactoryBase::m_RegisteredFactories )
+  /**
+   * Don't do anything if we are already initialized
+   */
+  if ( ObjectFactoryBase::m_RegisteredFactories )
     {
     return;
     }
   
-  itkObjectFactoryBase::m_RegisteredFactories =
-    new std::list<itkObjectFactoryBase*>;
-  itkObjectFactoryBase::RegisterDefaults();
-  itkObjectFactoryBase::LoadDynamicFactories();
+  ObjectFactoryBase::m_RegisteredFactories =
+    new std::list<ObjectFactoryBase*>;
+  ObjectFactoryBase::RegisterDefaults();
+  ObjectFactoryBase::LoadDynamicFactories();
 }
 
 
-//----------------------------------------------------------------------------
-// Register any factories that are always present in ITK like
-// the OpenGL factory, currently this is not done.
+/**
+ * Register any factories that are always present in ITK like
+ * the OpenGL factory, currently this is not done.
+ */
 void 
-itkObjectFactoryBase
+ObjectFactoryBase
 ::RegisterDefaults()
 {
 }
 
-// Load all libraries in ITK_AUTOLOAD_PATH
+/**
+ * Load all libraries in ITK_AUTOLOAD_PATH
+ */
 void 
-itkObjectFactoryBase
+ObjectFactoryBase
 ::LoadDynamicFactories()
 {
-  // follow PATH conventions
+  /**
+   * follow PATH conventions
+   */
 #ifdef _WIN32
   char PathSeparator = ';';
 #else
@@ -149,7 +168,9 @@ itkObjectFactoryBase
   while ( StartSeparatorPosition != std::string::npos )
     {
     StartSeparatorPosition = EndSeparatorPosition;
-    // find PathSeparator in LoadPath
+    /**
+     * find PathSeparator in LoadPath
+     */
     EndSeparatorPosition = LoadPath.find(PathSeparator, EndSeparatorPosition);
     if(EndSeparatorPosition != std::string::npos)
       {
@@ -157,15 +178,19 @@ itkObjectFactoryBase
       }
     std::string CurrentPath = 
       LoadPath.substr(StartSeparatorPosition, EndSeparatorPosition);
-    itkObjectFactoryBase::LoadLibrariesInPath(CurrentPath.c_str());
-    // move past separator
+    ObjectFactoryBase::LoadLibrariesInPath(CurrentPath.c_str());
+    /**
+     * move past separator
+     */
     EndSeparatorPosition++;
   }
 }
 
-//----------------------------------------------------------------------------
-// A file scope helper function to concat path and file into
-// a full path
+
+/**
+ * A file scope helper function to concat path and file into
+ * a full path
+ */
 static std::string 
 CreateFullPath(const char* path, const char* file)
 {
@@ -175,7 +200,9 @@ CreateFullPath(const char* path, const char* file)
 #else
   const char sep = '/';
 #endif
-  // make sure the end of path is a separator
+  /**
+   * make sure the end of path is a separator
+   */
   ret = path;
   if ( ret[ret.size()-1] != sep )
     {
@@ -185,63 +212,80 @@ CreateFullPath(const char* path, const char* file)
   return ret;
 }
 
-// A file scope typedef to make the cast code to the load
-// function cleaner to read.
-typedef itkObjectFactoryBase* (* ITK_LOAD_FUNCTION)();
+
+/**
+ * A file scope typedef to make the cast code to the load
+ * function cleaner to read.
+ */
+typedef ObjectFactoryBase* (* ITK_LOAD_FUNCTION)();
 
 
-//----------------------------------------------------------------------------
-// A file scoped function to determine if a file has
-// the shared library extension in its name, this converts name to lower
-// case before the compare, itkDynamicLoader always uses
-// lower case for LibExtension values. 
+/**
+ * A file scoped function to determine if a file has
+ * the shared library extension in its name, this converts name to lower
+ * case before the compare, DynamicLoader always uses
+ * lower case for LibExtension values.
+ */
 inline bool 
-itkNameIsSharedLibrary(const char* name)
+NameIsSharedLibrary(const char* name)
 {
   std::string sname = name;
-  if ( sname.find(itkDynamicLoader::LibExtension()) != std::string::npos )
+  if ( sname.find(DynamicLoader::LibExtension()) != std::string::npos )
     {
     return true;
     }
   return false;
 }
 
-//----------------------------------------------------------------------------
+
+/**
+ *
+ */
 void 
-itkObjectFactoryBase
+ObjectFactoryBase
 ::LoadLibrariesInPath(const char* path)
 {
-  itkDirectory* dir = itkDirectory::New();
+  Directory* dir = Directory::New();
   if ( !dir->Load(path) )
     {
     return;
     }
   
-  // Attempt to load each file in the directory as a shared library
+  /**
+   * Attempt to load each file in the directory as a shared library
+   */
   for ( int i = 0; i < dir->GetNumberOfFiles(); i++ )
     {
     const char* file = dir->GetFile(i);
-    // try to make sure the file has at least the extension
-    // for a shared library in it.
-    if ( itkNameIsSharedLibrary(file) )
+    /**
+     * try to make sure the file has at least the extension
+     * for a shared library in it.
+     */
+    if ( NameIsSharedLibrary(file) )
       {
       std::string fullpath = CreateFullPath(path, file);
-      itkLibHandle lib = itkDynamicLoader::OpenLibrary(fullpath.c_str());
+      LibHandle lib = DynamicLoader::OpenLibrary(fullpath.c_str());
       if ( lib )
         {
-        // Look for the symbol itkLoad in the library
+        /**
+	 * Look for the symbol itkLoad in the library
+	 */
         ITK_LOAD_FUNCTION loadfunction
-          = (ITK_LOAD_FUNCTION)itkDynamicLoader::GetSymbolAddress(lib, "itkLoad");
-        // if the symbol is found call it to create the factory
-        // from the library
+          = (ITK_LOAD_FUNCTION)DynamicLoader::GetSymbolAddress(lib, "itkLoad");
+        /**
+	 * if the symbol is found call it to create the factory
+         * from the library
+	 */
         if ( loadfunction )
           {
-          itkObjectFactoryBase* newfactory = (*loadfunction)();
-          // initialize class members if load worked
+          ObjectFactoryBase* newfactory = (*loadfunction)();
+          /**
+	   * initialize class members if load worked
+	   */
           newfactory->m_LibraryHandle = (void*)lib;
           newfactory->m_LibraryPath = fullpath;
           newfactory->m_LibraryDate = 0; // unused for now...
-          itkObjectFactoryBase::RegisterFactory(newfactory);
+          ObjectFactoryBase::RegisterFactory(newfactory);
           }
         }
       }
@@ -249,37 +293,45 @@ itkObjectFactoryBase
 }
 
 
-//----------------------------------------------------------------------------
-// Recheck the ITK_AUTOLOAD_PATH for new libraries
+/**
+ * Recheck the ITK_AUTOLOAD_PATH for new libraries
+ */
 void 
-itkObjectFactoryBase
+ObjectFactoryBase
 ::ReHash()
 {
-  itkObjectFactoryBase::UnRegisterAllFactories();
-  itkObjectFactoryBase::Initialize();
+  ObjectFactoryBase::UnRegisterAllFactories();
+  ObjectFactoryBase::Initialize();
 }
 
-// initialize class members
-itkObjectFactoryBase::itkObjectFactoryBase()
+
+/**
+ * initialize class members
+ */
+ObjectFactoryBase::ObjectFactoryBase()
 {
   m_LibraryHandle = 0;
   m_LibraryDate = 0;
-  m_OverrideMap = new itkOverRideMap;
+  m_OverrideMap = new OverRideMap;
 }
 
-//----------------------------------------------------------------------------
-// Unload the library and free the path string
-itkObjectFactoryBase
-::~itkObjectFactoryBase()
+
+/**
+ * Unload the library and free the path string
+ */
+ObjectFactoryBase
+::~ObjectFactoryBase()
 {
-  itkDynamicLoader::CloseLibrary((itkLibHandle)m_LibraryHandle);
+  DynamicLoader::CloseLibrary((LibHandle)m_LibraryHandle);
 }
 
-//----------------------------------------------------------------------------
-// Add a factory to the registered list
+
+/**
+ * Add a factory to the registered list
+ */
 void 
-itkObjectFactoryBase
-::RegisterFactory(itkObjectFactoryBase* factory)
+ObjectFactoryBase
+::RegisterFactory(ObjectFactoryBase* factory)
 {
   if ( factory->m_LibraryHandle == 0 )
     {
@@ -287,53 +339,56 @@ itkObjectFactoryBase
     factory->m_LibraryPath = nonDynamicName;
     }
   if ( strcmp(factory->GetITKSourceVersion(), 
-            itkVersion::GetITKSourceVersion()) != 0 )
+            Version::GetITKSourceVersion()) != 0 )
     {
     itkWarningMacro(<< "Possible incompatible factory load:" 
-    << "\nRunning itk version :\n" << itkVersion::GetITKSourceVersion() 
+    << "\nRunning itk version :\n" << Version::GetITKSourceVersion() 
     << "\nLoaded Factory version:\n" << factory->GetITKSourceVersion()
     << "\nLoading factory:\n" << factory->m_LibraryPath << "\n");
     }
-  itkObjectFactoryBase::Initialize();
-  itkObjectFactoryBase::m_RegisteredFactories->push_back(factory);
+  ObjectFactoryBase::Initialize();
+  ObjectFactoryBase::m_RegisteredFactories->push_back(factory);
   factory->Register();
 }
 
 
-
-//----------------------------------------------------------------------------
+/**
+ *
+ */
 void 
-itkObjectFactoryBase
-::PrintSelf(std::ostream& os, itkIndent indent)
+ObjectFactoryBase
+::PrintSelf(std::ostream& os, Indent indent)
 {
-  itkObject::PrintSelf(os, indent);
+  Object::PrintSelf(os, indent);
 
-  os << indent << "Factory DLL path: " << m_LibraryPath << "\n";
+  os << indent << "Factory DLL path: " << m_LibraryPath.c_str() << "\n";
   os << indent << "Factory description: " << this->GetDescription() << std::endl;
 
   int num = m_OverrideMap->size();
   os << indent << "Factory overides " << num << " classes:" << std::endl;
 
   indent = indent.GetNextIndent();
-  for(itkOverRideMap::iterator i = m_OverrideMap->begin();
+  for(OverRideMap::iterator i = m_OverrideMap->begin();
       i != m_OverrideMap->end(); ++i)
     {
-    os << indent << "Class : " <<  (*i).first 
+    os << indent << "Class : " <<  (*i).first.c_str() << "\n";
+    os << indent << "Overriden with: " <<  (*i).second.m_OverrideWithName.c_str()
        << std::endl;
-    os << indent << "Overriden with: " <<  (*i).second.m_OverrideWithName
-       << std::endl;
-    os << indent << "Enable flag: " << (*i).second.m_EnabledFlag  
+    os << indent << "Enable flag: " << (*i).second.m_EnabledFlag
        << std::endl;
     os << std::endl;
   }
 }
 
-//----------------------------------------------------------------------------
+
+/**
+ *
+ */
 void 
-itkObjectFactoryBase
-::UnRegisterFactory(itkObjectFactoryBase* factory)
+ObjectFactoryBase
+::UnRegisterFactory(ObjectFactoryBase* factory)
 { 
-  for ( std::list<itkObjectFactoryBase*>::iterator i = 
+  for ( std::list<ObjectFactoryBase*>::iterator i = 
         m_RegisteredFactories->begin();
       i != m_RegisteredFactories->end(); ++i )
     {
@@ -347,48 +402,51 @@ itkObjectFactoryBase
 }
   
 
-//----------------------------------------------------------------------------
-// unregister all factories and delete the RegisteredFactories list
+/**
+ * unregister all factories and delete the RegisteredFactories list
+ */
 void 
-itkObjectFactoryBase
+ObjectFactoryBase
 ::UnRegisterAllFactories()
 {
-  for ( std::list<itkObjectFactoryBase*>::iterator i 
+  for ( std::list<ObjectFactoryBase*>::iterator i 
         = m_RegisteredFactories->begin();
       i != m_RegisteredFactories->end(); ++i )
     {
     (*i)->UnRegister();
     }
-  delete itkObjectFactoryBase::m_RegisteredFactories;
-  itkObjectFactoryBase::m_RegisteredFactories = 0;
+  delete ObjectFactoryBase::m_RegisteredFactories;
+  ObjectFactoryBase::m_RegisteredFactories = 0;
 }
 
 
-//----------------------------------------------------------------------------
+/**
+ *
+ */
 void 
-itkObjectFactoryBase
+ObjectFactoryBase
 ::RegisterOverride(const char* classOverride,
                    const char* subclass,
                    const char* description,
                    bool enableFlag,
-                   itkCreateObjectFunctionBase*
+                   CreateObjectFunctionBase*
                    createFunction)
 {
-  itkObjectFactoryBase::OverrideInformation info;
+  ObjectFactoryBase::OverrideInformation info;
   info.m_Description = description;
   info.m_OverrideWithName = subclass;
   info.m_EnabledFlag = enableFlag;
   info.m_CreateObject = createFunction;
-  m_OverrideMap->insert(itkOverRideMap::value_type(classOverride, info));
+  m_OverrideMap->insert(OverRideMap::value_type(classOverride, info));
 }
 
-//----------------------------------------------------------------------------
-itkLightObject* 
-itkObjectFactoryBase
+
+LightObject* 
+ObjectFactoryBase
 ::CreateObject(const char* itkclassname)
 {
   m_OverrideMap->find(itkclassname);
-  itkOverRideMap::iterator pos = m_OverrideMap->find(itkclassname);
+  OverRideMap::iterator pos = m_OverrideMap->find(itkclassname);
   if ( pos != m_OverrideMap->end() )
     {
     return (*pos).second.m_CreateObject->CreateObject();
@@ -396,16 +454,19 @@ itkObjectFactoryBase
   return 0;
 }
 
-//----------------------------------------------------------------------------
+
+/**
+ *
+ */
 void 
-itkObjectFactoryBase
+ObjectFactoryBase
 ::SetEnableFlag(bool flag,
                 const char* className,
                 const char* subclassName)
 {
-  itkOverRideMap::iterator start = m_OverrideMap->lower_bound(className);
-  itkOverRideMap::iterator end = m_OverrideMap->upper_bound(className);
-  for ( itkOverRideMap::iterator i = start; i != end; ++i )
+  OverRideMap::iterator start = m_OverrideMap->lower_bound(className);
+  OverRideMap::iterator end = m_OverrideMap->upper_bound(className);
+  for ( OverRideMap::iterator i = start; i != end; ++i )
     {
     if ( (*i).second.m_OverrideWithName == subclassName )
       {
@@ -414,14 +475,17 @@ itkObjectFactoryBase
     }
 }
 
-//----------------------------------------------------------------------------
+
+/**
+ *
+ */
 bool 
-itkObjectFactoryBase
+ObjectFactoryBase
 ::GetEnableFlag(const char* className, const char* subclassName)
 {
-  itkOverRideMap::iterator start = m_OverrideMap->lower_bound(className);
-  itkOverRideMap::iterator end = m_OverrideMap->upper_bound(className);
-  for ( itkOverRideMap::iterator i = start; i != end; ++i )
+  OverRideMap::iterator start = m_OverrideMap->lower_bound(className);
+  OverRideMap::iterator end = m_OverrideMap->upper_bound(className);
+  for ( OverRideMap::iterator i = start; i != end; ++i )
     {
     if ( (*i).second.m_OverrideWithName == subclassName )
       {
@@ -431,35 +495,43 @@ itkObjectFactoryBase
   return 0;
 }
 
-//----------------------------------------------------------------------------
+
+/**
+ *
+ */
 void 
-itkObjectFactoryBase
+ObjectFactoryBase
 ::Disable(const char* className)
 {
-  itkOverRideMap::iterator start = m_OverrideMap->lower_bound(className);
-  itkOverRideMap::iterator end = m_OverrideMap->upper_bound(className);
-  for ( itkOverRideMap::iterator i = start; i != end; ++i )
+  OverRideMap::iterator start = m_OverrideMap->lower_bound(className);
+  OverRideMap::iterator end = m_OverrideMap->upper_bound(className);
+  for ( OverRideMap::iterator i = start; i != end; ++i )
     {
     (*i).second.m_EnabledFlag = 0;
     }
 }
 
-//----------------------------------------------------------------------------
-std::list<itkObjectFactoryBase*> 
-itkObjectFactoryBase
+
+/**
+ *
+ */
+std::list<ObjectFactoryBase*> 
+ObjectFactoryBase
 ::GetRegisteredFactories()
 {
-  return *itkObjectFactoryBase::m_RegisteredFactories;
+  return *ObjectFactoryBase::m_RegisteredFactories;
 }
 
-//----------------------------------------------------------------------------
-// Return a list of classes that this factory overrides.
+
+/**
+ * Return a list of classes that this factory overrides.
+ */
 std::list<std::string> 
-itkObjectFactoryBase
+ObjectFactoryBase
 ::GetClassOverrideNames()
 {
   std::list<std::string> ret;
-  for ( itkOverRideMap::iterator i = m_OverrideMap->begin();
+  for ( OverRideMap::iterator i = m_OverrideMap->begin();
       i != m_OverrideMap->end(); ++i )
     {
     ret.push_back((*i).first);
@@ -467,14 +539,16 @@ itkObjectFactoryBase
   return ret;
 }
 
-//----------------------------------------------------------------------------
-// Return a list of the names of classes that override classes.
+
+/**
+ * Return a list of the names of classes that override classes.
+ */
 std::list<std::string> 
-itkObjectFactoryBase
+ObjectFactoryBase
 ::GetClassOverrideWithNames()
 {
   std::list<std::string> ret;
-  for ( itkOverRideMap::iterator i = m_OverrideMap->begin();
+  for ( OverRideMap::iterator i = m_OverrideMap->begin();
       i != m_OverrideMap->end(); ++i )
     {
     ret.push_back((*i).second.m_OverrideWithName);
@@ -482,14 +556,16 @@ itkObjectFactoryBase
   return ret;
 }
 
-//----------------------------------------------------------------------------
-// Retrun a list of descriptions for class overrides
+
+/**
+ * Retrun a list of descriptions for class overrides
+ */
 std::list<std::string> 
-itkObjectFactoryBase
+ObjectFactoryBase
 ::GetClassOverrideDescriptions()
 { 
   std::list<std::string> ret;
-  for ( itkOverRideMap::iterator i = m_OverrideMap->begin();
+  for ( OverRideMap::iterator i = m_OverrideMap->begin();
       i != m_OverrideMap->end(); ++i )
     {
     ret.push_back((*i).second.m_Description);
@@ -497,14 +573,16 @@ itkObjectFactoryBase
   return ret;
 }
 
-//----------------------------------------------------------------------------
-// Return a list of enable flags
+
+/**
+ * Return a list of enable flags
+ */
 std::list<bool> 
-itkObjectFactoryBase
+ObjectFactoryBase
 ::GetEnableFlags()
 {
   std::list<bool> ret;
-  for( itkOverRideMap::iterator i = m_OverrideMap->begin();
+  for( OverRideMap::iterator i = m_OverrideMap->begin();
       i != m_OverrideMap->end(); ++i)
     {
     ret.push_back((*i).second.m_EnabledFlag);
@@ -512,3 +590,4 @@ itkObjectFactoryBase
   return ret;
 }
 
+} // namespace itk

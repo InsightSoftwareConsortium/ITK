@@ -14,7 +14,7 @@ See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
 /**
- * itkImageBase is the base class for the templated itkImage base classes.
+ * ImageBase is the base class for the templated Image base classes.
  */
 
 #ifndef __itkImageBase_h
@@ -22,18 +22,22 @@ See COPYRIGHT.txt for copyright details.
 
 #include "itkDataObject.h"
 
-class ITK_EXPORT itkImageBase : public itkDataObject
+namespace itk
+{
+
+class ITK_EXPORT ImageBase : public DataObject
 {
 public:
   /** 
    * Smart pointer typedef support. 
    */
-  typedef itkSmartPointer<itkImageBase> Pointer;
+  typedef ImageBase           Self;
+  typedef SmartPointer<Self>  Pointer;
 
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(itkImageBase, itkDataObject);
+  itkTypeMacro(ImageBase, DataObject);
 
   /** 
    * Create an empty image. 
@@ -46,7 +50,7 @@ public:
   void Initialize();
 
   /** 
-   * Overload itkDataObject method.
+   * Overload DataObject method.
    */
   virtual void SetDimension(unsigned int dim);
 
@@ -84,11 +88,11 @@ public:
   const float *GetOrigin() const {return m_Origin;} ;
   
 protected:
-  itkImageBase();
-  ~itkImageBase();
-  itkImageBase(const itkImageBase&) {};
-  void operator=(const itkImageBase&) {};
-  virtual void PrintSelf(std::ostream& os, itkIndent indent);
+  ImageBase();
+  ~ImageBase();
+  ImageBase(const Self&) {}
+  void operator=(const Self&) {}
+  virtual void PrintSelf(std::ostream& os, Indent indent);
 
 private:
   unsigned long *m_Size;
@@ -96,6 +100,8 @@ private:
   float         *m_Origin;
   
 };
+
+} // namespace itk
 
 #endif
 

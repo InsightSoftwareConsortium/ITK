@@ -7,8 +7,8 @@
 
 int main()
 {
-  itkScalar<double> s;
-  itkVector<int, 4> v;
+  itk::Scalar<double> s;
+  itk::Vector<int, 4> v;
 
   int vec[4];
   vec[0] = 1; vec[1] = 3; vec[2] = 2; vec[3] = 4;

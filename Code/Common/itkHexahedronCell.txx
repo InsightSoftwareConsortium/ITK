@@ -68,7 +68,7 @@ HexahedronCell< TPixelType , TCelltype >
 
 
 /**
- * Standard itkCell API:
+ * Standard CellInterface API:
  * Set the cell's internal point list to the list of identifiers provided.
  */
 template <typename TPixelType, typename TCelltype>
@@ -82,7 +82,7 @@ HexahedronCell< TPixelType , TCelltype >
 
 
 /**
- * Standard itkCell API:
+ * Standard CellInterface API:
  * Use this to set all the points in the cell.  It is assumed that the
  * range [first, last) is exactly the size needed for this cell type.
  * The position *last is NOT referenced, so it can safely be one beyond
@@ -258,15 +258,5 @@ HexahedronCell< TPixelType , TCelltype >
                     {0,1,5,4}, {3,7,6,2},
                     {0,3,2,1}, {4,5,6,7} };
 
-/**
- * Object factory for the boundary version of this cell type.
- */
-template <typename TPixelType, typename TCellType>
-HexahedronBoundary< TPixelType , TCellType >::Pointer
-HexahedronBoundary< TPixelType , TCellType >
-::New(void)
-{
-  return new Self;
-}
 
 } // namespace itk

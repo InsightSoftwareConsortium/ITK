@@ -13,29 +13,34 @@ All rights reserved.
 See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#ifndef ITK_SMART_POINTER_H
-#define ITK_SMART_POINTER_H
-
 /** 
- * itkSmartPointer implements reference counting by overloading
+ * SmartPointer implements reference counting by overloading
  * operator -> (and *) among others. This allows natural interface
  * to the class referred to by the pointer without having to invoke
  * special Register()/UnRegister() methods directly.
  *
  * To compile / test this class
- * Windows: cl itkSmartPointerTest.cxx; .\itkSmartPointerTest.exe
- * linux:   c++ itkSmartPointerTest.cxx ./a.out
- * other:   CCcompiler itkSmartPointerTest.cxx  ./a.out
+ * Windows: cl SmartPointerTest.cxx; .\SmartPointerTest.exe
+ * linux:   c++ SmartPointerTest.cxx ./a.out
+ * other:   CCcompiler SmartPointerTest.cxx  ./a.out
  */
 
+#ifndef __itkSmartPointer_h
+#define __itkSmartPointer_h
+
+#include <iostream>
+
+namespace itk
+{
+
 template <class T>
-class itkSmartPointer 
+class SmartPointer 
 {
 public:
   /** 
    * Constructor 
    */
-  itkSmartPointer () 
+  SmartPointer () 
     {
     m_Pointer = 0;
     }
@@ -43,7 +48,7 @@ public:
   /** 
    * Const constructor 
    */
-  itkSmartPointer (const itkSmartPointer<T> &p)
+  SmartPointer (const SmartPointer<T> &p)
     { 
       m_Pointer = p.m_Pointer; 
       this->Register(); 
@@ -52,7 +57,7 @@ public:
   /** 
    * Constructor to pointer p 
    */
-  itkSmartPointer (T *p)
+  SmartPointer (T *p)
     { 
     m_Pointer = p; 
     this->Register(); 
@@ -61,7 +66,7 @@ public:
   /** 
    * Destructor 
    */
-  ~itkSmartPointer ()
+  ~SmartPointer ()
     {
     this->UnRegister();
     }
@@ -101,7 +106,7 @@ public:
   /** 
    * Comparison of pointers. Less than comparison. 
    */
-  bool operator < (const itkSmartPointer &r)
+  bool operator < (const SmartPointer &r)
     { 
     return (void*)m_Pointer < (void*) r.m_Pointer; 
     }
@@ -109,7 +114,7 @@ public:
   /** 
    * Comparison of pointers. Greater than comparison. 
    */
-  bool operator > (const itkSmartPointer &r)
+  bool operator > (const SmartPointer &r)
     { 
     return (void*)m_Pointer > (void*) r.m_Pointer; 
     }
@@ -117,7 +122,7 @@ public:
   /** 
    * Comparison of pointers. Less than or equal to comparison. 
    */
-  bool operator <= (const itkSmartPointer &r)
+  bool operator <= (const SmartPointer &r)
     { 
     return (void*)m_Pointer <= (void*) r.m_Pointer; 
     }
@@ -125,7 +130,7 @@ public:
   /** 
    * Comparison of pointers. Greater than or equal to comparison. 
    */
-  bool operator >= (const itkSmartPointer &r)
+  bool operator >= (const SmartPointer &r)
     { 
     return (void*)m_Pointer >= (void*) r.m_Pointer; 
     }
@@ -133,7 +138,7 @@ public:
   /** 
    * Overload operator assignment. 
    */
-  itkSmartPointer &operator = (const itkSmartPointer &r)
+  SmartPointer &operator = (const SmartPointer &r)
     { 
     return this->operator = (r.GetPointer()); 
     }
@@ -141,7 +146,7 @@ public:
   /** 
    * Overload operator assignment. 
    */
-  itkSmartPointer &operator = (T *r)
+  SmartPointer &operator = (T *r)
     {                                                              
     if (m_Pointer != r)
       {
@@ -182,11 +187,15 @@ private:
       }
     }
   
-  inline friend std::ostream& operator<< (std::ostream& os, itkSmartPointer p) 
-    {
+};
+  
+template <typename T>
+std::ostream& operator<< (std::ostream& os, SmartPointer<T> p) 
+  {
     p.Print(os); 
     return os;
-    }
-};
+  }
 
+} // namespace itk
+  
 #endif

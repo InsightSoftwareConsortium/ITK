@@ -16,30 +16,32 @@
 #include "itkLightObject.h"
 #include "itkObjectFactory.h"
 
+namespace itk
+{
 
 /**
- * Define the object factory construction method.
+ * Instance creation.
  */
-itkLightObject::Pointer 
-itkLightObject
+LightObject::Pointer
+LightObject
 ::New()
 {
-  Self *ret = itkObjectFactory<Self>::Create();
+  Self *ret = ObjectFactory<Self>::Create();
   if(ret != NULL)
     {
     return ret;
     }
   return new Self;
 }
-
-
+  
+  
 /**
  * Delete a itk object. This method should always be used to delete an object 
  * when the new operator was used to create it. Using the C++ delete method
  * will not work with reference counting.
  */
 void 
-itkLightObject
+LightObject
 ::Delete() 
 {
   this->UnRegister();
@@ -51,7 +53,7 @@ itkLightObject
  */
 #ifdef _WIN32
 void* 
-itkLightObject
+LightObject
 ::operator new(size_t nSize, const char *, int)
 {
   void* p=malloc(nSize);
@@ -59,7 +61,7 @@ itkLightObject
 }
 
 void* 
-itkLightObject
+LightObject
 ::operator new(size_t nSize)
 {
   void* p=malloc(nSize);
@@ -67,7 +69,7 @@ itkLightObject
 }
 
 void 
-itkLightObject
+LightObject
 ::operator delete( void *p )
 {
   free(p);
@@ -81,10 +83,10 @@ itkLightObject
  * subclasses (any itk object).
  */
 void 
-itkLightObject
+LightObject
 ::Print(std::ostream& os)
 {
-  itkIndent indent;
+  Indent indent;
 
   this->PrintHeader(os,0); 
   this->PrintSelf(os, indent.GetNextIndent());
@@ -97,7 +99,7 @@ itkLightObject
  * the debugger to break on error.
  */
 void 
-itkLightObject
+LightObject
 ::BreakOnError()
 {
   ;  
@@ -108,7 +110,7 @@ itkLightObject
  * Increase the reference count (mark as used by another object).
  */
 void 
-itkLightObject
+LightObject
 ::Register()
 {
   m_ReferenceCount++;
@@ -123,7 +125,7 @@ itkLightObject
  * Decrease the reference count (release by another object).
  */
 void 
-itkLightObject
+LightObject
 ::UnRegister()
 {
   if(--m_ReferenceCount <= 0)
@@ -144,7 +146,7 @@ itkLightObject
  * Sets the reference count (use with care)
  */
 void 
-itkLightObject
+LightObject
 ::SetReferenceCount(int ref)
 {
   m_ReferenceCount = ref;
@@ -155,7 +157,7 @@ itkLightObject
  * Access routine to set the delete method pointer.
  */
 void 
-itkLightObject
+LightObject
 ::SetDeleteMethod(void (*f)(void *))
 {
   m_DeleteMethod = f;
@@ -165,8 +167,8 @@ itkLightObject
 /**
  * Create an object with a reference count of 1.
  */
-itkLightObject
-::itkLightObject():
+LightObject
+::LightObject():
   /**
    * initial ref count = 0 because smart pointer immediately increments it
    */
@@ -176,8 +178,8 @@ itkLightObject
 }
 
 
-itkLightObject
-::~itkLightObject() 
+LightObject
+::~LightObject() 
 {
   /**
    * warn user if reference counting is on and the object is being referenced
@@ -195,8 +197,8 @@ itkLightObject
  * its superclasses.
  */
 void 
-itkLightObject
-::PrintSelf(std::ostream& os, itkIndent indent)
+LightObject
+::PrintSelf(std::ostream& os, Indent indent)
 {
   if(m_DeleteMethod != NULL)
     {
@@ -214,8 +216,8 @@ itkLightObject
  * Define a default print header for all objects.
  */
 void 
-itkLightObject
-::PrintHeader(std::ostream& os, itkIndent indent)
+LightObject
+::PrintHeader(std::ostream& os, Indent indent)
 {
   os << indent << this->GetClassName() << " (" << this << ")\n";
 }
@@ -225,22 +227,24 @@ itkLightObject
  * Define a default print trailer for all objects.
  */
 void 
-itkLightObject
-::PrintTrailer(std::ostream& os, itkIndent indent)
+LightObject
+::PrintTrailer(std::ostream& os, Indent indent)
 {
   os << indent << std::endl;
 }
 
 
 /**
- * This operator allows all subclasses of itkLightObject to be printed via <<.
+ * This operator allows all subclasses of LightObject to be printed via <<.
  * It in turn invokes the Print method, which in turn will invoke the
  * PrintSelf method that all objects should define, if they have anything
  * interesting to print out.
  */
 std::ostream& 
-operator<<(std::ostream& os, itkLightObject& o)
+operator<<(std::ostream& os, LightObject& o)
 {
   o.Print(os);
   return os;
 }
+
+} // namespace itk

@@ -25,14 +25,14 @@ See COPYRIGHT.txt for copyright details.
 #include <vnl/algo/vnl_svd.h>
 
 template <class T, unsigned int TImageDimension>
-int IterateOverImage( itkImageIterator<T, TImageDimension> it, unsigned int dim = 0)
+int IterateOverImage( itk::ImageIterator<T, TImageDimension> it, unsigned int dim = 0)
 {
   T value;
   int i, j;
   
   if (dim < TImageDimension - 1)
     {
-    itkImage<T, TImageDimension>::Index basisIndex;
+    itk::Image<T, TImageDimension>::Index basisIndex;
 
     try
       {
@@ -40,7 +40,7 @@ int IterateOverImage( itkImageIterator<T, TImageDimension> it, unsigned int dim 
       }
     catch (const int error)
       {
-      if (error == itkInvalidDimension)
+      if (error == itk::InvalidDimension)
         {
         itkGenericOutputMacro(<< "Exception: Invalid dimension");
         }
@@ -59,7 +59,7 @@ int IterateOverImage( itkImageIterator<T, TImageDimension> it, unsigned int dim 
         }
       catch (const int error)
         {
-        if (error == itkBoundsError)
+        if (error == itk::BoundsError)
           {
           itkGenericOutputMacro(<< "Exception: Exceeding image bounds.");
           }
@@ -68,7 +68,7 @@ int IterateOverImage( itkImageIterator<T, TImageDimension> it, unsigned int dim 
     }
   else
     {
-    itkImage<T, TImageDimension>::Index basisIndex;
+    itk::Image<T, TImageDimension>::Index basisIndex;
 
     try
       {
@@ -76,7 +76,7 @@ int IterateOverImage( itkImageIterator<T, TImageDimension> it, unsigned int dim 
       }
     catch (const int error)
       {
-      if (error == itkInvalidDimension)
+      if (error == itk::InvalidDimension)
         {
         itkGenericOutputMacro(<< "Exception: Invalid dimension");
         }
@@ -101,7 +101,7 @@ int IterateOverImage( itkImageIterator<T, TImageDimension> it, unsigned int dim 
         }
       catch (const int error)
         {
-        if (error == itkBoundsError)
+        if (error == itk::BoundsError)
           {
           itkGenericOutputMacro("Exception: Exceeding image bounds.");
           }
@@ -116,7 +116,7 @@ int IterateOverImage( itkImageIterator<T, TImageDimension> it, unsigned int dim 
 template <typename T>
 void print_vnl_matrix(T& mat)
 {
-  std::cout << mat;  
+  std::cout << mat;
   for(int r = 0; r < mat.rows(); r++)
     {
     for(int c = 0; c < mat.rows(); c++)
@@ -161,28 +161,28 @@ int main()
       std::cout << mat(r, c) << " " << std::endl;
   
   // Test the creation of an image with native type
-  itkImage<float,2>::Pointer if2 = itkImage<float,2>::New();
+  itk::Image<float,2>::Pointer if2 = itk::Image<float,2>::New();
   
   // Begin by creating a simple pipeline
   //
   // Create another source
-  itkReadVTKImage< itkImage<itkScalar<float>,2> >::Pointer reader;
-  reader = itkReadVTKImage< itkImage<itkScalar<float>,2> >::New();
+  itk::ReadVTKImage< itk::Image<itk::Scalar<float>,2> >::Pointer reader;
+  reader = itk::ReadVTKImage< itk::Image<itk::Scalar<float>,2> >::New();
   reader->SetFileName("junkInput.vtk");
 
   // Create a source
-  itkRandomImageSource< itkImage<itkScalar<float>,2> >::Pointer random;
-  random = itkRandomImageSource< itkImage<itkScalar<float>,2> >::New();
+  itk::RandomImageSource< itk::Image<itk::Scalar<float>,2> >::Pointer random;
+  random = itk::RandomImageSource< itk::Image<itk::Scalar<float>,2> >::New();
 
   // Create a filter
-  itkShrinkImage< itkImage<itkScalar<float>,2>, itkImage<itkScalar<float>,2> >::Pointer shrink;
-  shrink = itkShrinkImage< itkImage<itkScalar<float>,2>, itkImage<itkScalar<float>,2> >::New();
+  itk::ShrinkImage< itk::Image<itk::Scalar<float>,2>, itk::Image<itk::Scalar<float>,2> >::Pointer shrink;
+  shrink = itk::ShrinkImage< itk::Image<itk::Scalar<float>,2>, itk::Image<itk::Scalar<float>,2> >::New();
   shrink->SetInput(random->GetOutput());
   shrink->DebugOn();
 
   // Create a mapper
-  itkWriteVTKImage< itkImage<itkScalar<float>,2> >::Pointer writer;
-  writer = itkWriteVTKImage< itkImage<itkScalar<float>,2> >::New();
+  itk::WriteVTKImage< itk::Image<itk::Scalar<float>,2> >::Pointer writer;
+  writer = itk::WriteVTKImage< itk::Image<itk::Scalar<float>,2> >::New();
   writer->SetInput(shrink->GetOutput());
   writer->SetFileName("junkImage.vtk");
   writer->SetFileTypeToASCII();
@@ -192,8 +192,8 @@ int main()
   // Next create some images and manipulate it.
   //
   // Create an image.
-  itkImage<itkScalar<float>, 2>::Pointer
-    o2 = itkImage<itkScalar<float>, 2>::New();
+  itk::Image<itk::Scalar<float>, 2>::Pointer
+    o2 = itk::Image<itk::Scalar<float>, 2>::New();
 
   unsigned long size[2];
   float origin[2], spacing[2];
@@ -214,10 +214,10 @@ int main()
   long index[2];
   index[0] = 5;
   index[1] = 4;
-  itkImage<itkScalar<float>, 2>::Index ind;
+  itk::Image<itk::Scalar<float>, 2>::Index ind;
   ind.SetIndex( index );
 
-  itkScalar<float> scalar;
+  itk::Scalar<float> scalar;
   scalar.SetScalar(3.14159);
 
   o2->SetPixel(ind, scalar);
@@ -228,8 +228,8 @@ int main()
 
   itkGenericOutputMacro(<< "Scalar pixel value is: " << scalar.GetScalar());
 
-  itkImage<itkVector<unsigned short, 5>, 3>::Pointer
-    o3 = itkImage<itkVector<unsigned short, 5>, 3>::New();
+  itk::Image<itk::Vector<unsigned short, 5>, 3>::Pointer
+    o3 = itk::Image<itk::Vector<unsigned short, 5>, 3>::New();
 
   unsigned long size3D[3];
   float origin3D[3], spacing3D[3];
@@ -254,14 +254,14 @@ int main()
   index3D[0] = 1;
   index3D[1] = 2;
   index3D[2] = 3;
-  itkImage<itkVector<unsigned short, 5>, 3>::Index ind3D;
+  itk::Image<itk::Vector<unsigned short, 5>, 3>::Index ind3D;
   ind3D.SetIndex( index3D );
 
   unsigned short vecValues[5] = { 3, 2, 1, 4, 5};
-  itkVector<unsigned short, 5> vec;
+  itk::Vector<unsigned short, 5> vec;
   vec.SetVector(vecValues);
 
-  // o3->SetPixel( itkIndex(1, 2, 3), vec);
+  // o3->SetPixel( itk::Index(1, 2, 3), vec);
   o3->SetPixel(ind3D, vec);
 
   vecValues[0] = vecValues[1] = vecValues[2] = vecValues[3] = vecValues[4] = 2;

@@ -17,34 +17,29 @@
 #include "itkObjectFactory.h"
 #include <fstream>
 
-//------------------------------------------------------------------------
-template <class TInputImage>
-itkWriteVTKImage<TInputImage>::Pointer itkWriteVTKImage<TInputImage>
-::New()
+namespace itk
 {
-  itkWriteVTKImage<TInputImage>* ret = 
-    itkObjectFactory< itkWriteVTKImage<TInputImage> >::Create();
-  if ( ret )
-    {
-    return ret;
-    }
-  return new itkWriteVTKImage<TInputImage>;
-}
 
+/**
+ *
+ */
 template <class TInputImage>
-itkWriteVTKImage<TInputImage>
-::itkWriteVTKImage()
+WriteVTKImage<TInputImage>
+::WriteVTKImage()
 {
   m_WriteToOutputString = false;
 }
 
-//----------------------------------------------------------------------------
+
+/**
+ *
+ */
 template <class TInputImage>
 void 
-itkWriteVTKImage<TInputImage>
+WriteVTKImage<TInputImage>
 ::WriteData()
 {
-  const char *name;// = itkPixelTraits<TInputImage::PixelValueType>::Name;
+  const char *name;// = PixelTraits<TInputImage::PixelValueType>::Name;
   std::ostream *fp;
   TInputImage *input;
   unsigned int dim;
@@ -84,15 +79,18 @@ itkWriteVTKImage<TInputImage>
   this->CloseVTKFile(fp);
 }
 
-//----------------------------------------------------------------------------
+
+/**
+ *
+ */
 template <class TInputImage>
 void 
-itkWriteVTKImage<TInputImage>
-::PrintSelf(std::ostream& os, itkIndent indent)
+WriteVTKImage<TInputImage>
+::PrintSelf(std::ostream& os, Indent indent)
 {
-  itkWriteImage<TInputImage>::PrintSelf(os,indent);
+  WriteImage<TInputImage>::PrintSelf(os,indent);
 
-  if ( m_FileType == itkWriteVTKImage::VTK_BINARY )
+  if ( m_FileType == WriteVTKImage::VTK_BINARY )
     {
     os << indent << "VTK File Type: BINARY\n";
     }
@@ -102,14 +100,17 @@ itkWriteVTKImage<TInputImage>
     }
 }
 
-//------ Private methods support VTK file writing
+
+/**
+ * ------ Private methods support VTK file writing
+ */
 template <class TInputImage>
 std::ostream *
-itkWriteVTKImage<TInputImage>
+WriteVTKImage<TInputImage>
 ::OpenVTKFile()
 {
   std::ostream *fptr;
-  itkDataObject *input = this->GetInput();
+  DataObject *input = this->GetInput();
   
   if ( !m_WriteToOutputString && !this->GetFileName() )
     {
@@ -133,7 +134,7 @@ itkWriteVTKImage<TInputImage>
     }
   else 
     {
-    if ( m_FileType == itkWriteVTKImage::VTK_ASCII )
+    if ( m_FileType == WriteVTKImage::VTK_ASCII )
       {
       fptr = new std::ofstream(this->GetFileName(), std::ios::out);
       }
@@ -157,9 +158,13 @@ itkWriteVTKImage<TInputImage>
   return fptr;
 }
 
+
+/**
+ *
+ */
 template <class TInputImage>
 bool
-itkWriteVTKImage<TInputImage>
+WriteVTKImage<TInputImage>
 ::WriteVTKHeader(std::ostream *fp)
 {
   itkDebugMacro(<<"Writing VTK header");
@@ -167,7 +172,7 @@ itkWriteVTKImage<TInputImage>
   *fp << "# vtk DataFile Version 3.0\n"; 
   *fp << "Insight to VTK Image\n";
 
-  if ( m_FileType == itkWriteVTKImage::VTK_ASCII )
+  if ( m_FileType == WriteVTKImage::VTK_ASCII )
     {
     *fp << "ASCII\n";
     }
@@ -179,9 +184,13 @@ itkWriteVTKImage<TInputImage>
   return true;
 }
 
+
+/**
+ *
+ */
 template <class TInputImage>
 bool
-itkWriteVTKImage<TInputImage>
+WriteVTKImage<TInputImage>
 ::WriteVTKImageData(std::ostream *fp, TInputImage *input)
 {
 /*
@@ -192,98 +201,102 @@ itkWriteVTKImage<TInputImage>
   // Write scalar data
   //
   switch (dataType)
-    {
-    case VTK_CHAR:
-      {
-      sprintf (str, format, "char"); *fp << str; 
-      char *s=((vtkCharArray *)data)->GetPointer(0);
-      WriteDataArray(fp, s, this->FileType, "%i ", num, numComp);
-      }
-    break;
+  {
+  case VTK_CHAR:
+  {
+  sprintf (str, format, "char"); *fp << str; 
+  char *s=((vtkCharArray *)data)->GetPointer(0);
+  WriteDataArray(fp, s, this->FileType, "%i ", num, numComp);
+  }
+  break;
 
-    case VTK_UNSIGNED_CHAR:
-      {
-      sprintf (str, format, "unsigned_char"); *fp << str; 
-      unsigned char *s=((vtkUnsignedCharArray *)data)->GetPointer(0);
-      WriteDataArray(fp, s, this->FileType, "%i ", num, numComp);
-      }
-    break;
+  case VTK_UNSIGNED_CHAR:
+  {
+  sprintf (str, format, "unsigned_char"); *fp << str; 
+  unsigned char *s=((vtkUnsignedCharArray *)data)->GetPointer(0);
+  WriteDataArray(fp, s, this->FileType, "%i ", num, numComp);
+  }
+  break;
     
-    case VTK_SHORT:
-      {
-      sprintf (str, format, "short"); *fp << str; 
-      short *s=((vtkShortArray *)data)->GetPointer(0);
-      WriteDataArray(fp, s, this->FileType, "%hd ", num, numComp);
-      }
-    break;
+  case VTK_SHORT:
+  {
+  sprintf (str, format, "short"); *fp << str; 
+  short *s=((vtkShortArray *)data)->GetPointer(0);
+  WriteDataArray(fp, s, this->FileType, "%hd ", num, numComp);
+  }
+  break;
 
-    case VTK_UNSIGNED_SHORT:
-      {
-      sprintf (str, format, "unsigned_short"); *fp << str; 
-      unsigned short *s=((vtkUnsignedShortArray *)data)->GetPointer(0);
-      WriteDataArray(fp, s, this->FileType, "%hu ", num, numComp);
-      }
-    break;
+  case VTK_UNSIGNED_SHORT:
+  {
+  sprintf (str, format, "unsigned_short"); *fp << str; 
+  unsigned short *s=((vtkUnsignedShortArray *)data)->GetPointer(0);
+  WriteDataArray(fp, s, this->FileType, "%hu ", num, numComp);
+  }
+  break;
 
-    case VTK_INT:
-      {
-      sprintf (str, format, "int"); *fp << str; 
-      int *s=((vtkIntArray *)data)->GetPointer(0);
-      WriteDataArray(fp, s, this->FileType, "%d ", num, numComp);
-      }
-    break;
+  case VTK_INT:
+  {
+  sprintf (str, format, "int"); *fp << str; 
+  int *s=((vtkIntArray *)data)->GetPointer(0);
+  WriteDataArray(fp, s, this->FileType, "%d ", num, numComp);
+  }
+  break;
 
-    case VTK_UNSIGNED_INT:
-      {
-      sprintf (str, format, "unsigned_int"); *fp << str; 
-      unsigned int *s=((vtkUnsignedIntArray *)data)->GetPointer(0);
-      WriteDataArray(fp, s, this->FileType, "%d ", num, numComp);
-      }
-    break;
+  case VTK_UNSIGNED_INT:
+  {
+  sprintf (str, format, "unsigned_int"); *fp << str; 
+  unsigned int *s=((vtkUnsignedIntArray *)data)->GetPointer(0);
+  WriteDataArray(fp, s, this->FileType, "%d ", num, numComp);
+  }
+  break;
 
-    case VTK_LONG:
-      {
-      sprintf (str, format, "long"); *fp << str; 
-      long *s=((vtkLongArray *)data)->GetPointer(0);
-      WriteDataArray(fp, s, this->FileType, "%d ", num, numComp);
-      }
-    break;
+  case VTK_LONG:
+  {
+  sprintf (str, format, "long"); *fp << str; 
+  long *s=((vtkLongArray *)data)->GetPointer(0);
+  WriteDataArray(fp, s, this->FileType, "%d ", num, numComp);
+  }
+  break;
 
-    case VTK_UNSIGNED_LONG:
-      {
-      sprintf (str, format, "unsigned_long"); *fp << str; 
-      unsigned long *s=((vtkUnsignedLongArray *)data)->GetPointer(0);
-      WriteDataArray(fp, s, this->FileType, "%d ", num, numComp);
-      }
-    break;
+  case VTK_UNSIGNED_LONG:
+  {
+  sprintf (str, format, "unsigned_long"); *fp << str; 
+  unsigned long *s=((vtkUnsignedLongArray *)data)->GetPointer(0);
+  WriteDataArray(fp, s, this->FileType, "%d ", num, numComp);
+  }
+  break;
 
-    case VTK_FLOAT:
-      {
-      sprintf (str, format, "float"); *fp << str; 
-      float *s=((vtkFloatArray *)data)->GetPointer(0);
-      WriteDataArray(fp, s, this->FileType, "%g ", num, numComp);
-      }
-    break;
+  case VTK_FLOAT:
+  {
+  sprintf (str, format, "float"); *fp << str; 
+  float *s=((vtkFloatArray *)data)->GetPointer(0);
+  WriteDataArray(fp, s, this->FileType, "%g ", num, numComp);
+  }
+  break;
 
-    case VTK_DOUBLE:
-      {
-      sprintf (str, format, "double"); *fp << str; 
-      double *s=((vtkDoubleArray *)data)->GetPointer(0);
-      WriteDataArray(fp, s, this->FileType, "%g ", num, numComp);
-      }
-    break;
+  case VTK_DOUBLE:
+  {
+  sprintf (str, format, "double"); *fp << str; 
+  double *s=((vtkDoubleArray *)data)->GetPointer(0);
+  WriteDataArray(fp, s, this->FileType, "%g ", num, numComp);
+  }
+  break;
 
-    default:
-      {
-      vtkErrorMacro(<<"Type currently not supported");
-      return 0;
-      }
-    }
+  default:
+  {
+  vtkErrorMacro(<<"Type currently not supported");
+  return 0;
+  }
+  }
 */
 
   return true;
 }
 
+
+/**
+ *
+ */
 template <class T>
 static void WriteDataArray(std::ostream *fp, T *data, int fileType, char *format, int num, int numComp)
 {
@@ -294,45 +307,49 @@ static void WriteDataArray(std::ostream *fp, T *data, int fileType, char *format
   sizeT = sizeof(T);
 
   if ( fileType == VTK_ASCII )
-    {
-    for (j=0; j<num; j++)
-      {
-      for (i=0; i<numComp; i++)
-	{
-	idx = i + j*numComp;
-	sprintf (str, format, *data++); *fp << str; 
-	if ( !((idx+1)%9) )
-	  {
-	  *fp << "\n";
-	  }
-	}
-      }
-    }
+  {
+  for (j=0; j<num; j++)
+  {
+  for (i=0; i<numComp; i++)
+  {
+  idx = i + j*numComp;
+  sprintf (str, format, *data++); *fp << str; 
+  if ( !((idx+1)%9) )
+  {
+  *fp << "\n";
+  }
+  }
+  }
+  }
   else
-    {
-    // need to byteswap ??
-    switch (sizeT)
-      {
-      case 2:
-	// typecast doesn't have to be valid here
-	vtkByteSwap::SwapWrite2BERange((short *)data,num*numComp, fp);
-	break;
-      case 4:
-	// typecast doesn't have to be valid here
-	vtkByteSwap::SwapWrite4BERange((float *)data,num*numComp, fp);
-	break;
-      default:
-	fp->write((char *)data, ( sizeof(T))*( num*numComp));
+  {
+  // need to byteswap ??
+  switch (sizeT)
+  {
+  case 2:
+  // typecast doesn't have to be valid here
+  vtkByteSwap::SwapWrite2BERange((short *)data,num*numComp, fp);
+  break;
+  case 4:
+  // typecast doesn't have to be valid here
+  vtkByteSwap::SwapWrite4BERange((float *)data,num*numComp, fp);
+  break;
+  default:
+  fp->write((char *)data, ( sizeof(T))*( num*numComp));
 
-      }
-    }
+  }
+  }
   *fp << "\n";
   */
 }
 
+
+/**
+ *
+ */
 template <class TInputImage>
 void
-itkWriteVTKImage<TInputImage>
+WriteVTKImage<TInputImage>
 ::CloseVTKFile(std::ostream *fp)
 {
   itkDebugMacro(<<"Closing VTK file");
@@ -344,3 +361,4 @@ itkWriteVTKImage<TInputImage>
     }
 }
 
+} // namespace itk

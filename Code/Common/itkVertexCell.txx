@@ -55,7 +55,7 @@ VertexCell< TPixelType , TCellType >
 
 
 /**
- * Standard itkCell API:
+ * Standard CellInterface API:
  * Set the cell's internal point list to the list of identifiers provided.
  */
 template <typename TPixelType, typename TCellType>
@@ -69,7 +69,7 @@ VertexCell< TPixelType , TCellType >
 
 
 /**
- * Standard itkCell API:
+ * Standard CellInterface API:
  * Use this to set all the points in the cell.  It is assumed that the
  * range [first, last) is exactly the size needed for this cell type.
  * The position *last is NOT referenced, so it can safely be one beyond
@@ -149,16 +149,5 @@ VertexCell< TPixelType , TCellType >
   return m_PointIds[0];
 }
 
-
-/**
- * Object factory for the boundary version of this cell type.
- */
-template <typename TPixelType, typename TCellType>
-VertexBoundary< TPixelType , TCellType >::Pointer
-VertexBoundary< TPixelType , TCellType >
-::New(void)
-{
-  return new Self;
-}
 
 } // namespace itk

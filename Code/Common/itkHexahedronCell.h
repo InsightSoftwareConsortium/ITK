@@ -47,8 +47,8 @@ public:
   /**
    * Smart pointer typedef support.
    */
-  typedef HexahedronCell         Self;
-  typedef itkSmartPointer<Self>  Pointer;
+  typedef HexahedronCell      Self;
+  typedef SmartPointer<Self>  Pointer;
 
   /**
    * Save some template parameter information.
@@ -146,10 +146,13 @@ class HexahedronBoundary:
   public CellBoundary< HexahedronCell< TPixelType , TCellType > >
 {
 public:
-  typedef HexahedronBoundary     Self;
-  typedef itkSmartPointer<Self>  Pointer;
+  typedef HexahedronBoundary  Self;
+  typedef SmartPointer<Self>  Pointer;
   
-  static Pointer New(void);
+  /**
+   * Method for creation through the object factory.
+   */
+  itkNewMacro(Self);
   
   itkTypeMacro(HexahedronBoundary, CellBoundary);
 };

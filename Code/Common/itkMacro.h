@@ -34,8 +34,11 @@
 /**
  * Error codes for exceptions
  */
-const int itkBoundsError=10;
-const int itkInvalidDimension=11;
+namespace itk
+{
+  const int BoundsError=10;
+  const int InvalidDimension=11;
+} // namespace itk
 
 
 /**
@@ -137,7 +140,7 @@ const int itkInvalidDimension=11;
 
 
 /**
- * Set pointer to object; uses itkObject reference counting methodology.
+ * Set pointer to object; uses Object reference counting methodology.
  * Creates method Set"name"() (e.g., SetPoints()).
  */
 #define itkSetObjectMacro(name,type) \
@@ -387,11 +390,15 @@ virtual type *Get##name () const \
 
 /**
  * Use a global function which actually calls:
- * itkOutputWindow::GetInstance()->DisplayText();
- * This is to avoid itkObject #include of itkOutputWindow
- * while itkOutputWindow #includes itkObject
+ * OutputWindow::GetInstance()->DisplayText();
+ * This is to avoid Object #include of OutputWindow
+ * while OutputWindow #includes Object
  */
-extern ITK_EXPORT void itkOutputWindowDisplayText(const char*);
+namespace itk
+{
+extern ITK_EXPORT void OutputWindowDisplayText(const char*);
+} // namespace itk
+
 
 /**
  * This macro is used to print debug (or other information). They are
@@ -402,13 +409,13 @@ extern ITK_EXPORT void itkOutputWindowDisplayText(const char*);
 #define itkDebugMacro(x)
 #else
 #define itkDebugMacro(x) \
-{ if (this->GetDebug() && itkObject::GetGlobalWarningDisplay()) \
+{ if (this->GetDebug() && Object::GetGlobalWarningDisplay()) \
     { char *itkmsgbuff; std::ostrstream itkmsg; \
       itkmsg << "Debug: In " __FILE__ ", line " << __LINE__ << "\n" \
              << this->GetClassName() << " (" << this << "): " x  \
              << "\n\n" << std::ends; \
       itkmsgbuff = itkmsg.str(); \
-      itkOutputWindowDisplayText(itkmsgbuff); \
+      OutputWindowDisplayText(itkmsgbuff); \
       itkmsg.rdbuf()->freeze(0);} \
 }
 #endif
@@ -425,7 +432,7 @@ extern ITK_EXPORT void itkOutputWindowDisplayText(const char*);
 #define itkNewMacro(x) \
 static Pointer New(void) \
 { \
-  x *ret = itkObjectFactory<x>::Create(); \
+  x *ret = ObjectFactory<x>::Create(); \
   if(ret != NULL) \
     { \
     return ret; \

@@ -14,7 +14,7 @@
 
 =========================================================================*/
 /**
- * itkReadVTKImage reads VTK-formatted data files. This class requires
+ * ReadVTKImage reads VTK-formatted data files. This class requires
  * that the VTK dataset type is STRUCTURED_POINTS, and only the scalar
  * point data is read (1-4 components).
  */
@@ -23,24 +23,28 @@
 
 #include "itkImageSource.h"
 
+namespace itk
+{
+
 template <class TOutputImage>
-class ITK_EXPORT itkReadVTKImage : public itkImageSource<TOutputImage>
+class ITK_EXPORT ReadVTKImage : public ImageSource<TOutputImage>
 {
 public:
   /** 
    * Smart pointer typedef support.
    */
-  typedef itkSmartPointer< itkReadVTKImage<TOutputImage> > Pointer;
+  typedef ReadVTKImage        Self;
+  typedef SmartPointer<Self>  Pointer;
 
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(itkReadVTKImage,itkImageSource);
+  itkTypeMacro(ReadVTKImage,ImageSource);
 
-  /** 
-   * Create the source with one output initially.
+  /**
+   * Method for creation through the object factory.
    */
-  static Pointer New();
+  itkNewMacro(Self);  
 
   /** 
    * Specify the name of the input file.
@@ -53,11 +57,11 @@ public:
   itkGetStringMacro(FileName);
   
 protected:
-  itkReadVTKImage();
-  ~itkReadVTKImage() {};
-  itkReadVTKImage(const itkReadVTKImage&) {};
-  void operator=(const itkReadVTKImage&) {};
-  void PrintSelf(std::ostream& os, itkIndent indent);
+  ReadVTKImage();
+  ~ReadVTKImage() {};
+  ReadVTKImage(const Self&) {}
+  void operator=(const Self&) {}
+  void PrintSelf(std::ostream& os, Indent indent);
   
   void Execute();
 
@@ -65,6 +69,8 @@ private:
   std::string m_FileName;
 
 };
+
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkReadVTKImage.txx"

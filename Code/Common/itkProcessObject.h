@@ -14,21 +14,21 @@
 
 =========================================================================*/
 /**
- * itkProcessObject is the base class for all process objects (source,
+ * ProcessObject is the base class for all process objects (source,
  * filters, mappers) in the Insight data processing pipeline.
- * itkProcessObject is an abstract object that specifies behavior and
+ * ProcessObject is an abstract object that specifies behavior and
  * interface of visualization network process objects (sources, filters,
  * mappers). Source objects are creators of visualization data; filters
  * input, process, and output visualization data; and mappers transform data
  * into another form (like rendering primitives or write data to a file).
  *
- * A major role of itkProcessObject is to define the inputs and outputs
+ * A major role of ProcessObject is to define the inputs and outputs
  * of a filter. More than one input and/or output may exist for a given
  * filter. Some classes (e.g., source objects or mapper objects) will
  * not use inputs (the source) or outputs (mappers). In this case, the
  * inputs or outputs is just ignored.
  *
- * itkProcessObject provides a mechanism for invoking the methods
+ * ProcessObject provides a mechanism for invoking the methods
  * StartMethod() and EndMethod() before and after object execution (via
  * Execute()). These are convenience methods you can use for any purpose
  * (e.g., debugging info, highlighting/notifying user interface, etc.) These
@@ -42,7 +42,7 @@
  * StartMethod() and EndMethod(). Filters may also check their AbortExecute
  * flag to determine whether to prematurally end their execution.
  *
- * An important feature of subclasses of itkProcessObject is that it is
+ * An important feature of subclasses of ProcessObject is that it is
  * possible to control the memory-management model (i.e., retain output
  * versus delete output data). If enabled the ReleaseDataFlag enables the
  * deletion of the output data once the downstream process object finishes
@@ -54,20 +54,23 @@
 
 #include "itkObject.h"
 
-class itkDataObject;
+namespace itk
+{
 
-class ITK_EXPORT itkProcessObject : public itkObject
+class DataObject;
+
+class ITK_EXPORT ProcessObject : public Object
 {
 public:
   /** 
    * Smart pointer typedef support. 
    */
-  typedef itkSmartPointer<itkProcessObject> Pointer;
+  typedef SmartPointer<ProcessObject> Pointer;
 
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(itkProcessObject,itkObject);
+  itkTypeMacro(ProcessObject,Object);
 
   /** 
    * Instantiate object with no start, end, or progress methods. 
@@ -79,7 +82,7 @@ public:
    * This is useful for tracing back in the pipeline to construct
    * graphs etc. 
    */
-  itkDataObject **GetInputs() 
+  DataObject **GetInputs() 
     {return m_Inputs;};
   int GetNumberOfInputs() const
     {return m_NumberOfInputs;}
@@ -89,7 +92,7 @@ public:
    * This is useful for tracing back in the pipeline to contruct
    * graphs etc. 
    */
-  itkDataObject **GetOutputs();
+  DataObject **GetOutputs();
   int GetNumberOfOutputs() const
     {return m_NumberOfOutputs;}
     
@@ -168,7 +171,7 @@ public:
   /** 
    * Send the update extent down the pipeline 
    */
-  virtual void PropagateUpdateExtent(itkDataObject *output);
+  virtual void PropagateUpdateExtent(DataObject *output);
 
   /** 
    * Start any asynchronous processing, if any. 
@@ -178,7 +181,7 @@ public:
   /** 
    * Actually generate new output 
    */
-  virtual void UpdateData(itkDataObject *output);
+  virtual void UpdateData(DataObject *output);
 
   /** 
    * Propagate the computation of the size of the pipeline. The first
@@ -188,7 +191,7 @@ public:
    * maximum pipeline size encountered so far during this propagation.
    * All sizes are in kilobytes. 
    */
-  void ComputeEstimatedPipelineMemorySize( itkDataObject *output,
+  void ComputeEstimatedPipelineMemorySize( DataObject *output,
 					   unsigned long size[3] );
 
   /** 
@@ -198,7 +201,7 @@ public:
    * is given to help this filter in the estimation.
    * All sizes are in kilobytes.
    */
-  virtual void ComputeEstimatedOutputMemorySize( itkDataObject *output,
+  virtual void ComputeEstimatedOutputMemorySize( DataObject *output,
 						 unsigned long *inputSize,
 						 unsigned long size[2] );
 
@@ -209,14 +212,14 @@ public:
    * whole slices (whole extent in two dimensions). By default we do not
    * modify the output update extent. 
    */
-  virtual void EnlargeOutputUpdateExtents(itkDataObject *itkNotUsed(output)){};
+  virtual void EnlargeOutputUpdateExtents(DataObject *itkNotUsed(output)){};
   
   /** 
    * What is the input update extent that is required to produce the
    * desired output? By default, the whole input is always required but
    * this is overridden in many subclasses. 
    */
-  virtual void ComputeInputUpdateExtents( itkDataObject *output );
+  virtual void ComputeInputUpdateExtents( DataObject *output );
 
   /** 
    * Turn on/off flag to control whether this object's data is released
@@ -235,26 +238,26 @@ public:
   /** 
    * Test to see if this object is in a reference counting loop. 
    */
-  virtual int InRegisterLoop(itkObject *) const {return 0;}
+  virtual int InRegisterLoop(Object *) const {return 0;}
 
 protected:
-  itkProcessObject();
-  ~itkProcessObject();
-  itkProcessObject(const itkProcessObject&) {};
-  void operator=(const itkProcessObject&) {};
-  void PrintSelf(std::ostream& os, itkIndent indent);
+  ProcessObject();
+  ~ProcessObject();
+  ProcessObject(const ProcessObject&) {};
+  void operator=(const ProcessObject&) {};
+  void PrintSelf(std::ostream& os, Indent indent);
   
   // protected methods for setting inputs.
-  virtual void SetNthInput(unsigned int num, itkDataObject *input);
-  virtual void AddInput(itkDataObject *input);
-  virtual void RemoveInput(itkDataObject *input);
+  virtual void SetNthInput(unsigned int num, DataObject *input);
+  virtual void AddInput(DataObject *input);
+  virtual void RemoveInput(DataObject *input);
   itkSetMacro(NumberOfRequiredInputs,unsigned int);
   itkGetMacro(NumberOfRequiredInputs,unsigned int);
 
   // protected methods for setting outputs.
-  virtual void SetNthOutput(unsigned int num, itkDataObject *output);
-  virtual void AddOutput(itkDataObject *output);
-  virtual void RemoveOutput(itkDataObject *output);
+  virtual void SetNthOutput(unsigned int num, DataObject *output);
+  virtual void AddOutput(DataObject *output);
+  virtual void RemoveOutput(DataObject *output);
   itkSetMacro(NumberOfRequiredOutputs,unsigned int);
   itkGetMacro(NumberOfRequiredOutputs,unsigned int);
 
@@ -265,13 +268,13 @@ protected:
   void SetNumberOfInputs(unsigned int num);
 
   // method used internally for getting an input.
-  itkDataObject *GetInput(unsigned int idx);
+  DataObject *GetInput(unsigned int idx);
 
   // Called to allocate the output array.  Copies old outputs.
   void SetNumberOfOutputs(unsigned int num);
 
   // method used internally for getting an output.
-  itkDataObject *GetOutput(unsigned int idx);
+  DataObject *GetOutput(unsigned int idx);
 
   // By default, UpdateInformation calls this method to copy information
   // unmodified from the input to the output.
@@ -290,24 +293,26 @@ protected:
 
 private:
 
-  itkDataObject **m_Inputs;     // An Array of the inputs to the filter
+  DataObject **m_Inputs;     // An Array of the inputs to the filter
   unsigned int m_NumberOfInputs;
   unsigned int m_NumberOfRequiredInputs;
 
-  itkDataObject **m_Outputs;   // An Array of the outputs to the filter
+  DataObject **m_Outputs;   // An Array of the outputs to the filter
   unsigned int m_NumberOfOutputs;
   unsigned int m_NumberOfRequiredOutputs;
 
   bool m_Updating; // This flag indicates when the pipeline is executing
 
   // Time when ExecuteInformation was last called.
-  itkTimeStamp m_InformationTime;
+  TimeStamp m_InformationTime;
 
   // These support the progress method and aborting filter execution
   bool  m_AbortExecute;
   float m_Progress;
 
 };
+
+} // namespace itk
 
 #endif
 

@@ -25,18 +25,32 @@
 #define __itkVersion_h
 
 #include "itkObject.h"
+#include "itkObjectFactory.h"
 
 #define ITK_VERSION "0.0.1"
 #define ITK_MAJOR_VERSION 0
 #define ITK_MINOR_VERSION 0
 #define ITK_BUILD_VERSION 2
-#define ITK_SOURCE_VERSION "itk version " ITK_VERSION ", itk source $Revision: 1.1 $, $Date: 2000-04-10 15:20:09 $ (GMT)"
+#define ITK_SOURCE_VERSION "itk version " ITK_VERSION ", itk source $Revision: 1.2 $, $Date: 2000-06-28 10:03:21 $ (GMT)"
 
-class ITK_EXPORT itkVersion : public itkObject 
+namespace itk
+{
+
+class ITK_EXPORT Version : public Object 
 {
 public:
-  static itkVersion *New();
-  itkTypeMacro(itkVersion,itkObject);
+  typedef Version             Self;
+  typedef SmartPointer<Self>  Pointer;
+
+  /**
+   * Method for creation through the object factory.
+   */
+  itkNewMacro(Self);  
+
+  /**
+   * Standard part of every itk Object.
+   */
+  itkTypeMacro(Version,Object);
 
   /**
    * Return the version of itk this object is a part of.
@@ -50,11 +64,17 @@ public:
   static const char *GetITKSourceVersion() { return ITK_SOURCE_VERSION; };
   
 protected:
-  itkVersion() {}; //insure constructor/destructor protected
-  ~itkVersion() {};
-  itkVersion(const itkVersion&) {};
-  void operator=(const itkVersion&) {};
+  /**
+   * insure constructor/destructor protected
+   */
+  Version() {}
+  ~Version() {}
+  Version(const Self&) {}
+  void operator=(const Self&) {}
 
 };
+
+  
+} // namespace itk
 
 #endif 

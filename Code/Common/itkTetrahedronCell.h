@@ -47,8 +47,8 @@ public:
   /**
    * Smart pointer typedef support.
    */
-  typedef TetrahedronCell        Self;
-  typedef itkSmartPointer<Self>  Pointer;
+  typedef TetrahedronCell     Self;
+  typedef SmartPointer<Self>  Pointer;
 
   /**
    * Save some template parameter information.
@@ -120,7 +120,7 @@ public:
   virtual Face::Pointer GetCellFace(CellFeatureIdentifier);  
 
   /**
-   * Standard part of itkObject class.  Used for debugging output.
+   * Standard part of Object class.  Used for debugging output.
    */
   itkTypeMacro(TetrahedronCell, CellInterface);
 
@@ -146,10 +146,13 @@ class TetrahedronBoundary:
   public CellBoundary< TetrahedronCell< TPixelType , TCellType > >
 {
 public:
-  typedef TetrahedronBoundary     Self;
-  typedef itkSmartPointer<Self>   Pointer;
+  typedef TetrahedronBoundary  Self;
+  typedef SmartPointer<Self>   Pointer;
   
-  static Pointer New(void);
+  /**
+   * Method for creation through the object factory.
+   */
+  itkNewMacro(Self);
   
   itkTypeMacro(TetrahedronBoundary, CellBoundary);
 };

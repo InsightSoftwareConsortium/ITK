@@ -47,8 +47,8 @@ public:
   /**
    * Smart pointer typedef support.
    */
-  typedef TriangleCell           Self;
-  typedef itkSmartPointer<Self>  Pointer;
+  typedef TriangleCell        Self;
+  typedef SmartPointer<Self>  Pointer;
   
   /**
    * Save some template parameter information.
@@ -111,7 +111,7 @@ public:
   virtual Edge::Pointer GetCellEdge(CellFeatureIdentifier);
 
   /**
-   * Standard part of itkObject class.  Used for debugging output.
+   * Standard part of Object class.  Used for debugging output.
    */
   itkTypeMacro(TriangleCell, CellInterface);
   
@@ -136,10 +136,13 @@ class TriangleBoundary:
   public CellBoundary< TriangleCell< TPixelType , TCellType > >
 {
 public:
-  typedef TriangleBoundary       Self;
-  typedef itkSmartPointer<Self>  Pointer;
+  typedef TriangleBoundary    Self;
+  typedef SmartPointer<Self>  Pointer;
   
-  static Pointer New(void);
+  /**
+   * Method for creation through the object factory.
+   */
+  itkNewMacro(Self);
   
   itkTypeMacro(TriangleBoundary, CellBoundary);
 };
