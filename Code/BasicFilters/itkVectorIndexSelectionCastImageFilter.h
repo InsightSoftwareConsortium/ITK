@@ -42,7 +42,7 @@ template< class TInput, class TOutput>
 class VectorIndexSelectionCast
 {
 public:
-  VectorIndexSelectionCast() {}
+  VectorIndexSelectionCast() {m_Index = 0;}
   ~VectorIndexSelectionCast() {}
 
   unsigned int GetIndex() const { return m_Index; }
