@@ -3,7 +3,7 @@
 #define __itkStatDensityEstimate_txx
 
 #include "itkStatDensityEstimate.h"
-#include <iostream.h>
+#include <iostream>
 
 namespace itk{
 
