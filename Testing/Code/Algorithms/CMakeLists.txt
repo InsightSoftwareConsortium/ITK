@@ -407,7 +407,12 @@ IF(ITK_CSWIG_TCL)
            ${ITK_SOURCE_DIR}/Examples/Segmentation/VoronoiSegmentation.tcl
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1Slice.png
            ${ITK_SOURCE_DIR}/Examples/Data/VentricleModel.png
-           ${ITK_TEST_OUTPUT_DIR}/VoronoiSegmentationPython.png  0.3 0.3 )
+           ${ITK_TEST_OUTPUT_DIR}/VoronoiSegmentationTcl.png  0.3 0.3 )
+
+  ADD_TEST(VoronoiSegmentationPython ${ITKWISH_EXECUTABLE}
+           ${ITK_SOURCE_DIR}/Examples/Segmentation/WatershedSegmentation1.tcl
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+           ${ITK_TEST_OUTPUT_DIR}/WatershedSegmentation1Tcl.mhd )
 
 ENDIF(ITK_CSWIG_TCL)
 
@@ -442,5 +447,65 @@ IF(ITK_CSWIG_PYTHON)
            ${ITK_SOURCE_DIR}/Examples/Data/VentricleModel.png
            ${ITK_TEST_OUTPUT_DIR}/VoronoiSegmentationPython.png  0.3 0.3 )
 
+  ADD_TEST(WatershedSegmentation1Python ${PYTHON_EXECUTABLE}
+           ${ITK_SOURCE_DIR}/Examples/Segmentation/WatershedSegmentation1.py
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+           ${ITK_TEST_OUTPUT_DIR}/WatershedSegmentation1Python.mhd )
+
 ENDIF(ITK_CSWIG_PYTHON)
+
+
+IF(ITK_CSWIG_JAVA AND ITK_SOURCE_DIR)
+  SET(JAVACLASSPATH ${ITK_BINARY_DIR}/Wrapping/CSwig/Java/InsightToolkit.jar)
+  FOREACH(cfgtype ${CMAKE_CONFIGURATION_TYPES})
+    SET(JAVACLASSPATH "${JAVACLASSPATH}\\;${ITK_BINARY_DIR}/Wrapping/CSwig/Java/${cfgtype}/InsightToolkit.jar")
+  ENDFOREACH(cfgtype)
+
+  FOREACH( javatestfile 
+     VoronoiSegmentation
+     WatershedSegmentation1
+     )
+
+  ADD_CUSTOM_TARGET(${javatestfile}Java ALL  DEPENDS ${ITK_BINARY_DIR}/Examples/Segmentation/${javatestfile}.class)
+
+  ADD_CUSTOM_COMMAND(
+    OUTPUT  ${ITK_BINARY_DIR}/Examples/Segmentation/${javatestfile}.class
+    DEPENDS ${ITK_SOURCE_DIR}/Examples/Segmentation/${javatestfile}.java
+    COMMAND ${JAVA_COMPILE}
+    ARGS -classpath "${JAVACLASSPATH}" -d "${ITK_BINARY_DIR}/Examples/Segmentation"
+    ${ITK_SOURCE_DIR}/Examples/Segmentation/${javatestfile}.java
+    COMMENT "Java Class")
+
+  ENDFOREACH( javatestfile )
+
+  IF(WIN32)
+    SET(TMPJAVACLASSPATH ${ITK_BINARY_DIR}/Examples/Segmentation/)
+    FOREACH(javadirectory ${JAVACLASSPATH})
+      # Set path separator for Windows
+      SET(TMPJAVACLASSPATH "${TMPJAVACLASSPATH}\\;${javadirectory}")
+    ENDFOREACH(javadirectory)
+    SET(JAVACLASSPATH ${TMPJAVACLASSPATH})
+  ELSE(WIN32)
+    SET(TMPJAVACLASSPATH ${ITK_BINARY_DIR}/Examples/Segmentation/)
+    FOREACH(javadirectory ${JAVACLASSPATH})
+      # Set path separator for UNIX
+      SET(TMPJAVACLASSPATH "${TMPJAVACLASSPATH}:${javadirectory}")
+    ENDFOREACH(javadirectory)
+    SET(JAVACLASSPATH ${TMPJAVACLASSPATH})
+  ENDIF(WIN32)
+ 
+  ADD_TEST(VoronoiSegmentationJava ${JAVA_RUNTIME} -classpath "${JAVACLASSPATH}"
+           VoronoiSegmentation
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainT1Slice.png
+           ${ITK_SOURCE_DIR}/Examples/Data/VentricleModel.png
+           ${ITK_TEST_OUTPUT_DIR}/VoronoiSegmentationJava.png  0.3 0.3 )
+
+  ADD_TEST(WatershedSegmentation1Java ${JAVA_RUNTIME} -classpath "${JAVACLASSPATH}"
+           WatershedSegmentation1
+           ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+           ${ITK_TEST_OUTPUT_DIR}/WatershedSegmentation1Java.mhd  )
+
+
+ENDIF(ITK_CSWIG_JAVA AND ITK_SOURCE_DIR)
+
 
