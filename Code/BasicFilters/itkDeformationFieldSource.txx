@@ -62,6 +62,8 @@ DeformationFieldSource<TOutputImage>
   os << indent << "OutputSpacing:   " << m_OutputSpacing << std::endl;
   os << indent << "OutputOrigin:    " << m_OutputOrigin << std::endl;
   os << indent << "KernelTransform: " << m_KernelTransform.GetPointer() << std::endl;
+  os << indent << "Source Landmarks: " << m_SourceLandmarks.GetPointer() << std::endl;
+  os << indent << "Target Landmarks: " << m_TargetLandmarks.GetPointer() << std::endl;
 
   return;
 }
