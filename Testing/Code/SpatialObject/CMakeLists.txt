@@ -6,7 +6,7 @@ INCLUDE_DIRECTORIES(
 
 LINK_LIBRARIES(
   ITKCommon
-  ITKSpatialObject
+#  ITKSpatialObject
   VXLNumerics
 )
 
