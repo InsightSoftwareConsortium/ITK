@@ -63,7 +63,6 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
     return; // No need to update
   }
 
-
   m_InternalImageTime = m_Image->GetMTime();
   m_InternalSpatialObjectTime = m_SpatialObject->GetMTime();
 
@@ -88,6 +87,8 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
   it.SetOriginInclusionStrategy();
   it.GoToBegin();
 
+  std::cout << "Adding Samples" << std::endl;
+
   typedef typename ImageType::PixelType PixelType;
   typedef itk::Statistics::ListSample< VectorType > SampleType;
   SampleType::Pointer sample = SampleType::New();
@@ -106,6 +107,8 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
     ++it;
   }
 
+  std::cout << "Computing Mean" << std::endl;
+
   typedef itk::Statistics::MeanCalculator< SampleType >
     MeanAlgorithmType ;
   
@@ -114,10 +117,9 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
   meanAlgorithm->SetInputSample( sample ) ;
   meanAlgorithm->Update() ;
 
-  for(unsigned int i=0;i<itkGetStaticConstMacro(SampleDimension);i++)
-  {
-    m_Mean[i] = (*(meanAlgorithm->GetOutput()))[i];
-  }
+  m_Mean = *(meanAlgorithm->GetOutput());
+
+  std::cout << "Computing Covariance" << std::endl;
 
   typedef itk::Statistics::CovarianceCalculator< SampleType >
     CovarianceAlgorithmType ;
@@ -130,6 +132,8 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
   covarianceAlgorithm->Update();
   
   m_CovarianceMatrix = *(covarianceAlgorithm->GetOutput());
+
+  std::cout << "Update done in filter." << std::endl;
 }
 
 template<class TInputImage,class TInputSpatialObject, unsigned int TSampleDimension>
