@@ -30,6 +30,15 @@ DistanceMetric< TVector >
   m_Origin = x ;
 }
 
+template< class TVector >
+void 
+DistanceMetric< TVector >
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+  os << indent << "Origin: " << m_Origin << std::endl;
+  
+}
 } // end of namespace Statistics 
 } // end of namespace itk
 

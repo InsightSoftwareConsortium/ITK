@@ -59,7 +59,7 @@ public:
    * version Evaluate() function. This function is necessary part of
    * implementing MembershipFunctionBase's Evaluate() interface */ 
   void SetOrigin(const OriginType& x) ;
-  itkGetMacro(Origin, OriginType) ;
+  itkGetConstMacro(Origin, OriginType) ;
 
   /** Gets the distance between the origin point and x. This function
    * work with SetOrigin() function*/
@@ -69,6 +69,8 @@ public:
   virtual double Evaluate(const TVector &x1, const TVector &x2) const = 0 ;
   
 protected:
+  void PrintSelf(std::ostream& os, Indent indent) const;
+
   OriginType m_Origin ;
 } ; // end of class
 

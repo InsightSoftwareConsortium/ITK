@@ -102,8 +102,8 @@ protected:
   
   virtual void GenerateData() {}
 
-  itkGetMacro(Epsilon,float);
-  itkGetMacro(LogEpsilon,float);
+  itkGetConstMacro(Epsilon,float);
+  itkGetConstMacro(LogEpsilon,float);
 
 private:
   float m_Epsilon ;
