@@ -250,6 +250,8 @@ private:
   watershed::SegmentTreeGenerator<ScalarType>::Pointer m_TreeGenerator;
   watershed::Relabeler<ScalarType, ImageDimension>::Pointer m_Relabeler;
 
+  unsigned long m_ObserverTag;
+  bool m_FirstExecution;
 };
 
 /** A specialized Command object for updating the progress of a

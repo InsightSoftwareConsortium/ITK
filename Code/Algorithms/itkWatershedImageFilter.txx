@@ -79,7 +79,7 @@ WatershedImageFilter<TInputImage>
   
 template< class TInputImage >
 WatershedImageFilter<TInputImage>
-::WatershedImageFilter() :  m_Threshold(0.0), m_Level(0.0)
+::WatershedImageFilter() :  m_Threshold(0.0), m_Level(0.0), m_FirstExecution(true)
 {
   // Set up the mini-pipeline for the first execution.
   m_Segmenter    = watershed::Segmenter<InputImageType>::New();
@@ -97,6 +97,15 @@ WatershedImageFilter<TInputImage>
   m_Relabeler->SetInputSegmentTree( m_TreeGenerator->GetOutputSegmentTree() );
   m_Relabeler->SetInputImage( m_Segmenter->GetOutputImage() );
   m_Relabeler->SetFloodLevel( this->GetLevel() );
+
+  WatershedMiniPipelineProgressCommand::Pointer c =
+    WatershedMiniPipelineProgressCommand::New();
+  c->SetFilter(this);
+  c->SetNumberOfFilters(3);
+
+  m_Segmenter->AddObserver(ProgressEvent(), c);
+  m_ObserverTag = m_TreeGenerator->AddObserver(ProgressEvent(), c);
+  m_Relabeler->AddObserver(ProgressEvent(), c);
 }
   
 template< class TInputImage >
@@ -104,20 +113,31 @@ void
 WatershedImageFilter<TInputImage>
 ::GenerateData()
 {
-  WatershedMiniPipelineProgressCommand::Pointer c =
-    WatershedMiniPipelineProgressCommand::New();
-  c->SetFilter(this);
-  c->SetNumberOfFilters(3.0);
-
-  m_Segmenter->AddObserver(ProgressEvent(), c);
-  m_TreeGenerator->AddObserver(ProgressEvent(), c);
-  m_Relabeler->AddObserver(ProgressEvent(), c);
-  
   // Allocate the output image.
   OutputImageType::Pointer output = this->GetOutput();
   output->SetBufferedRegion(output->GetRequestedRegion());
   output->Allocate();
 
+  // Fiddle with the update command to accomodate filters that will and will
+  // not execute.  This logic is not guaranteed to cover all update cases.
+  if (m_FirstExecution == false)
+    {      
+      unsigned long filtercount = 0;
+      WatershedMiniPipelineProgressCommand::Pointer c =
+        dynamic_cast<WatershedMiniPipelineProgressCommand *>(
+                      m_TreeGenerator->GetCommand(m_ObserverTag) ); 
+      c->SetCount(0.0);
+      
+      if (m_Segmenter->GetMTime() > this->GetMTime() )
+        { filtercount++; }
+      if (m_TreeGenerator->GetMTime() > this->GetMTime() )
+        { filtercount++; }
+      if (m_Relabeler->GetMTime() > this->GetMTime() )
+        { filtercount++; }
+      c->SetNumberOfFilters(filtercount);
+    }
+  else m_FirstExecution = false;
+  
   // Complete any necessary set up of the mini-pipeline.  We have to be careful 
   // not to cause time stamps to be updated unneccessarily.  Specifically, we
   // don't want the SegmentTreeGenerator to execute unless it is really
