@@ -59,6 +59,7 @@ SOURCE_FILES(FEM_SRCS
 
 
   itkFEMSolver.cxx
+  itkFEMLinearSystemWrapper.cxx
   itkFEMLinearSystemWrapperVNL.cxx
   itkFEMItpackLinearSystemWrapper.cxx
   itkFEMItpackSparseMatrix.cxx
