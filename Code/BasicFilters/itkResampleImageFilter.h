@@ -43,6 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkResampleImageFilter_h
 #define __itkResampleImageFilter_h
 
+#include "itkTransformation.h"
 #include "itkAffineTransform.h"
 #include "itkImageFunction.h"
 #include "itkImageRegionIterator.h"
@@ -106,14 +107,12 @@ public:
   /**
    * Transform typedef
    *
-   * FIXME: Generalize this to any sort of coordinate transformation.
    * FIXME: Check that input and output images have the same number of 
    * dimensions; this is required by the current implementation of 
    * AffineTransform.
    */
   typedef TTransform TransformType;
-  typedef AffineTransform<double, TInputImage::ImageDimension> 
-      *TransformPointerType;
+  typedef TransformType *TransformPointerType;
 
   /**
    * Interpolator typedef
@@ -124,7 +123,7 @@ public:
   /**
    * Image size typedef
    */
-  typedef Size<TOutputImage::ImageDimension>  SizeType;
+  typedef Size<NDimensions> SizeType;
 
   /**
    * Image index typedef
@@ -180,7 +179,17 @@ public:
   void SetSize(SizeType &size) {
     m_Size = size;
   }
-      
+     
+  /**
+   * Set the pixel value when a transformed pixel is outside of the image
+   */
+  itkSetMacro(DefaultPixelValue,PixelType);
+
+  /**
+   * Get the pixel value when a transformed pixel is outside of the image
+   */
+  itkGetMacro(DefaultPixelValue,PixelType);
+
   /**
    * ResampleImageFilter produces an image which is a different size than
    * its input.  As such, it needs to provide an implementation for
@@ -225,9 +234,12 @@ protected:
 private:
 
   SizeType m_Size;                      // Size of the output image
-  TransformPointerType m_Transform;     // Coordinate transform to use
+  TransformPointerType    m_Transform;  // Coordinate transform to use
   InterpolatorPointerType m_Interpolator;
                                         // Image function for interpolation
+  PixelType               m_DefaultPixelValue; 
+                                        // default pixel value if the point 
+                                        // is outside the image
 };
 
   
