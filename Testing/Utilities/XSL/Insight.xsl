@@ -3,6 +3,7 @@
 
   <xsl:param name="DashboardDate" select="string('')"/>
 
+  <xsl:variable name="DarkRed">#ff0000</xsl:variable>
   <xsl:variable name="Red">#ffcc66</xsl:variable>
   <xsl:variable name="Green">#00ff7f</xsl:variable>
   <xsl:variable name="Yellow">#ffff99</xsl:variable>
@@ -74,7 +75,7 @@
                   &lt;td align="center">
                     &lt;a href="</xsl:text>
     <xsl:value-of select="$DashboardDir"/>
-    <xsl:text disable-output-escaping="yes">/TestOverview.html">&lt;img alt="Test Overview" src="</xsl:text>
+    <xsl:text disable-output-escaping="yes">/TestOverviewByCount.html">&lt;img alt="Test Overview" src="</xsl:text>
     <xsl:value-of select="$IconDir"/>/<xsl:value-of select="$TestsIcon"/><xsl:text disable-output-escaping="yes">" border="0">&lt;/img>&lt;/a>
                   &lt;/td>
                 &lt;/tr>

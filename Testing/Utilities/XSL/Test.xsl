@@ -30,15 +30,9 @@
     </p>
     <br/>
     <h3>
-      <a href="#Passed">
-        <xsl:value-of select="count(Site/Testing/Test[@Status='passed'])"/>
-      </a> passed, 
-      <a href="#Failed">
-        <xsl:value-of select="count(Site/Testing/Test[@Status='failed'])"/>
-      </a> failed,
-      <a href="#NotRun">
-        <xsl:value-of select="count(Site/Testing/Test[@Status='notrun'])"/>
-      </a> not run
+      <xsl:value-of select="count(Site/Testing/Test[@Status='passed'])"/> passed, 
+      <xsl:value-of select="count(Site/Testing/Test[@Status='failed'])"/> failed,
+      <xsl:value-of select="count(Site/Testing/Test[@Status='notrun'])"/> not run
     </h3>
     <br/>
     <table cellspacing="0">
