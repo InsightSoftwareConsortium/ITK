@@ -128,20 +128,18 @@ GetJacobian( const PointType & p ) const
   
   for(unsigned int block=0; block < SpaceDimension; block++) 
   {
-    ScalarType diagonalValue = p[block];
-
-    for(unsigned int dim=0; dim < SpaceDimension; dim ) 
+    for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
     {
-       m_Jacobian[ blockOffset + dim ][ dim ] = diagonalValue;
+       m_Jacobian[ block ][ blockOffset + dim ] = p[dim];
     }
 
     blockOffset += SpaceDimension;
 
   }
 
-  for(unsigned int dim=0; dim < SpaceDimension; dim ) 
+  for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
   {
-     m_Jacobian[ blockOffset + dim ][ dim ] = 1.0;
+     m_Jacobian[ dim ][ blockOffset + dim ] = 1.0;
   }
 
   return m_Jacobian;
