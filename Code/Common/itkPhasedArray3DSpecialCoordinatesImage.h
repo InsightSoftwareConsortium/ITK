@@ -87,11 +87,9 @@ class ITK_EXPORT PhasedArray3DSpecialCoordinatesImage :
 public SpecialCoordinatesImage<TPixel,3>
 {
 public:
-  itkStaticConstMacro(VImageDimension, unsigned int, 3);
-  
   /** Standard class typedefs */
   typedef PhasedArray3DSpecialCoordinatesImage            Self;
-  typedef SpecialCoordinatesImage<TPixel,VImageDimension> Superclass;
+  typedef SpecialCoordinatesImage<TPixel,3> Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
@@ -122,7 +120,7 @@ public:
    * templated over image type (as opposed to being templated over pixel type
    * and dimension) when they need compile time access to the dimension of
    * the image. */
-  itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
+  itkStaticConstMacro(ImageDimension, unsigned int, 3);
 
   /** Container used to store pixels in the image. */
   typedef ImportImageContainer<unsigned long, PixelType> PixelContainer;
@@ -159,8 +157,8 @@ public:
    * \sa Transform */
   template<class TCoordRep>
   bool TransformPhysicalPointToContinuousIndex(
-              const Point<TCoordRep, VImageDimension>& point,
-              ContinuousIndex<TCoordRep, VImageDimension>& index   ) const
+              const Point<TCoordRep, 3>& point,
+              ContinuousIndex<TCoordRep, 3>& index   ) const
     {
     RegionType region = this->GetLargestPossibleRegion();
     double maxAzimuth =    region.GetSize(0) - 1;
@@ -193,7 +191,7 @@ public:
    * \sa Transform */
   template<class TCoordRep>
   bool TransformPhysicalPointToIndex(
-            const Point<TCoordRep, VImageDimension>& point,
+            const Point<TCoordRep, 3>& point,
             IndexType & index                                ) const
     {
     typedef typename IndexType::IndexValueType IndexValueType;
@@ -229,8 +227,8 @@ public:
    * \sa Transform */
   template<class TCoordRep>
   void TransformContinuousIndexToPhysicalPoint(
-            const ContinuousIndex<TCoordRep, VImageDimension>& index,
-            Point<TCoordRep, VImageDimension>& point        ) const
+            const ContinuousIndex<TCoordRep, 3>& index,
+            Point<TCoordRep, 3>& point        ) const
     {
     RegionType region = this->GetLargestPossibleRegion();
     double maxAzimuth =    region.GetSize(0) - 1;
@@ -260,7 +258,7 @@ public:
   template<class TCoordRep>
   void TransformIndexToPhysicalPoint(
                       const IndexType & index,
-                      Point<TCoordRep, VImageDimension>& point ) const
+                      Point<TCoordRep, 3>& point ) const
     {
     RegionType region = this->GetLargestPossibleRegion();
     double maxAzimuth =    region.GetSize(0) - 1;
