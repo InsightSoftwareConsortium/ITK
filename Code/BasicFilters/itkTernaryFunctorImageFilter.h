@@ -103,6 +103,10 @@ protected:
   TernaryFunctorImageFilter();
   virtual ~TernaryFunctorImageFilter() {};
 
+  /** Validate the presence of all three inputs. If one or more inputs
+   * are missing, throw an exception. */
+  void BeforeThreadedGenerateData();
+
   /** TernaryFunctorImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData() routine
    * which is called for each processing thread. The output image data is

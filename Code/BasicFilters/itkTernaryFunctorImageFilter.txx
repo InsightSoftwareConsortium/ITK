@@ -80,6 +80,30 @@ TernaryFunctorImageFilter<TInputImage1,TInputImage2,TInputImage3,TOutputImage,TF
 
 
 /**
+ * BeforeThreadedGenerateData function. Validate inputs
+ */
+template <class TInputImage1, class TInputImage2, 
+          class TInputImage3, class TOutputImage, class TFunction  >
+void
+TernaryFunctorImageFilter<TInputImage1,TInputImage2,TInputImage3,TOutputImage,TFunction>
+::BeforeThreadedGenerateData()
+{
+  Input1ImagePointer inputPtr1
+    = dynamic_cast<const TInputImage1*>((ProcessObject::GetInput(0)));
+  Input2ImagePointer inputPtr2
+    = dynamic_cast<const TInputImage2*>((ProcessObject::GetInput(1)));
+  Input3ImagePointer inputPtr3
+    = dynamic_cast<const TInputImage3*>((ProcessObject::GetInput(2)));
+  if (inputPtr1 == 0 || inputPtr2 == 0 || inputPtr3 == 0)
+    {
+    itkExceptionMacro(<< "At least one input is missing."
+    << " Input1 is " << inputPtr1.GetPointer() << ", "
+    << " Input2 is " << inputPtr2.GetPointer() << ", "
+    << " Input3 is " << inputPtr3.GetPointer());
+    }
+}
+
+/**
  * ThreadedGenerateData function. Performs the pixel-wise addition
  */
 template <class TInputImage1, class TInputImage2, 
