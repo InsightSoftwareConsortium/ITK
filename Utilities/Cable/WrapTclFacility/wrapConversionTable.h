@@ -179,34 +179,20 @@ struct ObjectReinterpret
     }
 };
 
+
 /**
  * A bug in GCC 2.95.3 prevents static_cast from adding a const like this:
  * void* v; const int* i = static_cast<const int*>(v);
  * However, we can't use a const_cast to add it because it is not allowed
  * when we aren't really adding a const.  This class creates an inline
  * function to add a const_cast if T is a const type.
- *
- * A simple "is_const" class uses partial specialization.  Therefore,
- * we use this ultra-hack version.
- * The sizeof(check) hack is adapted from the boost type_traits library in
- * cb_type_traits.h.
  */
 namespace CastHack
 {
-  typedef char (&no)[1];
-  typedef char (&yes)[2];
-  struct Checker { static no check(void*); static yes check(const void*); };
-  template <size_t> struct void_caster;
-  template <> struct void_caster<sizeof(no)> { inline static void* Cast(void* v) { return v; } };
-  template <> struct void_caster<sizeof(yes)> { inline static const void* Cast(void* v) { return const_cast<const void*>(v); } };
-  template <typename T>
-  class GetCaster
-  {
-    static T t;
-    enum { result = sizeof(Checker::check(&t)) };
-  public:
-    typedef void_caster<result> Caster;
-  };
+  template <typename> struct Caster { inline static void* Cast(void* v) { return v; } };
+#ifdef _wrap_CONST_CAST_HACK
+  template <typename T> struct Caster<const T> { inline static const void* Cast(void* v) { return const_cast<const void*>(v); } };
+#endif
 } // namespace CastHack
 
 
@@ -223,7 +209,7 @@ struct PointerIdentity
     // This should be
     // return static_cast<To*>(in.object);
     // but GCC doesn't like static_cast to add a const qualifier.
-    return static_cast<To*>(CastHack::GetCaster<To>::Caster::Cast(in.object));
+    return static_cast<To*>(CastHack::Caster<To>::Cast(in.object));
     }
   inline static ConversionFunction GetConversionFunction()
     {
@@ -262,7 +248,7 @@ struct ReferenceIdentity
     // This should be
     // return *static_cast<To*>(in.object);
     // but GCC doesn't like static_cast to add a const qualifier.
-    return *static_cast<To*>(CastHack::GetCaster<To>::Caster::Cast(in.object));
+    return *static_cast<To*>(CastHack::Caster<To>::Cast(in.object));
     }
   inline static ConversionFunction GetConversionFunction()
     {

@@ -49,6 +49,11 @@
 #define _wrap_NO_WCHAR_T
 #endif
 
+// GCC won't let static_cast add a const qualifier.
+#ifdef __GNUC__
+#define _wrap_CONST_CAST_HACK
+#endif
+
 // Include Tcl headers.
 #include <tcl.h>
 
