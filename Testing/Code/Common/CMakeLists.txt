@@ -19,5 +19,6 @@ itkMeshTest \
 itkMeshInstanceTest \
 itkPixelAccessTest \
 itkExtractMeshConnectedRegionsTest \
-itkMutualInformationTest
-
+itkMutualInformationTest \
+itkFastMarchingTest \
+itkLevelSetShapeDetectionTest
