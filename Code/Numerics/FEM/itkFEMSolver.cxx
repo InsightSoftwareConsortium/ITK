@@ -377,7 +377,7 @@ void Solver::AssembleK()
   {
     vnl_matrix<Float> Ke=(*e)->Ke();             /* Copy the element stiffness matrix for faster access. */
     int Ne=(*e)->GetNumberOfDegreesOfFreedom();  /* ... same for element DOF */
-    
+
     /* step over all rows in element matrix */
     for(int j=0; j<Ne; j++)
     {
