@@ -176,6 +176,7 @@ VotingBinaryImageFilter<TInputImage, TOutput>
   os << indent << "Radius: " << m_Radius << std::endl;
   os << indent << "Foreground value : " << m_ForegroundValue << std::endl;
   os << indent << "Background value : " << m_BackgroundValue << std::endl;
+  os << indent << "Born Threshold   : " << m_BornThreshold << std::endl;
 
 }
 
