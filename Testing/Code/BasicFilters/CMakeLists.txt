@@ -158,6 +158,8 @@ ADD_TEST(itkShiftScaleInPlaceImageFilterTest ${BASIC_FILTERS_TESTS} itkShiftScal
 ADD_TEST(itkShrinkImageTest ${BASIC_FILTERS_TESTS} itkShrinkImageTest)
 ADD_TEST(itkSigmoidImageFilterTest ${BASIC_FILTERS_TESTS} itkSigmoidImageFilterTest)
 ADD_TEST(itkSimilarityIndexImageFilterTest ${BASIC_FILTERS_TESTS} itkSimilarityIndexImageFilterTest)
+ADD_TEST(itkSimplexMeshToTriangleMeshFilterTest ${BASIC_FILTERS_TESTS} itkSimplexMeshToTriangleMeshFilterTest)
+#ADD_TEST(itkSimplexMeshAdaptTopologyFilterTest ${BASIC_FILTERS_TESTS} itkSimplexMeshAdaptTopologyFilterTest)
 ADD_TEST(itkSinImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkSinImageFilterAndAdaptorTest)
 ADD_TEST(itkSobelEdgeDetectionImageFilterTest ${BASIC_FILTERS_TESTS} itkSobelEdgeDetectionImageFilterTest)
 ADD_TEST(itkSmoothingRecursiveGaussianImageFilterTest ${BASIC_FILTERS_TESTS} itkSmoothingRecursiveGaussianImageFilterTest)
@@ -179,6 +181,8 @@ ADD_TEST(itkTernaryMagnitudeImageFilterTest ${BASIC_FILTERS_TESTS} itkTernaryMag
 ADD_TEST(itkThresholdImageFilterTest ${BASIC_FILTERS_TESTS} itkThresholdImageFilterTest)
 ADD_TEST(itkThresholdLabelerImageFilterTest ${BASIC_FILTERS_TESTS} itkThresholdLabelerImageFilterTest)
 ADD_TEST(itkTransformMeshFilterTest ${BASIC_FILTERS_TESTS} itkTransformMeshFilterTest)
+ADD_TEST(itkTriangleMeshToSimplexMeshFilterTest ${BASIC_FILTERS_TESTS} itkTriangleMeshToSimplexMeshFilterTest)
+
 ADD_TEST(itkTwoOutputExampleImageFilterTest ${BASIC_FILTERS_TESTS} itkTwoOutputExampleImageFilterTest)
 ADD_TEST(itkVectorAnisotropicDiffusionImageFilterTest ${BASIC_FILTERS_TESTS} itkVectorAnisotropicDiffusionImageFilterTest)
 ADD_TEST(itkVectorExpandImageFilterTest ${BASIC_FILTERS_TESTS} itkVectorExpandImageFilterTest)
@@ -596,6 +600,8 @@ itkShiftScaleInPlaceImageFilterTest.cxx
 itkShrinkImageTest.cxx
 itkSigmoidImageFilterTest.cxx
 itkSimilarityIndexImageFilterTest.cxx
+itkSimplexMeshToTriangleMeshFilterTest.cxx
+#itkSimplexMeshAdaptTopologyFilterTest.cxx
 itkSinImageFilterAndAdaptorTest.cxx
 itkSobelEdgeDetectionImageFilterTest.cxx
 itkSmoothingRecursiveGaussianImageFilterTest.cxx
@@ -618,6 +624,7 @@ itkThresholdImageFilterTest.cxx
 itkThresholdLabelerImageFilterTest.cxx
 itkTobogganImageFilterTest.cxx
 itkTransformMeshFilterTest.cxx
+itkTriangleMeshToSimplexMeshFilterTest.cxx
 itkTwoOutputExampleImageFilterTest.cxx
 itkVectorAnisotropicDiffusionImageFilterTest.cxx
 itkVectorExpandImageFilterTest.cxx

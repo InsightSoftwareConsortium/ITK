@@ -164,6 +164,8 @@ void RegisterTests()
   REGISTER_TEST(itkRescaleIntensityImageFilterTest );
   REGISTER_TEST(itkShiftScaleImageFilterTest );
   REGISTER_TEST(itkShiftScaleInPlaceImageFilterTest );
+  REGISTER_TEST(itkSimplexMeshToTriangleMeshFilterTest);
+//  REGISTER_TEST(itkSimplexMeshAdaptTopologyFilterTest);
   REGISTER_TEST(itkShrinkImageTest );
   REGISTER_TEST(itkSigmoidImageFilterTest );
   REGISTER_TEST(itkSimilarityIndexImageFilterTest );
@@ -190,6 +192,7 @@ void RegisterTests()
   REGISTER_TEST(itkThresholdLabelerImageFilterTest );
   REGISTER_TEST(itkTobogganImageFilterTest );
   REGISTER_TEST(itkTransformMeshFilterTest );
+  REGISTER_TEST(itkTriangleMeshToSimplexMeshFilterTest);
   REGISTER_TEST(itkTwoOutputExampleImageFilterTest );
   REGISTER_TEST(itkVectorAnisotropicDiffusionImageFilterTest );
   REGISTER_TEST(itkVectorExpandImageFilterTest );
