@@ -94,7 +94,7 @@ SupervisedClassifier<TInputImage, TClassifiedImage>
     trainingImageSize = m_TrainingImage->GetBufferedRegion().GetSize();
 
   // Check if the training and input image dimensions are same
-  if( TInputImage::ImageDimension != TClassifiedImage::ImageDimension)
+  if( (int)(TInputImage::ImageDimension) != (int)(TClassifiedImage::ImageDimension) )
   {
     throw ExceptionObject();
   }
