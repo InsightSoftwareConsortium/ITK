@@ -91,11 +91,11 @@ public:
   /** Template comparison operators. */
   template <typename R>
   bool operator == ( R r ) const
-    { return (m_Pointer == static_cast<ObjectType*>(r) ); }
+    { return (m_Pointer == (ObjectType*)(r) ); }
 
   template <typename R>
   bool operator != ( R r ) const
-    { return (m_Pointer != static_cast<ObjectType*>(r) ); }
+    { return (m_Pointer != (ObjectType*)(r) ); }
     
   /** Access function to pointer. */
   ObjectType *GetPointer () const 
