@@ -1,6 +1,6 @@
 PROJECT(ITK)
 
-SUBDIRS(Code Testing)
+SUBDIRS(Code Testing Examples)
 
 INCLUDE_DIRECTORIES(
 ${CMAKE_BINARY_DIR} 

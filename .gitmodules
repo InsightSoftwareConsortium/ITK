@@ -1,3 +1,6 @@
 [submodule "Unsupported"]
 	path = Unsupported
 	url = git://itk.org/ITKApps.git
+[submodule "Examples"]
+	path = Examples
+	url = git://itk.org/ITKApps.git
