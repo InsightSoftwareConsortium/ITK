@@ -207,6 +207,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkScaleTransform.txx"
 #include "itkSegmentationBorder.h"
 #include "itkSegmentationRegion.h"
+#include "itkSimilarity2DTransform.txx"
 #include "itkSimpleFastMutexLock.h"
 #include "itkSimpleImageRegionConstIterator.txx"
 #include "itkSimpleImageRegionIterator.txx"
