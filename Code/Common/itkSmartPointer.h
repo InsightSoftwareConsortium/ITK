@@ -44,7 +44,7 @@ public:
    */
   SmartPointer () 
     {
-      m_Pointer = 0;
+    m_Pointer = 0;
     }
 
   /** 
@@ -52,8 +52,8 @@ public:
    */
   SmartPointer (const SmartPointer<T> &p)
     { 
-      m_Pointer = p.m_Pointer; 
-      this->Register(); 
+    m_Pointer = p.m_Pointer; 
+    this->Register(); 
     }
   
   /** 
@@ -61,8 +61,8 @@ public:
    */
   SmartPointer (T *p)
     { 
-      m_Pointer = p; 
-      this->Register(); 
+    m_Pointer = p; 
+    this->Register(); 
     }                             
   
   /** 
@@ -70,7 +70,7 @@ public:
    */
   ~SmartPointer ()
     {
-      this->UnRegister();
+    this->UnRegister();
     }
   
   /** 
@@ -78,7 +78,7 @@ public:
    */
   T *operator -> () const
     { 
-      return m_Pointer; 
+    return m_Pointer; 
     }
 
   /** 
@@ -86,8 +86,8 @@ public:
     */
   operator T * () const 
     { 
-      return m_Pointer; 
-     }
+    return m_Pointer; 
+    }
   
   /*
     * Template comparison operators.
@@ -95,12 +95,12 @@ public:
   template <typename R>
   bool operator == (R r) const
     {
-      return (m_Pointer == (T*)r);
+    return (m_Pointer == (T*)r);
     }
   template <typename R>
   bool operator != (R r) const
     {
-      return (m_Pointer != (T*)r);
+    return (m_Pointer != (T*)r);
     }
 
   /** 
@@ -108,7 +108,7 @@ public:
    */
   T *GetPointer () const 
     { 
-      return m_Pointer; 
+    return m_Pointer; 
     }
   
   /** 
@@ -116,7 +116,7 @@ public:
    */
   bool operator < (const SmartPointer &r)
     { 
-      return (void*)m_Pointer < (void*) r.m_Pointer; 
+    return (void*)m_Pointer < (void*) r.m_Pointer; 
     }
 
   /** 
@@ -124,7 +124,7 @@ public:
    */
   bool operator > (const SmartPointer &r)
     { 
-      return (void*)m_Pointer > (void*) r.m_Pointer; 
+    return (void*)m_Pointer > (void*) r.m_Pointer; 
     }
 
   /** 
@@ -132,7 +132,7 @@ public:
    */
   bool operator <= (const SmartPointer &r)
     { 
-      return (void*)m_Pointer <= (void*) r.m_Pointer; 
+    return (void*)m_Pointer <= (void*) r.m_Pointer; 
     }
 
   /** 
@@ -140,7 +140,7 @@ public:
    */
   bool operator >= (const SmartPointer &r)
     { 
-      return (void*)m_Pointer >= (void*) r.m_Pointer; 
+    return (void*)m_Pointer >= (void*) r.m_Pointer; 
     }
 
   /** 
@@ -148,7 +148,7 @@ public:
    */
   SmartPointer &operator = (const SmartPointer &r)
     { 
-      return this->operator = (r.GetPointer()); 
+    return this->operator = (r.GetPointer()); 
     }
   
   /** 
@@ -156,13 +156,13 @@ public:
    */
   SmartPointer &operator = (T *r)
     {                                                              
-      if (m_Pointer != r)
-        {
-        this->UnRegister();
-        m_Pointer = r;
-        this->Register();
-        }
-      return *this;
+    if (m_Pointer != r)
+      {
+      this->UnRegister();
+      m_Pointer = r;
+      this->Register();
+      }
+    return *this;
     }
   
   /** 
@@ -170,9 +170,9 @@ public:
    */
   T *Print (std::ostream& os) const 
     { 
-      // This prints the object pointed to by the pointer  
-      (*m_Pointer).Print(os);  
-      return m_Pointer;
+    // This prints the object pointed to by the pointer  
+    (*m_Pointer).Print(os);  
+    return m_Pointer;
     } 
 
 private:
@@ -181,26 +181,26 @@ private:
 
   void Register()
     { 
-      if (m_Pointer)
-        {
-        m_Pointer->Register();
-        }
+    if (m_Pointer)
+      {
+      m_Pointer->Register();
+      }
     }
   
   void UnRegister()
     {
-      if (m_Pointer)
-        {
-        m_Pointer->UnRegister();
-        }
+    if (m_Pointer)
+      {
+      m_Pointer->UnRegister();
+      }
     }
 };
   
   template <typename T>
   std::ostream& operator<< (std::ostream& os, SmartPointer<T> p) 
   {
-    p.Print(os); 
-    return os;
+  p.Print(os); 
+  return os;
   }
 } // end namespace itk
   

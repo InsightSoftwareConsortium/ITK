@@ -104,7 +104,9 @@ DataObject
 }
 
 //----------------------------------------------------------------------------
-
+// Note: this method specifically does not do a Register(). This is
+// to break the reference counting loop between process and data objects.
+//
 void 
 DataObject
 ::SetSource(ProcessObject *arg)
@@ -114,18 +116,10 @@ DataObject
 
   if (m_Source != arg) 
     {
-    ProcessObject *tmp = m_Source;
+    ProcessObject::Pointer tmp = m_Source;
     m_Source = arg; 
-    if (m_Source != 0) 
-      { 
-      m_Source->Register(); 
-      } 
-    if (tmp != 0) 
-      { 
-      tmp->UnRegister(); 
-      }
     this->Modified(); 
-    } 
+    }
 }
 
 //----------------------------------------------------------------------------
@@ -139,24 +133,6 @@ DataObject
   return this->m_Source;
 }
 
-
-//----------------------------------------------------------------------------
-void 
-DataObject
-::UnRegister()
-{
-  // detect the circular loop source <-> data
-  // If we have two references and one of them is my data
-  // and I am not being unregistered by my data, break the loop.
-  int refCount = this->GetReferenceCount();
-  if (refCount == 2 && m_Source != 0 &&
-      m_Source->InRegisterLoop(this))
-    {
-    this->SetSource(0);
-    }
-  
-  this->Object::UnRegister();
-}
 
 //----------------------------------------------------------------------------
 void 
@@ -314,6 +290,23 @@ DataObject
 ::GetActualMemorySize()
 {
   return 0;
+}
+
+//----------------------------------------------------------------------------
+// This object is reference counted by the source, and it in turn refers
+// back to the source. That gives a new reference count of 0.
+int 
+DataObject
+::GetNetReferenceCount() const
+{
+  if ( m_Source )
+    {
+    return this->GetReferenceCount() - 1;
+    }
+  else
+    {
+    return this->GetReferenceCount();
+    }
 }
 
 } // end namespace itk

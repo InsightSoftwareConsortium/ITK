@@ -257,16 +257,6 @@ public:
   void ReleaseDataFlagOn() {SetReleaseDataFlag(true);}
   void ReleaseDataFlagOff() {SetReleaseDataFlag(false);}
 
-  /** 
-   * Handle the source/data loop. 
-   */
-  void UnRegister() {};
-  
-  /** 
-   * Test to see if this object is in a reference counting loop. 
-   */
-  virtual int InRegisterLoop(Object *) const {return 0;}
-
   /**
    * Get/Set the number of threads to create when executing.
    */
@@ -279,6 +269,21 @@ public:
   MultiThreader::Pointer GetMultiThreader()
     {return m_Threader;}
   
+  /** 
+   * Handle the process object/data object reference-counting loop. 
+   */
+  virtual void UnRegister();
+
+  /** 
+   * Get the net reference count. This is the number of
+   * external references to the DatObject/SourceObject pair.
+   * (An external reference is a reference via a smart pointer.)
+   * This is used to break reference-counting loops. (If the
+   * number of external references is 0, then the 
+   * DataObject/SourceObject objects can be deleted.)
+   */
+  virtual int GetNetReferenceCount() const;
+
 protected:
   ProcessObject();
   ~ProcessObject();

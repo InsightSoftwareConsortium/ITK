@@ -162,9 +162,7 @@ namespace itk
                   << "): setting " << #name " to " << _arg ); \
     if (this->m_##name != _arg) \
       { \
-      if (this->m_##name) { this->m_##name->UnRegister(this); }\
       this->m_##name = _arg; \
-      if (this->m_##name) { this->m_##name->Register(this); } \
       this->Modified(); \
       } \
   } 
@@ -175,13 +173,12 @@ namespace itk
  * Get"name"() (e.g., GetPoints()).
  */
 #define itkGetObjectMacro(name,type) \
-  virtual type::Pointer *Get##name () \
+  virtual type::Pointer Get##name () \
   { \
     itkDebugMacro(<< this->GetClassName() << " (" << this \
                   << "): returning " #name " address " << this->m_##name ); \
     return this->m_##name; \
   } 
-
 
 /**
  * Create members "name"On() and "name"Off() (e.g., DebugOn() DebugOff()).

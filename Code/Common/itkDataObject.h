@@ -124,7 +124,8 @@ public:
    * Provides opportunity for the data object to insure internal 
    * consistency before access. Also causes owning source/filter 
    * (if any) to update itself. The Update() method is composed of 
-   * UpdateOutputInformation(), PropagateRequestedRegion(), and UpdateOutputData().
+   * UpdateOutputInformation(), PropagateRequestedRegion(), and 
+   * UpdateOutputData().
    */
   virtual void Update();
 
@@ -156,17 +157,19 @@ public:
   virtual bool VerifyRequestedRegion() = 0;
 
   /** 
-   * Handle the source/data loop. 
+   * Handle the process object/data object reference-counting loop. 
    */
-  void UnRegister();
+//  virtual void UnRegister();
 
   /** 
-   * Get the net reference count. That is the count minus
-   * any self created loops. This is used in the Source/Data
-   * registration to properly free the objects. 
+   * Get the net reference count. This is the number of
+   * external references to the DatObject/SourceObject pair.
+   * (An external reference is a reference via a smart pointer.)
+   * This is used to break reference-counting loops. (If the
+   * number of external references is 0, then the 
+   * DataObject/SourceObject objects can be deleted.)
    */
-  virtual int GetNetReferenceCount() const
-    {return this->GetReferenceCount();}
+  virtual int GetNetReferenceCount() const;
 
 protected:
   DataObject();
@@ -183,7 +186,7 @@ protected:
   bool m_RequestedRegionInitialized;  
 
 private:
-  ProcessObject *m_Source; ///Who generated this data as output?
+  SmartPointer<ProcessObject> m_Source; ///Who generated this data as output?
 
   TimeStamp m_UpdateTime;  ///When was this data last generated?
 

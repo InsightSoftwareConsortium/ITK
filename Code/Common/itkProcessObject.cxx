@@ -42,13 +42,19 @@ ProcessObject
 
 
 /**
- * Destructor for the ProcessObject class
+ * Destructor for the ProcessObject class. We've got to
+ * UnRegister() the use of any input classes.
  */
 ProcessObject
 ::~ProcessObject()
 {
-  m_Threader->Delete();
-  m_Threader = 0;
+  for (int idx = 0; idx < m_Inputs.size(); ++idx)
+    {
+    if ( m_Inputs[idx] )
+      {
+      m_Inputs[idx]->UnRegister();
+      }
+    }
 }
 
 typedef DataObject *DataObjectPointer;
@@ -133,7 +139,10 @@ ProcessObject
 
 
 /**
- * Set an Input of this filter. 
+ * Set an Input of this filter. This method 
+ * does Register()/UnRegister() manually to
+ * deal with the fact that smart pointers aren't
+ * around to do the reference counting.
  */
 void 
 ProcessObject
@@ -151,7 +160,18 @@ ProcessObject
     this->SetNumberOfInputs(idx + 1);
     }
   
+  if ( m_Inputs[idx] )
+    {
+    m_Inputs[idx]->UnRegister();
+    }
+  
   m_Inputs[idx] = input;
+
+  if ( m_Inputs[idx] )
+    {
+    m_Inputs[idx]->Register();
+    }
+  
   this->Modified();
 }
 
@@ -188,9 +208,9 @@ ProcessObject
 
 
 /**
- * Set an Output of this filter. 
- * tricky because we have to manage the double pointers and keep
- * them consistent.
+ * Set an output of this filter. This method specifically
+ * does not do a Register()/UnRegister() because of the 
+ * desire to break the reference counting loop.
  */
 void 
 ProcessObject
@@ -207,25 +227,18 @@ ProcessObject
     {
     this->SetNumberOfOutputs(idx + 1);
     }
-  if(m_Outputs[idx])
+
+  if ( m_Outputs[idx] )
     {
     m_Outputs[idx]->SetSource(0);
     }
+
   if (output)
     {
-//    ProcessObject::Pointer newOutputOldSource = output->GetSource();
-    SmartPointer<ProcessObject> newOutputOldSource = output->GetSource();
-
-    /**
-     * disconnect second existing source-output relationship
-     */
-    if (newOutputOldSource)
-      {
-      newOutputOldSource->RemoveOutput(output);
-      }
     output->SetSource(this);
     m_Outputs[idx] = output;
     }
+
   this->Modified();
 }
 
@@ -908,5 +921,57 @@ ProcessObject
     this->GetOutput(0)->Update();
     }
 }
+
+//----------------------------------------------------------------------------
+int 
+ProcessObject
+::GetNetReferenceCount() const
+{
+  int refCount=this->GetReferenceCount();
+  
+  for (int idx = 0; idx < m_Outputs.size(); ++idx)
+    {
+    if ( m_Outputs[idx] )
+      {
+      //subtract one because we are referencing it
+      refCount += m_Outputs[idx]->GetNetReferenceCount() - 1;
+      }
+    }
+  return refCount;
+}
+
+//----------------------------------------------------------------------------
+void 
+ProcessObject
+::UnRegister()
+{
+  int wasDeletedByOutput=0;
+  int refCount = this->GetNetReferenceCount();
+
+  // We are decrementing the count by 1. So if the net
+  // reference count (combined process/data object count)
+  // is <= 1, then we are going to be destroyed.
+  if ( refCount <= 1 ) 
+    {
+    for (int idx = 0; idx < m_Outputs.size(); ++idx)
+      {
+      if ( m_Outputs[idx] )
+        {
+        ProcessObject *ptr=m_Outputs[idx]->GetSource().GetPointer();
+        if ( m_Outputs[idx]->GetSource().GetPointer() == this )
+          {
+          wasDeletedByOutput = 1;
+          }
+        m_Outputs[idx]->SetSource(0);
+        }
+      }//for all outputs
+    }//if deleting
+
+  if ( !wasDeletedByOutput )
+    {
+    Superclass::UnRegister();
+    }
+}
+
 
 } // end namespace itk
