@@ -1,6 +1,7 @@
 #include <vcl_cstdio.h>
 #include <vnl/vnl_math.h> // vnl_math_abs()
 #include <testlib/testlib_test.h>
+#include <vnl/vnl_sample.h>
 
 extern "C"
 int sggsvd_(char const *jobu, char const *jobv, char const *jobq, int *m, int *n, int *p,
@@ -11,6 +12,9 @@ int sggsvd_(char const *jobu, char const *jobv, char const *jobq, int *m, int *n
 
 static
 void test_qsvd() {
+
+  vnl_sample_reseed(0x1234abcd);
+
   float AA[9]={2.f/3, -1.36f/3, .2f/3,   2.8f/3, .4f/3, 1.f/3,   1, .16f, -.2f};
   float BB[9]={.16f, -.224f, -.768f,  .8f, .36f, -.48f,  1.12f, -.168f, -.576f};
   float U[9], V[9], Q[9], Alpha[3], Beta[3], Work[12];
