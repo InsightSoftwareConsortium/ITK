@@ -126,6 +126,8 @@ OutputWindow
       OutputWindow::m_Instance = Win32OutputWindow::New();
 #else
       OutputWindow::m_Instance = new OutputWindow;
+      // Remove extra reference from construction.
+      OutputWindow::m_Instance->UnRegister();
 #endif
       }
     }
