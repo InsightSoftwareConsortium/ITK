@@ -40,8 +40,8 @@ SOURCE_FILES(FEM_SRCS
   itkFEMLoadEdge.cxx
   itkFEMLoadPoint.cxx
   itkFEMLoadImagePairBase.txx
-#  itkFEMLoadMeanSquares.txx
-  
+  itkFEMLoadImageMetric.txx
+ 
   itkFEMLoadImplementationsRegister.cxx
   itkFEMLoadImplementationGrav_Bar2D.cxx
   itkFEMLoadImplementationGrav_Beam2D.cxx
@@ -107,8 +107,8 @@ SOURCE_FILES(FEM_SRCS
   itkFEMLoadEdge.h
   itkFEMLoadPoint.h
   itkFEMLoadImagePairBase.h
-#  itkFEMLoadMeanSquares.h
- 
+  itkFEMLoadImageMetric.h
+
   itkFEMSolver.h
 
   itkFEMSolution.h
