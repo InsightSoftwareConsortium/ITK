@@ -17,6 +17,7 @@
 
 
 #include "itkImageFileReader.h" 
+#include "itkImageFileWriter.h" 
 #include "itkRawImageIO.h"
 
 //#include "itkImageFileWriter.h"
@@ -25,13 +26,29 @@
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkHistogramMatchingImageFilter.h"
 
+
+
+//  Software Guide : BeginLatex
+//
+// The first step in implementing a FEM-Based registration method is to include
+// the following header files. 
+//
+//  Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
 #include "itkFEM.h"
 #include "itkFEMRegistrationFilter.h"
+// Software Guide : EndCodeSnippet
 
 
-// Below, we have typedefs that instantiate all necessary classes.
-// Here, we instantiate the image type, load type and 
-// explicitly template the load implementation type.
+
+//  Software Guide : BeginLatex
+//
+//  Below, we have typedefs that instantiate all necessary classes.
+//  Here, we instantiate the image type, load type and 
+//  explicitly template the load implementation type.
+//
+//  Software Guide : EndLatex 
 
 #define TWOD
 //#define THREED
