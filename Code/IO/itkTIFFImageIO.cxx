@@ -204,7 +204,6 @@ void TIFFImageIO::ReadGenericImage( void *out,
   unsigned int isize = TIFFScanlineSize(m_InternalImage->Image);
   unsigned int cc;
   int row, inc;
-  int xx=0, yy=0;
   tdata_t buf = _TIFFmalloc(isize);
   unsigned char *image = (unsigned char *)out;
 
@@ -225,10 +224,7 @@ void TIFFImageIO::ReadGenericImage( void *out,
                                        cc );      
           
           image += inc;
-        xx++;
         }
-      xx=0;
-      yy++;
       }
     }
   else 
@@ -317,7 +313,7 @@ int TIFFImageIO::EvaluateImageAt( void* out, void* in )
 {
   unsigned char *image = (unsigned char *)out;
   unsigned char *source = (unsigned char *)in;
-  int increment = 0;
+  int increment;
   unsigned short red, green, blue, alpha;
   switch ( this->GetFormat() )
     {
@@ -510,10 +506,8 @@ void TIFFImageIO::Read(void* buffer)
 
   if ( !m_InternalImage->CanRead() )
     {
-    uint32 *tempImage 
-      = static_cast<uint32*>( buffer );
-    
-      tempImage = new uint32[ width * height ];
+    uint32 *tempImage ;
+    tempImage = new uint32[ width * height ];
 
     if ( !TIFFReadRGBAImage(m_InternalImage->Image, 
                             width, height, 
@@ -528,7 +522,6 @@ void TIFFImageIO::Read(void* buffer)
       return;
       }
     int xx, yy;
-    unsigned char *simage = (unsigned char *)tempImage;
     uint32* ssimage = tempImage;
     unsigned char *fimage = (unsigned char *)buffer;
     for ( yy = 0; yy < height; yy ++ )
@@ -546,7 +539,6 @@ void TIFFImageIO::Read(void* buffer)
         *(fimage+3) = alpha;
         fimage += 4;
 
-        simage += 4;
         ssimage ++;
         }
       }
@@ -801,7 +793,7 @@ void TIFFImageIO::WriteSlice(std::string& fileName, const void* buffer)
       itkExceptionMacro(<<"TIFF supports unsigned char and unsigned short");
     }
 
-  int predictor = 0;
+  int predictor;
 
   std::ofstream* file;
 
@@ -854,7 +846,7 @@ void TIFFImageIO::WriteSlice(std::string& fileName, const void* buffer)
     delete [] sample_info;
     }
 
-  int compression = COMPRESSION_PACKBITS;
+  int compression;
   switch ( m_Compression )
     {
   case TIFFImageIO::PackBits: compression = COMPRESSION_PACKBITS; break;
