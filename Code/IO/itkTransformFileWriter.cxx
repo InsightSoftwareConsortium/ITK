@@ -56,6 +56,11 @@ void TransformFileWriter
 {  
   std::list<const TransformType *>::iterator it = m_TransformList.begin();
   vnl_vector<double> TempArray;
+#ifdef __sgi
+  // Create the file. This is required on some older sgi's
+  std::ofstream tFile(m_FileName.c_str(),std::ios::out);
+  tFile.close();                    
+#endif
   std::ofstream out;;
   out.open(m_FileName.c_str());
   out << "#Insight Transform File V1.0" << std::endl;
