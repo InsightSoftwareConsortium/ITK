@@ -61,7 +61,9 @@ public:
   /** Constructor sets progress to 0 because the filter is starting.  */
   ProgressReporter(ProcessObject* filter, int threadId,
                    unsigned long numberOfPixels,
-                   unsigned long numberOfUpdates = 100);
+                   unsigned long numberOfUpdates = 100,
+                   float initialProgress = 0.0f,
+                   float progressWeight  = 1.0f );
   
   /** Destructor sets progress to 1 because the filter has finished.  */
   ~ProgressReporter();
@@ -77,13 +79,15 @@ public:
       {
       m_PixelsBeforeUpdate = m_PixelsPerUpdate;
       m_CurrentPixel += m_PixelsPerUpdate;
-      m_Filter->UpdateProgress(m_CurrentPixel * m_InverseNumberOfPixels);
+      m_Filter->UpdateProgress(
+          m_CurrentPixel * m_InverseNumberOfPixels * m_ProgressWeight + m_InitialProgress);
       if( m_Filter->GetAbortGenerateData() )
         {
         throw ProcessAborted();
         }
       }
     }
+
 protected:
   ProcessObject* m_Filter;
   int m_ThreadId;
@@ -91,6 +95,8 @@ protected:
   unsigned long m_CurrentPixel;
   unsigned long m_PixelsPerUpdate;
   unsigned long m_PixelsBeforeUpdate;
+  float  m_InitialProgress;
+  float  m_ProgressWeight;
 
 private:
   ProgressReporter(); //purposely not implemented

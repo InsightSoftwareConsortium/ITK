@@ -23,10 +23,14 @@ namespace itk
 //----------------------------------------------------------------------------
 ProgressReporter::ProgressReporter(ProcessObject* filter, int threadId,
                                    unsigned long numberOfPixels,
-                                   unsigned long numberOfUpdates):
+                                   unsigned long numberOfUpdates,
+                                   float initialProgress,
+                                   float progressWeight):
   m_Filter(filter),
   m_ThreadId(threadId),
-  m_CurrentPixel(0)
+  m_CurrentPixel(0),
+  m_InitialProgress( initialProgress ),
+  m_ProgressWeight( progressWeight )
 {
   // Only thread 0 should update progress.
   if(m_ThreadId == 0)
@@ -51,8 +55,8 @@ ProgressReporter::ProgressReporter(ProcessObject* filter, int threadId,
     m_PixelsPerUpdate = static_cast<unsigned long>(numPixels/numUpdates);
     m_InverseNumberOfPixels = 1.0 / numPixels;
     
-    // Set the progress to 0.  The filter is just starting.
-    m_Filter->UpdateProgress(0);
+    // Set the progress to initial progress.  The filter is just starting.
+    m_Filter->UpdateProgress( m_InitialProgress );
     }
   else
     {
@@ -69,8 +73,8 @@ ProgressReporter::~ProgressReporter()
   // Only thread 0 should update progress.
   if(m_ThreadId == 0)
     {
-    // Set the progress to 1.  The filter has finished.
-    m_Filter->UpdateProgress(1);
+    // Set the progress to the end of its current range.  The filter has finished.
+    m_Filter->UpdateProgress( m_InitialProgress + m_ProgressWeight );
     }
 }  
 
