@@ -67,6 +67,7 @@ ADD_TEST(itkCropImageFilterTest ${BASIC_FILTERS_TESTS} itkCropImageFilterTest)
 ADD_TEST(itkCurvatureAnisotropicDiffusionImageFilterTest ${BASIC_FILTERS_TESTS} itkCurvatureAnisotropicDiffusionImageFilterTest)
 ADD_TEST(itkCyclicReferences ${BASIC_FILTERS_TESTS} itkCyclicReferences)
 ADD_TEST(itkDanielssonDistanceMapImageFilterTest ${BASIC_FILTERS_TESTS} itkDanielssonDistanceMapImageFilterTest)
+ADD_TEST(itkSignedDanielssonDistanceMapImageFilterTest ${BASIC_FILTERS_TESTS} itkSignedDanielssonDistanceMapImageFilterTest)
 ADD_TEST(itkDerivativeImageFilterTest ${BASIC_FILTERS_TESTS} itkDerivativeImageFilterTest)
 ADD_TEST(itkInverseDeformationFieldImageFilterTest ${BASIC_FILTERS_TESTS} itkInverseDeformationFieldImageFilterTest
            ${TEMP}/itkInverseDeformationFieldImageFilterTest.mha
@@ -575,6 +576,7 @@ itkCropImageFilterTest.cxx
 itkCurvatureAnisotropicDiffusionImageFilterTest.cxx
 itkCyclicReferences.cxx
 itkDanielssonDistanceMapImageFilterTest.cxx
+itkSignedDanielssonDistanceMapImageFilterTest.cxx
 itkDerivativeImageFilterTest.cxx
 itkDeformationFieldSourceTest.cxx
 itkDifferenceOfGaussiansGradientTest.cxx
