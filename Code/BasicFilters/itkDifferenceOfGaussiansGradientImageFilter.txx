@@ -58,22 +58,8 @@ DifferenceOfGaussiansGradientImageFilter< TInputImage, TDataType >
 
   // Set the largest legal region size (i.e. the size of the whole image)
   // to what we just defined
-  outputPtr->SetLargestPossibleRegion( outputRegion );
   outputPtr->SetBufferedRegion( outputRegion );
-  outputPtr->SetRequestedRegion( outputRegion );
   outputPtr->Allocate();
-
-  // Pass through the origin and spacing of the source image
-  const double* origin;
-  const double* spacing;
-
-  // Get the origin and spacing from the input image
-  origin = inputPtr->GetOrigin();
-  spacing = inputPtr->GetSpacing();
-
-  // Set the origin and spacing of the output image
-  outputPtr->SetOrigin(origin);
-  outputPtr->SetSpacing(spacing);
 
   // Create an iterator that will walk the output region
   typedef ImageRegionIterator<TOutputImage> OutputIterator;
