@@ -101,10 +101,10 @@ int main( int argc, char ** argv )
 // and allocate a matching output image.
 //
 // The size of the structuring element is read from the command line and used
-// to define a radius for the shaped neighborhood iterator.  Using the
-// optimized method developed in the Section~\ref{sec:NeighborhoodExample3}
-// example, the iterator itself is not initialized until entering the main
-// processing loop.
+// to define a radius for the shaped neighborhood iterator.  Using the method
+// developed in section~\ref{sec:itkNeighborhoodIterator} to minimize bounds
+// checking, the iterator itself is not initialized until entering the
+// main processing loop.
 //
 // Software Guide : EndLatex
 
@@ -199,7 +199,7 @@ int main( int argc, char ** argv )
 // respective images.  At each step, the active stencil of the shaped iterator
 // is traversed to determine whether all pixels underneath the stencil contain
 // the foreground value, i.e. are contained within the set $I$.  Note the use
-// of the stencil iterator, \code{ci}, to do this check.
+// of the stencil iterator, \code{ci}, in performing this check.
 //
 // Software Guide : EndLatex
 
