@@ -41,6 +41,7 @@ ADD_TEST(itkEdgePotentialImageFilterTest ${BASIC_FILTERS_TESTS} itkEdgePotential
 ADD_TEST(itkEigenAnalysis2DImageFilterTest ${BASIC_FILTERS_TESTS} itkEigenAnalysis2DImageFilterTest)
 ADD_TEST(itkIsolatedConnectedImageFilterTest ${BASIC_FILTERS_TESTS} itkIsolatedConnectedImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_DATA_ROOT}/Baseline/BasicFilters/IsolatedConnectedImageFilterTest.png)
 ADD_TEST(itkExpImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkExpImageFilterAndAdaptorTest)
+ADD_TEST(itkExpNegativeImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkExpNegativeImageFilterAndAdaptorTest)
 ADD_TEST(itkExpandImageFilterTest ${BASIC_FILTERS_TESTS} itkExpandImageFilterTest)
 ADD_TEST(itkVectorExpandImageFilterTest ${BASIC_FILTERS_TESTS} itkVectorExpandImageFilterTest)
 ADD_TEST(itkFilterDispatchTest ${BASIC_FILTERS_TESTS} itkFilterDispatchTest)
@@ -153,6 +154,7 @@ itkEdgePotentialImageFilterTest.cxx
 itkEigenAnalysis2DImageFilterTest.cxx
 itkIsolatedConnectedImageFilterTest.cxx
 itkExpImageFilterAndAdaptorTest.cxx
+itkExpNegativeImageFilterAndAdaptorTest.cxx
 itkExpandImageFilterTest.cxx
 itkVectorExpandImageFilterTest.cxx
 itkFilterDispatchTest.cxx

@@ -36,6 +36,7 @@ void RegisterTests()
   REGISTER_TEST(itkEigenAnalysis2DImageFilterTest );
   REGISTER_TEST(itkIsolatedConnectedImageFilterTest  );
   REGISTER_TEST(itkExpImageFilterAndAdaptorTest );
+  REGISTER_TEST(itkExpNegativeImageFilterAndAdaptorTest );
   REGISTER_TEST(itkExpandImageFilterTest );
   REGISTER_TEST(itkVectorExpandImageFilterTest );
   REGISTER_TEST(itkFilterDispatchTest );
