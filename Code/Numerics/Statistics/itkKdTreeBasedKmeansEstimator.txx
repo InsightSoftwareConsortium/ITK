@@ -28,6 +28,7 @@ KdTreeBasedKmeansEstimator< TKdTree >
 ::KdTreeBasedKmeansEstimator()
 {
   m_CenteroidPositionChangesThreshold = 0.0 ;
+  m_UseClusterLabels = false ;
 }
 
 template< class TKdTree >
@@ -169,6 +170,10 @@ KdTreeBasedKmeansEstimator< TKdTree >
                 individualPoint[j] ;
             }
           m_CandidateVector[closest].Size += 1 ;
+          if ( m_GenerateClusterLabels )
+            {
+              m_ClusterLabels[tempId] = closest ;
+            }
         }
     }
   else
@@ -208,6 +213,10 @@ KdTreeBasedKmeansEstimator< TKdTree >
                 weightedCenteroid[j] ;
             }
           m_CandidateVector[closest].Size += node->Size() ;
+          if ( m_GenerateClusterLabels )
+            {
+              this->FillClusterLabels(node, closest) ;
+            }
         }
       else
         {
@@ -229,6 +238,34 @@ KdTreeBasedKmeansEstimator< TKdTree >
           lowerBound[partitionDimension] = tempValue ;
         }
     }
+}
+
+template< class TKdTree >
+void
+KdTreeBasedKmeansEstimator< TKdTree >
+::FillClusterLabels(KdTreeNodeType* node, int closestIndex)
+{
+  unsigned int i ;
+
+  if ( node->IsTerminal() )
+    {
+      // terminal node
+      if (node == m_KdTree->GetEmptyTerminalNode())
+        {
+          // empty node
+          return ;
+        }
+
+      for (i = 0 ; i < (unsigned int)node->Size() ; i++)
+        {
+          m_ClusterLabels[node->GetInstanceIdentifier(i)] = closestIndex ;
+        }
+    }
+  else
+    {
+      this->FillClusterLabels(node->Left(), closestIndex) ;
+      this->FillClusterLabels(node->Right(), closestIndex) ;
+    }  
 }
 
 template< class TKdTree >
@@ -309,6 +346,8 @@ KdTreeBasedKmeansEstimator< TKdTree >
       validIndexes.push_back(i) ;
     }
 
+  m_GenerateClusterLabels = false ;
+
   while(true)
     {
       this->CopyParameters(currentPosition, previousPosition) ;
@@ -317,7 +356,7 @@ KdTreeBasedKmeansEstimator< TKdTree >
                    lowerBound, upperBound) ;
       m_CandidateVector.UpdateCenteroids() ;
       m_CandidateVector.GetCenteroids(currentPosition) ;
-      
+     
       if(m_CurrentIteration >= m_MaximumIteration) 
         {
           break ;
@@ -333,7 +372,21 @@ KdTreeBasedKmeansEstimator< TKdTree >
 
       m_CurrentIteration++ ;
     }
-  
+
+  if ( m_UseClusterLabels )
+    {
+      m_GenerateClusterLabels = true ;
+      m_ClusterLabels.clear() ;
+      m_ClusterLabels.resize(m_KdTree->GetSample()->Size()) ;
+      for (i = 0 ; i < (unsigned int)(m_Parameters.size() / MeasurementVectorSize) ; i++)
+        {
+          validIndexes.push_back(i) ;
+        }
+
+      this->Filter(m_KdTree->GetRoot(), validIndexes,
+                   lowerBound, upperBound) ;
+    }
+
   this->CopyParameters(currentPosition, m_Parameters) ;
 }
 

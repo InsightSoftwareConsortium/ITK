@@ -18,6 +18,8 @@
 #define __itkKdTreeBasedKmeansEstimator_h
 
 #include <vector>
+#include "itk_hash_map.h"
+
 #include "itkObject.h"
 
 namespace itk {
@@ -72,6 +74,7 @@ public:
   typedef typename TKdTree::KdTreeNodeType KdTreeNodeType ;
   typedef typename TKdTree::MeasurementType MeasurementType ;
   typedef typename TKdTree::MeasurementVectorType MeasurementVectorType ;
+  typedef typename TKdTree::InstanceIdentifier InstanceIdentifier ;
   typedef typename TKdTree::SampleType SampleType ;
   typedef typename KdTreeNodeType::CenteroidType CenteroidType ;
   itkStaticConstMacro(MeasurementVectorSize, unsigned int,
@@ -113,11 +116,21 @@ public:
    * of changes in centeroid positions)  */
   void StartOptimization() ;
 
+  typedef itk::hash_map< InstanceIdentifier, unsigned int > ClusterLabelsType ;
+
+  void SetUseClusterLabels(bool flag)
+  { m_UseClusterLabels = flag ; }
+
+  ClusterLabelsType* GetClusterLabels() 
+  { return &m_ClusterLabels ; }
+
 protected:
   KdTreeBasedKmeansEstimator() ;
   virtual ~KdTreeBasedKmeansEstimator() {}
 
   void PrintSelf(std::ostream& os, Indent indent) const;
+
+  void FillClusterLabels(KdTreeNodeType* node, int closestIndex) ;
 
   /** vector of k-means candidates */
   class CandidateVector
@@ -269,6 +282,10 @@ private:
   CandidateVector m_CandidateVector ;
   
   ParameterType m_TempVertex ;
+
+  bool m_UseClusterLabels ;
+  bool m_GenerateClusterLabels ;
+  ClusterLabelsType m_ClusterLabels ;
 } ; // end of class
 
 } // end of namespace Statistics
