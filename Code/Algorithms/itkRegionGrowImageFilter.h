@@ -126,8 +126,8 @@ public:
   typedef typename TOutputImage::PixelType OutputImagePixelType;
 
   /** Set/Get the number of regions desired. */
-  itkSetMacro(MaxNumRegions, unsigned int);
-  itkGetMacro(MaxNumRegions, unsigned int);
+  itkSetMacro(MaximumNumberOfRegions, unsigned int);
+  itkGetMacro(MaximumNumberOfRegions, unsigned int);
 
   /** Set/Get the row grid size of the initial regions in the image. */
   itkSetMacro(RowGridSize, unsigned int);
@@ -156,7 +156,7 @@ private:
   RegionGrowImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-  unsigned int    m_MaxNumRegions;
+  unsigned int    m_MaximumNumberOfRegions;
   unsigned int    m_RowGridSize;
   unsigned int    m_ColGridSize;
   unsigned int    m_SliceGridSize;

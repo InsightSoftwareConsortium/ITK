@@ -247,21 +247,6 @@ public:
   /** Get the maximum lambda value set by the user.  */
   itkGetMacro(MaxLambda, unsigned int);
 
-  /** This is the interface function that calls the specific algorithm
-   * implementation of region growing. */
-  void ApplyRegionGrowImageFilter();
-
-  /** Merge two regions. */
-  virtual void MergeRegions();
-
-  /** Generate output approximated image. */
-  void GenerateOutputImage(unsigned int imgWidth,
-                           unsigned int imgHeight);
-
-  /** Generate output approximated image. */
-  void GenerateOutputImage(unsigned int imgWidth,
-                           unsigned int imgHeight,
-                           unsigned int imgDepth);
 
   /** Generate labelled image. */
   LabelImagePointer GetLabelledImage();
@@ -307,15 +292,37 @@ protected:
   virtual void EnlargeOutputRequestedRegion( DataObject * );
   virtual void GenerateOutputInformation();
 
+  /** This is the interface function that calls the specific algorithm
+   * implementation of region growing. */
+  void ApplyRegionGrowImageFilter();
+
+  /** Merge two regions. */
+  /** Function responsible for merging two regions using energy-based 
+   * regions growing criteria until the desired number of regions has been
+   * reached. When merging two regions, the smaller label is always 
+   * assigned to the new region.  This is consistent with the connected 
+   * components algorithm. */
+  virtual void MergeRegions();
+
+  /** Generate output approximated image. */
+  void GenerateOutputImage(unsigned int imgWidth,
+                           unsigned int imgHeight);
+
+  /** Generate output approximated image. */
+  void GenerateOutputImage(unsigned int imgWidth,
+                           unsigned int imgHeight,
+                           unsigned int imgDepth);
+
+
   /** Function that calls the KLM region growing algorithm. */
   void ApplyKLM();
 
   /** Initialize the RegionGrowImageFilter algorithm (2D case). */
-  void initializeKLM(unsigned int imgWidth, 
+  void InitializeKLM(unsigned int imgWidth, 
                      unsigned int imgHeight);
 
   /** Initialize the RegionGrowImageFilter algorithm (2D case) */
-  void initializeKLM(unsigned int imgWidth,
+  void InitializeKLM(unsigned int imgWidth,
                      unsigned int imgHeight,
                      unsigned int imgDepth );
 
@@ -339,14 +346,14 @@ private:
     KLMSegmentationBorderPtr;
 
   unsigned int     m_MaxLambda;
-  unsigned int     m_nBorders;
+  unsigned int     m_NumberOfBorders;
   unsigned int     m_NumRegions;
   unsigned int     m_InitRegionArea;
-  SegmentationBorderPtr *m_pBordersCandidateDynPtr;
-  SegmentationBorder<TInputImage,TOutputImage> *m_pBorderCandidate;
-  unsigned int     m_imgWidth;
-  unsigned int     m_imgHeight;
-  unsigned int     m_imgDepth;
+  SegmentationBorderPtr *m_BordersCandidateDynamicPointer;
+  SegmentationBorder<TInputImage,TOutputImage> *m_BordersCandidatePointer;
+  unsigned int     m_ImgWidth;
+  unsigned int     m_ImgHeight;
+  unsigned int     m_ImgDepth;
 
   unsigned int     m_TotalBorderLength;
   double           m_RegionLambda;
@@ -354,21 +361,15 @@ private:
   VecDblType       m_InitRegionMean;
 
 
-  std::vector< KLMSegmentationRegionPtr >      m_pRegions;
-  std::vector< KLMSegmentationBorderPtr >      m_pBorders;
-  std::vector< SegmentationBorderPtr >         m_pBordersDynPtrs;
+  std::vector< KLMSegmentationRegionPtr >      m_RegionsPointer;
+  std::vector< KLMSegmentationBorderPtr >      m_BordersPointer;
+  std::vector< SegmentationBorderPtr >         m_BordersDynamicPointer;
 
-  /** Function responsible for merging two regions using energy-based 
-   * regions growing criteria until the desired number of regions has been
-   * reached. When merging two regions, the smaller label is always 
-   * assigned to the new region.  This is consistent with the connected 
-   * components algorithm. */
-  void merge_regions();
 
   /** Function to unite borders and region borders of region1 and region2
    * into region1.  Called from \Ref{localfn_merge_regions}. This is
    * basically a merge sort of the two regions. */
-  void union_borders(KLMSegmentationRegion<TInputImage,
+  void UnionBorders(KLMSegmentationRegion<TInputImage,
                                  TOutputImage> *pRegion1,
                      KLMSegmentationRegion<TInputImage,
                                  TOutputImage> *pRegion2);

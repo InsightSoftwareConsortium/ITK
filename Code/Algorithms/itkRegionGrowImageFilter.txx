@@ -47,7 +47,7 @@ namespace itk
 template<class TInputImage, class TOutputImage>
 RegionGrowImageFilter<TInputImage,TOutputImage>
 ::RegionGrowImageFilter(void):
-  m_MaxNumRegions( 0 ),
+  m_MaximumNumberOfRegions( 0 ),
   m_RowGridSize( 2 ),
   m_ColGridSize( 2 ),
   m_SliceGridSize( 2 )
@@ -72,7 +72,7 @@ RegionGrowImageFilter<TInputImage,TOutputImage>
 
   Superclass::PrintSelf(os,indent);
   os << indent << "Region grow image filter object" << std::endl;
-  os << indent << "Maximum number of regions: " << m_MaxNumRegions << std::endl;
+  os << indent << "Maximum number of regions: " << m_MaximumNumberOfRegions << std::endl;
   os << indent << "Maximum column grid size : " << m_ColGridSize << std::endl;
   os << indent << "Maximum row grid size    : " << m_RowGridSize << std::endl;
   os << indent << "Maximum slice grid size  : " << m_SliceGridSize << std::endl;
