@@ -9,8 +9,8 @@
   Copyright (c) 2002 Insight Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -35,7 +35,7 @@ namespace itk
  * \class BloxCoreAtomPixel
  * \brief Holds a linked list of itk::BloxCoreAtomItem's
  *
- * \ingroup ImageObjects 
+ * \ingroup ImageObjects
  * */
 
 template <unsigned int NDimensions>
@@ -50,7 +50,7 @@ public:
 
   /** The type used to store the position of the BoundaryPointItem. */
   typedef Point<double, NDimensions> TPositionType;
-  
+
   /** The type of vector used to store the gradient of the BoundaryPointItem. */
   typedef CovariantVector<double, NDimensions> TGradientType;
 
@@ -70,15 +70,15 @@ public:
   bool DoCoreAtomEigenanalysis();
 
   /** Get the mean core atom diameter. */
-  double GetMeanCoreAtomDiameter(void) 
+  double GetMeanCoreAtomDiameter(void)
     { return m_MeanCoreAtomDiameter; }
 
   /** Get eigenvalues. */
-  TEigenvalueType GetEigenvalues(void) 
+  TEigenvalueType GetEigenvalues(void)
     { return m_Eigenvalues; }
 
   /** Get eigenvectors. */
-  TEigenvectorType GetEigenvectors(void) 
+  TEigenvectorType GetEigenvectors(void)
     { return m_Eigenvectors; }
 
   BloxCoreAtomPixel();
@@ -97,11 +97,13 @@ private:
   /** Average (arithmetic mean) of core atom diameters stored in this pixel. */
   double m_MeanCoreAtomDiameter;
 
+  typedef vnl_matrix_fixed<double, NDimensions, NDimensions> MatrixType;
+
   /** The raw CMatrix - this is the matrix that we do eigen analysis on. */
-  vnl_matrix_fixed<double, NDimensions, NDimensions> m_RawCMatrix;
+  MatrixType m_RawCMatrix;
 
   /** The CMatrix that collects votes cast by other blox. */
-  vnl_matrix_fixed<double, NDimensions, NDimensions> m_VotedCMatrix;
+  MatrixType m_VotedCMatrix;
 };
 
 
