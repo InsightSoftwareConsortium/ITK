@@ -45,7 +45,7 @@ public:
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(WriteVTKImage,ImageWriter);
+  itkTypeMacro(WriteVTKImage,WriteImage);
 
   /**
    * Method for creation through the object factory.
