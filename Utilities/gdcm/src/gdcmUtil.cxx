@@ -670,7 +670,11 @@ std::string Util::GetMACAddress()
    if (stat == 0)
    {
       // fill with zero to fit on 15 bytes.
+#if defined(_MSC_VER) || defined(__BORLANDC__)
+      return Format("%015I64u", d.n);
+#else
       return Format("%015llu", d.n);
+#endif
    }
    else
    {
