@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkPatternIntensityPointSetToImageMetric.txx
+  Module:    itkMeanReciprocalSquareDifferencePointSetToImageMetric.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,11 +14,11 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkPatternIntensityPointSetToImageMetric_txx
-#define _itkPatternIntensityPointSetToImageMetric_txx
+#ifndef _itkMeanReciprocalSquareDifferencePointSetToImageMetric_txx
+#define _itkMeanReciprocalSquareDifferencePointSetToImageMetric_txx
 
 #ifdef    COMPILE_OLD_REGISTRATION_FRAMEWORK
-#include "itkPatternIntensityPointSetToImageMetric.h"
+#include "itkMeanReciprocalSquareDifferencePointSetToImageMetric.h"
 
 namespace itk
 {
@@ -27,8 +27,8 @@ namespace itk
 * Constructor
 */
 template < class TTarget, class TMapper > 
-PatternIntensityPointSetToImageMetric<TTarget,TMapper>
-::PatternIntensityPointSetToImageMetric()
+MeanReciprocalSquareDifferencePointSetToImageMetric<TTarget,TMapper>
+::MeanReciprocalSquareDifferencePointSetToImageMetric()
 {
   m_Lambda = 1.0;
 }
@@ -37,8 +37,8 @@ PatternIntensityPointSetToImageMetric<TTarget,TMapper>
  * Get the match Measure
  */
 template < class TTarget, class TMapper > 
-PatternIntensityPointSetToImageMetric<TTarget,TMapper>::MeasureType
-PatternIntensityPointSetToImageMetric<TTarget,TMapper>
+MeanReciprocalSquareDifferencePointSetToImageMetric<TTarget,TMapper>::MeasureType
+MeanReciprocalSquareDifferencePointSetToImageMetric<TTarget,TMapper>
 ::GetValue( const ParametersType & parameters )
 {
   double ReferenceValue;
@@ -109,8 +109,8 @@ PatternIntensityPointSetToImageMetric<TTarget,TMapper>
  * Get the Derivative Measure
  */
 template < class TTarget, class TMapper> 
-const PatternIntensityPointSetToImageMetric<TTarget,TMapper>::DerivativeType &
-PatternIntensityPointSetToImageMetric<TTarget,TMapper>
+const MeanReciprocalSquareDifferencePointSetToImageMetric<TTarget,TMapper>::DerivativeType &
+MeanReciprocalSquareDifferencePointSetToImageMetric<TTarget,TMapper>
 ::GetDerivative( const ParametersType & parameters )
 {
 
@@ -137,7 +137,7 @@ PatternIntensityPointSetToImageMetric<TTarget,TMapper>
  */
 template < class TTarget, class TMapper > 
 void
-PatternIntensityPointSetToImageMetric<TTarget,TMapper>
+MeanReciprocalSquareDifferencePointSetToImageMetric<TTarget,TMapper>
 ::GetValueAndDerivative(const ParametersType & parameters, 
                         MeasureType & Value, DerivativeType  & Derivative)
 {
@@ -151,7 +151,7 @@ PatternIntensityPointSetToImageMetric<TTarget,TMapper>
  */
 template <class TFixedImage, class TMovingImage> 
 void
-PatternIntensityImageToImageMetric<TFixedImage,TMovingImage>
+MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedImage,TMovingImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf( os, indent );

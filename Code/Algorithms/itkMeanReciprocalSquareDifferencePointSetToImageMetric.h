@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkPatternIntensityPointSetToImageMetric.h
+  Module:    itkMeanReciprocalSquareDifferencePointSetToImageMetric.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkPatternIntensityPointSetToImageMetric_h
-#define __itkPatternIntensityPointSetToImageMetric_h
+#ifndef __itkMeanReciprocalSquareDifferencePointSetToImageMetric_h
+#define __itkMeanReciprocalSquareDifferencePointSetToImageMetric_h
 
 #include "itkSimilarityRegistrationMetric.h"
 #include "itkCovariantVector.h"
@@ -25,7 +25,7 @@
 namespace itk
 {
   
-/** \class PatternIntensityPointSetToImageMetric
+/** \class MeanReciprocalSquareDifferencePointSetToImageMetric
  * \brief Computes similarity between two objects to be registered
  *
  * This Class is templated over the type of the objects to be registered and
@@ -38,7 +38,7 @@ namespace itk
  * \ingroup RegistrationMetrics
  */
 template < class TTarget, class TMapper > 
-class ITK_EXPORT PatternIntensityPointSetToImageMetric : 
+class ITK_EXPORT MeanReciprocalSquareDifferencePointSetToImageMetric : 
     public SimilarityRegistrationMetric< TTarget, TMapper, double,
                                          CovariantVector<double, TMapper::SpaceDimension > >
 {
@@ -56,7 +56,7 @@ public:
   DerivativeType;
 
   /** Standard class typedefs. */
-  typedef PatternIntensityPointSetToImageMetric  Self;
+  typedef MeanReciprocalSquareDifferencePointSetToImageMetric  Self;
   typedef SimilarityRegistrationMetric<TTarget, TMapper,
                                        MeasureType,DerivativeType >  Superclass;
   typedef SmartPointer<Self>   Pointer;
@@ -66,7 +66,7 @@ public:
   itkNewMacro(Self);
  
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PatternIntensityPointSetToImageMetric, Object);
+  itkTypeMacro(MeanReciprocalSquareDifferencePointSetToImageMetric, Object);
 
   /**  Type of the mapper. */
   typedef TMapper             MapperType;
@@ -104,12 +104,12 @@ public:
   itkGetReferenceConstMacro( Lambda, double );
  
 protected:
-  PatternIntensityPointSetToImageMetric();
-  virtual ~PatternIntensityPointSetToImageMetric() {};
+  MeanReciprocalSquareDifferencePointSetToImageMetric();
+  virtual ~MeanReciprocalSquareDifferencePointSetToImageMetric() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
   
 private:
-  PatternIntensityPointSetToImageMetric(const Self&); //purposely not implemented
+  MeanReciprocalSquareDifferencePointSetToImageMetric(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   double          m_Lambda;
@@ -120,7 +120,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPatternIntensityPointSetToImageMetric.txx"
+#include "itkMeanReciprocalSquareDifferencePointSetToImageMetric.txx"
 #endif
 
 #endif

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkPatternIntensityImageToImageMetric.h
+  Module:    itkMeanReciprocalSquareDifferenceImageToImageMetric.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkPatternIntensityImageToImageMetric_h
-#define __itkPatternIntensityImageToImageMetric_h
+#ifndef __itkMeanReciprocalSquareDifferenceImageToImageMetric_h
+#define __itkMeanReciprocalSquareDifferenceImageToImageMetric_h
 
 #include "itkImageToImageMetric.h"
 #include "itkCovariantVector.h"
@@ -24,7 +24,7 @@
 
 namespace itk
 {
-/** \class PatternIntensityImageToImageMetric
+/** \class MeanReciprocalSquareDifferenceImageToImageMetric
  * \brief Computes similarity between two objects to be registered
  *
  * This Class is templated over the type of the Images to be compared and
@@ -43,13 +43,13 @@ namespace itk
  * \ingroup RegistrationMetrics
  */
 template < class TFixedImage, class TMovingImage > 
-class ITK_EXPORT PatternIntensityImageToImageMetric : 
+class ITK_EXPORT MeanReciprocalSquareDifferenceImageToImageMetric : 
     public ImageToImageMetric< TFixedImage, TMovingImage>
 {
 public:
 
   /** Standard class typedefs. */
-  typedef PatternIntensityImageToImageMetric    Self;
+  typedef MeanReciprocalSquareDifferenceImageToImageMetric    Self;
   typedef ImageToImageMetric<TFixedImage, TMovingImage >  Superclass;
 
   typedef SmartPointer<Self>         Pointer;
@@ -59,7 +59,7 @@ public:
   itkNewMacro(Self);
  
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PatternIntensityImageToImageMetric, ImageToImageMetric);
+  itkTypeMacro(MeanReciprocalSquareDifferenceImageToImageMetric, ImageToImageMetric);
 
  
   /** Types transferred from the base class */
@@ -94,13 +94,13 @@ public:
 
 
 protected:
-  PatternIntensityImageToImageMetric();
-  virtual ~PatternIntensityImageToImageMetric() {};
+  MeanReciprocalSquareDifferenceImageToImageMetric();
+  virtual ~MeanReciprocalSquareDifferenceImageToImageMetric() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 
 private:
-  PatternIntensityImageToImageMetric(const Self&); //purposely not implemented
+  MeanReciprocalSquareDifferenceImageToImageMetric(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   double m_Lambda;
@@ -109,7 +109,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPatternIntensityImageToImageMetric.txx"
+#include "itkMeanReciprocalSquareDifferenceImageToImageMetric.txx"
 #endif
 
 #endif

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkPatternIntensityImageToImageMetric.txx
+  Module:    itkMeanReciprocalSquareDifferenceImageToImageMetric.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,10 +14,10 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkPatternIntensityImageToImageMetric_txx
-#define _itkPatternIntensityImageToImageMetric_txx
+#ifndef _itkMeanReciprocalSquareDifferenceImageToImageMetric_txx
+#define _itkMeanReciprocalSquareDifferenceImageToImageMetric_txx
 
-#include "itkPatternIntensityImageToImageMetric.h"
+#include "itkMeanReciprocalSquareDifferenceImageToImageMetric.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 
 namespace itk
@@ -27,8 +27,8 @@ namespace itk
  * Constructor
  */
 template <class TFixedImage, class TMovingImage> 
-PatternIntensityImageToImageMetric<TFixedImage,TMovingImage>
-::PatternIntensityImageToImageMetric()
+MeanReciprocalSquareDifferenceImageToImageMetric<TFixedImage,TMovingImage>
+::MeanReciprocalSquareDifferenceImageToImageMetric()
 {
   m_Lambda = 1.0;
 }
@@ -39,7 +39,7 @@ PatternIntensityImageToImageMetric<TFixedImage,TMovingImage>
  */
 template <class TFixedImage, class TMovingImage> 
 void
-PatternIntensityImageToImageMetric<TFixedImage,TMovingImage>
+MeanReciprocalSquareDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf( os, indent );
@@ -50,8 +50,8 @@ PatternIntensityImageToImageMetric<TFixedImage,TMovingImage>
  * Get the match Measure
  */
 template <class TFixedImage, class TMovingImage> 
-typename PatternIntensityImageToImageMetric<TFixedImage,TMovingImage>::MeasureType
-PatternIntensityImageToImageMetric<TFixedImage,TMovingImage>
+typename MeanReciprocalSquareDifferenceImageToImageMetric<TFixedImage,TMovingImage>::MeasureType
+MeanReciprocalSquareDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 ::GetValue( const TransformParametersType & parameters ) const
 {
 
@@ -116,7 +116,7 @@ PatternIntensityImageToImageMetric<TFixedImage,TMovingImage>
  */
 template < class TFixedImage, class TMovingImage> 
 void
-PatternIntensityImageToImageMetric<TFixedImage,TMovingImage>
+MeanReciprocalSquareDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 ::GetDerivative( const TransformParametersType & parameters, 
                  DerivativeType & derivative           ) const
 {
@@ -148,7 +148,7 @@ PatternIntensityImageToImageMetric<TFixedImage,TMovingImage>
  */
 template <class TFixedImage, class TMovingImage> 
 void
-PatternIntensityImageToImageMetric<TFixedImage,TMovingImage>
+MeanReciprocalSquareDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 ::GetValueAndDerivative(const TransformParametersType & parameters, 
                         MeasureType & Value, DerivativeType  & Derivative) const
 {
