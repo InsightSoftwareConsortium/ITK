@@ -63,6 +63,15 @@ public:
     typename TLoadClass::Pointer l0=dynamic_cast<TLoadClass*>(&*load);
     if ( !l0 ) throw FEMException(__FILE__, __LINE__, "FEM error");
 
+    Implementation(static_cast<Element::ConstPointer>(element),l0,Fe);
+  }
+
+private:
+  
+  static const bool registered;
+  
+  static void Implementation(Element::ConstPointer element, TLoadClass::Pointer l0, Element::VectorType& Fe)
+  {
     const unsigned int TotalSolutionIndex=1;/* Need to change if the index changes in CrankNicolsonSolver */
     typename Solution::ConstPointer   S=l0->GetSolution(); // has current solution state
 
@@ -115,20 +124,19 @@ public:
 
   }
 
-private:
-  static const bool registered;
 };
+
 
 // When the templated load implementation function is instantiated,
 // it will automatically be registered with the VisitorDispatcher so 
 // that it is called as required.
 // Instantiating the implementation function will also instantiate the
 // corresponding Load class.
-template<class TLoadClass>
+/*template<class TLoadClass>
 const bool ImageMetricLoadImplementation<TLoadClass>::registered=
 VisitorDispatcher<Element2DC0LinearQuadrilateralMembrane,Element::LoadType, Element2DC0LinearQuadrilateralMembrane::LoadImplementationFunctionPointer>
   ::RegisterVisitor((TLoadClass*)0, &ImageMetricLoadImplementation<TLoadClass>::ImplementImageMetricLoad);
-
+*/
 
 
 
