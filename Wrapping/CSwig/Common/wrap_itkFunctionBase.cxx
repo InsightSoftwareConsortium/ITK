@@ -31,6 +31,7 @@ namespace _cable_
     ITK_WRAP_OBJECT2(FunctionBase, image::F3, double, itkFunctionBaseIF3D);
     ITK_WRAP_OBJECT2(FunctionBase, image::US2, double, itkFunctionBaseIUS2D);
     ITK_WRAP_OBJECT2(FunctionBase, image::US3, double, itkFunctionBaseIUS3D);
+    ITK_WRAP_OBJECT2(FunctionBase, double, double, itkFunctionBaseDD);
 
     namespace point
     {

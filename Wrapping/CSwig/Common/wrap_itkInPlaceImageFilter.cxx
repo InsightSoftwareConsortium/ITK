@@ -49,6 +49,16 @@ namespace _cable_
     ITK_WRAP_OBJECT2(InPlaceImageFilter, image::SI3, image::SI3, itkInPlaceImageFilterSI3SI3);
     ITK_WRAP_OBJECT2(InPlaceImageFilter, image::F3 , image::VF3 ,itkInPlaceImageFilterF3VF3 );
     ITK_WRAP_OBJECT2(InPlaceImageFilter, image::US3, image::VF3, itInPlaceeImageFilterUS3VF3);
+
+    ITK_WRAP_OBJECT2(InPlaceImageFilter, image::F2 , image::UC2 , itkInPlaceImageFilterF2UC2  );
+    ITK_WRAP_OBJECT2(InPlaceImageFilter, image::F3 , image::UC3 , itkInPlaceImageFilterF3UC3  );
+    ITK_WRAP_OBJECT2(InPlaceImageFilter, image::F2 , image::US2 , itkInPlaceImageFilterF2US2  );
+    ITK_WRAP_OBJECT2(InPlaceImageFilter, image::F3 , image::US3 , itkInPlaceImageFilterF3US3  );
+
+    ITK_WRAP_OBJECT2(InPlaceImageFilter, image::US2 , image::F2 , itkInPlaceImageFilterUS2F2  );
+    ITK_WRAP_OBJECT2(InPlaceImageFilter, image::US3 , image::F3 , itkInPlaceImageFilterUS3F3  );
+    ITK_WRAP_OBJECT2(InPlaceImageFilter, image::UC2 , image::F2 , itkInPlaceImageFilterUC2F2  );
+    ITK_WRAP_OBJECT2(InPlaceImageFilter, image::UC3 , image::F3 , itkInPlaceImageFilterUC3F3  );
   }
 }
 #endif
