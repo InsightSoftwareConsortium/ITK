@@ -87,7 +87,7 @@ public:
 
   /** Copy the information from another Image.  By default,
    *  the information is copied from the input image. */
-  void SetReferenceImage (InputImageType *image)
+  void SetReferenceImage (TInputImage *image)
     {
     if (image != m_ReferenceImage)
       {
