@@ -83,7 +83,7 @@ protected:
 
   /** Computes the new mode with the given query point (queryPoint). The
     * new mode will be stored in the newPoint */ 
-  inline void ComputeMode(MeasurementVectorType queryPoint,
+  inline bool ComputeMode(MeasurementVectorType queryPoint,
                           MeasurementVectorType& newPoint) ;
 
 private:

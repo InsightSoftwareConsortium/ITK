@@ -58,7 +58,7 @@ HypersphereKernelMeanShiftModeSeeker< TSample >
 }
 
 template< class TSample >
-inline void
+inline bool
 HypersphereKernelMeanShiftModeSeeker< TSample >
 ::ComputeMode(MeasurementVectorType queryPoint, 
               MeasurementVectorType& newPoint)
@@ -71,7 +71,7 @@ HypersphereKernelMeanShiftModeSeeker< TSample >
   
   frequencySum = 0.0f ;
   m_TempVectorSum.Fill( NumericTraits< RealMeasurementType >::Zero ) ;
-  
+
   typename SearchResultVectorType::iterator iter =  result.begin() ;
   while ( iter != result.end() )
     {
@@ -83,11 +83,18 @@ HypersphereKernelMeanShiftModeSeeker< TSample >
     frequencySum += inputSample->GetFrequency(*iter) ;
     ++iter ;
     }
-  
+
+  if ( frequencySum == 0 )
+    {
+    return false ;
+    }
+
   for ( unsigned int i = 0 ; i < MeasurementVectorSize ; ++i )
     {
     newPoint[i] =  (MeasurementType) (m_TempVectorSum[i] / frequencySum) ;
     }
+  
+  return true ;
 }
 
 
