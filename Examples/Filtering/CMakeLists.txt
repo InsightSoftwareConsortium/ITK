@@ -148,6 +148,9 @@ TARGET_LINK_LIBRARIES(ResampleImageFilter7 ITKCommon ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(ResampleImageFilter8 ResampleImageFilter8.cxx )
 TARGET_LINK_LIBRARIES(ResampleImageFilter8 ITKCommon ITKBasicFilters ITKIO)
 
+ADD_EXECUTABLE(ResampleImageFilter9 ResampleImageFilter9.cxx )
+TARGET_LINK_LIBRARIES(ResampleImageFilter9 ITKCommon ITKBasicFilters ITKIO)
+
 ADD_EXECUTABLE(ResampleVolumesToBeIsotropic ResampleVolumesToBeIsotropic.cxx )
 TARGET_LINK_LIBRARIES(ResampleVolumesToBeIsotropic ITKCommon ITKBasicFilters ITKIO)
 
@@ -510,6 +513,14 @@ ADD_TEST( ResampleImageFilter8Test ${FILTERING_EXAMPLES2}
         45
 )
 
+ADD_TEST( ResampleImageFilter9Test ${FILTERING_EXAMPLES2}
+  --compare ${BASELINE}/ResampleImageFilter9Test.png
+            ${TEMP}/ResampleImageFilter9TestNearest.png
+  ResampleImageFilter9Test
+        ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
+        ${TEMP}/ResampleImageFilter9TestNearest.png
+        ${TEMP}/ResampleImageFilter9TestLinear.png
+)
 
 ADD_TEST( SigmoidImageFilterTest ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/SigmoidImageFilter.png
