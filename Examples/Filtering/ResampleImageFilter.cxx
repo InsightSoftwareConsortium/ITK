@@ -18,7 +18,7 @@
 //  Software Guide : BeginLatex
 //
 //  Resampling an image is a very important task in image analysis. It is
-//  specially important in the frame of image registration. The
+//  especially important in the frame of image registration. The
 //  \code{itk::ResampleImageFilter} implements image resampling through the use
 //  of \code{itk::Transforms}. The inputs expected by this filter are an image,
 //  a transform and an interpolator. The space coordinates of the image are
@@ -27,8 +27,8 @@
 //  performed in space coordinates, not pixel/grid coordinates. It is quite
 //  important to ensure that image spacing is properly set on the images
 //  involved. The interpolator is required since the mapping from one space to
-//  the other will often require to evaluate the intensity of the image in a
-//  non-grid position. 
+//  the other will often require evaluation of the intensity of the image at
+//  non-grid positions. 
 //
 //  \index{itk::ResampleImageFilter|textbf}
 //
@@ -146,7 +146,7 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  The transform type is instantiated typically using the image dimension
+  //  The transform type is defined typically using the image dimension
   //  and the type used for representing space coordinates.
   //
   //  \index{itk::AffineTransform!instantiation}
@@ -163,7 +163,8 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  An instance of the transform object is instantiated and passed to the
-  //  resample filter.
+  //  resample filter. By default, the parameters of transform is set to
+  //  represent the identity transform.
   //
   //  \index{itk::ResampleImageFilter!SetTransform()}
   //
@@ -182,8 +183,8 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  The interpolator type is instantiated using the full image type and the
-  //  type used for representing space coordinates.
+  //  The interpolator type is defined using the full image type and the type
+  //  used for representing space coordinates.
   //
   //  \index{itk::NearestNeighborInterpolateImageFunction!instantiation}
   //
@@ -261,7 +262,7 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  The extension of the sampling grid on the output image is defined by a
+  //  The extent of the sampling grid on the output image is defined by a
   //  \code{SizeType} and is set using the \code{SetSize()} method.
   //
   //  \index{itk::ResampleImageFilter!SetSize()}
@@ -286,7 +287,7 @@ int main( int argc, char ** argv )
   //  The input to the filter can be taken from any other filter, for example a
   //  reader. The output can be passed down the pipeline to other filters, for
   //  example a writer. An update call on any downstream filter will trigger
-  //  the execution of the mean filter.
+  //  the execution of the resampling filter.
   //
   //  \index{itk::ResampleImageFilter!SetInput()}
   //  \index{itk::ResampleImageFilter!GetOutput()}
@@ -325,19 +326,20 @@ int main( int argc, char ** argv )
   //  this filter on a slice of MRI brain image using an affine transform
   //  containing an identity transform. Note that any analysis of the behavior
   //  of this filter must be done on the space coordinate system in
-  //  millimeters, not in the frame of the sampling grid in pixels. The figure
+  //  millimeters, not with respect to the sampling grid in pixels. The figure
   //  shows the resulting image in the lower left quarter of the extent. This
-  //  may seem odd if analyzed on terms of the grid but is quite clear when
-  //  seen in the frame of space coordinates.  Figure
+  //  may seem odd if analyzed in terms of the image grid but is quite clear
+  //  when seen with respect to space coordinates.  Figure
   //  \ref{fig:ResampleImageFilterOutput1} is particularly missleading because
   //  the images are rescaled to fit nicely on the text of this book.  Figure
   //  \ref{fig:ResampleImageFilterOutput1Analysis} clarifies the situation. It
   //  shows the two same images placed on a equally scaled coordinate system.
   //  It becomes clear here that an identity transform is being used to map the
-  //  image data, and that simply, we has requested to sample additional empty
-  //  space around the image. The input image is 181x217 pixels in size and we
-  //  have requested an output of 300x300 pixels. The spacing of the input
-  //  image is 1.0 and the spacing of the output image is 1.0x1.0.
+  //  image data, and that simply, we has requested to resample additional
+  //  empty space around the image. The input image is 181x217 pixels in size
+  //  and we have requested an output of 300x300 pixels. In this case, the
+  //  input and output images both have spacing of $1mm \times 1mm$ and origin
+  //  of $(0.0,0.0)$.
   //
   //
   //  Software Guide : EndLatex 
@@ -346,7 +348,7 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  Let's now set values on the transform. Note that the transform supplied
-  //  is the one that maps points from the output space to the input space.
+  //  represents the mapping of points from the output space to the input space.
   //  The following code sets up a translation.
   //
   //  \index{itk::AffineTransform!Translate()}
@@ -387,22 +389,23 @@ int main( int argc, char ** argv )
   // \label{fig:ResampleImageFilterOutput2Analysis}
   // \end{figure}
   //
-  // The output image resulting from the translation can be seen in figure
+  // The output image resulting from the translation can be seen in Figure
   // \ref{fig:ResampleImageFilterOutput2}. Again, it is better to interpret the
-  // result in a common coordinate system as illustrated in figure
+  // result in a common coordinate system as illustrated in Figure
   // \ref{fig:ResampleImageFilterOutput2Analysis}.
   //
   // Probably the most important thing to keep in mind when resampling images
   // is that the transform is used to map points from the \textbf{output} image
-  // space into the \textbf{input} image space. In this case, figure
+  // space into the \textbf{input} image space. In this case, Figure
   // \ref{fig:ResampleImageFilterOutput2Analysis} shows that the translation is
   // applied to every point of the output image and the resulting position is
   // used to read the intensity from the input image. In this way, the gray
   // level of the point $P$ in the output image is taken from the point $T(P)$
   // in the input image. Where $T$ is the transformation. In the specific case
-  // of the figure, the value of point $(105,188)$ in the output image is taken
-  // from the point $(75,138)$ of the input image because the transformation
-  // applied was a Translation of $(-30,-50)$.
+  // of the Figure \ref{fig:ResampleImageFilterOutput2Analysis}, the value of
+  // point $(105,188)$ in the output image is taken from the point $(75,138)$
+  // of the input image because the transformation applied was a translation of
+  // $(-30,-50)$.
   //
   //  Software Guide : EndLatex 
 
@@ -411,10 +414,10 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  It is sometimes useful to intentionaly set the output value to a distinct
-  //  gray value in order to highlight the mapping of the image borders. For
-  //  example, the following code sets the default external value to a visible
-  //  gray value. The result is shown in the right side of figure
+  //  It is sometimes useful to intentionaly set the default output value to a
+  //  distinct gray value in order to highlight the mapping of the image
+  //  borders. For example, the following code sets the default external value
+  //  of $100$.  The result is shown in the right side of Figure
   //  \ref{fig:ResampleImageFilterOutput3Analysis}
   //
   //  \index{itk::ResampleImageFilter!SetDefaultPixelValue()}
