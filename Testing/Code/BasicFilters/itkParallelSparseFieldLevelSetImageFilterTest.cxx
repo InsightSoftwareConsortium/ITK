@@ -280,11 +280,19 @@ int itkParallelSparseFieldLevelSetImageFilterTest(int, char* [])
   mf->SetNumberOfLayers (3);
   
   std::cout << "Debug line: 8" << std::endl << std::flush;
+
+  try
+    {
+      mf->Update();
+    }
+  catch (itk::ExceptionObject &e)
+    {
+      std::cerr << e << std::endl;
+    }
   
-  mf->Update();
-//   writer->SetInput (mf->GetOutput());
-//   writer->SetFileName ("out.mha");
-//   writer->Write();
+  //   writer->SetInput (mf->GetOutput());
+  //   writer->SetFileName ("out.mha");
+  //   writer->Write();
   
   std::cout << "Debug line: 9" << std::endl << std::flush;
   
