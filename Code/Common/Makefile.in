@@ -21,10 +21,10 @@ WIN32_CLASSES =\
 itkWin32OutputWindow 
 
 
-ME = Common
+ME = ITKCommon
 
 KIT_OBJ = ${SRC_OBJ}
 
-ITK_LIB_FILE  = libITK${ME}${ITK_LIB_EXT}
+ITK_LIB_FILE  = lib${ME}${ITK_LIB_EXT}
 
 @MAKEINCLUDE@ @MAKEQUOTE@@ITK_OBJ@/Code/config/Insight.make@MAKEQUOTE@
