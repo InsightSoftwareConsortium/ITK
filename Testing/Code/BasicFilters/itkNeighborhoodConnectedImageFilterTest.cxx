@@ -19,6 +19,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkImageRegionIterator.h"
+#include "itkFilterWatcher.h"
 
 int itkNeighborhoodConnectedImageFilterTest(int ac, char* av[] )
 {
@@ -38,6 +39,8 @@ int itkNeighborhoodConnectedImageFilterTest(int ac, char* av[] )
   typedef itk::NeighborhoodConnectedImageFilter<myImage,myImage> FilterType;
 
   FilterType::Pointer filter = FilterType::New();
+  FilterWatcher watcher(filter);
+
   filter->SetInput(input->GetOutput());
   
   FilterType::IndexType seed;

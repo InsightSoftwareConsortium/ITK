@@ -21,6 +21,7 @@
 #include <itkBinaryErodeImageFilter.h>
 #include <itkBinaryBallStructuringElement.h>
 #include <itkImageRegionIterator.h>
+#include "itkFilterWatcher.h"
 #include <itkExceptionObject.h>
 
 int itkBinaryErodeImageFilterTest(int, char* [] ) 
@@ -123,6 +124,7 @@ int itkBinaryErodeImageFilterTest(int, char* [] )
 
   // Create the filter
   myFilterType::Pointer filter = myFilterType::New();
+  FilterWatcher watcher(filter, "filter");
 
   // Create the structuring element
   myKernelType ball;

@@ -25,6 +25,7 @@
 #include "itkHConvexImageFilter.h"
 #include "itkHConcaveImageFilter.h"
 #include "itkAddImageFilter.h"
+#include "itkFilterWatcher.h"
 
 int itkHConvexConcaveImageFilterTest( int argc, char * argv[] )
 {
@@ -75,6 +76,8 @@ int itkHConvexConcaveImageFilterTest( int argc, char * argv[] )
   // Create the filters
   HconvexFilterType::Pointer  hconvex = HconvexFilterType::New();
   HconcaveFilterType::Pointer  hconcave = HconcaveFilterType::New();
+  FilterWatcher watchConvex(hconvex, "Convex");
+  FilterWatcher watchConcave(hconcave, "Concave");
 
   // Setup the input and output files
   reader->SetFileName( argv[1] );

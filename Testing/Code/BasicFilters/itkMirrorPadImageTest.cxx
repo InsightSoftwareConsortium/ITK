@@ -21,6 +21,7 @@
 #include "itkFileOutputWindow.h"
 #include "itkMultiThreader.h"
 #include "itkStreamingImageFilter.h"
+#include "itkFilterWatcher.h"
 
 //
 // Check that val represents the correct pixel value.  This routine
@@ -122,7 +123,10 @@ int itkMirrorPadImageTest(int, char* [] )
   
   // Create a filter
   itk::MirrorPadImageFilter< ShortImage, ShortImage >::Pointer mirrorPad;
+
   mirrorPad = itk::MirrorPadImageFilter< ShortImage, ShortImage >::New();
+  FilterWatcher watcher(mirrorPad);
+
   mirrorPad->SetInput( if2 );
   
   unsigned long upperfactors[2] = { 0, 0};

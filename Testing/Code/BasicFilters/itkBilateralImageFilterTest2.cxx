@@ -19,6 +19,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkImageRegionIterator.h"
+#include "itkFilterWatcher.h"
 
 int itkBilateralImageFilterTest2(int ac, char* av[] )
 {
@@ -39,6 +40,8 @@ int itkBilateralImageFilterTest2(int ac, char* av[] )
   typedef itk::BilateralImageFilter<myImage,myImage> FilterType;
   
   FilterType::Pointer filter = FilterType::New();
+  FilterWatcher watcher(filter, "filter");
+
   filter->SetInput(input->GetOutput());
   
   // these settings reduce the amount of noise by a factor of 10

@@ -20,6 +20,7 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkFilterWatcher.h"
 
 #include "itkGrayscaleConnectedOpeningImageFilter.h"
 
@@ -66,6 +67,7 @@ int itkGrayscaleConnectedOpeningImageFilterTest( int argc, char * argv[] )
   
   // Create the filter
   ConnectedOpeningFilterType::Pointer  connectedOpening = ConnectedOpeningFilterType::New();
+  FilterWatcher watcher(connectedOpening, "Opening"); watcher.QuietOn();
 
   // Setup the input and output files
   reader->SetFileName( argv[1] );
