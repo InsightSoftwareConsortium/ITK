@@ -76,13 +76,8 @@ public:
   itkTypeMacro(SampleClassifier, Object);
   itkNewMacro(Self) ;
 
-  /** TSample template argument related ypedefs */
-  typedef TSample SampleType ;
-  typedef typename TSample::Pointer SamplePointer ;
-
   /** Output type for GetClassSample method */
   typedef MembershipSample< TSample > OutputType ;
-  typedef typename OutputType::Pointer OutputPointer ;
 
   /** typedefs from TSample object */
   typedef typename TSample::MeasurementType MeasurementType ;
@@ -96,10 +91,10 @@ public:
     MembershipFunctionPointerVector ;
 
   /** Sets the target data that will be classified by this */
-  void SetSample(SamplePointer sample) ;
+  void SetSample(TSample* sample) ;
 
   /** Returns the target data */
-  SamplePointer GetSample() ;
+  TSample* GetSample() ;
 
   /** Sets the user given class labels for membership functions.
    * If users do not provide class labels for membership functions by calling
@@ -113,7 +108,7 @@ public:
   { return m_ClassLabels ; }
 
   /** Returns the classification result */
-  OutputPointer GetOutput() ;
+  OutputType* GetOutput() ;
 
 protected:
   SampleClassifier() ;
@@ -122,12 +117,13 @@ protected:
 
   /** Starts the classification process */
   void GenerateData() ;
+
 private:
   /** Target data sample pointer*/
-  SamplePointer m_Sample ;
+  TSample* m_Sample ;
 
   /** Output pointer (MembershipSample) */
-  OutputPointer m_Output ;
+  typename OutputType::Pointer m_Output ;
 
   /** User given class labels for membership functions */
   std::vector< unsigned int > m_ClassLabels ;

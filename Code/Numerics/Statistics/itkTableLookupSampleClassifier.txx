@@ -116,7 +116,7 @@ TableLookupSampleClassifier< TSample >
   typename TSample::MeasurementVectorType measurements ;
   unsigned int numberOfClasses = this->GetNumberOfClasses() ;
   CachedMeasurementVectorType temp ;
-  OutputPointer output = GetOutput() ;
+  OutputType* output = GetOutput() ;
   unsigned int classLabel ;
   output->SetNumberOfClasses(numberOfClasses) ;
   while (iter != end)

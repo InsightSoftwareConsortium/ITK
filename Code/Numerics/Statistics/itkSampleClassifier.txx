@@ -26,20 +26,24 @@ template< class TSample >
 SampleClassifier< TSample >
 ::SampleClassifier()
 {
+  m_Sample = 0 ;
   m_Output = OutputType::New() ;
 }
 
 template< class TSample >
 void
 SampleClassifier< TSample >
-::SetSample(SamplePointer sample)
+::SetSample(TSample* sample)
 {
-  m_Sample = sample ;
-  m_Output->SetSample(sample) ;
+  if ( m_Sample != sample )
+    {
+      m_Sample = sample ;
+      m_Output->SetSample(sample) ;
+    }
 }
 
 template< class TSample >
-SampleClassifier< TSample >::SamplePointer
+TSample*
 SampleClassifier< TSample >
 ::GetSample()
 {
@@ -107,7 +111,7 @@ SampleClassifier< TSample >
 }
 
 template< class TSample >
-SampleClassifier< TSample >::OutputPointer
+SampleClassifier< TSample >::OutputType*
 SampleClassifier< TSample >
 ::GetOutput() 
 {
