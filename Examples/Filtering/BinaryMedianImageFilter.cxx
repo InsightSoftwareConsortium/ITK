@@ -16,11 +16,14 @@
 =========================================================================*/
 
 //  Software Guide : BeginCommandLineArgs
-//    INPUTS: {BrainProtonDensitySlice.png}
+//    INPUTS: {BinaryThresholdImageFilterOutput.png}
 //    OUTPUTS: {BinaryMedianImageFilterOutput.png}
 //    2 2
 //  Software Guide : EndCommandLineArgs
-
+//
+//    BinaryThresholdImageFilterOutput.png was obtained from the BinaryThreshold
+//    ImageFilter example.
+//
 //  Software Guide : BeginLatex
 //
 //  The \doxygen{BinaryMedianImageFilter} is commonly used as a robust approach
@@ -161,7 +164,7 @@ int main( int argc, char * argv[] )
   // 
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
+  // \includegraphics[width=0.44\textwidth]{BinaryThresholdImageFilterOutput.eps}
   // \includegraphics[width=0.44\textwidth]{BinaryMedianImageFilterOutput.eps}
   // \itkcaption[Effect of the BinaryMedian filter.]{Effect of the
   // BinaryMedianImageFilter on a slice from a MRI proton density brain image
