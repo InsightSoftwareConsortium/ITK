@@ -25,7 +25,11 @@ MAKEFILES = $(CMAKE_CONFIG_DIR)/CMake/CMakeVariables.make $(CMAKE_CONFIG_DIR)/Te
 StartNightlyDashboard: 
 	mkdir $(NightlyDashboardStamp)
 
-NightlyDashboardUpdate:
+NDU:
+	$(shell cd $(NightlyDashboardStamp); (cd $(topdir); $(TCLSH) Testing/Utilities/Update.tcl) > Update.xml )
+
+NightlyDashboardUpdate: 
+	@echo "Doing update"
 	$(shell cd $(NightlyDashboardStamp); (cd $(topdir); $(TCLSH) Testing/Utilities/Update.tcl) > Update.xml )
 
 EndNightlyDashboard:
