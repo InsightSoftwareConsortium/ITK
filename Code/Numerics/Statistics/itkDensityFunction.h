@@ -50,7 +50,7 @@ public:
 
  /** Method to get probability of an instance. The return value is the
   * value of the density function, not probability. */
-  virtual double Evaluate(MeasurementVectorType measurement) = 0 ;
+  virtual double Evaluate(MeasurementVectorType &measurement) = 0 ;
   
 
 protected:
