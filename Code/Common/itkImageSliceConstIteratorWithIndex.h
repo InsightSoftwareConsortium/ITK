@@ -151,8 +151,8 @@ public:
   Self & operator--();
 
 private:
-  unsigned long  m_Jump_A;
-  unsigned long  m_Jump_B;
+  unsigned long  m_PixelJump;
+  unsigned long  m_LineJump;
   unsigned int   m_Direction_A;
   unsigned int   m_Direction_B;
 };
