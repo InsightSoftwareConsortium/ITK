@@ -41,7 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkBloxCoreAtomPixel_h
 #define __itkBloxCoreAtomPixel_h
 
-#include "vnl_vector_fixed.h"
+#include "vnl/vnl_vector_fixed.h"
 #include "vnl/algo/vnl_generalized_eigensystem.h"
 #include "itkBloxCoreAtomItem.h"
 #include "itkBloxBoundaryPointItem.h"
