@@ -25,7 +25,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkAdaptImageFilter.h"
 #include "itkAddImageFilter.h"
 #include "itkAnisotropicDiffusionFunction.h"
-#include "itkAnisotropicDiffusionImageFilter.h"
+#include "itkAnisotropicDiffusionImageFilter.txx"
 #include "itkAsinImageFilter.h"
 #include "itkAtan2ImageFilter.h"
 #include "itkAtanImageFilter.h"
