@@ -168,7 +168,7 @@ FastMarchExtension<TLevelSet,TAuxValue,VAuxDimension>
 
       // check if node index is within the output level set
       bool inRange = true;
-      for( int j = 0; j < SetDimension; j++ )
+      for( unsigned int j = 0; j < SetDimension; j++ )
         {
         if( node.index[j] > size[j] )
           {
@@ -257,7 +257,7 @@ IndexType& index )
       double denom = 0. ;
       AuxValueType auxVal;
 
-      for( int j = 0; j < SetDimension; j++ )
+      for( unsigned int j = 0; j < SetDimension; j++ )
       {
         node = this->GetNodeUsedInCalculation(j);
 
