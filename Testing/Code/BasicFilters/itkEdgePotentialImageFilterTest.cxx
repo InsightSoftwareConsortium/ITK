@@ -77,7 +77,7 @@ int main()
 
   // Initialize the content input image
   VectorType vec;
-  for ( int j = 0; j < ImageDimension; j++ )
+  for ( unsigned int j = 0; j < ImageDimension; j++ )
     {
     vec[j] = 10.0;
     }
