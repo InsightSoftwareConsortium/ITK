@@ -13,7 +13,17 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/**
+#ifndef __itkObjectFactory_h
+#define __itkObjectFactory_h
+
+#include "itkObjectFactoryBase.h"
+
+namespace itk
+{
+
+/** \class ObjectFactory
+ * \brief Create instances of a class.
+ *
  * ObjectFactory is a helper class used to created instances of a
  * class. Object factories are used for instantiation because they allow
  * run-time replacement of a class with a user-supplied version. For
@@ -26,14 +36,6 @@
  * instantiate. (The name may include template type parameters, depending
  * on the class definition.)
  */
-
-#ifndef __itkObjectFactory_h
-#define __itkObjectFactory_h
-
-#include "itkObjectFactoryBase.h"
-
-namespace itk
-{
 
 template <class T>
 class ObjectFactory : public ObjectFactoryBase
