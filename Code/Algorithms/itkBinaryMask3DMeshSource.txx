@@ -2304,7 +2304,7 @@ BinaryMask3DMeshSource<TOutputMesh>
 {
   int mid;
   if ( (end - start) > 1 ) {
-    mid = floor((start + end)/2);
+    mid = floor(static_cast<float>((start + end)/2));
     if ( index == m_LastRow[mid][0] ) {
       m_PointFound = 1;
       return m_LastRow[mid][1];
@@ -2333,7 +2333,7 @@ BinaryMask3DMeshSource<TOutputMesh>
 {
   int mid;
   if ( (end - start) > 1 ) {
-    mid = (floor)((start + end)/2);
+    mid = floor(static_cast<float>((start + end)/2));
     if ( index == m_LastFrame[mid][0] ) {
       m_PointFound = 1;
       return m_LastFrame[mid][1];
