@@ -295,7 +295,7 @@ DerivativeType& derivative)
   typename SpatialSampleContainer::const_iterator bend = m_SampleB.end();
 
   // precalculate all the image derivatives for sample A
-  typedef typename std::vector<DerivativeType> DerivativeContainer;
+  typedef std::vector<DerivativeType> DerivativeContainer;
   DerivativeContainer sampleADerivatives;
   sampleADerivatives.resize( m_NumberOfSpatialSamples );
 
