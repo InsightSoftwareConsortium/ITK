@@ -790,9 +790,9 @@ Mesh<TPixelType, VDimension, TMeshTraits>
     if(cellSet != 0)
       {
       cellSet->erase(cellSet->begin(), cellSet->end());
-      
-      for(typename BoundaryType::UsingCellsContainerIterator usingCell = 
-            boundary->UsingCellsBegin() ;
+
+      typename BoundaryType::UsingCellsContainerIterator usingCell;
+      for(usingCell = boundary->UsingCellsBegin() ;
           usingCell != boundary->UsingCellsEnd() ; ++usingCell)
         {
         if((*usingCell) != cellId)
@@ -895,6 +895,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
    * set, less the cell through which the request was made.
    */
   currentCells->erase(cellId);
+  unsigned long numberOfNeighboringCells = currentCells->size();
   if(cellSet != 0)
     {
     *cellSet = *currentCells;    
@@ -908,7 +909,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   /**
    * Return the number of neighboring cells that were put into the set.
    */
-  return static_cast<unsigned long>( cellSet->size() );
+  return numberOfNeighboringCells;
 }
 
 
@@ -1158,8 +1159,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>
     }
 }
 
-
-
 /**
  * Releasing the memory of Boundary Cells objects for which normal pointers 
  * are stored. The method used for memory release is based on information 
@@ -1189,9 +1188,10 @@ Mesh<TPixelType, VDimension, TMeshTraits>
 
 
 /**
- * Releasing the memory of Boundary Cells objects for which normal pointers 
- * are stored. The method used for memory release is based on information 
- * provided by the user who is the only who know how the memory was allocated.
+ * Release the memory of Boundary Cells objects for which normal
+ * pointers are stored. The method used for memory release is based on
+ * information provided by the user who is the only one who knows how
+ * the memory was allocated.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
@@ -1330,7 +1330,7 @@ void
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::SetRequestedRegionToLargestPossibleRegion()
 {
-  m_RequestedNumberOfRegions     = 1;
+  m_RequestedNumberOfRegions  = 1;
   m_RequestedRegion           = 0;
 }
 
