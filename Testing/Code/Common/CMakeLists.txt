@@ -198,7 +198,7 @@ CABLE_OPEN_NAMESPACE(itk)
     "$(iaFunc)ImageAdaptor<$ImageType, $PixelType>"
     "ImageToImageFilter<$ImageType, $ImageType >"
     "ImageToImageFilter<$PhysicalImageType, $PhysicalImageType >"
-    "CentralDifferencImageFunction<$ImageType >"
+    "CentralDifferenceImageFunction<$ImageType >"
     "CentralDifferenceImageFunction<$PhysicalImageType >"
     "EntropyPreservingGradientMagnitudeImageFunction<$ImageType >"
     "EntropyPreservingGradientMagnitudeImageFunction<$PhysicalImageType >"
