@@ -103,7 +103,7 @@ ENDIF( ITK_EXPLICIT_INSTANTIATION )
 
 #-----------------------------------------------------------------------------
 # ITK build patented algorithms
-OPTION(ITK_USE_PATENTED "Build algorithms that are covered with Patents. It is YOUR responsibility to obbtain a license from the patent holder in order to user these methods." OFF)
+OPTION(ITK_USE_PATENTED "Build algorithms that are covered with Patents. It is YOUR responsibility to obtain a license from the patent holder in order to use these methods." OFF)
 MARK_AS_ADVANCED(ITK_USE_PATENTED)
 
 #-----------------------------------------------------------------------------
