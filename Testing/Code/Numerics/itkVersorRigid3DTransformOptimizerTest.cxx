@@ -136,9 +136,7 @@ public:
 
   unsigned int GetNumberOfParameters(void) const 
     {
-    std::cout << "GetNumberOfParameters() = " << this->SpaceDimension << std::endl;
- //   return itkGetStaticConstMacro( SpaceDimension );
-    return 6;
+    return itkGetStaticConstMacro( SpaceDimension );
     }
 
 private:
@@ -195,7 +193,6 @@ int itkVersorRigid3DTransformOptimizerTest(int, char* [] )
   initialRotation.Set( axis, angle );
   
   const unsigned int spaceDimensions = costFunction->GetNumberOfParameters();
-  std::cout << "SpaceDimension = " << spaceDimensions << std::endl;
 
   ParametersType  initialPosition( spaceDimensions );
   initialPosition[0] = initialRotation.GetX();
@@ -280,7 +277,6 @@ int itkVersorRigid3DTransformOptimizerTest(int, char* [] )
   trueParameters[4] = 30.0;
   trueParameters[5] = 30.0;
   
-  std::cout << "SpaceDimension = " << spaceDimensions << std::endl;
   std::cout << "True Parameters = " << trueParameters << std::endl;
 
   VersorType ratio = finalRotation * trueRotation.GetReciprocal();
