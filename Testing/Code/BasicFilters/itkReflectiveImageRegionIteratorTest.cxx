@@ -94,7 +94,6 @@ int main()
     PixelType value = rit.Get();
     ImageType::IndexType index = rit.GetIndex();
 
-    std::cout << "value= " << value << " index= " << index << std::endl;
     rvt.Set( rvt.Get() + 1 );
     if( value != index ) 
       {
@@ -108,8 +107,9 @@ int main()
 
 
 
-  // Each element should be visited 2 * # of dimensions
-  int visits = ImageType::ImageDimension * 2;
+  // Each element should be visited 2 ^ # of dimensions
+  // each left shift = multiply by 2
+  int visits = ( 1 << (ImageType::ImageDimension)); 
   int failed = 0;
 
   // Verify the number of visits
@@ -125,15 +125,17 @@ int main()
     }
 
   std::cout << std::endl;
-  if (!failed)
+
+  if ( failed )
     {
-    std::cout << "      PASSED !" << std::endl;
+    std::cout << "      FAILED !" << std::endl << std::endl;
+    return EXIT_FAILURE;
     }
-  else
-    {
-    std::cout << "      FAILED !" << std::endl;
-    }
-  return failed;
+
+  
+  std::cout << "      PASSED !" << std::endl << std::endl;
+  return EXIT_SUCCESS;
+
 }
 
 
