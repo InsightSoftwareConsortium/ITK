@@ -31,6 +31,8 @@ namespace itk
 GradientDescentOptimizer
 ::GradientDescentOptimizer()
 {
+   itkDebugMacro("Constructor");
+
    m_LearningRate = 1.0;
    m_NumberOfIterations = 100;
    m_CurrentIteration = 0;
@@ -75,6 +77,8 @@ GradientDescentOptimizer
 ::StartOptimization( void )
 {
 
+  itkDebugMacro("StartOptimization");
+   
   m_CurrentIteration   = 0;
 
   this->SetCurrentPosition( this->GetInitialPosition() );
@@ -92,6 +96,8 @@ GradientDescentOptimizer
 ::ResumeOptimization( void )
 {
   
+  itkDebugMacro("ResumeOptimization");
+
   m_Stop = false;
 
   InvokeEvent( StartEvent() );
@@ -144,6 +150,9 @@ void
 GradientDescentOptimizer
 ::StopOptimization( void )
 {
+
+  itkDebugMacro("StopOptimization");
+
   m_Stop = true;
   InvokeEvent( EndEvent() );
 }
@@ -159,6 +168,8 @@ void
 GradientDescentOptimizer
 ::AdvanceOneStep( void )
 { 
+
+  itkDebugMacro("AdvanceOneStep");
 
   double direction;
   if( this->m_Maximize ) 

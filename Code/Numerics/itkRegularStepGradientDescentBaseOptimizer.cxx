@@ -32,6 +32,8 @@ RegularStepGradientDescentBaseOptimizer
 ::RegularStepGradientDescentBaseOptimizer()
 {
 
+  itkDebugMacro("Constructor");
+      
   m_MaximumStepLength = 1.0;
   m_MinimumStepLength = 1e-3;
   m_GradientMagnitudeTolerance = 1e-4;
@@ -53,6 +55,8 @@ void
 RegularStepGradientDescentBaseOptimizer
 ::StartOptimization( void )
 {
+
+  itkDebugMacro("StartOptimization");
 
   m_CurrentStepLength         = m_MaximumStepLength;
   m_CurrentIteration          = 0;
@@ -82,8 +86,7 @@ RegularStepGradientDescentBaseOptimizer
 ::ResumeOptimization( void )
 {
   
-//  const unsigned int  spaceDimension =
-//                m_CostFunction->GetNumberOfParameters();
+  itkDebugMacro("ResumeOptimization");
 
   m_Stop = false;
 
@@ -135,6 +138,9 @@ void
 RegularStepGradientDescentBaseOptimizer
 ::StopOptimization( void )
 {
+
+  itkDebugMacro("StopOptimization");
+  
   m_Stop = true;
   this->InvokeEvent( EndEvent() );
 }
@@ -149,6 +155,8 @@ void
 RegularStepGradientDescentBaseOptimizer
 ::AdvanceOneStep( void )
 { 
+
+  itkDebugMacro("AdvanceOneStep");
 
   const unsigned int  spaceDimension =
                 m_CostFunction->GetNumberOfParameters();
