@@ -10,6 +10,9 @@ TARGET_LINK_LIBRARIES(ConfidenceConnected ITKCommon ITKNumerics VXLNumerics ITKI
 ADD_EXECUTABLE(NeighborhoodConnectedImageFilter NeighborhoodConnectedImageFilter.cxx )
 TARGET_LINK_LIBRARIES(NeighborhoodConnectedImageFilter ITKCommon ITKNumerics VXLNumerics ITKIO)
 
+ADD_EXECUTABLE(IsolatedConnectedImageFilter IsolatedConnectedImageFilter.cxx )
+TARGET_LINK_LIBRARIES(IsolatedConnectedImageFilter ITKCommon ITKNumerics VXLNumerics ITKIO)
+
 ADD_EXECUTABLE(ConnectedThresholdImageFilter ConnectedThresholdImageFilter.cxx )
 TARGET_LINK_LIBRARIES(ConnectedThresholdImageFilter ITKCommon ITKNumerics VXLNumerics ITKIO)
 
