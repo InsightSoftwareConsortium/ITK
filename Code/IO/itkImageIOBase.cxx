@@ -107,26 +107,25 @@ const std::type_info& ImageIOBase::GetPixelType() const
     case UCHAR:
       return typeid(unsigned char);
     case CHAR:
-      return typeid(unsigned char);
+      return typeid(char);
     case USHORT:
       return typeid(unsigned short);
     case SHORT:
-      return typeid(unsigned char);
+      return typeid(short);
     case UINT:
-      return typeid(unsigned char);
+      return typeid(unsigned int);
     case INT:
-      return typeid(unsigned char);
+      return typeid(int);
     case ULONG:
-      return typeid(unsigned char);
+      return typeid(unsigned long);
     case LONG:
-      return typeid(unsigned char);
+      return typeid(long);
     case FLOAT:
-      return typeid(unsigned char);
+      return typeid(float);
     case DOUBLE:
-      return typeid(unsigned char);
+      return typeid(double);
     default:
-      itkErrorMacro (<< "Invalid type: " << m_PixelType 
-                     << ", only unsigned char and unsigned short are allowed.");
+      itkErrorMacro (<< "Invalid type: " << m_PixelType );
       return typeid(ImageIOBase::UnknownType);
     }
 }
