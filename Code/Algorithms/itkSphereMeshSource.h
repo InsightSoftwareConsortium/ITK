@@ -71,8 +71,8 @@ public:
   typedef TriangleCell<OPixelType, CellTraits> TriCell;
   typedef typename TriCell::Pointer TriCellPointer;
 
-  itkSetMacro(ResolutionX, int);
-  itkSetMacro(ResolutionY, int);
+  itkSetMacro(ResolutionX, unsigned int);
+  itkSetMacro(ResolutionY, unsigned int);
 
   itkSetMacro(Center, OPointType);
   itkSetMacro(Scale,  OPointType);
