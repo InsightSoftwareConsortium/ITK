@@ -18,10 +18,7 @@
 #include "itkBilateralImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkPNGImageIO.h"
-#include "itkPNGImageIOFactory.h"
 #include "itkImageRegionIterator.h"
-
 
 int itkBilateralImageFilterTest2(int ac, char* av[] )
 {
@@ -31,9 +28,6 @@ int itkBilateralImageFilterTest2(int ac, char* av[] )
     return -1;
     }
 
-  // Register one Factory of PNG readers
-  //itk::PNGImageIOFactory::RegisterOneFactory();
-  
   typedef unsigned char PixelType;
   typedef itk::Image<PixelType, 2> myImage;
   itk::ImageFileReader<myImage>::Pointer input 
@@ -48,7 +42,7 @@ int itkBilateralImageFilterTest2(int ac, char* av[] )
 
     // these settings reduce the amount of noise by a factor of 10
     // when the original signal to noise level is 5
-    filter->SetDomainSigma( 3.0 );
+    filter->SetDomainSigma( 4.0 );
     filter->SetRangeSigma( 50.0 );
     
   try

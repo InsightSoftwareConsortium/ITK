@@ -17,20 +17,17 @@
 #include <fstream>
 #include "itkNeighborhoodConnectedImageFilter.h"
 #include "itkImageFileReader.h"
-#include "itkPNGImageIOFactory.h"
+#include "itkImageFileWriter.h"
 #include "itkImageRegionIterator.h"
 
 int itkNeighborhoodConnectedImageFilterTest(int ac, char* av[] )
 {
   if(ac < 3)
     {
-    std::cerr << "Usage: " << av[0] << " InputImage BaselineImage\n";
+    std::cerr << "Usage: " << av[0] << " InputImage OutputImage\n";
     return -1;
     }
 
-  // Register one Factory of PNG readers
-  itk::PNGImageIOFactory::RegisterOneFactory();
-  
   typedef unsigned char PixelType;
   typedef itk::Image<PixelType, 2> myImage;
   itk::ImageFileReader<myImage>::Pointer input 
@@ -66,33 +63,12 @@ int itkNeighborhoodConnectedImageFilterTest(int ac, char* av[] )
     return -1;
     }
 
-  // now read the regression image
-  itk::ImageFileReader<myImage>::Pointer baseline 
-    = itk::ImageFileReader<myImage>::New();
-    baseline->SetFileName(av[2]);
+  // Generate test image
+  itk::ImageFileWriter<myImage>::Pointer writer;
+    writer = itk::ImageFileWriter<myImage>::New();
+    writer->SetInput( filter->GetOutput() );
+    writer->SetFileName( av[2] );
+    writer->Update();
 
-  try
-    {
-    baseline->Update();
-    }
-  catch (itk::ImageFileReaderException& e)
-    {
-    std::cerr << "Exception in file reader: "  << e.GetDescription() << std::endl;
-    return -1;
-    }
-  
-  // compare the two images
-  itk::ImageRegionIterator<myImage> it(filter->GetOutput(),filter->GetOutput()->GetBufferedRegion());
-  itk::ImageRegionIterator<myImage> rit(baseline->GetOutput(),baseline->GetOutput()->GetBufferedRegion());
-  int status = 0;
-  while (!it.IsAtEnd())
-    {
-    if (it.Get() != rit.Get())
-      {
-      status++;
-      } 
-    ++it;
-    ++rit;  
-    }
-  return status;
+    return 0;
 }

@@ -28,13 +28,10 @@ int itkGradientAnisotropicDiffusionImageFilterTest2(int ac, char* av[] )
 {
   if(ac < 3)
     {
-    std::cerr << "Usage: " << av[0] << " InputImage BaselineImage\n";
+    std::cerr << "Usage: " << av[0] << " InputImage OutputImage\n";
     return -1;
     }
 
-  // Register one Factory of PNG readers
-  itk::PNGImageIOFactory::RegisterOneFactory();
-  
   typedef float PixelType;
   typedef itk::Image<PixelType, 2> myFloatImage;
   itk::ImageFileReader<myFloatImage>::Pointer input 
@@ -68,49 +65,13 @@ int itkGradientAnisotropicDiffusionImageFilterTest2(int ac, char* av[] )
     return -1;
     }
 
-  // Code used to generate the baseline image, commented out when run in
-  // regression test mode.
-  // 
-  // itk::PNGImageIO::Pointer io;
-  // io = itk::PNGImageIO::New();
-  //
-  // itk::ImageFileWriter<myUCharImage>::Pointer writer;
-  // writer = itk::ImageFileWriter<myUCharImage>::New();
-  // writer->SetInput( caster->GetOutput() );
-  // writer->SetFileName( av[2] );
-  // writer->SetImageIO( io );
-  // writer->Update();
-  
-  // now read the regression image
-  itk::ImageFileReader<myUCharImage>::Pointer baseline 
-    = itk::ImageFileReader<myUCharImage>::New();
-    baseline->SetFileName(av[2]);
+  // Generate test image
+  itk::ImageFileWriter<myUCharImage>::Pointer writer;
+    writer = itk::ImageFileWriter<myUCharImage>::New();
+    writer->SetInput( caster->GetOutput() );
+    std::cout << "Writing " << av[2] << std::endl;
+    writer->SetFileName( av[2] );
+    writer->Update();
 
-  try
-    {
-    baseline->Update();
-    }
-  catch (itk::ImageFileReaderException& e)
-    {
-    std::cerr << "Exception in file reader: "  << e.GetDescription() << std::endl;
-    return -1;
-    }
-  
-  // compare the two images
-  itk::ImageRegionIterator<myUCharImage> it(caster->GetOutput(),caster->GetOutput()->GetBufferedRegion());
-  itk::ImageRegionIterator<myUCharImage> rit(baseline->GetOutput(),baseline->GetOutput()->GetBufferedRegion());
-   int status = 0;
-   while (!it.IsAtEnd())
-     {
-     if (it.Get() != rit.Get())
-       {
-       status++;
-       } 
-     ++it;
-     ++rit;  
-     }
-
-  itk::ObjectFactoryBase::UnRegisterAllFactories();
-
-  return status;
+  return 0;
 }

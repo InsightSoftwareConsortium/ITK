@@ -28,8 +28,6 @@ ADD_TEST(itkBloxBoundaryPointImageTest ${BASIC_FILTERS_TESTS} itkBloxBoundaryPoi
 ADD_TEST(itkBloxCoreAtomTest ${BASIC_FILTERS_TESTS} itkBloxCoreAtomTest)
 ADD_TEST(itkChangeInformationImageFilterTest ${BASIC_FILTERS_TESTS} itkChangeInformationImageFilterTest)
 ADD_TEST(itkComposeRGBImageFilterTest ${BASIC_FILTERS_TESTS} itkComposeRGBImageFilterTest)
-ADD_TEST(itkConfidenceConnectedImageFilterTest ${BASIC_FILTERS_TESTS} itkConfidenceConnectedImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_DATA_ROOT}/Baseline/BasicFilters/ConfidenceConnectedImageFilterTest.png)
-ADD_TEST(itkConnectedThresholdImageFilterTest ${BASIC_FILTERS_TESTS} itkConnectedThresholdImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_DATA_ROOT}/Baseline/BasicFilters/ConnectedThresholdImageFilterTest.png)
 ADD_TEST(itkCosImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkCosImageFilterAndAdaptorTest)
 ADD_TEST(itkCurvatureAnisotropicDiffusionImageFilterTest ${BASIC_FILTERS_TESTS} itkCurvatureAnisotropicDiffusionImageFilterTest)
 ADD_TEST(itkCyclicReferences ${BASIC_FILTERS_TESTS} itkCyclicReferences)
@@ -37,7 +35,6 @@ ADD_TEST(itkDanielssonDistanceMapImageFilterTest ${BASIC_FILTERS_TESTS} itkDanie
 ADD_TEST(itkDifferenceOfGaussiansGradientTest ${BASIC_FILTERS_TESTS} itkDifferenceOfGaussiansGradientTest)
 ADD_TEST(itkEdgePotentialImageFilterTest ${BASIC_FILTERS_TESTS} itkEdgePotentialImageFilterTest)
 ADD_TEST(itkEigenAnalysis2DImageFilterTest ${BASIC_FILTERS_TESTS} itkEigenAnalysis2DImageFilterTest)
-ADD_TEST(itkIsolatedConnectedImageFilterTest ${BASIC_FILTERS_TESTS} itkIsolatedConnectedImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_DATA_ROOT}/Baseline/BasicFilters/IsolatedConnectedImageFilterTest.png)
 ADD_TEST(itkExpImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkExpImageFilterAndAdaptorTest)
 ADD_TEST(itkExpNegativeImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkExpNegativeImageFilterAndAdaptorTest)
 ADD_TEST(itkExpandImageFilterTest ${BASIC_FILTERS_TESTS} itkExpandImageFilterTest)
@@ -67,7 +64,6 @@ ADD_TEST(itkMedianImageFilterTest ${BASIC_FILTERS_TESTS} itkMedianImageFilterTes
 ADD_TEST(itkMultiplyImageFilterTest ${BASIC_FILTERS_TESTS} itkMultiplyImageFilterTest)
 ADD_TEST(itkMinimumMaximumImageFilterTest ${BASIC_FILTERS_TESTS} itkMinimumMaximumImageFilterTest)
 ADD_TEST(itkMinimumMaximumImageCalculatorTest ${BASIC_FILTERS_TESTS} itkMinimumMaximumImageCalculatorTest)
-ADD_TEST(itkNeighborhoodConnectedImageFilterTest ${BASIC_FILTERS_TESTS} itkNeighborhoodConnectedImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_DATA_ROOT}/Baseline/BasicFilters/NeighborhoodConnectedImageFilterTest.png)
 ADD_TEST(itkNormalizeImageFilterTest ${BASIC_FILTERS_TESTS} itkNormalizeImageFilterTest)
 ADD_TEST(itkPermuteAxesImageFilterTest ${BASIC_FILTERS_TESTS} itkPermuteAxesImageFilterTest)
 ADD_TEST(itkPlaheImageFilterTest ${BASIC_FILTERS_TESTS} itkPlaheImageFilterTest)
@@ -101,7 +97,6 @@ ADD_TEST(itkThresholdImageFilterTest ${BASIC_FILTERS_TESTS} itkThresholdImageFil
 ADD_TEST(itkTransformMeshFilterTest ${BASIC_FILTERS_TESTS} itkTransformMeshFilterTest)
 ADD_TEST(itkVectorAnisotropicDiffusionImageFilterTest ${BASIC_FILTERS_TESTS} itkVectorAnisotropicDiffusionImageFilterTest)
 ADD_TEST(itkGradientAnisotropicDiffusionImageFilterTest ${BASIC_FILTERS_TESTS} itkGradientAnisotropicDiffusionImageFilterTest)
-ADD_TEST(itkGradientAnisotropicDiffusionImageFilterTest2 ${BASIC_FILTERS_TESTS} itkGradientAnisotropicDiffusionImageFilterTest2 ${ITK_DATA_ROOT}/Input/cake_easy.png ${ITK_DATA_ROOT}/Baseline/BasicFilters/GradientAnisotropicDiffusionImageFilterTest2.png)
 ADD_TEST(itkGradientMagnitudeImageFilterTest ${BASIC_FILTERS_TESTS} itkGradientMagnitudeImageFilterTest)
 ADD_TEST(itkGradientToMagnitudeImageFilterTest ${BASIC_FILTERS_TESTS} itkGradientToMagnitudeImageFilterTest)
 ADD_TEST(itkGradientImageFilterTest ${BASIC_FILTERS_TESTS} itkGradientImageFilterTest)
@@ -128,17 +123,55 @@ ADD_TEST(itkVectorGradientMagnitudeImageFilterTest2 ${BASIC_FILTERS_TESTS} itkVe
 
 
 IF(ITK_DATA_ROOT)
+ADD_TEST(itkGradientAnisotropicDiffusionImageFilterTest2 ${BASIC_FILTERS_TESTS} 
+  --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/GradientAnisotropicDiffusionImageFilterTest2.png
+            ${ITK_BINARY_DIR}/Testing/Temporary/GradientAnisotropicDiffusionImageFilterTest2.png
+  itkGradientAnisotropicDiffusionImageFilterTest2
+            ${ITK_DATA_ROOT}/Input/cake_easy.png
+            ${ITK_BINARY_DIR}/Testing/Temporary/GradientAnisotropicDiffusionImageFilterTest2.png)
+
 ADD_TEST(itkBilateralImageFilterTest2 ${BASIC_FILTERS_TESTS}
   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/BilateralImageFilterTest2.png
             ${ITK_BINARY_DIR}/Testing/Temporary/BilateralImageFilterTest2.png
-  itkBilateralImageFilterTest2 ${ITK_DATA_ROOT}/Input/cake_easy.png
-    ${ITK_BINARY_DIR}/Testing/Temporary/BilateralImageFilterTest2.png)
+  itkBilateralImageFilterTest2
+            ${ITK_DATA_ROOT}/Input/cake_easy.png
+            ${ITK_BINARY_DIR}/Testing/Temporary/BilateralImageFilterTest2.png)
 
 ADD_TEST(itkBilateralImageFilterTest3 ${BASIC_FILTERS_TESTS}
   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/BilateralImageFilterTest3.png
             ${ITK_BINARY_DIR}/Testing/Temporary/BilateralImageFilterTest3.png
-  itkBilateralImageFilterTest3 ${ITK_DATA_ROOT}/Input/cake_easy.png
-    ${ITK_BINARY_DIR}/Testing/Temporary/BilateralImageFilterTest3.png)
+  itkBilateralImageFilterTest3
+            ${ITK_DATA_ROOT}/Input/cake_easy.png
+            ${ITK_BINARY_DIR}/Testing/Temporary/BilateralImageFilterTest3.png)
+
+ADD_TEST(itkConnectedThresholdImageFilterTest ${BASIC_FILTERS_TESTS}
+  --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ConnectedThresholdImageFilterTest.png
+            ${ITK_BINARY_DIR}/Testing/Temporary/ConnectedThresholdImageFilterTest.png
+  itkConnectedThresholdImageFilterTest
+            ${ITK_DATA_ROOT}/Input/cthead1.png
+            ${ITK_BINARY_DIR}/Testing/Temporary/ConnectedThresholdImageFilterTest.png)
+
+ADD_TEST(itkNeighborhoodConnectedImageFilterTest ${BASIC_FILTERS_TESTS}
+   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/NeighborhoodConnectedImageFilterTest.png
+             ${ITK_BINARY_DIR}/Testing/Temporary/NeighborhoodConnectedImageFilterTest.png
+  itkNeighborhoodConnectedImageFilterTest
+             ${ITK_DATA_ROOT}/Input/cthead1.png
+             ${ITK_BINARY_DIR}/Testing/Temporary/NeighborhoodConnectedImageFilterTest.png)
+
+ADD_TEST(itkConfidenceConnectedImageFilterTest ${BASIC_FILTERS_TESTS}
+   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ConfidenceConnectedImageFilterTest.png
+             ${ITK_BINARY_DIR}/Testing/Temporary/ConfidenceConnectedImageFilterTest.png
+  itkConfidenceConnectedImageFilterTest
+             ${ITK_DATA_ROOT}/Input/cthead1.png
+             ${ITK_BINARY_DIR}/Testing/Temporary/ConfidenceConnectedImageFilterTest.png)
+
+ADD_TEST(itkIsolatedConnectedImageFilterTest ${BASIC_FILTERS_TESTS}
+   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/IsolatedConnectedImageFilterTest.png
+             ${ITK_BINARY_DIR}/Testing/Temporary/IsolatedConnectedImageFilterTest.png
+  itkIsolatedConnectedImageFilterTest
+             ${ITK_DATA_ROOT}/Input/cthead1.png
+             ${ITK_BINARY_DIR}/Testing/Temporary/IsolatedConnectedImageFilterTest.png)
+
 ENDIF(ITK_DATA_ROOT)
 
 SET(BasicFilters_SRCS
