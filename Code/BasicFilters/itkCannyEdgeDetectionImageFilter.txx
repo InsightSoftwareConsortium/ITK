@@ -101,16 +101,16 @@ CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>
 ::AllocateUpdateBuffer()
 {
   // The update buffer looks just like the input.
-  typename TOutputImage::Pointer output = this->GetOutput();
+  typename TOutputImage::Pointer input = this->GetInput();
 
-  m_UpdateBuffer->SetLargestPossibleRegion(output->GetLargestPossibleRegion());
-  m_UpdateBuffer->SetRequestedRegion(output->GetRequestedRegion());
-  m_UpdateBuffer->SetBufferedRegion(output->GetBufferedRegion());
+  m_UpdateBuffer->SetLargestPossibleRegion(input->GetLargestPossibleRegion());
+  m_UpdateBuffer->SetRequestedRegion(input->GetRequestedRegion());
+  m_UpdateBuffer->SetBufferedRegion(input->GetBufferedRegion());
   m_UpdateBuffer->Allocate();
   
-  m_UpdateBuffer1->SetLargestPossibleRegion(output->GetLargestPossibleRegion());
-  m_UpdateBuffer1->SetRequestedRegion(output->GetRequestedRegion());
-  m_UpdateBuffer1->SetBufferedRegion(output->GetBufferedRegion());
+  m_UpdateBuffer1->SetLargestPossibleRegion(input->GetLargestPossibleRegion());
+  m_UpdateBuffer1->SetRequestedRegion(input->GetRequestedRegion());
+  m_UpdateBuffer1->SetBufferedRegion(input->GetBufferedRegion());
   m_UpdateBuffer1->Allocate();
 }
 
