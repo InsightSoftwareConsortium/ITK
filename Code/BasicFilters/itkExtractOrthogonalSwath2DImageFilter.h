@@ -99,6 +99,10 @@ public:
   /** Set the size of the swath image.  The # of rows (size[1]) MUST be odd */
   itkSetMacro( Size, SizeType )
 
+  /** Set the default pixel value of the swath image, to be used if the swath
+   * extends past the edge of the input image data. */
+  itkSetMacro( DefaultPixelValue, ImagePixelType )
+
   //--------------------------------------------------------------------------
   //
   
@@ -114,6 +118,7 @@ public:
 protected:
   ExtractOrthogonalSwath2DImageFilter()
     {
+    m_DefaultPixelValue = NumericTraits<ImagePixelType>::Zero;
     m_Size[0] = 512;
     m_Size[1] = 16*2+1; // must be odd
     m_Origin[0]  = m_Origin[1]  = 0.0;
@@ -147,6 +152,7 @@ private:
   ExtractOrthogonalSwath2DImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
+  ImagePixelType m_DefaultPixelValue;
   SizeType  m_Size;
   double m_Origin[ImageDimension];
   double m_Spacing[ImageDimension];

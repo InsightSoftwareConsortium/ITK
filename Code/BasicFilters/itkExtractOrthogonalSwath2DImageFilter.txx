@@ -205,8 +205,11 @@ ExtractOrthogonalSwath2DImageFilter<TImage>
     // set the swath pixel to the interpolated input pixel
     if ( ! interpolator->IsInsideBuffer( continousIndex ) )
       {
-      itkExceptionMacro(<<"Requested input index ["<<continousIndex
-                        <<"] is not in the input image" );
+      //itkExceptionMacro(<<"Requested input index ["<<continousIndex
+      //                  <<"] is not in the input image" );
+      outputIt.Set( m_DefaultPixelValue );
+      progress.CompletedPixel();
+      continue;
       }
     
     // prevent small interpolation error from rounding-down integer types
