@@ -249,7 +249,7 @@ public:
   int  GetParentId(void) {return m_ParentId;}
 
   /** Get/Set the ID */
-  itkGetMacro(Id,int);
+  itkGetConstMacro(Id,int);
   itkSetMacro(Id,int);
 
   /** Returns a list of pointer to the children affiliated to this object. */ 
