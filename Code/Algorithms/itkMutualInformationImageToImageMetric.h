@@ -172,6 +172,9 @@ public:
   itkSetObjectMacro( KernelFunction, KernelFunction );
   itkGetObjectMacro( KernelFunction, KernelFunction );
 
+  static void ReinitializeSeed();
+  static void ReinitializeSeed(int);
+
 protected:
   MutualInformationImageToImageMetric();
   virtual ~MutualInformationImageToImageMetric() {};
@@ -219,10 +222,6 @@ private:
    * Calculate the intensity derivatives at a point
    */
   void CalculateDerivatives( const FixedImagePointType& , DerivativeType& ) const;
-
-  /** Reinitialize the seed of the random number generator */
-  static void ReinitializeSeed();
-  static void ReinitializeSeed(int);
 
   typedef typename Superclass::CoordinateRepresentationType  
   CoordinateRepresentationType;
