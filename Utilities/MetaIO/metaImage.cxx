@@ -812,7 +812,7 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
       MET_SetFileSuffix(m_ElementDataFileName, "raw");
       }
     }
-  else
+  else if(_dataName != NULL)
     {
     ElementDataFileName(_dataName);
     }
