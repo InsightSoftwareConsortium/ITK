@@ -24,6 +24,7 @@
 #include "itkMultipleValuedCostFunction.h"
 #include "itkLevenbergMarquardtOptimizer.h"
 
+#include "iostream.h"
 typedef vnl_matrix<double> MatrixType;
 typedef vnl_vector<double> VectorType;
 
@@ -42,23 +43,24 @@ class BoundaryProfileCostFunction : public MultipleValuedCostFunction
 public:
 
   // Standard class typedefs
-  typedef BoundaryProfileCostFunction       Self;
+  typedef BoundaryProfileCostFunction  Self;
   typedef MultipleValuedCostFunction   Superclass;
   typedef SmartPointer<Self>           Pointer;
   typedef SmartPointer<const Self>     ConstPointer;
   itkNewMacro( Self );
 
   // Typedef for parameter type
-  typedef Superclass::ParametersType              ParametersType;
+  typedef Superclass::ParametersType ParametersType;
 
   // Typedef for derivative type
-  typedef Superclass::DerivativeType              DerivativeType;
+  typedef Superclass::DerivativeType DerivativeType;
 
   // Typedef for measure type
-  typedef Superclass::MeasureType                 MeasureType;
 
-  enum { SpaceDimension = 4 }; // number of parameters
-
+  typedef Superclass::MeasureType MeasureType;
+           
+  enum { SpaceDimension = 4 }; // number of parameters 
+  
   BoundaryProfileCostFunction(){}
 
   ~BoundaryProfileCostFunction(){}
@@ -149,19 +151,14 @@ public:
     double c = parameters[2];  // mean
     double d = parameters[3];  // standard deviation
 
-    // Compute points of the function over a square domain
-    unsigned valueindex = 0;
-
     double arg = 0;
     for( unsigned int x = 0; x < m_RangeDimension; x++ )
       {
       const double xd = static_cast<double>( x );
 
       arg = ((xd-c)/(d*SQUARE_ROOT_OF_TWO));
-      m_Measure[valueindex]  = (a+.5*(b-a)*(1 + erf(arg)));
-      m_Measure[valueindex] -= m_TheoreticalData[valueindex];
-
-      valueindex++;
+      m_Measure[x]  = (a+.5*(b-a)*(1 + erf(arg)));
+      m_Measure[x] -= m_TheoreticalData[x];
       }
     return m_Measure;
   }
@@ -174,21 +171,17 @@ public:
     double c = parameters[2];
     double d = parameters[3];
 
-    // Compute points of the function over a square domain
-    unsigned valueindex = 0;
-
     double arg = 0;
     for( unsigned int x = 0; x<m_RangeDimension; x++ )
       {
       arg = ((x-c)/(d*SQUARE_ROOT_OF_TWO));
 
-      m_Derivative[0][valueindex] =  1;
-      m_Derivative[1][valueindex] =  (.5*(1 + erf(arg)));
-      m_Derivative[2][valueindex] =  -(INV_SQRT_TWO_PI*b*(1/d)*(exp(arg*arg)));
-      m_Derivative[3][valueindex] =  -(INV_SQRT_TWO_PI*b*(x - c)*(1/(d*d))*exp(arg*arg));
-
-      valueindex++;
+      m_Derivative[0][x] =  1;
+      m_Derivative[1][x] =  (.5*(1 + erf(arg)));
+      m_Derivative[2][x] =  -(INV_SQRT_TWO_PI*b*(1/d)*(exp(arg*arg)));
+      m_Derivative[3][x] =  -(INV_SQRT_TWO_PI*b*(x - c)*(1/(d*d))*exp(arg*arg));
       }
+    derivative = m_Derivative;
   }
 
   unsigned int GetNumberOfParameters(void) const
@@ -204,9 +197,7 @@ public:
   void SetTheoreticalData(double * setTheoreticalData)
   {
     for( unsigned int x = 0; x<m_RangeDimension; x++ )
-      {
       m_TheoreticalData[x] = setTheoreticalData[x];
-      }
   }
 
 private:
@@ -231,8 +222,26 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 ::BloxBoundaryPointImageToBloxBoundaryProfileImageFilter()
 {
   // NOTE: Be sure to call Initialize function to set variables
+  m_UniqueAxis = 0;
+  m_SymmetricAxes = 0;
+  m_NumberOfBins = 0;
+  m_SplatMethod = 0;
+  m_SpaceDimension = 0;
+  m_NumBoundaryProfiles = 0;
+  m_UseGradient = false;
+
   itkDebugMacro(<< "itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter::itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter() called");
 }
+
+template< typename TSourceImage >
+BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
+::~BloxBoundaryPointImageToBloxBoundaryProfileImageFilter()
+{
+  delete [] m_Accumulator;
+  delete [] m_Normalizer;
+  delete [] m_NormalizedAccumulator;
+  delete [] m_FinalParameters;
+};
 
 template< typename TSourceImage >
 bool
@@ -264,8 +273,7 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
     for(unsigned int j = 0; j < m_NumberOfBins; ++j)
       {
       if(temp >= maximum)
-        {
-        maximum = temp;}
+        maximum = temp;
       }
     }
     return maximum;
@@ -295,6 +303,10 @@ int
 BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 ::FitProfile()
 {
+  // The Levenberg-Marquardt Optimizer is used temporarily yielding less than
+  // desirable results. Any optimizer can be used here. A fast
+  // one specialized for fitting Gaussians will replace these methods
+  // shortly.
   m_FinalParameters = new double[BoundaryProfileCostFunction::SpaceDimension];
 
   typedef LevenbergMarquardtOptimizer OptimizerType;
@@ -332,8 +344,9 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
   const double G_Tolerance      = 1e-17;  // Gradient magnitude tolerance
   const double X_Tolerance      = 1e-16;  // Search space tolerance
   const double Epsilon_Function = 1e-10;  // Step
-  const int    Max_Iterations   =    500;  // Maximum number of iterations
+  const int    Max_Iterations   =   100;  // Maximum number of iterations
 
+  Optimizer->SetUseCostFunctionGradient(m_UseGradient);
   vnlOptimizerType * vnlOptimizer = Optimizer->GetOptimizer();
 
   vnlOptimizer->set_f_tolerance( F_Tolerance );
@@ -379,21 +392,6 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
   m_FinalParameters[3] = finalPosition[3];
 
   return EXIT_SUCCESS;
-}
-
-template< typename TSourceImage >
-void
-BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
-::NormalizeSplatAccumulator()
-{
-  for(unsigned int i = 0; i < m_NumberOfBins; ++i)
-    {
-    if(m_Normalizer[i] == 0)
-      {
-      m_NormalizedAccumulator[i] = 0;
-      }
-    m_NormalizedAccumulator[i] = m_Accumulator[i] / m_Normalizer[i];
-    }
 }
 
 template< typename TSourceImage >
@@ -490,11 +488,12 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
       // The index of the pixel
       VectorType indexPosition;
 
-      // Reset these just to be safe
+      // Reset
       for(unsigned int i = 0; i < m_NumberOfBins; ++i)
         {
         m_Accumulator[i] = 0;
         m_Normalizer[i] = 0;
+        m_NormalizedAccumulator[i] = 0;
         }
 
       // Walk the spatial function
@@ -503,12 +502,12 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 
         VectorType deltaPoint;
         for(unsigned int i = 0; i < NDimensions; i++)
-        {
+          {
           indexPosition[i] = sfi.GetIndex()[i];
           // Calculate difference in spatial function index and origin
           deltaPoint[i] = indexPosition[i] - spatialFunctionOriginVector[i];
-        }
-
+          }
+        
         // Project boundary point onto major axis of ellipsoid
         double projOntoMajorAxis = inner_product<double>(deltaPoint.Get_vnl_vector(), orientationVNL.Get_vnl_vector());
 
@@ -610,6 +609,39 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 template< typename TSourceImage >
 void
 BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
+::Initialize(double setUniqueAxis, double setSymmetricAxes, unsigned int numberOfBins,
+                unsigned int splatMethod, unsigned int spaceDimension)
+{
+  m_NumBoundaryProfiles = 0;
+  m_UniqueAxis = setUniqueAxis;
+  m_SymmetricAxes = setSymmetricAxes;
+  m_NumberOfBins = numberOfBins;
+  m_SplatMethod = splatMethod;
+  m_SpaceDimension = spaceDimension;
+  m_Accumulator = new double[m_NumberOfBins];
+  m_Normalizer = new double[m_NumberOfBins];
+  m_NormalizedAccumulator = new double[m_NumberOfBins];
+  m_FinalParameters = new double[m_SpaceDimension];
+
+}
+
+template< typename TSourceImage >
+void
+BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
+::NormalizeSplatAccumulator()
+{  
+  for(unsigned int i = 0; i < m_NumberOfBins; ++i)
+    {      
+    if(m_Normalizer[i] == 0)
+      m_NormalizedAccumulator[i] = 0;
+    else
+      m_NormalizedAccumulator[i] = m_Accumulator[i] / m_Normalizer[i];
+    }
+}
+
+template< typename TSourceImage >
+void
+BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
@@ -631,6 +663,14 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 {
   // Process object is not const-correct so the const casting is required.
   SetNthInput(0, const_cast<BoundaryPointImageType *>( image2 ) );
+}
+
+template< typename TSourceImage >
+void
+BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
+::SetUseOptimizerGradient(bool useGradient)
+{
+  m_UseGradient = useGradient;
 }
 
 } // end namespace

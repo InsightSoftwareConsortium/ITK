@@ -127,30 +127,16 @@ public:
   /** Fit the boundary profile to a cumulative Gaussian */
   int FitProfile();
 
+  /** Set use gradient switch for optimizer */
+  void SetUseOptimizerGradient(bool useGradient);
+
   /** Parameters required to find boundary profiles */
   void Initialize(double setUniqueAxis, double setSymmetricAxes, unsigned int numberOfBins,
-                  unsigned int splatMethod, unsigned int spaceDimension)
-    {
-    m_UniqueAxis = setUniqueAxis;
-    m_SymmetricAxes = setSymmetricAxes;
-    m_NumberOfBins = numberOfBins;
-    m_SplatMethod = splatMethod;
-    m_SpaceDimension = spaceDimension;
-    m_Accumulator = new double[m_NumberOfBins];
-    m_Normalizer = new double[m_NumberOfBins];
-    m_NormalizedAccumulator = new double[m_NumberOfBins];
-    m_FinalParameters = new double[m_SpaceDimension];
-    }
+                  unsigned int splatMethod, unsigned int spaceDimension);
 
 protected:
   BloxBoundaryPointImageToBloxBoundaryProfileImageFilter();
-  ~BloxBoundaryPointImageToBloxBoundaryProfileImageFilter()
-  {
-    delete [] m_Accumulator;
-    delete [] m_Normalizer;
-    delete [] m_NormalizedAccumulator;
-    delete [] m_FinalParameters;
-  };
+  ~BloxBoundaryPointImageToBloxBoundaryProfileImageFilter();
 
   void PrintSelf(std::ostream& os, Indent indent) const;
 
@@ -190,6 +176,9 @@ private:
 
   /** Number of parameters in cost function */
   unsigned int m_SpaceDimension;
+
+  /** Use Gradient with Levenberg Marquardt Optimizer */
+  bool m_UseGradient;
 };
 
 } // end namespace itk
