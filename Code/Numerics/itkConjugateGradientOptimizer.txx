@@ -21,10 +21,10 @@ namespace itk
 /**
  * Constructor
  */
-template <class TMetric>
-ConjugateGradientOptimizer<TMetric>
+template <class TCostFunction>
+ConjugateGradientOptimizer<TCostFunction>
 ::ConjugateGradientOptimizer():
-  m_ConjugateGradient( m_MetricCostFunction )
+  m_ConjugateGradient( m_CostFunction )
 {
 }
 
@@ -32,9 +32,9 @@ ConjugateGradientOptimizer<TMetric>
 /**
  * Get the Optimizer
  */
-template <class TMetric>
+template <class TCostFunction>
 vnl_conjugate_gradient & 
-ConjugateGradientOptimizer<TMetric>
+ConjugateGradientOptimizer<TCostFunction>
 ::GetOptimizer()
 {
   return m_ConjugateGradient;

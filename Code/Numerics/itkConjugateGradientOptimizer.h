@@ -27,9 +27,10 @@ namespace itk
  *
  */
 
-template <class TMetric>
+  
+template <class TCostFunction>
 class ITK_EXPORT ConjugateGradientOptimizer : 
-    public NonLinearOptimizer<TMetric> 
+    public NonLinearOptimizer<TCostFunction> 
 
 {
 public:
@@ -41,7 +42,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef   NonLinearOptimizer<TMetric> Superclass;
+  typedef   NonLinearOptimizer<TCostFunction> Superclass;
 
   /** 
    * Smart pointer typedef support 
@@ -68,7 +69,31 @@ public:
    * Method for getting access to the internal optimizer
    */
   vnl_conjugate_gradient & GetOptimizer(void);
+ 
+  
+  /** \class VnlCostFunction
+   * \brief Adaptor between the CostFunction and the vnl_cost_function classes
+   *
+   */
 
+  class VnlCostFunction : public vnl_cost_function
+  {
+  public:
+      SetCostFunction( TCostFunction * ) 
+        { m_CostFunction = costFunction; }
+      VnlCostFunction() { m_CostFunction=0; }    
+  private:
+      TCostFunction   * m_CostFunction;
+  };  // end of Class CostFunction
+
+
+  /**
+   * Set the cost Function of type TCostFunction
+   */
+  SetCostFunction( TCostFunction * costFunction ) 
+    { m_CostFunction->SetCostFunction( costFunction ); }
+    
+  
 
 protected:
 
@@ -78,6 +103,8 @@ protected:
   void operator=(const Self&) {}
 
   vnl_conjugate_gradient     m_ConjugateGradient;
+
+  VnlCostFunction            m_CostFunction;
 
 };
 
