@@ -52,7 +52,7 @@ public:
   /**
    * Space dimension is the dimension of parameters space
    */
-  enum { ParametersDimension = TMapper::SpaceDimension };
+  enum { SpaceDimension = TMapper::SpaceDimension };
   enum { RangeDimension = 9};
 
 
@@ -66,7 +66,7 @@ public:
    *  Type of the derivative of the match measure
    */
   typedef CovariantVector<MeasureType,
-                          ParametersDimension >  DerivativeType;
+                          SpaceDimension >  DerivativeType;
 
 
   /**

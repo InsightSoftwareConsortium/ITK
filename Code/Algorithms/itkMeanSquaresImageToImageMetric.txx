@@ -124,7 +124,7 @@ MeanSquaresImageToImageMetric<TTarget,TMapper>
   ParametersType testPoint;
   testPoint = parameters;
 
-  for( unsigned int i=0; i<ParametersDimension; i++) 
+  for( unsigned int i=0; i<SpaceDimension; i++) 
   {
     testPoint[i] -= delta;
     const MeasureType valuep0 = GetValue( testPoint );
