@@ -42,6 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkImageIOFactory.h"
 #include "itkPNGImageIOFactory.h"
 #include "itkVOLImageIOFactory.h"
+#include "itkMetaImageIOFactory.h"
 
 namespace itk
 {
@@ -57,6 +58,8 @@ void ImageIOFactory::InitialaizeBuiltinTypes()
     ObjectFactoryBase::RegisterFactory(pngFactory);
     VOLImageIOFactory::Pointer volFactory = VOLImageIOFactory::New();
     ObjectFactoryBase::RegisterFactory(volFactory);
+    MetaImageIOFactory::Pointer metaFactory = MetaImageIOFactory::New();
+    ObjectFactoryBase::RegisterFactory(metaFactory);
     }
 }
   
