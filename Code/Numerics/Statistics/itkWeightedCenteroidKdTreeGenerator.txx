@@ -18,7 +18,7 @@
 #define __itkWeightedCenteroidKdTreeGenerator_txx
 
 namespace itk{ 
-  namespace Statistics{
+namespace Statistics{
 
 template< class TSample >
 WeightedCenteroidKdTreeGenerator< TSample >
@@ -62,11 +62,11 @@ WeightedCenteroidKdTreeGenerator< TSample >
   weightedCenteroid.Fill(NumericTraits< MeasurementType >::Zero) ;
   for (i = beginIndex ; i < endIndex ; i++)
     {
-      tempVector = subsample->GetMeasurementVectorByIndex(i) ;
-      for(j = 0 ; j < (int)MeasurementVectorSize ; j++)
-        {
-          weightedCenteroid[j] += tempVector[j] ;
-        }
+    tempVector = subsample->GetMeasurementVectorByIndex(i) ;
+    for(j = 0 ; j < (int)MeasurementVectorSize ; j++)
+      {
+      weightedCenteroid[j] += tempVector[j] ;
+      }
     }
 
   // find most widely spread dimension
@@ -78,12 +78,12 @@ WeightedCenteroidKdTreeGenerator< TSample >
   maxSpread = NumericTraits< MeasurementType >::NonpositiveMin() ;
   for (i = 0 ; i < (int)MeasurementVectorSize ; i++)
     {
-      spread = m_TempUpperBound[i] - m_TempLowerBound[i] ;
-      if (spread >= maxSpread)
-        {
-          maxSpread = spread ;
-          partitionDimension = i ;
-        }
+    spread = m_TempUpperBound[i] - m_TempLowerBound[i] ;
+    if (spread >= maxSpread)
+      {
+      maxSpread = spread ;
+      partitionDimension = i ;
+      }
     }
 
   // find median and partition this node using the quick select algorithm

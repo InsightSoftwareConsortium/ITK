@@ -89,18 +89,6 @@ KdTreeGenerator< TSample >
 }
 
 template< class TSample >
-inline void 
-KdTreeGenerator< TSample >
-::DumpVector(MeasurementVectorType &vec)
-{
-  for (unsigned int i = 0 ; i < MeasurementVectorSize ; i++)
-    {
-      std::cout << vec[i] << "\t" ;
-    }
-  std::cout << std::endl ;
-}
-
-template< class TSample >
 inline typename KdTreeGenerator< TSample >::KdTreeNodeType*
 KdTreeGenerator< TSample >
 ::GenerateNonterminalNode(int beginIndex,
