@@ -176,7 +176,9 @@ private:
   
   ParametersType          m_InitialPosition;
   ParametersType          m_CurrentPosition;
-  TransformType::Pointer  m_Transform; 
+
+  typename TransformType::Pointer  m_Transform; 
+
 };
 
 } // end namespace itk
