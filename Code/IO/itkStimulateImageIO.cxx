@@ -272,8 +272,7 @@ void StimulateImageIO::InternalReadImageInformation(std::ifstream& file)
   bool fov_specified = false;
   bool origin_specified = false;
   bool spacing_specified = false;
-  do {
-  file.getline(line,255);
+  while((file.getline(line, 255), file.gcount() > 0)) {
   text = line;
 
   if ( text.find("numDim") < text.length())
@@ -284,11 +283,11 @@ void StimulateImageIO::InternalReadImageInformation(std::ifstream& file)
   else if ( text.find("dim") < text.length())
     {
     sscanf(line, "%*s %d %d %d %d", dims, dims+1, dims+2 , dims+3);
-    if ( dims[3] <= 1 )
+    if ( m_NumberOfDimensions > 3 && dims[3] <= 1 )
       {
       this->SetNumberOfDimensions(3);
       }
-    if ( dims[2] <= 1 )
+    if ( m_NumberOfDimensions > 2 && dims[2] <= 1 )
       {
       this->SetNumberOfDimensions(2);
       }
@@ -447,7 +446,7 @@ void StimulateImageIO::InternalReadImageInformation(std::ifstream& file)
     //not documented
     itkDebugMacro(<<"periodStr was specified");
     }
-  } while ( !file.eof() );
+  }
 
 
   //compute any missing informations:
