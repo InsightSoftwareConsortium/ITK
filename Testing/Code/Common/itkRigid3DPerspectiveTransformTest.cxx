@@ -22,8 +22,6 @@
 #include "itkVector.h"
 
 
-
-
 int itkRigid3DPerspectiveTransformTest(int argc,char **argv)
 {
 
@@ -100,44 +98,9 @@ int itkRigid3DPerspectiveTransformTest(int argc,char **argv)
     }
 
     {
-      // Project an itk::Point
-      TransformType::InputPointType p;
-      p.Fill(0.0);
-      TransformType::InputPointType q;
-      q = p + ioffset;
-      TransformType::OutputPointType s;
-      const double factor = focal/q[2];
-      s[0] = q[0] * factor;
-      s[1] = q[1] * factor;
-      TransformType::OutputPointType r;
-      r = translation->TransformPoint( p );
-      for(unsigned int i=0; i<N-1; i++)
-      {
-        if( fabs( s[i]- r[i] ) > epsilon )
-        {
-          Ok = false;
-          break;    
-        }
-      }
-      if( !Ok )
-      { 
-        std::cerr << "Error translating point: " << p << std::endl;
-        std::cerr << "Result should be       : " << s << std::endl;
-        std::cerr << "Reported Result is     : " << r << std::endl;
-        return EXIT_FAILURE;
-      }
-      else
-      {
-        std::cout << "Ok translating an itk::Point " << std::endl;
-      }
-    }
-
-    {
       // Projecting  an itk::Point
       TransformType::InputPointType p;
-      p[0] = 10;
-      p[1] = 10;
-      p[2] = 10;
+      p.Fill(10);
       TransformType::InputPointType q;
       q = p + ioffset;
       TransformType::OutputPointType s;
@@ -166,10 +129,7 @@ int itkRigid3DPerspectiveTransformTest(int argc,char **argv)
         std::cout << "Ok translating an itk::Point " << std::endl;
       }
     }
-
-
   }
-
  
   /* Create a Rigid 3D transform with a rotation */
   {
@@ -201,7 +161,7 @@ int itkRigid3DPerspectiveTransformTest(int argc,char **argv)
     {
       // Project an itk::Point
       TransformType::InputPointType p;
-      p.Fill(0.0);
+      p.Fill(10.0);
       TransformType::InputPointType q;
       q = p + ioffset;
       TransformType::OutputPointType s;
@@ -230,43 +190,6 @@ int itkRigid3DPerspectiveTransformTest(int argc,char **argv)
         std::cout << "Ok rotating an itk::Point " << std::endl;
       }
     }
-
-    {
-      // Projecting  an itk::Point
-      TransformType::InputPointType p;
-      p[0] = 10;
-      p[1] = 10;
-      p[2] = 10;
-      TransformType::InputPointType q;
-      q = p + ioffset;
-      TransformType::OutputPointType s;
-      const double factor = focal/q[2];
-      s[0] = q[0] * factor;
-      s[1] = q[1] * factor;
-      TransformType::OutputPointType r;
-      r = rigid->TransformPoint( p );
-      for(unsigned int i=0; i<N-1; i++)
-      {
-        if( fabs( s[i]- r[i] ) > epsilon )
-        {
-          Ok = false;
-          break;    
-        }
-      }
-      if( !Ok )
-      { 
-        std::cerr << "Error translatin point: " << p << std::endl;
-        std::cerr << "Result should be       : " << s << std::endl;
-        std::cerr << "Reported Result is     : " << r << std::endl;
-        return EXIT_FAILURE;
-      }
-      else
-      {
-        std::cout << "Ok translating an itk::Point " << std::endl;
-      }
-    }
-
-
   }
 
  
