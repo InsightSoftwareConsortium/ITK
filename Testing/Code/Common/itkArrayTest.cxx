@@ -36,6 +36,71 @@ int itkArrayTest(int, char* [] )
   FloatArrayType  fa(10);
   DoubleArrayType da(10);
 
+/** 
+ * The following section tests the functionality of the Array's
+ * memory management.
+ */
+
+  //
+  // Create an itk::Array which manages its own memory
+  //
+  FloatArrayType myOwnBoss;
+  myOwnBoss.SetSize( 5 );
+  myOwnBoss.Fill( 2.0 );
+
+  //
+  // Create an itk::Array which does not manage its own memory
+  //
+  const unsigned int n = 7;
+  float buffer[n];
+  FloatArrayType notMyOwnBoss;
+  notMyOwnBoss.SetSize( n );
+  notMyOwnBoss.SetData( buffer, false );
+  notMyOwnBoss.Fill( 4.0 );
+
+  FloatArrayType notMyOwnBossToo;
+  notMyOwnBossToo.SetSize( n );
+  notMyOwnBossToo.SetData( buffer, false );
+
+  //
+  // Copy an itk::Array which manages its own memory
+  //
+  FloatArrayType test1;
+  test1 = myOwnBoss;
+  std::cout << test1 << std::endl;
+
+  //
+  // Copy an itk::Array which does not manage its own memory
+  //
+  FloatArrayType test2;
+  test2 = notMyOwnBoss;
+  std::cout << test2 << std::endl;
+
+  //
+  // Testing itk::Array
+  // which does not manage its own memory copying an itk::Array
+  // which does.
+  //
+  notMyOwnBoss = myOwnBoss;
+  std::cout << notMyOwnBoss << std::endl;
+
+  // 
+  // Calling SetSize with an argument same as the current
+  // size
+  //
+  notMyOwnBossToo.SetSize( notMyOwnBossToo.GetSize() );
+
+// 
+  // Calling SetSize with an argument different to the current
+  // size
+  //
+  notMyOwnBossToo.SetSize( notMyOwnBossToo.GetSize() + 1 );
+  notMyOwnBossToo.Fill( 6.0 );
+  std::cout << notMyOwnBossToo << std::endl;
+
+  // Exercise operator=( VnlVectorType& )
+  test2 = test1;
+
   return EXIT_SUCCESS;
 
 }

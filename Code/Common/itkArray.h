@@ -47,6 +47,8 @@ public:
  
   /** The element type stored at each location in the Array. */
   typedef TValueType  ValueType;
+  typedef Array Self;
+  typedef vnl_vector<TValueType> VnlVectorType;
   
 public:
 
@@ -59,6 +61,10 @@ public:
 
   /** Set the all the elements of the array to the specified value */
   void Fill (TValueType const& v) { fill(v); }
+
+  /** Copy opertor */
+  const Self & operator=( const Self &rhs );
+  const Self & operator=( const VnlVectorType & rhs );
  
   /** Return the number of elements in the Array  */
   unsigned int Size (void ) const 
@@ -89,6 +95,8 @@ public:
   /** This destructor is not virtual for performance reasons. However, this
    * means that subclasses cannot allocate memory. */
   ~Array();
+
+
 
 private:
 

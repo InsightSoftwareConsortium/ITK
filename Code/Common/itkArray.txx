@@ -73,13 +73,71 @@ template < typename TValueType >
 void Array<TValueType >
 ::SetSize(unsigned int sz)
 {
-  // If the array doesn't own the data we do not want to erase it
-  // on a resize
-  if(!m_LetArrayManageMemory)
+
+  if ( this->size() != sz )
     {
-    vnl_vector<TValueType>::data = 0;
+
+    // If the array doesn't own the data we do not want to erase it
+    // on a resize
+    if(!m_LetArrayManageMemory)
+      {
+      vnl_vector<TValueType>::data = 0;
+      }
+
+    // Call the superclass's set_size
+    this->set_size(sz);
+
+    // Size we have allocated new data we need to take
+    // responsibility for deleting it
+    m_LetArrayManageMemory = true;
+
     }
-  this->set_size(sz);
+    
+}
+
+
+
+template < typename TValueType >
+const typename Array<TValueType>
+::Self&
+Array<TValueType>
+::operator=( const Self& rhs )
+{
+
+  if( this == &rhs ) { return *this; }
+
+  // Set the size the same as rhs.
+  // The SetSize method takes care of who is responsible
+  // for memory management
+  //
+  this->SetSize( rhs.GetSize() );
+
+  // Call the superclass implementation
+  this->VnlVectorType::operator=(rhs);
+
+  return *this;
+}
+
+
+template < typename TValueType >
+const typename Array<TValueType>
+::Self&
+Array<TValueType>
+::operator=( const VnlVectorType& rhs )
+{
+
+  if( this == &rhs ) { return *this; }
+
+  // Set the size the same as rhs.
+  // The SetSize method takes care of who is responsible
+  // for memory management
+  //
+  this->SetSize( rhs.size() );
+
+  // Call the superclass implementation
+  this->VnlVectorType::operator=(rhs);
+
+  return *this;
 }
 
 
