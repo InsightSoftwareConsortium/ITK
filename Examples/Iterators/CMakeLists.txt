@@ -11,3 +11,10 @@ TARGET_LINK_LIBRARIES(ImageRegionIteratorWithIndex ITKCommon ITKIO ITKMetaIO itk
 
 ADD_EXECUTABLE(ImageLinearIteratorWithIndex ImageLinearIteratorWithIndex.cxx)
 TARGET_LINK_LIBRARIES(ImageLinearIteratorWithIndex ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
+
+ADD_EXECUTABLE(ImageSliceIteratorWithIndex ImageSliceIteratorWithIndex.cxx)
+TARGET_LINK_LIBRARIES(ImageSliceIteratorWithIndex ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
+
+ADD_EXECUTABLE(ImageRandomConstIteratorWithIndex ImageRandomConstIteratorWithIndex.cxx)
+TARGET_LINK_LIBRARIES(ImageRandomConstIteratorWithIndex ITKCommon ITKIO ITKMetaIO itkzlib itkpng)
+
