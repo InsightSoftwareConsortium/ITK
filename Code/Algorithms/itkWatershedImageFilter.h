@@ -227,6 +227,7 @@ public:
   typename watershed::Segmenter<InputImageType>::OutputImageType *
   GetBasicSegmentation()
   {
+    m_Segmenter->Update();
     return m_Segmenter->GetOutputImage();
   }
 
