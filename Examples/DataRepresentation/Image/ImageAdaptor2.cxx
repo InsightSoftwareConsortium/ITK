@@ -38,6 +38,7 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkRescaleIntensityImageFilter.h"
 
 
 //  Software Guide : BeginLatex
@@ -56,8 +57,8 @@
     class RedChannelPixelAccessor  
     {
     public:
-      typedef itk::RGBPixel<unsigned char>   InternalType;
-      typedef               unsigned char    ExternalType;
+      typedef itk::RGBPixel<float>   InternalType;
+      typedef               float    ExternalType;
 
       static ExternalType Get( const InternalType & input ) 
         {
@@ -155,15 +156,26 @@ int main( int argc, char *argv[] )
 
 //  Software Guide : BeginLatex
 //
-//  We instantiate a writer that will send the extracted channel to an image
-//  file. Note that the image type used for the writer is the
-//  \code{ImageAdaptorType} itself.
+//  We instantiate a \doxygen{RescaleIntensityImageFilter} and a
+//  \doxygen{ImageFileWriter} to rescale the dinamic range of the pixel values
+//  and send the extracted channel to an image file. Note that the image type
+//  used for the rescaling filter is the \code{ImageAdaptorType} itself. That
+//  is, the adaptor type is used as an image type, not as a filter type.
 //
 //  Software Guide : EndLatex 
 
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileWriter< ImageAdaptorType >   WriterType;
+  typedef itk::Image< unsigned char, Dimension >   OutputImageType;
+
+  typedef itk::RescaleIntensityImageFilter< 
+                                      ImageAdaptorType, 
+                                      OutputImageType   
+                                                       > RescalerType;
+
+  RescalerType::Pointer rescaler = RescalerType::New();
+
+  typedef itk::ImageFileWriter< OutputImageType >   WriterType;
   
   WriterType::Pointer writer = WriterType::New();
 // Software Guide : EndCodeSnippet
@@ -176,13 +188,17 @@ int main( int argc, char *argv[] )
 
 //  Software Guide : BeginLatex
 //
-//  Finally, we connect the adaptor as the input to the writer and invoke the
-//  \code{Update()} method.
+//  Finally, we connect the adaptor as the input to the rescaler and invoke the
+//  \code{Update()} method in the writer.
 //
 //  Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
-  writer->SetInput( adaptor );
+  rescaler->SetOutputMinimum(  0  );
+  rescaler->SetOutputMaximum( 255 );
+
+  rescaler->SetInput( adaptor );
+  writer->SetInput( rescaler->GetOutput() );
   writer->Update();
 // Software Guide : EndCodeSnippet
 
