@@ -26,9 +26,7 @@ namespace eval itk {
     set libFile [file join $libPath "$libPrefix$libName$libExt"]
     
     package ifneeded $package $version "
-      if {\[catch { load $libFile } errorMessage \]} \
-         { puts \$errorMessage } \
-      else { package provide $package $version }
+      if {\[catch { load $libFile } errorMessage \]} { puts \$errorMessage }
     "
   }
   
@@ -43,6 +41,17 @@ namespace eval itk {
       package require ITKCommonTcl $version
       package provide itk $version
     "
+
+    package ifneeded itknumerics $version "
+      package require VXLNumericsTcl $version
+      package provide itknumerics $version
+    "
+
+    package ifneeded itkcommon $version "
+      package require ITKCommonTcl $version
+      package provide itkcommon $version
+    "
+
   }
   
   # Make sure the procedure can be called.
