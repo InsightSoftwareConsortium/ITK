@@ -489,7 +489,7 @@ TEEM_API void airMopDebug(airArray *arr);
 ** The reason for using airExists_d and not airExists_f is for
 ** doubles > FLT_MAX: airExists_f would say these are infinity.
 */
-#ifdef _MSC_VER
+#ifdef _WIN32
 #define AIR_EXISTS(x) (airExists_d(x))
 #else
 #define AIR_EXISTS(x) (!((x) - (x)))

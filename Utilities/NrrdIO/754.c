@@ -503,14 +503,18 @@ airIsInf_d(double d) {
 ** returns 1 iff given float/double is not NaN and is not an infinity,
 ** otherwize 0.
 */
+#ifndef __BORLANDC__
 #ifdef _WIN32
 __inline
+#endif
 #endif
 int
 airExists_f(float f) { return AIR_EXISTS_F(f); }
 
+#ifndef __BORLANDC__
 #ifdef _WIN32
 __inline
+#endif
 #endif
 int
 airExists_d(double d) { return AIR_EXISTS_D(d); }
