@@ -38,7 +38,7 @@ int main()
   region.SetSize (size);
 
   // first try a constant image
-  double fillValue = -100.0;
+  float fillValue = -100.0;
   image->SetRegions( region );
   image->Allocate();
   image->FillBuffer(fillValue);
@@ -80,8 +80,8 @@ int main()
   unsigned long randomSize[3] = {17, 8, 20};
 
   source->SetSize(randomSize);
-  double minValue = -100.0;
-  double maxValue = 1000.0;
+  float minValue = -100.0;
+  float maxValue = 1000.0;
 
   source->SetMin(minValue);
   source->SetMax(maxValue);
