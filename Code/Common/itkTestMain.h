@@ -41,6 +41,8 @@
 #include "itkDifferenceImageFilter.h"
 #include "itkImageRegion.h"
 
+#define ITK_TEST_DIMENSION_MAX 9
+
 typedef int (*MainFuncPointer)(int , char* [] );
 std::map<std::string, MainFuncPointer> StringToTestFunctionMap;
 
@@ -189,8 +191,8 @@ int main(int ac, char* av[] )
 int RegressionTestImage (const char *testImageFilename, const char *baselineImageFilename, int reportErrors)
 {
   // Use the factory mechanism to read the test and baseline files and convert them to double
-  typedef itk::Image<double,10> ImageType;
-  typedef itk::Image<unsigned char,10> OutputType;
+  typedef itk::Image<double,ITK_TEST_DIMENSION_MAX> ImageType;
+  typedef itk::Image<unsigned char,ITK_TEST_DIMENSION_MAX> OutputType;
   typedef itk::Image<unsigned char,2> DiffOutputType;
   typedef itk::ImageFileReader<ImageType> ReaderType;
 
@@ -252,7 +254,7 @@ int RegressionTestImage (const char *testImageFilename, const char *baselineImag
     typedef itk::RescaleIntensityImageFilter<ImageType,OutputType> RescaleType;
     typedef itk::ExtractImageFilter<OutputType,DiffOutputType> ExtractType;
     typedef itk::ImageFileWriter<DiffOutputType> WriterType;
-    typedef itk::ImageRegion<10> RegionType;
+    typedef itk::ImageRegion<ITK_TEST_DIMENSION_MAX> RegionType;
     OutputType::IndexType index; index.Fill(0);
     OutputType::SizeType size; size.Fill(0);
 
@@ -266,7 +268,7 @@ int RegressionTestImage (const char *testImageFilename, const char *baselineImag
     region.SetIndex(index);
     
     size = rescale->GetOutput()->GetLargestPossibleRegion().GetSize();
-    for (unsigned int i = 2; i < 10; i++)
+    for (unsigned int i = 2; i < ITK_TEST_DIMENSION_MAX; i++)
       {
       size[i] = 0;
       }
