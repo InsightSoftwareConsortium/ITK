@@ -38,10 +38,8 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-
 #ifndef _itkZeroCrossingBasedEdgeDetectionImageFilter_txx
 #define _itkZeroCrossingBasedEdgeDetectionImageFilter_txx
-
 
 #include "itkZeroCrossingBasedEdgeDetectionImageFilter.h"
 #include "itkDiscreteGaussianImageFilter.h"
@@ -50,9 +48,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace itk
 {
-
-
-  /*
+/*
 template <class TInputImage, class TOutputImage>
 void 
 ZeroCrossingBasedEdgeDetectionImageFilter<TInputImage,TOutputImage>
@@ -117,35 +113,37 @@ ZeroCrossingBasedEdgeDetectionImageFilter< TInputImage, TOutputImage >
 ::GenerateData( )
 {
   typename  InputImageType::Pointer input  = this->GetInput();
-
   
-  //create the filters that are needed
-  DiscreteGaussianImageFilter<TInputImage, TOutputImage>::Pointer gaussianFilter
+  // Create the filters that are needed
+  DiscreteGaussianImageFilter<TInputImage, TOutputImage>::Pointer
+    gaussianFilter
     = DiscreteGaussianImageFilter<TInputImage, TOutputImage>::New();
   LaplacianImageFilter<TInputImage, TOutputImage>::Pointer  laplacianFilter 
     =  LaplacianImageFilter<TInputImage, TOutputImage>::New();
-  ZeroCrossingImageFilter<TInputImage, TOutputImage>:: Pointer zerocrossingFilter = ZeroCrossingImageFilter<TInputImage,TOutputImage>::New();
-
+  ZeroCrossingImageFilter<TInputImage, TOutputImage>:: Pointer
+    zerocrossingFilter =
+    ZeroCrossingImageFilter<TInputImage,TOutputImage>::New(); 
+  
   //Construct the mini-pipeline
   
-  //First apply the Gaussian filter
+  // Apply the Gaussian filter
   gaussianFilter->SetVariance(m_Variance);
   gaussianFilter->SetMaximumError(m_MaximumError);
   gaussianFilter->SetInput(input);
 
-  // calculate the laplacian of the smoothed image
+  // Calculate the laplacian of the smoothed image
   laplacianFilter->SetInput(gaussianFilter->GetOutput());
-  laplacianFilter->Update();
 
-  //Find the zero-crossings of the laplacian
+  // Find the zero-crossings of the laplacian
   zerocrossingFilter->SetInput(laplacianFilter->GetOutput());
+  zerocrossingFilter->SetBackgroundValue( m_BackgroundValue );
+  zerocrossingFilter->SetForegroundValue( m_ForegroundValue );
+  zerocrossingFilter->GraftOutput( this->GetOutput() );
   zerocrossingFilter->Update();
 
-  // graft the output of the mini-pipeline back onto the filter's output.
-  // this copies back the region ivars and meta-data
-  
+  // Graft the output of the mini-pipeline back onto the filter's output.
+  // This action copies back the region ivars and meta-data 
   this->GraftOutput(zerocrossingFilter->GetOutput());
-
 }
 
 template< class TInputImage, class TOutputImage >
@@ -167,6 +165,9 @@ ZeroCrossingBasedEdgeDetectionImageFilter< TInputImage, TOutputImage >
     os << m_MaximumError[i] << " ";
     }
   os << "]" << std::endl;
+
+  os << indent << "BackgroundValue: " << m_BackgroundValue << std::endl;
+  os << indent << "ForegroundValue: " << m_ForegroundValue << std::endl;
 }
 
 }//end of itk namespace
