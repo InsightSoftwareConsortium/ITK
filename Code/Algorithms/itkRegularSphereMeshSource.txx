@@ -32,8 +32,8 @@ RegularSphereMeshSource<TOutputMesh>
    * Create the output
    */
   typename TOutputMesh::Pointer output = TOutputMesh::New();
-  itk::ProcessObject::SetNumberOfRequiredOutputs(1);
-  itk::ProcessObject::SetNthOutput(0, output.GetPointer());
+  this->ProcessObject::SetNumberOfRequiredOutputs(1);
+  this->ProcessObject::SetNthOutput(0, output.GetPointer());
   m_Center.Fill(0);
   m_Scale.Fill(1);
   m_Resolution = 2;
