@@ -23,13 +23,11 @@
 #include "itkVectorMeanImageFunction.h"
 #include "itkCovarianceImageFunction.h"
 #include "itkBinaryThresholdImageFunction.h"
-#include "itkMahalanobisDistanceThresholdImageFunction.h"
 #include "itkFloodFilledImageFunctionConditionalIterator.h"
 #include "itkFloodFilledImageFunctionConditionalConstIterator.h"
 #include "itkNumericTraits.h"
 #include "itkNumericTraitsRGBPixel.h"
 #include "itkProgressReporter.h"
-#include "itkMahalanobisDistanceMembershipFunction.h"
 
 namespace itk
 {
@@ -46,6 +44,7 @@ VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>
   m_Seeds.clear();
   m_InitialNeighborhoodRadius = 1;
   m_ReplaceValue = NumericTraits<OutputImagePixelType>::One;
+  m_ThresholdFunction = DistanceThresholdFunctionType::New();
 }
 
 /**
@@ -100,10 +99,8 @@ VectorConfidenceConnectedImageFilter<TInputImage,TOutputImage>
   typedef typename InputImageType::PixelType   InputPixelType;
   typedef typename NumericTraits< InputPixelType >::RealType InputRealType;
 
-  typedef MahalanobisDistanceThresholdImageFunction<InputImageType>   FunctionType;
   typedef BinaryThresholdImageFunction<OutputImageType>               SecondFunctionType;
-  typedef Statistics::MahalanobisDistanceMembershipFunction< ITK_TYPENAME InputImageType::PixelType > DistanceFunctionType;
-  typedef FloodFilledImageFunctionConditionalIterator<OutputImageType, FunctionType> IteratorType;
+  typedef FloodFilledImageFunctionConditionalIterator<OutputImageType, DistanceThresholdFunctionType> IteratorType;
   typedef FloodFilledImageFunctionConditionalConstIterator<InputImageType, SecondFunctionType> SecondIteratorType;
 
   unsigned int loop;
@@ -131,11 +128,7 @@ VectorConfidenceConnectedImageFilter<TInputImage,TOutputImage>
   varianceFunction->SetNeighborhoodRadius( m_InitialNeighborhoodRadius );
   
   // Set up the image function used for connectivity
-  typename FunctionType::Pointer function = FunctionType::New();
-  function->SetInputImage ( inputImage );
-
-  typedef typename FunctionType::CovarianceMatrixType CovarianceMatrixType; 
-  typedef typename FunctionType::MeanVectorType       MeanVectorType;
+  m_ThresholdFunction->SetInputImage ( inputImage );
 
   CovarianceMatrixType covariance;
   MeanVectorType       mean;
@@ -179,10 +172,10 @@ VectorConfidenceConnectedImageFilter<TInputImage,TOutputImage>
       }
     }
 
-  function->SetMean( mean );
-  function->SetCovariance( covariance );
+  m_ThresholdFunction->SetMean( mean );
+  m_ThresholdFunction->SetCovariance( covariance );
 
-  function->SetThreshold( m_Multiplier );
+  m_ThresholdFunction->SetThreshold( m_Multiplier );
 
   itkDebugMacro(<< "\nMultiplier = " << m_Multiplier );
 
@@ -190,11 +183,11 @@ VectorConfidenceConnectedImageFilter<TInputImage,TOutputImage>
   // Segment the image, the iterator walks the output image (so Set()
   // writes into the output image), starting at the seed point.  As
   // the iterator walks, if the corresponding pixel in the input image
-  // (accessed via the "function" assigned to the iterator) is within
+  // (accessed via the "m_ThresholdFunction" assigned to the iterator) is within
   // the [lower, upper] bounds prescribed, the pixel is added to the
   // output segmentation and its neighbors become candidates for the
   // iterator to walk.
-  IteratorType it = IteratorType ( outputImage, function, m_Seeds );
+  IteratorType it = IteratorType ( outputImage, m_ThresholdFunction, m_Seeds );
   it.GoToBegin();
   while( !it.IsAtEnd())
     {
@@ -266,19 +259,19 @@ VectorConfidenceConnectedImageFilter<TInputImage,TOutputImage>
         }
       }
 
-    function->SetMean( mean );
-    function->SetCovariance( covariance );
+    m_ThresholdFunction->SetMean( mean );
+    m_ThresholdFunction->SetCovariance( covariance );
     
     
     // Rerun the segmentation, the iterator walks the output image,
     // starting at the seed point.  As the iterator walks, if the
     // corresponding pixel in the input image (accessed via the
-    // "function" assigned to the iterator) is within the [lower,
+    // "m_ThresholdFunction" assigned to the iterator) is within the [lower,
     // upper] bounds prescribed, the pixel is added to the output
     // segmentation and its neighbors become candidates for the
     // iterator to walk.
     outputImage->FillBuffer ( NumericTraits<OutputImagePixelType>::Zero );
-    IteratorType thirdIt = IteratorType ( outputImage, function, m_Seeds );
+    IteratorType thirdIt = IteratorType ( outputImage, m_ThresholdFunction, m_Seeds );
     thirdIt.GoToBegin();
     try
       {
@@ -301,6 +294,28 @@ VectorConfidenceConnectedImageFilter<TInputImage,TOutputImage>
     {
     throw ProcessAborted(__FILE__,__LINE__);
     }
+}
+
+
+template <class TInputImage, class TOutputImage>
+const typename 
+VectorConfidenceConnectedImageFilter<TInputImage,TOutputImage>::CovarianceMatrixType &
+VectorConfidenceConnectedImageFilter<TInputImage,TOutputImage>
+::GetCovariance() const
+{
+  m_ThresholdFunction->GetCovariance();
+}
+
+
+
+
+template <class TInputImage, class TOutputImage>
+const typename 
+VectorConfidenceConnectedImageFilter<TInputImage,TOutputImage>::MeanVectorType &
+VectorConfidenceConnectedImageFilter<TInputImage,TOutputImage>
+::GetMean() const
+{
+  m_ThresholdFunction->GetMean();
 }
 
 

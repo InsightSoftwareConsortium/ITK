@@ -19,6 +19,7 @@
 
 #include "itkImage.h"
 #include "itkImageToImageFilter.h"
+#include "itkMahalanobisDistanceThresholdImageFunction.h"
 
 namespace itk{
 
@@ -85,6 +86,16 @@ public:
   
   typedef std::vector< IndexType >              SeedsContainerType;
 
+  typedef MahalanobisDistanceThresholdImageFunction<
+                                           InputImageType >
+                                                DistanceThresholdFunctionType;
+  
+  typedef typename DistanceThresholdFunctionType::CovarianceMatrixType CovarianceMatrixType; 
+  typedef typename DistanceThresholdFunctionType::MeanVectorType       MeanVectorType;
+
+
+  typedef  typename DistanceThresholdFunctionType::Pointer DistanceThresholdFunctionPointer;
+
   void PrintSelf ( std::ostream& os, Indent indent ) const;
 
   /** Set seed point. This method is deprecated, please use AddSeed() */
@@ -120,9 +131,16 @@ public:
   itkSetMacro( InitialNeighborhoodRadius, unsigned int );
   itkGetConstReferenceMacro( InitialNeighborhoodRadius, unsigned int );
 
+  /** Get the Mean Vector computed during the segmentation */
+  const MeanVectorType & GetMean() const;
+
+  /** Get the Covariance matrix computed during the segmentation */
+  const CovarianceMatrixType & GetCovariance() const;
+
+
 protected:
   VectorConfidenceConnectedImageFilter();
-  ~VectorConfidenceConnectedImageFilter(){};
+  
   
   // Override since the filter needs all the data for the algorithm
   void GenerateInputRequestedRegion();
@@ -141,6 +159,9 @@ private:
   unsigned int            m_NumberOfIterations;
   OutputImagePixelType    m_ReplaceValue;
   unsigned int            m_InitialNeighborhoodRadius;
+  
+  DistanceThresholdFunctionPointer      m_ThresholdFunction;
+
 };
 
 
