@@ -96,7 +96,8 @@ ProgressAccumulator
   const ProcessObject * internalFilter = 
     dynamic_cast<const ProcessObject *>( object );
 
-  if( typeid( event ) == typeid( ProgressEvent() ) )
+  ProgressEvent p;
+  if( typeid( event ) == typeid( p ) )
     {
     // Add up the progress from different filters
     m_AccumulatedProgress = 0.0f;
