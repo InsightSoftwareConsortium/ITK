@@ -229,6 +229,10 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
   m_SpaceDimension = 0;
   m_NumBoundaryProfiles = 0;
   m_UseGradient = false;
+  m_Accumulator = 0;
+  m_Normalizer = 0;
+  m_NormalizedAccumulator = 0;
+  m_FinalParameters = 0;
 
   itkDebugMacro(<< "itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter::itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter() called");
 }
@@ -237,10 +241,22 @@ template< typename TSourceImage >
 BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 ::~BloxBoundaryPointImageToBloxBoundaryProfileImageFilter()
 {
-  delete [] m_Accumulator;
-  delete [] m_Normalizer;
-  delete [] m_NormalizedAccumulator;
-  delete [] m_FinalParameters;
+  if (m_Accumulator)
+    {
+    delete [] m_Accumulator;
+    }
+  if (m_Normalizer)
+    {
+    delete [] m_Normalizer;
+    }
+  if (m_NormalizedAccumulator)
+    {
+    delete [] m_NormalizedAccumulator;
+    }
+  if (m_FinalParameters)
+    {
+    delete [] m_FinalParameters;
+    }
 };
 
 template< typename TSourceImage >
