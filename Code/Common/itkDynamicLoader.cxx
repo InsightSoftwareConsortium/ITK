@@ -114,7 +114,7 @@ DynamicLoader
 //----------------------------------------------------------------------------
 int 
 DynamicLoader
-::CloseLibrary(LibHandle lib)
+::CloseLibrary( LibHandle ) // argument expected (LibHandle lib)
 {
   return 0;
 }
@@ -122,7 +122,7 @@ DynamicLoader
 //----------------------------------------------------------------------------
 void* 
 DynamicLoader
-::GetSymbolAddress(LibHandle lib, const char* sym)
+::GetSymbolAddress(LibHandle , const char* sym) // (LibHandle lib)
 { 
   void *result=0;
   if(NSIsSymbolNameDefined(sym))
