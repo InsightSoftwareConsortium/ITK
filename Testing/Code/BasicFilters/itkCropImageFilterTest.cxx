@@ -77,13 +77,13 @@ int itkCropImageFilterTest(int, char**)
   requestedRegion = extract->GetOutput()->GetRequestedRegion();
 
   if (extract->GetOutput()->GetLargestPossibleRegion().GetSize()[0] != 6
-      || extract->GetOutput()->GetLargestPossibleRegion().GetSize()[0] != 10)
+      || extract->GetOutput()->GetLargestPossibleRegion().GetSize()[1] != 10)
     {
       return EXIT_FAILURE;
     }
 
   if (extract->GetOutput()->GetLargestPossibleRegion().GetIndex()[0] != 1
-      || extract->GetOutput()->GetLargestPossibleRegion().GetIndex()[0] != 1)
+      || extract->GetOutput()->GetLargestPossibleRegion().GetIndex()[1] != 1)
     {
       return EXIT_FAILURE;
     }
