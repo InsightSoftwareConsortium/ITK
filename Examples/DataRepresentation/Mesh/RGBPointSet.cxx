@@ -32,12 +32,8 @@
 // Software Guide : EndCodeSnippet
 
 
-
-
 int main()
 {
-
-
   //  Software Guide : BeginLatex
   //
   //  Then, the pixel type can be defined by selecting the type to be used to
@@ -52,9 +48,6 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
-
-
   //  Software Guide : BeginLatex
   //
   //  The newly defined pixel type is now used to instantiate the PointSet
@@ -64,17 +57,14 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   typedef itk::PointSet< PixelType, 3 > PointSetType;
-
   PointSetType::Pointer  pointSet = PointSetType::New();
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //
-  //  The following code is generating a circle in $3D$ and assigning RGB values
-  //  to the points. The components of the RGB values in this example are
+  //  The following code is generating a sphere and assigning RGB values to
+  //  the points. The components of the RGB values in this example are
   //  computed to represent the position of the points.
   //
   //  \index{itk::PointSet!SetPoint()}
@@ -104,7 +94,6 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //
   //  All the points on the PointSet are visited using the following code.
@@ -119,7 +108,8 @@ int main()
   typedef  PointSetType::PointsContainer::ConstIterator     PointIterator;
   PointIterator pointIterator = pointSet->GetPoints()->Begin();
   PointIterator pointEnd      = pointSet->GetPoints()->End();
-  while( pointIterator != pointEnd ) {
+  while( pointIterator != pointEnd ) 
+    {
     PointSetType::PointType point = pointIterator.Value();
     std::cout << point << std::endl;  
     ++pointIterator;                      
@@ -127,17 +117,13 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //
   //  Note that here the \code{ConstIterator} was used instead of the
   //  \code{Iterator} since the pixel values are not expected to be modified.
-  //  ITK support const-correctness at the API level. 
+  //  ITK supports const-correctness at the API level. 
   //
   //  Software Guide : EndLatex 
-
-
 
 
   //  Software Guide : BeginLatex
@@ -155,7 +141,8 @@ int main()
   typedef  PointSetType::PointDataContainer::ConstIterator     PointDataIterator;
   PointDataIterator pixelIterator = pointSet->GetPointData()->Begin();
   PointDataIterator pixelEnd      = pointSet->GetPointData()->End();
-  while( pixelIterator != pixelEnd ) {
+  while( pixelIterator != pixelEnd ) 
+    {
     PointSetType::PixelType pixel = pixelIterator.Value();
     std::cout << pixel << std::endl;  
     ++pixelIterator;                      

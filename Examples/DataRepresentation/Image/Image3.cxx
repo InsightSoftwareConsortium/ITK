@@ -21,8 +21,11 @@
 // \code{GetPixel()} methods.  These two methods provide direct access to the
 // pixel data contained in the image. Note that these two methods are
 // relatively slow and should not be used in situations where
-// higher-performing access is required. Image iterators are the appropriate
-// mechanism to efficiently access image pixel data.
+// high-performance access is required. Image iterators are the appropriate
+// mechanism to efficiently access image pixel data. (See
+// \ref{sec:ImageIteratorsChapter} on page
+// \pageref{sec:ImageIteratorsChapter} for information about image
+// iterators.)
 //
 // Software Guide : EndLatex 
 

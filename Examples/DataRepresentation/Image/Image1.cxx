@@ -88,7 +88,7 @@ int main()
   // \doxygen{Size} classes. The origin of the region within the
   // image with which it is associated is defined by \code{Index}. The
   // extent, or size, of the region is defined by \code{Size}. \code{Index}
-  // is represented by a N-Dimensional array where each component is an
+  // is represented by a n-dimensional array where each component is an
   // integer indicating---in topological image coordinates---the initial
   // pixel of the image. When an image is created manually, the user is
   // responsible for defining the image size and the index at which the image
@@ -96,7 +96,7 @@ int main()
   // regions.
   //   
   // The starting point of the image is defined by an \doxygen{Index} class
-  // that is an N-Dimensional array where each component is an integer
+  // that is an n-dimensional array where each component is an integer
   // indicating the grid coordinates of the initial pixel of the image.
   //
   // \index{itk::Image!Size}

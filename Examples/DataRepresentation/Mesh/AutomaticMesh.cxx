@@ -33,7 +33,7 @@
 //  
 //  This section shows how you can use the
 //  \doxygen{AutomaticTopologyMeshSource} to instantiate a mesh
-//  representing a K-complex.  We will first generate the same
+//  representing a K-Complex.  We will first generate the same
 //  tetrahedron from Section~\ref{sec:MeshKComplex}, after which we will add
 //  a hollow one to illustrate some additional features of the mesh
 //  source.
@@ -154,7 +154,6 @@ main()
 
   // Software Guide : BeginCodeSnippet
   PointType p;
-
   IdentifierArrayType idArray( 4 );
 
   p[ 0 ] = -2;

@@ -19,7 +19,7 @@
 //
 //  The \doxygen{Mesh} class supports the representation of formal topologies. In
 //  particular the concept of \emph{K-Complex} can be correctly reprented in
-//  the Mesh. An informal definition of K-complex may be as follows: A
+//  the Mesh. An informal definition of K-Complex may be as follows: a
 //  K-Complex is a topological structure in which for every cell of dimension
 //  $N$, its boundary faces which are cells of dimension $N-1$ also belong to
 //  the structure.
@@ -57,12 +57,10 @@
 
 int main()
 {
-
-
   //  Software Guide : BeginLatex
   //  
   //  Then the PixelType is defined and the mesh type is instantiated with it.
-  //  Note that the dimension of the space is $3$ in this case.
+  //  Note that the dimension of the space is three in this case.
   //
   //  \index{itk::Mesh!Instantiation}
   //  \index{itk::Mesh!PixelType}
@@ -73,8 +71,6 @@ int main()
   typedef float                             PixelType;
   typedef itk::Mesh< PixelType, 3 >         MeshType;
   // Software Guide : EndCodeSnippet
-
-
 
 
   //  Software Guide : BeginLatex
@@ -91,7 +87,6 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   typedef MeshType::CellType                CellType;
-
   typedef itk::VertexCell< CellType >       VertexType;
   typedef itk::LineCell< CellType >         LineType;
   typedef itk::TriangleCell< CellType >     TriangleType;
@@ -99,19 +94,19 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //
   //  The mesh is created and the points associated with the vertices are
-  //  inserted.  Note that there is an important distintion between the points
-  //  in the mesh and the \doxygen{VertexCell} concept. A VertexCell is a cell
-  //  of dimension zero. Its main difference with a point is that the cell can
-  //  be aware of neighborhood relationships with other cells. Points are not
-  //  aware of the existence of cells. In fact, from the pure topological point
-  //  of view, the coordinates of points in the mesh are completely irrelevant.
-  //  They may as well be absent from the mesh structure altogether.
-  //  VertexCells on the other hand are necessary to represent the full set of
-  //  neighborhood relationships on the K-Complex.
+  //  inserted.  Note that there is an important distintion between the
+  //  points in the mesh and the \doxygen{VertexCell} concept. A VertexCell
+  //  is a cell of dimension zero. Its main difference as compared to a point
+  //  is that the cell can be aware of neighborhood relationships with other
+  //  cells. Points are not aware of the existence of cells. In fact, from
+  //  the pure topological point of view, the coordinates of points in the
+  //  mesh are completely irrelevant.  They may as well be absent from the
+  //  mesh structure altogether.  VertexCells on the other hand are necessary
+  //  to represent the full set of neighborhood relationships on the
+  //  K-Complex.
   //
   //  The geometrical coordinates of the nodes of a regular tetrahedron can be
   //  obtained by taking every other node from a regular cube.
@@ -141,7 +136,6 @@ int main()
   mesh->SetPoint( 2, point2 );
   mesh->SetPoint( 3, point3 );
   // Software Guide : EndCodeSnippet
-
 
 
   //  Software Guide : BeginLatex
@@ -197,7 +191,7 @@ int main()
   //
   //  Software Guide : EndLatex 
 
-   // Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   cellpointer.TakeOwnership( new TriangleType );
   cellpointer->SetPointId( 0, 0 );
   cellpointer->SetPointId( 1, 2 );
@@ -205,8 +199,6 @@ int main()
   mesh->SetCell( 2, cellpointer );
   // Software Guide : EndCodeSnippet
     
-
-
 
   //  Software Guide : BeginLatex
   //  
@@ -221,8 +213,6 @@ int main()
   cellpointer->SetPointId( 2, 1 );
   mesh->SetCell( 3, cellpointer );
   // Software Guide : EndCodeSnippet
-
-
 
 
   //  Software Guide : BeginLatex
@@ -241,10 +231,10 @@ int main()
 
   //  Software Guide : BeginLatex
   //  
-  //  Note how the \code{CellAutoPointer} is reused every time. The
-  //  \doxygen{AutoPointer} losses ownership of the cell when it is passed as
-  //  argument of the \code{SetCell()} method. The AutoPointer is attached to a
-  //  new cell by using the \code{TakeOwnership()} method. 
+  //  Note how the \code{CellAutoPointer} is reused every time. Reminder: the
+  //  \doxygen{AutoPointer} loses ownership of the cell when it is passed as
+  //  an argument of the \code{SetCell()} method. The AutoPointer is attached
+  //  to a new cell by using the \code{TakeOwnership()} method.
   //
   //  The construction of the K-Complex continues now with the creation of the
   //  six lines on the tetrahedron edges.
@@ -313,13 +303,9 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
-
   // Print out the number of points and the nuber of cells.
   std::cout << "# Points= " << mesh->GetNumberOfPoints() << std::endl;
   std::cout << "# Cell  = " << mesh->GetNumberOfCells() << std::endl;
-
-
 
 
   //  Software Guide : BeginLatex
@@ -337,7 +323,6 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   typedef MeshType::PointsContainer::ConstIterator  PointIterator;
-
   PointIterator pointIterator = mesh->GetPoints()->Begin();
   PointIterator pointEnd      = mesh->GetPoints()->End();
   
@@ -346,9 +331,7 @@ int main()
     std::cout << pointIterator.Value() << std::endl;
     ++pointIterator;
     }
-
   // Software Guide : EndCodeSnippet
-
 
 
   //  Software Guide : BeginLatex
@@ -375,11 +358,7 @@ int main()
     std::cout << cell->GetNumberOfPoints() << std::endl;
     ++cellIterator;
     }
-
   // Software Guide : EndCodeSnippet
-
-
-
 
 
   //  Software Guide : BeginLatex
@@ -432,10 +411,6 @@ int main()
     }
 
 
-
-
-
-
   //  Software Guide : BeginLatex
   //
   //  Note that the point-identifier is obtained from the interator using the
@@ -443,9 +418,6 @@ int main()
   //  notation used by cell-iterators.
   //
   //  Software Guide : EndLatex 
-
-
-
 
 
   //  Software Guide : BeginLatex
@@ -459,7 +431,7 @@ int main()
   //  cells. Some of the drawbacks on this implicit discovery of neigborhood
   //  relationships is that it takes computing time and that some applications
   //  may not accept the same assumptions. A specific case is surgery
-  //  simulation. This application typically requires to simulate bistoury cuts
+  //  simulation. This application typically simulates bistoury cuts
   //  in a mesh representing an organ. A small cut in the surface may be made
   //  by specifying that two triangles are not considered to be neighbors any
   //  more. 
@@ -601,8 +573,6 @@ int main()
   std::cout << "Dimension 2 = " << n2 << std::endl;
 
 
-
-
   //  Software Guide : BeginLatex
   //
   //  The boundary assignments can be recovered with the method
@@ -651,9 +621,6 @@ int main()
     }
 
 
-
-
-
   //  Software Guide : BeginLatex
   //
   //  The following code illustrates how to set the edge boundaries for one of
@@ -685,9 +652,6 @@ int main()
       }
     }
 
-
-
   return 0;
-
 }
 

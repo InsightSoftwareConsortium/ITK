@@ -18,10 +18,10 @@
 //  Software Guide : BeginLatex
 //
 //  A \doxygen{Mesh} can contain a variety of cell types. Typical cells are
-//  the \doxygen{LineCell}, \doxygen{TriangleCell}, \doxygen{QuadrilateralCell}
-//  and \doxygen{TetrahedronCell}. A large flexibility is provided for managing
-//  cells at the price of a bit more of complexity than in the case of point
-//  management.
+//  the \doxygen{LineCell}, \doxygen{TriangleCell},
+//  \doxygen{QuadrilateralCell} and \doxygen{TetrahedronCell}. Additional
+//  flexibility is provided for managing cells at the price of a bit more of
+//  complexity than in the case of point management.
 //
 //  The following code creates a polygonal line in order to illustrate the
 //  simplest case of cell management in a Mesh. The only cell type used here is
@@ -41,7 +41,6 @@
 
 int main()
 {
-
   typedef float                             PixelType;
   typedef itk::Mesh< PixelType, 3 >         MeshType;
 
@@ -62,11 +61,6 @@ int main()
   // Software Guide : BeginCodeSnippet
   typedef MeshType::CellType                CellType;
   // Software Guide : EndCodeSnippet
-
-
-
-
-
 
 
   //  Software Guide : BeginLatex
@@ -103,7 +97,7 @@ int main()
   //  \index{itk::AutoPointer}
   //
   //  Managing cells by pointers add another level of complexity to the Mesh
-  //  since it is now necessary to stablish a protocol to make clear who is
+  //  since it is now necessary to establish a protocol to make clear who is
   //  responsible for allocating and releasing the cells' memory. This protocol
   //  is implemented in the form of a specific type of pointer called the
   //  \code{CellAutoPointer}. This pointer, based on the \doxygen{AutoPointer},
@@ -123,8 +117,6 @@ int main()
   // Software Guide : BeginCodeSnippet
   typedef CellType::CellAutoPointer         CellAutoPointer;
   // Software Guide : EndCodeSnippet
-
-
 
 
   //  Software Guide : BeginLatex
@@ -159,9 +151,6 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
-
-
   //  Software Guide : BeginLatex
   //
   //  The following code creates two CellAutoPointers and initializes
@@ -189,21 +178,22 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //
   //  The LineCells should now be associated with points in the mesh. This is
-  //  done using the identifiers assigned to points when they were inserted in
-  //  the mesh. Every cell type has a specific number of points to be
-  //  associated with. For example a \doxygen{LineCell} requires two points, a
-  //  \doxygen{TriangleCell} requires three and a \doxygen{TetrahedronCell}
-  //  requires four. Cells use an internal numbering system for points. It is
-  //  simply an index in the range $\{0,NumberOfPoints-1\}$. The association of
-  //  points and cells is done by the \code{SetPointId()} method which requires
-  //  the user to provide the internal index of the point in the cell and the
-  //  corresponding pointIdentifier in the Mesh. The internal cell index is the
-  //  first parameter of \code{SetPointId()} while the mesh point-identifier is
-  //  the second.
+  //  done using the identifiers assigned to points when they were inserted
+  //  in the mesh. Every cell type has a specific number of points that must
+  //  be associated with it.\footnote{Some cell types like polygons have a
+  //  variable number of points associated with them.} For example a
+  //  \doxygen{LineCell} requires two points, a \doxygen{TriangleCell}
+  //  requires three and a \doxygen{TetrahedronCell} requires four. Cells use
+  //  an internal numbering system for points. It is simply an index in the
+  //  range $\{0,NumberOfPoints-1\}$. The association of points and cells is
+  //  done by the \code{SetPointId()} method which requires the user to
+  //  provide the internal index of the point in the cell and the
+  //  corresponding PointIdentifier in the Mesh. The internal cell index is
+  //  the first parameter of \code{SetPointId()} while the mesh
+  //  point-identifier is the second.
   //
   //  Software Guide : EndLatex 
 
@@ -239,21 +229,14 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  After being argument of a \code{SetCell()} method, a CellAutoPointer no
-  //  longer holds ownership of the cells. It is important not to use this same
-  //  CellAutoPointer again as argument to \code{SetCell()} without first
-  //  securing ownership of another cell.
+  //  After serving as an argument of the \code{SetCell()} method, a
+  //  CellAutoPointer no longer holds ownership of the cell. It is important
+  //  not to use this same CellAutoPointer again as argument to
+  //  \code{SetCell()} without first securing ownership of another cell.
   //
   //  Software Guide : EndLatex 
 
-
-
   std::cout << "Points = " << mesh->GetNumberOfPoints() << std::endl;
-
-
-
-
-
 
   //  Software Guide : BeginLatex
   //
@@ -269,7 +252,6 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //
   //  In a way analogous to points, cells can be accessed using Iterators to
@@ -281,8 +263,6 @@ int main()
   // Software Guide : BeginCodeSnippet
   typedef MeshType::CellsContainer::Iterator  CellIterator;
   // Software Guide : EndCodeSnippet
-
-
 
 
   //  Software Guide : BeginLatex
@@ -303,8 +283,6 @@ int main()
   CellIterator  cellIterator = mesh->GetCells()->Begin();  
   CellIterator  end          = mesh->GetCells()->End();  
   // Software Guide : EndCodeSnippet
-
-
 
 
   //  Software Guide : BeginLatex
@@ -331,7 +309,8 @@ int main()
 
 
   // Software Guide : BeginCodeSnippet
-  while( cellIterator != end ) {
+  while( cellIterator != end ) 
+    {
     MeshType::CellType * cellptr = cellIterator.Value();
     LineType * line = dynamic_cast<LineType *>( cellptr );
     std::cout << line->GetNumberOfPoints() << std::endl;
@@ -339,8 +318,6 @@ int main()
     }
   // Software Guide : EndCodeSnippet
 
-
   return 0;
-
 }
 

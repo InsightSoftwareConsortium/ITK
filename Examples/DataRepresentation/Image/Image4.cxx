@@ -102,9 +102,10 @@ int main()
   // Software Guide : BeginCodeSnippet 
   double spacing[ ImageType::ImageDimension ];
 
-  spacing[0] = 0.33; // spacing in millimeters along X
-  spacing[1] = 0.33; // spacing in millimeters along Y
-  spacing[2] = 1.20; // spacing in millimeters along Z
+  // Note: measurement units (e.g., mm, inches, etc.) are defined by the application.
+  spacing[0] = 0.33; // spacing along X
+  spacing[1] = 0.33; // spacing along Y
+  spacing[2] = 1.20; // spacing along Z
   // Software Guide : EndCodeSnippet 
 
 

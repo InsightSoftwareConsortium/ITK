@@ -17,21 +17,20 @@
 
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{Mesh} class is intended to represent shapes in space.
-//  It derives from the \doxygen{PointSet} class and hence inherits
-//  all the functionalities related with access to points and access
-//  to the pixel-data associated with those points.  The mesh class is
-//  also \emph{$N$-Dimensional} which allows a great flexibility in
-//  its use.
+//  The \doxygen{Mesh} class is intended to represent shapes in space.  It
+//  derives from the \doxygen{PointSet} class and hence inherits all the
+//  functionality related to points and access to the pixel-data associated
+//  with the points.  The mesh class is also n-dimensional which
+//  allows a great flexibility in its use.
 //
 //  In practice a \doxygen{Mesh} class can be seen as a \doxygen{PointSet} to
-//  which cells of many different dimensions and shapes have been added. Cells
-//  in the mesh are defined in terms of the existing points using their
-//  point-identifiers.
+//  which cells (also known as elements) of many different dimensions and
+//  shapes have been added. Cells in the mesh are defined in terms of the
+//  existing points using their point-identifiers.
 //
 //  In the same way as for the \doxygen{PointSet}, two basic styles of
-//  Meshes are available in ITK. They are referred to as \emph{Static}
-//  and \emph{Dynamic}. The first one is used when the number of
+//  Meshes are available in ITK. They are referred to as \emph{static}
+//  and \emph{dynamic}. The first one is used when the number of
 //  points in the set can be known in advance and it is not expected
 //  to change as a consequence of the manipulations performed on the
 //  set. The dynamic style, on the other hand, is intended to support
@@ -39,7 +38,7 @@
 //  for making the distinction between the two styles is to facilitate
 //  the fine tunning of its behavior with the aim of optimizing
 //  performance and memory management. In the case of the Mesh, the
-//  dynamic/static aspect is extended to the management of Cells.
+//  dynamic/static aspect is extended to the management of cells.
 //
 //  \index{itk::Mesh}
 //  \index{itk::Mesh!Static}
@@ -69,8 +68,6 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //
   //  The Mesh type uses extensively the capabilities provided by
@@ -87,11 +84,8 @@ int main()
   
   // Software Guide : BeginCodeSnippet
   const unsigned int Dimension = 3;
-
   typedef itk::Mesh< PixelType, Dimension >   MeshType;
   // Software Guide : EndCodeSnippet
-
-
 
 
   //  Software Guide : BeginLatex
@@ -110,7 +104,6 @@ int main()
   // Software Guide : BeginCodeSnippet
   MeshType::Pointer  mesh = MeshType::New();
   // Software Guide : EndCodeSnippet
-
 
 
   //  Software Guide : BeginLatex
@@ -138,8 +131,6 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //
   //  The points can now be inserted in the Mesh using the \code{SetPoint()}
@@ -159,8 +150,6 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //
   //  The current number of points in the Mesh can be queried with the
@@ -173,7 +162,6 @@ int main()
   // Software Guide : BeginCodeSnippet
   std::cout << "Points = " << mesh->GetNumberOfPoints() << std::endl;
   // Software Guide : EndCodeSnippet
-
 
 
   //  Software Guide : BeginLatex
@@ -193,10 +181,6 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
-
-
-
   //  Software Guide : BeginLatex
   //
   //  A point iterator is initialized to the first point with the
@@ -210,7 +194,6 @@ int main()
   // Software Guide : BeginCodeSnippet
   PointsIterator  pointIterator = mesh->GetPoints()->Begin();  
   // Software Guide : EndCodeSnippet
-
 
 
   //  Software Guide : BeginLatex
@@ -230,16 +213,14 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   PointsIterator end = mesh->GetPoints()->End();
-  while( pointIterator != end ) {
+  while( pointIterator != end ) 
+    {
     MeshType::PointType p = pointIterator.Value();  // access the point
     std::cout << p << std::endl;                    // print the point
     ++pointIterator;                                // advance to next point
     }
   // Software Guide : EndCodeSnippet
 
-
-
   return 0;
-
 }
 

@@ -64,8 +64,6 @@
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //
   //  Then, custom CellVisitor classes should be declared. The only requirement
@@ -79,7 +77,6 @@
   //  \index{CellInterfaceVisitor!Visit()}
   //
   //  Software Guide : EndLatex 
-
 
 
   //  Software Guide : BeginLatex
@@ -98,15 +95,14 @@
   class CustomVertexVisitor
     {
     public:
-    void Visit(unsigned long cellId, VertexType * t )
-      {
-      std::cout << "cell " << cellId << " is a Vertex " << std::endl;
-      std::cout << "    associated with point id = ";
-      std::cout << t->GetPointId() << std::endl;
-      }
+      void Visit(unsigned long cellId, VertexType * t )
+        {
+        std::cout << "cell " << cellId << " is a Vertex " << std::endl;
+        std::cout << "    associated with point id = ";
+        std::cout << t->GetPointId() << std::endl;
+        }
     };
   // Software Guide : EndCodeSnippet
-
 
 
   //  Software Guide : BeginLatex
@@ -143,11 +139,8 @@
 
     private:
       MeshType::Pointer m_Mesh;
-
     };
   // Software Guide : EndCodeSnippet
-
-
 
 
   //  Software Guide : BeginLatex
@@ -184,7 +177,6 @@
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //
   //  The TetrahedronVisitor below simply returns the number of faces on this
@@ -200,27 +192,20 @@
   class CustomTetrahedronVisitor
     {
     public:
-    void Visit(unsigned long cellId, TetrahedronType * t )
-      {
-      std::cout << "cell " << cellId << " is a Tetrahedron " << std::endl;
-      std::cout << "  number of faces = ";
-      std::cout << t->GetNumberOfFaces() << std::endl;
-      }
+      void Visit(unsigned long cellId, TetrahedronType * t )
+        {
+        std::cout << "cell " << cellId << " is a Tetrahedron " << std::endl;
+        std::cout << "  number of faces = ";
+        std::cout << t->GetNumberOfFaces() << std::endl;
+        }
     };
   // Software Guide : EndCodeSnippet
 
 
-
-
-
 int main()
 {
-
-
   MeshType::Pointer  mesh = MeshType::New();
 
-
-  //
   // Creating the points and inserting them in the mesh
   //
   MeshType::PointType   point0;
@@ -239,9 +224,6 @@ int main()
   mesh->SetPoint( 3, point3 );
 
 
-
-
-  //
   // Creating and associating the Tetrahedron
   //
   CellType::CellAutoPointer cellpointer;
@@ -254,8 +236,6 @@ int main()
   mesh->SetCell( 0, cellpointer );
 
 
-
-  //
   // Creating and associating the Triangles
   //
   cellpointer.TakeOwnership( new TriangleType );
@@ -283,9 +263,6 @@ int main()
   mesh->SetCell( 4, cellpointer );
 
 
-
-
-  //
   // Creating and associating the Edges
   //
   cellpointer.TakeOwnership( new LineType );
@@ -319,9 +296,6 @@ int main()
   mesh->SetCell( 10, cellpointer );
 
 
-
-
-  //
   // Creating and associating the Vertices
   //
   cellpointer.TakeOwnership( new VertexType );
@@ -341,15 +315,10 @@ int main()
   mesh->SetCell( 14, cellpointer );
 
 
-
-  //
   // Simple verification of the number of points and cells inserted
   //
   std::cout << "# Points= " << mesh->GetNumberOfPoints() << std::endl;
   std::cout << "# Cell  = " << mesh->GetNumberOfCells() << std::endl;
-
-
-
 
 
   //  Software Guide : BeginLatex
@@ -436,7 +405,6 @@ int main()
   //  Software Guide : EndLatex 
 
 
-
   //  Software Guide : BeginLatex
   //
   //  The set of visitors should now be registererd with the MultiVisitor class
@@ -452,12 +420,8 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   typedef CellType::MultiVisitor CellMultiVisitorType;
-
   CellMultiVisitorType::Pointer multiVisitor = CellMultiVisitorType::New();  
   // Software Guide : EndCodeSnippet
-
-
-
 
 
   //  Software Guide : BeginLatex
@@ -476,8 +440,6 @@ int main()
   multiVisitor->AddVisitor( triangleVisitor    );
   multiVisitor->AddVisitor( tetrahedronVisitor );
   // Software Guide : EndCodeSnippet
-
-
 
 
   //  Software Guide : BeginLatex
@@ -507,6 +469,5 @@ int main()
 
 
   return 0;
-
 }
 

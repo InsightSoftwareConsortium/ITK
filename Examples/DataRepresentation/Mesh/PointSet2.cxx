@@ -18,7 +18,7 @@
 //  Software Guide : BeginLatex
 //
 //  The \doxygen{PointSet} class uses an internal container to manage the storage of
-//  Points. It is more efficient, in general, to manage points by using the
+//  \doxygen{Point}s. It is more efficient, in general, to manage points by using the
 //  access methods provided directly on the points container. The following
 //  example illustrates how to interact with the point container and how to use
 //  point iterators.
@@ -30,15 +30,13 @@
 
 int main()
 {
-
   typedef itk::PointSet< unsigned short, 3 > PointSetType;
 
   //  Software Guide : BeginLatex
   //
-  //  The \code{PointContainer} type is defined among the \emph{Traits} of the
-  //  PointSet class. The following line conveniently takes the
-  //  \code{PointContainer} type from the PointSet traits and declare it on the
-  //  global namespace.
+  //  The type is defined by the \emph{traits} of the \doxygen{PointSet}
+  //  class. The following line conveniently takes the PointsContainer type
+  //  from the PointSet traits and declare it in the global namespace.
   //
   //  \index{itk::PointSet!PointContainer}
   //
@@ -50,21 +48,21 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  The actual type of the \code{PointsContainer} depends on what style of
-  //  \code{PointSet} is being used. Dynamic PointSet use the
-  //  \doxygen{MapContainer} while the Static PointSet uses the
-  //  \doxygen{VectorContainer}. The vector and map containers are basically ITK
-  //  wrappers around the \href{http://www.sgi.com/tech/stl/}{STL} classes
-  //  \href{http://www.sgi.com/tech/stl/Map.html}{\code{std::map}} and
-  //  \href{http://www.sgi.com/tech/stl/Vector.html}{\code{std::vector}}.  By
-  //  default, the PointSet uses a Static style, hence the default type of
-  //  point container is an \doxygen{VectorContainer}.  Both the map and
-  //  vector container are templated over the type of the elements they
-  //  contain. In this case they are templated over \code{PointType}.
+  //  The actual type of the PointsContainer depends on what style of
+  //  PointSet is being used. The dynamic PointSet use the
+  //  \doxygen{MapContainer} while the static PointSet uses the
+  //  \doxygen{VectorContainer}. The vector and map containers are basically
+  //  ITK wrappers around the \href{http://www.sgi.com/tech/stl/}{STL}
+  //  classes \href{http://www.sgi.com/tech/stl/Map.html}{\code{std::map}}
+  //  and \href{http://www.sgi.com/tech/stl/Vector.html}{\code{std::vector}}.
+  //  By default, the PointSet uses a static style, hence the default
+  //  type of point container is an \doxygen{VectorContainer}.  Both the map
+  //  and vector container are templated over the type of the elements they
+  //  contain. In this case they are templated over PointType.
   //  Containers are reference counted object. They are then created with the
-  //  \code{New()} method and assigned to a SmartPointer after creation.  The
-  //  following line creates a point container compatible with the type of the
-  //  PointSet from which the trait has been taken.
+  //  \code{New()} method and assigned to a \doxygen{SmartPointer} after
+  //  creation.  The following line creates a point container compatible with
+  //  the type of the PointSet from which the trait has been taken.
   //
   //  \index{PointContainer!New()}
   //  \index{PointContainer!Pointer}
@@ -75,9 +73,6 @@ int main()
   // Software Guide : BeginCodeSnippet
   PointsContainer::Pointer points = PointsContainer::New();
   // Software Guide : EndCodeSnippet
-
-
-
 
 
   //  Software Guide : BeginLatex
@@ -95,9 +90,6 @@ int main()
   p0[0] = -1.0; p0[1] = 0.0; p0[2] = 0.0; // Point 0 = {-1,0,0 }
   p1[0] =  1.0; p1[1] = 0.0; p1[2] = 0.0; // Point 1 = { 1,0,0 }
   // Software Guide : EndCodeSnippet
-
-
-
 
 
   //  Software Guide : BeginLatex
@@ -118,19 +110,14 @@ int main()
 
   points->InsertElement( pointId++ , p0 );
   points->InsertElement( pointId++ , p1 );
-
   // Software Guide : EndCodeSnippet
 
   PointSetType::Pointer  pointSet = PointSetType::New();
 
 
-
-
-
-
   //  Software Guide : BeginLatex
   //
-  //  Finally the \code{PointsContainer} can be assigned to the PointSet. This will
+  //  Finally the PointsContainer can be assigned to the PointSet. This will
   //  substitute any previously existing PointContainer on the PointSet. The
   //  assignment is done using the \code{SetPoints()} method.
   //
@@ -143,29 +130,22 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
-
-
-
   //  Software Guide : BeginLatex
   //
   //  The PointContainer object can be obtained from the PointSet using the
-  //  \code{GetPoints()} method.  This method returns a \doxygen{SmartPointer}
-  //  to the actual container owned by the PointSet.
+  //  \code{GetPoints()} method.  This method returns a pointer
+  //  to the actual container owned by the PointSet which is then assigned to
+  //  a SmartPointer.
   //
   //  \index{itk::PointSet!GetPoints()}
   //  \index{PointsContainer!Pointer}
   //
   //  Software Guide : EndLatex 
 
+
   // Software Guide : BeginCodeSnippet
   PointsContainer::Pointer  points2 = pointSet->GetPoints();   
   // Software Guide : EndCodeSnippet
-
-  
-
-
-
 
 
   //  Software Guide : BeginLatex
@@ -173,10 +153,10 @@ int main()
   //  The most efficient way to sequentially visit the points is to use the
   //  iterators provided by PointsContainer. The \code{Iterator} type belongs
   //  to the traits of the PointsContainer classes. It behaves pretty much like
-  //  the STL iterators \footnote{If you dig deep enough into the code, you
+  //  the STL iterators.\footnote{If you dig deep enough into the code, you
   //  will discover that these iterators are actually ITK wrappers around STL
-  //  iterators.}.  The Points iterator is not a reference counted class, so it
-  //  is just created directly from the traits without using SmartPointers.
+  //  iterators.}  The Points iterator is not a reference counted class, so it
+  //  is created directly from the traits without using SmartPointers.
   //
   //  \index{PointsContainer!Iterator}
   //
@@ -185,10 +165,6 @@ int main()
   // Software Guide : BeginCodeSnippet
   typedef PointsContainer::Iterator     PointsIterator;
   // Software Guide : EndCodeSnippet
-
-
-
-
 
 
   //  Software Guide : BeginLatex
@@ -204,9 +180,6 @@ int main()
   // Software Guide : BeginCodeSnippet
   PointsIterator  pointIterator = points->Begin();  
   // Software Guide : EndCodeSnippet
-
-
-
 
 
   //  Software Guide : BeginLatex
@@ -226,16 +199,13 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   PointsIterator end = points->End();
-  while( pointIterator != end ) {
+  while( pointIterator != end ) 
+    {
     PointType p = pointIterator.Value();   // access the point
     std::cout << p << std::endl;           // print the point
     ++pointIterator;                       // advance to next point
     }
   // Software Guide : EndCodeSnippet
-
-
-
-
 
 
   //  Software Guide : BeginLatex
@@ -262,10 +232,7 @@ int main()
   std::cout << pointSet->GetPoints()->Size() << std::endl;
   // Software Guide : EndCodeSnippet
 
-
-
   return 0;
-
 }
 
 

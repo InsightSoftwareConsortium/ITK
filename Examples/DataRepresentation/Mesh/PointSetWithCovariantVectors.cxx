@@ -50,13 +50,8 @@
 #include "itkPointSet.h"
 // Software Guide : EndCodeSnippet
 
-
-
-
 int main()
 {
-
-
   //  Software Guide : BeginLatex
   //
   //  The \doxygen{CovariantVector} class is templated over the type used to
@@ -78,9 +73,6 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
-
-
   //  Software Guide : BeginLatex
   //
   //  Then we use the PixelType (which are actually CovariantVectors) to
@@ -97,9 +89,9 @@ int main()
 
   //  Software Guide : BeginLatex
   //
-  //  The following code generates a circle in $3D$ and assigns gradient values
-  //  to the points. The components of the CovariantVectors in this example are
-  //  computed to represent the normals to the circle. 
+  //  The following code generates a sphere and assigns gradient values to
+  //  the points. The components of the CovariantVectors in this example are
+  //  computed to represent the normals to the circle.
   //
   //  \index{itk::PointSet!SetPoint()}
   //  \index{itk::PointSet!SetPointData()}
@@ -129,17 +121,16 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //
-  //  We can now visit all the points and use the vector on the pixel values to
-  //  apply a deformation on the points by following the gradient of the
-  //  function. This is along the spirit of what a deformable model could do at
-  //  each one of its iterations. To be more formal we should use the function
-  //  gradients as forces and multiply them by local stress tensors in order to
-  //  obtain local deformations.  The resulting deformations  should finally be
-  //  used to apply displacements on the points.  but... let's be sloppy with
-  //  the physics on this example for a moment.
+  //  We can now visit all the points and use the vector on the pixel values
+  //  to apply a deformation on the points by following the gradient of the
+  //  function. This is along the spirit of what a deformable model could do
+  //  at each one of its iterations. To be more formal we should use the
+  //  function gradients as forces and multiply them by local stress tensors
+  //  in order to obtain local deformations.  The resulting deformations
+  //  would finally be used to apply displacements on the points.  However,
+  //  to shorten the example, we will ignore this complexity for the moment.
   //
   //  \index{itk::PointSet!PointDataIterator}
   //
@@ -155,10 +146,12 @@ int main()
   PointIterator pointIterator = pointSet->GetPoints()->Begin();
   PointIterator pointEnd      = pointSet->GetPoints()->End();
 
-  while( pixelIterator != pixelEnd  && pointIterator != pointEnd ) {
+  while( pixelIterator != pixelEnd  && pointIterator != pointEnd ) 
+    {
     PointSetType::PointType point    = pointIterator.Value();
     PointSetType::PixelType gradient = pixelIterator.Value();
-    for(unsigned int i=0; i<Dimension; i++) {
+    for(unsigned int i=0; i<Dimension; i++) 
+      {
       point[i] += gradient[i];
       } 
     pointIterator.Value() = point;
@@ -168,17 +161,14 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
-
-
   //  Software Guide : BeginLatex
   //
   //  The \doxygen{CovariantVector} class does not overload the \code{+}
   //  operator with the \doxygen{Point}. In other words, CovariantVectors can
-  //  not be added to points in order to get new points. This is just like
-  //  apples and oranges. Since we disrespect the physics on the example, we
-  //  are also forced to do the illegal addition manually between the
-  //  components of the gradient and the coordinates of the points. 
+  //  not be added to points in order to get new points. Further, since we
+  //  are ignoring physics in the example, we are also forced to do the
+  //  illegal addition manually between the components of the gradient and
+  //  the coordinates of the points.
   //
   //  Note that the absence of some basic operators on the ITK geometry classes
   //  is completely intentional with the aim of preventing the  incorrect use
@@ -190,23 +180,18 @@ int main()
   //
 
 
-
-
-  //
   //  We can finally visit all the points and print out the new values.
   //
-
   pointIterator = pointSet->GetPoints()->Begin();
   pointEnd      = pointSet->GetPoints()->End();
-  while( pointIterator != pointEnd ) {
+  while( pointIterator != pointEnd ) 
+    {
     std::cout << pointIterator.Value() << std::endl;
     ++pointIterator;
     }
 
 
-
   return 0;
-
 }
 
 

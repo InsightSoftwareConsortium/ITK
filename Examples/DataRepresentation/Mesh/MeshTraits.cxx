@@ -50,7 +50,7 @@
 //  its content. Only the first approach is illustrated here. The second is
 //  discouraged unless you are familiar with Generic Programming, feel
 //  comfortable with C++ templates and have access to an abundant supply of
-//  coffee. 
+//  (Columbian) coffee. 
 //
 //  The first step in customizing the mesh is to include the header file of the
 //  \doxygen{Mesh} and its StaticTraits.
@@ -58,7 +58,6 @@
 //  \index{itk::DefaultStaticMeshTraits!Header}
 //
 //  Software Guide : EndLatex 
-
 
 
 // Software Guide : BeginCodeSnippet
@@ -72,28 +71,25 @@
 
 int main()
 {
-
-
   //  Software Guide : BeginLatex
   //  
   //  Then the MeshTraits class is instantiated by selecting the types of each
   //  one of its six template arguments. They are in order
   // 
-  //  \begin{itemize}
-  //  \item PixelType The type associated with every point
-  //  \item PointDimension The dimension of the space in which the mesh is embedded
-  //  \item MaxTopologicalDimension The highest dimension of the mesh cells 
-  //  \item CoordinateRepresentation The type used to represent space coordinates
-  //  \item InterpolationWeigh The type used to represent interpolation weights
-  //  \item CellDataType The type associated with every cell
-  //
-  //  \end{itemize}
+  //  \begin{description}
+  //  \item[PixelType] The type associated with every point.
+  //  \item[PointDimension] The dimension of the space in which the mesh is embedded.
+  //  \item[MaxTopologicalDimension] The highest dimension of the mesh cells.
+  //  \item[CoordRepType] The type used to represent space coordinates.
+  //  \item[InterpolationWeightType]  The type used to represent interpolation weights.
+  //  \item[CellPixelType] The type associated with every cell.
+  //  \end{description}
   //
   //  Let's define types and values for each one of those elements. For example
-  //  the following code will use points in $3D$ space as nodes of the
-  //  \doxygen{Mesh}. The maximum dimension of the cells will be 2 which means
+  //  the following code will use points in 3D space as nodes of the
+  //  \doxygen{Mesh}. The maximum dimension of the cells will be two which means
   //  that this is a 2D manifold better know as a \emph{surface}. The data type
-  //  associated with points is defined to be a four dimensional vector. This
+  //  associated with points is defined to be a four-dimensional vector. This
   //  type could represent values of membership for a four-classes segmentation
   //  method.  The value selected for the cells are $4\times3$ matrices which could
   //  have for example the derivative of the membership values with respect to
@@ -123,7 +119,6 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //
   //  The \doxygen{LineCell} type can now be instantiated using the traits
@@ -137,8 +132,6 @@ int main()
   typedef MeshType::CellType                CellType;
   typedef itk::LineCell< CellType >         LineType;
   // Software Guide : EndCodeSnippet
-
-
 
 
   //  Software Guide : BeginLatex
@@ -172,9 +165,6 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
-
-
   //  Software Guide : BeginLatex
   //
   //  A set of line cells is created and associated with the existing points by
@@ -205,8 +195,6 @@ int main()
   std::cout << "Points = " << mesh->GetNumberOfPoints() << std::endl;
   std::cout << "Cells  = " << mesh->GetNumberOfCells()  << std::endl;
 
-
-
   //  Software Guide : BeginLatex
   //
   //  Data associated with cells is inserted in the \doxygen{Mesh} by using
@@ -228,8 +216,6 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //
   //  Cell data can be read from the \doxygen{Mesh} with the
@@ -248,29 +234,19 @@ int main()
     CellDataType value;
     mesh->GetCellData( cellId, &value );
     std::cout << "Cell " << cellId << " = " << value << std::endl;
-                       
     }
-
   // Software Guide : EndCodeSnippet
-
-
-
 
 
   //  Software Guide : BeginLatex
   //
   //  Neither \code{SetCellData()} or \code{GetCellData()} are efficient ways
-  //  to access cell data. Massive access to cell data can be achieved
-  //  efficently by using the Iterators built into the CellDataContainer. 
+  //  to access cell data. Efficient access to cell data can be achieved
+  //  by using the Iterators built into the CellDataContainer. 
 
   // Software Guide : BeginCodeSnippet
   typedef MeshType::CellDataContainer::ConstIterator CellDataIterator;
   // Software Guide : EndCodeSnippet
-
-
-
-
-
 
 
   //  Software Guide : BeginLatex
@@ -298,11 +274,6 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
-
-
-
-
   //  Software Guide : BeginLatex
   //
   //  Finally a standard loop is used to iterate over all the cell data
@@ -316,15 +287,14 @@ int main()
 
 
   // Software Guide : BeginCodeSnippet
-  while( cellDataIterator != end ) {
+  while( cellDataIterator != end ) 
+    {
     CellDataType cellValue = cellDataIterator.Value();
     std::cout << cellValue << std::endl;
     ++cellDataIterator;
     }
   // Software Guide : EndCodeSnippet
 
-
   return 0;
-
 }
 

@@ -35,8 +35,6 @@
 
 int main()
 {
-
-
   //  Software Guide : BeginLatex
   //
   //  The following code defines a particular type for a pixel type and
@@ -46,16 +44,12 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   typedef unsigned short  PixelType;
-
   typedef itk::PointSet< PixelType, 3 > PointSetType;
   // Software Guide : EndCodeSnippet
 
 
-
   // A point set is instantiated here
   PointSetType::Pointer  pointSet = PointSetType::New();
-
-
 
 
   //  Software Guide : BeginLatex
@@ -79,8 +73,6 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //
   //  Data associated with points can be read from the PointSet using the
@@ -90,7 +82,7 @@ int main()
   //  any existing identifier on the PointSet the method will return
   //  \code{false} and the pixel value returned will be invalid. It is the
   //  user's responsibility to check the returned boolean value before
-  //  attempting to use the returned pixel value.
+  //  attempting to use it.
   //
   //  \index{itk::PointSet!GetPointData()}
   //
@@ -99,12 +91,11 @@ int main()
   // Software Guide : BeginCodeSnippet
 
   const bool found = pointSet->GetPointData( dataId, & value );   
-  if( found ) {
+  if( found ) 
+    {
     std::cout << "Pixel value = " << value << std::endl;
     }
   // Software Guide : EndCodeSnippet
-
-
 
 
 
@@ -133,9 +124,6 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
-
-
   //  Software Guide : BeginLatex
   //
   //  Using the type it is now possible to create an instance of the data
@@ -152,10 +140,6 @@ int main()
   // Software Guide : BeginCodeSnippet
   PointDataContainer::Pointer pointData = PointDataContainer::New();
   // Software Guide : EndCodeSnippet
-
-
-
-
 
 
   //  Software Guide : BeginLatex
@@ -181,10 +165,6 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
-
-
-
   //  Software Guide : BeginLatex
   //
   //  Finally the PointDataContainer can be assigned to the PointSet. This will
@@ -200,15 +180,11 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
-
-
-
   //  Software Guide : BeginLatex
   //
   //  The PointDataContainer can be obtained from the PointSet using the
-  //  \code{GetPointData()} method.  This method returns a SmartPointer to the
-  //  actual container owned by the PointSet.
+  //  \code{GetPointData()} method.  This method returns a pointer (assigned to
+  //  a SmartPointer) to the actual container owned by the PointSet.
   //
   //  \index{itk::PointSet!GetPointData()}
   //
@@ -217,9 +193,6 @@ int main()
   // Software Guide : BeginCodeSnippet
   PointDataContainer::Pointer  pointData2 = pointSet->GetPointData();   
   // Software Guide : EndCodeSnippet
-
-  
-
 
 
   //  Software Guide : BeginLatex
@@ -239,10 +212,6 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
-
-
-
   //  Software Guide : BeginLatex
   //
   //  The subsequent use of the iterator follows what you may expect from a STL
@@ -256,9 +225,6 @@ int main()
   // Software Guide : BeginCodeSnippet
   PointDataIterator  pointDataIterator = pointData2->Begin();  
   // Software Guide : EndCodeSnippet
-
-
-
 
 
   //  Software Guide : BeginLatex
@@ -278,14 +244,13 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   PointDataIterator end = pointData2->End();
-  while( pointDataIterator != end ) {
+  while( pointDataIterator != end ) 
+    {
     PixelType p = pointDataIterator.Value();  // access the pixel data
     std::cout << p << std::endl;              // print the pixel data
     ++pointDataIterator;                      // advance to next pixel/point
     }
   // Software Guide : EndCodeSnippet
-
-
 
 
   //  Software Guide : BeginLatex
@@ -298,9 +263,7 @@ int main()
   //  Software Guide : EndLatex 
 
 
-
   return 0;
-
 }
 
 

@@ -31,8 +31,8 @@
 
   //  Software Guide : BeginLatex
   //
-  //  Lets consider the example of a polygonal line on which values are
-  //  associated with the lines. The mesh and cell header files should be
+  //  Consider the example of a mesh containing lines on which values are
+  //  associated with each line. The mesh and cell header files should be
   //  included first.
   //
   //  Software Guide : EndLatex 
@@ -46,8 +46,6 @@
 
 int main()
 {
-
-
   //  Software Guide : BeginLatex
   //  
   //  Then the PixelType is defined and the mesh type is instantiated with it. 
@@ -63,7 +61,6 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //
   //  The \doxygen{LineCell} type can now be instantiated using the traits
@@ -77,8 +74,6 @@ int main()
   typedef MeshType::CellType                CellType;
   typedef itk::LineCell< CellType >         LineType;
   // Software Guide : EndCodeSnippet
-
-
 
 
   //  Software Guide : BeginLatex
@@ -108,9 +103,6 @@ int main()
     mesh->SetPoint( id, point );
     }
   // Software Guide : EndCodeSnippet
-
-
-
 
 
   //  Software Guide : BeginLatex
@@ -144,7 +136,6 @@ int main()
   std::cout << "Cells  = " << mesh->GetNumberOfCells()  << std::endl;
 
 
-
   //  Software Guide : BeginLatex
   //
   //  Data associated with cells is inserted in the \doxygen{Mesh} by using
@@ -166,8 +157,6 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //
   //  Cell data can be read from the \doxygen{Mesh} with the
@@ -186,29 +175,19 @@ int main()
     PixelType value;
     mesh->GetCellData( cellId, &value );
     std::cout << "Cell " << cellId << " = " << value << std::endl;
-                       
     }
-
   // Software Guide : EndCodeSnippet
-
-
-
 
 
   //  Software Guide : BeginLatex
   //
   //  Neither \code{SetCellData()} or \code{GetCellData()} are efficient ways
-  //  to access cell data. Massive access to cell data can be achieved
-  //  efficently by using the Iterators built into the \code{CellDataContainer}. 
+  //  to access cell data. More efficient access to cell data can be achieved
+  //  by using the Iterators built into the \code{CellDataContainer}.
 
   // Software Guide : BeginCodeSnippet
   typedef MeshType::CellDataContainer::ConstIterator CellDataIterator;
   // Software Guide : EndCodeSnippet
-
-
-
-
-
 
 
   //  Software Guide : BeginLatex
@@ -236,33 +215,27 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
-
-
-
-
   //  Software Guide : BeginLatex
   //
   //  Finally a standard loop is used to iterate over all the cell data
   //  entries. Note the use of the \code{Value()} method used to get the actual
-  //  value of the data entry. \code{PixelType} elements are returned by copy.
+  //  value of the data entry. \code{PixelType} elements are copied into the
+  //  local variable \code{callValue}.
   //
   //  \index{CellDataIterator!Value()}
   //  \index{CellDataIterator!increment}
   //
   //  Software Guide : EndLatex 
 
-
   // Software Guide : BeginCodeSnippet
-  while( cellDataIterator != end ) {
+  while( cellDataIterator != end ) 
+    {
     PixelType cellValue = cellDataIterator.Value();
     std::cout << cellValue << std::endl;
     ++cellDataIterator;
     }
   // Software Guide : EndCodeSnippet
 
-
   return 0;
-
 }
 

@@ -187,10 +187,12 @@ int main(int argc, char ** argv)
   //  Software Guide : BeginLatex
   //
   //  Here we fill up the buffer with a binary sphere. We use simple
-  //  \code{for()} loops here...it looks just like FORTRAN. Note that ITK
+  //  \code{for()} loops here similar to those found in the C or FORTRAN
+  //  programming languages. Note that ITK
   //  does not use \code{for()} loops in its internal code to access
   //  pixels. All pixel access tasks are instead performed using
-  //  \doxygen{ImageIterator}s that support the management of $N-D$ images.
+  //  \doxygen{ImageIterator}s that support the management of 
+  //  n-dimensional images.
   //
   //  Software Guide : EndLatex 
 
@@ -227,8 +229,8 @@ int main(int argc, char ** argv)
   //
   //  For the \doxygen{ImportImageFilter} to appropriately delete the
   //  memory block, the memory must be allocated with the C++
-  //  \code{new()} operator.  Memory allocated with with other memory
-  //  allocation mechanisms, such as the C \code{malloc} or \code{calloc}, will not
+  //  \code{new()} operator.  Memory allocated with other memory
+  //  allocation mechanisms, such as C \code{malloc} or \code{calloc}, will not
   //  be deleted properly by the \doxygen{ImportImageFilter}.  In
   //  other words, it is the application programmer's responsiblility
   //  to ensure that \doxygen{ImportImageFilter} is only given

@@ -40,7 +40,6 @@
 
 int main()
 {
-
   typedef float                             PixelType;
   typedef itk::Mesh< PixelType, 3 >         MeshType;
 
@@ -51,11 +50,9 @@ int main()
   typedef itk::TriangleCell< CellType >     TriangleType;
   typedef itk::TetrahedronCell< CellType >  TetrahedronType;
 
-
   MeshType::Pointer  mesh = MeshType::New();
 
 
-  //
   // Creating the points and inserting them in the mesh
   //
   MeshType::PointType   point0;
@@ -74,9 +71,6 @@ int main()
   mesh->SetPoint( 3, point3 );
 
 
-
-
-  //
   // Creating and associating the Tetrahedron
   //
   CellType::CellAutoPointer cellpointer;
@@ -89,8 +83,6 @@ int main()
   mesh->SetCell( 0, cellpointer );
 
 
-
-  //
   // Creating and associating the Triangles
   //
   cellpointer.TakeOwnership( new TriangleType );
@@ -118,9 +110,6 @@ int main()
   mesh->SetCell( 4, cellpointer );
 
 
-
-
-  //
   // Creating and associating the Edges
   //
   cellpointer.TakeOwnership( new LineType );
@@ -154,9 +143,6 @@ int main()
   mesh->SetCell( 10, cellpointer );
 
 
-
-
-  //
   // Creating and associating the Vertices
   //
   cellpointer.TakeOwnership( new VertexType );
@@ -176,14 +162,8 @@ int main()
   mesh->SetCell( 14, cellpointer );
 
 
-
-
   std::cout << "# Points= " << mesh->GetNumberOfPoints() << std::endl;
   std::cout << "# Cell  = " << mesh->GetNumberOfCells() << std::endl;
-
-
-
-
   
 
   //  Software Guide : BeginLatex
@@ -213,7 +193,6 @@ int main()
     ++cellIterator;
     }
   // Software Guide : EndCodeSnippet
-
 
 
   //  Software Guide : BeginLatex
@@ -263,9 +242,6 @@ int main()
     ++cellIterator;
     }
   // Software Guide : EndCodeSnippet
-
-
-
 
   
   //  Software Guide : BeginLatex
@@ -324,9 +300,6 @@ int main()
     }
   // Software Guide : EndCodeSnippet
 
-
-
   return 0;
-
 }
 

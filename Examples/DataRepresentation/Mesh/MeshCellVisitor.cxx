@@ -65,8 +65,6 @@
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //
   //  Then, a custom CellVisitor class should be declared. In this particular
@@ -94,24 +92,20 @@
       typedef itk::TriangleCell<CellType>      TriangleType;
 
     public:
-    void Visit(unsigned long cellId, TriangleType * t )
-      {
-      std::cout << "Cell # " << cellId << " is a TriangleType ";
-      std::cout << t->GetNumberOfPoints() << std::endl;
-      }
+      void Visit(unsigned long cellId, TriangleType * t )
+        {
+        std::cout << "Cell # " << cellId << " is a TriangleType ";
+        std::cout << t->GetNumberOfPoints() << std::endl;
+        }
     };
   // Software Guide : EndCodeSnippet
 
 
-
 int main()
 {
-
-
   MeshType::Pointer  mesh = MeshType::New();
 
 
-  //
   // Creating the points and inserting them in the mesh
   //
   MeshType::PointType   point0;
@@ -130,9 +124,6 @@ int main()
   mesh->SetPoint( 3, point3 );
 
 
-
-
-  //
   // Creating and associating the Tetrahedron
   //
   CellType::CellAutoPointer cellpointer;
@@ -145,8 +136,6 @@ int main()
   mesh->SetCell( 0, cellpointer );
 
 
-
-  //
   // Creating and associating the Triangles
   //
   cellpointer.TakeOwnership( new TriangleType );
@@ -174,9 +163,6 @@ int main()
   mesh->SetCell( 4, cellpointer );
 
 
-
-
-  //
   // Creating and associating the Edges
   //
   cellpointer.TakeOwnership( new LineType );
@@ -210,9 +196,6 @@ int main()
   mesh->SetCell( 10, cellpointer );
 
 
-
-
-  //
   // Creating and associating the Vertices
   //
   cellpointer.TakeOwnership( new VertexType );
@@ -232,15 +215,10 @@ int main()
   mesh->SetCell( 14, cellpointer );
 
 
-
-  //
   // Simple verification of the number of points and cells inserted
   //
   std::cout << "# Points= " << mesh->GetNumberOfPoints() << std::endl;
   std::cout << "# Cell  = " << mesh->GetNumberOfCells() << std::endl;
-
-
-
 
 
   //  Software Guide : BeginLatex
@@ -286,8 +264,6 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //
   //  Many different visitors can be configured in this way. The set of all
@@ -300,12 +276,8 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   typedef CellType::MultiVisitor CellMultiVisitorType;
-
   CellMultiVisitorType::Pointer multiVisitor = CellMultiVisitorType::New();  
   // Software Guide : EndCodeSnippet
-
-
-
 
 
   //  Software Guide : BeginLatex
@@ -320,8 +292,6 @@ int main()
   // Software Guide : BeginCodeSnippet
   multiVisitor->AddVisitor( triangleVisitor );
   // Software Guide : EndCodeSnippet
-
-
 
 
   //  Software Guide : BeginLatex
@@ -347,13 +317,12 @@ int main()
   //  and skipped.
   //
   //  MultiVisitors make it possible to add behavior to the cells without having to
-  //  create new methods on the cell types or creating a gigantic visitor class
-  //  that should know about every CellType.
+  //  create new methods on the cell types or creating a complex visitor class
+  //  that knows about every CellType.
   //
   //  Software Guide : EndLatex 
 
 
   return 0;
-
 }
 

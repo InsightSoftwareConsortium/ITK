@@ -17,19 +17,21 @@
 
 //  Software Guide : BeginLatex
 //
-//  The \code{itk::PointSet} is a basic class intended to represent geometry.
-//  It is the base class for the \code{itk::Mesh} and provides support for
-//  manipulating sets of points in $N-Dimensional$ space. Points can have
-//  values associated with them. The type of such values is defined by
-//  a template parameter of the \code{itk::PointSet} class. Two basic styles of 
-//  PointSets are available in ITK. They are referred to as \emph{Static}
-//  and \emph{Dynamic}. The first style is used when the number of points
-//  in the set is known in advance and is not expected to change
-//  as a consequence of the manipulations performed on the set. The dynamic
-//  style, on the other hand, is intended to support insertion and removal
-//  of points in an efficient manner. Distinguishing between the two styles
-//  is meant to facilitate the fine tuning of a \code{PointSet}'s behavior
-//  while optimizing performance and memory management.
+//  The \code{itk::PointSet} is a basic class intended to represent geometry
+//  in the form of a set of points in n-dimensional space. It is the base
+//  class for the \code{itk::Mesh} providing the methods necessary to
+//  manipulate sets of point. Points can have values associated with
+//  them. The type of such values is defined by a template parameter of the
+//  \code{itk::PointSet} class (i.e., \code{TPixelType}. Two basic
+//  interaction styles of PointSets are available in ITK. These styles are
+//  referred to as \emph{static} and \emph{dynamic}. The first style is used
+//  when the number of points in the set is known in advance and is not
+//  expected to change as a consequence of the manipulations performed on the
+//  set. The dynamic style, on the other hand, is intended to support
+//  insertion and removal of points in an efficient manner. Distinguishing
+//  between the two styles is meant to facilitate the fine tuning of a
+//  \code{PointSet}'s behavior while optimizing performance and memory
+//  management.
 //
 //  \index{itk::PointSet}
 //  \index{itk::PointSet!Static}
@@ -45,7 +47,6 @@
 
 int main()
 {
-
   //  Software Guide : BeginLatex
   //
   //  Then we must decide what type of value to associate with the
@@ -64,19 +65,17 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //
-  //  A \code{PointSet} object is created by invoking the \code{New()}
-  //  method on its type.  The resulting object must be assigned to a
-  //  \code{SmartPointer}.  The PointSet is then reference-counted and
-  //  can be shared by multiple \code{SmartPointer}s. The memory
-  //  allocated for the PointSet will be released when the number of
-  //  references to the object is reduced to zero. This simply means
-  //  that the user does not need to be concerned with invoking the
-  //  \code{Delete()} method on this class.  In fact, the
-  //  \code{Delete()} method should \textbf{never} be called directly
-  //  within any of the reference-counted ITK classes.
+  //  A \code{PointSet} object is created by invoking the \code{New()} method
+  //  on its type.  The resulting object must be assigned to a
+  //  \code{SmartPointer}.  The PointSet is then reference-counted and can be
+  //  shared by multiple objects. The memory allocated for the PointSet will
+  //  be released when the number of references to the object is reduced to
+  //  zero. This simply means that the user does not need to be concerned
+  //  with invoking the \code{Delete()} method on this class.  In fact, the
+  //  \code{Delete()} method should \textbf{never} be called directly within
+  //  any of the reference-counted ITK classes.
   //
   //  \index{itk::PointSet!New()}
   //  \index{itk::PointSet!Pointer}
@@ -86,8 +85,6 @@ int main()
   // Software Guide : BeginCodeSnippet
   PointSetType::Pointer  pointsSet = PointSetType::New();
   // Software Guide : EndCodeSnippet
-
-
 
 
   //  Software Guide : BeginLatex
@@ -108,8 +105,6 @@ int main()
   // Software Guide : BeginCodeSnippet
   typedef PointSetType::PointType     PointType;
   // Software Guide : EndCodeSnippet
-
-
 
 
   //  Software Guide : BeginLatex
@@ -153,7 +148,7 @@ int main()
   //
   //  Points are inserted in the PointSet by using the \code{SetPoint()} method.
   //  This method requires the user to provide a unique identifier for the
-  //  point. The identifier is simply an unsigned integer that will enumerate
+  //  point. The identifier is typically an unsigned integer that will enumerate
   //  the points as they are being inserted. The following code shows how three
   //  points are inserted into the PointSet.
   //
@@ -185,7 +180,6 @@ int main()
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //
   // Points can be read from the PointSet by using the \code{GetPoint()} method
@@ -201,16 +195,13 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   PointType pp;
-
   bool pointExists =  pointsSet->GetPoint( 1, & pp );
 
-  if( pointExists ) {
+  if( pointExists ) 
+    {
     std::cout << "Point is = " << pp << std::endl;
     }
   // Software Guide : EndCodeSnippet
-
-
-
 
 
   //  Software Guide : BeginLatex
@@ -218,15 +209,12 @@ int main()
   // \code{GetPoint()} and \code{SetPoint()} are not the most efficient methods
   // to access points in the PointSet. It is preferable to get direct access
   // to the internal point container defined by the \emph{traits} and use
-  // Iterators to walk sequentially over the list of points.
+  // iterators to walk sequentially over the list of points (as shown in
+  // the following example).
   //
   //  Software Guide : EndLatex 
 
-
-
-
   return 0;
-
 }
 
 
