@@ -24,6 +24,7 @@ REGISTER_TEST(itkFastMarchingTest );
 REGISTER_TEST(itkFastMarchingExtensionImageFilterTest );
 //REGISTER_TEST(itkFEMRegistrationFilterTest );
 REGISTER_TEST(itkGeodesicActiveContourLevelSetImageFilterTest );
+REGISTER_TEST(itkGeodesicActiveContourShapePriorLevelSetImageFilterTest );
 REGISTER_TEST(itkGradientVectorFlowImageFilterTest );
 REGISTER_TEST(itkSimpleFuzzyConnectednessScalarImageFilterTest );
 REGISTER_TEST(itkHistogramMatchingImageFilterTest );
