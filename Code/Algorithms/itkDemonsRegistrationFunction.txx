@@ -181,7 +181,6 @@ DemonsRegistrationFunction<TReference,TTarget,TDeformationField>
   double speedValue = targetValue - refValue;
   double denominator = vnl_math_sqr( speedValue ) + 
     targetGradientSquaredMagnitude;
-  double absSpeed = vnl_math_abs( speedValue );
 
   if ( denominator < m_EpsilonDenominator )
     {
