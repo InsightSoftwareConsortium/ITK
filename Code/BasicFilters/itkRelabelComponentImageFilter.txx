@@ -245,17 +245,31 @@ RelabelComponentImageFilter< TInputImage, TOutputImage >
   Superclass::PrintSelf(os, indent);
   
   os << indent << "NumberOfObjects: " << m_NumberOfObjects << std::endl;
+  os << indent << "NumberOfObjectsToPrint: "
+     << m_NumberOfObjectsToPrint << std::endl;
 
   std::vector<unsigned long>::const_iterator it;
   std::vector<float>::const_iterator fit;
   unsigned long i;
-  
+
+  // limit the number of objects to print
+  unsigned long numPrint = m_NumberOfObjectsToPrint;
+  if (numPrint > m_SizeOfObjectsInPixels.size())
+    {
+    numPrint = m_SizeOfObjectsInPixels.size();
+    }
+
+
   for (i=0, it = m_SizeOfObjectsInPixels.begin(),
          fit = m_SizeOfObjectsInPhysicalUnits.begin();
-       it != m_SizeOfObjectsInPixels.end(); ++it, ++fit, ++i)
+       i < numPrint; ++it, ++fit, ++i)
     {
     os << indent << "Object #" << i+1 << ": " << *it << " pixels, "
        << *fit << " physical units" << std::endl;
+    }
+  if (numPrint < m_SizeOfObjectsInPixels.size())
+    {
+    os << indent << "..." << std::endl;
     }
 }
 

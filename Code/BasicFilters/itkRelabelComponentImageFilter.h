@@ -118,6 +118,11 @@ public:
    * valid after the filter has executed. */
   itkGetMacro(NumberOfObjects, unsigned long);
 
+  /** Get/Set the number of objects enumerated and described when the
+   * filter is printed. */
+  itkSetMacro(NumberOfObjectsToPrint, unsigned long);
+  itkGetConstMacro(NumberOfObjectsToPrint, unsigned long);
+  
   /** Get the size of each object in pixels. This information is only
    * valid after the filter has executed.  Size of the background is
    * not calculated.  Size of object #1 is
@@ -167,7 +172,7 @@ public:
   
 protected:
   RelabelComponentImageFilter()
-    : m_NumberOfObjects(0)
+    : m_NumberOfObjects(0), m_NumberOfObjectsToPrint(10)
     { this->InPlaceOff(); }
   virtual ~RelabelComponentImageFilter() {}
   RelabelComponentImageFilter(const Self&) {}
@@ -187,6 +192,7 @@ protected:
 
 private:
   unsigned long m_NumberOfObjects;
+  unsigned long m_NumberOfObjectsToPrint;
   std::vector<unsigned long> m_SizeOfObjectsInPixels;
   std::vector<float> m_SizeOfObjectsInPhysicalUnits;
 
