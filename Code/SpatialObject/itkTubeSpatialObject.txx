@@ -178,6 +178,12 @@ bool
 TubeSpatialObject< TDimension, TTubePointType >
 ::IsInside( const PointType & point) const
 {
+  this->ComputeLocalBoundingBox();
+  if( !this->GetBounds()->IsInside(point) )
+    {
+    return false;
+    }
+
   double minSquareDist=999999.0;
   double tempSquareDist;
   typename PointListType::const_iterator it = m_Points.begin();
@@ -192,78 +198,68 @@ TubeSpatialObject< TDimension, TTubePointType >
 
   PointType transformedPoint = this->GetInternalInverseTransform()->TransformPoint(point);
        
-  this->ComputeLocalBoundingBox();
-
   if(m_EndType == 0) // flat end-type
     {
-    it2++; // next point
-    if( this->GetBounds()->IsInside(point) )
+    it2++; // next point 
+    while(it2!= end)
       {
-      while(it2!= end)
-        {
-        // Check if the point is on the normal plane
-        PointType a = (*it).GetPosition();
-        PointType b = (*it2).GetPosition();
+      // Check if the point is on the normal plane
+      PointType a = (*it).GetPosition();
+      PointType b = (*it2).GetPosition();
       
-        double A = 0;
-        double B = 0;
+      double A = 0;
+      double B = 0;
+
+      for(unsigned int i = 0;i<TDimension;i++)
+        {
+        A += (b[i]-a[i])*(transformedPoint[i]-a[i]);
+        B += (b[i]-a[i])*(b[i]-a[i]);
+        }
+
+      double lambda = A/B;
+
+      if( ((it != m_Points.begin()) && 
+          (lambda>-((*it).GetRadius()/(2*sqrt(B))))
+          && (lambda<0))
+          || ((lambda <= 1.0) && (lambda >= 0.0))       
+        )
+        {
+        PointType p;
 
         for(unsigned int i = 0;i<TDimension;i++)
           {
-          A += (b[i]-a[i])*(transformedPoint[i]-a[i]);
-          B += (b[i]-a[i])*(b[i]-a[i]);
+          p[i] = a[i]+lambda*(b[i]-a[i]);
           }
+        tempSquareDist=transformedPoint.EuclideanDistanceTo(p);
+        double R =  (*it).GetRadius()+lambda*((*it2).GetRadius()-(*it).GetRadius());
 
-        double lambda = A/B;
-
-        if( ((it != m_Points.begin()) && 
-            (lambda>-((*it).GetRadius()/(2*sqrt(B))))
-            && (lambda<0))
-            || ((lambda <= 1.0) && (lambda >= 0.0))       
-          )
+        if(tempSquareDist <= R)
           {
-          PointType p;
-
-          for(unsigned int i = 0;i<TDimension;i++)
-            {
-            p[i] = a[i]+lambda*(b[i]-a[i]);
-            }
-
-          tempSquareDist=transformedPoint.EuclideanDistanceTo(p);
-
-          double R =  (*it).GetRadius()+lambda*((*it2).GetRadius()-(*it).GetRadius());
-
-          if(tempSquareDist <= R)
-            {
-            return true;
-            }
+          return true;
           }
+        }
         it++;
         it2++;
-        }
       }
     }
   else if(m_EndType == 1) // rounded end-type
     {
-    if( this->GetBounds()->IsInside(point) )
-       {
-       while(it!= end)
+    while(it!= end)
+      {
+      tempSquareDist=transformedPoint.SquaredEuclideanDistanceTo(
+        (*it).GetPosition());
+      if(tempSquareDist <= minSquareDist) 
          {
-         tempSquareDist=transformedPoint.SquaredEuclideanDistanceTo(
-           (*it).GetPosition());
-         if(tempSquareDist <= minSquareDist) 
-           {
-           minSquareDist = tempSquareDist;
-           min = it;
-           }
-         it++;
+         minSquareDist = tempSquareDist;
+         min = it;
          }
+     it++;
+     }
 
-       double dist = sqrt(minSquareDist);
-       if( dist <= ((*min).GetRadius()) ) 
-         {
-         return true;
-         }
+     double dist = sqrt(minSquareDist);
+     if( dist <= ((*min).GetRadius()) ) 
+       {
+       return true;
        }
      }
   return false;
