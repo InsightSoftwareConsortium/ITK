@@ -26,6 +26,12 @@ template <class TImage, class TAccessor >
 ImageAdaptor<TImage , TAccessor>
 ::ImageAdaptor()
 {
+  // Allocate an internal image.  A process object might try to allocate an
+  // temporary image that is the same type as its input or output.  If that
+  // image type is an adaptor, we need to make sure that an internal image is
+  // available because the process object will not know to call SetImage on
+  // the adaptor.
+  m_Image = TImage::New();
 }
 
 
@@ -338,6 +344,19 @@ ImageAdaptor<TImage , TAccessor>
   m_Image->SetRequestedRegion( region );
 }
 
+
+//----------------------------------------------------------------------------
+template<class TImage, class TAccessor>
+void 
+ImageAdaptor<TImage, TAccessor>
+::SetRequestedRegion(DataObject *data)
+{
+  // call the superclass' method first, then delegate
+  Superclass::SetRequestedRegion( data );
+
+  // delegation to internal image
+  m_Image->SetRequestedRegion( data );
+}
 
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
