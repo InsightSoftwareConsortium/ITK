@@ -169,10 +169,10 @@ Element2DC0LinearQuadrilateral<VNumberOfDegreesOfFreedomPerNode>
 
   VectorType lpt(2);
 
-  x1 = m_node[0]->GetCoordinates()[0];   y1 = m_node[0]->GetCoordinates()[1];
-  x2 = m_node[1]->GetCoordinates()[0];   y2 = m_node[1]->GetCoordinates()[1];
-  x3 = m_node[2]->GetCoordinates()[0];   y3 = m_node[2]->GetCoordinates()[1];
-  x4 = m_node[3]->GetCoordinates()[0];   y4 = m_node[3]->GetCoordinates()[1];
+  x1 = this->m_node[0]->GetCoordinates()[0];   y1 = this->m_node[0]->GetCoordinates()[1];
+  x2 = this->m_node[1]->GetCoordinates()[0];   y2 = this->m_node[1]->GetCoordinates()[1];
+  x3 = this->m_node[2]->GetCoordinates()[0];   y3 = this->m_node[2]->GetCoordinates()[1];
+  x4 = this->m_node[3]->GetCoordinates()[0];   y4 = this->m_node[3]->GetCoordinates()[1];
 
   xb = x1 - x2 + x3 - x4;
   yb = y1 - y2 + y3 - y4;
