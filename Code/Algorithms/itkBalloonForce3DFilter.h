@@ -2,7 +2,7 @@
 
   Program:   Insight Segmentation & Registration Toolkit
   Module:    itkBalloonForce3DFilter.h
-  Language:  C++
+  Language:  C++:   
   Date:      $Date$
   Version:   $Revision$
 
@@ -167,19 +167,19 @@ public:
   typedef typename OutputMeshType::Pointer  OutputMeshPointer;
 
   /** Routines. */
-  void ComputeForce();
-  void Initialize();
-  void SetStiffnessMatrix();
-  void Advance();     // update data for next iteration
-  void ComputeDt();   // compute point positions
-  void ComputeOutput();
-  void NodeAddition();
-  void NodesRearrange();
-  void GradientFit(); // fit the model with gradient information
-  void ComputeNormals();
-  void ACDSearch();   // remove weird structures on the model surface
-  void ComputeShrinkForce();  // force in case we shrink the model
-  void InitialFit();          // locate the model near the objects
+  void ComputeForce(); /** compute the balloon force. */
+  void Initialize();   /** initialize the model. */
+  void SetStiffnessMatrix(); /** set the stiffness matrix. */
+  void Advance();      /** update data for next iteration. */
+  void ComputeDt();    /** compute point positions. */
+  void ComputeOutput(); /** compute the output. */
+  void NodeAddition();  /** add new nodes to the model. */
+  void NodesRearrange();  /** rearrange the model nodes after each iteration. */
+  void GradientFit(); /** fit the model with gradient information */
+  void ComputeNormals();  /** compute the normals on each point on the model surface. */
+  void ACDSearch();   /** remove weird structures on the model surface. */
+  void ComputeShrinkForce();  /** compute force in case we shrink the model. */
+  void InitialFit();          /** method used to locate the model near the object boundary. */
 
   /** Set/Get routines */
   itkSetMacro(ImageOutput, ImagePointer);
@@ -240,12 +240,12 @@ private:
   /** Parameters definition */
   double    m_StiffnessV, m_StiffnessH;
   double    m_TimeStep;      /** Time step of each iteration. */
-  int       m_XResolution, m_YResolution, m_ZResolution;
-  IndexType m_Center;
-  double    m_MiniT;         /** To stop nodes near a boundary position. */
+  int       m_XResolution, m_YResolution, m_ZResolution; /** resolutions in 3 direction */
+  IndexType m_Center;        /** model center */
+  double    m_MiniT;         /** help to stop nodes near a boundary position. */
   int       m_Step;          /** Number of iterations. */
-  int       m_NumNodes;
-  int       m_NumCells;
+  int       m_NumNodes;      /** number of nodes on the model surface. */
+  int       m_NumCells;      /** number of cells on the model surface. */
   int       m_NumNewNodes;   /** To add new nodes. */
   int       *m_GapLocations;
   int       m_imgWidth;      /** Image size. */
@@ -255,13 +255,13 @@ private:
   int       m_ModelXDownLimit;
   int       m_ModelYUpLimit;
   int       m_ModelYDownLimit;
-  int       m_NewNode;
+  int       m_NewNode;       /** sign to add new node */
   int       **m_ACD;         /** To remove unstable structures on the model surface. */
   int       m_StepThreshold1;/** This threshold decides when to switch from potential fit to gradient fit. */
   int       m_StepThreshold2;/** This threshold decides when to stop the model. */
   int       m_FirstSlice;    /** This variable helps relocating the model when trying to load it. */ 
   int       m_NeighborRadius;/** Defines the spatial range for the gradient fit */
-  unsigned short        m_ObjectLabel;
+  unsigned short        m_ObjectLabel; /** the potential label for the object. */
 
   /** To compute the force derived from the potential data.*/
   ImagePointer          m_Potential;
