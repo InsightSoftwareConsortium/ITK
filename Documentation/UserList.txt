@@ -18,7 +18,7 @@ hughett:Paul Hughett:hughett@mercur.uphs.upenn.edu
 ibanez:Luis Ibanez:ibanez@cs.unc.edu
 jin:Yinpeng Jin:yj76@columbia.edu
 jjomier
-jrgold
+jrgold:Jill Goldschneider:jrgold@insightful.com
 jisung:Jisung Kim:bahrahm@yahoo.com
 king:Brad King:brad.king@kitware.com
 lawcc:Charles Law:charles.law@kitware.com
