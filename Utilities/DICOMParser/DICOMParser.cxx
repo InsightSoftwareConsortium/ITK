@@ -4,10 +4,14 @@
 
 
 #include <stdlib.h>
+#if !defined(__MWERKS__)
 #include <math.h>
+#endif
 #include <time.h>
 #include <assert.h>
+#if !defined(__MWERKS__)
 #include <sys/types.h>
+#endif
 #include <string>
 #include <fstream>
 #include <map>

@@ -13,6 +13,11 @@
 # include <stddef.h>
 #elif defined(VCL_SGI_CC_720)
 # include <stddef.h>
+#elif defined(VCL_METRO_WERKS)
+# include <cstddef>
+#ifdef vcl_size_t
+#undef vcl_size_t
+#endif
 #elif defined(VCL_VC)
 # include <cstddef>
 #ifndef vcl_size_t
@@ -21,7 +26,11 @@
 #else
 
 # include "iso/vcl_cstddef.h"
+# if defined(VCL_METRO_WERKS)
+using ::size_t;
+# else
 using std::size_t;
+#endif
 using std::ptrdiff_t;
 #endif
 

@@ -19,6 +19,8 @@
 # include "sunpro/vcl_cstdlib.h"
 #elif defined(VCL_VC)
 # include "win32/vcl_cstdlib.h" // VC++
+#elif defined(VCL_METRO_WERKS)
+# include "mwerks/vcl_cstdlib.h"
 #else
 # include "iso/vcl_cstdlib.h"
 #endif

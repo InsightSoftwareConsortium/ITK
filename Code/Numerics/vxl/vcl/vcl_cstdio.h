@@ -15,6 +15,14 @@
 # include "iso/vcl_cstdio.h"
 #elif defined(VCL_VC)
 # include "win32/vcl_cstdio.h"
+#elif defined(VCL_METRO_WERKS)
+# include <cstdio>
+# define vcl_generic_cstdio_STD std
+# include "generic/vcl_cstdio.h"
+# undef  vcl_printf
+# define vcl_printf ::printf
+# undef  vcl_sprintf
+# define vcl_sprintf ::sprintf
 #else
 # include "iso/vcl_cstdio.h"
 #endif

@@ -47,6 +47,8 @@
 # include "borland/vcl_cmath.h"
 #elif defined(VCL_SUNPRO_CC)
 # include "sunpro/vcl_cmath.h"
+#elif defined(VCL_METRO_WERKS)
+# include "mwerks/vcl_cmath.h"
 #else
 # include "iso/vcl_cmath.h"
 #endif

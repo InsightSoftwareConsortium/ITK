@@ -45,7 +45,7 @@ void MaterialLinearElasticity::Read(std::istream& f, void* info) {
 
 double d;
 
-std::streampos l;
+std::streampos l(0);
 char buf[256];
 std::string s;
 std::string::size_type b,e;

@@ -63,6 +63,8 @@ bool VTKImageIO::OpenVTKFileForReading(std::ifstream& os,
 #endif
 #if defined(__GNUC__) && __GNUC__ >= 3
   os.open(filename, static_cast<std::ios_base::openmode>(openMode));
+#elif defined (__MWERKS__)
+  os.open(filename, static_cast<std::ios_base::openmode>(openMode));
 #else
   os.open(filename, openMode);
 #endif
@@ -102,6 +104,8 @@ bool VTKImageIO::OpenVTKFileForWriting(std::ofstream& os,
   openMode |= std::ios::binary;
 #endif
 #if defined(__GNUC__) && __GNUC__ >= 3
+  os.open(filename, static_cast<std::ios_base::openmode>(openMode));
+#elif defined (__MWERKS__)
   os.open(filename, static_cast<std::ios_base::openmode>(openMode));
 #else
   os.open(filename, openMode);

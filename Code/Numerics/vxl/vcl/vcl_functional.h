@@ -78,5 +78,30 @@ namespace std {
 #endif
 #endif
 
+#if defined (__MWERKS__)
+#warning Hei og haa
+template <class _Pair>
+struct vcl_Select1st : public vcl_unary_function<_Pair, typename _Pair::first_type> {
+typename _Pair::first_type const & operator()(_Pair const & __x) const {
+  return __x.first;
+  }
+};
+
+template <class _Pair>
+struct vcl_Select2nd : public vcl_unary_function<_Pair, typename _Pair::second_type> {
+typename _Pair::second_type const & operator()(_Pair const & __x) const {
+  return __x.second;
+  }
+};
+
+// Add select* to std.
+namespace std {
+template <class _Pair>
+struct select1st : public vcl_Select1st<_Pair> { };
+template <class _Pair> struct select2nd : public 
+vcl_Select2nd<_Pair> { };
+};
+#endif
+
 
 #endif // vcl_functional_h_

@@ -22,6 +22,9 @@
 
 #if !VCL_CXX_HAS_HEADER_CASSERT
 # include <assert.h>
+# elif defined (__MWERKS__)
+# include <assert.h>
+# include <vcl_cstdio.h>
 #else
 # include "iso/vcl_cassert.h"
 #endif

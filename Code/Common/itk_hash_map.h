@@ -74,6 +74,12 @@ namespace itk
 #include "itk_alloc.h"
 
 
+// The following is required for CodeWarrior
+#if defined(__MWERKS__)
+#include "../Numerics/vxl/vcl/vcl_functional.h"
+#endif
+
+
 namespace itk
 {
 
