@@ -243,7 +243,7 @@ ADD_TEST(ShapeDetectionLevelSetLeftVentricleTest ${SEGMENTATION_EXAMPLES2}
   ShapeDetectionLevelSetFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/ShapeDetectionLevelSetLeftVentricleTest.png
-        81 114 5.0 1.0 -0.5 3.0 0.05
+        81 114 5.0 1.0 -0.5 3.0 0.05 1.0
 )
 
 ADD_TEST(ShapeDetectionLevelSetRightVentricleTest ${SEGMENTATION_EXAMPLES2}
@@ -252,7 +252,7 @@ ADD_TEST(ShapeDetectionLevelSetRightVentricleTest ${SEGMENTATION_EXAMPLES2}
   ShapeDetectionLevelSetFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/ShapeDetectionLevelSetRightVentricleTest.png
-        99 114 5.0 1.0 -0.5 3.0 0.05
+        99 114 5.0 1.0 -0.5 3.0 0.05 1.0
 )
 
 ADD_TEST(ShapeDetectionLevelSetWhiteMatterTest ${SEGMENTATION_EXAMPLES2}
@@ -261,7 +261,7 @@ ADD_TEST(ShapeDetectionLevelSetWhiteMatterTest ${SEGMENTATION_EXAMPLES2}
   ShapeDetectionLevelSetFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/ShapeDetectionLevelSetWhiteMatterTest.png
-        56 92 5.0 1.0 -0.3 2.0 0.05
+        56 92 5.0 1.0 -0.3 2.0 0.05 1.0
 )
 
 ADD_TEST(ShapeDetectionLevelSetGrayMatterTest ${SEGMENTATION_EXAMPLES2}
@@ -270,7 +270,7 @@ ADD_TEST(ShapeDetectionLevelSetGrayMatterTest ${SEGMENTATION_EXAMPLES2}
   ShapeDetectionLevelSetFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/ShapeDetectionLevelSetGrayMatterTest.png
-        40 90 5.0 0.5 -0.3 2.0 0.05
+        40 90 5.0 0.5 -0.3 2.0 0.05 1.0
 )
 
 ADD_TEST(ThresholdSegmentationLevelSetVentricleTest ${SEGMENTATION_EXAMPLES2}

@@ -141,13 +141,14 @@ int main( int argc, char *argv[] )
 {
 
 
-  if( argc < 10 )
+  if( argc < 11 )
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " inputImage  outputImage";
     std::cerr << " seedX seedY InitialDistance";
-    std::cerr << " Sigma SigmoidAlpha SigmoidBeta curvatureScaling" << std::endl;
+    std::cerr << " Sigma SigmoidAlpha SigmoidBeta ";
+    std::cerr << " curvatureScaling propagationScaling" << std::endl;
     return 1;
     }
 
@@ -670,9 +671,10 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex 
 
-  const double curvatureScaling = atof( argv[ 9] ); 
+  const double curvatureScaling   = atof( argv[  9 ] ); 
+  const double propagationScaling = atof( argv[ 10 ] ); 
   //  Software Guide : BeginCodeSnippet
-  shapeDetection->SetPropagationScaling(  1.0 );
+  shapeDetection->SetPropagationScaling(  propagationScaling );
   shapeDetection->SetCurvatureScaling( curvatureScaling ); 
   //  Software Guide : EndCodeSnippet 
 
@@ -781,6 +783,9 @@ int main( int argc, char *argv[] )
   //  Gray matter     & $(40, 90)$ & 5.0 & 0.5 & -0.3 & 2.0  & 0.05 & Fourth in Figure \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\  \hline
   //  \end{tabular}
   //  \end{center}
+  //
+  //  For all of the examples illustrated in this table, the propagation
+  //  scaling was set to $1.0$.
   //
   //  Figure~\ref{fig:ShapeDetectionLevelSetFilterOutput} presents the
   //  intermediate outputs of the pipeline illustrated in
