@@ -35,7 +35,7 @@ namespace itk
  */
 
 template < unsigned int TDimension = 3,
-           class PixelType = unsigned char
+           class TPixelType = unsigned char
 >
 class ImageSpatialObject 
   : public SpatialObject< TDimension >
@@ -44,11 +44,12 @@ class ImageSpatialObject
 public:
  
   typedef double ScalarType; 
-  typedef ImageSpatialObject< TDimension, PixelType > Self;
+  typedef ImageSpatialObject< TDimension, TPixelType > Self;
   typedef SpatialObject< TDimension >                 Superclass;
   typedef SmartPointer< Self >                        Pointer;
   typedef SmartPointer< const Self >                  ConstPointer;
 
+  typedef TPixelType                            PixelType;
   typedef Image< PixelType, TDimension >        ImageType;
   typedef typename ImageType::Pointer           ImagePointer;
   typedef typename ImageType::IndexType         IndexType;
