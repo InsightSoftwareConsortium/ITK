@@ -79,8 +79,12 @@ public:
   unsigned int GetSize(void) const 
       { return static_cast<unsigned int>( this->size() ); }
 
-  /** Set the pointer to the data. Pointer is not destroyed*/
-  void SetData(TValueType* data);
+  /** Set the pointer from which the data is imported.
+   * If "LetArrayManageMemory" is false, then the application retains
+   * the responsibility of freeing the memory for this data.  If
+   * "LetArrayManageMemory" is true, then this class will free the
+   * memory when this object is destroyed. */
+  void SetData(TValueType* data,bool LetArrayManageMemory = false);
 
   /** This destructor is not virtual for performance reasons. However, this
    * means that subclasses cannot allocate memory. */
@@ -88,7 +92,7 @@ public:
 
 private:
 
-  bool m_ArrayOwnData;
+  bool m_LetArrayManageMemory;
   
 };
 
