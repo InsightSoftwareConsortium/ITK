@@ -55,6 +55,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkPlaheImageFilter.h"
 #include "itkRandomImageSource.h"
 #include "itkRawImageWriter.h"
+#include "itkRawImageIO.h"
 #include "itkRecursiveGaussianImageFilter.h"
 #include "itkRecursiveSeparableImageFilter.h"
 #include "itkReflectiveImageRegionIterator.h"
