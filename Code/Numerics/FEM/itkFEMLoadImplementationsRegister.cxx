@@ -63,7 +63,7 @@ template<class TElementClass>
 class GenericBodyLoad
 {
 public:
-  static ElementNew::VectorType HandleBodyLoad(TElementClass::ConstPointer e, ElementNew::LoadElementPointer l)
+  static ElementNew::VectorType HandleBodyLoad(typename TElementClass::ConstPointer e, ElementNew::LoadElementPointer l)
   {
     LoadGrav::Pointer l0=dynamic_cast<LoadGrav*>(&*l);
     if ( !l0 )
