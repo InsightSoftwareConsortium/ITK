@@ -198,7 +198,7 @@ void*
 DynamicLoader
 ::GetSymbolAddress(LibHandle lib, const char* sym)
 { 
-  return GetProcAddress(lib, sym);
+  return (void *)GetProcAddress(lib, sym);
 }
 
 //----------------------------------------------------------------------------
