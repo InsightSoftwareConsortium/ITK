@@ -21,6 +21,7 @@
     <xsl:call-template name="InsightHeader">
       <xsl:with-param name="Title">Insight Update</xsl:with-param>
       <xsl:with-param name="IconDir">../../Icons</xsl:with-param>
+      <xsl:with-param name="UpdatesIcon">UpdateBlue</xsl:with-param>
     </xsl:call-template>
 
     <h3>Changed files as of  <xsl:value-of select="StartDateTime"/></h3>

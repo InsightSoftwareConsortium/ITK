@@ -20,6 +20,7 @@
     <xsl:call-template name="InsightHeader">
       <xsl:with-param name="Title">Coverage Log</xsl:with-param>
       <xsl:with-param name="IconDir">../../../../Icons</xsl:with-param>
+      <xsl:with-param name="CoverageIcon">CoverageBlue.gif</xsl:with-param>
       <xsl:with-param name="DashboardDir" select="$DashboardDir"/>
     </xsl:call-template>
 
