@@ -17,6 +17,7 @@
 
 
 #include "itkBioGene.h"
+#include <algorithm>
 
 
 
@@ -32,7 +33,7 @@ namespace bio {
 Gene
 ::Gene()
 {
-
+  m_Name = "Unknown";
 }
 
 
@@ -55,6 +56,16 @@ void
 Gene
 ::Copy( const Gene & gene )
 {
+
+  m_Name = gene.m_Name;
+
+  m_ControlDomains.insert( m_ControlDomains.begin(),
+                           gene.m_ControlDomains.begin(),
+                           gene.m_ControlDomains.end()    );
+
+  m_ProteinDomains.insert( gene.m_ProteinDomains.begin(),
+                           gene.m_ProteinDomains.end()    );
+  
 }
 
 
