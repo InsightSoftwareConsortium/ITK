@@ -31,7 +31,12 @@ NormalizeImageFilter<TInputImage, TOutputImage>
 ::NormalizeImageFilter()
 {
   m_StatisticsFilter = 0;
+  m_StatisticsFilter = StatisticsImageFilter<TInputImage>::New();
   m_ShiftScaleFilter = ShiftScaleImageFilter<TInputImage,TOutputImage>::New();
+
+  // Progress is a bit complicated for mini pipelines
+  this->SetupProgressMethods(m_StatisticsFilter, m_ShiftScaleFilter);
+
   m_ProgressDone = false;
 }
 
@@ -57,10 +62,6 @@ NormalizeImageFilter<TInputImage, TOutputImage>
       this->GetInput()->GetPipelineMTime() > m_ShiftScaleFilter->GetMTime())
     {
     // Gather statistics
-    m_StatisticsFilter = StatisticsImageFilter<TInputImage>::New();
-
-    // Progress is a bit complicated for mini pipelines
-    this->SetupProgressMethods(m_StatisticsFilter, m_ShiftScaleFilter);
 
     m_StatisticsFilter->SetInput(this->GetInput());
     m_StatisticsFilter->GetOutput()->SetRequestedRegion(this->GetOutput()->GetRequestedRegion());
@@ -71,6 +72,7 @@ NormalizeImageFilter<TInputImage, TOutputImage>
     m_ShiftScaleFilter->SetScale(NumericTraits<StatisticsImageFilter<TInputImage>::RealType>::One
                                  / m_StatisticsFilter->GetSigma());
     m_ShiftScaleFilter->SetInput(this->GetInput());
+    m_ProgressDone = true;
     }
 
   m_ShiftScaleFilter->GetOutput()->SetRequestedRegion(this->GetOutput()->GetRequestedRegion());
@@ -114,14 +116,10 @@ NormalizeImageFilter<TInputImage, TOutputImage>
   statisticsProgress->SetClientData(static_cast<void *>(this));
   statistics->AddObserver (itk::ProgressEvent(), statisticsProgress);
 
-  if (!m_ProgressDone)
-    {
-    CStyleCommand::Pointer shiftScaleProgress = CStyleCommand::New();
-    shiftScaleProgress->SetCallback(&Self::ShiftScaleCallBack);
-    shiftScaleProgress->SetClientData(static_cast<void *>(this));
-    shiftScale->AddObserver (itk::ProgressEvent(), shiftScaleProgress);
-    m_ProgressDone = true;
-    }
+  CStyleCommand::Pointer shiftScaleProgress = CStyleCommand::New();
+  shiftScaleProgress->SetCallback(&Self::ShiftScaleCallBack);
+  shiftScaleProgress->SetClientData(static_cast<void *>(this));
+  shiftScale->AddObserver (itk::ProgressEvent(), shiftScaleProgress);
 }
 
 } // end namespace itk
