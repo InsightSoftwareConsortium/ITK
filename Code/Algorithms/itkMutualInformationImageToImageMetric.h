@@ -185,7 +185,8 @@ private:
   class SpatialSample
   {
   public:
-    SpatialSample(){};
+    SpatialSample():FixedImageValue(0.0),MovingImageValue(0.0)
+      { FixedImagePointValue.Fill( 0.0 ); }
     ~SpatialSample(){};
 
     FixedImagePointType              FixedImagePointValue;

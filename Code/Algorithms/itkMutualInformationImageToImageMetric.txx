@@ -271,8 +271,9 @@ DerivativeType& derivative)
   // make sure the transform has the current parameters
   m_Transform->SetParameters( parameters );
   unsigned int numberOfParameters = m_Transform->GetNumberOfParameters();
-  m_MatchMeasureDerivatives = DerivativeType( numberOfParameters );
-  m_MatchMeasureDerivatives.Fill( 0 );
+  DerivativeType temp( numberOfParameters );
+  temp.Fill( 0 );
+  m_MatchMeasureDerivatives = temp;
 
   // set the DerivativeCalculator
   m_DerivativeCalculator->SetInputImage( m_MovingImage );
