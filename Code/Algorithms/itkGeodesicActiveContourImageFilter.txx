@@ -76,7 +76,7 @@ unsigned int dim )
  *
  */
 template <class TLevelSet, class TEdgeImage, class TDerivImage>
-GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
+typename GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
 ::DerivImageType *
 GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
 ::GetDerivativeImage( unsigned int dim )
@@ -125,7 +125,7 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
   this->AllocateBuffers();
   this->CopyInputToInputBuffer();
 
-  EdgeImageConstPointer edgeImage = this->GetEdgeImage();
+  typename Superclass::EdgeImageConstPointer edgeImage = this->GetEdgeImage();
 
   unsigned int numberOfIterations = this->GetNumberOfIterations();
   double timeStepSize = this->GetTimeStepSize();
@@ -134,12 +134,12 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
   // Define a level set curvature calculator
   typedef
     LevelSetCurvatureFunction<LevelSetImageType> CurvatureType;
-  CurvatureType::Pointer inCurvature = CurvatureType::New();
+  typename CurvatureType::Pointer inCurvature = CurvatureType::New();
 
   // Define a entropy-satisfying derivative calculator
   typedef
     EntropyPreservingGradientMagnitudeImageFunction<LevelSetImageType> DerivativeType;
-  DerivativeType::Pointer inEntropy = DerivativeType::New();
+  typename DerivativeType::Pointer inEntropy = DerivativeType::New();
   if( propagateOutwards )
     {
     inEntropy->SetSpeed( 1.0 );
@@ -152,7 +152,7 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
   // Define a upwind-derivative calculator
   typedef
     UpwindDerivativeImageFunction<LevelSetImageType> UpwindType;
-  UpwindType::Pointer inUpwind = UpwindType::New();
+  typename UpwindType::Pointer inUpwind = UpwindType::New();
 
 
   for( unsigned int k = 0; k < numberOfIterations; k++ )
@@ -282,8 +282,8 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
   this->AllocateBuffers(true);
   
   LevelSetPointer outputPtr = this->GetOutputBuffer();
-  LevelSetConstPointer inputPtr = this->GetInput();
-  EdgeImageConstPointer edgeImage = this->GetEdgeImage();
+  typename Superclass::LevelSetConstPointer inputPtr = this->GetInput();
+  typename Superclass::EdgeImageConstPointer edgeImage = this->GetEdgeImage();
 
   DerivImagePointer derivImages[SetDimension];
   for ( int j = 0; j < SetDimension; j++ )
@@ -324,12 +324,12 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
   // Define a level set curvature calculator
   typedef
     LevelSetCurvatureFunction<LevelSetImageType> CurvatureType;
-  CurvatureType::Pointer inCurvature = CurvatureType::New();
+  typename CurvatureType::Pointer inCurvature = CurvatureType::New();
 
   // Define a entropy-satisfying derivative calculator
   typedef
     EntropyPreservingGradientMagnitudeImageFunction<LevelSetImageType> DerivativeType;
-  DerivativeType::Pointer inEntropy = DerivativeType::New();
+  typename DerivativeType::Pointer inEntropy = DerivativeType::New();
   if( propagateOutwards )
     {
     inEntropy->SetSpeed( 1.0 );
@@ -342,7 +342,7 @@ GeodesicActiveContourImageFilter<TLevelSet,TEdgeImage,TDerivImage>
   // Define a upwind-derivative calculator
   typedef
     UpwindDerivativeImageFunction<LevelSetImageType> UpwindType;
-  UpwindType::Pointer inUpwind = UpwindType::New();
+  typename UpwindType::Pointer inUpwind = UpwindType::New();
  
   for( unsigned int k = 0; k < numberOfIterations; k++ )
     {

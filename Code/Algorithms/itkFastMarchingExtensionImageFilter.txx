@@ -98,7 +98,7 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
 
   // set the size of all the auxiliary outputs
   // to be the same as the primary output
-  LevelSetPointer primaryOutput = this->GetOutput();
+  typename Superclass::LevelSetPointer primaryOutput = this->GetOutput();
   for ( unsigned int k = 0; k < VAuxDimension; k++ )
     {
     AuxImageType * ptr = this->GetAuxiliaryImage(k);
@@ -206,7 +206,7 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
   // set all alive points to alive
   typename NodeContainer::ConstIterator pointsIter;
   typename NodeContainer::ConstIterator pointsEnd;
-  NodeType node;
+  typename Superclass::NodeType node;
 
   typename AuxValueContainer::ConstIterator auxIter;
 
@@ -307,7 +307,7 @@ LevelSetImageType * output )
 
   double solution = this->Superclass::UpdateValue( index, speed, output );
 
-  NodeType node;
+  typename Superclass::NodeType node;
 
   if ( solution < this->GetLargeValue() )
     {

@@ -101,7 +101,7 @@ Index& index)
 
   // is this an inside or outside point
   double pixelValue;
-  PixelType inputPixel;
+  typename Superclass::PixelType inputPixel;
 
   inputPixel = (this->GetInputLevelSet())->GetPixel( index );
   pixelValue = (double) inputPixel;
@@ -133,7 +133,7 @@ Index& index)
 
   double denom = 0.0;
   double numer[VAuxDimension];
-  NodeType neighNode;
+  typename Superclass::NodeType neighNode;
 
   for( unsigned int k = 0; k < VAuxDimension; k++ )
     {

@@ -72,7 +72,7 @@ const FixedImageType * ptr )
  * Get the fixed image.
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
-const PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
+const typename PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::FixedImageType *
 PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::GetFixedImage()
@@ -99,7 +99,7 @@ const MovingImageType * ptr )
  * Get the moving image.
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
-const PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
+const typename PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::MovingImageType *
 PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::GetMovingImage()
@@ -228,7 +228,7 @@ PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
     }
   else
     {
-    PixelType zeros;
+    typename Superclass::PixelType zeros;
     for( int j = 0; j < ImageDimension; j++ )
       {
       zeros[j] = 0;
@@ -236,7 +236,7 @@ PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 
     typename OutputImageType::Pointer output = this->GetOutput();
   
-    ImageRegionIterator<OutputImageType> out(output, output->GetRequestedRegion());
+    typename ImageRegionIterator<OutputImageType> out(output, output->GetRequestedRegion());
 
     while( ! out.IsAtEnd() )
       {
@@ -373,7 +373,7 @@ PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
     DeformationFieldType> SmootherType;
 
   OperatorType * oper = new OperatorType;
-  SmootherType::Pointer smoother = SmootherType::New();
+  typename SmootherType::Pointer smoother = SmootherType::New();
 
   DeformationFieldPointer swapPtr;
 

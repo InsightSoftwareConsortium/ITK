@@ -96,7 +96,7 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage>
  *
  */
 template <class TInputImage, class TOutputImage>
-const HistogramMatchingImageFilter<TInputImage,TOutputImage>
+const typename HistogramMatchingImageFilter<TInputImage,TOutputImage>
 ::InputImageType *
 HistogramMatchingImageFilter<TInputImage,TOutputImage>
 ::GetReferenceImage()

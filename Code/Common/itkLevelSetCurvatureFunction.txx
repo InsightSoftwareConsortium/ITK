@@ -115,7 +115,7 @@ LevelSetCurvatureFunction<TInputImage,TCoordRep>
 const IndexType& index ) const
 {
 
-  InputImageConstPointer image = this->GetInputImage();
+  typename Superclass::InputImageConstPointer image = this->GetInputImage();
 
   m_Magnitude = 0.0;
   m_BorderPixel = false;

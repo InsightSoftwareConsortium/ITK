@@ -112,7 +112,7 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
  * Compute update at a non boundary neighbourhood
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
-DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
+typename DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::PixelType
 DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::ComputeUpdate(const NeighborhoodType &it, void * globalData,
@@ -188,7 +188,7 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
  * Compute update at a boundary neighbourhood
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
-DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
+typename DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::PixelType
 DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::ComputeUpdate(const BoundaryNeighborhoodType &it, void * globalData,

@@ -108,6 +108,7 @@ public:
 
   /** OutputImage type. */
   typedef typename Superclass::OutputImageType OutputImageType;
+  typedef typename OutputImageType::Pointer OutputImagePointer;
 
   /** FiniteDifferenceFunction type. */
   typedef typename Superclass::FiniteDifferenceFunctionType

@@ -75,7 +75,7 @@ const MovingImageType * ptr )
  * Get the moving image image.
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
-const MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationField>
+const typename MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationField>
 ::MovingImageType *
 MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationField>
 ::GetMovingImage(void)
@@ -102,7 +102,7 @@ const FixedImageType * ptr )
  * Get the fixed image.
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
-const MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationField>
+const typename MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationField>
 ::FixedImageType *
 MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationField>
 ::GetFixedImage(void)

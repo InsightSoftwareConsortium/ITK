@@ -137,7 +137,7 @@ MinMaxCurvatureFlowFunction<TImage>
  * the direction perpendicular to the image gradient.
  */
 template<class TImage>
-MinMaxCurvatureFlowFunction<TImage>::PixelType
+typename MinMaxCurvatureFlowFunction<TImage>::PixelType
 MinMaxCurvatureFlowFunction<TImage>
 ::ComputeThreshold(const DispatchBase &, const NeighborhoodType &it) const
 {
@@ -239,7 +239,7 @@ MinMaxCurvatureFlowFunction<TImage>
  * the direction perpendicular to the image gradient.
  */
 template<class TImage>
-MinMaxCurvatureFlowFunction<TImage>::PixelType
+typename MinMaxCurvatureFlowFunction<TImage>::PixelType
 MinMaxCurvatureFlowFunction<TImage>
 ::ComputeThreshold(const DispatchBase &,
                    const BoundaryNeighborhoodType &it) const
@@ -343,7 +343,7 @@ MinMaxCurvatureFlowFunction<TImage>
  * the direction perpendicular to the image gradient.
  */
 template<class TImage>
-MinMaxCurvatureFlowFunction<TImage>::PixelType
+typename MinMaxCurvatureFlowFunction<TImage>::PixelType
 MinMaxCurvatureFlowFunction<TImage>
 ::ComputeThreshold(const Dispatch<2> &, const NeighborhoodType &it) const
 {
@@ -406,7 +406,7 @@ MinMaxCurvatureFlowFunction<TImage>
  * the direction perpendicular to the image gradient.
  */
 template<class TImage>
-MinMaxCurvatureFlowFunction<TImage>::PixelType
+typename MinMaxCurvatureFlowFunction<TImage>::PixelType
 MinMaxCurvatureFlowFunction<TImage>
 ::ComputeThreshold(const Dispatch<2> &, const BoundaryNeighborhoodType &it) const
 {
@@ -469,7 +469,7 @@ MinMaxCurvatureFlowFunction<TImage>
  * the direction perpendicular to the image gradient.
  */
 template<class TImage>
-MinMaxCurvatureFlowFunction<TImage>::PixelType
+typename MinMaxCurvatureFlowFunction<TImage>::PixelType
 MinMaxCurvatureFlowFunction<TImage>
 ::ComputeThreshold(const Dispatch<3> &, const NeighborhoodType &it) const
 {
@@ -578,7 +578,7 @@ MinMaxCurvatureFlowFunction<TImage>
  * the direction perpendicular to the image gradient.
  */
 template<class TImage>
-MinMaxCurvatureFlowFunction<TImage>::PixelType
+typename MinMaxCurvatureFlowFunction<TImage>::PixelType
 MinMaxCurvatureFlowFunction<TImage>
 ::ComputeThreshold(const Dispatch<3> &, const BoundaryNeighborhoodType &it) const
 {
@@ -687,7 +687,7 @@ MinMaxCurvatureFlowFunction<TImage>
  * data boundary.
  */
 template<class TImage>
-MinMaxCurvatureFlowFunction<TImage>::PixelType
+typename MinMaxCurvatureFlowFunction<TImage>::PixelType
 MinMaxCurvatureFlowFunction<TImage>
 ::ComputeUpdate(const NeighborhoodType &it, void * globalData,
                 const FloatOffsetType& offset) const
@@ -704,7 +704,7 @@ MinMaxCurvatureFlowFunction<TImage>
   PixelType threshold;
   threshold = this->ComputeThreshold( Dispatch<ImageDimension>(), it);
 
-  NeighborhoodInnerProduct<ImageType> innerProduct;
+  typename NeighborhoodInnerProduct<ImageType> innerProduct;
   PixelType avgValue = innerProduct( it, m_StencilOperator );
 
   if ( avgValue < threshold )
@@ -723,7 +723,7 @@ MinMaxCurvatureFlowFunction<TImage>
  * Update the solution at pixels which lies on the data boundary.
  */
 template<class TImage>
-MinMaxCurvatureFlowFunction<TImage>::PixelType
+typename MinMaxCurvatureFlowFunction<TImage>::PixelType
 MinMaxCurvatureFlowFunction<TImage>
 ::ComputeUpdate(const BoundaryNeighborhoodType &it, void * globalData,
                 const FloatOffsetType& offset) const
@@ -740,7 +740,7 @@ MinMaxCurvatureFlowFunction<TImage>
   PixelType threshold;
   threshold = this->ComputeThreshold( Dispatch<ImageDimension>(), it);
 
-  SmartNeighborhoodInnerProduct<ImageType> innerProduct;
+  typename SmartNeighborhoodInnerProduct<ImageType> innerProduct;
   PixelType avgValue = innerProduct( it, m_StencilOperator );
 
   if ( avgValue < threshold )

@@ -91,7 +91,7 @@ const SpeedImageType * ptr )
  *
  */
 template <class TLevelSet, class TSpeedImage>
-const FastMarchingImageFilter<TLevelSet,TSpeedImage>
+const typename FastMarchingImageFilter<TLevelSet,TSpeedImage>
 ::SpeedImageType *
 FastMarchingImageFilter<TLevelSet,TSpeedImage>
 ::GetSpeedImage()

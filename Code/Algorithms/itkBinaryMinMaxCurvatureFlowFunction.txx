@@ -42,7 +42,7 @@ BinaryMinMaxCurvatureFlowFunction<TImage>
  * data boundary.
  */
 template<class TImage>
-BinaryMinMaxCurvatureFlowFunction<TImage>::PixelType
+typename BinaryMinMaxCurvatureFlowFunction<TImage>::PixelType
 BinaryMinMaxCurvatureFlowFunction<TImage>
 ::ComputeUpdate(const NeighborhoodType &it, void * globalData,
                 const FloatOffsetType& offset) const
@@ -58,7 +58,7 @@ BinaryMinMaxCurvatureFlowFunction<TImage>
     }
 
 
-  NeighborhoodInnerProduct<ImageType> innerProduct;
+  typename NeighborhoodInnerProduct<ImageType> innerProduct;
   PixelType avgValue = innerProduct( it, m_StencilOperator );
 
   if ( avgValue < m_Threshold )
@@ -77,7 +77,7 @@ BinaryMinMaxCurvatureFlowFunction<TImage>
  * Update the solution at pixels which lies on the data boundary.
  */
 template<class TImage>
-BinaryMinMaxCurvatureFlowFunction<TImage>::PixelType
+typename BinaryMinMaxCurvatureFlowFunction<TImage>::PixelType
 BinaryMinMaxCurvatureFlowFunction<TImage>
 ::ComputeUpdate(const BoundaryNeighborhoodType &it, void * globalData,
                 const FloatOffsetType& offset) const
@@ -92,7 +92,7 @@ BinaryMinMaxCurvatureFlowFunction<TImage>
     return update;
     }
 
-  SmartNeighborhoodInnerProduct<ImageType> innerProduct;
+  typename SmartNeighborhoodInnerProduct<ImageType> innerProduct;
   PixelType avgValue = innerProduct( it, m_StencilOperator );
 
   if ( avgValue < m_Threshold )

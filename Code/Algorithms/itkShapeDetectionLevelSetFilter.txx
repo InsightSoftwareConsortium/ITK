@@ -76,7 +76,7 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
  *
  */
 template <class TLevelSet, class TEdgeImage>
-const ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
+const typename ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
 ::EdgeImageType *
 ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
 ::GetEdgeImage(void)
@@ -166,7 +166,7 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
   this->AllocateBuffers();
   this->CopyInputToInputBuffer();
 
-  LevelSetType::PixelType tempPixel;
+  typename LevelSetType::PixelType tempPixel;
   
   unsigned int numberOfIterations = this->GetNumberOfIterations();
   double timeStepSize = this->GetTimeStepSize();
@@ -193,13 +193,13 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
     // Define a level set curvature calculator
     typedef
       LevelSetCurvatureFunction<LevelSetImageType> CurvatureType;
-    CurvatureType::Pointer inCurvature = CurvatureType::New();
+    typename CurvatureType::Pointer inCurvature = CurvatureType::New();
     inCurvature->SetInputImage( inputBuffer );
 
     // Define a entropy-satisfying derivative calculator
     typedef
       EntropyPreservingGradientMagnitudeImageFunction<LevelSetImageType> DerivativeType;
-    DerivativeType::Pointer inEntropy = DerivativeType::New();
+    typename DerivativeType::Pointer inEntropy = DerivativeType::New();
     inEntropy->SetInputImage( inputBuffer );
 
       // Define iterators
@@ -275,7 +275,7 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
   this->AllocateBuffers(true);
 
   LevelSetPointer outputPtr = this->GetOutputBuffer();
-  LevelSetConstPointer inputPtr = this->GetInput();
+  typename Superclass::LevelSetConstPointer inputPtr = this->GetInput();
 
   double narrowBandwidth = this->GetNarrowBandwidth();
 
@@ -309,12 +309,12 @@ ShapeDetectionLevelSetFilter<TLevelSet,TEdgeImage>
   // Define a level set curvature calculator
   typedef
     LevelSetCurvatureFunction<LevelSetImageType> CurvatureType;
-  CurvatureType::Pointer inCurvature = CurvatureType::New();
+  typename CurvatureType::Pointer inCurvature = CurvatureType::New();
   
   // Define a entropy-satisfying derivative calculator
   typedef
     EntropyPreservingGradientMagnitudeImageFunction<LevelSetImageType> DerivativeType;
-  DerivativeType::Pointer inEntropy = DerivativeType::New();
+  typename DerivativeType::Pointer inEntropy = DerivativeType::New();
 
   for( unsigned int k = 0; k < numberOfIterations; k++ )
     {
