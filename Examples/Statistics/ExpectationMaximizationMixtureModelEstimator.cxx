@@ -16,11 +16,11 @@
 =========================================================================*/
 
 // Software Guide : BeginLatex
-// \index{Statistics!Mixture model estimation|textbf}
-// \index{Statistics!Expectaion maximization|textbf}
+// \index{Statistics!Mixture model estimation}
+// \index{Statistics!Expectation maximization}
 //
-// \index{itk::Statistics::GaussianMixtureModelComponent|textbf}
-// \index{itk::Statistics::ExpectationMaximizationMixtureModelEstimator|textbf}
+// \index{itk::Statistics::Gaussian\-Mixture\-Model\-Component}
+// \index{itk::Statistics::Expectation\-Maximization\-Mixture\-Model\-Estimator}
 //
 // In this example, we present an implementation of the expectation
 // maximization (EM) process to generates parameter estimates for a two
