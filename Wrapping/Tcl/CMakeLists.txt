@@ -1,8 +1,8 @@
 INCLUDE_DIRECTORIES(${TCL_INCLUDE_PATH}
                     ${TK_INCLUDE_PATH}
                     ${CABLE_INCLUDE_DIRS}
-                    ${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl/doc
-                    ${ITK_SOURCE_DIR}/Code/Numerics/vxl/vnl
+                    ${ITK_SOURCE_DIR}/Utilities/vxl/vcl/doc
+                    ${ITK_SOURCE_DIR}/Utilities/vxl/vnl
                     ${ITK_SOURCE_DIR}/Wrapping/Tcl)
 
 LINK_DIRECTORIES(${CABLE_LIBRARY_DIRS})
