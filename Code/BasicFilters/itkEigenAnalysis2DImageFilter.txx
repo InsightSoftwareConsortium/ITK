@@ -58,9 +58,9 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
 {
   this->SetNumberOfRequiredInputs( 3 );
   this->SetNumberOfRequiredOutputs( 3 );
-  this->SetNthOutput( 0, EigenValueImageType::New() );
-  this->SetNthOutput( 1, EigenValueImageType::New() );
-  this->SetNthOutput( 2, EigenVectorImageType::New() );
+  this->SetNthOutput( 0, this->MakeOutput( 0 ) );
+  this->SetNthOutput( 1, this->MakeOutput( 1 ) );
+  this->SetNthOutput( 2, this->MakeOutput( 2 ) );
   
 }
 
@@ -149,6 +149,32 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
 
 
 
+/**
+ *   Make Ouput
+ */
+template <class TInputImage, class TEigenValueImage, class TEigenVectorImage> 
+DataObject::Pointer
+EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
+::MakeOutput(unsigned int idx)
+{
+  DataObject::Pointer output;
+  switch( idx )
+  {
+    case 0:
+      output = (EigenValueImageType::New()).GetPointer();
+      break;
+    case 1:
+      output = (EigenValueImageType::New()).GetPointer();
+      break;
+    case 2:
+      output = (EigenVectorImageType::New()).GetPointer();
+      break;
+  }
+  return output.GetPointer();
+}
+
+
+
 
 template <class TInputImage, class TEigenValueImage, class TEigenVectorImage>
 void
@@ -217,6 +243,8 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
   outputIt2.GoToBegin();
   outputIt3.GoToBegin();
 
+  EigenVectorType eigenVector;
+
   i = 0;
   while( !inputIt1.IsAtEnd() ) 
     {
@@ -240,12 +268,13 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
     outputIt1.Set( pp );
     outputIt2.Set( qq );
 
-    EigenVectorType eigenVector;
     eigenVector[0] = static_cast<VectorComponentType>(( -dxy - S ) / 2.0 );
     eigenVector[1] = static_cast<VectorComponentType>( -xy );
 
-    const VectorComponentType norm = eigenVector.GetNorm();
 
+    outputIt3.Set( eigenVector );
+
+    const VectorComponentType norm = eigenVector.GetNorm();
 		if( norm > 1e-30 ) 
       {
       outputIt3.Set( eigenVector / norm  );
