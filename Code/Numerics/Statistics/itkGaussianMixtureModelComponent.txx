@@ -31,6 +31,7 @@ GaussianMixtureModelComponent< TSample >
 {
   m_Mean.Fill(NumericTraits< double >::NonpositiveMin()) ;
   m_MeanEstimator = MeanEstimatorType::New() ;
+  m_Covariance.Fill(NumericTraits< double >::NonpositiveMin()) ;
   m_CovarianceEstimator = CovarianceEstimatorType::New() ;
   m_CovarianceEstimator->SetMean(&m_Mean) ;
   m_GaussianDensityFunction = NativeMembershipFunctionType::New() ;
@@ -45,11 +46,14 @@ GaussianMixtureModelComponent< TSample >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent) ;
+
   std::cout << indent << "Mean: " << m_Mean << std::endl ;
   std::cout << indent << "Covariance: " << m_Covariance 
             << std::endl ;
   std::cout << indent << "Mean Estimator: " << m_MeanEstimator << std::endl ;
   std::cout << indent << "Covariance Estimator: " << m_CovarianceEstimator
+            << std::endl ;
+  std::cout << indent << "GaussianDensityFunction: " << m_GaussianDensityFunction
             << std::endl ;
 }
 
