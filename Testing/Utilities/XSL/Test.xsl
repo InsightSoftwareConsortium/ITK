@@ -53,7 +53,7 @@
             <a>
               <xsl:attribute name="href">
                 <xsl:call-template name="TranslateTestName">
-                  <xsl:with-param name="Prefix">Results/</xsl:with-param>
+                  <xsl:with-param name="Prefix"><xsl:value-of select="$DashboardDir"/>/TestDetail/</xsl:with-param>
                   <xsl:with-param name="TestName" select="FullName"/>
                   <xsl:with-param name="Postfix">.html</xsl:with-param>
                 </xsl:call-template>
@@ -64,7 +64,7 @@
             <a>
               <xsl:attribute name="href">
                 <xsl:call-template name="TranslateTestName">
-                  <xsl:with-param name="Prefix"><xsl:value-of select="$DashboardDir"/>/TestDetail/</xsl:with-param>
+                  <xsl:with-param name="Prefix">Results/</xsl:with-param>
                   <xsl:with-param name="TestName" select="FullName"/>
                   <xsl:with-param name="Postfix">.html</xsl:with-param>
                 </xsl:call-template>
@@ -81,9 +81,6 @@
         <xsl:sort select="Name"/>
         <tr>
           <td>
-            <xsl:value-of select="Name"/>
-          </td>
-          <td>
             <a>
               <xsl:attribute name="href">
                 <xsl:call-template name="TranslateTestName">
@@ -92,8 +89,11 @@
                   <xsl:with-param name="Postfix">.html</xsl:with-param>
                 </xsl:call-template>
               </xsl:attribute>
-              <font color="#FF0000"> Not Run</font>
+            <xsl:value-of select="Name"/>
             </a>
+          </td>
+          <td>
+            <font color="#FF0000"> Not Run</font>
           </td>
         </tr>
       </xsl:for-each>
@@ -107,7 +107,7 @@
             <a>
               <xsl:attribute name="HREF">
                 <xsl:call-template name="TranslateTestName">
-                  <xsl:with-param name="Prefix">Results/</xsl:with-param>
+                  <xsl:with-param name="Prefix"><xsl:value-of select="$DashboardDir"/>/TestDetail/</xsl:with-param>
                   <xsl:with-param name="TestName" select="FullName"/>
                   <xsl:with-param name="Postfix">.html</xsl:with-param>
                 </xsl:call-template>
@@ -119,7 +119,7 @@
             <a>
               <xsl:attribute name="href">
                 <xsl:call-template name="TranslateTestName">
-                  <xsl:with-param name="Prefix"><xsl:value-of select="$DashboardDir"/>/TestDetail/</xsl:with-param>
+                  <xsl:with-param name="Prefix">Results/</xsl:with-param>
                   <xsl:with-param name="TestName" select="FullName"/>
                   <xsl:with-param name="Postfix">.html</xsl:with-param>
                 </xsl:call-template>
