@@ -22,7 +22,7 @@
 
 
 
-int itkComposeRGBImageFilterTest(int argc, char * argv[] )
+int itkComposeRGBImageFilterTest(int , char * )
 {
   typedef unsigned char PixelType;
   typedef itk::Image< PixelType, 3 > InputImageType;
