@@ -256,8 +256,8 @@ template <typename TCellInterface>
 void 
 QuadraticEdgeCell< TCellInterface >
 ::EvaluateShapeFunctions( 
-          const Array<CoordRepType> & parametricCoordinates,
-                Array<InterpolationWeightType> & weights )
+          const ParametricCoordArrayType & parametricCoordinates,
+                ShapeFunctionsArrayType  & weights )
 {
 
   CoordRepType x = parametricCoordinates[0]; // one-dimensional cell

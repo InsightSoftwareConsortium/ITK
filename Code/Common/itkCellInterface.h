@@ -83,6 +83,8 @@
   typedef typename Superclass::PointsContainer         PointsContainer; \
   typedef typename Superclass::UsingCellsContainer     UsingCellsContainer; \
   typedef typename Superclass::CellGeometry            CellGeometry;  \
+  typedef typename Superclass::ParametricCoordArrayType  ParametricCoordArrayType;  \
+  typedef typename Superclass::ShapeFunctionsArrayType   ShapeFunctionsArrayType;  \
   enum { PointDimension = Superclass::PointDimension };
  
 
@@ -156,6 +158,10 @@ public:
         POLYGON_CELL, TETRAHEDRON_CELL, HEXAHEDRON_CELL, 
         QUADRATIC_EDGE_CELL, QUADRATIC_TRIANGLE_CELL,
         LAST_ITK_CELL, MAX_ITK_CELLS=255};
+
+  /** Types needed to contour the cells */
+  typedef Array<CoordRepType>                 ParametricCoordArrayType;
+  typedef Array<InterpolationWeightType>      ShapeFunctionsArrayType;
 
   static int GetNextUserCellId(); // never return > MAX_INTERFACE
 
@@ -313,8 +319,8 @@ public:
    *  determine the value of its Shape Functions
    *  returned through an itkArray<InterpolationWeightType>).  */
   virtual void EvaluateShapeFunctions( 
-                          const Array<CoordRepType> & parametricCoordinates,
-                                Array<InterpolationWeightType> & weights) {}
+                          const ParametricCoordArrayType & parametricCoordinates,
+                                ShapeFunctionsArrayType  & weights) {}
 
   /** Intersect the cell with a line given by an origin (origin[PointDimension])
    * and direction (direction[PointDimension]).  The intersection point

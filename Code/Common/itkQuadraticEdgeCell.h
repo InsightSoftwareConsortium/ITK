@@ -91,8 +91,8 @@ public:
   /** Given the parametric coordinates of a point in the cell
    * returned the values of its ShapeFunctions */
   virtual void EvaluateShapeFunctions( 
-                          const Array<CoordRepType> & parametricCoordinates,
-                                Array<InterpolationWeightType> & weights);
+                          const ParametricCoordArrayType & parametricCoordinates,
+                                ShapeFunctionsArrayType  & weights);
 
 
 protected:
