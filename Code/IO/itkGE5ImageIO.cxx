@@ -73,10 +73,9 @@ static const char GE_PROD_STR[]="SIGNA";
     char prod[16];                /* Product name from Suite Header */
 
     // First pass see if image is a raw MR extracted via ximg
-    f.read((char *)&imageHdr,sizeof(imageHdr));
-    if(f.fail())
+    if( !this->ReadBufferAsBinary( f, (void *)&imageHdr,sizeof(imageHdr) ) )
       {
-  return -1;
+      return -1;
       }
     ByteSwapper<int>::SwapFromSystemToBigEndian(&imageHdr.img_magic);
     if (imageHdr.img_magic == IMG_MAGIC)
@@ -89,10 +88,9 @@ static const char GE_PROD_STR[]="SIGNA";
     // Second pass see if image was extracted via tape by Gene's tape
     // reading software.
     //
-    f.read(hdr,SU_HDR_LEN);
-    if(f.fail())
+    if( !this->ReadBufferAsBinary( f, (void *)hdr,SU_HDR_LEN ) )
       {
-  return -1;
+      return -1;
       }
     strncpy (prod, hdr+SU_PRODID, 13);
     prod[13] = '\0';

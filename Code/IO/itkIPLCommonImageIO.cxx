@@ -296,28 +296,27 @@ namespace itk
        size_t amount,bool throw_exception)
   {
     f.seekg(Offset,std::ios::beg);
-    if(f.fail()) 
+    if( f.fail() )
       { 
-  if(throw_exception)
-    {
-      RAISE_EXCEPTION(); 
-    }
-  else
-    {
-      return -1;
-    }
+      if(throw_exception)
+        {
+          RAISE_EXCEPTION(); 
+        }
+      else
+        {
+          return -1;
+        }
       }
-    f.read(buf,amount);
-    if(f.fail()) 
+    if( !this->ReadBufferAsBinary( f, (void *)buf, amount ) )
       { 
-  if(throw_exception)
-    {
-      RAISE_EXCEPTION(); 
-    }
-  else
-    {
-      return -1;
-    }
+      if(throw_exception)
+        {
+          RAISE_EXCEPTION(); 
+        }
+      else
+        {
+          return -1;
+        }
       }
     return 0;
   }

@@ -194,15 +194,17 @@ void StimulateImageIO::Read(void* buffer)
   }//a filename was found for data file
 
   if( !OpenStimulateFileForReading( file_data, m_DataFileName.c_str()) )
+    {
     return;
-  file_data.read((char*)buffer, this->GetImageSizeInBytes());
-  if ( file_data.fail() )
-  {
+    }
+
+  if( !this->ReadBufferAsBinary( file_data, buffer, this->GetImageSizeInBytes()) )
+    {
     itkExceptionMacro(<<"Read failed: Wanted " 
                         << this->GetImageSizeInBytes()
                         << " bytes, but read " 
                         << file_data.gcount() << " bytes.");
-  }
+    }
 
   //byte swapping depending on pixel type:
   switch (this->GetComponentType())
