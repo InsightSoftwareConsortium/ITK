@@ -70,7 +70,7 @@ GaussianMixtureModelComponent< TSample >
 template< class TSample >
 void
 GaussianMixtureModelComponent< TSample >
-::SetParameters(ParametersType &parameters)
+::SetParameters(const ParametersType &parameters)
 {
   Superclass::SetParameters(parameters) ;
 
