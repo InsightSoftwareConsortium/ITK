@@ -59,12 +59,6 @@ namespace fem {
 void LoadEdge::Read( std::istream& f, void* info )
 {
   int n,m;
-  /**
-   * Convert the info pointer to a usable objects
-   */
-  Node::ArrayType::ConstPointer nodes=static_cast<ReadInfoType*>(info)->m_node;
-  Element::ArrayType::ConstPointer elements=static_cast<ReadInfoType*>(info)->m_el;
-
 
   /** first call the parent's read function */
   Superclass::Read(f,info);
@@ -117,10 +111,10 @@ void LoadEdge::Write( std::ostream& f, int ofid ) const
   f<<"\t"<<m_Force.rows()<<"\t% # rows in force matrix"<<"\n";
   f<<"\t"<<m_Force.cols()<<"\t% # cols in force matrix"<<"\n";
   f<<"\t% force matrix\n";
-  for(int i=0; i<m_Force.rows(); i++)
+  for(int i=0; i<(int)m_Force.rows(); i++)
   {
     f<<"\t";
-    for(int j=0; j<m_Force.cols(); j++)
+    for(int j=0; j<(int)m_Force.cols(); j++)
     {
       f<<m_Force[i][j]<<" ";
     }

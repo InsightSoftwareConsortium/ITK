@@ -135,7 +135,7 @@ public:
   /**
    * Default constructor only clears the internal storage
    */
-  C1IsoCurve2D() : neg_node1(0), cur_node(0), 
+  C1IsoCurve2D() : cur_node(0), neg_node1(0),
       pos_node1(0), pos_node2(0), mat(0) {}
 
   /**

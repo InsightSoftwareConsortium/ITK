@@ -134,7 +134,7 @@ FEMPArray<T>::ClassTypePointer FEMPArray<T>::Find(int gn)
   /**
    * First take a guess. This only works on sorted arrays and is much faster than searching.
    */
-  if( gn>=size() || gn<0 || (*(i=&this->operator[](gn)))->GN!=gn )
+  if( gn<0 || gn>=(int)size() || (*(i=&this->operator[](gn)))->GN!=gn )
   {
     /** 
      * The array is not sorted, we need to search for the correct GN.

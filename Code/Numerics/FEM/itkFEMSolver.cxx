@@ -600,7 +600,7 @@ void Solver::Solve() {
 void Solver::UpdateDisplacements() {
 
   /** Check for errors */
-  if(u.size()!=NGFN+NMFC) return;
+  if((int)u.size()!=NGFN+NMFC) return;
 
   /**
    * Copy the resulting displacements from 

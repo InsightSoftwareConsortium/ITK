@@ -109,7 +109,7 @@ public:
      * default constructor clears the memory used by class
      */
     Displacement() :  
-      value(0.0), GFN(-1) {}
+      GFN(-1), value(0.0) {}
   };
   
   /**
