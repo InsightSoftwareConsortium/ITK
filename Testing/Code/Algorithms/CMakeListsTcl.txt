@@ -122,7 +122,7 @@ CABLE_WRAP_TCL(ITKAlgorithmsTestTcl4
   "itk::VoronoiDiagram2DGenerator<$Float>"
   "itk::VoronoiSegmentationImageFilter<$Image,$Image>"
   "itk::VoronoiSegmentationImageFilterBase<$Image,$Image>"
-  "itk::VoronoiSegmentationRGBImageFilter<$RGBImage,$RGBImage>"
+#  "itk::VoronoiSegmentationRGBImageFilter<$RGBImage,$RGBImage>"
   "itk::WatershedImageFilter<$Image>"
 )
 
