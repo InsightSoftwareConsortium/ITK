@@ -52,13 +52,12 @@ public:
   typedef SmartPointer<Self>           Pointer;
   typedef SmartPointer<const Self>     ConstPointer;
   
-  /** Method for creation through the object factory. */
-  itkNewMacro(Self);
-  
   /** Run-time type information (and related methods). */
   itkTypeMacro( SingleValuedCostFunction, CostFunction );
 
-
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+  
   /** Image related type definitions. */
   typedef TImage ImageType ;
   typedef TImageMask MaskType ;
@@ -98,7 +97,8 @@ public:
   itkSetMacro( Region, ImageRegionType );
 
   /** Sets the BiasField object. */
-  itkSetObjectMacro( BiasField, BiasFieldType );
+  void SetBiasField(BiasFieldType* bias)
+  { m_BiasField = bias ; }
 
   /** Get an energy value for the intensity difference between a pixel
    * and its corresponding bias. */
@@ -263,12 +263,12 @@ public:
   /** Set/Get the input mask image pointer
    * Without this mask, this filter calculates the energy value using
    * all pixels in the input image.  */
-  void SetInputMask(ImageMaskPointer inputMask);
+  void SetInputMask(ImageMaskType* inputMask);
   itkGetObjectMacro( InputMask, ImageMaskType );
 
   /** Sets the out mask image pointer.
    * Without this mask, this filter corrects every pixel in the input image. */
-  void SetOutputMask(ImageMaskPointer outputMask) ;
+  void SetOutputMask(ImageMaskType* outputMask) ;
 
   /** Gets the output mask image pointer. */ 
   itkGetObjectMacro( OutputMask, ImageMaskType );
@@ -283,28 +283,41 @@ public:
   bool IsBiasFieldMultiplicative() 
   { return m_BiasMultiplicative ; }
 
-  /** Sets the intensity correction flag. if the flag is true, inter-slice
+  /** Set/Gets the intensity correction flag. if the flag is true, inter-slice
    * intensity correction will be applied before bias field
    * correction. default - true (3D input image), false (2D input image). */
   itkSetMacro( UsingInterSliceIntensityCorrection, bool );
+  itkGetConstMacro( UsingInterSliceIntensityCorrection, bool );
 
-  /** Sets the slab correction flag. If the flag is true, inter-slice
+  /** Set/Gets the slab correction flag. If the flag is true, inter-slice
    * intensity correction and bias field correction will be performed slab by
    * slab which is identified by the slab identifier. default - false
    * NOTE: if users want to slab identification, all the input image data
    * should be buffered. */
   itkSetMacro( UsingSlabIdentification, bool );
+  itkGetConstMacro( UsingSlabIdentification, bool );
 
-  /** Set the bias correction flag. If the flag is true, bias field
+  itkSetMacro( SlabBackgroundMinimumThreshold, InputImagePixelType );
+  itkGetConstMacro( SlabBackgroundMinimumThreshold, InputImagePixelType );
+
+  itkSetMacro( SlabNumberOfSamples, unsigned int );
+  itkGetConstMacro( SlabNumberOfSamples, unsigned int );
+
+  itkSetMacro( SlabTolerance, double );
+  itkGetConstMacro( SlabTolerance, double );
+
+  /** Set/Gets the bias correction flag. If the flag is true, bias field
    * correction runs.  This flag sounds odd. But if users want to use only
    * the inter-slice intensity correction without actual bias correction,
    * disabling bias field correction would be an useful option. default -
    * true. */
   itkSetMacro( UsingBiasFieldCorrection, bool );
+  itkGetConstMacro( UsingBiasFieldCorrection, bool );
 
-  /** Sets the flag, If the flag is true, the output image (corrected image)
+  /** Set/Gets the flag, If the flag is true, the output image (corrected image)
    * will be created when this filter is updated. default - true */
   itkSetMacro( GeneratingOutput, bool );
+  itkGetConstMacro( GeneratingOutput, bool );
 
   /** Sets the direction of slicing.
    * 0 - x axis, 1 - y axis, 2 - z axis */
@@ -314,11 +327,9 @@ public:
   itkSetMacro( BiasFieldDegree, int );
   itkGetMacro( BiasFieldDegree, int );
 
-  /** Gets the number of the bias field coefficients. */
-  itkGetMacro( NoOfBiasFieldCoefficients, int );
-
   /** Get the bias field domain size. */
-  itkGetMacro( BiasFieldDomainSize, BiasFieldType::DomainSizeType );
+  BiasFieldType::DomainSizeType GetBiasFieldDomainSize()
+  { return m_BiasFieldDomainSize ; }
 
   /** Sets the initial 3D bias field estimate coefficients that will be
    * used for correcting each slab. */
@@ -329,7 +340,8 @@ public:
   /** Get the result bias field coefficients after the bias field
    * estimation (does not apply to the inter-slice intensity
    * correction) */
-  itkGetMacro( EstimatedBiasFieldCoefficients, BiasFieldType::CoefficientArrayType );
+  BiasFieldType::CoefficientArrayType GetEstimatedBiasFieldCoefficients()
+  { return m_EstimatedBiasFieldCoefficients ; } 
 
   /** Set the tissue class statistics for energy function initialization
    * If the numbers of elements in the means and the sigmas are not equal
@@ -369,13 +381,14 @@ public:
 
   /** Optimizes the bias field only using the image data that are in 
    * the specified region. */
-  void EstimateBiasField(BiasFieldType* bias,
-                         InputImageRegionType region) ;
+  BiasFieldType EstimateBiasField(InputImageRegionType region,
+                                  unsigned int degree,
+                                  int maximumIteration) ;
 
   /** Correct the internal image using the bias field estimate 
    * created by EstimateBiasField() member function and the internal image
    * data that are in the specified region. */
-  void CorrectImage(BiasFieldType* bias, 
+  void CorrectImage(BiasFieldType& bias, 
                     InputImageRegionType region) ;
 
   /** Internally calls EstimateBiasField() and CorrectImage() member functions
@@ -385,23 +398,48 @@ public:
 protected:
   MRIBiasFieldCorrectionFilter() ;
   virtual ~MRIBiasFieldCorrectionFilter() ;
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Checks if the mask image's dimensionality and size matches with
    * those of the input image */
-  bool CheckMaskImage(ImageMaskPointer mask) ;
+  bool CheckMaskImage(ImageMaskType* mask) ;
 
 protected:
   /** Converts image data from source to target applying log(pixel + 1)
    * to all pixels. If the source pixel has negative value, it sets 
    * the value of the corresponding pixel in the targe image as zero.  */
-  void Log1PImage(InternalImagePointer source, 
-                  InternalImagePointer target) ;
+  void Log1PImage(InternalImageType* source, 
+                  InternalImageType* target) ;
 
   /** Converts image data from source to target applying exp(pixel) - 1
    * to all pixels.  */
-  void ExpImage(InternalImagePointer source, 
-                InternalImagePointer target) ;
+  void ExpImage(InternalImageType* source, 
+                InternalImageType* target) ;
 
+  /** Converts pixel type, and
+   *  copies image data from source to target. */
+  template<class TSource, class TTarget>
+  void CopyAndConvertImage(const TSource * source,
+                           TTarget * target,
+                           typename TTarget::RegionType requestedRegion)
+  {
+    typedef ImageRegionConstIterator<TSource> SourceIterator ;
+    typedef ImageRegionIterator<TTarget> TargetIterator ;
+    typedef typename TTarget::PixelType  TargetPixelType ;
+    
+    SourceIterator s_iter(source, requestedRegion) ;
+    TargetIterator t_iter(target, requestedRegion) ;
+    
+    s_iter.GoToBegin() ;
+    t_iter.GoToBegin() ;
+    while (!s_iter.IsAtEnd())
+      {
+      t_iter.Set(static_cast<TargetPixelType>( s_iter.Get() ) ) ;
+      ++s_iter ;
+      ++t_iter ;
+      }
+  }
+  
   /** Converts ImageRegion type (region) to DomainSize type (std::vector)
    * NOTE: if the size of the last dimension of the image region is one, then
    * the dimension of the resulting domain size will be one less than that of
@@ -427,9 +465,6 @@ private:
   /** Normal variate generator smart pointer */
   NormalVariateGeneratorType::Pointer m_NormalVariateGenerator ;
 
-  /** Optimizer object smart pointer.  */
-  OptimizerType::Pointer m_Optimizer ;
-
   /** Input mask image smart pointer. */
   ImageMaskPointer m_InputMask ;
 
@@ -454,17 +489,11 @@ private:
   bool m_UsingBiasFieldCorrection ;
   bool m_GeneratingOutput ;
 
+  unsigned int m_SlabNumberOfSamples ;
+  InputImagePixelType m_SlabBackgroundMinimumThreshold ;
+  double m_SlabTolerance ;
   /** The degree of the bias field estimate. */
   int m_BiasFieldDegree ;
-
-  /** The number of dimensions of the bias field estimate after optimization.*/
-  int m_BiasFieldDimension ;
-
-  /** The number of coefficients of the bias field after optimization. */
-  int m_NoOfBiasFieldCoefficients ;
-
-  /** Storage for the bias field domain size. */
-  BiasFieldType::DomainSizeType m_BiasFieldDomainSize ;
 
   /** Storage for the initial 3D bias field estimate coefficients that will be
    * used for correcting each slab. */
@@ -499,36 +528,6 @@ private:
   
 // ==================================
 
-/** Allocates memory to the target image object, converts pixel type, and
- *  copies image data from source to target. */
-template<class TSource, class TTarget>
-void CopyAndConvertImage(const TSource * sourceInp,
-                         TTarget * targetInp,
-                         typename TTarget::RegionType requestedRegion)
-{
-  typedef ImageRegionConstIterator<TSource> SourceIterator ;
-  typedef ImageRegionIterator<TTarget> TargetIterator ;
-  typedef typename TTarget::PixelType  TargetPixelType ;
-
-  typename TSource::ConstPointer source( sourceInp );
-  typename TTarget::Pointer      target( targetInp );
-
-  target->SetRequestedRegion(requestedRegion) ;
-  target->SetBufferedRegion(requestedRegion) ;
-  target->Allocate() ;
-
-  SourceIterator s_iter(source, requestedRegion) ;
-  TargetIterator t_iter(target, requestedRegion) ;
-
-  s_iter.GoToBegin() ;
-  t_iter.GoToBegin() ;
-  while (!s_iter.IsAtEnd())
-    {
-    t_iter.Set(static_cast<TargetPixelType>( s_iter.Get() ) ) ;
-    ++s_iter ;
-    ++t_iter ;
-    }
-}
 
 } // end namespace itk
 
