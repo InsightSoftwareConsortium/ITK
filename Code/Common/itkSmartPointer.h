@@ -88,6 +88,7 @@ public:
      { 
      return m_Pointer; 
      }
+
   /** 
     * Return pointer to object.
     */
@@ -95,6 +96,7 @@ public:
      { 
      return m_Pointer; 
      }
+
    /*
     * Cast to bool
     */
@@ -103,13 +105,18 @@ public:
        return m_Pointer != (T*)0; 
      }
 
-   bool operator == (T const* ptr)
+   /*
+    * Template comparison operators.
+    */
+   template <typename R>
+   bool operator == (R r) const
      {
-       return m_Pointer == ptr;
+       return (m_Pointer == (T*)r);
      }
-   bool operator != (T* ptr)
+   template <typename R>
+   bool operator != (R r) const
      {
-       return m_Pointer != ptr;
+       return (m_Pointer != (T*)r);
      }
 
   /** 

@@ -69,7 +69,7 @@ Mesh<TPixelType,TMeshType>
 {
   itkDebugMacro(<< this->GetClassName() << " (" << this
                 << "): returning Points container of " << m_PointsContainer );
-  if( !m_PointsContainer )
+  if( m_PointsContainer == NULL )
     {
     this->SetPoints(PointsContainer::New());
     }
