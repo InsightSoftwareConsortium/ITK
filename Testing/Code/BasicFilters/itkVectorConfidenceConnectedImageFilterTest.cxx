@@ -29,9 +29,9 @@ int itkVectorConfidenceConnectedImageFilterTest(int ac, char* av[] )
   // Comment the following if you want to use the itk text output window
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
-  if(ac < 5)
+  if(ac < 9)
     {
-    std::cerr << "Usage: " << av[0] << " InputImage BaselineImage seedX seedY\n";
+    std::cerr << "Usage: " << av[0] << " InputImage BaselineImage seed1X seed1Y seed2X seed2Y multiplier iterations\n";
     return -1;
     }
 
@@ -62,15 +62,21 @@ int itkVectorConfidenceConnectedImageFilterTest(int ac, char* av[] )
   filter->SetInput(input->GetOutput());
   filter->SetInitialNeighborhoodRadius( 3 ); // measured in pixels
 
-  FilterType::IndexType seed; 
+  FilterType::IndexType seed1; 
+  FilterType::IndexType seed2; 
   
-  seed[0] = atoi( av[3] );
-  seed[1] = atoi( av[4] );
+  seed1[0] = atoi( av[3] );
+  seed1[1] = atoi( av[4] );
   
-  filter->SetSeed(seed);
-  filter->SetMultiplier( 2.5 );
+  seed2[0] = atoi( av[5] );
+  seed2[1] = atoi( av[6] );
+  
+  filter->AddSeed( seed1 );
+  filter->AddSeed( seed2 );
+
   filter->SetReplaceValue( 255 );
-  filter->SetNumberOfIterations( 5 );
+  filter->SetMultiplier(  atof( av[7] ) );
+  filter->SetNumberOfIterations( atoi( av[8] ) );
 
   try
     {
@@ -114,8 +120,8 @@ int itkVectorConfidenceConnectedImageFilterTest(int ac, char* av[] )
 
 
 
-  // Exercise AddSeed() method
-  filter->AddSeed( seed );
+  // Exercise SetSeed() method
+  filter->SetSeed( seed1 );
 
 
     return 0;
