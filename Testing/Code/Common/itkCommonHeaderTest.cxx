@@ -147,6 +147,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkMeshRegion.h"
 #include "itkMeshSource.txx"
 #include "itkMeshToMeshFilter.txx"
+#include "itkMinimumDecisionRule.h"
 #include "itkMultiThreader.h"
 #include "itkMutexLock.h"
 #include "itkNearestNeighborInterpolateImageFunction.h"
