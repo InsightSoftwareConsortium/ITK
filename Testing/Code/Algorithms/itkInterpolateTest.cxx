@@ -83,22 +83,22 @@ double trueValue )
   std::cout << " Inside: " << bvalue;
 
   if( bvalue != isInside )
-		{
+    {
     std::cout << "*** Error: inside should be " << isInside << std::endl;
     return false;
     }
 
   if( isInside )
-		{
-		double value = interp->Evaluate( point );
+    {
+    double value = interp->Evaluate( point );
     std::cout << " Value: " << value;
 
     if( vnl_math_abs( value - trueValue ) > 1e-9 )
-			{
-			std::cout << "*** Error: value should be " << trueValue << std::endl;
+      {
+      std::cout << "*** Error: value should be " << trueValue << std::endl;
       return false;
-			}
-		}
+      }
+    }
 
   std::cout << std::endl;
   return true;
@@ -123,22 +123,22 @@ double trueValue )
   std::cout << " Inside: " << bvalue;
 
   if( bvalue != isInside )
-		{
+    {
     std::cout << "*** Error: inside should be " << isInside << std::endl;
     return false;
     }
 
   if( isInside )
-		{
-		double value = interp->EvaluateAtContinuousIndex( index );
+    {
+    double value = interp->EvaluateAtContinuousIndex( index );
     std::cout << " Value: " << value;
 
     if( vnl_math_abs( value - trueValue ) > 1e-9 )
-			{
-			std::cout << "*** Error: value should be " << trueValue << std::endl;
+      {
+      std::cout << "*** Error: value should be " << trueValue << std::endl;
       return false;
-			}
-		}
+      }
+    }
 
   std::cout << std::endl;
   return true;

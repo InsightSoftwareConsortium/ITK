@@ -104,7 +104,7 @@ int main()
   // Set the displacement
   itk::Vector<double,2> displacement;
   displacement[0] = 5;
-  displacement[1] =	0;
+  displacement[1] = 0;
 
   ReferenceIteratorType ri(imgReference,region);
   TargetIteratorType ti(imgTarget,region);
@@ -113,10 +113,10 @@ int main()
   {
     p[0] = ri.GetIndex()[0];
     p[1] = ri.GetIndex()[1];
-	  d = p-center;
-	  d += displacement;
-	  const double x = d[0];
-	  const double y = d[1];
+    d = p-center;
+    d += displacement;
+    const double x = d[0];
+    const double y = d[1];
     ri.Set( (unsigned char) ( 200.0 * exp( - ( x*x + y*y )/(s*s) ) ) );
     ++ri;
   }
@@ -127,9 +127,9 @@ int main()
   {
     p[0] = ti.GetIndex()[0];
     p[1] = ti.GetIndex()[1];
-	d = p-center;
-	const double x = d[0];
-	const double y = d[1];
+  d = p-center;
+  const double x = d[0];
+  const double y = d[1];
     ti.Set( (unsigned char) ( 200.0 * exp( - ( x*x + y*y )/(s*s) ) ) );
     ++ti;
   }

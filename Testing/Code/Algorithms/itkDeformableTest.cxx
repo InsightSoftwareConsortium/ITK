@@ -27,25 +27,25 @@ int main()
   typedef itk::Image<unsigned short, myDimension>  outImageType;
 
   // Declare the type of the index to access images
-  typedef itk::Index<myDimension>				myIndexType;
+  typedef itk::Index<myDimension>       myIndexType;
 
   // Declare the type of the size 
-  typedef itk::Size<myDimension>				mySizeType;
+  typedef itk::Size<myDimension>        mySizeType;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion<myDimension>			myRegionType;
+  typedef itk::ImageRegion<myDimension>     myRegionType;
 
   // Declare the type of the Mesh
-  typedef itk::Mesh<float>						DMesh;
+  typedef itk::Mesh<float>            DMesh;
 
   unsigned char *testImage = new unsigned char[WIDTH*HEIGHT*DEPTH];
 
-  typedef itk::SphereSource<DMesh>						SphereSourceType;
-  typedef itk::BalloonForceFilter<DMesh, DMesh>			BFilter;
+  typedef itk::SphereSource<DMesh>            SphereSourceType;
+  typedef itk::BalloonForceFilter<DMesh, DMesh>     BFilter;
 
   outImageType::Pointer ptimg=outImageType::New();
   outImageType::Pointer gdimg=outImageType::New();
-  outImageType::Pointer	outputimg = outImageType::New();
+  outImageType::Pointer outputimg = outImageType::New();
 
   outImageType::SizeType outsize={{WIDTH,HEIGHT,DEPTH}};
   outImageType::IndexType index=outImageType::IndexType::ZeroIndex;
@@ -155,7 +155,7 @@ int main()
   while( !outit.IsAtEnd()) {    
     it.Set(outit.Get());
     ++outit;
-	++it;
+  ++it;
   }
 
   filter->SetDirection( 1 );
@@ -167,7 +167,7 @@ int main()
   int k = 0;
   while( !outit.IsAtEnd()) {    
     testImage[k] = (unsigned char)outit.Get();
-	k++;
+  k++;
     ++outit;
   }
 
@@ -175,15 +175,15 @@ int main()
   float grad;
   outit.GoToBegin();
   while( !outit.IsAtEnd() ) {
-	if ((k >= WIDTH) && (k+WIDTH < WIDTH*HEIGHT)) { 
-	  grad = 0.5*sqrt((float)((testImage[k-1]-testImage[k+1])*(testImage[k-1]-testImage[k+1])+
-		(testImage[k-WIDTH]-testImage[k+WIDTH])*(testImage[k-WIDTH]-testImage[k+WIDTH])));
-	  outit.Set(grad);
-	} else {
-	  outit.Set(0);
-	}
-	++outit;
-	k++;
+  if ((k >= WIDTH) && (k+WIDTH < WIDTH*HEIGHT)) { 
+    grad = 0.5*sqrt((float)((testImage[k-1]-testImage[k+1])*(testImage[k-1]-testImage[k+1])+
+    (testImage[k-WIDTH]-testImage[k+WIDTH])*(testImage[k-WIDTH]-testImage[k+WIDTH])));
+    outit.Set(grad);
+  } else {
+    outit.Set(0);
+  }
+  ++outit;
+  k++;
   }
 
 // allocating the input image data.
@@ -207,7 +207,7 @@ int main()
   ptit.GoToBegin();
   while( !ptit.IsAtEnd()) { 
     ptit.Set((unsigned short)0);
-	k++;
+  k++;
     ++ptit;
   }
 
@@ -242,9 +242,9 @@ int main()
   outit.GoToBegin();
   while( !gdit.IsAtEnd()) { 
     gdit.Set(outit.Get());
-	k++;
+  k++;
     ++gdit;
-	++outit;
+  ++outit;
   }
 
   m_bfilter->SetPotential(ptimg);
@@ -261,7 +261,7 @@ int main()
     m_bfilter->ComputeDt();
     m_bfilter->Advance();
     m_bfilter->NodesRearrange();
-	m_bfilter->ComputeOutput();
+  m_bfilter->ComputeOutput();
   }
   
 //  time(&btime);

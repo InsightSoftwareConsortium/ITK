@@ -90,90 +90,90 @@ const unsigned short TestingImage [400]={
 
 int main(){
   int i, j;
-	typedef itk::Image<bool,2> BinaryImage2D;
-	typedef itk::Image<unsigned short,2> UShortImage2D;
-	typedef itk::FuzzyConnectednessImageFilter<UShortImage2D,BinaryImage2D> FuzzyUShort;
+  typedef itk::Image<bool,2> BinaryImage2D;
+  typedef itk::Image<unsigned short,2> UShortImage2D;
+  typedef itk::FuzzyConnectednessImageFilter<UShortImage2D,BinaryImage2D> FuzzyUShort;
 
-	FuzzyUShort::Pointer testFuzzy=FuzzyUShort::New();
-	UShortImage2D::Pointer inputimg=UShortImage2D::New();
-	UShortImage2D::SizeType size={{HEIGHT,WIDTH}};
-	UShortImage2D::IndexType index=UShortImage2D::IndexType::ZeroIndex;
-	UShortImage2D::RegionType region;
+  FuzzyUShort::Pointer testFuzzy=FuzzyUShort::New();
+  UShortImage2D::Pointer inputimg=UShortImage2D::New();
+  UShortImage2D::SizeType size={{HEIGHT,WIDTH}};
+  UShortImage2D::IndexType index=UShortImage2D::IndexType::ZeroIndex;
+  UShortImage2D::RegionType region;
 
-	region.SetSize(size);
-	region.SetIndex(index);
+  region.SetSize(size);
+  region.SetIndex(index);
 
-	inputimg->SetLargestPossibleRegion( region );
-	inputimg->SetBufferedRegion( region );
-	inputimg->SetRequestedRegion( region );
-	inputimg->Allocate();
+  inputimg->SetLargestPossibleRegion( region );
+  inputimg->SetBufferedRegion( region );
+  inputimg->SetRequestedRegion( region );
+  inputimg->Allocate();
 
 
 
 /* Testing Image:
    background: uniform distributed random number ~(300-350) 
    object (rectangle), value ~(270-320) 
-	 all pre-generated on a Windows Based PC using rand()
-	*/
+   all pre-generated on a Windows Based PC using rand()
+  */
 
 
-	itk::ImageRegionIteratorWithIndex <UShortImage2D> it(inputimg, region);
-	int k=0;
-	while( !it.IsAtEnd()) {    
-		it.Set(TestingImage[k]);
-		k++;
-		++it;
+  itk::ImageRegionIteratorWithIndex <UShortImage2D> it(inputimg, region);
+  int k=0;
+  while( !it.IsAtEnd()) {    
+    it.Set(TestingImage[k]);
+    k++;
+    ++it;
   }
 
 
-/* print the input image */	
-	std::cout<<"The Input Image"<<std::endl;
-	it.GoToBegin();
-	for(i = 0;i < HEIGHT; i++){
-		for (j = 0; j < WIDTH; j++){
-		std::cout << std::setw(4) << it.Get()<<" ";
-			++it;
-		}
-		std::cout<<std::endl;
-	}
+/* print the input image */ 
+  std::cout<<"The Input Image"<<std::endl;
+  it.GoToBegin();
+  for(i = 0;i < HEIGHT; i++){
+    for (j = 0; j < WIDTH; j++){
+    std::cout << std::setw(4) << it.Get()<<" ";
+      ++it;
+    }
+    std::cout<<std::endl;
+  }
 
 
 /* execute the segmentation subroutine*/
 /* set input and the seed */
-	testFuzzy->SetInput(inputimg);
-	index[0] = 5;
-	index[1] = 5;
-	testFuzzy->SetSeed(index);
+  testFuzzy->SetInput(inputimg);
+  index[0] = 5;
+  index[1] = 5;
+  testFuzzy->SetSeed(index);
 
 /* set the parameters */
-	testFuzzy->SetParameters(270.0,2500.0,1.0,1.0,1.0);
-	testFuzzy->SetThreshold(0.5);
-	testFuzzy->Update();
+  testFuzzy->SetParameters(270.0,2500.0,1.0,1.0,1.0);
+  testFuzzy->SetThreshold(0.5);
+  testFuzzy->Update();
 
 /* printout the segmentation result */
-	std::cout<<"Segmentation Result"<<std::endl;
-	itk::ImageRegionIteratorWithIndex <BinaryImage2D> ot(testFuzzy->GetOutput(), region);
-	for(i = 0;i < HEIGHT; i++){
-		for (j = 0; j < WIDTH; j++){
-			std::cout<<ot.Get();
-			++ot;
-		}
-		std::cout<<std::endl;
-	}
+  std::cout<<"Segmentation Result"<<std::endl;
+  itk::ImageRegionIteratorWithIndex <BinaryImage2D> ot(testFuzzy->GetOutput(), region);
+  for(i = 0;i < HEIGHT; i++){
+    for (j = 0; j < WIDTH; j++){
+      std::cout<<ot.Get();
+      ++ot;
+    }
+    std::cout<<std::endl;
+  }
 
 
   testFuzzy->UpdateThreshold(0.8);
-	std::cout<<std::endl<<"Update threshold"<<std::endl;
-	ot.GoToBegin();
-	for(i = 0;i < HEIGHT; i++){
-		for (j = 0; j < WIDTH; j++){
-			std::cout<<ot.Get();
-			++ot;
-		}
-		std::cout<<std::endl;
-	}
+  std::cout<<std::endl<<"Update threshold"<<std::endl;
+  ot.GoToBegin();
+  for(i = 0;i < HEIGHT; i++){
+    for (j = 0; j < WIDTH; j++){
+      std::cout<<ot.Get();
+      ++ot;
+    }
+    std::cout<<std::endl;
+  }
 
-	return 0;
+  return 0;
 }
 
 

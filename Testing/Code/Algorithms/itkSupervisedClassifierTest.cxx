@@ -172,7 +172,7 @@ int main()
     itk::ImageRegionIterator<ClassImageType> ClassImageIterator;
 
   ClassImageIterator 
-	  classoutIt( classImage, classImage->GetBufferedRegion() );
+    classoutIt( classImage, classImage->GetBufferedRegion() );
 
 
 
@@ -272,9 +272,9 @@ int main()
   // Multiband data is now available in the right format
   //---------------------------------------------------------------------
   typedef itk::GaussianSupervisedClassifier<VecImageType,ClassImageType> 
-	  GaussianSupervisedClassifierType;
+    GaussianSupervisedClassifierType;
   GaussianSupervisedClassifierType::Pointer 
-	  applyClassifier = GaussianSupervisedClassifierType::New();
+    applyClassifier = GaussianSupervisedClassifierType::New();
 
   typedef ShowProgressObject<GaussianSupervisedClassifierType> 
     ProgressType;
@@ -296,7 +296,7 @@ int main()
   applyClassifier->ClassifyImage();
 
   ClassImageType::Pointer outClassImage =  
-	  applyClassifier->GetClassifiedImage();
+    applyClassifier->GetClassifiedImage();
 
   //Print the gaussian classified image
   ClassImageIterator labeloutIt( outClassImage, 

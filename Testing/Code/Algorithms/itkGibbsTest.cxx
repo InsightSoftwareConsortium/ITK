@@ -118,11 +118,11 @@ std::cout<< "Gibbs Prior Test Begins: " << std::endl;
   int i = 0;
   while ( !outIt.IsAtEnd() ) { 
     dblVec[0] = (unsigned short) TestingImage[i];
-//	dblVec[1] = (unsigned short) TestImage[i+65536];
-//	dblVec[2] = (unsigned short) TestImage[i+65536*2];
-	outIt.Set(dblVec); 
-	++outIt;
-	i++;
+//  dblVec[1] = (unsigned short) TestImage[i+65536];
+//  dblVec[2] = (unsigned short) TestImage[i+65536*2];
+  outIt.Set(dblVec); 
+  ++outIt;
+  i++;
   }
 
   //---------------------------------------------------------------
@@ -161,25 +161,25 @@ std::cout<< "Gibbs Prior Test Begins: " << std::endl;
 
   i = 0;
   while ( !classoutIt.IsAtEnd() ) {  
-	if ( (i%IMGWIDTH<8) && (i%IMGWIDTH>4) && 
-		(i/IMGWIDTH<8) && (i/IMGWIDTH>4)) {
-	  classoutIt.Set( 1 );
-	} else {
-	  if ( (i%IMGWIDTH<18) && (i%IMGWIDTH>14) && 
-		  (i/IMGWIDTH<18) && (i/IMGWIDTH>14)) {
-	    classoutIt.Set( 2 );
-	  }/* else {
-		if ( (i%IMGWIDTH<20) && (i%IMGWIDTH>10) && 
-		  (i/IMGWIDTH<139) && (i/IMGWIDTH>129)) {
-			classoutIt.Set( 3 );
-		}*/
-		else {
-			classoutIt.Set( 0 );
-		}
-	  //}
-	}
-	++classoutIt;
-	i++;
+  if ( (i%IMGWIDTH<8) && (i%IMGWIDTH>4) && 
+    (i/IMGWIDTH<8) && (i/IMGWIDTH>4)) {
+    classoutIt.Set( 1 );
+  } else {
+    if ( (i%IMGWIDTH<18) && (i%IMGWIDTH>14) && 
+      (i/IMGWIDTH<18) && (i/IMGWIDTH>14)) {
+      classoutIt.Set( 2 );
+    }/* else {
+    if ( (i%IMGWIDTH<20) && (i%IMGWIDTH>10) && 
+      (i/IMGWIDTH<139) && (i/IMGWIDTH>129)) {
+      classoutIt.Set( 3 );
+    }*/
+    else {
+      classoutIt.Set( 0 );
+    }
+    //}
+  }
+  ++classoutIt;
+  i++;
   }
 
   //----------------------------------------------------------------------
@@ -190,15 +190,15 @@ std::cout<< "Gibbs Prior Test Begins: " << std::endl;
   // Multiband data is now available in the right format
   //---------------------------------------------------------------------
   typedef 
-	itk::Classifier<VecImageType,ClassImageType>::Pointer 
-	  ClassifierType;
+  itk::Classifier<VecImageType,ClassImageType>::Pointer 
+    ClassifierType;
 
   //Instantiate the classifier to be used
   typedef itk::GaussianSupervisedClassifier<VecImageType,ClassImageType> 
     GaussianSupervisedClassifierType;
 
   GaussianSupervisedClassifierType::Pointer 
-	  myGaussianClassifier = GaussianSupervisedClassifierType::New();
+    myGaussianClassifier = GaussianSupervisedClassifierType::New();
 
   //Set the Gibbs Prior labeller
   typedef itk::RGBGibbsPriorFilter<VecImageType,ClassImageType> GibbsPriorFilterType;
@@ -234,17 +234,17 @@ std::cout<< "Gibbs Prior Test Begins: " << std::endl;
   int j0 = 0;
   int j1 = 0;
   while ( !labeloutIt.IsAtEnd() ) {
-//	outImage[i] = labeloutIt.Get();
-	if (labeloutIt.Get() == 0) {
-	  j0++;
-	  outImage[i] = 0;
-	}
-	if (labeloutIt.Get() == 1) {
-	  j1++;
-	  outImage[i] = 65535;
-	}
-	i++;
-	++labeloutIt;
+//  outImage[i] = labeloutIt.Get();
+  if (labeloutIt.Get() == 0) {
+    j0++;
+    outImage[i] = 0;
+  }
+  if (labeloutIt.Get() == 1) {
+    j1++;
+    outImage[i] = 65535;
+  }
+  i++;
+  ++labeloutIt;
   }
 
   std::cout<< "j0:" << j0 << std::endl;
@@ -260,10 +260,10 @@ std::cout<< "Gibbs Prior Test Begins: " << std::endl;
   i = 0;
   labeloutIt.GoToBegin();
   while ( !labeloutIt.IsAtEnd() ) {
-	if ((i%IMGWIDTH<10) && (i/IMGWIDTH<10) && (labeloutIt.Get()==1))
-		j++;
-	i++;
-	++labeloutIt;
+  if ((i%IMGWIDTH<10) && (i/IMGWIDTH<10) && (labeloutIt.Get()==1))
+    j++;
+  i++;
+  ++labeloutIt;
   }
 */
   passTest = ((j1>85) && (j1 < 115));

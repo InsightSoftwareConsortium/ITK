@@ -113,7 +113,7 @@ unsigned int test_regiongrowKLM2D()
     itk::ImageRegionIterator< ImageType > ImageIterator;
 
   ImageIterator 
-	inIt( image, image->GetBufferedRegion() );
+  inIt( image, image->GetBufferedRegion() );
 
   //Set up the vector to store the image  data
   typedef ImageType::PixelType::VectorType ImageData;
@@ -240,7 +240,7 @@ unsigned int test_regiongrowKLM2D()
     itk::ImageRegionIterator< LabelledImageType > LabelImageIterator;
 
   LabelImageIterator 
-	labelIt( labelledImage, labelledImage->GetBufferedRegion() );
+  labelIt( labelledImage, labelledImage->GetBufferedRegion() );
 
   unsigned short pixelLabel;  
   unsigned short maxpixelLabel=0;
@@ -250,8 +250,8 @@ unsigned int test_regiongrowKLM2D()
     pixelLabel = (unsigned short) labelIt.Get();
 
     if(pixelLabel > maxpixelLabel)
-	    maxpixelLabel = pixelLabel;
-	  ++labelIt;
+      maxpixelLabel = pixelLabel;
+    ++labelIt;
 
   }//end while iterator loop
 
@@ -261,18 +261,18 @@ unsigned int test_regiongrowKLM2D()
   {
     std::cout<<"Region Grow with KLM algorithm failed" << std::endl;
     std::cout<<"More than the max set num regions found "<<std::endl;
-	  std::cout<<"Increase the lambda parameter is suggested" <<std::endl;
+    std::cout<<"Increase the lambda parameter is suggested" <<std::endl;
   }
 
   if( maxpixelLabel < applyRegionGrowImageFilterKLM->GetMaxNumRegions() )
   {
-	  std::cout<<"Region Grow with KLM algorithm passed" << std::endl;
+    std::cout<<"Region Grow with KLM algorithm passed" << std::endl;
     std::cout<<"Fewer regions than desired found"<<std::endl;
   }
 
   if( maxpixelLabel == applyRegionGrowImageFilterKLM->GetMaxNumRegions() )
   {
-	  std::cout<<"Region Grow with KLM algorithm passed" << std::endl;
+    std::cout<<"Region Grow with KLM algorithm passed" << std::endl;
     std::cout<<"Desired number of regions found"<<std::endl;
   }
 
@@ -281,12 +281,12 @@ unsigned int test_regiongrowKLM2D()
   while(!labelIt.IsAtEnd())
   {
     for(int k=0; k<IMGWIDTH;k++)
-	  {
-	    pixelLabel = (unsigned short) labelIt.Get();
-	    std::cout << pixelLabel;
-	    ++labelIt;
-	  }//end row
-	  std::cout<<""<<std::endl;
+    {
+      pixelLabel = (unsigned short) labelIt.Get();
+      std::cout << pixelLabel;
+      ++labelIt;
+    }//end row
+    std::cout<<""<<std::endl;
   }//end while
 
 
@@ -322,7 +322,7 @@ unsigned int test_regiongrowKLM3D()
     itk::ImageRegionIterator< ImageType > ImageIterator;
 
   ImageIterator 
-	inIt( image, image->GetBufferedRegion() );
+  inIt( image, image->GetBufferedRegion() );
 
   //Set up the vector to store the image  data
   typedef ImageType::PixelType::VectorType ImageData;
@@ -516,7 +516,7 @@ unsigned int test_regiongrowKLM3D()
     itk::ImageRegionIterator< LabelledImageType > LabelImageIterator;
 
   LabelImageIterator 
-	labelIt( labelledImage, labelledImage->GetBufferedRegion() );
+  labelIt( labelledImage, labelledImage->GetBufferedRegion() );
 
   unsigned short pixelLabel;  
   unsigned short maxpixelLabel=0;
@@ -526,8 +526,8 @@ unsigned int test_regiongrowKLM3D()
     pixelLabel = (unsigned short) labelIt.Get();
 
     if(pixelLabel > maxpixelLabel)
-	    maxpixelLabel = pixelLabel;
-	  ++labelIt;
+      maxpixelLabel = pixelLabel;
+    ++labelIt;
 
   }//end while iterator loop
 
@@ -537,18 +537,18 @@ unsigned int test_regiongrowKLM3D()
   {
     std::cout<<"Region Grow with KLM algorithm failed" << std::endl;
     std::cout<<"More than the max set num regions found "<<std::endl;
-	  std::cout<<"Increase the lambda parameter is suggested" <<std::endl;
+    std::cout<<"Increase the lambda parameter is suggested" <<std::endl;
   }
 
   if( maxpixelLabel < applyRegionGrowImageFilterKLM->GetMaxNumRegions() )
   {
-	  std::cout<<"Region Grow with KLM algorithm passed" << std::endl;
+    std::cout<<"Region Grow with KLM algorithm passed" << std::endl;
     std::cout<<"Fewer regions than desired found"<<std::endl;
   }
 
   if( maxpixelLabel == applyRegionGrowImageFilterKLM->GetMaxNumRegions() )
   {
-	  std::cout<<"Region Grow with KLM algorithm passed" << std::endl;
+    std::cout<<"Region Grow with KLM algorithm passed" << std::endl;
     std::cout<<"Desired number of regions found"<<std::endl;
   }
 
@@ -557,12 +557,12 @@ unsigned int test_regiongrowKLM3D()
   while(!labelIt.IsAtEnd())
   {
     for(int k=0; k<IMGWIDTH;k++)
-	  {
-	    pixelLabel = (unsigned short) labelIt.Get();
-	    std::cout << pixelLabel;
-	    ++labelIt;
-	  }//end row
-	  std::cout<<""<<std::endl;
+    {
+      pixelLabel = (unsigned short) labelIt.Get();
+      std::cout << pixelLabel;
+      ++labelIt;
+    }//end row
+    std::cout<<""<<std::endl;
   }//end while
 
   return 0;

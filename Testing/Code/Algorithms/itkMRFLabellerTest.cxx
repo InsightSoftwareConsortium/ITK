@@ -302,15 +302,15 @@ int main()
   // Multiband data is now available in the right format
   //---------------------------------------------------------------------
   typedef 
-	itk::Classifier<VecImageType,ClassImageType>::Pointer 
-	  ClassifierType;
+  itk::Classifier<VecImageType,ClassImageType>::Pointer 
+    ClassifierType;
 
   //Instantiate the classifier to be used
   typedef itk::GaussianSupervisedClassifier<VecImageType,ClassImageType> 
     GaussianSupervisedClassifierType;
 
   GaussianSupervisedClassifierType::Pointer 
-	  myGaussianClassifier = GaussianSupervisedClassifierType::New();
+    myGaussianClassifier = GaussianSupervisedClassifierType::New();
 
   //Set the MRF labeller
   typedef itk::MRFImageFilter<VecImageType,ClassImageType> MRFImageFilterType;
