@@ -197,7 +197,7 @@ public:
         this->Modified();
         }
     }
-  InputMeshPointType& GetClosestPoint(InputMeshPointType& p) const
+  InputMeshPointType& GetClosestPoint(InputMeshPointType& p)
     {return m_ClosestPoint;}
 
   /**
