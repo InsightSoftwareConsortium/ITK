@@ -47,6 +47,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endif
 
 #include <itkIndent.h>
+#include "vnl/vnl_math.h"
 
 namespace itk
 {
@@ -61,14 +62,14 @@ namespace itk
  * copy constructor, or an operator=. We rely on the compiler to provide
  * efficient bitwise copies.
  *
- * RGBPixl is an "aggregate" class.  Its data is public 
+ * RGBPixel is an "aggregate" class.  Its data is public 
  * (m_Red, m_Green, m_Blue)
  * allowing for fast and convenient instantiations/assignments.
  *
  * The following syntax for assigning an index is allowed/suggested:
  *
- *    RGBPixl<float> pixel = {{1.0f, 0.0f, .5f}};
- *    RGBPixl<char> pixelArray[2] = {{255, 255, 255}, {255, 255, 244}};
+ *    RGBPixel<float> pixel = {{1.0f, 0.0f, .5f}};
+ *    RGBPixel<char> pixelArray[2] = {{255, 255, 255}, {255, 255, 244}};
  *
  * \ingroup ImageObjects
  *
@@ -85,14 +86,15 @@ public:
   ///! Return the number of components
   static int GetNumberOfComponents(){ return 3;}
   ///! Return the value for the Nth Component
-  ComponentType GetNthComponent(int c, const Self& s) 
-    { return s.m_Components[c]; }
+  ComponentType GetNthComponent(int c) const
+    { return m_Components[c]; }
   ///! Return the value for the Nth Component
-  ComponentType GetScalarValue()  
+  ComponentType GetScalarValue() const
     {
-      return sqrt(m_Components[0] * m_Components[0] +
-                  m_Components[1] * m_Components[1] +
-                  m_Components[2] * m_Components[2]); 
+      return static_cast<ComponentType> (vnl_math_sqrt(
+	  static_cast<double>(m_Components[0]) * static_cast<double>(m_Components[0]) +
+          static_cast<double>(m_Components[1]) * static_cast<double>(m_Components[1]) +
+          static_cast<double>(m_Components[2]) * static_cast<double>(m_Components[2]))); 
     }
   ///! Set the Nth component to v
   void SetNthComponent(int c, const ComponentType& v)  
