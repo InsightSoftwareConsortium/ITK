@@ -36,8 +36,8 @@ CannyEdgeDetectionImageFilter()
 
   for (i = 0; i < ImageDimension; i++)
     {
-    m_Variance[i] = 0.0f;
-    m_MaximumError[i] = 0.01f;
+    m_Variance[i] = 0.0;
+    m_MaximumError[i] = 0.01;
     }
   m_OutsideValue = NumericTraits<OutputImagePixelType>::Zero;
   m_Threshold = NumericTraits<OutputImagePixelType>::Zero;
@@ -159,7 +159,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 
   ImageRegionIterator<TOutputImage> it;
 
-  void *globalData;
+  void *globalData = 0;
 
   // Here input is the result from the gaussian filter
   //      output is the update buffer.

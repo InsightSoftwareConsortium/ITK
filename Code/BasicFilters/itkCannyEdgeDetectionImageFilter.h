@@ -116,25 +116,25 @@ public:
   enum { ImageDimension = TInputImage::ImageDimension };
   
   /** Standard get/set macros for filter parameters. */
-  itkSetVectorMacro(Variance, float, ImageDimension); 
-  itkGetVectorMacro(Variance, const float, ImageDimension); 
-  itkSetVectorMacro(MaximumError, float, ImageDimension); 
-  itkGetVectorMacro(MaximumError, const float, ImageDimension);
+  itkSetVectorMacro(Variance, double, ImageDimension); 
+  itkGetVectorMacro(Variance, const double, ImageDimension); 
+  itkSetVectorMacro(MaximumError, double, ImageDimension); 
+  itkGetVectorMacro(MaximumError, const double, ImageDimension);
   
   /** Set/Get the Variance parameter used by the Gaussian smoothing
       filter in this algorithm */
-  void SetVariance(const float v)
+  void SetVariance(const double v)
     {
-      float vArray[ImageDimension];
+      double vArray[ImageDimension];
       for (unsigned int i = 0; i<ImageDimension; ++i) { vArray[i] = v; }
       this->SetVariance(vArray);
     }
   
   /** Set/Get the MaximumError paramter used by the Gaussian smoothing filter
       in this algorithm */
-  void SetMaximumError(const float v)
+  void SetMaximumError(const double v)
     {
-      float vArray[ImageDimension];
+      double vArray[ImageDimension];
       for (unsigned int i = 0; i<ImageDimension; ++i) { vArray[i] = v; }
       this->SetMaximumError(vArray);
     }
@@ -239,11 +239,11 @@ private:
   Compute2ndDerivativePosThreaderCallback( void *arg );
 
   /** The variance of the Gaussian Filter used in this filter */
-  float m_Variance[ImageDimension];
+  double m_Variance[ImageDimension];
 
   /** The maximum error of the gaussian blurring kernel in each dimensional
    * direction.  */
-  float m_MaximumError[ImageDimension];  
+  double m_MaximumError[ImageDimension];  
 
   /** Threshold value for identifying edges. */
   OutputImagePixelType m_Threshold;
