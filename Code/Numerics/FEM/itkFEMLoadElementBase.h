@@ -51,6 +51,7 @@ namespace fem {
 
 
 /**
+ * \class LoadElement
  * \brief Virtual element load base class.
  *
  * This load class defines an external load that acts on elements in a system.

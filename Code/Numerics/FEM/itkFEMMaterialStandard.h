@@ -51,6 +51,7 @@ namespace fem {
 
 
 /**
+ * \class MaterialStandard
  * \brief Standard material class
  *
  * This class includes material and other kind of properties required to
@@ -63,9 +64,8 @@ public:
   virtual void Read(std::istream& f, void* info);
   virtual void Write(std::ostream& f, int ofid) const;
 
-  /**
-   * Data of MaterialStandard  object
-   */
+  /* Data members of MaterialStandard class */
+
   /**
    * Young modulus
    */
@@ -77,7 +77,7 @@ public:
   double A;  // 
 
   /**
-   * moment of inertia
+   * Moment of inertia
    */
   double I;
 
@@ -86,7 +86,7 @@ public:
    */
   double ni;
   
-  /**
+  /*
    * ... we can add properties here as required without the influence on the already defined elements
    */
 

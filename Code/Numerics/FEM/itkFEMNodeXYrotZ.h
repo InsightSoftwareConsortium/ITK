@@ -51,11 +51,15 @@ namespace fem {
 
 
 /**
- * \brief Node with 2 displacements and 1 rotation
+ * \class NodeXYrotZ
+ * \brief Node in 2D space with 2 displacements and 1 rotation.
  *
- * this node class is derived from NodeXY class. the additional component urotZ holds the displacement of rotation
- * about the Z axis. note that any element that requires nodes of class NodeXY, can also use this node class.
- * this way you can for example connect the Bar2D and Beam2D elements. (Bar2D requires NodeXY, while Beam2D adds a
+ * This node class is derived from NodeXY class. The additional component
+ * NodeXYrotZ#urotZ holds the displacement of rotation around the Z axis.
+ *
+ * Note that any element that requires nodes of class NodeXY, can also
+ * use this node class. This way you can for example connect the Bar2D
+ * and Beam2D elements. Bar2D requires NodeXY, while Beam2D adds a
  * rotation displacement and therefore requires NodeXYrotZ.
  */
 class NodeXYrotZ : public NodeXY 
@@ -64,12 +68,12 @@ FEM_CLASS(NodeXYrotZ,Node)
 public:
 
   /**
-   * this node has 3 degrees fo freedom
+   * This node has 3 degrees fo freedom
    */
   enum { NDOF=3 };          
 
   /**
-   * write the NodeXYrotZ to output stream
+   * Write the NodeXYrotZ to output stream
    */
   void Write( std::ostream& f, int ofid ) const;
 
@@ -84,12 +88,12 @@ public:
   NodeXYrotZ(Float X_, Float Y_) : NodeXY(X_,Y_) {}
 
   /**
-   * access to NDOF from base class
+   * Access to NDOF from base class
    */
   int N() const { return NDOF; };    
 
   /**
-   * pointers to DOF displacements
+   * Pointers to DOF displacements
    */
   Displacement* uDOF(int i) const 
     {  
@@ -106,14 +110,17 @@ public:
         break;
       }
     /**
-     * if DOF is out of range we return NULL pointer
+     * If DOF is out of range we return NULL pointer
      */
     return 0;
     
     };
 
   /**
-   * even if the node is const, we must always be able to change the displacements
+   * Rotation around the Z axis at node location.
+   * 
+   * This data member must be mutable, so that even if the NodeXYrotZ object 
+   * is const, we are be able to change the displacements.
    */
   mutable Displacement urotZ;  
 

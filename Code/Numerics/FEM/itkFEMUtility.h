@@ -52,16 +52,13 @@ namespace fem {
 
 
 /**
- * Various classes, functions and other utilities required by FEM toolkit
- */
-
-/**
- * function that skips all the whitespace and comments in an input stream
+ * Function that skips all the whitespace and comments in an input stream.
  */
 void SkipWhiteSpace(std::istream& f);
 
 /**
- * const string of all whitespace characters
+ * Const string of all whitespace characters. This string is used by
+ * #SkipWhiteSpace function.
  */
 static const std::string whitespaces=" \t\n\r";
 
@@ -75,6 +72,7 @@ void FindNode(  Node::ArrayType::ConstPointer nodes, const Node::Displacement *d
         Node::ConstPointer &pnode, int& n);
 
 /**
+ * \class GaussIntegrate
  * \brief Use the Gauss-Legendre formula to perform integration
  *
  * Numerical integration (Gauss-Legendre formula).

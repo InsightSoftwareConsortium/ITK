@@ -57,9 +57,12 @@ namespace fem {
 
 
 /**
+ * \class Solver
  * \brief Main FEM solver
- * 
- * This is the main class used for solving the FEM problems.
+ *
+ * This is the main class used for solving the FEM problems. It also stores
+ * all the objects that define the specific FEM problem. Normally there is
+ * one Solver object for each FEM problem.
  */
 class Solver 
 {
@@ -128,43 +131,47 @@ public:
   void AssembleK();            
 
   /**
-   * Assemble the master force vector
-   */  
-  void AssembleF(int dim=0);        
+   * Assemble the master force vector.
+   *
+   * \param dim This is a parameter that can be passed to the function and is
+                normally used with isotropic elements to specify the
+                dimension for which the master force vector should be assembled.
+   */
+  void AssembleF(int dim=0);
 
   /**
-   * decompose matrix using svd, qr, whatever ...
-   */  
-  void DecomposeK();  
-  
+   * Decompose matrix using svd, qr, whatever ...
+   */
+  void DecomposeK();
+
   /**
    * Solve for the displacement vector u
-   */  
-  void Solve();              
+   */
+  void Solve();
 
   /**
    * Copy solution vector u to the corresponding nodal values, which are
    * stored in node objects). This is standard post processing of the solution
-   */  
-  void UpdateDisplacements();        
+   */
+  void UpdateDisplacements();
 
 protected:
 
   /**
    * Pointer to the equation solver object
    */
-  vnl_svd<Float>* EQS;          
+  vnl_svd<Float>* EQS;
 
   /**
    * Number of global degrees of freedom in a system
-   */  
-  int NGFN;                
+   */
+  int NGFN;
 
   /**
    * Number of multi freedom constraints in a system.
    * This member is set in a AssembleK function.
-   */  
-  int NMFC;                
+   */
+  int NMFC;
 
 private:
 
@@ -181,8 +188,9 @@ public:
   Solver() : EQS(0) {}
 
   /**
-   * Cleanup before destruction
-   */  
+   * Default destructor. We need to destroy the equation solver object
+   * before destruction of the Solver.
+   */
   ~Solver() { delete EQS; }
 
   /**
@@ -192,7 +200,7 @@ public:
 
   /**
    * Assembled master load vector (NDOF+size_of_MFC= size_of_F)
-   */  
+   */
   vnl_vector<Float> F;
   
   /**

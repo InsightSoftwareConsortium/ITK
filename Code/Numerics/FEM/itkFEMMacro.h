@@ -118,6 +118,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 /**
+ * \def FEM_CLASS_SP(thisClass,parentClass)
  * \brief Defines typedefs for pointers to class.
  *
  * This macro should be called immediately after the { in class declaration.
@@ -168,6 +169,7 @@ private:  // everything that follows from here is private by default (like in th
 
 
 /**
+ * \def FEM_CLASS(thisClass,parentClass)
  * \brief Defines typedefs for pointers to class.
  *
  * This macro should be called immediately after the { in class declaration.
@@ -215,6 +217,7 @@ private:  // everything that follows from here is private by default (like in th
 
 
 /**
+ * \def FEM_CLASS_REGISTER(thisClass)
  * \brief Register the specified class with FEMObjectFactory.
  *
  * Registering is required for every class that the object factory will
@@ -243,18 +246,22 @@ private:  // everything that follows from here is private by default (like in th
 
 namespace itk {
 namespace fem {
+
 /**
+ * \class INITClass
  * \brief Class that is used in #FEM_CLASS_INIT macro.
  */
 struct INITClass { INITClass(int) {} };
+
 }} // end namespace itk::fem
 
 
 
 /**
+ * \def FEM_CLASS_INIT(thisClass)
  * \brief Perform any initialization tasks for a class.
  *
- * This macro creates a static object of INIT_Class class that references
+ * This macro creates a static object of INITClass class that references
  * thisClass::OFID static member in a constructor. This insures that
  * any initialization code for OFID is always executed, and thisClass
  * is properly registered with FEMObjectFactory.

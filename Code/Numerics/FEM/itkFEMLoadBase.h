@@ -52,6 +52,7 @@ namespace fem {
 
 
 /**
+ * \class Load
  * \brief General abstract load base class.
  *
  * All other load classes that can be used in a FEM system are defined by deriving this one.

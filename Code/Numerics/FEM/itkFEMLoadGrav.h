@@ -52,6 +52,7 @@ namespace fem {
 
 
 /**
+ * \class LoadGrav
  * \brief Abstract gravity load class.
  *
  * This load is integrated over a whole element. The load vector is returned in a 
@@ -72,6 +73,7 @@ public:
 
 
 /**
+ * \class LoadGravConst
  * \brief Constant gravity load class.
  *
  * This is a special case of LoadGrav. The load vector is the same on

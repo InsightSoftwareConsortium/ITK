@@ -53,6 +53,7 @@ namespace fem {
 
 
 /**
+ * \class Node
  * \brief Abstract base class for nodes
  *
  * Abstranct base class for nodes. Create specific nodes by deriving this (or any other) base class.
@@ -81,41 +82,45 @@ public:
   typedef FEMPArray<Self> ArrayType;
 
   /**
-   * class that holds DOF displacements
+   * \class Displacement
+   * \brief Class that holds displacements of degrees of freedom (DOF).
    */
   class Displacement 
   {
   public:
 
     /**
-     * global freedom number of this DOF displacement (position in master stiffness matrix)
-     * this value can only be set within the function that enumerates global DOF
+     * Global freedom number of this DOF displacement (position in master stiffness matrix)
+     * this value can only be set within the function that enumerates global DOF (Solver class).
      */
     int GFN;      
             
     /**
-     * the actual value of a displacement (after the whole system is solved)
+     * The actual value of a displacement (after the whole system is solved).
      */
-    Float value;    
+    Float value;
 
     /**
-     * default constructor clears the memory used by class
+     * Default constructor clears the memory used by Displacement class.
      */
     Displacement() :  
       GFN(-1), value(0.0) {}
   };
   
   /**
-   * return the number of DOF in a derived node class
+   * Return the number of DOF in a derived node class.
    */
   virtual int N() const = 0;
 
   /**
-   * pure virtual function that returns a pointer to an allocated memory that stores displacement
+   * Pure virtual function that returns a pointer to an allocated memory that stores displacement
    * of i-th degree of freedom of this node.
-   * normally this function is overriden by defining a simple switch statement that returns
-   * pointers to displacement members in derived node object. this function serves the same purpose
-   * as the coresponding one in an element class
+   * 
+   * Normally this function is overriden by defining a simple switch statement that returns
+   * pointers to displacement members in derived node object. This function serves the same purpose
+   * as the coresponding one in an element class.
+   *
+   * \sa Element::uDOF
    */
   virtual Displacement* uDOF(int i) const = 0;
 

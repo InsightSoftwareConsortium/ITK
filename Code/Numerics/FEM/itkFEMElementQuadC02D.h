@@ -56,6 +56,7 @@ namespace fem {
 
 
 /**
+ * \class QuadC02D
  * \brief 4-noded finite element class in 2D space
  */
 class QuadC02D : public Element

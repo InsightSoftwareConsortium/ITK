@@ -53,6 +53,7 @@ namespace fem {
 
 
 /**
+ * \class Bar2D
  * \brief 1D Bar (spring) finite element in 2D space.
  *
  * This element is defined by two NodeXY object and a MaterialStandard object.

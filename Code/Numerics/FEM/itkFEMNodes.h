@@ -43,7 +43,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \file itkFEMNodes.h
  * \brief Include all node classes defined in FEM toolkit.
  *
- * To make sure you have everything, just include this header file.
+ * To make sure you have included all Node classes, just include
+ * this header file.
  */
 #include "itkFEMNodeBase.h"
 #include "itkFEMNodeXY.h"

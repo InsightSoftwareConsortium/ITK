@@ -53,6 +53,7 @@ namespace fem {
 
 
 /**
+ * \class Beam2D
  * \brief 1D Beam (spring that also bends) finite element in 2D space.
  */
 class Beam2D : public Element

@@ -56,6 +56,7 @@ namespace fem {
 
 
 /**
+ * \class TriC02D
  * \brief 3-noded finite element class in 2D space.
  */
 class TriC02D : public Element

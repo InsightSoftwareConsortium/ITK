@@ -53,12 +53,19 @@ namespace fem {
 
 
 /**
+ * \class Material
  * \brief Base class for storing all the implicit material and other properties
           required to fully define the element class.
  *
- * When specifying materials for particular element, you should use MaterialStandard
- * class or derive your own class (using Material or MaterialStandard as a base class)
- * if your Element requires special properties or constants
+ * When specifying materials for particular element, you should use
+ * MaterialStandard class or derive your own class (using Material
+ * or MaterialStandard as a base class) if your Element requires
+ * special properties or constants.
+ *
+ * Material base class doesn't define any data member.
+ * Everything usefull is stored in derived clases. This class
+ * is here just to group all material classes together and access
+ * them via this base class.
  */
 class Material : public FEMLightObject
 {
@@ -68,13 +75,6 @@ public:
    * Array class that holds special pointers to objects of all Material classes
    */
   typedef FEMPArray<Self> ArrayType;
-
-  /**
-   * Material base class doesn't define anything.
-   * Everything usefull is stored in derived clases. This class
-   * is here just to group all material classes together and access
-   * them via this base class.
-   */
 
 };
 

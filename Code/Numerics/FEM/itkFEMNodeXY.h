@@ -50,11 +50,13 @@ namespace fem {
 
 
 /**
- * \brief Defines basid 2D node in space
+ * \class NodeXY
+ * \brief Defines basic 2D node in space
  *
- * class that defines the basic 2D node in space. this implies that the NodeXY class holds 2 coordinates (X and Y)
- * that can be used to describe element geometry and 2 Degrees Of Freedom (DOF) displacements, which can be used
- * to hold the displacement of this node due to some forces.
+ * This implies that the NodeXY class holds 2 coordinates (X and Y), which are
+ * used to describe element geometry and 2 Degrees Of Freedom (DOF)
+ * displacements. The later are used to hold the displacements of this node
+ * due to some forces.
  */
 class NodeXY : public Node 
 {

@@ -57,6 +57,7 @@ namespace fem {
 
 
 /**
+ * \class Element
  * \brief Abstract base element class.
  *
  * Derive this class to create new finite element classes.
@@ -177,21 +178,27 @@ public:
   virtual Disp* uDOF(int i) const = 0;
 
   /**
+   * \class ReadInfoType
+   * \brief Additional information that is required when reading elements
+            from stream.
+   *
    * When the element is to be read from the input stream, we must provide
    * pointers to the array of nodes and materials. Construct this class and
-   * pass a pointer to it when calling the Read member function for elements.
+   * pass a pointer to it when calling the Element::Read virtual member
+   * function.
    */
   class ReadInfoType {
   public:
-    Node::ArrayType::Pointer m_node;  /** We need pointer to an array nodes */
-    Material::ArrayType::Pointer m_mat;  /** We also need pointer to array of materials */
+    Node::ArrayType::Pointer m_node;  /**< Pointer to an array nodes. */
+    Material::ArrayType::Pointer m_mat;  /**< Pointer to an array of materials. */
+    /** Constructor for simple object creation. */
     ReadInfoType(Node::ArrayType::Pointer node_, Material::ArrayType::Pointer mat_) :
       m_node(node_), m_mat(mat_) {}
   };
 
 #ifdef FEM_BUILD_VISUALIZATION
   /**
-   * Draws the element on the DC
+   * Draws the element on the DC.
    */
   virtual void Draw(CDC* pDC) const {}
   /** global scale for drawing on the DC */

@@ -51,6 +51,7 @@ namespace fem {
 
 
 /**
+ * \class FEMObjectFactory
  * \brief Create objects of derived classes by specifying a class ID.
  *
  * ObjectFactory is used to create various objects of derived classes by
@@ -100,7 +101,7 @@ class FEMObjectFactory
   typedef std::string StrClassName;
 
   /**
-   * Type that holds array of the above functions and class names.
+   * Type that holds an array of pairs of the COF pointers to functions and class names.
    */
   typedef std::vector<std::pair<COF,StrClassName> > COF_Array;
   
@@ -191,10 +192,16 @@ private:
 
 private:
   /**
+   * \class Dummy
    * \brief This class is defined in FEMObjectFactory just to get rid of some
-            warnings about destructor being private in gcc
+            warnings about destructor being private in gcc.
    */
   class Dummy {};
+
+  /**
+   * By defining a Dummy friend class, some warnings in gcc about destructor
+   * being private are eliminated.
+   */
   friend class Dummy;
 
 };

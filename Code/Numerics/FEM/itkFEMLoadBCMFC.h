@@ -50,6 +50,7 @@ namespace fem {
 
 
 /**
+ * \class LoadBCMFC
  * \brief Generic linear multi freedom displacement constraint in global coordinate system.
  *
  * These constraints are implemented using the Lagrange multiplier method.
@@ -80,7 +81,9 @@ FEM_CLASS(LoadBCMFC,Load)
 public:
 
   /**
-   * Class that holds information about one term in MFC constraint equation
+   * \class MFCTerm
+   * \brief Class that holds information about one term in MFC constraint equation.
+   * \sa LoadBCMFC
    */
   class MFCTerm {
   public:
@@ -88,15 +91,22 @@ public:
      * Pointer to node which holds the DOF that is affected by MFC
      */
     Node::ConstPointer node;
+
     /**
      * DOF number within the Node object
      */    
     int dof;
+
     /**
      * Value with which this displacement is multiplied on the lhs of MFC equation
-     */  
+     */
     Node::Float value;
+
+    /**
+     * Constructor for easy object creation.
+     */
     MFCTerm(Node::ConstPointer node_, int dof_, Node::Float value_) : node(node_), dof(dof_), value(value_) {}
+
   };
   
   /**
@@ -118,7 +128,12 @@ public:
 
   /**
    * With this constructor, we can easy fix the global
-   * displacement supplied by node and dof to a value val.
+   * displacement dof given by node to a value val.
+   *
+   * \param node Pointer to a node which holds a displacements that needs
+                 to be fixed.
+   * \param dof Number of a displacement in a node.
+   * \param val The fixed value of a displacement.
    */
   LoadBCMFC(Node::ConstPointer node, int dof, vnl_vector<Node::Float> val);
 

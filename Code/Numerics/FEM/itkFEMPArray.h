@@ -53,6 +53,7 @@ namespace fem {
 
 
 /**
+ * \class FEMPArray
  * \brief Array for FEMP objects
  * 
  * Array class that holds special pointers to objects. Every object must contain
