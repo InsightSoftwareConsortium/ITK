@@ -68,7 +68,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkMRASlabIdentifier.txx"
 #include "itkMRFImageFilter.txx"
 #include "itkMRIBiasFieldCorrectionFilter.txx"
-#include "itkMahalanobisDistanceThresholdImageFunction.txx"
 #include "itkMattesMutualInformationImageToImageMetric.txx"
 #include "itkMeanReciprocalSquareDifferenceImageToImageMetric.txx"
 #include "itkMeanReciprocalSquareDifferencePointSetToImageMetric.txx"

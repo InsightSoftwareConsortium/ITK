@@ -181,6 +181,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkLog10ImageAdaptor.h"
 #include "itkLogImageAdaptor.h"
 #include "itkMacro.h"
+#include "itkMahalanobisDistanceThresholdImageFunction.txx"
 #include "itkMapContainer.txx"
 #include "itkMatrix.txx"
 #include "itkMaximumDecisionRule.h"
