@@ -248,7 +248,7 @@ int main()
 	  {
 	    pixelLabel = 
 	      (unsigned short)  itk::ScalarTraits<LabelledImagePixelType>::GetScalar(*labelIt);
-	    std::cout << pixelLabel << std::ends;
+	    std::cout << pixelLabel;
 	    ++labelIt;
 	  }//end row
 	  std::cout<<""<<std::endl;
