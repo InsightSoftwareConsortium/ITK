@@ -51,6 +51,7 @@ ADD_TEST(itkLightObjectTest ${COMMON_TESTS} itkLightObjectTest)
 ADD_TEST(itkLevelSetFunctionTest ${COMMON_TESTS} itkLevelSetFunctionTest)
 ADD_TEST(itkMatrixTest ${COMMON_TESTS} itkMatrixTest)
 ADD_TEST(itkMapContainerTest ${COMMON_TESTS} itkMapContainerTest)
+ADD_TEST(itkMeanImageFunctionTest ${COMMON_TESTS} itkMeanImageFunctionTest)
 ADD_TEST(itkMemoryLeakTest ${COMMON_TESTS} itkMemoryLeakTest)
 ADD_TEST(itkMeshTest ${COMMON_TESTS} itkMeshTest)
 ADD_TEST(itkMeshFstreamTest ${COMMON_TESTS} itkMeshFstreamTest)
@@ -73,6 +74,7 @@ ADD_TEST(itkTimeProbesTest ${COMMON_TESTS} itkTimeProbesTest)
 ADD_TEST(itkTransformTest ${COMMON_TESTS} itkTransformTest)
 ADD_TEST(itkThreadDefsTest ${COMMON_TESTS} itkThreadDefsTest)
 ADD_TEST(itkTranslationTransformTest ${COMMON_TESTS} itkTranslationTransformTest)
+ADD_TEST(itkVarianceImageFunctionTest ${COMMON_TESTS} itkVarianceImageFunctionTest)
 ADD_TEST(itkVectorGeometryTest ${COMMON_TESTS} itkVectorGeometryTest)
 ADD_TEST(itkVersorTest ${COMMON_TESTS} itkVersorTest)
 ADD_TEST(itkVersorRigid3DTransformTest ${COMMON_TESTS} itkVersorRigid3DTransformTest)
@@ -121,6 +123,7 @@ itkLevelSetFunctionTest.cxx
 itkLightObjectTest.cxx
 itkMatrixTest.cxx
 itkMapContainerTest.cxx
+itkMeanImageFunctionTest.cxx 
 itkMemoryLeakTest.cxx
 itkMeshTest.cxx
 itkMeshFstreamTest.cxx
@@ -148,6 +151,7 @@ itkTimeProbesTest.cxx
 itkTransformTest.cxx
 itkTranslationTransformTest.cxx
 itkVectorGeometryTest.cxx
+itkVarianceImageFunctionTest.cxx
 itkVersorTest.cxx
 itkVersorRigid3DTransformTest.cxx
 itkVectorTest.cxx
