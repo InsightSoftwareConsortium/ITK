@@ -12,14 +12,6 @@
   See COPYRIGHT.txt for copyright details.
   
 ==========================================================================*/
-/**
- * ImageScalarIterator is a templated class to represent a
- * multi-dimensional iterator. It is a specialized form of
- * ImageIterator that invokes the GetScalar() method. GetScalar() is
- * used when you want to write a filter that processes only the scalar
- * portion of a pixel.  
- */
-
 #ifndef __itkImageScalarIterator_h
 #define __itkImageScalarIterator_h
 
@@ -29,9 +21,22 @@
 namespace itk
 {
 
+/** \class ImageScalarIterator
+ * \brief Iterator that invokes GetScalar() on an image.
+ *
+ * ImageScalarIterator is a templated class to represent a
+ * multi-dimensional iterator. It is a specialized form of
+ * ImageIterator that invokes the GetScalar() method. GetScalar() is
+ * used when you want to write a filter that processes only the scalar
+ * portion of a pixel.  
+ */
+
 template<class TPixel, unsigned int TImageDimension=2>
 class ImageScalarIterator : public ImageIterator<TPixel,TImageDimension> {
 public:
+  /**
+   * Standard "Self" typedef.
+   */
   typedef ImageScalarIterator  Self;
   
   /**
