@@ -825,7 +825,7 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
 {
   int i; 
   const unsigned long *tp;
-  typename TriCell::Pointer testCell;
+  typename TriCell::CellAutoPointer testCell;
   testCell.TakeOwnership( new TriCell );
 
   int npts = 3;
@@ -993,7 +993,7 @@ DeformableMeshFilter<TInputMesh, TOutputMesh>
   myOutCellData->Reserve(m_NumCells);
   InputCellDataContainerIterator    outcelldata = myOutCellData->Begin();
    
-  typename TriCell::Pointer       insertCell;
+  typename TriCell::CellAutoPointer       insertCell;
   insertCell.TakeOwnership( new TriCell ); 
 
   i = 0;
