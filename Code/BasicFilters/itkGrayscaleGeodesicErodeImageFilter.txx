@@ -340,8 +340,8 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>
   //
   for (fit = faceList.begin(); fit != faceList.end(); ++fit)
     { 
-    NeighborhoodIteratorType markerIt = NeighborhoodIteratorType(kernelRadius,
-                                                                 this->GetMarkerImage(), *fit);
+    NeighborhoodIteratorType markerIt;
+    markerIt = NeighborhoodIteratorType(kernelRadius, this->GetMarkerImage(), *fit);
     maskIt=ImageRegionConstIterator<MaskImageType>(this->GetMaskImage(), *fit);
     oIt = ImageRegionIterator<OutputImageType>(this->GetOutput(), *fit);
 
