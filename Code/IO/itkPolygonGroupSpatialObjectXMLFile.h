@@ -17,8 +17,8 @@
 #ifndef __tkPolygonGroupSpatialObjectXMLFile_h
 #define __itkPolygonGroupSpatialObjectXMLFile_h
 
-#include "itkXMLFile.h"
 #include "itkPolygonGroupSpatialObject.h"
+#include "itkXMLFile.h"
 namespace itk
 {
 
