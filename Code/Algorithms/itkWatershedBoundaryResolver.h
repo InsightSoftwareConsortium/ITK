@@ -21,7 +21,7 @@
 #pragma warning ( disable : 4786 )
 #endif
 #include "itkWatershedBoundary.h"
-#include "itkWatershedEquivalencyTable.h"
+#include "itkEquivalencyTable.h"
 #include "itkWatershedSegmenter.h"
 
 namespace itk
@@ -52,7 +52,7 @@ namespace watershed
  *
  * \par Output
  * This filter outputs a table of equivalencies among labels.  See
- * itk::WatershedEquivalencyTable for more information.
+ * itk::EquivalencyTable for more information.
  * \ingroup WatershedSegmentation
  *
  * \par Parameters

@@ -24,7 +24,7 @@
 #include "itk_hash_map.h"
 #include "itkWatershedBoundary.h"
 #include "itkWatershedSegmentTable.h"
-#include "itkWatershedEquivalencyTable.h"
+#include "itkEquivalencyTable.h"
 #include "itkImage.h"
 
 namespace itk

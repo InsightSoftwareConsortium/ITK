@@ -18,7 +18,7 @@
 #define __itkWatershedSegmentTreeGenerator_txx
 
 #include <stack>
-#include "itkWatershedOneWayEquivalencyTable.h"
+#include "itkOneWayEquivalencyTable.h"
 
 namespace itk
 {

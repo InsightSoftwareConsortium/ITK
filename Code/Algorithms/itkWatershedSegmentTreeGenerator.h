@@ -19,8 +19,8 @@
 
 #include "itkWatershedSegmentTable.h"
 #include "itkWatershedSegmentTree.h"
-#include "itkWatershedEquivalencyTable.h"
-#include "itkWatershedOneWayEquivalencyTable.h"
+#include "itkEquivalencyTable.h"
+#include "itkOneWayEquivalencyTable.h"
 
 #include <algorithm>
 #include <utility>

@@ -17,7 +17,7 @@
 #ifndef __itkWatershedRelabeler_h
 #define __itkWatershedRelabeler_h
 
-#include "itkWatershedEquivalencyTable.h"
+#include "itkEquivalencyTable.h"
 #include "itkWatershedSegmentTree.h"
 #include "itkWatershedSegmenter.h"
 #include "itkImage.h"
@@ -58,7 +58,7 @@ namespace watershed
  *
  * \ingroup WatershedSegmentation
  * \sa itk::WatershedImageFilter
- * \sa itk::watershed::EquivalencyTable
+ * \sa itk::EquivalencyTable
  * \sa itk::watershed::SegmentTree  */
 template <class TScalarType, unsigned int TImageDimension>
 class ITK_EXPORT Relabeler

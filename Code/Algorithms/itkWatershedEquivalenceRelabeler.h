@@ -17,7 +17,7 @@
 #ifndef __itkWatershedEquivalenceRelabeler_h
 #define __itkWatershedEquivalenceRelabeler_h
 
-#include "itkWatershedEquivalencyTable.h"
+#include "itkEquivalencyTable.h"
 #include "itkWatershedSegmenter.h"
 #include "itkImage.h"
 
@@ -37,7 +37,7 @@ namespace watershed
  *
  * \par Inputs
  * There are two inputs to this filter, an unsigned long itk::Image of
- * arbitrary dimension, and an itk::watershed::EquivalencyTable.  The input
+ * arbitrary dimension, and an itk::EquivalencyTable.  The input
  * image is the image to be relabeled and copied to the output, and the
  * EquivalencyTable identifies  how to relabel the values.
  *

@@ -26,7 +26,7 @@
 #include "itkProcessObject.h"
 #include "itk_hash_map.h"
 #include <list>
-#include "itkWatershedOneWayEquivalencyTable.h"
+#include "itkOneWayEquivalencyTable.h"
 
 namespace itk
 {
