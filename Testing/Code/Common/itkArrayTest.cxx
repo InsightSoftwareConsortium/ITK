@@ -97,6 +97,7 @@ int main(void)
   Print_Array(c_Array1, std::cout);
   
   itk::Array<int, 3>::ConstReference cref3 = c_Array2;
+  Print_ArrayConstReference(cref3, std::cout);
   
   // Test range selection.
   itk::Array<int, 5> array5;
