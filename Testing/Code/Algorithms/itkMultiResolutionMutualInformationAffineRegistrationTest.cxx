@@ -41,15 +41,35 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"
 #include "itkMultiResolutionMutualInformationAffineRegistration.h"
+#include "itkCommandIterationUpdate.h"
 
 #include <iostream>
+
+/**
+ * This function defines the test image pattern.
+ * The pattern is a 3D gaussian in the middle
+ * and some directional pattern on the outside.
+ */
+double F( double x, double y, double z )
+{
+  const double s = 50;
+  double value = 200.0 * exp( - ( x*x + y*y + z*z )/(s*s) );
+  x -= 8; y += 3; z += 0;
+  if( vnl_math_sqrt( x*x + y*y + z*z ) > 25 )
+  value = vnl_math_abs( x ) + 0.8 * vnl_math_abs( y ) +
+    0.5 * vnl_math_abs( z );
+
+  return value;
+
+}
+
 
 int main()
 {
 
 //------------------------------------------------------------
 // Create two simple images
-// Two Gaussians with one translated (7,3,2) pixels from another
+// Translate and dilate one of the image
 //------------------------------------------------------------
 
   //Allocate Images
@@ -76,7 +96,8 @@ int main()
   imgTarget->SetRequestedRegion( region );
   imgTarget->Allocate();
 
-  // Fill images with a 3D gaussian
+  // Fill images with a 3D gaussian with some directional pattern
+  // in the background
   typedef  itk::ImageRegionIterator<ReferenceType>
     ReferenceIteratorType;
   typedef  itk::ImageRegionIterator<TargetType>
@@ -97,22 +118,24 @@ int main()
   displacement[0] = 7;
   displacement[1] = 3;
   displacement[2] = 2;
-  double scale[3] = { 2.0, 1.0, 1.0};
+// Ten percent dilation
+//  double scale[3] = { 0.90, 1.0, 1.0};
+// Four percent dilation - use this so system test don't run for too long
+  double scale[3] = { 0.96, 1.0, 1.0 };
 
   ReferenceIteratorType ri(imgReference,region);
   TargetIteratorType ti(imgTarget,region);
+
   while(!ri.IsAtEnd())
   {
     p[0] = ri.GetIndex()[0];
     p[1] = ri.GetIndex()[1];
     p[2] = ri.GetIndex()[2];
 	  d = p-center;
-	  d += displacement;
-	  const double x = d[0];
-	  const double y = d[1];
-    const double z = d[2];
-    double v = scale[0]*x*x + scale[1]*y*y + scale[2]*z*z;
-    ri.Set( (PixelType)( 200.0 * exp( - ( v )/(s*s) ) ) );
+	  const double x = d[0] * scale[0] + displacement[0];
+	  const double y = d[1] * scale[1] + displacement[1];
+    const double z = d[2] * scale[2] + displacement[2];
+    ri.Set( (PixelType) F(x,y,z) );
     ++ri;
   }
 
@@ -122,11 +145,11 @@ int main()
     p[0] = ti.GetIndex()[0];
     p[1] = ti.GetIndex()[1];
     p[2] = ti.GetIndex()[2];
-	d = p-center;
-	const double x = d[0];
-	const double y = d[1];
-  const double z = d[2];
-    ti.Set( (PixelType)( 200.0 * exp( - ( x*x + y*y + z*z )/(s*s) ) ) );
+	  d = p-center;
+	  const double x = d[0];
+	  const double y = d[1];
+    const double z = d[2];
+    ti.Set( (PixelType) F(x,y,z) );
     ++ti;
   }
 
@@ -134,7 +157,7 @@ int main()
   double transCenter[3];
   for( unsigned int j = 0; j < 3; j++ )
     {
-    transCenter[j] = -0.5 * double(size[j] - 1);
+    transCenter[j] = -0.5 * double(size[j]);
     }
 
   imgReference->SetOrigin( transCenter );
@@ -146,6 +169,7 @@ int main()
   */
   typedef itk::MultiResolutionMutualInformationAffineRegistration<
     ReferenceType,TargetType> MRRegistrationType;
+  typedef MRRegistrationType::RegistrationType InternalRegistrationType;
 
   MRRegistrationType::Pointer registrator = MRRegistrationType::New();
 
@@ -153,9 +177,15 @@ int main()
   registrator->SetReference( imgReference );
   registrator->SetNumberOfLevels( 3 );
 
-  unsigned int niter[4] = { 300, 300, 300 };
-  double rates[4] = { 1e-6, 1e-6, 1e-7 };
-  double scales[4] = { 1000, 100, 100 };
+// This set of parameters can recover ten percent dilation
+//  unsigned int niter[4] = { 500, 3000, 3000 };
+//  double rates[4] = { 2e-5, 1e-5, 5e-6 };
+//  double scales[4] = { 100, 100, 100 };
+
+// This set of parameters can recover four percent dilation
+  unsigned int niter[4] = { 100, 300, 550 };
+  double rates[4] = { 2e-5, 1e-5, 1e-5 };
+  double scales[4] = { 100, 100, 100 };
 
   registrator->SetNumberOfIterations( niter );
   registrator->SetLearningRates( rates );
@@ -164,6 +194,17 @@ int main()
 
   MRRegistrationType::RegistrationPointer method = 
     registrator->GetInternalRegistrationMethod();
+
+  // Define the type for the observer command to monitor progress
+  typedef itk::CommandIterationUpdate<  InternalRegistrationType::OptimizerType  >
+                                                           CommandIterationType;
+
+  CommandIterationType::Pointer iterationCommand = CommandIterationType::New();
+
+  iterationCommand->SetOptimizer(  method->GetOptimizer() );
+
+  method->GetOptimizer()->AddObserver( itk::Command::IterationEvent,
+                                                   iterationCommand ); 
 
 
   // set metric related parameters
@@ -196,12 +237,12 @@ int main()
   //
   bool pass = true;
   double trueParameters[12] = { 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 };
-  trueParameters[ 0] = sqrt(1.0/scale[0]);
-  trueParameters[ 4] = sqrt(1.0/scale[1]);
-  trueParameters[ 8] = sqrt(1.0/scale[2]);
-  trueParameters[ 9] = - displacement[0];
-  trueParameters[10] = - displacement[1];
-  trueParameters[11] = - displacement[2];
+  trueParameters[ 0] = 1/scale[0];
+  trueParameters[ 4] = 1/scale[1];
+  trueParameters[ 8] = 1/scale[2];
+  trueParameters[ 9] = - displacement[0]/scale[0];
+  trueParameters[10] = - displacement[1]/scale[1];
+  trueParameters[11] = - displacement[2]/scale[2];
   std::cout << "True solution is: ";
   for ( unsigned int j = 0; j < 12; j++)
       std::cout << trueParameters[j] << "  ";
@@ -230,3 +271,5 @@ int main()
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
 }
+
+
