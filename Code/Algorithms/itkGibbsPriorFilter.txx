@@ -443,8 +443,10 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
   }
 
   originlabel = m_LabelledImage->GetPixel(offsetIndex3D);
-  if (originlabel != label) m_ErrorCounter++;
-  m_LabelledImage->SetPixel(offsetIndex3D, label);
+  if (originlabel != label) {
+    m_ErrorCounter++;
+	m_LabelledImage->SetPixel(offsetIndex3D, label);
+  }
 }
 
 template <typename TInputImage, typename TClassifiedImage>
@@ -527,14 +529,10 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
   if (changenum < 3) {
     if ((simnum==4)||(simnum==5)) return -5.0;
   }
-
-  if (changenum > 4) return 5.0;
   
-  if ((difnum==7)||(difnum==8)) return 5.0;
+  if ((difnum==7)||(difnum==8)||(difnum==6)) return 5.0;
 
   if (simnum == 8) return -5.0;
-
-  if ((simnum == 6) || (simnum==7)) return 5.0;
 
   return 0;
 }
@@ -642,9 +640,10 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
 		&& (randomPixel%rowsize != 0) && (randomPixel%rowsize != rowsize-1)) {
 	  GibbsTotalEnergy(randomPixel);
 	}
-
   }
   std::cout << "Gibbs Error Num:" << m_ErrorCounter << std::endl;
+
+  RegionEraser();
 }// ApplyMRFImageFilter
 
 template<class TInputImage, class TClassifiedImage>
@@ -754,5 +753,122 @@ GibbsPriorFilter<TInputImage, TClassifiedImage>
   }
 
 }//ApplyGibbslabeller
+
+template<class TInputImage, class TClassifiedImage>
+void
+GibbsPriorFilter<TInputImage, TClassifiedImage>
+::RegionEraser()
+{
+  int i, j, size = m_imgWidth * m_imgHeight * m_imgDepth;
+  m_Region = (unsigned short*) malloc(sizeof(unsigned short)*size);
+  m_RegionCount = (unsigned short*) malloc(sizeof(unsigned short)*size);
+
+  LabelledImageIndexType offsetIndex3D = { 0, 0, 0};
+
+  int frame = m_imgWidth * m_imgHeight;
+  int rowsize = m_imgWidth;
+
+  LabelledImageIterator  
+    labelledImageIt(m_LabelledImage, m_LabelledImage->GetBufferedRegion());
+
+  labelledImageIt.Begin();
+
+  for ( i=0; i<size; i++ ) {
+	m_Region[i] = 0;
+	m_RegionCount[i] = 1;
+  }
+
+  i = 0;
+  int l = 0;
+  while ( !labelledImageIt.IsAtEnd() ) {
+	if (( m_Region[i] == 0 ) && ((labelledImageIt.Get() == 1) /*||
+		(labelledImageIt.Get() == 2)*/)) {
+//      if (labelledImageIt.Get() == 1) {
+		if (LabelRegion(i, ++l, 1) < m_ClusterSize) {
+		  for (j = 0; j < size; j++) {
+			offsetIndex3D[2] = j / frame;
+			offsetIndex3D[1] = (j % frame) / m_imgHeight;
+			offsetIndex3D[0] = (j % frame) % m_imgHeight;
+			if (m_Region[j] == l) {
+			  m_LabelledImage->SetPixel(offsetIndex3D, 2);
+			  m_Region[j] = 0;
+		    }
+		  }
+		  l--;
+	    }
+	  /*} else {
+	    if (LabelRegion(i, ++l, 2) < m_ClusterSize) {
+		  for (j = 0; j < size; j++) {
+			offsetIndex3D[2] = j / frame;
+			offsetIndex3D[1] = (j % frame) / m_imgHeight;
+			offsetIndex3D[0] = (j % frame) % m_imgHeight;
+			if (m_Region[j] == l) {
+			  m_LabelledImage->SetPixel(offsetIndex3D, 1);
+			  m_Region[j] = 0;
+		    }
+		  }
+		  l--;
+	    }
+	  }*/
+	}
+	i++;
+	++labelledImageIt;
+  }
+}
+
+template<class TInputImage, class TClassifiedImage>
+int
+GibbsPriorFilter<TInputImage, TClassifiedImage>
+::LabelRegion(int i, int l, int change)
+{
+  int count = 1, m;
+  int size = m_imgWidth * m_imgHeight * m_imgDepth;
+  int frame = m_imgWidth * m_imgHeight;
+  int rowsize = m_imgWidth;
+
+  LabelledImageIndexType offsetIndex3D = { 0, 0, 0};
+
+  m_Region[i] = l;
+
+  offsetIndex3D[2] = i / frame;
+  offsetIndex3D[1] = (i % frame) / m_imgHeight;
+  offsetIndex3D[0] = (i % frame) % m_imgHeight;
+  
+	
+  if (i-1 > -1) {
+    offsetIndex3D[0]--;
+	m = m_LabelledImage->GetPixel(offsetIndex3D);
+    if ((m==change)&&(m_Region[i-1]==0))
+	  count += LabelRegion(i-1, l, change);
+	offsetIndex3D[0]++;
+  }
+
+  if (i+1 < size) {
+    offsetIndex3D[0]++;
+	m = m_LabelledImage->GetPixel(offsetIndex3D);
+    if ((m==change)&&(m_Region[i+1]==0))
+	  count += LabelRegion(i+1, l, change);
+	offsetIndex3D[0]--;
+  }
+
+  if (i > rowsize - 1) {
+    offsetIndex3D[1]--;
+	m = m_LabelledImage->GetPixel(offsetIndex3D);
+    if ((m==change)&&(m_Region[i-rowsize]==0))
+	  count += LabelRegion(i-rowsize, l, change);
+	offsetIndex3D[1]++;
+  }
+
+  if (i < size - rowsize) {
+    offsetIndex3D[1]++;
+	m = m_LabelledImage->GetPixel(offsetIndex3D);
+    if ((m==change)&&(m_Region[i+rowsize]==0))
+	  count += LabelRegion(i+rowsize, l, change);
+	offsetIndex3D[1]--;
+  }
+
+  return count;
+	    
+}
 
 } // end namespace itk

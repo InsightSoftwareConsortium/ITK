@@ -83,6 +83,22 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   Potential = potential; 
 }
 
+template <typename TInputMesh, typename TOutputMesh>
+void 
+BalloonForceFilter<TInputMesh, TOutputMesh>
+::SetNormals(TInputMesh* normals)
+{
+  Normals = normals; 
+}
+
+template <typename TInputMesh, typename TOutputMesh>
+void 
+BalloonForceFilter<TInputMesh, TOutputMesh>
+::SetLocations(TInputMesh* location)
+{
+  Locations = location; 
+}
+
 /**
  * store the displacement derivative vectors on 
  * each node into a mesh 
@@ -118,33 +134,73 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 ::Initialize()
 {
 // the Locations store the position of the nodes on the model
-  Locations = this->GetInput(0);
-  const int npoints = Locations->GetNumberOfPoints();
+  m_Input = this->GetInput(0);
+  m_NumNodes = m_Input->GetNumberOfPoints();
+  m_NumCells = m_Input->GetNumberOfCells();
+//  Locations = this->GetOutput();
+
+  typename TInputMesh::PointsContainerPointer		myPoints = m_Input->GetPoints();
+  typename TInputMesh::PointsContainer::Iterator	points = myPoints->Begin();
 	
-  typename TInputMesh::PointsContainerPointer      myForces = Forces->GetPoints();
-  myForces->Reserve(npoints);
-  typename TInputMesh::PointsContainer::Iterator   forces = myForces->Begin();
+  typename TInputMesh::PointsContainerPointer		myForces = Forces->GetPoints();
+  myForces->Reserve(m_NumNodes*10);
+  typename TInputMesh::PointsContainer::Iterator	forces = myForces->Begin();
 
-  typename TInputMesh::PointsContainerPointer      myDerives = Derives->GetPoints();
-  myDerives->Reserve(npoints);
-  typename TInputMesh::PointsContainer::Iterator   derives = myDerives->Begin();
+  typename TInputMesh::PointsContainerPointer		myDerives = Derives->GetPoints();
+  myDerives->Reserve(m_NumNodes*10);
+  typename TInputMesh::PointsContainer::Iterator	derives = myDerives->Begin();
 
-  typename TInputMesh::PointsContainerPointer      myDisplacements = Displacements->GetPoints();
-  myDisplacements->Reserve(npoints);
-  typename TInputMesh::PointsContainer::Iterator   displacements = myDisplacements->Begin();
+  typename TInputMesh::PointsContainerPointer		myDisplacements = Displacements->GetPoints();
+  myDisplacements->Reserve(m_NumNodes*10);
+  typename TInputMesh::PointsContainer::Iterator	displacements = myDisplacements->Begin();
+
+  typename TInputMesh::PointsContainerPointer		myNormals = Normals->GetPoints();
+  myNormals->Reserve(m_NumNodes*10);
+  typename TInputMesh::PointsContainer::Iterator	normals = myNormals->Begin();
+
+  typename TInputMesh::PointsContainerPointer		myLocations = Locations->GetPoints();
+  myLocations->Reserve(m_NumNodes*10);
+  typename TInputMesh::PointsContainer::Iterator	locations = myLocations->Begin();
+
+  typename TInputMesh::CellsContainerPointer		myCells;
+  myCells = m_Input->GetCells();
+  typename TInputMesh::CellsContainer::Iterator		cells = myCells->Begin(); 
+  
+  typename TInputMesh::CellDataContainerPointer		myCellData = m_Input->GetCellData();
+  typename TInputMesh::CellDataContainer::Iterator	celldata = myCellData->Begin(); 
   
   Stiffness[0] = 0.000001; 
   Stiffness[1] = 0.04; 
+  m_NumNewNodes = 0;
 
-  int i; 
-  float x[3], d[3] = {0,0,0}; 
+  float d[3] = {0,0,0}, fd=0; 
 
   TimeStep = 0.001; 
+  m_Step = 0;
+
+  while( points != myPoints->End() )
+  {
+	locations.Value() = points.Value();
+    ++points;
+	++locations;
+  }
 
   while( forces != myForces->End() )
   {
 	forces.Value() = d;
     ++forces;
+  }
+
+  while( normals != myNormals->End() )
+  {
+	normals.Value() = d;
+    ++normals;
+  }
+
+  for (int i=0; i<m_NumNodes-2; i++  )
+  {
+	Forces->SetPointData(i, 1.0);
+	Locations->SetPointData(i, 0.0);
   }
 
   while( derives != myDerives->End() )
@@ -159,6 +215,22 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     ++displacements;
   }
 
+  typename TInputMesh::TriCell::Pointer insertCell(TInputMesh::TriCell::New());
+  unsigned long tripoints[3];
+  const unsigned long *tp;
+  float x;
+
+  for (int i=0; i<m_NumCells; i++) {
+	tp = cells.Value()->GetPointIds();
+	tripoints[0] = tp[0];
+	tripoints[1] = tp[1];
+	tripoints[2] = tp[2];
+	insertCell->SetPointIds(tripoints);
+	Locations->SetCell(i, insertCell);
+	x = celldata.Value();
+	Locations->SetCellData(i, (PT)x);
+	++cells;
+  }
 } 
 
 /**
@@ -170,13 +242,13 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 ::SetStiffnessMatrix () 
 { 
   typename TInputMesh::CellDataContainerPointer myCellData = Locations->GetCellData();
-  myCellData = Locations->GetCellData();
+//  myCellData = Locations->GetCellData();
   typename TInputMesh::CellDataContainer::Iterator celldata = myCellData->Begin();
 
-  unsigned long CellNum;
-  CellNum = Locations->GetNumberOfCells();
+//  unsigned long CellNum;
+//  CellNum = m_Input->GetNumberOfCells();
 
-  K = (vnl_matrix_fixed<double,4,4>**) malloc(sizeof(vnl_matrix_fixed<double,4,4>*)*CellNum);
+  K = (vnl_matrix_fixed<double,4,4>**) malloc(sizeof(vnl_matrix_fixed<double,4,4>*)*m_NumCells);
   float x;	
 
   float us = vnl_math::pi / 9; 
@@ -287,12 +359,12 @@ void
 BalloonForceFilter<TInputMesh, TOutputMesh>
 ::ComputeForce()
 {
-  int i, p, q, t, sign, l=0; 
+  int i, p, q, sign, label, l=0; 
   IndexType coord = {0, 0, 0};
   IndexType extend = {0, 0, 0};
-  float extends[3], xs, ys, zs, s, r[2], x1, y1; 
-  FloatVector n1, n; 
-  float ntemp[3], f[3]={0, 0, 0};
+  float extends[3], t, xs, ys, zs, r[2]; 
+  FloatVector n1, n, vec1, vec2; 
+  float f[3]={0, 0, 0};
   IPT x, y, z;
   IPT* y_pt;
   IPT* z_pt;
@@ -303,8 +375,17 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   Points = Locations->GetPoints();
   typename TInputMesh::PointsContainer::Iterator   points = Points->Begin();
 
-  typename TInputMesh::PointsContainerPointer      myForces = Forces->GetPoints();
-  typename TInputMesh::PointsContainer::Iterator   forces = myForces->Begin();
+  typename TInputMesh::PointsContainerPointer		myForces = Forces->GetPoints();
+  typename TInputMesh::PointsContainer::Iterator	forces = myForces->Begin();
+
+  typename TInputMesh::PointsContainerPointer		myNormals = Normals->GetPoints();
+  typename TInputMesh::PointsContainer::Iterator	normals = myNormals->Begin();
+
+  typename TInputMesh::PointDataContainerPointer	myForceData = Forces->GetPointData();
+  typename TInputMesh::PointDataContainer::Iterator	forcedata = myForceData->Begin();
+
+  typename TInputMesh::PointDataContainerPointer	myPointData = Locations->GetPointData();
+  typename TInputMesh::PointDataContainer::Iterator	pointstatus = myPointData->Begin();
 /*
   m_size = Potential->GetLargestPossibleRegion().GetSize();
   IndexType index = IndexType::ZeroIndex;
@@ -320,28 +401,30 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 
   it.Begin();
 */
-  const int npoints = Forces->GetNumberOfPoints(); 
-  int slicediv = npoints / this->Resolution[0]; 
-  float pxx, pyy, pxy, qxx, qyy, qxy, dis[2];
-  double d=0.0, e, f1=0.0;
+//  const int npoints = Forces->GetNumberOfPoints(); 
+  int slicediv = m_NumNodes / this->Resolution[0]; 
+  float pxx, pyy, pxy, qxx, qyy, qxy;
+  double d=0.0, f1=0.0;
 
   i = 0;
   int slice = i / slicediv; 
   
-  while( /*forces != myForces->End()*/i != npoints - 2 )
+  while( i != m_NumNodes - 2 )
   {
     xs = ys = zs = 1.0; 
 	x = points.Value();
-	++points;
-    q = (i < npoints-1)?i+1:0;
-    Locations->GetPoint (q, y_pt);  
-    p = (i == 0)?npoints-1:i-1;
-    Locations->GetPoint (p, z_pt);
+
+	if ( forcedata.Value() == 1.0) {
+	  q = (i < m_NumNodes-3)?i+1:0;
+      Locations->GetPoint (q, y_pt);  
+      p = (i == 0)?m_NumNodes-3:i-1;
+      Locations->GetPoint (p, z_pt);
+	}
 
 	coord[0] = (int) x[0];
 	coord[1] = (int) x[1];
 	coord[2] = (int) x[2];
-	if ( Potential->GetPixel(coord) > 0 ) {
+	if ( Potential->GetPixel(coord) != 64000 ) {
 		xs = ys = zs = 0.0;
 	}
 	extends[0] = x[0];
@@ -351,20 +434,37 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 	extend[1] = (int) x[1];
 	extend[2] = (int) x[2];
 
-	qxx = y[1] - x[1];
-    qyy = x[0] - y[0];
-    qxy = sqrt(qxx*qxx+qyy*qyy);
-	pxx = x[1] - z[1];
-	pyy = z[0] - x[0];
-	pxy = sqrt(pxx*pxx+pyy*pyy);	  
-	qxx = qxx/qxy;
-	qyy = qyy/qxy;
-	pxx = pxx/pxy;  
-	pyy = pyy/pxy;
-	n[0] = qxx + pxx;
-	n[1] = qyy + pyy;  
-	n[2] = 0;
-
+	if ( forcedata.Value() == 1.0) {
+	  qxx = y[1] - x[1];
+      qyy = x[0] - y[0];
+      qxy = sqrt(qxx*qxx+qyy*qyy);
+	  pxx = x[1] - z[1];
+	  pyy = z[0] - x[0];
+	  pxy = sqrt(pxx*pxx+pyy*pyy);	  
+	  qxx = qxx/qxy;
+	  qyy = qyy/qxy;
+	  pxx = pxx/pxy;  
+	  pyy = pyy/pxy;
+	  n[0] = qxx + pxx;
+	  n[1] = qyy + pyy;  
+	  n[2] = 0;
+	  f[0] = n[0];
+	  f[1] = n[1];
+	  f[2] = n[2];
+	  normals.Value() = f;
+	} else {
+	  y = normals.Value();
+	  n[0] = y[0];
+	  n[1] = y[1];
+	  n[2] = y[2];
+	}
+/*
+	if ((pyy*qyy+pxx*qxx)<0.5) {
+	  x[0] = (y[0] + z[0])/2;
+	  x[1] = (y[1] + z[1])/2;
+	  points.Value() = x;
+	} 
+*/
 	if (n[0]*n[0] >= n[1]*n[1]) {
 	  if (n[0] < 0) {
 	    r[1] = -n[1]/n[0];
@@ -386,25 +486,64 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 	  }
 	}
 
-	t=-1;
-	sign=0;
-	while ((t < 20) && (sign == 0)){
+	t = 0.0;
+	sign = 0.0;
+	m_MiniT = 20;
+	while ((t < 20.0) && (sign == 0)){
 	  extends[0] += r[0];
 	  extends[1] += r[1];
       extend[0] = (int) extends[0];
       extend[1] = (int) extends[1];
-	  if ( Potential->GetPixel(extend) > 0 ) sign = 1;
-	  t++;
+	  label = Potential->GetPixel(extend);
+	  if ( label != 64000 ) sign = 1;
+
+	  if (r[0] >= 0) extend[0] = (int)(extends[0]-1);
+	  else  extend[0] = (int)(extends[0]+1);
+	  extend[1] = (int) extends[1];
+	  label = Potential->GetPixel(extend);
+	  if ( label != 64000 ) sign = 1;
+
+	  if (r[1] >= 0) extend[1] = (int)(extends[1]-1);
+	  else  extend[1] = (int)(extends[1]+1);  
+	  extend[0] = (int) extends[0];
+	  label = Potential->GetPixel(extend);
+	  if ( label != 64000 ) sign = 1;
+
+	  t += 1.0;
 	}
 
-    f[0] = t*100*n[0]*xs; 
-    f[1] = t*100*n[1]*ys;
+	if (t < 2) pointstatus.Value() = 1.0;
+	else pointstatus.Value() = 0.0;
+	
+    f[0] = t*50*n[0]*xs; 
+    f[1] = t*50*n[1]*ys;
     f[2] = 0;
 
-    forces.Value() = f;  
+    forces.Value() = f;
+	forcedata.Value() = 0.0;
+	++pointstatus;
     ++forces;
+	++forcedata;
+	++points;
+	++normals;
 	++i;
   }
+/*
+  forces = myForces->Begin();
+  forcedata = myForceData->Begin();
+  while( i != npoints - 2 ) {
+	t = forcedata.Value();
+	if (t > 5) {
+	  t = m_MiniT/t;
+	  x = forces.Value();
+	  x[0] = x[0] * t;
+	  x[1] = x[1] * t;
+	  forces.Value() = x;
+	}
+	++forcedata;
+	++forces;
+  }
+*/
 }
 
 /**
@@ -418,7 +557,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   int i; 
   const unsigned long *tp;
   typename Cell::Pointer testCell(TriCell::New());
-  int npts = 3, *pts;
+  int npts = 3;
 
   typename TInputMesh::CellsContainerPointer myCells;
   myCells = Locations->GetCells();
@@ -434,9 +573,9 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   myCellData = Locations->GetCellData();
   typename TInputMesh::CellDataContainer::Iterator celldata = myCellData->Begin();
 */
-  const int ncells = Locations->GetNumberOfCells();
+//  const int ncells = Locations->GetNumberOfCells();
 
-  const int npoints = Forces->GetNumberOfPoints();  
+//  const int npoints = Forces->GetNumberOfPoints();  
   float p = 1; 
   i = 0;
   IPT v1, v2, v3;
@@ -538,19 +677,60 @@ void
 BalloonForceFilter<TInputMesh, TOutputMesh>
 ::Reset()
 {
-  typename TInputMesh::PointsContainerPointer      myForces = Forces->GetPoints();
-  typename TInputMesh::PointsContainer::Iterator   forces = myForces->Begin();
+  typename TInputMesh::PointsContainerPointer		myForces = Forces->GetPoints();
+  typename TInputMesh::PointsContainer::Iterator	forces = myForces->Begin();
 
-  typename TInputMesh::PointsContainerPointer      myDerives = Derives->GetPoints();
-  typename TInputMesh::PointsContainer::Iterator   derives = myDerives->Begin();
+  typename TInputMesh::PointDataContainerPointer	myForceData = Forces->GetPointData();
+  typename TInputMesh::PointDataContainer::Iterator	forcedata = myForceData->Begin();
 
-  typename TInputMesh::PointsContainerPointer      myDisplacements = Displacements->GetPoints();
-  typename TInputMesh::PointsContainer::Iterator   displacements = myDisplacements->Begin();
+  typename TInputMesh::PointsContainerPointer		myNormals = Normals->GetPoints();
+  typename TInputMesh::PointsContainer::Iterator	normals = myNormals->Begin();
+
+  typename TInputMesh::PointsContainerPointer		myDerives = Derives->GetPoints();
+  typename TInputMesh::PointsContainer::Iterator	derives = myDerives->Begin();
+
+  typename TInputMesh::PointsContainerPointer		myDisplacements = Displacements->GetPoints();
+  typename TInputMesh::PointsContainer::Iterator	displacements = myDisplacements->Begin();
   
-  const int npoints = Locations->GetNumberOfPoints()-2;
-  int i; 
-  float x[3], d[3] = {0,0,0}; 
+  typename TInputMesh::TriCell::Pointer				insertCell(TInputMesh::TriCell::New()); 
+
+//  const int npoints = Locations->GetNumberOfPoints();
+//  m_NumNewNodes = m_NumNewNodes + m_NumNewNodes;
+  int i, j, cell=0; 
+  float status, d[3] = {0,0,0}, z;
+  IPT x;
+  IPT* x_pt; 
+  x_pt = &x;
+  unsigned long tripoints[3];
  
+  if (m_NumNewNodes != 0) cell=1;
+
+  j = m_NumNodes;;
+  m_NumNodes = m_NumNodes + m_NumNewNodes;
+  i = m_NumNodes;
+
+  while ( m_NumNewNodes != 0) {
+	if ( (j-1) > (int)(m_NewNodes[m_NumNewNodes-1][3]) ) {
+	  Locations->GetPoint(--j, x_pt);
+	  status = 0.0;
+	}
+	else {
+	  m_NumNewNodes--;
+	  x[0] = m_NewNodes[m_NumNewNodes][0];
+	  x[1] = m_NewNodes[m_NumNewNodes][1];
+	  x[2] = m_NewNodes[m_NumNewNodes][2];
+	  status = 1.0;
+    }
+	
+	Locations->SetPoint(--i, x);
+	Forces->SetPointData(i, status);
+	Locations->SetPointData(i, 0.0);
+	if (status == 0.0) {
+	  Normals->GetPoint(j, x_pt);
+	  Normals->SetPoint(i, x);
+	}
+  }
+
   while( forces != myForces->End() )
   {
 	forces.Value() = d;
@@ -569,6 +749,53 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     ++displacements;
   }
 
+  if (cell == 1) {
+  int p = 0, jn;
+
+  for (int j=0; j<m_NumNodes-2; j++) { 
+	jn = (j+1)%(m_NumNodes-2);
+    tripoints[0] = m_NumNodes-2; 
+    tripoints[1] = jn; 
+    tripoints[2] = j; 
+	insertCell->SetPointIds(tripoints);
+	Locations->SetCell(p, insertCell);
+	Locations->SetCellData(p, (PT)1.0);
+	p++;
+	insertCell = TInputMesh::TriCell::New();
+	tripoints[2] = (Resolution[0]-1)*Resolution[1]+j; 
+	tripoints[1] = m_NumNodes-1; 
+    tripoints[0] = tripoints[2]-j+jn; 
+	insertCell->SetPointIds(tripoints);
+	Locations->SetCell(p, insertCell);
+	Locations->SetCellData(p, (PT)2.0);
+	p++;
+	insertCell = TInputMesh::TriCell::New();
+  }
+	
+  m_NumCells = p;
+
+  K = (vnl_matrix_fixed<double,4,4>**) malloc(sizeof(vnl_matrix_fixed<double,4,4>*)*m_NumCells);
+  
+  typename TInputMesh::CellDataContainer::Iterator celldata = Locations->GetCellData()->Begin();
+  int j=0;
+  while (celldata != Locations->GetCellData()->End()){
+	z = celldata.Value();
+	++celldata;
+	switch ((int)(z)) { 
+    case 1: 
+      K[j] = &SStiffness; 
+      break; 
+    case 2: 
+      K[j] = &NStiffness; 
+      break; 
+    case 3: 
+      K[j] = &CStiffness; 
+      break; 
+    } 
+	++j;
+  }
+
+  }
 }
 
 /**
@@ -578,8 +805,8 @@ template <typename TInputMesh, typename TOutputMesh>
 void
 BalloonForceFilter<TInputMesh, TOutputMesh>
 ::Advance(){
-  typename TInputMesh::PointType s, ds; 
-  const int npoints = Forces->GetNumberOfPoints(); 
+  typename TInputMesh::PointType s, d, ds; 
+//  const int npoints = Forces->GetNumberOfPoints(); 
   int i;
 
   typename TInputMesh::PointsContainerPointer      myDerives = Derives->GetPoints();
@@ -587,33 +814,34 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 
   typename TInputMesh::PointsContainerPointer      myDisplacements = Displacements->GetPoints();
   typename TInputMesh::PointsContainer::Iterator   displacements = myDisplacements->Begin();  
+
+  typename TInputMesh::PointsContainerPointer      myPoints = Locations->GetPoints();
+  typename TInputMesh::PointsContainer::Iterator   points = myPoints->Begin();
  
   i = 0;
   while( derives != myDerives->End() ) {
-	s = displacements.Value();
+	d = displacements.Value();
     ds = derives.Value();
+	s = points.Value();
 	++derives; 
     s[0] += TimeStep*ds[0]; 
     s[1] += TimeStep*ds[1]; 
     s[2] += TimeStep*ds[2]; 
-	if ( i < npoints - 2 ) displacements.Value() = s;
+	d[0] += TimeStep*ds[0]; 
+    d[1] += TimeStep*ds[1]; 
+    d[2] += TimeStep*ds[2]; 
+	if ( i < m_NumNodes - 2 ) {
+	  displacements.Value() = d;
+	  points.Value() = s;
+	}
     ++displacements;
+	++points;
 	++i;
   } 
-}
 
-template <typename TInputMesh, typename TOutputMesh>
-void
-BalloonForceFilter<TInputMesh, TOutputMesh>
-::ComputeOutput(){
-  typename TInputMesh::PointType s, d, ds;
-  const int npoints = Forces->GetNumberOfPoints(); 
+/*  
 
-  typename TInputMesh::PointsContainerPointer      myPoints = Locations->GetPoints();
-  typename TInputMesh::PointsContainer::Iterator   points = myPoints->Begin();
-
-  typename TInputMesh::PointsContainerPointer      myDisplacements = Displacements->GetPoints();
-  typename TInputMesh::PointsContainer::Iterator   displacements = myDisplacements->Begin();  
+  displacements = myDisplacements->Begin();  
   
   while( displacements != myDisplacements->End() ) {
 	d = displacements.Value();
@@ -624,8 +852,112 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     s[2] += d[2]; 
     points.Value() = s;
 	++points;
+  }
+*/   
+}
+
+template <typename TInputMesh, typename TOutputMesh>
+void
+BalloonForceFilter<TInputMesh, TOutputMesh>
+::ComputeOutput() {
+  int i;
+  m_Output = this->GetOutput();
+  typename TInputMesh::PointsContainerPointer		myPoints = m_Output->GetPoints();
+  myPoints->Reserve(m_NumNodes);
+  typename TInputMesh::PointsContainer::Iterator	points = myPoints->Begin();
+
+  typename TInputMesh::PointsContainerPointer		myLocations = Locations->GetPoints();
+  typename TInputMesh::PointsContainer::Iterator	locations = myLocations->Begin();
+  i = 0;
+  for (; i<m_NumNodes; i++) {
+	points.Value() = locations.Value();
+	++locations;
+	++points;
   } 
 
 }
+
+template <typename TInputMesh, typename TOutputMesh>
+void
+BalloonForceFilter<TInputMesh, TOutputMesh>
+::GapSearch() {
+  typename TInputMesh::PointsContainerPointer Points;
+  Points = Locations->GetPoints();
+  typename TInputMesh::PointsContainer::Iterator   points = Points->Begin();
+//  const int npoints = Points->GetNumberOfPoints(); 
+
+  typename TInputMesh::PointDataContainerPointer	myPointData = Locations->GetPointData();
+  typename TInputMesh::PointDataContainer::Iterator	pointstatus = myPointData->Begin();
+
+  int i, q;
+  IPT x, y, z;
+  IPT* y_pt;
+  IPT* z_pt;
+  y_pt = &y;
+  z_pt = &z;
+  float gap, dis[3]={0, 0, 0}, st, *st_pt;
+  st_pt = &st;
+
+  i = 0;
+  while( i != m_NumNodes - 2 )
+  { 
+	x = points.Value();
+	q = (i < m_NumNodes-3)?i+1:0;
+    Locations->GetPoint (q, y_pt);
+	
+	dis[0] = x[0] - y[0];
+	dis[1] = x[1] - y[1];
+	gap = sqrt(dis[0]*dis[0]+dis[1]*dis[1]);
+	
+	Locations->GetPointData(q, st_pt);
+	if ( (gap > 5) && ( pointstatus.Value() == 1.0) && (st==1.0)) NodeAddition(i);
+	i++;
+	++points;
+	++pointstatus;
+  }
+  
+  Reset();	 	
+	  
+}
+
+template <typename TInputMesh, typename TOutputMesh>
+void
+BalloonForceFilter<TInputMesh, TOutputMesh>
+::NodeAddition(int i) {
+//  typename TInputMesh::PointsContainerPointer Points;
+//  Points = Locations->GetPoints();
+//  const int npoints = Points->GetNumberOfPoints();
+
+  int q, label; 
+  IndexType coord={0,0,0};
+  float newnodes[5][3];
+  IPT x, y;
+  IPT* x_pt;
+  IPT* y_pt;
+  x_pt = &x;
+  y_pt = &y;
+
+  q = (i < m_NumNodes-3)?i+1:0;
+  Locations->GetPoint (i, x_pt);
+  Locations->GetPoint (q, y_pt);
+
+  coord[2] = 0;
+  for (int j=0; j<5; j++) {
+	newnodes[j][0] = (y[0]*(j+1)+x[0]*(5-j))/6;
+	newnodes[j][1] = (y[1]*(j+1)+x[1]*(5-j))/6;
+	newnodes[j][2] = 0;
+	coord[0] = (int) (newnodes[j][0]);
+	coord[1] = (int) (newnodes[j][1]);
+	label = Potential->GetPixel(coord);
+	if ( label == 64000 ) {
+	  m_NewNodes[m_NumNewNodes][0] = newnodes[j][0];
+	  m_NewNodes[m_NumNewNodes][1] = newnodes[j][1];
+	  m_NewNodes[m_NumNewNodes][2] = 0;
+	  m_NewNodes[m_NumNewNodes++][3] = (float) i;
+	}
+  }
+
+}
+
 
 } // end namespace itk

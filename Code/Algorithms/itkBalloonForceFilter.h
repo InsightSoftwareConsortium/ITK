@@ -90,9 +90,13 @@ public:
   void ComputeDt();
   void ComputeOutput();
   void SetForces(TInputMesh* force);
+  void SetLocations(TInputMesh* location);
+  void SetNormals(TInputMesh* normals);
   void SetDisplacements(TInputMesh* displace);
   void SetDerives(TInputMesh* derive);
   void SetPotential(ImagePointer potential);
+  void NodeAddition(int i);
+  void GapSearch();
 
 protected:
   BalloonForceFilter();
@@ -109,6 +113,8 @@ protected:
   InputMeshPointer Displacements;
   InputMeshPointer Derives;
   InputMeshPointer Locations;
+  InputMeshPointer m_Input;
+  InputMeshPointer m_Output;
 
   /** 
    * Three different kinds of stiffness matrix.
@@ -122,6 +128,12 @@ protected:
   double TimeStep;
   int Resolution[3];
   int Center[3];
+  float m_MiniT;
+  int m_Step;
+  int m_NumNodes;
+  int m_NumCells;
+  int m_NumNewNodes;
+  float m_NewNodes[200][4];
 
   ImagePointer Potential;
   
