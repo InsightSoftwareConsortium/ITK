@@ -167,9 +167,9 @@ foreach Command $Commands \
       # Find latest dashboard
 
       # Make the images directory and copy things over
-      # Images need to go in BuildDir/Testing/HTML/TestingResults/Images
+      # Icons need to go in BuildDir/Testing/HTML/TestingResults/Icons
       # From $SourceDir/Testing/HTML/TestingResults/Images
-      set DashboardImagesDir [file join $TestingBaseDir Images]
+      set DashboardImagesDir [file join $TestingBaseDir Icons]
       set ImagesSourceDir [file join $SourceDirectory Testing HTML TestingResults Images]
       if { ![info exists $DashboardImagesDir] } \
       {
