@@ -26,8 +26,8 @@
 // data. They are particularly interesting in the cases where basic pixel-wise
 // operations are to be computed. The following example illustrates how to use
 // the \doxygen{ImageAdaptor} for performing image thresholding. This is one of
-// those simple image operations that hardly justify to hold an extra copy of
-// the image in memory.
+// those simple image operations that can hardly justify to hold an extra copy
+// of the image in memory.
 //
 // \index{itk::ImageAdaptor!Instantiation}
 // \index{itk::ImageAdaptor!Header}
@@ -47,9 +47,10 @@
 
 //  Software Guide : BeginLatex
 //
-//  A pixel accessor for performing thresholding requires to hold the threshold
-//  value internally. Henceforth it must also implement the assignment
-//  operator in order to allow setting this internal parameter.
+//  A pixel accessor for performing thresholding requires to hold internally
+//  the threshold value . Henceforth, it must also implement the assignment
+//  operator in order to allow setting this internal parameter. Here is the
+//  code that implements binary thresholding as a pixel accessor.
 //
 //  Software Guide : EndLatex 
 
@@ -83,7 +84,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  The \code{Get()} method is computing the binary thresholding of the image.
+//  The \code{Get()} method computes the binary thresholding of the image.
 //  The assignment operator transfers the value of the threshold member
 //  variable from one instance of the pixel accessor to another.
 //
