@@ -65,7 +65,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkPixelData.h"
 #include "itkPolygonGroupSpatialObjectXMLFile.h"
 #include "itkRawImageIO.txx"
-#include "itkRawImageWriter.txx"
 #include "itkRegularExpressionSeriesFileNames.h"
 #include "itkSiemensVisionImageIO.h"
 #include "itkSiemensVisionImageIOFactory.h"
@@ -75,7 +74,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkVOLImageIOFactory.h"
 #include "itkVTKImageIO.h"
 #include "itkVTKImageIOFactory.h"
-#include "itkWriter.h"
 #include "itkXMLFile.h"
 
 int main ( int , char*  )
