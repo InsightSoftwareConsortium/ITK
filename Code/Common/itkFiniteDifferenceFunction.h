@@ -95,9 +95,6 @@ public:
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
-  itkNewMacro(Self);
-
-  
   /** Run-time type information (and related methods) */
   itkTypeMacro( FiniteDifferenceFunction, LightObject );
 
