@@ -136,6 +136,9 @@ ELSE(USE_VTK)
 ENDIF(USE_VTK)
 
 
+# Look for OpenGL
+INCLUDE (${CMAKE_ROOT}/Modules/FindOpenGL.cmake)
+  
 # Look for GLUT and if found build the simple image viewer
 INCLUDE (${CMAKE_ROOT}/Modules/FindGLUT.cmake)
 
@@ -144,7 +147,6 @@ INCLUDE (${CMAKE_ROOT}/Modules/FindGLUT.cmake)
 OPTION(USE_FLTK "Use FLTK (The Fast Light Toolkit) for GUI (some examples need this)" 0)
 IF(USE_FLTK)
   INCLUDE (${CMAKE_ROOT}/Modules/FindFLTK.cmake)
-  INCLUDE (${CMAKE_ROOT}/Modules/FindGLU.cmake)
   IF(FLTK_VERSION_1.0.11)
     MESSAGE(SEND_ERROR "FLTK Version 1.0.11 is no longer supported in ITK. Please upgrade to FLTK version 1.1")
   ENDIF(FLTK_VERSION_1.0.11)
