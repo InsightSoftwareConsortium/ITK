@@ -29,7 +29,7 @@ int main(){
 
 	FuzzyUShort::Pointer testFuzzy=FuzzyUShort::New();
 	UShortImage2D::Pointer inputimg=UShortImage2D::New();
-	UShortImage2D::SizeType size={HEIGHT,WIDTH};
+	UShortImage2D::SizeType size={{HEIGHT,WIDTH}};
 	UShortImage2D::IndexType index=UShortImage2D::IndexType::ZeroIndex;
 	UShortImage2D::RegionType region;
 
