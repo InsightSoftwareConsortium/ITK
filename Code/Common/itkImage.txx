@@ -14,6 +14,7 @@
 
 =========================================================================*/
 #include "itkImage.h"
+#include "itkProcessObject.h"
 
 namespace itk
 {
