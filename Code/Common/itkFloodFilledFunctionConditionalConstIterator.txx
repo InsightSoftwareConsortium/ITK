@@ -76,13 +76,22 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
   tempPtr->SetRequestedRegion( tempRegion );
   tempPtr->Allocate();
   tempPtr->FillBuffer(NumericTraits<ITK_TYPENAME TTempImage::PixelType>::Zero);
-  m_IsAtEnd = false;
 
   // Initialize the stack by adding the start index assuming m_StartIndex is "inside"
   // This might not be true, in which case it's up to the programmer to
   // specify a correct starting position later (using FindSeedPixel).
-  m_IndexStack.push(m_StartIndex);
-  tempPtr->SetPixel(m_StartIndex, 2);
+  // Must make sure that the seed is inside the buffer before
+  // touching pixels.
+  if ( m_Image->GetBufferedRegion().IsInside ( m_StartIndex ) )
+    {
+    m_IndexStack.push(m_StartIndex);
+    tempPtr->SetPixel(m_StartIndex, 2);
+    m_IsAtEnd = false;
+    }
+  else
+    {
+    m_IsAtEnd = true;
+    }    
 }
 
 template<class TImage, class TFunction>

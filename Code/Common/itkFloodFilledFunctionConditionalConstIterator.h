@@ -135,8 +135,9 @@ public:
       {
       m_IndexStack.pop();
       }
-
-    if( this->IsPixelIncluded(m_StartIndex) )
+    
+    if( m_Image->GetBufferedRegion().IsInside ( m_Seed ) &&
+        this->IsPixelIncluded(m_StartIndex) )
       {
       // Push the seed onto the stack
       m_IndexStack.push(m_StartIndex);
