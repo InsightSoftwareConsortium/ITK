@@ -453,13 +453,16 @@ int itkBSplineDeformableTransformTest1()
    * Exercise the SetIdentity() Method
    */
   {
+    std::cout << "Exercising SetIdentity() " << std::endl;
     TransformType::Pointer transform = TransformType::New();
     transform->SetGridSpacing( spacing );
     transform->SetGridOrigin( origin );
     transform->SetGridRegion( region );
+    transform->SetParameters( parameters );
     transform->SetIdentity();
     TransformType::ParametersType parameters = transform->GetParameters();
     const unsigned int numberOfParameters = transform->GetNumberOfParameters();
+    std::cout << "numberOfParameters =  " << numberOfParameters << std::endl;
     for(unsigned int i=0; i<numberOfParameters; i++)
       {
       if( fabs( parameters[i] ) > 1e-10 )
