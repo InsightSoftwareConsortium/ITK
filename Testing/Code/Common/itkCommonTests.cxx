@@ -98,6 +98,7 @@ REGISTER_TEST(itkPixelAccessTest );
 REGISTER_TEST(itkPointGeometryTest );
 REGISTER_TEST(itkPointSetTest );
 REGISTER_TEST(itkPolyLineParametricPathTest );
+REGISTER_TEST(itkPolygonCellTest );
 REGISTER_TEST(itkQuaternionRigidTransformTest );
 REGISTER_TEST(itkRGBPixelTest );
 REGISTER_TEST(itkRGBInterpolateImageFunctionTest );
