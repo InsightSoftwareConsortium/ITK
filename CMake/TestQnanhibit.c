@@ -1,9 +1,20 @@
 #include <stdio.h>
 #include <float.h>
 
+#if defined(__BORLANDC__)
+# include <math.h>
+# include <float.h>
+#endif
+
+
 int
 main(int argc, char *argv[])
 {
+#if defined(__BORLANDC__)
+  // Disable floating point exceptions in Borland
+  _control87(MCW_EM, MCW_EM);
+#endif // defined(__BORLANDC__)
+
   char *me;
   float qnan, zero;
   int i;
