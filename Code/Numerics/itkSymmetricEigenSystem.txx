@@ -31,6 +31,10 @@ SymmetricEigenSystem< TMatrixElement, VNumberOfRows >
 {
   m_Matrix = 0 ;
   m_UseAbsoluteOrder = true ;
+  m_EigenValues.Fill( NumericTraits< TMatrixElement >::Zero ) ;
+  ArrayType temp ;
+  temp.Fill( NumericTraits< TMatrixElement >::Zero ) ;
+  m_EigenVectors.Fill(temp) ;
 }
 
 /**
@@ -49,7 +53,17 @@ SymmetricEigenSystem< TMatrixElement, VNumberOfRows >
 {
   Superclass::PrintSelf(os, indent) ;
 
-  os << indent << "Matrix         " << m_Matrix << std::endl ;
+  os << indent << "Matrix:" ;
+
+  if ( m_Matrix != 0 )
+    { 
+    os << m_Matrix << std::endl ;
+    }
+  else
+    {
+    os << "not set." << std::endl ;
+    }
+
   os << indent << "Eigen Vectors  " << m_EigenVectors << std::endl ;
   os << indent << "Eigen Values   " << m_EigenValues << std::endl ;
   os << indent << "Absolute order " << m_UseAbsoluteOrder << std::endl ;
