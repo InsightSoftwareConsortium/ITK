@@ -81,8 +81,7 @@ public:
   static ImageIOBase::Pointer CreateImageIO(const char* path);
 
 protected:
-  static void InitialaizeBuiltinTypes();
-  static bool Initialized;
+
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
   ImageIOFactory();

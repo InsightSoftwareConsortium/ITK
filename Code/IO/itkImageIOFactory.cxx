@@ -40,36 +40,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 =========================================================================*/
 
 #include "itkImageIOFactory.h"
-#include "itkPNGImageIOFactory.h"
-#include "itkVOLImageIOFactory.h"
-#include "itkMetaImageIOFactory.h"
 
 namespace itk
 {
   
-bool ImageIOFactory::Initialized = false;
-  
-// Register all compiled in ImageIO factories here.
-void ImageIOFactory::InitialaizeBuiltinTypes()
-{
-  if(!Initialized)
-    {
-    PNGImageIOFactory::Pointer pngFactory = PNGImageIOFactory::New();
-    ObjectFactoryBase::RegisterFactory(pngFactory);
-    VOLImageIOFactory::Pointer volFactory = VOLImageIOFactory::New();
-    ObjectFactoryBase::RegisterFactory(volFactory);
-    MetaImageIOFactory::Pointer metaFactory = MetaImageIOFactory::New();
-    ObjectFactoryBase::RegisterFactory(metaFactory);
-    }
-}
+
   
 ImageIOBase::Pointer 
 ImageIOFactory::CreateImageIO(const char* path)
 {
-  ImageIOFactory::InitialaizeBuiltinTypes();
   std::list<ImageIOBase::Pointer> possibleImageIO;
   std::list<LightObject::Pointer> allobjects = 
-    ObjectFactoryBase::CreateAllInstance("itkImageIOBase");
+                  ObjectFactoryBase::CreateAllInstance("itkImageIOBase");
   for(std::list<LightObject::Pointer>::iterator i = allobjects.begin();
       i != allobjects.end(); ++i)
     {
