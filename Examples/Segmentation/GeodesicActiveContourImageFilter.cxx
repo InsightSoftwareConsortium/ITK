@@ -18,27 +18,29 @@
 // Software Guide : BeginLatex
 //
 // The following example illustrates the use of the
-// \doxygen{GeodesicActiveContourLevelSetImageFilter}.  The implementation of this
-// filter in ITK is based on the paper by Caselles \cite{Caselles1997}.  
-// This implementation extends the funtionality of \doxygen{ShapeDetectionLevelSetImageFilter}
-// by the addition of a third avection term which attracts the level set to
+// \doxygen{GeodesicActiveContourLevelSetImageFilter}.  The
+// implementation of this filter in ITK is based on the paper by
+// Caselles \cite{Caselles1997}.  This implementation extends the
+// functionality of the \doxygen{ShapeDetectionLevelSetImageFilter} by the
+// addition of a third avection term which attracts the level set to
 // the object boundaries.
 //
-// \doxygen{GeodesicActiveContourLevelSetImageFilter} expects two inputs.  The
-// first is an initial Level Set in the form of an \doxygen{Image}. The second
-// input is an feature image. For this algorithm the feature image is an edge
-// potential image that basically follows the same rules used for the
+// \doxygen{GeodesicActiveContourLevelSetImageFilter} expects two
+// inputs.  The first is an initial level set in the form of an
+// \doxygen{Image}. The second input is a feature image. For this
+// algorithm, the feature image is an edge potential image that
+// basically follows the same rules used for the
 // \doxygen{ShapeDetectionLevelSetImageFilter} discussed in
-// section~\ref{sec:ShapeDetectionLevelSetFilter}.  The configuration of this
-// example is quite similar to the example on the use of the
-// \doxygen{ShapeDetectionLevelSetImageFilter}. We omit most of the redundant
-// description. A look at the code will reveal the large similarity between
-// both examples.
+// section~\ref{sec:ShapeDetectionLevelSetFilter}.  The configuration
+// of this example is quite similar to the example on the use of the
+// \doxygen{ShapeDetectionLevelSetImageFilter}. We omit most of the
+// redundant description. A look at the code will reveal the great
+// degree of similarity between both examples.
 //
 // \begin{figure} \center
 // \includegraphics[width=15cm]{GeodesicActiveContoursCollaborationDiagram1.eps}
 // \caption[GeodesicActiveContourLevelSetImageFilter collaboration
-// diagram]{Collaboration diagram of the GeodesicActiveContourLevelSetImageFilter
+// diagram]{Collaboration diagram for the GeodesicActiveContourLevelSetImageFilter
 // applied to a segmentation task.}
 // \label{fig:GeodesicActiveContoursCollaborationDiagram}
 // \end{figure}
@@ -52,16 +54,16 @@
 //
 // The pipeline involves a first stage of smoothing using the
 // \doxygen{CurvatureAnisotropicDiffusionImageFilter}. The smoothed image is
-// passed as the input for the
+// passed as the input to the
 // \doxygen{GradientMagnitudeRecursiveGaussianImageFilter} and then to the
-// \doxygen{SigmoidImageFilter} in order to produce the Edge Potential image.
-// A set of user-provided seeds are passed to a
-// \doxygen{FastMarchingImageFilter} in order to compute their distance map. A
-// constant value is subtracted from this map in order to obtain a Level Set in
-// which the \emph{Zero Set} represents the initial contour. This level set is
+// \doxygen{SigmoidImageFilter} in order to produce the edge potential image.
+// A set of user-provided seeds is passed to a
+// \doxygen{FastMarchingImageFilter} in order to compute the distance map. A
+// constant value is subtracted from this map in order to obtain a level set in
+// which the \emph{zero set} represents the initial contour. This level set is
 // also passed as input to the \doxygen{GeodesicActiveContourLevelSetImageFilter}.
 // 
-// Finally the LevelSet at the output of the
+// Finally, the level set at the output of the
 // \doxygen{GeodesicActiveContourLevelSetImageFilter} is passed to a
 // \doxygen{BinaryThresholdImageFilter} in order to produce a binary mask
 // representing the segmented object.
@@ -110,7 +112,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  We declare now the image type using a pixel type and a particular
+  //  We now declare the image type using a pixel type and a particular
   //  dimension. In this case the \code{float} type is used for the pixels due
   //  to the requirements of the smoothing filter. 
   //
@@ -125,7 +127,7 @@ int main( int argc, char *argv[] )
                                      
 
   //  
-  //  The following lines instantiate the tresholding filter that will
+  //  The following lines instantiate the thresholding filter that will
   //  process the final level set at the output of the GeodesicActiveContourLevelSetImageFilter.                                    
   //
   typedef unsigned char OutputPixelType;
@@ -250,12 +252,12 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  For the \doxygen{GeodesicActiveContourLevelSetImageFilter}, scaling
-  //  parameters are used to tradeoff between the propagation (inflation),
+  //  parameters are used to trade off between the propagation (inflation),
   //  the curvature (smoothing) and the advection terms. These parameters are
   //  set using methods \code{SetPropagationScaling()}, \code{SetCurvatureScaling()}
   //  and \code{SetAdvectionScaling()}. In this example, we will set the
   //  curvature and advection scales to one and let the propagation scale
-  //  be an command-line argument.
+  //  be a command-line argument.
   //
   //  \index{itk::GeodesicActiveContourLevelSetImageFilter!SetPropagationScaling()}
   //  \index{itk::SegmentationLevelSetImageFilter!SetPropagationScaling()}
@@ -293,7 +295,7 @@ int main( int argc, char *argv[] )
   //  
   //  The filters are now connected in a pipeline indicated in
   //  Figure~\ref{fig:GeodesicActiveContoursCollaborationDiagram} using the following
-  //  lines. 
+  //  lines: 
   //
   //  Software Guide : EndLatex 
 
@@ -507,9 +509,9 @@ int main( int argc, char *argv[] )
   
   //  Software Guide : BeginLatex
   //  
-  //  The invokation of the \code{Update()} method on the writer triggers the
+  //  The invocation of the \code{Update()} method on the writer triggers the
   //  execution of the pipeline.  As usual, the call is placed in a
-  //  \code{try/catch} block should any errors ocurr and exceptions are thrown.
+  //  \code{try/catch} block should any errors occur or exceptions be thrown.
   //
   //  Software Guide : EndLatex 
 
@@ -586,7 +588,7 @@ int main( int argc, char *argv[] )
   //  Figure~\ref{fig:GeodesicActiveContourImageFilterOutput} presents the
   //  intermediate outputs of the pipeline illustrated in
   //  Figure~\ref{fig:GeodesicActiveContoursCollaborationDiagram}. They are
-  //  from left to right: the output of the anisotropic diffusing filter, the
+  //  from left to right: the output of the anisotropic diffusion filter, the
   //  gradient magnitude of the smoothed image and the sigmoid of the gradient
   //  magnitude which is finally used as the edge potential for the
   //  \doxygen{GeodesicActiveContourLevelSetImageFilter}.
@@ -599,23 +601,25 @@ int main( int argc, char *argv[] )
   // \caption[GeodesicActiveContourLevelSetImageFilter intermediate
   // output]{Images generated by the segmentation process based on the
   // GeodesicActiveContourLevelSetImageFilter. From left to right and top to
-  // bottom: Input image to be segmented, image smoothed with an
+  // bottom: input image to be segmented, image smoothed with an
   // edge-preserving smoothing filter, gradient magnitude of the smoothed
   // image, sigmoid of the gradient magnitude. This last image, the sigmoid, is
   // used to compute the speed term for the front propagation }
   // \label{fig:GeodesicActiveContourImageFilterOutput} \end{figure}
   // 
   //  Segmentations of the main brain structures are presented in Figure
-  //  ~\ref{fig:GeodesicActiveContourImageFilterOutput2}. The Results are quite
+  //  ~\ref{fig:GeodesicActiveContourImageFilterOutput2}. The results are quite
   //  similar to those obtained with the \doxygen{ShapeDetectionLevelSetImageFilter}
   //  in section~\ref{sec:ShapeDetectionLevelSetFilter}.
   //
-  //  Note that a relatively larger propagation scaling value was required to segment the 
-  //  white matter. This is due to two factors: the lower contrast between at the border
-  //  of the white matter and the complex shape of the structure. Unfortunately the optimal
-  //  value of these scaling parameters can only be determined by experimentation. In a real
-  //  application we could imagine an interactive mechanism by which a user supervises the
-  //  contour evolution and adjust these parameters accordingly.
+  //  Note that a relatively larger propagation scaling value was
+  //  required to segment the white matter. This is due to two
+  //  factors: the lower contrast at the border of the white matter
+  //  and the complex shape of the structure. Unfortunately the
+  //  optimal value of these scaling parameters can only be determined
+  //  by experimentation. In a real application we could imagine an
+  //  interactive mechanism by which a user supervises the contour
+  //  evolution and adjusts these parameters accordingly.
   //
   // \begin{figure} \center
   // \includegraphics[width=4cm]{GeodesicActiveContourImageFilterOutput5.eps}
@@ -624,7 +628,7 @@ int main( int argc, char *argv[] )
   // \includegraphics[width=4cm]{GeodesicActiveContourImageFilterOutput8.eps}
   // \caption[GeodesicActiveContourImageFilter segmentations]{Images generated by the
   // segmentation process based on the GeodesicActiveContourImageFilter. From left to
-  // right: Segmentation of the left ventricle, segmentation of the right
+  // right: segmentation of the left ventricle, segmentation of the right
   // ventricle, segmentation of the white matter, attempt of segmentation of
   // the gray matter.}
   // \label{fig:GeodesicActiveContourImageFilterOutput2}
