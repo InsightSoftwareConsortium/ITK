@@ -182,7 +182,11 @@ public:
   itkSetClampMacro( NumberOfHistogramBins, unsigned long,
                     1, NumericTraits<unsigned long>::max() );
   itkGetConstReferenceMacro( NumberOfHistogramBins, unsigned long);   
-  
+
+  /** Provide API to reinitialize the seed of the random number generator */
+  static void ReinitializeSeed();
+  static void ReinitializeSeed(int);  
+
 protected:
 
   MattesMutualInformationImageToImageMetric();
