@@ -9,8 +9,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#ifndef __itkBalloonForceFilter_h
-#define __itkBalloonForceFilter_h
+#ifndef __itk3DBalloonForceFilter_h
+#define __itk3DBalloonForceFilter_h
 
 #include "itkMeshToMeshFilter.h"
 #include "vnl/vnl_matrix_fixed.h"
@@ -24,10 +24,10 @@
 namespace itk
 {
 
-/** \class BalloonForceFilter
+/** \class 3DBalloonForceFilter
  * \brief 
  *
- * BalloonForceFilter is used to apply balloon force and the potential
+ * 3DBalloonForceFilter is used to apply balloon force and the potential
  * force onto the deformable model.
  * The balloon force is vertical to the surface of the model. The potential 
  * force is given out by the estimated boundary points. These two will meet 
@@ -43,13 +43,13 @@ namespace itk
  * shape.
  */
 template <class TInputMesh, class TOutputMesh>
-class ITK_EXPORT BalloonForceFilter : public MeshToMeshFilter<TInputMesh, TOutputMesh>
+class ITK_EXPORT 3DBalloonForceFilter : public MeshToMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
   /**
    * Standard "Self" typedef.
    */
-  typedef BalloonForceFilter  Self;
+  typedef 3DBalloonForceFilter  Self;
 
   /**
    * Standard "Superclass" typedef.
@@ -69,7 +69,7 @@ public:
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(BalloonForceFilter,MeshToMeshFilter);
+  itkTypeMacro(3DBalloonForceFilter,MeshToMeshFilter);
 
   /** 
    * Some typedefs.
@@ -147,10 +147,10 @@ public:
   itkGetMacro(ImageOutput, ImagePointer);
 
 protected:
-  BalloonForceFilter();
-  ~BalloonForceFilter() {};
-  BalloonForceFilter(const BalloonForceFilter&) {};
-  void operator=(const BalloonForceFilter&) {};
+  3DBalloonForceFilter();
+  ~3DBalloonForceFilter() {};
+  3DBalloonForceFilter(const 3DBalloonForceFilter&) {};
+  void operator=(const 3DBalloonForceFilter&) {};
   virtual void GenerateData();
 //  void PrintSelf(std::ostream& os, Indent indent);
 
@@ -205,7 +205,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBalloonForceFilter.txx"
+#include "itk3DBalloonForceFilter.txx"
 #endif
 
 #endif

@@ -13,10 +13,10 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#ifndef _itkBalloonForceFilter_txx
-#define _itkBalloonForceFilter_txx
+#ifndef _itk3DBalloonForceFilter_txx
+#define _itk3DBalloonForceFilter_txx
 
-#include "itkBalloonForceFilter.h"
+#include "itk3DBalloonForceFilter.h"
 
 namespace itk
 {
@@ -24,8 +24,8 @@ namespace itk
  * standard 
  */
 template <typename TInputMesh, typename TOutputMesh>
-BalloonForceFilter<TInputMesh, TOutputMesh>
-::BalloonForceFilter()
+3DBalloonForceFilter<TInputMesh, TOutputMesh>
+::3DBalloonForceFilter()
 {
 
 }
@@ -36,7 +36,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
  */
 template <typename TInputMesh, typename TOutputMesh>
 void 
-BalloonForceFilter<TInputMesh, TOutputMesh>
+3DBalloonForceFilter<TInputMesh, TOutputMesh>
 ::SetStiffness(double a, double b)
 {
   m_Stiffness[0] = a; 
@@ -45,7 +45,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 
 template <typename TInputMesh, typename TOutputMesh>
 void 
-BalloonForceFilter<TInputMesh, TOutputMesh>
+3DBalloonForceFilter<TInputMesh, TOutputMesh>
 ::SetCenter(int a, int b, int c)
 {
   m_Center[0] = a; 
@@ -58,7 +58,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
  */
 template <typename TInputMesh, typename TOutputMesh>
 void 
-BalloonForceFilter<TInputMesh, TOutputMesh>
+3DBalloonForceFilter<TInputMesh, TOutputMesh>
 ::SetForces(TInputMesh* force)
 {
   m_Forces = force; 
@@ -69,7 +69,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
  */
 template <typename TInputMesh, typename TOutputMesh>
 void 
-BalloonForceFilter<TInputMesh, TOutputMesh>
+3DBalloonForceFilter<TInputMesh, TOutputMesh>
 ::SetDisplacements(TInputMesh* displace)
 {
   m_Displacements = displace; 
@@ -80,7 +80,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
  */
 template <typename TInputMesh, typename TOutputMesh>
 void 
-BalloonForceFilter<TInputMesh, TOutputMesh>
+3DBalloonForceFilter<TInputMesh, TOutputMesh>
 ::SetPotential(ImagePointer potential)
 {
   m_Potential = potential; 
@@ -91,7 +91,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
  */
 template <typename TInputMesh, typename TOutputMesh>
 void 
-BalloonForceFilter<TInputMesh, TOutputMesh>
+3DBalloonForceFilter<TInputMesh, TOutputMesh>
 ::SetGradient(ImagePointer gradient)
 {
   m_Gradient = gradient; 
@@ -102,7 +102,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
  *//*
 template <typename TInputMesh, typename TOutputMesh>
 void 
-BalloonForceFilter<TInputMesh, TOutputMesh>
+3DBalloonForceFilter<TInputMesh, TOutputMesh>
 ::SetImageOutput(ImagePointer outputimg)
 {
   m_ImageOutput = outputimg; 
@@ -111,7 +111,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 
 template <typename TInputMesh, typename TOutputMesh>
 ImagePointer
-BalloonForceFilter<TInputMesh, TOutputMesh>
+3DBalloonForceFilter<TInputMesh, TOutputMesh>
 ::GetImageOutput()
 {
   return m_ImageOutput; 
@@ -123,7 +123,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
  */
 template <typename TInputMesh, typename TOutputMesh>
 void 
-BalloonForceFilter<TInputMesh, TOutputMesh>
+3DBalloonForceFilter<TInputMesh, TOutputMesh>
 ::SetNormals(TInputMesh* normals)
 {
   m_Normals = normals; 
@@ -136,7 +136,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
  */
 template <typename TInputMesh, typename TOutputMesh>
 void 
-BalloonForceFilter<TInputMesh, TOutputMesh>
+3DBalloonForceFilter<TInputMesh, TOutputMesh>
 ::SetLocations(TInputMesh* location)
 {
   m_Locations = location; 
@@ -148,7 +148,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
  */
 template <typename TInputMesh, typename TOutputMesh>
 void 
-BalloonForceFilter<TInputMesh, TOutputMesh>
+3DBalloonForceFilter<TInputMesh, TOutputMesh>
 ::SetDerives(TInputMesh* derive)
 {
   m_Derives = derive; 
@@ -159,7 +159,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
  */
 template <typename TInputMesh, typename TOutputMesh>
 void 
-BalloonForceFilter<TInputMesh, TOutputMesh>
+3DBalloonForceFilter<TInputMesh, TOutputMesh>
 ::SetResolution(int a, int b, int c)
 {
   m_Resolution[0] = a; 
@@ -173,7 +173,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
  */
 template <typename TInputMesh, typename TOutputMesh>
 void 
-BalloonForceFilter<TInputMesh, TOutputMesh>
+3DBalloonForceFilter<TInputMesh, TOutputMesh>
 ::Initialize()
 {
 // the Locations store the position of the nodes on the model
@@ -298,7 +298,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
  */
 template <typename TInputMesh, typename TOutputMesh>
 void 
-BalloonForceFilter<TInputMesh, TOutputMesh>
+3DBalloonForceFilter<TInputMesh, TOutputMesh>
 ::SetStiffnessMatrix () 
 { 
   InputCellDataContainerPointer			myCellData = m_Locations->GetCellData();
@@ -412,7 +412,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
  */
 template <typename TInputMesh, typename TOutputMesh>
 void 
-BalloonForceFilter<TInputMesh, TOutputMesh>
+3DBalloonForceFilter<TInputMesh, TOutputMesh>
 ::ComputeForce()
 {
   int i, p, q, label, l=0, j; 
@@ -544,7 +544,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
  */
 template <typename TInputMesh, typename TOutputMesh>
 void
-BalloonForceFilter<TInputMesh, TOutputMesh>
+3DBalloonForceFilter<TInputMesh, TOutputMesh>
 ::ComputeDt()
 {
   int i; 
@@ -662,7 +662,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
  */
 template <typename TInputMesh, typename TOutputMesh>
 void
-BalloonForceFilter<TInputMesh, TOutputMesh>
+3DBalloonForceFilter<TInputMesh, TOutputMesh>
 ::Reset()
 {
   int i, j, cell=0, slice, numnewnodes, res; 
@@ -880,7 +880,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
  */
 template <typename TInputMesh, typename TOutputMesh>
 void
-BalloonForceFilter<TInputMesh, TOutputMesh>
+3DBalloonForceFilter<TInputMesh, TOutputMesh>
 ::Advance()
 {
   typename TInputMesh::PointType s, d, ds; 
@@ -960,7 +960,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
  */
 template <typename TInputMesh, typename TOutputMesh>
 void
-BalloonForceFilter<TInputMesh, TOutputMesh>
+3DBalloonForceFilter<TInputMesh, TOutputMesh>
 ::ComputeOutput() 
 {
   this->SetOutput(m_Locations);
@@ -1014,7 +1014,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
  */
 template <typename TInputMesh, typename TOutputMesh>
 void
-BalloonForceFilter<TInputMesh, TOutputMesh>
+3DBalloonForceFilter<TInputMesh, TOutputMesh>
 ::GenerateData() 
 {
   this->Initialize();
@@ -1039,7 +1039,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
  */
 template <typename TInputMesh, typename TOutputMesh>
 void
-BalloonForceFilter<TInputMesh, TOutputMesh>
+3DBalloonForceFilter<TInputMesh, TOutputMesh>
 ::GapSearch() 
 {
   InputPointsContainerPointer		Points = m_Locations->GetPoints();
@@ -1106,7 +1106,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
  */
 template <typename TInputMesh, typename TOutputMesh>
 void
-BalloonForceFilter<TInputMesh, TOutputMesh>
+3DBalloonForceFilter<TInputMesh, TOutputMesh>
 ::NodeAddition(int node, int res, IPT z) 
 {
   m_NumNewNodes++;
@@ -1131,7 +1131,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
  */
 template <typename TInputMesh, typename TOutputMesh>
 void
-BalloonForceFilter<TInputMesh, TOutputMesh>
+3DBalloonForceFilter<TInputMesh, TOutputMesh>
 ::GradientFit() 
 {
   int i, j, k, node, slice;
@@ -1250,7 +1250,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
  */
 template <typename TInputMesh, typename TOutputMesh>
 void
-BalloonForceFilter<TInputMesh, TOutputMesh>
+3DBalloonForceFilter<TInputMesh, TOutputMesh>
 ::ComputeNormals() 
 {
   const unsigned long *tp;
@@ -1342,7 +1342,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
  */
 template <typename TInputMesh, typename TOutputMesh>
 void
-BalloonForceFilter<TInputMesh, TOutputMesh>
+3DBalloonForceFilter<TInputMesh, TOutputMesh>
 ::NodesRearrange()
 {
   int i, j, k, node;
