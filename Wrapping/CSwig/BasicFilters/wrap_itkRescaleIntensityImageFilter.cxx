@@ -34,6 +34,10 @@ namespace _cable_
                                      itkRescaleIntensityImageFilterF2F2);
     ITK_WRAP_OBJECT2_WITH_SUPERCLASS(RescaleIntensityImageFilter, image::F2, image::US2, 
                                      itkRescaleIntensityImageFilterF2US2);
+    ITK_WRAP_OBJECT2_WITH_SUPERCLASS(RescaleIntensityImageFilter, image::F2, image::UC2, 
+                                     itkRescaleIntensityImageFilterF2UC2);
+    ITK_WRAP_OBJECT2_WITH_SUPERCLASS(RescaleIntensityImageFilter, image::US2, image::UC2, 
+                                     itkRescaleIntensityImageFilterUS2UC2);
     ITK_WRAP_OBJECT2_WITH_SUPERCLASS(RescaleIntensityImageFilter, image::US2, image::US2, 
                                      itkRescaleIntensityImageFilterUS2US2);
     ITK_WRAP_OBJECT2_WITH_SUPERCLASS(RescaleIntensityImageFilter, image::F3, image::US3, 
@@ -44,6 +48,10 @@ namespace _cable_
                                      itkRescaleIntensityImageFilterUS3US3);
     ITK_WRAP_OBJECT2_WITH_SUPERCLASS(RescaleIntensityImageFilter, image::US3, image::F3, 
                                      itkRescaleIntensityImageFilterUS3F3);
+    ITK_WRAP_OBJECT3_WITH_SUPERCLASS(RescaleIntensityImageFilter, image::F3, image::UC3, 
+                                     itkRescaleIntensityImageFilterF3UC3);
+    ITK_WRAP_OBJECT3_WITH_SUPERCLASS(RescaleIntensityImageFilter, image::US3, image::UC3, 
+                                     itkRescaleIntensityImageFilterUS3UC3);
   }
 }
 
