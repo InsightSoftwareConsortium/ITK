@@ -17,6 +17,7 @@
 
   <xsl:variable name="CVSWebURL">http://public.kitware.com/cgi-bin/itkcvsweb.cgi/Insight/</xsl:variable>
   <xsl:variable name="DoxygenURL">http://public.kitware.com/Insight/Doxygen/html/</xsl:variable>
+  <xsl:variable name="GnatsWebURL">http://public.kitware.com/cgi-bin/gnatsweb.cgi/Insight/</xsl:variable>
 
   <xsl:template name="TranslateTestName">
     <xsl:param name="Prefix"></xsl:param>
@@ -103,6 +104,13 @@
                     &lt;a href="http://public.kitware.com/Insight/Doxygen/html/">&lt;img alt="Doxygen" src="</xsl:text>
     <xsl:value-of select="$IconDir"/>
     <xsl:text disable-output-escaping="yes">/Doxygen.gif" border="0">&lt;/img>&lt;/a>
+                  &lt;/td>
+&lt;/tr>
+		&lt;tr>
+		&lt;td align="center">
+                    &lt;a href="http://public.kitware.com/cgi-bin/gnatsweb.pl">&lt;img alt="Bugs" src="</xsl:text>
+    <xsl:value-of select="$IconDir"/>
+    <xsl:text disable-output-escaping="yes">/Bugs.gif" border="0">&lt;/img>&lt;/a>
                   &lt;/td>
 &lt;/tr>
 		&lt;tr>
