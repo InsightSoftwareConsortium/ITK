@@ -97,7 +97,7 @@ Element2DMembrane<TBaseClass>
   /* Material properties matrix.  Simpler than linear elasticity. */
   Float disot = m_mat->E;
     
-  for (int i=0; i<d; i++) D[i][i] = disot;
+  for (unsigned int i=0; i<d; i++) D[i][i] = disot;
 
 }
 

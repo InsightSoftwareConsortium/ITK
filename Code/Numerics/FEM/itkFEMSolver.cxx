@@ -603,7 +603,7 @@ Solver::Float Solver::GetDeformationEnergy(unsigned int SolutionIndex)
     unsigned int Ne=(*e)->GetNumberOfDegreesOfFreedom();
     LocalSolution.resize(Ne,1);
     // step over all DOFs of element
-    for(int j=0; j<Ne; j++)
+    for(unsigned int j=0; j<Ne; j++)
     {
       LocalSolution[j][0]=m_ls->GetSolutionValue((*e)->GetDegreeOfFreedom(j),SolutionIndex);
     }

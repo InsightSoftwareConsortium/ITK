@@ -364,6 +364,7 @@ Element::Float SolverCrankNicolson::EvaluateResidual(Float t)
          +(1.-t)*m_ls->GetSolutionValue(j,SolutionTMinus1Index);
 //        jSolVal=t*(m_ls->GetSolutionValue(j,SolutionTIndex))
 //       +m_ls->GetSolutionValue(j,TotalSolutionIndex);// FOR TOT E
+
       TempRowVal+=m_ls->GetMatrixValue(i,j,SumMatrixIndex)*jSolVal;
     }
     DeformationEnergy+=iSolVal*TempRowVal;
