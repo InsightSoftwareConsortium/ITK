@@ -125,6 +125,14 @@ int main( int argc, char ** argv )
 
   const unsigned int indexOfComponentToExtract = atoi( argv[4] );
 
+  if( indexOfComponentToExtract >= Dimension )
+    {
+    std::cerr << "You are requesting an index out of the range for the Vector dimension" << std::endl;
+    std::cerr << "Vector dimension is = " << Dimension << std::endl;
+    std::cerr << "but your requested index = " << indexOfComponentToExtract << std::endl;
+    return -1;
+    }
+
   //  Software Guide : BeginCodeSnippet
   componentExtractor->SetIndex( indexOfComponentToExtract );
   //  Software Guide : EndCodeSnippet 
