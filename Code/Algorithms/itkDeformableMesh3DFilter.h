@@ -231,9 +231,9 @@ private:
   int       m_NewNode;
   int       m_NewNodesExisted;
   int       m_NewNodeLimit;
-  int       m_imgWidth;      /** Image size */
-  int       m_imgHeight;
-  int       m_imgDepth;
+  int       m_ImageWidth;      /** Image size */
+  int       m_ImageHeight;
+  int       m_ImageDepth;
   int       m_ModelXUpLimit; /** Records the size of the model. */
   int       m_ModelXDownLimit;
   int       m_ModelYUpLimit;

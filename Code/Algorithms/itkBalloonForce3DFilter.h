@@ -248,9 +248,9 @@ private:
   int       m_NumCells;      /** number of cells on the model surface. */
   int       m_NumNewNodes;   /** To add new nodes. */
   int       *m_GapLocations;
-  int       m_imgWidth;      /** Image size. */
-  int       m_imgHeight;
-  int       m_imgDepth;
+  int       m_ImageWidth;      /** Image size. */
+  int       m_ImageHeight;
+  int       m_ImageDepth;
   int       m_ModelXUpLimit; /** Records the size of the model. */
   int       m_ModelXDownLimit;
   int       m_ModelYUpLimit;

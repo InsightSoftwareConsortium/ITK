@@ -54,6 +54,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 {
   m_Step = 0;
   m_FirstSlice = 0;
+  m_NeighborRadius = 3;
   typename TOutputMesh::Pointer output = TOutputMesh::New();
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput(0, output.GetPointer());

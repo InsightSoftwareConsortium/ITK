@@ -126,9 +126,9 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   //---------------------------------------------------------------------
   //Get the image width/height and depth
   //---------------------------------------------------------------------   
-  m_imgWidth  = PotentialSize[0];
-  m_imgHeight = PotentialSize[1];
-  m_imgDepth  = PotentialSize[2];
+  m_ImageWidth  = PotentialSize[0];
+  m_ImageHeight = PotentialSize[1];
+  m_ImageDepth  = PotentialSize[2];
 
   InputPointType d;
   d[0] = 0.0;
@@ -343,8 +343,8 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     extend[1] = (int) x[1];
     extend[2] = (int) x[2];
 
-    if ( (coord[0]>0)&&(coord[0]<m_imgWidth)&&(coord[1]>0)&&
-        (coord[1]<m_imgHeight)&&(coord[2]>0)&&(coord[2]<m_imgDepth)) {
+    if ( (coord[0]>0)&&(coord[0]<m_ImageWidth)&&(coord[1]>0)&&
+        (coord[1]<m_ImageHeight)&&(coord[2]>0)&&(coord[2]<m_ImageDepth)) {
       if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
         xs = ys = zs = 0.0;
       }
@@ -402,8 +402,8 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     coord[1] = (int) x[1];
     coord[2] = (int) x[2];
 
-    if ( (coord[0]>0)&&(coord[0]<m_imgWidth)&&(coord[1]>0)&&
-        (coord[1]<m_imgHeight)&&(coord[2]>0)&&(coord[2]<m_imgDepth)) {
+    if ( (coord[0]>0)&&(coord[0]<m_ImageWidth)&&(coord[1]>0)&&
+        (coord[1]<m_ImageHeight)&&(coord[2]>0)&&(coord[2]<m_ImageDepth)) {
       if ( m_Potential->GetPixel(coord) == m_ObjectLabel ) {
         xs = ys = zs = 0.0;
       }
@@ -443,8 +443,8 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
       extend[0] = (int) (extends[0]);
       extend[1] = (int) (extends[1]);
       extend[2] = (int) (extends[2]);
-      if ((extend[0] >= m_imgWidth) || (extend[1] >= m_imgHeight) || 
-          (extend[2] >= m_imgDepth)) {
+      if ((extend[0] >= m_ImageWidth) || (extend[1] >= m_ImageHeight) || 
+          (extend[2] >= m_ImageDepth)) {
         t += 1.0;
         continue;
       }
@@ -603,8 +603,8 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
       extend[0] = (int) (extends[0]);
       extend[1] = (int) (extends[1]);
       extend[2] = (int) (extends[2]);
-      if ((extend[0] >= m_imgWidth) || (extend[1] >= m_imgHeight) || 
-          (extend[2] >= m_imgDepth)) break;
+      if ((extend[0] >= m_ImageWidth) || (extend[1] >= m_ImageHeight) || 
+          (extend[2] >= m_ImageDepth)) break;
 
       label = m_Potential->GetPixel(extend);
       if ( label != m_ObjectLabel ) break;
@@ -853,11 +853,11 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   int i;
 
   m_ModelXUpLimit = 0;
-  m_ModelXDownLimit = m_imgWidth;
+  m_ModelXDownLimit = m_ImageWidth;
   m_ModelYUpLimit = 0;
-  m_ModelYDownLimit = m_imgHeight;
+  m_ModelYDownLimit = m_ImageHeight;
   m_ModelZUpLimit = 0;
-  m_ModelZDownLimit = m_imgDepth;
+  m_ModelZDownLimit = m_ImageDepth;
 
   InputPointsContainerPointer  myDerives = m_Derives->GetPoints();
   InputPointsContainerIterator derives = myDerives->Begin();
@@ -895,14 +895,14 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     if (s[2] < 0) {
       s[2] = 0;
     }
-    if (s[2] > m_imgDepth) {
-      s[2] = m_imgDepth-0.001;
+    if (s[2] > m_ImageDepth) {
+      s[2] = m_ImageDepth-0.001;
     }
-    if (s[0] > m_imgWidth) {
-      s[0] = m_imgWidth-0.001;
+    if (s[0] > m_ImageWidth) {
+      s[0] = m_ImageWidth-0.001;
     }
-    if (s[1] > m_imgHeight) {
-      s[1] = m_imgHeight-0.001;
+    if (s[1] > m_ImageHeight) {
+      s[1] = m_ImageHeight-0.001;
     }
 
     points.Value() = s;
@@ -1676,10 +1676,10 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   int i, j, l, m, n, pt1, pt2;
   double s;
   InputPointType v, v1, v2, v3;
-  m_ACD = (int**) malloc(sizeof(int *)*m_imgHeight/2);
+  m_ACD = (int**) malloc(sizeof(int *)*m_ImageHeight/2);
 
-  for (i=0; i<m_imgHeight/2; i++) {
-    m_ACD[i] = (int*) malloc(sizeof(int)*m_imgWidth/2);
+  for (i=0; i<m_ImageHeight/2; i++) {
+    m_ACD[i] = (int*) malloc(sizeof(int)*m_ImageWidth/2);
   }
   
   InputPointsContainerPointer   myLocations = m_Locations->GetPoints();
@@ -1814,7 +1814,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   }
 
   m_ModelRestart = 0;
-  for (i=0; i<m_imgHeight/2; i++) {
+  for (i=0; i<m_ImageHeight/2; i++) {
     free(m_ACD[i]);
   }
   free(m_ACD);
