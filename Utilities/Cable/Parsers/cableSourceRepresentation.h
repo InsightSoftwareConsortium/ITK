@@ -13,10 +13,10 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#ifndef _sourceRep_h
-#define _sourceRep_h
+#ifndef _cableSourceRepresentation_h
+#define _cableSourceRepresentation_h
 
-#include "referenceCount.h"
+#include "cableReferenceCount.h"
 
 #include <stdio.h>
 #include <string>

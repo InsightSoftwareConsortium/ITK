@@ -1,10 +1,10 @@
 LIBRARY(CableParsers)
 
 SOURCE_FILES(
-configRep
-configurationParser
-sourceParser
-sourceRep
-xmlAttributes
+cableConfigurationRepresentation
+cableConfigurationParser
+cableSourceParser
+cableSourceRepresentation
+cableXmlAttributes
 )
 

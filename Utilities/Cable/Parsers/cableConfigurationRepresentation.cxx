@@ -13,7 +13,7 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#include "configRep.h"
+#include "cableConfigurationRepresentation.h"
 
 namespace configuration
 {

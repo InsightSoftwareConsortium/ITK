@@ -13,8 +13,8 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#ifndef _win32Header_h
-#define _win32Header_h
+#ifndef _cableWin32Header_h
+#define _cableWin32Header_h
 
 // add in the Windows variants
 #if (defined(_WIN32) || defined(WIN32)) && !defined(__CYGWIN__)

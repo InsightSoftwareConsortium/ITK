@@ -17,7 +17,7 @@
 #define _genTclGenerator_h
 
 #include "genGeneratorBase.h"
-#include "sourceRep.h"
+#include "cableSourceRepresentation.h"
 
 namespace gen
 {

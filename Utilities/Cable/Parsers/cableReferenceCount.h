@@ -13,10 +13,10 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#ifndef _referenceCount_h
-#define _referenceCount_h
+#ifndef _cableReferenceCount_h
+#define _cableReferenceCount_h
 
-#include "win32Header.h"
+#include "cableWin32Header.h"
 
 class Object;
 

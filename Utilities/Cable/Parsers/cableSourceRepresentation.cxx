@@ -13,7 +13,7 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#include "sourceRep.h"
+#include "cableSourceRepresentation.h"
 
 #include <stdio.h>
 #include <stdlib.h>

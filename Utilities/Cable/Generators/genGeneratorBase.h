@@ -16,7 +16,7 @@
 #ifndef _genGeneratorBase_h
 #define _genGeneratorBase_h
 
-#include "configRep.h"
+#include "cableConfigurationRepresentation.h"
 
 namespace gen
 {

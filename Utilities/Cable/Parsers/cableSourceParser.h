@@ -13,12 +13,12 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#ifndef _sourceParser_h
-#define _sourceParser_h
+#ifndef _cableSourceParser_h
+#define _cableSourceParser_h
 
-#include "sourceRep.h"
-#include "xmlParseException.h"
-#include "xmlAttributes.h"
+#include "cableSourceRepresentation.h"
+#include "cableXmlParseException.h"
+#include "cableXmlAttributes.h"
 
 #include <stack>
 

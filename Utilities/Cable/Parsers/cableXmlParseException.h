@@ -13,10 +13,10 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#ifndef _xmlParseException_h
-#define _xmlParseException_h
+#ifndef _cableXmlParseException_h
+#define _cableXmlParseException_h
 
-#include "win32Header.h"
+#include "cableWin32Header.h"
 
 #include "xmlparse.h"
 

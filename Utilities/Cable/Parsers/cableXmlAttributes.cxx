@@ -13,7 +13,7 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#include "xmlAttributes.h"
+#include "cableXmlAttributes.h"
 
 #include <stdlib.h>
 

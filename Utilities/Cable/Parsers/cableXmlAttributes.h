@@ -13,10 +13,10 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#ifndef _xmlAttributes_h
-#define _xmlAttributes_h
+#ifndef _cableXmlAttributes_h
+#define _cableXmlAttributes_h
 
-#include "xmlParseException.h"
+#include "cableXmlParseException.h"
 
 #include <map>
 
