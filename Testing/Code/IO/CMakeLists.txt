@@ -48,6 +48,14 @@ IF(ITK_DATA_ROOT)
            ${ITK_DATA_ROOT}/Input/cthead1.png)
   ADD_TEST(itkPNGImageIOTest2 ${IO_TESTS} itkPNGImageIOTest
            ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png)
+  ADD_TEST(itkAnalyzeIOBigEndianCompressed ${IO_TESTS} itkAnalyzeImageIOTest
+           ${ITK_DATA_ROOT}/Input/BigEndianCompressed.hdr)
+  ADD_TEST(itkAnalyzeIOBigEndian ${IO_TESTS} itkAnalyzeImageIOTest
+           ${ITK_DATA_ROOT}/Input/BigEndian.hdr)
+  ADD_TEST(itkAnalyzeIOLittleEndianCompressed ${IO_TESTS} itkAnalyzeImageIOTest
+           ${ITK_DATA_ROOT}/Input/LittleEndianCompressed.hdr)
+  ADD_TEST(itkAnalyzeIOLittleEndian ${IO_TESTS} itkAnalyzeImageIOTest
+           ${ITK_DATA_ROOT}/Input/LittleEndian.hdr)
 ENDIF(ITK_DATA_ROOT)
 
 IF(ITK_BINARY_DIR)
