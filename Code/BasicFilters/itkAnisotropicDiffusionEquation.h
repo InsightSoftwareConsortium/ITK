@@ -134,7 +134,7 @@ public:
 
   /** Set/Get the conduction parameter. */
   void SetConductanceParameter(const double &c)
-    { m_ConductanceParameter = c; }
+    { m_ConductanceParameter = c * c ; }
   const double &GetConductanceParameter() const
     { return m_ConductanceParameter; }
 

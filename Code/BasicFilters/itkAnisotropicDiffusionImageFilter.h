@@ -41,17 +41,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkAnisotropicDiffusionImageFilter_h_
 #define __itkAnisotropicDiffusionImageFilter_h_
 
-
 #include "itkDenseFiniteDifferenceImageFilter.h"
 #include "itkAnisotropicDiffusionEquation.h"
 #include "itkNumericTraits.h"
 
 namespace itk {
 
-/**
- * AnisotropicDiffusionImageFilter
- *
- *
+/** \class AnisotropicDiffusionImageFilter
  * \ingroup ImageEnhancement
  */
 template <class TInputImage, class TOutputImage>
@@ -87,17 +83,30 @@ public:
   typedef typename Superclass::PixelType PixelType;
   typedef typename Superclass::TimeStepType TimeStepType;
 
-  /** Set filter parameters. */
+  /** Set/Get the number of iterations that the filter will run. */
   itkSetMacro(Iterations, unsigned int);
   itkGetMacro(Iterations, unsigned int);
+
+  /** Set/Get the time step for each iteration */
   itkSetMacro(TimeStep, TimeStepType);
   itkGetMacro(TimeStep, TimeStepType);
+
+  /** Set/Get the conductance parameter governing sensitivity of the
+      conductance equation. */
   itkSetMacro(ConductanceParameter, double);
   itkGetMacro(ConductanceParameter, double);
   itkSetMacro(ConductanceScalingUpdateInterval, unsigned int);
   itkGetMacro(ConductanceScalingUpdateInterval, unsigned int);
   itkSetMacro(ConductanceScalingParameter, double);
   itkGetMacro(ConductanceScalingParameter, double);
+
+  void SetFixedAverageGradientMagnitude(double a)
+    {
+      m_FixedAverageGradientMagnitude= a;
+      this->Modified();
+      m_GradientMagnitudeIsFixed = true;
+    }
+  itkGetMacro(FixedAverageGradientMagnitude, double);
   
 protected:
   AnisotropicDiffusionImageFilter()
@@ -105,6 +114,8 @@ protected:
       m_Iterations = 0;
       m_ConductanceParameter = 1.0;
       m_TimeStep = 0.125f;
+      m_FixedAverageGradientMagnitude = 0.0;
+      m_GradientMagnitudeIsFixed = false;
     }
   ~AnisotropicDiffusionImageFilter() {}
   void PrintSelf(std::ostream& os, Indent indent) const
@@ -127,7 +138,17 @@ protected:
         dynamic_cast<AnisotropicDiffusionEquation<UpdateBufferType> *>
         (this->GetDifferenceEquation().GetPointer());
       f->SetConductanceParameter(m_ConductanceParameter);
-      f->CalculateAverageGradientMagnitudeSquared(this->GetOutput());
+      
+      if (m_GradientMagnitudeIsFixed == false)
+        {
+          f->CalculateAverageGradientMagnitudeSquared(this->GetOutput());
+        }
+      else
+        {
+          f->SetAverageGradientMagnitudeSquared(m_FixedAverageGradientMagnitude 
+                                                *
+                                                m_FixedAverageGradientMagnitude);
+        }
       f->InitializeIteration();
 
       if (m_Iterations != 0)
@@ -135,6 +156,8 @@ protected:
                                /((float)(m_Iterations)));
       else this->UpdateProgress(0);
     }
+
+  bool m_GradientMagnitudeIsFixed;
   
 private:
   AnisotropicDiffusionImageFilter(const Self&); //purposely not implemented
@@ -144,6 +167,7 @@ private:
   double           m_ConductanceScalingParameter;
   unsigned int     m_Iterations;
   unsigned int     m_ConductanceScalingUpdateInterval;
+  double           m_FixedAverageGradientMagnitude;
   
 
   TimeStepType     m_TimeStep;
