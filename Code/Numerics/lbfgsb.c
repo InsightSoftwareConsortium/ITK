@@ -1089,6 +1089,7 @@ static int errclb_( integer *n, integer *m, doublereal *factr, doublereal *l,
 
     /* Local variables */
     static integer i__;
+    (void)task_len;
 
 /*     ************ */
 
@@ -1892,6 +1893,8 @@ doublereal *dsave, ftnlen task_len, ftnlen csave_len)
     /* Local variables */
     static integer i__;
     static doublereal a1, a2;
+    (void)task_len;
+    (void)csave_len;
 
 /*     ********** */
 
@@ -2125,6 +2128,14 @@ doublereal *theta, doublereal *rr, doublereal *dr, doublereal *stp, doublereal *
 static int prn1lb_( integer *n, integer *m, doublereal *l, doublereal *u, doublereal *x,
 integer *iprint, integer *itfile, doublereal *epsmch)
 {
+  (void)n;
+  (void)m;
+  (void)l;
+  (void)u;
+  (void)x;
+  (void)iprint;
+  (void)itfile;
+  (void)epsmch;
 #if 0
     /* Format strings */
 /*
@@ -2260,6 +2271,23 @@ integer *iprint, integer *itfile, integer *iter, integer *nfgv, integer *nact,
 doublereal *sbgnrm, integer *nint, char *word, integer *iword, integer *iback,
 doublereal *stp, doublereal *xstep, ftnlen word_len)
 {
+  (void)n;
+  (void)x;
+  (void)f;
+  (void)g;
+  (void)iprint;
+  (void)itfile;
+  (void)iter;
+  (void)nfgv;
+  (void)nact;
+  (void)sbgnrm;
+  (void)nint;
+  (void)word;
+  (void)iword;
+  (void)iback;
+  (void)stp;
+  (void)xstep;
+  (void)word_len;
 #if 0
     /* Format strings */
     static char fmt_2001[] = "(/,\002At iterate\002,i5,4x,\002f= \002,1p,d12\
@@ -2386,6 +2414,31 @@ doublereal *stp, doublereal *xstep, integer *k,
 doublereal *cachyt, doublereal *sbtime, doublereal *lnscht, ftnlen task_len,
 ftnlen word_len)
 {
+  (void)n;
+  (void)x;
+  (void)f;
+  (void)task;
+  (void)iprint;
+  (void)info;
+  (void)itfile;
+  (void)iter;
+  (void)nfgv;
+  (void)nintol;
+  (void)nskip;
+  (void)nact;
+  (void)sbgnrm;
+  (void)time;
+  (void)nint;
+  (void)word;
+  (void)iback;
+  (void)stp;
+  (void)xstep;
+  (void)k;
+  (void)cachyt;
+  (void)sbtime;
+  (void)lnscht;
+  (void)task_len;
+  (void)word_len;
 #if 0
     /* Format strings */
     static char fmt_3003[] = "(/,\002           * * *\002,/,/,\002Tit   = to\
@@ -4090,7 +4143,8 @@ actorization in formt;\002,/,\002   refresh the lbfgs memory and restart the\
     static cilist io___75 = { 0, 6, 0, fmt_1004, 0 };
     static cilist io___76 = { 0, 6, 0, fmt_1007, 0 };
 */
-
+    (void)task_len;
+    (void)csave_len;
 
 /*     ************ */
 
@@ -4814,7 +4868,8 @@ int setulb_(integer *n, integer *m, const doublereal *x, doublereal *l,
     /* Local variables */
     static integer lsnd, lsgo, lygo, /* l1,  l2, l3, */ ld, lr, lt;
     static integer lz, lwa, lsg, lyg, lwn, lss, lws, lwt, lsy, lwy, lyy;
-
+    (void)task_len;
+    (void)csave_len;
 
 /*     ************ */
 
