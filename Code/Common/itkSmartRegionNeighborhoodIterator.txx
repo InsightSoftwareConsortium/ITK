@@ -202,11 +202,11 @@ void SmartRegionNeighborhoodIterator<TPixel, VDimension, TAllocator,
   TDerefAllocator>
 ::SetBound(const SizeType& size)
 {
-  Size<VDimension> radius  = this->GetRadius();
+  SizeType radius  = this->GetRadius();
   const unsigned long *offset     = m_Image->GetOffsetTable();
   const IndexType imageRRStart  = m_Image->GetRequestedRegion().GetIndex();
-  Size<VDimension> imageRRSize = m_Image->GetRequestedRegion().GetSize();
-  Size<VDimension> imageBufferSize = m_Image->GetBufferedRegion().GetSize();
+  SizeType imageRRSize = m_Image->GetRequestedRegion().GetSize();
+  SizeType imageBufferSize = m_Image->GetBufferedRegion().GetSize();
 
   // Set the bounds and the wrapping offsets. Inner bounds are the loop
   // indicies where the iterator will begin to overlap the edge of the image
