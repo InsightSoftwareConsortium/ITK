@@ -28,6 +28,7 @@ MARK_AS_ADVANCED(VXL_FROM_UTILITIES)
 IF(VXL_FROM_UTILITIES)
  INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Utilities/vxl/vcl
                       ${ITK_BINARY_DIR}/Utilities/vxl/vcl
+                      ${ITK_SOURCE_DIR}/Utilities/vxl/v3p/netlib
                       ${ITK_BINARY_DIR}/Utilities/vxl
                       ${ITK_SOURCE_DIR}/Utilities/vxl)
   IF(WIN32)
