@@ -40,14 +40,6 @@
 #include "itkImageFileWriter.h"
 
 
-// Iterators1 /home/cates/Insight/Examples/Data/VisibleWomanEyeSlice.png out.png 20 10 100 100
-//%In fact, with iterators,
-//%algorithms often generalize to higher dimensions automatically.  Note how the
-//%code in figure~\ref{fig:ImageIterators} is equally correct for images of two,
-//%three, or even ten dimensions.  The alternative to using iterators in this
-//%example would be a set of nested \code{for} loops.  Such nested loops would
-//%also require knowing the size of the image.  
-
 int main( int argc, char ** argv )
 {
   // Verify the number of parameters on the command line.
@@ -169,7 +161,8 @@ int main( int argc, char ** argv )
 // The \code{for} loop above is a very common construct in ITK.  The beauty of
 // those four simple lines of code is that they are equally valid for one, two,
 // three, or even ten dimensional data.  Consider the ugly alternative of ten
-// nested \code{for} loops for traversing an image.
+// nested \code{for} loops for traversing an image, which would also require
+// explicit knowledge of the size of each image dimension.
 //
 // Software Guide : EndLatex
   

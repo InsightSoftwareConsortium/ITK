@@ -18,8 +18,11 @@
 // Software Guide : BeginLatex
 //
 // The following example illustrates the use of
-// \code{itk::ImageRegionIteratorWithIndex}.  A 2D image is flipped across its
-// x axis.
+// \code{itk::ImageRegionIteratorWithIndex}.  The algorithm shown here
+// mirrors a 2D image across its x axis (see \code{itk::FlipImageAxis} for an
+// ND version).  The algorithm makes extensive use of the \code{GetIndex()}
+// method, calculating the mirrored index at each pixel to copy from the
+// original image.
 //
 // Software Guide : EndLatex
 
