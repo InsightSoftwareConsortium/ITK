@@ -239,7 +239,6 @@ namespace itk
            curImageHeader->echoNumber);
     }
   delete curImageHeader;
-  curImageHeader = 0;
       }
     switch(m_ImageHeader->imagePlane)
       {

@@ -238,7 +238,7 @@ ImageSeriesWriter<TInputImage>
   // of the IO region do not change, it is the upper dimensions that 
   // change as slices are written.
   //
-  unsigned long i = imageDimension;
+  unsigned long i;
   unsigned long numberOfSlices=1;
   ImageIORegion ioRegion(TInputImage::ImageDimension);
   for ( i=0; i < TInputImage::ImageDimension; i++ )

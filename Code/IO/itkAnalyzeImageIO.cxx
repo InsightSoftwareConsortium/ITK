@@ -1156,16 +1156,8 @@ namespace itk
     AnalyzeImageIO
     ::Write( const void* buffer)
     {
-      unsigned int dim;
-
       //Write the image Information before writing data
       this->WriteImageInformation();
-      const unsigned int dimensions = this->GetNumberOfDimensions();
-      unsigned int numberOfPixels = 1;
-      for( dim=0; dim< dimensions; dim++ )
-      {
-        numberOfPixels *= m_Dimensions[ dim ];
-      }
 
       //NOTE: voidp is defined by zlib.h
       //NOTE: Need const_cast because voidp is "void*", so
