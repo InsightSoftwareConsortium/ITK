@@ -3,6 +3,7 @@ itkAffineTransformTest
 itkBasicArchitectureTest 
 itkBoundingBoxTest 
 itkByteSwapTest 
+itkCyclicReferences
 itkCurvatureFlowTest  
 itkDataTypeTest 
 itkExceptionObjectTest 
