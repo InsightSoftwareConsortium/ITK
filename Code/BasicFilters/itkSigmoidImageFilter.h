@@ -29,7 +29,7 @@ namespace itk
  * the sigmoid fuction. The resulting total transfrom is given by
  *
  * \f[
- * f(x) = \frac{1}{(1+e^{(\alpha \cdot x + \beta)}}
+ * f(x) = \frac{1}{\left(1+e^{-(\alpha \cdot x + \beta)}\right)}
  * \f]
  *
  * Every output pixel is equal to f(x). Where x is the intensity of the
