@@ -24,7 +24,6 @@
 
 namespace itk
 {
-
 /**
  * Constructor
  */
