@@ -19,7 +19,7 @@
 #define __itkSimilarity2DTransform_h
 
 #include <iostream>
-#include "itkRigid2DTransform.h"
+#include "itkCenteredRigid2DTransform.h"
 
 namespace itk
 {
@@ -33,12 +33,12 @@ namespace itk
  */
 template < class TScalarType=double >    // Data type for scalars (float or double)
 class ITK_EXPORT Similarity2DTransform : 
-            public Rigid2DTransform< TScalarType > 
+            public CenteredRigid2DTransform< TScalarType > 
 {
 public:
   /** Standard class typedefs. */
   typedef Similarity2DTransform Self;
-  typedef Rigid2DTransform< TScalarType >   Superclass;
+  typedef CenteredRigid2DTransform< TScalarType >   Superclass;
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
     
@@ -46,11 +46,13 @@ public:
   itkNewMacro( Self );
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( Similarity2DTransform, Rigid2DTransform );
+  itkTypeMacro( Similarity2DTransform, CenteredRigid2DTransform );
 
   /** Dimension of parameters. */
-  itkStaticConstMacro(SpaceDimension, unsigned int, 2);
-  itkStaticConstMacro(ParametersSpaceDimension, unsigned int, 4);
+  itkStaticConstMacro(SpaceDimension,           unsigned int, 2);
+  itkStaticConstMacro(InputSpaceDimension,      unsigned int, 2);
+  itkStaticConstMacro(OutputSpaceDimension,     unsigned int, 2);
+  itkStaticConstMacro(ParametersSpaceDimension, unsigned int, 6);
 
   /** Scalar type. */
   typedef typename Superclass::ScalarType  ScalarType;
@@ -86,9 +88,6 @@ public:
    * rotation and the last two represents the offset. */
   void SetParameters( const ParametersType & parameters );
 
-  /** Set the rotational part of the transform. */
-  void SetRotation(TScalarType angle);
-
   /** Set the Scale part of the transform. */
   void SetScale(TScalarType scale);
 
@@ -116,14 +115,12 @@ protected:
   ~Similarity2DTransform(){};
   void PrintSelf(std::ostream &os, Indent indent) const;
 
-  /** Compute the components of the rotation matrix in the superclass. */
-  void ComputeMatrix(void);
+  /** Compute the components of the rotation matrix and offset in the superclass. */
+  virtual void ComputeMatrixAndOffset(void);
 
 private:
   Similarity2DTransform(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
-  TScalarType m_Angle; 
 
   TScalarType m_Scale; 
 

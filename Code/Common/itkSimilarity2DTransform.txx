@@ -26,18 +26,31 @@ namespace itk
 // Constructor with default arguments
 template <class TScalarType>
 Similarity2DTransform<TScalarType>
-::Similarity2DTransform()
+::Similarity2DTransform():Superclass(OutputSpaceDimension, ParametersDimension)
 {
- 
+  m_Scale = 1.0; 
+
+  // note: this virtual function will only
+  // call the one defined in this class because 
+  // we are in a constructor
+  this->ComputeMatrixAndOffset();
 }
+
+
 
 // Copy Constructor
 template <class TScalarType>
 Similarity2DTransform<TScalarType>
-::Similarity2DTransform( const Self & other )
+::Similarity2DTransform( const Self & other ):Superclass( other )
 {
-  // call the superclass copy constructor
+  m_Scale = other.m_Scale;
+
+  // note: this virtual function will only
+  // call the one defined in this class because 
+  // we are in a constructor
+  this->ComputeMatrixAndOffset();
 }
+
 
 // Set Parameters
 template <class TScalarType>
@@ -48,21 +61,29 @@ Similarity2DTransform<TScalarType>
   itkDebugMacro( << "Setting paramaters " << parameters );
 
   // Set angles with parameters
-  m_Angle = parameters[0];
+  m_Scale = parameters[0];
  
   // Set angles with parameters
-  m_Scale = parameters[1];
- 
+  this->SetAngle( parameters[1] );
+
+  InputPointType center;
+  for(unsigned int j=0; j < SpaceDimension; j++) 
+  {
+    center[j] = parameters[j+2];
+  }
+  this->SetCenterOfRotation( center );
+
+
   // Transfer the translation part
   OffsetType offset;
   for(unsigned int i=0; i < SpaceDimension; i++) 
   {
-    offset[i] = parameters[i+2];
+    offset[i] = parameters[i+4];
   }
 
   this->SetOffset( offset );
 
-  ComputeMatrix();
+  this->ComputeMatrixAndOffset();
 
   itkDebugMacro(<<"After setting paramaters ");
 }
@@ -76,14 +97,20 @@ Similarity2DTransform<TScalarType>
 {
   itkDebugMacro( << "Getting parameters ");
 
-  m_Parameters[0] = m_Angle;
-  m_Parameters[1] = m_Scale;
+  m_Parameters[0] = m_Scale;
+  m_Parameters[1] = this->GetAngle();
  
+  InputPointType center = this->GetCenter();
+  for(unsigned int j=0; j < SpaceDimension; j++) 
+  {
+    m_Parameters[j+2] = center[j];
+  }
+
   // Transfer the translation part
   OffsetType offset = this->GetOffset();
   for(unsigned int i=0; i < SpaceDimension; i++) 
   {
-    m_Parameters[i+2] = offset[i];
+    m_Parameters[i+4] = offset[i];
   }
 
   itkDebugMacro(<<"After getting parameters " << m_Parameters );
@@ -91,16 +118,6 @@ Similarity2DTransform<TScalarType>
   return m_Parameters;
 }
 
-
-// Set Rotational Part
-template <class TScalarType>
-void
-Similarity2DTransform<TScalarType>
-::SetRotation(TScalarType angle)
-{
-  m_Angle = angle;
-  this->ComputeMatrix();
-}
 
 
 // Set Scale Part
@@ -110,18 +127,21 @@ Similarity2DTransform<TScalarType>
 ::SetScale(TScalarType scale)
 {
   m_Scale = scale;
-  this->ComputeMatrix();
+  this->ComputeMatrixAndOffset();
 }
+
+
 
 
 // Compute the matrix
 template <class TScalarType>
 void
 Similarity2DTransform<TScalarType>
-::ComputeMatrix( void )
+::ComputeMatrixAndOffset( void )
 {
-  const double cx = cos(m_Angle);
-  const double sx = sin(m_Angle);
+  const double angle = this->GetAngle();
+  const double cx = cos(angle);
+  const double sx = sin(angle);
 
   const double cxz = cx * m_Scale;
   const double sxz = sx * m_Scale;
@@ -141,8 +161,9 @@ Similarity2DTransform<TScalarType>::
 GetJacobian( const InputPointType & p ) const
 {
   // need to check if angles are in the right order
-  const double cx = cos(m_Angle);
-  const double sx = sin(m_Angle);
+  const double angle = this->GetAngle();
+  const double cx = cos( angle );
+  const double sx = sin( angle );
 
   const double cxz = cx * m_Scale;
   const double sxz = sx * m_Scale;
@@ -175,12 +196,9 @@ void
 Similarity2DTransform<TScalarType>
 ::SetIdentity(void)
 {
-  m_Angle = NumericTraits< TScalarType >::Zero;
+  this->Superclass::SetIdentity();
   m_Scale = static_cast< TScalarType >( 1.0f );
-  ComputeMatrix();
-  OffsetType offset;
-  offset.Fill( NumericTraits<TScalarType>::Zero );
-  this->SetOffset( offset );
+  this->ComputeMatrixAndOffset();
 }
 
 
@@ -194,8 +212,7 @@ PrintSelf(std::ostream &os, Indent indent) const
 
   Superclass::PrintSelf(os,indent);
   
-  os << indent << "Euler's angle: Angle=" << m_Angle  
-     << std::endl;
+  os << indent << "Scale =" << m_Scale  << std::endl;
 }
 
 } // namespace
