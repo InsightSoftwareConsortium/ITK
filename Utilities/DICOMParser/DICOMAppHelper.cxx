@@ -195,11 +195,11 @@ void DICOMAppHelper::OutputSeries()
     }
 }
     
-void DICOMAppHelper::WriteImageData(doublebyte group,
-                                    doublebyte element,
+void DICOMAppHelper::WriteImageData(doublebyte,
+                                    doublebyte,
                                     DICOMParser::VRTypes,
-                                    unsigned char* val,
-                                    quadbyte len)
+                                    unsigned char*,
+                                    quadbyte)
 {
 #if 0 
   std::cout << "Image data length: 0x" << std::hex << static_cast<unsigned long>(len) << std::endl; 
@@ -351,7 +351,7 @@ void DICOMAppHelper::ArrayCallback(doublebyte group,
 }
     
 void DICOMAppHelper::SliceNumberCallback(doublebyte,
-                                         doublebyte element,
+                                         doublebyte,
                                          DICOMParser::VRTypes,
                                          unsigned char* val,
                                          quadbyte) 
@@ -369,7 +369,7 @@ void DICOMAppHelper::TransferSyntaxCallback(doublebyte,
                                             unsigned char* val,
                                             quadbyte) 
 {
-  char dataByteOrder = 'L';
+  char dataByteOrder;
 #ifdef WIN32
   char platformByteOrder = 'L';
 #else
@@ -436,9 +436,9 @@ void DICOMAppHelper::ToggleSwapBytesCallback(doublebyte,
 
 void DICOMAppHelper::PixelSpacingCallback(doublebyte group,
                                           doublebyte element,
-                                          DICOMParser::VRTypes type,
+                                          DICOMParser::VRTypes,
                                           unsigned char* val,
-                                          quadbyte len) 
+                                          quadbyte) 
 {
   float fval = DICOMFile::ReturnAsFloat(val, this->DICOMDataFile->GetByteSwap());
 
@@ -452,11 +452,11 @@ void DICOMAppHelper::PixelSpacingCallback(doublebyte group,
     }
 }
 
-void DICOMAppHelper::WidthCallback(doublebyte group,
-                                   doublebyte element,
-                                   DICOMParser::VRTypes type,
+void DICOMAppHelper::WidthCallback(doublebyte,
+                                   doublebyte,
+                                   DICOMParser::VRTypes,
                                    unsigned char* val,
-                                   quadbyte len)
+                                   quadbyte)
 {
   unsigned short uival = DICOMFile::ReturnAsUnsignedShort(val, this->DICOMDataFile->GetByteSwap()); 
   std::cout << "Width: " << uival << std::endl;
@@ -465,11 +465,11 @@ void DICOMAppHelper::WidthCallback(doublebyte group,
   this->Dimensions[0] = this->Width;
 }
 
-void DICOMAppHelper::HeightCallback(doublebyte group,
-                                    doublebyte element,
-                                    DICOMParser::VRTypes type,
+void DICOMAppHelper::HeightCallback(doublebyte,
+                                    doublebyte,
+                                    DICOMParser::VRTypes,
                                     unsigned char* val,
-                                    quadbyte len) 
+                                    quadbyte) 
 {
   unsigned short uival = DICOMFile::ReturnAsUnsignedShort(val, this->DICOMDataFile->GetByteSwap()); 
 
@@ -484,7 +484,7 @@ void DICOMAppHelper::PixelRepresentationCallback( doublebyte,
                                                   doublebyte,
                                                   DICOMParser::VRTypes,
                                                   unsigned char* val,
-                                                  quadbyte len)
+                                                  quadbyte)
 {
   unsigned short uival = DICOMFile::ReturnAsUnsignedShort(val, this->DICOMDataFile->GetByteSwap());
   std::cout << "Pixel Representation: " << (uival ? "Signed" : "Unsigned") << std::endl;
@@ -495,7 +495,7 @@ void DICOMAppHelper::PhotometricInterpretationCallback( doublebyte,
                                                         doublebyte,
                                                         DICOMParser::VRTypes,
                                                         unsigned char* val,
-                                                        quadbyte len)
+                                                        quadbyte)
 {
   std::cout << "Photometric Interpretation: " << (char*) val << std::endl;
   this->PhotometricInterpretation = new std::string((char*) val);
@@ -504,11 +504,10 @@ void DICOMAppHelper::PhotometricInterpretationCallback( doublebyte,
 void DICOMAppHelper::PixelDataCallback( doublebyte,
                                         doublebyte,
                                         DICOMParser::VRTypes,
-                                        unsigned char* val,
-                                        quadbyte len)
+                                        unsigned char*,
+                                        quadbyte)
 {
-  std::cout << "Photometric Interpretation: " << (char*) val << std::endl;
-  this->PhotometricInterpretation = new std::string((char*) val);
+  std::cout <<"PixelDataCallback - not implemented." << std::endl;
 }
 
 void DICOMAppHelper::RegisterPixelDataCallback()
