@@ -93,62 +93,7 @@ public:
   }
 };
 
-// Software Guide : BeginLatex
-//
-// A command for reducing maximum and minimum length parameter of
-// optimizer
-//
-// Software Guide : EndLatex 
 
-// Software Guide : BeginCodeSnippet
-template <typename TRegistration>
-class RegistrationInterfaceCommand : public itk::Command 
-{
-public:
-  typedef  RegistrationInterfaceCommand   Self;
-  typedef  itk::Command                   Superclass;
-  typedef  itk::SmartPointer<Self>        Pointer;
-  itkNewMacro( Self );
-protected:
-  RegistrationInterfaceCommand() {};
-public:
-  typedef   TRegistration                              RegistrationType;
-  typedef   RegistrationType *                         RegistrationPointer;
-  typedef   itk::RegularStepGradientDescentOptimizer   OptimizerType;
-  typedef   OptimizerType *                            OptimizerPointer;
-
-  void Execute(const itk::Object * object, const itk::EventObject & event)
-  {
-    std::cout << "in here" << std::endl;
-  }
-
-  void Execute(itk::Object * object, const itk::EventObject & event)
-  {
-    if( typeid( event ) != typeid( itk::IterationEvent ) )
-      {
-      return;
-      }
-
-    RegistrationPointer registration =
-                        dynamic_cast<RegistrationPointer>( object );
-
-    if ( registration->GetCurrentLevel() == 0 )
-      {
-      return;
-      }
-
-    OptimizerPointer optimizer = dynamic_cast< OptimizerPointer >( 
-                       registration->GetOptimizer() );
-
-    optimizer->SetMaximumStepLength( 
-      0.1 * optimizer->GetMaximumStepLength() );
-
-    optimizer->SetMinimumStepLength(
-      0.1 * optimizer->GetMinimumStepLength() );
-
-  }
-};
-// Software Guide : EndCodeSnippet
 
 
 int main( int argc, char **argv )
@@ -160,7 +105,7 @@ int main( int argc, char **argv )
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
-    std::cerr << "outputImagefile [differenceImage]" << std::endl;
+    std::cerr << " outputImagefile"     << std::endl;
     return 1;
     }
   
@@ -361,8 +306,8 @@ int main( int argc, char **argv )
   optimizerScales[2] = 1.0; // scale for M21
   optimizerScales[3] = 1.0; // scale for M22
 
-  optimizerScales[4] = 100.0; // scale for translation on X
-  optimizerScales[5] = 100.0; // scale for translation on Y
+  optimizerScales[4] = 1.0 / 1000000.0; // scale for translation on X
+  optimizerScales[5] = 1.0 / 1000000.0; // scale for translation on Y
   // Software Guide : EndCodeSnippet
 
 
@@ -394,9 +339,13 @@ int main( int argc, char **argv )
   //
   //  Software Guide : EndLatex 
 
-  optimizer->SetMaximumStepLength( 0.05); 
-  optimizer->SetMinimumStepLength( 0.00001 );
-  optimizer->SetNumberOfIterations( 200 );
+
+  // Software Guide : BeginCodeSnippet
+  optimizer->SetMaximumStepLength( 10.0     ); 
+  optimizer->SetMinimumStepLength(  0.00001 );
+
+  optimizer->SetNumberOfIterations( 500     );
+  // Software Guide : EndCodeSnippet
 
   //
   // Create the Command observer and register it with the optimizer.
@@ -421,12 +370,6 @@ int main( int argc, char **argv )
   //
   //  Software Guide : EndLatex 
 
-  // Software Guide : BeginCodeSnippet
-  typedef RegistrationInterfaceCommand<RegistrationType> CommandType;
-
-  CommandType::Pointer command = CommandType::New();
-  registration->AddObserver( itk::IterationEvent(), command );
-  // Software Guide : EndCodeSnippet
 
   try 
     { 
