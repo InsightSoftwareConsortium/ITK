@@ -41,7 +41,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /c
-# ADD CPP /nologo /W3 /vd0 /GR /GX /O2 /I ".\..\..\Code\Insight3DParty\vxl" /I ".\..\..\Code\Insight3DParty\vxl\config.win32-VC60" /I "..\..\..\Code\Insight3DParty\vxl" /I "..\..\..\Code\Insight3DParty\vxl\config.win32-VC60" /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /I /vxl" /I " ../../../Code/Common /c
+# ADD CPP /nologo /W3 /vd0 /GR /GX /O2 /I ".\..\..\Code\Insight3DParty\vxl" /I ".\..\..\Code\Insight3DParty\vxl\config.win32-VC60" /I "..\..\..\Code\Insight3DParty\vxl" /I "..\..\..\Code\Insight3DParty\vxl\config.win32-VC60" /I "../../../Code/Common /c" /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /I /vxl"
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
 # ADD RSC /l 0x409 /d "NDEBUG"
 BSC32=bscmake.exe
@@ -109,6 +109,10 @@ SOURCE=..\..\..\Code\Common\itkIndent.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\Code\Common\itkNumericTraits.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\Code\Common\itkObject.cxx
 # End Source File
 # Begin Source File
@@ -118,10 +122,6 @@ SOURCE=..\..\..\Code\Common\itkObjectFactoryBase.cxx
 # Begin Source File
 
 SOURCE=..\..\..\Code\Common\itkOutputWindow.cxx
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\Code\Common\itkPixelTraits.cxx
 # End Source File
 # Begin Source File
 
