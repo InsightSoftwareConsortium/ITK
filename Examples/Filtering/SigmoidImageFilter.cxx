@@ -201,7 +201,7 @@ int main( int argc, char * argv[] )
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
   // \includegraphics[width=0.44\textwidth]{SigmoidImageFilterOutput.eps}
   // \itkcaption[Effect of the Sigmoid filter.]{Effect of the Sigmoid filter on a
-  // slice from an MRI proton density brain image.}
+  // slice from a MRI proton density brain image.}
   // \label{fig:SigmoidImageFilterOutput}
   // \end{figure}
   //

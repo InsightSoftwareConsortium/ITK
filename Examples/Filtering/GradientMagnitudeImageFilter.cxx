@@ -17,11 +17,11 @@
 
 //  Software Guide : BeginLatex
 //
-//  The magnitude of the image gradient is extensively used in image analysis
-//  mainly to help in the determination of object countours and the
+//  The magnitude of the image gradient is extensively used in image analysis,
+//  mainly to help in the determination of object contours and the
 //  separation of homogeneous regions. The
 //  \doxygen{GradientMagnitudeImageFilter} computes the magnitude of the
-//  image gradient at each pixel location by a simple finite differences
+//  image gradient at each pixel location using a simple finite differences
 //  approach. For example, in the case of $2D$ the computation is equivalent
 //  to convolving the image with masks of type
 //
@@ -36,10 +36,10 @@
 //  \end{picture}
 //  \end{center}
 //
-//  adding the sum of their squares and computing the square root of the sum.
+//  then adding the sum of their squares and computing the square root of the sum.
 //
 //  This filter will work on images of any dimension thanks to the internal
-//  use of \code{NeighborhoodIterators} and \code{NeighborhoodOperators}.
+//  use of \doxygen{NeighborhoodIterator} and \doxygen{NeighborhoodOperator}.
 //
 //  \index{itk::GradientMagnitudeImageFilter}
 //
@@ -75,7 +75,7 @@ int main( int argc, char * argv[] )
   
   //  Software Guide : BeginLatex
   //
-  //  Types should be choosen for the pixels of the input and output images.
+  //  Types should be chosen for the pixels of the input and output images.
   //
   //  Software Guide : EndLatex 
 
@@ -87,7 +87,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  With them, the input and output image types can be instantiated.
+  //  The input and output image types can be defined using the pixel types.
   //
   //  Software Guide : EndLatex 
 
@@ -102,7 +102,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The gradient magnitude filter type is now instantiated using both the
+  //  The type of the gradient magnitude filter is defined by the 
   //  input image and the output image types.
   //
   //  \index{itk::GradientMagnitudeImageFilter!instantiation}
@@ -137,7 +137,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  The input image can be obtained from the output of another filter. Here,
-  //  an image reader is used as source.
+  //  the source is an image reader.
   //
   //  Software Guide : EndLatex 
 
@@ -148,7 +148,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Finally the filter is executed by invoking the \code{Update()} method.
+  //  Finally, the filter is executed by invoking the \code{Update()} method.
   //
   //  \index{itk::GradientMagnitudeImageFilter!Update()}
   //
@@ -162,10 +162,10 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  If the output of this filter has been connected to other filters down the
-  //  pipeline, updating any of the downstream filters would have triggered the
-  //  execution of this one. For example, a writer filter could have been used
-  //  after the gradient magnitude.
+  //  If the output of this filter has been connected to other filters in a 
+  //  pipeline, updating any of the downstream filters will also trigger an
+  //  update of this filter. For example, the gradient magnitude filter may be
+  //  connected to an image writer.
   //
   //  Software Guide : EndLatex 
 
@@ -203,18 +203,18 @@ int main( int argc, char * argv[] )
   // \end{figure}
   //
   //  Figure \ref{fig:GradientMagnitudeImageFilterInputOutput} illustrates the
-  //  effect of this filter on a MRI proton density image of the brain. The
-  //  figure shows the sensitivity of this filter to noisy data.
+  //  effect of the gradient magnitude filter on a MRI proton density image of
+  //  the brain. The figure shows the sensitivity of this filter to noisy data.
   //
-  //  Attention should be paid to the image type choosen for representing the
-  //  output image since the dynamic range of gradient magnitudes is usually
-  //  quite smaller than the dynamic range of the input image intensities. As
-  //  always, there are exceptions to this rule, in particular when synthetic
-  //  images with high contrast objects are provided as input.
+  //  Attention should be paid to the image type chosen to represent the output
+  //  image since the dynamic range of the gradient magnitude image is usually
+  //  smaller than the dynamic range of the input image. As always, there are
+  //  exceptions to this rule, for example, synthetic images that contain high
+  //  contrast objects.
   //
-  //  This filter do not apply any type of smoothing before computing the
-  //  gradients. This makes it very sensitive to noise and probably not the
-  //  best choise for scale space analysis. 
+  //  This filter does not apply any smoothing to the image before computing the
+  //  gradients. The results can therefore be very sensitive to noise and may
+  //  not be best choice for scale space analysis. 
   //
   //  Software Guide : EndLatex 
 
