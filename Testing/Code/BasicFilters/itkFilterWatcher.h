@@ -29,10 +29,12 @@ public:
     itk::SimpleMemberCommand<FilterWatcher>::Pointer startFilterCommand;
     itk::SimpleMemberCommand<FilterWatcher>::Pointer endFilterCommand;
     itk::SimpleMemberCommand<FilterWatcher>::Pointer progressFilterCommand;
+    itk::SimpleMemberCommand<FilterWatcher>::Pointer iterationFilterCommand;
   
     startFilterCommand =    itk::SimpleMemberCommand<FilterWatcher>::New();
     endFilterCommand =      itk::SimpleMemberCommand<FilterWatcher>::New();
     progressFilterCommand = itk::SimpleMemberCommand<FilterWatcher>::New();
+    iterationFilterCommand = itk::SimpleMemberCommand<FilterWatcher>::New();
 
     startFilterCommand->SetCallbackFunction(this,
                                             &FilterWatcher::StartFilter);
@@ -40,9 +42,12 @@ public:
                                           &FilterWatcher::EndFilter);
     progressFilterCommand->SetCallbackFunction(this,
                                                &FilterWatcher::ShowProgress);
+    iterationFilterCommand->SetCallbackFunction(this,
+                                               &FilterWatcher::ShowIteration);
     m_Process->AddObserver(itk::StartEvent(), startFilterCommand);
     m_Process->AddObserver(itk::EndEvent(), endFilterCommand);
     m_Process->AddObserver(itk::ProgressEvent(), progressFilterCommand);
+    m_Process->AddObserver(itk::IterationEvent(), iterationFilterCommand);
     }
 
   virtual ~FilterWatcher() {}
@@ -52,9 +57,15 @@ public:
       std::cout << " | " << m_Process->GetProgress() << std::flush;
       m_Steps++;
     }
+  virtual void ShowIteration()
+    {
+      std::cout << " # " << std::flush;
+      m_Iterations++;
+    }
   virtual void StartFilter()
     {
     m_Steps = 0;
+    m_Iterations = 0;
     m_Start = ::clock();
     std::cout << "-------- Start " << m_Process->GetNameOfClass()
               << " \"" << m_Comment << "\" "
@@ -69,16 +80,20 @@ public:
     std::cout << std::endl << std::endl << "-------- End " << m_Process->GetNameOfClass()
               << " \"" << m_Comment << "\" "
               << m_Process << std::flush;
-    if (m_Steps <= 2)
+    if (m_Steps < 1)
       {
       itkExceptionMacro ("Filter does not have progress.");
       }
     }
+protected:
   clock_t m_Start;
   clock_t m_End;
   int m_Steps;
+  int m_Iterations;
   std::string m_Comment;
   itk::ProcessObject::Pointer m_Process;
+private:
+  FilterWatcher(); // Purposely not implemented
 };
 
 #endif
