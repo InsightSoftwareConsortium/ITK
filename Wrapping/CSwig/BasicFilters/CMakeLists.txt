@@ -8,7 +8,6 @@ SET(WRAP_SOURCES
   wrap_itkChangeInformationImageFilter
   wrap_itkConnectedThresholdImageFilter
   wrap_itkCurvatureAnisotropicDiffusionImageFilter
-  wrap_itkCurvatureFlowImageFilter
   wrap_itkExpImageFilter
   wrap_itkExpNegativeImageFilter
   wrap_itkExtractImageFilter
@@ -24,7 +23,6 @@ SET(WRAP_SOURCES
   wrap_itkMeanImageFilter
   wrap_itkMedianImageFilter
   wrap_itkMinimumMaximumImageCalculator
-  wrap_itkMinMaxCurvatureFlowImageFilter
   wrap_itkNaryAddImageFilter
   wrap_itkNeighborhoodConnectedImageFilter
   wrap_itkNormalizeImageFilter

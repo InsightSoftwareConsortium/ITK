@@ -6,6 +6,7 @@ SET(WRAP_SOURCES
     wrap_itkImageToImageMetric
     wrap_itkMattesMutualInformationImageToImageMetric
     wrap_itkMeanSquaresImageToImageMetric
+    wrap_itkMinMaxCurvatureFlowImageFilter
     wrap_itkMutualInformationImageToImageMetric
     wrap_itkMultiResolutionImageRegistrationMethod
     wrap_itkNormalizedCorrelationImageToImageMetric
