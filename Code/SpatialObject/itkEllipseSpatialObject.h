@@ -71,7 +71,7 @@ public:
   virtual bool IsEvaluableAt( const PointType & point );
 
   /** Test whether a point is inside or outside the object */ 
-  virtual bool IsInside( const PointType & point );
+  virtual bool IsInside( const PointType & point ) const;
 
  /** provide a method to get the boundaries of 
   *  a specific object. Basically, this function need to be called
@@ -90,6 +90,8 @@ protected:
 
   /** Print the object informations in a stream. */
   virtual void PrintSelf( std::ostream& os, Indent indent ) const; 
+
+  bool IsInsideProjection(double x, double y, unsigned int i) const;
 
 };
 

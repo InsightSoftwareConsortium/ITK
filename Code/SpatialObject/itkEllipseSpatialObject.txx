@@ -52,29 +52,51 @@ EllipseSpatialObject<NDimensions, PipelineDimension >
   }
 }
 
-/** Test if the given point is inside the blob */
+/** Test if the projection of the point is inside the projection
+ *  of the ellipse */
+template< unsigned int NDimensions , unsigned int PipelineDimension >
+bool
+EllipseSpatialObject<NDimensions, PipelineDimension >
+::IsInsideProjection(double x, double y, unsigned int i) const
+{
+  double distance=sqrt(x*x+y*y);
+  if(distance == 0)
+  {
+    return true;
+  }
+
+  double teta = acos(x/distance);
+  double ellipseDistance = sqrt(m_Radius[i]*cos(teta)*m_Radius[i]*cos(teta)+m_Radius[i+1]*sin(teta)*m_Radius[i+1]*sin(teta));
+
+  if(distance <= ellipseDistance)
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
+
+
+/** Test if the given point is inside the ellipse */
 template< unsigned int NDimensions , unsigned int PipelineDimension >
 bool 
 EllipseSpatialObject< NDimensions, PipelineDimension > 
-::IsInside( const PointType & point )  
+::IsInside( const PointType & point ) const 
 {
   itkDebugMacro( "Checking the point [" << point << "is inside the tube" );
     
   PointType transformedPoint = point;
   TransformPointToLocalCoordinate(transformedPoint);
 
-  bool inside;
-  for(unsigned int i=0;i<NDimensions;i++)
+  bool inside = true;
+  
+  for(unsigned int i=0;i<NDimensions-1;i++)
   {
-    if((transformedPoint[i] <= m_Radius[i] ) 
-       && (transformedPoint[i] >= -m_Radius[i] )
-      )
+    if(!this->IsInsideProjection(transformedPoint[i],transformedPoint[i+1],i))
     {
-      inside = true;
-    }
-    else
-    {
-      inside = false;
+      inside=false;
       break;
     }
   }
