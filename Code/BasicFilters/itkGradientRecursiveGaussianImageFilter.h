@@ -91,7 +91,7 @@ public:
   typedef NthElementImageAdaptor< TOutputImage,
                                   typename TInputImage::PixelType >  
                                                      OutputAdaptorType;
- 
+                                                     
 
   /** 
    *  Smoothing filter type

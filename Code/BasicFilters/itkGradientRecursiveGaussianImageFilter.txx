@@ -120,6 +120,8 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage, TComputation>
 
   outputAdaptor->SetImage( outputImage );
   
+
+
   outputAdaptor->SetLargestPossibleRegion( 
       inputImage->GetLargestPossibleRegion() );
 
@@ -150,6 +152,7 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage, TComputation>
     m_DerivativeFilter->SetDirection( dim );
     outputAdaptor->SelectNthElement( dim );
     m_DerivativeFilter->Update();
+    
   }
   
   // Reconnect the image to the output
