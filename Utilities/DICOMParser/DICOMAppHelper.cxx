@@ -1161,19 +1161,39 @@ void DICOMAppHelper::PixelSpacingCallback(DICOMParser *parser,
                                           unsigned char* val,
                                           quadbyte len) 
 {
-  float fval = 1.0; // defaul of 1mm
-
-  if (len > 0)
-    {
-    fval = DICOMFile::ReturnAsFloat(val, parser->GetDICOMFile()->GetPlatformIsBigEndian());
-    }
 
   if (group == 0x0028 && element == 0x0030)
     {
-    this->PixelSpacing[0] = this->PixelSpacing[1] = fval;
+    float fval = 1.0; // defaul of 1mm
+    if (len > 0)
+      {
+      fval = DICOMFile::ReturnAsFloat(val, parser->GetDICOMFile()->GetPlatformIsBigEndian());
+      this->PixelSpacing[0] = fval;
+      unsigned char * val2 = val;  // search for separator
+      while( *val2 != '\\' && *val2 != 0 ) val2++;
+      if( *val2 == 0 )
+        {
+        dicom_stream::cerr << "Pixel spacing is missing separator!" << dicom_stream::endl;
+        }
+      else
+        {
+        val2++; // start in the character after the delimiter.
+        fval = DICOMFile::ReturnAsFloat(val2, parser->GetDICOMFile()->GetPlatformIsBigEndian());
+        this->PixelSpacing[1] = fval;
+        }
+      }
+    else
+      {
+      this->PixelSpacing[0] = this->PixelSpacing[1] = fval;
+      }
     }
   else if (group == 0x0018 && element == 0x0050)
     {
+    float fval = 1.0; // defaul of 1mm
+    if (len > 0)
+      {
+      fval = DICOMFile::ReturnAsFloat(val, parser->GetDICOMFile()->GetPlatformIsBigEndian());
+      }
     this->PixelSpacing[2] = fval;
     }
 }
