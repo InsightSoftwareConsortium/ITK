@@ -68,6 +68,7 @@ private:
   typedef std::map<ElementIdentifier, Element> Map;
   typedef typename Map::iterator               MapIterator;
   typedef typename Map::const_iterator         MapConstIterator;
+  typedef typename Map::key_compare            MapKeyCompare;
   
 protected:
   /**
@@ -85,7 +86,7 @@ protected:
   /**
    *
    */
-  MapContainer(const key_compare& comp):
+  MapContainer(const MapKeyCompare& comp):
     Map(comp) {}
 
   /**
@@ -106,7 +107,7 @@ protected:
    */
   template <typename InputIterator>
   MapContainer(InputIterator first, InputIterator last,
-		  const key_compare& comp):
+		  const MapKeyCompare& comp):
     Map(first, last, comp) {}  
   
 public:
@@ -121,10 +122,10 @@ public:
   /**
    * The non-const iterator type for the map.
    */
-  class Iterator: public Map::iterator
+  class Iterator: public MapIterator
   {
   public:
-    Iterator(const Map::iterator& i): Map::iterator(i) {}
+    Iterator(const MapIterator& i): MapIterator(i) {}
     Iterator& operator* ()    { return *this; }
     Iterator* operator-> ()   { return this; }
     /**
@@ -140,10 +141,10 @@ public:
   /**
    * The const iterator type for the map.
    */
-  class ConstIterator: public Map::const_iterator
+  class ConstIterator: public MapConstIterator
   {
   public:
-    ConstIterator(const Map::const_iterator& ci): Map::const_iterator(ci) {}
+    ConstIterator(const MapConstIterator& ci): MapConstIterator(ci) {}
     ConstIterator& operator* ()    { return *this; }
     ConstIterator* operator-> ()   { return this; }
     /**
