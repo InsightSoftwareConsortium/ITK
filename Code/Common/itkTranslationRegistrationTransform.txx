@@ -87,11 +87,11 @@ TranslationRegistrationTransform<TScalarType,NDimensions,TParameters>
  * Transform a Point
  */
 template <class TScalarType,unsigned int NDimensions, class TParameters>
-TranslationRegistrationTransform<TScalarType,NDimensions,TParameters>::PointType
+TranslationRegistrationTransform<TScalarType,NDimensions,TParameters>::OutputPointType
 TranslationRegistrationTransform<TScalarType,NDimensions,TParameters>
-::Transform( const PointType & point ) const
+::Transform( const InputPointType & point ) const
 {
-  return m_TranslationTransform.Transform( point );
+  return m_TranslationTransform.TransformPoint( point );
 }
 
 
@@ -127,7 +127,7 @@ TranslationRegistrationTransform<TScalarType,NDimensions,TParameters>
 template<class ScalarType, unsigned int NDimensions, class TParameters>
 const TranslationRegistrationTransform<ScalarType, NDimensions,TParameters>::JacobianType &
 TranslationRegistrationTransform<ScalarType, NDimensions,TParameters>::
-GetJacobian( const PointType & p ) const
+GetJacobian( const InputPointType & p ) const
 {
   
   // The Jacobian of the Translation transform is an identity matrix
