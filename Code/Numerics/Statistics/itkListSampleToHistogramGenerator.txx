@@ -41,18 +41,6 @@ void
 ListSampleToHistogramGenerator< TListSample, 
                                 THistogramMeasurement, 
                                 TFrequencyContainer>
-::SetNumberOfBins(HistogramSizeType sizes)
-{
-  m_Sizes = sizes ;
-}
-
-template< class TListSample, 
-          class THistogramMeasurement, 
-          class TFrequencyContainer >
-void
-ListSampleToHistogramGenerator< TListSample, 
-                                THistogramMeasurement, 
-                                TFrequencyContainer>
 ::GenerateData()
 {
   typename TListSample::MeasurementVectorType upper ;

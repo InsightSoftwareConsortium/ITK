@@ -87,7 +87,8 @@ public:
   void SetMarginalScale(float scale)
   { m_MarginalScale = scale ; }
 
-  void SetNumberOfBins(HistogramSizeType sizes) ;
+  void SetNumberOfBins(HistogramSizeType sizes)
+  { m_Sizes = sizes ; }
 
   HistogramType* GetOutput()
   { return m_Histogram ; }
