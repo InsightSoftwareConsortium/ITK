@@ -15,12 +15,15 @@
 =========================================================================*/
 // #include "itkQuadrilateralCell.h"
 
+namespace itk
+{
+
 /**
  *
  */
 template <typename TPixelType, typename TCellType>
-itkQuadrilateralCell< TPixelType , TCellType >::Pointer
-itkQuadrilateralCell< TPixelType , TCellType >
+QuadrilateralCell< TPixelType , TCellType >::Pointer
+QuadrilateralCell< TPixelType , TCellType >
 ::New(void)
 {
   return new Self;
@@ -32,7 +35,7 @@ itkQuadrilateralCell< TPixelType , TCellType >
  */
 template <typename TPixelType, typename TCellType>
 int
-itkQuadrilateralCell< TPixelType , TCellType >
+QuadrilateralCell< TPixelType , TCellType >
 ::GetCellDimension(void)
 {
   return CellDimension;
@@ -43,8 +46,8 @@ itkQuadrilateralCell< TPixelType , TCellType >
  * Get the number of boundary features of the given dimension.
  */
 template <typename TPixelType, typename TCellType>
-itkQuadrilateralCell< TPixelType , TCellType >::CellFeatureCount
-itkQuadrilateralCell< TPixelType , TCellType >
+QuadrilateralCell< TPixelType , TCellType >::CellFeatureCount
+QuadrilateralCell< TPixelType , TCellType >
 ::GetNumberOfBoundaryFeatures(int dimension)
 {
   switch (dimension)
@@ -61,8 +64,8 @@ itkQuadrilateralCell< TPixelType , TCellType >
  * cell feature Id.
  */
 template <typename TPixelType, typename TCellType>
-itkQuadrilateralCell< TPixelType , TCellType >::Cell::Pointer
-itkQuadrilateralCell< TPixelType , TCellType >
+QuadrilateralCell< TPixelType , TCellType >::Cell::Pointer
+QuadrilateralCell< TPixelType , TCellType >
 ::GetBoundaryFeature(int dimension, CellFeatureIdentifier featureId)
 {
   switch (dimension)
@@ -80,7 +83,7 @@ itkQuadrilateralCell< TPixelType , TCellType >
  */
 template <typename TPixelType, typename TCellType>
 void
-itkQuadrilateralCell< TPixelType , TCellType >
+QuadrilateralCell< TPixelType , TCellType >
 ::SetCellPoints(const PointIdentifier *ptList)
 {
   for(int i=0; i < NumberOfPoints ; ++i)
@@ -97,7 +100,7 @@ itkQuadrilateralCell< TPixelType , TCellType >
  */
 template <typename TPixelType, typename TCellType>
 void
-itkQuadrilateralCell< TPixelType , TCellType >
+QuadrilateralCell< TPixelType , TCellType >
 ::SetCellPoints(const PointIdentifier* first, const PointIdentifier* last)
 {
   int localId=0;
@@ -113,7 +116,7 @@ itkQuadrilateralCell< TPixelType , TCellType >
  */
 template <typename TPixelType, typename TCellType>
 void
-itkQuadrilateralCell< TPixelType , TCellType >
+QuadrilateralCell< TPixelType , TCellType >
 ::SetCellPoint(int localId, PointIdentifier ptId)
 {
   m_PointIds[localId] = ptId;
@@ -125,32 +128,32 @@ itkQuadrilateralCell< TPixelType , TCellType >
  * are just pointers to the beginning and one past the end.
  */
 template <typename TPixelType, typename TCelltype>
-itkQuadrilateralCell< TPixelType , TCelltype >::PointIterator
-itkQuadrilateralCell< TPixelType , TCelltype >
+QuadrilateralCell< TPixelType , TCelltype >::PointIterator
+QuadrilateralCell< TPixelType , TCelltype >
 ::PointIdsBegin(void)
 {
   return &m_PointIds[0];
 }
 
 template <typename TPixelType, typename TCelltype>
-itkQuadrilateralCell< TPixelType , TCelltype >::PointConstIterator
-itkQuadrilateralCell< TPixelType , TCelltype >
+QuadrilateralCell< TPixelType , TCelltype >::PointConstIterator
+QuadrilateralCell< TPixelType , TCelltype >
 ::PointIdsBegin(void) const
 {
   return &m_PointIds[0];
 }
 
 template <typename TPixelType, typename TCelltype>
-itkQuadrilateralCell< TPixelType , TCelltype >::PointIterator
-itkQuadrilateralCell< TPixelType , TCelltype >
+QuadrilateralCell< TPixelType , TCelltype >::PointIterator
+QuadrilateralCell< TPixelType , TCelltype >
 ::PointIdsEnd(void)
 {
   return &m_PointIds[NumberOfPoints];
 }
 
 template <typename TPixelType, typename TCelltype>
-itkQuadrilateralCell< TPixelType , TCelltype >::PointConstIterator
-itkQuadrilateralCell< TPixelType , TCelltype >
+QuadrilateralCell< TPixelType , TCelltype >::PointConstIterator
+QuadrilateralCell< TPixelType , TCelltype >
 ::PointIdsEnd(void) const
 {
   return &m_PointIds[NumberOfPoints];
@@ -162,8 +165,8 @@ itkQuadrilateralCell< TPixelType , TCelltype >
  * Get the number of vertices defining the quadrilateral.
  */
 template <typename TPixelType, typename TCellType>
-itkQuadrilateralCell< TPixelType , TCellType >::CellFeatureCount
-itkQuadrilateralCell< TPixelType , TCellType >
+QuadrilateralCell< TPixelType , TCellType >::CellFeatureCount
+QuadrilateralCell< TPixelType , TCellType >
 ::GetNumberOfVertices(void)
 {
   return NumberOfVertices;
@@ -175,8 +178,8 @@ itkQuadrilateralCell< TPixelType , TCellType >
  * Get the number of edges defined for the quadrilateral.
  */
 template <typename TPixelType, typename TCellType>
-itkQuadrilateralCell< TPixelType , TCellType >::CellFeatureCount
-itkQuadrilateralCell< TPixelType , TCellType >
+QuadrilateralCell< TPixelType , TCellType >::CellFeatureCount
+QuadrilateralCell< TPixelType , TCellType >
 ::GetNumberOfEdges(void)
 {
   return NumberOfEdges;
@@ -188,8 +191,8 @@ itkQuadrilateralCell< TPixelType , TCellType >
  * Get the vertex specified by the given cell feature Id.
  */
 template <typename TPixelType, typename TCellType>
-itkQuadrilateralCell< TPixelType , TCellType >::Vertex::Pointer
-itkQuadrilateralCell< TPixelType , TCellType >
+QuadrilateralCell< TPixelType , TCellType >::Vertex::Pointer
+QuadrilateralCell< TPixelType , TCellType >
 ::GetCellVertex(CellFeatureIdentifier vertexId)
 {
   Vertex::Pointer vert(Vertex::New());
@@ -204,8 +207,8 @@ itkQuadrilateralCell< TPixelType , TCellType >
  * Get the edge specified by the given cell feature Id.
  */
 template <typename TPixelType, typename TCellType>
-itkQuadrilateralCell< TPixelType , TCellType >::Edge::Pointer
-itkQuadrilateralCell< TPixelType , TCellType >
+QuadrilateralCell< TPixelType , TCellType >::Edge::Pointer
+QuadrilateralCell< TPixelType , TCellType >
 ::GetCellEdge(CellFeatureIdentifier edgeId)
 {
   Edge::Pointer edge(Edge::New());
@@ -222,7 +225,7 @@ itkQuadrilateralCell< TPixelType , TCellType >
  */
 template <typename TPixelType, typename TCellType>
 const int
-itkQuadrilateralCell< TPixelType , TCellType >
+QuadrilateralCell< TPixelType , TCellType >
 ::m_Edges[4][2] = { {0,1}, {1,2}, {2,3}, {3,0} };
 
 
@@ -230,10 +233,11 @@ itkQuadrilateralCell< TPixelType , TCellType >
  * Object factory for the boundary version of this cell type.
  */
 template <typename TPixelType, typename TCellType>
-itkQuadrilateralBoundary< TPixelType , TCellType >::Pointer
-itkQuadrilateralBoundary< TPixelType , TCellType >
+QuadrilateralBoundary< TPixelType , TCellType >::Pointer
+QuadrilateralBoundary< TPixelType , TCellType >
 ::New(void)
 {
   return new Self;
 }
 
+} // namespace itk

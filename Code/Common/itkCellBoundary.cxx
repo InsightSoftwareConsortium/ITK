@@ -1,11 +1,14 @@
 // #include "itkCellBoundary.h"
 
+namespace itk
+{
+
 /**
  * Object factory for the boundary.
  */
 template <typename TCell>
-itkCellBoundary<TCell>::Pointer
-itkCellBoundary<TCell>
+CellBoundary<TCell>::Pointer
+CellBoundary<TCell>
 ::New(void)
 {
   return new Self;
@@ -17,7 +20,7 @@ itkCellBoundary<TCell>
  */
 template <typename TCell>
 bool
-itkCellBoundary<TCell>
+CellBoundary<TCell>
 ::IsBoundary(void)
 {
   return true;
@@ -29,7 +32,7 @@ itkCellBoundary<TCell>
  */
 template <typename TCell>
 void
-itkCellBoundary<TCell>
+CellBoundary<TCell>
 ::AddUsingCell(CellIdentifier cellId)
 {
   m_UsingCells.insert(cellId);
@@ -41,7 +44,7 @@ itkCellBoundary<TCell>
  */
 template <typename TCell>
 void
-itkCellBoundary<TCell>
+CellBoundary<TCell>
 ::RemoveUsingCell(CellIdentifier cellId)
 {
   m_UsingCells.erase(cellId);
@@ -53,7 +56,7 @@ itkCellBoundary<TCell>
  */
 template <typename TCell>
 bool
-itkCellBoundary<TCell>
+CellBoundary<TCell>
 ::IsUsingCell(CellIdentifier cellId)
 {
   return (m_UsingCells.count(cellId) > 0);
@@ -65,7 +68,7 @@ itkCellBoundary<TCell>
  */
 template <typename TCell>
 int
-itkCellBoundary<TCell>
+CellBoundary<TCell>
 ::GetNumUsingCells(void)
 {
   return m_UsingCells.size();
@@ -76,8 +79,8 @@ itkCellBoundary<TCell>
  * Get a begin iterator for the UsingCells set.
  */
 template <typename TCell>
-itkCellBoundary<TCell>::UsingCellsContainerIterator
-itkCellBoundary<TCell>
+CellBoundary<TCell>::UsingCellsContainerIterator
+CellBoundary<TCell>
 ::UsingCellsBegin(void)
 {
   return m_UsingCells.begin();
@@ -88,9 +91,11 @@ itkCellBoundary<TCell>
  * Get an end iterator for the UsingCells set.
  */
 template <typename TCell>
-itkCellBoundary<TCell>::UsingCellsContainerIterator
-itkCellBoundary<TCell>
+CellBoundary<TCell>::UsingCellsContainerIterator
+CellBoundary<TCell>
 ::UsingCellsEnd(void)
 {
   return m_UsingCells.end();
 }
+
+} // namespace itk

@@ -15,7 +15,7 @@
 =========================================================================*/
 
 /**
- * itkMesh implements the N-dimensional mesh structure for ITK.  It provides
+ * Mesh implements the N-dimensional mesh structure for ITK.  It provides
  * an API to perform operations on points, cells, boundaries, etc., but
  * does not tie down the underlying implementation and storage.  A
  * "MeshType" structure is used to define the container and identifier
@@ -24,7 +24,7 @@
  * in the "MeshType" structure will have duplicate typedefs in the resulting
  * mesh itself.
  *
- * itkMesh has two template parameters.  The first is the pixel type, or the
+ * Mesh has two template parameters.  The first is the pixel type, or the
  * type of data stored (optionally) with points, cells, and/or boundaries.
  * The second is the "MeshType" structure controlling type information for
  * the mesh.  Most users will be happy with the defaults, and will not have
@@ -52,24 +52,29 @@
 #include "itkMeshTypeDefault.h"
 #include "itkMapContainer.h"
 
-template <
-  /**
-   * The type stored as data for an entity (cell, point, or boundary).
-   */
-  typename TPixelType,
+namespace itk
+{
 
-  /**
-   * Type information structure for the mesh.
-   */
-  typename TMeshType = itkMeshTypeDefault< TPixelType >
+/**
+ * Template parameters for Mesh:
+ *
+ * TPixelType =
+ *     The type stored as data for an entity (cell, point, or boundary).
+ * TMeshType =
+ *     Type information structure for the mesh.
+ */
+  
+template <
+  typename TPixelType,
+  typename TMeshType = MeshTypeDefault< TPixelType >
   >
-class itkMesh: public itkObject
+class Mesh: public itkObject
 {
 public:
   /**
    * Smart pointer typedef support.
    */
-  typedef itkMesh                Self;
+  typedef Mesh                Self;
   typedef itkSmartPointer<Self>  Pointer;
   
   /**
@@ -84,6 +89,7 @@ public:
   typedef typename MeshType::CellIdentifier           CellIdentifier;
   typedef typename MeshType::BoundaryIdentifier       BoundaryIdentifier;
   typedef typename MeshType::CellFeatureIdentifier    CellFeatureIdentifier;
+  typedef typename MeshType::Point                    Point;
   typedef typename MeshType::PointsContainer          PointsContainer;
   typedef typename MeshType::CellType                 CellType;
   typedef typename MeshType::CellsContainer           CellsContainer;
@@ -133,16 +139,11 @@ public:
   typedef CellFeatureIdentifier  CellFeatureCount;
   
   /**
-   * Define the type of point stored in this mesh.
-   */
-  typedef itkPoint< PointDimension , CoordRep >  Point;
-  
-  /**
    * Define the base cell type for cells in this mesh.
    * It also happens that boundaries are also cells.
    */
-  typedef itkCell< PixelType , CellType >  Cell;
-  typedef Cell                             Boundary;
+  typedef Cell< PixelType , CellType >  Cell;
+  typedef Cell                          Boundary;
   
   /**
    * An explicit cell boundary assignment can be accessed through the cell
@@ -195,7 +196,7 @@ public:
       {
 	return ((m_CellId == r.m_CellId) && (m_FeatureId == r.m_FeatureId));
       }
-  }; // End Class: itkMesh::BoundaryAssignmentIdentifier
+  }; // End Class: Mesh::BoundaryAssignmentIdentifier
 
 protected:
   /**
@@ -268,7 +269,7 @@ protected:
    * to access the data stored by a particular boundary through the
    * containers in the BoundaryData vector.
    */
-  typedef itkMapContainer< BoundaryAssignmentIdentifier , BoundaryIdentifier >
+  typedef MapContainer< BoundaryAssignmentIdentifier , BoundaryIdentifier >
         BoundaryAssignmentsContainer;
   typedef BoundaryAssignmentsContainer::Pointer
         BoundaryAssignmentsContainerPointer;
@@ -393,7 +394,7 @@ public:
   /**
    * Standard part of itkObject class.  Used for debugging output.
    */
-  itkTypeMacro(itkMesh, itkObject);
+  itkTypeMacro(Mesh, itkObject);
 
   /**
    * Define some internal utility methods.
@@ -402,11 +403,13 @@ protected:
   /**
    * Constructor for use by New() method.
    */
-  itkMesh();
-}; // End Class: itkMesh
+  Mesh();
+}; // End Class: Mesh
 
+} // namespace itk
+  
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkMesh.cxx"
 #endif
-
+  
 #endif

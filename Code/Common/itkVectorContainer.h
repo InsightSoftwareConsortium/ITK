@@ -14,10 +14,10 @@
 
 =========================================================================*/
 /**
- * itkVectorContainer
+ * VectorContainer
  *
  * Define a front-end to the STL "vector" container that conforms to the
- * itkIndexedContainer interface.  This is a full-fleged itkObject, so
+ * IndexedContainer interface.  This is a full-fleged itkObject, so
  * there is modification time, debug, and reference count information.
  */
 #ifndef __itkVectorContainer_h
@@ -29,17 +29,23 @@
 #include "itkObject.h"
 #include "itkSmartPointer.h"
 
+namespace itk
+{
+
+/**
+ * Template parameters for VectorContainer:
+ *
+ * TElementIdentifier =
+ *     An INTEGRAL type for use in indexing the vector.
+ * TElement =
+ *    The element type stored in the container.
+ */
+  
 template <
-  /**
-   * An INTEGRAL type for use in indexing the vector.
-   */
   typename TElementIdentifier,
-  /**
-   * The element type stored in the vector.
-   */
   typename TElement
   >
-class itkVectorContainer: 
+class VectorContainer: 
   public itkObject,
   public std::vector<TElement>
 {
@@ -47,7 +53,7 @@ public:
   /**
    * Smart pointer typedef support.
    */
-  typedef itkVectorContainer     Self;
+  typedef VectorContainer        Self;
   typedef itkSmartPointer<Self>  Pointer;
   
   /**
@@ -68,20 +74,20 @@ protected:
    * vector constructors.  These are for internal use only since this is also
    * an itkObject which must be constructed through the "New()" routine.
    */
-  itkVectorContainer():
+  VectorContainer():
     Vector() {}
   
-  itkVectorContainer(size_type n):
+  VectorContainer(size_type n):
     Vector(n) {}
   
-  itkVectorContainer(size_type n, const Element& x):
+  VectorContainer(size_type n, const Element& x):
     Vector(n, x) {}
   
-  itkVectorContainer(const Self& r):
+  VectorContainer(const Self& r):
     Vector(r) {}
   
   template <typename InputIterator>
-  itkVectorContainer(InputIterator first, InputIterator last):
+  VectorContainer(InputIterator first, InputIterator last):
     Vector(first, last) {}
 
 public:
@@ -133,6 +139,8 @@ public:
   ConstIterator End(void) const;  
 };
 
+} // namespace itk
+  
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkVectorContainer.cxx"
 #endif

@@ -13,33 +13,38 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+/**
+ * itkCell ....
+ */
+
 #ifndef __itkCell_h
 #define __itkCell_h
 
 #include "itkSmartPointer.h"
 
-/**
- * itkCell ....
- */
+namespace itk
+{
 
-template <
-  /**
-   * The type stored with an entity (cell, point, or boundary).
-   */
-  typename TPixelType,
+/**
+ * Template parameters for Cell:
+ *
+ * TPixelType = 
+ *     The type stored with an entity (cell, point, or boundary).
+ * TCellType = 
+ *     Type information for cell.
+ */
   
-  /**
-   * Type information for cell.
-   */
+template <
+  typename TPixelType,
   typename TCellType
   >
-class itkCell
+class Cell
 {
 public:
   /** 
    * Smart pointer typedef support.
    */
-  typedef itkCell                Self;
+  typedef Cell                   Self;
   typedef itkSmartPointer<Self>  Pointer;
   
   /**
@@ -51,22 +56,13 @@ public:
   typedef typename CellType::PointIdentifier        PointIdentifier;
   typedef typename CellType::CellIdentifier         CellIdentifier;
   typedef typename CellType::CellFeatureIdentifier  CellFeatureIdentifier;
+  typedef typename CellType::Point                  Point;
   typedef typename CellType::PointsContainer        PointsContainer;
   typedef typename CellType::UsingCellsContainer    UsingCellsContainer;
   enum { PointDimension = CellType::PointDimension };
 
   typedef typename UsingCellsContainer::iterator  UsingCellsContainerIterator;
   
-  /**
-   * Let any derived cell type classes have easy access to their base type.
-   */
-  typedef itkCell  Cell;
-  
-  /**
-   * The type of point used by the cell.
-   */
-  typedef itkPoint< PointDimension , CoordRep >  Point;
-
   /**
    * A useful rename.
    */
@@ -137,7 +133,7 @@ public:
   /**
    * ITK standard routines.
    */
-  itkTypeMacro(itkCell,none);
+  itkTypeMacro(Cell,none);
   void Register(void);
   void UnRegister(void);
 
@@ -149,7 +145,7 @@ protected:
   /**
    * Constructor to initialize internal data.
    */
-  itkCell();
+  Cell();
   
   /**
    * Get the geometric position of a point.
@@ -172,9 +168,9 @@ private:
  */
 template <int VPointDimension,typename TCoordRep,
   typename TPointIdentifier,typename TCellIdentifier,
-  typename TCellFeatureIdentifier,typename TPointsContainer,
-  typename TUsingCellsContainer>
-class itkCellType
+  typename TCellFeatureIdentifier, typename TPoint, 
+  typename TPointsContainer, typename TUsingCellsContainer>
+class CellTypeInfo
 {
 public:
   enum { PointDimension = VPointDimension };
@@ -182,14 +178,17 @@ public:
   typedef TPointIdentifier  	  PointIdentifier;
   typedef TCellIdentifier   	  CellIdentifier;
   typedef TCellFeatureIdentifier  CellFeatureIdentifier;
+  typedef TPoint                  Point;
   typedef TPointsContainer        PointsContainer;
   typedef TUsingCellsContainer    UsingCellsContainer;
 };
 
 #define MakeCellType \
-  itkCellType<PointDimension, CoordRep, PointIdentifier, CellIdentifier, \
-              CellFeatureIdentifier, PointsContainer, UsingCellsContainer>
+  CellTypeInfo<PointDimension, CoordRep, PointIdentifier, \
+               CellIdentifier, CellFeatureIdentifier, Point, \
+               PointsContainer, UsingCellsContainer>
 
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkCell.cxx"

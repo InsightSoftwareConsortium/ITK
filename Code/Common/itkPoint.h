@@ -13,38 +13,46 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-#ifndef __itkPoint_h
-#define __itkPoint_h
-
 /**
- * itkPoint simply represents the geometric coordinates of one point in
+ * Point simply represents the geometric coordinates of one point in
  * N-dimensional space.
  */
 
+#ifndef __itkPoint_h
+#define __itkPoint_h
+
+namespace itk
+{
+
+/**
+ * Template parameters for Point:
+ *
+ * VPointDimension =
+ *     Geometric dimension of space.
+ * TCoordRep =
+ *     Numerical type to store each coordinate value.
+ */
+
 template <
-  /**
-   * Geometrical dimension of space.
-   */
   int VPointDimension,
-  
-  /**
-   * Numerical type to store each coordinate value.
-   */
   typename TCoordRep = double
   >
-class itkPoint
+class Point
 {
 public:
-  typedef itkPoint               Self;
+  typedef Point  Self;
 
+  /**
+   * Save template parameter information.
+   */
   enum { PointDimension = VPointDimension };
   typedef TCoordRep CoordRep;
 
   /**
    * Constructors.
    */
-  itkPoint();
-  itkPoint(CoordRep coords[PointDimension]);
+  Point();
+  Point(CoordRep coords[PointDimension]);
   
   
   /**
@@ -67,6 +75,8 @@ protected:
    */
   CoordRep m_Coords[PointDimension];
 };
+
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkPoint.cxx"

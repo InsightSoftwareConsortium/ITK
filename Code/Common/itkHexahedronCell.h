@@ -13,6 +13,10 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+/**
+ * HexahedronCell represents a hexahedron for Mesh
+ */
+
 #ifndef __itkHexahedronCell_h
 #define __itkHexahedronCell_h
 
@@ -20,37 +24,50 @@
 #include "itkCellBoundary.h"
 #include "itkQuadrilateralCell.h"
 
+namespace itk
+{
+
 /**
- * itkHexahedronCell represents a hexahedron for itkMesh
+ * Template parameters for HexahedronCell:
+ *
+ * TPixelType =
+ *     The type associated with a point, cell, or boundary for use in storing
+ *     its data.
+ * TCellType =
+ *     Type information of mesh containing cell.
  */
 
 template <
-  /**
-   * The type associated with a point, cell, or boundary for use in storing
-   * its data.
-   */
   typename TPixelType,
-
-  /**
-   * Type information of mesh containing cell.
-   */
   typename TCellType
   >
-class itkHexahedronCell: public itkCell< TPixelType , TCellType >
+class HexahedronCell: public Cell< TPixelType , TCellType >
 {
 public:
   /**
    * Smart pointer typedef support.
    */
-  typedef itkHexahedronCell        Self;
+  typedef HexahedronCell         Self;
   typedef itkSmartPointer<Self>  Pointer;
 
   /**
+   * Save some template parameter information.
+   */
+  typedef typename CellType::CoordRep         CoordRep;
+  typedef typename CellType::PointIdentifier  PointIdentifier;
+  enum { PointDimension = CellType::PointDimension };
+
+  /**
+   * Quick access to the base class type.
+   */
+  typedef Cell< TPixelType , TCellType >  Cell;
+  
+  /**
    * The type of cells for this hexahedron's vertices, edges, and faces.
    */
-  typedef itkVertexBoundary< TPixelType , TCellType >         Vertex;
-  typedef itkLineBoundary< TPixelType , TCellType >           Edge;
-  typedef itkQuadrilateralBoundary< TPixelType , TCellType >  Face;
+  typedef VertexBoundary< TPixelType , TCellType >         Vertex;
+  typedef LineBoundary< TPixelType , TCellType >           Edge;
+  typedef QuadrilateralBoundary< TPixelType , TCellType >  Face;
   
   /**
    * Hexahedron-specific topology numbers.
@@ -126,18 +143,19 @@ protected:
  * Create the boundary-wrapped version of this cell type.
  */
 template <typename TPixelType, typename TCellType>
-class itkHexahedronBoundary:
-  public itkCellBoundary< itkHexahedronCell< TPixelType , TCellType > >
+class HexahedronBoundary:
+  public CellBoundary< HexahedronCell< TPixelType , TCellType > >
 {
 public:
-  typedef itkHexahedronBoundary  Self;
+  typedef HexahedronBoundary     Self;
   typedef itkSmartPointer<Self>  Pointer;
   
   static Pointer New(void);
   
-  itkTypeMacro(itkHexahedronBoundary, itkCellBoundary);
+  itkTypeMacro(HexahedronBoundary, CellBoundary);
 };
 
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkHexahedronCell.cxx"

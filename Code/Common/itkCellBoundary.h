@@ -13,29 +13,35 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+/**
+ * CellBoundary wraps any ITK Cell type with it's corresponding boundary
+ * interface definitions.
+ */
+
 #ifndef __itkCellBoundary_h
 #define __itkCellBoundary_h
 
 #include "itkCell.h"
 
+namespace itk
+{
+  
 /**
- * itkCellBoundary wraps any ITK Cell type with it's corresponding boundary
- * interface definitions.
+ * Template parameters for CellBoundary:
+ * TCell =
+ *     The type of cell we want to wrap.
  */
 
 template <
-  /**
-   * The type of cell we want to wrap.
-   */
   typename TCell
   >
-class itkCellBoundary: public TCell
+class CellBoundary: public TCell
 {
 public:
   /**
    * Smart pointer typedef support.
    */
-  typedef itkCellBoundary         Self;
+  typedef CellBoundary            Self;
   typedef itkSmartPointer<Self>   Pointer;
   
   /**
@@ -61,7 +67,7 @@ public:
   /**
    * Standard part of itkObject class.  Used for debugging output.
    */
-  itkTypeMacro(itkCellBoundary, itkCell);
+  itkTypeMacro(CellBoundary, Cell);
   
 protected:
   /**
@@ -70,6 +76,7 @@ protected:
   UsingCellsContainer m_UsingCells;
 };
 
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkCellBoundary.cxx"

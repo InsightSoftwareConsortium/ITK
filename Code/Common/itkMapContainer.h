@@ -14,10 +14,10 @@
 
 =========================================================================*/
 /**
- * itkMapContainer
+ * MapContainer
  *
  * Define a front-end to the STL "map" container that conforms to the
- * itkIndexedContainer interface.  This is a full-fleged itkObject, so
+ * IndexedContainer interface.  This is a full-fleged itkObject, so
  * there is modification time, debug, and reference count information.
  */
 #ifndef __itkMapContainer_h
@@ -28,8 +28,21 @@
 #include "itkObject.h"
 #include "itkSmartPointer.h"
 
+namespace itk
+{
+
+/**
+ * Template parameters for MapContainer:
+ *
+ * TElementIdentifier =
+ *    A type that shall be used to index the container.
+ *    It must have a < operator defined for ordering.
+ * TElement =
+ *    The element type stored in the container.
+ */
+
 template <typename TElementIdentifier, typename TElement>
-class itkMapContainer:
+class MapContainer:
   public itkObject,
   public std::map< TElementIdentifier , TElement >
 {
@@ -37,7 +50,7 @@ public:
   /**
    * Smart pointer typedef support.
    */
-  typedef itkMapContainer        Self;
+  typedef MapContainer           Self;
   typedef itkSmartPointer<Self>  Pointer;
 
   /**
@@ -58,21 +71,21 @@ protected:
    * map constructors.  These are for internal use only since this is also
    * an itkObject which must be constructed through the "New()" routine.
    */
-  itkMapContainer():
+  MapContainer():
     Map() {}
 
-  itkMapContainer(const key_compare& comp):
+  MapContainer(const key_compare& comp):
     Map(comp) {}
 
-  itkMapContainer(const Self& r):
+  MapContainer(const Self& r):
     Map(r) {}
   
   template <typename InputIterator>
-  itkMapContainer(InputIterator first, InputIterator last):
+  MapContainer(InputIterator first, InputIterator last):
     Map(first, last) {}
 
   template <typename InputIterator>
-  itkMapContainer(InputIterator first, InputIterator last,
+  MapContainer(InputIterator first, InputIterator last,
 		  const key_compare& comp):
     Map(first, last, comp) {}  
   
@@ -98,6 +111,8 @@ public:
   ConstIterator Begin(void) const;
   ConstIterator End(void) const;  
 };
+
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkMapContainer.cxx"

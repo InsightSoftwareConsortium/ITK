@@ -27,28 +27,29 @@
 #include "itkCell.h"
 #include "itkVectorContainer.h"
 
-template <
-  /**
-   * The type stored as data for an entity (cell, point, or boundary).
-   */
-  typename TPixelType,
+namespace itk
+{
+
+/**
+ * Template parameters for MeshTypeDefault
+ *
+ * TPixelType =
+ *    The type stored as data for an entity (cell, point, or boundary).
+ * VPointDimension =
+ *    Geometric dimension of space.
+ * VMaxTopologicalDimension =
+ *    Max topological dimension of a cell that can be inserted into this mesh
+ * TCoordRep =
+ *    Numerical type to store each coordinate value.
+ */
   
-  /**
-   * Geometrical dimension of space.
-   */
+template <
+  typename TPixelType,
   int VPointDimension = 3,
-
-  /**
-   * Max topological dimension of a cell that can be inserted into this mesh.
-   */
   int VMaxTopologicalDimension = 3,
-
-  /**
-   * Numerical type to store each coordinate value.
-   */
   typename TCoordRep = double
   >
-class itkMeshTypeDefault
+class MeshTypeDefault
 {
 public:
   /**
@@ -76,10 +77,15 @@ public:
   typedef unsigned long  CellFeatureIdentifier;
   
   /**
+   * The type of point used by the mesh.  This should never change from
+   * this setting, regardless of the mesh type.
+   */
+  typedef Point< PointDimension , CoordRep >  Point;
+
+  /**
    * Define the container type that will be used to store points.
    */
-  typedef itkPoint< PointDimension , CoordRep >          Point;
-  typedef itkVectorContainer< PointIdentifier , Point >  PointsContainer;
+  typedef VectorContainer< PointIdentifier , Point >  PointsContainer;
 
   /**
    * Define the container type that will be used to store boundary links
@@ -91,8 +97,8 @@ public:
    * The information needed for a cell type is now defined, so we can
    * define the cell type.
    */
-  typedef MakeCellType                          CellType;
-  typedef itkCell< PixelType , CellType >       Cell;
+  typedef MakeCellType                  CellType;
+  typedef Cell< PixelType , CellType >  Cell;
   
   /**
    * Define the container types that will be used to store:
@@ -101,21 +107,22 @@ public:
    * The CellLinks container should be a container of PointCellLinksContainer,
    * which should be a container conforming to the STL "set" interface.
    */
-  typedef itkVectorContainer< CellIdentifier , Cell::Pointer >  
-                                                       CellsContainer;
+  typedef VectorContainer< CellIdentifier , Cell::Pointer >  
+  CellsContainer;
   typedef std::set< CellIdentifier >                                      
-                                                       PointCellLinksContainer;
-  typedef itkVectorContainer< PointIdentifier , PointCellLinksContainer > 
-                                                       CellLinksContainer;
-  typedef itkVectorContainer< PointIdentifier , PixelType >              
-                                                       PointDataContainer;
-  typedef itkVectorContainer< CellIdentifier , PixelType >                
-                                                       CellDataContainer;
-  typedef itkVectorContainer< BoundaryIdentifier , Cell::Pointer >        
-                                                       BoundariesContainer;
-  typedef itkVectorContainer< BoundaryIdentifier , PixelType >          
-                                                       BoundaryDataContainer;
+  PointCellLinksContainer;
+  typedef VectorContainer< PointIdentifier , PointCellLinksContainer > 
+  CellLinksContainer;
+  typedef VectorContainer< PointIdentifier , PixelType >              
+  PointDataContainer;
+  typedef VectorContainer< CellIdentifier , PixelType >                
+  CellDataContainer;
+  typedef VectorContainer< BoundaryIdentifier , Cell::Pointer >        
+  BoundariesContainer;
+  typedef VectorContainer< BoundaryIdentifier , PixelType >          
+  BoundaryDataContainer;
 };
 
+} // namespace itk
 
 #endif

@@ -15,13 +15,15 @@
 =========================================================================*/
 // #include "itkVectorContainer.h"
 
+namespace itk
+{
 
 /**
  *
  */
 template <typename TElementIdentifier, typename TElement>
-itkVectorContainer< TElementIdentifier , TElement >::Pointer
-itkVectorContainer< TElementIdentifier , TElement >
+VectorContainer< TElementIdentifier , TElement >::Pointer
+VectorContainer< TElementIdentifier , TElement >
 ::New(void)
 {
   return new Self;
@@ -37,8 +39,8 @@ itkVectorContainer< TElementIdentifier , TElement >
  * reference.
  */
 template <typename TElementIdentifier, typename TElement>
-itkVectorContainer< TElementIdentifier , TElement >::Element&
-itkVectorContainer< TElementIdentifier , TElement >
+VectorContainer< TElementIdentifier , TElement >::Element&
+VectorContainer< TElementIdentifier , TElement >
 ::ElementAt(ElementIdentifier id)
 {
   this->Modified();
@@ -55,8 +57,8 @@ itkVectorContainer< TElementIdentifier , TElement >
  * reference.
  */
 template <typename TElementIdentifier, typename TElement>
-itkVectorContainer< TElementIdentifier , TElement >::Element&
-itkVectorContainer< TElementIdentifier , TElement >
+VectorContainer< TElementIdentifier , TElement >::Element&
+VectorContainer< TElementIdentifier , TElement >
 ::CreateElementAt(ElementIdentifier id)
 {
   if(id >= this->Vector::size())
@@ -73,8 +75,8 @@ itkVectorContainer< TElementIdentifier , TElement >
  * It is assumed that the index exists.
  */
 template <typename TElementIdentifier, typename TElement>
-itkVectorContainer< TElementIdentifier , TElement >::Element
-itkVectorContainer< TElementIdentifier , TElement >
+VectorContainer< TElementIdentifier , TElement >::Element
+VectorContainer< TElementIdentifier , TElement >
 ::GetElement(ElementIdentifier id) const
 {
   return this->Vector::operator[](id);
@@ -87,7 +89,7 @@ itkVectorContainer< TElementIdentifier , TElement >
  */
 template <typename TElementIdentifier, typename TElement>
 void
-itkVectorContainer< TElementIdentifier , TElement >
+VectorContainer< TElementIdentifier , TElement >
 ::SetElement(ElementIdentifier id, Element element)
 {
   this->Vector::operator[](id) = element;
@@ -102,7 +104,7 @@ itkVectorContainer< TElementIdentifier , TElement >
  */
 template <typename TElementIdentifier, typename TElement>
 void
-itkVectorContainer< TElementIdentifier , TElement >
+VectorContainer< TElementIdentifier , TElement >
 ::InsertElement(ElementIdentifier id, Element element)
 {
   if(id >= this->Vector::size())
@@ -120,7 +122,7 @@ itkVectorContainer< TElementIdentifier , TElement >
  */
 template <typename TElementIdentifier, typename TElement>
 bool
-itkVectorContainer< TElementIdentifier , TElement >
+VectorContainer< TElementIdentifier , TElement >
 ::IndexExists(ElementIdentifier id) const
 {
   return ((id >= 0) && (id < this->Vector::size()));
@@ -134,7 +136,7 @@ itkVectorContainer< TElementIdentifier , TElement >
  */
 template <typename TElementIdentifier, typename TElement>
 bool
-itkVectorContainer< TElementIdentifier , TElement >
+VectorContainer< TElementIdentifier , TElement >
 ::GetElementIfIndexExists(ElementIdentifier id, Element* element) const
 {
   if((id >= 0) && (id < this->Vector::size()))
@@ -156,7 +158,7 @@ itkVectorContainer< TElementIdentifier , TElement >
  */
 template <typename TElementIdentifier, typename TElement>
 void
-itkVectorContainer< TElementIdentifier , TElement >
+VectorContainer< TElementIdentifier , TElement >
 ::CreateIndex(ElementIdentifier id)
 {
   if(id >= this->Vector::size())
@@ -190,7 +192,7 @@ itkVectorContainer< TElementIdentifier , TElement >
  */
 template <typename TElementIdentifier, typename TElement>
 void
-itkVectorContainer< TElementIdentifier , TElement >
+VectorContainer< TElementIdentifier , TElement >
 ::DeleteIndex(ElementIdentifier id)
 {
   this->Vector::operator[](id) = Element();
@@ -203,18 +205,19 @@ itkVectorContainer< TElementIdentifier , TElement >
  * container and use the result to construct our own iterator.
  */
 template <typename TElementIdentifier, typename TElement>
-itkVectorContainer< TElementIdentifier , TElement >::ConstIterator
-itkVectorContainer< TElementIdentifier , TElement >
+VectorContainer< TElementIdentifier , TElement >::ConstIterator
+VectorContainer< TElementIdentifier , TElement >
 ::Begin(void) const
 {
   return ConstIterator(0, this->Vector::begin());
 }
 
 template <typename TElementIdentifier, typename TElement>
-itkVectorContainer< TElementIdentifier , TElement >::ConstIterator
-itkVectorContainer< TElementIdentifier , TElement >
+VectorContainer< TElementIdentifier , TElement >::ConstIterator
+VectorContainer< TElementIdentifier , TElement >
 ::End(void) const
 {
   return ConstIterator(this->Vector::size()-1, this->Vector::end());
 }
 
+} // namespace itk

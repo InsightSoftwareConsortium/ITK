@@ -15,12 +15,15 @@
 =========================================================================*/
 // #include "itkMapContainer.h"
 
+namespace itk
+{
+
 /**
  *
  */
 template <typename TElementIdentifier, typename TElement>
-itkMapContainer< TElementIdentifier , TElement >::Pointer
-itkMapContainer< TElementIdentifier , TElement >
+MapContainer< TElementIdentifier , TElement >::Pointer
+MapContainer< TElementIdentifier , TElement >
 ::New(void)
 {
   return new Self;
@@ -35,8 +38,8 @@ itkMapContainer< TElementIdentifier , TElement >
  * reference.
  */
 template <typename TElementIdentifier, typename TElement>
-itkMapContainer< TElementIdentifier , TElement >::Element&
-itkMapContainer< TElementIdentifier , TElement >
+MapContainer< TElementIdentifier , TElement >::Element&
+MapContainer< TElementIdentifier , TElement >
 ::ElementAt(ElementIdentifier id)
 {
   this->Modified();
@@ -52,8 +55,8 @@ itkMapContainer< TElementIdentifier , TElement >
  * reference.
  */
 template <typename TElementIdentifier, typename TElement>
-itkMapContainer< TElementIdentifier , TElement >::Element&
-itkMapContainer< TElementIdentifier , TElement >
+MapContainer< TElementIdentifier , TElement >::Element&
+MapContainer< TElementIdentifier , TElement >
 ::CreateElementAt(ElementIdentifier id)
 {
   this->Modified();
@@ -66,8 +69,8 @@ itkMapContainer< TElementIdentifier , TElement >
  * existence performed.
  */
 template <typename TElementIdentifier, typename TElement>
-itkMapContainer< TElementIdentifier , TElement >::Element
-itkMapContainer< TElementIdentifier , TElement >
+MapContainer< TElementIdentifier , TElement >::Element
+MapContainer< TElementIdentifier , TElement >
 ::GetElement(ElementIdentifier id) const
 {
   return this->Map::find(id)->second;
@@ -80,7 +83,7 @@ itkMapContainer< TElementIdentifier , TElement >
  */
 template <typename TElementIdentifier, typename TElement>
 void
-itkMapContainer< TElementIdentifier , TElement >
+MapContainer< TElementIdentifier , TElement >
 ::SetElement(ElementIdentifier id, Element element)
 {
   Map::operator[](id) = element;
@@ -94,7 +97,7 @@ itkMapContainer< TElementIdentifier , TElement >
  */
 template <typename TElementIdentifier, typename TElement>
 void
-itkMapContainer< TElementIdentifier , TElement >
+MapContainer< TElementIdentifier , TElement >
 ::InsertElement(ElementIdentifier id, Element element)
 {
   Map::operator[](id) = element;
@@ -108,7 +111,7 @@ itkMapContainer< TElementIdentifier , TElement >
  */
 template <typename TElementIdentifier, typename TElement>
 bool
-itkMapContainer< TElementIdentifier , TElement >
+MapContainer< TElementIdentifier , TElement >
 ::IndexExists(ElementIdentifier id) const
 {
   return (this->Map::count(id) > 0);
@@ -122,7 +125,7 @@ itkMapContainer< TElementIdentifier , TElement >
  */
 template <typename TElementIdentifier, typename TElement>
 bool
-itkMapContainer< TElementIdentifier , TElement >
+MapContainer< TElementIdentifier , TElement >
 ::GetElementIfIndexExists(ElementIdentifier id, Element* element) const
 {
   if(this->Map::count(id) > 0)
@@ -144,7 +147,7 @@ itkMapContainer< TElementIdentifier , TElement >
  */
 template <typename TElementIdentifier, typename TElement>
 void
-itkMapContainer< TElementIdentifier , TElement >
+MapContainer< TElementIdentifier , TElement >
 ::CreateIndex(ElementIdentifier id)
 {
   this->Map::operator[](id) = Element();
@@ -158,7 +161,7 @@ itkMapContainer< TElementIdentifier , TElement >
  */
 template <typename TElementIdentifier, typename TElement>
 void
-itkMapContainer< TElementIdentifier , TElement >
+MapContainer< TElementIdentifier , TElement >
 ::DeleteIndex(ElementIdentifier id)
 {
   this->Map::erase(id);
@@ -171,18 +174,19 @@ itkMapContainer< TElementIdentifier , TElement >
  * container.
  */
 template <typename TElementIdentifier, typename TElement>
-itkMapContainer< TElementIdentifier , TElement >::ConstIterator
-itkMapContainer< TElementIdentifier , TElement >
+MapContainer< TElementIdentifier , TElement >::ConstIterator
+MapContainer< TElementIdentifier , TElement >
 ::Begin(void) const
 {
   return this->Map::begin();
 }
 
 template <typename TElementIdentifier, typename TElement>
-itkMapContainer< TElementIdentifier , TElement >::ConstIterator
-itkMapContainer< TElementIdentifier , TElement >
+MapContainer< TElementIdentifier , TElement >::ConstIterator
+MapContainer< TElementIdentifier , TElement >
 ::End(void) const
 {
   return this->Map::end();
 }
 
+} // namespace itk

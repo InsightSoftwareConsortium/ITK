@@ -15,13 +15,15 @@
 =========================================================================*/
 // #include "itkVertexCell.h"
 
-
+namespace itk
+{
+  
 /**
  *
  */
 template <typename TPixelType, typename TCellType>
-itkVertexCell< TPixelType , TCellType >::Pointer
-itkVertexCell< TPixelType , TCellType >
+VertexCell< TPixelType , TCellType >::Pointer
+VertexCell< TPixelType , TCellType >
 ::New(void)
 {
   return new Self;
@@ -33,7 +35,7 @@ itkVertexCell< TPixelType , TCellType >
  */
 template <typename TPixelType, typename TCellType>
 int
-itkVertexCell< TPixelType , TCellType >
+VertexCell< TPixelType , TCellType >
 ::GetCellDimension(void)
 {
   return CellDimension;
@@ -44,8 +46,8 @@ itkVertexCell< TPixelType , TCellType >
  * A vertex has no boundary entities of any dimension.
  */
 template <typename TPixelType, typename TCellType>
-itkVertexCell< TPixelType , TCellType >::CellFeatureCount
-itkVertexCell< TPixelType , TCellType >
+VertexCell< TPixelType , TCellType >::CellFeatureCount
+VertexCell< TPixelType , TCellType >
 ::GetNumberOfBoundaryFeatures(int)
 {
   return 0;
@@ -56,8 +58,8 @@ itkVertexCell< TPixelType , TCellType >
  * A vertex has no boundary entities.  Just return null.
  */
 template <typename TPixelType, typename TCellType>
-itkVertexCell< TPixelType , TCellType >::Cell::Pointer
-itkVertexCell< TPixelType , TCellType >
+VertexCell< TPixelType , TCellType >::Cell::Pointer
+VertexCell< TPixelType , TCellType >
 ::GetBoundaryFeature(int, CellFeatureIdentifier)
 {
   return Cell::Pointer(NULL);
@@ -70,7 +72,7 @@ itkVertexCell< TPixelType , TCellType >
  */
 template <typename TPixelType, typename TCellType>
 void
-itkVertexCell< TPixelType , TCellType >
+VertexCell< TPixelType , TCellType >
 ::SetCellPoints(const PointIdentifier *ptList)
 {
   for(int i=0; i < NumberOfPoints ; ++i)
@@ -87,7 +89,7 @@ itkVertexCell< TPixelType , TCellType >
  */
 template <typename TPixelType, typename TCellType>
 void
-itkVertexCell< TPixelType , TCellType >
+VertexCell< TPixelType , TCellType >
 ::SetCellPoints(const PointIdentifier* first, const PointIdentifier* last)
 {
   int localId=0;
@@ -103,7 +105,7 @@ itkVertexCell< TPixelType , TCellType >
  */
 template <typename TPixelType, typename TCellType>
 void
-itkVertexCell< TPixelType , TCellType >
+VertexCell< TPixelType , TCellType >
 ::SetCellPoint(int localId, PointIdentifier ptId)
 {
   m_PointIds[localId] = ptId;
@@ -115,32 +117,32 @@ itkVertexCell< TPixelType , TCellType >
  * are just pointers to the beginning and one past the end.
  */
 template <typename TPixelType, typename TCelltype>
-itkVertexCell< TPixelType , TCelltype >::PointIterator
-itkVertexCell< TPixelType , TCelltype >
+VertexCell< TPixelType , TCelltype >::PointIterator
+VertexCell< TPixelType , TCelltype >
 ::PointIdsBegin(void)
 {
   return &m_PointIds[0];
 }
 
 template <typename TPixelType, typename TCelltype>
-itkVertexCell< TPixelType , TCelltype >::PointConstIterator
-itkVertexCell< TPixelType , TCelltype >
+VertexCell< TPixelType , TCelltype >::PointConstIterator
+VertexCell< TPixelType , TCelltype >
 ::PointIdsBegin(void) const
 {
   return &m_PointIds[0];
 }
 
 template <typename TPixelType, typename TCelltype>
-itkVertexCell< TPixelType , TCelltype >::PointIterator
-itkVertexCell< TPixelType , TCelltype >
+VertexCell< TPixelType , TCelltype >::PointIterator
+VertexCell< TPixelType , TCelltype >
 ::PointIdsEnd(void)
 {
   return &m_PointIds[NumberOfPoints];
 }
 
 template <typename TPixelType, typename TCelltype>
-itkVertexCell< TPixelType , TCelltype >::PointConstIterator
-itkVertexCell< TPixelType , TCelltype >
+VertexCell< TPixelType , TCelltype >::PointConstIterator
+VertexCell< TPixelType , TCelltype >
 ::PointIdsEnd(void) const
 {
   return &m_PointIds[NumberOfPoints];
@@ -152,8 +154,8 @@ itkVertexCell< TPixelType , TCelltype >
  * Get the identifier of the point defining the vertex.
  */
 template <typename TPixelType, typename TCellType>
-itkVertexCell< TPixelType , TCellType >::PointIdentifier
-itkVertexCell< TPixelType , TCellType >
+VertexCell< TPixelType , TCellType >::PointIdentifier
+VertexCell< TPixelType , TCellType >
 ::GetCellPoint(void)
 {
   return m_PointIds[0];
@@ -164,10 +166,11 @@ itkVertexCell< TPixelType , TCellType >
  * Object factory for the boundary version of this cell type.
  */
 template <typename TPixelType, typename TCellType>
-itkVertexBoundary< TPixelType , TCellType >::Pointer
-itkVertexBoundary< TPixelType , TCellType >
+VertexBoundary< TPixelType , TCellType >::Pointer
+VertexBoundary< TPixelType , TCellType >
 ::New(void)
 {
   return new Self;
 }
 
+} // namespace itk

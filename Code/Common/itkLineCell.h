@@ -13,6 +13,10 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+/**
+ * LineCell represents a line segment for Mesh
+ */
+
 #ifndef __itkLineCell_h
 #define __itkLineCell_h
 
@@ -20,35 +24,48 @@
 #include "itkCellBoundary.h"
 #include "itkVertexCell.h"
 
+namespace itk
+{
+
 /**
- * itkLineCell represents a line segment for itkMesh
+ * Template parameters for LineCell:
+ *
+ * TPixelType =
+ *     The type associated with a point, cell, or boundary for use in storing
+ *     its data.
+ * TCellType =
+ *     Type information of mesh containing cell.
  */
 
 template <
-  /**
-   * The type associated with a point, cell, or boundary for use in storing
-   * its data.
-   */
   typename TPixelType,
-
-  /**
-   * Type information of mesh containing cell.
-   */
   typename TCellType
   >
-class itkLineCell: public itkCell< TPixelType , TCellType >
+class LineCell: public Cell< TPixelType , TCellType >
 {
 public:
   /**
    * Smart pointer typedef support.
    */
-  typedef itkLineCell        Self;
+  typedef LineCell               Self;
   typedef itkSmartPointer<Self>  Pointer;
 
   /**
+   * Save some template parameter information.
+   */
+  typedef typename CellType::CoordRep         CoordRep;
+  typedef typename CellType::PointIdentifier  PointIdentifier;
+  enum { PointDimension = CellType::PointDimension };
+
+  /**
+   * Quick access to the base class type.
+   */
+  typedef Cell< TPixelType , TCellType >  Cell;
+  
+  /**
    * The type of cells for this lines's vertices.
    */
-  typedef itkVertexBoundary< TPixelType , TCellType >  Vertex;
+  typedef VertexBoundary< TPixelType , TCellType >  Vertex;
   
   /**
    * Line-specific topology numbers.
@@ -82,7 +99,7 @@ public:
   /**
    * Standard part of itkObject class.  Used for debugging output.
    */
-  itkTypeMacro(itkLineCell, itkCell);
+  itkTypeMacro(LineCell, Cell);
 
 protected:
   /**
@@ -96,18 +113,19 @@ protected:
  * Create the boundary-wrapped version of this cell type.
  */
 template <typename TPixelType, typename TCellType>
-class itkLineBoundary:
-  public itkCellBoundary< itkLineCell< TPixelType , TCellType > >
+class LineBoundary:
+  public CellBoundary< LineCell< TPixelType , TCellType > >
 {
 public:
-  typedef itkLineBoundary        Self;
+  typedef LineBoundary           Self;
   typedef itkSmartPointer<Self>  Pointer;
   
   static Pointer New(void);
   
-  itkTypeMacro(itkLineBoundary, itkCellBoundary);
+  itkTypeMacro(LineBoundary, CellBoundary);
 };
 
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkLineCell.cxx"

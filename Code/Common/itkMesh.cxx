@@ -17,12 +17,15 @@
 
 #include <algorithm>
 
+namespace itk
+{
+
 /**
  * Object factory.
  */
 template <typename TPixelType, typename TMeshType>
-itkMesh< TPixelType , TMeshType >::Pointer
-itkMesh< TPixelType , TMeshType >
+Mesh< TPixelType , TMeshType >::Pointer
+Mesh< TPixelType , TMeshType >
 ::New(void)
 {
   return new Self;
@@ -34,7 +37,7 @@ itkMesh< TPixelType , TMeshType >
  */
 template <typename TPixelType, typename TMeshType>
 void
-itkMesh< TPixelType , TMeshType >
+Mesh< TPixelType , TMeshType >
 ::SetPointsContainer(PointsContainer* points)
 {
   itkDebugMacro(<< this->GetClassName() << " (" << this
@@ -51,8 +54,8 @@ itkMesh< TPixelType , TMeshType >
  * Access routine to get the points container.
  */
 template <typename TPixelType, typename TMeshType>
-itkMesh< TPixelType , TMeshType >::PointsContainerPointer
-itkMesh< TPixelType , TMeshType >
+Mesh< TPixelType , TMeshType >::PointsContainerPointer
+Mesh< TPixelType , TMeshType >
 ::GetPointsContainer(void)
 {
   itkDebugMacro(<< this->GetClassName() << " (" << this
@@ -66,7 +69,7 @@ itkMesh< TPixelType , TMeshType >
  */
 template <typename TPixelType, typename TMeshType>
 void
-itkMesh< TPixelType , TMeshType >
+Mesh< TPixelType , TMeshType >
 ::SetPointDataContainer(PointDataContainer* pointData)
 {
   itkDebugMacro(<< this->GetClassName() << " (" << this
@@ -83,8 +86,8 @@ itkMesh< TPixelType , TMeshType >
  * Access routine to get the point data container.
  */
 template <typename TPixelType, typename TMeshType>
-itkMesh< TPixelType , TMeshType >::PointDataContainerPointer
-itkMesh< TPixelType , TMeshType >
+Mesh< TPixelType , TMeshType >::PointDataContainerPointer
+Mesh< TPixelType , TMeshType >
 ::GetPointDataContainer(void)
 {
   itkDebugMacro(<< this->GetClassName() << " (" << this
@@ -98,7 +101,7 @@ itkMesh< TPixelType , TMeshType >
  */
 template <typename TPixelType, typename TMeshType>
 void
-itkMesh< TPixelType , TMeshType >
+Mesh< TPixelType , TMeshType >
 ::SetCellLinksContainer(CellLinksContainer* cellLinks)
 {
   itkDebugMacro(<< this->GetClassName() << " (" << this
@@ -115,8 +118,8 @@ itkMesh< TPixelType , TMeshType >
  * Access routine to get the cell links container.
  */
 template <typename TPixelType, typename TMeshType>
-itkMesh< TPixelType , TMeshType >::CellLinksContainerPointer
-itkMesh< TPixelType , TMeshType >
+Mesh< TPixelType , TMeshType >::CellLinksContainerPointer
+Mesh< TPixelType , TMeshType >
 ::GetCellLinksContainer(void)
 {
   itkDebugMacro(<< this->GetClassName() << " (" << this
@@ -130,7 +133,7 @@ itkMesh< TPixelType , TMeshType >
  */
 template <typename TPixelType, typename TMeshType>
 void
-itkMesh< TPixelType , TMeshType >
+Mesh< TPixelType , TMeshType >
 ::SetCellsContainer(CellsContainer* cells)
 {
   itkDebugMacro(<< this->GetClassName() << " (" << this
@@ -147,8 +150,8 @@ itkMesh< TPixelType , TMeshType >
  * Access routine to get the cells container.
  */
 template <typename TPixelType, typename TMeshType>
-itkMesh< TPixelType , TMeshType >::CellsContainerPointer
-itkMesh< TPixelType , TMeshType >
+Mesh< TPixelType , TMeshType >::CellsContainerPointer
+Mesh< TPixelType , TMeshType >
 ::GetCellsContainer(void)
 {
   itkDebugMacro(<< this->GetClassName() << " (" << this
@@ -162,7 +165,7 @@ itkMesh< TPixelType , TMeshType >
  */
 template <typename TPixelType, typename TMeshType>
 void
-itkMesh< TPixelType , TMeshType >
+Mesh< TPixelType , TMeshType >
 ::SetCellDataContainer(CellDataContainer* cellData)
 {
   itkDebugMacro(<< this->GetClassName() << " (" << this
@@ -179,8 +182,8 @@ itkMesh< TPixelType , TMeshType >
  * Access routine to get the cell data container.
  */
 template <typename TPixelType, typename TMeshType>
-itkMesh< TPixelType , TMeshType >::CellDataContainerPointer
-itkMesh< TPixelType , TMeshType >
+Mesh< TPixelType , TMeshType >::CellDataContainerPointer
+Mesh< TPixelType , TMeshType >
 ::GetCellDataContainer(void)
 {
   itkDebugMacro(<< this->GetClassName() << " (" << this
@@ -194,7 +197,7 @@ itkMesh< TPixelType , TMeshType >
  */
 template <typename TPixelType, typename TMeshType>
 void
-itkMesh< TPixelType , TMeshType >
+Mesh< TPixelType , TMeshType >
 ::SetBoundariesContainer(int dimension, BoundariesContainer* boundaries)
 {
   itkDebugMacro(<< this->GetClassName() << " (" << this
@@ -213,8 +216,8 @@ itkMesh< TPixelType , TMeshType >
  * Access routine to get the boundaries container for a given dimension.
  */
 template <typename TPixelType, typename TMeshType>
-itkMesh< TPixelType , TMeshType >::BoundariesContainerPointer
-itkMesh< TPixelType , TMeshType >
+Mesh< TPixelType , TMeshType >::BoundariesContainerPointer
+Mesh< TPixelType , TMeshType >
 ::GetBoundariesContainer(int dimension)
 {
   itkDebugMacro(<< this->GetClassName() << " (" << this
@@ -229,7 +232,7 @@ itkMesh< TPixelType , TMeshType >
  */
 template <typename TPixelType, typename TMeshType>
 void
-itkMesh< TPixelType , TMeshType >
+Mesh< TPixelType , TMeshType >
 ::SetBoundaryDataContainer(int dimension, BoundaryDataContainer* boundaryData)
 {
   itkDebugMacro(<< this->GetClassName() << " (" << this
@@ -247,8 +250,8 @@ itkMesh< TPixelType , TMeshType >
  * Access routine to get the boundary data container for a given dimension.
  */
 template <typename TPixelType, typename TMeshType>
-itkMesh< TPixelType , TMeshType >::BoundaryDataContainerPointer
-itkMesh< TPixelType , TMeshType >
+Mesh< TPixelType , TMeshType >::BoundaryDataContainerPointer
+Mesh< TPixelType , TMeshType >
 ::GetBoundaryDataContainer(int dimension)
 {
   itkDebugMacro(<< this->GetClassName() << " (" << this
@@ -264,7 +267,7 @@ itkMesh< TPixelType , TMeshType >
  */
 template <typename TPixelType, typename TMeshType>
 void
-itkMesh< TPixelType , TMeshType >
+Mesh< TPixelType , TMeshType >
 ::SetBoundaryAssignmentsContainer(
   int dimension,
   BoundaryAssignmentsContainer* boundaryAssignments)
@@ -285,8 +288,8 @@ itkMesh< TPixelType , TMeshType >
  * dimension.
  */
 template <typename TPixelType, typename TMeshType>
-itkMesh< TPixelType , TMeshType >::BoundaryAssignmentsContainerPointer
-itkMesh< TPixelType , TMeshType >
+Mesh< TPixelType , TMeshType >::BoundaryAssignmentsContainerPointer
+Mesh< TPixelType , TMeshType >
 ::GetBoundaryAssignmentsContainer(int dimension)
 {
   itkDebugMacro(<< this->GetClassName() << " (" << this
@@ -302,7 +305,7 @@ itkMesh< TPixelType , TMeshType >
  */
 template <typename TPixelType, typename TMeshType>
 void
-itkMesh< TPixelType , TMeshType >
+Mesh< TPixelType , TMeshType >
 ::SetPoint(PointIdentifier ptId, Point point)
 {
   /**
@@ -329,7 +332,7 @@ itkMesh< TPixelType , TMeshType >
  */
 template <typename TPixelType, typename TMeshType>
 bool
-itkMesh< TPixelType , TMeshType >
+Mesh< TPixelType , TMeshType >
 ::GetPoint(PointIdentifier ptId, Point* point) const
 {
   /**
@@ -352,7 +355,7 @@ itkMesh< TPixelType , TMeshType >
  */
 template <typename TPixelType, typename TMeshType>
 void
-itkMesh< TPixelType , TMeshType >
+Mesh< TPixelType , TMeshType >
 ::SetPointData(PointIdentifier ptId, PixelType data)
 {
   /**
@@ -379,7 +382,7 @@ itkMesh< TPixelType , TMeshType >
  */
 template <typename TPixelType, typename TMeshType>
 bool
-itkMesh< TPixelType , TMeshType >
+Mesh< TPixelType , TMeshType >
 ::GetPointData(PointIdentifier ptId, PixelType* data) const
 {
   /**
@@ -402,7 +405,7 @@ itkMesh< TPixelType , TMeshType >
  */
 template <typename TPixelType, typename TMeshType>
 void
-itkMesh< TPixelType , TMeshType >
+Mesh< TPixelType , TMeshType >
 ::SetCell(CellIdentifier cellId, Cell* cell)
 {
   /**
@@ -429,7 +432,7 @@ itkMesh< TPixelType , TMeshType >
  */
 template <typename TPixelType, typename TMeshType>
 bool
-itkMesh< TPixelType , TMeshType >
+Mesh< TPixelType , TMeshType >
 ::GetCell(CellIdentifier cellId, Cell::Pointer* cell) const
 {
   /**
@@ -452,7 +455,7 @@ itkMesh< TPixelType , TMeshType >
  */
 template <typename TPixelType, typename TMeshType>
 void
-itkMesh< TPixelType , TMeshType >
+Mesh< TPixelType , TMeshType >
 ::SetCellData(CellIdentifier cellId, PixelType data)
 {
   /**
@@ -479,7 +482,7 @@ itkMesh< TPixelType , TMeshType >
  */
 template <typename TPixelType, typename TMeshType>
 bool
-itkMesh< TPixelType , TMeshType >
+Mesh< TPixelType , TMeshType >
 ::GetCellData(CellIdentifier cellId, PixelType* data) const
 {
   /**
@@ -502,7 +505,7 @@ itkMesh< TPixelType , TMeshType >
  */
 template <typename TPixelType, typename TMeshType>
 void
-itkMesh< TPixelType , TMeshType >
+Mesh< TPixelType , TMeshType >
 ::SetBoundary(int dimension, BoundaryIdentifier boundaryId, Boundary* boundary)
 {
   /**
@@ -529,7 +532,7 @@ itkMesh< TPixelType , TMeshType >
  */
 template <typename TPixelType, typename TMeshType>
 bool
-itkMesh< TPixelType , TMeshType >
+Mesh< TPixelType , TMeshType >
 ::GetBoundary(int dimension, BoundaryIdentifier boundaryId,
 	      Boundary::Pointer* boundary) const
 {
@@ -555,7 +558,7 @@ itkMesh< TPixelType , TMeshType >
  */
 template <typename TPixelType, typename TMeshType>
 void
-itkMesh< TPixelType , TMeshType >
+Mesh< TPixelType , TMeshType >
 ::SetBoundaryData(int dimension, BoundaryIdentifier boundaryId, PixelType data)
 {
   /**
@@ -582,7 +585,7 @@ itkMesh< TPixelType , TMeshType >
  */
 template <typename TPixelType, typename TMeshType>
 bool
-itkMesh< TPixelType , TMeshType >
+Mesh< TPixelType , TMeshType >
 ::GetBoundaryData(int dimension, BoundaryIdentifier boundaryId,
 		  PixelType* data) const
 {
@@ -605,7 +608,7 @@ itkMesh< TPixelType , TMeshType >
  */
 template <typename TPixelType, typename TMeshType>
 void
-itkMesh< TPixelType , TMeshType >
+Mesh< TPixelType , TMeshType >
 ::SetBoundaryAssignment(int dimension, CellIdentifier cellId,
 			CellFeatureIdentifier featureId,
 			BoundaryIdentifier boundaryId)
@@ -634,7 +637,7 @@ itkMesh< TPixelType , TMeshType >
  */
 template <typename TPixelType, typename TMeshType>
 bool
-itkMesh< TPixelType , TMeshType >
+Mesh< TPixelType , TMeshType >
 ::GetBoundaryAssignment(int dimension, CellIdentifier cellId,
 			CellFeatureIdentifier featureId,
 			BoundaryIdentifier* boundaryId) const
@@ -662,7 +665,7 @@ itkMesh< TPixelType , TMeshType >
  */
 template <typename TPixelType, typename TMeshType>
 bool
-itkMesh< TPixelType , TMeshType >
+Mesh< TPixelType , TMeshType >
 ::RemoveBoundaryAssignment(int dimension, CellIdentifier cellId,
 			   CellFeatureIdentifier featureId)
 {
@@ -693,8 +696,8 @@ itkMesh< TPixelType , TMeshType >
  * on the cell with the given identifier.
  */
 template <typename TPixelType, typename TMeshType>
-itkMesh< TPixelType , TMeshType >::CellFeatureCount
-itkMesh< TPixelType , TMeshType >
+Mesh< TPixelType , TMeshType >::CellFeatureCount
+Mesh< TPixelType , TMeshType >
 ::GetNumberOfCellBoundaryFeatures(int dimension, CellIdentifier cellId) const
 {
   /**
@@ -715,8 +718,8 @@ itkMesh< TPixelType , TMeshType >
  * corresponding to the given feature identifier.
  */
 template <typename TPixelType, typename TMeshType>
-itkMesh< TPixelType , TMeshType >::Boundary::Pointer
-itkMesh< TPixelType , TMeshType >
+Mesh< TPixelType , TMeshType >::Boundary::Pointer
+Mesh< TPixelType , TMeshType >
 ::GetCellBoundaryFeature(int dimension, CellIdentifier cellId,
 			 CellFeatureIdentifier featureId) const
 {
@@ -753,7 +756,7 @@ itkMesh< TPixelType , TMeshType >
  */
 template <typename TPixelType, typename TMeshType>
 unsigned long
-itkMesh< TPixelType , TMeshType >
+Mesh< TPixelType , TMeshType >
 ::GetBoundaryFeatureNeighbors(int dimension, CellIdentifier cellId,
 			      CellFeatureIdentifier featureId,
 			      std::list<CellIdentifier>* cellList)
@@ -916,7 +919,7 @@ itkMesh< TPixelType , TMeshType >
  */
 template <typename TPixelType, typename TMeshType>
 bool
-itkMesh< TPixelType , TMeshType >
+Mesh< TPixelType , TMeshType >
 ::GetAssignedBoundaryIfOneExists(int dimension, CellIdentifier cellId,
 				 CellFeatureIdentifier featureId,
 				 Boundary::Pointer* boundary) const
@@ -948,7 +951,7 @@ itkMesh< TPixelType , TMeshType >
  */
 template <typename TPixelType, typename TMeshType>
 void
-itkMesh< TPixelType , TMeshType >
+Mesh< TPixelType , TMeshType >
 ::BuildCellLinks(void)
 {
   /**
@@ -999,11 +1002,11 @@ itkMesh< TPixelType , TMeshType >
 
 /**
  * A protected default constructor allows the New() routine to create an
- * instance of itkMesh.  All the containers are initialized to non-existent.
+ * instance of Mesh.  All the containers are initialized to non-existent.
  */
 template <typename TPixelType, typename TMeshType>
-itkMesh< TPixelType , TMeshType >
-::itkMesh():
+Mesh< TPixelType , TMeshType >
+::Mesh():
   m_Points(NULL),
   m_PointData(NULL),
   m_Cells(NULL),
@@ -1015,3 +1018,4 @@ itkMesh< TPixelType , TMeshType >
     BoundaryAssignmentsContainerVector(MaxTopologicalDimension))
 {}
 
+} // namespace itk

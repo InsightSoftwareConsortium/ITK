@@ -15,12 +15,15 @@
 =========================================================================*/
 // #include "itkTriangleCell.h"
 
+namespace itk
+{
+
 /**
  *
  */
 template <typename TPixelType, typename TCellType>
-itkTriangleCell< TPixelType , TCellType >::Pointer
-itkTriangleCell< TPixelType , TCellType >
+TriangleCell< TPixelType , TCellType >::Pointer
+TriangleCell< TPixelType , TCellType >
 ::New(void)
 {
   return new Self;
@@ -32,7 +35,7 @@ itkTriangleCell< TPixelType , TCellType >
  */
 template <typename TPixelType, typename TCellType>
 int
-itkTriangleCell< TPixelType , TCellType >
+TriangleCell< TPixelType , TCellType >
 ::GetCellDimension(void)
 {
   return CellDimension;
@@ -43,8 +46,8 @@ itkTriangleCell< TPixelType , TCellType >
  * Get the number of boundary features of the given dimension.
  */
 template <typename TPixelType, typename TCellType>
-itkTriangleCell< TPixelType , TCellType >::CellFeatureCount
-itkTriangleCell< TPixelType , TCellType >
+TriangleCell< TPixelType , TCellType >::CellFeatureCount
+TriangleCell< TPixelType , TCellType >
 ::GetNumberOfBoundaryFeatures(int dimension)
 {
   switch (dimension)
@@ -61,8 +64,8 @@ itkTriangleCell< TPixelType , TCellType >
  * cell feature Id.
  */
 template <typename TPixelType, typename TCellType>
-itkTriangleCell< TPixelType , TCellType >::Cell::Pointer
-itkTriangleCell< TPixelType , TCellType >
+TriangleCell< TPixelType , TCellType >::Cell::Pointer
+TriangleCell< TPixelType , TCellType >
 ::GetBoundaryFeature(int dimension, CellFeatureIdentifier featureId)
 {
   switch (dimension)
@@ -80,7 +83,7 @@ itkTriangleCell< TPixelType , TCellType >
  */
 template <typename TPixelType, typename TCellType>
 void
-itkTriangleCell< TPixelType , TCellType >
+TriangleCell< TPixelType , TCellType >
 ::SetCellPoints(const PointIdentifier *ptList)
 {
   for(int i=0; i < NumberOfPoints ; ++i)
@@ -97,7 +100,7 @@ itkTriangleCell< TPixelType , TCellType >
  */
 template <typename TPixelType, typename TCellType>
 void
-itkTriangleCell< TPixelType , TCellType >
+TriangleCell< TPixelType , TCellType >
 ::SetCellPoints(const PointIdentifier* first, const PointIdentifier* last)
 {
   int localId=0;
@@ -113,7 +116,7 @@ itkTriangleCell< TPixelType , TCellType >
  */
 template <typename TPixelType, typename TCellType>
 void
-itkTriangleCell< TPixelType , TCellType >
+TriangleCell< TPixelType , TCellType >
 ::SetCellPoint(int localId, PointIdentifier ptId)
 {
   m_PointIds[localId] = ptId;
@@ -125,32 +128,32 @@ itkTriangleCell< TPixelType , TCellType >
  * are just pointers to the beginning and one past the end.
  */
 template <typename TPixelType, typename TCelltype>
-itkTriangleCell< TPixelType , TCelltype >::PointIterator
-itkTriangleCell< TPixelType , TCelltype >
+TriangleCell< TPixelType , TCelltype >::PointIterator
+TriangleCell< TPixelType , TCelltype >
 ::PointIdsBegin(void)
 {
   return &m_PointIds[0];
 }
 
 template <typename TPixelType, typename TCelltype>
-itkTriangleCell< TPixelType , TCelltype >::PointConstIterator
-itkTriangleCell< TPixelType , TCelltype >
+TriangleCell< TPixelType , TCelltype >::PointConstIterator
+TriangleCell< TPixelType , TCelltype >
 ::PointIdsBegin(void) const
 {
   return &m_PointIds[0];
 }
 
 template <typename TPixelType, typename TCelltype>
-itkTriangleCell< TPixelType , TCelltype >::PointIterator
-itkTriangleCell< TPixelType , TCelltype >
+TriangleCell< TPixelType , TCelltype >::PointIterator
+TriangleCell< TPixelType , TCelltype >
 ::PointIdsEnd(void)
 {
   return &m_PointIds[NumberOfPoints];
 }
 
 template <typename TPixelType, typename TCelltype>
-itkTriangleCell< TPixelType , TCelltype >::PointConstIterator
-itkTriangleCell< TPixelType , TCelltype >
+TriangleCell< TPixelType , TCelltype >::PointConstIterator
+TriangleCell< TPixelType , TCelltype >
 ::PointIdsEnd(void) const
 {
   return &m_PointIds[NumberOfPoints];
@@ -162,8 +165,8 @@ itkTriangleCell< TPixelType , TCelltype >
  * Get the number of vertices defining the triangle.
  */
 template <typename TPixelType, typename TCellType>
-itkTriangleCell< TPixelType , TCellType >::CellFeatureCount
-itkTriangleCell< TPixelType , TCellType >
+TriangleCell< TPixelType , TCellType >::CellFeatureCount
+TriangleCell< TPixelType , TCellType >
 ::GetNumberOfVertices(void)
 {
   return NumberOfVertices;
@@ -175,8 +178,8 @@ itkTriangleCell< TPixelType , TCellType >
  * Get the number of edges defined for the triangle.
  */
 template <typename TPixelType, typename TCellType>
-itkTriangleCell< TPixelType , TCellType >::CellFeatureCount
-itkTriangleCell< TPixelType , TCellType >
+TriangleCell< TPixelType , TCellType >::CellFeatureCount
+TriangleCell< TPixelType , TCellType >
 ::GetNumberOfEdges(void)
 {
   return NumberOfEdges;
@@ -188,8 +191,8 @@ itkTriangleCell< TPixelType , TCellType >
  * Get the vertex specified by the given cell feature Id.
  */
 template <typename TPixelType, typename TCellType>
-itkTriangleCell< TPixelType , TCellType >::Vertex::Pointer
-itkTriangleCell< TPixelType , TCellType >
+TriangleCell< TPixelType , TCellType >::Vertex::Pointer
+TriangleCell< TPixelType , TCellType >
 ::GetCellVertex(CellFeatureIdentifier vertexId)
 {
   Vertex::Pointer vert(Vertex::New());
@@ -204,8 +207,8 @@ itkTriangleCell< TPixelType , TCellType >
  * Get the edge specified by the given cell feature Id.
  */
 template <typename TPixelType, typename TCellType>
-itkTriangleCell< TPixelType , TCellType >::Edge::Pointer
-itkTriangleCell< TPixelType , TCellType >
+TriangleCell< TPixelType , TCellType >::Edge::Pointer
+TriangleCell< TPixelType , TCellType >
 ::GetCellEdge(CellFeatureIdentifier edgeId)
 {
   Edge::Pointer edge(Edge::New());
@@ -222,7 +225,7 @@ itkTriangleCell< TPixelType , TCellType >
  */
 template <typename TPixelType, typename TCellType>
 const int
-itkTriangleCell< TPixelType , TCellType >
+TriangleCell< TPixelType , TCellType >
 ::m_Edges[3][2] = { {0,1}, {1,2}, {2,0} };
 
 
@@ -230,10 +233,11 @@ itkTriangleCell< TPixelType , TCellType >
  * Object factory for the boundary version of this cell type.
  */
 template <typename TPixelType, typename TCellType>
-itkTriangleBoundary< TPixelType , TCellType >::Pointer
-itkTriangleBoundary< TPixelType , TCellType >
+TriangleBoundary< TPixelType , TCellType >::Pointer
+TriangleBoundary< TPixelType , TCellType >
 ::New(void)
 {
   return new Self;
 }
 
+} // namespace itk

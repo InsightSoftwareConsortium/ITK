@@ -13,14 +13,17 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-// #include "itkMesh.h"
+// #include "itkPoint.h"
+
+namespace itk
+{
 
 /**
  * Default constructor.
  */
 template <int VPointDimension, typename TCoordRep>
-itkPoint< VPointDimension , TCoordRep >
-::itkPoint()
+Point< VPointDimension , TCoordRep >
+::Point()
 {
   for(int i=0; i < PointDimension ; ++i)
     m_Coords[i] = CoordRep();
@@ -31,8 +34,8 @@ itkPoint< VPointDimension , TCoordRep >
  * Constructor which takes coordinate set.
  */
 template <int VPointDimension, typename TCoordRep>
-itkPoint< VPointDimension , TCoordRep >
-::itkPoint(CoordRep coords[PointDimension])
+Point< VPointDimension , TCoordRep >
+::Point(CoordRep coords[PointDimension])
 {
   for(int i=0; i < PointDimension ; ++i)
     m_Coords[i] = coords[i];
@@ -44,7 +47,7 @@ itkPoint< VPointDimension , TCoordRep >
  */
 template <int VPointDimension, typename TCoordRep>
 void
-itkPoint< VPointDimension , TCoordRep >
+Point< VPointDimension , TCoordRep >
 ::SetCoords(CoordRep coords[PointDimension])
 {
   for(int i=0; i < PointDimension ; ++i)
@@ -57,9 +60,11 @@ itkPoint< VPointDimension , TCoordRep >
  */
 template <int VPointDimension, typename TCoordRep>
 void
-itkPoint< VPointDimension , TCoordRep >
+Point< VPointDimension , TCoordRep >
 ::GetCoords(CoordRep coords[PointDimension])
 {
   for(int i=0; i < PointDimension ; ++i)
     coords[i] = m_Coords[i];
 }
+
+} // namespace itk

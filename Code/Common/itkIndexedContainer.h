@@ -14,7 +14,7 @@
 
 =========================================================================*/
 /**
- * Define the "itkIndexedContainer" interface.  This should only be used for
+ * Define the "IndexedContainer" interface.  This should only be used for
  * reference when writing containers conforming to this interface.  ITK
  * uses generic programming to allow container type substitution, so
  * polymorphism is not needed to use containers through this interface.  This
@@ -34,14 +34,26 @@
 #include "itkObject.h"
 #include "itkSmartPointer.h"
 
+namespace itk
+{
+
+/**
+ * Template parameters for IndexedContainer:
+ *
+ * TElementIdentifier =
+ *    A type that shall be used to index the container.
+ *    It must have a < operator defined for ordering.
+ * TElement =
+ *    The element type stored in the container.
+ */
 template <typename TElementIdentifier, typename TElement>
-class itkIndexedContainer: public itkObject
+class IndexedContainer: public itkObject
 {
 public:
   /**
    * Smart pointer typedef support.
    */
-  typedef itkIndexedContainer      Self;
+  typedef IndexedContainer         Self;
   typedef itkSmartPointer< Self >  Pointer;
 
   /**
@@ -138,4 +150,6 @@ public:
   // ConstIterator End()
 };
 
+} // namespace itk
+  
 #endif

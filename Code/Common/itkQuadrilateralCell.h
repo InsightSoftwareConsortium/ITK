@@ -13,6 +13,10 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
+/**
+ * QuadrilateralCell represents a quadrilateral for Mesh
+ */
+
 #ifndef __itkQuadrilateralCell_h
 #define __itkQuadrilateralCell_h
 
@@ -20,36 +24,49 @@
 #include "itkCellBoundary.h"
 #include "itkLineCell.h"
 
+namespace itk
+{
+
 /**
- * itkQuadrilateralCell represents a quadrilateral for itkMesh
+ * Template parameters for QuadrilateralCell:
+ *
+ * TPixelType =
+ *     The type associated with a point, cell, or boundary for use in storing
+ *     its data.
+ * TCellType =
+ *     Type information of mesh containing cell.
  */
 
 template <
-  /**
-   * The type associated with a point, cell, or boundary for use in storing
-   * its data.
-   */
   typename TPixelType,
-
-  /**
-   * Type information of mesh containing cell.
-   */
   typename TCellType
   >
-class itkQuadrilateralCell: public itkCell< TPixelType , TCellType >
+class QuadrilateralCell: public Cell< TPixelType , TCellType >
 {
 public:
   /**
    * Smart pointer typedef support.
    */
-  typedef itkQuadrilateralCell   Self;
+  typedef QuadrilateralCell      Self;
   typedef itkSmartPointer<Self>  Pointer;
+  
+  /**
+   * Save some template parameter information.
+   */
+  typedef typename CellType::CoordRep         CoordRep;
+  typedef typename CellType::PointIdentifier  PointIdentifier;
+  enum { PointDimension = CellType::PointDimension };
+
+  /**
+   * Quick access to the base class type.
+   */
+  typedef Cell< TPixelType , TCellType >  Cell;
   
   /**
    * The type of cells for this quadrilateral's vertices and edges.
    */
-  typedef itkVertexBoundary< TPixelType , TCellType >  Vertex;
-  typedef itkLineBoundary< TPixelType , TCellType >    Edge;
+  typedef VertexBoundary< TPixelType , TCellType >  Vertex;
+  typedef LineBoundary< TPixelType , TCellType >    Edge;
   
   /**
    * Quadrilateral-specific topology numbers.
@@ -97,7 +114,7 @@ public:
   /**
    * Standard part of itkObject class.  Used for debugging output.
    */
-  itkTypeMacro(itkQuadrilateralCell, itkCell);
+  itkTypeMacro(QuadrilateralCell, Cell);
   
 protected:
   /**
@@ -116,18 +133,19 @@ protected:
  * Create the boundary-wrapped version of this cell type.
  */
 template <typename TPixelType, typename TCellType>
-class itkQuadrilateralBoundary:
-  public itkCellBoundary< itkQuadrilateralCell< TPixelType , TCellType > >
+class QuadrilateralBoundary:
+  public CellBoundary< QuadrilateralCell< TPixelType , TCellType > >
 {
 public:
-  typedef itkQuadrilateralBoundary  Self;
+  typedef QuadrilateralBoundary     Self;
   typedef itkSmartPointer<Self>     Pointer;
   
   static Pointer New(void);
   
-  itkTypeMacro(itkQuadrilateralBoundary, itkCellBoundary);
+  itkTypeMacro(QuadrilateralBoundary, CellBoundary);
 };
 
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkQuadrilateralCell.cxx"
