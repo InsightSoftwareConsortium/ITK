@@ -36,9 +36,6 @@ ImageRandomConstIteratorWithIndex<TImage>
   m_NumberOfRandomJumps       = 0L;
 }
 
-
-
-
 /** Constructor establishes an iterator to walk a particular image and a
  * particular region of that image. */
 template<class TImage>
@@ -51,32 +48,6 @@ ImageRandomConstIteratorWithIndex<TImage>
   m_NumberOfSamplesDone      = 0L;
 }
 
-
-
-/**  Go to the initial position for iterating */
-template<class TImage>
-void
-ImageRandomConstIteratorWithIndex<TImage>
-::GoToBegin()
-{
-  m_NumberOfSamplesDone = 0L;
-  this->operator++();
-}
-
-
-
-/**  Go to the last position for iterating */
-template<class TImage>
-void
-ImageRandomConstIteratorWithIndex<TImage>
-::GoToEnd()
-{
-  m_NumberOfSamplesDone = 0L;
-  this->operator--();
-}
-
-
-
 /**  Set the number of samples to extract from the region */
 template<class TImage>
 void
@@ -85,7 +56,6 @@ ImageRandomConstIteratorWithIndex<TImage>
 {
   m_NumberOfSamplesRequested = number;
 }
-
 
 /**  Set the number of samples to extract from the region */
 template<class TImage>
@@ -96,19 +66,26 @@ ImageRandomConstIteratorWithIndex<TImage>
   return m_NumberOfSamplesRequested;
 }
 
-
-/**  Execute an acrobatic random jump forward */
+/** Reinitialize the seed of the random number generator */
 template<class TImage>
-ImageRandomConstIteratorWithIndex<TImage>  &
+void
 ImageRandomConstIteratorWithIndex<TImage>
-::operator++()
+::ReinitializeSeed()
 {
+  vnl_sample_reseed();
+}
 
+/** Execute an acrobatic random jump */
+template<class TImage>
+void
+ImageRandomConstIteratorWithIndex<TImage>
+::RandomJump()
+{
   const unsigned long randomPosition =
-     static_cast<unsigned long > (
-        vnl_sample_uniform(0.0f, 
+    static_cast<unsigned long > (
+                 vnl_sample_uniform(0.0f, 
                     static_cast<double>(m_NumberOfPixelsInRegion)-0.5) );
-
+  
   unsigned long position = randomPosition;
   unsigned long residual;
   for( unsigned int dim = 0; dim < TImage::ImageDimension; dim++ )
@@ -121,33 +98,7 @@ ImageRandomConstIteratorWithIndex<TImage>
     }
 
   m_Position = m_Image->GetBufferPointer() + m_Image->ComputeOffset( m_PositionIndex );
-  m_NumberOfSamplesDone++;
-  return *this;
-
 }
-
-
-/**  Execute an acrobatic random jump  backwards,
-     ...but actually is the same code */
-template<class TImage>
-ImageRandomConstIteratorWithIndex<TImage>  &
-ImageRandomConstIteratorWithIndex<TImage>
-::operator--()
-{
-  return ++(*this);
-}
-
-
-/** Reinitialize the seed of the random number generator */
-template<class TImage>
-void
-ImageRandomConstIteratorWithIndex<TImage>
-::ReinitializeSeed()
-{
-  vnl_sample_reseed();
-}
-
-
 
 
 } // end namespace itk
