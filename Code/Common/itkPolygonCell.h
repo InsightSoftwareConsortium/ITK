@@ -145,9 +145,9 @@ public:
   itkTypeMacro(PolygonCell, CellInterface);
 
   /**
-   * Need to add DynamicPolygon_CELL into CellInterface.
+   * Need to add POLYGON_CELL into CellInterface.
    */
-  itkCellVisitMacro(DYNAMICPOLYGON_CELL);
+  itkCellVisitMacro(POLYGON_CELL);
 
   /**
    * Implement the standard CellInterface.
