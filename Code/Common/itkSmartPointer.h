@@ -96,19 +96,19 @@ public:
     { return m_Pointer; }
   
   /** Comparison of pointers. Less than comparison.  */
-  bool operator < (const SmartPointer &r)
+  bool operator < (const SmartPointer &r) const
     { return (void*)m_Pointer < (void*) r.m_Pointer; }
   
   /** Comparison of pointers. Greater than comparison.  */
-  bool operator > (const SmartPointer &r)
+  bool operator > (const SmartPointer &r) const
     { return (void*)m_Pointer > (void*) r.m_Pointer; }
 
   /** Comparison of pointers. Less than or equal to comparison.  */
-  bool operator <= (const SmartPointer &r)
+  bool operator <= (const SmartPointer &r) const
     { return (void*)m_Pointer <= (void*) r.m_Pointer; }
 
   /** Comparison of pointers. Greater than or equal to comparison.  */
-  bool operator >= (const SmartPointer &r)
+  bool operator >= (const SmartPointer &r) const
     { return (void*)m_Pointer >= (void*) r.m_Pointer; }
 
   /** Overload operator assignment.  */
