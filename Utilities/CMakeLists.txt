@@ -10,11 +10,6 @@ IF (BUILD_TESTING)
 SUBDIRS(Dart)
 ENDIF (BUILD_TESTING)
 
-# Use the system version of STD library (STL and streams).
-IF (NOT ITK_USE_SYSTEM_STDLIB)
-  SUBDIRS(stdlib)
-ENDIF (NOT ITK_USE_SYSTEM_STDLIB)
-
 # Install the UseITK.cmake file configured from the top-level.
 INSTALL_FILES(/lib/InsightToolkit ".cmake" "ITKConfig")
 

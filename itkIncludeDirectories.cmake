@@ -56,12 +56,6 @@ IF(WIN32)
   ENDIF(NOT CYGWIN)
 ENDIF(WIN32)
 
-# Include directory for stdlib.
-IF(NOT ITK_USE_SYSTEM_STDLIB)
-  SET(ITK_INCLUDE_DIRS_BUILD_TREE ${ITK_INCLUDE_DIRS_BUILD_TREE}
-      ${ITK_SOURCE_DIR}/Utilities/stdlib)
-ENDIF(NOT ITK_USE_SYSTEM_STDLIB)
-
 #-----------------------------------------------------------------------------
 # Include directories needed for .cxx files in ITK.  These include
 # directories will NOT be available to user projects.
@@ -89,12 +83,6 @@ SET(ITK_INCLUDE_DIRS_INSTALL_TREE ${ITK_INCLUDE_DIRS_INSTALL_TREE}
     ${ITK_INSTALL_INCLUDE_DIR}/Utilities/vxl/vcl
     ${ITK_INSTALL_INCLUDE_DIR}/Utilities/vxl
 )
-
-# Include directory for stdlib.
-IF(NOT ITK_USE_SYSTEM_STDLIB)
-  SET(ITK_INCLUDE_DIRS_INSTALL_TREE ${ITK_INCLUDE_DIRS_INSTALL_TREE}
-      ${ITK_INSTALL_INCLUDE_DIR}/Utilities/stdlib)
-ENDIF(NOT ITK_USE_SYSTEM_STDLIB)
 
 #-----------------------------------------------------------------------------
 # Include directories for 3rd-party utilities provided by ITK.

@@ -26,9 +26,6 @@ SET(ITK_USE_FILE "@ITK_USE_FILE@")
 # The build settings file.
 SET(ITK_BUILD_SETTINGS_FILE "@ITK_BUILD_SETTINGS_FILE@")
 
-# Whether ITK was built with the system's native stdlib.
-SET(ITK_USE_SYSTEM_STDLIB "@ITK_USE_SYSTEM_STDLIB@")
-
 # Whether ITK was built with shared libraries.
 SET(ITK_BUILD_SHARED "@BUILD_SHARED_LIBS@")
 

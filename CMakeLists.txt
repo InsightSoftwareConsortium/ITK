@@ -140,9 +140,6 @@ IF(WIN32)
 ENDIF(WIN32)
 
 OPTION(BUILD_EXAMPLES "Build the Examples directory." ON)
-OPTION(ITK_USE_SYSTEM_STDLIB
-       "Use the system's version of the standard C++ library (STL and streams).  If 'OFF', ITK will build against a supplied version of the standard library from SGI.  On SGI systems, this should be set to 'OFF'." ON)
-SET(ITK_USE_SYSTEM_STDLIB ON)
 SET(VXL_NUMERICS_LIBRARIES itkvnl itkvnl_algo itknetlib)
 
 
@@ -157,11 +154,6 @@ MARK_AS_ADVANCED(ITK_CSWIG_JAVA)
 MARK_AS_ADVANCED(CABLE_INDEX)
 MARK_AS_ADVANCED(CSWIG)
 MARK_AS_ADVANCED(GCCXML)
-
-IF(CMAKE_SYSTEM MATCHES "IRIX.*")
-ELSE(CMAKE_SYSTEM MATCHES "IRIX.*")
-  MARK_AS_ADVANCED(ITK_USE_SYSTEM_STDLIB)
-ENDIF(CMAKE_SYSTEM MATCHES "IRIX.*")
 
 #-----------------------------------------------------------------------------
 # Configure Dart testing support.
@@ -231,12 +223,6 @@ ENDIF(CMAKE_USE_PTHREADS)
 IF(WIN32)
   SET(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -DNOMINMAX")
 ENDIF(WIN32)
-
-IF(NOT ITK_USE_SYSTEM_STDLIB)
-  IF(CMAKE_COMPILER_IS_GNUCXX)
-    SET(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -D__STL_USE_NEW_IOSTREAMS")
-  ENDIF(CMAKE_COMPILER_IS_GNUCXX)
-ENDIF(NOT ITK_USE_SYSTEM_STDLIB)
 
 #-----------------------------------------------------------------------------
 # Configure the default ITK_DATA_ROOT for the location of ITK Data.
