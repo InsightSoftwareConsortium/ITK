@@ -26,13 +26,30 @@
 
 // Software Guide : BeginLatex
 //
-// 
+// This example introduces slice-based neighborhood processing.  An
+// \code{std::slice} is a simple object that defines a starting position, a
+// step size, and an ending position.  Using slices, we can walk through a
+// neighborhood in a variety of ways.  For example, suppose we wanted to take
+// derivatives along the $y$-axis, but offset those derivatives by one pixel
+// along the positive $x$-axis.  For a $3x3$, 2D neighborhood iterator, we can
+// construct a slice as \code{(start = 2, stride = 3, end = 8)}, where
+// \code{start} and \code{end} are given as neighborhood array positions.  This
+// slice can be passed along with an appropriate 1D
+// \doxygen{DerviativeOperator} to the \doxygen{NeighborhoodInnerProduct}
+// function, which will then use only the pixels specified by the slice,
+// i.e. those pixels at neighborhood offsets $(1, -1)$, $(1, 0)$, $(1, 1)$ (see
+// figure~\ref{????????????????????????}) for reference.
+//
+// The previous separable Gaussian filtering example can be rewritten using
+// slices and slice-based inner products.  In general, slice-based processing
+// is most useful when doing many different calculations on the same
+// neighborhood, so that defining multiple iterators as in 
+// section~\ref{?????????????????} becomes impractical or inefficient.  Good
+// examples of slice-based neighborhood processing are any of the ND
+// anisotropic diffusion function objects, such as
+// \doxygen{CurvatureNDAnisotropicDiffusionFunction}.
 //
 // Software Guide : EndLatex
-
-// Software Guide : BeginCodeSnippet
-
-// Software Guide : EndCodeSnippet
 
 int main( int argc, char ** argv )
 {
@@ -82,16 +99,46 @@ int main( int argc, char ** argv )
   IteratorType out;
   NeighborhoodIteratorType it;
 
+// Software Guide: BeginLatex
+//
+// The first difference between this example and the previous example is that
+// the Gaussian operator is only initialized once.  Its direction is not
+// important because it is only a 1D array of coefficients.
+//
+// Software Guide: EndLatex
+
+// Software Guide : BeginCodeSnippet
   itk::GaussianOperator< PixelType, 2 > gaussianOperator;
   gaussianOperator.SetDirection(0);
   gaussianOperator.SetVariance( ::atof(argv[3]) * ::atof(argv[3]) );
-  gaussianOperator.CreateDirectional(); 
+  gaussianOperator.CreateDirectional();
+// Software Guide : EndCodeSnippet
 
+// Software Guide : BeginLatex
+//
+// Next we need to define a radius for the iterator.  The radius in all
+// directions matches that of the single extent of the Gaussian operator,
+// defining a square neighborhood.
+//
+// Software Guide : EndLatex
 
+// Software Guide : BeginCodeSnippet
   NeighborhoodIteratorType::RadiusType radius;
   radius.Fill( gaussianOperator.GetRadius()[0] );
+// Software Guide EndCodeSnippet
 
+// Software Guide : BeginLatex
+//
+// Now we have arrived at the main loop.  The inner product and face calculator are
+// defined as before, but now the iterator is reinitialized each iteration with the
+// square \code{radius} instead of the radius of the operator, and the inner
+// product is taken using a slice along the axial direction corresponding to
+// the current iteration.  Note the use of \code{GetSlice} to return the proper
+// slice from the iterator itself.
+//
+// Software Guide : EndLatex
 
+// Software Guide : BeginCodeSnippet
   ImageType::Pointer input = reader->GetOutput();
 
   faceList = faceCalculator(input, output->GetRequestedRegion(),
@@ -119,11 +166,18 @@ int main( int argc, char ** argv )
       output = tmp;
       }
     }
-    
+// Software Guide : EndCodeSnippet
+
+  
 // Software Guide : BeginLatex
 //
-// The output is rescaled and written as in the previous example.  Filter the
-// BLAH BLAH image in the $X$ direction give the same result as in Figure~BLAH BLAH
+// This technique produces exactly the same results as the previous example.  A
+// little experimentation, however, will reveal that it is less efficient since
+// the neighborhood iterator is keeping track of extra, unused pixel locations
+// for each iteration, while the previous example only references those pixels
+// that it needs.  In cases, however, where an algorithm takes multiple
+// derivatives or convolution products over the same neighborhood, slice-based
+// processing can increase efficiency and simplify the implementation.
 //
 // Software Guide : EndLatex
 

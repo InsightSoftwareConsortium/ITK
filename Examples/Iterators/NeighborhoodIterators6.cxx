@@ -26,8 +26,29 @@
 
 // Software Guide : BeginLatex
 //
-// 
+// This example takes advantage of the random access capabilities of the
+// neighborhood iterators to move through an image in a non-predetermined path.
+// Previously, we have been using the neighborhood iterator to visit each pixel
+// in a region, in turn, without regard to its location in the image.  For some
+// algorithms, however, it may be desirable to move through an image in a path
+// that is determined by some metric on the local neighborhood, that is, go to
+// the next neighborhood position based on the values at the current position.
+// Algorithms that fit this model include connected component analysis and
+// flood-fill algorithms.  This example will use a neighborhood iterator to
+// find a local minimum.
 //
+// Given a seed point, we can search the neighborhood of that point and pick
+// the smallest value $m$.  While $m$ is not at the center of our
+// current neighborhood, we move in the direction of $m$ and repeat the analysis.
+// Eventually we discover a local minimum and stop.  This algorithm is made
+// trivially simple in ND using an ITK neighborhood iterator.
+//
+// To illustrate the process, we create an image that descends everywhere to a
+// single minimum, a distance transform from a point.  The details of creating
+// this distance transform are not relevant to the discussion of neighborhood
+// iterators, but can be found in the source code of this example. Some noise
+// has been added to the distance transform image for additional interest.
+// 
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
@@ -106,16 +127,47 @@ int main( int argc, char ** argv )
 
   ImageType::Pointer input = adder->GetOutput();
 
+// Software Guide : BeginLatex
+//
+// Once the distance transform has been created, we proceed directly to the
+// local minimum algorithm.  The variable \code{input} is now the pointer to
+// the distance transform image.
+//
+// The first step is to define a seed point based on command line arguments.
+// Software Guide : EndLatex
+
+
+// Software Guide : BeginCodeSnippet
   ImageType::IndexType index;
   index[0] = ::atoi(argv[2]);
   index[1] = ::atoi(argv[3]);
-  
+// Software Guide : EndCodeSnippet
+
+// Software Guide : BeginLatex
+// Next we create the neighborhood iterator and position it at the seed point.
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
   NeighborhoodIteratorType::RadiusType radius;
   radius.Fill(1);
   NeighborhoodIteratorType it(radius, input, input->GetRequestedRegion());
 
   it.SetLocation(index);
+// Software Guide : EndCodeSnippet
 
+// Software Guide : BeginLatex
+// 
+// Searching for the local minimum involves finding the minimum in the current
+// neighborhood, then shifting the neighborhood in the direction of that
+// minimum.  The \code{for} loop below records the \code{itk::Offset} of the
+// minimum neighborhood pixel.  The neighborhood iterator is then moved using
+// that offset.  When a local minimum is detected, \code{flag} will remain
+// false and the \code{while} loop will exit.  Note that this code is
+// valid for an image of any dimensionality.
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
   bool flag = true;
   while ( flag == true )
     {
@@ -137,14 +189,15 @@ int main( int argc, char ** argv )
     it.SetCenterPixel( 255.0 );
     it += nextMove;
     }
-
+// Software Guide : EndCodeSnippet
 
   
     
 // Software Guide : BeginLatex
 //
-// The output is rescaled and written as in the previous example.  Filter the
-// BLAH BLAH image in the $X$ direction give the same result as in Figure~BLAH BLAH
+// Figure~\ref{fig:????????????????????} records the results of the algorithm
+// for several seed points.  The effect of the additive noise is visible in
+// the perturbations of the descent paths.
 //
 // Software Guide : EndLatex
 
