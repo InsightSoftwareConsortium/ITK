@@ -25,6 +25,7 @@
 #include "itkProgressReporter.h"
 
 
+
 namespace itk
 {
 template <class TInputImage, class TOutputImage>
@@ -174,8 +175,10 @@ BilateralImageFilter<TInputImage, TOutputImage>
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType::iterator fit;
 
   OutputPixelRealType centerPixel;
-  OutputPixelRealType val, normFactor, rangeGaussian, rangeDistanceSq;
+  OutputPixelRealType val, normFactor, rangeGaussian, rangeDistanceSq,
+    rangeDistance, pixel, gaussianProduct;
   double rangeGaussianDenom;
+  double rangeVariance = m_RangeSigma * m_RangeSigma;
 
   // denominator (normalization factor) for Gaussian used for range
   rangeGaussianDenom = sqrt(2.0*3.1415927*m_RangeSigma);
@@ -210,19 +213,21 @@ BilateralImageFilter<TInputImage, TOutputImage>
            ++k_it, ++i)
         {
         // distance squared between neighborhood pixel and neighborhood center
-        rangeDistanceSq
-          = (static_cast<OutputPixelRealType>(b_iter.GetPixel(i))-centerPixel)
-          * (static_cast<OutputPixelRealType>(b_iter.GetPixel(i))-centerPixel);
+        pixel = static_cast<OutputPixelRealType>(b_iter.GetPixel(i));
+        rangeDistance = pixel - centerPixel;
+        rangeDistanceSq = rangeDistance*rangeDistance;
 
         // range Gaussian value
-        rangeGaussian = exp(-0.5*rangeDistanceSq / (m_RangeSigma*m_RangeSigma))
+        rangeGaussian = exp(-0.5*rangeDistanceSq / rangeVariance)
           / rangeGaussianDenom;
 
         // normalization factor so filter integrates to one
-        normFactor += (*k_it) * rangeGaussian;
+        // (product of the domain and the range gaussian)
+        gaussianProduct = (*k_it) * rangeGaussian;
+        normFactor += gaussianProduct;
       
         // Input Image * Domain Gaussian * Range Gaussian 
-        val += b_iter.GetPixel(i) * (*k_it) * rangeGaussian;
+        val += pixel * gaussianProduct;
         }
       // normalize the value
       val /= normFactor;
