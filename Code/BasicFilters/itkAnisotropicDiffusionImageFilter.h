@@ -51,7 +51,7 @@ namespace itk {
  *  This filter is the base class for a set of filters that iteratively diffuse
  *  images by solving non-linear partial differential equations based on the
  *  classical heat equation.  For an overview of the diffusion algorithm, see
- *  itkAnisotropicImageFunction.  AnisotropicDiffusionImageFilter is a subclass
+ *  AnisotropicImageFunction.  AnisotropicDiffusionImageFilter is a subclass
  *  of itkFiniteDifferenceImageFilter and is part of the finite difference
  *  solver hierarchy.
  *
@@ -79,8 +79,6 @@ namespace itk {
  *  AnisotropicDiffusionImageFilter must be subclassed to be used.  This class
  *  implements a generic framework for other diffusion filters.
  *
- *  \sa ScalarAnisotropicDiffusionImageFilter
- *  \sa VectorAnisotropicDiffusionImageFilter
  *  \sa GradientAnisotropicDiffusionImageFilter
  *  \sa VectorGradientAnisotropicDiffusionImageFilter
  *  \sa CurvatureAnisotropicDiffusionImageFilter
