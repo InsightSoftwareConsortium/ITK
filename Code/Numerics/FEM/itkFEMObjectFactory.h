@@ -86,7 +86,7 @@ namespace fem {
  *    const int OF_Derived=FEMObjectFactory<BaseClass>::Register( NewDerivedClass, "NewDerivedObjectName" );
  *
  */
-template<class T=FEMLightObject>
+template<class T>
 class FEMObjectFactory
 {
 
