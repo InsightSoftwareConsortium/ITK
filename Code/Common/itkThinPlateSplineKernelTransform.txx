@@ -45,7 +45,7 @@ namespace itk
 
 template <class TScalarType, int NDimensions>
 ThinPlateSplineKernelTransform<TScalarType, NDimensions>::
-ThinPlateSplineKernelTransform() : KernelTransform<TScalarType, NDimensions>()
+ThinPlateSplineKernelTransform() 
 {
 }
 
@@ -58,7 +58,7 @@ ThinPlateSplineKernelTransform<TScalarType, NDimensions>::
 template <class TScalarType, int NDimensions>
 ThinPlateSplineKernelTransform<TScalarType, NDimensions>::GMatrixType
 ThinPlateSplineKernelTransform<TScalarType, NDimensions>::
-ComputeG(const VectorType & x) const
+ComputeG(const InputVectorType & x) const
 {
   RowMatrixType xRV; // row vector rep. of x
   ColumnMatrixType xCV; // column vector rep. of x
