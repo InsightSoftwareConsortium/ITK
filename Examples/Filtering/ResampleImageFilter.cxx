@@ -62,7 +62,8 @@
 //  The header files corresponding to the transform and interpolator should
 //  also be included.
 //
-//  \index{itk::ResampleImageFilter!header|textbf}
+//  \index{itk::AffineTransform!header}
+//  \index{itk::NearestNeighborInterpolateImageFunction!header}
 //
 //  Software Guide : EndLatex 
 
@@ -148,6 +149,8 @@ int main( int argc, char ** argv )
   //  The transform type is instantiated typically using the image dimension
   //  and the type used for representing space coordinates.
   //
+  //  \index{itk::AffineTransform!instantiation}
+  //
   //  Software Guide : EndLatex 
   
   // Software Guide : BeginCodeSnippet
@@ -181,6 +184,8 @@ int main( int argc, char ** argv )
   //
   //  The interpolator type is instantiated using the full image type and the
   //  type used for representing space coordinates.
+  //
+  //  \index{itk::NearestNeighborInterpolateImageFunction!instantiation}
   //
   //  Software Guide : EndLatex 
   
@@ -259,7 +264,7 @@ int main( int argc, char ** argv )
   //  The extension of the sampling grid on the output image is defined by a
   //  \code{SizeType} and is set using the \code{SetSize()} method.
   //
-  //  \index{itk::ResampleImageFilter!SetOutputRegion()}
+  //  \index{itk::ResampleImageFilter!SetSize()}
   //
   //  Software Guide : EndLatex 
 
@@ -411,6 +416,8 @@ int main( int argc, char ** argv )
   //  example, the following code sets the default external value to a visible
   //  gray value. The result is shown in the right side of figure
   //  \ref{fig:ResampleImageFilterOutput3Analysis}
+  //
+  //  \index{itk::ResampleImageFilter!SetDefaultPixelValue()}
   //
   //  Software Guide : EndLatex 
 

@@ -43,17 +43,17 @@
 //
 // \begin{figure}
 // \center
-// \includegraphics[width=12cm]{ResampleImageFilterTransformComposition6.eps}
-// \caption{Input and output image placed in a common reference system.}
-// \label{fig:ResampleImageFilterTransformComposition6}
-// \end{figure}
-//
-// \begin{figure}
-// \center
 // \includegraphics[height=6cm]{ResampleImageFilterInput2x3.eps}
 // \includegraphics[height=4cm]{ResampleImageFilterOutput9.eps}
 // \caption{Effect of a rotation on the resampling filter. Input image at left, Output image at right.}
 // \label{fig:ResampleImageFilterOutput9}
+// \end{figure}
+//
+// \begin{figure}
+// \center
+// \includegraphics[width=12cm]{ResampleImageFilterTransformComposition6.eps}
+// \caption{Input and output image placed in a common reference system.}
+// \label{fig:ResampleImageFilterTransformComposition6}
 // \end{figure}
 //
 //  The following code implements the conditions illustrated in figure
@@ -135,7 +135,7 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  In order to facilitate the interpretation of the transform we set the
-  //  default pixel value to a distintly visible gray level.
+  //  default pixel value to a distinctly visible gray level.
   //
   //  \index{itk::ResampleImageFilter!SetDefaultPixelValue()}
   //

@@ -120,7 +120,9 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  In order to facilitate the interpretation of the transform we set the
-  //  default pixel value to a distintly visible gray level.
+  //  default pixel value to a distinctly visible gray level.
+  //
+  //  \index{itk::ResampleImageFilter!SetDefaultPixelValue()}
   //
   //  Software Guide : EndLatex 
 
@@ -134,6 +136,8 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  Let's set up a uniform spacing 
+  //
+  //  \index{itk::ResampleImageFilter!SetOutputSpacing()}
   //
   //  Software Guide : EndLatex 
 
@@ -153,6 +157,8 @@ int main( int argc, char ** argv )
   //  Let us now set up a non-zero origin for the output image. Note that the
   //  values provided here will be those of the space coordinates for the pixel
   //  of index $(0,0)$.
+  //
+  //  \index{itk::ResampleImageFilter!SetOutputOrigin()}
   //
   //  Software Guide : EndLatex 
 
@@ -180,6 +186,9 @@ int main( int argc, char ** argv )
   //
   //  We set the transform to identity in order to better appreciate the effect
   //  of the origin selection.
+  //
+  //  \index{itk::AffineTransform!SetIdentity()}
+  //  \index{itk::ResampleImageFilter!SetTransform()}
   //
   //  Software Guide : EndLatex 
 
@@ -227,6 +236,9 @@ int main( int argc, char ** argv )
   //  illustrated below.  The resulting output is presented in figure
   //  \ref{fig:ResampleImageFilterTransformComposition2}
   //
+  //  \index{itk::ResampleImageFilter!SetSize()}
+  //
+  //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
@@ -237,6 +249,13 @@ int main( int argc, char ** argv )
   // Software Guide : EndCodeSnippet
 
 
+
+  //  Software Guide : BeginLatex
+  //  
+  //  \index{itk::ResampleImageFilter!SetOutputOrigin()}
+  //
+  //  Software Guide : EndLatex 
+
   // Software Guide : BeginCodeSnippet
   origin[0] = 60.0;  // X space coordinate of origin
   origin[1] = 30.0;  // Y space coordinate of origin
@@ -245,10 +264,15 @@ int main( int argc, char ** argv )
   // Software Guide : EndCodeSnippet
 
 
+
+
   if( exampleAction == 1 )
     {
     writer->Update();
     }
+
+
+
 
 
   //  Software Guide : BeginLatex
@@ -307,6 +331,8 @@ int main( int argc, char ** argv )
   //  resampling.   //  In order to simplify the analysis, let's put the origin back to zero in
   //  both the input and output images. 
   //
+  //  \index{itk::ResampleImageFilter!SetOutputOrigin()}
+  //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
@@ -320,6 +346,8 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  Then, setup a specific spacing for the output image.
+  //
+  //  \index{itk::ResampleImageFilter!SetOutputSpacing()}
   //
   //  Software Guide : EndLatex 
 
@@ -335,6 +363,8 @@ int main( int argc, char ** argv )
   //
   //  and reduce a bit the image extent, since the new pixels are covering a
   //  larger area of $2.0\mbox{mm} \times 3.0\mbox{mm}$.
+  //
+  //  \index{itk::ResampleImageFilter!SetSize()}
   //
   //  Software Guide : EndLatex 
 
@@ -437,6 +467,8 @@ int main( int argc, char ** argv )
   //  
   //  Here we start by selecting the origin of the output image.
   //
+  //  \index{itk::ResampleImageFilter!SetOutputOrigin()}
+  //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
@@ -450,6 +482,8 @@ int main( int argc, char ** argv )
   //  
   // then selecting the number of pixels along each dimension.
   //
+  //  \index{itk::ResampleImageFilter!SetSize()}
+  //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
@@ -462,6 +496,8 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //  
   //  and finaly the pixel spacing on the output image.
+  //
+  //  \index{itk::ResampleImageFilter!SetOutputSpacing()}
   //
   //  Software Guide : EndLatex 
 
