@@ -43,6 +43,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkImageIOBase.h"
 #include "stdio.h"
+#include <string>
+
 #ifndef VOL_MAGIC_NUMBER
 #define VOL_MAGIC_NUMBER 0x21654387
 #endif
@@ -93,7 +95,10 @@ public:
 
   ///! Set the spacing and diemention information for the set filename.
   virtual void ReadImageInformation();
-  
+  void ReadVersion1_0(FILE * fp);
+  void ReadVersion1_1(FILE * fp);
+  void ReadVersion2_1(FILE * fp);
+  void ReadVersion2_3(FILE * fp);
   /**
    * Get the type of the pixel. 
    */
@@ -195,6 +200,17 @@ public:
 	itkGetMacro(Stage_timer_value, long);						
 	itkGetMacro(Ecg_display_on, unsigned long);		
 	itkGetMacro(Blanking, double);
+	itkGetMacro(Samples, short);
+
+	//VOL file format version 1.0 specific
+	itkGetMacro(ColorImageSize, unsigned long);
+	itkGetMacro(ColorImageOffset, unsigned long);
+	itkGetMacro(Oag_params, char*);
+	itkGetMacro(Cscanfmt, unsigned long);
+	itkGetMacro(Oaglinear, unsigned long);
+	itkGetMacro(Maxradius, unsigned long);
+	itkGetMacro(Anglescale, double);
+	double GetSkinoffset();
 
 
 protected:
@@ -302,6 +318,17 @@ private:
 	unsigned long		m_Ecg_display_on;	
 	//stuff inside file_control_timing_type
 	double					m_Blanking;
+	short						m_Samples;
+
+	//version 1.0 specific
+	unsigned long		m_ColorImageSize;
+	unsigned long		m_ColorImageOffset;
+	char						m_Oag_params[28];
+	unsigned long		m_Cscanfmt;
+	unsigned long		m_Oaglinear;
+	unsigned long		m_Maxradius;
+	double					m_Anglescale;
+	double					m_Skinoffset;
 };
 
 
