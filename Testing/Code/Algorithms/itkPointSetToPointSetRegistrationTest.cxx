@@ -221,6 +221,7 @@ int itkPointSetToPointSetRegistrationTest(int, char* [] )
   ddFilter->Update();
 
   metric->SetDistanceMap(ddFilter->GetOutput());
+  metric->ComputeSquaredDistanceOn();
 
    // initialize the offset/vector part
   for( unsigned int k = 0; k < 2; k++ )
