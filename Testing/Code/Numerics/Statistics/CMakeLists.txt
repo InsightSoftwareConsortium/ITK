@@ -40,6 +40,8 @@ ADD_TEST(itkSelectiveSubsampleGeneratorTest ${STATISTICS_TESTS}
 ADD_TEST(itkSubsampleTest ${STATISTICS_TESTS} itkSubsampleTest)
 ADD_TEST(itkWeightedMeanCalculatorTest ${STATISTICS_TESTS} itkWeightedMeanCalculatorTest)
 
+ADD_TEST(itkDummyImageToListAdaptorTest ${STATISTICS_TESTS} itkDummyImageToListAdaptorTest)
+
 SET(Statistics_SRCS
 itkStatisticsPrintTest.cxx
 itkStatisticsAlgorithmTest.cxx
@@ -63,6 +65,7 @@ itkSampleClassifierWithMaskTest.cxx
 itkSelectiveSubsampleGeneratorTest.cxx
 itkSubsampleTest.cxx
 itkWeightedMeanCalculatorTest.cxx
+itkDummyImageToListAdaptorTest.cxx
 )
 
 ADD_EXECUTABLE(itkStatisticsTests itkStatisticsTests.cxx ${Statistics_SRCS})
