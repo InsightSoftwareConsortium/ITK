@@ -1010,8 +1010,7 @@ int main( int argc, char *argv[] )
   // \includegraphics[width=0.10\textwidth]{CorpusCallosumModePlus1.eps} \\ mode 2: &
   // \includegraphics[width=0.10\textwidth]{CorpusCallosumModeMinus2.eps} & 
   // \includegraphics[width=0.10\textwidth]{CorpusCallosumMeanShape.eps} & 
-  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModePlus2.eps} \\
-  // \end{tabular}
+  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModePlus2.eps} \\ \end{tabular}
   // \itkcaption[Corpus callosum PCA modes]{First three PCA modes of a low-resolution
   // ($58 \times 31$ pixels, $2 \times 2$ mm spacing) corpus callosum model used in the 
   // shape guided geodesic active contours example.}
