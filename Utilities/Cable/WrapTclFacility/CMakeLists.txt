@@ -10,3 +10,8 @@ wrapUtils
 wrapWrapperBase
 wrapWrapperTable
 )
+
+LINK_LIBRARIES(
+CxxTypes
+)
+
