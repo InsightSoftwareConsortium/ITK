@@ -25,6 +25,7 @@
 #include "itkIOCommon.h"
 #include "itkProgressReporter.h"
 #include "itkImageRegionIterator.h"
+#include "itkImageRegionConstIterator.h"
 
 #include <stdio.h>
 namespace itk
