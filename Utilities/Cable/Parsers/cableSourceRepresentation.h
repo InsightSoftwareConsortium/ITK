@@ -1111,8 +1111,8 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  static Pointer New(const String& name, Access access, bool is_const,
-                     bool is_virtual, bool is_pure_virtual);
+  static Pointer New(const String& name, Access access, bool is_static,
+                     bool is_const, bool is_virtual, bool is_pure_virtual);
 
   virtual TypeOfObject GetTypeOfObject() const { return OperatorMethod_id; }
   virtual const char* GetClassName() const { return "OperatorMethod"; }
@@ -1120,9 +1120,9 @@ public:
   virtual String GetCallName() const { return "operator"+this->GetName(); }
   
 protected:
-  OperatorMethod(const String& name, Access access, bool is_const,
-                 bool is_virtual, bool is_pure_virtual):
-    Method(name, access, false, is_const, is_virtual, is_pure_virtual) {}
+  OperatorMethod(const String& name, Access access, bool is_static,
+                 bool is_const, bool is_virtual, bool is_pure_virtual):
+    Method(name, access, is_static, is_const, is_virtual, is_pure_virtual) {}
   OperatorMethod(const Self&): Method("", Public, false, false, false, false) {}
   void operator=(const Self&) {}
   virtual ~OperatorMethod() {}

@@ -434,11 +434,11 @@ Converter
  */
 OperatorMethod::Pointer
 OperatorMethod
-::New(const String& name, Access access, bool is_const, bool is_virtual,
-      bool is_pure_virtual)
+::New(const String& name, Access access, bool is_static,
+      bool is_const, bool is_virtual, bool is_pure_virtual)
 {
-  return new OperatorMethod(name, access, is_const, is_virtual,
-                            is_pure_virtual);
+  return new OperatorMethod(name, access, is_static, is_const,
+                            is_virtual, is_pure_virtual);
 }
 
 

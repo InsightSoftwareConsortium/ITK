@@ -832,6 +832,7 @@ Parser
 {
   String name = atts.Get("name");  
   String accessStr = atts.Get("access");
+  bool is_static = atts.GetAsBoolean("static");
   bool is_const = atts.GetAsBoolean("const");
   bool is_virtual = atts.GetAsBoolean("virtual");
   bool is_pure_virtual = atts.GetAsBoolean("pure_virtual");
@@ -842,7 +843,8 @@ Parser
   else                                   access = Private;
   
   OperatorMethod::Pointer newOperatorMethod =
-    OperatorMethod::New(name, access, is_const, is_virtual, is_pure_virtual);
+    OperatorMethod::New(name, access, is_static, is_const, is_virtual,
+                        is_pure_virtual);
   
   this->CurrentClass()->AddMethod(newOperatorMethod);
   this->PushElement(newOperatorMethod);

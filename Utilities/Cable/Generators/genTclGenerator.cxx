@@ -387,26 +387,51 @@ TclGenerator
       }
     else if(methods[m]->IsOperatorMethod())
       {
-      m_Output <<
-        "void\n"
-        "Wrapper< " << cName.c_str() << " >\n"
-        "::Operator_" << m << "_" << this->GetOperatorName(methods[m]->GetName()).c_str()
-               << "(const WrapperBase* wrapper, const Arguments& arguments)\n"
-        "{\n";
+      if(methods[m]->IsStatic())
+        {
+        m_Output <<
+          "void\n"
+          "Wrapper< " << cName.c_str() << " >\n"
+          "::StaticOperator_" << m << "_" << methods[m]->GetName().c_str()
+                 << "(const WrapperBase* wrapper, const Arguments& arguments)\n"
+          "{\n";
+        
+        this->WriteReturnBegin(methods[m]);
+        
+        m_Output <<
+          "  " << cName.c_str() << "::operator " << methods[m]->GetName() << "(";
+        
+        this->WriteArgumentList(methods[m]->GetArguments(), 1, methods[m].GetArgumentCount());
+        
+        this->WriteReturnEnd(methods[m]);
+        
+        m_Output << ");\n"
+          "}\n"
+          "\n";
+        }
+      else
+        {
+        m_Output <<
+          "void\n"
+          "Wrapper< " << cName.c_str() << " >\n"
+          "::Operator_" << m << "_" << this->GetOperatorName(methods[m]->GetName()).c_str()
+                 << "(const WrapperBase* wrapper, const Arguments& arguments)\n"
+          "{\n";
       
-      this->WriteImplicitArgument(c, methods[m]);
-      this->WriteReturnBegin(methods[m]);
+        this->WriteImplicitArgument(c, methods[m]);
+        this->WriteReturnBegin(methods[m]);
       
-      m_Output <<
-        "  instance.operator" << methods[m]->GetName() << "(";
+        m_Output <<
+          "  instance.operator " << methods[m]->GetName() << "(";
       
-      this->WriteArgumentList(methods[m]->GetArguments(), 1, methods[m].GetArgumentCount());
+        this->WriteArgumentList(methods[m]->GetArguments(), 1, methods[m].GetArgumentCount());
 
-      this->WriteReturnEnd(methods[m]);
+        this->WriteReturnEnd(methods[m]);
       
-      m_Output << ");\n"
-        "}\n"
-        "\n";
+        m_Output << ");\n"
+          "}\n"
+          "\n";
+        }
       }
     else if(methods[m]->IsConstructor())
       {
@@ -482,10 +507,20 @@ TclGenerator
         {
         returnTypeName = this->GetCxxType(methods[m]->GetReturns()->GetType()).GetName();
         }
-      m_Output <<
-        "    new Method(this, &Wrapper::Operator_" << m << "_" << this->GetOperatorName(methods[m]->GetName()).c_str() << ",\n"
-        "               \"" << methods[m]->GetName() << "\", " << (methods[m]->IsConst() ? "true":"false") << ",\n"
-        "               CvType< " << returnTypeName.c_str() << " >::type";
+      if(methods[m]->IsStatic())
+        {
+        m_Output <<
+          "    new StaticMethod(this, &Wrapper::StaticOperator_" << m << "_" << this->GetOperatorName(methods[m]->GetName()).c_str() << ",\n"
+          "                     \"" << methods[m]->GetName() << "\",\n"
+          "                     CvType< " << returnTypeName.c_str() << " >::type";
+        }
+      else
+        {
+        m_Output <<
+          "    new Method(this, &Wrapper::Operator_" << m << "_" << this->GetOperatorName(methods[m]->GetName()).c_str() << ",\n"
+          "               \"" << methods[m]->GetName() << "\", " << (methods[m]->IsConst() ? "true":"false") << ",\n"
+          "               CvType< " << returnTypeName.c_str() << " >::type";
+        }
       }
     else if(methods[m]->IsConstructor())
       {
