@@ -6,11 +6,36 @@
   Date:      $Date$
   Version:   $Revision$
 
+Copyright (c) 2001 Insight Consortium
+All rights reserved.
 
-  Copyright (c) 2000 National Library of Medicine
-  All rights reserved.
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
 
-  See COPYRIGHT.txt for copyright details.
+ * Redistributions of source code must retain the above copyright notice,
+   this list of conditions and the following disclaimer.
+
+ * Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+ * The name of the Insight Consortium, nor the names of any consortium members,
+   nor of any contributors, may be used to endorse or promote products derived
+   from this software without specific prior written permission.
+
+  * Modified source versions must be plainly marked as such, and must not be
+    misrepresented as being the original software.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS ``AS IS''
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHORS OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
 #ifndef __itkIndexedContainerInterface_h
@@ -86,7 +111,7 @@ public:
    * It is assumed that the value of the element is modified through the
    * reference.
    */
-  virtual Element& ElementAt(ElementIdentifier)=0;
+  Element& ElementAt(ElementIdentifier);
 
   /**
    * Get a reference to an existing element.
@@ -96,32 +121,32 @@ public:
    * It is assumed that the value of the element is modified through the
    * reference.
    */
-  virtual Element& CreateElementAt(ElementIdentifier)=0;
+  Element& CreateElementAt(ElementIdentifier);
   
   /**
    * Get a copy of an element without range checking.
    */
-  virtual Element GetElement(ElementIdentifier) const =0;
+  Element GetElement(ElementIdentifier) const ;
   
   /**
    * Set the value of an element.
    * It is NOT guaranteed whether a spot for the element will be created
    * automatically.  This is implementation-defined.
    */
-  virtual void SetElement(ElementIdentifier, Element)=0;
+  void SetElement(ElementIdentifier, Element);
   
   /**
    * Set the value of an element.
    * It is guaranteed that a spot for the element will be created if it
    * doesn't exist.
    */
-  virtual void InsertElement(ElementIdentifier, Element)=0;
+  void InsertElement(ElementIdentifier, Element);
   
   /**
    * Test if there is an entry in the container corresponding to the given
    * index.
    */
-  virtual bool IndexExists(ElementIdentifier) const =0;
+  bool IndexExists(ElementIdentifier) const ;
 
   /**
    * Combine the GetElement and IndexExists into one method.
@@ -130,7 +155,7 @@ public:
    * if the element pointer given as input is not null, the element is filled
    * in with the value of the element found.
    */
-  virtual bool GetElementIfIndexExists(ElementIdentifier, Element*) const =0;
+  bool GetElementIfIndexExists(ElementIdentifier, Element*) const ;
   
   /**
    * Create an entry in the container corresponding to the given index.
@@ -138,7 +163,7 @@ public:
    * If an entry already exists, its value will be overwritten with the
    * default element.
    */
-  virtual void CreateIndex(ElementIdentifier)=0;
+  void CreateIndex(ElementIdentifier);
 
   /**
    * Delete the entry in the container corresponding to the given identifier.
@@ -148,7 +173,7 @@ public:
    * If the identifier's location is left behind, though, it will have the
    * value of the default element.
    */
-  virtual void DeleteIndex(ElementIdentifier)=0;
+  void DeleteIndex(ElementIdentifier);
   
   /**
    * Support iteration operations through a container.
@@ -171,27 +196,27 @@ public:
   /**
    * Get a begin iterator for the container.
    */  
-  virtual Iterator Begin()=0;
+  Iterator Begin();
   
   /**
    * Get an end iterator for the container.
    */
-  virtual Iterator End()=0;
+  Iterator End();
 
   /**
    * Get a begin const iterator for the container.
    */  
-  virtual ConstIterator Begin() const =0;
+  ConstIterator Begin() const ;
   
   /**
    * Get an end const iterator for the container.
    */
-  virtual ConstIterator End() const =0;
+  ConstIterator End() const ;
 
   /**
    * Get the number of elements currently stored in the container.
    */
-  virtual unsigned long Size(void) const =0;
+  unsigned long Size(void) const ;
 
   /**
    * Tell the container to allocate enough memory to allow at least
@@ -199,14 +224,14 @@ public:
    * guaranteed to actually allocate any memory, but is useful if the
    * implementation of the container allocates contiguous storage.
    */
-  virtual void Reserve(ElementIdentifier)=0;
+  void Reserve(ElementIdentifier);
   
   /**
    * Tell the container to try to minimize its memory usage for storage of
    * the current number of elements.  This is NOT guaranteed to decrease
    * memory usage.
    */
-  virtual void Squeeze(void)=0;
+  void Squeeze(void);
   
   /**
    * Standard part of every itk Object.
