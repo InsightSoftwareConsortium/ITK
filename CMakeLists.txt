@@ -31,16 +31,6 @@ SET (ITK_EXECUTABLE_PATH ${EXECUTABLE_OUTPUT_PATH} CACHE INTERNAL "Where ITK exe
 # where will executable tests be written ?
 SET (CXX_TEST_PATH ${EXECUTABLE_OUTPUT_PATH})
 
-# Set the library variables defined by ITKConfig.cmake.  This will
-# allow a project to work both inside and outside the ITK tree.
-SET(ITK_Common_LIBS       ITKCommon)
-SET(ITK_BasicFilters_LIBS ITKBasicFilters)
-SET(ITK_Numerics_LIBS     ITKNumerics)
-SET(ITK_Algorithms_LIBS   ITKAlgorithms)
-SET(ITK_Statistics_LIBS   ITKStatistics)
-SET(ITK_IO_LIBS           ITKIO)
-SET(ITK_FEM_LIBS          ITKFEM)
-
 # Walk into these directories before Testing or Auxiliary
 SUBDIRS(Utilities Code)
 
@@ -181,13 +171,6 @@ IF(NOT ITK_USE_SYSTEM_STDLIB)
   IF(CMAKE_COMPILER_IS_GNUCXX)
     SET(ITK_DEFINITIONS ${ITK_DEFINITIONS} "-D__STL_USE_NEW_IOSTREAMS")
   ENDIF(CMAKE_COMPILER_IS_GNUCXX)
-ENDIF(NOT ITK_USE_SYSTEM_STDLIB)
-
-# Utility libraries.
-SET(ITK_zlib_LIB "itkzlib")
-SET(ITK_png_LIB "itkpng")
-IF(NOT ITK_USE_SYSTEM_STDLIB)
-  SET(ITK_stdlib_LIB "Cio")
 ENDIF(NOT ITK_USE_SYSTEM_STDLIB)
 
 #-----------------------------------------------------------------------------
