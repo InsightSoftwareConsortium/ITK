@@ -31,6 +31,7 @@ VersorRigid3DTransform<TScalarType>
   m_Versor.SetIdentity();
   m_Translation.Fill( 0.0 );
   m_Center.Fill( 0.0 );
+  m_RotationMatrix.SetIdentity();
   this->ComputeMatrixAndOffset();
 }
 
@@ -45,6 +46,10 @@ VersorRigid3DTransform( unsigned int spaceDimension,
   // note: this virtual function will only
   // call the one defined in this class because 
   // we are in a constructor
+  m_Versor.SetIdentity();
+  m_Translation.Fill( 0.0 );
+  m_Center.Fill( 0.0 );
+  m_RotationMatrix.SetIdentity();
   this->ComputeMatrixAndOffset(); 
 }
  
