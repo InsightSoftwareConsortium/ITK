@@ -133,7 +133,7 @@ public:
     if ( registration->GetCurrentLevel() == 0 )
       {
       optimizer->SetMaximumStepLength( 16.00 );  
-      optimizer->SetMinimumStepLength(  0.50 );
+      optimizer->SetMinimumStepLength(  2.50 );
       }
     else
       {
@@ -334,7 +334,7 @@ int main( int argc, char **argv )
   //  components before they are used to compute the step of the optimizer at
   //  the current iteration. In our particular case, a common choice for the
   //  scale parameters is to set to $1.0$ all those associated with the matrix
-  //  coeffients.  That is, the first $N \times N$ factors. Then, set the
+  //  coefficients.  That is, the first $N \times N$ factors. Then, set the
   //  remaining scale factors to a small value. The following code sets up the
   //  scale coefficients.
   //
@@ -418,20 +418,19 @@ int main( int argc, char **argv )
   //  The step length has to be proportionate to the expected values of the
   //  parameters in the search space. Since the expected values of the matrix
   //  coefficients are around $1.0$ the initial step of the optimization should
-  //  be a small number compared to $1.0$. As a guideline it is useful to think
+  //  be a small number compared to $1.0$. As a guideline, it is useful to think
   //  of the matrix coefficients as combinations of $cos(\theta)$ and
-  //  $sin(\theta)$ this leads to use values close to the expected rotation
-  //  measured in radians. A rotation of $1$ degree is about $0.017$ radians.
+  //  $sin(\theta)$, this leads to use values close to the expected rotation
+  //  measured in radians. For example, a rotation of $1.0$ degree is about
+  //  $0.017$ radians. Similar to the previous example, the maximum and minimum
+  //  step length of the optimizer is set by the
+  //  \code{RegistrationInterfaceCommand} when it is called at the beggining of
+  //  every iteration.   
   //
   //  Software Guide : EndLatex 
 
 
-  // Software Guide : BeginCodeSnippet
-  optimizer->SetMaximumStepLength( 10.0     ); 
-  optimizer->SetMinimumStepLength(  0.00001 );
-
   optimizer->SetNumberOfIterations(    50   );
-  // Software Guide : EndCodeSnippet
 
   //
   // Create the Command observer and register it with the optimizer.
