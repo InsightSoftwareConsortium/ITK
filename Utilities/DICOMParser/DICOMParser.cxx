@@ -81,9 +81,10 @@ bool DICOMParser::ReadHeader() {
   return true;
 }
 
-// NOTE: Only works on part 10 format
+//
 // read magic number from file
 // return true if this is your image type, false if it is not
+//
 bool DICOMParser::IsDICOMFile(DICOMFile* file) {
   char magic_number[4];    
   file->SkipToStart();
@@ -128,7 +129,8 @@ bool DICOMParser::IsDICOMFile(DICOMFile* file) {
       file->SkipToStart();
 
       return dicom;
-#endif
+#endif  // DICOMPARSER_IGNORE_MAGIC_NUMBER
+
       }
     }
 }
@@ -221,13 +223,6 @@ void DICOMParser::ReadNextRecord(doublebyte& group, doublebyte& element)
   this->IsValidRepresentation(representation, length, mytype);
   // this->ParseExplicitRecord(group, element, length, mytype);
 
-  /*
-  if (group == 0x7FE0 && element == 0x0010) 
-    {
-    std::cout << "*** Length: " << length << " bytes." << std::endl;
-    }
-  */
-
   DICOMParserMap::iterator iter = 
     Map.find(DICOMMapKey(group,element));
 
@@ -270,11 +265,10 @@ void DICOMParser::ReadNextRecord(doublebyte& group, doublebyte& element)
     //
     if (length > 0) 
       {
-      //std::cout << "Skipping: " << length << std::endl;
       DataFile->Skip(length);
       }
 #ifdef DEBUG_DICOM
-    this->DumpTag(group, element, mytype, (unsigned char*) "NULL", length);
+    this->DumpTag(group, element, mytype, (unsigned char*) "Unread.", length);
 #endif
   }
 
@@ -338,15 +332,6 @@ void DICOMParser::InitTypeMap()
 
     TypeMap.insert(std::pair<DICOMMapKey, DICOMTypeValue>(DICOMMapKey(group, element), datatype));
     }
-
-  // DICOMMemberCallback<DICOMParser>* modalityCb = new DICOMMemberCallback<DICOMParser>;
-  // modalityCb->SetCallbackFunction(this, this->ModalityTag);
-    
-  // std::vector<DICOMCallback*>* modalityCbVector = new std::vector<DICOMCallback*>;
-  // modalityCbVector->push_back(modalityCb);
-
-  // this->SetDICOMTagCallbacks(0x0008, 0x0060, VR_SH, modalityCbVector);
-
 }
 
 void DICOMParser::SetDICOMTagCallbacks(doublebyte group, doublebyte element, VRTypes datatype, std::vector<DICOMCallback*>* cbVector)
@@ -367,8 +352,6 @@ bool DICOMParser::CheckMagic(char* magic_number)
 
 void DICOMParser::DumpTag(doublebyte group, doublebyte element, VRTypes vrtype, unsigned char* tempdata, quadbyte length)
 {
-
-// (0x0028,0x0100)  US [2 bytes] Bits allocated : 16
 
   int t2 = int((0x0000FF00 & vrtype) >> 8);
   int t1 = int((0x000000FF & vrtype));
@@ -412,24 +395,6 @@ void DICOMParser::DumpTag(doublebyte group, doublebyte element, VRTypes vrtype, 
  
   std::cout << std::dec << std::endl;
   std::cout.fill(prev);
-
-  /*
-  if (group == 0x7FE0 && element == 0x0010)
-    {
-    std::cout << "(0x" << std::hex << group << ", 0x" << std::hex << element << ")  : ";
-    std::cout << "Image data not printed.";
-    std::cout << std::dec;
-    std::cout << " [" << length << " bytes] " << ct1 << ct2 << std::endl;
-    }
-  else
-    {
-    std::cout << "(0x" << std::hex << group << ", 0x" << std::hex << element << ")  : ";
-    std::cout << (tempdata ? (char*) tempdata : "NULL");
-    std::cout << std::dec;
-    std::cout << " [" << length << " bytes] " << ct1 << ct2 << std::endl;
-    }
-  */
-
   std::cout << std::dec;
   return;
 
