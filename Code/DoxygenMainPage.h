@@ -2,25 +2,34 @@
  *
  * \mainpage  Insight Toolkit
  *
- * \image logo.jpg
+ * \image itkLogo.jpg
  *
- * \section Introduccion
+ * \section intro Introduccion
  *
- * \section Installation
- * \subsection  How to Download
- * \subsection  How to Compile
+ * \section intall Installation
+ * \subsection  download How to Download
+ * \subsection  compile  How to Compile
  * 
  *
- * \section Getting Started
- * \subsection Hello World
- * \subsection My First itk Filter use
- * \subsection Using Algorithms
+ * \section start Getting Started
+ * \subsection hello Hello World
+ * \subsection firstFilter My First itk Filter use
+ * \subsection usingAlgorithms Using Algorithms
  *
- * \section Resources
- * \subsection The mailing list
- * \subsection The FAQ
+ * \section resources Resources
+ * \subsection mailingList The mailing list
+ * \subsection faq The FAQ
  *
- * \defgroup Algorithms "Algorithms"
- * \endgroup
+ * \defgroup Algorithms Algorithms
+ * \defgroup SegmentationAlgorithms Segmentation Algorithms
+ * \defgroup ImageSegmentation Image Segmentation Algorithms
+ * \defgroup Classification Classification Algorithms
+ * \defgroup SupervisedClassification Supervised Classification Algorithms
+ * \defgroup UnSupervisedClassification Unsupervised Classification Algorithms
+ * \defgroup IntensityImageSegmentation Intensity-Based Image Segmentation Algorithms
+ * \defgroup ModelImageSegmentation Model-Based Image Segmentation Algorithms
+ * \defgroup RegistrationAlgorithms Registration Algorithms
+ * \defgroup DeformableRegistration Deformable Registration Methods
+ * \defgroup RigidRegistration Rigid Registration Methods
  *
  */ 
