@@ -45,7 +45,11 @@ int itkMeanImageFunctionTest(int, char**)
   region.SetSize( size );
 
   image->SetRegions( region );
-  image->FillBuffer( 27 );
+  image->Allocate();
+
+  ImageType::PixelType initialValue = 27;
+
+  image->FillBuffer( initialValue );
 
   FunctionType::Pointer function = FunctionType::New();
 
@@ -59,18 +63,19 @@ int itkMeanImageFunctionTest(int, char**)
   index[1] = 25;
   index[2] = 25;
 
-  FunctionType::OutputType  variance;
+  FunctionType::OutputType  mean;
 
-  variance = function->EvaluateAtIndex( index );
+  mean = function->EvaluateAtIndex( index );
 
   // since the input image is constant 
-  // the variance should be zero
-  if( vnl_math_abs( variance ) > 10e-7 )
+  // the should be equal to the initial value
+  if( vnl_math_abs( initialValue - mean ) > 10e-7 )
     {
-    std::cerr << "Error in variance computation" << std::endl;
+    std::cerr << "Error in mean computation" << std::endl;
     return EXIT_FAILURE;
     }
   
+  std::cout << "Test PASSED ! " << std::endl;
   return EXIT_SUCCESS;
 
 }
