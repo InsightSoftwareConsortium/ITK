@@ -35,11 +35,12 @@ namespace itk
  *    http://www.creatis.insa-lyon.fr
  *
  *  \warning There are several restrictions to this current writer:
- *           1. Basically you always need a DICOM as input to write a proper DICOM image file
+ *           *  Basically you always need a DICOM as input to write a proper DICOM image file
  *              (As of 12/10/2004 this restriction is solved in GDCM CVS repository)
- *           2. Eventhough during the writing process you pass in a DICOM file as input
+ *           *  Eventhough during the writing process you pass in a DICOM file as input
  *              The output file may not contains ALL DICOM field from the input file.
- *              In particular: - The SeQuence DICOM field (SQ).
+ *              In particular:
+ *                             - The SeQuence DICOM field (SQ).
  *                             - The Binary DICOM field (a non human readable string)
  *                             - Fields from Private Dictionary with unresolved Name (= unknown at runtime)
  *

@@ -415,8 +415,12 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
     else if ( gdcm::ValEntry* v = dynamic_cast<gdcm::ValEntry*>(d) )
     {   
       // Only copying field from the public DICOM dictionary
-      if( v->GetName() != "unkn" )
-      {
+      // For now remove "Meta Group Lenght" (0x0002,0x0000) and
+      // "Group Lenght" (0x0000,0x0000) as the calculation is not update properly in gdcm
+      if( v->GetName() != "unkn" 
+       && v->GetName() != "Meta Group Length" 
+       && v->GetName() != "Group Length" )
+      {       
         EncapsulateMetaData<std::string>(dico, v->GetName(), v->GetValue() );
       }
     }
