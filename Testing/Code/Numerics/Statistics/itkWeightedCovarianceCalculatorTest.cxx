@@ -166,21 +166,26 @@ int itkWeightedCovarianceCalculatorTest(int, char* [] )
     }
 
   // calculates variance
-  count = 0 ;
+  double diff ;
+  double weight ;
+  double sumWeight = 0.0 ;
+  double sumSquaredWeight = 0.0 ;
   double variance = 0.0 ;
   iter.GoToBegin() ;
   while (!iter.IsAtEnd())
     {
-    double diff = iter.Get()[0] - float((*meanOutput)[0]) ;
-    variance += diff * diff * weightFunction->Evaluate(iter.Get()) ; 
-    ++count ; 
+    diff = iter.Get()[0] - float((*meanOutput)[0]) ;
+    weight = weightFunction->Evaluate(iter.Get()) ;
+    sumWeight += weight ;
+    sumSquaredWeight += weight * weight ;
+    variance += weight * diff * diff ; 
     ++iter ;
     }
-  variance /= static_cast< double>(count - 1) ;
+  variance /= ( sumWeight - (sumSquaredWeight / sumWeight) )  ;
 
 
-  typedef itk::Statistics::WeightedCovarianceCalculator< ImageToListAdaptorType > 
-    CalculatorType;
+  typedef itk::Statistics::WeightedCovarianceCalculator< 
+    ImageToListAdaptorType > CalculatorType;
 
   CalculatorType::Pointer calculator = CalculatorType::New() ;
   
@@ -189,27 +194,34 @@ int itkWeightedCovarianceCalculatorTest(int, char* [] )
   calculator->SetWeightFunction(weightFunction.GetPointer()) ;
   calculator->Update() ;
 
+  std::cout << " variance: " 
+            << calculator->GetOutput()->GetVnlMatrix().get(0,0) 
+            << std::endl ;
+
   if (calculator->GetOutput()->GetVnlMatrix().get(0,0) != variance)
     {
-    std::cout << " variance: " 
-              << calculator->GetOutput()->GetVnlMatrix().get(0,0) 
-              << " " << variance << std::endl ;
     whereFail = "Covariance calculation with the mean from mean calculator." ;
     pass = false ;
     }
+
  
   // Testing one pass covariance calculation without a given mean
   calculator->SetMean(0) ;
   calculator->Update() ;
 
-  if (calculator->GetOutput()->GetVnlMatrix().get(0,0) != variance ||
+  std::cout.precision(16) ;
+  std::cout << " variance: " 
+            << calculator->GetOutput()->GetVnlMatrix().get(0,0)
+            << " " << variance << std::endl ;
+
+  std::cout.precision(16) ;
+  std::cout << " mean: " << *calculator->GetMean() 
+            << *meanCalculator->GetOutput() << std::endl ;
+
+  if (vnl_math_abs(calculator->GetOutput()->GetVnlMatrix().get(0,0) - 
+                   variance) > 0.000000001 ||
       (*calculator->GetMean())[0] != (*meanCalculator->GetOutput())[0] )
     {
-    std::cout << " variance: " 
-              << calculator->GetOutput()->GetVnlMatrix().get(0,0) 
-              << " " << variance << std::endl ;
-    std::cout << " mean: " << *calculator->GetMean() 
-              << *meanCalculator->GetOutput() << std::endl ;
     whereFail = "Covariance calculation without an input mean." ;
     pass = false ;
     }
