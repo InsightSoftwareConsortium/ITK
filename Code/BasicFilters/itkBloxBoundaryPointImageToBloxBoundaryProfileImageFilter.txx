@@ -21,6 +21,8 @@
 #include "itkFloodFilledSpatialFunctionConditionalIterator.h"
 #include "itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter.h"
 #include "itkImageRegionConstIterator.h"
+#include "itkMultipleValuedCostFunction.h"
+#include "itkLevenbergMarquardtOptimizer.h"
 
 typedef vnl_matrix<double> MatrixType;
 typedef vnl_vector<double> VectorType;

@@ -2,11 +2,8 @@
 #define __itkBloxBoundaryProfileImage_txx
 
 #include "itkBloxBoundaryProfileImage.h"
-#include "itkMultipleValuedCostFunction.h"
 
 #include "itkSymmetricEllipsoidInteriorExteriorSpatialFunction.h"
-
-#include "itkLevenbergMarquardtOptimizer.h"
 
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
