@@ -34,7 +34,7 @@ int itkTobogganImageFilterTest(int ac, char** av)
   if(ac < 3)
     {
     std::cerr << "Usage: " << av[0] << " InputImage BaselineImage [OutputImage]\n";
-    return -1;
+    exit ( 1 );
     }
 
   // Register one Factory of PNG readers
@@ -76,7 +76,7 @@ int itkTobogganImageFilterTest(int ac, char** av)
   catch (itk::ExceptionObject& e)
     {
     std::cerr << "Exception detected: "  << e.GetDescription();
-    return -1;
+    exit ( 1 );
     }
 
   // Try to write it out if we need to...
@@ -105,7 +105,7 @@ int itkTobogganImageFilterTest(int ac, char** av)
   catch (itk::ImageFileReaderException& e)
     {
     std::cerr << "Exception in file reader: "  << e.GetDescription() << std::endl;
-    return -1;
+    exit ( 1 );
     }
   
   // compare the two images
@@ -124,6 +124,7 @@ int itkTobogganImageFilterTest(int ac, char** av)
   if ( status )
     {
     std::cerr << "Found " << status << " pixels different" << std::endl;
+    exit ( 1 );
     }
-  return status;
+  exit ( 0 );
 }
