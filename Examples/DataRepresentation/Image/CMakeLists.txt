@@ -20,3 +20,10 @@ TARGET_LINK_LIBRARIES(RGBImage ITKCommon ITKIO)
 
 ADD_EXECUTABLE(VectorImage VectorImage.cxx )
 TARGET_LINK_LIBRARIES(VectorImage ITKCommon)
+
+ADD_EXECUTABLE(ImageAdaptor1 ImageAdaptor1.cxx )
+TARGET_LINK_LIBRARIES(ImageAdaptor1 ITKCommon)
+
+ADD_EXECUTABLE(ImageAdaptor2 ImageAdaptor2.cxx )
+TARGET_LINK_LIBRARIES(ImageAdaptor2 ITKCommon)
+
