@@ -63,7 +63,7 @@ namespace itk {
  *   - Replace the original value with the max value
  *
  * \sa MorphologyImageFilter, GrayscaleFunctionDilateImageFilter, BinaryDilateImageFilter
- * \ingroup ImageEnhancement
+ * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  */
 
 template<class TInputImage, class TOutputImage, class TKernel>

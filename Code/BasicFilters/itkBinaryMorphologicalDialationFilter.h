@@ -60,6 +60,7 @@ namespace itk {
    *   - Replace the original value with the max value
    *
    * \sa BinaryMorphologicalFilterBase
+   * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
    */
 
 template<class TInputImage, class TOutputImage, class TKernel>

@@ -90,7 +90,7 @@ namespace itk {
  * \sa GrayScaleDilateImageFilter
  * \sa NeighborhoodIterator
  * \sa Neighborhood
- * \ingroup ImageEnhancement
+ * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  */
 
 template<class TInputImage, class TOutputImage, class TKernel>

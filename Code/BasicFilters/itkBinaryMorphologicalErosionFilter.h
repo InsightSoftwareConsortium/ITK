@@ -61,6 +61,7 @@ namespace itk {
    *   - Replace the original value with the min value
    *
    * \sa BinaryMorphologicalFilterBase
+   * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
    */
 template<class TInputImage, class TOutputImage, class TKernel>
 class ITK_EXPORT BinaryMorphologicalErosionFilter : 
