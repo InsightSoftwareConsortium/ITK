@@ -177,7 +177,8 @@ template <typename T> int MakeImage()
 
 int itkAnalyzeImageIOTest(int ac, char** av)
 {
-  int rval,cur_return;
+  int rval = 0;
+  int cur_return;
   cur_return = MakeImage<char>();
   if(cur_return != 0) 
     {
@@ -220,7 +221,6 @@ int itkAnalyzeImageIOTest(int ac, char** av)
     } 
   else
     rval += cur_return;
-#if 0
   // awaiting a double precision byte swapper
   cur_return = MakeImage<double>();
   if(cur_return != 0) 
@@ -229,6 +229,5 @@ int itkAnalyzeImageIOTest(int ac, char** av)
     } 
   else
     rval += cur_return;
-#endif
   return rval;
 }
