@@ -28,6 +28,7 @@ itkPointSetTest
 itkScalarTest
 itkSliceIteratorTest
 itkSmartPointerTest
+itkTranslationTransformTest
 itkVectorGeometryTest
 itkVectorTest
 )
