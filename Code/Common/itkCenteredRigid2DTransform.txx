@@ -303,7 +303,7 @@ CloneInverseTo( Pointer & result ) const
   result = New();
   result->SetCenter( m_Center );  // inverse have the same center
   result->SetAngle( -m_Angle );
-  result->SetTranslation( -( m_InverseMatrix * m_Translation ) );
+  result->SetTranslation( -( this->GetInverseMatrix() * m_Translation ) );
 }
 
 // Print self
