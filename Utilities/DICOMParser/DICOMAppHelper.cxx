@@ -602,7 +602,7 @@ void DICOMAppHelper::PixelDataCallback( doublebyte,
   unsigned char* ucharInputData = data;
   short* shortInputData = reinterpret_cast<short*> (data);
 
-  float* floatOutputData = NULL;
+  float* floatOutputData; // = NULL;
   
   bool isFloat = this->RescaledImageDataIsFloat();
 
@@ -621,7 +621,7 @@ void DICOMAppHelper::PixelDataCallback( doublebyte,
 
     this->ImageDataType = DICOMParser::VR_FL;
     this->ImageDataLengthInBytes = numPixels * sizeof(float);
-    float newFloatPixel = 0.0;
+    float newFloatPixel;
 
     if (ptrIncr == 1)
       {
@@ -690,7 +690,7 @@ void DICOMAppHelper::PixelDataCallback( doublebyte,
 
       this->ImageDataType = DICOMParser::VR_OW;
       this->ImageDataLengthInBytes = numPixels * sizeof(short);
-      short newShortPixel = 0;
+      short newShortPixel;
       for (int i = 0; i < numPixels; i++)
         {
         newShortPixel = short(this->RescaleSlope * shortInputData[i] + this->RescaleOffset);

@@ -302,26 +302,12 @@ void DICOMParser::ReadNextRecord(doublebyte& group, doublebyte& element, DICOMPa
 
     std::pair<const DICOMMapKey,DICOMMapValue> p = *iter;
     DICOMMapValue mv = p.second;
-    char platformEndian = this->DataFile->GetPlatformEndian()[0];
 
-    bool doSwap;
-    /*
-    if (platformEndian == 'L')
-      {
-      doSwap = (this->ToggleByteSwapImageData ^ this->DataFile->GetByteSwap()) && callbackType == VR_OW;
-      }
-    else
-      {
-      doSwap = !(doSwap =  (this->ToggleByteSwapImageData ^ this->DataFile->GetByteSwap()) && callbackType == VR_OW);
-      }
-    */
-    doSwap = (this->ToggleByteSwapImageData ^ this->DataFile->GetByteSwap()) && callbackType == VR_OW;
+    bool doSwap = (this->ToggleByteSwapImageData ^ this->DataFile->GetByteSwap()) && callbackType == VR_OW;
 
     if (group == 0x7FE0 &&
         element == 0x0010 )
       {
-      // if ( (this->ToggleByteSwapImageData ^ this->DataFile->GetByteSwap()) 
-      //     && callbackType == VR_OW)
       if (doSwap)
         {
 #ifdef DEBUG_DICOM
@@ -351,9 +337,9 @@ void DICOMParser::ReadNextRecord(doublebyte& group, doublebyte& element, DICOMPa
           t2 = '?';
           }
 
+#ifdef DEBUG_DICOM
         char ct2(t2);
         char ct1(t1);
-#ifdef DEBUG_DICOM
         std::cout << " Callback type : " << ct1 << ct2 << std::endl;
 
         std::cout << "==============================" << std::endl;
@@ -665,8 +651,8 @@ void DICOMParser::TransferSyntaxCallback(doublebyte,
   const char* TRANSFER_UID_EXPLICIT_BIG_ENDIAN = "1.2.840.10008.1.2.2";
   const char* TRANSFER_UID_GE_PRIVATE_IMPLICIT_BIG_ENDIAN = "1.2.840.113619.5.2";
 
-  char* fileEndian = "LittleEndian";
-  char* dataEndian = "LittleEndian";
+  // char* fileEndian = "LittleEndian";
+  // char* dataEndian = "LittleEndian";
 
   this->ToggleByteSwapImageData = false;
 
@@ -703,9 +689,9 @@ void DICOMParser::GetGroupsElementsDatatypes(std::vector<doublebyte>& groups,
   elements.clear();
   datatypes.clear();
 
-  std::vector<doublebyte>::iterator giter = this->Groups.begin();
-  std::vector<doublebyte>::iterator eiter = this->Elements.begin();
-  std::vector<DICOMParser::VRTypes>::iterator diter = this->Datatypes.begin();
+  std::vector<doublebyte>::iterator giter; // = this->Groups.begin();
+  std::vector<doublebyte>::iterator eiter; // = this->Elements.begin();
+  std::vector<DICOMParser::VRTypes>::iterator diter; // = this->Datatypes.begin();
   
   for (giter = this->Groups.begin(), eiter = this->Elements.begin(), diter = this->Datatypes.begin();
        giter != this->Groups.end(), eiter != this->Elements.end(), diter != this->Datatypes.end();
