@@ -245,7 +245,6 @@ LevelSetFunction<TImageType>
     }
   else
     {
-    std::cout<<"max change = "<<d->m_MaxAdvectionChange;
     if (d->m_MaxAdvectionChange > 0.0)
       {
       dt = m_WaveDT / d->m_MaxAdvectionChange;
