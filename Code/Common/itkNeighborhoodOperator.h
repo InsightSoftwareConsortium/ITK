@@ -196,7 +196,7 @@ protected:
    */
   void InitializeToZero()
   {
-    for (int i = 0; i< this->Size(); ++i)
+    for (unsigned int i = 0; i< this->Size(); ++i)
       {
         this->operator[](i) = NumericTraits<ScalarValueType>::Zero;
       }
