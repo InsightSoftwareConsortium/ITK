@@ -235,7 +235,7 @@ Vector<T, TVectorDimension>
 
 
 /**
- * Returns a temporary copy of a vector
+ * Multiply components by a constant
  */
 template<class T, unsigned int TVectorDimension>
 Vector<T, TVectorDimension> 
@@ -250,7 +250,7 @@ Vector<T, TVectorDimension>
   return result;
 }
 
-
+ 
 /**
  * Returns vector's Squared Euclidean Norm
  */
@@ -280,6 +280,23 @@ Vector<T, TVectorDimension>
 {
   return ValueType(sqrt( double(this->GetSquaredNorm()) )); 
 }
+
+
+/**
+ * Divide vector's components by vector's norm
+ */
+template<class T, unsigned int TVectorDimension>
+void
+Vector<T, TVectorDimension>
+::Normalize( void ) 
+{
+  T norm = GetNorm();
+  for( unsigned int i=0; i<TVectorDimension; i++) 
+  {
+    (*this)[i] /= norm;
+  }
+}
+
 
 
 
@@ -373,6 +390,25 @@ operator>>(std::istream& is, Vector<T,TVectorDimension> & vct )
     is >>  vct[i];
   }
   return is;
+}
+
+
+
+
+/**
+ *
+ */
+template<class T, unsigned int TVectorDimension>
+typename Vector<T, TVectorDimension>::ValueType
+Vector<T, TVectorDimension>
+::operator*( const Self & other ) const
+{
+  T value = NumericTraits<T>::Zero;
+  for( unsigned int i=0; i<TVectorDimension; i++) 
+  {
+    value += a[i] * b[i];
+  }
+  return value;
 }
 
 

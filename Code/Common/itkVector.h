@@ -198,7 +198,14 @@ public:
    * Vector subtraction. Subtract two vectors. Return a new vector.
    */
   Self operator-(const Self &vec) const;
-  
+
+
+  /**
+   * Vector operator*.  Performs the inner product of two vectors.
+   * this is also known as the scalar product.
+   */
+  ValueType operator*(const Self &vec) const;
+
 
   /**
    * Scalar operator*. Scale the elements of a vector by a scalar.
@@ -224,6 +231,14 @@ public:
    * Returns vector's Squared Euclidean Norm 
    */
   ValueType GetSquaredNorm( void ) const; 
+
+
+  /**
+   * Divides the vector componets by the vector norm
+   */
+  void Normalize(void);
+
+
 };
 
 template< class T, unsigned int TVectorDimension >  
