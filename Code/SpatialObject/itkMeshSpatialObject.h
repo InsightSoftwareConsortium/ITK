@@ -31,7 +31,7 @@ namespace itk
  * This class combines functionnalities from a spatial object,
  * and an itkMesh.
  *
- * \also SpatialObject
+ * \sa SpatialObject
  */
 
 template <class TMesh = Mesh<int> >
@@ -78,7 +78,7 @@ public:
 
   /** Returns the value of the Mesh at the requested point. 
    *  If the point is not inside the object, then an exception is thrown.
-   * \also ExceptionObject */
+   * \sa ExceptionObject */
   bool ValueAt( const PointType & point, double & value, 
                 unsigned int depth=0, char *name=NULL) const;
   

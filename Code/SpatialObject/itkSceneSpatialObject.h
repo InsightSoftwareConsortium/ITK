@@ -31,7 +31,7 @@ namespace itk
 * This class represent a SceneSpatialObject object into which one can
 * plug any kind of spatial object.
 *
-* \also SpatialObject
+* \sa SpatialObject
 */ 
  
 template <unsigned int SpaceDimension = 3>

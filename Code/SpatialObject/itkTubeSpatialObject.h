@@ -35,7 +35,7 @@ namespace itk
 * of a TubeSpatialObject Object. A tube is also identified by an id number when connected
 * to a network.
 *
-* \also TubeSpatialObjectPoint 
+* \sa TubeSpatialObjectPoint 
 */
 
 template < unsigned int TDimension = 3 >

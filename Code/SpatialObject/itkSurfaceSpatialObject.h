@@ -32,7 +32,7 @@ namespace itk
 *
 * The Surface is basically defined by a set of points. 
 *
-* \also SurfaceSpatialObjectPoint
+* \sa SurfaceSpatialObjectPoint
 */
 
 template < unsigned int TDimension = 3 >

@@ -32,7 +32,7 @@ namespace itk
 *
 * The Line is basically defined by a set of points. 
 *
-* \also LineSpatialObjectPoint 
+* \sa LineSpatialObjectPoint 
 */
 
 template < unsigned int TDimension = 3 >

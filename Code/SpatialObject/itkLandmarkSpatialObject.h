@@ -32,7 +32,7 @@ namespace itk
 *
 * The Landmark is basically defined by a set of points which are inside this blob
 *
-* \also SpatialObjectPoint
+* \sa SpatialObjectPoint
 */
 
 template < unsigned int TDimension = 3 >

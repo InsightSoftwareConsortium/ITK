@@ -31,7 +31,7 @@ namespace itk
 * that can be used to build surfaces.
 * A surface point has a position and only one normal
 *
-* \also SpatialObjectPoint 
+* \sa SpatialObjectPoint 
 */ 
 template < unsigned int TPointDimension = 3 >
 class SurfaceSpatialObjectPoint 

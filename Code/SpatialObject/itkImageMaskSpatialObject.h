@@ -30,7 +30,7 @@ namespace itk
  * method.  One of the common uses of this class is to serve as Mask for the
  * Image Registration Metrics.
  *
- * \also ImageSpatialObject SpatialObject CompositeSpatialObject
+ * \sa ImageSpatialObject SpatialObject CompositeSpatialObject
  */
 
 template < unsigned int TDimension = 3 >
