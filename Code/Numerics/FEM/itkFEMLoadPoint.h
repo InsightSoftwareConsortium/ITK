@@ -57,7 +57,7 @@ namespace fem {
  * FIXME: To be implemented. Nothing works yet
  */
 class LoadPoint : public LoadElement {
-FEM_CLASS(LoadPoint)
+FEM_CLASS(LoadPoint,LoadElement)
 public:
 
   /**

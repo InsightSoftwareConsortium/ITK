@@ -65,24 +65,17 @@ class FEMLightObject
 #endif
 {
   /**
-   * We have to manually define the Self typedef, since this is
-   * a base class. If we're using smart pointers, we're not a base
-   * class and we can use the FEM_CLASS_SP macro.
+   * If we're not using smart pointers then we make the
+   * the Superclass equal to FEMLightObject, just to be able
+   * to use the FEM_CLASS_SP macro.
    */
 #ifndef FEM_USE_SMART_POINTERS
-public:
-  /** Standard "Self" typedef.*/
-  typedef FEMLightObject Self;
-  /**  Dumb pointer typedef support. */
-  typedef Self* Pointer;
-  typedef const Self* ConstPointer;
-private:
+  FEM_CLASS_SP(FEMLightObject,FEMLightObject)
 #else
   /**
-   * Set up all the required typedefs for the derived
-   * class. See itkFEMMacro.h for more info.
+   * If we are using smart pointers, Superclass is ::itk::LightObject
    */
-  FEM_CLASS_SP(FEMLightObject)
+  FEM_CLASS_SP(FEMLightObject,::itk::LightObject)
 #endif
 
 public:

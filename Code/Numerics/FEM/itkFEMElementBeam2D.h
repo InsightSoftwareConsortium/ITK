@@ -59,7 +59,7 @@ namespace fem {
  */
 class Beam2D : public Element
 {
-FEM_CLASS(Beam2D)
+FEM_CLASS(Beam2D,Element)
 public:
 
   /**

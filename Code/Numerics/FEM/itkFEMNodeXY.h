@@ -59,7 +59,7 @@ namespace fem {
  */
 class NodeXY : public Node 
 {
-FEM_CLASS(NodeXY)
+FEM_CLASS(NodeXY,Node)
 public:
 
   /**

@@ -66,7 +66,7 @@ namespace fem {
  */
 class C1IsoCurve2D : public Element
 {
-FEM_CLASS(C1IsoCurve2D)
+FEM_CLASS(C1IsoCurve2D,Element)
 public:  
    
   /**

@@ -84,12 +84,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #ifndef FEM_USE_SMART_POINTERS
 
-#define FEM_CLASS_SP(thisClass)              \
+#define FEM_CLASS_SP(thisClass,parentClass)  \
 public:                                      \
-  /** Standard "Superclass" typedef. */      \
-  typedef Self Superclass;                   \
   /** Standard "Self" typedef.*/             \
   typedef thisClass Self;                    \
+  /** Standard "Superclass" typedef. */      \
+  typedef parentClass Superclass;            \
   /**  Dumb pointer typedef support. */      \
   typedef Self* Pointer;                     \
   typedef const Self* ConstPointer;          \
@@ -97,12 +97,12 @@ private:  // everything that follows from here is private by default (like in th
 
 #else
 
-#define FEM_CLASS_SP(thisClass)              \
+#define FEM_CLASS_SP(thisClass,parentClass)  \
 public:                                      \
-  /** Standard "Superclass" typedef. */      \
-  typedef Self Superclass;                   \
   /** Standard "Self" typedef.*/             \
   typedef thisClass Self;                    \
+  /** Standard "Superclass" typedef. */      \
+  typedef parentClass Superclass;            \
   /**  Smart pointer typedef support. */     \
   typedef SmartPointer<Self> Pointer;        \
   typedef SmartPointer<const Self> ConstPointer;  \
@@ -122,9 +122,9 @@ private:  // everything that follows from here is private by default (like in th
  * declaring a class.
  */
 #ifndef FEM_USE_SMART_POINTERS
-  #define FEM_CLASS(thisClass)               \
+  #define FEM_CLASS(thisClass,parentClass)   \
     /**  Pointers.... */                     \
-    FEM_CLASS_SP(thisClass)                  \
+    FEM_CLASS_SP(thisClass,parentClass)      \
   public:                                    \
     /**                                      \
      * Create a new object from the existing one  \
@@ -137,9 +137,9 @@ private:  // everything that follows from here is private by default (like in th
     static const int OFID;                   \
   private:  // everything that follows from here is private by default (like in the beginning of class)
 #else
-  #define FEM_CLASS(thisClass)               \
+  #define FEM_CLASS(thisClass,parentClass)   \
     /**  Pointers.... */                     \
-    FEM_CLASS_SP(thisClass)                  \
+    FEM_CLASS_SP(thisClass,parentClass)      \
   public:                                    \
     /**                                      \
      * Create a new object from the existing one  \

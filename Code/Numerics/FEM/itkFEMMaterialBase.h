@@ -62,7 +62,7 @@ namespace fem {
  */
 class Material : public FEMLightObject
 {
-FEM_CLASS_SP(Material)
+FEM_CLASS_SP(Material,FEMLightObject)
 public:
   /**
    * Array class that holds special pointers to objects of all Material classes

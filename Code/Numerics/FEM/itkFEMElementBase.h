@@ -90,7 +90,7 @@ class LoadElement;
 
 class Element : public FEMLightObject
 {
-FEM_CLASS_SP(Element)
+FEM_CLASS_SP(Element,FEMLightObject)
 public:
   /**
    * Float type used in Node and derived classes

@@ -61,7 +61,7 @@ namespace fem {
  */
 class TriC02D : public Element
 {
-FEM_CLASS(TriC02D)
+FEM_CLASS(TriC02D,Element)
 public:
   /**
    * 6 DOF constant for faster access within the class

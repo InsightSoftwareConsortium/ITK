@@ -58,7 +58,7 @@ namespace fem {
  * can use this material class.
  */
 class MaterialStandard : public Material {
-FEM_CLASS(MaterialStandard)
+FEM_CLASS(MaterialStandard,Material)
 public:
   virtual void Read(std::istream& f, void* info);
   virtual void Write(std::ostream& f, int ofid) const;

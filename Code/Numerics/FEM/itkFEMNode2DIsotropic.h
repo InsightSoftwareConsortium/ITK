@@ -57,7 +57,7 @@ namespace fem {
  * to hold the displacement of this node due to some forces.
  */
 class Node2DIsotropic : public Node {
-FEM_CLASS(Node2DIsotropic)
+FEM_CLASS(Node2DIsotropic,Node)
 public:
 
   enum { NDOF=1 };        // this node has 1 degree of freedom

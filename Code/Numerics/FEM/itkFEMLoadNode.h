@@ -58,7 +58,7 @@ namespace fem {
  * on which the load acts. Force vector F should have node->N() dimensions.
  */
 class LoadNode : public Load {
-FEM_CLASS(LoadNode)
+FEM_CLASS(LoadNode,Load)
 public:
 
   typedef Node::Float Float;

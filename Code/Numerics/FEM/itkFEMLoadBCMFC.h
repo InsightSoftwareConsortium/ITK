@@ -77,7 +77,7 @@ class Solver;
 
 class LoadBCMFC : public Load
 {
-FEM_CLASS(LoadBCMFC)
+FEM_CLASS(LoadBCMFC,Load)
 public:
 
   /**

@@ -59,7 +59,7 @@ namespace fem {
  */
 class Bar2D : public Element
 {
-FEM_CLASS(Bar2D)
+FEM_CLASS(Bar2D,Element)
 public:
 
   /**

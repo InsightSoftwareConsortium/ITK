@@ -62,7 +62,7 @@ namespace fem {
  */
 class LoadEdge : public LoadElement
 {
-FEM_CLASS(LoadEdge)
+FEM_CLASS(LoadEdge,LoadElement)
 public:
   /** 
    * Read a Load object from input stream.

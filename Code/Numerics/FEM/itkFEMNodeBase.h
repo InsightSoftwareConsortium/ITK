@@ -74,7 +74,7 @@ namespace fem {
  */
 class Node : public FEMLightObject
 {
-FEM_CLASS_SP(Node)
+FEM_CLASS_SP(Node,FEMLightObject)
 public:
 
    /**

@@ -61,7 +61,7 @@ namespace fem {
  */
 class QuadC02D : public Element
 {
-FEM_CLASS(QuadC02D)
+FEM_CLASS(QuadC02D,Element)
 public:
   /**
    * 8 DOF constant for faster access within the class

@@ -61,7 +61,7 @@ namespace fem {
  */
 class Load : public FEMLightObject
 {
-FEM_CLASS_SP(Load)
+FEM_CLASS_SP(Load,FEMLightObject)
 public:
 
   /** array class that holds special pointers to the load objects */

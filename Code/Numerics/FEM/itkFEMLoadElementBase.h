@@ -66,7 +66,7 @@ namespace fem {
  */
 class LoadElement : public Load
 {
-FEM_CLASS(LoadElement)
+FEM_CLASS(LoadElement,Load)
 public:
   /**
    * Float type used in Element and derived classes

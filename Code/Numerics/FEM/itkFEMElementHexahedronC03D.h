@@ -61,7 +61,7 @@ namespace fem {
  */
 class HexahedronC03D : public Element
 {
-FEM_CLASS(HexahedronC03D)
+FEM_CLASS(HexahedronC03D,Element)
 public:
   /**
    * 24 DOF constant for faster access within the class
