@@ -65,7 +65,7 @@ public:
   typedef typename Superclass::MeanShiftModeSeekerType 
   MeanShiftModeSeekerType ;
   
-  typedef Vector< bool, itkGetStaticConstMacro(MeasurementVectorSize) >
+  typedef FixedArray< bool, itkGetStaticConstMacro(MeasurementVectorSize) >
   ComponentSelectionsType ;
 
   /** Set/Gets the vector of flags that indicate which components
