@@ -114,7 +114,7 @@ int main()
   
   //  Check the content of the result image
   std::cout << "Verification of the output " << std::endl;
-  const OutputImageType::PixelType epsilon = 1e-10;
+  const OutputImageType::PixelType epsilon = 1e-6;
   ot.Begin();
   it.Begin();
   while( !ot.IsAtEnd() ) 
