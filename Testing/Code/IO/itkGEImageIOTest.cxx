@@ -64,6 +64,8 @@ int itkGEImageIOFactoryTest(int ac, char * av[])
     }
   catch (itk::ExceptionObject e)
     {
+    std::cerr << "itkGEImageIOFactoryTest caught an exception:\n"
+              << e.what() << std::endl;
     return 1;
     }
   return 0;
@@ -118,7 +120,9 @@ int itkGEImageIOTest(int ac, char * av[])
     }
   catch (itk::ExceptionObject e)
     {
-      return Failmode ? 1 : 0;
+    std::cerr << "itkGEImageIOTest caught an exception:\n"
+              << e.what() << std::endl;
+    return Failmode ? 1 : 0;
     }
   return Failmode ? 0 : 1;
 }
