@@ -66,7 +66,6 @@ public:
    * Smart pointer typedef support.
    */
   typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  Pointer;
 
   /** \typedef
    * Save the template parameters.
@@ -77,18 +76,18 @@ public:
   /**
    * Index operator. This version can be an lvalue.
    */
-  virtual TPixel & operator[](const ElementIdentifier)=0;
+  virtual TElement & operator[](const ElementIdentifier)=0;
 
   /**
    * Index operator. This version can only be an rvalue
    */
-  virtual const TPixel & operator[](const ElementIdentifier) const =0;
+  virtual const TElement & operator[](const ElementIdentifier) const =0;
 
   /**
    * Return a pointer to the beginning of the buffer.  This is used by
    * the image iterator class.
    */
-  virtual TPixel *GetBufferPointer()=0;
+  virtual TElement *GetBufferPointer()=0;
   
   /**
    * Get the number of elements currently stored in the container.
