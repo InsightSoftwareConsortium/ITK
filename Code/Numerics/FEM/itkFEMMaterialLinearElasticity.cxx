@@ -29,6 +29,16 @@ namespace fem {
 
 
 /*
+ * Default constructor
+ */
+MaterialLinearElasticity::MaterialLinearElasticity() :
+  E(100.0), A(1.0), I(1.0), nu(0.2), h(1.0), RhoC(1.0)
+{}
+
+
+
+
+/*
  * Read Linear elasticity material object form stream
  */
 void MaterialLinearElasticity::Read(std::istream& f, void* info) {
@@ -108,7 +118,7 @@ std::string::size_type b,e;
 
     if (s=="RhoC") {
       SkipWhiteSpace(f); f>>d; if(!f) goto out;
-      h=d;
+      RhoC=d;
       continue;
     }
 
@@ -154,7 +164,7 @@ void MaterialLinearElasticity::Write( std::ostream& f ) const
   f<<"\tI  : "<<I<<"\t% Moment of inertia\n";
   f<<"\tnu : "<<nu<<"\t% Poisson's ratio\n";
   f<<"\th : "<<h<<"\t% Plate thickness\n";
-  f<<"\tRhoC : "<<h<<"\t% Density times capacity\n";
+  f<<"\tRhoC : "<<RhoC<<"\t% Density times capacity\n";
   f<<"\tEND:\t% End of material definition\n";
 
   // check for errors

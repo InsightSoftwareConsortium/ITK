@@ -40,6 +40,11 @@ public:
   virtual void Read(std::istream& f, void* info);
   virtual void Write(std::ostream& f ) const;
 
+  /**
+   * Default constructor only initializes the members.
+   */
+  MaterialLinearElasticity();
+
   /* Data members of MaterialLinearElasticity class */
 
   /**
