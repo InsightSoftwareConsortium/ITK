@@ -337,7 +337,7 @@ private:
 #endif
 } // end namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION
-//#include "itkPhasedArray3DSpecialCoordinatesImage.txx"
+#include "itkPhasedArray3DSpecialCoordinatesImage.txx"
 #endif
 
 #endif

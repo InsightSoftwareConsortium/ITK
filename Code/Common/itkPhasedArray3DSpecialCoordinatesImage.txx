@@ -27,9 +27,9 @@ namespace itk
 /**
  *
  */
-template<class TPixel, unsigned int VImageDimension>
+template<class TPixel>
 void 
-SpecialCoordinatesImage<TPixel, VImageDimension>
+PhasedArray3DSpecialCoordinatesImage<TPixel>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
