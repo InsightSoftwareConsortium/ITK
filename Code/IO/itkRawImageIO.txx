@@ -123,6 +123,9 @@ void RawImageIO<TPixel,VImageDimension>::OpenFileForWriting(std::ofstream& os)
     itkExceptionMacro(<<"A FileName must be specified.");
     }
 
+  std::ofstream tFile(m_FileName.c_str(),std::ios::out);
+  tFile.close();                    
+
   // Close file from any previous image
   if ( os.is_open() )
     {
