@@ -250,6 +250,8 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
   OutputImagePixelType deriv;
   OutputImagePixelType gradMag;
 
+  float alpha = 0.01;
+
   DerivativeOperator<OutputImagePixelType,ImageDimension> oper;
   NeighborhoodInnerProduct<OutputImageType> innerProduct;
 
@@ -296,22 +298,15 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
         }
     }
   
-  gradMag = zero;
+  gradMag = alpha * alpha;
   for (int i = 0; i < ImageDimension; i++)
     { 
       deriv += dx[i] * dx[i] * dxx[i];
       gradMag += dx[i] * dx[i];
     }
   
-  if(gradMag != zero)
-    {
-      //gradMag = std::sqrt(gradMag);
-      deriv = deriv/gradMag;
-    }
-  else
-    deriv = zero;
+  deriv = deriv/gradMag;
   
-
   return deriv;
   
 }
@@ -331,6 +326,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
   OutputImagePixelType deriv;
   OutputImagePixelType gradMag;
 
+  float alpha = 0.01;
 
   DerivativeOperator<OutputImagePixelType, ImageDimension> oper;
   SmartNeighborhoodInnerProduct<OutputImageType> innerProduct;
@@ -379,21 +375,14 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
         }
     }
   
-  gradMag = zero;
+  gradMag = alpha * alpha;
   for (int i = 0; i < ImageDimension; i++)
     { 
       deriv += dx[i] * dx[i] * dxx[i];
       gradMag += dx[i] * dx[i];
     }
   
-    if(gradMag != zero)
-    {
-      //gradMag = gradMag * std::sqrt(gradMag);
-      deriv = deriv/gradMag;
-    }
-  else
-    deriv = zero;
-  
+  deriv = deriv/gradMag;
 
   return deriv;
  
