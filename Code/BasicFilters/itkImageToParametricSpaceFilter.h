@@ -19,6 +19,7 @@
 
 #include "itkImageToMeshFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkImageRegionConstIteratorWithIndex.h"
 
 namespace itk
 {
@@ -61,10 +62,10 @@ public:
 
   /** Some typedefs associated with the input images. */
   typedef TInputImage                               InputImageType;
-  typedef typename InputImageType::Pointer          InputImagePointer;
+  typedef typename InputImageType::ConstPointer     InputImagePointer;
   typedef typename InputImageType::RegionType       InputImageRegionType; 
   typedef typename InputImageType::PixelType        InputImagePixelType; 
-  typedef ImageRegionIteratorWithIndex<InputImageType> 
+  typedef ImageRegionConstIteratorWithIndex<InputImageType> 
                                                     InputImageIterator;
 
   /** Some typedefs associated with the output mesh. */
