@@ -49,22 +49,28 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkConstSmartNeighborhoodIterator.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
 #include "itkMultiThreader.h"
+#include "itkDerivativeOperator.h"
 
 namespace itk
 {
-
 /** \class CannyEdgeDetectionImageFilter
- * \brief Implement the canny edge detector for gray-scale images.
  *
- *  There are fours steps in calculating the canny edges:
- *  1) First smoothe the image by the Gaussian filter.
- *  2) Calculate the directional derivative normals.
- *  3) Aplly nonmaxima suppression(find local edges):calculate 2nd derivative
- *     of the smoothed image, and apply ZeroCrossingImageFilter to get edges.   
- *  4) Thesholding the resulting image to eliminate bogus edges. Here only
- *     single thresholding is implemented, edge-linking not done due to the
- *     the lack of connected-component labeling algorithms
- *
+
+   This filter is an implementation of a Canny edge detector for scalar-valued
+   images.  There are four major steps used in the edge-detection scheme:
+   (1)  The input image is smoothed using a Gaussian filter.
+   (2) Directional derivative normals are calculated.
+   (3) The zero-crossings of the second derivative of the smoothed image are
+   identified as edges.
+   (4) The resulting image is thresholded to eliminate uninteresting edges.
+
+   \par Inputs and Outputs
+
+   \par Parameters
+
+   \todo Edge-linking will be added when an itk connected component labeling
+   algorithm is available.
+ 
  *  Usage: Before use this filter, 
  *  1) Set variance and maximum error parameter needed for the DiscreteGaussianImageFilter 
  *  2) Set the single threshold used by the ThresholdImageFilter.
@@ -72,100 +78,73 @@ namespace itk
  *
  * \sa DiscreteGaussianImageFilter
  * \sa ZeroCrossingImageFilter
- * \sa ThresholdImageFilter
- */
+ * \sa ThresholdImageFilter */
 
 template<class TInputImage, class TOutputImage>
-  class ITK_EXPORT CannyEdgeDetectionImageFilter: public ImageToImageFilter<TInputImage, TOutputImage>
-  {
+class ITK_EXPORT CannyEdgeDetectionImageFilter
+  : public ImageToImageFilter<TInputImage, TOutputImage>
+{
+public:
+  /** Standard "Self" & Superclass typedef.  */
+  typedef CannyEdgeDetectionImageFilter    Self;
+  typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
+   
+  /** Image typedef support   */
+  typedef TInputImage  InputImageType;
+  typedef TOutputImage OutputImageType;
+      
+  /** SmartPointer typedef support  */    
+  typedef SmartPointer<Self>  Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
 
-  public:
-    /**
-     * standard "Self" & Superclass typedef.
-     */
-    typedef CannyEdgeDetectionImageFilter    Self;
-    typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
- 
+  /** Define pixel types. */
+  typedef typename TInputImage::PixelType  InputImagePixelType;
+  typedef typename TOutputImage::PixelType  OutputImagePixelType;
 
-    /**
-      * Image typedef support
-      */
-    typedef TInputImage  InputImageType;
-    typedef TOutputImage OutputImageType;
+  /** The default boundary condition is used unless overridden 
+   *in the Evaluate() method. */
+  typedef ZeroFluxNeumannBoundaryCondition<OutputImageType>
+  DefaultBoundaryConditionType;
 
-       
-    /** 
-     * SmartPointer typedef support 
-     */    
-
-    typedef SmartPointer<Self>  Pointer;
-    typedef SmartPointer<const Self>  ConstPointer;
-
-    /**
-     * Define pixel type
-     */
-    typedef typename TInputImage::PixelType  InputImagePixelType;
-    typedef typename TOutputImage::PixelType  OutputImagePixelType;
-
-
-  /**
-   * The default boundary condition is used unless overridden 
-   *in the Evaluate() method.
-   */
-    typedef ZeroFluxNeumannBoundaryCondition<OutputImageType>
-      DefaultBoundaryConditionType;
-
-
-  /**
-   * The type of data structure that is passed to this function object
+  /** The type of data structure that is passed to this function object
    * to evaluate at a pixel that does not lie on a data set boundary.
    */
-    typedef ConstNeighborhoodIterator<OutputImageType> NeighborhoodType;
+  typedef ConstNeighborhoodIterator<OutputImageType> NeighborhoodType;
     
-  /**
-   * The type of data structure that is passed to this function object
-   * to evaluate at a pixel that lies on a data set boundary.
-   */
-    typedef ConstSmartNeighborhoodIterator<OutputImageType,
-      DefaultBoundaryConditionType> BoundaryNeighborhoodType;
+  /** The type of data structure that is passed to this function object
+   * to evaluate at a pixel that lies on a data set boundary. */
+  typedef ConstSmartNeighborhoodIterator<OutputImageType,
+    DefaultBoundaryConditionType> BoundaryNeighborhoodType;
 
-
-    /**
-     * Method for creation through the object factory.
-     */
-    itkNewMacro(Self);  
+  /** Method for creation through the object factory.  */
+  itkNewMacro(Self);  
     
-    /**
-     * Typedef to describe the output image region type.
-     */
-    typedef typename TOutputImage::RegionType OutputImageRegionType;
+  /** Typedef to describe the output image region type.*/
+  typedef typename TOutputImage::RegionType OutputImageRegionType;
     
-    
-    /** 
-     * Run-time type information (and related methods).
-     */
-    itkTypeMacro(CannyEdgeDetectionImageFilter, ImageToImageFilter);
-    
-    /**
-     * ImageDimension enumeration
-     */
-    enum { ImageDimension = TInputImage::ImageDimension };
-
- /**
-   * Standard get/set macros for filter parameters.
-   */
-  itkSetVectorMacro(Variance, float, ImageDimension);
-  itkGetVectorMacro(Variance, const float, ImageDimension);
-  itkSetVectorMacro(MaximumError, float, ImageDimension);
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(CannyEdgeDetectionImageFilter, ImageToImageFilter);
+  
+  /** ImageDimension enumeration    */
+  enum { ImageDimension = TInputImage::ImageDimension };
+  
+  /** Standard get/set macros for filter parameters. */
+  itkSetVectorMacro(Variance, float, ImageDimension); 
+  itkGetVectorMacro(Variance, const float, ImageDimension); 
+  itkSetVectorMacro(MaximumError, float, ImageDimension); 
   itkGetVectorMacro(MaximumError, const float, ImageDimension);
   
-
+  /** Set/Get the Variance parameter used by the Gaussian smoothing
+      filter in this algorithm */
   void SetVariance(const float v)
     {
       float vArray[ImageDimension];
       for (unsigned int i = 0; i<ImageDimension; ++i) { vArray[i] = v; }
       this->SetVariance(vArray);
     }
+  
+  /** Set/Get the MaximumError paramter used by the Gaussian smoothing filter
+      in this algorithm */
   void SetMaximumError(const float v)
     {
       float vArray[ImageDimension];
@@ -173,33 +152,21 @@ template<class TInputImage, class TOutputImage>
       this->SetMaximumError(vArray);
     }
   
-  void SetThreshold(float thresh)
-    {
-      m_Threshold = thresh;
-    }
-
-  /**
-   * CannyEdgeDetectionImageFilter needs a larger input requested
+  /* Set the Threshold value for detected edges. */
+  itkSetMacro(Threshold, float);
+  itkGetMacro(Threshold, float);
+  
+  /** CannyEdgeDetectionImageFilter needs a larger input requested
    * region than the output requested region ( derivative operators, etc).  
    * As such, CannyEdgeDetectionImageFilter needs to provide an implementation
-   * for GenerateInputRequestedRegion() in order to inform the
+   * for GenerateInputRequestedRegion() in order to inform the 
    * pipeline execution model.
    *
-   * \sa ImageToImageFilter::GenerateInputRequestedRegion()
-   */
-    
+   * \sa ImageToImageFilter::GenerateInputRequestedRegion()  */  
   virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
 
-
 protected:
-  CannyEdgeDetectionImageFilter()
-    {
-    this->SetVariance(0.0f);
-    this->SetMaximumError(0.01f);
-    m_Threshold = (OutputImagePixelType) 0;
-    m_UpdateBuffer = OutputImageType::New();
-    m_UpdateBuffer1 = OutputImageType::New();
-    }
+  CannyEdgeDetectionImageFilter();
   CannyEdgeDetectionImageFilter(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
@@ -208,47 +175,19 @@ protected:
 private:
   virtual ~CannyEdgeDetectionImageFilter(){};
 
-  /**
-   * The variance of the Gaussian Filter used in this filter
-   */
-  float m_Variance[ImageDimension];
-  /**
-   * The maximum error of the gaussian blurring kernel in each dimensional
-   * direction.
-   */
-
-  float m_MaximumError[ImageDimension];  
-
-  /*
-   * Thresholds
-   */
-  OutputImagePixelType m_Threshold;
-
-  /**
-   * Update buffers used during calculation of multiple steps
-   */
-  typename OutputImageType::Pointer  m_UpdateBuffer;
-  typename OutputImageType::Pointer  m_UpdateBuffer1;
-
-  /**
-   *  Thread-Data Structure 
-   */
+  /** Thread-Data Structure   */
   struct CannyThreadStruct
   {
     CannyEdgeDetectionImageFilter *Filter;
   };
 
-  /**
-   * This allocate storage for m_UpdateBuffer, m_UpdateBuffer1
-   */
+  /** This allocate storage for m_UpdateBuffer, m_UpdateBuffer1 */
   void AllocateUpdateBuffer();
 
 
-  /**
-   *  Calculate the second derivative of the smoothed image, it writes the 
+  /** Calculate the second derivative of the smoothed image, it writes the 
    *  result to m_UpdateBuffer using the ThreadedCompute2ndDerivative() method
-   *  and multithreading mechanism.
-   */
+   *  and multithreading mechanism.   */
   void Compute2ndDerivative();
 
  /**
@@ -262,68 +201,78 @@ private:
   //  virtual
   //  int SplitUpdateContainer(int i, int num, ThreadRegionType& splitRegion);
 
-  /**
-   *  Does the actual work of calculating of the 2nd derivative over a region 
+  /** Does the actual work of calculating of the 2nd derivative over a region 
    *  supplied by the multithreading mechanism.  
    *
    *  \sa Compute2ndDerivative
-   *  \sa Compute2ndDerivativeThreaderCallBack
-   */ 
+   *  \sa Compute2ndDerivativeThreaderCallBack   */ 
+  void ThreadedCompute2ndDerivative(const OutputImageRegionType&
+                                    outputRegionForThread, int threadId);
 
-  void ThreadedCompute2ndDerivative(const OutputImageRegionType& outputRegionForThread, int threadId);
+  /** This callback method uses ImageSource::SplitRequestedRegion to acquire an 
+   * output region that it passes to ThreadedCompute2ndDerivative for
+   * processing.  */
+  static ITK_THREAD_RETURN_TYPE
+      Compute2ndDerivativeThreaderCallback( void * arg );
 
-
-  /**
-   * This callback method uses ImageSource::SplitRequestedRegion to acquire an
-   * output region that it passes to ThreadedCompute2ndDerivative for processing.
-   */
-  static ITK_THREAD_RETURN_TYPE Compute2ndDerivativeThreaderCallback( void * arg );
-
-  /**
-   * This methos is used to calculate the 2nd derivative for 
+  /** This methos is used to calculate the 2nd derivative for 
    * non-boundary pixels. It is called by the ThreadedCompute2ndDerivative 
-   * method.
-   */  
-
+   * method. */  
   OutputImagePixelType ComputeCannyEdge(const NeighborhoodType &it,
                                         void *globalData );
 
-  /**
-   * This methos is used to calculate the 2nd derivative for 
+  /**This methos is used to calculate the 2nd derivative for 
    * boundary pixels. It is called by the ThreadedCompute2ndDerivative 
-   * method.
-   */  
-
+   * method.  */  
   OutputImagePixelType ComputeCannyEdge(const BoundaryNeighborhoodType &bit,
                                         void *globalData );
-
-
-  /**
-   *  Calculate the gradient of the second derivative of the smoothed image, 
+  
+  /** Calculate the gradient of the second derivative of the smoothed image, 
    *  it writes the result to m_UpdateBuffer1 using the 
    *  ThreadedCompute2ndDerivativePos() method and multithreading mechanism.
    */
   void Compute2ndDerivativePos();
 
-  /**
-   *  Does the actual work of calculating of the 2nd derivative over a region 
+  /** Does the actual work of calculating of the 2nd derivative over a region 
    *  supplied by the multithreading mechanism.  
    *
    *  \sa Compute2ndDerivativePos
-   *  \sa Compute3ndDerivativePosThreaderCallBack
-   */ 
-  void ThreadedCompute2ndDerivativePos(const OutputImageRegionType& outputRegionForThread, int threadId);
+   *  \sa Compute3ndDerivativePosThreaderCallBack   */ 
+  void ThreadedCompute2ndDerivativePos(const OutputImageRegionType&
+                                       outputRegionForThread, int threadId);
 
-  /**
-   * This callback method uses ImageSource::SplitRequestedRegion to acquire an
-   * output region that it passes to ThreadedCompute2ndDerivative for processing.
-   */
-  static ITK_THREAD_RETURN_TYPE Compute2ndDerivativePosThreaderCallback( void * arg );
+  /**This callback method uses ImageSource::SplitRequestedRegion to acquire an
+   * output region that it passes to ThreadedCompute2ndDerivative for
+   * processing.   */
+  static ITK_THREAD_RETURN_TYPE
+  Compute2ndDerivativePosThreaderCallback( void *arg );
 
+  /** The variance of the Gaussian Filter used in this filter */
+  float m_Variance[ImageDimension];
 
-  };
+  /** The maximum error of the gaussian blurring kernel in each dimensional
+   * direction.  */
+  float m_MaximumError[ImageDimension];  
 
- 
+  /* Threshold value for identifying edges. */
+  OutputImagePixelType m_Threshold;
+
+  /** Update buffers used during calculation of multiple steps */
+  typename OutputImageType::Pointer  m_UpdateBuffer;
+  typename OutputImageType::Pointer  m_UpdateBuffer1;
+
+  /** Function objects that are used in the inner loops of derivative
+      calculations. */
+  DerivativeOperator<OutputImagePixelType,ImageDimension>
+    m_ComputeCannyEdge1stDerivativeOper;
+  DerivativeOperator<OutputImagePixelType,ImageDimension>
+    m_ComputeCannyEdge2ndDerivativeOper;
+
+  std::slice  m_ComputeCannyEdgeSlice[ImageDimension];
+
+  unsigned long m_Stride[ImageDimension];
+  unsigned long m_Center;
+};
 
 } //end of namespace itk
 

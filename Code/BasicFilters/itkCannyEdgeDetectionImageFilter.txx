@@ -38,7 +38,6 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-
 #ifndef _itkCannyEdgeDetectionImageFilter_txx
 #define _itkCannyEdgeDetectionImageFilter_txx
 
@@ -46,21 +45,62 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkMultiplyImageFilter.h"
 #include "itkThresholdImageFilter.h"
 #include "itkZeroCrossingImageFilter.h"
-#include "itkDerivativeOperator.h"
 #include "itkNeighborhoodInnerProduct.h"
 #include "itkNumericTraits.h"
 
-
 namespace itk
 {
+  
+template <class TInputImage, class TOutputImage>
+CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>::
+CannyEdgeDetectionImageFilter()
+{
+  unsigned int i;
+  
+  this->SetVariance(0.0f);
+  this->SetMaximumError(0.01f);
+  m_Threshold = NumericTraits<OutputImagePixelType>::Zero;
+  m_UpdateBuffer = OutputImageType::New();
+  m_UpdateBuffer1 = OutputImageType::New();
 
+  // Set up neighborhood slices for all the dimensions.
+  typename Neighborhood<OutputImagePixelType, ImageDimension>::RadiusType r;
+  for (i = 0; i < ImageDimension; ++i)
+    {      r[i] = 1;    }
+
+  // Dummy neighborhood used to set up the slices.
+  Neighborhood<OutputImagePixelType, ImageDimension> it;
+  it.SetRadius(r);
+  
+ // Slice the neighborhood
+  m_Center =  it.Size() / 2;
+
+  for (i = 0; i< ImageDimension; ++i)
+    { m_Stride[i] = it.GetStride(i); }
+
+  for (i = 0; i< ImageDimension; ++i)
+    {
+      m_ComputeCannyEdgeSlice[i]
+        = std::slice( m_Center - m_Stride[i], 3, m_Stride[i]);
+    }
+   
+  // Allocate the derivative operator.
+  m_ComputeCannyEdge1stDerivativeOper.SetDirection(0);
+  m_ComputeCannyEdge1stDerivativeOper.SetOrder(1);
+  m_ComputeCannyEdge1stDerivativeOper.CreateDirectional();
+
+  m_ComputeCannyEdge2ndDerivativeOper.SetDirection(0);
+  m_ComputeCannyEdge2ndDerivativeOper.SetOrder(2);
+  m_ComputeCannyEdge2ndDerivativeOper.CreateDirectional();
+}
+ 
 template <class TInputImage, class TOutputImage>
 void
 CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>
 ::AllocateUpdateBuffer()
 {
-  // The update buffer looks just like the output.
-  typename TInputImage::Pointer input = this->GetInput();
+  // The update buffer looks just like the input.
+  typename TOutputImage::Pointer input = this->GetInput();
 
   m_UpdateBuffer->SetLargestPossibleRegion(input->GetLargestPossibleRegion());
   m_UpdateBuffer->SetRequestedRegion(input->GetRequestedRegion());
@@ -72,7 +112,6 @@ CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>
   m_UpdateBuffer1->SetBufferedRegion(input->GetBufferedRegion());
   m_UpdateBuffer1->Allocate();
 }
-
 
 template <class TInputImage, class TOutputImage>
 void 
@@ -131,24 +170,20 @@ CannyEdgeDetectionImageFilter<TInputImage,TOutputImage>
 template< class TInputImage, class TOutputImage >
 void
 CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
-::ThreadedCompute2ndDerivative(const OutputImageRegionType& outputRegionForThread, int threadId)
+::ThreadedCompute2ndDerivative(const OutputImageRegionType&
+                               outputRegionForThread, int threadId)
 {
-
-
   unsigned int i;
   ZeroFluxNeumannBoundaryCondition<TInputImage> nbc;
 
-  //  ConstNeighborhoodIterator<TInputImage> nit;
-  //ConstSmartNeighborhoodIterator<TInputImage> bit;
   ImageRegionIterator<TOutputImage> it;
 
   void *globalData;
 
   // Here input is the result from the gaussian filter
-  // Output is the update buffer;
+  //      output is the update buffer.
   typename OutputImageType::Pointer input = this->GetOutput();
   typename  InputImageType::Pointer output  = m_UpdateBuffer;
-  
 
   // set iterator radius
   Size<ImageDimension> radius;
@@ -176,15 +211,12 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
     }
 
   // Process non-boundary face
-  
   NeighborhoodType nit(radius, input, *fit);
 
   it  = ImageRegionIterator<TOutputImage>(output, *fit);
 
   nit.GoToBegin();
   it.GoToBegin();
-
-
 
 
   // Now Process the non-boundary region.
@@ -199,18 +231,13 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
       ++nit;
       ++it;
     }
-  
+
   // Process each of the boundary faces.  These are N-d regions which border
   // the edge of the buffer.
   for (++fit; fit != faceList.end(); ++fit)
     { 
-
-      
-      //bit = ConstSmartNeighborhoodIterator<OutputImageType>(radius,
-      //                                                     input, *fit);
-
       BoundaryNeighborhoodType bit(radius, input, *fit);
-
+      
       it = ImageRegionIterator<OutputImageType>(output, *fit);
       bit.OverrideBoundaryCondition(&nbc);
       bit.GoToBegin();
@@ -229,20 +256,18 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
         }
       
     }
-  
-  //  cout<<"Finished calculate"<<endl;
-  
+
 }
 
-
-
 template< class TInputImage, class TOutputImage >
-CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >::OutputImagePixelType
-
+CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
+::OutputImagePixelType
 CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 ::ComputeCannyEdge(const NeighborhoodType &it,
                    void *globalData ) 
 {
+  unsigned int i, j;
+  NeighborhoodInnerProduct<OutputImageType> innerProduct;
 
   OutputImagePixelType dx[ImageDimension];
   OutputImagePixelType dxx[ImageDimension];
@@ -250,133 +275,94 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
   OutputImagePixelType deriv;
   OutputImagePixelType gradMag;
 
-  float alpha = 0.01;
-
-  DerivativeOperator<OutputImagePixelType,ImageDimension> oper;
-  NeighborhoodInnerProduct<OutputImageType> innerProduct;
+  //  double alpha = 0.01;
 
   //Calculate 1st & 2nd order derivative
-  for(int i = 0; i < ImageDimension; i++)
+  for(i = 0; i < ImageDimension; i++)
     {
-      oper.SetDirection( i ); 
-      oper.SetOrder(1);
-      oper.CreateToRadius(1);
-      dx[i] = innerProduct(it, oper);
-      
-      oper.SetDirection( i ); 
-      oper.SetOrder(2);
-      oper.CreateToRadius(1);
-      dxx[i] = innerProduct(it, oper);
+      dx[i] = innerProduct(m_ComputeCannyEdgeSlice[i], it,
+                           m_ComputeCannyEdge1stDerivativeOper); 
+      dxx[i] = innerProduct(m_ComputeCannyEdgeSlice[i], it,
+                            m_ComputeCannyEdge2ndDerivativeOper);  
     }
-  
 
-  unsigned long center = it.Size()/2;
-  
-  unsigned long stride[ImageDimension];
-
-  for ( int i = 0; i < ImageDimension; i++)
-    stride[i] = it.GetStride(i);
-
-  OutputImagePixelType zero = NumericTraits<OutputImagePixelType>::Zero;
-
-  deriv = zero;
+  deriv = NumericTraits<OutputImagePixelType>::Zero;
   int k = 0;
 
   //Calculate the 2nd derivative
-  for(int i = 0; i < ImageDimension-1; i++)
+  for(i = 0; i < ImageDimension-1; i++)
     {
-      for(int j = i+1; j < ImageDimension ; j++)
+      for(j = i+1; j < ImageDimension ; j++)
         {
-
-          dxy[k] = 0.25 * it.GetPixel(center - stride[i] -stride[j])
-            - 0.25 * it.GetPixel(center - stride[i]+ stride[j])
-            -0.25 * it.GetPixel(center +stride[i] - stride[j])
-            +0.25 * it.GetPixel(center +stride[i] + stride[j]);
+          dxy[k] = 0.25 * it.GetPixel(m_Center - m_Stride[i] - m_Stride[j])
+            - 0.25 * it.GetPixel(m_Center - m_Stride[i]+ m_Stride[j])
+            -0.25 * it.GetPixel(m_Center + m_Stride[i] - m_Stride[j])
+            +0.25 * it.GetPixel(m_Center + m_Stride[i] + m_Stride[j]);
 
           deriv += 2.0 * dx[i]*dx[j]*dxy[k];
           k++;
         }
     }
   
-  gradMag = alpha * alpha;
-  for (int i = 0; i < ImageDimension; i++)
+  gradMag = 0.001; // alpha * alpha;
+  for (i = 0; i < ImageDimension; i++)
     { 
       deriv += dx[i] * dx[i] * dxx[i];
       gradMag += dx[i] * dx[i];
     }
   
   deriv = deriv/gradMag;
-  
-  return deriv;
-  
+
+  return deriv;  
 }
 
 
 template< class TInputImage, class TOutputImage >
 CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >::OutputImagePixelType
 CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
-::ComputeCannyEdge(const BoundaryNeighborhoodType &bit,
+::ComputeCannyEdge(const BoundaryNeighborhoodType &it,
                    void *globalData )
 {
+  unsigned int i, j;
+  SmartNeighborhoodInnerProduct<OutputImageType> innerProduct;
 
-  
   OutputImagePixelType dx[ImageDimension];
   OutputImagePixelType dxx[ImageDimension];
   OutputImagePixelType dxy[ImageDimension*(ImageDimension-1)/2];
   OutputImagePixelType deriv;
   OutputImagePixelType gradMag;
 
-  float alpha = 0.01;
-
-  DerivativeOperator<OutputImagePixelType, ImageDimension> oper;
-  SmartNeighborhoodInnerProduct<OutputImageType> innerProduct;
+  //  double alpha = 0.01;
 
   //Calculate 1st & 2nd order derivative
-  for(int i = 0; i < ImageDimension; i++)
+  for(i = 0; i < ImageDimension; i++)
     {
-      oper.SetDirection( i ); 
-      oper.SetOrder(1);
-      oper.CreateToRadius(1);
-      dx[i] = innerProduct(bit, oper);
-      
-      oper.SetDirection( i ); 
-      oper.SetOrder(2);
-      oper.CreateToRadius(1);
-      dxx[i] = innerProduct(bit, oper);
+      dx[i] = innerProduct(m_ComputeCannyEdgeSlice[i], it,
+                           m_ComputeCannyEdge1stDerivativeOper); 
+      dxx[i] = innerProduct(m_ComputeCannyEdgeSlice[i], it,
+                            m_ComputeCannyEdge2ndDerivativeOper);  
     }
-  
 
-  unsigned long center = bit.Size()/2;
-  
-  unsigned long stride[ImageDimension];
-
-  for ( int i = 0; i < ImageDimension; i++)
-    stride[i] = bit.GetStride(i);
-
-  OutputImagePixelType zero = NumericTraits<OutputImagePixelType>::Zero;
-
-  deriv = zero;
+  deriv = NumericTraits<OutputImagePixelType>::Zero;
   int k = 0;
 
-
-  //calculate the 2nd derivative
-  for(int i = 0; i < ImageDimension-1; i++)
+  //Calculate the 2nd derivative
+  for(i = 0; i < ImageDimension-1; i++)
     {
-      for(int j = i+1; j < ImageDimension ; j++)
+      for(j = i+1; j < ImageDimension ; j++)
         {
+          dxy[k] = 0.25 * it.GetPixel(m_Center - m_Stride[i] - m_Stride[j])
+            - 0.25 * it.GetPixel(m_Center - m_Stride[i]+ m_Stride[j])
+            -0.25 * it.GetPixel(m_Center + m_Stride[i] - m_Stride[j])
+            +0.25 * it.GetPixel(m_Center + m_Stride[i] + m_Stride[j]);
 
-          dxy[k] = 0.25 * bit.GetPixel(center - stride[i] -stride[j])
-            - 0.25 * bit.GetPixel(center - stride[i]+ stride[j])
-            -0.25 * bit.GetPixel(center +stride[i] - stride[j])
-            +0.25 * bit.GetPixel(center +stride[i] + stride[j]);
-
-          deriv += 2.0*dx[i]*dx[j]*dxy[k];
+          deriv += 2.0 * dx[i]*dx[j]*dxy[k];
           k++;
         }
     }
   
-  gradMag = alpha * alpha;
-  for (int i = 0; i < ImageDimension; i++)
+  gradMag = 0.001; // alpha * alpha;
+  for (i = 0; i < ImageDimension; i++)
     { 
       deriv += dx[i] * dx[i] * dxx[i];
       gradMag += dx[i] * dx[i];
@@ -385,12 +371,9 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
   deriv = deriv/gradMag;
 
   return deriv;
- 
-
 }
 
-//Calculate the second derivative
-
+// Calculate the second derivative
 template< class TInputImage, class TOutputImage >
 void
 CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
@@ -422,34 +405,28 @@ CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>
   // Execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
   // Using the SplitRequestedRegion method from itk::ImageSource.
-
   OutputImageRegionType splitRegion;
   total = str->Filter->SplitRequestedRegion(threadId, threadCount,
                                             splitRegion);
-  
+
   if (threadId < total)
     {
     str->Filter->ThreadedCompute2ndDerivative(splitRegion, threadId);
     }
-  
+
   return ITK_THREAD_RETURN_VALUE;
 }
 
-
-  //The following methos is not good. lets work on neighbor hood instead.
-  
 template< class TInputImage, class TOutputImage >
 void
 CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
-  typename  InputImageType::Pointer input  = this->GetInput();
-  typename  OutputImageType::Pointer sndDeriv;
+  typename  InputImageType::Pointer  input  = this->GetInput();
   typename  OutputImageType::Pointer zeroCross;
-  typename  OutputImageType::Pointer sndDerivPos;
-  typename  OutputImageType::Pointer multOut, edge;
+  typename  OutputImageType::Pointer edge;
 
-  //create the filters that needed
+  // Create the filters that are needed.
   DiscreteGaussianImageFilter<TInputImage, TOutputImage>::Pointer gaussianFilter
     = DiscreteGaussianImageFilter<TInputImage, TOutputImage>::New();
 
@@ -461,8 +438,6 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 
   MultiplyImageFilter<TOutputImage, TOutputImage,TOutputImage>::Pointer multFilter 
     = MultiplyImageFilter<TOutputImage, TOutputImage,TOutputImage>::New();
-
-
 
   this->AllocateUpdateBuffer();
 
@@ -485,11 +460,11 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
   zeroCrossFilter->SetInput(m_UpdateBuffer);
   zeroCrossFilter->Update();
   zeroCross = zeroCrossFilter->GetOutput();
-  
+
   // Calculate the 2nd derivative gradient here, and write result to m_UpdateBuffer1
 
   this->Compute2ndDerivativePos();
- 
+
   // multiply the edge with the zerocrossing
   multFilter->SetInput1(m_UpdateBuffer1);
   multFilter->SetInput2(zeroCross);
@@ -512,15 +487,11 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 
 }
 
-
-
 template< class TInputImage, class TOutputImage >
 void
 CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 ::ThreadedCompute2ndDerivativePos(const OutputImageRegionType& outputRegionForThread, int threadId)
 {
-
-  //  cout<<"being generating data"<<endl;
   unsigned int i;
   ZeroFluxNeumannBoundaryCondition<TInputImage> nbc;
 
@@ -534,7 +505,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 
   // Here input is the result from the gaussian filter
   //      input1 is the 2nd derivative result
-  //      output is  the gradident of 2nd derivative
+  //      output is the gradient of 2nd derivative
   typename OutputImageType::Pointer input1 = m_UpdateBuffer;
   typename OutputImageType::Pointer input = this->GetOutput();
 
@@ -578,10 +549,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 
   InputImagePixelType zero = NumericTraits<InputImagePixelType>::Zero;
 
-
-
   OutputImagePixelType dx[ImageDimension]; 
-  
   OutputImagePixelType dx1[ImageDimension];
 
   OutputImagePixelType directional[ImageDimension];
@@ -589,9 +557,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 
   OutputImagePixelType gradMag = zero;
 
-  DerivativeOperator<OutputImagePixelType,ImageDimension> oper;
   NeighborhoodInnerProduct<OutputImageType>  innerProduct;
-
 
   // Now Process the non-boundary region.
   while( ! nit.IsAtEnd() )
@@ -605,13 +571,11 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 
       for ( int i = 0; i < ImageDimension; i++)
         {
-          oper.SetDirection(i);
-          oper.SetOrder(1);
-          oper.CreateToRadius(1);
-          dx[i] = innerProduct(nit, oper);
+          dx[i] = innerProduct(m_ComputeCannyEdgeSlice[i], nit,
+                               m_ComputeCannyEdge1stDerivativeOper);
           gradMag += dx[i] * dx[i];
-          
-          dx1[i] = innerProduct(nit1, oper);
+          dx1[i] = innerProduct(m_ComputeCannyEdgeSlice[i], nit1,
+                                m_ComputeCannyEdge1stDerivativeOper);
         }
 
 
@@ -647,8 +611,6 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 
   for (++fit; fit != faceList.end(); ++fit)
     { 
-
-      
       bit = ConstSmartNeighborhoodIterator<InputImageType>(radius,
                                                            input, *fit);
       bit1 =ConstSmartNeighborhoodIterator<InputImageType>(radius, 
@@ -668,15 +630,13 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
           
           for ( int i = 0; i < ImageDimension; i++)
             {
-              oper.SetDirection(i);
-              oper.SetOrder(1);
-              oper.CreateToRadius(1);
-              dx[i] = IP(bit, oper);
+              dx[i] = IP(m_ComputeCannyEdgeSlice[i], bit,
+                         m_ComputeCannyEdge1stDerivativeOper);
               gradMag += dx[i] * dx[i];
               
-              dx1[i] = IP(bit1, oper);
+              dx1[i] = IP(m_ComputeCannyEdgeSlice[i], bit1,
+                          m_ComputeCannyEdge1stDerivativeOper);
             }
-          
           
           derivPos = zero;
           for ( int i = 0; i < ImageDimension; i++)
@@ -703,17 +663,10 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
           ++it;
         }
       
-    }
-  
-  //  cout<<"Finished calculate"<<endl;
-  
+    }  
 }
 
-
-
 //Calculate the second derivative
-
-
 template< class TInputImage, class TOutputImage >
 void 
 CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
@@ -767,6 +720,7 @@ CannyEdgeDetectionImageFilter<TInputImage,TOutputImage>
 
   std::cout << "Variance: " << m_Variance << std::endl;
   std::cout << "MaximumError: " << m_MaximumError << std::endl;
+  std::cout << "Threshold: " << m_Threshold << std::endl;
 }
 
 }//end of itk namespace
