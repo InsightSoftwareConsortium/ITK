@@ -142,6 +142,8 @@ int itkImageRegistrationMethodTest_13(int, char* [] )
   InterpolatorType::Pointer   interpolator  = InterpolatorType::New();
   RegistrationType::Pointer   registration  = RegistrationType::New();
 
+  MetricType::ReinitializeSeed(0x1234abcd);
+
   /*********************************************************
    * Set up the two input images.
    * One image scaled and shifted with respect to the other.

@@ -147,6 +147,8 @@ TInterpolator * interpolator )
 
   typename MetricType::Pointer metric = MetricType::New();
 
+  MetricType::ReinitializeSeed(0x1234abcd);
+  
   // connect the interpolator
   metric->SetInterpolator( interpolator );
 
