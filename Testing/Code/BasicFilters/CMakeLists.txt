@@ -128,52 +128,52 @@ ADD_TEST(itkVectorGradientMagnitudeImageFilterTest2 ${BASIC_FILTERS_TESTS} itkVe
 IF(ITK_DATA_ROOT)
 ADD_TEST(itkGradientAnisotropicDiffusionImageFilterTest2 ${BASIC_FILTERS_TESTS} 
   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/GradientAnisotropicDiffusionImageFilterTest2.png
-            ${ITK_BINARY_DIR}/Testing/Temporary/GradientAnisotropicDiffusionImageFilterTest2.png
+            ${ITK_TEST_OUTPUT_DIR}/GradientAnisotropicDiffusionImageFilterTest2.png
   itkGradientAnisotropicDiffusionImageFilterTest2
             ${ITK_DATA_ROOT}/Input/cake_easy.png
-            ${ITK_BINARY_DIR}/Testing/Temporary/GradientAnisotropicDiffusionImageFilterTest2.png)
+            ${ITK_TEST_OUTPUT_DIR}/GradientAnisotropicDiffusionImageFilterTest2.png)
 
 ADD_TEST(itkBilateralImageFilterTest2 ${BASIC_FILTERS_TESTS}
   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/BilateralImageFilterTest2.png
-            ${ITK_BINARY_DIR}/Testing/Temporary/BilateralImageFilterTest2.png
+            ${ITK_TEST_OUTPUT_DIR}/BilateralImageFilterTest2.png
   itkBilateralImageFilterTest2
             ${ITK_DATA_ROOT}/Input/cake_easy.png
-            ${ITK_BINARY_DIR}/Testing/Temporary/BilateralImageFilterTest2.png)
+            ${ITK_TEST_OUTPUT_DIR}/BilateralImageFilterTest2.png)
 
 ADD_TEST(itkBilateralImageFilterTest3 ${BASIC_FILTERS_TESTS}
   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/BilateralImageFilterTest3.png
-            ${ITK_BINARY_DIR}/Testing/Temporary/BilateralImageFilterTest3.png
+            ${ITK_TEST_OUTPUT_DIR}/BilateralImageFilterTest3.png
   itkBilateralImageFilterTest3
             ${ITK_DATA_ROOT}/Input/cake_easy.png
-            ${ITK_BINARY_DIR}/Testing/Temporary/BilateralImageFilterTest3.png)
+            ${ITK_TEST_OUTPUT_DIR}/BilateralImageFilterTest3.png)
 
 ADD_TEST(itkConnectedThresholdImageFilterTest ${BASIC_FILTERS_TESTS}
   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ConnectedThresholdImageFilterTest.png
-            ${ITK_BINARY_DIR}/Testing/Temporary/ConnectedThresholdImageFilterTest.png
+            ${ITK_TEST_OUTPUT_DIR}/ConnectedThresholdImageFilterTest.png
   itkConnectedThresholdImageFilterTest
             ${ITK_DATA_ROOT}/Input/cthead1.png
-            ${ITK_BINARY_DIR}/Testing/Temporary/ConnectedThresholdImageFilterTest.png)
+            ${ITK_TEST_OUTPUT_DIR}/ConnectedThresholdImageFilterTest.png)
 
 ADD_TEST(itkNeighborhoodConnectedImageFilterTest ${BASIC_FILTERS_TESTS}
    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/NeighborhoodConnectedImageFilterTest.png
-             ${ITK_BINARY_DIR}/Testing/Temporary/NeighborhoodConnectedImageFilterTest.png
+             ${ITK_TEST_OUTPUT_DIR}/NeighborhoodConnectedImageFilterTest.png
   itkNeighborhoodConnectedImageFilterTest
              ${ITK_DATA_ROOT}/Input/cthead1.png
-             ${ITK_BINARY_DIR}/Testing/Temporary/NeighborhoodConnectedImageFilterTest.png)
+             ${ITK_TEST_OUTPUT_DIR}/NeighborhoodConnectedImageFilterTest.png)
 
 ADD_TEST(itkConfidenceConnectedImageFilterTest ${BASIC_FILTERS_TESTS}
    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ConfidenceConnectedImageFilterTest.png
-             ${ITK_BINARY_DIR}/Testing/Temporary/ConfidenceConnectedImageFilterTest.png
+             ${ITK_TEST_OUTPUT_DIR}/ConfidenceConnectedImageFilterTest.png
   itkConfidenceConnectedImageFilterTest
              ${ITK_DATA_ROOT}/Input/cthead1.png
-             ${ITK_BINARY_DIR}/Testing/Temporary/ConfidenceConnectedImageFilterTest.png)
+             ${ITK_TEST_OUTPUT_DIR}/ConfidenceConnectedImageFilterTest.png)
 
 ADD_TEST(itkIsolatedConnectedImageFilterTest ${BASIC_FILTERS_TESTS}
    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/IsolatedConnectedImageFilterTest.png
-             ${ITK_BINARY_DIR}/Testing/Temporary/IsolatedConnectedImageFilterTest.png
+             ${ITK_TEST_OUTPUT_DIR}/IsolatedConnectedImageFilterTest.png
   itkIsolatedConnectedImageFilterTest
              ${ITK_DATA_ROOT}/Input/cthead1.png
-             ${ITK_BINARY_DIR}/Testing/Temporary/IsolatedConnectedImageFilterTest.png)
+             ${ITK_TEST_OUTPUT_DIR}/IsolatedConnectedImageFilterTest.png)
 
 ENDIF(ITK_DATA_ROOT)
 
