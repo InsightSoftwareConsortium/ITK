@@ -40,7 +40,6 @@
 #include "itkLaplacianSegmentationLevelSetImageFilter.h"
 #include "itkLevelSetNeighborhoodExtractor.h"
 #include "itkLevelSetVelocityNeighborhoodExtractor.h"
-#include "itkMRFImageFilter.h"
 
 #include "itkDistanceToCentroidMembershipFunction.h"
 #include "itkMahalanobisDistanceMembershipFunction.h"
@@ -139,10 +138,6 @@ int main(int , char* [])
     itk::LevelSetVelocityNeighborhoodExtractor<InputType,double>::New();
 
   std:: cout << "-------------LevelSetVelocityNeighborhoodExtractor " << LevelSetVelocityNeighborhoodExtractorObj;
-
-  itk::MRFImageFilter<VectorImageType,UShortImageType>::Pointer MRFImageFilterObj =
-    itk::MRFImageFilter<VectorImageType,UShortImageType>::New();
-  std:: cout << "-------------MRFImageFilter " << MRFImageFilterObj;
 
   return 0;
 
