@@ -160,7 +160,6 @@ SphereSource<TOutputMesh>
 ///////////////////////////////////////////////////////////////////////////
 // cells allocation
   p = 0;
-  TriCellPointer testCell(TriCell::New());
 
 // store all regular cells
   for(unsigned int i=0; i+1 < m_ResolutionX; i++) 
@@ -171,6 +170,7 @@ SphereSource<TOutputMesh>
       tripoints[0] = i*m_ResolutionY+j; 
       tripoints[1] = tripoints[0]-j+jn; 
       tripoints[2] = tripoints[0]+m_ResolutionY; 
+      TriCellPointer testCell = TriCell::New();
       testCell->SetPointIds(tripoints);
       outputMesh->SetCell(p, testCell);
       outputMesh->SetCellData(p, (OPixelType)3.0);
@@ -182,7 +182,6 @@ SphereSource<TOutputMesh>
       outputMesh->SetCell(p, testCell);
       outputMesh->SetCellData(p, (OPixelType)3.0);
       p++;
-      testCell = TriCell::New();
       }
     }
  
@@ -193,11 +192,11 @@ SphereSource<TOutputMesh>
     tripoints[0] = numpts-2; 
     tripoints[1] = jn; 
     tripoints[2] = j; 
+    TriCellPointer testCell = TriCell::New();
     testCell->SetPointIds(tripoints);
     outputMesh->SetCell(p, testCell);
     outputMesh->SetCellData(p, (OPixelType)1.0);
     p++;
-    testCell = TriCell::New();
     }
 
 // store cells containing the north pole nodes
@@ -207,11 +206,11 @@ SphereSource<TOutputMesh>
     tripoints[2] = (m_ResolutionX-1)*m_ResolutionY+j; 
     tripoints[1] = numpts-1; 
     tripoints[0] = tripoints[2]-j+jn; 
+    TriCellPointer testCell = TriCell::New();
     testCell->SetPointIds(tripoints);
     outputMesh->SetCell(p, testCell);
     outputMesh->SetCellData(p, (OPixelType)2.0);
     p++;
-    testCell = TriCell::New();
     }
 
   // Provide a hint about the method used for Cell allocation
