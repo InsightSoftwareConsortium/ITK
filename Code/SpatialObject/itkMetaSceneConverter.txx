@@ -293,7 +293,7 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
         {
         group->ParentID((*it)->GetParent()->GetId());
         }
-      tube->Name((*it)->GetProperty()->GetName().c_str());
+      group->Name((*it)->GetProperty()->GetName().c_str());
       this->SetTransform(group, (*it)->GetObjectToParentTransform()) ;
       metaScene->AddObject(group);
       }
