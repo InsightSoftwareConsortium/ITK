@@ -110,7 +110,7 @@ public:
   typedef typename InterpolatorType::ContinuousIndexType    ContinuousIndexType;
 
   /** Typedefs to describe and access coordinate images */
-  typedef typename itk::Image< TCoordType, ImageDimension > CoordImageType;
+  typedef Image< TCoordType, ImageDimension >               CoordImageType;
 
   /** Typedef for region copier */
   typedef typename ImageToImageFilterDetail
