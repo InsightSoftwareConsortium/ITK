@@ -29,7 +29,7 @@
 // segmentation, but be aware that the growing surface may tend to become
 // ``stuck'' at local edges.
 //
-// The propagation (speed) term for
+// The propagation (speed) term for the
 // \doxygen{LaplacianSegmentationLevelSetImageFilter} is constructed by
 // applying \doxygen{LaplacianImageFilter} to the input feature image.  One
 // nice property of using the Laplacian is that there are no free parameters in
@@ -38,7 +38,7 @@
 // \doxygen{LaplacianSegmentationLevelSetImageFilter} expects two inputs.  The
 // first is an initial level set in the form of an \doxygen{Image}. The second
 // input is the feature image $g$ from which the propagation term is calculated
-// (see equation~\ref{eqn:LevelSetEquation}.  Because the filter performs a
+// (see equation~\ref{eqn:LevelSetEquation}).  Because the filter performs a
 // second derivative calculation, it is generally a good idea to do some
 // preprocessing of the feature image to remove noise.
 //
@@ -185,7 +185,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  The maximum number of iterations is set from the command line.  It may
-  //  not be desireable in some applications to run the filter until
+  //  not be desirable in some applications to run the filter to
   //  convergence.  Only a few iterations may be required.
   //  
   //  Software Guide : EndLatex
@@ -211,7 +211,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  The filters are now connected in a pipeline indicated in
-  //  Figure~\ref{fig:LaplacianLevelSetSegmentationCollaborationDiagram1}.
+  //  Figure~\ref{fig:LaplacianLevelSetSegmentationCollaborationDiagram}.
   //
   //  Software Guide : EndLatex 
   
@@ -269,7 +269,7 @@ int main( int argc, char *argv[] )
   //  iterations of the diffusion filter with a conductance of 2.0.  The
   //  propagation scaling was set to $1.0$ and the filter was run until
   //  convergence.
-  //  Compare the results in the right-most images of
+  //  Compare the results in the rightmost images of
   //  figure~\ref{LaplacianLevelSetSegmentationImageFilter} with the ventricle
   //  segmentation from figure~\ref{ThresholdSegmentationLevelSetImageFilter}
   //  shown in the middle.  Jagged edges are straightened and the small spur at
