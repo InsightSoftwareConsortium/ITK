@@ -68,6 +68,13 @@ public:
   virtual void MakeSegmentBoundary(void);
   virtual void MakeSegmentObject(void);
   
+  /** Set/Get the threshold used to determine if a Voronoi region is
+   * homogeneous. If the standard deviation of the intensities in the
+   * Voronoi region is below this threshold, then the region is
+   * considered homogeneous. */
+  itkSetMacro(SigmaThreshold, double);
+  itkGetMacro(SigmaThreshold, double);
+
 protected:
   VoronoiPartitioningImageFilter();
   ~VoronoiPartitioningImageFilter();
@@ -80,6 +87,9 @@ protected:
 
   // Are the pixels specified in the index list homogeneous?
   virtual bool TestHomogeneity(IndexList &Plist);
+
+  // Threshold for homogeneity criterion
+  double m_SigmaThreshold;
 
 private:
   VoronoiPartitioningImageFilter(const Self&); //purposely not implemented

@@ -29,6 +29,7 @@ namespace itk
 template <class TInputImage, class TOutputImage>
 VoronoiPartitioningImageFilter <TInputImage,TOutputImage>
 ::VoronoiPartitioningImageFilter()
+  : m_SigmaThreshold( 10 )
 {
 }
 
@@ -87,6 +88,8 @@ VoronoiPartitioningImageFilter<TInputImage,TOutputImage>
   PointType adds;
   Point<int,2> seeds;
 
+  // Walk the edges of the diagram, if a seed to either side is
+  // no homogeneous, then place a new seed along the middle of the edge
   for(eit = m_WorkingVD->EdgeBegin();eit != eitend; ++eit)
     {
     seeds = m_WorkingVD->GetSeedsIDAroundEdge(&*eit);
@@ -161,7 +164,7 @@ VoronoiPartitioningImageFilter<TInputImage,TOutputImage>
       VertList.push_back(currP);
       }
     // Need to fill with an segment identifier
-    FillPolygon(VertList);
+    FillPolygon(VertList, static_cast<OutputPixelType>(i));
     }
 }
 
@@ -193,13 +196,8 @@ VoronoiPartitioningImageFilter <TInputImage,TOutputImage>
     savevar = -1;
     }
 
-//   // jvm - Mahalanobis distance
-//   if (savevar > 0 && fabs(savemean - m_Mean) / m_Var < 2.5)
-//     return true;
-//   else
-//     return false;
   
-  return (savevar >= 0 && savevar < 50 );
+  return (savevar >= 0 && sqrt(savevar) < m_SigmaThreshold);
 }
 
 } //end namespace
