@@ -33,13 +33,16 @@ SpatialObject< NDimensions, PipelineDimension>
   m_Dimension = NDimensions;
   m_Bounds = BoundingBoxType::New();
   m_Property = PropertyType::New();
-  m_LocalToGlobalTransform = TransformType::New();
-  m_GlobalToLocalTransform = TransformType::New();
-  
+  m_Transform = TransformType::New();
+  m_GlobalTransform = TransformType::New();
+  m_TransformWithCoR = TransformType::New();
   // Initialize the spacing to 1 by default
   for (unsigned int i=0; i<ObjectDimension; i++)
   {
     m_Spacing[i] = 1;
+    m_Scale[i] = 1;
+    m_GlobalScale[i] = 1;
+    m_CenterOfRotation[i] = 0;
   }
   
   SetParent(NULL);
@@ -95,6 +98,31 @@ SpatialObject< NDimensions, PipelineDimension>
     }
   }
 }
+
+
+/** Set the Scale of the spatial object */
+template< unsigned int NDimensions, unsigned int PipelineDimension >
+void
+SpatialObject< NDimensions, PipelineDimension>
+::SetScale(const double scale[ObjectDimension] )
+{
+  unsigned int i; 
+  for (i=0; i<ObjectDimension; i++)
+  {
+    if ( scale[i] != m_Scale[i] )
+    {
+      break;
+    }
+  } 
+  if ( i < ObjectDimension ) 
+  { 
+    for (i=0; i<ObjectDimension; i++)
+    {
+      m_Scale[i] = scale[i];
+    }
+  }
+}
+
 
 /** Return the Derivative at a point given the order of the derivative */
 template< unsigned int NDimensions, unsigned int PipelineDimension >
@@ -241,7 +269,6 @@ SpatialObject< NDimensions, PipelineDimension>
 ::SetParent( const Superclass * parent )
 {
   m_Parent = parent;
-  RebuildAllTransformLists();
 }
 
 
@@ -259,23 +286,8 @@ SpatialObject< NDimensions, PipelineDimension>
   os << "Bounding Box:" << std::endl;
   os << indent << m_Bounds << std::endl;
   os << "Geometric properties:" << std::endl;
-  os << indent << "(local to global ) " << m_LocalToGlobalTransform << std::endl;
-  os << indent << "(global to local ) " << m_GlobalToLocalTransform << std::endl;
-  os << indent << "LocalToGlobalTransformList: ";
-  it = m_LocalToGlobalTransformList.begin();  
-  end = m_LocalToGlobalTransformList.end();
-  for( ; it != end; it++ )
-  {
-    os<<"["<<(*it)<<"] ";
-  }
-  os << std::endl;
-  os << indent << "GlobalToLocalTransformList size: ";
-  it = m_GlobalToLocalTransformList.begin();  
-  end = m_GlobalToLocalTransformList.end();
-  for( ; it != end; it++ )
-  {
-    os<<"["<<(*it)<<"] ";
-  }
+  os << indent << "(local to global ) " << m_Transform << std::endl;
+  os << indent << "(global to local ) " << m_GlobalTransform << std::endl;
   os << std::endl << std::endl;
   os << "Object properties: " << std::endl;
   os << m_Property << std::endl;
@@ -327,13 +339,14 @@ SpatialObject< NDimensions, PipelineDimension>
   {
     m_Children.push_back( pointer );
     m_NDimensionalChildrenList.push_back( pointer );
-    pointer->SetParent( this ); 
+    pointer->SetParent( this );
   }
   else
   { 
     //throw an exception object to let user know that he tried to add an object
     // which is already in the list of the children.
   }
+
   this->Modified();
 }
 
@@ -390,134 +403,141 @@ SpatialObject< NDimensions, PipelineDimension>
 
 }
 
-/** Build the local to global transformation list */
-template< unsigned int NDimensions, unsigned int PipelineDimension >
-void
-SpatialObject< NDimensions, PipelineDimension>
-::BuildLocalToGlobalTransformList( TransformListType & list, bool init ) const
-{
-  list.push_back(m_LocalToGlobalTransform);
-
-  if( HasParent() )
-  {
-    dynamic_cast<const Self*>(m_Parent)->BuildLocalToGlobalTransformList(list,true);
-  }
-}
-
-/** Build the global to local transformation list */
-template< unsigned int NDimensions, unsigned int PipelineDimension >
-void
-SpatialObject< NDimensions, PipelineDimension>
-::BuildGlobalToLocalTransformList( TransformListType & list, bool init ) const
-{
-  list.push_back(m_GlobalToLocalTransform);
-
-  if( HasParent() )
-  {
-    dynamic_cast<const Self*>(m_Parent)->BuildGlobalToLocalTransformList(list,true);
-  }
-}
-
-/** Rebuild the global to local transformation list */
+/** Set the local to global transformation */
 template< unsigned int NDimensions, unsigned int PipelineDimension >
 void 
 SpatialObject< NDimensions, PipelineDimension>
-::RebuildLocalToGlobalTransformList( void )
+::SetTransform(TransformType * transform )
 {
-  m_LocalToGlobalTransformList.clear();
-  BuildLocalToGlobalTransformList(m_LocalToGlobalTransformList,false);
+  m_Transform = transform;
+  ComputeGlobalTransform();
+}
 
-  typename ChildrenListType::const_iterator it = m_Children.begin();
-  typename ChildrenListType::const_iterator end = m_Children.end();
+/** Compute the Global Transform */
+template< unsigned int NDimensions, unsigned int PipelineDimension >
+void 
+SpatialObject< NDimensions, PipelineDimension>
+::ComputeGlobalTransform( )
+{
 
-  for(; it != end; it++ )
+  TransformType::MatrixType matrix = m_Transform->GetMatrix();
+  TransformType::OffsetType offset = m_Transform->GetOffset();
+
+  // matrix is changed to include the scaling
+  for(unsigned int i=0;i<3;i++)
   {
-    (*it)->RebuildLocalToGlobalTransformList();
+    for(unsigned int j=0;j<3;j++)
+    {
+      matrix.GetVnlMatrix().put(i,j,matrix.GetVnlMatrix().get(i,j)*m_Scale[i]);
+    }
+    m_GlobalScale[i] = m_Scale[i];
+  }
+
+  PointType point;
+  point = matrix*m_CenterOfRotation;
+
+  for(unsigned i=0;i<NDimensions;i++)
+  {
+    offset[i] += m_Scale[i]*m_CenterOfRotation[i]-point[i];
+  }
+
+  m_TransformWithCoR->SetMatrix(matrix);
+  m_TransformWithCoR->SetOffset(offset);
+
+  m_GlobalTransform->SetMatrix(matrix);
+  m_GlobalTransform->SetOffset(offset);
+
+
+  if(m_Parent)
+  {
+    for(unsigned int i=0;i<NDimensions;i++)
+    {
+      m_GlobalScale[i] *= dynamic_cast<const SpatialObject<NDimensions, PipelineDimension>*>(m_Parent)->GetGlobalScale()[i];
+    }
+    m_GlobalTransform->Compose(dynamic_cast<const SpatialObject<NDimensions, PipelineDimension>*>(m_Parent)->GetGlobalTransform(),false);
+  }
+
+  
+  // Propagate the changes to the children
+  typename ChildrenListType::iterator it = m_Children.begin();
+  for(; it!=m_Children.end(); it++)
+  {
+    (*it)->ComputeGlobalTransform();
   }
 }
 
-/** Rebuild the global to local transformation list */
-template< unsigned int NDimensions, unsigned int PipelineDimension >
-void 
-SpatialObject< NDimensions, PipelineDimension>
-::RebuildGlobalToLocalTransformList( void )
-{
-  m_GlobalToLocalTransformList.clear();
-  BuildGlobalToLocalTransformList(m_GlobalToLocalTransformList,false);
 
-  typename ChildrenListType::const_iterator it = m_Children.begin();
-  typename ChildrenListType::const_iterator end = m_Children.end();
 
-  for(; it != end; it++ )
-  {
-    (*it)->RebuildGlobalToLocalTransformList();
-  }
-}
-
-/** Rebuild both Local to Global and Global to Local transformation lists */
-template< unsigned int NDimensions, unsigned int PipelineDimension >
-void 
-SpatialObject< NDimensions, PipelineDimension>
-::RebuildAllTransformLists( void )
-{
-  RebuildLocalToGlobalTransformList();
-  RebuildGlobalToLocalTransformList();
-}
-
-/** Set the local to gloabal transformation */
-template< unsigned int NDimensions, unsigned int PipelineDimension >
-void 
-SpatialObject< NDimensions, PipelineDimension>
-::SetLocalToGlobalTransform(TransformType * transform )
-{
-  m_LocalToGlobalTransform = transform;
-  RebuildLocalToGlobalTransformList();
-}
-
-/** Get the local to gloabal transformation */
+/** Get the local transformation */
 template< unsigned int NDimensions, unsigned int PipelineDimension >
 typename SpatialObject< NDimensions, PipelineDimension>::TransformType *
 SpatialObject< NDimensions, PipelineDimension>
-::GetLocalToGlobalTransform( void )
+::GetTransform( void )
 {
-  return m_LocalToGlobalTransform.GetPointer();
+  return m_Transform.GetPointer();
 }
+
+/** Get the local transformation (const)*/
+template< unsigned int NDimensions, unsigned int PipelineDimension >
+const typename SpatialObject< NDimensions, PipelineDimension>::TransformType *
+SpatialObject< NDimensions, PipelineDimension>
+::GetTransform( void ) const
+{
+  return m_Transform.GetPointer();
+}
+
 
 /** Set the global to local transformation */
 template< unsigned int NDimensions, unsigned int PipelineDimension >
 void 
 SpatialObject< NDimensions, PipelineDimension>
-::SetGlobalToLocalTransform(TransformType * transform )
+::SetGlobalTransform(TransformType * transform )
 {
-  m_GlobalToLocalTransform = transform;
-  RebuildGlobalToLocalTransformList();
+  m_GlobalTransform = transform;
+  ComputeTransform();
 }
 
-/** Get the global to local transformation */
+
+/** Compute the Transform when the global tranform as been set*/
+template< unsigned int NDimensions, unsigned int PipelineDimension >
+void 
+SpatialObject< NDimensions, PipelineDimension>
+::ComputeTransform( )
+{
+  m_Transform = m_GlobalTransform;
+
+  if(m_Parent)
+  {
+    m_Transform->Compose(dynamic_cast<const SpatialObject<NDimensions, PipelineDimension>*>(m_Parent)->GetGlobalTransform()->Inverse(),true);
+  }
+}
+
+
+/** Get the global transformation */
 template< unsigned int NDimensions, unsigned int PipelineDimension >
 typename SpatialObject< NDimensions, PipelineDimension>::TransformType *
 SpatialObject< NDimensions, PipelineDimension>
-::GetGlobalToLocalTransform( void )
+::GetGlobalTransform( void )
 {
-  return m_GlobalToLocalTransform.GetPointer();
+  return m_GlobalTransform.GetPointer();
 }
 
-/** Get the Local to Global transformation list */
+/** Get the global transformation (const)*/
 template< unsigned int NDimensions, unsigned int PipelineDimension >
-typename SpatialObject< NDimensions, PipelineDimension>::TransformListType &
+const typename SpatialObject< NDimensions, PipelineDimension>::TransformType *
 SpatialObject< NDimensions, PipelineDimension>
-::GetLocalToGlobalTransformList( void )
+::GetGlobalTransform( void ) const
 {
-  return m_LocalToGlobalTransformList;
+  return m_GlobalTransform.GetPointer();
 }
 
 /** Get the Global to Local transformation list */
 template< unsigned int NDimensions, unsigned int PipelineDimension >
 typename SpatialObject< NDimensions, PipelineDimension>::TransformListType &
 SpatialObject< NDimensions, PipelineDimension>
-::GetGlobalToLocalTransformList( void )
+::GetGlobalTransformList( void )
 {
-  return m_GlobalToLocalTransformList;
+  return m_GlobalTransformList;
 }
 
 /** Transform a point to the local coordinate frame */
@@ -526,18 +546,7 @@ void
 SpatialObject< NDimensions, PipelineDimension>
 ::TransformPointToLocalCoordinate( PointType & p ) const
 {
-  typename TransformListType::const_reverse_iterator it = m_GlobalToLocalTransformList.rbegin();
-  typename TransformListType::const_reverse_iterator end = m_GlobalToLocalTransformList.rend();
-  PointType p1,p2;
-  p1 = p;
- 
-  for(; it!=end; it++ )
-  { 
-    p2 = (*it)->TransformPoint(p1);
-    p1 = p2;
-  }
-
-  p = p2;
+  p = m_GlobalTransform->Inverse()->TransformPoint(p);
 }
 
 /** Transform a point to the global coordinate frame */
@@ -546,17 +555,7 @@ void
 SpatialObject< NDimensions, PipelineDimension>
 ::TransformPointToGlobalCoordinate( PointType & p ) const
 {
-  typename TransformListType::reverse_iterator it = m_LocalToGlobalTransformList->rbegin();
-  typename TransformListType::reverse_iterator end = m_LocalToGlobalTransformList->rend();
-  PointType p1,p2;
-  p1 = p;
-
-  for(; it!=end; it++ )
-  { 
-    p2 = (*it)->TransformPoint(p1);
-    p1 = p2;
-  }
-  p = p2;
+  p = m_GlobalTransform->TransformPoint(p);
 }
 
 /** Get the modification time  */
@@ -664,18 +663,18 @@ SpatialObject< NDimensions, PipelineDimension>
 template< unsigned int NDimensions, unsigned int PipelineDimension >
 unsigned long
 SpatialObject< NDimensions, PipelineDimension>
-::GetLocalToGlobalTransformMTime(void)
+::GetTransformMTime(void)
 {
-  return m_LocalToGlobalTransform->GetMTime();
+  return m_Transform->GetMTime();
 }
 
 /** Return the Modified time of the GlobalToLocalTransform */
 template< unsigned int NDimensions, unsigned int PipelineDimension >
 unsigned long
 SpatialObject< NDimensions, PipelineDimension>
-::GetGlobalToLocalTransformMTime(void)
+::GetGlobalTransformMTime(void)
 {
-  return m_GlobalToLocalTransform->GetMTime();
+  return m_GlobalTransform->GetMTime();
 }
 
 } // end of namespace itk

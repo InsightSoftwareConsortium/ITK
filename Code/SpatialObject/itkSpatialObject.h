@@ -104,11 +104,23 @@ public:
   /** Get the bounding box of the object. */
   BoundingBoxType * GetBounds( void ) const; 
 
-  void SetLocalToGlobalTransform( TransformType * transform ); 
-  TransformType * GetLocalToGlobalTransform( void ); 
+  /** This is the transform applied from the origin of the parent
+   *  if the origin of the child is different from the origin of the parent
+   *  (i.e. m_Origin) then the transformation is applied from this origin
+   *  this origin is transformed by the parent's transform before applying any transformation */
+  void SetTransform( TransformType * transform ); 
+  TransformType * GetTransform( void ); 
+  const TransformType * GetTransform( void ) const; 
 
-  void SetGlobalToLocalTransform( TransformType * transform ); 
-  TransformType * GetGlobalToLocalTransform( void );
+  /** This defines the transformation from the global coordinate frame.
+   *  By setting this transform, the local transform is computed */
+  void SetGlobalTransform( TransformType * transform );
+  TransformType * GetGlobalTransform( void );
+  const TransformType * GetGlobalTransform( void ) const;
+
+  /** Set the center of the rotation */
+  itkSetMacro(CenterOfRotation,PointType);
+  itkGetMacro(CenterOfRotation,PointType);
 
   /** Returns a degree of membership to the object. 
    *  That's useful for fuzzy objects. */ 
@@ -136,19 +148,8 @@ public:
    * local coordinate system. */
   void TransformPointToGlobalCoordinate( PointType & p ) const; 
 
-  /** Build the list of local to global transforms to applied to the SpatialObject.
-   *  If init equals false, then the list will be initialized. */
-  void BuildLocalToGlobalTransformList( TransformListType & list, bool init ) const;
-
-  /** Build the list of global to local transforms applied to the SpatialObject.
-   * If init equals false, then the list will be initialized. */
-  void BuildGlobalToLocalTransformList( TransformListType & list, bool init ) const;
-
-  /** Returns the list of local to global transforms. */
-  TransformListType & GetLocalToGlobalTransformList( void );
-
-  /** Returns the list of global to local transforms. */
-  TransformListType & GetGlobalToLocalTransformList( void );
+  /** Returns the list of local to global transforms */
+  TransformListType & GetGlobalTransformList( void );
 
   /** This function has to be implemented in the deriving class. 
    *  It should provide a method to get the boundaries of 
@@ -159,24 +160,29 @@ public:
   /** Set the Spacing of the spatial object */
   void SetSpacing( const double spacing[ObjectDimension] );
 
+  /** Set the Scale of the spatial object */
+  void SetScale( const double scale[ObjectDimension] );
+
   /** Get the spacing of the spatial object */
   const double* GetSpacing() const {return m_Spacing;}
+  
+  /** Get the spacing of the spatial object */
+  const double* GetScale() const {return m_Scale;}
+
+  /** Get the spacing of the spatial object */
+  const double* GetGlobalScale() const {return m_GlobalScale;}
 
   /** Returns the latest modified time of the spatial object, and 
    * any of its components. */
   unsigned long GetMTime( void ) const;
 
-  /** Rebuild the list of transform applied to the object to switch 
-   *  from the local coordinate system, to the real world coordinate system. */
-  virtual void RebuildLocalToGlobalTransformList( void ) ;
+  /** Compute the Global transform when the local transform is set
+   *  This function should be called each time the local transform
+   *  has been modified */
+  void ComputeGlobalTransform(void);
 
-  /** Rebuild the list of transforms applied to the object to switch from the real
-   *  world coordinate systemn to the local coordinate system. */
-  virtual void RebuildGlobalToLocalTransformList( void ) ;
-
-  /** Rebuild all the transforms list. Basically, this function is performed every time
-   * an object is plugged or unplugged to a hierarchy of objects. */
-  virtual void RebuildAllTransformLists( void ) ;
+  /** Compute the Local transform when the global transform is set */
+  void ComputeTransform(void);
 
   /** Add an object to the list of children. */ 
   void AddSpatialObject( Self * pointer ); 
@@ -200,22 +206,24 @@ public:
   virtual void Clear(void);
 
   /** Return the Modified time of the LocalToGlobalTransform */
-  unsigned long GetLocalToGlobalTransformMTime(void);
+  unsigned long GetTransformMTime(void);
 
   /** Return the Modified time of the GlobalToLocalTransform */
-  unsigned long GetGlobalToLocalTransformMTime(void);
+  unsigned long GetGlobalTransformMTime(void);
 
 protected: 
-
+  
   BoundingBoxPointer  m_Bounds; 
   TimeStamp           m_BoundsMTime;
-  double              m_Spacing[ObjectDimension]; 
+  double              m_Spacing[ObjectDimension];
+  double              m_Scale[ObjectDimension];
+  double              m_GlobalScale[ObjectDimension];
+  PointType           m_CenterOfRotation;
+  TransformListType   m_GlobalTransformList;
 
-  TransformListType   m_LocalToGlobalTransformList;
-  TransformListType   m_GlobalToLocalTransformList;
-
-  TransformPointer    m_LocalToGlobalTransform; 
-  TransformPointer    m_GlobalToLocalTransform; 
+  TransformPointer    m_Transform;
+  TransformPointer    m_TransformWithCoR;
+  TransformPointer    m_GlobalTransform; 
 
   /** Constructor. */ 
   SpatialObject(); 
@@ -228,6 +236,7 @@ protected:
   /** List of the children object plug to the composite 
    *  spatial object. */
   ChildrenListType m_Children; 
+
 
 }; 
 
