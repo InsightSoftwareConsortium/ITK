@@ -14,6 +14,12 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS: {BrainProtonDensitySlice.png}
+//    OUTPUTS: {MathematicalMorphologyGrayscaleErosionOutput.png}
+//    OUTPUTS: {MathematicalMorphologyGrayscaleDilationOutput.png}
+//    150 180
+//  Software Guide : EndCommandLineArgs
 
 //  Software Guide : BeginLatex
 //
