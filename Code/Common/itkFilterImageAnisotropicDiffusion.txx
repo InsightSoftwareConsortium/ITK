@@ -28,9 +28,9 @@ FilterImageAnisotropicDiffusion<TPixel, VDimension>
 ::UpdateOutput(ImageType *ip, const TPixelScalarValueType multiplier)
 {
   // Update the scalar portion of the output only.
-  ImageRegionSimpleIterator<TPixel, VDimension>
+  ImageRegionSimpleIterator<ImageType>
     update(ip, ip->GetRequestedRegion());
-  ImageRegionSimpleIterator<TPixel, VDimension>
+  ImageRegionSimpleIterator<ImageType>
     output(this->GetOutput(), ip->GetRequestedRegion());
   
   update.Begin();
@@ -54,7 +54,7 @@ FilterImageAnisotropicDiffusion<TPixel, VDimension>
 ::CopyInputToOutput()
 {
   // Copies the entire pixel, not just the scalar part.
-  ImageRegionSimpleIterator<TPixel, VDimension>
+  ImageRegionSimpleIterator<ImageType>
     it(this->GetInput(), this->GetOutput()->GetRequestedRegion());
   TPixel *out = this->GetOutput()->GetBufferPointer();
 
