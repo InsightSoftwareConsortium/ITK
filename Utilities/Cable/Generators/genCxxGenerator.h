@@ -14,11 +14,12 @@ typedef std::string String;
 class Indent
 {
 public:
-  Indent(unsigned int indent): m_Indent(indent) {}
+  Indent(int indent): m_Indent(indent) {}
   void Print(std::ostream& os) const;
   Indent Next() const { return Indent(m_Indent+2); }
+  Indent Previous() const { return Indent(m_Indent-2); }
 private:
-  unsigned int m_Indent;
+  int m_Indent;
 };
 
 std::ostream& operator<<(std::ostream&, const Indent&);
@@ -38,13 +39,20 @@ private:
   void GeneratePackage(const configuration::Package*);  
   void GenerateIncludes(std::ostream&, std::ostream&,
                         const configuration::Headers*);  
-  void GenerateNamespace(std::ostream&, std::ostream&, const Indent&,
+  void GenerateStartingNamespace(std::ostream&, std::ostream&,
+                                 const configuration::PackageNamespace*);
+  void GenerateNamespace(std::ostream&, std::ostream&, Indent,
                          const configuration::PackageNamespace*);
   void GenerateWrapperSet(std::ostream&, const Indent&,
                           const configuration::WrapperSet*);
   void GenerateInstantiationSet(std::ostream&, const Indent&,
                                 const configuration::InstantiationSet*);
 
+  Indent OpenNamespace(std::ostream&, std::ostream&,
+                       Indent, const configuration::Namespace*) const;
+  Indent CloseNamespace(std::ostream&, std::ostream&,
+                        Indent, const configuration::Namespace*) const;
+  
   /**
    * The configuration that controls generation.
    */

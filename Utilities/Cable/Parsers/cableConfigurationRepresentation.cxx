@@ -206,12 +206,12 @@ Namespace
  * Fields in all copied namespaces will still refer to the originals,
  * except for Namespace fields.
  *
- * The argument should be given the pointer to the enclosing
- * PackageNamespace for the copy.
+ * The argument should be given the pointer to the enclosing Namespace
+ * for the copy.
  */
 SmartPointer<PackageNamespace>
 Namespace
-::MakePackageNamespace(PackageNamespace* in_enclosingNamespace) const
+::MakePackageNamespace(Namespace* in_enclosingNamespace) const
 {
   // Create the new PackageNamespace.
   PackageNamespace* pns =
@@ -597,7 +597,7 @@ Namespace
 PackageNamespace::Pointer
 PackageNamespace
 ::New(const String& in_name, const String& in_prefixSeparator,
-      PackageNamespace* in_enclosingNamespace)
+      Namespace* in_enclosingNamespace)
 {
   return new PackageNamespace(in_name, in_prefixSeparator,
                               in_enclosingNamespace);
@@ -609,7 +609,7 @@ PackageNamespace
  */
 PackageNamespace
 ::PackageNamespace(const String& in_name, const String& in_prefixSeparator,
-                   PackageNamespace* in_enclosingNamespace):
+                   Namespace* in_enclosingNamespace):
   Namespace(in_name, in_prefixSeparator, in_enclosingNamespace)
 {
 }
@@ -714,7 +714,7 @@ Package
 Package
 ::Package(const String& name, PackageNamespace* ns):
   Named(name),
-  m_GlobalNamespace(ns)
+  m_StartingNamespace(ns)
 {
 }
 

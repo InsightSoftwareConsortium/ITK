@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <CableConfiguration>  
+
   <Namespace name="itk">
 
     <Set name="Empty">
@@ -24,7 +25,7 @@
       <Element tag="long">long</Element>
       <Element tag="llong">long long</Element>
     </Set>
-
+  
     <Set name="BasicScalarType">
       <Element tag="">$signedness$scalarType</Element>
     </Set>
@@ -32,36 +33,32 @@
     <Set name="ImageType">
       <Element tag="Image"><![CDATA[Image<$BasicScalarType, $Dimension>]]></Element>
     </Set>
-  </Namespace>
 
-  <Package name="Images">
-    <Dependencies>
-      <Package name="Numerics"/>
-    </Dependencies>
-
-    <Headers>
-      <Directory name="Code/Common"/>
-      <File name="itkImage.h"/>
-      <File name="itkImage.txx" purpose="instantiate"/>
-    </Headers>
-
-    <Namespace name="itk">
+    <Package name="Images">
+      <Dependencies>
+        <Package name="Numerics"/>
+      </Dependencies>
+  
+      <Headers>
+        <Directory name="Code/Common"/>
+        <File name="itkImage.h"/>
+        <File name="itkImage.txx" purpose="instantiate"/>
+      </Headers>
+  
       <InstantiationSet>
         <Element>class $ImageType</Element>
       </InstantiationSet>
-
+  
       <WrapperSet>
         <Element tag="Directory">Directory</Element>
         <Element>$ImageType</Element>
       </WrapperSet>
-    </Namespace>
-  </Package>
+    </Package>
 
-  <Package name="Pairs">
-    <Namespace name="itk">
-    <WrapperSet>
-      <Element tag="Pair"><![CDATA[pair<$ImageType, $Dimension>]]></Element>
-    </WrapperSet>
-    </Namespace>
-  </Package>
+    <Package name="Pairs">
+      <WrapperSet>
+        <Element tag="Pair"><![CDATA[pair<$ImageType, $Dimension>]]></Element>
+      </WrapperSet>
+    </Package>
+  </Namespace>
 </CableConfiguration>

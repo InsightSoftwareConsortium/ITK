@@ -1,5 +1,6 @@
 #include "genCxxGenerator.h"
 
+#include <stack>
 #include <fstream>
 
 namespace gen
@@ -14,6 +15,9 @@ void
 Indent
 ::Print(std::ostream& os) const
 {
+  if(m_Indent <= 0)
+    { return; }
+  
   // Use blocks of 8 spaces to speed up big indents.
   unsigned int blockCount = m_Indent >> 3;
   unsigned int singleCount = m_Indent & 7;
@@ -90,9 +94,9 @@ CxxGenerator
   this->GenerateIncludes(wrapperStream, instantiationStream,
                          package->GetHeaders());
   
-  // Begin the recursive generation at the global namespace.
-  this->GenerateNamespace(wrapperStream, instantiationStream, Indent(-2),
-                          package->GetGlobalNamespace());
+  // Begin the recursive generation at the package's starting namespace.
+  this->GenerateStartingNamespace(wrapperStream, instantiationStream,
+                                  package->GetStartingNamespace());
 
   // Write the standard #endif at the end of the header file.
   wrapperStream << "#endif" << std::endl;
@@ -138,6 +142,51 @@ CxxGenerator
 
 
 /**
+ * Entry point for package's starting namespace for generation.
+ * Opens all namespaces needed to get from the global namespace to the
+ * package's starting namespace, generates the package's namespace, and
+ * then closes all namespaces.
+ */
+void
+CxxGenerator
+::GenerateStartingNamespace(std::ostream& wrapperStream,
+                            std::ostream& instantiationStream,
+                            const PackageNamespace* ns)
+{
+  // Build a stack of enclosing namespaces.
+  std::stack<Namespace*>  enclosingNamespaceStack;
+  for(Namespace* enclosingNamespace = ns->GetEnclosingNamespace();
+      enclosingNamespace && !enclosingNamespace->IsGlobalNamespace();
+      enclosingNamespace = enclosingNamespace->GetEnclosingNamespace())
+    {
+    enclosingNamespaceStack.push(enclosingNamespace);
+    }
+  
+  Indent indent(0);
+
+  // Open all enclosing namespaces.
+  while(!enclosingNamespaceStack.empty())
+    {
+    indent = this->OpenNamespace(wrapperStream, instantiationStream, indent,
+                                 enclosingNamespaceStack.top());
+    enclosingNamespaceStack.pop();
+    }
+  
+  // Generate the package's namespace.
+  this->GenerateNamespace(wrapperStream, instantiationStream, indent, ns);
+  
+  // Close all enclosing namespaces.
+  for(Namespace* enclosingNamespace = ns->GetEnclosingNamespace();
+      enclosingNamespace && !enclosingNamespace->IsGlobalNamespace();
+      enclosingNamespace = enclosingNamespace->GetEnclosingNamespace())
+    {
+    indent = this->CloseNamespace(wrapperStream, instantiationStream, indent,
+                                  enclosingNamespaceStack.top());
+    }
+}
+
+
+/**
  * Generate the C++ wrappers for this namespace and all namespaces
  * nested inside it.
  */
@@ -145,7 +194,7 @@ void
 CxxGenerator
 ::GenerateNamespace(std::ostream& wrapperStream,
                     std::ostream& instantiationStream,
-                    const Indent& indent,
+                    Indent indent,
                     const PackageNamespace* ns)
 {
   // If the namespace has nothing to wrap in it, don't print anything.
@@ -154,14 +203,8 @@ CxxGenerator
     return;
     }
   
-  // Only print namespace begin code if not global namespace.
-  if(!ns->IsGlobalNamespace())
-    {
-    wrapperStream << indent << "namespace " << ns->GetName() << std::endl
-                  << indent << "{" << std::endl;
-    instantiationStream << indent << "namespace " << ns->GetName() << std::endl
-                        << indent << "{" << std::endl;
-    }
+  indent =
+    this->OpenNamespace(wrapperStream, instantiationStream, indent, ns);
 
   for(PackageNamespace::WrapperIterator wIter = ns->BeginWrappers();
       wIter != ns->EndWrappers(); ++wIter)
@@ -171,29 +214,22 @@ CxxGenerator
       {
       this->GenerateNamespace(wrapperStream,
                               instantiationStream,
-                              indent.Next(),
+                              indent,
                               dynamic_cast<const PackageNamespace*>(wrapper));
       }
     else if(wrapper->IsWrapperSet())
       {
-      this->GenerateWrapperSet(wrapperStream, indent.Next(),
+      this->GenerateWrapperSet(wrapperStream, indent,
                                dynamic_cast<const WrapperSet*>(wrapper));
       }
     else if(wrapper->IsInstantiationSet())
       {
-      this->GenerateInstantiationSet(instantiationStream, indent.Next(),
+      this->GenerateInstantiationSet(instantiationStream, indent,
                                      dynamic_cast<const InstantiationSet*>(wrapper));
       }
     }
-  
-  // Only print namespace end code if not global namespace.  
-  if(!ns->IsGlobalNamespace())
-    {
-    wrapperStream << indent << "} // namespace " << ns->GetName()
-                  << std::endl;
-    instantiationStream << indent << "} // namespace " << ns->GetName()
-                        << std::endl;
-    }
+
+  this->CloseNamespace(wrapperStream, instantiationStream, indent, ns);
 }
 
 
@@ -236,6 +272,52 @@ CxxGenerator
                           << std::endl;
       }
     }
+}
+
+
+/**
+ * Print the namespace opening code for the given namespace.
+ * Returns the new indentation.
+ */
+Indent
+CxxGenerator
+::OpenNamespace(std::ostream& wrapperStream,
+                std::ostream& instantiationStream,
+                Indent indent, const Namespace* ns) const
+{
+  if(!ns->IsGlobalNamespace())
+    {
+    wrapperStream
+      << indent << "namespace " << ns->GetName() << std::endl
+      << indent << "{" << std::endl;
+    instantiationStream
+      << indent << "namespace " << ns->GetName() << std::endl
+      << indent << "{" << std::endl;
+    indent = indent.Next();
+    }
+  return indent;
+}
+
+
+/**
+ * Print the namespace closing code for the given namespace.
+ * Returns the new indentation.
+ */
+Indent
+CxxGenerator
+::CloseNamespace(std::ostream& wrapperStream,
+                 std::ostream& instantiationStream,
+                 Indent indent, const Namespace* ns) const
+{
+  if(!ns->IsGlobalNamespace())
+    {
+    indent = indent.Previous();
+    wrapperStream
+      << indent << "} // namespace " << ns->GetName() << std::endl;
+    instantiationStream
+      << indent << "} // namespace " << ns->GetName() << std::endl;
+    }
+  return indent;
 }
 
 

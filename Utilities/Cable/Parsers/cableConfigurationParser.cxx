@@ -315,6 +315,27 @@ private:
 
 
 /**
+ * An unexpected namespace type is on top of the namespace stack.
+ */
+class NamespaceStackTypeException: public ParseException
+{
+public:
+  NamespaceStackTypeException(const char* e, const char* t):
+    ParseException(), m_Expected(e), m_Got(t) {}
+  virtual ~NamespaceStackTypeException() {}
+  void Print(std::ostream& os) const
+    {
+      os << "Expected \"" << m_Expected.c_str()
+         << "\" as current namespace scope, but got \"" << m_Got << "\""
+         << std::endl;
+    }
+private:
+  String m_Expected;
+  String m_Got;
+};
+
+
+/**
  * Get the current Package off the top of the element stack.
  */
 Package::Pointer
@@ -341,37 +362,6 @@ Parser
                                     m_ElementStack.top()->GetClassName());
 
   return dynamic_cast<Dependencies*>(m_ElementStack.top().RealPointer());
-}
-
-
-/**
- * Get the current Namespace off the top of the element stack.
- */
-Namespace::Pointer
-Parser
-::CurrentNamespace() const
-{
-  if(!m_ElementStack.top()->IsNamespace()
-     && !m_ElementStack.top()->IsPackageNamespace())
-    throw ElementStackTypeException("Namespace",
-                                    m_ElementStack.top()->GetClassName());
-
-  return dynamic_cast<Namespace*>(m_ElementStack.top().RealPointer());
-}
-
-
-/**
- * Get the current PackageNamespace off the top of the element stack.
- */
-PackageNamespace::Pointer
-Parser
-::CurrentPackageNamespace() const
-{
-  if(!m_ElementStack.top()->IsPackageNamespace())
-    throw ElementStackTypeException("PackageNamespace",
-                                    m_ElementStack.top()->GetClassName());
-
-  return dynamic_cast<PackageNamespace*>(m_ElementStack.top().RealPointer());
 }
 
 
@@ -438,48 +428,6 @@ Parser
 
 
 /**
- * Get the current Namespace scope.  This is either the CurrentNamespace()
- * or the GlobalNamespace().
- */
-Namespace::Pointer
-Parser
-::CurrentNamespaceScope() const
-{
-  if(this->TopParseElement()->IsCableConfiguration())
-    {
-    return this->GlobalNamespace();
-    }
-  else if(this->TopParseElement()->IsPackage())
-    {
-    return this->CurrentPackage()->GetGlobalNamespace().RealPointer();
-    }
-  else
-    {
-    return this->CurrentNamespace();
-    }
-}
-
-
-/**
- * Get the current PackageNamespace scope.  This is only valid inside a
- * Package element.
- */
-PackageNamespace::Pointer
-Parser
-::CurrentPackageNamespaceScope() const
-{
-  if(this->TopParseElement()->IsPackage())
-    {
-    return this->CurrentPackage()->GetGlobalNamespace();
-    }
-  else
-    {
-    return this->CurrentPackageNamespace();
-    }
-}
-
-
-/**
  * Push a new element onto the element stack.
  */
 void
@@ -535,14 +483,37 @@ Parser
 }
 
 
+
 /**
- * Get the top of the Namespace stack.
+ * Get the current Namespace scope.  This is the top of the Namespace
+ * stack.
  */
 Namespace::Pointer
 Parser
-::MostNestedNamespace() const
+::CurrentNamespaceScope() const
 {
   return m_NamespaceStack.top();
+}
+
+
+/**
+ * Get the current PackageNamespace scope.  This is only valid inside a
+ * Package element.
+ */
+PackageNamespace::Pointer
+Parser
+::CurrentPackageNamespaceScope() const
+{
+  Namespace* currentNamespaceScope = this->CurrentNamespaceScope();
+  if(currentNamespaceScope->IsPackageNamespace())
+    {
+    return dynamic_cast<PackageNamespace*>(currentNamespaceScope);
+    }
+  else
+    {
+    throw NamespaceStackTypeException("PackageNamespace",
+                                      currentNamespaceScope->GetClassName());
+    }
 }
 
 
@@ -586,9 +557,10 @@ Parser
     {
     // This is a new package definition.
     
-    // Create a copy of the global namespace for the package.
+    // Create a copy of the current namespace for the package.
     PackageNamespace::Pointer nps =
-      this->GlobalNamespace()->MakePackageNamespace(NULL);
+      this->CurrentNamespaceScope()->MakePackageNamespace(
+        this->CurrentNamespaceScope()->GetEnclosingNamespace());
     
     // Create the package.
     Package::Pointer newPackage = Package::New(name, nps);
@@ -786,7 +758,7 @@ Parser
   String name = atts.Get("name");
   
   // See if the namespace exists.
-  Namespace::Pointer ns = this->MostNestedNamespace()->LookupNamespace(name);
+  Namespace::Pointer ns = this->CurrentNamespaceScope()->LookupNamespace(name);
   
   if(!ns)
     {
@@ -824,9 +796,6 @@ Parser
       }
     }  
   
-  // Put new Namespace on the element stack.
-  this->PushElement(ns);
-
   // Open the namespace with the given name.
   this->PushNamespace(ns);
 }
@@ -841,9 +810,6 @@ Parser
 {
   // Close the namespace scope.
   this->PopNamespace();
-  
-  // Take the Namespace off the element stack.
-  this->PopElement();
 }
 
 
@@ -1502,7 +1468,7 @@ Parser
 {
   // Create an object to handle the generation.
   ElementCombinationGenerator
-    combinationGenerator(in_element, this->MostNestedNamespace());
+    combinationGenerator(in_element, this->CurrentNamespaceScope());
   
   // Generate the combinations.
   combinationGenerator.Generate(out_set);

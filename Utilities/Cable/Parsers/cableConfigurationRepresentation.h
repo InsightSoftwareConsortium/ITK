@@ -346,7 +346,7 @@ public:
   
   static Pointer New(const String&, const String&, Namespace*);
   
-  SmartPointer<PackageNamespace> MakePackageNamespace(PackageNamespace*) const;
+  SmartPointer<PackageNamespace> MakePackageNamespace(Namespace*) const;
   
   bool AddField(Named*);
   
@@ -361,6 +361,7 @@ public:
   Namespace* LookupNamespace(const String&) const;
   
   bool IsGlobalNamespace() const { return (m_EnclosingNamespace == NULL); }
+  Namespace* GetEnclosingNamespace() const { return m_EnclosingNamespace; }
   
   String GetQualifierString(const String&) const;
 
@@ -424,7 +425,7 @@ public:
   virtual const char* GetClassName() const { return "PackageNamespace"; }
   virtual TypeOfObject GetTypeOfObject() const { return PackageNamespace_id; }
   
-  static Pointer New(const String&, const String&, PackageNamespace*);
+  static Pointer New(const String&, const String&, Namespace*);
   
   void AddWrapperSet(WrapperSet*);
   void AddInstantiationSet(InstantiationSet*);
@@ -438,7 +439,7 @@ public:
   WrapperIterator EndWrappers() const { return m_Wrappers.end(); }
 
 protected:
-  PackageNamespace(const String&, const String&, PackageNamespace*);
+  PackageNamespace(const String&, const String&, Namespace*);
   PackageNamespace(const Self&): Namespace("","",NULL) {}
   void operator=(const Self&) {}
   virtual ~PackageNamespace() {}
@@ -478,8 +479,8 @@ public:
   Headers::Pointer GetHeaders() const
     { return m_Headers; }  
   
-  PackageNamespace::Pointer GetGlobalNamespace() const
-    { return m_GlobalNamespace; }  
+  PackageNamespace::Pointer GetStartingNamespace() const
+    { return m_StartingNamespace; }  
   
 protected:
   Package(const String&, PackageNamespace*);
@@ -499,10 +500,10 @@ private:
   Headers::Pointer m_Headers;
 
   /**
-   * The global namespace defined in the package.  This is a copy of
-   * the real global namespace made when the package is opened.
+   * The starting namespace in which the package is defined.  This is
+   * a copy of the real namespace made when the package is opened.
    */
-  PackageNamespace::Pointer m_GlobalNamespace;  
+  PackageNamespace::Pointer m_StartingNamespace;  
 };
 
 

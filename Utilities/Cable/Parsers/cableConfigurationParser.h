@@ -75,14 +75,10 @@ private:
   ConfigureObject::Pointer  TopParseElement() const;
   Package::Pointer          CurrentPackage() const;
   Dependencies::Pointer     CurrentDependencies() const;
-  Namespace::Pointer        CurrentNamespace() const;
-  PackageNamespace::Pointer CurrentPackageNamespace() const;
   CodeBlock::Pointer        CurrentCodeBlock() const;
   Set::Pointer              CurrentSet() const;
   Element::Pointer          CurrentElement() const;
   Headers::Pointer          CurrentHeaders() const;
-  Namespace::Pointer        CurrentNamespaceScope() const;
-  PackageNamespace::Pointer CurrentPackageNamespaceScope() const;
 
   // Element stack utilities.
   void PushElement(ConfigureObject*);
@@ -91,7 +87,8 @@ private:
   // Namespace stack utilities.
   void PushNamespace(Namespace*);
   void PopNamespace();
-  Namespace::Pointer MostNestedNamespace() const;
+  Namespace::Pointer        CurrentNamespaceScope() const;
+  PackageNamespace::Pointer CurrentPackageNamespaceScope() const;
 
   // The element begin handlers.
   void begin_CableConfiguration(const Attributes&);
