@@ -38,7 +38,7 @@ void testvnl_matrix_fixed()
 #ifndef WIN32
   vnl_test_assert("mallocs", malloc_count <= 1);
 #endif
-  
+
   vcl_cout << "Now watch them mallocs\n";
   vnl_matrix<double>& CX = X;
   vnl_vector<double>& cv = v;
@@ -57,13 +57,18 @@ void* operator new(size_t s)
   void *r = malloc(s);
   
   ++malloc_count;
-  
-  if (verbose_malloc) 
+
+  if (verbose_malloc)
+    {
+    verbose_malloc = false;
     vcl_cout << "malloc: " << r << " for " << s << vcl_endl;
+    verbose_malloc = true;
+    }
  
   return r;
 }
- 
+
+
 void operator delete(void* s)
 #if defined(GNU_LIBSTDCXX_V3) || defined(VCL_SUNPRO_CC_50)
   throw ()
