@@ -44,17 +44,31 @@ DICOMParser::DICOMParser() : ParserOutputFile()
   this->ToggleByteSwapImageData = false;
   this->TransferSyntaxCB = new DICOMMemberCallback<DICOMParser>;
   this->InitTypeMap();
+  this->FileName = "";
 }
 
-bool DICOMParser::OpenFile(const char* filename)
+const std::string&
+DICOMParser::GetFileName()
+{
+  return this->FileName;
+}
+
+bool DICOMParser::OpenFile(const std::string& filename)
 {
   if (this->DataFile)
     {
+    // Deleting the DataFile closes the file
     delete this->DataFile;
     }
   this->DataFile = new DICOMFile();
   bool val = this->DataFile->Open(filename);
 
+  if (val)
+    {
+    this->FileName = filename;
+    }
+
+  
 #ifdef DEBUG_DICOM
   if (this->ParserOutputFile.is_open())
     {
@@ -99,11 +113,6 @@ bool DICOMParser::ReadHeader() {
     return false;
     }
 
-  // DICOMMemberCallback<DICOMParser>* cb4 = new DICOMMemberCallback<DICOMParser>;
-  // cb4->SetCallbackFunction(this, &DICOMParser::TransferSyntaxCallback);
-  // this->AddDICOMTagCallback(0x0002, 0x0010, DICOMParser::VR_UI, cb4);
-
-  // DICOMMemberCallback<DICOMParser>* cb4 = new DICOMMemberCallback<DICOMParser>;
   this->TransferSyntaxCB->SetCallbackFunction(this, &DICOMParser::TransferSyntaxCallback);
   this->AddDICOMTagCallback(0x0002, 0x0010, DICOMParser::VR_UI, this->TransferSyntaxCB);
 
@@ -387,7 +396,8 @@ void DICOMParser::ReadNextRecord(doublebyte& group, doublebyte& element, DICOMPa
          iter != cbVector->end();
          iter++)
       {
-      (*iter)->Execute(ge.first,  // group
+      (*iter)->Execute(this,      // parser
+                       ge.first,  // group
                        ge.second,  // element
                        callbackType,  // type
                        tempdata, // data
@@ -638,11 +648,12 @@ bool DICOMParser::ParseImplicitRecord(doublebyte group, doublebyte element,
 
 
 
-void DICOMParser::TransferSyntaxCallback(doublebyte,
-                                            doublebyte,
-                                            DICOMParser::VRTypes,
-                                            unsigned char* val,
-                                            quadbyte) 
+void DICOMParser::TransferSyntaxCallback(DICOMParser *parser,
+                                         doublebyte,
+                                         doublebyte,
+                                         DICOMParser::VRTypes,
+                                         unsigned char* val,
+                                         quadbyte) 
 
 {
 #ifdef DEBUG_DICOM

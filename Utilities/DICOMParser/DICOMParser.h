@@ -44,8 +44,13 @@ class DICOMParser
   //
   // Opens a file and initializes the parser.
   //
-  bool OpenFile(const char* filename);
+  bool OpenFile(const std::string& filename);
 
+  //
+  // Return the name of the file last processed.
+  //
+  const std::string& GetFileName();
+  
   //
   // This method kicks off the parser.
   // OpenFile needs to be called first.
@@ -125,11 +130,12 @@ class DICOMParser
   void ClearAllDICOMTagCallbacks();
 
 
-  void TransferSyntaxCallback(doublebyte,
-                                            doublebyte,
-                                            DICOMParser::VRTypes,
-                                            unsigned char* val,
-                                            quadbyte) ;
+  void TransferSyntaxCallback(DICOMParser *parser,
+                              doublebyte,
+                              doublebyte,
+                              DICOMParser::VRTypes,
+                              unsigned char* val,
+                              quadbyte) ;
 
   void GetGroupsElementsDatatypes(std::vector<doublebyte>& groups,
                                   std::vector<doublebyte>& elements,
@@ -208,7 +214,8 @@ class DICOMParser
   // Pointer to the DICOMFile we're parsing.
   //
   DICOMFile* DataFile;
-
+  std::string FileName;
+  
   bool ToggleByteSwapImageData;
 
   std::vector<doublebyte> Groups;
