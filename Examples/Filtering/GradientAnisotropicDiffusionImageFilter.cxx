@@ -62,11 +62,11 @@ int main( int argc, char ** argv )
 {
 
 
-  if( argc < 5 ) 
+  if( argc < 6 ) 
     { 
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile  outputImageFile ";
-    std::cerr << "numberOfIterations  timeStep  " << std::endl;
+    std::cerr << "numberOfIterations  timeStep  conductance" << std::endl;
     return 1;
     }
 
@@ -135,18 +135,21 @@ int main( int argc, char ** argv )
 
   const double       timeStep = atof( argv[4] );
 
+  const double       conductance = atof( argv[5] );
 
 
   //  Software Guide : BeginLatex
   //
-  //  This filter requires two parameters, the number of iterations to be
-  //  performed and the time step used in the computation of the level set
-  //  evolution. These parameters are set using the methods
-  //  \code{SetIterations()} and \code{SetTimeStep()} respectively.  The filter
-  //  can be executed by invoking \code{Update()}.
+  //  This filter requires three parameters, the number of iterations to be
+  //  performed, the time step and the conductance parameter used in the
+  //  computation of the level set evolution. These parameters are set using
+  //  the methods \code{SetIterations()}, \code{SetTimeStep()} and
+  //  \code{SetConductanceParameter()} respectively.  The filter can be
+  //  executed by invoking \code{Update()}.
   //
   //  \index{itk::GradientAnisotropicDiffusionImageFilter!Update()}
   //  \index{itk::GradientAnisotropicDiffusionImageFilter!SetTimeStep()}
+  //  \index{itk::GradientAnisotropicDiffusionImageFilter!SetConductanceParameter()}
   //  \index{itk::GradientAnisotropicDiffusionImageFilter!SetIterations()}
   //  \index{SetTimeStep()!itk::GradientAnisotropicDiffusionImageFilter}
   //  \index{SetIterations()!itk::GradientAnisotropicDiffusionImageFilter}
@@ -156,6 +159,7 @@ int main( int argc, char ** argv )
   // Software Guide : BeginCodeSnippet
   filter->SetIterations( numberOfIterations );
   filter->SetTimeStep( timeStep );
+  filter->SetConductanceParameter( conductance );
   
   filter->Update();
   // Software Guide : EndCodeSnippet
