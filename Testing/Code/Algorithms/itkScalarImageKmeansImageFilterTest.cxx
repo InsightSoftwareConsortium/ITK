@@ -68,7 +68,7 @@ int itkScalarImageKmeansImageFilterTest(int argc, char* argv [] )
   const unsigned int numberOfInitialClasses = atoi( argv[4] );
 
   const unsigned int numberOfArgumentsBeforeMeans = 5;
-  if( argc < numberOfInitialClasses + numberOfArgumentsBeforeMeans )
+  if( static_cast<unsigned int>(argc) < numberOfInitialClasses + numberOfArgumentsBeforeMeans )
     {
     std::cerr << "Error: " << std::endl;
     std::cerr << numberOfInitialClasses << " classes has been specified ";
