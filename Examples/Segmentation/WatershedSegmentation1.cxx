@@ -145,7 +145,7 @@ int main( int argc, char *argv[] )
   //
   // The ITK gradient magnitude filter for vector-valued images can optionally
   // take several parameters.  Here we allow only enabling or disabling 
-  // of principle component analysis.
+  // of principal component analysis.
   //
   // Software Guide : EndLatex
 
@@ -236,9 +236,9 @@ int main( int argc, char *argv[] )
 // \itkcaption[Watershed segmentation output]{Segmented section of Visible Human
 // female head and neck cryosection data.  At left is the original image.  The
 // image in the middle was generated with parameters: conductance = 2.0,
-// iterations = 10, threshold = 0.0, level = 0.05, principle components = on.
+// iterations = 10, threshold = 0.0, level = 0.05, principal components = on.
 // The image on the right was generated with parameters: conductance = 2.0,
-// iterations = 10, threshold = 0.001, level = 0.15, principle components =
+// iterations = 10, threshold = 0.001, level = 0.15, principal components =
 // off. } \label{fig:outputWatersheds} \end{figure}
 //
 //
