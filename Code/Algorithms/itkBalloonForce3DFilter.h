@@ -3,12 +3,8 @@
   Program:   Insight Segmentation & Registration Toolkit
   Module:    itkBalloonForce3DFilter.h
   Language:  C++
-<<<<<<< itkBalloonForce3DFilter.h
-  Date:      $Date$
-=======
   Date:      $Date$
   Version:   $Revision$
->>>>>>> 1.12
 
 Copyright (c) 2001 Insight Consortium
 All rights reserved.
@@ -149,7 +145,7 @@ public:
   typedef typename InputMeshType::CellTraits        CellTraits;
   typedef typename InputMeshType::PointType         InputPointType;
   typedef typename InputMeshType::PixelType         PixelType;
-  typedef itk::TriangleCell<PixelType, CellTraits>  TriCell;
+  typedef TriangleCell<PixelType, CellTraits>  TriCell;
 
   /** image and image iterator definition */
   typedef CovariantVector<PixelType, 3>        GradientType;
@@ -163,8 +159,8 @@ public:
   typedef typename GradientImageType::Pointer       GradientImagePointer;
 
   /** Two typedef for vectors.*/
-  typedef itk::Vector<float, 3>     FloatVector;
-  typedef itk::Vector<int, 3>       IntVector;
+  typedef Vector<float, 3>     FloatVector;
+  typedef Vector<int, 3>       IntVector;
 
   /* Mesh pointer definition */
   typedef typename InputMeshType::Pointer   InputMeshPointer;

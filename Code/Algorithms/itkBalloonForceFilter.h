@@ -117,19 +117,19 @@ public:
       OutputPointsContainerIterator;
 
   /** Image types. */
-  typedef itk::Image<unsigned short, 3>  ImageType;
+  typedef Image<unsigned short, 3>  ImageType;
   typedef typename InputMeshType::Pointer  InputMeshPointer;
   typedef typename OutputMeshType::Pointer  OutputMeshPointer;
   typedef typename ImageType::Pointer   ImagePointer;
   typedef typename ImageType::IndexType   IndexType;
-  typedef itk::SimpleImageRegionIterator<ImageType> ImageIterator;
-  typedef itk::Vector<float, 3>       FloatVector;
-  typedef itk::Vector<int, 3>       IntVector;
+  typedef SimpleImageRegionIterator<ImageType> ImageIterator;
+  typedef Vector<float, 3>       FloatVector;
+  typedef Vector<int, 3>       IntVector;
 
   /** Cell related types. */
   typedef typename InputMeshType::Cell      Cell;
   typedef typename InputMeshType::CellTraits  CellTraits;
-  typedef itk::TriangleCell<float, CellTraits>  TriCell;
+  typedef TriangleCell<float, CellTraits>  TriCell;
   typedef typename InputMeshType::PointType   IPT;
   typedef typename InputMeshType::PixelType   PT;
 
