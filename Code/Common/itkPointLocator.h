@@ -103,7 +103,7 @@ public:
    * Specify the average number of points in each bucket.
    */
   itkSetClampMacro(NumberOfPointsPerBucket,
-                   unsigned long,1,ITK_NUMERIC_LIMITS<unsigned long>::max());
+                   unsigned long,1,NumericTraits<unsigned long>::max());
   itkGetMacro(NumberOfPointsPerBucket,unsigned long);
 
   /**

@@ -454,7 +454,7 @@ Mesh<TPixelType,TMeshType>
 template <typename TPixelType, typename TMeshType>
 bool
 Mesh<TPixelType,TMeshType>
-::GetCell(CellIdentifier cellId, Cell::Pointer* cell) const
+::GetCell(CellIdentifier cellId, CellPointer* cell) const
 {
   /**
    * If the cells container doesn't exist, then the cell doesn't exist.
@@ -555,7 +555,7 @@ template <typename TPixelType, typename TMeshType>
 bool
 Mesh<TPixelType,TMeshType>
 ::GetBoundary(int dimension, BoundaryIdentifier boundaryId,
-              Boundary::Pointer* boundary) const
+              BoundaryPointer* boundary) const
 {
   /**
    * If the boundaries container doesn't exist, then the boundary
@@ -717,7 +717,7 @@ Mesh<TPixelType,TMeshType>
  * on the cell with the given identifier.
  */
 template <typename TPixelType, typename TMeshType>
-Mesh<TPixelType,TMeshType>::CellFeatureCount
+Mesh<TPixelType,TMeshType>::CellFeatureCount 
 Mesh<TPixelType,TMeshType>
 ::GetNumberOfCellBoundaryFeatures(int dimension, CellIdentifier cellId) const
 {
@@ -844,7 +844,7 @@ Mesh<TPixelType,TMeshType>
  * corresponding to the given feature identifier.
  */
 template <typename TPixelType, typename TMeshType>
-Mesh<TPixelType,TMeshType>::Boundary::Pointer
+Mesh<TPixelType,TMeshType>::BoundaryPointer
 Mesh<TPixelType,TMeshType>
 ::GetCellBoundaryFeature(int dimension, CellIdentifier cellId,
                          CellFeatureIdentifier featureId) const
@@ -870,7 +870,7 @@ Mesh<TPixelType,TMeshType>
   /**
    * The cell did not exist, so just give up.
    */
-  return Cell::Pointer(NULL);
+  return CellPointer(NULL);
 }
 
 
@@ -907,7 +907,7 @@ Mesh<TPixelType,TMeshType>
   /**
    * First check if the boundary has been explicitly assigned.
    */
-  Boundary::Pointer boundary;
+  BoundaryPointer boundary;
   if(this->GetAssignedCellBoundaryIfOneExists(
     dimension, cellId, featureId, &boundary))
     {
@@ -1047,7 +1047,7 @@ bool
 Mesh<TPixelType,TMeshType>
 ::GetAssignedCellBoundaryIfOneExists(int dimension, CellIdentifier cellId,
                                      CellFeatureIdentifier featureId,
-                                     Boundary::Pointer* boundary) const
+                                     BoundaryPointer* boundary) const
 {
   if((m_BoundaryAssignmentsContainers[dimension] != NULL) &&
      (m_BoundariesContainers[dimension] != NULL))
@@ -1076,7 +1076,7 @@ Mesh<TPixelType,TMeshType>
 template <typename TPixelType, typename TMeshType>
 void
 Mesh<TPixelType,TMeshType>
-::Accept(Cell::MultiVisitor* mv)
+::Accept(CellMultiVisitor* mv)
 {
   if(!m_CellsContainer)
     {

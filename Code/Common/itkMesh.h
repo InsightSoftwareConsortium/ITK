@@ -101,8 +101,8 @@ public:
    */
   typedef TMeshType   MeshType;
   typedef typename MeshType::PixelType                PixelType;  
-  enum { PointDimension = MeshType::PointDimension };
-  enum { MaxTopologicalDimension = MeshType::MaxTopologicalDimension };
+  enum {PointDimension = MeshType::PointDimension};
+  enum {MaxTopologicalDimension = MeshType::MaxTopologicalDimension};
   typedef typename MeshType::CoordRep                 CoordRep;  
   typedef typename MeshType::InterpolationWeight      InterpolationWeight;
   typedef typename MeshType::PointIdentifier          PointIdentifier;
@@ -135,8 +135,8 @@ public:
   typedef typename BoundariesContainer::Pointer    BoundariesContainerPointer;
   typedef typename
           BoundaryDataContainer::Pointer  BoundaryDataContainerPointer;  
-  typedef PointLocatorType::Pointer  PointLocatorPointer;
-  typedef BoundingBoxType::Pointer   BoundingBoxPointer;
+  typedef typename PointLocatorType::Pointer  PointLocatorPointer;
+  typedef typename BoundingBoxType::Pointer   BoundingBoxPointer;
 
   /** \typedef
    * Create types that are iterators for each of the container types.
@@ -170,13 +170,20 @@ public:
   /**
    * The base cell type for cells in this mesh.
    */
-  typedef CellInterface< PixelType , CellType >  Cell;
+  typedef CellInterface<PixelType,CellType>  Cell;
+  typedef typename CellInterface<PixelType,CellType>::Pointer  CellPointer;
 
   /**
    * It happens that boundaries are also cells.
    */
-  typedef Cell                                   Boundary;
+  typedef Cell Boundary;
+  typedef CellPointer BoundaryPointer;
   
+  /**
+   * Visiting cells
+   */
+  typedef typename Cell::MultiVisitor CellMultiVisitor;
+
 protected:
   /**
    * An explicit cell boundary assignment can be accessed through the cell
@@ -292,7 +299,7 @@ protected:
 
   typedef MapContainer< BoundaryAssignmentIdentifier , BoundaryIdentifier >
         BoundaryAssignmentsContainer;
-  typedef BoundaryAssignmentsContainer::Pointer
+  typedef typename BoundaryAssignmentsContainer::Pointer
         BoundaryAssignmentsContainerPointer;
   /**
    * A vector of objects containing explicit cell boundary assignments.
@@ -381,7 +388,7 @@ public:
    * from it.
    */
   void SetCell(CellIdentifier, Cell*);
-  bool GetCell(CellIdentifier, Cell::Pointer*) const;
+  bool GetCell(CellIdentifier, CellPointer*) const;
 
   /**
    * Access routines to fill the CellData container, and get information
@@ -395,7 +402,7 @@ public:
    * from it.
    */
   void SetBoundary(int dimension, BoundaryIdentifier, Boundary*);
-  bool GetBoundary(int dimension, BoundaryIdentifier, Boundary::Pointer*)
+  bool GetBoundary(int dimension, BoundaryIdentifier, BoundaryPointer*)
     const;
   
   /**
@@ -423,7 +430,7 @@ public:
    */
   CellFeatureCount GetNumberOfCellBoundaryFeatures(int dimension,
                                                    CellIdentifier) const;
-  Boundary::Pointer GetCellBoundaryFeature(int dimension, CellIdentifier,
+  BoundaryPointer GetCellBoundaryFeature(int dimension, CellIdentifier,
                                            CellFeatureIdentifier) const;
   unsigned long GetCellBoundaryFeatureNeighbors(
     int dimension, CellIdentifier, CellFeatureIdentifier,
@@ -431,7 +438,7 @@ public:
   
   bool GetAssignedCellBoundaryIfOneExists(int dimension, CellIdentifier,
                                           CellFeatureIdentifier,
-                                          Boundary::Pointer*) const;
+                                          BoundaryPointer*) const;
   void BuildCellLinks(void);
   
   /**
@@ -460,7 +467,7 @@ public:
    *  each cell Accept the MultiVisitor. See MultiVisitor for more 
    *  information.  (Note, this follows the Visitor Design Pattern.)
    */
-  void Accept(Cell::MultiVisitor* mv);
+  void Accept(CellMultiVisitor* mv);
 
 protected:
   /**

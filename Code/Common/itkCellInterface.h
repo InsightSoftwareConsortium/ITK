@@ -129,7 +129,6 @@ public:
         LAST_ITK_CELL, MAX_ITK_CELLS=255};
   static int GetNextUserCellId(); // never return > MAX_INTERFACE
 
- 
   /* 
    * A visitor that can visit different cell types in a mesh.
    * CellInterfaceVisitor instances can be registered for each
@@ -164,11 +163,16 @@ public:
      */
     itkTypeMacro(MultiVisitor,LightObject);
   
+    /**
+     * Typedefs for the visitor class.
+     */
+    typedef typename Visitor::Pointer VisitorPointer;
+
     /* 
      * Get the Visitor for the given id
      */
   public:
-    Visitor::Pointer GetVisitor(int id)
+    VisitorPointer GetVisitor(int id)
       {
         if(id <= LAST_ITK_CELL)
 	  {
@@ -193,7 +197,7 @@ public:
 	  }
 	else
 	  {
-	  m_UserDefined.insert(std::map<int, Visitor::Pointer>::value_type(id,
+	  m_UserDefined.insert(std::map<int, VisitorPointer>::value_type(id,
 								   v));
 	  }
       }
@@ -201,9 +205,10 @@ public:
       {
       }
   protected:
-    Visitor::Pointer m_Visitors[LAST_ITK_CELL]; // fixed array set to the size from the enum
-    std::map<int, Visitor::Pointer> m_UserDefined; // user defined cell types go here
+    VisitorPointer m_Visitors[LAST_ITK_CELL]; // fixed array set to the size from the enum
+    std::map<int,VisitorPointer> m_UserDefined; // user defined cell types go here
   };
+
   /**
    * This must be implemented by all sub-classes of CellInterface
    */

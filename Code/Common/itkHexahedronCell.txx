@@ -22,11 +22,11 @@ namespace itk
  * Standard CellInterface:
  */
 template <typename TPixelType, typename TCelltype>
-HexahedronCell< TPixelType , TCelltype >::Cell::Pointer
+HexahedronCell< TPixelType , TCelltype >::CellPointer
 HexahedronCell< TPixelType , TCelltype >
 ::MakeCopy(void)
 {
-  Cell::Pointer newCell(Self::New());
+  CellPointer newCell(Self::New());
   newCell->SetPointIds(this->GetPointIds());
   return newCell;
 }
@@ -80,16 +80,16 @@ HexahedronCell< TPixelType , TCelltype >
  * The Id can range from 0 to GetNumberOfBoundaryFeatures(dimension)-1.
  */
 template <typename TPixelType, typename TCelltype>
-HexahedronCell< TPixelType , TCelltype >::Cell::Pointer
+HexahedronCell< TPixelType , TCelltype >::CellPointer
 HexahedronCell< TPixelType , TCelltype >
 ::GetBoundaryFeature(int dimension, CellFeatureIdentifier featureId)
 {
   switch (dimension)
     {
-    case 0: return Cell::Pointer(GetVertex(featureId));
-    case 1: return Cell::Pointer(GetEdge(featureId));
-    case 2: return Cell::Pointer(GetFace(featureId));
-    default: return Cell::Pointer(NULL);
+    case 0: return CellPointer(GetVertex(featureId));
+    case 1: return CellPointer(GetEdge(featureId));
+    case 2: return CellPointer(GetFace(featureId));
+    default: return CellPointer(NULL);
     }
 }
 
@@ -236,7 +236,7 @@ HexahedronCell< TPixelType , TCelltype >
  * The Id can range from 0 to GetNumberOfVertices()-1.
  */
 template <typename TPixelType, typename TCelltype>
-HexahedronCell< TPixelType , TCelltype >::Vertex::Pointer
+HexahedronCell< TPixelType , TCelltype >::VertexPointer
 HexahedronCell< TPixelType , TCelltype >
 ::GetVertex(CellFeatureIdentifier vertexId)
 {
@@ -253,7 +253,7 @@ HexahedronCell< TPixelType , TCelltype >
  * The Id can range from 0 to GetNumberOfEdges()-1.
  */
 template <typename TPixelType, typename TCelltype>
-HexahedronCell< TPixelType , TCelltype >::Edge::Pointer
+HexahedronCell< TPixelType , TCelltype >::EdgePointer
 HexahedronCell< TPixelType , TCelltype >
 ::GetEdge(CellFeatureIdentifier edgeId)
 {
@@ -273,7 +273,7 @@ HexahedronCell< TPixelType , TCelltype >
  * The Id can range from 0 to GetNumberOfFaces()-1.
  */
 template <typename TPixelType, typename TCelltype>
-HexahedronCell< TPixelType , TCelltype >::Face::Pointer
+HexahedronCell< TPixelType , TCelltype >::FacePointer
 HexahedronCell< TPixelType , TCelltype >
 ::GetFace(CellFeatureIdentifier faceId)
 {
