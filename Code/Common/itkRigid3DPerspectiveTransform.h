@@ -87,6 +87,7 @@ public:
     { 
       InputSpaceDimension      = 3,
       OutputSpaceDimension     = 2
+      ParametersDimension      = NDimensions * (NDimensions+1) };
     };
 
 

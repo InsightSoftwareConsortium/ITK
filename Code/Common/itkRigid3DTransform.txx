@@ -53,10 +53,8 @@ Rigid3DTransform<TScalarType>::
 Rigid3DTransform()
 {
   m_Offset.Fill( 0 );
-  m_Rotation = VnlQuaternionType(0,0,0,1); // axis * sin(t/2), cos(t/2)
-  m_DirectMatrix = m_Rotation.rotation_matrix();
-  m_InverseMatrix = m_DirectMatrix.GetTranspose();
-  m_CenterOfRotation = NULL;
+  m_DirectMatrix.SetIdentity();
+  m_InverseMatrix.SetIdentity();
 }
  
     
@@ -65,11 +63,9 @@ template <class TScalarType>
 Rigid3DTransform<TScalarType>
 ::Rigid3DTransform( const Self & other )
 {
-  m_Offset    = other.m_Offset;
-  m_Rotation  = other.m_Rotation;
-  m_DirectMatrix    = m_Rotation.rotation_matrix();
-  m_InverseMatrix = m_DirectMatrix.GetTranspose();
-  m_CenterOfRotation = other.m_CenterOfRotation;
+  m_Offset        = other.m_Offset;
+  m_DirectMatrix  = other.m_DirectMatrix;
+  m_InverseMatrix = other.m_InverseMatrix;
 }
 
 // Destructor
@@ -86,33 +82,13 @@ const Rigid3DTransform<TScalarType> &
 Rigid3DTransform<TScalarType>
 ::operator=( const Self & other )
 {
-  m_Offset    = other.m_Offset;
-  m_Rotation  = other.m_Rotation;
-  m_DirectMatrix    = m_Rotation.rotation_matrix();
-  m_InverseMatrix = m_DirectMatrix.GetTranspose();
-  m_CenterOfRotation = other.m_CenterOfRotation;
+  m_Offset        = other.m_Offset;
+  m_DirectMatrix  = other.m_DirectMatrix;
+  m_InverseMatrix = other.m_InverseMatrix;
   return *this;
 }
 
-// Set Center of Rotation
-template<class TScalarType>
-void
-Rigid3DTransform<TScalarType>::
-SetCenterOfRotation(const double* center) 
-{
-  m_CenterOfRotation = center;
-}
 
-
-
-// Get Center of Rotation
-template<class TScalarType>
-const double*
-Rigid3DTransform<TScalarType>::
-GetCenterOfRotation(void) 
-{
-  return m_CenterOfRotation;
-}
 
 // Print self
 template<class TScalarType>
@@ -121,54 +97,29 @@ Rigid3DTransform<TScalarType>::
 PrintSelf(std::ostream &s) const
 {
   s << m_Offset   << std::endl;
-  s << m_Rotation << std::endl;
   s << m_DirectMatrix   << std::endl;
   return s;
 }
 
-// Set rotation
-template<class TScalarType>
-void
-Rigid3DTransform<TScalarType>::
-SetRotation(const VnlQuaternionType &rotation )
-{
-  m_Rotation      = rotation;
-  m_DirectMatrix  = m_Rotation.rotation_matrix();
-  m_InverseMatrix = m_DirectMatrix.GetTranspose();
-  return;
-}
 
-// Set rotation
-template<class TScalarType>
-void
-Rigid3DTransform<TScalarType>::
-SetRotation(const Vector<TScalarType,3> & axis, double angle )
-{
-  const double sinus   = sin(angle/2.0);
-  const double cosinus = cos(angle/2.0);
-  Vector<TScalarType,3> norm;
-  norm = axis;
-  norm.Normalize();
-  norm *= sinus;
-  VnlQuaternionType q;
-  q[0] = cosinus;
-  q[1] = norm[0];
-  q[2] = norm[1];
-  q[3] = norm[2];
-  SetRotation( q );
-}
  
 // Compose with another affine transformation
 template<class TScalarType>
 void
 Rigid3DTransform<TScalarType>::
-Compose(const Self &other, bool )
+Compose(const Self * other, bool pre )
 {
-  m_Offset  += other.m_Offset;
-  m_Rotation = m_Rotation * other.m_Rotation;
-  m_DirectMatrix   = m_Rotation.rotation_matrix();
+  if (pre) 
+    {
+    m_Offset       = m_DirectMatrix * other->m_Offset + m_Offset;
+    m_DirectMatrix = m_DirectMatrix * other->m_DirectMatrix;
+    }
+  else 
+    {
+    m_Offset       = other->m_DirectMatrix * m_Offset + other->m_Offset;
+    m_DirectMatrix = other->m_DirectMatrix * m_DirectMatrix;
+    }
   m_InverseMatrix = m_DirectMatrix.GetTranspose();
-  return;
 }
 
 
@@ -183,57 +134,6 @@ Translate(const OffsetType &offset, bool pre)
 }
 
 
-// Compose with a rotation
-template<class TScalarType>
-void
-Rigid3DTransform<TScalarType>::
-Rotate(const VnlQuaternionType &rotation, bool pre)
-{
-  m_Rotation      = m_Rotation * rotation;
-  m_DirectMatrix  = m_Rotation.rotation_matrix();
-  m_InverseMatrix = m_DirectMatrix.GetTranspose();
-  return;
-}
-
-
-// Compose with a rotation
-template<class TScalarType>
-void
-Rigid3DTransform<TScalarType>::
-Rotate(const InputVectorType & axis, TScalarType angle )
-{
-  m_Rotation      = VnlQuaternionType( axis.Get_vnl_vector(), angle );
-  m_DirectMatrix  = m_Rotation.rotation_matrix();
-  m_InverseMatrix = m_DirectMatrix.GetTranspose();
-  return;
-}
-
-// set Rotation Matrix using Euler's angle
-template<class TScalarType>
-void
-Rigid3DTransform<TScalarType>::
-SetEulerAngles(double alpha, double beta, double gamma)
-{
-  const double ca = cos(alpha);
-  const double sa = sin(alpha);
-  const double cb = cos(beta);
-  const double sb = sin(beta); 
-  const double cg = cos(gamma);
-  const double sg = sin(gamma);
-
-  m_DirectMatrix[0][0] = ca * cb;
-  m_DirectMatrix[0][1] = ca * sb *sg - sa * cg;
-  m_DirectMatrix[0][2] = ca * sb *cg + sa * sg;
-  m_DirectMatrix[1][0] = sa * cb;
-  m_DirectMatrix[1][1] = sa * sb * sg + ca * cg;
-  m_DirectMatrix[1][2] = sa * sb * cg - ca * sg;
-  m_DirectMatrix[2][0] = -sb;
-  m_DirectMatrix[2][1] = cb * sg;
-  m_DirectMatrix[2][2] = cb * cg;
-
-}
-
-
 
 
 // Transform a point
@@ -242,24 +142,7 @@ Rigid3DTransform<TScalarType>::OutputPointType
 Rigid3DTransform<TScalarType>::
 TransformPoint(const InputPointType &point) const 
 {
-  if(m_CenterOfRotation)
-  {
-    InputPointType intermediate;
-    for(unsigned int i=0;i<3;i++)
-    {
-      intermediate[i] = point[i] - m_CenterOfRotation[i];
-    }
-    intermediate = m_DirectMatrix * intermediate + m_Offset;
-    for(unsigned int i=0;i<3;i++)
-    {
-      intermediate[i] +=  m_CenterOfRotation[i];
-    }
-    return intermediate;
-  }
-  else
-  {
-    return m_DirectMatrix * point + m_Offset;
-  }
+  return m_DirectMatrix * point + m_Offset; 
 }
 
 
@@ -300,28 +183,9 @@ TransformCovariantVector(const InputCovariantVectorType &vect) const
 template<class TScalarType>
 Rigid3DTransform<TScalarType>::InputPointType
 Rigid3DTransform<TScalarType>::
-BackTransform(const OutputPointType &point) const {
-
-  if(m_CenterOfRotation)
-  {
-    OutputPointType centered;
-    for(unsigned int i=0;i<3;i++)
-    {
-      centered[i] = point[i] - m_CenterOfRotation[i];
-    }
-    centered = m_InverseMatrix * centered - m_Offset;
-    for(unsigned int i=0;i<3;i++)
-    {
-      centered[i] +=  m_CenterOfRotation[i];
-    }
-    return centered;
-  }
-  else
-  {
+BackTransform(const OutputPointType &point) const 
+{
     return m_InverseMatrix * (point - m_Offset);
-  }
-
-  
 }
 
 // Back transform a vector
@@ -356,15 +220,14 @@ BackTransform(const OutputCovariantVectorType &vect) const
 
 // Create and return an inverse transformation
 template<class TScalarType>
-Rigid3DTransform<TScalarType>
+Rigid3DTransform<TScalarType>::Pointer
 Rigid3DTransform<TScalarType>::
 Inverse( void ) const
 {
-  Self result;
-  result.m_Offset         = - m_Offset;
-  result.m_Rotation       =   m_Rotation.inverse();
-  result.m_DirectMatrix   =   m_Rotation.rotation_matrix();
-  result.m_InverseMatrix  =   m_DirectMatrix.GetTranspose();
+  Pointer result = New();
+  result->m_Matrix   =   m_Inverse;
+  result->m_Inverse  =   m_Matrix;
+  result->m_Offset   = -(m_Inverse * m_Offset);
   return result;
 }
 

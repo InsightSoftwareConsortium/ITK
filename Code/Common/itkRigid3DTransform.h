@@ -47,6 +47,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "itkExceptionObject.h"
 #include "vnl/vnl_quaternion.h"
 #include "itkMatrix.h"
+#include "itkVersor.h"
 
 
 
@@ -67,8 +68,8 @@ template < class TScalarType=double >    // Data type for scalars (float or doub
 class ITK_EXPORT Rigid3DTransform : 
             public Transform< TScalarType, 
                               3, 3,       // Dimensions of input and output spaces
-                              Point< double, 7 >, // a quaternion plus a vector
-                              Matrix<double, 3, 7 > >
+                              Point< double, 6 >, // a versor plus a vector
+                              Matrix<double, 3, 6 > >
 {
 public:
 
@@ -87,8 +88,8 @@ public:
      * Standard "Superclass" typedef.
      */
     typedef Transform< TScalarType, 3, 3,
-                       Point< double, 7 >, 
-                       Matrix< double, 3, 7 > >   Superclass;
+                       Point< double, 6 >, 
+                       Matrix< double, 3, 6 > >   Superclass;
 
 
     /**
@@ -150,9 +151,11 @@ public:
     typedef Point<TScalarType, InputSpaceDimension>    InputPointType;
     typedef Point<TScalarType, OutputSpaceDimension>    OutputPointType;
 
-
     /// Standard vnl_quaternion type
     typedef vnl_quaternion<TScalarType>           VnlQuaternionType;
+
+    /// Standard Versor type
+    typedef Versor<TScalarType>           VersorType;
 
 
     /**
@@ -164,15 +167,6 @@ public:
     const OffsetType & GetOffset(void) const
         { return m_Offset; }
 
-
-    /**
-     * Get rotation from an Rigid3DTransform
-     *
-     * This method returns the value of the rotation of the
-     * Rigid3DTransform.
-     **/
-    const VnlQuaternionType & GetRotation(void) const
-        { return m_Rotation; }
 
     /**
      * Get rotation MAtrix from an Rigid3DTransform
@@ -195,38 +189,11 @@ public:
 
 
     /**
-     * Set Rotation of the Rigid transform
-     *
-     * This method sets the rotation of an Rigid3DTransform to a
-     * value specified by the user.
-     **/
-    void SetRotation(const VnlQuaternionType &rotation);
-
-
-    /**
-     * Set Rotation of the Rigid transform
-     *
-     * This method sets the rotation of an Rigid3DTransform to a
-     * value specified by the user using the axis of rotation an
-     * the angle
-     **/
-    void SetRotation(const Vector<TScalarType,3> &axis, double angle);
-
-
-
-    /**
-     * Set Rotation as Euler's angles
-     *
-     * This method sets the rotation and scale of an Rigid3DTransform to a
-     * value specified by the user.
-     **/
-    void SetEulerAngles(double alpha,double beta,double gamma);
-
-    /**
      * Compose with another Rigid3DTransform
      *
      **/
-    void Compose(const Self &other, bool pre=0);
+    void Compose(const Self *other, bool pre=false);
+
 
     /**
      * Compose the transformation with a translation
@@ -235,17 +202,8 @@ public:
      * origin.  The translation is precomposed with self if pre is
      * true, and postcomposed otherwise.
      **/
-    void Translate(const OffsetType &offset, bool pre=0);
+    void Translate(const OffsetType &offset, bool pre=false);
 
-    /**
-     * Compose the transformation with a rotation
-     *
-     * This method modifies self to include a translation of the
-     * origin.  The translation is precomposed with self if pre is
-     * true, and postcomposed otherwise.
-     **/
-    void Rotate(const VnlQuaternionType &offset, bool pre=0);
-    void Rotate(const InputVectorType & axis, TScalarType angle );
 
     /**
      * Transform by an affine transformation
@@ -274,10 +232,12 @@ public:
 
     inline InputCovariantVectorType BackTransform(
                                        const OutputCovariantVectorType &vector) const;
+    
     /**
      * Print contents of an Rigid3DTransform
      **/
     std::ostream & PrintSelf(std::ostream &s) const;
+
 
     /**
      * Find inverse of an affine transformation
@@ -286,19 +246,8 @@ public:
      * which is the inverse of self.  If self is not invertible,
      * an exception is thrown.
      **/
-    Rigid3DTransform Inverse( void ) const;
+    Pointer Inverse( void ) const;
    
-    /**
-     * Set the center of Rotation of the transformation
-     */
-    void    SetCenterOfRotation(const double* center); 
-    
-    /**
-     * Get the center of Rotation of the transformation
-     */
-    const double* GetCenterOfRotation(void);
-
-
 protected:
     /**
      * Construct an Rigid3DTransform object
@@ -331,18 +280,12 @@ private:
     // Offset of the transformation
     OffsetType          m_Offset;   
 
-    // Rotation of the transformation
-    VnlQuaternionType   m_Rotation; 
-
     // matrix representation of the rotation
     MatrixType          m_DirectMatrix;   
 
     // representation of the inverse rottion
     MatrixType          m_InverseMatrix; 
     
-    // Center of Rotation
-    const double*       m_CenterOfRotation;
-
 }; //class Rigid3DTransform
 
 
