@@ -170,9 +170,9 @@ int main()
   // Software Guide : BeginCodeSnippet 
   PointType point;
 
-  point[0] = 1.45;
-  point[1] = 7.21;
-  point[2] = 9.28;
+  point[0] = 1.45;    // x coordinate
+  point[1] = 7.21;    // y coordinate
+  point[2] = 9.28;    // z coordinate  
   // Software Guide : EndCodeSnippet 
 
   // Software Guide : BeginLatex
