@@ -25,7 +25,7 @@
 #include "itkImageLinearConstIteratorWithIndex.h"
 #include "itkPasteImageFilter.h"
 #include "itkImportImageContainer.h"
-#include "itkNumericTraitsRGBPixel.h"
+//#include "itkNumericTraitsRGBPixel.h"
 
 namespace itk {
 
