@@ -78,8 +78,8 @@ class ITK_EXPORT VectorIndexSelectionCastImageFilter :
     itkNewMacro(Self);
     
     /** Get/Set methods for the index */
-    itkSetMacro(Index, unsigned int);
-    itkGetMacro(Index, unsigned int);
+    void SetIndex(unsigned int i) { this->GetFunctor().SetIndex(i); }
+    unsigned int GetIndex(void) const { return this->GetFunctor().GetIndex(); }
 
   protected:
     VectorIndexSelectionCastImageFilter() {}
@@ -88,8 +88,6 @@ class ITK_EXPORT VectorIndexSelectionCastImageFilter :
   private:
     VectorIndexSelectionCastImageFilter(const Self&); //purposely not implemented
     void operator=(const Self&); //purposely not implemented
-
-    unsigned int m_Index;    
   };
  
 } // end namespace itk
