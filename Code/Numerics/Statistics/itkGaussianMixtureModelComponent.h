@@ -71,7 +71,7 @@ public:
 
   void SetSample(TSample* sample) ;
 
-  void SetParameters(ParametersType &parameters) ;
+  void SetParameters(const ParametersType &parameters) ;
   
 protected:
   GaussianMixtureModelComponent() ;
