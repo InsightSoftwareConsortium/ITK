@@ -54,6 +54,11 @@ namespace Functor {
     AccessorType& GetAccessor() 
       { return m_Accessor; }
 
+    /** Assignment operator */
+    AccessorFunctor & operator=( const AccessorFunctor & functor )
+     { m_Accessor = functor.m_Accessor; 
+       return *this;}
+
     /** Set the accessor object. This replaces the current accessor with
      * a copy of the specified accessor.  This allows the user to
      * specify an accessor that has ivars set differently that the default
@@ -104,8 +109,12 @@ class ITK_EXPORT AdaptImageFilter:
 public:
   /** Standard class typedefs. */
   typedef AdaptImageFilter  Self;
-  typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-               Functor::AccessorFunctor<TInputImage, TAccessor> > Superclass; 
+  typedef UnaryFunctorImageFilter< TInputImage,
+                                   TOutputImage,
+                                   Functor::AccessorFunctor<
+                                      ITK_TYPENAME TInputImage::PixelType, 
+                                      TAccessor> >  Superclass;
+
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   typedef typename Superclass::FunctorType FunctorType;
