@@ -89,10 +89,6 @@ CurvatureFlowImageFilter<TInputImage, TOutputImage>
     this->UpdateProgress(((float)(this->GetElapsedIterations()))
                          /((float)(m_NumberOfIterations)));
     }
-  else 
-    {
-    this->UpdateProgress(0);
-    }
   
 }
 

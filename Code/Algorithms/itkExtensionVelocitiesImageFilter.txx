@@ -117,7 +117,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension >
 void
 ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
-::EnlargeOutputRequestedRegion( DataObject * output )
+::EnlargeOutputRequestedRegion( DataObject * itkNotUsed(output) )
 {
 
   for ( unsigned int j = 0; j < this->GetNumberOfOutputs(); j++ )
@@ -141,7 +141,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
         // Pointer could not be cast to AuxImageType *
         itkWarningMacro(<< "itk::FastMarchingExtensionImageFilter" <<
                         "::EnlargeOutputRequestedRegion cannot cast "
-                        << typeid(output).name() << " to "
+                        << typeid(this->GetOutput(j)).name() << " to "
                         << typeid(AuxImageType*).name() );    
 
         }
