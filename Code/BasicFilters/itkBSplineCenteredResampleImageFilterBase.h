@@ -73,7 +73,8 @@ public:
   /** OutputImagePixelType typedef support. */
   typedef typename Superclass::OutputImagePixelType OutputImagePixelType;
 
- 
+  /** OutputImageIterator typedef support. */
+  typedef typename Superclass::OutputImageIterator OutputImageIterator;
 
 protected:
 

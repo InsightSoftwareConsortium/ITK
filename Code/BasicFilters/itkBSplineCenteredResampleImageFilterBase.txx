@@ -308,7 +308,7 @@ void BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>
 {
   long i1, i2;
 
-  long outK, inK;
+  long inK;
   unsigned long outTraverseSize = inTraverseSize * 2;
   //inTraverseSize = outTraverseSize/2;  // ensures that an even number is used.
   long inModK; // number for modulus math of in
@@ -321,7 +321,7 @@ void BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>
   
   for (inK = 0; inK < (long) inTraverseSize; inK++) 
     {
-    outK = inK * 2L;
+    //outK = inK * 2L;
     outVal = in[inK] * m_h[0];
     for (int k = 2; k < m_hSize; k += 2)
       {
