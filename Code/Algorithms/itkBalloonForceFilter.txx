@@ -1139,18 +1139,15 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 
   InputPointsContainerPointer   myLocations = m_Locations->GetPoints();
   InputPointsContainerIterator	locations = myLocations->Begin();
-  InputPointsContainerIterator	locationscopy = myLocations->Begin();
 
   InputPointsContainerPointer	myForces = m_Forces->GetPoints();
   InputPointsContainerIterator	forces = myForces->Begin();
-  InputPointsContainerIterator	forcescopy = myForces->Begin();
 
   InputPointsContainerPointer	myNormals = m_Normals->GetPoints();
   InputPointsContainerIterator	normals = myNormals->Begin();
 
   InputPointDataContainerPointer		myForceData = m_Forces->GetPointData();
   InputPointDataContainerIterator		forcedata = myForceData->Begin();
-  InputPointDataContainerIterator		forcedatacopy = myForceData->Begin();
 
   s[0] = 0;
   s[1] = 0;
@@ -1180,6 +1177,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 
   locations = myLocations->Begin();
   forces = myForces->Begin();
+  forcedata = myForceData->Begin();
 
   while( forces != myForces->End() ) {
 	s = locations.Value();
