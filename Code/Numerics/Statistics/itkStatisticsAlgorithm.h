@@ -40,6 +40,7 @@ void FindSampleBound(typename TSample::Pointer sample,
   
 template< class TSubsample >
 int Partition(typename TSubsample::Pointer sample,
+              unsigned int activeDimension,
               int beginIndex, int endIndex,
               const typename TSubsample::MeasurementType partitionValue) ;
 
@@ -57,6 +58,7 @@ void InsertSort(typename TSubsample::Pointer sample,
 
 template< class TSubsample >
 void DownHeap(typename TSubsample::Pointer sample,
+              unsigned int activeDimension,
               int beginIndex, int endIndex, int node) ;
 
 template< class TSubsample >
