@@ -143,7 +143,6 @@ int main()
   //
   itk::ShrinkImage<FloatImage2DType,FloatImage2DType>::Pointer shrink;
   shrink = itk::ShrinkImage<FloatImage2DType,FloatImage2DType>::New();
-  shrink->DebugOn();
   shrink->SetInput(random->GetOutput());
   shrink->SetShrinkFactor(2);
   
@@ -184,7 +183,6 @@ int main()
   writer->SetInput(shrink->GetOutput());
   writer->SetFileName("BasicArchitectureImage.vtk");
   writer->SetFileTypeToASCII();
-  writer->DebugOn();
   writer->Write();
 
   itk::WriteRawImage<FloatImage2DType>::Pointer rawWriter;
@@ -193,7 +191,6 @@ int main()
   rawWriter->SetFileName("BasicArchitectureImage.dat");
   rawWriter->SetFileTypeToBinary();
   rawWriter->SetByteOrderToBigEndian();
-  rawWriter->DebugOn();
   rawWriter->Write();
 
   return EXIT_SUCCESS;
