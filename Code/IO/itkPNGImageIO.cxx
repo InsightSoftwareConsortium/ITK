@@ -251,7 +251,7 @@ void PNGImageIO::Read(void* buffer)
   unsigned long rowbytes = png_get_rowbytes(png_ptr, info_ptr);
   unsigned char *tempImage = static_cast<unsigned char*>(buffer);
   png_bytep *row_pointers = new png_bytep [height];
-  for (int ui = 0; ui < height; ++ui)
+  for (unsigned int ui = 0; ui < height; ++ui)
     {
     row_pointers[ui] = tempImage + rowbytes*ui;
     }
