@@ -113,39 +113,46 @@ namespace itk
  * Algorithm details:
  *
  * This function segments a two-dimensional input image into
- * non-overlapping atomic regions $O_i$, i=1,2,...,N, where N is the total
- * number of region, by minimizing the following energy functional
+ * non-overlapping atomic regions \f$ O_i, i=1,2,\ldots,N \f$, where
+ * \f$ N \f$ is the
+ * total number of region, by minimizing the following energy functional
  * (also known as the simplified Mumford and Shah functional):
- * $E(u,K)=\int_{\Omega-K}||u(r,c)-g(r,c)||^2{d{\Omega}}+\lambda\cdot{L(K)}$,
- * where $\Omega$ denotes the domain of an image, g(r,c) is the input
- * image, and u(r,c) is an approximation of g(r,c).  Furthermore,
- * u(r,c) is defined to be piecewise constant in regions $O_i$.  If
- * $\partial O_i$ represents the boundary of the region,
- * $K=\bigcup_{i=1}^N\partial{O_i}$ denotes the set of all region
- * boundaries and L(K) is the total length of the boundaries.  The
- * parameter $\lambda$ controls the coarseness of the segmentation
- * (i.e. a larger $\lambda$ will result in fewer boundaries).
+ * \f$
+ * E(u,K)=\int_{\Omega-K}||u(r,c)-g(r,c)||^2{d{\Omega}}+\lambda\cdot{L(K)}
+ * \f$,
+ * where \f$ \Omega \f$ denotes the domain of an image, \f$ g(r,c) \f$
+ * is the input image, and \f$ u(r,c) \f$ is an approximation of
+ * \f$ g(r,c) \f$.  Furthermore, \f$ u(r,c) \f$ is defined to be
+ * piecewise constant in regions \f$ O_i \f$.  If
+ * \f$ \partial O_i \f$ represents the boundary of the region,
+ * \f$ K=\bigcup_{i=1}^N\partial{O_i} \f$ denotes the set of all region
+ * boundaries and \f$ L(K) \f$ is the total length of the boundaries.  The
+ * parameter \f$ \lambda \f$ controls the coarseness of the segmentation
+ * (i.e. a larger \f$ \lambda \f$ will result in fewer boundaries).
  *
  * Starting with small, piecewise-constant initial regions the algorithm
- * iteratively merges the two adjacent regions $O_i$ and $O_j$ which  most
+ * iteratively merges the two adjacent regions \f$ O_i \f$ and
+ * \f$ O_j \f$ which  most
  * decrease the energy functional.  In other words, the merging criterion
- * is based on the difference between the current energy E(u,K) and the
- * energy that would result after a merge, $E(\hat{u},K-\partial(O_i,O_j))$,
- * where $\hat{u}$ is the piecewise constant approximation of the
- * input image g, and $\partial(O_i,O_j)$ is the common boundary
- * between region $O_i$ and $O_j$.  It can be shown that
- * $E(u,K)-E(\hat{u},K-\partial(O_i,O_j))=
+ * is based on the difference between the current energy
+ * \f$ E(u,K) \f$ and the
+ * energy that would result after a merge,
+ * \f$ E(\hat{u},K-\partial(O_i,O_j)) \f$,
+ * where \f$ \hat{u} \f$ is the piecewise constant approximation of the
+ * input image \f$ g \f$, and \f$ \partial(O_i,O_j) \f$ is the common boundary
+ * between region \f$ O_i \f$ and \f $O_j \f$.  It can be shown that
+ * \f$ E(u,K)-E(\hat{u},K-\partial(O_i,O_j))=
  * \lambda\cdot{L(\partial(O_i,O_j))}-
- * {(|O_i| \cdot |O_j|)\over (|O_i|+|O_j|)} ||c_i-c_j||^2$.
+ * {(|O_i| \cdot |O_j|)\over (|O_i|+|O_j|)} ||c_i-c_j||^2 \f$.
  *
  * Once two regions are merged the following update equations are used
  * to calculated the  constant approximation of the new region:
  *
- * $c_{i,j} = (c_i |O_i| + c_j |O_j|) \over (|O_i| + |O_j|)$.
+ * \f $c_{i,j} = (c_i |O_i| + c_j |O_j|) \over (|O_i| + |O_j|) \f$.
  *
  * Again, the merging of regions continues until the desired number of
  * regions has been reached or until the desired coarseness (specified
- * by the scale parameter $\lambda$) has been reached.
+ * by the scale parameter \f$ \lambda \f$) has been reached.
  *
  * The two outputs are possible to derive from the object:
  * (1) u, the piecewise constant approximation (mean of the regions)
