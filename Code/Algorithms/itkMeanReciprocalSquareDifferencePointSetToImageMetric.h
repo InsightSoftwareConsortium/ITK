@@ -26,17 +26,20 @@ namespace itk
 {
   
 /** \class MeanReciprocalSquareDifferencePointSetToImageMetric
- * \brief Computes similarity between two objects to be registered
+ * \brief Computes similarity between pixel values of a point set and
+ * intensity values in an image.
  *
- * This metric computes the correlation between point values in the fixed
- * point-set and pixel values in the moving image. The correlation is
- * normalized by the autocorrelation values of both the point-set and the
- * moving image. The spatial correspondence between the point-set and the image
- * is established through a Transform. Pixel values are taken from the fixed
- * point-set. Their positions are mapped to the moving image and result in
- * general in non-grid position on it.  Values at these non-grid position of
- * the moving image are interpolated using a user-selected Interpolator.
- 
+ * This metric computes the average squared difference between pixels in
+ * the point set and transformed point set pixels in the moving image 
+ * after passing the difference through a function of type 
+ * \f$ \frac{1}{1+ \frac{ difference^2 }{ \lambda^2 } }\f$.
+ * $\lambda$ controls the capture radius of the metric. The term capture 
+ * radius used here is in terms of intensity domain and not in the spatial 
+ * domain.
+ *
+ * Spatial correspondance between both images is established through a 
+ * Transform. 
+ *
  * \ingroup RegistrationMetrics
  */
 template < class TFixedPointSet, class TMovingImage > 
