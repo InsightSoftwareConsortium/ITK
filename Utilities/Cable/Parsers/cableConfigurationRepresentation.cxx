@@ -133,17 +133,6 @@ CodeBlock
 
 
 /**
- * Print the CodeBlock's lines to the output stream.
- */
-void
-CodeBlock
-::PrintCode(std::ostream& os) const
-{
-  os << m_Code.c_str();
-}
-
-
-/**
  * Get this CodeBlock's code as a String.
  */
 const String&
@@ -192,20 +181,6 @@ Set
 
 
 /**
- * Print the element set to the given stream.
- */
-void
-Set
-::Print(std::ostream& os) const
-{
-  for(ConstIterator a = this->Begin(); a != this->End(); ++a)
-    {
-    os << a->first.c_str() << ": " << a->second.c_str() << std::endl;
-    }
-}
-
-
-/**
  * Create a new WrapperSet and return a pointer to it.
  */
 WrapperSet::Pointer
@@ -229,6 +204,17 @@ Namespace
   
 
 /**
+ * Add a WrapperSet to the list of wrappers for this Namespace.
+ */
+void
+Namespace
+::AddWrapperSet(WrapperSet* set)
+{
+  m_WrapperList.push_back(set);
+}
+
+
+/**
  * Add a new Named entity to this Namespace's fields.
  * Returns false only if the field's name already exists.
  */
@@ -238,11 +224,13 @@ Namespace
 {
   if(m_Fields.count(field->GetName()) > 0)
     {
+    // The name is already used for another field.
     return false;
     }
   else
     {
-    m_Fields[field->GetName()] = field;
+    // Add the field.
+    m_Fields[field->GetName()] = field;    
     return true;
     }
 }
@@ -279,7 +267,18 @@ bool
 Namespace
 ::AddNamespace(Namespace* ns)
 {
-  return this->AddField(ns);
+  // Try adding the field corresponding to the new Namespace.
+  if(this->AddField(ns))
+    {
+    // Add the new namespace to the ordered list of wrappers.
+    m_WrapperList.push_back(ns);
+
+    return true;
+    }
+  else
+    {
+    return false;
+    }
 }
 
 
@@ -288,7 +287,7 @@ Namespace
  */
 Named*
 Namespace
-::LookupName(const String& name)
+::LookupName(const String& name) const
 {
   // Parse the name into its qualifiers.
   QualifierList qualifierList;
@@ -311,7 +310,7 @@ Namespace
  */
 Set*
 Namespace
-::LookupSet(const String& name)
+::LookupSet(const String& name) const
 {
   // Lookup the name.
   Named* field = this->LookupName(name);
@@ -332,7 +331,7 @@ Namespace
  */
 CodeBlock*
 Namespace
-::LookupCode(const String& name)
+::LookupCode(const String& name) const
 {
   // Lookup the name.
   Named* field = this->LookupName(name);
@@ -353,7 +352,7 @@ Namespace
  */
 Namespace*
 Namespace
-::LookupNamespace(const String& name)
+::LookupNamespace(const String& name) const
 {
   // Lookup the name.
   Named* field = this->LookupName(name);
@@ -366,6 +365,43 @@ Namespace
   
   // Return the Namespace found.
   return dynamic_cast<Namespace*>(field);
+}
+
+
+/**
+ * Given a (possibly) qualified name, return a string with all the
+ * qualifiers, ending in a "::".
+ */
+String
+Namespace
+::GetQualifierString(const String& name) const
+{
+  QualifierList qualifierList;
+  if(this->ParseQualifiedName(name, std::back_inserter(qualifierList)))
+    {
+    // The name was valid.  Use all but the last qualifier.
+    if(qualifierList.size() > 1)
+      {
+      qualifierList.pop_back();
+      String qualifiers = "";
+      for(QualifierList::const_iterator q = qualifierList.begin();
+          q != qualifierList.end(); ++q)
+        {
+        qualifiers.append(*q);
+        qualifiers.append("::");
+        }
+      return qualifiers;
+      }
+    else
+      {
+      return "";
+      }
+    }
+  else
+    {
+    // The name was invalid, and failed to parse.
+    return "";
+    }
 }
 
 
@@ -393,7 +429,7 @@ Named*
 Namespace
 ::LookupName(QualifierListConstIterator first,
              QualifierListConstIterator last,
-             bool walkUpEnclosingScopes)
+             bool walkUpEnclosingScopes) const
 {
   // If there is no name, we cannot look it up.
   if(first == last)

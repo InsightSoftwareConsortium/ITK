@@ -28,6 +28,9 @@ public:
   
   void Parse(std::istream&);
   
+  const Package* GetPackage() const
+    { return m_Package.RealPointer(); }
+  
   // Call-backs from the XML parser.
   void BeginElement(const char *name, const char **atts);
   void EndElement(const char *name);

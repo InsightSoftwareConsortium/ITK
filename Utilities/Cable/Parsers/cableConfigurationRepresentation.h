@@ -195,7 +195,6 @@ public:
   static Pointer New(const String&);
   
   void AddCharacterData(const char*, unsigned long, bool);
-  void PrintCode(std::ostream&) const;
   const String& GetCode() const;
   
 protected:
@@ -230,7 +229,6 @@ public:
   
   void Add(const String&, const String&);
   void Add(const Set*);
-  void Print(std::ostream&) const;
   
   typedef std::map<String, String> ElementContainer;
   typedef ElementContainer::iterator  Iterator;
@@ -274,6 +272,10 @@ public:
   
   static Pointer New();
   
+  typedef Set::ElementContainer  ElementContainer;
+  typedef Set::Iterator          Iterator;
+  typedef Set::ConstIterator     ConstIterator;
+  
 protected:
   WrapperSet(): Set("") {}
   WrapperSet(const Self&): Set("") {}
@@ -299,17 +301,29 @@ public:
   
   static Pointer New(const String&, const String&, Namespace*);
 
+  typedef std::list<Named::Pointer> WrapperList;
+  typedef WrapperList::const_iterator WrapperIterator;
+
+  void AddWrapperSet(WrapperSet*);
+  
   bool AddField(Named*);
   
   bool AddCode(CodeBlock*);
   bool AddSet(Set*);
-  bool AddNamespace(Namespace*);  
+  bool AddNamespace(Namespace*);
   
-  Named* LookupName(const String&);  
+  Named* LookupName(const String&) const;
   
-  Set* LookupSet(const String&);
-  CodeBlock* LookupCode(const String&);
-  Namespace* LookupNamespace(const String&);
+  Set* LookupSet(const String&) const;
+  CodeBlock* LookupCode(const String&) const;
+  Namespace* LookupNamespace(const String&) const;
+  
+  WrapperIterator BeginWrapperList() const { return m_WrapperList.begin(); }
+  WrapperIterator EndWrapperList() const { return m_WrapperList.end(); }
+
+  bool IsGlobalNamespace() const { return (m_EnclosingNamespace == NULL); }
+  
+  String GetQualifierString(const String&) const;
   
 protected:
   Namespace(const String&, const String&, Namespace*);
@@ -324,7 +338,7 @@ private:
 
   Named* LookupName(QualifierListConstIterator,
                     QualifierListConstIterator,
-                    bool walkUpEnclosingScopes);
+                    bool walkUpEnclosingScopes) const;
   
   bool ParseQualifiedName(const String&, QualifierListInserter) const;
   
@@ -349,11 +363,16 @@ private:
   Namespace* m_EnclosingNamespace;
 
   typedef std::map<String, Named::Pointer>  Fields;
-  
   /**
-   * Set of fields that have been defined in this namespace.
+   * The set of fields that have been defined in this Namespace.
    */
   Fields m_Fields;
+  
+  /**
+   * List of WrapperSets and Namespaces to that have been defined
+   * in this Namespace, in order.
+   */
+  WrapperList m_WrapperList;
 };
 
 
@@ -384,10 +403,8 @@ public:
   Headers::Pointer GetHeaders() const
     { return m_Headers; }
   
-  Namespace::Pointer GetGlobalNamespace()
+  Namespace::Pointer GetGlobalNamespace() const
     { return m_GlobalNamespace; }
-  Namespace::ConstPointer GetGlobalNamespace() const
-    { return m_GlobalNamespace.RealPointer(); }
   
 protected:
   Package(const String&);

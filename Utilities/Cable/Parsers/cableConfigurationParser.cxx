@@ -821,15 +821,7 @@ Parser
 void
 Parser
 ::end_Set()
-{
-  if(this->TopParseElement())
-    {
-    std::cout << "----begin Set----" << std::endl;
-    // Print out the elements defined.
-    this->CurrentSet()->Print(std::cout);
-    std::cout << "----end Set----" << std::endl;
-    }
-  
+{  
   // Take the Set off the stack.
   this->PopElement();
 }
@@ -882,7 +874,7 @@ Parser
   WrapperSet::Pointer newWrapperSet = WrapperSet::New();
     
   // Save the WrapperSet.
-  //m_WrapperSets.insert(newWrapperSet);
+  this->CurrentNamespaceScope()->AddWrapperSet(newWrapperSet);
     
   // Put new WrapperSet on the stack so it can be filled.
   this->PushElement(newWrapperSet);
@@ -896,14 +888,6 @@ void
 Parser
 ::end_WrapperSet()
 {
-  if(this->TopParseElement())
-    {
-    std::cout << "----begin WrapperSet----" << std::endl;
-    // Print out the elements defined.
-    this->CurrentSet()->Print(std::cout);
-    std::cout << "----end WrapperSet----" << std::endl;
-    }
-  
   // Take the WrapperSet off the stack.
   this->PopElement();
 }
@@ -1049,18 +1033,29 @@ private:
   class Substitution
   {
   public:
-    Substitution(const Set* in_set): m_Set(in_set) {}
+    Substitution(const String& in_qualifierString):
+      m_QualifierString(in_qualifierString) {}
     void Bind(const String& in_tag, const String& in_code)
       {
         m_Tag = in_tag;
-        m_Code = in_code;
+        m_Code = m_QualifierString+in_code;
       }
     const String& GetTag() const
       { return m_Tag; }
     const String& GetCode() const
       { return m_Code; }
-    const Set* GetSet() const
-      { return m_Set; }
+    
+    /**
+     * Consider an alternative qualifier string.  Since both options
+     * (current m_QualifierString and given qualifier) resulted in the
+     * lookup of this Substitution's set, either is acceptable.
+     * Use the shorter one.
+     */
+    void ConsiderQualifierString(const String& qualifierString)
+      {
+        if(qualifierString.length() < m_QualifierString.length())
+          m_QualifierString = qualifierString;
+      }
     
   private:
     /**
@@ -1074,9 +1069,10 @@ private:
     String m_Code;
 
     /**
-     * The set of elements to be set into m_Tag and m_Code, one at a time.
+     * The namespace qualifier string used to reference the set
+     * corresponding to this substitution.
      */
-    const Set* m_Set;
+    String m_QualifierString;
   };
   
   
@@ -1148,7 +1144,7 @@ private:
   };
   
   typedef std::list<Portion*>  Portions;
-  typedef std::map<String, Substitution* >  Substitutions;
+  typedef std::map<const Set*, Substitution* >  Substitutions;
   
   /**
    * The original, unparsed element.
@@ -1161,7 +1157,7 @@ private:
   Portions m_Portions;
   
   /**
-   * Map from substitution token to actual Substitution.
+   * Map from substitution's Set to actual Substitution.
    */
   Substitutions m_Substitutions;
   
@@ -1249,13 +1245,11 @@ ElementCombinationGenerator
   else
     {
     // Get the set for this substitution.
-    // The lookup of the name substitution->first has already been done
-    // and saved in the Substitution in substitution->second.
-    const Set* set = substitution->second->GetSet();
+    const Set* set = substitution->first;
     if(set == out_set)
       {
       // We cannot iterate over the set currently being defined.
-      throw SetSelfReferenceException(substitution->first);
+      throw SetSelfReferenceException(set->GetName());
       }
     
     // Prepare an iterator to the next substitution.
@@ -1328,20 +1322,22 @@ ElementCombinationGenerator
           }
         }
       // We have a complete set name.  Look it up in the current scope.
+      String qualifierString = m_Namespace->GetQualifierString(setName);
       Set* set = m_Namespace->LookupSet(setName);
       if(set)
         {
         // We have a valid set name.  Prepare the substitution entry
         // for it.
         Substitution* sub;
-        if(m_Substitutions.count(setName) == 0)
+        if(m_Substitutions.count(set) == 0)
           {
-          sub = new Substitution(set);
-          m_Substitutions[setName] = sub;
+          sub = new Substitution(qualifierString);
+          m_Substitutions[set] = sub;
           }
         else
           {
-          sub = m_Substitutions[setName];
+          sub = m_Substitutions[set];
+          sub->ConsiderQualifierString(qualifierString);
           }
         m_Portions.push_back(new ReplacePortion(*sub));
         setName = "";
