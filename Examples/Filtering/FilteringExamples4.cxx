@@ -8,7 +8,7 @@ void RegisterTests()
 {
 REGISTER_TEST(ResampleVolumesToBeIsotropicTest);
 REGISTER_TEST(ScaleSpaceGenerator2DTest);
-REGISTER_TEST(SubSampleVolumeTest);
+REGISTER_TEST(SubsampleVolumeTest);
 }
 
 #undef main
@@ -20,6 +20,6 @@ REGISTER_TEST(SubSampleVolumeTest);
 #include "ScaleSpaceGenerator2D.cxx"
 
 #undef main
-#define main SubSampleVolumeTest
-#include "SubSampleVolume.cxx"
+#define main SubsampleVolumeTest
+#include "SubsampleVolume.cxx"
 

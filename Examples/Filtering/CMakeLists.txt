@@ -786,12 +786,12 @@ ADD_TEST( ScaleSpaceGenerator2DTest ${FILTERING_EXAMPLES4}
         10
 )
 
-ADD_TEST( SubSampleVolumeTest ${FILTERING_EXAMPLES4}
-  --compare ${BASELINE}/SubSampleVolume.mha
-            ${TEMP}/SubSampleVolume.mha
-  SubSampleVolumeTest
+ADD_TEST( SubsampleVolumeTest ${FILTERING_EXAMPLES4}
+  --compare ${BASELINE}/SubsampleVolume.mha
+            ${TEMP}/SubsampleVolume.mha
+  SubsampleVolumeTest
         ${ITK_SOURCE_DIR}/Testing/Data/Input/HeadMRVolume.mhd
-        ${TEMP}/SubSampleVolume.mha
+        ${TEMP}/SubsampleVolume.mha
         2 2 2
 )
 
