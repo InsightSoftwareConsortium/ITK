@@ -81,8 +81,7 @@ ReadMetaImage<TOutputImage>
 
   typedef typename TOutputImage::PixelType  PixelType;
 
-  typedef itk::ImageRegionSimpleIterator<PixelType,
-                  TOutputImage::ImageDimension> IteratorType;
+  typedef itk::ImageRegionSimpleIterator< TOutputImage> IteratorType;
   
   IteratorType it(m_OutputImage,
                   m_OutputImage->GetLargestPossibleRegion() );
@@ -93,7 +92,7 @@ ReadMetaImage<TOutputImage>
   it.Begin();
   while( !it.IsAtEnd() ) 
   {
-    *it = *source++;
+    it.Set( *source++ );
     ++it;
   }
 
