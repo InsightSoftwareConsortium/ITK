@@ -156,10 +156,14 @@ MultiResolutionRegistration<TRegistrationMethod>
   m_TargetPyramid->UpdateLargestPossibleRegion();
   m_ReferencePyramid->UpdateLargestPossibleRegion();
 
+
   for( m_CurrentLevel = 0; m_CurrentLevel < m_NumberOfLevels; 
     m_CurrentLevel++ )
     {
     
+    // invoke an iteration event    
+    InvokeEvent( Command::IterationEvent );
+
     this->OneLevelPreRegistration( m_CurrentLevel );
     this->OneLevelRegistration( m_CurrentLevel );
     this->OneLevelPostRegistration( m_CurrentLevel );
