@@ -20,12 +20,8 @@
 #include "itkVector.h" 
 #include "itkNumericTraits.h" 
 #include <vnl/vnl_math.h>
+#include "vnl/vnl_vector.h"
 
-// Include implementation of vnl_vector and vnl_c_vector for when
-// doing instantiation.
-#include "vnl/vnl_vector.txx"
-#include "vnl/vnl_vector_fixed.txx"
-#include "vnl/vnl_c_vector.txx"
 
 namespace itk
 {
