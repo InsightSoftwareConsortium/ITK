@@ -93,10 +93,5 @@ int main(int ac, char** av)
     ++it;
     ++rit;  
     }
-  std::ofstream *file = new std::ofstream("test.pgm",std::ios::out | std::ios::binary);
-*file << "P5\n";
-*file << "# pgm file written by the visualization toolkit\n";
-*file << "256" << " " << "256" << "\n255\n";
- file->write((char *) filter->GetOutput()->GetBufferPointer(), 256 * 256);
   return status;
 }
