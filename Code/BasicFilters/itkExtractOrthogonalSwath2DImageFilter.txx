@@ -235,6 +235,7 @@ PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
   os << indent << "Size:  " << m_Size << std::endl;
+  os << indent << "DefaultPixelValue:  " << m_DefaultPixelValue << std::endl;
 }
 
 } // end namespace itk
