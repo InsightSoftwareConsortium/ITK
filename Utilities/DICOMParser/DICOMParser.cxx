@@ -146,7 +146,7 @@ bool DICOMParser::IsDICOMFile(DICOMFile* file) {
 }
 
 
-bool DICOMParser::IsValidRepresentation(doublebyte rep, quadbyte& len, VRTypes mytype)
+bool DICOMParser::IsValidRepresentation(doublebyte rep, quadbyte& len, VRTypes &mytype)
 {
   switch (rep)
     {
@@ -228,12 +228,9 @@ void DICOMParser::ReadNextRecord(doublebyte& group, doublebyte& element)
   element = DataFile->ReadDoubleByte();
 
   doublebyte representation = DataFile->ReadDoubleByte();
-  unsigned char* tempdata = NULL;
   quadbyte length = 0;
   VRTypes mytype = VR_UNKNOWN;
   this->IsValidRepresentation(representation, length, mytype);
-
-  //tempdata = (unsigned char*) DataFile->ReadAsciiCharArray(length);
 
   DICOMParserMap::iterator iter = 
     Map.find(DICOMMapKey(group,element));
@@ -243,8 +240,7 @@ void DICOMParser::ReadNextRecord(doublebyte& group, doublebyte& element)
     //
     // Only read the data if there's a registered callback.
     //
-    tempdata = (unsigned char*) DataFile->ReadAsciiCharArray(length);
-
+    unsigned char* tempdata = (unsigned char*) DataFile->ReadAsciiCharArray(length);
 
     // this->DumpTag(group, element, VRTypes::VR_UNKNOWN, tempdata, length);
         
@@ -319,8 +315,8 @@ void DICOMParser::InitTypeMap()
 
   int num_tags = sizeof(dicom_tags)/sizeof(DicomRecord);
 
-  doublebyte group = 0;
-  doublebyte element = 0;
+  doublebyte group;
+  doublebyte element;
   VRTypes datatype;
 
   DICOMMemberCallback<DICOMParser>* printCb = new DICOMMemberCallback<DICOMParser>;
@@ -388,7 +384,7 @@ void DICOMParser::DumpTag(doublebyte group, doublebyte element, VRTypes, unsigne
     }
 }
 
-void DICOMParser::ModalityTag(doublebyte group, doublebyte element, VRTypes, unsigned char* tempdata, quadbyte length)
+void DICOMParser::ModalityTag(doublebyte, doublebyte, VRTypes, unsigned char* tempdata, quadbyte)
 {
   if (!strcmp( (char*)tempdata, "MR"))
     {
@@ -461,7 +457,7 @@ void DICOMParser::AddDICOMTagCallbackToAllTags(DICOMCallback* cb)
   }
 }
 
-bool DICOMParser::ParseExplicitRecord(doublebyte group, doublebyte element, 
+bool DICOMParser::ParseExplicitRecord(doublebyte, doublebyte, 
                                       quadbyte& length, 
                                       VRTypes& represent)
 {

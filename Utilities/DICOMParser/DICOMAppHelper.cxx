@@ -111,11 +111,11 @@ void DICOMAppHelper::RegisterCallbacks(DICOMParser& parser)
 
 }
 
-void DICOMAppHelper::SeriesUIDCallback(doublebyte group,
-                                       doublebyte element,
-                                       DICOMParser::VRTypes type,
+void DICOMAppHelper::SeriesUIDCallback(doublebyte,
+                                       doublebyte,
+                                       DICOMParser::VRTypes,
                                        unsigned char* val,
-                                       quadbyte len) 
+                                       quadbyte) 
 {
   char* newString = (char*) val;
   std::map<char*, std::vector<char*>, ltstr >::iterator iter = SeriesUIDMap.find(newString);
@@ -165,6 +165,7 @@ void DICOMAppHelper::WriteImageData(doublebyte group,
                                     unsigned char* val,
                                     quadbyte len)
 {
+#if 0
   //FILE* fptr = fopen(this->GetOutputFilename(), "wb");
 
   /*  
@@ -183,6 +184,7 @@ void DICOMAppHelper::WriteImageData(doublebyte group,
 
   // fwrite(val,len, 1,fptr);
   // fclose(fptr);
+#endif
 }
 
 void DICOMAppHelper::SetFileName(const char* filename)
@@ -308,7 +310,7 @@ void DICOMAppHelper::ArrayCallback(doublebyte group,
   HeaderFile.fill(prev);
 }
     
-void DICOMAppHelper::SliceNumberCallback(doublebyte group,
+void DICOMAppHelper::SliceNumberCallback(doublebyte,
                                          doublebyte element,
                                          DICOMParser::VRTypes type,
                                          unsigned char* val,
@@ -321,11 +323,11 @@ void DICOMAppHelper::SliceNumberCallback(doublebyte group,
   SliceNumberMap.insert(std::pair<char*, int> (this->FileName, sliceNumber));
 }
 
-void DICOMAppHelper::TransferSyntaxCallback(doublebyte group,
-                                            doublebyte element,
-                                            DICOMParser::VRTypes type,
+void DICOMAppHelper::TransferSyntaxCallback(doublebyte,
+                                            doublebyte,
+                                            DICOMParser::VRTypes,
                                             unsigned char* val,
-                                            quadbyte len) 
+                                            quadbyte) 
 {
   static char* TRANSFER_UID_LITTLE_ENDIAN = "1.2.840.10008.1.2";
   if (!strcmp(TRANSFER_UID_LITTLE_ENDIAN, (char*) val))
@@ -346,11 +348,11 @@ void DICOMAppHelper::TransferSyntaxCallback(doublebyte group,
     }
 }
 
-void DICOMAppHelper::BitsAllocatedCallback(doublebyte group,
-                                           doublebyte element,
-                                           DICOMParser::VRTypes type,
+void DICOMAppHelper::BitsAllocatedCallback(doublebyte,
+                                           doublebyte,
+                                           DICOMParser::VRTypes,
                                            unsigned char* val,
-                                           quadbyte len) 
+                                           quadbyte) 
 {
   this->BitsAllocated = this->DICOMDataFile->ReturnAsUnsignedShort(val, this->DICOMDataFile->GetByteSwap());
   std::cout << "Bits allocated: " << this->BitsAllocated << std::endl;

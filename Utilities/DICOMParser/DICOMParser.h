@@ -146,7 +146,7 @@ class DICOMParser
   // Check to see if the type is a valid DICOM type.  If not, figure
   // out the right thing to do next (i.e. compute the element length).
   //
-  bool IsValidRepresentation(doublebyte rep, quadbyte& len, VRTypes mytype);
+  bool IsValidRepresentation(doublebyte rep, quadbyte& len, VRTypes &mytype);
 
   //
   // Reads a record.
