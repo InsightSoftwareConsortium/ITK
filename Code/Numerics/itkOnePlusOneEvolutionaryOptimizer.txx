@@ -87,8 +87,6 @@ OnePlusOneEvolutionaryOptimizer<TNormalRandomVariateGenerator>
       m_RandomGenerator->Initialize(m_RandomSeed); 
     }
   
-  int minIteration = 0 ;
-  
   double pvalue, cvalue, adjust ;
 
   const unsigned int spaceDimension = m_CostFunction->GetNumberOfParameters();
@@ -138,7 +136,6 @@ OnePlusOneEvolutionaryOptimizer<TNormalRandomVariateGenerator>
 
       if (cvalue < pvalue) 
         {
-          minIteration = iter ;
           pvalue = cvalue ;
           
           parent.swap(child) ;                  
