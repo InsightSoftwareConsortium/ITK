@@ -717,7 +717,7 @@ void DICOMAppHelper::SliceNumberCallback(DICOMParser *,
                                          doublebyte,
                                          DICOMParser::VRTypes,
                                          unsigned char* val,
-                                         quadbyte) 
+                                         quadbyte len) 
 {
   // Look for the current instance UID in the map of slice ordering data
   DICOMAppHelperImplementation::InstanceUIDToSliceOrderingMapType::iterator it;
@@ -726,7 +726,10 @@ void DICOMAppHelper::SliceNumberCallback(DICOMParser *,
     {
     // instance UID not found, create a new entry
     DICOMOrderingElements ord;
-    ord.SliceNumber = atoi( (char *) val);
+    if (len > 0)
+      {
+      ord.SliceNumber = atoi( (char *) val);
+      }
 
     // insert into the map
     this->Implementation->InstanceUIDToSliceOrderingMap.insert(dicom_stl::pair<const dicom_stl::string, DICOMOrderingElements>(this->InstanceUID, ord));
@@ -734,7 +737,10 @@ void DICOMAppHelper::SliceNumberCallback(DICOMParser *,
   else
     {
     // file found, add new values
-    (*it).second.SliceNumber = atoi( (char *)val );
+    if (len > 0)
+      {
+      (*it).second.SliceNumber = atoi( (char *)val );
+      }
     }
 
   // cache the slice number
