@@ -29,9 +29,71 @@
 #include "itkEuler2DTransform.h"
 #include "itkDiscreteGaussianImageFilter.h"
 #include <itkNormalVariateGenerator.h> 
+#include <itkCommand.h>
 
 namespace itk
 {
+
+/** Iteration callback */
+template < class TOptimizer >
+class IterationCallback : public Command 
+{
+
+public:
+  typedef IterationCallback   Self;
+  typedef itk::Command  Superclass;
+  typedef itk::SmartPointer<Self>  Pointer;
+  typedef itk::SmartPointer<const Self>  ConstPointer;
+  
+  itkTypeMacro( IterationCallback, Superclass );
+  itkNewMacro( Self );
+
+  /** Type defining the optimizer */
+  typedef    TOptimizer     OptimizerType;
+
+
+  /** Set Optimizer */
+  void SetOptimizer( OptimizerType * optimizer )
+  { 
+    m_Optimizer = optimizer;
+    m_Optimizer->AddObserver( itk::IterationEvent(), this );
+  }
+
+
+  /** Execute method will print data at each iteration */
+  void Execute(itk::Object *caller, const itk::EventObject & event)
+  {
+    Execute( (const itk::Object *)caller, event);
+  }
+
+  void Execute(const itk::Object *, const itk::EventObject & event)
+  {
+    if( typeid( event ) == typeid( itk::StartEvent ) )
+    {
+      std::cout << std::endl << "Position              Value";
+      std::cout << std::endl << std::endl;
+    }    
+    else if( typeid( event ) == typeid( itk::IterationEvent ) )
+    {
+      std::cout << "#" << m_Optimizer->GetCurrentIteration() 
+                << " Current parameters = " << m_Optimizer->GetCurrentPosition();
+    }
+    else if( typeid( event ) == typeid( itk::EndEvent ) )
+    {
+      std::cout << std::endl << std::endl;
+      std::cout << "After " << m_Optimizer->GetCurrentIteration();
+      std::cout << "  iterations " << std::endl;
+      std::cout << "Solution is    = " << m_Optimizer->GetCurrentPosition();
+      std::cout << std::endl;
+    }
+
+  }
+
+protected:
+  IterationCallback() {};
+  WeakPointer<OptimizerType>   m_Optimizer;
+ 
+};
 
 /** Cost Function */
 template <typename TFixedImage, typename TMovingSpatialObject>
@@ -119,8 +181,8 @@ public:
       PointType transformedPoint = m_Transform->TransformPoint(*it);
       m_FixedImage->TransformPhysicalPointToIndex(transformedPoint,index);
       if(index[0]>0L && index[1]>0L
-        && index[0]<m_FixedImage->GetLargestPossibleRegion().GetSize()[0]
-        && index[1]<m_FixedImage->GetLargestPossibleRegion().GetSize()[1]
+        && index[0]< static_cast<signed long>(m_FixedImage->GetLargestPossibleRegion().GetSize()[0])
+        && index[1]< static_cast<signed long>(m_FixedImage->GetLargestPossibleRegion().GetSize()[1])
         )
       {
         value += m_FixedImage->GetPixel(index);
@@ -263,6 +325,10 @@ int itkSpatialObjectToImageRegistrationTest(int, char**)
   optimizer->SetNormalVariateGenerator(generator);
   optimizer->Initialize(10);
   optimizer->SetMaximumIteration(1000);
+
+  typedef itk::IterationCallback<OptimizerType> IterationCallbackType;
+  IterationCallbackType::Pointer callback = IterationCallbackType::New();
+  callback->SetOptimizer( optimizer );
 
   registration->SetOptimizer(optimizer);
   registration->SetMetric(metric);
