@@ -99,13 +99,13 @@ protected:
 private:
   // parameters;
   double m_TimeStep; //the timestep of each iteration
-  double m_Steps[ImageDimension]; // set to be 1 in all directions in most cases
+  double m_Steps[TInputImage::ImageDimension]; // set to be 1 in all directions in most cases
   double m_NoiseLevel; // the noise level of the image
   int m_IterationNum;  // the iteration number
 
   LaplacianFilterPointer m_LaplacianFilter;
   typename Superclass::InputImagePointer m_IntermediateImage;
-  InternalImagePointer m_InternalImages[ImageDimension];
+  InternalImagePointer m_InternalImages[TInputImage::ImageDimension];
   InternalImagePointer m_BImage;  // store the "b" value for every pixel
   typename Superclass::InputImagePointer m_CImage; // store the $c_i$ value for every pixel
 };
