@@ -15,10 +15,17 @@ See COPYRIGHT.txt for copyright details.
 =========================================================================*/
 
 // #include "itkImage.h"
+#include "itkObjectFactory.h"
 
 template<class T, unsigned int TImageDimension>
 itkImage<T, TImageDimension>::Pointer itkImage<T, TImageDimension>::New()
 {
+  itkImage<T, TImageDimension>* ret = 
+    itkObjectFactory<itkImage<T, TImageDimension> >::Create();
+  if(ret)
+    {
+    return ret;
+    }
   return
     itkImage<T, TImageDimension>::Pointer(new itkImage<T, TImageDimension>);
 }
