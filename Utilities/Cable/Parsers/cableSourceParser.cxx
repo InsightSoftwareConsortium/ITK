@@ -571,12 +571,12 @@ void
 Parser
 ::begin_Typedef(const Attributes& atts)
 {
-  UnimplementedTypeHolder::Pointer newUnimplementedTypeHolder =
-    UnimplementedTypeHolder::New();
+  String name = atts.Get("name");
+  Typedef::Pointer newTypedef = Typedef::New(name);
   
-  // Only need typedef to absorb its internal information.  It will be
-  // lost when it is popped off the stack by end_Typedef().
-  this->PushElement(newUnimplementedTypeHolder);
+  this->CurrentContext()->AddTypedef(newTypedef);
+  
+  this->PushElement(newTypedef);
 }
 
 /**
@@ -1078,6 +1078,25 @@ Parser
 
 
 /**
+ * Begin handler for Integer element.
+ */
+void
+Parser
+::begin_Integer(const Attributes& atts)
+{
+}
+
+/**
+ * End handler for Integer element.
+ */
+void
+Parser
+::end_Integer()
+{
+}
+
+
+/**
  * Begin handler for Field element.
  */
 void
@@ -1462,8 +1481,14 @@ Parser
  */
 void
 Parser
-::begin_TemplateArgument(const Attributes& atts)
+::begin_TemplateArgument(const Attributes&)
 {
+  UnimplementedTypeHolder::Pointer newUnimplementedTypeHolder =
+    UnimplementedTypeHolder::New();
+  
+  // Only need typedef to absorb its internal information.  It will be
+  // lost when it is popped off the stack by end_Typedef().
+  this->PushElement(newUnimplementedTypeHolder);
 }
 
 /**
@@ -1472,6 +1497,25 @@ Parser
 void
 Parser
 ::end_TemplateArgument()
+{
+  this->PopElement();
+}
+
+/**
+ * Begin handler for ScopeRef element.
+ */
+void
+Parser
+::begin_ScopeRef(const Attributes&)
+{
+}
+
+/**
+ * End handler for ScopeRef element.
+ */
+void
+Parser
+::end_ScopeRef()
 {
 }
 
@@ -1626,6 +1670,7 @@ Parser
   beginHandlers["Ellipsis"]         = &Parser::begin_Ellipsis;
   beginHandlers["Variable"]         = &Parser::begin_Variable;
   beginHandlers["Initializer"]      = &Parser::begin_Initializer;
+  beginHandlers["Integer"]          = &Parser::begin_Integer;
   beginHandlers["Field"]            = &Parser::begin_Field;
   beginHandlers["Enum"]             = &Parser::begin_Enum;
   beginHandlers["NamedType"]        = &Parser::begin_NamedType;
@@ -1642,6 +1687,7 @@ Parser
   beginHandlers["BaseType"]         = &Parser::begin_BaseType;
   beginHandlers["Instantiation"]    = &Parser::begin_Instantiation;
   beginHandlers["TemplateArgument"] = &Parser::begin_TemplateArgument;
+  beginHandlers["ScopeRef"]         = &Parser::begin_ScopeRef;
   beginHandlers["External"]         = &Parser::begin_External;
   beginHandlers["IncompleteType"]   = &Parser::begin_IncompleteType;
   beginHandlers["Location"]         = &Parser::begin_Location;
@@ -1668,6 +1714,7 @@ Parser
   endHandlers["Ellipsis"]         = &Parser::end_Ellipsis;
   endHandlers["Variable"]         = &Parser::end_Variable;
   endHandlers["Initializer"]      = &Parser::end_Initializer;
+  endHandlers["Integer"]          = &Parser::end_Integer;
   endHandlers["Field"]            = &Parser::end_Field;
   endHandlers["Enum"]             = &Parser::end_Enum;
   endHandlers["NamedType"]        = &Parser::end_NamedType;
@@ -1684,6 +1731,7 @@ Parser
   endHandlers["BaseType"]         = &Parser::end_BaseType;
   endHandlers["Instantiation"]    = &Parser::end_Instantiation;
   endHandlers["TemplateArgument"] = &Parser::end_TemplateArgument;
+  endHandlers["ScopeRef"]         = &Parser::end_ScopeRef;
   endHandlers["External"]         = &Parser::end_External;
   endHandlers["IncompleteType"]   = &Parser::end_IncompleteType;
   endHandlers["Location"]         = &Parser::end_Location;

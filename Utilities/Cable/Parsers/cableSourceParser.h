@@ -136,6 +136,7 @@ private:
   void begin_Ellipsis(const Attributes&);
   void begin_Variable(const Attributes&);
   void begin_Initializer(const Attributes&);
+  void begin_Integer(const Attributes&);
   void begin_Field(const Attributes&);
   void begin_Enum(const Attributes&);
   void begin_NamedType(const Attributes&);
@@ -152,6 +153,7 @@ private:
   void begin_BaseType(const Attributes&);
   void begin_Instantiation(const Attributes&);
   void begin_TemplateArgument(const Attributes&);
+  void begin_ScopeRef(const Attributes&);
   void begin_External(const Attributes&);
   void begin_IncompleteType(const Attributes&);
   void begin_Location(const Attributes&);
@@ -179,6 +181,7 @@ private:
   void end_Ellipsis();
   void end_Variable();
   void end_Initializer();
+  void end_Integer();
   void end_Field();
   void end_Enum();
   void end_NamedType();
@@ -195,6 +198,7 @@ private:
   void end_BaseType();
   void end_Instantiation();
   void end_TemplateArgument();
+  void end_ScopeRef();
   void end_External();
   void end_IncompleteType();
   void end_Location();
