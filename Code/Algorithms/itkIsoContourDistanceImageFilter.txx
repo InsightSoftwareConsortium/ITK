@@ -209,7 +209,7 @@ IsoContourDistanceImageFilter<TInputImage,TOutputImage>
        }
      else if (inIt.Get() < m_LevelSetValue)
        {
-       outIt.Set(-m_FarValue);
+       outIt.Set(-(double)m_FarValue);
        }
      else
        {
@@ -370,7 +370,7 @@ IsoContourDistanceImageFilter<TInputImage,TOutputImage>
        }
      else if (inInitIt.Get() < m_LevelSetValue)
        {
-       outInitIt.Set(-m_FarValue);
+       outInitIt.Set(-(double)m_FarValue);
        }
      else
        {
