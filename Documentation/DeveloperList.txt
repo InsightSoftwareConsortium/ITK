@@ -1,0 +1,69 @@
+acois:C. Aaron Cois
+aborning:Andrea Borning
+alyassin:Majeid Alyassin
+anonymous:noone
+avants:Brian Avants
+aylward:Stephen Stephen
+blezek:Dan Blezek
+blue:Rusty Blue
+bwyman:Brad Wyman
+cates:Josh Cates
+celina:Celina  Imielinska
+chandra:Parag Chandra
+chenting:Ting Chen
+gee:Jim Gee
+hoffman:Bill Hoffman
+hughett:Paul Hughett
+ibanez:Luis Ibanez
+jin:Yinpeng Jin
+jjomier:Julien Jomier
+jrgold:Jill Goldschneider
+jisung:Jisung Kim
+king:Brad King
+lawcc:Charles Law
+lng:Lydia Ng
+lorensen:Bill Lorensen
+mackelfr:Andrew MacKelfresh
+montillo:Albert Montillo
+martink:Ken Martin
+millerjv:Jim Miller
+noe:Aljaz Noe
+parks:Sungwook Parks
+ratiu:Peter Ratiu
+rondot:Pascale Rondot
+shelton:Damion Shelton
+siqueira:Marcelo Siqueira
+spathak:Sayan Pathak
+stetten:George Stetten
+tamburo:Robert Tamburo
+tessa:Tessa Sundaram
+turek:Matt Turek
+turner:Wes Turner
+vikram:Vikram Chalana
+whitaker:Ross Whitaker
+wilson:Wilson Chang
+will:Will Schroeder
+ying:Ying Zhuge
+yoo:Terry S. Yoo
+xwxue:Xinwei Xue
+jtduda:Jeffrey Duda
+piloo:Jean-Philippe Guyon
+foskey:Mark Foskey
+darbyb:Darby Brown
+tolga:Tolga Tasdizen
+vmagnotta:Vincent A. Magnotta
+kentwilliams:Kent Williams
+raul:Raul San-Jose
+quaeler:loki der quaeler
+galeotti:John M. Galeotti
+padfield:Dirk Padfield
+pauly:Paul A. Yushkevich
+drueckert:Daniel Rueckert
+hipwell:John Hipwell
+rchandra:Raghavendra Chandrashekara
+lgong:Lixin Gong
+suyash:Suyash Awate
+dw31:David Wang
+cpbotha:Charl P. Botha
+leonid:Leonid Teverovskiy
+karl:Karl Krissian
