@@ -55,7 +55,7 @@ const QuaternionRigidRegistrationTransform<TScalarType,TParameters> &
 QuaternionRigidRegistrationTransform<TScalarType,TParameters>
 ::operator=( const Self & other )
 {
-  m_RigidTransformation = other.m_RigidTransformation;
+  m_RigidTransform = other.m_RigidTransform;
   m_TranslationScale = other.m_TranslationScale;
   return *this;
 }
