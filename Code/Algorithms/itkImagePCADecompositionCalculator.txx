@@ -131,7 +131,7 @@ ImagePCADecompositionCalculator<TInputImage, TBasisImage>
       *vector_it = static_cast<BasisPixelType> (image_it.Get());
     }
   
-  if (m_MeanImage != NULL) 
+  if (m_MeanImage) 
     {
     ImageRegionConstIterator<BasisImageType> mimage_it(m_MeanImage,
                                               m_MeanImage->GetRequestedRegion());
