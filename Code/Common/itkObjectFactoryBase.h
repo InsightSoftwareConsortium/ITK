@@ -36,6 +36,15 @@
 #include <vector>
 class itkOverRideMap;
 
+
+struct OverrideInformation
+{
+  std::string m_Description;
+  std::string m_OverrideWithName;
+  bool m_EnabledFlag;
+  itkCreateObjectFunctionBase::Pointer m_CreateObject;
+};
+
 class ITK_EXPORT itkObjectFactoryBase : public itkObject
 {
 public:  
@@ -168,13 +177,6 @@ protected:
   itkObjectFactoryBase(const itkObjectFactoryBase&) {};
   void operator=(const itkObjectFactoryBase&) {};
 public:
-  struct OverrideInformation
-  {
-    std::string m_Description;
-    std::string m_OverrideWithName;
-    bool m_EnabledFlag;
-    itkCreateObjectFunctionBase::Pointer m_CreateObject;
-  };
 protected:
   itkOverRideMap* m_OverrideMap;
 
