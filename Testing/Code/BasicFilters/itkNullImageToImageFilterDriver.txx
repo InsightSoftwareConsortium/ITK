@@ -24,6 +24,7 @@
 #define __itkNullImageToImageFilterDriver_h
 
 #include <iostream>
+#include "itkPixelTraits.h"
 #include "itkImage.h"
 #include "itkImageToImageFilter.h"
 #include "itkSize.h"
@@ -52,7 +53,9 @@ public:
   NullImageToImageFilterDriver() {};
 
   typedef typename TInputImage::SizeType ImageSizeType;
-
+  typedef typename TInputImage::PixelType InputPixelType;
+  enum {InputPixelDimension=PixelTraits<InputPixelType>::Dimension};
+  
   /**
    * Set the image-to-image filter to drive.
    */
@@ -69,12 +72,51 @@ public:
    * Drive the filter without using the itk pipeline.
    */
   void Execute();
+
+protected:
+  struct DispatchBase {};
+  template<unsigned int VDimension>
+  struct Dispatch : public DispatchBase {};
+  
+  void InitializePixel(InputPixelType &pixel);
+  void InitializePixel(const DispatchBase&, InputPixelType &pixel);
+  void InitializePixel(const Dispatch<1>&, InputPixelType &pixel);
   
 private:
   ImageToImageFilter<TInputImage, TOutputImage> *m_Filter;
   ImageSizeType m_ImageSize;
 };
 
+
+template <class TInputImage, class TOutputImage>
+void
+NullImageToImageFilterDriver<TInputImage, TOutputImage>
+::InitializePixel(InputPixelType &pixel)
+{
+  this->InitializePixel(Dispatch<InputPixelDimension>(), pixel);
+}
+
+template <class TInputImage, class TOutputImage>
+void
+NullImageToImageFilterDriver<TInputImage, TOutputImage>
+::InitializePixel(const DispatchBase &, InputPixelType &pixel)
+{
+  for (unsigned int i=0; i < InputPixelDimension; ++i)
+    {
+    pixel[i] = NumericTraits<PixelTraits<InputPixelType>::ValueType>::Zero;
+    }
+}
+
+template <class TInputImage, class TOutputImage>
+void
+NullImageToImageFilterDriver<TInputImage, TOutputImage>
+::InitializePixel(const Dispatch<1> &, InputPixelType &pixel)
+{
+  pixel = NumericTraits<InputPixelType>::Zero;
+}
+
+
+  
 /**
  *  Drive the filter without using the itk pipeline
  */
@@ -100,6 +142,11 @@ NullImageToImageFilterDriver<TInputImage, TOutputImage>
   ip->SetRequestedRegion(region);
   ip->Allocate();
 
+  // Construct a pixel to fill the image
+  TInputImage::PixelType pixel;
+  this->InitializePixel(pixel);
+  ip->FillBuffer(pixel);
+  
   // Setup the filter
   m_Filter->SetInput(ip);
 
