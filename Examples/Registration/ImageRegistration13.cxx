@@ -24,13 +24,15 @@
 // Software Guide : EndLatex 
 
 
-// Software Guide : BeginCodeSnippet
 #include "itkImageRegistrationMethod.h"
 
 #include "itkCenteredRigid2DTransform.h"
 #include "itkCenteredTransformInitializer.h"
 
+// Software Guide : BeginCodeSnippet
 #include "itkMattesMutualInformationImageToImageMetric.h"
+// Software Guide : EndCodeSnippet
+
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
 #include "itkImage.h"
@@ -87,7 +89,7 @@ int main( int argc, char *argv[] )
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
-    std::cerr << "outputImagefile [differenceImage]" << std::endl;
+    std::cerr << "outputImagefile " << std::endl;
     return 1;
     }
   
@@ -97,9 +99,14 @@ int main( int argc, char *argv[] )
   typedef itk::Image< PixelType, Dimension >  FixedImageType;
   typedef itk::Image< PixelType, Dimension >  MovingImageType;
 
+  // Software Guide : BeginLatex
+  // The CenteredRigid2DTransform applies a rigid transform in 2D space.
+  // Software Guide : EndLatex
+  // Software Guide : BeginCodeSnippet
   typedef itk::CenteredRigid2DTransform< double > TransformType;
-
   typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
+  // Software Guide : EndCodeSnippet
+   
   typedef itk::LinearInterpolateImageFunction< 
                                     MovingImageType,
                                     double             > InterpolatorType;
@@ -108,14 +115,19 @@ int main( int argc, char *argv[] )
                                     MovingImageType    > RegistrationType;
 
 
+  // Software Guide : BeginCodeSnippet
   typedef itk::MattesMutualInformationImageToImageMetric< 
                                           FixedImageType, 
                                           MovingImageType >    MetricType;
+  // Software Guide : EndCodeSnippet
 
 
 
+
+  // Software Guide : BeginCodeSnippet
   TransformType::Pointer      transform     = TransformType::New();
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
+  // Software Guide : EndCodeSnippet
   InterpolatorType::Pointer   interpolator  = InterpolatorType::New();
   RegistrationType::Pointer   registration  = RegistrationType::New();
 
@@ -151,7 +163,23 @@ int main( int argc, char *argv[] )
   registration->SetFixedImageRegion( 
        fixedImageReader->GetOutput()->GetBufferedRegion() );
 
-
+  // Software Guide : BeginLatex
+  // The \doxygen{CenteredRigid2DTransform} is initialized by 5 parameters, 
+  // indicating the angle of rotation, the centre co-ordinates and the 
+  // translation to be applied after rotation. The initialization is done 
+  // by the \doxygen{CenteredTransformInitializer}. 
+  // The transform can operate in two modes, one assumes that the 
+  // anatomical objects to be registered are centered in their respective 
+  // images. Hence the best initial guess for the registration is the one
+  // that superimposes those two centers.
+  // This second approach assumes that the moments of the anatomical 
+  // objects are similar for both images and hence the best initial guess 
+  // for registration is to superimpose both mass centers. The center of
+  // mass is computed from the moments obtained from the gray level values.
+  // Here we adopt the first approach. The \code{GeometryOn()} method
+  // toggles between the approaches.
+  // Software Guide : EndLatex
+  // Software Guide : BeginCodeSnippet
   typedef itk::CenteredTransformInitializer< 
                                     TransformType, 
                                     FixedImageType, 
@@ -159,23 +187,32 @@ int main( int argc, char *argv[] )
   TransformInitializerType::Pointer initializer = TransformInitializerType::New();
 
   initializer->SetTransform(   transform );
+
   initializer->SetFixedImage(  fixedImageReader->GetOutput() );
   initializer->SetMovingImage( movingImageReader->GetOutput() );
   initializer->GeometryOn();
   initializer->InitializeTransform();
+  // Software Guide : EndCodeSnippet
 
   transform->SetAngle( 0.0 );
 
 
   registration->SetInitialTransformParameters( transform->GetParameters() );
 
+  // Software Guide : BeginLatex
+  // The optimzer scales the metrics (the gradient in this case) by the 
+  // scales during each iteration. Hence a large value of the center scale
+  // will prevent movement along the center during optimization. Here we
+  // assume that the fixed and moving images are likely to be related by 
+  // a translation.
+  // Software Guide : EndLatex
+  // Software Guide : BeginCodeSnippet
   typedef OptimizerType::ScalesType       OptimizerScalesType;
   OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
 
   const double translationScale = 1.0 / 1000.0;
   const double centerScale      = 1000.0; // prevents it from moving 
                                           // during the optimization
-
   optimizerScales[0] = 1.0;
   optimizerScales[1] = centerScale;
   optimizerScales[2] = centerScale;
@@ -187,6 +224,7 @@ int main( int argc, char *argv[] )
   optimizer->SetMaximumStepLength( 0.5   ); 
   optimizer->SetMinimumStepLength( 0.0001 );
   optimizer->SetNumberOfIterations( 400 );
+  // Software Guide : EndCodeSnippet
 
   // Create the Command observer and register it with the optimizer.
   //
@@ -267,10 +305,29 @@ int main( int argc, char *argv[] )
   writer->SetInput( resample->GetOutput() );
   writer->Update();
 
-// Software Guide : EndCodeSnippet
-
-
-
   return 0;
 }
+
+  //  Software Guide : BeginLatex
+  //  
+  //  Let's execute this example over some of the images provided in
+  //  \code{Examples/Data}, for example:
+  //  
+  //  \begin{itemize}
+  //  \item \code{BrainProtonDensitySlice.png} 
+  //  \item \code{BrainProtonDensitySliceBorder20.png}
+  //  \end{itemize}
+  //
+  //  The second image is the result of intentionally shiftng the first
+  //  image by $20mm$ in $X$ and $20mm$ in
+  //  $Y$. Both images have unit-spacing and are shown in Figure
+  //  \ref{fig:FixedMovingImageRegistration1}. The example 
+  //  yielded the following results.
+  //  
+  //  \begin{verbatim}
+  //  Translation X = 20
+  //  Translation Y = 20
+  //  \end{verbatim}
+  //  These values match the true misaligment introduced in the moving image.
+  //  Software Guide : EndLatex 
 
