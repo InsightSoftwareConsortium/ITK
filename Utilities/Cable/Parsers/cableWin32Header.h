@@ -17,7 +17,7 @@
 #define _win32Header_h
 
 // add in the Windows variants
-#if defined(_WIN32) || defined(WIN32)
+#if (defined(_WIN32) || defined(WIN32)) && !defined(__CYGWIN__)
 
 // for-loop scoping hack
 #define for if(false) {} else for
