@@ -437,7 +437,6 @@ PointSet<TPixelType, VDimension, TMeshTraits>
   if (m_RequestedRegion != region)
     {
     m_RequestedRegion = region;
-    m_RequestedRegionInitialized = true;
     }
 }
 
