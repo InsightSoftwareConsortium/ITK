@@ -56,7 +56,8 @@ AutoPointerDataObjectDecorator<T>
   if (m_Component.get() != val)
     {
     // store the pointer and take ownership of the memory
-    m_Component = ComponentPointer(val);
+    ComponentPointer aPointer(val);
+    m_Component = aPointer;
     this->Modified();
     }
 }
