@@ -42,4 +42,15 @@ namespace eval itk::testing {
   if {! [info exists ::ITK_DATA_ROOT]} {
     set ::ITK_DATA_ROOT $::itk::testing::defaultDataRoot
   }
+  
+  # Use the default test root.
+  if {! [info exists ::ITK_TEST_ROOT]} {
+    set ::ITK_TEST_ROOT $::itk::testing::defaultTestRoot
+  }
+
+  # Setup testing directories.
+  set ::ITK_TEST_BASELINE "${::ITK_DATA_ROOT}/Baseline"
+  set ::ITK_TEST_INPUT "${::ITK_DATA_ROOT}/Input"
+  set ::ITK_TEST_OUTPUT "${::ITK_TEST_ROOT}/Output"
+  file mkdir "${::ITK_TEST_OUTPUT}"
 }
