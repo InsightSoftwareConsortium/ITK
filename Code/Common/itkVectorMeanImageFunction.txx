@@ -58,11 +58,12 @@ VectorMeanImageFunction<TInputImage,TCoordRep>
 ::EvaluateAtIndex(const IndexType& index) const
 {
   RealType sum;
-  typedef  typename RealType::ValueType  PixelComponentType;
+  typedef  typename TInputImage::PixelType   PixelType;
+  typedef  typename PixelType::ValueType     PixelComponentType;
   typedef  typename NumericTraits< PixelComponentType >::RealType PixelComponentRealType;
   
   const unsigned int VectorDimension = 
-      ::itk::GetVectorDimension<typename TInputImage::PixelType>::VectorDimension;
+      ::itk::GetVectorDimension< PixelType >::VectorDimension;
 
   sum.Fill( NumericTraits< PixelComponentRealType >::Zero );
   
