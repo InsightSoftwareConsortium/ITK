@@ -187,6 +187,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkVTKImageImport.txx"
 #include "itkVectorAnisotropicDiffusionFunction.txx"
 #include "itkVectorCastImageFilter.h"
+#include "itkVectorConfidenceConnectedImageFilter.txx"
 #include "itkVectorCurvatureAnisotropicDiffusionImageFilter.h"
 #include "itkVectorCurvatureNDAnisotropicDiffusionFunction.txx"
 #include "itkVectorExpandImageFilter.txx"
