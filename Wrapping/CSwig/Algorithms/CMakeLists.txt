@@ -23,7 +23,7 @@ SET(WRAP_SOURCES
     wrap_itkNarrowBandCurvesLevelSetImageFilter
     wrap_itkVoronoiSegmentationImageFilter
     wrap_itkWatershedImageFilter
-##    wrap_itkTreeNode
+    wrap_itkTreeNodeSO
 )
 
 SET(MASTER_INDEX_FILES "${WrapITK_BINARY_DIR}/VXLNumerics/VXLNumerics.mdx"
