@@ -65,6 +65,7 @@ int main( int argc, char * argv[] )
 
   FieldReaderType::Pointer fieldReader = FieldReaderType::New();
   fieldReader->SetFileName( argv[2] );
+  fieldReader->Update();
 
   DeformationFieldType::ConstPointer deformationField = fieldReader->GetOutput();
 
