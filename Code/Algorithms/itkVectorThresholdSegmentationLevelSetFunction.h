@@ -22,11 +22,15 @@
 #include "itkMahalanobisDistanceMembershipFunction.h"
 namespace itk {
 
-/** \class ThresholdSegmentationLevelSetFunction
+/** \class VectorThresholdSegmentationLevelSetFunction
  *    
  * \brief This function is used in VectorThresholdSegmentationLevelSetImageFilter to
  * segment structures in images based on the Mahalanobis distance.
  *
+ *   \par CREDITS
+ *   This class was contributed to ITK by Stefan Lindenau 
+ *   http://www.itk.org/pipermail/insight-users/2003-December/005969.html
+ *   
  * \par  SegmentationLevelSetFunction is a subclass of the generic LevelSetFunction.
  * It useful for segmentations based on intensity values in an image.  It works
  * by constructing a speed term (feature image) with positive values inside an

@@ -22,7 +22,7 @@
 
 namespace itk {
 
-/** \class ThresholdSegmentationLevelSetImageFilter
+/** \class VectorThresholdSegmentationLevelSetImageFilter
  *    \brief Segments structures in images based on intensity values.
  *
  *   \par IMPORTANT
@@ -30,6 +30,10 @@ namespace itk {
  *   VectorThresholdSegmentationLevelSetFunction class contain additional information necessary
  *   to the full understanding of how to use this filter.
  *
+ *   \par CREDITS
+ *   This class was contributed to ITK by Stefan Lindenau 
+ *   http://www.itk.org/pipermail/insight-users/2003-December/005969.html
+ *   
  *    \par OVERVIEW
  *    This class is a level set method segmentation filter.  It constructs a
  *    speed function which is close to zero where the Mahalabonian Distance
