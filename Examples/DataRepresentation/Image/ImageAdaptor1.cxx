@@ -36,6 +36,7 @@
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
+#include "itkImage.h"
 #include "itkImageAdaptor.h"
 // Software Guide : EndCodeSnippet
 
@@ -71,10 +72,10 @@
       typedef unsigned char InternalType;
       typedef float         ExternalType;
 
-      //static void Set(InternalType & output, const TExternalType & input) 
-      //  {
-      //  output = static_cast<InternalType>( input );
-      //  }
+      static void Set(InternalType & output, const ExternalType & input) 
+        {
+        output = static_cast<InternalType>( input );
+        }
 
       static ExternalType Get( const InternalType & input ) 
         {
