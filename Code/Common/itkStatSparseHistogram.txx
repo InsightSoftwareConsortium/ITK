@@ -16,36 +16,50 @@
 #ifndef _itkStatSparseHistogram_txx
 #define _itkStatSparseHistogram_txx
 
-#include <map>
-
 #include "itkStatSparseHistogram.h"
 
 namespace itk
 {
 
-template<class TBin, unsigned int HistogramDimension>
-const TBin &
-SparseHistogram<TBin, HistogramDimension>
-::GetFrequency(const PointType & point)
+template<class TBin, unsigned int HistogramDimension, class TFeature>
+const TBin 
+SparseHistogram<TBin, HistogramDimension, TFeature>
+::GetFrequency(const IndexType index)
+{
+  unsigned long offset = ComputeOffset(index);
+  if ( m_Histogram.find(offset) == m_Histogram.end() )
+    return 0;
+  else
+    return m_Histogram[offset];
+}
+
+template<class TBin, unsigned int HistogramDimension, class TFeature>
+const TBin
+SparseHistogram<TBin, HistogramDimension, TFeature>
+::GetFrequency(const PointType point)
 {
   IndexType index;
   index = GetIndex(point);
-  return m_Histogram[ComputeOffset(index)];
+  unsigned long offset = ComputeOffset(index);
+  if ( m_Histogram.find(offset) == m_Histogram.end() )
+    return 0;
+  else
+    return m_Histogram[offset];
 }
 
-template<class TBin, unsigned int HistogramDimension>
+template<class TBin, unsigned int HistogramDimension, class TFeature>
 void
-SparseHistogram<TBin, HistogramDimension>
-::SetFrequency(const PointType & point, const TBin& value) 
+SparseHistogram<TBin, HistogramDimension, TFeature>
+::SetFrequency(const PointType point, const TBin value) 
 { 
   IndexType index;
   index = GetIndex(point);
   m_Histogram[ComputeOffset(index)] = value;
 }
 
-template<class TBin, unsigned int HistogramDimension >
+template<class TBin, unsigned int HistogramDimension, class TFeature>
 void
-SparseHistogram<TBin, HistogramDimension>
+SparseHistogram<TBin, HistogramDimension, TFeature>
 ::ComputeOffsetTable()
 {
   unsigned long num = 1;
@@ -57,22 +71,36 @@ SparseHistogram<TBin, HistogramDimension>
     }
 }
 
-template<class TBin, unsigned int HistogramDimension >
+template<class TBin, unsigned int HistogramDimension, class TFeature>
 unsigned long
-SparseHistogram<TBin, HistogramDimension>
-::ComputeOffset(const IndexType & index)
+SparseHistogram<TBin, HistogramDimension, TFeature>
+::ComputeOffset(const IndexType index)
 {
   unsigned long offset = 0;
-  unsigned int i;
-  for (i=HistogramDimension-1; i > 0; i--)
+
+  for (int i=HistogramDimension-1; i > 0; i--)
     {
     offset += index[i]*m_OffsetTable[i];
     }
-  offset += index[i];
+  offset += index[0];
   return offset;
 }
 
-} // end of namespace
+template<class TBin, unsigned int HistogramDimension, class TFeature>
+Index<HistogramDimension>
+SparseHistogram<TBin, HistogramDimension, TFeature>
+::ComputeIndex(unsigned long offset)
+{
+  IndexType index;
+  for (int i=HistogramDimension-1; i > 0; i--)
+    {
+    index[i] = offset/m_OffsetTable[i];
+    offset -= (index[i] * m_OffsetTable[i]);
+    }
+  index[0] = offset;
+  return index;
+}
 
+} // end of namespace
 
 #endif

@@ -17,34 +17,35 @@
 #define _itkStatDenseHistogram_txx
 
 #include "itkStatDenseHistogram.h"
-//#include "itkImageRegionIterator.h"
 
 namespace itk
 {
 
-template<class TBin, unsigned int HistogramDimension>
-const TBin&
-DenseHistogram<TBin, HistogramDimension>
-::GetFrequency(const PointType & point)
+template<class TBin, unsigned int HistogramDimension, class TFeature>
+const TBin
+DenseHistogram<TBin, HistogramDimension, TFeature>
+::GetFrequency(const PointType point)
 {
   IndexType index;
   index = this->GetIndex(point);
   return m_Histogram->GetPixel(index);
 }
 
-template<class TBin, unsigned int HistogramDimension>
+template<class TBin, unsigned int HistogramDimension, class TFeature>
 void
-DenseHistogram<TBin, HistogramDimension>
-::SetFrequency(const PointType & point, const TBin& value) 
+DenseHistogram<TBin, HistogramDimension, TFeature>
+::SetFrequency(const PointType point, const TBin value) 
 { 
   IndexType index;
   index = this->GetIndex(point);
   m_Histogram->SetPixel(index, value);
 }
 
-template<class TBin, unsigned int HistogramDimension >
+
+
+template<class TBin, unsigned int HistogramDimension, class TFeature>
 void
-DenseHistogram<TBin, HistogramDimension>
+DenseHistogram<TBin, HistogramDimension, TFeature>
 ::AllocateHistogram()
 {
   int i;
@@ -52,13 +53,13 @@ DenseHistogram<TBin, HistogramDimension>
   IndexType   start;
   for ( i = 0; i < HistogramDimension; i++)
     {
-    start[i] = 0;          // initial coordinate of the image
+    start[i] = 0;                   // initial coordinate of the image
     }
 
   SizeType    size;
   for ( i = 0; i < HistogramDimension; i++)
     {
-    size[i]  = GetDimensionSize(i);  // the size of the HistogramDimension image
+    size[i]  = GetDimensionSize(i); // the size of the HistogramDimension image
     }
   HistogramType::RegionType  region;
   region.SetSize( size );
@@ -72,10 +73,10 @@ DenseHistogram<TBin, HistogramDimension>
 
   // Allocate histogram by Allocate() in Image class
   m_Histogram->Allocate();
- 
+
 }
 
-} // end of namespace
 
+} // end of namespace
 
 #endif

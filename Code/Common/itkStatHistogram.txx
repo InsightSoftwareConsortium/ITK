@@ -21,9 +21,9 @@
 namespace itk
 {
 
-template<class TBin, unsigned int HistogramDimension>
+template<class TBin, unsigned int HistogramDimension, class TFeature>
 Index<HistogramDimension>
-Histogram<TBin, HistogramDimension>
+Histogram<TBin, HistogramDimension, TFeature>
 ::GetIndex(const PointType point)
 {
   int dim, nbin, numBin;  // dimension, bin number, number of bins
@@ -58,10 +58,10 @@ Histogram<TBin, HistogramDimension>
     
 }
 
-template<class TBin, unsigned int HistogramDimension>
-double
-Histogram<TBin, HistogramDimension>
-::GetBinMinFromValue(unsigned int dimension, const double value ) const
+template<class TBin, unsigned int HistogramDimension, class TFeature>
+TFeature
+Histogram<TBin, HistogramDimension, TFeature>
+::GetBinMinFromValue(unsigned int dimension, const TFeature value ) const
 {
   // If the value is lower than any of min value in the histogram,
   // it returns the lowest min value
@@ -87,10 +87,10 @@ Histogram<TBin, HistogramDimension>
     }
 }
 
-template<class TBin, unsigned int HistogramDimension>
-double
-Histogram<TBin, HistogramDimension>
-::GetBinMaxFromValue(unsigned int dimension, const double value ) const
+template<class TBin, unsigned int HistogramDimension, class TFeature>
+TFeature
+Histogram<TBin, HistogramDimension, TFeature>
+::GetBinMaxFromValue(unsigned int dimension, const TFeature value ) const
 {
   // If the value is lower than any of max value in the histogram,
   // it returns the lowest max value
@@ -116,9 +116,9 @@ Histogram<TBin, HistogramDimension>
     }
 }
 
-template<class TBin, unsigned int HistogramDimension>
-Point<TBin, HistogramDimension>
-Histogram<TBin, HistogramDimension>
+template<class TBin, unsigned int HistogramDimension, class TFeature>
+Point<TFeature, HistogramDimension>
+Histogram<TBin, HistogramDimension, TFeature>
 ::GetHistogramMinFromValue(const PointType point) 
 {
   PointType pnt;
@@ -129,9 +129,9 @@ Histogram<TBin, HistogramDimension>
   return pnt;
 }
 
-template<class TBin, unsigned int HistogramDimension>
-Point<TBin, HistogramDimension>
-Histogram<TBin, HistogramDimension>
+template<class TBin, unsigned int HistogramDimension, class TFeature>
+Point<TFeature, HistogramDimension>
+Histogram<TBin, HistogramDimension, TFeature>
 ::GetHistogramMaxFromValue(const PointType point) 
 {
   PointType pnt;
@@ -143,10 +143,10 @@ Histogram<TBin, HistogramDimension>
 
 }
 
-template<class TBin, unsigned int HistogramDimension>
-Point<TBin, HistogramDimension>
-Histogram<TBin, HistogramDimension>
-::GetHistogramMin(const IndexType index) 
+template<class TBin, unsigned int HistogramDimension, class TFeature>
+Point<TFeature, HistogramDimension>
+Histogram<TBin, HistogramDimension, TFeature>
+::GetHistogramMinFromIndex(const IndexType index) 
 {
   PointType pnt;
   for ( int i=0; i < HistogramDimension; i++ )
@@ -156,10 +156,10 @@ Histogram<TBin, HistogramDimension>
   return pnt;
 }
 
-template<class TBin, unsigned int HistogramDimension>
-Point<TBin, HistogramDimension>
-Histogram<TBin, HistogramDimension>
-::GetHistogramMax(const IndexType index) 
+template<class TBin, unsigned int HistogramDimension, class TFeature>
+Point<TFeature, HistogramDimension>
+Histogram<TBin, HistogramDimension, TFeature>
+::GetHistogramMaxFromIndex(const IndexType index) 
 {
   PointType pnt;
   for ( int i=0; i < HistogramDimension; i++ )
@@ -169,9 +169,9 @@ Histogram<TBin, HistogramDimension>
   return pnt;
 }
 
-template<class TBin, unsigned int HistogramDimension>
+template<class TBin, unsigned int HistogramDimension, class TFeature>
 void
-Histogram<TBin, HistogramDimension>
+Histogram<TBin, HistogramDimension, TFeature>
 ::AllocateMins( )
 {
   m_Min.resize(HistogramDimension);
@@ -181,9 +181,9 @@ Histogram<TBin, HistogramDimension>
     } 
 }
 
-template<class TBin, unsigned int HistogramDimension>
+template<class TBin, unsigned int HistogramDimension, class TFeature>
 void
-Histogram<TBin, HistogramDimension>
+Histogram<TBin, HistogramDimension, TFeature>
 ::AllocateMaxs( )
 {
   m_Max.resize(HistogramDimension);
@@ -193,7 +193,44 @@ Histogram<TBin, HistogramDimension>
     } 
 }
 
-} // end of namespace
+template<class TBin, unsigned int HistogramDimension, class TFeature>
+TFeature
+Histogram<TBin, HistogramDimension, TFeature>
+::GetFeature(const IndexType index, int dimension)
+{
+  int nbin = index[dimension];
+  return (m_Min[dimension][nbin] + m_Max[dimension][nbin])/2;
+}
 
+template<class TBin, unsigned int HistogramDimension, class TFeature>
+TFeature
+Histogram<TBin, HistogramDimension, TFeature>
+::GetFeature(const PointType point, int dimension)
+{
+  IndexType index = GetIndex(point);
+  int nbin = index[dimension];
+  return (m_Min[dimension][nbin] + m_Max[dimension][nbin])/2;  
+}
+
+template<class TBin, unsigned int HistogramDimension, class TFeature>
+Point<TFeature, HistogramDimension>
+Histogram<TBin, HistogramDimension, TFeature>
+::GetFeature(const IndexType index)
+{
+  int nbin = index[dimension];
+  return (m_Min[dimension] + m_Max[dimension])/2;
+}
+
+template<class TBin, unsigned int HistogramDimension, class TFeature>
+Point<TFeature, HistogramDimension>
+Histogram<TBin, HistogramDimension, TFeature>
+::GetFeature(const PointType point)
+{
+  IndexType index = GetIndex(point);
+  int nbin = index[dimension];
+  return (m_Min[dimension] + m_Max[dimension])/2;  
+}
+
+} // end of namespace
 
 #endif
