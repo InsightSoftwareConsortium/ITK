@@ -80,10 +80,19 @@ void Semaphore::Initialize(unsigned int value)
   
 #endif
 #ifdef ITK_USE_PTHREADS
+
+#ifdef sun
+  if ( sema_init(&m_Sema, 0, value, NULL ) != 0 )
+    {
+    itkExceptionMacro( << "sema_init call failed" );
+    }
+#else
   if ( sem_init(&m_Sema, 0, value) != 0 )
     {
       itkExceptionMacro( << "sem_init call failed" );
     }
+#endif // ifdef sun
+
 #endif
 #endif
   
@@ -111,10 +120,17 @@ void Semaphore::Up()
     }
 #endif
 #ifdef ITK_USE_PTHREADS
+#ifdef sun
+  if ( sema_post(&m_Sema) != 0 )
+    {
+      itkExceptionMacro( << "sema_post call failed." );
+    }
+#else
   if ( sem_post(&m_Sema) != 0 )
     {
       itkExceptionMacro( << "sem_post call failed." );
     }
+#endif // ifdef sun
 #endif
 
 #endif  // ITK_USE_UNIX_SEMAPHORES
@@ -141,10 +157,17 @@ void Semaphore::Down()
     }
 #endif
 #ifdef ITK_USE_PTHREADS
+#ifdef sun
+  if (sema_wait(&m_Sema) != 0)
+    {
+    itkExceptionMacro( << "sema_wait call failed." );
+    }
+#else
   if (sem_wait(&m_Sema) != 0)
     {
       itkExceptionMacro( << "sem_wait call failed." );
     }
+#endif
 #endif
 #endif
 
@@ -207,10 +230,18 @@ void Semaphore::Remove ()
     }
 #endif
 #ifdef ITK_USE_PTHREADS
+#ifdef sun
+  if ( sema_destroy(&m_Sema) != 0 )
+    {
+    itkExceptionMacro( << "sema_destroy call failed. " );
+    }
+#else
   if ( sem_destroy(&m_Sema) != 0 )
     {
     itkExceptionMacro( << "sem_destroy call failed. " );
     }
+#endif
+  
 #endif
 #endif
   

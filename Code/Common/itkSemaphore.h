@@ -36,7 +36,11 @@
 #include <ulocks.h>
 #endif
 #ifdef ITK_USE_PTHREADS
+#ifdef sun
+#include <synch.h>
+#else
 #include <semaphore.h>
+#endif
 #endif
 #endif
 
@@ -55,7 +59,11 @@ namespace itk {
 typedef usema_t * SemaphoreType;
 #endif
 #ifdef ITK_USE_PTHREADS
+#ifdef sun
+typedef sema_t SemaphoreType;
+#else
 typedef sem_t  SemaphoreType;
+#endif
 #endif
 #endif
 
