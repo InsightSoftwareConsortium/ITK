@@ -208,6 +208,15 @@ GetJacobian( const InputPointType & ) const
 
 
 
+// Set the parameters for an Identity transform of this class
+template<class TScalarType, unsigned int NDimensions>
+void
+TranslationTransform<TScalarType, NDimensions>::
+SetIdentity()
+{
+  m_Offset.Fill( 0 );
+}
+ 
   
 } // namespace
 
