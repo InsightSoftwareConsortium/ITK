@@ -47,7 +47,7 @@
 //  \nabla \cdot \frac{\nabla f}{\mid \nabla f \mid}
 //  \end{equation}
 //
-//  \index{itk::CurvatureAnisotropicDiffusionImageFilter|textbf}
+//  \index{itk::Curvature-Anisotropic-Diffusion-Image-Filter}
 //
 //  Software Guide : EndLatex 
 
@@ -61,7 +61,7 @@
 //
 //  The first step required for using this filter is to include its header file
 //
-//  \index{itk::CurvatureAnisotropicDiffusionImageFilter!header}
+//  \index{itk::Curvature-Anisotropic-Diffusion-Image-Filter!header}
 //
 //  Software Guide : EndLatex 
 
@@ -106,9 +106,9 @@ int main( int argc, char * argv[] )
   //  output image types. The filter object is created by the \code{New()}
   //  method.
   //
-  //  \index{itk::CurvatureAnisotropicDiffusionImageFilter!instantiation}
-  //  \index{itk::CurvatureAnisotropicDiffusionImageFilter!New()}
-  //  \index{itk::CurvatureAnisotropicDiffusionImageFilter!Pointer}
+  //  \index{itk::Curvature-Anisotropic-Diffusion-Image-Filter!instantiation}
+  //  \index{itk::Curvature-Anisotropic-Diffusion-Image-Filter!New()}
+  //  \index{itk::Curvature-Anisotropic-Diffusion-Image-Filter!Pointer}
   //
   //  Software Guide : EndLatex 
 
@@ -150,13 +150,13 @@ int main( int argc, char * argv[] )
   //  \code{SetConductance()} respectively.  The filter can be executed by
   //  invoking \code{Update()}.
   //
-  //  \index{itk::CurvatureAnisotropicDiffusionImageFilter!Update()}
-  //  \index{itk::CurvatureAnisotropicDiffusionImageFilter!SetTimeStep()}
-  //  \index{itk::CurvatureAnisotropicDiffusionImageFilter!SetNumberOfIterations()}
-  //  \index{itk::CurvatureAnisotropicDiffusionImageFilter!SetConductanceParameter()}
-  //  \index{SetTimeStep()!itk::CurvatureAnisotropicDiffusionImageFilter}
-  //  \index{SetNumberOfIterations()!itk::CurvatureAnisotropicDiffusionImageFilter}
-  //  \index{SetConductanceParameter()!itk::CurvatureAnisotropicDiffusionImageFilter}
+  //  \index{itk::Curvature-Anisotropic-Diffusion-Image-Filter!Update()}
+  //  \index{itk::Curvature-Anisotropic-Diffusion-Image-Filter!SetTimeStep()}
+  //  \index{itk::Curvature-Anisotropic-Diffusion-Image-Filter!SetNumberOfIterations()}
+  //  \index{itk::Curvature-Anisotropic-Diffusion-Image-Filter!SetConductanceParameter()}
+  //  \index{SetTimeStep()!itk::Curvature-Anisotropic-Diffusion-Image-Filter}
+  //  \index{SetNumberOfIterations()!itk::Curvature-Anisotropic-Diffusion-Image-Filter}
+  //  \index{SetConductanceParameter()!itk::Curvature-Anisotropic-Diffusion-Image-Filter}
   //
   //  Software Guide : EndLatex 
 

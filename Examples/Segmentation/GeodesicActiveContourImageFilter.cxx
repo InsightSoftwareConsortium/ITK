@@ -258,12 +258,12 @@ int main( int argc, char *argv[] )
   //  curvature and advection scales to one and let the propagation scale
   //  be a command-line argument.
   //
-  //  \index{itk::GeodesicActiveContourLevelSetImageFilter!SetPropagationScaling()}
-  //  \index{itk::SegmentationLevelSetImageFilter!SetPropagationScaling()}
-  //  \index{itk::GeodesicActiveContourLevelSetImageFilter!SetCurvatureScaling()}
-  //  \index{itk::SegmentationLevelSetImageFilter!SetCurvatureScaling()}
-  //  \index{itk::GeodesicActiveContourLevelSetImageFilter!SetAdvectionScaling()}
-  //  \index{itk::SegmentationLevelSetImageFilter!SetAdvectionScaling()}
+  //  \index{itk::Geodesic-Active-Contour-LevelSet-Image-Filter!SetPropagationScaling()}
+  //  \index{itk::Segmentation-Level-Set-Image-Filter!SetPropagationScaling()}
+  //  \index{itk::Geodesic-Active-Contour-LevelSet-Image-Filter!SetCurvatureScaling()}
+  //  \index{itk::Segmentation-Level-Set-Image-Filter!SetCurvatureScaling()}
+  //  \index{itk::Geodesic-Active-Contour-LevelSet-Image-Filter!SetAdvectionScaling()}
+  //  \index{itk::Segmentation-Level-Set-Image-Filter!SetAdvectionScaling()}
   //
   //  Software Guide : EndLatex 
 

@@ -17,7 +17,7 @@
 
 // Software Guide : BeginLatex
 //
-// \index{itk::CannySegmentationLevelSetImageFilter}
+// \index{itk::Canny-Segmentation-LevelSet-Image-Filter}
 //
 // The \doxygen{CannySegmentationLevelSetImageFilter} defines a speed term that
 // minimizes distance to Canny edges in an image.  The initial level-set
@@ -178,8 +178,8 @@ int main( int argc, char *argv[] )
   // weight of the advection term.  The propagation and curvature term weights
   // are set to their defaults of $0$ and $1$, respectively.
   //
-  //  \index{itk::CannySegmentationLevelSetImageFilter!SetAdvectionScaling()}
-  //  \index{itk::SegmentationLevelSetImageFilter!SetAdvectionScaling()}
+  //  \index{itk::Canny-Segmentation-LevelSet-Image-Filter!SetAdvectionScaling()}
+  //  \index{itk::Segmentation-LevelSet-ImageFilter!SetAdvectionScaling()}
   //
   //  Software Guide : EndLatex 
 
