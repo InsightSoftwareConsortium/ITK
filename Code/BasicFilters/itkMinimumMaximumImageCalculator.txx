@@ -118,10 +118,10 @@ MinimumMaximumImageCalculator<TInputImage>
   Superclass::PrintSelf(os,indent);
 
   os << indent << "Minimum: "
-     << static_cast<NumericTraits<PixelType>::PrintType>(m_Minimum)
+     << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Minimum)
      << std::endl;
   os << indent << "Maximum: "
-     << static_cast<NumericTraits<PixelType>::PrintType>(m_Maximum)
+     << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Maximum)
      << std::endl;
   os << indent << "Image: " << m_Image << std::endl;
 }

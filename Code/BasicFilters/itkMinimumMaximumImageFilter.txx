@@ -35,8 +35,8 @@ MinimumMaximumImageFilter<TInputImage>
   itkDebugMacro(<< "MinimumMaximumImageFilter::GenerateData() called");
 
   // Get the input and output pointers
-  InputImageConstPointer  inputPtr  = this->GetInput(0);
-  OutputImagePointer      outputPtr = this->GetOutput(0);
+  typename Superclass::InputImageConstPointer  inputPtr  = this->GetInput(0);
+  typename Superclass::OutputImagePointer      outputPtr = this->GetOutput(0);
 
   // Make sure we're getting everything
   {
@@ -49,7 +49,7 @@ MinimumMaximumImageFilter<TInputImage>
   typename TInputImage::SizeType inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
 
   // Create a region object native to the output image type
-  OutputImageRegionType outputRegion;
+  typename Superclass::OutputImageRegionType outputRegion;
 
   // Resize the output region
   outputRegion.SetSize( inputSize );

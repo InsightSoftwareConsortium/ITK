@@ -67,7 +67,7 @@ public:
 protected:
   CurvatureAnisotropicDiffusionImageFilter()
     {
-      CurvatureNDAnisotropicDiffusionFunction<UpdateBufferType>::Pointer q
+      typename CurvatureNDAnisotropicDiffusionFunction<UpdateBufferType>::Pointer q
           = CurvatureNDAnisotropicDiffusionFunction<UpdateBufferType>::New();
       this->SetDifferenceFunction(q);
     }

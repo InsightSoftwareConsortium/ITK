@@ -104,9 +104,9 @@ CannyEdgeDetectionImageFilter<TInputImage,TOutputImage>
   Superclass::GenerateInputRequestedRegion();
 return;  
   // get pointers to the input and output
-  InputImagePointer  inputPtr = 
+  typename Superclass::InputImagePointer  inputPtr = 
     const_cast< TInputImage * >( this->GetInput());
-  OutputImagePointer outputPtr = this->GetOutput();
+  typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
   
   if ( !inputPtr || !outputPtr )
     {
@@ -243,7 +243,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 }
 
 template< class TInputImage, class TOutputImage >
-CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
+typename CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 ::OutputImagePixelType
 CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 ::ComputeCannyEdge(const NeighborhoodType &it,
@@ -301,7 +301,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 
 
 template< class TInputImage, class TOutputImage >
-CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >::OutputImagePixelType
+typename CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >::OutputImagePixelType
 CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 ::ComputeCannyEdge(const BoundaryNeighborhoodType &it,
                    void *globalData )
@@ -415,16 +415,16 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
   typename  OutputImageType::Pointer edge;
 
   // Create the filters that are needed.
-  DiscreteGaussianImageFilter<TInputImage, TOutputImage>::Pointer gaussianFilter
+  typename DiscreteGaussianImageFilter<TInputImage, TOutputImage>::Pointer gaussianFilter
     = DiscreteGaussianImageFilter<TInputImage, TOutputImage>::New();
 
-  ZeroCrossingImageFilter<TOutputImage, TOutputImage>::Pointer zeroCrossFilter
+  typename ZeroCrossingImageFilter<TOutputImage, TOutputImage>::Pointer zeroCrossFilter
     = ZeroCrossingImageFilter<TOutputImage, TOutputImage>::New();
 
   //ThresholdImageFilter<TOutputImage>::Pointer threshFilter
   //  = ThresholdImageFilter<TOutputImage>::New();
 
-  MultiplyImageFilter<TOutputImage, TOutputImage,TOutputImage>::Pointer multFilter 
+  typename MultiplyImageFilter<TOutputImage, TOutputImage,TOutputImage>::Pointer multFilter 
     = MultiplyImageFilter<TOutputImage, TOutputImage,TOutputImage>::New();
 
   this->AllocateUpdateBuffer();
@@ -716,10 +716,10 @@ CannyEdgeDetectionImageFilter<TInputImage,TOutputImage>
   os << "MaximumError: "
             << m_MaximumError << std::endl;
   os << indent << "Threshold: "
-     << static_cast<NumericTraits<OutputImagePixelType>::PrintType>(m_Threshold)
+     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_Threshold)
      << std::endl;
   os << indent << "OutsideValue: "
-     << static_cast<NumericTraits<OutputImagePixelType>::PrintType>(m_OutsideValue)
+     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_OutsideValue)
      << std::endl;
   os << "Center: "
             << m_Center << std::endl;

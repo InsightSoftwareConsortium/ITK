@@ -47,7 +47,7 @@ ConstantPadImageFilter<TInputImage,TOutputImage>
   Superclass::PrintSelf(os,indent);
 
   os << indent << "Constant: "
-     << static_cast<NumericTraits<OutputImagePixelType>::PrintType>(m_Constant)
+     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_Constant)
      << std::endl;
   os << std::endl;
 }
@@ -111,8 +111,8 @@ ConstantPadImageFilter<TInputImage,TOutputImage> // support progress methods/cal
   itkDebugMacro(<<"Actually executing");
 
   // Get the input and output pointers
-  InputImageConstPointer  inputPtr = this->GetInput();
-  OutputImagePointer outputPtr = this->GetOutput();
+  typename Superclass::InputImageConstPointer  inputPtr = this->GetInput();
+  typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
 
   // Define a few indices that will be used to translate from an input pixel
   // to an output pixel

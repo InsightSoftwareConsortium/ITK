@@ -93,9 +93,9 @@ PadImageFilter<TInputImage,TOutputImage>
   // Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  InputImagePointer  inputPtr = 
+  typename Superclass::InputImagePointer  inputPtr = 
     const_cast< TInputImage * >( this->GetInput() );
-  OutputImagePointer outputPtr = this->GetOutput();
+  typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
 
   if ( !inputPtr || !outputPtr )
     {
@@ -183,8 +183,8 @@ PadImageFilter<TInputImage,TOutputImage>
   Superclass::GenerateOutputInformation();
 
   // get pointers to the input and output
-  InputImageConstPointer inputPtr  = this->GetInput();
-  OutputImagePointer     outputPtr = this->GetOutput();
+  typename Superclass::InputImageConstPointer inputPtr  = this->GetInput();
+  typename Superclass::OutputImagePointer     outputPtr = this->GetOutput();
 
   if ( !outputPtr || !inputPtr)
     {

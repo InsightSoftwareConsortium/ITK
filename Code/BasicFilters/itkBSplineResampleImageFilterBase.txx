@@ -344,7 +344,7 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
   SizeType startSize;
   SizeType currentSize;
   // Does not support streaming
-  InputImagePointer  inputPtr = const_cast< TInputImage * > ( this->GetInput() );
+  typename Superclass::InputImagePointer  inputPtr = const_cast< TInputImage * > ( this->GetInput() );
   startSize = inputPtr->GetLargestPossibleRegion().GetSize();
   
   // Initilize scratchImage space and allocate memory
@@ -465,7 +465,7 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
   SizeType currentSize;
 
   // Does not support streaming
-  InputImagePointer  inputPtr = const_cast< TInputImage * > ( this->GetInput() );
+  typename Superclass::InputImagePointer  inputPtr = const_cast< TInputImage * > ( this->GetInput() );
   startSize = inputPtr->GetLargestPossibleRegion().GetSize();
   
 

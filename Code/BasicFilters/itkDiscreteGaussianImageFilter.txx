@@ -33,7 +33,7 @@ DiscreteGaussianImageFilter<TInputImage,TOutputImage>
   Superclass::GenerateInputRequestedRegion();
   
   // get pointers to the input and output
-  InputImagePointer  inputPtr = 
+  typename Superclass::InputImagePointer  inputPtr = 
     const_cast< TInputImage *>( this->GetInput() );
   
   if ( !inputPtr )
@@ -107,7 +107,7 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>
   GaussianOperator<OutputPixelType, ImageDimension> *oper;
   oper = new GaussianOperator<OutputPixelType,ImageDimension>;
 
-  NeighborhoodOperatorImageFilter<InputImageType, OutputImageType>::Pointer filter;
+  typename NeighborhoodOperatorImageFilter<InputImageType, OutputImageType>::Pointer filter;
   filter
     = NeighborhoodOperatorImageFilter<InputImageType, OutputImageType>::New();
 

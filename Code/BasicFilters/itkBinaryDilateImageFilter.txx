@@ -29,12 +29,12 @@ BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>
 }
 
 template<class TInputImage, class TOutputImage, class TKernel>
-BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>::PixelType
+typename BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>::PixelType
 BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>
 ::Evaluate(const NeighborhoodIteratorType &nit,
            const KernelType &kernel)
 {
-  NeighborhoodIteratorType::ConstIterator neigh_it;
+  typename NeighborhoodIteratorType::ConstIterator neigh_it;
   KernelIteratorType kernel_it;
   const KernelIteratorType kernelEnd = kernel.End();
 
@@ -61,7 +61,7 @@ BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>
 
 
 template<class TInputImage, class TOutputImage, class TKernel>
-BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>::PixelType
+typename BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>::PixelType
 BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>
 ::Evaluate(const SmartNeighborhoodIteratorType &nit,
            const KernelType &kernel)
@@ -101,7 +101,7 @@ BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Dilate value: "
-     << static_cast<NumericTraits<PixelType>::PrintType>(m_DilateValue)
+     << static_cast<typename NumericTraits<PixelType>::PrintType>(m_DilateValue)
      << std::endl;
 }
 

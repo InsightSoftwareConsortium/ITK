@@ -60,8 +60,8 @@ NonThreadedShrinkImageFilter<TInputImage,TOutputImage>
   itkDebugMacro(<<"Actually executing");
 
   // Get the input and output pointers
-  InputImagePointer  inputPtr = this->GetInput();
-  OutputImagePointer outputPtr = this->GetOutput();
+  typename Superclass::InputImagePointer  inputPtr = this->GetInput();
+  typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
 
   // Since we are providing a GenerateData() method, we need to allocate the
   // output buffer memory (if we provided a ThreadedGenerateData(), then
@@ -115,8 +115,8 @@ NonThreadedShrinkImageFilter<TInputImage,TOutputImage>
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  InputImagePointer  inputPtr = this->GetInput();
-  OutputImagePointer outputPtr = this->GetOutput();
+  typename Superclass::InputImagePointer  inputPtr = this->GetInput();
+  typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
 
   // we need to compute the input requested region (size and start index)
   int i;
@@ -155,8 +155,8 @@ NonThreadedShrinkImageFilter<TInputImage,TOutputImage>
   Superclass::GenerateOutputInformation();
 
   // get pointers to the input and output
-  InputImagePointer inputPtr = this->GetInput();
-  OutputImagePointer outputPtr = this->GetOutput();
+  typename Superclass::InputImagePointer inputPtr = this->GetInput();
+  typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
 
   // we need to compute the output spacing, the output image size, and the
   // output image start index

@@ -58,7 +58,7 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
  *  Return the distance map Image pointer
  */
 template <class TInputImage,class TOutputImage>
-DanielssonDistanceMapImageFilter<
+typename DanielssonDistanceMapImageFilter<
               TInputImage,TOutputImage>::OutputImageType * 
 DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 ::GetDistanceMap(void)
@@ -93,7 +93,7 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
  *  Return the distance vectors
  */
 template <class TInputImage,class TOutputImage>
-DanielssonDistanceMapImageFilter<
+typename DanielssonDistanceMapImageFilter<
            TInputImage,TOutputImage>::VectorImageType * 
 DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 ::GetVectorDistanceMap(void)

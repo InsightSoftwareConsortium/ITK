@@ -40,9 +40,9 @@ DifferenceOfGaussiansGradientImageFilter< TInputImage, TDataType >
   itkDebugMacro(<< "DifferenceOfGaussiansGradientImageFilter::GenerateData() called");
 
   // Get the input and output pointers
-  InputImagePointer  inputPtr = 
+  typename Superclass::InputImagePointer  inputPtr = 
       const_cast< TInputImage * >( this->GetInput(0));
-  OutputImagePointer outputPtr = this->GetOutput(0);
+  typename Superclass::OutputImagePointer outputPtr = this->GetOutput(0);
 
   // Make sure we're getting everything
   inputPtr->SetRequestedRegionToLargestPossibleRegion();
@@ -107,8 +107,8 @@ DifferenceOfGaussiansGradientImageFilter< TInputImage, TDataType >
           {
           if(j == i)
             {
-            upperIndex[j] = outputIndex[j] + static_cast<TOutputImage::IndexValueType>(m_Width);
-            lowerIndex[j] = outputIndex[j] - static_cast<TOutputImage::IndexValueType>(m_Width);
+            upperIndex[j] = outputIndex[j] + static_cast<typename TOutputImage::IndexValueType>(m_Width);
+            lowerIndex[j] = outputIndex[j] - static_cast<typename TOutputImage::IndexValueType>(m_Width);
             }
           else
             {

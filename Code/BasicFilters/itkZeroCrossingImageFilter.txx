@@ -37,9 +37,9 @@ ZeroCrossingImageFilter<TInputImage,TOutputImage>
   Superclass::GenerateInputRequestedRegion();
   
   // get pointers to the input and output
-  InputImagePointer  inputPtr = 
+  typename Superclass::InputImagePointer  inputPtr = 
     const_cast<TInputImage *>( this->GetInput() );
-  OutputImagePointer outputPtr = this->GetOutput();
+  typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
   
   if ( !inputPtr || !outputPtr )
     {
@@ -240,10 +240,10 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
   Superclass::PrintSelf(os,indent);
 
   os << indent << "ForegroundValue: "
-     << static_cast<NumericTraits<OutputImagePixelType>::PrintType>(m_ForegroundValue)
+     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ForegroundValue)
      << std::endl;
   os << indent << "BackgroundValue: "
-     << static_cast<NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue)
+     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue)
      << std::endl;
 }
 

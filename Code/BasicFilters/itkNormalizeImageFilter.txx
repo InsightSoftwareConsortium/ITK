@@ -49,7 +49,7 @@ NormalizeImageFilter<TInputImage, TOutputImage>
   if ( this->GetInput() )
     {
     InputImagePointer image =
-        const_cast< InputImageType * >( this->GetInput() );
+        const_cast< typename Superclass::InputImageType * >( this->GetInput() );
     image->SetRequestedRegionToLargestPossibleRegion();
     }
 }
@@ -71,7 +71,7 @@ NormalizeImageFilter<TInputImage, TOutputImage>
 
     // Set the parameters for Shift
     m_ShiftScaleFilter->SetShift(-m_StatisticsFilter->GetMean());
-    m_ShiftScaleFilter->SetScale(NumericTraits<StatisticsImageFilter<TInputImage>::RealType>::One
+    m_ShiftScaleFilter->SetScale(NumericTraits<ITK_TYPENAME StatisticsImageFilter<TInputImage>::RealType>::One
                                  / m_StatisticsFilter->GetSigma());
     m_ShiftScaleFilter->SetInput(this->GetInput());
     m_ProgressDone = true;

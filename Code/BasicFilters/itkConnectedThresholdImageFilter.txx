@@ -49,7 +49,7 @@ ConnectedThresholdImageFilter<TInputImage, TOutputImage>
   os << indent << "Upper: " << m_Upper << std::endl;
   os << indent << "Lower: " << m_Lower << std::endl;
   os << indent << "ReplaceValue: "
-     << static_cast<NumericTraits<OutputImagePixelType>::PrintType>(m_ReplaceValue)
+     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ReplaceValue)
      << std::endl;
 }
 
@@ -92,7 +92,7 @@ ConnectedThresholdImageFilter<TInputImage,TOutputImage>
   typedef BinaryThresholdImageFunction<InputImageType> FunctionType;
   typedef FloodFilledImageFunctionConditionalIterator<OutputImageType, FunctionType> IteratorType;
 
-  FunctionType::Pointer function = FunctionType::New();
+  typename FunctionType::Pointer function = FunctionType::New();
     function->SetInputImage ( inputImage );
     function->ThresholdBetween ( m_Lower, m_Upper );
   IteratorType it = IteratorType ( outputImage, function, m_Seed );

@@ -50,7 +50,7 @@ NeighborhoodConnectedImageFilter<TInputImage, TOutputImage>
   os << indent << "Upper: " << m_Upper << std::endl;
   os << indent << "Lower: " << m_Lower << std::endl;
   os << indent << "ReplaceValue: "
-     << static_cast<NumericTraits<OutputImagePixelType>::PrintType>(m_ReplaceValue)
+     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ReplaceValue)
      << std::endl;
   os << indent << "Radius: " << m_Radius << std::endl;
 }
@@ -83,8 +83,8 @@ void
 NeighborhoodConnectedImageFilter<TInputImage,TOutputImage>
 ::GenerateData()
 {
-  InputImageConstPointer inputImage  = this->GetInput();
-  OutputImagePointer     outputImage = this->GetOutput();
+  typename Superclass::InputImageConstPointer inputImage  = this->GetInput();
+  typename Superclass::OutputImagePointer     outputImage = this->GetOutput();
 
   // Zero the output
   outputImage->SetBufferedRegion( outputImage->GetRequestedRegion() );
@@ -94,7 +94,7 @@ NeighborhoodConnectedImageFilter<TInputImage,TOutputImage>
   typedef NeighborhoodBinaryThresholdImageFunction<InputImageType> FunctionType;
   typedef FloodFilledImageFunctionConditionalIterator<OutputImageType, FunctionType> IteratorType;
 
-  FunctionType::Pointer function = FunctionType::New();
+  typename FunctionType::Pointer function = FunctionType::New();
     function->SetInputImage ( inputImage );
     function->ThresholdBetween ( m_Lower, m_Upper );
     function->SetRadius (m_Radius);

@@ -29,7 +29,7 @@ BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>
 }
 
 template<class TInputImage, class TOutputImage, class TKernel>
-BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>::PixelType
+typename BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>::PixelType
 BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>
 ::Evaluate(const NeighborhoodIteratorType &nit,
            const KernelType &kernel)
@@ -40,7 +40,7 @@ BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>
   bool completelyBackground = true; // structuring element is completely
                                     // over background pixels
   
-  NeighborhoodIteratorType::ConstIterator neigh_it;
+  typename NeighborhoodIteratorType::ConstIterator neigh_it;
   KernelIteratorType kernel_it;
   const KernelIteratorType kernelEnd = kernel.End();
 
@@ -110,7 +110,7 @@ BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>
 } 
 
 template<class TInputImage, class TOutputImage, class TKernel>
-BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>::PixelType
+typename BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>::PixelType
 BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>
 ::Evaluate(const SmartNeighborhoodIteratorType &nit,
            const KernelType &kernel)
@@ -202,7 +202,7 @@ BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Erode value: "
-     << static_cast<NumericTraits<PixelType>::PrintType>(m_ErodeValue)
+     << static_cast<typename NumericTraits<PixelType>::PrintType>(m_ErodeValue)
      << std::endl;
 }
 

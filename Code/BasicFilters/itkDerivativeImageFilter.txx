@@ -34,7 +34,7 @@ DerivativeImageFilter<TInputImage,TOutputImage>
   Superclass::GenerateInputRequestedRegion();
   
   // get pointers to the input and output
-  InputImagePointer  inputPtr = 
+  typename Superclass::InputImagePointer  inputPtr = 
       const_cast< InputImageType * >( this->GetInput() );
   
   if ( !inputPtr )
@@ -97,7 +97,7 @@ DerivativeImageFilter< TInputImage, TOutputImage >
    oper.CreateDirectional();
    oper.FlipAxes();
    
-  NeighborhoodOperatorImageFilter<InputImageType, OutputImageType>
+  typename NeighborhoodOperatorImageFilter<InputImageType, OutputImageType>
     ::Pointer filter =
     NeighborhoodOperatorImageFilter<InputImageType, OutputImageType>
     ::New();

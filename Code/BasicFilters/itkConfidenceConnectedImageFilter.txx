@@ -57,7 +57,7 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>
   os << indent << "Multiplier for confidence interval: " << m_Multiplier
      << std::endl;
   os << indent << "ReplaceValue: "
-     << static_cast<NumericTraits<OutputImagePixelType>::PrintType>(m_ReplaceValue)
+     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ReplaceValue)
      << std::endl;
 }
 
@@ -98,8 +98,8 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
   unsigned int loop;
   unsigned long num;
   
-  InputImageConstPointer inputImage  = this->GetInput();
-  OutputImagePointer     outputImage = this->GetOutput();
+  typename Superclass::InputImageConstPointer inputImage  = this->GetInput();
+  typename Superclass::OutputImagePointer     outputImage = this->GetOutput();
 
   // Zero the output
   outputImage->SetBufferedRegion( outputImage->GetRequestedRegion() );
@@ -107,15 +107,15 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
   outputImage->FillBuffer ( NumericTraits<OutputImagePixelType>::Zero );
 
   // Compute the statistics of the seed point
-  MeanImageFunction<InputImageType>::Pointer meanFunction
+  typename MeanImageFunction<InputImageType>::Pointer meanFunction
     = MeanImageFunction<InputImageType>::New();
   meanFunction->SetInputImage( inputImage );
-  VarianceImageFunction<InputImageType>::Pointer varianceFunction
+  typename VarianceImageFunction<InputImageType>::Pointer varianceFunction
     = VarianceImageFunction<InputImageType>::New();
   varianceFunction->SetInputImage( inputImage );
   
   // Set up the image function used for connectivity
-  FunctionType::Pointer function = FunctionType::New();
+  typename FunctionType::Pointer function = FunctionType::New();
   function->SetInputImage ( inputImage );
 
   InputRealType lower, upper, seedIntensity;
@@ -164,7 +164,7 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
     // statistics Since we have already labelled the output, we walk the
     // output for candidate pixels and calculate the statistics from
     // the input image
-    SecondFunctionType::Pointer secondFunction = SecondFunctionType::New();
+    typename SecondFunctionType::Pointer secondFunction = SecondFunctionType::New();
     secondFunction->SetInputImage ( outputImage );
     secondFunction->ThresholdBetween( m_ReplaceValue, m_ReplaceValue );
 

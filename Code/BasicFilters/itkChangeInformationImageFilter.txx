@@ -69,8 +69,8 @@ ChangeInformationImageFilter<TInputImage>
   itkDebugMacro("GenerateOutputInformation Start");
 
   // Get pointers to the input and output
-  OutputImagePointer output = this->GetOutput();
-  InputImagePointer input = 
+  typename Superclass::OutputImagePointer output = this->GetOutput();
+  typename Superclass::InputImagePointer input = 
       const_cast< TInputImage * >( this->GetInput() );
 
   inputIndex = input->GetLargestPossibleRegion().GetIndex();

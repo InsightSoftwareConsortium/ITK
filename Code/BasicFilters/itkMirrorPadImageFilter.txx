@@ -462,9 +462,9 @@ MirrorPadImageFilter<TInputImage,TOutputImage>
   // Superclass::GenerateInputRequestedRegion();
   
   // get pointers to the input and output
-  InputImagePointer  inputPtr = 
+  typename Superclass::InputImagePointer  inputPtr = 
       const_cast< InputImageType * >( this->GetInput() );
-  OutputImagePointer outputPtr = this->GetOutput();
+  typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
   
   if ( !inputPtr || !outputPtr )
     {
@@ -642,8 +642,8 @@ MirrorPadImageFilter<TInputImage,TOutputImage>
   itkDebugMacro(<<"Actually executing");
   
   // Get the input and output pointers
-  InputImageConstPointer  inputPtr = this->GetInput();
-  OutputImagePointer outputPtr = this->GetOutput();
+  typename Superclass::InputImageConstPointer  inputPtr = this->GetInput();
+  typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
   
   // Define a few indices that will be used to translate from an input pixel
   // to an output pixel

@@ -119,8 +119,8 @@ ExtractImageFilter<TInputImage,TOutputImage>
   // this filter allows the input the output to be of different dimensions
  
   // get pointers to the input and output
-  OutputImagePointer      outputPtr = this->GetOutput();
-  InputImageConstPointer  inputPtr  = this->GetInput();
+  typename Superclass::OutputImagePointer      outputPtr = this->GetOutput();
+  typename Superclass::InputImageConstPointer  inputPtr  = this->GetInput();
 
   if ( !outputPtr || !inputPtr)
     {
@@ -215,8 +215,8 @@ ExtractImageFilter<TInputImage,TOutputImage>
   itkDebugMacro(<<"Actually executing");
 
   // Get the input and output pointers
-  InputImageConstPointer  inputPtr = this->GetInput();
-  OutputImagePointer outputPtr = this->GetOutput();
+  typename Superclass::InputImageConstPointer  inputPtr = this->GetInput();
+  typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
 
   // support progress methods/callbacks
   unsigned long updateVisits = 0;

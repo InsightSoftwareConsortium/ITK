@@ -132,8 +132,8 @@ PermuteAxesImageFilter<TImage>
   Superclass::GenerateOutputInformation();
 
   // get pointers to the input and output
-  InputImageConstPointer inputPtr = this->GetInput();
-  OutputImagePointer outputPtr = this->GetOutput();
+  typename Superclass::InputImageConstPointer inputPtr = this->GetInput();
+  typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
 
   const double *inputSpacing = inputPtr->GetSpacing();
   const double *inputOrigin = inputPtr->GetOrigin();
@@ -224,8 +224,8 @@ PermuteAxesImageFilter<TImage>
   int j;
 
   // Get the input and output pointers
-  InputImageConstPointer inputPtr = this->GetInput();
-  OutputImagePointer outputPtr = this->GetOutput();
+  typename Superclass::InputImageConstPointer inputPtr = this->GetInput();
+  typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
 
   // Setup output region iterator
   typedef ImageRegionIteratorWithIndex<TImage> OutputIterator;

@@ -44,8 +44,8 @@ void
 ReflectImageFilter<TInputImage,TOutputImage>
 ::GenerateData( void )
 {
-  InputImageConstPointer  inputPtr = this->GetInput();
-  OutputImagePointer outputPtr = this->GetOutput(0);
+  typename Superclass::InputImageConstPointer  inputPtr = this->GetInput();
+  typename Superclass::OutputImagePointer outputPtr = this->GetOutput(0);
 
   outputPtr->SetRequestedRegion( inputPtr->GetRequestedRegion() );
   outputPtr->SetBufferedRegion( inputPtr->GetBufferedRegion() );

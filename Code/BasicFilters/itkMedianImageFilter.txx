@@ -48,9 +48,9 @@ MedianImageFilter<TInputImage, TOutputImage>
   Superclass::GenerateInputRequestedRegion();
   
   // get pointers to the input and output
-  InputImagePointer inputPtr = 
+  typename Superclass::InputImagePointer inputPtr = 
       const_cast< TInputImage * >( this->GetInput() );
-  OutputImagePointer outputPtr = this->GetOutput();
+  typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
   
   if ( !inputPtr || !outputPtr )
     {
@@ -104,11 +104,11 @@ MedianImageFilter< TInputImage, TOutputImage>
   ConstNeighborhoodIterator<InputImageType> nit;
   ConstSmartNeighborhoodIterator<InputImageType> bit;
   ImageRegionIterator<OutputImageType> it;
-  ConstNeighborhoodIterator<InputImageType>::ConstIterator inner_it;
-  ConstNeighborhoodIterator<InputImageType>::ConstIterator innerEnd_it;
+  typename ConstNeighborhoodIterator<InputImageType>::ConstIterator inner_it;
+  typename ConstNeighborhoodIterator<InputImageType>::ConstIterator innerEnd_it;
   
   std::vector<InputPixelType> pixels;
-  std::vector<InputPixelType>::iterator medianIterator;
+  typename std::vector<InputPixelType>::iterator medianIterator;
   
   // Allocate output
   typename OutputImageType::Pointer output = this->GetOutput();
