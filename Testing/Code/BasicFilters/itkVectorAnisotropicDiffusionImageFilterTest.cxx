@@ -18,6 +18,7 @@
 #include <iostream>
 #include "itkImage.h"
 #include "itkVectorGradientAnisotropicDiffusionImageFilter.h"
+#include "itkVectorCurvatureAnisotropicDiffusionImageFilter.h"
 #include "itkNullImageToImageFilterDriver.txx"
 #include "itkVector.h"
 
@@ -33,7 +34,7 @@ int itkVectorAnisotropicDiffusionImageFilterTest(int itkNotUsed(argc), char *itk
     {
       typedef itk::Image<itk::Vector<float, 3>, 2> ImageType;
       
-      // Set up filter
+      // Set up Gradient diffusion filter
       itk::VectorGradientAnisotropicDiffusionImageFilter<ImageType, ImageType>
         ::Pointer  filter =
         itk::VectorGradientAnisotropicDiffusionImageFilter<ImageType,
@@ -42,6 +43,10 @@ int itkVectorAnisotropicDiffusionImageFilterTest(int itkNotUsed(argc), char *itk
       filter->SetNumberOfIterations(1);
       filter->SetConductanceParameter(3.0f);
       filter->SetTimeStep(0.125f);
+
+      filter->GetNumberOfIterations();
+      filter->GetConductanceParameter();
+      filter->GetTimeStep();
 
       // Run Test
       itk::Size<2> sz;
@@ -53,6 +58,28 @@ int itkVectorAnisotropicDiffusionImageFilterTest(int itkNotUsed(argc), char *itk
       test1.SetImageSize(sz);
       test1.SetFilter(filter.GetPointer());
       test1.Execute();
+
+      
+ // Set up Curvature diffusion filter
+      itk::VectorCurvatureAnisotropicDiffusionImageFilter<ImageType, ImageType>
+        ::Pointer  filter2 =
+        itk::VectorCurvatureAnisotropicDiffusionImageFilter<ImageType, ImageType>
+        ::New();
+      filter2->SetNumberOfIterations(1);
+      filter2->SetConductanceParameter(3.0f);
+      filter2->SetTimeStep(0.1f);
+
+      filter2->GetNumberOfIterations();
+      filter2->GetConductanceParameter();
+      filter2->GetTimeStep();
+
+      // Run Test
+      itk::NullImageToImageFilterDriver< ImageType, ImageType > test2;
+      test2.SetImageSize(sz);
+      test2.SetFilter(filter2.GetPointer());
+      test2.Execute();
+      
+      
     }
   catch(itk::ExceptionObject &err)
     {

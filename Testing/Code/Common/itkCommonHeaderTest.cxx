@@ -170,7 +170,6 @@ See COPYRIGHT.txt for copyright details.
 #include "itkLaplacianOperator.txx"
 #include "itkLevelSet.h"
 #include "itkLevelSetFunction.txx"
-#include "itkLevelSetFunctionBase.txx"
 #include "itkLightObject.h"
 #include "itkLightProcessObject.h"
 #include "itkLineCell.txx"

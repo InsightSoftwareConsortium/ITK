@@ -41,6 +41,13 @@ int itkGradientAnisotropicDiffusionImageFilterTest(int itkNotUsed(argc), char *i
       filter->SetConductanceParameter(3.0f);
       filter->SetTimeStep(0.125f);
 
+      // The following lines are only for increased code coverage in testing.
+      filter->GetTimeStep();
+      filter->GetNumberOfIterations();
+      filter->GetConductanceParameter();
+      filter->SetConductanceScalingParameter(filter->GetConductanceScalingParameter());
+      filter->GetFixedAverageGradientMagnitude();
+
       // Run Test
       itk::Size<2> sz;
       sz[0] = 250;
