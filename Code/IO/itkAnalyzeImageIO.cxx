@@ -15,8 +15,10 @@ PURPOSE.  See the above copyright notices for more information.
 =========================================================================*/
 
 #include "itkAnalyzeImageIO.h"
+#include "itkIOCommon.h"
 #include "itkExceptionObject.h"
 #include "itkByteSwapper.h"
+#include "itkMetaDataObject.h"
 
 #include "dbh.h"
 #include <zlib.h>
@@ -504,7 +506,7 @@ namespace itk
     /*3-transverse flipped*/
     /*4-coronal flipped*/
     /*5-sagittal flipped*/
-    this->m_hdr.hist.orient=ITK_ANALYZE_TRANSVERSE; //default orientation is ITK_ANALYZE_TRANSVERSE
+    this->m_hdr.hist.orient=itk::IOCommon::ITK_ORIENTATION_IRP_TRANSVERSE; //default orientation is ITK_ANALYZE_TRANSVERSE
 
     this->m_hdr.hist.originator[0]='\0';
     this->m_hdr.hist.generated[0]='\0';
@@ -895,6 +897,14 @@ namespace itk
     //
     // figure out re-orientation required if not in Coronal
     this->ComputeStrides();
+    //Get Dictionary Information
+    //Insert Orientation.
+    this->GetMetaDataDictionary()["ITK_Orientation"]=
+      new itk::MetaDataObject<itk::IOCommon::ValidOrientationFlags>(static_cast<itk::IOCommon::ValidOrientationFlags>(this->m_hdr.hist.orient));
+    this->GetMetaDataDictionary()["ITK_1"]=new itk::MetaDataObject<int>(1);
+    this->GetMetaDataDictionary()["RES_1"]=new itk::MetaDataObject<float>(m_hdr.dime.pixdim[1]);
+    this->GetMetaDataDictionary()["char_r"]=new itk::MetaDataObject<char>('r');
+    this->GetMetaDataDictionary()["string"]=new itk::MetaDataObject<std::string>("TestString");
     return;
   }
 

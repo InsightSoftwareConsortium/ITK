@@ -24,7 +24,6 @@ PURPOSE.  See the above copyright notices for more information.
  * - (c) Copyright, 1986-1995
  * - Biomedical Imaging Resource
  * - Mayo Foundation
- * \author   Hans J. Johnson
  * e-mail:        hans-johnson@uiowa.edu
  * Organization:  The University of Iowa
  * Function:      This file contains the structure definition for Analyze files
@@ -38,23 +37,8 @@ extern "C"
 #endif
 
   /**
-   * \enum ValidAnalyzeOrientationFlags
-   * Valid values for the Analyze orient flag.
-   * \author Hans J. Johnson
-   */
-  enum ValidAnalyzeOrientationFlags {
-    ITK_ANALYZE_TRANSVERSE=0,        /**< Denotes a transverse data orientation */
-    ITK_ANALYZE_CORONAL   =1,        /**< Denotes a coronal data orientation */
-    ITK_ANALYZE_SAGITTAL  =2,        /**< Denotes a sagittal data orientation */
-    ITK_ANALYZE_TRANSVERSE_FLIPPED=3,/**< This format was only used internal to Pre 1995 analyze programs, and should not be encountered */
-    ITK_ANALYZE_CORONAL_FLIPPED=4,   /**< This format was only used internal to Pre 1995 analyze programs, and should not be encountered */
-    ITK_ANALYZE_SAGITTAL_FLIPPED=5   /**< This format was only used internal to Pre 1995 analyze programs, and should not be encountered */
-  };
-
-  /**
    *  \enum DataTypeKeyValues
    * Acceptable values for hdr.dime.datatype
-   *  \author Hans J. Johnson
    */
   enum DataTypeKeyValues  {
     ANALYZE_DT_UNKNOWN        =0,   /**< Deontes that the data type is unknon */
@@ -74,7 +58,6 @@ extern "C"
   /**
    *  \enum DataTypeIndex
    *  The index into the DataTypes array for each type.
-   *  \author Hans J. Johnson
    */
   enum DataTypeIndex  {
     ANALYZE_DT_INDEX_UNKNOWN       =0,
@@ -107,7 +90,6 @@ extern "C"
    * - 9-->"ALL"
    * - 10-->"USHORT"
    * - 11-->"UINT"
-   * \author Hans J. Johnson
    * @see DataTypes
    * @see DataTypeSizes
    * @see DataTypeKey
@@ -129,7 +111,6 @@ extern "C"
    * - 9-->0
    * - 10-->16
    * - 11->32
-   * \author Hans J. Johnson
    * @see DataTypes
    * @see DataTypeSizes
    * @see DataTypeKey
@@ -151,7 +132,6 @@ extern "C"
    * - 9-->ANALYZE_DT_ALL
    * - 10-->ANALYZE_DT_UNSIGNED_SHORT
    * - 11-->ANALYZE_DT_UNSIGNED_INT
-   * \author Hans J. Johnson
    * @see DataTypes
    * @see DataTypeSizes
    * @see DataTypeKey

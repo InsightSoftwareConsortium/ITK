@@ -142,7 +142,7 @@ char* IOCommon
       }
     if (slash == NULL)
       {
-      slash = (char*) fileName;
+      slash = (const char*) fileName;
       }
     else
       {
@@ -151,7 +151,7 @@ char* IOCommon
     dot = strrchr(fileName, '.');
     if (dot == NULL)
       {
-      dot = (char*) fileName + strlen(fileName);
+      dot = (const char*) fileName + strlen(fileName);
       }
     fName = new char[strlen(slash) - strlen(dot) + 1];
     strncpy(fName, slash, strlen(slash) - strlen(dot));
