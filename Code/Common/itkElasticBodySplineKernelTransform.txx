@@ -44,7 +44,7 @@ ElasticBodySplineKernelTransform<TScalarType, NDimensions>
   const TScalarType radial  = m_Alpha * ( r * r ) * r;
   for(unsigned int i=0; i<NDimensions; i++)
     {
-    const InputVectorType::ValueType xi = x[i] * factor;
+    const typename InputVectorType::ValueType xi = x[i] * factor;
     // G is symmetric
     for(unsigned int j=0; j<i; j++)
       {
