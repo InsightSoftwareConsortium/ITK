@@ -170,7 +170,7 @@ int itkPointSetToPointSetRegistrationTest(int, char* [] )
   // initialize the offset/vector part
   for( unsigned int k = 0; k < 2; k++ )
     {
-    parameters[k]= 10.0f;
+    parameters[k]= 10.0;
     }
 
   transform->SetParameters(parameters);
@@ -204,7 +204,14 @@ int itkPointSetToPointSetRegistrationTest(int, char* [] )
   PSToImageFilterType::Pointer psToImageFilter = PSToImageFilterType::New();
   
   psToImageFilter->SetInput(fixedPointSet);
+  double origin[2] = {0.0, 0.0}, spacing[2] = {1.0, 1.0};
+  psToImageFilter->SetSpacing(spacing);
+  psToImageFilter->SetOrigin(origin);
+  std::cout << "Spacing and origin set: ["
+            << psToImageFilter->GetSpacing() << "], ,["
+            << psToImageFilter->GetOrigin() << "]" << std::endl;
   psToImageFilter->Update();
+  std::cout << "psToImageFilter: " << psToImageFilter << std::endl;
 
   BinaryImageType::Pointer binaryImage = psToImageFilter->GetOutput();
 
@@ -218,7 +225,7 @@ int itkPointSetToPointSetRegistrationTest(int, char* [] )
    // initialize the offset/vector part
   for( unsigned int k = 0; k < 2; k++ )
     {
-    parameters[k]= 10.0f;
+    parameters[k]= 10.0;
     }
 
   transform->SetParameters(parameters);
