@@ -278,7 +278,7 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
   double olddistortion = m_DoubleMax;
   double distortion, tempdistortion;
   int    pass = 0; // no empty cells have been found yet 
-  int    nempty_cells, emptycells;
+  int    emptycells;
   int    bestcodeword;
 
   m_CurrentNcodewords = m_Codebook.rows();
@@ -313,7 +313,6 @@ KMeansUnsupervisedClassifier<TInputImage,TClassifiedImage>
     if ( (distortion == 0.0) || ( (emptycells == 0) &&
          (olddistortion - distortion) / distortion < m_Threshold) ) 
     {
-      nempty_cells = emptycells;
       m_OutNEmptyCells = emptycells;
       m_OutDist    = distortion;
       return GLA_CONVERGED;
