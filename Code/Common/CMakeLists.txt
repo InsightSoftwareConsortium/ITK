@@ -32,6 +32,8 @@ itkSegmentationBorder
 itkSegmentationRegion 
 itkSimpleFastMutexLock
 itkTimeStamp 
+itkTimeProbe
+itkTimeProbesCollectorBase
 itkVersion 
 itkVector
 itkXMLFileOutputWindow
