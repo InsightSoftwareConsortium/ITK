@@ -82,7 +82,7 @@ template <typename T> int MakeImage()
       }
     catch ( itk::ExceptionObject & ex )
       {
-        cerr << "Error filling array" << ex.GetDescription() << endl;
+        std::cerr << "Error filling array" << ex.GetDescription() << std::endl;
         return -1;
       }
   }
@@ -181,42 +181,42 @@ int itkAnalyzeImageIOTest(int ac, char** av)
   cur_return = MakeImage<char>();
   if(cur_return != 0) 
     {
-      cerr << "Error writing Analyze file type char" << endl;
+      std::cerr << "Error writing Analyze file type char" << std::endl;
     }
   else
     rval += cur_return;
   cur_return = MakeImage<unsigned char>();
   if(cur_return != 0) 
     {
-      cerr << "Error writing Analyze file type unsigned char" << endl;
+      std::cerr << "Error writing Analyze file type unsigned char" << std::endl;
     } 
   else
     rval += cur_return;
   cur_return = MakeImage<short>();
   if(cur_return != 0) 
     {
-      cerr << "Error writing Analyze file type short" << endl;
+      std::cerr << "Error writing Analyze file type short" << std::endl;
     }
   else
     rval += cur_return;
   cur_return = MakeImage<unsigned short>();
   if(cur_return != 0) 
     {
-      cerr << "Error writing Analyze file type unsigned short" << endl;
+      std::cerr << "Error writing Analyze file type unsigned short" << std::endl;
     } 
   else
     rval += cur_return;
   cur_return = MakeImage<int>();
   if(cur_return != 0) 
     {
-      cerr << "Error writing Analyze file type int" << endl;
+      std::cerr << "Error writing Analyze file type int" << std::endl;
     } 
   else
     rval += cur_return;
   cur_return = MakeImage<float>();
   if(cur_return != 0) 
     {
-      cerr << "Error writing Analyze file type float" << endl;
+      std::cerr << "Error writing Analyze file type float" << std::endl;
     } 
   else
     rval += cur_return;
@@ -225,7 +225,7 @@ int itkAnalyzeImageIOTest(int ac, char** av)
   cur_return = MakeImage<double>();
   if(cur_return != 0) 
     {
-      cerr << "Error writing Analyze file type double" << endl;
+      std::cerr << "Error writing Analyze file type double" << std::endl;
     } 
   else
     rval += cur_return;
