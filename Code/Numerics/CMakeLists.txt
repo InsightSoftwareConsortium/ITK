@@ -1,26 +1,26 @@
 SUBDIRS(vxl Statistics)
 # Sources of non-templated classes.
-SOURCE_FILES(ITKNumerics_SRCS
-itkCacheableScalarFunction
-itkCostFunction
-itkCompositeValleyFunction
-itkMultipleValuedVnlCostFunctionAdaptor
-itkMultivariateLegendrePolynomial
-itkSingleValuedVnlCostFunctionAdaptor
-itkAmoebaOptimizer
-itkConjugateGradientOptimizer
-itkGradientDescentOptimizer
-itkLBFGSOptimizer
-itkLevenbergMarquardtOptimizer
-itkMultipleValuedNonLinearOptimizer
-itkMultipleValuedNonLinearVnlOptimizer
-itkOptimizer
-itkQuaternionRigidTransformGradientDescentOptimizer
-itkRegularStepGradientDescentBaseOptimizer
-itkRegularStepGradientDescentOptimizer
-itkSingleValuedNonLinearOptimizer
-itkSingleValuedNonLinearVnlOptimizer
-itkVersorTransformOptimizer
+SET(ITKNumerics_SRCS
+itkCacheableScalarFunction.cxx
+itkCostFunction.cxx
+itkCompositeValleyFunction.cxx
+itkMultipleValuedVnlCostFunctionAdaptor.cxx
+itkMultivariateLegendrePolynomial.cxx
+itkSingleValuedVnlCostFunctionAdaptor.cxx
+itkAmoebaOptimizer.cxx
+itkConjugateGradientOptimizer.cxx
+itkGradientDescentOptimizer.cxx
+itkLBFGSOptimizer.cxx
+itkLevenbergMarquardtOptimizer.cxx
+itkMultipleValuedNonLinearOptimizer.cxx
+itkMultipleValuedNonLinearVnlOptimizer.cxx
+itkOptimizer.cxx
+itkQuaternionRigidTransformGradientDescentOptimizer.cxx
+itkRegularStepGradientDescentBaseOptimizer.cxx
+itkRegularStepGradientDescentOptimizer.cxx
+itkSingleValuedNonLinearOptimizer.cxx
+itkSingleValuedNonLinearVnlOptimizer.cxx
+itkVersorTransformOptimizer.cxx
 )
 
 SET(HAS_FEM 0 CACHE INTERNAL "Support for FEM")
@@ -30,6 +30,6 @@ IF(BUILD_FEM_CODE)
   SET(HAS_FEM 1 CACHE INTERNAL "Support for FEM")
 ENDIF(BUILD_FEM_CODE)
 
-ADD_LIBRARY(ITKNumerics ITKNumerics_SRCS)
+ADD_LIBRARY(ITKNumerics ${ITKNumerics_SRCS})
 
-TARGET_LINK_LIBRARIES (ITKNumerics ITKCommon)
+TARGET_LINK_LIBRARIES (ITKNumerics ITKCommon VXLNumerics)

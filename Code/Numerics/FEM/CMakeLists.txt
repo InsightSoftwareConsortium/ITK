@@ -1,18 +1,6 @@
 # Source files for the FEM project
 
-INCLUDE_DIRECTORIES(
-${ITK_SOURCE_DIR}/Code/Common
-${ITK_SOURCE_DIR}/Code/BasicFilters
-${ITK_SOURCE_DIR}/Code/Algorithms
-${ITK_SOURCE_DIR}/Code/IO
-${ITK_SOURCE_DIR}/Code/Numerics
-${ITK_SOURCE_DIR}/Code/Numerics/vxl
-${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl
-)
-
-
-
-SOURCE_FILES(FEM_SRCS 
+SET(FEM_SRCS 
 
   itkFEMElementBase.cxx
 
@@ -73,7 +61,7 @@ SOURCE_FILES(FEM_SRCS
 # we can only include them if compiling on windows
 IF(NOT UNIX)
 IF(WIN32)
-SOURCE_FILES(FEM_SRCS 
+SET(FEM_SRCS ${FEM_SRCS}
 
   itkFEMElements.h
   itkFEMElementBase.h
@@ -160,25 +148,11 @@ SOURCE_FILES(FEM_SRCS
 ENDIF(WIN32)
 ENDIF(NOT UNIX)
 
-
-IF(CMAKE_MAKE_PROGRAM MATCHES ".*dev")
+IF(CMAKE_BUILD_TOOL MATCHES ".*dev")
   SET(FEM_SRCS ${FEM_SRCS};ReadMe.txt;ToDo.txt)
-ENDIF(CMAKE_MAKE_PROGRAM MATCHES ".*dev")
+ENDIF(CMAKE_BUILD_TOOL MATCHES ".*dev")
 
   
-
-
-
-
-LINK_LIBRARIES (
-VXLNumerics
-ITKNumerics
-ITKCommon
-ITKBasicFilters
-ITKIO
-)
-
-
 # Define source groups that look nice in DSP files
 SOURCE_GROUP("Elements" itkFEMElement*)
 SOURCE_GROUP("Nodes" itkFEMNode*)
@@ -186,8 +160,6 @@ SOURCE_GROUP("Loads" itkFEMLoad*)
 SOURCE_GROUP("Materials" itkFEMMaterial*)
 SOURCE_GROUP("Linear Systems" itkFEMLinearSystem*)
 SOURCE_GROUP("Source Files Template" ./*.txx)
-
-
 
 
 # Add an option to build the visualization functions
@@ -204,12 +176,12 @@ ENDIF(WIN32)
 
 
 # Include the ITPACK library within FEM
-SOURCE_FILES(FEM_SRCS
+SET(FEM_SRCS ${FEM_SRCS}
   itpack.cxx
 )
 IF(NOT UNIX)
 IF(WIN32)
-SOURCE_FILES(FEM_SRCS
+SET(FEM_SRCS ${FEM_SRCS}
   itpack.h
   itpack_f2c.h
 )
@@ -220,4 +192,11 @@ SOURCE_GROUP("ITPACK" itpack*)
 
 
 # Build the library
-ADD_LIBRARY(FEM FEM_SRCS)
+ADD_LIBRARY(FEM ${FEM_SRCS})
+TARGET_LINK_LIBRARIES(FEM VXLNumerics
+                      ITKNumerics
+                      ITKCommon
+                      ITKBasicFilters
+                      ITKIO)
+
+

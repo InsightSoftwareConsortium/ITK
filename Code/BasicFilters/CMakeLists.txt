@@ -1,14 +1,6 @@
-LINK_LIBRARIES (
-ITKCommon
-VXLNumerics
+SET(ITKBasicFilters_SRCS
+itkVTKImageExportBase.cxx
 )
 
-INCLUDE_DIRECTORIES(
-${ITK_SOURCE_DIR}/Code/BasicFilters
-)
-
-SOURCE_FILES(ITKBasicFilters_SRCS
-itkVTKImageExportBase
-)
-
-ADD_LIBRARY(ITKBasicFilters ITKBasicFilters_SRCS)
+ADD_LIBRARY(ITKBasicFilters ${ITKBasicFilters_SRCS})
+TARGET_LINK_LIBRARIES(ITKBasicFilters ITKCommon VXLNumerics)

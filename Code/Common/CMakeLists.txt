@@ -1,47 +1,52 @@
 # Sources of non-templated classes.
-SOURCE_FILES(ITKCommon_SRCS
-itkBloxItem
-itkCommand 
-itkDataObject 
-itkDecisionRuleBase
-itkDirectory 
-itkDynamicLoader 
-itkEventObject 
-itkExceptionObject 
-itkFastMutexLock 
-itkFileOutputWindow
-itkGaussianKernelFunction
-itkImageIOCommon
-itkImageIO
-itkIndent 
-itkLightObject 
-itkLightProcessObject
-itkKLMSegmentationBorder
-itkKLMSegmentationRegion
-itkMeshRegion 
-itkMinimumDecisionRule
-itkMultiThreader 
-itkMutexLock 
-itkNumericTraits 
-itkObject 
-itkObjectFactoryBase 
-itkOutputWindow 
-itkProcessObject 
-itkRegion
-itkSegmentationBorder
-itkSegmentationRegion 
-itkSimpleFastMutexLock
-itkTimeStamp 
-itkTimeProbe
-itkTimeProbesCollectorBase
-itkVersion 
-itkVector
-itkXMLFileOutputWindow
+SET(ITKCommon_SRCS
+itkBloxItem.cxx
+itkCommand.h
+itkDataObject.cxx 
+itkDecisionRuleBase.cxx 
+itkDirectory.cxx  
+itkDynamicLoader.cxx  
+itkEventObject.cxx  
+itkExceptionObject.cxx  
+itkFastMutexLock.cxx  
+itkFileOutputWindow.cxx 
+itkGaussianKernelFunction.cxx 
+itkImageIOCommon.cxx 
+itkImageIO.cxx 
+itkIndent.cxx  
+itkLightObject.cxx  
+itkLightProcessObject.cxx 
+itkKLMSegmentationBorder.cxx 
+itkKLMSegmentationRegion.cxx 
+itkMeshRegion.cxx 
+itkMinimumDecisionRule.cxx 
+itkMultiThreader.cxx 
+itkMutexLock.cxx  
+itkNumericTraits.cxx  
+itkObject.cxx 
+itkObjectFactoryBase.cxx  
+itkOutputWindow.cxx  
+itkProcessObject.cxx  
+itkRegion.cxx 
+itkSegmentationBorder.cxx 
+itkSegmentationRegion.cxx  
+itkSimpleFastMutexLock.cxx 
+itkTimeStamp.cxx 
+itkTimeProbe.cxx 
+itkTimeProbesCollectorBase.cxx 
+itkVersion.cxx 
+itkVector.cxx 
+itkXMLFileOutputWindow.cxx 
 )
 
 IF (WIN32)
-  SOURCE_FILES(ITKCommon_SRCS itkWin32OutputWindow)
+   SET(ITKCommon_SRCS ${ITKCommon_SRCS};itkWin32OutputWindow.cxx)
 ENDIF (WIN32)
 
-ADD_LIBRARY(ITKCommon ITKCommon_SRCS)
+ADD_LIBRARY(ITKCommon ${ITKCommon_SRCS})
 TARGET_LINK_LIBRARIES (ITKCommon VXLNumerics)
+IF(UNIX)
+  TARGET_LINK_LIBRARIES(ITKCommon -lm)
+ENDIF(UNIX)
+
+

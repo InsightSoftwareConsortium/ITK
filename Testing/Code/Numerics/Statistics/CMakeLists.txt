@@ -22,25 +22,22 @@ ADD_TEST(itkDenseFrequencyContainerTest itkStatisticsTests itkDenseFrequencyCont
 ADD_TEST(itkFastRandomUnitNormalVariateGeneratorTest itkStatisticsTests 
                     itkFastRandomUnitNormalVariateGeneratorTest)
 
-LINK_LIBRARIES (
-ITKCommon
-ITKNumerics
-ITKStatistics
+
+SET(Statistics_SRCS
+itkStatisticsAlgorithmTest.cxx
+itkCovarianceCalculatorTest.cxx
+itkMeanCalculatorTest.cxx
+itkSubsampleTest.cxx
+itkMembershipSampleTest.cxx
+itkImageToListAdaptorTest.cxx
+itkHistogramTest.cxx
+itkDenseFrequencyContainerTest.cxx
+itkFastRandomUnitNormalVariateGeneratorTest.cxx
 )
 
-SOURCE_FILES(Statistics_SRCS
-itkStatisticsAlgorithmTest
-itkCovarianceCalculatorTest
-itkMeanCalculatorTest
-itkSubsampleTest
-itkMembershipSampleTest
-itkImageToListAdaptorTest
-itkHistogramTest 
-itkDenseFrequencyContainerTest
-itkFastRandomUnitNormalVariateGeneratorTest 
-)
+ADD_EXECUTABLE(itkStatisticsTests itkStatisticsTests.cxx ${Statistics_SRCS})
+TARGET_LINK_LIBRARIES(itkStatisticsTests ITKCommon ITKNumerics ITKStatistics)
 
-ADD_EXECUTABLE(itkStatisticsTests itkStatisticsTests.cxx Statistics_SRCS)
 
 
 

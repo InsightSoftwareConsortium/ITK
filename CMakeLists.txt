@@ -1,5 +1,5 @@
 # This is the root ITK CMakeLists file.
-
+CMAKE_MINIMUM_REQUIRED(VERSION 1.4)
 PROJECT(ITK)
 INCLUDE_REGULAR_EXPRESSION("^(itk|vtk|vnl|vcl|f2c|ce).*$")
 

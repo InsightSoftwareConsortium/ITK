@@ -1,21 +1,17 @@
-INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Utilities/zlib)
-INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Utilities/png)
-INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Utilities/MetaIO)
-
-SOURCE_FILES(ITKIO_SRCS
-itkWriter
-itkImageIOBase
-itkImageIOFactory
-itkMetaImageIOFactory
-itkMetaImageIO
-itkPNGImageIOFactory
-itkPNGImageIO
-itkVOLImageIOFactory
-itkVOLImageIO
-itkVTKImageIOFactory
-itkVTKImageIO
-itkDicomImageIOFactory
-itkDicomImageIO
+SET(ITKIO_SRCS
+itkWriter.cxx
+itkImageIOBase.cxx
+itkImageIOFactory.cxx
+itkMetaImageIOFactory.cxx
+itkMetaImageIO.cxx
+itkPNGImageIOFactory.cxx
+itkPNGImageIO.cxx
+itkVOLImageIOFactory.cxx
+itkVOLImageIO.cxx
+itkVTKImageIOFactory.cxx
+itkVTKImageIO.cxx
+itkDicomImageIOFactory.cxx
+itkDicomImageIO.cxx
 )
 
 IF(WIN32)
@@ -28,11 +24,6 @@ IF(WIN32)
 ENDIF(WIN32)
 
 # Add ITKIO library
-ADD_LIBRARY(ITKIO ITKIO_SRCS)
+ADD_LIBRARY(ITKIO ${ITKIO_SRCS})
 TARGET_LINK_LIBRARIES(ITKIO ITKCommon itkpng itkzlib MetaIO)
-
-LINK_DIRECTORIES(${ITK_BINARY_DIR}/Utilities/png)
-LINK_DIRECTORIES(${ITK_BINARY_DIR}/Utilities/zlib)
-LINK_DIRECTORIES(${ITK_BINARY_DIR}/Utilities/MetaIO)
-LINK_DIRECTORIES(${ITK_BINARY_DIR}/Code/IO)
 

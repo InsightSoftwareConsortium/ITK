@@ -1,15 +1,3 @@
-INCLUDE_DIRECTORIES(
-  ${ITK_SOURCE_DIR}/Code/SpatialObject
-  ${ITK_SOURCE_DIR}/Code/Common
-  ${ITK_SOURCE_DIR}/Code/Numerics/vxl/vnl
-)
-
-LINK_LIBRARIES(
-  ITKCommon
-#  ITKSpatialObject
-  VXLNumerics
-)
-
 IF (TCL_TCLSH)
 ADD_TEST(PrintSelf-SpatialObject ${TCL_TCLSH}
          ${ITK_SOURCE_DIR}/Utilities/Dart/PrintSelfCheck.tcl  
@@ -25,15 +13,17 @@ ADD_TEST( itkLineSpatialObjectTest itkSpatialObjectTests itkLineSpatialObjectTes
 
 ADD_TEST(itkSpatialObjectHeaderTest itkSpatialObjectHeaderTest)
 
-SOURCE_FILES(
-  SpatialObject_SRCS
-  itkTubeSpatialObjectTest
-  itkImageSpatialObjectTest
-  itkEllipseSpatialObjectTest
-  itkBlobSpatialObjectTest
-  itkSurfaceSpatialObjectTest  
-  itkLineSpatialObjectTest
+SET(SpatialObject_SRCS
+  itkTubeSpatialObjectTest.cxx
+  itkImageSpatialObjectTest.cxx
+  itkEllipseSpatialObjectTest.cxx
+  itkBlobSpatialObjectTest.cxx
+  itkSurfaceSpatialObjectTest.cxx
+  itkLineSpatialObjectTest.cxx
 )
 
-ADD_EXECUTABLE( itkSpatialObjectTests itkSpatialObjectTests.cxx SpatialObject_SRCS)
+ADD_EXECUTABLE(itkSpatialObjectTests itkSpatialObjectTests.cxx ${SpatialObject_SRCS})
 ADD_EXECUTABLE(itkSpatialObjectHeaderTest itkSpatialObjectHeaderTest.cxx)
+TARGET_LINK_LIBRARIES(itkSpatialObjectHeaderTest ITKCommon)
+TARGET_LINK_LIBRARIES(itkSpatialObjectTests ITKCommon)
+

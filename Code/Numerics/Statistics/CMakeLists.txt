@@ -1,6 +1,7 @@
 # Sources for ITKStatistics library
-SOURCE_FILES(ITKStatistics_SRCS    
-itkFastRandomUnitNormalVariateGenerator   
+SET(ITKStatistics_SRCS    
+itkFastRandomUnitNormalVariateGenerator.cxx
 )   
   
-ADD_LIBRARY(ITKStatistics ITKStatistics_SRCS)
+ADD_LIBRARY(ITKStatistics ${ITKStatistics_SRCS})
+

@@ -1,30 +1,20 @@
-INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Code/BasicFilters)
-INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Code/IO)
-INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Utilities/zlib)
-INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Utilities/png)
-INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Utilities/MetaIO)
-
-LINK_LIBRARIES(ITKIO ITKCommon itkpng itkzlib MetaIO)
-
-LINK_DIRECTORIES(${ITK_BINARY_DIR}/Utilities/png)
-LINK_DIRECTORIES(${ITK_BINARY_DIR}/Utilities/zlib)
-LINK_DIRECTORIES(${ITK_BINARY_DIR}/Utilities/MetaIO)
-LINK_DIRECTORIES(${ITK_BINARY_DIR}/Code/IO)
 
 ADD_EXECUTABLE(itkIOHeaderTest itkIOHeaderTest.cxx)
 
-SOURCE_FILES(IOTest_SRCS
-itkConvertBufferTest
-itkDicomImageIOTest
-itkMetaImageIOTest
-itkPNGImageIOTest
-itkVOLImageIOTest
-itkVTKImageIOTest
-itkRawImageIOTest
-itkRawImageIOTest3
-itkRawImageIOTest4)
+SET(IOTest_SRCS
+itkConvertBufferTest.cxx
+itkDicomImageIOTest.cxx
+itkMetaImageIOTest.cxx
+itkPNGImageIOTest.cxx
+itkVOLImageIOTest.cxx
+itkVTKImageIOTest.cxx
+itkRawImageIOTest.cxx
+itkRawImageIOTest3.cxx
+itkRawImageIOTest4.cxx
+)
  
-ADD_EXECUTABLE(itkIOTests itkIOTests.cxx IOTest_SRCS)
+ADD_EXECUTABLE(itkIOTests itkIOTests.cxx ${IOTest_SRCS})
+TARGET_LINK_LIBRARIES(itkIOTests ITKIO)
 
 
 ##Add tests that depend on finding data
@@ -41,7 +31,7 @@ ENDIF(VW_RAW_DATA_PATH)
 IF (HAS_VTK)
   ADD_DEFINITIONS(-DITK_HAS_VTK)
   INCLUDE(${USE_VTK_FILE})
-  LINK_LIBRARIES( 
+  TARGET_LINK_LIBRARIES( itkIOTests
       vtkRendering
       vtkGraphics	  
       vtkImaging
@@ -50,7 +40,7 @@ IF (HAS_VTK)
       vtkCommon
   )
 IF (VTKTIFF_BINARY_DIR)
-  LINK_LIBRARIES( 
+  TARGET_LINK_LIBRARIES( itkIOTests
         vtktiff
   )
 ENDIF (VTKTIFF_BINARY_DIR)

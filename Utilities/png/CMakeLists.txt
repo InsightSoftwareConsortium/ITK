@@ -1,7 +1,7 @@
 PROJECT(ITKPNG)
 
 # source files for png
-SOURCE_FILES(PNG_SRCS
+SET(PNG_SRCS
 pngget.c    pngrio.c    pngwrite.c
 png.c       pngmem.c    pngrtran.c  pngtrans.c  pngwtran.c
 pngerror.c  pngpread.c  pngrutil.c  pngvcrd.c   pngwutil.c
@@ -20,8 +20,7 @@ IF(WIN32)
   ENDIF(BUILD_SHARED_LIBS)
 ENDIF(WIN32)
 
-ADD_LIBRARY(itkpng PNG_SRCS)
-LINK_DIRECTORIES ( ${ITK_BINARY_DIR}/Utilities/zlib )
+ADD_LIBRARY(itkpng ${PNG_SRCS})
 TARGET_LINK_LIBRARIES(itkpng itkzlib)
 
 INSTALL_TARGETS(/lib/insight itkpng)

@@ -4,45 +4,12 @@ ADD_TEST(PrintSelf-Statistics ${TCL_TCLSH}
          ${ITK_SOURCE_DIR}/Code/Numerics/Statistics)
 ENDIF (TCL_TCLSH)
 
-INCLUDE_DIRECTORIES(
-${ITK_SOURCE_DIR}/Code/Common
-${ITK_SOURCE_DIR}/Code/Algorithms
-${ITK_SOURCE_DIR}/Code/BasicFilters
-${ITK_SOURCE_DIR}/Code/Numerics
-${ITK_SOURCE_DIR}/Code/Numerics/FEM
-${ITK_SOURCE_DIR}/Code/Numerics/vxl
-${ITK_SOURCE_DIR}/Code/Numerics/vxl/vnl
+SET(FEM_SRCS
+itkFEMElementTest.cxx
+itkFEMLinearSystemWrapperItpackTest.cxx
+itkFEMLinearSystemWrapperVNLTest.cxx
+itkFEMLinearSystemWrapperDenseVNLTest.cxx
 )
-
-LINK_DIRECTORIES(
-${ITK_BINARY_DIR}/Code/Common
-${ITK_BINARY_DIR}/Code/Algorithms
-${ITK_BINARY_DIR}/Code/BasicFilters
-${ITK_BINARY_DIR}/Code/Numerics
-${ITK_BINARY_DIR}/Code/Numerics/FEM
-${ITK_BINARY_DIR}/Code/Numerics/vxl
-${ITK_BINARY_DIR}/Code/Numerics/vxl/vnl
-)
-
-SOURCE_FILES(FEM_SRCS
-itkFEMElementTest
-itkFEMLinearSystemWrapperItpackTest
-itkFEMLinearSystemWrapperVNLTest
-itkFEMLinearSystemWrapperDenseVNLTest
-)
-
-LINK_LIBRARIES (
-VXLNumerics
-ITKCommon
-ITKNumerics
-FEM
-)
-
-IF(UNIX)
-  LINK_LIBRARIES (
-  -lm
-  )
-ENDIF(UNIX)
 
 IF(FEM_VISUALIZATION)
 # Define the macro that includes all the required functions and include MFC support
@@ -81,8 +48,11 @@ ADD_TEST(itkFEMLinearSystemWrapperDenseVNLTest  itkFEMTests itkFEMLinearSystemWr
 # ADD_EXECUTABLE(itkFEMElementTestMenu itkFEMElementTestMenu)
 
 # To create the standard ITK test program, uncomment the line below
-ADD_EXECUTABLE(itkFEMTests itkFEMTests.cxx FEM_SRCS)
-
+ADD_EXECUTABLE(itkFEMTests itkFEMTests.cxx ${FEM_SRCS})
+TARGET_LINK_LIBRARIES(itkFEMTests VXLNumerics ITKCommon ITKNumerics FEM)
+IF(UNIX)
+  TARGET_LINK_LIBRARIES (itkFEMTests -lm )
+ENDIF(UNIX)
 
 
 

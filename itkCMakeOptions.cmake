@@ -5,32 +5,33 @@
 
 # set project include directories
 INCLUDE_DIRECTORIES(
-${ITK_BINARY_DIR} 
-${ITK_SOURCE_DIR}/Code/Numerics
+${ITK_SOURCE_DIR}/Code/Algorithms
+${ITK_SOURCE_DIR}/Code/BasicFilters
 ${ITK_SOURCE_DIR}/Code/Common 
+${ITK_SOURCE_DIR}/Code/Numerics
 ${ITK_SOURCE_DIR}/Code/IO 
+${ITK_SOURCE_DIR}/Code/Numerics/Statistics
 ${ITK_BINARY_DIR}/Code/Numerics/vxl 
 ${ITK_SOURCE_DIR}/Code/Numerics/vxl 
 ${ITK_BINARY_DIR}/Code/Numerics/vxl/vcl 
 ${ITK_SOURCE_DIR}/Code/Numerics/vxl/vcl 
+${ITK_SOURCE_DIR}/Code/SpatialObject
 ${ITK_SOURCE_DIR}/Utilities/png
 ${ITK_SOURCE_DIR}/Utilities/zlib
 ${ITK_SOURCE_DIR}/Utilities/MetaIO
+${ITK_BINARY_DIR} 
 )
 
-# set link libraries
-LINK_DIRECTORIES(
-${ITK_BINARY_DIR}/Utilities/zlib
-${ITK_BINARY_DIR}/Utilities/png
-${ITK_BINARY_DIR}/Utilities/MetaIO
-${ITK_BINARY_DIR}/Code/Common 
-${ITK_BINARY_DIR}/Code/IO
-${ITK_BINARY_DIR}/Code/Numerics/vxl )
+
+IF(BUILD_FEM_CODE)
+  INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Code/Numerics/FEM)
+ENDIF(BUILD_FEM_CODE)
+
 
 # use the distributed version of SGI's experimental C++ Standard Library
 IF (NOT ITK_USE_SYSTEM_STDLIB)
-INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Utilities/stdlib)
-LINK_DIRECTORIES(${ITK_BINARY_DIR}/Utilities/stdlib)
+  INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Utilities/stdlib)
+  LINK_DIRECTORIES(${ITK_BINARY_DIR}/Utilities/stdlib)
 ENDIF (NOT ITK_USE_SYSTEM_STDLIB)
 
 # set link libraries for project
@@ -60,3 +61,4 @@ ENDIF(CMAKE_USE_PTHREADS)
 IF(WIN32)
     ADD_DEFINITIONS(-DNOMINMAX)
 ENDIF(WIN32)
+

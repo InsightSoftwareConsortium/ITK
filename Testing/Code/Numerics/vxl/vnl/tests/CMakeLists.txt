@@ -1,31 +1,31 @@
-SOURCE_FILES(vnl_test_SRCS
-test_fft1d 
-test_fft2d 
-test_math 
-test_vector 
-test_matrix 
-test_matrix_fixed
-test_rnpoly_roots
-test_sparse_matrix
-test_sample 
-test_functions
-test_numeric_limits 
-test_rpoly_roots
-test_cpoly_roots 
-test_resize 
-test_complex 
-test_determinant 
-test_qr 
-test_qsvd 
-test_svd 
-test_real_eigensystem 
-test_complex_eigensystem 
-test_symmetric_eigensystem 
-test_generalized_eigensystem 
-test_matrix_exp 
+SET(vnl_test_SRCS
+test_fft1d.cxx
+test_fft2d.cxx
+test_math.cxx
+test_vector.cxx
+test_matrix.cxx
+test_matrix_fixed.cxx
+test_rnpoly_roots.cxx
+test_sparse_matrix.cxx
+test_sample.cxx
+test_functions.cxx
+test_numeric_limits.cxx
+test_rpoly_roots.cxx
+test_cpoly_roots.cxx
+test_resize.cxx
+test_complex.cxx
+test_determinant.cxx
+test_qr.cxx
+test_qsvd.cxx
+test_svd.cxx
+test_real_eigensystem.cxx
+test_complex_eigensystem.cxx
+test_symmetric_eigensystem.cxx
+test_generalized_eigensystem.cxx
+test_matrix_exp.cxx
 )
 
-ADD_EXECUTABLE(vnlTests vnlTests.cxx vnl_test_SRCS)
+ADD_EXECUTABLE(vnlTests vnlTests.cxx ${vnl_test_SRCS})
 TARGET_LINK_LIBRARIES(vnlTests VXLNumerics ITKCommon)
 ADD_TEST(test_fft1d vnlTests test_fft1d )
 ADD_TEST(test_fft2d vnlTests test_fft2d )

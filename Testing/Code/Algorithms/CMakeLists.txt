@@ -1,31 +1,4 @@
 
-INCLUDE_DIRECTORIES(
-${ITK_SOURCE_DIR}/Code/BasicFilters
-${ITK_SOURCE_DIR}/Code/IO
-${ITK_SOURCE_DIR}/Code/Algorithms
-${ITK_SOURCE_DIR}/Code/Numerics
-${ITK_SOURCE_DIR}/Code/Numerics/Statistics
-)
-
-LINK_DIRECTORIES(
-${ITK_BINARY_DIR}/Code/Algorithms
-${ITK_BINARY_DIR}/Code/BasicFilters
-)
-
-LINK_LIBRARIES (
-ITKIO
-ITKAlgorithms
-ITKBasicFilters
-ITKCommon
-ITKNumerics
-VXLNumerics
-)
-
-IF(ITK_WRAP_TCL)
-#  INCLUDE(${ITK_SOURCE_DIR}/Testing/Code/Algorithms/CMakeListsTcl.txt)
-ENDIF(ITK_WRAP_TCL)
-
-
 IF (TCL_TCLSH)
 ADD_TEST(PrintSelf-Algorithms ${TCL_TCLSH}
          ${ITK_SOURCE_DIR}/Utilities/Dart/PrintSelfCheck.tcl  
@@ -91,68 +64,70 @@ ADD_TEST(itkVoronoiDiagram2DTest itkAlgorithmsTests itkVoronoiDiagram2DTest)
 ADD_TEST(itkVoronoiSegmentationImageFilterTest itkAlgorithmsTests itkVoronoiSegmentationImageFilterTest)
 ADD_TEST(itkWatershedImageFilterTest itkAlgorithmsTests itkWatershedImageFilterTest)
 
-SOURCE_FILES(AlgorithmsTest_SRCS
-itkAntiAliasBinaryImageFilterTest
-itkBinaryMinMaxCurvatureFlowImageFilterTest 
-itkCurvatureFlowTest
-itkDemonsRegistrationFilterTest
-itkExtractMeshConnectedRegionsTest
-itkFastMarchingTest
-itkFastMarchingExtensionImageFilterTest
-itkGeodesicActiveContoursTest
-itkGradientVectorFlowImageFilterTest
-itkSimpleFuzzyConnectednessScalarImageFilterTest
-itkHistogramMatchingImageFilterTest
-itkImageMomentsTest
-itkSphereSourceTest 
-itkImageRegistrationMethodTest 
-itkImageRegistrationMethodTest_1 
-itkImageRegistrationMethodTest_2 
-itkImageRegistrationMethodTest_3 
-itkImageRegistrationMethodTest_4 
-itkImageRegistrationMethodTest_5 
-itkImageRegistrationMethodTest_6 
-itkImageRegistrationMethodTest_7 
-itkImageRegistrationMethodTest_8 
-itkImageRegistrationMethodTest_9 
-itkImageRegistrationMethodTest_10 
-itkImageRegistrationMethodTest_11 
-itkImageRegistrationMethodTest_12 
-itkImageRegistrationMethodTest_13 
-itkImageRegistrationMethodTest_14 
-itkInterpolateTest 
-itkKalmanLinearEstimatorTest 
-itkKmeansModelEstimatorTest
-itkLevelSetShapeDetectionTest 
-itkMeanSquaresImageMetricTest 
-itkMinimumMaximumImageCalculatorTest 
-itkMinMaxCurvatureFlowImageFilterTest 
-itkMRFImageFilterTest
-itkMultiResolutionPyramidImageFilterTest 
-itkRecursiveMultiResolutionPyramidImageFilterTest 
-itkMultiResolutionPDEDeformableRegistrationTest 
-itkMultiResolutionImageRegistrationMethodTest
-itkMultiResolutionImageRegistrationMethodTest_1 
-itkMultiResolutionImageRegistrationMethodTest_2
-itkMutualInformationMetricTest 
-itkNewTest 
-itkNormalizedCorrelationImageMetricTest 
-itkOtsuThresholdImageCalculatorTest 
-itkPatternIntensityImageMetricTest 
-itkRegionGrow2DTest 
-itkSupervisedImageClassifierTest
-itkGibbsTest 
-itkDeformableTest 
-itkVectorFuzzyConnectednessImageFilterTest 
-itkVoronoiDiagram2DTest 
-itkVoronoiSegmentationImageFilterTest 
-itkWatershedImageFilterTest 
+SET(AlgorithmsTest_SRCS
+itkAntiAliasBinaryImageFilterTest.cxx
+itkBinaryMinMaxCurvatureFlowImageFilterTest.cxx
+itkCurvatureFlowTest.cxx
+itkDemonsRegistrationFilterTest.cxx
+itkExtractMeshConnectedRegionsTest.cxx
+itkFastMarchingTest.cxx
+itkFastMarchingExtensionImageFilterTest.cxx
+itkGeodesicActiveContoursTest.cxx
+itkGradientVectorFlowImageFilterTest.cxx
+itkSimpleFuzzyConnectednessScalarImageFilterTest.cxx
+itkHistogramMatchingImageFilterTest.cxx
+itkImageMomentsTest.cxx
+itkSphereSourceTest.cxx
+itkImageRegistrationMethodTest.cxx
+itkImageRegistrationMethodTest_1.cxx
+itkImageRegistrationMethodTest_2.cxx
+itkImageRegistrationMethodTest_3.cxx
+itkImageRegistrationMethodTest_4.cxx
+itkImageRegistrationMethodTest_5.cxx
+itkImageRegistrationMethodTest_6.cxx
+itkImageRegistrationMethodTest_7.cxx
+itkImageRegistrationMethodTest_8.cxx
+itkImageRegistrationMethodTest_9.cxx
+itkImageRegistrationMethodTest_10.cxx
+itkImageRegistrationMethodTest_11.cxx
+itkImageRegistrationMethodTest_12.cxx
+itkImageRegistrationMethodTest_13.cxx
+itkImageRegistrationMethodTest_14.cxx
+itkInterpolateTest.cxx
+itkKalmanLinearEstimatorTest.cxx
+itkKmeansModelEstimatorTest.cxx
+itkLevelSetShapeDetectionTest.cxx
+itkMeanSquaresImageMetricTest.cxx
+itkMinimumMaximumImageCalculatorTest.cxx
+itkMinMaxCurvatureFlowImageFilterTest.cxx
+itkMRFImageFilterTest.cxx
+itkMultiResolutionPyramidImageFilterTest.cxx
+itkRecursiveMultiResolutionPyramidImageFilterTest.cxx
+itkMultiResolutionPDEDeformableRegistrationTest.cxx
+itkMultiResolutionImageRegistrationMethodTest.cxx
+itkMultiResolutionImageRegistrationMethodTest_1.cxx
+itkMultiResolutionImageRegistrationMethodTest_2.cxx
+itkMutualInformationMetricTest.cxx
+itkNewTest.cxx
+itkNormalizedCorrelationImageMetricTest.cxx
+itkOtsuThresholdImageCalculatorTest.cxx
+itkPatternIntensityImageMetricTest.cxx
+itkRegionGrow2DTest.cxx
+itkSupervisedImageClassifierTest.cxx
+itkGibbsTest.cxx
+itkDeformableTest.cxx
+itkVectorFuzzyConnectednessImageFilterTest.cxx
+itkVoronoiDiagram2DTest.cxx
+itkVoronoiSegmentationImageFilterTest.cxx
+itkWatershedImageFilterTest.cxx
 )
 
 ADD_EXECUTABLE(itkAlgorithmsHeaderTest itkAlgorithmsHeaderTest.cxx)
+TARGET_LINK_LIBRARIES(itkAlgorithmsHeaderTest ITKAlgorithms ITKIO ITKBasicFilters)
 ADD_TEST(itkAlgorithmsHeaderTest itkAlgorithmsHeaderTest)
 
-ADD_EXECUTABLE(itkAlgorithmsTests itkAlgorithmsTests.cxx AlgorithmsTest_SRCS)
+ADD_EXECUTABLE(itkAlgorithmsTests itkAlgorithmsTests.cxx ${AlgorithmsTest_SRCS})
+TARGET_LINK_LIBRARIES(itkAlgorithmsTests ITKAlgorithms ITKIO ITKBasicFilters)
 
 
 #IF(ITK_WRAP_TCL)
