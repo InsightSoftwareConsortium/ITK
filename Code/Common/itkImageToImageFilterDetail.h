@@ -338,7 +338,7 @@ namespace ImageToImageFilterDetail
   bool operator!=(const ImageRegionCopier<D1, D2> &c1,
                   const ImageRegionCopier<D1, D2> &c2)
   {
-    return c1 != c2;
+    return &c1 != &c2;
   }
   
 } // end of namespace ImageToImageFilterDetail
