@@ -184,7 +184,7 @@ int main()
   {
     const double tolerance = 1e-10;
     PointType combination;
-    unsigned int NP = 3;
+    const unsigned int NP = 3;
     PointType A[NP];
     double     w[NP-1];
     const double K = 12.0;
@@ -211,7 +211,7 @@ int main()
   {
     const double tolerance = 1e-10;
     PointType combination;
-    unsigned int NP = 3;
+    const unsigned int NP = 3;
     typedef itk::VectorContainer<unsigned long,PointType>  VectorOfPoints;
     VectorOfPoints::Pointer points = VectorOfPoints::New();
     points->Reserve(NP);
