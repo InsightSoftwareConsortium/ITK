@@ -356,7 +356,8 @@ void Segmenter<TInputImage>
                        flr.value      = (*flrt_it).second.value;
                        flr.offset_list.push_back(
                               face->ComputeOffset(faceIt.GetIndex()));
-                       flats->insert(flats_t::value_type(labelIt.Get(), flr));
+                       flats->insert(
+                                     ITK_TYPENAME BoundaryType::flat_hash_t::value_type(labelIt.Get(), flr));
                        flr.offset_list.clear();
                      }
                    else // YES
