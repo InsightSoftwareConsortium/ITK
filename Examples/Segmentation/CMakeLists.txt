@@ -208,7 +208,7 @@ ADD_TEST(FuzzyConnectednessImageFilter ${SEGMENTATION_EXAMPLES}
         ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
         ${TEMP}/FuzzyConnectednessVWEyeBinaryTest.png
         ${TEMP}/FuzzyConnectednessVWEyeTest.png
-        60 116 3.0
+        64 66 3.0
 )
 
 ADD_TEST(GeodesicActiveContourLeftVentricleTest ${SEGMENTATION_EXAMPLES}
