@@ -144,6 +144,7 @@ int main()
   */
   typedef itk::MultiResolutionMutualInformationRigidRegistration<
     ReferenceType,TargetType> MRRegistrationType;
+  typedef MRRegistrationType::RegistrationType InternalRegistrationType;
 
   MRRegistrationType::Pointer registrator = MRRegistrationType::New();
 
@@ -152,13 +153,10 @@ int main()
   registrator->SetNumberOfLevels( 3 );
 
   unsigned int niter[4] = { 300, 300, 300 };
-  double rates[4] = { 1e-6, 1e-6, 1e-7 };
-  double scales[4] = { 1000, 100, 100 };
+  double rates[4] = { 1e-5, 1e-5, 1e-6 };
 
   registrator->SetNumberOfIterations( niter );
   registrator->SetLearningRates( rates );
-  registrator->SetTranslationScales( scales );
-
 
   MRRegistrationType::RegistrationPointer method = 
     registrator->GetInternalRegistrationMethod();
@@ -174,6 +172,19 @@ int main()
 
   std::cout << "Reference schedule: " << std::endl;
   std::cout << registrator->GetReferencePyramid()->GetSchedule() << std::endl;
+
+  // set optimizer related parameters
+  typedef InternalRegistrationType::OptimizerType OptimizerType;
+  typedef OptimizerType::TransformType::ParametersType ScaleType;
+
+  ScaleType scales;
+  scales.Fill( 1.0 );
+  for( unsigned j = 4; j < 7; j++ )
+    {
+    scales[j] = 0.0001;
+    }
+
+  method->GetOptimizer()->GetTransform()->SetScale( scales );
 
   /**
    * Do the registration
