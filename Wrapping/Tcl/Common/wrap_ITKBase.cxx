@@ -17,7 +17,6 @@
 #include "itkCommand.h"
 #include "itkDataObject.h"
 #include "itkDirectory.h"
-#include "itkImageIO.h"
 #include "itkLightObject.h"
 #include "itkObject.h"
 #include "itkLightProcessObject.h"
@@ -33,7 +32,6 @@ ITK_WRAP_CONFIG_GROUP(ITKBase);
 ITK_WRAP_OBJECT(Command);
 ITK_WRAP_OBJECT(DataObject);
 ITK_WRAP_OBJECT(Directory);
-ITK_WRAP_OBJECT(ImageIO);
 ITK_WRAP_OBJECT(LightObject);
 ITK_WRAP_OBJECT(Object);
 ITK_WRAP_OBJECT(LightProcessObject);
