@@ -62,6 +62,7 @@ return( *b >= 0 ? x : -x);
  */
 integer do_fio(integer * a, char * b, ftnlen c )
 {
+  (void)a; (void)b; (void)c;
   return 0;
 }
 
@@ -72,6 +73,7 @@ integer e_wsfe(void)
 
 integer s_wsfe(cilist * list)
 {
+  (void)list;
   return 0;
 }
 
@@ -720,7 +722,7 @@ L340:
 /* ... SET RETURN PARAMETERS IN IPARM AND RPARM */
 
 L350:
-    iparm[8] -= itcom1_1.itmax - itcom1_1.in << 1;
+    iparm[8] -= (itcom1_1.itmax - itcom1_1.in) << 1;
     if (iparm[11] != 0) {
   goto L360;
     }
@@ -728,7 +730,7 @@ L350:
     time2 = (doublereal) (timj2 - timj1);
 L360:
     if (itcom1_1.isym != 0) {
-  iparm[8] -= itcom1_1.itmax - itcom1_1.in << 1;
+  iparm[8] -= (itcom1_1.itmax - itcom1_1.in) << 1;
     }
     if (iparm[3] != 0) {
   goto L370;
@@ -2533,9 +2535,9 @@ L370:
     timj2 = timer_(&dummy);
     time2 = (doublereal) (timj2 - timj1);
 L380:
-    iparm[8] -= itcom1_1.itmax - itcom1_1.in << 1;
+    iparm[8] -= (itcom1_1.itmax - itcom1_1.in) << 1;
     if (itcom1_1.isym != 0) {
-  iparm[8] -= itcom1_1.itmax - itcom1_1.in << 1;
+  iparm[8] -= (itcom1_1.itmax - itcom1_1.in) << 1;
     }
     if (iparm[3] != 0) {
   goto L390;
@@ -3832,9 +3834,9 @@ L410:
     timj2 = timer_(&dummy);
     time2 = (doublereal) (timj2 - timj1);
 L420:
-    iparm[8] -= itcom1_1.itmax - itcom1_1.in << 1;
+    iparm[8] -= (itcom1_1.itmax - itcom1_1.in) << 1;
     if (itcom1_1.isym != 0) {
-  iparm[8] -= itcom1_1.itmax - itcom1_1.in << 1;
+  iparm[8] -= (itcom1_1.itmax - itcom1_1.in) << 1;
     }
     if (iparm[3] != 0) {
   goto L430;
@@ -6194,7 +6196,7 @@ L30:
   zm1 = itcom3_1.cme;
     }
     if (itcom1_1.in != 0) {
-  i__1 = itcom1_1.in - itcom1_1.is << 1;
+  i__1 = (itcom1_1.in - itcom1_1.is) << 1;
   zm1 = cheby_(&itcom3_1.qa, &itcom3_1.qt, &itcom3_1.rrr, &i__1, &c_b21,
      &c_b21);
     }
@@ -6773,7 +6775,7 @@ doublereal determ_(integer *n, doublereal *tri, doublereal *xlmda)
   l = nm1 - icnt + 2;
   d3 = d2;
   d2 = d1;
-  d1 = (tri[(l - 1 << 1) + 1] - *xlmda) * d2 - d3 * tri[(l << 1) + 2];
+  d1 = (tri[((l - 1) << 1) + 1] - *xlmda) * d2 - d3 * tri[(l << 1) + 2];
 /* L10: */
     }
 
@@ -8370,7 +8372,7 @@ logical omgchg_(integer *ndummy)
 
     /* Local variables */
     static doublereal del1, del2;
-
+    (void)ndummy;
 
 /* ... THIS FUNCTION TESTS TO SEE WHETHER OMEGA SHOULD BE CHANGED */
 /* ... FOR SSOR CG METHOD. */
@@ -8447,7 +8449,7 @@ E             =\002,d15.7/35x,\002NEW ESTIMATE FOR OMEGA           =\002,d15\
     /* Fortran I/O blocks */
     static cilist io___491 = { 0, 0, 0, fmt_20, 0 };
 
-
+    (void)ndummy;
 
 /*     TESTS FOR FULLY ADAPTIVE SSOR METHODS WHETHER OMEGA-STAR */
 /*     SHOULD BE USED FOR OMEGA AND THE ADAPTIVE PROCESS TURNED */
@@ -11792,7 +11794,6 @@ L80:
     extern /* Subroutine */ int vfill_(integer *, doublereal *, doublereal *),
        ivfill_(integer *, integer *, integer *);
 
-
 /* *********************************************************************** */
 
 /*     SBINI IS THE FIRST OF A SUITE OF THREE SUBROUTINES TO AID */
@@ -11895,6 +11896,7 @@ L80:
     static cilist io___712 = { 0, 0, 0, fmt_90, 0 };
     static cilist io___713 = { 0, 0, 0, fmt_120, 0 };
 
+    (void)nz;
 
 
 /* *********************************************************************** */
@@ -12409,7 +12411,7 @@ doublereal timer_(real *timdmy)
 
 /*          TIMDMY   DUMMY ARGUMENT */
 
-
+    (void)timdmy;
 /* ********************************************* */
 /* **                                         ** */
 /* **   THIS ROUTINE IS NOT PORTABLE.         ** */
