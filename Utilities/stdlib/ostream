@@ -1,0 +1,595 @@
+/*
+ * Copyright (c) 1998
+ * Silicon Graphics Computer Systems, Inc.
+ *
+ * Permission to use, copy, modify, distribute and sell this software
+ * and its documentation for any purpose is hereby granted without fee,
+ * provided that the above copyright notice appear in all copies and
+ * that both that copyright notice and this permission notice appear
+ * in supporting documentation.  Silicon Graphics makes no
+ * representations about the suitability of this software for any
+ * purpose.  It is provided "as is" without express or implied warranty.
+ */ 
+
+#ifndef __SGI_STL_OSTREAM
+#define __SGI_STL_OSTREAM
+
+#if defined(__sgi) && !defined(__GNUC__) && !defined(_STANDARD_C_PLUS_PLUS)
+#error This header file requires the -LANG:std option
+#endif
+
+#include <ios>                  // For basic_ios<>.  Includes <iosfwd>.
+#include <limits>               // Needed for class numeric_limits<>.
+#include <streambuf>            // For basic_streambuf.
+#include <stl_numeric_facets.h> // For num_put<>
+#include <stdio.h>
+
+__STL_BEGIN_NAMESPACE
+
+//----------------------------------------------------------------------
+// class basic_ostream<>
+
+template <class _CharT, class _Traits>
+class basic_ostream : virtual public basic_ios<_CharT, _Traits>
+{
+public:                         // Types
+  typedef _CharT                     char_type;
+  typedef typename _Traits::int_type int_type;
+  typedef typename _Traits::pos_type pos_type;
+  typedef typename _Traits::off_type off_type;
+  typedef _Traits                    traits_type;
+  typedef basic_ios<_CharT, _Traits> _Basic_ios;
+
+public:                         // Constructor and destructor.
+  explicit basic_ostream(basic_streambuf<_CharT, _Traits>* __buf);
+  ~basic_ostream();
+
+public:                         // Nested sentry class.
+  class sentry {
+  private:
+    basic_ostream<_CharT, _Traits>& _M_str;
+    bool _M_ok;
+    basic_streambuf<_CharT, _Traits>* _M_buf;
+  public:
+    explicit sentry(basic_ostream<_CharT, _Traits>& __str)
+      : _M_str(__str), _M_ok(false), _M_buf(__str.rdbuf())
+    {
+      if (_M_str.good()) {
+        if (!_M_buf)
+          _M_str.setstate(ios_base::badbit);
+        if (_M_str.tie())
+          _M_str.tie()->flush();
+        _M_ok = _M_str.good();      
+      }
+    }
+    
+    ~sentry() {
+      if (_M_str.flags() & ios_base::unitbuf)
+#ifdef _UNCAUGHT_EXCEPTION
+        if (!uncaught_exception())
+#endif
+          _M_str.flush();
+    }
+    
+    operator bool() const { return _M_ok; }
+  private:                        // Disable assignment and copy constructor.
+    sentry(const sentry&);
+    void operator=(const sentry&);
+  };
+  
+public:                         // Hooks for manipulators.
+  basic_ostream& operator<< (basic_ostream& (*__f)(basic_ostream&))
+    { return __f(*this); }
+
+  basic_ostream& operator<< (_Basic_ios& (*__f)(_Basic_ios&))
+    { __f(*this); return *this; }
+
+  basic_ostream& operator<< (ios_base& (*__f)(ios_base&))
+    { __f(*this); return *this; }
+
+public:                         // Formatted output.
+  basic_ostream& operator<<(bool __x)
+    { return _M_put_num(this, __x); }
+  basic_ostream& operator<<(short __x)
+    { return _M_put_num(this, static_cast<long>(__x)); }
+  basic_ostream& operator<<(unsigned short __x)
+    { return _M_put_num(this, static_cast<unsigned long>(__x)); }
+  basic_ostream& operator<<(int __x)
+    { return _M_put_num(this, static_cast<long>(__x)); }
+  basic_ostream& operator<<(unsigned int __x)
+    { return _M_put_num(this, static_cast<unsigned long>(__x)); }
+  basic_ostream& operator<<(long __x)
+    { return _M_put_num(this, __x); }
+  basic_ostream& operator<<(unsigned long __x)
+    { return _M_put_num(this, __x); }
+#ifdef __STL_LONG_LONG
+  basic_ostream& operator<< (long long __x) { return _M_put_num(this, __x); }
+  basic_ostream& operator<< (unsigned long long __x)
+    { return _M_put_num(this, __x); }
+#endif 
+  basic_ostream& operator<<(float __x)
+    { return _M_put_num(this, static_cast<double>(__x)); }
+  basic_ostream& operator<<(double __x)
+    { return _M_put_num(this, __x); }
+  basic_ostream& operator<<(long double __x)
+    { return _M_put_num(this, __x); }
+  basic_ostream& operator<<(const void* __x)
+    { return _M_put_num(this, __x); }
+
+  // Formatted output from a streambuf.
+  basic_ostream& operator<<(basic_streambuf<_CharT, _Traits>* __buf);
+
+private:                        // Helper functions for formatted output.
+
+  bool _M_copy_buffered(basic_streambuf<_CharT, _Traits>* __from,
+                        basic_streambuf<_CharT, _Traits>* __to);
+  bool _M_copy_unbuffered(basic_streambuf<_CharT, _Traits>* __from,
+                          basic_streambuf<_CharT, _Traits>* __to);
+
+public:
+  void _M_put_char(_CharT __c);
+
+  void _M_put_nowiden(const _CharT* __s);
+  void _M_put_widen(const char* __s);
+  bool _M_put_widen_aux(const char* __s, streamsize __n);
+
+public:                         // Unformatted output.
+  basic_ostream& put(char_type __c);
+  basic_ostream& write(const char_type* __s, streamsize __n);
+
+public:                         // Buffer positioning and manipulation.
+  basic_ostream& flush() {
+    if (this->rdbuf())
+      if (this->rdbuf()->pubsync() == -1)
+        this->setstate(ios_base::badbit);
+    return *this;
+  }
+
+  pos_type tellp() {
+    return this->rdbuf() && !this->fail()
+      ? this->rdbuf()->pubseekoff(0, ios_base::cur, ios_base::out)
+      : pos_type(-1);
+  }
+
+  basic_ostream& seekp(pos_type __pos) {
+    if (this->rdbuf() && !this->fail())
+      this->rdbuf()->pubseekpos(__pos, ios_base::out);
+    return *this;
+  }
+
+  basic_ostream& seekp(off_type __off, ios_base::seekdir __dir) {
+    if (this->rdbuf() && !this->fail())
+      this->rdbuf()->pubseekoff(__off, __dir, ios_base::out);
+    return *this;
+  }
+};
+
+// Non-member functions.
+
+template <class _CharT, class _Traits>
+inline basic_ostream<_CharT, _Traits>&
+operator<<(basic_ostream<_CharT, _Traits>& __os, _CharT __c) {
+  __os._M_put_char(__c);
+  return __os;
+}
+
+#ifdef __STL_FUNCTION_TMPL_PARTIAL_ORDER
+
+template <class _CharT, class _Traits>
+inline basic_ostream<_CharT, _Traits>&
+operator<<(basic_ostream<_CharT, _Traits>& __os, char __c) {
+  __os._M_put_char(__os.widen(__c));
+  return __os;
+}
+
+template <class _Traits>
+inline basic_ostream<char, _Traits>&
+operator<<(basic_ostream<char, _Traits>& __os, char __c) {
+  __os._M_put_char(__c);
+  return __os;
+}
+
+#endif /* __STL_FUNCTION_TMPL_PARTIAL_ORDER */
+
+template <class _Traits>
+inline basic_ostream<char, _Traits>&
+operator<<(basic_ostream<char, _Traits>& __os, signed char __c) {
+  __os._M_put_char(__c);
+  return __os;
+}
+
+template <class _Traits>
+inline basic_ostream<char, _Traits>&
+operator<<(basic_ostream<char, _Traits>& __os, unsigned char __c) {
+  __os._M_put_char(__c);
+  return __os;
+}
+
+template <class _CharT, class _Traits>
+inline basic_ostream<_CharT, _Traits>&
+operator<<(basic_ostream<_CharT, _Traits>& __os, const _CharT* __s) {
+  __os._M_put_nowiden(__s);
+  return __os;
+}
+
+#ifdef __STL_FUNCTION_TMPL_PARTIAL_ORDER
+
+template <class _CharT, class _Traits>
+inline basic_ostream<_CharT, _Traits>&
+operator<<(basic_ostream<_CharT, _Traits>& __os, const char* __s) {
+  __os._M_put_widen(__s);
+  return __os;
+}
+
+template <class _Traits>
+inline basic_ostream<char, _Traits>&
+operator<<(basic_ostream<char, _Traits>& __os, const char* __s) {
+  __os._M_put_nowiden(__s);
+  return __os;
+}
+
+#endif /* __STL_FUNCTION_TMPL_PARTIAL_ORDER */
+
+template <class _Traits>
+inline basic_ostream<char, _Traits>&
+operator<<(basic_ostream<char, _Traits>& __os, const signed char* __s) {
+  __os._M_put_nowiden(reinterpret_cast<const char*>(__s));
+  return __os;
+}
+
+template <class _Traits>
+inline basic_ostream<char, _Traits>&
+operator<<(basic_ostream<char, _Traits>& __os, const unsigned char* __s) {
+  __os._M_put_nowiden(reinterpret_cast<const char*>(__s));
+  return __os;
+}
+
+
+//----------------------------------------------------------------------
+// Definitions of non-inline member functions.
+
+// Constructor, destructor
+
+template <class _CharT, class _Traits>
+basic_ostream<_CharT, _Traits>
+  ::basic_ostream(basic_streambuf<_CharT, _Traits>* __buf)
+    : _Basic_ios() 
+{
+  _Basic_ios::init(__buf);
+}
+
+template <class _CharT, class _Traits>
+basic_ostream<_CharT, _Traits>::~basic_ostream()
+{}
+// Output directly from a streambuf.
+template <class _CharT, class _Traits>
+basic_ostream<_CharT, _Traits>& 
+basic_ostream<_CharT, _Traits>
+  ::operator<<(basic_streambuf<_CharT, _Traits>* __from)
+{
+  sentry __sentry(*this);
+  if (__sentry) {
+    if (__from) {
+      bool __any_inserted = __from->gptr() != __from->egptr()
+        ? this->_M_copy_buffered(__from, this->rdbuf())
+        : this->_M_copy_unbuffered(__from, this->rdbuf());
+      if (!__any_inserted)
+        this->setstate(ios_base::failbit);
+    }
+    else
+      this->setstate(ios_base::badbit);
+  }
+
+  return *this;
+}
+
+// Helper functions for the streambuf version of operator<<.  The
+// exception-handling code is complicated because exceptions thrown
+// while extracting characters are treated differently than exceptions
+// thrown while inserting characters.
+
+template <class _CharT, class _Traits>
+bool basic_ostream<_CharT, _Traits>
+  ::_M_copy_buffered(basic_streambuf<_CharT, _Traits>* __from,
+                     basic_streambuf<_CharT, _Traits>* __to)
+{
+  bool __any_inserted = false;
+
+  while (__from->egptr() != __from->gptr()) {
+    const ptrdiff_t __avail = __from->egptr() - __from->gptr();
+
+    streamsize __nwritten;
+    __STL_TRY {
+      __nwritten = __to->sputn(__from->gptr(), __avail);
+      __from->gbump(__nwritten);
+    }
+    __STL_CATCH_ALL {
+      _M_handle_exception(ios_base::badbit);
+      return __any_inserted;
+    }
+
+    if (__nwritten == __avail) {
+      __STL_TRY {
+        if (_S_eof(__from->sgetc()))
+          return true;
+        else
+          __any_inserted = true;
+      }
+      __STL_CATCH_ALL {
+        _M_handle_exception(ios_base::failbit);
+        return false;
+      }
+    }
+
+    else if (__nwritten != 0)
+      return true;
+
+    else
+      return __any_inserted;
+  }
+
+  // No characters are in the buffer, but we aren't at EOF.  Switch to
+  // unbuffered mode.
+  return __any_inserted || this->_M_copy_unbuffered(__from, __to);
+}
+
+template <class _CharT, class _Traits>
+bool basic_ostream<_CharT, _Traits>
+  ::_M_copy_unbuffered(basic_streambuf<_CharT, _Traits>* __from,
+                       basic_streambuf<_CharT, _Traits>* __to)
+{
+  bool __any_inserted = false;
+
+  while (true) {
+    int_type __c;
+    __STL_TRY {
+      __c = __from->sbumpc();
+    }
+    __STL_CATCH_ALL {
+      _M_handle_exception(ios_base::failbit);
+      return __any_inserted;
+    }
+
+    if (_S_eof(__c))
+      return __any_inserted;
+
+    else {
+      int_type __tmp;
+      __STL_TRY {
+        __tmp = __to->sputc(__c);
+      }
+      __STL_CATCH_ALL {
+        _M_handle_exception(ios_base::badbit);
+        return __any_inserted;
+      }
+
+      if (_S_eof(__tmp)) {
+        __STL_TRY {
+          __tmp = __from->sputbackc(__c);
+        }
+        __STL_CATCH_ALL {
+          _M_handle_exception(ios_base::badbit);
+          return __any_inserted;
+        }
+      }
+      else
+        __any_inserted = true;
+    }
+  }
+}
+
+// Helper function for numeric output.
+
+template <class _CharT, class _Traits, class _Number> 
+basic_ostream<_CharT, _Traits>&
+_M_put_num(basic_ostream<_CharT, _Traits>* __this, _Number __x)
+{
+  typename basic_ostream<_CharT,_Traits>::sentry __sentry(*__this);
+  if (__sentry) {
+    bool __failed = true;
+    __STL_TRY {
+      typedef num_put<_CharT, ostreambuf_iterator<_CharT, _Traits> > 
+        _NumPut;
+      __failed
+        = use_facet<_NumPut>(__this->getloc()).put(*__this, *__this, 
+                                                   __this->fill(),
+                                                   __x).failed();
+    }
+    __STL_CATCH_ALL {
+      __this->_M_handle_exception(ios_base::badbit);
+    }
+    
+    if (__failed)
+      __this->setstate(ios_base::badbit);
+  }
+  return *__this;
+}
+
+template <class _CharT, class _Traits>
+void basic_ostream<_CharT, _Traits>::_M_put_char(_CharT __c)
+{
+  sentry __sentry(*this);
+  if (__sentry) {
+    bool __failed = true;
+    __STL_TRY {
+      streamsize __npad = this->width() > 0 ? this->width() - 1 : 0;
+
+      if (__npad <= 1)
+        __failed = _S_eof(this->rdbuf()->sputc(__c));
+      else if ((this->flags() & ios_base::adjustfield) == ios_base::left) {
+        __failed = _S_eof(this->rdbuf()->sputc(__c));
+        __failed = __failed || 
+                   this->rdbuf()->_M_sputnc(this->fill(), __npad) != __npad;
+      }
+      else {
+        __failed = this->rdbuf()->_M_sputnc(this->fill(), __npad) != __npad;
+        __failed = __failed || _S_eof(this->rdbuf()->sputc(__c));
+      }
+
+      this->width(0);
+    }
+    __STL_CATCH_ALL {
+      _M_handle_exception(ios_base::badbit);
+    }
+
+    if (__failed)
+      this->setstate(ios_base::badbit);
+  }
+}
+
+template <class _CharT, class _Traits>
+void basic_ostream<_CharT, _Traits>::_M_put_nowiden(const _CharT* __s)
+{
+  sentry __sentry(*this);
+  if (__sentry) {
+    bool __failed = true;
+    streamsize __n = _Traits::length(__s);
+    streamsize __npad = this->width() > __n ? this->width() - __n : 0;
+
+    __STL_TRY {
+      if (__npad == 0)
+        __failed = this->rdbuf()->sputn(__s, __n) != __n;
+      else if ((this->flags() & ios_base::adjustfield) == ios_base::left) {
+        __failed = this->rdbuf()->sputn(__s, __n) != __n;
+        __failed = __failed || 
+                   this->rdbuf()->_M_sputnc(this->fill(), __npad) != __npad;
+      }
+      else {
+        __failed = this->rdbuf()->_M_sputnc(this->fill(), __npad) != __npad;
+        __failed = __failed || this->rdbuf()->sputn(__s, __n) != __n;
+      }
+
+      this->width(0);
+    }
+    __STL_CATCH_ALL {
+      _M_handle_exception(ios_base::badbit);
+    }
+
+    if (__failed)
+      this->setstate(ios_base::failbit);
+  }
+}
+
+template <class _CharT, class _Traits>
+void basic_ostream<_CharT, _Traits>::_M_put_widen(const char* __s)
+{
+  sentry __sentry(*this);
+  if (__sentry) {
+    bool __failed = true;
+    streamsize __n = char_traits<char>::length(__s);
+    streamsize __npad = this->width() > __n ? this->width() - __n : 0;
+
+    __STL_TRY {
+      if (__npad == 0)
+        __failed = !this->_M_put_widen_aux(__s, __n);
+      else if ((this->flags() & ios_base::adjustfield) == ios_base::left) {
+        __failed = !this->_M_put_widen_aux(__s, __n);
+        __failed = __failed || 
+                   this->rdbuf()->_M_sputnc(this->fill(), __npad) != __npad;
+      }
+      else {
+        __failed = this->rdbuf()->_M_sputnc(this->fill(), __npad) != __npad;
+        __failed = __failed || !this->_M_put_widen_aux(__s, __n);
+      }
+
+      this->width(0);
+    }
+    __STL_CATCH_ALL {
+      _M_handle_exception(ios_base::badbit);
+    }
+
+    if (__failed)
+      this->setstate(ios_base::failbit);
+  }
+}
+
+template <class _CharT, class _Traits>
+bool basic_ostream<_CharT, _Traits>::_M_put_widen_aux(const char* __s,
+                                                      streamsize __n)
+{
+  basic_streambuf<_CharT, _Traits>* __buf = this->rdbuf();
+
+  for ( ; __n > 0 ; --__n)
+    if (_S_eof(__buf->sputc(this->widen(*__s++))))
+      return false;
+  return true;
+}
+
+// Unformatted output of a single character.
+template <class _CharT, class _Traits>
+basic_ostream<_CharT, _Traits>&
+basic_ostream<_CharT, _Traits>::put(char_type __c)
+{
+  sentry __sentry(*this);
+  bool __failed = true;
+
+  if (__sentry) {
+    __STL_TRY {
+      __failed = _S_eof(this->rdbuf()->sputc(__c));
+    }
+    __STL_CATCH_ALL {
+      this->_M_handle_exception(ios_base::badbit);
+    }
+  }
+
+  if (__failed)
+    this->setstate(ios_base::badbit);
+
+  return *this;
+}
+
+// Unformatted output of a single character.
+template <class _CharT, class _Traits>
+basic_ostream<_CharT, _Traits>&
+basic_ostream<_CharT, _Traits>::write(const char_type* __s, streamsize __n)
+{
+  sentry __sentry(*this);
+  bool __failed = true;
+
+  if (__sentry) {
+    __STL_TRY {
+      __failed = this->rdbuf()->sputn(__s, __n) != __n;
+    }
+    __STL_CATCH_ALL {
+      this->_M_handle_exception(ios_base::badbit);
+    }
+  }
+
+  if (__failed)
+    this->setstate(ios_base::badbit);
+
+  return *this;
+}
+
+//----------------------------------------------------------------------
+// basic_ostream manipulators.
+
+template <class _CharT, class _Traits>
+inline basic_ostream<_CharT, _Traits>&
+endl(basic_ostream<_CharT, _Traits>& __os) {
+  __os.put(__os.widen('\n'));
+  __os.flush();
+  return __os;
+}
+
+template <class _CharT, class _Traits>
+inline basic_ostream<_CharT, _Traits>&
+ends(basic_ostream<_CharT, _Traits>& __os) {
+  __os.put(_CharT());
+  return __os;
+}
+
+template <class _CharT, class _Traits>
+inline basic_ostream<_CharT, _Traits>&
+flush(basic_ostream<_CharT, _Traits>& __os) {
+  __os.flush();
+  return __os;
+}
+
+__STL_END_NAMESPACE
+
+#endif /* __SGI_STL_OSTREAM */
+
+// Local Variables:
+// mode:C++
+// End:

@@ -1,0 +1,581 @@
+/*
+ * Copyright (c) 1998
+ * Silicon Graphics Computer Systems, Inc.
+ *
+ * Permission to use, copy, modify, distribute and sell this software
+ * and its documentation for any purpose is hereby granted without fee,
+ * provided that the above copyright notice appear in all copies and
+ * that both that copyright notice and this permission notice appear
+ * in supporting documentation.  Silicon Graphics makes no
+ * representations about the suitability of this software for any
+ * purpose.  It is provided "as is" without express or implied warranty.
+ */ 
+
+#ifndef __SGI_STL_IOS
+#define __SGI_STL_IOS
+
+#include <stl_config.h>
+#include <stl_string_fwd.h>     // Declares class template basic_string
+#include <stl_exception.h>      // Defines the macro __STL_EXCEPTION_BASE
+#include <utility>
+#include <iosfwd>
+#include <stl_locale.h>
+#include <stl_ctype.h>
+
+__STL_BEGIN_NAMESPACE
+
+// ----------------------------------------------------------------------
+
+
+// Class ios_base.  This is the base class of the ios hierarchy, which
+// includes basic_istream and basic_ostream.  Classes in the ios
+// hierarchy are actually quite simple: they are just glorified
+// wrapper classes.  They delegate buffering and physical character
+// manipulation to the streambuf classes, and they delegate most
+// formatting tasks to a locale.
+
+class ios_base {
+public:
+  class failure : public __Named_exception {
+  public:
+    explicit failure(const string&);
+    virtual ~failure() __STL_NOTHROW;
+  };
+
+  // Formatting flags.
+
+#ifdef __STL_STATIC_CONST_INIT_BUG
+
+  enum __fmtflags {
+    left       = 0x0001,
+    right      = 0x0002,
+    internal   = 0x0004,
+    dec        = 0x0008,
+    hex        = 0x0010,
+    oct        = 0x0020,
+    fixed      = 0x0040,
+    scientific = 0x0080,
+    boolalpha  = 0x0100,
+    showbase   = 0x0200,
+    showpoint  = 0x0400,
+    showpos    = 0x0800,
+    skipws     = 0x1000,
+    unitbuf    = 0x2000,
+    uppercase  = 0x4000,
+    adjustfield = left | right | internal,
+    basefield   = dec | hex | oct,
+    floatfield  = scientific | fixed
+  };
+  enum __seekdir {
+    beg = 0x01,
+    cur = 0x02,
+    end = 0x04
+  };
+  enum __iostate {
+    goodbit = 0x00,
+    badbit  = 0x01,
+    eofbit  = 0x02,
+    failbit = 0x04
+  };
+  enum __openmode {
+    app    = 0x01,
+    ate    = 0x02,
+    binary = 0x04,
+    in     = 0x08,
+    out    = 0x10,
+    trunc  = 0x20
+  };
+  typedef int fmtflags;
+  typedef int seekdir;
+  typedef int iostate;
+  typedef int openmode;
+
+#else
+  typedef unsigned int fmtflags;
+  typedef unsigned char seekdir;
+  typedef unsigned char iostate;
+  typedef unsigned short openmode;
+
+  static const fmtflags left       = 0x0001;
+  static const fmtflags right      = 0x0002;
+  static const fmtflags internal   = 0x0004;
+  static const fmtflags dec        = 0x0008;
+  static const fmtflags hex        = 0x0010;
+  static const fmtflags oct        = 0x0020;
+  static const fmtflags fixed      = 0x0040;
+  static const fmtflags scientific = 0x0080;
+  static const fmtflags boolalpha  = 0x0100;
+  static const fmtflags showbase   = 0x0200;
+  static const fmtflags showpoint  = 0x0400;
+  static const fmtflags showpos    = 0x0800;
+  static const fmtflags skipws     = 0x1000;
+  static const fmtflags unitbuf    = 0x2000;
+  static const fmtflags uppercase  = 0x4000;
+  static const fmtflags adjustfield = left | right | internal;
+  static const fmtflags basefield   = dec | hex | oct;
+  static const fmtflags floatfield  = scientific | fixed;
+
+  // State flags.
+  static const iostate goodbit = 0x00;
+  static const iostate badbit  = 0x01;
+  static const iostate eofbit  = 0x02;
+  static const iostate failbit = 0x04;
+
+  // Openmode flags.
+  static const openmode app    = 0x01;
+  static const openmode ate    = 0x02;
+  static const openmode binary = 0x04;
+  static const openmode in     = 0x08;
+  static const openmode out    = 0x10;
+  static const openmode trunc  = 0x20;
+
+  // Seekdir flags
+  static const seekdir beg = 0x01;
+  static const seekdir cur = 0x02;
+  static const seekdir end = 0x04;
+#endif
+
+  // Init class, an implementation detail for initializing cin, cout, etc.
+  class Init;
+  friend class Init;
+
+public:                         // Flag-manipulation functions.
+  fmtflags flags() const { return _M_fmtflags; }
+  fmtflags flags(fmtflags __flags) {
+    fmtflags __tmp = _M_fmtflags;
+    _M_fmtflags = __flags;
+    return __tmp;
+  }
+
+  fmtflags setf(fmtflags __flag) {
+    fmtflags __tmp = _M_fmtflags;
+    _M_fmtflags |= __flag;
+    return __tmp;
+  }
+  fmtflags setf(fmtflags __flag, fmtflags __mask) {
+    fmtflags __tmp = _M_fmtflags;
+    _M_fmtflags &= ~__mask;
+    _M_fmtflags |= __flag & __mask;
+    return __tmp;
+  }
+  void unsetf(fmtflags __mask) { _M_fmtflags &= ~__mask; }
+
+  streamsize precision() const { return _M_precision; }
+  streamsize precision(streamsize __newprecision) {
+    streamsize __tmp = _M_precision;
+    _M_precision = __newprecision;
+    return __tmp;
+  }
+
+  streamsize width() const { return _M_width; }
+  streamsize width(streamsize __newwidth) {
+    streamsize __tmp = _M_width;
+    _M_width = __newwidth;
+    return __tmp;
+  }
+
+public:                         // Locales
+  locale imbue(const locale&);
+  locale getloc() const { return _M_locale; }
+
+public:                         // Auxiliary storage.
+  static int xalloc();
+  long&  iword(int __index);
+  void*& pword(int __index);
+
+public:                         // Destructor.
+  virtual ~ios_base();
+
+public:                         // Callbacks.
+  enum event { erase_event, imbue_event, copyfmt_event };
+  typedef void (*event_callback)(event, ios_base&, int __index);
+  void register_callback(event_callback __fn, int __index);
+
+public:                         // This member function affects only
+                                // the eight predefined ios objects:
+                                // cin, cout, etc.
+  static bool sync_with_stdio(bool __sync = true);
+
+public:                         // The C++ standard requires only that these
+                                // member functions be defined in basic_ios.
+                                // We define them in the non-template
+                                // base class to avoid code duplication.
+  operator void*() const { return !fail() ? (void*) this : (void*) 0; }
+  bool operator!() const { return fail(); }
+
+  iostate rdstate() const { return _M_iostate; }
+
+  bool good() const { return _M_iostate == 0; }
+  bool eof() const { return (_M_iostate & eofbit) != 0; }
+  bool fail() const { return (_M_iostate & (failbit | badbit)) != 0; }
+  bool bad() const { return (_M_iostate & badbit) != 0; }
+
+protected:                      // The functional protected interface.
+
+  // Copies the state of __x to *this.  This member function makes it
+  // possible to implement basic_ios::copyfmt without having to expose
+  // ios_base's private data members.  Does not copy _M_exception_mask
+  // or _M_iostate.
+  void _M_copy_state(const ios_base& __x);
+
+  void _M_setstate_nothrow(iostate __state) { _M_iostate |= __state; }
+  void _M_clear_nothrow(iostate __state) { _M_iostate = __state; }
+
+  iostate _M_get_exception_mask() const { return _M_exception_mask; }
+  void _M_set_exception_mask(iostate __mask) { _M_exception_mask = __mask; }
+  void _M_check_exception_mask() 
+    { if (_M_iostate & _M_exception_mask) _M_throw_failure(); }
+
+  void _M_invoke_callbacks(event __event);
+  void _M_throw_failure();
+
+  ios_base();                   // Default constructor.
+
+private:                        // Initialization of the I/O system
+  static void _S_initialize();
+  static void _S_uninitialize();
+
+private:                        // Invalidate the copy constructor and
+                                // assignment operator.
+  ios_base(const ios_base&);
+  void operator=(const ios_base&);
+
+private:                        // Data members.
+
+  fmtflags _M_fmtflags;         // Flags
+  iostate _M_iostate;
+  openmode _M_openmode;
+  seekdir _M_seekdir;
+  iostate _M_exception_mask;
+
+  streamsize _M_precision;
+  streamsize _M_width;
+
+  locale _M_locale;
+
+  pair<event_callback, int>* _M_callbacks;
+  size_t _M_num_callbacks;      // Size of the callback array.
+  size_t _M_callback_index;     // Index of the next available callback;
+                                // initially zero.
+
+  long* _M_iwords;              // Auxiliary storage.  The count is zero
+  size_t _M_num_iwords;         // if and only if the pointer is null.
+
+  void** _M_pwords;
+  size_t _M_num_pwords;
+
+  static int _S_index;
+};
+
+// ----------------------------------------------------------------------
+// Nested initializer class.  This is an implementation detail, but it's
+// prescribed by the standard.  The static initializer object (on 
+// implementations where such a thing is required) is declared in
+// <iostream>
+
+class ios_base::Init {
+public:
+  Init() {
+    if (_S_count++ == 0)
+      ios_base::_S_initialize();
+  }
+  ~Init() {
+    if (--_S_count == 0)
+      ios_base::_S_uninitialize();
+  }
+private:
+  static long _S_count;
+};
+
+
+// Global initializer object, to ensure construction of static objects.
+static ios_base::Init __initializer;
+
+
+// ----------------------------------------------------------------------
+// ios_base manipulator functions, from section 27.4.5 of the C++ standard.
+// All of them are trivial one-line wrapper functions.
+
+// fmtflag manipulators, section 27.4.5.1
+inline ios_base& boolalpha(ios_base& __s)   
+  { __s.setf(ios_base::boolalpha); return __s;}
+
+inline ios_base& noboolalpha(ios_base& __s)
+  { __s.unsetf(ios_base::boolalpha); return __s;}
+
+inline ios_base& showbase(ios_base& __s)
+  { __s.setf(ios_base::showbase); return __s;}
+
+inline ios_base& noshowbase(ios_base& __s)
+  { __s.unsetf(ios_base::showbase); return __s;}
+
+inline ios_base& showpoint(ios_base& __s)
+  { __s.setf(ios_base::showpoint); return __s;}
+
+inline ios_base& noshowpoint(ios_base& __s)
+  { __s.unsetf(ios_base::showpoint); return __s;}
+
+inline ios_base& showpos(ios_base& __s)
+  { __s.setf(ios_base::showpos); return __s;}
+
+inline ios_base& noshowpos(ios_base& __s) 
+  { __s.unsetf(ios_base::showpos); return __s;}
+
+inline ios_base& skipws(ios_base& __s)
+  { __s.setf(ios_base::skipws); return __s;}
+
+inline ios_base& noskipws(ios_base& __s)
+  { __s.unsetf(ios_base::skipws); return __s;}
+
+inline ios_base& uppercase(ios_base& __s)
+  { __s.setf(ios_base::uppercase); return __s;}
+
+inline ios_base& nouppercase(ios_base& __s)
+  { __s.unsetf(ios_base::uppercase); return __s;}
+
+inline ios_base& unitbuf(ios_base& __s)
+  { __s.setf(ios_base::unitbuf); return __s;}
+
+inline ios_base& nounitbuf(ios_base& __s)
+  { __s.unsetf(ios_base::unitbuf); return __s;}
+
+
+// adjustfield manipulators, section 27.4.5.2
+inline ios_base& internal(ios_base& __s)
+  { __s.setf(ios_base::internal, ios_base::adjustfield); return __s; }
+
+inline ios_base& left(ios_base& __s)
+  { __s.setf(ios_base::left, ios_base::adjustfield); return __s; }
+
+inline ios_base& right(ios_base& __s)
+  { __s.setf(ios_base::right, ios_base::adjustfield); return __s; }
+
+// basefield manipulators, section 27.4.5.3
+inline ios_base& dec(ios_base& __s)
+  { __s.setf(ios_base::dec, ios_base::basefield); return __s; }
+
+inline ios_base& hex(ios_base& __s) 
+  { __s.setf(ios_base::hex, ios_base::basefield); return __s; }
+
+inline ios_base& oct(ios_base& __s)
+  { __s.setf(ios_base::oct, ios_base::basefield); return __s; }
+
+
+// floatfield manipulators, section 27.4.5.3
+inline ios_base& fixed(ios_base& __s)
+  { __s.setf(ios_base::fixed, ios_base::floatfield); return __s; }
+
+inline ios_base& scientific(ios_base& __s)
+  { __s.setf(ios_base::scientific, ios_base::floatfield); return __s; }
+
+
+// ----------------------------------------------------------------------
+
+// Class basic_ios, a subclass of ios_base.  The only important difference
+// between the two is that basic_ios is a class template, parameterized
+// by the character type.  ios_base exists to factor out all of the
+// common properties that don't depend on the character type.
+
+// The second template parameter, _Traits, defaults to char_traits<_CharT>.
+// The default is declared in header <iosfwd>, and it isn't declared here
+// because C++ language rules do not allow it to be declared twice.
+
+template <class _CharT, class _Traits>
+class basic_ios : public ios_base {
+  friend void ios_base::_S_initialize();
+  friend void ios_base::_S_uninitialize();
+public:                         // Synonyms for types.
+  typedef _CharT                     char_type;
+  typedef typename _Traits::int_type int_type;
+  typedef typename _Traits::pos_type pos_type;
+  typedef typename _Traits::off_type off_type;
+  typedef _Traits                    traits_type;
+
+public:                         // Constructor, destructor.
+  explicit basic_ios(basic_streambuf<char_type, traits_type>* __streambuf);
+  virtual ~basic_ios() { }
+
+public:                         // Members from clause 27.4.4.2
+  basic_ostream<char_type, traits_type>* tie() const {
+    return _M_tied_ostream;
+  }
+  basic_ostream<char_type, traits_type>*
+  tie(basic_ostream<char_type, traits_type>* __new_tied_ostream) {
+    basic_ostream<char_type, traits_type>* __tmp = _M_tied_ostream;
+    _M_tied_ostream = __new_tied_ostream;
+    return __tmp;
+  }
+
+  basic_streambuf<char_type, traits_type>* rdbuf() const
+    { return _M_streambuf; }
+
+  basic_streambuf<char_type, traits_type>*
+  rdbuf(basic_streambuf<char_type, traits_type>*);
+
+  // Copies __x's state to *this.
+  basic_ios& copyfmt(const basic_ios& __x);
+
+  char_type fill() const { return _M_fill; }
+  char_type fill(char_type __fill) {
+    char_type __tmp(_M_fill);
+    _M_fill = __fill;
+    return __tmp;
+  }
+
+public:                         // Members from 27.4.4.3.  These four functions
+                                // can almost be defined in ios_base.
+
+  void clear(iostate __state = goodbit) {
+    _M_clear_nothrow(this->rdbuf() ? __state : (__state|ios_base::badbit));
+    _M_check_exception_mask();
+  }
+  void setstate(iostate __state) { this->clear(rdstate() | __state); }
+
+  iostate exceptions() const { return this->_M_get_exception_mask(); }
+  void exceptions(iostate __mask) {
+    this->_M_set_exception_mask(__mask);
+    this->clear(this->rdstate());
+  }
+
+public:                         // Locale-related member functions.
+  locale imbue(const locale&);
+
+  // Equivalent to &use_facet<ctype<char_type> >(getloc()), but faster.
+  const ctype<char_type>* _M_ctype_facet() const { return _M_cached_ctype; }
+
+  char narrow(char_type __c, char __default) const
+    { return _M_ctype_facet()->narrow(__c, __default); }
+
+  char_type widen(char __c) const
+    { return _M_ctype_facet()->widen(__c); }
+
+  // Helper function that makes testing for EOF more convenient.
+  static bool _S_eof(int_type __c) {
+    const int_type __eof = _Traits::eof();
+    return _Traits::eq_int_type(__c, __eof);
+  }
+
+protected:                      // The protected interface
+  basic_ios();
+
+  void init(basic_streambuf<char_type, traits_type>* __streambuf);
+
+public:
+  // Helper function used in istream and ostream.  It is called only from
+  // a catch clause.
+  void _M_handle_exception(ios_base::iostate __flag);
+
+private:                        // Data members
+  char_type _M_fill;            // The fill character, used for padding.
+
+  basic_streambuf<char_type, traits_type>* _M_streambuf;
+  basic_ostream<char_type, traits_type>*   _M_tied_ostream;
+
+  // A cached copy of the curent locale's ctype facet.  It is set by init()
+  // and imbue().
+  const ctype<char_type>* _M_cached_ctype;
+};
+
+template<>
+inline char
+basic_ios<char, char_traits<char> >::narrow(char __c, char) const
+{
+  return __c;
+}
+
+template<>
+inline char
+basic_ios<char, char_traits<char> >::widen(char __c) const
+{
+  return __c;
+}
+
+// basic_ios<>'s non-inline member functions
+
+// Public constructor, taking a streambuf.
+template <class _CharT, class _Traits>
+basic_ios<_CharT, _Traits>
+  ::basic_ios(basic_streambuf<_CharT, _Traits>* __streambuf)
+    : ios_base(),
+      _M_fill(), _M_streambuf(0), _M_tied_ostream(0), _M_cached_ctype(0)
+{
+  init(__streambuf);
+}
+
+template <class _CharT, class _Traits>
+basic_streambuf<_CharT, _Traits>*
+basic_ios<_CharT, _Traits>::rdbuf(basic_streambuf<_CharT, _Traits>* __buf)
+{
+  basic_streambuf<_CharT, _Traits>* __tmp = _M_streambuf;
+  _M_streambuf = __buf;
+  this->clear();
+  return __tmp;
+}
+
+template <class _CharT, class _Traits>
+basic_ios<_CharT, _Traits>&
+basic_ios<_CharT, _Traits>::copyfmt(const basic_ios<_CharT, _Traits>& __x)
+{
+  _M_invoke_callbacks(erase_event);
+  _M_copy_state(__x);           // Inherited from ios_base.
+  _M_fill = __x._M_fill;
+  _M_tied_ostream = __x._M_tied_ostream;
+  _M_invoke_callbacks(copyfmt_event);
+  this->exceptions(__x.exceptions());
+  return *this;
+}
+
+template <class _CharT, class _Traits>
+locale basic_ios<_CharT, _Traits>::imbue(const locale& __loc)
+{
+  locale __tmp = ios_base::imbue(__loc);
+  _M_cached_ctype = &use_facet<ctype<char_type> >(getloc());
+  if (_M_streambuf)
+    _M_streambuf->pubimbue(__loc);
+  return __tmp;
+}
+
+// Protected constructor and initialization functions. The default
+// constructor creates an uninitialized basic_ios, and init() initializes
+// all of the members to the values in Table 89 of the C++ standard.
+
+template <class _CharT, class _Traits>
+basic_ios<_CharT, _Traits>::basic_ios()
+  : ios_base(),
+    _M_fill(), _M_streambuf(0), _M_tied_ostream(0), _M_cached_ctype(0)
+{}
+
+template <class _CharT, class _Traits>
+void
+basic_ios<_CharT, _Traits>::init(basic_streambuf<_CharT, _Traits>* __sb)
+{
+  this->rdbuf(__sb);
+  basic_ios::imbue(locale());
+  this->tie(0);
+  this->_M_set_exception_mask(ios_base::goodbit);
+  this->_M_clear_nothrow(__sb != 0 ? ios_base::goodbit : ios_base::badbit);
+  ios_base::flags(ios_base::skipws | ios_base::dec);
+  ios_base::width(0);
+  ios_base::precision(6);
+  this->fill(widen(' '));
+  // We don't need to worry about any of the three arrays: they are
+  // initialized correctly in ios_base's constructor.
+}
+
+// This is never called except from within a catch clause.
+template <class _CharT, class _Traits>
+void basic_ios<_CharT, _Traits>::_M_handle_exception(ios_base::iostate __flag)
+{
+  this->_M_setstate_nothrow(__flag);
+  if (this->exceptions() & __flag)
+    __STL_RETHROW;
+}
+
+
+__STL_END_NAMESPACE
+
+#endif /* __SGI_STL_IOS */
+
+// Local Variables:
+// mode:C++
+// End:

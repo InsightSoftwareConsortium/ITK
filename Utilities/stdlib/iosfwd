@@ -1,0 +1,246 @@
+/*
+ * Copyright (c) 1998
+ * Silicon Graphics Computer Systems, Inc.
+ *
+ * Permission to use, copy, modify, distribute and sell this software
+ * and its documentation for any purpose is hereby granted without fee,
+ * provided that the above copyright notice appear in all copies and
+ * that both that copyright notice and this permission notice appear
+ * in supporting documentation.  Silicon Graphics makes no
+ * representations about the suitability of this software for any
+ * purpose.  It is provided "as is" without express or implied warranty.
+ */ 
+
+#ifndef __SGI_STL_IOSFWD
+#define __SGI_STL_IOSFWD
+
+#if defined(__sgi) && !defined(__GNUC__) && !defined(_STANDARD_C_PLUS_PLUS)
+#error This header file requires the -LANG:std option
+#endif
+
+// This file provides forward declarations of the most important I/O
+// classes.  Note that almost all of those classes are class templates,
+// with default template arguments.  According to the C++ standard, 
+// if a class template is declared more than once in the same scope
+// then only one of those declarations may have default arguments.  
+
+// <iosfwd> contains the same declarations as other headers, and including
+// both <iosfwd> and (say) <iostream> is permitted.  This means that only
+// one header may contain those default template arguments.
+
+// In this implementation, the declarations in <iosfwd> contain default
+// template arguments.  All of the other I/O headers include <iosfwd>.
+
+#include <stl_config.h>
+#include <wchar.h>              // For mbstate_t
+#include <stddef.h>             // For ptrdiff_t
+#ifdef __unix
+#include <sys/types.h>          // For off_t
+#endif /* __unix */
+
+#if defined(__sun__)
+#  ifndef _MBSTATE_T
+#    define _MBSTATE_T
+	 struct mbstate_t {
+		int count;
+		wint_t	value;
+	 };
+#  endif /* _MBSTATE_T */
+#endif /* __sun__ */
+
+
+__STL_BEGIN_NAMESPACE
+
+template <class _CharT> class char_traits;
+template<> class char_traits<char>;
+template<> class char_traits<wchar_t>;
+
+
+// Forward declare whatever is the __STL_DEFAULT_ALLOCATOR
+#ifdef __STL_USE_STD_ALLOCATORS
+   template <class _T> class allocator;
+#else
+#  ifdef __USE_MALLOC
+      class malloc_alloc;
+	  typedef malloc_alloc alloc;
+#  else
+	  template <bool threads, int inst>
+      class __default_alloc_template;
+#     ifdef __STL_THREADS
+        typedef __default_alloc_template<true, 0> alloc;
+#     else
+        typedef __default_alloc_template<false, 0> alloc;
+#     endif
+#  endif
+#endif
+
+
+class ios_base;
+
+template <class _CharT, class _Traits = char_traits<_CharT> >
+class basic_ios;
+
+template <class _CharT, class _Traits = char_traits<_CharT> >
+class basic_streambuf;
+
+template <class _CharT, class _Traits = char_traits<_CharT> >
+class basic_istream;
+
+template <class _CharT, class _Traits = char_traits<_CharT> >
+class basic_ostream;
+
+template <class _CharT, class _Traits = char_traits<_CharT> >
+class basic_iostream;
+
+template <class _CharT, class _Traits = char_traits<_CharT>,
+          class _Allocator = __STL_DEFAULT_ALLOCATOR(_CharT) >
+class basic_stringbuf;
+
+template <class _CharT, class _Traits = char_traits<_CharT>,
+          class _Allocator = __STL_DEFAULT_ALLOCATOR(_CharT) >
+class basic_istringstream;
+
+template <class _CharT, class _Traits = char_traits<_CharT>,
+          class _Allocator = __STL_DEFAULT_ALLOCATOR(_CharT) >
+class basic_ostringstream;
+
+template <class _CharT, class _Traits = char_traits<_CharT>,
+          class _Allocator = __STL_DEFAULT_ALLOCATOR(_CharT) >
+class basic_stringstream;
+
+template <class _CharT, class _Traits = char_traits<_CharT> >
+class basic_filebuf;
+
+template <class _CharT, class _Traits = char_traits<_CharT> >
+class basic_ifstream;
+
+template <class _CharT, class _Traits = char_traits<_CharT> >
+class basic_ofstream;
+
+template <class _CharT, class _Traits = char_traits<_CharT> >
+class basic_fstream;
+
+template <class _CharT, class _Traits = char_traits<_CharT> >
+class istreambuf_iterator;
+
+template <class _CharT, class _Traits = char_traits<_CharT> >
+class ostreambuf_iterator;
+
+typedef basic_ios<char>    ios;
+typedef basic_ios<wchar_t> wios;
+
+// Forward declaration of class locale, and of the most important facets.
+class locale;
+template <class _Facet> inline const _Facet& use_facet(const locale&);
+template <class _CharT> class ctype;
+template <class _CharT> class collate;
+template <class _CharT> class collate_byname;
+
+// Typedefs for ordinary (narrow-character) streams.
+typedef basic_streambuf<char> streambuf;
+typedef basic_istream<char>   istream;
+typedef basic_ostream<char>   ostream;
+typedef basic_iostream<char>  iostream;
+
+typedef basic_stringbuf<char>     stringbuf;
+typedef basic_istringstream<char> istringstream;
+typedef basic_ostringstream<char> ostringstream;
+typedef basic_stringstream<char>  stringstream;
+
+typedef basic_filebuf<char>  filebuf;
+typedef basic_ifstream<char> ifstream;
+typedef basic_ofstream<char> ofstream;
+typedef basic_fstream<char>  fstream;
+
+// Typedefs for wide-character streams.
+typedef basic_streambuf<wchar_t> wstreambuf;
+typedef basic_istream<wchar_t>   wistream;
+typedef basic_ostream<wchar_t>   wostream;
+typedef basic_iostream<wchar_t>  wiostream;
+
+typedef basic_stringbuf<wchar_t>     wstringbuf;
+typedef basic_istringstream<wchar_t> wistringstream;
+typedef basic_ostringstream<wchar_t> wostringstream;
+typedef basic_stringstream<wchar_t>  wstringstream;
+
+typedef basic_filebuf<wchar_t>  wfilebuf;
+typedef basic_ifstream<wchar_t> wifstream;
+typedef basic_ofstream<wchar_t> wofstream;
+typedef basic_fstream<wchar_t>  wfstream;
+
+#ifdef __sgi /* IRIX */
+typedef off64_t   streamoff;
+#elif __unix /* Other version of UNIX */
+typedef off_t     streamoff;
+#else /* __unix */
+typedef ptrdiff_t streamoff;
+#endif /* __unix */
+
+typedef ptrdiff_t streamsize;
+
+void __initialize_streams();
+void __uninitialize_streams();
+
+// Class fpos, which represents a position within a file.  (The C++
+// standard calls for it to be defined in <ios>.  This implementation
+// moves it to <iosfwd>, which is included by <ios>.)
+template <class _StateT> class fpos
+{
+public:                         // From table 88 of the C++ standard.
+  fpos(streamoff __pos) : _M_pos(__pos), _M_st() {}
+  fpos() : _M_pos(0), _M_st() {}
+
+  operator streamoff() const { return _M_pos; }
+
+  friend bool operator==(const fpos& __x, const fpos& __y)
+    { return __x._M_pos == __y._M_pos; }
+  friend bool operator!=(const fpos& __x, const fpos& __y)
+    { return __x._M_pos != __y._M_pos; }
+
+  fpos& operator+=(streamoff __off) {
+    _M_pos += __off;
+    return *this;
+  }
+  fpos& operator-=(streamoff __off) {
+    _M_pos -= __off;
+    return *this;
+  }
+
+  fpos operator+(streamoff __off) {
+    fpos __tmp(*this);
+    __tmp += __off;
+    return __tmp;
+  }
+  fpos operator-(streamoff __off) {
+    fpos __tmp(*this);
+    __tmp -= __off;
+    return __tmp;
+  }
+
+public:                         // Manipulation of the state member.
+  _StateT state() const { return _M_st; }
+  void state(_StateT __st) { _M_st = __st; }
+private:
+  streamoff _M_pos;
+  _StateT _M_st;
+};
+
+typedef fpos<mbstate_t> streampos;
+typedef fpos<mbstate_t> wstreampos;
+
+
+__STL_END_NAMESPACE
+
+
+#ifndef __SGI_STL_FUNCTIONAL
+#include <functional>
+#endif /* __SGI_STL_FUNCTIONAL */
+#ifndef __SGI_STL_CHAR_TRAITS_H
+#include <char_traits.h>
+#endif /* __SGI_STL_CHAR_TRAITS_H */
+
+#endif /* __SGI_STL_IOSFWD */
+
+// Local Variables:
+// mode:C++
+// End:

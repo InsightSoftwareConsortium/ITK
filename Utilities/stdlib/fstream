@@ -1,0 +1,1288 @@
+/*
+ * Copyright (c) 1998
+ * Silicon Graphics Computer Systems, Inc.
+ *
+ * Permission to use, copy, modify, distribute and sell this software
+ * and its documentation for any purpose is hereby granted without fee,
+ * provided that the above copyright notice appear in all copies and
+ * that both that copyright notice and this permission notice appear
+ * in supporting documentation.  Silicon Graphics makes no
+ * representations about the suitability of this software for any
+ * purpose.  It is provided "as is" without express or implied warranty.
+ */ 
+
+// This header defines classes basic_filebuf, basic_ifstream,
+// basic_ofstream, and basic_fstream.  These classes represent
+// streambufs and streams whose sources or destinations are files.
+
+#ifndef __SGI_STL_FSTREAM
+#define __SGI_STL_FSTREAM
+
+#if defined(__sgi) && !defined(__GNUC__) && !defined(_STANDARD_C_PLUS_PLUS)
+#error This header file requires the -LANG:std option
+#endif
+
+#include <istream>              // Includes <ostream>, <ios>, <iosfwd>
+#include <stl_codecvt.h>
+#include <stdio.h>
+#include <stl_stdio_file.h>
+
+
+__STL_BEGIN_NAMESPACE
+
+//----------------------------------------------------------------------
+// Class _Filebuf_base, a private base class to factor out the system-
+// dependent code from basic_filebuf<>.
+
+class _Filebuf_base {
+protected:                      // Opening and closing files.
+  _Filebuf_base();
+
+  bool _M_open(const char*, ios_base::openmode, long __protection);
+  bool _M_open(const char*, ios_base::openmode);
+  bool _M_open(int __id);
+  bool _M_close();
+
+protected:                      // Low-level I/O, like Unix read/write
+  ptrdiff_t _M_read(char* __buf,  ptrdiff_t __n);
+  bool _M_write(char* __buf,  ptrdiff_t __n);
+  streamoff _M_seek(streamoff __offset, ios_base::seekdir __dir);
+  streamoff _M_file_size();
+
+protected:                      // Memory-mapped I/O.
+  void* _M_mmap(streamoff __offset, streamoff __len);
+  void _M_unmap(void* __mmap_base, streamoff __len);
+
+protected:
+  // Returns a value n such that, if pos is the file pointer at the
+  // beginning of the range [first, last), pos + n is the file pointer at
+  // the end.  On many operating systems n == __last - __first.
+  streamoff _M_get_offset(char* __first, char* __last);
+
+  // Returns true if we're in binary mode or if we're using an OS or file 
+  // system where there is no distinction between text and binary mode.
+  bool _M_in_binary_mode() const;
+
+protected:                      // Data members.
+#ifdef _MSC_VER
+  int _M_hFileMappingObject; // handle to os file mapping object
+#endif
+  int _M_file_id;
+  ios_base::openmode _M_openmode;
+  int _M_page_size;
+
+  bool _M_is_open      : 1;
+  bool _M_should_close : 1;
+  bool _M_regular_file : 1;
+};
+
+//----------------------------------------------------------------------
+// Class basic_filebuf<>.
+
+
+// Forward declarations of helper classes
+template <class _Traits> class _Noconv_input;
+template <class _Traits> class _Noconv_output;
+template <class _BasicFileBuf> class _Underflow;
+
+template <class _CharT, class _Traits>
+class basic_filebuf : public basic_streambuf<_CharT, _Traits>,
+                      private _Filebuf_base
+{
+public:                         // Types.
+  typedef _CharT                     char_type;
+  typedef typename _Traits::int_type int_type;
+  typedef typename _Traits::pos_type pos_type;
+  typedef typename _Traits::off_type off_type;
+  typedef _Traits                    traits_type;
+
+  typedef typename _Traits::state_type _State_type;
+  typedef basic_streambuf<_CharT, _Traits> _Base;
+
+public:                         // Constructors, destructor.
+  basic_filebuf();
+  ~basic_filebuf();
+
+public:                         // Opening and closing files.
+  bool is_open() const;
+  basic_filebuf* open(const char*, ios_base::openmode);
+
+  // These two version of open() are extensions.  They probably make
+  // sense only on Unix.
+  basic_filebuf* open(const char*, ios_base::openmode, long __protection);
+  basic_filebuf* open(int __id);
+
+  basic_filebuf* close();
+
+protected:                      // Virtual functions from basic_streambuf.
+  virtual streamsize showmanyc();
+  virtual int_type underflow();
+  virtual int_type pbackfail(int_type = _Traits::eof());
+  virtual int_type overflow(int_type = _Traits::eof());
+
+  virtual basic_streambuf<_CharT, _Traits>* setbuf(char_type*, streamsize);
+  virtual pos_type seekoff(off_type, ios_base::seekdir,
+                           ios_base::openmode = ios_base::in | ios_base::out);
+  virtual pos_type seekpos(pos_type,
+                           ios_base::openmode = ios_base::in | ios_base::out);
+
+  virtual int sync();
+  virtual void imbue(const locale&);
+
+private:                        // Helper functions.
+
+  void _M_exit_putback_mode();
+  bool _M_switch_to_input_mode();
+  void _M_exit_input_mode();
+  bool _M_switch_to_output_mode();
+
+  int_type _M_input_error();
+  int_type _M_underflow_aux();
+  
+  friend class _Noconv_output<_Traits>;
+  friend class _Noconv_input<_Traits>;
+  friend class _Underflow< basic_filebuf<_CharT, _Traits> >;
+
+  int_type _M_output_error();
+  bool _M_unshift();
+
+  bool _M_allocate_buffers(_CharT* __buf, int __n);
+  bool _M_allocate_buffers();
+  void _M_deallocate_buffers();
+
+  pos_type _M_seek_return(off_type, _State_type);
+  bool _M_seek_init(bool __do_unshift);
+
+  void _M_setup_codecvt(const locale&);
+
+private:                        // Data members used in all modes.
+  // Internal buffer: characters seen by the filebuf's clients.
+  _CharT* _M_int_buf;
+  _CharT* _M_int_buf_EOS;
+
+  // External buffer: characters corresponding to the external file.
+  char* _M_ext_buf;
+  char* _M_ext_buf_EOS;
+
+  // State corresponding to beginning of internal buffer.
+  _State_type _M_state;
+
+private:                        // Data members used only in input mode.
+
+  // The range [_M_ext_buf, _M_ext_buf_converted) contains the external
+  // characters corresponding to the sequence in the internal buffer.  The
+  // range [_M_ext_buf_converted, _M_ext_buf_end) contains characters that
+  // have been read into the external buffer but have not been converted
+  // to an internal sequence.
+  char* _M_ext_buf_converted;
+  char* _M_ext_buf_end;
+
+  // Similar to _M_state except that it corresponds to
+  // the end of the internal buffer instead of the beginning.
+  _State_type _M_end_state;
+
+  // This is a null pointer unless we are in mmap input mode.
+  void* _M_mmap_base;
+  streamoff _M_mmap_len;
+
+private:                        // Data members used only in putback mode.
+  _CharT* _M_saved_eback;
+  _CharT* _M_saved_gptr;
+  _CharT* _M_saved_egptr;
+
+  enum { _S_pback_buf_size = 8 };
+  _CharT _M_pback_buf[_S_pback_buf_size];
+
+private:                        // Locale-related information.
+  typedef codecvt<_CharT, char, _State_type> _Codecvt;
+  const _Codecvt* _M_codecvt;
+
+  int _M_width;                 // Width of the encoding (if constant), else 1
+  int _M_max_width;             // Largest possible width of single character.
+  bool _M_constant_width : 1;
+  bool _M_always_noconv  : 1;
+
+private:                        // Mode flags.
+  bool _M_int_buf_dynamic : 1;  // True if internal buffer is heap allocated,
+                                // false if it was supplied by the user.
+  bool _M_in_input_mode    : 1;
+  bool _M_in_output_mode   : 1;
+  bool _M_in_error_mode    : 1;
+  bool _M_in_putback_mode  : 1;
+};
+
+
+// helper class.
+template <class _CharT, class _Traits>
+struct _Filebuf_Tmp_Buf
+{
+  _CharT* _M_ptr;
+  _Filebuf_Tmp_Buf(ptrdiff_t __n)
+    : _M_ptr(0) { _M_ptr = new _CharT[__n]; }
+  ~_Filebuf_Tmp_Buf() { delete[] _M_ptr; }
+};
+
+
+//----------------------------------------------------------------------
+// Public basic_filebuf<> member functions
+
+template <class _CharT, class _Traits>
+basic_filebuf<_CharT, _Traits>::basic_filebuf()
+  : basic_streambuf<_CharT, _Traits>(), _Filebuf_base(),
+    _M_int_buf(0), _M_int_buf_EOS(0),
+    _M_ext_buf(0), _M_ext_buf_EOS(0),
+    _M_state(),
+    _M_ext_buf_converted(0), _M_ext_buf_end(0),
+    _M_end_state(),
+    _M_mmap_base(0), _M_mmap_len(0),
+    _M_saved_eback(0), _M_saved_gptr(0), _M_saved_egptr(0),
+    _M_codecvt(0),
+    _M_width(1), _M_max_width(1),
+    _M_constant_width(false), _M_always_noconv(false),
+    _M_int_buf_dynamic(false),
+    _M_in_input_mode(false), _M_in_output_mode(false),
+    _M_in_error_mode(false), _M_in_putback_mode(false)
+{
+  this->_M_setup_codecvt(locale());
+}
+
+template <class _CharT, class _Traits>
+basic_filebuf<_CharT, _Traits>::~basic_filebuf()
+{
+  this->close();
+  _M_deallocate_buffers();
+}
+
+template <class _CharT, class _Traits>
+inline bool basic_filebuf<_CharT, _Traits>::is_open() const
+{
+  return _M_is_open;
+}
+
+template <class _CharT, class _Traits>
+basic_filebuf<_CharT, _Traits>*
+basic_filebuf<_CharT, _Traits>::open(const char* __s, ios_base::openmode __m,
+                                     long __protection)
+{
+  return this->_M_open(__s, __m, __protection) ? this : 0;
+}
+
+template <class _CharT, class _Traits>
+basic_filebuf<_CharT, _Traits>*
+basic_filebuf<_CharT, _Traits>::open(const char* __s, ios_base::openmode __m)
+{
+  return this->_M_open(__s, __m) ? this : 0;
+}
+
+template <class _CharT, class _Traits>
+basic_filebuf<_CharT, _Traits>*
+basic_filebuf<_CharT, _Traits>::open(int __id)
+{
+  return this->_M_open(__id) ? this : 0;
+}
+
+template <class _CharT, class _Traits>
+basic_filebuf<_CharT, _Traits>* basic_filebuf<_CharT, _Traits>::close()
+{
+  bool __ok = this->is_open();
+
+  if (_M_in_output_mode) {
+    __ok = __ok && !_Traits::eq_int_type(this->overflow(traits_type::eof()),
+                                         traits_type::eof());
+    __ok == __ok && this->_M_unshift();
+  }
+  else if (_M_in_input_mode)
+    this->_M_exit_input_mode();
+
+  // Note order of arguments.  We close the file even if __ok is false.
+  __ok = this->_M_close() && __ok;
+
+  // Restore the initial state, except that we don't deallocate the buffer
+  // or mess with the cached codecvt information.
+  _M_state = _M_end_state = _State_type();
+  _M_ext_buf_converted = _M_ext_buf_end = 0;
+
+  _M_mmap_base = 0;
+  _M_mmap_len = 0;
+
+  this->setg(0, 0, 0);
+  this->setp(0, 0);
+  _M_saved_eback = _M_saved_gptr = _M_saved_egptr = 0;
+
+  _M_in_input_mode = _M_in_output_mode = _M_in_error_mode = _M_in_putback_mode
+    = false;
+
+  return __ok ? this : 0;
+}
+
+//----------------------------------------------------------------------
+// basic_filebuf<> overridden protected virtual member functions
+
+template <class _CharT, class _Traits>
+streamsize basic_filebuf<_CharT, _Traits>::showmanyc()
+{
+  // Is there any possibility that reads can succeed?
+  if (!this->is_open() || _M_in_output_mode || _M_in_error_mode)
+    return -1;
+
+  else if (_M_in_putback_mode)
+    return this->egptr() - this->gptr();
+
+  else if (_M_constant_width) {
+    streamoff __pos  = this->_M_seek(0, ios_base::cur);
+    streamoff __size = this->_M_file_size();
+    return __pos >= 0 && __size > __pos ? __size - __pos : 0;
+  }
+
+  else 
+    return 0;
+}
+
+// underflow() may be called for one of two reasons.  (1) We've
+// been going through the special putback buffer, and we need to move back
+// to the regular internal buffer.  (2) We've exhausted the internal buffer,
+// and we need to replentish it.  
+
+// There is a specialized version of underflow, for basic_filebuf<char>,
+// in fstream.cxx.
+
+
+template <class _BasicFileBuf>
+class _Underflow {
+public:
+  typedef typename _BasicFileBuf::int_type int_type;
+  typedef typename _BasicFileBuf::traits_type traits_type;
+  
+  static inline int_type doit(_BasicFileBuf* __this) 
+  {
+    if (!__this->_M_in_input_mode) {
+      if (!__this->_M_switch_to_input_mode())
+	return traits_type::eof();
+    }
+    
+    else if (__this->_M_in_putback_mode) {
+      __this->_M_exit_putback_mode();
+      if (__this->gptr() != __this->egptr()) {
+	int_type __c = traits_type::to_int_type(*__this->gptr());
+	return __c;
+      }
+    }
+    
+    return __this->_M_underflow_aux();
+  }
+};
+
+template <class _CharT, class _Traits>
+typename basic_filebuf<_CharT, _Traits>::int_type 
+basic_filebuf<_CharT, _Traits>::underflow() 
+{
+  return _Underflow< basic_filebuf<_CharT, _Traits> >::doit(this);
+}
+
+// Make a putback position available, if necessary, by switching to a 
+// special internal buffer used only for putback.  The buffer is
+// [_M_pback_buf, _M_pback_buf + _S_pback_buf_size), but the base
+// class only sees a piece of it at a time.  (We want to make sure
+// that we don't try to read a character that hasn't been initialized.)
+// The end of the putback buffer is always _M_pback_buf + _S_pback_buf_size,
+// but the beginning is usually not _M_pback_buf.
+template <class _CharT, class _Traits>
+typename basic_filebuf<_CharT, _Traits>::int_type 
+basic_filebuf<_CharT, _Traits>::pbackfail(int_type __c)
+{
+  const int_type __eof = traits_type::eof();
+
+  // If we aren't already in input mode, pushback is impossible.
+  if (!_M_in_input_mode)
+    return __eof;
+
+  // We can use the ordinary get buffer if there's enough space, and
+  // if it's a buffer that we're allowed to write to.
+  if (this->gptr() != this->eback() &&
+      (traits_type::eq_int_type(__c, __eof) ||
+       traits_type::eq(traits_type::to_char_type(__c), this->gptr()[-1]) ||
+       !_M_mmap_base)) {
+    this->gbump(-1);
+    if (traits_type::eq_int_type(__c, __eof) ||
+        traits_type::eq(traits_type::to_char_type(__c), *this->gptr()))
+      return traits_type::to_int_type(*this->gptr());
+  }
+  else if (!traits_type::eq_int_type(__c, __eof)) {
+    // Are we in the putback buffer already?
+    _CharT* __pback_end = _M_pback_buf + static_cast<int>(_S_pback_buf_size);
+    if (_M_in_putback_mode) {
+      // Do we have more room in the putback buffer?
+      if (this->eback() != _M_pback_buf) 
+        this->setg(this->egptr() - 1, this->egptr() - 1, __pback_end);
+      else
+        return __eof;           // No more room in the buffer, so fail.
+    }
+    else {                      // We're not yet in the putback buffer.
+      _M_saved_eback = this->eback();
+      _M_saved_gptr  = this->gptr();
+      _M_saved_egptr = this->egptr();
+      this->setg(__pback_end - 1, __pback_end - 1, __pback_end);
+      _M_in_putback_mode = true;
+    }
+  }
+  else
+    return __eof;
+
+  // We have made a putback position available.  Assign to it, and return.
+  *this->gptr() = traits_type::to_char_type(__c);
+  return __c;
+}
+
+
+//
+// This class had to be designed very carefully to work
+// with Visual C++.
+//
+template <class _Traits>
+class _Noconv_output {
+public:
+  template <class _CharT>
+  static inline bool doit(basic_filebuf<_CharT, _Traits>*, _CharT*, _CharT*)
+  {
+    return false; 
+  }
+
+  static inline bool doit(basic_filebuf<char, _Traits>* __buf, 
+			  char* __first, char* __last)
+  {
+    ptrdiff_t __n = __last - __first;
+    if (__buf->_M_write(__first, __n)) {
+      return true;
+    }
+    else
+      return false; 
+  }
+};
+
+
+// This member function flushes the put area, and also outputs the
+// character __c (unless __c is eof).  Invariant: we always leave room
+// in the internal buffer for one character more than the base class knows
+// about.  We see the internal buffer as [_M_int_buf, _M_int_buf_EOS), but
+// the base class only sees [_M_int_buf, _M_int_buf_EOS - 1).
+template <class _CharT, class _Traits>
+typename basic_filebuf<_CharT, _Traits>::int_type 
+basic_filebuf<_CharT, _Traits>::overflow(int_type __c)
+{
+  // Switch to output mode, if necessary.
+  if (!_M_in_output_mode)
+    if (!_M_switch_to_output_mode())
+      return traits_type::eof();
+
+  _CharT* __ibegin = this->_M_int_buf;
+  _CharT* __iend   = this->pptr();
+  this->setp(_M_int_buf, _M_int_buf_EOS - 1);
+
+  // Put __c at the end of the internal buffer.
+  if (!traits_type::eq_int_type(__c, traits_type::eof()))
+    *__iend++ = __c;
+
+  // For variable-width encodings, output may take more than one pass.
+  while (__ibegin != __iend) {
+    const _CharT* __inext = __ibegin;
+    char* __enext         = _M_ext_buf;
+    typename _Codecvt::result __status
+      = _M_codecvt->out(_M_state, __ibegin, __iend, __inext,
+                                  _M_ext_buf, _M_ext_buf_EOS, __enext);
+    if (__status == _Codecvt::noconv)
+      return _Noconv_output<_Traits>::doit(this, __ibegin, __iend)
+        ? traits_type::not_eof(__c)
+        : _M_output_error();
+
+    // For a constant-width encoding we know that the external buffer
+    // is large enough, so failure to consume the entire internal buffer
+    // or to produce the correct number of external characters, is an error.
+    // For a variable-width encoding, however, we require only that we 
+    // consume at least one internal character
+    else if (__status != _Codecvt::error && 
+             ((__inext == __iend && (__enext - _M_ext_buf == 
+                                     _M_width * (__iend - __ibegin))) ||
+              (!_M_constant_width && __inext != __ibegin))) {
+        // We successfully converted part or all of the internal buffer.
+      ptrdiff_t __n = __enext - _M_ext_buf;
+      if (_M_write(_M_ext_buf, __n))
+        __ibegin += __inext - __ibegin;
+      else
+        return _M_output_error();
+    }
+    else
+      return _M_output_error();
+  }
+
+  return traits_type::not_eof(__c);
+}
+
+
+// This member function must be called before any I/O has been
+// performed on the stream, otherwise it has no effect.
+//
+// __buf == 0 && __n == 0 means to make ths stream unbuffered.
+// __buf != 0 && __n > 0 means to use __buf as the stream's internal
+// buffer, rather than the buffer that would otherwise be allocated
+// automatically.  __buf must be a pointer to an array of _CharT whose
+// size is at least __n.
+template <class _CharT, class _Traits>
+basic_streambuf<_CharT, _Traits>*
+basic_filebuf<_CharT, _Traits>::setbuf(_CharT* __buf, streamsize __n)
+{
+  if (!_M_in_input_mode &&! _M_in_output_mode && !_M_in_error_mode &&
+      _M_int_buf == 0) {
+    if (__buf == 0 && __n == 0)
+      _M_allocate_buffers(0, 1);
+    else if (__buf != 0 && __n > 0)
+      _M_allocate_buffers(__buf, __n);
+  }
+  return this;
+}
+
+template <class _CharT, class _Traits>
+typename basic_filebuf<_CharT, _Traits>::pos_type
+basic_filebuf<_CharT, _Traits>::seekoff(off_type __off,
+                                        ios_base::seekdir __whence,
+                                        ios_base::openmode /* dummy */)
+{
+  if (this->is_open() && 
+      (__off == 0 || (_M_constant_width && this->_M_in_binary_mode()))) {
+
+    if (!_M_seek_init(__off != 0 || __whence != ios_base::cur))
+      return pos_type(-1);
+
+    // Seek to beginning or end, regardless of whether we're in input mode.
+    if (__whence == ios_base::beg || __whence == ios_base::end)
+      return _M_seek_return(this->_M_seek(_M_width * __off, __whence),
+                            _State_type());
+
+    // Seek relative to current position.  Complicated if we're in input mode.
+    else if (__whence == ios_base::cur) {
+      if (!_M_in_input_mode)
+        return _M_seek_return(this->_M_seek(_M_width * __off, __whence),
+                              _State_type());
+      else if (_M_mmap_base != 0) {
+        // __off is relative to gptr().  We need to do a bit of arithmetic
+        // to get an offset relative to the external file pointer.
+        streamoff __adjust = this->gptr() - (_CharT*) _M_mmap_base;
+        
+        return _M_seek_return(this->_M_seek(__off + __adjust - _M_mmap_len,
+                                            ios_base::cur),
+                              _State_type());
+      }
+      else if (_M_constant_width) { // Get or set the position.  
+        streamoff __iadj = _M_width * (this->gptr() - this->eback());
+        // Compensate for offset relative to gptr versus offset relative
+        // to external pointer.  For a text-oriented stream, where the 
+        // compensation is more than just pointer arithmetic, we may get
+        // but not set the current position.
+        if (__iadj <= _M_ext_buf_end - _M_ext_buf) {
+          streamoff __eadj =
+            _M_get_offset(_M_ext_buf, _M_ext_buf + __iadj) -
+            _M_get_offset(_M_ext_buf, _M_ext_buf_end);
+          streamoff __cur = this->_M_seek(__off, ios_base::cur);
+          if (__cur != -1 && __cur + __eadj >= 0)
+            return _M_seek_return(__cur + __eadj, _State_type());
+          else
+            return pos_type(-1);
+        }
+        else
+          return pos_type(-1);
+      }
+      else {                    // Get the position.  Encoding is var width.
+        // Get position in internal buffer.
+        ptrdiff_t __ipos = this->gptr() - this->eback();
+        
+        // Get corresponding position in external buffer.
+        _State_type __state = _M_state;
+        int __epos = _M_codecvt->length(__state, _M_ext_buf, _M_ext_buf_end,
+                                        __ipos);
+
+        // Sanity check (expensive): make sure __epos is the right answer.
+        _State_type __tmp_state = _M_state;
+        _Filebuf_Tmp_Buf<_CharT,_Traits> __buf(__ipos);
+        _CharT* __ibegin = __buf._M_ptr;
+        _CharT* __inext  = __ibegin;
+
+        const char* __dummy;
+        typename _Codecvt::result __status
+          = _M_codecvt->in(__tmp_state,
+                           _M_ext_buf, _M_ext_buf + __epos, __dummy,
+                           __ibegin, __ibegin + __ipos, __inext);
+        if (__status != _Codecvt::error &&
+            (__status == _Codecvt::noconv ||
+             (__inext == __ibegin + __ipos &&
+              equal(this->gptr(), this->eback(), __ibegin,
+                    _Eq_traits<traits_type>())))) {
+          // Get the current position (at the end of the external buffer),
+          // then adjust it.  Again, it might be a text-oriented stream.
+          streamoff __cur = this->_M_seek(0, ios_base::cur);
+          streamoff __adj =
+            this->_M_get_offset(_M_ext_buf, _M_ext_buf + __epos) -
+            this->_M_get_offset(_M_ext_buf, _M_ext_buf_end);
+          if (__cur != -1 && __cur + __adj >= 0)
+            return _M_seek_return(__cur + __adj, __state);
+          else
+            return pos_type(-1);
+        }
+        else                    // We failed the sanity check.
+          return pos_type(-1);
+      }
+    }
+    else                        // Unrecognized value for __whence.
+      return pos_type(-1);
+  }
+  else
+    return pos_type(-1);
+}
+
+
+template <class _CharT, class _Traits>
+typename basic_filebuf<_CharT, _Traits>::pos_type
+basic_filebuf<_CharT, _Traits>::seekpos(pos_type __pos,
+                                        ios_base::openmode /* dummy */)
+{
+  if (this->is_open()) {
+    if (!_M_seek_init(true))
+      return pos_type(-1);
+
+    streamoff __off = off_type(__pos);
+    if (__off != -1 && this->_M_seek(__off, ios_base::beg) != -1) {
+      _M_state = __pos.state();
+      return _M_seek_return(__off, __pos.state());
+    }
+    else
+      return pos_type(-1);
+  }
+  else
+    return pos_type(-1);
+}
+
+
+template <class _CharT, class _Traits>
+int basic_filebuf<_CharT, _Traits>::sync()
+{
+  if (_M_in_output_mode)
+    return traits_type::eq_int_type(this->overflow(traits_type::eof()),
+                                    traits_type::eof())
+      ? -1
+      : 0;
+  else
+    return 0;
+}
+
+
+// Change the filebuf's locale.  This member function has no effect
+// unless it is called before any I/O is performed on the stream.
+template <class _CharT, class _Traits>
+void basic_filebuf<_CharT, _Traits>::imbue(const locale& __loc)
+{
+  if (!_M_in_input_mode &&! _M_in_output_mode && !_M_in_error_mode) {
+    this->_M_setup_codecvt(__loc);
+  }
+}
+
+
+//----------------------------------------------------------------------
+// basic_filebuf<> helper functions.
+
+
+//----------------------------------------
+// Helper functions for switching between modes.
+
+// Precondition: we are currently in putback input mode.  Effect:
+// switches back to ordinary input mode.
+template <class _CharT, class _Traits>
+inline void basic_filebuf<_CharT, _Traits>::_M_exit_putback_mode()
+{
+  this->setg(_M_saved_eback, _M_saved_gptr, _M_saved_egptr);
+  _M_in_putback_mode = false;
+}
+
+
+// This member function is called if we're performing the first I/O
+// operation on a filebuf, or if we're performing an input operation 
+// immediately after a seek.
+template <class _CharT, class _Traits>
+bool basic_filebuf<_CharT, _Traits>::_M_switch_to_input_mode()
+{
+  if (this->is_open() && (_M_openmode & ios_base::in) &&
+      !_M_in_output_mode && !_M_in_error_mode) {
+    if (!_M_int_buf && !_M_allocate_buffers())
+      return false;
+
+    _M_ext_buf_converted = _M_ext_buf;
+    _M_ext_buf_end       = _M_ext_buf;
+
+    _M_end_state    = _M_state;
+
+    _M_in_input_mode = true;
+
+    return true;
+  }
+  else
+    return false;
+}
+
+// This member function is called whenever we exit input mode.
+// It unmaps the memory-mapped file, if any, and sets
+// _M_in_input_mode to false.  
+template <class _CharT, class _Traits>
+void basic_filebuf<_CharT, _Traits>::_M_exit_input_mode()
+{
+  if (_M_mmap_base != 0)
+    _M_unmap(_M_mmap_base, _M_mmap_len);
+
+  _M_in_input_mode = false;
+  _M_mmap_base = 0;
+}
+
+
+// This member function is called if we're performing the first I/O
+// operation on a filebuf, or if we're performing an output operation 
+// immediately after a seek.
+template <class _CharT, class _Traits>
+bool basic_filebuf<_CharT, _Traits>::_M_switch_to_output_mode()
+{
+  if (this->is_open() && (_M_openmode & ios_base::out) &&
+      !_M_in_input_mode && !_M_in_error_mode) {
+
+    if (!_M_int_buf && !_M_allocate_buffers())
+      return false;
+
+    // In append mode, every write does an implicit seek to the end
+    // of the file.  Whenever leaving output mode, the end of file
+    // get put in the initial shift state.
+    if (_M_openmode & ios_base::app)
+      _M_state = _State_type();
+
+    this->setp(_M_int_buf, _M_int_buf_EOS - 1);
+    _M_in_output_mode = true;
+
+    return true;
+  }
+  else
+    return false;
+}
+
+
+//----------------------------------------
+// Helper functions for input
+
+// This member function is called if there is an error during input.
+// It puts the filebuf in error mode, clear the get area buffer, and
+// returns eof.  Error mode is sticky; it is cleared only by close or
+// seek.
+template <class _CharT, class _Traits>
+typename basic_filebuf<_CharT, _Traits>::int_type
+basic_filebuf<_CharT, _Traits>::_M_input_error()
+{
+  this->_M_exit_input_mode();
+  _M_in_output_mode = false;
+  _M_in_error_mode = true;
+  this->setg(0, 0, 0);
+  return traits_type::eof();
+}
+
+//
+// This class had to be designed very carefully to work
+// with Visual C++.
+//
+template <class _Traits>
+class _Noconv_input {
+public:
+  template <class _CharT>
+  static inline typename _Traits::int_type
+  doit(basic_filebuf<_CharT, _Traits>*) 
+  { 
+    return false;
+  }
+
+  static inline typename _Traits::int_type
+  doit(basic_filebuf<char, _Traits>* __buf) 
+  {
+    __buf->_M_ext_buf_converted = __buf->_M_ext_buf_end;
+    __buf->setg(__buf->_M_ext_buf, __buf->_M_ext_buf, __buf->_M_ext_buf_end);
+    return _Traits::to_int_type(*__buf->_M_ext_buf);
+  }
+};
+
+template <class _CharT, class _Traits>
+typename basic_filebuf<_CharT, _Traits>::int_type 
+basic_filebuf<_CharT, _Traits>::_M_underflow_aux() 
+{
+  // We have the state and file position from the end of the internal
+  // buffer.  This round, they become the beginning of the internal buffer.
+  _M_state    = _M_end_state;
+
+  // Fill the external buffer.  Start with any leftover characters that
+  // didn't get converted last time.
+  if (_M_ext_buf_end > _M_ext_buf_converted)
+    _M_ext_buf_end = copy(_M_ext_buf_converted, _M_ext_buf_end, _M_ext_buf);
+  else
+    _M_ext_buf_end = _M_ext_buf;
+
+  // Now fill the external buffer with characters from the file.  This is
+  // a loop because occasonally we don't get enough external characters
+  // to make progress.
+  while (true) {
+    ptrdiff_t __n = _M_read(_M_ext_buf_end, _M_ext_buf_EOS - _M_ext_buf_end);
+
+    // Don't enter error mode for a failed read.  Error mode is sticky,
+    // and we might succeed if we try again.
+    if (__n <= 0)
+      return traits_type::eof();
+
+    // Convert the external buffer to internal characters.  
+    _M_ext_buf_end += __n;
+    const char*   __enext;
+    _CharT* __inext;
+
+    typename _Codecvt::result __status
+      = _M_codecvt->in(_M_end_state,
+                       _M_ext_buf, _M_ext_buf_end, __enext,
+                       _M_int_buf, _M_int_buf_EOS, __inext);
+
+    // Error conditions: (1) Return value of error.  (2) Producing internal
+    // characters without consuming external characters.  (3) In fixed-width
+    // encodings, producing an internal sequence whose length is inconsistent
+    // with that of the internal sequence.  (4) Failure to produce any 
+    // characters if we have enough characters in the external buffer, where
+    // "enough" means the largest possible width of a single character.
+    if (__status == _Codecvt::noconv)
+      return _Noconv_input<_Traits>::doit(this);
+    else if (__status == _Codecvt::error ||
+        (__inext != _M_int_buf && __enext == _M_ext_buf) ||
+        (_M_constant_width &&
+         __inext - _M_int_buf != _M_width * (__enext - _M_ext_buf)) ||
+        (__inext == _M_int_buf && __enext - _M_ext_buf >= _M_max_width))
+      return _M_input_error();
+    
+    else if (__inext != _M_int_buf) {
+      _M_ext_buf_converted = _M_ext_buf + (__enext - _M_ext_buf);
+      this->setg(_M_int_buf, _M_int_buf, __inext);
+      return traits_type::to_int_type(*_M_int_buf);
+    }
+    // We need to go around the loop again to get more external characters.
+  } 
+}
+
+//----------------------------------------
+// Helper functions for output
+
+// This member function is called if there is an error during output.
+// It puts the filebuf in error mode, clear the put area buffer, and
+// returns eof.  Error mode is sticky; it is cleared only by close or
+// seek.
+template <class _CharT, class _Traits>
+typename basic_filebuf<_CharT, _Traits>::int_type
+basic_filebuf<_CharT, _Traits>::_M_output_error()
+{
+  _M_in_output_mode = false;
+  _M_in_input_mode = false;
+  _M_in_error_mode = true;
+  this->setp(0, 0);
+  return traits_type::eof();
+}
+
+
+// Write whatever sequence of characters is necessary to get back to
+// the initial shift state.  This function overwrites the external
+// buffer, changes the external file position, and changes the state.
+// Precondition: the internal buffer is empty.
+template <class _CharT, class _Traits>
+bool basic_filebuf<_CharT, _Traits>::_M_unshift()
+{
+  if (_M_in_output_mode && !_M_constant_width) {
+    typename _Codecvt::result __status;
+    do {
+      char* __enext = _M_ext_buf;
+      __status = _M_codecvt->unshift(_M_state,
+                                     _M_ext_buf, _M_ext_buf_EOS, __enext);
+      if (__status == _Codecvt::noconv ||
+          (__enext == _M_ext_buf && __status == _Codecvt::ok))
+        return true;
+      else if (__status == _Codecvt::error)
+        return false;
+      else if (!_M_write(_M_ext_buf, __enext - _M_ext_buf))
+        return false;
+    } while(__status == _Codecvt::partial);
+  }
+
+  return true;
+}
+
+
+//----------------------------------------
+// Helper functions for buffer allocation and deallocation
+
+// This member function is called when we're initializing a filebuf's
+// internal and external buffers.  The argument is the size of the
+// internal buffer; the external buffer is sized using the character
+// width in the current encoding.  Preconditions: the buffers are currently
+// null.  __n >= 1.  __buf is either a null pointer or a pointer to an 
+// array show size is at least __n.
+
+// We need __n >= 1 for two different reasons.  For input, the base
+// class always needs a buffer because of the sementics of underflow().
+// For output, we want to have an internal buffer that's larger by one
+// element than the buffer that the base class knows about.  (See 
+// basic_filebuf<>::overflow() for the reason.)
+template <class _CharT, class _Traits>
+bool 
+basic_filebuf<_CharT, _Traits>::_M_allocate_buffers(_CharT* __buf, int __n)
+{
+
+  if (__buf == 0) {
+    if (!(_M_int_buf = static_cast<_CharT*>(malloc(__n * sizeof(_CharT)))))
+      return false;
+    _M_int_buf_dynamic = true;
+  }
+  else {
+    _M_int_buf = __buf;
+    _M_int_buf_dynamic = false;
+  }
+
+  int __ebufsiz = max(__n * max(_M_codecvt->encoding(), 1),
+                      _M_codecvt->max_length());
+  if (!(_M_ext_buf = static_cast<char*>(malloc(__ebufsiz)))) {
+    _M_deallocate_buffers();
+    return false;
+  }
+
+  else {
+    _M_int_buf_EOS = _M_int_buf + __n;
+    _M_ext_buf_EOS = _M_ext_buf + __ebufsiz;
+    return true;
+  }
+}
+
+// Abbreviation for the most common case.
+template <class _CharT, class _Traits>
+inline bool basic_filebuf<_CharT, _Traits>::_M_allocate_buffers()
+{
+  // Choose a buffer that's at least 4096 characters long and that's a
+  // multiple of the page size.
+  int __default_bufsiz =
+    ((_M_page_size + 4095) / _M_page_size) * _M_page_size;
+  return _M_allocate_buffers(0, __default_bufsiz);
+}
+
+template <class _CharT, class _Traits>
+void basic_filebuf<_CharT, _Traits>::_M_deallocate_buffers()
+{
+  if (_M_int_buf_dynamic)
+    free(_M_int_buf);
+  free(_M_ext_buf);
+
+  _M_int_buf     = 0;
+  _M_int_buf_EOS = 0;
+  _M_ext_buf     = 0;
+  _M_ext_buf_EOS = 0;
+}
+
+
+//----------------------------------------
+// Helper functiosn for seek and imbue
+
+template <class _CharT, class _Traits>
+typename basic_filebuf<_CharT, _Traits>::pos_type
+basic_filebuf<_CharT, _Traits>::_M_seek_return(off_type __off,
+                                               _State_type __state) {
+  if (__off != -1) {
+    if (_M_in_input_mode)
+      _M_exit_input_mode();
+    _M_in_output_mode = false;
+    _M_in_putback_mode = false;
+    _M_in_error_mode = false;
+    this->setg(0, 0, 0);
+    this->setp(0, 0);
+  }
+
+  pos_type __result(__off);
+  __result.state(__state);
+  return __result;
+}
+
+
+template <class _CharT, class _Traits>
+bool basic_filebuf<_CharT, _Traits>::_M_seek_init(bool __do_unshift) {
+  // If we're in error mode, leave it.
+  _M_in_error_mode = false;
+
+  // Flush the output buffer if we're in output mode, and (conditionally)
+  // emit an unshift sequence.
+  if (_M_in_output_mode) {
+    bool __ok = !traits_type::eq_int_type(this->overflow(traits_type::eof()),
+                                          traits_type::eof());
+    if (__do_unshift)
+      __ok == __ok && this->_M_unshift();
+    if (!__ok) {
+      _M_in_output_mode = false;
+      _M_in_error_mode = true;
+      this->setp(0, 0);
+      return false;
+    }
+  }
+
+  // Discard putback characters, if any.
+  if (_M_in_input_mode && _M_in_putback_mode)
+    _M_exit_putback_mode();
+
+  return true;
+}
+
+
+// Change the filebuf's locale.  This member function has no effect
+// unless it is called before any I/O is performed on the stream.
+template <class _CharT, class _Traits>
+void basic_filebuf<_CharT, _Traits>::_M_setup_codecvt(const locale& __loc)
+{
+  _M_codecvt = &use_facet<_Codecvt>(__loc);
+  int __encoding    = _M_codecvt->encoding();
+
+  _M_width          = max(__encoding, 1);
+  _M_max_width      = _M_codecvt->max_length();
+  _M_constant_width = __encoding > 0;
+  _M_always_noconv  = _M_codecvt->always_noconv();
+}
+
+
+//----------------------------------------------------------------------
+// Class basic_ifstream<>
+
+template <class _CharT, class _Traits>
+class basic_ifstream : public basic_istream<_CharT, _Traits>
+{
+public:                         // Types
+  typedef _CharT                     char_type;
+  typedef typename _Traits::int_type int_type;
+  typedef typename _Traits::pos_type pos_type;
+  typedef typename _Traits::off_type off_type;
+  typedef _Traits                    traits_type;
+
+  typedef basic_ios<_CharT, _Traits>                _Basic_ios;
+  typedef basic_istream<_CharT, _Traits>            _Base;
+
+public:                         // Constructors, destructor.
+  basic_ifstream();
+  explicit basic_ifstream(const char*, ios_base::openmode = ios_base::in);
+  ~basic_ifstream();
+
+public:                         // File and buffer operations.
+  basic_filebuf<_CharT, _Traits>* rdbuf() const
+    { return const_cast<basic_filebuf<_CharT, _Traits>*>(&_M_buf); }
+
+  bool is_open();
+  void open(const char*, ios_base::openmode = ios_base::in);
+  void close();
+
+private:
+  basic_filebuf<_CharT, _Traits> _M_buf;
+};
+
+template <class _CharT, class _Traits>
+basic_ifstream<_CharT, _Traits>::basic_ifstream()
+  : _Basic_ios(), _Base(0), _M_buf()
+{
+  _Basic_ios::init(&_M_buf);
+}
+
+template <class _CharT, class _Traits>
+basic_ifstream<_CharT, _Traits>
+  ::basic_ifstream(const char* __s, ios_base::openmode __mod)
+  : _Basic_ios(), _Base(0),
+    _M_buf()
+{
+  _Basic_ios::init(&_M_buf);
+  if (!_M_buf.open(__s, __mod | ios_base::in))
+    this->setstate(ios_base::failbit);
+}
+
+template <class _CharT, class _Traits>
+basic_ifstream<_CharT, _Traits>::~basic_ifstream()
+{}
+
+template <class _CharT, class _Traits>
+bool basic_ifstream<_CharT, _Traits>::is_open()
+{
+  return this->rdbuf()->is_open();
+}
+
+template <class _CharT, class _Traits>
+void basic_ifstream<_CharT, _Traits>
+  ::open(const char* __s, ios_base::openmode __mod)
+{
+  if (!this->rdbuf()->open(__s, __mod | ios_base::in))
+    this->setstate(ios_base::failbit);
+}
+
+template <class _CharT, class _Traits>
+void basic_ifstream<_CharT, _Traits>::close()
+{
+  if (!this->rdbuf()->close())
+    this->setstate(ios_base::failbit);
+}
+
+//----------------------------------------------------------------------
+// Class basic_ofstream<>
+
+template <class _CharT, class _Traits>
+class basic_ofstream : public basic_ostream<_CharT, _Traits>
+{
+public:                         // Types
+  typedef _CharT                     char_type;
+  typedef typename _Traits::int_type int_type;
+  typedef typename _Traits::pos_type pos_type;
+  typedef typename _Traits::off_type off_type;
+  typedef _Traits                    traits_type;
+
+  typedef basic_ios<_CharT, _Traits>                _Basic_ios;
+  typedef basic_ostream<_CharT, _Traits>            _Base;
+
+public:                         // Constructors, destructor.
+  basic_ofstream();
+  explicit basic_ofstream(const char*, ios_base::openmode = ios_base::out);
+  ~basic_ofstream();
+
+public:                         // File and buffer operations.
+  basic_filebuf<_CharT, _Traits>* rdbuf() const
+    { return const_cast<basic_filebuf<_CharT, _Traits>*>(&_M_buf); } 
+
+  bool is_open();
+  void open(const char*, ios_base::openmode = ios_base::out);
+  void close();
+
+private:
+  basic_filebuf<_CharT, _Traits> _M_buf;
+};
+
+template <class _CharT, class _Traits>
+basic_ofstream<_CharT, _Traits>::basic_ofstream()
+  : _Basic_ios(), _Base(0), _M_buf()
+{
+  _Basic_ios::init(&_M_buf);
+}
+
+template <class _CharT, class _Traits>
+basic_ofstream<_CharT, _Traits>
+  ::basic_ofstream(const char* __s, ios_base::openmode __mod)
+  : _Basic_ios(), _Base(0),
+    _M_buf()
+{
+  _Basic_ios::init(&_M_buf);
+  if (!_M_buf.open(__s, __mod | ios_base::out))
+    this->setstate(ios_base::failbit);
+}
+
+template <class _CharT, class _Traits>
+basic_ofstream<_CharT, _Traits>::~basic_ofstream()
+{}
+
+template <class _CharT, class _Traits>
+bool basic_ofstream<_CharT, _Traits>::is_open()
+{
+  return this->rdbuf()->is_open();
+}
+
+template <class _CharT, class _Traits>
+void basic_ofstream<_CharT, _Traits>
+  ::open(const char* __s, ios_base::openmode __mod)
+{
+  if (!this->rdbuf()->open(__s, __mod | ios_base::out))
+    this->setstate(ios_base::failbit);
+}
+
+template <class _CharT, class _Traits>
+void basic_ofstream<_CharT, _Traits>::close()
+{
+  if (!this->rdbuf()->close())
+    this->setstate(ios_base::failbit);
+}
+
+//----------------------------------------------------------------------
+// Class basic_fstream<>
+
+template <class _CharT, class _Traits>
+class basic_fstream : public basic_iostream<_CharT, _Traits>
+{
+public:                         // Types
+  typedef _CharT                     char_type;
+  typedef typename _Traits::int_type int_type;
+  typedef typename _Traits::pos_type pos_type;
+  typedef typename _Traits::off_type off_type;
+  typedef _Traits                    traits_type;
+
+  typedef basic_ios<_CharT, _Traits>                _Basic_ios;
+  typedef basic_iostream<_CharT, _Traits>           _Base;
+
+public:                         // Constructors, destructor.
+  basic_fstream();
+  explicit basic_fstream(const char*,
+                         ios_base::openmode = ios_base::in | ios_base::out);
+  ~basic_fstream();
+
+public:                         // File and buffer operations.
+  basic_filebuf<_CharT, _Traits>* rdbuf() const
+    { return const_cast<basic_filebuf<_CharT, _Traits>*>(&_M_buf); } 
+
+  bool is_open();
+  void open(const char*, ios_base::openmode = ios_base::in | ios_base::out);
+  void close();
+
+private:
+  basic_filebuf<_CharT, _Traits> _M_buf;
+};
+
+template <class _CharT, class _Traits>
+basic_fstream<_CharT, _Traits>::basic_fstream()
+  : _Basic_ios(), _Base(0), _M_buf()
+{
+  _Basic_ios::init(&_M_buf);
+}
+
+template <class _CharT, class _Traits>
+basic_fstream<_CharT, _Traits>
+  ::basic_fstream(const char* __s, ios_base::openmode __mod)
+  : _Basic_ios(), _Base(0), _M_buf()
+{
+  _Basic_ios::init(&_M_buf);
+  if (!_M_buf.open(__s, __mod))
+    this->setstate(ios_base::failbit);
+}
+
+template <class _CharT, class _Traits>
+basic_fstream<_CharT, _Traits>::~basic_fstream()
+{}
+
+template <class _CharT, class _Traits>
+bool basic_fstream<_CharT, _Traits>::is_open()
+{
+  return this->rdbuf()->is_open();
+}
+
+template <class _CharT, class _Traits>
+void basic_fstream<_CharT, _Traits>
+  ::open(const char* __s, ios_base::openmode __mod)
+{
+  if (!this->rdbuf()->open(__s, __mod))
+    this->setstate(ios_base::failbit);
+}
+
+template <class _CharT, class _Traits>
+void basic_fstream<_CharT, _Traits>::close()
+{
+  if (!this->rdbuf()->close())
+    this->setstate(ios_base::failbit);
+}
+
+
+__STL_END_NAMESPACE
+
+#endif /* __SGI_STL_FSTREAM */
+
+
+// Local Variables:
+// mode:C++
+// End:

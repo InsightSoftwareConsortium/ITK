@@ -1,0 +1,50 @@
+/*
+ * Copyright (c) 1998
+ * Silicon Graphics Computer Systems, Inc.
+ *
+ * Permission to use, copy, modify, distribute and sell this software
+ * and its documentation for any purpose is hereby granted without fee,
+ * provided that the above copyright notice appear in all copies and
+ * that both that copyright notice and this permission notice appear
+ * in supporting documentation.  Silicon Graphics makes no
+ * representations about the suitability of this software for any
+ * purpose.  It is provided "as is" without express or implied warranty.
+ */ 
+
+#ifndef __SGI_STL_IOSTREAM
+#define __SGI_STL_IOSTREAM
+
+#if defined(__sgi) && !defined(__GNUC__) && !defined(_STANDARD_C_PLUS_PLUS)
+#error This header file requires the -LANG:std option
+#endif
+
+#include <iosfwd>
+#include <istream>
+#include <ostream>
+
+__STL_BEGIN_NAMESPACE
+
+// Note: cin and wcin are both associated with stdio.  The C standard
+// (Amendment 1, section 4.6.2.1) says that it is an error to mix
+// wide- and narrow-oriented I/O on the same stream.  This implies
+// that it is an error to use both cin and wcin in the same C++
+// program; the same applies to cout and wcout, and cerr/clog and
+// wcerr/wclog.
+
+extern istream cin;
+extern ostream cout;
+extern ostream cerr;
+extern ostream clog;
+
+extern wistream wcin;
+extern wostream wcout;
+extern wostream wcerr;
+extern wostream wclog;
+
+__STL_END_NAMESPACE
+
+#endif /* __SGI_STL_IOSTREAM */
+
+// Local Variables:
+// mode:C++
+// End:
