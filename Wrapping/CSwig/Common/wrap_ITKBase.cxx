@@ -25,6 +25,7 @@
 #include "itkVersion.h"
 #include "itkTimeStamp.h"
 #include "itkStringStream.h"
+#include "itkDynamicLoader.h"
 
 #ifdef CABLE_CONFIGURATION
 #include "itkCSwigMacros.h"
@@ -37,6 +38,7 @@ namespace _cable_
     ITK_WRAP_OBJECT(Command);
     ITK_WRAP_OBJECT(DataObject);
     ITK_WRAP_OBJECT(Directory);
+    ITK_WRAP_OBJECT(DynamicLoader);
     ITK_WRAP_OBJECT(LightObject);
     ITK_WRAP_OBJECT(Object);
     ITK_WRAP_OBJECT(LightProcessObject);
