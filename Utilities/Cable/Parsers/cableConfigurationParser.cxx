@@ -714,9 +714,11 @@ Parser
 ::begin_File(const Attributes& atts)
 {
   String name = atts.Get("name");
+  String purpose = atts.Have("purpose") ?
+    atts.Get("purpose") : "";
 
   // Add the file to the current set of headers.
-  this->CurrentHeaders()->AddFile(name);
+  this->CurrentHeaders()->AddFile(name, purpose);
 }
 
 

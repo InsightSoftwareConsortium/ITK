@@ -105,10 +105,11 @@ public:
 
   static Pointer New();
   
-  void AddFile(const String&);
+  void AddFile(const String&, const String&);
   void AddDirectory(const String&);
   
-  typedef std::vector<String> Files;
+  struct File { String name; String purpose; };
+  typedef std::vector<File> Files;
   typedef Files::const_iterator FilesIterator;
   
   typedef std::vector<String> Directories;

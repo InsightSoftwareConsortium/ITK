@@ -678,9 +678,11 @@ Headers
  */
 void
 Headers
-::AddFile(const String& name)
+::AddFile(const String& name, const String& purpose)
 {
-  m_Files.push_back(name);
+  m_Files.push_back(File());
+  m_Files.back().name = name;
+  m_Files.back().purpose = purpose;
 }
 
 
