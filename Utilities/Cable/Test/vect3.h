@@ -2,7 +2,7 @@
 #define _vect3_h
 
 #include <stdio.h>
-
+namespace Math {
 struct Vect3
 {
   double v[3];
@@ -92,5 +92,5 @@ struct Vect3
       fprintf(stdout, "(%f, %f, %f)\n", v[0], v[1], v[2]);
     }
 };
-
+} // namespace Math
 #endif

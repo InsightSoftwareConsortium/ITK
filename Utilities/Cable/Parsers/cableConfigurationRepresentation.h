@@ -64,7 +64,7 @@ public:
 
   static Pointer New(void);
   
-  void PrintFunction(FILE*, const String&) const;
+  void PrintFunction(FILE*, const String& typeName) const;
   
 protected:
   Create() {}
@@ -86,7 +86,7 @@ public:
 
   static Pointer New(void);
   
-  void PrintFunction(FILE*, const String&) const;
+  void PrintFunction(FILE*, const String& typeName) const;
   
 protected:
   Delete() {}
@@ -139,8 +139,7 @@ private:
 };
 
 typedef std::map<String, WrapType::Pointer>  WrapTypesContainer;
-typedef WrapTypesContainer::iterator         WrapTypesIterator;
-typedef WrapTypesContainer::const_iterator   WrapTypesConstIterator;
+typedef WrapTypesContainer::const_iterator   WrapTypesIterator;
 
 /**
  * A collection of all configuration information for the wrappers.
@@ -170,7 +169,8 @@ public:
     { return m_DefaultDelete.RealPointer(); }
 
   void AddWrapType(WrapType* w) { m_WrapTypes[w->GetName()] = w; }
-
+  const WrapTypesContainer& GetWrapTypes(void) const { return m_WrapTypes; }
+  
   void Print(FILE*) const;
   void PrintMissingTypes(FILE*) const;
   

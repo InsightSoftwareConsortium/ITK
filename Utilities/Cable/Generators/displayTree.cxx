@@ -6,8 +6,8 @@
 /**
  * Display the declaration tree in a human-readable form.
  */
-void displayTree(Namespace* globalNamespace,
-                 WrapperConfiguration*)
+void DisplayTree(const Namespace* globalNamespace,
+                 const WrapperConfiguration*)
 {
   globalNamespace->Print(stdout, 0);
 }

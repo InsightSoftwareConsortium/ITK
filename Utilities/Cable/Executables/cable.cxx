@@ -4,8 +4,10 @@
 #include "parseConfigXML.h"
 #include "parseSourceXML.h"
 
-extern void generateTcl(Namespace* globalNamespace, WrapperConfiguration*);
-extern void displayTree(Namespace* globalNamespace, WrapperConfiguration*);
+extern void GenerateTcl(const Namespace* globalNamespace,
+                        const WrapperConfiguration*);
+extern void DisplayTree(const Namespace* globalNamespace,
+                        const WrapperConfiguration*);
 
 
 /**
@@ -16,7 +18,8 @@ struct WrapperGenerator
   char* languageName;            // Name of wrapping language.
   char* commandLineFlag;         // Command line flag's text.
   bool  flag;                    // Was command line flag given?
-  void (*generate)(Namespace*, WrapperConfiguration*);  // Generation function.
+  void (*generate)(const Namespace*,
+                   const WrapperConfiguration*);  // Generation function.
 };
 
 
@@ -25,8 +28,8 @@ struct WrapperGenerator
  */
 WrapperGenerator wrapperGenerators[] =
 {
-  { "TCL", "-tcl", false, generateTcl},
-  { "(display tree)", "-display", false, displayTree},
+  { "TCL", "-tcl", false, GenerateTcl},
+  { "(display tree)", "-display", false, DisplayTree},
   { 0, 0, 0, 0 }
 };
 

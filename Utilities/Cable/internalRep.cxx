@@ -33,6 +33,7 @@ String GetValid_C_Identifier(const String& in_name)
       {
       case ' ': name << '_'; break;
       case ',': break;
+      case ':': name << 'c'; break;
       case '<': name << "la"; break;
       case '>': name << "ra"; break;
       case '[': name << "ls"; break;
@@ -1448,52 +1449,3 @@ BaseClass
           "</BaseClass>\n");
 }
 
-
-/**
- * Attempt to find the given qualified name starting at this namespace.
- * Returns NULL if not found, or a pointer to the object if it is found.
- */
-InternalObject::Pointer
-Namespace
-::LookupName(QualifiedName*) const
-{
-  
-}
-
-
-/**
- * Attempt to find the given qualified name starting at this class.
- * Returns NULL if not found, or a pointer to the object if it is found.
- */
-InternalObject::Pointer
-Class
-::LookupName(QualifiedName*) const
-{
-  
-}
-
-
-/**
- * Attempt to find the given qualified name starting at this namespace.
- * If it is found and is a Class, Struct, or Union, return it.
- * If it is found, but is not a Class, Struct, or Union, throw an exception.
- * If it is not found, return NULL.
- */
-ClassPointer
-Namespace
-::LookupClass(QualifiedName* name) const
-{
-  InternalObject::Pointer result = this->LookupName(name);
-  
-  if(!result) return NULL;
-  
-  TypeOfObject t = result->GetTypeOfObject();
-  
-  if((t == Class_id) || (t == Struct_id) || (t == Union_id))
-    {
-    return (Class*)result.RealPointer();
-    }
-    
-  throw NameIsNotClassException;
-  return NULL;
-}

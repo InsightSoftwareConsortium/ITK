@@ -204,15 +204,13 @@ public:
   typedef SmartPointer<const Self>  ConstPointer;
 
   const String& GetName(void) const { return m_Name; }
-  const String& GetWrapName(void) const { return m_WrapName; }
 
   virtual void SetLocation(Location* location) { m_Location = location; }
   Location::Pointer GetLocation(void) { return m_Location; }
   Location::ConstPointer GetLocation(void) const { return m_Location.RealPointer(); }
   
 protected:
-  Named(const String& name): m_Name(name),
-                             m_WrapName(GetValid_C_Identifier(name)) {}
+  Named(const String& name): m_Name(name) {}
   Named(const Named&) {}
   void operator=(const Named&) {}
   virtual ~Named() {}
@@ -222,7 +220,6 @@ private:
    * The name of this entity.
    */
   String m_Name;
-  String m_WrapName;
   Location::Pointer m_Location;
 };
 
@@ -323,8 +320,6 @@ public:
   
   String GetName(void) const { return this->GetNameWithCV(); }  
   String GetCV(void) const { return m_CV_Qualifiers? m_CV_Qualifiers->GetString() : ""; }
-  String GetWrapName(void) const
-    { return GetValid_C_Identifier(this->GetName()); }
   
   /**
    * Get the cv-qualified name of this type.
@@ -622,6 +617,8 @@ public:
 
   void SetPointedToType(Type* t)       { m_PointedToType = t; }
   Type::Pointer GetPointedToType(void) { return m_PointedToType; }
+  Type::ConstPointer GetPointedToType(void) const
+    { return m_PointedToType.RealPointer(); }
   
   virtual void Print(FILE*, unsigned long) const;
 
@@ -661,6 +658,8 @@ public:
   
   void SetReferencedType(Type* t)       { m_ReferencedType = t; }
   Type::Pointer GetReferencedType(void) { return m_ReferencedType; }
+  Type::ConstPointer GetReferencedType(void) const
+    { return m_ReferencedType.RealPointer(); }
   
   virtual void Print(FILE*, unsigned long) const;
 
@@ -867,9 +866,6 @@ public:
     { function->SetContext(this); m_Functions.insert(function); }
   const FunctionContainer& GetFunctions(void) const { return m_Functions; }
   
-  InternalObject::Pointer LookupName(QualifiedName*) const;
-  ClassPointer LookupClass(QualifiedName*) const;
-  
   virtual void Print(FILE*, unsigned long) const;
   
 protected:
@@ -1072,8 +1068,6 @@ public:
   bool IsProtected(void) const { return (m_Access == Protected); }
   bool IsPrivate(void) const   { return (m_Access == Private);   }
   
-  InternalObject::Pointer LookupName(QualifiedName*) const;
-  
   virtual void Print(FILE*, unsigned long) const;
   void PrintMethods(FILE*, unsigned long) const;
   void PrintBaseClasses(FILE*, unsigned long) const;
@@ -1215,7 +1209,6 @@ public:
 
   String GetQualifiedName(void) const { return m_QualifiedName->Get(); }
   
-  void FindClass(Namespace* ns) { m_Class = ns->LookupClass(m_QualifiedName); }
   bool HaveClass(void) const { return (m_Class != NULL); }
   
   Class::Pointer GetClass(void) { return m_Class; }
@@ -1255,7 +1248,6 @@ public:
   virtual void SetInternalQualifiedName(QualifiedName* n) { m_QualifiedName = n; }
   String GetQualifiedName(void) const { return m_QualifiedName->Get(); }
   
-  void FindClass(Namespace* ns) { m_Class = ns->LookupClass(m_QualifiedName); }
   bool HaveClass(void) const { return (m_Class != NULL); }
   
   Class::Pointer GetClass(void) { return m_Class; }

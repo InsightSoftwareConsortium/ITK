@@ -183,7 +183,7 @@ WrapperConfiguration
 {
   fprintf(file, "<WrapperConfiguration source=\"%s\" dest=\"%s\">\n",
           m_Source.c_str(), m_Dest.c_str());
-  for(WrapTypesConstIterator w = m_WrapTypes.begin();
+  for(WrapTypesIterator w = m_WrapTypes.begin();
       w != m_WrapTypes.end(); ++w)
     {
     w->second->Print(file);
@@ -200,7 +200,7 @@ void
 WrapperConfiguration
 ::PrintMissingTypes(FILE* file) const
 {
-  for(WrapTypesConstIterator w = m_WrapTypes.begin();
+  for(WrapTypesIterator w = m_WrapTypes.begin();
       w != m_WrapTypes.end(); ++w)
     {
     if(!w->second->HaveClass())
@@ -226,7 +226,7 @@ WrapperConfiguration
   this->FindTypesInNamespace(globalNamespace);
 
   // Check if all types have been found.
-  for(WrapTypesConstIterator w = m_WrapTypes.begin();
+  for(WrapTypesIterator w = m_WrapTypes.begin();
       w != m_WrapTypes.end(); ++w)
     {
     if(!w->second->HaveClass())
