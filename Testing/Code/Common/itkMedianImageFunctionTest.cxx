@@ -19,6 +19,7 @@
 
 #include "itkMedianImageFunction.h"
 #include "itkImage.h"
+#include "itkNumericTraits.h"
 
 int itkMedianImageFunctionTest(int, char* [] )
 {
@@ -64,7 +65,9 @@ int itkMedianImageFunctionTest(int, char* [] )
   FunctionType::OutputType  median;
 
   median = function->EvaluateAtIndex( index );
-  std::cout << "function->EvaluateAtIndex( index ): " << median << std::endl;
+  std::cout << "function->EvaluateAtIndex( index ): "
+            << static_cast<itk::NumericTraits<FunctionType::OutputType>::PrintType>(median)
+            << std::endl;
 
   // Test Evaluate
   FunctionType::PointType point;
@@ -73,7 +76,9 @@ int itkMedianImageFunctionTest(int, char* [] )
   point[2] = 25;
   FunctionType::OutputType median2;
   median2 = function->Evaluate(point);
-  std::cout << "function->Evaluate(point): " << median2 << std::endl;
+  std::cout << "function->Evaluate(point): "
+            << static_cast<itk::NumericTraits<FunctionType::OutputType>::PrintType>(median2)
+            << std::endl;
 
   // Test EvaluateAtContinuousIndex
   FunctionType::ContinuousIndexType cindex;
@@ -82,7 +87,9 @@ int itkMedianImageFunctionTest(int, char* [] )
   cindex[2] = 25;
   FunctionType::OutputType median3;
   median3 = function->EvaluateAtContinuousIndex(cindex);
-  std::cout << "function->EvaluateAtContinuousIndex(cindex): " << median3 << std::endl;
+  std::cout << "function->EvaluateAtContinuousIndex(cindex): "
+            << static_cast<itk::NumericTraits<FunctionType::OutputType>::PrintType>(median3)
+            << std::endl;
 
   // since the input image is constant 
   // the should be equal to the initial value
