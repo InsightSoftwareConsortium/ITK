@@ -57,9 +57,9 @@ UpwindDerivativeImageFunction<TInputImage>
     this->GetInputImage()->GetLargestPossibleRegion().GetSize();
 
   for( int j = 0; j < ImageDimension; j++ )
-		{
-		m_ImageSize[j] = (signed long) size[j];
-		}  
+    {
+    m_ImageSize[j] = (signed long) size[j];
+    }  
   m_Speed = 1.0;
 
 }

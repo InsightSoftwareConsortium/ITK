@@ -178,8 +178,8 @@ public:
    * Set the Enable flag for the specific override of className.
    */
   virtual void SetEnableFlag(bool flag,
-			     const char* className,
-			     const char* subclassName);
+           const char* className,
+           const char* subclassName);
   /**
    * Get the Enable flag for the specific override of className.
    */
@@ -216,11 +216,11 @@ protected:
    * Register object creation information with the factory.
    */
   void RegisterOverride(const char* classOverride,
-			const char* overrideClassName,
-			const char* description,
-			bool enableFlag,
-			CreateObjectFunctionBase* createFunction);
-		
+      const char* overrideClassName,
+      const char* description,
+      bool enableFlag,
+      CreateObjectFunctionBase* createFunction);
+    
   /**
    * This method is provioded by sub-classes of ObjectFactoryBase.
    * It should create the named itk object or return 0 if that object

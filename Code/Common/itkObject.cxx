@@ -91,7 +91,7 @@ SubjectImplementation::
 unsigned long 
 SubjectImplementation::
 AddObserver(const EventObject & event,
-	    Command* cmd)
+      Command* cmd)
 {
   Observer* ptr = new Observer(cmd, event.New(), m_Count);
   m_Observers.push_back(ptr);
@@ -120,7 +120,7 @@ RemoveObserver(unsigned long tag)
 void 
 SubjectImplementation::
 InvokeEvent( const EventObject & event,
-	    Object* self)
+      Object* self)
 {
   for(std::list<Observer* >::iterator i = m_Observers.begin();
       i != m_Observers.end(); ++i)
@@ -137,7 +137,7 @@ InvokeEvent( const EventObject & event,
 void 
 SubjectImplementation::
 InvokeEvent( const EventObject & event,
-	    const Object* self)
+      const Object* self)
 {
   for(std::list<Observer* >::iterator i = m_Observers.begin();
       i != m_Observers.end(); ++i)

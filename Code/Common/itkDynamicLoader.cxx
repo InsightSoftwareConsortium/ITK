@@ -250,14 +250,14 @@ DynamicLoader
   LPVOID lpMsgBuf;
 
   FormatMessage( 
-		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
-		NULL,
-		GetLastError(),
-		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
-		(LPTSTR) &lpMsgBuf,
-		0,
-		NULL 
-		);
+    FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
+    NULL,
+    GetLastError(),
+    MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
+    (LPTSTR) &lpMsgBuf,
+    0,
+    NULL 
+    );
   
   static char* str = 0;
   delete [] str;

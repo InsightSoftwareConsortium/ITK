@@ -331,7 +331,7 @@ void ConstNeighborhoodIterator<TImage>
     {
       m_Bound[i]      = m_BeginIndex[i]+static_cast<long>(size[i]);
       m_WrapOffset[i] = static_cast<OffsetValueType>(
-			      static_cast<IndexValueType>(bufferSize[i]) - (m_Bound[i] - m_BeginIndex[i]))
+            static_cast<IndexValueType>(bufferSize[i]) - (m_Bound[i] - m_BeginIndex[i]))
                         * offset[i];
     }
   m_WrapOffset[Dimension-1] = 0; // last offset is zero because there are no

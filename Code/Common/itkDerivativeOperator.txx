@@ -69,7 +69,7 @@ DerivativeOperator<TPixel, VDimension, TAllocator>
           }
         next = coeff[j - 1] - 2*coeff[j];
         coeff[j-1] = previous;
-        coeff[j] = next;	    
+        coeff[j] = next;      
       }
     for (i = 0; i < m_Order%2; i++)    
       {
@@ -82,7 +82,7 @@ DerivativeOperator<TPixel, VDimension, TAllocator>
           }
         next = -0.5 * coeff[j - 1];
         coeff[j-1] = previous;
-        coeff[j] = next;	    
+        coeff[j] = next;      
       }
 
     for (i=0; i<w; ++i)

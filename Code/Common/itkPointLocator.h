@@ -168,7 +168,7 @@ public:
    * place their data. Bounds are the box that the points lie in.
    */
   virtual int InitPointInsertion(itkPoints *newPts, float bounds[6], 
-				 int estSize);
+         int estSize);
 
   /**
    * Incrementally insert a point into search structure with a particular

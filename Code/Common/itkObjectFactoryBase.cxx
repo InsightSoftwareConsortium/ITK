@@ -55,10 +55,10 @@ namespace itk
  * to provide a default implementation as it should.
  */
 bool operator==(const ObjectFactoryBase::OverrideInformation& rhs, 
-		const ObjectFactoryBase::OverrideInformation& lhs)
+    const ObjectFactoryBase::OverrideInformation& lhs)
 {
   return (rhs.m_Description == lhs.m_Description
-	  && rhs.m_OverrideWithName == lhs.m_OverrideWithName);
+    && rhs.m_OverrideWithName == lhs.m_OverrideWithName);
 }
 
 /**
@@ -66,10 +66,10 @@ bool operator==(const ObjectFactoryBase::OverrideInformation& rhs,
  * to provide a default implementation as it should.
  */
 bool operator<(const ObjectFactoryBase::OverrideInformation& rhs, 
-		const ObjectFactoryBase::OverrideInformation& lhs)
+    const ObjectFactoryBase::OverrideInformation& lhs)
 {
   return (rhs.m_Description < lhs.m_Description
-	  && rhs.m_OverrideWithName < lhs.m_OverrideWithName);
+    && rhs.m_OverrideWithName < lhs.m_OverrideWithName);
 }
 
 
@@ -324,20 +324,20 @@ ObjectFactoryBase
       if ( lib )
         {
         /**
-	 * Look for the symbol itkLoad in the library
-	 */
+   * Look for the symbol itkLoad in the library
+   */
         ITK_LOAD_FUNCTION loadfunction
           = (ITK_LOAD_FUNCTION)DynamicLoader::GetSymbolAddress(lib, "itkLoad");
         /**
-	 * if the symbol is found call it to create the factory
+   * if the symbol is found call it to create the factory
          * from the library
-	 */
+   */
         if ( loadfunction )
           {
           ObjectFactoryBase* newfactory = (*loadfunction)();
           /**
-	   * initialize class members if load worked
-	   */
+     * initialize class members if load worked
+     */
           newfactory->m_LibraryHandle = (void*)lib;
           newfactory->m_LibraryPath = fullpath;
           newfactory->m_LibraryDate = 0; // unused for now...

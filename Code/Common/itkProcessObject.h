@@ -259,7 +259,7 @@ public:
    * All sizes are in kilobytes. 
    */
   void ComputeEstimatedPipelineMemorySize( DataObject *output,
-					   unsigned long size[3] );
+             unsigned long size[3] );
 
   /** 
    * The estimated size of the specified output after execution of
@@ -269,8 +269,8 @@ public:
    * All sizes are in kilobytes.
    */
   virtual void ComputeEstimatedOutputMemorySize( DataObject *output,
-						 unsigned long *inputSize,
-						 unsigned long size[2] );
+             unsigned long *inputSize,
+             unsigned long size[2] );
 
   /**
    * Generate the information decribing the output data. The default 

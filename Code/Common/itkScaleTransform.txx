@@ -313,9 +313,9 @@ Inverse(void) const
 // Compute the Jacobian of the transformation
 // It follows the same order of Parameters vector 
 template<class ScalarType,
-	 unsigned int NDimensions,
+   unsigned int NDimensions,
          class TParameters,
-	 class TJacobianType>
+   class TJacobianType>
 const ScaleTransform<ScalarType, NDimensions,TParameters,TJacobianType>::JacobianType &
 ScaleTransform<ScalarType, NDimensions,TParameters,TJacobianType>
 ::GetJacobian( const InputPointType & p ) const

@@ -124,7 +124,7 @@ public:
   ComponentType GetScalarValue() const
     {
       return static_cast<ComponentType> (vnl_math_sqrt(
-	  static_cast<double>(this->operator[](0)) * static_cast<double>(this->operator[](0)) +
+    static_cast<double>(this->operator[](0)) * static_cast<double>(this->operator[](0)) +
           static_cast<double>(this->operator[](1)) * static_cast<double>(this->operator[](1)) +
           static_cast<double>(this->operator[](2)) * static_cast<double>(this->operator[](2)))); 
     }

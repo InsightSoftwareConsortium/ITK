@@ -52,15 +52,15 @@ namespace itk
 
 
 template < 
-	class TScalarType=double,         // Data type for scalars (e.g. float or double)
-	unsigned int NDimensions=3,       // Number of dimensions in the input space
-	class TParameters = Point< double, NDimensions*(NDimensions+1) >,
-	class TJacobianType = Matrix<double,NDimensions,NDimensions*(NDimensions+1) >
-	> 
-class RT3DTransform : public AffineTransform<	TScalarType,
-																							NDimensions,
-																							TParameters,
-																							TJacobianType >
+  class TScalarType=double,         // Data type for scalars (e.g. float or double)
+  unsigned int NDimensions=3,       // Number of dimensions in the input space
+  class TParameters = Point< double, NDimensions*(NDimensions+1) >,
+  class TJacobianType = Matrix<double,NDimensions,NDimensions*(NDimensions+1) >
+  > 
+class RT3DTransform : public AffineTransform< TScalarType,
+                                              NDimensions,
+                                              TParameters,
+                                              TJacobianType >
 {
 
 public:
@@ -78,8 +78,8 @@ public:
     /**
      * Standard "Superclass" typedef.
      */
-    typedef AffineTransform<	TScalarType, NDimensions,
-															TParameters, TJacobianType >  Superclass;
+    typedef AffineTransform<  TScalarType, NDimensions,
+                              TParameters, TJacobianType >  Superclass;
 
 
     /** 
@@ -137,17 +137,17 @@ public:
      * Set the transformation parameters
      *
      **/
-		void SetRT3DParameters( const double sampleSize, 
-														const double blanking,
-														const long maxTheta, 
-														const long maxPhi, 
-														const double azimuthAngleSeparation,
-														const double elevationAngleSeparation);
+    void SetRT3DParameters( const double sampleSize, 
+                            const double blanking,
+                            const long maxTheta, 
+                            const long maxPhi, 
+                            const double azimuthAngleSeparation,
+                            const double elevationAngleSeparation);
 
-		void SetRT3DParameters( const double sampleSize, 
-														const double blanking,
-														const long maxTheta, 
-														const long maxPhi);
+    void SetRT3DParameters( const double sampleSize, 
+                            const double blanking,
+                            const long maxTheta, 
+                            const long maxPhi);
 
 
     /**
@@ -168,10 +168,10 @@ public:
      **/
     void PrintSelf(std::ostream &s, Indent indent) const;
     
-		void SetForwardIsIndexToPhysical();
-		void SetForwardIsPhysicalToIndex();
-		OutputPointType TransformAzElToCartesian(const InputPointType &point) const; 
-		OutputPointType TransformCartesianToAzEl(const OutputPointType &point) const;
+    void SetForwardIsIndexToPhysical();
+    void SetForwardIsPhysicalToIndex();
+    OutputPointType TransformAzElToCartesian(const InputPointType &point) const; 
+    OutputPointType TransformCartesianToAzEl(const OutputPointType &point) const;
 
 protected:
 
@@ -188,16 +188,16 @@ protected:
 
 private:
 
-			long m_MaxPhi;
-			long m_MaxTheta;
-			double m_RadiusSampleSize;
-			double m_AzimuthAngularSeparation;
-			double m_ElevationAngularSeparation;
-			double m_FirstSampleDistance;
-			double m_Blanking;
-			double m_TransducerOffset;
+      long m_MaxPhi;
+      long m_MaxTheta;
+      double m_RadiusSampleSize;
+      double m_AzimuthAngularSeparation;
+      double m_ElevationAngularSeparation;
+      double m_FirstSampleDistance;
+      double m_Blanking;
+      double m_TransducerOffset;
 
-			bool		m_ForwardIsIndexToPhysical;
+      bool    m_ForwardIsIndexToPhysical;
 }; //class RT3DTransform
 
 

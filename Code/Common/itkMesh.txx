@@ -70,7 +70,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
        << m_BoundaryAssignmentsContainers.size() << std::endl;
 
   os << indent << "Requested Number Of Regions: " 
-	<< m_RequestedNumberOfRegions << std::endl;
+  << m_RequestedNumberOfRegions << std::endl;
   os << indent << "Requested Region: " << m_RequestedRegion << std::endl;
   os << indent << "Maximum Number Of Regions: " 
      << m_MaximumNumberOfRegions << std::endl;

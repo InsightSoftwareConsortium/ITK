@@ -135,7 +135,7 @@ public:
   std::pair<iterator, bool> insert_noresize(const value_type& obj)
     {
 #ifdef _MSC_VER
-	  std::pair<ht::iterator, bool> p = rep.insert_unique_noresize(obj);
+    std::pair<ht::iterator, bool> p = rep.insert_unique_noresize(obj);
 #else
       std::pair<typename ht::iterator, bool> p = rep.insert_unique_noresize(obj);
 #endif

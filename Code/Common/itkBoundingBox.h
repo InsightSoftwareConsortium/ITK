@@ -182,9 +182,9 @@ public:
    * Returns whether an intersection exists.
    */
   bool IntersectWithLine(CoordRepType origin[PointDimension],
-			 CoordRepType direction[PointDimension],
-			 CoordRepType coords[PointDimension],
-			 CoordRepType* t);
+       CoordRepType direction[PointDimension],
+       CoordRepType coords[PointDimension],
+       CoordRepType* t);
   
 #endif
 

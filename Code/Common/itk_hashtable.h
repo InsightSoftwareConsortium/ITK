@@ -267,7 +267,7 @@ private:
     typedef size_t size_type;
     typedef hashtable_node<Value> node;
     typedef itk_simple_alloc<node, Alloc> node_allocator;
-public:	// These are public to get around restriction on protected access
+public: // These are public to get around restriction on protected access
     typedef std::vector<VCL_SUNPRO_ALLOCATOR_HACK(node*) > buckets_type ;
     buckets_type buckets; // awf killed optional allocator
     size_type num_elements;
@@ -275,30 +275,30 @@ protected:
     IUEi_STL_INLINE void clear();
 
     node* new_node(const value_type& obj)
-	{
+  {
             node* n = node_allocator::allocate();
             try {
-	      new (&(n->val)) value_type(obj);
+        new (&(n->val)) value_type(obj);
             }
             catch (...) {
-	      node_allocator::deallocate(n);
-	      throw "";
+        node_allocator::deallocate(n);
+        throw "";
             }
             n->next = 0;
             return n;
-	}
-	
+  }
+  
     void delete_node(node* n)
-	{
+  {
 #define vcli_destroy(T, p)    ((T*)p)->~T()
             vcli_destroy(Value, &(n->val));
 #undef vcli_destroy
             node_allocator::deallocate(n);
-	}
+  }
 
     IUEi_STL_INLINE void copy_from(const hashtable_base<Value,Alloc>& ht);
-	
-public:	// These are public to get around restriction on protected access
+  
+public: // These are public to get around restriction on protected access
     hashtable_base() : num_elements(0) { }
 //    hashtable_base(size_type n) : num_elements(0) {}
     ~hashtable_base() { clear(); }
@@ -908,7 +908,7 @@ hashtable<Value, Key, HashFcn, ExtractKey, EqualKey, Alloc>::resize(__size_type_
     if (num_elements_hint > old_n) {
         const size_type n = next_size(num_elements_hint);
         if (n > old_n) {
-	    hashtable<Value, Key, HashFcn, ExtractKey, EqualKey, Alloc>::buckets_type tmp(n, (node*)0);
+      hashtable<Value, Key, HashFcn, ExtractKey, EqualKey, Alloc>::buckets_type tmp(n, (node*)0);
             for (size_type bucket = 0; bucket < old_n; ++bucket) {
                 node* first = buckets[bucket];
                 while (first) {
@@ -916,7 +916,7 @@ hashtable<Value, Key, HashFcn, ExtractKey, EqualKey, Alloc>::resize(__size_type_
                     buckets[bucket] = first->next;
                     first->next = tmp[new_bucket];
                     tmp[new_bucket] = first;
-                    first = buckets[bucket];					
+                    first = buckets[bucket];          
                 }
             }
             buckets.clear();
@@ -953,51 +953,51 @@ void
 hashtable<Value, Key, HashFcn, ExtractKey, EqualKey, Alloc>::erase_bucket(const size_t n,
                                                             hashtable_node<Value>* last)
 {
-	node* cur = buckets[n];
-	while (cur != last) {
-		node* next = cur->next;
-		delete_node(cur);
-		cur = next;
-		buckets[n] = cur;
-		--num_elements;
-	}
+  node* cur = buckets[n];
+  while (cur != last) {
+    node* next = cur->next;
+    delete_node(cur);
+    cur = next;
+    buckets[n] = cur;
+    --num_elements;
+  }
 }
 
 template <class Value, class Alloc>
 void hashtable_base<Value, Alloc>::clear()
 {
-	for (size_type i = 0; i < buckets.size(); ++i) {
-		node* cur = buckets[i];
-		while (cur != 0) {
-			node* next = cur->next;
-			delete_node(cur);
-			cur = next;
-		}
-		buckets[i] = 0;
-	}
-	num_elements = 0;
+  for (size_type i = 0; i < buckets.size(); ++i) {
+    node* cur = buckets[i];
+    while (cur != 0) {
+      node* next = cur->next;
+      delete_node(cur);
+      cur = next;
+    }
+    buckets[i] = 0;
+  }
+  num_elements = 0;
 }
-	
-	
+  
+  
 template <class Value, class Alloc>
 void hashtable_base<Value, Alloc>::copy_from(const hashtable_base<Value, Alloc>& ht)
 {
-	buckets.reserve(ht.buckets.size());
-	buckets.insert(buckets.end(), ht.buckets.size(), (node*) 0);
-	for (size_type i = 0; i < ht.buckets.size(); ++i) {
-		const node* cur = ht.buckets[i];
-		if (cur) {
-			node* copy = new_node(cur->val);
-			buckets[i] = copy;
-			++num_elements;
-			
-			for (node* next = cur->next; next; cur = next, next = cur->next) {
-				copy->next = new_node(next->val);
-				++num_elements;
-				copy = copy->next;
-			}
-		}
-	}
+  buckets.reserve(ht.buckets.size());
+  buckets.insert(buckets.end(), ht.buckets.size(), (node*) 0);
+  for (size_type i = 0; i < ht.buckets.size(); ++i) {
+    const node* cur = ht.buckets[i];
+    if (cur) {
+      node* copy = new_node(cur->val);
+      buckets[i] = copy;
+      ++num_elements;
+      
+      for (node* next = cur->next; next; cur = next, next = cur->next) {
+        copy->next = new_node(next->val);
+        ++num_elements;
+        copy = copy->next;
+      }
+    }
+  }
 }
 
 }// end namespace itk

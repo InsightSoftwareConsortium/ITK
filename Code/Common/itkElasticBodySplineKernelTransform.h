@@ -130,13 +130,13 @@ public:
   /**
    * Set alpha
    */
-	itkSetMacro( Alpha, TScalarType );
+  itkSetMacro( Alpha, TScalarType );
   
 
   /**
    * Get alpha
    */
-	itkGetMacro( Alpha, TScalarType );
+  itkGetMacro( Alpha, TScalarType );
   
   
   /**

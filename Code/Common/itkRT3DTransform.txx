@@ -52,13 +52,13 @@ template<class TScalarType, unsigned int NDimensions,
 RT3DTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
 RT3DTransform()
 {
-	m_MaxTheta = 0;
-	m_MaxPhi = 0;
-	m_RadiusSampleSize = 1;
-	m_AzimuthAngularSeparation = 1;
-	m_ElevationAngularSeparation = 1;
-	m_FirstSampleDistance = 0;
-	m_ForwardIsIndexToPhysical = true;
+  m_MaxTheta = 0;
+  m_MaxPhi = 0;
+  m_RadiusSampleSize = 1;
+  m_AzimuthAngularSeparation = 1;
+  m_ElevationAngularSeparation = 1;
+  m_FirstSampleDistance = 0;
+  m_ForwardIsIndexToPhysical = true;
 
 }
 
@@ -81,12 +81,12 @@ PrintSelf(std::ostream &os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
 
-	os << indent << "x = z*tan(theta)"  <<std::endl;
-	os << indent << "y = z*tan(phi)"  <<std::endl;
-	os << indent << "z = sqrt(r*r * cos(theta)*cos(theta) / (1 + cos(theta) * cos(theta) * tan(phi) * tan(phi)))"  <<std::endl;
-	os << indent << "theta = 1 / (tan(x/y))"  <<std::endl;
-	os << indent << "phi = 1 / (tan(y/z))"  <<std::endl;
-	os << indent << "r = sqrt(x*x + y*y + z*z)"  <<std::endl;
+  os << indent << "x = z*tan(theta)"  <<std::endl;
+  os << indent << "y = z*tan(phi)"  <<std::endl;
+  os << indent << "z = sqrt(r*r * cos(theta)*cos(theta) / (1 + cos(theta) * cos(theta) * tan(phi) * tan(phi)))"  <<std::endl;
+  os << indent << "theta = 1 / (tan(x/y))"  <<std::endl;
+  os << indent << "phi = 1 / (tan(y/z))"  <<std::endl;
+  os << indent << "r = sqrt(x*x + y*y + z*z)"  <<std::endl;
 }
 
 
@@ -96,10 +96,10 @@ RT3DTransform<TScalarType, NDimensions,TParameters,TJacobianType>::OutputPointTy
 RT3DTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
 TransformPoint(const InputPointType &point) const 
 {
-	OutputPointType result;
-	if (m_ForwardIsIndexToPhysical) result = TransformAzElToCartesian(point);
-	else result = TransformCartesianToAzEl(point);
-	return result;
+  OutputPointType result;
+  if (m_ForwardIsIndexToPhysical) result = TransformAzElToCartesian(point);
+  else result = TransformCartesianToAzEl(point);
+  return result;
 }
 
 
@@ -111,19 +111,19 @@ RT3DTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
 TransformAzElToCartesian(const InputPointType &point) const 
 {
   OutputPointType result;
-	ScalarType theta = ((2*vnl_math::pi) / 360) * (point[0] - ((m_MaxTheta-1)/2.0) );
-	ScalarType phi   = ((2*vnl_math::pi) / 360) * (point[1] - ((m_MaxPhi-1)/2.0) );
-	ScalarType r = (m_FirstSampleDistance + point[2]) * m_RadiusSampleSize;
+  ScalarType theta = ((2*vnl_math::pi) / 360) * (point[0] - ((m_MaxTheta-1)/2.0) );
+  ScalarType phi   = ((2*vnl_math::pi) / 360) * (point[1] - ((m_MaxPhi-1)/2.0) );
+  ScalarType r = (m_FirstSampleDistance + point[2]) * m_RadiusSampleSize;
 
-	ScalarType cosOfTheta = cos(theta);
-	ScalarType tanOfPhi = tan(phi);
-	result[2] = sqrt((r*r*cosOfTheta*cosOfTheta)
-									 / (1 + cosOfTheta * cosOfTheta * tanOfPhi * tanOfPhi));
-	result[0] = result[2] * tan(theta);
-	result[1] = result[2] * tanOfPhi;
-	return result;
+  ScalarType cosOfTheta = cos(theta);
+  ScalarType tanOfPhi = tan(phi);
+  result[2] = sqrt((r*r*cosOfTheta*cosOfTheta)
+                   / (1 + cosOfTheta * cosOfTheta * tanOfPhi * tanOfPhi));
+  result[0] = result[2] * tan(theta);
+  result[1] = result[2] * tanOfPhi;
+  return result;
 }
-		
+    
 
 
 // Back transform a point
@@ -133,12 +133,12 @@ RT3DTransform<TScalarType, NDimensions,TParameters,TJacobianType>::InputPointTyp
 RT3DTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
 BackTransform(const OutputPointType &point) const 
 {
-	InputPointType result; 
-	if( m_ForwardIsIndexToPhysical ) 
+  InputPointType result; 
+  if( m_ForwardIsIndexToPhysical ) 
     {
     result = static_cast<InputPointType>(TransformCartesianToAzEl(point));
     }
-	else 
+  else 
     {
     result = static_cast<InputPointType>(TransformAzElToCartesian(point));
     }
@@ -153,16 +153,16 @@ RT3DTransform<TScalarType, NDimensions,TParameters,TJacobianType>::InputPointTyp
 RT3DTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
 BackTransformPoint(const OutputPointType &point) const 
 {
-	OutputPointType result; 
-	if (m_ForwardIsIndexToPhysical) 
+  OutputPointType result; 
+  if (m_ForwardIsIndexToPhysical) 
     {
     result = static_cast<InputPointType>( TransformCartesianToAzEl(point) );
     }
-	else
+  else
     {
     result = static_cast<InputPointType>( TransformAzElToCartesian(point) );
     }
-	return result;
+  return result;
 }
 
 
@@ -175,13 +175,13 @@ RT3DTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
 TransformCartesianToAzEl(const OutputPointType &point) const 
 {
   InputPointType result;       // Converted point
-	result[0] = (atan(point[0] / point[2])) * (360 / (2*vnl_math::pi)) + ((m_MaxTheta-1)/2.0);
-	result[1] = (atan(point[1] / point[2])) * (360 / (2*vnl_math::pi)) + ((m_MaxPhi-1)/2.0);
-	result[2] = ((sqrt(	point[0] * point[0] +
-											point[1] * point[1] +
-											point[2] * point[2]) 
-								/ m_RadiusSampleSize)
-							 - m_FirstSampleDistance);
+  result[0] = (atan(point[0] / point[2])) * (360 / (2*vnl_math::pi)) + ((m_MaxTheta-1)/2.0);
+  result[1] = (atan(point[1] / point[2])) * (360 / (2*vnl_math::pi)) + ((m_MaxPhi-1)/2.0);
+  result[2] = ((sqrt( point[0] * point[0] +
+                      point[1] * point[1] +
+                      point[2] * point[2]) 
+                / m_RadiusSampleSize)
+               - m_FirstSampleDistance);
   return result;
 }
 
@@ -192,19 +192,19 @@ template<class TScalarType, unsigned int NDimensions,
 void
 RT3DTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
 SetRT3DParameters(const double sampleSize, 
-									const double blanking,
-									const long maxTheta, 
-									const long maxPhi,
-									const double azimuthAngleSeparation,
-									const double elevationAngleSeparation)
+                  const double blanking,
+                  const long maxTheta, 
+                  const long maxPhi,
+                  const double azimuthAngleSeparation,
+                  const double elevationAngleSeparation)
 {
-	m_MaxPhi = maxPhi;
-	m_MaxTheta = maxTheta;
-	m_RadiusSampleSize = sampleSize;
-	m_AzimuthAngularSeparation = azimuthAngleSeparation;
-	m_ElevationAngularSeparation = elevationAngleSeparation;
-	m_Blanking = blanking;
-	m_FirstSampleDistance = blanking/sampleSize;
+  m_MaxPhi = maxPhi;
+  m_MaxTheta = maxTheta;
+  m_RadiusSampleSize = sampleSize;
+  m_AzimuthAngularSeparation = azimuthAngleSeparation;
+  m_ElevationAngularSeparation = elevationAngleSeparation;
+  m_Blanking = blanking;
+  m_FirstSampleDistance = blanking/sampleSize;
 }
 
 template<class TScalarType, unsigned int NDimensions,
@@ -212,11 +212,11 @@ template<class TScalarType, unsigned int NDimensions,
 void
 RT3DTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
 SetRT3DParameters(const double sampleSize, 
-									const double blanking,
-									const long maxTheta, 
-									const long maxPhi )
+                  const double blanking,
+                  const long maxTheta, 
+                  const long maxPhi )
 {
-	SetRT3DParameters(sampleSize, blanking, maxTheta, maxPhi, 1, 1);
+  SetRT3DParameters(sampleSize, blanking, maxTheta, maxPhi, 1, 1);
 }
 
 
@@ -227,7 +227,7 @@ void
 RT3DTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
 SetForwardIsIndexToPhysical()
 {
-	m_ForwardIsIndexToPhysical = true;
+  m_ForwardIsIndexToPhysical = true;
 }
 
 
@@ -238,7 +238,7 @@ void
 RT3DTransform<TScalarType, NDimensions,TParameters,TJacobianType>::
 SetForwardIsPhysicalToIndex()
 {
-	m_ForwardIsIndexToPhysical = false;
+  m_ForwardIsIndexToPhysical = false;
 }
 
 

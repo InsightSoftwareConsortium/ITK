@@ -176,7 +176,7 @@ MultiThreader::~MultiThreader()
 // Set the user defined method that will be run on NumberOfThreads threads
 // when SingleMethodExecute is called.
 void MultiThreader::SetSingleMethod( ThreadFunctionType f, 
-					void *data )
+          void *data )
 { 
   m_SingleMethod = f;
   m_SingleData   = data;
@@ -187,7 +187,7 @@ void MultiThreader::SetSingleMethod( ThreadFunctionType f,
 // called with index = 0, 1, ..,  NumberOfThreads-1 to set up all the
 // required user defined methods
 void MultiThreader::SetMultipleMethod( int index, 
-					  ThreadFunctionType f, void *data )
+            ThreadFunctionType f, void *data )
 { 
   // You can only set the method for 0 through NumberOfThreads-1
   if ( index >= m_NumberOfThreads ) {
@@ -305,7 +305,7 @@ void MultiThreader::SingleMethodExecute()
     m_ThreadInfoArray[thread_loop].NumberOfThreads = m_NumberOfThreads;
     process_id[thread_loop] = 
       sproc( m_SingleMethod, PR_SADDR, 
-	     ( (void *)(&m_ThreadInfoArray[thread_loop]) ) );
+       ( (void *)(&m_ThreadInfoArray[thread_loop]) ) );
     if ( process_id[thread_loop] == -1)
       {
       itkErrorMacro("sproc call failed. Code: " << errno << std::endl);
@@ -354,13 +354,13 @@ void MultiThreader::SingleMethodExecute()
 
 #ifdef ITK_HP_PTHREADS
     pthread_create( &(process_id[thread_loop]),
-		    attr, m_SingleMethod,  
-		    ( (void *)(&m_ThreadInfoArray[thread_loop]) ) );
+        attr, m_SingleMethod,  
+        ( (void *)(&m_ThreadInfoArray[thread_loop]) ) );
 #else
     int                threadError;
     threadError =
       pthread_create( &(process_id[thread_loop]), &attr, m_SingleMethod,  
-		      ( (void *)(&m_ThreadInfoArray[thread_loop]) ) );
+          ( (void *)(&m_ThreadInfoArray[thread_loop]) ) );
     if (threadError != 0)
       {
       itkErrorMacro(<< "Unable to create a thread.  pthread_create() returned "
@@ -453,7 +453,7 @@ void MultiThreader::MultipleMethodExecute()
     m_ThreadInfoArray[thread_loop].NumberOfThreads = m_NumberOfThreads;
     process_id[thread_loop] = 
       CreateThread(NULL, 0, m_MultipleMethod[thread_loop], 
-	     ((void *)(&m_ThreadInfoArray[thread_loop])), 0, &threadId);
+       ((void *)(&m_ThreadInfoArray[thread_loop])), 0, &threadId);
     if (process_id == NULL)
       {
       itkErrorMacro("Error in thread creation !!!");
@@ -498,7 +498,7 @@ void MultiThreader::MultipleMethodExecute()
     m_ThreadInfoArray[thread_loop].NumberOfThreads = m_NumberOfThreads;
     process_id[thread_loop] = 
       sproc( m_MultipleMethod[thread_loop], PR_SADDR, 
-	     ( (void *)(&m_ThreadInfoArray[thread_loop]) ) );
+       ( (void *)(&m_ThreadInfoArray[thread_loop]) ) );
     }
   
   // Now, the parent thread calls the last method itself
@@ -546,12 +546,12 @@ void MultiThreader::MultipleMethodExecute()
     m_ThreadInfoArray[thread_loop].NumberOfThreads = m_NumberOfThreads;
 #ifdef ITK_HP_PTHREADS
     pthread_create( &(process_id[thread_loop]),
-		    attr, m_MultipleMethod[thread_loop],  
-		    ( (void *)(&m_ThreadInfoArray[thread_loop]) ) );
+        attr, m_MultipleMethod[thread_loop],  
+        ( (void *)(&m_ThreadInfoArray[thread_loop]) ) );
 #else
     pthread_create( &(process_id[thread_loop]),
-		    &attr, m_MultipleMethod[thread_loop],  
-		    ( (void *)(&m_ThreadInfoArray[thread_loop]) ) );
+        &attr, m_MultipleMethod[thread_loop],  
+        ( (void *)(&m_ThreadInfoArray[thread_loop]) ) );
 #endif
     }
   
@@ -634,7 +634,7 @@ int MultiThreader::SpawnThread( ThreadFunctionType f, void *UserData )
   //
   m_SpawnedThreadProcessID[id] = 
       CreateThread(NULL, 0, f, 
-	     ((void *)(&m_SpawnedThreadInfoArray[id])), 0, &threadId);
+       ((void *)(&m_SpawnedThreadInfoArray[id])), 0, &threadId);
   if (m_SpawnedThreadProcessID[id] == NULL)
     {
     itkErrorMacro("Error in thread creation !!!");
@@ -665,12 +665,12 @@ int MultiThreader::SpawnThread( ThreadFunctionType f, void *UserData )
   
 #ifdef ITK_HP_PTHREADS
   pthread_create( &(m_SpawnedThreadProcessID[id]),
-		  attr, f,  
-		  ( (void *)(&m_SpawnedThreadInfoArray[id]) ) );
+      attr, f,  
+      ( (void *)(&m_SpawnedThreadInfoArray[id]) ) );
 #else
   pthread_create( &(m_SpawnedThreadProcessID[id]),
-		  &attr, f,  
-		  ( (void *)(&m_SpawnedThreadInfoArray[id]) ) );
+      &attr, f,  
+      ( (void *)(&m_SpawnedThreadInfoArray[id]) ) );
 #endif
 
 #endif
@@ -710,7 +710,7 @@ void MultiThreader::TerminateThread( int ThreadID )
   siginfo_t info_ptr;
 
   waitid( P_PID, (id_t) m_SpawnedThreadProcessID[ThreadID], 
-	  &info_ptr, WEXITED );
+    &info_ptr, WEXITED );
 #endif
 
 #ifdef ITK_USE_PTHREADS

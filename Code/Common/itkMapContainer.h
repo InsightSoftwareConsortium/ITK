@@ -140,7 +140,7 @@ protected:
    */
   template <typename InputIterator>
   MapContainer(InputIterator first, InputIterator last,
-		  const MapKeyCompareType& comp):
+      const MapKeyCompareType& comp):
     MapType(first, last, comp) {}  
   
 public:

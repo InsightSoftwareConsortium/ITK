@@ -108,7 +108,7 @@ ColorTable<TPixel>
     m_Color[4].Set((TPixel)0.0,(TPixel)0.9,(TPixel)0.0);
     sprintf(m_ColorName[4], "Green");
     
-	m_Color[5].Set((TPixel)0.0,(TPixel)0.0,(TPixel)0.9);
+  m_Color[5].Set((TPixel)0.0,(TPixel)0.0,(TPixel)0.9);
     sprintf(m_ColorName[5], "Blue");
 
     m_Color[6].Set((TPixel)0.7,(TPixel)0.7,(TPixel)0.7);
