@@ -95,6 +95,21 @@ RGB< TComponent >
 
 
 /**
+ *  Set the three components
+ */
+template < typename TComponent >
+void
+RGB< TComponent >
+::Set( TComponent red, TComponent green, TComponent blue )
+{
+  m_Red   = red;
+  m_Green = green;
+  m_Blue  = blue;
+}
+
+
+
+/**
  *  Get Red
  */
 template < typename TComponent >

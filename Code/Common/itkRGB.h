@@ -50,27 +50,59 @@ public:
   
  
   /**
-   * Operators
+   * Assignment Operator
    */
   const RGB & operator=( const RGB & );
 
   /**
-   * Access routines.
+   * Set the Red component
    */
   void SetRed( ComponentType red );
+
+  /**
+   * Set the Green component
+   */
   void SetGreen( ComponentType green );
+
+  /**
+   * Set the Blue component
+   */
   void SetBlue( ComponentType blue );
 
+  /**
+   * Set the three components
+   */
+  void Set( ComponentType red, ComponentType green, ComponentType blue );
+
+  /**
+   * Get the Red component
+   */
   ComponentType GetRed( void ) const;
+  
+  /**
+   * Get the Green component
+   */
   ComponentType GetGreen( void ) const;
+  
+  /**
+   * Get the Blue component
+   */
   ComponentType GetBlue( void ) const;
 
 private:
   /**
-   * Color components
+   * Red component
    */
   ComponentType  m_Red;
+  
+  /**
+   * Green component
+   */
   ComponentType  m_Green;
+  
+  /**
+   * Blue component
+   */
   ComponentType  m_Blue;
 
 };
