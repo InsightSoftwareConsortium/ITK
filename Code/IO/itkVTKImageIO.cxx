@@ -19,6 +19,7 @@
 =========================================================================*/
 #include "itkVTKImageIO.h"
 #include <stdio.h>
+#include "itkByteSwapper.h"
 
 namespace itk
 {
@@ -230,11 +231,11 @@ void VTKImageIO::InternalReadImageInformation(std::ifstream& file)
     itkExceptionMacro(<<"No dimensions defined");
     }
 
-  file.getline(line,255);
-  text = line;
-
   for ( bool readScalars=false; !readScalars; )
     {
+    file.getline(line,255);
+    text = line;
+
     if ( text.find("SPACING") < text.length() || 
          text.find("spacing") < text.length() )
       {
@@ -254,7 +255,31 @@ void VTKImageIO::InternalReadImageInformation(std::ifstream& file)
         m_Origin[i] = origin[i];
         }
       }
-  
+
+     else if ( text.find("COLOR_SCALARS") < text.length() || 
+              text.find("color_scalars") < text.length() )
+      {
+      readScalars = true;
+
+      int myscal;
+      sscanf(line, "%*s %*s %d", &myscal);
+      if ( myscal == 1 )
+        {
+          if ( this->GetFileType() == ASCII ) {
+            SetPixelType(FLOAT);
+            SetComponentType(FLOAT);
+          }
+          else {
+            SetPixelType(UCHAR);
+            SetComponentType(UCHAR);
+          }
+        }
+      else
+        {
+        itkExceptionMacro(<<"Unrecognized type");
+        }
+      }
+
     else if ( text.find("SCALARS") < text.length() || 
               text.find("scalars") < text.length() )
       {
@@ -317,10 +342,11 @@ void VTKImageIO::InternalReadImageInformation(std::ifstream& file)
         {
         itkExceptionMacro(<<"Unrecognized type");
         }
-      }//found scalars
-    
       file.getline(line,255);
       text = line;
+
+      }//found scalars
+    
       }
 }
 
@@ -340,7 +366,20 @@ void VTKImageIO::Read(void* buffer)
   else
     {
     file.read(static_cast<char*>(buffer), this->GetImageSizeInBytes());
-    }
+    int size = this->GetPixelSize();
+    switch( size )
+      {
+      case 2:
+        ByteSwapper<short>::SwapRangeFromSystemToBigEndian((short *)buffer, this->GetImageSizeInComponents() );
+        break;
+      case 4:
+        ByteSwapper<float>::SwapRangeFromSystemToBigEndian((float *)buffer, this->GetImageSizeInComponents() );
+        break;
+      case 6:
+        ByteSwapper<double>::SwapRangeFromSystemToBigEndian((double *)buffer, this->GetImageSizeInComponents() );
+        break;
+      }
+   }
 }
 
 void VTKImageIO::ReadImageInformation()
@@ -417,7 +456,20 @@ void VTKImageIO::Write(const void* buffer)
     }
   else //binary
     {
-    file.write(static_cast<const char*>(buffer), this->GetImageSizeInBytes());
+      int size = this->GetPixelSize();
+      switch( size )
+      {
+        case 2:
+          ByteSwapper<short>::SwapRangeFromSystemToBigEndian((short *)buffer, this->GetImageSizeInComponents() );
+          break;
+        case 4:
+          ByteSwapper<float>::SwapRangeFromSystemToBigEndian((float *)buffer, this->GetImageSizeInComponents() );
+          break;
+        case 6:
+          ByteSwapper<double>::SwapRangeFromSystemToBigEndian((double *)buffer, this->GetImageSizeInComponents() );
+          break;
+      }
+      file.write(static_cast<const char*>(buffer), this->GetImageSizeInBytes());
     }
 }
 
