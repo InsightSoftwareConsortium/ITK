@@ -188,7 +188,7 @@ GetStats(PointTypeDeque vertlist, double *savemean, double *savevar, int *nump)
   int num=0;
   float addp[6]={0.0,0.0,0.0,0.0,0.0,0.0};
   float addpp[6]={0.0,0.0,0.0,0.0,0.0,0.0};
-
+  int k;
   IndexType idx;
   RGBHCVPixel getp;
 
@@ -212,181 +212,209 @@ GetStats(PointTypeDeque vertlist, double *savemean, double *savevar, int *nump)
     rightP=vertlist.back();
   }
   leftP=vertlist.front();
+  PointTypeDeque tmpQ; 
+  tmpQ.clear();
+  if(leftP[0]>rightP[0]){
+    while(!(vertlist.empty())){
+      tmpQ.push_back(vertlist.front());
+      vertlist.pop_front(); 
+    }
+    while(!(tmpQ.empty())){
+      vertlist.push_front(tmpQ.front());
+      tmpQ.pop_front();
+    }
+  } 
+  tmpQ.clear();
+  leftP=vertlist.front();
+  rightP=vertlist.back();
 
-
-  int vsize = vertlist.size();
-  double beginx;
-  double beginy;
-  double endx;
-  double endy;
-  double leftendy;
-  double rightendy;
+  double beginy=currP[1];
+  int intbeginy=(int)ceil(beginy); 
+  idx[1]=intbeginy;
+  double leftendy=leftP[1];
+  double rightendy=rightP[1];
+  double beginx=currP[0];
+  double endx=currP[0];
+  double leftDx,rightDx;
   double offset;
-  double leftDx;
-  double rightDx;
+  double leftheadx=beginx;
+  double rightheadx=endx;
+  double leftheady=beginy;
+  double rightheady=beginy;
+
+  double endy;
   bool RorL;
-  bool saveRorL;
-  int intbeginx;
-  int intendx;
-  int intbeginy;
-  int intendy;
-  int i;
-  int j;
-  unsigned int k;
-
-  beginx = currP[0];
-  endx = currP[0];
-  beginy = currP[1];
-  leftendy = leftP[1];
-  rightendy = rightP[1];
-  if(leftendy > rightendy){
-    RorL = 1;
-    endy = rightendy;
+  int i,j;
+  if(leftendy>rightendy){
+    RorL=1;
+    endy=rightendy;
   }
   else{
-    RorL = 0;
-    endy = leftendy;
+    RorL=0;
+    endy=leftendy;
   }
-  intbeginy = (int)(beginy);
-  intendy = (int)endy;
+  leftDx=(leftP[0]-beginx)/(leftP[1]-beginy);
+  rightDx=(rightP[0]-endx)/(rightP[1]-beginy);
+  int intendy=(int)floor(endy);
+  if(intbeginy>intendy){ //no scanline
+    if(RorL){
+      endx=rightP[0];
+      beginx+=leftDx*(rightP[1]-beginy);
+      beginy=rightP[1];
+    }
+    else{
+      beginx=leftP[0];
+      endx+=rightDx*(leftP[1]-beginy); 
+      beginy=leftP[1];
+    }
+  }
+  else if((intbeginy==intendy) && (intbeginy==0)){ //only one scanline at 0;
+    if(RorL) endx=rightP[0];
+    else beginx=leftP[0];
+    for(i=ceil(beginx);i<=floor(endx);i++){
+      idx[0]=i;
+      num++;
+      getp=m_WorkingImage->GetPixel(idx);
+      for(k=0;k<6;k++){ 
+	    addp[k] += getp[k];
+	    addpp[k] += getp[k]*getp[k];
+	  }
+    }
+    idx[1]=idx[1]+1;
+  }
+  else{ //normal case some scanlines
+    offset=(double)intbeginy-beginy;
+    endx+=offset*rightDx;
+    beginx+=offset*leftDx;
+    while(idx[1]<=intendy){
+      for(i=ceil(beginx);i<=floor(endx);i++){
+        idx[0]=i;
+        num++;
+        getp=m_WorkingImage->GetPixel(idx);
+        for(k=0;k<6;k++){ 
+	      addp[k] += getp[k];
+	      addpp[k] += getp[k]*getp[k];
+	    }
+      }
+      endx+=rightDx;
+      beginx+=leftDx;        
+      idx[1]=idx[1]+1;
+    }
+    beginy=endy;
+  }
 
-  if(intbeginy == intendy){
-    if(RorL){
-      leftDx = (leftP[0]-beginx)/(leftP[1]-beginy);
-    }
-    else{
-      rightDx = (rightP[0]-beginx)/(rightP[1]-beginy);
-    }    
-  }
-  else{
-    leftDx = (leftP[0]-beginx)/(leftP[1]-beginy);
-    rightDx = (rightP[0]-beginx)/(rightP[1]-beginy);
-    intbeginy++;
-    offset = (double)intbeginy - beginy;  
-    if(RorL){
-      endx += offset*rightDx;
-    }
-    else{
-      beginx += offset*leftDx;
-    }
-    if(beginx < endx){
-      for(i = intbeginy;i<=intendy;i++){
-        intbeginx = (int)(beginx+1);
-        intendx = (int)endx;
-        idx[1]=i;
-        for(j = intbeginx; j < intendx; j++){
-          num++;
-		  idx[0]=j;
-		  getp=m_WorkingImage->GetPixel(idx);
-          for(k=0;k<6;k++){ 
-		    addp[k] += getp[k];
-		    addpp[k] += getp[k]*getp[k];
-		  }
-        }
-  	    beginx += leftDx;
-	    endx += rightDx;
-	  }
-    }		  
-    else{
-	  for(i = intbeginy;i<=intendy;i++){
-	    intendx = (int)(beginx+1);
-	    intbeginx = (int)endx;
-	    idx[1]=i;
-	    for(j = intbeginx; j < intendx; j++){
-          num++;
-  		  idx[0]=j;
-		  getp = m_WorkingImage->GetPixel(idx);
-          for(k=0;k<6;k++){ 
-		    addp[k] += getp[k];
-		    addpp[k] += getp[k]*getp[k];
-		  }
-        }
-	    beginx += leftDx;
-	    endx += rightDx;
-	  }
-    }		  
-  }
-  while(vsize > 1){
+  int vsize=vertlist.size();
+  while(vsize>2){
     vsize--;
     if(RorL){
-	  endx = rightP[0];
-	  beginy = rightP[1];
-	  vertlist.pop_back();
-	  rightP = vertlist.back();
-      rightDx = (rightP[0]-endx)/(rightP[1]-beginy);
-	}
-	else{
-	  beginx = leftP[0];
-	  beginy = leftP[1];
-	  vertlist.pop_front();
-	  leftP = vertlist.front();
-      leftDx = (leftP[0]-beginx)/(leftP[1]-beginy);
-	}
-	leftendy = leftP[1];
-	rightendy = rightP[1];
-	if(leftendy > rightendy){
-	  saveRorL = 1;
-	  endy = rightendy;
-	}
-	else{
-	  saveRorL = 0;
-	  endy = leftendy;
-	}
-	
-	intbeginy = (int)(beginy);
-	intendy = (int)(endy);
-	if(intbeginy == intendy){
-      i = i; //donothing;
-	}
-	else{
-	  intbeginy++;
-	  offset = (double)intbeginy - beginy;  
-      if(RorL){
-	    endx += offset*rightDx;
-	  }
-	  else{
-	    beginx += offset*leftDx;
-	  }
+      vertlist.pop_back();
+      currP=rightP;
+      rightheadx=currP[0];
+      rightheady=currP[1];
+      endx=currP[0];
+      beginx=leftheadx+leftDx*(beginy-leftheady); 
+      rightP=vertlist.back();
+      rightDx=(rightP[0]-currP[0])/(rightP[1]-currP[1]);
     }
-    if(beginx < endx){
-	  for(i = intbeginy;i<=intendy;i++){
-	    intbeginx = (int)(beginx+1);
-		intendx = (int)endx;
-	    idx[1]=i;
-		for(j = intbeginx; j < intendx; j++){
-          num++;
-		  idx[0]=j;
-		  getp = m_WorkingImage->GetPixel(idx);
-          for(k=0;k<6;k++){ 
-		    addp[k] = addp[k] + getp[k];
-		    addpp[k] += getp[k]*getp[k];
-		  }
-        }
-		beginx += leftDx;
-		endx += rightDx;
-	  }
-	}		  
     else{
-	  for(i = intbeginy;i<=intendy;i++){
-	    intendx = (int)(beginx+1);
-		intbeginx = (int)endx;
-	    idx[1]=i;
-		for(j = intbeginx; j < intendx; j++){
+      vertlist.pop_front();
+      currP=leftP;
+      leftheadx=currP[0];
+      leftheady=currP[1];
+      beginx=currP[0];
+      endx=rightheadx+rightDx*(beginy-rightheady);
+      leftP=vertlist.front();
+      leftDx=(leftP[0]-currP[0])/(leftP[1]-currP[1]);
+    }
+        
+    leftendy=leftP[1];
+    rightendy=rightP[1];
+    if(leftendy>rightendy){
+      RorL=1;
+      endy=rightendy;
+    }
+    else{
+      RorL=0;
+      endy=leftendy;
+    }
+
+    intendy=(int)floor(endy);
+    intbeginy=(int)ceil(beginy); 
+
+    if(intbeginy>intendy){ //no scanline
+      if(RorL){
+        endx=rightP[0];
+        beginx+=leftDx*(rightP[1]-beginy);
+        beginy=rightP[1];
+      }
+      else{
+        beginx=leftP[0];
+        endx+=rightDx*(leftP[1]-beginy); 
+        beginy=leftP[1];
+      }
+    }
+    else{ //normal case some scanlines
+      offset=(double)intbeginy-beginy;
+      endx+=offset*rightDx;
+      beginx+=offset*leftDx;
+      while(idx[1]<=intendy){
+        for(i=ceil(beginx);i<=floor(endx);i++){
+          idx[0]=i;
           num++;
-		  idx[0]=j;
-		  getp=m_WorkingImage->GetPixel(idx);
+          getp=m_WorkingImage->GetPixel(idx);
           for(k=0;k<6;k++){ 
-		    addp[k] += getp[k];
-		    addpp[k] += getp[k]*getp[k];
-		  }
+	        addp[k] += getp[k];
+	        addpp[k] += getp[k]*getp[k];
+	      }
         }
-		beginx += leftDx;
-		endx += rightDx;
-	  }
-	}		  
-	RorL = saveRorL;
+        endx+=rightDx;
+        beginx+=leftDx;        
+        idx[1]=idx[1]+1;
+      }
+      beginy=idx[1];
+    }
   }
 
+
+  if(RorL){
+    beginy=rightP[1];
+    endy=leftP[1];
+  }
+  else{
+    beginy=leftP[1];
+    endy=rightP[1];
+  }
+  intbeginy=(int)ceil(beginy);
+  intendy=(int)floor(endy);
+  if(intbeginy<=intendy){
+    if(RorL){
+      rightDx=(rightP[0]-leftP[0])/(rightP[1]-leftP[1]);
+      endx=rightP[0];
+      beginx=leftP[0]+leftDx*(rightP[1]-leftP[1]);
+    }
+    else{
+      leftDx=(rightP[0]-leftP[0])/(rightP[1]-leftP[1]);
+      beginx=leftP[0];
+      endx=rightP[0]+rightDx*(leftP[1]-rightP[1]);
+    }
+    offset=(double)intbeginy-beginy;
+    beginx+=offset*leftDx;
+    endx+=offset*rightDx;
+    while(idx[1]<=intendy){
+      for(i=ceil(beginx);i<=floor(endx);i++){
+        idx[0]=i;
+        num++;
+        getp=m_WorkingImage->GetPixel(idx);
+        for(k=0;k<6;k++){ 
+	      addp[k] += getp[k];
+	      addpp[k] += getp[k]*getp[k];
+	    }
+      }
+      endx+=rightDx;
+      beginx+=leftDx;        
+      idx[1]=idx[1]+1;
+    }
+  }
 
   (*nump) = num;
   if(num > 1){
@@ -590,10 +618,51 @@ void
 VoronoiSegmentationRGBImageFilter <TInputImage,TOutputImage>::
 Reset(void)
 {
+  RegionType region = m_InputImage->GetRequestedRegion();
   m_WorkingVD->SetRandomSeeds(m_NumberOfSeeds);
   m_StepsRuned = 0;
   m_LastStepSeeds=m_NumberOfSeeds;
   m_NumberOfSeedsToAdded=0;
+  itk::SimpleImageRegionIterator <RGBHCVImage> wit(m_WorkingImage, region);
+  itk::SimpleImageRegionIterator <InputImageType> iit(m_InputImage, region);
+  wit.Begin();
+  iit.Begin();
+  PixelType ipixel;
+  RGBHCVPixel wpixel;
+
+  double X;
+  double Y;
+  double Z;
+  double L;
+  double a;
+  double b;
+  double X0 = m_MaxValueOfRGB*0.982;
+  double Y0 = m_MaxValueOfRGB;
+  double Z0 = m_MaxValueOfRGB*1.183;
+
+  while( !iit.IsAtEnd()) {    
+    ipixel = iit.Get();
+    wpixel[0] = ipixel[0];
+    wpixel[1] = ipixel[1];
+    wpixel[2] = ipixel[2];
+
+    X =  0.607*ipixel[0] + 0.174*ipixel[1] + 0.201*ipixel[2];
+    Y =  0.299*ipixel[0] + 0.587*ipixel[1] + 0.114*ipixel[2];
+    Z =  0.066*ipixel[1] + 1.117*ipixel[2];
+    X = pow((X/X0),0.3333);
+    Y = pow((Y/Y0),0.3333);
+    Z = pow((Z/Z0),0.3333);
+    L = 116*Y - 16;
+    a = 500*(X - Y);
+    b = 200*(Y - Z);
+	
+    wpixel[3] = atan(b/a);     //H
+    wpixel[4] = sqrt(a*a+b*b); //C
+    wpixel[5] = L;             //V 
+    wit.Set(wpixel);
+    ++wit;
+    ++iit;
+  }
 }
 
 template <class TInputImage, class TOutputImage>
