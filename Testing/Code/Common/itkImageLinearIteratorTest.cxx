@@ -34,6 +34,7 @@ int main()
   typedef itk::Image< PixelType, ImageDimension >  ImageType;
 
   ImageType::Pointer myImage = ImageType::New();
+  ImageType::ConstPointer myConstImage = myImage.GetPointer();
   
   ImageType::SizeType size;
 
@@ -106,7 +107,7 @@ int main()
 
   
   // Verification 
-  ConstIteratorType cot( myImage, region );
+  ConstIteratorType cot( myConstImage, region );
 
   cot.GoToBegin();
   cot.SetDirection( 0 ); // 0=x, 1=y, 2=z

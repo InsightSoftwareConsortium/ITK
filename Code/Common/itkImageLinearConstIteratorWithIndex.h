@@ -112,7 +112,7 @@ public:
   
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
-  ImageLinearConstIteratorWithIndex(ImageType *ptr,
+  ImageLinearConstIteratorWithIndex(const ImageType *ptr,
                       const RegionType& region)
     : ImageConstIteratorWithIndex<TImage>( ptr, region ) {}
 
