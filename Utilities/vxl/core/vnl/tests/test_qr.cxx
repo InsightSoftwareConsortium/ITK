@@ -5,6 +5,8 @@
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_matlab_print.h>
 #include <vnl/algo/vnl_qr.h>
+#include <vnl/vnl_sample.h>
+#include <vcl_ctime.h>
 
 #include "test_util.h"
 
@@ -81,7 +83,8 @@ void new_test(T *)
 {
   unsigned m = 5; // m must be >= n when using the netlib QR algorithms,
   unsigned n = 5; // but n >= m for a random A and b to have exact solution.
-
+  
+  vnl_sample_reseed(vcl_time(0));
   vnl_matrix<T> A(m, n);
   test_util_fill_random(A.begin(), A.end());
   vnl_matlab_print(vcl_cout, A, "A");

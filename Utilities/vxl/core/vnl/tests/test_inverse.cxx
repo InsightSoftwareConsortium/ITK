@@ -3,6 +3,7 @@
 #include <vnl/vnl_double_3x3.h>
 #include <vnl/vnl_double_4x4.h>
 #include <vnl/vnl_sample.h>
+#include <vcl_ctime.h>
 
 #include <testlib/testlib_test.h>
 
@@ -34,6 +35,7 @@ void test_inverse() {
     TEST("2x2 vnl_inverse of Id", id2i, id2);
 
     double M2[4];
+    vnl_sample_reseed(vcl_time(0)); //for quasi-random initialization 
     for (int i=0; i<4; ++i) M2[i] = vnl_sample_uniform(-1.0,1.0);
     vnl_double_2x2 m2(M2);
     vnl_double_2x2 m2i = vnl_inverse(m2);

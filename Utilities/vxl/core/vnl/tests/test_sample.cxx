@@ -5,6 +5,7 @@
 #include <testlib/testlib_test.h>
 #include <vnl/vnl_math.h>
 #include <vnl/vnl_sample.h>
+#include <vcl_ctime.h>
 
 void test_sample()
 {
@@ -13,6 +14,8 @@ void test_sample()
   double sigma = 3.729;
 
   double* X = new double[N];
+  vnl_sample_reseed(vcl_time(0)); //for quasi-random initialization 
+    
   for (unsigned i=0; i<N; ++i)
     X[i] = vnl_sample_normal(mu, sigma);
 
