@@ -118,9 +118,16 @@ CurvatureNDAnisotropicDiffusionFunction<TImage>
       grad_mag_d = ::sqrt(m_MIN_NORM + grad_mag_sq_d);
 
       // Conductance Terms
-      Cx  = ::exp( grad_mag_sq   / m_K );
-      Cxd = ::exp( grad_mag_sq_d / m_K );
-
+      if (m_K == 0.0)
+        {       
+        Cx = 0.0;
+        Cxd = 0.0;
+        }
+      else
+        {
+        Cx  = ::exp( grad_mag_sq   / m_K );
+        Cxd = ::exp( grad_mag_sq_d / m_K );
+        }
       // First order normalized finite-difference conductance products
       dx_forward_Cn  = (dx_forward[i]  / grad_mag) * Cx;
       dx_backward_Cn = (dx_backward[i] / grad_mag_d) * Cxd; 
@@ -128,7 +135,6 @@ CurvatureNDAnisotropicDiffusionFunction<TImage>
       // Second order conductance-modified curvature
       speed += (dx_forward_Cn - dx_backward_Cn);
     }
-
   // ``Upwind'' gradient magnitude term
   propagation_gradient = 0.0;
   if (speed > 0)
@@ -149,8 +155,6 @@ CurvatureNDAnisotropicDiffusionFunction<TImage>
             + vnl_math_sqr( vnl_math_min(dx_forward[i],  0.0) );
         }
     }
-
-  
   return static_cast<PixelType>( ::sqrt(propagation_gradient) * speed );
 }
 
