@@ -286,6 +286,20 @@ DoEigenanalysis()
     }
 }
 
+template<class TBoundaryPointImage, class TImageTraits>
+void
+BloxCoreAtomImage<TBoundaryPointImage, TImageTraits>::
+DoCoreAtomVoting()
+{
+  itk::ImageRegionIterator<Self> bloxit = 
+    itk::ImageRegionIterator<Self>(this, this->GetLargestPossibleRegion() );
+
+  for(bloxit.GoToBegin(); !bloxit.IsAtEnd(); ++bloxit)
+    {
+	// Core atom voting code goes here
+    }
+}
+
 } // end namespace itk
 
 #endif

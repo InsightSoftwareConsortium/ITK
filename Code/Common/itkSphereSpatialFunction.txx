@@ -61,9 +61,9 @@ SphereSpatialFunction<VImageDimension>::~SphereSpatialFunction()
 }
 
 template <unsigned int VImageDimension>
-SphereSpatialFunction<VImageDimension>::TFunctionValueType
+SphereSpatialFunction<VImageDimension>::OutputType
 SphereSpatialFunction<VImageDimension>
-::Evaluate(TPositionType position)
+::Evaluate(const InputType& position) const
 {
   double acc = 0;
 

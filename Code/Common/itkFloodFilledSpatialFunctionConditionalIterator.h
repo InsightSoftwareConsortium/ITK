@@ -74,7 +74,7 @@ public:
   /**
    * Type of vector used to store location info in the spatial function
    */
-  typedef typename TFunction::TPositionType PositionType;
+  typedef typename TFunction::InputType FunctionInputType;
 
   /** 
    * Index typedef support.
@@ -228,7 +228,7 @@ protected: //made protected so other iterators can access
   /**
    * Location vector used in the flood algorithm
    */
-  PositionType m_LocationVector;
+  FunctionInputType m_LocationVector;
 
 
   bool m_FoundUncheckedNeighbor;

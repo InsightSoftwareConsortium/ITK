@@ -121,12 +121,12 @@ public:
   /**
    * Return type of function
    */
-  typedef typename TFunctionType::TFunctionValueType TFunctionValueType;
+  typedef typename TFunctionType::OutputType TFunctionValueType;
 
   /**
   * Typedef describing vector info
   */
-  typedef typename TFunctionType::TPositionType TPositionType;
+  typedef typename TFunctionType::InputType TPositionType;
 
   /** 
    * Run-time type information (and related methods).

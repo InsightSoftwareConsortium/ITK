@@ -52,7 +52,8 @@ namespace itk
  * \brief Returns whether or not a location is "inside" or "outside" a function
  *
  * InteriorExteriorSpatialFunction is a specialized version of SpatialFunction
- * where the function value is a boolean.
+ * where the output type is a boolean. In particular, the return type is understood
+ * to mean the following:
  *
  * A return of 1 means inside or on the surface of the function,
  * 0 means outside the function
@@ -61,6 +62,10 @@ namespace itk
  * the standard assumption is that "inside" means "bounded by a closed surface",
  * alternative definitions are also fine. For example, inside might be one side
  * of a plane, outside the other side.
+ *
+ * A typical use for an InteriorExteriorSpatialFunction is to generate test
+ * primitives of arbitrary dimensionality, in conjunction with
+ * itk::SpatialFunctionImageEvaluatorFilter or itk::FloodFilledSpatialFunctionConditionalIterator
  *
  * \ingroup SpatialFunctions
  * */
@@ -72,17 +77,6 @@ class ITK_EXPORT InteriorExteriorSpatialFunction : public
   public:
 
   /**
-   * Vector typedef - use this type to pass an evaluation
-   * location to the function
-   */
-  typedef Point<double, VImageDimension> TPositionType;
-
-  /**
-   * The type of data that is returned by an evaluate() call
-   */
-  typedef bool TFunctionValueType;
-
-  /**
    * Standard "Self" typedef.
    */
   typedef InteriorExteriorSpatialFunction Self;
@@ -90,7 +84,17 @@ class ITK_EXPORT InteriorExteriorSpatialFunction : public
   /**
    * Standard "Superclass" typedef.
    */
-  typedef SpatialFunction<TFunctionValueType, VImageDimension> Superclass;
+  typedef SpatialFunction<bool, VImageDimension> Superclass;
+
+  /**
+   * Input type for the function
+   */
+  typedef typename Superclass::InputType InputType;
+
+  /**
+   * Output type for the function
+   */
+  typedef typename Superclass::OutputType OutputType;
   
   /** 
    * Smart pointer typedef support.
@@ -114,7 +118,7 @@ class ITK_EXPORT InteriorExteriorSpatialFunction : public
   * 0 means outside the function
   * The actual definition of inside/outside is left up to the subclass
   */
-  virtual TFunctionValueType Evaluate(TPositionType position) = 0;
+  virtual OutputType Evaluate( const InputType& input ) const = 0;
 
 protected:
   InteriorExteriorSpatialFunction();

@@ -41,8 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef __itkSpatialFunction_h
 #define __itkSpatialFunction_h
 
-#include "itkObject.h"
-#include "itkObjectFactory.h"
+#include "itkFunctionBase.h"
 #include "itkPoint.h"
 
 namespace itk
@@ -52,34 +51,25 @@ namespace itk
  * \class SpatialFunction
  * \brief N-dimensional spatial function class
  *
- * SpatialFunction is based on its implicit VTK counterpart. It provides
- * the ability to evaluate a function  at an arbitrary point in space,
- * defined by an n-dimensional VNL vector of doubles. Spatial
- * functions are defined at all points in n-dimensional space; evaluation
- * of spatial functions occurs irrespective of images, meshes, or other
- * data storage types.
+ * itk::SpatialFunction provides the ability to define functions that can
+ * be evluated at an arbitrary point in space (physical or otherwise). The return
+ * type is specified by the derived class, and the input to the function
+ * is an n-dimensional itk::Point.
  *
- * SpatialFunction is templated over function value type (the data type
+ * Although itk::ImageFunction and itk::SpatialFunction are quite similar,
+ * itk::SpatialFunction derived classes exist without reference to an Image
+ * type.
+ *
+ * SpatialFunction is templated over output type (the data type
  * returned by an evaluate() call) and dimensionality.
  *
  * \ingroup SpatialFunctions
  */
 
-template <typename TFunctionValue, unsigned int VImageDimension=3>
-class ITK_EXPORT SpatialFunction : public Object
+template <typename TOutput, unsigned int VImageDimension=3>
+class ITK_EXPORT SpatialFunction : public FunctionBase<Point<double, VImageDimension>, TOutput>
 {
   public:
-
- /**
-   * Point typedef - use this type to pass an evaluation
-   * location to the function
-   */
-  typedef Point<double, VImageDimension> TPositionType;
-
-  /**
-   * The type of data that is returned by an evaluate() call
-   */
-  typedef TFunctionValue TFunctionValueType;
 
   /**
    * Standard "Self" typedef.
@@ -89,8 +79,18 @@ class ITK_EXPORT SpatialFunction : public Object
   /**
    * Standard "Superclass" typedef.
    */
-  typedef Object Superclass;
-  
+  typedef FunctionBase<Point<double, VImageDimension>, TOutput> Superclass;
+
+  /**
+   * Input type for the function
+   */
+  typedef typename Superclass::InputType InputType;
+
+  /**
+   * Output type for the function
+   */
+  typedef typename Superclass::OutputType OutputType;
+
   /** 
    * Smart pointer typedef support.
    */
@@ -100,7 +100,7 @@ class ITK_EXPORT SpatialFunction : public Object
   /** 
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(SpatialFunction,Object);
+  itkTypeMacro(SpatialFunction, FunctionBase);
 
   /**
    * Method for creation through the object factory.
@@ -109,9 +109,9 @@ class ITK_EXPORT SpatialFunction : public Object
 
   /**
   * Evaluate the function at a given position. Remember, position is
-  * represented by a TVectorType object, which uses VNL vector syntax
+  * represented by an n-d itk::Point object with data type double
   */
-  virtual TFunctionValueType Evaluate(TPositionType position) = 0;
+  virtual OutputType Evaluate( const InputType& input ) const = 0;
 
 protected:
   SpatialFunction();

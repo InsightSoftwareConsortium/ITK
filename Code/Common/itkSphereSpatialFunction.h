@@ -73,15 +73,25 @@ public:
    */
   typedef InteriorExteriorSpatialFunction<VImageDimension> Superclass;
   
+  /**
+   * Input type for the function
+   */
+  typedef typename Superclass::InputType InputType;
+
+  /**
+   * Output type for the function
+   */
+  typedef typename Superclass::OutputType OutputType;
+
   /** 
    * Smart pointer typedef support.
    */
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-  
-  typedef typename Superclass::TFunctionValueType TFunctionValueType;
-  typedef typename Superclass::TPositionType TPositionType;
 
+  /** 
+   * Run-time type information (and related methods).
+   */
   itkTypeMacro(SphereSpatialFunction,InteriorExteriorSpatialFunction);
 
   /**
@@ -92,14 +102,14 @@ public:
   /**
    * Evaluates the function at a given position
    */
-  TFunctionValueType Evaluate(TPositionType position);
+  OutputType Evaluate(const InputType& position) const;
 
   /**
    * Get and set the center of the sphere
    */
 
-  itkGetMacro( Center, TPositionType);
-  itkSetMacro( Center, TPositionType);
+  itkGetMacro( Center, InputType);
+  itkSetMacro( Center, InputType);
 
   /**
    * Get and set the radius of the sphere
@@ -118,9 +128,9 @@ protected:
 private:
 
   /**
-   * The center of the sphere
+   * The center of the sphere (of the same type as Input)
    */
-  TPositionType m_Center;
+  InputType m_Center;
 
   /**
    * The radius of the sphere

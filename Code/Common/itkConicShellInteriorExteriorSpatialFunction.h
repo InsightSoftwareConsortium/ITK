@@ -91,9 +91,16 @@ public:
    * Standard "Superclass" typedef.
    */
   typedef InteriorExteriorSpatialFunction<VImageDimension> Superclass;
+  
+  /**
+   * Input type for the function
+   */
+  typedef typename Superclass::InputType InputType;
 
-  typedef typename Superclass::TFunctionValueType TFunctionValueType;
-  typedef typename Superclass::TPositionType TPositionType;
+  /**
+   * Output type for the function
+   */
+  typedef typename Superclass::OutputType OutputType;
 
   /**
    * The type of vector used to store the gradient info
@@ -116,16 +123,13 @@ public:
   /**
    * Evaluates the function at a given position
    */
-  TFunctionValueType Evaluate(TPositionType position);
+  OutputType Evaluate(const InputType& position) const;
 
-  itkGetMacro( Origin, TPositionType);
-  itkSetMacro( Origin, TPositionType);
+  itkGetMacro( Origin, InputType);
+  itkSetMacro( Origin, InputType);
 
   TGradientType GetOriginGradient() {return m_OriginGradient;}
   void SetOriginGradient(TGradientType grad) {m_OriginGradient = grad;}
-
-  //itkGetMacro( OriginGradient, TGradientType);
-  //itkSetMacro( OriginGradient, TGradientType);
 
   itkGetMacro( DistanceMin, double);
   itkSetMacro( DistanceMin, double);
@@ -152,7 +156,7 @@ private:
   /**
    * The origin of the conic shell
    */
-  TPositionType m_Origin;
+  InputType m_Origin;
 
   /**
    * The gradient at the origin

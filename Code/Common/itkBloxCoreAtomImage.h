@@ -202,6 +202,11 @@ public:
    */
   void DoEigenanalysis();
 
+  /**
+   * Core atom voting routine
+   */
+  void DoCoreAtomVoting();
+
   /*@{
    * Gets and sets for member variables
    */

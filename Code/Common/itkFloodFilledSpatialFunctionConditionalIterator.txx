@@ -186,7 +186,7 @@ bool
 FloodFilledSpatialFunctionConditionalIterator<TImage, TFunction>
 ::IsPixelIncluded(IndexType index)
 {
-  PositionType position;
+  FunctionInputType position;
 
   for (int ii = 0; ii < NDimensions; ++ii)
     position[ii] = index[ii]*m_ImageSpacing[ii]+m_ImageOrigin[ii];
