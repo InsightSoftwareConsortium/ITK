@@ -28,6 +28,9 @@ TARGET_LINK_LIBRARIES(ImageRegistration8 ITKNumerics ITKIO)
 ADD_EXECUTABLE(ImageRegistration9 ImageRegistration9.cxx )
 TARGET_LINK_LIBRARIES(ImageRegistration9 ITKNumerics ITKIO)
 
+ADD_EXECUTABLE(ImageRegistration10 ImageRegistration10.cxx )
+TARGET_LINK_LIBRARIES(ImageRegistration10 ITKNumerics ITKIO)
+
 ADD_EXECUTABLE(MultiResImageRegistration1 MultiResImageRegistration1.cxx )
 TARGET_LINK_LIBRARIES(MultiResImageRegistration1 ITKNumerics ITKIO)
 
@@ -128,6 +131,7 @@ ADD_TEST(ImageRegistration9Test ${REGISTRATION_EXAMPLES3}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17.png
         ${TEMP}/ImageRegistration9Test.png
 )
+
 
 ADD_TEST(MultiResImageRegistration1Test ${REGISTRATION_EXAMPLES2}
   --compare ${BASELINE}/MultiResImageRegistration1Test.png
