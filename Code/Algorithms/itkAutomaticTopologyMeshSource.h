@@ -53,6 +53,9 @@ public:
 /** \class itkAutomaticTopologyMeshSource.h
  * \brief Convenience class for generating simple meshes.  
  *
+ * NOTE: THIS IS STILL UNDER DEVELOPMENT, BUT HAS BEEN CHECKED IN FOR
+ * TESTING PURPOSES.  (2002-05-14)
+ *
  * This generates an N-dimensional mesh consisting of some combination
  * of vertices, line segments, triangles, quadrilaterals, tetrahedra,
  * and hexahedra.  Identifiers for the cells are automatically added,
