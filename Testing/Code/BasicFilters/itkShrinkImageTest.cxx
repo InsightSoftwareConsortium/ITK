@@ -39,6 +39,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
 #include <iostream>
+#include "itkImage.h"
 #include "itkPhysicalImage.h"
 #include "itkImageRegionIterator.h"
 #include "itkScalar.h"
@@ -46,6 +47,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 int main()
 {
+  // typedefs to simplify the syntax
+  typedef itk::Image<itk::Scalar<short>, 2>   SimpleImage;
+  SimpleImage::Pointer simpleImage = SimpleImage::New();
+  std::cout << "Simple image spacing: " << simpleImage->GetSpacing()[0] << ", "
+            << simpleImage->GetSpacing()[1] << std::endl;
+  
   // typedefs to simplify the syntax
   typedef itk::PhysicalImage<itk::Scalar<short>, 2>   ShortImage;
 

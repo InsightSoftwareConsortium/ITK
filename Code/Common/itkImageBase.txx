@@ -41,9 +41,52 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef _itkImageBase_txx
 #define _itkImageBase_txx
 #include "itkImageBase.h"
+#include "itkFastMutexLock.h"
 
 namespace itk
 {
+
+/**
+ * Helper class that will be used in GetSpacing() for an ImageBase.
+ * ImageBase::GetSpacing() is defined to be 1,1,1. For efficiency, we
+ * only want to fill a vector once with 1's for each possible dimension.
+ */
+template<unsigned int VImageDimension>
+class StaticSpacing
+{
+ public:
+  static void Initialize()
+  {
+    static bool initialized = false;
+    static SimpleFastMutexLock StaticSpacingCriticalSection;
+
+    // static variable, initialize only once
+    StaticSpacingCriticalSection.Lock();
+    if (!initialized)
+      {
+      initialized = true;
+      for (int i=0; i < VImageDimension; i++)
+        {
+        m_Spacing[i] = 1.0;
+        }
+      }
+    StaticSpacingCriticalSection.Unlock();
+  }
+
+  static double *GetSpacing()
+  {
+    return m_Spacing;
+  }
+ protected:
+  static double m_Spacing[VImageDimension];
+};
+
+// Initialize static variable to zero.  It will be set to 1,1,1 by the first
+// call to Initialize()
+template<unsigned int VImageDimension>
+double StaticSpacing<VImageDimension>::m_Spacing[VImageDimension] = {0.0};
+
+
   
 /**
  *
@@ -53,6 +96,11 @@ ImageBase<VImageDimension>
 ::ImageBase()
 {
   memset( m_OffsetTable, 0, (VImageDimension+1)*sizeof(unsigned long) );
+
+  // Call a helper class that builds a static variable of the current dimension
+  // in a thread safe manner for use by GetSpacing(). This ImageBase of the
+  // prescribe dimension will initialize the variable for all to use.
+  StaticSpacing<VImageDimension>::Initialize();
 }
 
 
@@ -86,21 +134,7 @@ const double *
 ImageBase<VImageDimension>
 ::GetSpacing() const
 {
-  // Use a static local variable so the storage for the response is
-  // always available
-  static double spacing[VImageDimension];
-  static bool initialized = false;
-
-  if (!initialized)
-    {
-    initialized = true;
-    for (int i=0; i < VImageDimension; i++)
-      {
-      spacing[i] = 1.0;
-      }
-    }
-
-  return spacing;
+  return StaticSpacing<VImageDimension>::GetSpacing();
 }
 
 
