@@ -13,13 +13,6 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/**
- * MapContainer
- *
- * Define a front-end to the STL "map" container that conforms to the
- * IndexedContainer interface.  This is a full-fleged Object, so
- * there is modification time, debug, and reference count information.
- */
 #ifndef __itkMapContainer_h
 #define __itkMapContainer_h
 
@@ -32,16 +25,20 @@
 namespace itk
 {
 
-/**
+/** \class MapContainer
+ * Define a front-end to the STL "map" container that conforms to the
+ * IndexedContainer interface.  This is a full-fleged Object, so
+ * there is modification time, debug, and reference count information.
+ *
  * Template parameters for MapContainer:
  *
  * TElementIdentifier =
  *    A type that shall be used to index the container.
  *    It must have a < operator defined for ordering.
+ *
  * TElement =
  *    The element type stored in the container.
  */
-
 template <typename TElementIdentifier, typename TElement>
 class MapContainer:
   public Object,
@@ -49,12 +46,16 @@ class MapContainer:
 {
 public:
   /**
-   * Smart pointer typedef support.
+   * Standard "Self" typedef.
    */
   typedef MapContainer        Self;
+  
+  /**
+   * Smart pointer typedef support.
+   */
   typedef SmartPointer<Self>  Pointer;
 
-  /**
+  /** \typedef
    * Save the template parameters.
    */
   typedef TElementIdentifier  ElementIdentifier;
@@ -72,19 +73,35 @@ protected:
    * map constructors.  These are for internal use only since this is also
    * an Object which must be constructed through the "New()" routine.
    */
+  
+  /**
+   *
+   */
   MapContainer():
     Map() {}
 
+  /**
+   *
+   */
   MapContainer(const key_compare& comp):
     Map(comp) {}
 
+  /**
+   *
+   */
   MapContainer(const Self& r):
     Map(r) {}
   
+  /**
+   *
+   */
   template <typename InputIterator>
   MapContainer(InputIterator first, InputIterator last):
     Map(first, last) {}
 
+  /**
+   *
+   */
   template <typename InputIterator>
   MapContainer(InputIterator first, InputIterator last,
 		  const key_compare& comp):
@@ -97,7 +114,7 @@ public:
   itkNewMacro(Self);
   
   /**
-   * Define types needed for the interface.
+   * The const iterator type for the map.
    */
   typedef Map::const_iterator  ConstIterator;
   

@@ -37,7 +37,7 @@ namespace itk
  * an API to perform operations on points, cells, boundaries, etc., but
  * does not tie down the underlying implementation and storage.  A
  * "MeshType" structure is used to define the container and identifier
- * types that will be used to access the mesh.  See itkMeshTypeDefault.h
+ * types that will be used to access the mesh.  See MeshTypeDefault
  * for the set of type definitions needed.  All types that are defined
  * in the "MeshType" structure will have duplicate typedefs in the resulting
  * mesh itself.
@@ -60,6 +60,7 @@ namespace itk
  *
  * TPixelType =
  *     The type stored as data for an entity (cell, point, or boundary).
+ *
  * TMeshType =
  *     Type information structure for the mesh.
  */
@@ -136,8 +137,7 @@ public:
   typedef typename
      PointCellLinksContainer::const_iterator  PointCellLinksContainerIterator;
   
-  
-  /**
+  /** \typedef
    * A useful rename.
    */
   typedef CellFeatureIdentifier  CellFeatureCount;

@@ -158,8 +158,7 @@ MapContainer< TElementIdentifier , TElement >
 
 
 /**
- * Pass through calls for begin/end iterator requests to underlying
- * container.
+ * Get a begin const iterator for the map.
  */
 template <typename TElementIdentifier, typename TElement>
 MapContainer< TElementIdentifier , TElement >::ConstIterator
@@ -169,6 +168,10 @@ MapContainer< TElementIdentifier , TElement >
   return this->Map::begin();
 }
 
+
+/**
+ * Get an end const iterator for the map.
+ */
 template <typename TElementIdentifier, typename TElement>
 MapContainer< TElementIdentifier , TElement >::ConstIterator
 MapContainer< TElementIdentifier , TElement >

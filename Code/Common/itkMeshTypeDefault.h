@@ -98,7 +98,8 @@ public:
   typedef Point< PointDimension , CoordRep >  Point;
 
   /**
-   * The container type for use in storing points.
+   * The container type for use in storing points.  It must conform to
+   * the IndexedContainer interface.
    */
   typedef VectorContainer< PointIdentifier , Point >  PointsContainer;
 
@@ -121,7 +122,8 @@ public:
   typedef CellInterface< PixelType , CellType >  Cell;
   
   /**
-   * The container type for use in storing cells.
+   * The container type for use in storing cells.  It must conform to
+   * the IndexedContainer interface.
    */
   typedef VectorContainer< CellIdentifier , Cell::Pointer >
         CellsContainer;
@@ -134,33 +136,36 @@ public:
         PointCellLinksContainer;
 
   /**
-   * The container type for use in storing point links back to cells.
+   * The container type for use in storing point links back to cells.]
+   * It must conform to the IndexedContainer interface.
    */
   typedef VectorContainer< PointIdentifier , PointCellLinksContainer >
         CellLinksContainer;
 
   /**
-   * The container type for use in storing point data.
+   * The container type for use in storing point data.  It must conform to
+   * the IndexedContainer interface.
    */
   typedef VectorContainer< PointIdentifier , PixelType >
         PointDataContainer;
 
   /**
-   * The container type for use in storing cell data.
+   * The container type for use in storing cell data.  It must conform to
+   * the IndexedContainer interface.
    */
   typedef VectorContainer< CellIdentifier , PixelType >
         CellDataContainer;
 
   /**
    * The container type for use in storing explicitly created
-   * boundaries.
+   * boundaries.  It must conform to the IndexedContainer interface.
    */
   typedef VectorContainer< BoundaryIdentifier , Cell::Pointer >
         BoundariesContainer;
 
   /**
    * The container type for use in storing data for explicitly
-   * created boundaries.
+   * created boundaries.  It must conform to the IndexedContainer interface.
    */
   typedef VectorContainer< BoundaryIdentifier , PixelType >
         BoundaryDataContainer;

@@ -13,8 +13,17 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/**
- * Define the "IndexedContainer" interface.  This should only be used for
+#ifndef __itkIndexedContainer_h
+#define __itkIndexedContainer_h
+
+#include "itkObject.h"
+#include "itkSmartPointer.h"
+
+namespace itk
+{
+
+/** \class IndexedContainer
+ * The "IndexedContainer" interface.  This should only be used for
  * reference when writing containers conforming to this interface.  ITK
  * uses generic programming to allow container type substitution, so
  * polymorphism is not needed to use containers through this interface.  This
@@ -27,22 +36,13 @@
  * value".  This value is equal to the default contstructor of the
  * Element type.  Also note that all non-const methods assume that the
  * container was modified, and update the modification time.
- */
-#ifndef __itkIndexedContainer_h
-#define __itkIndexedContainer_h
-
-#include "itkObject.h"
-#include "itkSmartPointer.h"
-
-namespace itk
-{
-
-/**
+ *
  * Template parameters for IndexedContainer:
  *
  * TElementIdentifier =
  *    A type that shall be used to index the container.
  *    It must have a < operator defined for ordering.
+ *
  * TElement =
  *    The element type stored in the container.
  */
@@ -51,12 +51,16 @@ class IndexedContainer: public itkObject
 {
 public:
   /**
-   * Smart pointer typedef support.
+   * Standard "Self" typedef.
    */
   typedef IndexedContainer      Self;
+  
+  /**
+   * Smart pointer typedef support.
+   */
   typedef SmartPointer< Self >  Pointer;
 
-  /**
+  /** \typedef
    * Save the template parameters.
    */
   typedef TElementIdentifier  ElementIdentifier;
@@ -66,7 +70,7 @@ public:
    * This is an "indexed" container, so we provide the indexing methods.
    */
   
-  /*
+  /**
    * Get a reference to an existing element.
    * It is NOT guaranteed that the element will or will not be created if it
    * doesn't exist.  This behavior is implementation-specific.
@@ -76,7 +80,7 @@ public:
    */
   virtual Element& ElementAt(ElementIdentifier)=0;
 
-  /*
+  /**
    * Get a reference to an existing element.
    * It is guaranteed that the element will be inserted with a default
    * value if it does not exist.
@@ -139,15 +143,29 @@ public:
   virtual void DeleteIndex(ElementIdentifier)=0;
   
   /**
-   * Support const iteration operations through container.
+   * Support const iteration operations through a container.
    *
    * Dereferencing the iterator must produce a pair whose first member is the
    * element identifier, and whose second is the element itself.
    * This is similar to STL map iterators.
+   *
+   * For front-ends to STL containers that already have a conforming iterator
+   * type (like the STL map), the following typedef can be used instead
+   * of creating an iterator by hand:
+   *
+   * typedef UnderlyingContainer::const_iterator  ConstIterator; 
    */
-  // typedef UnderlyingContainer::const_iterator  ConstIterator; 
-  // ConstIterator Begin()
-  // ConstIterator End()
+  class ConstIterator {}; 
+  
+  /**
+   * Get a begin const iterator for the container.
+   */  
+  ConstIterator Begin()=0;
+  
+  /**
+   * Get an end const iterator for the container.
+   */
+  ConstIterator End()=0;
 };
 
 } // namespace itk

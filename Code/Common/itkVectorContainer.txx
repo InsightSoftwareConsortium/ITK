@@ -189,8 +189,7 @@ VectorContainer< TElementIdentifier , TElement >
 
 
 /**
- * Pass through calls for begin/end iterator requests to underlying
- * container and use the result to construct our own iterator.
+ * Get a begin const iterator for the vector.
  */
 template <typename TElementIdentifier, typename TElement>
 VectorContainer< TElementIdentifier , TElement >::ConstIterator
@@ -200,6 +199,10 @@ VectorContainer< TElementIdentifier , TElement >
   return ConstIterator(0, this->Vector::begin());
 }
 
+
+/**
+ * Get an end const iterator for the vector.
+ */
 template <typename TElementIdentifier, typename TElement>
 VectorContainer< TElementIdentifier , TElement >::ConstIterator
 VectorContainer< TElementIdentifier , TElement >

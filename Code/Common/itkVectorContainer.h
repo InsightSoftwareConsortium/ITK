@@ -13,13 +13,6 @@
   See COPYRIGHT.txt for copyright details.
 
 =========================================================================*/
-/**
- * VectorContainer
- *
- * Define a front-end to the STL "vector" container that conforms to the
- * IndexedContainer interface.  This is a full-fleged Object, so
- * there is modification time, debug, and reference count information.
- */
 #ifndef __itkVectorContainer_h
 #define __itkVectorContainer_h
 
@@ -33,11 +26,16 @@
 namespace itk
 {
 
-/**
+/** \class VectorContainer
+ * Define a front-end to the STL "vector" container that conforms to the
+ * IndexedContainer interface.  This is a full-fleged Object, so
+ * there is modification time, debug, and reference count information.
+ *
  * Template parameters for VectorContainer:
  *
  * TElementIdentifier =
  *     An INTEGRAL type for use in indexing the vector.
+ *
  * TElement =
  *    The element type stored in the container.
  */
@@ -52,12 +50,16 @@ class VectorContainer:
 {
 public:
   /**
-   * Smart pointer typedef support.
+   * Standard "Self" typedef.
    */
   typedef VectorContainer     Self;
-  typedef SmartPointer<Self>  Pointer;
   
   /**
+   * Smart pointer typedef support.
+   */
+  typedef SmartPointer<Self>  Pointer;
+  
+  /** \typedef
    * Save the template parameters.
    */
   typedef TElementIdentifier  ElementIdentifier;
@@ -75,18 +77,34 @@ protected:
    * vector constructors.  These are for internal use only since this is also
    * an Object which must be constructed through the "New()" routine.
    */
+  
+  /**
+   *
+   */
   VectorContainer():
     Vector() {}
   
+  /**
+   *
+   */
   VectorContainer(size_type n):
     Vector(n) {}
   
+  /**
+   *
+   */
   VectorContainer(size_type n, const Element& x):
     Vector(n, x) {}
   
+  /**
+   *
+   */
   VectorContainer(const Self& r):
     Vector(r) {}
   
+  /**
+   *
+   */
   template <typename InputIterator>
   VectorContainer(InputIterator first, InputIterator last):
     Vector(first, last) {}
@@ -98,17 +116,21 @@ public:
   itkNewMacro(Self);
   
   /**
-   * Define types needed for the interface.
+   * The type created by the dereference of a ConstIterator.
    */
   typedef std::pair< const ElementIdentifier , Element >  ValueType;
   
   /**
-   * Create a const iterator which simulates the identifier being in the
-   * container with the element.
+   * A const iterator simulates simulates the STL map container style
+   * iterator to make it look like the index is stored in the container
+   * with the element in a pair.
    */
   class ConstIterator
   {
   public:
+    /**
+     * Standard "Self" typedef.
+     */
     typedef ConstIterator Self;
 
     ConstIterator(ElementIdentifier p, const Vector::const_iterator& r):
@@ -124,7 +146,14 @@ public:
     bool operator!=(const Self& r) const { return (iter != r.iter); }
     
   private:
+    /**
+     * The real STL vector iterator.
+     */
     Vector::const_iterator iter;
+    
+    /**
+     * The simulated other-half of the ValueType pair.
+     */
     ElementIdentifier pos;
   };
   
