@@ -114,7 +114,7 @@ public:
   /** Subtract a vector from a point. Return a new point. */
   Self operator-(const VectorType &vec) const;
 
-  /** Access an element of a point. This version can be used as an lvalue. */
+  /** Access an element of a point. */
   VectorType GetVectorFromOrigin() const;
 
   /** Get a vnl_vector_ref referencing the same memory block */
