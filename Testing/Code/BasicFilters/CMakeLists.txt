@@ -57,6 +57,10 @@ ADD_TEST(itkDerivativeImageFilterTest ${BASIC_FILTERS_TESTS} itkDerivativeImageF
 ADD_TEST(itkDeformationFieldInverseImageFilterTest ${BASIC_FILTERS_TESTS} itkDeformationFieldInverseImageFilterTest
            ${TEMP}/itkDeformationFieldInverseImageFilterTest.mha
            )
+ADD_TEST(itkDeformationFieldSourceTest ${BASIC_FILTERS_TESTS} itkDeformationFieldSourceTest
+           ${TEMP}/itkDeformationFieldSourceTestLandmarks.txt
+           ${TEMP}/itkDeformationFieldSourceTest.mha
+           )
 ADD_TEST(itkDifferenceOfGaussiansGradientTest ${BASIC_FILTERS_TESTS} itkDifferenceOfGaussiansGradientTest)
 ADD_TEST(itkDiscreteGaussianImageFilterTest ${BASIC_FILTERS_TESTS} itkDiscreteGaussianImageFilterTest)
 ADD_TEST(itkDivideImageFilterTest ${BASIC_FILTERS_TESTS} itkDivideImageFilterTest)
@@ -454,6 +458,7 @@ itkCyclicReferences.cxx
 itkDanielssonDistanceMapImageFilterTest.cxx
 itkDerivativeImageFilterTest.cxx
 itkDeformationFieldInverseImageFilterTest.cxx
+itkDeformationFieldSourceTest.cxx
 itkDifferenceOfGaussiansGradientTest.cxx
 itkDiscreteGaussianImageFilterTest.cxx
 itkDivideImageFilterTest.cxx
