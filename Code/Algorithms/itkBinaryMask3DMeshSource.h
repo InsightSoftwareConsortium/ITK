@@ -25,7 +25,7 @@
 #include "itkTriangleCell.h"
 #include "itkCovariantVector.h"
 #include "itkDefaultStaticMeshTraits.h"
-#include "itkImageRegionIteratorWithIndex.h"
+#include "itkImageRegionIterator.h"
 
 namespace itk
 {
@@ -88,7 +88,7 @@ public:
   /** Type definition for the classified image index type. */
   typedef typename BinaryImageType::IndexType       BinaryImageIndexType;
 
-  typedef ImageRegionIteratorWithIndex<BinaryImageType> BinaryImageIterator;
+  typedef ImageRegionIterator<BinaryImageType> BinaryImageIterator;
 
   itkSetMacro(BinaryImage, BinaryImageType::Pointer);
   itkSetMacro(ObjectValue, unsigned char);
