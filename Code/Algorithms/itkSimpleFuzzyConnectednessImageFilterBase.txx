@@ -21,6 +21,7 @@
 #include "vnl/vnl_math.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkNumericTraits.h"
+#include "itkProgressReporter.h"
 
 namespace itk{
 
@@ -54,22 +55,22 @@ void
 SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
 ::PushNeighbors(const IndexType &center)
 {
-  IndexType current=center;
+  IndexType currentIndex =center;
     
   for(unsigned int i = 0; i < ImageDimension; i++)
     {
-    if(current[i] < static_cast<typename IndexType::IndexValueType>(m_Size[i])-1)
+    if( currentIndex[i] < static_cast<typename IndexType::IndexValueType>(m_Size[i])-1)
       {
-      current[i]++;
-      m_Queue.push(current);
-      current[i]--;
+      currentIndex[i]++;
+      m_Queue.push(currentIndex);
+      currentIndex[i]--;
       }
   
-    if(current[i]>0)
+    if(currentIndex[i]>0)
       {
-      current[i]--;
-      m_Queue.push(current);
-      current[i]++;
+      currentIndex[i]--;
+      m_Queue.push(currentIndex);
+      currentIndex[i]++;
       }
     }
 }
@@ -79,29 +80,29 @@ double
 SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
 ::FindStrongPath(const IndexType &center)
 {
-  IndexType current = center;
+  IndexType currentIndex = center;
   double tmp=0;
   double tmp1;
   double tmp2;
 
-  PixelType centerpixel = m_InputImage->GetPixel(current);
+  PixelType centerpixel = m_InputImage->GetPixel(currentIndex);
 
-  if(current[0] > 0)
+  if(currentIndex[0] > 0)
     {
-    current[0]--;
-    tmp = (double)(m_FuzzyScene->GetPixel(current));
-    tmp1 = FuzzyAffinity(m_InputImage->GetPixel(current),centerpixel);
+    currentIndex[0]--;
+    tmp = (double)(m_FuzzyScene->GetPixel(currentIndex));
+    tmp1 = this->FuzzyAffinity(m_InputImage->GetPixel(currentIndex),centerpixel);
     if(tmp > tmp1)
       {
       tmp=tmp1;
       }
-    current[0]++;
+    currentIndex[0]++;
     }
-  if(current[0] < static_cast<typename IndexType::IndexValueType>(m_Size[0])-1)
+  if(currentIndex[0] < static_cast<typename IndexType::IndexValueType>(m_Size[0])-1)
     {
-    current[0]++;  
-    tmp2 = (double)(m_FuzzyScene->GetPixel(current));
-    tmp1 = FuzzyAffinity(m_InputImage->GetPixel(current), centerpixel);
+    currentIndex[0]++;  
+    tmp2 = (double)(m_FuzzyScene->GetPixel(currentIndex));
+    tmp1 = this->FuzzyAffinity(m_InputImage->GetPixel(currentIndex), centerpixel);
     if(tmp2 > tmp1)
       {
       tmp2 = tmp1;
@@ -109,17 +110,17 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
     if(tmp < tmp2){
     tmp = tmp2;
     }
-    current[0]--;
+    currentIndex[0]--;
     }
 
   
   for(unsigned int i = 1;i < ImageDimension; i++)
     {
-    if(current[i] > 0)
+    if(currentIndex[i] > 0)
       {
-      current[i]--;
-      tmp2 = (double)(m_FuzzyScene->GetPixel(current));
-      tmp1 = FuzzyAffinity(m_InputImage->GetPixel(current), centerpixel);
+      currentIndex[i]--;
+      tmp2 = (double)(m_FuzzyScene->GetPixel(currentIndex));
+      tmp1 = this->FuzzyAffinity(m_InputImage->GetPixel(currentIndex), centerpixel);
       if(tmp2 > tmp1)
         {
         tmp2 = tmp1;
@@ -128,13 +129,13 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
         {
         tmp = tmp2;
         }
-      current[i]++;
+      currentIndex[i]++;
       }
-    if(current[i] < static_cast<typename IndexType::IndexValueType>(m_Size[i])-1)
+    if(currentIndex[i] < static_cast<typename IndexType::IndexValueType>(m_Size[i])-1)
       {
-      current[i]++;
-      tmp2 = (double)(m_FuzzyScene->GetPixel(current));
-      tmp1 = FuzzyAffinity(m_InputImage->GetPixel(current), centerpixel);
+      currentIndex[i]++;
+      tmp2 = (double)(m_FuzzyScene->GetPixel(currentIndex));
+      tmp1 = this->FuzzyAffinity(m_InputImage->GetPixel(currentIndex), centerpixel);
       if(tmp2 > tmp1)
         {
         tmp2 = tmp1;
@@ -143,7 +144,7 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
         {
         tmp = tmp2;
         }
-      current[i]--;
+      currentIndex[i]--;
       }
     }
 
@@ -158,7 +159,7 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
   RegionType regionOUT = this->m_SegmentObject->GetRequestedRegion();
   typename UShortImage::RegionType regionIN = this->m_FuzzyScene->GetRequestedRegion();
   
-  double activeThreshold = (NumericTraits<unsigned short>::max()) * m_Threshold;
+  const double activeThreshold = (NumericTraits<unsigned short>::max()) * m_Threshold;
 
 
   ImageRegionIteratorWithIndex <UShortImage> it(this->m_FuzzyScene, regionIN);
@@ -166,7 +167,7 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
 
   while( !it.IsAtEnd())
     {    
-    ot.Set(it.Get() > activeThreshold);
+    ot.Set(it.Get() > activeThreshold );
     ++it;
     ++ot;
     }
@@ -178,7 +179,7 @@ void
 SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
 ::GenerateData()
 {
-  IndexType current;
+  IndexType currentIndex;
   unsigned short fmax;
       
   m_InputImage = this->GetInput();
@@ -191,51 +192,44 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
   region.SetSize(m_Size);
   region.SetIndex(index);
   m_FuzzyScene = UShortImage::New();  
-  m_FuzzyScene->SetLargestPossibleRegion( region );
-  m_FuzzyScene->SetBufferedRegion( region );
-  m_FuzzyScene->SetRequestedRegion( region );
+  m_FuzzyScene->SetRegions( region );
   m_FuzzyScene->Allocate();  
-
-  ImageRegionIteratorWithIndex <UShortImage> it(this->m_FuzzyScene, region);
-
-  while( !it.IsAtEnd())
-    {    
-    it.Set(0);
-    ++it;
-    }
+  m_FuzzyScene->FillBuffer( 0 );
 
   RegionType region1;
   region1.SetSize(m_Size);
   region1.SetIndex(index);
-  m_SegmentObject->SetLargestPossibleRegion( region1 );
-  m_SegmentObject->SetBufferedRegion( region1 );
-  m_SegmentObject->SetRequestedRegion( region1 );
+  m_SegmentObject->SetRegions( region1 );
   m_SegmentObject->Allocate();  
 
-  PushNeighbors(m_ObjectsSeed);
-  m_FuzzyScene->SetPixel(m_ObjectsSeed,NumericTraits<unsigned short>::max());
+  this->PushNeighbors( m_ObjectsSeed );
+  m_FuzzyScene->SetPixel( m_ObjectsSeed, NumericTraits<unsigned short>::max() );
 
-  while(! m_Queue.empty())
+  ProgressReporter progress(this, 0, region.GetNumberOfPixels() * 2 * m_InputImage->GetImageDimension() );
+
+  while( ! m_Queue.empty() )
     {
-    current = m_Queue.front();
+    currentIndex = m_Queue.front();
     m_Queue.pop();
-    fmax = (unsigned short)(FindStrongPath(current));
-    if(fmax > m_FuzzyScene->GetPixel(current))
+    fmax = static_cast< unsigned short >( this->FindStrongPath( currentIndex ) );
+    if( fmax > m_FuzzyScene->GetPixel( currentIndex ) )
       {
-      m_FuzzyScene->SetPixel(current,fmax);
-      PushNeighbors(current);
+      m_FuzzyScene->SetPixel( currentIndex, fmax );
+      this->PushNeighbors( currentIndex );
       }
+    progress.CompletedPixel();  // potential exception thrown here
     }
 
-  MakeSegmentObject();
+  this->MakeSegmentObject();
 }
 
 template <class TInputImage, class TOutputImage>
 void 
 SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
-::UpdateThreshold(const double x){
-  SetThreshold(x);
-  MakeSegmentObject();
+::UpdateThreshold(const double x)
+{
+  this->SetThreshold(x);
+  this->MakeSegmentObject();
 }
 
 template <class TInputImage, class TOutputImage>
