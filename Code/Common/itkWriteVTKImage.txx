@@ -41,14 +41,13 @@ WriteVTKImage<TInputImage>
 {
   const char *name;// = PixelTraits<TInputImage::PixelValueType>::Name;
   std::ostream *fp;
-  typename TInputImage::Pointer input;
   const unsigned long *dims;
   const float *spacing;
   const float *origin;
 
   itkDebugMacro(<<"Writing image in VTK format");
   
-  input = static_cast<TInputImage *>((DataObject*)(this->GetInput()));
+  typename TInputImage::Pointer input=this->GetInput();
 
   if ( TInputImage::ImageDimension > 3 )
     {

@@ -92,7 +92,8 @@ RandomImageSource<TOutputImage>
 {
   typedef typename TOutputImage::ScalarValueType scalarType;
 
-  TOutputImage *image=this->GetOutput(0);
+  typename TOutputImage::Pointer image=this->GetOutput(0);
+
   image->SetBufferSize(image->GetRegionSize());
   image->SetBufferStartIndex( image->GetRegionStartIndex() );
   image->Allocate();
