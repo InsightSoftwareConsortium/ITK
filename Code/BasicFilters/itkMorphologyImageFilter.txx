@@ -53,7 +53,6 @@ template<class TInputImage, class TOutputImage, class TKernel>
 MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 ::MorphologyImageFilter()
 {
-  m_Kernel = 0;
 }
   
 template <class TInputImage, class TOutputImage, class TKernel>
@@ -111,7 +110,7 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
   KernelIteratorType kernelFirst = m_Kernel->Begin() ;
   while ( ! n_iter.IsAtEnd() )
     {
-      o_iter.Set ( this->Evaluate(n_iter, *m_Kernel) );
+      o_iter.Set ( this->Evaluate(n_iter, m_Kernel) );
       ++n_iter ;
       ++o_iter ;
     }

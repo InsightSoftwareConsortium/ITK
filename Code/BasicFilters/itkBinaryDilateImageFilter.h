@@ -126,14 +126,21 @@ public:
   typedef typename Superclass::PixelType PixelType;
 
   /**
-   * Declaration of ImageKernelIteratorType
+   * Neighborhood iterator type
    */
-  typedef typename Superclass::ImageKernelIteratorType ImageKernelIteratorType;
+  typedef ConstSmartNeighborhoodIterator<TInputImage> 
+    SmartNeighborhoodIteratorType ;
 
+  /**
+   * Kernel typedef
+   */
+  typedef TKernel KernelType;
+  
   /**
    * Kernel (structuring element) iterator
    */
-  typedef typename Superclass::KernelIteratorType  KernelIteratorType;
+  typedef typename KernelType::ConstIterator KernelIteratorType ;
+  
  
   /**
    * Set the value in the image to consider as "foreground". Defaults to

@@ -159,8 +159,13 @@ public:
   /**
    * Set kernel (structuring element)
    */
-  void SetKernel(KernelType* kernel) ;
+  itkSetMacro(Kernel, KernelType);
 
+  /**
+   * Get the kernel (structuring element)
+   */
+  itkGetConstReferenceMacro(Kernel, KernelType);
+  
   /**
    * Make sure that the input requested region should include the output 
    * requested region + kernel radius 
@@ -210,9 +215,9 @@ protected:
 
 private:
   /**
-   * the kernel pointer
+   * kernel or structuring element to use
    */
-  KernelType* m_Kernel ;
+  KernelType m_Kernel ;
 
 } ; // end of class
 
