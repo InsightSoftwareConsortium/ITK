@@ -118,6 +118,7 @@ public:
    * The type created by the dereference of a ConstIterator.
    */
   typedef std::pair< const ElementIdentifier , Element >  ConstValueType;
+
   /**
    * The type created by the dereference of a Iterator.
    */

@@ -244,6 +244,7 @@ int main(void)
 
   BoundingBox::Pointer bbox(BoundingBox::New());
   bbox->SetPoints(mesh->GetPoints());
+  bbox->ComputeBoundingBox();
   std::cout << bbox << std::endl;
 
   return 0;  

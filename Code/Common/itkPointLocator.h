@@ -19,6 +19,7 @@
 #include "itkObject.h"
 #include "itkPoint.h"
 #include "itkNumericTraits.h"
+#include "itkBoundingBox.h"
 
 ITK_NAMESPACE_BEGIN
 
@@ -45,8 +46,10 @@ ITK_NAMESPACE_BEGIN
 
 template <
   typename TPointIdentifier = unsigned long,
+  int VPointDimension = 3,
   typename TCoordRep = float,
-  int VPointDimension = 3
+  typename TPointsContainer = 
+    VectorContainer< TPointIdentifier,Point<VPointDimension,TCoordRep> >
   >
 class ITK_EXPORT PointLocator : public Object
 {
@@ -61,36 +64,6 @@ public:
    */
   typedef SmartPointer<Self>  Pointer;
   
-  /** \typedef PointIdentifier
-   * Hold on to the type information specified by the template parameters.
-   * PointIdentifier is the type that the point handles are represented by.
-   */
-  typedef TPointIdentifier   PointIdentifier;
-
-  /** \typedef CoordRep
-   * Hold on to the type information specified by the template parameters.
-   * CoordRep is the type used to represent point coordinates.
-   */
-  typedef TCoordRep   CoordRep;
-
-  /** \enum PointDimension
-   * Hold on to the type information specified by the template parameters.
-   * PointDimension is the dimension of space in which the points are located.
-   */
-  enum { PointDimension = VPointDimension };
-
-  /** \typedef Point
-   * The type of point processed by the locator. 
-   */
-  typedef Point< PointDimension , CoordRep >  Point;
-
-  /** \typedef VectorContainer
-   * The container type for use in storing points.  It must conform to
-   * the IndexedContainer interface.
-   */
-  typedef VectorContainer< PointIdentifier , Point >  PointsContainer;
-  typedef typename PointsContainer::Pointer           PointsContainerPointer;
-
   /**
    * Method for creation through the object factory.
    */
@@ -100,7 +73,24 @@ public:
    * Standard part of every itk Object.
    */
   itkTypeMacro(PointLocator, Object);
-  virtual void PrintSelf(std::ostream& os, Indent indent);
+
+  /** \typedef PointIdentifier
+   * Hold on to the type information specified by the template parameters.
+   * PointIdentifier is the type that the point handles are represented by.
+   */
+  typedef TPointIdentifier   PointIdentifier;
+  typedef TCoordRep   CoordRep;
+  enum { PointDimension = VPointDimension };
+  typedef TPointsContainer PointsContainer;
+  typedef PointsContainer::Pointer PointsContainerPointer;
+  typedef Point< PointDimension , CoordRep >  Point;
+
+  /**
+   * Some convenience typedefs.
+   */
+  typedef BoundingBox<PointIdentifier,PointDimension,
+                      CoordRep,PointsContainer> BoundingBoxType;
+  typedef BoundingBoxType::Pointer   BoundingBoxPointer;
 
   /**
    * Set the number of divisions in each axis direction.
@@ -121,8 +111,7 @@ public:
    * This methods differs from InitIncrementalPointInsertion() in that
    * assumes that all the points are inserted at once.
    */
-  void InitPointInsertion(PointsContainer *newPts, 
-                          CoordRep bounds[2*PointDimension]);
+  void InitPointInsertion(PointsContainer *newPts, BoundingBoxPointer bbox);
 
   /**
    * Initialize the incremental point insertion process. Incremental point
@@ -130,8 +119,7 @@ public:
    * supplied PointsContainer (newPts) collects the points that can be used
    * by other objects later. Bounds are the box that the points lie in.
    */
-  void InitIncrementalPointInsertion(PointsContainer *newPts, 
-                                     CoordRep bounds[2*PointDimension]);
+  void InitIncrementalPointInsertion(PointsContainer *newPts, BoundingBoxPointer bbox);
 
 #if 0
 
@@ -206,6 +194,8 @@ protected:
   ~PointLocator();
   PointLocator(const Self&) {}
   void operator=(const Self&) {}
+
+  virtual void PrintSelf(std::ostream& os, Indent indent);
 
 #if 0
   // place points in appropriate buckets

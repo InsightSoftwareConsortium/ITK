@@ -18,6 +18,7 @@
 
 #include "itkObject.h"
 #include "itkPoint.h"
+#include "itkNumericTraits.h"
 
 ITK_NAMESPACE_BEGIN
 
@@ -71,11 +72,6 @@ public:
    */
   itkNewMacro(Self);
 
-  /**
-   * Provide a print self method for the bounding box.
-   */
-  void PrintSelf(std::ostream& os, Indent indent);
-
   /** \typedef TCoordRep
    * Hold on to the type information specified by the template parameters.
    */
@@ -84,6 +80,7 @@ public:
   enum { PointDimension = VPointDimension };
   typedef TPointsContainer PointsContainer;
   typedef PointsContainer::Pointer PointsContainerPointer;
+  typedef Point< PointDimension , CoordRep >  Point;
 
   /**
    * Set the points from which the bounding box should be computed. The 
@@ -93,10 +90,7 @@ public:
   void SetPoints(PointsContainer *);
   PointsContainerPointer GetPoints(void);
 
-#if 0
-  /**
-   * Manually specify the bounding box.
-   */
+  bool ComputeBoundingBox(void);
 
   /**
    * Get the bounding box. NULL is returned if the bounding box cannot be
@@ -106,15 +100,18 @@ public:
   CoordRep* GetBoundingBox(CoordRep bounds[PointDimension*2]);
 
   /**
-   * Get the center of the bounding box.
+   * Get the center of the bounding box. Returns NULL if bounding box
+   * cannot be computed.
    */
-  CoordRep* GetBoundingBox(CoordRep bounds[PointDimension*2]);
+  CoordRep* GetCenter(CoordRep bounds[PointDimension*2]);
 
   /**
    * Get the length squared of the diagonal of the bounding box.
+   * Returns zero bounding box cannot be computed.
    */
-  CoordRep GetBoundingBoxDiagonalLength2(void);
+  NumericTraits<CoordRep>::AccumulateType GetDiagonalLength2(void);
 
+#if 0
   /**
    * Intersect this bounding box (bounds[PointDimension*2]) with a line
    * given by an origin (origin[PointDimension]) and direction
@@ -142,11 +139,14 @@ protected:
   BoundingBox(const Self&) {}
   void operator=(const Self&) {}
 
+  void PrintSelf(std::ostream& os, Indent indent);
+
+  typedef PointsContainer::const_iterator  ConstIterator; 
+
 private:
-  
   PointsContainerPointer m_PointsContainer;
   CoordRep *m_Bounds;
-  TimeStamp m_MTime; //The last time the bounds were computed.
+  TimeStamp m_BoundsMTime; //The last time the bounds were computed.
 
 };
 

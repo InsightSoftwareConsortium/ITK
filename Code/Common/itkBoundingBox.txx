@@ -14,6 +14,7 @@
 
 =========================================================================*/
 #include "itkBoundingBox.h"
+#include "itkNumericTraits.h"
 
 ITK_NAMESPACE_BEGIN
 
@@ -72,10 +73,7 @@ BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, TPointsContainer >
 {
   itkDebugMacro(<< this->GetClassName() << " (" << this
                 << "): returning Points container of " << m_PointsContainer );
-  if(m_PointsContainer == 0)
-    {
-    this->SetPoints(PointsContainer::New());
-    }
+
   return m_PointsContainer;
 }
 
@@ -102,5 +100,98 @@ BoundingBox<TPointIdentifier , VPointDimension, TCoordRep, TPointsContainer >
     }
 }
 
+template <typename TPointIdentifier, int VPointDimension,
+          typename TCoordRep, typename TPointsContainer>
+bool  
+BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
+::ComputeBoundingBox(void)
+{
+  if ( !m_PointsContainer )
+    {
+    return false;
+    }
+
+  if ( !m_Bounds || this->GetMTime() > m_BoundsMTime )
+    {
+    if ( !m_Bounds )
+      {
+      m_Bounds = new CoordRep[2*PointDimension];
+      }
+    
+    //iterate over points determining min/max
+    for (int i=0; i < PointDimension; i++)
+      {
+      m_Bounds[2*i] = NumericTraits<CoordRep>::max();
+      m_Bounds[2*i+1] = NumericTraits<CoordRep>::min();
+      }
+
+    ConstIterator ii;
+    m_PointsContainer->Begin();    
+
+    m_BoundsMTime.Modified();
+    }
+
+  return true;
+}
+
+template <typename TPointIdentifier, int VPointDimension,
+          typename TCoordRep, typename TPointsContainer>
+BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>::CoordRep* 
+BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
+::GetBoundingBox(CoordRep bounds[PointDimension*2])
+{
+  if ( this->ComputeBoundingBox() )
+    {
+    for (int i=0; i<PointDimension; i++)
+      {
+      bounds[2*i] = m_Bounds[2*i];
+      bounds[2*i+1] = m_Bounds[2*i+1];
+      }
+    return bounds;
+    }
+  else
+    {
+    return NULL;
+    }
+}
+
+template <typename TPointIdentifier, int VPointDimension,
+          typename TCoordRep, typename TPointsContainer>
+BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>::CoordRep*  
+BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
+::GetCenter(CoordRep center[PointDimension*2])
+{
+  if ( this->ComputeBoundingBox() )
+    {
+    for (int i=0; i<PointDimension; i++)
+      {
+      center[i] = (m_Bounds[2*i] + m_Bounds[2*i+1]) / 2.0;
+      }
+    return center;
+    }
+  else
+    {
+    return NULL;
+    }
+}
+
+template <typename TPointIdentifier, int VPointDimension,
+          typename TCoordRep, typename TPointsContainer>
+NumericTraits<BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>::CoordRep>::AccumulateType 
+BoundingBox<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
+::GetDiagonalLength2(void)
+{
+  NumericTraits<CoordRep>::AccumulateType dist2 = NumericTraits<CoordRep>::zero;
+
+  if ( this->ComputeBoundingBox() )
+    {
+    for (int i=0; i<PointDimension; i++)
+      {
+      dist2 += (m_Bounds[2*i]-m_Bounds[2*i+1]) * (m_Bounds[2*i]-m_Bounds[2*i+1]);
+      }
+    }
+
+  return dist2;
+}
 
 ITK_NAMESPACE_END

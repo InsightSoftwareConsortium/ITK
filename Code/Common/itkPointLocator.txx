@@ -17,26 +17,11 @@
 
 ITK_NAMESPACE_BEGIN
 
-template <typename TPointIdentifier,typename TCoordRep,int VPointDimension>
-PointLocator<TPointIdentifier,TCoordRep,VPointDimension>
-::PointLocator():
-Points(NULL)
-{
-  m_Divisions = new unsigned long [PointDimension];
-}
-
-template <typename TPointIdentifier,typename TCoordRep,int VPointDimension>
-PointLocator<TPointIdentifier,TCoordRep,VPointDimension>
-::~PointLocator()
-{
-  delete [] m_Divisions;
-}
-
-template <typename TPointIdentifier,typename TCoordRep,int VPointDimension>
+template <typename TPointIdentifier, int VPointDimension,
+          typename TCoordRep, typename TPointsContainer>
 void 
-PointLocator<TPointIdentifier,TCoordRep,VPointDimension>
-::InitPointInsertion(PointsContainer *newPts, 
-                     CoordRep bounds[2*PointDimension])
+PointLocator<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
+::InitPointInsertion(PointsContainer *newPts, PointLocator<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>::BoundingBoxPointer bbox)
 {
   // Check the input
   m_Points = newPts;
@@ -53,11 +38,11 @@ PointLocator<TPointIdentifier,TCoordRep,VPointDimension>
 #endif
 }
 
-template <typename TPointIdentifier,typename TCoordRep,int VPointDimension>
+template <typename TPointIdentifier, int VPointDimension,
+          typename TCoordRep, typename TPointsContainer>
 void 
-PointLocator<TPointIdentifier,TCoordRep,VPointDimension>
-::InitIncrementalPointInsertion(PointsContainer *newPts, 
-                                CoordRep bounds[2*PointDimension])
+PointLocator<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
+::InitIncrementalPointInsertion(PointsContainer *newPts, PointLocator<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>::BoundingBoxPointer bbox)
 {
   // Check the input
   m_Points = newPts;
@@ -155,5 +140,39 @@ PointLocator<TPointIdentifier,TCoordRep,VPointDimension>
   return 1;
 #endif
 
+
+/******************************************************************************
+ * PROTECTED METHOD DEFINITIONS
+ *****************************************************************************/
+
+template <typename TPointIdentifier, int VPointDimension,
+          typename TCoordRep, typename TPointsContainer>
+PointLocator<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
+::PointLocator():
+m_Points(NULL)
+{
+  m_Divisions = new unsigned long [PointDimension];
+}
+
+template <typename TPointIdentifier, int VPointDimension,
+          typename TCoordRep, typename TPointsContainer>
+PointLocator<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
+::~PointLocator()
+{
+  delete [] m_Divisions;
+}
+
+/**
+ * Print out the bounding box.
+ */
+template <typename TPointIdentifier, int VPointDimension,
+          typename TCoordRep, typename TPointsContainer>
+void
+PointLocator<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
+::PrintSelf(std::ostream& os, Indent indent)
+{
+  Object::PrintSelf(os, indent);
+
+}
 
 ITK_NAMESPACE_END

@@ -25,6 +25,7 @@
 #include "itkMeshTypeDefault.h"
 #include "itkMapContainer.h"
 #include "itkPointLocator.h"
+#include "itkBoundingBox.h"
 #include <vector>
 #include <set>
 
@@ -84,6 +85,16 @@ public:
    */
   typedef SmartPointer<Self>  Pointer;
   
+  /**
+   * Method for creation through the object factory.
+   */
+  itkNewMacro(Self);
+
+  /**
+   * Standard part of every itk Object.
+   */
+  itkTypeMacro(Mesh, Object);
+
   /** \typedef PixelType
    * Hold on to the type information specified by the template parameters.
    */
@@ -107,8 +118,10 @@ public:
   typedef typename MeshType::CellDataContainer        CellDataContainer;  
   typedef typename MeshType::BoundariesContainer      BoundariesContainer;
   typedef typename MeshType::BoundaryDataContainer    BoundaryDataContainer;
-  typedef PointLocator< PointIdentifier, CoordRep, PointDimension >
-          PointLocatorType;
+  typedef PointLocator<PointIdentifier,PointDimension,
+                       CoordRep,PointsContainer> PointLocatorType;
+  typedef BoundingBox<PointIdentifier,PointDimension,
+                      CoordRep,PointsContainer> BoundingBoxType;
 
   /** \typedef
    * Create types that are pointers to each of the container types.
@@ -122,6 +135,7 @@ public:
   typedef typename
           BoundaryDataContainer::Pointer  BoundaryDataContainerPointer;  
   typedef PointLocatorType::Pointer  PointLocatorPointer;
+  typedef BoundingBoxType::Pointer   BoundingBoxPointer;
 
   /** \typedef
    * Create types that are iterators for each of the container types.
@@ -296,32 +310,30 @@ protected:
   
   /**
    * PointLocator is used to accelerate the search for points. This
-   * supports the FindClosestPoint() method.
+   * supports the FindClosestPoint() method. 
    */
   PointLocatorPointer m_PointLocator;
   
   /**
-   * The bounding box (xmin,xmax, ymin,ymax, ...) of the mesh.
+   * The bounding box (xmin,xmax, ymin,ymax, ...) of the mesh. The 
+   * bounding box is used for searching, picking, display, etc.
    */
-//  CoordRep *BoundingBox;
+  BoundingBoxPointer m_BoundingBox;
 
-  /**
-   * Define the mesh's public interface.  This includes access routines along
-   * with specific mesh operations.
-   */
 public:
   /**
-   * Method for creation through the object factory.
+   * Mesh-level operation interface.
    */
-  itkNewMacro(Self);
+  void PassStructure(Self* in_mesh);
+  void ReInitialize(void);
 
-  /**
-   * Provide a print self method for mesh.
-   */
-  void PrintSelf(std::ostream& os, Indent indent);
+  unsigned long GetNumberOfPoints(void);
+  unsigned long GetNumberOfCells(void);
 
   /**
    * Define Set/Get access routines for each internal container.
+   * Methods also exist to add points, cells, etc. one at a time
+   * rather than through an entire container.
    */
   void SetPoints(PointsContainer*);
   PointsContainerPointer GetPoints(void);
@@ -412,32 +424,6 @@ public:
                                                    CellIdentifier) const;
   Boundary::Pointer GetCellBoundaryFeature(int dimension, CellIdentifier,
                                            CellFeatureIdentifier) const;
-  
-  /**
-   *  This method iterates over all the cells in the mesh and has
-   *  each cell Accept the MultiVisitor. See MultiVisitor for more 
-   *  information.  (Note, this follows the Visitor Design Pattern)
-   */
-  void Accept(Cell::MultiVisitor* mv);
-
-  /**
-   * Mesh-level operation interface.
-   */
-
-  void PassStructure(Self* in_mesh);
-  unsigned long GetNumberOfPoints(void);
-  unsigned long GetNumberOfCells(void);
-  void GetCellBoundingBox(CellIdentifier cellId,
-                          CoordRep bounds[PointDimension*2]);
-  bool FindClosestPoint(CoordRep coords[PointDimension],
-                        PointIdentifier* pointId);
-  // FindCell(.........)
-  void ComputeBoundingBox(void);
-  CoordRep* GetBoundingBox(CoordRep bounds[PointDimension*2]);
-  CoordRep* GetCenter(CoordRep center[PointDimension]);
-  CoordRep GetBoundingBoxDiagonalLength2(void);
-  void ReInitialize(void);
-  
   unsigned long GetCellBoundaryFeatureNeighbors(
     int dimension, CellIdentifier, CellFeatureIdentifier,
     std::set<CellIdentifier>* cellSet);
@@ -445,22 +431,47 @@ public:
   bool GetAssignedCellBoundaryIfOneExists(int dimension, CellIdentifier,
                                           CellFeatureIdentifier,
                                           Boundary::Pointer*) const;
-
   void BuildCellLinks(void);
   
   /**
-   * Standard part of every itk Object.
+   * Get the bounding box of the mesh. The methods return a pointer to
+   * the user-supplied bounding box as a convenience.
    */
-  itkTypeMacro(Mesh, Object);
+  BoundingBoxPointer GetBoundingBox();
 
   /**
-   * Define some internal utility methods.
+   * Get the bounding box of a cell in the mesh. The user
+   * must supply the bounding box. The methods return a pointer to
+   * the user-supplied bounding box as a convenience.
    */
+  BoundingBoxPointer GetCellBoundingBox(CellIdentifier cellId, BoundingBoxPointer bbox);
+  
+  /**
+   * Geometric operations convert between coordinate systems, perform 
+   * interpolation, and locate points and cells.
+   */
+  bool FindClosestPoint(CoordRep coords[PointDimension],
+                        PointIdentifier* pointId);
+  // FindCell(.........)
+
+  /**
+   *  This method iterates over all the cells in the mesh and has
+   *  each cell Accept the MultiVisitor. See MultiVisitor for more 
+   *  information.  (Note, this follows the Visitor Design Pattern.)
+   */
+  void Accept(Cell::MultiVisitor* mv);
+
 protected:
   /**
    * Constructor for use by New() method.
    */
   Mesh();
+  ~Mesh() {}
+  Mesh(const Self&) {}
+  void operator=(const Self&) {}
+
+  void PrintSelf(std::ostream& os, Indent indent);
+
 }; // End Class: Mesh
 
 ITK_NAMESPACE_END
