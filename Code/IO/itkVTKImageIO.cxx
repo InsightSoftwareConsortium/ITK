@@ -58,9 +58,9 @@ bool VTKImageIO::OpenVTKFileForReading(std::ifstream& os,
 
   // Actually open the file
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(__MINGW32__)
   const int openMode = std::ios::in|std::ios::binary;
-#elif ( defined(__GNUC__) && __GNUC__ >= 3 ) || defined (__MWERKS__) || defined (__INTEL_COMPILER)
+#elif ( defined(__GNUC__) && __GNUC__ >= 3 ) || defined (__MWERKS__) || defined (__INTEL_COMPILER) || defined (__MINGW32__)
   const std::ios_base::openmode openMode = std::ios::in;
 #else
   const int openMode = std::ios::in;
@@ -100,9 +100,9 @@ bool VTKImageIO::OpenVTKFileForWriting(std::ofstream& os,
   itkDebugMacro(<< "Initialize: opening file " << filename);
 
   // Actually open the file
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(__MINGW32__)
   const int openMode = std::ios::out|std::ios::binary;
-#elif (defined(__GNUC__) && __GNUC__ >= 3) || defined (__MWERKS__) || defined (__INTEL_COMPILER)
+#elif (defined(__GNUC__) && __GNUC__ >= 3) || defined (__MWERKS__) || defined (__INTEL_COMPILER) || defined (__MINGW32__)
   const std::ios_base::openmode openMode =std::ios::out;
 #else
   const int openMode = std::ios::out;
