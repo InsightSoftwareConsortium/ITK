@@ -649,6 +649,9 @@ void Solver::UpdateDisplacements()
 void Solver::ApplyBC(int dim)
 {
 
+  // We need fast access to this constant...
+  const unsigned int totGFN=NGFN+NMFC;
+
   m_ls->DestroyVector(1);
 
   /* Step over all Loads */
@@ -701,35 +704,45 @@ void Solver::ApplyBC(int dim)
      */
     if ( LoadBC::Pointer c=dynamic_cast<LoadBC*>(&*l0) )
     {
+
       Element::DegreeOfFreedomIDType fdof = c->m_element->GetDegreeOfFreedom(c->m_dof);
       Float fixedvalue=c->m_value[dim];
 
-      // Force vector changes only if DOF is not fixed to 0.0.
-      const bool is_force_vector_affected = (fixedvalue!=0.0);
 
-      // Initialize the master force correction vector as required
-      if ( !this->m_ls->IsVectorInitialized(1) && is_force_vector_affected )
-      {
-        this->m_ls->InitializeVector(1);
-      }
-      
-      // Copy the corresponding column of the matrix to the vector that will
-      // be later added to master force vector.
-      const unsigned int totGFN=NGFN+NMFC;
-      for(unsigned int i=0; i<totGFN; i++)
-      {
-        Float d=this->m_ls->GetMatrixValue(fdof,i);
+      // Copy the corresponding row of the matrix to the vector that will
+      // be later added to the master force vector.
+      // NOTE: We need to copy the whole row first, and then clear it. This
+      //       is much more efficient when using sparse matrix storage, that
+      //       copying and clearing in one loop.
 
-        // Store the appropriate value in bc correction vector (-K12*u2)
-        //
-        // See http://titan.colorado.edu/courses.d/IFEM.d/IFEM.Ch04.d/IFEM.Ch04.pdf
-        // chapter 4.1.3 (Matrix Forms of DBC Application Methods) for more info.
-        if( is_force_vector_affected )
+      // Force vector needs updating only if DOF was not fixed to 0.0.
+      if( fixedvalue!=0.0 )
+      {
+        // Initialize the master force correction vector as required
+        if ( !this->m_ls->IsVectorInitialized(1) )
         {
-          this->m_ls->AddVectorValue(i,-d*fixedvalue,1);
+          this->m_ls->InitializeVector(1);
         }
 
-        this->m_ls->SetMatrixValue(fdof,i,0.0); // Clear that column and row in master matrix.
+        // Step over each matrix element in a row
+        for(unsigned int i=0; i<totGFN; i++)
+        {
+          // Get value from the stiffness matrix
+          Float d=this->m_ls->GetMatrixValue(fdof,i);
+
+          // Store the appropriate value in bc correction vector (-K12*u2)
+          //
+          // See http://titan.colorado.edu/courses.d/IFEM.d/IFEM.Ch04.d/IFEM.Ch04.pdf
+          // chapter 4.1.3 (Matrix Forms of DBC Application Methods) for more info.
+          this->m_ls->AddVectorValue(i,-d*fixedvalue,1);
+        }
+      }
+
+
+      // Clear that row and column in master matrix
+      for(unsigned int i=0; i<totGFN; i++)
+      {
+        this->m_ls->SetMatrixValue(fdof,i,0.0);
         this->m_ls->SetMatrixValue(i,fdof,0.0); // this is a symetric matrix
       }
       this->m_ls->SetMatrixValue(fdof,fdof,1.0); // Set the diagonal element to one
@@ -737,6 +750,7 @@ void Solver::ApplyBC(int dim)
 
       // skip to next load in an array
       continue;
+
     }
 
 
