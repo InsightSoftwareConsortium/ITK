@@ -104,6 +104,8 @@ QuaternionRigidTransformGradientDescentOptimizer<TCostFunction>
 
   SetCurrentPosition( newPosition );
 
+  InvokeEvent( Command::IterationEvent );
+
 }
 
 
