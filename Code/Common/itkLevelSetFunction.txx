@@ -57,15 +57,19 @@ LevelSetFunction<TImageType>
 ::ComputeGlobalTimeStep(void *GlobalData) const
 {
   TimeStepType dt;
-  
+
   GlobalDataStruct *d = (GlobalDataStruct *)GlobalData;
+
+  std::cout << "MaxAdvectionChange" << d->m_MaxAdvectionChange << std::endl;
+  std::cout << "MaxPropagationChange" << d->m_MaxPropagationChange << std::endl;
+    
   d->m_MaxAdvectionChange += d->m_MaxPropagationChange;
   
   if (vnl_math_abs(m_CurvatureWeight) > 0.0)
     {
     if (d->m_MaxAdvectionChange > 0.0)
       {
-      dt = vnl_math_min((m_WaveDT/d->m_MaxAdvectionChange),
+        dt = vnl_math_min((m_WaveDT/d->m_MaxAdvectionChange),
                         ( m_DT/ vnl_math_abs(m_CurvatureWeight) ));
       }
     else
@@ -85,6 +89,7 @@ LevelSetFunction<TImageType>
       }
     }
 
+  std::cout << "dt = " << dt << std::endl;
   return dt;
 }
  
@@ -113,11 +118,6 @@ LevelSetFunction< TImageType >
 ::ComputeUpdate(const NeighborhoodType &it, void *gd,
                 const FloatOffsetType& offset) const
 {
-  /*
-    ToDo:
-    1. Implement vanishing viscosity for curvature term (replace epsilon)?
-    2. Add in max_curvature term to calculation of dt.
-  */
   unsigned int i;  
   const ScalarValueType ZERO = NumericTraits<ScalarValueType>::Zero;
   const ScalarValueType MIN_NORM = 1.0e-6;
@@ -193,18 +193,18 @@ LevelSetFunction< TImageType >
       
     for(unsigned int j = 0; j < ImageDimension; j++)
       {
-          
+      
       if(j != i)
         curve += dxx[j] * dx[i] * dx[i];
       }
     gradMag += dx[i] * dx[i];
     }
-
+  
   curve /= gradMag * vcl_sqrt(gradMag);
   
   curvature_term = curve;
   curvature_term *= m_CurvatureWeight * this->CurvatureSpeed(it, offset);
-
+  
   // Calculate the advection term.
   //  $\alpha \stackrel{\rightharpoonup}{F}(\mathbf{x})\cdot\nabla\phi $
   //
@@ -213,33 +213,29 @@ LevelSetFunction< TImageType >
   //
   if (m_AdvectionWeight != ZERO)
     {
-
+    
     advection_field = this->AdvectionField(it, offset);
     advection_term = ZERO;
-
+    
     for(i = 0; i < ImageDimension; i++)
       {
-
+      
       x_energy[i] = m_AdvectionWeight * advection_field[i];
-          
-      if (x_energy[i] > ZERO) advection_term += advection_field[i] * dx_backward[i];
-      else                 advection_term += advection_field[i] * dx_forward[i];
-
+      
+      if (x_energy[i] > ZERO)
+        {
+        advection_term += advection_field[i] * dx_backward[i];
+        }
+      else
+        {
+        advection_term += advection_field[i] * dx_forward[i];
+        }
+        
+      globalData->m_MaxAdvectionChange
+        = vnl_math_max(globalData->m_MaxAdvectionChange, vnl_math_abs(x_energy[i])); 
       }
-
     advection_term *= m_AdvectionWeight;
-
-          
-    // Collect energy change from the advection term.  This will be used
-    // in calculating the maximum time step that can be taken this iteration.
-
-    PixelType totalEnergy = ZERO;
-      
-    for(unsigned int i = 0; i < ImageDimension; i++)
-      totalEnergy += vnl_math_abs(x_energy[i]);
-      
-    globalData->m_MaxAdvectionChange
-      = vnl_math_max(globalData->m_MaxAdvectionChange, totalEnergy); 
+    
     }
   else advection_term = ZERO;
 
@@ -256,20 +252,22 @@ LevelSetFunction< TImageType >
     // from Sethian, Ch. 6 as referenced above.
     //
     propagation_gradient = ZERO;
-
+    
     if ( propagation_term > ZERO )
       {
       for(i = 0; i< ImageDimension; i++)
+        {
         propagation_gradient += vnl_math_sqr( vnl_math_max(dx_backward[i], ZERO) )
           + vnl_math_sqr( vnl_math_min(dx_forward[i],  ZERO) );
-
+        }
       }
     else
       {
       for(i = 0; i< ImageDimension; i++)
+        {
         propagation_gradient += vnl_math_sqr( vnl_math_min(dx_backward[i], ZERO) )
           + vnl_math_sqr( vnl_math_max(dx_forward[i],  ZERO) );
-
+        }        
       }
       
     // Collect energy change from propagation term.  This will be used in
@@ -277,7 +275,7 @@ LevelSetFunction< TImageType >
     globalData->m_MaxPropagationChange =
       vnl_math_max(globalData->m_MaxPropagationChange,
                    vnl_math_abs(propagation_term));
-      
+    
     propagation_term *= vcl_sqrt( propagation_gradient );
     }
   else propagation_term = ZERO;
