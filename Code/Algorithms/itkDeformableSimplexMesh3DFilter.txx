@@ -22,6 +22,14 @@ PURPOSE.  See the above copyright notices for more information.
 
 #include <set>
 
+#include <vxl_version.h>
+#if VXL_VERSION_DATE_FULL > 20040406
+# include <vnl/vnl_cross.h>
+# define itk_cross_3d vnl_cross_3d
+#else
+# define itk_cross_3d cross_3d
+#endif
+
 namespace itk
   {
 
@@ -179,7 +187,7 @@ namespace itk
       // compute normal
       normal.Fill(0.0);
 
-      z.Set_vnl_vector( cross_3d( (data->neighbors[1] - data->neighbors[0]).Get_vnl_vector() ,
+      z.Set_vnl_vector( itk_cross_3d( (data->neighbors[1] - data->neighbors[0]).Get_vnl_vector() ,
         (data->neighbors[2] - data->neighbors[0]).Get_vnl_vector()) );
       z.Normalize();
       normal += z;
@@ -512,10 +520,10 @@ namespace itk
     c = data->neighbors[2];
 
     VectorType n,na,nb,nc;
-    n.Set_vnl_vector( cross_3d((b-a).Get_vnl_vector(), (c-a).Get_vnl_vector()) );
-    na.Set_vnl_vector( cross_3d((c-b).Get_vnl_vector(), (p-b).Get_vnl_vector()) );
-    nb.Set_vnl_vector( cross_3d((a-c).Get_vnl_vector(), (p-c).Get_vnl_vector()) );
-    nc.Set_vnl_vector( cross_3d((b-a).Get_vnl_vector(), (p-a).Get_vnl_vector()) );
+    n.Set_vnl_vector( itk_cross_3d((b-a).Get_vnl_vector(), (c-a).Get_vnl_vector()) );
+    na.Set_vnl_vector( itk_cross_3d((c-b).Get_vnl_vector(), (p-b).Get_vnl_vector()) );
+    nb.Set_vnl_vector( itk_cross_3d((a-c).Get_vnl_vector(), (p-c).Get_vnl_vector()) );
+    nc.Set_vnl_vector( itk_cross_3d((b-a).Get_vnl_vector(), (p-a).Get_vnl_vector()) );
 
     PointType eps;
     eps[0] = dot_product(n.Get_vnl_vector(),na.Get_vnl_vector()) / n.GetSquaredNorm();
