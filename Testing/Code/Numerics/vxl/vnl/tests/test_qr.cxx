@@ -157,7 +157,7 @@ void amithas_test()
 
 //--------------------------------------------------------------------------------
 
-extern "C" void test_qr() {
+void test_qr() {
   amithas_test();
   old_test();
   

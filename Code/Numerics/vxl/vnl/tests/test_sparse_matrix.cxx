@@ -174,7 +174,7 @@ int doTest4()
   return 0;
 }
 
-extern "C"
+
 int test_sparse_matrix()
 {
   vcl_cout << "Starting test 1\n";
