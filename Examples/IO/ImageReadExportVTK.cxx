@@ -233,16 +233,16 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  Although in this example only illustrates how to use an explicit
+  //  Although this example only illustrates how to use an explicit
   //  \doxygen{ImageIO} class with the \doxygen{ImageFileWriter}, the same can
   //  be done with the \doxygen{ImageFileReader}. The typical case in which
-  //  that is done is when reading raw image files with the
-  //  \doxygen{RawImageIO}. The drawback of this approach is that the
+  //  this is done is when reading raw image files with the
+  //  \doxygen{RawImageIO} object. The drawback of this approach is that the
   //  parameters of the image have to be explicitly written in the code.  The
-  //  direct use of raw file is strongly discouraged in medical imaging.  In
-  //  case you have a raw file, it is always better to create a header for it
-  //  using any of the file formats that use the combination of text header
-  //  file plus a raw binary file, like \doxygen{MetaImgaIO},
+  //  direct use of raw file is \textbf{strongly discouraged} in medical
+  //  imaging.  In case you have a raw file, it is always better to create a
+  //  header for it using any of the file formats that combine a text header
+  //  file and a raw binary file, like \doxygen{MetaImgaIO},
   //  \doxygen{GiplImageIO} and \doxygen{VTKImageIO}.
   // 
   //  Software Guide : EndLatex 
