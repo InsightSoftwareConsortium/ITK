@@ -16,15 +16,20 @@
 namespace itk
 {
 
-template <class TDataType, unsigned int VDimension>
-std::vector<TDataType>
-DerivativeHalfBackwardOperator<TDataType, VDimension>
+template <class TPixel, unsigned int VDimension>
+std::vector<TPixel>
+DerivativeHalfBackwardOperator<TPixel, VDimension>
 ::GenerateCoefficients()
 {
-  std::vector<TDataType> coeff(3);
-  coeff[0] = -1.0f;
-  coeff[1] =  1.0f;
-  coeff[2] =  0.0f;
+  // Only sets the scalar component of the data.  This works fine for native
+  // types and for itk::Scalar<>.
+  std::vector<TPixel> coeff(3);
+  ScalarTraits<TPixel>::SetScalar(coeff[0], -1.0f *
+                                  NumericTraits<TPixelScalarValueType>::One);
+  ScalarTraits<TPixel>::SetScalar(coeff[1],
+                                  NumericTraits<TPixelScalarValueType>::One);
+  ScalarTraits<TPixel>::SetScalar(coeff[2],
+                                  NumericTraits<TPixelScalarValueType>::Zero);
   return coeff;
 }
   
