@@ -21,7 +21,7 @@
 
 namespace itk
 {
-  /** \class ComareHistogramImageToImageMetric
+  /** \class CompareHistogramImageToImageMetric
     *  \brief Compares Histograms between two images to be registered to
     *   a Training Histogram.
     *
