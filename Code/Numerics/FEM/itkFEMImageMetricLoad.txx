@@ -26,6 +26,7 @@ ImageMetricLoad<TReference , TTarget>
   if (!m_Metric)    m_Metric = DefaultMetricType::New();
   
   m_Temp=0.0;
+  m_Gamma=1.0;
 
 //------------------------------------------------------------
 // Set up the metric -- see MetricTest in Testing
@@ -100,47 +101,68 @@ template<class TReference,class TTarget>
 typename ImageMetricLoad<TReference , TTarget>::Float 
 ImageMetricLoad<TReference , TTarget>::EvaluateMetricGivenSolution( Element::ArrayType* el,Float step)
 {
-  Float energy=0.0; 
+  Float energy=0.0,defe=0.0; 
 
-  vnl_vector_fixed<Float,ImageDimension> Sol(0.0);  // total solution at the local point plus incremental solution at the local point
-  vnl_vector_fixed<Float,ImageDimension> Gpt(0.0);  // global position given by local point
-  vnl_vector_fixed<Float,ImageDimension> Pos(0.0);  // solution at the point
-  
   vnl_vector_fixed<Float,2*ImageDimension> InVec(0.0);
    
-  Element::VectorType ip;
+  Element::VectorType ip,shapef;
+  Element::MatrixType solmat;
   Element::Float w;
-  
-  for(  Element::ArrayType::iterator elt=el->begin(); elt!=el->end(); elt++) 
+ 
+  Element::ArrayType::iterator elt=el->begin();
+  const unsigned int Nnodes=(*elt)->GetNumberOfNodes();
+
+  solmat.resize(Nnodes*ImageDimension,1);
+
+  for(  ; elt!=el->end(); elt++) 
   {
     for(unsigned int i=0; i<m_NumberOfIntegrationPoints; i++)
     {
       dynamic_cast<Element*>(&*(*elt))->GetIntegrationPointAndWeight(i,ip,w,m_NumberOfIntegrationPoints); // FIXME REMOVE WHEN ELEMENT NEW IS BASE CLASS
-      Gpt=(*elt)->GetGlobalFromLocalCoordinates(ip);
-      // interpolate the total solution and the incremental solution
-      Sol=(*elt)->InterpolateSolution(ip,*m_Solution,m_SolutionIndex)+step*(*elt)->InterpolateSolution(ip,*m_Solution,m_SolutionIndex2);
+      shapef = (*elt)->ShapeFunctions(ip);
 
-      for (unsigned int ii=0; ii < ImageDimension; ii++)
-      { 
-        InVec[ii]=Gpt[ii];
-        InVec[ii+ImageDimension]=Sol[ii];
-      }
+      float solval,posval;
+      Float detJ=(*elt)->JacobianDeterminant(ip);
+        
+      for(unsigned int f=0; f<ImageDimension; f++)
+      {
+        solval=0.0;
+        posval=0.0;
+        for(unsigned int n=0; n<Nnodes; n++)
+        {
+          posval+=shapef[n]*(((*elt)->GetNodeCoordinates(n))[f]);
+          float nodeval=( (m_Solution)->GetSolutionValue( (*elt)->GetNode(n)->GetDegreeOfFreedom(f) , m_SolutionIndex)
+            +(m_Solution)->GetSolutionValue( (*elt)->GetNode(n)->GetDegreeOfFreedom(f) , m_SolutionIndex2)*step);
       
+          solval+=shapef[n] * nodeval;   
+          solmat[(n*ImageDimension)+f][0]=nodeval;
+        }
+        InVec[f]=posval;
+        InVec[f+ImageDimension]=solval;
+      }
+
+      float tempe=0.0;
       try
       {
-      energy+=w*fabs(GetMetric(InVec));
+      tempe=fabs(GetMetric(InVec));
       }
       catch( itk::ExceptionObject & e )
       { 
       // do nothing we dont care if the metric region is outside the image
       //std::cerr << e << std::endl;
       }
-      
+      for(unsigned int n=0; n<Nnodes; n++)
+      {
+        itk::fem::Element::Float temp=shapef[n]*tempe*w*detJ;
+        energy+=temp;
+      }
     }  
+    
+    defe+=0.0;//(double)(*elt)->GetElementDeformationEnergy( solmat );
   }
    
-
-  return energy;
+//  std::cout << " def e " << defe << " sim e " << energy*m_Gamma << std::endl;
+  return fabs((double)energy*(double)m_Gamma-(double)defe);
 
 }
 
@@ -174,8 +196,8 @@ ImageMetricLoad<TReference , TTarget>::Fe
   { 
   //Set the size of the image region
     parameters[k]= Gsol[k]; // this gives the translation by the vector field 
-    tindex[k] =(long)(Gpos[k]+Gsol[k]+0.5);  // where the piece of reference image currently lines up under the above translation
-    rindex[k]= (long)(Gpos[k]);  // position in reference image
+    rindex[k] =(long)(Gpos[k]+Gsol[k]+0.5);  // where the piece of reference image currently lines up under the above translation
+    tindex[k]= (long)(Gpos[k]+0.5);  // position in reference image
     hibordercheck=(int)tindex[k]+(int)m_MetricRadius[k]-(int)m_TarSize[k];
     lobordercheck=(int)tindex[k]-(int)m_MetricRadius[k];
     if (hibordercheck >= 0) regionRadius[k]=m_MetricRadius[k]-(long)hibordercheck-1;
@@ -250,13 +272,13 @@ ImageMetricLoad<TReference , TTarget>::GetMetric
   { 
   //Set the size of the image region
     parameters[k]= InVec[k+ImageDimension]; // this gives the translation by the vector field 
-    tindex[k] =(long)(InVec[k]+InVec[k+ImageDimension]+0.5);  // where the piece of reference image currently lines up under the above translation
-    rindex[k]= (long)(InVec[k]);  // position in reference image
+    rindex[k] =(long)(InVec[k]+InVec[k+ImageDimension]+0.5);  // where the piece of reference image currently lines up under the above translation
+    tindex[k]= (long)(InVec[k]+0.5);  // position in reference image
     int hibordercheck=(int)tindex[k]+(int)m_MetricRadius[k]-(int)m_TarSize[k];
-  int lobordercheck=(int)tindex[k]-(int)m_MetricRadius[k];
-  if (hibordercheck > 0) regionRadius[k]=m_MetricRadius[k]-(long)hibordercheck-1;
-  else if (lobordercheck < 0) regionRadius[k]=m_MetricRadius[k]+(long)lobordercheck;
-  else regionRadius[k]=m_MetricRadius[k];
+    int lobordercheck=(int)tindex[k]-(int)m_MetricRadius[k];
+    if (hibordercheck > 0) regionRadius[k]=m_MetricRadius[k]-(long)hibordercheck-1;
+    else if (lobordercheck < 0) regionRadius[k]=m_MetricRadius[k]+(long)lobordercheck;
+    else regionRadius[k]=m_MetricRadius[k];
   }
 
 // Set the associated region

@@ -220,8 +220,12 @@ public:
     */ 
   void SetSign(Float s) {m_Sign=s;}
   
-  /** temporary */
+  /** Set the sigma in a gaussian measure. */
   void SetTemp(Float s) {m_Temp=s;}
+
+
+  /** Scaling of the similarity energy term */
+  void SetGamma(Float s) {m_Gamma=s;}
 
   void SetSolution(Solution::ConstPointer ptr) {  m_Solution=ptr; }
   Solution::ConstPointer GetSolution() {  return m_Solution; }
@@ -269,6 +273,7 @@ private:
   unsigned int                                        m_SolutionIndex2;
   Float                                               m_Sign;
   Float                                               m_Temp;
+  Float                                               m_Gamma;
 
   typename Solution::ConstPointer                     m_Solution;
   MetricBaseTypePointer                               m_Metric;
