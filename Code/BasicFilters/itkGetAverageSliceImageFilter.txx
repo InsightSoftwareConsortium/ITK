@@ -18,6 +18,8 @@
 #define _itkGetAverageSliceImageFilter_txx
 
 #include "itkGetAverageSliceImageFilter.h"
+#include "itkPNGImageIO.h"
+#include "itkImageFileWriter.h"
 
 namespace itk
 {
@@ -52,21 +54,21 @@ GetAverageSliceImageFilter<TInputImage,TOutputImage>
   typedef itk::Image<unsigned char, 2> char2DimageType;
   typedef itk::RescaleIntensityImageFilter<double2DimageType, char2DimageType> doubleToCharRescalerType;
 
-  TOutputImage::Pointer outputImage=TOutputImage::New();
-  TOutputImage::RegionType::SizeType outputSize;
-  TOutputImage::RegionType::IndexType outputIndex;
-  TOutputImage::RegionType outputRegion;
+  typename TOutputImage::Pointer outputImage=TOutputImage::New();
+  typename TOutputImage::RegionType::SizeType outputSize;
+  typename TOutputImage::RegionType::IndexType outputIndex;
+  typename TOutputImage::RegionType outputRegion;
 
   double outputOrigin[TOutputImage::ImageDimension], outputSpacing[TOutputImage::ImageDimension];
 //  const double *outputOrigin, *outputSpacing;
-  TInputImage::RegionType::SizeType inputSize;
-  TInputImage::RegionType::SizeType requestedSize;
-  TInputImage::RegionType::IndexType requestedIndex;
-  TInputImage::RegionType requestedRegion;
-  itk::PNGImageIO::Pointer PNGio;
+  typename TInputImage::RegionType::SizeType inputSize;
+  typename TInputImage::RegionType::SizeType requestedSize;
+  typename TInputImage::RegionType::IndexType requestedIndex;
+  typename TInputImage::RegionType requestedRegion;
+  typename PNGImageIO::Pointer PNGio;
     PNGio= itk::PNGImageIO::New();
-  doubleToCharRescalerType::Pointer doubleToCharRescaler=doubleToCharRescalerType::New();
-  itk::ImageFileWriter<TOutputImage>::Pointer writer=itk::ImageFileWriter<TOutputImage>::New();
+  typename doubleToCharRescalerType::Pointer doubleToCharRescaler=doubleToCharRescalerType::New();
+  typename ImageFileWriter<TOutputImage>::Pointer writer=itk::ImageFileWriter<TOutputImage>::New();
 //  double inputSpacing[TInputImage::ImageDimension], inputOrigin[TInputImage::ImageDimension];
   const double *inputSpacing, *inputOrigin;
   int j=0;

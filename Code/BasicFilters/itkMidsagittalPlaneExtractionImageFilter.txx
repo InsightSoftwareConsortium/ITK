@@ -65,31 +65,31 @@ MidsagittalPlaneExtractionImageFilter<TInputImage,TOutputImage>
   #define edgeDetectorVariance 3
   #define edgeDetectorMaximumError 0.01
   
-  typedef itk::AffineTransform<double, TInputImage::ImageDimension> correctingTransformType;
-  typedef itk::ResampleImageFilter<TInputImage, TOutputImage> transformerType;
-  typedef itk::LinearInterpolateImageFunction<TInputImage, double> linearInterpolatorType;
-  typedef itk::ShrinkImageFilter<TInputImage, TInputImage> shrinkerType;
-  typedef itk::CannyEdgeDetectionImageFilter<TInputImage, TInputImage> edgeDetectorType;
-    typedef itk::LazyEdgeDetectionImageFilter3D<TInputImage, TInputImage> lazyEdgeDetector3DType; 
-  typedef itk::Image<double, TInputImage::ImageDimension> averagedImageType;
-  typedef itk::GetAverageSliceImageFilter<TInputImage, averagedImageType> averagerType;
+  typedef AffineTransform<double, TInputImage::ImageDimension> correctingTransformType;
+  typedef ResampleImageFilter<TInputImage, TOutputImage> transformerType;
+  typedef LinearInterpolateImageFunction<TInputImage, double> linearInterpolatorType;
+  typedef ShrinkImageFilter<TInputImage, TInputImage> shrinkerType;
+  typedef CannyEdgeDetectionImageFilter<TInputImage, TInputImage> edgeDetectorType;
+    typedef LazyEdgeDetectionImageFilter3D<TInputImage, TInputImage> lazyEdgeDetector3DType; 
+  typedef Image<double, TInputImage::ImageDimension> averagedImageType;
+  typedef GetAverageSliceImageFilter<TInputImage, averagedImageType> averagerType;
 
-  itk::Point<double, TInputImage::ImageDimension> centerOfRotation, transformedPoint;
-  TInputImage::Pointer tmpImage= TInputImage::New();
-  TInputImage::Pointer zeroYawImage= TInputImage::New();
-  TInputImage::Pointer zeroRollImage= TInputImage::New();
-  correctingTransformType::Pointer correctingTransform=correctingTransformType::New();
-  correctingTransformType::Pointer affineTransform=correctingTransformType::New();
-  transformerType::Pointer transformer=transformerType::New();
-  shrinkerType::Pointer shrinker=shrinkerType::New();
-  edgeDetectorType::Pointer edgeDetector=edgeDetectorType::New();
-  correctingTransformType::OutputVectorType axes, translations;
-  linearInterpolatorType::Pointer linearInterpolator=linearInterpolatorType::New();
-    typename Superclass::InputImageConstPointer  inputPtr = this->GetInput();
+  Point<double, TInputImage::ImageDimension> centerOfRotation, transformedPoint;
+  typename TInputImage::Pointer tmpImage= TInputImage::New();
+  typename TInputImage::Pointer zeroYawImage= TInputImage::New();
+  typename TInputImage::Pointer zeroRollImage= TInputImage::New();
+  typename correctingTransformType::Pointer correctingTransform=correctingTransformType::New();
+  typename correctingTransformType::Pointer affineTransform=correctingTransformType::New();
+  typename transformerType::Pointer transformer=transformerType::New();
+  typename shrinkerType::Pointer shrinker=shrinkerType::New();
+  typename edgeDetectorType::Pointer edgeDetector=edgeDetectorType::New();
+  typename correctingTransformType::OutputVectorType axes, translations;
+  typename linearInterpolatorType::Pointer linearInterpolator=linearInterpolatorType::New();
+  typename Superclass::InputImageConstPointer  inputPtr = this->GetInput();
   typename Superclass::OutputImagePointer outputPtr = this->GetOutput(0);
   float yawAngle=0, rollAngle=0, shift=0;
   unsigned int  shrinkFactors[TInputImage::ImageDimension];
-  TInputImage::SizeType inputImageSize;
+  typename TInputImage::SizeType inputImageSize;
   const double *defaultSpacing;
   double *defaultOrigin;
   double *centeredOrigin;
@@ -97,10 +97,10 @@ MidsagittalPlaneExtractionImageFilter<TInputImage,TOutputImage>
   defaultSpacing=new double[TInputImage::ImageDimension];
   defaultOrigin=new double[TInputImage::ImageDimension];
   centeredOrigin=new double[TInputImage::ImageDimension];
-  lazyEdgeDetector3DType::Pointer lazyEdgeDetector3D=lazyEdgeDetector3DType::New();
-  averagerType::Pointer averager=averagerType::New();
+  typename lazyEdgeDetector3DType::Pointer lazyEdgeDetector3D=lazyEdgeDetector3DType::New();
+  typename averagerType::Pointer averager=averagerType::New();
   estimateType *yawEstimate=NULL, *rollEstimate=NULL;
-  averagedImageType::Pointer averagedImage;
+  typename averagedImageType::Pointer averagedImage;
   defaultSpacing=inputPtr->GetSpacing();
 //  defaultOrigin=inputPtr->GetOrigin();
   defaultOrigin[0]=0;
@@ -198,7 +198,7 @@ MidsagittalPlaneExtractionImageFilter<TInputImage,TOutputImage>
     translations[i]=centerOfRotation[i]-transformedPoint[i];
   }
   correctingTransform->Translate(translations, 1);
-  transformer->SetTransform((itk::Transform<double,TInputImage::ImageDimension, TInputImage::ImageDimension>::Pointer) correctingTransform);
+  transformer->SetTransform((Transform<double,TInputImage::ImageDimension, TInputImage::ImageDimension>::Pointer) correctingTransform);
   transformer->SetInput(tmpImage);
   transformer->SetOutputOrigin(defaultOrigin);
   transformer->SetOutputSpacing(defaultSpacing);
@@ -210,7 +210,7 @@ MidsagittalPlaneExtractionImageFilter<TInputImage,TOutputImage>
 //  yawAngle=FindAngle((typename Superclass::InputImageConstPointer)tmpImage, YAW_ANGLE, 90, 1, estimate);
 /*  delete estimate->shiftsY;
   delete estimate;
-  transformer->SetInterpolator((itk::InterpolateImageFunction<TInputImage, double>::Pointer) linearInterpolator);
+  transformer->SetInterpolator((InterpolateImageFunction<TInputImage, double>::Pointer) linearInterpolator);
   transformer->SetSize(tmpImage->GetLargestPossibleRegion().GetSize());
   transformer->SetOutputSpacing(tmpImage->GetSpacing());
   transformer->SetOutputOrigin(tmpImage->GetOrigin());
@@ -268,7 +268,7 @@ MidsagittalPlaneExtractionImageFilter<TInputImage,TOutputImage>
     translations[i]=centerOfRotation[i]-transformedPoint[i];
   }
   correctingTransform->Translate(translations, 1);
-  transformer->SetTransform((itk::Transform<double,TInputImage::ImageDimension, TInputImage::ImageDimension>::Pointer) correctingTransform);
+  transformer->SetTransform((Transform<double,TInputImage::ImageDimension, TInputImage::ImageDimension>::Pointer) correctingTransform);
   transformer->SetInput(inputPtr);
   transformer->SetOutputOrigin(defaultOrigin);
   transformer->SetOutputSpacing(defaultSpacing);
@@ -291,7 +291,7 @@ MidsagittalPlaneExtractionImageFilter<TInputImage,TOutputImage>
 //  shift = 0.36;
 
   transformer=transformerType::New();
-  transformer->SetInterpolator((itk::InterpolateImageFunction<TInputImage, double>::Pointer)linearInterpolator);
+  transformer->SetInterpolator((InterpolateImageFunction<TInputImage, double>::Pointer)linearInterpolator);
   transformer->SetSize(inputPtr->GetLargestPossibleRegion().GetSize());
   transformer->SetOutputSpacing(defaultSpacing);
   transformer->SetOutputOrigin(defaultOrigin);
@@ -303,7 +303,7 @@ MidsagittalPlaneExtractionImageFilter<TInputImage,TOutputImage>
   }
   translations[0]=-shift/2;
   correctingTransform->Translate(translations, 1);
-  transformer->SetTransform((itk::Transform<double,TInputImage::ImageDimension, TInputImage::ImageDimension>::Pointer) correctingTransform);
+  transformer->SetTransform((Transform<double,TInputImage::ImageDimension, TInputImage::ImageDimension>::Pointer) correctingTransform);
   transformer->Update();
   printVolumeTo(transformer->GetOutput(), 0, "c:\\tmp", "finalYaw");
   printVolumeTo(transformer->GetOutput(), 1, "c:\\tmp", "finalRoll");
@@ -320,7 +320,7 @@ MidsagittalPlaneExtractionImageFilter<TInputImage,TOutputImage>
   axes[1]=0;
   axes[2]=0;
   correctingTransform->Translate(axes);
-  transformer->SetTransform((itk::Transform<double,TInputImage::ImageDimension, TInputImage::ImageDimension>::Pointer) correctingTransform);
+  transformer->SetTransform((Transform<double,TInputImage::ImageDimension, TInputImage::ImageDimension>::Pointer) correctingTransform);
   transformer->SetInput(inputPtr);
   transformer->Update();
   this->GraftOutput(transformer->GetOutput());
@@ -341,24 +341,24 @@ double
 MidsagittalPlaneExtractionImageFilter<TInputImage, TOutputImage>::
 FindAngle(typename Superclass::InputImageConstPointer image, int angleChoice, int numberOfPoints, double step, estimateType* estimate)
 {
-  typedef itk::FlipImageFilter<TInputImage> flipperType;
-  typedef itk::AffineTransform<double, TInputImage::ImageDimension> rotationTransformType;
-  typedef itk::NormalizedCorrelationImageToImageMetric<TInputImage, TInputImage> correlatorType;
-  typedef itk::LinearInterpolateImageFunction<TInputImage, double> linearInterpolatorType;
-  typedef itk::ResampleImageFilter<TInputImage, TInputImage> transformerType;
+  typedef FlipImageFilter<TInputImage> flipperType;
+  typedef AffineTransform<double, TInputImage::ImageDimension> rotationTransformType;
+  typedef NormalizedCorrelationImageToImageMetric<TInputImage, TInputImage> correlatorType;
+  typedef LinearInterpolateImageFunction<TInputImage, double> linearInterpolatorType;
+  typedef ResampleImageFilter<TInputImage, TInputImage> transformerType;
   int junk;
 
   linearInterpolatorType::Pointer linearInterpolator=linearInterpolatorType::New();  
-  TInputImage::Pointer flippedImage=TInputImage::New();
-  flipperType::FlipAxesArrayType flipAxes;
-  flipperType::Pointer flipper=flipperType::New();
-  rotationTransformType::Pointer rotationTransform=rotationTransformType::New();
-  correlatorType::Pointer correlator=correlatorType::New();
-  rotationTransformType::OutputVectorType rotationAxes, translations;
-  transformerType::Pointer transformer=transformerType::New();
-  itk::Point <double , TInputImage::ImageDimension> aPoint, transformedPoint;  
-  TInputImage::RegionType::SizeType flippedSize;
-  correlatorType::MeasureType currentScore=0, maxScore=0;
+  typename TInputImage::Pointer flippedImage=TInputImage::New();
+  typename flipperType::FlipAxesArrayType flipAxes;
+  typename flipperType::Pointer flipper=flipperType::New();
+  typename rotationTransformType::Pointer rotationTransform=rotationTransformType::New();
+  typename correlatorType::Pointer correlator=correlatorType::New();
+  typename rotationTransformType::OutputVectorType rotationAxes, translations;
+  typename transformerType::Pointer transformer=transformerType::New();
+  Point <double , TInputImage::ImageDimension> aPoint, transformedPoint;  
+  typename TInputImage::RegionType::SizeType flippedSize;
+  typename correlatorType::MeasureType currentScore=0, maxScore=0;
   double correctAngle=0;
   double index, yShift;
 
@@ -403,7 +403,7 @@ FindAngle(typename Superclass::InputImageConstPointer image, int angleChoice, in
 //  aPoint[1]=ceil(flippedSize[1]/2);
 //  aPoint[2]=ceil(flippedSize[2]/2);
   aPoint=estimate->flippedCenterOfMass;
-  transformer->SetInterpolator((itk::InterpolateImageFunction<TInputImage, double>::Pointer) linearInterpolator);
+  transformer->SetInterpolator((InterpolateImageFunction<TInputImage, double>::Pointer) linearInterpolator);
   transformer->SetSize(flippedImage->GetLargestPossibleRegion().GetSize());
   transformer->SetOutputSpacing(flippedImage->GetSpacing());
   transformer->SetOutputOrigin(flippedImage->GetOrigin());
@@ -432,7 +432,7 @@ FindAngle(typename Superclass::InputImageConstPointer image, int angleChoice, in
       maxScore=abs(currentScore);
       correctAngle=angle/2;
     }
-//    transformer->SetTransform((itk::Transform<double,TInputImage::ImageDimension, TInputImage::ImageDimension>::Pointer) rotationTransform);
+//    transformer->SetTransform((Transform<double,TInputImage::ImageDimension, TInputImage::ImageDimension>::Pointer) rotationTransform);
 //    transformer->SetInput(flippedImage);
 //    transformer->Update();
 //    printVolumeTo(transformer->GetOutput(), "c:\\tmp", "transformed_flipped");
@@ -449,22 +449,22 @@ double
 MidsagittalPlaneExtractionImageFilter<TInputImage, TOutputImage>::
 FindShift(typename Superclass::InputImageConstPointer volume, double numberOfPoints, double step, double shiftEstimate)
 {
-  typedef itk::FlipImageFilter<TInputImage> flipperType;
-  typedef itk::LinearInterpolateImageFunction<TInputImage, double> linearInterpolatorType;
-  typedef itk::AffineTransform<double, TInputImage::ImageDimension> affineTransformType;
-  typedef itk::NormalizedCorrelationImageToImageMetric<TInputImage, TInputImage> correlatorType;
+  typedef FlipImageFilter<TInputImage> flipperType;
+  typedef LinearInterpolateImageFunction<TInputImage, double> linearInterpolatorType;
+  typedef AffineTransform<double, TInputImage::ImageDimension> affineTransformType;
+  typedef NormalizedCorrelationImageToImageMetric<TInputImage, TInputImage> correlatorType;
 
-  flipperType::Pointer flipper=flipperType::New();
-  correlatorType::Pointer correlator=correlatorType::New();
-  affineTransformType::Pointer affineTransform=affineTransformType::New();
-  linearInterpolatorType::Pointer linearInterpolator=linearInterpolatorType::New();
-  TInputImage::Pointer flippedImage;
-  flipperType::FlipAxesArrayType flipAxes;
-  affineTransformType::OutputVectorType rotationAxes, translations, verticalShift, horizontalShift;
-  TInputImage::RegionType::SizeType flippedSize, inputSize;
-  correlatorType::MeasureType currentScore=10, bestScore=10;
-  TInputImage::RegionType::IndexType dimensionsOfInterest;
-  itk::Point <double , TInputImage::ImageDimension> aPoint, transformedPoint, *centerOfMass=NULL, flippedCenterOfMass;  
+  typename flipperType::Pointer flipper=flipperType::New();
+  typename correlatorType::Pointer correlator=correlatorType::New();
+  typename affineTransformType::Pointer affineTransform=affineTransformType::New();
+  typename linearInterpolatorType::Pointer linearInterpolator=linearInterpolatorType::New();
+  typename TInputImage::Pointer flippedImage;
+  typename flipperType::FlipAxesArrayType flipAxes;
+  typename affineTransformType::OutputVectorType rotationAxes, translations, verticalShift, horizontalShift;
+  typename TInputImage::RegionType::SizeType flippedSize, inputSize;
+  typename correlatorType::MeasureType currentScore=10, bestScore=10;
+  typename TInputImage::RegionType::IndexType dimensionsOfInterest;
+  Point <double , TInputImage::ImageDimension> aPoint, transformedPoint, *centerOfMass=NULL, flippedCenterOfMass;  
   double middleValue=0;
   double shiftX, bestShiftX=0, shift;
   double theOrigin[TInputImage::ImageDimension];
@@ -520,13 +520,13 @@ double
 MidsagittalPlaneExtractionImageFilter<TInputImage, TOutputImage>::
 findHighestPoint(typename Superclass::InputImageConstPointer volume, int dimensionChoice, double startingHeight)
 {
-  typedef TInputImage::RegionType requestedRegionType;
-  typedef itk::ImageRegionConstIterator<TInputImage> inputIterType;
+  typedef typename TInputImage::RegionType requestedRegionType;
+  typedef ImageRegionConstIterator<TInputImage> inputIterType;
 
-  requestedRegionType::SizeType requestedSize;
-  requestedRegionType::IndexType requestedIndex;
+  typename requestedRegionType::SizeType requestedSize;
+  typename requestedRegionType::IndexType requestedIndex;
   requestedRegionType requestedRegion;
-  TInputImage::RegionType::SizeType inputSize;
+  typename TInputImage::SizeType inputSize;
   double nOfDimensions, upperBound, lowerBound, currentHeight, cutoff=0.1, sum=0;
   int found=0;
 
@@ -651,16 +651,16 @@ findHighestPoint(typename Superclass::InputImageConstPointer volume, int dimensi
 }
 
 template <class TInputImage, class TOutputImage>
-//itk::Point<double, TInputImage::ImageDimension>*
+//Point<double, TInputImage::ImageDimension>*
 double*
 MidsagittalPlaneExtractionImageFilter<TInputImage, TOutputImage>::
 //findCentroid(typename Superclass::InputImageConstPointer volume, TInputImage::RegionType::IndexType dimensionMask)
 findCentroid(typename Superclass::InputImageConstPointer volume, double* dimensionMask)
 {
-  typedef itk::ImageRegionConstIterator<TInputImage> inputIterType;
+  typedef ImageRegionConstIterator<TInputImage> inputIterType;
   
   double* centroid;
-  inputIterType::IndexType index;
+  typename inputIterType::IndexType index;
   double *dimensionsOfInterest, nOfDimensionsOfInterest=0, nOfBrightPixels=0;
   double weight=0, totalWeight=0;
   int j=0;
@@ -717,34 +717,34 @@ estimateType*
 MidsagittalPlaneExtractionImageFilter<TInputImage, TOutputImage>::
 estimateAngle(typename Superclass::InputImageConstPointer volume)
 {
-  typedef itk::FlipImageFilter<TInputImage> flipperType;
-  typedef itk::ResampleImageFilter<TInputImage, TInputImage> transformerType;
-  typedef itk::LinearInterpolateImageFunction<TInputImage, double> linearInterpolatorType;
-  typedef itk::AffineTransform<double, TInputImage::ImageDimension> affineTransformType;
-  typedef itk::NormalizedCorrelationImageToImageMetric<TInputImage, TInputImage> correlatorType;
-  typedef itk::ThresholdImageFilter<TInputImage> thresholderType;
+  typedef FlipImageFilter<TInputImage> flipperType;
+  typedef ResampleImageFilter<TInputImage, TInputImage> transformerType;
+  typedef LinearInterpolateImageFunction<TInputImage, double> linearInterpolatorType;
+  typedef AffineTransform<double, TInputImage::ImageDimension> affineTransformType;
+  typedef NormalizedCorrelationImageToImageMetric<TInputImage, TInputImage> correlatorType;
+  typedef ThresholdImageFilter<TInputImage> thresholderType;
 
-  thresholderType::Pointer thresholder=thresholderType::New();
-  flipperType::Pointer flipper=flipperType::New();
-  correlatorType::Pointer correlator=correlatorType::New();
-  correlatorType::Pointer backupCorrelator=correlatorType::New();
-  affineTransformType::Pointer affineTransform=affineTransformType::New();
-  affineTransformType::Pointer identityTransform=affineTransformType::New();
-  affineTransformType::Pointer savedAffineTransform=affineTransformType::New();
-  affineTransformType::Pointer shifterAffineTransform=affineTransformType::New();
-  transformerType::Pointer transformer=transformerType::New();
-  transformerType::Pointer transformerShifter=transformerType::New();
-  linearInterpolatorType::Pointer linearInterpolator=linearInterpolatorType::New();
-  linearInterpolatorType::Pointer backupLinearInterpolator=linearInterpolatorType::New();
-  TInputImage::Pointer flippedImage, originalImage;
-  TInputImage::Pointer transformedImage;
-  flipperType::FlipAxesArrayType flipAxes;
-  affineTransformType::OutputVectorType rotationAxes, translations, verticalShift, horizontalShift;
-  itk::Point <double , TInputImage::ImageDimension> aPoint, transformedPoint, flippedCenterOfMass;  
-  affineTransformType::ParametersType params;
+  typename thresholderType::Pointer thresholder=thresholderType::New();
+  typename flipperType::Pointer flipper=flipperType::New();
+  typename correlatorType::Pointer correlator=correlatorType::New();
+  typename correlatorType::Pointer backupCorrelator=correlatorType::New();
+  typename affineTransformType::Pointer affineTransform=affineTransformType::New();
+  typename affineTransformType::Pointer identityTransform=affineTransformType::New();
+  typename affineTransformType::Pointer savedAffineTransform=affineTransformType::New();
+  typename affineTransformType::Pointer shifterAffineTransform=affineTransformType::New();
+  typename transformerType::Pointer transformer=transformerType::New();
+  typename transformerType::Pointer transformerShifter=transformerType::New();
+  typename linearInterpolatorType::Pointer linearInterpolator=linearInterpolatorType::New();
+  typename linearInterpolatorType::Pointer backupLinearInterpolator=linearInterpolatorType::New();
+  typename TInputImage::Pointer flippedImage, originalImage;
+  typename TInputImage::Pointer transformedImage;
+  typename flipperType::FlipAxesArrayType flipAxes;
+  typename affineTransformType::OutputVectorType rotationAxes, translations, verticalShift, horizontalShift;
+  Point <double , TInputImage::ImageDimension> aPoint, transformedPoint, flippedCenterOfMass;  
+  typename affineTransformType::ParametersType params;
   double  *centerOfMass=NULL;
-  TInputImage::RegionType::SizeType flippedSize, inputSize;
-  correlatorType::MeasureType currentScore=10, bestScore=10;
+  typename TInputImage::RegionType::SizeType flippedSize, inputSize;
+  typename correlatorType::MeasureType currentScore=10, bestScore=10;
   double inputVolumeTip, transformedVolumeTip;
   double dimensionsOfInterest[TInputImage::ImageDimension];
   double step=1, middleValue=0, numberOfPoints=360;
@@ -840,14 +840,14 @@ estimateAngle(typename Superclass::InputImageConstPointer volume)
   correlator->SetFixedImageRegion(originalImage->GetLargestPossibleRegion());
   backupCorrelator->SetFixedImage(originalImage);
   backupCorrelator->SetFixedImageRegion(originalImage->GetLargestPossibleRegion());
-  backupCorrelator->SetTransform((itk::Transform<double,TInputImage::ImageDimension, TInputImage::ImageDimension>::Pointer)identityTransform);
+  backupCorrelator->SetTransform((Transform<double,TInputImage::ImageDimension, TInputImage::ImageDimension>::Pointer)identityTransform);
     transformer->SetInput(flippedImage);
-  transformer->SetInterpolator((itk::InterpolateImageFunction<TInputImage, double>::Pointer) linearInterpolator);
+  transformer->SetInterpolator((InterpolateImageFunction<TInputImage, double>::Pointer) linearInterpolator);
   transformer->SetSize(flippedImage->GetLargestPossibleRegion().GetSize());
   transformer->SetOutputSpacing(flippedImage->GetSpacing());
   transformer->SetOutputOrigin(flippedImage->GetOrigin());
 
-  transformerShifter->SetInterpolator((itk::InterpolateImageFunction<TInputImage, double>::Pointer) linearInterpolator);
+  transformerShifter->SetInterpolator((InterpolateImageFunction<TInputImage, double>::Pointer) linearInterpolator);
   transformerShifter->SetSize(flippedImage->GetLargestPossibleRegion().GetSize());
   transformerShifter->SetOutputSpacing(flippedImage->GetSpacing());
   transformerShifter->SetOutputOrigin(flippedImage->GetOrigin());
@@ -890,7 +890,7 @@ estimateAngle(typename Superclass::InputImageConstPointer volume)
 //        , params[4], params[5], params[6], params[7], params[8], params[9], params[10], params[11]);
 //    savedAffineTransform->SetParameters(affineTransform->GetParameters());
 
-    transformer->SetTransform((itk::Transform<double,TInputImage::ImageDimension, TInputImage::ImageDimension>::Pointer) affineTransform);
+    transformer->SetTransform((Transform<double,TInputImage::ImageDimension, TInputImage::ImageDimension>::Pointer) affineTransform);
 //      params=affineTransform->GetParameters();
 //      fprintf(stdout, "\n%f %f %f | %f %f %f |  %f %f %f |  %f %f %f\n", params[0], params[1], params[2], params[3]
 //        , params[4], params[5], params[6], params[7], params[8], params[9], params[10], params[11]);
@@ -929,7 +929,7 @@ estimateAngle(typename Superclass::InputImageConstPointer volume)
 //        , params[4], params[5], params[6], params[7], params[8], params[9], params[10], params[11]);
 
   transformerType::Pointer transformerShifter=transformerType::New();
-  transformerShifter->SetInterpolator((itk::InterpolateImageFunction<TInputImage, double>::Pointer) linearInterpolator);
+  transformerShifter->SetInterpolator((InterpolateImageFunction<TInputImage, double>::Pointer) linearInterpolator);
   transformerShifter->SetSize(flippedImage->GetLargestPossibleRegion().GetSize());
   transformerShifter->SetOutputSpacing(flippedImage->GetSpacing());
   transformerShifter->SetOutputOrigin(flippedImage->GetOrigin());
@@ -937,7 +937,7 @@ estimateAngle(typename Superclass::InputImageConstPointer volume)
 
 
 //      transformerShifter->SetInput(flippedImage);
-      transformerShifter->SetTransform((itk::Transform<double,TInputImage::ImageDimension, TInputImage::ImageDimension>::Pointer) affineTransform);
+      transformerShifter->SetTransform((Transform<double,TInputImage::ImageDimension, TInputImage::ImageDimension>::Pointer) affineTransform);
       thresholder->SetInput(transformerShifter->GetOutput());
       thresholder->Update();
       transformedImage=thresholder->GetOutput();
@@ -1003,29 +1003,29 @@ double
 MidsagittalPlaneExtractionImageFilter<TInputImage, TOutputImage>::
 estimateShift(typename Superclass::InputImageConstPointer volume)
 {
-  typedef itk::FlipImageFilter<TInputImage> flipperType;
-  typedef itk::LinearInterpolateImageFunction<TInputImage, double> linearInterpolatorType;
-  typedef itk::AffineTransform<double, TInputImage::ImageDimension> affineTransformType;
-  typedef itk::NormalizedCorrelationImageToImageMetric<TInputImage, TInputImage> correlatorType;
-  typedef itk::ThresholdImageFilter<TInputImage> thresholderType;
-  typedef itk::ResampleImageFilter<TInputImage, TInputImage> transformerType;
+  typedef FlipImageFilter<TInputImage> flipperType;
+  typedef LinearInterpolateImageFunction<TInputImage, double> linearInterpolatorType;
+  typedef AffineTransform<double, TInputImage::ImageDimension> affineTransformType;
+  typedef NormalizedCorrelationImageToImageMetric<TInputImage, TInputImage> correlatorType;
+  typedef ThresholdImageFilter<TInputImage> thresholderType;
+  typedef ResampleImageFilter<TInputImage, TInputImage> transformerType;
 
-  transformerType::Pointer transformer=transformerType::New();
-  thresholderType::Pointer thresholder=thresholderType::New();
-  flipperType::Pointer flipper=flipperType::New();
-  correlatorType::Pointer correlator=correlatorType::New();
-  affineTransformType::Pointer affineTransform=affineTransformType::New();
-  affineTransformType::Pointer identityTransform=affineTransformType::New();
-  linearInterpolatorType::Pointer linearInterpolator=linearInterpolatorType::New();
-  linearInterpolatorType::Pointer correlationLinearInterpolator=linearInterpolatorType::New();
-  TInputImage::Pointer flippedImage;
-  TInputImage::Pointer originalImage;
-  flipperType::FlipAxesArrayType flipAxes;
-  affineTransformType::OutputVectorType rotationAxes, translations, verticalShift, horizontalShift;
-  TInputImage::RegionType::SizeType flippedSize, inputSize;
-  correlatorType::MeasureType currentScore=10, bestScore=10;
+  typename transformerType::Pointer transformer=transformerType::New();
+  typename thresholderType::Pointer thresholder=thresholderType::New();
+  typename flipperType::Pointer flipper=flipperType::New();
+  typename correlatorType::Pointer correlator=correlatorType::New();
+  typename affineTransformType::Pointer affineTransform=affineTransformType::New();
+  typename affineTransformType::Pointer identityTransform=affineTransformType::New();
+  typename linearInterpolatorType::Pointer linearInterpolator=linearInterpolatorType::New();
+  typename linearInterpolatorType::Pointer correlationLinearInterpolator=linearInterpolatorType::New();
+  typename TInputImage::Pointer flippedImage;
+  typename TInputImage::Pointer originalImage;
+  typename flipperType::FlipAxesArrayType flipAxes;
+  typename affineTransformType::OutputVectorType rotationAxes, translations, verticalShift, horizontalShift;
+  typename TInputImage::SizeType flippedSize, inputSize;
+  typename correlatorType::MeasureType currentScore=10, bestScore=10;
   double dimensionsOfInterest[TInputImage::ImageDimension];
-  itk::Point <double , TInputImage::ImageDimension> aPoint, transformedPoint, flippedCenterOfMass;  
+  Point <double , TInputImage::ImageDimension> aPoint, transformedPoint, flippedCenterOfMass;  
   double  *centerOfMass;
   double step=2, middleValue=0, numberOfPoints;
   double shiftX, bestShiftX=0, shift;
@@ -1111,12 +1111,12 @@ estimateShift(typename Superclass::InputImageConstPointer volume)
     thresholder->SetOutsideValue(1);
     thresholder->ThresholdOutside(0, 0.1);
     transformer=transformerType::New();
-    transformer->SetInterpolator((itk::InterpolateImageFunction<TInputImage, double>::Pointer) linearInterpolator);
+    transformer->SetInterpolator((InterpolateImageFunction<TInputImage, double>::Pointer) linearInterpolator);
     transformer->SetSize(flippedImage->GetLargestPossibleRegion().GetSize());
     transformer->SetOutputSpacing(flippedImage->GetSpacing());
     transformer->SetOutputOrigin(flippedImage->GetOrigin());
     transformer->SetInput(flippedImage);
-    transformer->SetTransform((itk::Transform<double,TInputImage::ImageDimension, TInputImage::ImageDimension>::Pointer) affineTransform);
+    transformer->SetTransform((Transform<double,TInputImage::ImageDimension, TInputImage::ImageDimension>::Pointer) affineTransform);
     thresholder->SetInput(transformer->GetOutput());
     thresholder->Update();
 

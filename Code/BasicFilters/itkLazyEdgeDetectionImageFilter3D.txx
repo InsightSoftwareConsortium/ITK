@@ -19,7 +19,7 @@
 
 #include "itkLazyEdgeDetectionImageFilter3D.h"
 #include "itkCannyEdgeDetectionImageFilter.h"
-
+#include "itkImageRegion.h"
 
 namespace itk
 {
@@ -52,22 +52,22 @@ LazyEdgeDetectionImageFilter3D<TInputImage,TOutputImage>
 
 
   typename Superclass::InputImageConstPointer  inputPtr = this->GetInput();
-  typedef itk::Image<float, 2> floatImage2Dtype;
-  typedef itk::ExtractImageFilter<TInputImage, floatImage2Dtype> extractorType;
-  typedef itk::ImageRegionIterator<TOutputImage> outputIterType;
-  typedef itk::ImageRegionIterator<floatImage2Dtype> sliceIterType;
-  typedef itk::CannyEdgeDetectionImageFilter<floatImage2Dtype, floatImage2Dtype> edgeDetectorType;
+  typedef Image<float, 2> floatImage2Dtype;
+  typedef ExtractImageFilter<TInputImage, floatImage2Dtype> extractorType;
+  typedef ImageRegionIterator<TOutputImage> outputIterType;
+  typedef ImageRegionIterator<floatImage2Dtype> sliceIterType;
+  typedef CannyEdgeDetectionImageFilter<floatImage2Dtype, floatImage2Dtype> edgeDetectorType;
 
-  floatImage2Dtype::Pointer float2Dimage;
-  extractorType::Pointer extractor=extractorType::New();
-    extractorType::InputImageRegionType extractionRegion;
-  extractorType::InputImageRegionType::SizeType extractionRegionSize;
-  extractorType::InputImageRegionType::IndexType extractionRegionIndex;
-  TOutputImage::Pointer outputImage=TOutputImage::New();
-  TInputImage::RegionType::SizeType size;
-  floatImage2Dtype::RegionType sliceRegion;
-  floatImage2Dtype::RegionType::SizeType sliceSize;
-  edgeDetectorType::Pointer edgeDetector=edgeDetectorType::New();
+  typename floatImage2Dtype::Pointer float2Dimage;
+  typename extractorType::Pointer extractor=extractorType::New();
+  typename extractorType::InputImageRegionType extractionRegion;
+  typename extractorType::InputImageRegionType::SizeType extractionRegionSize;
+  typename extractorType::InputImageRegionType::IndexType extractionRegionIndex;
+  typename TOutputImage::Pointer outputImage=TOutputImage::New();
+  typename InputImageRegionType::SizeType size;
+  typename floatImage2Dtype::RegionType sliceRegion;
+  typename floatImage2Dtype::SizeType sliceSize;
+  typename edgeDetectorType::Pointer edgeDetector=edgeDetectorType::New();
 
   size=inputPtr->GetLargestPossibleRegion().GetSize();
   outputImage->SetRegions(inputPtr->GetLargestPossibleRegion());
@@ -128,11 +128,11 @@ this->GraftOutput(outputImage);
   #define edgeDetectorVariance 3
   #define edgeDetectorMaximumError 0.01
   
-  typedef itk::AffineTransform<double, TInputImage::ImageDimension> correctingTransformType;
-  typedef itk::ResampleImageFilter<TInputImage, TOutputImage> transformerType;
-  typedef itk::LinearInterpolateImageFunction<TInputImage, double> linearInterpolatorType;
-  typedef itk::ShrinkImageFilter<TInputImage, TInputImage> shrinkerType;
-  typedef itk::CannyEdgeDetectionImageFilter<TInputImage, TInputImage> edgeDetectorType;
+  typedef AffineTransform<double, TInputImage::ImageDimension> correctingTransformType;
+  typedef ResampleImageFilter<TInputImage, TOutputImage> transformerType;
+  typedef LinearInterpolateImageFunction<TInputImage, double> linearInterpolatorType;
+  typedef ShrinkImageFilter<TInputImage, TInputImage> shrinkerType;
+  typedef CannyEdgeDetectionImageFilter<TInputImage, TInputImage> edgeDetectorType;
     
   TInputImage::Pointer tmpImage= TInputImage::New();
   correctingTransformType::Pointer correctingTransform=correctingTransformType::New();
@@ -188,7 +188,7 @@ this->GraftOutput(outputImage);
   tmpImage->SetSpacing(defaultSpacing);
 
   yawAngle=FindAngle((typename Superclass::InputImageConstPointer)tmpImage, YAW_ANGLE);
-  transformer->SetInterpolator((itk::InterpolateImageFunction<TInputImage, double>::Pointer) linearInterpolator);
+  transformer->SetInterpolator((InterpolateImageFunction<TInputImage, double>::Pointer) linearInterpolator);
   transformer->SetSize(tmpImage->GetLargestPossibleRegion().GetSize());
   transformer->SetOutputSpacing(tmpImage->GetSpacing());
   transformer->SetOutputOrigin(tmpImage->GetOrigin());
@@ -198,14 +198,14 @@ this->GraftOutput(outputImage);
   axes[2]=0;
   correctingTransform->SetIdentity();
   correctingTransform->Rotate3D(axes, -pi*yawAngle/180);
-  transformer->SetTransform((itk::Transform<double,TInputImage::ImageDimension, TInputImage::ImageDimension>::Pointer) correctingTransform);
+  transformer->SetTransform((Transform<double,TInputImage::ImageDimension, TInputImage::ImageDimension>::Pointer) correctingTransform);
   transformer->SetInput(tmpImage);
   transformer->Update();
   tmpImage=transformer->GetOutput();
 
   rollAngle=FindAngle((typename Superclass::InputImageConstPointer)tmpImage, ROLL_ANGLE);
   transformer=transformerType::New();
-  transformer->SetInterpolator((itk::InterpolateImageFunction<TInputImage, double>::Pointer) linearInterpolator);
+  transformer->SetInterpolator((InterpolateImageFunction<TInputImage, double>::Pointer) linearInterpolator);
   transformer->SetSize(tmpImage->GetLargestPossibleRegion().GetSize());
   transformer->SetOutputSpacing(defaultSpacing);
   transformer->SetOutputOrigin(defaultOrigin);
@@ -213,13 +213,13 @@ this->GraftOutput(outputImage);
   axes[1]=1;
   axes[2]=0;
   correctingTransform->Rotate3D(axes, -pi*rollAngle/180);
-  transformer->SetTransform((itk::Transform<double,TInputImage::ImageDimension, TInputImage::ImageDimension>::Pointer) correctingTransform);
+  transformer->SetTransform((Transform<double,TInputImage::ImageDimension, TInputImage::ImageDimension>::Pointer) correctingTransform);
   transformer->SetInput(tmpImage);
   transformer->Update();
   tmpImage=transformer->GetOutput();
 
   transformer=transformerType::New();
-  transformer->SetInterpolator((itk::InterpolateImageFunction<TInputImage, double>::Pointer)linearInterpolator);
+  transformer->SetInterpolator((InterpolateImageFunction<TInputImage, double>::Pointer)linearInterpolator);
   transformer->SetSize(inputPtr->GetLargestPossibleRegion().GetSize());
   transformer->SetOutputSpacing(defaultSpacing);
   transformer->SetOutputOrigin(defaultOrigin);
@@ -227,7 +227,7 @@ this->GraftOutput(outputImage);
   axes[1]=0;
   axes[2]=0;
   correctingTransform->Translate(axes);
-  transformer->SetTransform((itk::Transform<double,TInputImage::ImageDimension, TInputImage::ImageDimension>::Pointer) correctingTransform);
+  transformer->SetTransform((Transform<double,TInputImage::ImageDimension, TInputImage::ImageDimension>::Pointer) correctingTransform);
   transformer->SetInput(inputPtr);
   transformer->Update();
   this->GraftOutput(transformer->GetOutput());*/
