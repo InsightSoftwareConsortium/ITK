@@ -77,6 +77,7 @@ ADD_TEST(itkPointSetToImageRegistrationTest_1 ${ALGORITHMS_TESTS}  itkPointSetTo
 ADD_TEST(itkRegionGrow2DTest ${ALGORITHMS_TESTS} itkRegionGrow2DTest)
 ADD_TEST(itkReinitializeLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkReinitializeLevelSetImageFilterTest)
 ADD_TEST(itkShapeDetectionLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkShapeDetectionLevelSetImageFilterTest)
+ADD_TEST(itkShapePriorMAPCostFunctionTest ${ALGORITHMS_TESTS} itkShapePriorMAPCostFunctionTest)
 ADD_TEST(itkSpatialObjectToImageRegistrationTest ${ALGORITHMS_TESTS} itkSpatialObjectToImageRegistrationTest)
 ADD_TEST(itkSupervisedImageClassifierTest ${ALGORITHMS_TESTS} itkSupervisedImageClassifierTest)
 ADD_TEST(itkThresholdSegmentationLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkThresholdSegmentationLevelSetImageFilterTest)
@@ -161,6 +162,7 @@ itkPointSetToImageRegistrationTest_1.cxx
 itkRegionGrow2DTest.cxx
 itkReinitializeLevelSetImageFilterTest.cxx
 itkShapeDetectionLevelSetImageFilterTest.cxx
+itkShapePriorMAPCostFunctionTest.cxx
 itkSpatialObjectToImageRegistrationTest.cxx
 itkSupervisedImageClassifierTest.cxx
 itkThresholdSegmentationLevelSetImageFilterTest.cxx

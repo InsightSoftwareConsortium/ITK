@@ -73,6 +73,7 @@ REGISTER_TEST(itkPointSetToImageRegistrationTest_1  );
 REGISTER_TEST(itkRegionGrow2DTest );
 REGISTER_TEST(itkReinitializeLevelSetImageFilterTest );
 REGISTER_TEST(itkShapeDetectionLevelSetImageFilterTest );
+REGISTER_TEST(itkShapePriorMAPCostFunctionTest );
 REGISTER_TEST(itkSpatialObjectToImageRegistrationTest );
 REGISTER_TEST(itkSupervisedImageClassifierTest);
 REGISTER_TEST(itkGibbsTest );
