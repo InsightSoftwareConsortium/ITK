@@ -60,7 +60,6 @@ ImageViewerWindow
   glLoadIdentity();
 
   m_Buffer = new BufferPixelType[ m_Width * m_Height ];
-
   m_Notifier = Object::New();
 }
 
@@ -87,6 +86,7 @@ ImageViewerWindow
 ::CallBackDisplayFunc(void)
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glPixelStorei(GL_UNPACK_ALIGNMENT, 1);  
   glDrawPixels( m_Width, m_Height, 
                 GL_LUMINANCE, GL_UNSIGNED_BYTE, 
                 m_Buffer );
@@ -101,6 +101,11 @@ void
 ImageViewerWindow
 ::SetBufferSize(int w, int h)
 {
+  if( m_Width == w && m_Height == h  && m_Buffer )
+    {
+    return;
+    }
+
   m_Width  = w;
   m_Height = h;
   if( m_Buffer )
