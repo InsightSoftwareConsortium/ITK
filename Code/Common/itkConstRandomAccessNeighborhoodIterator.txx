@@ -30,7 +30,7 @@ ConstRandomAccessNeighborhoodIterator<TImage>
 
   Superclass::PrintSelf(os, indent.GetNextIndent());
 }
-
+  /*
 template<class TImage>
 ConstRandomAccessNeighborhoodIterator<TImage> &
 ConstRandomAccessNeighborhoodIterator<TImage>
@@ -102,7 +102,7 @@ ConstRandomAccessNeighborhoodIterator<TImage>
 
   return *this;
 }
-  
+*/  
 } // namespace itk
 
 #endif

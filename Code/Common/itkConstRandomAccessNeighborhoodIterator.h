@@ -17,6 +17,7 @@
 #ifndef __itkConstRandomAccessNeighborhoodIterator_h
 #define __itkConstRandomAccessNeighborhoodIterator_h
 
+#include "itkMacro.h"
 #include "itkConstNeighborhoodIterator.h"
 
 namespace itk {
@@ -67,7 +68,7 @@ public:
   /** Default constructor */
   ConstRandomAccessNeighborhoodIterator()
     : Superclass()
-    {}
+  {  itkGenericOutputMacro("The ConstRandomAccessNeighborhood is deprecated and will be removed.  Use ConstNeighborhoodIterator instead"); }
 
   /** Virtual destructor */
   virtual ~ConstRandomAccessNeighborhoodIterator() {}
@@ -101,19 +102,19 @@ public:
   /** Addition of an itk::Offset.  Note that this method does not do any bounds
    * checking.  Adding an offset that moves the iterator out of its assigned
    * region will produce undefined results. */
-  Self &operator+=(const OffsetType &);
+  //  Self &operator+=(const OffsetType &);
 
   /** Subtraction of an itk::Offset. Note that this method does not do any bounds
    * checking.  Subtracting an offset that moves the iterator out of its
    * assigned region will produce undefined results. */
-  Self &operator-=(const OffsetType &);
+  //  Self &operator-=(const OffsetType &);
 
   /** Distance between two iterators */
-  OffsetType operator-(const Self& b)
-  {  return m_Loop - b.m_Loop;  }
+  //  OffsetType operator-(const Self& b)
+  //  {  return m_Loop - b.m_Loop;  }
   
 };
-
+  /*
 template<class TImage>
 inline ConstRandomAccessNeighborhoodIterator<TImage>
 operator+(const ConstRandomAccessNeighborhoodIterator<TImage> &it,
@@ -144,7 +145,7 @@ operator-(const ConstRandomAccessNeighborhoodIterator<TImage> &it,
   ret -= ind;
   return ret;
 }
-
+*/
 
   
 } // namespace itk

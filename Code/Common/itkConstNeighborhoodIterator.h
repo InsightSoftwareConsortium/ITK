@@ -29,7 +29,6 @@
 #include "itkNeighborhood.h"
 #include "itkImageBoundaryCondition.h"
 #include "itkExceptionObject.h"
-#include "itkBoundingBox.h"
 
 namespace itk {
 
@@ -80,8 +79,6 @@ public:
   typedef Index<itkGetStaticConstMacro(Dimension)> IndexType;
   typedef typename IndexType::IndexValueType IndexValueType;
   typedef Neighborhood<PixelType, itkGetStaticConstMacro(Dimension)> NeighborhoodType;
-  typedef BoundingBox< unsigned long, itkGetStaticConstMacro(Dimension), IndexValueType >
-            BoundingBoxType;
   
   /** Typedef for generic boundary condition pointer */
   typedef ImageBoundaryCondition<ImageType> *ImageBoundaryConditionPointerType;
@@ -91,10 +88,10 @@ public:
 
   /** Virtual destructor */
   virtual ~ConstNeighborhoodIterator() {}
-  
+
   /** Copy constructor */
   ConstNeighborhoodIterator( const ConstNeighborhoodIterator & );
-  
+
   /** Constructor which establishes the region size, neighborhood, and image
    * over which to walk. */
   ConstNeighborhoodIterator(const SizeType &radius,
@@ -105,14 +102,14 @@ public:
 
   /** Assignment operator */
   Self &operator=(const Self& orig);
-  
+
   /** Standard itk print method */
   virtual void PrintSelf(std::ostream &, Indent) const;
 
   /** Computes the internal, N-d offset of a pixel array position n from 
    * (0,0, ..., 0) in the "upper-left" corner of the neighborhood. */
   OffsetType ComputeInternalIndex(unsigned int n) const;
-  
+
   /** Returns the array of upper loop bounds used during iteration. */
   IndexType GetBound() const
     {    return m_Bound;   }
@@ -199,16 +196,9 @@ public:
   IndexType GetBeginIndex() const
     { return m_BeginIndex; }
 
-
-  /** Returns the bounding box for region spanned by this neighborhood */
-  //  typename BoundingBoxType::Pointer GetBoundingBox() const
-  // { return 
-  // }
-
   /** Returns a bounding box for the region spanned by this neighborhood
       represented by an itk::ImageRegion */
   RegionType GetBoundingBoxAsImageRegion() const;
-
   
   /** Returns the offsets used to wrap across dimensional boundaries. */
   OffsetType GetWrapOffset() const
@@ -332,7 +322,24 @@ public:
    * specified by the template parameter. */
   virtual void ResetBoundaryCondition()
     { /* default case is do nothing */ }
- 
+
+  /** Addition of an itk::Offset.  Note that this method does not do any bounds
+   * checking.  Adding an offset that moves the iterator out of its assigned
+   * region will produce undefined results. */
+  Self &operator+=(const OffsetType &);
+
+  /** Subtraction of an itk::Offset. Note that this method does not do any bounds
+   * checking.  Subtracting an offset that moves the iterator out of its
+   * assigned region will produce undefined results. */
+  Self &operator-=(const OffsetType &);
+
+  /** Distance between two iterators */
+  OffsetType operator-(const Self& b)
+  {  return m_Loop - b.m_Loop;  }
+
+
+
+  
 protected:
   
   /** Default method for setting the coordinate location of the iterator.
@@ -395,6 +402,49 @@ protected:
   OffsetType m_WrapOffset;
 };
 
+template<class TImage>
+inline ConstNeighborhoodIterator<TImage>
+operator+(const ConstNeighborhoodIterator<TImage> &it,
+          const typename ConstNeighborhoodIterator<TImage>
+          ::OffsetType &ind)
+{
+  ConstNeighborhoodIterator<TImage> ret;
+  ret = it;
+  ret += ind;
+  return ret;
+}
+
+template<class TImage>
+inline ConstNeighborhoodIterator<TImage>
+operator+(const typename ConstNeighborhoodIterator<TImage>
+          ::OffsetType &ind,
+          const ConstNeighborhoodIterator<TImage> &it)
+{  return (it + ind); }
+
+template<class TImage>
+inline ConstNeighborhoodIterator<TImage>
+operator-(const ConstNeighborhoodIterator<TImage> &it,
+          const typename ConstNeighborhoodIterator<TImage>
+          ::OffsetType &ind)
+{
+  ConstNeighborhoodIterator<TImage> ret;
+  ret = it;
+  ret -= ind;
+  return ret;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+  
 } // namespace itk
 
 

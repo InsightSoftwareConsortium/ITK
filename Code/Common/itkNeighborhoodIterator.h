@@ -204,6 +204,7 @@ public:
   typedef typename Superclass::RegionType RegionType;
   typedef typename Superclass::IndexType  IndexType;
   typedef typename Superclass::OffsetType OffsetType;
+  typedef typename OffsetType::OffsetValueType OffsetValueType;
   typedef typename Superclass::RadiusType RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
   typedef typename Superclass::Iterator      Iterator;
@@ -240,7 +241,7 @@ public:
 
   /** Returns the central pixel of the neighborhood. */
   virtual void SetCenterPixel(const PixelType &p)
-    { *( this->GetCenterPointer() ) = p; }
+  { *( this->GetCenterPointer() ) = p; }
   
   /** Virtual function that replaces the pixel values in the image
    * neighborhood that are pointed to by this NeighborhoodIterator with
@@ -249,8 +250,45 @@ public:
 
   /** Set the pixel at the ith location. */
   virtual void SetPixel(const unsigned long i, const PixelType &v)
-    { *(this->operator[](i)) = v; }
-    
+  { *(this->operator[](i)) = v; }
+  
+  /** Set the pixel at offset o from the neighborhood center */
+  virtual void SetPixel(const OffsetType o, const PixelType &v)
+  { *(this->operator[](o)) = v; }
+
+  /** Sets the pixel value located i pixels distant from the neighborhood center in
+      the positive specified ``axis'' direction. No bounds checking is done on
+      the size of the neighborhood. */
+  virtual PixelType SetNext(const unsigned axis, const unsigned i,
+                            const PixelType &v)
+  {   this->SetPixel(this->GetCenterNeighborhoodIndex()
+                     + (i * this->GetStride(axis)), v); }
+  
+  
+  /** Sets the pixel value located one pixel distant from the neighborhood center in
+      the specifed positive axis direction. No bounds checking is done on the
+      size of the neighborhood. */
+  virtual PixelType SetNext(const unsigned axis, const PixelType &v)
+    {   this->SetPixel(this->GetCenterNeighborhoodIndex()
+                       + this->GetStride(axis), v); }
+  
+  /** Sets the pixel value located i pixels distant from the neighborhood center in
+      the negative specified ``axis'' direction. No bounds checking is done on
+      the size of the neighborhood. */
+  virtual PixelType SetPrevious(const unsigned axis, const unsigned i,
+                                const PixelType &v)
+    { this->SetPixel(this->GetCenterNeighborhoodIndex()
+                     - (i * this->GetStride(axis)), v); }
+  
+  
+  /** Sets the pixel value located one pixel distant from the neighborhood center in
+      the specifed negative axis direction. No bounds checking is done on the
+      size of the neighborhood. */
+  virtual PixelType SetPrevious(const unsigned axis,
+                                const PixelType &v)
+    { this->SetPixel(this->GetCenterNeighborhoodIndex()
+                     - this->GetStride(axis), v); }
+  
 };
 
 } // namespace itk

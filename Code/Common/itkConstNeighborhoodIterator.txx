@@ -91,7 +91,7 @@ ConstNeighborhoodIterator<TImage>
 {
   m_EndIndex = m_Region.GetIndex();
   m_EndIndex[Dimension-1] = m_Region.GetIndex()[Dimension-1] +
-    static_cast<long>(m_Region.GetSize()[Dimension-1]);        
+    static_cast<long>(m_Region.GetSize()[Dimension-1]);
 }
 
 template<class TImage> 
@@ -332,6 +332,80 @@ void ConstNeighborhoodIterator<TImage>
         }
     }
 }
+
+template<class TImage>
+ConstNeighborhoodIterator<TImage> &
+ConstNeighborhoodIterator<TImage>
+::operator+=(const OffsetType & idx)
+{
+  unsigned int i;
+  Iterator it;
+  const Iterator _end = this->End();
+  OffsetValueType accumulator = 0;
+  const OffsetValueType* stride = this->GetImagePointer()->GetOffsetTable();
+
+  // Offset from the increment in the lowest dimension
+  accumulator += idx[0];
+  
+  // Offsets from the stride lengths in each dimension.
+  //
+  // Because the image offset table is based on its buffer size and not its
+  // requested region size, we don't have to worry about adding in the wrapping
+  // offsets. 
+  for (i = 1; i< Dimension; ++i)
+    {
+      accumulator += idx[i] * stride[i];
+    }
+
+  // Increment pointers.
+  for (it = this->Begin(); it < _end; ++it)
+    {
+      (*it) += accumulator;
+    }
+
+  // Update loop counter values
+  m_Loop += idx;
+
+  return *this;
+}
+
+template<class TImage>
+ConstNeighborhoodIterator<TImage> &
+ConstNeighborhoodIterator<TImage> 
+::operator-=(const OffsetType & idx)
+{
+  unsigned int i;
+  Iterator it;
+  const Iterator _end = this->End();
+  OffsetValueType accumulator = 0;
+  const OffsetValueType* stride = this->GetImagePointer()->GetOffsetTable();
+
+  // Offset from the increment in the lowest dimension
+  accumulator += idx[0];
+  
+  // Offsets from the stride lengths in each dimension.
+  //
+  // Because the image offset table is based on its buffer size and not its
+  // requested region size, we don't have to worry about adding in the wrapping
+  // offsets. 
+  for (i = 1; i< Dimension; ++i)
+    {
+      accumulator += idx[i] * stride[i];
+    }
+
+  // Increment pointers.
+  for (it = this->Begin(); it < _end; ++it)
+    {
+      (*it) -= accumulator;
+    }
+
+  // Update loop counter values
+  m_Loop -= idx;
+
+  return *this;
+}
+
+
 
 } // namespace itk
 
