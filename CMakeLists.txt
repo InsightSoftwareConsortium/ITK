@@ -82,8 +82,6 @@ ENDIF(NOT UNIX)
 OPTION(ITK_WRAP_TCL "Build Tcl wrapper support." OFF)
 
 IF(ITK_WRAP_TCL)
-  # Find the CABLE that has been provided with the Insight source tree.
-  UTILITY_SOURCE(CABLE cable Utilities/Cable/Executables)
-
   SUBDIRS(Wrapping)
 ENDIF(ITK_WRAP_TCL)
+
