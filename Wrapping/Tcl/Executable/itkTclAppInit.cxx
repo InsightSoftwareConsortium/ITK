@@ -87,5 +87,10 @@ int itkTclAppInit(Tcl_Interp* interp)
   static char initScript[] = "package require itk 0.7";
   if(Tcl_GlobalEval(interp, initScript) != TCL_OK) { return TCL_ERROR; }
   
+  // Allow users to have an initialization file for interactive mode.
+  static char rcFileNameVariable[] = "tcl_rcFileName";
+  static char rcFileNameValue[] = "~/.itktclrc";
+  Tcl_SetVar(interp, rcFileNameVariable, rcFileNameValue, TCL_GLOBAL_ONLY);
+  
   return TCL_OK;
 }
