@@ -12,7 +12,9 @@
 void test_cholesky()
 {
   vnl_matrix<double> A(3,3);
+#if __CYGWIN__
   vnl_sample_reseed(0x1234abcd);
+#endif
   test_util_fill_random(A.begin(), A.end());
   A = A * A.transpose();
 
