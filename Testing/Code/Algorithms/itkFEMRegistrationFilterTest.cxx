@@ -160,11 +160,11 @@ int itkFEMRegistrationFilterTest(int, char* [] )
   PixelType bgnd = 15;
 
   // fill moving with circle 
-  center[0] = 16; center[1] = 16; radius = 5;
+  center[0] = 16; center[1] = 16; center[2] = 16;radius = 5;
   FillWithCircle<ImageType>( moving, center, radius, fgnd, bgnd );
 
   // fill fixed with circle
-  center[0] = 16; center[1] = 16; radius = 5;
+  center[0] = 16; center[1] = 16; center[2] = 16; radius = 5;
   FillWithCircle<ImageType>( fixed, center, radius, fgnd, bgnd );
 
   // fill initial deformation with zero vectors
