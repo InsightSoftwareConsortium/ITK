@@ -109,6 +109,16 @@ public:
    **/
    itkGetConstReferenceMacro( RotationMatrix, MatrixType );
 
+  /**
+   * Get rotation Matrix from an Rigid3DTransform
+   *
+   * This method returns the value of the rotation of the
+   * Rigid3DTransform.
+   **/
+   const MatrixType & GetMatrix( ) const
+     {
+     return this->GetRotationMatrix();
+     }
 
   /**
    * Set offset of a Rigid3D Transform
@@ -129,6 +139,11 @@ public:
    * provided as argument is not orthogonal.
    **/
   virtual void SetRotationMatrix(const MatrixType &matrix);
+
+  virtual void SetMatrix(const MatrixType &matrix)
+    {
+    this->SetRotationMatrix(matrix);
+    }
 
 
   /**

@@ -100,6 +100,11 @@ public:
    **/
    itkGetConstReferenceMacro( RotationMatrix, MatrixType );
 
+   const typename MatrixType & GetMatrix( )
+     {
+     return this->GetRotationMatrix();
+     }
+
 
   /**
    * Set offset of a Rigid2D Transform
@@ -121,6 +126,19 @@ public:
    **/
   virtual void SetRotationMatrix(const MatrixType &matrix);
 
+  /**
+   * Set the rotation Matrix of a Rigid2D Transform
+   *
+   * This method sets the 2x2 matrix representing a rotation
+   * in the transform.  The Matrix is expected to be orthogonal
+   * with a certain tolerance.
+   * \warning This method will throw an exception is the matrix
+   * provided as argument is not orthogonal.
+   **/
+  void SetMatrix(const MatrixType &matrix)
+    {
+    this->SetRotationMatrix();
+    }
 
   /**
    * Compose with another Rigid2DTransform
