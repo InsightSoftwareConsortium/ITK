@@ -127,6 +127,7 @@ See COPYRIGHT.txt for copyright details.
 #include "itkImageSliceIteratorWithIndex.txx"
 #include "itkImageSource.txx"
 #include "itkImageToImageFilter.txx"
+#include "itkImageToImageFilterDetail.h"
 #include "itkImportImageContainer.txx"
 #include "itkIndent.h"
 #include "itkIndex.h"
