@@ -163,6 +163,9 @@ protected:
   void GenerateData(void);
  
 private:
+  FuzzyConnectednessRGBImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   double m_Mean[3];
   double m_Var[3][3]; 
   double m_DiffMean[3];
