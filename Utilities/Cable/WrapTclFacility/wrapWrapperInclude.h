@@ -14,6 +14,8 @@
 
 =========================================================================*/
 
+#include <map>
+
 namespace _wrap_
 {
 
@@ -71,7 +73,6 @@ public:
   virtual WrapperFunction GetClassWrapperFunction() const;
   virtual WrapperFunction GetObjectWrapperFunction() const;
   void InitializeForInterpreter();  
-  static void Initialize();  
   static Wrapper* GetForInterpreter(Tcl_Interp*);
   
 private:
@@ -162,11 +163,6 @@ private:
    * Register the method wrappers for this Wrapper with its WrapperBase.
    */
   void RegisterMethodWrappers();
-  
-  /**
-   * Initialize the CvType<> specializations needed by this Wrapper.
-   */
-  static void InitializeTypeRepresentations();  
 };
 
 
@@ -178,9 +174,6 @@ Wrapper< _wrap_WRAPPED_TYPE >::
 Wrapper(Tcl_Interp* interp):
   WrapperBase(interp, _wrap_WRAPPED_TYPE_NAME)
 {
-  // Be sure the type representations have been initialized.
-  Wrapper::Initialize();
-  
   // Setup our superclass's record of the representation of the
   // wrapped type.
   m_WrappedTypeRepresentation = CvType<WrappedType>::type.GetType();
@@ -283,18 +276,6 @@ Wrapper< _wrap_WRAPPED_TYPE >
   
   // Return the result code from the Wrapper to the interpreter.
   return result;
-}
-
-
-/**
- * Makes sure that InitializeTypeRepresentations is called exactly once.
- */
-void Wrapper< _wrap_WRAPPED_TYPE >::Initialize()
-{
-  static bool initialized = false;
-  if(initialized) { return; }
-  Wrapper::InitializeTypeRepresentations();
-  initialized = true;
 }
 
 
@@ -470,6 +451,27 @@ Wrapper< _wrap_WRAPPED_TYPE >
   // Call the method wrapper.
   (m_Wrapper->*m_MethodWrapper)(implicit, arguments);
 }
+
+// We only want the Initialization functions once per file that
+// includes this header.
+#ifndef _wrap_INITIALIZE_FUNCTION
+#define _wrap_INITIALIZE_FUNCTION
+/**
+ * Initializes this file's CvType<> specializations.
+ */
+static void InitializeTypeRepresentations();
+
+/**
+ * Makes sure that InitializeTypeRepresentations is called exactly once.
+ */
+static void Initialize()
+{
+  static bool initialized = false;
+  if(initialized) { return; }
+  InitializeTypeRepresentations();
+  initialized = true;
+}
+#endif
 
 
 } // namespace _wrap_
