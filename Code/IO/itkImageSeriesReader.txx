@@ -59,7 +59,7 @@ void ImageSeriesReader<TOutputImage>
   Array<float> position2(TOutputImage::ImageDimension); position2.Fill(0.0);
 
   float interSliceSpacing;
-  int i;
+  unsigned int i;
 
   // Read the first (or last) file and use its size.
   if (m_FileNames.size() > 1)
