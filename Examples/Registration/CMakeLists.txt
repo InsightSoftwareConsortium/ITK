@@ -78,6 +78,9 @@ TARGET_LINK_LIBRARIES(DeformableRegistration8 ITKNumerics ITKIO)
 ADD_EXECUTABLE(DeformationFieldInitialization DeformationFieldInitialization.cxx )
 TARGET_LINK_LIBRARIES(DeformationFieldInitialization ITKNumerics ITKIO)
 
+ADD_EXECUTABLE(DeformationFieldJacobian DeformationFieldJacobian.cxx )
+TARGET_LINK_LIBRARIES(DeformationFieldJacobian ITKNumerics ITKIO)
+
 ADD_EXECUTABLE(LandmarkWarping2 LandmarkWarping2.cxx )
 TARGET_LINK_LIBRARIES(LandmarkWarping2 ITKNumerics ITKIO)
 
