@@ -7,6 +7,9 @@ TARGET_LINK_LIBRARIES(AntiAliasBinaryImageFilter ITKCommon ITKIO)
 ADD_EXECUTABLE(FlipImageFilter FlipImageFilter.cxx )
 TARGET_LINK_LIBRARIES(FlipImageFilter ITKCommon ITKIO)
 
+ADD_EXECUTABLE(FFTImageFilter FFTImageFilter.cxx )
+TARGET_LINK_LIBRARIES(FFTImageFilter ITKCommon ITKIO)
+
 ADD_EXECUTABLE(GradientMagnitudeImageFilter GradientMagnitudeImageFilter.cxx )
 TARGET_LINK_LIBRARIES(GradientMagnitudeImageFilter ITKCommon ITKIO)
 
