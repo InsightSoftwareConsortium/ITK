@@ -130,7 +130,7 @@ Matrix<T, NRows, NColumns>
 template<class T, unsigned int NRows, unsigned int NColumns >
 Matrix<T, NRows, NColumns>
 Matrix<T, NRows, NColumns>
-::operator*( const Matrix<T, NRows, NColumns> & matrix ) const
+::operator*( const Self & matrix ) const
 {
   Self result;
   result = m_Matrix * matrix.m_Matrix;
@@ -157,7 +157,7 @@ Matrix<T, NRows, NColumns>
 template<class T, unsigned int NRows, unsigned int NColumns >
 void
 Matrix<T, NRows, NColumns>
-::operator*=( const Matrix<T, NRows, NColumns> & matrix ) 
+::operator*=( const Self & matrix ) 
 {
   m_Matrix *= matrix.m_Matrix;
 }
@@ -195,7 +195,7 @@ Matrix<T, NRows, NColumns>
 template<class T, unsigned int NRows, unsigned int NColumns >
 const Matrix<T, NRows, NColumns> &
 Matrix<T, NRows, NColumns>
-::operator=( const Matrix<T, NRows, NColumns> & matrix )
+::operator=( const Self  & matrix )
 {
   m_Matrix = matrix.m_Matrix;
   return *this;
