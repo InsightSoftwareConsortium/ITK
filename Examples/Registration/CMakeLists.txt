@@ -67,6 +67,12 @@ TARGET_LINK_LIBRARIES(DeformableRegistration5 ITKNumerics ITKIO)
 ADD_EXECUTABLE(DeformableRegistration6 DeformableRegistration6.cxx )
 TARGET_LINK_LIBRARIES(DeformableRegistration6 ITKNumerics ITKIO)
 
+ADD_EXECUTABLE(DeformableRegistration7 DeformableRegistration7.cxx )
+TARGET_LINK_LIBRARIES(DeformableRegistration7 ITKNumerics ITKIO)
+
+ADD_EXECUTABLE(DeformableRegistration8 DeformableRegistration8.cxx )
+TARGET_LINK_LIBRARIES(DeformableRegistration8 ITKNumerics ITKIO)
+
 ADD_EXECUTABLE(DeformationFieldInitialization DeformationFieldInitialization.cxx )
 TARGET_LINK_LIBRARIES(DeformationFieldInitialization ITKNumerics ITKIO)
 
