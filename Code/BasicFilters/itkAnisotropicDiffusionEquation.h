@@ -59,7 +59,7 @@ namespace itk {
  * \f[\frac{d U(\mathbf{x})}{d t} = \nabla \cdot c \nabla U(\mathbf{x})\f]
  *
  * with constant \f$c\f$ and initial condition
- * \f$U(\mathbf{x}, 0) = $U_0(\mathbf{x})\f$, the original image.
+ * \f$U(\mathbf{x}, 0) = U_0(\mathbf{x})\f$, the original image.
  *
  * Extending to the case where \f$c\f$ is not a constant, but a function of
  * \f$\mathbf{x}\f$, gives
