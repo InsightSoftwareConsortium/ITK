@@ -79,7 +79,7 @@ namespace Functor {
   private:
     AccessorType m_Accessor;
   }; 
-};
+}
 
 /** \class AdaptImageFilter
  * \brief Convert an image to another pixel type using the specified data accessor.
