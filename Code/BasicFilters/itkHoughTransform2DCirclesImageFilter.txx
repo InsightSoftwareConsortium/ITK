@@ -19,9 +19,10 @@
 #define __itkHoughTransform2DCirclesImageFilter_txx
 
 #include "itkHoughTransform2DCirclesImageFilter.h"
-#include <itkImageRegionIteratorWithIndex.h>
-#include <itkDiscreteGaussianImageFilter.h>
+#include "itkImageRegionIteratorWithIndex.h"
+#include "itkDiscreteGaussianImageFilter.h"
 #include "itkGaussianDerivativeImageFunction.h"
+#include "itkMinimumMaximumImageCalculator.h"
 
 
 #ifndef PI 
@@ -216,7 +217,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType>
     }
 
 
-  typedef itk::DiscreteGaussianImageFilter<OutputImageType,InternalImageType> GaussianFilterType;
+  typedef DiscreteGaussianImageFilter<OutputImageType,InternalImageType> GaussianFilterType;
   typename GaussianFilterType::Pointer gaussianFilter = GaussianFilterType::New();
 
   gaussianFilter->SetInput(outputImage); // the output is the accumulator image
@@ -227,11 +228,11 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType>
   gaussianFilter->Update();
   InternalImageType::Pointer m_PostProcessImage = gaussianFilter->GetOutput();
 
-  typedef itk::MinimumMaximumImageCalculator<InternalImageType> MinMaxCalculatorType;
+  typedef MinimumMaximumImageCalculator<InternalImageType> MinMaxCalculatorType;
   typename MinMaxCalculatorType::Pointer minMaxCalculator = MinMaxCalculatorType::New();
-  itk::ImageRegionIterator<InternalImageType> it_input(m_PostProcessImage,m_PostProcessImage->GetLargestPossibleRegion());
+  ImageRegionIterator<InternalImageType> it_input(m_PostProcessImage,m_PostProcessImage->GetLargestPossibleRegion());
 
-  itk::Index<2> m_index;
+  Index<2> m_index;
 
   unsigned int circles=0;
   bool found;
