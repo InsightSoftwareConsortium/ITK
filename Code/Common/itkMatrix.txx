@@ -127,7 +127,7 @@ vnl_matrix<T>
 Matrix<T, NRows, NColumns>
 ::GetTranspose( void ) const
 {
-  return vnl_transpose( *this );
+  return vnl_matrix<T>::transpose();
 }
 
  
