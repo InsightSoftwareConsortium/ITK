@@ -4,6 +4,8 @@ SET(WRAP_SOURCES
   wrap_ITKFilterBase
   wrap_ITKInterpolators
   wrap_ITKRegions
+  wrap_ITKRigidTransforms
+  wrap_ITKSimilarityTransforms
   wrap_ITKTransforms
   wrap_itkArray
   wrap_itkContinuousIndex
@@ -18,6 +20,7 @@ SET(WRAP_SOURCES
   wrap_itkSize
   wrap_itkScaleTransform
   wrap_itkTransform
+  wrap_itkTranslationTransform
   wrap_itkVector
 )
 

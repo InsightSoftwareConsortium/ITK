@@ -25,6 +25,8 @@ namespace _cable_
     ITK_WRAP_GROUP(ITKFilterBase),
     ITK_WRAP_GROUP(ITKInterpolators),
     ITK_WRAP_GROUP(ITKRegions),
+    ITK_WRAP_GROUP(ITKRigidTransforms),
+    ITK_WRAP_GROUP(ITKSimilarityTransforms),
     ITK_WRAP_GROUP(ITKTransforms),
     ITK_WRAP_GROUP(itkArray),
     ITK_WRAP_GROUP(itkContinuousIndex),
@@ -38,6 +40,7 @@ namespace _cable_
     ITK_WRAP_GROUP(itkPoint),
     ITK_WRAP_GROUP(itkSize),
     ITK_WRAP_GROUP(itkScaleTransform),
+    ITK_WRAP_GROUP(itkTranslationTransform),
     ITK_WRAP_GROUP(itkTransform),
 #ifdef ITK_TCL_WRAP
     ITK_WRAP_GROUP(ITKUtils),

@@ -17,21 +17,12 @@
 #include "itkAffineTransform.h"
 #include "itkAzimuthElevationToCartesianTransform.h"
 #include "itkBSplineDeformableTransform.h"
-#include "itkCenteredRigid2DTransform.h"
 #include "itkElasticBodyReciprocalSplineKernelTransform.h"
 #include "itkElasticBodySplineKernelTransform.h"
-#include "itkEuler2DTransform.h"
 #include "itkIdentityTransform.h"
 #include "itkKernelTransform.h"
-#include "itkQuaternionRigidTransform.h"
-#include "itkRigid2DTransform.h"
-#include "itkRigid3DPerspectiveTransform.h"
-#include "itkRigid3DTransform.h"
-#include "itkSimilarity2DTransform.h"
 #include "itkThinPlateR2LogRSplineKernelTransform.h"
 #include "itkThinPlateSplineKernelTransform.h"
-#include "itkTranslationTransform.h"
-#include "itkVersorRigid3DTransform.h"
 #include "itkVersorTransform.h"
 #include "itkVolumeSplineKernelTransform.h"
 
@@ -52,14 +43,6 @@ namespace _cable_
   const char* const group = ITK_WRAP_GROUP(ITKTransforms);
   namespace wrappers
   {
-    ITK_WRAP_TRANSFORM_1(CenteredRigid2DTransform);
-    ITK_WRAP_TRANSFORM_1(Euler2DTransform);
-    ITK_WRAP_TRANSFORM_1(QuaternionRigidTransform);
-    ITK_WRAP_TRANSFORM_1(Rigid2DTransform);
-    ITK_WRAP_TRANSFORM_1(Rigid3DPerspectiveTransform);
-    ITK_WRAP_TRANSFORM_1(Rigid3DTransform);
-    ITK_WRAP_TRANSFORM_1(Similarity2DTransform);
-    ITK_WRAP_TRANSFORM_1(VersorRigid3DTransform);
     ITK_WRAP_TRANSFORM_1(VersorTransform);
     ITK_WRAP_TRANSFORM_2(AffineTransform, 2);
     ITK_WRAP_TRANSFORM_2(AffineTransform, 3);
@@ -77,8 +60,6 @@ namespace _cable_
     ITK_WRAP_TRANSFORM_2(ThinPlateR2LogRSplineKernelTransform, 3);
     ITK_WRAP_TRANSFORM_2(ThinPlateSplineKernelTransform, 2);
     ITK_WRAP_TRANSFORM_2(ThinPlateSplineKernelTransform, 3);
-    ITK_WRAP_TRANSFORM_2(TranslationTransform, 2);
-    ITK_WRAP_TRANSFORM_2(TranslationTransform, 3);  
     ITK_WRAP_TRANSFORM_2(VolumeSplineKernelTransform, 2);
     ITK_WRAP_TRANSFORM_2(VolumeSplineKernelTransform, 3);
     ITK_WRAP_TRANSFORM_3(BSplineDeformableTransform, 2, 3);
