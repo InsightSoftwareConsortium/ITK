@@ -10,6 +10,8 @@ SET(COMMON_TESTS ${CXX_TEST_PATH}/itkCommonTests)
 SET(COMMON_HEADER_TEST ${CXX_TEST_PATH}/itkCommonHeaderTest)
 SET(SYSTEM_INFORMATION_TEST ${CXX_TEST_PATH}/itkSystemInformationTest)
 
+ADD_TEST(itkChainCodePath2DTest ${COMMON_TESTS} itkChainCodePath2DTest)
+ADD_TEST(itkChainCodePathTest ${COMMON_TESTS} itkChainCodePathTest)
 ADD_TEST(itkCommonPrintTest ${COMMON_TESTS} itkCommonPrintTest)
 ADD_TEST(itkModifiedTimeTest ${COMMON_TESTS} itkModifiedTimeTest)
 ADD_TEST(itkAdaptorComparisonTest ${COMMON_TESTS} itkAdaptorComparisonTest)
@@ -38,6 +40,7 @@ ADD_TEST(itkEuler3DTransformTest ${COMMON_TESTS} itkEuler3DTransformTest)
 ADD_TEST(itkExceptionObjectTest ${COMMON_TESTS} itkExceptionObjectTest)
 ADD_TEST(itkFileOutputWindowTest ${COMMON_TESTS} itkFileOutputWindowTest)
 ADD_TEST(itkFloodFilledSpatialFunctionTest ${COMMON_TESTS} itkFloodFilledSpatialFunctionTest)
+ADD_TEST(itkFourierSeriesPathTest ${COMMON_TESTS} itkFourierSeriesPathTest)
 ADD_TEST(itkGaussianBlurImageFunctionTest ${COMMON_TESTS} itkGaussianBlurImageFunctionTest)
 ADD_TEST(itkGaussianDerivativeImageFunctionTest ${COMMON_TESTS} itkGaussianDerivativeImageFunctionTest)
 ADD_TEST(itkCommonHeaderTest ${COMMON_HEADER_TEST})
@@ -70,10 +73,13 @@ ADD_TEST(itkNeighborhoodIteratorTest ${COMMON_TESTS} itkNeighborhoodIteratorTest
 ADD_TEST(itkNeighborhoodOperatorImageFunctionTest ${COMMON_TESTS} itkNeighborhoodOperatorImageFunctionTest)
 ADD_TEST(itkNeighborhoodOperatorTest ${COMMON_TESTS} itkNeighborhoodOperatorTest)
 ADD_TEST(itkNumericTraitsTest ${COMMON_TESTS} itkNumericTraitsTest)
+ADD_TEST(itkPathFunctionsTest ${COMMON_TESTS} itkPathFunctionsTest)
+ADD_TEST(itkPathIteratorTest ${COMMON_TESTS} itkPathIteratorTest)
 ADD_TEST(itkPeriodicBoundaryConditionTest ${COMMON_TESTS} itkPeriodicBoundaryConditionTest)
 ADD_TEST(itkPixelAccessTest ${COMMON_TESTS} itkPixelAccessTest)
 ADD_TEST(itkPointGeometryTest ${COMMON_TESTS} itkPointGeometryTest)
 ADD_TEST(itkPointSetTest ${COMMON_TESTS} itkPointSetTest)
+ADD_TEST(itkPolyLineParametricPathTest ${COMMON_TESTS} itkPolyLineParametricPathTest)
 ADD_TEST(itkRGBPixelTest ${COMMON_TESTS} itkRGBPixelTest)
 ADD_TEST(itkRGBInterpolateImageFunctionTest ${COMMON_TESTS} itkRGBInterpolateImageFunctionTest)
 ADD_TEST(itkRGBToVectorImageAdaptorTest ${COMMON_TESTS} itkRGBToVectorImageAdaptorTest)
@@ -162,6 +168,8 @@ itkBSplineKernelFunctionTest.cxx
 itkByteSwapTest.cxx
 itkCenteredRigid2DTransformTest.cxx
 itkCenteredAffineTransformTest.cxx
+itkChainCodePath2DTest.cxx
+itkChainCodePathTest.cxx
 itkConstNeighborhoodIteratorTest.cxx
 itkConstShapedNeighborhoodIteratorTest.cxx
 itkCovariantVectorGeometryTest.cxx
@@ -174,6 +182,7 @@ itkFileOutputWindowTest.cxx
 itkFixedArrayTest.cxx
 itkFixedCenterOfRotationAffineTransformTest.cxx
 itkFloodFilledSpatialFunctionTest.cxx
+itkFourierSeriesPathTest.cxx
 itkGaussianBlurImageFunctionTest.cxx
 itkGaussianDerivativeImageFunctionTest.cxx
 itkHashTableTest.cxx
@@ -206,10 +215,13 @@ itkNeighborhoodOperatorImageFunctionTest.cxx
 itkNeighborhoodOperatorTest.cxx
 itkNumericTraitsTest.cxx
 itkObjectStoreTest.cxx
+itkPathFunctionsTest.cxx
+itkPathIteratorTest.cxx
 itkPeriodicBoundaryConditionTest.cxx
 itkPixelAccessTest.cxx
 itkPointGeometryTest.cxx
 itkPointSetTest.cxx
+itkPolyLineParametricPathTest.cxx
 itkRigid2DTransformTest.cxx
 itkRigid3DTransformTest.cxx
 itkRigid3DPerspectiveTransformTest.cxx
