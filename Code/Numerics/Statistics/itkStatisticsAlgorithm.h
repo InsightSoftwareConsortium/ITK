@@ -32,14 +32,14 @@ template< class TValue >
 TValue MedianOfThree(const TValue a, const TValue b, const TValue c) ;
 
 template< class TSample >
-void FindSampleBound(typename TSample::Pointer sample,
+void FindSampleBound(TSample* sample,
                      typename TSample::Iterator begin,
                      typename TSample::Iterator end,
                      typename TSample::MeasurementVectorType &min,
                      typename TSample::MeasurementVectorType &max) ;
   
 template< class TSubsample >
-void FindSampleBoundAndMean(typename TSubsample::Pointer sample,
+void FindSampleBoundAndMean(TSubsample* sample,
                             int beginIndex,
                             int endIndex,
                             typename TSubsample::MeasurementVectorType &min,
@@ -47,14 +47,14 @@ void FindSampleBoundAndMean(typename TSubsample::Pointer sample,
                             typename TSubsample::MeasurementVectorType &mean) ;
 
 template< class TSubsample >
-int Partition(typename TSubsample::Pointer sample,
+int Partition(TSubsample* sample,
               unsigned int activeDimension,
               int beginIndex, int endIndex,
               const typename TSubsample::MeasurementType partitionValue) ;
 
 template< class TSubsample >
 typename TSubsample::MeasurementType 
-QuickSelect(typename TSubsample::Pointer sample,
+QuickSelect(TSubsample* sample,
             unsigned int activeDimension,
             int beginIndex, int endIndex,
             int kth,
@@ -62,29 +62,29 @@ QuickSelect(typename TSubsample::Pointer sample,
 
 template< class TSubsample >
 typename TSubsample::MeasurementType 
-QuickSelect(typename TSubsample::Pointer sample,
+QuickSelect(TSubsample* sample,
             unsigned int activeDimension,
             int beginIndex, int endIndex,
             int kth) ;
 
 template< class TSubsample >
-void InsertSort(typename TSubsample::Pointer sample, 
+void InsertSort(TSubsample* sample, 
                 unsigned int activeDimension,
                 int beginIndex, int endIndex) ;
 
 template< class TSubsample >
-void DownHeap(typename TSubsample::Pointer sample,
+void DownHeap(TSubsample* sample,
               unsigned int activeDimension,
               int beginIndex, int endIndex, int node) ;
 
 template< class TSubsample >
-void HeapSort(typename TSubsample::Pointer sample, 
+void HeapSort(TSubsample* sample, 
                 unsigned int activeDimension,
                 int beginIndex, int endIndex) ;
 
 
 template< class TSubsample >
-void IntrospectiveSortLoop(typename TSubsample::Pointer sample, 
+void IntrospectiveSortLoop(TSubsample* sample, 
                                   unsigned int activeDimension,
                                   int beginIndex,
                                   int endIndex,
@@ -92,7 +92,7 @@ void IntrospectiveSortLoop(typename TSubsample::Pointer sample,
                                   int sizeThreshold) ;
 
 template< class TSubsample >
-void IntrospectiveSort(typename TSubsample::Pointer sample,
+void IntrospectiveSort(TSubsample* sample,
                        unsigned int activeDimension,
                        int beginIndex, int endIndex,
                        int sizeThreshold) ;
