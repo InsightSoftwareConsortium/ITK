@@ -61,7 +61,6 @@ LBFGSBOptimizer
   m_MaximumNumberOfIterations       = 500;
   m_MaximumNumberOfEvaluations      = 500;
   m_MaximumNumberOfCorrections      = 5;
-  m_Trace                           = false;
   m_CurrentIteration                = 0;
   m_Value                           = 0.0;
   m_InfinityNormOfProjectedGradient = 0.0;
@@ -101,8 +100,6 @@ LBFGSBOptimizer
 
   os << indent << "MaximumNumberOfEvaluations: " <<
     m_MaximumNumberOfEvaluations << std::endl;
-
-  os << indent << "Trace: " << m_Trace << std::endl;
 
   os << indent << "MaximumNumberOfCorrections: " << 
     m_MaximumNumberOfCorrections << std::endl;
@@ -243,7 +240,7 @@ LBFGSBOptimizer
   s_copy( task, "START", (ftnlen)60, (ftnlen)5);
  
   /**  Control frequency and type of output */
-  integer iprint;
+  integer iprint = -1;  // no output
 
   /** Working string of characters */
   char csave[60];
@@ -260,8 +257,6 @@ LBFGSBOptimizer
   // Initialize
   unsigned int numberOfEvaluations = 0;
   m_CurrentIteration = 0;
-  bool EvaluateFunction = false;
-  bool started = false;
 
   this->InvokeEvent( StartEvent() );
 
@@ -269,28 +264,11 @@ LBFGSBOptimizer
   for ( ;; )
     {
 
-    double functionValue;
-    if ( EvaluateFunction )
-      {
-      m_CostFunction->GetValueAndDerivative( this->GetCurrentPosition(), functionValue, gradient );
-      numberOfEvaluations++;
-      }
-    else if ( started )
-      {
-      this->InvokeEvent( IterationEvent() );
-      m_CurrentIteration++;
-      }
-
-    started = true;
-
-    /** Setup output control */
-    iprint = m_Trace ? 1 : -1;   // -1 no o/p, 0 start and end, 1 every iter.
-
     /** Call the L-BFGS-B code */
     setulb_(&n, &m, (double *)this->GetCurrentPosition().data_block(), 
            (double *)m_LowerBound.data_block(), (double *)m_UpperBound.data_block(), 
            (int *)m_BoundSelection.data_block(),
-           &functionValue, gradient.data_block(), 
+           &m_Value, gradient.data_block(), 
            &m_CostFunctionConvergenceFactor, &m_ProjectedGradientTolerance, 
            wa.data_block(), iwa.data_block(),
            task, &iprint, csave, lsave.data_block(), isave.data_block(), 
@@ -303,13 +281,22 @@ LBFGSBOptimizer
       * 'CONVERGENCE' = convergence has been reached
       */
 
-    EvaluateFunction = !(s_cmp(task, "FG", (ftnlen)2, (ftnlen)2));
+    if ( s_cmp(task, "FG", (ftnlen)2, (ftnlen)2) == 0 )
+      {
 
-    m_Value = dsave[1];
-    m_InfinityNormOfProjectedGradient = dsave[12];
+      m_CostFunction->GetValueAndDerivative( this->GetCurrentPosition(), m_Value, gradient );
+      numberOfEvaluations++;
 
-    if (  !EvaluateFunction &&
-      s_cmp( task, "NEW_X", (ftnlen)5, (ftnlen)5) != 0 )
+      }
+    else if ( s_cmp( task, "NEW_X", (ftnlen)5, (ftnlen)5) == 0 )
+      {
+
+      m_InfinityNormOfProjectedGradient = dsave[12];
+      this->InvokeEvent( IterationEvent() );
+      m_CurrentIteration++;
+
+      }
+    else
       {
         // terminate
 
@@ -348,10 +335,6 @@ LBFGSBOptimizer
       }
 
     }
-
-  /** We need to recompute the metric one more time at the end, since we cannot
-   * obtain that information from the original fortran/c code. */
-  m_CostFunction->GetValueAndDerivative( this->GetCurrentPosition(), m_Value, gradient );
 
   this->InvokeEvent( EndEvent() );
 

@@ -162,7 +162,6 @@ private:
   unsigned int          m_MaximumNumberOfIterations;
   unsigned int          m_MaximumNumberOfEvaluations;
   unsigned int          m_MaximumNumberOfCorrections;
-  bool                  m_Trace;
 
   unsigned int          m_CurrentIteration;
   MeasureType           m_Value;
