@@ -103,7 +103,7 @@ int main()
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef  PointSetType::PointsContainer::Iterator     PointIterator;
+  typedef  PointSetType::PointsContainer::ConstIterator     PointIterator;
   PointIterator pointIterator = pointSet->GetPoints()->Begin();
   PointIterator pointEnd      = pointSet->GetPoints()->End();
   while( pointIterator != pointEnd ) {
@@ -112,6 +112,14 @@ int main()
     ++pointIterator;                      
     }
   // Software Guide : EndCodeSnippet
+
+  //  Software Guide : BeginLatex
+  //
+  //  Note that here the \code{ConstIterator} was used instead of the
+  //  \code{Iterator} since the pixel values are not expected to be modified.
+  //  ITK support const-correctness at the API level. 
+  //
+  //  Software Guide : EndLatex 
 
 
 
@@ -124,7 +132,7 @@ int main()
 
 
   // Software Guide : BeginCodeSnippet
-  typedef  PointSetType::PointDataContainer::Iterator     PointDataIterator;
+  typedef  PointSetType::PointDataContainer::ConstIterator     PointDataIterator;
   PointDataIterator pixelIterator = pointSet->GetPointData()->Begin();
   PointDataIterator pixelEnd      = pointSet->GetPointData()->End();
   while( pixelIterator != pixelEnd ) {
@@ -133,6 +141,13 @@ int main()
     ++pixelIterator;                      
     }
   // Software Guide : EndCodeSnippet
+
+  //  Software Guide : BeginLatex
+  //
+  //  Again, please note the use of the  \code{ConstIterator} instead of the
+  //  \code{Iterator}. 
+  //
+  //  Software Guide : EndLatex 
 
 
 
