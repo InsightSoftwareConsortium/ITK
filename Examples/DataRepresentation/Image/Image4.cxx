@@ -273,7 +273,7 @@ int main()
 
     pixelValue += 5;
 
-    image->SetPixel( pixelValue );
+    image->SetPixel( pixelIndex, pixelValue );
     }
   // Software Guide : EndCodeSnippet 
 
