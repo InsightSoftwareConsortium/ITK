@@ -459,24 +459,6 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
         static_cast<unsigned int>( floor( fixedImageParzenWindowTerm ) );
       
 
-      if ( this->GetDebug() )
-        {
-        if ( fixedImageParzenWindowIndex < 2 || 
-             fixedImageParzenWindowIndex >= ( m_NumberOfHistogramBins - 2 ) ||
-             movingImageParzenWindowIndex < 2 || 
-             movingImageParzenWindowIndex >= ( m_NumberOfHistogramBins - 2 ) )
-          {
-          itkDebugMacro(
-               "PDF indices out of bounds" << std::endl
-            << "fixedImageParzenWindowTerm: " << fixedImageParzenWindowTerm
-            << " fixedImageParzenWindowIndex: " << fixedImageParzenWindowIndex
-            << std::endl
-            << "movingImageParzenWindowTerm: " << movingImageParzenWindowTerm
-            << " movingImageParzenWindowIndex: " << movingImageParzenWindowIndex
-            << std::endl )
-          }
-        }
-
       // Make sure the extreme values are in valid bins
       if ( fixedImageParzenWindowIndex < 2 )
         {
@@ -750,23 +732,6 @@ DerivativeType& derivative) const
       unsigned int fixedImageParzenWindowIndex =
         static_cast<unsigned int>( floor( fixedImageParzenWindowTerm ) );
 
-      if ( this->GetDebug() )
-        {
-        if ( fixedImageParzenWindowIndex < 2 || 
-             fixedImageParzenWindowIndex >= ( m_NumberOfHistogramBins - 2 ) ||
-             movingImageParzenWindowIndex < 2 || 
-             movingImageParzenWindowIndex >= ( m_NumberOfHistogramBins - 2 ) )
-          {
-          itkDebugMacro(
-               "PDF indices out of bounds" << std::endl
-            << "fixedImageParzenWindowTerm: " << fixedImageParzenWindowTerm
-            << " fixedImageParzenWindowIndex: " << fixedImageParzenWindowIndex
-            << std::endl
-            << "movingImageParzenWindowTerm: " << movingImageParzenWindowTerm
-            << " movingImageParzenWindowIndex: " << movingImageParzenWindowIndex
-            << std::endl )
-          }
-        }
 
       // Make sure the extreme values are in valid bins
       if ( fixedImageParzenWindowIndex < 2 )
