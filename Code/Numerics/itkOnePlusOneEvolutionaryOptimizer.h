@@ -120,6 +120,7 @@ public:
 protected:
   OnePlusOneEvolutionaryOptimizer() ;
   virtual ~OnePlusOneEvolutionaryOptimizer() ;
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   

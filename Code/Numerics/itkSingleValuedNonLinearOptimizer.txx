@@ -27,6 +27,17 @@ SingleValuedNonLinearOptimizer
 {
 }
 
+
+
+void
+SingleValuedNonLinearOptimizer
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+  os << indent << "Cost Function " << m_CostFunction << std::endl;
+}
+
+
 } // namespace itk
 
 #endif

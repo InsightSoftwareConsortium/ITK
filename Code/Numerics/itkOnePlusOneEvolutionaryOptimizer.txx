@@ -183,6 +183,33 @@ OnePlusOneEvolutionaryOptimizer<TNormalRandomVariateGenerator>
     A = A + (adjust - 1.0) * A ;
     }
 }
+ 
+
+
+/**
+ *
+ */
+
+template<class TNormalRandomVariateGenerator>
+void
+OnePlusOneEvolutionaryOptimizer<TNormalRandomVariateGenerator>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+
+  Superclass::PrintSelf(os,indent);
+
+  os << indent << "Random Generator " << m_RandomGenerator  << std::endl;
+  os << indent << "MaximumIteration " << m_MaximumIteration << std::endl;
+  os << indent << "Epsilon          " << m_Epsilon          << std::endl;
+  os << indent << "Initial Radius   " << m_InitialRadius    << std::endl;
+  os << indent << "Growth Fractor   " << m_GrowthFactor     << std::endl;
+  os << indent << "Shrink Fractor   " << m_ShrinkFactor     << std::endl;
+  os << indent << "Random Seed      " << m_RandomSeed       << std::endl;
+  os << indent << "Initialized      " << m_Initialized      << std::endl;
+  os << indent << "Measure          " << m_Value            << std::endl;
+
+}
+
 
 } // end of namespace itk
 #endif

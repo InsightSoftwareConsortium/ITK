@@ -69,9 +69,9 @@ public:
 protected:
   SingleValuedNonLinearOptimizer();
   virtual ~SingleValuedNonLinearOptimizer() {}
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   CostFunctionPointer           m_CostFunction;
-
 
 private: 
   SingleValuedNonLinearOptimizer(const Self&); //purposely not implemented
