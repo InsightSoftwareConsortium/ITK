@@ -544,7 +544,7 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
       double valueFixed;
       double valueMoving;
       double weightFixed;
-      double weightMoving;
+      //double weightMoving;
       double weightJoint;
       double weight;
 
@@ -556,7 +556,7 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
         / m_MovingImageStandardDeviation;
       valueMoving = exp(-0.5*valueMoving*valueMoving);
 
-      weightMoving = valueMoving / dDenominatorMoving;
+      //weightMoving = valueMoving / dDenominatorMoving;
       weightFixed = valueFixed / dDenominatorFixed;
 
 
@@ -638,7 +638,7 @@ typename MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::PixelType
 MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::ComputeInverseUpdate(const NeighborhoodType &it, void * globalData,
-                const FloatOffsetType& offset) const
+                const FloatOffsetType& itkNotUsed(offset)) const
 {
 // we compute the derivative of MI w.r.t. the infinitesimal 
 // displacement, following viola and wells. 
@@ -891,8 +891,8 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
   double m_MinProbability = 0.0001;
   double dLogSumFixed=0.,dLogSumMoving=0.,dLogSumJoint=0.0;
-  unsigned int bsamples=0;
-  unsigned int asamples=0;
+  unsigned int bsamples;
+  unsigned int asamples;
 
   // the B samples estimate the entropy
   for(bsamples=0; bsamples<(unsigned int)numsamplesB; bsamples++)
@@ -940,7 +940,7 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   
       double valueFixed;
       double valueMoving;
-      double weightFixed;
+      //double weightFixed;
       double weightMoving;
       double weightJoint;
       double weight;
@@ -954,7 +954,7 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
       valueMoving = exp(-0.5*valueMoving*valueMoving);
 
       weightMoving = valueMoving / dDenominatorMoving;
-      weightFixed = valueFixed / dDenominatorFixed;
+      //weightFixed = valueFixed / dDenominatorFixed;
 
 
 // dDenominatorJoint and weightJoint are what need to be computed each time
@@ -1018,7 +1018,7 @@ typename MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::PixelType
 MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::ComputeForwardAndInverseUpdate(const NeighborhoodType &it, void * globalData,
-                const FloatOffsetType& offset) const
+                const FloatOffsetType& itkNotUsed(offset)) const
 {
 // we compute the derivative of MI w.r.t. the infinitesimal 
 // displacement, following viola and wells. 
@@ -1290,10 +1290,10 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
     double dDenominatorFixed = m_MinProbability;
     double dSumMoving = m_MinProbability;
 
-
+    
   // this loop estimates the density
     for(asamples=0; asamples<(unsigned int)numsamplesA; asamples++)
-    {  
+      {  
       double valueFixed;
       double valueMoving;
 
@@ -1324,8 +1324,7 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
      
   // this loop estimates the density
     for(asamples=0; asamples<(unsigned int)numsamplesA; asamples++)
-    {  
-  
+      {  
       double valueFixed;
       double valueMoving;
       double weightFixed;
