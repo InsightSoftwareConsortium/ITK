@@ -19,7 +19,7 @@
 #include "itkImage.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageRegionExclusionIteratorWithIndex.h"
-//#include "itkImageRegionExclusionConstIteratorWithIndex.h"
+#include "itkImageRegionExclusionConstIteratorWithIndex.h"
 
 
 
@@ -134,7 +134,7 @@ int main()
     {
     if( ei.Get() != ei.GetIndex() )
       {
-      std::cout << "Error in exclusion index " << std::endl;
+      std::cout << "Error in exclusion iterator " << std::endl;
       std::cout << "It should be at " << ei.GetIndex();
       std::cout << " but it is at   " << ei.Get() << std::endl;
       return EXIT_FAILURE;
@@ -142,7 +142,7 @@ int main()
 
     if( ev.Get() != normalRegionValue )
       {
-      std::cout << "Error in exclusion index " << std::endl;
+      std::cout << "Error in exclusion iterator " << std::endl;
       std::cout << "It is stepping into the exclusion region " << std::endl;
       std::cout << "Entry point = " << ev.GetIndex() << std::endl;
       return EXIT_FAILURE;
@@ -154,7 +154,7 @@ int main()
 
   if( numberOfPixelsVisited != pixelsToVisit )
     {
-    std::cout << "Error in exclusion index " << std::endl;
+    std::cout << "Error in exclusion iterator " << std::endl;
     std::cout << "It is not visiting all the pixels it should" << std::endl;
     std::cout << numberOfPixelsVisited << " pixels were visited instead of ";
     std::cout << pixelsToVisit << std::endl;
@@ -172,7 +172,7 @@ int main()
     {
     if( ei.Get() != ei.GetIndex() )
       {
-      std::cout << "Error in exclusion index " << std::endl;
+      std::cout << "Error in exclusion iterator " << std::endl;
       std::cout << "It should be at " << ei.GetIndex();
       std::cout << " but it is at   " << ei.Get() << std::endl;
       return EXIT_FAILURE;
@@ -180,7 +180,7 @@ int main()
 
     if( ev.Get() != normalRegionValue )
       {
-      std::cout << "Error in exclusion index " << std::endl;
+      std::cout << "Error in exclusion iterator " << std::endl;
       std::cout << "It is stepping into the exclusion region " << std::endl;
       std::cout << "Entry point = " << ev.GetIndex() << std::endl;
       return EXIT_FAILURE;
@@ -192,7 +192,92 @@ int main()
 
   if( numberOfPixelsVisited != pixelsToVisit )
     {
-    std::cout << "Error in exclusion index " << std::endl;
+    std::cout << "Error in exclusion iterator" << std::endl;
+    std::cout << "It is not visiting all the pixels it should" << std::endl;
+    std::cout << numberOfPixelsVisited << " pixels were visited instead of ";
+    std::cout << pixelsToVisit << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << " Ok ! " << std::endl;
+
+
+  std::cout << "Starting walk with the exclusion Const iterator... ";
+  typedef itk::ImageRegionExclusionConstIteratorWithIndex< IndexImageType > ExclusionIndexConstIteratorType;
+  typedef itk::ImageRegionExclusionConstIteratorWithIndex< ValueImageType > ExclusionValueConstIteratorType;
+
+  ExclusionValueConstIteratorType cev( myValueImage, region );
+  ExclusionIndexConstIteratorType cei( myIndexImage, region );
+
+  cev.SetExclusionRegion( exclusionRegion );
+  cei.SetExclusionRegion( exclusionRegion );
+  
+  numberOfPixelsVisited = 0;
+
+  cev.GoToBegin();
+  cei.GoToBegin();
+  while( !cev.IsAtEnd() )
+    {
+    if( cei.Get() != cei.GetIndex() )
+      {
+      std::cout << "Error in exclusion const iterator " << std::endl;
+      std::cout << "It should be at " << cei.GetIndex();
+      std::cout << " but it is at   " << cei.Get() << std::endl;
+      return EXIT_FAILURE;
+      }
+
+    if( cev.Get() != normalRegionValue )
+      {
+      std::cout << "Error in exclusion const iterator " << std::endl;
+      std::cout << "It is stepping into the exclusion region " << std::endl;
+      std::cout << "Entry point = " << ev.GetIndex() << std::endl;
+      return EXIT_FAILURE;
+      }
+    ++numberOfPixelsVisited; 
+    ++cei;
+    ++cev;
+    }
+
+  if( numberOfPixelsVisited != pixelsToVisit )
+    {
+    std::cout << "Error in exclusion const iterator " << std::endl;
+    std::cout << "It is not visiting all the pixels it should" << std::endl;
+    std::cout << numberOfPixelsVisited << " pixels were visited instead of ";
+    std::cout << pixelsToVisit << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << " Ok ! " << std::endl;
+
+
+  std::cout << "Testing the Const iterator backwars... ";
+
+  numberOfPixelsVisited = 0;
+  cev.GoToEnd();
+  cei.GoToEnd();
+  while( !cev.IsAtBegin() )
+    {
+    if( cei.Get() != cei.GetIndex() )
+      {
+      std::cout << "Error in exclusion const iterator " << std::endl;
+      std::cout << "It should be at " << cei.GetIndex();
+      std::cout << " but it is at   " << cei.Get() << std::endl;
+      return EXIT_FAILURE;
+      }
+
+    if( cev.Get() != normalRegionValue )
+      {
+      std::cout << "Error in exclusion const iterator " << std::endl;
+      std::cout << "It is stepping into the exclusion region " << std::endl;
+      std::cout << "Entry point = " << cev.GetIndex() << std::endl;
+      return EXIT_FAILURE;
+      }
+    ++numberOfPixelsVisited; 
+    --cei;
+    --cev;
+    }
+
+  if( numberOfPixelsVisited != pixelsToVisit )
+    {
+    std::cout << "Error in exclusion const iterator " << std::endl;
     std::cout << "It is not visiting all the pixels it should" << std::endl;
     std::cout << numberOfPixelsVisited << " pixels were visited instead of ";
     std::cout << pixelsToVisit << std::endl;
