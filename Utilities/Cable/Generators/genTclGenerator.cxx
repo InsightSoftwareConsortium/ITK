@@ -293,7 +293,7 @@ TclGenerator
     if(method->GetAccess() == source::Public)
       {
       if(method->IsMethod()
-         || method->IsConstructor()
+         || (method->IsConstructor() && !c->IsAbstract())
          || method->IsOperatorMethod())
         {
         unsigned int argumentCount = method->GetArgumentCount();
