@@ -18,6 +18,7 @@
 #define __itkNormalizeImageFilter_h
 
 #include "itkImageToImageFilter.h"
+#include "itkEventObject.h"
 
 namespace itk {
 
@@ -65,7 +66,8 @@ protected:
   void operator=(const Self&); //purposely not implemented
 
   void SetupProgressMethods(ProcessObject *statistic, ProcessObject *shiftScale);
-
+  static void StatisticsCallBack (Object *o, const EventObject &e, void *self);
+  static void ShiftScaleCallBack (Object *o, const EventObject &e, void *self);
 } ; // end of class
 
 } // end namespace itk

@@ -59,14 +59,20 @@ NormalizeImageFilter<TInputImage, TOutputImage>
 // element of the mini pipeline. The callbacks scale each filter's
 // progress to create a combined progress for this filter.
 
-void statisticsCallBack (Object *o, const EventObject &e, void *self)
+template <class TInputImage, class TOutputImage>
+void 
+NormalizeImageFilter<TInputImage, TOutputImage>
+::StatisticsCallBack (Object *o, const EventObject &e, void *self)
 {
   reinterpret_cast<ProcessObject *>(self)->
     UpdateProgress(dynamic_cast<ProcessObject *>(o)->
                    GetProgress()/2.0);
 }
 
-void shiftScaleCallBack (Object *o, const EventObject &e, void *self)
+template <class TInputImage, class TOutputImage>
+void 
+NormalizeImageFilter<TInputImage, TOutputImage>
+::ShiftScaleCallBack (Object *o, const EventObject &e, void *self)
 {
   reinterpret_cast<ProcessObject *>(self)->
     UpdateProgress(dynamic_cast<ProcessObject *>(o)->
@@ -79,11 +85,11 @@ NormalizeImageFilter<TInputImage, TOutputImage>
 ::SetupProgressMethods(ProcessObject *statistics, ProcessObject *shiftScale)
 {
   CStyleCommand::Pointer statisticsProgress = CStyleCommand::New();
-  statisticsProgress->SetCallback(&statisticsCallBack);
+  statisticsProgress->SetCallback(&Self::StatisticsCallBack);
   statisticsProgress->SetClientData(static_cast<void *>(this));
 
   CStyleCommand::Pointer shiftScaleProgress = CStyleCommand::New();
-  shiftScaleProgress->SetCallback(&shiftScaleCallBack);
+  shiftScaleProgress->SetCallback(&Self::ShiftScaleCallBack);
   shiftScaleProgress->SetClientData(static_cast<void *>(this));
 
   // Create progress callbacks for both filters
