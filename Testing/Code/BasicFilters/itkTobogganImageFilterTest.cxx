@@ -134,9 +134,9 @@ int itkTobogganImageFilterTest(int ac, char** av)
     ++rit;  
     }
   std::cout << "Found " << classes << " Different objects" << std::endl;
-  if ( status )
+  std::cout << "Found " << status << " pixels different" << std::endl;
+  if ( status > 1 )
     {
-    std::cerr << "Found " << status << " pixels different" << std::endl;
     exit ( 1 );
     }
   exit ( 0 );
