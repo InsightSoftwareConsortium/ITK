@@ -121,7 +121,7 @@ CenteredAffineRegistrationTransform<TScalarType,NDimensions,TParameters>
 /**
  *  Compute the Jacobian of the transformation
  */
-template<class TScalarType, int NDimensions, class TParameters>
+template<class TScalarType, unsigned int NDimensions, class TParameters>
 const
 CenteredAffineRegistrationTransform<TScalarType, NDimensions,TParameters>
 ::JacobianType &
