@@ -75,7 +75,7 @@ public:
 
   /** Set the pointer to the parent object in the tree hierarchy
    *  used for the spatial object patter. */
-  virtual void SetParent( const Self * parent );
+  virtual void SetParent(const Self * parent );
 
   /** Return a pointer to the parent object in the hierarchy tree */ 
   virtual const Self * GetParent( void ) const; 
@@ -280,7 +280,8 @@ protected:
   /** Destructor. */ 
   virtual ~NDimensionalSpatialObject(); 
 
-  ConstPointer m_Parent; 
+  const Self* m_Parent;
+
   char m_TypeName[255];
 
   unsigned int m_Dimension;

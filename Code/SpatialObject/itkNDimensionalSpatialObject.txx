@@ -30,6 +30,7 @@ NDimensionalSpatialObject<PipelineDimension>
 {
   strcpy(m_TypeName,"NDimensionalSpatialObject");
   m_ParentId=-1; // by default
+  m_Parent = NULL;
   m_Dimension = 3; // by default
   m_Id = 0;
 
@@ -52,7 +53,7 @@ const NDimensionalSpatialObject<PipelineDimension> *
 NDimensionalSpatialObject<PipelineDimension>
 ::GetParent( void ) const
 {
-  return m_Parent.GetPointer();
+  return m_Parent;
 }
 
 /** Set the parent of the spatial object */
