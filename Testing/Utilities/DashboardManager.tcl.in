@@ -227,6 +227,27 @@ foreach Command $Commands \
       {
 	puts $DashboardTargets $NightlyBuild
 	puts $DashboardFile "<BuildStamp>"
+
+	set CurrentDir [pwd]
+	cd [file join $Dir $NightlyBuild]
+
+	
+	foreach XML [list Build Test Coverage] \
+	{
+	  if { ![file exists [file join XML $XML.xml]] } \
+	  {
+	    continue
+	  }
+	  puts "Xalan on $XML: [catch { exec $JavaCommand -jar $Xalan -Q -IN [file join XML $XML.xml] -OUT $XML.html -XSL [file join $XSLDir $XML.xsl]} Result]"
+	  puts $Result
+	  puts "Xalan on ${XML}Summary: [catch { exec $JavaCommand -jar $Xalan -Q -IN [file join XML $XML.xml] -OUT ${XML}Summary.xml -XSL [file join $XSLDir ${XML}Summary.xsl] } Result]"
+	  puts $Result
+	}
+	cd $CurrentDir
+
+	puts "Xalan on BuildLog.txt: [catch { exec $JavaCommand -jar $Xalan -Q -IN [file join XML Build.xml] -OUT BuildLog.txt -XSL [file join $XSLDir BuildLog.xsl]} Result]"
+	TransformBuildLog BuildLog.txt
+
 	foreach Summary [list BuildSummary TestSummary CoverageSummary] \
 	{
 	  XMLConcat $DashboardFile [file join $Dir $NightlyBuild $Summary.xml]
