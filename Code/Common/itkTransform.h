@@ -219,7 +219,7 @@ public:
    * \f]
    *
    **/
-  const JacobianType & GetJacobian(const InputPointType  &point ) const;
+  virtual const JacobianType & GetJacobian(const InputPointType  &point ) const;
 
 
 

@@ -111,30 +111,9 @@ Transform< TScalarType,NInputDimensions,NOutputDimensions,
 ::GetJacobian( const InputPointType & p ) const
 {
   
-  // The Jacobian of the affine transform is composed of
-  // subblocks of diagonal matrices, each one of them having
-  // a constant value in the diagonal.
-
+  // Each transform should redefine this method.
+  // the following is just a default action
   m_Jacobian.Fill( 0.0 );
-
-  unsigned int blockOffset = 0;
-  
-  for(unsigned int block=0; block < SpaceDimension; block++) 
-  {
-    for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
-    {
-       m_Jacobian[ block ][ blockOffset + dim ] = p[dim];
-    }
-
-    blockOffset += SpaceDimension;
-
-  }
-
-  for(unsigned int dim=0; dim < SpaceDimension; dim++ ) 
-  {
-     m_Jacobian[ dim ][ blockOffset + dim ] = m_TranslationScale;
-  }
-
   return m_Jacobian;
 
 }
