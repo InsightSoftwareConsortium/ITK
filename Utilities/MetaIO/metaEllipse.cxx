@@ -118,7 +118,7 @@ ReadStream(int ndims, std::ifstream * stream)
 
   M_SetupReadFields();
 
-  MET_FieldRecordType * mF = MET_GetFieldRecord("NDims",m_Fields);
+  MET_FieldRecordType * mF = MET_GetFieldRecord("NDims", &m_Fields);
   mF->value[0] = ndims;
   mF->defined = true;
 
@@ -253,7 +253,7 @@ M_SetupReadFields(void)
 
   MET_FieldRecordType * mF;
 
-  int nDimsRecNum = MET_GetFieldRecordNumber("NDims",m_Fields);
+  int nDimsRecNum = MET_GetFieldRecordNumber("NDims", &m_Fields);
 
   mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "Radius", MET_FLOAT_ARRAY, true,nDimsRecNum);
@@ -291,7 +291,7 @@ M_Read(void)
  
   MET_FieldRecordType * mF;
  
-  mF = MET_GetFieldRecord("Radius",m_Fields);
+  mF = MET_GetFieldRecord("Radius", &m_Fields);
   if(mF->defined)
   {
     for(int i=0;i<m_NDims;i++)

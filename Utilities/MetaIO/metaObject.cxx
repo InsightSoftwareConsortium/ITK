@@ -17,17 +17,10 @@ MetaObject::
 MetaObject(void)
   {
   m_NDims = 0;
-  m_ID = 0;
-  m_Color[0]=1.0;m_Color[1]=0.0;m_Color[2]=0.0;m_Color[3]=1.0; // red by default
-  m_ParentID = -1;
-  m_BinaryData = false;
-  strcpy(m_Name, ""); 
   m_Fields.clear();
-  strcpy(m_FileName, "");
-  Clear();
+  MetaObject::Clear();
   m_ReadStream = new std::ifstream;
   m_WriteStream = new std::ofstream;
-  strcpy(m_TransformName,"Affine");
   }
 
 MetaObject::
@@ -35,6 +28,9 @@ MetaObject(const char * _fileName)
   {
   m_NDims = 0;
   m_Fields.clear();
+  MetaObject::Clear();
+  m_ReadStream = new std::ifstream;
+  m_WriteStream = new std::ofstream;
   this->Read(_fileName);
   }
 
@@ -42,18 +38,11 @@ MetaObject::
 MetaObject(unsigned int dim)
   {
   m_NDims = 0;
-  m_ID = 0;
-  m_Color[0]=1.0;m_Color[1]=0.0;m_Color[2]=0.0;m_Color[3]=1.0; // red by default
-  m_ParentID = -1;
-  m_BinaryData = false;
-  strcpy(m_Name, ""); 
   m_Fields.clear();
-  strcpy(m_FileName, "");
-  Clear();
+  MetaObject::Clear();
   m_ReadStream = new std::ifstream;
   m_WriteStream = new std::ofstream;
   InitializeEssential(dim);
-  strcpy(m_TransformName,"Affine");
   }
 
 
@@ -101,7 +90,7 @@ CopyInfo(const MetaObject * _object)
   ParentID(_object->ParentID());
   Name(_object->Name());
   BinaryData(_object->BinaryData());
-
+  ElementByteOrderMSB(_object->ElementByteOrderMSB());
   }
 
 bool MetaObject::
@@ -147,7 +136,7 @@ ReadStream(int _nDims, std::ifstream * _stream)
   
   M_SetupReadFields();
  
-  MET_FieldRecordType * mF = MET_GetFieldRecord("NDims",m_Fields);
+  MET_FieldRecordType * mF = MET_GetFieldRecord("NDims", &m_Fields);
   mF->value[0] = _nDims;
   mF->defined = true;
  
@@ -203,6 +192,10 @@ PrintInfo(void) const
     std::cout << "BinaryData = True" << std::endl;
   else
     std::cout << "BinaryData = False" << std::endl;
+  if(m_ElementByteOrderMSB)
+    std::cout << "ElementByteOrderMSB = True" << std::endl;
+  else
+    std::cout << "ElementByteOrderMSB = False" << std::endl;
   std::cout << "Color = " ;
   for(i=0; i<4; i++)
     {
@@ -453,6 +446,17 @@ bool   MetaObject::BinaryData(void) const
   return m_BinaryData;
 }
 
+bool MetaObject::
+ElementByteOrderMSB(void) const
+  {
+  return m_ElementByteOrderMSB;
+  }
+
+void MetaObject::
+ElementByteOrderMSB(bool _elementByteOrderMSB)
+  {
+  m_ElementByteOrderMSB = _elementByteOrderMSB;
+  }
 
 void MetaObject::
 Clear(void)
@@ -468,17 +472,23 @@ Clear(void)
   memset(m_ElementSpacing, 0, 10*sizeof(float));
   memset(m_Color, 0, 4*sizeof(float));
 
+  strcpy(m_TransformName,"Affine");
+
   m_ID = 0;
-  m_Color[0]=1.0;m_Color[1]=0.0;m_Color[2]=0.0;m_Color[3]=1.0; // red by default
+  m_Color[0]=1.0;
+  m_Color[1]=0.0;
+  m_Color[2]=0.0;
+  m_Color[3]=1.0; // red by default
   m_ParentID = -1;
   m_BinaryData = false;
+  m_ElementByteOrderMSB = MET_SystemByteOrderMSB();
 
   if(META_DEBUG) 
     {
     std::cout << "MetaObject: Clear: m_NDims=" << m_NDims << std::endl;
     }
   int i;
-  for(i=0; i<m_NDims; i++)
+  for(i=0; i<10; i++)
     {
     m_ElementSpacing[i] = 1;
     m_Orientation[i*m_NDims+i] = 1;
@@ -561,7 +571,7 @@ M_SetupReadFields(void)
   mF->required = true;
   m_Fields.push_back(mF);
 
-  int nDimsRecordNumber = MET_GetFieldRecordNumber("NDims",m_Fields);
+  int nDimsRecordNumber = MET_GetFieldRecordNumber("NDims", &m_Fields);
 
   mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "Name", MET_STRING, false);
@@ -577,6 +587,10 @@ M_SetupReadFields(void)
 
   mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "BinaryData", MET_STRING, false);
+  m_Fields.push_back(mF);
+
+  mF = new MET_FieldRecordType;
+  MET_InitReadField(mF, "ElementByteOrderMSB", MET_STRING, false);
   m_Fields.push_back(mF);
 
   mF = new MET_FieldRecordType;
@@ -633,7 +647,7 @@ M_SetupWriteFields(void)
     m_Fields.push_back(mF);
     }
 
-  if(strlen(m_TransformName)>0)
+  if(strlen(m_TransformName)>0 && strcmp(m_TransformName, "Affine"))
     {
     mF = new MET_FieldRecordType;
     MET_InitWriteField(mF, "TransformType", MET_STRING, strlen(m_TransformName),
@@ -657,15 +671,27 @@ M_SetupWriteFields(void)
   MET_InitWriteField(mF, "ID", MET_INT, m_ID);
   m_Fields.push_back(mF);
 
-  mF = new MET_FieldRecordType;
-  MET_InitWriteField(mF, "ParentID", MET_INT, m_ParentID);
-  m_Fields.push_back(mF);
+  if(m_ParentID >= 0)
+    {
+    mF = new MET_FieldRecordType;
+    MET_InitWriteField(mF, "ParentID", MET_INT, m_ParentID);
+    m_Fields.push_back(mF);
+    }
 
   mF = new MET_FieldRecordType;
   if(m_BinaryData)
     MET_InitWriteField(mF, "BinaryData", MET_STRING, strlen("True"), "True");
   else
     MET_InitWriteField(mF, "BinaryData", MET_STRING, strlen("False"), "False");
+  m_Fields.push_back(mF);
+
+  mF = new MET_FieldRecordType;
+  if(m_ElementByteOrderMSB)
+    MET_InitWriteField(mF, "ElementByteOrderMSB", MET_STRING,
+                       strlen("True"), "True");
+  else
+    MET_InitWriteField(mF, "ElementByteOrderMSB", MET_STRING,
+                       strlen("False"), "False");
   m_Fields.push_back(mF);
 
   mF = new MET_FieldRecordType;
@@ -691,6 +717,7 @@ M_SetupWriteFields(void)
     m_Fields.push_back(mF);
     }
 
+  valSet = false;
   for(i=0; i<m_NDims*m_NDims; i++)
     {
     if(m_Position[i] != 0)
@@ -707,10 +734,10 @@ M_SetupWriteFields(void)
     m_Fields.push_back(mF);
     }
 
-  
+  valSet = false;
   for(i=0; i<m_NDims; i++)
     {
-    if(m_ElementSpacing[i] != 0)
+    if(m_ElementSpacing[i] != 0 && m_ElementSpacing[i] != 1)
       {
       valSet = true;
       break;
@@ -729,7 +756,7 @@ bool MetaObject::
 M_Read(void)
   {
 
-  if(!MET_Read(*m_ReadStream, m_Fields))
+  if(!MET_Read(*m_ReadStream, & m_Fields))
     {
     std::cout << "MetaObject: Read: MET_Read Failed" << std::endl;
     return false;
@@ -737,25 +764,25 @@ M_Read(void)
 
   MET_FieldRecordType * mF;
 
-  mF = MET_GetFieldRecord("Comment",m_Fields);
+  mF = MET_GetFieldRecord("Comment", &m_Fields);
   if(mF && mF->defined)
     {
     strcpy(m_Comment, (char *)(mF->value));
     }
 
-  mF = MET_GetFieldRecord("ObjectType",m_Fields);
+  mF = MET_GetFieldRecord("ObjectType", &m_Fields);
   if(mF && mF->defined)
     {
     strcpy(m_ObjectTypeName, (char *)(mF->value));
     }
 
-  mF = MET_GetFieldRecord("ObjectSubType",m_Fields);
+  mF = MET_GetFieldRecord("ObjectSubType", &m_Fields);
   if(mF && mF->defined)
     {
     strcpy(m_ObjectSubTypeName, (char *)(mF->value));
     }
 
-  mF = MET_GetFieldRecord("NDims",m_Fields);
+  mF = MET_GetFieldRecord("NDims", &m_Fields);
   if(mF && mF->defined)
     {
     m_NDims = (int)mF->value[0];
@@ -766,25 +793,25 @@ M_Read(void)
     MetaObject::InitializeEssential(m_NDims);
     }
  
-  mF = MET_GetFieldRecord("Name",m_Fields);
+  mF = MET_GetFieldRecord("Name", &m_Fields);
   if(mF && mF->defined)
     {
     strcpy(m_Name, (char *)(mF->value));
     }
 
-  mF = MET_GetFieldRecord("ID",m_Fields);
+  mF = MET_GetFieldRecord("ID", &m_Fields);
   if(mF && mF->defined)
     {
     m_ID = (int)mF->value[0];
     }
 
-  mF = MET_GetFieldRecord("ParentID",m_Fields);
+  mF = MET_GetFieldRecord("ParentID", &m_Fields);
   if(mF && mF->defined)
     {
     m_ParentID = (int)mF->value[0];
     }
 
-  mF = MET_GetFieldRecord("BinaryData", m_Fields);
+  mF = MET_GetFieldRecord("BinaryData",  &m_Fields);
   if(mF && mF->defined)
     {
     if(((char *)(mF->value))[0] == 'T' || ((char *)(mF->value))[0] == 't' 
@@ -794,8 +821,18 @@ M_Read(void)
       m_BinaryData = false;
     }
 
+  mF = MET_GetFieldRecord("ElementByteOrderMSB",  &m_Fields);
+  if(mF && mF->defined)
+    {
+    if(((char *)(mF->value))[0] == 'T' || ((char *)(mF->value))[0] == 't' 
+       || ((char *)(mF->value))[0] == '1')
+      m_ElementByteOrderMSB = true;
+    else
+      m_ElementByteOrderMSB = false;
+    }
+
   int i;
-  mF = MET_GetFieldRecord("Color",m_Fields);
+  mF = MET_GetFieldRecord("Color", &m_Fields);
   if(mF && mF->defined)
     {
     for(i=0; i<mF->length; i++)
@@ -804,7 +841,7 @@ M_Read(void)
       }
     }
 
-  mF = MET_GetFieldRecord("Position",m_Fields);
+  mF = MET_GetFieldRecord("Position", &m_Fields);
   if(mF && mF->defined)
     {
     for(i=0; i<mF->length; i++)
@@ -813,7 +850,7 @@ M_Read(void)
       }
     }
 
-  mF = MET_GetFieldRecord("Orientation",m_Fields);
+  mF = MET_GetFieldRecord("Orientation", &m_Fields);
   if(mF && mF->defined)
     {
     int len = mF->length;
@@ -823,7 +860,7 @@ M_Read(void)
       }
     }
 
-  mF = MET_GetFieldRecord("ElementSpacing",m_Fields);
+  mF = MET_GetFieldRecord("ElementSpacing", &m_Fields);
   if(mF && mF->defined)
     {
     for(i=0; i<mF->length; i++)
@@ -851,7 +888,7 @@ M_Read(void)
 bool MetaObject::
 M_Write(void)
   {
-  if(!MET_Write(*m_WriteStream, m_Fields))
+  if(!MET_Write(*m_WriteStream, & m_Fields))
     {
     std::cout << "MetaObject: Write: MET_Write Failed" << std::endl;
     return false;

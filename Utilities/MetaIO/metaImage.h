@@ -63,8 +63,6 @@ class MetaImage : public MetaObject
     MET_ValueEnumType m_ElementType;
     int    m_ElementNumberOfChannels;
 
-    bool  m_ElementByteOrderMSB;
-
     bool   m_ElementMinMaxValid;
     double m_ElementMin;
     double m_ElementMax;
@@ -190,8 +188,6 @@ class MetaImage : public MetaObject
     //    ElemByteOrderSwap(), ElemByteOrderFix()
     //       The following functions are available only after
     //       ReadImageData() or if _read_and_close=TRUE when read
-    bool  ElementByteOrderMSB(void) const;
-    void  ElementByteOrderMSB(bool _elementByteOrderMSB);
     void  ElementByteOrderSwap(void);
     bool  ElementByteOrderFix(void);
 

@@ -139,7 +139,7 @@ ReadStream(int ndims, std::ifstream * stream)
 
   M_SetupReadFields();
 
-  MET_FieldRecordType * mF = MET_GetFieldRecord("NDims",m_Fields);
+  MET_FieldRecordType * mF = MET_GetFieldRecord("NDims", &m_Fields);
   mF->value[0] = ndims;
   mF->defined = true;
 
@@ -279,7 +279,7 @@ M_SetupReadFields(void)
 
   MET_FieldRecordType * mF;
 
-  // int nDimsRecNum = MET_GetFieldRecordNumber("NDims",m_Fields);
+  // int nDimsRecNum = MET_GetFieldRecordNumber("NDims", &m_Fields);
 
   mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "ParentPoint", MET_INT, false);
@@ -354,25 +354,25 @@ M_Read(void)
  
   MET_FieldRecordType * mF;
  
-  mF = MET_GetFieldRecord("ParentPoint",m_Fields);
+  mF = MET_GetFieldRecord("ParentPoint", &m_Fields);
   if(mF->defined)
   {
     m_ParentPoint= (int)mF->value[0];
   }
 
-  mF = MET_GetFieldRecord("Root",m_Fields);
+  mF = MET_GetFieldRecord("Root", &m_Fields);
   if(mF->defined)
   {
     m_Root= (int)mF->value[0];
   }
 
-  mF = MET_GetFieldRecord("NPoints",m_Fields);
+  mF = MET_GetFieldRecord("NPoints", &m_Fields);
   if(mF->defined)
   {
     m_NPoints= (int)mF->value[0];
   }
 
-  mF = MET_GetFieldRecord("PointDim",m_Fields);
+  mF = MET_GetFieldRecord("PointDim", &m_Fields);
   if(mF->defined)
   {
     strcpy(m_PointDim,(char *)(mF->value));

@@ -48,6 +48,8 @@ class MetaObject
       char  m_Name[255];            // "Name = "             ""
 
       bool  m_BinaryData;           // "BinaryData = "      False
+
+      bool  m_ElementByteOrderMSB;
       
       virtual void M_Destroy(void);
 
@@ -179,6 +181,9 @@ class MetaObject
       //       Data is binary or not
       void  BinaryData(bool _binaryData);
       bool  BinaryData(void) const;
+
+      void  ElementByteOrderMSB(bool _elementByteOrderMSB);
+      bool  ElementByteOrderMSB(void) const;
 
       virtual void Clear(void);
 

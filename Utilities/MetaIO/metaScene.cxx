@@ -241,7 +241,7 @@ M_SetupReadFields(void)
 
   MET_FieldRecordType * mF;
 
-  //int nDimsRecNum = MET_GetFieldRecordNumber("NDims",m_Fields);
+  //int nDimsRecNum = MET_GetFieldRecordNumber("NDims", &m_Fields);
 
   mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "NObjects", MET_INT, false);
@@ -249,7 +249,7 @@ M_SetupReadFields(void)
   mF->terminateRead = true;
   m_Fields.push_back(mF);
 
-  mF = MET_GetFieldRecord("ElementSpacing",m_Fields);
+  mF = MET_GetFieldRecord("ElementSpacing", &m_Fields);
   mF->required = false;
 }
 
@@ -282,7 +282,7 @@ M_Read(void)
  
   MET_FieldRecordType * mF;
 
-  mF = MET_GetFieldRecord("NObjects",m_Fields);
+  mF = MET_GetFieldRecord("NObjects", &m_Fields);
   if(mF->defined)
   {
     m_NObjects= (int)mF->value[0];

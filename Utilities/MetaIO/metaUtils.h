@@ -31,23 +31,11 @@
 
 
 
-extern MET_FieldRecordType * MET_GetFieldRecord(const char * _fieldName,std::vector<MET_FieldRecordType *>& _fields);
+extern MET_FieldRecordType * MET_GetFieldRecord(const char * _fieldName,std::vector<MET_FieldRecordType *> * _fields);
  
-extern int MET_GetFieldRecordNumber(const char * _fieldName,std::vector<MET_FieldRecordType *>& _fields);
+extern int MET_GetFieldRecordNumber(const char * _fieldName,std::vector<MET_FieldRecordType *> * _fields);
 
-inline bool MET_SystemByteOrderMSB(void)
-  {
-  int l = 1;
-  char * u = (char *) & l;
-  if (u[0])
-    {
-    return false;
-    }
-   else
-    {
-    return true;
-    }
-  }
+extern bool MET_SystemByteOrderMSB(void);
 
 inline unsigned short MET_ByteOrderSwapShort(unsigned short x)
   {
@@ -156,12 +144,12 @@ extern bool MET_InitReadField(MET_FieldRecordType * _mf,
 //    fromTopOfFile indicates whether the File pointer fp should be reset
 //       to topOfFile before parsing begins
 extern bool MET_Read(std::istream &fp,
-                     std::vector<MET_FieldRecordType *> &fields,
+                     std::vector<MET_FieldRecordType *> * fields,
                      char _sepChar='=');
 
 // Given an array of fieldRecs, creates a metaFile.
 extern bool MET_Write(std::ostream &fp,
-                      std::vector<MET_FieldRecordType *> &fields,
+                      std::vector<MET_FieldRecordType *> * fields,
                       char _sepChar='=');
 
 extern bool MET_WriteFieldToFile(std::ostream &_fp, const char *_fieldName,

@@ -18,7 +18,7 @@ MetaImage()
 :MetaObject()
 {
   if(META_DEBUG) std::cout << "MetaImage()" << std::endl;
-  Clear();
+  MetaImage::Clear();
 }
 
 //
@@ -28,7 +28,7 @@ MetaImage(const char *_headerName)
   {
   if(META_DEBUG) std::cout << "MetaImage()" << std::endl;
   Clear();
-  Read(_headerName);
+  MetaImage::Read(_headerName);
   }
 
 //
@@ -37,7 +37,7 @@ MetaImage(MetaImage *_im)
 :MetaObject()
   {
   if(META_DEBUG) std::cout << "MetaImage()" << std::endl;
-  Clear();
+  MetaImage::Clear();
   InitializeEssential(_im->NDims(), 
                       _im->DimSize(),
                       _im->ElementSpacing(),
@@ -58,7 +58,7 @@ MetaImage(int _nDims,
 :MetaObject()
   {
   if(META_DEBUG) std::cout << "MetaImage()" << std::endl;
-  Clear();
+  MetaImage::Clear();
   InitializeEssential(_nDims, 
                       _dimSize, 
                       _elementSpacing,
@@ -82,7 +82,7 @@ MetaImage(int _x, int _y,
   float es[2];
   es[0] = _elementSpacingX;
   es[1] = _elementSpacingY;
-  Clear();
+  MetaImage::Clear();
   InitializeEssential(2, ds, es, _elementType, 
                       _elementNumberOfChannels,
                       _elementData);
@@ -108,7 +108,7 @@ MetaImage(int _x, int _y, int _z,
   es[0] = _elementSpacingX;
   es[1] = _elementSpacingY;
   es[2] = _elementSpacingZ;
-  Clear();
+  MetaImage::Clear();
   InitializeEssential(3, ds, es, _elementType, 
                       _elementNumberOfChannels,
                       _elementData);
@@ -170,9 +170,6 @@ PrintInfo() const
 
   std::cout << "ElementNumberOfChannels = "
             << m_ElementNumberOfChannels << std::endl;
-
-  std::cout << "ElementByteOrderMSB = " 
-            << ((m_ElementByteOrderMSB)?"True":"False") << std::endl;
 
   if(m_ElementMinMaxValid)
     {
@@ -331,22 +328,11 @@ ElementNumberOfChannels(int _elementNumberOfChannels)
   m_ElementNumberOfChannels = _elementNumberOfChannels;
   }
 
-bool MetaImage::
-ElementByteOrderMSB(void) const
-  {
-  return m_ElementByteOrderMSB;
-  }
-
-void MetaImage::
-ElementByteOrderMSB(bool _elementByteOrderMSB)
-  {
-  m_ElementByteOrderMSB = _elementByteOrderMSB;
-  }
-
 void MetaImage::
 ElementByteOrderSwap(void)
   {
   std::cout << "MetaImage: ElementByteOrderSwap" << std::endl;
+  std::cout << "swap: msb = " << (int)m_ElementByteOrderMSB << std::endl;
 
   int eSize;
   MET_SizeOfType(m_ElementType, &eSize);    
@@ -567,7 +553,7 @@ Read(const char *_headerName, bool _readElements, void * _buffer)
   {
   M_Destroy();
 
-  Clear();
+  MetaImage::Clear();
 
   M_SetupReadFields();
 
@@ -652,7 +638,8 @@ Read(const char *_headerName, bool _readElements, void * _buffer)
             }
 
           M_ReadElements(readStreamTemp,
-                         &(((char *)m_ElementData)[i*m_SubQuantity[m_NDims-1]*elementSize]),
+                         &(((char *)m_ElementData)[i*m_SubQuantity[m_NDims-1]*
+                                                   elementSize]),
                          m_SubQuantity[m_NDims-1]);
 
           readStreamTemp->close();
@@ -710,7 +697,8 @@ Read(const char *_headerName, bool _readElements, void * _buffer)
           }
       
         M_ReadElements(readStreamTemp,
-                       &(((char *)m_ElementData)[cnt*m_SubQuantity[m_NDims-1]*elementSize]),
+                       &(((char *)m_ElementData)[cnt*m_SubQuantity[m_NDims-1]*
+                                                 elementSize]),
                        m_SubQuantity[m_NDims-1]);
         cnt++;
 
@@ -732,6 +720,7 @@ Read(const char *_headerName, bool _readElements, void * _buffer)
       if(!readStreamTemp->is_open())
         {
         std::cout << "MetaImage: Read: Cannot open data file" << std::endl;
+        m_ReadStream->close();
         return false;
         }
       M_ReadElements(readStreamTemp, m_ElementData, m_Quantity);
@@ -750,8 +739,6 @@ Read(const char *_headerName, bool _readElements, void * _buffer)
 bool MetaImage::
 Write(const char *_headName, const char *_dataName, bool _writeElements)
   {
-  std::cout << "MetaImage: Write" << std::endl;
-
   if(_dataName == NULL)
     {
     if(strlen(m_ElementDataFileName)==0)
@@ -789,6 +776,8 @@ Write(const char *_headName, const char *_dataName, bool _writeElements)
       }
     else
       {
+      m_WriteStream->close();
+
       char pathName[255];
       bool usePath = MET_GetFilePath(m_FileName, pathName);
       std::ofstream* writeStreamTemp = new std::ofstream;
@@ -853,9 +842,15 @@ Clear(void)
   m_Quantity = 0;
   m_SubQuantity[0] = 0;
   m_DimSize[0] = 0;
-  m_ElementSize[0] = 0;
+  int i;
+  for(i=0; i<10; i++)
+    {
+    m_ElementSize[i] = 0;
+    }
 
   MetaObject::Clear();
+
+  m_BinaryData = true;
   }
         
         
@@ -884,6 +879,10 @@ InitializeEssential(int _nDims,
       m_SubQuantity[i] = m_SubQuantity[i-1]*m_DimSize[i-1];
       }
     m_ElementSpacing[i] = _elementSpacing[i];
+    if(m_ElementSize[i] == 0)
+      {
+      m_ElementSize[i] = m_ElementSpacing[i];
+      }
     }
 
   m_ElementType = _elementType;
@@ -938,7 +937,7 @@ M_SetupReadFields(void)
 
   MET_FieldRecordType * mF;
 
-  int nDimsRecNum = MET_GetFieldRecordNumber("NDims",m_Fields);
+  int nDimsRecNum = MET_GetFieldRecordNumber("NDims", &m_Fields);
 
   mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "DimSize", MET_INT_ARRAY, true, nDimsRecNum);
@@ -979,10 +978,6 @@ M_SetupReadFields(void)
   m_Fields.push_back(mF);
 
   mF = new MET_FieldRecordType;
-  MET_InitReadField(mF, "ElementByteOrderMSB", MET_STRING, false);
-  m_Fields.push_back(mF);
-
-  mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "ElementDataFile", MET_STRING, true);
   mF->required = true;
   mF->terminateRead = true;
@@ -1019,7 +1014,7 @@ M_SetupWriteFields(void)
     }
 
   bool valid = false;
-  for(i=0; i<m_NDims; i++)
+  for(i=0; i<4; i++)
     {
     if(m_SequenceID[i] != 0)
       {
@@ -1046,7 +1041,7 @@ M_SetupWriteFields(void)
     m_Fields.push_back(mF);
     }
 
-  if(m_ElementNumberOfChannels>0)
+  if(m_ElementNumberOfChannels>1)
     {
     mF = new MET_FieldRecordType;
     MET_InitWriteField(mF, "ElementNumberOfChannels", MET_INT, 
@@ -1054,9 +1049,10 @@ M_SetupWriteFields(void)
     m_Fields.push_back(mF);
     }
 
+  valid = false;
   for(i=0; i<m_NDims; i++)
     {
-    if(m_ElementSize[i] != 0)
+    if(m_ElementSize[i] != 0 && m_ElementSize[i] != 1)
       {
       valid = true;
       break;
@@ -1073,11 +1069,6 @@ M_SetupWriteFields(void)
   mF = new MET_FieldRecordType;
   MET_TypeToString(m_ElementType, s);
   MET_InitWriteField(mF, "ElementType", MET_STRING, strlen(s), s);
-  m_Fields.push_back(mF);
-
-  mF = new MET_FieldRecordType;
-  strcpy(s, (m_ElementByteOrderMSB)?"True":"False");
-  MET_InitWriteField(mF, "ElementByteOrderMSB", MET_STRING, strlen(s), s);
   m_Fields.push_back(mF);
 
   mF = new MET_FieldRecordType;
@@ -1109,11 +1100,14 @@ M_ReadElements(std::ifstream * _fstream, void * _data, int _dataQuantity)
   int elementSize;
   MET_SizeOfType(m_ElementType, &elementSize);
   int readSize = _dataQuantity*m_ElementNumberOfChannels*elementSize;
-  if(META_DEBUG)std::cout << "MetaImage: M_ReadElements: ReadSize = " << readSize << std::endl;
+  if(META_DEBUG)
+    std::cout << "MetaImage: M_ReadElements: ReadSize = " 
+              << readSize << std::endl;
 
   if(m_HeaderSize == -1)
     {
-    if(META_DEBUG) std::cout << "MetaImage: M_ReadElements: Skipping header" << std::endl;
+    if(META_DEBUG) 
+      std::cout << "MetaImage: M_ReadElements: Skipping header" << std::endl;
     _fstream->seekg(-readSize, std::ios::end);
     }
 
@@ -1226,8 +1220,8 @@ M_Read(void)
     std::cout << "metaImage: M_Read: elementSpacing[" << 0 << "] = "
               << m_ElementSpacing[0] << std::endl;
 
-  mF = MET_GetFieldRecord("DimSize",m_Fields);
-  if(mF->defined)
+  mF = MET_GetFieldRecord("DimSize", &m_Fields);
+  if(mF && mF->defined)
     {
     int i;
     for(i=0; i<m_NDims; i++)
@@ -1236,20 +1230,20 @@ M_Read(void)
       }
     }
 
-  mF = MET_GetFieldRecord("HeaderSize",m_Fields);
-  if(mF->defined)
+  mF = MET_GetFieldRecord("HeaderSize", &m_Fields);
+  if(mF && mF->defined)
     {
     m_HeaderSize = (int)mF->value[0];
     }
 
-  mF = MET_GetFieldRecord("Modality",m_Fields);
-  if(mF->defined)
+  mF = MET_GetFieldRecord("Modality", &m_Fields);
+  if(mF && mF->defined)
     {
     MET_StringToImageModality((char *)mF->value, &m_Modality);
     }
 
-  mF = MET_GetFieldRecord("SequenceID",m_Fields);
-  if(mF->defined)
+  mF = MET_GetFieldRecord("SequenceID", &m_Fields);
+  if(mF && mF->defined)
     {
     int i;
     for(i=0; i<m_NDims; i++)
@@ -1258,27 +1252,27 @@ M_Read(void)
       }
     }
 
-  mF = MET_GetFieldRecord("ElementMin",m_Fields);
-  if(mF->defined)
+  mF = MET_GetFieldRecord("ElementMin", &m_Fields);
+  if(mF && mF->defined)
     {
     m_ElementMin = mF->value[0];
     }
 
-  mF = MET_GetFieldRecord("ElementMax",m_Fields);
-  if(mF->defined)
+  mF = MET_GetFieldRecord("ElementMax", &m_Fields);
+  if(mF && mF->defined)
     {
     m_ElementMax = mF->value[0];
     }
 
-  mF = MET_GetFieldRecord("ElementNumberOfChannels",m_Fields);
-  if(mF->defined)
+  mF = MET_GetFieldRecord("ElementNumberOfChannels", &m_Fields);
+  if(mF && mF->defined)
     {
     m_ElementNumberOfChannels = (int)mF->value[0];
     }
 
 
-  mF = MET_GetFieldRecord("ElementSize",m_Fields);
-  if(mF->defined)
+  mF = MET_GetFieldRecord("ElementSize", &m_Fields);
+  if(mF && mF->defined)
     {
     int i;
     for(i=0; i<m_NDims; i++)
@@ -1287,27 +1281,14 @@ M_Read(void)
       }
     }
 
-  mF = MET_GetFieldRecord("ElementType",m_Fields);
-  if(mF->defined)
+  mF = MET_GetFieldRecord("ElementType", &m_Fields);
+  if(mF && mF->defined)
     {
     MET_StringToType((char *)(mF->value), &m_ElementType);
     }
 
-  mF = MET_GetFieldRecord("ElementByteOrderMSB",m_Fields);
-  if(mF->defined)
-    {
-    if(((char *)mF->value)[0] == 'T' || ((char *)mF->value)[0] == 't')
-      {
-      m_ElementByteOrderMSB = true;
-      }
-    else
-      {
-      m_ElementByteOrderMSB = false;
-      }
-    }
-
-  mF = MET_GetFieldRecord("ElementDataFile",m_Fields);
-  if(mF->defined)
+  mF = MET_GetFieldRecord("ElementDataFile", &m_Fields);
+  if(mF && mF->defined)
     {
     strcpy(m_ElementDataFileName, (char *)(mF->value));
     }
@@ -1325,7 +1306,7 @@ ReadStream(int ndims, std::ifstream * stream)
 
   M_SetupReadFields();
 
-  MET_FieldRecordType * mF = MET_GetFieldRecord("NDims",m_Fields);
+  MET_FieldRecordType * mF = MET_GetFieldRecord("NDims", &m_Fields);
   mF->value[0] = ndims;
   mF->defined = true;
 
