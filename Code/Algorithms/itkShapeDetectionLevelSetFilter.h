@@ -50,9 +50,16 @@ namespace itk
  *
  * The edge potential image has values close to zero in regions
  * of high image gradient and values close to one in regions with
- * relatively constant intensity. For example, the function
- * g(I) = 1 / ( 1 + |grad(I)| ) where I = image intensity, is 
- * typically used.
+ * relatively constant intensity. For example, functions
+ * 
+ * \f[ g(I) = 1 / ( 1 + | (\nabla * G)(I)| ) \f]
+ * \f[ g(I) = \exp^{-|(\nabla * G)(I)|} \f]
+ * 
+ * are typically used, where \f$ I \f$ is image intensity and
+ * \f$ (\nabla * G) \f$ is the derivative of Gaussian operator. 
+ *
+ * EdgePotentialImageFilter computes the potential map using the
+ * latter equation with the image gradient as the input.
  *
  * The user can force the propagation to go inwards via
  * method SetPropagateOutwards( false ).
@@ -76,6 +83,8 @@ namespace itk
  *
  * Note: this filter will eventually be re-implemented as part of
  * the Finite Difference Solver framework.
+ *
+ * \sa EdgePotentialImageFilter
  *
  * \ingroup LevelSetSegmentation 
  */
