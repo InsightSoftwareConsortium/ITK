@@ -342,8 +342,8 @@ int main( int argc, char *argv[] )
 
   optimizer->SetScales( optimizerScales );
 
-  optimizer->SetMaximumStepLength( 1.000  ); 
-  optimizer->SetMinimumStepLength( 0.001 );
+  optimizer->SetMaximumStepLength( 0.2000  ); 
+  optimizer->SetMinimumStepLength( 0.0001 );
 
   optimizer->SetNumberOfIterations( 200 );
 
@@ -463,6 +463,8 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
+  //  THESE IMAGES MUST BE UPDATED FOR THE NEXT EDITION OF THE SOFTWARE GUIDE.
+  //
   // \begin{figure}
   // \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceBorder20.eps}
