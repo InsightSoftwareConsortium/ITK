@@ -437,6 +437,8 @@ ConstructDiagram(void)
     m_OutputVD->BuildEdge(i);
     }
   m_OutputVD->InsertCells();
+
+  delete [] rawEdges;
 }
 
 /**************************************************************
