@@ -227,7 +227,7 @@ ConstSmartNeighborhoodIterator<TImage, TBoundaryCondition>
           for (i=0; i<Dimension; ++i)  // Update index
             {
               temp[i]++;
-              if ( (unsigned int)(temp[i]) == static_cast<OffsetValueType>(this->GetSize(i)) ) temp[i]= 0; 
+              if ( temp[i] == static_cast<OffsetValueType>(this->GetSize(i)) ) temp[i]= 0; 
               else break;
             }
         } 
