@@ -52,7 +52,7 @@ GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>
 
 
 template <class TInputImage, class TOutputImage>
-const GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>::MarkerImageType *
+const typename GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>::MarkerImageType *
 GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>
 ::GetMarkerImage()
 {
@@ -71,7 +71,7 @@ GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>
 
 
 template <class TInputImage, class TOutputImage>
-const GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>::MaskImageType *
+const typename GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>::MaskImageType *
 GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>
 ::GetMaskImage()
 {
@@ -198,7 +198,7 @@ GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>
   // separately. For efficiency, we will delegate to an instance that
   // is templated over <TInputImage, TInputImage> to avoid any
   // pixelwise casting until the final output image is configured.
-  GrayscaleGeodesicDilateImageFilter<TInputImage, TInputImage>::Pointer
+  typename GrayscaleGeodesicDilateImageFilter<TInputImage, TInputImage>::Pointer
     singleIteration
          = GrayscaleGeodesicDilateImageFilter<TInputImage, TInputImage>::New();
   bool done = false;
@@ -315,15 +315,15 @@ GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>
   // (face connected neighbors within a radius of 1).
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<MarkerImageType>::FaceListType faceList;
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<MarkerImageType> fC;
-  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<MarkerImageType>::RadiusType kernelRadius;
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<MarkerImageType>::RadiusType kernelRadius;
   kernelRadius.Fill(1);
   faceList = fC(this->GetMarkerImage(), outputRegionForThread, kernelRadius);
 
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<MarkerImageType>::FaceListType::iterator fit;
 
   unsigned int d;
-  NeighborhoodIteratorType::OffsetValueType i;
-  NeighborhoodIteratorType::OffsetType offset;
+  typename NeighborhoodIteratorType::OffsetValueType i;
+  typename NeighborhoodIteratorType::OffsetType offset;
 
   MarkerImagePixelType value, dilateValue, maskValue;
 
@@ -359,7 +359,7 @@ GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>
       dilateValue = NumericTraits<MarkerImagePixelType>::NonpositiveMin();
       
       // Dilate by checking the face connected neighbors (and center pixel)
-      NeighborhoodIteratorType::ConstIterator sIt;
+      typename NeighborhoodIteratorType::ConstIterator sIt;
       for (sIt = markerIt.Begin(); !sIt.IsAtEnd(); sIt++)
         {
         // a pixel in the neighborhood
