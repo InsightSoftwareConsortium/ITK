@@ -91,7 +91,7 @@ protected:
   void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent);
 
-  virtual void Execute();
+  virtual void GenerateData();
 
 private:  
   int m_ExtractionMode;

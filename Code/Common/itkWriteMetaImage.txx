@@ -41,7 +41,7 @@ WriteMetaImage<TInputImage>
 template <class TInputImage>
 void 
 WriteMetaImage<TInputImage>
-::Execute(void)
+::GenerateData(void)
 {
   this->WriteData();  
 }

@@ -32,8 +32,8 @@ ImageSource<TOutputImage>
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput(0, output.GetPointer());
 
-  m_ExecutePiece = 0;
-  m_ExecuteNumberOfPieces = 0;
+  m_GenerateDataPiece = 0;
+  m_GenerateDataNumberOfPieces = 0;
 }
 
 
@@ -86,7 +86,7 @@ ImageSource<TOutputImage>
 template<class TOutputImage>
 void 
 ImageSource<TOutputImage>
-::ComputeInputUpdateExtents(DataObject *data)
+::GenerateInputRequestedRegion(DataObject *data)
 {
 }
 

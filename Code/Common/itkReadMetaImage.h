@@ -64,7 +64,7 @@ public:
    */
   itkGetStringMacro(FileName);
   
-  void Execute();
+  void GenerateData();
 protected:
   ReadMetaImage();
   ~ReadMetaImage() {};

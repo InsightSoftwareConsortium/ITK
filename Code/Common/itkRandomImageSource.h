@@ -95,8 +95,8 @@ protected:
   void operator=(const RandomImageSource&) {};
   void PrintSelf(std::ostream& os, Indent indent);
   
-  virtual void Execute();
-  virtual void ExecuteInformation();
+  virtual void GenerateData();
+  virtual void GenerateOutputInformation();
 
 private:
   unsigned long *m_Size;    //size of the output image

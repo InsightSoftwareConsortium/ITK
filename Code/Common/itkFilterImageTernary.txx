@@ -80,13 +80,13 @@ FilterImageTernary<TInputImage1,TInputImage2,TInputImage3,TOutputImage,TFunction
 
 
 /**
- * Executes filter. Performs the pixel-wise addition
+ * GenerateDatas filter. Performs the pixel-wise addition
  */
 template <class TInputImage1, class TInputImage2, 
           class TInputImage3, class TOutputImage, class TFunction  >
 void
 FilterImageTernary<TInputImage1,TInputImage2,TInputImage3,TOutputImage,TFunction>
-::Execute( void )
+::GenerateData( void )
 {
 
   m_OutputImage->SetImageSize(  this->m_Image1->GetImageSize() );

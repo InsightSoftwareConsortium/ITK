@@ -88,7 +88,7 @@ public:
   /**
    * Method for execute the algorithm
    */
-   void Execute(void);
+   void GenerateData(void);
   
   /**
    * Connect one of the operands for pixel-wise addition

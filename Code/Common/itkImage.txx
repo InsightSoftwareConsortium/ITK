@@ -108,11 +108,11 @@ Image<TPixel, VImageDimension>
 template<class TPixel, unsigned int VImageDimension>
 void 
 Image<TPixel, VImageDimension>
-::UpdateInformation()
+::UpdateOutputInformation()
 {
   if (this->GetSource())
     {
-    this->GetSource()->UpdateInformation();
+    this->GetSource()->UpdateOutputInformation();
     }
   // If we don't have a source, then let's make our Image
   // span our buffer
@@ -189,7 +189,7 @@ Image<TPixel, VImageDimension>
 template<class TPixel, unsigned int VImageDimension>
 bool 
 Image<TPixel, VImageDimension>
-::VerifyUpdateExtent()
+::VerifyUpdateRegion()
 {
   bool retval = true;
   unsigned int i;

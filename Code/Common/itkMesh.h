@@ -482,11 +482,11 @@ public:
    */
   void Accept(CellMultiVisitor* mv);
 
-  virtual void UpdateInformation();
+  virtual void UpdateOutputInformation();
   virtual void SetUpdateExtentToWholeExtent();
   virtual void CopyInformation(DataObject *data);
   virtual bool UpdateExtentIsOutsideOfTheExtent();
-  virtual bool VerifyUpdateExtent();
+  virtual bool VerifyUpdateRegion();
 
 protected:
   /**

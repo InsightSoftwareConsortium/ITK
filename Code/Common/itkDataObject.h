@@ -114,16 +114,16 @@ public:
    * Provides opportunity for the data object to insure internal 
    * consistency before access. Also causes owning source/filter 
    * (if any) to update itself. The Update() method is composed of 
-   * UpdateInformation(), PropagateUpdateExtent(), and UpdateData().
+   * UpdateOutputInformation(), PropagateRequestedRegion(), and UpdateOutputData().
    */
   virtual void Update();
 
   /**
    * Methods to update the pipeline.
    */
-  virtual void UpdateInformation() = 0;
-  virtual void PropagateUpdateExtent();
-  virtual void UpdateData();
+  virtual void UpdateOutputInformation() = 0;
+  virtual void PropagateRequestedRegion();
+  virtual void UpdateOutputData();
 
   /**
    * More internal methods to update the pipeline.
@@ -149,7 +149,7 @@ public:
   virtual void SetUpdateExtentToWholeExtent() = 0;
   virtual void CopyInformation(DataObject *data) = 0;
   virtual bool UpdateExtentIsOutsideOfTheExtent() = 0;
-  virtual bool VerifyUpdateExtent() = 0;
+  virtual bool VerifyUpdateRegion() = 0;
 
   /** 
    * Handle the source/data loop. 

@@ -252,7 +252,7 @@ FilterImageGaussian<TInputImage,TOutputImage, TComputation>
 template <class TInputImage, class TOutputImage, class TComputation>
 void
 FilterImageGaussian<TInputImage,TOutputImage, TComputation>
-::Execute() 
+::GenerateData() 
 {
 
   typedef typename TOutputImage::PixelType  TOutputType;

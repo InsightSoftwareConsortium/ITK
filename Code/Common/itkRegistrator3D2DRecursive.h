@@ -69,7 +69,7 @@ public:
   void PerformRegistration( void );
 
   /**
-   * Execute the recursive estimation
+   * GenerateData the recursive estimation
    */
   void RecursiveEstimation( void );
 

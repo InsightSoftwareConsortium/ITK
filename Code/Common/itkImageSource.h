@@ -83,15 +83,15 @@ protected:
    * Since all DataObjects should be able to set UpdateExent as pieces,
    * just copy output->UpdateExtent  all Inputs.
    */
-  void ComputeInputUpdateExtents(DataObject *output);
+  void GenerateInputRequestedRegion(DataObject *output);
   
 private:
   /**
    * Used by streaming: The extent of the output being processed
-   * by the execute method. Set in the ComputeInputUpdateExtents method.
+   * by the execute method. Set in the GenerateInputRequestedRegion method.
    */
-  int m_ExecutePiece;
-  int m_ExecuteNumberOfPieces;
+  int m_GenerateDataPiece;
+  int m_GenerateDataNumberOfPieces;
 };
 
 } // end namespace itk

@@ -69,7 +69,7 @@ protected:
   void operator=(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent);
   
-  void Execute();
+  void GenerateData();
 
 private:
   unsigned int m_ShrinkFactor;

@@ -55,12 +55,12 @@ FilterImageSub<TInputImage1,TInputImage2,TOutputImage>
 }
 
 /**
- * Executes filter. Performs the pixel-wise subtraction
+ * GenerateDatas filter. Performs the pixel-wise subtraction
  */
 template <class TInputImage1, class TInputImage2, class TOutputImage>
 void
 FilterImageSub<TInputImage1,TInputImage2,TOutputImage>
-::Execute( void )
+::GenerateData( void )
 {
   outputImage->SetImageSize(  inputImage1->GetImageSize() );
   outputImage->SetBufferSize( inputImage1->GetBufferSize() );

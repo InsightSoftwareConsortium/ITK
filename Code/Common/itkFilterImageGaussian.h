@@ -95,9 +95,9 @@ public:
   TInputImage * GetInputImage( void );
 
   /**
-   * Execute (apply) the filter
+   * GenerateData (apply) the filter
    */   
-  void Execute(void);
+  void GenerateData(void);
 
 
 protected:

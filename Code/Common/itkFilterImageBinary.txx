@@ -65,13 +65,13 @@ FilterImageBinary<TInputImage1,TInputImage2,TOutputImage,TFunction>
 
 
 /**
- * Executes filter. Performs the pixel-wise addition
+ * GenerateDatas filter. Performs the pixel-wise addition
  */
 template <class TInputImage1, class TInputImage2, 
           class TOutputImage, class TFunction  >
 void
 FilterImageBinary<TInputImage1,TInputImage2,TOutputImage,TFunction>
-::Execute( void )
+::GenerateData( void )
 {
 
   m_OutputImage->SetImageSize(  m_Image1->GetImageSize() );

@@ -36,7 +36,7 @@ ReadVTKImage<TOutputImage>
 template <class TOutputImage>
 void 
 ReadVTKImage<TOutputImage>
-::Execute()
+::GenerateData()
 {
 }
 

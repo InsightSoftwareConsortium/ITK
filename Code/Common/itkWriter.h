@@ -75,7 +75,7 @@ protected:
   // All writers must respond to WriteData().
   virtual void WriteData() = 0;
 
-  void Execute() {this->WriteData();}
+  void GenerateData() {this->WriteData();}
   
 private:
   std::string m_FileName;

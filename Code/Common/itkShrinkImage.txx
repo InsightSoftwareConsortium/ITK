@@ -50,7 +50,7 @@ ShrinkImage<TInputImage,TOutputImage>
 template <class TInputImage, class TOutputImage>
 void 
 ShrinkImage<TInputImage,TOutputImage>
-::Execute()
+::GenerateData()
 {
   itkDebugMacro(<<"Actually executing");
 }

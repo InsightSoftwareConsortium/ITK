@@ -187,15 +187,15 @@ void
 DataObject
 ::Update()
 {
-  this->UpdateInformation();
-  this->PropagateUpdateExtent();
-  this->UpdateData();
+  this->UpdateOutputInformation();
+  this->PropagateRequestedRegion();
+  this->UpdateOutputData();
 }
 
 //----------------------------------------------------------------------------
 void 
 DataObject
-::PropagateUpdateExtent()
+::PropagateRequestedRegion()
 {
   // If we need to update due to PipelineMTime, or the fact that our
   // data was released, then propagate the update extent to the source 
@@ -206,7 +206,7 @@ DataObject
     {
     if (m_Source)
       {
-      m_Source->PropagateUpdateExtent(this);
+      m_Source->PropagateRequestedRegion(this);
       }
     }
   
@@ -215,7 +215,7 @@ DataObject
     this->UpdateExtentIsOutsideOfTheExtent();
   
   // Check that the update extent lies within the whole extent
-  if ( ! this->VerifyUpdateExtent() )
+  if ( ! this->VerifyUpdateRegion() )
     {
     // invalid update piece - this should not occur!
     return;
@@ -226,17 +226,17 @@ DataObject
 //----------------------------------------------------------------------------
 void 
 DataObject
-::UpdateData()
+::UpdateOutputData()
 {
   // If we need to update due to PipelineMTime, or the fact that our
-  // data was released, then propagate the UpdateData to the source
+  // data was released, then propagate the UpdateOutputData to the source
   // if there is one.
   if ( m_UpdateTime < m_PipelineMTime || m_DataReleased ||
        this->UpdateExtentIsOutsideOfTheExtent())
     {
     if (m_Source)
       {
-      m_Source->UpdateData(this);
+      m_Source->UpdateOutputData(this);
       } 
     } 
 }

@@ -38,7 +38,7 @@ ReadMetaImage<TOutputImage>
 template <class TOutputImage>
 void 
 ReadMetaImage<TOutputImage>
-::Execute()
+::GenerateData()
 {
 
   MetaImage   m_MetaImage;

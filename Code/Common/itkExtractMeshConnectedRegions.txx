@@ -74,7 +74,7 @@ ExtractMeshConnectedRegions<TInputMesh,TOutputMesh>
 template <class TInputMesh, class TOutputMesh>
 void 
 ExtractMeshConnectedRegions<TInputMesh,TOutputMesh>
-::Execute()
+::GenerateData()
 {
   itkDebugMacro(<<"Actually executing");
 }

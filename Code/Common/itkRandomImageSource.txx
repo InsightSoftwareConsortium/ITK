@@ -71,7 +71,7 @@ RandomImageSource<TOutputImage>
 template <typename TOutputImage>
 void 
 RandomImageSource<TOutputImage>
-::ExecuteInformation()
+::GenerateOutputInformation()
 {
   TOutputImage *output;
   typename TOutputImage::Index index = {0};
@@ -88,7 +88,7 @@ RandomImageSource<TOutputImage>
 template <typename TOutputImage>
 void 
 RandomImageSource<TOutputImage>
-::Execute()
+::GenerateData()
 {
   typedef typename TOutputImage::ScalarValueType scalarType;
 

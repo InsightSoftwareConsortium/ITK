@@ -1193,11 +1193,11 @@ Mesh<TPixelType,TMeshType>
 template <typename TPixelType, typename TMeshType>
 void 
 Mesh<TPixelType,TMeshType>
-::UpdateInformation()
+::UpdateOutputInformation()
 {
   if (this->GetSource())
     {
-    this->GetSource()->UpdateInformation();
+    this->GetSource()->UpdateOutputInformation();
     }
   
   // Now we should know what our whole extent is. If our update extent
@@ -1260,7 +1260,7 @@ Mesh<TPixelType,TMeshType>
 template <typename TPixelType, typename TMeshType>
 bool 
 Mesh<TPixelType,TMeshType>
-::VerifyUpdateExtent()
+::VerifyUpdateRegion()
 {
   bool retval = true;
   unsigned int i;

@@ -41,7 +41,7 @@ ProcessObject
   m_EndMethodArgDelete = NULL;
   m_EndMethodArg = NULL;
 
-  m_AbortExecute = false;
+  m_AbortGenerateData = false;
   m_Progress = 0.0;
   m_Updating = false;
 }
@@ -554,7 +554,7 @@ ProcessObject
     os << indent << "No End Method\n";
     }
 
-  os << indent << "AbortExecute: " << (m_AbortExecute ? "On\n" : "Off\n");
+  os << indent << "AbortGenerateData: " << (m_AbortGenerateData ? "On\n" : "Off\n");
   os << indent << "Progress: " << m_Progress << "\n";
 }
 
@@ -585,7 +585,7 @@ ProcessObject
  */
 void 
 ProcessObject
-::UpdateInformation()
+::UpdateOutputInformation()
 {
   unsigned long t1, t2;
   unsigned int idx;
@@ -623,10 +623,10 @@ ProcessObject
       input = m_Inputs[idx];
 
       /**
-       * Propagate the UpdateInformation call
+       * Propagate the UpdateOutputInformation call
        */
       m_Updating = true;
-      input->UpdateInformation();
+      input->UpdateOutputInformation();
       m_Updating = false;
       
       /**
@@ -653,9 +653,9 @@ ProcessObject
     }
 
   /**
-   * Call ExecuteInformation for subclass specific information.
-   * Since UpdateInformation propagates all the way up the pipeline,
-   * we need to be careful here to call ExecuteInformation only if necessary.
+   * Call GenerateOutputInformation for subclass specific information.
+   * Since UpdateOutputInformation propagates all the way up the pipeline,
+   * we need to be careful here to call GenerateOutputInformation only if necessary.
    * Otherwise, we may cause this source to be modified which will cause it
    * to execute again on the next update.
    */
@@ -670,7 +670,7 @@ ProcessObject
         }  
       }
     
-    this->ExecuteInformation();
+    this->GenerateOutputInformation();
     }
 }
 
@@ -680,7 +680,7 @@ ProcessObject
  */
 void 
 ProcessObject
-::PropagateUpdateExtent(DataObject *output)
+::PropagateRequestedRegion(DataObject *output)
 {
   /**
    * check flag to avoid executing forever if there is a loop
@@ -697,7 +697,7 @@ ProcessObject
    * Although this is being called for a specific output, the source
    * may need to enlarge all outputs.
    */
-  this->EnlargeOutputUpdateExtents( output );
+  this->EnlargeOutputRequestedRegion( output );
 
   /**
    * Give the subclass a chance to request a larger extent on 
@@ -707,7 +707,7 @@ ProcessObject
    * derives a new pixel value by applying some operation to a 
    * neighborhood of surrounding original values. 
    */
-  this->ComputeInputUpdateExtents( output );
+  this->GenerateInputRequestedRegion( output );
 
   /**
    * Now that we know the input update extent, propogate this
@@ -718,7 +718,7 @@ ProcessObject
     {
     if (m_Inputs[idx])
       {
-      m_Inputs[idx]->PropagateUpdateExtent();
+      m_Inputs[idx]->PropagateRequestedRegion();
       }
     }
   m_Updating = false;
@@ -732,7 +732,7 @@ ProcessObject
  */
 void 
 ProcessObject
-::ComputeInputUpdateExtents( DataObject *itkNotUsed(output) )
+::GenerateInputRequestedRegion( DataObject *itkNotUsed(output) )
 {
   for (unsigned int idx = 0; idx < m_Inputs.size(); ++idx)
     {
@@ -749,7 +749,7 @@ ProcessObject
  */
 void 
 ProcessObject
-::UpdateData(DataObject *itkNotUsed(output))
+::UpdateOutputData(DataObject *itkNotUsed(output))
 {
   unsigned int idx;
 
@@ -764,7 +764,7 @@ ProcessObject
   /**
    * Propagate the update call - make sure everything we
    * might rely on is up-to-date
-   * Must call PropagateUpdateExtent before UpdateData if multiple 
+   * Must call PropagateRequestedRegion before UpdateOutputData if multiple 
    * inputs since they may lead back to the same data object.
    */
   m_Updating = true;
@@ -772,7 +772,7 @@ ProcessObject
     {
     if (m_Inputs[0])
       {
-      m_Inputs[0]->UpdateData();
+      m_Inputs[0]->UpdateOutputData();
       }
     }
   else
@@ -781,8 +781,8 @@ ProcessObject
       {
       if (m_Inputs[idx])
         {
-        m_Inputs[idx]->PropagateUpdateExtent();
-        m_Inputs[idx]->UpdateData();
+        m_Inputs[idx]->PropagateRequestedRegion();
+        m_Inputs[idx]->UpdateOutputData();
         }
       }
     }
@@ -808,10 +808,10 @@ ProcessObject
     }
 
   /**
-   * Execute this object - we have not aborted yet, and our progress
+   * GenerateData this object - we have not aborted yet, and our progress
    * before we start to execute is 0.0.
    */
-  m_AbortExecute = 0;
+  m_AbortGenerateData = 0;
   m_Progress = 0.0;
   if (m_Inputs.size() < m_NumberOfRequiredInputs)
     {
@@ -819,14 +819,14 @@ ProcessObject
     }
   else
     {
-    this->Execute();
+    this->GenerateData();
     }
 
   /**
    * If we ended due to aborting, push the progress up to 1.0 (since
    * it probably didn't end there)
    */
-  if ( !m_AbortExecute )
+  if ( !m_AbortGenerateData )
     {
     this->UpdateProgress(1.0);
     }
@@ -1042,7 +1042,7 @@ ProcessObject
  */
 void 
 ProcessObject
-::ExecuteInformation()
+::GenerateOutputInformation()
 {
   DataObjectPointer input, output;
 
@@ -1069,7 +1069,7 @@ void
 ProcessObject
 ::UpdateWholeExtent()
 {
-  this->UpdateInformation();
+  this->UpdateOutputInformation();
 
   if (this->GetOutput(0))
     {

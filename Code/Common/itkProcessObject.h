@@ -42,7 +42,7 @@ namespace itk
  *
  * ProcessObject provides a mechanism for invoking the methods
  * StartMethod() and EndMethod() before and after object execution (via
- * Execute()). These are convenience methods you can use for any purpose
+ * GenerateData()). These are convenience methods you can use for any purpose
  * (e.g., debugging info, highlighting/notifying user interface, etc.) These
  * methods accept a single void* pointer that can be used to send data to the
  * methods. It is also possible to specify a function to delete the argument
@@ -51,7 +51,7 @@ namespace itk
  * Another method, ProgressMethod() can be specified. Some filters invoke
  * this method periodically during their execution (with the progress,
  * parameter, the fraction of work done). The use is similar to that of
- * StartMethod() and EndMethod(). Filters may also check their AbortExecute
+ * StartMethod() and EndMethod(). Filters may also check their AbortGenerateData
  * flag to determine whether to prematurally end their execution.
  *
  * An important feature of subclasses of ProcessObject is that it is
@@ -139,21 +139,21 @@ public:
   void SetEndMethodArgDelete(void (*f)(void *));
 
   /** 
-   * Set the AbortExecute flag for the process object. Process objects
+   * Set the AbortGenerateData flag for the process object. Process objects
    *  may handle premature termination of execution in different ways. 
    */
-  itkSetMacro(AbortExecute,bool);
+  itkSetMacro(AbortGenerateData,bool);
 
   /** 
-   * Get the AbortExecute flag for the process object. Process objects
+   * Get the AbortGenerateData flag for the process object. Process objects
    *  may handle premature termination of execution in different ways. 
    */
-  itkGetMacro(AbortExecute,bool);
+  itkGetMacro(AbortGenerateData,bool);
   
   /**
-   * Turn on and off the AbortExecute flag.
+   * Turn on and off the AbortGenerateData flag.
    */
-  itkBooleanMacro(AbortExecute); 
+  itkBooleanMacro(AbortGenerateData); 
   
   /** 
    * Set the execution progress of a process object. The progress is
@@ -193,17 +193,17 @@ public:
   /** 
    * Updates any global information about the data 
    * (like spacing for images). */
-  virtual void UpdateInformation();
+  virtual void UpdateOutputInformation();
 
   /** 
    * Send the update extent down the pipeline 
    */
-  virtual void PropagateUpdateExtent(DataObject *output);
+  virtual void PropagateRequestedRegion(DataObject *output);
 
   /** 
    * Actually generate new output 
    */
-  virtual void UpdateData(DataObject *output);
+  virtual void UpdateOutputData(DataObject *output);
 
   /** 
    * Propagate the computation of the size of the pipeline. The first
@@ -234,14 +234,14 @@ public:
    * whole slices (whole extent in two dimensions). By default we do not
    * modify the output update extent. 
    */
-  virtual void EnlargeOutputUpdateExtents(DataObject *itkNotUsed(output)){};
+  virtual void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output)){};
   
   /** 
    * What is the input update extent that is required to produce the
    * desired output? By default, the whole input is always required but
    * this is overridden in many subclasses. 
    */
-  virtual void ComputeInputUpdateExtents( DataObject *output );
+  virtual void GenerateInputRequestedRegion( DataObject *output );
 
   /** 
    * Turn on/off flag to control whether this object's data is released
@@ -288,9 +288,9 @@ protected:
   itkGetMacro(NumberOfRequiredOutputs,unsigned int);
 
   /**
-   * Execute the algorithm
+   * GenerateData the algorithm
    */
-  virtual void Execute() {};
+  virtual void GenerateData() {};
 
   /**
    * Called to allocate the input array.  Copies old inputs.
@@ -313,10 +313,10 @@ protected:
   DataObjectPointer GetOutput(unsigned int idx);
 
   /**
-   * By default, UpdateInformation calls this method to copy information
+   * By default, UpdateOutputInformation calls this method to copy information
    * unmodified from the input to the output.
    */
-  virtual void ExecuteInformation();
+  virtual void GenerateOutputInformation();
 
   /**
    * Callbacks to be called during pipeline execution
@@ -350,14 +350,14 @@ private:
   bool m_Updating;
 
   /**
-   * Time when ExecuteInformation was last called.
+   * Time when GenerateOutputInformation was last called.
    */
   TimeStamp m_InformationTime;
 
   /**
    * These support the progress method and aborting filter execution
    */
-  bool  m_AbortExecute;
+  bool  m_AbortGenerateData;
   float m_Progress;
 
 };

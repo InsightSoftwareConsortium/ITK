@@ -69,9 +69,9 @@ public:
   itkGetStringMacro(FileName);
 
    /** 
-   * Execute the filter (write the image)
+   * GenerateData the filter (write the image)
    */
-   void Execute(void);
+   void GenerateData(void);
  
    /** 
    * Write Data (abstract function from Writer)
