@@ -24,6 +24,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkImageRegionConstIterator.h"
 #include "itkNumericTraits.h"
 #include "itkNeighborhoodAlgorithm.h"
+#include "itkMacro.h"
 #include <iostream>
 #include <fstream>
 
@@ -1086,20 +1087,26 @@ ITK_THREAD_RETURN_TYPE
 ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::IterateThreaderCallback(void * arg)
 {
-  // Controls how often we check for balance of the load among the treads and perform
-  // load balancing (if needed) by redistributing the load.
-  const int LOAD_BALANCE_ITERATION_FREQUENCY = 30;
-  
-  int i;
 #ifdef ITK_USE_SPROC
   // Every thread should 'usadd' itself to the arena as the very first thing so
   // as to detect errors (if any) early.
   if (MultiThreader::GetThreadArena() != 0)
     {
     int code= usadd (MultiThreader::GetThreadArena());
+    if (code != 0)
+      {
+      OStringStream message;
+      message << "Thread failed to join SGI arena: error";
+      throw ::itk::ExceptionObject(__FILE__, __LINE__, message.str().c_str());
+      }
     }
 #endif
-
+  
+  // Controls how often we check for balance of the load among the threads and perform
+  // load balancing (if needed) by redistributing the load.
+  const int LOAD_BALANCE_ITERATION_FREQUENCY = 30;
+  
+  int i;
   int ThreadId = ((MultiThreader::ThreadInfoStruct *)(arg))->ThreadID;
   
   ParallelSparseFieldLevelSetThreadStruct * str
