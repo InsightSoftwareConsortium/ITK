@@ -739,7 +739,7 @@ M_Read(void)
       // Read interpolation
       if(posI >= 0 && posI < pntDim)
       {
-        pnt->m_Interpolation = v[posI];
+        pnt->m_Interpolation = (int)v[posI];
       }  
       // Read lambda 1
       if(posl1 >= 0 && posl1 < pntDim)
