@@ -159,6 +159,69 @@ vnl_matrix<QuadC02D::Float> QuadC02D::Ke() const
 }
 
 
+/**
+ * Returns the stiffness matrix for MembraneC02D element
+ */
+vnl_matrix<QuadC02D::Float> QuadC02D::Me() const 
+{
+  vnl_matrix<Float> MatMe(8,8), I(2,2),  shapeFINV(4,2), 
+     shapeF(4,2), J(2,2), Nmat(3,8);
+
+  Float detJ;
+//  Float rho=1.;
+  
+  /** Gaussian integration points */
+  Float pt = 1.0 / sqrt(3.0);
+  Float GPoints[][2] = {{-pt, -pt}, {pt, -pt}, {pt, pt}, {-pt, pt}};
+
+
+  Float x[2];
+
+  /** Initialize stiffness matrix */
+  MatMe.fill(0.0);
+
+  /** For each integration point */
+  for (int k=0; k<4; k++) {
+    /** Get the k-th integration point */
+    x[0] = GPoints[k][0];
+    x[1] = GPoints[k][1];
+
+
+    /**
+     * Computes the Jacobian matrix and its determinant
+     * at the k-th integration point
+     */
+    J = ComputeJacobianMatrixAt(x);
+    detJ = JacobianMatrixDeterminant(J);
+
+    /** Computes the inverse of the Jacobian matrix */
+    I = ComputeJacobianInverse(J, detJ);
+
+    /** Computes the shape function at integration point */
+    
+    vnl_vector<Float> temp = ComputeShapeFunctionsAt(x); 
+  shapeF.set_column(0,temp);
+  shapeF.set_column(1,temp);
+  
+    /**
+     * Computes the shape function in Cartesian coordinates
+     * at integration point
+     */
+  shapeFINV = ComputeShapeFunctionCartDerivatives(I, shapeF);
+
+    Nmat = ComputeBMatrix(shapeFINV);
+
+    /**
+     * Add the contribution of k-th integration point to
+     * the stiffness matrix
+     */
+    MatMe += detJ*(Nmat.transpose()*Nmat);
+  }
+ 
+  return MatMe;
+}
+
+
 
 /**
  * Draw the element on device context pDC.

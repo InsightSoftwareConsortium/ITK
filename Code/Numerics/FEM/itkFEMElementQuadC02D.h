@@ -47,6 +47,11 @@ public:
    */
   vnl_matrix<Float> Ke() const;
 
+  /**
+   * Element mass matrix
+   */
+  vnl_matrix<Float> Me() const;
+  
   /*
    * Macro that defines a specific version of the Fe() function
    */
