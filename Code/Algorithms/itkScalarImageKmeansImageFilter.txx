@@ -94,6 +94,7 @@ ScalarImageKmeansImageFilter<TInputImage >
   Indent indent) const
 {
   Superclass::PrintSelf( os, indent );
+  os << indent << "Final Means " << m_FinalMeans << std::endl;
 }
 
 } // end namespace itk
