@@ -55,6 +55,18 @@ itkLogImageAdaptor
 itkSinImageAdaptor
 itkSqrtImageAdaptor
 itkTanImageAdaptor
+itkImageAdaptor
+itkCellBoundary
+itkLineCell
+itkCellInterface
+itkImageBase
+itkPointLocator
+itkImageRegion
+itkBoundingBox
+itkMatrix
+itkAffineTransform
+itkMapContainer
+itkVectorContainer
 )
 
 # All our classes are in the "itk" namespace.
