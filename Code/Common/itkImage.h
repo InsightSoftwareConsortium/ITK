@@ -19,7 +19,7 @@
 #include "itkImageBase.h"
 #include "itkPixelTraits.h"
 #include "itkValarrayImageContainer.h"
-#include "itkDataAccessor.h"
+#include "itkDefaultDataAccessor.h"
 
 
 namespace itk
@@ -111,7 +111,7 @@ public:
    *  Accessor type that convert data between internal and external
    *  representations.
    */
-  typedef DataAccessor< InternalPixelType, PixelType > AccessorType;
+  typedef DefaultDataAccessor< PixelType > AccessorType;
 
   /** 
    * Pixel (scalar) value typedef support. The scalar value is the native
