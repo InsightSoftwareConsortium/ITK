@@ -695,7 +695,7 @@ long circletopcount;         /* Number of circle top calculations performed. */
 /*                                                                           */
 /* Read the instructions to find out the meaning of these switches.          */
 
-int poly, refine, quality, vararea, fixedarea, regionattrib, convex;
+int poly1, refine, quality, vararea, fixedarea, regionattrib, convex;
 int firstnumber;
 int edgesout, voronoi, neighbors, geomview;
 int nobound, nopolywritten, nonodewritten, noelewritten, noiterationnum;
@@ -759,7 +759,7 @@ struct triedge recenttri;
 #  include <stdlib.h> /* for malloc and friends */
 # endif
 #else
-# if defined(__alpha) || defined(__CYGWIN__)  /* there is no inttypes.h here */
+# if defined(__alpha) || defined(__CYGWIN__) || defined(__BORLANDC__) /* there is no inttypes.h here */
    typedef unsigned long intptr_t;
 # else
 #  include <inttypes.h> /* for intptr_t on e.g. SGI, Linux, Solaris */
@@ -2707,7 +2707,7 @@ char **argv;
   int i, j, k;
   char workstring[FILENAMESIZE];
 
-  poly = refine = quality = vararea = fixedarea = regionattrib = convex = 0;
+  poly1 = refine = quality = vararea = fixedarea = regionattrib = convex = 0;
   firstnumber = 1;
   edgesout = voronoi = neighbors = geomview = 0;
   nobound = nopolywritten = nonodewritten = noelewritten = noiterationnum = 0;
@@ -2732,7 +2732,7 @@ char **argv;
 #endif /* not TRILIBRARY */
       for (j = STARTINDEX; argv[i][j] != '\0'; j++) {
         if (argv[i][j] == 'p') {
-          poly = 1;
+        poly1 = 1;
         }
 #ifndef CDT_ONLY
         if (argv[i][j] == 'r') {

@@ -21,7 +21,7 @@
 // If the system/compiler version works, use that instead.
 
 // Win32 doesn't work as you can't set a bp on abort
-#ifdef _WIN32
+#if 0 // _WIN32
 #undef assert
 #ifdef NDEBUG
 # define assert(x) ((void) 0)

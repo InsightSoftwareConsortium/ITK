@@ -81,8 +81,8 @@ void test_rational() {
              << "c=" << c << "=" << (double)c << vcl_endl
              << "d=" << d << "=" << (double)d << vcl_endl
              << "e=" << e << vcl_endl; // (double)d ==> floating exception
-    d = -7;
-    d = -7L;
+    d = vnl_rational(-7);
+    d = vnl_rational(-7L);
     vcl_cout << vcl_endl;
   }
 

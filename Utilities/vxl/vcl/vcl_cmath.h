@@ -45,6 +45,8 @@
 # include "sgi/vcl_cmath.h"
 #elif VCL_VC60
 # include "win32-vc60/vcl_cmath.h"
+#elif defined(VCL_BORLAND) 
+# include "borland/vcl_cmath.h"
 #elif VCL_VC70
 # include "win32-vc70/vcl_cmath.h"
 #elif defined(VCL_SUNPRO_CC)

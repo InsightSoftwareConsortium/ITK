@@ -141,6 +141,7 @@ public:
   vnl_bignum(unsigned long);           // Unsigned Long constructor
   vnl_bignum(int);                     // Int constructor
   vnl_bignum(unsigned int);            // Unsigned Int constructor
+  vnl_bignum(float);                   // Float constructor
   vnl_bignum(double);                  // Double constructor
   vnl_bignum(long double);             // Long Double constructor
   vnl_bignum(vnl_bignum const&);       // Copy constructor
@@ -153,13 +154,14 @@ public:
   operator float() const;              // Implicit type conversion
   operator double() const;             // Implicit type conversion
   operator long double() const;        // Implicit type conversion
+#ifndef VCL_CAN_NOT_SPECIALIZE_CONST
   inline operator short() { return ((const vnl_bignum*)this)->operator short(); }
   inline operator int() { return ((const vnl_bignum*)this)->operator int(); }
   inline operator long() { return ((const vnl_bignum*)this)->operator long(); }
   inline operator float() { return ((const vnl_bignum*)this)->operator float(); }
   inline operator double() { return ((const vnl_bignum*)this)->operator double(); }
   inline operator long double() { return ((const vnl_bignum*)this)->operator long double(); }
-
+#endif
   vnl_bignum operator-() const;        // Unary minus operator
   inline vnl_bignum operator+() { return *this; } // Unary plus operator
   inline vnl_bignum operator+() const { return *this; } // Unary plus operator

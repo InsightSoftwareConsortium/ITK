@@ -78,7 +78,7 @@ void test_math()
   testlib_test_assert_near("exp(d*i) ~= -1", vnl_math_abs(e_ipi+1.0), 0);
   vcl_cout << vcl_endl;
 
-#ifndef __alpha__
+#if !defined(__alpha__) && !defined(__BORLANDC__)
   // Create Inf and -Inf:
   float a1 = one_f / zero_f;
   float a2 = (-one_f) / zero_f;

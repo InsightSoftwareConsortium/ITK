@@ -281,7 +281,7 @@ void vnl_c_vector_two_norm_squared(T const *p, unsigned n, S *out)
 // IMS: MSVC's optimiser does much better with this
 // consistently about 30% better over vectors from 4 to 20000 dimensions.
 // PVr: with gcc 3.0 on alpha this is even a factor 3 faster!
-  S val =0;
+  S val(0);
   T const* end = p+n;
   while (p != end)
     val += vnl_math_squared_magnitude(*p++);
@@ -305,7 +305,7 @@ void vnl_c_vector_rms_norm(T const *p, unsigned n, S *out)
 template <class T, class S>
 void vnl_c_vector_one_norm(T const *p, unsigned n, S *out)
 {
-  *out = 0;
+  *out = S(0);
   for (unsigned i=0; i<n; ++i)
     *out += vnl_math_abs(p[i]);
 }
@@ -321,7 +321,7 @@ void vnl_c_vector_two_norm(T const *p, unsigned n, S *out)
 template <class T, class S>
 void vnl_c_vector_inf_norm(T const *p, unsigned n, S *out)
 {
-  *out = 0;
+  *out = S(0);
   for (unsigned i=0; i<n; ++i) {
     S v = vnl_math_abs(p[i]);
     if (v > *out)

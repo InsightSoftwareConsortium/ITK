@@ -74,6 +74,7 @@ vnl_vector<double> vnl_rpoly_roots::realroots(double tol) const
 // Calls rpoly and interprets failure codes.
 bool vnl_rpoly_roots::compute()
 {
+  vcl_cerr << __FILE__ << " " << __LINE__ << "\n" << vcl_endl;
   int fail = 0;
   int n = coeffs_.size() - 1;
 

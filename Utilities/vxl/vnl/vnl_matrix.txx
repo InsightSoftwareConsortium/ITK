@@ -1328,9 +1328,9 @@ template <class T>
 typename vnl_matrix<T>::abs_t vnl_matrix<T>::operator_one_norm() const
 {
   //typedef vnl_numeric_traits<T>::abs_t abs_t;
-  abs_t max = 0;
+  abs_t max(0);
   for (unsigned int j=0; j<this->num_cols; ++j) {
-    abs_t tmp = 0;
+    abs_t tmp(0);
     for (unsigned int i=0; i<this->num_rows; ++i)
       tmp += vnl_math_abs(this->data[i][j]);
     if (tmp > max)
@@ -1345,9 +1345,9 @@ template <class T>
 typename vnl_matrix<T>::abs_t vnl_matrix<T>::operator_inf_norm() const
 {
   //typedef vnl_numeric_traits<T>::abs_t abs_t;
-  abs_t max = 0;
+  abs_t max(0);
   for (unsigned int i=0; i<this->num_rows; ++i) {
-    abs_t tmp = 0;
+    abs_t tmp(0);
     for (unsigned int j=0; j<this->num_cols; ++j)
       tmp += vnl_math_abs(this->data[i][j]);
     if (tmp > max)

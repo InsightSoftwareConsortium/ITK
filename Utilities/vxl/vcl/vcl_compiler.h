@@ -82,6 +82,9 @@
 #   define VCL_VC50 1
 #  endif
 # endif
+# if defined(__BORLANDC__)
+#  define VCL_BORLAND
+# endif
 #endif
 
 // win32 or vc++ ?

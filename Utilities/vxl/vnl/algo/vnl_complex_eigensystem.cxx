@@ -15,15 +15,19 @@ void vnl_complex_eigensystem::compute(vnl_matrix<vcl_complex<double> > const & A
                                       bool right,
                                       bool left)
 {
+  vcl_cerr << "vnl_complex_eigensystem compute" << __LINE__ << "\n";
   A.assert_size(N, N);
+  vcl_cerr << "vnl_complex_eigensystem compute" << __LINE__ << "\n";
 
   A.assert_finite();
   assert(! A.is_zero());
+  vcl_cerr << "vnl_complex_eigensystem compute" << __LINE__ << "\n";
 
   if (right)
     R.resize(N, N);
   if (left)
     L.resize(N, N);
+  vcl_cerr << "vnl_complex_eigensystem compute" << __LINE__ << "\n";
 
   //
   // Remember that fortran matrices and C matrices are transposed
@@ -35,12 +39,15 @@ void vnl_complex_eigensystem::compute(vnl_matrix<vcl_complex<double> > const & A
   // But then we also have to conjugate our R after calling the routine.
   //
   vnl_matrix<vcl_complex<double> > tmp(A);
+  vcl_cerr << "vnl_complex_eigensystem compute" << __LINE__ << "\n";
 
   int work_space=10*N;
   vnl_vector<vcl_complex<double> > work(work_space);
+  vcl_cerr << "vnl_complex_eigensystem compute" << __LINE__ << "\n";
 
   int rwork_space=2*N;
   vnl_vector<double> rwork(rwork_space);
+  vcl_cerr << "vnl_complex_eigensystem compute" << __LINE__ << "\n";
 
   int info;
   int tmpN = N;
@@ -59,6 +66,7 @@ void vnl_complex_eigensystem::compute(vnl_matrix<vcl_complex<double> > const & A
          rwork.data_block(),         // rwork
          &info                       // info
          );
+  vcl_cerr << "vnl_complex_eigensystem compute" << __LINE__ << "\n";
   assert(tmpN == int(N));
 
   if (right) {
@@ -94,6 +102,7 @@ vnl_complex_eigensystem::vnl_complex_eigensystem(vnl_matrix<vcl_complex<double> 
   // L and R are intentionally not initialized.
   , W(N)
 {
+  vcl_cerr << "vnl_complex_eigensystem\n";
   compute(A, right, left);
 }
 
@@ -106,6 +115,7 @@ vnl_complex_eigensystem::vnl_complex_eigensystem(vnl_matrix<double> const &A_rea
   // L and R are intentionally not initialized.
   , W(N)
 {
+  vcl_cerr << "vnl_complex_eigensystem\n";
   A_real.assert_size(N,N);
   A_imag.assert_size(N,N);
 

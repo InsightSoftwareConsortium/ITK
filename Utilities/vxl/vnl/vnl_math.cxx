@@ -36,6 +36,15 @@ extern "C" int finitef(float);
 #  define finitef finite
 # endif
 
+#elif defined(__BORLANDC__)
+extern "C" {
+#include "math.h"
+}
+inline bool isnan(double x)
+{
+  return !(x == x);
+}
+#define VNL_HAS_NO_FINITE
 #else
 #warning finite() is not declared on this platform
 #define VNL_HAS_NO_FINITE

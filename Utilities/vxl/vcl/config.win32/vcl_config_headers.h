@@ -4,7 +4,11 @@
 // This file is *not* generated.
 
 #ifndef _MSC_VER
+# ifndef __BORLANDC__
   ** error **
+# else
+# include "borland55/vcl_config_headers.h"
+# endif  
 #else 
 #  if _MSC_VER >=1300
 #    include "vc70/vcl_config_headers.h"

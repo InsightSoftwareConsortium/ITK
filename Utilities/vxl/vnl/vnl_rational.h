@@ -75,11 +75,13 @@ public:
   //  Also serves as automatic cast from long to vnl_rational.
   //  The only input which is not allowed is (0,0);
   //  the denominator is allowed to be 0, to represent +Inf or -Inf.
-  inline vnl_rational (long num = 0L, long den = 1L)
+  explicit inline vnl_rational (long num = 0L, long den = 1L)
     : num_(num), den_(den) { assert(num!=0||den!=0); normalize(); }
-  inline vnl_rational (int num, int den = 1)
+  inline vnl_rational (int num, int den)
     : num_(num), den_(den) { assert(num!=0||den!=0); normalize(); }
-  inline vnl_rational (unsigned int num, unsigned int den = 1)
+  explicit inline vnl_rational (int num)
+    : num_(num), den_(1) { assert(num!=0); normalize(); }
+  explicit inline vnl_rational (unsigned int num, unsigned int den = 1)
     : num_((long)num), den_((long)den) { assert(num!=0||den!=0); normalize(); }
   //: Creates a rational from a double.
   //  This is done by computing the continued fraction approximation for d.

@@ -28,9 +28,11 @@ public:
   typedef double real_t;
 };
 
+#ifndef VCL_CAN_NOT_SPECIALIZE_CONST
 VCL_DEFINE_SPECIALIZATION
 class vnl_numeric_traits<vnl_rational const> : public vnl_numeric_traits<vnl_rational> {
 };
+#endif
 
 vcl_ostream& operator<<(vcl_ostream&, vcl_complex<vnl_rational>);
 
@@ -51,9 +53,11 @@ public:
   typedef vcl_complex<vnl_rational> real_t; // should be vcl_complex<double>, but that gives casting problems
 };
 
+#ifndef VCL_CAN_NOT_SPECIALIZE_CONST
 VCL_DEFINE_SPECIALIZATION
 class vnl_numeric_traits<vcl_complex<vnl_rational> const> : public vnl_numeric_traits<vcl_complex<vnl_rational> > {
 };
+#endif
 
 vnl_rational vnl_math_squared_magnitude(vcl_complex<vnl_rational> const& );
 vnl_rational vnl_math_abs(vcl_complex<vnl_rational> const& );

@@ -16,6 +16,8 @@
 # include "sunpro/vcl_complex.txx"
 #elif defined(VCL_SGI_CC)
 # include "sgi/vcl_complex.txx"
+#elif defined(VCL_BORLAND)
+# include "borland/vcl_complex.txx"
 #else
 # include "iso/vcl_complex.txx"
 #endif

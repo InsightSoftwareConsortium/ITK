@@ -47,7 +47,9 @@ class vnl_rnpoly_solve
 
   //: The constructor already does all the calculations
   inline vnl_rnpoly_solve(vcl_vector<vnl_real_npolynomial*> const& ps)
-    : ps_(ps) { compute(); }
+    : ps_(ps) { 
+    this->vnl_rnpoly_solve::compute(); 
+  }
 
   // Destructor----------------------------------------------------------------
 
@@ -70,7 +72,9 @@ class vnl_rnpoly_solve
 
  private:
   //: Compute roots using continuation algorithm.
+public:
   bool compute();
+  bool compute2();
 
   int Read_Input(int ideg[M], int terms[M],
                  int polyn[M][T][M], double coeff[M][T]);

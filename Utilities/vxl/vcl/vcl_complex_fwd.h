@@ -34,9 +34,7 @@
 
 // ---------- ISO
 #else
-namespace std {
-  template <typename T> class complex;
-}
+# include "iso/vcl_complex.h"
 # ifndef vcl_complex
 # define vcl_complex std::complex
 # endif

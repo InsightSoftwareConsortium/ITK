@@ -5,7 +5,11 @@
 /* It is maintained manually. */
 
 #ifndef _MSC_VER
+# ifndef __BORLANDC__
   ** error **
+# else
+# include "borland55/vxl_config.h"
+# endif  
 #else 
 #  if _MSC_VER >=1300
 #    include "vc70/vxl_config.h"

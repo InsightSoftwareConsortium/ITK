@@ -106,6 +106,7 @@ VCL_DEFINE_SPECIALIZATION struct vnl_complex_traits<vcl_complex<vnl_bignum> >
   static vcl_complex<vnl_bignum> complexify(vcl_complex<vnl_bignum> x) { return x; }
 };
 
+
 #include <vnl/vnl_rational.h>
 
 VCL_DEFINE_SPECIALIZATION struct vnl_complex_traits<vnl_rational>

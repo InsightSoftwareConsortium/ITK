@@ -87,6 +87,7 @@ void test_numeric_traits()
   TEST("vnl_numeric_traits<double>::one", vnl_numeric_traits<double>::one, 1.0);
   TEST("vnl_numeric_traits<long double>::zero", vnl_numeric_traits<long double>::zero, 0.0);
   TEST("vnl_numeric_traits<long double>::one", vnl_numeric_traits<long double>::one, 1.0);
+#ifndef VCL_BORLAND
   TEST("vnl_numeric_traits<vcl_complex<float> >::zero",
        vnl_numeric_traits<vcl_complex<float> >::zero, vcl_complex<float>(0.0f));
   TEST("vnl_numeric_traits<vcl_complex<float> >::one",
@@ -99,7 +100,7 @@ void test_numeric_traits()
        vnl_numeric_traits<vcl_complex<long double> >::zero, vcl_complex<long double>(0.0));
   TEST("vnl_numeric_traits<vcl_complex<long double> >::one",
        vnl_numeric_traits<vcl_complex<long double> >::one, vcl_complex<long double>(1.0));
-
+#endif
   // Testing maxval values
 
   char cm = vnl_numeric_traits<char>::maxval;

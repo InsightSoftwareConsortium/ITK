@@ -3,7 +3,7 @@
 SET( vnl_sources
   vnl_fwd.h
   vnl_config.h
-  ${vxl_SOURCE_DIR}/vcl/vcl_cassert.cxx
+#  ${vxl_SOURCE_DIR}/vcl/vcl_cassert.cxx
   # template sources
   vnl_c_vector.txx             vnl_c_vector.h
   vnl_vector.txx               vnl_vector.h

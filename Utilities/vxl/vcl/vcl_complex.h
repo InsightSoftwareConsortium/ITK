@@ -41,6 +41,10 @@
 #elif defined(VCL_METRO_WERKS)
 #include  "mwerks/vcl_complex.h"
 
+// ---------- BORLAND
+#elif defined(VCL_BORLAND)
+#include  "borland/vcl_complex.h"
+
 // ---------- ISO
 #else
 # include "iso/vcl_complex.h"

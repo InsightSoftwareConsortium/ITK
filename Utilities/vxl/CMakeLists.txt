@@ -32,9 +32,11 @@ INCLUDE(${MODULE_PATH}/FindNetlib.cmake)
 SUBDIRS(v3p/netlib testlib vnl)
 
 IF(RUN_CONFIGURE)
+ IF(UNIX)
   MESSAGE(STATUS "Running ${vxl_SOURCE_DIR}/configure ...")
   EXEC_PROGRAM( ${vxl_SOURCE_DIR}/configure
                 ${vxl_BINARY_DIR} RETURN_VALUE RET)
+ ENDIF(UNIX)
  IF(RET)
     MESSAGE(SEND_ERROR "VXL configure script failed.")
  ENDIF(RET)
