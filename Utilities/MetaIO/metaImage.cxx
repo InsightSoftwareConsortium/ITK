@@ -965,6 +965,8 @@ InitializeEssential(int _nDims,
     m_ElementData = NULL;
     }
 
+  m_BinaryData = true;
+
   return true;
   }
 
@@ -1040,6 +1042,8 @@ M_SetupReadFields(void)
 void MetaImage::
 M_SetupWriteFields(void)
   {
+  m_BinaryData = true;
+
   strcpy(m_ObjectTypeName,"Image");
   MetaObject::M_SetupWriteFields();
 
