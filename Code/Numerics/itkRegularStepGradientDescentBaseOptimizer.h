@@ -198,8 +198,6 @@ protected:
 
   RegularStepGradientDescentBaseOptimizer();
   virtual ~RegularStepGradientDescentBaseOptimizer() {};
-  RegularStepGradientDescentBaseOptimizer(const Self&) {}
-  void operator=(const Self&) {}
 
   /**
    * Advance one step following the gradient direction
@@ -219,6 +217,11 @@ protected:
                   double factor, 
                   const DerivativeType & transformedGradient ) = 0;
 
+
+private:  
+
+  RegularStepGradientDescentBaseOptimizer(const Self&); //purposely not implemented
+  void operator=(const Self&);//purposely not implemented
 
 protected:
 
