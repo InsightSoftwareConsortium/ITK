@@ -49,10 +49,10 @@ namespace itk
  
 namespace Accessor {
 /**
- * \class AsinDataAccessor
+ * \class AsinPixelAccessor
  * \brief Give access to the asin() function of a value
  *
- * AsinDataAccessor is templated over an internal type and an
+ * AsinPixelAccessor is templated over an internal type and an
  * external type representation. This class cast the input
  * applies the funtion to it and cast the result according 
  * to the types defined as template parameters
@@ -60,7 +60,7 @@ namespace Accessor {
  */
 
 template <class TInternalType, class TExternalType >
-class ITK_EXPORT AsinDataAccessor  
+class ITK_EXPORT AsinPixelAccessor  
 {
 public:
 
@@ -101,7 +101,7 @@ public:
 template <class TImage, class TOutputPixelType>
 class ITK_EXPORT AsinImageAdaptor : public
       ImageAdaptor<TImage,
-                   Accessor::AsinDataAccessor<
+                   Accessor::AsinPixelAccessor<
                                       typename TImage::PixelType,
                                       TOutputPixelType>   >
 {
@@ -116,7 +116,7 @@ public:
    * Standard "Superclass" typedef.
    */
   typedef ImageAdaptor<TImage,
-                       Accessor::AsinDataAccessor<
+                       Accessor::AsinPixelAccessor<
                                        typename TImage::PixelType,
                                        TOutputPixelType> >
                                                             Superclass;

@@ -49,10 +49,10 @@ namespace itk
  
 namespace Accessor {
 /**
- * \class CosDataAccessor
+ * \class CosPixelAccessor
  * \brief Give access to the cos() function of a value
  *
- * CosDataAccessor is templated over an internal type and an
+ * CosPixelAccessor is templated over an internal type and an
  * external type representation. This class cast the input
  * applies the funtion to it and cast the result according 
  * to the types defined as template parameters
@@ -60,7 +60,7 @@ namespace Accessor {
  */
 
 template <class TInternalType, class TExternalType >
-class ITK_EXPORT CosDataAccessor  
+class ITK_EXPORT CosPixelAccessor  
 {
 public:
 
@@ -101,7 +101,7 @@ public:
 template <class TImage, class TOutputPixelType>
 class ITK_EXPORT CosImageAdaptor : public
       ImageAdaptor<TImage,
-                   Accessor::CosDataAccessor<
+                   Accessor::CosPixelAccessor<
                                       typename TImage::PixelType,
                                       TOutputPixelType>   >
 {
@@ -116,7 +116,7 @@ public:
    * Standard "Superclass" typedef.
    */
   typedef ImageAdaptor<TImage,
-                       Accessor::CosDataAccessor<
+                       Accessor::CosPixelAccessor<
                                        typename TImage::PixelType,
                                        TOutputPixelType> >
                                                             Superclass;

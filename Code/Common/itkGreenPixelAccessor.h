@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    $RCSfile: itkRedDataAccessor.h
+  Module:    $RCSfile: itkGreenPixelAccessor.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,8 +38,8 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef __itkRedDataAccessor_h
-#define __itkRedDataAccessor_h
+#ifndef __itkGreenPixelAccessor_h
+#define __itkGreenPixelAccessor_h
 
 
 #include "itkRGBPixel.h"
@@ -49,25 +49,25 @@ namespace itk
 {
 
 /**
- * \class RedDataAccessor
- * \brief Give access to the red component of a RGBPixel type 
+ * \class GreenPixelAccessor
+ * \brief Give access to the Green component of a RGBPixel type 
  *
  * This class is intended to be used as parameter of 
  * an ImageAdaptor to make an RGBPixel image appear as being
- * of scalar type T, showing only the Red component.
+ * of scalar type T, showing only the Green component.
  *
  * \sa ImageAdaptor
  *
  */
 
 template <class T>
-class ITK_EXPORT RedDataAccessor
+class ITK_EXPORT GreenPixelAccessor
 {
 public:
  /**
    * Standard "Self" typedef.
    */
-  typedef   RedDataAccessor        Self;
+  typedef   GreenPixelAccessor        Self;
 
  /** 
    * External typedef. It defines the external aspect
@@ -79,29 +79,27 @@ public:
    * Internal typedef. It defines the internal real
    * representation of data
    */
-  typedef     RGBPixel<T>      InternalType;
+  typedef     RGBPixel<T>   InternalType;
 
 
   /** 
-   * Write access to the Red component
+   * Write access to the Green component
    */
   inline void Set( InternalType & output, const ExternalType & input ) const
-    { output.SetRed( input ); }
+    { output.SetGreen( input ); }
 
 
   /** 
-   * Read access to the Red component
+   * Read access to the Green component
    */
   inline const ExternalType & Get( const InternalType & input ) const
-    { return input.GetRed(); }
+    { return input.GetGreen(); }
 
 
 };
 
   
-  
-}  // end namespace itk
-
+} // end namespace itk
 
 #endif
 

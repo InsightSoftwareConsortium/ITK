@@ -49,10 +49,10 @@ namespace itk
  
 namespace Accessor {
 /**
- * \class AcosDataAccessor
+ * \class AcosPixelAccessor
  * \brief Give access to the acos() function of a value
  *
- * AcosDataAccessor is templated over an internal type and an
+ * AcosPixelAccessor is templated over an internal type and an
  * external type representation. This class cast the input
  * applies the funtion to it and cast the result according 
  * to the types defined as template parameters
@@ -60,7 +60,7 @@ namespace Accessor {
  */
 
 template <class TInternalType, class TExternalType >
-class ITK_EXPORT AcosDataAccessor  
+class ITK_EXPORT AcosPixelAccessor  
 {
 public:
 
@@ -101,7 +101,7 @@ public:
 template <class TImage, class TOutputPixelType>
 class ITK_EXPORT AcosImageAdaptor : public
       ImageAdaptor<TImage,
-                   Accessor::AcosDataAccessor<
+                   Accessor::AcosPixelAccessor<
                                       typename TImage::PixelType,
                                       TOutputPixelType>   >
 {
@@ -116,7 +116,7 @@ public:
    * Standard "Superclass" typedef.
    */
   typedef ImageAdaptor<TImage,
-                       Accessor::AcosDataAccessor<
+                       Accessor::AcosPixelAccessor<
                                        typename TImage::PixelType,
                                        TOutputPixelType> >
                                                             Superclass;

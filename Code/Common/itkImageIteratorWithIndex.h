@@ -264,13 +264,13 @@ public:
    * Get the pixel value
    */
   PixelType Get(void) const  
-    { return m_DataAccessor.Get(*m_Position); }
+    { return m_PixelAccessor.Get(*m_Position); }
   
   /**
    * Set the pixel value
    */
   void Set( const PixelType & value) const  
-    { m_DataAccessor.Set(*m_Position,value); }
+    { m_PixelAccessor.Set(*m_Position,value); }
 
   /**
    * Return a const reference to the pixel 
@@ -358,7 +358,7 @@ protected: //made protected so other iterators can access
 
   bool                   m_Remaining;
 
-  AccessorType           m_DataAccessor;
+  AccessorType           m_PixelAccessor;
   
 };
 

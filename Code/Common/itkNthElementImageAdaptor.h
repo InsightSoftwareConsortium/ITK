@@ -42,7 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __itkNthElementImageAdaptor_h
 
 #include <itkImageAdaptor.h>
-#include <itkNthElementDataAccessor.h>
+#include <itkNthElementPixelAccessor.h>
 
 namespace itk
 {
@@ -63,7 +63,7 @@ namespace itk
 template <class TImage, class TOutputPixelType>
 class ITK_EXPORT NthElementImageAdaptor : public
       ImageAdaptor<TImage,
-                   NthElementDataAccessor<
+                   NthElementPixelAccessor<
                                       TOutputPixelType,
                                       typename TImage::PixelType> >
 {
@@ -103,7 +103,7 @@ public:
    * Select the element number to be accessed
    */
   void SelectNthElement( unsigned int nth ) 
-  { this->GetDataAccessor().SetElementNumber( nth ); 
+  { this->GetPixelAccessor().SetElementNumber( nth ); 
     this->Modified(); }
     
 

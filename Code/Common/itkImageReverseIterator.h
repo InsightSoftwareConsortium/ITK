@@ -145,7 +145,7 @@ public:
    * provide a copy constructor.
    */
   ImageReverseIterator()
-    :m_DataAccessor()
+    :m_PixelAccessor()
   {
     m_Buffer = 0;
     m_Offset = 0;
@@ -172,7 +172,7 @@ public:
     m_Offset = it.m_Offset;
     m_BeginOffset = it.m_BeginOffset;
     m_EndOffset = it.m_EndOffset;
-    m_DataAccessor = it.m_DataAccessor;
+    m_PixelAccessor = it.m_PixelAccessor;
   }
 
   /**
@@ -201,7 +201,7 @@ public:
     m_BeginOffset = m_Image->ComputeOffset( ind );
     m_Offset = m_BeginOffset;
 
-    m_DataAccessor = ptr->GetDataAccessor();
+    m_PixelAccessor = ptr->GetPixelAccessor();
   }
   
   /**
@@ -235,7 +235,7 @@ public:
       }
     m_BeginOffset = m_Image->ComputeOffset( regInd );
     
-    m_DataAccessor = it.GetDataAccessor();
+    m_PixelAccessor = it.GetPixelAccessor();
   }
 
   /**
@@ -251,7 +251,7 @@ public:
     m_Offset = it.m_Offset;
     m_BeginOffset = it.m_BeginOffset;
     m_EndOffset = it.m_EndOffset;
-    m_DataAccessor = it.m_DataAccessor;
+    m_PixelAccessor = it.m_PixelAccessor;
 
     return *this;
   }
@@ -369,13 +369,13 @@ public:
    * Get the pixel value
    */
   PixelType & Get(void) const  
-    { return m_DataAccessor.Get(*(m_Buffer+m_Offset)); }
+    { return m_PixelAccessor.Get(*(m_Buffer+m_Offset)); }
   
   /**
    * Set the pixel value
    */
   void Set( const PixelType & value) const  
-    { m_DataAccessor.Set(*(m_Buffer+m_Offset),value); }
+    { m_PixelAccessor.Set(*(m_Buffer+m_Offset),value); }
 
   /**
    * Return a const reference to the pixel 
@@ -451,7 +451,7 @@ protected: //made protected so other iterators can access
 
   InternalPixelType        *m_Buffer;
 
-  AccessorType           m_DataAccessor;
+  AccessorType           m_PixelAccessor;
 };
 
 } // end namespace itk

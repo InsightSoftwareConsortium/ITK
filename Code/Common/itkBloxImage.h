@@ -104,7 +104,7 @@ public:
    *  Accessor type that convert data between internal and external
    *  representations.
    */
-  typedef DefaultDataAccessor< PixelType > AccessorType;
+  typedef DefaultPixelAccessor< PixelType > AccessorType;
 
   /**
    * Dimension of the image.  This enum is used by functions that are

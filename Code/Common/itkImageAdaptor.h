@@ -223,19 +223,19 @@ public:
    * Set a pixel.
    */
   void SetPixel(const IndexType &index, const PixelType & value)
-  { m_DataAccessor.Set( m_Image->GetPixel(index), value ); }
+  { m_PixelAccessor.Set( m_Image->GetPixel(index), value ); }
   
   /**
    * Get a pixel (read only version) 
    */
   PixelType GetPixel(const IndexType &index) const
-  { return m_DataAccessor.Get( m_Image->GetPixel(index) ); }
+  { return m_PixelAccessor.Get( m_Image->GetPixel(index) ); }
 
   /**
    * Access a pixel. This version can only be an rvalue.
    */
   PixelType operator[](const IndexType &index) const
-  { return m_DataAccessor.Get( m_Image->GetPixel(index) ); }
+  { return m_PixelAccessor.Get( m_Image->GetPixel(index) ); }
 
 
 
@@ -292,14 +292,14 @@ public:
   /**
    * Return the Data Accesor object
    */
-  AccessorType & GetDataAccessor( void ) 
-  { return m_DataAccessor; }
+  AccessorType & GetPixelAccessor( void ) 
+  { return m_PixelAccessor; }
     
   /**
    * Return the Data Accesor object
    */
-  const AccessorType & GetDataAccessor( void ) const
-  { return m_DataAccessor; }
+  const AccessorType & GetPixelAccessor( void ) const
+  { return m_PixelAccessor; }
     
 
 
@@ -326,7 +326,7 @@ private:
 
   // Data accessor object, 
   // it converts the presentation of a pixel
-  AccessorType               m_DataAccessor;
+  AccessorType               m_PixelAccessor;
   
 
 };

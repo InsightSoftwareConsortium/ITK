@@ -49,10 +49,10 @@ namespace itk
  
 namespace Accessor {
 /**
- * \class ExpDataAccessor
+ * \class ExpPixelAccessor
  * \brief Give access to the exp() function of a value
  *
- * ExpDataAccessor is templated over an internal type and an
+ * ExpPixelAccessor is templated over an internal type and an
  * external type representation. This class cast the input
  * applies the funtion to it and cast the result according 
  * to the types defined as template parameters
@@ -60,7 +60,7 @@ namespace Accessor {
  */
 
 template <class TInternalType, class TExternalType >
-class ITK_EXPORT ExpDataAccessor  
+class ITK_EXPORT ExpPixelAccessor  
 {
 public:
 
@@ -101,7 +101,7 @@ public:
 template <class TImage, class TOutputPixelType>
 class ITK_EXPORT ExpImageAdaptor : public
       ImageAdaptor<TImage,
-                   Accessor::ExpDataAccessor<
+                   Accessor::ExpPixelAccessor<
                                       typename TImage::PixelType,
                                       TOutputPixelType>   >
 {
@@ -116,7 +116,7 @@ public:
    * Standard "Superclass" typedef.
    */
   typedef ImageAdaptor<TImage,
-                       Accessor::ExpDataAccessor<
+                       Accessor::ExpPixelAccessor<
                                        typename TImage::PixelType,
                                        TOutputPixelType> >
                                                             Superclass;

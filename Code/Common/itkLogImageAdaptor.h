@@ -49,10 +49,10 @@ namespace itk
  
 namespace Accessor {
 /**
- * \class LogDataAccessor
+ * \class LogPixelAccessor
  * \brief Give access to the log() function of a value
  *
- * LogDataAccessor is templated over an internal type and an
+ * LogPixelAccessor is templated over an internal type and an
  * external type representation. This class cast the input
  * applies the funtion to it and cast the result according 
  * to the types defined as template parameters
@@ -60,7 +60,7 @@ namespace Accessor {
  */
 
 template <class TInternalType, class TExternalType >
-class ITK_EXPORT LogDataAccessor  
+class ITK_EXPORT LogPixelAccessor  
 {
 public:
 
@@ -101,7 +101,7 @@ public:
 template <class TImage, class TOutputPixelType>
 class ITK_EXPORT LogImageAdaptor : public
       ImageAdaptor<TImage,
-                   Accessor::LogDataAccessor<
+                   Accessor::LogPixelAccessor<
                                       typename TImage::PixelType,
                                       TOutputPixelType>   >
 {
@@ -116,7 +116,7 @@ public:
    * Standard "Superclass" typedef.
    */
   typedef ImageAdaptor<TImage,
-                       Accessor::LogDataAccessor<
+                       Accessor::LogPixelAccessor<
                                        typename TImage::PixelType,
                                        TOutputPixelType> >
                                                             Superclass;

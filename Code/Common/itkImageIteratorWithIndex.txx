@@ -85,7 +85,7 @@ ImageIteratorWithIndex<TImage>
   m_End         = it.m_End;
   m_Remaining   = it.m_Remaining;
 
-  m_DataAccessor = it.m_DataAccessor;
+  m_PixelAccessor = it.m_PixelAccessor;
 
 }
 
@@ -130,7 +130,7 @@ ImageIteratorWithIndex<TImage>
     }
   m_End = buffer + m_Image->ComputeOffset( pastEnd );
 
-  m_DataAccessor = m_Image->GetDataAccessor();
+  m_PixelAccessor = m_Image->GetPixelAccessor();
 
 }
  
@@ -157,7 +157,7 @@ ImageIteratorWithIndex<TImage>
   m_End         = it.m_End;
   m_Remaining   = it.m_Remaining;
 
-  m_DataAccessor = it.m_DataAccessor;
+  m_PixelAccessor = it.m_PixelAccessor;
 
   return *this;
 } 

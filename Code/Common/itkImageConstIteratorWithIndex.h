@@ -264,7 +264,7 @@ public:
    * Get the pixel value
    */
   PixelType Get(void) const  
-    { return m_DataAccessor.Get(*m_Position); }
+    { return m_PixelAccessor.Get(*m_Position); }
   
   /**
    * Return a const reference to the pixel 
@@ -339,7 +339,7 @@ protected: //made protected so other iterators can access
 
   bool                         m_Remaining;
 
-  AccessorType           m_DataAccessor;
+  AccessorType           m_PixelAccessor;
 
 };
 

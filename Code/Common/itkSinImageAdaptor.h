@@ -49,10 +49,10 @@ namespace itk
  
 namespace Accessor {
 /**
- * \class SinDataAccessor
+ * \class SinPixelAccessor
  * \brief Give access to the sin() function of a value
  *
- * SinDataAccessor is templated over an internal type and an
+ * SinPixelAccessor is templated over an internal type and an
  * external type representation. This class cast the input
  * applies the funtion to it and cast the result according 
  * to the types defined as template parameters
@@ -60,7 +60,7 @@ namespace Accessor {
  */
 
 template <class TInternalType, class TExternalType >
-class ITK_EXPORT SinDataAccessor  
+class ITK_EXPORT SinPixelAccessor  
 {
 public:
 
@@ -101,7 +101,7 @@ public:
 template <class TImage, class TOutputPixelType>
 class ITK_EXPORT SinImageAdaptor : public
       ImageAdaptor<TImage,
-                   Accessor::SinDataAccessor<
+                   Accessor::SinPixelAccessor<
                                       typename TImage::PixelType,
                                       TOutputPixelType>   >
 {
@@ -116,7 +116,7 @@ public:
    * Standard "Superclass" typedef.
    */
   typedef ImageAdaptor<TImage,
-                       Accessor::SinDataAccessor<
+                       Accessor::SinPixelAccessor<
                                        typename TImage::PixelType,
                                        TOutputPixelType> >
                                                             Superclass;

@@ -103,7 +103,7 @@ public:
    *  Accessor type that convert data between internal and external
    *  representations.
    */
-  typedef DefaultDataAccessor< PixelType > AccessorType;
+  typedef DefaultPixelAccessor< PixelType > AccessorType;
 
   /**
    * The type of vector used to convert between physical and blox space

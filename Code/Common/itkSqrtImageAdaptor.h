@@ -49,10 +49,10 @@ namespace itk
  
 namespace Accessor {
 /**
- * \class SqrtDataAccessor
+ * \class SqrtPixelAccessor
  * \brief Give access to the sqrt() function of a value
  *
- * SqrtDataAccessor is templated over an internal type and an
+ * SqrtPixelAccessor is templated over an internal type and an
  * external type representation. This class cast the input
  * applies the funtion to it and cast the result according 
  * to the types defined as template parameters
@@ -60,7 +60,7 @@ namespace Accessor {
  */
 
 template <class TInternalType, class TExternalType >
-class ITK_EXPORT SqrtDataAccessor  
+class ITK_EXPORT SqrtPixelAccessor  
 {
 public:
 
@@ -101,7 +101,7 @@ public:
 template <class TImage, class TOutputPixelType>
 class ITK_EXPORT SqrtImageAdaptor : public
       ImageAdaptor<TImage,
-                   Accessor::SqrtDataAccessor<
+                   Accessor::SqrtPixelAccessor<
                                       typename TImage::PixelType,
                                       TOutputPixelType>   >
 {
@@ -116,7 +116,7 @@ public:
    * Standard "Superclass" typedef.
    */
   typedef ImageAdaptor<TImage,
-                       Accessor::SqrtDataAccessor<
+                       Accessor::SqrtPixelAccessor<
                                        typename TImage::PixelType,
                                        TOutputPixelType> >
                                                             Superclass;

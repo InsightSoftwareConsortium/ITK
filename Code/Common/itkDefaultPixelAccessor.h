@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    $RCSfile: itkBlueDataAccessor.h
+  Module:    $RCSfile: itkDefaultPixelAccessor.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -38,68 +38,70 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =========================================================================*/
-#ifndef __itkBlueDataAccessor_h
-#define __itkBlueDataAccessor_h
-
-
-#include "itkRGBPixel.h"
+#ifndef __itkDefaultPixelAccessor_h
+#define __itkDefaultPixelAccessor_h
 
 
 namespace itk
 {
 
 /**
- * \class BlueDataAccessor
- * \brief Give access to the Blue component of a RGBPixel type 
+ * \class DefaultPixelAccessor
+ * \brief Give access to partial aspects a type
  *
- * This class is intended to be used as parameter of 
- * an ImageAdaptor to make an RGBPixel image appear as being
- * of scalar type T, showing only the Blue component.
+ * DefaultPixelAccessor is templated over an internal type and an
+ * external type representation. This class encapsulates a
+ * customized convertion between the internal and external
+ * type representations.
+ *
+ * PixelAccessor is the class responsible for pixel-to-pixel
+ * transformation during image data access. The DefaultPixelAccessor
+ * is an identity operation on the pixel value. It only exist in
+ * order to standarize the way in which pixels are accessed.
+ *
+ * PixelAccessor are used by ImageAdaptors in order to present
+ * an Image as being of a different type. The usual application
+ * of ImageAccessors is Image casting, by avoiding the overhead
+ * of an ImageFilter that performs the complete transformation
  *
  * \sa ImageAdaptor
+ * \sa PixelAccessor
+ * \sa Image
  *
  */
 
-template <class T>
-class ITK_EXPORT BlueDataAccessor
+template <class TType>
+class ITK_EXPORT DefaultPixelAccessor  
 {
 public:
- /**
-   * Standard "Self" typedef.
-   */
-  typedef   BlueDataAccessor        Self;
 
  /** 
    * External typedef. It defines the external aspect
-   * that this class will exhibit
+   * that this class will exhibit.
    */
-  typedef T ExternalType;
+  typedef TType ExternalType ;
 
   /** 
    * Internal typedef. It defines the internal real
-   * representation of data
+   * representation of data.
    */
-  typedef   RGBPixel<T>    InternalType;
+  typedef TType InternalType ;
 
 
-  /** 
-   * Write access to the Blue component
-   */
-  inline void Set( InternalType & output, const ExternalType & input ) const
-    { output.SetBlue( input ); }
+  inline void Set(TType & output, const TType & input) const
+    {output = input;}
 
+  inline TType & Get( TType & input ) const
+    {return input;}
 
-  /** 
-   * Read access to the Blue component
-   */
-  inline const ExternalType & Get( const InternalType & input ) const
-    { return input.GetBlue(); }
-
-
+  inline const TType & Get( const TType & input ) const
+    {return input;}
+  
 };
 
   
-}  // end namespace itk
+} // end namespace itk
+  
 
 #endif
 

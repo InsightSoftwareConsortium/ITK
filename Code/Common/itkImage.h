@@ -43,7 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "itkImageBase.h"
 #include "itkDefaultImageTraits.h"
-#include "itkDefaultDataAccessor.h"
+#include "itkDefaultPixelAccessor.h"
 
 
 namespace itk
@@ -136,7 +136,7 @@ public:
    *  Accessor type that convert data between internal and external
    *  representations.
    */
-  typedef DefaultDataAccessor< PixelType > AccessorType;
+  typedef DefaultPixelAccessor< PixelType > AccessorType;
 
   /**
    * Dimension of the image.  This enum is used by functions that are
@@ -243,16 +243,16 @@ public:
 
 
   /**
-   * Return the Data Accesor object
+   * Return the Pixel Accesor object
    */
-  AccessorType & GetDataAccessor( void ) 
-    { return m_DataAccessor; }
+  AccessorType & GetPixelAccessor( void ) 
+    { return m_PixelAccessor; }
     
   /**
-   * Return the Data Accesor object
+   * Return the Pixel Accesor object
    */
-  const AccessorType & GetDataAccessor( void ) const
-    { return m_DataAccessor; }
+  const AccessorType & GetPixelAccessor( void ) const
+    { return m_PixelAccessor; }
     
 
 protected:
@@ -267,9 +267,9 @@ private:
   // memory for the current buffer
   PixelContainerPointer m_Buffer;
 
-  // Data accessor object, 
+  // Pixel accessor object, 
   // it converts the presentation of a pixel
-  AccessorType          m_DataAccessor;
+  AccessorType          m_PixelAccessor;
 
 };
 

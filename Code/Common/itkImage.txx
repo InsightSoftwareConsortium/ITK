@@ -52,7 +52,7 @@ namespace itk
 template<class TPixel, unsigned int VImageDimension, class TImageTraits>
 Image<TPixel, VImageDimension, TImageTraits>
 ::Image()
-: m_DataAccessor ()
+: m_PixelAccessor ()
 {
   m_Buffer = PixelContainer::New();
 }

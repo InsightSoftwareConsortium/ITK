@@ -49,10 +49,10 @@ namespace itk
  
 namespace Accessor {
 /**
- * \class TanDataAccessor
+ * \class TanPixelAccessor
  * \brief Give access to the tan() function of a value
  *
- * TanDataAccessor is templated over an internal type and an
+ * TanPixelAccessor is templated over an internal type and an
  * external type representation. This class cast the input
  * applies the funtion to it and cast the result according 
  * to the types defined as template parameters
@@ -60,7 +60,7 @@ namespace Accessor {
  */
 
 template <class TInternalType, class TExternalType >
-class ITK_EXPORT TanDataAccessor  
+class ITK_EXPORT TanPixelAccessor  
 {
 public:
 
@@ -101,7 +101,7 @@ public:
 template <class TImage, class TOutputPixelType>
 class ITK_EXPORT TanImageAdaptor : public
       ImageAdaptor<TImage,
-                   Accessor::TanDataAccessor<
+                   Accessor::TanPixelAccessor<
                                       typename TImage::PixelType,
                                       TOutputPixelType>   >
 {
@@ -116,7 +116,7 @@ public:
    * Standard "Superclass" typedef.
    */
   typedef ImageAdaptor<TImage,
-                       Accessor::TanDataAccessor<
+                       Accessor::TanPixelAccessor<
                                        typename TImage::PixelType,
                                        TOutputPixelType> >
                                                             Superclass;

@@ -49,10 +49,10 @@ namespace itk
  
 namespace Accessor {
 /**
- * \class AtanDataAccessor
+ * \class AtanPixelAccessor
  * \brief Give access to the atan() function of a value
  *
- * AtanDataAccessor is templated over an internal type and an
+ * AtanPixelAccessor is templated over an internal type and an
  * external type representation. This class cast the input
  * applies the funtion to it and cast the result according 
  * to the types defined as template parameters
@@ -60,7 +60,7 @@ namespace Accessor {
  */
 
 template <class TInternalType, class TExternalType >
-class ITK_EXPORT AtanDataAccessor  
+class ITK_EXPORT AtanPixelAccessor  
 {
 public:
 
@@ -101,7 +101,7 @@ public:
 template <class TImage, class TOutputPixelType>
 class ITK_EXPORT AtanImageAdaptor : public
       ImageAdaptor<TImage,
-                   Accessor::AtanDataAccessor<
+                   Accessor::AtanPixelAccessor<
                                       typename TImage::PixelType,
                                       TOutputPixelType>   >
 {
@@ -116,7 +116,7 @@ public:
    * Standard "Superclass" typedef.
    */
   typedef ImageAdaptor<TImage,
-                       Accessor::AtanDataAccessor<
+                       Accessor::AtanPixelAccessor<
                                        typename TImage::PixelType,
                                        TOutputPixelType> >
                                                             Superclass;
