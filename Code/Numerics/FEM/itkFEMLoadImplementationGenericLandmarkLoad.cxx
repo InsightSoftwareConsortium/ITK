@@ -47,39 +47,45 @@ LoadImplementationGenericLandmarkLoad
   // Retrieve the local coordinate at which the force acts
   Element::VectorType pt = load->GetPoint();
 
+
   // Retrieve the stored solution
   Solution::ConstPointer sol = load->GetSolution();
   
   // Determine the displacement at point pt
-  disp = element->InterpolateSolution( pt, (*sol) );
+  const unsigned int TotalSolutionIndex=1;
+  disp = element->InterpolateSolution( pt, (*sol), TotalSolutionIndex );
 
   // Convert the source to global coordinates
-  new_source = element->GetGlobalFromLocalCoordinates(pt);
-  new_source += disp;
-  
-  // Calculate the new force
-  force = ( (load->m_target-new_source) / (load->eta * load->eta) );
-  std::cout << "force = " << force << std::endl;
-  std::cout << "element " << element->GetNodeCoordinates(0) << std::endl;
+  new_source = load->GetSource() + disp;
 
-  float fmag = 0.0;
-  for (unsigned int i=0; i < element->GetNumberOfDegreesOfFreedom(); i++) {
-    fmag += force[i]*force[i];
-  }
+   // Calculate the new force
+  
+  load->m_force =  disp;
+  force =  (load->m_target-new_source) / load->eta ;
+ 
+//  std::cout << " disp " << disp <<  std::endl;
   //force /= sqrt(fmag);
+  new_source = (load->GetTarget() - new_source);
+//  std::cout << " force = " << force <<  " distance  " << new_source.magnitude() << std::endl;
+  
+  float curdist=new_source.magnitude();
+  if (curdist < 1.0) force.fill(0.0);
+  std::cout <<  " LM distance  " << curdist << std::endl;
   
   // "Integrate" at the location of the point load
-  // FIXME: is this really all that is necessary?  Where should the shape funcs be calculated?
   shapeF = element->ShapeFunctions(pt);
   
   // Calculate the equivalent nodal loads
   for(unsigned int n=0; n < Nnodes; n++)
-  {
+  {      
     for(unsigned int d=0; d < NnDOF; d++)
     {
         Fe[n*NnDOF+d] += shapeF[n] * force[d];
     }
   }
+
+ 
+
   
 }
 
