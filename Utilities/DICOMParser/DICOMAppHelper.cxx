@@ -1373,7 +1373,7 @@ void DICOMAppHelper::RescaleSlopeCallback(DICOMParser *parser,
   this->RescaleSlope = fval;
 }
 
-void DICOMAppHelper::PatientNameCallback(DICOMParser *parser,
+void DICOMAppHelper::PatientNameCallback(DICOMParser *,
                                    doublebyte,
                                    doublebyte,
                                    DICOMParser::VRTypes,
@@ -1383,7 +1383,7 @@ void DICOMAppHelper::PatientNameCallback(DICOMParser *parser,
   strcpy(m_PatientName, (const char*)val);
 }
 
-void DICOMAppHelper::PatientIDCallback(DICOMParser *parser,
+void DICOMAppHelper::PatientIDCallback(DICOMParser *,
                                    doublebyte,
                                    doublebyte,
                                    DICOMParser::VRTypes,
@@ -1393,7 +1393,7 @@ void DICOMAppHelper::PatientIDCallback(DICOMParser *parser,
   strcpy(m_PatientID, (const char*)val);
 }
 
-void DICOMAppHelper::PatientSexCallback(DICOMParser *parser,
+void DICOMAppHelper::PatientSexCallback(DICOMParser *,
                                    doublebyte,
                                    doublebyte,
                                    DICOMParser::VRTypes,
@@ -1403,7 +1403,7 @@ void DICOMAppHelper::PatientSexCallback(DICOMParser *parser,
   strcpy(m_PatientSex, (const char*)val);
 }
 
-void DICOMAppHelper::PatientAgeCallback(DICOMParser *parser,
+void DICOMAppHelper::PatientAgeCallback(DICOMParser *,
                                    doublebyte,
                                    doublebyte,
                                    DICOMParser::VRTypes,
@@ -1413,7 +1413,7 @@ void DICOMAppHelper::PatientAgeCallback(DICOMParser *parser,
   strcpy(m_PatientAge, (const char*)val);
 }
 
-void DICOMAppHelper::StudyDateCallback(DICOMParser *parser,
+void DICOMAppHelper::StudyDateCallback(DICOMParser *,
                                    doublebyte,
                                    doublebyte,
                                    DICOMParser::VRTypes,
@@ -1423,7 +1423,7 @@ void DICOMAppHelper::StudyDateCallback(DICOMParser *parser,
   strcpy(m_StudyDate, (const char*)val);
 }
 
-void DICOMAppHelper::ModalityCallback(DICOMParser *parser,
+void DICOMAppHelper::ModalityCallback(DICOMParser *,
                                    doublebyte,
                                    doublebyte,
                                    DICOMParser::VRTypes,
@@ -1433,7 +1433,7 @@ void DICOMAppHelper::ModalityCallback(DICOMParser *parser,
   strcpy(m_Modality, (const char*)val);
 }
 
-void DICOMAppHelper::ManufacturerCallback(DICOMParser *parser,
+void DICOMAppHelper::ManufacturerCallback(DICOMParser *,
                                    doublebyte,
                                    doublebyte,
                                    DICOMParser::VRTypes,
@@ -1443,7 +1443,7 @@ void DICOMAppHelper::ManufacturerCallback(DICOMParser *parser,
   strcpy(m_Manufacturer, (const char*)val);
 }
 
-void DICOMAppHelper::InstitutionCallback(DICOMParser *parser,
+void DICOMAppHelper::InstitutionCallback(DICOMParser *,
                                    doublebyte,
                                    doublebyte,
                                    DICOMParser::VRTypes,
@@ -1453,7 +1453,7 @@ void DICOMAppHelper::InstitutionCallback(DICOMParser *parser,
   strcpy(m_Institution, (const char*)val);
 }
 
-void DICOMAppHelper::ModelCallback(DICOMParser *parser,
+void DICOMAppHelper::ModelCallback(DICOMParser *,
                                    doublebyte,
                                    doublebyte,
                                    DICOMParser::VRTypes,
