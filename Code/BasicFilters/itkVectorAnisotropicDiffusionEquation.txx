@@ -138,11 +138,10 @@ VectorAnisotropicDiffusionEquation<TImage>
        ++fit;
     }
   
-  m_AverageGradientMagnitudeSquared = accumulator / (double) counter;
+  this->SetAverageGradientMagnitudeSquared((double) accumulator / counter);
 
-  //DEBUG
-  std::cout << m_AverageGradientMagnitudeSquared << std::endl;
-  // end DEBUG
+  itkGenericOutputMacro(<<"Average gradient magnitude squared " 
+                        << this->GetAverageGradientMagnitudeSquared());
 }
 
 }// end namespace itk
