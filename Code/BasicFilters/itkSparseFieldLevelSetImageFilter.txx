@@ -457,10 +457,9 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   // position of the zero level set.
 
   // First need to subtract the iso-surface value from the input image.
-  typename ShiftScaleImageFilter<OutputImageType, OutputImageType>::Pointer
-    shiftScaleFilter =
-          ShiftScaleImageFilter<OutputImageType, OutputImageType>::New();
-  shiftScaleFilter->SetInput( this->GetInput() );
+  typedef ShiftScaleImageFilter<InputImageType, OutputImageType> ShiftScaleFilterType;
+  typename ShiftScaleFilterType::Pointer shiftScaleFilter = ShiftScaleFilterType::New();
+  shiftScaleFilter->SetInput( this->GetInput()  );
   shiftScaleFilter->SetShift( - m_IsoSurfaceValue );
   // keep a handle to the shifted output
   m_ShiftedImage = shiftScaleFilter->GetOutput();
