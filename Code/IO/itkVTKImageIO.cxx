@@ -27,7 +27,7 @@ VTKImageIO::VTKImageIO()
 {
   this->SetNumberOfDimensions(2);
   m_ByteOrder = LittleEndian;
-  m_FileType = ASCII;
+  m_FileType = Binary;
   
 }
 
