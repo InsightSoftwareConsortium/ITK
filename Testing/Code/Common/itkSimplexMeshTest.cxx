@@ -145,6 +145,7 @@ int itkSimplexMeshTest(int , char *[] )
       {
       std::cout << "Rigidity: " << i << ", neighbor list size: " << neighbors->size() << std::endl;
       delete neighbors;
+      neighbors = NULL;
       }
 
     std::cout << ", Elapsed time (for getting neighbors): " << timeProbe.GetMeanTime() << std::endl;
