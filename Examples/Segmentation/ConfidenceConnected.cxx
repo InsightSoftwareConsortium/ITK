@@ -275,7 +275,7 @@ int main( int argc, char **argv )
   //  effects, like for example MRI images with inhomogenous fields may require
   //  more iterations. In practice, it seems to be more relevant to carefully
   //  select the multiplier factor rather than the number of iterations.
-  //  However keep in mind that there is no reason to assumet that this
+  //  However keep in mind that there is no reason to assume that this
   //  algorithm should converge to a stable region. It is possible that by
   //  letting the algorithm run for more iterations the region will end up
   //  engulfing the entire image.
@@ -293,8 +293,8 @@ int main( int argc, char **argv )
 
   //  Software Guide : BeginLatex
   //
-  //  The output of this filter is a binary image with zero-value pixels every
-  //  where except on the extracted region. The intensity value to be put
+  //  The output of this filter is a binary image with zero-value pixels
+  //  everywhere except on the extracted region. The intensity value to be put
   //  inside the region is selected with the method \code{SetReplaceValue()}
   //
   //  \index{itk::ConfidenceConnectedImageFilter!SetReplaceValue()}
@@ -353,7 +353,7 @@ int main( int argc, char **argv )
   //  
   //  The invokation of the \code{Update()} method on the writer triggers the
   //  execution of the pipeline.  It is usually wise to put update calls in
-  //  \code{try/catch} block in case error ocurr and exceptions are thrown.
+  //  \code{try/catch} block in case errors ocurr and exceptions are thrown.
   //
   //  Software Guide : EndLatex 
 
@@ -384,7 +384,7 @@ int main( int argc, char **argv )
   //  \hline
   //  White matter & $(60,116)$ & Second from left in Figure \ref{fig:ConfidenceConnectedOutput} \\ 
   //  Ventricle    & $(81,112)$ & Third  from left in Figure \ref{fig:ConfidenceConnectedOutput} \\ 
-  //  Gray matter  & $(107,69)$ & Fouth  from left in Figure \ref{fig:ConfidenceConnectedOutput} \\ 
+  //  Gray matter  & $(107,69)$ & Fourth from left in Figure \ref{fig:ConfidenceConnectedOutput} \\ 
   //  \hline
   //  \end{tabular}
   //  \end{center}
@@ -398,12 +398,12 @@ int main( int argc, char **argv )
   // \label{fig:ConfidenceConnectedOutput}
   // \end{figure}
   //
-  //  As it is always the case with medical images, the results of
-  //  segmentations should not be blindly accepted. Neigbbor anatomical
-  //  structures may have similar characteristics when viewed in the current
-  //  image modality and may have been absorbed by the current region. However
-  //  this kind of segmentation results are a good start for a more refined
-  //  post-processing stage in which anatomical knowledge may be included.
+  //  It can be noticed that the gray matter is not being completly segmented.
+  //  This illustrates the vulnerability of the region growing methods when the
+  //  anatomical structures to be segmented do not have a homogeneous
+  //  statistical distribution over the image space. You may want to experiment
+  //  with differnt numbers of iterations to verify how the accepted region
+  //  will extend.
   //
   //  Software Guide : EndLatex 
 
