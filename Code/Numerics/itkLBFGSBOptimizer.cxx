@@ -33,7 +33,7 @@ extern "C" integer s_cmp(char*,char*,ftnlen,ftnlen);
 extern "C" int
 setulb_(
 integer *n, integer *m,
-doublereal *x, doublereal *l, doublereal *u,
+const doublereal *x, doublereal *l, doublereal *u,
 integer *nbd,
 doublereal *f, doublereal *g, doublereal *factr, doublereal *pgtol, doublereal *wa,
 integer *iwa,
@@ -265,7 +265,7 @@ LBFGSBOptimizer
     {
 
     /** Call the L-BFGS-B code */
-    setulb_(&n, &m, (double *)this->GetCurrentPosition().data_block(), 
+    setulb_(&n, &m, this->GetCurrentPosition().data_block(), 
            (double *)m_LowerBound.data_block(), (double *)m_UpperBound.data_block(), 
            (int *)m_BoundSelection.data_block(),
            &m_Value, gradient.data_block(), 

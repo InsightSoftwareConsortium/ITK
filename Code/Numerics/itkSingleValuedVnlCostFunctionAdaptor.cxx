@@ -62,7 +62,7 @@ SingleValuedVnlCostFunctionAdaptor
     }
   else
     {
-    parameters.SetData((double*)(inparameters.data_block()));
+    parameters.SetData(const_cast<double*>(inparameters.data_block()));
     }
 
   const InternalMeasureType value = static_cast<InternalMeasureType>( m_CostFunction->GetValue( parameters ));
@@ -94,7 +94,7 @@ SingleValuedVnlCostFunctionAdaptor
     }
   else
     {
-    parameters.SetData((double*)(inparameters.data_block()));
+    parameters.SetData(const_cast<double*>(inparameters.data_block()));
     }
     
   m_CostFunction->GetDerivative( parameters, externalGradient );
@@ -124,7 +124,7 @@ SingleValuedVnlCostFunctionAdaptor
     }
   else
     {
-    parameters.SetData((double*)(x.data_block()));
+    parameters.SetData(const_cast<double*>(x.data_block()));
     }
   
   m_CostFunction->GetValueAndDerivative( parameters, measure, externalGradient );
