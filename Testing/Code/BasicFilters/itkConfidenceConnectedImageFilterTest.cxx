@@ -47,6 +47,7 @@ int itkConfidenceConnectedImageFilterTest(int ac, char** av)
 
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput(input->GetOutput());
+  filter->SetInitialNeighborhoodRadius( 3 ); // measured in pixels
 
   FilterType::IndexType seed; seed[0] = 165; seed[1] = 90;
   //  FilterType::IndexType seed; seed[0] = 56; seed[1] = 90;
