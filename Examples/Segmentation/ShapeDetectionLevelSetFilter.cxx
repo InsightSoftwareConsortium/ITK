@@ -789,7 +789,7 @@ int main( int argc, char **argv )
   //  which is finally used as the edge potential for the
   //  \doxygen{ShapeDetectionLevelSetImageFilter}.
   //
-  //  Notice that in Figure~\ref{fig:ShapeDetectionLevelSetFilterOutput} the
+  //  Notice that in Figure~\ref{fig:ShapeDetectionLevelSetFilterOutput2} the
   //  segmented shapes are rounder than the results in
   //  Figure~\ref{fig:FastMarchingImageFilterOutput2} due to the effects of the
   //  curvature term in the driving equation. As with the previous example,
