@@ -203,7 +203,7 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
 
 
   // process input alive points
-  NodeType node;
+  AxisNodeType node;
 
   if ( m_AlivePoints ) 
     {
@@ -291,7 +291,7 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
     }
   
   // process points on the heap
-  NodeType node;
+  AxisNodeType node;
   double currentValue;
   double oldValue = -(double)m_LargeValue;
 
@@ -428,8 +428,8 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
   IndexType neighIndex = index;
   typename TLevelSet::PixelType neighValue;
   PixelType outputPixel;
-  NodeType node;
-
+  AxisNodeType node;
+  
   for ( unsigned int j = 0; j < SetDimension; j++ )
     {
     node.SetValue( m_LargeValue );
@@ -461,10 +461,10 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
 
     // put the minimum neighbor onto the heap
     m_NodesUsed[j] = node;
+    m_NodesUsed[j].SetAxis(j);
     
     // reset neighIndex
     neighIndex[j] = index[j];
-
     }
 
   // sort the local list
@@ -487,6 +487,8 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
     cc = m_InverseSpeed;
     }
 
+  OutputSpacingType spacing = this->GetOutput()->GetSpacing();
+
   double discrim;
 
   for ( unsigned int j = 0; j < SetDimension; j++ )
@@ -495,9 +497,12 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
 
     if ( solution >= node.GetValue() )
       {
-      aa += 1.0;
-      bb += node.GetValue();
-      cc += vnl_math_sqr( (double)node.GetValue() );
+      const int axis = node.GetAxis();
+      const double spaceFactor = vnl_math_sqr( 1.0 / spacing[axis] );
+      const double value = double(node.GetValue());
+      aa += spaceFactor;
+      bb += value * spaceFactor;
+      cc += vnl_math_sqr( value ) * spaceFactor;
 
       discrim = vnl_math_sqr( bb ) - aa * cc;
       if ( discrim < 0.0 )

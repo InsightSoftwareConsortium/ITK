@@ -124,6 +124,17 @@ public:
   typedef typename LevelSetImageType::SpacingType OutputSpacingType;
   typedef typename LevelSetImageType::PointType   OutputPointType;
 
+  class AxisNodeType : public NodeType
+  {
+  public:
+    int GetAxis() const { return m_Axis; }
+    void SetAxis( int axis ) { m_Axis = axis; }
+    const AxisNodeType & operator=(const NodeType & node)
+                          { this->NodeType::operator=(node); }
+  private:
+    int m_Axis;
+  };
+
   /** Dimension of the level set. */
   itkStaticConstMacro(SetDimension, unsigned int,
                       LevelSetType::SetDimension);
@@ -256,7 +267,7 @@ protected:
                               const SpeedImageType *, LevelSetImageType * );
 
 
-  const NodeType& GetNodeUsedInCalculation(unsigned int idx) const
+  const AxisNodeType& GetNodeUsedInCalculation(unsigned int idx) const
   { return m_NodesUsed[idx]; }
 
   void GenerateData();
@@ -299,14 +310,14 @@ private:
 
 
   typename LevelSetImageType::PixelType         m_LargeValue;
-  NodeType                                      m_NodesUsed[SetDimension];
+  AxisNodeType                                  m_NodesUsed[SetDimension];
 
   /** Trial points are stored in a min-heap. This allow efficient access
    * to the trial point with minimum value which is the next grid point
    * the algorithm processes. */
-  typedef std::vector<NodeType> HeapContainer;
-  typedef std::greater<NodeType> NodeComparer;
-  typedef std::priority_queue< NodeType, HeapContainer, NodeComparer > HeapType;
+  typedef std::vector<AxisNodeType> HeapContainer;
+  typedef std::greater<AxisNodeType> NodeComparer;
+  typedef std::priority_queue< AxisNodeType, HeapContainer, NodeComparer > HeapType;
 
   HeapType    m_TrialHeap;
 
