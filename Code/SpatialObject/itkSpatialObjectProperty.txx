@@ -31,7 +31,7 @@ namespace itk
   template< class TComponentType >
   void 
   SpatialObjectProperty< TComponentType >
-  ::SetColor( PixelType & color )
+  ::SetColor( const PixelType & color )
   { m_Color = color; }
 
   template< class TComponentType >
