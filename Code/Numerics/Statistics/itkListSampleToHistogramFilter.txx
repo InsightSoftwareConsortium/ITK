@@ -36,7 +36,7 @@ ListSampleToHistogramFilter< TListSample, THistogram >
   typename THistogram::IndexType index ;
   typename TListSample::MeasurementVectorType lvector ;
   typename THistogram::MeasurementVectorType hvector ;
-  int i ;
+  unsigned int i ;
   while (iter != last)
     {
     lvector = iter.GetMeasurementVector() ;

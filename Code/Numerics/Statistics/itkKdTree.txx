@@ -164,7 +164,7 @@ KdTree< TSample >
              MeasurementVectorType &lowerBound,
              MeasurementVectorType &upperBound)
 {
-  int i ;
+  unsigned int i ;
   InstanceIdentifier tempId ;
   double tempDistance ;
 
@@ -361,7 +361,7 @@ KdTree< TSample >
       std::cout << "Terminal: level = " << level 
                 << " dim = " << activeDimension<< std::endl ;
       std::cout << "          " ;
-      for (int i = 0 ; i < node->Size() ; i++)
+      for (unsigned int i = 0 ; i < node->Size() ; i++)
         {
           std::cout << "[" << node->GetInstanceIdentifier(i) << "] "
                     << m_Sample->GetMeasurementVector(node->GetInstanceIdentifier(i))[activeDimension] << ", " ;
