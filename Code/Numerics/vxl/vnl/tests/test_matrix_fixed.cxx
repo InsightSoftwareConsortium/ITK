@@ -59,7 +59,7 @@ int test_matrix_fixed()
 
 void* operator new(size_t s)
   // [18.4.1] lib.new.delete
-#if defined(VCL_SUNPRO_CC_50) || defined(GNU_LIBSTDCXX_V3) || defined(VCL_KAI) || defined(VCL_SGI_CC_730)
+#if defined(VCL_SUNPRO_CC_50) || defined(GNU_LIBSTDCXX_V3) || defined(VCL_KAI) || defined(VCL_SGI_CC_730) || (defined(__INTEL_COMPILER) && (__INTEL_COMPILER >= 700))
   throw (std::bad_alloc)
 #endif
 {
@@ -89,7 +89,7 @@ void* operator new(size_t s)
 
 
 void operator delete(void* s)
-#if defined(VCL_SUNPRO_CC_50) || defined(GNU_LIBSTDCXX_V3) || defined(VCL_KAI) || defined(VCL_SGI_CC_730)
+#if defined(VCL_SUNPRO_CC_50) || defined(GNU_LIBSTDCXX_V3) || defined(VCL_KAI) || defined(VCL_SGI_CC_730) || (defined(__INTEL_COMPILER) && (__INTEL_COMPILER >= 700))
   throw ()
 #endif
 {
