@@ -76,6 +76,8 @@ public:
 
   /** Destructively set the size to that given.  Will lose data.  */
   void SetSize(unsigned int sz);
+  unsigned int GetSize(void) const 
+      { return static_cast<unsigned int>( this->size() ); }
 
   /** This destructor is not virtual for performance reasons. However, this
    * means that subclasses cannot allocate memory. */
