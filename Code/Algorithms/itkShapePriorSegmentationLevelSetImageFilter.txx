@@ -65,10 +65,6 @@ ShapePriorSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPix
 {
   if ( s != m_ShapeFunction )
     {
-    if ( s )
-      { 
-      s->Initialize(); 
-      }
     m_ShapeFunction = s;
     this->Modified();
     }
