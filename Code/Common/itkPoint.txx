@@ -319,14 +319,15 @@ const WeightContainerType & weights )
 
   typename TPointContainer::Iterator point = points->Begin();
   typename TPointContainer::Iterator final = points->End();
-  final--; // move to the Nth point
+  typename TPointContainer::Iterator last  = final;
+  last--; // move to the (N)th point
   
   double weightSum = 0.0;
 
   const unsigned int PointDimension = PointType::PointDimension;
   unsigned int j = 0;
 
-  while( point != final )
+  while( point != last )
   {
     const double weight = weights[j++];
     weightSum += weight;
@@ -336,10 +337,13 @@ const WeightContainerType & weights )
     }
     point++;
   }
+
+  // Compute directly the last one
+  // to make sure that the weights sum 1
   const double weight = ( 1.0 - weightSum );
   for( unsigned int i=0; i<PointDimension; i++) 
   {
-    barycentre[i] +=  weight * (point->Value())[i];
+    barycentre[i] +=  weight * (last->Value())[i];
   }
 
   return barycentre;
