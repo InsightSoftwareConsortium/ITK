@@ -15,4 +15,9 @@ ITK_WRAP_TCL(ITKCommonTcl
   wrap_itkImage.cxx
 )
 
-LINK_LIBRARIES(ITKCommon VXLNumerics ${CABLE_TCL_LIBRARY})
+TARGET_LINK_LIBRARIES(ITKCommonTcl
+  ITKCommon
+  ITKNumerics
+  VXLNumerics
+  ${CABLE_TCL_LIBRARY}
+)

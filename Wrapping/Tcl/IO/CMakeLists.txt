@@ -13,5 +13,11 @@ ITK_WRAP_TCL(ITKIOTcl
   wrap_itkTkImageViewer2D.cxx
 )
 
-LINK_LIBRARIES(ITKIO ITKCommon VXLNumerics ${CABLE_TCL_LIBRARY})
+TARGET_LINK_LIBRARIES(ITKIOTcl
+  ITKIO
+  ITKCommon
+  ITKNumerics
+  VXLNumerics
+  ${CABLE_TCL_LIBRARY}
+)
 

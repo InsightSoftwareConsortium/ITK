@@ -11,5 +11,10 @@ ITK_WRAP_TCL(ITKBasicFiltersTcl
   wrap_itkRescaleIntensityImageFilter.cxx
 )
 
-LINK_LIBRARIES(ITKBasicFilters ITKCommon VXLNumerics ${CABLE_TCL_LIBRARY})
-
+TARGET_LINK_LIBRARIES(ITKBasicFiltersTcl
+  ITKBasicFilters
+  ITKCommon
+  ITKNumerics
+  VXLNumerics
+  ${CABLE_TCL_LIBRARY}
+)
