@@ -21,6 +21,7 @@
 #include "itkRegionNonBoundaryNeighborhoodIterator.h"
 #include "itkDerivativeOperator.h"
 #include "itkNeighborhoodAlgorithm.h"
+#include "itkZeroFluxNeumannBoundaryCondition.h"
 
 namespace itk
 {
@@ -34,6 +35,7 @@ GradientMagnitudeStrategy<TInnerProduct, TIterator>
   ScalarValueType a, g;
   TInnerProduct IP;
   NeighborhoodAlgorithm::CalculateOutputWrapOffsetModifiers<ImageType> OM;
+  ZeroFluxNeumannBoundaryCondition<ImageType> nbc;
   
   // Set up operators
   DerivativeOperator<PixelType, ImageDimension> op;
@@ -54,6 +56,7 @@ GradientMagnitudeStrategy<TInnerProduct, TIterator>
   OM(mod, in, out);
   it.SetOutputWrapOffsetModifier(mod);
   delete[] mod;
+  it.OverrideBoundaryCondition(&nbc);
   
   // Slice the iterator
   std::slice x_slice[ImageDimension];

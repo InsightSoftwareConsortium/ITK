@@ -21,6 +21,7 @@
 #include "itkDerivativeOperator.h"
 #include "itkImageRegionIterator.h"
 #include "itkRegionNonBoundaryNeighborhoodIterator.h"
+#include "itkZeroFluxNeumannBoundaryCondition.h"
 #include <vnl/vnl_math.h>
 
 namespace itk
@@ -32,6 +33,7 @@ void AnisoDiffuseCurve2D<TInnerProduct, TIterator>
 {
   typedef typename TIterator::ImageType ImageType;
   typedef typename ImageType::PixelType ScalarValueType;
+  ZeroFluxNeumannBoundaryCondition<ImageType> nbc;
   enum { ImageDimension = ImageType::ImageDimension };
   enum { X=0, Y=1 };
   TInnerProduct IP;
@@ -50,6 +52,9 @@ void AnisoDiffuseCurve2D<TInnerProduct, TIterator>
   TIterator it(hR, input, input->GetRequestedRegion());
   it.SetOutputBuffer(output->GetBufferPointer()
                      + output->ComputeOffset(it.GetStartIndex()));
+  
+  it.OverrideBoundaryCondition(&nbc);  // Make sure we use bounds conditions
+                                       // compatible with this solver
   
   // process
   const ScalarValueType Zero =  NumericTraits<ScalarValueType>::Zero;

@@ -21,6 +21,7 @@
 #include "itkRegionNeighborhoodIterator.h"
 #include "itkDerivativeOperator.h"
 #include "itkRegionNonBoundaryNeighborhoodIterator.h"
+#include "itkZeroFluxNeumannBoundaryCondition.h"
 
 namespace itk
 {
@@ -31,6 +32,7 @@ void AnisoDiffuseGrad2D<TInnerProduct, TIterator>
 {
   typedef typename TIterator::ImageType ImageType;
   typedef typename ImageType::PixelType ScalarValueType;
+  ZeroFluxNeumannBoundaryCondition<ImageType> nbc;
   enum { ImageDimension = ImageType::ImageDimension };
   enum { X=0, Y=1 };
 
@@ -50,7 +52,10 @@ void AnisoDiffuseGrad2D<TInnerProduct, TIterator>
   TIterator it(hR, input, input->GetRequestedRegion());
   it.SetOutputBuffer(output->GetBufferPointer()
                      + output->ComputeOffset(it.GetStartIndex()));
-
+  
+  it.OverrideBoundaryCondition(&nbc);  // Make sure we use bounds conditions
+                                       // compatible with this solver
+  
   // set up the operators
   ScalarValueType Cx, Cy, Cxd, Cyd;
   ScalarValueType dx_forward, dx_backward, dy_forward, dy_backward;
@@ -121,6 +126,7 @@ void AnisoDiffuseGradND<TInnerProduct, TIterator>
 {
   typedef typename TIterator::ImageType ImageType;
   typedef typename ImageType::ScalarValueType ScalarValueType;
+  ZeroFluxNeumannBoundaryCondition<ImageType> nbc;
   enum { ImageDimension = ImageType::ImageDimension };
 
   typename ImageType::Pointer input = static_cast<ImageType*>(d1);
@@ -141,6 +147,9 @@ void AnisoDiffuseGradND<TInnerProduct, TIterator>
   it.SetOutputBuffer(output->GetBufferPointer()
                      + output->ComputeOffset(it.GetStartIndex()));
 
+  it.OverrideBoundaryCondition(&nbc);  // Make sure we use bounds conditions
+                                       // compatible with this solver
+  
   // Set up the operators
   unsigned int i, j;
   ScalarValueType accum, accum_d, delta;

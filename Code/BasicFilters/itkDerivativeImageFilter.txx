@@ -18,6 +18,7 @@
 
 #include "itkNeighborhoodOperatorImageFilter.h"
 #include "itkDerivativeOperator.h"
+#include "itkZeroFluxNeumannBoundaryCondition.h"
 namespace itk
 {
 
@@ -26,6 +27,8 @@ void
 DerivativeImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
+  ZeroFluxNeumannBoundaryCondition<TOutputImage> nbc;
+  
   // Filter
   DerivativeOperator<OutputPixelType, ImageDimension> oper;
    oper.SetDirection(m_Direction);
@@ -37,6 +40,8 @@ DerivativeImageFilter< TInputImage, TOutputImage >
     NeighborhoodOperatorImageFilter<InputImageType, OutputImageType>
     ::New();
 
+  filter->OverrideBoundaryCondition(&nbc);
+  
   filter->SetOperator(oper);
   filter->SetInput(this->GetInput());
   filter->SetOutput(this->GetOutput());

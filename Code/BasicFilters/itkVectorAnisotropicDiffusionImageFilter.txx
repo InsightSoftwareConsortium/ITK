@@ -18,6 +18,7 @@
 
 #include "itkDerivativeOperator.h"
 #include "itkSimpleImageRegionIterator.h"
+#include "itkZeroFluxNeumannBoundaryCondition.h"
 
 namespace itk
 {
@@ -142,15 +143,13 @@ void AnisoDiffuseVector2D<TInnerProduct, TIterator>
 
   typename ImageType::Pointer input = static_cast<ImageType*>(d1);
   typename ImageType::Pointer output= static_cast<ImageType*>(d2);
-
+  ZeroFluxNeumannBoundaryCondition<ImageType> nbc;
   TInnerProduct IP;
   AvgGradMagSquaredVector<ImageType> GradMag;
 
   // modified conductance term
   const float k = GradMag(input, input->GetRequestedRegion())
     * this->m_ConductanceTerm * -1.0f;
-
-  std::cout << k << std::endl;
 
   // set up the iterator
   Size<ImageDimension> hR;
@@ -159,6 +158,10 @@ void AnisoDiffuseVector2D<TInnerProduct, TIterator>
   TIterator it(hR, input, input->GetRequestedRegion());
   it.SetOutputBuffer(output->GetBufferPointer()
                      + output->ComputeOffset(it.GetStartIndex()));
+
+
+  it.OverrideBoundaryCondition(&nbc);  // Make sure we use bounds conditions
+                                       // compatible with this solver
   
   // set up operators and variable terms
   VectorValueType Cx, Cy, Cxd, Cyd; 
@@ -248,7 +251,7 @@ void AnisoDiffuseVectorND<TInnerProduct, TIterator>
   
   typename ImageType::Pointer input = static_cast<ImageType*>(d1);
   typename ImageType::Pointer output= static_cast<ImageType*>(d2);
-  
+  ZeroFluxNeumannBoundaryCondition<ImageType> nbc;
   TInnerProduct IP;
   AvgGradMagSquaredVector<ImageType> GradMagFunction;
 
@@ -263,6 +266,9 @@ void AnisoDiffuseVectorND<TInnerProduct, TIterator>
   TIterator it(hR, input, input->GetRequestedRegion());
   it.SetOutputBuffer(output->GetBufferPointer()
                      + output->ComputeOffset(it.GetStartIndex()));
+
+ it.OverrideBoundaryCondition(&nbc);  // Make sure we use bounds conditions
+                                      // compatible with this solver
   
   VectorValueType GradMag[D], GradMag_d[D], delta[N];
 
