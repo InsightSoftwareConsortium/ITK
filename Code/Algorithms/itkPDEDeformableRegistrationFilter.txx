@@ -316,7 +316,21 @@ void
 PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::PostProcessOutput()
 {
+  this->Superclass::PostProcessOutput();
   m_TempField->Initialize();
+}
+
+
+/*
+ * Initialize flags
+ */
+template <class TFixedImage, class TMovingImage, class TDeformationField>
+void
+PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
+::Initialize()
+{
+  this->Superclass::Initialize();
+  m_StopRegistrationFlag = false;
 }
 
 

@@ -338,11 +338,14 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int, char* [] )
   std::cout << "Number of pixels different: " << numPixelsDifferent; 
   std::cout << std::endl;
 
+
   if( numPixelsDifferent > 20 )
     {
     std::cout << "Test failed - too many pixels different." << std::endl;
     return EXIT_FAILURE;
     }
+
+
 
   //-------------------------------------------------------------
   std::cout << "Test when last shrink factors are not ones." << std::endl;

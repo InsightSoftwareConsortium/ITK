@@ -160,7 +160,6 @@ protected:
 
     if ( m_StopRegistrationFlag )
       {
-      m_StopRegistrationFlag = false;
       return true;
       }
 
@@ -183,6 +182,9 @@ protected:
   /** This method is called after the solution has been generated. In this case,
    * the filter release the memory of the internal buffers. */
   virtual void PostProcessOutput();
+
+  /** This method is called before iterating the solution. */
+  virtual void Initialize();
 
   /** By default the output deformation field has the same Spacing, Origin
    * and LargestPossibleRegion as the input/initial deformation field.  If

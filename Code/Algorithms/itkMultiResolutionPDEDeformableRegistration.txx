@@ -221,6 +221,7 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
  
   // Initializations
   m_CurrentLevel = 0;
+  m_StopRegistrationFlag = false;
 
   unsigned int movingLevel = vnl_math_min( (int) m_CurrentLevel, 
     (int) m_MovingImagePyramid->GetNumberOfLevels() );
@@ -343,6 +344,7 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
 
 }
 
+
 template <class TFixedImage, class TMovingImage, class TDeformationField>
 void
 MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationField>
@@ -368,9 +370,8 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
     {
     return true;
     }
-  else if ( m_StopRegistrationFlag )
+  if ( m_StopRegistrationFlag )
     {
-    m_StopRegistrationFlag = false;
     return true;
     }
   else
