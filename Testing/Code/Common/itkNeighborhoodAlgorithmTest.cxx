@@ -64,8 +64,8 @@ int main()
   itk::Index<4> origND;
   origND[0] = 0;
   origND[1] = 0;
-  origND[1] = 0;
   origND[2] = 0;
+  origND[3] = 0;
   
   Region2D.SetSize(size2D);
   Region3D.SetSize(size3D);

@@ -53,7 +53,7 @@ int main()
    sizeND[0] = 10;
    sizeND[1] = 10;
    sizeND[2] = 4;
-   sizeND[2] = 2;
+   sizeND[3] = 2;
   
   itk::Index<2> orig2D;
    orig2D[0] = 0;
