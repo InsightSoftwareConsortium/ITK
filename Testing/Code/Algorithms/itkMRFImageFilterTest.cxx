@@ -361,9 +361,13 @@ int itkMRFImageFilterTest(int, char* [] )
   std::cout << "The smoothing MRF parameter used was: " <<
     applyMRFImageFilter->GetSmoothingFactor() << std::endl;
   std::cout << "The MRF neighborhood weights are: " << std::endl;
+
+  //Test other optional access functions to test coverage
   std::vector<double> MRFNeighborhoodWeight = 
     applyMRFImageFilter->GetMRFNeighborhoodWeight();
-//  std::cout << applyMRFImageFilter->GetMRFNeighborhoodWeight() << std::endl;
+  std::vector<double> testNewNeighborhoodWeight( MRFNeighborhoodWeight.size(), 1);
+ 
+  applyMRFImageFilter->SetMRFNeighborhoodWeight( testNewNeighborhoodWeight );
 
   //Print the mrf labelled image
   ClassImageIterator labeloutIt( outClassImage, outClassImage->GetBufferedRegion() );
