@@ -76,6 +76,8 @@ struct KdTreeNonterminalNode: public KdTreeNode< TSample >
                         MeasurementType partitionValue,
                         Superclass* left,
                         Superclass* right) ;
+
+  virtual ~KdTreeNonterminalNode() {}
   
   NodeType GetNodeType()
   { return NodeType(Nonterminal) ; }
@@ -124,7 +126,8 @@ struct KdTreeWeightedCenteroidNonterminalNode: public KdTreeNode< TSample >
                                          Superclass* right,
                                          CenteroidType &centeroid,
                                          unsigned int size) ;
-  
+  virtual ~KdTreeWeightedCenteroidNonterminalNode() {}
+
   NodeType GetNodeType()
   { return NodeType(Nonterminal) ; }
 
