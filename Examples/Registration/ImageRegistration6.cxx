@@ -48,8 +48,8 @@
 // questioned when the two images are acquired in different imaging
 // modalities.
 //
-// \index{itk::CenteredRigid2DTransform!textbf}
-// \index{itk::ImageMomentsCalculator!textbf}
+// \index{itk::CenteredRigid2DTransform}
+// \index{itk::ImageMomentsCalculator}
 //
 //
 // Software Guide : EndLatex 

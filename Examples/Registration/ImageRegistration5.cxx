@@ -24,7 +24,7 @@
 // of the \doxygen{CenteredRigid2DTransform} here instead of the
 // \doxygen{TranslationTransform}.
 //
-// \index{itk::CenteredRigid2DTransform!textbf}
+// \index{itk::CenteredRigid2DTransform}
 //
 // Software Guide : EndLatex 
 

@@ -50,7 +50,7 @@
 // perform heavy computational tasks.  They are assumed to execute
 // rapidly. For example, printing out a message or updating a value in a GUI.
 //
-// \index{itk::ImageRegistrationMethod!Monitoring|textbf}
+// \index{itk::ImageRegistrationMethod!Monitoring}
 //
 //
 // Software Guide : EndLatex 

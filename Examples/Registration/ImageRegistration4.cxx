@@ -33,7 +33,7 @@
 // \ref{sec:MutualInformationMetric}. First, we include the header files of
 // the components used in this example:
 //
-// \index{itk::ImageRegistrationMethod!Multi-Modality|textbf}
+// \index{itk::ImageRegistrationMethod!Multi-Modality}
 // Software Guide : EndLatex 
 
 

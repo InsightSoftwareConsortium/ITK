@@ -26,7 +26,7 @@
 // relevant changes in the current code and skip the basic elements already
 // explained in previous examples.
 //
-// \index{itk::CenteredAffineTransform!textbf}
+// \index{itk::CenteredAffineTransform}
 //
 // Software Guide : EndLatex 
 

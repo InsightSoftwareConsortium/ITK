@@ -38,7 +38,7 @@
 // specific center. This center is use both for rotation and scaling.
 //
 //
-// \index{itk::Similarity2DTransform!textbf}
+// \index{itk::Similarity2DTransform}
 //
 // Software Guide : EndLatex 
 

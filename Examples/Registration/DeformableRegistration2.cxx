@@ -103,7 +103,7 @@ int main( int argc, char *argv[] )
   // preprocess the moving image to match the intensity between the images
   // using the \doxygen{HistogramMatchingImageFilter}. 
   //
-  // \index{itk::HistogramMatchingImageFilter|textbf}
+  // \index{itk::HistogramMatchingImageFilter}
   //
   // The basic idea is to match the histograms of the two images at a user
   // specified number of quantile values. For robustness, the histograms are
@@ -174,7 +174,7 @@ int main( int argc, char *argv[] )
   // In the \doxygen{DemonsRegistrationFilter}, the deformation field is
   // represented as an image whose pixels are floating point vectors.
   //
-  // \index{itk::DemonsRegistrationFilter|textbf}
+  // \index{itk::DemonsRegistrationFilter}
   //
   // Software Guide : EndLatex
 
@@ -243,7 +243,7 @@ int main( int argc, char *argv[] )
   // the specification of the input image to be resampled, an input image
   // interpolator, the output image spacing and origin.
   //
-  // \index{itk::WarpImageFilter|textbf}
+  // \index{itk::WarpImageFilter}
   // \index{itk::WarpImageFilter!SetInput()}
   // \index{itk::WarpImageFilter!SetInterpolator()}
   // \index{itk::WarpImageFilter!SetOutputSpacing()}
