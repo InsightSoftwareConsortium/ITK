@@ -55,13 +55,7 @@ class DICOMAppHelper
                          DICOMParser::VRTypes type,
                          unsigned char* val,
                          quadbyte len) ;
-  
-  virtual void WriteImageData(doublebyte group,
-                      doublebyte element,
-                      DICOMParser::VRTypes type,
-                      unsigned char* val,
-                      quadbyte len);
-  
+    
   virtual void TransferSyntaxCallback(doublebyte group,
                               doublebyte element,
                               DICOMParser::VRTypes type,
@@ -125,7 +119,7 @@ class DICOMAppHelper
                                  unsigned char* val,
                                  quadbyte len);
 
-  virtual void PixelOffsetCallback( doublebyte,
+  virtual void RescaleOffsetCallback( doublebyte,
                                     doublebyte,
                                     DICOMParser::VRTypes,
                                     unsigned char* val,
@@ -188,6 +182,7 @@ class DICOMAppHelper
       }
     }
 
+
   virtual void RegisterPixelDataCallback();
 
   std::string GetTransferSyntaxUID()
@@ -196,6 +191,11 @@ class DICOMAppHelper
     }
 
   const char* TransferSyntaxUIDDescription(const char* uid);
+
+
+  void GetImageData(void* & data, DICOMParser::VRTypes& dataType, unsigned long& len);
+
+  bool RescaledImageDataIsFloat();
 
  protected:
   int BitsAllocated;
@@ -235,8 +235,11 @@ class DICOMAppHelper
   int PixelRepresentation;
   std::string* PhotometricInterpretation;
   std::string* TransferSyntaxUID;
-  int PixelOffset;
-
+  float RescaleOffset;
+  float RescaleSlope;
+  void* ImageData;
+  DICOMParser::VRTypes ImageDataType;
+  unsigned long ImageDataLengthInBytes;
 };
 
 #endif

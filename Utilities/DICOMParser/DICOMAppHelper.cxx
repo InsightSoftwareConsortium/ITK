@@ -11,7 +11,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <string>
-
+#include <math.h>
 
 DICOMAppHelper::DICOMAppHelper()
 {
@@ -23,7 +23,10 @@ DICOMAppHelper::DICOMAppHelper()
   this->Dimensions[0] = this->Dimensions[1] = 0;
   this->PhotometricInterpretation = NULL;
   this->TransferSyntaxUID = NULL;
-  this->PixelOffset = 0;
+  this->RescaleOffset = 0.0;
+  this->RescaleSlope = 1.0;
+  this->ImageData = NULL;
+  this->ImageDataLengthInBytes = 0;
 }
 
 DICOMAppHelper::~DICOMAppHelper()
@@ -39,11 +42,6 @@ void DICOMAppHelper::RegisterCallbacks(DICOMParser* parser)
     }
 
   this->Parser = parser;
-
-  
-  DICOMMemberCallback<DICOMAppHelper>* cb = new DICOMMemberCallback<DICOMAppHelper>;
-  cb->SetCallbackFunction(this, &DICOMAppHelper::WriteImageData);
-  // parser->AddDICOMTagCallback(0x7FE0, 0x0010, DICOMParser::VR_OW, cb);
   
   DICOMMemberCallback<DICOMAppHelper>* cb2 = new DICOMMemberCallback<DICOMAppHelper>;
   cb2->SetCallbackFunction(this, &DICOMAppHelper::SeriesUIDCallback);
@@ -83,7 +81,7 @@ void DICOMAppHelper::RegisterCallbacks(DICOMParser* parser)
   parser->AddDICOMTagCallback(0x0028, 0x0004, DICOMParser::VR_CS, cb10);
 
   DICOMMemberCallback<DICOMAppHelper>* cb11 = new DICOMMemberCallback<DICOMAppHelper>;
-  cb11->SetCallbackFunction(this, &DICOMAppHelper::PixelOffsetCallback);
+  cb11->SetCallbackFunction(this, &DICOMAppHelper::RescaleOffsetCallback);
   parser->AddDICOMTagCallback(0x0028, 0x1052, DICOMParser::VR_CS, cb11);
 
   DICOMMemberCallback<DICOMAppHelper>* cb12 = new DICOMMemberCallback<DICOMAppHelper>;
@@ -197,38 +195,6 @@ void DICOMAppHelper::OutputSeries()
       }
                 
     }
-}
-    
-void DICOMAppHelper::WriteImageData(doublebyte,
-                                    doublebyte,
-                                    DICOMParser::VRTypes,
-                                    unsigned char*,
-                                    quadbyte)
-{
-#if 0 
-  std::cout << "Image data length: 0x" << std::hex << static_cast<unsigned long>(len) << std::endl; 
-  std::cout << std::dec;
-
-  FILE* fptr = fopen(this->GetOutputFilename(), "wb");
-
-  if (this->ByteSwapData)
-    {
-    if (this->BitsAllocated >= 8 && this->BitsAllocated <=16)
-      {
-      this->DICOMDataFile->swapShorts((ushort*) val,(ushort*) val, len/2);
-      std::cout << "Swapped shorts." << std::endl;
-      }
-    else if (this->BitsAllocated > 16)
-      {
-      this->DICOMDataFile->swapLongs((ulong*) val,(ulong*) val, len/4);
-      std::cout << "Swapped longs." << std::endl;
-      }
-    }
-
-  fwrite(val,len, 1,fptr);
-  fclose(fptr);
-  std::cout << "Wrote raw data to: " << this->GetOutputFilename() << std::endl;
-#endif
 }
 
 void DICOMAppHelper::SetFileName(const char* filename)
@@ -500,10 +466,107 @@ void DICOMAppHelper::PhotometricInterpretationCallback( doublebyte,
 void DICOMAppHelper::PixelDataCallback( doublebyte,
                                         doublebyte,
                                         DICOMParser::VRTypes,
-                                        unsigned char*,
-                                        quadbyte)
+                                        unsigned char* data,
+                                        quadbyte len)
 {
-  std::cout <<"PixelDataCallback - not implemented." << std::endl;
+  int numPixels = this->Dimensions[0] * this->Dimensions[1];
+  if (len < numPixels)
+    {
+    numPixels = len;
+    }
+  if (numPixels < 0)
+    {
+    numPixels = 0;
+    }
+
+  std::cout << "numPixels : " << numPixels << std::endl;
+
+  int ptrIncr = int(this->BitsAllocated/8.0);
+
+  unsigned short* ushortInputData = reinterpret_cast<unsigned short*>(data);
+  unsigned char* ucharInputData = data;
+  short* shortInputData = reinterpret_cast<short*> (data);
+
+  float* floatOutputData = NULL;
+  
+  bool isFloat = this->RescaledImageDataIsFloat();
+
+  float* tempData = new float[numPixels];
+
+  if (isFloat)
+    {
+    std::cout << "Slope and offset are not integer valued : ";
+    std::cout << this->RescaleSlope << ", " << this->RescaleOffset << std::endl;
+
+    this->ImageData = new float[numPixels];
+    floatOutputData = static_cast<float*> (this->ImageData);
+
+    this->ImageDataType = DICOMParser::VR_FL;
+    this->ImageDataLengthInBytes = numPixels * sizeof(float);
+    float newFloatPixel = 0.0;
+
+    if (ptrIncr == 1)
+      {
+      for (int i = 0; i < numPixels; i++)
+        {
+        newFloatPixel = float(this->RescaleSlope * ucharInputData[i] + this->RescaleOffset);
+        floatOutputData[i] = newFloatPixel;
+        }
+      std::cout << "Did rescale, offset to float from char." << std::endl;
+      std::cout << numPixels << " pixels." << std::endl;
+      }
+    else if (ptrIncr == 2)
+      {
+      for (int i = 0; i < numPixels; i++)
+        {
+        newFloatPixel = float(this->RescaleSlope * ushortInputData[i] + this->RescaleOffset);
+        floatOutputData[i] = newFloatPixel;
+        }
+      std::cout << "Did rescale, offset to float from short." << std::endl;
+      std::cout << numPixels << " pixels." << std::endl;
+      }
+    }
+  else
+    {
+    std::cout << "Slope and offset are integer valued : ";
+    std::cout << this->RescaleSlope << ", " << this->RescaleOffset << std::endl;
+
+    if (ptrIncr == 1)
+      {
+      this->ImageData = new char[numPixels];
+  
+      char*  charOutputData =  static_cast<char*>  (this->ImageData);
+
+      this->ImageDataType = DICOMParser::VR_OB;
+      this->ImageDataLengthInBytes = numPixels * sizeof(char);
+      char newCharPixel = 0;
+
+      for (int i = 0; i < numPixels; i++)
+        {
+        newCharPixel = char(this->RescaleSlope * ucharInputData[i] + this->RescaleOffset);
+        charOutputData[i] = newCharPixel;
+        }
+      std::cout << "Did rescale, offset to char from char." << std::endl;
+      std::cout << numPixels << " pixels." << std::endl;
+      }
+    else if (ptrIncr == 2)
+      {
+      this->ImageData = new short[numPixels];
+
+      short* shortOutputData = static_cast<short*> (this->ImageData);
+
+      this->ImageDataType = DICOMParser::VR_OW;
+      this->ImageDataLengthInBytes = numPixels * sizeof(short);
+      short newShortPixel = 0;
+      for (int i = 0; i < numPixels; i++)
+        {
+        newShortPixel = short(this->RescaleSlope * shortInputData[i] + this->RescaleOffset);
+        shortOutputData[i] = newShortPixel;
+        }
+      std::cout << "Did rescale, offset to short from short." << std::endl;
+      std::cout << numPixels << " pixels." << std::endl;
+      }
+    }
 }
 
 void DICOMAppHelper::RegisterPixelDataCallback()
@@ -513,25 +576,26 @@ void DICOMAppHelper::RegisterPixelDataCallback()
   this->Parser->AddDICOMTagCallback(0x7FE0, 0x0010, DICOMParser::VR_OW, cb);
 }
 
-void DICOMAppHelper::PixelOffsetCallback( doublebyte,
+void DICOMAppHelper::RescaleOffsetCallback( doublebyte,
                                           doublebyte,
                                           DICOMParser::VRTypes,
                                           unsigned char* val,
                                           quadbyte)
 {
   float fval = DICOMFile::ReturnAsFloat(val, this->DICOMDataFile->GetByteSwap());
-  this->PixelOffset = int(fval);
-  std::cout << "Pixel offset: " << this->PixelOffset << std::endl;
+  this->RescaleOffset = fval;
+  std::cout << "Pixel offset: " << this->RescaleOffset << std::endl;
 }
 
 const char* DICOMAppHelper::TransferSyntaxUIDDescription(const char* uid)
 {
-  static char* DICOM_IMPLICIT_VR_LITTLE_ENDIAN = "1.2.840.10008.1.2";
-  static char* DICOM_LOSSLESS_JPEG = "1.2.840.10008.1.2.4.70";
-  static char* DICOM_LOSSY_JPEG_8BIT = "1.2.840.10008.1.2.4.50";
-  static char* DICOM_LOSSY_JPEG_16BIT = "1.2.840.10008.1.2.4.51";
-  static char* DICOM_EXPLICIT_VR_LITTLE_ENDIAN = "1.2.840.10008.1.2.1";
-  static char* DICOM_EXPLICIT_VR_BIG_ENDIAN = "1.2.840.10008.1.2.2";
+  static const char* DICOM_IMPLICIT_VR_LITTLE_ENDIAN = "1.2.840.10008.1.2";
+  static const char* DICOM_LOSSLESS_JPEG = "1.2.840.10008.1.2.4.70";
+  static const char* DICOM_LOSSY_JPEG_8BIT = "1.2.840.10008.1.2.4.50";
+  static const char* DICOM_LOSSY_JPEG_16BIT = "1.2.840.10008.1.2.4.51";
+  static const char* DICOM_EXPLICIT_VR_LITTLE_ENDIAN = "1.2.840.10008.1.2.1";
+  static const char* DICOM_EXPLICIT_VR_BIG_ENDIAN = "1.2.840.10008.1.2.2";
+  static const char* DICOM_GE_PRIVATE_IMPLICIT_BIG_ENDIAN = "1.2.840.113619.5.2";
 
   if (!strcmp(DICOM_IMPLICIT_VR_LITTLE_ENDIAN, uid))
     {
@@ -557,6 +621,10 @@ const char* DICOMAppHelper::TransferSyntaxUIDDescription(const char* uid)
     {
     return "Explicit VR, Big Endian.";
     }
+  else if (!strcmp(DICOM_GE_PRIVATE_IMPLICIT_BIG_ENDIAN, uid))
+    {
+    return "GE Private, Implicit VR, Big Endian Image Data.";
+    }
   else
     {
     return "Unknown.";
@@ -573,7 +641,34 @@ void DICOMAppHelper::RescaleSlopeCallback(doublebyte,
 {
   float fval = DICOMFile::ReturnAsFloat(val, this->DICOMDataFile->GetByteSwap());
   std::cout << "Rescale slope: " << fval << std::endl;
+  this->RescaleSlope = fval;
 }
 
+bool DICOMAppHelper::RescaledImageDataIsFloat()
+{
+  int s = int(this->RescaleSlope);
+  int o = int(this->RescaleOffset);
 
+  float sf = float(s);
+  float of = float(o);
+
+  float d1 = fabs(sf - this->RescaleSlope);
+  float d2 = fabs(of - this->RescaleOffset);
+
+  if (d1 > 0.0 || d2 > 0.0)
+    {
+    return true;
+    }
+  else
+    {
+    return false;
+    }
+}
+
+void DICOMAppHelper::GetImageData(void*& data, DICOMParser::VRTypes& dataType, unsigned long& len)
+{
+  data = this->ImageData;
+  dataType = this->ImageDataType;
+  len = this->ImageDataLengthInBytes;
+}
 
