@@ -41,7 +41,6 @@ OrthogonallyCorrected2DParametricPath
   double              softOrthogonalCorrectionTableIndex;
   double              Correction, Correction1, Correction2;
   VectorType          originalDerivative;
-  double              originalDerivativeMagnitude;
   
   numOrthogonalCorrections = m_OrthogonalCorrectionTable->Size(); 
 
@@ -72,13 +71,12 @@ OrthogonallyCorrected2DParametricPath
   
   // Find the direction of the offset
   originalDerivative = m_OriginalPath->EvaluateDerivative(input);
-  originalDerivativeMagnitude = sqrt(originalDerivative[0]*originalDerivative[0]
-                                   + originalDerivative[1]*originalDerivative[1]);
-
+  originalDerivative.Normalize();
+  
   // Find the actual point along this corrected path
   output = m_OriginalPath->Evaluate(input);
-  output[0] -= Correction*originalDerivative[1]/originalDerivativeMagnitude;
-  output[1] += Correction*originalDerivative[0]/originalDerivativeMagnitude;
+  output[0] -= Correction*originalDerivative[1];
+  output[1] += Correction*originalDerivative[0];
   return output;
 }
 

@@ -109,7 +109,6 @@ public:
     return m_OriginalPath->EndOfInput();
     }
 
-
   
 protected:
   OrthogonallyCorrected2DParametricPath();
