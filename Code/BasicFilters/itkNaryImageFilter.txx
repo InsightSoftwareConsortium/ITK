@@ -92,8 +92,6 @@ NaryImageFilter<TInputImage, TOutputImage, TFunction>
   OutputImagePointer outputPtr = this->GetOutput(0);
   ImageRegionIterator<TOutputImage> outputIt(outputPtr, outputRegionForThread);
 
-  unsigned long updateVisits = 0;
-  unsigned long i=0;
 
   // Clear the content of the output
   outputIt.GoToBegin();
@@ -103,13 +101,24 @@ NaryImageFilter<TInputImage, TOutputImage, TFunction>
       ++outputIt;
     }
  
-
+  // support progress methods/callbacks
+  unsigned long updateVisits = 0;
+  unsigned long i=0;
+  float progressBase = 0.0;
+  if ( threadId == 0 )
+    {
+    updateVisits = outputPtr->GetRequestedRegion().GetNumberOfPixels()/10;
+    if ( updateVisits < 1 )
+      {
+      updateVisits = 1;
+      }
+    updateVisits *= numberOfInputImages;
+    progressBase = static_cast<float>(updateVisits) * 10.0;
+    }
   
-  const float progressBase = static_cast<float>(updateVisits) *
-                             static_cast<float>(numberOfInputImages) *
-                             10.0;
-  
-  for(unsigned int inputNumber=0; inputNumber < numberOfInputImages; inputNumber++ )
+  TFunction function;
+  for(unsigned int inputNumber=0;
+      inputNumber < numberOfInputImages; inputNumber++ )
     {
     // We use dynamic_cast since inputs are stored as DataObjects.  
     InputImagePointer inputPtr = dynamic_cast<TInputImage*>(
@@ -117,19 +126,8 @@ NaryImageFilter<TInputImage, TOutputImage, TFunction>
 
     ImageRegionIterator<TInputImage> inputIt(inputPtr, outputRegionForThread);
 
-    // support progress methods/callbacks
-    if ( threadId == 0 )
-      {
-      updateVisits = outputPtr->GetRequestedRegion().GetNumberOfPixels()/10;
-      if ( updateVisits < 1 ) updateVisits = 1;
-      }
-          
-   
-    TFunction function;
-
     inputIt.GoToBegin();
     outputIt.GoToBegin();
-    i = 0;
     while( !inputIt.IsAtEnd() ) 
       {
       if ( threadId == 0 && !(i % updateVisits ) )
