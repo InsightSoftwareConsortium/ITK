@@ -19,18 +19,18 @@
 //
 // The following example illustrates the use of the
 // \doxygen{ShapeDetectionLevelSetImageFilter}.  The implementation of this filter
-// in ITK is based on the paper by Malladi et al\cite{Malladi1995}.
+// in ITK is based on the paper by Malladi et al \cite{Malladi1995}.
 // In this implementation, the governing differential equation has an additional
-// curvature based term. This term act as a smoothing term, where areas of
-// high curvature, assumed to be due to noise, is smoothed out. Scaling parameters
-// are used to control the tradeoff between the expansion term and smoothing term.
-// One consequent of this additional curvature term is that the fast marching
-// algorithm is no longer applicable because the contour is no longer guaranteed
-// to be always expanding. Instead, the level set function is updated iteratively.
+// curvature-based term. This term act as a smoothing term where areas of
+// high curvature, assumed to be due to noise, are smoothed out. Scaling parameters
+// are used to control the tradeoff between the expansion term and the smoothing term.
+// One consequence of this additional curvature term is that the fast marching
+// algorithm is no longer applicable, because the contour is no longer guaranteed
+// to always be expanding. Instead, the level set function is updated iteratively.
 //
 // The \doxygen{ShapeDetectionLevelSetImageFilter} expects two inputs, 
-// the first is an initial Level Set in the form of an
-// \doxygen{Image}, the second input is an feature image. For this algorithm,
+// the first being an initial Level Set in the form of an
+// \doxygen{Image}, and the second being a feature image. For this algorithm,
 // the feature image is an edge potential image that basically
 // follows the same rules applicable to the speed image used for the
 // \doxygen{FastMarchingImageFilter} discussed in
@@ -39,32 +39,33 @@
 // In this example we use an \doxygen{FastMarchingImageFilter} for producing
 // the initial LevelSet as the distance function to a set of user-provided
 // seeds. The \doxygen{FastMarchingImageFilter} is run with its option for a
-// constant speed value which allows to use this filter as a distance map
+// constant speed value which allows us to use this filter as a distance map
 // calculator.
 //
 // \begin{figure} \center
 // \includegraphics[width=15cm]{ShapeDetectionCollaborationDiagram1.eps}
 // \caption[ShapeDetectionLevelSetImageFilter collaboration diagram]{Collaboration
-// diagram of the ShapeDetectionLevelSetImageFilter applied to a segmentation task.}
+// diagram for the ShapeDetectionLevelSetImageFilter applied to a segmentation task.}
 // \label{fig:ShapeDetectionCollaborationDiagram}
 // \end{figure}
 //
 // Figure~\ref{fig:ShapeDetectionCollaborationDiagram} shows the major
 // components involved in the application of the
-// \doxygen{ShapeDetectionLevelSetImageFilter} to a segmentation task. It involves a
-// first stage of smoothing using the
-// \doxygen{CurvatureAnisotropicDiffusionImageFilter}. The smoothed image is
-// passed as the input for the
-// \doxygen{GradientMagnitudeRecursiveGaussianImageFilter} and then to the
-// \doxygen{SigmoidImageFilter} in order to produce the Edge Potential image.
-// A set of user-provided seeds are passed to a
-// \doxygen{FastMarchingImageFilter} in order to compute their distance map. A
-// constant value is subtracted from this map in order to obtain a Level Set in
-// which the \emph{Zero Set} represents the initial contour. This level set is
-// also passed as input to the \doxygen{ShapeDetectionLevelSetImageFilter}.
+// \doxygen{ShapeDetectionLevelSetImageFilter} to a segmentation
+// task. The first stage involves smoothing using the
+// \doxygen{CurvatureAnisotropicDiffusionImageFilter}. The smoothed
+// image is passed as the input for the
+// \doxygen{GradientMagnitudeRecursiveGaussianImageFilter} and then to
+// the \doxygen{SigmoidImageFilter} in order to produce the edge
+// potential image.  A set of user-provided seeds is passed to an
+// \doxygen{FastMarchingImageFilter} in order to compute the
+// distance map. A constant value is subtracted from this map in order
+// to obtain a level set in which the \emph{zero set} represents the
+// initial contour. This level set is also passed as input to the
+// \doxygen{ShapeDetectionLevelSetImageFilter}.
 // 
-// Finally the LevelSet at the output of the
-// \doxygen{ShapeDetectionLevelSetImageFilter} is passed to a
+// Finally, the level set at the output of the
+// \doxygen{ShapeDetectionLevelSetImageFilter} is passed to an
 // \doxygen{BinaryThresholdImageFilter} in order to produce a binary mask
 // representing the segmented object.
 //
@@ -81,7 +82,7 @@
 
 //  Software Guide : BeginLatex
 //
-// The edge potential map is generated using these filter as per the previous 
+// The edge potential map is generated using these filters as in the previous 
 // example.
 //
 //  Software Guide : EndLatex 
@@ -106,8 +107,8 @@
 
 //  Software Guide : BeginLatex
 //  
-//  The LevelSet resulting from the \doxygen{ShapeDetectionLevelSetImageFilter} will
-//  be thresholded at the Zero level in order to get a binary image
+//  The level set resulting from the \doxygen{ShapeDetectionLevelSetImageFilter} will
+//  be thresholded at the zero level in order to get a binary image
 //  representing the segmented object. The \doxygen{BinaryThresholdImageFilter}
 //  is used for this purpose.
 //
@@ -155,7 +156,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  We declare now the image type using a pixel type and a particular
+  //  We now declare the image type using a pixel type and a particular
   //  dimension. In this case the \code{float} type is used for the pixels due
   //  to the requirements of the smoothing filter. 
   //
@@ -174,7 +175,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  The output image, on the other hand, is selected to be binary.
+  //  The output image, on the other hand, is declared to be binary.
   //
   //  Software Guide : EndLatex 
 
@@ -209,11 +210,11 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The upper threshold of the \doxygen{BinaryThresholdImageFilter} is set up
+  //  The upper threshold of the \doxygen{BinaryThresholdImageFilter} is set
   //  to $0.0$ in order to display the zero set of the resulting level
   //  set. The lower threshold is set to a large negative number in order to
-  //  ensure that all the interior of the segmented object will appear in the
-  //  inside of the binary region.
+  //  ensure that the interior of the segmented object will appear
+  //  inside the binary region.
   //
   //  Software Guide : EndLatex 
 
@@ -321,8 +322,8 @@ int main( int argc, char *argv[] )
   //  The minimum and maximum values of the \doxygen{SigmoidImageFilter} output
   //  are defined with the methods \code{SetOutputMinimum()} and
   //  \code{SetOutputMaximum()}. In our case, we want these two values to be
-  //  $0.0$ and $1.0$ respectively in order to get a nice speed image to feed
-  //  the \code{FastMarchingImageFilter}. Additional details on the user of the
+  //  $0.0$ and $1.0$ respectively in order to get a nice speed image to feed to
+  //  the \code{FastMarchingImageFilter}. Additional details on the use of the
   //  \doxygen{SigmoidImageFilter} are presented in
   //  section~\ref{sec:IntensityNonLinearMapping}.
   //
@@ -338,7 +339,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  We declare now the type of the \doxygen{FastMarchingImageFilter} that
+  //  We now declare the type of the \doxygen{FastMarchingImageFilter} that
   //  will be used to generate the initial level set in the form of a distance
   //  map.
   //
@@ -356,7 +357,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  then, we  construct one filter of this class using the \code{New()} method. 
+  //  Then, we  construct one filter of this class using the \code{New()} method. 
   //
   //  Software Guide : EndLatex 
 
@@ -415,7 +416,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  The \doxygen{CurvatureAnisotropicDiffusionImageFilter} requires a couple
-  //  of parameter to be defined. The following are typical values for $2D$
+  //  of parameters to be defined. The following are typical values for $2D$
   //  images. However they may have to be adjusted depending on the amount of
   //  noise present in the input image. This filter has been discussed in
   //  section~\ref{sec:GradientAnisotropicDiffusionImageFilter}.
@@ -434,7 +435,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  The \doxygen{GradientMagnitudeRecursiveGaussianImageFilter} performs the
-  //  equivalent of a convolution with a Gaussian kernel, followed by a
+  //  equivalent of a convolution with a Gaussian kernel followed by a
   //  derivative operator. The sigma of this Gaussian can be used to control
   //  the range of influence of the image edges. This filter has been discussed
   //  in section~\ref{sec:GradientMagnitudeRecursiveGaussianImageFilter}
@@ -454,7 +455,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  The \doxygen{SigmoidImageFilter} requires two parameters that define the
-  //  linear transformation to be applied to the sigmoid argument. This
+  //  linear transformation to be applied to the sigmoid argument. These
   //  parameters have been discussed in sections~\ref{sec:IntensityNonLinearMapping}
   //  and \ref{sec:FastMarchingImageFilter}.
   //
@@ -478,12 +479,12 @@ int main( int argc, char *argv[] )
   //  point from which the level set will be generated. The user can actually
   //  pass not only one seed point but a set of them. Note the
   //  \doxygen{FastMarchingImageFilter} is used here only as a helper in the
-  //  determination of an initial Level Set. We could have used the
+  //  determination of an initial level set. We could have used the
   //  \doxygen{DanielssonDistanceMapImageFilter} in the same way.
   //
   //  \index{itk::FastMarchingImageFilter!Multiple seeds}
   //
-  //  The seeds are passed stored in a container. The type of this
+  //  The seeds are stored in a container. The type of this
   //  container is defined as \code{NodeContainer} among the
   //  \doxygen{FastMarchingImageFilter} traits.
   //
@@ -510,15 +511,15 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  Nodes are created as stack variables and initialized with a value and an
-  //  \doxygen{Index} position. Note that here we assign the value of minus the
+  //  \doxygen{Index} position. Note that we assign the negative of the value of the
   //  user-provided distance to the unique node of the seeds passed to the
   //  \doxygen{FastMarchingImageFilter}. In this way, the value will increment
   //  as the front is propagated, until it reaches the zero value corresponding
   //  to the contour. After this, the front will continue propagating until it
-  //  fills up the entire image. The initial distance is taken here from the
+  //  fills up the entire image. The initial distance is taken from the
   //  command line arguments. The rule of thumb for the user is to select this
-  //  value as the distance from the seed points at which he want the initial
-  //  contour to be.
+  //  value as the distance from the seed points at which the initial
+  //  contour should be.
   //
   //  \index{itk::FastMarchingImageFilter!Seed initialization}
   //
@@ -540,7 +541,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  The list of nodes is initialized and then every node is inserted using
-  //  the \code{InsertElement()}.
+  //  \code{InsertElement()}.
   //
   //  Software Guide : EndLatex 
 
@@ -555,7 +556,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The set of seed nodes is passed now to the
+  //  The set of seed nodes is now passed to the
   //  \doxygen{FastMarchingImageFilter} with the method
   //  \code{SetTrialPoints()}.
   //
@@ -572,9 +573,9 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  Since the \doxygen{FastMarchingImageFilter} is used here just as a
-  //  distance map generator. It does not require a speed image as input.
-  //  Instead the constant value $1.0$ is passed using the
+  //  Since the \doxygen{FastMarchingImageFilter} is used here only as a
+  //  distance map generator, it does not require a speed image as input.
+  //  Instead, the constant value $1.0$ is passed using the
   //  \code{SetSpeedConstant()} method.
   //
   //  Software Guide : EndLatex 
@@ -639,7 +640,7 @@ int main( int argc, char *argv[] )
   //  size of the image to be produced as output. This is done using the
   //  \code{SetOutputSize()}. Note that the size is obtained here from the
   //  output image of the smoothing filter. The size of this image is valid
-  //  only after the \code{Update()} methods of this filter has been called
+  //  only after the \code{Update()} methods of this filter have been called
   //  directly or indirectly.
   //
   //  Software Guide : EndLatex 
@@ -659,7 +660,7 @@ int main( int argc, char *argv[] )
   //  the two terms. In this example, we will set the propagation scaling to one
   //  and let the curvature scaling be an input argument. The larger the 
   //  the curvature scaling parameter the smoother the resulting segmentation.
-  //  However, the curvature scaling parameter should not be set too large either
+  //  However, the curvature scaling parameter should not be set too large, 
   //  as it will draw the contour away from the shape boundaries.
   //
   //  \index{itk::ShapeDetectionLevelSetImageFilter!SetPropagationScaling()}
@@ -680,13 +681,13 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //  
-  //  Once activiated the level set evolution stop if the convergence criteria has
+  //  Once activated, the level set evolution will stop if the convergence criteria have
   //  been reached or if the maximum number of iterations has elasped.
-  //  The convergence criteria is defined in terms of the root mean squared (RMS)
+  //  The convergence criteria are defined in terms of the root mean squared (RMS)
   //  change in the level set function. The evolution is said to have converged
-  //  if the RMS change is below a user specified threshold.
-  //  In a real application is desirable to couple the evolution of the
-  //  zero set to a visualization module allowing the user to follow the
+  //  if the RMS change is below a user-specified threshold.
+  //  In a real application, it is desirable to couple the evolution of the
+  //  zero set to a visualization module, allowing the user to follow the
   //  evolution of the zero set. With this feedback, the user may decide when
   //  to stop the algorithm before the zero set leaks through the regions of
   //  low gradient in the contour of the anatomical structure to be segmented.
@@ -707,9 +708,9 @@ int main( int argc, char *argv[] )
   
   //  Software Guide : BeginLatex
   //  
-  //  The invokation of the \code{Update()} method on the writer triggers the
+  //  The invocation of the \code{Update()} method on the writer triggers the
   //  execution of the pipeline.  As usual, the call is placed in a
-  //  \code{try/catch} block should any errors ocurr and exceptions are thrown.
+  //  \code{try/catch} block should any errors occur or exceptions be thrown.
   //
   //  Software Guide : EndLatex 
 
@@ -784,13 +785,13 @@ int main( int argc, char *argv[] )
   //  Figure~\ref{fig:ShapeDetectionLevelSetFilterOutput} presents the
   //  intermediate outputs of the pipeline illustrated in
   //  Figure~\ref{fig:ShapeDetectionCollaborationDiagram}. They are from left
-  //  to right: the output of the anisotropic diffusing filter, the gradient
+  //  to right: the output of the anisotropic diffusion filter, the gradient
   //  magnitude of the smoothed image and the sigmoid of the gradient magnitude
   //  which is finally used as the edge potential for the
   //  \doxygen{ShapeDetectionLevelSetImageFilter}.
   //
   //  Notice that in Figure~\ref{fig:ShapeDetectionLevelSetFilterOutput2} the
-  //  segmented shapes are rounder than the results in
+  //  segmented shapes are rounder than in
   //  Figure~\ref{fig:FastMarchingImageFilterOutput2} due to the effects of the
   //  curvature term in the driving equation. As with the previous example,
   //  segmentation of the gray matter is still problematic.
@@ -815,7 +816,7 @@ int main( int argc, char *argv[] )
   //  many seed points in the initialization of the
   //  \doxygen{FastMarchingImageFilter}. This will generate an initial level
   //  set much closer in shape to the object to be segmented and hence
-  //  requiring less iterations to fill in and reach out the edges of the
+  //  require fewer iterations to fill and reach the edges of the
   //  anatomical structure.
   //
   //
