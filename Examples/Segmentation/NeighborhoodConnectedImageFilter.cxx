@@ -176,7 +176,7 @@ int main( int argc, char **argv )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  ConnectedFilterType::Pointer neigborhoodConnected = ConnectedFilterType::New();
+  ConnectedFilterType::Pointer neighborhoodConnected = ConnectedFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -194,9 +194,9 @@ int main( int argc, char **argv )
   // Software Guide : BeginCodeSnippet
   smoothing->SetInput( reader->GetOutput() );
 
-  neigborhoodConnected->SetInput( smoothing->GetOutput() );
+  neighborhoodConnected->SetInput( smoothing->GetOutput() );
 
-  caster->SetInput( neigborhoodConnected->GetOutput() );
+  caster->SetInput( neighborhoodConnected->GetOutput() );
 
   writer->SetInput( caster->GetOutput() );
   // Software Guide : EndCodeSnippet
@@ -239,8 +239,8 @@ int main( int argc, char **argv )
   const InternalPixelType upperThreshold = atof( argv[6] );
 
   // Software Guide : BeginCodeSnippet
-  neigborhoodConnected->SetLower(  lowerThreshold  );
-  neigborhoodConnected->SetUpper(  upperThreshold  );
+  neighborhoodConnected->SetLower(  lowerThreshold  );
+  neighborhoodConnected->SetUpper(  upperThreshold  );
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -260,7 +260,7 @@ int main( int argc, char **argv )
   radius[0] = 2;   // two pixels along X 
   radius[1] = 2;   // two pixels along Y 
 
-  neigborhoodConnected->SetRadius( radius );
+  neighborhoodConnected->SetRadius( radius );
   // Software Guide : EndCodeSnippet
 
 
@@ -282,8 +282,8 @@ int main( int argc, char **argv )
 
 
   // Software Guide : BeginCodeSnippet
-  neigborhoodConnected->SetSeed( index );
-  neigborhoodConnected->SetReplaceValue( 255 );
+  neighborhoodConnected->SetSeed( index );
+  neighborhoodConnected->SetReplaceValue( 255 );
   // Software Guide : EndCodeSnippet
  
 
