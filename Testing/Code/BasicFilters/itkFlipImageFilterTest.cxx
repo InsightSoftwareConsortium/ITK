@@ -115,6 +115,9 @@ int itkFlipImageFilterTest(int, char**)
   const double * outputSpacing = outputImage->GetSpacing();
   const double * outputOrigin  = outputImage->GetOrigin();
 
+  inputImage->Print( std::cout );
+  outputImage->Print( std::cout );
+
   typedef ImageType::IndexType IndexType;
   typedef IndexType::IndexValueType IndexValueType;
 
@@ -132,8 +135,8 @@ int itkFlipImageFilterTest(int, char**)
         {
         double temp = - 1 * ( static_cast<double>( inputIndex[j] ) * 
            inputSpacing[j] + inputOrigin[j]);
-        outputIndex[j] = static_cast<IndexValueType>( ( temp - outputOrigin[j] ) / 
-           outputSpacing[j] );
+        outputIndex[j] = static_cast<IndexValueType>( vnl_math_rnd(( temp - outputOrigin[j] ) / 
+           outputSpacing[j] ) );
         }
       else
         {
@@ -144,7 +147,8 @@ int itkFlipImageFilterTest(int, char**)
     if ( inputIter.Get() != outputImage->GetPixel( outputIndex ) )
       {
       passed = false;
-      std::cout << "Mismatch at index: " << inputIndex << std::endl;
+      std::cout << "Mismatch at index: " << inputIndex;
+      std::cout << " " << outputIndex << std::endl;
       }
 
     ++inputIter;
