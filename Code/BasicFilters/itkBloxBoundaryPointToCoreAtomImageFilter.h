@@ -102,7 +102,6 @@ public:
   itkSetMacro(DistanceMax, double);
   itkSetMacro(Epsilon, double);
   itkSetMacro(Polarity, bool);
-  itkGetMacro(NumCoreAtoms, unsigned long int);
 
   /** Overload of base class function to generate input region */
   void GenerateInputRequestedRegion();

@@ -31,7 +31,6 @@ BloxBoundaryPointToCoreAtomImageFilter< dim >
 {
   itkDebugMacro(<< "BloxBoundaryPointToCoreAtomImageFilter::BloxBoundaryPointToCoreAtomImageFilter() called");
 
-  m_NumCoreAtoms = 0;
   m_DistanceMin = 8;
   m_DistanceMax = 12;
   m_Epsilon = 0;
@@ -99,11 +98,7 @@ BloxBoundaryPointToCoreAtomImageFilter< dim >
   for(bloxIt.GoToBegin(); !bloxIt.IsAtEnd(); ++bloxIt)
     {
     ( &bloxIt.Value() )->CalcMeanCoreAtomDiameter();
-    }
-
-  itkDebugMacro(<< "Finished looking for core atoms\n"
-                << "I found " << m_NumCoreAtoms << " core atoms\n");
-  
+    }  
 }
 
 template< unsigned int dim >
