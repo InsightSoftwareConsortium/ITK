@@ -1,41 +1,51 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkDirectory.cxx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+
+  Copyright (c) 2000 National Library of Medicine
+  All rights reserved.
+
+  See COPYRIGHT.txt for copyright details.
+
+=========================================================================*/
 #include "itkDirectory.h"
 
 itkDirectory::itkDirectory() 
-  :NumberOfFiles(0), Files(0), Path(0)
+  :m_NumberOfFiles(0), Files(0), Path(0)
 {
 }
-
-
 
 itkDirectory::~itkDirectory() 
 {
-  for(int i =0; i < this->NumberOfFiles; i++)
+  for ( int i =0; i < m_NumberOfFiles; i++ )
     {
-    delete [] this->Files[i];
+    delete [] m_Files[i];
     }
-  delete [] this->Files;
+  delete [] m_Files;
 }
-
-
 
 void itkDirectory::PrintSelf(std::ostream& os, itkIndent indent)
 { 
   itkObject::PrintSelf(os, indent);
-  if(!this->Path)
+  if ( !m_Path )
     {
     os << indent << "Directory not open\n";
     return;
     }
   
-  os << indent << "Directory for: " <<  this->Path << "\n";
+  os << indent << "Directory for: " <<  m_Path << "\n";
   os << indent << "Contains the following files:\n";
   indent = indent.GetNextIndent();
-  for(int i =0; i < this->NumberOfFiles; i++)
+  for ( int i =0; i < m_NumberOfFiles; i++ )
     {
-    os << indent << this->Files[i] << "\n";
+    os << indent << m_Files[i] << "\n";
     }
 }
-
 
 // First microsoft compilers
 
@@ -54,7 +64,7 @@ bool itkDirectory::Load(const char* name)
 {
   char* buf;
   int n = strlen(name);
-  if (name[n - 1] == '/') 
+  if ( name[n - 1] == '/' ) 
     {
     buf = new char[n + 1 + 1];
     sprintf(buf, "%s*", name);
@@ -68,27 +78,27 @@ bool itkDirectory::Load(const char* name)
   
   // First count the number of files in the directory
   long srchHandle = _findfirst(buf, &data);
-  if (srchHandle == -1)
+  if ( srchHandle == -1 )
     {
     cerr << "can't open directory " << buf << endl;
-    this->NumberOfFiles = 0;
+    m_NumberOfFiles = 0;
     return 0;
     }
   
-  this->NumberOfFiles = 1;
-  while(_findnext(srchHandle, &data) != -1)
+  m_NumberOfFiles = 1;
+  while ( _findnext(srchHandle, &data) != -1 )
     {
-    this->NumberOfFiles++;
+    m_NumberOfFiles++;
     }
-  this->Files = new char*[this->NumberOfFiles];
+  m_Files = new char*[m_NumberOfFiles];
 
   // Now put them into the file array
   srchHandle = _findfirst(buf, &data);
   delete [] buf;
   
-  if (srchHandle == -1)
+  if ( srchHandle == -1 )
     {
-    this->NumberOfFiles = 0;
+    m_NumberOfFiles = 0;
     return 0;
     }
   
@@ -96,11 +106,11 @@ bool itkDirectory::Load(const char* name)
   int i = 0;
   do 
     {
-    this->Files[i] = strcpy(new char[strlen(data.name)+1], data.name);
+    m_Files[i] = strcpy(new char[strlen(data.name)+1], data.name);
     i++;
     } 
-  while (_findnext(srchHandle, &data) != -1);
-  this->Path = strcpy(new char[strlen(name)+1], name);
+  while ( _findnext(srchHandle, &data) != -1 );
+  m_Path = strcpy(new char[strlen(name)+1], name);
   return _findclose(srchHandle) != -1;
 }
 
@@ -114,25 +124,29 @@ bool itkDirectory::Load(const char* name)
 int itkDirectory::Open(const char* name)
 {
   DIR* dir = opendir(name);
-  if (!dir) return 0;
-  this->NumberOfFiles = 0;
+  if ( !dir ) 
+    {
+    return 0;
+    }
+  
+  m_NumberOfFiles = 0;
   dirent* d =0;
   
-  for (d = readdir(dir); d; d = readdir(dir))
+  for ( d = readdir(dir); d; d = readdir(dir) )
     {
-    this->NumberOfFiles++;
+    m_NumberOfFiles++;
     }
-  this->Files = new char*[this->NumberOfFiles];
+  m_Files = new char*[m_NumberOfFiles];
   closedir(dir);
   
   dir = opendir(name);
   int i = 0;
-  for (d = readdir(dir); d; d = readdir(dir))
+  for ( d = readdir(dir); d; d = readdir(dir) )
     {
-    this->Files[i] = strcpy(new char[strlen(d->d_name)+1], d->d_name);
+    m_Files[i] = strcpy(new char[strlen(d->d_name)+1], d->d_name);
     i++;
     }
-  this->Path = strcpy(new char[strlen(name)+1], name);
+  m_Path = strcpy(new char[strlen(name)+1], name);
   return 1;
 }
 
@@ -141,12 +155,12 @@ int itkDirectory::Open(const char* name)
 
 const char* itkDirectory::GetFile(int index)
 {
-  if(index >= this->NumberOfFiles || index < 0)
+  if ( index >= m_NumberOfFiles || index < 0 )
     {
     itkErrorMacro( << "Bad index for GetFile on itkDirectory\n");
     return 0;
     }
   
-  return this->Files[index];
+  return m_Files[index];
 }
 
