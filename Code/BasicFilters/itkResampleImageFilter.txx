@@ -214,11 +214,7 @@ ResampleImageFilter<TInputImage,TOutputImage>
     {
     // Determine the index of the current output pixel
     outputIndex = outIt.GetIndex();
-    for (unsigned int ii = 0; ii < ImageDimension; ++ii)
-      {
-      outputPoint[ii] = (double) outputIndex[ii] * m_OutputSpacing[ii] + 
-        m_OutputOrigin[ii];
-      }
+    outputPtr->TransformIndexToPhysicalPoint( outputIndex, outputPoint );
 
     // Compute corresponding input pixel position
     inputPoint = m_Transform->TransformPoint(outputPoint);
