@@ -157,7 +157,7 @@ private:
    * Achieves the goal of training the classifier. */
   virtual void EstimateModels();
 
-  void EstimateGaussianModelPrameters();
+  void EstimateGaussianModelParameters();
 
 }; // class ImageGaussianModelEstimator
 

@@ -127,7 +127,7 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>
   // class statistics are calculated simultaneously here.
   //-------------------------------------------------------------------
 
-  this->EstimateGaussianModelPrameters();
+  this->EstimateGaussianModelParameters();
 
   //-------------------------------------------------------------------
   // Populate the membership functions for all the classes
@@ -160,7 +160,7 @@ template<class TInputImage,
          class TTrainingImage>
 void 
 ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>
-::EstimateGaussianModelPrameters()
+::EstimateGaussianModelParameters()
 {
 
   // Set the iterators and the pixel type definition for the input image
@@ -301,7 +301,7 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>
       }// end if loop
     }// end class index loop
 
-}// end EstimateGaussianModelPrameters
+}// end EstimateGaussianModelParameters
 
 } // namespace itk
 

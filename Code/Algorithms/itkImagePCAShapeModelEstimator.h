@@ -179,7 +179,7 @@ private:
 
   virtual void EstimateShapeModels();
 
-  void EstimatePCAShapeModelPrameters();
+  void EstimatePCAShapeModelParameters();
 
   void CalculateInnerProduct();
 

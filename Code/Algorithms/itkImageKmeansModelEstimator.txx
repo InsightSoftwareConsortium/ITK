@@ -246,7 +246,7 @@ void
 ImageKmeansModelEstimator<TInputImage, TMembershipFunction>
 ::EstimateModels()
 {
-  this->EstimateKmeansModelPrameters();
+  this->EstimateKmeansModelParameters();
 
   //-------------------------------------------------------------------
   // Set up the membership calculators
@@ -295,7 +295,7 @@ template<class TInputImage,
          class TMembershipFunction>
 void 
 ImageKmeansModelEstimator<TInputImage, TMembershipFunction>
-::EstimateKmeansModelPrameters()
+::EstimateKmeansModelParameters()
 {
 
   //If a codebook is provided by the user then call the 
@@ -319,7 +319,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>
 
   m_ValidInCodebook = false;
 
-}// end EstimateKmeansModelPrameters
+}// end EstimateKmeansModelParameters
 
 //-----------------------------------------------------------------
 template<class TInputImage,  

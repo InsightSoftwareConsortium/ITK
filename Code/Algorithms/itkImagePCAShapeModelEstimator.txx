@@ -319,7 +319,7 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>
 
   this->CalculateInnerProduct();
 
-  this->EstimatePCAShapeModelPrameters(); 
+  this->EstimatePCAShapeModelParameters(); 
 
 }// end EstimateShapeModels 
 
@@ -453,7 +453,7 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>
 template<class TInputImage, class TOutputImage>
 void 
 ImagePCAShapeModelEstimator<TInputImage, TOutputImage>
-::EstimatePCAShapeModelPrameters()
+::EstimatePCAShapeModelParameters()
 {
 
   MatrixOfDoubleType identityMatrix( m_NumberOfTrainingImages, m_NumberOfTrainingImages );
@@ -512,7 +512,7 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>
   m_EigenVectorNormalizedEnergy.normalize();
 
 
-}// end EstimatePCAShapeModelPrameters
+}// end EstimatePCAShapeModelParameters
 
 //-----------------------------------------------------------------
 

@@ -232,7 +232,7 @@ private:
 
   virtual void EstimateModels();
 
-  void EstimateKmeansModelPrameters();
+  void EstimateKmeansModelParameters();
 
   typedef typename TInputImage::SizeType ImageSizeType;
 
