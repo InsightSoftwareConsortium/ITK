@@ -89,8 +89,8 @@ template< class TMeasurement, unsigned int VMeasurementVectorSize,
           class TFrequencyContainer>
 void 
 Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
-::Initialize(const SizeType &size, MeasurementVectorType lowerBound,
-             MeasurementVectorType upperBound)
+::Initialize(const SizeType &size, MeasurementVectorType& lowerBound,
+             MeasurementVectorType& upperBound)
 {
   this->Initialize(size) ;
 
@@ -116,7 +116,7 @@ template< class TMeasurement, unsigned int VMeasurementVectorSize,
           class TFrequencyContainer>
 inline typename Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>::IndexType&
 Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
-::GetIndex(const MeasurementVectorType &measurement)
+::GetIndex(const MeasurementVectorType& measurement)
 {
   // now using somthing similar to binary search to find
   // index.
@@ -351,7 +351,7 @@ Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 template< class TMeasurement, unsigned int VMeasurementVectorSize, 
           class TFrequencyContainer >
 inline typename Histogram< TMeasurement, VMeasurementVectorSize, 
-                           TFrequencyContainer >::MeasurementVectorType&
+                           TFrequencyContainer >::MeasurementVectorType
 Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 ::GetMeasurementVector(const IndexType &index) 
 {
@@ -365,7 +365,7 @@ Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 template< class TMeasurement, unsigned int VMeasurementVectorSize, 
           class TFrequencyContainer >
 inline typename Histogram< TMeasurement, VMeasurementVectorSize, 
-                           TFrequencyContainer >::MeasurementVectorType&
+                           TFrequencyContainer >::MeasurementVectorType
 Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 ::GetMeasurementVector(const InstanceIdentifier &id)
 {
