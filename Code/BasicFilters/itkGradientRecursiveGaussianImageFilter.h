@@ -96,6 +96,7 @@ public:
 protected:
   GradientRecursiveGaussianImageFilter();
   virtual ~GradientRecursiveGaussianImageFilter() {};
+  void PrintSelf(std::ostream& os, Indent indent) const;
   
   /** Generate Data */
   void GenerateData( void );

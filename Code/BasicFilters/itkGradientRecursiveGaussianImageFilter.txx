@@ -162,6 +162,16 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage >
 }
 
 
+template <typename TInputImage, typename TOutputImage>
+void
+GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+  os << "NormalizeAcrossScale: " << m_NormalizeAcrossScale << std::endl;
+}
+
+
 } // end namespace itk
 
 #endif
