@@ -46,45 +46,36 @@
 
 // For GetMACAddress
 #ifdef _WIN32
-#include <snmp.h>
-#include <conio.h>
+   #include <snmp.h>
+   #include <conio.h>
 #else
-#include <unistd.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/types.h>
+   #include <unistd.h>
+   #include <stdlib.h>
+   #include <string.h>
+   #include <sys/types.h>
 #endif
-
-// How do I do that in CMake ?
-#ifdef __APPLE__
-#define HAVE_SA_LEN
-#define CMAKE_HAVE_NET_IF_DL_H
-#define CMAKE_HAVE_NETINET_IN_H
-#define CMAKE_HAVE_NET_IF_H
-#endif //APPLE
 
 #ifdef CMAKE_HAVE_SYS_IOCTL_H
-#include <sys/ioctl.h>  // For SIOCGIFCONF on Linux
+   #include <sys/ioctl.h>  // For SIOCGIFCONF on Linux
 #endif
 #ifdef CMAKE_HAVE_SYS_SOCKET_H
-#include <sys/socket.h>
+   #include <sys/socket.h>
 #endif
 #ifdef CMAKE_HAVE_SYS_SOCKIO_H
-#include <sys/sockio.h>  // For SIOCGIFCONF on SunOS
+   #include <sys/sockio.h>  // For SIOCGIFCONF on SunOS
 #endif
 #ifdef CMAKE_HAVE_NET_IF_H
-#include <net/if.h>
+   #include <net/if.h>
 #endif
 #ifdef CMAKE_HAVE_NETINET_IN_H
-#include <netinet/in.h>   //For IPPROTO_IP
+   #include <netinet/in.h>   //For IPPROTO_IP
 #endif
 #ifdef CMAKE_HAVE_NET_IF_DL_H
-#include <net/if_dl.h>
+   #include <net/if_dl.h>
 #endif
-#ifdef __sun
-//#if defined(CMAKE_HAVE_NET_IF_ARP_H) && defined(__sun)
-// This is absolutely necesseray on SunOS
-#include <net/if_arp.h>
+#if defined(CMAKE_HAVE_NET_IF_ARP_H) && defined(__sun)
+   // This is absolutely necessary on SunOS
+   #include <net/if_arp.h>
 #endif
 
 // For GetCurrentThreadID()
@@ -99,7 +90,6 @@
 namespace gdcm 
 {
 /**
- * \ingroup Globals
  * \brief Provide a better 'c++' approach for sprintf
  * For example c code is:
  * sprintf(trash, "%04x|%04x", group , elem);
@@ -129,7 +119,6 @@ std::string Util::Format(const char *format, ...)
 
 
 /**
- * \ingroup Globals
  * \brief Because not available in C++ (?)
  */
 void Util::Tokenize (const std::string &str,
@@ -147,7 +136,6 @@ void Util::Tokenize (const std::string &str,
 }
 
 /**
- * \ingroup Globals
  * \brief Because not available in C++ (?)
  *        Counts the number of occurences of a substring within a string
  */
@@ -173,7 +161,6 @@ int Util::CountSubstring (const std::string &str,
 }
 
 /**
- * \ingroup Globals
  * \brief  Weed out a string from the non-printable characters (in order
  *         to avoid corrupting the terminal of invocation when printing)
  * @param s string to remove non printable characters from
@@ -205,7 +192,6 @@ std::string Util::CreateCleanString(std::string const &s)
 }
 
 /**
- * \ingroup Globals
  * \brief   Add a SEPARATOR to the end of the name is necessary
  * @param   pathname file/directory name to normalize 
  */
@@ -225,7 +211,6 @@ std::string Util::NormalizePath(std::string const &pathname)
 }
 
 /**
- * \ingroup Globals
  * \brief   Get the (directory) path from a full path file name
  * @param   fullName file/directory name to extract Path from
  */
@@ -247,7 +232,6 @@ std::string Util::GetPath(std::string const &fullName)
 }
 
 /**
- * \ingroup Util
  * \brief   Get the (last) name of a full path file name
  * @param   fullName file/directory name to extract end name from
  */
@@ -269,7 +253,6 @@ std::string Util::GetName(std::string const &fullName)
 } 
 
 /**
- * \ingroup Util
  * \brief   Get the current date of the system in a dicom string
  */
 std::string Util::GetCurrentDate()
@@ -282,7 +265,6 @@ std::string Util::GetCurrentDate()
 }
 
 /**
- * \ingroup Util
  * \brief   Get the current time of the system in a dicom string
  */
 std::string Util::GetCurrentTime()
@@ -294,6 +276,10 @@ std::string Util::GetCurrentTime()
     return tmp;  
 }
 
+/**
+ * \brief  Get both the date and time at the same time to avoid problem 
+ * around midnight where two call could be before and after midnight
+ */
 std::string Util::GetCurrentDateTime()
 {
    char tmp[40];
@@ -341,7 +327,6 @@ std::string Util::DicomString(const char *s, size_t l)
 }
 
 /**
- * \ingroup Util
  * \brief Create a /DICOM/ string:
  * It should a of even lenght (no odd length ever)
  * It can contain as many (if you are reading this from your
@@ -365,7 +350,6 @@ std::string Util::DicomString(const char *s)
 }
 
 /**
- * \ingroup Util
  * \brief Safely compare two Dicom String:
  *        - Both string should be of even lenght
  *        - We allow padding of even lenght string by either a null 
@@ -491,7 +475,6 @@ int GetMacAddrSys ( unsigned char *addr )
       {
          j++;
          dtmp = varBind[0].value.asnValue.number;
-         //std::cerr << "Interface #" << j << " type : " << dtmp << std::endl;
 
          // Type 6 describes ethernet interfaces
          if (dtmp == 6)
@@ -669,7 +652,7 @@ int GetMacAddrSys ( unsigned char *addr )
 }
 
 /**
- * \brief Encode the mac address on a fixed lenght string of 10 characters.
+ * \brief Encode the mac address on a fixed lenght string of 15 characters.
  * we save space this way.
  */
 std::string Util::GetMACAddress()
@@ -681,11 +664,12 @@ std::string Util::GetMACAddress()
    // http://bdn.borland.com/article/0,1410,26040,00.html
    union dual { uint64_t n; unsigned char addr[6];  };
  
-  // zero-initialize the whole thing first:
+   // zero-initialize the whole thing first:
    dual d = { 0 };
    int stat = GetMacAddrSys(d.addr);
    if (stat == 0)
    {
+      // fill with zero to fit on 15 bytes.
       return Format("%015llu", d.n);
    }
    else
@@ -696,7 +680,6 @@ std::string Util::GetMACAddress()
 }
 
 /**
- * \ingroup Util
  * \brief   Return the IP adress of the machine writting the DICOM image
  */
 std::string Util::GetIPAddress()
@@ -711,7 +694,7 @@ std::string Util::GetIPAddress()
    // In this case we should maybe check the string was not truncated.
    // But I don't known how to check that...
 #if defined(_MSC_VER) || defined(__BORLANDC__) || defined(__MINGW32__)
-   // with WinSock DLL we need to initialise the WinSock before using gethostname
+   // with WinSock DLL we need to initialize the WinSock before using gethostname
    WORD wVersionRequested = MAKEWORD(1,0);
    WSADATA WSAData;
    int err = WSAStartup(wVersionRequested,&WSAData);
@@ -758,7 +741,6 @@ std::string Util::GetIPAddress()
 }
 
 /**
- * \ingroup Util
  * \brief Creates a new UID. As stipulate in the DICOM ref
  *        each time a DICOM image is create it should have 
  *        a unique identifier (URI)
@@ -807,7 +789,7 @@ unsigned int Util::GetCurrentThreadID()
 #endif
 #ifdef __linux__
    return 0;
-   //doesn't work on fedora:
+   // Doesn't work on fedora, but is in the man page...
    //return (unsigned int)gettid();
 #endif
 #ifdef __sun
@@ -827,12 +809,22 @@ unsigned int Util::GetCurrentProcessID()
 
 }
 
+/**
+ * \brief
+ * @param os ostream to write to
+ * @param val val
+ */ 
 template <class T>
 std::ostream &binary_write(std::ostream &os, const T &val)
 {
    return os.write(reinterpret_cast<const char*>(&val), sizeof val);
 }
 
+/**
+ * \brief binary_write binary_write
+ * @param os ostream to write to 
+ * @param val val
+ */ 
 std::ostream &binary_write(std::ostream &os, const uint16_t &val)
 {
 #ifdef GDCM_WORDS_BIGENDIAN
@@ -844,6 +836,11 @@ std::ostream &binary_write(std::ostream &os, const uint16_t &val)
 #endif //GDCM_WORDS_BIGENDIAN
 }
 
+/**
+ * \brief binary_write binary_write
+ * @param os ostream to write to
+ * @param val val
+ */ 
 std::ostream &binary_write(std::ostream &os, const uint32_t &val)
 {
 #ifdef GDCM_WORDS_BIGENDIAN
@@ -856,11 +853,21 @@ std::ostream &binary_write(std::ostream &os, const uint32_t &val)
 #endif //GDCM_WORDS_BIGENDIAN
 }
 
+/**
+ * \brief  binary_write binary_write
+ * @param os ostream to write to
+ * @param val val
+ */ 
 std::ostream &binary_write(std::ostream &os, const char *val)
 {
    return os.write(val, strlen(val));
 }
 
+/**
+ * \brief
+ * @param os ostream to write to
+ * @param val val
+ */ 
 std::ostream &binary_write(std::ostream &os, std::string const &val)
 {
    return os.write(val.c_str(), val.size());
