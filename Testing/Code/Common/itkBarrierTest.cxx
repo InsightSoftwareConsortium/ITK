@@ -104,6 +104,19 @@ ITK_THREAD_RETURN_TYPE BarrierTestCallback( void *ptr )
   return ITK_THREAD_RETURN_VALUE;
 }
 
+ITK_THREAD_RETURN_TYPE BarrierSpecialTest( void *ptr )
+{
+  BarrierTestUserData *data = static_cast<BarrierTestUserData *>(
+                  ( (itk::MultiThreader::ThreadInfoStruct *)(ptr) )->UserData );
+  
+  for (unsigned int j = 0; j < 1000; j++ )
+    {
+    data->m_FirstBarrier->Wait();
+    }
+  
+  return ITK_THREAD_RETURN_VALUE;
+}
+
 int itkBarrierTest(int, char * [])
 {
   BarrierTestUserData data;
@@ -118,6 +131,10 @@ int itkBarrierTest(int, char * [])
       {
       multithreader->SingleMethodExecute();
       }
+    
+    // perform another test
+    multithreader->SetSingleMethod( BarrierSpecialTest, &data);
+    multithreader->SingleMethodExecute();
     }
   catch (itk::ExceptionObject &e)
     {
