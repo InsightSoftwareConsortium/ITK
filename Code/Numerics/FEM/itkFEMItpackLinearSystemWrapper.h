@@ -438,6 +438,8 @@ public:
 
   virtual void  AddMatrixValue(unsigned int i, unsigned int j, Float value, unsigned int MatrixIndex);
 
+  virtual void GetColumnsOfNonZeroMatrixElementsInRow( unsigned int row, ColumnArray& cols, unsigned int matrixIndex );
+
   virtual Float GetVectorValue(unsigned int i, unsigned int VectorIndex) const;
 
   virtual void  SetVectorValue(unsigned int i, Float value, unsigned int VectorIndex);

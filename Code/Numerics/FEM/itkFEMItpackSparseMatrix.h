@@ -20,6 +20,7 @@
 
 #include "itpack_f2c.h"
 #include "itpack.h"
+#include <vector>
 
 
 namespace itk {
@@ -31,6 +32,10 @@ namespace fem {
  *        use of itpack to dynamically assemble the matrix
  * \sa ItpackLinearSystemWrapper
  */
+
+// Forward declaration of friend class
+class ItpackLinearSystemWrapper;
+  
 class ItpackSparseMatrix
 {
 public:
@@ -171,6 +176,8 @@ public:
   void PrintCompressedRow();
 
 private:
+
+  friend class ItpackLinearSystemWrapper;
 
   /** initialize matrix */
   void Initialize();

@@ -19,6 +19,7 @@
 #define __itkFEMLinearSystemWrapper_h 
 
 #include "itkFEMSolution.h"
+#include <vector>
 
 namespace itk {
 namespace fem {
@@ -55,6 +56,8 @@ public:
   typedef Self* Pointer;
   /**  Const pointer to an object. */
   typedef const Self* ConstPointer;
+
+  typedef std::vector<unsigned int> ColumnArray;
 
   /**
    * Constructor for linear system, should perform any initialization that
@@ -211,6 +214,20 @@ public:
    * \param MatrixIndex index of matrix to add value to
    */
   virtual void AddMatrixValue(unsigned int i, unsigned int j, Float value, unsigned int matrixIndex = 0) = 0;
+
+  /**
+   * Returns the column index (zero based) of the i-th non zero
+   * (non allocated)element in a given row of A matrix. This function
+   * is usefull for optimizations when sparse matrices are used. Note
+   * that the value of an element with returned column index may actually
+   * be equal zero.
+   * \param row Row number
+   * \param i Which element in that row. Can range from 0 to number of
+   *          elements allocated in a row. If this is out of range, the
+   *          function returns -1.
+   * \param MatrixIndex Index of matrix (defaults to 0)
+   */
+  virtual void GetColumnsOfNonZeroMatrixElementsInRow( unsigned int row, ColumnArray& cols, unsigned int matrixIndex = 0 );
 
   /**
    * Virtual function to get a value of a specific element of the B vector.

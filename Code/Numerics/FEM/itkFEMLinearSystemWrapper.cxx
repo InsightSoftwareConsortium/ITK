@@ -15,6 +15,11 @@
 
 =========================================================================*/
 
+// disable debug warnings in MS compiler
+#ifdef _MSC_VER
+#pragma warning(disable: 4786)
+#endif
+
 #include "itkFEMLinearSystemWrapper.h"
 
 namespace itk {
@@ -119,5 +124,16 @@ void LinearSystemWrapper::MultiplyMatrixVector(unsigned int resultVector, unsign
 }
 
 
-}}
+void LinearSystemWrapper::GetColumnsOfNonZeroMatrixElementsInRow( unsigned int row, ColumnArray& cols, unsigned int matrixIndex )
+{
+  // By default we assume full matrices and return indices of all columns
+  cols=ColumnArray(m_Order);
+  for(unsigned int i=0;i<m_Order;i++)
+  {
+    cols[i]=i;
+  }
+}
 
+
+
+}}

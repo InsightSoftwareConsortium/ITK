@@ -241,6 +241,41 @@ void ItpackLinearSystemWrapper::AddMatrixValue(unsigned int i, unsigned int j, F
   ((*m_Matrices)[matrixIndex]).Add(i,j,value);
 }
 
+
+void ItpackLinearSystemWrapper::GetColumnsOfNonZeroMatrixElementsInRow( unsigned int row, ColumnArray& cols, unsigned int matrixIndex )
+{
+  cols.clear();
+  // FIX ME: error checking
+  if ( (row >= m_Order) || !m_Matrices) throw;
+  if ( matrixIndex >= m_NumberOfMatrices ) throw;
+
+  ItpackSparseMatrix* mat=&(*m_Matrices)[matrixIndex];
+
+  /* Check if matrix is in readable form */
+  if (mat->m_MatrixFinalized )
+  {
+    /* get search bounds in appropriate row */
+    unsigned int lower = mat->m_IA[row]-1;
+    unsigned int upper = mat->m_IA[row+1]-1;
+  
+    for(unsigned int j=lower; j<upper; j++)
+    {
+      cols.push_back(mat->m_JA[j]-1);
+    }
+  }
+  else /* Scan the linked list to obtain the correct indices. */
+  {
+    int wrk=mat->m_IA[row]-1;
+    while(wrk>0)
+    {
+      cols.push_back(mat->m_JA[wrk]-1);
+      wrk=mat->m_IWORK[wrk]-1;
+    }
+  }
+
+}
+
+
 void ItpackLinearSystemWrapper::ScaleMatrix(Float scale, unsigned int matrixIndex)
 {
   // FIX ME: error checking
@@ -290,9 +325,10 @@ void ItpackLinearSystemWrapper::AddVectorValue(unsigned int i, Float value, unsi
 ItpackLinearSystemWrapper::Float ItpackLinearSystemWrapper::GetSolutionValue(unsigned int i, unsigned int solutionIndex) const
 {
   // FIX ME: error checking
-  if ( (i >= m_Order) || !m_Solutions || (solutionIndex >= m_NumberOfSolutions) ) throw;
-  if ( !(*m_Solutions)[solutionIndex] ) throw;
-
+  if ( (i >= m_Order) || !m_Solutions || (solutionIndex >= m_NumberOfSolutions) || !(*m_Solutions)[solutionIndex] )
+  {
+    return 0.0;
+  }
   return (*m_Solutions)[solutionIndex][i];
 }
 

@@ -58,8 +58,7 @@ using namespace std;
 
 #include "vnl/vnl_math.h"
 
-#include "FEM/itkFEM.h"
-#include "FEM/itkFEMLoadGrav.h"
+#include "itkFEMLoadGrav.h"
 
 
 
@@ -87,7 +86,7 @@ public:
 //  itkTypeMacro(LoadImagePairBase,LoadGrav);
 //  itkNewMacro(Self);   // need light object
 
-  typedef Element::Float Float;
+  typedef LoadGrav::Float Float;
 
   typedef TReference ReferenceType;
   typedef typename ReferenceType::Pointer  ReferencePointer;
