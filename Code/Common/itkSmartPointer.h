@@ -18,7 +18,6 @@
 #define __itkSmartPointer_h
 
 #include "itkMacro.h"
-#include "itkWeakPointer.h"
 #include <iostream>
 
 namespace itk
@@ -59,13 +58,6 @@ public:
   SmartPointer (ObjectType *p):
     m_Pointer(p)
     { this->Register(); }                             
-  
-  /** Construct from a WeakPointer */
-  SmartPointer (const WeakPointer<ObjectType> &p)
-    {
-    m_Pointer = p.GetPointer();
-    this->Register(); 
-    }
   
   /** Destructor  */
   ~SmartPointer ()
@@ -119,10 +111,6 @@ public:
 
   /** Overload operator assignment.  */
   SmartPointer &operator = (const SmartPointer &r)
-    { return this->operator = (r.GetPointer()); }
-  
-  /** Overload operator assignment.  */
-  SmartPointer &operator = (const WeakPointer<ObjectType> &r)
     { return this->operator = (r.GetPointer()); }
   
   /** Overload operator assignment.  */
