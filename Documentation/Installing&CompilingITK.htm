@@ -1,0 +1,544 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 9">
+<meta name=Originator content="Microsoft Word 9">
+<link rel=File-List href="./Installing&amp;CompilingITK_files/filelist.xml">
+<link rel=Edit-Time-Data href="./Installing&amp;CompilingITK_files/editdata.mso">
+<!--[if !mso]>
+<style>
+v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+w\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+</style>
+<![endif]-->
+<title>User</title>
+<!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Author>Stephen R. Aylward</o:Author>
+  <o:LastAuthor>William J. Schroeder</o:LastAuthor>
+  <o:Revision>2</o:Revision>
+  <o:TotalTime>66</o:TotalTime>
+  <o:Created>2001-04-20T15:32:00Z</o:Created>
+  <o:LastSaved>2001-04-20T15:32:00Z</o:LastSaved>
+  <o:Pages>3</o:Pages>
+  <o:Words>813</o:Words>
+  <o:Characters>4639</o:Characters>
+  <o:Company>University of North Carolina</o:Company>
+  <o:Lines>38</o:Lines>
+  <o:Paragraphs>9</o:Paragraphs>
+  <o:CharactersWithSpaces>5697</o:CharactersWithSpaces>
+  <o:Version>9.2720</o:Version>
+ </o:DocumentProperties>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery>
+  <w:DisplayVerticalDrawingGridEvery>0</w:DisplayVerticalDrawingGridEvery>
+  <w:UseMarginsForDrawingGridOrigin/>
+  <w:Compatibility>
+   <w:FootnoteLayoutLikeWW8/>
+   <w:ShapeLayoutLikeWW8/>
+   <w:AlignTablesRowByRow/>
+   <w:ForgetLastTabAlignment/>
+   <w:LayoutRawTableWidth/>
+   <w:LayoutTableRowsApart/>
+  </w:Compatibility>
+ </w:WordDocument>
+</xml><![endif]-->
+<style>
+<!--
+ /* Font Definitions */
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:script;
+	mso-font-pitch:variable;
+	mso-font-signature:647 0 0 0 159 0;}
+ /* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-parent:"";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+h1
+	{mso-style-next:Normal;
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:1;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-font-kerning:0pt;
+	font-weight:normal;
+	text-decoration:underline;
+	text-underline:single;}
+h2
+	{mso-style-next:Normal;
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:2;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-bidi-font-weight:normal;}
+h3
+	{mso-style-next:Normal;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.5in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:3;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	font-weight:normal;
+	text-decoration:underline;
+	text-underline:single;}
+p.MsoBodyTextIndent, li.MsoBodyTextIndent, div.MsoBodyTextIndent
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:1.0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+p.MsoBodyTextIndent2, li.MsoBodyTextIndent2, div.MsoBodyTextIndent2
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.5in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+p.MsoBodyTextIndent3, li.MsoBodyTextIndent3, div.MsoBodyTextIndent3
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:2.0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+a:link, span.MsoHyperlink
+	{color:blue;
+	text-decoration:underline;
+	text-underline:single;}
+a:visited, span.MsoHyperlinkFollowed
+	{color:purple;
+	text-decoration:underline;
+	text-underline:single;}
+@page Section1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.25in 1.0in 1.25in;
+	mso-header-margin:.5in;
+	mso-footer-margin:.5in;
+	mso-paper-source:0;}
+div.Section1
+	{page:Section1;}
+ /* List Definitions */
+@list l0
+	{mso-list-id:327055006;
+	mso-list-type:simple;
+	mso-list-template-ids:-1217098690;}
+@list l0:level1
+	{mso-level-text:"%1\)";
+	mso-level-tab-stop:.75in;
+	mso-level-number-position:left;
+	margin-left:.75in;
+	text-indent:-.25in;}
+ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
+-->
+</style>
+<!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext="edit" spidmax="2050"/>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext="edit">
+  <o:idmap v:ext="edit" data="1"/>
+ </o:shapelayout></xml><![endif]-->
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:.5in'>
+
+<div class=Section1>
+
+<h1><!--[if gte vml 1]><v:shapetype id="_x0000_t75" coordsize="21600,21600"
+ o:spt="75" o:preferrelative="t" path="m@4@5l@4@11@9@11@9@5xe" filled="f"
+ stroked="f">
+ <v:stroke joinstyle="miter"/>
+ <v:formulas>
+  <v:f eqn="if lineDrawn pixelLineWidth 0"/>
+  <v:f eqn="sum @0 1 0"/>
+  <v:f eqn="sum 0 0 @1"/>
+  <v:f eqn="prod @2 1 2"/>
+  <v:f eqn="prod @3 21600 pixelWidth"/>
+  <v:f eqn="prod @3 21600 pixelHeight"/>
+  <v:f eqn="sum @0 0 1"/>
+  <v:f eqn="prod @6 1 2"/>
+  <v:f eqn="prod @7 21600 pixelWidth"/>
+  <v:f eqn="sum @8 21600 0"/>
+  <v:f eqn="prod @7 21600 pixelHeight"/>
+  <v:f eqn="sum @10 21600 0"/>
+ </v:formulas>
+ <v:path o:extrusionok="f" gradientshapeok="t" o:connecttype="rect"/>
+ <o:lock v:ext="edit" aspectratio="t"/>
+</v:shapetype><v:shape id="_x0000_s1026" type="#_x0000_t75" style='position:absolute;
+ margin-left:0;margin-top:0;width:81pt;height:52.5pt;z-index:1;
+ mso-wrap-edited:f;mso-position-horizontal:left' wrapcoords="9600 309 7000 617 2000 3703 2000 5246 1200 7406 600 10800 1800 16046 6000 20057 9000 20983 13000 20983 13600 20983 16800 20057 20800 15737 20800 15120 21600 10183 19800 5246 20000 4011 14600 617 12000 309 9600 309">
+ <v:imagedata src="./Installing&amp;CompilingITK_files/image001.png" o:title="itkLogo"/>
+ <w:wrap type="square"/>
+</v:shape><![endif]--><![if !vml]><img width=108 height=70
+src="./Installing&amp;CompilingITK_files/image002.gif" align=left hspace=12
+v:shapes="_x0000_s1026"><![endif]><span style='font-size:18.0pt;mso-bidi-font-size:
+10.0pt'>Installing and Compiling </span><b style='mso-bidi-font-weight:normal'><span
+style='font-size:18.0pt;mso-bidi-font-size:10.0pt;font-family:"Comic Sans MS"'>itk<o:p></o:p></span></b></h1>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal>This document provides basic instructions for downloading
+and compiling itk on Windows and Unix machines.</p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal>It is assumed that you have a login and password for
+accessing the itk CVS repository.<span style="mso-spacerun: yes">   </span>If
+you have problems with your login or password, please contract Ken Martin <a
+href="mailto:ken.martin@kitware.com">ken.martin@kitware.com</a></p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal>If you have problems or questions with this document, please
+contact Stephen R. Aylward, UNC-CH, <a href="mailto:aylward@unc.edu">aylward@unc.edu</a></p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal>If you have problems or questions during compilation, please
+send a detail description to the itk mail list: <a
+href="mailto:insight-developers@www.itk.org">insight-developers@www.itk.org</a></p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<h2>I. Dowloading itk</h2>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<h1>CVS</h1>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoBodyTextIndent2>Itk is distributed and updates are maintained using
+a CVS server.<span style="mso-spacerun: yes">   </span>CVS and details
+regarding its usage are available on the WWW:</p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoBodyTextIndent>CVS Home and Unix Software:</p>
+
+<p class=MsoNormal style='margin-left:1.0in'><a href="http://www.cvshome.org/">http://www.cvshome.org/</a></p>
+
+<p class=MsoNormal style='margin-left:1.0in'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal style='margin-left:1.0in'>PC Software:</p>
+
+<p class=MsoNormal style='margin-left:1.0in'><a href="http://www.wincvs.org/">http://www.wincvs.org/</a>
+(a stand-alone GUI)</p>
+
+<p class=MsoNormal style='margin-left:1.0in'><a
+href="http://www.geocities.com/kaczoroj/CvsIn/">http://www.geocities.com/kaczoroj/CvsIn/</a><span
+style="mso-spacerun: yes">  </span>(a plug-in for VC++)</p>
+
+<p class=MsoNormal style='margin-left:1.0in'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal style='margin-left:1.0in'>CVS Instructions</p>
+
+<p class=MsoNormal style='margin-left:1.0in'><a
+href="http://cvsbook.red-bean.com/cvsbook.html">http://cvsbook.red-bean.com/cvsbook.html</a></p>
+
+<p class=MsoNormal style='margin-left:.5in'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal style='margin-left:.5in'>Three issues must be address when
+using CVS to obtain a software archive</p>
+
+<p class=MsoNormal style='margin-left:1.0in;text-indent:-.25in;mso-list:l0 level1 lfo1;
+tab-stops:list 1.0in'><![if !supportLists]>1)<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><![endif]>Specifying the CVS server</p>
+
+<p class=MsoNormal style='margin-left:1.0in;text-indent:-.25in;mso-list:l0 level1 lfo1;
+tab-stops:list 1.0in'><![if !supportLists]>2)<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><![endif]>Obtaining (“check out”) the initial installation</p>
+
+<p class=MsoNormal style='margin-left:1.0in;text-indent:-.25in;mso-list:l0 level1 lfo1;
+tab-stops:list 1.0in'><![if !supportLists]>3)<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><![endif]>Performing subsequent “upgrades” to get the latest version of
+the software</p>
+
+<p class=MsoNormal style='margin-left:.5in'>This paper doesn’t address adding
+software to the repository.</p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal><u>Platform-specific instructions for specifying a server
+and doing a check-out:<o:p></o:p></u></p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<h1 style='margin-left:.5in'>Unix</h1>
+
+<p class=MsoNormal style='margin-left:1.0in'>&gt; alias cvsI “cvs –d :pserver:<i
+style='mso-bidi-font-style:normal'>YourLogin</i>@www.itk.org:/insight/cvsroot”</p>
+
+<p class=MsoNormal style='margin-left:1.0in'>&gt; cvsI login</p>
+
+<p class=MsoNormal style='margin-left:1.0in'>…enter password</p>
+
+<p class=MsoNormal style='margin-left:1.0in'>&gt; cvsI checkout Insight</p>
+
+<p class=MsoNormal><span style='mso-tab-count:2'>                                </span></p>
+
+<p class=MsoNormal style='margin-left:1.0in'>An environment variable could be
+used instead of the alias in the above sequence of commands, but if you access
+multiple CVS archives (using different servers), we have found using aliases to
+be easiest to switch between servers versus changing environment variables.</p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<h3>Windows: Option 1: Using WinCVS</h3>
+
+<p class=MsoNormal style='margin-left:1.0in'>Get WinCVS: <a
+href="http://www.wincvs.org/">www.wincvs.org</a></p>
+
+<p class=MsoNormal style='margin-left:1.0in'>Menu: Admin/Preferences…</p>
+
+<p class=MsoNormal style='margin-left:1.0in'>Tab: General</p>
+
+<p class=MsoNormal style='margin-left:1.5in'>Set:</p>
+
+<p class=MsoNormal style='margin-left:2.0in'>CVSROOT:
+:pserver:YourLogin@www.itk.org:/insight/cvsroot</p>
+
+<p class=MsoNormal style='margin-left:2.0in'>Authentication: “passwd” file on
+cvs server</p>
+
+<p class=MsoNormal style='margin-left:1.0in'>Menu: Admin/Loing…</p>
+
+<p class=MsoNormal style='margin-left:1.5in'>Enter password</p>
+
+<p class=MsoNormal style='margin-left:1.0in'>Menu: Admin/Command line…</p>
+
+<p class=MsoNormal style='margin-left:1.5in'>Cvs checkout Insight</p>
+
+<p class=MsoNormal><span style='mso-tab-count:2'>                                </span></p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<h3>Windows: Option 2:: Using CVS via CYGWIN (pc unix) recommended</h3>
+
+<p class=MsoNormal style='margin-left:1.0in'>Get Cygwin</p>
+
+<p class=MsoNormal style='margin-left:1.5in'><a
+href="http://sources.redhat.com/cygwin/">http://sources.redhat.com/cygwin</a>/download.html</p>
+
+<p class=MsoNormal style='margin-left:1.5in'>Use setup.exe</p>
+
+<p class=MsoNormal style='margin-left:1.5in'>Get latest development snapshot
+(considered to be V1.1)</p>
+
+<p class=MsoNormal style='margin-left:1.0in'>Get /usr/local/ stuff for Cygwin</p>
+
+<p class=MsoNormal style='margin-left:1.5in'><a
+href="http://cygutils.netpedia.net/V1.1/usr-local/index.html">http://cygutils.netpedia.net/V1.1/usr-local/index.html</a></p>
+
+<p class=MsoNormal style='margin-left:1.5in'>includes cvs and vim</p>
+
+<p class=MsoNormal style='margin-left:1.0in'>Then do Unix installation (see
+above)</p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoBodyTextIndent>We strongly recommend this approach.<span
+style="mso-spacerun: yes">   </span>This version of CVS is very stable and
+Cygwin is an excellent unix-like environment for the PC.<span
+style="mso-spacerun: yes">   </span>Via this approach you will also have access
+to a number of other useful tools such as g++, grep, sed, vim, etc on the
+PC.<span style="mso-spacerun: yes">   </span>Since itk doesn’t provide a GUI,
+having a good command-line interface is essential.</p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal><u>Performing “upgrades” to get the latest version of the
+software<o:p></o:p></u></p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal style='margin-left:.5in'>You can view the latest modifications
+to the repository via the www at <a
+href="http://www.itk.org/cgi-bin/itkcvsweb.cgi/">http://www.itk.org/cgi-bin/itkcvsweb.cgi/</a></p>
+
+<p class=MsoNormal style='margin-left:.5in'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal style='margin-left:.5in'>If you want to upgrade your local
+version to the most recent release, do the following:</p>
+
+<p class=MsoNormal style='margin-left:.5in'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal style='margin-left:.5in'><u>Unix and Windows: Cygwin<o:p></o:p></u></p>
+
+<p class=MsoBodyTextIndent>From within the Insight directory (at any level, all
+things from that level in the directory hierarchy and down are upgraded)</p>
+
+<p class=MsoNormal style='margin-left:1.0in'>&gt; cvsI update</p>
+
+<p class=MsoNormal style='margin-left:.5in'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal style='margin-left:.5in'><u>Windows: WinCVS<o:p></o:p></u></p>
+
+<p class=MsoNormal style='margin-left:1.0in'>With the Insight directory
+selected (all things from that level in the directory hierarchy and down are
+upgraded)</p>
+
+<p class=MsoNormal style='margin-left:1.0in'>Press the Upgrade button – green
+down-arrow button at the top of the WinCVS window</p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<h2>II. Compilation</h2>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal>With itk, it is easy to create installations/libraries for
+multiple platform.<span style="mso-spacerun: yes">   </span>This is implemented
+by locating source separate from object files.<span style="mso-spacerun:
+yes">   </span>This separation also helps simplify/localize CVS interactions.</p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal>So, at the same level as the Insight directory, create
+directories for the object files for each platform you will be compiling for.</p>
+
+<p class=MsoNormal style='margin-left:.5in'>E.g.,</p>
+
+<p class=MsoNormal style='margin-left:1.0in'>~/src/Insight (the CVS repository)</p>
+
+<p class=MsoNormal style='margin-left:1.0in'>~/src/Insight-VC++/</p>
+
+<p class=MsoNormal style='margin-left:1.0in'>~/src/Insight-Cygwin/</p>
+
+<p class=MsoNormal style='margin-left:1.0in'>~/src/Insight-Sun/</p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal>Platform specific instructions are below:</p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<h1 style='margin-left:.5in'>Windows: VC++</h1>
+
+<p class=MsoNormal style='margin-left:1.0in'>This process will have you create
+a program that you will run that will in-turn create workspace and project
+files, specialized for your directory structure, that will create the library
+files and several test programs.</p>
+
+<p class=MsoNormal style='margin-left:1.0in'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal style='margin-left:1.5in'>Open the directory
+Insight/Code/tools</p>
+
+<p class=MsoNormal style='margin-left:1.5in'>Open pcbuilder.dsw – this should
+start MSVC++</p>
+
+<p class=MsoNormal style='margin-left:1.5in'>Menu: Build: Batch Build</p>
+
+<p class=MsoNormal style='margin-left:2.0in'>Check all boxes</p>
+
+<p class=MsoNormal style='margin-left:2.0in'>Press Rebuild All</p>
+
+<p class=MsoNormal style='margin-left:1.5in'>After build, with pcbuilder
+project active, press execute “!” button</p>
+
+<p class=MsoNormal style='margin-left:1.5in'>Specify Insight directory using
+the browse button (e.g., E:/src/Insight)</p>
+
+<p class=MsoNormal style='margin-left:1.5in'>Specify your object directory as
+the destination directory (e.g., E:/src/Insight-VC++)</p>
+
+<p class=MsoBodyTextIndent3>This creates a directory structure under the
+destination directory and fills that directory structure with appropriate .dsp
+and .dsw files.</p>
+
+<p class=MsoNormal style='margin-left:1.5in'>Open the top-level itk workspace
+file in the destination director </p>
+
+<p class=MsoNormal style='margin-left:2.0in'>e.g., E:/src/Insight-VC++/itk.dsw</p>
+
+<p class=MsoNormal style='margin-left:1.5in'>Menu: Build: Batch Build</p>
+
+<p class=MsoNormal style='margin-left:2.0in'>Select all and then check boxes</p>
+
+<p class=MsoNormal style='margin-left:2.0in'>Press Rebuild All</p>
+
+<p class=MsoNormal style='margin-left:1.5in'>After the build completes, run a
+few tests</p>
+
+<p class=MsoNormal style='margin-left:.5in'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal style='margin-left:.5in'><u>Windows: Cgywin<o:p></o:p></u></p>
+
+<p class=MsoBodyTextIndent2 style='margin-left:1.0in'>&gt; mkdir Insight-Cygwin
+(same level as Insight directory)</p>
+
+<p class=MsoNormal style='margin-left:1.0in'>&gt; cd Insight-Cygwin</p>
+
+<p class=MsoNormal style='margin-left:1.0in'>&gt; ../Insight/configure</p>
+
+<p class=MsoNormal style='margin-left:1.0in'>&gt; make</p>
+
+<p class=MsoNormal style='margin-left:.5in'><span style='mso-tab-count:2'>                                </span></p>
+
+<p class=MsoNormal style='margin-left:.5in'><u>Unix<o:p></o:p></u></p>
+
+<p class=MsoNormal style='margin-left:1.0in'>&gt; mkdir Insight-Sun</p>
+
+<p class=MsoNormal style='margin-left:1.0in'>&gt; cd Insight-Sun</p>
+
+<p class=MsoNormal style='margin-left:1.0in'>&gt; ../Insight/configure</p>
+
+<p class=MsoNormal style='margin-left:1.0in'>&gt; gmake</p>
+
+<p class=MsoNormal style='margin-left:.5in'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+</div>
+
+</body>
+
+</html>
