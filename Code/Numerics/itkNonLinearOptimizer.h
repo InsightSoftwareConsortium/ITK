@@ -18,6 +18,7 @@
 
 #include "itkOptimizer.h"
 
+
 namespace itk
 {
   
@@ -25,8 +26,8 @@ namespace itk
  * \brief Wrap of the vnl_nonlinear_minimizer to be adapted 
  *
  */
-
-class ITK_EXPORT NonLinearOptimizer : public Optimizer
+template <class TParameters>
+class ITK_EXPORT NonLinearOptimizer : public Optimizer<TParameters>
 
 {
 public:
@@ -38,7 +39,7 @@ public:
   /**
    * Standard "Superclass" typedef.
    */
-  typedef   Optimizer Superclass;
+  typedef   Optimizer<TParameters> Superclass;
 
   /** 
    * Smart pointer typedef support 
