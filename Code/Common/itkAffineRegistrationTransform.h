@@ -21,7 +21,7 @@
 #include "itkPoint.h"
 #include "itkVector.h"
 #include "itkVectorContainer.h"
-#include "itkAffineRegistrationTransform.h"
+#include "itkAffineTransform.h"
 
 
 namespace itk
