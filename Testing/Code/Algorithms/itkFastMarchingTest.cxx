@@ -38,10 +38,11 @@ int main()
 
   NodeType node;
 
-  FloatImage::OffsetType index0 = {{28,35}};
+  FloatImage::OffsetType offset0 = {{28,35}};
   
   node.value = 0.0;
-  node.index += index0;
+  node.index += offset0;
+  node.index = itk::Index<2>::ZeroIndex + offset0;
   trialPoints->InsertElement(0, node);
   
   marcher->SetTrialPoints( trialPoints );
@@ -69,7 +70,7 @@ int main()
     float output;
 
     tempIndex = iterator.GetIndex();
-    tempIndex -= index0;
+    tempIndex -= offset0;
     distance = 0.0;
     for( int j = 0; j < 2; j++ )
       {
